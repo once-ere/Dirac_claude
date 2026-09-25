@@ -1,0 +1,301 @@
+{
+  "params": {
+    "label": "L4-free-N8-p-1",
+    "m": 1.0,
+    "a4_0": 0.0,
+    "L": 4.0,
+    "lambda_hat": 0.0,
+    "lambda": 0.0,
+    "T": 0.0,
+    "N": 8.0,
+    "parity": -1,
+    "tip": "g0",
+    "xc": "quadratic",
+    "delta_k": 0.25,
+    "ell": 25.132741228718345,
+    "volume": 15875.213660313506,
+    "N0": 64,
+    "levels": 3,
+    "mix_beta": 0.4,
+    "mix_history": 6,
+    "tol": 1e-10,
+    "max_iter": 200,
+    "H": 1.0
+  },
+  "mode": "zero",
+  "converged": true,
+  "levels": [
+    {
+      "N": 64,
+      "h": 0.0625,
+      "iterations": 1,
+      "converged": true,
+      "residualN": 0.0,
+      "residualS": 0.0,
+      "mu": 1.1883992417079188,
+      "energies": {
+        "ksSum": 9.507193933663377,
+        "nTotal": 8.0,
+        "interaction": 0.0,
+        "hartree": 0.0,
+        "exchange": 0.0,
+        "doubleCounting": 0.0,
+        "total": 9.507193933663377,
+        "entropy": 0.0,
+        "free": 9.507193933663377,
+        "grand": 2.6645352591003757e-14,
+        "scalarCharge": 7.14557144701504,
+        "maxLambdaSOverM": 0.0,
+        "meanLambdaSOverM": 0.0
+      },
+      "states": 161,
+      "shellsExact": 86,
+      "shellsInterpolated": 0,
+      "tail": null
+    },
+    {
+      "N": 128,
+      "h": 0.03125,
+      "iterations": 3,
+      "converged": true,
+      "residualN": 2.063071932099167e-15,
+      "residualS": 4.1261617818442434e-16,
+      "mu": 1.1886052896950952,
+      "energies": {
+        "ksSum": 9.508842317560774,
+        "nTotal": 8.0,
+        "interaction": 0.0,
+        "hartree": 0.0,
+        "exchange": 0.0,
+        "doubleCounting": 0.0,
+        "total": 9.508842317560774,
+        "entropy": 0.0,
+        "free": 9.508842317560774,
+        "grand": 1.2434497875801753e-14,
+        "scalarCharge": 7.147399322532611,
+        "maxLambdaSOverM": 0.0,
+        "meanLambdaSOverM": 0.0
+      },
+      "states": 161,
+      "shellsExact": 86,
+      "shellsInterpolated": 0,
+      "tail": null
+    },
+    {
+      "N": 256,
+      "h": 0.015625,
+      "iterations": 3,
+      "converged": true,
+      "residualN": 9.283037225996156e-16,
+      "residualS": 1.3752662679972764e-16,
+      "mu": 1.1886565494826946,
+      "energies": {
+        "ksSum": 9.509252395861733,
+        "nTotal": 8.0,
+        "interaction": 0.0,
+        "hartree": 0.0,
+        "exchange": 0.0,
+        "doubleCounting": 0.0,
+        "total": 9.509252395861733,
+        "entropy": 0.0,
+        "free": 9.509252395861733,
+        "grand": 1.758593271006248e-13,
+        "scalarCharge": 7.1478528887832145,
+        "maxLambdaSOverM": 0.0,
+        "meanLambdaSOverM": 0.0
+      },
+      "states": 161,
+      "shellsExact": 86,
+      "shellsInterpolated": 0,
+      "tail": null
+    }
+  ],
+  "extrapolated": {
+    "total": 9.509388704309979,
+    "free": 9.509388704309979,
+    "entropy": 0.0,
+    "ksSum": 9.509388704309979,
+    "interaction": 0.0,
+    "hartree": 0.0,
+    "exchange": 0.0,
+    "grand": 2.621395164429227e-13,
+    "scalarCharge": 7.148003429413646,
+    "nTotal": 8.0,
+    "mu": 1.1886735880387145
+  },
+  "orderEstimates": {
+    "total": 2.0070809640367053,
+    "free": 2.0070809640367053,
+    "entropy": null,
+    "ksSum": 2.0070809640367053,
+    "interaction": null,
+    "hartree": null,
+    "exchange": null,
+    "grand": -3.523561956057013,
+    "scalarCharge": 2.010782623031569,
+    "nTotal": null,
+    "mu": 2.0070809646240875,
+    "occupiedEigenvalues_median": 2.0070809640351506,
+    "profile_n_c": 2.0151636859698443,
+    "profile_s_c": 2.016361024850401,
+    "profile_m_eff_out": null,
+    "profile_v_out": null
+  },
+  "homo": "0:-1:+1:0",
+  "lumo": "1:-1:+1:0",
+  "ksGap": 0.2499869398312602,
+  "emt": {
+    "w_y": 0.24832145909915487,
+    "w_3": 0.0,
+    "w_t": 0.0,
+    "w_mean": 0.035474494157022134,
+    "energyFromRho": 9.509388704309982,
+    "braneLocalisedFraction": 0.15417253399080108,
+    "averages": {
+      "rho": 0.0035940617178928996,
+      "p_y": 0.0008924825876201889,
+      "p_3": 0.0,
+      "p_t": 0.0,
+      "L_s": 0.0
+    },
+    "traceIdentityResidual": 2.3283064365386963e-10,
+    "conservationResidualMaxNormalised": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rhoRequired_kappa1": -21.0,
+    "pRequired_kappa1": 15.0,
+    "wRequired": -0.7142857142857143,
+    "kappaNeededForRho": -5842.971448000544,
+    "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+  },
+  "files": [
+    "profiles.csv",
+    "scf-history-level0.csv",
+    "scf-history-level1.csv",
+    "scf-history-level2.csv",
+    "spectrum.csv",
+    "run.json"
+  ],
+  "excited": {
+    "ksGap": 0.2499869398312602,
+    "particleHole": [
+      {
+        "hole": "0:-1:-1:0",
+        "particle": "1:-1:+1:0",
+        "epsHole": 1.18867358803878,
+        "epsParticle": 1.4386605278699747,
+        "excitation": 0.2499869398311947,
+        "weight": 96.0
+      },
+      {
+        "hole": "0:-1:+1:0",
+        "particle": "1:-1:+1:0",
+        "epsHole": 1.1886735880387145,
+        "epsParticle": 1.4386605278699747,
+        "excitation": 0.2499869398312602,
+        "weight": 96.0
+      },
+      {
+        "hole": "0:-1:-1:0",
+        "particle": "2:-1:+1:0",
+        "epsHole": 1.18867358803878,
+        "epsParticle": 1.5694041295628103,
+        "excitation": 0.3807305415240303,
+        "weight": 192.0
+      },
+      {
+        "hole": "0:-1:+1:0",
+        "particle": "2:-1:+1:0",
+        "epsHole": 1.1886735880387145,
+        "epsParticle": 1.5694041295628103,
+        "excitation": 0.3807305415240958,
+        "weight": 192.0
+      },
+      {
+        "hole": "0:-1:-1:0",
+        "particle": "3:-1:+1:0",
+        "epsHole": 1.18867358803878,
+        "epsParticle": 1.667079659741916,
+        "excitation": 0.478406071703136,
+        "weight": 128.0
+      },
+      {
+        "hole": "0:-1:+1:0",
+        "particle": "3:-1:+1:0",
+        "epsHole": 1.1886735880387145,
+        "epsParticle": 1.667079659741916,
+        "excitation": 0.4784060717032015,
+        "weight": 128.0
+      },
+      {
+        "hole": "0:-1:-1:0",
+        "particle": "0:-1:+1:1",
+        "epsHole": 1.18867358803878,
+        "epsParticle": 1.6708092549906912,
+        "excitation": 0.48213566695191123,
+        "weight": 16.0
+      },
+      {
+        "hole": "0:-1:-1:0",
+        "particle": "0:-1:-1:1",
+        "epsHole": 1.18867358803878,
+        "epsParticle": 1.6708092549907494,
+        "excitation": 0.4821356669519694,
+        "weight": 16.0
+      },
+      {
+        "hole": "0:-1:+1:0",
+        "particle": "0:-1:+1:1",
+        "epsHole": 1.1886735880387145,
+        "epsParticle": 1.6708092549906912,
+        "excitation": 0.48213566695197674,
+        "weight": 16.0
+      },
+      {
+        "hole": "0:-1:+1:0",
+        "particle": "0:-1:-1:1",
+        "epsHole": 1.1886735880387145,
+        "epsParticle": 1.6708092549907494,
+        "excitation": 0.4821356669520349,
+        "weight": 16.0
+      },
+      {
+        "hole": "0:-1:-1:0",
+        "particle": "4:-1:+1:0",
+        "epsHole": 1.18867358803878,
+        "epsParticle": 1.7482053215901523,
+        "excitation": 0.5595317335513723,
+        "weight": 96.0
+      },
+      {
+        "hole": "0:-1:+1:0",
+        "particle": "4:-1:+1:0",
+        "epsHole": 1.1886735880387145,
+        "epsParticle": 1.7482053215901523,
+        "excitation": 0.5595317335514378,
+        "weight": 96.0
+      }
+    ],
+    "deltaSCF": {
+      "available": true,
+      "homo": "0:-1:+1:0",
+      "lumo": "1:-1:+1:0",
+      "homoMultiplicity": 8.0,
+      "lumoMultiplicity": 24.0,
+      "E0": 9.509388704309979,
+      "E1": 9.759375644141205,
+      "deltaSCF": 0.249986939831226,
+      "ksGap": 0.2499869398312602,
+      "nTotalExcited": 8.0,
+      "converged": true,
+      "levelsE1": [
+        9.75697281966333,
+        9.758776965047652,
+        9.759226227746057
+      ],
+      "orderEstimateE1": 2.005684413488317
+    }
+  }
+}

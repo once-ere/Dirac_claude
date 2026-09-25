@@ -60,8 +60,8 @@ REPORT_FILES = {
 SUMMARY = ARTIFACTS / "stage1-summary.json"
 FIXTURE = ARTIFACTS / "algebra-fixture.json"
 
-MARKDOWN_SHA256 = "cbe73182bd3b4b871b2306ddd01e27b3ee8658fe997ee2faab4d13ea3c58eb5e"
-TEX_SHA256 = "fd91a9fbc4acfce71c49e70a7f9b5bce3fb4e496b39f19e27f66cd4a276702d6"
+MARKDOWN_SHA256 = "f16c20ad4b324e800ed4018af099900b7b45a53b63aca590f6e2bd61a1b67076"
+TEX_SHA256 = "66e3319061f7ebce7f2d56d61cfcadb820323abdca4128b897d7696397559fb9"
 
 TITLE = ("dirac16complex: a complex Grassmann spinor of Pin(4,4) in an arbitrary "
          "gravitational field")

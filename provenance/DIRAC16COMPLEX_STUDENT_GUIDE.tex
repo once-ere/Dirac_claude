@@ -42,7 +42,7 @@ Radiation has $w=1/3$, matter (dust) and dark matter have $w=0$, and a cosmologi
 
 Stage 3 asks: \textbf{can the dirac16complex field behave like dark matter or like dark energy?} It answers the question with numbers, not words: it solves the field equation numerically in five backgrounds and measures $\rho$, $p$ and $w$ and how they change.
 
-A caution about the CPL form that the input document gets wrong: its table labels thawing fields "$(w_a>0)$" and freezing fields "$(w_a<0)$", but its own formula gives $dw/da=-w_a$. A thawing field, whose $w$ rises from $-1$ as the universe expands, therefore has $w_a<0$, and a freezing field has $w_a>0$. This guide always uses the signs that follow from the formula.
+A caution about the CPL form that the input document gets wrong: its table labels thawing fields ``$(w_a>0)$'' and freezing fields ``$(w_a<0)$'', but its own formula gives $dw/da=-w_a$. A thawing field, whose $w$ rises from $-1$ as the universe expands, therefore has $w_a<0$, and a freezing field has $w_a>0$. This guide always uses the signs that follow from the formula.
 
 \subsection{The five experiments}
 
@@ -84,10 +84,10 @@ What the committed results say, in one paragraph (the scientific document of Sta
 \begin{itemize}
 \item \textbf{Everything is counted from 0.} Coordinates are $x_0,\dots,x_7$, spinor components are $u_0,\dots,u_{15}$, and the first entry of a list is entry 0.
 \item A box like the ones below contains commands. Type or paste them one line at a time into a terminal and press Enter after each line. The prompt that your terminal prints before the cursor is not shown.
-\item The sentence before each box says which terminal it is for. \textbf{PowerShell} means PowerShell 7 on Windows. \textbf{Git Bash} means the bash that comes with Git for Windows. \textbf{macOS} and \textbf{Linux} mean the Terminal application with bash or zsh. Commands marked "Git Bash, macOS and Linux" are the same in all three.
+\item The sentence before each box says which terminal it is for. \textbf{PowerShell} means PowerShell 7 on Windows. \textbf{Git Bash} means the bash that comes with Git for Windows. \textbf{macOS} and \textbf{Linux} mean the Terminal application with bash or zsh. Commands marked ``Git Bash, macOS and Linux'' are the same in all three.
 \item \textbf{Repository root} means the folder \texttt{Dirac\_cl\allowbreak{}aude} that \texttt{git clon\allowbreak{}e} creates; it contains \texttt{README.m\allowbreak{}d}, \texttt{\detokenize{scripts}}, \texttt{\detokenize{studies}} and \texttt{notebook\allowbreak{}s}. Unless a box starts with a \texttt{\detokenize{cd}} command, run it from the repository root.
 \item PowerShell accepts forward slashes in file arguments, so most commands look the same in both shells. Where they differ, both forms are given.
-\item "Expected output" shows what the command prints when everything works. Numbers of steps and check counts must match exactly; run times depend on your computer.
+\item ``Expected output'' shows what the command prints when everything works. Numbers of steps and check counts must match exactly; run times depend on your computer.
 \end{itemize}
 
 \subsection{Terminals}
@@ -103,7 +103,7 @@ To change folder use \texttt{cd FOLDE\allowbreak{}R}; \texttt{\detokenize{cd ..}
 
 \subsection{How this guide was tested}
 
-The commands were executed while the guide was written, from fresh clones of the public repository (Section 4.2) at commit fbec4d7; this guide itself was added later.
+The commands were executed while the guide was written, from fresh clones of the public repository (Section 4.2) at the commits fbec4d7 and 34b9fd4, which contain the same Stage-3 program, checkers, notebooks and outputs.
 
 \begingroup
 \small
@@ -116,7 +116,7 @@ The commands were executed while the guide was written, from fresh clones of the
 \textbf{Platform} & \textbf{Shells and tools} & \textbf{What was executed} \\
 \midrule
 \endhead
-Windows 11 Pro for Workstations 10.0.26200, Intel Core Ultra 9 275HX, 24 cores & PowerShell 7.6.6; Git Bash (GNU bash 5.2.37, Git 2.51.2); rustc and cargo 1.91.1, rustup 1.28.2; Python 3.14.5 with numpy 2.4.6, matplotlib 3.11.0, sympy 1.14.0, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0, jupyterlab 4.4.10, nbconvert 7.16.6; MiKTeX 26.5 (pdfTeX 4.27); WolframScript 1.14.0 with Wolfram 15.0.1 & every command of Sections 4 to 13, in both shells where both forms are given \\
+Windows 11 Pro for Workstations 10.0.26200, Intel Core Ultra 9 275HX, 24 cores & PowerShell 7.6.6; Git Bash (GNU bash 5.2.37, Git 2.51.2); rustc and cargo 1.91.1, rustup 1.28.2; Python 3.14.5 with numpy 2.4.6, matplotlib 3.11.0, sympy 1.14.0, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0, jupyterlab 4.4.10, nbconvert 7.16.6; MiKTeX 26.5 (pdfTeX 4.27); WolframScript 1.14.0 with Wolfram 15.0.1 & every command of Sections 3.5 to 14 except the installers, in both shells where both forms are given \\
 Ubuntu 24.04.4 LTS under WSL2 on the same computer & bash 5.2.21; Git 2.43.0; rustc and cargo 1.93.1; Python 3.12.3 in a virtual environment with numpy 2.5.3, matplotlib 3.11.2, sympy 1.14.0, nbformat 5.11.1, nbclient 0.11.0, ipykernel 7.3.0; TeX Live 2023 (pdfTeX 1.40.25) & clone, engine setup with the \texttt{\detokenize{linux}} and \texttt{\detokenize{win11}} engines, build, tests, all experiments, all checkers, the analysis, the notebook, a PDF build; no Mathematica (no WolframScript there) \\
 macOS & none & nothing; the macOS commands follow the official instructions of each tool but are untested \\
 \bottomrule
@@ -158,7 +158,7 @@ A computer from the last ten years is enough. The program needs only a few megab
 
 \subsection{Windows 11}
 
-The tool \texttt{\detokenize{winget}} (App Installer) is part of Windows 11. Open PowerShell and install the tools with these commands; each asks for confirmation and some open an installer window:
+The tool \texttt{\detokenize{winget}} (App Installer) is part of Windows 11. Open PowerShell and install the tools with these commands (the first use of winget may ask you to accept its source agreements, and some installers open a window):
 
 \begin{Verbatim}[fontsize=\small]
 winget install --id Git.Git -e
@@ -278,7 +278,7 @@ Python 3.14.5
 OK
 \end{Verbatim}
 
-On Linux the toolchain line is \texttt{stable-x\allowbreak{}86\_64-un\allowbreak{}known-li\allowbreak{}nux-gnu \allowbreak{}(default\allowbreak{})}. Optional tools:
+On Linux the toolchain line is \texttt{stable-x\allowbreak{}86\_64-un\allowbreak{}known-li\allowbreak{}nux-gnu \allowbreak{}(default\allowbreak{})}. Optional tools (a tool that is not installed answers with a command-not-found message, which only means that the optional step cannot be done):
 
 \begin{Verbatim}[fontsize=\small]
 python -m jupyterlab --version
@@ -399,7 +399,7 @@ After a switch, rebuild the program (Section 5).
 
 \subsection{The three engines are not identical}
 
-The three repositories are often described as vendoring the same engine. They do not, and this was measured while this guide was written. The macOS and Linux engines are identical to each other (their \texttt{sundials\allowbreak{}\_rs} folders have the same Git tree, \texttt{\detokenize{47d654d5}}). The Windows 11 engine is different (tree \texttt{\detokenize{eeaa0cad}}): its deterministic mathematical library \texttt{sundials\allowbreak{}\_libm} is a translation of GNU C Library 2.39, while the other two use different implementations, so some elementary functions can return results that differ in the last bit. The consequences, measured:
+The comment at the top of \texttt{scripts/\allowbreak{}setup\_so\allowbreak{}lver.sh} says that all three repositories vendor a byte-identical \texttt{sundials\allowbreak{}\_rs}. They do not; this was measured while this guide was written. The macOS and Linux engines are identical to each other (their \texttt{sundials\allowbreak{}\_rs} folders have the same Git tree, \texttt{\detokenize{47d654d5}}). The Windows 11 engine is different (tree \texttt{\detokenize{eeaa0cad}}): its deterministic mathematical library \texttt{sundials\allowbreak{}\_libm} is a translation of GNU C Library 2.39, while the other two use different implementations, so some elementary functions can return results that differ in the last bit. The consequences, measured:
 
 \begin{enumerate}
 \item With the \texttt{\detokenize{win11}} engine the program reproduces every committed output file byte for byte, on Windows 11 and on Ubuntu 24.04 alike.
@@ -467,7 +467,7 @@ The file \texttt{.cargo/c\allowbreak{}onfig.to\allowbreak{}ml} in the repository
 rustflags = ["-C", "target-feature=+fma"]
 \end{Verbatim}
 
-Cargo reads it because the crate folder lies below the repository root. It tells the compiler that the processor has the FMA instruction (fused multiply-add: $a\cdot b+c$ computed with a single rounding). The engine's deterministic mathematical functions use fused multiply-add in exactly the places where the reference library does, and with this flag each of them becomes one machine instruction instead of a call into the operating system's C library. The pinned numerical results assume it. Every x86-64 processor since Intel Haswell (2013) and AMD Piledriver (2012) has FMA. On an older processor the program stops at once with an illegal-instruction error; there is no supported workaround that keeps the results identical.
+Cargo reads it because the crate folder lies below the repository root. It tells the compiler that the processor has the FMA instruction (fused multiply-add: $a\cdot b+c$ computed with a single rounding). The engine's deterministic mathematical functions use fused multiply-add in exactly the places where the reference library does, and with this flag each of them becomes one machine instruction instead of a call into the operating system's C library. The pinned numerical results assume it. Every x86-64 processor since Intel Haswell (2013) and AMD Piledriver (2012) has FMA. An older processor cannot run the program built this way (it would stop with an illegal-instruction error; this was not tested).
 
 \subsection{Test}
 
@@ -507,7 +507,7 @@ A complex number is $z=x+iy$ with real $x$, $y$ and $i^2=-1$; its conjugate is $
 u=\begin{pmatrix}u_0\\ u_1\\ \vdots\\ u_{15}\end{pmatrix},\qquad u^\dagger=(u_0^*,u_1^*,\dots,u_{15}^*).
 \]
 
-The row $u^\dagger$ (read "u dagger") is the conjugate transpose. A 16 by 16 matrix $M$ acts on $u$ by $(Mu)_i=\sum_{j=0}^{15}M_{ij}u_j$, where $i$ is the row and $j$ the column, both counted from 0. The product $u^\dagger Mu=\sum_{i,j}u_i^*M_{ij}u_j$ is a single number; for $M=1$ it is $u^\dagger u=\sum_i|u_i|^2$, the squared length of $u$. A matrix is \textbf{Hermitian} if $M^\dagger=M$; then $u^\dagger Mu$ is real. A matrix whose every row contains exactly one nonzero entry, equal to $+1$ or $-1$, is a \textbf{signed permutation}: it only reorders the components of $u$ and flips some signs.
+The row $u^\dagger$ (read ``u dagger'') is the conjugate transpose. A 16 by 16 matrix $M$ acts on $u$ by $(Mu)_i=\sum_{j=0}^{15}M_{ij}u_j$, where $i$ is the row and $j$ the column, both counted from 0. The product $u^\dagger Mu=\sum_{i,j}u_i^*M_{ij}u_j$ is a single number; for $M=1$ it is $u^\dagger u=\sum_i|u_i|^2$, the squared length of $u$. A matrix is \textbf{Hermitian} if $M^\dagger=M$; then $u^\dagger Mu$ is real. A matrix whose every row contains exactly one nonzero entry, equal to $+1$ or $-1$, is a \textbf{signed permutation}: it only reorders the components of $u$ and flips some signs.
 
 \subsection{The field: a column of 16 complex numbers}
 
@@ -650,7 +650,7 @@ ds^2=-dt^2+\sum_{j\in T}\epsilon_j\,h_j(t)^2\,dx_j^2,\qquad \epsilon_j=+1\ (j=0,
 
 $h_j(t)$ is the \textbf{scale factor} of direction $j$: a distance $dx_j$ along it is physically $h_j\,dx_j$ long. Its \textbf{expansion rate} is $H_j=\dot h_j/h_j$ (a dot is $d/dt$), the total rate is $\Theta=\sum_{j\in T}H_j$ and the 7-volume is $V=\prod_{j\in T}h_j$, so that $\dot V/V=\Theta$. The experiments group the directions: $b=h_0$ (hidden space), $a=h_1=h_2=h_3$ (3-space), $c=h_5=h_6=h_7$ (extra times), and then $\Theta=H_b+3H_a+3H_c$ and $V=b\,a^3c^3$.
 
-The \textbf{vielbein} (German "eight legs") is the set of eight 1-forms $e^4=dt$ and $e^j=h_j\,dx_j$; it turns the curved metric into the flat one, $ds^2=\eta_{ab}e^ae^b$. The curved gamma matrices are $\gamma^{x_4}=\gamma^4$ and $\gamma^{x_j}=\gamma^j/h_j$: the frame matrix divided by the scale factor.
+The \textbf{vielbein} (German ``eight legs'') is the set of eight 1-forms $e^4=dt$ and $e^j=h_j\,dx_j$; it turns the curved metric into the flat one, $ds^2=\eta_{ab}e^ae^b$. The curved gamma matrices are $\gamma^{x_4}=\gamma^4$ and $\gamma^{x_j}=\gamma^j/h_j$: the frame matrix divided by the scale factor.
 
 \subsection{The covariant derivative}
 
@@ -1050,7 +1050,7 @@ The files are now in \texttt{build/st\allowbreak{}udent/ex\allowbreak{}p1/}. To 
 
 \subsection{All five experiments}
 
-Run the others the same way (\texttt{\detokenize{exp2}} to \texttt{\detokenize{exp5}}), or all at once with \texttt{\detokenize{all}}. What each prints at the end and how long it took on the test computer:
+Run the others into the same folder in the same way (\texttt{\detokenize{exp2}} to \texttt{\detokenize{exp5}} instead of \texttt{\detokenize{exp1}}), or all five at once with \texttt{\detokenize{all}}. What each prints at the end and how long it took on the test computer:
 
 \begingroup
 \small
@@ -1385,14 +1385,29 @@ That is $25+34+31+51+21=162$ checker checks. The EXP-4 checker is slow because i
 
 \subsection{Checking a scratch folder (the quick form)}
 
-For your own runs into \texttt{build/st\allowbreak{}udent} (Section 7.2), point the checker at that folder with its output option; without the repeat and refined options two checks are skipped. In any shell:
+For your own runs into \texttt{build/st\allowbreak{}udent} (Section 7.2), point the checker at that folder with its output option; without the repeat and refined options two checks are skipped. After the EXP-1 run of Section 7.2, in any shell:
 
 \begin{Verbatim}[fontsize=\small]
-python scripts/analyze_dirac16complex_exp3.py --output build/student
 python scripts/check_dirac16complex_exp1.py --output build/student
 \end{Verbatim}
 
-and likewise for exp2 to exp5. The quick form gives 23, 32, 29, 49 and 19 checks for EXP-1 to EXP-5. If you run the EXP-3 checker before the analysis, \texttt{fits.jso\allowbreak{}n} is missing and it reports one check fewer (28 in the quick form, 30 in the full form).
+It prints \texttt{check\_co\allowbreak{}unt=23} and \texttt{failed\_c\allowbreak{}heck\_cou\allowbreak{}nt=0}. The EXP-3 checker also reads the analysis, so run EXP-3, the analysis and the checker in this order. PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+& $bin exp3 --output build/student
+python scripts/analyze_dirac16complex_exp3.py --output build/student
+python scripts/check_dirac16complex_exp3.py --output build/student
+\end{Verbatim}
+
+Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+$bin exp3 --output build/student
+python scripts/analyze_dirac16complex_exp3.py --output build/student
+python scripts/check_dirac16complex_exp3.py --output build/student
+\end{Verbatim}
+
+The analysis prints \texttt{check\_co\allowbreak{}unt=9} and the checker \texttt{check\_co\allowbreak{}unt=29}. EXP-2, EXP-4 and EXP-5 work like EXP-1 (run the experiment into \texttt{build/st\allowbreak{}udent}, then its checker) and give 32, 49 and 19 checks in the quick form. If the EXP-3 checker runs before the analysis, \texttt{fits.jso\allowbreak{}n} is missing and it reports one check fewer (28 in the quick form, 30 in the full form).
 
 \section{The Jupyter notebook}
 
@@ -1466,7 +1481,7 @@ With JupyterLab installed, in any shell:
 python -m jupyterlab notebooks/dirac16complex_dark_sector.ipynb
 \end{Verbatim}
 
-A browser tab opens with the notebook. If you are asked for a kernel, choose Python 3 (ipykernel). Click the first cell and press Shift+Enter repeatedly (each press runs one cell and moves to the next), or use the menu Run, Run All Cells. If no browser opens, start it like this instead and open the printed address, which begins with \texttt{http://l\allowbreak{}ocalhost\allowbreak{}:8888/la\allowbreak{}b?token=}, yourself:
+A browser tab opens with the notebook. JupyterLab shows the folder \texttt{notebook\allowbreak{}s}, and the notebook finds the repository root by itself. If you are asked for a kernel, choose Python 3 (ipykernel). Click the first cell and press Shift+Enter repeatedly (each press runs one cell and moves to the next), or use the menu Run, Run All Cells. If no browser opens, start it like this instead and open the printed address, which begins with \texttt{http://l\allowbreak{}ocalhost\allowbreak{}:8888/la\allowbreak{}b?token=}, yourself:
 
 \begin{Verbatim}[fontsize=\small]
 python -m jupyterlab --no-browser notebooks/dirac16complex_dark_sector.ipynb
@@ -1526,13 +1541,23 @@ which writes the same bytes again. To work with it interactively, open the \text
 
 \section{Rebuilding the PDF documents (optional)}
 
-Every document in \texttt{provenan\allowbreak{}ce/} is written in Markdown and converted to LaTeX and PDF by one command, which runs the converter twice, pdflatex three times into two fresh folders, requires warning-free logs and two byte-identical PDFs, and compares the PDF with the edition registered in \texttt{provenan\allowbreak{}ce/pdf-s\allowbreak{}pecifica\allowbreak{}tions.js\allowbreak{}on}. For this guide, in any shell:
+Every document in \texttt{provenan\allowbreak{}ce/} is written in Markdown and converted to LaTeX and PDF by one command, which runs the converter twice, pdflatex three times into two fresh folders, requires warning-free logs and two byte-identical PDFs, and compares the PDF with the edition registered in \texttt{provenan\allowbreak{}ce/pdf-s\allowbreak{}pecifica\allowbreak{}tions.js\allowbreak{}on}. For this guide, in PowerShell:
 
 \begin{Verbatim}[fontsize=\small]
-python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md
+$guide = "provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md"
+python scripts/build_provenance_pdf.py --developer-layout $guide
 \end{Verbatim}
 
-It prints one \texttt{check\_NA\allowbreak{}ME=true} line per check, then \texttt{check\_co\allowbreak{}unt=14}, \texttt{failed\_c\allowbreak{}heck\_cou\allowbreak{}nt=0} and \texttt{provenan\allowbreak{}ce\_pdf=O\allowbreak{}K}. The other documents are built the same way, for example \texttt{provenan\allowbreak{}ce/DIRAC\allowbreak{}16COMPLE\allowbreak{}X\_PRIMOR\allowbreak{}DIAL\_FIE\allowbreak{}LD.md}. pdflatex always runs with the repository root as its working folder, because the figure paths are relative to it.
+Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+guide=provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md
+python scripts/build_provenance_pdf.py --developer-layout $guide
+\end{Verbatim}
+
+This guide uses the builder's developer layout (ragged table columns and breakable code); without that option the command would build a different LaTeX file and fail.
+
+It prints one \texttt{check\_NA\allowbreak{}ME=true} line per check, then \texttt{check\_co\allowbreak{}unt=14}, \texttt{failed\_c\allowbreak{}heck\_cou\allowbreak{}nt=0} and \texttt{provenan\allowbreak{}ce\_pdf=O\allowbreak{}K}. The other documents are built without that option, for example \texttt{python s\allowbreak{}cripts/b\allowbreak{}uild\_pro\allowbreak{}venance\_\allowbreak{}pdf.py p\allowbreak{}rovenanc\allowbreak{}e/DIRAC1\allowbreak{}6COMPLEX\allowbreak{}\_PRIMORD\allowbreak{}IAL\_FIEL\allowbreak{}D.md}. pdflatex always runs with the repository root as its working folder, because the figure paths are relative to it.
 
 The registered PDF bytes belong to the TeX installation that registered them (MiKTeX 26.5 on Windows). With another TeX installation the document still builds warning-free and byte-identically twice, but the check \texttt{register\allowbreak{}edSha256} is false, the PDF is not copied, and the command exits with 1; on Ubuntu with TeX Live 2023 exactly this happened (12 of 14 checks true). The builder's register option, which records a new edition in the registry, is for the maintainer of a document only.
 
@@ -1670,7 +1695,7 @@ or in Git Bash, macOS and Linux:
 $bin exp5 --output build/ex-q
 \end{Verbatim}
 
-\textbf{Answer.} $t^*=\ln(1/0.2)=\ln5=1.60944$ and $t_{\mathrm{end}}=t^*+3=4.60944$. All 7 self-checks pass; the new files are \texttt{run\_q0p2\allowbreak{}\_Cp.csv} and \texttt{run\_q0p2\allowbreak{}\_Cm.csv}; \texttt{summary.\allowbreak{}json} gives \texttt{\detokenize{tStar}} 1.6094379124341003, a final $u^\dagger u$ of $1.32\times10^{16}$ and WKB deviations of 1.0e-3 (leading order) and 2.4e-4 (first order). The EXP-5 Python checker compares the parameters with the study's specification and reports that mismatch, as it should. Undo with \texttt{git rest\allowbreak{}ore stud\allowbreak{}ies/dira\allowbreak{}c16compl\allowbreak{}ex\_cosmo\allowbreak{}logy/src\allowbreak{}/exp5.rs} and rebuild.
+\textbf{Answer.} $t^*=\ln(1/0.2)=\ln5=1.60944$ and $t_{\mathrm{end}}=t^*+3=4.60944$. All 7 self-checks pass; the new files are \texttt{run\_q0p2\allowbreak{}\_Cp.csv} and \texttt{run\_q0p2\allowbreak{}\_Cm.csv}; \texttt{summary.\allowbreak{}json} gives \texttt{\detokenize{tStar}} 1.6094379124341003, a final $u^\dagger u$ of $1.32\times10^{16}$ and WKB deviations of 1.0e-3 (leading order) and 2.4e-4 (first order). The EXP-5 Python checker compares the parameters with the study's specification and reports the mismatch, as it should: run on \texttt{build/ex\allowbreak{}-q}, it prints \texttt{check\_pa\allowbreak{}rameters\allowbreak{}MatchCon\allowbreak{}tract=fa\allowbreak{}lse} and \texttt{failed\_c\allowbreak{}heck\_cou\allowbreak{}nt=1} (of 19). Undo with \texttt{git rest\allowbreak{}ore stud\allowbreak{}ies/dira\allowbreak{}c16compl\allowbreak{}ex\_cosmo\allowbreak{}logy/src\allowbreak{}/exp5.rs} and rebuild.
 
 \subsection{Massless quanta are not created}
 

@@ -1,0 +1,70 @@
+{
+  "path": "artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json",
+  "status": "compared",
+  "sha256": "5b150b36e13b903c32b86e8debbaeda48798e0beb0bc6a216e416d2671f4e01a",
+  "checks": {
+    "theory_parse": {
+      "passed": true,
+      "detail": "parsed"
+    },
+    "theory_geometry_einstein": {
+      "passed": true,
+      "detail": "Some([15.0, 15.0, 15.0, 15.0, 21.0, 15.0, 15.0, 15.0]) vs (15,15,15,15,21,15,15,15)"
+    },
+    "theory_geometry_required_source": {
+      "passed": true,
+      "detail": "rho_req Some(-21.0), p_req Some(15.0) vs -21, +15"
+    },
+    "theory_geometry_ricci_scalar": {
+      "passed": true,
+      "detail": "'R = -42 H^2'"
+    },
+    "theory_geometry_extrinsic": {
+      "passed": true,
+      "detail": "Some([1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0]) vs (1,1,1,0,1,1,1) H"
+    },
+    "theory_geometry_brane_stress": {
+      "passed": true,
+      "detail": "Some([-10.0, -10.0, -10.0, -12.0, -10.0, -10.0, -10.0]) vs -(10,10,10,12,10,10,10) H/kappa"
+    },
+    "theory_basis_read": {
+      "passed": true,
+      "detail": "16x16 basis, column norm^2 8"
+    },
+    "theory_basis_unitary": {
+      "passed": true,
+      "detail": "max |U^dagger U - 1| = 2.220446049250313e-16"
+    },
+    "theory_basis_block_diagonalises": {
+      "passed": true,
+      "detail": "max off-block entry 0e0 over A0, A1, A4, gamma4, C, B, BC, gamma4gamma1, BCgamma0, J, K1, K2"
+    },
+    "theory_basis_reproduces_our_block_forms": {
+      "passed": true,
+      "detail": "max |block - expected_form(J_measured, -Im K1_measured)| = 2.220446049250313e-16"
+    },
+    "theory_exchange_filled_shell": {
+      "passed": true,
+      "detail": "Some(0.125) vs 1/8"
+    },
+    "theory_exchange_closed_form": {
+      "passed": true,
+      "detail": "'e_x=-\\frac{\\lambda}{32}\\bigl(n^2+S^2\\bigr),\\qquad e_H=\\frac{\\lambda}{2}S^2' vs e_x = -(lambda/32)(n^2 + S^2)"
+    },
+    "theory_exchange_kernel": {
+      "passed": true,
+      "detail": "'K_{++}(p,q) = 4 [ 1 + (m^2 - p.q)/(E_p E_q) ]' vs 4[1 + (m^2 - p.q)/(E_p E_q)]"
+    },
+    "theory_exchange_lda_potentials": {
+      "passed": true,
+      "detail": "'v_v = partial e_x/partial n |_S = -(lambda/16) n (potential-type, vector)'; 'v_s = partial e_x/partial S |_n = -(lambda/16) S (mass-type, scalar)'"
+    },
+    "theory_zero_mode_splitting": {
+      "passed": true,
+      "detail": "our d eps_0/dk (s = +1) = -1.9051482524522905 vs theory c = 1.9051482536448665 (theory: +c k for its j = +1, i.e. our s = -1)"
+    }
+  },
+  "notes": {
+    "labelRelation": "blocks with theory j = -J_measured: 0, j = +J_measured: 0; s2 = -Im(K1) (our c1): 0; s3 = -Im(K2) (our c2): 0"
+  }
+}

@@ -76,10 +76,29 @@ with the (h, h^2) elimination instead (`extrapolate_profile`).
 Kohn-Sham functional (Mermin, finite T, normal ordered).  Proper densities
 n_p = e^{-6Hy} n_c, S_p = e^{-6Hy} S_c with the coordinate densities
 n_c(y) = (1/l^3) sum_i g_i o_i |chi_i|^2, S_c(y) = (1/l^3) sum_i g_i o_i
-chi_i^dag sigma_y chi_i, o_i = f(eps_i) - theta(-eps_i) (Fermi function
-minus the filled sea: antiparticles count negatively in n and positively
-in S), g_i = 4 r3(q) (block multiplicity times the number of lattice
-vectors with |n|^2 = q, k = Delta_k sqrt(q)).  Hartree: E_H = (lambda/2)
+chi_i^dag sigma_y chi_i, o_i = f(eps_i) for a particle state and
+-(1 - f(eps_i)) for a Dirac-sea state (a hole in the sea is an
+antiparticle: it counts negatively in n and positively in S), g_i = 4 r3(q)
+(block multiplicity times the number of lattice vectors with |n|^2 = q,
+k = Delta_k sqrt(q)).  Particle/sea branches (normal ordering with respect
+to the FREE Dirac sea, the convention of the exact theory and of the Rust
+crate; option sea = "free", default): a level is a particle state iff its
+lambda = 0 partner has eps >= 0, the partner being the level of the same
+rank in the ascending spectrum at the same (k, parity, block type); in one
+dimension the levels of a self-adjoint sector do not cross, so the rank is
+a continuous label (the Rust crate's Pruefer index) and the identification
+is the continuation from lambda = 0.  Only the numbers of negative and
+positive free eigenvalues are needed (`free_branch_counts`, one extra
+eigvalsh per shell and grid, cached).  The interacting sign of eps is NOT
+used: the k = 0 brane zero modes move to eps = <v_x> < 0 for lambda > 0
+and stay particle states (with the sign convention, option sea = "sign",
+they would be swallowed by the sea and N = 8 would jump to the next shell:
+a convention-driven discontinuity, recorded for comparison only).
+Coupling rule (the Rust crate's): S_ref = max_y |S_p(y)| of the free
+N_mid ground state at m = 1, L = 3 (both parities filled together),
+lambda_hat_1 = 0.1/S_ref, lambda_hat_2 = 1.0/S_ref (so that |lambda S_p|/m
+reaches 0.1 and 1.0 there); the same numbers are used at m = 3 and the
+achieved max |lambda S_p|/m is reported per run.  Hartree: E_H = (lambda/2)
 Int S_p^2 W^6 dy, M_H = lambda S_p.  Exchange: for the uniform 8-fold
 degenerate gas with the contact interaction the Fock term is exactly
 e_x = -(lambda/32) (n^2 + S^2) (derived in `exchange_trace_identity`
@@ -94,20 +113,27 @@ shell).  Three pseudo-potential modes are implemented (`--xc`):
     quadratic  the exact functional derivative of E_x[n_p, S_p]:
                v_v = -lambda n_p / 16 (vector) and v_s = -lambda S_p / 16
                (added to M_eff).
+Parity sectors.  The Z2 conditions are boundary conditions, not symmetries
+(STAGE4_SPEC E4.6): parity = +1 / -1 solves one sector, parity = 0 solves
+both and fills them together as one system (the convention of the Rust
+crate: on the doubled interval the two sectors are the symmetric and
+antisymmetric solutions).  The canonical set uses parity = 0 for the runs
+that mirror the Rust matrix (labels m1_L3_N8_lam0_T0, ... as in the crate)
+and the single sectors for the L series (labels L2-free-N8-p+1, ...).
 Outputs (deterministic, LF, json.dumps(indent=2) + newline) under
 artifacts/dirac16complex/kohn-sham/reference/: reference-summary.json and
-one directory per run with spectrum.json, profiles.csv, scf-history.csv,
-thermo/excited/emt records, plus self-tests.json.
+one directory per run with spectrum.csv, profiles.csv,
+scf-history-level*.csv and run.json (thermo/excited/emt records inside).
 
 Usage: python scripts/ks_reference_solver.py [--output DIR] [--quick]
-       [--xc MODE] [--tip f0|g0] [--levels N0] [--runs NAME,...]
-       [--config JSON] (a single run from a JSON parameter set, used by the
-       checker to reproduce the Rust parameter set)
+       [--runs NAME,...] [--workers W] [--resume] [--skip-self-tests]
+       [--config JSON] (a single run from a JSON parameter set)
 """
 
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import hashlib
 import json
 import math
@@ -115,7 +141,14 @@ import os
 import sys
 import time
 
-import numpy as np
+# small dense matrices: BLAS threading only costs (the run-level parallelism
+# is by processes, see --workers); must be set before numpy is imported
+if "OPENBLAS_NUM_THREADS" not in os.environ:
+    os.environ["OPENBLAS_NUM_THREADS"] = "2"
+if "OMP_NUM_THREADS" not in os.environ:
+    os.environ["OMP_NUM_THREADS"] = "2"
+
+import numpy as np  # noqa: E402
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_FIXTURE = os.path.join(REPO, "artifacts", "dirac16complex", "arbitrary-field",
@@ -594,14 +627,44 @@ def eigenpairs(grid: Grid, m_eff_node, kk_node, kk_half, v_node, parity: int, ti
     return eps, n.T, s.T, z.T, F.T, Gt.T
 
 
+_FREE_COUNT_CACHE = {}
+
+
+def free_branch_counts(grid: Grid, m: float, k: float, a4: float, parity: int, tip: str):
+    """(n_neg, n_pos, dim) of the FREE discrete operator h_+ (M = m, v = 0)
+    at momentum k: the numbers of eigenvalues below -ZERO_MODE_TOL and
+    above +ZERO_MODE_TOL and the matrix dimension.  They define the
+    particle/sea branches by continuity from lambda = 0 (see the module
+    docstring); cached per (grid, m, k, a4, parity, tip)."""
+    key = (grid.N, grid.L, float(m), float(k), float(a4), int(parity), tip)
+    hit = _FREE_COUNT_CACHE.get(key)
+    if hit is not None:
+        return hit
+    kap_n = kappa_of(grid.y, a4)
+    kap_h = kappa_of(grid.yh, a4)
+    Hs, _, _ = build_hamiltonian(grid, np.full(grid.N + 1, float(m)), k * kap_n, k * kap_h,
+                                 np.zeros(grid.N + 1), parity, tip)
+    ev = np.linalg.eigvalsh(Hs)
+    out = (int(np.sum(ev < -ZERO_MODE_TOL)), int(np.sum(ev > ZERO_MODE_TOL)), int(len(ev)))
+    if len(_FREE_COUNT_CACHE) > 100000:
+        _FREE_COUNT_CACHE.clear()
+    _FREE_COUNT_CACHE[key] = out
+    return out
+
+
 def solve_shell(grid: Grid, m_eff_node, v_node, k: float, a4: float, parity: int, tip: str,
-                need_minus: bool):
+                need_minus: bool, m=None, sea="free"):
     """States of both block types at momentum k for one parity.
 
-    Returns a dict with arrays over states: eps, type (+1/-1), n, s, z, F, G.
-    Type +1 states come from h_+(v); type -1 states from h_+(-v) through the
+    Returns a dict with arrays over states (sorted by eps): eps, type
+    (+1/-1), branch (+1 particle / -1 Dirac sea), n, s, z, F, G.  Type +1
+    states come from h_+(v); type -1 states from h_+(-v) through the
     conjugation map (eps -> -eps, s -> -s, n and z unchanged).  With
     need_minus=False (v = 0) the same diagonalisation serves both types.
+    Branches: sea = "free" with the bare mass m given classifies by the
+    rank of the level against the free spectrum (a type +1 level of rank r
+    is a particle iff r >= n_neg; a type -1 level, whose free partner is
+    -free_plus[r], iff r < dim - n_pos); otherwise by the sign of eps.
     """
     kap_n = kappa_of(grid.y, a4)
     kap_h = kappa_of(grid.yh, a4)
@@ -612,16 +675,24 @@ def solve_shell(grid: Grid, m_eff_node, v_node, k: float, a4: float, parity: int
         eps_m, n_m, s_m, z_m, F_m, G_m = eigenpairs(grid, m_eff_node, kk_n, kk_h, -v_node, parity, tip)
     else:
         eps_m, n_m, s_m, z_m, F_m, G_m = eps_p, n_p, s_p, z_p, F_p, G_p
+    if sea == "free" and m is not None:
+        n_neg, n_pos, dim = free_branch_counts(grid, m, k, a4, parity, tip)
+        br_p = np.where(np.arange(len(eps_p)) >= n_neg, 1, -1)
+        br_m = np.where(np.arange(len(eps_m)) < dim - n_pos, 1, -1)
+    else:
+        br_p = np.where(eps_p >= -ZERO_MODE_TOL, 1, -1)
+        br_m = np.where(-eps_m >= -ZERO_MODE_TOL, 1, -1)
     eps = np.concatenate([eps_p, -eps_m])
     typ = np.concatenate([np.ones(len(eps_p), dtype=int), -np.ones(len(eps_m), dtype=int)])
+    branch = np.concatenate([br_p, br_m])
     n = np.concatenate([n_p, n_m])
     s = np.concatenate([s_p, -s_m])
     z = np.concatenate([z_p, z_m])
     F = np.concatenate([F_p, F_m])
     G = np.concatenate([G_p, G_m])
     order = np.argsort(eps, kind="stable")
-    return {"eps": eps[order], "type": typ[order], "n": n[order], "s": s[order], "z": z[order],
-            "F": F[order], "G": G[order]}
+    return {"eps": eps[order], "type": typ[order], "branch": branch[order], "n": n[order],
+            "s": s[order], "z": z[order], "F": F[order], "G": G[order]}
 
 
 # ---------------------------------------------------------------------------
@@ -681,7 +752,10 @@ class Params:
     def __init__(self, m=1.0, a4=0.0, L=3.0, lambda_hat=0.0, T=0.0, N=8.0, parity=1,
                  tip="g0", xc="quadratic", delta_k_over_m=0.25, ell=None, delta_k=None,
                  N0=100, levels=3, mix_beta=0.4, mix_history=6, tol=1e-10, max_iter=200,
-                 label="run", f_cut=None):
+                 label="run", f_cut=None, sea="free"):
+        if sea not in ("free", "sign"):
+            raise ValueError("sea must be 'free' or 'sign'")
+        self.sea = sea
         self.m = float(m)
         self.a4 = float(a4)
         self.L = float(L)
@@ -710,24 +784,25 @@ class Params:
                 "N": self.N, "parity": self.parity, "tip": self.tip, "xc": self.xc,
                 "delta_k": self.delta_k, "ell": self.ell, "N0": self.N0, "levels": self.levels,
                 "mix_beta": self.mix_beta, "mix_history": self.mix_history, "tol": self.tol,
-                "max_iter": self.max_iter, "label": self.label, "f_cut": self.f_cut}
+                "max_iter": self.max_iter, "label": self.label, "f_cut": self.f_cut, "sea": self.sea}
 
     def to_dict(self):
         return {"label": self.label, "m": self.m, "a4_0": self.a4, "L": self.L,
                 "lambda_hat": self.lambda_hat, "lambda": self.lam, "T": self.T, "N": self.N,
-                "parity": self.parity, "tip": self.tip, "xc": self.xc, "delta_k": self.delta_k,
-                "ell": self.ell, "volume": self.volume, "N0": self.N0, "levels": self.levels,
-                "mix_beta": self.mix_beta, "mix_history": self.mix_history, "tol": self.tol,
-                "max_iter": self.max_iter, "H": 1.0}
+                "parity": self.parity, "tip": self.tip, "xc": self.xc, "sea": self.sea,
+                "delta_k": self.delta_k, "ell": self.ell, "volume": self.volume, "N0": self.N0,
+                "levels": self.levels, "mix_beta": self.mix_beta, "mix_history": self.mix_history,
+                "tol": self.tol, "max_iter": self.max_iter, "H": 1.0}
 
 
 class State:
-    """One single-particle level (both signs of eps, both block types)."""
+    """One single-particle level (both branches, both block types)."""
     __slots__ = ("q", "r3", "k", "type", "index", "eps", "n", "s", "z", "mult", "f", "w",
-                 "interpolated", "parity")
+                 "interpolated", "parity", "branch")
 
-    def __init__(self, q, r3, k, typ, index, eps, n, s, z, interpolated=False, parity=1):
+    def __init__(self, q, r3, k, typ, index, eps, n, s, z, interpolated=False, parity=1, branch=None):
         self.parity = parity
+        self.branch = int(branch) if branch is not None else (1 if index >= 0 else -1)
         self.q = q
         self.r3 = r3
         self.k = k
@@ -747,14 +822,15 @@ class State:
 
 
 def index_states(shell, eps_lo, eps_hi):
-    """Rank indices within (type, sign): 0, 1, ... for eps >= 0 ascending,
-    -1, -2, ... for eps < 0 descending; returns the states in the window."""
+    """Rank indices within (type, branch): 0, 1, ... for the particle
+    branch ascending in eps, -1, -2, ... for the sea branch descending;
+    returns the states in the window as (type, index, position)."""
     out = []
     for typ in (1, -1):
         sel = np.where(shell["type"] == typ)[0]
-        eps = shell["eps"][sel]
-        pos = sel[eps >= -ZERO_MODE_TOL]
-        neg = sel[eps < -ZERO_MODE_TOL]
+        br = shell["branch"][sel]
+        pos = sel[br > 0]
+        neg = sel[br < 0]
         for rank, i in enumerate(pos):
             if eps_lo <= shell["eps"][i] <= eps_hi:
                 out.append((typ, rank, i))
@@ -819,12 +895,14 @@ class Spectrum:
             k = p.delta_k * math.sqrt(q)
             found = []
             for parity in self.parities():
-                shell = solve_shell(self.grid, self.m_eff, self.v, k, p.a4, parity, p.tip, need_minus)
+                shell = solve_shell(self.grid, self.m_eff, self.v, k, p.a4, parity, p.tip, need_minus,
+                                    m=p.m, sea=p.sea)
                 here = index_states(shell, self.eps_lo, self.eps_hi)
                 found.extend(here)
                 for typ, index, i in here:
                     self.states.append(State(q, r3, k, typ, index, float(shell["eps"][i]),
-                                             shell["n"][i], shell["s"][i], shell["z"][i], parity=parity))
+                                             shell["n"][i], shell["s"][i], shell["z"][i], parity=parity,
+                                             branch=shell["branch"][i]))
             exact_done += 1
             last_exact_q = q
             if found:
@@ -847,19 +925,22 @@ class Spectrum:
         # find k_max: smallest sampled k whose lowest |eps| exceeds the window
         k_b = k_a
         parities = self.parities()
+        def shell_at(kv, par):
+            return solve_shell(self.grid, self.m_eff, self.v, kv, p.a4, par, p.tip, need_minus,
+                               m=p.m, sea=p.sea)
+
         while True:
             k_b = k_b * 1.25 + 0.5
-            if not any(index_states(solve_shell(self.grid, self.m_eff, self.v, k_b, p.a4, par, p.tip, need_minus),
-                                    self.eps_lo, self.eps_hi) for par in parities):
+            if not any(index_states(shell_at(k_b, par), self.eps_lo, self.eps_hi) for par in parities):
                 break
             if k_b > 1e4 * max(top, 1.0):
                 raise RuntimeError("tail: window never exhausted")
         nodes, _ = chebyshev_nodes(k_a, k_b, CHEBYSHEV_NODES)
         wts = barycentric_weights_first_kind(CHEBYSHEV_NODES)
-        # levels kept per (parity, type, sign): those in the window at k_a (the widest set)
+        # levels kept per (parity, type, branch): those in the window at k_a (the widest set)
         keep = {}
         for par in parities:
-            ref = solve_shell(self.grid, self.m_eff, self.v, k_a, p.a4, par, p.tip, need_minus)
+            ref = shell_at(k_a, par)
             for typ, index, i in index_states(ref, self.eps_lo, self.eps_hi):
                 kk = (par, typ, index >= 0)
                 keep[kk] = max(keep.get(kk, 0), abs(index) + (1 if index >= 0 else 0))
@@ -869,12 +950,12 @@ class Spectrum:
         samples = {}   # (parity, typ, index) -> list over nodes of (eps, n, s, z)
         for kn in nodes:
             for par in parities:
-                shell = solve_shell(self.grid, self.m_eff, self.v, kn, p.a4, par, p.tip, need_minus)
+                shell = shell_at(kn, par)
                 for typ in (1, -1):
                     sel = np.where(shell["type"] == typ)[0]
-                    eps = shell["eps"][sel]
-                    pos = sel[eps >= -ZERO_MODE_TOL]
-                    neg = sel[eps < -ZERO_MODE_TOL][::-1]
+                    br = shell["branch"][sel]
+                    pos = sel[br > 0]
+                    neg = sel[br < 0][::-1]
                     for rank in range(keep.get((par, typ, True), 0)):
                         i = pos[rank]
                         samples.setdefault((par, typ, rank), []).append(
@@ -913,7 +994,7 @@ class Spectrum:
             for q in picks:
                 k = p.delta_k * math.sqrt(q)
                 for par in parities:
-                    shell = solve_shell(self.grid, self.m_eff, self.v, k, p.a4, par, p.tip, need_minus)
+                    shell = shell_at(k, par)
                     for typ, index, i in index_states(shell, self.eps_lo, self.eps_hi):
                         if (par, typ, index) not in packed:
                             continue
@@ -927,16 +1008,27 @@ class Spectrum:
                      "maxEpsInterpolationError": test_err_eps, "maxDensityInterpolationError": test_err_n}
 
 
-def fermi_weight(eps, f):
-    return f if eps >= -ZERO_MODE_TOL else -(1.0 - f)
+def fermi_weight(branch, f):
+    """Normal-ordered weight: f on the particle branch, -(1 - f) on the sea."""
+    return f if branch > 0 else -(1.0 - f)
+
+
+def branch_overlap(states):
+    """(highest sea level, lowest occupied particle level): a diagnostic of
+    the branch classification (a sea level above an occupied particle level
+    would signal a band crossing)."""
+    sea = [st.eps for st in states if st.branch < 0]
+    occ = [st.eps for st in states if st.branch > 0 and st.f > 0.0]
+    return (max(sea) if sea else float("-inf")), (min(occ) if occ else float("inf"))
 
 
 def occupy_zero(states, N):
-    """T = 0 filling by eps among eps >= 0, fractional straddling group."""
+    """T = 0 filling by eps along the particle branch, fractional straddling
+    group; the sea stays full (f = 1, weight 0)."""
     for st in states:
-        st.f = 0.0
+        st.f = 1.0 if st.branch < 0 else 0.0
         st.w = 0.0
-    particles = sorted((st for st in states if st.eps >= -ZERO_MODE_TOL), key=lambda st: (st.eps, st.key()))
+    particles = sorted((st for st in states if st.branch > 0), key=lambda st: (st.eps, st.key()))
     remaining = N
     homo = None
     lumo = None
@@ -970,7 +1062,7 @@ def occupy_zero(states, N):
 def occupy_thermal(states, N, T):
     eps = np.array([st.eps for st in states])
     mult = np.array([st.mult for st in states])
-    sign = np.where(eps >= -ZERO_MODE_TOL, 1.0, -1.0)
+    sign = np.array([1.0 if st.branch > 0 else -1.0 for st in states])
 
     def count(mu):
         f = _fermi((eps - mu) / T)
@@ -997,7 +1089,7 @@ def occupy_thermal(states, N, T):
     homo = None
     lumo = None
     for st in sorted(states, key=lambda st: st.eps):
-        if st.eps >= -ZERO_MODE_TOL:
+        if st.branch > 0:
             if st.f >= 0.5:
                 homo = st
             elif lumo is None:
@@ -1010,10 +1102,10 @@ def occupy_constrained(states, occupations):
     total = 0.0
     for st in states:
         # particle states default to empty, sea states to filled (weight 0)
-        default = 0.0 if st.eps >= -ZERO_MODE_TOL else 1.0
+        default = 0.0 if st.branch > 0 else 1.0
         f = occupations.get(st.key(), default)
         st.f = f
-        st.w = fermi_weight(st.eps, f)
+        st.w = fermi_weight(st.branch, f)
         total += st.mult * st.w
     present = sum(1 for st in states if st.key() in occupations)
     if present != len(occupations):
@@ -1236,9 +1328,12 @@ def scf(params: Params, grid: Grid, mode="auto", constrained=None, initial=None,
         if log:
             log("    it %3d  resN %.3e resS %.3e  mu %.10f  E %.12f  states %d" %
                 (it, res_n, res_s, mu, en["total"], len(spec.states)))
+        sea_top, particle_bottom = branch_overlap(spec.states)
         result = {"spectrum": spec, "n_c": n_out, "s_c": s_out, "m_eff": m_eff, "v": v, "e_int": e_int,
                   "dc": dc, "mu": mu, "homo": homo, "lumo": lumo, "energies": en, "history": history,
-                  "iterations": it, "residualN": res_n, "residualS": res_s, "mode": mode}
+                  "iterations": it, "residualN": res_n, "residualS": res_s, "mode": mode,
+                  "seaTop": sea_top, "particleBottom": particle_bottom,
+                  "branchOverlap": bool(sea_top > particle_bottom)}
         if res_n < params.tol and res_s < params.tol:
             converged = True
             break
@@ -1464,6 +1559,8 @@ class SectorRun:
             "converged": self.converged,
             "levels": [{"N": g.N, "h": g.h, "iterations": lv["iterations"], "converged": lv["converged"],
                         "residualN": lv["residualN"], "residualS": lv["residualS"], "mu": lv["mu"],
+                        "seaTop": lv["seaTop"], "particleBottom": lv["particleBottom"],
+                        "branchOverlap": lv["branchOverlap"],
                         "energies": lv["energies"], "states": len(lv["spectrum"].states),
                         "shellsExact": lv["spectrum"].shells_exact,
                         "shellsInterpolated": lv["spectrum"].shells_interpolated,
@@ -1511,8 +1608,8 @@ def extrapolate_values(vals):
 def particle_hole_list(run: SectorRun, count=12):
     fine = run.levels[-1]
     states = fine["spectrum"].states
-    occ = [st for st in states if st.eps >= -ZERO_MODE_TOL and st.f > 1e-12]
-    emp = [st for st in states if st.eps >= -ZERO_MODE_TOL and st.f < 1.0 - 1e-12]
+    occ = [st for st in states if st.branch > 0 and st.f > 1e-12]
+    emp = [st for st in states if st.branch > 0 and st.f < 1.0 - 1e-12]
     pairs = []
     for i in occ:
         for a in emp:
@@ -1541,11 +1638,11 @@ def delta_scf(run: SectorRun, log=None):
         return {"available": False, "reason": "no HOMO/LUMO pair (open shell or empty window)"}
     states = fine["spectrum"].states
     def group(ref):
-        return [st for st in states if st.eps >= -ZERO_MODE_TOL
+        return [st for st in states if st.branch > 0
                 and abs(st.eps - ref.eps) <= DEGENERACY_TOL * max(abs(ref.eps), 1.0)]
     gh = group(homo)
     gl = group(lumo)
-    occ = {st.key(): st.f for st in states if st.eps >= -ZERO_MODE_TOL and st.f > 0}
+    occ = {st.key(): st.f for st in states if st.branch > 0 and st.f > 0}
     mh = sum(st.mult for st in gh)
     ml = sum(st.mult for st in gl)
     for st in gh:
@@ -1646,10 +1743,10 @@ def write_run(run: SectorRun, directory, extra=None):
     for key in run.state_keys:
         st = states[key]
         vals, ext = run.state_eps[key]
-        row = [st.q, st.r3, st.k, st.parity, st.type, st.index, st.mult, st.f, st.w]
+        row = [st.q, st.r3, st.k, st.parity, st.type, st.index, st.branch, st.mult, st.f, st.w]
         row += list(vals) + [float(ext), 1.0 if st.interpolated else 0.0]
         rows.append(row)
-    header = ["q", "r3", "k", "parity", "type", "index", "mult", "f", "w"]
+    header = ["q", "r3", "k", "parity", "type", "index", "branch", "mult", "f", "w"]
     header += ["eps_level%d" % l for l in range(len(run.levels))] + ["eps_extrapolated", "interpolated"]
     write_csv(os.path.join(directory, "spectrum.csv"), header, rows)
     g = run.coarse_grid
@@ -1806,12 +1903,13 @@ def rescaling_test(lambda_hat, N=8.0, L=3.0, N0=64, levels=2):
 # 13. Canonical parameter set and the command line
 # ---------------------------------------------------------------------------
 
-def closed_shells(m=1.0, L=3.0, N0=64, upto=1200):
-    """Cumulative degeneracies of the free parity-+ spectrum: closed-shell N."""
-    p = Params(m=m, L=L, lambda_hat=0.0, T=0.0, N=upto, parity=1, N0=N0)
+def closed_shells(m=1.0, L=3.0, N0=64, upto=1300, parity=0):
+    """Cumulative degeneracies of the free spectrum (both parities filled
+    together for parity = 0, the Rust convention): closed-shell N."""
+    p = Params(m=m, L=L, lambda_hat=0.0, T=0.0, N=upto, parity=parity, N0=N0)
     grid = Grid(L, N0)
     res = scf(p, grid)
-    parts = sorted((st for st in res["spectrum"].states if st.eps >= -ZERO_MODE_TOL), key=lambda st: st.eps)
+    parts = sorted((st for st in res["spectrum"].states if st.branch > 0), key=lambda st: st.eps)
     shells = []
     total = 0.0
     i = 0
@@ -1831,80 +1929,136 @@ def closed_shells(m=1.0, L=3.0, N0=64, upto=1200):
     return shells
 
 
-def coupling_strength(m, N, L, parity=1, N0=64, xc="quadratic"):
-    """R per unit lambda_hat: max_y max(|M_eff - m|, |v_x|)/m of the free
-    ground state, so that lambda_hat = 0.1/R and 1.0/R give R = 0.1 and 1."""
-    p = Params(m=m, L=L, lambda_hat=0.0, T=0.0, N=N, parity=parity, N0=N0, xc=xc)
-    grid = Grid(L, N0)
-    res = scf(p, grid)
-    q = Params(m=m, L=L, lambda_hat=1.0, T=0.0, N=N, parity=parity, N0=N0, xc=xc)
-    m_eff, v, _, _ = potentials(q, grid, res["n_c"], res["s_c"])
-    R = max(float(np.max(np.abs(m_eff - m))), float(np.max(np.abs(v)))) / m
-    return R, float(grid.y[int(np.argmax(np.maximum(np.abs(m_eff - m), np.abs(v))))])
+def reference_scale(N_mid, m=1.0, L=3.0, N0=64, levels=3, log=None):
+    """S_ref = max_y |S_p(y)| of the free N_mid ground state (both parities
+    filled together), from the three-level extrapolated proper scalar
+    density; lambda_hat_1 = 0.1/S_ref, lambda_hat_2 = 1/S_ref (the Rust
+    crate's rule, so that |lambda S_p|/m reaches 0.1 and 1.0 in that state)."""
+    p = Params(m=m, L=L, lambda_hat=0.0, T=0.0, N=N_mid, parity=0, N0=N0, levels=levels, label="reference-scale")
+    run = SectorRun(p, log=log)
+    s_p = np.abs(np.asarray(run.profiles["s_p"], dtype=float))
+    j = int(np.argmax(s_p))
+    S_ref = float(s_p[j])
+    if not S_ref > 0.0:
+        raise RuntimeError("reference_scale: S_ref vanishes")
+    return {"S_ref": S_ref, "argmax_y": float(run.coarse_grid.y[j]), "N_mid": float(N_mid), "m": m, "L": L,
+            "lambda_hat_1": 0.1 / S_ref, "lambda_hat_2": 1.0 / S_ref, "E0_free_N_mid": float(run.scalars["total"]),
+            "levels": [float(np.max(np.abs(np.asarray(lv["s_c"]) * g.density_factor)))
+                       for lv, g in zip(run.levels, run.grids)]}
+
+
+LAMBDA_NAMES = {"lam0": 0.0, "lamp1": "l1", "lamm1": "-l1", "lamp2": "l2", "lamm2": "-l2"}
+
+
+def rust_label(m, L, N, lam_name, T, a4=0.0, delta_k_over_m=0.25):
+    """Labels in the form of the Rust crate: m1_L3_N8_lamp1_T0[_a40p5][_dk0p125]."""
+    def trim(v):
+        return ("%g" % v).replace(".", "p").replace("-", "m")
+    lab = "m%s_L%s_N%s_%s_T%s" % (trim(m), trim(L), N if isinstance(N, str) else int(N), lam_name,
+                                   "0" if T == 0 else trim(T / m))
+    if a4 != 0.0:
+        lab += "_a4" + trim(a4)
+    if delta_k_over_m != 0.25:
+        lab += "_dk" + trim(delta_k_over_m)
+    return lab
 
 
 def canonical_runs(quick=False):
-    """The list of run specifications (dicts of Params kwargs + tasks)."""
+    """The list of run specifications (dicts of Params kwargs + tasks).
+    Symbolic N ("mid", "big") and lambda_hat ("l1", "-l1", "l2", "-l2")
+    are resolved by `resolve_run` from the closed shells and S_ref."""
     N0 = 48 if quick else 64
     levels = 2 if quick else 3
     runs = []
-    base = {"L": 3.0, "N0": N0, "levels": levels, "tip": "g0", "xc": "quadratic"}
-    # closed shells and couplings are resolved at run time (see main)
+    base = {"L": 3.0, "N0": N0, "levels": levels, "tip": "g0", "xc": "quadratic", "parity": 0}
     if quick:
-        runs.append({"label": "quick-free-N8", "m": 1.0, "lambda_hat": 0.0, "N": 8, "parity": 1, "T": 0.0,
+        runs.append({"label": rust_label(1, 3, 8, "lam0", 0), "m": 1.0, "lambda_hat": 0.0, "N": 8, "T": 0.0,
                      "tasks": ["excited", "emt"], **base})
-        runs.append({"label": "quick-lam1-N8", "m": 1.0, "lambda_hat": "l1", "N": 8, "parity": 1, "T": 0.0,
+        runs.append({"label": rust_label(1, 3, 8, "lamp1", 0), "m": 1.0, "lambda_hat": "l1", "N": 8, "T": 0.0,
                      "tasks": ["excited"], **base})
-        runs.append({"label": "quick-free-N8-T0.3", "m": 1.0, "lambda_hat": 0.0, "N": 8, "parity": 1, "T": 0.3,
+        runs.append({"label": rust_label(1, 3, 8, "lam0", 0.3), "m": 1.0, "lambda_hat": 0.0, "N": 8, "T": 0.3,
                      "tasks": ["thermo"], **base})
+        runs.append({"label": "L2-free-N8-p-1", "m": 1.0, "lambda_hat": 0.0, "N": 8, "T": 0.0,
+                     "tasks": ["excited"], **{**base, "L": 2.0, "parity": -1}})
         return runs
-    # A. L-dependence (free, both parities)
+    # A. L-dependence of the two parity sectors (free, N = 8)
     for L in (2.0, 3.0, 4.0):
         for parity in (1, -1):
             runs.append({"label": "L%.0f-free-N8-p%+d" % (L, parity), "m": 1.0, "lambda_hat": 0.0, "N": 8,
-                         "parity": parity, "T": 0.0, "tasks": ["excited"], **{**base, "L": L}})
-    # B. ground states at T = 0
-    for m in (1.0, 3.0):
-        for Nname in ("8", "mid", "big"):
-            for lam in (0.0, "l1", "-l1", "l2", "-l2"):
-                runs.append({"label": "m%.0f-N%s-lam%s-p+1" % (m, Nname, str(lam)), "m": m, "lambda_hat": lam,
-                             "N": Nname, "parity": 1, "T": 0.0,
-                             "tasks": ["excited"] if (m == 1.0 and lam in (0.0, "l1", "-l1")) else [], **base})
+                         "T": 0.0, "tasks": ["excited"], **{**base, "L": L, "parity": parity}})
+    # B. ground states at T = 0, m = 1, L = 3 (the Rust matrix; both parities together)
+    for Nname in ("8", "mid", "big"):
+        for lam_name, lam in LAMBDA_NAMES.items():
+            tasks = ["excited"] if (Nname != "big" or lam_name in ("lam0", "lamp1")) else []
+            runs.append({"label": rust_label(1, 3, Nname, lam_name, 0), "m": 1.0, "lambda_hat": lam,
+                         "N": Nname, "T": 0.0, "tasks": tasks, **base})
+    # C. m = 3
     for Nname in ("8", "mid"):
-        for lam in (0.0, "l1"):
-            runs.append({"label": "m1-N%s-lam%s-p-1" % (Nname, str(lam)), "m": 1.0, "lambda_hat": lam,
-                         "N": Nname, "parity": -1, "T": 0.0, "tasks": [], **base})
-    # D. thermodynamics
+        for lam_name in ("lam0", "lamp1", "lamm1"):
+            runs.append({"label": rust_label(3, 3, Nname, lam_name, 0), "m": 3.0,
+                         "lambda_hat": LAMBDA_NAMES[lam_name], "N": Nname, "T": 0.0, "tasks": [], **base})
+    # D. L = 2, 4 (N_mid, lambda_hat 0 and lambda_hat_1)
+    for L in (2.0, 4.0):
+        for lam_name in ("lam0", "lamp1"):
+            runs.append({"label": rust_label(1, L, "mid", lam_name, 0), "m": 1.0, "lambda_hat": LAMBDA_NAMES[lam_name],
+                         "N": "mid", "T": 0.0, "tasks": [], **{**base, "L": L}})
+    # E. Delta k halved at the same density (N x 8)
+    runs.append({"label": rust_label(1, 3, "8mid", "lamp1", 0, delta_k_over_m=0.125), "m": 1.0, "lambda_hat": "l1",
+                 "N": "8mid", "T": 0.0, "tasks": [], "delta_k_over_m": 0.125, **base})
+    # F. thermodynamics (C_V by central differences, see thermo_point)
     for Nname in ("8", "mid"):
-        for lam in (0.0, "l1"):
+        for lam_name in ("lam0", "lamp1"):
             for T in (0.1, 0.3, 1.0):
-                runs.append({"label": "m1-N%s-lam%s-T%.1f" % (Nname, str(lam), T), "m": 1.0, "lambda_hat": lam,
-                             "N": Nname, "parity": 1, "T": T, "tasks": ["thermo"], **{**base, "N0": 48}})
+                runs.append({"label": rust_label(1, 3, Nname, lam_name, T), "m": 1.0,
+                             "lambda_hat": LAMBDA_NAMES[lam_name], "N": Nname, "T": T, "tasks": ["thermo"],
+                             **{**base, "N0": 48}})
     return runs
 
 
 def resolve_run(spec, shells_info, couplings):
-    """Replace symbolic N ("8", "mid", "big") and lambda ("l1", "-l1", ...) by numbers."""
+    """Replace symbolic N ("8", "mid", "big", "8mid") and lambda ("l1",
+    "-l1", "l2", "-l2") by numbers and the symbolic label parts by them."""
     spec = dict(spec)
     Nsym = spec["N"]
     if isinstance(Nsym, str):
-        spec["N"] = shells_info["N_" + Nsym]
+        Nval = 8.0 * shells_info["N_mid"] if Nsym == "8mid" else shells_info["N_" + Nsym]
+        spec["N"] = float(Nval)
+        spec["label"] = spec["label"].replace("_N" + Nsym + "_", "_N%d_" % int(Nval))
     lam = spec["lambda_hat"]
     if isinstance(lam, str):
         sign = -1.0 if lam.startswith("-") else 1.0
         name = lam.lstrip("-")
-        key = (spec["m"], spec["N"])
-        spec["lambda_hat"] = sign * couplings[key][name]
+        spec["lambda_hat"] = sign * couplings["lambda_hat_" + name[1:]]
     return spec
 
 
+def run_matches(doc, spec):
+    """Does an existing run.json reproduce the parameter set of spec (--resume)?"""
+    try:
+        p = doc["params"]
+        q = Params(**{k: v for k, v in spec.items() if k != "tasks"}).to_dict()
+        keys = ("m", "a4_0", "L", "lambda_hat", "T", "N", "parity", "tip", "xc", "sea", "delta_k", "ell",
+                "N0", "levels", "tol")
+        same = all(p.get(k) == q[k] for k in keys)
+        tasks = spec.get("tasks", [])
+        if "excited" in tasks and spec.get("T", 0.0) <= 0 and "excited" not in doc:
+            return False
+        if "thermo" in tasks and spec.get("T", 0.0) > 0 and "thermo" not in doc:
+            return False
+        return bool(same and doc.get("converged"))
+    except Exception:  # noqa: BLE001
+        return False
+
+
 def execute_run(spec, output_root, log):
+    spec = dict(spec)
     tasks = spec.pop("tasks", [])
     label = spec["label"]
     params = Params(**spec)
     log("run %s: %s" % (label, json.dumps(jsonable(params.to_dict()))))
     directory = os.path.join(output_root, label)
     extra = {}
+    t0 = time.time()
     if params.T > 0 and "thermo" in tasks:
         point = thermo_point(params, params.T, log=log)
         run = point.pop("run")
@@ -1914,20 +2068,49 @@ def execute_run(spec, output_root, log):
     if "excited" in tasks and params.T <= 0:
         extra["excited"] = {"ksGap": run.gap, "particleHole": particle_hole_list(run),
                             "deltaSCF": delta_scf(run, log=log)}
+    extra["tasks"] = tasks
     doc = write_run(run, directory, extra)
-    log("  -> E0 = %.12f  mu = %.10f  converged = %s  gap = %s" %
-        (run.scalars["total"], run.scalars["mu"], run.converged, run.gap))
+    log("  -> %s: E0 = %.12f  mu = %.10f  converged = %s  gap = %s  (%.0f s)" %
+        (label, run.scalars["total"], run.scalars["mu"], run.converged, run.gap, time.time() - t0))
     return doc
+
+
+def execute_run_worker(spec, output_root):
+    """Process-pool entry: run one specification, log with the label prefix."""
+    label = spec["label"]
+
+    def log(msg):
+        print("[%s] %s" % (label, msg), flush=True)
+
+    try:
+        return execute_run(spec, output_root, log)
+    except Exception as error:  # noqa: BLE001
+        log("FAILED: %r" % (error,))
+        return {"params": {"label": label}, "failed": repr(error), "converged": False}
+
+
+def summary_record(doc):
+    return {"label": doc["params"]["label"], "params": doc["params"], "converged": doc.get("converged", False),
+            "failed": doc.get("failed"), "extrapolated": doc.get("extrapolated"), "ksGap": doc.get("ksGap"),
+            "homo": doc.get("homo"), "lumo": doc.get("lumo"), "emt": doc.get("emt"),
+            "orderEstimates": doc.get("orderEstimates"),
+            "branchOverlap": any(lv.get("branchOverlap") for lv in doc.get("levels", [])),
+            "thermo": {k: v for k, v in (doc.get("thermo") or {}).items() if k != "excitations"},
+            "excited": doc.get("excited")}
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
     parser.add_argument("--quick", action="store_true", help="reduced parameter set (tests)")
-    parser.add_argument("--runs", default=None, help="comma-separated run labels to execute")
+    parser.add_argument("--runs", default=None, help="comma-separated run labels to execute (symbolic labels "
+                        "such as m1_L3_Nmid_lamp1_T0 or resolved ones such as m1_L3_N112_lamp1_T0)")
     parser.add_argument("--config", default=None, help="JSON file with one run specification (Params kwargs + tasks)")
     parser.add_argument("--skip-self-tests", action="store_true")
-    parser.add_argument("--threads", type=int, default=None, help="OpenBLAS threads (set before numpy import)")
+    parser.add_argument("--workers", type=int, default=None,
+                        help="parallel worker processes for the runs (default min(4, cpu/2))")
+    parser.add_argument("--resume", action="store_true",
+                        help="keep run directories whose run.json already matches the parameter set")
     args = parser.parse_args(argv)
     t_start = time.time()
 
@@ -1938,59 +2121,84 @@ def main(argv=None):
     if args.config:
         with open(args.config, "r", encoding="utf-8") as handle:
             spec = json.load(handle)
-        doc = execute_run(spec, args.output, log)
+        execute_run(spec, args.output, log)
         log("done in %.1f s" % (time.time() - t_start))
         return 0
+    workers = args.workers if args.workers is not None else max(1, min(4, (os.cpu_count() or 2) // 2))
     summary = {"schemaVersion": SCHEMA_VERSION, "producer": PRODUCER,
                "fixtureSha256": sha256_file(DEFAULT_FIXTURE),
                "method": "staggered-grid (Yee) real-symmetric matrix eigensolver, three grids N0, 2N0, 4N0, "
-                         "extrapolation eliminating h^2 and h^3; Anderson-mixed SCF on (n_c, S_c)",
+                         "extrapolation eliminating h^2 and h^3; Anderson-mixed SCF on (n_c, S_c); "
+                         "particle/sea branches by continuity from lambda = 0 (rank against the free spectrum)",
+               "conventions": {"sea": "free", "parity": "0 = both Z2 sectors filled together (Rust convention); "
+                               "+1/-1 = one sector", "xc": "quadratic: M_eff = m + (15/16) lambda S_p, "
+                               "v_x = -lambda n_p/16, e_x = -(lambda/32)(n_p^2 + S_p^2)"},
                "quick": bool(args.quick)}
     if not args.skip_self_tests:
         log("self-tests")
         summary["selfTests"] = self_tests(N0=64 if args.quick else 100)
         summary["selfTests"]["rescaling"] = rescaling_test(0.0 if args.quick else 0.009, N0=48 if args.quick else 64,
                                                             levels=2)
+        log("  analytic k = 0 spectra: max error %.3e" % summary["selfTests"]["analyticMaxError"])
     runs = canonical_runs(args.quick)
-    if args.runs:
-        wanted = set(args.runs.split(","))
-        runs = [r for r in runs if r["label"] in wanted]
-    log("closed shells (free, parity +, m = 1, L = 3)")
-    shells = closed_shells(N0=48 if args.quick else 64)
-    cum = [s["cumulative"] for s in shells]
+    N0_ref = 48 if args.quick else 64
+    log("closed shells (free, both parities, m = 1, L = 3)")
+    shells = closed_shells(N0=N0_ref)
+    cum = [s["cumulative"] for s in shells if s["cumulative"] > 8.0]
     def nearest(target):
         return float(min(cum, key=lambda c: abs(c - target)))
     shells_info = {"N_8": 8.0, "N_mid": nearest(100.0), "N_big": nearest(1000.0), "closedShells": shells[:40]}
     summary["closedShells"] = shells_info
     log("  N_mid = %g, N_big = %g" % (shells_info["N_mid"], shells_info["N_big"]))
-    couplings = {}
-    needed = {(r["m"], r["N"]) for r in runs if isinstance(r["lambda_hat"], str)}
-    for m, Nsym in sorted(needed):
-        N = shells_info["N_" + Nsym] if isinstance(Nsym, str) else Nsym
-        R, y_at = coupling_strength(m, N, 3.0, N0=48 if args.quick else 64)
-        couplings[(m, N)] = {"l1": 0.1 / R, "l2": 1.0 / R, "R_per_unit_lambda_hat": R, "argmax_y": y_at}
-        log("  coupling m = %g N = %g: R/lambda_hat = %.6f (at y = %.3f) -> lambda_hat_1 = %.6g, lambda_hat_2 = %.6g"
-            % (m, N, R, y_at, 0.1 / R, 1.0 / R))
-    summary["couplings"] = [{"m": m, "N": N, **v} for (m, N), v in sorted(couplings.items())]
-    summary["couplingRule"] = ("lambda_hat_1 = 0.1/R, lambda_hat_2 = 1.0/R with R = max_y max(|M_eff - m|, |v_x|)/m "
-                               "of the free ground state per unit lambda_hat (the pseudo-potential strength, "
-                               "which is dominated by the tip region y -> -L because n_p = e^{-6Hy} n_c)")
-    summary["runs"] = []
-    for spec in runs:
-        spec = resolve_run(spec, shells_info, couplings)
-        doc = execute_run(spec, args.output, log)
-        summary["runs"].append({"label": doc["params"]["label"], "params": doc["params"],
-                                "converged": doc["converged"], "extrapolated": doc["extrapolated"],
-                                "ksGap": doc["ksGap"], "homo": doc["homo"], "lumo": doc["lumo"],
-                                "emt": doc["emt"], "orderEstimates": doc["orderEstimates"],
-                                "thermo": {k: v for k, v in doc.get("thermo", {}).items() if k != "excitations"},
-                                "excited": doc.get("excited")})
-        summary["complete"] = False
+    log("reference scale S_ref (free N_mid ground state)")
+    couplings = reference_scale(shells_info["N_mid"], N0=N0_ref, levels=2 if args.quick else 3)
+    log("  S_ref = %.10g at y = %.4f -> lambda_hat_1 = %.10g, lambda_hat_2 = %.10g"
+        % (couplings["S_ref"], couplings["argmax_y"], couplings["lambda_hat_1"], couplings["lambda_hat_2"]))
+    summary["couplings"] = couplings
+    summary["couplingRule"] = ("lambda_hat_1 = 0.1/S_ref, lambda_hat_2 = 1.0/S_ref, S_ref = max_y |S_p(y)| of the free "
+                               "N_mid ground state at m = 1, L = 3 with both parities filled together (the Rust "
+                               "crate's rule; |lambda S_p|/m reaches 0.1 and 1 there); the same values are used "
+                               "at m = 3 and the achieved max |lambda S_p|/m is recorded per run")
+    specs = [resolve_run(r, shells_info, couplings) for r in runs]
+    if args.runs:
+        wanted = set(args.runs.split(","))
+        specs = [s for s, r in zip(specs, runs) if s["label"] in wanted or r["label"] in wanted]
+    labels = [s["label"] for s in specs]
+    docs = {}
+    todo = []
+    for spec in specs:
+        path = os.path.join(args.output, spec["label"], "run.json")
+        if args.resume and os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as handle:
+                doc = json.load(handle)
+            if run_matches(doc, spec):
+                docs[spec["label"]] = doc
+                log("resume: keeping %s" % spec["label"])
+                continue
+        todo.append(spec)
+    log("%d runs (%d kept from a previous run), %d workers" % (len(specs), len(docs), workers))
+
+    def flush(complete):
+        summary["runs"] = [summary_record(docs[lab]) for lab in labels if lab in docs]
+        summary["complete"] = bool(complete)
         write_json(os.path.join(args.output, "reference-summary.json"), summary)
-    summary["complete"] = True
-    write_json(os.path.join(args.output, "reference-summary.json"), summary)
-    log("wrote %s in %.1f s" % (os.path.join(args.output, "reference-summary.json"), time.time() - t_start))
-    return 0
+
+    flush(False)
+    if workers <= 1 or len(todo) <= 1:
+        for spec in todo:
+            docs[spec["label"]] = execute_run_worker(spec, args.output)
+            flush(False)
+    else:
+        with concurrent.futures.ProcessPoolExecutor(max_workers=workers) as pool:
+            futures = {pool.submit(execute_run_worker, spec, args.output): spec["label"] for spec in todo}
+            for future in concurrent.futures.as_completed(futures):
+                docs[futures[future]] = future.result()
+                flush(False)
+    failed = [lab for lab in labels if docs.get(lab, {}).get("failed")]
+    flush(not failed)
+    log("wrote %s in %.1f s (%d runs, failed: %s)" % (os.path.join(args.output, "reference-summary.json"),
+                                                        time.time() - t_start, len(labels), failed))
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":

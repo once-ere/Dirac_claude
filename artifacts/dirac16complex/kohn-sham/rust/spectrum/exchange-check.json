@@ -1,0 +1,7 @@
+{
+  "closedForm": "e_x(n, S) = -lambda (n^2 + S^2)/32; v_s = -lambda S/16; v_v = -lambda n/16; exact for the isotropic uniform 8-fold gas at every T (normal ordering)",
+  "kernelDefect": 5.32907051820075139e-15,
+  "closedFormRelativeDefect": 1.53642096392559280e-15,
+  "filledShellDefect": 3.55271367880050093e-15,
+  "source": "own quadrature (exchange.rs); artifacts/dirac16complex/kohn-sham/exchange-table.json was not consulted"
+}

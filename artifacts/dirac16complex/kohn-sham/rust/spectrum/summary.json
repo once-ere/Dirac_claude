@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "study": "dirac16complex-kohn-sham",
+  "experiment": "spectrum",
+  "fixture": {
+    "path": "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json",
+    "sha256": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
+    "source": "fixture"
+  },
+  "engine": "sundials_rs 7.8.0 CVODE (pure Rust, vendor/rustSolveIt)",
+  "solver": "CVODE BDF/Adams Pruefer shooting + BDF profiles (see shooting.rs)",
+  "refined": false,
+  "tolerances": {
+    "rtol": 9.99999999999999980e-13,
+    "atol": 9.99999999999999999e-15,
+    "maxStep": 5.00000000000000028e-02
+  },
+  "reference": {
+    "nMid": 1.12000000000000000e+02,
+    "nLarge": 1.01600000000000000e+03,
+    "sRef_maxProperScalarDensity_free_nMid": 6.16644110740545681e+00,
+    "lambdaHat1": 1.62168093813313367e-02,
+    "lambdaHat2": 1.62168093813313346e-01,
+    "closedShells_N_epsHomo": [
+      [
+        8.00000000000000000e+00,
+        0.00000000000000000e+00
+      ],
+      [
+        3.20000000000000000e+01,
+        4.30733678638049289e-01
+      ],
+      [
+        8.00000000000000000e+01,
+        5.87956852751663539e-01
+      ],
+      [
+        1.12000000000000000e+02,
+        7.04099564608324013e-01
+      ],
+      [
+        1.36000000000000000e+02,
+        7.99645766829285121e-01
+      ],
+      [
+        2.32000000000000000e+02,
+        8.82319540506747213e-01
+      ],
+      [
+        3.28000000000000000e+02,
+        9.56006929837582953e-01
+      ],
+      [
+        3.76000000000000000e+02,
+        1.08470485810963546e+00
+      ],
+      [
+        4.96000000000000000e+02,
+        1.14218214860447387e+00
+      ],
+      [
+        5.92000000000000000e+02,
+        1.19613738347395437e+00
+      ],
+      [
+        6.88000000000000000e+02,
+        1.24711254062783472e+00
+      ],
+      [
+        6.96000000000000000e+02,
+        1.29229282806798085e+00
+      ],
+      [
+        7.28000000000000000e+02,
+        1.29552536711324939e+00
+      ],
+      [
+        8.24000000000000000e+02,
+        1.34170568737331397e+00
+      ],
+      [
+        1.01600000000000000e+03,
+        1.38591915422392709e+00
+      ],
+      [
+        1.04000000000000000e+03,
+        1.43892681291032343e+00
+      ],
+      [
+        1.04800000000000000e+03,
+        1.44797193040435346e+00
+      ],
+      [
+        1.07200000000000000e+03,
+        1.46927913522502429e+00
+      ],
+      [
+        1.26400000000000000e+03,
+        1.50875860135845197e+00
+      ],
+      [
+        1.40800000000000000e+03,
+        1.54695116529350063e+00
+      ]
+    ]
+  },
+  "theoryAgreement": "compared (theory-agreement.json)",
+  "exchangeTable": {
+    "path": "artifacts/dirac16complex/kohn-sham/exchange-table.json",
+    "status": "absent; the crate uses its own exact closed form -(lambda/32)(n^2+S^2) verified by quadrature"
+  },
+  "files": [
+    "reduction.json",
+    "geometry.json",
+    "uniform-gas-table.csv",
+    "exchange-check.json",
+    "free-spectrum-m1-L2.csv",
+    "free-spectrum-m1-L3.csv",
+    "free-spectrum-m1-L4.csv",
+    "free-spectrum-m3-L2.csv",
+    "free-spectrum-m3-L3.csv",
+    "free-spectrum-m3-L4.csv",
+    "theory-agreement.json",
+    "closed-shells-m1-L3.csv",
+    "summary.json"
+  ],
+  "solverTotals": {
+    "steps": 39846865,
+    "rhsEvaluations": 48565903
+  },
+  "checks": {
+    "reduction_exact_to_1e14": true,
+    "reduction_basis_matches_generated": true,
+    "reduction_four_blocks_per_type": true,
+    "geometry_curvature_closed_forms": true,
+    "geometry_required_source_negative": true,
+    "geometry_brane_stress_pattern": true,
+    "exchange_kernel_identity": true,
+    "exchange_closed_form_uniform_gas": true,
+    "exchange_filled_shell_one_eighth": true,
+    "free_box_spectrum_analytic": true,
+    "level_residuals_small": true,
+    "a4_rescaling_k_to_k_exp_minus_a4": true,
+    "theory_parse": true,
+    "theory_geometry_einstein": true,
+    "theory_geometry_required_source": true,
+    "theory_geometry_ricci_scalar": true,
+    "theory_geometry_extrinsic": true,
+    "theory_geometry_brane_stress": true,
+    "theory_basis_read": true,
+    "theory_basis_unitary": true,
+    "theory_basis_block_diagonalises": true,
+    "theory_basis_reproduces_our_block_forms": true,
+    "theory_exchange_filled_shell": true,
+    "theory_exchange_closed_form": true,
+    "theory_exchange_kernel": true,
+    "theory_exchange_lda_potentials": true,
+    "theory_zero_mode_splitting": true,
+    "closed_shells_found": true,
+    "coupling_scale_positive": true
+  },
+  "verdict": "SUCCESS"
+}

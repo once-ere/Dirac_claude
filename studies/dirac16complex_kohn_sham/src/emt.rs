@@ -36,6 +36,33 @@
 //! equation-of-state ratios `w_y = <p_y>/<rho>`, `w_3`, `w_t`, the
 //! brane-localised fraction of N (within 1/H of the brane), and the
 //! comparison with the source the field needs (`rho_req = -21 H^2/kappa`).
+//!
+//! STAGE4_SPEC erratum E4.1 (binding): for the static field the exact
+//! homogeneous-state sourcing conditions are `m S = -36 H^2/kappa` and
+//! `lambda S^2 = 30 H^2/kappa`, which together require `lambda S/m = -5/6`
+//! and `m S < 0` (kappa > 0).  They are evaluated here on the proper-volume
+//! average `<S_p>` of the Kohn-Sham state: `kappa_mass = -36 H^2/(m <S_p>)`,
+//! `kappa_coupling = 30 H^2/(lambda <S_p>^2)`, the ratio `lambda <S_p>/m`,
+//! the sign of `S_p` (min and max over the grid), the verdict "met" iff
+//! both kappa's are finite, positive and equal (relative 1e-6), and the
+//! first-order estimate `lambda_hat_needed = -(5/6) m^7 / <S_p>` of the
+//! coupling at which the two conditions would coincide (first order: the
+//! self-consistent <S_p> itself changes with lambda).
+//!
+//! Sign of S in the KS state (MEASURED, see the unit test): for m > 0 the
+//! massive bulk levels have positive scalar charge (`M/eps` at k = 0), the
+//! k = 0 brane zero modes have exactly 0, but the brane band `eps = +c k`
+//! (k != 0, the mirror block type) has NEGATIVE scalar charge, because
+//! `d eps/dM = k dc/dM < 0`: the exact `c(M) = (2M/(2M-H)) (1 -
+//! e^{-(2M-H)L})/(1 - e^{-2ML})` decreases toward 1 as M grows (a larger
+//! mass localises the mode more strongly).  Hence a ground state built from
+//! the brane band has `<S_p> < 0`, `m <S_p> < 0` and a POSITIVE kappa from
+//! the mass condition, while the coupling condition then needs
+//! `lambda = -(5/6) m/<S_p> > 0`; a state dominated by bulk levels has
+//! `<S_p> > 0` and needs kappa < 0.  The gamma^8 map m -> -m (with
+//! lambda -> -lambda, CONTRACT E2) sends the KS state to a state with
+//! `S -> -S`, which leaves `m S` and `lambda S^2` unchanged: the verdict is
+//! the same in the mirror sector.  All numbers are reported as measured.
 
 use crate::exchange::interaction_energy_density;
 use crate::geometry::{curvature_closed_form, density_factor, volume_factor, z_of_y};
@@ -82,6 +109,22 @@ pub struct Summary {
     pub rho_scale: f64,
     pub rho_max: f64,
     pub rho_min: f64,
+    /// Proper-volume averages of the proper densities.
+    pub s_p_avg: f64,
+    pub n_p_avg: f64,
+    pub s_p_min: f64,
+    pub s_p_max: f64,
+    /// E4.1: lambda <S_p> / m (the sourcing conditions need -5/6).
+    pub lambda_s_avg_over_m: f64,
+    /// E4.1: kappa from m S = -36 H^2/kappa (NaN when m <S_p> = 0).
+    pub kappa_mass_condition: f64,
+    /// E4.1: kappa from lambda S^2 = 30 H^2/kappa (NaN when lambda <S_p>^2 = 0).
+    pub kappa_coupling_condition: f64,
+    /// E4.1 verdict: both kappa's finite, positive and equal to 1e-6.
+    pub sourcing_conditions_met: bool,
+    /// E4.1 first-order estimate: lambda_hat at which lambda <S_p>/m = -5/6
+    /// with the present <S_p> (NaN when <S_p> = 0).
+    pub lambda_hat_needed_first_order: f64,
 }
 
 /// Compute the EMT profiles and their summary.
@@ -196,6 +239,31 @@ pub fn compute(solution: &Solution) -> (Vec<Row>, Summary) {
         .fold(0.0, f64::max)
         / (6.0 * h * rho_scale);
     let curvature = curvature_closed_form(h);
+    // E4.1 sourcing conditions on the proper-volume average of S_p
+    let s_p_avg = avg(&|r| r.s_p);
+    let n_p_avg = avg(&|r| r.n_p);
+    let s_p_min = rows.iter().map(|r| r.s_p).fold(f64::INFINITY, f64::min);
+    let s_p_max = rows.iter().map(|r| r.s_p).fold(f64::NEG_INFINITY, f64::max);
+    let h2 = h * h;
+    let kappa_mass_condition = if params.m * s_p_avg != 0.0 {
+        -36.0 * h2 / (params.m * s_p_avg)
+    } else {
+        f64::NAN
+    };
+    let kappa_coupling_condition = if lambda * s_p_avg * s_p_avg != 0.0 {
+        30.0 * h2 / (lambda * s_p_avg * s_p_avg)
+    } else {
+        f64::NAN
+    };
+    let sourcing_conditions_met = kappa_mass_condition.is_finite()
+        && kappa_coupling_condition.is_finite()
+        && kappa_mass_condition > 0.0
+        && kappa_coupling_condition > 0.0
+        && (kappa_mass_condition - kappa_coupling_condition).abs()
+            <= 1e-6
+                * kappa_mass_condition
+                    .abs()
+                    .max(kappa_coupling_condition.abs());
     let summary = Summary {
         energy_from_rho,
         energy_total: solution.energies.total,
@@ -231,6 +299,19 @@ pub fn compute(solution: &Solution) -> (Vec<Row>, Summary) {
         rho_scale,
         rho_max: rows.iter().map(|r| r.rho).fold(f64::NEG_INFINITY, f64::max),
         rho_min: rows.iter().map(|r| r.rho).fold(f64::INFINITY, f64::min),
+        s_p_avg,
+        n_p_avg,
+        s_p_min,
+        s_p_max,
+        lambda_s_avg_over_m: lambda * s_p_avg / params.m,
+        kappa_mass_condition,
+        kappa_coupling_condition,
+        sourcing_conditions_met,
+        lambda_hat_needed_first_order: if s_p_avg != 0.0 {
+            -(5.0 / 6.0) * params.m.powi(7) / s_p_avg
+        } else {
+            f64::NAN
+        },
     };
     (rows, summary)
 }
@@ -263,5 +344,26 @@ mod tests {
         assert!(summary.brane_fraction > 0.0 && summary.brane_fraction < 1.0);
         assert!(summary.p_t_avg == 0.0);
         assert!(summary.kappa_needed < 0.0);
+        // E4.1 on the free N = 32 gas (brane zero modes + the brane band of
+        // the first shell): the brane band eps = +ck carries NEGATIVE
+        // scalar charge, so S_p <= 0 on the grid, <S_p> < 0, m <S_p> < 0 and
+        // the mass condition gives kappa > 0; lambda = 0: the coupling
+        // condition has no finite kappa; the conditions are not met.
+        let band = solution
+            .spectrum
+            .states
+            .iter()
+            .find(|s| s.weight > 0.0 && s.n2 == 1)
+            .expect("occupied first-shell state");
+        assert!(band.eps > 0.0 && (band.s as f64) * band.level.scalar_charge < 0.0);
+        assert!(
+            summary.s_p_max <= 1e-12 && summary.s_p_avg < 0.0,
+            "{summary:?}"
+        );
+        assert!(summary.kappa_mass_condition > 0.0);
+        assert!(summary.kappa_coupling_condition.is_nan());
+        assert!(!summary.sourcing_conditions_met);
+        assert_eq!(summary.lambda_s_avg_over_m, 0.0);
+        assert!(summary.lambda_hat_needed_first_order > 0.0);
     }
 }

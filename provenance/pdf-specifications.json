@@ -2,7 +2,7 @@
   "dirac16complex-arbitrary-field": {
     "path": "provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.pdf",
     "pages": 45,
-    "sha256": "a4b5549901131c7c76009116571e41570429262d1aab66d63fd17b11ba17f975"
+    "sha256": "19df1751fdd2ac75cf7799a23083ecfd39806f697caf454aad2d5afbb5c450a7"
   },
   "dirac16complex-dark-sector-numerics": {
     "path": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.pdf",
@@ -13,5 +13,10 @@
     "path": "provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD.pdf",
     "pages": 38,
     "sha256": "a6f6d7b813591412b207845d6f36e0d2f9d14f0986e8d0e53527fb45bf82cf1e"
+  },
+  "dirac16complex-student-guide": {
+    "path": "provenance/DIRAC16COMPLEX_STUDENT_GUIDE.pdf",
+    "pages": 49,
+    "sha256": "851f54887685daa021603c22231d46e8bdf240c869a053cd4e5d51e81e9bf5b7"
   }
 }

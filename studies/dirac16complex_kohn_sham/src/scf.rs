@@ -283,12 +283,33 @@ fn solve_shell(
             .filter(|(key, _)| key.0 == shell_index && key.1 == parity && key.2 == 1)
             .map(|(key, e)| (key.3, *e))
             .collect();
-        let levels_plus = plus.levels(shell.k, parity, window.eps_lo, window.eps_hi, &warm_plus)?;
-        for level in levels_plus.iter() {
+        // Mirror case (v_x = 0): the s = -1 states are the s = +1 levels
+        // with eps -> -eps, so the s = +1 problem must be solved on the
+        // UNION of the window and its mirror image; otherwise an
+        // asymmetric window loses every s = -1 state whose s = +1 partner
+        // lies outside [eps_lo, eps_hi] (measured: the brane band +ck of
+        // the shells with ck > |eps_lo| was missing from the closed-shell
+        // table computed on [-1, 3.2]).
+        let plus_window = if mirror {
+            Window {
+                eps_lo: window.eps_lo.min(-window.eps_hi),
+                eps_hi: window.eps_hi.max(-window.eps_lo),
+            }
+        } else {
+            window
+        };
+        let levels_found = plus.levels(
+            shell.k,
+            parity,
+            plus_window.eps_lo,
+            plus_window.eps_hi,
+            &warm_plus,
+        )?;
+        for level in levels_found.iter() {
             absorb(&mut result, level);
         }
         let levels_minus: Vec<Level> = if mirror {
-            levels_plus
+            levels_found
                 .iter()
                 .filter(|l| -l.eps >= window.eps_lo && -l.eps <= window.eps_hi)
                 .cloned()
@@ -307,7 +328,10 @@ fn solve_shell(
             }
             levels
         };
-        for level in levels_plus.into_iter() {
+        for level in levels_found
+            .into_iter()
+            .filter(|l| l.eps >= window.eps_lo && l.eps <= window.eps_hi)
+        {
             result.states.push(State {
                 shell: shell_index,
                 n2: shell.n2,
@@ -1350,6 +1374,61 @@ mod tests {
             .all(|s| s.branch == if s.eps_free >= 0.0 { 1 } else { -1 }));
         // scalar density of the zero modes vanishes
         assert!(solution.densities.s_c.iter().all(|s| s.abs() < 1e-12));
+    }
+
+    #[test]
+    fn asymmetric_window_keeps_the_mirror_states() {
+        // Regression: with v_x = 0 the s = -1 states are mirrored from the
+        // s = +1 levels; a narrow asymmetric window [-1, 3.2] must still
+        // contain every state that the symmetric window [-3.2, 3.2] finds
+        // inside [-1, 3.2], in particular the brane band eps = +ck of the
+        // shells with ck > 1 (n2 = 8: eps = 1.0847 at L = 3).
+        let mut params = standard_params(1.0, 3.0, 0.0, 0.0, 8.0);
+        params.shell_cap = 9;
+        let potential = build_potential(&params, &Densities::zero(params.grid_n));
+        let narrow = compute_spectrum(
+            &params,
+            &potential,
+            Window {
+                eps_lo: -1.0,
+                eps_hi: 3.2,
+            },
+            &Default::default(),
+        )
+        .unwrap();
+        let wide = compute_spectrum(
+            &params,
+            &potential,
+            Window {
+                eps_lo: -3.2,
+                eps_hi: 3.2,
+            },
+            &Default::default(),
+        )
+        .unwrap();
+        let inside: Vec<&State> = wide
+            .states
+            .iter()
+            .filter(|s| s.eps >= -1.0 && s.eps <= 3.2)
+            .collect();
+        assert_eq!(narrow.states.len(), inside.len());
+        for (a, b) in narrow.states.iter().zip(inside.iter()) {
+            assert_eq!(a.key(), b.key());
+            assert!((a.eps - b.eps).abs() < 1e-9, "{} vs {}", a.eps, b.eps);
+        }
+        let band = narrow
+            .states
+            .iter()
+            .find(|s| s.n2 == 8 && s.parity == 1 && s.s == -1 && s.index == 0)
+            .expect("n2 = 8 brane-band state present");
+        assert!((band.eps - 1.0847).abs() < 1e-3, "{}", band.eps);
+        // the closed shells of the free spectrum continue through the brane bands
+        let shells = closed_shell_numbers(&narrow, 1300.0);
+        let numbers: Vec<f64> = shells.iter().map(|(n, _)| *n).collect();
+        assert!(
+            numbers.contains(&376.0) && numbers.contains(&496.0),
+            "{numbers:?}"
+        );
     }
 
     #[test]

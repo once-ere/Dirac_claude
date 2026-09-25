@@ -15,11 +15,19 @@ Binding documents: `STAGE4_SPEC.md`, `CONTRACT.md` (with errata),
 ```
 cd studies/dirac16complex_kohn_sham
 cargo build --release
-cargo test --release          # 27 unit tests (see below)
+cargo test --release          # 32 unit tests (see below)
 cargo clippy --release --all-targets && cargo fmt --check
-./target/release/dirac16complex_kohn_sham print-config
-./target/release/dirac16complex_kohn_sham all [--output DIR] [--rtol X] [--atol X] [--refined] [--quick]
+cd ../..                      # run from the repository root (relative artifact paths)
+./studies/dirac16complex_kohn_sham/target/release/dirac16complex_kohn_sham print-config
+./studies/dirac16complex_kohn_sham/target/release/dirac16complex_kohn_sham all [--output DIR] [--rtol X] [--atol X] [--refined] [--quick]
+python studies/dirac16complex_kohn_sham/tools/compare_runs.py --canonical artifacts/dirac16complex/kohn-sham/rust \
+    --repeat DIR2 --refined DIR3 --report artifacts/dirac16complex/kohn-sham/rust/determinism-report.json
 ```
+
+`tools/compare_runs.py` (standard library) compares a second run (`--repeat`,
+byte identity of every file listed in the summaries) and a `--refined` run
+(energies relative 1e-7, eigenvalues absolute 1e-7) with the canonical tree
+and writes a checker-format report (`check_<name>=...`, exit 1 on failure).
 
 Subcommands: `print-config`, `spectrum`, `scf`, `excited`, `thermo`, `emt`,
 `all`.  The default output root is `artifacts/dirac16complex/kohn-sham/rust/`
@@ -87,9 +95,14 @@ verifies the exact 2x2 block basis in Gaussian-integer arithmetic and writes
   `int (a^2+b^2), int(-2ab), int -kappa k (a^2-b^2)`, rescaled through
   `CVodeReInit` when the amplitude leaves `[1e-40, 1e40]`.
 * **Self-consistency** (`scf.rs`): torus `Delta k = 0.25 m`, shells with
-  lattice multiplicities; states `(eps, s)` with multiplicity `4 g`; normal
-  ordering with thermal antiparticles (`w = f` for `eps >= 0`, `-(1-f)` for
-  `eps < 0`); `mu` by bisection; T = 0 ensemble filling of a straddling shell;
+  lattice multiplicities; states `(eps, s)` with multiplicity `4 g` (the
+  `s = -1` states are the `s = +1` levels with `eps -> -eps` when `v_x = 0`,
+  found on the union of the window and its mirror image; otherwise the
+  negated-potential problem is solved); branches (particle / Dirac sea) by
+  continuity from lambda = 0 (the sign of `eps_free` of the level with the
+  same shell, parity, block type and Pruefer index); normal ordering with
+  thermal antiparticles (`w = f` on the particle branch, `-(1-f)` on the
+  sea branch); `mu` by bisection; T = 0 ensemble filling of a straddling shell;
   proper densities `n_p = e^{-6Hy} n_c`, `S_p = e^{-6Hy} S_c`; Anderson mixing;
   convergence `max|Delta n_c|/max|n_c| < 1e-10` (same for `S_c`); energies
   `E = sum w eps - int[(lambda/2) S_p^2 + e_x] dV_p`, entropy, `F`, `Omega`;
@@ -99,7 +112,18 @@ verifies the exact 2x2 block basis in Gaussian-integer arithmetic and writes
   `p_t = L_s`, `L_s = (lambda/2) S_p^2 + e_x`; `int rho dV_p = E`; the
   conservation `p_y' + 6H p_y - 3H p_3 - 3H p_t = 0` is checked; proper-volume
   averages, `w_y, w_3, w_t`, brane-localised fraction (within 1/H of the
-  brane), and the mismatch with `rho_req < 0`.
+  brane), and the mismatch with `rho_req < 0`.  STAGE4_SPEC E4.1: the
+  static-field sourcing conditions `m S = -36 H^2/kappa`, `lambda S^2 =
+  30 H^2/kappa` (together `lambda S/m = -5/6`, `m S < 0`) are evaluated on
+  `<S_p>` of every run (`run.json: emt.E41_sourcingConditions`, columns of
+  `emt/emt-summary.csv`): the two kappa's, the ratio `lambda <S_p>/m`, the
+  first-order `lambda_hat` at which they would coincide, the sign of `S_p`
+  (min/max on the grid) and the verdict.  Measured sign of S: massive bulk
+  levels carry positive scalar charge (`M/eps` at k = 0), the k = 0 brane
+  zero modes exactly 0, and the brane band `eps = +ck` (k != 0) NEGATIVE
+  scalar charge (`d eps/dM = k dc/dM < 0`, the exact `c(M)` decreases toward
+  1 with M); the ground states of this study are dominated by the brane
+  band, so `<S_p> < 0` and the mass condition alone gives a positive kappa.
 
 ## Unit tests (`cargo test --release`)
 
@@ -112,18 +136,26 @@ box (`eps = 0, +-sqrt(M^2 + (n pi/L)^2)`; `tan(pL) = -p/M`), momentum lifts the
 brane mode and the lowest excitation, Hellmann–Feynman in `M` (non-uniform
 potential) and in `k` (5-point stencils), `(k, eps) -> (-k, -eps)` symmetry,
 deep-evanescence rescaling; `scf`: shells, Anderson, non-interacting fill
-(N = 8 = the brane zero modes, E = 0), thermal fill conserves N; `emt`:
-`int rho = E` and conservation.
+(N = 8 = the brane zero modes, E = 0), thermal fill conserves N, repeat run
+byte-identical, an asymmetric window keeps every mirror state (regression
+test for the closed-shell table); `emt`: `int rho = E`, conservation and the
+E4.1 evaluation (negative scalar charge of the brane band); `theory`: SHA-256
+known answers.
 
 ## Output layout (`artifacts/dirac16complex/kohn-sham/rust/`)
 
+`generator-report.json` (exact block basis, from the generator);
 `spectrum/`: `reduction.json`, `geometry.json`, `exchange-check.json`,
-`uniform-gas-table.csv`, `free-spectrum-m{1,3}-L{2,3,4}.csv`,
-`closed-shells-m1-L3.csv`, `summary.json` (reference numbers: N_mid, N_large,
-lambda_hat_1, lambda_hat_2).  `scf/`, `thermo/`, `emt/`: one directory per run
+`theory-agreement.json`, `uniform-gas-table.csv`,
+`free-spectrum-m{1,3}-L{2,3,4}.csv`, `closed-shells-m1-L3.csv`,
+`summary.json` (reference numbers: N_mid, N_large, lambda_hat_1,
+lambda_hat_2).  `scf/`, `thermo/`, `emt/`: one directory per run
 (`levels.csv`, `profiles.csv`, `history.csv`, `run.json`) and `summary.json`;
 `excited/`: `particle-hole.csv`, `levels.csv`, `levels-excited.csv` per run and
-`excitations.csv`; `thermo/thermodynamics.csv`; `emt/emt-summary.csv`.
+`excitations.csv`; `thermo/thermodynamics.csv`; `emt/emt-summary.csv`;
+`determinism-report.json` (repeat byte identity and refined-tolerance
+convergence, written by `tools/compare_runs.py`; the repeat and refined
+trees themselves are not committed).
 
 ## Origin of copied code
 

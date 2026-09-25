@@ -139,3 +139,26 @@ m > 0, so the sourcing solutions live in the m < 0 / negative-energy sector; dis
 the gamma^8 map m -> -m explicitly).
 E4.2 In the Stage-2 document the quantity "K" of the zeta plane wave is real; the
 homogeneous state corresponds to K = -3iH (imaginary) - keep these distinct.
+
+## 8. ERRATA from the Stage-4 exact theory (wolfram-kohn-sham-report.json, 125/125; binding)
+
+E4.3 p_req = +15 H^2/kappa in all seven transverse directions (not -15); rho_req = -21 H^2/kappa.
+E4.4 Degeneracy: at fixed k = (k,0,0) each level of the block Hamiltonian is 4-fold (the
+     four j = +1 blocks); the four j = -1 blocks carry the NEGATED spectrum
+     (h_{-1} - v_v = -(h_{+1} - v_v)).  8-fold degeneracy holds at k = 0 and over closed
+     shells {k, -k}.  The k = 0 chiral zero mode (chi = (e^{My}, 0), eps = 0) splits as
+     +-c k between the two j-types, with c > 0 given in closed form in the report.
+E4.5 The y-current matrix after the expectation rule is A4 = gamma^0 gamma^4 (B is
+     absorbed); the parity conditions are chi_2(0) = 0 / chi_1(0) = 0 per block; the
+     chiral-bag family (1 - Q(theta)) chi(-L) = 0, Q = cos(theta) sigma3 + sin(theta) sigma2.
+E4.6 The reflection Psi(-y) = +-gamma^0 Psi(y) is a symmetry of the reduced equation only
+     for an ODD mass function (the +-M mirror pair); the even-mass symmetry is
+     P_B = i gamma^0 gamma^8, which couples block pairs.  Use the block-level conditions
+     of E4.5 as the boundary conditions; discuss both parities as boundary conditions,
+     not as symmetries.
+E4.7 Exchange is exactly local: e_x = -(lambda/32)(n^2 + S^2) for every T (angular
+     average kills p.q); v_v = -(lambda/16) n, v_s = -(lambda/16) S; per block
+     -(lambda/4) sum (n^2 + s^2 - t^2 - c^2).  The "exchange-table" is therefore
+     unnecessary: implement the closed form (and keep the table only as a cross-check).
+     Block ODE: chi' = [M_eff sigma3 - kappa k sigma2 + i j (eps - v_v) sigma1] chi,
+     h_j = j[-i sigma1 d_y + M_eff sigma2 + kappa k sigma3] + v_v.

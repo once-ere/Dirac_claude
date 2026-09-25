@@ -1,0 +1,53 @@
+{
+  "coordinate": "y = ln(sin z)/(6H) in (-inf, 0]; z = 6 H x0; y = 0 is the brane (z = pi/2)",
+  "metric": "ds^2 = dy^2 - dx4^2 + e^{2Hy}[e^{2a4_0}(dx1^2+dx2^2+dx3^2) - e^{-2a4_0}(dx5^2+dx6^2+dx7^2)]",
+  "warp": "W = e^{Hy}; proper 7-volume per coordinate volume W^6 = e^{6Hy}; kappa(y) = e^{-Hy-a4_0}",
+  "H": 1.00000000000000000e+00,
+  "a4_0": 0.00000000000000000e+00,
+  "ricciScalar": -4.20000000000000000e+01,
+  "einsteinMixed_y_x1_x2_x3_x4_x5_x6_x7": [
+    1.50000000000000000e+01,
+    1.50000000000000000e+01,
+    1.50000000000000000e+01,
+    1.50000000000000000e+01,
+    2.10000000000000000e+01,
+    1.50000000000000000e+01,
+    1.50000000000000000e+01,
+    1.50000000000000000e+01
+  ],
+  "rhoRequired_kappa1": -2.10000000000000000e+01,
+  "pRequired_kappa1_y_x1_x2_x3_x5_x6_x7": [
+    1.50000000000000000e+01,
+    1.50000000000000000e+01,
+    1.50000000000000000e+01,
+    1.50000000000000000e+01,
+    1.50000000000000000e+01,
+    1.50000000000000000e+01,
+    1.50000000000000000e+01
+  ],
+  "curvatureNumericalDefect": 8.28492829896276817e-12,
+  "extrinsicK_x1_x2_x3_x4_x5_x6_x7": [
+    1.00000000000000000e+00,
+    1.00000000000000000e+00,
+    1.00000000000000000e+00,
+    0.00000000000000000e+00,
+    1.00000000000000000e+00,
+    1.00000000000000000e+00,
+    1.00000000000000000e+00
+  ],
+  "extrinsicNumericalDefect": 6.66660704418120531e-09,
+  "extensionE1": "smooth: W = e^{Hy} for all y",
+  "extensionE2": "Z2 mirror: W = e^{-H|y|}, brane at y = 0; Israel S^i_j = -(1/kappa)([K^i_j] - delta^i_j [K]), [X] = X(0+) - X(0-), normal from y<0 to y>0",
+  "braneStress_kappa1_x1_x2_x3_x4_x5_x6_x7": [
+    -1.00000000000000000e+01,
+    -1.00000000000000000e+01,
+    -1.00000000000000000e+01,
+    -1.20000000000000000e+01,
+    -1.00000000000000000e+01,
+    -1.00000000000000000e+01,
+    -1.00000000000000000e+01
+  ],
+  "braneStressFromJumpDefect": 0.00000000000000000e+00,
+  "braneEnergyDensity_kappa1": 1.20000000000000000e+01,
+  "gamma8Remark": "structural, not physical: Psi -> gamma^8 Psi maps L_{m,U} to -L_{-m,-U}; a mirror copy carrying gamma^8 Psi has mass -m (the notebook's +-M pair)"
+}

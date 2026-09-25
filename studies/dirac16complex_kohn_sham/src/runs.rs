@@ -464,6 +464,31 @@ fn emt_json(e: &emt::Summary) -> Json {
         ),
         ("rhoMax", Json::Float(e.rho_max)),
         ("rhoMin", Json::Float(e.rho_min)),
+        ("sPAvg", Json::Float(e.s_p_avg)),
+        ("nPAvg", Json::Float(e.n_p_avg)),
+        ("sPMin", Json::Float(e.s_p_min)),
+        ("sPMax", Json::Float(e.s_p_max)),
+        (
+            "E41_sourcingConditions",
+            Json::object(vec![
+                (
+                    "conditions",
+                    Json::str("static field (a4' = 0): m S = -36 H^2/kappa and lambda S^2 = 30 H^2/kappa, evaluated on <S_p> (proper-volume average); both require lambda S/m = -5/6 and m S < 0"),
+                ),
+                ("lambdaSAvgOverM", Json::Float(e.lambda_s_avg_over_m)),
+                ("lambdaSOverMRequired", Json::Float(-5.0 / 6.0)),
+                ("kappaFromMassCondition", Json::Float(e.kappa_mass_condition)),
+                (
+                    "kappaFromCouplingCondition",
+                    Json::Float(e.kappa_coupling_condition),
+                ),
+                ("met", Json::Bool(e.sourcing_conditions_met)),
+                (
+                    "lambdaHatNeededFirstOrder",
+                    Json::Float(e.lambda_hat_needed_first_order),
+                ),
+            ]),
+        ),
     ])
 }
 
@@ -632,6 +657,7 @@ pub fn run_spectrum(ctx: &RunContext) -> Result<ExperimentSummary, String> {
             residual_max = residual_max
                 .max(spectrum.max_matching_residual)
                 .max(spectrum.max_winding_residual);
+            summary.add_stats(spectrum.stats.steps, spectrum.stats.rhs_evals);
             let name = format!(
                 "free-spectrum-m{}-L{}.csv",
                 trim_float(m),
@@ -672,6 +698,12 @@ pub fn run_spectrum(ctx: &RunContext) -> Result<ExperimentSummary, String> {
             for parity in [1, -1] {
                 let a = s1.levels(k, parity, -3.0, 3.0, &[])?;
                 let b = s0.levels(k * exp(-0.5), parity, -3.0, 3.0, &[])?;
+                summary.add_stats(
+                    s0.stats.steps + s1.stats.steps,
+                    s0.stats.rhs_evals + s1.stats.rhs_evals,
+                );
+                s0.stats = Default::default();
+                s1.stats = Default::default();
                 if a.len() != b.len() {
                     rescale_defect = 1.0;
                 } else {
@@ -1380,6 +1412,27 @@ pub fn run_emt(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                 e.rho_avg, e.kappa_needed
             ),
         );
+        let sign_of_s = if e.s_p_min >= 0.0 {
+            "S_p >= 0 on the whole grid"
+        } else if e.s_p_max <= 0.0 {
+            "S_p <= 0 on the whole grid"
+        } else {
+            "S_p changes sign"
+        };
+        summary.check(
+            &format!("{}_E41_sourcing_conditions_evaluated", label(params, lname)),
+            e.s_p_avg.is_finite() && e.lambda_s_avg_over_m.is_finite(),
+            &format!(
+                "<S_p> = {} ({sign_of_s}; min {}, max {}); lambda <S_p>/m = {} (needs -5/6); kappa from m S = -36 H^2/kappa: {}; from lambda S^2 = 30 H^2/kappa: {}; conditions met: {}",
+                e.s_p_avg,
+                e.s_p_min,
+                e.s_p_max,
+                e.lambda_s_avg_over_m,
+                e.kappa_mass_condition,
+                e.kappa_coupling_condition,
+                e.sourcing_conditions_met
+            ),
+        );
         table.push(vec![
             params.n_particles,
             params.lambda_hat,
@@ -1400,6 +1453,15 @@ pub fn run_emt(ctx: &RunContext) -> Result<ExperimentSummary, String> {
             e.kappa_needed,
             e.rho_max,
             e.rho_min,
+            e.s_p_avg,
+            e.n_p_avg,
+            e.s_p_min,
+            e.s_p_max,
+            e.lambda_s_avg_over_m,
+            e.kappa_mass_condition,
+            e.kappa_coupling_condition,
+            if e.sourcing_conditions_met { 1.0 } else { 0.0 },
+            e.lambda_hat_needed_first_order,
         ]);
     }
     write_csv(
@@ -1424,6 +1486,15 @@ pub fn run_emt(ctx: &RunContext) -> Result<ExperimentSummary, String> {
             "kappa_needed",
             "rho_max",
             "rho_min",
+            "S_p_avg",
+            "n_p_avg",
+            "S_p_min",
+            "S_p_max",
+            "lambda_S_avg_over_m",
+            "kappa_mass_condition",
+            "kappa_coupling_condition",
+            "sourcing_conditions_met",
+            "lambda_hat_needed_first_order",
         ]
         .iter()
         .map(|s| s.to_string())
@@ -1431,6 +1502,16 @@ pub fn run_emt(ctx: &RunContext) -> Result<ExperimentSummary, String> {
         &table,
     )?;
     summary.add_file("emt-summary.csv");
-    finish(ctx, &dir, &mut summary, vec![("reference", reference_json(&reference)), ("requiredSource", Json::str("rho_req = -21 H^2/kappa < 0, p_req = +15 H^2/kappa (w_req = -5/7) from G^mu_nu; the Kohn-Sham state has rho > 0")), ("runs", Json::Array(records))])?;
+    finish(
+        ctx,
+        &dir,
+        &mut summary,
+        vec![
+            ("reference", reference_json(&reference)),
+            ("requiredSource", Json::str("rho_req = -21 H^2/kappa < 0, p_req = +15 H^2/kappa (w_req = -5/7) from G^mu_nu; the Kohn-Sham state has rho > 0")),
+            ("E41", Json::str("STAGE4_SPEC E4.1: the static-field sourcing conditions m S = -36 H^2/kappa and lambda S^2 = 30 H^2/kappa are evaluated per run on <S_p> (run.json: emt.E41_sourcingConditions; emt-summary.csv); they require lambda S/m = -5/6 and m S < 0. Measured sign of S: massive bulk levels carry positive scalar charge, the k = 0 brane zero modes exactly 0, the brane band eps = +ck NEGATIVE scalar charge (d eps/dM = k dc/dM < 0), so the sign of <S_p> depends on the filling and is reported per run; the gamma^8 map m -> -m, lambda -> -lambda flips S and leaves m S and lambda S^2 unchanged")),
+            ("runs", Json::Array(records)),
+        ],
+    )?;
     Ok(summary)
 }

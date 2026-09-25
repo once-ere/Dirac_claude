@@ -214,7 +214,7 @@ Python 3.14.5
 OK
 ```
 
-On Linux the toolchain line is `stable-x86_64-unknown-linux-gnu (default)`. Optional tools:
+On Linux the toolchain line is `stable-x86_64-unknown-linux-gnu (default)`. Optional tools (a tool that is not installed answers with a command-not-found message, which only means that the optional step cannot be done):
 
 ```
 python -m jupyterlab --version
@@ -1381,7 +1381,7 @@ or in Git Bash, macOS and Linux:
 $bin exp5 --output build/ex-q
 ```
 
-**Answer.** $t^*=\ln(1/0.2)=\ln5=1.60944$ and $t_{\mathrm{end}}=t^*+3=4.60944$. All 7 self-checks pass; the new files are `run_q0p2_Cp.csv` and `run_q0p2_Cm.csv`; `summary.json` gives `tStar` 1.6094379124341003, a final $u^\dagger u$ of $1.32\times10^{16}$ and WKB deviations of 1.0e-3 (leading order) and 2.4e-4 (first order). The EXP-5 Python checker compares the parameters with the study's specification and reports that mismatch, as it should. Undo with `git restore studies/dirac16complex_cosmology/src/exp5.rs` and rebuild.
+**Answer.** $t^*=\ln(1/0.2)=\ln5=1.60944$ and $t_{\mathrm{end}}=t^*+3=4.60944$. All 7 self-checks pass; the new files are `run_q0p2_Cp.csv` and `run_q0p2_Cm.csv`; `summary.json` gives `tStar` 1.6094379124341003, a final $u^\dagger u$ of $1.32\times10^{16}$ and WKB deviations of 1.0e-3 (leading order) and 2.4e-4 (first order). The EXP-5 Python checker compares the parameters with the study's specification and reports the mismatch, as it should: run on `build/ex-q`, it prints `check_parametersMatchContract=false` and `failed_check_count=1` (of 19). Undo with `git restore studies/dirac16complex_cosmology/src/exp5.rs` and rebuild.
 
 ### 13.7 Massless quanta are not created
 
