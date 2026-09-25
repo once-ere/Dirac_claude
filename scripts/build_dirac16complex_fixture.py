@@ -33,7 +33,7 @@ CONVENTIONS = {
     "S": "S^{ab} = (1/4)[gamma^a, gamma^b] for a < b (lexicographic)",
     "B": "B = -i C gamma^4, stored as real and imaginary integer parts",
     "K_clifford": "unique (up to scale) K with gammaHat^a K = K gamma^a, gammaHat = dirac-main tensor gammas (gp1..gp4, gm1..gm4); primitive integer, first nonzero entry in row-major order positive",
-    "K_octonion": "unique (up to scale) K with Gamma^a K = K gamma^a, Gamma(e_a) = [[0, L_conj(e_a)], [L_e_a, 0]] (Zorn split octonions); primitive integer, first nonzero entry in row-major order positive",
+    "K_octonion": "unique (up to scale) K with gamma^a K = K Gamma^a (intertwiner from the octonion picture to the notebook picture), Gamma(e_a) = [[0, L_conj(e_a)], [L_e_a, 0]] (Zorn split octonions); primitive integer, first nonzero entry in row-major order positive",
     "rationals": "JSON integers or strings p/q",
 }
 
@@ -46,7 +46,7 @@ def construct_objects():
     tensor = X.tensor_gammas()
     octonion = X.octonion_gammas()
     k_dimension, k_clifford = X.primitive_intertwiner(tensor, gammas)
-    o_dimension, k_octonion = X.primitive_intertwiner(octonion, gammas)
+    o_dimension, k_octonion = X.primitive_intertwiner(gammas, octonion)
     if k_dimension != 1 or o_dimension != 1:
         raise ArithmeticError("intertwiner spaces are not one-dimensional")
     b_real, b_imag = X.charge_form_b(gammas)

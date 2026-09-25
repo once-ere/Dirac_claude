@@ -17,7 +17,6 @@ import json
 import os
 import sys
 from fractions import Fraction
-from itertools import combinations
 
 try:
     from scripts import d16c_exact as X
@@ -353,8 +352,10 @@ def check_octonion_picture_intertwiner(ctx):
     clifford = all(X.equal(X.anticommutator(gam[a], gam[b]),
                            X.scale(2 * ctx.eta[a][b], ctx.I16))
                    for a in range(8) for b in range(8))
-    dimension = X.intertwiner_dimension(gam, ctx.g)
-    _, k = X.primitive_intertwiner(gam, ctx.g)
+    # K_octonion: intertwiner from the octonion picture to the notebook picture,
+    # gamma^a K = K Gamma^a (the direction also used by the Wolfram verifier)
+    dimension = X.intertwiner_dimension(ctx.g, gam)
+    _, k = X.primitive_intertwiner(ctx.g, gam)
     ctx.k_octonion = k
     measurements = {
         "ALG_zornModelIdentitiesOnSamples": zorn_ok,
@@ -365,7 +366,8 @@ def check_octonion_picture_intertwiner(ctx):
     if k is None:
         return False, measurements
     k_rank = X.rank(k)
-    intertwines = all(X.equal(X.matmul(gam[a], k), X.matmul(k, ctx.g[a])) for a in range(8))
+    intertwines = all(X.equal(X.matmul(ctx.g[a], k), X.matmul(k, gam[a])) for a in range(8))
+    reverse_dimension = X.intertwiner_dimension(gam, ctx.g)
     gram = X.matmul(X.transpose(k), k)
     gram_factor = gram[0][0] if X.equal(gram, X.scale(gram[0][0], ctx.I16)) else None
     upper = X.sub_block(k, ctx.minus, ctx.minus)
@@ -379,6 +381,8 @@ def check_octonion_picture_intertwiner(ctx):
                               and X.is_signed_permutation(p))
     measurements.update({
         "ALG_octonionIntertwinerRank": k_rank,
+        "ALG_octonionIntertwinerDirection": "gamma^a K = K Gamma^a",
+        "ALG_octonionReverseIntertwinerDimension": reverse_dimension,
         "ALG_octonionKIsSignedPermutation": X.is_signed_permutation(k),
         "ALG_octonionKBlockDiagonal": k_block_diagonal,
         "ALG_octonionKEqualBlocks": X.equal(upper, lower),
@@ -396,6 +400,17 @@ def check_octonion_picture_intertwiner(ctx):
         generators = [X.fraction_matrix(m) for m in document["octonionCliffordGenerators"]]
         dirac_main = all(X.equal(generators[a], gam[a]) for a in range(8))
     measurements["ALG_octonionGammasEqualDiracMainTriality44Json"] = dirac_main
+    # K_clifford K_octonion intertwines Gamma -> gammaHat (gammaHat K_c K_o = K_c gamma K_o
+    # = K_c K_o Gamma); compare with dirac-main's independently published
+    # canonicalCliffordIntertwiner (gammaHat K = K Gamma)
+    canonical = "not-run"
+    if os.path.exists(DIRAC_MAIN_TRIALITY) and ctx.k_clifford is not None:
+        published = X.fraction_matrix(document["canonicalCliffordIntertwiner"])
+        composite = X.matmul(ctx.k_clifford, k)
+        composite = X.fraction_matrix(
+            X.reshape(X.primitive_integer_vector(X.flatten(composite)), 16, 16))
+        canonical = X.equal(composite, published)
+    measurements["ALG_KcliffordKoctonionEqualsDiracMainCanonicalIntertwiner"] = canonical
     dirac_main_tensor = "not-run"
     if os.path.exists(DIRAC_MAIN_SPLIT_OCTONION):
         with open(DIRAC_MAIN_SPLIT_OCTONION, "rb") as handle:
@@ -405,7 +420,8 @@ def check_octonion_picture_intertwiner(ctx):
             X.octonion_product(X.octonion_basis(i), X.octonion_basis(j))
             == [Fraction(v) for v in tensor[i][j]] for i in range(8) for j in range(8))
     measurements["ALG_zornProductEqualsDiracMainSplitOctonionJson"] = dirac_main_tensor
-    ok = zorn_ok and clifford and dimension == 1 and k_rank == 16 and intertwines
+    ok = (zorn_ok and clifford and dimension == 1 and reverse_dimension == 1
+          and k_rank == 16 and intertwines)
     return ok, measurements
 
 
@@ -578,6 +594,12 @@ def check_pin_lift_character(ctx):
         "ALG_pinLiftProductPairs": [list(p) for p in pairs],
         "ALG_pinLiftProductBilinearFactor": _json_value(product_factors),
         "ALG_pinLiftGamma0Gamma4FlipsPsibarPsi": spinor_norm_flip,
+        "ALG_pinLiftQuarticPotentialFactor": _json_value([f * f for f in mass_factor]),
+        "ALG_pinLiftInteractingNote": (
+            "for a unit spacelike u (character -1) S -> -S while U(S) = (lambda/2) S^2 is "
+            "invariant, so L_{m,lambda} -> -L_{m,-lambda} and the field equation "
+            "gamma^mu D_mu Psi = (m + lambda S) Psi maps to the lambda -> -lambda equation; "
+            "L -> +-L and Pin(4,4)-covariance of the field equations are exact for U = 0"),
         "ALG_pinLiftCharacterStatement": (
             "Psi -> u Psi with u^2 = n(u): u^T C = -C u, Psibar Psi -> -n(u) Psibar Psi; "
             "untwisted lift (v -> u v u^-1): kinetic term -> -n(u) x kinetic (same as mass, "
@@ -612,9 +634,51 @@ def flat_mode_hamiltonian(ctx, mass, k):
     return (real, imag)
 
 
+def _flat_mode_structure(ctx):
+    """Structural (all real k, m) proof of the three QNT_flatModeHamiltonian
+    statements.  h_k = m M_m + sum_j k_j M_j with M_m = -i gamma^4 and
+    M_j = -gamma^4 gamma^j (j != 4)."""
+    coefficients = [("m", (X.zeros(16), X.neg(ctx.g[4])))]
+    for j in (0, 1, 2, 3, 5, 6, 7):
+        coefficients.append((j, (X.neg(X.matmul(ctx.g[4], ctx.g[j])), X.zeros(16))))
+    identity = X.cidentity(16)
+    # pairwise anticommutators {M_x, M_y} = 2 delta_xy eps_x I, eps_m = 1, eps_j = eta^jj
+    clifford = True
+    for index, (label_x, m_x) in enumerate(coefficients):
+        for label_y, m_y in coefficients[index:]:
+            anti = X.cadd(X.cmatmul(m_x, m_y), X.cmatmul(m_y, m_x))
+            if label_x == label_y:
+                eps = 1 if label_x == "m" else ctx.eta[label_x][label_x]
+                clifford = clifford and X.cequal(anti, X.cscale(2 * eps, 0, identity))
+            else:
+                clifford = clifford and X.cis_zero(anti)
+    hermitian = {str(label): X.cis_hermitian(m) for label, m in coefficients}
+    anti_hermitian = {str(label): X.cequal(X.cdagger(m), X.cscale(-1, 0, m))
+                      for label, m in coefficients}
+    commutes = {str(label): X.cis_zero(X.ccommutator(m, ctx.B)) for label, m in coefficients}
+    extra = [m for label, m in coefficients if label in (5, 6, 7)]
+    # the anti-Hermitian parts / B-commutators of M_5, M_6, M_7 are linearly independent,
+    # so they cancel iff k5 = k6 = k7 = 0
+    independent_parts = X.rank([X.flatten(X.realify(m)) for m in extra]) == 3
+    independent_commutators = X.rank([X.flatten(X.realify(X.ccommutator(m, ctx.B)))
+                                      for m in extra]) == 3
+    good_labels = ("m", "0", "1", "2", "3")
+    ok = (clifford
+          and all(hermitian[label] and commutes[label] for label in good_labels)
+          and all(anti_hermitian[label] and not commutes[label] for label in ("5", "6", "7"))
+          and independent_parts and independent_commutators)
+    return ok, {
+        "QNT_flatModeCoefficientCliffordAlgebra": clifford,
+        "QNT_flatModeCoefficientHermitian": hermitian,
+        "QNT_flatModeCoefficientCommutesWithB": commutes,
+        "QNT_flatModeExtraTimePartsIndependent": independent_parts and independent_commutators,
+    }
+
+
 def check_flat_mode_hamiltonian(ctx):
+    structure_ok, structure = _flat_mode_structure(ctx)
     rows = []
-    ok = True
+    ok = structure_ok
     for good, samples in ((True, GOOD_SECTOR_SAMPLES), (False, EXTRA_TIME_SAMPLES)):
         for mass_text, entries in samples:
             mass = _frac(mass_text)
@@ -637,14 +701,16 @@ def check_flat_mode_hamiltonian(ctx):
                 "squareIsEnergySquaredTimesIdentity": square_ok,
             })
     negative = [row for row in rows if Fraction(str(row["energySquared"])) < 0]
-    return ok, {
+    measurements = dict(structure)
+    measurements.update({
         "QNT_flatModeSamples": rows,
         "QNT_flatModeSampleCount": len(rows),
         "QNT_flatModeNegativeEnergySquaredSamples": len(negative),
         "QNT_flatModeMomentumConvention": (
             "k_j with j in {0,1,2,3,5,6,7} (k_4 excluded); E^2 = m^2 + k0^2+k1^2+k2^2+k3^2 "
             "- k5^2 - k6^2 - k7^2"),
-    }
+    })
+    return ok, measurements
 
 
 def check_krein_signature(ctx):
@@ -813,8 +879,18 @@ def check_fixture_agreement(ctx, fixture_path):
 _WOLFRAM_KEYS = {
     "K_clifford": ("K_clifford", "KClifford", "K_Clifford", "kClifford"),
     "K_octonion": ("K_octonion", "KOctonion", "K_Octonion", "kOctonion"),
-    "chirality": ("chirality", "Chirality", "gamma8", "chiralityMatrix"),
+    "chirality": ("chirality", "Chirality", "gamma8", "chiralityMatrix",
+                  "chiralityDiagonal", "ALG_chiralityDiagonal"),
 }
+
+
+def _parse_wolfram_matrix(key, value):
+    """A 16x16 matrix, or (chirality only) its diagonal as a flat list."""
+    if isinstance(value, list) and value and all(not isinstance(v, list) for v in value):
+        if key != "chirality":
+            raise ValueError("flat list only allowed for the chirality diagonal")
+        return X.diagonal([X.rational_from_json(v) for v in value])
+    return X.matrix_from_json(value)
 
 
 def _lookup(document, names):
@@ -839,6 +915,7 @@ def check_wolfram_agreement(ctx, report_path):
                 "chirality": ctx.g8}
     results = {}
     found = {}
+    directions = {}
     for key, names in _WOLFRAM_KEYS.items():
         name, value = _lookup(document, names)
         found[key] = name
@@ -846,21 +923,28 @@ def check_wolfram_agreement(ctx, report_path):
             results[key] = False
             continue
         try:
-            matrix = X.matrix_from_json(value)
-            if len(matrix) == 1 and len(matrix[0]) == 16 and key == "chirality":
-                matrix = X.diagonal(matrix[0])
-            results[key] = X.equal(matrix, expected[key])
-        except (TypeError, ValueError):
-            try:  # a chirality diagonal given as a flat list
-                diagonal = [X.rational_from_json(v) for v in value]
-                results[key] = key == "chirality" and X.equal(X.diagonal(diagonal),
-                                                              expected[key])
-            except (TypeError, ValueError):
-                results[key] = False
+            matrix = _parse_wolfram_matrix(key, value)
+        except (TypeError, ValueError, ZeroDivisionError):
+            results[key] = False
+            continue
+        results[key] = X.shape(matrix) == (16, 16) and X.equal(matrix, expected[key])
+        if key == "K_octonion":
+            # CONTRACT.md does not fix the direction explicitly: accept the primitive
+            # inverse (Gamma^a K = K gamma^a) as well and record which one was found
+            inverse = X.fraction_matrix(X.reshape(
+                X.primitive_integer_vector(X.flatten(X.inverse(expected[key]))), 16, 16))
+            if results[key]:
+                directions[key] = "gamma^a K = K Gamma^a"
+            elif X.shape(matrix) == (16, 16) and X.equal(matrix, inverse):
+                directions[key] = "Gamma^a K = K gamma^a"
+                results[key] = True
+            else:
+                directions[key] = "no-match"
     wolfram_checks = document.get("checks", {}) if isinstance(document.get("checks"), dict) else {}
     measurements.update({
         "wolframMatrixAgreement": results,
         "wolframMatrixKeysFound": found,
+        "wolframKOctonionDirection": directions.get("K_octonion", "not-found"),
         "wolframCheckNamesShared": sorted(set(wolfram_checks) & set(ALGEBRA_CHECKS)),
         "wolframChecksFalse": sorted(name for name, value in wolfram_checks.items()
                                      if value is not True),

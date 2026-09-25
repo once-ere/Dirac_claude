@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "producer": "scripts/demo_grassmann_lagrangians.py (python 3.14.5, sympy 1.14.0, numpy 2.4.6)",
+  "checks": {
+    "GR_conjugationRules": true,
+    "GR_massTermVanishesReal": true,
+    "GR_bilinearOnlyAntisymmetricPartSurvives": true,
+    "GR_kineticTotalDerivativeReal": true,
+    "GR_kineticSymmetricMatrixContrast": true,
+    "GR_quarticTermPolynomial": true,
+    "GR_scalarBilinearHermitian": true,
+    "GR_currentHermitian": true,
+    "GR_notebookLgELTrivial": true,
+    "GR_notebookLgPureDivergence": true,
+    "GR_complexLagrangianNonTrivial": true,
+    "GR_complexQuarticEL": true,
+    "GR_complexPsiEquation": true,
+    "GR_lagrangianHermitian": true,
+    "GR_emtHermitian": true
+  },
+  "measurements": {
+    "GR_massTermVanishesReal_PsiT_C_Psi_nonzeroMonomials": 0,
+    "GR_massTermVanishesReal_PsiT_Cgamma_a_Psi_nonzeroMonomials": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+    ],
+    "GR_massTermVanishesReal_PsiT_Cgamma_a_Psi_coefficientValues": [
+      "-2",
+      "2"
+    ],
+    "GR_kineticTotalDerivativeReal_matricesTested": [
+      "Cgamma0",
+      "Cgamma1",
+      "Cgamma2",
+      "Cgamma3",
+      "Cgamma4",
+      "Cgamma5",
+      "Cgamma6",
+      "Cgamma7",
+      "randomAntisymmetric"
+    ],
+    "GR_kineticSymmetricMatrixContrast_statement": "A = C (symmetric): Psi^T C d_0 Psi has 16 monomials, d_0(Psi^T C Psi) = 0, EL_0 = 2 (C d_0 Psi)_0",
+    "GR_quarticTermPolynomial_nonzeroMonomials_k1_to_k17": [
+      16,
+      120,
+      560,
+      1820,
+      4368,
+      8008,
+      11440,
+      12870,
+      11440,
+      8008,
+      4368,
+      1820,
+      560,
+      120,
+      16,
+      1,
+      0
+    ],
+    "GR_quarticTermPolynomial_degreeArgument": "S = Psibar Psi has Grassmann degree 2; S^17 has degree 34 > 32 generators (16 Psi + 16 Psi^*) => 0; explicit powers computed for all k = 1..17; |coefficients| = k!, #monomials = binom(16,k)",
+    "GR_currentHermitian_statement": "Psibar gamma^a Psi is anti-Hermitian ((Psi^dag A Psi)^* = Psi^dag A^dag Psi, A = C gamma^a real antisymmetric); J^a = -i Psibar gamma^a Psi is Hermitian (Gaussian-rational coefficients)",
+    "GR_notebookLgEL_canonicalOmega_nonzeroComponents_G1_p1": 0,
+    "GR_notebookLgEL_notebookContraction_nonzeroComponents_G1_p1": 16,
+    "GR_notebookLgEL_notebookContraction_totalTerms_G1_p1": 64,
+    "GR_notebookLgEL_notebookContraction_derivativeFree_G1_p1": true,
+    "GR_notebookLgEL_notebookContraction_matchesSqrtgC[gamma,OmegaNB-Omega]Psi_G1_p1": true,
+    "GR_notebookLg_lagrangianTerms_canonical_G1_p1": 544,
+    "GR_complexLagrangianNonTrivial_EL0_derivativeJetTerms_G1_p1": 32,
+    "GR_complexLagrangianNonTrivial_EL0_spinConnectionTerms_G1_p1": 8,
+    "GR_complexLagrangianNonTrivial_gammaMuOmegaMu_nonzeroEntries_G1_p1": 128,
+    "GR_parameters_G1_p1": {
+      "HM": "-4",
+      "m": "4",
+      "lambda": "1/4"
+    },
+    "GR_notebookLgEL_canonicalOmega_nonzeroComponents_G2": 0,
+    "GR_notebookLgEL_notebookContraction_nonzeroComponents_G2": 16,
+    "GR_notebookLgEL_notebookContraction_totalTerms_G2": 32,
+    "GR_notebookLgEL_notebookContraction_derivativeFree_G2": true,
+    "GR_notebookLgEL_notebookContraction_matchesSqrtgC[gamma,OmegaNB-Omega]Psi_G2": true,
+    "GR_notebookLg_lagrangianTerms_canonical_G2": 136,
+    "GR_complexLagrangianNonTrivial_EL0_derivativeJetTerms_G2": 8,
+    "GR_complexLagrangianNonTrivial_EL0_spinConnectionTerms_G2": 1,
+    "GR_complexLagrangianNonTrivial_gammaMuOmegaMu_nonzeroEntries_G2": 16,
+    "GR_parameters_G2": {
+      "HM": "-1",
+      "m": "1/2",
+      "lambda": "1/6"
+    },
+    "GR_geometries": "G1 at p1 (generic non-diagonal vielbein, exact rationals) and G2 (primordial field, symbolic point w=sin(z)^(1/6), c=cos z, E=exp(a4), A1, A2, H); coefficient functions carried as exact order-1 Taylor data, total derivative d_mu = explicit coefficient derivative + even derivation on field jets",
+    "GR_generatorCounts": {
+      "realPsi16JetSpace": 720,
+      "complexPsiJetSpace": 1440
+    },
+    "G2_relationUsesInZeroTests": 0
+  },
+  "sourceSha256": {
+    "scripts/grassmann_algebra.py": "dfce851d3dc7ab82202a62d414cc259644a64a101f08e9ba80ed747faa8bc24c",
+    "scripts/demo_grassmann_lagrangians.py": "ecaa59ed5147a1c88e759ba34512ee828482ee2f9ab517c35468bd70835bc36c",
+    "scripts/d16c_geometry_sympy.py": "d18e7bd1f836d978ceea5d3a4e4ad4cf7af0ede16149f865dbeb00bb99bc55dc"
+  }
+}

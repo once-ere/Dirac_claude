@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Origin: scripts/build_dissertation_tex.py of https://github.com/once-ere/dirac
-# (GPL-3.0-or-later), copied into this repository on 2026-09-25 and modified.
+# Origin: scripts/build_dissertation_tex.py of
+# https://github.com/once-ere/dirac (GPL-3.0-or-later), copied into this
+# repository on 2026-09-25 and modified.
 #
 # Changes relative to the origin:
 #   * --author and --date options, and author=/date= keyword arguments of
@@ -40,7 +41,7 @@
 #     byte-identical to the origin's when author="Reproducible exact-real
 #     implementation" is passed; tests/test_publication_tooling.py checks this
 #     on the eight dirac-main documents whenever dirac-main/ is present.
-"""Convert a provenance or dissertation Markdown document to standalone LaTeX."""
+"""Convert a provenance or dissertation Markdown file to standalone LaTeX."""
 
 from __future__ import annotations
 
@@ -347,7 +348,9 @@ def validate_characters(text: str, label: str) -> None:
 
 
 def unicode_declarations(text: str) -> list[str]:
-    used = sorted({character for character in text if character in MATH_CHARACTERS})
+    used = sorted(
+        {character for character in text if character in MATH_CHARACTERS}
+    )
     return [
         f"\\DeclareUnicodeCharacter{{{ord(character):04X}}}"
         f"{{\\ensuremath{{{MATH_CHARACTERS[character]}}}}}"
@@ -575,6 +578,13 @@ def inline_markup(
     return "".join(result)
 
 
+def guard_leading_bracket(latex: str) -> str:
+    r"""Stop \item, or the \\ ending the previous row, reading [ or * ."""
+    if latex.startswith(("[", "*")):
+        return "{}" + latex
+    return latex
+
+
 def split_table_row(line: str) -> list[str]:
     return [cell.strip() for cell in line.strip().strip("|").split("|")]
 
@@ -620,7 +630,7 @@ def render_table(
     output.append("\\midrule")
     output.append("\\endhead")
     for row in rows[1:]:
-        output.append(" & ".join(row) + r" \\")
+        output.append(guard_leading_bracket(" & ".join(row)) + r" \\")
     output.extend(["\\bottomrule", "\\end{longtable}"])
     if developer_layout:
         output.append("\\endgroup")
@@ -804,8 +814,10 @@ def convert(
                 list_kind = wanted
             body.append(
                 "\\item "
-                + inline_markup(
-                    (ordered or unordered).group(1), developer_layout
+                + guard_leading_bracket(
+                    inline_markup(
+                        (ordered or unordered).group(1), developer_layout
+                    )
                 )
             )
             index += 1
