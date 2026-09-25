@@ -15,8 +15,12 @@ registered PDF edition matches the committed PDF, that the title, subtitle, the 
 sections of the outline and the required phrases are present, and that every check
 name, number, matrix and hash the document quotes agrees with the five Stage-1
 reports and stage1-summary.json in artifacts/dirac16complex/arbitrary-field/
-(rewritten by steps 01 to 07 of scripts/verify_stage1_arbitrary_field.{ps1,sh}
-before these tests run).
+(the reports are rewritten by steps 01 to 07 of
+scripts/verify_stage1_arbitrary_field.{ps1,sh} before step 08 runs these tests;
+stage1-summary.json is rewritten by step 10, and step 12 runs this file again
+after steps 10 and 11, so the summary hash quoted in the document is compared with
+the summary written by the same gate run).  The dirac-main reference files are
+compared only when the git-ignored dirac-main folder is present.
 
 After an intended edit of the document: rebuild and register it with
     python scripts/build_provenance_pdf.py --register provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.md
@@ -56,8 +60,8 @@ REPORT_FILES = {
 SUMMARY = ARTIFACTS / "stage1-summary.json"
 FIXTURE = ARTIFACTS / "algebra-fixture.json"
 
-MARKDOWN_SHA256 = "1b86c6101f76f1a15e1371423a42b870cce19b1a347218e51ea47e0024179a82"
-TEX_SHA256 = "4151f7f5b329f454cca2c677136b0aaf2d21d3d256318a6e348e763c63aa61a6"
+MARKDOWN_SHA256 = "cbe73182bd3b4b871b2306ddd01e27b3ee8658fe997ee2faab4d13ea3c58eb5e"
+TEX_SHA256 = "fd91a9fbc4acfce71c49e70a7f9b5bce3fb4e496b39f19e27f66cd4a276702d6"
 
 TITLE = ("dirac16complex: a complex Grassmann spinor of Pin(4,4) in an arbitrary "
          "gravitational field")
@@ -473,10 +477,14 @@ class AgreementWithArtifactsTests(unittest.TestCase):
         for path, digest in pairs.items():
             if path.startswith("artifacts/dirac16complex/arbitrary-field/") and path not in recorded:
                 continue
+            if path.startswith("dirac-main/") and not (REPOSITORY_ROOT / path).exists():
+                # dirac-main is git-ignored (document Section 12); without it the reports do
+                # not record these files, so there is nothing to compare.
+                continue
             with self.subTest(path=path):
+                self.assertIn(path, recorded)
                 self.assertEqual(digest, recorded[path])
-                if not path.startswith("dirac-main/") or (REPOSITORY_ROOT / path).exists():
-                    self.assertEqual(digest, sha256_file(REPOSITORY_ROOT / path))
+                self.assertEqual(digest, sha256_file(REPOSITORY_ROOT / path))
 
 
 if __name__ == "__main__":

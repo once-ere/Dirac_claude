@@ -1,8 +1,8 @@
 {
   "dirac16complex-arbitrary-field": {
     "path": "provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.pdf",
-    "pages": 41,
-    "sha256": "04dd0b83e11357b7fed85696d461b93df68eeb5d981bab369a36d6e0e1a8e0bd"
+    "pages": 45,
+    "sha256": "a4b5549901131c7c76009116571e41570429262d1aab66d63fd17b11ba17f975"
   },
   "dirac16complex-dark-sector-numerics": {
     "path": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.pdf",

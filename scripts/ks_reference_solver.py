@@ -69,7 +69,10 @@ is monotonic on the Brillouin zone, so there is no fermion doubler and no
 Wilson term is needed.  The eigenvalue error is c2 h^2 + c3 h^3 + O(h^4)
 (the h^3 term comes from the ghost node); every quantity is computed on
 the three grids N, 2N, 4N and extrapolated by eliminating h^2 and h^3,
-with the order estimates and level values recorded.
+with the order estimates and level values recorded.  The two END-NODE
+values of a profile are only first-order accurate (they are tied to the
+half-node value g~ = O(h) through a division by h) and are extrapolated
+with the (h, h^2) elimination instead (`extrapolate_profile`).
 Kohn-Sham functional (Mermin, finite T, normal ordered).  Proper densities
 n_p = e^{-6Hy} n_c, S_p = e^{-6Hy} S_c with the coordinate densities
 n_c(y) = (1/l^3) sum_i g_i o_i |chi_i|^2, S_c(y) = (1/l^3) sum_i g_i o_i
@@ -535,22 +538,15 @@ def build_hamiltonian(grid: Grid, m_eff_node, kk_node, kk_half, v_node, parity: 
     if not left.all():             # j = 0 present: ghost g~_{-1/2} = -g~_{1/2}
         a = a_idx[~left][0]
         H[a, nf + 0] += -wf[a] * (-1.0 / h + 0.5 * Mj[a])
-    # Second-order ghost correction.  The odd extension g~(-y) = -g~(y) about a
-    # g-boundary is exact only up to g~''(0) = (s k kappa' - v') f(0), which
-    # does not vanish for k != 0 (kappa' = -H kappa) or v' != 0: the corrected
-    # ghost g~_ghost = -g~_neighbour + (h^2/4) g~'' f adds the real diagonal
-    # term w_j (h/4)(s k kappa' - v')(+-1 + M_j h/2) |f_j|^2 to the form (+ at
-    # the brane j = N, - at the tip j = 0), keeping the matrix symmetric and
-    # making the boundary node second-order accurate (without it f_N is only
-    # first-order accurate although the eigenvalues stay second order).
-    if not right.all():
-        a = a_idx[~right][0]
-        dv = (3.0 * v_node[N] - 4.0 * v_node[N - 1] + v_node[N - 2]) / (2.0 * h)
-        H[a, a] += wf[a] * 0.25 * h * (-kk_node[N] - dv) * (1.0 + 0.5 * Mj[a] * h)
-    if not left.all():
-        a = a_idx[~left][0]
-        dv = (-3.0 * v_node[0] + 4.0 * v_node[1] - v_node[2]) / (2.0 * h)
-        H[a, a] += wf[a] * 0.25 * h * (-kk_node[0] - dv) * (-1.0 + 0.5 * Mj[a] * h)
+    # Note on the ghost: the odd extension g~(-y) = -g~(y) about a g-boundary
+    # neglects g~''(0) = (s k kappa' - v') f(0); the corresponding local error
+    # enters the form with the end-node weight h/2 and shifts eigenvalues only
+    # at O(h^2) (measured), so no correction term is added: the matrix depends
+    # on the potentials exactly through sum_j w_j (v_j |f_j|^2 + M_j ...), which
+    # keeps the discrete Hellmann-Feynman identities d eps/d v_j = w_j n_j and
+    # d eps/d M_j = w_j s_j exact (used by the energy functional).  The end-node
+    # VALUES of the eigenvectors are first-order accurate (see
+    # extrapolate_profile), the eigenvalues, integrals and interior second order.
     H[nf:, :nf] = H[:nf, nf:].T
     w_all = np.concatenate([wf, np.full(N, h)])
     inv_sqrt = 1.0 / np.sqrt(w_all)
@@ -1311,7 +1307,9 @@ def emt_profiles(result, params: Params, grid: Grid):
     if grid.N >= 4:
         dPy[2:-2] = (-P_y[4:] + 8.0 * P_y[3:-1] - 8.0 * P_y[1:-3] + P_y[:-4]) / (12.0 * h)
     conservation = dPy - 3.0 * (P_3 + P_t)
-    inner = slice(2, grid.N - 1)
+    # stencils touching the end nodes are excluded: the end-node values are only
+    # first-order accurate (they are derived through g~/h, see extrapolate_profile)
+    inner = slice(3, grid.N - 2)
     scale = max(float(np.max(np.abs(dPy[inner]))), float(np.max(np.abs(3.0 * (P_3 + P_t)[inner]))), 1e-300)
     if scale < 1e-14 * max(float(np.max(np.abs(P_y))), 1e-300) or scale <= 1e-300:
         normalised = 0.0
@@ -1426,11 +1424,12 @@ class SectorRun:
         emts = [emt_profiles(lv, p, g) for lv, g in zip(self.levels, self.grids)]
         for name in prof_names:
             vals = [lv[name][s] for lv, s in zip(self.levels, sub)]
-            self.profiles[name] = extrapolate_values(vals)
-            self.orders["profile_" + name] = order_estimate(*vals) if len(vals) == 3 else float("nan")
+            self.profiles[name] = extrapolate_profile(vals)
+            self.orders["profile_" + name] = (order_estimate(*[v[1:-1] for v in vals])
+                                              if len(vals) == 3 else float("nan"))
         for name in ("rho", "p_y", "p_3", "p_t", "L_s", "n_p", "s_p"):
             vals = [e[name][s] for e, s in zip(emts, sub)]
-            self.profiles[name] = extrapolate_values(vals)
+            self.profiles[name] = extrapolate_profile(vals)
         self.emt_levels = [emt_summary(e, p, g, lv) for e, g, lv in zip(emts, self.grids, self.levels)]
         self.emt = {}
         for name in ("w_y", "w_3", "w_t", "w_mean", "energyFromRho", "braneLocalisedFraction"):
@@ -1477,6 +1476,24 @@ class SectorRun:
             "ksGap": self.gap,
             "emt": self.emt,
         }
+
+
+def extrapolate_profile(vals):
+    """Node profiles: (h^2, h^3) elimination in the interior, (h, h^2)
+    elimination at the two end nodes.  The end-node values of the staggered
+    scheme (f_N at a g-boundary, |g~_{N-1/2}|^2 at an f-boundary) carry a
+    first-order error because they are tied to the half-node value g~ ~ h
+    through a division by h; eigenvalues, integrals and interior nodes are
+    second order.  The (h, h^2) formula also leaves O(h^3) when no h term is
+    present, so it is safe at every end node."""
+    out = extrapolate_values(vals)
+    if len(vals) == 3:
+        q1, q2, q4 = (np.asarray(v, dtype=float) for v in vals)
+        for j in (0, -1):
+            r12 = 2.0 * q2[j] - q1[j]
+            r24 = 2.0 * q4[j] - q2[j]
+            out[j] = (4.0 * r24 - r12) / 3.0
+    return out
 
 
 def extrapolate_values(vals):
@@ -1555,7 +1572,8 @@ def thermo_point(params: Params, T: float, delta=0.05, log=None):
     """E, F, S, mu at T and C_V = dE/dT|_N by central differences (T (1 +- delta))."""
     runs = {}
     for tag, Tv in (("center", T), ("plus", T * (1 + delta)), ("minus", T * (1 - delta))):
-        q = Params(**{**params.to_dict_kwargs(), "T": Tv, "label": "%s-T%s" % (params.label, tag)})
+        label = params.label if tag == "center" else "%s-T%s" % (params.label, tag)
+        q = Params(**{**params.to_dict_kwargs(), "T": Tv, "label": label})
         if log:
             log("  thermo T = %.6f (%s)" % (Tv, tag))
         runs[tag] = SectorRun(q, mode="thermal", log=log)

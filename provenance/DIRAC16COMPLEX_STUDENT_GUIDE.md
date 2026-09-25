@@ -20,7 +20,7 @@ Radiation has $w=1/3$, matter (dust) and dark matter have $w=0$, and a cosmologi
 
 Stage 3 asks: **can the dirac16complex field behave like dark matter or like dark energy?** It answers the question with numbers, not words: it solves the field equation numerically in five backgrounds and measures $\rho$, $p$ and $w$ and how they change.
 
-A caution about the CPL form that the input document gets wrong: its table labels thawing fields "$(w_a>0)$" and freezing fields "$(w_a<0)$", but its own formula gives $dw/da=-w_a$. A thawing field, whose $w$ rises from $-1$ as the universe expands, therefore has $w_a<0$, and a freezing field has $w_a>0$. This guide always uses the signs that follow from the formula.
+A caution about the CPL form that the input document gets wrong: its table labels thawing fields “$(w_a>0)$” and freezing fields “$(w_a<0)$”, but its own formula gives $dw/da=-w_a$. A thawing field, whose $w$ rises from $-1$ as the universe expands, therefore has $w_a<0$, and a freezing field has $w_a>0$. This guide always uses the signs that follow from the formula.
 
 ### 1.2 The five experiments
 
@@ -47,10 +47,10 @@ What the committed results say, in one paragraph (the scientific document of Sta
 
 - **Everything is counted from 0.** Coordinates are $x_0,\dots,x_7$, spinor components are $u_0,\dots,u_{15}$, and the first entry of a list is entry 0.
 - A box like the ones below contains commands. Type or paste them one line at a time into a terminal and press Enter after each line. The prompt that your terminal prints before the cursor is not shown.
-- The sentence before each box says which terminal it is for. **PowerShell** means PowerShell 7 on Windows. **Git Bash** means the bash that comes with Git for Windows. **macOS** and **Linux** mean the Terminal application with bash or zsh. Commands marked "Git Bash, macOS and Linux" are the same in all three.
+- The sentence before each box says which terminal it is for. **PowerShell** means PowerShell 7 on Windows. **Git Bash** means the bash that comes with Git for Windows. **macOS** and **Linux** mean the Terminal application with bash or zsh. Commands marked “Git Bash, macOS and Linux” are the same in all three.
 - **Repository root** means the folder `Dirac_claude` that `git clone` creates; it contains `README.md`, `scripts`, `studies` and `notebooks`. Unless a box starts with a `cd` command, run it from the repository root.
 - PowerShell accepts forward slashes in file arguments, so most commands look the same in both shells. Where they differ, both forms are given.
-- "Expected output" shows what the command prints when everything works. Numbers of steps and check counts must match exactly; run times depend on your computer.
+- “Expected output” shows what the command prints when everything works. Numbers of steps and check counts must match exactly; run times depend on your computer.
 
 ### 2.2 Terminals
 
@@ -63,11 +63,11 @@ To change folder use `cd FOLDER`; `cd ..` goes up one level; `pwd` prints where 
 
 ### 2.3 How this guide was tested
 
-The commands were executed while the guide was written, from fresh clones of the public repository (Section 4.2) at commit fbec4d7; this guide itself was added later.
+The commands were executed while the guide was written, from fresh clones of the public repository (Section 4.2) at the commits fbec4d7 and 34b9fd4, which contain the same Stage-3 program, checkers, notebooks and outputs.
 
 | Platform | Shells and tools | What was executed |
 |---|---|---|
-| Windows 11 Pro for Workstations 10.0.26200, Intel Core Ultra 9 275HX, 24 cores | PowerShell 7.6.6; Git Bash (GNU bash 5.2.37, Git 2.51.2); rustc and cargo 1.91.1, rustup 1.28.2; Python 3.14.5 with numpy 2.4.6, matplotlib 3.11.0, sympy 1.14.0, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0, jupyterlab 4.4.10, nbconvert 7.16.6; MiKTeX 26.5 (pdfTeX 4.27); WolframScript 1.14.0 with Wolfram 15.0.1 | every command of Sections 4 to 13, in both shells where both forms are given |
+| Windows 11 Pro for Workstations 10.0.26200, Intel Core Ultra 9 275HX, 24 cores | PowerShell 7.6.6; Git Bash (GNU bash 5.2.37, Git 2.51.2); rustc and cargo 1.91.1, rustup 1.28.2; Python 3.14.5 with numpy 2.4.6, matplotlib 3.11.0, sympy 1.14.0, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0, jupyterlab 4.4.10, nbconvert 7.16.6; MiKTeX 26.5 (pdfTeX 4.27); WolframScript 1.14.0 with Wolfram 15.0.1 | every command of Sections 3.5 to 14 except the installers, in both shells where both forms are given |
 | Ubuntu 24.04.4 LTS under WSL2 on the same computer | bash 5.2.21; Git 2.43.0; rustc and cargo 1.93.1; Python 3.12.3 in a virtual environment with numpy 2.5.3, matplotlib 3.11.2, sympy 1.14.0, nbformat 5.11.1, nbclient 0.11.0, ipykernel 7.3.0; TeX Live 2023 (pdfTeX 1.40.25) | clone, engine setup with the `linux` and `win11` engines, build, tests, all experiments, all checkers, the analysis, the notebook, a PDF build; no Mathematica (no WolframScript there) |
 | macOS | none | nothing; the macOS commands follow the official instructions of each tool but are untested |
 
@@ -94,7 +94,7 @@ A computer from the last ten years is enough. The program needs only a few megab
 
 ### 3.2 Windows 11
 
-The tool `winget` (App Installer) is part of Windows 11. Open PowerShell and install the tools with these commands; each asks for confirmation and some open an installer window:
+The tool `winget` (App Installer) is part of Windows 11. Open PowerShell and install the tools with these commands (the first use of winget may ask you to accept its source agreements, and some installers open a window):
 
 ```
 winget install --id Git.Git -e
@@ -323,7 +323,7 @@ After a switch, rebuild the program (Section 5).
 
 ### 4.5 The three engines are not identical
 
-The three repositories are often described as vendoring the same engine. They do not, and this was measured while this guide was written. The macOS and Linux engines are identical to each other (their `sundials_rs` folders have the same Git tree, `47d654d5`). The Windows 11 engine is different (tree `eeaa0cad`): its deterministic mathematical library `sundials_libm` is a translation of GNU C Library 2.39, while the other two use different implementations, so some elementary functions can return results that differ in the last bit. The consequences, measured:
+The comment at the top of `scripts/setup_solver.sh` says that all three repositories vendor a byte-identical `sundials_rs`. They do not; this was measured while this guide was written. The macOS and Linux engines are identical to each other (their `sundials_rs` folders have the same Git tree, `47d654d5`). The Windows 11 engine is different (tree `eeaa0cad`): its deterministic mathematical library `sundials_libm` is a translation of GNU C Library 2.39, while the other two use different implementations, so some elementary functions can return results that differ in the last bit. The consequences, measured:
 
 1. With the `win11` engine the program reproduces every committed output file byte for byte, on Windows 11 and on Ubuntu 24.04 alike.
 2. With the `linux` engine (the default of `setup_solver.sh` on Linux) all 69 self-checks and all 162 checker checks still pass, but 14 committed files differ in their last digits: the ten EXP-1 files with $K=0$ (backgrounds and $K=0$ runs) and the three EXP-2 CSV files with their `summary.json`. The same engine gives the same 14 differences on Windows, so they come from the engine, not from the operating system.
@@ -377,7 +377,7 @@ The file `.cargo/config.toml` in the repository root contains
 rustflags = ["-C", "target-feature=+fma"]
 ```
 
-Cargo reads it because the crate folder lies below the repository root. It tells the compiler that the processor has the FMA instruction (fused multiply-add: $a\cdot b+c$ computed with a single rounding). The engine's deterministic mathematical functions use fused multiply-add in exactly the places where the reference library does, and with this flag each of them becomes one machine instruction instead of a call into the operating system's C library. The pinned numerical results assume it. Every x86-64 processor since Intel Haswell (2013) and AMD Piledriver (2012) has FMA. On an older processor the program stops at once with an illegal-instruction error; there is no supported workaround that keeps the results identical.
+Cargo reads it because the crate folder lies below the repository root. It tells the compiler that the processor has the FMA instruction (fused multiply-add: $a\cdot b+c$ computed with a single rounding). The engine's deterministic mathematical functions use fused multiply-add in exactly the places where the reference library does, and with this flag each of them becomes one machine instruction instead of a call into the operating system's C library. The pinned numerical results assume it. Every x86-64 processor since Intel Haswell (2013) and AMD Piledriver (2012) has FMA. An older processor cannot run the program built this way (it would stop with an illegal-instruction error; this was not tested).
 
 ### 5.3 Test
 
@@ -417,7 +417,7 @@ $$
 u=\begin{pmatrix}u_0\\ u_1\\ \vdots\\ u_{15}\end{pmatrix},\qquad u^\dagger=(u_0^*,u_1^*,\dots,u_{15}^*).
 $$
 
-The row $u^\dagger$ (read "u dagger") is the conjugate transpose. A 16 by 16 matrix $M$ acts on $u$ by $(Mu)_i=\sum_{j=0}^{15}M_{ij}u_j$, where $i$ is the row and $j$ the column, both counted from 0. The product $u^\dagger Mu=\sum_{i,j}u_i^*M_{ij}u_j$ is a single number; for $M=1$ it is $u^\dagger u=\sum_i|u_i|^2$, the squared length of $u$. A matrix is **Hermitian** if $M^\dagger=M$; then $u^\dagger Mu$ is real. A matrix whose every row contains exactly one nonzero entry, equal to $+1$ or $-1$, is a **signed permutation**: it only reorders the components of $u$ and flips some signs.
+The row $u^\dagger$ (read “u dagger”) is the conjugate transpose. A 16 by 16 matrix $M$ acts on $u$ by $(Mu)_i=\sum_{j=0}^{15}M_{ij}u_j$, where $i$ is the row and $j$ the column, both counted from 0. The product $u^\dagger Mu=\sum_{i,j}u_i^*M_{ij}u_j$ is a single number; for $M=1$ it is $u^\dagger u=\sum_i|u_i|^2$, the squared length of $u$. A matrix is **Hermitian** if $M^\dagger=M$; then $u^\dagger Mu$ is real. A matrix whose every row contains exactly one nonzero entry, equal to $+1$ or $-1$, is a **signed permutation**: it only reorders the components of $u$ and flips some signs.
 
 ### 6.2 The field: a column of 16 complex numbers
 
@@ -522,7 +522,7 @@ $$
 
 $h_j(t)$ is the **scale factor** of direction $j$: a distance $dx_j$ along it is physically $h_j\,dx_j$ long. Its **expansion rate** is $H_j=\dot h_j/h_j$ (a dot is $d/dt$), the total rate is $\Theta=\sum_{j\in T}H_j$ and the 7-volume is $V=\prod_{j\in T}h_j$, so that $\dot V/V=\Theta$. The experiments group the directions: $b=h_0$ (hidden space), $a=h_1=h_2=h_3$ (3-space), $c=h_5=h_6=h_7$ (extra times), and then $\Theta=H_b+3H_a+3H_c$ and $V=b\,a^3c^3$.
 
-The **vielbein** (German "eight legs") is the set of eight 1-forms $e^4=dt$ and $e^j=h_j\,dx_j$; it turns the curved metric into the flat one, $ds^2=\eta_{ab}e^ae^b$. The curved gamma matrices are $\gamma^{x_4}=\gamma^4$ and $\gamma^{x_j}=\gamma^j/h_j$: the frame matrix divided by the scale factor.
+The **vielbein** (German “eight legs”) is the set of eight 1-forms $e^4=dt$ and $e^j=h_j\,dx_j$; it turns the curved metric into the flat one, $ds^2=\eta_{ab}e^ae^b$. The curved gamma matrices are $\gamma^{x_4}=\gamma^4$ and $\gamma^{x_j}=\gamma^j/h_j$: the frame matrix divided by the scale factor.
 
 ### 6.6 The covariant derivative
 
@@ -868,7 +868,7 @@ The files are now in `build/student/exp1/`. To see the exit code, type `$LASTEXI
 
 ### 7.3 All five experiments
 
-Run the others the same way (`exp2` to `exp5`), or all at once with `all`. What each prints at the end and how long it took on the test computer:
+Run the others into the same folder in the same way (`exp2` to `exp5` instead of `exp1`), or all five at once with `all`. What each prints at the end and how long it took on the test computer:
 
 | Experiment | Self-checks | Final summary line | Files | Time |
 |---|---|---|---|---|
@@ -1179,12 +1179,13 @@ With JupyterLab installed, in any shell:
 python -m jupyterlab notebooks/dirac16complex_dark_sector.ipynb
 ```
 
-A browser tab opens with the notebook. If you are asked for a kernel, choose Python 3 (ipykernel). Click the first cell and press Shift+Enter repeatedly (each press runs one cell and moves to the next), or use the menu Run, Run All Cells. If no browser opens, start it like this instead and open the printed address, which begins with `http://localhost:8888/lab?token=`, yourself:
+A browser tab opens with the notebook. JupyterLab shows the folder `notebooks`, and the notebook finds the repository root by itself. If you are asked for a kernel, choose Python 3 (ipykernel). Click the first cell and press Shift+Enter repeatedly (each press runs one cell and moves to the next), or use the menu Run, Run All Cells. If no browser opens, start it like this instead and open the printed address, which begins with `http://localhost:8888/lab?token=`, yourself:
 
 ```
 python -m jupyterlab --no-browser notebooks/dirac16complex_dark_sector.ipynb
 ```
- To stop JupyterLab, press Ctrl+C twice in the terminal. The notebook is generated by `notebooks/build_dirac16complex_notebook.py`: change the builder, not the notebook, and after rebuilding run `run_notebook.py` again, because the builder writes an unexecuted notebook.
+
+To stop JupyterLab, press Ctrl+C twice in the terminal. The notebook is generated by `notebooks/build_dirac16complex_notebook.py`: change the builder, not the notebook, and after rebuilding run `run_notebook.py` again, because the builder writes an unexecuted notebook.
 
 ![The EXP-3 equation of state $w(a)$ for the five values of $x_0$, with the Unite CPL line and the constant $w=-0.764$ band, as the notebook draws it](artifacts/dirac16complex/numerics/figures/exp3_w_of_a.png)
 
@@ -1226,13 +1227,23 @@ which writes the same bytes again. To work with it interactively, open the `.nb`
 
 ## 12. Rebuilding the PDF documents (optional)
 
-Every document in `provenance/` is written in Markdown and converted to LaTeX and PDF by one command, which runs the converter twice, pdflatex three times into two fresh folders, requires warning-free logs and two byte-identical PDFs, and compares the PDF with the edition registered in `provenance/pdf-specifications.json`. For this guide, in any shell:
+Every document in `provenance/` is written in Markdown and converted to LaTeX and PDF by one command, which runs the converter twice, pdflatex three times into two fresh folders, requires warning-free logs and two byte-identical PDFs, and compares the PDF with the edition registered in `provenance/pdf-specifications.json`. For this guide, in PowerShell:
 
 ```
-python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md
+$guide = "provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md"
+python scripts/build_provenance_pdf.py --developer-layout $guide
 ```
 
-It prints one `check_NAME=true` line per check, then `check_count=14`, `failed_check_count=0` and `provenance_pdf=OK`. The other documents are built the same way, for example `provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD.md`. pdflatex always runs with the repository root as its working folder, because the figure paths are relative to it.
+Git Bash, macOS and Linux:
+
+```
+guide=provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md
+python scripts/build_provenance_pdf.py --developer-layout $guide
+```
+
+This guide uses the builder's developer layout (ragged table columns and breakable code); without that option the command would build a different LaTeX file and fail.
+
+It prints one `check_NAME=true` line per check, then `check_count=14`, `failed_check_count=0` and `provenance_pdf=OK`. The other documents are built without that option, for example `python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD.md`. pdflatex always runs with the repository root as its working folder, because the figure paths are relative to it.
 
 The registered PDF bytes belong to the TeX installation that registered them (MiKTeX 26.5 on Windows). With another TeX installation the document still builds warning-free and byte-identically twice, but the check `registeredSha256` is false, the PDF is not copied, and the command exits with 1; on Ubuntu with TeX Live 2023 exactly this happened (12 of 14 checks true). The builder's register option, which records a new edition in the registry, is for the maintainer of a document only.
 

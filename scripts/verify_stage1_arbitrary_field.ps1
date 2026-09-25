@@ -35,6 +35,10 @@
 # algebra, geometry and the arbitrary-field publication test, and
 # tests/test_publication_tooling.py); Stage 2 and Stage 3 tests have their
 # own gates.
+# Step 12 runs tests/test_d16c_arbitrary_field_publication.py once more, after
+# the summary (step 10) and the provenance PDF (step 11) have been rebuilt:
+# that test compares the stage1-summary.json hash quoted in the document with
+# the file on disk, and step 08 runs before step 10 rewrites the summary.
 # PYTHONUTF8=1 and a UTF-8 console encoding are set for this process only,
 # so that Python output containing Greek letters survives the pipes.
 #
@@ -164,6 +168,9 @@ Invoke-GateStep -Name "stage1-10-summary" `
 if (-not $SkipProvenancePdf) {
     Invoke-GateStep -Name "stage1-11-provenance-pdf" `
         -Command "python scripts/build_provenance_pdf.py $provenanceMarkdown"
+    # Repeats the publication test against the summary and PDF just rebuilt.
+    Invoke-GateStep -Name "stage1-12-publication-recheck" `
+        -Command "python -m unittest discover -s tests -p `"test_d16c_arbitrary_field_publication.py`" -v"
 }
 
 $outputs = @(
@@ -249,7 +256,7 @@ foreach ($output in $outputs) {
     Write-Output "stage1_sha256=$($hash.ToLowerInvariant())  $output"
 }
 if ($SkipProvenancePdf) {
-    Write-Output ("stage1_skipped_step=stage1-11-provenance-pdf " +
+    Write-Output ("stage1_skipped_step=stage1-11-provenance-pdf,stage1-12-publication-recheck " +
         "(-SkipProvenancePdf; $provenanceMarkdown not built or checked)")
     Write-Output "stage1_arbitrary_field_verification=INCOMPLETE"
     exit 3

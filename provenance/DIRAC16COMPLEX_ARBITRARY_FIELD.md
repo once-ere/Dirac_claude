@@ -598,7 +598,7 @@ Since $X$ has rank 16 at every tested point, the equations $X\Psi=0$ admit only 
 
 For commuting components (the notebook's actual use) Lemma 6.1 is reversed: only the symmetric part of a bilinear survives. The mass term $\Psi^TC\Psi$ then survives, and from the connection term only $\tfrac12C\{\gamma^\mu,\Omega_\mu\}$ survives; it contains only the totally antisymmetric part $\omega_{[cab]}$ of the connection, which vanishes for every diagonal vielbein (for G2, $\sum_\mu\{\gamma^\mu,\Omega_\mu\}=0$ for both contractions: GEO_anticommutatorGammaOmegaVanishesDiagonal_G2). For Lg[] as displayed in cell 1064, evaluated in a diagonal field with Clifford-consistent curved gammas $\gamma^\mu=e_a{}^\mu\gamma^a$, the gravitational term of the commuting-field Euler-Lagrange equations therefore comes from $\partial_\mu(\sqrt{|g|}\gamma^\mu)$, not from the spin connection, and every Q1 term drops out, for either contraction.
 
-The equations that the notebook actually stores differ from this. Its eLa (cell 1079, Out[1052]), the Euler-Lagrange equations of its evaluation form La[] (cell 1066) with the curved gammas useT16 of cell 1058, contains in the 8 rows 0, 1, 4, 5, 8, 9, 12 and 13 an additional Q1 term, which after the normalisation of cell 1096 is $\pm q\,\Psi_k$ with $q=Q_1\sinh(a_4)\,a_4'\,e^{-a_4}$ (row 0, for example, contains -2*H*Q1*Sinh[a4[H*x4]]*f16[9][x0, x4]*Derivative[1][a4][H*x4]/E^a4[H*x4]). The equations of cell 1096 and later carry the same term, and the notebook's equation for $a_4$, the DSolve of Text cell 100 with coefficient (Q1 - Q1/E^(2*a4[t]))*Derivative[1][a4][t] and its ProductLog solution in Text cell 99, is built from it. By the argument above this term does not come from the spin connection, and no Lg[] with Clifford-consistent curved gammas can produce it. The Stage-2 document DIRAC16COMPLEX_PRIMORDIAL_FIELD (Section 11) traces it to the substitution rule of cell 1058, which gives non-Clifford curved gammas $\gamma'^{\,x_5},\gamma'^{\,x_6},\gamma'^{\,x_7}$, and reproduces the stored eLa exactly with them. This is a second error of the notebook, in addition to the missing $\eta$ of Section 5.6. This remark is derived from the lemmas and from the stored notebook output; in Stage 1 it is not a separate machine check.
+The equations that the notebook actually stores differ from this. Its eLa (cell 1079, Out[1052]), the Euler-Lagrange equations of its evaluation form La[] (cell 1066) with the curved gammas useT16 of cell 1058, contains in the 8 rows 0, 1, 4, 5, 8, 9, 12 and 13 an additional Q1 term $\pm2Hq\,\Psi_k$, one component $k$ per row, with $q=Q_1\sinh(a_4)\,a_4'\,e^{-a_4}$ and $a_4'=da_4/dt$, $t=Hx_4$ (row 0, for example, contains $-2HQ_1\sinh(a_4)\,a_4'\,e^{-a_4}\,\Psi_9$). After the factor $1/(2H)$ of cell 1096 the term is $\pm q\,\Psi_k$, and the equations of cell 1096 and later carry it. The notebook's equation for $a_4$, the DSolve of Text cell 100 with the coefficient $(Q_1-Q_1e^{-2a_4})\,a_4'=2q$, and its ProductLog solution in Text cell 99 are built from the same term. By the argument above this term does not come from the spin connection, and no Lg[] with Clifford-consistent curved gammas can produce it. The Stage-2 document DIRAC16COMPLEX_PRIMORDIAL_FIELD (Section 11) traces it to the substitution rule of cell 1058, which gives non-Clifford curved gammas $\gamma'^{\,x_5},\gamma'^{\,x_6},\gamma'^{\,x_7}$, and reproduces the stored eLa exactly with them. This is a second error of the notebook, in addition to the missing $\eta$ of Section 5.6. This remark is derived from the lemmas and from the stored notebook output; in Stage 1 it is not a separate machine check.
 
 ## 7. The dirac16complex Lagrangian
 
@@ -623,6 +623,22 @@ The same Lagrangian, written with the notebook's variable names (1-based lists, 
 (* dirac16complex Lagrangian density in the notebook's variable names.     *)
 (* Lists are 1-based as in the notebook: SAB[[a,b]] is S^(a-1,b-1).        *)
 \[CapitalPsi]16 = (f16[#] @@ X &) /@ Range[0, 15];   (* all eight coordinates *)
+(* An arbitrary vielbein ev[mu,a] = e_mu^a(x0..x7), row mu. The notebook    *)
+(* builds g4488, detgg, (T16^alpha) and omegamat from its diagonal field    *)
+(* in (x0,x4) (cells 147, 275, 475, 529-532); here they are rebuilt.        *)
+eva = Array[ev[#1 - 1, #2 - 1] @@ X &, {8, 8}];      (* e_mu^a *)
+eav = Inverse[eva];                                 (* e_a^mu, row a *)
+g4488 = eva.\[Eta]4488.Transpose[eva];              (* g_(mu nu) *)
+detgg = Det[g4488]; ginv = Inverse[g4488];
+\[CapitalGamma]c = Table[(1/2) Sum[ginv[[r, s]] (D[g4488[[n, s]], X[[mu]]] +
+      D[g4488[[mu, s]], X[[n]]] - D[g4488[[mu, n]], X[[s]]]), {s, 1, 8}],
+   {r, 1, 8}, {mu, 1, 8}, {n, 1, 8}];               (* Gamma^r_(mu n) *)
+Table[(T16^\[Alpha])[\[Alpha]1 - 1] =
+   Sum[eav[[A1, \[Alpha]1]] (T16^A)[A1 - 1], {A1, 1, 8}], {\[Alpha]1, 1, 8}];
+(* mixed connection omega_mu^a_b from the vielbein postulate *)
+\[Omega]mat = Table[Sum[eav[[b, n]] (Sum[\[CapitalGamma]c[[r, mu, n]] eva[[r, a]],
+       {r, 1, 8}] - D[eva[[n, a]], X[[mu]]]), {n, 1, 8}],
+   {mu, 1, 8}, {a, 1, 8}, {b, 1, 8}];
 (* lowered spin connection omega_{mu ab} = eta_{ac} omega_mu^c_b *)
 \[Omega]low = Table[Sum[\[Eta]4488[[a, c]] \[Omega]mat[[\[Alpha]1, c, b]], {c, 1, 8}],
    {\[Alpha]1, 1, 8}, {a, 1, 8}, {b, 1, 8}];
@@ -644,7 +660,7 @@ Ldirac16complex[] := Sqrt[Abs[detgg]]*(
    m S16 - U[S16])
 ```
 
-The field depends on all eight coordinates, so Ψ16 is redefined accordingly, and the curved gammas (T16^α)[μ] are those of the arbitrary vielbein (no /.sg specialization). Mathematica's Times and Dot treat these symbols as commuting, so this code is a transcription that keeps every $\bar\Psi$ factor to the left of every $\Psi$ factor; it is not executed as a Grassmann computation. The verified implementation is wolfram/Dirac16ComplexGeometry.wl, which carries its own exact Grassmann algebra (convention.grassmann in wolfram-geometry-report.json).
+The field depends on all eight coordinates, so Ψ16 is redefined accordingly. In the notebook, g4488 (cell 147), detgg (cell 275), the curved gammas (T16^α) (cell 475) and ωmat (cells 529 to 532) all belong to the notebook's own diagonal field in $(x_0,x_4)$ (Section 2.2). For an arbitrary gravitational field the block therefore rebuilds all four from an arbitrary vielbein ev[μ,a] @@ X with the formulas of Sections 5.1 and 5.2; read with the notebook's own definitions instead, the same Lagrangian is the one in the notebook's field. While this document was revised, the block was executed, with the Symbolize'd names T16^α and T16^A replaced by plain symbols, for a non-diagonal test vielbein with space-space, space-time and time-time mixing. At a rational point the vielbein postulate holds, the curved gammas satisfy $\{\gamma^\mu,\gamma^\nu\}=2g^{\mu\nu}$, and $D_\mu\gamma^\nu=0$ holds with Ω16 in all 64 pairs, whereas the notebook contraction violates it in 50 pairs. Ldirac16complex[] itself was not evaluated. This is a one-off check, not one of the recorded checks. Mathematica's Times and Dot treat these symbols as commuting, so this code is a transcription that keeps every $\bar\Psi$ factor to the left of every $\Psi$ factor; it is not executed as a Grassmann computation. The verified implementation is wolfram/Dirac16ComplexGeometry.wl, which carries its own exact Grassmann algebra (convention.grassmann in wolfram-geometry-report.json).
 
 ### 7.3 Relation to Lg[], term by term
 
@@ -662,9 +678,9 @@ The field depends on all eight coordinates, so Ψ16 is redefined accordingly, an
 
 ### 7.4 Hermiticity
 
-No factor $i$ is needed. $C$ is real symmetric and $C\gamma^a$ is real antisymmetric (expression [1]), hence anti-Hermitian, and with the conjugation rule $(\theta_1\theta_2)^\ast=\theta_2^\ast\theta_1^\ast$ the symmetrized kinetic term is Hermitian. $S=\bar\Psi\Psi$ is Hermitian.
+No factor $i$ is needed. $C$ is real symmetric and $C\gamma^a$ is real antisymmetric (expression [1]), hence anti-Hermitian, and with the conjugation rule $(\theta_1\theta_2)^\ast=\theta_2^\ast\theta_1^\ast$ the symmetrized kinetic term is Hermitian. $S=\bar\Psi\Psi$ is Hermitian. Here and in Sections 9.3 and 10.9, "Hermitian" means invariant under the conjugation of the Grassmann algebra; for a bilinear $\Psi^\dagger M\Psi$ this is $M=M^\dagger$. After quantization such a bilinear is self-adjoint for the Krein form of Section 10.5; in the positive Hilbert-space representation it is self-adjoint only if in addition $[M,B]=0$ (Section 10.11).
 
-**Result 7.1.** $(C\gamma^a)^\dagger=-C\gamma^a$ and $C^\dagger=C$; at the coefficient level the Lagrangian has the form $\bar\Psi K_0\Psi+\bar\Psi K^\mu\partial_\mu\Psi+\partial_\mu\bar\Psi L^\mu\Psi$ with $K_0=K_0^\dagger$ and $L^\mu=(K^\mu)^\dagger$. In the Grassmann algebra $\mathcal L^\ast=\mathcal L$ exactly, and $S$ is Hermitian with 16 monomials. As a negative control, the unsymmetrized kinetic term $\bar\Psi\gamma^\mu D_\mu\Psi$ alone is not Hermitian.
+**Result 7.1.** $(C\gamma^a)^\dagger=-C\gamma^a$ and $C^\dagger=C$. At the coefficient level, with the coefficients taken between $\Psi^\dagger$ and $\Psi$, the Lagrangian has the form $\Psi^\dagger K_0\Psi+\Psi^\dagger K^\mu\partial_\mu\Psi+\partial_\mu\Psi^\dagger L^\mu\Psi$ with $K_0=K_0^\dagger$ and $L^\mu=(K^\mu)^\dagger$; for example $K^\mu=\tfrac12\sqrt{|g|}\,C\gamma^\mu$ and $L^\mu=-\tfrac12\sqrt{|g|}\,C\gamma^\mu$. With $\bar\Psi$ on the left the coefficients are $\tilde K=CK$, and the conditions read $(C\tilde K_0)^\dagger=C\tilde K_0$ and $C\tilde L^\mu=(C\tilde K^\mu)^\dagger$; the naive $\tilde L^\mu=(\tilde K^\mu)^\dagger$ fails, for example for $\tilde K^\mu=\tfrac12\gamma^\mu$ with $\mu=0,\dots,3$. In the Grassmann algebra $\mathcal L^\ast=\mathcal L$ exactly, and $S$ is Hermitian with 16 monomials. As a negative control, the unsymmetrized kinetic term $\bar\Psi\gamma^\mu D_\mu\Psi$ alone is not Hermitian.
 
 ```
 checks
@@ -738,7 +754,13 @@ E&:=\frac{\partial_L\mathcal L}{\partial\Psi^\dagger}-\partial_\mu\frac{\partial
 \end{aligned}
 $$
 
-$C$ is invertible, so $E$ vanishes exactly when the Dirac equation below holds. The quartic term contributes $\lambda S\,C\Psi$ (Result 7.2). The variation with respect to $\Psi$ gives the conjugate equation in the same way.
+$C$ is invertible, so $E$ vanishes exactly when the Dirac equation below holds. The quartic term contributes $\lambda S\,C\Psi$ (Result 7.2). The variation with respect to $\Psi$ gives the conjugate equation in the same way: with the right derivative,
+
+$$
+\frac{\partial_R\mathcal L}{\partial\Psi_a}-\partial_\mu\frac{\partial_R\mathcal L}{\partial(\partial_\mu\Psi_a)}=-\sqrt{|g|}\,\Bigl((D_\mu\bar\Psi)\gamma^\mu+(m+U'(S))\bar\Psi\Bigr)_a .
+$$
+
+With the left derivative the overall sign is the opposite, because for an even $\mathcal L$ the left and right derivatives with respect to an odd variable differ by a sign.
 
 ### 8.2 The covariant field equations
 
@@ -748,7 +770,7 @@ $$
 
 with $U'(S)=\lambda S$ for the default potential. The second equation is the Dirac conjugate of the first: $(\gamma^\mu D_\mu\Psi)^\dagger C=-(D_\mu\bar\Psi)\gamma^\mu$ by expression [1] and Result 3.5.
 
-**Result 8.1.** At every G1 and G2 point, with $\lambda\ne0$, the Euler-Lagrange expression with respect to $\Psi^\dagger_a$ equals $\sqrt{|g|}\bigl(C(\gamma^\mu D_\mu\Psi-(m+\lambda S)\Psi)\bigr)_a$, and the one with respect to $\Psi_a$ equals $\sqrt{|g|}\bigl((D_\mu\bar\Psi)\gamma^\mu+(m+\lambda S)\bar\Psi\bigr)_a$. The Wolfram verifier works in a genuine Grassmann algebra and computes each Euler-Lagrange operator in two independent ways (direct total derivative and a jet-commutator identity), which agree. The Python geometry checker evaluates the same expressions with commuting exact numbers, which is exact here because the Lagrangian is bilinear with every $\bar\Psi$ factor on the left (measurement LAG_commutingProxyJustification), and the Grassmann demonstration repeats them in a genuine Grassmann algebra at G1 p1 and in the symbolic G2.
+**Result 8.1.** At every G1 and G2 point, with $\lambda\ne0$, the Wolfram verifier finds that the Euler-Lagrange expression with respect to $\Psi^\dagger_a$ (left derivative) equals $\sqrt{|g|}\bigl(C(\gamma^\mu D_\mu\Psi-(m+\lambda S)\Psi)\bigr)_a$, and that the one with respect to $\Psi_a$ (right derivative, as in Section 8.1) equals $-\sqrt{|g|}\bigl((D_\mu\bar\Psi)\gamma^\mu+(m+\lambda S)\bar\Psi\bigr)_a$. It works in a genuine Grassmann algebra and computes each Euler-Lagrange operator in two independent ways (direct total derivative and a jet-commutator identity), which agree. The Python geometry checker evaluates the same two expressions, with the same signs, for $\lambda=0$ only, with commuting exact numbers, which is exact here because the Lagrangian is bilinear with every $\bar\Psi$ factor on the left (measurement LAG_commutingProxyJustification). The Grassmann demonstration repeats both in a genuine Grassmann algebra at G1 p1 and in the symbolic G2, for $\lambda=0$ and $\lambda\ne0$ (GR_complexQuarticEL for the $\Psi^\dagger$ equation, GR_complexPsiEquation for the $\Psi$ equation); it takes the $\Psi_a$ derivative from the left and therefore finds the opposite overall sign, $+\sqrt{|g|}\bigl((D_\mu\bar\Psi)\gamma^\mu+(m+\lambda S)\bar\Psi\bigr)_a$. The case $\lambda\ne0$ is thus covered by Wolfram and by the Grassmann demonstration, not by the Python geometry checker.
 
 ```
 checks
@@ -787,7 +809,7 @@ $$
 
 *Proof.* (a) A pure-gauge connection has $F_{\mu\nu}=0$ (direct computation). Conversely $F_{\mu\nu}=\tfrac12R_{ab\mu\nu}S^{ab}$ (Result 5.5), and the 28 matrices $S^{ab}$, $a<b$, are linearly independent (Result 3.2), so $F=0$ forces the Riemann tensor to vanish; a flat connection is locally pure gauge. (b) If $\Omega$ could be gauged away the curvature would vanish, contradicting (a) in a curved field. The Lichnerowicz form follows from $\gamma^\mu\gamma^\nu=g^{\mu\nu}+\tfrac12[\gamma^\mu,\gamma^\nu]$, $D_\mu\gamma^\nu=0$ and $[D_\mu,D_\nu]\Psi=F_{\mu\nu}\Psi$; the constant $c$ is fixed by the measurement below. Consequently, for $U=0$, every solution satisfies $g^{\mu\nu}\bigl(D_\mu D_\nu\Psi-\Gamma^\lambda{}_{\mu\nu}D_\lambda\Psi\bigr)-\tfrac14R\,\Psi=m^2\Psi$: the curvature enters the second-order equation explicitly.
 
-**Result 8.2.** $c=-1/4$ exactly at G1 p1, p2, p3 and at the three Wolfram G2 points and the symbolic Python G2 point, and $c=+1/4$ fails. In curved space $\gamma^\mu\Omega_\mu\ne0$: it has 128 nonzero entries at G1 p1 and equals $3H\gamma^0$ in G2, and the spin-connection term of the $\Psi^\dagger$ equation is nonzero in all 16 components at every G1 point and G2 sample.
+**Result 8.2.** $c=-1/4$ exactly at G1 p1, p2, p3 and at the three Wolfram G2 points and the symbolic Python G2 point, and $c=+1/4$ fails. In curved space $\gamma^\mu\Omega_\mu\ne0$: it has 128 nonzero entries at G1 p1 (grassmann-demo) and equals $3H\gamma^0$ in G2, and the spin-connection term of the $\Psi^\dagger$ equation is nonzero in all 16 components at every G1 point and G2 sample.
 
 ```
 checks
@@ -795,6 +817,8 @@ checks
   GEO_lichnerowiczConstantSameG1G2: python-geometry
   LAG_eulerLagrangePsibar_spinConnectionTermNonzeroComponents:
       python-geometry measurements
+  GR_complexLagrangianNonTrivial: grassmann-demo (measurement
+      GR_complexLagrangianNonTrivial_gammaMuOmegaMu_nonzeroEntries_G1_p1)
 ```
 
 ### 8.5 Diagonal vielbeins
@@ -850,7 +874,7 @@ checks
 **Result 9.2.**
 
 1. **Symmetric:** $T_{\mu\nu}=T_{\nu\mu}$.
-2. **Hermitian:** at the coefficient level $T_{\mu\nu}=\bar\Psi K_{\mu\nu}\Psi+\dots$ with Hermitian $K_{\mu\nu}$ and mutually adjoint derivative coefficients, and $T_{\mu\nu}^\ast=T_{\mu\nu}$ in the Grassmann algebra.
+2. **Hermitian:** at the coefficient level, with the coefficients taken between $\Psi^\dagger$ and $\Psi$ as in Result 7.1, $T_{\mu\nu}=\Psi^\dagger K_{\mu\nu}\Psi+\Psi^\dagger K^\lambda_{\mu\nu}\partial_\lambda\Psi+\partial_\lambda\Psi^\dagger L^\lambda_{\mu\nu}\Psi$ with Hermitian $K_{\mu\nu}$ and $L^\lambda_{\mu\nu}=(K^\lambda_{\mu\nu})^\dagger$, and $T_{\mu\nu}^\ast=T_{\mu\nu}$ in the Grassmann algebra.
 3. **Conserved on shell:** $\nabla^\mu T_{\mu\nu}=0$ when the field equations and their first derivatives hold, solved exactly at the point for the $x_4$-derivatives; as a negative control the off-shell divergence is nonzero.
 4. **Trace:** off shell $T^\mu{}_\mu=7K-8(mS+U)$; on shell
 
@@ -858,7 +882,7 @@ $$
 T^\mu{}_\mu=-mS+7SU'(S)-8U(S)=-mS+3\lambda S^2\quad\text{for }U=\tfrac\lambda2S^2
 $$
 
-The off-shell trace follows from $\gamma^\mu\gamma_\mu=8$: $T^\mu{}_\mu=-K+8\mathcal L_s$ (measurement emt.trace records the on-shell formula).
+The off-shell trace follows from $g^{\mu\nu}\gamma_\mu=\gamma^\nu$, which turns the bracket into $-K$, and $g^{\mu\nu}g_{\mu\nu}=8$: $T^\mu{}_\mu=-K+8\mathcal L_s$ (measurement emt.trace records the on-shell formula).
 
 ```
 checks
@@ -896,7 +920,15 @@ $$
 \rho=T_{44}=\mathrm{KE}_H+\mathrm{PE}_H\qquad\text{identically (off shell)}.
 $$
 
-This identity is derived here from the verified formula; it is the energy density as the Hamiltonian density of Section 10.4. The time derivatives do not appear in split (B): for a first-order field they are not an energy.
+This identity is derived here from the verified formula. The time derivatives do not appear in split (B): for a first-order field they are not an energy.
+
+**Energy density and Hamiltonian density** (derived, not a machine check). In flat space in Cartesian coordinates $\rho=T_{44}$ is also the canonical Hamiltonian density of Section 10.4. In a curved field the two differ. In Gaussian normal time the Hamiltonian density of the symmetrized Lagrangian $\mathcal L$ itself (momenta for both $\Psi$ and $\Psi^\dagger$) is
+
+$$
+\mathcal H_{\mathcal L}=\sqrt{|g|}\,T_{44}-\tfrac12\sqrt{|g|}\,\bar\Psi\{\gamma^{x_4},\Omega_4\}\Psi ,
+$$
+
+which equals $\sqrt{|g|}\,\rho$ in diagonal Gaussian-normal frames ($h_4=1$), because $\Omega_4=0$ there. The Hamiltonian density $\mathcal H$ of $\mathcal L'$ (Section 10.4) carries in addition $-\tfrac12\bar\Psi\,\partial_4(\sqrt{|g|}\gamma^{x_4})\Psi$. In the homogeneous frames of Section 9.7 this is $-\tfrac12\theta\sqrt{|g|}\,\bar\Psi\gamma^4\Psi=-\tfrac i2\theta\sqrt{|g|}\,J^4$, with $\theta=\sum_{i\ne4}H_i$ and $J^4=-i\bar\Psi\gamma^4\Psi$ (Section 7.5), so that $\mathcal H=\sqrt{|g|}\bigl(\rho-\tfrac i2\theta J^4\bigr)$. The extra term is anti-Hermitian and nonzero whenever the background expands and the charge density is nonzero. It comes from the explicit $x_4$-dependence of the total derivative added in $\mathcal L'$ (Section 10.4), not from the energy density.
 
 ### 9.6 Equation of state
 
@@ -913,6 +945,7 @@ $$
 - **Free massive field ($U=0$).** $\mathrm{KE}_L=\mathrm{PE}_L=\tfrac12mS$, $p=0$, $w=0$: dust.
 - **Default potential.** $\rho=mS+\tfrac\lambda2S^2$, $p=\tfrac\lambda2S^2$, $w=\dfrac{\lambda S}{2m+\lambda S}$, $\mathrm{KE}_L=\tfrac12S(m+\lambda S)$, $\mathrm{PE}_L=\tfrac12mS$.
 - **Limits.** $w\to-1$ when $\mathrm{KE}_L/\mathrm{PE}_L\to0$ and $w\to+1$ when $\mathrm{PE}_L/\mathrm{KE}_L\to0$, as for the scalar field.
+- **$w>1$.** Unlike the potential $V\ge0$ of the PDF's canonical field, $\mathrm{PE}_L=\tfrac12(mS+2U-SU')$ has no fixed sign. For $\rho>0$, $w>1$ holds exactly when $\mathrm{PE}_L<0$; the sample of Result 9.3 has $\mathrm{PE}_L=-75899/3780$ and $w=75899/24059\approx3.155$.
 - **Phantom criterion.** $\rho+p=2\,\mathrm{KE}_L=S(m+U')$. For $\rho>0$ the state is phantom ($w<-1$) exactly when $\mathrm{KE}_L<0$, that is when $S(m+U')<0$. Unlike $\tfrac12\dot\phi^2$, $\mathrm{KE}_L$ has no fixed sign, because $S=\Psi^\dagger C\Psi$ is built from $C$ of signature (8,8) (Result 3.3).
 
 **Consequence (derived from the verified formulas, not machine-checked).** Section 9.7 gives $\partial_4\rho+\sum_{i\ne4}H_i(\rho+p_i)=0$; with $\rho+p=S(m+U')$ this becomes $(m+U')\bigl(\partial_4S+S\sum_iH_i\bigr)=0$, so $S\sqrt{|g|}$ is constant wherever $m+U'\ne0$: $S$ dilutes as the inverse 7-volume. For the default potential $w=\lambda S/(2m+\lambda S)$ therefore changes as the 7-volume changes. For example, with $m>0$, $\lambda<0$ and $x=|\lambda|S/m$: $w=-x/(2-x)$, the state is phantom with $\rho>0$ for $1<x<2$, $w=-1$ at $x=1$, and $w\to0$ as $x\to0$. Whether such states are physically admissible (energy conditions, stability, the quantum Krein structure) is not decided here.
@@ -933,7 +966,7 @@ $$
 
 The pressure is isotropic in all seven transverse directions although the $h_i$ differ. The off-diagonal $T_{4i}$ vanish on shell because $\{\gamma_i,\gamma^{x_4}\}=0$. The $T_{ij}$ are proportional to a tensor bilinear that decays like the inverse 7-volume, so zero initial data stay zero, and a diagonal metric is consistent with states for which this bilinear vanishes. In the flat-gamma notation of the Python checker the same component reads $T_{ij}=\tfrac14\eta_{ii}\eta_{jj}h_ih_j(H_i-H_j)\,\bar\Psi\gamma^i\gamma^j\gamma^4\Psi$; the two forms are identical because $\gamma_i=\eta_{ii}h_i\gamma^i$ (notation conversion recorded in stage1-summary.json).
 
-**Result 9.3.** The Wolfram verifier checks all of these at the three G3 times, off and on shell as indicated. The Python checker independently checks, with its own random on-shell data at three G3 times, the energy density, the seven equal pressures, $\mathrm{KE}_L$, $\mathrm{PE}_L$, $\rho=\mathrm{KE}_L+\mathrm{PE}_L$, $p=\mathrm{KE}_L-\mathrm{PE}_L$ and the off-diagonal forms; the off-shell forms $\rho=mS+U$ and $p_{(i)}=\mathcal L_s$ are part of its metric-variation check. For generic states the $T_{ij}$ are nonzero in 42 of 42 ordered pairs and the $T_{4i}$ vanish on shell. A sample: at $x_4=1/3$ with $m=4$, $\lambda=7/6$ and $S=-75899/7560$ the Python report gives $\rho=260864863/13996800$, $\mathrm{KE}_L=3793356121/97977600$, $\mathrm{PE}_L=-75899/3780$ and $w=75899/24059$.
+**Result 9.3.** The Wolfram verifier checks all of these at the three G3 times, off and on shell as indicated. The Python checker independently checks, with its own random on-shell data at three G3 times, the energy density, the seven equal pressures, $\mathrm{KE}_L$, $\mathrm{PE}_L$, $\rho=\mathrm{KE}_L+\mathrm{PE}_L$, $p=\mathrm{KE}_L-\mathrm{PE}_L$ and the form of $T_{ij}$. For $T_{4i}$ it checks only the on-shell vanishing: its comparison runs on on-shell data, where both sides of the off-shell $T_{4i}$ formula are zero, so the off-shell $T_{4i}$ formula is checked by Wolfram only. The off-shell forms $\rho=mS+U$ and $p_{(i)}=\mathcal L_s$ are part of its metric-variation check. For generic states the $T_{ij}$ are nonzero in 42 of 42 ordered pairs and the $T_{4i}$ vanish on shell. A sample: at $x_4=1/3$ with $m=4$, $\lambda=7/6$ and $S=-75899/7560$ the Python report gives $\rho=260864863/13996800$, $\mathrm{KE}_L=3793356121/97977600$, $\mathrm{PE}_L=-75899/3780$ and $w=75899/24059$.
 
 ```
 checks
@@ -955,12 +988,13 @@ checks
 | Hamiltonian split | $\tfrac12\dot\phi^2+V$ | $\mathrm{KE}_H=0$, $\mathrm{PE}_H=mS+U$ |
 | equation of state | $w_\phi=\dfrac{\tfrac12\dot\phi^2-V}{\tfrac12\dot\phi^2+V}$ | $w=\dfrac{SU'-U}{mS+U}$ |
 | $w\to-1$ | $\dot\phi^2\ll V$ | $\lvert\mathrm{KE}_L\rvert\ll\mathrm{PE}_L$ |
-| $w\to+1$ | $\dot\phi^2\gg V$ (kination) | $\mathrm{PE}_L\ll\mathrm{KE}_L$ |
+| $w\to+1$ | $\dot\phi^2\gg V$ (kination) | $\lvert\mathrm{PE}_L\rvert\ll\mathrm{KE}_L$ |
+| $w>1$ | impossible for $V\ge0$ | possible: $\mathrm{PE}_L<0$ with $\rho>0$ (sample of Result 9.3) |
 | phantom $w<-1$ | impossible for a canonical field | possible: $\mathrm{KE}_L<0$ with $\rho>0$ |
 | equation of motion | $\ddot\phi+3H\dot\phi+V'(\phi)=0$ | $\gamma^\mu D_\mu\Psi=(m+U')\Psi$ |
 | dilution | depends on $V$ | $S\propto1/\sqrt{\lvert g\rvert}$ (derived, 9.6) |
 
-**Exact analogy.** In both cases the energy density is the Hamiltonian density ($T_{44}$) and, for a homogeneous state, the pressure equals the Lagrangian density; the Lagrangian split gives $\rho=\mathrm{KE}+\mathrm{PE}$ and $p=\mathrm{KE}-\mathrm{PE}$, hence the same formula for $w$. **Difference.** The fermion Lagrangian is first order in time. Its time-derivative term is not a positive kinetic energy: in the Hamiltonian split it contributes nothing to $\rho$, and in the Lagrangian split $\mathrm{KE}_L=\tfrac12S(m+U')$ can be negative. The canonical scalar field satisfies $w\ge-1$ whenever $\rho>0$; dirac16complex can cross $w=-1$ at the level of these classical (mean-field) formulas.
+**Exact analogy.** In both cases the energy density is $T_{44}$, and for a homogeneous state the pressure equals the Lagrangian density. In flat space $\rho$ is also the canonical Hamiltonian density. In the homogeneous diagonal backgrounds $\sqrt{|g|}\,\rho$ is the Hamiltonian density of the symmetrized Lagrangian $\mathcal L$, as $a^3\rho_\phi$ is for the scalar field, whereas the Hamiltonian density of $\mathcal L'$ (Section 10.4) differs from it by $-\tfrac i2\theta\sqrt{|g|}\,J^4$ in an expanding background (Section 9.5). As for the scalar field, the Lagrangian split gives $\rho=\mathrm{KE}+\mathrm{PE}$ and $p=\mathrm{KE}-\mathrm{PE}$, hence the same formula for $w$. **Difference.** The fermion Lagrangian is first order in time. Its time-derivative term is not a positive kinetic energy: in the Hamiltonian split it contributes nothing to $\rho$, and in the Lagrangian split $\mathrm{KE}_L=\tfrac12S(m+U')$ can be negative. The canonical scalar field satisfies $w\ge-1$ whenever $\rho>0$; dirac16complex can cross $w=-1$ at the level of these classical (mean-field) formulas.
 
 ## 10. Canonical quantization in 4+4 dimensions
 
@@ -1013,11 +1047,12 @@ $$
 \bigl\{\Psi_a(x),\Psi^\dagger_b(y)\bigr\}=B_{ab}\,\frac{\delta^7(x-y)}{\sqrt{|g|}},\qquad B:=-iC\gamma^4 .
 $$
 
-**Result 10.2.** $B$ is Hermitian, $B^2=1$, its eigenvalues are $+1$ and $-1$ with multiplicity 8 each (characteristic polynomial $(x-1)^8(x+1)^8$), $[C,B]=0$ and $BC=-i\gamma^4$. The Gaussian-normal reduction of the anticommutator to $B/\sqrt{|g|}$ is checked in the primordial field.
+**Result 10.2.** $B$ is Hermitian, $B^2=1$, its eigenvalues are $+1$ and $-1$ with multiplicity 8 each (characteristic polynomial $(x-1)^8(x+1)^8$), $[C,B]=0$ and $BC=-i\gamma^4$. The Gaussian-normal reduction of the anticommutator to $B/\sqrt{|g|}$ is checked in the primordial field (measurement QNT_curvedAnticommutatorMatrix.G2GaussianNormalReducesToB); the canonical-momentum checks record the general formula.
 
 ```
 checks
   ALG_chargeFormB: wolfram-algebra, python-algebra
+  QNT_curvedAnticommutatorMatrix: wolfram-algebra
   QNT_canonicalMomentum_G1, QNT_canonicalMomentum_G2: wolfram-geometry
 ```
 
@@ -1032,7 +1067,7 @@ $$
 \end{aligned}
 $$
 
-The last two terms come from the connection along $x_4$ and from the explicit $x_4$-dependence of the added total derivative. In flat space in Cartesian coordinates both vanish and $\mathcal H=T_{44}=\rho$. There, with $\{\Psi_a,\Psi^\dagger_b\}=B_{ab}\delta^7$ and $U=0$, $H=\int d^7x\,\Psi^\dagger(mC-C\gamma^j\partial_j)\Psi$ (sum over $j\ne4$), and the Heisenberg equation gives
+The last two terms come from the connection along $x_4$ and from the explicit $x_4$-dependence of the added total derivative. In flat space in Cartesian coordinates both vanish and $\mathcal H=T_{44}=\rho$. In the homogeneous diagonal frames of Section 9.7 the first vanishes ($\Omega_4=0$) but the second does not, and $\mathcal H=\sqrt{|g|}\bigl(\rho-\tfrac i2\theta J^4\bigr)$ with $\theta=\sum_{i\ne4}H_i$ (Section 9.5). In flat space, with $\{\Psi_a,\Psi^\dagger_b\}=B_{ab}\delta^7$ and $U=0$, $H=\int d^7x\,\Psi^\dagger(mC-C\gamma^j\partial_j)\Psi$ (sum over $j\ne4$), and the Heisenberg equation gives
 
 $$
 \partial_4\Psi=i[H,\Psi]=-iB\,(mC-C\gamma^j\partial_j)\Psi=-m\gamma^4\Psi+\gamma^4\gamma^j\partial_j\Psi,
@@ -1080,7 +1115,7 @@ checks
   QNT_flatModeHamiltonian: wolfram-algebra, python-algebra
 ```
 
-**The good sector** is the sector of fields that do not depend on $x_5,x_6,x_7$ ($k_5=k_6=k_7=0$). There $h_k$ is Hermitian and traceless with $h_k^2=E_k^2$, $E_k=\sqrt{m^2+k_0^2+k_1^2+k_2^2+k_3^2}$, so its eigenvalues are $+E_k$ and $-E_k$ with multiplicity 8 each: 8 particle and 8 antiparticle states for every momentum $k=(k_0,k_1,k_2,k_3)$.
+**The good sector** is the dimensional reduction to fields that do not depend on $x_5,x_6,x_7$ ($k_5=k_6=k_7=0$). It is not a subspace of the one-particle space $L^2(\mathbb R^7)\otimes\mathbb C^{16}$ of the seven-dimensional slices: $k_5=k_6=k_7=0$ is a set of measure zero there, so no normalizable state of the full theory lies in it, and a field independent of $x_5,x_6,x_7$ cannot satisfy the $\delta^7$ anticommutator of Section 10.5. It is the reduced (4+1)-dimensional theory on the coordinates $(x_0,x_1,x_2,x_3,x_4)$; equivalently, one keeps only the zero modes in $x_5,x_6,x_7$ on a normalization volume $V_3$, for which $\{\Psi_a,\chi_b\}=\delta_{ab}\,\delta^4/V_3$ (derived). There $h_k$ is Hermitian and traceless with $h_k^2=E_k^2$, $E_k=\sqrt{m^2+k_0^2+k_1^2+k_2^2+k_3^2}$, so its eigenvalues are $+E_k$ and $-E_k$ with multiplicity 8 each: 8 particle and 8 antiparticle states for every momentum $k=(k_0,k_1,k_2,k_3)$.
 
 ### 10.7 Fock space, Dirac sea and normal ordering
 
@@ -1093,7 +1128,7 @@ $$
 \end{aligned}
 $$
 
-with the Hilbert adjoints ${}^\ast$ of the positive structure $J=B$, realizes $\{\Psi_a,\chi_b\}=\delta_{ab}\delta^4$ on a positive-definite Fock space. The vacuum $|0\rangle$ is annihilated by all $b_s(k)$ and $d_s(k)$: the negative-energy states are filled (Dirac sea), and $d^\ast$ creates antiparticles. After normal ordering
+with the Hilbert adjoints ${}^\ast$ of the positive structure $J=B$, realizes the anticommutator of the reduced theory, $\{\Psi_a,\chi_b\}=\delta_{ab}\delta^4$ (Section 10.6, with the zero-mode normalization $V_3$ absorbed into the field), on a positive-definite Fock space. This Fock space is the quantization of the reduced (4+1)-dimensional theory, not a subspace of a Fock space of the full theory. The vacuum $|0\rangle$ is annihilated by all $b_s(k)$ and $d_s(k)$: the negative-energy states are filled (Dirac sea), and $d^\ast$ creates antiparticles. After normal ordering
 
 $$
 H=\int\frac{d^4k}{(2\pi)^4}\,E_k\sum_{s=0}^{7}\bigl(b_s(k)^\ast b_s(k)+d_s(k)^\ast d_s(k)\bigr)\ \ge0 .
@@ -1103,12 +1138,12 @@ This construction is derived here from Results 10.2, 10.4 and 10.5; it is not a 
 
 ### 10.8 Unitary and Krein-unitary symmetries
 
-A spin transformation $\Psi\to R\Psi$ preserves the canonical anticommutator iff $RBR^\dagger=B$, equivalently $R^\dagger BR=B$ (Krein-unitary). It is implemented unitarily on the positive Fock space iff in addition $R$ is unitary for $f^\dagger h$ and commutes with $J=B$ (derived). For $R=\exp(\theta S^{ab})$ the conditions concern the generators.
+A spin transformation that maps the slices $x_4=\text{const}$ to themselves, $R=\exp(\theta S^{ab})$ with $a,b\ne4$ acting on $\Psi$ together with the corresponding transformation of the slice coordinates, preserves the canonical anticommutator iff $RBR^\dagger=B$, equivalently $R^\dagger BR=B$ (Krein-unitary). It is implemented unitarily on the positive Fock space iff in addition $R$ is unitary for $f^\dagger h$ and commutes with $J=B$ (derived). These pointwise equal-time conditions apply only to such slice-preserving transformations. The boosts $S^{a4}$ tilt the quantization slice, and for them the criterion is the one of ordinary Dirac theory, whose boost generators are Hermitian as well and whose boosts are nevertheless unitarily implemented (see the end of this section). For $R=\exp(\theta S^{ab})$ the matrix conditions concern the generators.
 
 **Result 10.6.**
 
-1. Exactly 13 of the 28 generators $S^{ab}$ commute with $B$: the 6 of so(4) ($a,b\in\{0,1,2,3\}$), the 3 of so(3) ($a,b\in\{5,6,7\}$) and the 4 boosts $S^{a4}$, $a\in\{0,1,2,3\}$. Since $B\propto\gamma^0\gamma^1\gamma^2\gamma^3\gamma^4$, the boosts $S^{a4}$ anticommute with $C$ and with $\gamma^4$ and therefore commute with $B$; they are Hermitian, so $\exp(\theta S^{a4})$ is neither unitary nor Krein-unitary.
-2. Exactly 9 generators are anti-Hermitian (unitary for $\Psi^\dagger\Psi$) and commute with $B$. They generate the unitarily implemented group Spin(4) x Spin(3). The literal claim "exactly 9 of the 28 $S^{ab}$ commute with $B$" is false and is recorded as false in both reports.
+1. Exactly 13 of the 28 generators $S^{ab}$ commute with $B$: the 6 of so(4) ($a,b\in\{0,1,2,3\}$), the 3 of so(3) ($a,b\in\{5,6,7\}$) and the 4 boosts $S^{a4}$, $a\in\{0,1,2,3\}$. Since $B\propto\gamma^0\gamma^1\gamma^2\gamma^3\gamma^4$, the boosts $S^{a4}$ anticommute with $C$ and with $\gamma^4$ and therefore commute with $B$; they are Hermitian, so the 16 by 16 matrix $\exp(\theta S^{a4})$ is neither unitary nor Krein-unitary. This is a statement about matrices, not about the physical implementability of the boosts.
+2. Exactly 9 generators are anti-Hermitian (unitary for $\Psi^\dagger\Psi$) and commute with $B$. They generate Spin(4) x Spin(3), the compact slice-preserving part of the unitarily implemented symmetry group described below. The literal claim "exactly 9 of the 28 $S^{ab}$ commute with $B$" is false and is recorded as false in both reports.
 3. Exactly 21 generators, those with $a,b\ne4$, satisfy the Krein condition $(S^{ab})^\dagger B+BS^{ab}=0$. They generate the Krein-unitary slice group Spin(4,3). The Krein condition fails for all 7 generators $S^{4b}$.
 4. Exactly 12 generators are anti-Hermitian for $\Psi^\dagger\Psi$ (so(4) and so(4) on the directions 4 to 7).
 
@@ -1119,9 +1154,11 @@ checks
   QNT_unitaryAndKreinSubgroups: wolfram-algebra, python-algebra
 ```
 
+**Boosts in the good sector** (derived; the matrix statements were checked numerically at sample momenta while revising this document, not as recorded checks). With $\beta:=BC=-i\gamma^4$ and $\alpha^a:=-\gamma^4\gamma^a$ ($a=0,\dots,3$), all Hermitian, $\{\alpha^a,\alpha^b\}=2\delta^{ab}$, $\{\alpha^a,\beta\}=0$ and $\beta^2=1$, the good-sector mode Hamiltonian is $h_k=m\beta+\sum_{a=0}^{3}k_a\alpha^a$: the standard Dirac Hamiltonian in 4+1 dimensions, on 16 components. A boost $R=\exp(\theta S^{a4})$ with $a\le3$ is not unitary, but $R^\dagger\beta R=\beta$. It maps the eigenspace of $h_k$ with eigenvalue $\pm E_k$ onto the eigenspace of $h_{\Lambda k}$ with eigenvalue $\pm E_{\Lambda k}$, where $\Lambda k$ is the boosted momentum (it has no $x_5,x_6,x_7$ components), and on these eigenspaces $R^\dagger R=(E_{\Lambda k}/E_k)\cdot1$. Hence $(U\psi)(\Lambda k)=(E_k/E_{\Lambda k})\,R\,\psi(k)$ is unitary on $L^2(d^4k)$ for each sign of the energy, and the boosts are unitarily implemented on the Fock space of Section 10.7 with an invariant vacuum, exactly as in ordinary Dirac theory. The symmetries of the eight-dimensional theory that act unitarily in the good sector therefore include ISO(4,1) x Spin(3) x U(1): the translations in $x_0,\dots,x_4$, the Spin(4,1) generated by the 10 $S^{ab}$ with $a,b\in\{0,\dots,4\}$, the Spin(3) generated by the 3 $S^{ab}$ with $a,b\in\{5,6,7\}$, and the phase. These 13 generators are exactly the ones of item 1 that commute with $B$; Spin(4) x Spin(3) of item 2 is only their compact slice-preserving part. (The reduced theory has further internal symmetries that do not come from the $S^{ab}$: the commutant of $\gamma^0,\dots,\gamma^4$ has dimension 8.) The counts 13, 9, 21 and 12 of Result 10.6 remain correct as matrix facts.
+
 ### 10.9 The U(1) current and charge
 
-$J^\mu=-i\bar\Psi\gamma^\mu\Psi$ is Hermitian, and in Gaussian normal gauge $J^4=\Psi^\dagger B\Psi$: all eight current matrices are Hermitian and the matrix of $J^4$ is $B$. The conserved charge is $Q=\int d^7x\,\sqrt{|g|}\,J^4$. As a quadratic form in classical spinors it is indefinite (signature (8,8)); in the Hilbert representation of Section 10.5, $\Psi^\dagger B\Psi=\chi\Psi$, and after normal ordering $Q=\sum(b^\ast b-d^\ast d)$: particles have charge $+1$ and antiparticles $-1$ (derived).
+$J^\mu=-i\bar\Psi\gamma^\mu\Psi$ is Hermitian, and in Gaussian normal gauge $J^4=\Psi^\dagger B\Psi$: all eight current matrices are Hermitian and the matrix of $J^4$ is $B$. Hermitian means here, as in Sections 7.4 and 9.3, invariant under the conjugation of the Grassmann algebra, which after quantization is self-adjointness for the Krein form. In the positive Hilbert-space representation of Section 10.5 the operator $\Psi^\dagger M\Psi=\chi BM\Psi$ is self-adjoint only if $BM$ is Hermitian, that is, for Hermitian $M$, only if $[M,B]=0$. $J^0,\dots,J^4$ satisfy this; for $J^5,J^6,J^7$ the matrix $BM=-\gamma^4\gamma^\mu$ is anti-Hermitian, so these three components are anti-self-adjoint in the $J=B$ Fock space and are not observables there (Section 10.11). The conserved charge is $Q=\int d^7x\,\sqrt{|g|}\,J^4$. As a quadratic form in classical spinors it is indefinite (signature (8,8)); in the Hilbert representation of Section 10.5, $\Psi^\dagger B\Psi=\chi\Psi$, and after normal ordering $Q=\sum(b^\ast b-d^\ast d)$: particles have charge $+1$ and antiparticles $-1$ (derived).
 
 ```
 checks
@@ -1131,7 +1168,7 @@ checks
 
 ### 10.10 The extra-time sector
 
-For momenta along $x_5,x_6,x_7$ the operator $h_k$ is not Hermitian and does not commute with $B$ (Result 10.5), and $E^2=m^2+k_0^2+\dots+k_3^2-k_5^2-k_6^2-k_7^2$ can be negative: two of the Python samples have $E^2=-271/196$ and $E^2=-3$. The corresponding frequencies are imaginary and the modes grow exponentially in $x_4$. This is the ill-posedness of the initial-value problem for ultrahyperbolic equations: the slice $x_4=\text{const}$ contains three time-like directions. The positive Fock space of Section 10.7 exists only in the good sector.
+For momenta along $x_5,x_6,x_7$ the operator $h_k$ is not Hermitian and does not commute with $B$ (Result 10.5), and $E^2=m^2+k_0^2+\dots+k_3^2-k_5^2-k_6^2-k_7^2$ can be negative: two of the Python samples have $E^2=-271/196$ and $E^2=-3$. Three cases occur, all with $h_k^2=E^2\cdot1$ (Result 10.5). For $E^2>0$ the frequencies $\pm E$ are real although $h_k$ is not Hermitian; $h_k$ is diagonalizable because $x^2-E^2$ has distinct roots (sample $m=1$, $k_0=1/2$, $k_6=-2/3$: $E^2=29/36$). For $E^2=0$ and $h_k\ne0$, $h_k$ is nilpotent, $h_k^2=0$, and the modes grow linearly, $\Psi(x_4)=(1-ih_kx_4)\Psi(0)$ (samples $m=1$, $k_5=1$ and $m=0$, $k_1=k_5=3$). For $E^2<0$, that is exactly when $k_5^2+k_6^2+k_7^2>m^2+k_0^2+\dots+k_3^2$, the frequencies are imaginary and the modes grow exponentially in $x_4$. This is the ill-posedness of the initial-value problem for ultrahyperbolic equations: the slice $x_4=\text{const}$ contains three time-like directions. The positive Fock space of Section 10.7 exists only in the good sector.
 
 ### 10.11 Expectation values
 
@@ -1142,6 +1179,8 @@ $$
 $$
 
 Examples (derived): the charge ($M=B$) gives $u^\dagger u=1$; the energy ($M=Bh$) gives $u^\dagger h u=E$; the scalar density ($M=C$) gives $u^\dagger BCu=u^\dagger(-i\gamma^4)u$, which is $+1$ for a positive-energy state at rest with $m>0$, so $\langle\rho\rangle=m\langle S\rangle=m=E$. The naive density $\Psi^\dagger\Psi$ gives $u^\dagger Bu$, which is indefinite even on positive-energy states (Result 10.4); it is not the physical density.
+
+For Hermitian $M$ the rule gives real expectation values only when $[M,B]=0$, because only then is $BM$ Hermitian. Every $\Psi^\dagger M\Psi$ with $M$ anticommuting with $B$ is anti-self-adjoint in the $J=B$ Fock space and has purely imaginary expectation values, so it is not an observable there. Examples are $J^5,J^6,J^7$ (Section 10.9) and the $T_{ij}$ bilinears of Section 9.7 with $i\in\{0,\dots,3\}$ and $j\in\{5,6,7\}$. For $(i,j)=(0,5)$, $M=C\gamma^0\gamma^5\gamma^4$ is Hermitian, $BM=i\gamma^0\gamma^5$ is anti-Hermitian and commutes with $h_0$, and its eigenvalues on the positive-energy rest space are $\pm i$ (derived; checked numerically while revising this document, not a recorded check).
 
 ## 11. Verification records
 
@@ -1341,11 +1380,15 @@ dirac-main/artifacts/exact/triality44.json
 
 ## 12. Reproduction
 
-Run every command from the repository root. The Wolfram report path is a plain positional argument: WolframScript 1.14 drops "--" and every argument after it when it is combined with -file. The gates set PYTHONUTF8=1 for their own process; set it yourself for single steps, because Python output contains Greek letters.
+Run every command from the repository root.
+
+**Prerequisite: dirac-main.** The algebra verifiers compare with three files of dirac-main, the separately published repository https://github.com/once-ere/dirac. It is git-ignored here (/dirac-main/ in .gitignore), so a fresh clone does not contain it: clone that repository into ./dirac-main, or unpack the GitHub archive of its main branch there. The recorded run did not record a commit of dirac-main; the pin is the content of the three files, whose sha256 must equal the values in Section 11.7 (dirac-main/artifacts/exact/cl44-seed.json, split-octonion.json and triality44.json; check with sha256sum in Git Bash or Get-FileHash in PowerShell). Without dirac-main every verifier still exits 0, but the dirac-main sub-checks record "not-run", both algebra reports differ in their bytes from the recorded ones (so their sha256 differ from Section 11.7), the dirac-main equalities of Results 3.7 and 3.8 are not reproduced, and the gate fails at step 08, whose publication test compares the reports with this document, and prints stage1_arbitrary_field_verification=FAILED.
+
+The Wolfram report path is a plain positional argument: WolframScript 1.14 drops "--" and every argument after it when it is combined with -file. The gates set PYTHONUTF8=1 for their own process; set it yourself for single steps, because Python output contains Greek letters.
 
 ### 12.1 PowerShell
 
-The Stage-1 gate runs all eleven steps through the logging wrapper scripts/run_logged.ps1, with the logs in build/logs/, and then audits the five reports and the cross-implementation checks:
+The Stage-1 gate runs all twelve steps through the logging wrapper scripts/run_logged.ps1, with the logs in build/logs/, and then audits the five reports and the cross-implementation checks. Step 12 repeats the publication test of this document after the summary (step 10) and the PDF (step 11) have been rebuilt, so that the hash of stage1-summary.json quoted in Section 11.7 is compared with the file the gate has just written:
 
 ```
 pwsh -NoProfile -File scripts/verify_stage1_arbitrary_field.ps1
@@ -1377,6 +1420,7 @@ python -m unittest discover -s tests -p "test_d16c_[ag]*.py" -v
 python -m unittest discover -s tests -p "test_publication_tooling.py" -v
 python scripts/build_stage1_summary.py --output "$a/stage1-summary.json"
 python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.md
+python -m unittest discover -s tests -p "test_d16c_arbitrary_field_publication.py" -v
 ```
 
 ### 12.2 Git Bash
@@ -1407,6 +1451,7 @@ python -m unittest discover -s tests -p "test_d16c_[ag]*.py" -v
 python -m unittest discover -s tests -p "test_publication_tooling.py" -v
 python scripts/build_stage1_summary.py --output "$a/stage1-summary.json"
 python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.md
+python -m unittest discover -s tests -p "test_d16c_arbitrary_field_publication.py" -v
 ```
 
 Each verifier prints check_count and failed_check_count and exits nonzero if a check fails. The first algebra step runs without the Wolfram comparison (--wolfram-report= with an empty value), because the Wolfram report on disk may predate the run; the second one compares with the report just written. The PDF step builds this document twice (two builder runs, three pdflatex passes each), requires warning-free logs and byte-identical PDFs, and compares the result with the registered edition dirac16complex-arbitrary-field in provenance/pdf-specifications.json. After an edit of this document the edition is registered again with
@@ -1425,7 +1470,7 @@ python scripts/build_provenance_pdf.py --register \
 3. Conservation of $T_{\mu\nu}$ is checked with on-shell jets at points, not as an off-shell Noether identity.
 4. The energy-momentum, Lichnerowicz and invariance checks evaluate bilinears with commuting exact numbers, which is exact because $\Psi^\dagger$ is always on the left and $\Psi$ on the right; the field equations, the canonical momentum and Lg[] are checked in genuine Grassmann algebras.
 5. The Dirac-bracket computation, the Hamiltonian density, the Heisenberg equations, the mode expansion, the Fock space and the expectation-value rule of Section 10 are derivations; only their algebraic ingredients (Results 10.1 to 10.6) are machine-checked.
-6. The quantization is formal: the state space is a Krein space, the extra-time sector has complex frequencies, and no interacting theory, regularization or renormalization is constructed.
+6. The quantization is formal: the state space is a Krein space; in the extra-time sector the mode Hamiltonian is not Hermitian, with imaginary frequencies (exponential growth) when $k_5^2+k_6^2+k_7^2>m^2+k_0^2+\dots+k_3^2$ and linear growth at equality; the positive Fock space is that of the reduced good sector; and no interacting theory, regularization or renormalization is constructed.
 7. The homogeneous-sector formulas treat bilinears as classical mean-field quantities; the quantum expectation values of Section 10.11 are one-particle statements.
 8. The signature (4,4) is not observed spacetime, and nothing here is compared with data. The connection to dark energy or dark matter, and the stability of solutions, are not decided in this document.
-9. The cross-checks against dirac-main's published fixtures need the git-ignored dirac-main folder; in a fresh clone these sub-checks record "not-run" (measurement referenceFilesPresent in wolfram-algebra-report.json).
+9. The cross-checks against dirac-main's published fixtures need the git-ignored dirac-main folder, which Section 12 says how to obtain. Without it these sub-checks record "not-run" (measurement referenceFilesPresent in wolfram-algebra-report.json), the two algebra reports differ in their bytes and hashes from the recorded ones, the dirac-main equalities of Results 3.7 and 3.8 are not reproduced, and the gate fails at step 08 instead of printing OK.

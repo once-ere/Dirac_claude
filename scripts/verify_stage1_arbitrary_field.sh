@@ -37,6 +37,10 @@
 # algebra, geometry and the arbitrary-field publication test, and
 # tests/test_publication_tooling.py); Stage 2 and Stage 3 tests have their
 # own gates.
+# Step 12 runs tests/test_d16c_arbitrary_field_publication.py once more, after
+# the summary (step 10) and the provenance PDF (step 11) have been rebuilt:
+# that test compares the stage1-summary.json hash quoted in the document with
+# the file on disk, and step 08 runs before step 10 rewrites the summary.
 # PYTHONUTF8=1 is exported for this process only, so that Python output
 # containing Greek letters survives the pipes.
 #
@@ -221,6 +225,10 @@ run_step stage1-10-summary 0 \
 if ((skip_provenance_pdf == 0)); then
     run_step stage1-11-provenance-pdf 0 \
         "$python_command" scripts/build_provenance_pdf.py "$provenance_markdown"
+    # Repeats the publication test against the summary and PDF just rebuilt.
+    run_step stage1-12-publication-recheck 0 \
+        "$python_command" -m unittest discover -s tests \
+        -p 'test_d16c_arbitrary_field_publication.py' -v
 fi
 
 outputs=(
@@ -302,7 +310,7 @@ for output in "${outputs[@]}"; do
         "$(sha256sum -- "$output" | cut -d' ' -f1)" "$output"
 done
 if ((skip_provenance_pdf == 1)); then
-    printf 'stage1_skipped_step=stage1-11-provenance-pdf (--skip-provenance-pdf; %s not built or checked)\n' \
+    printf 'stage1_skipped_step=stage1-11-provenance-pdf,stage1-12-publication-recheck (--skip-provenance-pdf; %s not built or checked)\n' \
         "$provenance_markdown"
     printf '%s\n' 'stage1_arbitrary_field_verification=INCOMPLETE'
     exit 3

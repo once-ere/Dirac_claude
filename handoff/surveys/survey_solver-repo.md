@@ -1,0 +1,175 @@
+# solver-repo
+
+## summary
+SURVEY OF once-ere/rustSolveIt_Win11_SUNDIALS_7_8_0. The clone is at scratchpad/rustSolveIt_Win11, HEAD a8fdff459adfe181573d7924b18bffbdf378fdb3 (2026-09-09). The commit author is once-ere <Patrick299Nash@gmail.com>, which is the user's own account. The repo has 4065 tracked files. After all builds and runs, `git status` in the clone is clean. Everything I made is in scratchpad/survey_tmp.
+
+KEY FINDING: the repo contains NO Mathematica notebooks. There is no .nb, .wl, .wls or .cdf file. The only `.m` file is the MATLAB/Octave script sundials_rs/examples/arkode/C_serial/bruss_plots.m. There is no LibraryLink, WSTP, pyo3, evcxr, cdylib or ctypes code anywhere. In this repo, "Mathematica notebook" only describes posim's own REPL style (`In[n]:=` / `Out[n]=` cells, posim/src/notebook.rs:1-2, grammar.md §6 line 2726). The posim command language cannot express a general user ODE system. It covers rigid bodies, particles, joints, QM1/2/3D, special functions and datasets, and `DEF` only runs a sequence of commands (grammar.md §5.9). So `dynamic_notebooks/*.posim` and `scripts/solveit/*.posim` cannot hold a Dirac-cosmology RHS. The only usable Mathematica precedent is in dirac-main itself: notebooks/DiracTriality.nb and wolfram/dirac_triality.wls. Both `Import[.../artifacts/<study>/summary.json, "RawJSON"]` the output of the Rust CVODE studies, so the data exchange is by files.
+
+1. LAYOUT AND PURPOSE
+- Root: a Cargo workspace (members quantum, physical_object, posim, special_functions). It excludes sundials_rs, vendor/spec_math, rebound_rust, reboundx_rust, planet_Mercury and dataset_tools. The root .cargo/config.toml pins `-C target-feature=+fma` for x86_64. The engine requires FMA, because sundials_libm uses mul_add.
+- posim/: the only CLI binary, `posim.exe`. Modes: REPL (no args); `--script f.posim`; `--notebook f.posim`, which replays a script and then stays interactive; `--machine`, a JSON-Lines protocol with ops exec/get/set/state/events/help/quit. There is no binary called `solveit`. The name only appears in scripts/solveit/ and in the sidecar `solveit_db.exe` (dataset_tools, rusqlite+r2d2 SQLite).
+- scripts/solveit/: 38 posim scripts, the worked examples 01-38 of SolveIt.md. Scripts 20-38 are the dataset/SQL/movie/coordinate examples.
+- dynamic_notebooks/: 59 `.posim` "dynamic notebooks" (34 of them Routh problems). Each builds a system, prints analytic baselines and ends in `SCENE CREATE` (a GUI window). Launch with `tools\posim_notebook.cmd <name>` or `cargo run -p posim --release -- --notebook dynamic_notebooks/<name>.posim`. MANIFEST.md is the audit trail.
+- notebooks/: 128 executed Jupyter notebooks, one per posim example (video_ 13, rust_ 6, collision_ 12, solveit_ 38, dynamic_ 59). Every one uses the kernel "Python 3 (ipykernel)". They start `posim --machine` as a child process and speak JSONL to it, and each owns `datasets/nb_<key>.db`. They are generated deterministically by notebooks/_build/ (specs → regen.py/nbbuild.py, executed by nbrun.py, audited by nbcheck.py).
+- SolveIt_Notebooks_for_rust/: the "encyclopedia". It holds 147 notebook copies in 7 topic folders (01_planet_mercury_tidal_locking with 2, 02_solveit 38, 03_dynamics_and_routh 59, 04_collisions 12, 05_mechanism_videos 13, 06_rust_compiled_examples 6, 07_nbody_rebound_rust 17). Each copy gets a prepended markdown "Encyclopedia header" cell and a `player_<tag>.py` (run/gui/jump/capture/data). `_tools/` holds gen.py, run_copy.py, shoot.py, encyclo.py, verify.py and manifest.json. run_copy.py executes cells with stdlib exec(), except the rebound family, which goes through nbclient. It also holds ENCYCLOPEDIA.md/.html/.pdf.
+- sundials_rs/: the vendored engine, a pure-Rust SUNDIALS 7.8.0 translation (Windows engine), 1713 tracked files. It is its own workspace with version 7.8.0 and 7 crates: sundials_core, cvode_rs, cvodes_rs, ida_rs, idas_rs, kinsol_rs, arkode_rs. The only dependency between them is a path dependency on sundials_core. Its own .cargo/config.toml pins +fma. It also carries C reference outputs (c-results/, rust-results/, examples/*/serial/*.out) and docs (sundials.md is the API guide, plus ARCHITECTURE.md). It is treated as read-only.
+- datasets/: 252 files, 137 SQLite `.db` plus 115 `_plots.html`, recorded by posim/notebooks through solveit_db. The schema is specific to rigid bodies (meta, bodies, frames, states), so it is not reusable for spinor states.
+- evidence/: byte-identity gate logs. evidence/port-7.8.0/ holds the Linux reference logs and cargo-test logs. evidence/win11/ holds the Windows re-runs from `bash tools/win_verify_physics.sh`: examples/collision-scripts/dynamic-notebooks logs plus the pinned accepted-divergence diffs. evidence/macos/ is the lineage.
+- planet_Mercury/: the closest precedent for our study. mercury_rs is a standalone crate with an empty `[workspace]`. It is BSD-3-Clause and path-depends on ../../sundials_rs/crates/{sundials_core,cvode_rs}. It integrates a 5-state system (test 1) and a 6-state system (test 2) with CVODE BDF + Newton + dense, rtol 1e-12, vector atol, root finding and ReInit. Its CLI subcommands print a last line of SUCCESS or FAILURE and write data/runs/<run_id>/{samples.csv, events.csv, branches.csv, restart.csv, manifest.json} (the directory can be overridden with $MERCURY_DATA_DIR). notebook/ holds the 2 executed ipynb, their builders, and the headless run_notebook.py and check_notebook.py. mercury_crosscheck is GPL. gui/ holds the baked HTML pages.
+- jupyter/: posim_kernel, an ipykernel wrapper kernel with language "posim". kernelspec/kernel.json argv is `python -m posim_kernel -f {connection_file}`. It relays cells to `posim --machine`. It only makes sense for posim commands.
+
+2. HOW YOU SOLVE AN ODE
+The Rust API is a 1:1 C-shaped port. Handles are Rc<RefCell<>> and every function takes `&`. Callbacks are plain `fn` pointers, not closures. Parameters go through `user_data: Option<Box<dyn Any>>` plus `downcast_mut`. The canonical sequence, from sundials_rs/crates/cvode_rs/examples/cvRoberts_dns.rs and planet_Mercury/mercury_rs/src/driver.rs:69-348:
+`use cvode_rs::prelude::*;`
+`SUNContext_Create(SUN_COMM_NULL, &mut ctx_opt)`
+`N_VNew_Serial(n, &ctx)`, then fill it with `N_VGetArrayPointer(&y).unwrap().copy_from_slice(..)`
+`CVodeCreate(CV_BDF, &ctx)`
+`CVodeInit(&cv, rhs, t0, &y)`
+`CVodeSStolerances(&cv, rtol, atol)` or `CVodeSVtolerances(&cv, rtol, &abstol_nvec)`
+`SUNDenseMatrix(n, n, &ctx)`, `SUNLinSol_Dense(&y, &A, &ctx)`, `CVodeSetLinearSolver(&cv, &LS, Some(&A))`
+optional `CVodeSetJacFn(&cv, Some(Jac))`
+`CVodeSetUserData(&cv, Some(Box::new(params)))`
+`CVodeSetMaxNumSteps`, `CVodeSetMaxStep`, `CVodeSetStopTime`, `CVodeRootInit(&cv, nroots, Some(g))`
+loop `CVode(&cv, tout, &y, &mut t, CV_NORMAL)`, which returns CV_SUCCESS, CV_ROOT_RETURN or CV_TSTOP_RETURN
+`CVodeReInit(&cv, t, &y)`
+stats via `CVodeGetNumSteps`, `CVodeGetNumRhsEvals`, `CVodeGetNumJacEvals`, `CVodeGetNumLinSolvSetups`, `CVodePrintAllStats(&cv, &SUNFile::Stdout, SUNOutputFormat::SUN_OUTPUTFORMAT_TABLE)`
+teardown `CVodeFree(&mut Some(cv))`, `SUNLinSolFree(Some(ls))`, `SUNMatDestroy(A)`, `N_VDestroy(y)`, `SUNContext_Free(&mut Some(ctx))`.
+
+Callback signatures:
+- `pub type CVRhsFn = fn(t: sunrealtype, y: &N_Vector, ydot: &N_Vector, user_data: &mut Option<Box<dyn Any>>) -> i32` (cvode_rs/src/cvode_impl.rs:88). Return 0 for OK, 1 for a recoverable failure (CVODE shrinks the step), -1 to abort.
+- `CVRootFn` has `gout: &mut [sunrealtype]`.
+- `CVLsJacFn(t, y, fy, Jac: &SUNMatrix, user_data, tmp1, tmp2, tmp3)` fills entries with `SM_ELEMENT_D_set(J, i, j, v)` (0-based).
+- Band and Krylov options: `SUNBandMatrix(N, mu, ml, &ctx)` + `SUNLinSol_Band` (cvAdvDiff_bnd.rs:161-175), and `SUNLinSol_SPGMR(&u, SUN_PREC_LEFT, 0, &ctx)` (cvDiurnal_kry.rs:171).
+- A closure RHS works through a trampoline, which I verified: `struct Ud{f: Box<dyn FnMut(f64,&[f64],&mut [f64])>}`, and `fn tramp(t,y,ydot,ud)` downcasts `Ud`, borrows y and ydot through N_VGetArrayPointer, and calls `(u.f)(t,&yv,&mut dv)`. See survey_tmp/stiff_probe/src/main.rs.
+- Output: the repo convention is CSV/stdout formatted with `sundials_core::sundials_utils::fmt_e(x, prec)` (C `%.*e`), never Rust `{:e}`.
+
+Python and Jupyter mechanism: only subprocess. The Mercury notebooks use `subprocess.Popen([exe, *args], stdout=PIPE, stderr=STDOUT, text=True, encoding="utf-8")`, stream the output, and require the last line to be "SUCCESS". The posim notebooks and the kernel speak JSONL to `posim --machine`.
+
+Mathematica interface: none in the repo. What I verified here: `RunProcess[{exe, "50"}]` plus `ImportString[..., "CSV"]` from wolframscript 1.14 works (survey_tmp/probe.wls). dirac-main already uses JSON exchange through `Import[..., "RawJSON"]`.
+
+3. BEST TEMPLATES
+Jupyter: planet_Mercury/notebook/mercury_tidal_locking.ipynb. It is nbformat 4.5, kernelspec python3 "Python 3 (ipykernel)", metadata mercury.pairs_with = mercury_rs/src/main.rs, 43 cells, 18 of them code. It is generated by build_notebook.py, executed headless by run_notebook.py (stdlib exec() in one namespace; the file is written back only if every cell passes; cells tagged "interactive" are skipped) and audited by check_notebook.py (rules R1-R6: needles, no cross-references, each code cell preceded by at least 80 characters of markdown, required headings, save cell, every cell executed). Its cells in order:
+- [0-3] markdown: §1 what it computes, §2 how to run, §3 glossary, §4 physics including "### 4.3 The first-order system actually handed to SUNDIALS".
+- [4-5] §5 driver: paths NB_DIR/BASE/MR/DATA/DB_PATH; `find_binary()` checks $MERCURY_BIN, then target/release/mercury_rs.exe; `run(*args)` does the subprocess stream and SUCCESS check.
+- [7] `run("print-config")`: the program recites its own constants and tolerances.
+- [9], [11], [13], [15], [17], [19]: `run("run-a")`, `run("run-b")`, `run("sweep","--branches","64")` followed by reading branches.csv and computing the capture fraction, `run("run-b-final","--branch",...)`, `run("run-d")`, `run("run-e")`.
+- [21] §7: sqlite3 schema with tables run/sample/event/branch/target, loaded from every CSV and manifest into data/mercury_orbit.sqlite3.
+- [23]-[35] §8: seven documented SQL queries.
+- [37] §9 gauntlet(): `assert` on every acceptance target, so the notebook stops on the first failure.
+- [39] §10: bakes gui/mercury_orbit.html twice with gui/bake_page.py, checks both SHA-256 hashes match, and opens a browser unless $MERCURY_NO_BROWSER is set.
+- [40] §11 lessons.
+- [41-42] §12: interactive tkinter "save as" cell.
+The notebook reads data/runs/*/{samples,events,branches,restart}.csv and manifest.json. It writes data/mercury_orbit.sqlite3 and gui/mercury_orbit.html. mercury_test2_jupiter_gr.ipynb (17 code cells) is the same pattern.
+
+The alternative, notebooks/rust_*.ipynb (for example rust_outer_solar_system.ipynb), drives posim over JSONL and adds a cell running `cargo run --release -p physical_object --example ...`. It is less suitable.
+
+Mathematica template: none in this repo. Use dirac-main/notebooks/DiracTriality.nb and dirac-main/wolfram/dirac_triality.wls, fed by JSON/CSV from the Rust binary.
+
+4. BUILD AND RUN (all SUCCESS, rustc/cargo 1.91.1, x86_64-pc-windows-msvc)
+- cvRoberts_dns: built from sundials_rs/ with `cargo build --release --locked -p cvode_rs --example cvRoberts_dns --target-dir <survey_tmp>/target` in 3.43 s (fresh target directory). Run from survey_tmp: exit 0 in 0.095 s. The output is BYTE-IDENTICAL (cmp) to sundials_rs/examples/cvode/serial/cvRoberts_dns.out, and also matches c-results/ and rust-results/ after stripping CR. Stats: 542 steps, 754 RHS evaluations, 11 Jacobian evaluations. The disassembly shows 7 vfmadd instructions and no call into ucrt fma, so the +fma pin was applied.
+- stiff_probe: a standalone crate in survey_tmp/stiff_probe with its own .cargo/config.toml +fma and path dependencies on the clone's sundials_rs. It solves a stiff dense-coupled linear system (Householder mixing, lambda from 1 to 1e6, t 0→10, rtol 1e-8, atol 1e-12, BDF dense with DQ Jacobian, closure RHS) with a known exact solution. Build 3.70 s. Results:
+  - N=50: 827 steps, 0.003 s, maximum error 3.5e-8
+  - N=200: 884 steps, 0.060 s, maximum error 1.1e-7
+  - N=500: 963 steps, 118 linear-solver setups, 0.683 s, maximum error 1.9e-7
+- mercury_rs: builds with --locked into survey_tmp/target_mercury in 4.47 s, and `print-config` ends with SUCCESS.
+- Notebook execution works without `jupyter` on PATH. `python -m nbconvert --to notebook --execute --inplace probe_exec.ipynb` took 6.3 s. User-site python has jupyterlab 4.4.10, nbconvert 7.16.6, nbclient 0.10.2, ipykernel 7.1.0 and a registered python3 kernelspec; numpy 2.4.6 and matplotlib 3.11.0 are present, scipy is missing. planet_Mercury/notebook/run_notebook.py also ran probe_stdlib.ipynb ok. The wolframscript RunProcess probe took about 6.6 s.
+
+5. LICENSING
+- The rustSolveIt root has NO LICENSE file. The workspace declares `license = "BSD-3-Clause"` (Cargo.toml line 43), and mercury_rs/Cargo.toml and dataset_tools also say BSD-3-Clause. The notebooks, notebook builders and runners carry no license or SPDX headers. The copyright holder is once-ere, the user's own account (the commit email matches), so copying the notebook code mainly needs an attribution/provenance note. Treat it as BSD-3-Clause: keep the notice, which is compatible with dirac-main's GPL-3.0-or-later.
+- sundials_rs/LICENSE: BSD-3-Clause, LLNL. BSD requires keeping the notice and not using LLNL's name for endorsement.
+- sundials_rs/NOTICE: the deterministic pow and sundials_libm/{exp,log}.rs are MIT (ARM via musl). sundials_libm/{expm1,log1p,sincos,atan,asincos,hyperbolic}.rs are LGPL-2.1-or-later (translated from glibc). Any binary linking sundials_core contains the LGPL modules.
+- rebound_rust/LICENSE, reboundx_rust/LICENSE and planet_Mercury/mercury_crosscheck are GPL-3.0-or-later, and so are the 07_nbody_rebound_rust notebooks.
+- vendor/spec_math declares `MIT OR Apache-2.0` in Cargo.toml only; upstream has no LICENSE file, per the caveat in THIRD_PARTY.md.
+
+6. dirac-main vendor/sundials_rs
+- The directory is EMPTY (the submodule was never initialised), and dirac-main is not a git checkout (no .git), so `git submodule update` cannot fill it.
+- .gitmodules: path vendor/sundials_rs, url https://github.com/once-ere/SUNDIALS_7_8_Rust_port_for_Windows11.git.
+- dirac-main/PROGRESS.md:67 pins the submodule to d1836e6a279d63a90fe2839a0020123245487e76 with 1,713 tracked files. `git ls-remote` shows upstream HEAD and refs/heads/main are exactly d1836e6a279d63a90fe2839a0020123245487e76.
+- rustSolveIt's sundials_rs vendors the same upstream (THIRD_PARTY.md:18, "Modified here? No").
+- I compared SHA-256 against dirac-main/audit/source-manifest.csv. All 1713 tracked files of the clone's sundials_rs/ are byte-identical, with none missing and none extra, to the audited root 'sundials-7-8-rust-port-win11' (SUNDIALS_7_8_Rust_port_for_Windows11-main). All 4065 files of the clone also match the audited 'rust-solveit-win11-sundials-7-8-0' root.
+- Crate names and versions are the same: sundials_core 7.8.0, cvode_rs 7.8.0 (plus cvodes_rs, ida_rs, idas_rs, kinsol_rs, arkode_rs, all 7.8.0 via version.workspace). dirac-main/Cargo.lock lists cvode_rs 7.8.0 and sundials_core 7.8.0.
+- Dependency style is path dependencies in both repos. dirac-main/Cargo.toml has workspace members studies/{einstein_spinor_44, spinor_cosmology, triality_transport, weitzenbock_spinor_44}, `exclude = ["vendor/sundials_rs"]`, workspace.package version 0.1.0, edition 2021, license GPL-3.0-or-later, and release opt-level 3. Each studies/*/Cargo.toml has `sundials_core = { path = "../../vendor/sundials_rs/crates/sundials_core" }` and `cvode_rs = { path = "../../vendor/sundials_rs/crates/cvode_rs" }`. dirac-main/.cargo/config.toml uses `[build] rustflags = ["-C","target-feature=+fma"]`. rustSolveIt uses `[target.'cfg(target_arch = "x86_64")'] rustflags` instead; both work, and a RUSTFLAGS environment variable overrides either.
+- Filling dirac-main/vendor/sundials_rs from the upstream clone at d1836e6, or copying it from the rustSolveIt clone, gives identical content.
+
+## key_files
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/notebook/mercury_tidal_locking.ipynb :: BEST Jupyter template: Python 3 (ipykernel), stdlib-only. It runs a Rust CVODE binary by subprocess, loads CSVs into SQLite, runs SQL queries and an assert gauntlet, and bakes an HTML page
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/notebook/build_notebook.py :: Deterministic generator for the Mercury notebook (md()/code() helpers, 'interactive' tag)
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/notebook/run_notebook.py :: Headless stdlib executor: exec() in one namespace, writes the notebook back only if all cells pass (no jupyter needed)
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/notebook/check_notebook.py :: Structure auditor (rules R1-R6, required headings)
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/mercury_rs/src/driver.rs :: Production CVODE driver: BDF + Newton + dense, SVtolerances, user_data, MaxNumSteps/MaxStep/StopTime, root arm/disarm, ReInit, stats, teardown order
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/mercury_rs/src/rhs.rs :: CVRhsFn/CVRootFn with a user_data downcast_mut::<RhsParams>() and the 0 / 1 / -1 return convention
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/mercury_rs/src/output.rs :: CSV and manifest writers using fmt_e; data dir from $MERCURY_DATA_DIR; fresh_run_dir clears stale manifests
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/mercury_rs/src/main.rs :: CLI subcommand dispatch; prints SUCCESS/FAILURE as the last line plus exit code (the contract the notebook checks)
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/mercury_rs/Cargo.toml :: Standalone crate (empty [workspace]) with path dependencies on ../../sundials_rs/crates/{sundials_core,cvode_rs}
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/sundials_rs/crates/cvode_rs/examples/cvRoberts_dns.rs :: Minimal canonical stiff dense-BDF example with user Jacobian and roots (built and run, byte-identical)
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/sundials_rs/crates/cvode_rs/src/cvode_impl.rs :: CVRhsFn/CVRootFn type definitions (line 88); CVodeMem = Rc<RefCell<CVodeMemRec>> (line 472)
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/sundials_rs/crates/cvode_rs/src/cvode_ls.rs :: CVLsJacFn (line 112), CVodeSetJacFn (line 587)
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/sundials_rs/sundials.md :: Engine API guide (§3 Getting started, §8 Licensing)
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/sundials_rs/ARCHITECTURE.md :: Handle, borrow, user_data (take/swap) and aliasing contracts
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/CLAUDE.md :: 'Working with the 7.8.0 API' (around line 432) and 'Windows traps' (around line 565): RefMut guard, fmt_e, cp1252, CRLF
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/sundials_rs/LICENSE :: BSD-3-Clause (LLNL SUNDIALS)
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/sundials_rs/NOTICE :: MIT (ARM pow/exp/log) and LGPL-2.1-or-later (sundials_libm glibc translations) notices
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/THIRD_PARTY.md :: Vendoring provenance: sundials_rs is unmodified from SUNDIALS_7_8_Rust_port_for_Windows11; GPL rebound folders; spec_math caveat
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/.cargo/config.toml :: +fma rustflags pin that the engine requires
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/jupyter/posim_kernel/kernel.py :: Wrapper kernel (ipykernel) that relays cells to posim --machine over JSONL; posim-only
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/SolveIt_Notebooks_for_rust/_tools/run_copy.py :: Family-aware executor (stdlib exec, or nbclient for the rebound family)
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/survey_tmp/stiff_probe/src/main.rs :: Verified probe: closure RHS via user_data trampoline, N=50/200/500 stiff dense BDF with an exact-solution check
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/survey_tmp/probe.wls :: Verified wolframscript RunProcess + CSV import of the Rust CVODE output
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/survey_tmp/probe.ipynb :: Verified minimal ipynb that drives the binary by subprocess (executed by nbconvert and by run_notebook.py)
+- C:/Users/nsh/Developer/github/Dirac_claude/dirac-main/Cargo.toml :: Workspace: 4 studies, exclude vendor/sundials_rs, GPL-3.0-or-later
+- C:/Users/nsh/Developer/github/Dirac_claude/dirac-main/.gitmodules :: Submodule vendor/sundials_rs -> once-ere/SUNDIALS_7_8_Rust_port_for_Windows11 (pinned d1836e6 per PROGRESS.md:67)
+- C:/Users/nsh/Developer/github/Dirac_claude/dirac-main/notebooks/DiracTriality.nb :: The only local Mathematica notebook precedent: loads wolfram/*.wl and Imports artifacts/*/summary.json
+- C:/Users/nsh/Developer/github/Dirac_claude/dirac-main/wolfram/dirac_triality.wls :: wolframscript precedent: Get packages, Import RawJSON summaries, write a JSON report
+- C:/Users/nsh/Developer/github/Dirac_claude/dirac-main/audit/source-manifest.csv :: SHA-256 manifest; confirms the clone's sundials_rs equals the audited solver root (1713/1713 files)
+
+## commands
+- git -C <clone> rev-parse HEAD  -> a8fdff459adfe181573d7924b18bffbdf378fdb3 (git status stayed clean after every command below)
+- cd <clone>/sundials_rs && cargo build --release --locked -p cvode_rs --example cvRoberts_dns --target-dir <survey_tmp>/target   # Git Bash; 3.43 s cargo-reported on a fresh target dir; run from sundials_rs/ so its .cargo/config.toml +fma applies; --locked keeps Cargo.lock untouched
+- cd <survey_tmp> && ./target/release/examples/cvRoberts_dns.exe > cvRoberts_dns.out   # exit 0, 0.095 s; run from survey_tmp because the example writes cvRoberts_dns_stats.csv to the current directory
+- cmp <survey_tmp>/cvRoberts_dns.out <clone>/sundials_rs/examples/cvode/serial/cvRoberts_dns.out   # silent = byte-identical to the SUNDIALS C reference output
+- llvm-objdump -d <survey_tmp>/target/release/examples/cvRoberts_dns.exe | grep -c vfmadd   # 7, so +fma was applied
+- cd <survey_tmp>/stiff_probe && cargo build --release   # 3.70 s; standalone crate with path deps ../../rustSolveIt_Win11/sundials_rs/crates/{sundials_core,cvode_rs} and its own .cargo/config.toml +fma
+- <survey_tmp>/stiff_probe/target/release/stiff_probe.exe 500 > probe_500.csv   # N=500: 963 steps, 118 LS setups, 0.683 s, worst error 1.9e-7, SUCCESS (N=50: 0.003 s; N=200: 0.060 s)
+- cd <clone>/planet_Mercury/mercury_rs && cargo build --release --locked --target-dir <survey_tmp>/target_mercury   # 4.47 s; then <survey_tmp>/target_mercury/release/mercury_rs.exe print-config -> last line SUCCESS
+- cd <survey_tmp> && python -m nbconvert --to notebook --execute --inplace probe_exec.ipynb   # works with no jupyter on PATH (user-site jupyterlab 4.4.10 / nbclient 0.10.2 / ipykernel 7.1.0); 6.3 s
+- cd <survey_tmp> && python ../rustSolveIt_Win11/planet_Mercury/notebook/run_notebook.py probe_stdlib.ipynb   # 'ok ... (1 cells)', stdlib-only executor
+- cd <survey_tmp> && wolframscript -file probe.wls   # RunProcess the Rust binary + ImportString CSV; exit=0 last=SUCCESS; about 6.6 s
+- git ls-remote https://github.com/once-ere/SUNDIALS_7_8_Rust_port_for_Windows11.git   # HEAD = refs/heads/main = d1836e6a279d63a90fe2839a0020123245487e76 (the dirac-main pin)
+- Documented in the repo, not run here: cd planet_Mercury/mercury_rs; cargo build --release; cargo test --release; then cd planet_Mercury/notebook; $env:MERCURY_NO_BROWSER='1'; python run_notebook.py mercury_tidal_locking.ipynb; python check_notebook.py mercury_tidal_locking.ipynb   # a full run is about 1 hour of computing
+
+## reusable_code
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/mercury_rs/src/driver.rs :: integrate_segment(): the complete CVODE BDF/dense lifecycle with an observer callback, root handling, ReInit, stats harvest and teardown in the C order, with every flag checked and turned into a named error :: Copy it into the new study crate. Change the state size from [f64;5] to Vec<f64>, switch CVodeSVtolerances to a vector atol of length N, and replace RhsParams with the spinor-cosmology parameter struct. Keep the teardown order and the error style.
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/mercury_rs/src/rhs.rs :: RHS and root callbacks using the user_data downcast_mut pattern and the recoverable (1) / fatal (-1) return codes :: Use it as the template for fn rhs(t, y, ydot, ud). Read y into a local copy or slice and write ydot through N_VGetArrayPointer, dropping each guard before returning.
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/survey_tmp/stiff_probe/src/main.rs :: Closure-RHS trampoline: struct Ud{f: Box<dyn FnMut(f64,&[f64],&mut [f64])>} plus fn tramp, which downcasts and calls the closure; verified at N=50/200/500 :: Drop it in to write the RHS as a move-closure over owned data (it must be 'static because dyn Any requires it). Its exact-solution check is also a template for a verification gauntlet.
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/mercury_rs/src/output.rs :: Deterministic CSV (fmt_e) and manifest.json writers, fresh_run_dir(), data dir from an environment variable :: Adapt for data/runs/<run_id>/samples.csv with N-state columns (or long format) and a manifest.json that echoes the tolerances and solver stats.
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/mercury_rs/src/main.rs :: Subcommand CLI with the last-line SUCCESS/FAILURE contract and exit codes :: Use the same contract so both the notebook run() helper and a wolframscript RunProcess can gate on the last line and the exit code.
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/notebook/build_notebook.py :: md()/code(interactive=) cell builders and deterministic nbformat-4 JSON authoring :: Copy the helpers and write CELLS for the new study; keep the kernelspec python3 metadata and the section headings expected by check_notebook.py.
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/notebook/run_notebook.py :: 75-line stdlib notebook executor (no Jupyter needed), written back with newline='\n' only if every cell passes :: Copy it verbatim for headless and CI execution; nbconvert --execute also works on this machine.
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/notebook/check_notebook.py :: Structure auditor (needles, no cross-references, markdown lead-ins, headings, executed counts) :: Copy it and edit the HEADINGS_R4 and NEEDLES lists for the new notebook.
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/rustSolveIt_Win11/planet_Mercury/notebook/mercury_tidal_locking.ipynb :: Cell 5 driver (find_binary + streaming run() with the SUCCESS check, encoding='utf-8'), cell 21 SQLite loader, cell 37 gauntlet() :: Copy these three code cells almost unchanged; swap the binary name, the environment variable and the table schema.
+- C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad/survey_tmp/probe.wls :: wolframscript: RunProcess[{exe, args}] then Rest[ImportString[..., "CSV"]] and summary Print :: Base for the Mathematica side (.wls or .nb cells) that calls the Rust binary or imports its CSV/JSON, in the same style as dirac-main/wolfram/dirac_triality.wls.
+
+## pitfalls
+- The repo has NO Mathematica .nb/.wl notebooks. 'Mathematica-style' in rustSolveIt means posim's In[n]/Out[n] REPL, whose command language cannot express a user ODE system. Mathematica templates must come from dirac-main (notebooks/DiracTriality.nb, wolfram/*.wls) or be written fresh.
+- The posim/jupyter kernel, the notebooks/ family and the datasets/ schema (bodies/frames/states) are specific to rigid-body mechanics. Do not try to route the spinor ODEs through posim; use the planet_Mercury pattern (standalone Rust CLI, subprocess-driven notebook).
+- CVRhsFn, CVRootFn and CVLsJacFn are plain fn pointers, not closures. Parameters or closures go through user_data: Option<Box<dyn Any>> + downcast_mut, and the boxed data must be 'static (owned, move-captured).
+- N_VGetArrayPointer returns a RefMut guard. Holding it across CVode/CVodeReInit or any solver call on the same vector panics (BorrowMutError), so copy the data out or scope the guard.
+- CVodeGetUserData SWAPS the box out; you must hand it back with CVodeSetUserData before the next callback. The solver also take()s user_data around each callback.
+- CVodeMem, N_Vector and SUNContext are Rc<RefCell<..>>, not Send. For parallel parameter sweeps, build all solver objects inside each thread, or run separate processes.
+- The +fma target feature is mandatory. The pin in sundials_rs/.cargo/config.toml only applies to builds invoked from that directory; a downstream crate needs its own pin (dirac-main/.cargo/config.toml has [build] rustflags +fma). A RUSTFLAGS environment variable overrides config rustflags.
+- The cvode examples write files such as cvRoberts_dns_stats.csv to the current directory. Run the built exe from a scratch directory, not from inside the repo.
+- Always use --locked when building inside the clone so Cargo.lock is not rewritten.
+- Python on this machine defaults to cp1252. Every subprocess pipe and open() must use encoding='utf-8', and byte-compared files must be written with newline='\n' (.gitattributes '* -text').
+- subprocess.run with a relative forward-slash exe path ('stiff_probe/target/release/x.exe') raised FileNotFoundError on Windows. Use an absolute pathlib path, as the Mercury find_binary() does.
+- Printing wall-clock times into cell output makes executed notebooks non-deterministic. Keep timing on stderr, out of the embedded outputs, if byte-identical re-runs matter.
+- In wolframscript 1.14, ImportString[..., "CSV", "HeaderLines"->1] did not drop the header; use Rest[...] or Import with a file.
+- Use fmt_e / fmt_ew (C printf semantics) for all numeric output, never Rust {:e}, if you want byte-identical reproducibility.
+- The dense DQ Jacobian costs about N RHS evaluations per Jacobian, and dense LU is O(N^3). At N=500 the linear-algebra-only probe took 0.68 s, but an expensive spinor RHS will dominate, so consider CVodeSetJacFn (SM_ELEMENT_D_set, 0-based) or a band/SPGMR solver.
+- dirac-main/vendor/sundials_rs is EMPTY and dirac-main has no .git, so the studies cannot build until that directory is populated (upstream clone at d1836e6, or a copy of the byte-identical rustSolveIt sundials_rs).
+- cvode_rs/src/lib.rs and sundials.md still carry stale 'AppleSilicon_macos' naming inherited from the macOS tree; this is harmless.
+
+## open_questions
+- Licensing of notebook-derived code: rustSolveIt has no root LICENSE file, only a BSD-3-Clause declaration in its Cargo manifests. The author (once-ere) appears to be the user, so should the new study simply carry an attribution/provenance note, or should a BSD notice be added?
+- Should dirac-main/vendor/sundials_rs be filled by `git clone` of upstream at d1836e6 (keeping submodule semantics) or by copying the byte-identical rustSolveIt sundials_rs tree? The parent must decide; this survey was read-only.
+- For 50-500 states with an expensive spinor RHS, will we supply an analytic Jacobian or a band structure, or accept the dense DQ Jacobian? This needs benchmarking with the real RHS.
+- Should the Mathematica side exchange data by JSON (the dirac-main precedent, Import RawJSON) or call the Rust binary directly by RunProcess (verified here)? Both work.

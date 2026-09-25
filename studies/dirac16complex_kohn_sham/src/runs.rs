@@ -199,6 +199,8 @@ fn levels_header() -> Vec<String> {
         "s",
         "index",
         "eps",
+        "branch",
+        "eps_free",
         "f",
         "weight",
         "scalar_charge",
@@ -226,6 +228,8 @@ fn levels_rows(spectrum: &Spectrum) -> Vec<Vec<f64>> {
                 st.s as f64,
                 st.index as f64,
                 st.eps,
+                st.branch as f64,
+                st.eps_free,
                 st.f,
                 st.weight,
                 (st.s as f64) * st.level.scalar_charge,
@@ -389,6 +393,12 @@ fn run_json(s: &Solution, e: &emt::Summary) -> Json {
             Json::Float(s.filling.lumo.map(|l| l.1).unwrap_or(f64::NAN)),
         ),
         ("ksGap", Json::Float(s.gap().unwrap_or(f64::NAN))),
+        ("seaTop", Json::Float(s.filling.sea_top)),
+        ("particleBottom", Json::Float(s.filling.particle_bottom)),
+        (
+            "branchOverlap",
+            Json::Bool(s.filling.sea_top > s.filling.particle_bottom),
+        ),
         ("nTotal", Json::Float(en.n_total)),
         (
             "nFromDensity",
@@ -1030,13 +1040,13 @@ pub fn run_excited(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                 .spectrum
                 .states
                 .iter()
-                .filter(|s| s.eps >= 0.0 && s.f > 0.0)
+                .filter(|s| s.branch > 0 && s.f > 0.0)
                 .collect();
             let empty: Vec<&scf::State> = ground
                 .spectrum
                 .states
                 .iter()
-                .filter(|s| s.eps >= 0.0 && s.f < 1.0)
+                .filter(|s| s.branch > 0 && s.f < 1.0)
                 .collect();
             let mut ph: Vec<(f64, f64, f64, f64, f64)> = Vec::new();
             for i in &occupied {

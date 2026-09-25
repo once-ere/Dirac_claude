@@ -9,12 +9,23 @@
 //!   s = -1 block problem (the s = +1 problem with the vector potential
 //!   negated and eps -> -eps, identical profiles) gives the states
 //!   (eps, s = -1), multiplicity 4 g.  For v_x = 0 the two are mirror images.
-//! * Occupations (normal ordering, thermal antiparticles included): a state
-//!   of energy eps carries the weight `w = f(eps)` for eps >= 0 and
-//!   `w = -(1 - f(eps))` (a hole in the sea = antiparticle) for eps < 0,
-//!   `f = 1/(e^{(eps - mu)/T} + 1)`; mu by bisection on N = sum mult w.  At
-//!   T = 0 the states are filled in order of eps (ensemble/fractional
-//!   occupation of the shell that straddles N).
+//! * Branches (normal ordering with respect to the FREE Dirac sea): a state
+//!   is a particle state (branch +1) when its non-interacting partner -- the
+//!   level with the same (shell, parity, block type, Pruefer index) at
+//!   lambda = 0 -- has eps_free >= 0, and a sea state (branch -1) otherwise.
+//!   The Pruefer index is a continuous label (Theta(eps) is monotone), so
+//!   this is the identification by continuity from lambda = 0; the sign of
+//!   the interacting eps itself is NOT used (the vector potential shifts
+//!   whole bands: the k = 0 brane zero modes move to eps = <v_x> < 0 for
+//!   lambda > 0 and stay particle states).  The exact k = 0 zero mode
+//!   (eps_free = 0) is a particle state in both block types.
+//! * Occupations (thermal antiparticles included): a particle state carries
+//!   the weight `w = f(eps)`, a sea state `w = -(1 - f(eps))` (a hole in the
+//!   sea = antiparticle), `f = 1/(e^{(eps - mu)/T} + 1)`; mu by bisection on
+//!   N = sum mult w.  At T = 0 the particle states are filled in order of eps
+//!   (ensemble/fractional occupation of the shell that straddles N) and the
+//!   sea stays full; an overlap of the two branches (a sea level above the
+//!   lowest occupied particle level) is recorded as a diagnostic.
 //! * Densities: coordinate `n_c(y) = sum mult w (a^2 + b^2)/l^3`,
 //!   `S_c(y) = sum mult w (-2 s a b)/l^3`; proper `n_p = e^{-6Hy} n_c`,
 //!   `S_p = e^{-6Hy} S_c` (per unit coordinate extra-time volume).
@@ -140,9 +151,13 @@ pub struct State {
     /// 4 g(shell).
     pub mult: f64,
     pub level: Arc<Level>,
+    /// +1 particle branch, -1 Dirac-sea branch (by continuity from lambda = 0).
+    pub branch: i32,
+    /// eps of the non-interacting partner level (same key, lambda = 0).
+    pub eps_free: f64,
     /// Fermi-Dirac occupation f(eps).
     pub f: f64,
-    /// Normal-ordered weight: f (eps >= 0) or -(1 - f) (eps < 0).
+    /// Normal-ordered weight: f (particle branch) or -(1 - f) (sea branch).
     pub weight: f64,
 }
 
@@ -303,6 +318,8 @@ fn solve_shell(
                 eps: level.eps,
                 mult: 4.0 * shell.multiplicity as f64,
                 level: Arc::new(level),
+                branch: 0,
+                eps_free: f64::NAN,
                 f: 0.0,
                 weight: 0.0,
             });
@@ -319,6 +336,8 @@ fn solve_shell(
                 eps,
                 mult: 4.0 * shell.multiplicity as f64,
                 level: Arc::new(level),
+                branch: 0,
+                eps_free: f64::NAN,
                 f: 0.0,
                 weight: 0.0,
             });
@@ -417,6 +436,71 @@ pub fn compute_spectrum(
     Ok(spectrum)
 }
 
+/// Non-interacting reference levels (lambda = 0) by (shell, parity, index),
+/// computed on demand and cached: they define the particle/sea branches.
+pub struct FreeLevels {
+    shooter: Shooter,
+    shells: Vec<Shell>,
+    cache: HashMap<(usize, i32, i64), f64>,
+}
+
+impl FreeLevels {
+    pub fn new(params: &Params) -> Self {
+        let potential = Arc::new(Potential::free(
+            params.h,
+            params.a4,
+            params.length,
+            params.m,
+            params.grid_n,
+        ));
+        Self {
+            shooter: Shooter::new(potential, params.tolerances),
+            shells: shells(params.delta_k(), params.shell_cap),
+            cache: HashMap::new(),
+        }
+    }
+
+    /// eps at lambda = 0 of the s = +1 level (shell, parity, index).
+    pub fn level(
+        &mut self,
+        shell: usize,
+        parity: i32,
+        index: i64,
+        guess: f64,
+    ) -> Result<f64, String> {
+        if let Some(e) = self.cache.get(&(shell, parity, index)) {
+            return Ok(*e);
+        }
+        let k = self.shells[shell].k;
+        let (eps, _) = self.shooter.find_level(k, parity, index, guess, 0.25)?;
+        let eps = if eps.abs() < crate::shooting::ZERO_SNAP {
+            0.0
+        } else {
+            eps
+        };
+        self.cache.insert((shell, parity, index), eps);
+        Ok(eps)
+    }
+
+    /// Assign branch and eps_free to every state of the spectrum.
+    pub fn classify(&mut self, spectrum: &mut Spectrum) -> Result<(), String> {
+        for st in spectrum.states.iter_mut() {
+            let guess = if st.s == 1 { st.eps } else { -st.eps };
+            let free_plus = self.level(st.shell, st.parity, st.index, guess)?;
+            // the s = -1 state with index n is the mirror (eps -> -eps) of the
+            // s = +1 level n of the free problem
+            let eps_free = if st.s == 1 { free_plus } else { -free_plus };
+            st.eps_free = eps_free;
+            st.branch = if eps_free >= 0.0 { 1 } else { -1 };
+        }
+        Ok(())
+    }
+
+    pub fn stats(&self) -> Stats {
+        self.shooter.stats
+    }
+}
+
 /// How the states are occupied.
 #[derive(Clone, Debug, PartialEq)]
 pub enum Occupation {
@@ -435,10 +519,14 @@ pub struct Filling {
     pub n_total: f64,
     pub homo: Option<(Key, f64)>,
     pub lumo: Option<(Key, f64)>,
+    /// Highest sea-branch level in the window (diagnostic of branch overlap).
+    pub sea_top: f64,
+    /// Lowest occupied particle-branch level.
+    pub particle_bottom: f64,
 }
 
-fn weight_of(eps: f64, f: f64) -> f64 {
-    if eps >= 0.0 {
+fn weight_of(branch: i32, f: f64) -> f64 {
+    if branch > 0 {
         f
     } else {
         -(1.0 - f)
@@ -466,14 +554,14 @@ pub fn occupy(
                 st.f = 0.0;
                 st.weight = 0.0;
             }
-            // particles: eps >= 0 in increasing order
+            // particle branch in increasing order of eps
             let mut remaining = n_target;
             let mut homo: Option<(Key, f64)> = None;
             let mut lumo: Option<(Key, f64)> = None;
             let mut i = 0;
             let n = states.len();
             while i < n {
-                if states[i].eps < 0.0 {
+                if states[i].branch < 0 {
                     i += 1;
                     continue;
                 }
@@ -482,7 +570,9 @@ pub fn occupy(
                 let mut j = i;
                 let mut group_mult = 0.0;
                 while j < n && (states[j].eps - e).abs() <= 1e-9 * e.abs().max(1.0) {
-                    group_mult += states[j].mult;
+                    if states[j].branch > 0 {
+                        group_mult += states[j].mult;
+                    }
                     j += 1;
                 }
                 if remaining <= 0.0 {
@@ -492,7 +582,7 @@ pub fn occupy(
                     break;
                 }
                 let fraction = (remaining / group_mult).min(1.0);
-                for st in states[i..j].iter_mut() {
+                for st in states[i..j].iter_mut().filter(|s| s.branch > 0) {
                     st.f = fraction;
                     st.weight = fraction;
                 }
@@ -508,12 +598,20 @@ pub fn occupy(
                     "occupy: window too small, {remaining} particles unplaced"
                 ));
             }
+            // the sea stays full: f = 1 for every sea state
+            for st in states.iter_mut().filter(|s| s.branch < 0) {
+                st.f = 1.0;
+                st.weight = 0.0;
+            }
             let n_total: f64 = states.iter().map(|s| s.mult * s.weight).sum();
+            let (sea_top, particle_bottom) = branch_overlap(states);
             Ok(Filling {
                 mu: homo.map(|h| h.1).unwrap_or(0.0),
                 n_total,
                 homo,
                 lumo,
+                sea_top,
+                particle_bottom,
             })
         }
         Occupation::Thermal => {
@@ -521,7 +619,7 @@ pub fn occupy(
             let count = |mu: f64, states: &[State]| -> f64 {
                 states
                     .iter()
-                    .map(|s| s.mult * weight_of(s.eps, fermi((s.eps - mu) / t)))
+                    .map(|s| s.mult * weight_of(s.branch, fermi((s.eps - mu) / t)))
                     .sum()
             };
             let scale = states.iter().map(|s| s.eps.abs()).fold(1.0, f64::max) + 60.0 * t;
@@ -543,32 +641,39 @@ pub fn occupy(
             let mu = 0.5 * (lo + hi);
             for st in states.iter_mut() {
                 st.f = fermi((st.eps - mu) / t);
-                st.weight = weight_of(st.eps, st.f);
+                st.weight = weight_of(st.branch, st.f);
             }
             let n_total = count(mu, states);
-            // HOMO/LUMO: highest / lowest eps >= 0 with f >= 1/2 and f < 1/2
+            // HOMO/LUMO: highest / lowest particle level with f >= 1/2 and f < 1/2
             let homo = states
                 .iter()
                 .rev()
-                .find(|s| s.eps >= 0.0 && s.f >= 0.5)
+                .find(|s| s.branch > 0 && s.f >= 0.5)
                 .map(|s| (s.key(), s.eps));
             let lumo = states
                 .iter()
-                .find(|s| s.eps >= 0.0 && s.f < 0.5)
+                .find(|s| s.branch > 0 && s.f < 0.5)
                 .map(|s| (s.key(), s.eps));
+            let (sea_top, particle_bottom) = branch_overlap(states);
             Ok(Filling {
                 mu,
                 n_total,
                 homo,
                 lumo,
+                sea_top,
+                particle_bottom,
             })
         }
         Occupation::Constrained(map) => {
             let lookup: HashMap<Key, f64> = map.iter().cloned().collect();
             for st in states.iter_mut() {
-                let f = lookup.get(&st.key()).copied().unwrap_or(0.0);
+                let f = if st.branch > 0 {
+                    lookup.get(&st.key()).copied().unwrap_or(0.0)
+                } else {
+                    1.0
+                };
                 st.f = f;
-                st.weight = if st.eps >= 0.0 { f } else { -(1.0 - f) };
+                st.weight = weight_of(st.branch, f);
             }
             let n_total: f64 = states.iter().map(|s| s.mult * s.weight).sum();
             let present = states
@@ -584,17 +689,35 @@ pub fn occupy(
             }
             let mu = states
                 .iter()
-                .filter(|s| s.f > 0.0)
+                .filter(|s| s.branch > 0 && s.f > 0.0)
                 .map(|s| s.eps)
                 .fold(f64::NEG_INFINITY, f64::max);
+            let (sea_top, particle_bottom) = branch_overlap(states);
             Ok(Filling {
                 mu,
                 n_total,
                 homo: None,
                 lumo: None,
+                sea_top,
+                particle_bottom,
             })
         }
     }
+}
+
+/// (highest sea level, lowest occupied particle level) in the window.
+fn branch_overlap(states: &[State]) -> (f64, f64) {
+    let sea_top = states
+        .iter()
+        .filter(|s| s.branch < 0)
+        .map(|s| s.eps)
+        .fold(f64::NEG_INFINITY, f64::max);
+    let particle_bottom = states
+        .iter()
+        .filter(|s| s.branch > 0 && s.f > 0.0)
+        .map(|s| s.eps)
+        .fold(f64::INFINITY, f64::min);
+    (sea_top, particle_bottom)
 }
 
 /// Coordinate densities from the occupied spectrum.
@@ -885,6 +1008,7 @@ pub fn solve(
         1.5 * params.m + 2.0 * PI / params.length
     };
     let mut stats = Stats::default();
+    let mut free_levels = FreeLevels::new(params);
     let mut converged = false;
     let mut last: Option<(
         Arc<Potential>,
@@ -904,16 +1028,24 @@ pub fn solve(
             stats.steps += spectrum.stats.steps;
             stats.rhs_evals += spectrum.stats.rhs_evals;
             stats.rescales += spectrum.stats.rescales;
+            let before = free_levels.stats();
+            free_levels.classify(&mut spectrum)?;
+            let after = free_levels.stats();
+            stats.integrations += after.integrations - before.integrations;
+            stats.steps += after.steps - before.steps;
+            stats.rhs_evals += after.rhs_evals - before.rhs_evals;
             match occupy(&mut spectrum, params, mode) {
                 Ok(filling) => {
-                    let edge_ok = if params.temperature > 0.0 {
+                    let edge_ok = if matches!(mode, Occupation::Constrained(_)) {
+                        true
+                    } else if params.temperature > 0.0 {
                         let thermal = params.temperature * log(1.0 / params.f_cut);
                         window.eps_hi >= filling.mu + thermal
                             && window.eps_lo <= filling.mu - thermal
                     } else {
-                        // at least one unoccupied level above the HOMO inside the window
+                        // at least one unoccupied particle level above the HOMO inside the window
                         filling.lumo.is_some()
-                            && spectrum.states.iter().any(|s| s.eps >= 0.0 && s.f == 0.0)
+                            && spectrum.states.iter().any(|s| s.branch > 0 && s.f == 0.0)
                     };
                     if edge_ok {
                         break (spectrum, filling);
@@ -1041,13 +1173,13 @@ pub fn delta_scf(ground: &Solution) -> Result<Solution, String> {
         .spectrum
         .states
         .iter()
-        .filter(|s| (s.eps - homo.1).abs() <= 1e-9 * homo.1.abs().max(1.0) && s.eps >= 0.0)
+        .filter(|s| (s.eps - homo.1).abs() <= 1e-9 * homo.1.abs().max(1.0) && s.branch > 0)
         .collect();
     let lumo_group: Vec<&State> = ground
         .spectrum
         .states
         .iter()
-        .filter(|s| (s.eps - lumo.1).abs() <= 1e-9 * lumo.1.abs().max(1.0) && s.eps >= 0.0)
+        .filter(|s| (s.eps - lumo.1).abs() <= 1e-9 * lumo.1.abs().max(1.0) && s.branch > 0)
         .collect();
     let homo_mult: f64 = homo_group.iter().map(|s| s.mult).sum();
     let lumo_mult: f64 = lumo_group.iter().map(|s| s.mult).sum();
@@ -1057,7 +1189,7 @@ pub fn delta_scf(ground: &Solution) -> Result<Solution, String> {
         .spectrum
         .states
         .iter()
-        .filter(|s| s.eps >= 0.0 && (s.f > 0.0 || lumo_keys.contains(&s.key())))
+        .filter(|s| s.branch > 0 && (s.f > 0.0 || lumo_keys.contains(&s.key())))
     {
         let key = st.key();
         let f = if homo_keys.contains(&key) {
@@ -1111,9 +1243,18 @@ pub fn standard_params(
 /// Closed-shell particle numbers of a non-interacting spectrum (cumulative
 /// multiplicities at the ends of degenerate groups of eps >= 0 states).
 pub fn closed_shell_numbers(spectrum: &Spectrum, limit: f64) -> Vec<(f64, f64)> {
+    // a non-interacting spectrum: the branch is the sign of eps
+    let spectrum = {
+        let mut s = spectrum.clone();
+        for st in s.states.iter_mut() {
+            st.branch = if st.eps >= 0.0 { 1 } else { -1 };
+        }
+        s
+    };
+    let spectrum = &spectrum;
     let mut out = Vec::new();
     let mut total = 0.0;
-    let states: Vec<&State> = spectrum.states.iter().filter(|s| s.eps >= 0.0).collect();
+    let states: Vec<&State> = spectrum.states.iter().filter(|s| s.branch > 0).collect();
     let mut i = 0;
     while i < states.len() {
         let e = states[i].eps;
@@ -1202,6 +1343,11 @@ mod tests {
             .all(|s| s.n2 == 0 && s.parity == 1 && s.index == 0 && s.eps.abs() < 1e-9));
         // gap to the next level is positive
         assert!(solution.gap().unwrap() > 0.1);
+        assert!(solution
+            .spectrum
+            .states
+            .iter()
+            .all(|s| s.branch == if s.eps_free >= 0.0 { 1 } else { -1 }));
         // scalar density of the zero modes vanishes
         assert!(solution.densities.s_c.iter().all(|s| s.abs() < 1e-12));
     }
@@ -1286,11 +1432,11 @@ mod tests {
     #[ignore]
     fn probe_timing() {
         let start = std::time::Instant::now();
-        let mut params = standard_params(1.0, 3.0, 0.0, 0.3, 8.0);
+        let mut params = standard_params(1.0, 3.0, 0.0, 1.0, 8.0);
         params.max_iter = 1;
         let solution = solve(&params, &Occupation::Thermal, None, 0.0).unwrap();
         println!(
-            "T=0.3 L=2 N=8: shells_used={} states={} integrations={} steps={} window=({}, {}) mu={} time={:?}",
+            "T=1.0 L=3 N=8: shells_used={} states={} integrations={} steps={} window=({}, {}) mu={} time={:?}",
             solution.spectrum.shells_used,
             solution.spectrum.states.len(),
             solution.stats.integrations,
