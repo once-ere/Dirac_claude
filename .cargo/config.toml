@@ -1,0 +1,4 @@
+# The pure-Rust SUNDIALS engine uses mul_add in sundials_libm; its reference
+# outputs (and this project's pinned numerical hashes) assume FMA.
+[build]
+rustflags = ["-C", "target-feature=+fma"]

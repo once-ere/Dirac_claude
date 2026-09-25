@@ -1,0 +1,285 @@
+# =============================================================================
+#  Pre-Universe_with_Claude  --  .gitignore
+#
+#  Three jobs, in order of importance:
+#
+#    1. no credential ever enters the history;
+#    2. editor, OS, language and build litter stays out;
+#    3. this project's own deliverables stay IN, and are never at the mercy of
+#       an exception list somebody has to remember to update.
+#
+#  Job 3 is why there is no blanket "*.log" rule.  This repository is
+#  mostly provenance: 51 of its 232 tracked files were .log on 2026-09-24
+#  (42 of 118 when this was first written), and they are the record of
+#  exactly what the notebook printed.  Ignoring them by extension
+#  and rescuing them by name would mean every new one is dropped in silence.
+#  Scratch is named instead.  See section 3 for the full reasoning.
+#
+#  One rule of gitignore worth knowing, because the superseded design depended on
+#  it entirely: a "!" rule cannot rescue a file whose PARENT DIRECTORY is
+#  excluded.  The shipped design does not depend on it.  Its only negations are
+#  !.env.example and !.env.sample in section 1, which negate the FILE pattern
+#  .env.* rather than any directory, so nothing here is at the mercy of
+#  directory ordering.
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+# 1.  SECRETS
+#
+#     Nothing matching these may ever be committed.  Nothing matching them is
+#     present today; these patterns are here so that it stays that way.
+# -----------------------------------------------------------------------------
+
+# environment and dotfile credential stores
+.env
+.env.*
+!.env.example
+!.env.sample
+.netrc
+_netrc
+.npmrc
+.pypirc
+.htpasswd
+
+# keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.asc
+*.gpg
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+*.ppk
+
+# anything that names itself a credential
+*credential*
+*credentials*
+*.secret
+*.secrets
+secrets.*
+*token*.json
+*_token
+*.token
+
+# Wolfram and Mathematica licensing material.  A mathpass file holds licence
+# passwords and an activation key is a credential in exactly the way an API
+# token is.  Neither belongs in a public repository.
+mathpass
+*.mathpass
+ActivationKey*
+*activation-key*
+*activation_key*
+
+# tool and agent state, which can carry tokens or conversation transcripts
+.claude/
+.vscode/
+.idea/
+*.code-workspace
+dirac-main_2.zip
+./dirac-main
+./dirac-main/
+./dirac-main/*
+
+# the author's own task specification and working notes.  These are his private
+# working material, not a deliverable, and must not be published.  They were
+# tracked by mistake and were removed from tracking on 2026-09-14; the files
+# stay on disk.
+prompt_Dirac_claude.txt
+prompt_Dirac_claude*.txt
+Gmail - w = equation of state parameter =w = -0.764 = forcing the Unite supernova data by itself to fit a flat, non-evolving dark energy model.pdf
+# ... and every later version of the same notes, whatever date is in the name
+./prompt_Dirac_claude*.txt
+
+# the plain-text extract of the author's original notebook.  It is GENERATED, by
+# claude-fable/extract/extract_original.wls, and PROVENANCE-00 gives the command.
+# Regenerate it rather than committing it; no .txt belongs in this repository.
+claude-fable/extract/cells_dump.txt
+claude-fable/extract/cells_index.txt
+
+# -----------------------------------------------------------------------------
+# 2.  LITTER
+#
+#     Editor swap files, OS metadata, language caches, build products, and the
+#     duplicate files this project accumulates while the author works.
+# -----------------------------------------------------------------------------
+
+# operating system
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# editors
+*.swp
+*.swo
+*.swn
+*~
+.*.sw[a-z]
+
+# Python, used here only by the notebook build tool
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# LaTeX build products, which is what *.aux, *.toc and *.out were added for
+*.aux
+*.toc
+*.out
+*.lof
+*.lot
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+
+# Wolfram front-end scratch
+*.nb.bak
+.MathematicaHistory
+
+# hand-made duplicates: "EtoExp - Copy.wl", "EtoExp copy 2.wl" and friends
+*[Cc]opy*.wl
+*[Cc]opy*.nb
+*[Cc]opy*.mx
+
+# local backups taken before modifying a file.  These are multi-megabyte
+# duplicates of files that are already in the repository.
+backups/
+
+
+# -----------------------------------------------------------------------------
+# 3.  SCRATCH TEXT AND LOGS
+#
+#     This section used to read
+#
+#         *.txt
+#         *.log
+#         !Pre.txt
+#         !Pre-00.txt
+#         !README*.txt
+#         !LICENSE*.txt
+#         !CHANGELOG*.txt
+#         !claude-fable/**/*.log
+#         !claude-fable/**/*.txt
+#
+#     which was correct but a trap, for two reasons.
+#
+#     First it read as a lie.  Anyone opening this file saw "*.txt", concluded
+#     that .txt files are omitted, and was then surprised to find Pre.txt and
+#     Pre-00.txt in the repository.  The exception that made it true was fifteen
+#     lines further down, and gitignore resolves by LAST match, so you had to
+#     read to the bottom to know what the top meant.
+#
+#     Second, and worse, it failed silently in the one direction that matters.
+#     Ignore-everything-then-rescue means every NEW text or log deliverable is
+#     dropped unless somebody remembers to come back here and add another "!"
+#     line.  Nothing errors.  Nothing appears in git status.  The file is just
+#     quietly not in the commit.  That is the worst failure mode a .gitignore
+#     can have, and this repository is mostly provenance logs, so it was
+#     pointed straight at the thing most likely to be lost.
+#
+#     So the logic is inverted.  Nothing is ignored by extension.  Scratch is
+#     named, by the shapes scratch actually takes.  A stray notes.txt now shows
+#     up as untracked in git status, which is visible and one command to fix,
+#     instead of vanishing.  And adding a new provenance log or specification
+#     needs no edit here at all.
+# -----------------------------------------------------------------------------
+
+# editor and tool backups, and merge leftovers
+*.tmp
+*.temp
+*.bak
+*.bak.*
+*.orig
+*.rej
+*.old
+
+# files whose NAME says they are scratch
+scratch*
+Scratch*
+tmp[-_.]*
+temp[-_.]*
+untitled*
+Untitled*
+*-scratch.*
+*[-_]draft.*
+
+# There is deliberately no blanket *.log or *.txt rule, here or anywhere.
+#
+# LaTeX is the one tool that would argue for *.log, since it writes <doc>.log
+# beside <doc>.tex.  Section 2 covers its other products (*.aux, *.toc, *.out and
+# the rest) but NOT its log, precisely because *.log cannot be scoped by
+# extension without catching the provenance logs.  The one .tex source is
+# fable-cosmology/latex/fable_cosmology.tex; its LaTeX log, latexmk's log and its
+# synctex file are ignored BY NAME in section 4.  If another .tex source is ever
+# added, scope its rules to it by name in the same way, for example
+#
+#     paper.log
+#
+# rather than reintroducing a blanket.
+
+# -----------------------------------------------------------------------------
+# 4.  fable-cosmology (added 2026-09-16)
+#
+#     The platform clone of the rustSolveIt engine, the Python virtual
+#     environment and cargo's build directory are all recreated by
+#     fable-cosmology/setup.* from the commands on that page; none of them
+#     is a deliverable.  Jupyter's checkpoint copies are litter.
+# -----------------------------------------------------------------------------
+fable-cosmology/rust/vendor/
+fable-cosmology/.venv/
+fable-cosmology/rust/fable_cosmo/target/
+.ipynb_checkpoints/
+
+# the LaTeX build logs of the fable-cosmology paper, scoped by name as section 3 advises
+fable-cosmology/latex/fable_cosmology.log
+fable-cosmology/latex/latexmk.log
+fable-cosmology/latex/fable_cosmology.synctex.gz
+
+# -----------------------------------------------------------------------------
+# 5.  fermion fable (added 2026-09-24)
+#
+#     cargo's build directory of the fermion-fable solver crate, as for
+#     fable_cosmo above.  fermion/dev/ holds the solver's development and
+#     trial runs; the evidence is the CSVs the notebooks write under
+#     fable-cosmology/results/, so dev/ is scratch.
+# -----------------------------------------------------------------------------
+fable-cosmology/rust/fable_fermion/target/
+fable-cosmology/fermion/dev/
+
+# the LaTeX logs of the three provenance twins in provenance-latex/, scoped by name as section 3 advises
+provenance-latex/PROVENANCE-14-FERMION-FABLE-CANONICAL-QUANTIZATION.log
+provenance-latex/PROVENANCE-14-FERMION-FABLE-CANONICAL-QUANTIZATION.latexmk.log
+provenance-latex/PROVENANCE-15-FERMION-FABLE-AND-THE-PRIMORDIAL-GRAVITATIONAL-FIELD.log
+provenance-latex/PROVENANCE-15-FERMION-FABLE-AND-THE-PRIMORDIAL-GRAVITATIONAL-FIELD.latexmk.log
+provenance-latex/PROVENANCE-16-THE-COMPLETE-SOLUTION-AND-ITS-COMMANDS.log
+provenance-latex/PROVENANCE-16-THE-COMPLETE-SOLUTION-AND-ITS-COMMANDS.latexmk.log
+
+# -----------------------------------------------------------------------------
+# 6.  dirac16complex (added 2026-09-25)
+#
+#     Git does not interpret a leading "./" in a pattern, so the three
+#     "./dirac-main" lines in section 1 never matched: `git check-ignore
+#     dirac-main/README.md` reported the tree as TRACKED.  The anchored
+#     directory pattern below is the form git actually honours.  dirac-main is
+#     the separately published https://github.com/once-ere/dirac repository and
+#     is read here only as a reference input.
+#
+#     vendor/ is the solver engine that scripts/setup_solver.* clones at a
+#     pinned commit; build/ holds the throw-away LaTeX A/B builds; target/ is
+#     cargo's build directory.  None of them is a deliverable.
+# -----------------------------------------------------------------------------
+/dirac-main/
+/vendor/
+/build/
+target/

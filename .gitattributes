@@ -1,0 +1,5 @@
+# Store every file byte-for-byte: hashes of provenance files are pinned.
+* -text
+*.pdf binary
+*.png binary
+*.nb -diff
