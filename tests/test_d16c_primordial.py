@@ -176,6 +176,33 @@ class GeometryTests(unittest.TestCase):
         self.assertTrue(nb["covariantAgrees"])
         self.assertTrue(nb["ricciScalarCell583Agrees"])
 
+    def test_source_x0_independent_state_supplies_linear_a4_exactly(self):
+        ok, measurements = P.check_source(context())
+        self.assertTrue(ok, measurements)
+        source = measurements["P_source"]
+        self.assertTrue(source["einsteinTransverseDifferenceIs2H2a4pp"])
+        self.assertTrue(source["realKRho_times_sinz_x0Independent"])
+        self.assertTrue(source["x0Independent"]["offDiagonalAre15ThreeGammaBilinears"])
+        self.assertEqual(len(source["x0Independent"]["offDiagonal"]), 21)
+        for label, rho, p in (("A", "-36", "0"), ("B", "-24", "12")):
+            example = source["x0IndependentExamples"][label]
+            self.assertTrue(example["allGminusKappaT64Zero"])
+            self.assertTrue(example["negativeControlSlopePlus1Fails"])
+            self.assertEqual((example["rho"], example["pTransverse"]), (rho, p))
+
+    def test_source_rejects_a_wrong_example(self):
+        original = P.SOURCE_EXAMPLES
+        try:
+            wrong = dict(original[1])
+            wrong["m"] = wrong["m"] + 1          # m S != -36 H^2/kappa
+            wrong["Meff"] = wrong["Meff"] + 1
+            P.SOURCE_EXAMPLES = (original[0], wrong)
+            ok, measurements = P.check_source(context())
+        finally:
+            P.SOURCE_EXAMPLES = original
+        self.assertFalse(ok)
+        self.assertFalse(measurements["P_source"]["x0IndependentExamples"]["B"]["conditions"])
+
     def test_a4_linear_numbers(self):
         ok, measurements = P.check_a4linear(context())
         self.assertTrue(ok)

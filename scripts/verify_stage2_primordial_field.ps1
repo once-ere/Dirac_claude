@@ -9,6 +9,12 @@
 #
 # Run from any directory with PowerShell 7:
 #   pwsh -NoProfile -File scripts/verify_stage2_primordial_field.ps1
+# Started from Windows PowerShell 5.1 (for example
+#   powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify_stage2_primordial_field.ps1)
+# the gate re-runs itself under pwsh (PATH, else
+# %ProgramFiles%\PowerShell\7\pwsh.exe) and exits with its exit code:
+# scripts/run_logged.ps1 uses -Encoding utf8NoBOM, which Windows PowerShell
+# 5.1 rejects.
 #
 # Steps (each through scripts/run_logged.ps1, log in build/logs/; build/ is
 # git-ignored):
@@ -47,6 +53,26 @@
 # "wolframscript -file s.wls r.json" gives {"s.wls", "r.json"}.
 [CmdletBinding()]
 param()
+
+if ($PSVersionTable.PSEdition -ne "Core") {
+    $pwshCommand = Get-Command pwsh -CommandType Application `
+        -ErrorAction SilentlyContinue | Select-Object -First 1
+    $pwshPath = if ($pwshCommand) {
+        $pwshCommand.Source
+    } else {
+        Join-Path $env:ProgramFiles "PowerShell\7\pwsh.exe"
+    }
+    if (-not (Test-Path -LiteralPath $pwshPath -PathType Leaf)) {
+        Write-Output "stage2_failed_step=tools"
+        Write-Output ("stage2_failure_reason=PowerShell 7 (pwsh) is required " +
+            "and was not found on PATH or at $pwshPath")
+        Write-Output "stage2_primordial_field_verification=FAILED"
+        exit 1
+    }
+    [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding $false
+    & $pwshPath -NoProfile -ExecutionPolicy Bypass -File $PSCommandPath
+    exit $LASTEXITCODE
+}
 
 $ErrorActionPreference = "Stop"
 $repositoryRoot = Split-Path -Parent $PSScriptRoot

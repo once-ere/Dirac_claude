@@ -115,4 +115,4 @@ GPL-3.0-or-later (see `LICENSE`).  Original notebook and physical programme:
 Patrick L. Nash.  Publication tooling derived from https://github.com/once-ere/dirac
 (GPL-3.0-or-later).  The numerical engine is the pure-Rust SUNDIALS 7.8.0 port
 (BSD-3-Clause, LLNL) from the rustSolveIt repositories, fetched at build time and
-not redistributed here; see `NOTICE`.  Prepared with Claude Opus 5.5.
+not redistributed here; see `NOTICE`.  Prepared with Claude (Opus 5.5 and Fable 5.1).

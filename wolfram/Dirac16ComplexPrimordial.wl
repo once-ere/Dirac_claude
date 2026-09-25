@@ -296,7 +296,8 @@ loadNotebookCells[nbFile_] := Module[{nb, cells, i = 0, inputs = <||>, outs = <|
   cells = Cases[nb, Cell[_, style_String, ___] /; MemberQ[nbAllStyles, style], Infinity];
   Do[If[MemberQ[nbStyles, c[[2]]], i++; inputs[i] = c; outs[i] = {},
     If[i > 0, AppendTo[outs[i], c]]], {c, cells}];
-  <|"count" -> i, "inputs" -> inputs, "outputs" -> outs|>];
+  <|"count" -> i, "inputs" -> inputs, "outputs" -> outs,
+    "frontEndVersion" -> First[Append[Cases[List @@ nb, (Rule | RuleDelayed)[FrontEndVersion, v_] :> v], "-"]]|>];
 nbCtx = "D16PNotebookParse`";
 parseBoxes[boxes_] := Block[{$Context = nbCtx, $ContextPath = {"System`"}},
   Quiet@TimeConstrained[Check[ToExpression[boxes, StandardForm, HoldComplete], $Failed], 60, $Failed]];
@@ -473,7 +474,14 @@ checkGammaConst[] := Module[{dg, dgNB, badPairs, sample, lhs, rhs, rhsNB, entrie
   sample = cliffDecompose[dgNB[[2, 5]]];
   addMeas["notebookContraction_sample_D1gamma4", StringRiffle[("(" <> texR[toRing[#[[2]]]] <> ")\\gamma^{" <> StringJoin[ToString /@ #[[1]]] <> "}") & /@ sample, " + "]];
   addCheck["P_gammaConst_notebookContractionFails", Length[badPairs] > 0];
-  lhs = Sum[d1[mu, sqrtgF gUF[[mu]]], {mu, 8}];
+  (* closed forms of the 15 nonzero D_mu gamma^nu of the notebook contraction (document Section 8.3), in frame gammas *)
+  Module[{ex = ConstantArray[0 id16, {8, 8}]},
+   Do[ex[[i, i]] = H a4'[t] G[4]; ex[[i, 5]] = H Sin[z]^(1/6) E^a4[t] a4'[t] G[i - 1], {i, {2, 3, 4}}];
+   Do[ex[[j, 1]] = H Sin[z]^(7/6) E^(-a4[t]) Sec[z] G[j - 1]; ex[[j, 5]] = 2 H Sin[z]^(1/6) E^(-a4[t]) a4'[t] G[j - 1];
+    ex[[j, j]] = H G[0] - 2 H a4'[t] G[4], {j, {6, 7, 8}}];
+   addCheck["P_gammaConst_notebookContractionClosedForms", Length[badPairs] === 15 && entriesNB === 288 && zeroMatQ[dgNB - ex]];
+   addMeas["notebookContraction_closedForms", "(i,i): H a4' gamma^4; (i,4): H s^{1/6} e^{a4} a4' gamma^i; (j,0): H s^{7/6} e^{-a4} sec z gamma^j; (j,4): 2H s^{1/6} e^{-a4} a4' gamma^j; (j,j): H gamma^0 - 2H a4' gamma^4 (i = 1,2,3; j = 5,6,7; all other pairs zero)"]];
+  lhs =Sum[d1[mu, sqrtgF gUF[[mu]]], {mu, 8}];
   rhs = sqrtgF Sum[gUF[[mu]].OmF[[mu]] - OmF[[mu]].gUF[[mu]], {mu, 8}];
   rhsNB = sqrtgF Sum[gUF[[mu]].OmNBF[[mu]] - OmNBF[[mu]].gUF[[mu]], {mu, 8}];
   addCheck["P_gammaConst_divergenceIdentity", zeroMatQ[lhs - rhs]];
@@ -651,7 +659,7 @@ dtSolve[eqs_, heads_] := Module[{vars = Table[Derivative[0, 1][heads[[j]]][z, t]
   If[Length[sol] =!= 1, Throw[{"dtSolve", Length[sol]}, d16pErr]];
   vars /. sol[[1]]];
 
-checkNotebookCompare[nbd_] := Module[{rb, st1079, st1096, st1089, st1111, st1137, uTlit, cc1058, uTcorr, uTv3, eLit, eV1, eV3, eCorrOm, qvec,
+checkNotebookCompare[nbd_] := Module[{YS, rb, st1079, st1096, st1089, st1111, st1137, uTlit, cc1058, uTcorr, uTv3, eLit, eV1, eV3, eCorrOm, qvec,
     qFormula, Y, dz, couplings, sZ, relabel, dtZ, rel, dtY, recon, stEqs, okStored, corrZ, corrDt, corrY, diffs, qsym, diffInfo, ok,
     litPattern, gp, cellsOK, snips, rawSets, graph, sets, reconSets, v3sq, v3clifford, dq, perEq, dtZstored},
   (* provenance of the rebuilt code *)
@@ -696,10 +704,25 @@ checkNotebookCompare[nbd_] := Module[{rb, st1079, st1096, st1089, st1111, st1137
   ok = AllTrue[Range[16], zeroXQ[eLit[[#]] - st1079[[#]]] &];
   addMeas["cell1058LiteralThisKernel_reproducesStoredEla", boolS[ok]];
   addCheck["P_notebookCompare_literalRebuildResidualIsExactlyQTerms", ok || AllTrue[Range[16], zeroXQ[eLit[[#]] - st1079[[#]] + qvec[[#]]] &]];
-  (* the q vector from the non-Clifford gamma^{x5,x6,x7}: (Q1/2)(sigma16 Y + (sigma16 Y)^T) Psi *)
-  Y = Sum[(uTv3[[m]] - uTcorr[[m]]).Sum[rb["wNB"][[m, A, B]] Sab[A - 1, B - 1], {A, 8}, {B, 8}], {m, 6, 8}];
-  qFormula = (Q1/2) (C16.Y + Transpose[C16.Y]).rb["psi"];
-  addCheck["P_notebookCompare_qTermFromNonCliffordExtraTimeGammas", AllTrue[Range[16], zeroXQ[qvec[[#]] - qFormula[[#]]] &]];
+  (* the q vector (stored eLa minus the Clifford-consistent rebuild, cell-1079 normalisation) from the non-Clifford
+     gamma^{x5,x6,x7}: Q1 (sigma16 Y + (sigma16 Y)^T) Psi with Y = Sum_j (gamma'^{x_j} - gamma^{x_j}) OmegaNB_j,
+     OmegaNB_j = (1/2) omega_j^A_B S^{AB}; equivalently (Q1/2)(...) with Y built from omega_j^A_B S^{AB} (YS below) *)
+  YS = Sum[(uTv3[[m]] - uTcorr[[m]]).Sum[rb["wNB"][[m, A, B]] Sab[A - 1, B - 1], {A, 8}, {B, 8}], {m, 6, 8}];
+  Y = Sum[(uTv3[[m]] - uTcorr[[m]]).((1/2) Sum[rb["wNB"][[m, A, B]] Sab[A - 1, B - 1], {A, 8}, {B, 8}]), {m, 6, 8}];
+  qFormula = Q1 (C16.Y + Transpose[C16.Y]).rb["psi"];
+  addCheck["P_notebookCompare_qTermFromNonCliffordExtraTimeGammas", AllTrue[Range[16], zeroXQ[qvec[[#]] - qFormula[[#]]] &] &&
+    AllTrue[Range[16], zeroXQ[qvec[[#]] - ((Q1/2) (C16.YS + Transpose[C16.YS]).rb["psi"])[[#]]] &]];
+  (* normalisation: at the eLa level (cell 1079) each nonzero row of the q vector is +-2H q Psi_k, i.e. +-q after the
+     factor 1/(2H) of cell 1096; q = Q1 sinh(a4) a4' e^{-a4} *)
+  Module[{qx = Q1 Sinh[rb["aa"]] Derivative[1][a4][H x4] E^(-rb["aa"]), rows},
+   rows = Table[Module[{r = Together[toRingX[qvec[[k]]]], q2 = toRingX[2 H qx], at, c},
+      at = Union[Cases[{r}, f16[_][__] | Derivative[__][f16[_]][__], Infinity]];
+      Which[r === 0, {k - 1, 0},
+       Length[at] === 1 && MatchQ[at[[1]], f16[_][__]], c = Together[Coefficient[r, at[[1]]]/q2];
+        If[MemberQ[{1, -1}, c] && ringZeroQ[r - c q2 at[[1]]], {k - 1, c, at[[1, 0, 1]]}, {k - 1, "other"}],
+       True, {k - 1, "other"}]], {k, 16}];
+   addMeas["notebookEla_qVectorRows_sign_partner", ToString[rows]];
+   addCheck["P_notebookCompare_qVectorIs2HqAtCell1079", Count[rows, {_, _Integer, _Integer}] === 8 && Count[rows, {_, 0}] === 8]];
   v3sq = uTv3[[6]].uTv3[[6]];
   v3clifford = zeroMatQ[toRingX /@ (v3sq - (1/(epsL[[6]] rb["hx"][[6]]^2)) id16)];
   addCheck["P_notebookCompare_reconstructedGamma5NotClifford", ! v3clifford];
@@ -742,7 +765,7 @@ checkNotebookCompare[nbd_] := Module[{rb, st1079, st1096, st1089, st1111, st1137
       {j - 1, If[zeroQ[d], 0, c], zeroQ[d - c qsym yZ[j - 1][z, t]] && MemberQ[{-1, 0, 1}, c]}], {j, 16}];
   addCheck["P_notebookCompare_correctVsStoredDifferOnlyByQ", AllTrue[diffInfo, #[[3]] &]];
   addMeas["qTermSignsByYZ", ToString[diffInfo[[All, {1, 2}]]]];
-  addCheck["P_notebookCompare_qOnlyInBlocks1and2", (DeleteCases[diffInfo, {_, 0, _}][[All, 1]]) === Range[0, 7]];
+  addCheck["P_notebookCompare_qOnlyInYZ0to7", (DeleteCases[diffInfo, {_, 0, _}][[All, 1]]) === Range[0, 7]];
   (* store comparison data *)
   perEq = Table[<|"yZ" -> j - 1, "Z" -> (Flatten[nbSets])[[j]], "Psi" -> (Flatten[nbSets])[[j]],
       "notebookStoredTeX" -> nbEqTeX[stEqs[[j]], j - 1], "correctTeX" -> nbEqTeX[Derivative[0, 1][yZ[j - 1]][z, t] == corrY[[j]], j - 1],
@@ -755,9 +778,9 @@ checkNotebookCompare[nbd_] := Module[{rb, st1079, st1096, st1089, st1111, st1137
     "findings" -> {
       "With Clifford-consistent curved gammas gamma^mu = e_a^mu gamma^a, every Q1 term drops out of the commuting-field Euler-Lagrange equations (sigma16 gamma^mu Omega_mu has no symmetric part for a diagonal vielbein), for the notebook contraction and for the correct Omega alike.",
       "The stored eLa (cell 1079) contains Q1 terms in the 8 rows of the coupling sets {0,5,8,13} and {1,4,9,12}. They are reproduced EXACTLY (16/16 rows, zero residual) by the reconstruction in which the curved gammas gamma^{x5}, gamma^{x6}, gamma^{x7} of useT16 (cell 1058) carry the factor e^{-a4} s^{-1/6} on their +1 entries and e^{+a4} s^{-1/6} on their -1 entries, i.e. gamma'^{x_j} = s^{-1/6}(cosh(a4) gamma^j - sinh(a4)|gamma^j|); the correct curved gamma is e^{+a4} s^{-1/6} gamma^j. No Clifford-consistent choice of curved gammas produces any Q1 term.",
-      "Origin: cell 1058 contains the substitution rule 1/Sqrt[Sin[6Hx0]^(1/3)/E^(2a4)] -> 1/(E^a4 Sin[6Hx0]^(1/6)), which is mathematically wrong (the correct right-hand side is E^a4/Sin[6Hx0]^(1/6)). The stored eLa is consistent with this rule having hit only the +1 entries in the stored session (the notebook does not store the value of useT16, so this is a reconstruction, confirmed by the exact 16/16 match). Such a gamma'^{x5..7} is not in the Clifford algebra, sigma16 gamma'^{x_j} S^{4j} acquires a symmetric part, and the commuting EL equations pick up q = Q1 sinh(a4) a4' e^{-a4} = Q1 a4'(e^{a4}-e^{-a4}) e^{-a4}/2: the difference of the two factors, s^{-1/6}(e^{a4}-e^{-a4}), times omega_j^4_j = H a4' s^{1/6} e^{-a4}.",
+      "Origin: cell 1058 contains the substitution rule 1/Sqrt[Sin[6Hx0]^(1/3)/E^(2a4)] -> 1/(E^a4 Sin[6Hx0]^(1/6)), which is mathematically wrong (the correct right-hand side is E^a4/Sin[6Hx0]^(1/6)). The stored eLa is consistent with this rule having hit only the +1 entries in the stored session. The notebook does not store the value of useT16, so the partial application, and hence the attribution of the q term to cell 1058, is a reconstruction; the exact 16/16 match confirms the reconstructed useT16, not the mechanism of the partial application. Such a gamma'^{x5..7} is not in the Clifford algebra, sigma16 gamma'^{x_j} S^{4j} acquires a symmetric part, and the commuting EL equations pick up the q vector (stored eLa minus the Clifford-consistent rebuild) = Q1 (sigma16 Y + (sigma16 Y)^T) Psi, Y = Sum_{j=5..7} (gamma'^{x_j} - gamma^{x_j}) OmegaNB_j, OmegaNB_j = (1/2) omega_j^A_B S^{AB}; its size is the difference of the two factors, s^{-1/6}(e^{a4}-e^{-a4}), times omega_j^4_j = H a4' s^{1/6} e^{-a4}, i.e. 2H q with q = Q1 sinh(a4) a4' e^{-a4} = Q1 a4'(e^{a4}-e^{-a4}) e^{-a4}/2 at the eLa level (cell 1079), and q after the factor 1/(2H) of cell 1096.",
       "In this kernel the literal re-execution of cell 1058 applies the wrong factor to all entries (uniform e^{-a4}); the EL equations then contain no q term and differ from the stored eLa by exactly the q terms.",
-      "The correct equations (CONTRACT section 5, Grassmann fields, m = -H M, U = 0) in the same variables coincide with the stored cell-1137 blocks EXCEPT for the q terms: +-q yZ_j in blocks 1 and 2, nothing in blocks 3 and 4. In the correct theory no a4 dependence at all survives for fields of (x0,x4)."},
+      "The correct equations (CONTRACT section 5, Grassmann fields, m = -H M, U = 0) in the same variables coincide with the stored cell-1137 blocks EXCEPT for the q terms: +-q yZ_j in the blocks {0,5,8,13} and {1,4,9,12} (yZ_0..yZ_7), nothing in the blocks {2,7,10,15} and {3,6,11,14} (yZ_8..yZ_15). In the correct theory no a4 dependence at all survives for fields of (x0,x4)."},
     "literalCell1058ThisKernel" -> ToString[litPattern],
     "equations" -> perEq|>;];
 nbEqTeX[eq_, j_] := Module[{rhs = eq[[2]], atoms, tok = {}, c, first = True},
@@ -854,6 +877,8 @@ checkEMT[] := Module[{A, nzA, Arec, psi, psib, e8, Tf, ok, psiH, psibH, eH, SH, 
   (* off-diagonal transverse-transverse components in the homogeneous sector: Omega part only *)
   addCheck["P_EMT_homogeneous_offDiagonalTransverseFromA", AllTrue[Select[Tuples[{2, 3, 4, 6, 7, 8}, 2], #[[1]] < #[[2]] &],
      zeroQ[eH["T"][[#[[1]], #[[2]]]] + (1/4) eH["psibar"].A[[#[[1]], #[[2]]]].psiH] &] && zeroMatQ[A[[1, 5]]]];
+  (* kept for the source analysis of checkSource[] (checks P_source_...) *)
+  $emt = <|"A" -> A, "eH" -> eH, "SH" -> SH, "psiH" -> psiH, "psibH" -> psibH, "K0H" -> K0H, "psiZ" -> psiZ, "psibZ" -> psibZ|>;
   (* components for the document *)
   $comp["EMT"] = <|
     "definition" -> "T_{\\mu\\nu}=-\\tfrac14\\bigl[\\bar\\Psi\\gamma_\\mu D_\\nu\\Psi+\\bar\\Psi\\gamma_\\nu D_\\mu\\Psi-(D_\\mu\\bar\\Psi)\\gamma_\\nu\\Psi-(D_\\nu\\bar\\Psi)\\gamma_\\mu\\Psi\\bigr]+g_{\\mu\\nu}\\mathcal L_s",
@@ -900,15 +925,17 @@ checkModes[] := Module[{h, E2, ev, psiA, res, hl, keff, qeff, E2l, onset, ahh, h
   hl = -I Meff G[4] - G[4].(KK G[0] + keff G[1] + qeff G[5]);
   E2l = Meff^2 + KK^2 + keff^2 - qeff^2;
   addCheck["P_modes_localWKBDispersion", zeroMatQ[hl.hl - E2l id16]];
-  addCheck["P_modes_localHermitianIffQZero", zeroMatQ[herm[hl /. qq -> 0] - (hl /. qq -> 0)] && ! zeroMatQ[herm[hl] - hl]];
+  addCheck["P_modes_localHermitianIffQZero", zeroMatQ[herm[hl /. qq -> 0] - (hl /. qq -> 0)] && ! zeroMatQ[herm[hl] - hl] &&
+    zeroMatQ[(hl - herm[hl]) + 2 qeff G[4].G[5]] && zeroMatQ[herm[G[4].G[5]] + G[4].G[5]]];
+  addMeas["modes_hLocalMinusAdjoint", "h_loc - h_loc^dagger = -2 k5eff gamma^4 gamma^5 (gamma^4 gamma^5 anti-Hermitian), so the anti-Hermitian part (h_loc - h_loc^dagger)/2 is -k5eff gamma^4 gamma^5, k5eff = k5 s^(-1/6) e^(a4) = k5 e^(-H zeta + a4)"];
   (* onset for k = 0: q e^{-H zeta + a4} = sqrt(Meff^2 + K^2) *)
   onset = Log[Sqrt[Meff^2 + KK^2]/qq] + H zeta;
   addCheck["P_modes_instabilityOnset", Simplify[(Meff^2 + KK^2 - qq^2 E^(-2 H zeta + 2 a4v)) /. a4v -> onset, Meff > 0 && KK > 0 && qq > 0 && Element[{H, zeta}, Reals]] === 0];
   $comp["modes"] = <|
-    "homogeneous" -> "\\Psi=e^{-3H\\zeta}e^{iK\\zeta}u(x_4):\\ \\gamma^4\\dot u=(M_{\\mathrm{eff}}-iK\\gamma^0)u,\\ i\\dot u=hu,\\ h=-iM_{\\mathrm{eff}}\\gamma^4-K\\gamma^4\\gamma^0,\\ h=h^\\dagger,\\ h^2=(M_{\\mathrm{eff}}^2+K^2)\\mathbb 1,\\ E=\\pm\\sqrt{M_{\\mathrm{eff}}^2+K^2}\\ (8\\text{ each})",
-    "notSeparable" -> "for k\\ne0 (momentum along x_1..x_3) or q\\ne0 (along x_5..x_7) the coefficients k e^{-H\\zeta}e^{-a_4(t)}, q e^{-H\\zeta}e^{a_4(t)} multiply \\gamma^1, \\gamma^5, which anticommute with \\gamma^0 and \\gamma^4: the reduced equation keeps an explicit \\zeta dependence and no product ansatz separates it",
-    "localDispersion" -> "E^2=M_{\\mathrm{eff}}^2+K^2+\\bigl(k\\,e^{-H\\zeta-a_4}\\bigr)^2-\\bigl(q\\,e^{-H\\zeta+a_4}\\bigr)^2\\ \\text{(local, frozen coefficients, WKB)}",
-    "instability" -> "k=0,\\ q\\ne0: E^2<0 once a_4(t)>H\\zeta+\\ln\\bigl(\\sqrt{M_{\\mathrm{eff}}^2+K^2}/q\\bigr); growing a_4 (3-space inflation, extra-time deflation) always reaches it; the local h is non-Hermitian for q\\ne0"|>;];
+    "homogeneous" -> "\\Psi=e^{-3H\\zeta}e^{iK\\zeta}u(x_4):\\ \\gamma^4\\dot u=(M_{\\mathrm{eff}}-iK\\gamma^0)u,\\ i\\dot u=hu,\\ h=-iM_{\\mathrm{eff}}\\gamma^4-K\\gamma^4\\gamma^0,\\ h=h^\\dagger,\\ h^2=(M_{\\mathrm{eff}}^2+K^2)\\cdot1,\\ E=\\pm\\sqrt{M_{\\mathrm{eff}}^2+K^2}\\ (8\\text{ each})",
+    "notSeparable" -> "for k_1\\ne0 (momentum along x_1) or k_5\\ne0 (along x_5) the coefficients k_1 e^{-H\\zeta}e^{-a_4(t)}, k_5 e^{-H\\zeta}e^{a_4(t)} multiply \\gamma^1, \\gamma^5, which anticommute with \\gamma^0 and \\gamma^4: the reduced equation keeps an explicit \\zeta dependence and no product ansatz separates it",
+    "localDispersion" -> "E^2=M_{\\mathrm{eff}}^2+K^2+\\bigl(k_1\\,e^{-H\\zeta-a_4}\\bigr)^2-\\bigl(k_5\\,e^{-H\\zeta+a_4}\\bigr)^2\\ \\text{(local, frozen coefficients, WKB)}",
+    "instability" -> "k_1=0,\\ k_5\\ne0: E^2<0 once a_4(t)>H\\zeta+\\ln\\bigl(\\sqrt{M_{\\mathrm{eff}}^2+K^2}/|k_5|\\bigr); an unboundedly growing a_4 (for example a_4=t: 3-space inflation, extra-time deflation) reaches it, a bounded one need not; for k_5\\ne0 the local h is not Hermitian: h_{\\mathrm{loc}}-h_{\\mathrm{loc}}^\\dagger=-2k_{5,\\mathrm{eff}}\\gamma^4\\gamma^5, so its anti-Hermitian part is -k_{5,\\mathrm{eff}}\\gamma^4\\gamma^5, k_{5,\\mathrm{eff}}=k_5e^{-H\\zeta+a_4}"|>;];
 
 (* ---------------- P_einstein ---------------- *)
 checkEinstein[nbd_] := Module[{Ric, R, Gmix, Gcov, exG, st584, st583, R4, rhoReq, pReq, ec, a1v, a2v, wr, lin},
@@ -942,10 +969,8 @@ checkEinstein[nbd_] := Module[{Ric, R, Gmix, Gcov, exG, st584, st583, R4, rhoReq
     "DEC" -> <|"expr" -> "requires \\rho\\ge0", "status" -> "violated"|>|>;
   addCheck["P_einstein_energyConditionForms", zeroQ[rhoReq + pReq[[1]] + 6 H^2 (1 + a4'[t]^2)/kap] && zeroQ[rhoReq + pReq[[2]] - H^2 (a4''[t] - 6 - 6 a4'[t]^2)/kap] &&
     zeroQ[pReq[[1]] - pReq[[6]] - H^2 a4''[t]/kap] && zeroQ[pReq[[2]] - pReq[[6]] - 2 H^2 a4''[t]/kap]];
-  (* the homogeneous dirac16complex condensate cannot supply it: T ~ c1/s + c2/s^2, source z-independent *)
-  wr = Simplify[Det[{{1, 1/Sin[z], 1/Sin[z]^2}, D[{1, 1/Sin[z], 1/Sin[z]^2}, z], D[{1, 1/Sin[z], 1/Sin[z]^2}, {z, 2}]}]];
-  addCheck["P_einstein_condensateCannotSource", ! zeroQ[wr] && zeroQ[exG[[5, 5]] - 3 H^2 (7 + a4'[t]^2)] && FreeQ[toRing[exG[[5, 5]]], sg | cc]];
-  addMeas["condensateWronskian_1_invS_invS2", toStr[wr]];
+  (* whether dirac16complex can supply this source is decided in checkSource[] (checks P_source_...), which builds T^mu_nu *)
+  $exG = exG;
   $comp["einstein"] = <|
     "ricciScalar" -> "R=6H^2(a_4'^2-7)",
     "GmixedDiagonal" -> Table[<|"mu" -> mu - 1, "value" -> exprRec[exG[[mu, mu]]],
@@ -957,7 +982,122 @@ checkEinstein[nbd_] := Module[{Ric, R, Gmix, Gcov, exG, st584, st583, R4, rhoReq
       "p0" -> "p_{0}=-3H^2(a_4'^2-5)/\\kappa", "p123" -> "p_{1,2,3}=H^2(15-3a_4'^2+a_4'')/\\kappa", "p567" -> "p_{5,6,7}=H^2(15-3a_4'^2-a_4'')/\\kappa"|>,
     "R44" -> "R_{44}=-6H^2a_4'^2",
     "energyConditions" -> ec,
-    "condensateArgument" -> "in the homogeneous sector every component of T^\\mu{}_\\nu of dirac16complex is c_1(t)/\\sin z+c_2(t)/\\sin^2z (c_2\\propto\\lambda); the required source is z-independent and nonzero (G^4{}_4=3H^2(7+a_4'^2)>0); since 1,1/\\sin z,1/\\sin^2 z are linearly independent (nonzero Wronskian) no choice of u(x_4) can supply it"|>;];
+    "sourceAnalysis" -> "see the component group source (checks P_source_*)"|>;];
+
+(* ---------------- P_source: can a dirac16complex state supply G^mu_nu = kappa T^mu_nu ? ---------------- *)
+(* the 15 off-diagonal bilinears Psibar X Psi of the x0-independent state (X = gamma product, Psibar = Psi^dagger C) *)
+sourceBilinears = Join[Table[{"V" <> ToString[a], {0, a, 4}, G[0].G[a].G[4]}, {a, {1, 2, 3, 5, 6, 7}}],
+   Flatten[Table[{"W" <> ToString[i] <> ToString[j], {i, 4, j}, G[i].G[4].G[j]}, {i, 1, 3}, {j, 5, 7}], 1]];
+(* generators of the diagonal Spin(3) that rotates (x1,x2,x3) and (x5,x6,x7) together *)
+diagSpin3 = {Sab[2, 3] - Sab[6, 7], Sab[3, 1] - Sab[7, 5], Sab[1, 2] - Sab[5, 6]};
+(* exact examples, H = 1: Psi = e^{i omega x4} u0, u0 = sqrt(S / v^dagger C v) v *)
+sourceExamples = {
+   <|"label" -> "A", "m" -> 5, "lam" -> 0, "kappa" -> 1, "c" -> Sqrt[5], "S" -> -36/5, "Meff" -> 5, "omega" -> 4,
+     "v" -> {3, -I, 0, 0, 3, I, 0, 0, 1, -3 I, 0, 0, 1, 3 I, 0, 0}|>,
+   <|"label" -> "B", "m" -> -15, "lam" -> 25/6, "kappa" -> 1, "c" -> 1, "S" -> 12/5, "Meff" -> -5, "omega" -> 4,
+     "v" -> {1, 3 I, 0, 0, 1, -3 I, 0, 0, -3, -I, 0, 0, -3, I, 0, 0}|>};
+expectedOffProduct[{mu_, nu_}] := Which[
+   {mu, nu} === {0, 4}, {},
+   SubsetQ[{1, 2, 3}, {mu, nu}] || SubsetQ[{5, 6, 7}, {mu, nu}], {},
+   mu === 0 || mu === 4 || nu === 4, {Sort[{0, If[mu === 0 || mu === 4, nu, mu], 4}]},
+   True, {{mu, 4, nu}}];
+checkSource[] := Module[{eZU, eH, SH, diagH, formQ, wr, uv, ubv, SX, onX, eX, TlowX, TmixX, offX, okOff, T44, Tt, sol, solOK,
+    condOK, meffS, exRes, okEx, constr, nrm},
+  (* (1) every state Psi(x0,x4): T^i_i = T^j_j = L_s off shell, for any U; but G^i_i - G^j_j = 2 H^2 a4'' *)
+  eZU = emtLower[$emt["psiZ"], $emt["psibZ"], mm, Us];
+  addCheck["P_source_transversePressuresEqualForEveryX0X4State", AllTrue[{2, 3, 4, 6, 7, 8}, zeroQ[giF[[#, #]] eZU["T"][[#, #]] - eZU["Ls"]] &]];
+  addCheck["P_source_einsteinTransverseDifferenceIs2H2a4pp", zeroQ[$exG[[2, 2]] - $exG[[6, 6]] - 2 H^2 a4''[t]] && ! zeroQ[$exG[[2, 2]] - $exG[[6, 6]]]];
+  (* (2) the zeta plane wave with REAL K: every diagonal T^mu_mu is c1(t)/sin z + c2(t)/sin^2 z (the off-diagonal mixed
+     components are not, e.g. T^0_4); with the Wronskian of 1, 1/sin z, 1/sin^2 z this excludes it for every a4 *)
+  eH = $emt["eH"]; SH = $emt["SH"];
+  diagH = Table[giF[[mu, mu]] eH["T"][[mu, mu]] /. Us -> (lam/2) SH^2, {mu, 8}];
+  formQ[e_] := zeroQ[D[D[Sin[z]^2 e, z]/Cos[z], z]];
+  wr = Simplify[Det[{{1, 1/Sin[z], 1/Sin[z]^2}, D[{1, 1/Sin[z], 1/Sin[z]^2}, z], D[{1, 1/Sin[z], 1/Sin[z]^2}, {z, 2}]}]];
+  addMeas["condensateWronskian_1_invS_invS2", toStr[wr]];
+  addCheck["P_source_realKDiagonalIsC1OverSPlusC2OverS2", AllTrue[diagH, formQ] && ! formQ[giF[[1, 1]] eH["T"][[1, 5]]]];
+  addCheck["P_source_realKPlaneWaveCannotSource", AllTrue[diagH, formQ] && ! zeroQ[wr] && ! zeroQ[$exG[[5, 5]]] &&
+    FreeQ[toRing[$exG[[5, 5]]], sg | cc] && zeroQ[$exG[[5, 5]] - 3 H^2 (7 + a4'[t]^2)]];
+  (* (3) the x0-independent state Psi = u(x4) (K = -3iH in s^{-1/2+iK/(6H)} u): on shell H du/dt = -gamma^4 (Meff - 3H gamma^0) u *)
+  uv = Table[uu[n][t], {n, 0, 15}]; ubv = Table[ub[n][t], {n, 0, 15}];
+  SX = ubv.C16.uv;
+  onX = Join[
+    Table[Derivative[1][uu[n]][t] -> (-(1/H) G[4].(Meff uv - 3 H G[0].uv))[[n + 1]], {n, 0, 15}],
+    Table[Derivative[1][ub[n]][t] -> (-(1/H) G[4].(Meff ubv - 3 H G[0].ubv))[[n + 1]], {n, 0, 15}]];
+  (* S is x0- and x4-independent on shell, so M_eff = m + lambda S is a constant and the solution is exact for every lambda *)
+  addCheck["P_source_x0IndependentStateSolvesDiracExactly", zeroMatQ[elOp[uv, Meff] /. onX] && zeroQ[D[SX, t] /. onX] && FreeQ[toRing[SX], sg | cc]];
+  eX = emtLower[uv, ubv, mm, Us];
+  TlowX = eX["T"] /. onX;
+  TmixX = Table[giF[[mu, mu]] TlowX[[mu, nu]], {mu, 8}, {nu, 8}];
+  (* on shell (Meff = m + U'(S)): T^4_4 = -(m S + U), T^mu_mu = S U' - U for the seven mu != 4 *)
+  addCheck["P_source_x0IndependentDiagonalOnShell", zeroQ[TmixX[[5, 5]] + mm SX + Us] &&
+    AllTrue[{1, 2, 3, 4, 6, 7, 8}, zeroQ[TmixX[[#, #]] - ((Meff - mm) SX - Us)] &]];
+  offX = Table[Module[{Q = Table[D[TlowX[[p[[1]], p[[2]]]], ub[a - 1][t], uu[b - 1][t]], {a, 16}, {b, 16}], dec},
+      dec = cliffDecompose[C16.Q];
+      <|"pair" -> p - 1, "bilinear" -> zeroQ[TlowX[[p[[1]], p[[2]]]] - ubv.Q.uv], "products" -> dec[[All, 1]], "dec" -> dec|>],
+     {p, Select[Tuples[Range[8], 2], #[[1]] < #[[2]] &]}];
+  okOff = AllTrue[offX, #["bilinear"] && #["products"] === expectedOffProduct[#["pair"]] &] &&
+    Count[offX, r_ /; r["products"] =!= {}] === 21;
+  addCheck["P_source_x0IndependentOffDiagonalAre15Bilinears", okOff];
+  (* with the 15 bilinears zero: G^mu_nu = kappa T^mu_nu <=> a4'' = 0, m S = -36 H^2/kappa, lambda S^2 = 2 H^2 (15 - 3 a4'^2)/kappa *)
+  T44 = -(mm SS + (lam/2) SS^2); Tt = (lam/2) SS^2;
+  sol = Solve[{$exG[[5, 5]] == kap T44, $exG[[1, 1]] == kap Tt}, {mm, lam}];
+  solOK = Length[sol] === 1 && zeroQ[(mm /. sol[[1]]) + 36 H^2/(kap SS)] && zeroQ[(lam /. sol[[1]]) - 2 H^2 (15 - 3 a4'[t]^2)/(kap SS^2)];
+  condOK = solOK && AllTrue[Range[8], zeroQ[($exG[[#, #]] - kap If[# == 5, T44, Tt]) /. sol[[1]] /. a4''[t] -> 0] &] &&
+    ! zeroQ[($exG[[2, 2]] - kap Tt) /. sol[[1]]];
+  meffS = Together[(mm + lam SS) /. sol[[1]]];
+  addCheck["P_source_x0IndependentSourceConditions", condOK && zeroQ[meffS + 6 H^2 (1 + a4'[t]^2)/(kap SS)]];
+  addMeas["source_x0Independent_Meff", toStr[Factor[meffS]]];
+  (* existence: the eigenspace of A = -gamma^4 (Meff - 3H gamma^0) for i omega, omega = sqrt(Meff^2 - 9H^2), meets the
+     diagonal-Spin(3) singlets in a 2-dimensional space on which only W15 = W26 = W37 survive; explicit u0 (H = 1) *)
+  exRes = Table[Module[{Am, w = ex["omega"], ns, Qm, forms, v = ex["v"], u0, Sv, psiE, psibE, S0, eE, TmE, Gl, res, resBad, dirac, rec},
+     Am = -G[4].(ex["Meff"] id16 - 3 G[0]);
+     ns = NullSpace[Join[diagSpin3[[1]], diagSpin3[[2]], diagSpin3[[3]], Am - I w id16]];
+     Qm = Transpose[ns];
+     forms = Table[{b[[1]], Simplify[ConjugateTranspose[Qm].C16.b[[3]].Qm]}, {b, sourceBilinears}];
+     Sv = Simplify[Conjugate[v].C16.v];
+     u0 = Sqrt[ex["S"]/Sv] v;
+     psiE = E^(I w t/H) u0; psibE = E^(-I w t/H) Conjugate[u0];
+     S0 = Simplify[Expand[psibE.C16.psiE]];
+     dirac = zeroMatQ[Expand[(elOp[psiE, ex["m"] + ex["lam"] S0] /. H -> 1) E^(-I w t)]];
+     eE = emtLower[psiE, psibE, ex["m"], (ex["lam"]/2) S0^2];
+     TmE = Table[giF[[mu, mu]] eE["T"][[mu, nu]], {mu, 8}, {nu, 8}];
+     Gl = $exG;
+     res = Expand[((Gl - ex["kappa"] TmE) /. {Derivative[2][a4][t] -> 0} /. {Derivative[1][a4][t] -> ex["c"]}) /. H -> 1];
+     rec = <|"label" -> ex["label"], "H" -> 1, "kappa" -> ex["kappa"], "m" -> ex["m"], "lambda" -> ex["lam"], "a4" -> toStr[ex["c"] t],
+       "Meff" -> ex["Meff"], "omega" -> w, "S" -> S0, "u0" -> toStr[u0], "v" -> toStr[v], "u0NormFactorSquared" -> ex["S"]/Sv,
+       "rho" -> ex["m"] S0 + (ex["lam"]/2) S0^2, "pTransverse" -> (ex["lam"]/2) S0^2,
+       "w" -> Together[((ex["lam"]/2) S0^2)/(ex["m"] S0 + (ex["lam"]/2) S0^2)]|>;
+     (* negative control: the same state does not source the field for the slope c + 1 *)
+     resBad = Expand[((Gl - ex["kappa"] TmE) /. {Derivative[2][a4][t] -> 0} /. {Derivative[1][a4][t] -> ex["c"] + 1}) /. H -> 1];
+     <|"rec" -> rec,
+       "construction" -> (w^2 === ex["Meff"]^2 - 9 && Length[ns] === 2 &&
+          Count[forms, f_ /; f[[2]] =!= ConstantArray[0, {2, 2}]] === 3 &&
+          (Select[forms, #[[2]] =!= ConstantArray[0, {2, 2}] &][[All, 1]] === {"W15", "W26", "W37"}) &&
+          Equal @@ Select[forms, #[[2]] =!= ConstantArray[0, {2, 2}] &][[All, 2]] && MatrixRank[Append[ns, v]] === 2),
+       "example" -> (Am.v === I w v && AllTrue[sourceBilinears, Simplify[Conjugate[v].C16.#[[3]].v] === 0 &] &&
+          S0 === ex["S"] && ex["m"] + ex["lam"] S0 === ex["Meff"] && ex["m"] ex["S"] === -36/ex["kappa"] &&
+          Simplify[ex["lam"] ex["S"]^2 - 2 (15 - 3 ex["c"]^2)/ex["kappa"]] === 0 && dirac && zeroMatQ[res] && ! zeroMatQ[resBad] &&
+          rec["rho"] === -3 (7 + ex["c"]^2)/ex["kappa"] && rec["pTransverse"] === (15 - 3 ex["c"]^2)/ex["kappa"])|>], {ex, sourceExamples}];
+  addCheck["P_source_x0IndependentConstruction", AllTrue[exRes, #["construction"] &]];
+  addCheck["P_source_x0IndependentExactExamples", AllTrue[exRes, #["example"] &]];
+  addMeas["source_x0Independent_examples", ToString[#["rec"] & /@ exRes, InputForm]];
+  (* normalizability in the canonical measure cos z dz: |u|^2 cos z is integrable, the real-K |Psi|^2 cos z ~ cot z is not *)
+  nrm = Integrate[Cos[z], {z, 0, Pi/2}] === 1 &&
+    Limit[Integrate[Cot[z], {z, ee, Pi/2}, Assumptions -> 0 < ee < Pi/2], ee -> 0, Direction -> "FromAbove"] === Infinity;
+  addCheck["P_source_x0IndependentNormalizableRealKNot", nrm];
+  addMeas["contractNote_condensateSource", "CONTRACT section 9 states that a homogeneous condensate cannot source this field because Psibar Psi ~ 1/sin z; that holds for the real-K zeta plane waves only (P_source_realKPlaneWaveCannotSource). The x0-independent state Psi = u(x4) (K = -3iH) has a constant Psibar Psi and is an exact source for a4'' = 0 (m S = -36 H^2/kappa, lambda S^2 = 2 H^2 (15 - 3 a4'^2)/kappa, 15 off-diagonal bilinears zero; P_source_x0IndependentExactExamples), with rho = -3 H^2 (7 + a4'^2)/kappa < 0; for a4'' != 0 no state of (x0, x4) is a source (P_source_transversePressuresEqualForEveryX0X4State)."];
+  $comp["source"] = <|
+    "question" -> "can a dirac16complex state (c-number/mean-field reading of the bilinears) satisfy G^\\mu{}_\\nu=\\kappa T^\\mu{}_\\nu in this field?",
+    "everyX0X4State" -> "for every \\Psi(x_0,x_4), off shell and for every U: T^i{}_i=T^j{}_j=\\mathcal L_s (i=1,2,3,\\ j=5,6,7), while G^i{}_i-G^j{}_j=2H^2a_4''; hence a4''\\ne0 excludes every such state",
+    "realK" -> "\\Psi=s^{-1/2+iK/(6H)}u(x_4),\\ K\\in\\mathbb R: every diagonal T^\\mu{}_\\mu=c_1(t)/\\sin z+c_2(t)/\\sin^2z (c_2\\propto\\lambda), while G^4{}_4=3H^2(7+a_4'^2) is z-independent and nonzero; W(1,1/\\sin z,1/\\sin^2z)\\ne0 excludes it for every a_4",
+    "x0Independent" -> <|
+      "ansatz" -> "\\Psi=u(x_4)\\ (K=-3iH),\\ \\gamma^4\\partial_4u=(M_{\\mathrm{eff}}-3H\\gamma^0)u,\\ S=u^\\dagger Cu\\ \\text{constant},\\ M_{\\mathrm{eff}}=m+\\lambda S",
+      "diagonal" -> "T^4{}_4=-(mS+U),\\ T^\\mu{}_\\mu=SU'-U\\ (\\mu\\ne4)",
+      "offDiagonal" -> Table[<|"mu" -> r["pair"][[1]], "nu" -> r["pair"][[2]],
+          "gammaProduct" -> r["dec"][[1, 1]], "tex" -> "\\gamma^{" <> StringRiffle[ToString /@ r["dec"][[1, 1]], "}\\gamma^{"] <> "}",
+          "coefficient" -> exprRec[r["dec"][[1, 2]]]|>, {r, Select[offX, #["products"] =!= {} &]}],
+      "conditions" -> "a_4''=0,\\ mS=-36H^2/\\kappa,\\ \\lambda S^2=2H^2(15-3a_4'^2)/\\kappa,\\ M_{\\mathrm{eff}}=-6H^2(1+a_4'^2)/(\\kappa S),\\ \\text{15 bilinears zero}",
+      "examples" -> (#["rec"] & /@ exRes)|>|>;];
 
 (* ---------------- P_quant ---------------- *)
 checkQuant[] := Module[{psi, psib, Lag, Lag2, PiM, Hd, HdClosed, dHd, evo, psiX, herm, A, B0, w, adjOK, badA, g8op, L8a, L8b, Dpsi, Dpsib, S0, ev},
@@ -1001,10 +1141,10 @@ checkQuant[] := Module[{psi, psib, Lag, Lag2, PiM, Hd, HdClosed, dHd, evo, psiX,
   $comp["quantization"] = <|
     "momentum" -> "\\Pi=\\partial\\mathcal L/\\partial(\\partial_4\\Psi)=\\sqrt{|g|}\\,\\Psi^\\dagger C\\gamma^4=\\cos z\\,\\Psi^\\dagger C\\gamma^4\\ (\\text{after }\\mathcal L\\to\\mathcal L+\\tfrac12\\partial_4(\\sqrt{|g|}\\bar\\Psi\\gamma^4\\Psi))",
     "anticommutator" -> "\\{\\Psi_a(x),\\Psi_b^\\dagger(y)\\}_{x^4=y^4}=i[(C\\gamma^4)^{-1}]_{ab}\\frac{\\delta^7(x-y)}{\\cos z}=B_{ab}\\frac{\\delta^7(x-y)}{\\cos z},\\ B=-iC\\gamma^4",
-    "B" -> "B=B^\\dagger,\\ B^2=\\mathbb 1,\\ \\mathrm{spec}\\,B=\\{+1^{(8)},-1^{(8)}\\},\\ [C,B]=0,\\ BC=-i\\gamma^4",
+    "B" -> "B=B^\\dagger,\\ B^2=1,\\ \\mathrm{spec}\\,B=\\{+1^{(8)},-1^{(8)}\\},\\ [C,B]=0,\\ BC=-i\\gamma^4",
     "hamiltonianDensity" -> "\\mathcal H=\\cos z\\Bigl[-\\tfrac12\\sum_{\\mu\\ne4}h_\\mu^{-1}\\bigl(\\bar\\Psi\\gamma^\\mu\\partial_\\mu\\Psi-\\partial_\\mu\\bar\\Psi\\gamma^\\mu\\Psi\\bigr)+m\\bar\\Psi\\Psi+\\tfrac\\lambda2(\\bar\\Psi\\Psi)^2\\Bigr],\\ h=(\\cot z,s^{1/6}e^{a_4}(\\times3),1,s^{1/6}e^{-a_4}(\\times3))",
     "heisenberg" -> "i\\partial_4\\Psi=B\\,\\frac{1}{\\cos z}\\frac{\\delta H}{\\delta\\Psi^\\dagger}\\ \\text{reproduces}\\ \\partial_4\\Psi=-\\gamma^4\\bigl[(m+\\lambda S)\\Psi-\\sum_{\\mu\\ne4}\\gamma^\\mu D_\\mu\\Psi\\bigr]",
-    "singleParticle" -> "q=0:\\ i\\partial_4\\Psi=h\\Psi,\\ h=-im\\gamma^4+3iH\\gamma^4\\gamma^0+i\\tan z\\,\\gamma^4\\gamma^0\\partial_0+i s^{-1/6}e^{-a_4}\\gamma^4\\gamma^i\\partial_i,\\ \\text{Hermitian w.r.t. }\\int\\cos z\\,\\Psi^\\dagger\\Phi\\,d^7x\\ (\\text{the }3H\\text{ term is exactly what the weight }\\cos z\\text{ requires});\\ \\text{the }x_{5,6,7}\\text{ terms }is^{-1/6}e^{a_4}\\gamma^4\\gamma^j\\partial_j\\text{ are anti-Hermitian}",
+    "singleParticle" -> "k_5=0\\ (\\text{no }x_{5,6,7}\\text{ dependence}):\\ i\\partial_4\\Psi=h\\Psi,\\ h=-im\\gamma^4+3iH\\gamma^4\\gamma^0+i\\tan z\\,\\gamma^4\\gamma^0\\partial_0+i s^{-1/6}e^{-a_4}\\gamma^4\\gamma^i\\partial_i,\\ \\text{Hermitian w.r.t. }\\int\\cos z\\,\\Psi^\\dagger\\Phi\\,d^7x\\ (\\text{the }3H\\text{ term is exactly what the weight }\\cos z\\text{ requires});\\ \\text{the }x_{5,6,7}\\text{ terms }is^{-1/6}e^{a_4}\\gamma^4\\gamma^j\\partial_j\\text{ are anti-Hermitian}",
     "gamma8" -> "\\Psi\\to\\gamma^8\\Psi:\\ \\mathcal L_{m,\\lambda}\\to-\\mathcal L_{-m,-\\lambda},\\ \\text{solutions of }(m,\\lambda)\\to\\text{solutions of }(-m,-\\lambda)\\ (\\pm M\\text{ pair, structural only})"|>;];
 
 (* ---------------- P_a4linear ---------------- *)
@@ -1048,6 +1188,17 @@ D16PRun[repoRoot_String] := Module[{nbFile, fixFile, nbd, res, t0 = AbsoluteTime
     addMeas["exactnessMethod", "ring Q(params)[s^(1/6), cos z, e^a4, a4', a4'', ...] modulo cos^2 z + s^2 - 1 (complete zero test), plus exact point checks at sin z = 3/5 and 5/13 with rational a4 jets (e^(1/6) transcendental, coefficients RootReduce'd)"];
     step["loading notebook (read only)", nbd = loadNotebookCells[nbFile]];
     addMeas["notebookNonOutputCellCount", nbd["count"]];
+    addMeas["notebookCellNumbering", "cell N = the N-th cell (1-based, file order) of the styles " <> StringRiffle[nbStyles, ", "] <>
+      "; Output, Print and Message cells are not counted and belong to the preceding counted cell (loadNotebookCells)"];
+    addMeas["notebookCitedCellLabels", StringRiffle[Table[Module[{c = nbd["inputs"][n], lab},
+         lab[x_] := Module[{r = Cases[List @@ x, (Rule | RuleDelayed)[CellLabel, v_] :> v]}, If[r === {}, "-", StringTrim[StringReplace[First[r], ":=" | "=" -> ""]]]];
+         ToString[n] <> ": " <> lab[c] <> " -> " <> StringRiffle[lab /@ Select[nbd["outputs"][n], #[[2]] === "Output" &], ", "]],
+       {n, {501, 583, 584, 1058, 1060, 1066, 1075, 1078, 1079, 1089, 1096, 1111, 1137}}], "; "]];
+    (* evidence on the session of the stored chain 1058..1137 (document Section 11.3) *)
+    addMeas["notebookSessionEvidence", Module[{ct = Cases[List @@ nbd["inputs"][1058], (Rule | RuleDelayed)[CellChangeTimes, v_] :> v]},
+       "cell 1096 stored date strings: " <> StringRiffle[Union[Select[Cases[nbd["outputs"][1096], _String, Infinity], StringMatchQ[#, ___ ~~ "2026" ~~ ___] && StringLength[#] > 4 &]], ", "] <>
+        "; cell 1058 last CellChangeTimes: " <> If[ct === {}, "-", DateString[FromAbsoluteTime[Last[Flatten[{First[ct]}]]], {"Year", "-", "Month", "-", "Day"}]] <>
+        "; notebook FrontEndVersion: " <> ToString[nbd["frontEndVersion"]] <> "; verifier kernel: " <> $Version]];
     step["geometry", buildGeometry[]];
     step["P_metric", checkMetric[nbd]];
     step["P_zeta", checkZeta[]];
@@ -1061,6 +1212,7 @@ D16PRun[repoRoot_String] := Module[{nbFile, fixFile, nbd, res, t0 = AbsoluteTime
     step["P_EMT", checkEMT[]];
     step["P_modes", checkModes[]];
     step["P_einstein", checkEinstein[nbd]];
+    step["P_source", checkSource[]];
     step["P_quant", checkQuant[]];
     step["P_a4linear", checkA4Linear[]];
     "ok", d16pErr];

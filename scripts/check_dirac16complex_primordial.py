@@ -71,6 +71,7 @@ CHECK_NAMES = (
     "P_EMT",
     "P_modes",
     "P_einstein",
+    "P_source",
     "P_quant",
     "P_a4linear",
 )
@@ -1855,7 +1856,8 @@ def check_modes(ctx, sample=True):
                    "gamma^4 d_4 phi + i (k e^{-H zeta - a4(t)} gamma^1 + q e^{-H zeta + a4(t)} "
                    "gamma^5) phi = M phi; the coefficients are products of a nonconstant "
                    "function of zeta and a nonconstant function of t, so the k != 0 and q != 0 "
-                   "modes do not separate into zeta- and t-dependent factors")
+                   "modes do not separate into zeta- and t-dependent factors (the document "
+                   "writes k_1 for k and k_5 for q)")
     m["kCoefficientZetaForm"] = zeta_forms_ok
     m["kCoefficientNotConstantInEitherVariable"] = nonseparable
     # local (frozen-coefficient) dispersion with kt = k e^{-H zeta - a4}, qt = q e^{-H zeta + a4}
@@ -1865,13 +1867,18 @@ def check_modes(ctx, sample=True):
     a_loc_sq_ok = cl_equal(cl_mul(a_loc, a_loc),
                            {0: -(MASS ** 2 + KZ ** 2 + kt ** 2 - qt ** 2)})
     h_loc = cl_scale(a_loc, sp.I)
-    anti_hermitian_part = cl_clean(cl_sub(h_loc, cl_dagger(h_loc, conj_canon)))
+    # h_loc - h_loc^dagger = -2 qt gamma^4 gamma^5; the anti-Hermitian part is half of it
+    h_minus_adjoint = cl_clean(cl_sub(h_loc, cl_dagger(h_loc, conj_canon)))
+    anti_hermitian_part = cl_clean(cl_scale(h_minus_adjoint, sp.Rational(1, 2)))
     expected_part = cl_scale(cl_mul(gamma_blade(4), gamma_blade(5)), -2 * qt)
-    hloc_ok = cl_equal(cl_sub(h_loc, cl_dagger(h_loc, conj_canon)), expected_part)
+    hloc_ok = (cl_equal(cl_sub(h_loc, cl_dagger(h_loc, conj_canon)), expected_part)
+               and cl_equal(anti_hermitian_part,
+                            cl_scale(cl_mul(gamma_blade(4), gamma_blade(5)), -qt)))
     m["localDispersion"] = ("E^2 = M^2 + K^2 + (k e^{-H zeta - a4})^2 - (q e^{-H zeta + a4})^2 "
                             "(WKB / frozen coefficients, local)")
     m["localDispersionExactForFrozenCoefficients"] = a_loc_sq_ok
-    m["hLocalNonHermitianPart"] = cl_text(anti_hermitian_part) if anti_hermitian_part else "0"
+    m["hLocal_minus_hLocalDagger"] = cl_text(h_minus_adjoint) if h_minus_adjoint else "0"
+    m["hLocalAntiHermitianPart"] = cl_text(anti_hermitian_part) if anti_hermitian_part else "0"
     m["hLocalHermitianIffQZero"] = hloc_ok
     m["instabilityOnset"] = ("E^2 < 0 iff (q e^{-H zeta + a4})^2 > M^2 + K^2 + (k e^{-H zeta - a4})^2;"
                              " k = 0: a4(t) > H zeta + (1/2) log((M^2 + K^2)/q^2); a4 = t: "
@@ -2022,27 +2029,249 @@ def check_einstein(ctx):
     }
     nec_ok = sp.simplify(nec0 + 6 * H ** 2 * (1 + A4P ** 2) / KAPPA) == 0
     sec_ok = sp.simplify(sec + 36 * H ** 2 * A4P ** 2 / KAPPA) == 0
-    # the zeta-wave condensate cannot supply it: rho_cond * sin z is x0-independent,
-    # rho_req is x0-independent and nonzero
     rho_req_c = canon_r(rho_req)
     x0_independent_req = is_zero(d0(rho_req_c))
-    # condensate energy density T_44 = u^dag Q_44 u: every coefficient of Q_44 is
-    # (x0-independent) / sin z, so rho_cond(z1) = rho_cond(z2) with sin z1 != sin z2
-    # forces rho_cond = 0
+    m["rhoRequired_x0Independent"] = x0_independent_req
+    m["sourceByDirac16complex"] = "see P_source (T^mu_nu of explicit dirac16complex states)"
+    ok = (r_ok and off_ok and g_ok and all(bianchi) and nb_cov_ok and nb_mixed_ok and nb_r_ok
+          and rho_negative and nec_ok and sec_ok and x0_independent_req)
+    return ok, {"P_einstein": m}, {"ricci": ric, "Gmixed": g_mixed}
+
+
+# -- can a dirac16complex state supply the source? ------------------------------
+
+MEFF = sp.Symbol("Meff", real=True)
+
+# the 15 off-diagonal bilinears of the x0-independent state: name -> (mask of the
+# three-gamma product, ordered factors)
+SOURCE_BILINEARS = tuple(
+    [("V%d" % a, (0, a, 4)) for a in TRANSVERSE6]
+    + [("W%d%d" % (i, j), (i, 4, j)) for i in SPACE for j in EXTRA_TIMES])
+
+# exact examples (H = 1): Psi = exp(i omega x4) u0, u0 = sqrt(S / v^dag C v) v
+SOURCE_EXAMPLES = (
+    {"label": "A", "m": sp.Integer(5), "lam": sp.Integer(0), "kappa": sp.Integer(1),
+     "c": sp.sqrt(5), "S": sp.Rational(-36, 5), "Meff": sp.Integer(5), "omega": sp.Integer(4),
+     "v": (3, -sp.I, 0, 0, 3, sp.I, 0, 0, 1, -3 * sp.I, 0, 0, 1, 3 * sp.I, 0, 0)},
+    {"label": "B", "m": sp.Integer(-15), "lam": sp.Rational(25, 6), "kappa": sp.Integer(1),
+     "c": sp.Integer(1), "S": sp.Rational(12, 5), "Meff": sp.Integer(-5), "omega": sp.Integer(4),
+     "v": (1, 3 * sp.I, 0, 0, 1, -3 * sp.I, 0, 0, -3, -sp.I, 0, 0, -3, sp.I, 0, 0)},
+)
+
+
+def _mask(indices):
+    out = 0
+    for c in indices:
+        out |= 1 << c
+    return out
+
+
+def emt_x0_independent(ctx):
+    """Clifford elements Q_mu nu with T_mu nu = u^dagger Q_mu nu u for the
+    x0-independent state Psi = u(x4) (K = -3iH in s^(-1/2 + iK/(6H)) u), on shell:
+    du/dx4 = A u, A = -gamma^4 (Meff - 3H gamma^0).  S = u^dag C u is x0- and
+    x4-independent, so Meff = m + lam S is a constant; U = (lam/2) S^2 is written
+    as the bilinear ((Meff - m)/2) S."""
+    charge = cl(CHARGE_MASK, sp.Integer(1))
+    a_elem = cl_mul(gamma_blade(4, -1), cl_add({0: MEFF}, gamma_blade(0, -3 * H)))
+    a_dag = cl_dagger(a_elem, conj_canon)
+    right, left = [], []
+    for mu in range(8):
+        if mu == 4:
+            right.append(cl_add(a_elem, ctx.Omega[4]))
+            left.append(cl_sub(cl_mul(a_dag, charge), cl_mul(charge, ctx.Omega[4])))
+        else:
+            right.append(dict(ctx.Omega[mu]))
+            left.append(cl_scale(cl_mul(charge, ctx.Omega[mu]), -1))
+
+    def kinetic(mu, nu):
+        return cl_sub(cl_mul_all(charge, ctx.gamma_down[mu], right[nu]),
+                      cl_mul(left[nu], ctx.gamma_down[mu]))
+
+    kin_half = cl_scale(cl_add(*[cl_sub(cl_mul_all(charge, ctx.gamma_up[mu], right[mu]),
+                                        cl_mul(left[mu], ctx.gamma_up[mu])) for mu in range(8)]),
+                        sp.Rational(1, 2))
+    potential = cl_scale(charge, (MEFF - MASS) / 2)
+    lag = cl_sub(cl_sub(kin_half, cl_scale(charge, MASS)), potential)
+    q = [[None] * 8 for _ in range(8)]
+    for mu in range(8):
+        for nu in range(8):
+            element = cl_scale(cl_add(kinetic(mu, nu), kinetic(nu, mu)), -sp.Rational(1, 4))
+            if mu == nu:
+                element = cl_add(element, cl_scale(lag, ctx.g[mu]))
+            q[mu][nu] = element
+    dirac = cl_sub(cl_add(*[cl_mul(ctx.gamma_up[mu], right[mu]) for mu in range(8)]), {0: MEFF})
+    s_rate = cl_add(cl_mul(a_dag, charge), cl_mul(charge, a_elem))
+    return {"Q": q, "A": a_elem, "Adag": a_dag, "kinHalf": kin_half, "L": lag,
+            "dirac": dirac, "S_rate": s_rate}
+
+
+def _dense_value(ctx, element, u, values):
+    """u^dagger (sum_mask c_mask gamma^mask) u with the parameters substituted."""
+    total = sp.Integer(0)
+    ubar = [sp.conjugate(x) for x in u]
+    for mask, c in element.items():
+        coefficient = sp.sympify(c).subs(values)
+        if coefficient == 0:
+            continue
+        perm, signs = ctx.blade_sp[mask]
+        form = sum(ubar[i] * signs[i] * u[perm[i]] for i in range(16))
+        total += coefficient * sp.expand(form)
+    return total
+
+
+def _dense_matrix(ctx, mask):
+    return sp.Matrix(ctx.blade_dense(mask))
+
+
+def check_source(ctx):
+    """Whether a dirac16complex state (c-number reading of the bilinears) can satisfy
+    G^mu_nu = kappa T^mu_nu in this field."""
+    m = {}
+    closed = [canon_r(c) for c in closed_einstein_mixed()]
+    # (1) every Psi(x0, x4): A_ii = 0 and d_i Psi = 0 give T^i_i = L_s for the six
+    # transverse directions, while G^i_i - G^j_j = 2 H^2 a4''
+    a_diag_zero = all(cl_is_zero(cl_add(cl_anti(ctx.gamma_down[i], ctx.Omega[i]),
+                                        cl_anti(ctx.gamma_down[i], ctx.Omega[i])))
+                      for i in TRANSVERSE6)
+    g_difference = all(equal(closed[i] - closed[j], 2 * H ** 2 * A2)
+                       for i in SPACE for j in EXTRA_TIMES)
+    m["everyX0X4State"] = ("T^i_i = T^j_j = L_s for every Psi(x0,x4) (A_ii = 0, d_i Psi = 0) "
+                           "while G^i_i - G^j_j = 2 H^2 a4'': a4'' != 0 excludes every such "
+                           "state")
+    m["transverseDiagonalAnticommutatorsVanish"] = a_diag_zero
+    m["einsteinTransverseDifferenceIs2H2a4pp"] = g_difference
+    # (2) the zeta plane wave with real K (lam = 0): every coefficient of Q_44 is
+    # (x0-independent)/sin z, the required rho is x0-independent and nonzero
     q44 = emt_zeta_wave(ctx)["Q"][4][4]
     cond_scaling = bool(q44) and all(is_zero(d0(c * W ** 6)) and not is_zero(c)
                                      for c in cl_clean(q44).values())
-    m["condensateCannotSource"] = (
-        "zeta-wave condensate: rho = (m u^dag C u + K j0)/sin z, S = u^dag C u / sin z "
-        "(proportional to 1/sin z); rho_req is x0-independent and <= -21 H^2/kappa, so "
-        "rho = rho_req for all z would force m sC + K j0 = 0, i.e. rho = 0 != rho_req; also "
-        "the transverse pressures of the condensate vanish (lam = 0) while p_req,1 = "
-        "H^2(15 - 3a4'^2 + a4'')/kappa")
-    m["rhoRequired_x0Independent"] = x0_independent_req
-    m["condensateRho_times_sinz_x0Independent"] = cond_scaling
-    ok = (r_ok and off_ok and g_ok and all(bianchi) and nb_cov_ok and nb_mixed_ok and nb_r_ok
-          and rho_negative and nec_ok and sec_ok and x0_independent_req and cond_scaling)
-    return ok, {"P_einstein": m}, {"ricci": ric, "Gmixed": g_mixed}
+    rho_req = canon_r(-closed_einstein_mixed()[4] / KAPPA)
+    rho_req_ok = is_zero(d0(rho_req)) and not is_zero(rho_req)
+    m["realKPlaneWave"] = ("Psi = exp((-3H + iK) zeta) u(x4), K real, lam = 0: rho = u^dag Q_44 u "
+                           "with Q_44 ~ 1/sin z, rho_req x0-independent and <= -21 H^2/kappa, so "
+                           "rho = rho_req on an open z-range forces rho = 0 != rho_req")
+    m["realKRho_times_sinz_x0Independent"] = cond_scaling
+    # (3) the x0-independent state Psi = u(x4)
+    data = emt_x0_independent(ctx)
+    q = data["Q"]
+    charge = cl(CHARGE_MASK, sp.Integer(1))
+    dirac_ok = cl_is_zero(data["dirac"])
+    s_conserved = cl_is_zero(data["S_rate"])
+    kin_ok = cl_equal(data["kinHalf"], cl_scale(charge, MEFF))
+    t44_ok = cl_equal(cl_scale(q[4][4], ctx.ginv[4]), cl_scale(charge, -(MASS + MEFF) / 2))
+    tt_ok = all(cl_equal(cl_scale(q[mu][mu], ctx.ginv[mu]), cl_scale(charge, (MEFF - MASS) / 2))
+                for mu in range(8) if mu != 4)
+    off_ok, off_list = True, []
+    for mu in range(8):
+        for nu in range(mu + 1, 8):
+            element = cl_clean(cl_mul(charge, q[mu][nu]))   # C Q: gamma products
+            if (mu, nu) == (0, 4) or {mu, nu} <= set(SPACE) or {mu, nu} <= set(EXTRA_TIMES):
+                expected = None
+            elif mu in (0, 4) or nu == 4:
+                expected = _mask((0, nu if mu in (0, 4) else mu, 4))
+            else:
+                expected = _mask((mu, nu, 4))
+            if expected is None:
+                off_ok = off_ok and not element
+            else:
+                off_ok = off_ok and list(element) == [expected]
+                if list(element) == [expected]:
+                    off_list.append("T_%d%d = (%s) Psibar %s Psi" % (
+                        mu, nu, sp.sstr(to_readable(reduced(element[expected]))),
+                        blade_label(expected)))
+    m["x0Independent"] = {
+        "ansatz": "Psi = u(x4), du/dx4 = -gamma^4 (Meff - 3H gamma^0) u, S = u^dag C u constant",
+        "diracExact": dirac_ok, "S_conserved": s_conserved, "kineticHalfIsMeffS": kin_ok,
+        "T44_is_minus_(mS+U)": t44_ok, "Tmumu_is_SUprime_minus_U": tt_ok,
+        "offDiagonalAre15ThreeGammaBilinears": off_ok, "offDiagonal": off_list,
+    }
+    # conditions with the 15 bilinears zero: G^4_4 = kappa T^4_4, G^0_0 = kappa T^0_0
+    t44 = -(MASS + MEFF) / 2 * SSYM
+    tt = (MEFF - MASS) / 2 * SSYM
+    solution = sp.solve([closed[4] - KAPPA * t44, closed[0] - KAPPA * tt], [MASS, MEFF], dict=True)
+    cond_ok = (len(solution) == 1
+               and equal(solution[0][MASS], -36 * H ** 2 / (KAPPA * SSYM))
+               and equal(solution[0][MEFF], -6 * H ** 2 * (1 + A1 ** 2) / (KAPPA * SSYM))
+               and equal((solution[0][MEFF] - solution[0][MASS]) * SSYM,
+                         2 * H ** 2 * (15 - 3 * A1 ** 2) / KAPPA))
+    if cond_ok:
+        rest = [closed[mu] - KAPPA * (t44 if mu == 4 else tt) for mu in range(8)]
+        rest = [sp.sympify(r).subs(solution[0]) for r in rest]
+        cond_ok = (all(is_zero(r.subs(A2, 0)) for r in rest)
+                   and not all(is_zero(r) for r in rest))
+    m["x0IndependentConditions"] = ("a4'' = 0, m S = -36 H^2/kappa, lam S^2 = Meff S - m S = "
+                                    "2 H^2 (15 - 3 a4'^2)/kappa, Meff = -6 H^2 (1 + a4'^2)/(kappa S), "
+                                    "15 bilinears zero")
+    m["x0IndependentConditionsVerified"] = cond_ok
+    # explicit exact examples (H = 1)
+    examples, examples_ok = {}, True
+    g_mat = [sp.Matrix(ctx.gamma[a]) for a in range(8)]
+    c_mat = sp.Matrix(ctx.charge)
+    eye = sp.eye(16)
+
+    def s_ab(a, b):
+        return (g_mat[a] * g_mat[b] - g_mat[b] * g_mat[a]) / 4
+
+    j_gen = [s_ab(2, 3) - s_ab(6, 7), s_ab(3, 1) - s_ab(7, 5), s_ab(1, 2) - s_ab(5, 6)]
+    for ex in SOURCE_EXAMPLES:
+        w = ex["omega"]
+        a_mat = -g_mat[4] * (ex["Meff"] * eye - 3 * g_mat[0])
+        basis = sp.Matrix.vstack(*j_gen, a_mat - sp.I * w * eye).nullspace()
+        q_mat = sp.Matrix.hstack(*basis) if basis else sp.zeros(16, 0)
+        forms = {}
+        for name, factors in SOURCE_BILINEARS:
+            x = c_mat * g_mat[factors[0]] * g_mat[factors[1]] * g_mat[factors[2]]
+            forms[name] = sp.simplify(q_mat.H * x * q_mat)
+        nonzero = sorted(name for name, f in forms.items() if f != sp.zeros(*f.shape))
+        construction = (w ** 2 == ex["Meff"] ** 2 - 9 and len(basis) == 2
+                        and nonzero == ["W15", "W26", "W37"]
+                        and forms["W15"] == forms["W26"] == forms["W37"])
+        v = sp.Matrix(ex["v"])
+        in_span = sp.Matrix.hstack(q_mat, v).rank() == 2
+        eigen = sp.simplify(a_mat * v - sp.I * w * v) == sp.zeros(16, 1)
+        bilinears_zero = all(sp.simplify((v.H * c_mat * g_mat[f[0]] * g_mat[f[1]] * g_mat[f[2]]
+                                          * v)[0]) == 0 for _, f in SOURCE_BILINEARS)
+        s_v = sp.simplify((v.H * c_mat * v)[0])
+        u0 = [sp.sqrt(ex["S"] / s_v) * x for x in ex["v"]]
+        s_u0 = sp.simplify(sum(sp.conjugate(u0[i]) * (c_mat * sp.Matrix(u0))[i]
+                               for i in range(16)))
+        consistent = (s_u0 == ex["S"] and ex["m"] + ex["lam"] * s_u0 == ex["Meff"]
+                      and ex["m"] * ex["S"] == -36 / ex["kappa"]
+                      and sp.simplify(ex["lam"] * ex["S"] ** 2
+                                      - 2 * (15 - 3 * ex["c"] ** 2) / ex["kappa"]) == 0)
+        values = {H: 1, MASS: ex["m"], MEFF: ex["Meff"], A1: ex["c"], A2: 0, KAPPA: ex["kappa"]}
+        residual_zero, residual_bad = True, False
+        for mu in range(8):
+            for nu in range(8):
+                t_value = _dense_value(ctx, cl_scale(q[mu][nu], ctx.ginv[mu]), u0, values)
+                g_value = closed[mu] if mu == nu else sp.Integer(0)
+                r = sp.sympify(g_value).subs(values) - ex["kappa"] * t_value
+                residual_zero = residual_zero and is_zero(sp.expand(r))
+                if mu == nu:   # negative control: slope c + 1
+                    bad = {**values, A1: ex["c"] + 1}
+                    rb = (sp.sympify(g_value).subs(bad) - ex["kappa"]
+                          * _dense_value(ctx, cl_scale(q[mu][nu], ctx.ginv[mu]), u0, bad))
+                    residual_bad = residual_bad or not is_zero(sp.expand(rb))
+        rho = ex["m"] * s_u0 + ex["lam"] / 2 * s_u0 ** 2
+        ok_ex = (construction and in_span and eigen and bilinears_zero and consistent
+                 and residual_zero and residual_bad
+                 and rho == -3 * (7 + ex["c"] ** 2) / ex["kappa"])
+        examples_ok = examples_ok and ok_ex
+        examples[ex["label"]] = {
+            "H": "1", "kappa": str(ex["kappa"]), "m": str(ex["m"]), "lam": str(ex["lam"]),
+            "a4": sp.sstr(ex["c"] * TS), "Meff": str(ex["Meff"]), "omega": str(w),
+            "S": str(s_u0), "v": [sp.sstr(x) for x in ex["v"]],
+            "u0NormFactorSquared": str(sp.simplify(ex["S"] / s_v)),
+            "rho": str(rho), "pTransverse": str(ex["lam"] / 2 * s_u0 ** 2),
+            "construction_dim2_onlyW15W26W37": construction, "vInIntersection": in_span,
+            "eigenvector": eigen, "bilinearsZero": bilinears_zero, "conditions": consistent,
+            "allGminusKappaT64Zero": residual_zero, "negativeControlSlopePlus1Fails": residual_bad,
+        }
+    m["x0IndependentExamples"] = examples
+    ok = (a_diag_zero and g_difference and cond_scaling and rho_req_ok and dirac_ok
+          and s_conserved and kin_ok and t44_ok and tt_ok and off_ok and cond_ok and examples_ok)
+    return ok, {"P_source": m}
 
 
 # -- canonical quantization -----------------------------------------------------
@@ -2399,7 +2628,7 @@ def _jsonable(value):
 def run_checks(ctx=None, fixture_path=DEFAULT_FIXTURE,
                wolfram_path=DEFAULT_WOLFRAM_COMPONENTS, sample=True,
                require_wolfram=False):
-    """Run the fourteen checks and, when the Wolfram component file exists, the
+    """Run the fifteen checks and, when the Wolfram component file exists, the
     comparison P_EL_agreesWithWolfram.  With require_wolfram=True (the command-line
     default) a missing component file is a failed P_EL_agreesWithWolfram
     (wolframAgreement = 'missing'), so that the gate cannot pass without the
@@ -2429,6 +2658,7 @@ def run_checks(ctx=None, fixture_path=DEFAULT_FIXTURE,
     record("P_EMT", check_emt, ctx, sample)
     record("P_modes", check_modes, ctx, sample)
     record("P_einstein", check_einstein, ctx)
+    record("P_source", check_source, ctx)
     record("P_quant", check_quant, ctx)
     record("P_a4linear", check_a4linear, ctx)
     inputs = {}

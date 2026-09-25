@@ -1,7 +1,12 @@
 {
+  "dirac16complex-arbitrary-field": {
+    "path": "provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.pdf",
+    "pages": 41,
+    "sha256": "04dd0b83e11357b7fed85696d461b93df68eeb5d981bab369a36d6e0e1a8e0bd"
+  },
   "dirac16complex-primordial-field": {
     "path": "provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD.pdf",
-    "pages": 35,
-    "sha256": "195f9fac24a095d7602fa306c8ba0645684ad8bf89cfbd7e268bccc770f6e06b"
+    "pages": 38,
+    "sha256": "a6f6d7b813591412b207845d6f36e0d2f9d14f0986e8d0e53527fb45bf82cf1e"
   }
 }

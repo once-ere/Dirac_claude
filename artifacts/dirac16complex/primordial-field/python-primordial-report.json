@@ -14,6 +14,7 @@
     "P_EMT": true,
     "P_modes": true,
     "P_einstein": true,
+    "P_source": true,
     "P_quant": true,
     "P_a4linear": true,
     "P_EL_agreesWithWolfram": true
@@ -2662,12 +2663,13 @@
         "d_zeta": "-H",
         "d_t": "-Derivative(a4(t), t)"
       },
-      "kModes": "Psi = exp(-3H zeta) exp(i k x1 + i q x5) phi(zeta, x4): gamma^0 d_zeta phi + gamma^4 d_4 phi + i (k e^{-H zeta - a4(t)} gamma^1 + q e^{-H zeta + a4(t)} gamma^5) phi = M phi; the coefficients are products of a nonconstant function of zeta and a nonconstant function of t, so the k != 0 and q != 0 modes do not separate into zeta- and t-dependent factors",
+      "kModes": "Psi = exp(-3H zeta) exp(i k x1 + i q x5) phi(zeta, x4): gamma^0 d_zeta phi + gamma^4 d_4 phi + i (k e^{-H zeta - a4(t)} gamma^1 + q e^{-H zeta + a4(t)} gamma^5) phi = M phi; the coefficients are products of a nonconstant function of zeta and a nonconstant function of t, so the k != 0 and q != 0 modes do not separate into zeta- and t-dependent factors (the document writes k_1 for k and k_5 for q)",
       "kCoefficientZetaForm": true,
       "kCoefficientNotConstantInEitherVariable": true,
       "localDispersion": "E^2 = M^2 + K^2 + (k e^{-H zeta - a4})^2 - (q e^{-H zeta + a4})^2 (WKB / frozen coefficients, local)",
       "localDispersionExactForFrozenCoefficients": true,
-      "hLocalNonHermitianPart": "(-2*qt)*g4*g5",
+      "hLocal_minus_hLocalDagger": "(-2*qt)*g4*g5",
+      "hLocalAntiHermitianPart": "(-qt)*g4*g5",
       "hLocalHermitianIffQZero": true,
       "instabilityOnset": "E^2 < 0 iff (q e^{-H zeta + a4})^2 > M^2 + K^2 + (k e^{-H zeta - a4})^2; k = 0: a4(t) > H zeta + (1/2) log((M^2 + K^2)/q^2); a4 = t: t* = H zeta + log(sqrt(M^2 + K^2)/|q|)",
       "instabilityOnsetVerified_M3_K4_q1/2": true,
@@ -2752,9 +2754,127 @@
         "SEC_8D_(5rho + sum p)": "-36*H**2*Derivative(a4(t), t)**2/kappa  (<= 0, = 0 only if a4' = 0; SEC also fails through the NEC)",
         "DEC": "violated (rho_req < 0)"
       },
-      "condensateCannotSource": "zeta-wave condensate: rho = (m u^dag C u + K j0)/sin z, S = u^dag C u / sin z (proportional to 1/sin z); rho_req is x0-independent and <= -21 H^2/kappa, so rho = rho_req for all z would force m sC + K j0 = 0, i.e. rho = 0 != rho_req; also the transverse pressures of the condensate vanish (lam = 0) while p_req,1 = H^2(15 - 3a4'^2 + a4'')/kappa",
       "rhoRequired_x0Independent": true,
-      "condensateRho_times_sinz_x0Independent": true
+      "sourceByDirac16complex": "see P_source (T^mu_nu of explicit dirac16complex states)"
+    },
+    "P_source": {
+      "everyX0X4State": "T^i_i = T^j_j = L_s for every Psi(x0,x4) (A_ii = 0, d_i Psi = 0) while G^i_i - G^j_j = 2 H^2 a4'': a4'' != 0 excludes every such state",
+      "transverseDiagonalAnticommutatorsVanish": true,
+      "einsteinTransverseDifferenceIs2H2a4pp": true,
+      "realKPlaneWave": "Psi = exp((-3H + iK) zeta) u(x4), K real, lam = 0: rho = u^dag Q_44 u with Q_44 ~ 1/sin z, rho_req x0-independent and <= -21 H^2/kappa, so rho = rho_req on an open z-range forces rho = 0 != rho_req",
+      "realKRho_times_sinz_x0Independent": true,
+      "x0Independent": {
+        "ansatz": "Psi = u(x4), du/dx4 = -gamma^4 (Meff - 3H gamma^0) u, S = u^dag C u constant",
+        "diracExact": true,
+        "S_conserved": true,
+        "kineticHalfIsMeffS": true,
+        "T44_is_minus_(mS+U)": true,
+        "Tmumu_is_SUprime_minus_U": true,
+        "offDiagonalAre15ThreeGammaBilinears": true,
+        "offDiagonal": [
+          "T_01 = (-H*exp(a4(t))*cos(z)*Derivative(a4(t), t)/(4*sin(z)**(5/6))) Psibar g0*g1*g4 Psi",
+          "T_02 = (-H*exp(a4(t))*cos(z)*Derivative(a4(t), t)/(4*sin(z)**(5/6))) Psibar g0*g2*g4 Psi",
+          "T_03 = (-H*exp(a4(t))*cos(z)*Derivative(a4(t), t)/(4*sin(z)**(5/6))) Psibar g0*g3*g4 Psi",
+          "T_05 = (H*exp(-a4(t))*cos(z)*Derivative(a4(t), t)/(4*sin(z)**(5/6))) Psibar g0*g4*g5 Psi",
+          "T_06 = (H*exp(-a4(t))*cos(z)*Derivative(a4(t), t)/(4*sin(z)**(5/6))) Psibar g0*g4*g6 Psi",
+          "T_07 = (H*exp(-a4(t))*cos(z)*Derivative(a4(t), t)/(4*sin(z)**(5/6))) Psibar g0*g4*g7 Psi",
+          "T_14 = (-7*H*exp(a4(t))*sin(z)**(1/6)/4) Psibar g0*g1*g4 Psi",
+          "T_15 = (H*sin(z)**(1/3)*Derivative(a4(t), t)/2) Psibar g1*g4*g5 Psi",
+          "T_16 = (H*sin(z)**(1/3)*Derivative(a4(t), t)/2) Psibar g1*g4*g6 Psi",
+          "T_17 = (H*sin(z)**(1/3)*Derivative(a4(t), t)/2) Psibar g1*g4*g7 Psi",
+          "T_24 = (-7*H*exp(a4(t))*sin(z)**(1/6)/4) Psibar g0*g2*g4 Psi",
+          "T_25 = (H*sin(z)**(1/3)*Derivative(a4(t), t)/2) Psibar g2*g4*g5 Psi",
+          "T_26 = (H*sin(z)**(1/3)*Derivative(a4(t), t)/2) Psibar g2*g4*g6 Psi",
+          "T_27 = (H*sin(z)**(1/3)*Derivative(a4(t), t)/2) Psibar g2*g4*g7 Psi",
+          "T_34 = (-7*H*exp(a4(t))*sin(z)**(1/6)/4) Psibar g0*g3*g4 Psi",
+          "T_35 = (H*sin(z)**(1/3)*Derivative(a4(t), t)/2) Psibar g3*g4*g5 Psi",
+          "T_36 = (H*sin(z)**(1/3)*Derivative(a4(t), t)/2) Psibar g3*g4*g6 Psi",
+          "T_37 = (H*sin(z)**(1/3)*Derivative(a4(t), t)/2) Psibar g3*g4*g7 Psi",
+          "T_45 = (-7*H*exp(-a4(t))*sin(z)**(1/6)/4) Psibar g0*g4*g5 Psi",
+          "T_46 = (-7*H*exp(-a4(t))*sin(z)**(1/6)/4) Psibar g0*g4*g6 Psi",
+          "T_47 = (-7*H*exp(-a4(t))*sin(z)**(1/6)/4) Psibar g0*g4*g7 Psi"
+        ]
+      },
+      "x0IndependentConditions": "a4'' = 0, m S = -36 H^2/kappa, lam S^2 = Meff S - m S = 2 H^2 (15 - 3 a4'^2)/kappa, Meff = -6 H^2 (1 + a4'^2)/(kappa S), 15 bilinears zero",
+      "x0IndependentConditionsVerified": true,
+      "x0IndependentExamples": {
+        "A": {
+          "H": "1",
+          "kappa": "1",
+          "m": "5",
+          "lam": "0",
+          "a4": "sqrt(5)*t",
+          "Meff": "5",
+          "omega": "4",
+          "S": "-36/5",
+          "v": [
+            "3",
+            "-I",
+            "0",
+            "0",
+            "3",
+            "I",
+            "0",
+            "0",
+            "1",
+            "-3*I",
+            "0",
+            "0",
+            "1",
+            "3*I",
+            "0",
+            "0"
+          ],
+          "u0NormFactorSquared": "9/40",
+          "rho": "-36",
+          "pTransverse": "0",
+          "construction_dim2_onlyW15W26W37": true,
+          "vInIntersection": true,
+          "eigenvector": true,
+          "bilinearsZero": true,
+          "conditions": true,
+          "allGminusKappaT64Zero": true,
+          "negativeControlSlopePlus1Fails": true
+        },
+        "B": {
+          "H": "1",
+          "kappa": "1",
+          "m": "-15",
+          "lam": "25/6",
+          "a4": "t",
+          "Meff": "-5",
+          "omega": "4",
+          "S": "12/5",
+          "v": [
+            "1",
+            "3*I",
+            "0",
+            "0",
+            "1",
+            "-3*I",
+            "0",
+            "0",
+            "-3",
+            "-I",
+            "0",
+            "0",
+            "-3",
+            "I",
+            "0",
+            "0"
+          ],
+          "u0NormFactorSquared": "3/40",
+          "rho": "-24",
+          "pTransverse": "12",
+          "construction_dim2_onlyW15W26W37": true,
+          "vInIntersection": true,
+          "eigenvector": true,
+          "bilinearsZero": true,
+          "conditions": true,
+          "allGminusKappaT64Zero": true,
+          "negativeControlSlopePlus1Fails": true
+        }
+      }
     },
     "P_quant": {
       "B": "B = -i C gamma^4",
@@ -2949,10 +3069,10 @@
     ]
   },
   "sourceSha256": {
-    "scripts/check_dirac16complex_primordial.py": "582a53ff5a89471d88bff20374cbe18f910fd0d6084b95cbbf58459b3c66a22b"
+    "scripts/check_dirac16complex_primordial.py": "4e86497e8fee662fc43117a5a55341c1450e6644dbe7629e14c6b96a9798793f"
   },
   "inputSha256": {
     "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
-    "artifacts/dirac16complex/primordial-field/primordial-components.json": "370ed8a80ae8ddc10c2d15254853d3f5aaf067fcb2b35cfcf326e97a7c8a3249"
+    "artifacts/dirac16complex/primordial-field/primordial-components.json": "a5d8caa8cb2260824c29dcdb1ed0e62ec22079c297682939a277a6b98dfa3e52"
   }
 }

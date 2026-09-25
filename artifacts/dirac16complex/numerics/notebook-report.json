@@ -1,0 +1,495 @@
+{
+  "schemaVersion": 1,
+  "producer": "notebooks/check_notebook.py",
+  "notebook": "notebooks/dirac16complex_dark_sector.ipynb",
+  "builder": "notebooks/build_dirac16complex_notebook.py",
+  "adaptedFrom": "rustSolveIt planet_Mercury/notebook (build_notebook.py, run_notebook.py, check_notebook.py) at a8fdff459adfe181573d7924b18bffbdf378fdb3, BSD-3-Clause, once-ere",
+  "kernel": "python3 (Python 3 (ipykernel))",
+  "cells": 23,
+  "markdownCells": 15,
+  "codeCells": 8,
+  "executedCodeCells": 8,
+  "rules": [
+    "R1 how-to-run needles",
+    "R2 no cross-references",
+    "R3 markdown lead-in >= 80 chars",
+    "R4 required headings",
+    "R5 headless",
+    "R6 executed counts 1..n",
+    "R7 no errors, gauntlet passed",
+    "R8 figure hashes match disk",
+    "R9 kernel python3",
+    "R10 determinism settings",
+    "R11 nbformat schema"
+  ],
+  "executions": [
+    {
+      "runner": "notebooks/run_notebook.py (standard-library exec, writes back only if every cell passes)",
+      "notebook": "notebooks/dirac16complex_dark_sector.ipynb",
+      "problems": [],
+      "rulesPassed": true,
+      "gauntletChecks": 70,
+      "gauntletPassed": true,
+      "nbformatValid": true
+    },
+    {
+      "runner": "python -m nbconvert --to notebook --execute (Jupyter kernel python3)",
+      "notebook": "build/nbconvert/dirac16complex_dark_sector.ipynb",
+      "problems": [],
+      "rulesPassed": true,
+      "gauntletChecks": 70,
+      "gauntletPassed": true,
+      "nbformatValid": true
+    }
+  ],
+  "crossExecution": {
+    "compared": true,
+    "problems": [],
+    "identicalGauntletAndFigures": true
+  },
+  "figures": [
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp1_einstein_requirement.png",
+      "sha256": "42475d956a3c63fbbef0cea4da32ec5d886c4b7a00fc9f46075baea2f84b3191",
+      "bytes": 108698
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp1_frozen_observables.png",
+      "sha256": "719b7bc3220da6a7a3c85829b8848fa17c97e4b27c9b0d53fc40af98c8e6d934",
+      "bytes": 135941
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp2_eos_constraint.png",
+      "sha256": "36207840f68c0a2b8f1bfefa240fc7a0b5c382c354b7876623eb50051b321638",
+      "bytes": 88921
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp2_hubble.png",
+      "sha256": "af815eb061bcd44d93b39d897c15c6e4a3a81cc1fd5315322db2ab7620fff2c8",
+      "bytes": 142345
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp2_volume_density.png",
+      "sha256": "097750e8b52828ee25a700e3698db11c1ca206b39326ab3f349eb7c187302e19",
+      "bytes": 108499
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp3_distance_modulus.png",
+      "sha256": "a92f92f57c0927a092b755d543cb4d891f059a14f31c5ecfa342637e48f26816",
+      "bytes": 89097
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp3_ke_pe.png",
+      "sha256": "71275e8777920ef2405ea5e1b5d45e23c5bd8d8aa6d7a3f6e2fa25e4dea0e8de",
+      "bytes": 68273
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp3_rho_psi.png",
+      "sha256": "93d296d6b58dbd0f0df9e706099b599620403b494eb9ad813faaa6bb64933ea5",
+      "bytes": 83919
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp3_w0wa_plane.png",
+      "sha256": "16afd9a42370d3343d60a9f6cea453f9eefa280bf56e64d9cc30d52a03df96a1",
+      "bytes": 70171
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp3_w_of_a.png",
+      "sha256": "c5d9e35378948d87fc6978c894628dcba93a9b9bf9f176a68850ee19a290a3f2",
+      "bytes": 67374
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp4_pair_density.png",
+      "sha256": "1457cc3d213ad321416c7d96929164784f8cf44217e825f78f50ff242da19ca3",
+      "bytes": 87910
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp4_pair_spectra.png",
+      "sha256": "1e0a578d4c89ec694207754f358eaa1ba44dd7dc95621bfc253ee26f0295e563",
+      "bytes": 66870
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp4_thermal_scaling.png",
+      "sha256": "0db10806f00d3a706b131586d0a191cf6c4b786dc5d5b6ceaa4f158022aafa04",
+      "bytes": 48392
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp4_thermal_split.png",
+      "sha256": "d4b8ac3c2c18637e0f2f7a70722b7795091b08180ae61a9288af6c15845dfd1e",
+      "bytes": 39718
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp4_thermal_w.png",
+      "sha256": "0de3ee0fc58bbcdd438313aa77c14789b4ec43a0c41ac505396ea4e39cc5fdad",
+      "bytes": 76158
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp5_growth.png",
+      "sha256": "b5c7546f94f6226e2c99bd1bbbf62af330b94ef5d20c1b13a93fc7a6b453f38f",
+      "bytes": 74471
+    },
+    {
+      "file": "artifacts/dirac16complex/numerics/figures/exp5_krein.png",
+      "sha256": "78570341b44825997c549a14d21a44733aab9897f7ad4c428ce54bdec53a28df",
+      "bytes": 64111
+    }
+  ],
+  "gauntlet": {
+    "count": 70,
+    "passed": 70,
+    "failed": 0,
+    "results": [
+      {
+        "name": "all_runs_success",
+        "passed": true,
+        "detail": "7 program runs, every one exited 0 (simulator runs ended with SUCCESS)"
+      },
+      {
+        "name": "fresh_outputs_byte_identical",
+        "passed": true,
+        "detail": "exp1 29/29, exp2 4/4, exp3 11/11, exp3-analysis 3/3, exp4 13/13, exp5 5/5"
+      },
+      {
+        "name": "fixture_hash_consistent",
+        "passed": true,
+        "detail": "sha256 8b4f15462ca4d61e... in 5 summaries, 5 checker reports and numerics-summary.json"
+      },
+      {
+        "name": "stage1_physics_verified",
+        "passed": true,
+        "detail": "Stage 1 (Lagrangian, field equations, EMT, Lichnerowicz, Krein structure): 153/153 checks, no disagreement"
+      },
+      {
+        "name": "stage2_mode_reduction_verified",
+        "passed": true,
+        "detail": "the EXP-1 reduction gamma^4 du/dt = (M_eff - iK gamma^0) u is verified exactly in Stage 2"
+      },
+      {
+        "name": "algebra_relations_exact",
+        "passed": true,
+        "detail": "Clifford relations, C = g0g1g2g3, B = -iCg4, B^2 = 1, B Hermitian, BC = -ig4: all exact (0.0)"
+      },
+      {
+        "name": "exp1_rust_self_checks",
+        "passed": true,
+        "detail": "10/10 Rust checks true, verdict SUCCESS"
+      },
+      {
+        "name": "exp2_rust_self_checks",
+        "passed": true,
+        "detail": "15/15 Rust checks true, verdict SUCCESS"
+      },
+      {
+        "name": "exp3_rust_self_checks",
+        "passed": true,
+        "detail": "14/14 Rust checks true, verdict SUCCESS"
+      },
+      {
+        "name": "exp4_rust_self_checks",
+        "passed": true,
+        "detail": "23/23 Rust checks true, verdict SUCCESS"
+      },
+      {
+        "name": "exp5_rust_self_checks",
+        "passed": true,
+        "detail": "7/7 Rust checks true, verdict SUCCESS"
+      },
+      {
+        "name": "exp1_python_checker",
+        "passed": true,
+        "detail": "25/25 checks of scripts/check_dirac16complex_exp1.py true (incl. repeat-run byte identity and refined-tolerance convergence)"
+      },
+      {
+        "name": "exp2_python_checker",
+        "passed": true,
+        "detail": "34/34 checks of scripts/check_dirac16complex_exp2.py true (incl. repeat-run byte identity and refined-tolerance convergence)"
+      },
+      {
+        "name": "exp3_python_checker",
+        "passed": true,
+        "detail": "31/31 checks of scripts/check_dirac16complex_exp3.py true (incl. repeat-run byte identity and refined-tolerance convergence)"
+      },
+      {
+        "name": "exp4_python_checker",
+        "passed": true,
+        "detail": "51/51 checks of scripts/check_dirac16complex_exp4.py true (incl. repeat-run byte identity and refined-tolerance convergence)"
+      },
+      {
+        "name": "exp5_python_checker",
+        "passed": true,
+        "detail": "21/21 checks of scripts/check_dirac16complex_exp5.py true (incl. repeat-run byte identity and refined-tolerance convergence)"
+      },
+      {
+        "name": "exp3_analysis_checks",
+        "passed": true,
+        "detail": "9/9 checks of analyze_dirac16complex_exp3.py true"
+      },
+      {
+        "name": "numerics_summary",
+        "passed": true,
+        "detail": "69 Rust + 162 Python + 9 analysis checks, verdict SUCCESS"
+      },
+      {
+        "name": "exp1_background_recomputed",
+        "passed": true,
+        "detail": "a4, a4', a4'', scale factors, rho_req, p_req, w_req from the closed-form window: 3.6e-15"
+      },
+      {
+        "name": "exp1_einstein_source_negative",
+        "passed": true,
+        "detail": "max rho_req = -21.000000 < 0 for both profiles"
+      },
+      {
+        "name": "exp1_seven_volume_constant",
+        "passed": true,
+        "detail": "|V/V0 - 1| = 6.7e-16 <= 1e-13"
+      },
+      {
+        "name": "exp1_observables_recomputed",
+        "passed": true,
+        "detail": "rho, p_j, S, M_eff, KE/PE (both splits), w, norms from the raw spinor: 8.9e-16"
+      },
+      {
+        "name": "exp1_exact_propagator",
+        "passed": true,
+        "detail": "max |u - exp(-iht) u0| = 3.12e-09 <= 1e-07"
+      },
+      {
+        "name": "exp1_rho_frozen",
+        "passed": true,
+        "detail": "max rho drift 4.19e-09 <= 1e-08 (all 26 runs)"
+      },
+      {
+        "name": "exp1_eigenstate_pressure_and_S_frozen",
+        "passed": true,
+        "detail": "max p_0 / S drift 2.64e-09 <= 1e-08"
+      },
+      {
+        "name": "exp1_norms_conserved",
+        "passed": true,
+        "detail": "Hilbert and Krein norm drift 2.70e-09 <= 1e-08"
+      },
+      {
+        "name": "exp1_profile_independence",
+        "passed": true,
+        "detail": "A = 1 vs A = 2 spinors differ by 0.0e+00"
+      },
+      {
+        "name": "exp1_eigenmode_laws",
+        "passed": true,
+        "detail": "rho = E, p_0 = K^2/E, S = 1/E, KE_L = PE_L = E/2, w = K^2/(7E^2): 1.4e-17"
+      },
+      {
+        "name": "exp1_lambda_self_consistent_mass",
+        "passed": true,
+        "detail": "fixed point M* = 1.473482664064202 (difference 0.0e+00)"
+      },
+      {
+        "name": "exp1_mixed_state_oscillation",
+        "passed": true,
+        "detail": "p_0 range 0.803028, checker's exact-solution deviation 3.7e-10"
+      },
+      {
+        "name": "exp2_columns_recomputed",
+        "passed": true,
+        "detail": "Theta, V, s(u), S, M_eff, rho, p, KE_L, PE_L, bound from the state: 2.4e-13"
+      },
+      {
+        "name": "exp2_constraint_preserved",
+        "passed": true,
+        "detail": "max |sum H_iH_j - kappa rho| / (sum of |terms|) = 1.26e-10 <= 1e-09"
+      },
+      {
+        "name": "exp2_SV_constant",
+        "passed": true,
+        "detail": "max |S V/(S0 V0) - 1| = 4.03e-10 <= 1e-09"
+      },
+      {
+        "name": "exp2_exact_volume",
+        "passed": true,
+        "detail": "|V - V_exact|/max(1, V) with V_exact = 1 + Theta0 t + alpha t^2: 1.0e-10; H_i V = H_i0 + beta t: 5.0e-10"
+      },
+      {
+        "name": "exp2_bound_identity",
+        "passed": true,
+        "detail": "Theta^2 - 3H_a^2 - 2 kappa rho = H_b^2 + 3H_c^2 + 2(constraint residual): 1.5e-14"
+      },
+      {
+        "name": "exp2_kasner_exponents",
+        "passed": true,
+        "detail": "closed form vs summary 0.0e+00; extrapolated from CVODE 2.9e-07"
+      },
+      {
+        "name": "exp2_late_time_isotropic_dust",
+        "passed": true,
+        "detail": "max |H_i (t - t_s) - 2/7| at the end = 1.1e-04 <= 1e-03"
+      },
+      {
+        "name": "exp2_theta_bound_positive_energy",
+        "passed": true,
+        "detail": "min Theta/(3H_a) (rho > 0) = 0.6127 > 0.5774; dust min w_eff = -0.3873 > -0.4226"
+      },
+      {
+        "name": "exp2_bound_fails_only_with_negative_energy",
+        "passed": true,
+        "detail": "over all rows min Theta/(3H_a) = 0.3437 (x0 = -0.4, rho < 0) - reported, not hidden"
+      },
+      {
+        "name": "exp2_phantom_iff_negative_kinetic_energy",
+        "passed": true,
+        "detail": "x0 = -0.4: rows with w < -1 and rho > 0 are exactly the rows with KE_L < 0 (14 rows)"
+      },
+      {
+        "name": "exp3_sigma_from_spinor",
+        "passed": true,
+        "detail": "s(u)/s(u0) - 1 = 2.5e-09, exp(ln sigma)/a^-3 - 1 = 2.0e-14"
+      },
+      {
+        "name": "exp3_closed_forms",
+        "passed": true,
+        "detail": "rho, p, E: 2.8e-09; KE_L, PE_L: 2.2e-09"
+      },
+      {
+        "name": "exp3_norms_conserved",
+        "passed": true,
+        "detail": "u^dag u and u^dag B u drift 2.5e-09"
+      },
+      {
+        "name": "exp3_mu_independence",
+        "passed": true,
+        "detail": "mu = 3 vs 7: 4.8e-09"
+      },
+      {
+        "name": "exp3_distance_quadrature",
+        "passed": true,
+        "detail": "notebook Gauss-Legendre D_C vs CVODE D_C: 1.7e-09"
+      },
+      {
+        "name": "exp3_tangent_cpl",
+        "passed": true,
+        "detail": "w0 = x0/(1+x0), wa = 3x0/(1+x0)^2 vs fits.json: 0.0e+00"
+      },
+      {
+        "name": "exp3_x0_reproduces_unite_w0",
+        "passed": true,
+        "detail": "x0 = w0/(1 - w0) reproduces the canonical x0 values to 4.9e-07"
+      },
+      {
+        "name": "exp3_roots_q0_cs2",
+        "passed": true,
+        "detail": "rho_psi = 0, w = -1, bounce, q0, cs2 recomputed: 7.8e-16"
+      },
+      {
+        "name": "exp3_requested_fits_undefined_for_x0_negative",
+        "passed": true,
+        "detail": "the requested CPL fits on [1/3.26, 1] and z in [0.01, 2.26] do not exist for x0 < 0 (pole, bounce) - reported"
+      },
+      {
+        "name": "exp3_unite_constant_w_is_not_a_cpl_projection",
+        "passed": true,
+        "detail": "best constant w of the Unite CPL curve = -1.0277 vs benchmark -0.764"
+      },
+      {
+        "name": "exp4_grid_and_weights",
+        "passed": true,
+        "detail": "48-node Gauss-Legendre grid and FD weights: 5.7e-15"
+      },
+      {
+        "name": "exp4_mode_sums_recomputed",
+        "passed": true,
+        "detail": "rho, p, KE_H, PE_H from the raw spinors vs thermal_eos.csv: 4.8e-15"
+      },
+      {
+        "name": "exp4_rho_matches_kinetic_theory",
+        "passed": true,
+        "detail": "max |rho/rho_kin - 1| = 1.98e-08 <= 1e-06"
+      },
+      {
+        "name": "exp4_pressure_matches_kinetic_plus_free_wave",
+        "passed": true,
+        "detail": "|p/p_kin - 1| = 1.87e-05, inside the predicted interference envelope (ratio 0.28)"
+      },
+      {
+        "name": "exp4_unitarity",
+        "passed": true,
+        "detail": "max |u^dag u - 1| = 2.4e-07"
+      },
+      {
+        "name": "exp4_w_radiation_to_dust",
+        "passed": true,
+        "detail": "w(1) = 0.3329 within 0.005 of 1/3, w(100) = 0.0359 < 0.05"
+      },
+      {
+        "name": "exp4_gas_weighted_beta_below_1e-6",
+        "passed": true,
+        "detail": "3.7e-08; adiabatic-vacuum runs 5.6e-08"
+      },
+      {
+        "name": "exp4_massless_no_production",
+        "passed": true,
+        "detail": "m = 0: max |beta_k|^2 at the end 7.7e-25, over the run 8.5e-25 <= 1e-10"
+      },
+      {
+        "name": "exp4_massive_production",
+        "passed": true,
+        "detail": "m=0.1: 1.455e-03, m=0.5: 4.991e-03, m=1: 4.414e-03, m=2: 2.422e-03"
+      },
+      {
+        "name": "exp4_number_density_recomputed",
+        "passed": true,
+        "detail": "n a^3 from the spectrum: 5.2e-16"
+      },
+      {
+        "name": "exp4_produced_gas_eos",
+        "passed": true,
+        "detail": "recomputed 7.8e-16; final w < 0.001 for every m > 0"
+      },
+      {
+        "name": "exp4_kink_tail",
+        "passed": true,
+        "detail": "formula 0.0e+00; CVODE tail vs theory 0.042 <= 0.35"
+      },
+      {
+        "name": "exp5_norms_recomputed",
+        "passed": true,
+        "detail": "u^dag u, u^dag B u from the raw spinors: 6.7e-16"
+      },
+      {
+        "name": "exp5_energy_turns_imaginary_at_tstar",
+        "passed": true,
+        "detail": "E^2 and t* = ln(m/q)/H recomputed: 2.8e-16"
+      },
+      {
+        "name": "exp5_krein_conserved",
+        "passed": true,
+        "detail": "normalised drift 1.1e-09; absolute before t* 1.3e-09"
+      },
+      {
+        "name": "exp5_wkb_leading",
+        "passed": true,
+        "detail": "1.03e-03 <= 0.01"
+      },
+      {
+        "name": "exp5_wkb_first_order",
+        "passed": true,
+        "detail": "2.47e-04 <= 0.002"
+      },
+      {
+        "name": "exp5_super_exponential",
+        "passed": true,
+        "detail": "late/early growth-rate ratio 14.04"
+      },
+      {
+        "name": "figures_written",
+        "passed": true,
+        "detail": "17 PNG figures in artifacts/dirac16complex/numerics/figures, hashes re-read"
+      },
+      {
+        "name": "prose_numbers_match_reports",
+        "passed": true,
+        "detail": "64 numbers quoted in the markdown re-read from the reports"
+      }
+    ]
+  },
+  "verdict": "SUCCESS"
+}

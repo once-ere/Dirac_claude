@@ -1,0 +1,18 @@
+[package]
+name = "dirac16complex_kohn_sham"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+description = "Stage-4 Kohn-Sham (finite-temperature LDA) solver for the dirac16complex fermion gas in the static primordial gravitational field, on the pure-Rust SUNDIALS 7.8.0 CVODE engine (shooting in the hidden coordinate)."
+publish = false
+
+# Own, empty workspace: this crate is built on its own from its directory
+# (the repository-root .cargo/config.toml pins -C target-feature=+fma).
+[workspace]
+
+[dependencies]
+sundials_core = { path = "../../vendor/rustSolveIt/sundials_rs/crates/sundials_core" }
+cvode_rs = { path = "../../vendor/rustSolveIt/sundials_rs/crates/cvode_rs" }
+
+[profile.release]
+opt-level = 3

@@ -4,7 +4,7 @@
 
 ## Abstract
 
-This document repeats, for one fixed background, the calculations that Stage 1 of the dirac16complex project carried out in an arbitrary gravitational field. The background is the primordial (pair-creation) field of the author's notebook: the diagonal metric of signature (4,4) called MatrixMetric44 there, in which ordinary 3-space inflates while three extra times deflate, the 7-volume stays constant, and everything is warped over a hidden space-like coordinate. With coordinates $x_0,\dots,x_7$ and spinor components $\Psi_0,\dots,\Psi_{15}$ we give in closed form the vielbein and $\det g=+\cos^2z$; the 37 nonzero Christoffel symbols; the 24 nonzero components of the canonical spin connection, for which the vielbein postulate holds in all 512 components; the spinor connection $\Omega_\mu$ and the contraction $\gamma^\mu\Omega_\mu=3H\gamma^0$, in which the free function $a_4$ cancels; the sixteen component Euler-Lagrange equations with all eight derivatives, their evolution form and the $(x_0,x_4)$ block form; the 21 nonzero connection terms of the energy-momentum tensor; the energy density, the seven transverse pressures, two kinetic/potential splits and the equation of state of the homogeneous sector; the modes; the Einstein tensor and the source that 8-dimensional Einstein gravity would need, $\rho_{\mathrm{req}}=-3H^2(7+a_4'^2)/\kappa<0$; and canonical quantization, $\{\Psi,\Psi^\dagger\}=B\,\delta^7/\cos z$ on a Krein space. The notebook's own block equations (cell 1137) agree term by term with the correct ones except for a term $\pm q\,yZ_j$. We trace that term to a wrong substitution rule in cell 1058; this is a reconstruction, confirmed by an exact 16/16 reproduction of the notebook's stored cell-1079 output. Two independent exact implementations verify every statement: WolframScript (114 of 114 checks true) and Python/sympy (15 of 15 checks true, with 0 mismatches over 320 + 288 coefficients per printer compared against the Wolfram components).
+This document repeats, for one fixed background, the calculations that Stage 1 of the dirac16complex project carried out in an arbitrary gravitational field. The background is the primordial (pair-creation) field of the author's notebook: the diagonal metric of signature (4,4) called MatrixMetric44 there, in which ordinary 3-space inflates while three extra times deflate, the 7-volume stays constant, and everything is warped over a hidden space-like coordinate. With coordinates $x_0,\dots,x_7$ and spinor components $\Psi_0,\dots,\Psi_{15}$ we give in closed form the vielbein and $\det g=+\cos^2z$; the 37 nonzero Christoffel symbols; the 24 nonzero components of the canonical spin connection, for which the vielbein postulate holds in all 512 components; the spinor connection $\Omega_\mu$ and the contraction $\gamma^\mu\Omega_\mu=3H\gamma^0$, in which the free function $a_4$ cancels; the sixteen component Euler-Lagrange equations with all eight derivatives, their evolution form and the $(x_0,x_4)$ block form; the 21 nonzero connection terms of the energy-momentum tensor; the energy density, the seven transverse pressures, two kinetic/potential splits and the equation of state of the homogeneous sector; the modes; the Einstein tensor and the source that 8-dimensional Einstein gravity would need, $\rho_{\mathrm{req}}=-3H^2(7+a_4'^2)/\kappa<0$; which dirac16complex states can supply that source; and canonical quantization, $\{\Psi,\Psi^\dagger\}=B\,\delta^7/\cos z$ on a Krein space. For $a_4''\ne0$ no dirac16complex state that depends on $x_0$ and $x_4$ only can supply the source, and no plane wave in the hidden coordinate with real wave number can for any $a_4$. For linear $a_4$, which includes the notebook's $a_4=t$, a condensate that does not depend on $x_0$ is an exact source in all 64 components. Its energy density is negative. The notebook's own block equations (cell 1137) agree term by term with the correct ones except for a term $\pm q\,yZ_j$. The stored notebook outputs that this document uses are reproduced exactly. That the $q$ term comes from a wrong substitution rule in cell 1058 is a reconstruction. It reproduces the stored cell-1079 output exactly (16/16) if the rule hit only the $+1$ entries of three curved gammas, whereas a literal re-execution of cell 1058 in Mathematica 15.0.1 applies the rule to all entries and gives no $q$ term. Two independent exact implementations verify the geometric and field-theoretic results: WolframScript (126 of 126 checks true) and Python/sympy (16 of 16 checks true, with 0 mismatches over 320 + 288 coefficients per printer compared against the Wolfram components). The notebook itself is read by WolframScript alone; the Python checker compares only with transcriptions of three stored outputs. Statements marked as observations are not machine checks.
 
 ## 1. Scope and non-claims
 
@@ -13,12 +13,12 @@ This document repeats, for one fixed background, the calculations that Stage 1 o
 **Non-claims.**
 
 1. The primordial field is a prescribed background. We do not claim that it solves 8-dimensional Einstein or Einstein-Lovelock gravity with a physically acceptable source. Section 15 shows that in Einstein gravity it needs a negative energy density for every $a_4$.
-2. We do not claim that dirac16complex sources this field. In the homogeneous sector we prove that it cannot (Section 15.5).
+2. For linear $a_4$ an $x_0$-independent dirac16complex condensate is an exact source of this field (Section 15.5), in the c-number reading of the bilinears. Its energy density is negative. We do not claim that such a state is realized in nature or that it is stable. For $a_4''\ne0$ no dirac16complex state that depends on $x_0$ and $x_4$ only is a source (Section 15.5).
 3. The $\pm M$ pairing of Section 16 is a structural property of the equations. We make no claim that universes of masses $\pm M$ are created in pairs.
-4. Einstein-Lovelock terms of order 2 and 3 are not computed.
+4. The Einstein-Lovelock terms of order 2 and 3, which the notebook names but does not compute, are not computed here either.
 5. No numerical evolution is done here. For $\lambda\ne0$ the statements about the $\zeta$ plane wave are mean-field statements (Section 13.1).
 6. The quantization is canonical and formal. The state space is a Krein space, the modes with momentum along the extra times are not Hermitian (Section 14.3), and no interacting Fock space or renormalization is constructed.
-7. The reading of the notebook's stored outputs in Section 11 is a reconstruction, labelled as such.
+7. The stored outputs of cells 1079, 1096, 1111 and 1137 are reproduced exactly. The notebook does not store the value of useT16, so that value, and with it the attribution of the $q$ term to cell 1058, is a reconstruction (Section 11.3).
 
 ## 2. Notation and conventions
 
@@ -34,7 +34,9 @@ This document repeats, for one fixed background, the calculations that Stage 1 o
 - $S^{ab}=\tfrac14[\gamma^a,\gamma^b]$ and $\Omega_\mu=\tfrac12\omega_{\mu ab}S^{ab}$, summed over all ordered pairs $(a,b)$.
 - $\Psi=(\Psi_0,\dots,\Psi_{15})^T$ has complex Grassmann-odd components. The notebook's f16[k] and Z[k] are $\Psi_k$ (cross reference in Section 11.1).
 - $m$ is the mass parameter. The notebook's $M$ corresponds to $m=-HM$. The self-interaction is $U(S)=\tfrac\lambda2S^2$ with $S=\bar\Psi\Psi$, and $M_{\mathrm{eff}}=m+U'(S)=m+\lambda S$.
-- In the homogeneous-sector formulas (Sections 13 and 14) the amplitude $u$ is a c-number vector. This is the classical, mean-field reading of the bilinears.
+- In the homogeneous-sector formulas (Sections 13 to 15) the amplitude $u$ is a c-number vector. This is the classical, mean-field reading of the bilinears.
+- $q=Q_1\sinh(a_4)\,a_4'\,e^{-a_4}$ always denotes the notebook's spurious term of Section 11. Momenta along $x_1$ and $x_5$ are called $k_1$ and $k_5$ (Section 14).
+- "Cell $N$" is the $N$-th cell of the notebook in file order, counting only cells of the styles Input, Code, Text, Section, Subsection, Subsubsection, Title, Chapter, Item, Subtitle, DisplayFormula, ItemNumbered and Program (1279 cells). Output, Print and Message cells are not counted; they belong to the preceding counted cell. This is the enumeration of the function loadNotebookCells in wolfram/Dirac16ComplexPrimordial.wl. The cited cells have these In and Out labels: 501 In[467] with Out[467]; 583 In[535] with Out[535]; 584 In[536] with Out[536] and Out[537]; 1058 In[1024]; 1060 In[1026] with Out[1026]; 1066 In[1037]; 1075 In[1048]; 1078 In[1051]; 1079 In[1052] with Out[1052]; 1089 In[1059] with Out[1059]; 1096 In[1065] with Out[1065] to Out[1067]; 1111 In[1087] with Out[1087] to Out[1090]; 1137 In[1113] with Out[1115] and Out[1116].
 - For a scalar field these sign conventions give $\rho=\tfrac12\dot\phi^2+V$ and $p=\tfrac12\dot\phi^2-V$, the same as the usual treatment in signature $(+,-,-,-)$. The equation of state parameter is $w=p/\rho$.
 
 ## 3. Why this field is a reasonable primordial field
@@ -55,7 +57,7 @@ which is read but never modified; its sha256 is recorded in Section 18.4. The no
 
 These properties make it a reasonable primordial background for the Stage-1 field. It is the author's own field, so the notebook's spinor equations can be compared with the correct ones term by term (Section 11). It is exactly tractable. And it contains, in one metric, an inflating 3-space and deflating extra times with an adjustable history $a_4$, which is what a primordial scenario of the notebook's type needs.
 
-**What it requires as a source.** In 8-dimensional Einstein gravity, $G^\mu{}_\nu=\kappa T^\mu{}_\nu$, the field needs the energy density $\rho_{\mathrm{req}}=-3H^2(7+a_4'^2)/\kappa$. This is negative for every $a_4$, and the null energy condition along $e_4+e_0$ fails for every $a_4$ (Section 15). It is neither a vacuum solution nor a solution with a cosmological constant: $G^0{}_0=G^4{}_4$ would require $-3H^2(a_4'^2-5)=3H^2(7+a_4'^2)$, that is $a_4'^2=-1$ (derived here from the verified closed forms of Section 15.1). So the notebook's hope that the spinor source tensor is $\Lambda g$ cannot be realized in Einstein gravity. The notebook aims at Einstein-Lovelock vacuum equations, but its code computes only the Einstein tensor (cells 583 and 584, which this document reproduces exactly). This document does not compute the Lovelock terms of order 2 and 3, so it cannot say whether they could supply the missing source. The dirac16complex condensate cannot (Section 15.5). The field is therefore a reasonable kinematic model of the notebook's primordial picture, and its dynamical source is an open problem.
+**What it requires as a source.** In 8-dimensional Einstein gravity, $G^\mu{}_\nu=\kappa T^\mu{}_\nu$, the field needs the energy density $\rho_{\mathrm{req}}=-3H^2(7+a_4'^2)/\kappa$. This is negative for every $a_4$, and the null energy condition along $e_4+e_0$ fails for every $a_4$ (Section 15). It is neither a vacuum solution nor a solution with a cosmological constant: $G^0{}_0=G^4{}_4$ would require $-3H^2(a_4'^2-5)=3H^2(7+a_4'^2)$, that is $a_4'^2=-1$ (derived here from the verified closed forms of Section 15.1). So the notebook's hope that the spinor source tensor is $\Lambda g$ cannot be realized in Einstein gravity. The notebook intends the source of its spinor field to enter the Einstein and/or Einstein-Lovelock field equations, but its curvature code stops at the Einstein tensor (cells 583 and 584, which this document reproduces exactly) and computes no Lovelock terms. This document does not compute them either. Within Einstein gravity dirac16complex can supply the source only for linear $a_4$. Then a condensate that does not depend on $x_0$ is an exact source, with negative energy density. For $a_4''\ne0$ no dirac16complex state that depends on $x_0$ and $x_4$ only can be a source (Section 15.5). The field is therefore a reasonable kinematic model of the notebook's primordial picture. For linear $a_4$ it has an exact dirac16complex source of negative energy; what determines $a_4$ remains open.
 
 ## 4. The metric and the vielbein
 
@@ -280,7 +282,7 @@ holds for all 64 pairs $(\mu,\nu)$. This is the spinor form of the vielbein post
 
 ### 8.3 The notebook contraction fails
 
-The notebook contraction $\Omega^{\mathrm{NB}}_\mu=\tfrac12\,\omega_\mu{}^a{}_b\,S^{ab}$, with one $\eta$ missing, violates $D_\mu\gamma^\nu=0$ in 15 of the 64 pairs, with 288 nonzero matrix entries in total. The values, in frame gammas:
+The notebook contraction $\Omega^{\mathrm{NB}}_\mu=\tfrac12\,\omega_\mu{}^a{}_b\,S^{ab}$, with one $\eta$ missing, violates $D_\mu\gamma^\nu=0$ in 15 of the 64 pairs, with 288 nonzero matrix entries in total. The values, in frame gammas (both verifiers; check P_gammaConst_notebookContractionClosedForms):
 
 | Pairs $(\mu,\nu)$ | $D_\mu\gamma^\nu$ with the notebook contraction |
 | --- | --- |
@@ -755,22 +757,22 @@ The cross reference between $\Psi_k$ (the notebook's f16[k] and Z[k]), the yZ in
 
 | yZ | $\Psi_k$ | Block | Difference |
 | --- | --- | --- | --- |
-| $yZ_{0}$ | $\Psi_{0}$ | 1: $\{0,5,8,13\}$ | $+q\,yZ_{0}$ |
-| $yZ_{1}$ | $\Psi_{5}$ | 1: $\{0,5,8,13\}$ | $-q\,yZ_{1}$ |
-| $yZ_{2}$ | $\Psi_{8}$ | 1: $\{0,5,8,13\}$ | $-q\,yZ_{2}$ |
-| $yZ_{3}$ | $\Psi_{13}$ | 1: $\{0,5,8,13\}$ | $+q\,yZ_{3}$ |
-| $yZ_{4}$ | $\Psi_{1}$ | 2: $\{1,4,9,12\}$ | $+q\,yZ_{4}$ |
-| $yZ_{5}$ | $\Psi_{4}$ | 2: $\{1,4,9,12\}$ | $-q\,yZ_{5}$ |
-| $yZ_{6}$ | $\Psi_{9}$ | 2: $\{1,4,9,12\}$ | $-q\,yZ_{6}$ |
-| $yZ_{7}$ | $\Psi_{12}$ | 2: $\{1,4,9,12\}$ | $+q\,yZ_{7}$ |
-| $yZ_{8}$ | $\Psi_{2}$ | 3: $\{2,7,10,15\}$ | none |
-| $yZ_{9}$ | $\Psi_{7}$ | 3: $\{2,7,10,15\}$ | none |
-| $yZ_{10}$ | $\Psi_{10}$ | 3: $\{2,7,10,15\}$ | none |
-| $yZ_{11}$ | $\Psi_{15}$ | 3: $\{2,7,10,15\}$ | none |
-| $yZ_{12}$ | $\Psi_{3}$ | 4: $\{3,6,11,14\}$ | none |
-| $yZ_{13}$ | $\Psi_{6}$ | 4: $\{3,6,11,14\}$ | none |
-| $yZ_{14}$ | $\Psi_{11}$ | 4: $\{3,6,11,14\}$ | none |
-| $yZ_{15}$ | $\Psi_{14}$ | 4: $\{3,6,11,14\}$ | none |
+| $yZ_{0}$ | $\Psi_{0}$ | $\{0,5,8,13\}$ | $+q\,yZ_{0}$ |
+| $yZ_{1}$ | $\Psi_{5}$ | $\{0,5,8,13\}$ | $-q\,yZ_{1}$ |
+| $yZ_{2}$ | $\Psi_{8}$ | $\{0,5,8,13\}$ | $-q\,yZ_{2}$ |
+| $yZ_{3}$ | $\Psi_{13}$ | $\{0,5,8,13\}$ | $+q\,yZ_{3}$ |
+| $yZ_{4}$ | $\Psi_{1}$ | $\{1,4,9,12\}$ | $+q\,yZ_{4}$ |
+| $yZ_{5}$ | $\Psi_{4}$ | $\{1,4,9,12\}$ | $-q\,yZ_{5}$ |
+| $yZ_{6}$ | $\Psi_{9}$ | $\{1,4,9,12\}$ | $-q\,yZ_{6}$ |
+| $yZ_{7}$ | $\Psi_{12}$ | $\{1,4,9,12\}$ | $+q\,yZ_{7}$ |
+| $yZ_{8}$ | $\Psi_{2}$ | $\{2,7,10,15\}$ | none |
+| $yZ_{9}$ | $\Psi_{7}$ | $\{2,7,10,15\}$ | none |
+| $yZ_{10}$ | $\Psi_{10}$ | $\{2,7,10,15\}$ | none |
+| $yZ_{11}$ | $\Psi_{15}$ | $\{2,7,10,15\}$ | none |
+| $yZ_{12}$ | $\Psi_{3}$ | $\{3,6,11,14\}$ | none |
+| $yZ_{13}$ | $\Psi_{6}$ | $\{3,6,11,14\}$ | none |
+| $yZ_{14}$ | $\Psi_{11}$ | $\{3,6,11,14\}$ | none |
+| $yZ_{15}$ | $\Psi_{14}$ | $\{3,6,11,14\}$ | none |
 
 ### 11.2 The stored equations and the difference
 
@@ -782,7 +784,7 @@ $$
 &\partial_t yZ_{1}=-3\,yZ_{0}-q\,yZ_{1}-M\,yZ_{2}-6\tan z\,\partial_z yZ_{0} \\
 &\partial_t yZ_{2}=M\,yZ_{1}-q\,yZ_{2}+3\,yZ_{3}+6\tan z\,\partial_z yZ_{3} \\
 &\partial_t yZ_{3}=M\,yZ_{0}+3\,yZ_{2}+q\,yZ_{3}+6\tan z\,\partial_z yZ_{2}
-\end{aligned}\tag{stored, block 1}
+\end{aligned}\tag{stored, block 0,5,8,13}
 $$
 
 $$
@@ -791,7 +793,7 @@ $$
 &\partial_t yZ_{5}=3\,yZ_{4}-q\,yZ_{5}+M\,yZ_{6}+6\tan z\,\partial_z yZ_{4} \\
 &\partial_t yZ_{6}=-M\,yZ_{5}-q\,yZ_{6}-3\,yZ_{7}-6\tan z\,\partial_z yZ_{7} \\
 &\partial_t yZ_{7}=-M\,yZ_{4}-3\,yZ_{6}+q\,yZ_{7}-6\tan z\,\partial_z yZ_{6}
-\end{aligned}\tag{stored, block 2}
+\end{aligned}\tag{stored, block 1,4,9,12}
 $$
 
 $$
@@ -800,7 +802,7 @@ $$
 &\partial_t yZ_{9}=3\,yZ_{8}+M\,yZ_{10}+6\tan z\,\partial_z yZ_{8} \\
 &\partial_t yZ_{10}=-M\,yZ_{9}-3\,yZ_{11}-6\tan z\,\partial_z yZ_{11} \\
 &\partial_t yZ_{11}=-M\,yZ_{8}-3\,yZ_{10}-6\tan z\,\partial_z yZ_{10}
-\end{aligned}\tag{stored, block 3}
+\end{aligned}\tag{stored, block 2,7,10,15}
 $$
 
 $$
@@ -809,10 +811,10 @@ $$
 &\partial_t yZ_{13}=-3\,yZ_{12}-M\,yZ_{14}-6\tan z\,\partial_z yZ_{12} \\
 &\partial_t yZ_{14}=M\,yZ_{13}+3\,yZ_{15}+6\tan z\,\partial_z yZ_{15} \\
 &\partial_t yZ_{15}=M\,yZ_{12}+3\,yZ_{14}+6\tan z\,\partial_z yZ_{14}
-\end{aligned}\tag{stored, block 4}
+\end{aligned}\tag{stored, block 3,6,11,14}
 $$
 
-The correct equations are the same with every $q$ removed. Every other term agrees exactly. In the correct theory no $a_4$ dependence at all survives for fields of $(x_0,x_4)$, in agreement with Section 10.5. Blocks 3 and 4 ($yZ_8,\dots,yZ_{15}$) contain no $q$ and are identical.
+The correct equations are the same with every $q$ removed. Every other term agrees exactly. In the correct theory no $a_4$ dependence at all survives for fields of $(x_0,x_4)$, in agreement with Section 10.5. The blocks $\{2,7,10,15\}$ and $\{3,6,11,14\}$ ($yZ_8,\dots,yZ_{15}$) contain no $q$ and are identical.
 
 ### 11.3 Origin of the q term: the cell-1058 substitution rule
 
@@ -840,13 +842,21 @@ which is mathematically wrong. The left-hand side equals $e^{a_4}s^{-1/6}$, so t
 1/Sqrt[Sin[6*H*x0]^(1/3)/E^(2*a4[H*x4])] -> E^a4[H*x4]/Sin[6*H*x0]^(1/6)
 ```
 
-The stored eLa is consistent with this rule having hit only the $+1$ entries of $\gamma^{x_5},\gamma^{x_6},\gamma^{x_7}$ in the stored session. The notebook does not store the value of useT16. The attribution is therefore a reconstruction, confirmed by the exact 16/16 reproduction of the stored cell-1079 eLa. Stored outputs of a notebook need not come from a single session. When cell 1058 is re-executed literally in this kernel (Mathematica 15.0.1), the wrong factor $e^{-a_4}$ is applied uniformly to all entries of $\gamma^{x_5},\gamma^{x_6},\gamma^{x_7}$ (the other five curved gammas come out correct). The resulting equations then contain no $q$ term, and they differ from the stored eLa by exactly the $q$ terms.
+The stored eLa is consistent with this rule having hit only the $+1$ entries of $\gamma^{x_5},\gamma^{x_6},\gamma^{x_7}$ in the stored session. The notebook does not store the value of useT16. The exact 16/16 reproduction of the stored cell-1079 eLa confirms the reconstructed useT16 of fact 3; that the rule of cell 1058 produced it by acting on the $+1$ entries only is a reconstruction. When cell 1058 is re-executed literally in this kernel (Mathematica 15.0.1), the wrong factor $e^{-a_4}$ is applied uniformly to all entries of $\gamma^{x_5},\gamma^{x_6},\gamma^{x_7}$ (the other five curved gammas come out correct). The resulting equations then contain no $q$ term, and they differ from the stored eLa by exactly the $q$ terms.
 
-**Mechanism.** The reconstructed $\gamma'^{\,x_j}$ is not in the Clifford algebra: $(\gamma'^{\,x_5})^2=-s^{-1/3}\cdot1$, whereas the Clifford relation requires $g^{55}=-s^{-1/3}e^{2a_4}$, and $\gamma'^{\,x_5}$ anticommutes neither with $\gamma'^{\,x_6}$ nor with $\gamma^{x_0}$. Consequently $\sigma_{16}\gamma'^{\,x_j}S^{4j}$ acquires a symmetric part, which commuting fields do not annihilate. The $q$ vector equals exactly $\tfrac{Q_1}{2}\bigl(\sigma_{16}Y+(\sigma_{16}Y)^T\bigr)\Psi$ with $Y=\sum_{j=5}^{7}(\gamma'^{\,x_j}-\gamma^{x_j})\,\Omega^{\mathrm{NB}}_j$. Its size is the difference of the two factors, $s^{-1/6}(e^{a_4}-e^{-a_4})$, times $\omega_j{}^4{}_j=H\,a_4'\,s^{1/6}e^{-a_4}$, which gives $q=Q_1\sinh(a_4)\,a_4'\,e^{-a_4}$.
+The notebook's metadata bear on this difference. The In labels of the chain increase monotonically, from In[1024] for cell 1058 to In[1113] for cell 1137 (Section 2), which indicates that the chain ran in one kernel session. Cell 1096 stores the date of that evaluation, 2026-01-30, and the last recorded change of cell 1058 is dated 2025-12-04. That session therefore ran a kernel build older than the verifier's, which is 15.0.1 of July 2, 2026. The form that FullSimplify gives the $-1$ entries, and hence whether the rule matches them, can differ between versions. This explanation is a reconstruction as well.
+
+**Mechanism.** The reconstructed $\gamma'^{\,x_j}$ is not in the Clifford algebra: $(\gamma'^{\,x_5})^2=-s^{-1/3}\cdot1$, whereas the Clifford relation requires $g^{55}=-s^{-1/3}e^{2a_4}$, and $\gamma'^{\,x_5}$ anticommutes neither with $\gamma'^{\,x_6}$ nor with $\gamma^{x_0}$. Consequently $\sigma_{16}\gamma'^{\,x_j}S^{4j}$ acquires a symmetric part, which commuting fields do not annihilate. Call the $q$ vector the difference between the stored eLa and the Clifford-consistent rebuild, in the normalisation of cell 1079. It equals exactly
+
+$$
+Q_1\bigl(\sigma_{16}Y+(\sigma_{16}Y)^T\bigr)\Psi,\qquad Y=\sum_{j=5}^{7}(\gamma'^{\,x_j}-\gamma^{x_j})\,\Omega^{\mathrm{NB}}_j,
+$$
+
+with $\Omega^{\mathrm{NB}}_j=\tfrac12\omega_j{}^a{}_b\,S^{ab}$ as in Section 8.3; equivalently $\tfrac{Q_1}{2}(\dots)$ with $Y$ built from $\omega_j{}^a{}_b\,S^{ab}$ (check P_notebookCompare_qTermFromNonCliffordExtraTimeGammas). Its size is the difference of the two factors, $s^{-1/6}(e^{a_4}-e^{-a_4})$, times $\omega_j{}^4{}_j=H\,a_4'\,s^{1/6}e^{-a_4}$, times $Q_1$. That is $2Hq$, with $q=Q_1\sinh(a_4)\,a_4'\,e^{-a_4}$, and it becomes $q$ after the factor $1/(2H)$ of cell 1096: each of the 8 nonzero rows of the $q$ vector is $\pm2Hq\,\Psi_k$ for one component $k$ (check P_notebookCompare_qVectorIs2HqAtCell1079).
 
 ### 11.4 What this means
 
-The notebook's block equations are correct in every term except $q$, once the Grassmann-correct Lagrangian is used and $M_{\mathrm{notebook}}=-m/H$. The $q$ term, and with it every $a_4$ dependence of the $(x_0,x_4)$ equations, is an artifact of the rule in cell 1058. Later steps of the notebook that remove or use the $q$ term (a rescaling of the yZ and an equation for $a_4$ built from the same coefficient) therefore have no counterpart in the correct equations. This last remark is a reading of the notebook text, not a machine check.
+The notebook's block equations are correct in every term except $q$, once the Grassmann-correct Lagrangian is used and $M_{\mathrm{notebook}}=-m/H$. The $q$ term, and with it every $a_4$ dependence of the $(x_0,x_4)$ equations, is an artifact of the non-Clifford curved gammas $\gamma'^{\,x_5},\gamma'^{\,x_6},\gamma'^{\,x_7}$; by the reconstruction of Section 11.3 these come from the wrong rule in cell 1058. Later steps of the notebook that remove or use the $q$ term (a rescaling of the yZ and an equation for $a_4$ built from the same coefficient) therefore have no counterpart in the correct equations. This last remark is a reading of the notebook text, not a machine check.
 
 ## 12. The energy-momentum tensor
 
@@ -901,22 +911,22 @@ All diagonal $A_{\mu\mu}$ vanish, as do $A_{04}$ and $A_{ii'}$, $A_{jj'}$ within
 
 ### 12.3 Diagonal and off-diagonal structure
 
-- **Transverse diagonal.** For every $\Psi(x_0,x_4)$, off shell, $T^i{}_i=T^j{}_j=\mathcal L_s$ for all six directions $1,2,3,5,6,7$. On shell this is $SU'(S)-U(S)$.
+- **Transverse diagonal.** For every $\Psi(x_0,x_4)$, off shell and for every $U$, $T^i{}_i=T^j{}_j=\mathcal L_s$ for all six directions $1,2,3,5,6,7$ (check P_source_transversePressuresEqualForEveryX0X4State). On shell this is $SU'(S)-U(S)$.
 - **Transverse off-diagonal.** For $\Psi(x_0,x_4)$ and $i\in\{1,2,3\}$, $j\in\{5,6,7\}$ the derivative terms vanish and $T_{ij}=-\tfrac14\bar\Psi A_{ij}\Psi=\tfrac12H\,s^{1/3}a_4'\,\bar\Psi\gamma^i\gamma^4\gamma^j\Psi$. This agrees with the Stage-1 formula $T_{ij}=\tfrac14\epsilon_i\epsilon_jh_ih_j(H_i-H_j)\,\bar\Psi\gamma^i\gamma^j\gamma^4\Psi$ with $\epsilon_i=+1$, $\epsilon_j=-1$, $h_ih_j=s^{1/3}$ and the rates $H_i=Ha_4'$, $H_j=-Ha_4'$. Within a group the rates coincide and $T_{ii'}=T_{jj'}=0$.
-- **Components with 0 or 4.** $T_{0i}$, $T_{0j}$, $T_{4i}$, $T_{4j}$ and $T_{04}$ contain vector-type derivative bilinears and, except for $T_{04}$, connection terms: $A_{0i}$ and $A_{0j}$ come from the $x_4$ dependence ($a_4'$), and $A_{i4}$ and $A_{j4}$ come from the $x_0$ dependence (the hidden-space warp). The Stage-1 statement that $T_{4i}$ vanishes on shell for homogeneous states in diagonal backgrounds assumes homogeneity in all transverse directions. Here both the background and the states depend on $x_0$, and $T_{4i}\ne0$ in general.
-- **Consistency with a diagonal metric.** The Einstein tensor of this field is diagonal (Section 15.1). A dirac16complex state can be a consistent source of it only if the expectation values of all these off-diagonal bilinears vanish. For the $\zeta$ plane wave of Section 13 all 22 off-diagonal pairs $(0,1),\dots,(0,7)$, $(1,4),\dots,(1,7)$, $(2,4),\dots,(2,7)$, $(3,4),\dots,(3,7)$, $(4,5),(4,6),(4,7)$ are nonzero for generic amplitudes. Of these only $T_{04}$, which is proportional to $K\cos z\,u^\dagger Bu/\sin^2z$, is constant in $x_4$.
+- **Components with 0 or 4.** $T_{0i}$, $T_{0j}$, $T_{4i}$, $T_{4j}$ and $T_{04}$ contain vector-type derivative bilinears and, except for $T_{04}$, connection terms: $A_{0i}$ and $A_{0j}$ come from the $x_4$ dependence ($a_4'$), and $A_{i4}$ and $A_{j4}$ come from the $x_0$ dependence (the hidden-space warp). The Stage-1 statement that $T_{4i}$ vanishes on shell for homogeneous states in diagonal backgrounds assumes homogeneity in all transverse directions. Here the background depends on $x_0$, and $T_{4i}\ne0$ in general, even for the state of Section 13.7, which does not depend on $x_0$.
+- **Consistency with a diagonal metric.** The Einstein tensor of this field is diagonal (Section 15.1). A dirac16complex state can be a consistent source of it only if the expectation values of all these off-diagonal bilinears vanish. For the $\zeta$ plane wave of Section 13 with real $K$ all 22 off-diagonal pairs $(0,1),\dots,(0,7)$, $(1,4),\dots,(1,7)$, $(2,4),\dots,(2,7)$, $(3,4),\dots,(3,7)$, $(4,5),(4,6),(4,7)$ are nonzero for generic amplitudes. Of these only $T_{04}$, which is proportional to $K\cos z\,u^\dagger Bu/\sin^2z$, is constant in $x_4$. For the $x_0$-independent state of Section 13.7, $T_{04}=0$ and the other 21 off-diagonal components are multiples of 15 three-gamma bilinears, which can all vanish (Section 15.5).
 
 ## 13. Homogeneous sector and equations of state
 
 ### 13.1 Ansatz and bilinears
 
-The homogeneous sector has no dependence on $x_1,x_2,x_3,x_5,x_6,x_7$ and is a plane wave in $\zeta$:
+The homogeneous sector has no dependence on $x_1,x_2,x_3,x_5,x_6,x_7$. Sections 13.1 to 13.6 treat the plane wave in $\zeta$ with real wave number $K$:
 
 $$
 \Psi=e^{-3H\zeta}e^{iK\zeta}u(x_4)=s^{-1/2+iK/(6H)}u(x_4).
 $$
 
-The bilinears are $S=\bar\Psi\Psi=s^{-1}u^\dagger Cu$, $K_0=iK\,s^{-1}u^\dagger C\gamma^0u$ and $K_4=\tfrac12\bigl(\bar\Psi\gamma^4\partial_4\Psi-\partial_4\bar\Psi\gamma^4\Psi\bigr)$. The ansatz solves the Dirac equation exactly if and only if $M_{\mathrm{eff}}$ does not depend on $\zeta$. That is exact for $U=0$ ($M_{\mathrm{eff}}=m$). For $\lambda\ne0$ the condensate $S=u^\dagger Cu/\sin z$ makes $M_{\mathrm{eff}}=m+\lambda S$ depend on $z$, and the reduction $\gamma^4\dot u=(M_{\mathrm{eff}}-iK\gamma^0)u$ holds only pointwise, with $M_{\mathrm{eff}}$ treated as given (mean field).
+The bilinears are $S=\bar\Psi\Psi=s^{-1}u^\dagger Cu$, $K_0=iK\,s^{-1}u^\dagger C\gamma^0u$ and $K_4=\tfrac12\bigl(\bar\Psi\gamma^4\partial_4\Psi-\partial_4\bar\Psi\gamma^4\Psi\bigr)$. The ansatz solves the Dirac equation exactly if and only if $M_{\mathrm{eff}}$ does not depend on $\zeta$. That is exact for $U=0$ ($M_{\mathrm{eff}}=m$). For $\lambda\ne0$ the condensate $S=u^\dagger Cu/\sin z$ makes $M_{\mathrm{eff}}=m+\lambda S$ depend on $z$, and the reduction $\gamma^4\dot u=(M_{\mathrm{eff}}-iK\gamma^0)u$ holds only pointwise, with $M_{\mathrm{eff}}$ treated as given (mean field). The complex value $K=-3iH$ gives the state of Section 13.7, which does not depend on $x_0$ and is exact for every $\lambda$.
 
 ### 13.2 Energy density, pressures and kinetic/potential splits
 
@@ -981,6 +991,34 @@ $$
 
 For $u_b$ at P1 this gives $S=-10/3$, $\rho=-155/21$ and $p_{(0)}=-5$. The nonzero $\partial_4p_{(0)}$ of $u_b$ is the caveat of Section 13.4.
 
+### 13.7 The state that does not depend on x0
+
+For $K=-3iH$ the exponent $-\tfrac12+iK/(6H)$ of the ansatz of Section 13.1 vanishes, and the state is
+
+$$
+\Psi=u(x_4),\qquad \gamma^4\partial_4u=(M_{\mathrm{eff}}-3H\gamma^0)u,\qquad \partial_4u=Au,\quad A=-\gamma^4(M_{\mathrm{eff}}-3H\gamma^0).
+$$
+
+It depends on $x_4$ only. Its bilinears do not depend on $z$, and $S=u^\dagger Cu$ is conserved, $\partial_4S=u^\dagger(A^\dagger C+CA)u=0$. Hence $M_{\mathrm{eff}}=m+\lambda S$ is a constant, and unlike the real-$K$ plane wave this state solves the Dirac equation exactly for every $\lambda$ (check P_source_x0IndependentStateSolvesDiracExactly). The identity $h^2=(M_{\mathrm{eff}}^2+K^2)\cdot1$ of Section 14.1 at $K=-3iH$, with $h=iA$, gives $A^2=-(M_{\mathrm{eff}}^2-9H^2)\cdot1$. For $M_{\mathrm{eff}}^2>9H^2$ the solutions oscillate with $\omega=\sqrt{M_{\mathrm{eff}}^2-9H^2}$. A solution $u=e^{i\omega x_4}u_0$ with $Au_0=i\omega u_0$ is stationary: every bilinear $u^\dagger Xu$ is constant in $x_4$.
+
+On shell the diagonal components are (check P_source_x0IndependentDiagonalOnShell)
+
+$$
+T^4{}_4=-(mS+U)=-\rho,\qquad T^\mu{}_\mu=SU'-U\quad(\text{all seven }\mu\ne4),
+$$
+
+so $\rho=mS+U$ and the pressure is isotropic, $p=SU'-U$, as for $K=0$ in Section 13.3, but with a $z$-independent $S$. The component $T_{04}$ vanishes, and so do $T_{ii'}$ and $T_{jj'}$ within the groups $\{1,2,3\}$ and $\{5,6,7\}$. Each of the other 21 off-diagonal components is a single three-gamma bilinear (check P_source_x0IndependentOffDiagonalAre15Bilinears), with $i=1,2,3$ and $j=5,6,7$:
+
+| $(\mu,\nu)$ | Bilinear | Coefficient of $T_{\mu\nu}$ |
+| --- | --- | --- |
+| $(0,i)$ | $\bar\Psi\gamma^{0}\gamma^{i}\gamma^{4}\Psi$ | $-\tfrac{1}{4}H\,\cot z\,s^{1/6}\,e^{a_4}\,a_4'$ |
+| $(0,j)$ | $\bar\Psi\gamma^{0}\gamma^{4}\gamma^{j}\Psi$ | $\tfrac{1}{4}H\,\cot z\,s^{1/6}\,e^{-a_4}\,a_4'$ |
+| $(i,4)$ | $\bar\Psi\gamma^{0}\gamma^{i}\gamma^{4}\Psi$ | $-\tfrac{7}{4}H\,s^{1/6}\,e^{a_4}$ |
+| $(4,j)$ | $\bar\Psi\gamma^{0}\gamma^{4}\gamma^{j}\Psi$ | $-\tfrac{7}{4}H\,s^{1/6}\,e^{-a_4}$ |
+| $(i,j)$ | $\bar\Psi\gamma^{i}\gamma^{4}\gamma^{j}\Psi$ | $\tfrac{1}{2}H\,s^{1/3}\,a_4'$ |
+
+So the off-diagonal part is governed by 15 bilinears: $V_a=\bar\Psi\gamma^0\gamma^a\gamma^4\Psi$ for $a=1,2,3,5,6,7$ and $W_{ij}=\bar\Psi\gamma^i\gamma^4\gamma^j\Psi$. For a stationary state they are constant. In the canonical measure $\cos z\,dx_0$ of Section 17.2 this state is normalizable in $x_0$, since $\int_0^{\pi/2}\cos z\,dz=1$. The real-$K$ plane wave is not: its $\cos z\,|\Psi|^2$ is proportional to $\cot z$, which is not integrable at $z\to0$ (check P_source_x0IndependentNormalizableRealKNot).
+
 ## 14. Modes
 
 ### 14.1 Exact zeta reduction
@@ -990,37 +1028,37 @@ For $\Psi=e^{-3H\zeta}e^{iK\zeta}u(x_4)$ the Dirac equation reduces exactly (for
 $$
 \begin{aligned}
 &\gamma^4\dot u=(M_{\mathrm{eff}}-iK\gamma^0)u\quad\Longleftrightarrow\quad i\dot u=hu,\qquad h=-iM_{\mathrm{eff}}\gamma^4-K\gamma^4\gamma^0, \\
-&h=h^\dagger,\qquad h^2=(M_{\mathrm{eff}}^2+K^2)\,\mathbb 1,\qquad E=\pm\sqrt{M_{\mathrm{eff}}^2+K^2}\quad(8\text{ each}).
+&h=h^\dagger,\qquad h^2=(M_{\mathrm{eff}}^2+K^2)\cdot1,\qquad E=\pm\sqrt{M_{\mathrm{eff}}^2+K^2}\quad(8\text{ each}).
 \end{aligned}
 $$
 
-The operator $h$ is traceless. The Wolfram check evaluates the spectrum for $M_{\mathrm{eff}}=3$ and $K=4$: the eigenvalues are $+5$ and $-5$, eight each.
+The operator $h$ is traceless. The Wolfram check evaluates the spectrum for $M_{\mathrm{eff}}=3$ and $K=4$: the eigenvalues are $+5$ and $-5$, eight each. The identity $h^2=(M_{\mathrm{eff}}^2+K^2)\cdot1$ is polynomial in $K$ and therefore also holds at $K=-3iH$ (Section 13.7), where $h$ is no longer Hermitian.
 
 ### 14.2 Momenta along 3-space and the extra times
 
-For $\Psi=e^{-3H\zeta}e^{ikx_1+iqx_5}\phi(\zeta,x_4)$ the equation becomes
+For $\Psi=e^{-3H\zeta}e^{ik_1x_1+ik_5x_5}\phi(\zeta,x_4)$, with momentum $k_1$ along $x_1$ and $k_5$ along $x_5$, the equation becomes
 
 $$
-\gamma^0\partial_\zeta\phi+\gamma^4\partial_4\phi+i\bigl(k\,e^{-H\zeta-a_4(t)}\gamma^1+q\,e^{-H\zeta+a_4(t)}\gamma^5\bigr)\phi=M_{\mathrm{eff}}\phi .
+\gamma^0\partial_\zeta\phi+\gamma^4\partial_4\phi+i\bigl(k_1\,e^{-H\zeta-a_4(t)}\gamma^1+k_5\,e^{-H\zeta+a_4(t)}\gamma^5\bigr)\phi=M_{\mathrm{eff}}\phi .
 $$
 
-The coefficients $k\,e^{-H\zeta}e^{-a_4(t)}$ and $q\,e^{-H\zeta}e^{a_4(t)}$ are products of a nonconstant function of $\zeta$ and a nonconstant function of $t$. They multiply $\gamma^1$ and $\gamma^5$, which anticommute with $\gamma^0$ and $\gamma^4$. So the reduced equation keeps an explicit $\zeta$ dependence, and for $k\ne0$ or $q\ne0$ no product ansatz separates the $\zeta$ and $t$ dependence.
+The coefficients $k_1\,e^{-H\zeta}e^{-a_4(t)}$ and $k_5\,e^{-H\zeta}e^{a_4(t)}$ are products of a nonconstant function of $\zeta$ and a nonconstant function of $t$. They multiply $\gamma^1$ and $\gamma^5$, which anticommute with $\gamma^0$ and $\gamma^4$. So the reduced equation keeps an explicit $\zeta$ dependence, and for $k_1\ne0$ or $k_5\ne0$ no product ansatz separates the $\zeta$ and $t$ dependence.
 
 ### 14.3 Local WKB dispersion and instability onset
 
-With frozen coefficients (a local, WKB-type statement) the single-particle operator $h_{\mathrm{loc}}=-iM_{\mathrm{eff}}\gamma^4-\gamma^4\bigl(K\gamma^0+k_{\mathrm{eff}}\gamma^1+q_{\mathrm{eff}}\gamma^5\bigr)$, with $k_{\mathrm{eff}}=k\,e^{-H\zeta-a_4}$ and $q_{\mathrm{eff}}=q\,e^{-H\zeta+a_4}$, satisfies $h_{\mathrm{loc}}^2=E^2\cdot1$ with
+With frozen coefficients (a local, WKB-type statement) the single-particle operator $h_{\mathrm{loc}}=-iM_{\mathrm{eff}}\gamma^4-\gamma^4\bigl(K\gamma^0+k_{1,\mathrm{eff}}\gamma^1+k_{5,\mathrm{eff}}\gamma^5\bigr)$, with $k_{1,\mathrm{eff}}=k_1\,e^{-H\zeta-a_4}$ and $k_{5,\mathrm{eff}}=k_5\,e^{-H\zeta+a_4}$, satisfies $h_{\mathrm{loc}}^2=E^2\cdot1$ with
 
 $$
-E^2=M_{\mathrm{eff}}^2+K^2+\bigl(k\,e^{-H\zeta-a_4}\bigr)^2-\bigl(q\,e^{-H\zeta+a_4}\bigr)^2 .
+E^2=M_{\mathrm{eff}}^2+K^2+\bigl(k_1\,e^{-H\zeta-a_4}\bigr)^2-\bigl(k_5\,e^{-H\zeta+a_4}\bigr)^2 .
 $$
 
-$h_{\mathrm{loc}}$ is Hermitian if and only if $q=0$; its non-Hermitian part is $-2q_{\mathrm{eff}}\gamma^4\gamma^5$. For $k=0$ and $q\ne0$, $E^2<0$ once
+$h_{\mathrm{loc}}$ is Hermitian if and only if $k_5=0$. Since $\gamma^4\gamma^5$ is anti-Hermitian, $h_{\mathrm{loc}}-h_{\mathrm{loc}}^\dagger=-2k_{5,\mathrm{eff}}\gamma^4\gamma^5$, and the anti-Hermitian part of $h_{\mathrm{loc}}$ is the term $-k_{5,\mathrm{eff}}\gamma^4\gamma^5$ itself. For $k_1=0$ and $k_5\ne0$, $E^2<0$ once
 
 $$
-a_4(t)>H\zeta+\ln\bigl(\sqrt{M_{\mathrm{eff}}^2+K^2}/|q|\bigr),
+a_4(t)>H\zeta+\ln\bigl(\sqrt{M_{\mathrm{eff}}^2+K^2}/|k_5|\bigr),
 $$
 
-and for $a_4=t$ the onset time is $t_\ast=H\zeta+\ln\bigl(\sqrt{M_{\mathrm{eff}}^2+K^2}/|q|\bigr)$. The onset formula is verified at $M_{\mathrm{eff}}=3$, $K=4$, $q=1/2$, where it gives $a_4=H\zeta+\ln10$. A growing $a_4$ (3-space inflation, extra-time deflation) always reaches the onset. This is the ultrahyperbolic ill-posedness of momenta along the extra times: as the extra times deflate, the physical momentum $q\,e^{-H\zeta+a_4}$ grows.
+and for $a_4=t$ the onset time is $t_\ast=H\zeta+\ln\bigl(\sqrt{M_{\mathrm{eff}}^2+K^2}/|k_5|\bigr)$. The onset formula is verified at $M_{\mathrm{eff}}=3$, $K=4$, $k_5=1/2$, where it gives $a_4=H\zeta+\ln10$. An unboundedly growing $a_4$, for example $a_4=t$ (3-space inflation, extra-time deflation), reaches the onset at every $\zeta$. A bounded $a_4$ need not, although at fixed $t$ the condition holds for sufficiently negative $\zeta$ (read off from the formula). This is the ultrahyperbolic ill-posedness of momenta along the extra times: as the extra times deflate, the physical momentum $k_5\,e^{-H\zeta+a_4}$ grows.
 
 ## 15. Einstein tensor and the required source
 
@@ -1059,12 +1097,12 @@ Evaluated in the orthonormal frame for the observer $u=e_4$ (the evolution time)
 
 | Condition | Quantity | Status |
 | --- | --- | --- |
-| WEC | $\rho=-3H^2(7+a_4'^2)/\kappa$ | violated for every $a_4$ |
-| NEC, null vector $e_4+e_0$ | $\rho+p_{(0)}=-6H^2(1+a_4'^2)/\kappa$ | violated for every $a_4$ |
-| NEC, null vector $e_4+e_i$ | $\rho+p_{(i)}=-H^2(6+6a_4'^2-a_4'')/\kappa$ | violated unless $a_4''\ge6(1+a_4'^2)$ |
-| NEC, null vector $e_j+e_0$ | $p_{(0)}-p_{(j)}=H^2a_4''/\kappa$ | holds if and only if $a_4''\ge0$ |
-| NEC, null vector $e_j+e_i$ | $p_{(i)}-p_{(j)}=2H^2a_4''/\kappa$ | holds if and only if $a_4''\ge0$ |
-| SEC (time-like convergence) | $R_{44}=-6H^2a_4'^2$ | violated whenever $a_4'\ne0$ |
+| WEC | $\rho=-\frac{3H^{2}}{\kappa}\bigl(7+a_4'^{2}\bigr)$ | violated for every $a_4$ |
+| NEC, null vector $e_4+e_0$ | $\rho+p_{(0)}=-\frac{6H^{2}}{\kappa}\bigl(1+a_4'^{2}\bigr)$ | violated for every $a_4$ |
+| NEC, null vector $e_4+e_i$ | $\rho+p_{(i)}=-\frac{H^{2}}{\kappa}\bigl(6+6a_4'^{2}-a_4''\bigr)$ | violated unless $a_4''\ge6(1+a_4'^2)$ |
+| NEC, null vector $e_j+e_0$ | $p_{(0)}-p_{(j)}=\frac{H^{2}\,a_4''}{\kappa}$ | holds if and only if $a_4''\ge0$ |
+| NEC, null vector $e_j+e_i$ | $p_{(i)}-p_{(j)}=\frac{2H^{2}\,a_4''}{\kappa}$ | holds if and only if $a_4''\ge0$ |
+| SEC (time-like convergence) | $R_{44}=-6H^{2}\,a_4'^{2}$ | violated whenever $a_4'\ne0$ |
 | DEC | requires $\rho\ge0$ | violated |
 
 The 8-dimensional strong energy condition $5\rho+\sum_{\mu\ne4}p_{(\mu)}=6R_{44}/\kappa=-36H^2a_4'^2/\kappa$ fails whenever $a_4'\ne0$. In signature (4,4) there are four time-like directions, so these are the conditions for the chosen observer and null vectors, not a complete classification.
@@ -1097,11 +1135,17 @@ $$
 
 $\rho_{\mathrm{req}}<0$ for every real $M$.
 
-### 15.5 The dirac16complex condensate cannot supply the source
+### 15.5 Which dirac16complex states can supply the source
 
-**Proposition.** No homogeneous dirac16complex state $\Psi=s^{-1/2+iK/(6H)}u(x_4)$ satisfies $G^\mu{}_\nu=\kappa T^\mu{}_\nu$ on an open range of $z$.
+The bilinears are read as c-numbers, as in Sections 13 and 14. There are three results.
 
-**Proof.** In the homogeneous sector every bilinear is a function of $x_4$ divided by $\sin z$. Hence every component of $T^\mu{}_\nu$ has the form $c_1(t)/\sin z+c_2(t)/\sin^2z$, with $c_2\propto\lambda$ from $U=\tfrac\lambda2S^2$. For example
+**Proposition 1 ($a_4''\ne0$).** No dirac16complex state that depends on $x_0$ and $x_4$ only satisfies $G^\mu{}_\nu=\kappa T^\mu{}_\nu$ on an open set where $a_4''\ne0$.
+
+**Proof.** For every such state, off shell and for every $U$, $T^i{}_i=T^j{}_j=\mathcal L_s$ for $i=1,2,3$ and $j=5,6,7$. The reason is that $\partial_i\Psi=\partial_j\Psi=0$ and $A_{ii}=A_{jj}=0$ (Section 12.3; check P_source_transversePressuresEqualForEveryX0X4State). But $G^i{}_i-G^j{}_j=2H^2a_4''$ (check P_source_einsteinTransverseDifferenceIs2H2a4pp), so $\kappa(T^i{}_i-T^j{}_j)=0\ne2H^2a_4''$. $\square$
+
+**Proposition 2 (real $K$).** No plane wave $\Psi=s^{-1/2+iK/(6H)}u(x_4)$ with real $K$ satisfies $G^\mu{}_\nu=\kappa T^\mu{}_\nu$ on an open range of $z$, for any $a_4$.
+
+**Proof.** For real $K$ every bilinear is a function of $x_4$ divided by $\sin z$. Hence every diagonal component $T^\mu{}_\mu$, in particular $T^4{}_4=-\rho$, has the form $c_1(t)/\sin z+c_2(t)/\sin^2z$, with $c_2\propto\lambda$ from $U=\tfrac\lambda2S^2$ (check P_source_realKDiagonalIsC1OverSPlusC2OverS2). The off-diagonal mixed components do not have this form; for example $T^0{}_4=g^{00}T_{04}$ is proportional to $1/\cos z$. For the energy density
 
 $$
 \rho=\frac{m\,u^\dagger Cu-iK\,u^\dagger C\gamma^0u}{\sin z}+\frac{\lambda\,(u^\dagger Cu)^2}{2\sin^2z}.
@@ -1113,9 +1157,41 @@ $$
 W\bigl(1,\tfrac1{\sin z},\tfrac1{\sin^2z}\bigr)=-2\cot^3z\,\csc^3z\ne0 .
 $$
 
-Comparing the coefficients of 1 in $G^4{}_4=\kappa T^4{}_4$ gives $3H^2(7+a_4'^2)=0$, which is impossible. $\square$
+Comparing the coefficients of 1 in $G^4{}_4=\kappa T^4{}_4$ gives $3H^2(7+a_4'^2)=0$, which is impossible (check P_source_realKPlaneWaveCannotSource). $\square$
 
-The Python checker confirms the same conclusion from the other side. For the $\lambda=0$ plane wave, $\rho\sin z$ is independent of $x_0$, so $\rho=\rho_{\mathrm{req}}$ for all $z$ would force $\rho=0\ne\rho_{\mathrm{req}}$. Moreover the condensate's transverse pressures vanish while $p_{(1)}=H^2(15-3a_4'^2+a_4'')/\kappa$ is required. Inhomogeneous states are not covered by this proof (Section 20).
+The Python checker confirms this for $\lambda=0$ from the other side: $\rho\sin z$ is independent of $x_0$, so $\rho=\rho_{\mathrm{req}}$ for all $z$ would force $\rho=0\ne\rho_{\mathrm{req}}$. For complex $K$ the modulus of the prefactor is $|s^{-1/2+iK/(6H)}|^2=s^{-1-\mathrm{Im}K/(3H)}$. For $\lambda=0$ the argument therefore excludes every $K$ with $\mathrm{Im}\,K\ne-3H$ as well. On the line $\mathrm{Im}\,K=-3H$ the bilinears do not depend on $z$. Its member $K=-3iH$ is the state of Section 13.7; the members with $\mathrm{Re}\,K\ne0$ are not analysed here. These two remarks are derived here, not separate checks.
+
+**Proposition 3 (the state that does not depend on $x_0$).** Let $a_4=ct$ up to a constant, so $a_4''=0$. The state $\Psi=u(x_4)$ of Section 13.7 satisfies $G^\mu{}_\nu=\kappa T^\mu{}_\nu$ in all 64 components for all $x_4$ if and only if
+
+1. the six bilinears $V_a$ vanish and, if $c\ne0$, the nine bilinears $W_{ij}$ vanish as well;
+2. $mS=-36H^2/\kappa$;
+3. $\lambda S^2=2H^2(15-3c^2)/\kappa$.
+
+Then $M_{\mathrm{eff}}=m+\lambda S=-6H^2(1+c^2)/(\kappa S)$. For $\kappa>0$ the solutions oscillate, $M_{\mathrm{eff}}^2>9H^2$, if and only if $\kappa|S|<2H(1+c^2)$ (derived here from the formula for $M_{\mathrm{eff}}$). For $a_4''\ne0$ the state is excluded by Proposition 1.
+
+**Proof.** The off-diagonal components are the bilinears of Section 13.7 times coefficients; the coefficients of the $V_a$ never vanish, and those of the $W_{ij}$ vanish only for $c=0$. With $U=\tfrac\lambda2S^2$ the diagonal components are $T^4{}_4=-(mS+\tfrac\lambda2S^2)$ and $T^\mu{}_\mu=\tfrac\lambda2S^2$ for $\mu\ne4$. The two equations for $G^4{}_4$ and $G^0{}_0$ have the unique solution 2 and 3, and with it the other six diagonal equations hold if and only if $a_4''=0$ (check P_source_x0IndependentSourceConditions). $\square$
+
+The energy density of such a source is $\rho=mS+\tfrac\lambda2S^2=-3H^2(7+c^2)/\kappa<0$. A negative $\rho$ is possible because $C$ is indefinite, so $S$ can have either sign. Condition 2 fixes $S$ for a given $m$, condition 3 then fixes $\lambda$, and condition 1 restricts the amplitude $u$.
+
+**Existence.** For $M_{\mathrm{eff}}=\pm5H$ the $i\omega$ eigenspace of $A$ meets the singlets of the diagonal Spin(3) generated by $S^{23}-S^{67}$, $S^{31}-S^{75}$ and $S^{12}-S^{56}$ (simultaneous rotations of $x_1,x_2,x_3$ and $x_5,x_6,x_7$) in a 2-dimensional space. On it 12 of the 15 bilinears vanish identically and the other three coincide, $W_{15}=W_{26}=W_{37}$, so that a single real condition remains (check P_source_x0IndependentConstruction). Two exact solutions with $H=\kappa=1$, both of the form $\Psi=e^{4ix_4}u_0$ with $Au_0=4iu_0$:
+
+**Case A.** $a_4=\sqrt5\,t$, $\lambda=0$, $m=M_{\mathrm{eff}}=5$ and $S=-36/5$, with
+
+$$
+u_0=\sqrt{9/40}\,(3,-i,0,0,3,i,0,0,1,-3i,0,0,1,3i,0,0).
+$$
+
+Here $\rho=-36$ and $p=0$: negative-energy dust, $w=0$, in agreement with $w=(c^2-5)/(c^2+7)$ of Section 15.4.
+
+**Case B**, the notebook's $a_4=t$: $m=-15$, $\lambda=25/6$, $M_{\mathrm{eff}}=-5$ and $S=12/5$, with
+
+$$
+u_0=\sqrt{3/40}\,(1,3i,0,0,1,-3i,0,0,-3,-i,0,0,-3,i,0,0).
+$$
+
+Here $\rho=-24$ and $p=12$ in all seven transverse directions, $w=-\tfrac12$, which is the required source of Section 15.4.
+
+In both cases $\Psi$ solves the Dirac equation exactly, all 15 bilinears vanish, and $G^\mu{}_\nu-\kappa T^\mu{}_\nu=0$ in all 64 components. As a negative control the same state fails for the slope $c+1$ (check P_source_x0IndependentExactExamples; the Python checker verifies the same examples independently).
 
 ## 16. The gamma-8 map: a structural plus-minus M pairing
 
@@ -1181,7 +1257,7 @@ reproduces the Euler-Lagrange evolution of Section 10.4.
 
 ### 17.4 The good sector
 
-In the sector without dependence on $x_5,x_6,x_7$ ($q=0$),
+In the sector without dependence on $x_5,x_6,x_7$ (no momentum $k_5$ along the extra times),
 
 $$
 i\partial_4\Psi=h\Psi,\qquad h=-im\gamma^4+3iH\gamma^4\gamma^0+i\tan z\,\gamma^4\gamma^0\partial_0+i\,s^{-1/6}e^{-a_4}\gamma^4\gamma^i\partial_i ,
@@ -1193,18 +1269,19 @@ and $h$ is Hermitian with respect to $\int\cos z\,\Psi^\dagger\Phi\,d^7x$. The t
 
 ### 18.1 WolframScript
 
-WolframScript 1.14 with Mathematica 15.0.1 runs the Wolfram implementation, a driver script and a module (file names in Section 18.4), in about 34 s. It writes the report wolfram-primordial-report.json and the component file primordial-components.json, which supplies every TeX string of Sections 5 to 17. All 114 checks are true:
+WolframScript 1.14 with Mathematica 15.0.1 runs the Wolfram implementation, a driver script and a module (file names in Section 18.4), in about 39 s. It writes the report wolfram-primordial-report.json and the component file primordial-components.json. The tables and displays of Sections 5, 6, 7.2, 10, 11.1, 11.2, 12.2, 13.7 (the coefficients of the off-diagonal components), 15.1 and 15.3 take their TeX from the component file, and tests/test_d16c_primordial_publication.py compares them with it. The values of Sections 8.3 and 13.6 are those recorded in python-primordial-report.json. The other displays are written by hand from the verified identities. All 126 checks are true:
 
 | Group | Checks | Group | Checks |
 | --- | --- | --- | --- |
-| fixture | 4 | blocks | 3 |
-| metric | 6 | notebookCompare | 15 |
-| zeta | 4 | EMT | 18 |
-| christoffel | 3 | modes | 7 |
-| spinconn | 6 | einstein | 11 |
+| fixture | 4 | notebookCompare | 16 |
+| metric | 6 | EMT | 18 |
+| zeta | 4 | modes | 7 |
+| christoffel | 3 | einstein | 10 |
+| spinconn | 6 | source | 11 |
 | Omega | 8 | quant | 11 |
-| gammaConst | 6 | a4linear | 3 |
+| gammaConst | 7 | a4linear | 3 |
 | EL | 7 | internal | 2 |
+| blocks | 3 | | |
 
 Exactness method: every scalar is mapped to the ring $\mathbb Q(\text{parameters})[s^{1/6},\cos z,e^{a_4},a_4',a_4'',\dots]$ modulo $\cos^2z+s^2-1$. This is a complete zero test because $a_4$ is arbitrary, so $e^{a_4}$ and its derivatives are independent. In addition there are exact point checks at $\sin z=3/5$ and $\sin z=5/13$ with rational jets of $a_4$ ($e^{1/6}$ treated as transcendental, coefficients RootReduce'd). Stored notebook outputs, among them those of cells 501, 583, 584, 1060, 1079, 1089, 1096, 1111 and 1137, are parsed from the committed notebook. The 15 source cells 106, 111, 386, 431, 475, 499, 501, 1058, 1061, 1066, 1075, 1078, 1096, 1111 and 1137 are checked to contain the code that is rebuilt. The check names are:
 
@@ -1219,7 +1296,8 @@ spinconn: vielbeinPostulate512 antisymmetry closedForms count24
     notebookCell501OmegaMuIJEqualsMixedOmega pointCheck
 Omega: closedForms zeroForX0X4 blockDiagonalChirality gammaSlash3Hgamma0
     OmegaGammaAndAnticommutator slashA4Independent contractDiagonalFormula pointCheck
-gammaConst: DmuGammaNuZero64 notebookContractionFails divergenceIdentity
+gammaConst: DmuGammaNuZero64 notebookContractionFails
+    notebookContractionClosedForms divergenceIdentity
     divergenceIdentityFailsNotebookContraction divergenceLhsValue pointCheck
 EL: componentsMatchOperator tenTermsPerEquation pointCheck evolutionFormEquivalent
     fromLagrangianPsiDagger fromLagrangianPsi zetaFormChainRule
@@ -1227,9 +1305,9 @@ blocks: fourBlocksOfFour closedUnderCoupling matchNotebookSets
 notebookCompare: sourceCellsAsRebuilt spinCoefficientsCell499EqualsOmegaMuIJ storedEla16
     commutingQ1DropsOutCliffordGammas reconstructionReproducesStoredEla
     literalRebuildResidualIsExactlyQTerms qTermFromNonCliffordExtraTimeGammas
-    reconstructedGamma5NotClifford reconstructedGammaForm eLaztCell1096
-    couplingSetsCell1089 relabelCell1111 cell1137Reproduced16of16
-    correctVsStoredDifferOnlyByQ qOnlyInBlocks1and2
+    qVectorIs2HqAtCell1079 reconstructedGamma5NotClifford
+    reconstructedGammaForm eLaztCell1096 couplingSetsCell1089 relabelCell1111
+    cell1137Reproduced16of16 correctVsStoredDifferOnlyByQ qOnlyInYZ0to7
 EMT: anticommutatorsAreThreeGammaProducts OmegaPartIsMinusQuarterPsibarAPsi symmetric
     homogeneous_rhoOffShell homogeneous_LsOffShell homogeneous_pressuresOffShell
     homogeneous_KEH_equals_minusK0 T44equals_mSplusU_zeroMode
@@ -1242,7 +1320,12 @@ modes: dispersion spectrumPlusMinusE8each exactReduction kqNonzeroNotSeparable
     localWKBDispersion localHermitianIffQZero instabilityOnset
 einstein: ricciScalar GmixedClosedForms offDiagonalZero pointCheck notebookCell584
     notebookCell583 R44 requiredSource rhoRequiredNegative energyConditionForms
-    condensateCannotSource
+source: transversePressuresEqualForEveryX0X4State
+    einsteinTransverseDifferenceIs2H2a4pp realKDiagonalIsC1OverSPlusC2OverS2
+    realKPlaneWaveCannotSource x0IndependentStateSolvesDiracExactly
+    x0IndependentDiagonalOnShell x0IndependentOffDiagonalAre15Bilinears
+    x0IndependentSourceConditions x0IndependentConstruction
+    x0IndependentExactExamples x0IndependentNormalizableRealKNot
 quant: Bproperties anticommutatorMatrix momentum hamiltonianHasNoTimeDerivatives
     hamiltonianDensityClosedForm heisenbergReproducesEL goodSectorHermitian
     extraTimeMomentaNonHermitian singleParticleOperatorMatchesEvolution
@@ -1253,18 +1336,18 @@ internal: zeroTestSanity noException
 
 ### 18.2 Python
 
-The independent Python checker (sympy and the standard library only; file name in Section 18.4) writes the report python-primordial-report.json. Nothing produced by Wolfram is used as truth. The gamma matrices are rebuilt from the split-octonion recipe and only compared with the committed fixture, and the geometry is recomputed from the metric. The 16 by 16 identities are proved in the Clifford algebra Cl(4,4) in the blade basis; the notebook matrices are verified to be a faithful representation (all 65536 blade products). Every matrix identity is re-checked with the actual matrices at the two exact sample points P1 and P2, with $s^{1/6}$ kept as an exact radical and $e^{a_4}$ as a transcendental. All 15 checks are true:
+The independent Python checker (sympy and the standard library only; file name in Section 18.4) writes the report python-primordial-report.json. Nothing produced by Wolfram is used as truth. The gamma matrices are rebuilt from the split-octonion recipe and only compared with the committed fixture, and the geometry is recomputed from the metric. The 16 by 16 identities are proved in the Clifford algebra Cl(4,4) in the blade basis; the notebook matrices are verified to be a faithful representation (all 65536 blade products). Every matrix identity is re-checked with the actual matrices at the two exact sample points P1 and P2, with $s^{1/6}$ kept as an exact radical and $e^{a_4}$ as a transcendental. The Python checker has no notebook reader: for the notebook it compares only with transcriptions of the stored outputs of cells 583, 584 and 1137. All 16 checks are true:
 
 ```
 P_algebraSetup P_metric P_zeta P_christoffel P_spinconn P_Omega P_gammaConst P_EL
-P_blocks P_EMT P_modes P_einstein P_quant P_a4linear P_EL_agreesWithWolfram
+P_blocks P_EMT P_modes P_einstein P_source P_quant P_a4linear P_EL_agreesWithWolfram
 ```
 
 ### 18.3 Agreement between the implementations
 
 P_EL_agreesWithWolfram parses the Wolfram component file and compares every coefficient of the 16 component equations and of the 16 evolution equations with the Python derivation. Both printers of the file (py and wl) are compared, exactly, at the two sample points, with $\lambda=1/2$ and $S=7/3$ inserted so that the $\lambda S$ term is compared too. That is 320 coefficients for the equations (16 rows, 10 terms, 2 points) and 288 for the evolution form (16 rows, 9 terms, 2 points), for each printer, with 0 mismatches. The Python report records wolframAgreement = compared and the sha256 of the component file it compared. Three Wolfram runs produced a byte-identical component file.
 
-Where the Stage-2 specification disagreed with the measured results, the checks test the measured truth and record the correction: $\det g=+\cos^2z$ (Section 4.3); $p_{(0)}$ frozen only for $K=0$ or on eigenstates (Section 13.4); isotropy only in the six directions 1, 2, 3, 5, 6, 7 (Section 13.3); the $\zeta$ plane wave exact only for $\lambda=0$ (Section 13.1); the off-diagonal $T_{0\mu}$, $T_{4\mu}$ and $T_{ij}$ nonzero for generic plane waves (Section 12.3).
+Where the Stage-2 specification disagreed with the measured results, the checks test the measured truth and record the correction: $\det g=+\cos^2z$ (Section 4.3); $p_{(0)}$ frozen only for $K=0$ or on eigenstates (Section 13.4); isotropy only in the six directions 1, 2, 3, 5, 6, 7 (Section 13.3); the $\zeta$ plane wave exact only for $\lambda=0$ (Section 13.1); the off-diagonal $T_{0\mu}$, $T_{4\mu}$ and $T_{ij}$ nonzero for generic plane waves (Section 12.3). The binding contract of the project states that a homogeneous condensate cannot source this field because $\bar\Psi\Psi\propto1/\sin z$. That holds for the real-$K$ plane waves only. The state that does not depend on $x_0$ has a constant $\bar\Psi\Psi$ and is an exact source for $a_4''=0$ (Section 15.5); the checks of the group source test the corrected statement.
 
 ### 18.4 Files and hashes
 
@@ -1276,18 +1359,18 @@ Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb
 artifacts/dirac16complex/arbitrary-field/algebra-fixture.json
   8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b
 wolfram/Dirac16ComplexPrimordial.wl
-  e0c1484de567f29fd2c6f11452e7c13a9fc2ce63a068e0087107c0d152893abe
+  0b95682601ace6343a89ad8eaf0f4896d071015041f15cccbeb3beac193d81a1
 scripts/verify_dirac16complex_primordial.wls
   919928048f45fba3800c7755f9a8e26d6f8a1c4d3444f975c6d644c591d7f59e
 scripts/check_dirac16complex_primordial.py
-  582a53ff5a89471d88bff20374cbe18f910fd0d6084b95cbbf58459b3c66a22b
+  4e86497e8fee662fc43117a5a55341c1450e6644dbe7629e14c6b96a9798793f
 artifacts/dirac16complex/primordial-field/primordial-components.json
-  370ed8a80ae8ddc10c2d15254853d3f5aaf067fcb2b35cfcf326e97a7c8a3249
+  a5d8caa8cb2260824c29dcdb1ed0e62ec22079c297682939a277a6b98dfa3e52
 ```
 
 ## 19. Reproduction
 
-Run every command from the repository root. The Wolfram report path must be passed positionally, not after `--`: WolframScript 1.14 drops `--` and every argument after it.
+Run every command from the repository root. The Wolfram report path must be passed positionally, not after a double-hyphen argument: WolframScript 1.14 drops a double hyphen and every argument after it (see the header of the gate scripts).
 
 ### 19.1 PowerShell
 
@@ -1302,8 +1385,8 @@ Its last line is `stage2_primordial_field_verification=OK`.
 The individual steps:
 
 ```
-wolframscript -file scripts/verify_dirac16complex_primordial.wls `
-    artifacts/dirac16complex/primordial-field/wolfram-primordial-report.json
+$r = "artifacts/dirac16complex/primordial-field/wolfram-primordial-report.json"
+wolframscript -file scripts/verify_dirac16complex_primordial.wls $r
 python scripts/check_dirac16complex_primordial.py
 python -m unittest discover -s tests -p "test_d16c_primordial*.py" -v
 python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD.md
@@ -1325,24 +1408,24 @@ python -m unittest discover -s tests -p "test_d16c_primordial*.py" -v
 python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD.md
 ```
 
-The Wolfram step prints check_count=114 and failed_check_count=0. The Python step prints check_count=15, failed_check_count=0 and measurement_wolframAgreement=compared. The PDF step rebuilds this document twice (two builder runs, three pdflatex passes each), requires warning-free logs and byte-identical PDFs, compares them with the registered edition dirac16complex-primordial-field in provenance/pdf-specifications.json, and prints provenance_pdf=OK. After an edit of this document the edition is registered once more with
+The Wolfram step prints check_count=126 and failed_check_count=0. The Python step prints check_count=16, failed_check_count=0 and measurement_wolframAgreement=compared. The PDF step rebuilds this document twice (two builder runs, three pdflatex passes each), requires warning-free logs and byte-identical PDFs, compares them with the registered edition dirac16complex-primordial-field in provenance/pdf-specifications.json, and prints provenance_pdf=OK. After an edit of this document the edition is registered once more with
 
 ```
 python scripts/build_provenance_pdf.py --register \
     provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD.md
 ```
 
-(in PowerShell the line continuation is a backtick instead of the backslash)
+(in PowerShell the two lines are written as one line)
 
 and the sha256 pins in tests/test_d16c_primordial_publication.py are updated.
 
 ## 20. Limitations
 
-1. Only 8-dimensional Einstein gravity is used for the source. The notebook's Einstein-Lovelock terms of order 2 and 3 are not computed.
-2. The proof that dirac16complex cannot source the field covers the homogeneous sector only. Inhomogeneous states are not excluded by a proof, although the off-diagonal components of Section 12.3 then have to vanish as well.
+1. Only 8-dimensional Einstein gravity is used for the source. The Einstein-Lovelock terms of order 2 and 3, which the notebook names but does not compute, are not computed here either.
+2. The source analysis of Section 15.5 covers states that depend on $x_0$ and $x_4$ only, with the bilinears read as c-numbers. States that depend on the transverse coordinates are not analysed; for them the off-diagonal components of Section 12.3 have to vanish as well. The plane waves with $\mathrm{Im}\,K=-3H$ and $\mathrm{Re}\,K\ne0$ are not analysed. The exact source found for linear $a_4$ has negative energy density, and neither its stability nor its quantum (Krein-space) status is examined.
 3. For $\lambda\ne0$ the $\zeta$ plane wave is not an exact solution. The homogeneous-sector formulas then hold pointwise, with $M_{\mathrm{eff}}$ treated as given.
 4. The bilinears are evaluated on c-number amplitudes. The operator expectation values in a Krein-space state, with normal ordering, are not computed.
-5. Modes with momentum along the extra times are non-Hermitian and eventually unstable (Section 14.3). Only the good sector has a standard positive single-particle structure.
+5. Modes with momentum along the extra times are non-Hermitian, and for an unboundedly growing $a_4$ they become unstable (Section 14.3). Only the good sector has a standard positive single-particle structure.
 6. The dynamics of $a_4$ is not determined: $a_4$ is a free function, and the notebook's slopes of cell 150 are tabulated, not derived.
-7. The attribution of the $q$ term to cell 1058 is a reconstruction. It is confirmed by exact reproduction of the stored outputs, but the notebook does not store useT16, and a literal re-execution in Mathematica 15.0.1 behaves differently (Section 11.3).
+7. The attribution of the $q$ term to cell 1058 is a reconstruction. The reconstructed useT16 reproduces the stored outputs exactly, but the notebook does not store useT16, and a literal re-execution in Mathematica 15.0.1 behaves differently (Section 11.3).
 8. The $x_0$ chart covers only $\zeta<0$. Continuation beyond $\zeta=0$ is not discussed.

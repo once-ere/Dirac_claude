@@ -29,7 +29,10 @@ import json
 import re
 import sys
 import unittest
+import zlib
 from pathlib import Path
+
+import sympy as sp
 
 REPOSITORY_ROOT = Path(__file__).resolve().parent.parent
 if str(REPOSITORY_ROOT) not in sys.path:
@@ -49,8 +52,8 @@ COMPONENTS = ARTIFACTS / "primordial-components.json"
 WOLFRAM_REPORT = ARTIFACTS / "wolfram-primordial-report.json"
 PYTHON_REPORT = ARTIFACTS / "python-primordial-report.json"
 
-MARKDOWN_SHA256 = "287886ab6eb8892993773b10978c912fe537a0e003daaa36064d1d226ea45b9e"
-TEX_SHA256 = "4b7a0906f2a7e86a7ed29bf466f662d49d3bd6d7cd8991735e02199662b306d0"
+MARKDOWN_SHA256 = "550d9052e90e1ecedf05eaa2f64685a46d46938a319a0f0d1eb8cd03f620c645"
+TEX_SHA256 = "c1cd3773ef2f15c43002449745171afeb48e14e8d35a3c5d0d100c4906ab607e"
 
 TITLE = "dirac16complex in the primordial pair-creation gravitational field"
 SUBTITLE = ("Explicit components of the connection, field equations, energy-momentum "
@@ -288,9 +291,16 @@ class AgreementWithArtifactsTests(unittest.TestCase):
             expected = [joined(eq["texLines"]) for eq in block["equationsZT"]]
             self.assertEqual(self.displays[tag], expected)
         stored = {eq["yZ"]: eq for eq in self.components["notebookComparison"]["equations"]}
-        for number in range(4):
+        sets = self.components["notebookComparison"].get("crossReference")
+        blocks = ((0, 5, 8, 13), (1, 4, 9, 12), (2, 7, 10, 15), (3, 6, 11, 14))
+        self.assertEqual([row["Psi"] for row in sorted(sets, key=lambda r: r["yZ"])],
+                         [k for block in blocks for k in block])
+        for number, block in enumerate(blocks):
             expected = [joined(stored[y]["notebookStoredTeX"]) for y in range(4 * number, 4 * number + 4)]
-            self.assertEqual(self.displays["stored, block %d" % (number + 1)], expected)
+            tag = "stored, block " + ",".join(str(k) for k in block)
+            self.assertEqual(self.displays[tag], expected)
+        # blocks are named by their component sets, never numbered from 1 (CONTRACT section 0)
+        self.assertIsNone(re.search(r"\| [1-4]: \$", self.text))
 
     def test_q_term_signs_quoted_match_the_wolfram_report(self):
         signs = self.wolfram["measurements"]["qTermSignsByYZ"]
@@ -331,6 +341,127 @@ class AgreementWithArtifactsTests(unittest.TestCase):
                     data["KE_H"], data["PE_H"], data["d4_p0"], data["w"])
                 self.assertIn(row, self.text)
 
+    def test_omega_array_is_generated_from_the_component_file(self):
+        symbols = {name: sp.Symbol(name) for name in ("H", "z", "a4", "a4p")}
+        begin = self.text.index("\\begin{array}{c|cccccc}")
+        end = self.text.index("\\end{array}", begin)
+        lines = self.text[begin:end].split("\n")[2:]
+        rows = [line.rstrip().removesuffix(" \\\\").split(" & ") for line in lines if " & " in line]
+        self.assertEqual(len(rows), 16)
+        matrices = {m["mu"]: m for m in self.components["Omega"]["matrices"]}
+        for column, mu in enumerate((1, 2, 3, 5, 6, 7), start=1):
+            sign = 1 if mu < 4 else -1
+            alpha = symbols["H"] * sp.sin(symbols["z"]) ** sp.Rational(1, 6) * sp.exp(sign * symbols["a4"])
+            for n in range(16):
+                entries = [e for e in matrices[mu]["entries"] if e["row"] == n]
+                terms = []
+                for entry in entries:
+                    ratio = sp.simplify(sp.sympify(entry["py"], locals=symbols) / (alpha / 2))
+                    if ratio in (1, -1):
+                        terms.insert(0, ("-" if ratio == -1 else "+") + "\\Psi_{%d}" % entry["col"])
+                    else:
+                        self.assertIn(sp.simplify(ratio / symbols["a4p"]), (1, -1))
+                        terms.append(("-" if sp.simplify(ratio / symbols["a4p"]) == -1 else "+")
+                                     + "a_4'\\Psi_{%d}" % entry["col"])
+                cell = "".join(terms).removeprefix("+")
+                with self.subTest(n=n, mu=mu):
+                    self.assertEqual(rows[n][0], str(n))
+                    self.assertEqual(rows[n][column], cell)
+
+    def test_notebook_contraction_table_matches_both_reports(self):
+        violations = self.python["measurements"]["P_gammaConst"]["notebookContractionViolations"]
+        expected = []
+        for i in (1, 2, 3):
+            expected.append("D_%d gamma^%d = (H*Derivative(a4(t), t))*g4" % (i, i))
+            expected.append("D_%d gamma^4 = (H*exp(a4(t))*sin(z)**(1/6)*Derivative(a4(t), t))*g%d" % (i, i))
+        for j in (5, 6, 7):
+            expected.append("D_%d gamma^0 = (H*exp(-a4(t))*sin(z)**(7/6)/cos(z))*g%d" % (j, j))
+            expected.append("D_%d gamma^4 = (2*H*exp(-a4(t))*sin(z)**(1/6)*Derivative(a4(t), t))*g%d"
+                            % (j, j))
+            expected.append("D_%d gamma^%d = (H)*g0 + (-2*H*Derivative(a4(t), t))*g4" % (j, j))
+        self.assertEqual(sorted(violations), sorted(expected))
+        self.assertTrue(self.wolfram["checks"]["P_gammaConst_notebookContractionClosedForms"])
+        for row in ("| $(i,i)$, $i=1,2,3$ | $H\\,a_4'\\,\\gamma^4$ |",
+                    "| $(i,4)$, $i=1,2,3$ | $H\\,s^{1/6}e^{a_4}a_4'\\,\\gamma^i$ |",
+                    "| $(j,0)$, $j=5,6,7$ | $H\\,s^{7/6}e^{-a_4}\\sec z\\,\\gamma^j$ |",
+                    "| $(j,4)$, $j=5,6,7$ | $2H\\,s^{1/6}e^{-a_4}a_4'\\,\\gamma^j$ |",
+                    "| $(j,j)$, $j=5,6,7$ | $H\\gamma^0-2H\\,a_4'\\,\\gamma^4$ |"):
+            self.assertIn(row, self.text)
+
+    def test_energy_condition_table_is_the_component_tex(self):
+        conditions = self.components["einstein"]["energyConditions"]
+        for key, lhs in (("WEC_rho", "\\rho"), ("NEC_e4_plus_e0", "\\rho+p_{(0)}"),
+                         ("NEC_e4_plus_ei_(i=1,2,3)", "\\rho+p_{(i)}"),
+                         ("NEC_ej_plus_e0_(j=5,6,7)", "p_{(0)}-p_{(j)}"),
+                         ("NEC_ej_plus_ei", "p_{(i)}-p_{(j)}"),
+                         ("SEC_timelikeConvergence_R44", "R_{44}")):
+            self.assertIn("| $%s=%s$ |" % (lhs, conditions[key]["expr"]), self.text)
+
+    def test_source_analysis_quoted_matches_both_reports(self):
+        source = self.components["source"]["x0Independent"]
+        groups = {}
+        for entry in source["offDiagonal"]:
+            mu, nu = entry["mu"], entry["nu"]
+            if mu == 0:
+                key, index, name = ("(0,i)" if nu < 4 else "(0,j)"), nu, ("i" if nu < 4 else "j")
+            elif nu == 4:
+                key, index, name = "(i,4)", mu, "i"
+            elif mu == 4:
+                key, index, name = "(4,j)", nu, "j"
+            else:
+                key, index, name = "(i,j)", None, None
+            tex = entry["tex"]
+            if index is not None:
+                tex = tex.replace("\\gamma^{%d}" % index, "\\gamma^{%s}" % name)
+            else:
+                tex = tex.replace("\\gamma^{%d}" % mu, "\\gamma^{i}").replace("\\gamma^{%d}" % nu,
+                                                                             "\\gamma^{j}")
+            row = "| $%s$ | $\\bar\\Psi%s\\Psi$ | $%s$ |" % (key, tex, entry["coefficient"]["tex"])
+            groups.setdefault(key, set()).add(row)
+        self.assertEqual(sorted(groups), ["(0,i)", "(0,j)", "(4,j)", "(i,4)", "(i,j)"])
+        self.assertEqual(sum(1 for _ in source["offDiagonal"]), 21)
+        for key, rows in groups.items():
+            self.assertEqual(len(rows), 1, key)
+            self.assertIn(rows.pop(), self.text)
+        wolfram = {e["label"]: e for e in source["examples"]}
+        python = self.python["measurements"]["P_source"]["x0IndependentExamples"]
+        for label in ("A", "B"):
+            w, p = wolfram[label], python[label]
+            self.assertEqual((str(w["S"]), str(w["rho"]), str(w["pTransverse"])),
+                             (p["S"], p["rho"], p["pTransverse"]))
+            self.assertEqual(w["u0NormFactorSquared"], p["u0NormFactorSquared"])
+            vector = [x.strip().replace("*I", "i").replace("I", "i")
+                      for x in w["v"].strip("{}").split(",")]
+            self.assertEqual(vector, [x.replace("*I", "i").replace("I", "i") for x in p["v"]])
+            self.assertIn("u_0=\\sqrt{%s}\\,(%s)." % (w["u0NormFactorSquared"], ",".join(vector)),
+                          self.text)
+            self.assertIn("$S=%s$" % w["S"], self.text)
+            self.assertIn("Here $\\rho=%s$ and $p=%s$" % (w["rho"], w["pTransverse"]), self.text)
+            self.assertTrue(p["allGminusKappaT64Zero"] and p["negativeControlSlopePlus1Fails"])
+        for name in ("x0IndependentExactExamples", "x0IndependentConstruction",
+                     "realKPlaneWaveCannotSource", "transversePressuresEqualForEveryX0X4State"):
+            self.assertTrue(self.wolfram["checks"]["P_source_" + name])
+        self.assertTrue(self.python["checks"]["P_source"])
+
+    def test_cell_labels_and_session_evidence_quoted_match_the_wolfram_report(self):
+        measurements = self.wolfram["measurements"]
+        bullet = [line for line in self.text.split("\n") if line.startswith('- "Cell $N$"')][0]
+        self.assertIn("(%d cells)" % measurements["notebookNonOutputCellCount"], bullet)
+        for item in measurements["notebookCitedCellLabels"].split("; "):
+            number, rest = item.split(": ", 1)
+            label, outs = rest.split(" -> ")
+            self.assertIn("%s %s" % (number, label), bullet)
+            ranges = [(int(a), int(b)) for a, b in re.findall(r"Out\[(\d+)\] to Out\[(\d+)\]", bullet)]
+            for out in re.findall(r"Out\[(\d+)\]", outs):
+                self.assertTrue("Out[%s]" % out in bullet or any(a <= int(out) <= b for a, b in ranges), out)
+        evidence = measurements["notebookSessionEvidence"]
+        self.assertIn("Fri 30 Jan 2026", evidence)
+        self.assertIn("cell 1058 last CellChangeTimes: 2025-12-04", evidence)
+        self.assertIn("15.0 for Microsoft Windows (64-bit) (July 2, 2026)", evidence)
+        self.assertIn("verifier kernel: 15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)", evidence)
+        for phrase in ("2026-01-30", "2025-12-04", "15.0.1 of July 2, 2026", "from In[1024] for cell 1058 to In[1113]"):
+            self.assertIn(phrase, self.text)
+
     def test_recorded_hashes_match_the_reports(self):
         sources = self.wolfram["sourceSha256"]
         inputs = self.python["inputSha256"]
@@ -354,6 +485,42 @@ class AgreementWithArtifactsTests(unittest.TestCase):
         self.assertEqual(
             inputs["artifacts/dirac16complex/primordial-field/primordial-components.json"],
             sha256_file(COMPONENTS))
+
+
+def pdf_font_charsets(content: bytes) -> dict[str, set[str]]:
+    """FontName -> set of glyph names in its /CharSet (object streams inflated)."""
+    chunks = [content]
+    for match in re.finditer(rb"stream\r?\n", content):
+        start = match.end()
+        end = content.find(b"endstream", start)
+        try:
+            chunks.append(zlib.decompress(content[start:end]))
+        except zlib.error:
+            pass
+    text = b"\n".join(chunks)
+    fonts = {}
+    pattern = re.compile(rb"/FontName\s*/([A-Z]{6}\+[A-Za-z0-9-]+)(?:(?!/FontName).){0,600}?/CharSet\s*\(([^)]*)\)",
+                         re.S)
+    for match in pattern.finditer(text):
+        fonts[match.group(1).decode()] = set(match.group(2).decode().strip("/").split("/"))
+    return fonts
+
+
+class PdfGlyphTests(unittest.TestCase):
+    """pdflatex does not warn about these glyph substitutions, so the PDF itself is checked:
+    no \\mathbb 1 (msbm slot 49 is 'notforces'), no '--' en-dash ligature and no curly
+    left quote for a backtick in the typewriter font."""
+
+    def test_no_notforces_endash_or_quoteleft_substitutions(self):
+        fonts = pdf_font_charsets(PDF.read_bytes())
+        mono = [name for name in fonts if "LMMono" in name]
+        self.assertTrue(mono, sorted(fonts))
+        for name in mono:
+            self.assertNotIn("endash", fonts[name], name)
+            self.assertNotIn("quoteleft", fonts[name], name)
+        for name in fonts:
+            if "MSBM" in name:
+                self.assertNotIn("notforces", fonts[name], name)
 
 
 if __name__ == "__main__":
