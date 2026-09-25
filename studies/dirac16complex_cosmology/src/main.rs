@@ -101,10 +101,17 @@ fn print_config(ctx: &RunContext) -> bool {
     );
     println!("refined          = {}", ctx.refined);
     println!("state layout     = spinor u in C^16 as 32 reals (re0..re15, im0..im15)");
-    for line in exp1::config_lines().into_iter().chain(exp5::config_lines()) {
+    let experiment_lines = exp1::config_lines()
+        .into_iter()
+        .chain(exp2::config_lines())
+        .chain(exp3::config_lines())
+        .chain(exp4::config_lines())
+        .chain(exp5::config_lines());
+    for line in experiment_lines {
         println!("{line}");
     }
-    println!("exp2, exp3, exp4 : configured inside their own modules");
+    let names: Vec<&str> = EXPERIMENTS.iter().map(|(name, _)| *name).collect();
+    println!("all              = {}", names.join(", "));
     true
 }
 

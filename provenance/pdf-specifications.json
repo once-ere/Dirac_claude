@@ -1,1 +1,7 @@
-{}
+{
+  "dirac16complex-primordial-field": {
+    "path": "provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD.pdf",
+    "pages": 35,
+    "sha256": "195f9fac24a095d7602fa306c8ba0645684ad8bf89cfbd7e268bccc770f6e06b"
+  }
+}

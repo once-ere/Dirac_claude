@@ -240,7 +240,7 @@ def new_lagrangian(geo: G.Geometry, js: JetSpace, m, lam) -> Dict[str, object]:
     S2 = S * S
     L = (K1 + K2 - K3 + K4).scale(half) - jet_bilinear(M, pss, ps).scale(m) - \
         jet_scale_element(geo.sqrtg.truncate(1), S2).scale(lam * half)
-    return {"L": L, "S": S, "A": A, "B": B, "Bp": Bp, "M": M}
+    return {"L": L, "S": S, "A": A, "B": B, "Bp": Bp, "M": M, "K12": K1 + K2}
 
 
 def demo_complex(rec_c: Dict[str, bool], rec_m: Dict[str, object], geo: G.Geometry, tag: str, m, lam):
@@ -301,11 +301,16 @@ def demo_complex(rec_c: Dict[str, bool], rec_m: Dict[str, object], geo: G.Geomet
         for k, v in L.parts.items():
             herm = herm and (v.conjugate(cmap) - v).is_zero(dom.is_zero)
         herm = herm and (S.conjugate(cmap) - S).is_zero(dom.is_zero)
+        if lam_case:
+            # negative control: the unsymmetrised kinetic term Psibar gamma^mu D_mu Psi alone is NOT Hermitian
+            K12 = parts["K12"].value()
+            info["unsymNotHermitian"] = not (K12.conjugate(cmap) - K12).is_zero(dom.is_zero)
     om_nonzero = G.count_nonzero(slash, dom)
     rec_c["complex"] = ok_all and info["derivTerms"] > 0 and info["omegaTerms"] > 0 and om_nonzero > 0
     rec_c["quartic"] = ok_q
     rec_c["psiEq"] = ok_psi
     rec_c["herm"] = herm
+    rec_c["unsymNotHerm"] = info["unsymNotHermitian"]
     rec_m["GR_complexLagrangianNonTrivial_EL0_derivativeJetTerms_" + tag] = info["derivTerms"]
     rec_m["GR_complexLagrangianNonTrivial_EL0_spinConnectionTerms_" + tag] = info["omegaTerms"]
     rec_m["GR_complexLagrangianNonTrivial_gammaMuOmegaMu_nonzeroEntries_" + tag] = om_nonzero
@@ -465,6 +470,7 @@ def main() -> int:
     rec.check("GR_complexPsiEquation", per["G1_p1"]["psiEq"] and per["G2"]["psiEq"])
     rec.check("GR_lagrangianHermitian", per["G1_p1"]["herm"] and per["G2"]["herm"])
     rec.check("GR_emtHermitian", per["G1_p1"]["emtHerm"] and per["G2"]["emtHerm"])
+    rec.check("GR_unsymmetrizedKineticNotHermitian", per["G1_p1"]["unsymNotHerm"] and per["G2"]["unsymNotHerm"])
     rec.measure("GR_geometries",
                 "G1 at p1 (generic non-diagonal vielbein, exact rationals) and G2 (primordial field, symbolic point "
                 "w=sin(z)^(1/6), c=cos z, E=exp(a4), A1, A2, H); coefficient functions carried as exact order-1 "

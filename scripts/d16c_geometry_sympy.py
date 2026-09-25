@@ -819,9 +819,32 @@ class Geometry:
         rhs = jmul(sg.truncate(comm.order), comm)
         return lhs - rhs
 
+    def truncated(self, order: int) -> "TruncatedGeometry":
+        """Geometric jets truncated to ``order`` (cached); used to avoid computing unused orders."""
+        if not hasattr(self, "_trunc_cache"):
+            self._trunc_cache = {}
+        if order not in self._trunc_cache:
+            self._trunc_cache[order] = TruncatedGeometry(self, order)
+        return self._trunc_cache[order]
+
     def slash_omega(self, notebook: bool = False) -> np.ndarray:
         Om = self.Omega_nb if notebook else self.Omega
         return _norm(np.einsum("mij,mjk->ik", self.gam.value(), Om.value()))
+
+
+class TruncatedGeometry:
+    """Same interface as Geometry for the spinor functions, with jets truncated to one order."""
+
+    def __init__(self, geo: Geometry, order: int):
+        self.dom = geo.dom
+        self.gd = geo.gd
+        self.order = order
+        self.gam = geo.gam.truncate(order)
+        self.gam_low = geo.gam_low.truncate(order)
+        self.Omega = geo.Omega.truncate(order)
+        self.Omega_nb = geo.Omega_nb.truncate(order)
+        self.sqrtg = geo.sqrtg.truncate(order)
+        self.g = geo.g.truncate(order)
 
 
 # ---------------------------------------------------------------------------
@@ -895,23 +918,26 @@ def euler_lagrange_psibar(geo: Geometry, psi: TJet, m, lam=0) -> np.ndarray:
     """
     dom = geo.dom
     C = geo.gd.C
+    if psi.order < 2:
+        raise ValueError("Psi jets of order >= 2 are required (Q^mu_a is needed to first order)")
     dpsi = psi.grad()
-    order = min(psi.order, geo.Omega.order + 1)
-    # P: batch over a
-    pbP = TJet.const(_norm(C.copy()), order=order)                         # rows: e_a^T C
-    dpbP = TJet.const(np.zeros((16, 8, 16), dtype=object), order=order)
-    LP = lagrangian_scalar(geo, pbP, dpbP, psi, dpsi, m, lam)["Ls"]
-    LP = jmul(geo.sqrtg, LP)
+    # P (value only): batch over a
+    g0 = geo.truncated(0)
+    pbP = TJet.const(_norm(C.copy()), order=0)                             # rows: e_a^T C
+    dpbP = TJet.const(np.zeros((16, 8, 16), dtype=object), order=0)
+    LP = lagrangian_scalar(g0, pbP, dpbP, psi.truncate(0), dpsi.truncate(0), m, lam)["Ls"]
+    LP = jmul(g0.sqrtg, LP)
     P = LP.value()                                                         # (16,)
-    # Q: batch over (a, mu)
-    pbQ = TJet.const(np.zeros((16 * 8, 16), dtype=object), order=order)
+    # Q (first order): batch over (a, mu)
+    g1 = geo.truncated(1)
+    pbQ = TJet.const(np.zeros((16 * 8, 16), dtype=object), order=1)
     dq = np.zeros((16 * 8, 8, 16), dtype=object)
     for a in range(16):
         for mu in range(8):
             dq[a * 8 + mu, mu, :] = C[a, :]
-    dpbQ = TJet.const(dq, order=order)
-    LQ = lagrangian_scalar(geo, pbQ, dpbQ, psi, dpsi, m, lam)["Ls"]
-    LQ = jmul(geo.sqrtg, LQ)                                               # jet, shape (128,)
+    dpbQ = TJet.const(dq, order=1)
+    LQ = lagrangian_scalar(g1, pbQ, dpbQ, psi.truncate(1), dpsi.truncate(1), m, lam)["Ls"]
+    LQ = jmul(g1.sqrtg, LQ)                                                # jet, shape (128,)
     divQ = np.empty((16,), dtype=object)
     for a in range(16):
         s = dom.zero
@@ -924,21 +950,24 @@ def euler_lagrange_psibar(geo: Geometry, psi: TJet, m, lam=0) -> np.ndarray:
 def euler_lagrange_psi(geo: Geometry, chi: TJet, m, lam=0) -> np.ndarray:
     """EL w.r.t. Psi_a (commuting proxy): dL/dPsi_a - d_mu dL/d(d_mu Psi_a)."""
     dom = geo.dom
+    if chi.order < 2:
+        raise ValueError("chi jets of order >= 2 are required")
     pb = psibar_from_chi(geo, chi)
     dpb = pb.grad()
-    order = min(chi.order, geo.Omega.order + 1)
     I16 = to_identity(16, dom)
-    psiP = TJet.const(I16, order=order)
-    dpsiP = TJet.const(np.zeros((16, 8, 16), dtype=object), order=order)
-    LP = jmul(geo.sqrtg, lagrangian_scalar(geo, pb, dpb, psiP, dpsiP, m, lam)["Ls"])
+    g0 = geo.truncated(0)
+    psiP = TJet.const(I16, order=0)
+    dpsiP = TJet.const(np.zeros((16, 8, 16), dtype=object), order=0)
+    LP = jmul(g0.sqrtg, lagrangian_scalar(g0, pb.truncate(0), dpb.truncate(0), psiP, dpsiP, m, lam)["Ls"])
     P = LP.value()
-    psiQ = TJet.const(np.zeros((128, 16), dtype=object), order=order)
+    g1 = geo.truncated(1)
+    psiQ = TJet.const(np.zeros((128, 16), dtype=object), order=1)
     dq = np.zeros((128, 8, 16), dtype=object)
     for a in range(16):
         for mu in range(8):
             dq[a * 8 + mu, mu, a] = dom.one
-    dpsiQ = TJet.const(dq, order=order)
-    LQ = jmul(geo.sqrtg, lagrangian_scalar(geo, pb, dpb, psiQ, dpsiQ, m, lam)["Ls"])
+    dpsiQ = TJet.const(dq, order=1)
+    LQ = jmul(g1.sqrtg, lagrangian_scalar(g1, pb.truncate(1), dpb.truncate(1), psiQ, dpsiQ, m, lam)["Ls"])
     divQ = np.empty((16,), dtype=object)
     for a in range(16):
         s = dom.zero

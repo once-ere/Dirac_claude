@@ -1,0 +1,1531 @@
+{
+  "schemaVersion": 1,
+  "producer": "scripts/build_stage1_summary.py",
+  "stage": "Stage 1: dirac16complex in an arbitrary gravitational field",
+  "reports": {
+    "wolfram-algebra": {
+      "path": "artifacts/dirac16complex/arbitrary-field/wolfram-algebra-report.json",
+      "sha256": "d43adeeba580bdd8cec56fac5fa74906b7578c06c8589e52dbe3da1404cd49e7",
+      "producer": "scripts/verify_dirac16complex_algebra.wls with wolfram/Dirac16ComplexAlgebra.wl (context Dirac16Complex`Algebra`), Wolfram Language 15.0.1"
+    },
+    "wolfram-geometry": {
+      "path": "artifacts/dirac16complex/arbitrary-field/wolfram-geometry-report.json",
+      "sha256": "cec9ee0d577c4e7f0e82efd404d412a503140ccb1547118ab48a78a3d773f0ac",
+      "producer": "scripts/verify_dirac16complex_geometry.wls with wolfram/Dirac16ComplexGeometry.wl (context Dirac16Complex`Geometry`), Wolfram Language 15.0.1"
+    },
+    "python-algebra": {
+      "path": "artifacts/dirac16complex/arbitrary-field/python-algebra-report.json",
+      "sha256": "3275b2af1a2f56f9bd779ad359e7ed078cb2c64c744863732f789f410bb50c97",
+      "producer": "scripts/check_dirac16complex_algebra.py"
+    },
+    "python-geometry": {
+      "path": "artifacts/dirac16complex/arbitrary-field/python-geometry-report.json",
+      "sha256": "deec576c1613bb06ce8ac4ad9f89a7b008239bd9d4b624bea14728fa77b2a197",
+      "producer": "scripts/check_dirac16complex_geometry.py (python 3.14.5, sympy 1.14.0, numpy 2.4.6)"
+    },
+    "grassmann-demo": {
+      "path": "artifacts/dirac16complex/arbitrary-field/grassmann-demo-report.json",
+      "sha256": "b83997857ccfc9fb71f05efbcaebe16f29bf36687cc08c16e0823a26a6369f09",
+      "producer": "scripts/demo_grassmann_lagrangians.py (python 3.14.5, sympy 1.14.0, numpy 2.4.6)"
+    }
+  },
+  "fixture": {
+    "path": "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json",
+    "sha256": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b"
+  },
+  "counts": {
+    "wolfram-algebra": {
+      "checks": 21,
+      "passed": 21,
+      "failed": 0
+    },
+    "wolfram-geometry": {
+      "checks": 43,
+      "passed": 43,
+      "failed": 0
+    },
+    "python-algebra": {
+      "checks": 21,
+      "passed": 21,
+      "failed": 0
+    },
+    "python-geometry": {
+      "checks": 52,
+      "passed": 52,
+      "failed": 0
+    },
+    "grassmann-demo": {
+      "checks": 16,
+      "passed": 16,
+      "failed": 0
+    },
+    "total": {
+      "checks": 153,
+      "passed": 153,
+      "failed": 0
+    }
+  },
+  "checks": {
+    "wolfram-algebra:ALG_clifford": true,
+    "wolfram-algebra:ALG_gammaTransposeSymmetry": true,
+    "wolfram-algebra:ALG_chargeMatrix": true,
+    "wolfram-algebra:ALG_expression1": true,
+    "wolfram-algebra:ALG_spinTransposeProperties": true,
+    "wolfram-algebra:ALG_chirality": true,
+    "wolfram-algebra:ALG_faithful": true,
+    "wolfram-algebra:ALG_pinIrreducibleComplex": true,
+    "wolfram-algebra:ALG_spinDecomposition": true,
+    "wolfram-algebra:ALG_cliffordPictureIntertwiner": true,
+    "wolfram-algebra:ALG_octonionPictureIntertwiner": true,
+    "wolfram-algebra:ALG_chargeFormB": true,
+    "wolfram-algebra:ALG_invariantForms": true,
+    "wolfram-algebra:ALG_gamma8Map": true,
+    "wolfram-algebra:ALG_pinLiftCharacter": true,
+    "wolfram-algebra:QNT_curvedAnticommutatorMatrix": true,
+    "wolfram-algebra:QNT_flatModeHamiltonian": true,
+    "wolfram-algebra:QNT_kreinSignature": true,
+    "wolfram-algebra:QNT_unitaryAndKreinSubgroups": true,
+    "wolfram-algebra:QNT_currentHermiticity": true,
+    "wolfram-algebra:ALG_fixtureAgreement": true,
+    "wolfram-geometry:ALG_chargeMatrix": true,
+    "wolfram-geometry:ALG_cliffordRelations": true,
+    "wolfram-geometry:ALG_grassmannLemmas": true,
+    "wolfram-geometry:EMT_conservation_G1": true,
+    "wolfram-geometry:EMT_conservation_G2": true,
+    "wolfram-geometry:EMT_homogeneousReduction_G3": true,
+    "wolfram-geometry:EMT_symmetricHermitian_G1": true,
+    "wolfram-geometry:EMT_symmetricHermitian_G2": true,
+    "wolfram-geometry:EMT_trace_G1": true,
+    "wolfram-geometry:EMT_trace_G2": true,
+    "wolfram-geometry:EMT_variation_G3": true,
+    "wolfram-geometry:GEO_curvature_G1": true,
+    "wolfram-geometry:GEO_curvature_G2": true,
+    "wolfram-geometry:GEO_diagonalSlashFormula_G2": true,
+    "wolfram-geometry:GEO_divergenceIdentity_G1": true,
+    "wolfram-geometry:GEO_divergenceIdentity_G2": true,
+    "wolfram-geometry:GEO_frameNondegenerate_G1": true,
+    "wolfram-geometry:GEO_frameNondegenerate_G2": true,
+    "wolfram-geometry:GEO_gammaCovariantConstancy_G1": true,
+    "wolfram-geometry:GEO_gammaCovariantConstancy_G2": true,
+    "wolfram-geometry:GEO_lichnerowicz_G1": true,
+    "wolfram-geometry:GEO_lichnerowicz_G2": true,
+    "wolfram-geometry:GEO_notebookContractionFails_G1": true,
+    "wolfram-geometry:GEO_notebookContractionFails_G2": true,
+    "wolfram-geometry:GEO_omegaAntisymmetry_G1": true,
+    "wolfram-geometry:GEO_omegaAntisymmetry_G2": true,
+    "wolfram-geometry:GEO_primordialInvariants_G2": true,
+    "wolfram-geometry:GEO_symbolicJetAgreement_G2": true,
+    "wolfram-geometry:GEO_vielbeinPostulate_G1": true,
+    "wolfram-geometry:GEO_vielbeinPostulate_G2": true,
+    "wolfram-geometry:LAG_eulerLagrangePsibar_G1": true,
+    "wolfram-geometry:LAG_eulerLagrangePsibar_G2": true,
+    "wolfram-geometry:LAG_eulerLagrangePsi_G1": true,
+    "wolfram-geometry:LAG_eulerLagrangePsi_G2": true,
+    "wolfram-geometry:LAG_hermiticity_G1": true,
+    "wolfram-geometry:LAG_hermiticity_G2": true,
+    "wolfram-geometry:LAG_localSpinInvariance_G1": true,
+    "wolfram-geometry:LAG_localSpinInvariance_G2": true,
+    "wolfram-geometry:LAG_notebookLgGrassmannTrivial_G1": true,
+    "wolfram-geometry:LAG_notebookLgGrassmannTrivial_G2": true,
+    "wolfram-geometry:NEG_notebookConnectionDetected_G2": true,
+    "wolfram-geometry:QNT_canonicalMomentum_G1": true,
+    "wolfram-geometry:QNT_canonicalMomentum_G2": true,
+    "python-algebra:ALG_clifford": true,
+    "python-algebra:ALG_gammaTransposeSymmetry": true,
+    "python-algebra:ALG_chargeMatrix": true,
+    "python-algebra:ALG_expression1": true,
+    "python-algebra:ALG_spinTransposeProperties": true,
+    "python-algebra:ALG_chirality": true,
+    "python-algebra:ALG_faithful": true,
+    "python-algebra:ALG_pinIrreducibleComplex": true,
+    "python-algebra:ALG_spinDecomposition": true,
+    "python-algebra:ALG_cliffordPictureIntertwiner": true,
+    "python-algebra:ALG_octonionPictureIntertwiner": true,
+    "python-algebra:ALG_chargeFormB": true,
+    "python-algebra:ALG_invariantForms": true,
+    "python-algebra:ALG_gamma8Map": true,
+    "python-algebra:ALG_pinLiftCharacter": true,
+    "python-algebra:QNT_flatModeHamiltonian": true,
+    "python-algebra:QNT_kreinSignature": true,
+    "python-algebra:QNT_unitaryAndKreinSubgroups": true,
+    "python-algebra:QNT_currentHermiticity": true,
+    "python-algebra:ALG_fixtureAgreement": true,
+    "python-algebra:ALG_wolframAgreement": true,
+    "python-geometry:ALG_cliffordRelations": true,
+    "python-geometry:ALG_sigma16EqualsGamma0123": true,
+    "python-geometry:ALG_CSymmetricInvolution": true,
+    "python-geometry:ALG_expression1CgammaAntisymmetric": true,
+    "python-geometry:ALG_gammaSymmetryPattern": true,
+    "python-geometry:ALG_CSabAntisymmetric": true,
+    "python-geometry:ALG_chiralityDiag": true,
+    "python-geometry:ALG_CAnticommutatorGammaSSymmetric": true,
+    "python-geometry:ALG_CCommutatorGammaSAntisymmetric": true,
+    "python-geometry:ALG_SabGammaCommutator": true,
+    "python-geometry:GEO_frameNondegenerate_G1": true,
+    "python-geometry:GEO_vielbeinPostulate_G1": true,
+    "python-geometry:GEO_omegaAntisymmetry_G1": true,
+    "python-geometry:GEO_gammaCovariantConstancy_G1": true,
+    "python-geometry:GEO_notebookContractionFails_G1": true,
+    "python-geometry:GEO_divergenceIdentity_G1": true,
+    "python-geometry:GEO_sqrtgSquaredEqualsDetg_G1": true,
+    "python-geometry:GEO_curvature_G1": true,
+    "python-geometry:GEO_lichnerowicz_G1": true,
+    "python-geometry:LAG_eulerLagrangePsibar_G1": true,
+    "python-geometry:LAG_eulerLagrangePsi_G1": true,
+    "python-geometry:EMT_onshellJetSolve_G1": true,
+    "python-geometry:EMT_symmetric_G1": true,
+    "python-geometry:EMT_trace_G1": true,
+    "python-geometry:EMT_traceOffShellIdentity_G1": true,
+    "python-geometry:EMT_onshellLagrangianSUprimeMinusU_G1": true,
+    "python-geometry:EMT_conservation_G1": true,
+    "python-geometry:GEO_vielbeinPostulate_G2": true,
+    "python-geometry:GEO_omegaAntisymmetry_G2": true,
+    "python-geometry:GEO_gammaCovariantConstancy_G2": true,
+    "python-geometry:GEO_notebookContractionFails_G2": true,
+    "python-geometry:GEO_divergenceIdentity_G2": true,
+    "python-geometry:GEO_sqrtgSquaredEqualsDetg_G2": true,
+    "python-geometry:GEO_curvature_G2": true,
+    "python-geometry:GEO_anticommutatorGammaOmegaVanishesDiagonal_G2": true,
+    "python-geometry:GEO_primordialInvariants_G2": true,
+    "python-geometry:GEO_diagonalSlashFormula_G2": true,
+    "python-geometry:GEO_lichnerowicz_G2": true,
+    "python-geometry:LAG_eulerLagrangePsibar_G2": true,
+    "python-geometry:LAG_eulerLagrangePsi_G2": true,
+    "python-geometry:EMT_onshellJetSolve_G2": true,
+    "python-geometry:EMT_symmetric_G2": true,
+    "python-geometry:EMT_trace_G2": true,
+    "python-geometry:EMT_traceOffShellIdentity_G2": true,
+    "python-geometry:EMT_onshellLagrangianSUprimeMinusU_G2": true,
+    "python-geometry:EMT_conservation_G2": true,
+    "python-geometry:GEO_lichnerowiczConstantSameG1G2": true,
+    "python-geometry:EMT_homogeneousReduction": true,
+    "python-geometry:GEO_diagonalSlashFormula_G3": true,
+    "python-geometry:EMT_homogeneousTimeSpaceVanishesOnShell_G3": true,
+    "python-geometry:EMT_variation": true,
+    "python-geometry:GEO_wolframAgreement": true,
+    "grassmann-demo:GR_conjugationRules": true,
+    "grassmann-demo:GR_massTermVanishesReal": true,
+    "grassmann-demo:GR_bilinearOnlyAntisymmetricPartSurvives": true,
+    "grassmann-demo:GR_kineticTotalDerivativeReal": true,
+    "grassmann-demo:GR_kineticSymmetricMatrixContrast": true,
+    "grassmann-demo:GR_quarticTermPolynomial": true,
+    "grassmann-demo:GR_scalarBilinearHermitian": true,
+    "grassmann-demo:GR_currentHermitian": true,
+    "grassmann-demo:GR_notebookLgELTrivial": true,
+    "grassmann-demo:GR_notebookLgPureDivergence": true,
+    "grassmann-demo:GR_complexLagrangianNonTrivial": true,
+    "grassmann-demo:GR_complexQuarticEL": true,
+    "grassmann-demo:GR_complexPsiEquation": true,
+    "grassmann-demo:GR_lagrangianHermitian": true,
+    "grassmann-demo:GR_emtHermitian": true,
+    "grassmann-demo:GR_unsymmetrizedKineticNotHermitian": true
+  },
+  "crossImplementationComparisons": {
+    "algebra (ALG_wolframAgreement, scripts/check_dirac16complex_algebra.py)": {
+      "checkVerdict": true,
+      "matrices": {
+        "K_clifford": true,
+        "K_octonion": true,
+        "chirality": true
+      },
+      "sharedCheckNames": 20,
+      "sharedCheckVerdictDisagreements": [],
+      "sharedMeasurements": 47,
+      "sharedMeasurementsAgreeing": 47,
+      "agreeingMeasurementLabels": [
+        "chiralityDiagonal <-> ALG_chiralityDiagonal",
+        "volumeElementSign <-> ALG_cliffordKChiralityKinvSignVsGGGG",
+        "ALG_gammaTransposeSymmetry.symmetryType <-> ALG_gammaTransposeKinds",
+        "ALG_chargeMatrix.signature <-> ALG_chargeMatrixSignature",
+        "ALG_chargeMatrix.zeroEigenvalues <-> ALG_chargeMatrixSignature",
+        "ALG_expression1.list <-> ALG_expression1PerFrameIndex",
+        "ALG_faithful.monomialCount <-> ALG_monomialCount",
+        "ALG_faithful.fullRank <-> ALG_fullAlgebraRank",
+        "ALG_faithful.evenRank <-> ALG_evenAlgebraRank",
+        "ALG_pinIrreducibleComplex.commutantDimension <-> ALG_pinCommutantDimensionQ",
+        "ALG_spinDecomposition.spinCommutantDimension <-> ALG_spinCommutantDimensionQ",
+        "ALG_spinDecomposition.blockCommutantDimensions <-> ALG_spinMinusBlockCommutantDimension+ALG_spinPlusBlockCommutantDimension",
+        "ALG_spinDecomposition.crossIntertwinerDimensions <-> ALG_spinCrossIntertwinerDimension+ALG_spinCrossIntertwinerDimensionReverse",
+        "ALG_spinDecomposition.blockEvenAlgebraRanks <-> ALG_evenAlgebraRankMinusBlock+ALG_evenAlgebraRankPlusBlock",
+        "ALG_cliffordPictureIntertwiner.intertwinerDimension <-> ALG_cliffordIntertwinerDimension",
+        "ALG_cliffordPictureIntertwiner.rank <-> ALG_cliffordIntertwinerRank",
+        "ALG_cliffordPictureIntertwiner.KCKinverseEqualsCdm <-> ALG_cliffordKChargeKinvEqualsCdm",
+        "ALG_octonionPictureIntertwiner.intertwinerDimension <-> ALG_octonionIntertwinerDimension",
+        "ALG_octonionPictureIntertwiner.rank <-> ALG_octonionIntertwinerRank",
+        "ALG_octonionPictureIntertwiner.intertwinerBlockType <-> ALG_octonionKBlockDiagonal",
+        "ALG_octonionPictureIntertwiner.upperBlockQIsScaledSignedPermutation <-> ALG_octonionKIsSignedPermutation",
+        "ALG_octonionPictureIntertwiner.tauEqualsLeftMultiplication <-> ALG_tauEqualsLeftMultiplicationPerIndex",
+        "ALG_octonionPictureIntertwiner.diracMainCanonicalIntertwinerEqualsPrimitiveKcliffordKoctonion <-> ALG_KcliffordKoctonionEqualsDiracMainCanonicalIntertwiner",
+        "ALG_octonionPictureIntertwiner.matchesDiracMainTriality44OctonionCliffordGenerators <-> ALG_octonionGammasEqualDiracMainTriality44Json",
+        "ALG_octonionPictureIntertwiner.matchesDiracMainSplitOctonionMultiplicationTensor <-> ALG_zornProductEqualsDiracMainSplitOctonionJson",
+        "ALG_chargeFormB.eigenvalues <-> ALG_chargeFormBEigenvalueMultiplicities",
+        "ALG_invariantForms.invariantBilinearFormDimension <-> ALG_invariantFormDimensionQ",
+        "ALG_invariantForms.basisIsCPminusCPplus <-> ALG_invariantFormsSpannedByCPminusCPplus",
+        "ALG_invariantForms.basisBlockDiagonalInChirality <-> ALG_invariantFormsBlockDiagonal",
+        "ALG_invariantForms.Hgamma4BlockOffDiagonal <-> ALG_invariantFormsTimesGamma4BlockOffDiagonal",
+        "ALG_gamma8Map.kineticMatrixSigns <-> ALG_gamma8MapKineticSign",
+        "ALG_gamma8Map.massMatrixSign <-> ALG_gamma8MapMassSign",
+        "QNT_kreinSignature.restPositiveFrequency <-> QNT_kreinPositiveEnergyEigenspaceDimension",
+        "QNT_kreinSignature.restNegativeFrequency <-> QNT_kreinNegativeEnergyEigenspaceDimension",
+        "QNT_kreinSignature.restPositiveFrequency <-> QNT_kreinBSignatureOnPlusEigenspace",
+        "QNT_kreinSignature.restNegativeFrequency <-> QNT_kreinBSignatureOnMinusEigenspace",
+        "QNT_unitaryAndKreinSubgroups.generatorsCommutingWithB <-> QNT_generatorsCommutingWithB",
+        "QNT_unitaryAndKreinSubgroups.countCommutingWithB <-> QNT_generatorsCommutingWithBCount",
+        "QNT_unitaryAndKreinSubgroups.literalClaimExactlyNineCommuteWithB <-> QNT_literalClaimExactlyNineCommuteWithB",
+        "QNT_unitaryAndKreinSubgroups.extraCommutingGeneratorsAreHermitian <-> QNT_boostsCommutingWithBHermitian",
+        "QNT_unitaryAndKreinSubgroups.commutingWithBAndAntiHermitian <-> QNT_unitaryGenerators",
+        "QNT_unitaryAndKreinSubgroups.countCommutingWithBAndAntiHermitian <-> QNT_unitaryGeneratorCount",
+        "QNT_unitaryAndKreinSubgroups.countHilbertAntiHermitian <-> QNT_antiHermitianGeneratorCount",
+        "QNT_unitaryAndKreinSubgroups.countKreinAntiHermitian <-> QNT_kreinGeneratorCount",
+        "QNT_unitaryAndKreinSubgroups.kreinAntiHermitianGenerators <-> QNT_kreinFailingGenerators",
+        "QNT_currentHermiticity.currentMatricesHermitian <-> QNT_currentMatrixHermitianPerIndex",
+        "QNT_currentHermiticity.J4MatrixEqualsB <-> QNT_currentTimeComponentEqualsB"
+      ],
+      "wolframReportSha256": "d43adeeba580bdd8cec56fac5fa74906b7578c06c8589e52dbe3da1404cd49e7"
+    },
+    "geometry (GEO_wolframAgreement, scripts/check_dirac16complex_geometry.py)": {
+      "checkVerdict": true,
+      "sharedCheckNames": 26,
+      "sharedCheckVerdictDisagreements": [],
+      "sharedMeasurements": 84,
+      "sharedMeasurementsAgreeing": 84,
+      "agreeingMeasurementLabels": [
+        "G1_p1 coordinates",
+        "G1_p1 det e",
+        "G1_p1 sqrt|g| = |det e|",
+        "G1_p1 metric inertia",
+        "G1_p1 g^44",
+        "G1_p1 R",
+        "G1_p2 coordinates",
+        "G1_p2 det e",
+        "G1_p2 sqrt|g| = |det e|",
+        "G1_p2 metric inertia",
+        "G1_p2 g^44",
+        "G1_p2 R",
+        "G1_p3 coordinates",
+        "G1_p3 det e",
+        "G1_p3 sqrt|g| = |det e|",
+        "G1_p3 metric inertia",
+        "G1_p3 g^44",
+        "G1_p3 R",
+        "G1.p1 nonzeroOmegaLower",
+        "G1.p1 nonzeroOmegaMixedSymmetricPart",
+        "G1.p1 notebookDGammaNonzeroEntries",
+        "G1.p1 Lichnerowicz c",
+        "G1.p1 Lichnerowicz c = +1/4 fails",
+        "G1.p1 curvatureCandidate.plusHalfLowered",
+        "G1.p1 curvatureCandidate.minusHalfLowered",
+        "G1.p2 nonzeroOmegaLower",
+        "G1.p2 nonzeroOmegaMixedSymmetricPart",
+        "G1.p2 notebookDGammaNonzeroEntries",
+        "G1.p2 Lichnerowicz c",
+        "G1.p2 Lichnerowicz c = +1/4 fails",
+        "G1.p2 curvatureCandidate.plusHalfLowered",
+        "G1.p2 curvatureCandidate.minusHalfLowered",
+        "G1.p3 nonzeroOmegaLower",
+        "G1.p3 nonzeroOmegaMixedSymmetricPart",
+        "G1.p3 notebookDGammaNonzeroEntries",
+        "G1.p3 Lichnerowicz c",
+        "G1.p3 Lichnerowicz c = +1/4 fails",
+        "G1.p3 curvatureCandidate.plusHalfLowered",
+        "G1.p3 curvatureCandidate.minusHalfLowered",
+        "G2.p1 nonzeroOmegaLower",
+        "G2.p1 nonzeroOmegaMixedSymmetricPart",
+        "G2.p1 notebookDGammaNonzeroEntries",
+        "G2.p1 Lichnerowicz c",
+        "G2.p1 Lichnerowicz c = +1/4 fails",
+        "G2.p1 curvatureCandidate.plusHalfLowered",
+        "G2.p1 curvatureCandidate.minusHalfLowered",
+        "G2.p2 nonzeroOmegaLower",
+        "G2.p2 nonzeroOmegaMixedSymmetricPart",
+        "G2.p2 notebookDGammaNonzeroEntries",
+        "G2.p2 Lichnerowicz c",
+        "G2.p2 Lichnerowicz c = +1/4 fails",
+        "G2.p2 curvatureCandidate.plusHalfLowered",
+        "G2.p2 curvatureCandidate.minusHalfLowered",
+        "G2.p3 nonzeroOmegaLower",
+        "G2.p3 nonzeroOmegaMixedSymmetricPart",
+        "G2.p3 notebookDGammaNonzeroEntries",
+        "G2.p3 Lichnerowicz c",
+        "G2.p3 Lichnerowicz c = +1/4 fails",
+        "G2.p3 curvatureCandidate.plusHalfLowered",
+        "G2.p3 curvatureCandidate.minusHalfLowered",
+        "G2.p1 sin^2 z + cos^2 z = 1 and sin z = w^6",
+        "G2.p1 sqrt|g|",
+        "G2.p1 det e = sqrt|g|",
+        "G2.p1 R",
+        "G2.p1 notebook gamma^mu Omega_mu, gamma^0 coefficient",
+        "G2.p1 notebook gamma^mu Omega_mu, gamma^4 coefficient",
+        "G2.p1 notebook gamma^mu Omega_mu residual",
+        "G2.p2 sin^2 z + cos^2 z = 1 and sin z = w^6",
+        "G2.p2 sqrt|g|",
+        "G2.p2 det e = sqrt|g|",
+        "G2.p2 R",
+        "G2.p2 notebook gamma^mu Omega_mu, gamma^0 coefficient",
+        "G2.p2 notebook gamma^mu Omega_mu, gamma^4 coefficient",
+        "G2.p2 notebook gamma^mu Omega_mu residual",
+        "G2.p3 sin^2 z + cos^2 z = 1 and sin z = w^6",
+        "G2.p3 sqrt|g|",
+        "G2.p3 det e = sqrt|g|",
+        "G2.p3 R",
+        "G2.p3 notebook gamma^mu Omega_mu, gamma^0 coefficient",
+        "G2.p3 notebook gamma^mu Omega_mu, gamma^4 coefficient",
+        "G2.p3 notebook gamma^mu Omega_mu residual",
+        "Lichnerowicz constant (convention statements)",
+        "EMT sign convention",
+        "EMT on-shell trace formula"
+      ],
+      "wolframReportSha256": "cec9ee0d577c4e7f0e82efd404d412a503140ccb1547118ab48a78a3d773f0ac"
+    },
+    "fixture (ALG_fixtureAgreement, scripts/verify_dirac16complex_algebra.wls)": {
+      "agree": true,
+      "matricesFound": 75,
+      "agreeByName": 75,
+      "agreeByValue": 0,
+      "disagreeByName": 0,
+      "unmatched": 0,
+      "vectorsNotCompared": 0
+    }
+  },
+  "reportHashLinks": {
+    "python-algebra:wolframReportSha256 == sha256(wolfram-algebra-report.json)": true,
+    "python-geometry:GEO_wolframReportSha256 == sha256(wolfram-geometry-report.json)": true,
+    "python-algebra:ALG_fixtureSha256 == sha256(algebra-fixture.json)": true
+  },
+  "agreedMeasurements": [
+    {
+      "measurement": "K_clifford (primitive integer solution of gammaHat^a K = K gamma^a)",
+      "agree": true,
+      "value": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          -1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          -1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          -1,
+          1,
+          0,
+          0,
+          -1,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          -1,
+          0,
+          0,
+          -1,
+          -1
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          -1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          -1,
+          0,
+          0,
+          -1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          -1,
+          0,
+          0,
+          1,
+          -1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          1,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          -1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          1,
+          0,
+          0,
+          -1,
+          -1
+        ],
+        [
+          0,
+          0,
+          1,
+          -1,
+          0,
+          0,
+          -1,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          -1,
+          1
+        ],
+        [
+          0,
+          0,
+          -1,
+          -1,
+          0,
+          0,
+          -1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          -1,
+          -1,
+          0,
+          0,
+          1,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          -1,
+          0,
+          0
+        ]
+      ],
+      "sources": [
+        "algebra-fixture:K_clifford",
+        "python-algebra:K_clifford",
+        "wolfram-algebra:K_clifford"
+      ]
+    },
+    {
+      "measurement": "K_octonion (primitive integer solution of gamma^a K = K Gamma(e_a))",
+      "agree": true,
+      "value": [
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          -1,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          -1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          -1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          -1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          0
+        ]
+      ],
+      "sources": [
+        "algebra-fixture:K_octonion",
+        "python-algebra:K_octonion",
+        "wolfram-algebra:K_octonion"
+      ]
+    },
+    {
+      "measurement": "intertwiner dimension and rank (K_clifford, K_octonion)",
+      "agree": true,
+      "value": [
+        1,
+        16,
+        1,
+        16
+      ],
+      "sources": [
+        "python-algebra",
+        "wolfram-algebra"
+      ]
+    },
+    {
+      "measurement": "chirality gamma^8 diagonal",
+      "agree": true,
+      "value": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "sources": [
+        "python-algebra:ALG_chiralityDiagonal",
+        "wolfram-algebra:chiralityDiagonal"
+      ]
+    },
+    {
+      "measurement": "volume element sign: K gamma^8 K^-1 = (sign) G(x)G(x)G(x)G",
+      "agree": true,
+      "value": 1,
+      "sources": [
+        "python-algebra:ALG_cliffordKChiralityKinvSignVsGGGG",
+        "wolfram-algebra:volumeElementSign"
+      ]
+    },
+    {
+      "measurement": "signature (n+, n-, n0) of C = sigma16",
+      "agree": true,
+      "value": [
+        8,
+        8,
+        0
+      ],
+      "sources": [
+        "python-algebra",
+        "wolfram-algebra"
+      ]
+    },
+    {
+      "measurement": "eigenvalue multiplicities of B = -i C gamma^4",
+      "agree": true,
+      "value": {
+        "plus1": 8,
+        "minus1": 8
+      },
+      "sources": [
+        "python-algebra",
+        "wolfram-algebra"
+      ]
+    },
+    {
+      "measurement": "Clifford algebra ranks (full, even)",
+      "agree": true,
+      "value": [
+        256,
+        128
+      ],
+      "sources": [
+        "python-algebra",
+        "wolfram-algebra"
+      ]
+    },
+    {
+      "measurement": "commutant dimension of Pin(4,4) on C^16 (irreducible)",
+      "agree": true,
+      "value": 1,
+      "sources": [
+        "python-algebra",
+        "wolfram-algebra"
+      ]
+    },
+    {
+      "measurement": "commutant dimension of Spin(4,4) on C^16; block commutants; cross intertwiners (C^8_- + C^8_+ inequivalent)",
+      "agree": true,
+      "value": [
+        2,
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "sources": [
+        "python-algebra",
+        "wolfram-algebra"
+      ]
+    },
+    {
+      "measurement": "dimension of the Spin(4,4)-invariant bilinear forms (spanned by C P-, C P+)",
+      "agree": true,
+      "value": 2,
+      "sources": [
+        "python-algebra",
+        "wolfram-algebra"
+      ]
+    },
+    {
+      "measurement": "B-signature on the +1 and -1 eigenspaces of -i gamma^4 (Krein structure)",
+      "agree": true,
+      "value": [
+        [
+          4,
+          4
+        ],
+        [
+          4,
+          4
+        ]
+      ],
+      "sources": [
+        "python-algebra",
+        "wolfram-algebra"
+      ]
+    },
+    {
+      "measurement": "S^ab commuting with B (CONTRACT.md section 11, E1: 13 = so(4)+so(3) and the 4 boosts S^{b4})",
+      "agree": true,
+      "value": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          6,
+          7
+        ]
+      ],
+      "sources": [
+        "python-algebra",
+        "wolfram-algebra"
+      ]
+    },
+    {
+      "measurement": "S^ab commuting with B and anti-Hermitian (unitarily implemented Spin(4) x Spin(3))",
+      "agree": true,
+      "value": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          6,
+          7
+        ]
+      ],
+      "sources": [
+        "python-algebra",
+        "wolfram-algebra"
+      ]
+    },
+    {
+      "measurement": "number of Krein-unitary S^ab (a,b != 4) and of Hilbert-anti-Hermitian S^ab",
+      "agree": true,
+      "value": [
+        21,
+        12
+      ],
+      "sources": [
+        "python-algebra",
+        "wolfram-algebra"
+      ]
+    },
+    {
+      "measurement": "literal claim 'exactly 9 S^ab commute with B' (recorded false in both)",
+      "agree": true,
+      "value": false,
+      "sources": [
+        "python-algebra",
+        "wolfram-algebra"
+      ]
+    },
+    {
+      "measurement": "gamma^8 map signs (kinetic, mass)",
+      "agree": true,
+      "value": [
+        [
+          -1
+        ],
+        1
+      ],
+      "sources": [
+        "python-algebra",
+        "wolfram-algebra"
+      ]
+    },
+    {
+      "measurement": "Lichnerowicz constant c in (gamma^mu D_mu)^2 = g^{mu nu} nabla_mu D_nu + c R",
+      "agree": true,
+      "value": "-1/4",
+      "sources": [
+        "python-geometry:GEO_lichnerowicz_c_G1_p1",
+        "python-geometry:GEO_lichnerowicz_c_G1_p2",
+        "python-geometry:GEO_lichnerowicz_c_G1_p3",
+        "python-geometry:GEO_lichnerowicz_c_G2",
+        "wolfram-geometry:G1.p1.lichnerowiczC",
+        "wolfram-geometry:G1.p2.lichnerowiczC",
+        "wolfram-geometry:G1.p3.lichnerowiczC",
+        "wolfram-geometry:G2.p1.lichnerowiczC",
+        "wolfram-geometry:G2.p2.lichnerowiczC",
+        "wolfram-geometry:G2.p3.lichnerowiczC"
+      ],
+      "statement": "c = -1/4 with {gamma^a, gamma^b} = 2 eta^{ab}, R = g^{sigma nu} R^rho_{sigma rho nu}; c = +1/4 fails"
+    },
+    {
+      "measurement": "spin curvature F_{mu nu} = +(1/2) R S (holds), -(1/2) R S (fails)",
+      "agree": true,
+      "value": [
+        true,
+        false
+      ],
+      "sources": [
+        "python-geometry:G1_p1",
+        "python-geometry:G1_p2",
+        "python-geometry:G1_p3",
+        "python-geometry:G2",
+        "wolfram-geometry:G1.p1",
+        "wolfram-geometry:G1.p2",
+        "wolfram-geometry:G1.p3",
+        "wolfram-geometry:G2.p1",
+        "wolfram-geometry:G2.p2",
+        "wolfram-geometry:G2.p3"
+      ],
+      "statement": "F_{mu nu} = d_mu Omega_nu - d_nu Omega_mu + [Omega_mu, Omega_nu] = +(1/2) eta_ac e_rho^c R^rho_{sigma mu nu} e_b^sigma S^{ab}"
+    },
+    {
+      "measurement": "EMT sign convention: T_{mu nu} = -(2/sqrt|g|) dS/dg^{mu nu} equals the CONTRACT section 7 covariant formula (T_44 = rho = m S + U)",
+      "agree": true,
+      "value": [
+        true,
+        true
+      ],
+      "sources": [
+        "python-geometry:EMT_signConvention+EMT_variation",
+        "wolfram-geometry:emt.signConvention+EMT_variation_G3"
+      ]
+    },
+    {
+      "measurement": "on-shell EMT trace T^mu_mu = -m S + 7 S U' - 8 U (= -m S + 3 lambda S^2 for U = lambda S^2/2)",
+      "agree": true,
+      "value": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "sources": [
+        "python-geometry:EMT_traceStatement+EMT_trace_G1+EMT_trace_G2",
+        "wolfram-geometry:emt.trace+EMT_trace_G1+EMT_trace_G2"
+      ]
+    },
+    {
+      "measurement": "G1 p1: metric inertia, det e, g^44 and R (exact)",
+      "agree": true,
+      "value": [
+        [
+          4,
+          4,
+          0
+        ],
+        "8730286014951721928504132748723695542930461054904720450085966334353586259236451917045027672855083074829122807534550852798637473811934160881/5830385474319805441329849379639239454291400859118124380810706771166072547115982722377484401689266684114333535956689809000000000000000000000",
+        "-66052764774308859691862167694844226301364359372011006113386133876773438121796538781887367607959977733658207487505220452654574211111887017656084303955000769496601032287526395861782134816165119879331508276055768861225350608685916785354932643791367913682107083018415886458053000000/76217893902861617480179250783959336665100541395554013176205768626967216987548679189840654652736751806632969323906301896268758492119262525349959247444000564702677606364267438252602397886601859011798394452199627244359164553940948759902328294104627444395063859991669031533590696161",
+        "-1614887249541739257516573315529246657600730202325497804963393765125570372712966530392922017691573928687372617643677993201121474913352616382125932929761861832188610336344471582303766151473176061369213859808574386703329734101410861016581342676230099174119568809647376403736913026568714188243921604354376728273143323647028906969728823638201992823928620680427487101237084595984790644335199676322134421279157220079288922000/665404013229226894636381674992814053166805266621030073944260885760914977872528101237581877255720767860475267763369285746414768380307770015351127257502771956794242323127295935065619161904097739375995230127971230124090203862799887149778040018324880213517738276103978788641728560893295073985029214325041386918926858281823981032630503880042537525278099712596170061281391706352183513790235396224530139231731605390163077841"
+      ],
+      "sources": [
+        "python-geometry",
+        "wolfram-geometry"
+      ],
+      "statement": "R decimal (Wolfram report) = -2.426927426699216826"
+    },
+    {
+      "measurement": "G1 p2: metric inertia, det e, g^44 and R (exact)",
+      "agree": true,
+      "value": [
+        [
+          4,
+          4,
+          0
+        ],
+        "166838578544839618908450770680658161976523671373174452031532543530651647381615477855576323/89939653473440330578454191517748817467464604414345561006835089408000000000000000000000000",
+        "-25276425321471452905578583761576329847993101777511904574825623458929579129948066305980350015498648636555629089069802397775597908000750020536755150214602541601207149724714896000000/27835111290862618810345887859036066260707346100503793175586845060827181666642151194402778850412744244816538330876844639112826219983550758115381224696358807247824955112986478200329",
+        "61338015674141044938154233973088504023529591030433073907569106559884424891889554693429321794490998485072462234280567636610660590976229807105861781197437420335725177901703167673457668250902003806757420020358026651753305848813683880050935517180099512707611850222000000000/4643970401404935143662064045823545446763976173071448133124616662294458410849675115667313250974889794445987130314754918226543571363416156092024835456072388715423902711332055918919280315313888198205531058156761111128008807729310735363019804086928408040673459290143210267"
+      ],
+      "sources": [
+        "python-geometry",
+        "wolfram-geometry"
+      ],
+      "statement": "R decimal (Wolfram report) = 13.208097893040947037"
+    },
+    {
+      "measurement": "G1 p3: metric inertia, det e, g^44 and R (exact)",
+      "agree": true,
+      "value": [
+        [
+          4,
+          4,
+          0
+        ],
+        "641746341050179883864555193389422428673872937637900648707934018876147/468006998280337753584232705470057723558100992000000000000000000000000",
+        "-318952466166564576272994512564706063255863271525429735940048306855351311736802345907870617644482328672102538275200667009270005559296000000/411838366251293794726284490645078710059685744289571041907746101670242973782122335509039219076794734676400279533325381168644856904925565609",
+        "9689398045997180497937441617950595040040778796452519749391809645068059409541780150394566200740289790184231562521836960890276560278493261631737370014739207493165173254049690695391938882482893606800588800000000/264295764645851680671056237994090054609031949568238825207257274053669837697104865377003865233845083580846906140801316464642203777545751202540961873245410781984892799396828521227038225251299727181806493628523"
+      ],
+      "sources": [
+        "python-geometry",
+        "wolfram-geometry"
+      ],
+      "statement": "R decimal (Wolfram report) = 36.661193034934481057"
+    },
+    {
+      "measurement": "G1 nonzero counts: omega_{mu ab}, symmetric part of omega_mu^a_b, D_mu gamma^nu with the notebook contraction",
+      "agree": true,
+      "value": [
+        448,
+        256,
+        4096
+      ],
+      "sources": [
+        "python-geometry:G1_p1",
+        "python-geometry:G1_p2",
+        "python-geometry:G1_p3",
+        "wolfram-geometry:G1.p1",
+        "wolfram-geometry:G1.p2",
+        "wolfram-geometry:G1.p3"
+      ]
+    },
+    {
+      "measurement": "G2 nonzero counts: omega_{mu ab}, symmetric part of omega_mu^a_b, D_mu gamma^nu with the notebook contraction",
+      "agree": true,
+      "value": [
+        24,
+        12,
+        288
+      ],
+      "sources": [
+        "python-geometry:G2",
+        "wolfram-geometry:G2.p1",
+        "wolfram-geometry:G2.p2",
+        "wolfram-geometry:G2.p3"
+      ]
+    },
+    {
+      "measurement": "G2 R",
+      "agree": true,
+      "value": {
+        "G2.p1": "-2672/147",
+        "G2.p2": "-1102/675",
+        "G2.p3": "-834/49"
+      },
+      "sources": [
+        "python-geometry:GEO_wolframSharedMeasurements",
+        "wolfram-geometry"
+      ],
+      "statement": "R = 6 H^2 (a4'^2 - 7) (Python, symbolic) at the three exact Wolfram points"
+    },
+    {
+      "measurement": "G2 sqrt|g|",
+      "agree": true,
+      "value": {
+        "G2.p1": "3*sqrt(455)/64",
+        "G2.p2": "sqrt(527345)/729",
+        "G2.p3": "5*sqrt(649831)/4096"
+      },
+      "sources": [
+        "python-geometry:GEO_wolframSharedMeasurements",
+        "wolfram-geometry"
+      ],
+      "statement": "sqrt|g| = cos z (Python, symbolic) at the three exact Wolfram points"
+    },
+    {
+      "measurement": "G2 notebook gamma^mu Omega_mu, gamma^0 coefficient",
+      "agree": true,
+      "value": {
+        "G2.p1": "1",
+        "G2.p2": "3/10",
+        "G2.p3": "15/14"
+      },
+      "sources": [
+        "python-geometry:GEO_wolframSharedMeasurements",
+        "wolfram-geometry"
+      ],
+      "statement": "notebook contraction: gamma^0 coefficient 3H/2"
+    },
+    {
+      "measurement": "G2 notebook gamma^mu Omega_mu, gamma^4 coefficient",
+      "agree": true,
+      "value": {
+        "G2.p1": "3/7",
+        "G2.p2": "-2/15",
+        "G2.p3": "9/7"
+      },
+      "sources": [
+        "python-geometry:GEO_wolframSharedMeasurements",
+        "wolfram-geometry"
+      ],
+      "statement": "notebook contraction: gamma^4 coefficient 3 H a4'/2"
+    }
+  ],
+  "notationEquivalences": [
+    {
+      "measurement": "homogeneous Bianchi-I off-diagonal T_ij",
+      "wolfram-geometry": "T_ij = (1/4)(H_i - H_j) Psibar gamma_i gamma_j gamma^4 Psi (curved gammas, gamma_i = g_ii gamma^i)",
+      "python-geometry": "T_ij = +(1/4) eps_i eps_j h_i h_j (H_i - H_j) Psibar gamma^(i) gamma^(j) gamma^(4) Psi (flat gammas)",
+      "conversion": "diagonal e = diag(h), g_ii = eps_i h_i^2, curved gamma^i = gamma^(i)/h_i, so gamma_i = eps_i h_i gamma^(i) and gamma^4 = gamma^(4) (h_4 = N = 1): the two forms are identical",
+      "method": "notation conversion by hand (both implementations verify their own form exactly)"
+    },
+    {
+      "measurement": "homogeneous Bianchi-I T_4i",
+      "wolfram-geometry": "T_4i = -(1/4)(Psibar gamma_i d_4 Psi - d_4 Psibar gamma_i Psi) off shell, 0 on shell",
+      "python-geometry": "T_4i = -(1/4) eps_i h_i (Psibar gamma^(i) d_4 Psi - d_4 Psibar gamma^(i) Psi), 0 on shell",
+      "conversion": "gamma_i = eps_i h_i gamma^(i) as above",
+      "method": "notation conversion by hand"
+    },
+    {
+      "measurement": "Riemann index placement in F = (1/2) R S",
+      "wolfram-geometry": "R_{mu nu a b} := eta_ac e_rho^c R^rho_{sigma mu nu} e_b^sigma",
+      "python-geometry": "R_{ab mu nu} = eta_ac e_r^c R^r_{s mu nu} e_b^s",
+      "conversion": "the same object with the index groups written in the opposite order",
+      "method": "notation comparison by hand; the +1/2 sign agreement is computed (see agreedMeasurements)"
+    },
+    {
+      "measurement": "check names for the tetrad variation and the homogeneous reduction",
+      "wolfram-geometry": "EMT_variation_G3, EMT_homogeneousReduction_G3",
+      "python-geometry": "EMT_variation, EMT_homogeneousReduction (same G3 frame and points)",
+      "conversion": "naming only; both verdicts are true",
+      "method": "naming"
+    }
+  ],
+  "notCompared": [
+    "Field-dependent values (EMT traces, rho, p, KE, PE at the test points) are not compared: the two implementations draw independent exact random field jets and parameters (m, lambda) from their own recorded seeds; they are compared only through the formulas both verify (see agreedMeasurements).",
+    "G2 is evaluated by Wolfram at three exact points and by Python at a fully symbolic point; the comparison evaluates the Python expressions at the Wolfram points."
+  ],
+  "canonicalDecisions": [
+    "QNT_unitaryAndKreinSubgroups has one meaning in both implementations (CONTRACT.md section 11, E1): exactly 13 of the 28 S^ab commute with B (so(4)+so(3) and the 4 Hermitian boosts S^{b4}, b=0..3); exactly 9 commute with B and are anti-Hermitian (unitarily implemented Spin(4)xSpin(3)); the 21 with a,b != 4 are Krein-unitary, the 7 S^{4b} are not.  The literal claim 'exactly 9 commute with B' is recorded as false.",
+    "WolframScript 1.14 drops '--' and every argument after it when used with -file; report paths are passed as plain positional arguments."
+  ],
+  "failedChecks": [],
+  "missingAgreementChecks": [],
+  "staleReportLinks": [],
+  "disagreements": []
+}

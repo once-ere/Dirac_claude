@@ -1,0 +1,2211 @@
+{
+  "schemaVersion": 1,
+  "producer": "studies/dirac16complex_cosmology/tools/build_numerics_summary.py",
+  "study": "dirac16complex-cosmology",
+  "engine": "sundials_rs 7.8.0 CVODE (pure Rust, vendor/rustSolveIt)",
+  "fixture": {
+    "path": "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json",
+    "sha256": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
+    "source": "fixture"
+  },
+  "provenance": "Every number below is copied from the listed source files (summary.json of the Rust study, python-check-report.json of the independent checkers, fits.json of the EXP-3 analysis); nothing is recomputed here. The checker reports include the repeat-run byte-identity check (--repeat) and the refined-tolerance convergence check (--refined).",
+  "totals": {
+    "rustChecks": 69,
+    "rustFailed": 0,
+    "pythonChecks": 162,
+    "pythonFailed": 0,
+    "analysisChecks": 9,
+    "analysisFailed": 0,
+    "solverSteps": 289721050,
+    "rhsEvaluations": 437396201
+  },
+  "verdict": "SUCCESS",
+  "experiments": [
+    {
+      "experiment": "exp1",
+      "title": "Primordial (pair-creation) field: frozen dirac16complex",
+      "rust": {
+        "verdict": "SUCCESS",
+        "checkCount": 10,
+        "passedCount": 10,
+        "failedCount": 0,
+        "failed": [],
+        "checks": {
+          "exact_solution_all_runs": true,
+          "rho_frozen_all_runs": true,
+          "pressures_and_S_frozen_eigenstate_runs": true,
+          "hilbert_norm_conserved": true,
+          "krein_norm_conserved": true,
+          "a4_profile_independence": true,
+          "einstein_source_negative_energy": true,
+          "seven_volume_constant": true,
+          "initial_joint_eigenvectors": true,
+          "lambda_run_meff_constant": true
+        }
+      },
+      "python": {
+        "checker": "scripts/check_dirac16complex_exp1.py",
+        "verdict": "SUCCESS",
+        "checkCount": 25,
+        "passedCount": 25,
+        "failedCount": 0,
+        "failed": [],
+        "repeatByteIdentity": true,
+        "refinedConvergence": true,
+        "checks": {
+          "provenanceFixtureHash": true,
+          "provenanceSchema": true,
+          "algebraFromFixture": true,
+          "parametersMatchContract": true,
+          "structureFilesPresent": true,
+          "backgroundRecomputed": true,
+          "einsteinSourceNegative": true,
+          "structureHeaders": true,
+          "structureGrid": true,
+          "structureFinite": true,
+          "initialJointEigenvectors": true,
+          "derivedColumnsRecomputed": true,
+          "fdResidual": true,
+          "kineticFromTimeDerivative": true,
+          "exactSolution": true,
+          "rhoFrozenAllRuns": true,
+          "pressuresAndSFrozenEigenstates": true,
+          "mixedStateOscillationMatchesExact": true,
+          "eigenmodeLaws": true,
+          "normsConserved": true,
+          "lambdaRun": true,
+          "a4ProfileIndependence": true,
+          "summaryConsistent": true,
+          "repeatByteIdentity": true,
+          "refinedConvergence": true
+        }
+      },
+      "solver": {
+        "method": "CVODE BDF + Newton + dense direct linear solver (DQ Jacobian)",
+        "refined": false,
+        "tolerances": {
+          "rtol": 1e-12,
+          "atol": 1e-14,
+          "maxStep": 0.02
+        },
+        "steps": 33866,
+        "rhsEvaluations": 34950,
+        "outputFiles": 29
+      },
+      "keyResults": {
+        "runCount": 26,
+        "grid": {
+          "tStart": 0.0,
+          "tEnd": 10.0,
+          "outputIntervals": 200,
+          "sampleCount": 201
+        },
+        "einsteinRequirement": [
+          {
+            "profile": "A1",
+            "amplitude": 1.0,
+            "a4Final": 4.999998474257399,
+            "rhoReqMin": -23.999455262671844,
+            "rhoReqMax": -21.000000000113253,
+            "wReqMin": -0.7142857142764693,
+            "wReqMax": -0.5000340468557845
+          },
+          {
+            "profile": "A2",
+            "amplitude": 2.0,
+            "a4Final": 9.999996948514799,
+            "rhoReqMin": -32.99782105068738,
+            "rhoReqMax": -21.00000000045301,
+            "wReqMin": -0.7142857142487337,
+            "wReqMax": -0.09098112704778384
+          }
+        ],
+        "lambdaSelfConsistentMass": 1.4734826640642023,
+        "freeEigenmodes": [
+          {
+            "run": "A1_K0_pos_Bp",
+            "hiddenMomentumK": 0.0,
+            "energyE": 1.0,
+            "rho": 1.0,
+            "p0": 0.0,
+            "pMean": 0.0,
+            "w": 0.0,
+            "KE_L": 0.5,
+            "PE_L": 0.5,
+            "w_L": 0.0,
+            "S": 1.0
+          },
+          {
+            "run": "A1_K0p5_pos_Bp",
+            "hiddenMomentumK": 0.5,
+            "energyE": 1.118033988749895,
+            "rho": 1.118033988749895,
+            "p0": 0.22360679774997896,
+            "pMean": 0.031943828249996996,
+            "w": 0.02857142857142857,
+            "KE_L": 0.5590169943749475,
+            "PE_L": 0.5590169943749475,
+            "w_L": 0.0,
+            "S": 0.8944271909999159
+          },
+          {
+            "run": "A1_K2_pos_Bp",
+            "hiddenMomentumK": 2.0,
+            "energyE": 2.23606797749979,
+            "rho": 2.23606797749979,
+            "p0": 1.7888543819998317,
+            "pMean": 0.25555062599997597,
+            "w": 0.11428571428571428,
+            "KE_L": 1.118033988749895,
+            "PE_L": 1.118033988749895,
+            "w_L": 0.0,
+            "S": 0.4472135954999579
+          }
+        ],
+        "limits": {
+          "exact": 1e-07,
+          "frozen": 1e-08,
+          "norm": 1e-08,
+          "profile": 1e-12,
+          "volume": 1e-13,
+          "eigen": 1e-12
+        },
+        "rustMeasurements": {
+          "maxExactError": 6.245997673389946e-09,
+          "maxRhoDrift": 4.193695835041922e-09,
+          "maxPressureDriftEigenstates": 1.9157817554571466e-09,
+          "maxScalarDensityDriftEigenstates": 2.6425888144387955e-09,
+          "maxHilbertNormDrift": 2.695168754840438e-09,
+          "maxKreinNormDrift": 2.695168754840438e-09,
+          "maxProfileDifference": 0.0,
+          "maxRhoReq": -21.000000000113253,
+          "maxVolumeDefect": 6.661338147750939e-16,
+          "maxLambdaMeffDrift": 1.3212944072193977e-09,
+          "mixedStatePressureRange": 0.8030276398996576
+        },
+        "pythonMeasurements": {
+          "backgroundMaxDeviation": 1.1102230246251565e-14,
+          "rhoReqMax": -21.000000000113253,
+          "derivedMaxDeviation": 8.881784197001252e-16,
+          "fdResidualWorstRatioToBound": 0.62963343718149,
+          "kineticFdWorstRatioToBound": 0.3148164859199126,
+          "exactMaxError": 6.246008619450513e-09,
+          "rhoMaxDrift": 4.193695835041922e-09,
+          "eigenstatePressureOrSMaxDrift": 2.6425888144387955e-09,
+          "mixedStatePressureRange": 0.8030276398996576,
+          "mixedStateRangeDeviationFromExact": 3.6716885087884066e-10,
+          "eigenmodeLawMaxDeviation": 1.9157819775017515e-09,
+          "normMaxDrift": 2.695168754840438e-09,
+          "lambdaMeffMaxDrift": 1.3212946292640027e-09,
+          "profileMaxDifference": 0.0,
+          "refinedMaxDifference": 6.128230172776806e-09,
+          "canonicalMaxExactError": 6.246000023415782e-09
+        },
+        "notes": [
+          "rho = S0 u^dag h u is frozen for every initial spinor (h constant and Hermitian).",
+          "Pressures and S are frozen for energy eigenstates only; for the mixed state with K != 0 they oscillate at frequency 2E (interference of the +E and -E sectors), exactly as the exact solution predicts (mixedStatePressureRange).",
+          "The a4 profile enters h only through k_j/h_j with k_j = 0, so both profiles give bit-identical spinors; the Einstein source rho_req is negative throughout."
+        ]
+      },
+      "sources": [
+        {
+          "path": "exp1/summary.json",
+          "sha256": "f8886625011a35c5ea31c89ffb623e4c6b0678adc300fc4b725179808601272a"
+        },
+        {
+          "path": "exp1/python-check-report.json",
+          "sha256": "840fc6fb8797fa66cd043a199357b599c6b2202cbeef426f0ed9058d318fafe4"
+        }
+      ]
+    },
+    {
+      "experiment": "exp2",
+      "title": "Self-consistent 8D Einstein - dirac16complex homogeneous cosmology",
+      "rust": {
+        "verdict": "SUCCESS",
+        "checkCount": 15,
+        "passedCount": 15,
+        "failedCount": 0,
+        "failed": [],
+        "checks": {
+          "initial_positive_energy_rest_eigenvector": true,
+          "initial_constraint_solved": true,
+          "constraint_preserved": true,
+          "S_times_V_constant": true,
+          "spinor_norms_conserved": true,
+          "anisotropy_times_volume_constant": true,
+          "bound_nonnegative": true,
+          "exact_solution": true,
+          "spinor_exact_shape": true,
+          "spinor_exact_phase_within_time_rounding": true,
+          "late_time_isotropic_dust": true,
+          "extra_times_turn_to_expansion": true,
+          "theta_exceeds_sqrt3_Ha_for_positive_energy": true,
+          "backward_kasner_exponents": true,
+          "phantom_iff_negative_kinetic_energy": true
+        }
+      },
+      "python": {
+        "checker": "scripts/check_dirac16complex_exp2.py",
+        "verdict": "SUCCESS",
+        "checkCount": 34,
+        "passedCount": 34,
+        "failedCount": 0,
+        "failed": [],
+        "repeatByteIdentity": true,
+        "refinedConvergence": true,
+        "checks": {
+          "provenanceFixtureHash": true,
+          "provenanceSchema": true,
+          "algebraFromFixture": true,
+          "parametersMatchContract": true,
+          "structureFilesPresent": true,
+          "structureHeaders": true,
+          "structureGrid": true,
+          "structureFinite": true,
+          "initialState": true,
+          "constraintSolve": true,
+          "derivedColumnsRecomputed": true,
+          "contractIdentities": true,
+          "constraintPreserved": true,
+          "anisotropyTimesVolumeConstant": true,
+          "scalarDensityTimesVolumeConstant": true,
+          "continuityFd": true,
+          "einsteinEvolutionFd": true,
+          "einsteinRoutineKnownMetrics": true,
+          "einsteinTensorFromMetric": true,
+          "diracEquationFd": true,
+          "boundNonnegative": true,
+          "closedFormVerified": true,
+          "exactSolution": true,
+          "spinorShape": true,
+          "spinorPhaseWithinTimeRounding": true,
+          "phaseDriftIsTimeRounding": true,
+          "lateTimeDust": true,
+          "extraTimesExpand": true,
+          "thetaBoundPositiveEnergy": true,
+          "kasnerExponents": true,
+          "phantomStructure": true,
+          "summaryConsistent": true,
+          "repeatByteIdentity": true,
+          "refinedConvergence": true
+        }
+      },
+      "solver": {
+        "method": "CVODE Adams-Moulton + fixed-point (functional) iteration",
+        "refined": false,
+        "tolerances": {
+          "rtol": 1e-12,
+          "atol": 1e-15,
+          "maxStep": 0.02
+        },
+        "steps": 1779784,
+        "rhsEvaluations": 1781396,
+        "outputFiles": 4
+      },
+      "keyResults": {
+        "runs": [
+          {
+            "run": "x0_0",
+            "x0": 0.0,
+            "S0": 1.32,
+            "lambda": 0.0,
+            "mEff0": 1.0,
+            "rho0": 1.32,
+            "exact": {
+              "theta0": 2.4,
+              "alpha": 0.77,
+              "beta": 0.22,
+              "singularityTime": -0.4954087309256559,
+              "kasnerExponents": [
+                -0.06657619032509468,
+                0.5442710314564314,
+                -0.1887456346813999
+              ],
+              "kasnerSumSquares": 1.0,
+              "extraTimeTurnTime": 0.9090909090909092,
+              "mEffZeroVolume": 0.0,
+              "rhoZeroVolume": 0.0
+            },
+            "grid": {
+              "tBack": -0.4948518562211099,
+              "tEnd": 11855.544674808414,
+              "volumeBack": 0.0009118819128378629,
+              "rows": 511
+            },
+            "measured": {
+              "maxConstraintRelative": 5.5405087951190664e-11,
+              "maxScalarDensityDrift": 3.328790576517804e-10,
+              "maxAnisotropyVolumeDrift": 6.223682680328579e-10,
+              "maxExactVolumeError": 8.296349997172933e-11,
+              "maxExactSpinorError": 1.6604169600476939e-07,
+              "maxSpinorShapeError": 1.664395288258902e-10,
+              "maxSpinorPhaseError": 1.6604161259826498e-07,
+              "spinorPhaseRoundingBound": 5.392585208929823e-07,
+              "minThetaOver3HaPositiveEnergy": 0.6126765559530137,
+              "minWeffPositiveEnergy": -0.38732344404698626,
+              "negativeKineticRows": 0,
+              "phantomRows": 0,
+              "phantomVolumeMin": null,
+              "phantomVolumeMax": null,
+              "negativeEnergyRows": 0,
+              "negativeEnergyVolumeMax": 0.0,
+              "minRho": 1.2193433556848477e-08,
+              "finalAnisotropy": 0.0004600234476150961,
+              "finalHubbleTimesT": [
+                0.28563918709684316,
+                0.2857487020939885,
+                0.2856172840974063
+              ],
+              "finalW": 0.0,
+              "finalWeff": 1.3327456736365435,
+              "extraTimeTurnTimeMeasured": 0.9094935824715912,
+              "kasnerExtrapolated": [
+                -0.06657619023222416,
+                0.5442710312784556,
+                -0.18874563453434234
+              ],
+              "kasnerSumSquaresExtrapolated": 0.9999999992398925
+            }
+          },
+          {
+            "run": "x0_m0p4",
+            "x0": -0.4,
+            "S0": 2.2,
+            "lambda": -0.36363636363636365,
+            "mEff0": 0.19999999999999996,
+            "rho0": 1.32,
+            "exact": {
+              "theta0": 2.4,
+              "alpha": 1.2833333333333334,
+              "beta": 0.3666666666666667,
+              "singularityTime": -0.6266404652717424,
+              "kasnerExponents": [
+                -0.2902495594056385,
+                0.9729783221941405,
+                -0.5428951357255943
+              ],
+              "kasnerSumSquares": 3.8085106382978755,
+              "extraTimeTurnTime": 0.5454545454545454,
+              "mEffZeroVolume": 0.8,
+              "rhoZeroVolume": 0.4
+            },
+            "grid": {
+              "tBack": -0.6254906936575326,
+              "tEnd": 9183.53748412274,
+              "volumeBack": 0.0009118819354831626,
+              "rows": 511
+            },
+            "measured": {
+              "maxConstraintRelative": 1.2593870672421852e-10,
+              "maxScalarDensityDrift": 2.5717272755798604e-10,
+              "maxAnisotropyVolumeDrift": 4.033344029134393e-10,
+              "maxExactVolumeError": 6.218223546169902e-11,
+              "maxExactSpinorError": 1.0769516611650502e-07,
+              "maxSpinorShapeError": 1.2858625275669056e-10,
+              "maxSpinorPhaseError": 1.0769508934641226e-07,
+              "spinorPhaseRoundingBound": 4.17796721692479e-07,
+              "minThetaOver3HaPositiveEnergy": 0.6152683892127738,
+              "minWeffPositiveEnergy": -37.84593438080539,
+              "negativeKineticRows": 136,
+              "phantomRows": 14,
+              "phantomVolumeMin": 0.40656965973969383,
+              "phantomVolumeMax": 0.7788007830714023,
+              "negativeEnergyRows": 122,
+              "negativeEnergyVolumeMax": 0.3867410234533651,
+              "minRho": -1055879.2465308125,
+              "finalAnisotropy": 0.00035633263149508436,
+              "finalHubbleTimesT": [
+                0.2856561122573078,
+                0.2857409447225347,
+                0.28563914576426835
+              ],
+              "finalW": -3.694979879161584e-09,
+              "finalWeff": 1.3328780996255052,
+              "extraTimeTurnTimeMeasured": 0.5457361355842162,
+              "kasnerExtrapolated": [
+                -0.29024949513603104,
+                0.9729781990106119,
+                -0.5428950339653937
+              ],
+              "kasnerSumSquaresExtrapolated": 3.808509550389381
+            }
+          },
+          {
+            "run": "x0_0p5",
+            "x0": 0.5,
+            "S0": 0.88,
+            "lambda": 1.1363636363636365,
+            "mEff0": 2.0,
+            "rho0": 1.32,
+            "exact": {
+              "theta0": 2.4,
+              "alpha": 0.5133333333333333,
+              "beta": 0.14666666666666667,
+              "singularityTime": -0.4623988210138116,
+              "kasnerExponents": [
+                -0.035225435702285535,
+                0.48418208509604727,
+                -0.1391069398619521
+              ],
+              "kasnerSumSquares": 0.762589928057554,
+              "extraTimeTurnTime": 1.3636363636363638,
+              "mEffZeroVolume": -1.0,
+              "rhoZeroVolume": -0.5
+            },
+            "grid": {
+              "tBack": -0.4619252424615233,
+              "tEnd": 14519.588631711282,
+              "volumeBack": 0.0009118819088071064,
+              "rows": 511
+            },
+            "measured": {
+              "maxConstraintRelative": 1.1246262590963404e-10,
+              "maxScalarDensityDrift": 4.033140488246545e-10,
+              "maxAnisotropyVolumeDrift": 5.731461601617601e-10,
+              "maxExactVolumeError": 1.0149069235038354e-10,
+              "maxExactSpinorError": 2.242186377304463e-07,
+              "maxSpinorShapeError": 2.0165691339002478e-10,
+              "maxSpinorPhaseError": 2.242185470172358e-07,
+              "spinorPhaseRoundingBound": 1.3208881783850106e-06,
+              "minThetaOver3HaPositiveEnergy": 0.6885687883527462,
+              "minWeffPositiveEnergy": 0.05445053497483188,
+              "negativeKineticRows": 0,
+              "phantomRows": 0,
+              "phantomVolumeMin": null,
+              "phantomVolumeMax": null,
+              "negativeEnergyRows": 0,
+              "negativeEnergyVolumeMax": 0.0,
+              "minRho": 8.128955742533015e-09,
+              "finalAnisotropy": 0.0005634113557183198,
+              "finalHubbleTimesT": [
+                0.2856223123771047,
+                0.28575643634620246,
+                0.2855954875832882
+              ],
+              "finalW": 4.618724811046704e-09,
+              "finalWeff": 1.3326136516471085,
+              "extraTimeTurnTimeMeasured": 1.3638883621352529,
+              "kasnerExtrapolated": [
+                -0.03522543569105441,
+                0.48418208507456484,
+                -0.13910693984417932
+              ],
+              "kasnerSumSquaresExtrapolated": 0.7625899279795204
+            }
+          }
+        ],
+        "thetaOver3HaMinAllRows": 0.3436797370413978,
+        "limits": {
+          "eigen": 1e-12,
+          "initialConstraint": 1e-14,
+          "constraint": 1e-09,
+          "conservation": 1e-09,
+          "identity": 1e-13,
+          "exact": 1e-09,
+          "spinorShape": 1e-09,
+          "phaseTruncationAllowance": 1e-09,
+          "lateTime": 0.001,
+          "kasner": 1e-06
+        },
+        "rustMeasurements": {
+          "maxInitialEigenResidual": 0.0,
+          "maxInitialConstraintRelative": 0.0,
+          "maxConstraintRelative": 1.2593870672421852e-10,
+          "maxScalarDensityDrift": 4.033140488246545e-10,
+          "maxNormDrift": 4.033140488246545e-10,
+          "maxAnisotropyVolumeDrift": 6.223682680328579e-10,
+          "minBound": 1.5476560339176323e-09,
+          "maxBoundIdentityDefect": 1.970017311923771e-15,
+          "maxExactError": 1.0149069235038354e-10,
+          "maxSpinorExactError": 2.242186377304463e-07,
+          "maxSpinorShapeError": 2.0165691339002478e-10,
+          "maxSpinorPhaseError": 2.242185470172358e-07,
+          "maxSpinorPhaseRoundingBound": 1.3208881783850106e-06,
+          "maxLateTimeDeviation": 0.0007196816862247157,
+          "maxKasnerDeviation": 2.8565195104398113e-07,
+          "minThetaOver3HaPositiveEnergy": 0.6126765559530137,
+          "dustMinWeff": -0.38732344404698626
+        },
+        "pythonMeasurements": {
+          "constraintLhs0": 1.3200000000000003,
+          "einsteinRoutineSelfTestDeviation": 1.7763568394002505e-15,
+          "fdGravityStencilPoints": 9.0,
+          "fdSpinorStencilPoints": 7.0,
+          "derivedMaxDeviation": 5.579120148870013e-13,
+          "identityMaxDeviation": 3.7823091230264245e-16,
+          "constraintRelativeMax": 1.259386515367047e-10,
+          "anisotropyVolumeMaxDrift": 6.223682680328579e-10,
+          "scalarDensityVolumeMaxDrift": 4.033140488246545e-10,
+          "normMaxDrift": 4.033140488246545e-10,
+          "continuityFdMaxRelative": 2.065077743371814e-10,
+          "evolutionFdMaxRelative": 5.0705097866243705e-11,
+          "einsteinTensorMaxRelative": 1.1270033716907324e-10,
+          "diracFdMaxRelative": 2.5884068410425276e-08,
+          "kineticFdMaxRelative": 9.397329052146738e-09,
+          "diracFdRows": 559.0,
+          "boundMin": 1.547656033917629e-09,
+          "boundIdentityMaxDeviation": 2.0552600010215194e-15,
+          "closedFormFdMaxRelative": 1.569180370539882e-13,
+          "jQuadratureMaxDeviation": 2.008282991655046e-15,
+          "exactMaxRelativeError": 1.0149047031284952e-10,
+          "spinorExactMaxError": 2.242186377304463e-07,
+          "spinorShapeMaxError": 2.0165691339002478e-10,
+          "spinorPhaseMaxError": 2.242185470427645e-07,
+          "phaseDriftBinadeMaxRelativeDeviation": 0.017106267813494083,
+          "phaseDriftBinadesTested": 21.0,
+          "lateTimeMaxDeviation": 0.0007196816862247157,
+          "thetaOver3HaMinPositiveEnergy": 0.612676555953014,
+          "thetaOver3HaMinAllRows": 0.3436797370413978,
+          "dustMinWeff": -0.38732344404698604,
+          "kasnerMaxDeviation": 2.856517647101017e-07,
+          "summaryMaxDeviation": 1.1368683772161603e-13,
+          "refined_gravityCanonical": 1.6332598622486224e-11,
+          "refined_gravityRefined": 3.4847413654198897e-12,
+          "refined_gravityDifference": 1.4109762232839255e-11,
+          "refined_spinorShapeCanonical": 2.0165691339002478e-10,
+          "refined_spinorShapeRefined": 5.249556345177098e-11,
+          "refined_spinorPhaseCanonical": 2.242185470427645e-07,
+          "refined_spinorPhaseRefined": 2.707166983751806e-07,
+          "refined_spinorPhaseBoundCanonical": 1.3208881783850106e-06,
+          "refined_spinorPhaseBoundRefined": 2.6414400642956597e-06,
+          "refined_spinorPhaseDifference": 4.649815132235265e-08,
+          "refined_spinorModulusDifference": 1.491613499382538e-10,
+          "refined_refinedPhaseDriftBinadeDeviation": 0.015824730423059027
+        },
+        "notes": [
+          "rho - p = m S is lambda-independent, so the three runs differ only through S_0 (fixed by the constraint); V(t) is exactly quadratic and H_i V exactly linear in t.",
+          "Backward, every run reaches a Kasner-type singularity V -> 0 at t_s = r_+; the lambda S^2/2 term is a stiff (w = 1) component there, so sum p_i^2 = 1 - 2 kappa m x0 S_0 / D differs from the vacuum value 1 unless x0 = 0.",
+          "x0 = -0.4: M_eff = m (1 + 2 x0 V0/V) < 0 for V < 0.8 V0 (KE_L < 0, phantom w < -1 while rho > 0) and rho < 0 for V < 0.4 V0, where Theta > sqrt(3) H_a no longer follows from the bound (the bound itself, = H_b^2 + 3H_c^2, stays >= 0).",
+          "The spinor stays the gamma^4 = +i eigenvector, u(t) = exp(-i int M_eff) u0, so s(u) = 1 and S V = S_0 V_0 are exact; the output grid does not resolve the spinor phase at late times (it is uniform in ln V).",
+          "The spinor phase error (~2e-7 at t ~ 1e4) is the rounding of CVODE's internal time t_n += h with the capped constant step h = max_step (a fixed e_k per step in each binade [2^k, 2^(k+1)) of t_n), not truncation: it stays below max|M_eff| N_steps ulp(t_end)/2 and does not shrink under --refined; the phase-invariant spinor shape error (2e-10) does."
+        ]
+      },
+      "sources": [
+        {
+          "path": "exp2/summary.json",
+          "sha256": "c8f7ecd95f7414f81e2569be7a41f2127d0c1cbd3a7a07b2c0dbcb667c43d5d0"
+        },
+        {
+          "path": "exp2/python-check-report.json",
+          "sha256": "b2d0c6d55cc0a3f6ebe0fcd3c6de0221964e32a9607c07e374398dcac4e70d5d"
+        }
+      ]
+    },
+    {
+      "experiment": "exp3",
+      "title": "4D-effective late universe: dirac16complex condensate as dark energy",
+      "rust": {
+        "verdict": "SUCCESS",
+        "checkCount": 14,
+        "passedCount": 14,
+        "failedCount": 0,
+        "failed": [],
+        "checks": {
+          "closure_E0_equals_1": true,
+          "initial_positive_energy_B_eigenvector": true,
+          "sigma_from_spinor_equals_a_minus_3": true,
+          "ln_sigma_state_reproduces_minus_3": true,
+          "spinor_stays_in_rest_eigenspace": true,
+          "hilbert_and_krein_norms_conserved": true,
+          "rho_p_w_mu_independent": true,
+          "rho_p_w_match_closed_form": true,
+          "kinetic_potential_split_identities": true,
+          "hubble_positive_backward_stop_at_predicted_bounce": true,
+          "rho_psi_zero_at_cube_root_abs_x0": true,
+          "phantom_crossing_at_cube_root_2abs_x0": true,
+          "deceleration_sign_changes_match_closed_form": true,
+          "tangent_cpl_w0_wa": true
+        }
+      },
+      "python": {
+        "checker": "scripts/check_dirac16complex_exp3.py",
+        "verdict": "SUCCESS",
+        "checkCount": 31,
+        "passedCount": 31,
+        "failedCount": 0,
+        "failed": [],
+        "repeatByteIdentity": true,
+        "refinedConvergence": true,
+        "checks": {
+          "provenanceFixtureHash": true,
+          "provenanceSchema": true,
+          "algebraFromFixture": true,
+          "parametersMatchContract": true,
+          "structureFilesPresent": true,
+          "fitsConsistent": true,
+          "structureHeaders": true,
+          "structureGrid": true,
+          "structureFinite": true,
+          "closureE0": true,
+          "initialEigenvector": true,
+          "columnsRecomputed": true,
+          "sigmaSpinorVsAnalytic": true,
+          "sigmaStateVsAnalytic": true,
+          "rhoClosedForm": true,
+          "wClosedForm": true,
+          "energySplitClosedForm": true,
+          "kineticDefinitionFD": true,
+          "muIndependence": true,
+          "fdResidual": true,
+          "decelerationFD": true,
+          "referenceTimeDistance": true,
+          "referenceSpinorPhase": true,
+          "bounceAndStop": true,
+          "rhoZeroLocation": true,
+          "phantomCrossing": true,
+          "decelerationRoots": true,
+          "tangentCPL": true,
+          "summaryConsistent": true,
+          "repeatByteIdentity": true,
+          "refinedConvergence": true
+        }
+      },
+      "analysis": {
+        "producer": "scripts/analyze_dirac16complex_exp3.py",
+        "verdict": "SUCCESS",
+        "checkCount": 9,
+        "passedCount": 9,
+        "failedCount": 0,
+        "failed": [],
+        "checks": {
+          "nelderMeadRecoversSyntheticCPL": true,
+          "nelderMeadRecoversSyntheticWconst": true,
+          "dustModelIsWcdmZero": true,
+          "quadratureExactEdS": true,
+          "wFitLinearMatchesNelderMead": true,
+          "wFitRecoversCPL": true,
+          "gammaVariantReproducesUniteTangent": true,
+          "bounceScanMatchesCubic": true,
+          "rustDistanceMatchesQuadrature": true
+        }
+      },
+      "solver": {
+        "method": "CVODE Adams-Moulton + fixed-point (functional) iteration",
+        "refined": false,
+        "tolerances": {
+          "rtol": 1e-11,
+          "atol": 1e-13,
+          "maxStep": 0.01
+        },
+        "steps": 6074,
+        "rhsEvaluations": 10115,
+        "outputFiles": 11
+      },
+      "keyResults": {
+        "parameters": {
+          "OmegaR": 9e-05,
+          "OmegaM": 0.305,
+          "OmegaPsi": 0.69491,
+          "x0Values": [
+            -0.462654,
+            -0.433107,
+            -0.3,
+            -0.2,
+            0.0
+          ],
+          "muValues": [
+            3.0,
+            7.0
+          ],
+          "muDefinition": "mu = M_eff(a=1)/H0; M_eff/H0 = mu (1 + 2 x0 sigma)/(1 + 2 x0); m/H0 = mu/(1 + 2 x0)",
+          "aMin": 0.2857142857142857,
+          "aMax": 2.0,
+          "nMin": -1.252762968495368,
+          "nMax": 0.6931471805599453,
+          "backwardIntervals": 320,
+          "forwardIntervals": 160,
+          "bounceMargin": 0.01
+        },
+        "models": [
+          {
+            "x0": -0.462654,
+            "amplitudeA": 1.2932263383369376,
+            "w0": -0.8609983139355276,
+            "waTangent": -4.806949231606046,
+            "aZero": 0.7734260111547174,
+            "zZero": 0.2929484987284172,
+            "aPhantomCrossing": 0.9744557119900555,
+            "zPhantomCrossing": 0.02621390351109687,
+            "aBounce": 0.7206972784808043,
+            "zBounce": 0.38754513144263925,
+            "nBounce": -0.32753609327532185,
+            "contractBackwardRangeReachable": false,
+            "q0": -0.3974295075054062,
+            "cs2Today": -12.388314678948218,
+            "tangentMinusUnite": {
+              "w0": 1.6860644723726281e-06,
+              "wa": -4.206949231606046
+            },
+            "wFitRequested": {
+              "range": [
+                0.3067484662576687,
+                1.0
+              ],
+              "status": "undefined",
+              "reason": "w(a) has a pole at a = |x0|^(1/n) = 0.773426 inside [1/3.26, 1] (rho_psi = 0); the least-squares integral diverges"
+            },
+            "muFitRequested": {
+              "range": [
+                0.01,
+                2.26
+              ],
+              "status": "undefined",
+              "reason": "E^2 = 0 at the bounce z_b = 0.387545 < 2.26: the model has no redshift beyond z_b (a >= a_b)"
+            },
+            "wFitRestricted": {
+              "range": [
+                0.8512654737452137,
+                1.0
+              ],
+              "w0": -0.6046507399958624,
+              "wa": -12.825109681036542,
+              "rmsResidual": 0.1571545872597911
+            },
+            "muFitRestricted": {
+              "range": [
+                0.01,
+                0.38754513144263925
+              ],
+              "points": 77,
+              "cplOffsetProfiled": {
+                "w0": 2.1058442833916677,
+                "wa": -48.181263355855634,
+                "rmsResidualMag": 0.07842370391787454
+              },
+              "wConstantOffsetProfiled": {
+                "w": -2.763968062102794,
+                "rmsResidualMag": 0.11992466870273225
+              }
+            },
+            "muVsUniteCPL": {
+              "range": [
+                0.01,
+                0.38754513144263925
+              ],
+              "maxAbsDifferenceMag": 0.8317497464361254,
+              "maxAbsDifferenceOffsetProfiledMag": 0.6798648777443144
+            },
+            "runs": [
+              {
+                "run": "x0_m0p462654_mu3",
+                "mu": 3.0,
+                "massOverH0": 40.16494403684465,
+                "backwardEnd": {
+                  "nEnd": -0.3171056264003901,
+                  "aEnd": 0.7282538282325713,
+                  "zEnd": 0.3731476049043785,
+                  "reachedContractMinimum": false,
+                  "stopConsistentWithBounce": true
+                },
+                "decelerationSignChanges": [
+                  {
+                    "N": 0.1345552573262116,
+                    "a": 1.1440278731772395,
+                    "z": -0.12589542313968238
+                  }
+                ]
+              },
+              {
+                "run": "x0_m0p462654_mu7",
+                "mu": 7.0,
+                "massOverH0": 93.71820275263752,
+                "backwardEnd": {
+                  "nEnd": -0.3171056264003901,
+                  "aEnd": 0.7282538282325713,
+                  "zEnd": 0.3731476049043785,
+                  "reachedContractMinimum": false,
+                  "stopConsistentWithBounce": true
+                },
+                "decelerationSignChanges": [
+                  {
+                    "N": 0.13455525710844612,
+                    "a": 1.1440278729281097,
+                    "z": -0.12589542294933254
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "x0": -0.433107,
+            "amplitudeA": 1.2258221569149734,
+            "w0": -0.764001319472987,
+            "waTangent": -4.043098006888356,
+            "aZero": 0.7565977887152759,
+            "zZero": 0.3217062155283692,
+            "aPhantomCrossing": 0.9532534803062899,
+            "zPhantomCrossing": 0.04903891846132047,
+            "aBounce": 0.7025661096728528,
+            "zBounce": 0.42335359794916116,
+            "nBounce": -0.35301577590608,
+            "contractBackwardRangeReachable": false,
+            "q0": -0.2963232353724601,
+            "cs2Today": -6.474623652699089,
+            "tangentMinusUnite": {
+              "w0": 0.09699868052701299,
+              "wa": -3.443098006888356
+            },
+            "wFitRequested": {
+              "range": [
+                0.3067484662576687,
+                1.0
+              ],
+              "status": "undefined",
+              "reason": "w(a) has a pole at a = |x0|^(1/n) = 0.756598 inside [1/3.26, 1] (rho_psi = 0); the least-squares integral diverges"
+            },
+            "muFitRequested": {
+              "range": [
+                0.01,
+                2.26
+              ],
+              "status": "undefined",
+              "reason": "E^2 = 0 at the bounce z_b = 0.423354 < 2.26: the model has no redshift beyond z_b (a >= a_b)"
+            },
+            "wFitRestricted": {
+              "range": [
+                0.832743618337463,
+                1.0
+              ],
+              "w0": -0.4848877634190613,
+              "wa": -11.675350128923501,
+              "rmsResidual": 0.17577168520410247
+            },
+            "muFitRestricted": {
+              "range": [
+                0.01,
+                0.42335359794916116
+              ],
+              "points": 84,
+              "cplOffsetProfiled": {
+                "w0": 1.845572819806715,
+                "wa": -39.843658274585295,
+                "rmsResidualMag": 0.07415770598854408
+              },
+              "wConstantOffsetProfiled": {
+                "w": -2.4778572540730233,
+                "rmsResidualMag": 0.11450541512534092
+              }
+            },
+            "muVsUniteCPL": {
+              "range": [
+                0.01,
+                0.42335359794916116
+              ],
+              "maxAbsDifferenceMag": 0.7850998648556944,
+              "maxAbsDifferenceOffsetProfiledMag": 0.6566515617659536
+            },
+            "runs": [
+              {
+                "run": "x0_m0p433107_mu3",
+                "mu": 3.0,
+                "massOverH0": 22.423870958097268,
+                "backwardEnd": {
+                  "nEnd": -0.34059493205967817,
+                  "aEnd": 0.7113469937169675,
+                  "zEnd": 0.4057836876131966,
+                  "reachedContractMinimum": false,
+                  "stopConsistentWithBounce": true
+                },
+                "decelerationSignChanges": [
+                  {
+                    "N": 0.10907509344346905,
+                    "a": 1.115246094866655,
+                    "z": -0.10333691854839844
+                  }
+                ]
+              },
+              {
+                "run": "x0_m0p433107_mu7",
+                "mu": 7.0,
+                "massOverH0": 52.32236556889362,
+                "backwardEnd": {
+                  "nEnd": -0.34059493205967817,
+                  "aEnd": 0.7113469937169675,
+                  "zEnd": 0.4057836876131966,
+                  "reachedContractMinimum": false,
+                  "stopConsistentWithBounce": true
+                },
+                "decelerationSignChanges": [
+                  {
+                    "N": 0.10907509340337182,
+                    "a": 1.1152460948219367,
+                    "z": -0.10333691851244475
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "x0": -0.3,
+            "amplitudeA": 0.9927285714285715,
+            "w0": -0.4285714285714286,
+            "waTangent": -1.836734693877551,
+            "aZero": 0.6694329500821695,
+            "zZero": 0.49380158218572157,
+            "aPhantomCrossing": 0.8434326653017492,
+            "zPhantomCrossing": 0.1856311014966876,
+            "aBounce": 0.6122182034171826,
+            "zBounce": 0.6334045515444631,
+            "nBounce": -0.49066651848429466,
+            "contractBackwardRangeReachable": false,
+            "q0": 0.05331714285714295,
+            "cs2Today": -1.4999999999999998,
+            "tangentMinusUnite": {
+              "w0": 0.4324285714285714,
+              "wa": -1.2367346938775512
+            },
+            "wFitRequested": {
+              "range": [
+                0.3067484662576687,
+                1.0
+              ],
+              "status": "undefined",
+              "reason": "w(a) has a pole at a = |x0|^(1/n) = 0.669433 inside [1/3.26, 1] (rho_psi = 0); the least-squares integral diverges"
+            },
+            "muFitRequested": {
+              "range": [
+                0.01,
+                2.26
+              ],
+              "status": "undefined",
+              "reason": "E^2 = 0 at the bounce z_b = 0.633405 < 2.26: the model has no redshift beyond z_b (a >= a_b)"
+            },
+            "wFitRestricted": {
+              "range": [
+                0.7368062997280773,
+                1.0
+              ],
+              "w0": -0.0740248575642984,
+              "wa": -7.583490726607212,
+              "rmsResidual": 0.2524330030768929
+            },
+            "muFitRestricted": {
+              "range": [
+                0.01,
+                0.6334045515444631
+              ],
+              "points": 126,
+              "cplOffsetProfiled": {
+                "w0": 1.1636727032216256,
+                "wa": -18.108035266123498,
+                "rmsResidualMag": 0.06207214791257016
+              },
+              "wConstantOffsetProfiled": {
+                "w": -1.5238100504875183,
+                "rmsResidualMag": 0.09879747874807648
+              }
+            },
+            "muVsUniteCPL": {
+              "range": [
+                0.01,
+                0.6334045515444631
+              ],
+              "maxAbsDifferenceMag": 0.5491120679609331,
+              "maxAbsDifferenceOffsetProfiledMag": 0.5339660731909014
+            },
+            "runs": [
+              {
+                "run": "x0_m0p3_mu3",
+                "mu": 3.0,
+                "massOverH0": 7.5,
+                "backwardEnd": {
+                  "nEnd": -0.4776158817388591,
+                  "aEnd": 0.6202604045771821,
+                  "zEnd": 0.6122260789509495,
+                  "reachedContractMinimum": false,
+                  "stopConsistentWithBounce": true
+                },
+                "decelerationSignChanges": [
+                  {
+                    "N": -0.02857821322434454,
+                    "a": 0.9718262815065991,
+                    "z": 0.028990488351193555
+                  }
+                ]
+              },
+              {
+                "run": "x0_m0p3_mu7",
+                "mu": 7.0,
+                "massOverH0": 17.5,
+                "backwardEnd": {
+                  "nEnd": -0.4776158817388591,
+                  "aEnd": 0.6202604045771821,
+                  "zEnd": 0.6122260789509495,
+                  "reachedContractMinimum": false,
+                  "stopConsistentWithBounce": true
+                },
+                "decelerationSignChanges": [
+                  {
+                    "N": -0.028578213223741947,
+                    "a": 0.9718262815071848,
+                    "z": 0.028990488350573607
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "x0": -0.2,
+            "amplitudeA": 0.8686375,
+            "w0": -0.25,
+            "waTangent": -0.9375,
+            "aZero": 0.5848035476425733,
+            "zZero": 0.7099759466766968,
+            "aPhantomCrossing": 0.7368062997280773,
+            "zPhantomCrossing": 0.3572088082974534,
+            "aBounce": 0.5289612751044961,
+            "zBounce": 0.8904975601521121,
+            "nBounce": -0.6368400537646335,
+            "contractBackwardRangeReachable": false,
+            "q0": 0.23945375000000008,
+            "cs2Today": -0.6666666666666667,
+            "tangentMinusUnite": {
+              "w0": 0.611,
+              "wa": -0.3375
+            },
+            "wFitRequested": {
+              "range": [
+                0.3067484662576687,
+                1.0
+              ],
+              "status": "undefined",
+              "reason": "w(a) has a pole at a = |x0|^(1/n) = 0.584804 inside [1/3.26, 1] (rho_psi = 0); the least-squares integral diverges"
+            },
+            "muFitRequested": {
+              "range": [
+                0.01,
+                2.26
+              ],
+              "status": "undefined",
+              "reason": "E^2 = 0 at the bounce z_b = 0.890498 < 2.26: the model has no redshift beyond z_b (a >= a_b)"
+            },
+            "wFitRestricted": {
+              "range": [
+                0.6436595897370865,
+                1.0
+              ],
+              "w0": 0.1302105660703287,
+              "wa": -5.266999580315287,
+              "rmsResidual": 0.3005808195541024
+            },
+            "muFitRestricted": {
+              "range": [
+                0.01,
+                0.8904975601521121
+              ],
+              "points": 178,
+              "cplOffsetProfiled": {
+                "w0": 0.8708649198816755,
+                "wa": -9.94348576602594,
+                "rmsResidualMag": 0.05621452400352204
+              },
+              "wConstantOffsetProfiled": {
+                "w": -1.0123199796676634,
+                "rmsResidualMag": 0.08999614892699777
+              }
+            },
+            "muVsUniteCPL": {
+              "range": [
+                0.01,
+                0.8904975601521121
+              ],
+              "maxAbsDifferenceMag": 0.3288354391611904,
+              "maxAbsDifferenceOffsetProfiledMag": 0.4224774396548979
+            },
+            "runs": [
+              {
+                "run": "x0_m0p2_mu3",
+                "mu": 3.0,
+                "massOverH0": 5.0,
+                "backwardEnd": {
+                  "nEnd": -0.626381484247684,
+                  "aEnd": 0.5345224838248488,
+                  "zEnd": 0.8708286933869707,
+                  "reachedContractMinimum": false,
+                  "stopConsistentWithBounce": true
+                },
+                "decelerationSignChanges": [
+                  {
+                    "N": -0.1747544940112956,
+                    "a": 0.839663137795513,
+                    "z": 0.19095379442932559
+                  }
+                ]
+              },
+              {
+                "run": "x0_m0p2_mu7",
+                "mu": 7.0,
+                "massOverH0": 11.666666666666668,
+                "backwardEnd": {
+                  "nEnd": -0.626381484247684,
+                  "aEnd": 0.5345224838248488,
+                  "zEnd": 0.8708286933869707,
+                  "reachedContractMinimum": false,
+                  "stopConsistentWithBounce": true
+                },
+                "decelerationSignChanges": [
+                  {
+                    "N": -0.17475449397164716,
+                    "a": 0.8396631378288044,
+                    "z": 0.19095379438210625
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "x0": 0.0,
+            "amplitudeA": 0.69491,
+            "w0": 0.0,
+            "waTangent": 0.0,
+            "aZero": null,
+            "zZero": null,
+            "aPhantomCrossing": null,
+            "zPhantomCrossing": null,
+            "aBounce": null,
+            "zBounce": null,
+            "nBounce": null,
+            "contractBackwardRangeReachable": true,
+            "q0": 0.5000450000000001,
+            "cs2Today": 0.0,
+            "tangentMinusUnite": {
+              "w0": 0.861,
+              "wa": 0.6
+            },
+            "wFitRequested": {
+              "range": [
+                0.3067484662576687,
+                1.0
+              ],
+              "status": "ok",
+              "w0": 0.0,
+              "wa": 0.0,
+              "rmsResidual": 0.0,
+              "maxAbsResidual": 0.0
+            },
+            "muFitRequested": {
+              "range": [
+                0.01,
+                2.26
+              ],
+              "status": "ok",
+              "cplOffsetProfiled": {
+                "w0": 3.301140653657915e-13,
+                "wa": -1.7843659700680662e-13,
+                "offset": 2.168653687430721e-13,
+                "rmsResidualMag": 9.053607855919029e-14,
+                "maxAbsResidualMag": 2.1153629822487135e-13,
+                "iterations": 161
+              },
+              "wConstantOffsetProfiled": {
+                "w": -2.220446049250313e-16,
+                "offset": -4.665348392160552e-16,
+                "rmsResidualMag": 3.7125055473284197e-16,
+                "maxAbsResidualMag": 8.657327903341326e-16,
+                "iterations": 69
+              },
+              "cplOffsetZero": {
+                "w0": -7.071510502295799e-13,
+                "wa": 2.251445558593385e-12,
+                "offset": 0.0,
+                "rmsResidualMag": 1.6179560470065097e-13,
+                "maxAbsResidualMag": 2.105260410445453e-13,
+                "iterations": 162
+              },
+              "wConstantOffsetZero": {
+                "w": -2.220446049250313e-16,
+                "offset": 0.0,
+                "rmsResidualMag": 5.962228866722523e-16,
+                "maxAbsResidualMag": 1.3322676295501878e-15,
+                "iterations": 69
+              }
+            },
+            "wFitRestricted": {
+              "range": [
+                0.3067484662576687,
+                1.0
+              ],
+              "w0": 0.0,
+              "wa": 0.0,
+              "rmsResidual": 0.0
+            },
+            "muFitRestricted": {
+              "range": [
+                0.01,
+                2.26
+              ],
+              "points": 451,
+              "cplOffsetProfiled": {
+                "w0": 3.301140653657915e-13,
+                "wa": -1.7843659700680662e-13,
+                "rmsResidualMag": 9.053607855919029e-14
+              },
+              "wConstantOffsetProfiled": {
+                "w": -2.220446049250313e-16,
+                "rmsResidualMag": 3.7125055473284197e-16
+              }
+            },
+            "muVsUniteCPL": {
+              "range": [
+                0.01,
+                2.26
+              ],
+              "maxAbsDifferenceMag": 0.7947142126233064,
+              "maxAbsDifferenceOffsetProfiledMag": 0.5389002055892735
+            },
+            "runs": [
+              {
+                "run": "x0_0_mu3",
+                "mu": 3.0,
+                "massOverH0": 3.0,
+                "backwardEnd": {
+                  "nEnd": -1.252762968495368,
+                  "aEnd": 0.2857142857142857,
+                  "zEnd": 2.5,
+                  "reachedContractMinimum": true,
+                  "stopConsistentWithBounce": true
+                },
+                "decelerationSignChanges": []
+              },
+              {
+                "run": "x0_0_mu7",
+                "mu": 7.0,
+                "massOverH0": 7.0,
+                "backwardEnd": {
+                  "nEnd": -1.252762968495368,
+                  "aEnd": 0.2857142857142857,
+                  "zEnd": 2.5,
+                  "reachedContractMinimum": true,
+                  "stopConsistentWithBounce": true
+                },
+                "decelerationSignChanges": []
+              }
+            ]
+          }
+        ],
+        "unite": {
+          "w0": -0.861,
+          "wa": -0.6,
+          "wConstantBenchmark": -0.764,
+          "w0PlusWa": -1.4609999999999999,
+          "phantomCrossingA": 0.7683333333333333,
+          "constantWProjectionOffsetProfiled": {
+            "w": -1.0276823443174365,
+            "offset": -0.02095238000960584,
+            "rmsResidualMag": 0.007728724306894045,
+            "maxAbsResidualMag": 0.01910692029999914,
+            "iterations": 65
+          },
+          "constantWProjectionOffsetZero": {
+            "w": -0.9747189681604504,
+            "offset": 0.0,
+            "rmsResidualMag": 0.009555609696019868,
+            "maxAbsResidualMag": 0.0165379235046077,
+            "iterations": 65
+          },
+          "projectionMinusBenchmark": -0.26368234431743653,
+          "constantWProjectionLogGridOffsetProfiled": {
+            "grid": "uniform in ln z on [0.01, 2.26], same point count (weights low z like a supernova sample)",
+            "w": -0.9790478865546173,
+            "offset": -0.007381677967047111,
+            "rmsResidualMag": 0.007006557343643967,
+            "maxAbsResidualMag": 0.016615388561316807,
+            "iterations": 64
+          },
+          "projectionLogGridMinusBenchmark": -0.21504788655461726,
+          "selfFitCPL": {
+            "w0": -0.8609999999991074,
+            "wa": -0.6000000000013865,
+            "offset": 2.336417467786675e-13,
+            "rmsResidualMag": 5.250963521924652e-14,
+            "maxAbsResidualMag": 2.2298360574226598e-13,
+            "iterations": 154
+          },
+          "note": "The -0.764 benchmark is a direct constant-w fit to the Unite supernovae, not a projection of the CPL posterior; the projection here uses the CPL best fit as noise-free data with equal weights on a uniform z grid, fixed Omega_m = 0.305."
+        },
+        "gammaVariant": {
+          "definition": "c ~ a^-gamma (b static) => V ~ a^{3(1-gamma)}, sigma = a^{-n}, n = 3(1 - gamma); x0 from w0 = x0/(1+x0), n from wa = n x0/(1+x0)^2",
+          "x0": -0.4626544868350349,
+          "n": 0.3744568035992789,
+          "gamma": 0.875181065466907,
+          "tangentCPLofPressureRatio": {
+            "w0": -0.8609999999999999,
+            "wa": -0.6
+          },
+          "tangentCPLofEffectiveW": {
+            "w0": -0.9826501680999,
+            "wa": -0.07489136071985579
+          },
+          "effectiveWFitRequested": {
+            "range": [
+              0.3067484662576687,
+              1.0
+            ],
+            "w0": -0.9550200507367453,
+            "wa": -0.24743885461302434,
+            "rmsResidual": 0.019266368507872358,
+            "maxAbsResidual": 0.06985631630298683
+          },
+          "objections": [
+            {
+              "id": "continuity",
+              "statement": "For n != 3 the condensate does not obey the 4D continuity equation: drho/dN + 3(rho + p) = (3 - n) A sigma (1 + 2 x0 sigma) != 0, i.e. energy is exchanged with the extra dimensions. Distances measure w_eff = -1 - (1/3) dln rho/dln a, not p/rho, so the model reproduces the Unite tangent only for w = p/rho; its distance-inferred tangent is (w0, wa)_eff = (-0.9827, -0.0749).",
+              "value": 0.2536077549429048,
+              "valueMeaning": "drho/dN + 3(rho + p) at a = 1 in units of 3 H0^2/kappa_4"
+            },
+            {
+              "id": "newtonConstant",
+              "statement": "G_N = G_8 / V_extra with V_extra = b c^3 ~ a^{-3 gamma}: G_N ~ a^{3 gamma}, Gdot/G = 3 gamma H0 today (2.626 H0, about 1.8e-10 per yr for H0 = 67.4 km/s/Mpc) versus lunar-laser-ranging bounds of order 1e-13 per yr; G_N(z)/G_N(0) = (1+z)^{-3 gamma} = 0.162 at z = 1. The 4D Friedmann equation with a constant G_N used here is itself inconsistent with this variation.",
+              "value": 2.625543196400721,
+              "valueMeaning": "Gdot/G in units of H0",
+              "gdotPerYear": 1.8098079276312718e-10,
+              "llrBoundPerYearOrderOfMagnitude": 1e-13,
+              "ratioToBound": 1809.8079276312717
+            },
+            {
+              "id": "einstein8D",
+              "statement": "8D Hamiltonian constraint (EXP-2): sum_{i<j} H_i H_j = kappa rho_8 with H_b = 0, H_c = -gamma H_a gives kappa rho_8 = 3 H_a^2 (1 - 3 gamma + gamma^2) = -2.5788 H_a^2 < 0 for gamma = 0.8752: a sustained deflation with gamma in ((3 - sqrt 5)/2, (3 + sqrt 5)/2) = (0.382, 2.618) needs a negative total 8D energy density (equivalently it violates Theta^2 - 3 H_a^2 - 2 kappa rho >= 0 with rho >= 0), and the EXP-2 dynamics has no mechanism that keeps the extra times deflating.",
+              "value": -2.5788038971467913,
+              "valueMeaning": "kappa rho_8 / H_a^2"
+            }
+          ]
+        },
+        "scan": {
+          "file": "fits_scan.csv",
+          "x0Min": -0.49,
+          "x0Max": 0.0,
+          "step": 0.001,
+          "count": 491,
+          "wFitRequestedDefinedFor": "x0 > -(1/3.26)^3 = -0.028863 (pole a = |x0|^(1/3) below 1/3.26)",
+          "mostNegativeX0WithRequestedWFit": -0.028,
+          "mostNegativeX0WithoutBounceBelowZ226": -0.04,
+          "muScanFile": "fits_mu_scan.csv",
+          "muScanStep": 0.01,
+          "x0CriticalWFit": -0.028863380843997585,
+          "x0CriticalWFitMeaning": "for x0 < -(1/3.26)^3 the pole a = |x0|^(1/3) lies in [1/3.26, 1]",
+          "x0CriticalMuFit": -0.041023671099944994,
+          "x0CriticalMuFitMeaning": "for x0 below this value the bounce lies at z_b < 2.26 (a_b > 1/3.26)",
+          "tangentWaAtUniteW0": -4.806962999999999,
+          "x0ForUniteW0": -0.4626544868350349,
+          "x0ForConstantW0764": -0.4331065759637188
+        },
+        "muIndependence": [
+          {
+            "x0": -0.462654,
+            "runs": [
+              "x0_m0p462654_mu3",
+              "x0_m0p462654_mu7"
+            ],
+            "rhoMaxScaledDiff": 4.886001159586792e-10,
+            "pMaxScaledDiff": 8.458270581845835e-10,
+            "wMaxConditionScaledDiff": 7.801405208902836e-10,
+            "sigmaMaxRelDiff": 7.801405359737554e-10
+          },
+          {
+            "x0": -0.433107,
+            "runs": [
+              "x0_m0p433107_mu3",
+              "x0_m0p433107_mu7"
+            ],
+            "rhoMaxScaledDiff": 9.812703243464313e-10,
+            "pMaxScaledDiff": 1.7384040054758293e-09,
+            "wMaxConditionScaledDiff": 1.6263356752630669e-09,
+            "sigmaMaxRelDiff": 1.6263356348221017e-09
+          },
+          {
+            "x0": -0.3,
+            "runs": [
+              "x0_m0p3_mu3",
+              "x0_m0p3_mu7"
+            ],
+            "rhoMaxScaledDiff": 1.7374925778517942e-09,
+            "pMaxScaledDiff": 3.004838919344699e-09,
+            "wMaxConditionScaledDiff": 2.7697657867492804e-09,
+            "sigmaMaxRelDiff": 2.76976570488224e-09
+          },
+          {
+            "x0": -0.2,
+            "runs": [
+              "x0_m0p2_mu3",
+              "x0_m0p2_mu7"
+            ],
+            "rhoMaxScaledDiff": 4.772854248085651e-10,
+            "pMaxScaledDiff": 4.784463862200237e-10,
+            "wMaxConditionScaledDiff": 5.064170040237021e-10,
+            "sigmaMaxRelDiff": 5.696762078003387e-10
+          },
+          {
+            "x0": 0.0,
+            "runs": [
+              "x0_0_mu3",
+              "x0_0_mu7"
+            ],
+            "rhoMaxScaledDiff": 8.626777314056988e-10,
+            "pMaxScaledDiff": 0.0,
+            "wMaxConditionScaledDiff": 0.0,
+            "sigmaMaxRelDiff": 8.62677680556068e-10
+          }
+        ],
+        "limits": {
+          "closure": 1e-14,
+          "eigen": 1e-12,
+          "sigmaSpinor": 1e-08,
+          "sigmaState": 1e-12,
+          "eigenspaceLeak": 1e-12,
+          "norm": 1e-08,
+          "muIndependence": 1e-08,
+          "closedForm": 1e-08,
+          "identity": 1e-12,
+          "root": 1e-07,
+          "w0": 1e-09,
+          "wa": 1e-05
+        },
+        "rustMeasurements": {
+          "closureDefect": 0.0,
+          "maxE0Deviation": 0.0,
+          "maxInitialEigenResidual": 0.0,
+          "maxSigmaSpinorDeviation": 2.5039448292574207e-09,
+          "maxSigmaStateDeviation": 1.9539925233402755e-14,
+          "maxEigenspaceLeak": 0.0,
+          "maxHilbertNormDrift": 2.503944940279723e-09,
+          "maxKreinNormDrift": 2.503944940279723e-09,
+          "maxMuDiffRho": 1.7374925778517942e-09,
+          "maxMuDiffP": 3.004838919344699e-09,
+          "maxMuDiffW": 2.7697657867492804e-09,
+          "maxMuDiffSigma": 2.76976570488224e-09,
+          "maxRhoClosedFormDeviation": 1.6799234559200944e-09,
+          "maxPClosedFormDeviation": 2.789245464556579e-09,
+          "maxWClosedFormDeviation": 2.503945076213663e-09,
+          "maxSplitIdentityDeviation": 1.0813576736587541e-15,
+          "maxRhoZeroRelError": 2.6332223742248214e-09,
+          "maxPhantomCrossingRelError": 2.3455755660421645e-09,
+          "maxDecelerationRootRelError": 1.4727280920014966e-09,
+          "maxW0Deviation": 5.551115123125783e-17,
+          "maxWaTangentRelDeviation": 2.7640470377642976e-07
+        },
+        "pythonMeasurements": {
+          "fitsMaxDeviation": 0.0,
+          "closureDefect": 0.0,
+          "maxE0Deviation": 0.0,
+          "initialEigenResidual": 0.0,
+          "columnMaxScaledDeviation": 3.552713678800501e-15,
+          "sigmaSpinorMaxRelDeviation": 2.5039448292574207e-09,
+          "sigmaStateMaxRelDeviation": 1.9539925233402755e-14,
+          "rhoClosedFormMaxScaledDeviation": 1.6799233613345484e-09,
+          "pClosedFormMaxScaledDeviation": 2.789245464556579e-09,
+          "wClosedFormMaxConditionScaledDeviation": 2.5039448892955788e-09,
+          "energySplitMaxScaledDeviation": 4.469169038708606e-09,
+          "kineticDefinitionWorstRatioToBound": 0.42500146547432294,
+          "muIndependenceRho": 1.7374926814488285e-09,
+          "muIndependenceP": 3.004838815747665e-09,
+          "muIndependenceW": 2.7697660187355176e-09,
+          "muIndependenceSigma": 2.76976570488224e-09,
+          "fdResidualWorstRatioToBound": 0.4258876038951506,
+          "decelerationFdWorstRatioToBound": 0.322872390081543,
+          "referenceTimeMaxAbsError": 1.1144786760119985e-09,
+          "referenceDistanceMaxAbsError": 1.7468705371115334e-09,
+          "referenceSpinorMaxError": 5.4794949852434584e-08,
+          "bounceRelDeviation": 1.4692117434949918e-15,
+          "rhoZeroMaxRelError": 2.6332223742248214e-09,
+          "phantomCrossingMaxRelError": 2.3455755660421645e-09,
+          "decelerationRootMaxRelError": 1.4727275631117685e-09,
+          "w0MaxDeviation": 5.551115123125783e-17,
+          "waSummaryMaxRelDeviation": 2.7640470377642976e-07,
+          "waFiniteDifferenceMaxRelDeviation": 2.7640470322212076e-07,
+          "summaryMaxDeviation": 1.4727275631117685e-09,
+          "refinedMaxSpinorDifference": 4.838019194283468e-08,
+          "canonicalMaxSpinorError": 5.4794949852434584e-08,
+          "refinedMaxSpinorError": 6.414897187560502e-09,
+          "canonicalMaxSigmaDeviation": 2.5039448292574207e-09,
+          "refinedMaxSigmaDeviation": 2.104209029241133e-10
+        },
+        "contractDeviations": [
+          "x0 = -0.462654: E^2 = 0 (bounce, H = 0) at a_b = 0.720697 > 1/3.5 (z_b = 0.387545 < 2.5); a < a_b (z > z_b) does not exist in this model, so the contract's backward range down to N = ln(1/3.5) is unreachable; the backward branch stops at N_b + 0.01.",
+          "x0 = -0.433107: E^2 = 0 (bounce, H = 0) at a_b = 0.702566 > 1/3.5 (z_b = 0.423354 < 2.5); a < a_b (z > z_b) does not exist in this model, so the contract's backward range down to N = ln(1/3.5) is unreachable; the backward branch stops at N_b + 0.01.",
+          "x0 = -0.3: E^2 = 0 (bounce, H = 0) at a_b = 0.612218 > 1/3.5 (z_b = 0.633405 < 2.5); a < a_b (z > z_b) does not exist in this model, so the contract's backward range down to N = ln(1/3.5) is unreachable; the backward branch stops at N_b + 0.01.",
+          "x0 = -0.2: E^2 = 0 (bounce, H = 0) at a_b = 0.528961 > 1/3.5 (z_b = 0.890498 < 2.5); a < a_b (z > z_b) does not exist in this model, so the contract's backward range down to N = ln(1/3.5) is unreachable; the backward branch stops at N_b + 0.01."
+        ],
+        "notes": [
+          "sigma = a^-3 exactly: h(t) is a multiple of -i gamma^4, so the rest eigenvector only acquires the phase Phi = int (M_eff/H0) dN / E; rho, p, w depend on s(u) = 1, not on the phase, hence not on mu.",
+          "For x0 < 0 the attractive four-fermion term makes rho_psi negative for a < |x0|^(1/3) and E^2 vanishes at a_b (bounce): the model has no matter era and no z > z_b.",
+          "w has a pole where rho_psi = 0 and M_eff = 0 at the phantom crossing w = -1 (KE_L = 0); c_s^2 = 2 x0 sigma/(1 + 2 x0 sigma) is negative today for every x0 < 0 (gradient instability of perturbations).",
+          "CPL fits (w(a) least squares, distance-modulus fits) and the fine x0 scan are done by scripts/analyze_dirac16complex_exp3.py (fits.json)."
+        ]
+      },
+      "sources": [
+        {
+          "path": "exp3/summary.json",
+          "sha256": "7bfedf4bd5e5765c171dcc71896e4a9f481bfedfeafa6ddae04b924ca31081ee"
+        },
+        {
+          "path": "exp3/python-check-report.json",
+          "sha256": "86e92fbf565cc6498aed329fc6d5506e8749c6a31a24ec41f2f8f84048263406"
+        },
+        {
+          "path": "exp3/fits.json",
+          "sha256": "775bada287e5b48e89a7a218cfcdde524d8030eadf1606e1ecc37bcc2d884ce3"
+        }
+      ]
+    },
+    {
+      "experiment": "exp4",
+      "title": "dirac16complex quanta as dark matter: Fermi gas EoS and pair creation",
+      "rust": {
+        "verdict": "SUCCESS",
+        "checkCount": 23,
+        "passedCount": 23,
+        "failedCount": 0,
+        "failed": [],
+        "checks": {
+          "thermal_grid_gauss_legendre": true,
+          "thermal_initial_eigenvectors": true,
+          "thermal_unitarity": true,
+          "thermal_krein_conserved": true,
+          "thermal_energy_split_identities": true,
+          "thermal_rho_matches_kinetic_theory": true,
+          "thermal_pressure_matches_kinetic_theory_plus_free_wave": true,
+          "thermal_w_early_radiation": true,
+          "thermal_w_decreases_to_dust": true,
+          "thermal_beta2_gas_weighted_below_1e-6": true,
+          "thermal_beta2_per_mode_is_sudden_start_wave": true,
+          "thermal_beta2_adiabatic_vacuum_below_1e-6": true,
+          "thermal_spin_independence": true,
+          "thermal_antiparticle_symmetry": true,
+          "method_selected_by_test": true,
+          "pair_initial_adiabatic_vacuum": true,
+          "pair_unitarity": true,
+          "pair_krein_conserved": true,
+          "pair_massless_no_production": true,
+          "pair_massive_production_pauli": true,
+          "pair_tail_matches_kink_theory": true,
+          "pair_antiparticle_symmetry": true,
+          "pair_eos_relativistic_to_dust": true
+        }
+      },
+      "python": {
+        "checker": "scripts/check_dirac16complex_exp4.py",
+        "verdict": "SUCCESS",
+        "checkCount": 51,
+        "passedCount": 51,
+        "failedCount": 0,
+        "failed": [],
+        "repeatByteIdentity": true,
+        "refinedConvergence": true,
+        "checks": {
+          "provenanceFixtureHash": true,
+          "provenanceSchema": true,
+          "structureFilesPresent": true,
+          "algebraFromFixture": true,
+          "parametersThermal": true,
+          "thermalGrid": true,
+          "structureThermalHeaders": true,
+          "structureThermalFinite": true,
+          "thermalTimeGrid": true,
+          "thermalColumnsRecomputed": true,
+          "structureThermalModeCount": true,
+          "thermalInitialStates": true,
+          "thermalExactStructure": true,
+          "thermalUnitarity": true,
+          "thermalKreinConserved": true,
+          "thermalEosRecomputed": true,
+          "thermalRhoMatchesKineticTheory": true,
+          "thermalPressureMatchesKineticTheoryPlusFreeWave": true,
+          "thermalWEarlyRadiation": true,
+          "thermalWDecreasesToDust": true,
+          "thermalBetaGasWeightedBelow1e-6": true,
+          "thermalBetaPerModeIsSuddenStartWave": true,
+          "thermalAdiabaticVacuumBelow1e-6": true,
+          "thermalSpinIndependence": true,
+          "thermalAntiparticleSymmetry": true,
+          "thermalReferenceSolution": true,
+          "methodSelectionConsistent": true,
+          "parametersPair": true,
+          "pairGrid": true,
+          "structurePairHeaders": true,
+          "structurePairFinite": true,
+          "pairTimeGrid": true,
+          "pairColumnsRecomputed": true,
+          "pairInitialAdiabaticVacuum": true,
+          "pairUnitarity": true,
+          "pairKreinConserved": true,
+          "pairPauli": true,
+          "structurePairModeCount": true,
+          "pairMasslessNoProduction": true,
+          "pairSpectrumAndNumberDensityRecomputed": true,
+          "pairEosRecomputed": true,
+          "pairHistoryRecomputed": true,
+          "pairEosRelativisticToDust": true,
+          "pairTailMatchesKinkTheory": true,
+          "pairNumberDensityQuadratureSanity": true,
+          "pairMassiveProduction": true,
+          "pairAntiparticleSymmetry": true,
+          "pairReferenceSolution": true,
+          "summaryConsistent": true,
+          "repeatByteIdentity": true,
+          "refinedConvergence": true
+        }
+      },
+      "solver": {
+        "method": "CVODE Adams-Moulton + fixed-point (functional) iteration",
+        "refined": false,
+        "tolerances": {
+          "rtol": 1e-13,
+          "atol": 1e-14,
+          "maxStep": 2.0
+        },
+        "steps": 287898778,
+        "rhsEvaluations": 435564940,
+        "outputFiles": 13
+      },
+      "keyResults": {
+        "parameters": {
+          "thermal": {
+            "m": 1.0,
+            "temperature": 10.0,
+            "hubbleInitial": 0.05,
+            "tInitial": 10.0,
+            "aEnd": 100.0,
+            "tEnd": 100000.0,
+            "kMax": 120.0,
+            "nodes": 48,
+            "outputIntervals": 60,
+            "degeneracy": 16.0,
+            "momentumDirection": 1,
+            "spinNodes": [
+              2,
+              16,
+              32,
+              47
+            ],
+            "antiparticleNode": 2,
+            "adiabaticVacuumNodes": [
+              1,
+              2
+            ]
+          },
+          "pair": {
+            "hubbleInflation": 1.0,
+            "kOverAStart": 200.0,
+            "masses": [
+              0.0,
+              0.1,
+              0.5,
+              1.0,
+              2.0
+            ],
+            "kMin": 0.001,
+            "kMax": 40.0,
+            "nodes": 64,
+            "hubbleEndOverMass": 0.0001,
+            "masslessA2End": 100000.0,
+            "samples": 6,
+            "eosPoints": 60,
+            "antiparticleMass": 1.0,
+            "antiparticleNodes": [
+              20,
+              36,
+              48
+            ],
+            "tailKMin": 8.0
+          }
+        },
+        "counting": {
+          "thermal": "16 states per comoving k (8 particles + 8 antiparticles), Fermi-Dirac f = 1/(exp(E_i/T_i)+1); rho = (16/(2 pi^2 a^3)) sum w k^2 f eps(u_k), p = (16/(2 pi^2 a^3)) sum w k^2 f p_1(u_k)/3 (direction average of the momentum flux, k along x1)",
+          "pair": "Dirac sea: 8 filled negative-energy states per k, each ends with weight |beta_k|^2 on the positive-energy subspace -> 8|beta|^2 particles + 8|beta|^2 antiparticles: n a^3 = (16/(2 pi^2)) int k^2 |beta_k|^2 dk"
+        },
+        "methodSelection": {
+          "selected": "adams",
+          "rule": "at the default tolerances, the method with a factor-2 smaller max error vs an Adams reference at rtol/10, atol/10 wins; otherwise the one with fewer RHS evaluations (incl. difference-quotient Jacobian evaluations)",
+          "trials": [
+            {
+              "node": 2,
+              "k": 0.9525249766303889,
+              "method": "adams",
+              "steps": 1007,
+              "rhsEvals": 1370,
+              "maxErrorVsReference": 1.2547829239253523e-12
+            },
+            {
+              "node": 2,
+              "k": 0.9525249766303889,
+              "method": "bdf",
+              "steps": 4573,
+              "rhsEvals": 4730,
+              "maxErrorVsReference": 2.2736542461263005e-10
+            },
+            {
+              "node": 47,
+              "k": 119.92626043514556,
+              "method": "adams",
+              "steps": 68001,
+              "rhsEvals": 88979,
+              "maxErrorVsReference": 1.7138094790923548e-09
+            },
+            {
+              "node": 47,
+              "k": 119.92626043514556,
+              "method": "bdf",
+              "steps": 308166,
+              "rhsEvals": 313247,
+              "maxErrorVsReference": 1.8400242283634753e-08
+            }
+          ]
+        },
+        "thermal": {
+          "wAtA1": 0.3328543348044845,
+          "wAtAEnd": 0.03592238442293969,
+          "wKineticAtA1": 0.3328543348044846,
+          "wKineticAtAEnd": 0.03592228870731009,
+          "maxRelDevRho": 1.9763023680258454e-08,
+          "maxRelDevP": 1.869218923086042e-05,
+          "maxUnitarityDev": 2.4211469717982936e-07,
+          "maxKreinDrift": 2.4211469717982936e-07,
+          "maxIdentityResidual": 9.459742479810926e-16,
+          "maxBeta2GasWeighted": 3.7349792326990975e-08,
+          "maxBeta2PerMode": 6.369367418377017e-05,
+          "maxBeta2PerModeK": 0.9525249766303889,
+          "suddenStartMaxRelDev": 0.012382266797320685,
+          "suddenStartComparedModes": 17,
+          "suddenStartBoundMaxRatio": 0.9056440941924093,
+          "adiabaticVacuumLateBeta2": 5.6126298718347015e-08,
+          "adiabaticVacuumMaxAdiabaticBeta2": 1.596799067282273e-07,
+          "adiabaticVacuumMaxRelPressureDev": 0.1209687671732682,
+          "instantaneousStartMaxRelPressureDevSameNodes": 1.7825402445377057,
+          "pressureEnvelopeMaxRatio": 0.2826235689331809,
+          "spinMaxDev": 0.0,
+          "antiparticleMaxDev": 0.0
+        },
+        "pair": {
+          "maxEigenResidual": 1.4210854715202004e-14,
+          "maxUnitarityDev": 4.090501271036828e-08,
+          "maxKreinDrift": 4.090501293241289e-08,
+          "maxInitialBeta2": 1.5620313434903884e-10,
+          "tailMaxRelDev": 0.041595481531498946,
+          "antiparticleMaxDev": 0.0
+        },
+        "pairMasses": [
+          {
+            "m": 0.0,
+            "a2End": 100000.0,
+            "tEnd": 49999.5,
+            "nA3": 1.781351109074235e-24,
+            "nA3Adiabatic": 1.781351108963649e-24,
+            "nA3AtKink": 1.2518880286198435e-25,
+            "rhoA3End": 1.341422353073617e-26,
+            "wFrozenSpectrumAtA1": 0.3333333333333331,
+            "wEnd": 0.3333333333333333,
+            "maxBeta2": 8.50694699914115e-25,
+            "maxBeta2Adiabatic": 8.503953503723242e-25,
+            "kPeakK3Beta2": 2.6739994519077763,
+            "tailNodes": 0,
+            "tailMaxRelDev": 0.0
+          },
+          {
+            "m": 0.1,
+            "a2End": 99999.99999999999,
+            "tEnd": 49999.49999999999,
+            "nA3": 0.0014549208130289226,
+            "nA3Adiabatic": 0.0014536372927627167,
+            "nA3AtKink": 0.0008538274063572515,
+            "rhoA3End": 0.00014556691701077734,
+            "wFrozenSpectrumAtA1": 0.30949621240438785,
+            "wEnd": 0.00030919978799630153,
+            "maxBeta2": 0.34757396943056923,
+            "maxBeta2Adiabatic": 0.6470578135464599,
+            "kPeakK3Beta2": 0.2944349486790908,
+            "tailNodes": 16,
+            "tailMaxRelDev": 0.041595481531498946
+          },
+          {
+            "m": 0.5,
+            "a2End": 20000.0,
+            "tEnd": 9999.5,
+            "nA3": 0.004990718453291534,
+            "nA3Adiabatic": 0.00498966594788632,
+            "nA3AtKink": 0.011764596380132638,
+            "rhoA3End": 0.0024958428678265266,
+            "wFrozenSpectrumAtA1": 0.25441868784321287,
+            "wEnd": 0.0001281073410797787,
+            "maxBeta2": 0.0640160061787483,
+            "maxBeta2Adiabatic": 0.05282825059708368,
+            "kPeakK3Beta2": 0.8129860532942635,
+            "tailNodes": 16,
+            "tailMaxRelDev": 0.04077485050930996
+          },
+          {
+            "m": 1.0,
+            "a2End": 10000.0,
+            "tEnd": 4999.5,
+            "nA3": 0.004413691852677347,
+            "nA3Adiabatic": 0.004412201804726065,
+            "nA3AtKink": 0.027358111858720786,
+            "rhoA3End": 0.004414823747121239,
+            "wFrozenSpectrumAtA1": 0.2390072076442503,
+            "wEnd": 0.00017039071334176156,
+            "maxBeta2": 0.013846283043337718,
+            "maxBeta2Adiabatic": 0.005980232344226475,
+            "kPeakK3Beta2": 1.327407585366301,
+            "tailNodes": 16,
+            "tailMaxRelDev": 0.03815713720197578
+          },
+          {
+            "m": 2.0,
+            "a2End": 5000.0,
+            "tEnd": 2499.5,
+            "nA3": 0.002421531976511612,
+            "nA3Adiabatic": 0.002421229033953751,
+            "nA3AtKink": 0.054295161601660404,
+            "rhoA3End": 0.004845314851826048,
+            "wFrozenSpectrumAtA1": 0.23972458217031306,
+            "wEnd": 0.00030901500414975286,
+            "maxBeta2": 0.002645134183752615,
+            "maxBeta2Adiabatic": 0.0003550584968732135,
+            "kPeakK3Beta2": 2.6739994519077763,
+            "tailNodes": 16,
+            "tailMaxRelDev": 0.028811282819054762
+          }
+        ],
+        "limits": {
+          "eigen": 1e-12,
+          "unitarity": 1e-06,
+          "krein": 1e-06,
+          "identity": 1e-12,
+          "kinetic": 1e-06,
+          "spin": 1e-06,
+          "antiparticle": 1e-06,
+          "beta": 1e-06,
+          "masslessBeta": 1e-10,
+          "suddenStart": 0.1,
+          "suddenStartFloor": 1e-10,
+          "betaFloor": 1e-12,
+          "tail": 0.35,
+          "wEarly": 0.005,
+          "wLateMax": 0.05,
+          "pairWLateMax": 0.001
+        },
+        "pythonMeasurements": {
+          "thermalGridMaxNodeDev": 1.1102230246251565e-16,
+          "thermalColumnMaxDeviation": 2.546249021305323e-15,
+          "thermalBetaColumnDeviationRatio": 0.008090959054427612,
+          "thermalInitialResidual": 7.105427357601002e-15,
+          "thermalMaxUnitarityDev": 2.4211469717982936e-07,
+          "thermalMaxKreinDrift": 2.4211469717982936e-07,
+          "thermalEosMaxDeviation": 1.7129727561751109e-15,
+          "thermalHamiltonianSplitIdentity": 5.458062912593982e-16,
+          "thermalMaxRelDevRho": 1.97543961188984e-08,
+          "thermalMaxRelDevPressureLiteral": 1.8692189244662316e-05,
+          "thermalPressureEnvelopeRatio": 0.2826235692106153,
+          "thermalGL48QuadratureErrorRho": 1.2349010702905616e-11,
+          "thermalGL48QuadratureErrorP": 4.210765069956324e-11,
+          "thermalKmaxTruncationRhoAtA1": 0.002420874020403141,
+          "thermalWAtA1": 0.3328543348044846,
+          "thermalWKineticAtA1": 0.33285433481192817,
+          "thermalWAtAEnd": 0.03592238442293969,
+          "thermalWKineticAtAEnd": 0.03592228870775418,
+          "thermalBeta2GasWeightedMax": 3.734979232699109e-08,
+          "thermalSuddenStartMaxRelDev": 0.01238226679732013,
+          "thermalSuddenStartBoundRatio": 0.9056440941924093,
+          "thermalBeta2PerModeMax": 6.369367418377017e-05,
+          "thermalBeta2PerModeMaxK": 0.9525249766303889,
+          "thermalBeta2PerModeMaxOver4c2": 0.9976720712952802,
+          "thermalAdiabaticVacuumLateBeta2": 5.6126298718347015e-08,
+          "thermalAdiabaticVacuumMaxAdiabaticBeta2": 1.596799067282273e-07,
+          "thermalAdiabaticVacuumPressureDev": 0.1209687671732682,
+          "thermalInstantaneousPressureDevSameNodes": 1.7825402445377057,
+          "thermalSpinMaxDev": 0.0,
+          "thermalAntiparticleMaxDev": 0.0,
+          "thermalReferenceMaxError": 1.7362662011604228e-09,
+          "thermalReferenceRichardson": 1.5978643949199696e-09,
+          "methodTestErrorAdams": 1.7138094790923548e-09,
+          "methodTestErrorBdf": 1.8400242283634753e-08,
+          "methodTestCostAdams": 90349.0,
+          "methodTestCostBdf": 484825.0,
+          "pairColumnMaxDeviation": 1.0585907841753384e-15,
+          "pairBetaColumnDeviationRatio": 7.106215137262112e-06,
+          "pairInitialResidual": 1.421085471520208e-14,
+          "pairInitialBeta2Max": 1.5620313434903884e-10,
+          "pairMaxUnitarityDev": 4.090501271036828e-08,
+          "pairMaxKreinDrift": 4.090501293241289e-08,
+          "pairMasslessMaxBeta2": 8.50694699914115e-25,
+          "pairNA3_m0.0": 1.7813511090742342e-24,
+          "pairWAtA1_m0.1": 0.30949621240438807,
+          "pairWEnd_m0.1": 0.0003091997879963023,
+          "pairNA3_m0.1": 0.001454920813028923,
+          "pairWAtA1_m0.5": 0.25441868784321287,
+          "pairWEnd_m0.5": 0.00012810734107977868,
+          "pairNA3_m0.5": 0.004990718453291538,
+          "pairWAtA1_m1.0": 0.2390072076442503,
+          "pairWEnd_m1.0": 0.00017039071334176156,
+          "pairNA3_m1.0": 0.004413691852677346,
+          "pairWAtA1_m2.0": 0.23972458217031306,
+          "pairWEnd_m2.0": 0.00030901500414975296,
+          "pairNA3_m2.0": 0.002421531976511611,
+          "pairSpectrumMaxDeviation": 9.320162813274427e-06,
+          "pairEosMaxDeviation": 2.503327618182102e-15,
+          "pairTailMaxRelDev": 0.041595481531498946,
+          "pairQuadratureTrapezoidVsGL": 0.0003984801936185445,
+          "pairAntiparticleMaxDev": 0.0,
+          "pairReferenceMaxError": 6.212050680186322e-10,
+          "pairReferenceRichardson": 4.6211455744818593e-10,
+          "refinedThermalRhoRelDiff": 2.981873004070934e-08,
+          "refinedThermalPressureRelDiff": 3.682435523177929e-08,
+          "refinedThermalBeta2AbsDiff": 1.9554412715526003e-13,
+          "refinedThermalUnitarityCanonical": 2.4211469717982936e-07,
+          "refinedThermalUnitarityRefined": 4.371170492234455e-08,
+          "refinedPairBeta2AbsDiff": 1.0510925463336207e-11,
+          "refinedPairBeta2RelDiff": 1.801308340469569e-09
+        },
+        "findings": [
+          "Per-mode |beta_k|^2 <= 1e-6 (NUMERICS_CONTRACT) is not attainable at H_i/m = 0.05: the instantaneous-eigenvector start leaves a free wave |c|^2 = (m k H_i/(4 E_i^3))^2 (max (H_i/(10.4 m))^2 = 2.3e-5 at k = m/sqrt 2), and its first half-oscillation reaches 4|c|^2. Measured maximum and the comparison with |c|^2 are in 'thermal'. The gas-weighted |beta|^2, the adiabatic-vacuum runs and all bulk (k >> m) modes stay below 1e-6.",
+          "The same free wave beta enters p_1 and s at FIRST order, p_1 = (1 - 2|beta|^2) K^2/E + 2 Re(alpha^* beta) m K/E (eps has no interference term), so the mode-sum pressure deviates from kinetic theory by ~2e-5 (independent of the solver tolerance) while rho agrees to ~1e-7; the check compares |p - p_kin| with the predicted interference envelope. The adiabatic-vacuum runs show the deviation is removed by an adiabatic start.",
+          "Lagrangian split for the gas: KE_L = PE_L = rho/2 exactly (w_L = 0); the scalar-field relation p = KE - PE holds only for homogeneous condensates. Hamiltonian split: KE_H = 3p (momentum energy), PE_H = rho - 3p (rest mass).",
+          "Spin independence and antiparticle symmetry are exact consequences of h(t) = (m sigma_z + K sigma_x) (x) I_8 and C h^* C = -h; the runs verify them to solver accuracy.",
+          "m = 0: h = K(t) sigma_x (x) I_8 has time-independent eigenvectors, so no pairs are created (conformal invariance); measured |beta|^2 is roundoff."
+        ]
+      },
+      "sources": [
+        {
+          "path": "exp4/summary.json",
+          "sha256": "beaf5bad11dc9e49271a5c55e116fdc5e7661cbdf4ffdeb590be848290a78d07"
+        },
+        {
+          "path": "exp4/python-check-report.json",
+          "sha256": "364993ae61e6f5658eb66e17b4be772d0a68e1f964b4f84dd2b89e37c3b2264c"
+        }
+      ]
+    },
+    {
+      "experiment": "exp5",
+      "title": "Extra-time sector: the ultrahyperbolic instability",
+      "rust": {
+        "verdict": "SUCCESS",
+        "checkCount": 7,
+        "passedCount": 7,
+        "failedCount": 0,
+        "failed": [],
+        "checks": {
+          "energy_squared_changes_sign_at_tstar": true,
+          "initial_positive_energy_C_eigenvector": true,
+          "krein_norm_conserved_normalized": true,
+          "krein_norm_conserved_before_tstar": true,
+          "hilbert_norm_superexponential_growth": true,
+          "growth_matches_wkb_leading_order": true,
+          "growth_matches_wkb_first_order": true
+        }
+      },
+      "python": {
+        "checker": "scripts/check_dirac16complex_exp5.py",
+        "verdict": "SUCCESS",
+        "checkCount": 21,
+        "passedCount": 21,
+        "failedCount": 0,
+        "failed": [],
+        "repeatByteIdentity": true,
+        "refinedConvergence": true,
+        "checks": {
+          "provenanceFixtureHash": true,
+          "provenanceSchema": true,
+          "algebraFromFixture": true,
+          "parametersMatchContract": true,
+          "structureFilesPresent": true,
+          "structureHeaders": true,
+          "structureFinite": true,
+          "structureGrid": true,
+          "columnsRecomputed": true,
+          "initialEigenvector": true,
+          "fdResidual": true,
+          "referenceSolution": true,
+          "kreinConservedNormalized": true,
+          "kreinConservedBeforeTStar": true,
+          "superExponentialGrowth": true,
+          "wkbLeading": true,
+          "wkbFirstOrder": true,
+          "wkbLateRate": true,
+          "summaryConsistent": true,
+          "repeatByteIdentity": true,
+          "refinedConvergence": true
+        }
+      },
+      "solver": {
+        "method": "CVODE Adams-Moulton + fixed-point (functional) iteration",
+        "refined": false,
+        "tolerances": {
+          "rtol": 1e-10,
+          "atol": 1e-12,
+          "maxStep": 0.02
+        },
+        "steps": 2548,
+        "rhsEvaluations": 4800,
+        "outputFiles": 5
+      },
+      "keyResults": {
+        "parameters": {
+          "H": 1.0,
+          "m": 1.0,
+          "qValues": [
+            0.05,
+            0.1
+          ],
+          "cSigns": [
+            1.0,
+            -1.0
+          ],
+          "extraTime": 3.0,
+          "outputIntervals": 600,
+          "wkbWindowStart": 1.5,
+          "momentumDirection": 5
+        },
+        "runs": [
+          {
+            "run": "q0p05_Cp",
+            "q": 0.05,
+            "cSign": 1.0,
+            "tStar": 2.995732273553991,
+            "tEnd": 5.99573227355399,
+            "energy0": 0.998749217771909,
+            "kreinNorm0": 0.9987492177719091,
+            "finalNormHilbert": 1.2584528814826104e+16,
+            "kreinDrift": {
+              "maxAbs": 0.9987492177719091,
+              "maxNormalized": 7.746477885756646e-10,
+              "maxAbsBeforeTStar": 3.652192992475989e-10
+            },
+            "wkb": {
+              "tA": 4.496799205165493,
+              "tB": 5.99573227355399,
+              "gammaNumeric": 30.99220526007562,
+              "gammaLeading": 31.024095569986226,
+              "gammaFirstOrder": 30.99985773410416,
+              "relDevLeading": -0.0010279206959849707,
+              "relDevFirstOrder": -0.0002468551337937437
+            },
+            "rateEarly": 2.3682352379769833,
+            "rateLate": 25.305565451479076
+          },
+          {
+            "run": "q0p05_Cm",
+            "q": 0.05,
+            "cSign": -1.0,
+            "tStar": 2.995732273553991,
+            "tEnd": 5.99573227355399,
+            "energy0": 0.998749217771909,
+            "kreinNorm0": -0.9987492177719091,
+            "finalNormHilbert": 1.2584528814826104e+16,
+            "kreinDrift": {
+              "maxAbs": 0.9987492177719091,
+              "maxNormalized": 7.746477885756646e-10,
+              "maxAbsBeforeTStar": 3.652192992475989e-10
+            },
+            "wkb": {
+              "tA": 4.496799205165493,
+              "tB": 5.99573227355399,
+              "gammaNumeric": 30.99220526007562,
+              "gammaLeading": 31.024095569986226,
+              "gammaFirstOrder": 30.99985773410416,
+              "relDevLeading": -0.0010279206959849707,
+              "relDevFirstOrder": -0.0002468551337937437
+            },
+            "rateEarly": 2.3682352379769833,
+            "rateLate": 25.305565451479076
+          },
+          {
+            "run": "q0p1_Cp",
+            "q": 0.1,
+            "cSign": 1.0,
+            "tStar": 2.302585092994046,
+            "tEnd": 5.302585092994046,
+            "energy0": 0.99498743710662,
+            "kreinNorm0": 0.99498743710662,
+            "finalNormHilbert": 1.3133148289233404e+16,
+            "kreinDrift": {
+              "maxAbs": 1.0050125628933801,
+              "maxNormalized": 1.0751377243269388e-09,
+              "maxAbsBeforeTStar": 1.2791133707779068e-09
+            },
+            "wkb": {
+              "tA": 3.8090236251340563,
+              "tB": 5.302585092994046,
+              "gammaNumeric": 30.945521459222896,
+              "gammaLeading": 30.97697600592287,
+              "gammaFirstOrder": 30.95301740645622,
+              "relDevLeading": -0.0010154169565796825,
+              "relDevFirstOrder": -0.00024217177714505627
+            },
+            "rateEarly": 2.3976419405838643,
+            "rateLate": 25.312352664686724
+          },
+          {
+            "run": "q0p1_Cm",
+            "q": 0.1,
+            "cSign": -1.0,
+            "tStar": 2.302585092994046,
+            "tEnd": 5.302585092994046,
+            "energy0": 0.99498743710662,
+            "kreinNorm0": -0.99498743710662,
+            "finalNormHilbert": 1.3133148289233404e+16,
+            "kreinDrift": {
+              "maxAbs": 1.0050125628933801,
+              "maxNormalized": 1.0751377243269388e-09,
+              "maxAbsBeforeTStar": 1.2791133707779068e-09
+            },
+            "wkb": {
+              "tA": 3.8090236251340563,
+              "tB": 5.302585092994046,
+              "gammaNumeric": 30.945521459222896,
+              "gammaLeading": 30.97697600592287,
+              "gammaFirstOrder": 30.95301740645622,
+              "relDevLeading": -0.0010154169565796825,
+              "relDevFirstOrder": -0.00024217177714505627
+            },
+            "rateEarly": 2.3976419405838643,
+            "rateLate": 25.312352664686724
+          }
+        ],
+        "limits": {
+          "wkbLeading": 0.01,
+          "wkbFirstOrder": 0.002,
+          "kreinNormalized": 1e-08,
+          "eigen": 1e-12
+        },
+        "rustMeasurements": {
+          "maxKreinDriftNormalized": 1.0751377243269388e-09,
+          "maxKreinDriftBeforeTStar": 1.2791133707779068e-09,
+          "maxKreinDriftAbs": 1.0050125628933801,
+          "maxRelDevWkbLeading": 0.0010279206959849707,
+          "maxRelDevWkbFirstOrder": 0.0002468551337937437
+        },
+        "pythonMeasurements": {
+          "columnMaxDeviation": 4.440892098500626e-16,
+          "wkbClosedFormVsQuadrature": 1.0658141036401503e-14,
+          "fdResidualWorstRatioToBound": 0.7065511154959886,
+          "referenceMaxRelativeError": 3.3378233113541935e-08,
+          "referenceRichardsonEstimate": 3.1746790566207922e-12,
+          "kreinMaxNormalizedDrift": 1.0751377243269388e-09,
+          "kreinMaxDriftBeforeTStar": 1.2791133707779068e-09,
+          "wkbLeadingMaxRelDev": 0.001027920695985657,
+          "wkbFirstOrderMaxRelDev": 0.00024685513379443114,
+          "wkbLateRateMaxRelDev": 4.5749135138611846e-06,
+          "summaryMaxDeviation": 2.1316282072803006e-14,
+          "refinedMaxRelativeDifference": 3.1099627023219996e-08,
+          "canonicalMaxRelativeError": 3.3378233113541935e-08,
+          "refinedMaxRelativeError": 2.2786293850066233e-09
+        },
+        "notes": [
+          "u^dag u grows like exp(2 W(t)); u^dag B u is conserved (B-pseudo-Hermitian h). This is why quantisation and cosmology are restricted to the q = 0 sector.",
+          "The absolute Krein drift at late times is bounded by float64 cancellation (~1e-16 u^dag u); the normalised drift is the meaningful conservation measure."
+        ]
+      },
+      "sources": [
+        {
+          "path": "exp5/summary.json",
+          "sha256": "bbddd4d4e0303c72d8d13494e2f4a54a730f0687fdba54a240156c7b0cfb1746"
+        },
+        {
+          "path": "exp5/python-check-report.json",
+          "sha256": "bf7d379b6cf41da6984c1a3490aec5ffedf968295ee52c2c06dcb4f5d8128e03"
+        }
+      ]
+    }
+  ]
+}

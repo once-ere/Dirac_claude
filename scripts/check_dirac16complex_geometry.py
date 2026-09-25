@@ -15,6 +15,15 @@ Every check prints ``check_<name>=true|false``; measurements print
 ``measurement_<name>=<value>``; the JSON report is written to
 artifacts/dirac16complex/arbitrary-field/python-geometry-report.json.
 Exit status is nonzero if any check failed.
+
+When the Wolfram geometry report exists (default
+artifacts/dirac16complex/arbitrary-field/wolfram-geometry-report.json, or
+``--wolfram-report PATH``; an empty value skips it), the last check
+GEO_wolframAgreement compares every measurement both implementations compute
+(G1 point data, nonzero counts, the Lichnerowicz constant, the curvature sign,
+the G2 values of the symbolic Python results at the exact Wolfram points, and
+the EMT sign and trace conventions) and requires equal verdicts for every check
+name both reports contain.
 """
 
 from __future__ import annotations
@@ -87,7 +96,7 @@ def run_algebra(rec: Recorder, gd: G.GammaData, dom: G.ExactDomain) -> None:
     GAM, C, ETA, I16 = gd.GAM, gd.C, gd.ETA, gd.ID16
     cl = all(G.arr_is_zero(GAM[a].dot(GAM[b]) + GAM[b].dot(GAM[a]) - I16 * (2 * ETA[a, b]), dom)
              for a in range(8) for b in range(8))
-    rec.check("ALG_cliffordRelation", cl)
+    rec.check("ALG_cliffordRelations", cl)
     rec.check("ALG_sigma16EqualsGamma0123", G.arr_is_zero(C - gd.SIG16, dom))
     rec.check("ALG_CSymmetricInvolution", G.arr_is_zero(C - C.T, dom) and G.arr_is_zero(C.dot(C) - I16, dom))
     rec.check("ALG_expression1CgammaAntisymmetric",
@@ -101,6 +110,17 @@ def run_algebra(rec: Recorder, gd: G.GammaData, dom: G.ExactDomain) -> None:
     for i in range(16):
         chi_expected[i, i] = dom.conv(-1 if i < 8 else 1)
     rec.check("ALG_chiralityDiag", G.arr_is_zero(gd.CHI - chi_expected, dom))
+    sym_ok = True
+    anti_ok = True
+    for c in range(8):
+        for a in range(8):
+            for b in range(8):
+                ac = C.dot(GAM[c].dot(gd.S[a, b]) + gd.S[a, b].dot(GAM[c]))
+                cm = C.dot(GAM[c].dot(gd.S[a, b]) - gd.S[a, b].dot(GAM[c]))
+                sym_ok = sym_ok and G.arr_is_zero(ac - ac.T, dom)
+                anti_ok = anti_ok and G.arr_is_zero(cm + cm.T, dom)
+    rec.check("ALG_CAnticommutatorGammaSSymmetric", sym_ok)
+    rec.check("ALG_CCommutatorGammaSAntisymmetric", anti_ok)
     # [S^{ab}, gamma^c] = gamma^a eta^{bc} - gamma^b eta^{ac}
     rec.check("ALG_SabGammaCommutator",
               all(G.arr_is_zero(gd.S[a, b].dot(GAM[c]) - GAM[c].dot(gd.S[a, b]) - GAM[a] * ETA[b, c] + GAM[b] * ETA[a, c],
@@ -191,7 +211,18 @@ def emt_onshell_block(geo: G.Geometry, rng: random.Random, m, lam, order: int, c
         div = G.emt_divergence(geo, T)
         out["conserved"] = G.arr_is_zero(div, dom)
         out["div_nonzero"] = G.count_nonzero(div, dom)
+        out["dT_nonzero"] = G.count_nonzero(T.grad().value(), dom)
+        out["T_nonzero"] = G.count_nonzero(T0, dom)
     return out
+
+
+def emt_offshell_divergence_nonzero(geo: G.Geometry, rng: random.Random, m, lam) -> int:
+    """Negative control: for random OFF-shell fields nabla^mu T_mu nu must not vanish."""
+    dom = geo.dom
+    psi = G.random_spinor_jet(rng, dom, 2)
+    chi = G.random_spinor_jet(rng, dom, 2)
+    T = G.emt_from_fields(geo, psi, chi, m, lam)["T"]
+    return G.count_nonzero(G.emt_divergence(geo, T), dom)
 
 
 def emt_offshell_trace(geo: G.Geometry, rng: random.Random, m, lam) -> bool:
@@ -232,15 +263,31 @@ def geometry_block(rec_c: Dict[str, bool], rec_m: Dict[str, object], geo: G.Geom
     rec_m["GEO_notebookContraction_nonzeroEntries_DmuGammaNu_" + tag] = nz
     rec_m["GEO_notebookContraction_nonzeroPairs_DmuGammaNu_" + tag] = pairs
     rec_c["div"] = G.jet_is_zero(geo.divergence_identity_defect(), dom, mo)
+    sg_gam = G.jmul(geo.sqrtg.truncate(1), geo.gam.truncate(1)).grad().value()
+    rec_m["GEO_divergenceIdentity_lhsNonzeroEntries_" + tag] = G.count_nonzero(np.einsum("mmij->ij", sg_gam), dom)
+    gam0 = geo.gam.value()
+    for lab, Om in (("canonical", geo.Omega.value()), ("notebook", geo.Omega_nb.value())):
+        acomm = np.einsum("mij,mjk->ik", gam0, Om) + np.einsum("mij,mjk->ik", Om, gam0)
+        rec_m["GEO_anticommutatorGammaMuOmegaMu_%s_nonzeroEntries_%s" % (lab, tag)] = G.count_nonzero(acomm, dom)
+        if lab == "canonical":
+            rec_c["acommzero"] = G.arr_is_zero(acomm, dom)
     rec_m["GEO_divergenceIdentity_notebookContraction_nonzeroEntries_" + tag] = G.count_nonzero(
         geo.divergence_identity_defect(notebook=True).value(), dom)
     rec_c["sqrtg"] = G.jet_is_zero(geo.detg - G.jmul(geo.sqrtg, geo.sqrtg), dom, mo)
     half = dom.frac(1, 2)
     Fexp = np.einsum("abmn,abij->mnij", geo.Rframe_low, geo.gd.S) * half
-    rec_c["spincurv"] = G.arr_is_zero(geo.Fspin - Fexp, dom)
-    rec_c["riemframe"] = G.arr_is_zero(geo.Romega_mixed - geo.Rframe_mixed, dom)
+    plus = G.arr_is_zero(geo.Fspin - Fexp, dom)
+    minus = G.arr_is_zero(geo.Fspin + Fexp, dom)
+    fnz = G.count_nonzero(geo.Fspin, dom)
+    frame = G.arr_is_zero(geo.Romega_mixed - geo.Rframe_mixed, dom)
     ric = geo.Ric
-    rec_c["ricsym"] = G.arr_is_zero(ric - ric.T, dom)
+    ricsym = G.arr_is_zero(ric - ric.T, dom)
+    rec_m["GEO_curvature_spinCurvaturePlusHalfRiemannS_" + tag] = plus
+    rec_m["GEO_curvature_spinCurvatureMinusHalfRiemannS_" + tag] = minus
+    rec_m["GEO_curvature_spinCurvatureNonzeroEntries_" + tag] = fnz
+    rec_m["GEO_curvature_frameCurvatureEqualsRiemann_" + tag] = frame
+    rec_m["GEO_curvature_ricciSymmetric_" + tag] = ricsym
+    rec_c["curv"] = plus and not minus and fnz > 0 and frame and ricsym
 
 
 # ---------------------------------------------------------------------------
@@ -267,8 +314,10 @@ def run_g1(rec: Recorder, gd: G.GammaData, dom: G.ExactDomain, labels=("p1", "p2
         sig = G.symmetric_signature_rational(g0)
         rec.measure("GEO_detVielbein_G1_" + lab, qstr(dete))
         rec.measure("GEO_metricSignature_G1_" + lab, "(%d,%d,%d)" % sig)
-        add("sig", (dete != 0) and sig == (4, 4, 0))
         geo = G.Geometry(ej, gd, dom, "G1_" + lab)
+        g44 = geo.ginv.value()[4, 4]
+        rec.measure("GEO_inverseMetric44_G1_" + lab, qstr(g44))
+        add("sig", (dete != 0) and sig == (4, 4, 0) and g44 != 0)
         cc: Dict[str, bool] = {}
         mm: Dict[str, object] = {}
         geometry_block(cc, mm, geo, "G1_" + lab, full_jets=full)
@@ -305,20 +354,22 @@ def run_g1(rec: Recorder, gd: G.GammaData, dom: G.ExactDomain, labels=("p1", "p2
         rec.measure("EMT_S_G1_" + lab, qstr(res["S"]))
         if full:
             add("conserved", res["conserved"])
+            rec.measure("EMT_nonzeroEntries_T_dT_G1_" + lab, [res["T_nonzero"], res["dT_nonzero"]])
+            nz_off = emt_offshell_divergence_nonzero(geo, rng, m, lam)
+            rec.measure("EMT_offShellDivergenceNonzeroComponents_G1_" + lab, nz_off)
+            add("offshellcontrol", nz_off > 0)
         add("traceoff", emt_offshell_trace(geo, rng, m, lam))
         G.assert_exact(geo.Omega.value())
         G.assert_exact(geo.Riem)
 
-    rec.check("GEO_vielbeinSignature44_G1", all(agg["sig"]))
+    rec.check("GEO_frameNondegenerate_G1", all(agg["sig"]))
     rec.check("GEO_vielbeinPostulate_G1", all(agg["vp"]))
     rec.check("GEO_omegaAntisymmetry_G1", all(agg["anti"]))
     rec.check("GEO_gammaCovariantConstancy_G1", all(agg["dgam"]))
     rec.check("GEO_notebookContractionFails_G1", all(agg["nbfail"]))
     rec.check("GEO_divergenceIdentity_G1", all(agg["div"]))
     rec.check("GEO_sqrtgSquaredEqualsDetg_G1", all(agg["sqrtg"]))
-    rec.check("GEO_spinCurvatureHalfRiemannS_G1", all(agg["spincurv"]))
-    rec.check("GEO_frameCurvatureEqualsRiemann_G1", all(agg["riemframe"]))
-    rec.check("GEO_ricciSymmetric_G1", all(agg["ricsym"]))
+    rec.check("GEO_curvature_G1", all(agg["curv"]))
     rec.check("GEO_lichnerowicz_G1", all(agg["lich"]) and len(set(cvals)) == 1 and cvals[0] is not None)
     rec.measure("GEO_lichnerowicz_c_G1", str(cvals[0]))
     rec.check("LAG_eulerLagrangePsibar_G1", all(agg["elpb"]))
@@ -329,7 +380,7 @@ def run_g1(rec: Recorder, gd: G.GammaData, dom: G.ExactDomain, labels=("p1", "p2
     rec.check("EMT_traceOffShellIdentity_G1", all(agg["traceoff"]))
     rec.check("EMT_onshellLagrangianSUprimeMinusU_G1", all(agg["lsonshell"]))
     if full:
-        rec.check("EMT_covariantConservation_G1", all(agg["conserved"]))
+        rec.check("EMT_conservation_G1", all(agg["conserved"]) and all(agg["offshellcontrol"]))
     return cvals[0]
 
 
@@ -359,24 +410,29 @@ def run_g2(rec: Recorder, full: bool = True):
     rec.check("GEO_notebookContractionFails_G2", cc["nbfail"])
     rec.check("GEO_divergenceIdentity_G2", cc["div"])
     rec.check("GEO_sqrtgSquaredEqualsDetg_G2", cc["sqrtg"])
-    rec.check("GEO_spinCurvatureHalfRiemannS_G2", cc["spincurv"])
-    rec.check("GEO_frameCurvatureEqualsRiemann_G2", cc["riemframe"])
-    rec.check("GEO_ricciSymmetric_G2", cc["ricsym"])
+    rec.check("GEO_curvature_G2", cc["curv"])
+    rec.check("GEO_anticommutatorGammaOmegaVanishesDiagonal_G2", cc["acommzero"])
     # primordial-field facts of CONTRACT section 9
     H, A1, A2, cz = G.G2_H, G.G2_A1, G.G2_A2, G.G2_C
     sg = geo.sqrtg.value()[()]
-    rec.check("GEO_sqrtgEqualsCosz_G2", dom.is_zero(sg - dom.conv(cz)))
+    inv_sqrtg = dom.is_zero(sg - dom.conv(cz))
+    inv_sqrtg4 = dom.is_zero(geo.sqrtg.coeff((4,))[()])
     rec.measure("GEO_sqrtg_G2", dom.to_str(sg))
-    rec.check("GEO_omegaLowNonzeroCount24_G2", G.count_nonzero(geo.omega_low.value(), dom) == 24)
+    rec.measure("GEO_primordialInvariants_sqrtgEqualsCosz_G2", inv_sqrtg)
+    rec.measure("GEO_primordialInvariants_d4sqrtgZero_G2", inv_sqrtg4)
+    inv_om24 = G.count_nonzero(geo.omega_low.value(), dom) == 24
+    rec.measure("GEO_primordialInvariants_omegaLowNonzeroCount24_G2", inv_om24)
     R = geo.Rscalar
     rec.measure("GEO_ricciScalar_G2", dom.to_str(R))
-    rec.check("GEO_ricciScalar_G2", dom.is_zero(R - dom.conv(6 * H ** 2 * (A1 ** 2 - 7))))
+    inv_R = dom.is_zero(R - dom.conv(6 * H ** 2 * (A1 ** 2 - 7)))
+    rec.measure("GEO_primordialInvariants_ricciScalar_G2", inv_R)
     Gexp = [-3 * H ** 2 * (A1 ** 2 - 5)] + [H ** 2 * (15 - 3 * A1 ** 2 + A2)] * 3 + [3 * H ** 2 * (7 + A1 ** 2)] + \
            [H ** 2 * (15 - 3 * A1 ** 2 - A2)] * 3
     Gm = geo.Gmixed
     okG = all(dom.is_zero(Gm[i, i] - dom.conv(Gexp[i])) for i in range(8))
     offd = all(dom.is_zero(Gm[i, j]) for i in range(8) for j in range(8) if i != j)
-    rec.check("GEO_einsteinTensorMixed_G2", okG and offd)
+    rec.measure("GEO_primordialInvariants_einsteinTensorMixed_G2", okG and offd)
+    rec.check("GEO_primordialInvariants_G2", inv_sqrtg and inv_sqrtg4 and inv_om24 and inv_R and okG and offd)
     rec.measure("GEO_einsteinTensorMixedDiagonal_G2", [dom.to_str(Gm[i, i]) for i in range(8)])
     # diagonal slash formula
     sl = geo.slash_omega()
@@ -425,6 +481,11 @@ def run_g2(rec: Recorder, full: bool = True):
         ls_ok.append(res["Ls_onshell_ok"])
         if full:
             cons_ok.append(res["conserved"])
+            rec.measure("EMT_nonzeroEntries_T_dT_G2_s%d" % k, [res["T_nonzero"], res["dT_nonzero"]])
+            if k == 0:
+                nz_off = emt_offshell_divergence_nonzero(geo, rng, m, lam)
+                rec.measure("EMT_offShellDivergenceNonzeroComponents_G2_s0", nz_off)
+                cons_ok.append(nz_off > 0)
         troff_ok.append(emt_offshell_trace(geo, rng, m, lam))
     rec.check("GEO_lichnerowicz_G2", all(lich_ok) and len(set(cvals)) == 1 and cvals[0] is not None)
     rec.measure("GEO_lichnerowicz_c_G2", str(cvals[0]))
@@ -436,7 +497,7 @@ def run_g2(rec: Recorder, full: bool = True):
     rec.check("EMT_traceOffShellIdentity_G2", all(troff_ok))
     rec.check("EMT_onshellLagrangianSUprimeMinusU_G2", all(ls_ok))
     if full:
-        rec.check("EMT_covariantConservation_G2", all(cons_ok))
+        rec.check("EMT_conservation_G2", all(cons_ok))
     rec.measure("G2_relationUsesInZeroTests", dom.relation_uses)
     return cvals[0]
 
@@ -451,6 +512,7 @@ def run_g3(rec: Recorder, gd: G.GammaData, dom: G.ExactDomain):
     ok_all = []
     ok_slash = []
     ok_offd = []
+    ok_t4i = []
     for lab, pt in G.G3_POINTS.items():
         rng = random.Random(G3_SEEDS[lab])
         ej = G.vielbein_jet_from_sympy(emat, pt, 2, dom)
@@ -519,14 +581,22 @@ def run_g3(rec: Recorder, gd: G.GammaData, dom: G.ExactDomain):
             ok4i = ok4i and dom.is_zero(T[4, i] - exp) and dom.is_zero(T[i, 4] - exp)
         ok_offd.append(okij and ok4i)
         ok_all.append(solved and ok_rho and ok_p and ok_iso and ok_ke and ok_pe and ok_rp)
+        # on shell the time-space components vanish identically for homogeneous states
+        n4i = sum(0 if dom.is_zero(T[4, i]) else 1 for i in range(8) if i != 4)
+        nij = sum(0 if dom.is_zero(T[i, j]) else 1 for i in range(8) for j in range(8)
+                  if i != j and i != 4 and j != 4)
+        ok_t4i.append(n4i == 0)
+        rec.measure("EMT_homogeneous_offDiagonalNonzeroCounts_G3_" + lab, {"T_4i": n4i, "T_ij": nij})
         rec.measure("EMT_homogeneous_G3_" + lab, {
             "x4": str(pt[4]), "m": qstr(m), "lambda": qstr(lam), "S": qstr(S), "rho": qstr(rho),
             "p": qstr(pvals[0]), "KE": qstr(KE), "PE": qstr(PE),
             "w": qstr(pvals[0] / rho) if rho != 0 else "undefined"})
-    rec.check("EMT_homogeneousReduction_G3", all(ok_all))
-    rec.check("EMT_homogeneousOffDiagonalForms_G3", all(ok_offd))
+    rec.measure("EMT_homogeneousReduction_diagonalPart_G3", all(ok_all))
+    rec.measure("EMT_homogeneousReduction_offDiagonalForms_G3", all(ok_offd))
+    rec.check("EMT_homogeneousReduction", all(ok_all) and all(ok_offd))
     rec.check("GEO_diagonalSlashFormula_G3", all(ok_slash))
-    rec.measure("EMT_homogeneousOffDiagonalForms_G3_formulas",
+    rec.check("EMT_homogeneousTimeSpaceVanishesOnShell_G3", all(ok_t4i))
+    rec.measure("EMT_homogeneousReduction_offDiagonalFormulas_G3",
                 "T_ij = +(1/4) eps_i eps_j h_i h_j (H_i - H_j) Psibar gamma^(i) gamma^(j) gamma^(4) Psi (i!=j, both !=4); "
                 "T_4i = -(1/4) eps_i h_i (Psibar gamma^(i) d_4 Psi - d_4 Psibar gamma^(i) Psi); H_i = h_i'/h_i, "
                 "gamma^(a) flat, eps = eta diagonal")
@@ -586,15 +656,215 @@ def run_emt_variation(rec: Recorder, local: bool):
             Ls = parts["Ls"].value()[()]
             extra = extra and all(dom.is_zero(hv[i] * L.diff(hv[i]) / sg - Ls) for i in range(8) if i != 4)
         ok_extra.append(extra)
-    rec.check("EMT_variation_%s_noMetricVelocityDependence" % tag, all(ok_nov))
-    rec.check("EMT_variation_%s" % tag, all(ok_T) and all(ok_extra))
+        if seed == VAR_SEEDS[0]:
+            rec.measure("EMT_variation_%s_rho_seed%d" % (tag, seed), dom.to_str(rho_var))
+            rec.measure("EMT_variation_%s_T11mixed_seed%d" % (tag, seed), dom.to_str(hv[1] * L.diff(hv[1]) / sg))
+    rec.measure("EMT_variation_%s_noMetricVelocityDependence" % tag, all(ok_nov))
+    rec.measure("EMT_variation_%s_diagonalTmixedAgree" % tag, all(ok_T))
+    rec.measure("EMT_variation_%s_rhoAndPressure" % tag, all(ok_extra))
     rec.measure("EMT_variation_%s_setup" % tag,
                 ("diagonal vielbein diag(h_0..h_7) with symbolic h_mu and symbolic d_nu h_mu (all nu)" if local else
                  "minisuperspace: diagonal vielbein diag(h_0..h_7)(x4), lapse N = h_4, symbolic h_mu and h_mu'; "
                  "homogeneous fields Psi(x4)") + "; exact random rational field jets, off-shell")
+    return all(ok_nov) and all(ok_T) and all(ok_extra)
 
 
 # ---------------------------------------------------------------------------
+# Cross-implementation agreement with the Wolfram geometry report
+# ---------------------------------------------------------------------------
+
+WOLFRAM_REPORT_PATH = ROOT / "artifacts" / "dirac16complex" / "arbitrary-field" / "wolfram-geometry-report.json"
+WOLFRAM_CHECK = "GEO_wolframAgreement"
+
+
+def _mathematica_to_sympy(text: str):
+    """Exact value of a Wolfram InputForm string such as "(3*Sqrt[455])/64" or "-2672/147"."""
+    expr = str(text).strip().replace("Sqrt[", "sqrt(").replace("Log[", "log(").replace("]", ")")
+    expr = expr.replace("^", "**")
+    return sp.sympify(expr, rational=True)
+
+
+def _python_expr_to_sympy(text: str, values: Dict[str, object]):
+    """Exact value of a Python-report sympy string at the given symbol values (E is exp(a4),
+    not Euler's number)."""
+    names = ("w", "c", "E", "A1", "A2", "A3", "H")
+    local = {name: sp.Symbol(name) for name in names}
+    expr = sp.sympify(str(text), locals=local, rational=True)
+    return expr.subs({local[name]: value for name, value in values.items()})
+
+
+def _exact_equal(left, right) -> bool:
+    difference = sp.nsimplify(sp.radsimp(sp.expand(sp.sympify(left) - sp.sympify(right))))
+    return difference == 0
+
+
+def _int_triple(text: str) -> List[int]:
+    return [int(v) for v in str(text).replace("{", " ").replace("}", " ").replace("(", " ")
+            .replace(")", " ").replace(",", " ").split()]
+
+
+def _parse_g2_point(text: str) -> Dict[str, object]:
+    """Wolfram G2.pX.point -> exact values of sin z, cos z, H, a4', a4'', a4'''."""
+    fields = {}
+    for part in str(text).split(", "):
+        key, _, value = part.partition(" = ")
+        fields[key.strip()] = value.strip()
+    return {"sinz": _mathematica_to_sympy(fields["sin z"]), "c": _mathematica_to_sympy(fields["cos z"]),
+            "w": _mathematica_to_sympy(fields["w"]), "H": _mathematica_to_sympy(fields["H"]),
+            "A1": _mathematica_to_sympy(fields["a4'(t)"]), "A2": _mathematica_to_sympy(fields["a4''(t)"]),
+            "A3": _mathematica_to_sympy(fields["a4'''(t)"])}
+
+
+def _parse_notebook_slash(text: str):
+    """"gamma^mu OmegaNotebook_mu = (x) gamma^0 + (y) gamma^4, residual zero: true" -> (x, y, residualZero)."""
+    import re
+    match = re.search(r"=\s*\((.*?)\)\s*gamma\^0\s*\+\s*\((.*?)\)\s*gamma\^4,\s*residual zero:\s*(\w+)", str(text))
+    if not match:
+        raise ValueError("unparsed notebook slash: " + str(text))
+    return _mathematica_to_sympy(match.group(1)), _mathematica_to_sympy(match.group(2)), match.group(3) == "true"
+
+
+def _normalized(text: str) -> str:
+    return (str(text).replace(" ", "").replace("(S)", "").replace("lambda", "lam"))
+
+
+def compare_with_wolfram(py_checks: Dict[str, bool], py_meas: Dict[str, object], wolfram_doc: Dict[str, object]):
+    """Compare every measurement both geometry verifiers compute.  Returns (ok, rows, verdicts).
+
+    G1 is compared point by point (same three rational points, exact values).  G2 is compared by
+    evaluating the Python (fully symbolic) results at the three exact Wolfram points.  The random
+    field data and the parameters m, lambda differ between the implementations, so field-dependent
+    values (EMT traces, rho, p, ...) are compared only through the formulas both verify."""
+    wm = wolfram_doc.get("measurements", {}) if isinstance(wolfram_doc.get("measurements"), dict) else {}
+    wc = wolfram_doc.get("checks", {}) if isinstance(wolfram_doc.get("checks"), dict) else {}
+    rows = []
+
+    def add(label, wolfram_value, python_value, agree):
+        rows.append({"measurement": label, "wolfram": str(wolfram_value), "python": str(python_value),
+                     "agree": bool(agree)})
+
+    def guarded(label, function):
+        try:
+            function()
+        except (KeyError, TypeError, ValueError, AttributeError, sp.SympifyError) as error:
+            rows.append({"measurement": label, "agree": False, "error": "%s: %s" % (type(error).__name__, error)})
+
+    # --- G1: same points, exact rational values -----------------------------------------------------
+    for lab in ("p1", "p2", "p3"):
+        wp, tag = "G1.%s." % lab, "G1_" + lab
+
+        def g1_point(lab=lab, wp=wp, tag=tag):
+            wcoords = [sp.Rational(v) for v in _int_free_split(wm[wp + "coordinates"])]
+            pcoords = [sp.Rational(v) for v in py_meas["G1_points"][lab]]
+            add(tag + " coordinates", wcoords, pcoords, wcoords == pcoords)
+            det_w, det_p = sp.Rational(wm[wp + "detFrame"]), sp.Rational(py_meas["GEO_detVielbein_" + tag])
+            add(tag + " det e", det_w, det_p, det_w == det_p)
+            sq_w = sp.Rational(wm[wp + "sqrtAbsG"])
+            add(tag + " sqrt|g| = |det e|", sq_w, abs(det_p), sq_w == abs(det_p))
+            add(tag + " metric inertia", wm[wp + "metricInertia"], py_meas["GEO_metricSignature_" + tag],
+                _int_triple(wm[wp + "metricInertia"]) == _int_triple(py_meas["GEO_metricSignature_" + tag]))
+            g44_w, g44_p = sp.Rational(wm[wp + "inverseMetric44"]), sp.Rational(py_meas["GEO_inverseMetric44_" + tag])
+            add(tag + " g^44", g44_w, g44_p, g44_w == g44_p)
+            r_w, r_p = sp.Rational(wm[wp + "scalarCurvature"]), sp.Rational(py_meas["GEO_ricciScalar_" + tag])
+            add(tag + " R", r_w, r_p, r_w == r_p)
+        guarded(tag + " point data", g1_point)
+
+    # --- counts, Lichnerowicz constant and curvature convention (G1 points and G2 points) ------------
+    point_tags = [("G1.%s." % lab, "G1_" + lab) for lab in ("p1", "p2", "p3")] + \
+                 [("G2.%s." % lab, "G2") for lab in ("p1", "p2", "p3")]
+    for wp, tag in point_tags:
+        label = wp.rstrip(".")
+
+        def counts(wp=wp, tag=tag, label=label):
+            for wkey, pkey in (("nonzeroOmegaLower", "GEO_nonzeroOmegaLowComponents_"),
+                               ("nonzeroOmegaMixedSymmetricPart", "GEO_nonzeroOmegaMixedSymmetricPart_"),
+                               ("notebookDGammaNonzeroEntries", "GEO_notebookContraction_nonzeroEntries_DmuGammaNu_")):
+                add("%s %s" % (label, wkey), wm[wp + wkey], py_meas[pkey + tag], int(wm[wp + wkey]) == int(py_meas[pkey + tag]))
+            c_w, c_p = sp.Rational(wm[wp + "lichnerowiczC"]), sp.Rational(py_meas["GEO_lichnerowicz_c_" + tag])
+            add(label + " Lichnerowicz c", c_w, c_p, c_w == c_p)
+            add(label + " Lichnerowicz c = +1/4 fails", wm[wp + "lichnerowiczPlusQuarterHolds"], "c unique",
+                wm[wp + "lichnerowiczPlusQuarterHolds"] in (False, "false"))
+            for wkey, pkey in (("curvatureCandidate.plusHalfLowered", "GEO_curvature_spinCurvaturePlusHalfRiemannS_"),
+                               ("curvatureCandidate.minusHalfLowered", "GEO_curvature_spinCurvatureMinusHalfRiemannS_")):
+                wv = wm[wp + wkey] in (True, "true")
+                add("%s %s" % (label, wkey), wv, py_meas[pkey + tag], wv == bool(py_meas[pkey + tag]))
+        guarded(label + " counts", counts)
+
+    # --- G2: Python symbolic results evaluated at the exact Wolfram points --------------------------
+    for lab in ("p1", "p2", "p3"):
+        wp = "G2.%s." % lab
+
+        def g2_point(lab=lab, wp=wp):
+            pt = _parse_g2_point(wm[wp + "point"])
+            add("G2.%s sin^2 z + cos^2 z = 1 and sin z = w^6" % lab, (pt["sinz"], pt["c"]), "identity",
+                _exact_equal(pt["sinz"] ** 2 + pt["c"] ** 2, 1) and _exact_equal(pt["w"] ** 6, pt["sinz"]))
+            values = {"c": pt["c"], "w": pt["w"], "H": pt["H"], "A1": pt["A1"], "A2": pt["A2"], "A3": pt["A3"]}
+            sq_w = _mathematica_to_sympy(wm[wp + "sqrtAbsG"])
+            sq_p = _python_expr_to_sympy(py_meas["GEO_sqrtg_G2"], values)
+            add("G2.%s sqrt|g|" % lab, sq_w, sq_p, _exact_equal(sq_w, sq_p))
+            add("G2.%s det e = sqrt|g|" % lab, wm[wp + "detFrame"], sq_p, _exact_equal(_mathematica_to_sympy(wm[wp + "detFrame"]), sq_p))
+            r_w = _mathematica_to_sympy(wm[wp + "scalarCurvature"])
+            r_p = _python_expr_to_sympy(py_meas["GEO_ricciScalar_G2"], values)
+            add("G2.%s R" % lab, r_w, r_p, _exact_equal(r_w, r_p))
+            x_w, y_w, residual_zero = _parse_notebook_slash(wm[wp + "notebookSlash"])
+            coefficients = py_meas["GEO_slashOmega_notebook_coefficients_G2"]
+            x_p = _python_expr_to_sympy(coefficients["gamma0"], values)
+            y_p = _python_expr_to_sympy(coefficients["gamma4"], values)
+            add("G2.%s notebook gamma^mu Omega_mu, gamma^0 coefficient" % lab, x_w, x_p, _exact_equal(x_w, x_p))
+            add("G2.%s notebook gamma^mu Omega_mu, gamma^4 coefficient" % lab, y_w, y_p, _exact_equal(y_w, y_p))
+            add("G2.%s notebook gamma^mu Omega_mu residual" % lab, residual_zero, coefficients["residualNonzero"],
+                residual_zero and int(coefficients["residualNonzero"]) == 0)
+        guarded("G2.%s point data" % lab, g2_point)
+
+    # --- conventions both implementations verify ------------------------------------------------------
+    def conventions():
+        import re
+        match = re.search(r"c = (-?\d+/\d+)", str(wm["convention.lichnerowicz"]))
+        c_conv = sp.Rational(match.group(1)) if match else None
+        c_py = {sp.Rational(py_meas["GEO_lichnerowicz_c_G1"]), sp.Rational(py_meas["GEO_lichnerowicz_c_G2"])}
+        add("Lichnerowicz constant (convention statements)", c_conv, sorted(c_py), c_py == {c_conv})
+        formula = "T_{mu nu} = -(2/sqrt|g|) dS/dg^{mu nu}"
+        add("EMT sign convention", formula in str(wm["emt.signConvention"]), formula in str(py_meas["EMT_signConvention"]),
+            formula in str(wm["emt.signConvention"]) and formula in str(py_meas["EMT_signConvention"]))
+        tokens = ("T^mu_mu=-mS+7SU'-8U", "=-mS+3lamS^2")
+        w_trace, p_trace = _normalized(wm["emt.trace"]), _normalized(py_meas["EMT_traceStatement"])
+        add("EMT on-shell trace formula", w_trace, p_trace,
+            all(token.replace("T^mu_mu=", "") in w_trace for token in tokens)
+            and all(token.replace("T^mu_mu=", "") in p_trace for token in tokens))
+    guarded("conventions", conventions)
+
+    shared = sorted(set(wc) & set(py_checks))
+    verdicts = {name: {"wolfram": wc[name] is True, "python": bool(py_checks[name])} for name in shared}
+    disagreeing = sorted(name for name, pair in verdicts.items() if pair["wolfram"] != pair["python"])
+    ok = bool(rows) and all(row["agree"] for row in rows) and bool(shared) and not disagreeing
+    return ok, rows, {"shared": shared, "disagreeing": disagreeing}
+
+
+def _int_free_split(text: str) -> List[str]:
+    """"{1/7, -2/9, ...}" -> ["1/7", "-2/9", ...]."""
+    return [part.strip() for part in str(text).strip().strip("{}").split(",") if part.strip()]
+
+
+def run_wolfram_agreement(rec: Recorder, report_path) -> None:
+    if not report_path or not Path(report_path).exists():
+        rec.measure("GEO_wolframAgreement", "not-run")
+        return
+    data = Path(report_path).read_bytes()
+    rec.measure("GEO_wolframReportSha256", hashlib.sha256(data).hexdigest())
+    try:
+        document = json.loads(data.decode("utf-8"))
+    except ValueError:
+        rec.measure("GEO_wolframReportParses", False)
+        rec.check(WOLFRAM_CHECK, False)
+        return
+    ok, rows, verdicts = compare_with_wolfram(dict(rec.checks), rec.meas, document)
+    rec.measure("GEO_wolframSharedMeasurementCount", len(rows))
+    rec.measure("GEO_wolframSharedMeasurementsAgreeing", sum(1 for row in rows if row["agree"]))
+    rec.measure("GEO_wolframSharedMeasurementDisagreements", [row for row in rows if not row["agree"]])
+    rec.measure("GEO_wolframSharedMeasurements", rows)
+    rec.measure("GEO_wolframCheckNamesShared", verdicts["shared"])
+    rec.measure("GEO_wolframCheckVerdictDisagreements", verdicts["disagreeing"])
+    rec.check(WOLFRAM_CHECK, ok)
 
 
 def sha256_of(rel: str) -> str:
@@ -602,6 +872,12 @@ def sha256_of(rel: str) -> str:
 
 
 def main(argv=None) -> int:
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--wolfram-report", default=str(WOLFRAM_REPORT_PATH),
+                        help="Wolfram geometry report to compare with (GEO_wolframAgreement); "
+                             "an empty value skips the comparison")
+    arguments = parser.parse_args(argv)
     t0 = time.time()
     rec = Recorder()
     dom = G.make_qq_domain()
@@ -618,10 +894,11 @@ def main(argv=None) -> int:
     rec.check("GEO_lichnerowiczConstantSameG1G2", c1 == c2 and c1 is not None)
     run_g3(rec, gd, dom)
     stamp("G3 done")
-    run_emt_variation(rec, local=False)
+    v1 = run_emt_variation(rec, local=False)
     stamp("EMT variation (minisuperspace) done")
-    run_emt_variation(rec, local=True)
+    v2 = run_emt_variation(rec, local=True)
     stamp("EMT variation (diagonal local) done")
+    rec.check("EMT_variation", v1 and v2)
     rec.measure("GEO_lichnerowicz_statement",
                 "(gamma^mu D_mu)^2 Psi = g^{mu nu} nabla_mu D_nu Psi + c R Psi with c = %s; "
                 "R = g^{sn} R^r_{s r n}, R^r_{s m n} = d_m Gamma^r_{ns} - d_n Gamma^r_{ms} + "
@@ -640,6 +917,9 @@ def main(argv=None) -> int:
     rec.measure("seeds", {"G1": G1_SEEDS, "G2": G2_SEEDS, "G3": G3_SEEDS, "variation": VAR_SEEDS})
     rec.measure("G1_points", {k: [str(v) for v in pt] for k, pt in G.G1_POINTS.items()})
     rec.measure("G3_points_x4", {k: str(pt[4]) for k, pt in G.G3_POINTS.items()})
+    # last: compares the finished Python results with the Wolfram geometry report
+    run_wolfram_agreement(rec, arguments.wolfram_report)
+    stamp("Wolfram agreement done")
 
     report = {
         "schemaVersion": 1,

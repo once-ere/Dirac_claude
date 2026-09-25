@@ -53,6 +53,12 @@ pub struct CVec16 {
     pub im: [f64; N],
 }
 
+/// |a + i b| = sqrt(a^2 + b^2) (IEEE-exact sqrt; avoids the host libm hypot,
+/// which is not guaranteed to be identical across platforms).
+fn modulus(a: f64, b: f64) -> f64 {
+    (a * a + b * b).sqrt()
+}
+
 fn real_mul(a: &RMat16, b: &RMat16) -> RMat16 {
     let mut out = [[0.0; N]; N];
     for i in 0..N {
@@ -156,7 +162,7 @@ impl CMat16 {
         let mut value: f64 = 0.0;
         for i in 0..N {
             for j in 0..N {
-                value = value.max(self.re[i][j].hypot(self.im[i][j]));
+                value = value.max(modulus(self.re[i][j], self.im[i][j]));
             }
         }
         value
@@ -260,7 +266,7 @@ impl CVec16 {
     pub fn max_abs_diff(&self, other: &Self) -> f64 {
         let mut value: f64 = 0.0;
         for i in 0..N {
-            value = value.max((self.re[i] - other.re[i]).hypot(self.im[i] - other.im[i]));
+            value = value.max(modulus(self.re[i] - other.re[i], self.im[i] - other.im[i]));
         }
         value
     }
@@ -315,8 +321,8 @@ impl Algebra {
         CMat16::from_real(&self.gamma[a])
     }
 
-    /// h = -i M gamma^4 - sum_{j != 4} kh[j] gamma^4 gamma^j, with
-    /// kh[j] = k_j / h_j (physical momenta; kh[4] is ignored).
+    /// `h = -i M gamma^4 - sum_{j != 4} kh[j] gamma^4 gamma^j`, with
+    /// `kh[j] = k_j / h_j` (physical momenta; `kh[4]` is ignored).
     pub fn mode_hamiltonian(&self, m_eff: f64, kh: &[f64; 8]) -> CMat16 {
         let mut h = CMat16::zero();
         for i in 0..N {

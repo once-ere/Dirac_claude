@@ -39,12 +39,22 @@
 //!   (schemaVersion, study, experiment, fixture hash, engine, tolerances,
 //!   the experiment's own fields, files, solver totals, checks, verdict);
 //!   `output::write_json(&dir.join("summary.json"), &doc)` writes it.
+//!   Order: write every data file and `add_file` it, record every check,
+//!   build the document with `standard_summary` (it appends "summary.json"
+//!   to the file list and derives the verdict from the checks), write it,
+//!   then `summary.add_file("summary.json")` and return the summary.
 //!   Never put absolute paths or timings into outputs: the repeat run writes
 //!   into a different directory and must be byte-identical.
 //! * [`driver`] -- `driver::integrate(y0, t0, &targets, rhs, &cfg)` with a
-//!   boxed closure `rhs(t, y, ydot) -> Result<(), String>`, and
-//!   `driver::integrate_backward` for decreasing targets.  `SolverConfig::bdf`
-//!   (Newton + dense) or `SolverConfig::adams` (fixed-point iteration).
+//!   boxed `'static` closure `rhs(t, y, ydot) -> Result<(), String>` (move
+//!   owned data into it), and `driver::integrate_backward` for decreasing
+//!   targets; `driver::uniform_targets(t0, t1, n)` builds an exact uniform
+//!   grid.  `SolverConfig::bdf(rtol, atol, max_step)` (Newton + dense) or
+//!   `SolverConfig::adams(..)` (fixed-point iteration), optionally
+//!   `.with_stop_time(t_end)`; `cfg.describe()` is the solver string for
+//!   summary.json.  The returned `Integration` holds `times[0] = t0`,
+//!   `states[0] = y0`, then one entry per target, plus the CVODE counters.
+//!   `src/exp1.rs` (BDF) and `src/exp5.rs` (Adams) are worked examples.
 //! * [`spinor`] -- 16x16 complex matrices [`spinor::CMat16`], spinors
 //!   [`spinor::CVec16`] stored in the ODE state as 32 reals
 //!   `(re0..re15, im0..im15)`, the precomputed [`spinor::Algebra`] (gamma^a,

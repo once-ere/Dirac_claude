@@ -138,7 +138,7 @@ fn label_number(value: f64) -> String {
     text.replace('.', "p").replace('-', "m")
 }
 
-/// Einstein requirement (rho_req, p_req[8]) for kappa = KAPPA (p[4] = 0).
+/// Einstein requirement `(rho_req, p_req[8])` for kappa = KAPPA (`p[4] = 0`).
 pub fn einstein_requirement(a4p: f64, a4pp: f64) -> (f64, [f64; 8]) {
     let h2 = HUBBLE * HUBBLE;
     let rho = -3.0 * h2 * (7.0 + a4p * a4p) / KAPPA;
@@ -350,10 +350,12 @@ fn initial_spinors(alg: &Algebra, m_eff: f64, k: f64) -> Result<Vec<InitialSpino
             .copied()
             .ok_or_else(|| "empty joint eigenspace".to_string())
     };
+    // Generic superposition populating all four (h, B) sectors (weights
+    // 0.16..0.47 for every K used) with nonzero energy and Krein norm.
     let mut mix = CVec16::zero();
     for i in 0..16 {
-        mix.re[i] = 1.0 + 0.1 * i as f64;
-        mix.im[i] = 0.3 - 0.05 * i as f64;
+        mix.re[i] = 1.0 / (1.0 + i as f64);
+        mix.im[i] = 0.1 * ((i * i) % 7) as f64 - 0.3;
     }
     let mix = mix.scale(1.0 / mix.norm2().sqrt(), 0.0);
     Ok(vec![

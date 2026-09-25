@@ -18,35 +18,88 @@
 #         cells, list items, inline and display math, code spans and fenced
 #         code.  Each character that occurs is declared in the preamble with
 #         \DeclareUnicodeCharacter{XXXX}{\ensuremath{...}}; inside math it is
-#         replaced by its LaTeX command (so psi^dagger becomes \Psi ^\dagger).
+#         replaced by its LaTeX command (so $Ψ^†$ becomes $\Psi ^\dagger $).
 #         Every other non-ASCII character must be one of the vetted Latin
 #         letters and punctuation marks in TEXT_CHARACTERS; any other one is
 #         rejected with a ValueError naming line and code point, instead of
 #         failing later inside pdflatex.
 #       - Markdown links [text](url) are rendered as \href{url}{text}; the URL
 #         must be ASCII RFC 3986 characters; #, % and & are escaped.
-#       - inline math, links, bold/emphasis in headings are wrapped in
-#         \texorpdfstring so that hyperref bookmarks stay warning-free.
+#       - inline math and links in headings are wrapped in
+#         \texorpdfstring{...}{plain text} so that the hyperref bookmarks
+#         stay warning-free (bold, emphasis and code spans need no wrapper).
 #       - code spans containing #, %, a backslash, unbalanced braces or a
 #         non-ASCII character are escaped character by character instead of
 #         being passed through \detokenize (which doubles # and cannot hold %).
+#         In headings the same applies to spans containing _ ^ $ & ~ or
+#         braces: the origin's \detokenize{x_y} is expanded into the .toc
+#         file and re-read there as a subscript ("Missing $ inserted").
+#       - list items and table data rows whose text starts with [ or * get a
+#         leading {} so that \item and the \\ ending the previous row do not
+#         read it as an optional argument.
+#       - figures (added 2026-09-25): a line that consists of exactly one
+#         Markdown image, ![caption text](relative/path.png), outside fenced
+#         code and display math, becomes
+#             \begin{figure}[htbp]
+#             \centering
+#             \includegraphics[width=0.92\linewidth]{relative/path.png}
+#             \caption{caption text}
+#             \end{figure}
+#         The caption gets the inline markup of a heading (it is a moving
+#         argument, written to the .aux file).  \usepackage{graphicx} is added
+#         to the preamble, after fancyvrb, only when the document contains at
+#         least one figure, so every document without one keeps its bytes.
+#         The path is written verbatim and is RELATIVE TO THE REPOSITORY
+#         ROOT: ASCII letters, digits, "-", "_" and "." in "/"-separated
+#         segments, no "." or ".." segment, no leading "/", and a final
+#         segment NAME.png with exactly one dot (PNG only; pdfTeX embeds a PNG
+#         without any timestamp, so two builds stay byte-identical).  No
+#         \graphicspath is emitted: it would have to depend on where the .tex
+#         file lies, and build_provenance_pdf.py compiles two copies at
+#         different places (D/X.tex and build/X/X-repeat.tex) that must be
+#         byte-identical.  Instead pdflatex MUST run with the repository root
+#         as its working directory (TeX looks a relative \includegraphics
+#         path up in the current directory first), which is exactly how
+#         build_provenance_pdf.py invokes it:
+#             cd <root>; pdflatex -interaction=nonstopmode -halt-on-error
+#               -jobname=X -output-directory=build/X/pdf-a D/X.tex
+#         The command line checks every figure before writing the .tex: it
+#         must be an existing file under --image-root (default: the
+#         repository that contains this script; build_provenance_pdf.py
+#         passes its --repository-root), spelled with the exact case of the
+#         file system (Windows would find Fig.PNG for fig.png, Linux would
+#         not), and it must start with the PNG signature.  convert() does the
+#         same when image_root= is given and only the syntactic checks
+#         otherwise.  A figure taller than the text block makes LaTeX warn
+#         "Float too large", which the log scan of build_provenance_pdf.py
+#         reports.  An image anywhere else (inside a paragraph, a list item,
+#         a table cell or a heading) is still rejected.
 #   * Structural validation (ValueError): unterminated fenced code or display
 #     math, fenced-code lines longer than MAX_CODE_LINE_LENGTH (89) characters
 #     or containing a tab (they would overflow the \small Verbatim line),
-#     table rows whose cell count differs from the header, Markdown images.
+#     table rows whose cell count differs from the header, Markdown images
+#     other than a figure line, figure lines with an empty caption or an
+#     unsupported path.
+#     The 89-character limit counts typewriter characters; a Unicode math
+#     symbol inside fenced code is set in the math font and may be wider, so
+#     such lines must be kept shorter (the log scan of build_provenance_pdf.py
+#     reports any Overfull line).
 #   * Unchanged: the preamble for documents that use none of the extensions,
 #     and every determinism primitive (\pdfobjcompresslevel=0,
 #     \pdfinfoomitdate=1, \pdftrailerid{}, \pdfsuppressptexinfo=15, LF-only
-#     UTF-8 output).  For any document of the origin's subset the output is
-#     byte-identical to the origin's when author="Reproducible exact-real
-#     implementation" is passed; tests/test_publication_tooling.py checks this
-#     on the eight dirac-main documents whenever dirac-main/ is present.
+#     UTF-8 output).  With author="Reproducible exact-real implementation"
+#     (ORIGIN_AUTHOR) the output is byte-identical to the origin's for every
+#     document that avoids the constructs listed above.
+#     tests/test_publication_tooling.py checks this for a built-in document
+#     of the old subset and, when dirac-main/ is present, for the eight
+#     dirac-main documents whose .tex the origin produced.
 """Convert a provenance or dissertation Markdown file to standalone LaTeX."""
 
 from __future__ import annotations
 
 import argparse
 import hashlib
+import os
 import re
 import unicodedata
 from pathlib import Path
@@ -57,6 +110,13 @@ DEFAULT_DATE = "September 2026"
 ORIGIN_AUTHOR = "Reproducible exact-real implementation"
 # \small Verbatim in an 11pt article with 1in margins: 469.75pt / 5.25pt.
 MAX_CODE_LINE_LENGTH = 89
+REPOSITORY_ROOT = Path(__file__).resolve().parent.parent
+
+# Figure paths (see figure_line and validate_figure_path).
+FIGURE_SEGMENT_PATTERN = re.compile(r"[A-Za-z0-9_.-]+")
+FIGURE_FILE_PATTERN = re.compile(r"[A-Za-z0-9_-]+\.png")
+FIGURE_WIDTH = r"0.92\linewidth"
+PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 
 # Characters that work everywhere: each is declared as
 # \DeclareUnicodeCharacter{XXXX}{\ensuremath{<code>}} and replaced by <code>
@@ -322,6 +382,16 @@ def parse_arguments() -> argparse.Namespace:
     )
     parser.add_argument("--author", default=DEFAULT_AUTHOR)
     parser.add_argument("--date", default=DEFAULT_DATE)
+    parser.add_argument(
+        "--image-root",
+        type=Path,
+        default=REPOSITORY_ROOT,
+        help=(
+            "Directory that figure paths are relative to and checked "
+            "against (default: the repository containing this script); "
+            "pdflatex must run with it as working directory."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -400,11 +470,20 @@ def braces_balanced(value: str) -> bool:
     return depth == 0
 
 
-def render_code(value: str, break_long_code: bool) -> str:
+def render_code(
+    value: str, break_long_code: bool, moving: bool = False
+) -> str:
+    """Typewriter code span.
+
+    moving=True marks a heading: its text is written to the .toc file, where
+    the expansion of \\detokenize{...} is re-read with normal catcodes, so
+    _ ^ $ & ~ and braces must be escaped there as well.
+    """
     unsafe_for_detokenize = (
         any(character in value for character in "#%\\")
         or not braces_balanced(value)
         or any(ord(character) > 127 for character in value)
+        or (moving and any(character in value for character in "_^$&~{}"))
     )
     if not break_long_code or len(value) <= 8:
         if unsafe_for_detokenize:
@@ -509,7 +588,9 @@ def inline_markup(
             end = value.find("`", index + 1)
             if end >= 0:
                 result.append(
-                    render_code(value[index + 1:end], break_long_code)
+                    render_code(
+                        value[index + 1:end], break_long_code, moving=heading
+                    )
                 )
                 index = end + 1
                 continue
@@ -532,8 +613,10 @@ def inline_markup(
             link = parse_link(value, index)
             if link is not None and index > 0 and value[index - 1] == "!":
                 raise ValueError(
-                    "Markdown images are not supported: "
-                    f"{value[index - 1:link[2]]!r}"
+                    "Markdown images are not supported inside a paragraph, "
+                    "list item, table cell, heading or caption: "
+                    f"{value[index - 1:link[2]]!r} (a figure is a line "
+                    "that holds nothing but ![caption](path.png))"
                 )
             if link is not None:
                 text, url, end = link
@@ -583,6 +666,127 @@ def guard_leading_bracket(latex: str) -> str:
     if latex.startswith(("[", "*")):
         return "{}" + latex
     return latex
+
+
+def figure_line(stripped: str) -> tuple[str, str] | None:
+    """Return (caption, path) when the stripped line is one image only.
+
+    The caption ends at the "]" that balances the "![" (so it may contain
+    a [link](url)); it must be followed directly by "(" and the path, which
+    runs to the ")" that ends the line and contains no parenthesis.
+    """
+    if not (stripped.startswith("![") and stripped.endswith(")")):
+        return None
+    depth = 0
+    for position in range(2, len(stripped)):
+        character = stripped[position]
+        if character == "[":
+            depth += 1
+        elif character == "]":
+            if depth == 0:
+                break
+            depth -= 1
+    else:
+        return None
+    if not stripped.startswith("](", position):
+        return None
+    path = stripped[position + 2:-1]
+    if "(" in path or ")" in path:
+        return None
+    return stripped[2:position].strip(), path
+
+
+def validate_figure_path(path: str, line_number: int) -> None:
+    """Accept only a portable PNG path relative to the repository root."""
+    segments = path.split("/")
+    problem = None
+    if not path:
+        problem = "is empty"
+    elif path.startswith("/"):
+        problem = "is absolute (write it relative to the repository root)"
+    elif any(not FIGURE_SEGMENT_PATTERN.fullmatch(s) for s in segments):
+        problem = (
+            "may contain only ASCII letters, digits, '-', '_' and '.' in "
+            "'/'-separated segments (no spaces, backslashes or drive letters)"
+        )
+    elif any(set(segment) == {"."} for segment in segments):
+        problem = "must not contain '.' or '..' segments"
+    elif not FIGURE_FILE_PATTERN.fullmatch(segments[-1]):
+        problem = (
+            "must end in a file name NAME.png with exactly one dot "
+            "(only PNG figures are supported)"
+        )
+    if problem is not None:
+        raise ValueError(f"line {line_number}: figure path {path!r} {problem}")
+
+
+def check_figure_file(path: str, image_root: Path, line_number: int) -> None:
+    """Require an existing PNG at image_root/path, with exact spelling."""
+    root = Path(image_root).resolve()
+    directory = root
+    for segment in path.split("/"):
+        try:
+            names = os.listdir(directory)
+        except OSError:
+            names = []
+        if segment not in names:
+            raise ValueError(
+                f"line {line_number}: figure file {path!r} does not exist "
+                f"under {root.as_posix()} (spelled with this exact case)"
+            )
+        directory = directory / segment
+    if not directory.is_file():
+        raise ValueError(
+            f"line {line_number}: figure path {path!r} is not a file"
+        )
+    try:
+        directory.resolve().relative_to(root)
+    except ValueError:
+        raise ValueError(
+            f"line {line_number}: figure path {path!r} leaves "
+            f"{root.as_posix()} through a link"
+        ) from None
+    with directory.open("rb") as handle:
+        signature = handle.read(len(PNG_SIGNATURE))
+    if signature != PNG_SIGNATURE:
+        raise ValueError(
+            f"line {line_number}: figure file {path!r} is not a PNG file"
+        )
+
+
+def figure_paths(markdown: str) -> list[str]:
+    """Paths of the figure lines of markdown, in order, as convert() sees
+    them (fenced code and display math are skipped; nothing is validated)."""
+    paths = []
+    in_code = False
+    in_math = False
+    for line in markdown.splitlines():
+        stripped = line.strip()
+        if stripped.startswith("```"):
+            in_code = not in_code
+        elif in_code:
+            continue
+        elif stripped == "$$":
+            in_math = not in_math
+        elif not in_math:
+            figure = figure_line(stripped)
+            if figure is not None:
+                paths.append(figure[1])
+    return paths
+
+
+def render_figure(
+    caption: str, path: str, developer_layout: bool
+) -> list[str]:
+    return [
+        "\\begin{figure}[htbp]",
+        "\\centering",
+        f"\\includegraphics[width={FIGURE_WIDTH}]{{{path}}}",
+        "\\caption{"
+        + inline_markup(caption, developer_layout, heading=True)
+        + "}",
+        "\\end{figure}",
+    ]
 
 
 def split_table_row(line: str) -> list[str]:
@@ -680,7 +884,13 @@ def convert(
     developer_layout: bool = False,
     author: str = DEFAULT_AUTHOR,
     date: str = DEFAULT_DATE,
+    image_root: Path | None = None,
 ) -> str:
+    """Return the LaTeX document for markdown.
+
+    image_root: when given, every figure file is also checked on disk
+    (check_figure_file); figure paths are relative to it.
+    """
     validate_characters(markdown, "Markdown")
     validate_characters(author, "author")
     validate_characters(date, "date")
@@ -693,6 +903,7 @@ def convert(
     in_abstract = False
     block_start = 0
     list_kind: str | None = None
+    figure_count = 0
     index = 0
 
     def flush_paragraph() -> None:
@@ -776,6 +987,24 @@ def convert(
             body.extend(render_table(table_lines, developer_layout))
             body.append("")
             continue
+        figure = figure_line(stripped)
+        if figure is not None:
+            flush_paragraph()
+            close_list()
+            caption, path = figure
+            if not caption:
+                raise ValueError(
+                    f"line {index + 1}: figure {stripped!r} has an empty "
+                    "caption"
+                )
+            validate_figure_path(path, index + 1)
+            if image_root is not None:
+                check_figure_file(path, image_root, index + 1)
+            body.extend(render_figure(caption, path, developer_layout))
+            body.append("")
+            figure_count += 1
+            index += 1
+            continue
         heading = re.match(r"^(#{1,6})\s+(.+)$", stripped)
         if heading:
             flush_paragraph()
@@ -846,6 +1075,9 @@ def convert(
     )
     declarations = unicode_declarations(markdown + author + date)
     declaration_block = "".join(line + "\n" for line in declarations)
+    # Only a document with a figure loads graphicx: the preamble of every
+    # other document stays byte-identical to the origin's.
+    graphics_block = "\\usepackage{graphicx}\n" if figure_count else ""
     preamble = rf"""\documentclass[11pt]{{article}}
 \usepackage[T1]{{fontenc}}
 \usepackage[utf8]{{inputenc}}
@@ -854,7 +1086,7 @@ def convert(
 \usepackage{{amsmath,amssymb,mathtools}}
 \usepackage{{booktabs,longtable,array}}
 \usepackage{{fancyvrb}}
-\usepackage[hidelinks]{{hyperref}}
+{graphics_block}\usepackage[hidelinks]{{hyperref}}
 \usepackage{{microtype}}
 {declaration_block}\pdfobjcompresslevel=0
 \pdfinfoomitdate=1
@@ -886,6 +1118,7 @@ def main() -> int:
         developer_layout=arguments.developer_layout,
         author=arguments.author,
         date=arguments.date,
+        image_root=arguments.image_root,
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(latex, encoding="utf-8", newline="\n")

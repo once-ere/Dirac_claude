@@ -4,7 +4,9 @@ Recomputes every algebraic and flat-space quantization claim of CONTRACT.md
 sections 1, 2, 5 and 8 with exact rational / Gaussian-rational arithmetic
 (``fractions.Fraction``; no floating point anywhere), compares the result
 with the exact fixture written by ``build_dirac16complex_fixture.py`` and,
-when present, with the Wolfram algebra report.
+when present, with the Wolfram algebra report (ALG_wolframAgreement: the
+K matrices and chirality, equal verdicts for every shared check name, and
+every entry of WOLFRAM_SHARED_MEASUREMENTS; ``--wolfram-report=`` skips it).
 
 Prints one ``check_<name>=true|false`` line per check, one
 ``measurement_<name>=<value>`` line per measurement, then ``check_count=N``
@@ -758,12 +760,21 @@ def check_unitary_and_krein_subgroups(ctx):
         # S real so S^dagger = S^T;  S^T B + B S = i (S^T b + b S)
         if X.is_zero(X.add(X.matmul(X.transpose(s), b_imag), X.matmul(b_imag, s))):
             krein.append((a, b))
+    # Canonical meaning (lead decision, CONTRACT.md section 11 erratum E1; identical in
+    # wolfram/Dirac16ComplexAlgebra.wl): (a) exactly 13 S^ab commute with B, namely the
+    # 9 of so(4)+so(3) and the 4 Hermitian boosts S^{a4}, a = 0..3; (b) exactly 9 of them
+    # are anti-Hermitian (the unitarily implemented Spin(4)xSpin(3)); (c) the 21 with
+    # a,b != 4 are Krein-unitary and the 7 S^{a4} are not.
     compact_commuting = [pair for pair in commuting if pair in anti_hermitian]
     expected_unitary = [pair for pair in X.spin_pairs()
                         if set(pair) <= {0, 1, 2, 3} or set(pair) <= {5, 6, 7}]
+    expected_boosts = [(a, 4) for a in range(4)]
+    expected_commuting = sorted(expected_unitary + expected_boosts)
+    boosts_hermitian = all(X.is_symmetric(ctx.S[pair]) for pair in expected_boosts)
     expected_krein = [pair for pair in X.spin_pairs() if 4 not in pair]
     krein_failing = [pair for pair in X.spin_pairs() if pair not in krein]
-    ok = (compact_commuting == expected_unitary and len(compact_commuting) == 9
+    ok = (commuting == expected_commuting and len(commuting) == 13 and boosts_hermitian
+          and compact_commuting == expected_unitary and len(compact_commuting) == 9
           and krein == expected_krein and len(krein) == 21
           and krein_failing == [pair for pair in X.spin_pairs() if 4 in pair])
     return ok, {
@@ -775,12 +786,13 @@ def check_unitary_and_krein_subgroups(ctx):
         "QNT_literalClaimExactlyNineCommuteWithB": len(commuting) == 9,
         "QNT_kreinGeneratorCount": len(krein),
         "QNT_kreinFailingGenerators": [list(p) for p in krein_failing],
+        "QNT_boostsCommutingWithBHermitian": boosts_hermitian,
         "QNT_unitaryCheckMeaning": (
-            "unitary (w.r.t. Psi^dagger Psi) generators commuting with B = anti-Hermitian "
-            "S^ab with [S^ab,B]=0: exactly the 9 with a,b in {0,1,2,3} or {5,6,7} "
-            "(Spin(4)xSpin(3)); the 4 boosts S^{a4} (a<4) also commute with B but are "
-            "Hermitian (not unitary), so 13 S^ab commute with B in total; Krein condition "
-            "S^T B + B S = 0 holds exactly for the 21 with a,b != 4 (spin(4,3))"),
+            "canonical meaning (CONTRACT.md section 11, E1): (a) exactly 13 S^ab commute "
+            "with B: the 9 with a,b in {0,1,2,3} or {5,6,7} and the 4 Hermitian boosts "
+            "S^{a4}, a<4; (b) exactly 9 are anti-Hermitian (unitary w.r.t. Psi^dagger Psi) "
+            "and commute with B (Spin(4)xSpin(3)); (c) Krein condition S^T B + B S = 0 "
+            "holds exactly for the 21 with a,b != 4 (spin(4,3)) and fails for the 7 S^{a4}"),
     }
 
 
@@ -902,7 +914,146 @@ def _lookup(document, names):
     return None, None
 
 
-def check_wolfram_agreement(ctx, report_path):
+def _canon(value):
+    """JSON-like canonical form used to compare Wolfram and Python measurement values."""
+    if isinstance(value, bool) or value is None or isinstance(value, str):
+        return value
+    if isinstance(value, Fraction):
+        return int(value) if value.denominator == 1 else str(value)
+    if isinstance(value, int):
+        return value
+    if isinstance(value, (list, tuple)):
+        return [_canon(item) for item in value]
+    if isinstance(value, dict):
+        return {str(key): _canon(item) for key, item in value.items()}
+    return value
+
+
+def _sorted_pairs(value):
+    return sorted([int(a), int(b)] for a, b in value)
+
+
+def _complement_pairs(value):
+    present = {(int(a), int(b)) for a, b in value}
+    return [list(pair) for pair in X.spin_pairs() if pair not in present]
+
+
+def _uniform(value):
+    """A list whose entries are all equal -> that entry (else the list unchanged)."""
+    if isinstance(value, list) and value and all(item == value[0] for item in value):
+        return value[0]
+    return value
+
+
+def _multiplicities(value):
+    return {"plus1": sum(1 for item in value if item == 1),
+            "minus1": sum(1 for item in value if item == -1)}
+
+
+def _identity(value):
+    return value
+
+
+# Shared measurements (lead decision: ALG_wolframAgreement compares the same semantics).
+# Each entry: (Wolfram measurement key, Python measurement key or tuple of keys,
+# Wolfram normaliser, Python normaliser).  Both sides are reduced with _canon first.
+WOLFRAM_SHARED_MEASUREMENTS = (
+    ("chiralityDiagonal", "ALG_chiralityDiagonal", _identity, _identity),
+    ("volumeElementSign", "ALG_cliffordKChiralityKinvSignVsGGGG", _identity, _identity),
+    ("ALG_gammaTransposeSymmetry.symmetryType", "ALG_gammaTransposeKinds", _identity, _identity),
+    ("ALG_chargeMatrix.signature", "ALG_chargeMatrixSignature", _identity, lambda v: v[:2]),
+    ("ALG_chargeMatrix.zeroEigenvalues", "ALG_chargeMatrixSignature", _identity, lambda v: v[2]),
+    ("ALG_expression1.list", "ALG_expression1PerFrameIndex", _identity, _identity),
+    ("ALG_faithful.monomialCount", "ALG_monomialCount", _identity, _identity),
+    ("ALG_faithful.fullRank", "ALG_fullAlgebraRank", _identity, _identity),
+    ("ALG_faithful.evenRank", "ALG_evenAlgebraRank", _identity, _identity),
+    ("ALG_pinIrreducibleComplex.commutantDimension", "ALG_pinCommutantDimensionQ", _identity, _identity),
+    ("ALG_spinDecomposition.spinCommutantDimension", "ALG_spinCommutantDimensionQ", _identity, _identity),
+    ("ALG_spinDecomposition.blockCommutantDimensions",
+     ("ALG_spinMinusBlockCommutantDimension", "ALG_spinPlusBlockCommutantDimension"), _identity, _identity),
+    ("ALG_spinDecomposition.crossIntertwinerDimensions",
+     ("ALG_spinCrossIntertwinerDimension", "ALG_spinCrossIntertwinerDimensionReverse"), _identity, _identity),
+    ("ALG_spinDecomposition.blockEvenAlgebraRanks",
+     ("ALG_evenAlgebraRankMinusBlock", "ALG_evenAlgebraRankPlusBlock"), _identity, _identity),
+    ("ALG_cliffordPictureIntertwiner.intertwinerDimension", "ALG_cliffordIntertwinerDimension", _identity, _identity),
+    ("ALG_cliffordPictureIntertwiner.rank", "ALG_cliffordIntertwinerRank", _identity, _identity),
+    ("ALG_cliffordPictureIntertwiner.KCKinverseEqualsCdm", "ALG_cliffordKChargeKinvEqualsCdm", _identity, _identity),
+    ("ALG_octonionPictureIntertwiner.intertwinerDimension", "ALG_octonionIntertwinerDimension", _identity, _identity),
+    ("ALG_octonionPictureIntertwiner.rank", "ALG_octonionIntertwinerRank", _identity, _identity),
+    ("ALG_octonionPictureIntertwiner.intertwinerBlockType", "ALG_octonionKBlockDiagonal",
+     lambda v: v == "block-diagonal", _identity),
+    ("ALG_octonionPictureIntertwiner.upperBlockQIsScaledSignedPermutation", "ALG_octonionKIsSignedPermutation",
+     _identity, _identity),
+    ("ALG_octonionPictureIntertwiner.tauEqualsLeftMultiplication", "ALG_tauEqualsLeftMultiplicationPerIndex",
+     _identity, _identity),
+    ("ALG_octonionPictureIntertwiner.diracMainCanonicalIntertwinerEqualsPrimitiveKcliffordKoctonion",
+     "ALG_KcliffordKoctonionEqualsDiracMainCanonicalIntertwiner", _identity, _identity),
+    ("ALG_octonionPictureIntertwiner.matchesDiracMainTriality44OctonionCliffordGenerators",
+     "ALG_octonionGammasEqualDiracMainTriality44Json", _identity, _identity),
+    ("ALG_octonionPictureIntertwiner.matchesDiracMainSplitOctonionMultiplicationTensor",
+     "ALG_zornProductEqualsDiracMainSplitOctonionJson", _identity, _identity),
+    ("ALG_chargeFormB.eigenvalues", "ALG_chargeFormBEigenvalueMultiplicities", _multiplicities, _identity),
+    ("ALG_invariantForms.invariantBilinearFormDimension", "ALG_invariantFormDimensionQ", _identity, _identity),
+    ("ALG_invariantForms.basisIsCPminusCPplus", "ALG_invariantFormsSpannedByCPminusCPplus", _identity, _identity),
+    ("ALG_invariantForms.basisBlockDiagonalInChirality", "ALG_invariantFormsBlockDiagonal", _identity, _identity),
+    ("ALG_invariantForms.Hgamma4BlockOffDiagonal", "ALG_invariantFormsTimesGamma4BlockOffDiagonal",
+     _identity, _identity),
+    ("ALG_gamma8Map.kineticMatrixSigns", "ALG_gamma8MapKineticSign", _uniform, _identity),
+    ("ALG_gamma8Map.massMatrixSign", "ALG_gamma8MapMassSign", _identity, _identity),
+    ("QNT_kreinSignature.restPositiveFrequency", "QNT_kreinPositiveEnergyEigenspaceDimension",
+     lambda v: v["dimension"], _identity),
+    ("QNT_kreinSignature.restNegativeFrequency", "QNT_kreinNegativeEnergyEigenspaceDimension",
+     lambda v: v["dimension"], _identity),
+    ("QNT_kreinSignature.restPositiveFrequency", "QNT_kreinBSignatureOnPlusEigenspace",
+     lambda v: v["signature"], _identity),
+    ("QNT_kreinSignature.restNegativeFrequency", "QNT_kreinBSignatureOnMinusEigenspace",
+     lambda v: v["signature"], _identity),
+    ("QNT_unitaryAndKreinSubgroups.generatorsCommutingWithB", "QNT_generatorsCommutingWithB",
+     _sorted_pairs, _sorted_pairs),
+    ("QNT_unitaryAndKreinSubgroups.countCommutingWithB", "QNT_generatorsCommutingWithBCount", _identity, _identity),
+    ("QNT_unitaryAndKreinSubgroups.literalClaimExactlyNineCommuteWithB", "QNT_literalClaimExactlyNineCommuteWithB",
+     _identity, _identity),
+    ("QNT_unitaryAndKreinSubgroups.extraCommutingGeneratorsAreHermitian", "QNT_boostsCommutingWithBHermitian",
+     _identity, _identity),
+    ("QNT_unitaryAndKreinSubgroups.commutingWithBAndAntiHermitian", "QNT_unitaryGenerators",
+     _sorted_pairs, _sorted_pairs),
+    ("QNT_unitaryAndKreinSubgroups.countCommutingWithBAndAntiHermitian", "QNT_unitaryGeneratorCount",
+     _identity, _identity),
+    ("QNT_unitaryAndKreinSubgroups.countHilbertAntiHermitian", "QNT_antiHermitianGeneratorCount",
+     _identity, _identity),
+    ("QNT_unitaryAndKreinSubgroups.countKreinAntiHermitian", "QNT_kreinGeneratorCount", _identity, _identity),
+    ("QNT_unitaryAndKreinSubgroups.kreinAntiHermitianGenerators", "QNT_kreinFailingGenerators",
+     _complement_pairs, _sorted_pairs),
+    ("QNT_currentHermiticity.currentMatricesHermitian", "QNT_currentMatrixHermitianPerIndex", _identity, _identity),
+    ("QNT_currentHermiticity.J4MatrixEqualsB", "QNT_currentTimeComponentEqualsB", _identity, _identity),
+)
+
+
+def compare_shared_measurements(wolfram_measurements, python_measurements):
+    """Compare every WOLFRAM_SHARED_MEASUREMENTS entry; returns (all_agree, rows)."""
+    rows = []
+    for wolfram_key, python_key, wolfram_norm, python_norm in WOLFRAM_SHARED_MEASUREMENTS:
+        label = "%s <-> %s" % (wolfram_key, python_key if isinstance(python_key, str)
+                               else "+".join(python_key))
+        row = {"measurement": label, "agree": False}
+        try:
+            if wolfram_key not in wolfram_measurements:
+                raise KeyError("missing in the Wolfram report: " + wolfram_key)
+            if isinstance(python_key, str):
+                python_raw = python_measurements[python_key]
+            else:
+                python_raw = [python_measurements[key] for key in python_key]
+            wolfram_value = _canon(wolfram_norm(_canon(wolfram_measurements[wolfram_key])))
+            python_value = _canon(python_norm(_canon(python_raw)))
+            row.update({"wolfram": wolfram_value, "python": python_value,
+                        "agree": wolfram_value == python_value})
+        except (KeyError, TypeError, ValueError, IndexError) as error:
+            row["error"] = str(error)
+        rows.append(row)
+    return all(row["agree"] for row in rows), rows
+
+
+def check_wolfram_agreement(ctx, report_path, python_checks=None, python_measurements=None):
     with open(report_path, "rb") as handle:
         data = handle.read()
     measurements = {"wolframReportSha256": X.sha256_bytes(data)}
@@ -941,15 +1092,32 @@ def check_wolfram_agreement(ctx, report_path):
             else:
                 directions[key] = "no-match"
     wolfram_checks = document.get("checks", {}) if isinstance(document.get("checks"), dict) else {}
+    python_checks = {} if python_checks is None else python_checks
+    python_measurements = {} if python_measurements is None else python_measurements
+    # every check computed by both implementations must have the same verdict
+    shared = sorted(set(wolfram_checks) & set(python_checks))
+    check_disagreements = sorted(name for name in shared
+                                 if (wolfram_checks[name] is True) != bool(python_checks[name]))
+    wolfram_measurements = document.get("measurements", {})
+    if not isinstance(wolfram_measurements, dict):
+        wolfram_measurements = {}
+    measurements_ok, rows = compare_shared_measurements(wolfram_measurements, python_measurements)
     measurements.update({
         "wolframMatrixAgreement": results,
         "wolframMatrixKeysFound": found,
         "wolframKOctonionDirection": directions.get("K_octonion", "not-found"),
-        "wolframCheckNamesShared": sorted(set(wolfram_checks) & set(ALGEBRA_CHECKS)),
+        "wolframCheckNamesShared": shared,
+        "wolframCheckVerdictDisagreements": check_disagreements,
         "wolframChecksFalse": sorted(name for name, value in wolfram_checks.items()
                                      if value is not True),
+        "wolframSharedMeasurementCount": len(rows),
+        "wolframSharedMeasurementsAgreeing": sum(1 for row in rows if row["agree"]),
+        "wolframSharedMeasurementDisagreements": [row for row in rows if not row["agree"]],
+        "wolframSharedMeasurements": rows,
     })
-    return all(results.values()), measurements
+    ok = (all(results.values()) and bool(shared) and not check_disagreements
+          and measurements_ok)
+    return ok, measurements
 
 
 # ---------------------------------------------------------------------------
@@ -1018,7 +1186,8 @@ def verify(fixture_path=DEFAULT_FIXTURE, wolfram_report_path=DEFAULT_WOLFRAM_REP
     if os.path.exists(fixture_path):
         inputs[_relative(fixture_path)] = X.sha256_file(fixture_path)
     if wolfram_report_path and os.path.exists(wolfram_report_path):
-        wolfram_ok, wolfram_measurements = check_wolfram_agreement(ctx, wolfram_report_path)
+        wolfram_ok, wolfram_measurements = check_wolfram_agreement(
+            ctx, wolfram_report_path, python_checks=checks, python_measurements=measurements)
         checks[WOLFRAM_CHECK] = bool(wolfram_ok)
         measurements.update(wolfram_measurements)
         inputs[_relative(wolfram_report_path)] = X.sha256_file(wolfram_report_path)

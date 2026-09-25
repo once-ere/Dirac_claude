@@ -1,0 +1,219 @@
+{
+  "schemaVersion": 1,
+  "study": "dirac16complex-cosmology",
+  "experiment": "exp5",
+  "fixture": {
+    "path": "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json",
+    "sha256": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
+    "source": "fixture"
+  },
+  "engine": "sundials_rs 7.8.0 CVODE (pure Rust, vendor/rustSolveIt)",
+  "solver": "CVODE Adams-Moulton + fixed-point (functional) iteration",
+  "refined": false,
+  "tolerances": {
+    "rtol": 1.00000000000000004e-10,
+    "atol": 9.99999999999999980e-13,
+    "maxStep": 2.00000000000000004e-02
+  },
+  "parameters": {
+    "H": 1.00000000000000000e+00,
+    "m": 1.00000000000000000e+00,
+    "qValues": [
+      5.00000000000000028e-02,
+      1.00000000000000006e-01
+    ],
+    "cSigns": [
+      1.00000000000000000e+00,
+      -1.00000000000000000e+00
+    ],
+    "extraTime": 3.00000000000000000e+00,
+    "outputIntervals": 600,
+    "wkbWindowStart": 1.50000000000000000e+00,
+    "momentumDirection": 5
+  },
+  "stateLayout": "u_re_0..u_re_15, u_im_0..u_im_15 (u = re + i im in C^16)",
+  "limits": {
+    "wkbLeading": 1.00000000000000002e-02,
+    "wkbFirstOrder": 2.00000000000000004e-03,
+    "kreinNormalized": 1.00000000000000002e-08,
+    "eigen": 9.99999999999999980e-13
+  },
+  "runs": [
+    {
+      "id": "q0p05_Cp",
+      "file": "run_q0p05_Cp.csv",
+      "q": 5.00000000000000028e-02,
+      "cSign": 1.00000000000000000e+00,
+      "tStar": 2.99573227355399085e+00,
+      "tEnd": 5.99573227355399041e+00,
+      "energy0": 9.98749217771908948e-01,
+      "initialEigenResidual": 5.55111512312578270e-17,
+      "kreinNorm0": 9.98749217771909059e-01,
+      "finalNormHilbert": 1.25845288148261040e+16,
+      "kreinDrift": {
+        "maxAbs": 9.98749217771909059e-01,
+        "maxNormalized": 7.74647788575664558e-10,
+        "maxAbsBeforeTStar": 3.65219299247598883e-10
+      },
+      "wkb": {
+        "tA": 4.49679920516549281e+00,
+        "tB": 5.99573227355399041e+00,
+        "gammaNumeric": 3.09922052600756217e+01,
+        "gammaLeading": 3.10240955699862262e+01,
+        "gammaFirstOrder": 3.09998577341041610e+01,
+        "relDevLeading": -1.02792069598497070e-03,
+        "relDevFirstOrder": -2.46855133793743697e-04
+      },
+      "rateEarly": 2.36823523797698332e+00,
+      "rateLate": 2.53055654514790760e+01,
+      "solver": {
+        "steps": 722,
+        "rhsEvals": 1343,
+        "errTestFails": 10,
+        "nonlinIters": 1340,
+        "nonlinConvFails": 0,
+        "lastOrder": 6
+      }
+    },
+    {
+      "id": "q0p05_Cm",
+      "file": "run_q0p05_Cm.csv",
+      "q": 5.00000000000000028e-02,
+      "cSign": -1.00000000000000000e+00,
+      "tStar": 2.99573227355399085e+00,
+      "tEnd": 5.99573227355399041e+00,
+      "energy0": 9.98749217771908948e-01,
+      "initialEigenResidual": 5.55111512312578270e-17,
+      "kreinNorm0": -9.98749217771909059e-01,
+      "finalNormHilbert": 1.25845288148261040e+16,
+      "kreinDrift": {
+        "maxAbs": 9.98749217771909059e-01,
+        "maxNormalized": 7.74647788575664558e-10,
+        "maxAbsBeforeTStar": 3.65219299247598883e-10
+      },
+      "wkb": {
+        "tA": 4.49679920516549281e+00,
+        "tB": 5.99573227355399041e+00,
+        "gammaNumeric": 3.09922052600756217e+01,
+        "gammaLeading": 3.10240955699862262e+01,
+        "gammaFirstOrder": 3.09998577341041610e+01,
+        "relDevLeading": -1.02792069598497070e-03,
+        "relDevFirstOrder": -2.46855133793743697e-04
+      },
+      "rateEarly": 2.36823523797698332e+00,
+      "rateLate": 2.53055654514790760e+01,
+      "solver": {
+        "steps": 722,
+        "rhsEvals": 1343,
+        "errTestFails": 10,
+        "nonlinIters": 1340,
+        "nonlinConvFails": 0,
+        "lastOrder": 6
+      }
+    },
+    {
+      "id": "q0p1_Cp",
+      "file": "run_q0p1_Cp.csv",
+      "q": 1.00000000000000006e-01,
+      "cSign": 1.00000000000000000e+00,
+      "tStar": 2.30258509299404590e+00,
+      "tEnd": 5.30258509299404590e+00,
+      "energy0": 9.94987437106619965e-01,
+      "initialEigenResidual": 0.00000000000000000e+00,
+      "kreinNorm0": 9.94987437106619965e-01,
+      "finalNormHilbert": 1.31331482892334040e+16,
+      "kreinDrift": {
+        "maxAbs": 1.00501256289338015e+00,
+        "maxNormalized": 1.07513772432693882e-09,
+        "maxAbsBeforeTStar": 1.27911337077790677e-09
+      },
+      "wkb": {
+        "tA": 3.80902362513405635e+00,
+        "tB": 5.30258509299404590e+00,
+        "gammaNumeric": 3.09455214592228955e+01,
+        "gammaLeading": 3.09769760059228716e+01,
+        "gammaFirstOrder": 3.09530174064562189e+01,
+        "relDevLeading": -1.01541695657968254e-03,
+        "relDevFirstOrder": -2.42171777145056271e-04
+      },
+      "rateEarly": 2.39764194058386426e+00,
+      "rateLate": 2.53123526646867241e+01,
+      "solver": {
+        "steps": 552,
+        "rhsEvals": 1057,
+        "errTestFails": 11,
+        "nonlinIters": 1054,
+        "nonlinConvFails": 0,
+        "lastOrder": 6
+      }
+    },
+    {
+      "id": "q0p1_Cm",
+      "file": "run_q0p1_Cm.csv",
+      "q": 1.00000000000000006e-01,
+      "cSign": -1.00000000000000000e+00,
+      "tStar": 2.30258509299404590e+00,
+      "tEnd": 5.30258509299404590e+00,
+      "energy0": 9.94987437106619965e-01,
+      "initialEigenResidual": 0.00000000000000000e+00,
+      "kreinNorm0": -9.94987437106619965e-01,
+      "finalNormHilbert": 1.31331482892334040e+16,
+      "kreinDrift": {
+        "maxAbs": 1.00501256289338015e+00,
+        "maxNormalized": 1.07513772432693882e-09,
+        "maxAbsBeforeTStar": 1.27911337077790677e-09
+      },
+      "wkb": {
+        "tA": 3.80902362513405635e+00,
+        "tB": 5.30258509299404590e+00,
+        "gammaNumeric": 3.09455214592228955e+01,
+        "gammaLeading": 3.09769760059228716e+01,
+        "gammaFirstOrder": 3.09530174064562189e+01,
+        "relDevLeading": -1.01541695657968254e-03,
+        "relDevFirstOrder": -2.42171777145056271e-04
+      },
+      "rateEarly": 2.39764194058386426e+00,
+      "rateLate": 2.53123526646867241e+01,
+      "solver": {
+        "steps": 552,
+        "rhsEvals": 1057,
+        "errTestFails": 11,
+        "nonlinIters": 1054,
+        "nonlinConvFails": 0,
+        "lastOrder": 6
+      }
+    }
+  ],
+  "measurements": {
+    "maxKreinDriftNormalized": 1.07513772432693882e-09,
+    "maxKreinDriftBeforeTStar": 1.27911337077790677e-09,
+    "maxKreinDriftAbs": 1.00501256289338015e+00,
+    "maxRelDevWkbLeading": 1.02792069598497070e-03,
+    "maxRelDevWkbFirstOrder": 2.46855133793743697e-04
+  },
+  "notes": [
+    "u^dag u grows like exp(2 W(t)); u^dag B u is conserved (B-pseudo-Hermitian h). This is why quantisation and cosmology are restricted to the q = 0 sector.",
+    "The absolute Krein drift at late times is bounded by float64 cancellation (~1e-16 u^dag u); the normalised drift is the meaningful conservation measure."
+  ],
+  "files": [
+    "run_q0p05_Cp.csv",
+    "run_q0p05_Cm.csv",
+    "run_q0p1_Cp.csv",
+    "run_q0p1_Cm.csv",
+    "summary.json"
+  ],
+  "solverTotals": {
+    "steps": 2548,
+    "rhsEvaluations": 4800
+  },
+  "checks": {
+    "energy_squared_changes_sign_at_tstar": true,
+    "initial_positive_energy_C_eigenvector": true,
+    "krein_norm_conserved_normalized": true,
+    "krein_norm_conserved_before_tstar": true,
+    "hilbert_norm_superexponential_growth": true,
+    "growth_matches_wkb_leading_order": true,
+    "growth_matches_wkb_first_order": true
+  },
+  "verdict": "SUCCESS"
+}

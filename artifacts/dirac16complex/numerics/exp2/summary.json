@@ -1,0 +1,411 @@
+{
+  "schemaVersion": 1,
+  "study": "dirac16complex-cosmology",
+  "experiment": "exp2",
+  "fixture": {
+    "path": "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json",
+    "sha256": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
+    "source": "fixture"
+  },
+  "engine": "sundials_rs 7.8.0 CVODE (pure Rust, vendor/rustSolveIt)",
+  "solver": "CVODE Adams-Moulton + fixed-point (functional) iteration",
+  "refined": false,
+  "tolerances": {
+    "rtol": 9.99999999999999980e-13,
+    "atol": 1.00000000000000008e-15,
+    "maxStep": 2.00000000000000004e-02
+  },
+  "parameters": {
+    "kappa": 1.00000000000000000e+00,
+    "m": 1.00000000000000000e+00,
+    "hubbleB0": 0.00000000000000000e+00,
+    "hubbleA0": 1.00000000000000000e+00,
+    "hubbleC0": -2.00000000000000011e-01,
+    "x0Values": [
+      0.00000000000000000e+00,
+      -4.00000000000000022e-01,
+      5.00000000000000000e-01
+    ],
+    "lnVolumeStep": 5.00000000000000028e-02,
+    "backwardIntervals": 140,
+    "forwardIntervals": 370,
+    "lnVolumeMin": -7.00000000000000000e+00,
+    "lnVolumeMax": 1.85000000000000000e+01,
+    "initialSpinor": "first vector of the (h = +M_eff, B = +1) eigenspace"
+  },
+  "stateLayout": "ln_b, ln_a, ln_c, H_b, H_a, H_c, u_re_0..u_re_15, u_im_0..u_im_15 (u = re + i im in C^16); rows in increasing t (backward branch, t = 0, forward branch)",
+  "limits": {
+    "eigen": 9.99999999999999980e-13,
+    "initialConstraint": 9.99999999999999999e-15,
+    "constraint": 1.00000000000000006e-09,
+    "conservation": 1.00000000000000006e-09,
+    "identity": 1.00000000000000003e-13,
+    "exact": 1.00000000000000006e-09,
+    "spinorShape": 1.00000000000000006e-09,
+    "phaseTruncationAllowance": 1.00000000000000006e-09,
+    "lateTime": 1.00000000000000002e-03,
+    "kasner": 9.99999999999999955e-07
+  },
+  "runs": [
+    {
+      "id": "x0_0",
+      "file": "run_x0_0.csv",
+      "x0": 0.00000000000000000e+00,
+      "S0": 1.32000000000000006e+00,
+      "lambda": 0.00000000000000000e+00,
+      "scalarDensity0": 1.00000000000000000e+00,
+      "mEff0": 1.00000000000000000e+00,
+      "rho0": 1.32000000000000006e+00,
+      "constraintLhs0": 1.32000000000000006e+00,
+      "constraintRelative0": 0.00000000000000000e+00,
+      "initialEigenResidual": 0.00000000000000000e+00,
+      "kreinNorm0": 1.00000000000000000e+00,
+      "exact": {
+        "theta0": 2.39999999999999991e+00,
+        "alpha": 7.70000000000000018e-01,
+        "beta": 2.20000000000000001e-01,
+        "discriminant": 2.67999999999999972e+00,
+        "singularityTime": -4.95408730925655905e-01,
+        "farRoot": -2.62147438595746074e+00,
+        "kasnerExponents": [
+          -6.65761903250946807e-02,
+          5.44271031456431409e-01,
+          -1.88745634681399904e-01
+        ],
+        "kasnerSumSquares": 1.00000000000000000e+00,
+        "extraTimeTurnTime": 9.09090909090909172e-01,
+        "mEffZeroVolume": 0.00000000000000000e+00,
+        "rhoZeroVolume": 0.00000000000000000e+00
+      },
+      "grid": {
+        "tBack": -4.94851856221109887e-01,
+        "tEnd": 1.18555446748084141e+04,
+        "volumeBack": 9.11881912837862935e-04,
+        "rows": 511
+      },
+      "measurements": {
+        "maxConstraintRelative": 5.54050879511906641e-11,
+        "maxScalarDensityDrift": 3.32879057651780386e-10,
+        "maxHilbertNormDrift": 3.32879057651780386e-10,
+        "maxKreinNormDrift": 3.32879057651780386e-10,
+        "maxAnisotropyVolumeDrift": 6.22368268032857941e-10,
+        "minBound": 2.32168123374871108e-09,
+        "maxBoundIdentityDefect": 7.58708505120176874e-16,
+        "maxExactVolumeError": 8.29634999717293267e-11,
+        "maxExactHubbleError": 1.57636930213220585e-11,
+        "maxExactLnScaleError": 9.75171174512023181e-12,
+        "maxExactSpinorError": 1.66041696004769386e-07,
+        "maxSpinorShapeError": 1.66439528825890193e-10,
+        "maxSpinorPhaseError": 1.66041612598264976e-07,
+        "spinorPhaseRoundingBound": 5.39258520892982318e-07,
+        "minThetaOver3HaPositiveEnergy": 6.12676555953013735e-01,
+        "minWeffPositiveEnergy": -3.87323444046986265e-01,
+        "negativeKineticRows": 0,
+        "phantomRows": 0,
+        "phantomVolumeMin": null,
+        "phantomVolumeMax": null,
+        "negativeEnergyRows": 0,
+        "negativeEnergyVolumeMax": 0.00000000000000000e+00,
+        "minRho": 1.21934335568484769e-08,
+        "finalAnisotropy": 4.60023447615096081e-04,
+        "finalHubbleTimesT": [
+          2.85639187096843161e-01,
+          2.85748702093988505e-01,
+          2.85617284097406277e-01
+        ],
+        "finalW": 0.00000000000000000e+00,
+        "finalWeff": 1.33274567363654350e+00,
+        "extraTimeTurnTimeMeasured": 9.09493582471591178e-01,
+        "kasnerAtBackwardEnd": [
+          -6.64665351409732957e-02,
+          5.44060859020198406e-01,
+          -1.88572013973207303e-01
+        ],
+        "kasnerExtrapolated": [
+          -6.65761902322241639e-02,
+          5.44271031278455553e-01,
+          -1.88745634534342344e-01
+        ],
+        "kasnerSumSquaresExtrapolated": 9.99999999239892468e-01
+      },
+      "solver": {
+        "forward": {
+          "steps": 592921,
+          "rhsEvals": 592984,
+          "errTestFails": 8,
+          "nonlinIters": 592982,
+          "nonlinConvFails": 0,
+          "lastOrder": 7,
+          "lastStep": 1.73266646997944779e-02
+        },
+        "backward": {
+          "steps": 462,
+          "rhsEvals": 948,
+          "errTestFails": 30,
+          "nonlinIters": 946,
+          "nonlinConvFails": 0,
+          "lastOrder": 7,
+          "lastStep": -9.70005486600199737e-07
+        }
+      }
+    },
+    {
+      "id": "x0_m0p4",
+      "file": "run_x0_m0p4.csv",
+      "x0": -4.00000000000000022e-01,
+      "S0": 2.20000000000000018e+00,
+      "lambda": -3.63636363636363646e-01,
+      "scalarDensity0": 1.00000000000000000e+00,
+      "mEff0": 1.99999999999999956e-01,
+      "rho0": 1.32000000000000006e+00,
+      "constraintLhs0": 1.32000000000000006e+00,
+      "constraintRelative0": 0.00000000000000000e+00,
+      "initialEigenResidual": 0.00000000000000000e+00,
+      "kreinNorm0": 1.00000000000000000e+00,
+      "exact": {
+        "theta0": 2.39999999999999991e+00,
+        "alpha": 1.28333333333333344e+00,
+        "beta": 3.66666666666666696e-01,
+        "discriminant": 6.26666666666666039e-01,
+        "singularityTime": -6.26640465271742442e-01,
+        "farRoot": -1.24348940485812753e+00,
+        "kasnerExponents": [
+          -2.90249559405638513e-01,
+          9.72978322194140488e-01,
+          -5.42895135725594336e-01
+        ],
+        "kasnerSumSquares": 3.80851063829787551e+00,
+        "extraTimeTurnTime": 5.45454545454545414e-01,
+        "mEffZeroVolume": 8.00000000000000044e-01,
+        "rhoZeroVolume": 4.00000000000000022e-01
+      },
+      "grid": {
+        "tBack": -6.25490693657532626e-01,
+        "tEnd": 9.18353748412274035e+03,
+        "volumeBack": 9.11881935483162633e-04,
+        "rows": 511
+      },
+      "measurements": {
+        "maxConstraintRelative": 1.25938706724218517e-10,
+        "maxScalarDensityDrift": 2.57172727557986036e-10,
+        "maxHilbertNormDrift": 2.57172727557986036e-10,
+        "maxKreinNormDrift": 2.57172727557986036e-10,
+        "maxAnisotropyVolumeDrift": 4.03334402913439304e-10,
+        "minBound": 3.86979834511689343e-09,
+        "maxBoundIdentityDefect": 1.97001731192377113e-15,
+        "maxExactVolumeError": 6.21822354616990174e-11,
+        "maxExactHubbleError": 1.23045956320928974e-11,
+        "maxExactLnScaleError": 1.09527786476557489e-11,
+        "maxExactSpinorError": 1.07695166116505020e-07,
+        "maxSpinorShapeError": 1.28586252756690556e-10,
+        "maxSpinorPhaseError": 1.07695089346412260e-07,
+        "spinorPhaseRoundingBound": 4.17796721692478987e-07,
+        "minThetaOver3HaPositiveEnergy": 6.15268389212773825e-01,
+        "minWeffPositiveEnergy": -3.78459343808053887e+01,
+        "negativeKineticRows": 136,
+        "phantomRows": 14,
+        "phantomVolumeMin": 4.06569659739693834e-01,
+        "phantomVolumeMax": 7.78800783071402325e-01,
+        "negativeEnergyRows": 122,
+        "negativeEnergyVolumeMax": 3.86741023453365085e-01,
+        "minRho": -1.05587924653081247e+06,
+        "finalAnisotropy": 3.56332631495084363e-04,
+        "finalHubbleTimesT": [
+          2.85656112257307804e-01,
+          2.85740944722534695e-01,
+          2.85639145764268354e-01
+        ],
+        "finalW": -3.69497987916158408e-09,
+        "finalWeff": 1.33287809962550519e+00,
+        "extraTimeTurnTimeMeasured": 5.45736135584216187e-01,
+        "kasnerAtBackwardEnd": [
+          -2.88640983081770996e-01,
+          9.69895217573393476e-01,
+          -5.40348223212803180e-01
+        ],
+        "kasnerExtrapolated": [
+          -2.90249495136031044e-01,
+          9.72978199010611888e-01,
+          -5.42895033965393736e-01
+        ],
+        "kasnerSumSquaresExtrapolated": 3.80850955038938110e+00
+      },
+      "solver": {
+        "forward": {
+          "steps": 459350,
+          "rhsEvals": 459424,
+          "errTestFails": 7,
+          "nonlinIters": 459422,
+          "nonlinConvFails": 0,
+          "lastOrder": 8,
+          "lastStep": 1.60300364786962607e-02
+        },
+        "backward": {
+          "steps": 418,
+          "rhsEvals": 803,
+          "errTestFails": 29,
+          "nonlinIters": 801,
+          "nonlinConvFails": 0,
+          "lastOrder": 8,
+          "lastStep": -8.92174876954142923e-06
+        }
+      }
+    },
+    {
+      "id": "x0_0p5",
+      "file": "run_x0_0p5.csv",
+      "x0": 5.00000000000000000e-01,
+      "S0": 8.80000000000000004e-01,
+      "lambda": 1.13636363636363646e+00,
+      "scalarDensity0": 1.00000000000000000e+00,
+      "mEff0": 2.00000000000000000e+00,
+      "rho0": 1.32000000000000006e+00,
+      "constraintLhs0": 1.32000000000000006e+00,
+      "constraintRelative0": 0.00000000000000000e+00,
+      "initialEigenResidual": 0.00000000000000000e+00,
+      "kreinNorm0": 1.00000000000000000e+00,
+      "exact": {
+        "theta0": 2.39999999999999991e+00,
+        "alpha": 5.13333333333333308e-01,
+        "beta": 1.46666666666666667e-01,
+        "discriminant": 3.70666666666666655e+00,
+        "singularityTime": -4.62398821013811578e-01,
+        "farRoot": -4.21292585431086319e+00,
+        "kasnerExponents": [
+          -3.52254357022855347e-02,
+          4.84182085096047266e-01,
+          -1.39106939861952106e-01
+        ],
+        "kasnerSumSquares": 7.62589928057553990e-01,
+        "extraTimeTurnTime": 1.36363636363636376e+00,
+        "mEffZeroVolume": -1.00000000000000000e+00,
+        "rhoZeroVolume": -5.00000000000000000e-01
+      },
+      "grid": {
+        "tBack": -4.61925242461523278e-01,
+        "tEnd": 1.45195886317112818e+04,
+        "volumeBack": 9.11881908807106413e-04,
+        "rows": 511
+      },
+      "measurements": {
+        "maxConstraintRelative": 1.12462625909634042e-10,
+        "maxScalarDensityDrift": 4.03314048824654492e-10,
+        "maxHilbertNormDrift": 4.03314048824654492e-10,
+        "maxKreinNormDrift": 4.03314048824654492e-10,
+        "maxAnisotropyVolumeDrift": 5.73146160161760118e-10,
+        "minBound": 1.54765603391763234e-09,
+        "maxBoundIdentityDefect": 7.39872093273742335e-16,
+        "maxExactVolumeError": 1.01490692350383538e-10,
+        "maxExactHubbleError": 1.63325682288464015e-11,
+        "maxExactLnScaleError": 9.24515997077839059e-12,
+        "maxExactSpinorError": 2.24218637730446311e-07,
+        "maxSpinorShapeError": 2.01656913390024783e-10,
+        "maxSpinorPhaseError": 2.24218547017235799e-07,
+        "spinorPhaseRoundingBound": 1.32088817838501059e-06,
+        "minThetaOver3HaPositiveEnergy": 6.88568788352746153e-01,
+        "minWeffPositiveEnergy": 5.44505349748318768e-02,
+        "negativeKineticRows": 0,
+        "phantomRows": 0,
+        "phantomVolumeMin": null,
+        "phantomVolumeMax": null,
+        "negativeEnergyRows": 0,
+        "negativeEnergyVolumeMax": 0.00000000000000000e+00,
+        "minRho": 8.12895574253301529e-09,
+        "finalAnisotropy": 5.63411355718319807e-04,
+        "finalHubbleTimesT": [
+          2.85622312377104726e-01,
+          2.85756436346202458e-01,
+          2.85595487583288177e-01
+        ],
+        "finalW": 4.61872481104670408e-09,
+        "finalWeff": 1.33261365164710854e+00,
+        "extraTimeTurnTimeMeasured": 1.36388836213525289e+00,
+        "kasnerAtBackwardEnd": [
+          -3.51804741295436291e-02,
+          4.84095908748292447e-01,
+          -1.39035750705111261e-01
+        ],
+        "kasnerExtrapolated": [
+          -3.52254356910544075e-02,
+          4.84182085074564839e-01,
+          -1.39106939844179323e-01
+        ],
+        "kasnerSumSquaresExtrapolated": 7.62589927979520410e-01
+      },
+      "solver": {
+        "forward": {
+          "steps": 726158,
+          "rhsEvals": 726284,
+          "errTestFails": 16,
+          "nonlinIters": 726282,
+          "nonlinConvFails": 0,
+          "lastOrder": 7,
+          "lastStep": 8.09236549321212112e-03
+        },
+        "backward": {
+          "steps": 475,
+          "rhsEvals": 953,
+          "errTestFails": 30,
+          "nonlinIters": 951,
+          "nonlinConvFails": 0,
+          "lastOrder": 7,
+          "lastStep": -6.91399343993869782e-06
+        }
+      }
+    }
+  ],
+  "measurements": {
+    "maxInitialEigenResidual": 0.00000000000000000e+00,
+    "maxInitialConstraintRelative": 0.00000000000000000e+00,
+    "maxConstraintRelative": 1.25938706724218517e-10,
+    "maxScalarDensityDrift": 4.03314048824654492e-10,
+    "maxNormDrift": 4.03314048824654492e-10,
+    "maxAnisotropyVolumeDrift": 6.22368268032857941e-10,
+    "minBound": 1.54765603391763234e-09,
+    "maxBoundIdentityDefect": 1.97001731192377113e-15,
+    "maxExactError": 1.01490692350383538e-10,
+    "maxSpinorExactError": 2.24218637730446311e-07,
+    "maxSpinorShapeError": 2.01656913390024783e-10,
+    "maxSpinorPhaseError": 2.24218547017235799e-07,
+    "maxSpinorPhaseRoundingBound": 1.32088817838501059e-06,
+    "maxLateTimeDeviation": 7.19681686224715733e-04,
+    "maxKasnerDeviation": 2.85651951043981130e-07,
+    "minThetaOver3HaPositiveEnergy": 6.12676555953013735e-01,
+    "dustMinWeff": -3.87323444046986265e-01
+  },
+  "notes": [
+    "rho - p = m S is lambda-independent, so the three runs differ only through S_0 (fixed by the constraint); V(t) is exactly quadratic and H_i V exactly linear in t.",
+    "Backward, every run reaches a Kasner-type singularity V -> 0 at t_s = r_+; the lambda S^2/2 term is a stiff (w = 1) component there, so sum p_i^2 = 1 - 2 kappa m x0 S_0 / D differs from the vacuum value 1 unless x0 = 0.",
+    "x0 = -0.4: M_eff = m (1 + 2 x0 V0/V) < 0 for V < 0.8 V0 (KE_L < 0, phantom w < -1 while rho > 0) and rho < 0 for V < 0.4 V0, where Theta > sqrt(3) H_a no longer follows from the bound (the bound itself, = H_b^2 + 3H_c^2, stays >= 0).",
+    "The spinor stays the gamma^4 = +i eigenvector, u(t) = exp(-i int M_eff) u0, so s(u) = 1 and S V = S_0 V_0 are exact; the output grid does not resolve the spinor phase at late times (it is uniform in ln V).",
+    "The spinor phase error (~2e-7 at t ~ 1e4) is the rounding of CVODE's internal time t_n += h with the capped constant step h = max_step (a fixed e_k per step in each binade [2^k, 2^(k+1)) of t_n), not truncation: it stays below max|M_eff| N_steps ulp(t_end)/2 and does not shrink under --refined; the phase-invariant spinor shape error (2e-10) does."
+  ],
+  "files": [
+    "run_x0_0.csv",
+    "run_x0_m0p4.csv",
+    "run_x0_0p5.csv",
+    "summary.json"
+  ],
+  "solverTotals": {
+    "steps": 1779784,
+    "rhsEvaluations": 1781396
+  },
+  "checks": {
+    "initial_positive_energy_rest_eigenvector": true,
+    "initial_constraint_solved": true,
+    "constraint_preserved": true,
+    "S_times_V_constant": true,
+    "spinor_norms_conserved": true,
+    "anisotropy_times_volume_constant": true,
+    "bound_nonnegative": true,
+    "exact_solution": true,
+    "spinor_exact_shape": true,
+    "spinor_exact_phase_within_time_rounding": true,
+    "late_time_isotropic_dust": true,
+    "extra_times_turn_to_expansion": true,
+    "theta_exceeds_sqrt3_Ha_for_positive_energy": true,
+    "backward_kasner_exponents": true,
+    "phantom_iff_negative_kinetic_energy": true
+  },
+  "verdict": "SUCCESS"
+}

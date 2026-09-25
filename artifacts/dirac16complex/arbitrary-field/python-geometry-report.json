@@ -2,24 +2,24 @@
   "schemaVersion": 1,
   "producer": "scripts/check_dirac16complex_geometry.py (python 3.14.5, sympy 1.14.0, numpy 2.4.6)",
   "checks": {
-    "ALG_cliffordRelation": true,
+    "ALG_cliffordRelations": true,
     "ALG_sigma16EqualsGamma0123": true,
     "ALG_CSymmetricInvolution": true,
     "ALG_expression1CgammaAntisymmetric": true,
     "ALG_gammaSymmetryPattern": true,
     "ALG_CSabAntisymmetric": true,
     "ALG_chiralityDiag": true,
+    "ALG_CAnticommutatorGammaSSymmetric": true,
+    "ALG_CCommutatorGammaSAntisymmetric": true,
     "ALG_SabGammaCommutator": true,
-    "GEO_vielbeinSignature44_G1": true,
+    "GEO_frameNondegenerate_G1": true,
     "GEO_vielbeinPostulate_G1": true,
     "GEO_omegaAntisymmetry_G1": true,
     "GEO_gammaCovariantConstancy_G1": true,
     "GEO_notebookContractionFails_G1": true,
     "GEO_divergenceIdentity_G1": true,
     "GEO_sqrtgSquaredEqualsDetg_G1": true,
-    "GEO_spinCurvatureHalfRiemannS_G1": true,
-    "GEO_frameCurvatureEqualsRiemann_G1": true,
-    "GEO_ricciSymmetric_G1": true,
+    "GEO_curvature_G1": true,
     "GEO_lichnerowicz_G1": true,
     "LAG_eulerLagrangePsibar_G1": true,
     "LAG_eulerLagrangePsi_G1": true,
@@ -28,20 +28,16 @@
     "EMT_trace_G1": true,
     "EMT_traceOffShellIdentity_G1": true,
     "EMT_onshellLagrangianSUprimeMinusU_G1": true,
-    "EMT_covariantConservation_G1": true,
+    "EMT_conservation_G1": true,
     "GEO_vielbeinPostulate_G2": true,
     "GEO_omegaAntisymmetry_G2": true,
     "GEO_gammaCovariantConstancy_G2": true,
     "GEO_notebookContractionFails_G2": true,
     "GEO_divergenceIdentity_G2": true,
     "GEO_sqrtgSquaredEqualsDetg_G2": true,
-    "GEO_spinCurvatureHalfRiemannS_G2": true,
-    "GEO_frameCurvatureEqualsRiemann_G2": true,
-    "GEO_ricciSymmetric_G2": true,
-    "GEO_sqrtgEqualsCosz_G2": true,
-    "GEO_omegaLowNonzeroCount24_G2": true,
-    "GEO_ricciScalar_G2": true,
-    "GEO_einsteinTensorMixed_G2": true,
+    "GEO_curvature_G2": true,
+    "GEO_anticommutatorGammaOmegaVanishesDiagonal_G2": true,
+    "GEO_primordialInvariants_G2": true,
     "GEO_diagonalSlashFormula_G2": true,
     "GEO_lichnerowicz_G2": true,
     "LAG_eulerLagrangePsibar_G2": true,
@@ -51,19 +47,18 @@
     "EMT_trace_G2": true,
     "EMT_traceOffShellIdentity_G2": true,
     "EMT_onshellLagrangianSUprimeMinusU_G2": true,
-    "EMT_covariantConservation_G2": true,
+    "EMT_conservation_G2": true,
     "GEO_lichnerowiczConstantSameG1G2": true,
-    "EMT_homogeneousReduction_G3": true,
-    "EMT_homogeneousOffDiagonalForms_G3": true,
+    "EMT_homogeneousReduction": true,
     "GEO_diagonalSlashFormula_G3": true,
-    "EMT_variation_minisuperspace_noMetricVelocityDependence": true,
-    "EMT_variation_minisuperspace": true,
-    "EMT_variation_diagonalLocal_noMetricVelocityDependence": true,
-    "EMT_variation_diagonalLocal": true
+    "EMT_homogeneousTimeSpaceVanishesOnShell_G3": true,
+    "EMT_variation": true,
+    "GEO_wolframAgreement": true
   },
   "measurements": {
     "GEO_detVielbein_G1_p1": "8730286014951721928504132748723695542930461054904720450085966334353586259236451917045027672855083074829122807534550852798637473811934160881/5830385474319805441329849379639239454291400859118124380810706771166072547115982722377484401689266684114333535956689809000000000000000000000",
     "GEO_metricSignature_G1_p1": "(4,4,0)",
+    "GEO_inverseMetric44_G1_p1": "-66052764774308859691862167694844226301364359372011006113386133876773438121796538781887367607959977733658207487505220452654574211111887017656084303955000769496601032287526395861782134816165119879331508276055768861225350608685916785354932643791367913682107083018415886458053000000/76217893902861617480179250783959336665100541395554013176205768626967216987548679189840654652736751806632969323906301896268758492119262525349959247444000564702677606364267438252602397886601859011798394452199627244359164553940948759902328294104627444395063859991669031533590696161",
     "GEO_vielbeinPostulate_christoffelRoute_G1_p1": true,
     "GEO_vielbeinPostulate_anholonomyRoute_G1_p1": true,
     "GEO_omegaTwoRoutesAgree_G1_p1": true,
@@ -71,7 +66,15 @@
     "GEO_nonzeroOmegaMixedSymmetricPart_G1_p1": 256,
     "GEO_notebookContraction_nonzeroEntries_DmuGammaNu_G1_p1": 4096,
     "GEO_notebookContraction_nonzeroPairs_DmuGammaNu_G1_p1": 64,
+    "GEO_divergenceIdentity_lhsNonzeroEntries_G1_p1": 64,
+    "GEO_anticommutatorGammaMuOmegaMu_canonical_nonzeroEntries_G1_p1": 128,
+    "GEO_anticommutatorGammaMuOmegaMu_notebook_nonzeroEntries_G1_p1": 128,
     "GEO_divergenceIdentity_notebookContraction_nonzeroEntries_G1_p1": 64,
+    "GEO_curvature_spinCurvaturePlusHalfRiemannS_G1_p1": true,
+    "GEO_curvature_spinCurvatureMinusHalfRiemannS_G1_p1": false,
+    "GEO_curvature_spinCurvatureNonzeroEntries_G1_p1": 6272,
+    "GEO_curvature_frameCurvatureEqualsRiemann_G1_p1": true,
+    "GEO_curvature_ricciSymmetric_G1_p1": true,
     "GEO_ricciScalar_G1_p1": "-1614887249541739257516573315529246657600730202325497804963393765125570372712966530392922017691573928687372617643677993201121474913352616382125932929761861832188610336344471582303766151473176061369213859808574386703329734101410861016581342676230099174119568809647376403736913026568714188243921604354376728273143323647028906969728823638201992823928620680427487101237084595984790644335199676322134421279157220079288922000/665404013229226894636381674992814053166805266621030073944260885760914977872528101237581877255720767860475267763369285746414768380307770015351127257502771956794242323127295935065619161904097739375995230127971230124090203862799887149778040018324880213517738276103978788641728560893295073985029214325041386918926858281823981032630503880042537525278099712596170061281391706352183513790235396224530139231731605390163077841",
     "GEO_lichnerowicz_c_G1_p1": "-1/4",
     "LAG_mass_G1_p1": "3/8",
@@ -79,8 +82,14 @@
     "EMT_lambda_G1_p1": "5/7",
     "EMT_trace_G1_p1": "34673890679/13335840",
     "EMT_S_G1_p1": "-262679/7560",
+    "EMT_nonzeroEntries_T_dT_G1_p1": [
+      64,
+      512
+    ],
+    "EMT_offShellDivergenceNonzeroComponents_G1_p1": 8,
     "GEO_detVielbein_G1_p2": "166838578544839618908450770680658161976523671373174452031532543530651647381615477855576323/89939653473440330578454191517748817467464604414345561006835089408000000000000000000000000",
     "GEO_metricSignature_G1_p2": "(4,4,0)",
+    "GEO_inverseMetric44_G1_p2": "-25276425321471452905578583761576329847993101777511904574825623458929579129948066305980350015498648636555629089069802397775597908000750020536755150214602541601207149724714896000000/27835111290862618810345887859036066260707346100503793175586845060827181666642151194402778850412744244816538330876844639112826219983550758115381224696358807247824955112986478200329",
     "GEO_vielbeinPostulate_christoffelRoute_G1_p2": true,
     "GEO_vielbeinPostulate_anholonomyRoute_G1_p2": true,
     "GEO_omegaTwoRoutesAgree_G1_p2": true,
@@ -88,7 +97,15 @@
     "GEO_nonzeroOmegaMixedSymmetricPart_G1_p2": 256,
     "GEO_notebookContraction_nonzeroEntries_DmuGammaNu_G1_p2": 4096,
     "GEO_notebookContraction_nonzeroPairs_DmuGammaNu_G1_p2": 64,
+    "GEO_divergenceIdentity_lhsNonzeroEntries_G1_p2": 64,
+    "GEO_anticommutatorGammaMuOmegaMu_canonical_nonzeroEntries_G1_p2": 128,
+    "GEO_anticommutatorGammaMuOmegaMu_notebook_nonzeroEntries_G1_p2": 128,
     "GEO_divergenceIdentity_notebookContraction_nonzeroEntries_G1_p2": 64,
+    "GEO_curvature_spinCurvaturePlusHalfRiemannS_G1_p2": true,
+    "GEO_curvature_spinCurvatureMinusHalfRiemannS_G1_p2": false,
+    "GEO_curvature_spinCurvatureNonzeroEntries_G1_p2": 6272,
+    "GEO_curvature_frameCurvatureEqualsRiemann_G1_p2": true,
+    "GEO_curvature_ricciSymmetric_G1_p2": true,
     "GEO_ricciScalar_G1_p2": "61338015674141044938154233973088504023529591030433073907569106559884424891889554693429321794490998485072462234280567636610660590976229807105861781197437420335725177901703167673457668250902003806757420020358026651753305848813683880050935517180099512707611850222000000000/4643970401404935143662064045823545446763976173071448133124616662294458410849675115667313250974889794445987130314754918226543571363416156092024835456072388715423902711332055918919280315313888198205531058156761111128008807729310735363019804086928408040673459290143210267",
     "GEO_lichnerowicz_c_G1_p2": "-1/4",
     "LAG_mass_G1_p2": "1/3",
@@ -96,8 +113,14 @@
     "EMT_lambda_G1_p2": "-1",
     "EMT_trace_G1_p2": "-39613897/6858432",
     "EMT_S_G1_p2": "-6551/4536",
+    "EMT_nonzeroEntries_T_dT_G1_p2": [
+      64,
+      512
+    ],
+    "EMT_offShellDivergenceNonzeroComponents_G1_p2": 8,
     "GEO_detVielbein_G1_p3": "641746341050179883864555193389422428673872937637900648707934018876147/468006998280337753584232705470057723558100992000000000000000000000000",
     "GEO_metricSignature_G1_p3": "(4,4,0)",
+    "GEO_inverseMetric44_G1_p3": "-318952466166564576272994512564706063255863271525429735940048306855351311736802345907870617644482328672102538275200667009270005559296000000/411838366251293794726284490645078710059685744289571041907746101670242973782122335509039219076794734676400279533325381168644856904925565609",
     "GEO_vielbeinPostulate_christoffelRoute_G1_p3": true,
     "GEO_vielbeinPostulate_anholonomyRoute_G1_p3": true,
     "GEO_omegaTwoRoutesAgree_G1_p3": true,
@@ -105,7 +128,15 @@
     "GEO_nonzeroOmegaMixedSymmetricPart_G1_p3": 256,
     "GEO_notebookContraction_nonzeroEntries_DmuGammaNu_G1_p3": 4096,
     "GEO_notebookContraction_nonzeroPairs_DmuGammaNu_G1_p3": 64,
+    "GEO_divergenceIdentity_lhsNonzeroEntries_G1_p3": 64,
+    "GEO_anticommutatorGammaMuOmegaMu_canonical_nonzeroEntries_G1_p3": 128,
+    "GEO_anticommutatorGammaMuOmegaMu_notebook_nonzeroEntries_G1_p3": 128,
     "GEO_divergenceIdentity_notebookContraction_nonzeroEntries_G1_p3": 64,
+    "GEO_curvature_spinCurvaturePlusHalfRiemannS_G1_p3": true,
+    "GEO_curvature_spinCurvatureMinusHalfRiemannS_G1_p3": false,
+    "GEO_curvature_spinCurvatureNonzeroEntries_G1_p3": 6272,
+    "GEO_curvature_frameCurvatureEqualsRiemann_G1_p3": true,
+    "GEO_curvature_ricciSymmetric_G1_p3": true,
     "GEO_ricciScalar_G1_p3": "9689398045997180497937441617950595040040778796452519749391809645068059409541780150394566200740289790184231562521836960890276560278493261631737370014739207493165173254049690695391938882482893606800588800000000/264295764645851680671056237994090054609031949568238825207257274053669837697104865377003865233845083580846906140801316464642203777545751202540961873245410781984892799396828521227038225251299727181806493628523",
     "GEO_lichnerowicz_c_G1_p3": "-1/4",
     "LAG_mass_G1_p3": "-1",
@@ -113,6 +144,11 @@
     "EMT_lambda_G1_p3": "-1/3",
     "EMT_trace_G1_p3": "-94318987249/228614400",
     "EMT_S_G1_p3": "-299647/15120",
+    "EMT_nonzeroEntries_T_dT_G1_p3": [
+      64,
+      512
+    ],
+    "EMT_offShellDivergenceNonzeroComponents_G1_p3": 8,
     "GEO_lichnerowicz_c_G1": "-1/4",
     "G2_domain": "QQ(w,c,E,A1,A2,A3,H) mod (w^12+c^2-1)",
     "G2_substitution": "z=6Hx0, t=Hx4; exact symbolic differentiation in (z,t), then a4'''->A3, a4''->A2, a4'->A1, a4->log(E) (E=exp(A0)), sin z->w^6, cos z->c with w=sin(z)^(1/6)>0, c>0; relation w^12+c^2-1=0 applied only by ideal reduction inside zero tests (counted)",
@@ -123,9 +159,22 @@
     "GEO_nonzeroOmegaMixedSymmetricPart_G2": 12,
     "GEO_notebookContraction_nonzeroEntries_DmuGammaNu_G2": 288,
     "GEO_notebookContraction_nonzeroPairs_DmuGammaNu_G2": 15,
+    "GEO_divergenceIdentity_lhsNonzeroEntries_G2": 16,
+    "GEO_anticommutatorGammaMuOmegaMu_canonical_nonzeroEntries_G2": 0,
+    "GEO_anticommutatorGammaMuOmegaMu_notebook_nonzeroEntries_G2": 0,
     "GEO_divergenceIdentity_notebookContraction_nonzeroEntries_G2": 32,
+    "GEO_curvature_spinCurvaturePlusHalfRiemannS_G2": true,
+    "GEO_curvature_spinCurvatureMinusHalfRiemannS_G2": false,
+    "GEO_curvature_spinCurvatureNonzeroEntries_G2": 1248,
+    "GEO_curvature_frameCurvatureEqualsRiemann_G2": true,
+    "GEO_curvature_ricciSymmetric_G2": true,
     "GEO_sqrtg_G2": "c",
+    "GEO_primordialInvariants_sqrtgEqualsCosz_G2": true,
+    "GEO_primordialInvariants_d4sqrtgZero_G2": true,
+    "GEO_primordialInvariants_omegaLowNonzeroCount24_G2": true,
     "GEO_ricciScalar_G2": "6*H**2*(A1**2 - 7)",
+    "GEO_primordialInvariants_ricciScalar_G2": true,
+    "GEO_primordialInvariants_einsteinTensorMixed_G2": true,
     "GEO_einsteinTensorMixedDiagonal_G2": [
       "-3*H**2*(A1**2 - 5)",
       "-H**2*(3*A1**2 - A2 - 15)",
@@ -143,10 +192,27 @@
       "residualNonzero": 0
     },
     "LAG_eulerLagrangePsibar_spinConnectionTermNonzeroComponents_G2_s0": 16,
+    "EMT_nonzeroEntries_T_dT_G2_s0": [
+      64,
+      512
+    ],
+    "EMT_offShellDivergenceNonzeroComponents_G2_s0": 8,
     "LAG_eulerLagrangePsibar_spinConnectionTermNonzeroComponents_G2_s1": 16,
+    "EMT_nonzeroEntries_T_dT_G2_s1": [
+      64,
+      512
+    ],
     "LAG_eulerLagrangePsibar_spinConnectionTermNonzeroComponents_G2_s2": 16,
+    "EMT_nonzeroEntries_T_dT_G2_s2": [
+      64,
+      512
+    ],
     "GEO_lichnerowicz_c_G2": "-1/4",
     "G2_relationUsesInZeroTests": 0,
+    "EMT_homogeneous_offDiagonalNonzeroCounts_G3_q1": {
+      "T_4i": 0,
+      "T_ij": 42
+    },
     "EMT_homogeneous_G3_q1": {
       "x4": "1/3",
       "m": "4",
@@ -157,6 +223,10 @@
       "KE": "3793356121/97977600",
       "PE": "-75899/3780",
       "w": "75899/24059"
+    },
+    "EMT_homogeneous_offDiagonalNonzeroCounts_G3_q2": {
+      "T_4i": 0,
+      "T_ij": 42
     },
     "EMT_homogeneous_G3_q2": {
       "x4": "-2/5",
@@ -169,6 +239,10 @@
       "PE": "-35543/7560",
       "w": "35543/30503"
     },
+    "EMT_homogeneous_offDiagonalNonzeroCounts_G3_q3": {
+      "T_4i": 0,
+      "T_ij": 42
+    },
     "EMT_homogeneous_G3_q3": {
       "x4": "3/7",
       "m": "-1/2",
@@ -180,8 +254,20 @@
       "PE": "-15853/2016",
       "w": "15853/15979"
     },
-    "EMT_homogeneousOffDiagonalForms_G3_formulas": "T_ij = +(1/4) eps_i eps_j h_i h_j (H_i - H_j) Psibar gamma^(i) gamma^(j) gamma^(4) Psi (i!=j, both !=4); T_4i = -(1/4) eps_i h_i (Psibar gamma^(i) d_4 Psi - d_4 Psibar gamma^(i) Psi); H_i = h_i'/h_i, gamma^(a) flat, eps = eta diagonal",
+    "EMT_homogeneousReduction_diagonalPart_G3": true,
+    "EMT_homogeneousReduction_offDiagonalForms_G3": true,
+    "EMT_homogeneousReduction_offDiagonalFormulas_G3": "T_ij = +(1/4) eps_i eps_j h_i h_j (H_i - H_j) Psibar gamma^(i) gamma^(j) gamma^(4) Psi (i!=j, both !=4); T_4i = -(1/4) eps_i h_i (Psibar gamma^(i) d_4 Psi - d_4 Psibar gamma^(i) Psi); H_i = h_i'/h_i, gamma^(a) flat, eps = eta diagonal",
+    "EMT_variation_minisuperspace_rho_seed4101": "4427303/1016064",
+    "EMT_variation_minisuperspace_T11mixed_seed4101": "-(22136515*h4 + 22952376)/(5080320*h4)",
+    "EMT_variation_minisuperspace_noMetricVelocityDependence": true,
+    "EMT_variation_minisuperspace_diagonalTmixedAgree": true,
+    "EMT_variation_minisuperspace_rhoAndPressure": true,
     "EMT_variation_minisuperspace_setup": "minisuperspace: diagonal vielbein diag(h_0..h_7)(x4), lapse N = h_4, symbolic h_mu and h_mu'; homogeneous fields Psi(x4); exact random rational field jets, off-shell",
+    "EMT_variation_diagonalLocal_rho_seed4101": "(139217281*h0*h1*h2*h3*h5*h6*h7 - 25675020*h0*h1*h2*h3*h5*h6 - 492946380*h0*h1*h2*h3*h5*h7 + 592513452*h0*h1*h2*h3*h6*h7 + 525556850*h0*h1*h2*h5*h6*h7 + 437789940*h0*h1*h3*h5*h6*h7 - 418117140*h0*h2*h3*h5*h6*h7 - 195846000*h1*h2*h3*h5*h6*h7)/(12700800*h0*h1*h2*h3*h5*h6*h7)",
+    "EMT_variation_diagonalLocal_T11mixed_seed4101": "-(139217281*h0*h2*h3*h4*h5*h6*h7 - 25675020*h0*h2*h3*h4*h5*h6 - 492946380*h0*h2*h3*h4*h5*h7 + 592513452*h0*h2*h3*h4*h6*h7 - 28110180*h0*h2*h3*h5*h6*h7 + 525556850*h0*h2*h4*h5*h6*h7 + 437789940*h0*h3*h4*h5*h6*h7 - 195846000*h2*h3*h4*h5*h6*h7)/(12700800*h0*h2*h3*h4*h5*h6*h7)",
+    "EMT_variation_diagonalLocal_noMetricVelocityDependence": true,
+    "EMT_variation_diagonalLocal_diagonalTmixedAgree": true,
+    "EMT_variation_diagonalLocal_rhoAndPressure": true,
     "EMT_variation_diagonalLocal_setup": "diagonal vielbein diag(h_0..h_7) with symbolic h_mu and symbolic d_nu h_mu (all nu); exact random rational field jets, off-shell",
     "GEO_lichnerowicz_statement": "(gamma^mu D_mu)^2 Psi = g^{mu nu} nabla_mu D_nu Psi + c R Psi with c = -1/4; R = g^{sn} R^r_{s r n}, R^r_{s m n} = d_m Gamma^r_{ns} - d_n Gamma^r_{ms} + Gamma^r_{ml} Gamma^l_{ns} - Gamma^r_{nl} Gamma^l_{ms}",
     "GEO_spinCurvature_statement": "F_{mu nu} = d_mu Omega_nu - d_nu Omega_mu + [Omega_mu, Omega_nu] = (1/2) R_{ab mu nu} S^{ab}, R_{ab mu nu} = eta_ac e_r^c R^r_{s mu nu} e_b^s",
@@ -246,10 +332,549 @@
       "q1": "1/3",
       "q2": "-2/5",
       "q3": "3/7"
-    }
+    },
+    "GEO_wolframReportSha256": "cec9ee0d577c4e7f0e82efd404d412a503140ccb1547118ab48a78a3d773f0ac",
+    "GEO_wolframSharedMeasurementCount": 84,
+    "GEO_wolframSharedMeasurementsAgreeing": 84,
+    "GEO_wolframSharedMeasurementDisagreements": [],
+    "GEO_wolframSharedMeasurements": [
+      {
+        "measurement": "G1_p1 coordinates",
+        "wolfram": "[1/7, -2/9, 1/5, 3/11, -1/13, 2/17, -3/19, 1/23]",
+        "python": "[1/7, -2/9, 1/5, 3/11, -1/13, 2/17, -3/19, 1/23]",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p1 det e",
+        "wolfram": "8730286014951721928504132748723695542930461054904720450085966334353586259236451917045027672855083074829122807534550852798637473811934160881/5830385474319805441329849379639239454291400859118124380810706771166072547115982722377484401689266684114333535956689809000000000000000000000",
+        "python": "8730286014951721928504132748723695542930461054904720450085966334353586259236451917045027672855083074829122807534550852798637473811934160881/5830385474319805441329849379639239454291400859118124380810706771166072547115982722377484401689266684114333535956689809000000000000000000000",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p1 sqrt|g| = |det e|",
+        "wolfram": "8730286014951721928504132748723695542930461054904720450085966334353586259236451917045027672855083074829122807534550852798637473811934160881/5830385474319805441329849379639239454291400859118124380810706771166072547115982722377484401689266684114333535956689809000000000000000000000",
+        "python": "8730286014951721928504132748723695542930461054904720450085966334353586259236451917045027672855083074829122807534550852798637473811934160881/5830385474319805441329849379639239454291400859118124380810706771166072547115982722377484401689266684114333535956689809000000000000000000000",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p1 metric inertia",
+        "wolfram": "{4, 4, 0}",
+        "python": "(4,4,0)",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p1 g^44",
+        "wolfram": "-66052764774308859691862167694844226301364359372011006113386133876773438121796538781887367607959977733658207487505220452654574211111887017656084303955000769496601032287526395861782134816165119879331508276055768861225350608685916785354932643791367913682107083018415886458053000000/76217893902861617480179250783959336665100541395554013176205768626967216987548679189840654652736751806632969323906301896268758492119262525349959247444000564702677606364267438252602397886601859011798394452199627244359164553940948759902328294104627444395063859991669031533590696161",
+        "python": "-66052764774308859691862167694844226301364359372011006113386133876773438121796538781887367607959977733658207487505220452654574211111887017656084303955000769496601032287526395861782134816165119879331508276055768861225350608685916785354932643791367913682107083018415886458053000000/76217893902861617480179250783959336665100541395554013176205768626967216987548679189840654652736751806632969323906301896268758492119262525349959247444000564702677606364267438252602397886601859011798394452199627244359164553940948759902328294104627444395063859991669031533590696161",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p1 R",
+        "wolfram": "-1614887249541739257516573315529246657600730202325497804963393765125570372712966530392922017691573928687372617643677993201121474913352616382125932929761861832188610336344471582303766151473176061369213859808574386703329734101410861016581342676230099174119568809647376403736913026568714188243921604354376728273143323647028906969728823638201992823928620680427487101237084595984790644335199676322134421279157220079288922000/665404013229226894636381674992814053166805266621030073944260885760914977872528101237581877255720767860475267763369285746414768380307770015351127257502771956794242323127295935065619161904097739375995230127971230124090203862799887149778040018324880213517738276103978788641728560893295073985029214325041386918926858281823981032630503880042537525278099712596170061281391706352183513790235396224530139231731605390163077841",
+        "python": "-1614887249541739257516573315529246657600730202325497804963393765125570372712966530392922017691573928687372617643677993201121474913352616382125932929761861832188610336344471582303766151473176061369213859808574386703329734101410861016581342676230099174119568809647376403736913026568714188243921604354376728273143323647028906969728823638201992823928620680427487101237084595984790644335199676322134421279157220079288922000/665404013229226894636381674992814053166805266621030073944260885760914977872528101237581877255720767860475267763369285746414768380307770015351127257502771956794242323127295935065619161904097739375995230127971230124090203862799887149778040018324880213517738276103978788641728560893295073985029214325041386918926858281823981032630503880042537525278099712596170061281391706352183513790235396224530139231731605390163077841",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p2 coordinates",
+        "wolfram": "[-1/3, 1/4, 2/7, -1/5, 1/6, -2/11, 1/9, 3/13]",
+        "python": "[-1/3, 1/4, 2/7, -1/5, 1/6, -2/11, 1/9, 3/13]",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p2 det e",
+        "wolfram": "166838578544839618908450770680658161976523671373174452031532543530651647381615477855576323/89939653473440330578454191517748817467464604414345561006835089408000000000000000000000000",
+        "python": "166838578544839618908450770680658161976523671373174452031532543530651647381615477855576323/89939653473440330578454191517748817467464604414345561006835089408000000000000000000000000",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p2 sqrt|g| = |det e|",
+        "wolfram": "166838578544839618908450770680658161976523671373174452031532543530651647381615477855576323/89939653473440330578454191517748817467464604414345561006835089408000000000000000000000000",
+        "python": "166838578544839618908450770680658161976523671373174452031532543530651647381615477855576323/89939653473440330578454191517748817467464604414345561006835089408000000000000000000000000",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p2 metric inertia",
+        "wolfram": "{4, 4, 0}",
+        "python": "(4,4,0)",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p2 g^44",
+        "wolfram": "-25276425321471452905578583761576329847993101777511904574825623458929579129948066305980350015498648636555629089069802397775597908000750020536755150214602541601207149724714896000000/27835111290862618810345887859036066260707346100503793175586845060827181666642151194402778850412744244816538330876844639112826219983550758115381224696358807247824955112986478200329",
+        "python": "-25276425321471452905578583761576329847993101777511904574825623458929579129948066305980350015498648636555629089069802397775597908000750020536755150214602541601207149724714896000000/27835111290862618810345887859036066260707346100503793175586845060827181666642151194402778850412744244816538330876844639112826219983550758115381224696358807247824955112986478200329",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p2 R",
+        "wolfram": "61338015674141044938154233973088504023529591030433073907569106559884424891889554693429321794490998485072462234280567636610660590976229807105861781197437420335725177901703167673457668250902003806757420020358026651753305848813683880050935517180099512707611850222000000000/4643970401404935143662064045823545446763976173071448133124616662294458410849675115667313250974889794445987130314754918226543571363416156092024835456072388715423902711332055918919280315313888198205531058156761111128008807729310735363019804086928408040673459290143210267",
+        "python": "61338015674141044938154233973088504023529591030433073907569106559884424891889554693429321794490998485072462234280567636610660590976229807105861781197437420335725177901703167673457668250902003806757420020358026651753305848813683880050935517180099512707611850222000000000/4643970401404935143662064045823545446763976173071448133124616662294458410849675115667313250974889794445987130314754918226543571363416156092024835456072388715423902711332055918919280315313888198205531058156761111128008807729310735363019804086928408040673459290143210267",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p3 coordinates",
+        "wolfram": "[2/9, 1/8, -1/7, 1/10, -3/14, 1/12, 2/15, -1/16]",
+        "python": "[2/9, 1/8, -1/7, 1/10, -3/14, 1/12, 2/15, -1/16]",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p3 det e",
+        "wolfram": "641746341050179883864555193389422428673872937637900648707934018876147/468006998280337753584232705470057723558100992000000000000000000000000",
+        "python": "641746341050179883864555193389422428673872937637900648707934018876147/468006998280337753584232705470057723558100992000000000000000000000000",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p3 sqrt|g| = |det e|",
+        "wolfram": "641746341050179883864555193389422428673872937637900648707934018876147/468006998280337753584232705470057723558100992000000000000000000000000",
+        "python": "641746341050179883864555193389422428673872937637900648707934018876147/468006998280337753584232705470057723558100992000000000000000000000000",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p3 metric inertia",
+        "wolfram": "{4, 4, 0}",
+        "python": "(4,4,0)",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p3 g^44",
+        "wolfram": "-318952466166564576272994512564706063255863271525429735940048306855351311736802345907870617644482328672102538275200667009270005559296000000/411838366251293794726284490645078710059685744289571041907746101670242973782122335509039219076794734676400279533325381168644856904925565609",
+        "python": "-318952466166564576272994512564706063255863271525429735940048306855351311736802345907870617644482328672102538275200667009270005559296000000/411838366251293794726284490645078710059685744289571041907746101670242973782122335509039219076794734676400279533325381168644856904925565609",
+        "agree": true
+      },
+      {
+        "measurement": "G1_p3 R",
+        "wolfram": "9689398045997180497937441617950595040040778796452519749391809645068059409541780150394566200740289790184231562521836960890276560278493261631737370014739207493165173254049690695391938882482893606800588800000000/264295764645851680671056237994090054609031949568238825207257274053669837697104865377003865233845083580846906140801316464642203777545751202540961873245410781984892799396828521227038225251299727181806493628523",
+        "python": "9689398045997180497937441617950595040040778796452519749391809645068059409541780150394566200740289790184231562521836960890276560278493261631737370014739207493165173254049690695391938882482893606800588800000000/264295764645851680671056237994090054609031949568238825207257274053669837697104865377003865233845083580846906140801316464642203777545751202540961873245410781984892799396828521227038225251299727181806493628523",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p1 nonzeroOmegaLower",
+        "wolfram": "448",
+        "python": "448",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p1 nonzeroOmegaMixedSymmetricPart",
+        "wolfram": "256",
+        "python": "256",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p1 notebookDGammaNonzeroEntries",
+        "wolfram": "4096",
+        "python": "4096",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p1 Lichnerowicz c",
+        "wolfram": "-1/4",
+        "python": "-1/4",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p1 Lichnerowicz c = +1/4 fails",
+        "wolfram": "false",
+        "python": "c unique",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p1 curvatureCandidate.plusHalfLowered",
+        "wolfram": "True",
+        "python": "True",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p1 curvatureCandidate.minusHalfLowered",
+        "wolfram": "False",
+        "python": "False",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p2 nonzeroOmegaLower",
+        "wolfram": "448",
+        "python": "448",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p2 nonzeroOmegaMixedSymmetricPart",
+        "wolfram": "256",
+        "python": "256",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p2 notebookDGammaNonzeroEntries",
+        "wolfram": "4096",
+        "python": "4096",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p2 Lichnerowicz c",
+        "wolfram": "-1/4",
+        "python": "-1/4",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p2 Lichnerowicz c = +1/4 fails",
+        "wolfram": "false",
+        "python": "c unique",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p2 curvatureCandidate.plusHalfLowered",
+        "wolfram": "True",
+        "python": "True",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p2 curvatureCandidate.minusHalfLowered",
+        "wolfram": "False",
+        "python": "False",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p3 nonzeroOmegaLower",
+        "wolfram": "448",
+        "python": "448",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p3 nonzeroOmegaMixedSymmetricPart",
+        "wolfram": "256",
+        "python": "256",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p3 notebookDGammaNonzeroEntries",
+        "wolfram": "4096",
+        "python": "4096",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p3 Lichnerowicz c",
+        "wolfram": "-1/4",
+        "python": "-1/4",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p3 Lichnerowicz c = +1/4 fails",
+        "wolfram": "false",
+        "python": "c unique",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p3 curvatureCandidate.plusHalfLowered",
+        "wolfram": "True",
+        "python": "True",
+        "agree": true
+      },
+      {
+        "measurement": "G1.p3 curvatureCandidate.minusHalfLowered",
+        "wolfram": "False",
+        "python": "False",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p1 nonzeroOmegaLower",
+        "wolfram": "24",
+        "python": "24",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p1 nonzeroOmegaMixedSymmetricPart",
+        "wolfram": "12",
+        "python": "12",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p1 notebookDGammaNonzeroEntries",
+        "wolfram": "288",
+        "python": "288",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p1 Lichnerowicz c",
+        "wolfram": "-1/4",
+        "python": "-1/4",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p1 Lichnerowicz c = +1/4 fails",
+        "wolfram": "false",
+        "python": "c unique",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p1 curvatureCandidate.plusHalfLowered",
+        "wolfram": "True",
+        "python": "True",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p1 curvatureCandidate.minusHalfLowered",
+        "wolfram": "False",
+        "python": "False",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p2 nonzeroOmegaLower",
+        "wolfram": "24",
+        "python": "24",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p2 nonzeroOmegaMixedSymmetricPart",
+        "wolfram": "12",
+        "python": "12",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p2 notebookDGammaNonzeroEntries",
+        "wolfram": "288",
+        "python": "288",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p2 Lichnerowicz c",
+        "wolfram": "-1/4",
+        "python": "-1/4",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p2 Lichnerowicz c = +1/4 fails",
+        "wolfram": "false",
+        "python": "c unique",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p2 curvatureCandidate.plusHalfLowered",
+        "wolfram": "True",
+        "python": "True",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p2 curvatureCandidate.minusHalfLowered",
+        "wolfram": "False",
+        "python": "False",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p3 nonzeroOmegaLower",
+        "wolfram": "24",
+        "python": "24",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p3 nonzeroOmegaMixedSymmetricPart",
+        "wolfram": "12",
+        "python": "12",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p3 notebookDGammaNonzeroEntries",
+        "wolfram": "288",
+        "python": "288",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p3 Lichnerowicz c",
+        "wolfram": "-1/4",
+        "python": "-1/4",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p3 Lichnerowicz c = +1/4 fails",
+        "wolfram": "false",
+        "python": "c unique",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p3 curvatureCandidate.plusHalfLowered",
+        "wolfram": "True",
+        "python": "True",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p3 curvatureCandidate.minusHalfLowered",
+        "wolfram": "False",
+        "python": "False",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p1 sin^2 z + cos^2 z = 1 and sin z = w^6",
+        "wolfram": "(1/64, 3*sqrt(455)/64)",
+        "python": "identity",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p1 sqrt|g|",
+        "wolfram": "3*sqrt(455)/64",
+        "python": "3*sqrt(455)/64",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p1 det e = sqrt|g|",
+        "wolfram": "(3*Sqrt[455])/64",
+        "python": "3*sqrt(455)/64",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p1 R",
+        "wolfram": "-2672/147",
+        "python": "-2672/147",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p1 notebook gamma^mu Omega_mu, gamma^0 coefficient",
+        "wolfram": "1",
+        "python": "1",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p1 notebook gamma^mu Omega_mu, gamma^4 coefficient",
+        "wolfram": "3/7",
+        "python": "3/7",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p1 notebook gamma^mu Omega_mu residual",
+        "wolfram": "True",
+        "python": "0",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p2 sin^2 z + cos^2 z = 1 and sin z = w^6",
+        "wolfram": "(64/729, sqrt(527345)/729)",
+        "python": "identity",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p2 sqrt|g|",
+        "wolfram": "sqrt(527345)/729",
+        "python": "sqrt(527345)/729",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p2 det e = sqrt|g|",
+        "wolfram": "Sqrt[527345]/729",
+        "python": "sqrt(527345)/729",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p2 R",
+        "wolfram": "-1102/675",
+        "python": "-1102/675",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p2 notebook gamma^mu Omega_mu, gamma^0 coefficient",
+        "wolfram": "3/10",
+        "python": "3/10",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p2 notebook gamma^mu Omega_mu, gamma^4 coefficient",
+        "wolfram": "-2/15",
+        "python": "-2/15",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p2 notebook gamma^mu Omega_mu residual",
+        "wolfram": "True",
+        "python": "0",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p3 sin^2 z + cos^2 z = 1 and sin z = w^6",
+        "wolfram": "(729/4096, 5*sqrt(649831)/4096)",
+        "python": "identity",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p3 sqrt|g|",
+        "wolfram": "5*sqrt(649831)/4096",
+        "python": "5*sqrt(649831)/4096",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p3 det e = sqrt|g|",
+        "wolfram": "(5*Sqrt[649831])/4096",
+        "python": "5*sqrt(649831)/4096",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p3 R",
+        "wolfram": "-834/49",
+        "python": "-834/49",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p3 notebook gamma^mu Omega_mu, gamma^0 coefficient",
+        "wolfram": "15/14",
+        "python": "15/14",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p3 notebook gamma^mu Omega_mu, gamma^4 coefficient",
+        "wolfram": "9/7",
+        "python": "9/7",
+        "agree": true
+      },
+      {
+        "measurement": "G2.p3 notebook gamma^mu Omega_mu residual",
+        "wolfram": "True",
+        "python": "0",
+        "agree": true
+      },
+      {
+        "measurement": "Lichnerowicz constant (convention statements)",
+        "wolfram": "-1/4",
+        "python": "[-1/4]",
+        "agree": true
+      },
+      {
+        "measurement": "EMT sign convention",
+        "wolfram": "True",
+        "python": "True",
+        "agree": true
+      },
+      {
+        "measurement": "EMT on-shell trace formula",
+        "wolfram": "on-shellT^mu_mu=-mS+7SU'-8U=-mS+3lamS^2",
+        "python": "T^mu_mu=7K-8(mS+U)offshell;onshellT^mu_mu=-mS+7SU'-8U(=-mS+3lamS^2forU=lamS^2/2)",
+        "agree": true
+      }
+    ],
+    "GEO_wolframCheckNamesShared": [
+      "ALG_cliffordRelations",
+      "EMT_conservation_G1",
+      "EMT_conservation_G2",
+      "EMT_trace_G1",
+      "EMT_trace_G2",
+      "GEO_curvature_G1",
+      "GEO_curvature_G2",
+      "GEO_diagonalSlashFormula_G2",
+      "GEO_divergenceIdentity_G1",
+      "GEO_divergenceIdentity_G2",
+      "GEO_frameNondegenerate_G1",
+      "GEO_gammaCovariantConstancy_G1",
+      "GEO_gammaCovariantConstancy_G2",
+      "GEO_lichnerowicz_G1",
+      "GEO_lichnerowicz_G2",
+      "GEO_notebookContractionFails_G1",
+      "GEO_notebookContractionFails_G2",
+      "GEO_omegaAntisymmetry_G1",
+      "GEO_omegaAntisymmetry_G2",
+      "GEO_primordialInvariants_G2",
+      "GEO_vielbeinPostulate_G1",
+      "GEO_vielbeinPostulate_G2",
+      "LAG_eulerLagrangePsi_G1",
+      "LAG_eulerLagrangePsi_G2",
+      "LAG_eulerLagrangePsibar_G1",
+      "LAG_eulerLagrangePsibar_G2"
+    ],
+    "GEO_wolframCheckVerdictDisagreements": []
   },
   "sourceSha256": {
-    "scripts/d16c_geometry_sympy.py": "d18e7bd1f836d978ceea5d3a4e4ad4cf7af0ede16149f865dbeb00bb99bc55dc",
-    "scripts/check_dirac16complex_geometry.py": "15558cced7c9451eeea7a65ba7195d18a66fb6859cb58ee670152122b35cbe9a"
+    "scripts/d16c_geometry_sympy.py": "4f7eca4cf247354650ed9beb0b9c46530d14c9965f095979ea5ee24651af9f25",
+    "scripts/check_dirac16complex_geometry.py": "ac26111ce6758cebdf473e943d1cd4f1e14f87e4961ee694623d888742824653"
   }
 }

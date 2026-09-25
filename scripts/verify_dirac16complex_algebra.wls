@@ -15,12 +15,13 @@
 
    and exits with status 1 if any check failed (2 on a load/IO error).
 
-   Usage (from the repository root):
-     wolframscript -file scripts/verify_dirac16complex_algebra.wls -- artifacts/dirac16complex/arbitrary-field/wolfram-algebra-report.json
+   Usage (from the repository root; the report path is a plain positional argument):
+     wolframscript -file scripts/verify_dirac16complex_algebra.wls artifacts/dirac16complex/arbitrary-field/wolfram-algebra-report.json
 
-   WolframScript 1.14 drops every argument that follows "--" when it is combined with
-   -file, so the report path defaults to the canonical path above.  Positional arguments
-   given without "--" (report path, then fixture path) or the environment variables
+   Do NOT put "--" before the path: WolframScript 1.14 drops "--" and every argument
+   after it when it is combined with -file ($ScriptCommandLine is then {script} only),
+   and the report would silently go to the default path above.  Positional arguments
+   (report path, then fixture path) or the environment variables
    DIRAC16_ALGEBRA_REPORT / DIRAC16_ALGEBRA_FIXTURE override the defaults.
 
    License: GPL-3.0-or-later. *)

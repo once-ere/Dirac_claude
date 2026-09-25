@@ -34,10 +34,17 @@
    field equations, energy-momentum tensor) is propagated as an exact order-1 jet
    {value, {d_0 value, ..., d_7 value}} with the product and inverse rules.  For the
    primordial field the numbers live in the quadratic field Q(cs), cs = cos z, and are
-   reduced to the canonical basis {1, cs} (see D16GeoSetAlgebraic).  Field jets
+   reduced to the canonical basis {1, cs} (see D16GeoSetAlgebraic); the first-order
+   (infinitesimal) local spin check uses exact dual numbers kappa^2 = 0.  Field jets
    (Psi, d Psi, d d Psi and the same for Psi^dagger) are independent exact numbers or,
-   for the Euler-Lagrange checks, genuine Grassmann generators (a small exact Grassmann
-   algebra with jet-valued coefficients is part of this package).
+   for the Euler-Lagrange, canonical-momentum and notebook-Lg checks, genuine Grassmann
+   generators (a small exact Grassmann algebra with jet-valued coefficients is part of
+   this package).
+
+   Test geometries: G1 = general non-diagonal polynomial vielbein at three rational
+   points; G2 = primordial field with arbitrary a4 at three exact points; G3 = homogeneous
+   Bianchi-I (minisuperspace) frame for the tetrad variation of the action and the
+   homogeneous reduction of T_{mu nu}.  D16GeoReport[] runs every check (43 checks).
 
    Public entry points:
      D16GeoSymbolicGeometry[frame, coords]  symbolic geometry (small/diagonal frames)
@@ -56,10 +63,13 @@ D16GeoGammas::usage = "D16GeoGammas is the list of the eight 16x16 notebook gamm
 D16GeoC::usage = "D16GeoC is C = sigma16 = gamma^0 gamma^1 gamma^2 gamma^3.";
 D16GeoSpin::usage = "D16GeoSpin[[a+1,b+1]] is S^{ab} = (1/4)[gamma^a, gamma^b].";
 D16GeoChirality::usage = "D16GeoChirality is gamma^8 = gamma^0 ... gamma^7.";
-D16GeoSetAlgebraic::usage = "D16GeoSetAlgebraic[None] or D16GeoSetAlgebraic[{s, n, c}] selects exact reduction s^n -> c for all subsequent jet arithmetic.";
+D16GeoSetAlgebraic::usage = "D16GeoSetAlgebraic[None] or D16GeoSetAlgebraic[{{s, n, c}, ...}] selects exact reduction s^n -> c (c = 0: nilpotent parameter) for all subsequent jet arithmetic.";
 D16GeoReduce::usage = "D16GeoReduce[x] reduces x to the canonical form of the current exact number field.";
 D16GeoZeroQ::usage = "D16GeoZeroQ[x] is True iff every entry of x is exactly zero in the current exact number field.";
 D16GeoSymbolicGeometry::usage = "D16GeoSymbolicGeometry[frame, coords] returns the symbolic metric, inverse metric, Christoffel symbols, omegaMixed, omegaLower, Omega, OmegaNotebook and curved gammas of the vielbein frame[[mu,a]] = e_mu^a.";
+D16GeoSymbolicCovariantDerivative::usage = "D16GeoSymbolicCovariantDerivative[geo, psi, coords] is {D_mu psi} = {d_mu psi + Omega_mu psi} for a symbolic geometry from D16GeoSymbolicGeometry.";
+D16GeoSymbolicCovariantDerivativeBar::usage = "D16GeoSymbolicCovariantDerivativeBar[geo, psibar, coords] is {d_mu psibar - psibar Omega_mu}.";
+D16GeoSymbolicDirac::usage = "D16GeoSymbolicDirac[geo, psi, coords] is gamma^mu D_mu psi.";
 D16GeoFrameJet::usage = "D16GeoFrameJet[frame, coords, rules] returns {e, de, dde} at the point given by the replacement rules (exact symbolic differentiation, then substitution).";
 D16GeoJetGeometry::usage = "D16GeoJetGeometry[{e, de, dde}] returns an association of exact order-1 jets (and point values) of every geometric object.";
 D16GeoFieldJets::usage = "D16GeoFieldJets[p0, p1, p2, q0, q1, q2] packs Psi and Psi^dagger data (value, first, second derivatives) into jets.";
@@ -108,21 +118,24 @@ acomm[a_, b_] := a.b + b.a;
 (* 2. Exact number field handling                                             *)
 (* ========================================================================= *)
 
+(* $alg is None or a list of specs {s, n, c}: s is a symbol with s^n = c.  c =!= 0: s is the
+   algebraic number c^(1/n) (x^n - c irreducible over Q, canonical basis 1, s, ..., s^(n-1));
+   c === 0: s is a nilpotent (dual-number) parameter, used for exact first-order variations. *)
 $alg = None;
 D16GeoSetAlgebraic[spec_] := ($alg = spec);
 red[x_] := If[$alg === None, x,
-  With[{s = $alg[[1]], n = $alg[[2]], c = $alg[[3]]},
-    Expand[x] /. Power[s, k_Integer] :> c^Floor[k/n] s^Mod[k, n]]];
+  Fold[Function[{acc, sp}, acc /. Power[sp[[1]], k_Integer] :> sp[[3]]^Floor[k/sp[[2]]] sp[[1]]^Mod[k, sp[[2]]]], Expand[x], $alg]];
 D16GeoReduce[x_] := red[x];
 zeroQ[x_] := AllTrue[Flatten[{red[x]}], (Expand[#] === 0) &];
 D16GeoZeroQ[x_] := zeroQ[x];
-(* exact algebraic value (for printing and for numerical ordering of measurements) *)
-exactValue[x_] := If[$alg === None, x, red[x] /. $alg[[1]] -> $alg[[3]]^(1/$alg[[2]])];
+(* exact value of a canonical element (algebraic symbols -> radicals, nilpotent parameters -> 0) *)
+exactValue[x_] := If[$alg === None, x, red[x] /. (If[#[[3]] === 0, #[[1]] -> 0, #[[1]] -> #[[3]]^(1/#[[2]])] & /@ $alg)];
 numValue[x_] := N[exactValue[x], 30];
+(* the entry of largest absolute value, returned exactly (canonical form) with a positive sign *)
 maxAbsEntry[x_] := Module[{flat = Select[Flatten[{red[x]}], ! (Expand[#] === 0) &], vals, pos},
   If[flat === {}, Return[0]];
   vals = Abs[numValue /@ flat]; pos = First[Ordering[vals, -1]];
-  exactValue[flat[[pos]]] // Abs // Simplify];
+  red[If[numValue[flat[[pos]]] < 0, -flat[[pos]], flat[[pos]]]]];
 exactString[x_] := ToString[exactValue[x], InputForm];
 
 (* ========================================================================= *)
@@ -174,6 +187,13 @@ D16GeoSymbolicGeometry[frame_, coords_, OptionsPattern[]] := Module[
     "frameDeterminant" -> simp[Det[frame]]|>
 ];
 
+D16GeoSymbolicCovariantDerivative[geo_Association, psi_List, coords_List] :=
+  Table[D[psi, coords[[mu]]] + geo["Omega"][[mu]].psi, {mu, Length[coords]}];
+D16GeoSymbolicCovariantDerivativeBar[geo_Association, bar_List, coords_List] :=
+  Table[D[bar, coords[[mu]]] - bar.geo["Omega"][[mu]], {mu, Length[coords]}];
+D16GeoSymbolicDirac[geo_Association, psi_List, coords_List] := With[{dp = D16GeoSymbolicCovariantDerivative[geo, psi, coords]},
+  Sum[geo["curvedGammas"][[mu]].dp[[mu]], {mu, Length[coords]}]];
+
 (* ========================================================================= *)
 (* 5. Vielbein jets and jet geometry                                          *)
 (* ========================================================================= *)
@@ -184,7 +204,7 @@ D16GeoFrameJet[frame_, coords_, rules_] := Module[{e1, e2},
   red[{frame, e1, e2} /. rules]
 ];
 
-Options[D16GeoJetGeometry] = {"SqrtSign" -> Automatic};
+Options[D16GeoJetGeometry] = {"SqrtSign" -> Automatic, "Curvature" -> True};
 D16GeoJetGeometry[fj_List, OptionsPattern[]] := Module[
   {e0, e1, e2, eJ, deJ, gJ, dgJ, ginvJ, einvJ, DgJ, gamLowJ, GamJ, DeArrJ, XJ, omJ, omLJ, OmJ, OmNBJ,
    gamJ, gamLJ, detE, sgn, sqrtgJ, Gv, Gd, riem, ricci, rs, einstein, vpJ},
@@ -212,11 +232,13 @@ D16GeoJetGeometry[fj_List, OptionsPattern[]] := Module[
   sgn = If[OptionValue["SqrtSign"] === Automatic, Sign[numValue[detE]], OptionValue["SqrtSign"]];
   sqrtgJ = {red[sgn detE], Table[red[sgn detE Tr[einvJ[[1]].e1[[l]]]], {l, 8}]};
   Gv = GamJ[[1]]; Gd = GamJ[[2]];
-  riem = red[Table[Gd[[m, r, nn, s]] - Gd[[nn, r, m, s]] + Sum[Gv[[r, m, l]] Gv[[l, nn, s]] - Gv[[r, nn, l]] Gv[[l, m, s]], {l, 8}],
-    {r, 8}, {s, 8}, {m, 8}, {nn, 8}]];
-  ricci = red[Table[Sum[riem[[r, s, r, nn]], {r, 8}], {s, 8}, {nn, 8}]];
-  rs = red[Sum[ginvJ[[1, s, nn]] ricci[[s, nn]], {s, 8}, {nn, 8}]];
-  einstein = red[ginvJ[[1]].ricci - (rs/2) id8];
+  If[TrueQ[OptionValue["Curvature"]],
+    riem = red[Table[Gd[[m, r, nn, s]] - Gd[[nn, r, m, s]] + Sum[Gv[[r, m, l]] Gv[[l, nn, s]] - Gv[[r, nn, l]] Gv[[l, m, s]], {l, 8}],
+      {r, 8}, {s, 8}, {m, 8}, {nn, 8}]];
+    ricci = red[Table[Sum[riem[[r, s, r, nn]], {r, 8}], {s, 8}, {nn, 8}]];
+    rs = red[Sum[ginvJ[[1, s, nn]] ricci[[s, nn]], {s, 8}, {nn, 8}]];
+    einstein = red[ginvJ[[1]].ricci - (rs/2) id8],
+    riem = ricci = rs = einstein = Missing["NotComputed"]];
   <|"frameJet" -> fj, "e" -> eJ, "g" -> gJ, "ginv" -> ginvJ, "einv" -> einvJ, "christoffel" -> GamJ,
     "omegaMixed" -> omJ, "omegaLower" -> omLJ, "Omega" -> OmJ, "OmegaNotebook" -> OmNBJ,
     "gamma" -> gamJ, "gammaLower" -> gamLJ, "sqrtg" -> sqrtgJ, "vielbeinPostulate" -> vpJ,
@@ -392,11 +414,17 @@ gComplexLagrangian[geo_, m_, lam_, omKey_: "Omega"] := Module[
 (* Euler-Lagrange operators from the jet identity  d_lam (dL/du_{mu,a}) = d L_lam/du_{mu,a}
    - delta_{lam mu} dL/du_a  (exact for Grassmann left and right derivatives):
    EL_a = dL0/du_a - Sum_mu d_mu (dL/du_{mu a}) = 9 dL0/du_a - Sum_mu d L_mu / d u_{mu a}. *)
-gEulerLagrange[L_Association, gen0_, gen1_, side_] := Module[{L0 = gVal[L], Lmu, der},
+gEulerLagrangeIdentity[L_Association, gen0_, gen1_, side_] := Module[{L0 = gVal[L], Lmu, der},
   der = If[side === "left", gLeftD, gRightD];
   Lmu = Table[gTotalDValue[L, mu], {mu, 0, 7}];
   Table[gAdd[gScaleNum[9, der[L0, gen0[a]]], gNeg[gSum[Table[der[Lmu[[mu + 1]], gen1[mu, a]], {mu, 0, 7}]]]], {a, 0, 15}]
 ];
+(* direct form: dL/du_a - Sum_mu d_mu (dL/du_{mu a}), the inner derivative keeps the jet
+   coefficients so that the total derivative d_mu acts on coefficients and generators *)
+gEulerLagrange[L_Association, gen0_, gen1_, side_] := Module[{der = If[side === "left", gLeftD, gRightD]},
+  Table[gAdd[gVal[der[L, gen0[a]]], gNeg[gSum[Table[gTotalDValue[der[L, gen1[mu, a]], mu], {mu, 0, 7}]]]], {a, 0, 15}]
+];
+gSameVectorQ[u_List, v_List] := Length[u] === Length[v] && AllTrue[Range[Length[u]], gZeroQ[gAdd[gVal[u[[#]]], gNeg[gVal[v[[#]]]]]] &];
 
 (* ========================================================================= *)
 (* 8. Deterministic exact random rationals (64-bit LCG, reproducible anywhere) *)
@@ -447,12 +475,523 @@ g2Rules[pt_] := Module[{H = pt["H"], sn = pt["w"]^6, z, t},
   z = 6 H xs[[1]]; t = H xs[[5]];
   {Derivative[1][a4][t] -> pt["A1"], Derivative[2][a4][t] -> pt["A2"], Derivative[3][a4][t] -> pt["A3"],
    a4[t] -> Log[pt["ea"]], Sin[z] -> sn, Cos[z] -> cs, Cot[z] -> cs/sn, Csc[z] -> 1/sn, Tan[z] -> sn/cs, Sec[z] -> 1/cs}];
-g2Alg[pt_] := {cs, 2, 1 - (pt["w"]^6)^2};
+g2Alg[pt_] := {{cs, 2, 1 - (pt["w"]^6)^2}};
 
 (* G3: homogeneous diagonal (Bianchi-I type) Gaussian-normal vielbein h_i(x4), h_4 = 1:
    h_i = 1 + x4^2/(i+2), evaluated at x4 in {1/3, -2/5, 3/7}, other coordinates 0. *)
 g3Frame[x_List] := DiagonalMatrix[Table[If[i == 4, 1, 1 + x[[5]]^2/(i + 2)], {i, 0, 7}]];
 g3Points = {1/3, -2/5, 3/7};
+
+(* model parameters per evaluation point (k = 1, 2, 3) *)
+$mList = {3/7, -2/5, 5/9};          (* Dirac mass m *)
+$lamList = {5/11, 7/13, -3/8};      (* U(S) = (lambda/2) S^2 *)
+$hmList = {2/3, -5/7, 4/9};         (* notebook H M in Lg[] *)
+
+(* ========================================================================= *)
+(* 10. Value-only helpers (probe fields give coefficient matrices directly)   *)
+(* ========================================================================= *)
+
+lagValue[geo_, p0_, p1_, q0_, q1_, m_, lam_, omKey_: "Omega"] := Module[
+  {Om = geo[omKey][[1]], gam = geo["gamma"][[1]], bar, Dpsi, Dbar, S, kin, Ls},
+  bar = q0.$C;
+  Dpsi = Table[p1[[mu]] + Om[[mu]].p0, {mu, 8}];
+  Dbar = Table[q1[[mu]].$C - bar.Om[[mu]], {mu, 8}];
+  S = bar.p0;
+  kin = (1/2) Sum[bar.gam[[mu]].Dpsi[[mu]] - Dbar[[mu]].gam[[mu]].p0, {mu, 8}];
+  Ls = red[kin - m S - If[lam === 0, 0, (lam/2) S^2]];
+  <|"bar" -> bar, "Dpsi" -> Dpsi, "Dbar" -> Dbar, "S" -> S, "Ls" -> Ls, "psi" -> p0|>
+];
+emtValue[geo_, lv_] := Module[{gl = geo["gammaLower"][[1]], g = geo["g"][[1]], A, B},
+  A = Table[lv["bar"].gl[[mu]].lv["Dpsi"][[nu]], {mu, 8}, {nu, 8}];
+  B = Table[lv["Dbar"][[mu]].gl[[nu]].lv["psi"], {mu, 8}, {nu, 8}];
+  red[Table[-(1/4) (A[[mu, nu]] + A[[nu, mu]] - B[[mu, nu]] - B[[nu, mu]]) + g[[mu, nu]] lv["Ls"], {mu, 8}, {nu, 8}]]
+];
+hermConj[mat_] := Transpose[mat] /. Complex[a_, b_] :> Complex[a, -b];   (* all symbols here are real *)
+inertia[mat_] := Module[{x, cl, cln, ch},
+  ch[l_] := Count[Partition[Sign[l], 2, 1], {s1_, s2_} /; s1 =!= s2];
+  cl = Select[CoefficientList[CharacteristicPolynomial[mat, x], x], # =!= 0 &];
+  cln = Select[CoefficientList[CharacteristicPolynomial[mat, x] /. x -> -x, x], # =!= 0 &];
+  {ch[cl], ch[cln], Length[mat] - ch[cl] - ch[cln]}];
+decimalString[x_] := ToString[CForm[N[exactValue[x], 20]]];
+boolString[b_] := If[TrueQ[b], "true", "false"];
+zp1 = ConstantArray[0, {8, 16}]; zp2 = ConstantArray[0, {8, 8, 16}];
+zm16 = ConstantArray[0, {16, 16}]; zm1 = ConstantArray[0, {8, 16, 16}];
+unitSlot[l_] := ReplacePart[zm1, l -> id16];
+
+(* ========================================================================= *)
+(* 11. Finite local Spin(4,4) transformation with exact rational unit fields  *)
+(* ========================================================================= *)
+(* n(y) = e_A - 2 <e_A,k(y)>/<k(y),k(y)> k(y) is the reflection of the unit vector e_A in the
+   hyperplane orthogonal to the polynomial field k(y), so <n,n> = <e_A,e_A> = +-1 exactly and
+   n is rational in y = x - point.  R = nslash mslash is an exact local Spin(4,4) field with
+   R^{-1} = mslash nslash/(<n,n><m,m>), and R gamma^a R^{-1} = Lambda^c_a gamma^c with
+   Lambda = P_n P_m, P_u[[c,a]] = delta_ca - 2 u_c eta_aa u_a/<u,u>. *)
+ys = Table[Symbol["Dirac16Complex`Geometry`Private`y" <> ToString[k]], {k, 0, 7}];
+ip[u_, v_] := Sum[$etaDiag[[a]] u[[a]] v[[a]], {a, 8}];
+unitField[base_Integer, k0_List, seed_Integer] := Module[{r1, r2, k, eA = UnitVector[8, base + 1]},
+  r1 = Partition[D16GeoRandomRationals[seed, 64], 8];
+  r2 = Partition[Partition[D16GeoRandomRationals[seed + 1, 512], 8], 8];
+  k = Table[k0[[a]] + Sum[r1[[a, b]] ys[[b]], {b, 8}] + (1/2) Sum[r2[[a, b, c]] ys[[b]] ys[[c]], {b, 8}, {c, 8}], {a, 8}];
+  eA - 2 ip[eA, k]/ip[k, k] k];
+vectorJet2[v_] := Module[{d1 = Table[D[v, ys[[l]]], {l, 8}]},
+  {v /. Thread[ys -> 0], d1 /. Thread[ys -> 0], Table[D[d1[[l]], ys[[kk]]], {l, 8}, {kk, 8}] /. Thread[ys -> 0]}];
+(* first-order (infinitesimal) family: n_kappa = reflection of the unit field m in k = m + kappa w.
+   With <m,m> = 1:  n_kappa = -m + kappa (2 <m,w> m - 2 w) + O(kappa^2), so
+   R_kappa = n_kappa mslash = -1 + kappa [mslash, wslash] + O(kappa^2): a local spin(4,4) generator
+   epsilon(x) = [mslash, wslash] with nonzero derivatives.  kappa^2 = 0 exactly (dual numbers). *)
+kappa = Symbol["Dirac16Complex`Geometry`Private`kappa"];
+infinitesimalW[seed_Integer] := Module[{r0, r1},
+  r0 = D16GeoRandomRationals[seed, 8];
+  r1 = Partition[D16GeoRandomRationals[seed + 1, 64], 8];
+  Table[r0[[a]] + Sum[r1[[a, b]] ys[[b]], {b, 8}], {a, 8}]];
+infinitesimalJet[mJ_, wJ_] := Module[{aJ = j2Mul[ip, mJ, wJ]},
+  -mJ + kappa (2 j2Mul[Times, aJ, mJ] - 2 wJ)];
+reflectionJet2[uJ_, norm_] := Module[{outer},
+  outer = j2Mul[Function[{u, v}, Outer[Times, u, $etaDiag v]], uJ, uJ];
+  {id8 - (2/norm) outer[[1]], -(2/norm) outer[[2]], -(2/norm) outer[[3]]}];
+
+spinInvariance[geo_, fj_, data_, m_, lam_, seed_] := Module[
+  {n, mv, mt, nn, mm, mtt, nJ, mJ, mtJ, res = <||>, transform, fld, lagRef, lagRefNB},
+  n = unitField[0, {2, 1, -1, 1, 1, -1, 1, 1}, seed];
+  mv = unitField[1, {1, 3, 1, -1, 2, 1, -1, 1}, seed + 2];
+  mt = unitField[4, {1, 1, 2, -1, 3, 1, 1, -1}, seed + 4];
+  nn = Together[ip[n, n]]; mm = Together[ip[mv, mv]]; mtt = Together[ip[mt, mt]];
+  res["unitNorms"] = (nn === 1 && mm === 1 && mtt === -1);
+  nJ = vectorJet2[n]; mJ = vectorJet2[mv]; mtJ = vectorJet2[mt];
+  fld = D16GeoFieldJets @@ data;
+  (* with Psi^dagger -> Psi^dagger R^T one has Psibar -> sigma Psibar R^-1, sigma = <n,n><m,m>, hence
+     S -> sigma S and L[m, lambda] -> sigma L[m, sigma lambda] (kinetic and mass terms flip with sigma,
+     the even self-interaction U = lambda S^2/2 does not). *)
+  transform[uJ_, vJ_, sigma_] := Module[{usl, vsl, RJ, RinvJ, LamJ, frameP, geoP, psiP, psbP, fldP, lagP, lagPNB, out = <||>},
+    lagRef = D16GeoLagrangianJets[geo, fld, m, sigma lam];
+    lagRefNB = D16GeoLagrangianJets[geo, fld, m, sigma lam, "OmegaNotebook"];
+    usl = j2Lin[#.$gam &, uJ]; vsl = j2Lin[#.$gam &, vJ];
+    RJ = j2Mul[Dot, usl, vsl];
+    RinvJ = j2Mul[Dot, vsl, usl]/sigma;
+    LamJ = j2Mul[Dot, reflectionJet2[uJ, 1], reflectionJet2[vJ, sigma]];
+    out["RinverseValue"] = zeroQ[RJ[[1]].RinvJ[[1]] - id16];
+    out["LambdaInO44"] = zeroQ[Transpose[LamJ[[1]]].$eta.LamJ[[1]] - $eta];
+    out["adjointAction"] = zeroQ[Table[RJ[[1]].$gam[[a]].RinvJ[[1]] - Sum[LamJ[[1, c, a]] $gam[[c]], {c, 8}], {a, 8}]];
+    frameP = j2Mul[Dot, fj, j2Lin[$eta.Transpose[#].$eta &, LamJ]];
+    geoP = D16GeoJetGeometry[frameP, "Curvature" -> False];
+    out["metricInvariant"] = zeroQ[geoP["g"] - geo["g"]];
+    out["gammaCovariant"] = zeroQ[Table[geoP["gamma"][[1, mu]] - RJ[[1]].geo["gamma"][[1, mu]].RinvJ[[1]], {mu, 8}]];
+    out["connectionTransformation"] = zeroQ[Table[geoP["Omega"][[1, mu]] -
+        (RJ[[1]].geo["Omega"][[1, mu]].RinvJ[[1]] - RJ[[2, mu]].RinvJ[[1]]), {mu, 8}]];
+    psiP = j2Mul[Dot, RJ, {data[[1]], data[[2]], data[[3]]}];
+    psbP = j2Mul[Dot, {data[[4]], data[[5]], data[[6]]}, j2Lin[Transpose, RJ]];
+    fldP = D16GeoFieldJets[psiP[[1]], psiP[[2]], psiP[[3]], psbP[[1]], psbP[[2]], psbP[[3]]];
+    lagP = D16GeoLagrangianJets[geoP, fldP, m, lam];
+    lagPNB = D16GeoLagrangianJets[geoP, fldP, m, lam, "OmegaNotebook"];
+    out["lagrangianRatio"] = sigma;
+    out["notebookFirstOrderChange"] = maxAbsEntry[Coefficient[red[lagPNB["L"][[1]] - sigma lagRefNB["L"][[1]]], kappa]];
+    out["generatorFirstOrderPart"] = maxAbsEntry[Coefficient[RJ[[1]], kappa]];
+    out["lagrangianTransforms"] = zeroQ[lagP["L"] - sigma lagRef["L"]];
+    out["naiveSignFlipFailsForLambda"] = If[sigma === 1, True,
+      ! zeroQ[lagP["L"] - sigma D16GeoLagrangianJets[geo, fld, m, lam]["L"]]];
+    out["notebookLagrangianDifference"] = maxAbsEntry[lagPNB["L"][[1]] - sigma lagRefNB["L"][[1]]];
+    out];
+  res["spinZero"] = transform[nJ, mJ, 1];
+  res["spinMixed"] = transform[nJ, mtJ, -1];
+  Block[{$alg = Join[If[$alg === None, {}, $alg], {{kappa, 2, 0}}], nkJ},
+    nkJ = red[infinitesimalJet[mJ, vectorJet2[infinitesimalW[seed + 6]]]];
+    res["infinitesimalUnitNorm"] = zeroQ[j2Mul[ip, nkJ, nkJ] - {1, ConstantArray[0, 8], ConstantArray[0, {8, 8}]}];
+    res["infinitesimal"] = transform[nkJ, mJ, 1];
+  ];
+  res
+];
+
+(* ========================================================================= *)
+(* 12. Checks on one geometry at one evaluation point                        *)
+(* ========================================================================= *)
+
+runGeometry[gl_String, k_Integer, geo_, fj_, pars_Association] := Module[
+  {c = <||>, ms = <||>, add, mm, pre = gl <> ".p" <> ToString[k] <> ".", sfx = "_" <> gl,
+   m = $mList[[k]], lam = $lamList[[k]], hm = $hmList[[k]], seed = pars["seed"],
+   e0, g0, ginv0, inert, vp, omL, Gv, gam, gamL, Om, OmNB, sq, dGam, DG, DGnb, div, jac, riem, F, RF, RFmixed, spinFromR,
+   cPlus, cMinus, cMixed, offData, fldOff, dsq, box, delta, rs, k0, cL, K, Kl, Ll, matLevel, dens,
+   lagG, ELb, ELp, tvec, tgt, rvec, tgtp, okb, okp, Bq, Lp, Pi, PiT, noQdot, piOK, Kq, Qq, g44, gauss, Bm,
+   nbLg, nbC, nbN, Xexp, onData, okOS, fldOn, lagOn, Ton, divOn, lagOff, Toff, divOff, S0, tr, expTr,
+   symOK, Kt, Ktl, Ltl, herm, inv, gm, gamRows, DbarRows},
+  add[name_, v_] := (c[name <> sfx] = TrueQ[Lookup[c, name <> sfx, True]] && TrueQ[v]);
+  mm[name_, v_] := (ms[pre <> name] = v);
+  e0 = geo["e"][[1]]; g0 = geo["g"][[1]]; ginv0 = geo["ginv"][[1]];
+  Gv = geo["christoffel"][[1]]; gam = geo["gamma"]; gamL = geo["gammaLower"];
+  Om = geo["Omega"]; OmNB = geo["OmegaNotebook"]; sq = geo["sqrtg"]; rs = geo["scalarCurvature"];
+
+  (* --- nondegeneracy of the frame at the point --- *)
+  inert = If[FreeQ[g0, cs], inertia[g0], {-1, -1, -1}];
+  add["GEO_frameNondegenerate", ! zeroQ[geo["detFrame"]] && inert === {4, 4, 0} && ! zeroQ[ginv0[[5, 5]]]];
+  mm["detFrame", exactString[geo["detFrame"]]];
+  mm["detFrameDecimal", decimalString[geo["detFrame"]]];
+  mm["metricInertia", ToString[inert]];
+  mm["inverseMetric44", exactString[ginv0[[5, 5]]]];
+  mm["sqrtAbsG", exactString[sq[[1]]]];
+  mm["scalarCurvature", exactString[rs]];
+  mm["scalarCurvatureDecimal", decimalString[rs]];
+
+  (* --- vielbein postulate and omega --- *)
+  vp = geo["vielbeinPostulate"];
+  add["GEO_vielbeinPostulate", Dimensions[vp[[1]]] === {8, 8, 8} && zeroQ[vp[[1]]] && zeroQ[vp[[2]]]];
+  mm["vielbeinPostulateComponentsZero", "512 values and 4096 first derivatives"];
+  omL = geo["omegaLower"];
+  add["GEO_omegaAntisymmetry", zeroQ[jLin[# + Transpose[#, {1, 3, 2}] &, omL]]];
+  mm["nonzeroOmegaLower", Count[Flatten[omL[[1]]], x_ /; ! zeroQ[x]]];
+  mm["nonzeroOmegaMixedSymmetricPart", Count[Flatten[geo["omegaMixed"][[1]] + Transpose[geo["omegaMixed"][[1]], {1, 3, 2}]], x_ /; ! zeroQ[x]]];
+
+  (* --- D_mu gamma^nu --- *)
+  dGam[OmJ_] := red[Table[gam[[2, mu, nu]] + Sum[Gv[[nu, mu, l]] gam[[1, l]], {l, 8}] + comm[OmJ[[1, mu]], gam[[1, nu]]], {mu, 8}, {nu, 8}]];
+  DG = dGam[Om]; DGnb = dGam[OmNB];
+  add["GEO_gammaCovariantConstancy", zeroQ[DG]];
+  add["GEO_notebookContractionFails", ! zeroQ[DGnb]];
+  mm["notebookDGammaMaxAbs", exactString[maxAbsEntry[DGnb]]];
+  mm["notebookDGammaMaxAbsDecimal", decimalString[maxAbsEntry[DGnb]]];
+  mm["notebookDGammaNonzeroEntries", Count[Flatten[DGnb], x_ /; ! zeroQ[x]]];
+
+  (* --- divergence identity d_mu(sqrt|g| gamma^mu) = sqrt|g| [gamma^mu, Omega_mu] --- *)
+  div = red[Sum[sq[[2, mu]] gam[[1, mu]] + sq[[1]] gam[[2, mu, mu]], {mu, 8}] - sq[[1]] Sum[comm[gam[[1, mu]], Om[[1, mu]]], {mu, 8}]];
+  jac = red[Table[sq[[2, mu]] - sq[[1]] Sum[Gv[[r, r, mu]], {r, 8}], {mu, 8}]];
+  add["GEO_divergenceIdentity", zeroQ[div] && zeroQ[jac]];
+  mm["divergenceLhsMaxAbs", exactString[maxAbsEntry[Sum[sq[[2, mu]] gam[[1, mu]] + sq[[1]] gam[[2, mu, mu]], {mu, 8}]]]];
+
+  (* --- curvature of the spin connection --- *)
+  riem = geo["riemann"];
+  F = red[Table[Om[[2, mu, nu]] - Om[[2, nu, mu]] + comm[Om[[1, mu]], Om[[1, nu]]], {mu, 8}, {nu, 8}]];
+  RF = red[Table[$eta.Transpose[e0].riem[[All, All, mu, nu]].Transpose[geo["einv"][[1]]], {mu, 8}, {nu, 8}]];
+  RFmixed = red[Table[Transpose[e0].riem[[All, All, mu, nu]].Transpose[geo["einv"][[1]]], {mu, 8}, {nu, 8}]];
+  spinFromR[X_] := (1/2) Flatten[X].$Sflat;
+  cPlus = zeroQ[F - Map[spinFromR, RF, {2}]];
+  cMinus = zeroQ[F + Map[spinFromR, RF, {2}]];
+  cMixed = zeroQ[F - Map[spinFromR, RFmixed, {2}]];
+  add["GEO_curvature", cPlus && ! cMinus && ! cMixed && ! zeroQ[F]];
+  mm["curvatureCandidate.plusHalfLowered", boolString[cPlus]];
+  mm["curvatureCandidate.minusHalfLowered", boolString[cMinus]];
+  mm["curvatureCandidate.plusHalfMixedNoEta", boolString[cMixed]];
+  mm["curvatureFMaxAbs", exactString[maxAbsEntry[F]]];
+
+  (* --- Lichnerowicz --- *)
+  offData = randomFieldData[seed];
+  fldOff = D16GeoFieldJets @@ offData;
+  dsq = D16GeoDiracSquared[geo, fldOff]; box = D16GeoSpinorLaplacian[geo, fldOff];
+  delta = red[dsq - box];
+  k0 = First[Select[Range[16], offData[[1, #]] =!= 0 &]];
+  cL = If[zeroQ[rs], Indeterminate, red[delta[[k0]]/(rs offData[[1, k0]])]];
+  add["GEO_lichnerowicz", ! zeroQ[rs] && zeroQ[delta - cL rs offData[[1]]] && cL === -1/4 && ! zeroQ[delta - (1/4) rs offData[[1]]]];
+  mm["lichnerowiczC", exactString[cL]];
+  mm["lichnerowiczPlusQuarterHolds", boolString[zeroQ[delta - (1/4) rs offData[[1]]]]];
+
+  (* --- Hermiticity of the Lagrangian (matrix level and coefficient level) --- *)
+  matLevel = AllTrue[Range[8], zeroQ[hermConj[$C.$gam[[#]]] + $C.$gam[[#]]] &] && zeroQ[hermConj[$C] - $C];
+  K = lagValue[geo, id16, zm1, id16, zm1, m, 0]["Ls"];
+  Kl = Table[lagValue[geo, zm16, unitSlot[l], id16, zm1, m, 0]["Ls"], {l, 8}];
+  Ll = Table[lagValue[geo, id16, zm1, zm16, unitSlot[l], m, 0]["Ls"], {l, 8}];
+  dens = zeroQ[K - hermConj[K]] && AllTrue[Range[8], zeroQ[Ll[[#]] - hermConj[Kl[[#]]]] &];
+  add["LAG_hermiticity", matLevel && dens];
+  mm["hermiticity", "(C gamma^a)^dagger = -C gamma^a, C^dagger = C; Ls = psb K psi + psb K^mu d_mu psi + d_mu psb L^mu psi - (lambda/2) S^2 with K = K^dagger and L^mu = (K^mu)^dagger (Grassmann conjugation (theta1 theta2)^* = theta2^* theta1^*)"];
+
+  (* --- Grassmann Euler-Lagrange equations of the complex Lagrangian --- *)
+  lagG = gComplexLagrangian[geo, m, lam];
+  gamRows = Table[gMatVec[jPart[gam, mu], lagG["Dpsi"][[mu]]], {mu, 8}];
+  tvec = Table[gAdd[gSum[Table[gamRows[[mu, a]], {mu, 8}]], gScaleNum[-m, lagG["psi"][[a]]],
+      gScaleNum[-lam, gMul[lagG["S"], lagG["psi"][[a]]]]], {a, 16}];
+  tgt = gVal /@ (gScaleJet[cjScalar[sq], #] & /@ gMatVec[jConst[$C], tvec]);
+  ELb = gEulerLagrange[lagG["L"], gQ0, gQ1, "left"];
+  okb = AllTrue[Range[16], gZeroQ[gAdd[gVal[ELb[[#]]], gNeg[tgt[[#]]]]] &] && AllTrue[tgt, Length[#] > 0 &] &&
+    gSameVectorQ[ELb, gEulerLagrangeIdentity[lagG["L"], gQ0, gQ1, "left"]];
+  add["LAG_eulerLagrangePsibar", okb];
+  mm["grassmannLagrangianMonomials", Length[lagG["L"]]];
+  mm["grassmannELPsibarMonomials", Total[Length /@ ELb]];
+  DbarRows = Table[gRowMat[lagG["Dbar"][[mu]], jPart[gam, mu]], {mu, 8}];
+  rvec = Table[gAdd[gSum[Table[DbarRows[[mu, a]], {mu, 8}]], gScaleNum[m, lagG["bar"][[a]]],
+      gScaleNum[lam, gMul[lagG["S"], lagG["bar"][[a]]]]], {a, 16}];
+  tgtp = gVal /@ (gScaleJet[cjScalar[sq], gNeg[#]] & /@ rvec);
+  ELp = gEulerLagrange[lagG["L"], gP0, gP1, "right"];
+  okp = AllTrue[Range[16], gZeroQ[gAdd[gVal[ELp[[#]]], gNeg[tgtp[[#]]]]] &] && AllTrue[tgtp, Length[#] > 0 &] &&
+    gSameVectorQ[ELp, gEulerLagrangeIdentity[lagG["L"], gP0, gP1, "right"]];
+  add["LAG_eulerLagrangePsi", okp];
+  mm["grassmannELPsiMonomials", Total[Length /@ ELp]];
+
+  (* --- canonical momentum and anticommutator --- *)
+  Bq = gScaleJet[cjScalar[sq], gDot[lagG["bar"], gMatVec[jPart[gam, 5], lagG["psi"]]]];
+  Lp = gAdd[gVal[lagG["L"]], gScaleNum[1/2, gTotalDValue[Bq, 4]]];
+  Pi = Table[gRightD[Lp, gP1[4, a]], {a, 0, 15}];
+  PiT = gVal /@ (gScaleJet[cjScalar[sq], #] & /@ gRowMat[lagG["bar"], jPart[gam, 5]]);
+  piOK = AllTrue[Range[16], gZeroQ[gAdd[Pi[[#]], gNeg[PiT[[#]]]]] &] && AllTrue[PiT, Length[#] > 0 &];
+  noQdot = AllTrue[Range[0, 15], gZeroQ[gLeftD[Lp, gQ1[4, #]]] &];
+  g44 = ginv0[[5, 5]];
+  Kq = red[sq[[1]] $C.gam[[1, 5]]];
+  Qq = red[I gam[[1, 5]].$C/(g44 sq[[1]])];
+  gauss = If[gl === "G2",
+    Bm = -I $C.$gam[[5]];
+    zeroQ[g44 + 1] && zeroQ[gam[[1, 5]] - $gam[[5]]] && zeroQ[Qq - red[Bm/sq[[1]]]] && zeroQ[Bm - hermConj[Bm]] &&
+      zeroQ[Bm.Bm - id16] && Tr[Bm] === 0 && zeroQ[comm[$C, Bm]] && zeroQ[Bm.$C + I $gam[[5]]],
+    True];
+  add["QNT_canonicalMomentum", piOK && noQdot && zeroQ[Kq.Qq - I id16] && zeroQ[Qq - hermConj[Qq]] && gauss];
+  mm["canonicalMomentum", "Pi_a = dR L'/d(d_4 Psi_a) = sqrt|g| (Psi^dagger C gamma^4)_a (right derivative), L' = L + (1/2) d_4(sqrt|g| Psibar gamma^4 Psi); {Psi, Psi^dagger} = i (sqrt|g| C gamma^4)^(-1) = i gamma^4 C/(g^44 sqrt|g|)"];
+
+  (* --- the notebook Lg[] for a real Grassmann Psi16 --- *)
+  nbLg[omKey_] := Module[{psi = gGenVec[gP0], dpsi = Table[gGenVec[gP1[mu, #] &], {mu, 0, 7}], rowC, rows, inner, mass, Lg, E, MJ, A, X, N0, Ef, OmK = geo[omKey]},
+    rowC = gRowMat[psi, jConst[$C]];
+    rows = Table[gMatVec[jPart[gam, al], gVecAdd[dpsi[[al]], gMatVec[jPart[OmK, al], psi]]], {al, 8}];
+    inner = Table[gSum[Table[rows[[al, a]], {al, 8}]], {a, 16}];
+    mass = gDot[rowC, psi];
+    Lg = gScaleJet[cjScalar[sq], gAdd[gDot[rowC, inner], gScaleNum[hm, mass]]];
+    E = gEulerLagrange[Lg, gP0, gP1, "left"];
+    MJ = Table[jMul[Times, sq, jLin[$C.# &, jPart[gam, al]]], {al, 8}];
+    A = Table[red[MJ[[al, 1]] + Transpose[MJ[[al, 1]]]], {al, 8}];
+    N0 = red[sq[[1]] ($C.Sum[gam[[1, al]].OmK[[1, al]], {al, 8}] + hm $C)];
+    X = red[Sum[Transpose[MJ[[al, 2, al]]], {al, 8}] + N0 - Transpose[N0]];
+    Ef = Table[gAdd[gSum[Table[gMatVec[jConst[A[[al]]], dpsi[[al]]][[a]], {al, 8}]], gMatVec[jConst[X], psi][[a]]], {a, 16}];
+    <|"massZero" -> gZeroQ[mass], "E" -> (gVal /@ E), "A" -> A, "X" -> X, "Lterms" -> Length[Lg],
+      "identityAgree" -> gSameVectorQ[E, gEulerLagrangeIdentity[Lg, gP0, gP1, "left"]],
+      "agree" -> AllTrue[Range[16], gZeroQ[gAdd[gVal[E[[#]]], gNeg[gVal[Ef[[#]]]]]] &],
+      "Ezero" -> AllTrue[E, gZeroQ[gVal[#]] &]|>];
+  nbC = nbLg["Omega"]; nbN = nbLg["OmegaNotebook"];
+  Xexp = red[sq[[1]] $C.Sum[comm[gam[[1, al]], OmNB[[1, al]] - Om[[1, al]]], {al, 8}]];
+  add["LAG_notebookLgGrassmannTrivial", nbC["identityAgree"] && nbN["identityAgree"] && nbC["massZero"] && nbC["agree"] && nbC["Ezero"] && zeroQ[nbC["A"]] && zeroQ[nbC["X"]] &&
+    nbN["massZero"] && nbN["agree"] && zeroQ[nbN["A"]] && ! zeroQ[nbN["X"]] && zeroQ[nbN["X"] - Xexp] &&
+    gIsLinearIn[nbN["E"], Table[gP0[a], {a, 0, 15}]] && zeroQ[gLinearMatrix[nbN["E"], Table[gP0[a], {a, 0, 15}]] - nbN["X"]]];
+  mm["notebookLgMonomials", nbC["Lterms"]];
+  mm["notebookLgResidualXMaxAbs", exactString[maxAbsEntry[nbN["X"]]]];
+  mm["notebookLgResidualXMaxAbsDecimal", decimalString[maxAbsEntry[nbN["X"]]]];
+  mm["notebookLgResidualXRank", MatrixRank[exactValue[nbN["X"]]]];
+  mm["notebookLgResidualX", "X = sqrt|g| C Sum_alpha [gamma^alpha, OmegaNotebook_alpha - Omega_alpha] (E = X Psi, no derivative terms)"];
+
+  (* --- energy-momentum tensor --- *)
+  {onData, okOS} = D16GeoSolveOnShell[geo, randomFieldData[seed + 10], m, lam];
+  fldOn = D16GeoFieldJets @@ onData;
+  lagOn = D16GeoLagrangianJets[geo, fldOn, m, lam];
+  Ton = D16GeoEMTJets[geo, lagOn];
+  divOn = D16GeoEMTDivergence[geo, Ton];
+  lagOff = D16GeoLagrangianJets[geo, fldOff, m, lam];
+  Toff = D16GeoEMTJets[geo, lagOff];
+  divOff = D16GeoEMTDivergence[geo, Toff];
+  add["EMT_conservation", okOS && zeroQ[divOn] && ! zeroQ[divOff]];
+  mm["emtDivergenceOffShellMaxAbs", exactString[maxAbsEntry[divOff]]];
+  mm["onShellJetsResidualZero", boolString[okOS]];
+  S0 = lagOn["S"][[1]];
+  tr = red[Sum[ginv0[[mu, nu]] Ton[[mu, nu, 1]], {mu, 8}, {nu, 8}]];
+  expTr = red[-m S0 + 7 S0 (lam S0) - 8 (lam/2) S0^2];
+  add["EMT_trace", zeroQ[tr - expTr] && ! zeroQ[S0]];
+  mm["emtTraceOnShell", exactString[tr]];
+  symOK = zeroQ[Table[Toff[[mu, nu]] - Toff[[nu, mu]], {mu, 8}, {nu, 8}]];
+  Kt = emtValue[geo, lagValue[geo, id16, zm1, id16, zm1, m, 0]];
+  Ktl = Table[emtValue[geo, lagValue[geo, zm16, unitSlot[l], id16, zm1, m, 0]], {l, 8}];
+  Ltl = Table[emtValue[geo, lagValue[geo, id16, zm1, zm16, unitSlot[l], m, 0]], {l, 8}];
+  herm = AllTrue[Flatten[Table[zeroQ[Kt[[mu, nu]] - hermConj[Kt[[mu, nu]]]], {mu, 8}, {nu, 8}]], TrueQ] &&
+    AllTrue[Flatten[Table[zeroQ[Ltl[[l, mu, nu]] - hermConj[Ktl[[l, mu, nu]]]], {l, 8}, {mu, 8}, {nu, 8}]], TrueQ];
+  add["EMT_symmetricHermitian", symOK && herm && matLevel];
+
+  (* --- finite local Spin(4,4) invariance --- *)
+  inv = spinInvariance[geo, fj, randomFieldData[seed + 20], m, lam, seed + 30];
+  add["LAG_localSpinInvariance", inv["unitNorms"] && inv["infinitesimalUnitNorm"] &&
+    And @@ Values[KeyDrop[inv["spinZero"], {"lagrangianRatio", "notebookLagrangianDifference", "notebookFirstOrderChange", "generatorFirstOrderPart"}]] &&
+    And @@ Values[KeyDrop[inv["spinMixed"], {"lagrangianRatio", "notebookLagrangianDifference", "notebookFirstOrderChange", "generatorFirstOrderPart"}]] &&
+    And @@ Values[KeyDrop[inv["infinitesimal"], {"lagrangianRatio", "notebookLagrangianDifference", "notebookFirstOrderChange", "generatorFirstOrderPart"}]] &&
+    inv["infinitesimal"]["generatorFirstOrderPart"] =!= 0 && inv["infinitesimal"]["notebookFirstOrderChange"] =!= 0];
+  mm["spinInvariance.identityComponent.LprimeOverL", exactString[inv["spinZero"]["lagrangianRatio"]]];
+  mm["spinInvariance.spacelikeTimelikePair.LprimeOverL", exactString[inv["spinMixed"]["lagrangianRatio"]]];
+  mm["spinInvariance.notebookContractionLagrangianChangeMaxAbs", exactString[inv["spinZero"]["notebookLagrangianDifference"]]];
+  mm["spinInvariance.infinitesimal.notebookContractionFirstOrderChangeMaxAbs", exactString[inv["infinitesimal"]["notebookFirstOrderChange"]]];
+  mm["spinInvariance.infinitesimal.generatorMaxAbs", exactString[inv["infinitesimal"]["generatorFirstOrderPart"]]];
+  mm["spinInvariance.details", ToString[{inv["unitNorms"], inv["infinitesimalUnitNorm"],
+    KeyDrop[inv["spinZero"], {"notebookLagrangianDifference", "notebookFirstOrderChange", "generatorFirstOrderPart"}], KeyDrop[inv["spinMixed"], {"notebookLagrangianDifference", "notebookFirstOrderChange", "generatorFirstOrderPart"}],
+    KeyDrop[inv["infinitesimal"], {"notebookLagrangianDifference", "notebookFirstOrderChange", "generatorFirstOrderPart"}]}, InputForm]];
+
+  (* --- primordial-field specific checks --- *)
+  If[gl === "G2",
+    Module[{H = pars["H"], A1 = pars["A1"], A2 = pars["A2"], h, dh, formula, slash, slashNB, symG, subst, agree, c0, c4, einsteinExp},
+      h = Diagonal[e0]; dh = Table[Diagonal[fj[[2, b]]], {b, 8}];
+      formula = red[(1/2) Sum[(1/h[[b]]) Sum[If[cc == b, 0, dh[[b, cc]]/h[[cc]]], {cc, 8}] $gam[[b]], {b, 8}]];
+      slash = red[Sum[gam[[1, mu]].Om[[1, mu]], {mu, 8}]];
+      add["GEO_diagonalSlashFormula", zeroQ[slash - formula] && zeroQ[slash - 3 H $gam[[1]]]];
+      slashNB = red[Sum[gam[[1, mu]].OmNB[[1, mu]], {mu, 8}]];
+      c0 = red[Tr[slashNB.$gam[[1]]]/16]; c4 = red[-Tr[slashNB.$gam[[5]]]/16];
+      mm["notebookSlash", "gamma^mu OmegaNotebook_mu = (" <> exactString[c0] <> ") gamma^0 + (" <> exactString[c4] <> ") gamma^4, residual zero: " <>
+        boolString[zeroQ[slashNB - c0 $gam[[1]] - c4 $gam[[5]]]]];
+      mm["notebookSlashEqualsThreeHalfHTimesGamma0PlusA1Gamma4", boolString[zeroQ[slashNB - (3 H/2) ($gam[[1]] + A1 $gam[[5]])]]];
+      einsteinExp = DiagonalMatrix[Join[{-3 H^2 (A1^2 - 5)}, ConstantArray[H^2 (15 - 3 A1^2 + A2), 3], {3 H^2 (7 + A1^2)}, ConstantArray[H^2 (15 - 3 A1^2 - A2), 3]]];
+      add["GEO_primordialInvariants", zeroQ[sq[[1]] - cs] && zeroQ[sq[[2, 5]]] && zeroQ[rs - 6 H^2 (A1^2 - 7)] &&
+        zeroQ[geo["einsteinMixed"] - einsteinExp] && Count[Flatten[omL[[1]]], x_ /; ! zeroQ[x]] === 24 && zeroQ[slash - 3 H $gam[[1]]]];
+      symG = D16GeoSymbolicGeometry[g2FrameSymbolic[H], xs];
+      subst[x_] := red[x /. g2Rules[pars]];
+      agree = zeroQ[subst[symG["metric"]] - g0] && zeroQ[subst[symG["inverseMetric"]] - ginv0] &&
+        zeroQ[subst[symG["christoffel"]] - Gv] && zeroQ[subst[symG["omegaMixed"]] - geo["omegaMixed"][[1]]] &&
+        zeroQ[subst[symG["omegaLower"]] - omL[[1]]] && zeroQ[subst[symG["Omega"]] - Om[[1]]] &&
+        zeroQ[subst[symG["OmegaNotebook"]] - OmNB[[1]]] && zeroQ[subst[symG["curvedGammas"]] - gam[[1]]] &&
+        zeroQ[subst[symG["loweredGammas"]] - gamL[[1]]] && zeroQ[subst[symG["frameDeterminant"]] - geo["detFrame"]] &&
+        FreeQ[subst[symG["Omega"]], xs[[1]] | xs[[5]] | a4 | Sin | Cos];
+      add["GEO_symbolicJetAgreement", agree];
+    ]];
+  {c, ms}
+];
+
+(* ========================================================================= *)
+(* 13. Minisuperspace (G3): EMT from the tetrad variation, homogeneous reduction *)
+(* ========================================================================= *)
+
+hS = Table[Symbol["Dirac16Complex`Geometry`Private`hS" <> ToString[i]], {i, 0, 7}];
+hdS = Table[Symbol["Dirac16Complex`Geometry`Private`hdS" <> ToString[i]], {i, 0, 7}];
+hddS = Table[Symbol["Dirac16Complex`Geometry`Private`hddS" <> ToString[i]], {i, 0, 7}];
+(* hS[[5]] = N(t) (lapse), hdS[[5]] = N'(t) *)
+minisuperspaceJet = {DiagonalMatrix[hS], Table[If[l == 5, DiagonalMatrix[hdS], ConstantArray[0, {8, 8}]], {l, 8}],
+   Table[If[l == 5 && kk == 5, DiagonalMatrix[hddS], ConstantArray[0, {8, 8}]], {l, 8}, {kk, 8}]};
+
+runMinisuperspace[k_Integer, geoS_] := Module[
+  {c = <||>, ms = <||>, add, mm, pre = "G3.p" <> ToString[k] <> ".", t = g3Points[[k]], m = $mList[[k]], lam = $lamList[[k]],
+   seed = 30000 + 100 k, fj3, geo3, hv, hdv, vals, base, p0, q0, offData, onData, okOS, homog, sqv, variation, results = {},
+   ginv, gl, gam, Hh, trans},
+  add[name_, v_] := (c[name] = TrueQ[Lookup[c, name, True]] && TrueQ[v]);
+  mm[name_, v_] := (ms[pre <> name] = v);
+  fj3 = D16GeoFrameJet[g3Frame[xs], xs, Thread[xs -> {0, 0, 0, 0, t, 0, 0, 0}]];
+  geo3 = D16GeoJetGeometry[fj3];
+  ginv = geo3["ginv"][[1]]; gl = geo3["gammaLower"][[1]]; gam = geo3["gamma"][[1]];
+  hv = Diagonal[fj3[[1]]]; hdv = Diagonal[fj3[[2, 5]]];
+  Hh = hdv/hv; trans = Delete[Range[8], 5];
+  vals = Join[Thread[hS -> hv], Thread[hdS -> hdv]];
+  sqv = geo3["sqrtg"][[1]];
+  base = randomFieldData[seed];
+  p0 = base[[1]]; q0 = base[[4]];
+  offData = {p0, ReplacePart[zp1, 5 -> base[[2, 5]]], ReplacePart[zp2, {5, 5} -> base[[3, 5, 5]]],
+    q0, ReplacePart[zp1, 5 -> base[[5, 5]]], ReplacePart[zp2, {5, 5} -> base[[6, 5, 5]]]};
+  {onData, okOS} = D16GeoSolveOnShell[geo3, {p0, zp1, zp2, q0, zp1, zp2}, m, lam];
+  homog = zeroQ[Delete[onData[[2]], 5]] && zeroQ[Delete[onData[[5]], 5]] &&
+    zeroQ[ReplacePart[onData[[3]], {5, 5} -> ConstantArray[0, 16]]] && zeroQ[ReplacePart[onData[[6]], {5, 5} -> ConstantArray[0, 16]]];
+  mm["frame", "h_i = 1 + x4^2/(i+2) (i != 4), h_4 = N = 1, x4 = " <> ToString[t, InputForm]];
+  mm["onShellHomogeneous", boolString[okOS && homog]];
+  (* reduced action L(N, h, h', N'; Psi(t), Psi^dagger(t)) and its variation *)
+  variation[data_, label_] := Module[{L0, lag, T, S0, U, Up, rhoVar, tiiVar, rhoCov, tiiCov, indep, ok},
+    L0 = D16GeoLagrangianJets[geoS, D16GeoFieldJets @@ data, m, lam]["L"][[1]];
+    indep = Together[D[L0, hdS[[5]]]] === 0 && AllTrue[trans, Together[D[L0, hdS[[#]]]] === 0 &];
+    rhoVar = Together[(-D[L0, hS[[5]]]/sqv) /. vals];
+    tiiVar = Table[Together[(hv[[i]] D[L0, hS[[i]]]/sqv) /. vals], {i, trans}];
+    lag = D16GeoLagrangianJets[geo3, D16GeoFieldJets @@ data, m, lam];
+    T = D16GeoEMTJets[geo3, lag];
+    rhoCov = red[-ginv[[5, 5]] T[[5, 5, 1]]];
+    tiiCov = red[Table[ginv[[i, i]] T[[i, i, 1]], {i, trans}]];
+    S0 = lag["S"][[1]]; U = (lam/2) S0^2; Up = lam S0;
+    ok = indep && zeroQ[rhoVar - rhoCov] && zeroQ[tiiVar - tiiCov] && zeroQ[rhoVar - (m S0 + U)] &&
+      If[label === "onShell", zeroQ[tiiVar - ConstantArray[S0 Up - U, 7]], zeroQ[tiiVar - ConstantArray[lag["Ls"][[1]], 7]]];
+    mm["variation." <> label <> ".rho", exactString[rhoVar]];
+    mm["variation." <> label <> ".p0", exactString[tiiVar[[1]]]];
+    ok];
+  add["EMT_variation_G3", okOS && homog && variation[offData, "offShell"] && variation[onData, "onShell"]];
+  (* homogeneous reduction *)
+  Module[{lag, T, S0, U, Up, rho, pis, KE, PE, Tij, T4i, lagOffH, Toff, drho, theta, bil, fldOn, fldOffH, ok1, ok2, ok3, ok4, ok5, ok6, ok7, ok8, ok9, ok10},
+    fldOn = D16GeoFieldJets @@ onData; fldOffH = D16GeoFieldJets @@ offData;
+    lag = D16GeoLagrangianJets[geo3, fldOn, m, lam]; T = D16GeoEMTJets[geo3, lag];
+    lagOffH = D16GeoLagrangianJets[geo3, fldOffH, m, lam]; Toff = D16GeoEMTJets[geo3, lagOffH];
+    S0 = lag["S"][[1]]; U = (lam/2) S0^2; Up = lam S0;
+    rho = T[[5, 5, 1]];
+    pis = Table[red[ginv[[i, i]] T[[i, i, 1]]], {i, trans}];
+    KE = lag["KE"][[1]]; PE = red[rho - KE];
+    ok1 = zeroQ[rho - (m S0 + U)] && zeroQ[Toff[[5, 5, 1]] - (m lagOffH["S"][[1]] + (lam/2) lagOffH["S"][[1]]^2)];
+    ok2 = zeroQ[pis - ConstantArray[S0 Up - U, 7]] &&
+      zeroQ[Table[ginv[[i, i]] Toff[[i, i, 1]], {i, trans}] - ConstantArray[lagOffH["Ls"][[1]], 7]];
+    ok3 = zeroQ[KE - (1/2) S0 (m + Up)];
+    ok4 = zeroQ[PE - (1/2) (m S0 + 2 U - S0 Up)];
+    Tij[TT_, lg_] := Table[If[i == j, 0, red[TT[[i, j, 1]] - (1/4) (Hh[[i]] - Hh[[j]]) lg["bar"][[1]].gl[[i]].gl[[j]].gam[[5]].lg["psi"][[1]]]], {i, trans}, {j, trans}];
+    ok5 = zeroQ[Tij[T, lag]] && zeroQ[Tij[Toff, lagOffH]] &&
+      AnyTrue[Flatten[Table[If[i == j, 0, T[[i, j, 1]]], {i, trans}, {j, trans}]], ! zeroQ[#] &];
+    T4i[TT_, dat_] := Table[red[TT[[5, i, 1]] + (1/4) (dat[[4]].$C.gl[[i]].dat[[2, 5]] - dat[[5, 5]].$C.gl[[i]].dat[[1]])], {i, trans}];
+    ok6 = zeroQ[T4i[Toff, offData]] && zeroQ[Table[T[[5, i, 1]], {i, trans}]] && AnyTrue[Table[Toff[[5, i, 1]], {i, trans}], ! zeroQ[#] &];
+    drho = T[[5, 5, 2, 5]];
+    ok7 = zeroQ[drho + Sum[Hh[[i]] (rho + ginv[[i, i]] T[[i, i, 1]]), {i, trans}]];
+    ok8 = zeroQ[D16GeoEMTDivergence[geo3, T]];
+    theta = Total[Hh[[trans]]];
+    ok9 = AllTrue[Flatten[Table[If[i < j,
+        bil = jMul[Dot, lag["bar"], jLin[($gam[[i]].$gam[[j]].$gam[[5]]).# &, lag["psi"]]];
+        zeroQ[bil[[2, 5]] + theta bil[[1]]], True], {i, trans}, {j, trans}]], TrueQ];
+    ok10 = zeroQ[red[Sum[ginv[[mu, nu]] T[[mu, nu, 1]], {mu, 8}, {nu, 8}]] - (-m S0 + 7 S0 Up - 8 U)];
+    add["EMT_homogeneousReduction_G3", okOS && homog && ok1 && ok2 && ok3 && ok4 && ok5 && ok6 && ok7 && ok8 && ok9 && ok10];
+    mm["homogeneous.subchecks", ToString[{ok1, ok2, ok3, ok4, ok5, ok6, ok7, ok8, ok9, ok10}]];
+    mm["homogeneous.rho", exactString[rho]]; mm["homogeneous.KE", exactString[KE]]; mm["homogeneous.PE", exactString[PE]];
+    mm["homogeneous.p1", exactString[pis[[2]]]];
+  ];
+  {c, ms}
+];
+
+(* ========================================================================= *)
+(* 14. Report                                                                 *)
+(* ========================================================================= *)
+
+D16GeoReport[] := Module[{checks = <||>, meas = <||>, merge, algebra, res, pt, fj, geo, geoS, grass, t0},
+  merge[{cc_, mm_}] := (Scan[(checks[#] = TrueQ[Lookup[checks, #, True]] && TrueQ[cc[#]]) &, Keys[cc]]; meas = Join[meas, mm]);
+  $alg = None;
+
+  (* algebra sanity *)
+  checks["ALG_cliffordRelations"] = And @@ Flatten[Table[$gam[[a]].$gam[[b]] + $gam[[b]].$gam[[a]] == 2 $eta[[a, b]] id16, {a, 8}, {b, 8}]] &&
+    AllTrue[Range[8], If[# <= 4, $gam[[#]] == Transpose[$gam[[#]]], $gam[[#]] == -Transpose[$gam[[#]]]] &];
+  checks["ALG_chargeMatrix"] = $C == $gam[[1]].$gam[[2]].$gam[[3]].$gam[[4]] && $C == Transpose[$C] && $C.$C == id16 &&
+    AllTrue[Range[8], Transpose[$C.$gam[[#]]] == -$C.$gam[[#]] &] &&
+    AllTrue[Flatten[Table[Transpose[$C.$S[[a, b]]] == -$C.$S[[a, b]], {a, 8}, {b, 8}]], TrueQ] &&
+    $chi == DiagonalMatrix[Join[ConstantArray[-1, 8], ConstantArray[1, 8]]];
+  (* Grassmann lemma: left/right derivatives of the quartic term, S even *)
+  grass = Module[{psb = gGenVec[gQ0], psi = gGenVec[gP0], bar, S, S2, Cpsi},
+    bar = gRowMat[psb, jConst[$C]]; S = gDot[bar, psi]; S2 = gScaleNum[1/2, gMul[S, S]];
+    Cpsi = gMatVec[jConst[$C], psi];
+    Length[S2] > 0 &&
+      AllTrue[Range[0, 15], gZeroQ[gAdd[gLeftD[S2, gQ0[#]], gNeg[gMul[S, Cpsi[[# + 1]]]]]] &] &&
+      AllTrue[Range[0, 15], gZeroQ[gAdd[gRightD[S2, gP0[#]], gNeg[gMul[S, bar[[# + 1]]]]]] &] &&
+      AllTrue[Range[16], gZeroQ[gAdd[gMul[S, psi[[#]]], gNeg[gMul[psi[[#]], S]]]] &] &&
+      gZeroQ[gDot[gRowMat[psi, jConst[$C]], psi]] && ! gZeroQ[gDot[gRowMat[psi, jConst[$C.$gam[[1]]]], psi]]];
+  checks["ALG_grassmannLemmas"] = grass;
+  meas["convention.grassmann"] = "Psi_a, Psi^dagger_a are independent odd generators (Psi_a Psi_b = -Psi_b Psi_a, Psi_a Psi^dagger_b = -Psi^dagger_b Psi_a), (theta1 theta2)^* = theta2^* theta1^*; Euler-Lagrange: left derivatives for Psi^dagger, right derivatives for Psi; checked: dL(lambda S^2/2)/dPsi^dagger_a = lambda S (C Psi)_a, dR(lambda S^2/2)/dPsi_a = lambda S Psibar_a, S even, Psi^T C Psi = 0 for real Grassmann Psi";
+  meas["convention.eulerLagrangeJetIdentity"] = "EL_a = dL0/du_a - Sum_mu d_mu(dL/du_{mu a}) = 9 dL0/du_a - Sum_mu dL_mu/du_{mu a}, L_mu = total x^mu derivative of L at the point (exact Grassmann identity [dL/du_{mu a}, d_lam] = delta_{lam mu} dL/du_a)";
+  meas["convention.fieldJets"] = "Psi, d_mu Psi, d_mu d_nu Psi and the same for Psi^dagger at the point: independent exact rationals from D16GeoRandomRationals (64-bit LCG, state' = (6364136223846793005 state + 1442695040888963407) mod 2^64, value = (floor(state/2^33) mod 19 - 9)/(floor(state/2^13) mod 9 + 1)); seeds 10000*geometry + 100*point (+10 on-shell free data, +20 spin-invariance fields, +30.. unit vector fields)";
+  meas["convention.commutingEvaluation"] = "EMT, Lichnerowicz, on-shell and invariance checks evaluate bilinears with commuting exact numbers (Psi^dagger always leftmost, Psi rightmost: exact for bilinears); quartic terms enter only through the even scalar S = Psibar Psi, all manipulations keep each bilinear intact. The Euler-Lagrange, canonical-momentum and notebook-Lg checks use the genuine Grassmann algebra.";
+  meas["convention.onShellJets"] = "at the point: free data Psi, d_mu Psi (mu != 4), d_mu d_nu Psi (mu,nu != 4) and the same for Psi^dagger; the field equations gamma^mu D_mu Psi = (m + lambda S) Psi, (D_mu Psibar) gamma^mu = -(m + lambda S) Psibar and their first derivatives are solved exactly (linear systems with matrix gamma^4) for d_4 Psi, d_4 d_nu Psi, d_4 Psi^dagger, d_4 d_nu Psi^dagger; residuals (value and all 8 first derivatives) verified exactly zero";
+  meas["convention.parameters"] = "m = {3/7, -2/5, 5/9}, lambda = {5/11, 7/13, -3/8}, notebook H M = {2/3, -5/7, 4/9} at points p1, p2, p3 of each geometry; U(S) = (lambda/2) S^2";
+  meas["convention.curvature"] = "F_{mu nu} = d_mu Omega_nu - d_nu Omega_mu + [Omega_mu, Omega_nu] = +(1/2) R_{mu nu a b} S^{ab} with R_{mu nu a b} := eta_{ac} e_rho^c R^rho_{sigma mu nu} e_b^sigma and R^rho_{sigma mu nu} = d_mu Gamma^rho_{nu sigma} - d_nu Gamma^rho_{mu sigma} + Gamma^rho_{mu lambda} Gamma^lambda_{nu sigma} - Gamma^rho_{nu lambda} Gamma^lambda_{mu sigma}";
+  meas["convention.lichnerowicz"] = "(gamma^mu D_mu)^2 Psi = g^{mu nu}(D_mu D_nu Psi - Gamma^lambda_{mu nu} D_lambda Psi) + c R Psi with c = -1/4, R = g^{sigma nu} R^rho_{sigma rho nu} ({gamma^a, gamma^b} = +2 eta^{ab})";
+  meas["convention.localSpinInvariance"] = "(i) finite local transformation: R(x) = nslash(x) mslash(x), n, m exact rational unit vector fields (reflections of e_0, e_1 in polynomial fields); frame e_a^mu -> Lambda_a^c e_c^mu with R gamma^a R^-1 = Lambda^c_a gamma^c, Psi -> R Psi, Psi^dagger -> Psi^dagger R^T; Omega recomputed from the rotated frame; checked Omega' = R Omega R^-1 - (d R) R^-1, gamma'^mu = R gamma^mu R^-1, g' = g and L' = L (value and first derivatives); (ii) for a spacelike/timelike pair (<n,n><m,m> = -1, spinor norm -1): Psibar -> -Psibar R^-1, S -> -S and L[m, lambda] -> -L[m, -lambda] (the naive L -> -L fails for lambda != 0: kinetic and mass terms flip, U(S) = lambda S^2/2 does not); (iii) first-order infinitesimal: R_kappa = n_kappa mslash = -1 + kappa epsilon(x) + O(kappa^2), epsilon = [mslash, wslash] in spin(4,4), exact dual-number arithmetic kappa^2 = 0: the kappa^1 part of L' - L (value and first derivatives) vanishes; the notebook contraction gives a nonzero first-order change";
+  meas["G1.definition"] = "e_mu^a = delta_mu^a + P_mu^a(x), P_mu^a = (1/10)((mu+1) x_a - (a+1) x_mu) + (1/20) x_mu x_a + (1/30) x_((mu+a) mod 8)^2 (mu != a), P_mu^mu = (1/10) x_mu^2 + (1/40) x_((mu+1) mod 8)";
+  meas["G2.definition"] = "primordial vielbein diag(cot z, s^(1/6) e^a4 (x3), 1, s^(1/6) e^-a4 (x3)), z = 6 H x0, t = H x4, s = sin z; exact point data w = s^(1/6) rational, sin z = w^6, cos z = cs with cs^2 = 1 - w^12 (arithmetic in Q(cs), basis {1, cs}), exp(a4(t)) = ea rational (a4(t) = Log[ea]), a4', a4'', a4''' rational (a4''' never enters: second-order vielbein jets suffice)";
+  meas["G3.definition"] = "minisuperspace/Bianchi-I: ds^2 = -N(t)^2 dt^2 + Sum_{i != 4} eps_i h_i(t)^2 dx_i^2, t = x4, eps = eta; covariant side at N = 1 with h_i = 1 + x4^2/(i+2); variation side: symbolic N, h_i, N', h_i' in the reduced Lagrangian sqrt|g| Ls with homogeneous Psi(t), Psi^dagger(t) held fixed";
+
+  (* G1 *)
+  Do[
+    $alg = None;
+    fj = D16GeoFrameJet[D16GeoG1Frame[xs], xs, Thread[xs -> g1Points[[k]]]];
+    geo = D16GeoJetGeometry[fj];
+    meas["G1.p" <> ToString[k] <> ".coordinates"] = ToString[g1Points[[k]], InputForm];
+    merge[runGeometry["G1", k, geo, fj, <|"seed" -> 10000 + 100 k|>]],
+    {k, 3}];
+  (* G2 *)
+  Do[
+    pt = g2Points[[k]];
+    $alg = g2Alg[pt];
+    fj = D16GeoFrameJet[g2FrameSymbolic[pt["H"]], xs, g2Rules[pt]];
+    geo = D16GeoJetGeometry[fj];
+    meas["G2.p" <> ToString[k] <> ".point"] = "w = " <> ToString[pt["w"], InputForm] <> ", sin z = " <> ToString[pt["w"]^6, InputForm] <>
+      ", cos z = " <> ToString[Sqrt[1 - pt["w"]^12], InputForm] <> ", H = " <> ToString[pt["H"], InputForm] <>
+      ", a4(t) = Log[" <> ToString[pt["ea"], InputForm] <> "], a4'(t) = " <> ToString[pt["A1"], InputForm] <>
+      ", a4''(t) = " <> ToString[pt["A2"], InputForm] <> ", a4'''(t) = " <> ToString[pt["A3"], InputForm];
+    merge[runGeometry["G2", k, geo, fj, Join[pt, <|"seed" -> 20000 + 100 k|>]]];
+    (* negative control at G2 p1: the same checks with Omega replaced by the notebook contraction *)
+    If[k == 1, Module[{geoBad = geo, bad, sensitive},
+      geoBad["Omega"] = geo["OmegaNotebook"];
+      bad = First[runGeometry["G2", k, geoBad, fj, Join[pt, <|"seed" -> 20000 + 100 k|>]]];
+      sensitive = {"GEO_gammaCovariantConstancy_G2", "GEO_divergenceIdentity_G2", "GEO_curvature_G2", "GEO_lichnerowicz_G2",
+        "LAG_eulerLagrangePsibar_G2", "LAG_eulerLagrangePsi_G2", "LAG_notebookLgGrassmannTrivial_G2", "EMT_conservation_G2",
+        "LAG_localSpinInvariance_G2", "GEO_diagonalSlashFormula_G2", "GEO_primordialInvariants_G2"};
+      checks["NEG_notebookConnectionDetected_G2"] = AllTrue[sensitive, bad[#] === False &];
+      meas["G2.p1.negativeControl"] = "Omega := OmegaNotebook, every check recomputed; results: " <>
+        ToString[Normal[bad /. {True -> "true", False -> "false"}], InputForm];
+    ]],
+    {k, 3}];
+  $alg = None;
+  (* G3 minisuperspace *)
+  geoS = D16GeoJetGeometry[minisuperspaceJet, "SqrtSign" -> 1];
+  Do[merge[runMinisuperspace[k, geoS]], {k, 3}];
+  meas["emt.signConvention"] = If[TrueQ[checks["EMT_variation_G3"]],
+    "CONTRACT section 7 sign confirmed: T_{mu nu} = -(2/sqrt|g|) dS/dg^{mu nu} (rho = -(1/sqrt|g|) dS/dN at N = 1, T^i_i = (h_i/sqrt|g|) dS/dh_i) equals the covariant formula, T_44 = rho = m S + U",
+    "CONTRACT section 7 formula does NOT agree with the tetrad variation (see G3 measurements)"];
+  meas["emt.offDiagonalHomogeneous"] = "Bianchi-I, homogeneous Psi(t): T_ij = (1/4)(H_i - H_j) Psibar gamma_i gamma_j gamma^4 Psi (curved gammas, gamma_i = g_ii gamma^i; equivalently c_ij = g_ii g_jj/4 with upper curved gammas), off- and on-shell; T_4i = -(1/4)(Psibar gamma_i d_4 Psi - d_4 Psibar gamma_i Psi) off-shell and T_4i = 0 identically on-shell; d/dt(Psibar gamma^i gamma^j gamma^4 Psi) = -(Sum_k H_k) Psibar gamma^i gamma^j gamma^4 Psi (flat gammas, on-shell), so zero initial data stay zero";
+  meas["emt.trace"] = "on-shell T^mu_mu = -m S + 7 S U'(S) - 8 U(S) = -m S + 3 lambda S^2";
+  $alg = None;
+  <|"checks" -> KeySort[checks] // Association, "measurements" -> meas|>
+];
 
 End[];
 EndPackage[];

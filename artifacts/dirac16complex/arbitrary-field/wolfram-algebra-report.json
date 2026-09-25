@@ -20,7 +20,7 @@
 		"QNT_curvedAnticommutatorMatrix":true,
 		"QNT_flatModeHamiltonian":true,
 		"QNT_kreinSignature":true,
-		"QNT_unitaryAndKreinSubgroups":false,
+		"QNT_unitaryAndKreinSubgroups":true,
 		"QNT_currentHermiticity":true,
 		"ALG_fixtureAgreement":true
 	},
@@ -1556,6 +1556,7 @@
 			true
 		],
 		"QNT_kreinSignature.method":"basis V of the eigenspace (exact Gaussian rationals); M = (V^dagger V)^-1 V^dagger B V is the matrix of B restricted (B V = V M verified); M^2 = I so the eigenvalues are +-1 and the signature of the B-form on the space is ((d + Tr M)/2, (d - Tr M)/2) with respect to the positive Hilbert product.",
+		"QNT_unitaryAndKreinSubgroups.meaning":"canonical meaning (CONTRACT.md section 11, E1): (a) exactly 13 of the 28 S^{ab} commute with B (so(4)+so(3) and the 4 Hermitian boosts S^{b4}, b=0..3); (b) exactly 9 commute with B and are anti-Hermitian (unitarily implemented Spin(4)xSpin(3)); (c) the 21 with a,b != 4 are Krein-unitary, the 7 S^{4b} are not",
 		"QNT_unitaryAndKreinSubgroups.expectedCommutingWithB":[
 			[
 				0,
@@ -1592,9 +1593,25 @@
 			[
 				6,
 				7
+			],
+			[
+				0,
+				4
+			],
+			[
+				1,
+				4
+			],
+			[
+				2,
+				4
+			],
+			[
+				3,
+				4
 			]
 		],
-		"QNT_unitaryAndKreinSubgroups.expectedCountCommutingWithB":9,
+		"QNT_unitaryAndKreinSubgroups.expectedCountCommutingWithB":13,
 		"QNT_unitaryAndKreinSubgroups.generatorsCommutingWithB":[
 			[
 				0,
@@ -1650,7 +1667,47 @@
 			]
 		],
 		"QNT_unitaryAndKreinSubgroups.countCommutingWithB":13,
-		"QNT_unitaryAndKreinSubgroups.commutingWithBBeyondExpectation":[
+		"QNT_unitaryAndKreinSubgroups.commutingWithBMatchesCanonical":true,
+		"QNT_unitaryAndKreinSubgroups.literalClaimExactlyNineCommuteWithB":false,
+		"QNT_unitaryAndKreinSubgroups.compactGenerators":[
+			[
+				0,
+				1
+			],
+			[
+				0,
+				2
+			],
+			[
+				0,
+				3
+			],
+			[
+				1,
+				2
+			],
+			[
+				1,
+				3
+			],
+			[
+				2,
+				3
+			],
+			[
+				5,
+				6
+			],
+			[
+				5,
+				7
+			],
+			[
+				6,
+				7
+			]
+		],
+		"QNT_unitaryAndKreinSubgroups.commutingWithBBeyondCompact":[
 			[
 				0,
 				4
@@ -1921,7 +1978,7 @@
 			]
 		],
 		"QNT_unitaryAndKreinSubgroups.countHilbertAntiHermitian":12,
-		"QNT_unitaryAndKreinSubgroups.finding":"13 of the 28 S^{ab} commute with B = -I C gamma^4, not 9: the 6 generators of so(4) (a,b in {0,1,2,3}), the 3 of so(3) (a,b in {5,6,7}) AND the 4 boosts S^{b4}, b in {0,1,2,3} (S^{b4} anticommutes with C and with gamma^4, hence commutes with B; it is Hermitian, so exp(theta S^{b4}) is neither unitary for Psi^dagger Psi nor Krein-unitary). The expected so(4)+so(3) set is exactly (commuting with B) AND (anti-Hermitian), equivalently (commuting with B) AND (in the direction-4 stabilizer spin(4,3)). The Krein statement holds as stated: S^dagger B + B S = 0 exactly for the 21 generators with a,b != 4 and fails for all 7 S^{4b}. The literal expectation 'count commuting with B = 9' is false, so this check fails by design of the specification.",
+		"QNT_unitaryAndKreinSubgroups.finding":"13 of the 28 S^{ab} commute with B = -I C gamma^4, not 9: the 6 generators of so(4) (a,b in {0,1,2,3}), the 3 of so(3) (a,b in {5,6,7}) AND the 4 boosts S^{b4}, b in {0,1,2,3} (S^{b4} anticommutes with C and with gamma^4, hence commutes with B; it is Hermitian, so exp(theta S^{b4}) is neither unitary for Psi^dagger Psi nor Krein-unitary). The unitarily implemented so(4)+so(3) is exactly (commuting with B) AND (anti-Hermitian), equivalently (commuting with B) AND (in the direction-4 stabilizer spin(4,3)). Krein: S^dagger B + B S = 0 exactly for the 21 generators with a,b != 4 and fails for all 7 S^{4b}. The literal claim 'exactly 9 commute with B' is false and is recorded as literalClaimExactlyNineCommuteWithB = false; the check tests the canonical meaning (a)-(c).",
 		"QNT_currentHermiticity.currentMatricesHermitian":[
 			true,
 			true,
@@ -2571,8 +2628,8 @@
 		}
 	},
 	"sourceSha256":{
-		"wolfram/Dirac16ComplexAlgebra.wl":"dbccb9967a640736ce05b391da8595117633f6000d950954bc7b947f3819c6cf",
-		"scripts/verify_dirac16complex_algebra.wls":"12088ca013226cb311d0cb870f20db8052f92fe58f1d5a84ecf327e2f5ed31a0",
+		"wolfram/Dirac16ComplexAlgebra.wl":"ba0d00c818fa3707f04f7b2a7478b0c635fbf9fdaaa08b2e036d2704180f2262",
+		"scripts/verify_dirac16complex_algebra.wls":"86904ac07e1237cf0dec14431a3707d7bf24f951e12def504705d331c934949a",
 		"dirac-main/artifacts/exact/cl44-seed.json":"52e7a73b14467435d7986b33bf29547510b321853ffbd76121896d70b796d133",
 		"dirac-main/artifacts/exact/split-octonion.json":"cbc28db6709ec1fc35ccfcc26353d1952b42bb516f6c50d6a52e2d6d355be710",
 		"dirac-main/artifacts/exact/triality44.json":"a8c31c07809fc884ae0495d91f4105fac0909c954bb185c643306c57699cd395",

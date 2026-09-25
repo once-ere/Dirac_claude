@@ -3,10 +3,11 @@
 
 Covers scripts/build_dissertation_tex.py (determinism, backward
 compatibility with the dirac-main origin, Greek and symbol handling, links,
-tables, structural validation), scripts/check_provenance_pdf.py (the JSON
-edition registry), scripts/check_dissertation_pdf.py (rejection of mutated
-PDF bytes) and scripts/build_provenance_pdf.py (register and verify modes,
-warning scan).  Tests that compile LaTeX are skipped when pdflatex is absent.
+tables, figures, structural validation), scripts/check_provenance_pdf.py
+(the JSON edition registry), scripts/check_dissertation_pdf.py (rejection
+of mutated PDF bytes) and scripts/build_provenance_pdf.py (register and
+verify modes, warning scan, figures).  Tests that compile LaTeX are skipped
+when pdflatex is absent.
 """
 
 from __future__ import annotations
@@ -16,10 +17,12 @@ import json
 import os
 import re
 import shutil
+import struct
 import subprocess
 import sys
 import tempfile
 import unittest
+import zlib
 from pathlib import Path
 
 REPOSITORY_ROOT = Path(__file__).resolve().parent.parent
@@ -188,7 +191,7 @@ FEATURE_MARKDOWN = "\n".join(
         "- [a link first](https://example.org/l)",
         "- [bracket] first",
         "",
-        "## 4. Code",
+        "## 4. Code such as `x_y` and `$x`",
         "",
         "Inline `Ψ_a` and `C:\\Users`.",
         "",
@@ -199,6 +202,77 @@ FEATURE_MARKDOWN = "\n".join(
         "",
     ]
 )
+
+
+FIGURE_RGB = "artifacts/figures/rgb_gradient-1.png"
+FIGURE_RGBA = "artifacts/figures/rgba_band.png"
+
+# Two figures (an RGB PNG and an RGBA PNG, whose alpha channel pdfTeX embeds
+# as a soft mask) with every kind of caption markup; compiles warning-free.
+FIGURE_MARKDOWN = "\n".join(
+    [
+        "# Figure test",
+        "",
+        "## The figure directive",
+        "",
+        "## 1. Figures",
+        "",
+        "Text before the first figure.",
+        "",
+        f"![The field $\\psi(a)$ with `x_y`, **bold**, Ψ and a "
+        f"[link](https://example.org/f)]({FIGURE_RGB})",
+        "",
+        "- an item that the figure closes",
+        f"![An RGBA band: 50% & #hash]({FIGURE_RGBA})",
+        "Text after the second figure.",
+        "",
+    ]
+)
+
+
+def make_png(width: int, height: int, alpha: bool = False) -> bytes:
+    """A deterministic 8-bit RGB or RGBA gradient PNG (stdlib only)."""
+    rows = []
+    for y in range(height):
+        row = bytearray([0])
+        for x in range(width):
+            pixel = [
+                (255 * x) // (width - 1),
+                (255 * y) // (height - 1),
+                96,
+            ]
+            if alpha:
+                pixel.append(255 - (200 * x) // (width - 1))
+            row.extend(pixel)
+        rows.append(bytes(row))
+
+    def chunk(kind: bytes, data: bytes) -> bytes:
+        return (
+            struct.pack(">I", len(data))
+            + kind
+            + data
+            + struct.pack(">I", zlib.crc32(kind + data) & 0xFFFFFFFF)
+        )
+
+    header = struct.pack(
+        ">IIBBBBB", width, height, 8, 6 if alpha else 2, 0, 0, 0
+    )
+    return (
+        builder.PNG_SIGNATURE
+        + chunk(b"IHDR", header)
+        + chunk(b"IDAT", zlib.compress(b"".join(rows), 9))
+        + chunk(b"IEND", b"")
+    )
+
+
+def write_figures(root: Path) -> None:
+    for relative, png in (
+        (FIGURE_RGB, make_png(64, 48)),
+        (FIGURE_RGBA, make_png(96, 32, alpha=True)),
+    ):
+        path = root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(png)
 
 
 def sha256(content: bytes) -> str:
@@ -505,8 +579,21 @@ class LinkTests(unittest.TestCase):
                     builder.convert(minimal(f"[t]({target})\n"))
 
     def test_images_are_rejected(self) -> None:
-        with self.assertRaisesRegex(ValueError, "images are not supported"):
-            builder.convert(minimal("![alt](figure.png)\n"))
+        # A line holding nothing but an image is a figure (FigureTests);
+        # an image anywhere else is still rejected.
+        for body in (
+            "Text ![alt](figure.png) here.\n",
+            "- ![alt](figure.png)\n",
+            "## ![alt](figure.png)\n",
+            "| a |\n| --- |\n| ![alt](figure.png) |\n",
+            "![a](a.png) ![b](b.png)\n",
+            "![outer ![inner](i.png)](o.png)\n",
+        ):
+            with self.subTest(body=body):
+                with self.assertRaisesRegex(
+                    ValueError, "images are not supported"
+                ):
+                    builder.convert(minimal(body))
 
     def test_list_item_starting_with_bracket_is_guarded(self) -> None:
         latex = builder.convert(
@@ -575,6 +662,14 @@ class StructureValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "display math is not closed"):
             builder.convert(minimal("$$\nx\n"))
 
+    def test_heading_code_spans_are_safe_in_the_toc(self) -> None:
+        latex = builder.convert(minimal("## Code `x_y` and `$x` and `D4`\n"))
+        self.assertIn(
+            "\\section{Code \\texttt{x\\_y} and \\texttt{\\$x} and "
+            "\\texttt{\\detokenize{D4}}}",
+            latex,
+        )
+
     def test_code_spans_unsafe_for_detokenize(self) -> None:
         latex = builder.convert(
             minimal("`a#b` `50%` `C:\\x` `{a` `ok_{b}`\n")
@@ -584,6 +679,268 @@ class StructureValidationTests(unittest.TestCase):
         self.assertIn("\\texttt{C:\\textbackslash{}x}", latex)
         self.assertIn("\\texttt{\\{a}", latex)
         self.assertIn("\\texttt{\\detokenize{ok_{b}}}", latex)
+
+
+class FigureTests(unittest.TestCase):
+    FIGURE = "![A plot](artifacts/exp1/w_of_a-2.png)"
+
+    def test_figure_line_becomes_a_figure_environment(self) -> None:
+        latex = builder.convert(minimal(self.FIGURE + "\n"))
+        self.assertIn(
+            "\\begin{figure}[htbp]\n"
+            "\\centering\n"
+            "\\includegraphics[width=0.92\\linewidth]"
+            "{artifacts/exp1/w_of_a-2.png}\n"
+            "\\caption{A plot}\n"
+            "\\end{figure}\n",
+            body_of(latex),
+        )
+
+    def test_graphicx_is_loaded_only_with_a_figure(self) -> None:
+        without = builder.convert(minimal("Text.\n"))
+        self.assertNotIn("graphicx", without)
+        self.assertNotIn("\\includegraphics", without)
+        with_figure = builder.convert(minimal(self.FIGURE + "\n"))
+        self.assertEqual(with_figure.count("\\usepackage{graphicx}"), 1)
+        self.assertIn(
+            "\\usepackage{fancyvrb}\n"
+            "\\usepackage{graphicx}\n"
+            "\\usepackage[hidelinks]{hyperref}\n",
+            with_figure,
+        )
+        # The figure line and graphicx are the only differences.
+        figure_block = (
+            "\\begin{figure}[htbp]\n\\centering\n"
+            "\\includegraphics[width=0.92\\linewidth]"
+            "{artifacts/exp1/w_of_a-2.png}\n"
+            "\\caption{A plot}\n\\end{figure}\n\n"
+        )
+        document = "Before.\n\n{}\n\nAfter.\n"
+        self.assertEqual(
+            builder.convert(minimal(document.format(self.FIGURE)))
+            .replace("\\usepackage{graphicx}\n", "")
+            .replace(figure_block, ""),
+            builder.convert(minimal("Before.\n\nAfter.\n")),
+        )
+
+    def test_old_subset_with_a_figure_keeps_the_origin_bytes(self) -> None:
+        for flags, expected in OLD_SUBSET_ORIGIN_SHA256.items():
+            with self.subTest(flags=flags):
+                latex = builder.convert(
+                    OLD_SUBSET_MARKDOWN + "\n" + self.FIGURE + "\n",
+                    *flags,
+                    author=builder.ORIGIN_AUTHOR,
+                )
+                stripped = latex.replace(
+                    "\\usepackage{graphicx}\n", ""
+                ).replace(
+                    "\\begin{figure}[htbp]\n\\centering\n"
+                    "\\includegraphics[width=0.92\\linewidth]"
+                    "{artifacts/exp1/w_of_a-2.png}\n"
+                    "\\caption{A plot}\n\\end{figure}\n\n",
+                    "",
+                )
+                self.assertEqual(sha256(stripped.encode("utf-8")), expected)
+
+    def test_caption_markup_is_safe_as_a_moving_argument(self) -> None:
+        latex = builder.convert(
+            minimal(
+                "![Field $\\psi$, `x_y`, **b**, 50% & Ψ and "
+                "[l](https://x.org/l)](a/b.png)\n"
+            )
+        )
+        self.assertIn(
+            "\\caption{Field \\texorpdfstring{$\\psi$}{ψ}, \\texttt{x\\_y}, "
+            "\\textbf{b}, 50\\% \\& Ψ and "
+            "\\texorpdfstring{\\href{https://x.org/l}{l}}{l}}",
+            latex,
+        )
+        self.assertIn(
+            "\\DeclareUnicodeCharacter{03A8}{\\ensuremath{\\Psi}}", latex
+        )
+
+    def test_caption_ends_at_the_balanced_bracket(self) -> None:
+        self.assertEqual(
+            builder.figure_line("![see [x](https://x.org) here](d/p.png)"),
+            ("see [x](https://x.org) here", "d/p.png"),
+        )
+        self.assertEqual(
+            builder.figure_line("![  padded  ](p.png)"), ("padded", "p.png")
+        )
+        for line in (
+            "![a](a.png) ![b](b.png)",
+            "![a](a.png) trailing",
+            "leading ![a](a.png)",
+            "![a] (a.png)",
+            "![unclosed(a.png)",
+            "[a](a.png)",
+        ):
+            with self.subTest(line=line):
+                self.assertIsNone(builder.figure_line(line))
+
+    def test_figure_closes_paragraph_and_list(self) -> None:
+        body = body_of(
+            builder.convert(
+                minimal(
+                    "Para line one\n"
+                    + self.FIGURE
+                    + "\nPara line two\n\n- item\n"
+                    + self.FIGURE
+                    + "\n"
+                )
+            )
+        )
+        self.assertIn("Para line one\n\n\\begin{figure}", body)
+        self.assertIn("\\end{figure}\n\nPara line two\n", body)
+        self.assertIn(
+            "\\item item\n\\end{itemize}\n\n\\begin{figure}", body
+        )
+
+    def test_figure_lines_in_code_and_math_stay_literal(self) -> None:
+        markdown = minimal(
+            "```text\n" + self.FIGURE + "\n```\n\n$$\n" + self.FIGURE
+            + "\n$$\n"
+        )
+        latex = builder.convert(markdown)
+        self.assertNotIn("graphicx", latex)
+        self.assertNotIn("\\includegraphics", latex)
+        self.assertIn(
+            "\\begin{Verbatim}[fontsize=\\small]\n" + self.FIGURE + "\n",
+            latex,
+        )
+        self.assertEqual(builder.figure_paths(markdown), [])
+
+    def test_figure_paths_lists_the_figures_in_order(self) -> None:
+        markdown = minimal(
+            "![one](b/one.png)\n\n```\n![code](c/code.png)\n```\n\n"
+            "Inline ![no](n.png) text.\n\n$$\n![math](m.png)\n$$\n\n"
+            "  ![two](a/two.png)  \n"
+        )
+        self.assertEqual(
+            builder.figure_paths(markdown), ["b/one.png", "a/two.png"]
+        )
+
+    def test_empty_caption_is_rejected(self) -> None:
+        for line in ("![](a.png)", "![   ](a.png)"):
+            with self.subTest(line=line):
+                with self.assertRaisesRegex(
+                    ValueError, "line 5: figure .* empty caption"
+                ):
+                    builder.convert(minimal(line + "\n"))
+
+    def test_unsupported_figure_paths_are_rejected(self) -> None:
+        for path in (
+            "",
+            "/abs/x.png",
+            "C:/x.png",
+            "a\\b.png",
+            "a b.png",
+            "../x.png",
+            "a/./x.png",
+            "a/../x.png",
+            "a//x.png",
+            "a/.../x.png",
+            "x.PNG",
+            "x.jpg",
+            "x.pdf",
+            "x.v1.png",
+            ".png",
+            "x",
+            "ψ.png",
+            "x%y.png",
+            "x#y.png",
+            "x~y.png",
+            "https://x.org/a.png",
+        ):
+            with self.subTest(path=path):
+                with self.assertRaisesRegex(
+                    ValueError, "line 5: figure path"
+                ):
+                    builder.convert(minimal(f"![caption]({path})\n"))
+
+    def test_accepted_figure_paths(self) -> None:
+        for path in (
+            "x.png",
+            "artifacts/dirac16complex/numerics/exp1/w_of_a.png",
+            "a.b/c_d-e/F9.png",
+        ):
+            with self.subTest(path=path):
+                builder.validate_figure_path(path, 1)
+
+    def test_figure_files_are_checked_against_the_image_root(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            write_figures(root)
+            (root / "artifacts" / "fake.png").write_bytes(b"not a png")
+            (root / "artifacts" / "dir.png").mkdir()
+            latex = builder.convert(
+                minimal(f"![ok]({FIGURE_RGB})\n"), image_root=root
+            )
+            self.assertIn(FIGURE_RGB, latex)
+            cases = {
+                "artifacts/missing.png": "does not exist",
+                "Artifacts/figures/rgb_gradient-1.png": "does not exist",
+                "artifacts/figures/RGB_gradient-1.png": "does not exist",
+                "artifacts/fake.png": "is not a PNG file",
+                "artifacts/dir.png": "is not a file",
+            }
+            for path, message in cases.items():
+                with self.subTest(path=path):
+                    with self.assertRaisesRegex(
+                        ValueError, "line 5: figure .*" + message
+                    ):
+                        builder.convert(
+                            minimal(f"![c]({path})\n"), image_root=root
+                        )
+            # Without image_root only the syntax is checked.
+            builder.convert(minimal("![c](artifacts/missing.png)\n"))
+
+    def test_cli_checks_figures_against_the_image_root(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            write_figures(root)
+            source = root / "doc.md"
+
+            def run(markdown: str, *extra: str) -> subprocess.CompletedProcess:
+                source.write_bytes(markdown.encode("utf-8"))
+                return subprocess.run(
+                    [
+                        sys.executable,
+                        str(SCRIPTS / "build_dissertation_tex.py"),
+                        "--input",
+                        str(source),
+                        *extra,
+                    ],
+                    env=dict(os.environ, PYTHONIOENCODING="utf-8"),
+                    capture_output=True,
+                    check=False,
+                )
+
+            passed = run(
+                minimal(f"![c]({FIGURE_RGB})\n"), "--image-root", str(root)
+            )
+            self.assertEqual(passed.returncode, 0, passed.stderr)
+            latex = source.with_suffix(".tex").read_text(encoding="utf-8")
+            self.assertIn(f"{{{FIGURE_RGB}}}", latex)
+            source.with_suffix(".tex").unlink()
+            failed = run(
+                minimal("![c](artifacts/none.png)\n"),
+                "--image-root",
+                str(root),
+            )
+            self.assertNotEqual(failed.returncode, 0)
+            self.assertIn(b"does not exist", failed.stderr)
+            self.assertFalse(source.with_suffix(".tex").exists())
+            # The default image root is this repository, not the cwd.
+            default = run(minimal(f"![c]({FIGURE_RGB})\n"))
+            self.assertNotEqual(default.returncode, 0)
+            self.assertIn(
+                builder.REPOSITORY_ROOT.as_posix().encode("utf-8"),
+                default.stderr,
+            )
+        self.assertEqual(
+            builder.REPOSITORY_ROOT, REPOSITORY_ROOT.resolve()
+        )
 
 
 class RegistryTests(unittest.TestCase):
@@ -672,7 +1029,9 @@ class RegistryTests(unittest.TestCase):
         }
         for edition, entry in cases.items():
             with self.subTest(edition=edition):
-                with self.assertRaises(check_provenance_pdf.SpecificationError):
+                with self.assertRaises(
+                    check_provenance_pdf.SpecificationError
+                ):
                     check_provenance_pdf.validate_specification(
                         edition, entry
                     )
@@ -860,6 +1219,115 @@ class PdfTests(unittest.TestCase):
         self.assertIn(b"check_canonicalHash=false", failed.stdout)
 
 
+def run_pdflatex_from(
+    cwd: Path, tex: str, output_directory: str, passes: int
+) -> subprocess.CompletedProcess:
+    """pdflatex as build_provenance_pdf.py runs it: cwd-relative paths."""
+    (cwd / output_directory).mkdir(parents=True, exist_ok=True)
+    for _ in range(passes):
+        completed = subprocess.run(
+            [
+                PDFLATEX,
+                "-interaction=nonstopmode",
+                "-halt-on-error",
+                "-jobname=FIG",
+                f"-output-directory={output_directory}",
+                tex,
+            ],
+            cwd=cwd,
+            capture_output=True,
+            timeout=600,
+            check=False,
+        )
+        if completed.returncode != 0:
+            break
+    return completed
+
+
+@unittest.skipUnless(PDFLATEX, "pdflatex is not installed")
+class FigurePdfTests(unittest.TestCase):
+    """Figures compile warning-free, from the repository root, and two
+    builds of two copies of the .tex at different places are identical."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.directory = tempfile.TemporaryDirectory()
+        root = Path(cls.directory.name)
+        write_figures(root)
+        latex = builder.convert(FIGURE_MARKDOWN, True, image_root=root)
+        for relative in ("provenance/FIG.tex", "build/FIG/FIG-repeat.tex"):
+            path = root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(latex.encode("utf-8"))
+        cls.results = {
+            label: run_pdflatex_from(root, tex, f"build/FIG/pdf-{label}", 3)
+            for label, tex in (
+                ("a", "provenance/FIG.tex"),
+                ("b", "build/FIG/FIG-repeat.tex"),
+            )
+        }
+        cls.root = root
+        cls.latex = latex
+        cls.pdf_a = root / "build" / "FIG" / "pdf-a" / "FIG.pdf"
+        cls.pdf_b = root / "build" / "FIG" / "pdf-b" / "FIG.pdf"
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.directory.cleanup()
+
+    def test_figure_document_compiles_warning_free(self) -> None:
+        for label, completed in self.results.items():
+            with self.subTest(build=label):
+                self.assertEqual(
+                    completed.returncode,
+                    0,
+                    completed.stdout.decode("utf-8", "replace")[-2000:],
+                )
+                log = (
+                    self.root / "build" / "FIG" / f"pdf-{label}" / "FIG.log"
+                ).read_bytes()
+                self.assertEqual(
+                    build_provenance_pdf.scan_log(log.decode("latin-1")), []
+                )
+        self.assertIn("\\usepackage{graphicx}\n", self.latex)
+
+    def test_two_builds_are_byte_identical_and_embed_the_images(
+        self,
+    ) -> None:
+        content = self.pdf_a.read_bytes()
+        report = check_dissertation_pdf.verify_pdf(
+            self.pdf_a,
+            self.pdf_b,
+            len(check_dissertation_pdf.PAGE_PATTERN.findall(content)),
+            612.0,
+            792.0,
+            sha256(content),
+        )
+        self.assertTrue(all(report["checks"].values()), report)
+        # RGB image, RGBA image and the soft mask of its alpha channel.
+        self.assertEqual(content.count(b"/Subtype /Image"), 3)
+        self.assertEqual(content.count(b"/SMask "), 1)
+        for size in (b"/Width 64", b"/Height 48", b"/Width 96"):
+            self.assertIn(size, content)
+        for absent in (b"PTEX.", b"/CreationDate", b"/ModDate"):
+            self.assertNotIn(absent, content)
+        self.assertNotIn(self.root.as_posix().encode("utf-8"), content)
+
+    def test_pdflatex_outside_the_root_does_not_find_the_figure(
+        self,
+    ) -> None:
+        # The contract: pdflatex runs with the repository root as cwd.
+        completed = run_pdflatex_from(
+            self.root / "provenance", "FIG.tex", "../build/FIG/pdf-wrong", 1
+        )
+        self.assertNotEqual(completed.returncode, 0)
+        # TeX wraps its terminal lines at 79 characters.
+        output = completed.stdout.replace(b"\r", b"").replace(b"\n", b"")
+        self.assertIn(
+            f"File `{FIGURE_RGB}' not found".encode("utf-8"), output
+        )
+
+
 @unittest.skipUnless(PDFLATEX, "pdflatex is not installed")
 class BuildProvenancePdfTests(unittest.TestCase):
     def run_builder(self, root: Path, *extra: str) -> tuple[int, str]:
@@ -890,7 +1358,8 @@ class BuildProvenancePdfTests(unittest.TestCase):
             code, output = self.run_builder(root)
             self.assertEqual(code, 1, output)
             self.assertIn("check_editionRegistered=false", output)
-            self.assertFalse((root / "provenance" / "FEATURE_DOC.pdf").exists())
+            pdf = root / "provenance" / "FEATURE_DOC.pdf"
+            self.assertFalse(pdf.exists())
 
             code, output = self.run_builder(root, "--register")
             self.assertEqual(code, 0, output)
@@ -898,15 +1367,13 @@ class BuildProvenancePdfTests(unittest.TestCase):
             entry = check_provenance_pdf.load_specifications(registry)[
                 "feature-doc"
             ]
-            pdf = root / "provenance" / "FEATURE_DOC.pdf"
             self.assertEqual(entry["path"], "provenance/FEATURE_DOC.pdf")
             self.assertEqual(entry["sha256"], sha256(pdf.read_bytes()))
-            self.assertTrue((root / "provenance" / "FEATURE_DOC.tex").exists())
-            report = json.loads(
-                (
-                    root / "build" / "FEATURE_DOC" / "build-provenance-pdf.json"
-                ).read_bytes()
+            self.assertTrue(markdown.with_suffix(".tex").exists())
+            report_path = (
+                root / "build" / "FEATURE_DOC" / "build-provenance-pdf.json"
             )
+            report = json.loads(report_path.read_bytes())
             self.assertEqual(report["schemaVersion"], 1)
             self.assertTrue(all(report["checks"].values()))
 
@@ -916,11 +1383,8 @@ class BuildProvenancePdfTests(unittest.TestCase):
             self.assertIn("check_texRepeatByteIdentity=true", output)
             self.assertIn("check_pdfRepeatByteIdentity=true", output)
 
-            markdown.write_bytes(
-                FEATURE_MARKDOWN.replace("Feature test", "Changed test").encode(
-                    "utf-8"
-                )
-            )
+            changed = FEATURE_MARKDOWN.replace("Feature test", "Changed test")
+            markdown.write_bytes(changed.encode("utf-8"))
             code, output = self.run_builder(root)
             self.assertEqual(code, 1, output)
             self.assertIn("check_registeredSha256=false", output)
@@ -940,6 +1404,57 @@ class BuildProvenancePdfTests(unittest.TestCase):
                 ],
                 entry,
             )
+
+    def test_figures_register_verify_and_missing_file(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "provenance").mkdir()
+            write_figures(root)
+            markdown = root / "provenance" / "FEATURE_DOC.md"
+            markdown.write_bytes(FIGURE_MARKDOWN.encode("utf-8"))
+            registry = root / "provenance" / "pdf-specifications.json"
+            registry.write_bytes(b"{}\n")
+
+            code, output = self.run_builder(root, "--register")
+            self.assertEqual(code, 0, output)
+            self.assertIn("provenance_pdf=OK", output)
+            self.assertIn("check_texRepeatByteIdentity=true", output)
+            self.assertIn("check_pdfRepeatByteIdentity=true", output)
+            self.assertIn(
+                "\\usepackage{graphicx}",
+                markdown.with_suffix(".tex").read_text(encoding="utf-8"),
+            )
+            report_path = (
+                root / "build" / "FEATURE_DOC" / "build-provenance-pdf.json"
+            )
+            report = json.loads(report_path.read_bytes())
+            for figure in (FIGURE_RGB, FIGURE_RGBA):
+                self.assertEqual(
+                    report["sourceSha256"][figure],
+                    sha256((root / figure).read_bytes()),
+                )
+            log = (
+                root / "build" / "FEATURE_DOC" / "logs" / "build-tex-seed0.log"
+            ).read_text(encoding="utf-8", errors="replace")
+            self.assertIn(f"--image-root {root}", log)
+            pdf_bytes = (root / "provenance" / "FEATURE_DOC.pdf").read_bytes()
+            self.assertEqual(pdf_bytes.count(b"/Subtype /Image"), 3)
+
+            code, output = self.run_builder(root)
+            self.assertEqual(code, 0, output)
+            self.assertIn("check_registeredSha256=true", output)
+
+            (root / FIGURE_RGBA).unlink()
+            code, output = self.run_builder(root)
+            self.assertEqual(code, 1, output)
+            self.assertIn("check_texBuildExitCodes=false", output)
+            log = (
+                root / "build" / "FEATURE_DOC" / "logs" / "build-tex-seed0.log"
+            ).read_text(encoding="utf-8", errors="replace")
+            self.assertIn(f"figure file '{FIGURE_RGBA}' does not exist", log)
+            report = json.loads(report_path.read_bytes())
+            self.assertIn(FIGURE_RGB, report["sourceSha256"])
+            self.assertNotIn(FIGURE_RGBA, report["sourceSha256"])
 
 
 if __name__ == "__main__":

@@ -16,7 +16,8 @@
     "GR_complexQuarticEL": true,
     "GR_complexPsiEquation": true,
     "GR_lagrangianHermitian": true,
-    "GR_emtHermitian": true
+    "GR_emtHermitian": true,
+    "GR_unsymmetrizedKineticNotHermitian": true
   },
   "measurements": {
     "GR_massTermVanishesReal_PsiT_C_Psi_nonzeroMonomials": 0,
@@ -104,7 +105,7 @@
   },
   "sourceSha256": {
     "scripts/grassmann_algebra.py": "dfce851d3dc7ab82202a62d414cc259644a64a101f08e9ba80ed747faa8bc24c",
-    "scripts/demo_grassmann_lagrangians.py": "ecaa59ed5147a1c88e759ba34512ee828482ee2f9ab517c35468bd70835bc36c",
-    "scripts/d16c_geometry_sympy.py": "d18e7bd1f836d978ceea5d3a4e4ad4cf7af0ede16149f865dbeb00bb99bc55dc"
+    "scripts/demo_grassmann_lagrangians.py": "3053c7011037e29cd9efa7c2067aafd23ebc67c6156eb581fef184810ef1515a",
+    "scripts/d16c_geometry_sympy.py": "4f7eca4cf247354650ed9beb0b9c46530d14c9965f095979ea5ee24651af9f25"
   }
 }

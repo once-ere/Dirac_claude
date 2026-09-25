@@ -1,0 +1,701 @@
+{
+  "schemaVersion": 1,
+  "study": "dirac16complex-cosmology",
+  "experiment": "exp4",
+  "fixture": {
+    "path": "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json",
+    "sha256": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
+    "source": "fixture"
+  },
+  "engine": "sundials_rs 7.8.0 CVODE (pure Rust, vendor/rustSolveIt)",
+  "solver": "CVODE Adams-Moulton + fixed-point (functional) iteration",
+  "refined": false,
+  "tolerances": {
+    "rtol": 1.00000000000000003e-13,
+    "atol": 9.99999999999999999e-15,
+    "maxStep": 2.00000000000000000e+00
+  },
+  "parameters": {
+    "thermal": {
+      "m": 1.00000000000000000e+00,
+      "temperature": 1.00000000000000000e+01,
+      "hubbleInitial": 5.00000000000000028e-02,
+      "tInitial": 1.00000000000000000e+01,
+      "aEnd": 1.00000000000000000e+02,
+      "tEnd": 1.00000000000000000e+05,
+      "kMax": 1.20000000000000000e+02,
+      "nodes": 48,
+      "outputIntervals": 60,
+      "degeneracy": 1.60000000000000000e+01,
+      "momentumDirection": 1,
+      "spinNodes": [
+        2,
+        16,
+        32,
+        47
+      ],
+      "antiparticleNode": 2,
+      "adiabaticVacuumNodes": [
+        1,
+        2
+      ]
+    },
+    "pair": {
+      "hubbleInflation": 1.00000000000000000e+00,
+      "kOverAStart": 2.00000000000000000e+02,
+      "masses": [
+        0.00000000000000000e+00,
+        1.00000000000000006e-01,
+        5.00000000000000000e-01,
+        1.00000000000000000e+00,
+        2.00000000000000000e+00
+      ],
+      "kMin": 1.00000000000000002e-03,
+      "kMax": 4.00000000000000000e+01,
+      "nodes": 64,
+      "hubbleEndOverMass": 1.00000000000000005e-04,
+      "masslessA2End": 1.00000000000000000e+05,
+      "samples": 6,
+      "eosPoints": 60,
+      "antiparticleMass": 1.00000000000000000e+00,
+      "antiparticleNodes": [
+        20,
+        36,
+        48
+      ],
+      "tailKMin": 8.00000000000000000e+00
+    }
+  },
+  "stateLayout": "u_re_0..u_re_15, u_im_0..u_im_15 (u = re + i im in C^16)",
+  "counting": {
+    "thermal": "16 states per comoving k (8 particles + 8 antiparticles), Fermi-Dirac f = 1/(exp(E_i/T_i)+1); rho = (16/(2 pi^2 a^3)) sum w k^2 f eps(u_k), p = (16/(2 pi^2 a^3)) sum w k^2 f p_1(u_k)/3 (direction average of the momentum flux, k along x1)",
+    "pair": "Dirac sea: 8 filled negative-energy states per k, each ends with weight |beta_k|^2 on the positive-energy subspace -> 8|beta|^2 particles + 8|beta|^2 antiparticles: n a^3 = (16/(2 pi^2)) int k^2 |beta_k|^2 dk"
+  },
+  "methodSelection": {
+    "selected": "adams",
+    "window": [
+      1.00000000000000000e+00,
+      2.00000000000000000e+00
+    ],
+    "testRtol": 1.00000000000000003e-13,
+    "testAtol": 9.99999999999999999e-15,
+    "rule": "at the default tolerances, the method with a factor-2 smaller max error vs an Adams reference at rtol/10, atol/10 wins; otherwise the one with fewer RHS evaluations (incl. difference-quotient Jacobian evaluations)",
+    "trials": [
+      {
+        "node": 2,
+        "k": 9.52524976630388931e-01,
+        "method": "adams",
+        "steps": 1007,
+        "rhsEvals": 1370,
+        "linRhsEvals": 0,
+        "maxErrorVsReference": 1.25478292392535234e-12,
+        "maxNormDrift": 2.62412314100402000e-12
+      },
+      {
+        "node": 2,
+        "k": 9.52524976630388931e-01,
+        "method": "bdf",
+        "steps": 4573,
+        "rhsEvals": 4730,
+        "linRhsEvals": 2464,
+        "maxErrorVsReference": 2.27365424612630054e-10,
+        "maxNormDrift": 4.54003279415360339e-10
+      },
+      {
+        "node": 47,
+        "k": 1.19926260435145565e+02,
+        "method": "adams",
+        "steps": 68001,
+        "rhsEvals": 88979,
+        "linRhsEvals": 0,
+        "maxErrorVsReference": 1.71380947909235483e-09,
+        "maxNormDrift": 9.85107995177258999e-10
+      },
+      {
+        "node": 47,
+        "k": 1.19926260435145565e+02,
+        "method": "bdf",
+        "steps": 308166,
+        "rhsEvals": 313247,
+        "linRhsEvals": 164384,
+        "maxErrorVsReference": 1.84002422836347532e-08,
+        "maxNormDrift": 2.87817032429416031e-08
+      }
+    ]
+  },
+  "limits": {
+    "eigen": 9.99999999999999980e-13,
+    "unitarity": 9.99999999999999955e-07,
+    "krein": 9.99999999999999955e-07,
+    "identity": 9.99999999999999980e-13,
+    "kinetic": 9.99999999999999955e-07,
+    "spin": 9.99999999999999955e-07,
+    "antiparticle": 9.99999999999999955e-07,
+    "beta": 9.99999999999999955e-07,
+    "masslessBeta": 1.00000000000000004e-10,
+    "suddenStart": 1.00000000000000006e-01,
+    "suddenStartFloor": 1.00000000000000004e-10,
+    "betaFloor": 9.99999999999999980e-13,
+    "tail": 3.49999999999999978e-01,
+    "wEarly": 5.00000000000000010e-03,
+    "wLateMax": 5.00000000000000028e-02,
+    "pairWLateMax": 1.00000000000000002e-03
+  },
+  "thermal": {
+    "wAtA1": 3.32854334804484508e-01,
+    "wAtAEnd": 3.59223844229396919e-02,
+    "wKineticAtA1": 3.32854334804484620e-01,
+    "wKineticAtAEnd": 3.59222887073100891e-02,
+    "maxRelDevRho": 1.97630236802584535e-08,
+    "maxRelDevP": 1.86921892308604191e-05,
+    "maxUnitarityDev": 2.42114697179829363e-07,
+    "maxKreinDrift": 2.42114697179829363e-07,
+    "maxIdentityResidual": 9.45974247981092632e-16,
+    "maxBeta2GasWeighted": 3.73497923269909748e-08,
+    "maxBeta2PerMode": 6.36936741837701729e-05,
+    "maxBeta2PerModeK": 9.52524976630388931e-01,
+    "suddenStartMaxRelDev": 1.23822667973206846e-02,
+    "suddenStartComparedModes": 17,
+    "suddenStartBoundMaxRatio": 9.05644094192409321e-01,
+    "adiabaticVacuumLateBeta2": 5.61262987183470149e-08,
+    "adiabaticVacuumMaxAdiabaticBeta2": 1.59679906728227300e-07,
+    "adiabaticVacuumMaxRelPressureDev": 1.20968767173268196e-01,
+    "instantaneousStartMaxRelPressureDevSameNodes": 1.78254024453770565e+00,
+    "pressureEnvelopeMaxRatio": 2.82623568933180913e-01,
+    "spinMaxDev": 0.00000000000000000e+00,
+    "antiparticleMaxDev": 0.00000000000000000e+00,
+    "modeSolverStats": [
+      {
+        "node": 0,
+        "k": 7.37395648544358906e-02,
+        "steps": 1819034,
+        "rhsEvals": 3636659,
+        "lastOrder": 8,
+        "maxNormDrift": 2.39153885583931469e-08
+      },
+      {
+        "node": 1,
+        "k": 3.88189664018954161e-01,
+        "steps": 3113104,
+        "rhsEvals": 3363665,
+        "lastOrder": 7,
+        "maxNormDrift": 7.29657658737892234e-08
+      },
+      {
+        "node": 2,
+        "k": 9.52524976630388931e-01,
+        "steps": 3062762,
+        "rhsEvals": 4239998,
+        "lastOrder": 8,
+        "maxNormDrift": 1.71482339439421594e-09
+      },
+      {
+        "node": 3,
+        "k": 1.76450444722516364e+00,
+        "steps": 2386968,
+        "rhsEvals": 3449500,
+        "lastOrder": 8,
+        "maxNormDrift": 2.15056048524786547e-08
+      },
+      {
+        "node": 4,
+        "k": 2.82073781037415205e+00,
+        "steps": 2824688,
+        "rhsEvals": 3960157,
+        "lastOrder": 8,
+        "maxNormDrift": 3.66657237904632893e-09
+      },
+      {
+        "node": 5,
+        "k": 4.11679855760674052e+00,
+        "steps": 3112676,
+        "rhsEvals": 4292548,
+        "lastOrder": 8,
+        "maxNormDrift": 1.62617563859157599e-09
+      },
+      {
+        "node": 6,
+        "k": 5.64725179706582203e+00,
+        "steps": 1600631,
+        "rhsEvals": 2976789,
+        "lastOrder": 9,
+        "maxNormDrift": 7.49078071793363165e-08
+      },
+      {
+        "node": 7,
+        "k": 7.40567878354512921e+00,
+        "steps": 2517822,
+        "rhsEvals": 3613364,
+        "lastOrder": 8,
+        "maxNormDrift": 1.19915501972656102e-08
+      },
+      {
+        "node": 8,
+        "k": 9.38470430253639165e+00,
+        "steps": 2827991,
+        "rhsEvals": 5497274,
+        "lastOrder": 7,
+        "maxNormDrift": 2.42114697179829363e-07
+      },
+      {
+        "node": 9,
+        "k": 1.15760277582334421e+01,
+        "steps": 1552640,
+        "rhsEvals": 3006806,
+        "lastOrder": 9,
+        "maxNormDrift": 9.98634582805024706e-08
+      },
+      {
+        "node": 10,
+        "k": 1.39704580490555781e+01,
+        "steps": 2754446,
+        "rhsEvals": 4067420,
+        "lastOrder": 9,
+        "maxNormDrift": 2.07502481863741650e-09
+      },
+      {
+        "node": 11,
+        "k": 1.65579521445711215e+01,
+        "steps": 2787336,
+        "rhsEvals": 4222654,
+        "lastOrder": 7,
+        "maxNormDrift": 5.12838509436619461e-08
+      },
+      {
+        "node": 12,
+        "k": 1.93276572220401661e+01,
+        "steps": 3075387,
+        "rhsEvals": 4466067,
+        "lastOrder": 8,
+        "maxNormDrift": 9.94631932371703442e-09
+      },
+      {
+        "node": 13,
+        "k": 2.22679561934091836e+01,
+        "steps": 2779572,
+        "rhsEvals": 4879453,
+        "lastOrder": 7,
+        "maxNormDrift": 7.70586732201650193e-08
+      },
+      {
+        "node": 14,
+        "k": 2.53665164349616390e+01,
+        "steps": 3288354,
+        "rhsEvals": 4595943,
+        "lastOrder": 8,
+        "maxNormDrift": 6.42620334723176256e-09
+      },
+      {
+        "node": 15,
+        "k": 2.86103415166660184e+01,
+        "steps": 2283357,
+        "rhsEvals": 4068335,
+        "lastOrder": 9,
+        "maxNormDrift": 4.50070141155833880e-08
+      },
+      {
+        "node": 16,
+        "k": 3.19858257149424965e+01,
+        "steps": 3584159,
+        "rhsEvals": 4998769,
+        "lastOrder": 9,
+        "maxNormDrift": 3.92101462409755186e-09
+      },
+      {
+        "node": 17,
+        "k": 3.54788110805569943e+01,
+        "steps": 3720975,
+        "rhsEvals": 6679252,
+        "lastOrder": 7,
+        "maxNormDrift": 1.62246308388347416e-07
+      },
+      {
+        "node": 18,
+        "k": 3.90746468224703563e+01,
+        "steps": 2749309,
+        "rhsEvals": 4920798,
+        "lastOrder": 7,
+        "maxNormDrift": 5.18888549905227592e-08
+      },
+      {
+        "node": 19,
+        "k": 4.27582507586726663e+01,
+        "steps": 3531505,
+        "rhsEvals": 5079094,
+        "lastOrder": 7,
+        "maxNormDrift": 7.99663333328481940e-08
+      },
+      {
+        "node": 20,
+        "k": 4.65141725763186571e+01,
+        "steps": 3896103,
+        "rhsEvals": 6242578,
+        "lastOrder": 9,
+        "maxNormDrift": 4.62948497315096574e-08
+      },
+      {
+        "node": 21,
+        "k": 5.03266586358665009e+01,
+        "steps": 3855903,
+        "rhsEvals": 6275723,
+        "lastOrder": 8,
+        "maxNormDrift": 8.57404334198008655e-08
+      },
+      {
+        "node": 22,
+        "k": 5.41797180474322388e+01,
+        "steps": 3817519,
+        "rhsEvals": 5654350,
+        "lastOrder": 8,
+        "maxNormDrift": 1.15648859377870394e-08
+      },
+      {
+        "node": 23,
+        "k": 5.80571897422278340e+01,
+        "steps": 3728221,
+        "rhsEvals": 5785418,
+        "lastOrder": 8,
+        "maxNormDrift": 3.33005838459854431e-08
+      },
+      {
+        "node": 24,
+        "k": 6.19428102577721589e+01,
+        "steps": 3774578,
+        "rhsEvals": 6364172,
+        "lastOrder": 9,
+        "maxNormDrift": 8.76212757905392436e-08
+      },
+      {
+        "node": 25,
+        "k": 6.58202819525677540e+01,
+        "steps": 4803236,
+        "rhsEvals": 6809872,
+        "lastOrder": 8,
+        "maxNormDrift": 7.02275415598307973e-09
+      },
+      {
+        "node": 26,
+        "k": 6.96733413641335062e+01,
+        "steps": 5515103,
+        "rhsEvals": 7299174,
+        "lastOrder": 8,
+        "maxNormDrift": 2.82061178857873074e-08
+      },
+      {
+        "node": 27,
+        "k": 7.34858274236813429e+01,
+        "steps": 4088670,
+        "rhsEvals": 7243966,
+        "lastOrder": 7,
+        "maxNormDrift": 9.76217593429140607e-08
+      },
+      {
+        "node": 28,
+        "k": 7.72417492413273266e+01,
+        "steps": 5221075,
+        "rhsEvals": 7406258,
+        "lastOrder": 8,
+        "maxNormDrift": 2.78529166397589734e-08
+      },
+      {
+        "node": 29,
+        "k": 8.09253531775296437e+01,
+        "steps": 5071972,
+        "rhsEvals": 7971882,
+        "lastOrder": 7,
+        "maxNormDrift": 6.23802025589981213e-08
+      },
+      {
+        "node": 30,
+        "k": 8.45211889194430057e+01,
+        "steps": 5042337,
+        "rhsEvals": 8333224,
+        "lastOrder": 9,
+        "maxNormDrift": 1.91961832651799114e-07
+      },
+      {
+        "node": 31,
+        "k": 8.80141742850574929e+01,
+        "steps": 6433492,
+        "rhsEvals": 8935556,
+        "lastOrder": 8,
+        "maxNormDrift": 3.64963135268681071e-08
+      },
+      {
+        "node": 32,
+        "k": 9.13896584833339745e+01,
+        "steps": 5199177,
+        "rhsEvals": 8081530,
+        "lastOrder": 8,
+        "maxNormDrift": 7.14458048278743263e-08
+      },
+      {
+        "node": 33,
+        "k": 9.46334835650383610e+01,
+        "steps": 5630356,
+        "rhsEvals": 8233097,
+        "lastOrder": 8,
+        "maxNormDrift": 1.55163066839492103e-08
+      },
+      {
+        "node": 34,
+        "k": 9.77320438065908093e+01,
+        "steps": 5523706,
+        "rhsEvals": 8536986,
+        "lastOrder": 8,
+        "maxNormDrift": 5.79521850507802583e-08
+      },
+      {
+        "node": 35,
+        "k": 1.00672342777959827e+02,
+        "steps": 6214095,
+        "rhsEvals": 8808130,
+        "lastOrder": 8,
+        "maxNormDrift": 2.10552446588962994e-08
+      },
+      {
+        "node": 36,
+        "k": 1.03442047855428868e+02,
+        "steps": 6448835,
+        "rhsEvals": 9921420,
+        "lastOrder": 7,
+        "maxNormDrift": 1.34990005173918348e-07
+      },
+      {
+        "node": 37,
+        "k": 1.06029541950944420e+02,
+        "steps": 6415629,
+        "rhsEvals": 9281146,
+        "lastOrder": 8,
+        "maxNormDrift": 1.93761509059697801e-08
+      },
+      {
+        "node": 38,
+        "k": 1.08423972241766549e+02,
+        "steps": 6282510,
+        "rhsEvals": 9544452,
+        "lastOrder": 7,
+        "maxNormDrift": 8.01952635409719505e-08
+      },
+      {
+        "node": 39,
+        "k": 1.10615295697463608e+02,
+        "steps": 6508876,
+        "rhsEvals": 9625029,
+        "lastOrder": 8,
+        "maxNormDrift": 4.65983753805687684e-08
+      },
+      {
+        "node": 40,
+        "k": 1.12594321216454873e+02,
+        "steps": 6561770,
+        "rhsEvals": 10715974,
+        "lastOrder": 9,
+        "maxNormDrift": 1.32517069317827918e-07
+      },
+      {
+        "node": 41,
+        "k": 1.14352748202934180e+02,
+        "steps": 6252103,
+        "rhsEvals": 10480816,
+        "lastOrder": 7,
+        "maxNormDrift": 8.36017903793617734e-08
+      },
+      {
+        "node": 42,
+        "k": 1.15883201442393272e+02,
+        "steps": 6828228,
+        "rhsEvals": 10109905,
+        "lastOrder": 9,
+        "maxNormDrift": 5.65101063720874208e-08
+      },
+      {
+        "node": 43,
+        "k": 1.17179262189625845e+02,
+        "steps": 7438272,
+        "rhsEvals": 11033991,
+        "lastOrder": 7,
+        "maxNormDrift": 6.74674216494253187e-08
+      },
+      {
+        "node": 44,
+        "k": 1.18235495552774836e+02,
+        "steps": 6425344,
+        "rhsEvals": 11015634,
+        "lastOrder": 7,
+        "maxNormDrift": 2.01839314817320314e-07
+      },
+      {
+        "node": 45,
+        "k": 1.19047475023369614e+02,
+        "steps": 6590592,
+        "rhsEvals": 9799883,
+        "lastOrder": 8,
+        "maxNormDrift": 3.15154118357696689e-08
+      },
+      {
+        "node": 46,
+        "k": 1.19611810335981048e+02,
+        "steps": 7185407,
+        "rhsEvals": 10530980,
+        "lastOrder": 8,
+        "maxNormDrift": 4.65962612938852772e-08
+      },
+      {
+        "node": 47,
+        "k": 1.19926260435145565e+02,
+        "steps": 7305351,
+        "rhsEvals": 10696674,
+        "lastOrder": 8,
+        "maxNormDrift": 1.37219022811052582e-08
+      }
+    ]
+  },
+  "pair": {
+    "maxEigenResidual": 1.42108547152020037e-14,
+    "maxUnitarityDev": 4.09050127103682826e-08,
+    "maxKreinDrift": 4.09050129324128875e-08,
+    "maxInitialBeta2": 1.56203134349038838e-10,
+    "tailMaxRelDev": 4.15954815314989457e-02,
+    "antiparticleMaxDev": 0.00000000000000000e+00,
+    "masses": [
+      {
+        "m": 0.00000000000000000e+00,
+        "a2End": 1.00000000000000000e+05,
+        "tEnd": 4.99995000000000000e+04,
+        "nA3": 1.78135110907423497e-24,
+        "nA3Adiabatic": 1.78135110896364887e-24,
+        "nA3AtKink": 1.25188802861984348e-25,
+        "rhoA3End": 1.34142235307361703e-26,
+        "wFrozenSpectrumAtA1": 3.33333333333333093e-01,
+        "wEnd": 3.33333333333333315e-01,
+        "maxBeta2": 8.50694699914114945e-25,
+        "maxBeta2Adiabatic": 8.50395350372324209e-25,
+        "kPeakK3Beta2": 2.67399945190777633e+00,
+        "tailNodes": 0,
+        "tailMaxRelDev": 0.00000000000000000e+00,
+        "initialBeta2Max": 6.16298371064820826e-33
+      },
+      {
+        "m": 1.00000000000000006e-01,
+        "a2End": 9.99999999999999854e+04,
+        "tEnd": 4.99994999999999927e+04,
+        "nA3": 1.45492081302892257e-03,
+        "nA3Adiabatic": 1.45363729276271666e-03,
+        "nA3AtKink": 8.53827406357251487e-04,
+        "rhoA3End": 1.45566917010777339e-04,
+        "wFrozenSpectrumAtA1": 3.09496212404387849e-01,
+        "wEnd": 3.09199787996301530e-04,
+        "maxBeta2": 3.47573969430569230e-01,
+        "maxBeta2Adiabatic": 6.47057813546459859e-01,
+        "kPeakK3Beta2": 2.94434948679090813e-01,
+        "tailNodes": 16,
+        "tailMaxRelDev": 4.15954815314989457e-02,
+        "initialBeta2Max": 3.90624707031244822e-13
+      },
+      {
+        "m": 5.00000000000000000e-01,
+        "a2End": 2.00000000000000000e+04,
+        "tEnd": 9.99950000000000000e+03,
+        "nA3": 4.99071845329153441e-03,
+        "nA3Adiabatic": 4.98966594788631968e-03,
+        "nA3AtKink": 1.17645963801326376e-02,
+        "rhoA3End": 2.49584286782652664e-03,
+        "wFrozenSpectrumAtA1": 2.54418687843212865e-01,
+        "wEnd": 1.28107341079778704e-04,
+        "maxBeta2": 6.40160061787482942e-02,
+        "maxBeta2Adiabatic": 5.28282505970836813e-02,
+        "kPeakK3Beta2": 8.12986053294263544e-01,
+        "tailNodes": 16,
+        "tailMaxRelDev": 4.07748505093099567e-02,
+        "initialBeta2Max": 9.76544189672471165e-12
+      },
+      {
+        "m": 1.00000000000000000e+00,
+        "a2End": 1.00000000000000000e+04,
+        "tEnd": 4.99950000000000000e+03,
+        "nA3": 4.41369185267734710e-03,
+        "nA3Adiabatic": 4.41220180472606457e-03,
+        "nA3AtKink": 2.73581118587207864e-02,
+        "rhoA3End": 4.41482374712123902e-03,
+        "wFrozenSpectrumAtA1": 2.39007207644250291e-01,
+        "wEnd": 1.70390713341761555e-04,
+        "maxBeta2": 1.38462830433377180e-02,
+        "maxBeta2Adiabatic": 5.98023234422647484e-03,
+        "kPeakK3Beta2": 1.32740758536630099e+00,
+        "tailNodes": 16,
+        "tailMaxRelDev": 3.81571372019757771e-02,
+        "initialBeta2Max": 3.90595704574527757e-11
+      },
+      {
+        "m": 2.00000000000000000e+00,
+        "a2End": 5.00000000000000000e+03,
+        "tEnd": 2.49950000000000000e+03,
+        "nA3": 2.42153197651161179e-03,
+        "nA3Adiabatic": 2.42122903395375084e-03,
+        "nA3AtKink": 5.42951616016604036e-02,
+        "rhoA3End": 4.84531485182604794e-03,
+        "wFrozenSpectrumAtA1": 2.39724582170313061e-01,
+        "wEnd": 3.09015004149752856e-04,
+        "maxBeta2": 2.64513418375261506e-03,
+        "maxBeta2Adiabatic": 3.55058496873213473e-04,
+        "kPeakK3Beta2": 2.67399945190777633e+00,
+        "tailNodes": 16,
+        "tailMaxRelDev": 2.88112828190547621e-02,
+        "initialBeta2Max": 1.56203134349038838e-10
+      }
+    ]
+  },
+  "findings": [
+    "Per-mode |beta_k|^2 <= 1e-6 (NUMERICS_CONTRACT) is not attainable at H_i/m = 0.05: the instantaneous-eigenvector start leaves a free wave |c|^2 = (m k H_i/(4 E_i^3))^2 (max (H_i/(10.4 m))^2 = 2.3e-5 at k = m/sqrt 2), and its first half-oscillation reaches 4|c|^2. Measured maximum and the comparison with |c|^2 are in 'thermal'. The gas-weighted |beta|^2, the adiabatic-vacuum runs and all bulk (k >> m) modes stay below 1e-6.",
+    "The same free wave beta enters p_1 and s at FIRST order, p_1 = (1 - 2|beta|^2) K^2/E + 2 Re(alpha^* beta) m K/E (eps has no interference term), so the mode-sum pressure deviates from kinetic theory by ~2e-5 (independent of the solver tolerance) while rho agrees to ~1e-7; the check compares |p - p_kin| with the predicted interference envelope. The adiabatic-vacuum runs show the deviation is removed by an adiabatic start.",
+    "Lagrangian split for the gas: KE_L = PE_L = rho/2 exactly (w_L = 0); the scalar-field relation p = KE - PE holds only for homogeneous condensates. Hamiltonian split: KE_H = 3p (momentum energy), PE_H = rho - 3p (rest mass).",
+    "Spin independence and antiparticle symmetry are exact consequences of h(t) = (m sigma_z + K sigma_x) (x) I_8 and C h^* C = -h; the runs verify them to solver accuracy.",
+    "m = 0: h = K(t) sigma_x (x) I_8 has time-independent eigenvectors, so no pairs are created (conformal invariance); measured |beta|^2 is roundoff."
+  ],
+  "files": [
+    "thermal_grid.csv",
+    "thermal_modes.csv",
+    "thermal_spin.csv",
+    "thermal_antiparticle.csv",
+    "thermal_adiabatic_vacuum.csv",
+    "thermal_eos.csv",
+    "pair_grid.csv",
+    "pair_modes.csv",
+    "pair_antiparticle.csv",
+    "pair_spectrum.csv",
+    "pair_eos.csv",
+    "pair_history.csv",
+    "summary.json"
+  ],
+  "solverTotals": {
+    "steps": 287898778,
+    "rhsEvaluations": 435564940
+  },
+  "checks": {
+    "thermal_grid_gauss_legendre": true,
+    "thermal_initial_eigenvectors": true,
+    "thermal_unitarity": true,
+    "thermal_krein_conserved": true,
+    "thermal_energy_split_identities": true,
+    "thermal_rho_matches_kinetic_theory": true,
+    "thermal_pressure_matches_kinetic_theory_plus_free_wave": true,
+    "thermal_w_early_radiation": true,
+    "thermal_w_decreases_to_dust": true,
+    "thermal_beta2_gas_weighted_below_1e-6": true,
+    "thermal_beta2_per_mode_is_sudden_start_wave": true,
+    "thermal_beta2_adiabatic_vacuum_below_1e-6": true,
+    "thermal_spin_independence": true,
+    "thermal_antiparticle_symmetry": true,
+    "method_selected_by_test": true,
+    "pair_initial_adiabatic_vacuum": true,
+    "pair_unitarity": true,
+    "pair_krein_conserved": true,
+    "pair_massless_no_production": true,
+    "pair_massive_production_pauli": true,
+    "pair_tail_matches_kink_theory": true,
+    "pair_antiparticle_symmetry": true,
+    "pair_eos_relativistic_to_dust": true
+  },
+  "verdict": "SUCCESS"
+}

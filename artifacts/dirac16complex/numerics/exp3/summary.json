@@ -1,0 +1,1068 @@
+{
+  "schemaVersion": 1,
+  "study": "dirac16complex-cosmology",
+  "experiment": "exp3",
+  "fixture": {
+    "path": "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json",
+    "sha256": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
+    "source": "fixture"
+  },
+  "engine": "sundials_rs 7.8.0 CVODE (pure Rust, vendor/rustSolveIt)",
+  "solver": "CVODE Adams-Moulton + fixed-point (functional) iteration",
+  "refined": false,
+  "tolerances": {
+    "rtol": 9.99999999999999939e-12,
+    "atol": 1.00000000000000003e-13,
+    "maxStep": 1.00000000000000002e-02
+  },
+  "parameters": {
+    "OmegaR": 9.00000000000000057e-05,
+    "OmegaM": 3.04999999999999993e-01,
+    "OmegaPsi": 6.94910000000000028e-01,
+    "x0Values": [
+      -4.62654000000000010e-01,
+      -4.33107000000000020e-01,
+      -2.99999999999999989e-01,
+      -2.00000000000000011e-01,
+      0.00000000000000000e+00
+    ],
+    "muValues": [
+      3.00000000000000000e+00,
+      7.00000000000000000e+00
+    ],
+    "muDefinition": "mu = M_eff(a=1)/H0; M_eff/H0 = mu (1 + 2 x0 sigma)/(1 + 2 x0); m/H0 = mu/(1 + 2 x0)",
+    "aMin": 2.85714285714285698e-01,
+    "aMax": 2.00000000000000000e+00,
+    "nMin": -1.25276296849536806e+00,
+    "nMax": 6.93147180559945286e-01,
+    "backwardIntervals": 320,
+    "forwardIntervals": 160,
+    "bounceMargin": 1.00000000000000002e-02
+  },
+  "stateLayout": "H0t = H0 (t - t0), D_C (c/H0), u_re_0..u_re_15, u_im_0..u_im_15, ln_sigma; independent variable N = ln a",
+  "equations": {
+    "dH0t_dN": "1/E",
+    "dDC_dN": "-1/(a E)  (dD_C/dz = 1/E, z = e^-N - 1)",
+    "du_dN": "-i (M_eff/H0)(-i gamma^4) u / E",
+    "dlnsigma_dN": "-3 + 2 Re(u^dag (-i gamma^4) du/dN) / s(u)",
+    "sigma": "a^-3 s(u) / s(u0), s(u) = u^dag (-i gamma^4) u",
+    "E2": "Omega_r a^-4 + Omega_m a^-3 + A sigma (1 + x0 sigma), A = Omega_psi/(1+x0)",
+    "muH0free": "5 log10((1+z) D_C), constant 5 log10(c/(H0 10 pc)) dropped; nan for z <= 0"
+  },
+  "limits": {
+    "closure": 9.99999999999999999e-15,
+    "eigen": 9.99999999999999980e-13,
+    "sigmaSpinor": 1.00000000000000002e-08,
+    "sigmaState": 9.99999999999999980e-13,
+    "eigenspaceLeak": 9.99999999999999980e-13,
+    "norm": 1.00000000000000002e-08,
+    "muIndependence": 1.00000000000000002e-08,
+    "closedForm": 1.00000000000000002e-08,
+    "identity": 9.99999999999999980e-13,
+    "root": 9.99999999999999955e-08,
+    "w0": 1.00000000000000006e-09,
+    "wa": 1.00000000000000008e-05
+  },
+  "models": [
+    {
+      "x0": -4.62654000000000010e-01,
+      "amplitudeA": 1.29322633833693756e+00,
+      "w0": -8.60998313935527615e-01,
+      "waTangent": -4.80694923160604581e+00,
+      "aZero": 7.73426011154717430e-01,
+      "zZero": 2.92948498728417217e-01,
+      "aPhantomCrossing": 9.74455711990055540e-01,
+      "zPhantomCrossing": 2.62139035110968699e-02,
+      "aBounce": 7.20697278480804338e-01,
+      "zBounce": 3.87545131442639246e-01,
+      "nBounce": -3.27536093275321849e-01,
+      "contractBackwardRangeReachable": false,
+      "q0": -3.97429507505406177e-01,
+      "cs2Today": -1.23883146789482179e+01
+    },
+    {
+      "x0": -4.33107000000000020e-01,
+      "amplitudeA": 1.22582215691497343e+00,
+      "w0": -7.64001319472986995e-01,
+      "waTangent": -4.04309800688835619e+00,
+      "aZero": 7.56597788715275943e-01,
+      "zZero": 3.21706215528369199e-01,
+      "aPhantomCrossing": 9.53253480306289869e-01,
+      "zPhantomCrossing": 4.90389184613204687e-02,
+      "aBounce": 7.02566109672852823e-01,
+      "zBounce": 4.23353597949161164e-01,
+      "nBounce": -3.53015775906080020e-01,
+      "contractBackwardRangeReachable": false,
+      "q0": -2.96323235372460081e-01,
+      "cs2Today": -6.47462365269908879e+00
+    },
+    {
+      "x0": -2.99999999999999989e-01,
+      "amplitudeA": 9.92728571428571516e-01,
+      "w0": -4.28571428571428603e-01,
+      "waTangent": -1.83673469387755106e+00,
+      "aZero": 6.69432950082169520e-01,
+      "zZero": 4.93801582185721566e-01,
+      "aPhantomCrossing": 8.43432665301749207e-01,
+      "zPhantomCrossing": 1.85631101496687601e-01,
+      "aBounce": 6.12218203417182583e-01,
+      "zBounce": 6.33404551544463068e-01,
+      "nBounce": -4.90666518484294656e-01,
+      "contractBackwardRangeReachable": false,
+      "q0": 5.33171428571429518e-02,
+      "cs2Today": -1.49999999999999978e+00
+    },
+    {
+      "x0": -2.00000000000000011e-01,
+      "amplitudeA": 8.68637499999999951e-01,
+      "w0": -2.50000000000000000e-01,
+      "waTangent": -9.37500000000000000e-01,
+      "aZero": 5.84803547642573252e-01,
+      "zZero": 7.09975946676696834e-01,
+      "aPhantomCrossing": 7.36806299728077319e-01,
+      "zPhantomCrossing": 3.57208808297453384e-01,
+      "aBounce": 5.28961275104496087e-01,
+      "zBounce": 8.90497560152112122e-01,
+      "nBounce": -6.36840053764633485e-01,
+      "contractBackwardRangeReachable": false,
+      "q0": 2.39453750000000076e-01,
+      "cs2Today": -6.66666666666666741e-01
+    },
+    {
+      "x0": 0.00000000000000000e+00,
+      "amplitudeA": 6.94910000000000028e-01,
+      "w0": 0.00000000000000000e+00,
+      "waTangent": 0.00000000000000000e+00,
+      "aZero": null,
+      "zZero": null,
+      "aPhantomCrossing": null,
+      "zPhantomCrossing": null,
+      "aBounce": null,
+      "zBounce": null,
+      "nBounce": null,
+      "contractBackwardRangeReachable": true,
+      "q0": 5.00045000000000073e-01,
+      "cs2Today": 0.00000000000000000e+00
+    }
+  ],
+  "runs": [
+    {
+      "id": "x0_m0p462654_mu3",
+      "file": "run_x0_m0p462654_mu3.csv",
+      "x0": -4.62654000000000010e-01,
+      "mu": 3.00000000000000000e+00,
+      "massOverH0": 4.01649440368446520e+01,
+      "s0": 1.00000000000000000e+00,
+      "initialEigenResidual": 0.00000000000000000e+00,
+      "backward": {
+        "points": 81,
+        "nEnd": -3.17105626400390084e-01,
+        "aEnd": 7.28253828232571343e-01,
+        "zEnd": 3.73147604904378483e-01,
+        "reachedContractMinimum": false,
+        "stopConsistentWithBounce": true,
+        "solver": {
+          "steps": 273,
+          "rhsEvals": 535,
+          "errTestFails": 19,
+          "nonlinIters": 532,
+          "nonlinConvFails": 0,
+          "lastOrder": 8
+        }
+      },
+      "forward": {
+        "points": 160,
+        "nEnd": 6.93147180559945286e-01,
+        "solver": {
+          "steps": 477,
+          "rhsEvals": 803,
+          "errTestFails": 16,
+          "nonlinIters": 800,
+          "nonlinConvFails": 0,
+          "lastOrder": 8
+        }
+      },
+      "measured": {
+        "E0": 1.00000000000000000e+00,
+        "OmegaPsi0": 6.94910000000000028e-01,
+        "w0": -8.60998313935527615e-01,
+        "waTangent": -4.80694790387866178e+00,
+        "q0": -3.97429507505406177e-01,
+        "cs2Today": -1.23883146789482179e+01,
+        "rhoZeros": [
+          {
+            "N": -2.56925270211148526e-01,
+            "a": 7.73426009568275452e-01,
+            "z": 2.92948501380497550e-01
+          }
+        ],
+        "phantomCrossings": [
+          {
+            "N": -2.58762100827879329e-02,
+            "a": 9.74455709934464842e-01,
+            "z": 2.62139056758701194e-02
+          }
+        ],
+        "decelerationSignChanges": [
+          {
+            "N": 1.34555257326211597e-01,
+            "a": 1.14402787317723953e+00,
+            "z": -1.25895423139682383e-01
+          }
+        ],
+        "decelerationSignChangesClosedForm": [
+          {
+            "N": 1.34555257740487433e-01,
+            "a": 1.14402787365118264e+00,
+            "z": -1.25895423501802717e-01
+          }
+        ]
+      },
+      "maxDeviation": {
+        "sigmaSpinorVsAnalytic": 6.53862297639307144e-10,
+        "sigmaStateVsAnalytic": 1.37667655053519411e-14,
+        "eigenspaceLeak": 0.00000000000000000e+00,
+        "normHilbert": 6.53862297639307144e-10,
+        "normKrein": 6.53862297639307144e-10,
+        "rhoVsClosedForm": 5.46622186368593003e-10,
+        "pVsClosedForm": 1.79745688762637278e-10,
+        "wVsClosedFormScaled": 1.97913550190262668e-10,
+        "splitIdentities": 6.70249403835592004e-16
+      }
+    },
+    {
+      "id": "x0_m0p462654_mu7",
+      "file": "run_x0_m0p462654_mu7.csv",
+      "x0": -4.62654000000000010e-01,
+      "mu": 7.00000000000000000e+00,
+      "massOverH0": 9.37182027526375236e+01,
+      "s0": 1.00000000000000000e+00,
+      "initialEigenResidual": 0.00000000000000000e+00,
+      "backward": {
+        "points": 81,
+        "nEnd": -3.17105626400390084e-01,
+        "aEnd": 7.28253828232571343e-01,
+        "zEnd": 3.73147604904378483e-01,
+        "reachedContractMinimum": false,
+        "stopConsistentWithBounce": true,
+        "solver": {
+          "steps": 662,
+          "rhsEvals": 1184,
+          "errTestFails": 26,
+          "nonlinIters": 1181,
+          "nonlinConvFails": 1,
+          "lastOrder": 5
+        }
+      },
+      "forward": {
+        "points": 160,
+        "nEnd": 6.93147180559945286e-01,
+        "solver": {
+          "steps": 1039,
+          "rhsEvals": 1546,
+          "errTestFails": 26,
+          "nonlinIters": 1543,
+          "nonlinConvFails": 0,
+          "lastOrder": 9
+        }
+      },
+      "measured": {
+        "E0": 1.00000000000000000e+00,
+        "OmegaPsi0": 6.94910000000000028e-01,
+        "w0": -8.60998313935527615e-01,
+        "waTangent": -4.80694790294266738e+00,
+        "q0": -3.97429507505406177e-01,
+        "cs2Today": -1.23883146789482179e+01,
+        "rhoZeros": [
+          {
+            "N": -2.56925270326979982e-01,
+            "a": 7.73426009478688337e-01,
+            "z": 2.92948501530261529e-01
+          }
+        ],
+        "phantomCrossings": [
+          {
+            "N": -2.58762100884778815e-02,
+            "a": 9.74455709928920277e-01,
+            "z": 2.62139056817092264e-02
+          }
+        ],
+        "decelerationSignChanges": [
+          {
+            "N": 1.34555257108446125e-01,
+            "a": 1.14402787292810970e+00,
+            "z": -1.25895422949332536e-01
+          }
+        ],
+        "decelerationSignChangesClosedForm": [
+          {
+            "N": 1.34555257740487433e-01,
+            "a": 1.14402787365118264e+00,
+            "z": -1.25895423501802717e-01
+          }
+        ]
+      },
+      "maxDeviation": {
+        "sigmaSpinorVsAnalytic": 7.77503950111224640e-10,
+        "sigmaStateVsAnalytic": 1.95399252334027551e-14,
+        "eigenspaceLeak": 0.00000000000000000e+00,
+        "normHilbert": 7.77504061133527102e-10,
+        "normKrein": 7.77504061133527102e-10,
+        "rhoVsClosedForm": 4.86948945910470373e-10,
+        "pVsClosedForm": 8.42968565476871333e-10,
+        "wVsClosedFormScaled": 7.77504172999365916e-10,
+        "splitIdentities": 7.13761301844545382e-16
+      }
+    },
+    {
+      "id": "x0_m0p433107_mu3",
+      "file": "run_x0_m0p433107_mu3.csv",
+      "x0": -4.33107000000000020e-01,
+      "mu": 3.00000000000000000e+00,
+      "massOverH0": 2.24238709580972682e+01,
+      "s0": 1.00000000000000000e+00,
+      "initialEigenResidual": 0.00000000000000000e+00,
+      "backward": {
+        "points": 87,
+        "nEnd": -3.40594932059678168e-01,
+        "aEnd": 7.11346993716967524e-01,
+        "zEnd": 4.05783687613196609e-01,
+        "reachedContractMinimum": false,
+        "stopConsistentWithBounce": true,
+        "solver": {
+          "steps": 235,
+          "rhsEvals": 453,
+          "errTestFails": 11,
+          "nonlinIters": 450,
+          "nonlinConvFails": 1,
+          "lastOrder": 6
+        }
+      },
+      "forward": {
+        "points": 160,
+        "nEnd": 6.93147180559945286e-01,
+        "solver": {
+          "steps": 317,
+          "rhsEvals": 504,
+          "errTestFails": 9,
+          "nonlinIters": 501,
+          "nonlinConvFails": 0,
+          "lastOrder": 8
+        }
+      },
+      "measured": {
+        "E0": 1.00000000000000000e+00,
+        "OmegaPsi0": 6.94910000000000028e-01,
+        "w0": -7.64001319472986995e-01,
+        "waTangent": -4.04309719522939481e+00,
+        "q0": -2.96323235372460081e-01,
+        "cs2Today": -6.47462365269908879e+00,
+        "rhoZeros": [
+          {
+            "N": -2.78923490766383897e-01,
+            "a": 7.56597787717563586e-01,
+            "z": 3.21706217271280126e-01
+          }
+        ],
+        "phantomCrossings": [
+          {
+            "N": -4.78744307917535750e-02,
+            "a": 9.53253478847144065e-01,
+            "z": 4.90389200670851011e-02
+          }
+        ],
+        "decelerationSignChanges": [
+          {
+            "N": 1.09075093443469051e-01,
+            "a": 1.11524609486665494e+00,
+            "z": -1.03336918548398438e-01
+          }
+        ],
+        "decelerationSignChangesClosedForm": [
+          {
+            "N": 1.09075094684855184e-01,
+            "a": 1.11524609625110616e+00,
+            "z": -1.03336919661503601e-01
+          }
+        ]
+      },
+      "maxDeviation": {
+        "sigmaSpinorVsAnalytic": 1.27215837864014247e-09,
+        "sigmaStateVsAnalytic": 1.21014309684142063e-14,
+        "eigenspaceLeak": 0.00000000000000000e+00,
+        "normHilbert": 1.27215837864014247e-09,
+        "normKrein": 1.27215837864014247e-09,
+        "rhoVsClosedForm": 7.64190582995957937e-10,
+        "pVsClosedForm": 1.35382896532395506e-09,
+        "wVsClosedFormScaled": 1.27215849724161158e-09,
+        "splitIdentities": 4.93913390473322217e-16
+      }
+    },
+    {
+      "id": "x0_m0p433107_mu7",
+      "file": "run_x0_m0p433107_mu7.csv",
+      "x0": -4.33107000000000020e-01,
+      "mu": 7.00000000000000000e+00,
+      "massOverH0": 5.23223655688936233e+01,
+      "s0": 1.00000000000000000e+00,
+      "initialEigenResidual": 0.00000000000000000e+00,
+      "backward": {
+        "points": 87,
+        "nEnd": -3.40594932059678168e-01,
+        "aEnd": 7.11346993716967524e-01,
+        "zEnd": 4.05783687613196609e-01,
+        "reachedContractMinimum": false,
+        "stopConsistentWithBounce": true,
+        "solver": {
+          "steps": 351,
+          "rhsEvals": 645,
+          "errTestFails": 20,
+          "nonlinIters": 642,
+          "nonlinConvFails": 0,
+          "lastOrder": 7
+        }
+      },
+      "forward": {
+        "points": 160,
+        "nEnd": 6.93147180559945286e-01,
+        "solver": {
+          "steps": 627,
+          "rhsEvals": 935,
+          "errTestFails": 13,
+          "nonlinIters": 932,
+          "nonlinConvFails": 0,
+          "lastOrder": 9
+        }
+      },
+      "measured": {
+        "E0": 1.00000000000000000e+00,
+        "OmegaPsi0": 6.94910000000000028e-01,
+        "w0": -7.64001319472986995e-01,
+        "waTangent": -4.04309719547451074e+00,
+        "q0": -2.96323235372460081e-01,
+        "cs2Today": -6.47462365269908879e+00,
+        "rhoZeros": [
+          {
+            "N": -2.78923491090024789e-01,
+            "a": 7.56597787472697569e-01,
+            "z": 3.21706217699038399e-01
+          }
+        ],
+        "phantomCrossings": [
+          {
+            "N": -4.78744308152910664e-02,
+            "a": 9.53253478824706901e-01,
+            "z": 4.90389200917769053e-02
+          }
+        ],
+        "decelerationSignChanges": [
+          {
+            "N": 1.09075093403371820e-01,
+            "a": 1.11524609482193671e+00,
+            "z": -1.03336918512444753e-01
+          }
+        ],
+        "decelerationSignChangesClosedForm": [
+          {
+            "N": 1.09075094684855184e-01,
+            "a": 1.11524609625110616e+00,
+            "z": -1.03336919661503601e-01
+          }
+        ]
+      },
+      "maxDeviation": {
+        "sigmaSpinorVsAnalytic": 3.59782870162916879e-10,
+        "sigmaStateVsAnalytic": 1.36557432028894254e-14,
+        "eigenspaceLeak": 0.00000000000000000e+00,
+        "normHilbert": 3.59782981185219342e-10,
+        "normKrein": 3.59782981185219342e-10,
+        "rhoVsClosedForm": 2.27313456856510983e-10,
+        "pVsClosedForm": 3.84901377690324818e-10,
+        "wVsClosedFormScaled": 3.59783199090216469e-10,
+        "splitIdentities": 7.00819822544137999e-16
+      }
+    },
+    {
+      "id": "x0_m0p3_mu3",
+      "file": "run_x0_m0p3_mu3.csv",
+      "x0": -2.99999999999999989e-01,
+      "mu": 3.00000000000000000e+00,
+      "massOverH0": 7.50000000000000000e+00,
+      "s0": 1.00000000000000000e+00,
+      "initialEigenResidual": 0.00000000000000000e+00,
+      "backward": {
+        "points": 122,
+        "nEnd": -4.77615881738859105e-01,
+        "aEnd": 6.20260404577182123e-01,
+        "zEnd": 6.12226078950949493e-01,
+        "reachedContractMinimum": false,
+        "stopConsistentWithBounce": true,
+        "solver": {
+          "steps": 186,
+          "rhsEvals": 389,
+          "errTestFails": 14,
+          "nonlinIters": 386,
+          "nonlinConvFails": 0,
+          "lastOrder": 6
+        }
+      },
+      "forward": {
+        "points": 160,
+        "nEnd": 6.93147180559945286e-01,
+        "solver": {
+          "steps": 156,
+          "rhsEvals": 281,
+          "errTestFails": 8,
+          "nonlinIters": 278,
+          "nonlinConvFails": 0,
+          "lastOrder": 9
+        }
+      },
+      "measured": {
+        "E0": 1.00000000000000000e+00,
+        "OmegaPsi0": 6.94910000000000028e-01,
+        "w0": -4.28571428571428548e-01,
+        "waTangent": -1.83673460245947062e+00,
+        "q0": 5.33171428571429518e-02,
+        "cs2Today": -1.49999999999999978e+00,
+        "rhoZeros": [
+          {
+            "N": -4.01324270741867717e-01,
+            "a": 6.69432948319403698e-01,
+            "z": 4.93801586119233304e-01
+          }
+        ],
+        "phantomCrossings": [
+          {
+            "N": -1.70275210267572474e-01,
+            "a": 8.43432663323414156e-01,
+            "z": 1.85631104277675041e-01
+          }
+        ],
+        "decelerationSignChanges": [
+          {
+            "N": -2.85782132243445411e-02,
+            "a": 9.71826281506599110e-01,
+            "z": 2.89904883511935552e-02
+          }
+        ],
+        "decelerationSignChangesClosedForm": [
+          {
+            "N": -2.85782119216515182e-02,
+            "a": 9.71826282772590422e-01,
+            "z": 2.89904870107349222e-02
+          }
+        ]
+      },
+      "maxDeviation": {
+        "sigmaSpinorVsAnalytic": 2.50394482925742068e-09,
+        "sigmaStateVsAnalytic": 4.21884749357559485e-15,
+        "eigenspaceLeak": 0.00000000000000000e+00,
+        "normHilbert": 2.50394494027972314e-09,
+        "normKrein": 2.50394494027972314e-09,
+        "rhoVsClosedForm": 1.67992345592009441e-09,
+        "pVsClosedForm": 2.78924546455657910e-09,
+        "wVsClosedFormScaled": 2.50394507621366287e-09,
+        "splitIdentities": 7.29922932162568003e-16
+      }
+    },
+    {
+      "id": "x0_m0p3_mu7",
+      "file": "run_x0_m0p3_mu7.csv",
+      "x0": -2.99999999999999989e-01,
+      "mu": 7.00000000000000000e+00,
+      "massOverH0": 1.75000000000000000e+01,
+      "s0": 1.00000000000000000e+00,
+      "initialEigenResidual": 0.00000000000000000e+00,
+      "backward": {
+        "points": 122,
+        "nEnd": -4.77615881738859105e-01,
+        "aEnd": 6.20260404577182123e-01,
+        "zEnd": 6.12226078950949493e-01,
+        "reachedContractMinimum": false,
+        "stopConsistentWithBounce": true,
+        "solver": {
+          "steps": 195,
+          "rhsEvals": 384,
+          "errTestFails": 13,
+          "nonlinIters": 381,
+          "nonlinConvFails": 0,
+          "lastOrder": 7
+        }
+      },
+      "forward": {
+        "points": 160,
+        "nEnd": 6.93147180559945286e-01,
+        "solver": {
+          "steps": 290,
+          "rhsEvals": 402,
+          "errTestFails": 7,
+          "nonlinIters": 399,
+          "nonlinConvFails": 0,
+          "lastOrder": 8
+        }
+      },
+      "measured": {
+        "E0": 1.00000000000000000e+00,
+        "OmegaPsi0": 6.94910000000000028e-01,
+        "w0": -4.28571428571428548e-01,
+        "waTangent": -1.83673460231324182e+00,
+        "q0": 5.33171428571429518e-02,
+        "cs2Today": -1.49999999999999978e+00,
+        "rhoZeros": [
+          {
+            "N": -4.01324270130695160e-01,
+            "a": 6.69432948728542754e-01,
+            "z": 4.93801585206262716e-01
+          }
+        ],
+        "phantomCrossings": [
+          {
+            "N": -1.70275210134650468e-01,
+            "a": 8.43432663435524921e-01,
+            "z": 1.85631104120078438e-01
+          }
+        ],
+        "decelerationSignChanges": [
+          {
+            "N": -2.85782132237419467e-02,
+            "a": 9.71826281507184753e-01,
+            "z": 2.89904883505736066e-02
+          }
+        ],
+        "decelerationSignChangesClosedForm": [
+          {
+            "N": -2.85782119216515182e-02,
+            "a": 9.71826282772590422e-01,
+            "z": 2.89904870107349222e-02
+          }
+        ]
+      },
+      "maxDeviation": {
+        "sigmaSpinorVsAnalytic": 6.85145717937984955e-10,
+        "sigmaStateVsAnalytic": 4.55191440096314182e-15,
+        "eigenspaceLeak": 0.00000000000000000e+00,
+        "normHilbert": 6.85145717937984955e-10,
+        "normKrein": 6.85145717937984955e-10,
+        "rhoVsClosedForm": 4.10761989783276156e-10,
+        "pVsClosedForm": 7.22955591703392618e-10,
+        "wVsClosedFormScaled": 6.85145423374633881e-10,
+        "splitIdentities": 7.99528897216038570e-16
+      }
+    },
+    {
+      "id": "x0_m0p2_mu3",
+      "file": "run_x0_m0p2_mu3.csv",
+      "x0": -2.00000000000000011e-01,
+      "mu": 3.00000000000000000e+00,
+      "massOverH0": 5.00000000000000000e+00,
+      "s0": 1.00000000000000000e+00,
+      "initialEigenResidual": 0.00000000000000000e+00,
+      "backward": {
+        "points": 160,
+        "nEnd": -6.26381484247684028e-01,
+        "aEnd": 5.34522483824848793e-01,
+        "zEnd": 8.70828693386970665e-01,
+        "reachedContractMinimum": false,
+        "stopConsistentWithBounce": true,
+        "solver": {
+          "steps": 164,
+          "rhsEvals": 344,
+          "errTestFails": 17,
+          "nonlinIters": 341,
+          "nonlinConvFails": 0,
+          "lastOrder": 7
+        }
+      },
+      "forward": {
+        "points": 160,
+        "nEnd": 6.93147180559945286e-01,
+        "solver": {
+          "steps": 141,
+          "rhsEvals": 249,
+          "errTestFails": 7,
+          "nonlinIters": 246,
+          "nonlinConvFails": 0,
+          "lastOrder": 8
+        }
+      },
+      "measured": {
+        "E0": 1.00000000000000000e+00,
+        "OmegaPsi0": 6.94910000000000028e-01,
+        "w0": -2.50000000000000000e-01,
+        "waTangent": -9.37499984002014841e-01,
+        "q0": 2.39453750000000076e-01,
+        "cs2Today": -6.66666666666666741e-01,
+        "rhoZeros": [
+          {
+            "N": -5.36479304687815572e-01,
+            "a": 5.84803547324957318e-01,
+            "z": 7.09975947605411273e-01
+          }
+        ],
+        "phantomCrossings": [
+          {
+            "N": -3.05430244152096075e-01,
+            "a": 7.36806299585104241e-01,
+            "z": 3.57208808560812052e-01
+          }
+        ],
+        "decelerationSignChanges": [
+          {
+            "N": -1.74754494011295614e-01,
+            "a": 8.39663137795513048e-01,
+            "z": 1.90953794429325585e-01
+          }
+        ],
+        "decelerationSignChangesClosedForm": [
+          {
+            "N": -1.74754492538567563e-01,
+            "a": 8.39663139032108541e-01,
+            "z": 1.90953792675374601e-01
+          }
+        ]
+      },
+      "maxDeviation": {
+        "sigmaSpinorVsAnalytic": 1.31295685434906773e-09,
+        "sigmaStateVsAnalytic": 6.66133814775093924e-15,
+        "eigenspaceLeak": 0.00000000000000000e+00,
+        "normHilbert": 1.31295685434906773e-09,
+        "normKrein": 1.31295685434906773e-09,
+        "rhoVsClosedForm": 9.20464780694023495e-10,
+        "pVsClosedForm": 1.48894790119577298e-09,
+        "wVsClosedFormScaled": 1.31295655214746170e-09,
+        "splitIdentities": 7.97224764338965322e-16
+      }
+    },
+    {
+      "id": "x0_m0p2_mu7",
+      "file": "run_x0_m0p2_mu7.csv",
+      "x0": -2.00000000000000011e-01,
+      "mu": 7.00000000000000000e+00,
+      "massOverH0": 1.16666666666666679e+01,
+      "s0": 1.00000000000000000e+00,
+      "initialEigenResidual": 0.00000000000000000e+00,
+      "backward": {
+        "points": 160,
+        "nEnd": -6.26381484247684028e-01,
+        "aEnd": 5.34522483824848793e-01,
+        "zEnd": 8.70828693386970665e-01,
+        "reachedContractMinimum": false,
+        "stopConsistentWithBounce": true,
+        "solver": {
+          "steps": 167,
+          "rhsEvals": 320,
+          "errTestFails": 17,
+          "nonlinIters": 317,
+          "nonlinConvFails": 0,
+          "lastOrder": 8
+        }
+      },
+      "forward": {
+        "points": 160,
+        "nEnd": 6.93147180559945286e-01,
+        "solver": {
+          "steps": 205,
+          "rhsEvals": 328,
+          "errTestFails": 8,
+          "nonlinIters": 325,
+          "nonlinConvFails": 0,
+          "lastOrder": 9
+        }
+      },
+      "measured": {
+        "E0": 1.00000000000000000e+00,
+        "OmegaPsi0": 6.94910000000000028e-01,
+        "w0": -2.50000000000000000e-01,
+        "waTangent": -9.37499983890078603e-01,
+        "q0": 2.39453750000000076e-01,
+        "cs2Today": -6.66666666666666741e-01,
+        "rhoZeros": [
+          {
+            "N": -5.36479304534076329e-01,
+            "a": 5.84803547414864622e-01,
+            "z": 7.09975947342520897e-01
+          }
+        ],
+        "phantomCrossings": [
+          {
+            "N": -3.05430244099319625e-01,
+            "a": 7.36806299623990246e-01,
+            "z": 3.57208808489183349e-01
+          }
+        ],
+        "decelerationSignChanges": [
+          {
+            "N": -1.74754493971647162e-01,
+            "a": 8.39663137828804418e-01,
+            "z": 1.90953794382106246e-01
+          }
+        ],
+        "decelerationSignChangesClosedForm": [
+          {
+            "N": -1.74754492538567563e-01,
+            "a": 8.39663139032108541e-01,
+            "z": 1.90953792675374601e-01
+          }
+        ]
+      },
+      "maxDeviation": {
+        "sigmaSpinorVsAnalytic": 1.56888024793744307e-09,
+        "sigmaStateVsAnalytic": 4.21884749357559485e-15,
+        "eigenspaceLeak": 0.00000000000000000e+00,
+        "normHilbert": 1.56888024793744307e-09,
+        "normKrein": 1.56888024793744307e-09,
+        "rhoVsClosedForm": 1.09988329058042571e-09,
+        "pVsClosedForm": 1.77917561252031959e-09,
+        "wVsClosedFormScaled": 1.56888050084533766e-09,
+        "splitIdentities": 1.08135767365875414e-15
+      }
+    },
+    {
+      "id": "x0_0_mu3",
+      "file": "run_x0_0_mu3.csv",
+      "x0": 0.00000000000000000e+00,
+      "mu": 3.00000000000000000e+00,
+      "massOverH0": 3.00000000000000000e+00,
+      "s0": 1.00000000000000000e+00,
+      "initialEigenResidual": 0.00000000000000000e+00,
+      "backward": {
+        "points": 320,
+        "nEnd": -1.25276296849536806e+00,
+        "aEnd": 2.85714285714285698e-01,
+        "zEnd": 2.50000000000000000e+00,
+        "reachedContractMinimum": true,
+        "stopConsistentWithBounce": true,
+        "solver": {
+          "steps": 147,
+          "rhsEvals": 163,
+          "errTestFails": 2,
+          "nonlinIters": 160,
+          "nonlinConvFails": 0,
+          "lastOrder": 7
+        }
+      },
+      "forward": {
+        "points": 160,
+        "nEnd": 6.93147180559945286e-01,
+        "solver": {
+          "steps": 115,
+          "rhsEvals": 211,
+          "errTestFails": 5,
+          "nonlinIters": 208,
+          "nonlinConvFails": 0,
+          "lastOrder": 8
+        }
+      },
+      "measured": {
+        "E0": 1.00000000000000000e+00,
+        "OmegaPsi0": 6.94910000000000028e-01,
+        "w0": 0.00000000000000000e+00,
+        "waTangent": 0.00000000000000000e+00,
+        "q0": 5.00045000000000073e-01,
+        "cs2Today": 0.00000000000000000e+00,
+        "rhoZeros": [],
+        "phantomCrossings": [],
+        "decelerationSignChanges": [],
+        "decelerationSignChangesClosedForm": []
+      },
+      "maxDeviation": {
+        "sigmaSpinorVsAnalytic": 1.77752923491425463e-10,
+        "sigmaStateVsAnalytic": 1.28785870856518159e-14,
+        "eigenspaceLeak": 0.00000000000000000e+00,
+        "normHilbert": 1.77752923491425463e-10,
+        "normKrein": 1.77752923491425463e-10,
+        "rhoVsClosedForm": 1.77752834227489094e-10,
+        "pVsClosedForm": 0.00000000000000000e+00,
+        "wVsClosedFormScaled": 0.00000000000000000e+00,
+        "splitIdentities": 3.64814727471647543e-16
+      }
+    },
+    {
+      "id": "x0_0_mu7",
+      "file": "run_x0_0_mu7.csv",
+      "x0": 0.00000000000000000e+00,
+      "mu": 7.00000000000000000e+00,
+      "massOverH0": 7.00000000000000000e+00,
+      "s0": 1.00000000000000000e+00,
+      "initialEigenResidual": 0.00000000000000000e+00,
+      "backward": {
+        "points": 320,
+        "nEnd": -1.25276296849536806e+00,
+        "aEnd": 2.85714285714285698e-01,
+        "zEnd": 2.50000000000000000e+00,
+        "reachedContractMinimum": true,
+        "stopConsistentWithBounce": true,
+        "solver": {
+          "steps": 155,
+          "rhsEvals": 181,
+          "errTestFails": 1,
+          "nonlinIters": 178,
+          "nonlinConvFails": 0,
+          "lastOrder": 8
+        }
+      },
+      "forward": {
+        "points": 160,
+        "nEnd": 6.93147180559945286e-01,
+        "solver": {
+          "steps": 172,
+          "rhsEvals": 258,
+          "errTestFails": 4,
+          "nonlinIters": 255,
+          "nonlinConvFails": 0,
+          "lastOrder": 8
+        }
+      },
+      "measured": {
+        "E0": 1.00000000000000000e+00,
+        "OmegaPsi0": 6.94910000000000028e-01,
+        "w0": 0.00000000000000000e+00,
+        "waTangent": 0.00000000000000000e+00,
+        "q0": 5.00045000000000073e-01,
+        "cs2Today": 0.00000000000000000e+00,
+        "rhoZeros": [],
+        "phantomCrossings": [],
+        "decelerationSignChanges": [],
+        "decelerationSignChangesClosedForm": []
+      },
+      "maxDeviation": {
+        "sigmaSpinorVsAnalytic": 7.28904714364375650e-10,
+        "sigmaStateVsAnalytic": 9.99200722162640886e-15,
+        "eigenspaceLeak": 0.00000000000000000e+00,
+        "normHilbert": 7.28904714364375650e-10,
+        "normKrein": 7.28904714364375650e-10,
+        "rhoVsClosedForm": 7.28904688019125504e-10,
+        "pVsClosedForm": 0.00000000000000000e+00,
+        "wVsClosedFormScaled": 0.00000000000000000e+00,
+        "splitIdentities": 3.30216903387953998e-16
+      }
+    }
+  ],
+  "muIndependence": [
+    {
+      "x0": -4.62654000000000010e-01,
+      "runs": [
+        "x0_m0p462654_mu3",
+        "x0_m0p462654_mu7"
+      ],
+      "rhoMaxScaledDiff": 4.88600115958679214e-10,
+      "pMaxScaledDiff": 8.45827058184583502e-10,
+      "wMaxConditionScaledDiff": 7.80140520890283633e-10,
+      "sigmaMaxRelDiff": 7.80140535973755426e-10
+    },
+    {
+      "x0": -4.33107000000000020e-01,
+      "runs": [
+        "x0_m0p433107_mu3",
+        "x0_m0p433107_mu7"
+      ],
+      "rhoMaxScaledDiff": 9.81270324346431326e-10,
+      "pMaxScaledDiff": 1.73840400547582931e-09,
+      "wMaxConditionScaledDiff": 1.62633567526306686e-09,
+      "sigmaMaxRelDiff": 1.62633563482210166e-09
+    },
+    {
+      "x0": -2.99999999999999989e-01,
+      "runs": [
+        "x0_m0p3_mu3",
+        "x0_m0p3_mu7"
+      ],
+      "rhoMaxScaledDiff": 1.73749257785179425e-09,
+      "pMaxScaledDiff": 3.00483891934469913e-09,
+      "wMaxConditionScaledDiff": 2.76976578674928039e-09,
+      "sigmaMaxRelDiff": 2.76976570488223992e-09
+    },
+    {
+      "x0": -2.00000000000000011e-01,
+      "runs": [
+        "x0_m0p2_mu3",
+        "x0_m0p2_mu7"
+      ],
+      "rhoMaxScaledDiff": 4.77285424808565076e-10,
+      "pMaxScaledDiff": 4.78446386220023743e-10,
+      "wMaxConditionScaledDiff": 5.06417004023702082e-10,
+      "sigmaMaxRelDiff": 5.69676207800338684e-10
+    },
+    {
+      "x0": 0.00000000000000000e+00,
+      "runs": [
+        "x0_0_mu3",
+        "x0_0_mu7"
+      ],
+      "rhoMaxScaledDiff": 8.62677731405698825e-10,
+      "pMaxScaledDiff": 0.00000000000000000e+00,
+      "wMaxConditionScaledDiff": 0.00000000000000000e+00,
+      "sigmaMaxRelDiff": 8.62677680556067997e-10
+    }
+  ],
+  "measurements": {
+    "closureDefect": 0.00000000000000000e+00,
+    "maxE0Deviation": 0.00000000000000000e+00,
+    "maxInitialEigenResidual": 0.00000000000000000e+00,
+    "maxSigmaSpinorDeviation": 2.50394482925742068e-09,
+    "maxSigmaStateDeviation": 1.95399252334027551e-14,
+    "maxEigenspaceLeak": 0.00000000000000000e+00,
+    "maxHilbertNormDrift": 2.50394494027972314e-09,
+    "maxKreinNormDrift": 2.50394494027972314e-09,
+    "maxMuDiffRho": 1.73749257785179425e-09,
+    "maxMuDiffP": 3.00483891934469913e-09,
+    "maxMuDiffW": 2.76976578674928039e-09,
+    "maxMuDiffSigma": 2.76976570488223992e-09,
+    "maxRhoClosedFormDeviation": 1.67992345592009441e-09,
+    "maxPClosedFormDeviation": 2.78924546455657910e-09,
+    "maxWClosedFormDeviation": 2.50394507621366287e-09,
+    "maxSplitIdentityDeviation": 1.08135767365875414e-15,
+    "maxRhoZeroRelError": 2.63322237422482140e-09,
+    "maxPhantomCrossingRelError": 2.34557556604216452e-09,
+    "maxDecelerationRootRelError": 1.47272809200149658e-09,
+    "maxW0Deviation": 5.55111512312578270e-17,
+    "maxWaTangentRelDeviation": 2.76404703776429760e-07
+  },
+  "contractDeviations": [
+    "x0 = -0.462654: E^2 = 0 (bounce, H = 0) at a_b = 0.720697 > 1/3.5 (z_b = 0.387545 < 2.5); a < a_b (z > z_b) does not exist in this model, so the contract's backward range down to N = ln(1/3.5) is unreachable; the backward branch stops at N_b + 0.01.",
+    "x0 = -0.433107: E^2 = 0 (bounce, H = 0) at a_b = 0.702566 > 1/3.5 (z_b = 0.423354 < 2.5); a < a_b (z > z_b) does not exist in this model, so the contract's backward range down to N = ln(1/3.5) is unreachable; the backward branch stops at N_b + 0.01.",
+    "x0 = -0.3: E^2 = 0 (bounce, H = 0) at a_b = 0.612218 > 1/3.5 (z_b = 0.633405 < 2.5); a < a_b (z > z_b) does not exist in this model, so the contract's backward range down to N = ln(1/3.5) is unreachable; the backward branch stops at N_b + 0.01.",
+    "x0 = -0.2: E^2 = 0 (bounce, H = 0) at a_b = 0.528961 > 1/3.5 (z_b = 0.890498 < 2.5); a < a_b (z > z_b) does not exist in this model, so the contract's backward range down to N = ln(1/3.5) is unreachable; the backward branch stops at N_b + 0.01."
+  ],
+  "notes": [
+    "sigma = a^-3 exactly: h(t) is a multiple of -i gamma^4, so the rest eigenvector only acquires the phase Phi = int (M_eff/H0) dN / E; rho, p, w depend on s(u) = 1, not on the phase, hence not on mu.",
+    "For x0 < 0 the attractive four-fermion term makes rho_psi negative for a < |x0|^(1/3) and E^2 vanishes at a_b (bounce): the model has no matter era and no z > z_b.",
+    "w has a pole where rho_psi = 0 and M_eff = 0 at the phantom crossing w = -1 (KE_L = 0); c_s^2 = 2 x0 sigma/(1 + 2 x0 sigma) is negative today for every x0 < 0 (gradient instability of perturbations).",
+    "CPL fits (w(a) least squares, distance-modulus fits) and the fine x0 scan are done by scripts/analyze_dirac16complex_exp3.py (fits.json)."
+  ],
+  "files": [
+    "run_x0_m0p462654_mu3.csv",
+    "run_x0_m0p462654_mu7.csv",
+    "run_x0_m0p433107_mu3.csv",
+    "run_x0_m0p433107_mu7.csv",
+    "run_x0_m0p3_mu3.csv",
+    "run_x0_m0p3_mu7.csv",
+    "run_x0_m0p2_mu3.csv",
+    "run_x0_m0p2_mu7.csv",
+    "run_x0_0_mu3.csv",
+    "run_x0_0_mu7.csv",
+    "summary.json"
+  ],
+  "solverTotals": {
+    "steps": 6074,
+    "rhsEvaluations": 10115
+  },
+  "checks": {
+    "closure_E0_equals_1": true,
+    "initial_positive_energy_B_eigenvector": true,
+    "sigma_from_spinor_equals_a_minus_3": true,
+    "ln_sigma_state_reproduces_minus_3": true,
+    "spinor_stays_in_rest_eigenspace": true,
+    "hilbert_and_krein_norms_conserved": true,
+    "rho_p_w_mu_independent": true,
+    "rho_p_w_match_closed_form": true,
+    "kinetic_potential_split_identities": true,
+    "hubble_positive_backward_stop_at_predicted_bounce": true,
+    "rho_psi_zero_at_cube_root_abs_x0": true,
+    "phantom_crossing_at_cube_root_2abs_x0": true,
+    "deceleration_sign_changes_match_closed_form": true,
+    "tangent_cpl_w0_wa": true
+  },
+  "verdict": "SUCCESS"
+}

@@ -277,21 +277,89 @@ class VerifierTests(unittest.TestCase):
             self.assertFalse(
                 report["measurements"]["ALG_fixtureFieldAgreement"]["gamma"])
 
+    @staticmethod
+    def wolfram_shaped_measurements(measurements):
+        """Wolfram-report-shaped values of every shared measurement, built from the
+        Python measurements (synthetic; no claim that Wolfram was run)."""
+        canon = checker._canon
+        shaped = {}
+        special = {
+            "ALG_chargeMatrix.signature", "ALG_chargeMatrix.zeroEigenvalues",
+            "ALG_octonionPictureIntertwiner.intertwinerBlockType", "ALG_chargeFormB.eigenvalues",
+            "ALG_gamma8Map.kineticMatrixSigns", "QNT_kreinSignature.restPositiveFrequency",
+            "QNT_kreinSignature.restNegativeFrequency",
+            "QNT_unitaryAndKreinSubgroups.kreinAntiHermitianGenerators",
+        }
+        for wolfram_key, python_key, _, _ in checker.WOLFRAM_SHARED_MEASUREMENTS:
+            if wolfram_key in special:
+                continue
+            if isinstance(python_key, str):
+                shaped[wolfram_key] = canon(measurements[python_key])
+            else:
+                shaped[wolfram_key] = [canon(measurements[key]) for key in python_key]
+        signature = canon(measurements["ALG_chargeMatrixSignature"])
+        multiplicities = canon(measurements["ALG_chargeFormBEigenvalueMultiplicities"])
+        failing = canon(measurements["QNT_kreinFailingGenerators"])
+        shaped.update({
+            "ALG_chargeMatrix.signature": signature[:2],
+            "ALG_chargeMatrix.zeroEigenvalues": signature[2],
+            "ALG_octonionPictureIntertwiner.intertwinerBlockType":
+                "block-diagonal" if measurements["ALG_octonionKBlockDiagonal"] else "other",
+            "ALG_chargeFormB.eigenvalues":
+                [-1] * multiplicities["minus1"] + [1] * multiplicities["plus1"],
+            "ALG_gamma8Map.kineticMatrixSigns": [canon(measurements["ALG_gamma8MapKineticSign"])] * 8,
+            "QNT_kreinSignature.restPositiveFrequency": {
+                "dimension": measurements["QNT_kreinPositiveEnergyEigenspaceDimension"],
+                "signature": canon(measurements["QNT_kreinBSignatureOnPlusEigenspace"])},
+            "QNT_kreinSignature.restNegativeFrequency": {
+                "dimension": measurements["QNT_kreinNegativeEnergyEigenspaceDimension"],
+                "signature": canon(measurements["QNT_kreinBSignatureOnMinusEigenspace"])},
+            "QNT_unitaryAndKreinSubgroups.kreinAntiHermitianGenerators":
+                [list(pair) for pair in X.spin_pairs() if list(pair) not in failing],
+        })
+        return shaped
+
     def test_wolfram_agreement_comparison_logic(self):
         # Exercises the comparison code with a synthetic report; it does not
         # claim that Wolfram was run.
-        _, measurements, _ = self.fresh()
+        checks, measurements, _ = self.fresh()
         with tempfile.TemporaryDirectory() as directory:
             fixture = os.path.join(directory, "algebra-fixture.json")
             builder.write_fixture(fixture)
             synthetic = os.path.join(directory, "wolfram-algebra-report.json")
-            payload = {"schemaVersion": 1, "checks": {"ALG_clifford": True},
-                       "measurements": {"K_clifford": measurements["K_clifford"],
-                                        "K_octonion": measurements["K_octonion"],
-                                        "chirality": measurements["chirality"]}}
-            with open(synthetic, "wb") as handle:
-                handle.write(X.canonical_json_bytes(payload))
-            report = checker.verify(fixture, synthetic, precomputed=self.fresh())
+            shaped = self.wolfram_shaped_measurements(measurements)
+            payload = {"schemaVersion": 1,
+                       "checks": {"ALG_clifford": True, "QNT_unitaryAndKreinSubgroups": True},
+                       "measurements": dict(shaped, K_clifford=measurements["K_clifford"],
+                                            K_octonion=measurements["K_octonion"],
+                                            chirality=measurements["chirality"])}
+
+            def verify_payload():
+                with open(synthetic, "wb") as handle:
+                    handle.write(X.canonical_json_bytes(payload))
+                return checker.verify(fixture, synthetic, precomputed=self.fresh())
+
+            report = verify_payload()
+            self.assertTrue(report["checks"]["ALG_wolframAgreement"])
+            self.assertEqual(report["measurements"]["wolframSharedMeasurementDisagreements"], [])
+            self.assertEqual(report["measurements"]["wolframSharedMeasurementCount"],
+                             len(checker.WOLFRAM_SHARED_MEASUREMENTS))
+            # a disagreeing verdict on a shared check is a disagreement
+            payload["checks"]["QNT_unitaryAndKreinSubgroups"] = False
+            report = verify_payload()
+            self.assertFalse(report["checks"]["ALG_wolframAgreement"])
+            self.assertEqual(report["measurements"]["wolframCheckVerdictDisagreements"],
+                             ["QNT_unitaryAndKreinSubgroups"])
+            payload["checks"]["QNT_unitaryAndKreinSubgroups"] = True
+            # the old literal expectation (9 commute with B) is a disagreement
+            payload["measurements"]["QNT_unitaryAndKreinSubgroups.countCommutingWithB"] = 9
+            self.assertFalse(verify_payload()["checks"]["ALG_wolframAgreement"])
+            payload["measurements"]["QNT_unitaryAndKreinSubgroups.countCommutingWithB"] = 13
+            # a missing shared measurement is a disagreement
+            del payload["measurements"]["ALG_faithful.fullRank"]
+            self.assertFalse(verify_payload()["checks"]["ALG_wolframAgreement"])
+            payload["measurements"]["ALG_faithful.fullRank"] = 256
+            report = verify_payload()
             self.assertTrue(report["checks"]["ALG_wolframAgreement"])
             payload["measurements"]["K_octonion"] = [[-v for v in row]
                                                     for row in measurements["K_octonion"]]

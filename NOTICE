@@ -1,0 +1,171 @@
+NOTICE -- dirac16complex (https://github.com/once-ere/Dirac_claude)
+=====================================================================
+
+This repository is distributed under the GNU General Public License,
+version 3 (the full text is in LICENSE).  It builds on, or fetches, the
+works listed below.  Their attributions and licence notices follow.
+
+
+1. Files derived from once-ere/dirac  (GPL-3.0-or-later)
+-------------------------------------------------------
+
+Source:   https://github.com/once-ere/dirac
+Licence:  GPL-3.0-or-later
+
+Each of these files is a copy of a file of that repository, or a modified
+copy.  Its header names the original file and lists every change:
+
+  scripts/build_dissertation_tex.py  modified: --author/--date, Greek letters
+                                     and math symbols, Markdown links,
+                                     validation of the input structure
+  scripts/check_dissertation_pdf.py  header added; code unchanged
+  scripts/check_provenance_pdf.py    modified: editions are read from the
+                                     JSON registry
+                                     provenance/pdf-specifications.json
+  scripts/run_logged.ps1             header added; code unchanged
+  scripts/run_logged.sh              header added; one trailing blank removed
+
+These files are new, but they follow the verification-gate procedure of
+the dirac repository (its scripts/verify_phase*.ps1 and .sh):
+
+  scripts/build_provenance_pdf.py
+  scripts/verify_stage1_arbitrary_field.ps1
+  scripts/verify_stage1_arbitrary_field.sh
+
+This section also covers any other file whose header names
+https://github.com/once-ere/dirac as its origin.  The dirac repository
+itself is not redistributed here.  A local copy in dirac-main/ is
+git-ignored and is read only as a reference.
+
+
+2. SUNDIALS 7.8.0 Rust port and the rustSolveIt engine
+   (fetched at setup time, NOT redistributed)
+-------------------------------------------------------------------
+
+scripts/setup_solver.sh and scripts/setup_solver.ps1 clone the platform's
+rustSolveIt repository, at the commit pinned in those scripts, into
+vendor/rustSolveIt/.  vendor/ is git-ignored.  The repositories are:
+
+  https://github.com/once-ere/rustSolveIt_Win11_SUNDIALS_7_8_0
+  https://github.com/once-ere/rustSolveIt_macos-silicon_SUNDIALS_7_8_0
+  https://github.com/once-ere/rustSolveIt_linux_SUNDIALS_7_8_0
+
+Each of them vendors sundials_rs, a pure-Rust translation of SUNDIALS 7.8.0
+(https://github.com/LLNL/sundials).  For Windows 11, that translation is
+https://github.com/once-ere/SUNDIALS_7_8_Rust_port_for_Windows11.
+
+None of this code is part of this repository.  The notices below travel
+with it, and with any binary built from it, for example a study crate that
+links sundials_core and cvode_rs and is built under target/.
+
+2a. SUNDIALS translation (sundials_rs/crates/*) -- BSD-3-Clause
+
+  BSD 3-Clause License
+
+  Copyright (c) 2025-2026, Lawrence Livermore National Security, University
+  of Maryland Baltimore County, and the SUNDIALS contributors.
+  Copyright (c) 2013-2025, Lawrence Livermore National Security and Southern
+  Methodist University.
+  Copyright (c) 2002-2013, Lawrence Livermore National Security.
+  All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are
+  met:
+
+  * Redistributions of source code must retain the above copyright notice,
+    this list of conditions and the following disclaimer.
+
+  * Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+
+  * Neither the name of the copyright holder nor the names of its
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+  IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+  THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+  PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+2b. Deterministic pow, exp and log (sundials_core: sundials_math.rs pow,
+    sundials_libm/exp.rs, sundials_libm/log.rs) -- MIT
+
+  These are ports of the ARM optimized-routines implementations, taken via
+  musl (src/math/pow.c, pow_data.c, exp.c, exp_data.c, log.c, log_data.c).
+
+  Copyright (c) 2018, Arm Limited.
+  SPDX-License-Identifier: MIT
+
+  Permission is hereby granted, free of charge, to any person obtaining a
+  copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to permit
+  persons to whom the Software is furnished to do so, subject to the
+  following conditions:
+
+  The above copyright notice and this permission notice shall be included
+  in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+  NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+  USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+2c. Deterministic libm, glibc translations (sundials_core:
+    sundials_libm/{expm1,log1p,sincos,atan,asincos,hyperbolic}.rs)
+    -- LGPL-2.1-or-later
+
+  These modules are translated from GNU C Library 2.39, files
+  sysdeps/ieee754/dbl-64/{s_expm1.c, s_log1p.c, s_sin.c, sincostab.c,
+  branred.c, usncs.h, s_atan.c, atnat.h, uatan.tbl, e_asin.c, uasncs.h,
+  asincos.tbl, root.tbl, powtwo.tbl, e_sinh.c, e_cosh.c, e_acosh.c,
+  mydefs.h, dla.h}.
+
+  GNU C Library, Copyright (C) The Free Software Foundation, Inc.
+  Portions: IBM Accurate Mathematical Library, Copyright (C) International
+  Business Machines Corp.
+  SPDX-License-Identifier: LGPL-2.1-or-later
+  Licence text: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+
+  Any binary that links sundials_core contains these modules and must
+  satisfy LGPL-2.1-or-later, which BSD-3-Clause alone does not require.
+
+2d. rustSolveIt workspace and notebook templates
+
+  rustSolveIt declares license = "BSD-3-Clause" in its Cargo manifests.  It
+  has no root LICENSE file, and its notebook builders and runners carry no
+  licence headers.  The repositories are published by the once-ere GitHub
+  account.  The setup scripts use a cone-mode sparse checkout of
+  sundials_rs/ and planet_Mercury/notebook/.  As cone mode always does, it
+  also includes the files at the top level and directly in
+  planet_Mercury/.  It does not include the parts that are
+  GPL-3.0-or-later (rebound_rust/, reboundx_rust/,
+  planet_Mercury/mercury_crosscheck/).  This section also covers any file
+  in this repository whose header names a rustSolveIt repository as its
+  origin.
+
+
+3. The original notebook  (GNU General Public License)
+------------------------------------------------------
+
+  Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb
+  Author: Patrick L. Nash
+  Licence: GNU General Public License (see LICENSE)
+
+This Mathematica notebook is the source of the conventions that the
+dirac16complex construction starts from: the gamma matrices T16^A in the
+split-octonion block basis, sigma16, the metric eta4488, the Lagrangian
+Lg[] and the primordial metric MatrixMetric44.  It is used unmodified.

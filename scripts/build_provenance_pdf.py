@@ -2,9 +2,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 # Written for this repository on 2026-09-25.  It packages as one command the
-# provenance-PDF procedure that the dirac-main gates (scripts/verify_phase5_*
-# .ps1/.sh of https://github.com/once-ere/dirac, GPL-3.0-or-later) spell out
-# step by step: build the .tex twice, three pdflatex passes into two fresh
+# provenance-PDF procedure that the gates scripts/verify_phase*.ps1 and .sh
+# of https://github.com/once-ere/dirac (GPL-3.0-or-later) spell out step by
+# step: build the .tex twice, three pdflatex passes into two fresh
 # directories, scan the logs for warnings, check byte identity and structure,
 # copy the PDF.  New relative to those gates: the edition registry
 # provenance/pdf-specifications.json (--register), the two builder runs use
@@ -18,7 +18,16 @@ For a Markdown file D/X.md inside the repository (normally provenance/X.md):
     byte-identical;
  2. run pdflatex -interaction=nonstopmode -halt-on-error -jobname=X three
     times on each: D/X.tex into build/X/pdf-a and build/X/X-repeat.tex into
-    build/X/pdf-b (both directories are deleted and recreated first);
+    build/X/pdf-b (both directories are deleted and recreated first).
+    pdflatex always runs with the repository root as working directory and
+    is given the .tex and the output directory as root-relative paths.  This
+    is what makes figures work: a figure line ![caption](path.png) becomes
+    \\includegraphics{path.png} with the path relative to the repository
+    root and no \\graphicspath (the builder's header explains why), and TeX
+    looks such a path up in the working directory.  The builder is run with
+    --image-root <root>, so it checks every figure file before pdflatex
+    starts, and each figure's sha256 is recorded in the report's
+    sourceSha256;
  3. scan both final pdflatex logs with WARNING_PATTERN (case-insensitive, as
     grep -Ei and Select-String in the dirac-main gates); any match fails;
  4. require the two PDFs to be byte-identical, to start with %PDF- and end
@@ -28,8 +37,8 @@ For a Markdown file D/X.md inside the repository (normally provenance/X.md):
     must be registered in provenance/pdf-specifications.json with this path,
     page count and sha256; --register mode: record path, pages and sha256
     there instead (replacing an older entry of the same edition);
- 6. copy build/X/pdf-a/X.pdf to D/X.pdf (in verify mode only when every
-    earlier check passed).
+ 6. copy build/X/pdf-a/X.pdf to D/X.pdf, only when every earlier check
+    passed (in --register mode the copy precedes the registry update).
 
 Prints check_<name>=true|false and measurement_<name>=<value> lines,
 check_count and failed_check_count, writes build/X/build-provenance-pdf.json
@@ -160,7 +169,7 @@ def find_pdflatex(explicit: str | None) -> str:
 
 
 def scan_log(text: str) -> list[str]:
-    """Return, once each, the log lines that contain a WARNING_PATTERN match."""
+    """Return, once each, the log lines that match WARNING_PATTERN."""
     lines = []
     seen_starts = set()
     for match in WARNING_PATTERN.finditer(text):
@@ -238,6 +247,11 @@ def build_and_check(arguments: argparse.Namespace) -> tuple[
         )
     stem = markdown.stem
     edition = arguments.edition or default_edition(stem)
+    if not check_provenance_pdf.EDITION_PATTERN.fullmatch(edition):
+        raise UsageError(
+            f"edition name {edition!r} must match "
+            f"{check_provenance_pdf.EDITION_PATTERN.pattern} (use --edition)"
+        )
     specifications = (
         arguments.specifications.resolve()
         if arguments.specifications
@@ -288,6 +302,16 @@ def build_and_check(arguments: argparse.Namespace) -> tuple[
         sources = {markdown_relative: sha256_file(markdown)}
         if tex.exists():
             sources[tex_relative] = sha256_file(tex)
+        for figure in build_dissertation_tex.figure_paths(
+            markdown.read_text(encoding="utf-8", errors="replace")
+        ):
+            try:
+                build_dissertation_tex.validate_figure_path(figure, 0)
+            except ValueError:
+                continue
+            figure_path = root / figure
+            if figure_path.is_file():
+                sources[figure] = sha256_file(figure_path)
         for script in SOURCE_SCRIPTS:
             script_path = root / script
             if not script_path.exists():
@@ -303,6 +327,8 @@ def build_and_check(arguments: argparse.Namespace) -> tuple[
         arguments.author,
         "--date",
         arguments.date,
+        "--image-root",
+        str(root),
     ]
     if not arguments.keep_heading_numbers:
         builder.append("--strip-heading-numbers")

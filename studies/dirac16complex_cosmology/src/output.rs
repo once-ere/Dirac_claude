@@ -171,8 +171,8 @@ pub fn write_json(path: &Path, value: &Json) -> Result<(), String> {
 
 /// The fixed-order summary.json document shared by all experiments:
 /// schemaVersion, study, experiment, fixture{path, sha256, source}, engine,
-/// solver, refined, tolerances{rtol, atol, maxStep}, <extra fields in the
-/// given order>, files, solverTotals{steps, rhsEvaluations}, checks{name:
+/// solver, refined, tolerances{rtol, atol, maxStep}, (the extra fields in
+/// the given order), files, solverTotals{steps, rhsEvaluations}, checks{name:
 /// bool}, verdict.  `summary.files` should already list every data file;
 /// "summary.json" is appended here.
 pub fn standard_summary(

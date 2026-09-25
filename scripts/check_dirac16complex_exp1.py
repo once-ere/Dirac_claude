@@ -14,8 +14,11 @@ Checks (each printed as check_<name>=true/false):
                  Einstein requirement rho_req < 0 and p_req recomputed
   initial        the initial spinors are the claimed joint (h, B) eigenvectors
   derived        rho, p_j, S, KE/PE, w, norms recomputed from u
-  fdResidual     five-point finite-difference residual of i du/dt = h u,
-                 bounded by the truncation estimate (dt^4/30) E^5 (+ noise)
+  fdResidual     five-point finite-difference residual of i du/dt = h u and of
+                 the literal reduced equation gamma^4 du/dt = (M_eff - i K gamma^0) u,
+                 bounded by 1.5 (dt^4/30) E^5 + 1e-6 (truncation estimate)
+  kinetic        KE_L column vs (S0/2)(-Im u^dag du/dt) with du/dt by finite
+                 differences (the definition K_4, not the on-shell formula)
   exact          u(t) vs exp(-i h t) u0 via numpy.linalg.eigh
   frozen         rho frozen for all runs, p_j and S for eigenstates;
                  mixed-state pressure oscillation equals the exact prediction
@@ -233,6 +236,16 @@ def verify(root, fixture_path):
 
     parameters = summary["parameters"]
     hubble, mass, kappa = parameters["H"], parameters["m"], parameters["kappa"]
+    # NUMERICS_CONTRACT EXP-1: H = 1, m = 1, two profiles A = 1, 2, K in {0, 0.5, 2},
+    # several spinors, lambda = 0 plus one lambda != 0 run (per profile here).
+    lambda_runs = [run for run in summary["runs"] if run["lambda"] != 0.0]
+    checks["parametersMatchContract"] = (
+        hubble == 1.0 and mass == 1.0
+        and sorted({run["amplitude"] for run in summary["runs"]}) == [1.0, 2.0]
+        and sorted({run["hiddenMomentumK"] for run in summary["runs"] if run["lambda"] == 0.0})
+        == [0.0, 0.5, 2.0]
+        and len({run["initialSpinor"] for run in summary["runs"]}) >= 3
+        and len(lambda_runs) == 2)
     t1, t2, width = parameters["windowT1"], parameters["windowT2"], parameters["windowWidth"]
     grid = summary["grid"]
 
@@ -291,6 +304,7 @@ def verify(root, fixture_path):
     norm_drift = 0.0
     lambda_ok = True
     lambda_meff_drift = 0.0
+    kinetic_dev = 0.0
     states = {}
     dt = (grid["tEnd"] - grid["tStart"]) / grid["outputIntervals"]
     for run in summary["runs"]:
@@ -364,6 +378,19 @@ def verify(root, fixture_path):
         bound = 1.5 * dt ** 4 / 30.0 * energy ** 5 + 1.0e-6
         fd_ok &= residual <= bound
         fd_worst_ratio = max(fd_worst_ratio, residual / bound)
+        # the literal reduced equation of NUMERICS_CONTRACT EXP-1 (no h used):
+        # gamma^4 du/dt = (M_eff - i K gamma^0) u
+        inner = slice(2, len(t) - 2)
+        lhs = fd @ gammas[4].T
+        rhs_reduced = (m_eff_t[inner, None] * u[inner]) - 1j * k * (u[inner] @ gammas[0].T)
+        residual_reduced = np.max(np.linalg.norm(lhs - rhs_reduced, axis=1))
+        fd_ok &= residual_reduced <= bound
+        fd_worst_ratio = max(fd_worst_ratio, residual_reduced / bound)
+        # KE_L from its definition (1/2) K_4 with K_4 = <Psi^dag C gamma^4 dPsi/dt + h.c.>/2
+        # = -Im(u^dag du/dt) per mode, du/dt by finite differences
+        k4_fd = -np.einsum("ni,ni->n", u[inner].conj(), fd).imag
+        kinetic_dev = max(kinetic_dev,
+                          float(np.max(np.abs(data[inner, header.index("KE_L")] - 0.5 * s0 * k4_fd))) / bound)
 
         # exact solution
         exact = exact_solution(h0, u0, t - t[0])
@@ -401,6 +428,7 @@ def verify(root, fixture_path):
     checks["initialJointEigenvectors"] = initial_ok
     checks["derivedColumnsRecomputed"] = derived_dev <= DERIVED_LIMIT
     checks["fdResidual"] = fd_ok
+    checks["kineticFromTimeDerivative"] = kinetic_dev <= 1.0
     checks["exactSolution"] = exact_max <= EXACT_LIMIT
     checks["rhoFrozenAllRuns"] = frozen_rho <= FROZEN_LIMIT
     checks["pressuresAndSFrozenEigenstates"] = frozen_eigen <= FROZEN_LIMIT
@@ -411,6 +439,7 @@ def verify(root, fixture_path):
     measurements.update({
         "derivedMaxDeviation": derived_dev,
         "fdResidualWorstRatioToBound": fd_worst_ratio,
+        "kineticFdWorstRatioToBound": kinetic_dev,
         "exactMaxError": exact_max,
         "rhoMaxDrift": frozen_rho,
         "eigenstatePressureOrSMaxDrift": frozen_eigen,
@@ -476,8 +505,8 @@ def refined_convergence(root, refined_root, summary, fixture_path):
         lam, k = run["lambda"], run["hiddenMomentumK"]
         m_ref = parameters["lambdaSelfConsistentMass"] if lam != 0.0 else parameters["m"]
         h0 = hamiltonian(gammas, m_ref, [k, 0, 0, 0, 0, 0, 0, 0])
-        times = np.linspace(summary["grid"]["tStart"], summary["grid"]["tEnd"],
-                            summary["grid"]["outputIntervals"] + 1)
+        _, data_c = read_csv(os.path.join(root, EXPERIMENT, run["file"]))
+        times = data_c[:, 0]
         exact = exact_solution(h0, u[0], times - times[0])
         error_c = float(np.max(np.linalg.norm(u - exact, axis=1)))
         error_r = float(np.max(np.linalg.norm(ur - exact, axis=1)))
@@ -510,6 +539,8 @@ def main(argv=None):
         checks["refinedConvergence"] = ok
         measurements["refinedMaxDifference"] = diff
         measurements["canonicalMaxExactError"] = canonical
+    checks = {name: bool(value) for name, value in checks.items()}
+    measurements = {name: float(value) for name, value in measurements.items()}
     failed = [name for name, value in checks.items() if not value]
     for name, value in checks.items():
         print("check_%s=%s" % (name, "true" if value else "false"))

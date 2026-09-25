@@ -978,11 +978,22 @@ checkKreinSignature[] := Module[{rest, restNeg, good1, good1neg, good2, h1, h2, 
       "method" -> "basis V of the eigenspace (exact Gaussian rationals); M = (V^dagger V)^-1 V^dagger B V is the matrix of B restricted (B V = V M verified); M^2 = I so the eigenvalues are +-1 and the signature of the B-form on the space is ((d + Tr M)/2, (d - Tr M)/2) with respect to the positive Hilbert product."|>|>
 ];
 
-checkUnitaryAndKreinSubgroups[] := Module[{commB, expectedComm, stab, stabOK, boosts, boostFail, antiHerm,
-    commAndAnti, commAndStab, extraComm, extraHermitian, stabKreinList, extraAntiC, extraAntiG4},
+(* Canonical meaning (lead decision, CONTRACT.md section 11 erratum E1; identical in
+   scripts/check_dirac16complex_algebra.py):
+     (a) exactly 13 of the 28 S^{ab} commute with B: the 9 of so(4)+so(3) (a,b both in
+         {0,1,2,3} or both in {5,6,7}) plus the 4 Hermitian boosts S^{b4}, b = 0..3;
+     (b) exactly 9 both commute with B and are anti-Hermitian (unitary for Psi^dagger Psi):
+         the unitarily implemented Spin(4) x Spin(3);
+     (c) the 21 with a,b != 4 are Krein-unitary (S^dagger B + B S = 0), the 7 S^{4b} are not.
+   The original literal claim "exactly 9 S^{ab} commute with B" is false; it is kept as the
+   measurement literalClaimExactlyNineCommuteWithB (= False). *)
+checkUnitaryAndKreinSubgroups[] := Module[{commB, compactSet, expectedComm, expectedBoosts, stab, stabOK, boosts,
+    boostFail, antiHerm, commAndAnti, commAndStab, extraComm, extraHermitian, stabKreinList, extraAntiC, extraAntiG4,
+    commOK, unitaryOK, kreinOK},
   commB = Select[spinPairs, zeroQ[comm[D16Spin @@ #, bMat]] &];
-  (* expectation stated by the task / CONTRACT section 8: exactly the so(4)+so(3) generators *)
-  expectedComm = Join[Subsets[{0, 1, 2, 3}, {2}], Subsets[{5, 6, 7}, {2}]];
+  compactSet = Join[Subsets[{0, 1, 2, 3}, {2}], Subsets[{5, 6, 7}, {2}]];     (* so(4) + so(3) *)
+  expectedBoosts = Table[{b, 4}, {b, 0, 3}];                                  (* S^{b4}, b = 0..3 *)
+  expectedComm = Join[compactSet, expectedBoosts];
   stab = Select[spinPairs, FreeQ[#, 4] &];
   boosts = Select[spinPairs, MemberQ[#, 4] &];
   stabKreinList = Select[spinPairs, zeroQ[ConjugateTranspose[D16Spin @@ #].bMat + bMat.(D16Spin @@ #)] &];
@@ -991,27 +1002,35 @@ checkUnitaryAndKreinSubgroups[] := Module[{commB, expectedComm, stab, stabOK, bo
   antiHerm = Select[spinPairs, equalQ[ConjugateTranspose[D16Spin @@ #], -(D16Spin @@ #)] &];
   commAndAnti = Intersection[commB, antiHerm];
   commAndStab = Intersection[commB, stab];
-  extraComm = Complement[commB, expectedComm];
+  extraComm = Complement[commB, compactSet];
   extraHermitian = AllTrue[extraComm, hermitianQ[D16Spin @@ #] &];
   extraAntiC = AllTrue[extraComm, zeroQ[acomm[D16Spin @@ #, cMat]] &];
   extraAntiG4 = AllTrue[extraComm, zeroQ[acomm[D16Spin @@ #, g[4]]] &];
-  <|"pass" -> Length[commB] === 9 && Sort[commB] === Sort[expectedComm] && Length[stab] === 21 && stabOK &&
-      Length[boosts] === 7 && boostFail,
+  commOK = Length[commB] === 13 && Sort[commB] === Sort[expectedComm] && Sort[extraComm] === Sort[expectedBoosts] &&
+    extraHermitian && extraAntiC && extraAntiG4;
+  unitaryOK = Length[commAndAnti] === 9 && Sort[commAndAnti] === Sort[compactSet] && Sort[commAndStab] === Sort[compactSet];
+  kreinOK = Length[stabKreinList] === 21 && Sort[stabKreinList] === Sort[stab] && Length[stab] === 21 && stabOK &&
+    Length[boosts] === 7 && boostFail;
+  <|"pass" -> commOK && unitaryOK && kreinOK,
     "measurements" -> <|
-      "expectedCommutingWithB" -> expectedComm, "expectedCountCommutingWithB" -> 9,
+      "meaning" -> "canonical meaning (CONTRACT.md section 11, E1): (a) exactly 13 of the 28 S^{ab} commute with B (so(4)+so(3) and the 4 Hermitian boosts S^{b4}, b=0..3); (b) exactly 9 commute with B and are anti-Hermitian (unitarily implemented Spin(4)xSpin(3)); (c) the 21 with a,b != 4 are Krein-unitary, the 7 S^{4b} are not",
+      "expectedCommutingWithB" -> expectedComm, "expectedCountCommutingWithB" -> 13,
       "generatorsCommutingWithB" -> commB, "countCommutingWithB" -> Length[commB],
-      "commutingWithBBeyondExpectation" -> extraComm,
+      "commutingWithBMatchesCanonical" -> commOK,
+      "literalClaimExactlyNineCommuteWithB" -> (Length[commB] === 9),
+      "compactGenerators" -> compactSet,
+      "commutingWithBBeyondCompact" -> extraComm,
       "extraCommutingGeneratorsAreHermitian" -> extraHermitian,
       "extraCommutingGeneratorsAnticommuteWithC" -> extraAntiC,
       "extraCommutingGeneratorsAnticommuteWithGamma4" -> extraAntiG4,
       "commutingWithBAndAntiHermitian" -> commAndAnti, "countCommutingWithBAndAntiHermitian" -> Length[commAndAnti],
       "commutingWithBAndInStabilizer" -> commAndStab, "countCommutingWithBAndInStabilizer" -> Length[commAndStab],
-      "compactSubgroupMatchesExpectation" -> (Sort[commAndAnti] === Sort[expectedComm] && Sort[commAndStab] === Sort[expectedComm]),
+      "compactSubgroupMatchesExpectation" -> unitaryOK,
       "kreinAntiHermitianGenerators" -> stabKreinList, "countKreinAntiHermitian" -> Length[stabKreinList],
       "stabilizerGeneratorCount" -> Length[stab], "kreinUnitaryOnStabilizer" -> stabOK,
       "boostGenerators" -> boosts, "kreinUnitarityFailsForAllBoosts" -> boostFail,
       "hilbertAntiHermitianGenerators" -> antiHerm, "countHilbertAntiHermitian" -> Length[antiHerm],
-      "finding" -> "13 of the 28 S^{ab} commute with B = -I C gamma^4, not 9: the 6 generators of so(4) (a,b in {0,1,2,3}), the 3 of so(3) (a,b in {5,6,7}) AND the 4 boosts S^{b4}, b in {0,1,2,3} (S^{b4} anticommutes with C and with gamma^4, hence commutes with B; it is Hermitian, so exp(theta S^{b4}) is neither unitary for Psi^dagger Psi nor Krein-unitary). The expected so(4)+so(3) set is exactly (commuting with B) AND (anti-Hermitian), equivalently (commuting with B) AND (in the direction-4 stabilizer spin(4,3)). The Krein statement holds as stated: S^dagger B + B S = 0 exactly for the 21 generators with a,b != 4 and fails for all 7 S^{4b}. The literal expectation 'count commuting with B = 9' is false, so this check fails by design of the specification."
+      "finding" -> "13 of the 28 S^{ab} commute with B = -I C gamma^4, not 9: the 6 generators of so(4) (a,b in {0,1,2,3}), the 3 of so(3) (a,b in {5,6,7}) AND the 4 boosts S^{b4}, b in {0,1,2,3} (S^{b4} anticommutes with C and with gamma^4, hence commutes with B; it is Hermitian, so exp(theta S^{b4}) is neither unitary for Psi^dagger Psi nor Krein-unitary). The unitarily implemented so(4)+so(3) is exactly (commuting with B) AND (anti-Hermitian), equivalently (commuting with B) AND (in the direction-4 stabilizer spin(4,3)). Krein: S^dagger B + B S = 0 exactly for the 21 generators with a,b != 4 and fails for all 7 S^{4b}. The literal claim 'exactly 9 commute with B' is false and is recorded as literalClaimExactlyNineCommuteWithB = false; the check tests the canonical meaning (a)-(c)."
     |>|>
 ];
 
