@@ -35,6 +35,8 @@
 //! * [`emt`]       -- energy-momentum profiles, proper-volume averages, w's,
 //!   brane-localised fraction, comparison with the required source.
 //! * [`runs`]      -- the parameter matrix and the subcommands.
+//! * [`theory`]    -- agreement check against the Wolfram theory file
+//!   (kohn-sham-theory.json) when it exists; [`jsonread`] is its JSON reader.
 //!
 //! Units: H = 1.  All output numbers are written with `fmt_e(v, 17)`.
 
@@ -47,18 +49,20 @@ pub mod emt;
 pub mod exchange;
 mod generated;
 pub mod geometry;
+pub mod jsonread;
 pub mod output;
 pub mod runs;
 pub mod scf;
 pub mod shooting;
 pub mod spline;
+pub mod theory;
 
 use std::fs;
 use std::path::PathBuf;
 
 pub use generated::{
-    B_IMAG, BLOCK_BASIS_IM, BLOCK_BASIS_RE, BLOCK_BASIS_UNIT_SQUARED_INVERSE, BLOCK_COUNT,
-    BLOCK_LABELS, BLOCK_SOURCE_COLUMN, CHARGE, CHIRALITY, ETA, FIXTURE_PATH, FIXTURE_SHA256,
+    BLOCK_BASIS_IM, BLOCK_BASIS_RE, BLOCK_BASIS_UNIT_SQUARED_INVERSE, BLOCK_COUNT, BLOCK_LABELS,
+    BLOCK_SOURCE_COLUMN, B_IMAG, CHARGE, CHIRALITY, ETA, FIXTURE_PATH, FIXTURE_SHA256,
     FIXTURE_SOURCE, FRAME_DIMENSION, GAMMA, SPINOR_DIMENSION,
 };
 

@@ -4,7 +4,7 @@
 
 ## Abstract
 
-This document defines dirac16complex, a new 16-component fermion field on an 8-dimensional manifold whose metric has signature (4,4), and derives its physics in an arbitrary gravitational field. The components $\Psi_0,\dots,\Psi_{15}$ are complex-valued and anticommuting (complex Grassmann-odd). They carry the irreducible 16-dimensional complex representation of Pin(4,4), and under Spin(4,4) the same space splits into two inequivalent irreducible 8-dimensional modules. The split-octonion gamma matrices of the author's notebook and the tensor-product gamma matrices of dirac-main describe one Clifford module; exact integer intertwiners, unique up to scale, connect the two pictures. The field couples to gravity only through the canonical spin connection, which is fixed by the vielbein postulate (the total covariant derivative of the vielbein vanishes). We prove that the notebook's Lagrangian Lg[] is a pure divergence for a Grassmann field, so its Euler-Lagrange equations are empty, and we replace it by a Hermitian first-order Lagrangian. Its covariant field equations $\gamma^\mu D_\mu\Psi=(m+U'(S))\Psi$, $S=\bar\Psi\Psi$, contain the spin connection in every curved field: the connection is pure gauge exactly when the Riemann tensor vanishes, and the squared Dirac operator carries the curvature term $cR$ with the measured constant $c=-1/4$. The energy-momentum tensor operator follows from the metric variation of the action; it is symmetric, Hermitian and conserved on shell, and its on-shell trace is $-mS+7SU'-8U$. In homogeneous diagonal backgrounds the energy density is $\rho=mS+U$ and the pressure is $p=SU'-U$ in all seven transverse directions. We define the kinetic and potential energies in two ways, give the equation of state $w=p/\rho$, and compare everything term by term with the scalar-field formulas $\rho_\phi=\tfrac12\dot\phi^2+V$, $P_\phi=\tfrac12\dot\phi^2-V$ of the reference PDF. Canonical quantization with respect to the time $x_4$ gives the equal-time anticommutator $\{\Psi,\Psi^\dagger\}=i(\sqrt{|g|}\,C\gamma^{x_4})^{-1}\delta^7$ and a Krein structure with fundamental symmetry $J=B=-iC\gamma^4$ of signature (8,8). The sector without momenta along the three extra times has an ordinary Fock space; momenta along the extra times give complex frequencies. Two independent exact implementations, one in WolframScript and one in Python, pass 153 of 153 checks in five reports. Their cross-comparison of 47 algebra and 84 geometry measurements finds no disagreement.
+This document defines dirac16complex, a new 16-component fermion field on an 8-dimensional manifold whose metric has signature (4,4), and derives its physics in an arbitrary gravitational field. The components $\Psi_0,\dots,\Psi_{15}$ are complex-valued and anticommuting (complex Grassmann-odd). They carry an irreducible 16-dimensional complex representation of Pin(4,4) (the unique irreducible Clifford module), and under Spin(4,4) the same space splits into two inequivalent irreducible 8-dimensional modules. The split-octonion gamma matrices of the author's notebook and the tensor-product gamma matrices of dirac-main describe one Clifford module; exact integer intertwiners, unique up to scale, connect the two pictures. The field couples to gravity only through the canonical spin connection, which is fixed by the vielbein postulate (the total covariant derivative of the vielbein vanishes). We prove that, with the canonical spin connection substituted, the notebook's Lagrangian Lg[] is a pure divergence for a Grassmann field, so its Euler-Lagrange equations are empty; with the notebook's own contraction its Euler-Lagrange equations are the algebraic equations $X\Psi=0$, which force $\Psi=0$. Either way Lg[] gives no wave equation, and we replace it by a Hermitian first-order Lagrangian. Its covariant field equations $\gamma^\mu D_\mu\Psi=(m+U'(S))\Psi$, $S=\bar\Psi\Psi$, contain the spin connection in every curved field: the connection is pure gauge exactly when the Riemann tensor vanishes, and the squared Dirac operator carries the curvature term $cR$ with the measured constant $c=-1/4$. The energy-momentum tensor operator follows from the metric variation of the action; it is symmetric, Hermitian and conserved on shell, and its on-shell trace is $-mS+7SU'-8U$. In homogeneous diagonal backgrounds the energy density is $\rho=mS+U$ and the pressure is $p=SU'-U$ in all seven transverse directions. We define the kinetic and potential energies in two ways, give the equation of state $w=p/\rho$, and compare everything term by term with the scalar-field formulas $\rho_\phi=\tfrac12\dot\phi^2+V$, $P_\phi=\tfrac12\dot\phi^2-V$ of the reference PDF. Canonical quantization with respect to the time $x_4$ gives the equal-time anticommutator $\{\Psi,\Psi^\dagger\}=i(\sqrt{|g|}\,C\gamma^{x_4})^{-1}\delta^7$ and a Krein structure with fundamental symmetry $J=B=-iC\gamma^4$ of signature (8,8). The sector without momenta along the three extra times, a dimensional reduction to 4+1 dimensions, has an ordinary Fock space. Momenta along the extra times make the mode Hamiltonian non-Hermitian and non-commuting with $B$; its frequency is imaginary (exponential growth) when $k_5^2+k_6^2+k_7^2>m^2+k_0^2+\dots+k_3^2$, and at equality it is nilpotent (linear growth). Two independent exact implementations, one in WolframScript and one in Python, pass 153 of 153 checks in five reports. Their cross-comparison of 47 algebra and 84 geometry measurements finds no disagreement.
 
 ## 1. Scope, claims and non-claims
 
@@ -44,7 +44,7 @@ The following are choices, not results:
 1. No observational claim is made. The signature (4,4) is not the signature of observed spacetime, and nothing here is fitted to data.
 2. The dark-energy and dark-matter questions are not answered in this document. Section 9 supplies the exact energy density, pressures and equation of state that such a study needs; the numerical investigation is separate work.
 3. Perturbative stability of the classical field equations is not studied.
-4. The quantization is canonical and formal. The state space carries an indefinite (Krein) metric (Section 10.5), the modes with momentum along the extra times have complex frequencies (Section 10.10), and no interacting Fock space or renormalization is constructed.
+4. The quantization is canonical and formal. The state space carries an indefinite (Krein) metric (Section 10.5). Momenta along the extra times make the mode Hamiltonian non-Hermitian, with imaginary frequencies (exponential growth) when $k_5^2+k_6^2+k_7^2>m^2+k_0^2+\dots+k_3^2$ and linear growth at equality (Section 10.10). No interacting Fock space or renormalization is constructed.
 5. The homogeneous-sector formulas of Section 9.7 treat the bilinears as classical (mean-field) quantities.
 6. The pairing of the masses $\pm m$ by the chirality map (Section 7.7) is a structural property of the equations, not a claim that universes of masses $\pm M$ are created in pairs.
 
@@ -58,7 +58,7 @@ As the task prescribes, everything is counted from 0. A complex vector space is 
 - Roles of the coordinates (from the notebook): $x_0$ is a hidden space direction, $x_1,x_2,x_3$ are ordinary 3-space, $x_4$ is the evolution time, and $x_5,x_6,x_7$ are three extra times. Frame directions 0 to 3 are space-like ($\eta_{aa}=+1$) and 4 to 7 are time-like ($\eta_{aa}=-1$).
 - A gamma matrix with a numeric upper index, $\gamma^0,\dots,\gamma^7$, is always the constant frame matrix. Curved gammas carry a Greek index, $\gamma^\mu=e_a{}^\mu\gamma^a$; with a numeric value they are written $\gamma^{x_4}$ and so on. Lowered gammas $\gamma_\mu=g_{\mu\nu}\gamma^\nu$ are curved.
 - Mathematica lists are 1-based. A notebook entry such as SAB[[a,b]] with $a,b=1,\dots,8$ is $S^{a-1\,b-1}$ in this document.
-- The only other 1-based indices are those of the notebook's 4 by 4 building blocks in Section 3.1, which are labelled as such.
+- The exceptions to counting from 0 are labelled where they occur: the 1-based indices $p,q,h$ of the notebook's 4 by 4 building blocks (Section 3.1); dirac-main's labels $\gamma_k^\pm$ and $\hat\gamma_k^\pm$ with $k=1,\dots,4$ (Sections 2.2 and 3.3); the 1-based Mathematica list indices in the WolframScript code blocks, such as α1 and A1 (Sections 6.1 and 7.2); the notebook's cell numbers and In/Out labels (Section 2.2); the numbering of this document's sections, results, lemmas and lists; and the names G1, G2, G3 of the test geometries and p1, p2, p3 and q1, q2, q3 of the test points (Section 5.7), which are names, not indices.
 
 ### 2.2 This document, the notebook and dirac-main
 
@@ -68,11 +68,23 @@ The notebook is the file
 Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb
 ```
 
-in the repository root (read only, never modified). Cell numbers refer to the cell numbering of the project's text dump of the notebook. dirac-main is the reference implementation of the Clifford and split-octonion pictures (read only).
+in the repository root (read only, never modified). "Cell $N$" is the $N$-th cell of the notebook in file order (1-based), counting only cells of the styles Input, Code, Text, Section, Subsection, Subsubsection, Title, Chapter, Item, Subtitle, DisplayFormula, ItemNumbered and Program; Output, Print and Message cells are not counted and belong to the preceding counted cell. This is the enumeration of the function loadNotebookCells in wolfram/Dirac16ComplexPrimordial.wl (Stage 2). In WolframScript, from the repository root:
+
+```
+file = First[FileNames["Pair_Creation_of_Universes*.nb"]];
+counted = {"Input", "Code", "Text", "Section", "Subsection", "Subsubsection",
+   "Title", "Chapter", "Item", "Subtitle", "DisplayFormula", "ItemNumbered",
+   "Program"};
+cells = Cases[Get[file], Cell[_, s_String, ___] /; MemberQ[counted, s], Infinity];
+Length[cells]    (* 1279 *)
+cells[[1064]]    (* cell 1064, the definition of Lg[] *)
+```
+
+The cited Input cells carry these In labels: 61 In[26], 73 In[36], 147 In[78], 269 In[241], 275 In[249], 279 In[253], 283 In[258], 302 In[281], 475 In[442], 529 In[491], 532 In[494], 1058 In[1024], 1064 In[1034], 1066 In[1037], 1079 In[1052] and 1096 In[1065]; cells 99 and 100 are Text cells without a label. (The count, the labels and the snippet were checked while revising this document; they are not a recorded check.) dirac-main is the reference implementation of the Clifford and split-octonion pictures (read only).
 
 | This document | Notebook (WolframScript) | dirac-main |
 | --- | --- | --- |
-| $x_0,\dots,x_7$ | X (cell 61) | $x^0,\dots,x^7$ |
+| $x_0,\dots,x_7$ | X (cell 61) | $(x_0,x_1,x_2,x_3,t,y_1,y_2,y_3)$: $t=x_4$, $y_i=x_{i+4}$ |
 | $\eta_{ab}$ | η4488 | $\eta_{ab}$ |
 | frame gamma $\gamma^a$ | (T16^A)[a] | $\gamma^a$ (list below) |
 | $\gamma^\mu=e_a{}^\mu\gamma^a$ | (T16^α)[μ] | $\gamma^\mu=e_a{}^\mu\gamma^a$ |
@@ -85,11 +97,11 @@ in the repository root (read only, never modified). Cell numbers refer to the ce
 | $\Psi$, complex Grassmann | Ψ16, commuting | $\psi$, commuting |
 | $\bar\Psi=\Psi^\dagger C$ | Transpose[Ψ16].σ16 | $\bar\psi=\psi^TC$ |
 | $\sqrt{\lvert g\rvert}$ | Sqrt[detgg] | $\sqrt{\lvert g\rvert}$ |
-| mass $m$ | $-HM$ | none |
+| mass $m$ | $-HM$ | no separate mass; a mass-like term $\tfrac1{20}S$ inside $V(S)$ (EINSTEIN_SPINOR_44) |
 | $\Psi_0,\dots,\Psi_7$ | Ψ16upper | image of $P_-$ |
 | $\Psi_8,\dots,\Psi_{15}$ | Ψ16lower | image of $P_+$ |
 
-Further notebook names used in Lg[] (Section 6.1): Q1 is the notebook's book-keeping switch for the spin connection (1 switches it on); sg is the list of rules that turns the metric symbols into diagonal functions of $(x_0,x_4)$ (cell 269); detgg is Det[g4488 /. sg] (cell 275); constraintVars is the list of positivity assumptions used by Simplify (cell 73); H and M are the notebook's inverse length and mass.
+Further notebook names used in Lg[] (Section 6.1): Q1 is the notebook's book-keeping switch for the spin connection (1 switches it on); sg is the list of rules that turns the metric symbols into diagonal functions of $(x_0,x_4)$ (cell 269); g4488 is the array of metric symbols (cell 147); detgg is Det[g4488 /. sg] (cell 275); constraintVars is the list of positivity assumptions used by Simplify (cell 73); H and M are the notebook's inverse length and mass. The curved gammas (T16^α) (cell 475) are built from the notebook's diagonal vielbein (cells 279, 283 and 302), and ωmat (cells 529 to 532) from g4488 /. sg, so all of them belong to the notebook's own field in $(x_0,x_4)$.
 
 The notebook's Ψ16 is the column of the 16 functions f16[k], which the notebook treats as real commuting functions of $(x_0,x_4)$. The dirac-main gammas form the ordered list $(\gamma_1^+,\gamma_2^+,\gamma_3^+,\gamma_4^+,\gamma_1^-,\gamma_2^-,\gamma_3^-,\gamma_4^-)$ of Section 3.3, with 1-based labels: $\gamma_k^+$ is the frame matrix $\gamma^{k-1}$ and $\gamma_k^-$ is $\gamma^{k+3}$ ($k=1,\dots,4$), so the evolution-time generator $\gamma^4$ is $\gamma_1^-$.
 
@@ -290,11 +302,13 @@ $$
 \end{aligned}
 $$
 
-Complex conjugation is an involution of the Grassmann algebra that reverses the order of products. We write $\Psi^\dagger=(\Psi^\ast)^T$ and $\bar\Psi=\Psi^\dagger C$. The components transform under Pin(4,4) through the Clifford module of Section 3 (Section 4.2); for the determinant-1 transformations, Spin(4,4), the module splits into the two chirality blocks (Section 4.4). The conjugation rules, including the product rule and the involution property, are checked in an explicit Grassmann algebra (GR_conjugationRules).
+Complex conjugation is an involution of the Grassmann algebra that reverses the order of products. We write $\Psi^\dagger=(\Psi^\ast)^T$ and $\bar\Psi=\Psi^\dagger C$. The components transform under Pin(4,4) through the Clifford module of Section 3 (Section 4.2); for the transformations whose vector image has determinant 1, Spin(4,4) (Section 4.2), the module splits into the two chirality blocks (Section 4.4). The conjugation rules, including the product rule and the involution property, are checked in an explicit Grassmann algebra (GR_conjugationRules).
 
 ### 4.2 The action of Pin(4,4) and the two lifts
 
 Pin(4,4) is the group generated, inside $\mathrm{Cl}(4,4)$, by the unit vectors $u=u_a\gamma^a$ with $n(u):=\eta(u,u)=\pm1$, so that $u^2=n(u)$. It acts on dirac16complex by Clifford multiplication, $\rho(u)\Psi=u\Psi$. Spin(4,4) is the subgroup of products of an even number of unit vectors. Pin(4,4) is the double cover of the orthogonal group O(4,4) and Spin(4,4) is the double cover of SO(4,4). Vectors transform by the twisted adjoint action $v\mapsto\alpha(g)vg^{-1}$, where $\alpha$ is the parity automorphism; a unit vector $u$ then acts as the reflection in the hyperplane orthogonal to $u$, and the kernel is $\{\pm1\}$ (standard facts, not machine-checked). The untwisted adjoint action $v\mapsto gvg^{-1}$ gives, for a unit vector, minus that reflection. Because $-1_8$ lies in the identity component $SO_0(4,4)$ (it is the product of rotations by $\pi$ in the planes $(0,1)$, $(2,3)$, $(4,5)$ and $(6,7)$), the untwisted action also maps Pin(4,4) onto O(4,4). For every tested unit vector the untwisted matrix is exactly in O(4,4) (ALG_pinLiftCharacter). The choice of lift matters for the sign characters of Section 7.7.
+
+"Determinant 1" always means $\det\Lambda(g)=1$ for the vector image $\Lambda(g)\in O(4,4)$, never the determinant of the 16 by 16 spinor matrix. For a unit vector $\det\Lambda(u)=-1$ under both lifts: a reflection has determinant $-1$, and in 8 dimensions $\det(-R_u)=(-1)^8\det R_u=-1$. Hence $\det\Lambda(u_1\cdots u_k)=(-1)^k$, and $\mathrm{Spin}(4,4)=\Lambda^{-1}(SO(4,4))$ for either lift. As 16 by 16 matrices, by contrast, all elements of Pin(4,4) have determinant 1: $\det u=\pm1$ because $u^2=\pm1$, it is constant on each of the connected sets $n(u)=+1$ and $n(u)=-1$, and $\det\gamma^0=\det\gamma^4=1$. So the spinor determinant does not single out Spin(4,4) (derived; the determinants of the eight $\gamma^a$ and of both vector images for sample unit vectors were checked numerically while revising this document, not as a recorded check).
 
 ### 4.3 Irreducibility under Pin(4,4)
 
@@ -365,7 +379,7 @@ $$
 
 The antisymmetry in $(a,b)$ follows from metric compatibility.
 
-**Result 5.1.** In every test geometry all $8\cdot8\cdot8=512$ components of the vielbein postulate vanish together with their 4096 first derivatives, and $\omega_{\mu ab}=-\omega_{\mu ba}$. The Python checker computes $\omega$ by two routes, from the Christoffel symbols and from the anholonomy coefficients, and they agree. The number of nonzero $\omega_{\mu ab}$ is 448 at each G1 point and 24 in G2.
+**Result 5.1.** In G1 (three points) and G2 all $8\cdot8\cdot8=512$ components of the vielbein postulate vanish together with their 4096 first derivatives, and $\omega_{\mu ab}=-\omega_{\mu ba}$. The Python checker computes $\omega$ by two routes, from the Christoffel symbols and from the anholonomy coefficients, and they agree. The number of nonzero $\omega_{\mu ab}$ is 448 at each G1 point and 24 in G2.
 
 ```
 checks
@@ -389,7 +403,7 @@ $$
 D_\mu\gamma^\nu:=\partial_\mu\gamma^\nu+\Gamma^\nu{}_{\mu\lambda}\gamma^\lambda+[\Omega_\mu,\gamma^\nu]=0,
 $$
 
-in all 64 pairs $(\mu,\nu)$ of every test geometry. This identity is equivalent to the vielbein postulate, since $[\Omega_\mu,\gamma^b]=-\omega_\mu{}^b{}_c\gamma^c$ by Result 3.5.
+in all 64 pairs $(\mu,\nu)$, in G1 (three points) and G2. This identity is equivalent to the vielbein postulate, since $[\Omega_\mu,\gamma^b]=-\omega_\mu{}^b{}_c\gamma^c$ by Result 3.5.
 
 ```
 checks
@@ -403,7 +417,7 @@ $$
 \partial_\mu\bigl(\sqrt{|g|}\,\gamma^\mu\bigr)=\sqrt{|g|}\,[\gamma^\mu,\Omega_\mu],
 $$
 
-which holds exactly in every test geometry; the Wolfram check also verifies $\partial_\mu\sqrt{|g|}=\sqrt{|g|}\,\Gamma^\rho{}_{\rho\mu}$. This identity is used twice: in the proof that Lg[] is empty (Section 6) and in the derivation of the field equations (Section 8).
+which holds exactly in G1 (three points) and G2; the Wolfram check also verifies $\partial_\mu\sqrt{|g|}=\sqrt{|g|}\,\Gamma^\rho{}_{\rho\mu}$. This identity is used twice: in the proof that Lg[] with the canonical spin connection is a pure divergence (Section 6) and in the derivation of the field equations (Section 8).
 
 ```
 checks
@@ -505,7 +519,7 @@ checks
   GEO_sqrtgSquaredEqualsDetg_G2: python-geometry
 ```
 
-**G3** is a homogeneous diagonal frame, $ds^2=-N^2dx_4^2+\sum_{i\ne4}\eta_{ii}h_i^2dx_i^2$, evaluated at $N=1$, $h_i=1+x_4^2/(i+2)$ and $x_4\in\{1/3,-2/5,3/7\}$. Fully symbolic diagonal frames are used for the metric variation (Section 9.1).
+**G3** is a homogeneous diagonal frame, $ds^2=-N^2dx_4^2+\sum_{i\ne4}\eta_{ii}h_i^2dx_i^2$, evaluated at $N=1$, $h_i=1+x_4^2/(i+2)$ and $x_4\in\{1/3,-2/5,3/7\}$ (the points q1, q2 and q3 of the Python report). Fully symbolic diagonal frames are used for the metric variation (Section 9.1).
 
 Field data at each point (the values of $\Psi$, $\Psi^\dagger$ and their first and second derivatives) are independent exact random rationals from recorded seeds: a documented 64-bit linear congruential generator in Wolfram, recorded seeds in Python. The Wolfram parameters are $m\in\{3/7,-2/5,5/9\}$ and $\lambda\in\{5/11,7/13,-3/8\}$ at p1, p2, p3.
 
@@ -582,7 +596,9 @@ Since $X$ has rank 16 at every tested point, the equations $X\Psi=0$ admit only 
 
 ### 6.5 Remark on commuting fields
 
-For commuting components (the notebook's actual use) Lemma 6.1 is reversed: only the symmetric part of a bilinear survives. The mass term $\Psi^TC\Psi$ then survives, and from the connection term only $\tfrac12C\{\gamma^\mu,\Omega_\mu\}$ survives; it contains only the totally antisymmetric part $\omega_{[cab]}$ of the connection, which vanishes for every diagonal vielbein (for G2, $\sum_\mu\{\gamma^\mu,\Omega_\mu\}=0$ for both contractions: GEO_anticommutatorGammaOmegaVanishesDiagonal_G2). In the notebook's diagonal fields the gravitational term in its Euler-Lagrange equations therefore comes from $\partial_\mu(\sqrt{|g|}\gamma^\mu)$, not from the spin connection. This remark is derived from the lemmas; it is not a separate machine check.
+For commuting components (the notebook's actual use) Lemma 6.1 is reversed: only the symmetric part of a bilinear survives. The mass term $\Psi^TC\Psi$ then survives, and from the connection term only $\tfrac12C\{\gamma^\mu,\Omega_\mu\}$ survives; it contains only the totally antisymmetric part $\omega_{[cab]}$ of the connection, which vanishes for every diagonal vielbein (for G2, $\sum_\mu\{\gamma^\mu,\Omega_\mu\}=0$ for both contractions: GEO_anticommutatorGammaOmegaVanishesDiagonal_G2). For Lg[] as displayed in cell 1064, evaluated in a diagonal field with Clifford-consistent curved gammas $\gamma^\mu=e_a{}^\mu\gamma^a$, the gravitational term of the commuting-field Euler-Lagrange equations therefore comes from $\partial_\mu(\sqrt{|g|}\gamma^\mu)$, not from the spin connection, and every Q1 term drops out, for either contraction.
+
+The equations that the notebook actually stores differ from this. Its eLa (cell 1079, Out[1052]), the Euler-Lagrange equations of its evaluation form La[] (cell 1066) with the curved gammas useT16 of cell 1058, contains in the 8 rows 0, 1, 4, 5, 8, 9, 12 and 13 an additional Q1 term, which after the normalisation of cell 1096 is $\pm q\,\Psi_k$ with $q=Q_1\sinh(a_4)\,a_4'\,e^{-a_4}$ (row 0, for example, contains -2*H*Q1*Sinh[a4[H*x4]]*f16[9][x0, x4]*Derivative[1][a4][H*x4]/E^a4[H*x4]). The equations of cell 1096 and later carry the same term, and the notebook's equation for $a_4$, the DSolve of Text cell 100 with coefficient (Q1 - Q1/E^(2*a4[t]))*Derivative[1][a4][t] and its ProductLog solution in Text cell 99, is built from it. By the argument above this term does not come from the spin connection, and no Lg[] with Clifford-consistent curved gammas can produce it. The Stage-2 document DIRAC16COMPLEX_PRIMORDIAL_FIELD (Section 11) traces it to the substitution rule of cell 1058, which gives non-Clifford curved gammas $\gamma'^{\,x_5},\gamma'^{\,x_6},\gamma'^{\,x_7}$, and reproduces the stored eLa exactly with them. This is a second error of the notebook, in addition to the missing $\eta$ of Section 5.6. This remark is derived from the lemmas and from the stored notebook output; in Stage 1 it is not a separate machine check.
 
 ## 7. The dirac16complex Lagrangian
 

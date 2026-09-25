@@ -1,0 +1,1793 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,longtable,array}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\pdfobjcompresslevel=0
+\pdfinfoomitdate=1
+\pdftrailerid{}
+\pdfsuppressptexinfo=15
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.65em}
+\setlength{\emergencystretch}{3em}
+\title{A student's guide to the dirac16complex numerical solutions\\[0.5em]\large Installing, deriving, running and checking the five CVODE experiments of Stage 3 on Windows, macOS and Linux}
+\author{dirac16complex project (with Claude Opus 5.5)}
+\date{September 2026}
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\begin{abstract}
+This guide takes a student who has never used Rust, CVODE or this repository from an empty computer to a complete and checked reproduction of every numerical solution of Stage 3 of the dirac16complex project. Stage 3 consists of five experiments, EXP-1 to EXP-5. Each one integrates the field equation of dirac16complex, a 16-component complex Grassmann spinor field in eight dimensions with four space-like and four time-like directions, in a homogeneous background, with the CVODE solver of the pure-Rust SUNDIALS 7.8.0 port of the rustSolveIt engine. The guide explains in plain language what is computed and why; how to install Git, Rust, Python with numpy, matplotlib, sympy, nbformat, nbclient and ipykernel, and optionally Jupyter, the Wolfram Engine and a TeX distribution, on Windows 11 (PowerShell and Git Bash), macOS and Linux; how to fetch the code and the pinned solver engine and how to check them; how to build and test the program; the mathematics from zero, including a step-by-step derivation of each experiment's first-order system $u'=f(t,u)$ with its state vector index by index, its right-hand side and its initial data; how CVODE solves such a system; how to run each experiment, read every column of its output and check it with the independent Python checkers (162 checks), the EXP-3 analysis (9 checks), the Jupyter notebook (70 checks) and the Mathematica notebook (49 checks); how to rebuild the PDF documents; exercises with answers; troubleshooting; and a glossary. Every command in this guide was executed while it was written, from fresh clones, on Windows 11 in PowerShell 7 and in Git Bash and on Ubuntu 24.04 under WSL2. Installers, which change the computer, were not executed, and nothing was tested on macOS; Section 2.3 lists exactly what was run where. Two measured facts matter for reproduction: the three platform engines are not byte-identical, and the committed results were produced with the Windows 11 engine, which also builds and reproduces every Rust output byte for byte on Linux.
+
+\end{abstract}
+
+\section{What you will compute and why}
+
+\subsection{The question}
+
+Astronomers infer that most of the energy in the universe is in two forms that are not ordinary matter. \textbf{Dark matter} clusters like matter and has almost no pressure. \textbf{Dark energy} has a negative pressure and makes the expansion of the universe accelerate. A fluid is described by its energy density $\rho$ and its pressure $p$, and the single number that tells the two kinds of behaviour apart is the \textbf{equation of state parameter}
+
+\[
+w=\frac{p}{\rho}.
+\]
+
+Radiation has $w=1/3$, matter (dust) and dark matter have $w=0$, and a cosmological constant has $w=-1$. The input document of this study (an e-mail on the Unite supernova compilation, kept by the author and not part of the repository) quotes the Chevallier-Polarski-Linder (CPL) form $w(a)=w_0+w_a(1-a)$, where $a$ is the scale factor of the universe ($a=1$ today), with the Unite values $w_0=-0.861$ and $w_a=-0.60$, and a constant-$w$ fit $w=-0.764$ about two standard deviations from $-1$.
+
+Stage 3 asks: \textbf{can the dirac16complex field behave like dark matter or like dark energy?} It answers the question with numbers, not words: it solves the field equation numerically in five backgrounds and measures $\rho$, $p$ and $w$ and how they change.
+
+A caution about the CPL form that the input document gets wrong: its table labels thawing fields "$(w_a>0)$" and freezing fields "$(w_a<0)$", but its own formula gives $dw/da=-w_a$. A thawing field, whose $w$ rises from $-1$ as the universe expands, therefore has $w_a<0$, and a freezing field has $w_a>0$. This guide always uses the signs that follow from the formula.
+
+\subsection{The five experiments}
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}@{}}
+\toprule
+\textbf{Experiment} & \textbf{Background} & \textbf{What CVODE integrates} & \textbf{Question} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Experiment} & \textbf{Background} & \textbf{What CVODE integrates} & \textbf{Question} \\
+\midrule
+\endhead
+EXP-1 & the primordial (pair-creation) field of the author's notebook & one 16-component mode: 32 real ODEs, 26 runs & what do $\rho$, $p$ and $w$ do in that field, and what source would 8D Einstein gravity need? \\
+EXP-2 & homogeneous 8D universe solved together with 8D Einstein gravity & 6 geometry ODEs and 32 spinor ODEs, 3 runs & does a self-gravitating condensate isotropise, and what $w$ does a 3-space observer infer? \\
+EXP-3 & 4D late universe with frozen extra dimensions & time, distance, spinor and $\ln\sigma$: 35 ODEs, 10 runs & can the condensate reproduce the Unite dark energy $(w_0,w_a)$? \\
+EXP-4 & expanding 3-space: radiation era, and de Sitter followed by radiation & 32 ODEs per momentum mode, hundreds of modes & do the quanta behave like dark matter, and how many does the expansion create? \\
+EXP-5 & deflating extra times & 32 ODEs, 4 runs & why must the physics be restricted to modes without momentum along the extra times? \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+What the committed results say, in one paragraph (the scientific document of Stage 3, DIRAC16COMPLEX\_DARK\_SECTOR\_NUMERICS, discusses them fully): a thermal gas of the free quanta goes from radiation-like, $w=0.3329$ at $a=1$, to dust-like, $w=0.0359$ at $a=100$, and expansion creates such quanta for $m>0$ but not for $m=0$. That is necessary for dark matter, not sufficient. As dark energy the condensate can be tuned to $w_0=-0.861$ today, but then its tangent slope is $w_a=-4.81$, about eight times faster than Unite, and the model universe bounces at redshift $z=0.388$. You will reproduce these numbers yourself in Sections 7 to 9.
+
+\subsection{What you will have at the end}
+
+\begin{enumerate}
+\item A built program (Section 5.1) that runs the five experiments and checks itself with 69 self-checks.
+\item The output files of every experiment, byte for byte identical to the committed ones under \texttt{artifact\allowbreak{}s/dirac1\allowbreak{}6complex\allowbreak{}/numeric\allowbreak{}s/}.
+\item Independent confirmation by five Python checkers that recompute the physics from the raw spinor columns (162 checks), by the EXP-3 analysis (9 checks), by the Jupyter notebook (70 checks and 17 figures) and, optionally, by the Mathematica notebook (49 checks).
+\item The understanding to change a parameter, predict the result and check the prediction.
+\end{enumerate}
+
+\section{How to use this guide}
+
+\subsection{Conventions}
+
+\begin{itemize}
+\item \textbf{Everything is counted from 0.} Coordinates are $x_0,\dots,x_7$, spinor components are $u_0,\dots,u_{15}$, and the first entry of a list is entry 0.
+\item A box like the ones below contains commands. Type or paste them one line at a time into a terminal and press Enter after each line. The prompt that your terminal prints before the cursor is not shown.
+\item The sentence before each box says which terminal it is for. \textbf{PowerShell} means PowerShell 7 on Windows. \textbf{Git Bash} means the bash that comes with Git for Windows. \textbf{macOS} and \textbf{Linux} mean the Terminal application with bash or zsh. Commands marked "Git Bash, macOS and Linux" are the same in all three.
+\item \textbf{Repository root} means the folder \texttt{Dirac\_cl\allowbreak{}aude} that \texttt{git clon\allowbreak{}e} creates; it contains \texttt{README.m\allowbreak{}d}, \texttt{\detokenize{scripts}}, \texttt{\detokenize{studies}} and \texttt{notebook\allowbreak{}s}. Unless a box starts with a \texttt{\detokenize{cd}} command, run it from the repository root.
+\item PowerShell accepts forward slashes in file arguments, so most commands look the same in both shells. Where they differ, both forms are given.
+\item "Expected output" shows what the command prints when everything works. Numbers of steps and check counts must match exactly; run times depend on your computer.
+\end{itemize}
+
+\subsection{Terminals}
+
+\begin{itemize}
+\item \textbf{Windows, PowerShell 7}: Start menu, type \texttt{\detokenize{pwsh}}, press Enter. If \texttt{\detokenize{pwsh}} is not found, install PowerShell 7 (Section 3.2) or use Windows PowerShell 5.1, called \texttt{powershe\allowbreak{}ll}, which is part of Windows.
+\item \textbf{Windows, Git Bash}: Start menu, type \texttt{\detokenize{Git Bash}}, press Enter (installed with Git for Windows).
+\item \textbf{macOS}: Applications, Utilities, Terminal.
+\item \textbf{Linux}: your distribution's terminal (often Ctrl+Alt+T).
+\end{itemize}
+
+To change folder use \texttt{cd FOLDE\allowbreak{}R}; \texttt{\detokenize{cd ..}} goes up one level; \texttt{\detokenize{pwd}} prints where you are; \texttt{\detokenize{ls}} lists the folder (these four work in all shells named above).
+
+\subsection{How this guide was tested}
+
+The commands were executed while the guide was written, from fresh clones of the public repository (Section 4.2) at commit fbec4d7; this guide itself was added later.
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{Platform} & \textbf{Shells and tools} & \textbf{What was executed} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Platform} & \textbf{Shells and tools} & \textbf{What was executed} \\
+\midrule
+\endhead
+Windows 11 Pro for Workstations 10.0.26200, Intel Core Ultra 9 275HX, 24 cores & PowerShell 7.6.6; Git Bash (GNU bash 5.2.37, Git 2.51.2); rustc and cargo 1.91.1, rustup 1.28.2; Python 3.14.5 with numpy 2.4.6, matplotlib 3.11.0, sympy 1.14.0, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0, jupyterlab 4.4.10, nbconvert 7.16.6; MiKTeX 26.5 (pdfTeX 4.27); WolframScript 1.14.0 with Wolfram 15.0.1 & every command of Sections 4 to 13, in both shells where both forms are given \\
+Ubuntu 24.04.4 LTS under WSL2 on the same computer & bash 5.2.21; Git 2.43.0; rustc and cargo 1.93.1; Python 3.12.3 in a virtual environment with numpy 2.5.3, matplotlib 3.11.2, sympy 1.14.0, nbformat 5.11.1, nbclient 0.11.0, ipykernel 7.3.0; TeX Live 2023 (pdfTeX 1.40.25) & clone, engine setup with the \texttt{\detokenize{linux}} and \texttt{\detokenize{win11}} engines, build, tests, all experiments, all checkers, the analysis, the notebook, a PDF build; no Mathematica (no WolframScript there) \\
+macOS & none & nothing; the macOS commands follow the official instructions of each tool but are untested \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+Not executed anywhere, because they install software or change system settings: \texttt{winget i\allowbreak{}nstall}, \texttt{xcode-se\allowbreak{}lect} (macOS), the rustup installer, \texttt{apt inst\allowbreak{}all}, the MiKTeX, MacTeX and Wolfram installers, and \texttt{wolframs\allowbreak{}cript -a\allowbreak{}ctivate}. On Windows the package identifiers were confirmed with \texttt{winget s\allowbreak{}how}, and on Ubuntu the package names with the simulation \texttt{apt-get \allowbreak{}-s insta\allowbreak{}ll}.
+
+\section{Installing the tools}
+
+\subsection{What you need}
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{Tool} & \textbf{Needed for} & \textbf{Required?} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Tool} & \textbf{Needed for} & \textbf{Required?} \\
+\midrule
+\endhead
+Git & downloading the code and the solver engine; comparing results & yes \\
+Rust (rustup, rustc, cargo) & building and running the five experiments & yes \\
+a C linker (MSVC Build Tools on Windows, Xcode Command Line Tools on macOS, build-essential on Linux) & Rust uses it to link the program & yes \\
+Python 3.10 or newer & the checkers, the analysis, the notebook, the PDF builder & yes \\
+numpy, matplotlib, sympy, nbformat, nbclient, ipykernel & the checkers and the notebook & yes \\
+JupyterLab (brings nbconvert) & opening the notebook interactively and the nbconvert route & optional \\
+Wolfram Engine or Mathematica (wolframscript) & the Mathematica cross-check notebook & optional \\
+a TeX distribution (MiKTeX, MacTeX or TeX Live) & rebuilding the PDF documents & optional \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+Section 3.6 shows how to check each of them.
+
+A computer from the last ten years is enough. The program needs only a few megabytes of memory (EXP-4, the largest run, peaked at 14 MB), and the code, the engine, the build and the scratch runs of this guide take about 250 MB of disk.
+
+\subsection{Windows 11}
+
+The tool \texttt{\detokenize{winget}} (App Installer) is part of Windows 11. Open PowerShell and install the tools with these commands; each asks for confirmation and some open an installer window:
+
+\begin{Verbatim}[fontsize=\small]
+winget install --id Git.Git -e
+winget install --id Microsoft.PowerShell -e
+winget install --id Rustlang.Rustup -e
+winget install --id Python.Python.3.13 -e
+\end{Verbatim}
+
+Rust on Windows needs the Microsoft C++ build tools (the linker \texttt{\detokenize{link.exe}} and the Windows SDK). If they are not installed, the rustup installer offers to install them through the Visual Studio installer; accept that offer. You can also install them yourself:
+
+\begin{Verbatim}[fontsize=\small]
+$id = "Microsoft.VisualStudio.2022.BuildTools"
+$vs = "--wait --passive --add Microsoft.VisualStudio.Workload.VCTools"
+winget install --id $id -e --override "$vs --includeRecommended"
+\end{Verbatim}
+
+Optional tools:
+
+\begin{Verbatim}[fontsize=\small]
+winget install --id MiKTeX.MiKTeX -e
+winget install --id WolframResearch.WolframEngine -e
+\end{Verbatim}
+
+After installing, \textbf{close every terminal and open a new one}, so that the new programs are found. Then make sure the stable Rust toolchain is the default (this is safe to repeat):
+
+\begin{Verbatim}[fontsize=\small]
+rustup default stable
+\end{Verbatim}
+
+The Wolfram Engine is free for non-commercial use but must be activated once with a Wolfram ID: run \texttt{wolframs\allowbreak{}cript -a\allowbreak{}ctivate} yourself and follow the prompts. MiKTeX installs missing LaTeX packages on first use; in MiKTeX Console you can allow it to do so without asking.
+
+\subsection{macOS}
+
+Open Terminal. Install the command line developer tools (they contain Git and the linker that Rust needs):
+
+\begin{Verbatim}[fontsize=\small]
+xcode-select --install
+\end{Verbatim}
+
+Install Rust with the official installer, accept the default installation, and load it into the current terminal:
+
+\begin{Verbatim}[fontsize=\small]
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source "$HOME/.cargo/env"
+\end{Verbatim}
+
+Install Python 3 from https://www.python.org/downloads/ (or with Homebrew, \texttt{brew ins\allowbreak{}tall pyt\allowbreak{}hon}). Optional: MacTeX from https://www.tug.org/mactex/ for the PDFs, and the Wolfram Engine from https://www.wolfram.com/engine/ for the Mathematica notebook. The Python packages are installed in Section 3.5.
+
+The repository's \texttt{.cargo/c\allowbreak{}onfig.to\allowbreak{}ml} asks the compiler for the x86-64 instruction FMA (Section 5.2). On Apple Silicon (arm64) fused multiply-add is part of the base instruction set. This combination was not tested; if the compiler prints a warning about the target feature \texttt{\detokenize{fma}}, it is a warning, not an error.
+
+\subsection{Linux (Ubuntu or Debian)}
+
+Open a terminal and install Git, the compiler tools and Python with its virtual-environment module (you need administrator rights for \texttt{\detokenize{sudo}}):
+
+\begin{Verbatim}[fontsize=\small]
+sudo apt update
+sudo apt install -y git curl build-essential python3 python3-venv python3-pip
+\end{Verbatim}
+
+Install Rust exactly as on macOS:
+
+\begin{Verbatim}[fontsize=\small]
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source "$HOME/.cargo/env"
+\end{Verbatim}
+
+Optional, for the PDFs:
+
+\begin{Verbatim}[fontsize=\small]
+sudo apt install -y texlive-latex-base texlive-latex-recommended lmodern
+\end{Verbatim}
+
+Other distributions have the same tools under similar package names. The Wolfram Engine for Linux is at https://www.wolfram.com/engine/.
+
+\subsection{The Python packages}
+
+\textbf{Windows (PowerShell or Git Bash).} Install the packages for your user:
+
+\begin{Verbatim}[fontsize=\small]
+python -m pip install numpy matplotlib sympy nbformat nbclient ipykernel
+python -m pip install jupyterlab
+\end{Verbatim}
+
+The second line is optional (interactive notebook and nbconvert). On a computer that already has the packages, pip prints \texttt{Requirem\allowbreak{}ent alre\allowbreak{}ady sati\allowbreak{}sfied} for each of them and changes nothing. If pip warns that a script such as \texttt{jupyter.\allowbreak{}exe} is installed in a folder that is not on PATH, this guide avoids the problem by always writing \texttt{python -\allowbreak{}m ...} (Section 14).
+
+\textbf{macOS and Linux.} Recent systems refuse \texttt{pip inst\allowbreak{}all} outside a virtual environment (Ubuntu 24.04 prints \texttt{error: e\allowbreak{}xternall\allowbreak{}y-manage\allowbreak{}d-enviro\allowbreak{}nment}). Create one virtual environment for this project, outside the repository, and activate it:
+
+\begin{Verbatim}[fontsize=\small]
+python3 -m venv ~/.venvs/dirac16
+source ~/.venvs/dirac16/bin/activate
+python -m pip install numpy matplotlib sympy nbformat nbclient ipykernel
+\end{Verbatim}
+
+Optional: \texttt{python -\allowbreak{}m pip in\allowbreak{}stall ju\allowbreak{}pyterlab}. The activation lasts until you close the terminal: \textbf{in every new terminal run} \texttt{source \textasciitilde{}\allowbreak{}/.venvs/\allowbreak{}dirac16/\allowbreak{}bin/acti\allowbreak{}vate} again. While it is active, \texttt{\detokenize{python}} means the Python of the environment, which is why the rest of this guide writes \texttt{\detokenize{python}} on every platform.
+
+\subsection{Checking the installation}
+
+In any of the shells:
+
+\begin{Verbatim}[fontsize=\small]
+git --version
+rustc --version
+cargo --version
+rustup show active-toolchain
+python --version
+python -c "import numpy, matplotlib, sympy, nbformat, nbclient, ipykernel; print('OK')"
+\end{Verbatim}
+
+Expected output (your version numbers may be newer):
+
+\begin{Verbatim}[fontsize=\small]
+git version 2.51.2.windows.1
+rustc 1.91.1 (ed61e7d7e 2025-11-07)
+cargo 1.91.1 (ea2d97820 2025-10-10)
+stable-x86_64-pc-windows-msvc (default)
+Python 3.14.5
+OK
+\end{Verbatim}
+
+On Linux the toolchain line is \texttt{stable-x\allowbreak{}86\_64-un\allowbreak{}known-li\allowbreak{}nux-gnu \allowbreak{}(default\allowbreak{})}. Optional tools:
+
+\begin{Verbatim}[fontsize=\small]
+python -m jupyterlab --version
+pdflatex --version
+wolframscript -version
+\end{Verbatim}
+
+\section{Getting the code and the solver engine}
+
+\subsection{Choose a short folder}
+
+On Windows the linker cannot open files whose full path is longer than 260 characters, and the build creates paths about 105 characters below the repository root. Clone into a short folder such as \texttt{C:\textbackslash{}Users\allowbreak{}\textbackslash{}NAME\textbackslash{}sr\allowbreak{}c}, not deep inside another folder (a clone at a 277-character path failed with \texttt{LNK1104:\allowbreak{} cannot \allowbreak{}open fil\allowbreak{}e} while this guide was tested). Also avoid folders synchronised by OneDrive or Dropbox, which lock files during the build.
+
+PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+New-Item -ItemType Directory -Force -Path $HOME\src
+cd $HOME\src
+\end{Verbatim}
+
+Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+mkdir -p ~/src
+cd ~/src
+\end{Verbatim}
+
+\subsection{Clone the repository}
+
+In any shell:
+
+\begin{Verbatim}[fontsize=\small]
+git clone https://github.com/once-ere/Dirac_claude.git
+cd Dirac_claude
+git log -1 --format="%h %s"
+\end{Verbatim}
+
+The last command prints the newest commit. From now on every command runs in this folder, the repository root, unless it says otherwise.
+
+\subsection{Fetch the solver engine}
+
+The numerical engine is not stored in this repository. A setup script downloads it at a pinned commit into the folder \texttt{vendor/r\allowbreak{}ustSolve\allowbreak{}It}, which Git ignores. The engine is a pure-Rust translation of SUNDIALS 7.8.0 (the solver library of Lawrence Livermore National Laboratory), published in three platform repositories:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{Argument} & \textbf{Repository} & \textbf{Pinned commit} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Argument} & \textbf{Repository} & \textbf{Pinned commit} \\
+\midrule
+\endhead
+\texttt{\detokenize{win11}} & \texttt{https://\allowbreak{}github.c\allowbreak{}om/once-\allowbreak{}ere/rust\allowbreak{}SolveIt\_\allowbreak{}Win11\_SU\allowbreak{}NDIALS\_7\allowbreak{}\_8\_0} & \texttt{a8fdff45\allowbreak{}9adfe181\allowbreak{}573d7924\allowbreak{}b18bffbd\allowbreak{}f378fdb3} \\
+\texttt{\detokenize{macos}} & \texttt{https://\allowbreak{}github.c\allowbreak{}om/once-\allowbreak{}ere/rust\allowbreak{}SolveIt\_\allowbreak{}macos-si\allowbreak{}licon\_SU\allowbreak{}NDIALS\_7\allowbreak{}\_8\_0} & \texttt{5360157f\allowbreak{}4f616097\allowbreak{}8f664005\allowbreak{}66c31b2a\allowbreak{}e25dd44d} \\
+\texttt{\detokenize{linux}} & \texttt{https://\allowbreak{}github.c\allowbreak{}om/once-\allowbreak{}ere/rust\allowbreak{}SolveIt\_\allowbreak{}linux\_SU\allowbreak{}NDIALS\_7\allowbreak{}\_8\_0} & \texttt{6f58e02e\allowbreak{}53717a51\allowbreak{}375bd4bc\allowbreak{}5918edc5\allowbreak{}7088d922} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+The script fetches only one of them: the one named by its argument. It makes a shallow (one-commit), sparse checkout of the two folders the study needs, \texttt{sundials\allowbreak{}\_rs} (the engine) and \texttt{planet\_M\allowbreak{}ercury/n\allowbreak{}otebook} (the notebook templates that the Jupyter notebook was adapted from), about 90 MB. \textbf{Use the argument \texttt{\detokenize{win11}} on every platform} if you want to reproduce the committed results byte for byte; Section 4.5 explains why.
+
+PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+pwsh -NoProfile -File scripts/setup_solver.ps1 -Platform win11
+\end{Verbatim}
+
+If you only have Windows PowerShell 5.1, which blocks scripts by default, allow this one script for this one run:
+
+\begin{Verbatim}[fontsize=\small]
+powershell -ExecutionPolicy Bypass -File scripts/setup_solver.ps1 -Platform win11
+\end{Verbatim}
+
+Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+bash scripts/setup_solver.sh win11
+\end{Verbatim}
+
+Without an argument, \texttt{setup\_so\allowbreak{}lver.sh} chooses the platform's own engine (\texttt{\detokenize{win11}} in Git Bash, \texttt{\detokenize{macos}} on macOS, \texttt{\detokenize{linux}} on Linux), and \texttt{setup\_so\allowbreak{}lver.ps1} defaults to \texttt{\detokenize{win11}}.
+
+Expected output:
+
+\begin{Verbatim}[fontsize=\small]
+solver_platform=win11
+solver_commit=a8fdff459adfe181573d7924b18bffbdf378fdb3
+solver_setup=OK
+\end{Verbatim}
+
+It takes a few seconds. Running it again prints \texttt{solver\_s\allowbreak{}etup=ALR\allowbreak{}EADY-PRE\allowbreak{}SENT}. If the folder holds a different engine, the script stops with \texttt{vendor/r\allowbreak{}ustSolve\allowbreak{}It is at\allowbreak{} ..., ex\allowbreak{}pected .\allowbreak{}..; remo\allowbreak{}ve it an\allowbreak{}d rerun}.
+
+\subsection{Checking the engine}
+
+In any shell:
+
+\begin{Verbatim}[fontsize=\small]
+git -C vendor/rustSolveIt rev-parse HEAD
+git -C vendor/rustSolveIt sparse-checkout list
+\end{Verbatim}
+
+The first line must print the pinned commit of the table above; the second prints \texttt{planet\_M\allowbreak{}ercury/n\allowbreak{}otebook} and \texttt{sundials\allowbreak{}\_rs}. The two crates that the study compiles are \texttt{vendor/r\allowbreak{}ustSolve\allowbreak{}It/sundi\allowbreak{}als\_rs/c\allowbreak{}rates/su\allowbreak{}ndials\_c\allowbreak{}ore} (vectors, matrices, the deterministic mathematical functions) and \texttt{vendor/r\allowbreak{}ustSolve\allowbreak{}It/sundi\allowbreak{}als\_rs/c\allowbreak{}rates/cv\allowbreak{}ode\_rs} (the CVODE integrator).
+
+To switch to another engine, delete the folder and run the setup script again. PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+Remove-Item -Recurse -Force vendor/rustSolveIt
+\end{Verbatim}
+
+Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+rm -rf vendor/rustSolveIt
+\end{Verbatim}
+
+After a switch, rebuild the program (Section 5).
+
+\subsection{The three engines are not identical}
+
+The three repositories are often described as vendoring the same engine. They do not, and this was measured while this guide was written. The macOS and Linux engines are identical to each other (their \texttt{sundials\allowbreak{}\_rs} folders have the same Git tree, \texttt{\detokenize{47d654d5}}). The Windows 11 engine is different (tree \texttt{\detokenize{eeaa0cad}}): its deterministic mathematical library \texttt{sundials\allowbreak{}\_libm} is a translation of GNU C Library 2.39, while the other two use different implementations, so some elementary functions can return results that differ in the last bit. The consequences, measured:
+
+\begin{enumerate}
+\item With the \texttt{\detokenize{win11}} engine the program reproduces every committed output file byte for byte, on Windows 11 and on Ubuntu 24.04 alike.
+\item With the \texttt{\detokenize{linux}} engine (the default of \texttt{setup\_so\allowbreak{}lver.sh} on Linux) all 69 self-checks and all 162 checker checks still pass, but 14 committed files differ in their last digits: the ten EXP-1 files with $K=0$ (backgrounds and $K=0$ runs) and the three EXP-2 CSV files with their \texttt{summary.\allowbreak{}json}. The same engine gives the same 14 differences on Windows, so they come from the engine, not from the operating system.
+\item The Jupyter notebook asserts that fresh outputs are byte-identical to the committed ones, so with the \texttt{\detokenize{linux}} or \texttt{\detokenize{macos}} engine its gauntlet stops with \texttt{Assertio\allowbreak{}nError('\allowbreak{}fresh\_ou\allowbreak{}tputs\_by\allowbreak{}te\_ident\allowbreak{}ical')}.
+\end{enumerate}
+
+The \texttt{\detokenize{macos}} engine was not run. Because it equals the \texttt{\detokenize{linux}} engine, it can be expected to behave like it.
+
+\subsection{A map of the repository}
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.400\linewidth}>{\raggedright\arraybackslash}p{0.400\linewidth}@{}}
+\toprule
+\textbf{Folder or file} & \textbf{Contents} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Folder or file} & \textbf{Contents} \\
+\midrule
+\endhead
+\texttt{studies/\allowbreak{}dirac16c\allowbreak{}omplex\_c\allowbreak{}osmology\allowbreak{}/} & the Rust program: \texttt{src/exp1\allowbreak{}.rs} to \texttt{src/exp5\allowbreak{}.rs} (one experiment each), \texttt{src/spin\allowbreak{}or.rs} (16 by 16 complex algebra), \texttt{src/driv\allowbreak{}er.rs} (the CVODE driver), \texttt{src/gene\allowbreak{}rated.rs} (the gamma matrices), \texttt{src/main\allowbreak{}.rs} (the command line) \\
+\texttt{\detokenize{scripts/}} & the setup scripts, the five checkers \texttt{check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}1.py} to \texttt{check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}5.py}, the EXP-3 analysis \texttt{analyze\_\allowbreak{}dirac16c\allowbreak{}omplex\_e\allowbreak{}xp3.py}, the PDF builder, the Wolfram scripts \\
+\texttt{artifact\allowbreak{}s/dirac1\allowbreak{}6complex\allowbreak{}/numeric\allowbreak{}s/} & the committed outputs: \texttt{\detokenize{exp1/}} to \texttt{\detokenize{exp5/}}, \texttt{\detokenize{figures/}}, \texttt{numerics\allowbreak{}-summary\allowbreak{}.json}, \texttt{notebook\allowbreak{}-report.\allowbreak{}json}, \texttt{mathemat\allowbreak{}ica-repo\allowbreak{}rt.json} \\
+\texttt{artifact\allowbreak{}s/dirac1\allowbreak{}6complex\allowbreak{}/arbitra\allowbreak{}ry-field\allowbreak{}/algebra\allowbreak{}-fixture\allowbreak{}.json} & the exact integer gamma matrices, the source of \texttt{src/gene\allowbreak{}rated.rs} and of every checker \\
+\texttt{notebook\allowbreak{}s/} & the Jupyter notebook \texttt{dirac16c\allowbreak{}omplex\_d\allowbreak{}ark\_sect\allowbreak{}or.ipynb} and its tools, the Mathematica notebook \texttt{Dirac16C\allowbreak{}omplexDa\allowbreak{}rkSector\allowbreak{}.nb} \\
+\texttt{provenan\allowbreak{}ce/} & the documents in Markdown, LaTeX and PDF, and the registry \texttt{pdf-spec\allowbreak{}ificatio\allowbreak{}ns.json} \\
+\texttt{\detokenize{wolfram/}} & the exact Wolfram Language packages of Stages 1 and 2 \\
+\texttt{\detokenize{tests/}} & unittest suites of the documents and tools \\
+\texttt{\detokenize{build/}}, \texttt{\detokenize{vendor/}}, \texttt{\detokenize{target/}} & scratch, the engine and the compiler output; all ignored by Git \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Building and testing the program}
+
+\subsection{Build}
+
+The program is a Rust crate with its own workspace. Build it from its own folder, in release mode (optimised; debug builds are far slower). In any shell:
+
+\begin{Verbatim}[fontsize=\small]
+cd studies/dirac16complex_cosmology
+cargo build --release
+cd ../..
+\end{Verbatim}
+
+Expected output (the first build compiles the engine too and takes a few seconds on a fast computer, a minute or two on a slow one):
+
+\begin{Verbatim}[fontsize=\small]
+   Compiling sundials_core v7.8.0 (...)
+   Compiling cvode_rs v7.8.0 (...)
+   Compiling dirac16complex_cosmology v0.1.0 (...)
+    Finished ... profile [optimized] target(s) in 4.98s
+\end{Verbatim}
+
+There must be no warning: the crate declares \texttt{\#![deny(\allowbreak{}warnings\allowbreak{})]}, so any warning would stop the build. The program is now at \texttt{studies/\allowbreak{}dirac16c\allowbreak{}omplex\_c\allowbreak{}osmology\allowbreak{}/target/\allowbreak{}release/\allowbreak{}dirac16c\allowbreak{}omplex\_c\allowbreak{}osmology\allowbreak{}.exe} on Windows and at the same path without \texttt{\detokenize{.exe}} elsewhere.
+
+\subsection{The FMA note}
+
+The file \texttt{.cargo/c\allowbreak{}onfig.to\allowbreak{}ml} in the repository root contains
+
+\begin{Verbatim}[fontsize=\small]
+[build]
+rustflags = ["-C", "target-feature=+fma"]
+\end{Verbatim}
+
+Cargo reads it because the crate folder lies below the repository root. It tells the compiler that the processor has the FMA instruction (fused multiply-add: $a\cdot b+c$ computed with a single rounding). The engine's deterministic mathematical functions use fused multiply-add in exactly the places where the reference library does, and with this flag each of them becomes one machine instruction instead of a call into the operating system's C library. The pinned numerical results assume it. Every x86-64 processor since Intel Haswell (2013) and AMD Piledriver (2012) has FMA. On an older processor the program stops at once with an illegal-instruction error; there is no supported workaround that keeps the results identical.
+
+\subsection{Test}
+
+The crate has 24 unit tests (Clifford relations of the generated gamma matrices, the Hamiltonian, CVODE against exact solutions, closed forms of EXP-2 and EXP-3, the EXP-4 algebra, the output format). In any shell:
+
+\begin{Verbatim}[fontsize=\small]
+cd studies/dirac16complex_cosmology
+cargo test --release
+cd ../..
+\end{Verbatim}
+
+Expected output, among the compiler lines:
+
+\begin{Verbatim}[fontsize=\small]
+running 24 tests
+test result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+\end{Verbatim}
+
+followed by two empty test groups (\texttt{running \allowbreak{}0 tests}). One test deliberately makes the right-hand side fail and checks that the error is reported, so the line
+
+\begin{Verbatim}[fontsize=\small]
+[ERROR][rank 0][...cvode.rs:4221][cvHandleFailure] At t = 0.496781677252198,
+the right-hand side routine failed in an unrecoverable manner.
+\end{Verbatim}
+
+(one line on your screen) is expected and is not a failure.
+
+\section{The mathematics you need, from zero}
+
+This section explains everything the program does, with nothing assumed beyond complex numbers and derivatives. The physics behind the field equation is derived in the documents of Stage 1 (the arbitrary gravitational field) and Stage 2 (the primordial field) in the folder \texttt{provenan\allowbreak{}ce/}; here we use their results.
+
+\subsection{Numbers, columns and matrices}
+
+A complex number is $z=x+iy$ with real $x$, $y$ and $i^2=-1$; its conjugate is $z^*=x-iy$ and $|z|^2=z^*z=x^2+y^2$. A \textbf{column} of 16 complex numbers is written
+
+\[
+u=\begin{pmatrix}u_0\\ u_1\\ \vdots\\ u_{15}\end{pmatrix},\qquad u^\dagger=(u_0^*,u_1^*,\dots,u_{15}^*).
+\]
+
+The row $u^\dagger$ (read "u dagger") is the conjugate transpose. A 16 by 16 matrix $M$ acts on $u$ by $(Mu)_i=\sum_{j=0}^{15}M_{ij}u_j$, where $i$ is the row and $j$ the column, both counted from 0. The product $u^\dagger Mu=\sum_{i,j}u_i^*M_{ij}u_j$ is a single number; for $M=1$ it is $u^\dagger u=\sum_i|u_i|^2$, the squared length of $u$. A matrix is \textbf{Hermitian} if $M^\dagger=M$; then $u^\dagger Mu$ is real. A matrix whose every row contains exactly one nonzero entry, equal to $+1$ or $-1$, is a \textbf{signed permutation}: it only reorders the components of $u$ and flips some signs.
+
+\subsection{The field: a column of 16 complex numbers}
+
+The field dirac16complex is $\Psi=(\Psi_0,\dots,\Psi_{15})^T$: at every point of spacetime, 16 complex components. In the quantum theory the components are Grassmann-odd, which means $\Psi_a\Psi_b=-\Psi_b\Psi_a$; this is how fermions obey the Pauli principle (a state holds at most one particle). None of the ODEs below multiplies two Grassmann numbers. Every experiment integrates the \textbf{mode amplitude} $u(t)$, an ordinary column of 16 complex numbers, and the Grassmann nature enters only in two places: the counting of states (each state occupied at most once, Section 6.15) and the expectation-value rule of Section 6.10. This is the mean-field, one-particle reading of the field; it is exact for the free modes and an approximation for the self-interacting condensate.
+
+\subsection{Spacetime and the gamma matrices}
+
+Spacetime has eight coordinates $x_0,\dots,x_7$. The flat metric is
+
+\[
+\eta=\mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1):
+\]
+
+directions 0 to 3 are space-like, directions 4 to 7 time-like. $x_0$ is a hidden space direction, $x_1,x_2,x_3$ are ordinary 3-space, $x_4$ is \textbf{the} time $t$, and $x_5,x_6,x_7$ are three extra time directions. We write $T=\{0,1,2,3,5,6,7\}$ for the seven directions other than time.
+
+The eight \textbf{gamma matrices} $\gamma^0,\dots,\gamma^7$ are real 16 by 16 matrices with integer entries (the author's notebook calls them T16). They satisfy the Clifford relation
+
+\[
+\gamma^a\gamma^b+\gamma^b\gamma^a=2\eta^{ab}\cdot1,
+\]
+
+so $(\gamma^a)^2=+1$ for $a=0,\dots,3$, $(\gamma^a)^2=-1$ for $a=4,\dots,7$, and two different gamma matrices anticommute. Each of them is a signed permutation, which makes it easy to write down completely. The table gives, for each row $i$, the component that $\gamma^a$ picks and its sign: the entry $-13$ in row 0 of $\gamma^4$ means $(\gamma^4u)_0=-u_{13}$, and $+0$ means $+u_0$.
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}@{}}
+\toprule
+\textbf{$i$} & \textbf{$\gamma^0$} & \textbf{$\gamma^1$} & \textbf{$\gamma^2$} & \textbf{$\gamma^3$} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{$i$} & \textbf{$\gamma^0$} & \textbf{$\gamma^1$} & \textbf{$\gamma^2$} & \textbf{$\gamma^3$} \\
+\midrule
+\endhead
+0 & +8 & -15 & +14 & -13 \\
+1 & +9 & -14 & -15 & +12 \\
+2 & +10 & +13 & -12 & -15 \\
+3 & +11 & +12 & +13 & +14 \\
+4 & +12 & -11 & +10 & -9 \\
+5 & +13 & -10 & -11 & +8 \\
+6 & +14 & +9 & -8 & -11 \\
+7 & +15 & +8 & +9 & +10 \\
+8 & +0 & +7 & -6 & +5 \\
+9 & +1 & +6 & +7 & -4 \\
+10 & +2 & -5 & +4 & +7 \\
+11 & +3 & -4 & -5 & -6 \\
+12 & +4 & +3 & -2 & +1 \\
+13 & +5 & +2 & +3 & -0 \\
+14 & +6 & -1 & +0 & +3 \\
+15 & +7 & -0 & -1 & -2 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}@{}}
+\toprule
+\textbf{$i$} & \textbf{$\gamma^4$} & \textbf{$\gamma^5$} & \textbf{$\gamma^6$} & \textbf{$\gamma^7$} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{$i$} & \textbf{$\gamma^4$} & \textbf{$\gamma^5$} & \textbf{$\gamma^6$} & \textbf{$\gamma^7$} \\
+\midrule
+\endhead
+0 & -13 & +14 & +15 & +8 \\
+1 & +12 & +15 & -14 & +9 \\
+2 & +15 & -12 & +13 & +10 \\
+3 & -14 & -13 & -12 & +11 \\
+4 & +9 & -10 & -11 & -12 \\
+5 & -8 & -11 & +10 & -13 \\
+6 & -11 & +8 & -9 & -14 \\
+7 & +10 & +9 & +8 & -15 \\
+8 & +5 & -6 & -7 & -0 \\
+9 & -4 & -7 & +6 & -1 \\
+10 & -7 & +4 & -5 & -2 \\
+11 & +6 & +5 & +4 & -3 \\
+12 & -1 & +2 & +3 & +4 \\
+13 & +0 & +3 & -2 & +5 \\
+14 & +3 & -0 & +1 & +6 \\
+15 & -2 & -1 & -0 & +7 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+The same matrices are stored exactly in \texttt{artifact\allowbreak{}s/dirac1\allowbreak{}6complex\allowbreak{}/arbitra\allowbreak{}ry-field\allowbreak{}/algebra\allowbreak{}-fixture\allowbreak{}.json} (key \texttt{\detokenize{gamma}}, zero-based) and in \texttt{studies/\allowbreak{}dirac16c\allowbreak{}omplex\_c\allowbreak{}osmology\allowbreak{}/src/gen\allowbreak{}erated.r\allowbreak{}s}. $\gamma^0,\dots,\gamma^3$ are symmetric and $\gamma^4,\dots,\gamma^7$ antisymmetric.
+
+\textbf{A check you can do by hand.} Apply $\gamma^4$ twice to component 0: $(\gamma^4u)_0=-u_{13}$, and row 13 of $\gamma^4$ says $(\gamma^4v)_{13}=+v_0$, so $(\gamma^4\gamma^4u)_0=-(\gamma^4u)_{13}=-u_0$. That is $(\gamma^4)^2=-1$ in row 0, as the Clifford relation demands for a time-like direction.
+
+\subsection{Three more matrices: C, B and the chirality}
+
+\begin{itemize}
+\item The \textbf{charge matrix} $C=\gamma^0\gamma^1\gamma^2\gamma^3$ is real and symmetric with $C^2=1$. The \textbf{Dirac adjoint} is $\bar\Psi=\Psi^\dagger C$, and $S=\bar\Psi\Psi$ is the scalar density (the condensate).
+\item $B=-iC\gamma^4$ is Hermitian with $B^2=1$; it has the eigenvalue $+1$ eight times and $-1$ eight times. It defines the indefinite inner product $u^\dagger Bu$ (Section 6.10).
+\item The \textbf{chirality} $\gamma^8=\gamma^0\gamma^1\cdots\gamma^7=\mathrm{diag}(-1,\dots,-1,+1,\dots,+1)$: components 0 to 7 have chirality $-1$, components 8 to 15 chirality $+1$.
+\end{itemize}
+
+$C$ is a signed permutation and $B$ is $i$ times a signed permutation:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{$i$} & \textbf{$C$} & \textbf{$B/i$} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{$i$} & \textbf{$C$} & \textbf{$B/i$} \\
+\midrule
+\endhead
+0 & -4 & +9 \\
+1 & -5 & -8 \\
+2 & -6 & -11 \\
+3 & -7 & +10 \\
+4 & -0 & -13 \\
+5 & -1 & +12 \\
+6 & -2 & +15 \\
+7 & -3 & -14 \\
+8 & +12 & +1 \\
+9 & +13 & -0 \\
+10 & +14 & -3 \\
+11 & +15 & +2 \\
+12 & +8 & -5 \\
+13 & +9 & +4 \\
+14 & +10 & +7 \\
+15 & +11 & -6 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+So, for example, $(Bu)_0=i\,u_9$.
+
+\subsection{Metric, scale factors and the vielbein}
+
+All five backgrounds are homogeneous: nothing depends on position, only on time. With $t=x_4$ their line element is
+
+\[
+ds^2=-dt^2+\sum_{j\in T}\epsilon_j\,h_j(t)^2\,dx_j^2,\qquad \epsilon_j=+1\ (j=0,1,2,3),\quad \epsilon_j=-1\ (j=5,6,7).
+\]
+
+$h_j(t)$ is the \textbf{scale factor} of direction $j$: a distance $dx_j$ along it is physically $h_j\,dx_j$ long. Its \textbf{expansion rate} is $H_j=\dot h_j/h_j$ (a dot is $d/dt$), the total rate is $\Theta=\sum_{j\in T}H_j$ and the 7-volume is $V=\prod_{j\in T}h_j$, so that $\dot V/V=\Theta$. The experiments group the directions: $b=h_0$ (hidden space), $a=h_1=h_2=h_3$ (3-space), $c=h_5=h_6=h_7$ (extra times), and then $\Theta=H_b+3H_a+3H_c$ and $V=b\,a^3c^3$.
+
+The \textbf{vielbein} (German "eight legs") is the set of eight 1-forms $e^4=dt$ and $e^j=h_j\,dx_j$; it turns the curved metric into the flat one, $ds^2=\eta_{ab}e^ae^b$. The curved gamma matrices are $\gamma^{x_4}=\gamma^4$ and $\gamma^{x_j}=\gamma^j/h_j$: the frame matrix divided by the scale factor.
+
+\subsection{The covariant derivative}
+
+A spinor cannot be differentiated with the plain derivative $\partial_\mu=\partial/\partial x_\mu$ in a curved spacetime, because the frame in which its components are measured turns from point to point. The \textbf{covariant derivative} adds a correction, the spinor connection $\Omega_\mu$:
+
+\[
+D_\mu\Psi=\partial_\mu\Psi+\Omega_\mu\Psi,\qquad \Omega_\mu=\tfrac12\,\omega_{\mu ab}S^{ab},\qquad S^{ab}=\tfrac14\bigl(\gamma^a\gamma^b-\gamma^b\gamma^a\bigr),
+\]
+
+summed over all ordered pairs $(a,b)$. The spin connection $\omega_{\mu ab}$ is fixed by the requirement that the total covariant derivative of the vielbein vanishes (the vielbein postulate); Stage 1 derives and verifies this exactly. The field equation needs only the combination $\gamma^\mu\Omega_\mu$ (summed over $\mu$), and for a diagonal vielbein $e^b=h_b\,dx_b$ Stage 1 proves the formula
+
+\[
+\gamma^\mu\Omega_\mu=\frac12\sum_{b=0}^{7}\frac{1}{h_b}\,\partial_b\ln\Bigl(\prod_{c\ne b}h_c\Bigr)\gamma^b .
+\]
+
+In our backgrounds only $b=4$ has a nonzero derivative ($h_4=1$, $\partial_4=d/dt$), and $\prod_{c\ne4}h_c=V$, so
+
+\[
+\gamma^\mu\Omega_\mu=\tfrac12\,\frac{d\ln V}{dt}\,\gamma^4=\tfrac12\,\Theta\,\gamma^4 .
+\]
+
+That one line is all of the curved-space geometry that enters EXP-2 to EXP-5.
+
+\subsection{The Lagrangian and the field equation}
+
+The Lagrangian density of dirac16complex is
+
+\[
+\mathcal L=\sqrt{|g|}\Bigl[\tfrac12\bigl(\bar\Psi\gamma^\mu D_\mu\Psi-(D_\mu\bar\Psi)\gamma^\mu\Psi\bigr)-m\,\bar\Psi\Psi-U(\bar\Psi\Psi)\Bigr],\qquad U(S)=\tfrac{\lambda}{2}S^2 ,
+\]
+
+with mass $m$ and a four-fermion self-interaction of strength $\lambda$ ($\lambda<0$ is attractive). Varying it with respect to $\bar\Psi$ gives the field equation
+
+\[
+\gamma^\mu D_\mu\Psi=M_{\mathrm{eff}}\,\Psi,\qquad M_{\mathrm{eff}}=m+U'(S)=m+\lambda S .
+\]
+
+$M_{\mathrm{eff}}$ is the effective mass: the self-interaction shifts the mass in proportion to the condensate $S$.
+
+\subsection{From the field equation to a mode equation}
+
+Take a plane wave with coordinate momentum $k_j$ along the transverse directions,
+
+\[
+\Psi=V^{-1/2}\,e^{i\sum_jk_jx_j}\,u(t).
+\]
+
+Insert it into the field equation, one term at a time.
+
+\begin{enumerate}
+\item Time derivative: $\partial_t\Psi=V^{-1/2}e^{ik\cdot x}\bigl(\dot u-\tfrac12\Theta u\bigr)$, because $\dot V/V=\Theta$.
+\item Space derivatives: $\partial_j\Psi=ik_j\Psi$, and the curved gamma is $\gamma^j/h_j$, so these terms give $i\sum_j(k_j/h_j)\gamma^j u$ (times the common factor $V^{-1/2}e^{ik\cdot x}$).
+\item Connection: $\gamma^\mu\Omega_\mu\Psi=\tfrac12\Theta\gamma^4\Psi$.
+\end{enumerate}
+
+Adding them, the two $\Theta$ terms cancel exactly: that is why the factor $V^{-1/2}$ was put in front. What remains is
+
+\[
+\gamma^4\dot u+i\sum_{j\in T}\frac{k_j}{h_j}\gamma^ju=M_{\mathrm{eff}}u .
+\]
+
+Multiply from the left by $\gamma^4$ and use $(\gamma^4)^2=-1$: $-\dot u+i\sum_j(k_j/h_j)\gamma^4\gamma^ju=M_{\mathrm{eff}}\gamma^4u$. Multiply by $-i$ and rearrange:
+
+\[
+i\,\dot u=h(t)\,u,\qquad h(t)=-iM_{\mathrm{eff}}\gamma^4-\gamma^4\sum_{j\in T}\frac{k_j}{h_j}\gamma^j .
+\]
+
+This is a Schrödinger-type equation with the \textbf{mode Hamiltonian} $h(t)$, a 16 by 16 complex matrix. Two facts about it are used everywhere. First, $h^2=E^2\cdot1$ with
+
+\[
+E^2=M_{\mathrm{eff}}^2+\sum_{j=0}^{3}\Bigl(\frac{k_j}{h_j}\Bigr)^2-\sum_{j=5}^{7}\Bigl(\frac{k_j}{h_j}\Bigr)^2 ,
+\]
+
+so the energies are $+E$ and $-E$, eight times each. Second, $h$ is Hermitian exactly when $k_5=k_6=k_7=0$. This is \textbf{the good sector}: no momentum along the extra times. Then $E$ is real and $u^\dagger u$ is conserved. With extra-time momentum $E^2$ can become negative, which EXP-5 studies.
+
+\subsection{Complex to real: the layout that CVODE sees}
+
+CVODE integrates real numbers. Write $u=x+iy$ with real columns $x$, $y$ and $h=h_r+ih_i$ with real matrices $h_r$, $h_i$. Then $i(\dot x+i\dot y)=(h_r+ih_i)(x+iy)$; the imaginary part and the real part of this equation give
+
+\[
+\dot x=h_r\,y+h_i\,x,\qquad \dot y=h_i\,y-h_r\,x .
+\]
+
+The program stores the spinor as 32 consecutive reals, the \textbf{state layout} used by every experiment:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{State index} & \textbf{Quantity} & \textbf{CSV column} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{State index} & \textbf{Quantity} & \textbf{CSV column} \\
+\midrule
+\endhead
+$0,\dots,15$ & $x_n=\mathrm{Re}\,u_n$, $n=0,\dots,15$ & \texttt{\detokenize{u_re_0}} to \texttt{\detokenize{u_re_15}} \\
+$16,\dots,31$ & $y_n=\mathrm{Im}\,u_n$, $n=0,\dots,15$ & \texttt{\detokenize{u_im_0}} to \texttt{\detokenize{u_im_15}} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+For $h=-iM\gamma^4-\sum_j(k_j/h_j)\gamma^4\gamma^j$ the pieces are $h_i=-M\gamma^4$ and $h_r=-\sum_j(k_j/h_j)\gamma^4\gamma^j$. \textbf{A worked component.} For $k=0$ ($h_r=0$) the equation for state index 0 is $\dot x_0=(h_ix)_0=-M(\gamma^4x)_0=-M(-x_{13})=M\,x_{13}$: one multiplication. The whole right-hand side of a mode is 32 such terms plus, when $k\ne0$, the $h_r$ terms.
+
+\subsection{Energy, pressure, norms and the expectation-value rule}
+
+Quantising the field with respect to $t$ gives the anticommutator $\{\Psi,\Psi^\dagger\}\propto B$. Because $B$ has eigenvalues of both signs, the space of states carries an indefinite inner product (a Krein space). The experiments use its positive-norm quantisation, in which a one-particle state built on a normalised mode $u$ ($u^\dagger u=1$) has the \textbf{expectation-value rule}
+
+\[
+\langle\Psi^\dagger M\Psi\rangle=u^\dagger BM\,u .
+\]
+
+From it follow the three quantities per mode that every experiment computes:
+
+\[
+s(u)=u^\dagger BC\,u=u^\dagger(-i\gamma^4)u,\qquad \varepsilon(u)=u^\dagger h\,u,\qquad p_j(u)=-\frac{k_j}{h_j}\,u^\dagger\gamma^4\gamma^j u\quad(\text{no sum}),
+\]
+
+the scalar density, the energy and the pressure along direction $j$ (one uses $BC=-i\gamma^4$, since $C$ commutes with $\gamma^4$ and $C^2=1$). They satisfy $\varepsilon=M_{\mathrm{eff}}\,s+\sum_jp_j$. Two norms are monitored:
+
+\begin{itemize}
+\item the \textbf{Hilbert norm} $u^\dagger u$, conserved when $h$ is Hermitian (good sector);
+\item the \textbf{Krein norm} $u^\dagger Bu$, conserved always, because $h^\dagger B=Bh$.
+\end{itemize}
+
+\textbf{The rest eigenvector.} For $k=0$, $h=-iM\gamma^4$, and a positive-energy eigenvector obeys $-i\gamma^4u=u$. The program's standard choice, also an eigenvector of $B$ with eigenvalue $+1$, is
+
+\[
+u_0=\tfrac12\bigl(e_0-e_4-i\,e_9-i\,e_{13}\bigr),
+\]
+
+where $e_n$ is the column with 1 in position $n$. Check it with the tables: $(\gamma^4u_0)_0=-u_{13}=i/2$, so $(-i\gamma^4u_0)_0=1/2=(u_0)_0$; do the same for components 4, 9 and 13, and for $(Bu_0)_0=i\,u_9=1/2$. Hence $s(u_0)=u_0^\dagger u_0=1$ and $hu_0=Mu_0$.
+
+\textbf{Energy density, pressure and $w$.} With $n$ modes per unit volume, the energy density is $\rho=n\,\varepsilon-(\lambda/2)S^2$ and the pressure along $j$ is $p_j=n\,p_j(u)+(\lambda/2)S^2$; the mean transverse pressure is $\bar p=\frac17\sum_{j\in T}p_j$ and $w=\bar p/\rho$. For a condensate at rest this gives $\rho=mS+\frac{\lambda}{2}S^2$ and $p=\frac{\lambda}{2}S^2$.
+
+\textbf{Kinetic and potential energy.} The input document describes a scalar field with $\rho=\frac12\dot\phi^2+V$ and $p=\frac12\dot\phi^2-V$. The spinor analogues, both reported by every experiment, are the Lagrangian split $KE_L=\frac12n\,\varepsilon$, $PE_L=\rho-KE_L$ (for a condensate at rest $\rho=KE_L+PE_L$ and $p=KE_L-PE_L$ exactly as for the scalar field, and $w<-1$ with $\rho>0$ happens exactly when $KE_L<0$) and the Hamiltonian split $PE_H=mS+U(S)$ (rest mass and interaction), $KE_H=\rho-PE_H$ (momentum energy). For a free gas $KE_L=PE_L=\rho/2$ in every mode, so the scalar-field relation $p=KE-PE$ holds only for condensates, not for a gas.
+
+\subsection{EXP-1: the primordial field}
+
+\textbf{Background.} The author's notebook field (Stage 2) in the warped coordinate $\zeta=\ln(\sin z)/(6H)$, $z=6Hx_0$, with $H=1$ and $t=x_4$:
+
+\[
+ds^2=d\zeta^2-dt^2+e^{2H\zeta}\bigl[e^{2a_4(t)}(dx_1^2+dx_2^2+dx_3^2)-e^{-2a_4(t)}(dx_5^2+dx_6^2+dx_7^2)\bigr].
+\]
+
+3-space grows as $e^{a_4}$ and the extra times shrink as $e^{-a_4}$, so the 7-volume stays constant. The profile is a primordial window, $a_4'(t)=A\,(1+\tanh\frac{t-t_1}{\Delta})(1-\tanh\frac{t-t_2}{\Delta})/4$ with $t_1=2$, $t_2=7$, $\Delta=0.5$ and two amplitudes $A=1$ and $A=2$.
+
+\textbf{Reduction, step by step.} Here the vielbein depends on $\zeta$ and $t$, so use the formula of Section 6.6 with $b=0$ (the $\zeta$ direction, $h_0=1$) and $b=4$. For $b=0$: $\prod_{c\ne0}h_c=e^{3(H\zeta+a_4)}e^{3(H\zeta-a_4)}=e^{6H\zeta}$, whose $\zeta$-derivative of the logarithm is $6H$; for $b=4$: $\prod_{c\ne4}h_c=e^{6H\zeta}$ does not depend on $t$. Hence $\gamma^\mu\Omega_\mu=3H\gamma^0$, and $a_4$ has dropped out. Take a wave in the hidden direction and no momentum elsewhere, $\Psi=e^{-3H\zeta}e^{iK\zeta}u(t)$. The $\zeta$-derivative gives $\gamma^0(-3H+iK)\Psi$; the $-3H$ cancels the connection term $3H\gamma^0\Psi$ (the factor $e^{-3H\zeta}$ plays the role of $V^{-1/2}$), and what remains is
+
+\[
+\gamma^4\dot u=(M_{\mathrm{eff}}-iK\gamma^0)u\quad\Longleftrightarrow\quad i\dot u=hu,\qquad h=-iM_{\mathrm{eff}}\gamma^4-K\gamma^4\gamma^0 .
+\]
+
+This is Section 6.8 with $k_0/h_0=K$. Stage 2 verified the reduction exactly (Wolfram check \texttt{P\_modes\_\allowbreak{}exactRed\allowbreak{}uction}). Because $h$ does not contain $a_4$, the two profiles must give identical spinors; they do, bit for bit.
+
+\textbf{State, right-hand side, initial data.} The state is the 32-real spinor of Section 6.9, with $h_i=-M_{\mathrm{eff}}\gamma^4$ and $h_r=-K\gamma^4\gamma^0$; $M_{\mathrm{eff}}=m+\lambda S_0\,s(u)$ with $m=1$. Runs: $K\in\{0,0.5,2\}$, four initial spinors each, $\lambda=0$ and $S_0=1$, for each profile ($2\times3\times4=24$ runs), plus one run per profile with $\lambda=0.5$, $S_0=1$, $K=0.5$ (26 runs). The four initial spinors are the first vector of the joint eigenspace of $h$ (energy $+E$) and $B$ ($+1$), called \texttt{\detokenize{pos_Bp}}; energy $+E$ with $B=-1$ (\texttt{\detokenize{pos_Bm}}); energy $-E$ with $B=+1$ (\texttt{\detokenize{neg_Bp}}); and a normalised generic vector \texttt{\detokenize{mix}} with $\mathrm{Re}\,u_n=1/(1+n)$ and $\mathrm{Im}\,u_n=0.1\,(n^2\bmod7)-0.3$ before normalisation. Eigenstates test that $\rho$ and $p$ are frozen; the mixture of both energy signs tests interference. The $\lambda$ run starts on the self-consistent eigenvector with $M_*=m+\lambda S_0M_*/\sqrt{M_*^2+K^2}$, solved by Newton's method: $M_*=1.4734826640642023$. Time runs from 0 to 10 with 201 samples.
+
+\textbf{Exact solution and checks.} With $\lambda=0$, $h$ is constant and $u(t)=(\cos Et-i\sin Et\,h/E)\,u(0)$ with $E=\sqrt{M^2+K^2}$; the program compares with it at every sample. It also records the source that 8D Einstein gravity would need for this field ($\kappa=1$): $\rho_{\mathrm{req}}=-3H^2(7+a_4'^2)$, which is negative always.
+
+\subsection{EXP-2: an 8D universe that feels the condensate}
+
+\textbf{Background and Einstein equations.} $ds^2=-dt^2+b^2dx_0^2+a^2(dx_1^2+dx_2^2+dx_3^2)-c^2(dx_5^2+dx_6^2+dx_7^2)$ with 8D gravitational coupling $\kappa=1$ and $m=1$. For this metric the time-time component of Einstein's equation $G^\mu{}_\nu=\kappa T^\mu{}_\nu$ is a constraint, and the space-space components, after the trace is used, are evolution equations (the signs $\epsilon_j$ drop out of the mixed components):
+
+\[
+\sum_{i<j}H_iH_j=3H_bH_a+3H_bH_c+3H_a^2+3H_c^2+9H_aH_c=\kappa\rho,\qquad \dot H_i=-H_i\Theta+\frac{\kappa(\rho-p)}{6}.
+\]
+
+The sum runs over the 21 pairs of the seven transverse directions; the 6 is $D-2$ for $D=8$. The checker derives the Einstein tensor again from the metric, independently (check \texttt{einstein\allowbreak{}TensorFr\allowbreak{}omMetric}).
+
+\textbf{Matter.} The condensate is the $k=0$ mode: $h=-iM_{\mathrm{eff}}\gamma^4$, $S=S_0\,(V_0/V)\,s(u)$ with $V_0=1$, $M_{\mathrm{eff}}=m+\lambda S$, $\rho=mS+\frac{\lambda}{2}S^2$, $p=\frac{\lambda}{2}S^2$, so $\rho-p=mS$ does not depend on $\lambda$.
+
+\textbf{State vector (38 reals) and right-hand side:}
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{State index} & \textbf{Quantity} & \textbf{$d/dt$ of it} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{State index} & \textbf{Quantity} & \textbf{$d/dt$ of it} \\
+\midrule
+\endhead
+0 & $\ln b$ & $H_b$ \\
+1 & $\ln a$ & $H_a$ \\
+2 & $\ln c$ & $H_c$ \\
+3 & $H_b$ & $-H_b\Theta+\kappa mS/6$ \\
+4 & $H_a$ & $-H_a\Theta+\kappa mS/6$ \\
+5 & $H_c$ & $-H_c\Theta+\kappa mS/6$ \\
+6 to 21 & $\mathrm{Re}\,u_0,\dots,\mathrm{Re}\,u_{15}$ & $-M_{\mathrm{eff}}\,\gamma^4\,\mathrm{Re}\,u$ \\
+22 to 37 & $\mathrm{Im}\,u_0,\dots,\mathrm{Im}\,u_{15}$ & $-M_{\mathrm{eff}}\,\gamma^4\,\mathrm{Im}\,u$ \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+with $\Theta=H_b+3H_a+3H_c$, $V=\exp(\ln b+3\ln a+3\ln c)$ and $S$ from the spinor. The spinor rows are Section 6.9 with $h_r=0$.
+
+\textbf{Initial data and why.} $\ln b=\ln a=\ln c=0$, $H_b=0$, $H_a=1$, $H_c=-0.2$ (3-space expanding, extra times deflating), $u(0)=u_0$ of Section 6.10 (a positive-energy particle at rest, $s=1$). The parameter $x_0=\lambda S_0/(2m)$ (not the coordinate) is the interaction strength relative to the mass; runs $x_0\in\{0,-0.4,+0.5\}$. The constraint must hold at $t=0$: its left side is $C_0=3(1)+3(0.04)+9(-0.2)=1.32$, the right side is $\kappa mS_0(1+x_0)$, hence
+
+\[
+S_0=\frac{1.32}{1+x_0},\qquad \lambda=\frac{2m\,x_0}{S_0}:
+\]
+
+$S_0=1.32$, $2.2$, $0.88$ and $\lambda=0$, $-0.363636$, $1.136364$ for the three runs. The constraint is not imposed again; the program monitors it (\texttt{constrai\allowbreak{}nt\_relat\allowbreak{}ive}).
+
+\textbf{Exact solution.} Because $\rho-p=mS$ and $SV$ is constant, the equations give $\ddot V=\frac76\kappa mS_0$, so $V(t)=1+2.4\,t+\alpha t^2$ with $\alpha=7S_0/12$, and $H_iV$ grows linearly. The output times are chosen uniform in $\ln V$ from $-7$ (just before the backward singularity) to $18.5$ (late times, $t\approx10^4$), step 0.05; CVODE integrates the full 38-dimensional system without using the exact solution.
+
+\subsection{EXP-3: the condensate as dark energy}
+
+\textbf{Model.} The hidden and extra dimensions are frozen, so the 4D universe is an ordinary flat Friedmann universe. Units $H_0=c=1$ (today's expansion rate), densities in units of the critical density $3H_0^2/\kappa_4$. The independent variable is the number of e-folds $N=\ln a$ ($N=0$ today). Since $S\propto a^{-3}$, write $\sigma=S/S_0=a^{-3}$ and $x_0=\lambda S_0/(2m)$ as before. From $\rho=mS+\frac{\lambda}{2}S^2=mS_0\,\sigma(1+x_0\sigma)$, normalised so that $\rho_\psi(a=1)=\Omega_\psi$:
+
+\[
+\rho_\psi=A\,\sigma(1+x_0\sigma),\qquad p_\psi=A\,x_0\sigma^2,\qquad A=\frac{\Omega_\psi}{1+x_0},\qquad w=\frac{x_0\sigma}{1+x_0\sigma},
+\]
+
+and the expansion rate
+
+\[
+E^2=\frac{H^2}{H_0^2}=\Omega_ra^{-4}+\Omega_ma^{-3}+\rho_\psi,
+\]
+
+with $\Omega_r=0.00009$, $\Omega_m=0.305$, $\Omega_\psi=0.69491$ (they add up to 1). Today $w_0=x_0/(1+x_0)$, so $x_0=w_0/(1-w_0)$: $w_0=-0.861$ needs $x_0=-0.462654$, and $w_0=-0.764$ needs $x_0=-0.433107$.
+
+\textbf{Change of variable.} $dN=H\,dt=H_0E\,dt$, so $d/dN=(1/(H_0E))\,d/dt$. The spinor equation $i\dot u=hu$ with $h=-iM_{\mathrm{eff}}\gamma^4$ becomes $du/dN=-i\,(h/H_0)\,u/E$. The time since today is $H_0(t-t_0)$ with $d(H_0t)/dN=1/E$, and the comoving distance obeys $dD_C/dz=1/E$ with $z=e^{-N}-1$, hence $dD_C/dN=-1/(aE)$.
+
+\textbf{State vector (35 reals) and right-hand side:}
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{State index} & \textbf{Quantity} & \textbf{$d/dN$ of it} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{State index} & \textbf{Quantity} & \textbf{$d/dN$ of it} \\
+\midrule
+\endhead
+0 & $H_0(t-t_0)$ & $1/E$ \\
+1 & $D_C$ (units $c/H_0$) & $-1/(aE)$ \\
+2 to 17 & $\mathrm{Re}\,u_0,\dots,\mathrm{Re}\,u_{15}$ & $-(M_{\mathrm{eff}}/H_0)\,\gamma^4\,\mathrm{Re}\,u/E$ \\
+18 to 33 & $\mathrm{Im}\,u_0,\dots,\mathrm{Im}\,u_{15}$ & $-(M_{\mathrm{eff}}/H_0)\,\gamma^4\,\mathrm{Im}\,u/E$ \\
+34 & $\ln\sigma$ & $-3+2\,\mathrm{Re}\bigl(u^\dagger(-i\gamma^4)\,du/dN\bigr)/s(u)$ \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+Here $a=e^N$, $\sigma=a^{-3}s(u)/s(u_0)$ is taken from the spinor, and $M_{\mathrm{eff}}/H_0=\mu(1+2x_0\sigma)/(1+2x_0)$, where $\mu=M_{\mathrm{eff}}(a=1)/H_0\in\{3,7\}$ is a reduced frequency. Real fermions have $m/H_0>10^{30}$; two small values show that $\rho$, $p$ and $w$ do not depend on the spinor's phase. Row 34 reproduces $d\sigma/dN=-3\sigma$ from the spinor's own scalar density.
+
+\textbf{Initial data and range.} At $N=0$: $H_0(t-t_0)=0$, $D_C=0$, $u=u_0$, $\ln\sigma=0$. Runs $x_0\in\{-0.462654,-0.433107,-0.3,-0.2,0\}$ and $\mu\in\{3,7\}$ (10 runs), integrated backward towards $a=1/3.5$ and forward to $a=2$. For every $x_0<0$ the attractive term makes $\rho_\psi$ negative in the past and $E^2$ reaches 0 (a bounce) before $a=1/3.5$, at the root $a_b$ of $(\Omega_m+A)a^3+\Omega_ra^2+Ax_0=0$; the backward run then stops just after the bounce ($N_b+0.01$). Only $x_0=0$ reaches $a=1/3.5$.
+
+\textbf{The CPL tangent.} $w(a)=x_0/(a^3+x_0)$, so $dw/da=-3a^2x_0/(a^3+x_0)^2$ and at $a=1$
+
+\[
+w_a=-\frac{dw}{da}\Big|_{a=1}=\frac{3x_0}{(1+x_0)^2}.
+\]
+
+The EXP-3 analysis (\texttt{scripts/\allowbreak{}analyze\_\allowbreak{}dirac16c\allowbreak{}omplex\_e\allowbreak{}xp3.py}, numpy only, with its own Nelder-Mead minimiser) computes these tangents, least-squares CPL fits, distance-modulus fits and a fine scan over $x_0$ from the closed forms, and uses the CVODE $D_C$ as a cross-check.
+
+\subsection{EXP-4: the quanta as dark matter}
+
+\textbf{Background.} Only 3-space expands, $b=c=1$, $h_1=h_2=h_3=a(t)$. A mode moving along $x_1$ with comoving momentum $k$ has physical momentum $K=k/a$ and
+
+\[
+h=-im\gamma^4-K\gamma^4\gamma^1,\qquad E=\sqrt{m^2+K^2},\qquad h_i=-m\gamma^4,\quad h_r=-K\gamma^4\gamma^1 .
+\]
+
+Each mode is one 32-real state (Section 6.9); the right-hand side is $\dot x=-m\gamma^4x-K\gamma^4\gamma^1y$, $\dot y=-m\gamma^4y+K\gamma^4\gamma^1x$.
+
+\textbf{(a) Thermal gas.} Radiation era $a(t)=(t/t_i)^{1/2}$ with $t_i=10$, so the initial Hubble rate is $H_i=1/(2t_i)=0.05$; $a$ runs from 1 to 100 ($t$ from 10 to $10^5$), with 61 samples uniform in $\ln a$. Units $m=1$, initial temperature $T_i=10$ (relativistic). Momentum grid: 48 Gauss-Legendre nodes $k_n$ on $[0,120]$ with weights $w_n$. Each mode starts at $t_i$ on the positive-energy eigenvector of $h(t_i)$ with $B=+1$. Fermi-Dirac occupation $f_n=1/(e^{E_n/T_i}+1)\le1$ (the Pauli principle), and 16 states per momentum (8 particle and 8 antiparticle states). With $W_n=\frac{16}{2\pi^2}w_nk_n^2f_n$:
+
+\[
+\rho=\frac{1}{a^3}\sum_nW_n\,\varepsilon_n,\qquad p=\frac{1}{3a^3}\sum_nW_n\,p_{1,n},
+\]
+
+the factor $1/3$ averaging a mode moving along $x_1$ over all directions. The program compares $\rho$ and $p$ with the kinetic-theory integrals.
+
+\textbf{(b) Pair creation.} $a=e^{t}$ for $t<0$ (de Sitter, $H_{\mathrm{inf}}=1$) joined smoothly to $a=(1+2t)^{1/2}$ for $t>0$ (radiation); the integration is restarted at $t=0$, where $\dot H$ jumps. Each mode starts in the vacuum when it is deep inside the horizon, at $t_0=\ln(k/200)$ where $k/a=200$, in the first-order adiabatic positive-frequency state, and runs until $H=10^{-4}m$ (for $m=0$ the $m=0.1$ end is used). Masses $m\in\{0,0.1,0.5,1,2\}$, 64 Gauss-Legendre nodes in $\ln k$ on $[10^{-3},40]$. The number of created pairs per mode is $\lvert\beta_k\rvert^2=\lvert P_-u\rvert^2/\lvert u\rvert^2$, the weight on the negative-energy eigenspace ($P_-=(1-h/E)/2$), and the comoving number density is $na^3=\frac{16}{2\pi^2}\int k^2\lvert\beta_k\rvert^2dk$. For $m=0$ the mode equation is conformally invariant and nothing is created.
+
+\subsection{EXP-5: momentum along an extra time}
+
+The extra times deflate, $c=e^{-t}$ ($H=1$), and the mode has momentum $q$ along $x_5$ and none elsewhere, $m=1$. Then $k_5/h_5=Q(t)=q\,e^{t}$ and
+
+\[
+h=-im\gamma^4-Q(t)\gamma^4\gamma^5,\qquad E^2=m^2-q^2e^{2t},\qquad h_i=-m\gamma^4,\quad h_r=-Q\gamma^4\gamma^5 .
+\]
+
+$E^2$ turns negative at $t^*=\ln(m/q)$. The state is the 32-real spinor; the initial state is the positive-energy eigenvector of $h(0)$, $E_0=\sqrt{m^2-q^2}$, that is also an eigenvector of $C$ with eigenvalue $\pm1$ (so that its Krein norm $\pm E_0/m$ is not zero). Runs $q\in\{0.05,0.1\}$ and $C=\pm1$, $t$ from 0 to $t^*+3$, 601 samples. After $t^*$ the Hilbert norm grows like $e^{2W(t)}$ with the WKB exponent $W(t)=\sqrt{Q^2-m^2}-m\arccos(m/Q)$, while the Krein norm stays constant. This is why the quantisation and the cosmology of EXP-1 to EXP-4 are restricted to the good sector.
+
+\subsection{How CVODE solves \texorpdfstring{$u'=f(t,u)$}{u'=f(t,u)}}
+
+Every experiment hands CVODE a system $Y'=f(t,Y)$ with a start value $Y(t_0)$ and a list of output times. CVODE advances in steps $t_{n+1}=t_n+h_n$ with a \textbf{linear multistep method}, which combines the last few values of $Y$ and $f$:
+
+\begin{itemize}
+\item \textbf{Adams-Moulton} (orders 1 to 12) is accurate for smooth, non-stiff problems. Our mode equations are oscillations ($-ih$ has purely imaginary eigenvalues in the good sector), the classic non-stiff case.
+\item \textbf{BDF}, backward differentiation formulas (orders 1 to 5), is stable for stiff problems, which contain fast decaying components; it damps oscillations slightly.
+\end{itemize}
+
+Both formulas are implicit: $Y_{n+1}$ appears on both sides, $Y_{n+1}=\gamma f(t_{n+1},Y_{n+1})+a_n$. CVODE solves this either by \textbf{Newton's method}, which needs the Jacobian $J=\partial f/\partial Y$ (here estimated by difference quotients and factorised as a dense matrix), or by \textbf{fixed-point iteration} $Y\leftarrow\gamma f(Y)+a_n$, which needs no Jacobian and converges when the step is small compared with the inverse rates, as it is for non-stiff problems.
+
+After each step CVODE estimates the local error $e_i$ of every component and accepts the step if the weighted root-mean-square $\sqrt{\frac1n\sum_i\bigl(e_i/(\mathrm{rtol}\,\lvert Y_i\rvert+\mathrm{atol})\bigr)^2}$ is at most 1; otherwise it retries with a smaller step. \textbf{rtol} is the relative tolerance, \textbf{atol} the absolute tolerance (important for components near zero), and \textbf{max\_step} a cap on the step size. The tolerances bound the error of one step; the error at the end, the global error, accumulates and is larger (EXP-1 measured about $500\times$rtol), which is why each experiment checks itself against exact solutions or conserved quantities.
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}>{\raggedright\arraybackslash}p{0.133\linewidth}@{}}
+\toprule
+\textbf{Experiment} & \textbf{Method} & \textbf{rtol, atol} & \textbf{max\_step} & \textbf{Steps} & \textbf{RHS calls} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Experiment} & \textbf{Method} & \textbf{rtol, atol} & \textbf{max\_step} & \textbf{Steps} & \textbf{RHS calls} \\
+\midrule
+\endhead
+EXP-1 & BDF + Newton + dense & 1e-12, 1e-14 & 0.02 & 33866 & 34950 \\
+EXP-2 & Adams + fixed point & 1e-12, 1e-15 & 0.02 & 1779784 & 1781396 \\
+EXP-3 & Adams + fixed point & 1e-11, 1e-13 & 0.01 & 6074 & 10115 \\
+EXP-4 & Adams + fixed point & 1e-13, 1e-14 & 2.0 & 287898778 & 435564940 \\
+EXP-5 & Adams + fixed point & 1e-10, 1e-12 & 0.02 & 2548 & 4800 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+Why these settings, as measured by the study: EXP-1 at rtol 1e-10 drifts by 5e-8 to 1.2e-7 in its conserved quantities, above its 1e-8 limit (Exercise 13.1 lets you see it). EXP-2 without the step cap drifts by 1.7e-7 over $t\approx10^4$. EXP-4 needs rtol 1e-13 because each thermal mode turns through about $10^5$ radians and Adams leaks norm in proportion to steps times rtol; it chooses Adams over BDF at run time by a measured test (Adams was more accurate, 1.7e-9 against 1.8e-8, and cheaper). For EXP-3 the step cap is in units of $N$.
+
+\section{Running the experiments}
+
+\subsection{The command line of the program}
+
+\begin{Verbatim}[fontsize=\small]
+dirac16complex_cosmology <print-config|exp1|exp2|exp3|exp4|exp5|all>
+    [--output DIR]   output root (default artifacts/dirac16complex/numerics);
+                     experiment N writes into DIR/expN/
+    [--rtol X]       replace every experiment's default relative tolerance
+    [--atol X]       replace every experiment's default absolute tolerance
+    [--refined]      rtol/10, atol/10, max_step/2 (convergence runs)
+\end{Verbatim}
+
+Every self-check prints \texttt{PASS - n\allowbreak{}ame: det\allowbreak{}ail} or \texttt{FAIL - n\allowbreak{}ame: det\allowbreak{}ail}, and the \textbf{last line} is always \texttt{\detokenize{SUCCESS}} (exit code 0) or \texttt{\detokenize{FAILURE}} (exit code 1). The default output folder is relative to the folder you run the program from, so \textbf{always run it from the repository root}.
+
+Save the long program path in a variable, which lasts until you close the terminal. PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+$bin = ".\studies\dirac16complex_cosmology\target\release\dirac16complex_cosmology.exe"
+& $bin print-config
+\end{Verbatim}
+
+Git Bash, macOS and Linux (in Git Bash the \texttt{\detokenize{.exe}} may be left out):
+
+\begin{Verbatim}[fontsize=\small]
+bin=./studies/dirac16complex_cosmology/target/release/dirac16complex_cosmology
+$bin print-config
+\end{Verbatim}
+
+\texttt{print-co\allowbreak{}nfig} runs nothing; it prints the configuration. Expected output (shortened):
+
+\begin{Verbatim}[fontsize=\small]
+study            = dirac16complex-cosmology
+engine           = sundials_rs 7.8.0 CVODE (pure Rust, vendor/rustSolveIt)
+fixture          = artifacts/dirac16complex/arbitrary-field/algebra-fixture.json
+fixture sha256   = 8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b
+...
+exp5: default rtol = 1.00000000000000004e-10, atol = 9.99999999999999980e-13, ...
+all              = exp1, exp2, exp3, exp4, exp5
+SUCCESS
+\end{Verbatim}
+
+The numbers are printed with 17 significant digits, the exact decimal value of the binary number, which is why $10^{-10}$ appears as \texttt{1.000000\allowbreak{}00000000\allowbreak{}004e-10}.
+
+\subsection{A first run into a scratch folder}
+
+Run EXP-1 into the scratch folder \texttt{build/st\allowbreak{}udent} (ignored by Git, so nothing committed is touched). PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+& $bin exp1 --output build/student
+\end{Verbatim}
+
+Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+$bin exp1 --output build/student
+\end{Verbatim}
+
+Expected output (0.2 seconds):
+
+\begin{Verbatim}[fontsize=\small]
+== exp1 ==
+PASS - exact_solution_all_runs: max |u - exp(-iht)u0| = 6.24599767338994569e-09 ...
+PASS - rho_frozen_all_runs: max |rho(t) - rho(0)| = 4.19369583504192178e-09
+...
+PASS - lambda_run_meff_constant: max |M_eff(t) - M*| = 1.32129440721939773e-09
+exp1: solver_steps=33866 rhs_evaluations=34950 files=29 verdict=SUCCESS
+SUCCESS
+\end{Verbatim}
+
+The files are now in \texttt{build/st\allowbreak{}udent/ex\allowbreak{}p1/}. To see the exit code, type \texttt{\$LASTEXI\allowbreak{}TCODE} in PowerShell or \texttt{\detokenize{echo $?}} in bash right after the run: 0 means success.
+
+\subsection{All five experiments}
+
+Run the others the same way (\texttt{\detokenize{exp2}} to \texttt{\detokenize{exp5}}), or all at once with \texttt{\detokenize{all}}. What each prints at the end and how long it took on the test computer:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}@{}}
+\toprule
+\textbf{Experiment} & \textbf{Self-checks} & \textbf{Final summary line} & \textbf{Files} & \textbf{Time} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Experiment} & \textbf{Self-checks} & \textbf{Final summary line} & \textbf{Files} & \textbf{Time} \\
+\midrule
+\endhead
+exp1 & 10 & \texttt{exp1: so\allowbreak{}lver\_ste\allowbreak{}ps=33866\allowbreak{} rhs\_eva\allowbreak{}luations\allowbreak{}=34950 f\allowbreak{}iles=29 \allowbreak{}verdict=\allowbreak{}SUCCESS} & 29 & 0.2 s \\
+exp2 & 15 & \texttt{exp2: so\allowbreak{}lver\_ste\allowbreak{}ps=17797\allowbreak{}84 rhs\_e\allowbreak{}valuatio\allowbreak{}ns=17813\allowbreak{}96 files\allowbreak{}=4 verdi\allowbreak{}ct=SUCCE\allowbreak{}SS} & 4 & 5 s \\
+exp3 & 14 & \texttt{exp3: so\allowbreak{}lver\_ste\allowbreak{}ps=6074 \allowbreak{}rhs\_eval\allowbreak{}uations=\allowbreak{}10115 fi\allowbreak{}les=11 v\allowbreak{}erdict=S\allowbreak{}UCCESS} & 11 & 0.1 s \\
+exp4 & 23 & \texttt{exp4: so\allowbreak{}lver\_ste\allowbreak{}ps=28789\allowbreak{}8778 rhs\allowbreak{}\_evaluat\allowbreak{}ions=435\allowbreak{}564940 f\allowbreak{}iles=13 \allowbreak{}verdict=\allowbreak{}SUCCESS} & 13 & 72 s \\
+exp5 & 7 & \texttt{exp5: so\allowbreak{}lver\_ste\allowbreak{}ps=2548 \allowbreak{}rhs\_eval\allowbreak{}uations=\allowbreak{}4800 fil\allowbreak{}es=5 ver\allowbreak{}dict=SUC\allowbreak{}CESS} & 5 & 0.1 s \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+That is 69 self-checks in total. EXP-4 integrates 288 million CVODE steps on up to 8 threads; on a computer with fewer cores expect several minutes. The line \texttt{== expN \allowbreak{}==} starts each experiment and a single \texttt{\detokenize{SUCCESS}} ends the whole run.
+
+\subsection{Reproducing the committed files byte for byte}
+
+The strongest check is to run everything into the default folder, over the committed files, and ask Git whether any byte changed. PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+& $bin all
+git status --short
+\end{Verbatim}
+
+Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+$bin all
+git status --short
+\end{Verbatim}
+
+The second command prints nothing if every file is identical to the committed one. That was the result on Windows 11 in both shells and on Ubuntu 24.04, all with the \texttt{\detokenize{win11}} engine (80 to 90 seconds). With the \texttt{\detokenize{linux}} or \texttt{\detokenize{macos}} engine it lists the 14 files of Section 4.5. To put the committed files back after any experiment, in any shell:
+
+\begin{Verbatim}[fontsize=\small]
+git restore artifacts
+\end{Verbatim}
+
+\section{Reading the output files}
+
+\subsection{The file format}
+
+Every file is plain text. A CSV file has one header row of column names, then one row per sample, values separated by commas, lines ending in a single line feed. Every number is written with 18 significant digits in exponential form, for example \texttt{-2.10000\allowbreak{}00000011\allowbreak{}3253e+01}, so that a repeat run can be compared byte for byte; a value that does not exist is written \texttt{\detokenize{nan}}. Each experiment folder also contains \texttt{summary.\allowbreak{}json} with the parameters, tolerances, solver statistics, every self-check and the verdict. Open the files with any text editor or a spreadsheet, or read them with Python (Section 13 shows how).
+
+\subsection{EXP-1 (folder \texttt{\detokenize{exp1}}, 29 files)}
+
+\texttt{backgrou\allowbreak{}nd\_A1.cs\allowbreak{}v} and \texttt{backgrou\allowbreak{}nd\_A2.cs\allowbreak{}v} (201 rows each) describe the field for the two profiles:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.400\linewidth}>{\raggedright\arraybackslash}p{0.400\linewidth}@{}}
+\toprule
+\textbf{Column} & \textbf{Meaning} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Column} & \textbf{Meaning} \\
+\midrule
+\endhead
+\texttt{\detokenize{t}} & time $t=Hx_4$ \\
+\texttt{\detokenize{a4}}, \texttt{\detokenize{a4_prime}}, \texttt{a4\_secon\allowbreak{}d} & the profile $a_4$ and its first and second derivatives \\
+\texttt{scale\_3s\allowbreak{}pace}, \texttt{scale\_ex\allowbreak{}tratime} & $e^{a_4}$ and $e^{-a_4}$ \\
+\texttt{volume\_r\allowbreak{}atio} & $V/V_0$ (equal to 1) \\
+\texttt{\detokenize{theta}} & total expansion rate $\Theta$ (equal to 0) \\
+\texttt{\detokenize{rho_req}} & energy density that 8D Einstein gravity would need \\
+\texttt{\detokenize{p_req_0}}, \texttt{\detokenize{p_req_1}}, \texttt{\detokenize{p_req_2}}, \texttt{\detokenize{p_req_3}}, \texttt{\detokenize{p_req_5}}, \texttt{\detokenize{p_req_6}}, \texttt{\detokenize{p_req_7}} & required pressures along the seven transverse directions \\
+\texttt{p\_mean\_r\allowbreak{}eq}, \texttt{\detokenize{w_req}} & their mean and the required $w$ \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+The 26 run files \texttt{run\_A\{1,\allowbreak{}2\}\_K\{0,0\allowbreak{}p5,2\}\_\{p\allowbreak{}os\_Bp,po\allowbreak{}s\_Bm,neg\allowbreak{}\_Bp,mix\}\allowbreak{}.csv} and \texttt{run\_A\{1,\allowbreak{}2\}\_K0p5\_\allowbreak{}pos\_Bp\_l\allowbreak{}ambda0p5\allowbreak{}.csv} (the letter p stands for the decimal point) have 201 rows each:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.400\linewidth}>{\raggedright\arraybackslash}p{0.400\linewidth}@{}}
+\toprule
+\textbf{Column} & \textbf{Meaning} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Column} & \textbf{Meaning} \\
+\midrule
+\endhead
+\texttt{\detokenize{t}} & time \\
+\texttt{\detokenize{u_re_0}} to \texttt{\detokenize{u_re_15}}, \texttt{\detokenize{u_im_0}} to \texttt{\detokenize{u_im_15}} & the state: real and imaginary parts of $u$ \\
+\texttt{\detokenize{S}} & scalar density $S=S_0\,s(u)$ \\
+\texttt{\detokenize{M_eff}} & effective mass \\
+\texttt{energy\_m\allowbreak{}ode} & $\varepsilon(u)=u^\dagger hu$ \\
+\texttt{\detokenize{rho}} & energy density \\
+\texttt{\detokenize{p_0}}, \texttt{\detokenize{p_1}}, \texttt{\detokenize{p_2}}, \texttt{\detokenize{p_3}}, \texttt{\detokenize{p_5}}, \texttt{\detokenize{p_6}}, \texttt{\detokenize{p_7}} & pressures along the seven transverse directions \\
+\texttt{\detokenize{p_mean}}, \texttt{\detokenize{w}} & mean pressure and $w=\bar p/\rho$ \\
+\texttt{\detokenize{KE_L}}, \texttt{\detokenize{PE_L}}, \texttt{\detokenize{KE_H}}, \texttt{\detokenize{PE_H}} & the two kinetic/potential splits \\
+\texttt{\detokenize{w_L}} & $(KE_L-PE_L)/\rho$ \\
+\texttt{norm\_hil\allowbreak{}bert}, \texttt{norm\_kre\allowbreak{}in} & $u^\dagger u$ and $u^\dagger Bu$ \\
+\texttt{exact\_er\allowbreak{}ror} & distance from the exact solution \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\subsection{EXP-2 (folder \texttt{\detokenize{exp2}}, 4 files)}
+
+\texttt{run\_x0\_0\allowbreak{}.csv}, \texttt{run\_x0\_m\allowbreak{}0p4.csv} and \texttt{run\_x0\_0\allowbreak{}p5.csv} (511 rows each, in increasing $t$: the backward branch, $t=0$, the forward branch; m stands for minus):
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.400\linewidth}>{\raggedright\arraybackslash}p{0.400\linewidth}@{}}
+\toprule
+\textbf{Column} & \textbf{Meaning} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Column} & \textbf{Meaning} \\
+\midrule
+\endhead
+\texttt{\detokenize{t}} & time \\
+\texttt{\detokenize{ln_b}}, \texttt{\detokenize{ln_a}}, \texttt{\detokenize{ln_c}} & logarithms of the scale factors (state 0 to 2) \\
+\texttt{\detokenize{H_b}}, \texttt{\detokenize{H_a}}, \texttt{\detokenize{H_c}} & expansion rates (state 3 to 5) \\
+\texttt{\detokenize{u_re_0}} to \texttt{\detokenize{u_re_15}}, \texttt{\detokenize{u_im_0}} to \texttt{\detokenize{u_im_15}} & the spinor (state 6 to 37) \\
+\texttt{\detokenize{V}}, \texttt{\detokenize{Theta}} & 7-volume and total expansion rate \\
+\texttt{\detokenize{s_u}}, \texttt{\detokenize{S}}, \texttt{\detokenize{M_eff}} & $s(u)$, the condensate, the effective mass \\
+\texttt{energy\_m\allowbreak{}ode} & $u^\dagger hu$ \\
+\texttt{\detokenize{rho}}, \texttt{\detokenize{p}}, \texttt{\detokenize{w}} & energy density, isotropic pressure, $w$ \\
+\texttt{\detokenize{KE_L}}, \texttt{\detokenize{PE_L}}, \texttt{\detokenize{KE_H}}, \texttt{\detokenize{PE_H}} & the two splits \\
+\texttt{constrai\allowbreak{}nt\_resid\allowbreak{}ual}, \texttt{constrai\allowbreak{}nt\_relat\allowbreak{}ive} & $\sum_{i<j}H_iH_j-\kappa\rho$, absolute and divided by the sum of the absolute terms \\
+\texttt{\detokenize{bound}} & $\Theta^2-3H_a^2-2\kappa\rho$ (equal to $H_b^2+3H_c^2\ge0$ on the constraint surface) \\
+\texttt{\detokenize{w_eff}} & the $w$ a 3-space observer infers, $-1+\frac{\Theta}{3H_a}(1+w)$ \\
+\texttt{norm\_hil\allowbreak{}bert}, \texttt{norm\_kre\allowbreak{}in} & the two norms \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\subsection{EXP-3 (folder \texttt{\detokenize{exp3}}, 10 run files and the analysis)}
+
+\texttt{run\_x0\_\{\allowbreak{}0,m0p2,m\allowbreak{}0p3,m0p4\allowbreak{}33107,m0\allowbreak{}p462654\}\allowbreak{}\_mu\{3,7\}\allowbreak{}.csv}, the backward and forward branches joined in increasing $N$:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.400\linewidth}>{\raggedright\arraybackslash}p{0.400\linewidth}@{}}
+\toprule
+\textbf{Column} & \textbf{Meaning} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Column} & \textbf{Meaning} \\
+\midrule
+\endhead
+\texttt{\detokenize{N}}, \texttt{\detokenize{a}}, \texttt{\detokenize{z}} & e-folds, scale factor, redshift $z=1/a-1$ \\
+\texttt{\detokenize{branch}} & $-1$ backward, 0 today, $+1$ forward \\
+\texttt{\detokenize{H0t}}, \texttt{\detokenize{D_C}} & state 0 and 1: $H_0(t-t_0)$ and the comoving distance \\
+\texttt{\detokenize{u_re_0}} to \texttt{\detokenize{u_re_15}}, \texttt{\detokenize{u_im_0}} to \texttt{\detokenize{u_im_15}} & state 2 to 33: the spinor \\
+\texttt{\detokenize{ln_sigma}} & state 34 \\
+\texttt{\detokenize{E}} & $H/H_0$ \\
+\texttt{\detokenize{q}} & deceleration parameter \\
+\texttt{\detokenize{rho_psi}}, \texttt{\detokenize{p_psi}}, \texttt{\detokenize{w}} & condensate density, pressure, $w$ \\
+\texttt{\detokenize{KE_L}}, \texttt{\detokenize{PE_L}}, \texttt{\detokenize{KE_H}}, \texttt{\detokenize{PE_H}} & the two splits \\
+\texttt{Omega\_ps\allowbreak{}i}, \texttt{\detokenize{Omega_m}} & density fractions $\rho_\psi/E^2$ and $\Omega_ma^{-3}/E^2$ at that time \\
+\texttt{\detokenize{cs2}} & sound speed squared $dp/d\rho=2x_0\sigma/(1+2x_0\sigma)$ \\
+\texttt{M\_eff\_ov\allowbreak{}er\_H0}, \texttt{\detokenize{s_u}} & $M_{\mathrm{eff}}/H_0$ and $s(u)$ \\
+\texttt{sigma\_sp\allowbreak{}inor}, \texttt{sigma\_st\allowbreak{}ate}, \texttt{sigma\_an\allowbreak{}alytic} & $\sigma$ from the spinor, from state 34, and $a^{-3}$ \\
+\texttt{norm\_hil\allowbreak{}bert}, \texttt{norm\_kre\allowbreak{}in} & the two norms \\
+\texttt{eigen\_le\allowbreak{}ak} & how far $u$ has left the rest eigenspace \\
+\texttt{rho\_clos\allowbreak{}ed}, \texttt{\detokenize{p_closed}}, \texttt{\detokenize{w_closed}} & the closed forms of Section 6.13 \\
+\texttt{\detokenize{d_L}}, \texttt{mu\_H0fre\allowbreak{}e} & luminosity distance $(1+z)D_C$ and $5\log_{10}d_L$ (\texttt{\detokenize{nan}} for $z\le0$) \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+The analysis writes \texttt{fits.jso\allowbreak{}n} (all fits and the Unite comparison), \texttt{fits\_mu\_\allowbreak{}scan.csv} (distance-modulus fits for $x_0$ from $-0.49$ to 0 in steps of 0.01) and \texttt{fits\_sca\allowbreak{}n.csv} (closed forms and $w(a)$ fits in steps of 0.001):
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.400\linewidth}>{\raggedright\arraybackslash}p{0.400\linewidth}@{}}
+\toprule
+\textbf{Column of \texttt{fits\_sca\allowbreak{}n.csv}} & \textbf{Meaning} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Column of \texttt{fits\_sca\allowbreak{}n.csv}} & \textbf{Meaning} \\
+\midrule
+\endhead
+\texttt{\detokenize{x0}} & interaction parameter \\
+\texttt{w0\_tange\allowbreak{}nt}, \texttt{wa\_tange\allowbreak{}nt} & CPL tangent at $a=1$ \\
+\texttt{\detokenize{a_zero}}, \texttt{\detokenize{z_zero}} & where $\rho_\psi=0$: $a=\lvert x_0\rvert^{1/3}$ \\
+\texttt{\detokenize{a_cross}}, \texttt{\detokenize{z_cross}} & where $w=-1$ is crossed: $a=(2\lvert x_0\rvert)^{1/3}$ \\
+\texttt{\detokenize{a_bounce}}, \texttt{\detokenize{z_bounce}} & the bounce $E^2=0$ \\
+\texttt{\detokenize{q0}}, \texttt{cs2\_toda\allowbreak{}y} & deceleration and sound speed squared today \\
+\texttt{wfit\_req\allowbreak{}uested\_d\allowbreak{}efined}, \texttt{wfit\_req\allowbreak{}uested\_w\allowbreak{}0}, \texttt{wfit\_req\allowbreak{}uested\_w\allowbreak{}a} & the least-squares CPL fit of $w(a)$ on $[1/3.26,1]$ (1 if defined, else 0 and \texttt{\detokenize{nan}}) \\
+\texttt{wfit\_res\allowbreak{}tricted\_\allowbreak{}a\_lo}, \texttt{wfit\_res\allowbreak{}tricted\_\allowbreak{}w0}, \texttt{wfit\_res\allowbreak{}tricted\_\allowbreak{}wa} & the same fit restricted to where $w\ge-3$ \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\subsection{EXP-4 (folder \texttt{\detokenize{exp4}}, 13 files)}
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{File} & \textbf{Rows} & \textbf{Contents} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{File} & \textbf{Rows} & \textbf{Contents} \\
+\midrule
+\endhead
+\texttt{thermal\_\allowbreak{}grid.csv} & 48 & the momentum grid: \texttt{\detokenize{node}}, Gauss-Legendre \texttt{\detokenize{x}} and \texttt{gl\_weigh\allowbreak{}t} on $[-1,1]$, \texttt{\detokenize{k}}, \texttt{\detokenize{weight}} on $[0,120]$, \texttt{\detokenize{E_i}}, occupation \texttt{\detokenize{f}}, \texttt{mode\_wei\allowbreak{}ght} $W_n$, \texttt{beta2\_su\allowbreak{}dden\_sta\allowbreak{}rt} (the predicted free-wave amplitude) \\
+\texttt{thermal\_\allowbreak{}modes.cs\allowbreak{}v} & 2928 & every thermal mode at 61 times \\
+\texttt{thermal\_\allowbreak{}spin.csv} & 244 & a second spin state for four nodes (must equal the first) \\
+\texttt{thermal\_\allowbreak{}antipart\allowbreak{}icle.csv} & 61 & a negative-energy mode (antiparticle symmetry) \\
+\texttt{thermal\_\allowbreak{}adiabati\allowbreak{}c\_vacuum\allowbreak{}.csv} & 122 & two modes started in the first-order adiabatic vacuum \\
+\texttt{thermal\_\allowbreak{}eos.csv} & 61 & the gas: \texttt{\detokenize{a}}, \texttt{\detokenize{t}}, \texttt{\detokenize{H}}, \texttt{\detokenize{rho}}, \texttt{\detokenize{p}}, \texttt{\detokenize{w}}, \texttt{\detokenize{KE_H}}, \texttt{\detokenize{PE_H}}, \texttt{\detokenize{KE_L}}, \texttt{\detokenize{PE_L}}, \texttt{\detokenize{n_a3}}, the kinetic-theory \texttt{rho\_kine\allowbreak{}tic}, \texttt{p\_kineti\allowbreak{}c}, \texttt{w\_kineti\allowbreak{}c}, the deviations \texttt{rel\_dev\_\allowbreak{}rho}, \texttt{rel\_dev\_\allowbreak{}p}, and \texttt{beta2\_we\allowbreak{}ighted}, \texttt{beta2\_ma\allowbreak{}x}, \texttt{beta2\_ad\allowbreak{}iabatic\_\allowbreak{}max}, \texttt{norm\_dev\allowbreak{}\_max} \\
+\texttt{pair\_gri\allowbreak{}d.csv} & 64 & \texttt{\detokenize{node}}, \texttt{\detokenize{x}}, \texttt{gl\_weigh\allowbreak{}t}, \texttt{\detokenize{k}}, \texttt{ln\_k\_wei\allowbreak{}ght}, start time \texttt{\detokenize{t0}} \\
+\texttt{pair\_mod\allowbreak{}es.csv} & 2560 & every pair-creation mode at 8 times, for the five masses \\
+\texttt{pair\_ant\allowbreak{}iparticl\allowbreak{}e.csv} & 24 & negative-energy modes for $m=1$ \\
+\texttt{pair\_spe\allowbreak{}ctrum.cs\allowbreak{}v} & 320 & \texttt{\detokenize{m}}, \texttt{\detokenize{node}}, \texttt{\detokenize{k}}, \texttt{\detokenize{t0}}, \texttt{\detokenize{a_end}}, $\lvert\beta_k\rvert^2$ at the start, at the joint $t=0$ and at the end (\texttt{beta2\_in\allowbreak{}itial}, \texttt{beta2\_ki\allowbreak{}nk}, \texttt{beta2\_ad\allowbreak{}iabatic\_\allowbreak{}kink}, \texttt{beta2\_en\allowbreak{}d}, \texttt{beta2\_ad\allowbreak{}iabatic\_\allowbreak{}end}) and the high-$k$ theory \texttt{beta2\_ki\allowbreak{}nk\_tail\_\allowbreak{}theory} \\
+\texttt{pair\_his\allowbreak{}tory.csv} & 35 & \texttt{\detokenize{m}}, \texttt{\detokenize{sample}}, \texttt{\detokenize{t}}, \texttt{\detokenize{a}}, \texttt{\detokenize{n_a3}}, \texttt{n\_a3\_adi\allowbreak{}abatic} \\
+\texttt{pair\_eos\allowbreak{}.csv} & 305 & the created gas: \texttt{\detokenize{m}}, \texttt{\detokenize{a}}, \texttt{\detokenize{n_a3}}, \texttt{\detokenize{rho_a3}}, \texttt{\detokenize{p_a3}}, \texttt{\detokenize{w}} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+The mode files share these columns:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.400\linewidth}>{\raggedright\arraybackslash}p{0.400\linewidth}@{}}
+\toprule
+\textbf{Column} & \textbf{Meaning} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Column} & \textbf{Meaning} \\
+\midrule
+\endhead
+\texttt{\detokenize{m}} (pair files only), \texttt{\detokenize{node}}, \texttt{\detokenize{k}} & mass, grid node, comoving momentum \\
+\texttt{\detokenize{t}}, \texttt{\detokenize{a}}, \texttt{\detokenize{H}}, \texttt{\detokenize{K}} & time, scale factor, expansion rate, physical momentum $k/a$ \\
+\texttt{\detokenize{u_re_0}} to \texttt{\detokenize{u_re_15}}, \texttt{\detokenize{u_im_0}} to \texttt{\detokenize{u_im_15}} & the state \\
+\texttt{\detokenize{E}}, \texttt{\detokenize{eps}}, \texttt{\detokenize{p1}} & $\sqrt{m^2+K^2}$, $\varepsilon(u)$, $p_1(u)$ \\
+\texttt{\detokenize{s}} (thermal files only) & $s(u)$ \\
+\texttt{norm\_hil\allowbreak{}bert}, \texttt{norm\_kre\allowbreak{}in} & the two norms \\
+\texttt{\detokenize{beta2}}, \texttt{beta2\_ad\allowbreak{}iabatic} & $\lvert\beta_k\rvert^2$ in the instantaneous and in the first-order adiabatic basis \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\subsection{EXP-5 (folder \texttt{\detokenize{exp5}}, 5 files)}
+
+\texttt{run\_q0p0\allowbreak{}5\_Cp.csv}, \texttt{run\_q0p0\allowbreak{}5\_Cm.csv}, \texttt{run\_q0p1\allowbreak{}\_Cp.csv}, \texttt{run\_q0p1\allowbreak{}\_Cm.csv} (601 rows each; Cp and Cm are $C=+1$ and $C=-1$):
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.400\linewidth}>{\raggedright\arraybackslash}p{0.400\linewidth}@{}}
+\toprule
+\textbf{Column} & \textbf{Meaning} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Column} & \textbf{Meaning} \\
+\midrule
+\endhead
+\texttt{\detokenize{t}} & time \\
+\texttt{\detokenize{Q}} & $q\,e^{t}$ \\
+\texttt{\detokenize{E2}} & $E^2=m^2-Q^2$ \\
+\texttt{\detokenize{kappa}} & WKB growth rate $\sqrt{Q^2-m^2}$ (0 before $t^*$; not the gravitational coupling) \\
+\texttt{\detokenize{wkb_W}} & WKB exponent $W(t)$ \\
+\texttt{\detokenize{u_re_0}} to \texttt{\detokenize{u_re_15}}, \texttt{\detokenize{u_im_0}} to \texttt{\detokenize{u_im_15}} & the state \\
+\texttt{norm\_hil\allowbreak{}bert}, \texttt{norm\_kre\allowbreak{}in}, \texttt{ln\_norm\_\allowbreak{}hilbert} & the norms and $\ln(u^\dagger u)$ \\
+\texttt{krein\_dr\allowbreak{}ift}, \texttt{krein\_dr\allowbreak{}ift\_norm\allowbreak{}alized} & change of $u^\dagger Bu$, absolute and divided by $\max(u^\dagger u,1)$ \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Checking the results with the Python checkers}
+
+\subsection{What the checkers do}
+
+Each checker \texttt{scripts/\allowbreak{}check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}N.py} uses numpy and the standard library only. It rebuilds the gamma matrices from the algebra fixture, recomputes every physical quantity from the state columns alone (never trusting the program's derived columns), compares with exact solutions and independent integrators, checks conservation laws and finite-difference residuals of the equations, and compares with the program's \texttt{summary.\allowbreak{}json}. Two options add two more checks:
+
+\begin{Verbatim}[fontsize=\small]
+--repeat DIR    run the program again into DIR; every file must be byte-identical
+--refined DIR   run it again with ten times tighter tolerances; the errors must shrink
+\end{Verbatim}
+
+The checker prints \texttt{check\_NA\allowbreak{}ME=true} or \texttt{\detokenize{false}} for each check, then \texttt{check\_co\allowbreak{}unt=} and \texttt{failed\_c\allowbreak{}heck\_cou\allowbreak{}nt=}, writes \texttt{python-c\allowbreak{}heck-rep\allowbreak{}ort.json} into the experiment folder, and exits with 1 if any check failed.
+
+\subsection{Checking the committed folder (the full form)}
+
+After Section 7.4, run the EXP-3 analysis first (the EXP-3 checker also checks its \texttt{fits.jso\allowbreak{}n}), then the five checkers with both options, in any shell:
+
+\begin{Verbatim}[fontsize=\small]
+python scripts/analyze_dirac16complex_exp3.py
+python scripts/check_dirac16complex_exp1.py --repeat build/repeat --refined build/refined
+python scripts/check_dirac16complex_exp2.py --repeat build/repeat --refined build/refined
+python scripts/check_dirac16complex_exp3.py --repeat build/repeat --refined build/refined
+python scripts/check_dirac16complex_exp4.py --repeat build/repeat --refined build/refined
+python scripts/check_dirac16complex_exp5.py --repeat build/repeat --refined build/refined
+git status --short
+\end{Verbatim}
+
+Expected results and times on the test computer:
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}@{}}
+\toprule
+\textbf{Script} & \textbf{Checks} & \textbf{Failed} & \textbf{Time} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Script} & \textbf{Checks} & \textbf{Failed} & \textbf{Time} \\
+\midrule
+\endhead
+\texttt{analyze\_\allowbreak{}dirac16c\allowbreak{}omplex\_e\allowbreak{}xp3.py} & 9 & 0 & 4 s \\
+\texttt{check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}1.py} & 25 & 0 & 2 s \\
+\texttt{check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}2.py} & 34 & 0 & 19 s \\
+\texttt{check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}3.py} & 31 & 0 & 1 s \\
+\texttt{check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}4.py} & 51 & 0 & 3 to 4 min \\
+\texttt{check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}5.py} & 21 & 0 & 5 s \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+That is $25+34+31+51+21=162$ checker checks. The EXP-4 checker is slow because it runs EXP-4 twice more and integrates reference modes with its own Runge-Kutta method. On Windows the final Git command again printed nothing: the checker reports and the analysis files are byte-identical too. On Ubuntu (Python 3.12.3, numpy 2.5.3) all checks passed as well, but the five reports and the three analysis files differed in their last digits, because Python's mathematical functions and numpy come from different libraries there; that is expected.
+
+\subsection{Checking a scratch folder (the quick form)}
+
+For your own runs into \texttt{build/st\allowbreak{}udent} (Section 7.2), point the checker at that folder with its output option; without the repeat and refined options two checks are skipped. In any shell:
+
+\begin{Verbatim}[fontsize=\small]
+python scripts/analyze_dirac16complex_exp3.py --output build/student
+python scripts/check_dirac16complex_exp1.py --output build/student
+\end{Verbatim}
+
+and likewise for exp2 to exp5. The quick form gives 23, 32, 29, 49 and 19 checks for EXP-1 to EXP-5. If you run the EXP-3 checker before the analysis, \texttt{fits.jso\allowbreak{}n} is missing and it reports one check fewer (28 in the quick form, 30 in the full form).
+
+\section{The Jupyter notebook}
+
+\subsection{What it is}
+
+\texttt{notebook\allowbreak{}s/dirac1\allowbreak{}6complex\allowbreak{}\_dark\_se\allowbreak{}ctor.ipy\allowbreak{}nb} is a Python 3 notebook of 23 cells, 8 of them code. For each experiment it runs the program into the scratch folder \texttt{build/no\allowbreak{}tebook-r\allowbreak{}un}, checks that every file is byte-identical to the committed one, recomputes the key physics from the raw spinor columns, draws 17 figures into \texttt{artifact\allowbreak{}s/dirac1\allowbreak{}6complex\allowbreak{}/numeric\allowbreak{}s/figure\allowbreak{}s/}, and ends with a gauntlet of 70 assertions. It finds the program through the environment variable \texttt{DIRAC16\_\allowbreak{}BIN} or at the release path of Section 5.1, so build the program first. Its driver is adapted, with attribution, from the rustSolveIt engine's \texttt{planet\_M\allowbreak{}ercury/n\allowbreak{}otebook} (Section 16).
+
+\subsection{Running it headless}
+
+The standard-library runner executes every cell in order and writes the outputs back into the notebook only if every cell succeeds. In any shell:
+
+\begin{Verbatim}[fontsize=\small]
+python notebooks/run_notebook.py notebooks/dirac16complex_dark_sector.ipynb
+\end{Verbatim}
+
+It prints the notebook's output while it runs (about 100 seconds) and ends with
+
+\begin{Verbatim}[fontsize=\small]
+PASS - prose_numbers_match_reports: 64 numbers quoted in the markdown re-read ...
+ALL CHECKS PASSED
+ok notebooks/dirac16complex_dark_sector.ipynb (8 cells)
+1 ok, 0 failed
+\end{Verbatim}
+
+(on Windows the paths in these lines are printed with backslashes). Jupyter's own executor writes an executed copy instead. PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+$nb = "notebooks/dirac16complex_dark_sector.ipynb"
+$opts = "--output-dir", "build/nbconvert", "--ExecutePreprocessor.timeout=3600"
+python -m nbconvert --to notebook --execute $nb @opts
+\end{Verbatim}
+
+Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+python -m nbconvert --to notebook --execute notebooks/dirac16complex_dark_sector.ipynb \
+    --output-dir build/nbconvert --ExecutePreprocessor.timeout=3600
+\end{Verbatim}
+
+nbconvert comes with JupyterLab (Section 3.5). Then audit both executed copies. PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+$copy = "build/nbconvert/dirac16complex_dark_sector.ipynb"
+python notebooks/check_notebook.py $nb --also $copy
+\end{Verbatim}
+
+Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+python notebooks/check_notebook.py notebooks/dirac16complex_dark_sector.ipynb \
+    --also build/nbconvert/dirac16complex_dark_sector.ipynb
+\end{Verbatim}
+
+Expected output:
+
+\begin{Verbatim}[fontsize=\small]
+ok notebooks/dirac16complex_dark_sector.ipynb: all structure and execution rules
+pass (23 cells, 8 code cells, 70 gauntlet checks, 17 figures)
+ok build/nbconvert/dirac16complex_dark_sector.ipynb: all structure and execution
+rules pass (23 cells, 8 code cells, 70 gauntlet checks, 17 figures)
+ok cross-check: both executions printed identical gauntlet results and figure hashes
+\end{Verbatim}
+
+(each result is one line on your screen). On Windows, the Git check of Section 7.4 still printed nothing afterwards: the executed notebook and the 17 figures were byte-identical to the committed ones. On Ubuntu the gauntlet and the audit passed as well, but the figures and the notebook differed in their bytes (a different matplotlib build draws the same curves with different pixels); \texttt{git rest\allowbreak{}ore arti\allowbreak{}facts no\allowbreak{}tebooks} puts them back. The nbconvert route may print a \texttt{RuntimeW\allowbreak{}arning} about the Proactor event loop on Windows; it is harmless.
+
+\subsection{Running it interactively}
+
+With JupyterLab installed, in any shell:
+
+\begin{Verbatim}[fontsize=\small]
+python -m jupyterlab notebooks/dirac16complex_dark_sector.ipynb
+\end{Verbatim}
+
+A browser tab opens with the notebook. If you are asked for a kernel, choose Python 3 (ipykernel). Click the first cell and press Shift+Enter repeatedly (each press runs one cell and moves to the next), or use the menu Run, Run All Cells. If no browser opens, start it like this instead and open the printed address, which begins with \texttt{http://l\allowbreak{}ocalhost\allowbreak{}:8888/la\allowbreak{}b?token=}, yourself:
+
+\begin{Verbatim}[fontsize=\small]
+python -m jupyterlab --no-browser notebooks/dirac16complex_dark_sector.ipynb
+\end{Verbatim}
+
+To stop JupyterLab, press Ctrl+C twice in the terminal. The notebook is generated by \texttt{notebook\allowbreak{}s/build\_\allowbreak{}dirac16c\allowbreak{}omplex\_n\allowbreak{}otebook.\allowbreak{}py}: change the builder, not the notebook, and after rebuilding run \texttt{run\_note\allowbreak{}book.py} again, because the builder writes an unexecuted notebook.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\linewidth]{artifacts/dirac16complex/numerics/figures/exp3_w_of_a.png}
+\caption{The EXP-3 equation of state \texorpdfstring{$w(a)$}{w(a)} for the five values of \texorpdfstring{$x_0$}{x\_0}, with the Unite CPL line and the constant \texorpdfstring{$w=-0.764$}{w=-0.764} band, as the notebook draws it}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\linewidth]{artifacts/dirac16complex/numerics/figures/exp4_thermal_w.png}
+\caption{EXP-4: the thermal gas goes from \texorpdfstring{$w=1/3$}{w=1/3} (radiation) towards \texorpdfstring{$w=0$}{w=0} (dust) as the universe expands; the CVODE mode sum agrees with kinetic theory}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\linewidth]{artifacts/dirac16complex/numerics/figures/exp5_growth.png}
+\caption{EXP-5: after \texorpdfstring{$t^*$}{t\textasciicircum{}*} the Hilbert norm grows super-exponentially, following the WKB exponent \texorpdfstring{$2W(t)$}{2W(t)}, while \texorpdfstring{$E^2$}{E\textasciicircum{}2} is negative}
+\end{figure}
+
+\section{The Mathematica notebook (optional)}
+
+\texttt{notebook\allowbreak{}s/Dirac1\allowbreak{}6Complex\allowbreak{}DarkSect\allowbreak{}or.nb} is an independent cross-check in the Wolfram Language. It loads the exact packages \texttt{wolfram/\allowbreak{}Dirac16C\allowbreak{}omplexAl\allowbreak{}gebra.wl} and \texttt{wolfram/\allowbreak{}Dirac16C\allowbreak{}omplexGe\allowbreak{}ometry.w\allowbreak{}l}, derives each experiment's reduced system symbolically from the covariant field equation and compares it with the program's equations, re-integrates each experiment with NDSolve and compares with the committed CSV columns, runs the program's \texttt{print-co\allowbreak{}nfig} through RunProcess, draws 8 figures into \texttt{artifact\allowbreak{}s/dirac1\allowbreak{}6complex\allowbreak{}/numeric\allowbreak{}s/figure\allowbreak{}s/mathem\allowbreak{}atica/} and ends with 49 checks. It needs the built program (Section 5).
+
+It is new work: none of the three rustSolveIt repositories contains a Mathematica notebook or package (no \texttt{\detokenize{.nb}}, \texttt{\detokenize{.wl}} or \texttt{\detokenize{.wls}} file; each holds 294 Jupyter notebooks), which was verified by listing their full Git trees. It is modelled on the notebook \texttt{DiracTri\allowbreak{}ality.nb} of the dirac repository (https://github.com/once-ere/dirac) and its build and verify scripts.
+
+Evaluate it headless (about 4 to 5 minutes), in any shell:
+
+\begin{Verbatim}[fontsize=\small]
+wolframscript -file scripts/verify_dirac16complex_mathematica_notebook.wls
+\end{Verbatim}
+
+Expected output at the end:
+
+\begin{Verbatim}[fontsize=\small]
+input_cell_count=37
+failed_evaluation_count=0
+message_count=0
+notebook_check_count=49
+failed_notebook_check_count=0
+...
+dirac16complex_mathematica_notebook=OK
+\end{Verbatim}
+
+It rewrites \texttt{artifact\allowbreak{}s/dirac1\allowbreak{}6complex\allowbreak{}/numeric\allowbreak{}s/mathem\allowbreak{}atica-re\allowbreak{}port.jso\allowbreak{}n} and the 8 figures; on Windows the Git check of Section 7.4 printed nothing afterwards. The notebook itself is generated by
+
+\begin{Verbatim}[fontsize=\small]
+wolframscript -file scripts/build_dirac16complex_mathematica_notebook.wls
+\end{Verbatim}
+
+which writes the same bytes again. To work with it interactively, open the \texttt{\detokenize{.nb}} file in Mathematica (the free Wolfram Engine has no notebook window) and choose Evaluation, Evaluate Notebook; it finds the repository from the notebook's own location. The interactive route was not tested for this guide.
+
+\section{Rebuilding the PDF documents (optional)}
+
+Every document in \texttt{provenan\allowbreak{}ce/} is written in Markdown and converted to LaTeX and PDF by one command, which runs the converter twice, pdflatex three times into two fresh folders, requires warning-free logs and two byte-identical PDFs, and compares the PDF with the edition registered in \texttt{provenan\allowbreak{}ce/pdf-s\allowbreak{}pecifica\allowbreak{}tions.js\allowbreak{}on}. For this guide, in any shell:
+
+\begin{Verbatim}[fontsize=\small]
+python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md
+\end{Verbatim}
+
+It prints one \texttt{check\_NA\allowbreak{}ME=true} line per check, then \texttt{check\_co\allowbreak{}unt=14}, \texttt{failed\_c\allowbreak{}heck\_cou\allowbreak{}nt=0} and \texttt{provenan\allowbreak{}ce\_pdf=O\allowbreak{}K}. The other documents are built the same way, for example \texttt{provenan\allowbreak{}ce/DIRAC\allowbreak{}16COMPLE\allowbreak{}X\_PRIMOR\allowbreak{}DIAL\_FIE\allowbreak{}LD.md}. pdflatex always runs with the repository root as its working folder, because the figure paths are relative to it.
+
+The registered PDF bytes belong to the TeX installation that registered them (MiKTeX 26.5 on Windows). With another TeX installation the document still builds warning-free and byte-identically twice, but the check \texttt{register\allowbreak{}edSha256} is false, the PDF is not copied, and the command exits with 1; on Ubuntu with TeX Live 2023 exactly this happened (12 of 14 checks true). The builder's register option, which records a new edition in the registry, is for the maintainer of a document only.
+
+\section{Changing parameters: exercises with answers}
+
+The physical parameters are constants at the top of each file \texttt{studies/\allowbreak{}dirac16c\allowbreak{}omplex\_c\allowbreak{}osmology\allowbreak{}/src/exp\allowbreak{}N.rs}; the command line changes only the tolerances and the output folder. Always send changed runs into a scratch folder with the output option, as below, so the committed files stay intact. After editing a source file, rebuild (Section 5.1); to undo the edit, run \texttt{git rest\allowbreak{}ore} with the file name and rebuild again.
+
+\subsection{Tolerances decide whether the checks pass}
+
+\textbf{Exercise.} Run EXP-1 with rtol $10^{-10}$ instead of $10^{-12}$. Predict which self-checks fail.
+
+PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+& $bin exp1 --output build/ex-rtol --rtol 1e-10
+\end{Verbatim}
+
+Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+$bin exp1 --output build/ex-rtol --rtol 1e-10
+\end{Verbatim}
+
+\textbf{Answer.} The run needs fewer steps (\texttt{solver\_s\allowbreak{}teps=184\allowbreak{}58}) and the conserved quantities drift more: \texttt{rho\_froz\allowbreak{}en\_all\_r\allowbreak{}uns} (1.2e-7), \texttt{pressure\allowbreak{}s\_and\_S\_\allowbreak{}frozen\_e\allowbreak{}igenstat\allowbreak{}e\_runs}, \texttt{hilbert\_\allowbreak{}norm\_con\allowbreak{}served} and \texttt{krein\_no\allowbreak{}rm\_conse\allowbreak{}rved} (5.4e-8) and \texttt{lambda\_r\allowbreak{}un\_meff\_\allowbreak{}constant} (1.4e-8) FAIL against their 1e-8 limits, while \texttt{exact\_so\allowbreak{}lution\_a\allowbreak{}ll\_runs} (7.8e-8 against 1e-7) still passes. The last line is \texttt{\detokenize{FAILURE}} and the exit code is 1. The limits were set from the physics, and the default tolerance was tightened until they hold, never the other way round.
+
+\subsection{Convergence}
+
+\textbf{Exercise.} Run EXP-1 with the refined option (Section 7.1) into \texttt{build/ex\allowbreak{}-refined}. By how much does the distance from the exact solution shrink?
+
+PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+& $bin exp1 --output build/ex-refined --refined
+\end{Verbatim}
+
+Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+$bin exp1 --output build/ex-refined --refined
+\end{Verbatim}
+
+\textbf{Answer.} The tolerances become rtol 1e-13, atol 1e-15 and max\_step 0.01, the step count grows to 57960, and the largest distance from the exact solution (\texttt{maxExact\allowbreak{}Error} in \texttt{summary.\allowbreak{}json}) falls from 6.2e-9 to 1.3e-10: the solution converges.
+
+\subsection{Predicting EXP-1 from the formulas}
+
+\textbf{Exercise.} For the positive-energy eigenmode with $K=2$ and $\lambda=0$, predict $\varepsilon$, $\rho$, $p_0$, $\bar p$, $w$, $KE_L$ and $PE_L$, then read them from \texttt{run\_A1\_K\allowbreak{}2\_pos\_Bp\allowbreak{}.csv}. Hint: on an eigenmode $\varepsilon=E$ and $p_0=K^2/E$, and only $p_0$ is nonzero.
+
+The Python lines below read the first and last row. PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+@'
+import csv
+path = "artifacts/dirac16complex/numerics/exp1/run_A1_K2_pos_Bp.csv"
+rows = list(csv.DictReader(open(path)))
+for key in ("energy_mode", "rho", "p_0", "p_mean", "w", "KE_L", "PE_L"):
+    print(key, float(rows[0][key]), float(rows[-1][key]))
+'@ | python -
+\end{Verbatim}
+
+Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+python - <<'EOF'
+import csv
+path = "artifacts/dirac16complex/numerics/exp1/run_A1_K2_pos_Bp.csv"
+rows = list(csv.DictReader(open(path)))
+for key in ("energy_mode", "rho", "p_0", "p_mean", "w", "KE_L", "PE_L"):
+    print(key, float(rows[0][key]), float(rows[-1][key]))
+EOF
+\end{Verbatim}
+
+\textbf{Answer.} $E=\sqrt{1+4}=2.23607=\varepsilon=\rho$; $p_0=K^2/E=1.78885$; $\bar p=p_0/7=0.25555$; $w=K^2/(7E^2)=4/35=0.11429$; $KE_L=PE_L=E/2=1.11803$. The first and last rows agree to about $10^{-9}$: the field is frozen. Note that $KE_L=PE_L$ although $w\ne0$: for a moving mode the scalar-field relation $p=KE_L-PE_L$ does not hold (Section 6.10).
+
+\subsection{Solving the EXP-2 constraint yourself}
+
+\textbf{Exercise.} Open \texttt{studies/\allowbreak{}dirac16c\allowbreak{}omplex\_c\allowbreak{}osmology\allowbreak{}/src/exp\allowbreak{}2.rs} in a text editor (Notepad, TextEdit, nano or any code editor) and change the line \texttt{pub cons\allowbreak{}t HUBBLE\allowbreak{}\_C0: f64\allowbreak{} = -0.2;} to \texttt{\detokenize{-0.3}}; save the file. Predict $C_0$, $\Theta_0$, $S_0$ for $x_0=0$ and the time at which $H_c$ changes sign. Then rebuild (Section 5.1) and run, in PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+& $bin exp2 --output build/ex-hc
+\end{Verbatim}
+
+or in Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+$bin exp2 --output build/ex-hc
+\end{Verbatim}
+
+\textbf{Answer.} $C_0=3+3(0.09)+9(-0.3)=0.57$, $\Theta_0=3-0.9=2.1$, $S_0=0.57$ (and $0.95$, $0.38$ for $x_0=-0.4$, $0.5$), $\alpha=7S_0/12=0.3325$; $H_cV=H_{c0}+\beta t$ with $\beta=S_0/6=0.095$ changes sign at $t=0.3/0.095=3.158$. The run gives these values in \texttt{summary.\allowbreak{}json} (keys \texttt{\detokenize{S0}}, \texttt{constrai\allowbreak{}ntLhs0}, \texttt{\detokenize{theta0}}, \texttt{\detokenize{alpha}}, \texttt{extraTim\allowbreak{}eTurnTim\allowbreak{}e}), and 14 of the 15 self-checks pass. \texttt{late\_tim\allowbreak{}e\_isotro\allowbreak{}pic\_dust} FAILS (1.17e-3 against its 1e-3 limit): with the larger initial anisotropy, the fixed end point $V/V_0=e^{18.5}$ is no longer late enough for the anisotropy to fall below the limit. A self-check with an a-priori limit tests the physics of the chosen parameters, not only the solver. Undo the edit with \texttt{git rest\allowbreak{}ore stud\allowbreak{}ies/dira\allowbreak{}c16compl\allowbreak{}ex\_cosmo\allowbreak{}logy/src\allowbreak{}/exp2.rs} and rebuild.
+
+\subsection{From \texorpdfstring{$x_0$}{x\_0} to \texorpdfstring{$(w_0,w_a)$}{(w\_0,w\_a)}}
+
+\textbf{Exercise.} For $x_0=-0.25$ predict $w_0$, $w_a$, the redshift where $\rho_\psi=0$ and the redshift of the phantom crossing $w=-1$. Then read the fine scan of the analysis.
+
+PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+@'
+import csv
+path = "artifacts/dirac16complex/numerics/exp3/fits_scan.csv"
+rows = list(csv.DictReader(open(path)))
+row = [r for r in rows if abs(float(r["x0"]) + 0.25) < 1e-9][0]
+for key in ("w0_tangent", "wa_tangent", "z_zero", "z_cross", "z_bounce"):
+    print(key, float(row[key]))
+'@ | python -
+\end{Verbatim}
+
+Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+python - <<'EOF'
+import csv
+path = "artifacts/dirac16complex/numerics/exp3/fits_scan.csv"
+rows = list(csv.DictReader(open(path)))
+row = [r for r in rows if abs(float(r["x0"]) + 0.25) < 1e-9][0]
+for key in ("w0_tangent", "wa_tangent", "z_zero", "z_cross", "z_bounce"):
+    print(key, float(row[key]))
+EOF
+\end{Verbatim}
+
+\textbf{Answer.} $w_0=x_0/(1+x_0)=-1/3$; $w_a=3x_0/(1+x_0)^2=-4/3$; $\rho_\psi=0$ at $a=\lvert x_0\rvert^{1/3}=0.62996$, i.e. $z=1/a-1=0.58740$; $w=-1$ where $\rho+p=0$, at $a=(2\lvert x_0\rvert)^{1/3}=0.79370$, $z=0.25992$. The script prints $-0.3333$, $-1.3333$, $0.58740$, $0.25992$ and the bounce $z_b=0.74542$, which needs the cubic of Section 6.13.
+
+\textbf{Exercise.} Which $x_0$ gives $w_0=-0.9$, and what is its $w_a$? \textbf{Answer.} $x_0=w_0/(1-w_0)=-0.47368$ and $w_a=-5.13$: the closer $w_0$ is to $-1$, the faster the condensate evolves, the opposite of the slowly varying Unite fit ($w_a=-0.60$). The scan row $x_0=-0.474$ gives $w_0=-0.90114$, $w_a=-5.1396$.
+
+\subsection{Moving the EXP-5 turning point}
+
+\textbf{Exercise.} In \texttt{studies/\allowbreak{}dirac16c\allowbreak{}omplex\_c\allowbreak{}osmology\allowbreak{}/src/exp\allowbreak{}5.rs} change the line \texttt{pub cons\allowbreak{}t Q\_VALU\allowbreak{}ES: [f64\allowbreak{}; 2] = [\allowbreak{}0.05, 0.\allowbreak{}1];} to \texttt{[0.05, 0\allowbreak{}.2]} and save. Predict $t^*$ and the end time for $q=0.2$. Then rebuild and run, in PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+& $bin exp5 --output build/ex-q
+\end{Verbatim}
+
+or in Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+$bin exp5 --output build/ex-q
+\end{Verbatim}
+
+\textbf{Answer.} $t^*=\ln(1/0.2)=\ln5=1.60944$ and $t_{\mathrm{end}}=t^*+3=4.60944$. All 7 self-checks pass; the new files are \texttt{run\_q0p2\allowbreak{}\_Cp.csv} and \texttt{run\_q0p2\allowbreak{}\_Cm.csv}; \texttt{summary.\allowbreak{}json} gives \texttt{\detokenize{tStar}} 1.6094379124341003, a final $u^\dagger u$ of $1.32\times10^{16}$ and WKB deviations of 1.0e-3 (leading order) and 2.4e-4 (first order). The EXP-5 Python checker compares the parameters with the study's specification and reports that mismatch, as it should. Undo with \texttt{git rest\allowbreak{}ore stud\allowbreak{}ies/dira\allowbreak{}c16compl\allowbreak{}ex\_cosmo\allowbreak{}logy/src\allowbreak{}/exp5.rs} and rebuild.
+
+\subsection{Massless quanta are not created}
+
+\textbf{Exercise.} Before looking, say what $na^3$ EXP-4 should find for $m=0$. \textbf{Answer.} Zero: a massless spinor's mode equation is conformally invariant, and a radiation or de Sitter universe is conformally flat. The run finds $na^3=1.8\times10^{-24}$ for $m=0$, pure roundoff, against $1.45\times10^{-3}$ for $m=0.1$ and $4.99\times10^{-3}$ for $m=0.5$ (\texttt{pair.mas\allowbreak{}ses} in \texttt{exp4/sum\allowbreak{}mary.jso\allowbreak{}n}, column \texttt{\detokenize{n_a3}} of \texttt{pair\_his\allowbreak{}tory.csv}).
+
+\section{Troubleshooting}
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{Symptom} & \textbf{Cause} & \textbf{What to do} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Symptom} & \textbf{Cause} & \textbf{What to do} \\
+\midrule
+\endhead
+\texttt{LNK1104:\allowbreak{} cannot \allowbreak{}open fil\allowbreak{}e ...\textbackslash{}de\allowbreak{}ps\textbackslash{}...rl\allowbreak{}ib} while linking on Windows & the path is longer than 260 characters & clone into a short folder such as \texttt{\$HOME\textbackslash{}sr\allowbreak{}c} (Section 4.1) \\
+\texttt{error: l\allowbreak{}inker li\allowbreak{}nk.exe n\allowbreak{}ot found} on Windows & the Microsoft C++ build tools are missing & install them (Section 3.2) and open a new terminal \\
+\texttt{error: l\allowbreak{}inker cc\allowbreak{} not fou\allowbreak{}nd} on Linux, or a message on macOS that the command line developer tools are missing & no C linker & install \texttt{build-es\allowbreak{}sential} (Section 3.4) or the Xcode command line tools (Section 3.3) \\
+\texttt{\detokenize{rustc}} or \texttt{\detokenize{cargo}} not found right after installing & the terminal was opened before the installation & open a new terminal; on macOS and Linux also \texttt{source "\allowbreak{}\$HOME/.c\allowbreak{}argo/env\allowbreak{}"} \\
+the program stops at once with an illegal-instruction error (\texttt{STATUS\_I\allowbreak{}LLEGAL\_I\allowbreak{}NSTRUCTI\allowbreak{}ON} on Windows, \texttt{\detokenize{SIGILL}} elsewhere) & the processor has no FMA, which \texttt{.cargo/c\allowbreak{}onfig.to\allowbreak{}ml} requires (Section 5.2) & use a computer with an x86-64 processor from 2013 or later \\
+\texttt{error: f\allowbreak{}ailed to\allowbreak{} load ma\allowbreak{}nifest f\allowbreak{}or depen\allowbreak{}dency cv\allowbreak{}ode\_rs}, caused by \texttt{failed t\allowbreak{}o read .\allowbreak{}..vendor\allowbreak{}/rustSol\allowbreak{}veIt/...\allowbreak{}/Cargo.t\allowbreak{}oml} & the engine was not fetched & run the setup script (Section 4.3) \\
+\texttt{vendor/r\allowbreak{}ustSolve\allowbreak{}It is at\allowbreak{} ..., ex\allowbreak{}pected .\allowbreak{}..} & the folder holds another engine & delete it and run the setup script again (Section 4.4) \\
+cargo prints \texttt{Blocking\allowbreak{} waiting\allowbreak{} for fil\allowbreak{}e lock} & another cargo command is running & wait for it to finish \\
+\texttt{error: f\allowbreak{}ailed to\allowbreak{} remove \allowbreak{}file ...\allowbreak{}dirac16c\allowbreak{}omplex\_c\allowbreak{}osmology\allowbreak{}.exe}, caused by \texttt{Access i\allowbreak{}s denied\allowbreak{}. (os er\allowbreak{}ror 5)}, on Windows & the program is still running (or an antivirus or synchronisation tool holds the file) & wait until the run has finished, then build again; work outside synchronised folders \\
+\texttt{running \allowbreak{}scripts \allowbreak{}is disab\allowbreak{}led on t\allowbreak{}his syst\allowbreak{}em} & Windows PowerShell 5.1 blocks scripts & use \texttt{\detokenize{pwsh}}, or \texttt{powershe\allowbreak{}ll -Exec\allowbreak{}utionPol\allowbreak{}icy Bypa\allowbreak{}ss -File\allowbreak{} ...} (Section 4.3) \\
+\texttt{UnicodeE\allowbreak{}ncodeErr\allowbreak{}or: 'cha\allowbreak{}rmap' co\allowbreak{}dec can'\allowbreak{}t encode\allowbreak{} charact\allowbreak{}er} when Python output is redirected to a file or pipe on Windows & Python writes redirected output in the code page cp1252 & make Python use UTF-8 for the session: \texttt{\$env:PYT\allowbreak{}HONUTF8 \allowbreak{}= "1"} (PowerShell) or \texttt{export P\allowbreak{}YTHONUTF\allowbreak{}8=1} (Git Bash) \\
+\texttt{\detokenize{jupyter}} or another script is not recognized, and pip warned that its folder is not on PATH & pip installed it into the per-user Scripts folder & use \texttt{python -\allowbreak{}m jupyte\allowbreak{}rlab} and \texttt{python -\allowbreak{}m nbconv\allowbreak{}ert}, as this guide does \\
+\texttt{error: e\allowbreak{}xternall\allowbreak{}y-manage\allowbreak{}d-enviro\allowbreak{}nment} from pip & macOS or Linux protects its system Python & use the virtual environment of Section 3.5 \\
+\texttt{No modul\allowbreak{}e named \allowbreak{}numpy} in a new terminal on macOS or Linux & the virtual environment is not active & \texttt{source \textasciitilde{}\allowbreak{}/.venvs/\allowbreak{}dirac16/\allowbreak{}bin/acti\allowbreak{}vate} \\
+\texttt{No modul\allowbreak{}e named \allowbreak{}nbconver\allowbreak{}t} & JupyterLab is not installed & \texttt{python -\allowbreak{}m pip in\allowbreak{}stall ju\allowbreak{}pyterlab} \\
+the Git check of Section 7.4 lists 14 changed files after \texttt{\detokenize{all}} & the \texttt{\detokenize{linux}} or \texttt{\detokenize{macos}} engine is in use (Section 4.5) & fetch the \texttt{\detokenize{win11}} engine and rebuild; \texttt{git rest\allowbreak{}ore arti\allowbreak{}facts} restores the files \\
+the notebook stops with \texttt{Assertio\allowbreak{}nError('\allowbreak{}fresh\_ou\allowbreak{}tputs\_by\allowbreak{}te\_ident\allowbreak{}ical')} & the same cause & the same remedy \\
+the EXP-3 checker reports 30 checks instead of 31 & it ran before the analysis & run \texttt{analyze\_\allowbreak{}dirac16c\allowbreak{}omplex\_e\allowbreak{}xp3.py} first \\
+\texttt{wolframs\allowbreak{}cript} is not recognized & WolframScript is not installed or not on PATH & install the Wolfram Engine or Mathematica; on Windows add its folder for the session with \texttt{\$env:Pat\allowbreak{}h += ";C\allowbreak{}:\textbackslash{}Progra\allowbreak{}m Files\textbackslash{}\allowbreak{}Wolfram \allowbreak{}Research\allowbreak{}\textbackslash{}Wolfram\allowbreak{}Script"} \\
+wolframscript asks for a Wolfram ID or reports that the kernel is not activated & the Wolfram Engine was never activated & run \texttt{wolframs\allowbreak{}cript -a\allowbreak{}ctivate} yourself once \\
+the PDF build lists \texttt{latex\_wa\allowbreak{}rning=} lines and fails the check \texttt{logWarni\allowbreak{}ngFree} & a LaTeX package is missing or a line is too wide & read \texttt{build/NA\allowbreak{}ME/pdf-a\allowbreak{}/NAME.lo\allowbreak{}g}; let MiKTeX install missing packages, or install \texttt{texlive-\allowbreak{}latex-re\allowbreak{}commende\allowbreak{}d} and \texttt{\detokenize{lmodern}} on Linux \\
+the PDF build fails only \texttt{register\allowbreak{}edSha256} and \texttt{provenan\allowbreak{}cePdfCop\allowbreak{}y} & a different TeX installation made different bytes & expected (Section 12); the PDF was still built in \texttt{build/NA\allowbreak{}ME/pdf-a\allowbreak{}/} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Glossary}
+
+\begin{itemize}
+\item \textbf{$a$}: the scale factor of 3-space ($a=1$ today); in EXP-2 the common scale factor of $x_1,x_2,x_3$. \textbf{$b$}, \textbf{$c$}: the scale factors of the hidden space $x_0$ and of the extra times $x_5,x_6,x_7$.
+\item \textbf{Adams-Moulton}: a family of implicit multistep methods for non-stiff ODEs (Section 6.16).
+\item \textbf{atol, rtol}: absolute and relative error tolerances of CVODE.
+\item \textbf{$B=-iC\gamma^4$}: the Hermitian matrix that defines the Krein inner product $u^\dagger Bu$.
+\item \textbf{BDF}: backward differentiation formulas, implicit multistep methods for stiff ODEs.
+\item \textbf{$\lvert\beta_k\rvert^2$}: the weight of a mode on the negative-energy states: the number of created particle-antiparticle pairs per mode.
+\item \textbf{bounce}: the moment at which $E^2=H^2/H_0^2$ reaches 0 in EXP-3, so that the universe stops contracting backward in time.
+\item \textbf{byte-identical}: two files with exactly the same bytes; Git reports no change.
+\item \textbf{$C=\gamma^0\gamma^1\gamma^2\gamma^3$}: the charge matrix; $\bar\Psi=\Psi^\dagger C$.
+\item \textbf{cargo, rustc, rustup}: Rust's build tool, compiler and toolchain installer.
+\item \textbf{chirality}: the eigenvalue $\mp1$ of $\gamma^8$; components 0 to 7 have $-1$, 8 to 15 have $+1$.
+\item \textbf{CPL}: the parametrisation $w(a)=w_0+w_a(1-a)$, so $w_a=-dw/da$.
+\item \textbf{$c_s^2$}: the sound speed squared $dp/d\rho$; negative means the condensate's perturbations grow.
+\item \textbf{CSV}: comma-separated values, the output format of the program.
+\item \textbf{CVODE}: the variable-step, variable-order ODE integrator of SUNDIALS.
+\item \textbf{$D_C$}, \textbf{$d_L$}: comoving distance and luminosity distance $(1+z)D_C$, in units of $c/H_0$.
+\item \textbf{dark energy}: the component with negative pressure ($w<-1/3$) that accelerates the expansion.
+\item \textbf{dark matter}: pressureless ($w\approx0$) matter that does not emit light.
+\item \textbf{$E$}: the mode energy, $h^2=E^2$; in EXP-3 instead the dimensionless expansion rate $H/H_0$.
+\item \textbf{effective mass $M_{\mathrm{eff}}=m+\lambda S$}: the mass shifted by the self-interaction.
+\item \textbf{$\varepsilon(u)=u^\dagger hu$}: the energy of one mode.
+\item \textbf{engine}: the rustSolveIt folder \texttt{sundials\allowbreak{}\_rs} with the crates \texttt{sundials\allowbreak{}\_core} and \texttt{\detokenize{cvode_rs}}.
+\item \textbf{equation of state parameter $w=p/\rho$}.
+\item \textbf{$\eta$}: the flat metric $\mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$.
+\item \textbf{expectation-value rule}: $\langle\Psi^\dagger M\Psi\rangle=u^\dagger BMu$ for a one-particle state on the normalised mode $u$.
+\item \textbf{FMA}: fused multiply-add, $a\cdot b+c$ with one rounding (Section 5.2).
+\item \textbf{fixed-point iteration}, \textbf{Newton's method}: the two ways CVODE solves the implicit equation of each step.
+\item \textbf{freezing, thawing}: dark-energy fields whose $w$ falls towards $-1$ (freezing, $w_a>0$) or rises from $-1$ (thawing, $w_a<0$) as the universe expands, with the formula-consistent signs of Section 1.1.
+\item \textbf{gamma matrices $\gamma^a$}: the eight 16 by 16 matrices with $\gamma^a\gamma^b+\gamma^b\gamma^a=2\eta^{ab}$ (Section 6.3).
+\item \textbf{good sector}: modes without momentum along the extra times; there $h$ is Hermitian.
+\item \textbf{Grassmann-odd}: anticommuting, $\Psi_a\Psi_b=-\Psi_b\Psi_a$.
+\item \textbf{$h(t)$}: the mode Hamiltonian, $i\dot u=hu$ (Section 6.8). \textbf{$h_j$}: the scale factor of direction $j$ (a different symbol, always with an index).
+\item \textbf{$H_j$, $\Theta$, $V$}: expansion rate of direction $j$, their sum, and the 7-volume.
+\item \textbf{$H_0$}: today's expansion rate; \textbf{$H_{\mathrm{inf}}$}: the de Sitter rate of EXP-4(b); \textbf{$H_i$}: the initial rate 0.05 of EXP-4(a).
+\item \textbf{Hilbert norm $u^\dagger u$}, \textbf{Krein norm $u^\dagger Bu$}.
+\item \textbf{$K$}: the physical momentum ($k/a$ in EXP-4, the hidden-space momentum in EXP-1). \textbf{$k$}: comoving momentum. \textbf{$q$}, \textbf{$Q=qe^t$}: extra-time momentum (EXP-5).
+\item \textbf{$\kappa$}: the gravitational coupling $8\pi G$; in EXP-5 the column \texttt{\detokenize{kappa}} is instead the WKB rate.
+\item \textbf{$KE_L$, $PE_L$, $KE_H$, $PE_H$}: the Lagrangian and Hamiltonian kinetic/potential splits (Section 6.10).
+\item \textbf{$\lambda$}: the four-fermion coupling; $U(S)=\frac{\lambda}{2}S^2$.
+\item \textbf{mode}: a plane-wave solution $\Psi=V^{-1/2}e^{ik\cdot x}u(t)$.
+\item \textbf{$\mu$}: in EXP-3 the reduced frequency $M_{\mathrm{eff}}(a=1)/H_0$; the distance modulus is written \texttt{mu\_H0fre\allowbreak{}e} in the CSV.
+\item \textbf{$N=\ln a$}: e-folds, the independent variable of EXP-3.
+\item \textbf{$\Omega_r$, $\Omega_m$, $\Omega_\psi$}: today's density fractions of radiation, matter and the condensate.
+\item \textbf{phantom}: $w<-1$ with $\rho>0$; for the condensate it happens exactly when $KE_L<0$.
+\item \textbf{RHS}: the right-hand side $f(t,Y)$ of $Y'=f(t,Y)$.
+\item \textbf{$\rho$, $p$, $\bar p$}: energy density, pressure, mean transverse pressure.
+\item \textbf{$\rho_{\mathrm{req}}$}: the energy density that 8D Einstein gravity would need to produce the primordial field (EXP-1).
+\item \textbf{$S=\bar\Psi\Psi$}: the scalar density (condensate); \textbf{$s(u)=u^\dagger(-i\gamma^4)u$} per mode; \textbf{$\sigma=S/S_0$}.
+\item \textbf{scale factor}: the factor $h_j(t)$ that turns coordinate distance into physical distance.
+\item \textbf{spinor connection $\Omega_\mu$}, \textbf{covariant derivative $D_\mu$} (Section 6.6).
+\item \textbf{state vector}: the real numbers CVODE integrates, laid out as in Sections 6.9 to 6.15.
+\item \textbf{SUNDIALS}: the SUite of Nonlinear and DIfferential/ALgebraic equation Solvers.
+\item \textbf{$t^*=\ln(m/q)$}: the time after which $E^2<0$ in EXP-5.
+\item \textbf{Unite}: the supernova compilation quoted in the input document ($w_0=-0.861$, $w_a=-0.60$, constant $w=-0.764$).
+\item \textbf{vielbein}: the frame $e^a$ that turns the curved metric into $\eta$.
+\item \textbf{$w_0$, $w_a$}: the CPL parameters; \textbf{$w_{\mathrm{eff}}$}: the $w$ a 3-space observer infers in EXP-2.
+\item \textbf{WKB}: the approximation $u^\dagger u\propto e^{2W}$ with $W=\int\sqrt{Q^2-m^2}\,dt$ for a slowly varying rate.
+\item \textbf{$x_0$}: the hidden space coordinate, and in EXP-2 and EXP-3 also the parameter $\lambda S_0/(2m)$; the meaning is always clear from the context.
+\item \textbf{$z$}: the redshift $1/a-1$; in the primordial field of EXP-1 the variable $6Hx_0$.
+\end{itemize}
+
+\section{Credits, licences and verified facts}
+
+\begin{itemize}
+\item \textbf{This repository}: GPL-3.0-or-later (see \texttt{\detokenize{LICENSE}}); original notebook and physical programme: Patrick L. Nash; publication tooling derived from https://github.com/once-ere/dirac. See \texttt{\detokenize{NOTICE}}.
+\item \textbf{The engine}: the pure-Rust SUNDIALS 7.8.0 port of the rustSolveIt repositories, BSD-3-Clause as declared in their Cargo manifests (published by the once-ere account; LLNL copyright for SUNDIALS); its deterministic library contains translations of GNU C Library 2.39 under LGPL-2.1-or-later (\texttt{\detokenize{NOTICE}}, section 2c). It is fetched by the setup scripts, never stored in this repository.
+\item \textbf{The Jupyter notebook tools} \texttt{notebook\allowbreak{}s/run\_no\allowbreak{}tebook.p\allowbreak{}y}, \texttt{notebook\allowbreak{}s/check\_\allowbreak{}notebook\allowbreak{}.py} and the builder pattern are adapted, with attribution in their headers, from \texttt{planet\_M\allowbreak{}ercury/n\allowbreak{}otebook} of rustSolveIt (the \texttt{\detokenize{md()}} and \texttt{\detokenize{code()}} helpers, \texttt{find\_bin\allowbreak{}ary()} and \texttt{\detokenize{run()}} with the rule that the last printed line must be \texttt{\detokenize{SUCCESS}}, a \texttt{gauntlet\allowbreak{}()} of assertions, the standard-library runner and the auditor).
+\item \textbf{The Mathematica notebook} is new (Section 11).
+\item \textbf{Verified while writing this guide}: the pinned commits and the notebook counts of the three engine repositories (294 Jupyter notebooks and no \texttt{\detokenize{.nb}}, \texttt{\detokenize{.wl}} or \texttt{\detokenize{.wls}} file in each); the differences between the engines (Section 4.5); the byte-for-byte reproduction of all Rust outputs with the \texttt{\detokenize{win11}} engine on Windows 11 and on Ubuntu 24.04; and every expected output quoted above.
+\item \textbf{Not established by this guide}: anything about macOS, and anything physical beyond the committed results. The scientific conclusions, with their assumptions and limits, are in DIRAC16COMPLEX\_DARK\_SECTOR\_NUMERICS.
+\end{itemize}
+
+\end{document}

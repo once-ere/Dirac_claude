@@ -46,8 +46,8 @@
 //! eps -> -eps, and (k, eps) -> (-k, -eps) is a symmetry of each block.
 
 use crate::generated::{
-    B_IMAG, BLOCK_BASIS_IM, BLOCK_BASIS_RE, BLOCK_BASIS_UNIT_SQUARED_INVERSE, BLOCK_COUNT,
-    BLOCK_LABELS, BLOCK_SOURCE_COLUMN, CHARGE, GAMMA,
+    BLOCK_BASIS_IM, BLOCK_BASIS_RE, BLOCK_BASIS_UNIT_SQUARED_INVERSE, BLOCK_COUNT, BLOCK_LABELS,
+    BLOCK_SOURCE_COLUMN, B_IMAG, CHARGE, GAMMA,
 };
 use crate::output::Json;
 
@@ -163,7 +163,8 @@ impl C16 {
         let mut value: f64 = 0.0;
         for i in 0..N {
             for j in 0..N {
-                value = value.max((self.re[i][j] * self.re[i][j] + self.im[i][j] * self.im[i][j]).sqrt());
+                value = value
+                    .max((self.re[i][j] * self.re[i][j] + self.im[i][j] * self.im[i][j]).sqrt());
             }
         }
         value
@@ -416,9 +417,9 @@ pub fn derive() -> Reduction {
         for (i, item) in w.iter_mut().enumerate() {
             let mut re = 0.0;
             let mut im = 0.0;
-            for k in 0..N {
-                re += ops.a1.re[i][k] * v[k].0;
-                im += ops.a1.re[i][k] * v[k].1;
+            for (row_entry, vk) in ops.a1.re[i].iter().zip(v.iter()) {
+                re += row_entry * vk.0;
+                im += row_entry * vk.1;
             }
             *item = (re, im);
         }
@@ -438,7 +439,15 @@ pub fn derive() -> Reduction {
     projector_defect = projector_defect.max(gram.sub(&ident).max_abs());
     // block forms
     let operators = [
-        &ops.a0, &ops.a1, &ops.a4, &ops.gamma4, &ops.c, &ops.b, &ops.bc, &ops.g4g1, &ops.bcg0,
+        &ops.a0,
+        &ops.a1,
+        &ops.a4,
+        &ops.gamma4,
+        &ops.c,
+        &ops.b,
+        &ops.bc,
+        &ops.g4g1,
+        &ops.bcg0,
     ];
     let mut off_block_defect: f64 = 0.0;
     let mut form_defect: f64 = 0.0;
@@ -481,12 +490,18 @@ pub fn derive() -> Reduction {
         clifford_defect = clifford_defect.max(c2_defect(&c2_mul(&a1, &a1), &pauli('1', -1.0, 0.0)));
         clifford_defect = clifford_defect.max(c2_defect(&c2_mul(&a4, &a4), &one));
         let zero = pauli('1', 0.0, 0.0);
-        clifford_defect =
-            clifford_defect.max(c2_defect(&c2_add(&c2_mul(&a0, &a1), &c2_mul(&a1, &a0), 1.0), &zero));
-        clifford_defect =
-            clifford_defect.max(c2_defect(&c2_add(&c2_mul(&a0, &a4), &c2_mul(&a4, &a0), 1.0), &zero));
-        clifford_defect =
-            clifford_defect.max(c2_defect(&c2_add(&c2_mul(&a1, &a4), &c2_mul(&a4, &a1), 1.0), &zero));
+        clifford_defect = clifford_defect.max(c2_defect(
+            &c2_add(&c2_mul(&a0, &a1), &c2_mul(&a1, &a0), 1.0),
+            &zero,
+        ));
+        clifford_defect = clifford_defect.max(c2_defect(
+            &c2_add(&c2_mul(&a0, &a4), &c2_mul(&a4, &a0), 1.0),
+            &zero,
+        ));
+        clifford_defect = clifford_defect.max(c2_defect(
+            &c2_add(&c2_mul(&a1, &a4), &c2_mul(&a4, &a1), 1.0),
+            &zero,
+        ));
         clifford_defect = clifford_defect.max(c2_defect(&c2_mul(&a0, &a4), &g4));
         clifford_defect = clifford_defect.max(c2_defect(&c2_mul(&bb, &c), &bc));
         clifford_defect = clifford_defect.max(c2_defect(&c2_mul(&g4, &c2_mul(&a0, &a1)), &g4g1));
@@ -526,7 +541,10 @@ impl Reduction {
             for c in 0..2 {
                 let mut entries = Vec::new();
                 for i in 0..N {
-                    entries.push(Json::floats(&[self.basis.re[i][2 * b + c], self.basis.im[i][2 * b + c]]));
+                    entries.push(Json::floats(&[
+                        self.basis.re[i][2 * b + c],
+                        self.basis.im[i][2 * b + c],
+                    ]));
                 }
                 cols.push(Json::Array(entries));
             }
@@ -539,7 +557,9 @@ impl Reduction {
                         (0..2)
                             .map(|p| {
                                 Json::Array(
-                                    (0..2).map(|q| Json::floats(&[m.re[p][q], m.im[p][q]])).collect(),
+                                    (0..2)
+                                        .map(|q| Json::floats(&[m.re[p][q], m.im[p][q]]))
+                                        .collect(),
                                 )
                             })
                             .collect(),
@@ -587,7 +607,11 @@ mod tests {
         let red = derive();
         assert!(red.label_defect == 0.0, "{}", red.label_defect);
         assert!(red.projector_defect < 1e-14, "{}", red.projector_defect);
-        assert!(red.basis_defect_vs_generated < 1e-15, "{}", red.basis_defect_vs_generated);
+        assert!(
+            red.basis_defect_vs_generated < 1e-15,
+            "{}",
+            red.basis_defect_vs_generated
+        );
         assert!(red.off_block_defect < 1e-14, "{}", red.off_block_defect);
         assert!(red.form_defect < 1e-14, "{}", red.form_defect);
         assert!(red.clifford_defect < 1e-14, "{}", red.clifford_defect);
@@ -617,10 +641,10 @@ mod tests {
             let (a, b) = (0.31, -0.77);
             let chi = [(a, 0.0), (0.0, b)];
             let mut d = [(0.0, 0.0); 2];
-            for p in 0..2 {
-                for q in 0..2 {
-                    d[p].0 += coef.re[p][q] * chi[q].0 - coef.im[p][q] * chi[q].1;
-                    d[p].1 += coef.re[p][q] * chi[q].1 + coef.im[p][q] * chi[q].0;
+            for (p, dp) in d.iter_mut().enumerate() {
+                for (q, cq) in chi.iter().enumerate() {
+                    dp.0 += coef.re[p][q] * cq.0 - coef.im[p][q] * cq.1;
+                    dp.1 += coef.re[p][q] * cq.1 + coef.im[p][q] * cq.0;
                 }
             }
             let sys = real_system(m, kk, eps, s);

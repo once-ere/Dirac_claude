@@ -189,7 +189,19 @@ struct Resources {
 }
 
 impl Resources {
-    fn teardown(mut self) {
+    fn empty() -> Self {
+        Self {
+            context: None,
+            y: None,
+            abstol: None,
+            cvode: None,
+            matrix: None,
+            linear_solver: None,
+            nonlinear_solver: None,
+        }
+    }
+
+    fn teardown(&mut self) {
         if self.cvode.is_some() {
             CVodeFree(&mut self.cvode);
         }
@@ -421,6 +433,12 @@ fn march(
         states: vec![y0.to_vec()],
         ..Integration::default()
     };
+    // CVODE's counters accumulate over the life of the memory (a Session
+    // reuses it): remember the starting values and report the differences.
+    let mut steps0 = 0i64;
+    let mut rhs0 = 0i64;
+    flag_check(CVodeGetNumSteps(cvode, &mut steps0), "CVodeGetNumSteps")?;
+    flag_check(CVodeGetNumRhsEvals(cvode, &mut rhs0), "CVodeGetNumRhsEvals")?;
     let mut t = t0;
     for &target in targets {
         let flag = CVode(cvode, target, y, &mut t, CV_NORMAL);
@@ -454,6 +472,8 @@ fn march(
         CVodeGetNumRhsEvals(cvode, &mut result.rhs_evals),
         "CVodeGetNumRhsEvals",
     )?;
+    result.steps -= steps0;
+    result.rhs_evals -= rhs0;
     flag_check(
         CVodeGetNumErrTestFails(cvode, &mut result.err_test_fails),
         "CVodeGetNumErrTestFails",
@@ -499,20 +519,8 @@ pub fn integrate(
     rhs: RhsFn,
     cfg: &SolverConfig,
 ) -> Result<Integration, String> {
-    validate(&y0, t0, targets, cfg)?;
-    let mut resources = Resources {
-        context: None,
-        y: None,
-        abstol: None,
-        cvode: None,
-        matrix: None,
-        linear_solver: None,
-        nonlinear_solver: None,
-    };
-    let outcome = build(&mut resources, &y0, t0, rhs, cfg)
-        .and_then(|()| march(&resources, y0.len(), t0, targets, &y0, None));
-    resources.teardown();
-    outcome
+    let mut session = Session::new(&y0, t0, rhs, cfg)?;
+    session.run(&y0, t0, targets, None)
 }
 
 /// `integrate` with a state-adjustment hook called after every target (the
@@ -525,20 +533,87 @@ pub fn integrate_adjusted(
     cfg: &SolverConfig,
     adjust: AdjustFn<'_>,
 ) -> Result<Integration, String> {
-    validate(&y0, t0, targets, cfg)?;
-    let mut resources = Resources {
-        context: None,
-        y: None,
-        abstol: None,
-        cvode: None,
-        matrix: None,
-        linear_solver: None,
-        nonlinear_solver: None,
-    };
-    let outcome = build(&mut resources, &y0, t0, rhs, cfg)
-        .and_then(|()| march(&resources, y0.len(), t0, targets, &y0, Some(adjust)));
-    resources.teardown();
-    outcome
+    let mut session = Session::new(&y0, t0, rhs, cfg)?;
+    session.run(&y0, t0, targets, Some(adjust))
+}
+
+/// A persistent CVODE instance (Stage-4 addition).
+///
+/// The shooting method integrates the same right-hand side many thousand
+/// times with different parameters (the closure reads them from shared
+/// cells).  Creating and freeing the solver objects for every integration
+/// costs time and, measured with the vendored engine, leaks a few kilobytes
+/// per `CVodeFree` cycle (reference cycles inside the engine's objects); a
+/// session keeps one CVODE memory alive and restarts it with `CVodeReInit`
+/// for every new initial condition, exactly as SUNDIALS recommends for
+/// repeated integrations of one problem.
+pub struct Session {
+    resources: Resources,
+    n: usize,
+    cfg: SolverConfig,
+}
+
+impl Session {
+    /// Build the solver for a state of the size of `y0` (the values are the
+    /// initial condition of the first run only).
+    pub fn new(y0: &[f64], t0: f64, rhs: RhsFn, cfg: &SolverConfig) -> Result<Self, String> {
+        validate(y0, t0, &[t0 + 1.0], cfg)?;
+        let mut resources = Resources::empty();
+        if let Err(error) = build(&mut resources, y0, t0, rhs, cfg) {
+            resources.teardown();
+            return Err(error);
+        }
+        Ok(Self {
+            resources,
+            n: y0.len(),
+            cfg: cfg.clone(),
+        })
+    }
+
+    /// Restart at `(t0, y0)` and integrate through `targets`.
+    pub fn run(
+        &mut self,
+        y0: &[f64],
+        t0: f64,
+        targets: &[f64],
+        adjust: Option<AdjustFn<'_>>,
+    ) -> Result<Integration, String> {
+        validate(y0, t0, targets, &self.cfg)?;
+        if y0.len() != self.n {
+            return Err(format!(
+                "Session::run: state size {} differs from the session's {}",
+                y0.len(),
+                self.n
+            ));
+        }
+        let cvode = self
+            .resources
+            .cvode
+            .as_ref()
+            .ok_or_else(|| "internal: CVODE memory missing".to_string())?;
+        let y = self
+            .resources
+            .y
+            .as_ref()
+            .ok_or_else(|| "internal: state vector missing".to_string())?;
+        {
+            let mut data = N_VGetArrayPointer(y)
+                .ok_or_else(|| "N_VGetArrayPointer returned None for y".to_string())?;
+            data[..self.n].copy_from_slice(y0);
+        }
+        flag_check(CVodeReInit(cvode, t0, y), "CVodeReInit")?;
+        if let Some(stop) = self.cfg.stop_time {
+            // the stop time is cleared once it has been reached
+            flag_check(CVodeSetStopTime(cvode, stop), "CVodeSetStopTime")?;
+        }
+        march(&self.resources, self.n, t0, targets, y0, adjust)
+    }
+}
+
+impl Drop for Session {
+    fn drop(&mut self) {
+        self.resources.teardown();
+    }
 }
 
 /// Backward integration: `targets` must be strictly decreasing and below t0.
@@ -634,6 +709,33 @@ mod tests {
             assert_eq!(y[0], 1.0);
         }
         assert!((log_scale - 3.0).abs() < 1e-7, "{log_scale}");
+    }
+
+    #[test]
+    fn session_reinit_reproduces_single_integrations() {
+        // y' = -a y with a read from a shared cell: three runs of one session
+        // equal three fresh integrations bit for bit.
+        use std::cell::Cell;
+        use std::rc::Rc;
+        let rate = Rc::new(Cell::new(1.0));
+        let cfg = SolverConfig::bdf(1e-10, 1e-12, 0.1).with_stop_time(2.0);
+        let targets = uniform_targets(0.0, 2.0, 4);
+        let rhs_for = |cell: Rc<Cell<f64>>| -> RhsFn {
+            Box::new(move |_t, y, ydot| {
+                ydot[0] = -cell.get() * y[0];
+                Ok(())
+            })
+        };
+        let mut session = Session::new(&[1.0], 0.0, rhs_for(Rc::clone(&rate)), &cfg).unwrap();
+        for a in [1.0, 0.5, 2.0] {
+            rate.set(a);
+            let run = session.run(&[1.0], 0.0, &targets, None).unwrap();
+            let fresh_rate = Rc::new(Cell::new(a));
+            let fresh = integrate(vec![1.0], 0.0, &targets, rhs_for(fresh_rate), &cfg).unwrap();
+            assert_eq!(run.states, fresh.states, "a = {a}");
+            assert_eq!(run.steps, fresh.steps);
+            assert!((run.states[4][0] - crate::math::exp(-2.0 * a)).abs() < 1e-7);
+        }
     }
 
     #[test]

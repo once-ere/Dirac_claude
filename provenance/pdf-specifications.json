@@ -4,6 +4,11 @@
     "pages": 41,
     "sha256": "04dd0b83e11357b7fed85696d461b93df68eeb5d981bab369a36d6e0e1a8e0bd"
   },
+  "dirac16complex-dark-sector-numerics": {
+    "path": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.pdf",
+    "pages": 48,
+    "sha256": "6f13c43b1b4d050134d2808c72186f8fe05d274157569f12075b2668ab2816c1"
+  },
   "dirac16complex-primordial-field": {
     "path": "provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD.pdf",
     "pages": 38,

@@ -94,14 +94,31 @@ pub struct Curvature {
 
 pub fn curvature_closed_form(h: f64) -> Curvature {
     let h2 = h * h;
-    let g = [15.0 * h2, 15.0 * h2, 15.0 * h2, 15.0 * h2, 21.0 * h2, 15.0 * h2, 15.0 * h2, 15.0 * h2];
+    let g = [
+        15.0 * h2,
+        15.0 * h2,
+        15.0 * h2,
+        15.0 * h2,
+        21.0 * h2,
+        15.0 * h2,
+        15.0 * h2,
+        15.0 * h2,
+    ];
     Curvature {
         ricci_scalar: -42.0 * h2,
         einstein_mixed: g,
         rho_required: -g[4],
         p_required: [g[0], g[1], g[2], g[3], g[5], g[6], g[7]],
         extrinsic: [h, h, h, 0.0, h, h, h],
-        brane_stress: [-10.0 * h, -10.0 * h, -10.0 * h, -12.0 * h, -10.0 * h, -10.0 * h, -10.0 * h],
+        brane_stress: [
+            -10.0 * h,
+            -10.0 * h,
+            -10.0 * h,
+            -12.0 * h,
+            -10.0 * h,
+            -10.0 * h,
+            -10.0 * h,
+        ],
     }
 }
 
@@ -119,7 +136,11 @@ fn christoffel(h: f64, a4: f64, y: f64) -> [[[f64; 8]; 8]; 8] {
     let g = metric_diag(h, a4, y);
     let mut dg = [0.0; 8];
     for (mu, value) in dg.iter_mut().enumerate() {
-        *value = if mu == 0 || mu == 4 { 0.0 } else { 2.0 * h * g[mu] };
+        *value = if mu == 0 || mu == 4 {
+            0.0
+        } else {
+            2.0 * h * g[mu]
+        };
     }
     let mut gamma = [[[0.0; 8]; 8]; 8];
     for i in 0..8 {
@@ -159,8 +180,8 @@ pub fn curvature_numerical(h: f64, a4: f64, y: f64, dy: f64) -> (f64, [f64; 8]) 
                 }
             }
             for r in 0..8 {
-                for l in 0..8 {
-                    value += gam[r][r][l] * gam[l][m][n] - gam[r][n][l] * gam[l][m][r];
+                for (l, gam_l) in gam.iter().enumerate() {
+                    value += gam[r][r][l] * gam_l[m][n] - gam[r][n][l] * gam_l[m][r];
                 }
             }
             ricci[m][n] = value;
@@ -261,7 +282,11 @@ mod tests {
     #[test]
     fn curvature_matches_closed_forms() {
         for a4 in [0.0, 0.5] {
-            assert!(curvature_check(1.0, a4) < 1e-7, "{}", curvature_check(1.0, a4));
+            assert!(
+                curvature_check(1.0, a4) < 1e-7,
+                "{}",
+                curvature_check(1.0, a4)
+            );
         }
         let c = curvature_closed_form(1.0);
         assert_eq!(c.rho_required, -21.0);
