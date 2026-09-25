@@ -8,6 +8,13 @@
 #
 # Run from any directory with PowerShell 7:
 #   pwsh -NoProfile -File scripts/verify_stage1_arbitrary_field.ps1
+# or from Windows PowerShell 5.1 (the "powershell" command):
+#   powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify_stage1_arbitrary_field.ps1
+# Windows PowerShell lacks the utf8NoBOM encoding that scripts/run_logged.ps1
+# uses (its Set-Content rejects it), so under the Desktop edition the gate
+# relaunches itself under pwsh with the same arguments, prints
+# stage1_powershell_relaunch, and exits with the relaunched gate's exit code;
+# without pwsh on PATH it prints stage1_arbitrary_field_verification=FAILED.
 # Before the provenance document exists (Stage 1 integration), the steps up
 # to, but not including, the provenance PDF step can be run with
 #   pwsh -NoProfile -File scripts/verify_stage1_arbitrary_field.ps1 -SkipProvenancePdf
@@ -53,6 +60,28 @@
 param(
     [switch]$SkipProvenancePdf
 )
+
+# Windows PowerShell 5.1 cannot run scripts/run_logged.ps1 (no utf8NoBOM
+# encoding); relaunch under PowerShell 7 with the same arguments.
+if ($PSVersionTable.PSEdition -eq "Desktop") {
+    $pwsh = Get-Command pwsh -CommandType Application `
+        -ErrorAction SilentlyContinue | Select-Object -First 1
+    if (-not $pwsh) {
+        Write-Output "stage1_failed_step=tools"
+        Write-Output ("stage1_failure_reason=PowerShell 7 (pwsh) was not found " +
+            "on PATH; Windows PowerShell $($PSVersionTable.PSVersion) cannot " +
+            "run scripts/run_logged.ps1 (no utf8NoBOM encoding)")
+        Write-Output "stage1_arbitrary_field_verification=FAILED"
+        exit 1
+    }
+    Write-Output ("stage1_powershell_relaunch=$($pwsh.Source) (Windows " +
+        "PowerShell $($PSVersionTable.PSVersion) relaunches the gate under pwsh)")
+    $relaunchArguments = @("-NoProfile", "-ExecutionPolicy", "Bypass",
+        "-File", $PSCommandPath)
+    if ($SkipProvenancePdf) { $relaunchArguments += "-SkipProvenancePdf" }
+    & $pwsh.Source @relaunchArguments
+    exit $LASTEXITCODE
+}
 
 $ErrorActionPreference = "Stop"
 $repositoryRoot = Split-Path -Parent $PSScriptRoot

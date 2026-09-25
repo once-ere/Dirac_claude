@@ -34,6 +34,16 @@
 //! * Energies: `E = sum mult w eps - int [(lambda/2) S_p^2 + e_x] dV_p`,
 //!   `dV_p = e^{6Hy} l^3 dy`; entropy `-sum mult [f ln f + (1-f) ln(1-f)]`
 //!   over all states; `F = E - T S_ent`, `Omega = F - mu N`.
+//! * Level crossings at the Fermi level (measured at N = 1016, attractive
+//!   lambda_hat_2: the k = 0 bulk level is pulled to within 1e-4 of the
+//!   192-fold brane band): the exact T = 0 aufbau occupations then flip
+//!   between iterations (charge sloshing, no mixing parameter cures it) and
+//!   the loop is stopped as stagnant; [`solve_ground`] retries with
+//!   Fermi-Dirac occupation smearing from [`SMEARING_LADDER`] (1e-4 m,
+//!   1e-3 m), starting from the failed densities, and records the smearing
+//!   in the solution's parameters (`run.json: parameters.occupationSmearing`,
+//!   `exactZeroTemperatureOccupations = false`); F = E - T S_ent uses the
+//!   physical T = 0, the smearing entropy is reported.
 //! * Mixing: Anderson (Pulay) on the pair (n_c, S_c); convergence when
 //!   `max|Delta n_c| / max|n_c| < tol` and the same for S_c (tol 1e-10).
 //! * Delta-SCF: occupations fixed by level identity (shell, parity, s,
@@ -64,6 +74,12 @@ pub struct Params {
     pub lambda_hat: f64,
     /// Temperature (absolute, same units as m; T = 0 allowed).
     pub temperature: f64,
+    /// Occupation smearing used ONLY by the fallback of [`solve_ground`]
+    /// when the exact T = 0 aufbau occupations do not converge (a level
+    /// crossing at the Fermi level): Fermi-Dirac weights at this
+    /// temperature, entropy reported, F = E - T S_ent with the PHYSICAL T
+    /// (0).  Zero in every other run.
+    pub smearing: f64,
     pub n_particles: f64,
     /// Occupation cutoff defining the energy window at T > 0.
     pub f_cut: f64,
@@ -99,6 +115,23 @@ impl Params {
 
     pub fn grid(&self) -> Vec<f64> {
         grid_points(self.length, self.grid_n)
+    }
+
+    /// Temperature of the Fermi-Dirac occupations: the physical T, or the
+    /// smearing of the T = 0 fallback.
+    pub fn occupation_temperature(&self) -> f64 {
+        if self.temperature > 0.0 {
+            self.temperature
+        } else {
+            self.smearing
+        }
+    }
+
+    /// Lower edge of every energy window: all particle-branch states lie
+    /// above it (the free particle branch starts at eps >= 0 and the
+    /// potentials shift it by less than this margin).
+    pub fn window_floor(&self) -> f64 {
+        -(self.m + 1.5 * self.m + 2.0 * PI / self.length)
     }
 }
 
@@ -566,7 +599,8 @@ pub fn occupy(
 ) -> Result<Filling, String> {
     let n_target = params.n_particles;
     let zero = Occupation::Zero;
-    let mode = if matches!(mode, Occupation::Thermal) && params.temperature <= 0.0 {
+    let t_occ = params.occupation_temperature();
+    let mode = if matches!(mode, Occupation::Thermal) && t_occ <= 0.0 {
         &zero
     } else {
         mode
@@ -639,7 +673,7 @@ pub fn occupy(
             })
         }
         Occupation::Thermal => {
-            let t = params.temperature;
+            let t = t_occ;
             let count = |mu: f64, states: &[State]| -> f64 {
                 states
                     .iter()
@@ -779,6 +813,8 @@ pub struct Energies {
     pub n_total: f64,
     pub scalar_total: f64,
     pub max_lambda_s_over_m: f64,
+    /// max_y |v_x(y)| / m (the vector part of the pseudo-potential).
+    pub max_v_x_over_m: f64,
 }
 
 pub fn energies(spectrum: &Spectrum, densities: &Densities, params: &Params, mu: f64) -> Energies {
@@ -788,10 +824,12 @@ pub fn energies(spectrum: &Spectrum, densities: &Densities, params: &Params, mu:
     let mut exchange_int = Vec::with_capacity(grid.len());
     let mut scalar_int = Vec::with_capacity(grid.len());
     let mut max_ratio: f64 = 0.0;
+    let mut max_ratio_v: f64 = 0.0;
     for (i, y) in grid.iter().enumerate() {
         let factor = density_factor(params.h, *y);
         let s_p = factor * densities.s_c[i];
         let n_p = factor * densities.n_c[i];
+        max_ratio_v = max_ratio_v.max(v_vector(lambda, n_p).abs() / params.m);
         // dV_p = e^{6Hy} l^3 dy: e^{6Hy} (lambda/2) S_p^2 = e^{-6Hy} (lambda/2) S_c^2
         hartree_int
             .push(params.volume() * factor * 0.5 * lambda * densities.s_c[i] * densities.s_c[i]);
@@ -829,6 +867,7 @@ pub fn energies(spectrum: &Spectrum, densities: &Densities, params: &Params, mu:
         n_total,
         scalar_total: simpson(dy, &scalar_int),
         max_lambda_s_over_m: max_ratio,
+        max_v_x_over_m: max_ratio_v,
     }
 }
 
@@ -994,22 +1033,79 @@ impl Solution {
     }
 }
 
-/// Energy window from a chemical-potential estimate.
+/// Energy window from a chemical-potential estimate.  Every window reaches
+/// down to [`Params::window_floor`], so that all (fully occupied) particle
+/// states are counted; at T > 0 it also contains the sea states with a hole
+/// occupation above f_cut (eps > mu - T ln(1/f_cut)) and the particle states
+/// with f > f_cut (eps < mu + T ln(1/f_cut)).  (Measured bug of an earlier
+/// version: a window starting at mu - T ln(1/f_cut) dropped the occupied
+/// states below it at small T and large N, and the particle number was then
+/// placed into the few states inside the window.)
 pub fn window_for(params: &Params, mu: f64, margin: f64) -> Window {
-    if params.temperature > 0.0 {
-        // f(eps) < f_cut for eps > mu + T ln(1/f_cut); 1 - f(eps) < f_cut for
-        // eps < mu - T ln(1/f_cut): the window is [mu - L, mu + L] + margins.
-        let thermal = params.temperature * log(1.0 / params.f_cut);
+    let floor = params.window_floor();
+    let t_occ = params.occupation_temperature();
+    if t_occ > 0.0 {
+        let thermal = t_occ * log(1.0 / params.f_cut);
         Window {
-            eps_lo: mu - thermal - margin,
+            eps_lo: (mu - thermal - margin).min(floor),
             eps_hi: mu + thermal + margin,
         }
     } else {
         Window {
-            eps_lo: -(params.m + margin),
+            eps_lo: floor,
             eps_hi: mu.max(0.0) + margin,
         }
     }
+}
+
+/// Upper bound on the window enlargements of one SCF iteration.
+pub const MAX_WINDOW_ENLARGEMENTS: usize = 40;
+/// Iterations without a factor-2 improvement of the residual after which an
+/// SCF loop is declared stagnant (returned as not converged).
+pub const STAGNATION_ITERATIONS: usize = 20;
+/// Smearing ladder (in units of m) of the T = 0 fallback of [`solve_ground`].
+pub const SMEARING_LADDER: [f64; 2] = [1.0e-4, 1.0e-3];
+
+/// Ground state at the physical temperature of `params` (T = 0: exact
+/// aufbau occupations; if they do not converge -- a level crossing at the
+/// Fermi level -- retry with Fermi-Dirac smearing from the ladder, starting
+/// from the densities of the failed attempt; the smearing used is recorded
+/// in `params.smearing` of the returned solution, 0 for an exact result).
+pub fn solve_ground(
+    params: &Params,
+    initial: Option<&Densities>,
+    mu_guess: f64,
+) -> Result<Solution, String> {
+    if params.temperature > 0.0 {
+        return solve(params, &Occupation::Thermal, initial, mu_guess);
+    }
+    let exact = solve(params, &Occupation::Zero, initial, mu_guess)?;
+    if exact.converged {
+        return Ok(exact);
+    }
+    let mut last = exact;
+    for smearing in SMEARING_LADDER {
+        let mut smeared = params.clone();
+        smeared.smearing = smearing * params.m;
+        let attempt = solve(
+            &smeared,
+            &Occupation::Thermal,
+            Some(&last.densities),
+            last.filling.mu,
+        )?;
+        let converged = attempt.converged;
+        last = attempt;
+        if converged {
+            break;
+        }
+    }
+    Ok(last)
+}
+
+/// Progress trace on stderr when the environment variable
+/// `DIRAC16_KS_VERBOSE` is set (diagnostics only; no file content depends on it).
+pub fn verbose_trace() -> bool {
+    std::env::var_os("DIRAC16_KS_VERBOSE").is_some()
 }
 
 /// Run the self-consistency loop.
@@ -1019,18 +1115,25 @@ pub fn solve(
     initial: Option<&Densities>,
     mu_guess: f64,
 ) -> Result<Solution, String> {
+    let verbose = verbose_trace();
     let n = params.grid_n;
     let mut densities = initial.cloned().unwrap_or_else(|| Densities::zero(n));
     let mut mixer = Anderson::new(params.mix_beta, params.mix_history);
     let mut warm: HashMap<Key, f64> = HashMap::new();
     let mut history = Vec::new();
     let mut mu_estimate = mu_guess;
+    let t_occ = params.occupation_temperature();
     // T = 0: room for the LUMO and the gap; T > 0: the thermal term sets the window
-    let margin = if params.temperature > 0.0 {
+    let margin = if t_occ > 0.0 {
         0.5 * params.m
     } else {
         1.5 * params.m + 2.0 * PI / params.length
     };
+    // stagnation stop: the exact T = 0 occupations cannot converge through a
+    // level crossing at the Fermi level (charge sloshing); give up when the
+    // running minimum of the residual has not improved for STAGNATION_ITERATIONS
+    let mut best_residual = f64::INFINITY;
+    let mut best_iteration = 0usize;
     let mut stats = Stats::default();
     let mut free_levels = FreeLevels::new(params);
     let mut converged = false;
@@ -1046,8 +1149,25 @@ pub fn solve(
         let potential = build_potential(params, &densities);
         let mut window = window_for(params, mu_estimate, margin);
         // enlarge the window until the occupation succeeds and the edge is unoccupied
+        let mut enlargements = 0usize;
         let (mut spectrum, filling) = loop {
+            if enlargements > MAX_WINDOW_ENLARGEMENTS {
+                return Err(format!(
+                    "solve: window enlarged {enlargements} times without a usable edge (iteration {iteration}, window [{}, {}])",
+                    window.eps_lo, window.eps_hi
+                ));
+            }
             let mut spectrum = compute_spectrum(params, &potential, window, &warm)?;
+            if verbose {
+                eprintln!(
+                    "[scf] iteration {iteration} window [{:.6}, {:.6}] shells {} states {} integrations {}",
+                    window.eps_lo,
+                    window.eps_hi,
+                    spectrum.shells_used,
+                    spectrum.states.len(),
+                    spectrum.stats.integrations
+                );
+            }
             stats.integrations += spectrum.stats.integrations;
             stats.steps += spectrum.stats.steps;
             stats.rhs_evals += spectrum.stats.rhs_evals;
@@ -1062,8 +1182,8 @@ pub fn solve(
                 Ok(filling) => {
                     let edge_ok = if matches!(mode, Occupation::Constrained(_)) {
                         true
-                    } else if params.temperature > 0.0 {
-                        let thermal = params.temperature * log(1.0 / params.f_cut);
+                    } else if t_occ > 0.0 {
+                        let thermal = t_occ * log(1.0 / params.f_cut);
                         window.eps_hi >= filling.mu + thermal
                             && window.eps_lo <= filling.mu - thermal
                     } else {
@@ -1080,6 +1200,13 @@ pub fn solve(
                         eps_lo: wider.eps_lo.min(window.eps_lo) - 0.5 * params.m,
                         eps_hi: wider.eps_hi.max(window.eps_hi) + 0.5 * params.m,
                     };
+                    enlargements += 1;
+                    if verbose {
+                        eprintln!(
+                            "[scf]   edge not usable (mu {}, lumo {:?}, sea_top {}, particle_bottom {}): enlarging to [{:.6}, {:.6}]",
+                            filling.mu, filling.lumo, filling.sea_top, filling.particle_bottom, window.eps_lo, window.eps_hi
+                        );
+                    }
                 }
                 Err(message) => {
                     if window.eps_hi > 200.0 * params.m.max(1.0) {
@@ -1089,6 +1216,13 @@ pub fn solve(
                         eps_lo: window.eps_lo * 1.5,
                         eps_hi: window.eps_hi * 1.5,
                     };
+                    enlargements += 1;
+                    if verbose {
+                        eprintln!(
+                            "[scf]   occupation failed ({message}): enlarging to [{:.6}, {:.6}]",
+                            window.eps_lo, window.eps_hi
+                        );
+                    }
                 }
             }
         };
@@ -1127,6 +1261,12 @@ pub fn solve(
             integrations: stats.integrations,
         });
         spectrum.stats = stats;
+        if verbose {
+            eprintln!(
+                "[scf] iteration {iteration}: residual_n {residual_n:.3e} residual_S {residual_s:.3e} mu {} E {} N {} max|lambda S|/m {}",
+                filling.mu, energy.total, energy.n_total, energy.max_lambda_s_over_m
+            );
+        }
         let done = residual_n < params.tol && residual_s < params.tol;
         last = Some((
             Arc::clone(&potential),
@@ -1138,6 +1278,17 @@ pub fn solve(
         ));
         if done {
             converged = true;
+            break;
+        }
+        let residual = residual_n.max(residual_s);
+        if residual < 0.5 * best_residual {
+            best_residual = residual;
+            best_iteration = iteration;
+        }
+        if iteration >= best_iteration + STAGNATION_ITERATIONS {
+            if verbose {
+                eprintln!("[scf] stagnation: no residual improvement by a factor 2 since iteration {best_iteration}; stopping");
+            }
             break;
         }
         // mix
@@ -1253,6 +1404,7 @@ pub fn standard_params(
         delta_k_over_m: 0.25,
         lambda_hat,
         temperature,
+        smearing: 0.0,
         n_particles,
         f_cut: 1.0e-8,
         shell_cap: 4096,

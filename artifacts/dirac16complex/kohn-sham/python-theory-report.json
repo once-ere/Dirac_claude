@@ -1,0 +1,1219 @@
+{
+  "schemaVersion": 1,
+  "producer": "scripts/check_dirac16complex_kohn_sham_theory.py",
+  "checks": {
+    "KS_fixture_contractConstructionMatchesFixture": true,
+    "KS_fixture_cliffordAndC": true,
+    "KS_fixture_Bproperties": true,
+    "KS_geometry_chartFromNotebook": true,
+    "KS_geometry_sqrtDetG_W6": true,
+    "KS_geometry_signature44": true,
+    "KS_geometry_a4CancelsInVolume": true,
+    "KS_geometry_christoffelCount18": true,
+    "KS_geometry_christoffelClosedForms": true,
+    "KS_geometry_ricciScalarMinus42H2": true,
+    "KS_geometry_ricciMixed": true,
+    "KS_geometry_einsteinMixedDiag": true,
+    "KS_geometry_kretschmann84H4": true,
+    "KS_geometry_ricciSquare252H4": true,
+    "KS_geometry_constantCurvatureSevenSpace": true,
+    "KS_geometry_invariantsYIndependent": true,
+    "KS_geometry_invariantsA4Independent": true,
+    "KS_geometry_requiredSource": true,
+    "KS_geometry_rhoRequiredNegative": true,
+    "KS_geometry_extrinsicCurvature": true,
+    "KS_geometry_israelJump": true,
+    "KS_geometry_israelStress": true,
+    "KS_geometry_braneEnergyPositive": true,
+    "KS_geometry_israelConventionRandallSundrum": true,
+    "KS_geometry_smoothExtensionE1": true,
+    "KS_geometry": true,
+    "KS_reduction_vielbeinPostulate512": true,
+    "KS_reduction_omegaCount12": true,
+    "KS_reduction_gammaSlashOmega3WprimeOverW": true,
+    "KS_reduction_OmegaYandOmega4Vanish": true,
+    "KS_reduction_OmegaClosedForms": true,
+    "KS_reduction_divergenceIdentity": true,
+    "KS_reduction_ansatzRemoves3H": true,
+    "KS_reduction_withoutW3the3HTermSurvives": true,
+    "KS_reduction_reducedEquationODEForm": true,
+    "KS_reduction_flatMeasure": true,
+    "KS_reduction_mirrorPatchKappaEven": true,
+    "KS_reduction_a4IsMomentumRescaling": true,
+    "KS_reduction_JK1K2commute": true,
+    "KS_reduction_A0A1A4equalsMinusJ": true,
+    "KS_reduction_projectorsRank2": true,
+    "KS_reduction_basisUnitary": true,
+    "KS_reduction_basisIsJointEigenbasis": true,
+    "KS_reduction_blocksA0A1A4": true,
+    "KS_reduction_blocksBC": true,
+    "KS_reduction_blocksJK1K2": true,
+    "KS_reduction_densityMatricesBlockForm": true,
+    "KS_reduction_fiveMatricesBlockDiagonal": true,
+    "KS_reduction_reconstructFromBlocks": true,
+    "KS_reduction_gamma2gamma3NotBlockDiagonal": true,
+    "KS_reduction_gamma8SwapsJ": true,
+    "KS_reduction_algebraDim8": true,
+    "KS_reduction_blockTypes": true,
+    "KS_reduction_commutantDims": true,
+    "KS_reduction_commutantDimsNumericalCrossCheck": true,
+    "KS_reduction_blockODEMatrix": true,
+    "KS_reduction_blockHamiltonianEquivalentToODE": true,
+    "KS_reduction_blockODEComponents": true,
+    "KS_reduction_hMinusEqualsMinusHPlus": true,
+    "KS_reduction_sigma3ConjugationFlipsK": true,
+    "KS_reduction_degeneracy": true,
+    "KS_reduction_k0ZeroMode": true,
+    "KS_reduction_k0MassiveLevels": true,
+    "KS_reduction_k0NegativeLevels": true,
+    "KS_reduction_zeroModeSplitting": true,
+    "KS_reduction_rotationalSymmetry": true,
+    "KS_reduction": true,
+    "KS_boundary_currentMatrix": true,
+    "KS_boundary_currentConservedAlongY": true,
+    "KS_boundary_hilbertNormNotConservedAlongY": true,
+    "KS_boundary_currentBlockForm": true,
+    "KS_boundary_parityProjectorsBlockForm": true,
+    "KS_boundary_parityKillsCurrent": true,
+    "KS_boundary_bagFamily": true,
+    "KS_boundary_bagThetaZeroIsEvenParity": true,
+    "KS_boundary_bagIn16": true,
+    "KS_boundary_currentKilledByAnticommutingProjector": true,
+    "KS_boundary_selfAdjointBoundaryTerm": true,
+    "KS_boundary_tipAsymptotics": true,
+    "KS_boundary_parityA_symmetryIffMassOdd": true,
+    "KS_boundary_parityB_symmetryForEvenMass": true,
+    "KS_boundary_parityB_couplesJBlocks": true,
+    "KS_boundary_parityOperatorsKillCurrent": true,
+    "KS_boundary_densityParities": true,
+    "KS_boundary": true,
+    "KS_exchange_wickTheoremHF": true,
+    "KS_exchange_hartreeFockFormula": true,
+    "KS_exchange_filledShellProjector": true,
+    "KS_exchange_filledShellScalarDensity": true,
+    "KS_exchange_filledShellOneEighth": true,
+    "KS_exchange_kernelTraceTable": true,
+    "KS_exchange_kernelClosedForm": true,
+    "KS_exchange_angularAverageOfPdotQVanishes": true,
+    "KS_exchange_blockFormOfFockTerm": true,
+    "KS_exchange_uniformGasClosedForm": true,
+    "KS_exchange_antiparticleConvention": true,
+    "KS_exchange_T0_closedForms_d4": true,
+    "KS_exchange_T0_closedForms_d3": true,
+    "KS_exchange_restGasLimit": true,
+    "KS_exchange_ldaPotentials": true,
+    "KS_exchange_couplingDimension": true,
+    "KS_exchange_doubleQuadratureMpmath": true,
+    "KS_exchange": true,
+    "KS_functional_stationarityGivesKSEquation": true,
+    "KS_functional_fermiDiracOccupations": true,
+    "KS_functional_totalEnergyDoubleCounting": true,
+    "KS_functional_hellmannFeynmanLambda": true,
+    "KS_functional_hellmannFeynmanTemperature": true,
+    "KS_functional_hellmannFeynmanMass": true,
+    "KS_functional_hellmannFeynmanMomentum": true,
+    "KS_functional_merminStructure": true,
+    "KS_functional_variantV": true,
+    "KS_functional": true,
+    "KS_emt_staticAnticommutators": true,
+    "KS_emt_bilinearExtractionExact": true,
+    "KS_emt_blockIndependentForms": true,
+    "KS_emt_rho": true,
+    "KS_emt_py": true,
+    "KS_emt_p1": true,
+    "KS_emt_p2p3": true,
+    "KS_emt_pt": true,
+    "KS_emt_onShellLagrangian": true,
+    "KS_emt_Ty4ProportionalToCurrent": true,
+    "KS_emt_Ty1ProportionalToCurrent": true,
+    "KS_emt_T41form": true,
+    "KS_emt_symmetric": true,
+    "KS_emt_T41cancelsOverShell": true,
+    "KS_emt_offBlockComponentsVanishPerOrbital": true,
+    "KS_emt_trace": true,
+    "KS_emt_restStateDust": true,
+    "KS_emt_densityParityTable": true,
+    "KS_emt_properVolumeAverage": true,
+    "KS_emt_requiredSourceComparison": true,
+    "KS_emt": true,
+    "KS_exchange_tableConsistentWithClosedForm": true,
+    "KS_wolfram_einsteinValues": true,
+    "KS_wolfram_requiredSource": true,
+    "KS_wolfram_extrinsicCurvature": true,
+    "KS_wolfram_braneStress": true,
+    "KS_wolfram_christoffelCount": true,
+    "KS_wolfram_blockCount": true,
+    "KS_wolfram_blockOrder": true,
+    "KS_wolfram_basisVectorsIdentical": true,
+    "KS_wolfram_seedColumnsIdentical": true,
+    "KS_wolfram_blockSubspacesIdentical": true,
+    "KS_wolfram_blockMatricesIdentical": true,
+    "KS_wolfram_basisMatrixIdentical": true,
+    "KS_wolfram_typesAndDims": true,
+    "KS_wolfram_blockFormulas": true,
+    "KS_wolfram_zeroModeSplitting": true,
+    "KS_wolfram_parityProjectors": true,
+    "KS_wolfram_filledShellRatio": true,
+    "KS_wolfram_exchangeClosedForm": true,
+    "KS_wolfram_kernelForms": true,
+    "KS_wolfram_emtOffDiagonalCoefficients": true,
+    "KS_agreesWithWolfram": true,
+    "KS_internal_noException": true
+  },
+  "measurements": {
+    "fixture": {
+      "clifford": true,
+      "gammaSymmetricSpaceAntisymmetricTime": true,
+      "C_squared_one": true,
+      "C_symmetric": true,
+      "Cgamma_antisymmetric": true,
+      "B_hermitian": true,
+      "B_squared_one": true,
+      "B_commutes_C": true,
+      "BC_is_minus_i_gamma4": true,
+      "chirality_diag": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "chirality_anticommutes": true,
+      "fixtureAgreement": true
+    },
+    "KS_geometry": {
+      "chartFromNotebook": "y = ln(sin z)/(6H): dy = cot z dx0, s^{1/3} = e^{2Hy}, cos z dx0 = e^{6Hy} dy",
+      "sqrtDetG_W6": "sqrt|g| = exp(6*H*y)",
+      "christoffelCount18": 18,
+      "christoffelClosedForms": "Gamma^y_ii = -H g_ii, Gamma^i_yi = Gamma^i_iy = H (i = x1,x2,x3,x5,x6,x7)",
+      "ricciScalarMinus42H2": "-42*H**2",
+      "ricciMixed": [
+        "-6*H**2",
+        "-6*H**2",
+        "-6*H**2",
+        "-6*H**2",
+        "0",
+        "-6*H**2",
+        "-6*H**2",
+        "-6*H**2"
+      ],
+      "einsteinMixedDiag": [
+        "15*H**2",
+        "15*H**2",
+        "15*H**2",
+        "15*H**2",
+        "21*H**2",
+        "15*H**2",
+        "15*H**2",
+        "15*H**2"
+      ],
+      "kretschmann84H4": "84*H**4",
+      "ricciSquare252H4": "252*H**4",
+      "constantCurvatureSevenSpace": "R^r_smn = -H^2 (delta^r_m g_sn - delta^r_n g_sm) on (y,x1,x2,x3,x5,x6,x7); every component with x4 vanishes",
+      "requiredSource": {
+        "rho_req": "-21*H**2/kappa",
+        "p_req_transverse": [
+          "15*H**2/kappa",
+          "15*H**2/kappa",
+          "15*H**2/kappa",
+          "15*H**2/kappa",
+          "15*H**2/kappa",
+          "15*H**2/kappa",
+          "15*H**2/kappa"
+        ],
+        "w_req": "-5/7",
+        "specNote": "STAGE4_SPEC section 1 writes p_req = -15H^2/kappa; the exact mixed components give T^i_i = +15H^2/kappa on all seven transverse directions (errata E4.3); rho_req = -21H^2/kappa < 0"
+      },
+      "extrinsicCurvature": {
+        "K^i_i (x1,x2,x3,x4,x5,x6,x7)": [
+          "H",
+          "H",
+          "H",
+          "0",
+          "H",
+          "H",
+          "H"
+        ],
+        "K": "6*H"
+      },
+      "israelJump": {
+        "[K^i_j]": [
+          "-2*H",
+          "-2*H",
+          "-2*H",
+          "0",
+          "-2*H",
+          "-2*H",
+          "-2*H"
+        ],
+        "[K]": "-12*H"
+      },
+      "israelStress": {
+        "convention": "[K_ij] - h_ij [K] = -kappa S_ij, [X] = X(0+) - X(0-), n = +d_y, K_ij = (1/2) d_y g_ij",
+        "S^i_j (x1,x2,x3,x4,x5,x6,x7)": [
+          "-10*H/kappa",
+          "-10*H/kappa",
+          "-10*H/kappa",
+          "-12*H/kappa",
+          "-10*H/kappa",
+          "-10*H/kappa",
+          "-10*H/kappa"
+        ],
+        "rho_brane = -S^4_4": "12*H/kappa",
+        "p_brane": "-10*H/kappa",
+        "magnitudePattern": "(10,10,10,12,10,10,10) H/kappa"
+      },
+      "israelConventionRandallSundrum": "S^mu_nu = -6k/kappa delta: positive tension sigma = 6k/kappa",
+      "smoothExtensionE1": "W = e^{Hy} on all of R: the same y-independent curvature (regular homogeneous space)",
+      "metric": {
+        "diagonal": [
+          "1",
+          "exp(2*a4)*exp(2*H*y)",
+          "exp(2*a4)*exp(2*H*y)",
+          "exp(2*a4)*exp(2*H*y)",
+          "-1",
+          "-exp(-2*a4)*exp(2*H*y)",
+          "-exp(-2*a4)*exp(2*H*y)",
+          "-exp(-2*a4)*exp(2*H*y)"
+        ],
+        "vielbein": "h = (1, W e^{a4} x3, 1, W e^{-a4} x3)",
+        "coordinateOrder": [
+          "y",
+          "x1",
+          "x2",
+          "x3",
+          "x4",
+          "x5",
+          "x6",
+          "x7"
+        ]
+      }
+    },
+    "KS_reduction": {
+      "vielbeinPostulate512": "postulate holds for all 512 (mu,nu,a); omega_mu ab antisymmetric",
+      "omegaCount12": {
+        "count": 12,
+        "entries (mu,a,b): omega_mu ab": {
+          "1,0,1": "-exp(a4)*Derivative(W(y), y)",
+          "1,1,0": "exp(a4)*Derivative(W(y), y)",
+          "2,0,2": "-exp(a4)*Derivative(W(y), y)",
+          "2,2,0": "exp(a4)*Derivative(W(y), y)",
+          "3,0,3": "-exp(a4)*Derivative(W(y), y)",
+          "3,3,0": "exp(a4)*Derivative(W(y), y)",
+          "5,0,5": "exp(-a4)*Derivative(W(y), y)",
+          "5,5,0": "-exp(-a4)*Derivative(W(y), y)",
+          "6,0,6": "exp(-a4)*Derivative(W(y), y)",
+          "6,6,0": "-exp(-a4)*Derivative(W(y), y)",
+          "7,0,7": "exp(-a4)*Derivative(W(y), y)",
+          "7,7,0": "-exp(-a4)*Derivative(W(y), y)"
+        }
+      },
+      "gammaSlashOmega3WprimeOverW": "gamma^mu Omega_mu = 3 (W'/W) gamma^0 (a4-independent); = 3H gamma^0 for W = e^{Hy}, -3H gamma^0 on the mirror patch W = e^{-Hy}",
+      "OmegaClosedForms": "Omega_i = -W' e^{a4} S^{0i} (i=1,2,3), Omega_j = +W' e^{-a4} S^{0j} (j=5,6,7)",
+      "ansatzRemoves3H": "gamma^mu D_mu Psi = e^{i phi} W^{-3} [gamma^0 chi' + i kappa k gamma^1 chi - i eps gamma^4 chi], kappa = e^{-a4}/W",
+      "withoutW3the3HTermSurvives": "Psi = e^{i phi} chi gives the extra term +3 (W'/W) gamma^0 chi",
+      "reducedEquationODEForm": "chi' = gamma^0 [M_eff chi - i kappa k gamma^1 chi + i eps gamma^4 chi] (gamma^0 gamma^0 = 1)",
+      "flatMeasure": "sqrt|g| |W^{-3} chi|^2 = |chi|^2: flat measure dy",
+      "mirrorPatchKappaEven": "kappa = e^{-a4} e^{H|y|} on both sides of the Z2 geometry",
+      "a4IsMomentumRescaling": "kappa k = e^{-Hy} (k e^{-a4}): a4 enters only as k -> k e^{-a4}",
+      "JK1K2commute": "J = gamma^0 gamma^1 gamma^4 (J^2 = 1, Hermitian), K1 = gamma^2 gamma^3, K2 = gamma^5 gamma^6 (squares -1) commute mutually and with A0, A1, A4, B, C",
+      "A0A1A4equalsMinusJ": "A0 A1 A4 = -J: the design probes / Rust label s = -j",
+      "projectorsRank2": "eight orthogonal Hermitian idempotents of rank 2 summing to 1",
+      "basisUnitary": {
+        "columnNormSquared": 8,
+        "entries": "Gaussian integers in {0, +-1, +-i}",
+        "seedColumns": [
+          4,
+          0,
+          0,
+          4,
+          0,
+          4,
+          4,
+          0
+        ],
+        "note": "V/(2 sqrt 2) is unitary; chi_16 = V chi_block / (2 sqrt 2)"
+      },
+      "basisIsJointEigenbasis": "J = j, K1 = i s2, K2 = i s3 on both basis vectors of every block",
+      "blocksA0A1A4": "A0 = sigma3, A1 = -i sigma2 = [[0,-1],[1,0]], A4 = j sigma1 in every block",
+      "blocksBC": "B = j s2, C = s2 sigma2, BC = j sigma2, gamma^4 gamma^1 = -j sigma3",
+      "densityMatricesBlockForm": "number 1, scalar j sigma2, y-current j sigma1 (= A4), k-current j sigma3 (= -gamma^4 gamma^1)",
+      "gamma2gamma3NotBlockDiagonal": "gamma^2, gamma^3 anticommute with K1: zero diagonal blocks, they map s2 -> -s2",
+      "algebraDim8": 8,
+      "blockTypes": {
+        "yEquation": "2 inequivalent irreducible types (j = +1: blocks 0-3, j = -1: blocks 4-7)",
+        "withBandC": "4 types (j, s2) with 2 blocks each (s3 = +-1)",
+        "typesY": [
+          [
+            0,
+            1,
+            2,
+            3
+          ],
+          [
+            4,
+            5,
+            6,
+            7
+          ]
+        ],
+        "typesBC": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            6,
+            7
+          ]
+        ]
+      },
+      "commutantDims": {
+        "commutant_A0A1A4": 32,
+        "commutant_A0A1A4BC": 16,
+        "method": "Schur's lemma on the exact block decomposition (each block irreducible, M2(C) spanned by 1, A0, A1, A4)"
+      },
+      "commutantDimsNumericalCrossCheck": {
+        "svdNullity_A0A1A4": 32,
+        "svdNullity_A0A1A4BC": 16
+      },
+      "blockOrder": "index = 4(1-j)/2 + 2(1-s2)/2 + (1-s3)/2, labels [(1, 1, 1), (1, 1, -1), (1, -1, 1), (1, -1, -1), (-1, 1, 1), (-1, 1, -1), (-1, -1, 1), (-1, -1, -1)]",
+      "multiplicity": "eight 2x2 blocks: 4 with j = +1 and 4 with j = -1",
+      "blockODEMatrix": "chi' = [M_eff sigma3 - kappa k sigma2 + i j (eps - v_v) sigma1] chi",
+      "blockHamiltonianEquivalentToODE": "h_j chi = eps chi with h_j = j[-i sigma1 d/dy + M_eff sigma2 + kappa k sigma3] + v_v is equivalent to chi' = N chi (uses j^2 = 1)",
+      "hMinusEqualsMinusHPlus": "h_{-1} - v_v = -(h_{+1} - v_v): the j = -1 blocks carry the negated spectrum",
+      "sigma3ConjugationFlipsK": "sigma3 N(k, j) sigma3 = N(-k, -j) at fixed eps: |chi|^2 and scalar density agree for (k,j), (-k,-j)",
+      "degeneracy": "at fixed k = (k,0,0) each level of h_{+1} is 4-fold (blocks 0-3) and each level of h_{-1} 4-fold (blocks 4-7); spec(h_{-1} - v_v) = -spec(h_{+1} - v_v); 8-fold degeneracy at k = 0 and over closed shells {k, -k} (errata E4.4)",
+      "k0ZeroMode": "eps = 0, chi = (e^{My}, 0): chi_2 = 0 at both ends; normalisable on (-inf, 0] for M > 0; proper density n_p ~ e^{(2M - 6H) y}",
+      "k0MassiveLevels": "eps = +-sqrt(M^2 + (n pi/L)^2), chi_2 = sin(n pi y/L), chi_1 = (M sin + k_n cos)/(i j eps); both signs of eps solve the same boundary problem (eps -> -eps with chi_1 -> -chi_1)",
+      "zeroModeSplitting": {
+        "formula": "d eps_0/dk|_{k=0} = j c, c = int_{-L}^0 kappa e^{2My} dy / int_{-L}^0 e^{2My} dy",
+        "closedForm": "2*M*(1 - exp(L*(H - 2*M)))*exp(-a4)/((1 - exp(-2*L*M))*(-H + 2*M))",
+        "sympy": "2*M*(exp(H*L) - exp(2*L*M))*exp(-a4)/(H*exp(2*L*M) - H - 2*M*exp(2*L*M) + 2*M)",
+        "note": "dh/dk = j kappa sigma3 and sigma3 = +1 on the zero mode; c > 0 (positive integrand); +ck for j = +1 (Rust label s = -1), -ck for j = -1; at H = 2M the closed form is the limit c = e^{-a4} 2M L/(1 - e^{-2ML})"
+      },
+      "rotationalSymmetry": {
+        "R": "cos(theta/2) + sin(theta/2) gamma^1 gamma^2 ((gamma^1 gamma^2)^2 = -1)",
+        "R gamma^1 R^-1": "cos(theta) gamma^1 - sin(theta) gamma^2",
+        "commutesWith": "gamma^0, gamma^4, B, C (hence with A0, A4, the parity projectors and the theta = 0 bag)",
+        "consequence": "the spectrum depends on |k| only; the chiral-bag condition theta != 0 rotates with k"
+      }
+    },
+    "KS_boundary": {
+      "currentMatrix": "B(-i C gamma^0) = gamma^0 gamma^4 = A4 = -gamma^4 gamma^0: real symmetric (B absorbed, STAGE4_SPEC section 4 corrected by errata E4.5)",
+      "currentConservedAlongY": "N^dagger A4 + A4 N = 0 for real M_eff, kappa, k, eps, v_v: d/dy (chi^dagger A4 chi) = 0",
+      "hilbertNormNotConservedAlongY": "N^dagger + N = 2 M_eff A0 - 2 i kappa k A1 != 0: chi^dagger chi is not conserved in y",
+      "currentBlockForm": "A4 = j sigma1: J^y_mode = j (chi_1^* chi_2 + chi_2^* chi_1) e^{-6Hy}/l^3",
+      "parityProjectorsBlockForm": {
+        "even (+gamma^0)": "chi_2(0) = 0",
+        "odd (-gamma^0)": "chi_1(0) = 0",
+        "projector": "P chi(0) = 0 with P = (1 -+ sigma3)/2"
+      },
+      "parityKillsCurrent": "chi^dagger sigma1 chi = 2 Re(chi_1^* chi_2) vanishes when either component vanishes",
+      "bagFamily": {
+        "family": "(1 - Q(theta)) chi(-L) = 0, Q = cos(theta) sigma3 + sin(theta) sigma2, Q^2 = 1, {Q, sigma1} = 0",
+        "eigenvector": "chi(-L) ~ (cos(theta/2), i sin(theta/2))",
+        "current": "chi^dagger sigma1 chi = 0"
+      },
+      "bagThetaZeroIsEvenParity": "theta = 0: chi_2(-L) = 0, the even-parity condition at the tip (admits the k = 0 zero mode e^{My})",
+      "bagIn16": "Q(theta) = cos(theta) gamma^0 + i sin(theta) gamma^0 gamma^1 (chiral-bag family), Hermitian, squares to 1, anticommutes with A4; block form Q",
+      "currentKilledByAnticommutingProjector": "for Q chi = chi and Q Hermitian with {Q, A4} = 0: chi^dagger A4 chi = chi^dagger A4 Q chi = -chi^dagger Q A4 chi = -chi^dagger A4 chi = 0",
+      "selfAdjointBoundaryTerm": "phi^dagger (h chi) - (h phi)^dagger chi = -i j d/dy (phi^dagger sigma1 chi): the boundary term vanishes on any pair of current-killing conditions, so h is self-adjoint, eps real, eigenfunctions orthogonal in the flat y-measure",
+      "tipAsymptotics": "chi = exp(s k e^{-Hy-a4}/H) (1, i s): decays toward the tip iff s = -sgn(k); theta = -pi/2 (k > 0) selects sigma2 = -1, chi(-L) ~ (1, -i); theta = +pi/2 for k < 0",
+      "parityA_symmetryIffMassOdd": "-gamma^0 N(M, kappa) gamma^0 = N(-M, kappa): with kappa even, P_A maps solutions with M(y) to solutions with -M(-y); a symmetry iff M_eff is odd (the +-M mirror pair, CONTRACT errata E2)",
+      "parityB_symmetryForEvenMass": "P_B = i gamma^0 gamma^8 (Hermitian, squares to 1): -P_B N(M, kappa) P_B = N(M, kappa), the symmetry for an even mass function",
+      "parityB_couplesJBlocks": {
+        "anticommutesWithJ": true,
+        "anticommutesWithA4": true,
+        "blockPairs": [
+          "0->4: +sigma1",
+          "1->5: +sigma1",
+          "2->6: -sigma1",
+          "3->7: -sigma1",
+          "4->0: +sigma1",
+          "5->1: +sigma1",
+          "6->2: -sigma1",
+          "7->3: -sigma1"
+        ],
+        "consequence": "(1 -+ P_B) chi(0) = 0 couples block (j,s2,s3) with (-j,s2,s3): a 4x4 problem; the KS problem uses the block-diagonal P_A conditions (errata E4.6)"
+      },
+      "parityOperatorsKillCurrent": "gamma^0 and P_B anticommute with A4",
+      "densityParities": {
+        "n": {
+          "P_A": "even",
+          "P_B": "even"
+        },
+        "s": {
+          "P_A": "odd",
+          "P_B": "even"
+        },
+        "t": {
+          "P_A": "even",
+          "P_B": "even"
+        },
+        "c": {
+          "P_A": "odd",
+          "P_B": "odd"
+        }
+      },
+      "used": "the KS problem uses the block-level conditions chi_2(0) = 0 / chi_1(0) = 0 (both parities as boundary conditions, not as symmetries) and the bag family at y = -L"
+    },
+    "KS_exchange": {
+      "wickTheoremHF": {
+        "modes": "v+, v- of block 0, v+ of block 1, v- of block 6 (B = +1, orthonormal after /sqrt 8)",
+        "carVerified": true,
+        "orthonormal": true,
+        "BeigenvaluePlusOne": true,
+        "cases": [
+          {
+            "occupied": [
+              0
+            ],
+            "<:S^2:>": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "0",
+              "0"
+            ],
+            "ok": true
+          },
+          {
+            "occupied": [
+              1
+            ],
+            "<:S^2:>": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "0",
+              "0"
+            ],
+            "ok": true
+          },
+          {
+            "occupied": [
+              0,
+              1
+            ],
+            "<:S^2:>": [
+              "-2",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "2",
+              "0"
+            ],
+            "ok": true
+          },
+          {
+            "occupied": [
+              0,
+              2
+            ],
+            "<:S^2:>": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "0",
+              "0"
+            ],
+            "ok": true
+          },
+          {
+            "occupied": [
+              1,
+              3
+            ],
+            "<:S^2:>": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "0",
+              "0"
+            ],
+            "ok": true
+          },
+          {
+            "occupied": [
+              0,
+              1,
+              2
+            ],
+            "<:S^2:>": [
+              "-2",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "2",
+              "0"
+            ],
+            "ok": true
+          },
+          {
+            "occupied": [
+              0,
+              1,
+              3
+            ],
+            "<:S^2:>": [
+              "-2",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "2",
+              "0"
+            ],
+            "ok": true
+          },
+          {
+            "occupied": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "<:S^2:>": [
+              "-2",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "2",
+              "0"
+            ],
+            "ok": true
+          }
+        ]
+      },
+      "hartreeFockFormula": "E_HF = (lambda/2)[Tr(BC rho)^2 - Tr(BC rho BC rho)] per unit volume, rho = sum_n f_n u_n u_n^dagger, with the expectation rule <Psi^dagger X Psi> = Tr(B X rho) (two-point function G = rho B)",
+      "filledShellProjector": "P_+(k) = (1 + h_k/E)/2, h_k = -i m gamma^4 - k gamma^4 gamma^1 Hermitian, rank 8, h P = E P",
+      "filledShellScalarDensity": {
+        "Tr(BC P_+)": [
+          "24/5",
+          "0"
+        ],
+        "8m/E": "24/5"
+      },
+      "filledShellOneEighth": {
+        "Tr(BC P_+ BC P_+)": [
+          "72/25",
+          "0"
+        ],
+        "ratio": "1/8",
+        "statement": "E_x = -(lambda/2) S^2/8 = -E_H/8 for one filled shell (8 states at one k)"
+      },
+      "kernelTraceTable": {
+        "Gamma": "-i gamma^4 = BC, Gamma^2 = 1",
+        "h_p": "m Gamma - sum_j p_j (i Gamma gamma^j) = -i m gamma^4 - gamma^4 gamma^j p_j",
+        "Tr(X_a Gamma X_b Gamma)": [
+          [
+            [
+              "16",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ]
+          ],
+          [
+            [
+              "0",
+              "0"
+            ],
+            [
+              "-16",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ]
+          ],
+          [
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "-16",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ]
+          ],
+          [
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "-16",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ]
+          ],
+          [
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "-16",
+              "0"
+            ]
+          ]
+        ]
+      },
+      "kernelClosedForm": {
+        "kernel": "Tr(P_a(p) BC P_b(q) BC) = 4[1 + a b (m^2 - p.q)/(E_p E_q)]",
+        "forms": {
+          "K_++": "4 + 4*(m**2 - p0*q0 - p1*q1 - p2*q2 - p3*q3)/(E_p*E_q)",
+          "K_+-": "4 + 4*(-m**2 + p0*q0 + p1*q1 + p2*q2 + p3*q3)/(E_p*E_q)",
+          "K_-+": "4 + 4*(-m**2 + p0*q0 + p1*q1 + p2*q2 + p3*q3)/(E_p*E_q)",
+          "K_--": "4 + 4*(m**2 - p0*q0 - p1*q1 - p2*q2 - p3*q3)/(E_p*E_q)"
+        },
+        "Tr(Gamma h)": "0",
+        "Tr(Gamma Gamma)": "16",
+        "note": "the spin-summed |ubar_p u_q|^2 of the spec with ubar u -> u^dagger BC u"
+      },
+      "angularAverageOfPdotQVanishes": {
+        "int sin^2 cos (S^3)": "0",
+        "int sin cos (S^2)": "0",
+        "int sin^2": "pi/2"
+      },
+      "blockFormOfFockTerm": "Tr(BC rho BC rho) = sum_beta (n_b^2 + s_b^2 - t_b^2 - c_b^2)/2, so E_x = -(lambda/4) sum_beta (...) (errata E4.7); for the uniform gas with n_b = n/8, s_b = S/8, t_b = c_b = 0 this is (n^2 + S^2)/16",
+      "uniformGasClosedForm": {
+        "e_x": "-(lambda/2) Tr(BC rho BC rho) = -(lambda/32)(n^2 + S^2) for every T and every d",
+        "n": "8 int (f_+ - f_-)",
+        "S": "8 int (m/E)(f_+ + f_-)",
+        "decomposition": "e_x^(v) = -(lambda/32) n^2 (number part), e_x^(s) = -(lambda/32) S^2 (scalar part)"
+      },
+      "antiparticleConvention": "rho = int [f_+ P_+ - f_- P_-] (normal ordering: holes of the sea): antiparticles carry negative number density (Tr P_- = 8 with weight -f_-) and positive scalar density (Tr BC P_- = -8m/E)",
+      "T0_closedForms_d4": {
+        "n": "k_F**4/(4*pi**2)",
+        "S": "m*(2*m**3 + (k_F**2 - 2*m**2)*sqrt(k_F**2 + m**2))/(3*pi**2)",
+        "eKin": "(3*k_F**4*sqrt(k_F**2 + m**2) + k_F**2*m**2*sqrt(k_F**2 + m**2) + 2*m**5 - 2*m**4*sqrt(k_F**2 + m**2))/(15*pi**2)",
+        "dS/dn": "m/sqrt(k_F**2 + m**2)",
+        "e_x(n,0)": "-(lambda/32)[n^2 + S(k_F(n))^2], k_F = (4 pi^2 n)^{1/4}",
+        "v_x_total": "d e_x/dn|_{T=0} = -(lambda/16)[n + S m/E_F]"
+      },
+      "T0_closedForms_d3": {
+        "n": "4*k_F**3/(3*pi**2)",
+        "S": "2*m*(k_F*sqrt(k_F**2 + m**2) - m**2*asinh(k_F/m))/pi**2",
+        "eKin": "(2*k_F**5 + 3*k_F**3*m**2 + k_F*m**4 - m**4*sqrt(k_F**2 + m**2)*asinh(k_F/m))/(2*pi**2*sqrt(k_F**2 + m**2))",
+        "dS/dn": "m/sqrt(k_F**2 + m**2)"
+      },
+      "restGasLimit": "k_F -> 0: S = n, e_x = -(lambda/16) n^2 = -e_H/8 (filled-shell value)",
+      "ldaPotentials": {
+        "v_v": "de_x/dn|_S = -(lambda/16) n (potential type, enters as eps -> eps - v_v)",
+        "v_s": "de_x/dS|_n = -(lambda/16) S (mass type, enters M_eff = m + lambda S + v_s)",
+        "v_x_nOnly": "de_x(n,T)/dn|_T = -(lambda/16)[n + S_u dS_u/dn] (STAGE4_SPEC recommendation KS-V)",
+        "used": "KS-VS: M_eff = m + lambda S_p + v_s = m + (15/16) lambda S_p, v_v = -(lambda/16) n_p, the exact functional derivative of the LDA functional; KS-V uses the exact Hartree shift and v_x only"
+      },
+      "couplingDimension": "[Psi] = 7/2 in 8D, [m] = 1, [lambda] = mass^-6: the contact interaction beyond Hartree-Fock is not renormalisable; no correlation term; lambda-hat = lambda m^6",
+      "doubleQuadratureMpmath": {
+        "method": "composite Gauss-Legendre in |p|, |q| (panels around the Fermi edge; 16 vs 32 nodes per panel as the error estimate), raw kernel 4[1 + ab (m^2 - pq cos theta)/(EE')] with a 4- resp. 6-node exact angular rule (sin^2 theta for d = 4, sin theta for d = 3), mpmath 20 digits",
+        "points": [
+          {
+            "d": 4,
+            "n": 0.01,
+            "T": 0.0,
+            "mu": 1.2760558493725729,
+            "S": 0.008431875871982929,
+            "Tr_quadrature": "1.0693533170032982e-5",
+            "closedForm": "1.0693533170032982e-5",
+            "absDeviation": "6.46e-26",
+            "errorEstimate": "4.6e-26",
+            "e_x_over_lambda": "-5.3467665850164912e-6",
+            "ok": true
+          },
+          {
+            "d": 4,
+            "n": 1.0,
+            "T": 0.0,
+            "mu": 2.698737724785346,
+            "S": 0.45794452069545494,
+            "Tr_quadrature": "0.075607074002186819",
+            "closedForm": "0.075607074002186819",
+            "absDeviation": "1.38e-21",
+            "errorEstimate": "5.39e-16",
+            "e_x_over_lambda": "-0.03780353700109341",
+            "ok": true
+          },
+          {
+            "d": 4,
+            "n": 20.0,
+            "T": 0.0,
+            "mu": 5.394372894430168,
+            "S": 4.822521386620747,
+            "Tr_quadrature": "26.453544532775902",
+            "closedForm": "26.453544532775902",
+            "absDeviation": "1.08e-19",
+            "errorEstimate": "9.43e-11",
+            "e_x_over_lambda": "-13.226772266387951",
+            "ok": true
+          },
+          {
+            "d": 4,
+            "n": 0.1,
+            "T": 0.1,
+            "mu": 1.6900206918977438,
+            "S": 0.06496944573739576,
+            "Tr_quadrature": "0.00088881430496402576",
+            "closedForm": "0.00088881430496402576",
+            "absDeviation": "1.82e-23",
+            "errorEstimate": "2.37e-15",
+            "e_x_over_lambda": "-0.00044440715248201288",
+            "ok": true
+          },
+          {
+            "d": 4,
+            "n": 1.0,
+            "T": 0.3,
+            "mu": 2.5167439897310633,
+            "S": 0.4263582227532989,
+            "Tr_quadrature": "0.073861333381834476",
+            "closedForm": "0.073861333381834476",
+            "absDeviation": "3.71e-21",
+            "errorEstimate": "2.93e-13",
+            "e_x_over_lambda": "-0.036930666690917238",
+            "ok": true
+          },
+          {
+            "d": 4,
+            "n": 0.5,
+            "T": 1.0,
+            "mu": 0.4998297939513078,
+            "S": 0.30991430948199483,
+            "Tr_quadrature": "0.021627929951356356",
+            "closedForm": "0.021627929951356356",
+            "absDeviation": "2.65e-23",
+            "errorEstimate": "1.86e-13",
+            "e_x_over_lambda": "-0.010813964975678178",
+            "ok": true
+          },
+          {
+            "d": 4,
+            "n": 0.001,
+            "T": 0.5,
+            "mu": 0.011657087801863393,
+            "S": 0.020023953076771364,
+            "Tr_quadrature": "2.5122418551296333e-5",
+            "closedForm": "2.5122418551296333e-5",
+            "absDeviation": "1.03e-25",
+            "errorEstimate": "4.45e-16",
+            "e_x_over_lambda": "-1.2561209275648166e-5",
+            "ok": true
+          },
+          {
+            "d": 3,
+            "n": 1.0,
+            "T": 0.0,
+            "mu": 2.1904717666037143,
+            "S": 0.5772154498310145,
+            "Tr_quadrature": "0.083323604720226276",
+            "closedForm": "0.083323604720226276",
+            "absDeviation": "9.53e-22",
+            "errorEstimate": "3.0e-17",
+            "e_x_over_lambda": "-0.041661802360113138",
+            "ok": true
+          },
+          {
+            "d": 3,
+            "n": 0.3,
+            "T": 0.2,
+            "mu": 1.5362834497900026,
+            "S": 0.19830332662838668,
+            "Tr_quadrature": "0.0080827630844927886",
+            "closedForm": "0.0080827630844927886",
+            "absDeviation": "9.0e-22",
+            "errorEstimate": "3.11e-14",
+            "e_x_over_lambda": "-0.0040413815422463943",
+            "ok": true
+          },
+          {
+            "d": 3,
+            "n": 2.0,
+            "T": 1.0,
+            "mu": 1.4134050974724695,
+            "S": 0.7798148747812209,
+            "Tr_quadrature": "0.28800695243312821",
+            "closedForm": "0.28800695243312821",
+            "absDeviation": "7.2e-21",
+            "errorEstimate": "1.21e-10",
+            "e_x_over_lambda": "-0.1440034762165641",
+            "ok": true
+          }
+        ]
+      }
+    },
+    "KS_functional": {
+      "stationarityGivesKSEquation": "dF/dchi_n^dagger(a) = f_n w_a [h_0 chi_n + (lambda S_p + v_s)(j sigma2) chi_n + v_v chi_n](a) = f_n eps_n w_a chi_n(a): the KS equation with M_eff = m + lambda S_p + v_s, v_s = -(lambda/16) S_p, v_v = -(lambda/16) n_p; the e^{-6Hy} of the densities cancels the e^{6Hy} of dV_7 (local, flat y-measure)",
+      "fermiDiracOccupations": "dF/df_n = eps_n + T ln(f_n/(1 - f_n)) - mu = 0 gives f_n = 1/(exp((eps_n - mu)/T) + 1)",
+      "totalEnergyDoubleCounting": "E = sum f <h_0> + E_H + E_x = sum f eps - E_H - E_x (eps_n = <h_KS>_n on normalised orbitals); F = E - T S_ent",
+      "hellmannFeynmanLambda": "dF/dlambda = (E_H + E_x)/lambda at the self-consistent densities",
+      "hellmannFeynmanTemperature": "dF/dT = -S_ent (Mermin)",
+      "hellmannFeynmanMass": "dF/dm = int S_p dV_7 = sum_n f_n int chi_n^dagger (j sigma2) chi_n dy",
+      "hellmannFeynmanMomentum": "d eps_n/dk = j int kappa(y) chi_n^dagger sigma3 chi_n dy = l^3 int e^{6Hy} kappa t_n dy at fixed potentials",
+      "merminStructure": "grand potential Omega = sum f eps - T S_ent - mu N at Fermi-Dirac occupations: dOmega/dT = -S_ent; C_V = dE/dT",
+      "variantV": "with E_x = int dV_7 e_x(n_p, T) the stationarity gives M_eff = m + lambda S_p (no scalar exchange) and v_x = -(lambda/16)[n_p + S_u dS_u/dn] (STAGE4_SPEC recommendation KS-V)",
+      "definition": "F[{chi_n},{f_n}] = sum f_n <chi_n|h_0|chi_n> - T S_ent[f] + E_H[S_p] + E_x[n_p, S_p], h_0 = j[-i sigma1 d/dy + m sigma2 + kappa k sigma3], dV_7 = e^{6Hy} l^3 dy, constraints int chi_n^dagger chi_n dy = 1 (eps_n), sum f_n = N (mu)",
+      "numericalUse": "finite differences of the self-consistent F in lambda, m, T and of eps_n in k must reproduce (E_H + E_x)/lambda, int S_p dV_7, -S_ent and j int kappa t_n; with N conservation, current conservation and the double-counting identity these are the stationarity checks"
+    },
+    "KS_emt": {
+      "staticAnticommutators": {
+        "nonzeroPairs": [
+          [
+            "x1",
+            "x4"
+          ],
+          [
+            "x2",
+            "x4"
+          ],
+          [
+            "x3",
+            "x4"
+          ],
+          [
+            "x4",
+            "x5"
+          ],
+          [
+            "x4",
+            "x6"
+          ],
+          [
+            "x4",
+            "x7"
+          ]
+        ],
+        "note": "six of the Stage-2 21 pairs survive for a4 constant: A_{i4} = H e^{Hy+a4} gamma^0 gamma^i gamma^4, A_{4j} = H e^{Hy-a4} gamma^0 gamma^4 gamma^j"
+      },
+      "bilinearExtractionExact": "every component is a sesquilinear form in (chi, chi^dagger) spanned by the four densities n, s, t, c (no residual)",
+      "blockIndependentForms": {
+        "note": "the reduced components have the same (n, s, t, c) coefficients in all 8 blocks; T^4_1 has the same coefficients of n, t and of (j s) = e^{-6Hy} chi^dagger sigma2 chi / l^3",
+        "T_y4 coefficient of c by j": {
+          "1": "-eps + vv/2",
+          "-1": "-eps + vv/2"
+        }
+      },
+      "rho": {
+        "n": "eps - vv",
+        "s": "-M + m",
+        "t": "0",
+        "c": "0"
+      },
+      "py": {
+        "n": "eps",
+        "s": "-m",
+        "t": "-k*exp(-H*y - a4)",
+        "c": "0"
+      },
+      "p1": {
+        "n": "vv",
+        "s": "M - m",
+        "t": "k*exp(-H*y - a4)",
+        "c": "0"
+      },
+      "p2p3": {
+        "n": "vv",
+        "s": "M - m",
+        "t": "0",
+        "c": "0"
+      },
+      "pt": {
+        "n": "vv",
+        "s": "M - m",
+        "t": "0",
+        "c": "0"
+      },
+      "onShellLagrangian": {
+        "n": "vv",
+        "s": "M - m",
+        "t": "0",
+        "c": "0"
+      },
+      "Ty4ProportionalToCurrent": {
+        "coefficientOfCurrent": "-eps + vv/2",
+        "note": "vanishes for eigenstates (c = 0)"
+      },
+      "Ty1ProportionalToCurrent": {
+        "coefficientOfCurrent": "k"
+      },
+      "T41form": {
+        "T^4_1": "c_n n + c_t t + c_js (j s), (j s) = e^{-6Hy} chi^dagger sigma2 chi / l^3",
+        "c_n": "k/2",
+        "c_t": "eps*exp(H*y + a4)/2",
+        "c_js": "H*exp(H*y + a4)/4",
+        "c_s": "0",
+        "c_c": "0",
+        "origin of c_js": "the connection term A_{14} = H e^{Hy+a4} gamma^0 gamma^1 gamma^4"
+      },
+      "T41cancelsOverShell": "T^4_1 is odd under (k,j,chi) -> (-k,-j,sigma3 chi) at the same eps (n, s invariant, t and (j s) flip): it cancels over every closed shell {k,-k} x 8 blocks",
+      "offBlockComponentsVanishPerOrbital": {
+        "vanishing": [
+          "x1x2",
+          "x1x3",
+          "x1x5",
+          "x1x6",
+          "x1x7",
+          "x2x3",
+          "x2x4",
+          "x2x5",
+          "x2x6",
+          "x2x7",
+          "x3x4",
+          "x3x5",
+          "x3x6",
+          "x3x7",
+          "x4x5",
+          "x4x6",
+          "x4x7",
+          "x5x6",
+          "x5x7",
+          "x6x7",
+          "yx2",
+          "yx3",
+          "yx5",
+          "yx6",
+          "yx7"
+        ]
+      },
+      "trace": {
+        "n": "7*vv",
+        "s": "7*M - 8*m",
+        "t": "0",
+        "c": "0"
+      },
+      "restStateDust": "eps = M_eff = m, s = n, k = 0, v_v = 0: rho = m n, p_y = p_(i) = 0 (dust)",
+      "interactionPart": "<U> = e_H + e_x = (lambda/2) S_p^2 - (lambda/32)(n_p^2 + S_p^2) enters rho with + and every p_(i) with - (all seven transverse directions); L_s = sum f L_s^(1) - <U>",
+      "ksState": {
+        "rho": "sum_n f_n [eps_n n_n - (M_eff - m) s_n - v_v n_n] + e_H + e_x",
+        "p_y": "sum_n f_n [eps_n n_n - m s_n - kappa k_n t_n] - e_H - e_x",
+        "p_3": "sum_n f_n [(1/3) kappa k_n t_n + (M_eff - m) s_n + v_v n_n] - e_H - e_x (shell average)",
+        "p_t": "sum_n f_n [(M_eff - m) s_n + v_v n_n] - e_H - e_x"
+      },
+      "densityParityTable": {
+        "P_A": "n even, s odd, t even, c odd; with the mirror mass -m (M_eff - m odd) rho, p_y, p_(i) are even",
+        "P_B": "n, s, t even, c odd",
+        "sectors": "even-parity orbitals carry n(0) = |chi_1(0)|^2 and s(0) = t(0) = 0 on the brane; odd-parity orbitals n(0) = |chi_2(0)|^2, s(0) = t(0) = 0"
+      },
+      "properVolumeAverage": "<X> = int_{-L}^0 X e^{6Hy} dy / int_{-L}^0 e^{6Hy} dy, int e^{6Hy} dy = (1 - e^{-6HL})/(6H); brane-localised fraction int_{-delta}^0 n_p e^{6Hy} dy / int_{-L}^0 n_p e^{6Hy} dy",
+      "requiredSourceComparison": {
+        "field": "rho_req = -21 H^2/kappa < 0, p_req = +15 H^2/kappa (w = -5/7)",
+        "ksState": "rho = sum f (eps - v_v) n - (lambda/2) S_p^2 - v_s S_p + e_x >= 0 for positive-energy occupations at weak coupling: the mismatch is at least |rho_req| + rho_KS",
+        "E4.1 static conditions": "m S = -36 H^2/kappa and lambda S^2 = 30 H^2/kappa: lambda > 0 and m S < 0",
+        "m for given S": "-36*H**2/(S*kappa)",
+        "lambda for given S": "30*H**2/(S**2*kappa)",
+        "signOfS": "the uniform gas has S = 8 int (m/E)(f_+ + f_-) > 0 for m > 0, so the sourcing solutions need m < 0 (the gamma^8 image m -> -m, lambda -> -lambda of a positive-mass state has S -> -S, CONTRACT errata E2); the numerics must report the sign of S_p and the ratios to the source"
+      }
+    },
+    "exchangeTable": {
+      "maxRelativeDeviationFromClosedForm": 5.103086583111525e-15,
+      "rows": 580,
+      "quick": false
+    },
+    "KS_agreesWithWolfram": {
+      "einsteinValues": [
+        "15",
+        "15",
+        "15",
+        "15",
+        "21",
+        "15",
+        "15",
+        "15"
+      ],
+      "requiredSource": "w_req = p/rho = -5/7",
+      "extrinsicCurvature": [
+        "1",
+        "1",
+        "1",
+        "0",
+        "1",
+        "1",
+        "1"
+      ],
+      "braneStress": "same sign convention and the same S^i_j = -(10,10,10,12,10,10,10) H/kappa",
+      "blockOrder": "index = 4(1-j)/2 + 2(1-s2)/2 + (1-s3)/2",
+      "basisVectorsIdentical": "v+, v- of every block identical (same seed rule)",
+      "blockMatricesIdentical": {
+        "A0": true,
+        "A1": true,
+        "A4": true,
+        "B": true,
+        "C": true,
+        "BC": true,
+        "gamma4gamma1": true,
+        "numberDensityMatrix": true,
+        "scalarDensityMatrix": true,
+        "yCurrentMatrix": true,
+        "kCurrentMatrix": true
+      },
+      "blockFormulas": {
+        "A0": "sigma3",
+        "A1": "-i sigma2 = [[0,-1],[1,0]]",
+        "A4": "j sigma1",
+        "B": "j s2 (scalar)",
+        "C": "s2 sigma2",
+        "BC": "j sigma2",
+        "gamma4gamma1": "-j sigma3",
+        "J": "j",
+        "K1": "i s2",
+        "K2": "i s3"
+      },
+      "zeroModeSplitting": "M*(2 - 2*exp(LL*(H - 2*M)))*exp(-a4c)/((-1 + exp(-2*LL*M))*(H - 2*M))",
+      "exchangeClosedForm": "the p.q term averages to zero for isotropic occupations, so the double quadrature collapses EXACTLY: e_x(n, S) = -(lambd",
+      "kernelForms": "K_{++}(p,q) = 4 [ 1 + (m^2 - p.q)/(E_p E_q) ]",
+      "emtOffDiagonalCoefficients": {
+        "T41_theirs": [
+          "k/2",
+          "0",
+          "eps*exp(H*y + a4)/2",
+          "H*exp(H*y + a4)/4"
+        ],
+        "T41_mine": [
+          "k/2",
+          "0",
+          "eps*exp(H*y + a4)/2",
+          "H*exp(H*y + a4)/4"
+        ],
+        "Ty4_theirs": "-eps + vv/2",
+        "Ty4_mine": "-eps + vv/2",
+        "Ty1_theirs": "k",
+        "Ty1_mine": "k"
+      },
+      "conventions": {
+        "J": "gamma^0 gamma^1 gamma^4 on both sides (Rust/probe label s = -j)",
+        "basisRule": "v+ = 8 P (1 + gamma^0)/2 e_c, first c with nonzero image; v- = gamma^0 gamma^1 v+",
+        "theoryFile": "artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json"
+      }
+    },
+    "wolframAgreement": "compared",
+    "families": [
+      "geometry",
+      "reduction",
+      "boundary",
+      "exchange",
+      "functional",
+      "emt"
+    ]
+  },
+  "sourceSha256": {
+    "scripts/check_dirac16complex_kohn_sham_theory.py": "b03957b29e4c6f86b8f3da5704cb6bf429eabbfbc60cf250dae38aa9223d548e"
+  },
+  "inputSha256": {
+    "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
+    "artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json": "5b150b36e13b903c32b86e8debbaeda48798e0beb0bc6a216e416d2671f4e01a"
+  }
+}

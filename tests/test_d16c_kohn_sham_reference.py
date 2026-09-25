@@ -166,9 +166,47 @@ class ScfTests(unittest.TestCase):
         grid = K.Grid(3.0, 24)
         res = K.scf(p, grid)
         states = res["spectrum"].states
-        occ = {st.key(): st.f for st in states if st.eps >= -K.ZERO_MODE_TOL and st.f > 0}
+        occ = {st.key(): st.f for st in states if st.branch > 0 and st.f > 0}
         mu, total = K.occupy_constrained(states, occ)
         self.assertAlmostEqual(total, 8.0, places=10)   # sea states default to filled (weight 0)
+
+    def test_branch_classification_free_sea_convention(self):
+        """lambda > 0 pushes the k = 0 zero-mode band below eps = 0; with the
+        free-sea (continuity) convention it stays the occupied particle band
+        (E0 < 0, mu < 0), with the sign convention it would be swallowed by
+        the sea and N = 8 would jump to the next shell (E0 = 8 x 0.43)."""
+        grid = K.Grid(3.0, 24)
+        lam = 0.0162
+        free = K.scf(K.Params(m=1.0, L=3.0, lambda_hat=lam, T=0.0, N=8.0, parity=0, N0=24, sea="free"), grid)
+        sign = K.scf(K.Params(m=1.0, L=3.0, lambda_hat=lam, T=0.0, N=8.0, parity=0, N0=24, sea="sign"), grid)
+        self.assertTrue(free["converged"] and sign["converged"])
+        self.assertLess(free["mu"], 0.0)
+        self.assertLess(free["energies"]["total"], 0.0)
+        self.assertFalse(free["branchOverlap"])
+        occupied = [st for st in free["spectrum"].states if st.w > 0]
+        self.assertTrue(all(st.q == 0 and st.branch > 0 and st.eps < 0 for st in occupied))
+        self.assertGreater(sign["energies"]["total"], 3.0)
+        # at lambda = 0 both conventions coincide exactly
+        a = K.scf(K.Params(m=1.0, L=3.0, lambda_hat=0.0, T=0.0, N=32.0, parity=1, N0=24, sea="free"), grid)
+        b = K.scf(K.Params(m=1.0, L=3.0, lambda_hat=0.0, T=0.0, N=32.0, parity=1, N0=24, sea="sign"), grid)
+        self.assertEqual(a["energies"]["total"], b["energies"]["total"])
+        ka = sorted((st.key(), st.branch) for st in a["spectrum"].states)
+        kb = sorted((st.key(), st.branch) for st in b["spectrum"].states)
+        self.assertEqual(ka, kb)
+
+    def test_free_branch_counts_match_sign_of_free_spectrum(self):
+        grid = K.Grid(3.0, 30)
+        for k in (0.0, 0.7):
+            for parity in (1, -1):
+                sh = K.solve_shell(grid, np.full(31, 1.0), np.zeros(31), k, 0.0, parity, "g0", False)
+                n_neg, n_pos, dim = K.free_branch_counts(grid, 1.0, k, 0.0, parity, "g0")
+                plus = sh["eps"][sh["type"] == 1]
+                self.assertEqual(dim, len(plus))
+                self.assertEqual(n_neg, int(np.sum(plus < -K.ZERO_MODE_TOL)))
+                self.assertEqual(n_pos, int(np.sum(plus > K.ZERO_MODE_TOL)))
+        # the exact discrete k = 0 zero mode is neither negative nor positive
+        n_neg, n_pos, dim = K.free_branch_counts(grid, 1.0, 0.0, 0.0, 1, "g0")
+        self.assertEqual(dim - n_neg - n_pos, 1)
 
     def test_union_parity_equals_lower_sector_for_free_n8(self):
         runs = {}
@@ -232,6 +270,59 @@ class CheckerTests(unittest.TestCase):
             report = json.load(open(os.path.join(tmp, "rep.json"), encoding="utf-8"))
             self.assertFalse(report["checks"]["reference_present"])
             self.assertEqual(report["comparisons"]["rust_outputs"]["status"], "not run")
+
+    def test_rust_labels_and_resolution(self):
+        self.assertEqual(K.rust_label(1, 3, 8, "lamp1", 0), "m1_L3_N8_lamp1_T0")
+        self.assertEqual(K.rust_label(1, 3, 112, "lam0", 0.1), "m1_L3_N112_lam0_T0p1")
+        self.assertEqual(K.rust_label(3, 3, "mid", "lamm1", 0), "m3_L3_Nmid_lamm1_T0")
+        self.assertEqual(K.rust_label(1, 3, 896, "lamp1", 0, delta_k_over_m=0.125), "m1_L3_N896_lamp1_T0_dk0p125")
+        shells = {"N_8": 8.0, "N_mid": 112.0, "N_big": 996.0}
+        coup = {"lambda_hat_1": 0.016, "lambda_hat_2": 0.16}
+        spec = K.resolve_run({"label": "m1_L3_Nmid_lamm2_T0", "m": 1.0, "N": "mid", "lambda_hat": "-l2",
+                              "T": 0.0, "tasks": []}, shells, coup)
+        self.assertEqual(spec["label"], "m1_L3_N112_lamm2_T0")
+        self.assertEqual(spec["N"], 112.0)
+        self.assertEqual(spec["lambda_hat"], -0.16)
+        spec = K.resolve_run({"label": "m1_L3_N8mid_lamp1_T0_dk0p125", "m": 1.0, "N": "8mid", "lambda_hat": "l1",
+                              "T": 0.0, "tasks": []}, shells, coup)
+        self.assertEqual(spec["label"], "m1_L3_N896_lamp1_T0_dk0p125")
+        self.assertEqual(spec["N"], 896.0)
+        labels = [r["label"] for r in K.canonical_runs(False)]
+        self.assertEqual(len(labels), len(set(labels)))
+        self.assertIn("L3-free-N8-p-1", labels)
+        self.assertEqual([r["parity"] for r in K.canonical_runs(False)[:2]], [1, -1])
+        parsed = C.parse_label("m1_L3_N112_lamp1_T0p3_a40p5_g601_dk0p125")
+        self.assertEqual(parsed, {"m": 1.0, "L": 3.0, "N": 112.0, "lambdaName": "lamp1", "T_over_m": 0.3,
+                                  "a4_0": 0.5, "gridPoints": 601, "deltaKOverM": 0.125})
+        self.assertIsNone(C.parse_label("L3-free-N8-p+1"))
+
+    def test_rust_summary_records_and_checks_forms(self):
+        self.assertEqual(C.summary_checks({"checks": {"a": True, "b": False}}), {"a": True, "b": False})
+        self.assertEqual(C.summary_checks({"checks": [{"name": "a", "passed": True}]}), {"a": True})
+        with tempfile.TemporaryDirectory() as tmp:
+            sub = os.path.join(tmp, "thermo")
+            os.makedirs(os.path.join(sub, "m1_L3_N8_lam0_T0p1"))
+            summary = {"verdict": "SUCCESS", "checks": {"x": True}, "files": [],
+                       "reference": {"lambdaHat1": 0.016, "lambdaHat2": 0.16},
+                       "runs": [{"label": "m1_L3_N8_lam0_T0p1", "energy": 1.5, "nTotal": 8.0,
+                                 "heatCapacity": 2.0}]}
+            with open(os.path.join(sub, "summary.json"), "w", encoding="utf-8") as handle:
+                json.dump(summary, handle)
+            runs = C.rust_runs(tmp, C.rust_summaries(tmp))
+            self.assertEqual(len(runs), 1)
+            item = runs[0]
+            self.assertIsNone(item["run"])
+            self.assertEqual(item["params"]["N"], 8.0)
+            self.assertEqual(item["params"]["lambdaHat"], 0.0)
+            self.assertAlmostEqual(item["params"]["T"], 0.1)
+            self.assertTrue(item["params"]["fromLabel"])
+            self.assertEqual(C.rust_energy(item), 1.5)
+            self.assertEqual(C.field(item, "heatCapacity"), 2.0)
+            reg = C.Registry()
+            C.check_rust_internal(reg, tmp, C.rust_summaries(tmp), runs)
+            self.assertTrue(reg.checks["rust_summaries_success"])
+            self.assertTrue(reg.checks["rust_own_checks_passed"])
+            self.assertFalse(reg.checks["rust_energy_from_rho"])   # nothing computed -> not passing
 
     def test_rust_conservation_recomputation_detects_violation(self):
         y = np.linspace(-3.0, 0.0, 61)

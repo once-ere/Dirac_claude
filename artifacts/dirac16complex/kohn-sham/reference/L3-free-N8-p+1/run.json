@@ -11,6 +11,7 @@
     "parity": 1,
     "tip": "g0",
     "xc": "quadratic",
+    "sea": "free",
     "delta_k": 0.25,
     "ell": 25.132741228718345,
     "volume": 15875.213660313506,
@@ -33,6 +34,9 @@
       "residualN": 0.0,
       "residualS": 0.0,
       "mu": -4.8280343104526094e-15,
+      "seaTop": -0.4308732702136534,
+      "particleBottom": -4.8280343104526094e-15,
+      "branchOverlap": false,
       "energies": {
         "ksSum": 0.0,
         "nTotal": 8.0,
@@ -61,6 +65,9 @@
       "residualN": 8.126908570054616e-15,
       "residualS": 0.0,
       "mu": -3.3102782670582932e-15,
+      "seaTop": -0.4307691548025578,
+      "particleBottom": -3.3102782670582932e-15,
+      "branchOverlap": false,
       "energies": {
         "ksSum": 0.0,
         "nTotal": 8.0,
@@ -89,6 +96,9 @@
       "residualN": 4.125489585682435e-15,
       "residualS": 0.0,
       "mu": -4.6317727531171375e-15,
+      "seaTop": -0.43074262288093373,
+      "particleBottom": -4.6317727531171375e-15,
+      "branchOverlap": false,
       "energies": {
         "ksSum": 0.0,
         "nTotal": 8.0,
@@ -143,7 +153,7 @@
   },
   "homo": "0:+1:+1:0",
   "lumo": "1:+1:-1:0",
-  "ksGap": 0.43073368308442506,
+  "ksGap": 0.43073368308442633,
   "emt": {
     "w_y": null,
     "w_3": null,
@@ -179,102 +189,102 @@
     "run.json"
   ],
   "excited": {
-    "ksGap": 0.43073368308442506,
+    "ksGap": 0.43073368308442633,
     "particleHole": [
       {
         "hole": "0:+1:-1:0",
         "particle": "1:+1:-1:0",
         "epsHole": 5.3962582478810235e-15,
-        "epsParticle": 0.43073368308441967,
-        "excitation": 0.4307336830844143,
+        "epsParticle": 0.43073368308442095,
+        "excitation": 0.43073368308441556,
         "weight": 96.0
       },
       {
         "hole": "0:+1:+1:0",
         "particle": "1:+1:-1:0",
         "epsHole": -5.3962582478810235e-15,
-        "epsParticle": 0.43073368308441967,
-        "excitation": 0.43073368308442506,
+        "epsParticle": 0.43073368308442095,
+        "excitation": 0.43073368308442633,
         "weight": 96.0
       },
       {
         "hole": "0:+1:-1:0",
         "particle": "2:+1:-1:0",
         "epsHole": 5.3962582478810235e-15,
-        "epsParticle": 0.5879568586471445,
-        "excitation": 0.5879568586471391,
+        "epsParticle": 0.5879568586471002,
+        "excitation": 0.5879568586470948,
         "weight": 192.0
       },
       {
         "hole": "0:+1:+1:0",
         "particle": "2:+1:-1:0",
         "epsHole": -5.3962582478810235e-15,
-        "epsParticle": 0.5879568586471445,
-        "excitation": 0.58795685864715,
+        "epsParticle": 0.5879568586471002,
+        "excitation": 0.5879568586471057,
         "weight": 192.0
       },
       {
         "hole": "0:+1:-1:0",
         "particle": "3:+1:-1:0",
         "epsHole": 5.3962582478810235e-15,
-        "epsParticle": 0.7040995714864636,
-        "excitation": 0.7040995714864582,
+        "epsParticle": 0.7040995714864066,
+        "excitation": 0.7040995714864011,
         "weight": 128.0
       },
       {
         "hole": "0:+1:+1:0",
         "particle": "3:+1:-1:0",
         "epsHole": -5.3962582478810235e-15,
-        "epsParticle": 0.7040995714864636,
-        "excitation": 0.7040995714864691,
+        "epsParticle": 0.7040995714864066,
+        "excitation": 0.704099571486412,
         "weight": 128.0
       },
       {
         "hole": "0:+1:-1:0",
         "particle": "4:+1:-1:0",
         "epsHole": 5.3962582478810235e-15,
-        "epsParticle": 0.7996457744538229,
-        "excitation": 0.7996457744538175,
+        "epsParticle": 0.7996457744538216,
+        "excitation": 0.7996457744538161,
         "weight": 96.0
       },
       {
         "hole": "0:+1:+1:0",
         "particle": "4:+1:-1:0",
         "epsHole": -5.3962582478810235e-15,
-        "epsParticle": 0.7996457744538229,
-        "excitation": 0.7996457744538283,
+        "epsParticle": 0.7996457744538216,
+        "excitation": 0.799645774453827,
         "weight": 96.0
       },
       {
         "hole": "0:+1:-1:0",
         "particle": "5:+1:-1:0",
         "epsHole": 5.3962582478810235e-15,
-        "epsParticle": 0.882319548737861,
-        "excitation": 0.8823195487378556,
+        "epsParticle": 0.8823195487378982,
+        "excitation": 0.8823195487378928,
         "weight": 384.0
       },
       {
         "hole": "0:+1:+1:0",
         "particle": "5:+1:-1:0",
         "epsHole": -5.3962582478810235e-15,
-        "epsParticle": 0.882319548737861,
-        "excitation": 0.8823195487378664,
+        "epsParticle": 0.8823195487378982,
+        "excitation": 0.8823195487379036,
         "weight": 384.0
       },
       {
         "hole": "0:+1:-1:0",
         "particle": "6:+1:-1:0",
         "epsHole": 5.3962582478810235e-15,
-        "epsParticle": 0.9560069385192527,
-        "excitation": 0.9560069385192472,
+        "epsParticle": 0.9560069385192067,
+        "excitation": 0.9560069385192013,
         "weight": 384.0
       },
       {
         "hole": "0:+1:+1:0",
         "particle": "6:+1:-1:0",
         "epsHole": -5.3962582478810235e-15,
-        "epsParticle": 0.9560069385192527,
-        "excitation": 0.9560069385192581,
+        "epsParticle": 0.9560069385192067,
+        "excitation": 0.9560069385192121,
         "weight": 384.0
       }
     ],
@@ -285,17 +295,20 @@
       "homoMultiplicity": 8.0,
       "lumoMultiplicity": 24.0,
       "E0": 0.0,
-      "E1": 0.43073368308441967,
-      "deltaSCF": 0.43073368308441967,
-      "ksGap": 0.43073368308442506,
+      "E1": 0.43073368308442095,
+      "deltaSCF": 0.43073368308442095,
+      "ksGap": 0.43073368308442633,
       "nTotalExcited": 8.0,
       "converged": true,
       "levelsE1": [
         0.4308732702136534,
         0.4307691548025578,
-        0.4307426228809329
+        0.43074262288093373
       ],
-      "orderEstimateE1": 1.9723825568320732
+      "orderEstimateE1": 1.97238255687735
     }
-  }
+  },
+  "tasks": [
+    "excited"
+  ]
 }

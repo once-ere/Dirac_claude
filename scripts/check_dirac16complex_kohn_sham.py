@@ -9,9 +9,12 @@ comparisons that did not run, never as passing checks):
                     (default artifacts/dirac16complex/kohn-sham/reference)
   --rust DIR        outputs of studies/dirac16complex_kohn_sham
                     (default artifacts/dirac16complex/kohn-sham/rust):
-                    <sub>/summary.json and <sub>/<label>/{run.json,levels.csv,
-                    profiles.csv,history.csv} for sub in spectrum, scf,
-                    excited, thermo, emt
+                    <sub>/summary.json (verdict, checks {name: bool}, files,
+                    reference, runs[] records) and <sub>/<label>/{levels.csv,
+                    profiles.csv,history.csv[,run.json]} for sub in spectrum,
+                    scf, excited, thermo, emt; thermo and excited runs carry
+                    no run.json (their numbers come from the summary record,
+                    their parameters from the record or the label)
   --theory PATH     artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json
   --repeat DIR      a second Rust output tree: byte identity of every file
                     listed in the summaries
@@ -27,27 +30,34 @@ What is checked (each printed as check_<name>=true|false):
               converged; N conservation (sum of weights, integral of the
               density); Z2 parity purity (S_c(0) = 0, n_c(0) > 0, scalar
               density odd/vector density even structure through the brane
-              value); grid-order estimates near 2; Chebyshev tail
-              interpolation errors; energy from rho = E; EMT trace and
+              value); the y-current chi^dag sigma_x chi of every discrete
+              eigenvector vanishes identically and the imposed boundary
+              components vanish (computed here on a small grid); no
+              particle/sea branch overlap; grid-order estimates near 2
+              (recomputed from the three eps_level columns of spectrum.csv,
+              skipping levels that do not move between grids); Chebyshev
+              tail interpolation errors; energy from rho = E; EMT trace and
               y-conservation identities; entropy >= 0; C_V >= 0 with the two
               finite-difference estimates dE/dT and T dS/dT agreeing;
               Delta-SCF = KS gap at lambda = 0; L-convergence trend of the
-              first level; stationarity (Hellmann-Feynman) dE/dlambda =
-              (E_H + E_x)/lambda and dE/dm = int S_p dV_p re-computed here by
-              finite differences of small self-consistent runs of the
-              imported solver.
-  rust        summaries present with verdict SUCCESS; internal identities of
-              every Rust run (N conservation, energy from rho, EMT
-              y-conservation recomputed from profiles.csv, HOMO profile
-              boundary conditions = current-free ends and Z2 purity,
-              S_c(0) = 0, entropy >= 0, C_V >= 0, free energy decreasing in
-              T, L-convergence trend); reproduction of a subset of the Rust
+              first level; the coupling rule lambda_hat_1 S_ref = 0.1;
+              stationarity (Hellmann-Feynman) dF/dlambda = (E_H + E_x)/lambda
+              and dF/dm = int S_p dV_p re-computed here by finite differences
+              of small self-consistent runs of the imported solver.
+  rust        summaries present with verdict SUCCESS and every Rust check
+              passed; internal identities of every Rust run (N conservation,
+              energy from rho, EMT y-conservation recomputed from
+              profiles.csv, HOMO profile boundary conditions = current-free
+              ends and Z2 purity, S_c(0) = 0, entropy >= 0, no particle/sea
+              branch overlap, C_V >= 0, free energy decreasing in T,
+              L-convergence trend); reproduction of a subset of the Rust
               parameter sets with the reference solver (both parities filled
-              together, as the Rust crate does) and agreement of eigenvalues
-              per (n2, parity, s, level), E_0, mu, gaps, entropy, free
+              together and the free-sea branch convention, as the Rust crate
+              does) and agreement of eigenvalues per (n2, parity, s, level)
+              including the branch label, E_0, mu, gaps, entropy, free
               energy, density/M_eff/v_x profiles, EMT averages, Delta-SCF and
-              thermodynamics within the stated tolerances; --repeat byte
-              identity; --refined convergence.
+              C_V within the stated tolerances; --repeat byte identity;
+              --refined convergence.
   theory      the exact theory JSON: block formulas map onto the reference
               reduction (their j = -s), the exchange closed form, the
               geometry numbers.
@@ -98,8 +108,11 @@ TOL = {
     "referenceCV": 2e-2,                # |dE/dT - T dS/dT| / max(C_V)
     "referenceGapDSCF": 1e-7,           # Delta-SCF vs KS gap at lambda = 0
     "stationarity": 1e-4,               # finite-difference Hellmann-Feynman of the Mermin functional (relative)
-    "rustEps": 2e-6,                    # |eps_rust - eps_ref| (absolute + 1e-6 relative)
-    "rustEnergy": 2e-6,                 # relative, E_0, F, mu, gap
+    "rustEps": 2e-6,                    # |eps_rust - eps_ref| < rustEps (1 + |window top|)
+    "rustEnergy": 2e-6,                 # E_0, F: |dE| < rustEnergy max(|E|, N) (per particle: the total is a
+                                        # sum of N eigenvalues each known to ~1e-6, and near-cancelling totals
+                                        # such as E_0 = -0.0016 at N = 8 carry the absolute error); mu, gap:
+                                        # |d| < rustEnergy max(1, |value|)
     "rustEntropy": 1e-5,
     "rustProfile": 2e-4,                # relative to max|profile|
     "rustEMT": 5e-4,
@@ -171,6 +184,57 @@ def key_parse(text):
     return tuple(int(p) for p in parts)
 
 
+def spectrum_order_estimate(hdr, spec, min_change=1e-9, min_weight=1e-6):
+    """Median log2 of the ratio of successive level differences of the
+    occupied eigenvalues over the three grids (2 for an h^2 scheme).  Levels
+    that do not move between grids (the exact discrete zero mode, differences
+    at round-off) carry no order information and are skipped."""
+    cols = [c for c in hdr if c.startswith("eps_level")]
+    if len(cols) < 3 or len(spec) == 0:
+        return None
+    e0, e1, e2 = (column(hdr, spec, c) for c in cols[:3])
+    w = np.abs(column(hdr, spec, "w"))
+    d1 = np.abs(e0 - e1)
+    d2 = np.abs(e1 - e2)
+    sel = (w > min_weight) & (d1 > min_change) & (d2 > min_change)
+    if not np.any(sel):
+        return None
+    return float(np.median(np.log2(d1[sel] / d2[sel])))
+
+
+def current_free_boundaries():
+    """Computed on a small grid: for every eigenvector of the staggered
+    scheme the y-current chi^dag sigma_x chi = 2 Re(f^* g) vanishes
+    identically (f real, g = i g~ imaginary: the discrete counterpart of the
+    conserved-and-zero current), and the boundary components imposed by the
+    conditions vanish: f(0) = 0 for odd parity, f(-L) = 0 for the f-tip
+    condition; the g-conditions (even parity at the brane, the default bag
+    condition at the tip) hold through the odd ghost extension, so the
+    half-node values next to the end are the negatives of the ghosts."""
+    grid = KS.Grid(3.0, 40)
+    worst_current = 0.0
+    worst_bc = 0.0
+    m_eff = 1.0 + 0.2 * np.exp(grid.y)
+    v = 0.1 * np.sin(grid.y)
+    for tip in ("g0", "f0"):
+        for parity in (1, -1):
+            sh = KS.solve_shell(grid, m_eff, v, 0.6, 0.0, parity, tip, True, m=1.0)
+            F = sh["F"]
+            G = 1j * sh["G"]
+            # current on the nodes with g interpolated from the half nodes
+            g_nodes = np.zeros_like(F, dtype=complex)
+            g_nodes[:, :-1] += 0.5 * G
+            g_nodes[:, 1:] += 0.5 * G
+            current = 2.0 * np.real(np.conj(F) * g_nodes)
+            worst_current = max(worst_current, float(np.max(np.abs(current))))
+            scale = float(np.max(np.abs(F)))
+            if parity < 0:
+                worst_bc = max(worst_bc, float(np.max(np.abs(F[:, -1]))) / scale)
+            if tip == "f0":
+                worst_bc = max(worst_bc, float(np.max(np.abs(F[:, 0]))) / scale)
+    return worst_current, worst_bc
+
+
 # ---------------------------------------------------------------------------
 # A. reference outputs
 # ---------------------------------------------------------------------------
@@ -231,8 +295,9 @@ def check_reference(reg: Registry, ref_dir, args):
     runs = summary.get("runs", [])
     reg.measure("referenceRunCount", len(runs))
     reg.check("reference_runs_present", len(runs) > 0, "%d runs" % len(runs))
-    conv = [r["label"] for r in runs if not r["converged"]]
+    conv = [r["label"] for r in runs if not r.get("converged")]
     reg.check("reference_all_converged", not conv, "not converged: %s" % conv)
+    runs = [r for r in runs if not r.get("failed")]
     # per-run identities from the run directories
     worst = {"N": 0.0, "Ndens": 0.0, "Erho": 0.0, "trace": 0.0, "cons": 0.0, "tail": 0.0, "Sc0": 0.0,
              "mu_vs_homo": 0.0}
@@ -273,8 +338,8 @@ def check_reference(reg: Registry, ref_dir, args):
             if tail and tail.get("levels", 0) > 0:
                 worst["tail"] = max(worst["tail"], tail.get("maxEpsInterpolationError", 0.0),
                                     tail.get("maxDensityInterpolationError", 0.0))
-        o = run["orderEstimates"].get("occupiedEigenvalues_median")
-        if o is not None and math.isfinite(o):
+        o = spectrum_order_estimate(hdr, spec)
+        if o is not None:
             orders.append(o)
         if run["params"]["T"] > 0:
             th = run.get("thermo", {})
@@ -310,6 +375,10 @@ def check_reference(reg: Registry, ref_dir, args):
     else:
         reg.comparison("reference_grid_order", "not run", "no run with three grid levels (order estimates need three)")
     reg.check("reference_mu_equals_homo", worst["mu_vs_homo"] < 1e-9, "max |mu - eps_HOMO| = %.3e" % worst["mu_vs_homo"])
+    cur, bc = current_free_boundaries()
+    reg.check("reference_current_free_boundaries", cur < 1e-14 and bc < 1e-14,
+              "computed here on a 40-interval grid: max |chi^dag sigma_x chi| over all eigenvectors and nodes = %.2e, "
+              "max imposed boundary component = %.2e (f(0) for odd parity, f(-L) for the f-tip condition)" % (cur, bc))
     reg.check("reference_thermo_signs", thermo_ok, "entropy >= 0 and C_V >= 0 for every finite-T run")
     reg.check("reference_CV_two_estimates", cv_dev < TOL["referenceCV"],
               "max |dE/dT - T dS/dT| / C_V = %.3e" % cv_dev)
@@ -335,8 +404,20 @@ def check_reference(reg: Registry, ref_dir, args):
         reg.measure("referenceFirstLevelByL", firsts)
     else:
         reg.comparison("reference_L_convergence_trend", "not run", "L runs missing: %s" % sorted(firsts))
-    # coupling rule recorded
-    reg.check("reference_couplings_recorded", bool(summary.get("couplings")), json.dumps(summary.get("couplings", []))[:400])
+    # coupling rule recorded (S_ref rule; lambda_hat_1 = 0.1/S_ref, lambda_hat_2 = 1/S_ref)
+    coup = summary.get("couplings") or {}
+    ok_coup = (isinstance(coup, dict) and isinstance(coup.get("S_ref"), float) and coup["S_ref"] > 0
+               and abs(coup.get("lambda_hat_1", 0.0) * coup["S_ref"] - 0.1) < 1e-12
+               and abs(coup.get("lambda_hat_2", 0.0) * coup["S_ref"] - 1.0) < 1e-12)
+    reg.check("reference_couplings_recorded", ok_coup, json.dumps(coup)[:400])
+    if isinstance(coup, dict) and isinstance(coup.get("S_ref"), float):
+        reg.measure("referenceSRef", coup["S_ref"])
+        reg.measure("referenceLambdaHat1", coup.get("lambda_hat_1"))
+    failed_runs = [r["label"] for r in summary.get("runs", []) if r.get("failed")]
+    reg.check("reference_no_failed_runs", not failed_runs, "failed: %s" % failed_runs)
+    overlap = [r["label"] for r in runs if r.get("branchOverlap")]
+    reg.check("reference_no_branch_overlap", not overlap,
+              "runs with a sea level above an occupied particle level: %s" % overlap[:10])
     return summary
 
 
@@ -379,6 +460,27 @@ def check_stationarity(reg: Registry, quick):
 # ---------------------------------------------------------------------------
 
 SUBCOMMANDS = ("spectrum", "scf", "excited", "thermo", "emt")
+LABEL_RE = re.compile(r"^m(?P<m>[0-9p]+)_L(?P<L>[0-9p]+)_N(?P<N>\d+)_(?P<lam>lam[a-z0-9]+)_T(?P<T>[0-9p]+)"
+                      r"(?:_a4(?P<a4>[0-9pm]+))?(?:_g(?P<g>\d+))?(?:_dk(?P<dk>[0-9pm]+))?$")
+LAMBDA_KEYS = {"lam0": (0.0, None), "lamp1": (1.0, "lambdaHat1"), "lamm1": (-1.0, "lambdaHat1"),
+               "lamp2": (1.0, "lambdaHat2"), "lamm2": (-1.0, "lambdaHat2")}
+
+
+def rust_number(text):
+    """Rust label numbers: 'p' is the decimal point, a leading 'm' the sign."""
+    return float(text.replace("p", ".").replace("m", "-"))
+
+
+def parse_label(label):
+    """Parameters encoded in a Rust run label m1_L3_N8_lamp1_T0p1[_a40p5][_g601][_dk0p125]."""
+    m = LABEL_RE.match(label)
+    if not m:
+        return None
+    d = m.groupdict()
+    return {"m": rust_number(d["m"]), "L": rust_number(d["L"]), "N": float(d["N"]), "lambdaName": d["lam"],
+            "T_over_m": rust_number(d["T"]), "a4_0": rust_number(d["a4"]) if d["a4"] else 0.0,
+            "gridPoints": int(d["g"]) if d["g"] else 301,
+            "deltaKOverM": rust_number(d["dk"]) if d["dk"] else 0.25}
 
 
 def rust_summaries(rust_dir):
@@ -386,20 +488,83 @@ def rust_summaries(rust_dir):
     for sub in SUBCOMMANDS:
         path = os.path.join(rust_dir, sub, "summary.json")
         if os.path.exists(path):
-            out[sub] = load_json(path)
+            try:
+                out[sub] = load_json(path)
+            except (OSError, ValueError) as error:
+                out[sub] = {"unreadable": str(error), "verdict": "UNREADABLE", "runs": [], "files": []}
     return out
 
 
-def rust_run_dirs(rust_dir, summaries):
-    """(sub, label, dir) for every Rust run that has run.json."""
+def summary_checks(summary):
+    """{name: passed} of a Rust summary: the dict form {name: bool} of the
+    crate, or a list of {name, passed} records."""
+    checks = summary.get("checks", {})
+    if isinstance(checks, dict):
+        return {str(k): bool(v) for k, v in checks.items()}
+    out = {}
+    for c in checks or []:
+        if isinstance(c, dict):
+            out[str(c.get("name"))] = bool(c.get("passed"))
+    return out
+
+
+def rust_runs(rust_dir, summaries):
+    """One entry per Rust run directory: {sub, label, dir, run (run.json or
+    None), record (the summary's runs[] entry or None), params}.  The scf and
+    emt runs carry run.json; the thermo and excited runs only their summary
+    record, whose parameters are taken from the record or decoded from the
+    label (with lambda_hat from the summary's reference block)."""
     runs = []
     for sub, summary in summaries.items():
         base = os.path.join(rust_dir, sub)
+        if not os.path.isdir(base):
+            continue
+        records = {r.get("label"): r for r in summary.get("runs", []) if isinstance(r, dict)}
+        reference = summary.get("reference", {}) if isinstance(summary.get("reference"), dict) else {}
         for entry in sorted(os.listdir(base)):
             d = os.path.join(base, entry)
-            if os.path.isdir(d) and os.path.exists(os.path.join(d, "run.json")):
-                runs.append((sub, entry, d))
+            if not os.path.isdir(d):
+                continue
+            run = None
+            rpath = os.path.join(d, "run.json")
+            if os.path.exists(rpath):
+                try:
+                    run = load_json(rpath)
+                except (OSError, ValueError):
+                    run = None
+            record = records.get(entry)
+            if run is None and record is None:
+                continue
+            params = (run or {}).get("parameters") or (record or {}).get("parameters")
+            if not isinstance(params, dict):
+                parsed = parse_label(entry)
+                if parsed is None:
+                    continue
+                sign, key = LAMBDA_KEYS.get(parsed["lambdaName"], (None, None))
+                lam = None
+                if record is not None and isinstance(record.get("lambdaHat"), float):
+                    lam = record["lambdaHat"]
+                elif sign is not None:
+                    lam = 0.0 if key is None else (sign * reference[key] if isinstance(reference.get(key), float) else None)
+                params = {"m": parsed["m"], "L": parsed["L"], "N": parsed["N"], "lambdaHat": lam,
+                          "T": parsed["T_over_m"] * parsed["m"], "a4_0": parsed["a4_0"],
+                          "gridPoints": parsed["gridPoints"], "deltaKOverM": parsed["deltaKOverM"],
+                          "ell": 2.0 * math.pi / (parsed["deltaKOverM"] * parsed["m"]), "fromLabel": True}
+            runs.append({"sub": sub, "label": entry, "dir": d, "run": run, "record": record, "params": params})
     return runs
+
+
+def field(item, name):
+    """A value of a Rust run from run.json or, failing that, its summary record."""
+    for src in (item.get("run"), item.get("record")):
+        if isinstance(src, dict) and name in src:
+            return src[name]
+    return None
+
+
+def rust_energy(item):
+    e = field(item, "energy")
+    return e if isinstance(e, float) else field(item, "E0")
 
 
 def rust_conservation(phdr, prof):
@@ -415,8 +580,12 @@ def rust_conservation(phdr, prof):
     dPy = (-Py[4:] + 8 * Py[3:-1] - 8 * Py[1:-3] + Py[:-4]) / (12 * h)
     res = dPy - 3.0 * (P3 + Pt)[2:-2]
     inner = slice(1, -1)
-    scale = max(float(np.max(np.abs(dPy[inner]))), float(np.max(np.abs(3.0 * (P3 + Pt)[2:-2][inner]))), 1e-300)
-    if scale < 1e-14 * max(float(np.max(np.abs(Py))), 1e-300):
+    # normalised by the largest term of p_y' + 6H p_y = 3H (p_3 + p_t) on the
+    # inner nodes (the 6H|P_y| term keeps a free k = 0 state, whose right-hand
+    # side vanishes and whose P_y is constant, from dividing round-off by itself)
+    scale = max(float(np.max(np.abs(dPy[inner]))), float(np.max(np.abs(3.0 * (P3 + Pt)[2:-2][inner]))),
+                6.0 * float(np.max(np.abs(Py[2:-2][inner]))), 1e-300)
+    if scale <= 1e-300 or scale < 1e-14 * max(float(np.max(np.abs(Py))), 1e-300):
         return 0.0
     return float(np.max(np.abs(res[inner])) / scale)
 
@@ -427,97 +596,126 @@ def check_rust_internal(reg: Registry, rust_dir, summaries, runs):
     reg.check("rust_summaries_success", bool(summaries) and all(v == "SUCCESS" for v in verdicts.values()),
               json.dumps(verdicts))
     failed = []
+    total = 0
     for sub, s in summaries.items():
-        for c in s.get("checks", []):
-            if not c.get("passed"):
-                failed.append("%s:%s" % (sub, c.get("name")))
-    reg.check("rust_own_checks_passed", not failed, "failed Rust checks: %s" % failed[:20])
+        for cname, ok in summary_checks(s).items():
+            total += 1
+            if not ok:
+                failed.append("%s:%s" % (sub, cname))
+    reg.measure("rustOwnCheckCount", total)
+    reg.check("rust_own_checks_passed", total > 0 and not failed, "%d Rust checks, failed: %s" % (total, failed[:20]))
     reg.measure("rustRunCount", len(runs))
+    reg.measure("rustRunLabels", ["%s/%s" % (r["sub"], r["label"]) for r in runs])
     worst = {"N": 0.0, "Ndens": 0.0, "Erho": 0.0, "cons": 0.0, "Sc0": 0.0, "bc": 0.0}
+    counted = {"N": 0, "Erho": 0, "profiles": 0, "bc": 0}
     entropy_ok = True
-    for sub, label, d in runs:
-        run = load_json(os.path.join(d, "run.json"))
-        p = run["parameters"]
-        N = p["N"]
-        worst["N"] = max(worst["N"], rel(run["nTotal"], N))
-        worst["Ndens"] = max(worst["Ndens"], rel(run["nFromDensity"], N))
-        worst["Erho"] = max(worst["Erho"], abs(run["emt"]["energyFromRho"] - run["energy"]) / max(abs(run["energy"]), 1.0))
-        if run["entropy"] < -1e-12:
+    overlap = []
+    for item in runs:
+        N = item["params"].get("N") if item["params"] else None
+        n_total = field(item, "nTotal")
+        n_dens = field(item, "nFromDensity")
+        if isinstance(N, float) and isinstance(n_total, float):
+            worst["N"] = max(worst["N"], rel(n_total, N))
+            counted["N"] += 1
+        if isinstance(N, float) and isinstance(n_dens, float):
+            worst["Ndens"] = max(worst["Ndens"], rel(n_dens, N))
+        emt = field(item, "emt")
+        energy = field(item, "energy")
+        if isinstance(emt, dict) and isinstance(energy, float) and isinstance(emt.get("energyFromRho"), float):
+            worst["Erho"] = max(worst["Erho"], abs(emt["energyFromRho"] - energy) / max(abs(energy), 1.0))
+            counted["Erho"] += 1
+        ent = field(item, "entropy")
+        if isinstance(ent, float) and ent < -1e-12:
             entropy_ok = False
-        ppath = os.path.join(d, "profiles.csv")
-        lpath = os.path.join(d, "levels.csv")
+        if field(item, "branchOverlap") is True:
+            overlap.append(item["label"])
+        ppath = os.path.join(item["dir"], "profiles.csv")
+        lpath = os.path.join(item["dir"], "levels.csv")
         if os.path.exists(ppath):
             phdr, prof = read_csv(ppath)
-            worst["cons"] = max(worst["cons"], rust_conservation(phdr, prof))
-            s_c = column(phdr, prof, "S_c")
-            worst["Sc0"] = max(worst["Sc0"], abs(s_c[-1]) / max(float(np.max(np.abs(s_c))), 1e-300))
-            # HOMO profile: current-free ends and Z2 purity: b(-L) = 0 (bag), b(0) = 0 or a(0) = 0
-            a = column(phdr, prof, "homo_a")
-            b = column(phdr, prof, "homo_b")
-            scale = max(float(np.max(np.abs(a))), float(np.max(np.abs(b))), 1e-300)
-            if scale > 1e-300 and os.path.exists(lpath):
+            counted["profiles"] += 1
+            if all(c in phdr for c in ("y", "volume_factor", "p_y", "p_3", "p_t")):
+                c = rust_conservation(phdr, prof)
+                if math.isfinite(c):
+                    worst["cons"] = max(worst["cons"], c)
+            if "S_c" in phdr:
+                s_c = column(phdr, prof, "S_c")
+                worst["Sc0"] = max(worst["Sc0"], abs(s_c[-1]) / max(float(np.max(np.abs(s_c))), 1e-300))
+            eps_homo = field(item, "epsHomo")
+            if ("homo_a" in phdr and "homo_b" in phdr and os.path.exists(lpath)
+                    and isinstance(eps_homo, float) and math.isfinite(eps_homo)):
+                a = column(phdr, prof, "homo_a")
+                b = column(phdr, prof, "homo_b")
+                scale = max(float(np.max(np.abs(a))), float(np.max(np.abs(b))), 1e-300)
                 lhdr, lev = read_csv(lpath)
-                eps = column(lhdr, lev, "eps")
-                par = column(lhdr, lev, "parity")
-                if len(eps):
-                    i = int(np.argmin(np.abs(eps - run["epsHomo"]))) if math.isfinite(run["epsHomo"]) else None
-                    if i is not None:
-                        brane = abs(b[-1]) if par[i] > 0 else abs(a[-1])
-                        worst["bc"] = max(worst["bc"], abs(b[0]) / scale, brane / scale)
-    reg.check("rust_N_conservation", worst["N"] < 1e-8 and worst["Ndens"] < 1e-6,
-              "max relative |sum weights - N| = %.3e, |N(density) - N| = %.3e" % (worst["N"], worst["Ndens"]))
-    reg.check("rust_energy_from_rho", worst["Erho"] < 1e-6, "max %.3e" % worst["Erho"])
-    reg.check("rust_emt_y_conservation_recomputed", worst["cons"] < TOL["rustConservation"],
-              "P_y' = 3H(P_3 + P_t) from profiles.csv, max normalised residual %.3e" % worst["cons"])
-    reg.check("rust_Z2_parity_purity", worst["Sc0"] < 1e-10,
+                if scale > 1e-300 and "eps" in lhdr and "parity" in lhdr and len(lev):
+                    eps = column(lhdr, lev, "eps")
+                    par = column(lhdr, lev, "parity")
+                    i = int(np.argmin(np.abs(eps - eps_homo)))
+                    brane = abs(b[-1]) if par[i] > 0 else abs(a[-1])
+                    worst["bc"] = max(worst["bc"], abs(b[0]) / scale, brane / scale)
+                    counted["bc"] += 1
+    reg.check("rust_N_conservation", counted["N"] > 0 and worst["N"] < 1e-8 and worst["Ndens"] < 1e-6,
+              "%d runs: max relative |sum weights - N| = %.3e, |N(density) - N| = %.3e" % (counted["N"], worst["N"], worst["Ndens"]))
+    reg.check("rust_energy_from_rho", counted["Erho"] > 0 and worst["Erho"] < 1e-6,
+              "%d runs, max %.3e" % (counted["Erho"], worst["Erho"]))
+    reg.check("rust_emt_y_conservation_recomputed", counted["profiles"] > 0 and worst["cons"] < TOL["rustConservation"],
+              "P_y' = 3H(P_3 + P_t) from %d profiles.csv, max normalised residual %.3e" % (counted["profiles"], worst["cons"]))
+    reg.check("rust_Z2_parity_purity", counted["profiles"] > 0 and worst["Sc0"] < 1e-10,
               "max |S_c(0)|/max|S_c| = %.3e (scalar density vanishes on the brane)" % worst["Sc0"])
-    reg.check("rust_homo_boundary_conditions", worst["bc"] < 1e-6,
-              "HOMO profile: |b(-L)| and the parity component at y = 0, relative %.3e (current-free ends)" % worst["bc"])
+    reg.check("rust_homo_boundary_conditions", counted["bc"] > 0 and worst["bc"] < 1e-6,
+              "HOMO profile of %d runs: |b(-L)| and the parity component at y = 0, relative %.3e (current-free ends)"
+              % (counted["bc"], worst["bc"]))
     reg.check("rust_entropy_nonnegative", entropy_ok, "entropy >= 0 in every run")
-    # thermodynamics table
+    reg.check("rust_no_branch_overlap", not overlap,
+              "runs with a sea level above an occupied particle level: %s" % overlap[:10])
     tpath = os.path.join(rust_dir, "thermo", "thermodynamics.csv")
     if os.path.exists(tpath):
         thdr, tab = read_csv(tpath)
-        cv = column(thdr, tab, "C_V")
-        T = column(thdr, tab, "T")
-        S = column(thdr, tab, "S_entropy")
-        F = column(thdr, tab, "F")
-        Nc = column(thdr, tab, "N")
-        lam = column(thdr, tab, "lambda_hat")
-        ok_cv = bool(np.all(cv[T > 0] > 0))
-        ok_s = bool(np.all(S[T > 0] > 0))
-        ok_f = True
-        for n_, l_ in {(float(a), float(b)) for a, b in zip(Nc, lam)}:
-            sel = (Nc == n_) & (lam == l_)
-            Ts = T[sel]
-            Fs = F[sel][np.argsort(Ts)]
-            ok_f = ok_f and bool(np.all(np.diff(Fs) <= 1e-9 * np.maximum(np.abs(Fs[:-1]), 1.0)))
-        reg.check("rust_CV_nonnegative", ok_cv, "C_V > 0 at every T > 0 in thermodynamics.csv")
-        reg.check("rust_entropy_positive_finiteT", ok_s, "S > 0 at every T > 0")
-        reg.check("rust_free_energy_decreasing", ok_f, "F(T) non-increasing along each (N, lambda) series")
+        needed = ("C_V", "T", "S_entropy", "F", "N", "lambda_hat")
+        if all(c in thdr for c in needed) and len(tab):
+            cv = column(thdr, tab, "C_V")
+            T = column(thdr, tab, "T")
+            S = column(thdr, tab, "S_entropy")
+            F = column(thdr, tab, "F")
+            Nc = column(thdr, tab, "N")
+            lam = column(thdr, tab, "lambda_hat")
+            ok_cv = bool(np.all(cv[T > 0] > 0))
+            ok_s = bool(np.all(S[T > 0] > 0))
+            ok_f = True
+            for n_, l_ in sorted({(float(a), float(b)) for a, b in zip(Nc, lam)}):
+                sel = (Nc == n_) & (lam == l_)
+                Ts = T[sel]
+                Fs = F[sel][np.argsort(Ts)]
+                ok_f = ok_f and bool(np.all(np.diff(Fs) <= 1e-9 * np.maximum(np.abs(Fs[:-1]), 1.0)))
+            reg.check("rust_CV_nonnegative", ok_cv, "C_V > 0 at every T > 0 in thermodynamics.csv (%d rows)" % len(tab))
+            reg.check("rust_entropy_positive_finiteT", ok_s, "S > 0 at every T > 0")
+            reg.check("rust_free_energy_decreasing", ok_f, "F(T) non-increasing along each (N, lambda) series")
+        else:
+            reg.comparison("rust_thermodynamics_table", "not run", "thermodynamics.csv lacks columns %s" % (needed,))
     else:
         reg.comparison("rust_thermodynamics_table", "not run", "thermo/thermodynamics.csv absent")
-    # L-convergence trend from scf runs (free N = 8: labels m1_L{2,3,4}_N8_lam0_T0)
     gaps = {}
-    for sub, label, d in runs:
-        m = re.match(r"m1_L(\d)_N8_lam0_T0$", label)
-        if m and sub == "scf":
-            run = load_json(os.path.join(d, "run.json"))
-            gaps[int(m.group(1))] = run["ksGap"]
-    if len(gaps) >= 3 and all(isinstance(gaps.get(k), float) for k in (2, 3, 4)):
+    for item in runs:
+        m = re.match(r"m1_L(\d)_N8_lam0_T0$", item["label"])
+        if m and item["sub"] == "scf" and isinstance(field(item, "ksGap"), float):
+            gaps[int(m.group(1))] = field(item, "ksGap")
+    if all(k in gaps for k in (2, 3, 4)):
         reg.check("rust_L_convergence_trend", abs(gaps[4] - gaps[3]) < abs(gaps[3] - gaps[2]),
                   "KS gap of the free N = 8 state: L=2 %.8f, L=3 %.8f, L=4 %.8f" % (gaps[2], gaps[3], gaps[4]))
+        reg.measure("rustFreeN8GapByL", gaps)
     else:
-        reg.comparison("rust_L_convergence_trend", "not run", "free N = 8 runs at L = 2, 3, 4 not all present: %s" % sorted(gaps))
+        reg.comparison("rust_L_convergence_trend", "not run",
+                       "free N = 8 scf runs at L = 2, 3, 4 not all present: %s" % sorted(gaps))
 
 
 def select_reproductions(runs, max_count, quick):
-    """Pick a representative subset of Rust runs to reproduce."""
+    """A representative subset of the Rust runs to reproduce, in priority order."""
     wanted = []
+
     def add(pred):
         for item in runs:
-            sub, label, d = item
-            if pred(sub, label) and item not in wanted:
+            if pred(item["sub"], item["label"]) and item not in wanted:
                 wanted.append(item)
     add(lambda s, l: s == "scf" and re.match(r"m1_L3_N8_lam(0|p1|m1)_T0$", l))
     add(lambda s, l: s == "excited" and re.match(r"m1_L3_N8_lam0_T0$", l))
@@ -529,6 +727,7 @@ def select_reproductions(runs, max_count, quick):
     add(lambda s, l: s == "scf" and re.match(r"m1_L[24]_N8_lam0_T0$", l))
     add(lambda s, l: s == "scf" and "a4" in l)
     add(lambda s, l: s == "scf" and re.match(r"m1_L3_N\d+_lamp1_T0$", l) and "N8_" not in l)
+    add(lambda s, l: s == "excited" and re.match(r"m1_L3_N\d+_lamp1_T0$", l))
     add(lambda s, l: s == "emt")
     add(lambda s, l: True)
     if quick:
@@ -536,65 +735,101 @@ def select_reproductions(runs, max_count, quick):
     return wanted[:max_count]
 
 
-def reproduce_rust_run(reg: Registry, sub, label, d, quick):
-    run = load_json(os.path.join(d, "run.json"))
-    p = run["parameters"]
+def reproduce_rust_run(reg: Registry, item, quick):
+    sub, label, d = item["sub"], item["label"], item["dir"]
+    p = item["params"]
+    name = "rust_%s_%s" % (sub, label)
+    if not p or not isinstance(p.get("lambdaHat"), float) or not isinstance(p.get("N"), float):
+        reg.comparison(name, "not run", "parameters unavailable (no run.json, no summary record, label undecodable)")
+        return None
     N0 = 32 if quick else 50
     levels = 2 if quick else 3
-    delta_k = p["deltaKOverM"] * p["m"]
-    params = KS.Params(m=p["m"], a4=p["a4_0"], L=p["L"], lambda_hat=p["lambdaHat"], T=p["T"], N=p["N"],
-                       parity=0, tip="g0", xc="quadratic", delta_k=delta_k, ell=p["ell"], N0=N0, levels=levels,
-                       label="repro-" + label)
-    name = "rust_%s_%s" % (sub, label)
+    delta_k = p.get("deltaKOverM", 0.25) * p["m"]
+    ell = p.get("ell", 2.0 * math.pi / delta_k)
+    params = KS.Params(m=p["m"], a4=p.get("a4_0", 0.0), L=p["L"], lambda_hat=p["lambdaHat"], T=p.get("T", 0.0),
+                       N=p["N"], parity=0, tip="g0", xc="quadratic", delta_k=delta_k, ell=ell, N0=N0,
+                       levels=levels, label="repro-" + label)
     try:
         ref = KS.SectorRun(params)
     except Exception as error:  # noqa: BLE001
-        reg.comparison(name, "failed", "reference solver failed: %s" % error)
-        return
+        reg.comparison(name, "failed", "reference solver failed: %r" % (error,))
+        return None
     res = {"label": label, "sub": sub, "parameters": p, "referenceN0": N0, "referenceLevels": levels,
-           "referenceConverged": ref.converged}
-    # scalars
-    e_ref = float(ref.scalars["total"])
-    res["E0"] = {"rust": run["energy"], "reference": e_ref, "relative": rel(run["energy"], e_ref)}
-    res["mu"] = {"rust": run["mu"], "reference": float(ref.scalars["mu"]),
-                 "difference": abs(run["mu"] - float(ref.scalars["mu"]))}
-    res["entropy"] = {"rust": run["entropy"], "reference": float(ref.scalars["entropy"]),
-                      "difference": abs(run["entropy"] - float(ref.scalars["entropy"]))}
-    res["free"] = {"rust": run["freeEnergy"], "reference": float(ref.scalars["free"]),
-                   "relative": rel(run["freeEnergy"], float(ref.scalars["free"]))}
-    gap_rust = run.get("ksGap")
-    res["ksGap"] = {"rust": gap_rust, "reference": ref.gap,
-                    "difference": (abs(gap_rust - ref.gap) if isinstance(gap_rust, float) and ref.gap is not None else None)}
-    # eigenvalues by (n2, parity, s)
-    lhdr, lev = read_csv(os.path.join(d, "levels.csv"))
+           "referenceConverged": ref.converged, "parametersFromLabel": bool(p.get("fromLabel"))}
+    problems = []
+
+    def scalar(key_rust, key_ref, kind, tol, value=None):
+        """kind: "perParticle" -> |d| / max(|value|, N); "abs" -> |d| / max(1, |value|)."""
+        rv = value if value is not None else field(item, key_rust)
+        mv = float(ref.scalars[key_ref]) if key_ref in ref.scalars else None
+        if not isinstance(rv, float) or mv is None or not math.isfinite(rv):
+            res[key_rust] = {"rust": rv, "reference": mv, "compared": False}
+            return
+        if kind == "perParticle":
+            dev = abs(rv - mv) / max(abs(rv), abs(mv), float(p["N"]))
+        else:
+            dev = abs(rv - mv) / max(1.0, abs(rv))
+        res[key_rust] = {"rust": rv, "reference": mv, "deviation": dev, "kind": kind, "compared": True}
+        if dev >= tol:
+            problems.append("%s %.2e" % (key_rust, dev))
+    scalar("energy", "total", "perParticle", TOL["rustEnergy"], value=rust_energy(item))
+    scalar("mu", "mu", "abs", TOL["rustEnergy"])
+    scalar("freeEnergy", "free", "perParticle", TOL["rustEnergy"])
+    scalar("entropy", "entropy", "abs", TOL["rustEntropy"])
+    gap_rust = field(item, "ksGap")
+    res["ksGap"] = {"rust": gap_rust, "reference": ref.gap}
+    if isinstance(gap_rust, float) and math.isfinite(gap_rust) and ref.gap is not None:
+        dev = abs(gap_rust - ref.gap) / max(1.0, abs(gap_rust))
+        res["ksGap"]["deviation"] = dev
+        if dev >= TOL["rustEnergy"]:
+            problems.append("ksGap %.2e" % dev)
+    # eigenvalues by (n2, parity, s) with branch agreement
+    lpath = os.path.join(d, "levels.csv")
     fine = ref.levels[-1]["spectrum"]
     lo, hi = fine.eps_lo, fine.eps_hi
-    mine = {}
-    for key in ref.state_keys:
-        q, par, typ, idx = key
-        mine.setdefault((q, par, typ), []).append(float(ref.state_eps[key][1]))
-    max_dev = 0.0
-    unmatched = 0
-    compared = 0
-    flip_dev = 0.0
-    for row in lev:
-        rec = dict(zip(lhdr, row))
-        eps = rec["eps"]
-        if not (lo + 1e-9 <= eps <= hi - 1e-9):
-            continue
-        cand = mine.get((int(rec["n2"]), int(rec["parity"]), int(rec["s"])), [])
-        cand_flip = mine.get((int(rec["n2"]), int(rec["parity"]), -int(rec["s"])), [])
-        compared += 1
-        best = min((abs(eps - e) for e in cand), default=float("inf"))
-        best_flip = min((abs(eps - e) for e in cand_flip), default=float("inf"))
-        flip_dev = max(flip_dev, min(best_flip, 1.0))
-        if best > 0.05 * max(1.0, abs(eps)):
-            unmatched += 1
-        else:
-            max_dev = max(max_dev, best)
-    res["eigenvalues"] = {"compared": compared, "unmatched": unmatched, "maxAbsDeviation": max_dev,
-                          "maxDeviationWithFlippedBlockSign": flip_dev,
-                          "window": [lo, hi], "blockSignMapping": "rust s == reference type"}
+    if os.path.exists(lpath):
+        lhdr, lev = read_csv(lpath)
+        fine_states = {st.key(): st for st in fine.states}
+        mine = {}
+        for key in ref.state_keys:
+            q, par, typ, idx = key
+            mine.setdefault((q, par, typ), []).append((float(ref.state_eps[key][1]), fine_states[key].branch))
+        max_dev = 0.0
+        unmatched = 0
+        compared = 0
+        branch_mismatch = 0
+        has_branch = "branch" in lhdr
+        for row in lev:
+            rec = dict(zip(lhdr, row))
+            eps = rec["eps"]
+            if not (lo + 1e-9 <= eps <= hi - 1e-9):
+                continue
+            cand = mine.get((int(rec["n2"]), int(rec["parity"]), int(rec["s"])), [])
+            compared += 1
+            if not cand:
+                unmatched += 1
+                continue
+            j = int(np.argmin([abs(eps - e) for e, _ in cand]))
+            best = abs(eps - cand[j][0])
+            if best > 0.05 * max(1.0, abs(eps)):
+                unmatched += 1
+            else:
+                max_dev = max(max_dev, best)
+                if has_branch and int(rec["branch"]) != cand[j][1]:
+                    branch_mismatch += 1
+        res["eigenvalues"] = {"compared": compared, "unmatched": unmatched, "maxAbsDeviation": max_dev,
+                              "branchMismatches": branch_mismatch if has_branch else None,
+                              "window": [lo, hi], "blockSignMapping": "rust s == reference type"}
+        if compared == 0:
+            problems.append("no eigenvalues in the common window")
+        if unmatched:
+            problems.append("%d unmatched levels" % unmatched)
+        if max_dev >= TOL["rustEps"] * (1.0 + abs(hi)):
+            problems.append("eps %.2e" % max_dev)
+        if branch_mismatch:
+            problems.append("%d branch mismatches" % branch_mismatch)
+    else:
+        res["eigenvalues"] = {"compared": 0, "note": "levels.csv absent"}
     # profiles at common y (Rust uniform grid vs reference coarse grid)
     ppath = os.path.join(d, "profiles.csv")
     prof_dev = {}
@@ -612,71 +847,70 @@ def reproduce_rust_run(reg: Registry, sub, label, d, quick):
             im = [b for _, b in idx]
             for rname, mname in (("n_c", "n_c"), ("S_c", "s_c"), ("M_eff", "m_eff_out"), ("v_x", "v_out"),
                                  ("rho", "rho"), ("p_y", "p_y"), ("p_3", "p_3"), ("p_t", "p_t")):
+                if rname not in phdr:
+                    continue
                 a = column(phdr, prof, rname)[ir]
                 b = np.asarray(ref.profiles[mname])[im]
                 scale = max(float(np.max(np.abs(a))), float(np.max(np.abs(b))), 1e-300)
                 prof_dev[rname] = float(np.max(np.abs(a - b)) / scale) if scale > 1e-300 else 0.0
+                if prof_dev[rname] >= TOL["rustProfile"]:
+                    problems.append("profile %s %.2e" % (rname, prof_dev[rname]))
             prof_dev["commonPoints"] = len(idx)
     res["profiles"] = prof_dev
     # EMT averages
-    e_r = run["emt"]
-    res["emt"] = {"rhoAvg": {"rust": e_r["rhoAvg"], "reference": float(ref.emt["averages"]["rho"])},
-                  "pYAvg": {"rust": e_r["pYAvg"], "reference": float(ref.emt["averages"]["p_y"])},
-                  "p3Avg": {"rust": e_r["p3Avg"], "reference": float(ref.emt["averages"]["p_3"])},
-                  "pTAvg": {"rust": e_r["pTAvg"], "reference": float(ref.emt["averages"]["p_t"])},
-                  "braneFraction": {"rust": e_r["braneFraction_within_1_over_H"],
-                                    "reference": float(ref.emt["braneLocalisedFraction"])}}
+    e_r = field(item, "emt")
     emt_dev = 0.0
-    scale = max(abs(e_r["rhoAvg"]), abs(float(ref.emt["averages"]["rho"])), 1e-300)
-    for k, v in res["emt"].items():
-        if k == "braneFraction":
-            emt_dev = max(emt_dev, abs(v["rust"] - v["reference"]))
-        else:
-            emt_dev = max(emt_dev, abs(v["rust"] - v["reference"]) / scale)
-    res["emtMaxDeviation"] = emt_dev
-    # verdicts
-    ok = (res["E0"]["relative"] < TOL["rustEnergy"] and res["mu"]["difference"] < TOL["rustEnergy"] * max(1.0, abs(run["mu"]))
-          and res["free"]["relative"] < TOL["rustEnergy"] and res["entropy"]["difference"] < TOL["rustEntropy"] * max(1.0, abs(run["entropy"]))
-          and unmatched == 0 and max_dev < TOL["rustEps"] * (1.0 + abs(hi))
-          and all(v < TOL["rustProfile"] for k, v in prof_dev.items() if k != "commonPoints")
-          and emt_dev < TOL["rustEMT"])
-    if isinstance(gap_rust, float) and ref.gap is not None:
-        ok = ok and abs(gap_rust - ref.gap) < TOL["rustEnergy"] * max(1.0, abs(gap_rust))
-    reg.check(name + "_agreement", ok,
-              "E0 rel %.2e, mu %.2e, eps max %.2e (%d compared, %d unmatched), profiles %s, emt %.2e"
-              % (res["E0"]["relative"], res["mu"]["difference"], max_dev, compared, unmatched,
-                 {k: ("%.1e" % v if isinstance(v, float) else v) for k, v in prof_dev.items()}, emt_dev))
+    if isinstance(e_r, dict) and all(isinstance(e_r.get(k), float) for k in ("rhoAvg", "pYAvg", "p3Avg", "pTAvg")):
+        res["emt"] = {"rhoAvg": {"rust": e_r["rhoAvg"], "reference": float(ref.emt["averages"]["rho"])},
+                      "pYAvg": {"rust": e_r["pYAvg"], "reference": float(ref.emt["averages"]["p_y"])},
+                      "p3Avg": {"rust": e_r["p3Avg"], "reference": float(ref.emt["averages"]["p_3"])},
+                      "pTAvg": {"rust": e_r["pTAvg"], "reference": float(ref.emt["averages"]["p_t"])}}
+        if isinstance(e_r.get("braneFraction_within_1_over_H"), float):
+            res["emt"]["braneFraction"] = {"rust": e_r["braneFraction_within_1_over_H"],
+                                           "reference": float(ref.emt["braneLocalisedFraction"])}
+        scale = max(abs(e_r["rhoAvg"]), abs(float(ref.emt["averages"]["rho"])), 1e-300)
+        for k, v in res["emt"].items():
+            dev = abs(v["rust"] - v["reference"]) / (1.0 if k == "braneFraction" else scale)
+            emt_dev = max(emt_dev, dev)
+        res["emtMaxDeviation"] = emt_dev
+        if emt_dev >= TOL["rustEMT"]:
+            problems.append("emt %.2e" % emt_dev)
+    res["problems"] = problems
+    reg.check(name + "_agreement", not problems,
+              "E0 %s, mu %s, eps %s, profiles %s, emt %.2e; problems: %s"
+              % (res["energy"], res["mu"], res.get("eigenvalues"),
+                 {k: ("%.1e" % v if isinstance(v, float) else v) for k, v in prof_dev.items()}, emt_dev, problems))
     # excited: Delta-SCF
-    if sub == "excited":
-        ex_summary = load_json(os.path.join(os.path.dirname(d), "summary.json"))
-        rec = next((r for r in ex_summary.get("runs", []) if r.get("label") == label), None)
-        if rec is not None and params.T <= 0:
-            try:
-                ds = KS.delta_scf(ref)
-            except Exception as error:  # noqa: BLE001
-                ds = {"available": False, "reason": str(error)}
-            res["deltaSCF"] = {"rust": rec.get("deltaScf"), "reference": ds.get("deltaSCF"), "available": ds.get("available")}
-            if ds.get("available") and isinstance(rec.get("deltaScf"), float):
-                dev = abs(rec["deltaScf"] - ds["deltaSCF"]) / max(abs(rec["deltaScf"]), 1e-300)
-                reg.check(name + "_deltaSCF", dev < TOL["rustDeltaSCF"],
-                          "rust %.10g vs reference %.10g (relative %.2e)" % (rec["deltaScf"], ds["deltaSCF"], dev))
-            else:
-                reg.comparison(name + "_deltaSCF", "not run", "Delta-SCF unavailable: %s" % ds.get("reason"))
-    # thermo: C_V
+    rec = item.get("record") or {}
+    if sub == "excited" and params.T <= 0:
+        try:
+            ds = KS.delta_scf(ref)
+        except Exception as error:  # noqa: BLE001
+            ds = {"available": False, "reason": str(error)}
+        res["deltaSCF"] = {"rust": rec.get("deltaScf"), "reference": ds.get("deltaSCF"), "available": ds.get("available")}
+        if ds.get("available") and isinstance(rec.get("deltaScf"), float) and math.isfinite(rec["deltaScf"]):
+            dev = abs(rec["deltaScf"] - ds["deltaSCF"]) / max(abs(rec["deltaScf"]), 1e-300)
+            reg.check(name + "_deltaSCF", dev < TOL["rustDeltaSCF"],
+                      "rust %.10g vs reference %.10g (relative %.2e)" % (rec["deltaScf"], ds["deltaSCF"], dev))
+        else:
+            reg.comparison(name + "_deltaSCF", "not run", "Delta-SCF unavailable: %s / rust %s"
+                           % (ds.get("reason"), rec.get("deltaScf")))
+    # thermo: C_V (both sides: central differences at T (1 +- 0.05))
     if sub == "thermo" and params.T > 0:
-        th_summary = load_json(os.path.join(os.path.dirname(d), "summary.json"))
-        rec = next((r for r in th_summary.get("runs", []) if r.get("label") == label), None)
-        if rec is not None and isinstance(rec.get("heatCapacity"), float):
+        if isinstance(rec.get("heatCapacity"), float):
             try:
                 point = KS.thermo_point(params, params.T)
                 cv_ref = point["C_V"]
                 dev = abs(rec["heatCapacity"] - cv_ref) / max(abs(cv_ref), 1e-300)
-                res["C_V"] = {"rust": rec["heatCapacity"], "reference": cv_ref, "relative": dev}
+                res["C_V"] = {"rust": rec["heatCapacity"], "reference": cv_ref, "relative": dev,
+                              "referenceFromEntropy": point["C_V_fromEntropy"]}
                 reg.check(name + "_CV", dev < TOL["rustCV"], "rust %.8g vs reference %.8g (relative %.2e)"
                           % (rec["heatCapacity"], cv_ref, dev))
             except Exception as error:  # noqa: BLE001
                 reg.comparison(name + "_CV", "failed", str(error))
-    reg.comparison(name, "ran", json.dumps(KS.jsonable(res))[:2000])
+        else:
+            reg.comparison(name + "_CV", "not run", "no heatCapacity in the thermo summary record")
+    reg.comparison(name, "ran", json.dumps(KS.jsonable(res))[:3000])
     return res
 
 
@@ -691,11 +925,12 @@ def check_repeat(reg: Registry, rust_dir, repeat_dir, summaries):
             a = os.path.join(rust_dir, sub, f)
             b = os.path.join(repeat_dir, sub, f)
             if not os.path.exists(a) or not os.path.exists(b):
-                differing.append(f + " (missing)")
+                differing.append(sub + "/" + f + " (missing)")
                 continue
             compared += 1
             if sha256_file(a) != sha256_file(b):
                 differing.append(sub + "/" + f)
+    reg.measure("rustRepeatFilesCompared", compared)
     reg.check("rust_repeat_byte_identity", compared > 0 and not differing,
               "%d files compared, differing: %s" % (compared, differing[:10]))
 
@@ -704,24 +939,26 @@ def check_refined(reg: Registry, rust_dir, refined_dir, runs):
     if not refined_dir or not os.path.isdir(refined_dir):
         reg.comparison("rust_refined_convergence", "not run", "no --refined directory")
         return
+    refined = {(r["sub"], r["label"]): r for r in rust_runs(refined_dir, rust_summaries(refined_dir))}
     worst_e = 0.0
     worst_eps = 0.0
     count = 0
-    for sub, label, d in runs:
-        d2 = os.path.join(refined_dir, sub, label)
-        if not os.path.exists(os.path.join(d2, "run.json")):
+    for item in runs:
+        other = refined.get((item["sub"], item["label"]))
+        if other is None:
             continue
-        r1 = load_json(os.path.join(d, "run.json"))
-        r2 = load_json(os.path.join(d2, "run.json"))
-        worst_e = max(worst_e, rel(r1["energy"], r2["energy"]))
-        count += 1
-        l1 = os.path.join(d, "levels.csv")
-        l2 = os.path.join(d2, "levels.csv")
+        e1, e2 = rust_energy(item), rust_energy(other)
+        if isinstance(e1, float) and isinstance(e2, float):
+            worst_e = max(worst_e, rel(e1, e2))
+            count += 1
+        l1 = os.path.join(item["dir"], "levels.csv")
+        l2 = os.path.join(other["dir"], "levels.csv")
         if os.path.exists(l1) and os.path.exists(l2):
             h1, a = read_csv(l1)
             h2, b = read_csv(l2)
-            if a.shape == b.shape:
+            if a.shape == b.shape and "eps" in h1 and "eps" in h2:
                 worst_eps = max(worst_eps, float(np.max(np.abs(column(h1, a, "eps") - column(h2, b, "eps")))))
+    reg.measure("rustRefinedRunsCompared", count)
     reg.check("rust_refined_convergence", count > 0 and worst_e < TOL["refinedEnergy"] and worst_eps < TOL["refinedEps"],
               "%d runs: max relative energy difference %.3e, max eigenvalue difference %.3e" % (count, worst_e, worst_eps))
 
@@ -788,16 +1025,16 @@ def main(argv=None):
     if summaries:
         for sub in summaries:
             sources["rust_" + sub] = sha256_file(os.path.join(args.rust, sub, "summary.json"))
-        runs = rust_run_dirs(args.rust, summaries)
+        runs = rust_runs(args.rust, summaries)
         check_rust_internal(reg, args.rust, summaries, runs)
         if args.no_reproduce:
             reg.comparison("rust_reproduction", "not run", "--no-reproduce")
         else:
             chosen = select_reproductions(runs, args.max_reproductions, args.quick)
-            reg.measure("rustReproductions", ["%s/%s" % (s, l) for s, l, _ in chosen])
-            for sub, label, d in chosen:
-                print("reproducing %s/%s" % (sub, label), flush=True)
-                reproduce_rust_run(reg, sub, label, d, args.quick)
+            reg.measure("rustReproductions", ["%s/%s" % (it["sub"], it["label"]) for it in chosen])
+            for item in chosen:
+                print("reproducing %s/%s" % (item["sub"], item["label"]), flush=True)
+                reproduce_rust_run(reg, item, args.quick)
         check_repeat(reg, args.rust, args.repeat, summaries)
         check_refined(reg, args.rust, args.refined, runs)
     else:

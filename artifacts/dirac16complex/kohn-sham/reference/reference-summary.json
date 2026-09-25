@@ -2,7 +2,12 @@
   "schemaVersion": 1,
   "producer": "scripts/ks_reference_solver.py",
   "fixtureSha256": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
-  "method": "staggered-grid (Yee) real-symmetric matrix eigensolver, three grids N0, 2N0, 4N0, extrapolation eliminating h^2 and h^3; Anderson-mixed SCF on (n_c, S_c)",
+  "method": "staggered-grid (Yee) real-symmetric matrix eigensolver, three grids N0, 2N0, 4N0, extrapolation eliminating h^2 and h^3; Anderson-mixed SCF on (n_c, S_c); particle/sea branches by continuity from lambda = 0 (rank against the free spectrum)",
+  "conventions": {
+    "sea": "free",
+    "parity": "0 = both Z2 sectors filled together (Rust convention); +1/-1 = one sector",
+    "xc": "quadratic: M_eff = m + (15/16) lambda S_p, v_x = -lambda n_p/16, e_x = -(lambda/32)(n_p^2 + S_p^2)"
+  },
   "quick": false,
   "selfTests": {
     "fixtureSha256": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
@@ -157,14 +162,14 @@
             4.303355020252309
           ],
           [
-            -1.4044967696819707e-14,
+            -1.4004079872374818e-14,
             1.4479426308908203,
             2.3207500716566503,
             3.296546299091862,
             4.305716577463978
           ],
           [
-            -2.2876737776915942e-14,
+            -2.3101620811362837e-14,
             1.4479646321157003,
             2.3208486938792485,
             3.2968179090738103,
@@ -172,7 +177,7 @@
           ]
         ],
         "extrapolated": [
-          -2.65654036536228e-14,
+          -2.6931447034367533e-14,
           1.4479719304383099,
           2.320881481035132,
           3.296908314101791,
@@ -210,7 +215,7 @@
             1.2922860638390539,
             2.010598906866033,
             2.911857756577419,
-            3.8828230605804483,
+            3.882823060580449,
             4.8842633812148835
           ]
         ],
@@ -243,30 +248,30 @@
             4.744429798545514
           ],
           [
-            0.1008539450040269,
-            1.6875573287833106,
-            2.6838371677232224,
-            3.7110879604799605,
-            4.7472242062740335
+            0.10085394500404385,
+            1.6875573287832981,
+            2.6838371677232145,
+            3.7110879604799654,
+            4.747224206274035
           ],
           [
-            0.10085183260561843,
-            1.687573593040528,
-            2.683943174920086,
-            3.7114052324991924,
-            4.747922415203491
+            0.10085183260557459,
+            1.687573593040537,
+            2.683943174920045,
+            3.711405232499183,
+            4.747922415203474
           ]
         ],
         "extrapolated": [
-          0.10085112153236009,
-          1.68757898658027,
-          2.6839784572155767,
-          3.7115109179476597,
-          4.7481550766556575
+          0.1008511215322836,
+          1.6875789865802904,
+          2.683978457215518,
+          3.711510917947643,
+          4.748155076655631
         ],
-        "maxAbsError": 1.7648331684938512e-08,
-        "maxAbsErrorFinest": 0.00023264380383469785,
-        "orderEstimate": 2.0008118250462794,
+        "maxAbsError": 1.764830503958592e-08,
+        "maxAbsErrorFinest": 0.00023264380385157324,
+        "orderEstimate": 2.0008118250857363,
         "zeroMode": false
       },
       "tip_f0_parity_-1": {
@@ -286,30 +291,30 @@
             4.303364186132094
           ],
           [
-            1.4945682167613735e-14,
-            1.4479428439195179,
-            2.320750603268062,
-            3.2965471410710245,
-            4.3057177233199395
+            -3.855336625177824e-15,
+            1.447942843919509,
+            2.3207506032680474,
+            3.2965471410710134,
+            4.305717723319928
           ],
           [
-            1.9928139668769956e-13,
-            1.4479646587419426,
-            2.3208487603263954,
-            3.2968180143183585,
-            4.306306260558748
+            1.9321581153982202e-13,
+            1.4479646587419348,
+            2.3208487603263896,
+            3.2968180143183403,
+            4.306306260558726
           ]
         ],
         "extrapolated": [
-          2.9481879083975405e-13,
-          1.447971930461828,
-          2.3208814810808063,
-          3.296908314132272,
-          4.306502468770131
+          2.9631943373410726e-13,
+          1.447971930461821,
+          2.320881481080806,
+          3.2969083141322506,
+          4.306502468770104
         ],
-        "maxAbsError": 1.5535672304167747e-08,
-        "maxAbsErrorFinest": 0.00019619267571080456,
-        "orderEstimate": 1.999625041365942,
+        "maxAbsError": 1.5535644770636736e-08,
+        "maxAbsErrorFinest": 0.00019619267573300903,
+        "orderEstimate": 1.9996250413849908,
         "zeroMode": true
       }
     },
@@ -327,17 +332,17 @@
     },
     "rescaling": {
       "lambda_hat": 0.009,
-      "E0_a4_0.5": 2.1818415617997178,
-      "E0_rescaled": 2.1818415617998386,
-      "maxEigenvalueDifference": 7.771561172376096e-14,
-      "statesCompared": 406,
-      "E0Difference": 1.2079226507921703e-13
+      "E0_a4_0.5": -0.0009134010690672409,
+      "E0_rescaled": -0.0009134010690672409,
+      "maxEigenvalueDifference": 7.593925488436071e-14,
+      "statesCompared": 337,
+      "E0Difference": 0.0
     }
   },
   "closedShells": {
     "N_8": 8.0,
     "N_mid": 112.0,
-    "N_big": 1008.0,
+    "N_big": 1016.0,
     "closedShells": [
       {
         "eps": -4.8280343104526094e-15,
@@ -429,9 +434,18 @@
         ]
       },
       {
+        "eps": 1.2920270335394297,
+        "multiplicity": 8.0,
+        "cumulative": 696.0,
+        "levels": [
+          "0:-1:-1:0",
+          "0:-1:+1:0"
+        ]
+      },
+      {
         "eps": 1.2958041772603652,
         "multiplicity": 32.0,
-        "cumulative": 720.0,
+        "cumulative": 728.0,
         "levels": [
           "12:+1:-1:0"
         ]
@@ -439,7 +453,7 @@
       {
         "eps": 1.3419867764854283,
         "multiplicity": 96.0,
-        "cumulative": 816.0,
+        "cumulative": 824.0,
         "levels": [
           "13:+1:-1:0"
         ]
@@ -447,15 +461,23 @@
       {
         "eps": 1.3862019469287548,
         "multiplicity": 192.0,
-        "cumulative": 1008.0,
+        "cumulative": 1016.0,
         "levels": [
           "14:+1:-1:0"
         ]
       },
       {
+        "eps": 1.4386544493558593,
+        "multiplicity": 24.0,
+        "cumulative": 1040.0,
+        "levels": [
+          "1:-1:+1:0"
+        ]
+      },
+      {
         "eps": 1.4476813932427375,
         "multiplicity": 8.0,
-        "cumulative": 1016.0,
+        "cumulative": 1048.0,
         "levels": [
           "0:+1:-1:1",
           "0:+1:+1:1"
@@ -464,7 +486,7 @@
       {
         "eps": 1.4695638721569866,
         "multiplicity": 24.0,
-        "cumulative": 1040.0,
+        "cumulative": 1072.0,
         "levels": [
           "16:+1:-1:0"
         ]
@@ -472,64 +494,37 @@
       {
         "eps": 1.5090436831107001,
         "multiplicity": 192.0,
-        "cumulative": 1232.0,
+        "cumulative": 1264.0,
         "levels": [
           "17:+1:-1:0"
+        ]
+      },
+      {
+        "eps": 1.5472362295692348,
+        "multiplicity": 144.0,
+        "cumulative": 1408.0,
+        "levels": [
+          "18:+1:-1:0"
         ]
       }
     ]
   },
-  "couplings": [
-    {
-      "m": 1.0,
-      "N": 8.0,
-      "l1": 0.009284504761764904,
-      "l2": 0.09284504761764903,
-      "R_per_unit_lambda_hat": 10.770633713476698,
-      "argmax_y": -3.0
-    },
-    {
-      "m": 1.0,
-      "N": 112.0,
-      "l1": 0.009128998029133998,
-      "l2": 0.09128998029133999,
-      "R_per_unit_lambda_hat": 10.954104676204675,
-      "argmax_y": -3.0
-    },
-    {
-      "m": 1.0,
-      "N": 1008.0,
-      "l1": 0.009128929031963159,
-      "l2": 0.0912892903196316,
-      "R_per_unit_lambda_hat": 10.954187468198029,
-      "argmax_y": -3.0
-    },
-    {
-      "m": 3.0,
-      "N": 8.0,
-      "l1": 38001.42435054079,
-      "l2": 380014.2435054078,
-      "R_per_unit_lambda_hat": 2.6314803118314416e-06,
-      "argmax_y": -3.0
-    },
-    {
-      "m": 3.0,
-      "N": 112.0,
-      "l1": 848.774182186576,
-      "l2": 8487.74182186576,
-      "R_per_unit_lambda_hat": 0.00011781696722016714,
-      "argmax_y": -0.796875
-    },
-    {
-      "m": 3.0,
-      "N": 1008.0,
-      "l1": 0.011862451829480251,
-      "l2": 0.11862451829480251,
-      "R_per_unit_lambda_hat": 8.429960470017054,
-      "argmax_y": -2.765625
-    }
-  ],
-  "couplingRule": "lambda_hat_1 = 0.1/R, lambda_hat_2 = 1.0/R with R = max_y max(|M_eff - m|, |v_x|)/m of the free ground state per unit lambda_hat (the pseudo-potential strength, which is dominated by the tip region y -> -L because n_p = e^{-6Hy} n_c)",
+  "couplings": {
+    "S_ref": 6.162686611476305,
+    "argmax_y": -2.296875,
+    "N_mid": 112.0,
+    "m": 1.0,
+    "L": 3.0,
+    "lambda_hat_1": 0.01622668915433369,
+    "lambda_hat_2": 0.1622668915433369,
+    "E0_free_N_mid": 61.090723896651916,
+    "levels": [
+      6.171821323426673,
+      6.167958209390149,
+      6.166705665166897
+    ]
+  },
+  "couplingRule": "lambda_hat_1 = 0.1/S_ref, lambda_hat_2 = 1.0/S_ref, S_ref = max_y |S_p(y)| of the free N_mid ground state at m = 1, L = 3 with both parities filled together (the Rust crate's rule; |lambda S_p|/m reaches 0.1 and 1 there); the same values are used at m = 3 and the achieved max |lambda S_p|/m is recorded per run",
   "runs": [
     {
       "label": "L2-free-N8-p+1",
@@ -545,6 +540,7 @@
         "parity": 1,
         "tip": "g0",
         "xc": "quadratic",
+        "sea": "free",
         "delta_k": 0.25,
         "ell": 25.132741228718345,
         "volume": 15875.213660313506,
@@ -557,6 +553,7 @@
         "H": 1.0
       },
       "converged": true,
+      "failed": null,
       "extrapolated": {
         "total": 0.0,
         "free": 0.0,
@@ -570,7 +567,7 @@
         "nTotal": 8.0,
         "mu": -7.407098089609599e-14
       },
-      "ksGap": 0.42430169941372325,
+      "ksGap": 0.42430169941364215,
       "homo": "0:+1:+1:0",
       "lumo": "1:+1:-1:0",
       "emt": {
@@ -579,7 +576,7 @@
         "w_t": null,
         "w_mean": null,
         "energyFromRho": 0.0,
-        "braneLocalisedFraction": 0.8807970766950001,
+        "braneLocalisedFraction": 0.8807970766950005,
         "averages": {
           "rho": 0.0,
           "p_y": 0.0,
@@ -617,104 +614,105 @@
         "profile_m_eff_out": null,
         "profile_v_out": null
       },
+      "branchOverlap": false,
       "thermo": {},
       "excited": {
-        "ksGap": 0.42430169941372325,
+        "ksGap": 0.42430169941364215,
         "particleHole": [
           {
             "hole": "0:+1:-1:0",
             "particle": "1:+1:-1:0",
             "epsHole": 8.797751410158086e-14,
-            "epsParticle": 0.42430169941363527,
-            "excitation": 0.4243016994135473,
+            "epsParticle": 0.42430169941355417,
+            "excitation": 0.4243016994134662,
             "weight": 96.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "1:+1:-1:0",
             "epsHole": -8.797751410158086e-14,
-            "epsParticle": 0.42430169941363527,
-            "excitation": 0.42430169941372325,
+            "epsParticle": 0.42430169941355417,
+            "excitation": 0.42430169941364215,
             "weight": 96.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "2:+1:-1:0",
             "epsHole": 8.797751410158086e-14,
-            "epsParticle": 0.584722436981468,
-            "excitation": 0.58472243698138,
+            "epsParticle": 0.5847224369815365,
+            "excitation": 0.5847224369814485,
             "weight": 192.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "2:+1:-1:0",
             "epsHole": -8.797751410158086e-14,
-            "epsParticle": 0.584722436981468,
-            "excitation": 0.5847224369815559,
+            "epsParticle": 0.5847224369815365,
+            "excitation": 0.5847224369816244,
             "weight": 192.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "3:+1:-1:0",
             "epsHole": 8.797751410158086e-14,
-            "epsParticle": 0.7023655588367844,
-            "excitation": 0.7023655588366965,
+            "epsParticle": 0.7023655588367623,
+            "excitation": 0.7023655588366744,
             "weight": 128.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "3:+1:-1:0",
             "epsHole": -8.797751410158086e-14,
-            "epsParticle": 0.7023655588367844,
-            "excitation": 0.7023655588368724,
+            "epsParticle": 0.7023655588367623,
+            "excitation": 0.7023655588368503,
             "weight": 128.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "4:+1:-1:0",
             "epsHole": 8.797751410158086e-14,
-            "epsParticle": 0.7986628492370703,
-            "excitation": 0.7986628492369824,
+            "epsParticle": 0.7986628492370704,
+            "excitation": 0.7986628492369825,
             "weight": 96.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "4:+1:-1:0",
             "epsHole": -8.797751410158086e-14,
-            "epsParticle": 0.7986628492370703,
-            "excitation": 0.7986628492371582,
+            "epsParticle": 0.7986628492370704,
+            "excitation": 0.7986628492371584,
             "weight": 96.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "5:+1:-1:0",
             "epsHole": 8.797751410158086e-14,
-            "epsParticle": 0.8817373516468265,
-            "excitation": 0.8817373516467386,
+            "epsParticle": 0.8817373516468049,
+            "excitation": 0.881737351646717,
             "weight": 384.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "5:+1:-1:0",
             "epsHole": -8.797751410158086e-14,
-            "epsParticle": 0.8817373516468265,
-            "excitation": 0.8817373516469145,
+            "epsParticle": 0.8817373516468049,
+            "excitation": 0.8817373516468928,
             "weight": 384.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "6:+1:-1:0",
             "epsHole": 8.797751410158086e-14,
-            "epsParticle": 0.9556497359269676,
-            "excitation": 0.9556497359268796,
+            "epsParticle": 0.9556497359270592,
+            "excitation": 0.9556497359269712,
             "weight": 384.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "6:+1:-1:0",
             "epsHole": -8.797751410158086e-14,
-            "epsParticle": 0.9556497359269676,
-            "excitation": 0.9556497359270555,
+            "epsParticle": 0.9556497359270592,
+            "excitation": 0.9556497359271471,
             "weight": 384.0
           }
         ],
@@ -725,17 +723,17 @@
           "homoMultiplicity": 8.0,
           "lumoMultiplicity": 24.0,
           "E0": 0.0,
-          "E1": 0.42430169941363527,
-          "deltaSCF": 0.42430169941363527,
-          "ksGap": 0.42430169941372325,
+          "E1": 0.42430169941355417,
+          "deltaSCF": 0.42430169941355417,
+          "ksGap": 0.42430169941364215,
           "nTotalExcited": 8.0,
           "converged": true,
           "levelsE1": [
             0.4243717721516388,
             0.4243193762816628,
-            0.424306138466083
+            0.42430613846602977
           ],
-          "orderEstimateE1": 1.98478802060906
+          "orderEstimateE1": 1.9847880148073362
         }
       }
     },
@@ -753,6 +751,7 @@
         "parity": -1,
         "tip": "g0",
         "xc": "quadratic",
+        "sea": "free",
         "delta_k": 0.25,
         "ell": 25.132741228718345,
         "volume": 15875.213660313506,
@@ -765,6 +764,7 @@
         "H": 1.0
       },
       "converged": true,
+      "failed": null,
       "extrapolated": {
         "total": 12.158420490707275,
         "free": 12.158420490707275,
@@ -778,7 +778,7 @@
         "nTotal": 8.0,
         "mu": 1.519802561338326
       },
-      "ksGap": 0.0009838665013142123,
+      "ksGap": 0.0009838665013044423,
       "homo": "0:-1:+1:0",
       "lumo": "1:-1:+1:0",
       "emt": {
@@ -797,9 +797,9 @@
         },
         "traceIdentityResidual": 5.329070518200751e-15,
         "conservationResidualMaxNormalised": [
-          1.0,
-          1.0,
-          1.0
+          0.00021490940174443942,
+          5.376794399105908e-05,
+          1.3444548465889657e-05
         ],
         "rhoRequired_kappa1": -21.0,
         "pRequired_kappa1": 15.0,
@@ -825,104 +825,105 @@
         "profile_m_eff_out": null,
         "profile_v_out": null
       },
+      "branchOverlap": false,
       "thermo": {},
       "excited": {
-        "ksGap": 0.0009838665013142123,
+        "ksGap": 0.0009838665013044423,
         "particleHole": [
           {
             "hole": "0:-1:-1:0",
             "particle": "1:-1:+1:0",
             "epsHole": 1.519802561338493,
-            "epsParticle": 1.5207864278396401,
-            "excitation": 0.0009838665011472347,
+            "epsParticle": 1.5207864278396304,
+            "excitation": 0.0009838665011374648,
             "weight": 96.0
           },
           {
             "hole": "0:-1:+1:0",
             "particle": "1:-1:+1:0",
             "epsHole": 1.519802561338326,
-            "epsParticle": 1.5207864278396401,
-            "excitation": 0.0009838665013142123,
+            "epsParticle": 1.5207864278396304,
+            "excitation": 0.0009838665013044423,
             "weight": 96.0
           },
           {
             "hole": "0:-1:-1:0",
             "particle": "2:-1:+1:0",
             "epsHole": 1.519802561338493,
-            "epsParticle": 1.6049096928562012,
-            "excitation": 0.08510713151770832,
+            "epsParticle": 1.6049096928561986,
+            "excitation": 0.08510713151770566,
             "weight": 192.0
           },
           {
             "hole": "0:-1:+1:0",
             "particle": "2:-1:+1:0",
             "epsHole": 1.519802561338326,
-            "epsParticle": 1.6049096928562012,
-            "excitation": 0.0851071315178753,
+            "epsParticle": 1.6049096928561986,
+            "excitation": 0.08510713151787264,
             "weight": 192.0
           },
           {
             "hole": "0:-1:-1:0",
             "particle": "3:-1:+1:0",
             "epsHole": 1.519802561338493,
-            "epsParticle": 1.6848767517850762,
-            "excitation": 0.16507419044658334,
+            "epsParticle": 1.6848767517850753,
+            "excitation": 0.16507419044658245,
             "weight": 128.0
           },
           {
             "hole": "0:-1:+1:0",
             "particle": "3:-1:+1:0",
             "epsHole": 1.519802561338326,
-            "epsParticle": 1.6848767517850762,
-            "excitation": 0.1650741904467503,
+            "epsParticle": 1.6848767517850753,
+            "excitation": 0.16507419044674942,
             "weight": 128.0
           },
           {
             "hole": "0:-1:-1:0",
             "particle": "4:-1:+1:0",
             "epsHole": 1.519802561338493,
-            "epsParticle": 1.7578824167433387,
-            "excitation": 0.23807985540484577,
+            "epsParticle": 1.7578824167433265,
+            "excitation": 0.23807985540483356,
             "weight": 96.0
           },
           {
             "hole": "0:-1:+1:0",
             "particle": "4:-1:+1:0",
             "epsHole": 1.519802561338326,
-            "epsParticle": 1.7578824167433387,
-            "excitation": 0.23807985540501275,
+            "epsParticle": 1.7578824167433265,
+            "excitation": 0.23807985540500054,
             "weight": 96.0
           },
           {
             "hole": "0:-1:-1:0",
             "particle": "5:-1:+1:0",
             "epsHole": 1.519802561338493,
-            "epsParticle": 1.8245202112130465,
-            "excitation": 0.30471764987455363,
+            "epsParticle": 1.8245202112130663,
+            "excitation": 0.3047176498745734,
             "weight": 384.0
           },
           {
             "hole": "0:-1:+1:0",
             "particle": "5:-1:+1:0",
             "epsHole": 1.519802561338326,
-            "epsParticle": 1.8245202112130465,
-            "excitation": 0.3047176498747206,
+            "epsParticle": 1.8245202112130663,
+            "excitation": 0.30471764987474037,
             "weight": 384.0
           },
           {
             "hole": "0:-1:-1:0",
             "particle": "6:-1:+1:0",
             "epsHole": 1.519802561338493,
-            "epsParticle": 1.8857767475356224,
-            "excitation": 0.3659741861971295,
+            "epsParticle": 1.8857767475356453,
+            "excitation": 0.3659741861971524,
             "weight": 384.0
           },
           {
             "hole": "0:-1:+1:0",
             "particle": "6:-1:+1:0",
             "epsHole": 1.519802561338326,
-            "epsParticle": 1.8857767475356224,
-            "excitation": 0.3659741861972965,
+            "epsParticle": 1.8857767475356453,
+            "excitation": 0.36597418619731936,
             "weight": 384.0
           }
         ],
@@ -933,17 +934,17 @@
           "homoMultiplicity": 8.0,
           "lumoMultiplicity": 24.0,
           "E0": 12.158420490707275,
-          "E1": 12.159404357208503,
-          "deltaSCF": 0.000983866501227837,
-          "ksGap": 0.0009838665013142123,
+          "E1": 12.159404357208492,
+          "deltaSCF": 0.0009838665012171788,
+          "ksGap": 0.0009838665013044423,
           "nTotalExcited": 8.0,
           "converged": true,
           "levelsE1": [
             12.157373329788218,
             12.158897880647784,
-            12.159277898105119
+            12.159277898105112
           ],
-          "orderEstimateE1": 2.004246679907655
+          "orderEstimateE1": 2.0042466799346297
         }
       }
     },
@@ -961,6 +962,7 @@
         "parity": 1,
         "tip": "g0",
         "xc": "quadratic",
+        "sea": "free",
         "delta_k": 0.25,
         "ell": 25.132741228718345,
         "volume": 15875.213660313506,
@@ -973,6 +975,7 @@
         "H": 1.0
       },
       "converged": true,
+      "failed": null,
       "extrapolated": {
         "total": 0.0,
         "free": 0.0,
@@ -986,7 +989,7 @@
         "nTotal": 8.0,
         "mu": -5.3962582478810235e-15
       },
-      "ksGap": 0.43073368308442506,
+      "ksGap": 0.43073368308442633,
       "homo": "0:+1:+1:0",
       "lumo": "1:+1:-1:0",
       "emt": {
@@ -1033,104 +1036,105 @@
         "profile_m_eff_out": null,
         "profile_v_out": null
       },
+      "branchOverlap": false,
       "thermo": {},
       "excited": {
-        "ksGap": 0.43073368308442506,
+        "ksGap": 0.43073368308442633,
         "particleHole": [
           {
             "hole": "0:+1:-1:0",
             "particle": "1:+1:-1:0",
             "epsHole": 5.3962582478810235e-15,
-            "epsParticle": 0.43073368308441967,
-            "excitation": 0.4307336830844143,
+            "epsParticle": 0.43073368308442095,
+            "excitation": 0.43073368308441556,
             "weight": 96.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "1:+1:-1:0",
             "epsHole": -5.3962582478810235e-15,
-            "epsParticle": 0.43073368308441967,
-            "excitation": 0.43073368308442506,
+            "epsParticle": 0.43073368308442095,
+            "excitation": 0.43073368308442633,
             "weight": 96.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "2:+1:-1:0",
             "epsHole": 5.3962582478810235e-15,
-            "epsParticle": 0.5879568586471445,
-            "excitation": 0.5879568586471391,
+            "epsParticle": 0.5879568586471002,
+            "excitation": 0.5879568586470948,
             "weight": 192.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "2:+1:-1:0",
             "epsHole": -5.3962582478810235e-15,
-            "epsParticle": 0.5879568586471445,
-            "excitation": 0.58795685864715,
+            "epsParticle": 0.5879568586471002,
+            "excitation": 0.5879568586471057,
             "weight": 192.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "3:+1:-1:0",
             "epsHole": 5.3962582478810235e-15,
-            "epsParticle": 0.7040995714864636,
-            "excitation": 0.7040995714864582,
+            "epsParticle": 0.7040995714864066,
+            "excitation": 0.7040995714864011,
             "weight": 128.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "3:+1:-1:0",
             "epsHole": -5.3962582478810235e-15,
-            "epsParticle": 0.7040995714864636,
-            "excitation": 0.7040995714864691,
+            "epsParticle": 0.7040995714864066,
+            "excitation": 0.704099571486412,
             "weight": 128.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "4:+1:-1:0",
             "epsHole": 5.3962582478810235e-15,
-            "epsParticle": 0.7996457744538229,
-            "excitation": 0.7996457744538175,
+            "epsParticle": 0.7996457744538216,
+            "excitation": 0.7996457744538161,
             "weight": 96.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "4:+1:-1:0",
             "epsHole": -5.3962582478810235e-15,
-            "epsParticle": 0.7996457744538229,
-            "excitation": 0.7996457744538283,
+            "epsParticle": 0.7996457744538216,
+            "excitation": 0.799645774453827,
             "weight": 96.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "5:+1:-1:0",
             "epsHole": 5.3962582478810235e-15,
-            "epsParticle": 0.882319548737861,
-            "excitation": 0.8823195487378556,
+            "epsParticle": 0.8823195487378982,
+            "excitation": 0.8823195487378928,
             "weight": 384.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "5:+1:-1:0",
             "epsHole": -5.3962582478810235e-15,
-            "epsParticle": 0.882319548737861,
-            "excitation": 0.8823195487378664,
+            "epsParticle": 0.8823195487378982,
+            "excitation": 0.8823195487379036,
             "weight": 384.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "6:+1:-1:0",
             "epsHole": 5.3962582478810235e-15,
-            "epsParticle": 0.9560069385192527,
-            "excitation": 0.9560069385192472,
+            "epsParticle": 0.9560069385192067,
+            "excitation": 0.9560069385192013,
             "weight": 384.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "6:+1:-1:0",
             "epsHole": -5.3962582478810235e-15,
-            "epsParticle": 0.9560069385192527,
-            "excitation": 0.9560069385192581,
+            "epsParticle": 0.9560069385192067,
+            "excitation": 0.9560069385192121,
             "weight": 384.0
           }
         ],
@@ -1141,17 +1145,17 @@
           "homoMultiplicity": 8.0,
           "lumoMultiplicity": 24.0,
           "E0": 0.0,
-          "E1": 0.43073368308441967,
-          "deltaSCF": 0.43073368308441967,
-          "ksGap": 0.43073368308442506,
+          "E1": 0.43073368308442095,
+          "deltaSCF": 0.43073368308442095,
+          "ksGap": 0.43073368308442633,
           "nTotalExcited": 8.0,
           "converged": true,
           "levelsE1": [
             0.4308732702136534,
             0.4307691548025578,
-            0.4307426228809329
+            0.43074262288093373
           ],
-          "orderEstimateE1": 1.9723825568320732
+          "orderEstimateE1": 1.97238255687735
         }
       }
     },
@@ -1169,6 +1173,7 @@
         "parity": -1,
         "tip": "g0",
         "xc": "quadratic",
+        "sea": "free",
         "delta_k": 0.25,
         "ell": 25.132741228718345,
         "volume": 15875.213660313506,
@@ -1181,6 +1186,7 @@
         "H": 1.0
       },
       "converged": true,
+      "failed": null,
       "extrapolated": {
         "total": 10.338342623142093,
         "free": 10.338342623142093,
@@ -1194,7 +1200,7 @@
         "nTotal": 8.0,
         "mu": 1.29229282789275
       },
-      "ksGap": 0.14663398496301205,
+      "ksGap": 0.14663398496297608,
       "homo": "0:-1:-1:0",
       "lumo": "1:-1:+1:0",
       "emt": {
@@ -1213,9 +1219,9 @@
         },
         "traceIdentityResidual": 9.094947017729282e-13,
         "conservationResidualMaxNormalised": [
-          1.0,
-          1.0,
-          1.0
+          0.0002498113308126476,
+          6.255233242694424e-05,
+          1.564247248937504e-05
         ],
         "rhoRequired_kappa1": -21.0,
         "pRequired_kappa1": 15.0,
@@ -1241,104 +1247,105 @@
         "profile_m_eff_out": null,
         "profile_v_out": null
       },
+      "branchOverlap": false,
       "thermo": {},
       "excited": {
-        "ksGap": 0.14663398496301205,
+        "ksGap": 0.14663398496297608,
         "particleHole": [
           {
             "hole": "0:-1:+1:0",
             "particle": "1:-1:+1:0",
             "epsHole": 1.2922928278927752,
-            "epsParticle": 1.43892681285576,
-            "excitation": 0.14663398496298474,
+            "epsParticle": 1.438926812855724,
+            "excitation": 0.14663398496294877,
             "weight": 96.0
           },
           {
             "hole": "0:-1:-1:0",
             "particle": "1:-1:+1:0",
             "epsHole": 1.292292827892748,
-            "epsParticle": 1.43892681285576,
-            "excitation": 0.14663398496301205,
+            "epsParticle": 1.438926812855724,
+            "excitation": 0.14663398496297608,
             "weight": 96.0
           },
           {
             "hole": "0:-1:+1:0",
             "particle": "2:-1:+1:0",
             "epsHole": 1.2922928278927752,
-            "epsParticle": 1.5694123467334422,
-            "excitation": 0.277119518840667,
+            "epsParticle": 1.569412346733417,
+            "excitation": 0.2771195188406417,
             "weight": 192.0
           },
           {
             "hole": "0:-1:-1:0",
             "particle": "2:-1:+1:0",
             "epsHole": 1.292292827892748,
-            "epsParticle": 1.5694123467334422,
-            "excitation": 0.2771195188406943,
+            "epsParticle": 1.569412346733417,
+            "excitation": 0.277119518840669,
             "weight": 192.0
           },
           {
             "hole": "0:-1:+1:0",
             "particle": "3:-1:+1:0",
             "epsHole": 1.2922928278927752,
-            "epsParticle": 1.6670801934024435,
-            "excitation": 0.3747873655096683,
+            "epsParticle": 1.667080193402418,
+            "excitation": 0.37478736550964276,
             "weight": 128.0
           },
           {
             "hole": "0:-1:-1:0",
             "particle": "3:-1:+1:0",
             "epsHole": 1.292292827892748,
-            "epsParticle": 1.6670801934024435,
-            "excitation": 0.3747873655096956,
+            "epsParticle": 1.667080193402418,
+            "excitation": 0.37478736550967007,
             "weight": 128.0
           },
           {
             "hole": "0:-1:+1:0",
             "particle": "4:-1:+1:0",
             "epsHole": 1.2922928278927752,
-            "epsParticle": 1.7482053746354465,
-            "excitation": 0.45591254674267123,
+            "epsParticle": 1.7482053746354929,
+            "excitation": 0.45591254674271764,
             "weight": 96.0
           },
           {
             "hole": "0:-1:-1:0",
             "particle": "4:-1:+1:0",
             "epsHole": 1.292292827892748,
-            "epsParticle": 1.7482053746354465,
-            "excitation": 0.45591254674269854,
+            "epsParticle": 1.7482053746354929,
+            "excitation": 0.45591254674274495,
             "weight": 96.0
           },
           {
             "hole": "0:-1:+1:0",
             "particle": "5:-1:+1:0",
             "epsHole": 1.2922928278927752,
-            "epsParticle": 1.8189603318911287,
-            "excitation": 0.5266675039983535,
+            "epsParticle": 1.8189603318911218,
+            "excitation": 0.5266675039983466,
             "weight": 384.0
           },
           {
             "hole": "0:-1:-1:0",
             "particle": "5:-1:+1:0",
             "epsHole": 1.292292827892748,
-            "epsParticle": 1.8189603318911287,
-            "excitation": 0.5266675039983808,
+            "epsParticle": 1.8189603318911218,
+            "excitation": 0.5266675039983739,
             "weight": 384.0
           },
           {
             "hole": "0:-1:+1:0",
             "particle": "6:-1:+1:0",
             "epsHole": 1.2922928278927752,
-            "epsParticle": 1.8824481123847951,
-            "excitation": 0.5901552844920199,
+            "epsParticle": 1.8824481123847734,
+            "excitation": 0.5901552844919982,
             "weight": 384.0
           },
           {
             "hole": "0:-1:-1:0",
             "particle": "6:-1:+1:0",
             "epsHole": 1.292292827892748,
-            "epsParticle": 1.8824481123847951,
-            "excitation": 0.5901552844920472,
+            "epsParticle": 1.8824481123847734,
+            "excitation": 0.5901552844920255,
             "weight": 384.0
           }
         ],
@@ -1349,17 +1356,17 @@
           "homoMultiplicity": 8.0,
           "lumoMultiplicity": 24.0,
           "E0": 10.338342623142093,
-          "E1": 10.48497660810509,
-          "deltaSCF": 0.14663398496299607,
-          "ksGap": 0.14663398496301205,
+          "E1": 10.484976608105056,
+          "deltaSCF": 0.14663398496296232,
+          "ksGap": 0.14663398496297608,
           "nTotalExcited": 8.0,
           "converged": true,
           "levelsE1": [
             10.48284368413189,
             10.484445017706028,
-            10.484843915579605
+            10.484843915579582
           ],
-          "orderEstimateE1": 2.005182529353376
+          "orderEstimateE1": 2.0051825294368952
         }
       }
     },
@@ -1377,6 +1384,7 @@
         "parity": 1,
         "tip": "g0",
         "xc": "quadratic",
+        "sea": "free",
         "delta_k": 0.25,
         "ell": 25.132741228718345,
         "volume": 15875.213660313506,
@@ -1389,6 +1397,7 @@
         "H": 1.0
       },
       "converged": true,
+      "failed": null,
       "extrapolated": {
         "total": 0.0,
         "free": 0.0,
@@ -1402,7 +1411,7 @@
         "nTotal": 8.0,
         "mu": -1.5016345583274732e-14
       },
-      "ksGap": 0.4307456403479733,
+      "ksGap": 0.4307456403479134,
       "homo": "0:+1:-1:0",
       "lumo": "1:+1:-1:0",
       "emt": {
@@ -1411,7 +1420,7 @@
         "w_t": null,
         "w_mean": null,
         "energyFromRho": 0.0,
-        "braneLocalisedFraction": 0.8649548571599522,
+        "braneLocalisedFraction": 0.8649548571599525,
         "averages": {
           "rho": 0.0,
           "p_y": 0.0,
@@ -1449,104 +1458,105 @@
         "profile_m_eff_out": null,
         "profile_v_out": null
       },
+      "branchOverlap": false,
       "thermo": {},
       "excited": {
-        "ksGap": 0.4307456403479733,
+        "ksGap": 0.4307456403479134,
         "particleHole": [
           {
             "hole": "0:+1:+1:0",
             "particle": "1:+1:-1:0",
             "epsHole": 1.4849055970117353e-14,
-            "epsParticle": 0.4307456403479585,
-            "excitation": 0.43074564034794366,
+            "epsParticle": 0.4307456403478986,
+            "excitation": 0.43074564034788376,
             "weight": 96.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "1:+1:-1:0",
             "epsHole": -1.4849055970117353e-14,
-            "epsParticle": 0.4307456403479585,
-            "excitation": 0.4307456403479733,
+            "epsParticle": 0.4307456403478986,
+            "excitation": 0.4307456403479134,
             "weight": 96.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "2:+1:-1:0",
             "epsHole": 1.4849055970117353e-14,
-            "epsParticle": 0.5879573170051168,
-            "excitation": 0.5879573170051019,
+            "epsParticle": 0.5879573170051151,
+            "excitation": 0.5879573170051002,
             "weight": 192.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "2:+1:-1:0",
             "epsHole": -1.4849055970117353e-14,
-            "epsParticle": 0.5879573170051168,
-            "excitation": 0.5879573170051317,
+            "epsParticle": 0.5879573170051151,
+            "excitation": 0.58795731700513,
             "weight": 192.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "3:+1:-1:0",
             "epsHole": 1.4849055970117353e-14,
-            "epsParticle": 0.7040996179943104,
-            "excitation": 0.7040996179942955,
+            "epsParticle": 0.704099617994304,
+            "excitation": 0.7040996179942891,
             "weight": 128.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "3:+1:-1:0",
             "epsHole": -1.4849055970117353e-14,
-            "epsParticle": 0.7040996179943104,
-            "excitation": 0.7040996179943253,
+            "epsParticle": 0.704099617994304,
+            "excitation": 0.7040996179943189,
             "weight": 128.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "4:+1:-1:0",
             "epsHole": 1.4849055970117353e-14,
-            "epsParticle": 0.7996457935971432,
-            "excitation": 0.7996457935971283,
+            "epsParticle": 0.7996457935971589,
+            "excitation": 0.799645793597144,
             "weight": 96.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "4:+1:-1:0",
             "epsHole": -1.4849055970117353e-14,
-            "epsParticle": 0.7996457935971432,
-            "excitation": 0.799645793597158,
+            "epsParticle": 0.7996457935971589,
+            "excitation": 0.7996457935971738,
             "weight": 96.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "5:+1:-1:0",
             "epsHole": 1.4849055970117353e-14,
-            "epsParticle": 0.8823195661502773,
-            "excitation": 0.8823195661502624,
+            "epsParticle": 0.8823195661502501,
+            "excitation": 0.8823195661502352,
             "weight": 384.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "5:+1:-1:0",
             "epsHole": -1.4849055970117353e-14,
-            "epsParticle": 0.8823195661502773,
-            "excitation": 0.8823195661502922,
+            "epsParticle": 0.8823195661502501,
+            "excitation": 0.882319566150265,
             "weight": 384.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "6:+1:-1:0",
             "epsHole": 1.4849055970117353e-14,
-            "epsParticle": 0.9560069565073713,
-            "excitation": 0.9560069565073565,
+            "epsParticle": 0.9560069565073935,
+            "excitation": 0.9560069565073787,
             "weight": 384.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "6:+1:-1:0",
             "epsHole": -1.4849055970117353e-14,
-            "epsParticle": 0.9560069565073713,
-            "excitation": 0.9560069565073862,
+            "epsParticle": 0.9560069565073935,
+            "excitation": 0.9560069565074084,
             "weight": 384.0
           }
         ],
@@ -1557,17 +1567,17 @@
           "homoMultiplicity": 8.0,
           "lumoMultiplicity": 24.0,
           "E0": 0.0,
-          "E1": 0.4307456403479585,
-          "deltaSCF": 0.4307456403479585,
-          "ksGap": 0.4307456403479733,
+          "E1": 0.4307456403478986,
+          "deltaSCF": 0.4307456403478986,
+          "ksGap": 0.4307456403479134,
           "nTotalExcited": 8.0,
           "converged": true,
           "levelsE1": [
             0.4309911228817049,
             0.4308083363309034,
-            0.43076148001238324
+            0.43076148001234393
           ],
-          "orderEstimateE1": 1.9638444107956585
+          "orderEstimateE1": 1.9638444095855625
         }
       }
     },
@@ -1585,6 +1595,7 @@
         "parity": -1,
         "tip": "g0",
         "xc": "quadratic",
+        "sea": "free",
         "delta_k": 0.25,
         "ell": 25.132741228718345,
         "volume": 15875.213660313506,
@@ -1597,6 +1608,7 @@
         "H": 1.0
       },
       "converged": true,
+      "failed": null,
       "extrapolated": {
         "total": 9.509388704309979,
         "free": 9.509388704309979,
@@ -1610,7 +1622,7 @@
         "nTotal": 8.0,
         "mu": 1.1886735880387145
       },
-      "ksGap": 0.2499869398312602,
+      "ksGap": 0.2499869398312804,
       "homo": "0:-1:+1:0",
       "lumo": "1:-1:+1:0",
       "emt": {
@@ -1629,9 +1641,9 @@
         },
         "traceIdentityResidual": 2.3283064365386963e-10,
         "conservationResidualMaxNormalised": [
-          1.0,
-          1.0,
-          1.0
+          0.0002948542161283866,
+          7.385204430311453e-05,
+          1.8470125875037896e-05
         ],
         "rhoRequired_kappa1": -21.0,
         "pRequired_kappa1": 15.0,
@@ -1657,56 +1669,57 @@
         "profile_m_eff_out": null,
         "profile_v_out": null
       },
+      "branchOverlap": false,
       "thermo": {},
       "excited": {
-        "ksGap": 0.2499869398312602,
+        "ksGap": 0.2499869398312804,
         "particleHole": [
           {
             "hole": "0:-1:-1:0",
             "particle": "1:-1:+1:0",
             "epsHole": 1.18867358803878,
-            "epsParticle": 1.4386605278699747,
-            "excitation": 0.2499869398311947,
+            "epsParticle": 1.4386605278699949,
+            "excitation": 0.2499869398312149,
             "weight": 96.0
           },
           {
             "hole": "0:-1:+1:0",
             "particle": "1:-1:+1:0",
             "epsHole": 1.1886735880387145,
-            "epsParticle": 1.4386605278699747,
-            "excitation": 0.2499869398312602,
+            "epsParticle": 1.4386605278699949,
+            "excitation": 0.2499869398312804,
             "weight": 96.0
           },
           {
             "hole": "0:-1:-1:0",
             "particle": "2:-1:+1:0",
             "epsHole": 1.18867358803878,
-            "epsParticle": 1.5694041295628103,
-            "excitation": 0.3807305415240303,
+            "epsParticle": 1.5694041295628136,
+            "excitation": 0.3807305415240336,
             "weight": 192.0
           },
           {
             "hole": "0:-1:+1:0",
             "particle": "2:-1:+1:0",
             "epsHole": 1.1886735880387145,
-            "epsParticle": 1.5694041295628103,
-            "excitation": 0.3807305415240958,
+            "epsParticle": 1.5694041295628136,
+            "excitation": 0.38073054152409913,
             "weight": 192.0
           },
           {
             "hole": "0:-1:-1:0",
             "particle": "3:-1:+1:0",
             "epsHole": 1.18867358803878,
-            "epsParticle": 1.667079659741916,
-            "excitation": 0.478406071703136,
+            "epsParticle": 1.667079659741915,
+            "excitation": 0.4784060717031351,
             "weight": 128.0
           },
           {
             "hole": "0:-1:+1:0",
             "particle": "3:-1:+1:0",
             "epsHole": 1.1886735880387145,
-            "epsParticle": 1.667079659741916,
-            "excitation": 0.4784060717032015,
+            "epsParticle": 1.667079659741915,
+            "excitation": 0.4784060717032006,
             "weight": 128.0
           },
           {
@@ -1745,16 +1758,16 @@
             "hole": "0:-1:-1:0",
             "particle": "4:-1:+1:0",
             "epsHole": 1.18867358803878,
-            "epsParticle": 1.7482053215901523,
-            "excitation": 0.5595317335513723,
+            "epsParticle": 1.7482053215901843,
+            "excitation": 0.5595317335514043,
             "weight": 96.0
           },
           {
             "hole": "0:-1:+1:0",
             "particle": "4:-1:+1:0",
             "epsHole": 1.1886735880387145,
-            "epsParticle": 1.7482053215901523,
-            "excitation": 0.5595317335514378,
+            "epsParticle": 1.7482053215901843,
+            "excitation": 0.5595317335514698,
             "weight": 96.0
           }
         ],
@@ -1765,24 +1778,24 @@
           "homoMultiplicity": 8.0,
           "lumoMultiplicity": 24.0,
           "E0": 9.509388704309979,
-          "E1": 9.759375644141205,
-          "deltaSCF": 0.249986939831226,
-          "ksGap": 0.2499869398312602,
+          "E1": 9.759375644141226,
+          "deltaSCF": 0.2499869398312473,
+          "ksGap": 0.2499869398312804,
           "nTotalExcited": 8.0,
           "converged": true,
           "levelsE1": [
             9.75697281966333,
             9.758776965047652,
-            9.759226227746057
+            9.759226227746069
           ],
-          "orderEstimateE1": 2.005684413488317
+          "orderEstimateE1": 2.0056844134483867
         }
       }
     },
     {
-      "label": "m1-N8-lam0.0-p+1",
+      "label": "m1_L3_N8_lam0_T0",
       "params": {
-        "label": "m1-N8-lam0.0-p+1",
+        "label": "m1_L3_N8_lam0_T0",
         "m": 1.0,
         "a4_0": 0.0,
         "L": 3.0,
@@ -1790,9 +1803,10 @@
         "lambda": 0.0,
         "T": 0.0,
         "N": 8.0,
-        "parity": 1,
+        "parity": 0,
         "tip": "g0",
         "xc": "quadratic",
+        "sea": "free",
         "delta_k": 0.25,
         "ell": 25.132741228718345,
         "volume": 15875.213660313506,
@@ -1805,6 +1819,7 @@
         "H": 1.0
       },
       "converged": true,
+      "failed": null,
       "extrapolated": {
         "total": 0.0,
         "free": 0.0,
@@ -1818,7 +1833,7 @@
         "nTotal": 8.0,
         "mu": -5.3962582478810235e-15
       },
-      "ksGap": 0.43073368308442506,
+      "ksGap": 0.43073368308442633,
       "homo": "0:+1:+1:0",
       "lumo": "1:+1:-1:0",
       "emt": {
@@ -1865,104 +1880,105 @@
         "profile_m_eff_out": null,
         "profile_v_out": null
       },
+      "branchOverlap": false,
       "thermo": {},
       "excited": {
-        "ksGap": 0.43073368308442506,
+        "ksGap": 0.43073368308442633,
         "particleHole": [
           {
             "hole": "0:+1:-1:0",
             "particle": "1:+1:-1:0",
             "epsHole": 5.3962582478810235e-15,
-            "epsParticle": 0.43073368308441967,
-            "excitation": 0.4307336830844143,
+            "epsParticle": 0.43073368308442095,
+            "excitation": 0.43073368308441556,
             "weight": 96.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "1:+1:-1:0",
             "epsHole": -5.3962582478810235e-15,
-            "epsParticle": 0.43073368308441967,
-            "excitation": 0.43073368308442506,
+            "epsParticle": 0.43073368308442095,
+            "excitation": 0.43073368308442633,
             "weight": 96.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "2:+1:-1:0",
             "epsHole": 5.3962582478810235e-15,
-            "epsParticle": 0.5879568586471445,
-            "excitation": 0.5879568586471391,
+            "epsParticle": 0.5879568586471002,
+            "excitation": 0.5879568586470948,
             "weight": 192.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "2:+1:-1:0",
             "epsHole": -5.3962582478810235e-15,
-            "epsParticle": 0.5879568586471445,
-            "excitation": 0.58795685864715,
+            "epsParticle": 0.5879568586471002,
+            "excitation": 0.5879568586471057,
             "weight": 192.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "3:+1:-1:0",
             "epsHole": 5.3962582478810235e-15,
-            "epsParticle": 0.7040995714864636,
-            "excitation": 0.7040995714864582,
+            "epsParticle": 0.7040995714864066,
+            "excitation": 0.7040995714864011,
             "weight": 128.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "3:+1:-1:0",
             "epsHole": -5.3962582478810235e-15,
-            "epsParticle": 0.7040995714864636,
-            "excitation": 0.7040995714864691,
+            "epsParticle": 0.7040995714864066,
+            "excitation": 0.704099571486412,
             "weight": 128.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "4:+1:-1:0",
             "epsHole": 5.3962582478810235e-15,
-            "epsParticle": 0.7996457744538229,
-            "excitation": 0.7996457744538175,
+            "epsParticle": 0.7996457744538216,
+            "excitation": 0.7996457744538161,
             "weight": 96.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "4:+1:-1:0",
             "epsHole": -5.3962582478810235e-15,
-            "epsParticle": 0.7996457744538229,
-            "excitation": 0.7996457744538283,
+            "epsParticle": 0.7996457744538216,
+            "excitation": 0.799645774453827,
             "weight": 96.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "5:+1:-1:0",
             "epsHole": 5.3962582478810235e-15,
-            "epsParticle": 0.882319548737861,
-            "excitation": 0.8823195487378556,
+            "epsParticle": 0.8823195487378982,
+            "excitation": 0.8823195487378928,
             "weight": 384.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "5:+1:-1:0",
             "epsHole": -5.3962582478810235e-15,
-            "epsParticle": 0.882319548737861,
-            "excitation": 0.8823195487378664,
+            "epsParticle": 0.8823195487378982,
+            "excitation": 0.8823195487379036,
             "weight": 384.0
           },
           {
             "hole": "0:+1:-1:0",
             "particle": "6:+1:-1:0",
             "epsHole": 5.3962582478810235e-15,
-            "epsParticle": 0.9560069385192527,
-            "excitation": 0.9560069385192472,
+            "epsParticle": 0.9560069385192067,
+            "excitation": 0.9560069385192013,
             "weight": 384.0
           },
           {
             "hole": "0:+1:+1:0",
             "particle": "6:+1:-1:0",
             "epsHole": -5.3962582478810235e-15,
-            "epsParticle": 0.9560069385192527,
-            "excitation": 0.9560069385192581,
+            "epsParticle": 0.9560069385192067,
+            "excitation": 0.9560069385192121,
             "weight": 384.0
           }
         ],
@@ -1973,34 +1989,35 @@
           "homoMultiplicity": 8.0,
           "lumoMultiplicity": 24.0,
           "E0": 0.0,
-          "E1": 0.43073368308441967,
-          "deltaSCF": 0.43073368308441967,
-          "ksGap": 0.43073368308442506,
+          "E1": 0.43073368308442095,
+          "deltaSCF": 0.43073368308442095,
+          "ksGap": 0.43073368308442633,
           "nTotalExcited": 8.0,
           "converged": true,
           "levelsE1": [
             0.4308732702136534,
             0.4307691548025578,
-            0.4307426228809329
+            0.43074262288093373
           ],
-          "orderEstimateE1": 1.9723825568320732
+          "orderEstimateE1": 1.97238255687735
         }
       }
     },
     {
-      "label": "m1-N8-laml1-p+1",
+      "label": "m1_L3_N8_lamp1_T0",
       "params": {
-        "label": "m1-N8-laml1-p+1",
+        "label": "m1_L3_N8_lamp1_T0",
         "m": 1.0,
         "a4_0": 0.0,
         "L": 3.0,
-        "lambda_hat": 0.009284504761764904,
-        "lambda": 0.009284504761764904,
+        "lambda_hat": 0.01622668915433369,
+        "lambda": 0.01622668915433369,
         "T": 0.0,
         "N": 8.0,
-        "parity": 1,
+        "parity": 0,
         "tip": "g0",
         "xc": "quadratic",
+        "sea": "free",
         "delta_k": 0.25,
         "ell": 25.132741228718345,
         "volume": 15875.213660313506,
@@ -2013,172 +2030,2480 @@
         "H": 1.0
       },
       "converged": true,
+      "failed": null,
       "extrapolated": {
-        "total": 3.446146780094216,
-        "free": 3.446146780094216,
-        "entropy": 15.276340039075507,
-        "ksSum": 3.446425067167698,
-        "interaction": 0.00027828707348269606,
-        "hartree": 0.00035916935781578726,
-        "exchange": -8.088228433309124e-05,
-        "grand": -0.00027828707348247813,
-        "scalarCharge": -1.4288330021201614,
+        "total": -0.0016324997740575053,
+        "free": -0.0016324997740575053,
+        "entropy": 0.0,
+        "ksSum": -0.0032247630714193343,
+        "interaction": -0.0015922632973618296,
+        "hartree": 2.218178138082118e-05,
+        "exchange": -0.001614445078742651,
+        "grand": 0.0015922632973685111,
+        "scalarCharge": 0.01294183902528287,
         "nTotal": 8.0,
-        "mu": 0.43080313339596227
+        "mu": -0.00040309538392825205
       },
-      "ksGap": 0.0,
-      "homo": "1:+1:-1:0",
+      "ksGap": 0.4310739567280842,
+      "homo": "0:+1:-1:0",
       "lumo": "1:+1:-1:0",
       "emt": {
-        "w_y": 0.5108744804811747,
-        "w_3": 0.30132845011377823,
-        "w_t": 8.075311060429051e-05,
-        "w_mean": 0.20215744145061748,
-        "energyFromRho": 3.4461467800942853,
-        "braneLocalisedFraction": 0.9107246501498837,
+        "w_y": 8.92762028938581,
+        "w_3": 0.9753528911870954,
+        "w_t": 0.9753528911870954,
+        "w_mean": 2.11139109092977,
+        "energyFromRho": -0.0016324997740588,
+        "braneLocalisedFraction": 0.8675126329207518,
         "averages": {
-          "rho": 0.0013024643069643462,
-          "p_y": 0.0006653958183128787,
-          "p_3": 0.0003924695537278122,
-          "p_t": 1.0517803448919248e-07,
-          "L_s": 1.0517803448919248e-07
+          "rho": -6.16999589618857e-07,
+          "p_y": -5.508338054532279e-06,
+          "p_3": -6.017923336299717e-07,
+          "p_t": -6.017923336299717e-07,
+          "L_s": -6.017923336299717e-07
         },
-        "traceIdentityResidual": 1.3600232051658168e-15,
+        "traceIdentityResidual": 1.4210854715202004e-14,
         "conservationResidualMaxNormalised": [
-          0.00017522045183275737,
-          4.867356594304382e-05,
-          1.2757756197955548e-05
+          0.0006253945516799705,
+          0.00021462946075640973,
+          6.492952876996838e-05
         ],
         "rhoRequired_kappa1": -21.0,
         "pRequired_kappa1": 15.0,
         "wRequired": -0.7142857142857143,
-        "kappaNeededForRho": -16123.28252506566,
+        "kappaNeededForRho": 34035679.039871745,
         "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
       },
       "orderEstimates": {
-        "total": 1.9723807946198464,
-        "free": 1.9723807946198464,
+        "total": 2.0148884026356324,
+        "free": 2.0148884026356324,
         "entropy": null,
-        "ksSum": 1.9723790122505318,
-        "interaction": 1.966396033556153,
-        "hartree": 1.9710980241594696,
-        "exchange": 1.9810041743714448,
-        "grand": 1.9663960366018458,
-        "scalarCharge": 1.934211697940426,
+        "ksSum": 2.0145964827293232,
+        "interaction": 2.0142769821576754,
+        "hartree": 2.022774104454121,
+        "exchange": 2.014704255432662,
+        "grand": 2.01427690971278,
+        "scalarCharge": 2.015307944845424,
         "nTotal": null,
-        "mu": 1.9723790122505318,
-        "occupiedEigenvalues_median": 1.9723790122505318,
-        "profile_n_c": 1.9889548978841098,
-        "profile_s_c": 1.9835251363172512,
-        "profile_m_eff_out": 2.00907597569326,
-        "profile_v_out": 1.9963330306866514
+        "mu": 2.014596448138841,
+        "occupiedEigenvalues_median": 2.0145964827293037,
+        "profile_n_c": 1.9886388100506422,
+        "profile_s_c": 2.015222294083233,
+        "profile_m_eff_out": 2.037744805050779,
+        "profile_v_out": 1.8824544242171186
       },
+      "branchOverlap": false,
       "thermo": {},
       "excited": {
-        "ksGap": 0.0,
+        "ksGap": 0.4310739567280842,
         "particleHole": [
           {
-            "hole": "1:+1:-1:0",
+            "hole": "0:+1:+1:0",
+            "particle": "1:+1:-1:0",
+            "epsHole": -0.0004030953839102526,
+            "epsParticle": 0.4306708613441396,
+            "excitation": 0.4310739567280499,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "1:+1:-1:0",
+            "epsHole": -0.000403095383944581,
+            "epsParticle": 0.4306708613441396,
+            "excitation": 0.4310739567280842,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:+1:0",
             "particle": "2:+1:-1:0",
-            "epsHole": 0.43080313339596227,
-            "epsParticle": 0.5880030770950656,
-            "excitation": 0.15719994369910334,
+            "epsHole": -0.0004030953839102526,
+            "epsParticle": 0.5879238978059336,
+            "excitation": 0.5883269931898438,
+            "weight": 192.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "2:+1:-1:0",
+            "epsHole": -0.000403095383944581,
+            "epsParticle": 0.5879238978059336,
+            "excitation": 0.5883269931898781,
+            "weight": 192.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "3:+1:-1:0",
+            "epsHole": -0.0004030953839102526,
+            "epsParticle": 0.7040764039141997,
+            "excitation": 0.7044794992981099,
+            "weight": 128.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "3:+1:-1:0",
+            "epsHole": -0.000403095383944581,
+            "epsParticle": 0.7040764039141997,
+            "excitation": 0.7044794992981442,
+            "weight": 128.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": -0.0004030953839102526,
+            "epsParticle": 0.7996274549593837,
+            "excitation": 0.800030550343294,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": -0.000403095383944581,
+            "epsParticle": 0.7996274549593837,
+            "excitation": 0.8000305503433283,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": -0.0004030953839102526,
+            "epsParticle": 0.8823041373082073,
+            "excitation": 0.8827072326921176,
             "weight": 384.0
           },
           {
-            "hole": "1:+1:-1:0",
+            "hole": "0:+1:-1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": -0.000403095383944581,
+            "epsParticle": 0.8823041373082073,
+            "excitation": 0.8827072326921519,
+            "weight": 384.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": -0.0004030953839102526,
+            "epsParticle": 0.9559934758343696,
+            "excitation": 0.9563965712182798,
+            "weight": 384.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": -0.000403095383944581,
+            "epsParticle": 0.9559934758343696,
+            "excitation": 0.9563965712183141,
+            "weight": 384.0
+          }
+        ],
+        "deltaSCF": {
+          "available": true,
+          "homo": "0:+1:-1:0",
+          "lumo": "1:+1:-1:0",
+          "homoMultiplicity": 8.0,
+          "lumoMultiplicity": 24.0,
+          "E0": -0.0016324997740575053,
+          "E1": 0.42943366863278865,
+          "deltaSCF": 0.43106616840684614,
+          "ksGap": 0.4310739567280842,
+          "nTotalExcited": 8.0,
+          "converged": true,
+          "levelsE1": [
+            0.42956488939401516,
+            0.42946706688041975,
+            0.429442092326862
+          ],
+          "orderEstimateE1": 1.969707647080062
+        }
+      }
+    },
+    {
+      "label": "m1_L3_N8_lamm1_T0",
+      "params": {
+        "label": "m1_L3_N8_lamm1_T0",
+        "m": 1.0,
+        "a4_0": 0.0,
+        "L": 3.0,
+        "lambda_hat": -0.01622668915433369,
+        "lambda": -0.01622668915433369,
+        "T": 0.0,
+        "N": 8.0,
+        "parity": 0,
+        "tip": "g0",
+        "xc": "quadratic",
+        "sea": "free",
+        "delta_k": 0.25,
+        "ell": 25.132741228718345,
+        "volume": 15875.213660313506,
+        "N0": 64,
+        "levels": 3,
+        "mix_beta": 0.4,
+        "mix_history": 6,
+        "tol": 1e-10,
+        "max_iter": 200,
+        "H": 1.0
+      },
+      "converged": true,
+      "failed": null,
+      "extrapolated": {
+        "total": 0.0016324997740575053,
+        "free": 0.0016324997740575053,
+        "entropy": 0.0,
+        "ksSum": 0.0032247630714193343,
+        "interaction": 0.0015922632973618296,
+        "hartree": -2.218178138082118e-05,
+        "exchange": 0.001614445078742651,
+        "grand": -0.001592263297355147,
+        "scalarCharge": -0.01294183902528287,
+        "nTotal": 8.0,
+        "mu": 0.0004030953839265815
+      },
+      "ksGap": 0.43037289214678914,
+      "homo": "0:+1:-1:0",
+      "lumo": "1:+1:-1:0",
+      "emt": {
+        "w_y": 8.92762028938581,
+        "w_3": 0.9753528911870954,
+        "w_t": 0.9753528911870954,
+        "w_mean": 2.11139109092977,
+        "energyFromRho": 0.0016324997740588,
+        "braneLocalisedFraction": 0.8675126329207518,
+        "averages": {
+          "rho": 6.16999589618857e-07,
+          "p_y": 5.508338054532279e-06,
+          "p_3": 6.017923336299717e-07,
+          "p_t": 6.017923336299717e-07,
+          "L_s": 6.017923336299717e-07
+        },
+        "traceIdentityResidual": 1.4210854715202004e-14,
+        "conservationResidualMaxNormalised": [
+          0.0006253945516799705,
+          0.00021462946075640973,
+          6.492952876996838e-05
+        ],
+        "rhoRequired_kappa1": -21.0,
+        "pRequired_kappa1": 15.0,
+        "wRequired": -0.7142857142857143,
+        "kappaNeededForRho": -34035679.039871745,
+        "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+      },
+      "orderEstimates": {
+        "total": 2.0148884026356324,
+        "free": 2.0148884026356324,
+        "entropy": null,
+        "ksSum": 2.0145964827293232,
+        "interaction": 2.0142769821576754,
+        "hartree": 2.022774104454121,
+        "exchange": 2.014704255432662,
+        "grand": 2.014277054602831,
+        "scalarCharge": 2.015307944845424,
+        "nTotal": null,
+        "mu": 2.014596517319764,
+        "occupiedEigenvalues_median": 2.0145964827293037,
+        "profile_n_c": 1.9886388100506422,
+        "profile_s_c": 2.015222294083233,
+        "profile_m_eff_out": 2.037744805050779,
+        "profile_v_out": 1.8824544242171186
+      },
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": {
+        "ksGap": 0.43037289214678914,
+        "particleHole": [
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "1:+1:-1:0",
+            "epsHole": 0.000403095383944581,
+            "epsParticle": 0.4307759875306994,
+            "excitation": 0.43037289214675484,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "1:+1:-1:0",
+            "epsHole": 0.0004030953839102526,
+            "epsParticle": 0.4307759875306994,
+            "excitation": 0.43037289214678914,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "2:+1:-1:0",
+            "epsHole": 0.000403095383944581,
+            "epsParticle": 0.5879824532383819,
+            "excitation": 0.5875793578544374,
+            "weight": 192.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "2:+1:-1:0",
+            "epsHole": 0.0004030953839102526,
+            "epsParticle": 0.5879824532383819,
+            "excitation": 0.5875793578544717,
+            "weight": 192.0
+          },
+          {
+            "hole": "0:+1:+1:0",
             "particle": "3:+1:-1:0",
-            "epsHole": 0.43080313339596227,
-            "epsParticle": 0.7041340688955116,
-            "excitation": 0.2733309354995493,
-            "weight": 256.0
+            "epsHole": 0.000403095383944581,
+            "epsParticle": 0.7041188668780313,
+            "excitation": 0.7037157714940867,
+            "weight": 128.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "3:+1:-1:0",
+            "epsHole": 0.0004030953839102526,
+            "epsParticle": 0.7041188668780313,
+            "excitation": 0.703715771494121,
+            "weight": 128.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": 0.000403095383944581,
+            "epsParticle": 0.799661649298212,
+            "excitation": 0.7992585539142675,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": 0.0004030953839102526,
+            "epsParticle": 0.799661649298212,
+            "excitation": 0.7992585539143018,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": 0.000403095383944581,
+            "epsParticle": 0.8823332454604998,
+            "excitation": 0.8819301500765553,
+            "weight": 384.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": 0.0004030953839102526,
+            "epsParticle": 0.8823332454604998,
+            "excitation": 0.8819301500765896,
+            "weight": 384.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": 0.000403095383944581,
+            "epsParticle": 0.9560191142046737,
+            "excitation": 0.9556160188207291,
+            "weight": 384.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": 0.0004030953839102526,
+            "epsParticle": 0.9560191142046737,
+            "excitation": 0.9556160188207634,
+            "weight": 384.0
+          }
+        ],
+        "deltaSCF": {
+          "available": true,
+          "homo": "0:+1:-1:0",
+          "lumo": "1:+1:-1:0",
+          "homoMultiplicity": 8.0,
+          "lumoMultiplicity": 24.0,
+          "E0": 0.0016324997740575053,
+          "E1": 0.4320177388056527,
+          "deltaSCF": 0.4303852390315952,
+          "ksGap": 0.43037289214678914,
+          "nTotalExcited": 8.0,
+          "converged": true,
+          "levelsE1": [
+            0.43216554317236033,
+            0.43205524704106535,
+            0.4320271855074728
+          ],
+          "orderEstimateE1": 1.9747164273592253
+        }
+      }
+    },
+    {
+      "label": "m1_L3_N8_lamp2_T0",
+      "params": {
+        "label": "m1_L3_N8_lamp2_T0",
+        "m": 1.0,
+        "a4_0": 0.0,
+        "L": 3.0,
+        "lambda_hat": 0.1622668915433369,
+        "lambda": 0.1622668915433369,
+        "T": 0.0,
+        "N": 8.0,
+        "parity": 0,
+        "tip": "g0",
+        "xc": "quadratic",
+        "sea": "free",
+        "delta_k": 0.25,
+        "ell": 25.132741228718345,
+        "volume": 15875.213660313506,
+        "N0": 64,
+        "levels": 3,
+        "mix_beta": 0.4,
+        "mix_history": 6,
+        "tol": 1e-10,
+        "max_iter": 200,
+        "H": 1.0
+      },
+      "converged": true,
+      "failed": null,
+      "extrapolated": {
+        "total": -0.01106820571767276,
+        "free": -0.01106820571767276,
+        "entropy": 0.0,
+        "ksSum": -0.018097268879713368,
+        "interaction": -0.007029063162040606,
+        "hartree": 0.0022268518538424357,
+        "exchange": -0.009255915015883045,
+        "grand": 0.007029063162081503,
+        "scalarCharge": 0.06470577473253267,
+        "nTotal": 8.0,
+        "mu": -0.0022621586099692828
+      },
+      "ksGap": 0.432078935289582,
+      "homo": "0:+1:+1:0",
+      "lumo": "1:+1:-1:0",
+      "emt": {
+        "w_y": 6.846094678864458,
+        "w_3": 0.6350680846953923,
+        "w_t": 0.6350680846953923,
+        "w_mean": 1.5223575981481159,
+        "energyFromRho": -0.011068205718010668,
+        "braneLocalisedFraction": 0.8693778899475707,
+        "averages": {
+          "rho": -4.183204931079193e-06,
+          "p_y": -2.8638618588965562e-05,
+          "p_3": -2.6566203729058872e-06,
+          "p_t": -2.6566203729058872e-06,
+          "L_s": -2.6566203729058872e-06
+        },
+        "traceIdentityResidual": 1.4210854715202004e-14,
+        "conservationResidualMaxNormalised": [
+          0.0008403599013555203,
+          0.00039135758335593707,
+          0.00014666961740264104
+        ],
+        "rhoRequired_kappa1": -21.0,
+        "pRequired_kappa1": 15.0,
+        "wRequired": -0.7142857142857143,
+        "kappaNeededForRho": 5020074.403713798,
+        "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+      },
+      "orderEstimates": {
+        "total": 2.0041636577608988,
+        "free": 2.0041636577608988,
+        "entropy": null,
+        "ksSum": 1.9933710341283437,
+        "interaction": 1.888197840770118,
+        "hartree": 2.018553512541488,
+        "exchange": 1.9965930438403994,
+        "grand": 1.8881978241306077,
+        "scalarCharge": 2.0016892695578914,
+        "nTotal": null,
+        "mu": 1.9933710325881213,
+        "occupiedEigenvalues_median": 1.9933710341286943,
+        "profile_n_c": 1.9887256634205654,
+        "profile_s_c": 1.9959448696457642,
+        "profile_m_eff_out": 2.0588561272240105,
+        "profile_v_out": 2.1400224247152764
+      },
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": {
+        "ksGap": 0.432078935289582,
+        "particleHole": [
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "1:+1:-1:0",
+            "epsHole": -0.0022621586099594118,
+            "epsParticle": 0.4298167766796131,
+            "excitation": 0.43207893528957253,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "1:+1:-1:0",
+            "epsHole": -0.002262158609968931,
+            "epsParticle": 0.4298167766796131,
+            "excitation": 0.432078935289582,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "2:+1:-1:0",
+            "epsHole": -0.0022621586099594118,
+            "epsParticle": 0.5874961847837421,
+            "excitation": 0.5897583433937015,
+            "weight": 192.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "2:+1:-1:0",
+            "epsHole": -0.002262158609968931,
+            "epsParticle": 0.5874961847837421,
+            "excitation": 0.589758343393711,
+            "weight": 192.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "3:+1:-1:0",
+            "epsHole": -0.0022621586099594118,
+            "epsParticle": 0.7037924426105836,
+            "excitation": 0.706054601220543,
+            "weight": 128.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "3:+1:-1:0",
+            "epsHole": -0.002262158609968931,
+            "epsParticle": 0.7037924426105836,
+            "excitation": 0.7060546012205525,
+            "weight": 128.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": -0.0022621586099594118,
+            "epsParticle": 0.7994126519110699,
+            "excitation": 0.8016748105210293,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": -0.002262158609968931,
+            "epsParticle": 0.7994126519110699,
+            "excitation": 0.8016748105210388,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": -0.0022621586099594118,
+            "epsParticle": 0.8821294062494051,
+            "excitation": 0.8843915648593644,
+            "weight": 384.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": -0.002262158609968931,
+            "epsParticle": 0.8821294062494051,
+            "excitation": 0.884391564859374,
+            "weight": 384.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": -0.0022621586099594118,
+            "epsParticle": 0.9558447512353799,
+            "excitation": 0.9581069098453393,
+            "weight": 384.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": -0.002262158609968931,
+            "epsParticle": 0.9558447512353799,
+            "excitation": 0.9581069098453489,
+            "weight": 384.0
+          }
+        ],
+        "deltaSCF": {
+          "available": true,
+          "homo": "0:+1:+1:0",
+          "lumo": "1:+1:-1:0",
+          "homoMultiplicity": 8.0,
+          "lumoMultiplicity": 24.0,
+          "E0": -0.01106820571767276,
+          "E1": 0.42111521650403894,
+          "deltaSCF": 0.4321834222217117,
+          "ksGap": 0.432078935289582,
+          "nTotalExcited": 8.0,
+          "converged": true,
+          "levelsE1": [
+            0.42122286355557,
+            0.42114272622014015,
+            0.4211221686772165
+          ],
+          "orderEstimateE1": 1.9628066996897127
+        }
+      }
+    },
+    {
+      "label": "m1_L3_N8_lamm2_T0",
+      "params": {
+        "label": "m1_L3_N8_lamm2_T0",
+        "m": 1.0,
+        "a4_0": 0.0,
+        "L": 3.0,
+        "lambda_hat": -0.1622668915433369,
+        "lambda": -0.1622668915433369,
+        "T": 0.0,
+        "N": 8.0,
+        "parity": 0,
+        "tip": "g0",
+        "xc": "quadratic",
+        "sea": "free",
+        "delta_k": 0.25,
+        "ell": 25.132741228718345,
+        "volume": 15875.213660313506,
+        "N0": 64,
+        "levels": 3,
+        "mix_beta": 0.4,
+        "mix_history": 6,
+        "tol": 1e-10,
+        "max_iter": 200,
+        "H": 1.0
+      },
+      "converged": true,
+      "failed": null,
+      "extrapolated": {
+        "total": 0.01106820571767276,
+        "free": 0.01106820571767276,
+        "entropy": 0.0,
+        "ksSum": 0.018097268879713368,
+        "interaction": 0.007029063162040606,
+        "hartree": -0.0022268518538424357,
+        "exchange": 0.009255915015883045,
+        "grand": -0.007029063161999719,
+        "scalarCharge": -0.06470577473253267,
+        "nTotal": 8.0,
+        "mu": 0.00226215860995906
+      },
+      "ksGap": 0.42854629546017364,
+      "homo": "0:+1:+1:0",
+      "lumo": "1:+1:-1:0",
+      "emt": {
+        "w_y": 6.846094678864458,
+        "w_3": 0.6350680846953923,
+        "w_t": 0.6350680846953923,
+        "w_mean": 1.5223575981481159,
+        "energyFromRho": 0.011068205718010668,
+        "braneLocalisedFraction": 0.8693778899475707,
+        "averages": {
+          "rho": 4.183204931079193e-06,
+          "p_y": 2.8638618588965562e-05,
+          "p_3": 2.6566203729058872e-06,
+          "p_t": 2.6566203729058872e-06,
+          "L_s": 2.6566203729058872e-06
+        },
+        "traceIdentityResidual": 1.4210854715202004e-14,
+        "conservationResidualMaxNormalised": [
+          0.0008403599013555203,
+          0.00039135758335593707,
+          0.00014666961740264104
+        ],
+        "rhoRequired_kappa1": -21.0,
+        "pRequired_kappa1": 15.0,
+        "wRequired": -0.7142857142857143,
+        "kappaNeededForRho": -5020074.403713798,
+        "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+      },
+      "orderEstimates": {
+        "total": 2.0041636577608988,
+        "free": 2.0041636577608988,
+        "entropy": null,
+        "ksSum": 1.9933710341283437,
+        "interaction": 1.888197840770118,
+        "hartree": 2.018553512541488,
+        "exchange": 1.9965930438403994,
+        "grand": 1.8881978574307408,
+        "scalarCharge": 2.0016892695578914,
+        "nTotal": null,
+        "mu": 1.993371035669267,
+        "occupiedEigenvalues_median": 1.9933710341286943,
+        "profile_n_c": 1.9887256634205654,
+        "profile_s_c": 1.9959448696457642,
+        "profile_m_eff_out": 2.0588561272240105,
+        "profile_v_out": 2.1400224247152764
+      },
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": {
+        "ksGap": 0.42854629546017364,
+        "particleHole": [
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "1:+1:-1:0",
+            "epsHole": 0.002262158609968931,
+            "epsParticle": 0.4308084540701331,
+            "excitation": 0.42854629546016415,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "1:+1:-1:0",
+            "epsHole": 0.0022621586099594118,
+            "epsParticle": 0.4308084540701331,
+            "excitation": 0.42854629546017364,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "2:+1:-1:0",
+            "epsHole": 0.002262158609968931,
+            "epsParticle": 0.5880738569400431,
+            "excitation": 0.5858116983300742,
+            "weight": 192.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "2:+1:-1:0",
+            "epsHole": 0.0022621586099594118,
+            "epsParticle": 0.5880738569400431,
+            "excitation": 0.5858116983300837,
+            "weight": 192.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "3:+1:-1:0",
+            "epsHole": 0.002262158609968931,
+            "epsParticle": 0.7042154083184984,
+            "excitation": 0.7019532497085295,
+            "weight": 128.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "3:+1:-1:0",
+            "epsHole": 0.0022621586099594118,
+            "epsParticle": 0.7042154083184984,
+            "excitation": 0.701953249708539,
+            "weight": 128.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": 0.002262158609968931,
+            "epsParticle": 0.7997543329026094,
+            "excitation": 0.7974921742926405,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": 0.0022621586099594118,
+            "epsParticle": 0.7997543329026094,
+            "excitation": 0.7974921742926501,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": 0.002262158609968931,
+            "epsParticle": 0.8824206472822286,
+            "excitation": 0.8801584886722597,
+            "weight": 384.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": 0.0022621586099594118,
+            "epsParticle": 0.8824206472822286,
+            "excitation": 0.8801584886722692,
+            "weight": 384.0
+          },
+          {
+            "hole": "0:+1:-1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": 0.002262158609968931,
+            "epsParticle": 0.9561014392043364,
+            "excitation": 0.9538392805943675,
+            "weight": 384.0
+          },
+          {
+            "hole": "0:+1:+1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": 0.0022621586099594118,
+            "epsParticle": 0.9561014392043364,
+            "excitation": 0.9538392805943771,
+            "weight": 384.0
+          }
+        ],
+        "deltaSCF": {
+          "available": true,
+          "homo": "0:+1:+1:0",
+          "lumo": "1:+1:-1:0",
+          "homoMultiplicity": 8.0,
+          "lumoMultiplicity": 24.0,
+          "E0": 0.01106820571767276,
+          "E1": 0.43963087998444556,
+          "deltaSCF": 0.4285626742667728,
+          "ksGap": 0.42854629546017364,
+          "nTotalExcited": 8.0,
+          "converged": true,
+          "levelsE1": [
+            0.43979979518677986,
+            0.4396736606252969,
+            0.43964164412469187
+          ],
+          "orderEstimateE1": 1.9780760998871731
+        }
+      }
+    },
+    {
+      "label": "m1_L3_N112_lam0_T0",
+      "params": {
+        "label": "m1_L3_N112_lam0_T0",
+        "m": 1.0,
+        "a4_0": 0.0,
+        "L": 3.0,
+        "lambda_hat": 0.0,
+        "lambda": 0.0,
+        "T": 0.0,
+        "N": 112.0,
+        "parity": 0,
+        "tip": "g0",
+        "xc": "quadratic",
+        "sea": "free",
+        "delta_k": 0.25,
+        "ell": 25.132741228718345,
+        "volume": 15875.213660313506,
+        "N0": 64,
+        "levels": 3,
+        "mix_beta": 0.4,
+        "mix_history": 6,
+        "tol": 1e-10,
+        "max_iter": 200,
+        "H": 1.0
+      },
+      "converged": true,
+      "failed": null,
+      "extrapolated": {
+        "total": 61.090723896651916,
+        "free": 61.090723896651916,
+        "entropy": 0.0,
+        "ksSum": 61.090723896651916,
+        "interaction": 0.0,
+        "hartree": 0.0,
+        "exchange": 0.0,
+        "grand": -17.768428109825628,
+        "scalarCharge": -20.853340347944854,
+        "nTotal": 112.0,
+        "mu": 0.7040995714864066
+      },
+      "ksGap": 0.095546202967415,
+      "homo": "3:+1:-1:0",
+      "lumo": "4:+1:-1:0",
+      "emt": {
+        "w_y": 0.4493321324366038,
+        "w_3": 0.29733940848092233,
+        "w_t": 0.0,
+        "w_mean": 0.19162147969705295,
+        "energyFromRho": 61.09072389665199,
+        "braneLocalisedFraction": 0.9242644820772323,
+        "averages": {
+          "rho": 0.023089117394571746,
+          "p_y": 0.010374683091428666,
+          "p_3": 0.006865304574302329,
+          "p_t": 0.0,
+          "L_s": 0.0
+        },
+        "traceIdentityResidual": 4.773959005888173e-15,
+        "conservationResidualMaxNormalised": [
+          9.340218270394088e-05,
+          2.5020318819106374e-05,
+          6.432450372236495e-06
+        ],
+        "rhoRequired_kappa1": -21.0,
+        "pRequired_kappa1": 15.0,
+        "wRequired": -0.7142857142857143,
+        "kappaNeededForRho": -909.5193913708067,
+        "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+      },
+      "orderEstimates": {
+        "total": 1.9707024901537316,
+        "free": 1.9707024901537316,
+        "entropy": null,
+        "ksSum": 1.9707024901537316,
+        "interaction": null,
+        "hartree": null,
+        "exchange": null,
+        "grand": 1.9648059365190484,
+        "scalarCharge": 1.9435234563361847,
+        "nTotal": null,
+        "mu": 1.9695733020536836,
+        "occupiedEigenvalues_median": 1.9695733020536836,
+        "profile_n_c": 1.9892367929536692,
+        "profile_s_c": 1.9836927157346802,
+        "profile_m_eff_out": null,
+        "profile_v_out": null
+      },
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": {
+        "ksGap": 0.095546202967415,
+        "particleHole": [
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": 0.7040995714864066,
+            "epsParticle": 0.7996457744538216,
+            "excitation": 0.095546202967415,
+            "weight": 768.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": 0.7040995714864066,
+            "epsParticle": 0.8823195487378982,
+            "excitation": 0.17821997725149163,
+            "weight": 3072.0
+          },
+          {
+            "hole": "2:+1:-1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": 0.5879568586471002,
+            "epsParticle": 0.7996457744538216,
+            "excitation": 0.21168891580672133,
+            "weight": 1152.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": 0.7040995714864066,
+            "epsParticle": 0.9560069385192067,
+            "excitation": 0.25190736703280014,
+            "weight": 3072.0
+          },
+          {
+            "hole": "2:+1:-1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": 0.5879568586471002,
+            "epsParticle": 0.8823195487378982,
+            "excitation": 0.29436269009079796,
+            "weight": 4608.0
+          },
+          {
+            "hole": "2:+1:-1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": 0.5879568586471002,
+            "epsParticle": 0.9560069385192067,
+            "excitation": 0.3680500798721065,
+            "weight": 4608.0
           },
           {
             "hole": "1:+1:-1:0",
             "particle": "4:+1:-1:0",
-            "epsHole": 0.43080313339596227,
-            "epsParticle": 0.7996732030414473,
-            "excitation": 0.368870069645485,
-            "weight": 192.0
+            "epsHole": 0.43073368308442095,
+            "epsParticle": 0.7996457744538216,
+            "excitation": 0.3689120913694006,
+            "weight": 576.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "8:+1:-1:0",
+            "epsHole": 0.7040995714864066,
+            "epsParticle": 1.084704867494494,
+            "excitation": 0.38060529600808735,
+            "weight": 1536.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "9:+1:-1:0",
+            "epsHole": 0.7040995714864066,
+            "epsParticle": 1.1421821582447982,
+            "excitation": 0.4380825867583916,
+            "weight": 3840.0
           },
           {
             "hole": "1:+1:-1:0",
             "particle": "5:+1:-1:0",
-            "epsHole": 0.43080313339596227,
-            "epsParticle": 0.8823422438968674,
-            "excitation": 0.45153911050090517,
-            "weight": 768.0
+            "epsHole": 0.43073368308442095,
+            "epsParticle": 0.8823195487378982,
+            "excitation": 0.45158586565347725,
+            "weight": 2304.0
           },
           {
-            "hole": "1:+1:-1:0",
-            "particle": "6:+1:-1:0",
-            "epsHole": 0.43080313339596227,
-            "epsParticle": 0.9560262411099281,
-            "excitation": 0.5252231077139657,
-            "weight": 768.0
-          },
-          {
-            "hole": "1:+1:-1:0",
-            "particle": "8:+1:-1:0",
-            "epsHole": 0.43080313339596227,
-            "epsParticle": 1.0847196322295987,
-            "excitation": 0.6539164988336363,
-            "weight": 384.0
-          },
-          {
-            "hole": "1:+1:-1:0",
-            "particle": "9:+1:-1:0",
-            "epsHole": 0.43080313339596227,
-            "epsParticle": 1.142195331594567,
-            "excitation": 0.7113921981986047,
-            "weight": 960.0
-          },
-          {
-            "hole": "1:+1:-1:0",
+            "hole": "3:+1:-1:0",
             "particle": "10:+1:-1:0",
-            "epsHole": 0.43080313339596227,
-            "epsParticle": 1.1961492639199718,
-            "excitation": 0.7653461305240095,
-            "weight": 768.0
+            "epsHole": 0.7040995714864066,
+            "epsParticle": 1.1961373933189992,
+            "excitation": 0.4920378218325926,
+            "weight": 3072.0
           },
           {
-            "hole": "1:+1:-1:0",
-            "particle": "11:+1:-1:0",
-            "epsHole": 0.43080313339596227,
-            "epsParticle": 1.2471233354398645,
-            "excitation": 0.8163202020439022,
-            "weight": 768.0
-          },
-          {
-            "hole": "1:+1:-1:0",
-            "particle": "12:+1:-1:0",
-            "epsHole": 0.43080313339596227,
-            "epsParticle": 1.2955352434336251,
-            "excitation": 0.8647321100376628,
-            "weight": 256.0
-          },
-          {
-            "hole": "1:+1:-1:0",
-            "particle": "13:+1:-1:0",
-            "epsHole": 0.43080313339596227,
-            "epsParticle": 1.3417147766989,
-            "excitation": 0.9109116433029376,
-            "weight": 768.0
-          },
-          {
-            "hole": "1:+1:-1:0",
-            "particle": "14:+1:-1:0",
-            "epsHole": 0.43080313339596227,
-            "epsParticle": 1.3859275618564804,
-            "excitation": 0.955124428460518,
-            "weight": 1536.0
+            "hole": "2:+1:-1:0",
+            "particle": "8:+1:-1:0",
+            "epsHole": 0.5879568586471002,
+            "epsParticle": 1.084704867494494,
+            "excitation": 0.4967480088473937,
+            "weight": 2304.0
           }
         ],
         "deltaSCF": {
-          "available": false,
-          "reason": "no HOMO/LUMO pair (open shell or empty window)"
+          "available": true,
+          "homo": "3:+1:-1:0",
+          "lumo": "4:+1:-1:0",
+          "homoMultiplicity": 32.0,
+          "lumoMultiplicity": 24.0,
+          "E0": 61.090723896651916,
+          "E1": 61.186270099619335,
+          "deltaSCF": 0.09554620296741945,
+          "ksGap": 0.095546202967415,
+          "nTotalExcited": 112.0,
+          "converged": true,
+          "levelsE1": [
+            61.20474031932782,
+            61.19096842282321,
+            61.1874547764549
+          ],
+          "orderEstimateE1": 1.9706863408357946
         }
       }
+    },
+    {
+      "label": "m1_L3_N112_lamp1_T0",
+      "params": {
+        "label": "m1_L3_N112_lamp1_T0",
+        "m": 1.0,
+        "a4_0": 0.0,
+        "L": 3.0,
+        "lambda_hat": 0.01622668915433369,
+        "lambda": 0.01622668915433369,
+        "T": 0.0,
+        "N": 112.0,
+        "parity": 0,
+        "tip": "g0",
+        "xc": "quadratic",
+        "sea": "free",
+        "delta_k": 0.25,
+        "ell": 25.132741228718345,
+        "volume": 15875.213660313506,
+        "N0": 64,
+        "levels": 3,
+        "mix_beta": 0.4,
+        "mix_history": 6,
+        "tol": 1e-10,
+        "max_iter": 200,
+        "H": 1.0
+      },
+      "converged": true,
+      "failed": null,
+      "extrapolated": {
+        "total": 61.12904954820025,
+        "free": 61.12904954820025,
+        "entropy": 0.0,
+        "ksSum": 61.16780826360512,
+        "interaction": 0.038758715404879816,
+        "hartree": 0.05886501329963993,
+        "exchange": -0.020106297894760115,
+        "grand": -17.802363859810427,
+        "scalarCharge": -21.009019697365172,
+        "nTotal": 112.0,
+        "mu": 0.7047447625715239
+      },
+      "ksGap": 0.0954391828511163,
+      "homo": "3:+1:-1:0",
+      "lumo": "4:+1:-1:0",
+      "emt": {
+        "w_y": 0.4535223896706259,
+        "w_3": 0.29735427636639317,
+        "w_t": 0.0006340474066487762,
+        "w_mean": 0.19249819442710736,
+        "energyFromRho": 61.129049548202694,
+        "braneLocalisedFraction": 0.923714982116136,
+        "averages": {
+          "rho": 0.023103602497482573,
+          "p_y": 0.010478001752197753,
+          "p_3": 0.006869955068458121,
+          "p_t": 1.464877872539088e-05,
+          "L_s": 1.464877872539088e-05
+        },
+        "traceIdentityResidual": 1.4210854715202004e-14,
+        "conservationResidualMaxNormalised": [
+          9.331503391580397e-05,
+          2.5005015123941933e-05,
+          6.429605196319826e-06
+        ],
+        "rhoRequired_kappa1": -21.0,
+        "pRequired_kappa1": 15.0,
+        "wRequired": -0.7142857142857143,
+        "kappaNeededForRho": -908.9491564048599,
+        "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+      },
+      "orderEstimates": {
+        "total": 1.9706425632868358,
+        "free": 1.9706425632868358,
+        "entropy": null,
+        "ksSum": 1.9705690707441172,
+        "interaction": 1.9184163257140177,
+        "hartree": 1.9678214498344115,
+        "exchange": 1.9918393119391504,
+        "grand": 1.9649691993054004,
+        "scalarCharge": 1.9439580543759698,
+        "nTotal": null,
+        "mu": 1.9695463307993426,
+        "occupiedEigenvalues_median": 1.9722589024766521,
+        "profile_n_c": 1.9892386291327002,
+        "profile_s_c": 1.9836969862709635,
+        "profile_m_eff_out": 2.0413980341765963,
+        "profile_v_out": 1.9273226256672147
+      },
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": {
+        "ksGap": 0.0954391828511163,
+        "particleHole": [
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": 0.7047447625715239,
+            "epsParticle": 0.8001839454226402,
+            "excitation": 0.0954391828511163,
+            "weight": 768.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": 0.7047447625715239,
+            "epsParticle": 0.8827813327776484,
+            "excitation": 0.1780365702061245,
+            "weight": 3072.0
+          },
+          {
+            "hole": "2:+1:-1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": 0.5887632506923068,
+            "epsParticle": 0.8001839454226402,
+            "excitation": 0.21142069473033331,
+            "weight": 1152.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": 0.7047447625715239,
+            "epsParticle": 0.9564113100096654,
+            "excitation": 0.25166654743814154,
+            "weight": 3072.0
+          },
+          {
+            "hole": "2:+1:-1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": 0.5887632506923068,
+            "epsParticle": 0.8827813327776484,
+            "excitation": 0.2940180820853415,
+            "weight": 4608.0
+          },
+          {
+            "hole": "2:+1:-1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": 0.5887632506923068,
+            "epsParticle": 0.9564113100096654,
+            "excitation": 0.36764805931735856,
+            "weight": 4608.0
+          },
+          {
+            "hole": "1:+1:-1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": 0.43180372782304666,
+            "epsParticle": 0.8001839454226402,
+            "excitation": 0.3683802175995935,
+            "weight": 576.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "8:+1:-1:0",
+            "epsHole": 0.7047447625715239,
+            "epsParticle": 1.085028403476046,
+            "excitation": 0.38028364090452216,
+            "weight": 1536.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "9:+1:-1:0",
+            "epsHole": 0.7047447625715239,
+            "epsParticle": 1.1424760863842147,
+            "excitation": 0.43773132381269086,
+            "weight": 3840.0
+          },
+          {
+            "hole": "1:+1:-1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": 0.43180372782304666,
+            "epsParticle": 0.8827813327776484,
+            "excitation": 0.4509776049546017,
+            "weight": 2304.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "10:+1:-1:0",
+            "epsHole": 0.7047447625715239,
+            "epsParticle": 1.196406529575526,
+            "excitation": 0.4916617670040021,
+            "weight": 3072.0
+          },
+          {
+            "hole": "2:+1:-1:0",
+            "particle": "8:+1:-1:0",
+            "epsHole": 0.5887632506923068,
+            "epsParticle": 1.085028403476046,
+            "excitation": 0.49626515278373917,
+            "weight": 2304.0
+          }
+        ],
+        "deltaSCF": {
+          "available": true,
+          "homo": "3:+1:-1:0",
+          "lumo": "4:+1:-1:0",
+          "homoMultiplicity": 32.0,
+          "lumoMultiplicity": 24.0,
+          "E0": 61.12904954820025,
+          "E1": 61.22448883332985,
+          "deltaSCF": 0.09543928512960065,
+          "ksGap": 0.0954391828511163,
+          "nTotalExcited": 112.0,
+          "converged": true,
+          "levelsE1": [
+            61.242988994068746,
+            61.22919493839218,
+            61.22567549270513
+          ],
+          "orderEstimateE1": 1.9706265677156363
+        }
+      }
+    },
+    {
+      "label": "m1_L3_N112_lamm1_T0",
+      "params": {
+        "label": "m1_L3_N112_lamm1_T0",
+        "m": 1.0,
+        "a4_0": 0.0,
+        "L": 3.0,
+        "lambda_hat": -0.01622668915433369,
+        "lambda": -0.01622668915433369,
+        "T": 0.0,
+        "N": 112.0,
+        "parity": 0,
+        "tip": "g0",
+        "xc": "quadratic",
+        "sea": "free",
+        "delta_k": 0.25,
+        "ell": 25.132741228718345,
+        "volume": 15875.213660313506,
+        "N0": 64,
+        "levels": 3,
+        "mix_beta": 0.4,
+        "mix_history": 6,
+        "tol": 1e-10,
+        "max_iter": 200,
+        "H": 1.0
+      },
+      "converged": true,
+      "failed": null,
+      "extrapolated": {
+        "total": 61.05347803715806,
+        "free": 61.05347803715806,
+        "entropy": 0.0,
+        "ksSum": 61.016875958849894,
+        "interaction": -0.03660207830816991,
+        "hartree": -0.05486059432437236,
+        "exchange": 0.01825851601620244,
+        "grand": -17.737488170657667,
+        "scalarCharge": -20.698550307025666,
+        "nTotal": 112.0,
+        "mu": 0.7034907697126406
+      },
+      "ksGap": 0.09564426881339505,
+      "homo": "3:+1:-1:0",
+      "lumo": "4:+1:-1:0",
+      "emt": {
+        "w_y": 0.44528806703067175,
+        "w_3": 0.2973122294140357,
+        "w_t": -0.0005995084857656567,
+        "w_mean": 0.19077517568792593,
+        "energyFromRho": 61.0534780371582,
+        "braneLocalisedFraction": 0.9247845235157302,
+        "averages": {
+          "rho": 0.023075040397245287,
+          "p_y": 0.010275040875811962,
+          "p_3": 0.00686049176986651,
+          "p_t": -1.3833681414281276e-05,
+          "L_s": -1.3833681414281276e-05
+        },
+        "traceIdentityResidual": 1.4210854715202004e-14,
+        "conservationResidualMaxNormalised": [
+          9.349855148726543e-05,
+          2.5038054153233956e-05,
+          6.4359221946641114e-06
+        ],
+        "rhoRequired_kappa1": -21.0,
+        "pRequired_kappa1": 15.0,
+        "wRequired": -0.7142857142857143,
+        "kappaNeededForRho": -910.0742463925218,
+        "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+      },
+      "orderEstimates": {
+        "total": 1.9707369328570628,
+        "free": 1.9707369328570628,
+        "entropy": null,
+        "ksSum": 1.9707623195449808,
+        "interaction": 1.9587565694327507,
+        "hartree": 1.9744266304952633,
+        "exchange": 1.988631755194803,
+        "grand": 1.9646931125983043,
+        "scalarCharge": 1.9435201797561936,
+        "nTotal": null,
+        "mu": 1.9695877123312613,
+        "occupiedEigenvalues_median": 1.9724171034743492,
+        "profile_n_c": 1.9892365696385184,
+        "profile_s_c": 1.9836917459487142,
+        "profile_m_eff_out": 2.032983536599602,
+        "profile_v_out": 1.978886160766141
+      },
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": {
+        "ksGap": 0.09564426881339505,
+        "particleHole": [
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": 0.7034907697126406,
+            "epsParticle": 0.7991350385260356,
+            "excitation": 0.09564426881339505,
+            "weight": 768.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": 0.7034907697126406,
+            "epsParticle": 0.8818794790811039,
+            "excitation": 0.1783887093684633,
+            "weight": 3072.0
+          },
+          {
+            "hole": "2:+1:-1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": 0.5872021962185575,
+            "epsParticle": 0.7991350385260356,
+            "excitation": 0.2119328423074781,
+            "weight": 1152.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": 0.7034907697126406,
+            "epsParticle": 0.9556203673359889,
+            "excitation": 0.2521295976233483,
+            "weight": 3072.0
+          },
+          {
+            "hole": "2:+1:-1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": 0.5872021962185575,
+            "epsParticle": 0.8818794790811039,
+            "excitation": 0.29467728286254635,
+            "weight": 4608.0
+          },
+          {
+            "hole": "2:+1:-1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": 0.5872021962185575,
+            "epsParticle": 0.9556203673359889,
+            "excitation": 0.36841817111743136,
+            "weight": 4608.0
+          },
+          {
+            "hole": "1:+1:-1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": 0.42974325782368317,
+            "epsParticle": 0.7991350385260356,
+            "excitation": 0.36939178070235246,
+            "weight": 576.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "8:+1:-1:0",
+            "epsHole": 0.7034907697126406,
+            "epsParticle": 1.0843942003192972,
+            "excitation": 0.38090343060665666,
+            "weight": 1536.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "9:+1:-1:0",
+            "epsHole": 0.7034907697126406,
+            "epsParticle": 1.141899466047587,
+            "excitation": 0.4384086963349464,
+            "weight": 3840.0
+          },
+          {
+            "hole": "1:+1:-1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": 0.42974325782368317,
+            "epsParticle": 0.8818794790811039,
+            "excitation": 0.4521362212574207,
+            "weight": 2304.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "10:+1:-1:0",
+            "epsHole": 0.7034907697126406,
+            "epsParticle": 1.1958781985400881,
+            "excitation": 0.49238742882744757,
+            "weight": 3072.0
+          },
+          {
+            "hole": "2:+1:-1:0",
+            "particle": "8:+1:-1:0",
+            "epsHole": 0.5872021962185575,
+            "epsParticle": 1.0843942003192972,
+            "excitation": 0.4971920041007397,
+            "weight": 2304.0
+          }
+        ],
+        "deltaSCF": {
+          "available": true,
+          "homo": "3:+1:-1:0",
+          "lumo": "4:+1:-1:0",
+          "homoMultiplicity": 32.0,
+          "lumoMultiplicity": 24.0,
+          "E0": 61.05347803715806,
+          "E1": 61.149122221500754,
+          "deltaSCF": 0.09564418434269584,
+          "ksGap": 0.09564426881339505,
+          "nTotalExcited": 112.0,
+          "converged": true,
+          "levelsE1": [
+            61.16755557632462,
+            61.153811072383164,
+            61.15030449824341
+          ],
+          "orderEstimateE1": 1.9707207024363116
+        }
+      }
+    },
+    {
+      "label": "m1_L3_N112_lamm2_T0",
+      "params": {
+        "label": "m1_L3_N112_lamm2_T0",
+        "m": 1.0,
+        "a4_0": 0.0,
+        "L": 3.0,
+        "lambda_hat": -0.1622668915433369,
+        "lambda": -0.1622668915433369,
+        "T": 0.0,
+        "N": 112.0,
+        "parity": 0,
+        "tip": "g0",
+        "xc": "quadratic",
+        "sea": "free",
+        "delta_k": 0.25,
+        "ell": 25.132741228718345,
+        "volume": 15875.213660313506,
+        "N0": 64,
+        "levels": 3,
+        "mix_beta": 0.4,
+        "mix_history": 6,
+        "tol": 1e-10,
+        "max_iter": 200,
+        "H": 1.0
+      },
+      "converged": true,
+      "failed": null,
+      "extrapolated": {
+        "total": 60.77822810834412,
+        "free": 60.77822810834412,
+        "entropy": 0.0,
+        "ksSum": 60.523257116242746,
+        "interaction": -0.25497099210137786,
+        "hartree": -0.40288452454103585,
+        "exchange": 0.1479135324396581,
+        "grand": -17.54034920506542,
+        "scalarCharge": -19.607361399311394,
+        "nTotal": 112.0,
+        "mu": 0.6992730117268711
+      },
+      "ksGap": 0.09621636517983223,
+      "homo": "3:+1:-1:0",
+      "lumo": "4:+1:-1:0",
+      "emt": {
+        "w_y": 0.4191648697724356,
+        "w_3": 0.29695161280941934,
+        "w_t": -0.0041951040550003,
+        "w_mean": 0.18534777086224183,
+        "energyFromRho": 60.77822810831707,
+        "braneLocalisedFraction": 0.9284895409042242,
+        "averages": {
+          "rho": 0.02297101024401179,
+          "p_y": 0.009628641291591451,
+          "p_3": 0.00682127860469295,
+          "p_t": -9.63657711100873e-05,
+          "L_s": -9.63657711100873e-05
+        },
+        "traceIdentityResidual": 7.105427357601002e-15,
+        "conservationResidualMaxNormalised": [
+          9.444620371066557e-05,
+          2.5225208986802622e-05,
+          6.47512663303851e-06
+        ],
+        "rhoRequired_kappa1": -21.0,
+        "pRequired_kappa1": 15.0,
+        "wRequired": -0.7142857142857143,
+        "kappaNeededForRho": -914.195752686776,
+        "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+      },
+      "orderEstimates": {
+        "total": 1.970828454423315,
+        "free": 1.970828454423315,
+        "entropy": null,
+        "ksSum": 1.9709040669903632,
+        "interaction": 1.9654757224992068,
+        "hartree": 1.97602292354153,
+        "exchange": 1.9848327883036168,
+        "grand": 1.9646140945519706,
+        "scalarCharge": 1.9452873372729087,
+        "nTotal": null,
+        "mu": 1.9696809362607781,
+        "occupiedEigenvalues_median": 1.9725961487811468,
+        "profile_n_c": 1.9892302803022575,
+        "profile_s_c": 1.9837214740134912,
+        "profile_m_eff_out": 2.0411574417470253,
+        "profile_v_out": 2.047132456203347
+      },
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": {
+        "ksGap": 0.09621636517983223,
+        "particleHole": [
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": 0.6992730117268711,
+            "epsParticle": 0.7954893769067033,
+            "excitation": 0.09621636517983223,
+            "weight": 768.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": 0.6992730117268711,
+            "epsParticle": 0.8786722351476123,
+            "excitation": 0.17939922342074122,
+            "weight": 3072.0
+          },
+          {
+            "hole": "2:+1:-1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": 0.5822161500661304,
+            "epsParticle": 0.7954893769067033,
+            "excitation": 0.21327322684057293,
+            "weight": 1152.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": 0.6992730117268711,
+            "epsParticle": 0.9527593202538079,
+            "excitation": 0.2534863085269369,
+            "weight": 3072.0
+          },
+          {
+            "hole": "2:+1:-1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": 0.5822161500661304,
+            "epsParticle": 0.8786722351476123,
+            "excitation": 0.2964560850814819,
+            "weight": 4608.0
+          },
+          {
+            "hole": "2:+1:-1:0",
+            "particle": "6:+1:-1:0",
+            "epsHole": 0.5822161500661304,
+            "epsParticle": 0.9527593202538079,
+            "excitation": 0.3705431701876776,
+            "weight": 4608.0
+          },
+          {
+            "hole": "1:+1:-1:0",
+            "particle": "4:+1:-1:0",
+            "epsHole": 0.4237717728103028,
+            "epsParticle": 0.7954893769067033,
+            "excitation": 0.3717176040964005,
+            "weight": 576.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "8:+1:-1:0",
+            "epsHole": 0.6992730117268711,
+            "epsParticle": 1.0820453457130637,
+            "excitation": 0.3827723339861926,
+            "weight": 1536.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "9:+1:-1:0",
+            "epsHole": 0.6992730117268711,
+            "epsParticle": 1.1397456131661925,
+            "excitation": 0.44047260143932143,
+            "weight": 3840.0
+          },
+          {
+            "hole": "1:+1:-1:0",
+            "particle": "5:+1:-1:0",
+            "epsHole": 0.4237717728103028,
+            "epsParticle": 0.8786722351476123,
+            "excitation": 0.45490046233730946,
+            "weight": 2304.0
+          },
+          {
+            "hole": "3:+1:-1:0",
+            "particle": "10:+1:-1:0",
+            "epsHole": 0.6992730117268711,
+            "epsParticle": 1.1938907456288927,
+            "excitation": 0.4946177339020217,
+            "weight": 3072.0
+          },
+          {
+            "hole": "2:+1:-1:0",
+            "particle": "8:+1:-1:0",
+            "epsHole": 0.5822161500661304,
+            "epsParticle": 1.0820453457130637,
+            "excitation": 0.4998291956469333,
+            "weight": 2304.0
+          }
+        ],
+        "deltaSCF": {
+          "available": true,
+          "homo": "3:+1:-1:0",
+          "lumo": "4:+1:-1:0",
+          "homoMultiplicity": 32.0,
+          "lumoMultiplicity": 24.0,
+          "E0": 60.77822810834412,
+          "E1": 60.874444058503805,
+          "deltaSCF": 0.09621595015968154,
+          "ksGap": 0.09621636517983223,
+          "nTotalExcited": 112.0,
+          "converged": true,
+          "levelsE1": [
+            60.892581097873695,
+            60.879057288452074,
+            60.8756072372541
+          ],
+          "orderEstimateE1": 1.9708119145095584
+        }
+      }
+    },
+    {
+      "label": "m1_L3_N1016_lam0_T0",
+      "params": {
+        "label": "m1_L3_N1016_lam0_T0",
+        "m": 1.0,
+        "a4_0": 0.0,
+        "L": 3.0,
+        "lambda_hat": 0.0,
+        "lambda": 0.0,
+        "T": 0.0,
+        "N": 1016.0,
+        "parity": 0,
+        "tip": "g0",
+        "xc": "quadratic",
+        "sea": "free",
+        "delta_k": 0.25,
+        "ell": 25.132741228718345,
+        "volume": 15875.213660313506,
+        "N0": 64,
+        "levels": 3,
+        "mix_beta": 0.4,
+        "mix_history": 6,
+        "tol": 1e-10,
+        "max_iter": 200,
+        "H": 1.0
+      },
+      "converged": true,
+      "failed": null,
+      "extrapolated": {
+        "total": 1127.1366337510972,
+        "free": 1127.1366337510972,
+        "entropy": 0.0,
+        "ksSum": 1127.1366337510972,
+        "interaction": 0.0,
+        "hartree": 0.0,
+        "exchange": 0.0,
+        "grand": -280.9572373604031,
+        "scalarCharge": -230.80569839513745,
+        "nTotal": 1016.0,
+        "mu": 1.3859191644798232
+      },
+      "ksGap": 0.05300764837590077,
+      "homo": "14:+1:-1:0",
+      "lumo": "1:-1:+1:0",
+      "emt": {
+        "w_y": 0.3355543968714515,
+        "w_3": 0.2897391056148084,
+        "w_t": 0.0,
+        "w_mean": 0.17211024481655385,
+        "energyFromRho": 1127.136633751097,
+        "braneLocalisedFraction": 0.9619133545749092,
+        "averages": {
+          "rho": 0.4259990490115327,
+          "p_y": 0.14294586594954886,
+          "p_3": 0.12342858556408819,
+          "p_t": 0.0,
+          "L_s": 0.0
+        },
+        "traceIdentityResidual": 2.5579538487363607e-12,
+        "conservationResidualMaxNormalised": [
+          0.00041971797929829074,
+          0.00011196250629042072,
+          2.845879396555713e-05
+        ],
+        "rhoRequired_kappa1": -21.0,
+        "pRequired_kappa1": 15.0,
+        "wRequired": -0.7142857142857143,
+        "kappaNeededForRho": -49.29588469440805,
+        "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+      },
+      "orderEstimates": {
+        "total": 1.9614253644824406,
+        "free": 1.9614253644824406,
+        "entropy": null,
+        "ksSum": 1.9614253644824406,
+        "interaction": null,
+        "hartree": null,
+        "exchange": null,
+        "grand": 1.9189037404793308,
+        "scalarCharge": 1.954561515516438,
+        "nTotal": null,
+        "mu": 1.956672891322747,
+        "occupiedEigenvalues_median": 1.9636342631227601,
+        "profile_n_c": 1.990730159396239,
+        "profile_s_c": 1.984297256422469,
+        "profile_m_eff_out": null,
+        "profile_v_out": null
+      },
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": {
+        "ksGap": 0.05300764837590077,
+        "particleHole": [
+          {
+            "hole": "14:+1:-1:0",
+            "particle": "1:-1:+1:0",
+            "epsHole": 1.3859191644798232,
+            "epsParticle": 1.438926812855724,
+            "excitation": 0.05300764837590077,
+            "weight": 4608.0
+          },
+          {
+            "hole": "14:+1:-1:0",
+            "particle": "0:+1:-1:1",
+            "epsHole": 1.3859191644798232,
+            "epsParticle": 1.4479719305395804,
+            "excitation": 0.06205276605975718,
+            "weight": 768.0
+          },
+          {
+            "hole": "14:+1:-1:0",
+            "particle": "0:+1:+1:1",
+            "epsHole": 1.3859191644798232,
+            "epsParticle": 1.4479719305396055,
+            "excitation": 0.06205276605978227,
+            "weight": 768.0
+          },
+          {
+            "hole": "14:+1:-1:0",
+            "particle": "16:+1:-1:0",
+            "epsHole": 1.3859191644798232,
+            "epsParticle": 1.4692791455033365,
+            "excitation": 0.08335998102351327,
+            "weight": 4608.0
+          },
+          {
+            "hole": "13:+1:-1:0",
+            "particle": "1:-1:+1:0",
+            "epsHole": 1.341705697579828,
+            "epsParticle": 1.438926812855724,
+            "excitation": 0.09722111527589594,
+            "weight": 2304.0
+          },
+          {
+            "hole": "13:+1:-1:0",
+            "particle": "0:+1:-1:1",
+            "epsHole": 1.341705697579828,
+            "epsParticle": 1.4479719305395804,
+            "excitation": 0.10626623295975235,
+            "weight": 384.0
+          },
+          {
+            "hole": "13:+1:-1:0",
+            "particle": "0:+1:+1:1",
+            "epsHole": 1.341705697579828,
+            "epsParticle": 1.4479719305396055,
+            "excitation": 0.10626623295977744,
+            "weight": 384.0
+          },
+          {
+            "hole": "14:+1:-1:0",
+            "particle": "17:+1:-1:0",
+            "epsHole": 1.3859191644798232,
+            "epsParticle": 1.5087586116018945,
+            "excitation": 0.12283944712207129,
+            "weight": 36864.0
+          },
+          {
+            "hole": "13:+1:-1:0",
+            "particle": "16:+1:-1:0",
+            "epsHole": 1.341705697579828,
+            "epsParticle": 1.4692791455033365,
+            "excitation": 0.12757344792350844,
+            "weight": 2304.0
+          },
+          {
+            "hole": "12:+1:-1:0",
+            "particle": "1:-1:+1:0",
+            "epsHole": 1.2955253772369697,
+            "epsParticle": 1.438926812855724,
+            "excitation": 0.1434014356187543,
+            "weight": 768.0
+          },
+          {
+            "hole": "0:-1:+1:0",
+            "particle": "1:-1:+1:0",
+            "epsHole": 1.2922928278927752,
+            "epsParticle": 1.438926812855724,
+            "excitation": 0.14663398496294877,
+            "weight": 96.0
+          },
+          {
+            "hole": "0:-1:-1:0",
+            "particle": "1:-1:+1:0",
+            "epsHole": 1.292292827892748,
+            "epsParticle": 1.438926812855724,
+            "excitation": 0.14663398496297608,
+            "weight": 96.0
+          }
+        ],
+        "deltaSCF": {
+          "available": true,
+          "homo": "14:+1:-1:0",
+          "lumo": "1:-1:+1:0",
+          "homoMultiplicity": 192.0,
+          "lumoMultiplicity": 24.0,
+          "E0": 1127.1366337510972,
+          "E1": 1127.189641399473,
+          "deltaSCF": 0.053007648375796634,
+          "ksGap": 0.05300764837590077,
+          "nTotalExcited": 1016.0,
+          "converged": true,
+          "levelsE1": [
+            1127.4444554129334,
+            1127.254814569729,
+            1127.2061184003985
+          ],
+          "orderEstimateE1": 1.9613895201672902
+        }
+      }
+    },
+    {
+      "label": "m1_L3_N1016_lamp2_T0",
+      "params": {
+        "label": "m1_L3_N1016_lamp2_T0"
+      },
+      "converged": false,
+      "failed": "RuntimeError('occupy_zero: 328 particles unplaced (window too small)')",
+      "extrapolated": null,
+      "ksGap": null,
+      "homo": null,
+      "lumo": null,
+      "emt": null,
+      "orderEstimates": null,
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": null
+    },
+    {
+      "label": "m1_L3_N1016_lamm2_T0",
+      "params": {
+        "label": "m1_L3_N1016_lamm2_T0"
+      },
+      "converged": false,
+      "failed": "RuntimeError('occupy_zero: 64 particles unplaced (window too small)')",
+      "extrapolated": null,
+      "ksGap": null,
+      "homo": null,
+      "lumo": null,
+      "emt": null,
+      "orderEstimates": null,
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": null
+    },
+    {
+      "label": "m3_L3_N8_lam0_T0",
+      "params": {
+        "label": "m3_L3_N8_lam0_T0",
+        "m": 3.0,
+        "a4_0": 0.0,
+        "L": 3.0,
+        "lambda_hat": 0.0,
+        "lambda": 0.0,
+        "T": 0.0,
+        "N": 8.0,
+        "parity": 0,
+        "tip": "g0",
+        "xc": "quadratic",
+        "sea": "free",
+        "delta_k": 0.75,
+        "ell": 8.377580409572781,
+        "volume": 587.9708763079075,
+        "N0": 64,
+        "levels": 3,
+        "mix_beta": 0.4,
+        "mix_history": 6,
+        "tol": 1e-10,
+        "max_iter": 200,
+        "H": 1.0
+      },
+      "converged": true,
+      "failed": null,
+      "extrapolated": {
+        "total": 0.0,
+        "free": 0.0,
+        "entropy": 0.0,
+        "ksSum": 0.0,
+        "interaction": 0.0,
+        "hartree": 0.0,
+        "exchange": 0.0,
+        "grand": 4.941118350631623e-15,
+        "scalarCharge": 0.0,
+        "nTotal": 8.0,
+        "mu": -6.176397938289529e-16
+      },
+      "ksGap": 0.8958329719800743,
+      "homo": "0:+1:+1:0",
+      "lumo": "1:+1:-1:0",
+      "emt": {
+        "w_y": null,
+        "w_3": null,
+        "w_t": null,
+        "w_mean": null,
+        "energyFromRho": 0.0,
+        "braneLocalisedFraction": 0.997559500741024,
+        "averages": {
+          "rho": 0.0,
+          "p_y": 0.0,
+          "p_3": 0.0,
+          "p_t": 0.0,
+          "L_s": 0.0
+        },
+        "traceIdentityResidual": 0.0,
+        "conservationResidualMaxNormalised": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rhoRequired_kappa1": -21.0,
+        "pRequired_kappa1": 15.0,
+        "wRequired": -0.7142857142857143,
+        "kappaNeededForRho": null,
+        "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+      },
+      "orderEstimates": {
+        "total": null,
+        "free": null,
+        "entropy": null,
+        "ksSum": null,
+        "interaction": null,
+        "hartree": null,
+        "exchange": null,
+        "grand": -1.8785055481087054,
+        "scalarCharge": null,
+        "nTotal": null,
+        "mu": -1.8785055481087054,
+        "occupiedEigenvalues_median": -1.8785055481087054,
+        "profile_n_c": 1.9765702729076255,
+        "profile_s_c": null,
+        "profile_m_eff_out": null,
+        "profile_v_out": null
+      },
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": null
+    },
+    {
+      "label": "m3_L3_N112_lam0_T0",
+      "params": {
+        "label": "m3_L3_N112_lam0_T0",
+        "m": 3.0,
+        "a4_0": 0.0,
+        "L": 3.0,
+        "lambda_hat": 0.0,
+        "lambda": 0.0,
+        "T": 0.0,
+        "N": 112.0,
+        "parity": 0,
+        "tip": "g0",
+        "xc": "quadratic",
+        "sea": "free",
+        "delta_k": 0.75,
+        "ell": 8.377580409572781,
+        "volume": 587.9708763079075,
+        "N0": 64,
+        "levels": 3,
+        "mix_beta": 0.4,
+        "mix_history": 6,
+        "tol": 1e-10,
+        "max_iter": 200,
+        "H": 1.0
+      },
+      "converged": true,
+      "failed": null,
+      "extrapolated": {
+        "total": 131.44832633702515,
+        "free": 131.44832633702515,
+        "entropy": 0.0,
+        "ksSum": 131.44832633702515,
+        "interaction": 0.0,
+        "hartree": 0.0,
+        "exchange": 0.0,
+        "grand": -41.256947982249244,
+        "scalarCharge": -7.206306551166408,
+        "nTotal": 112.0,
+        "mu": 1.5420113778506643
+      },
+      "ksGap": 0.23426383485218727,
+      "homo": "3:+1:-1:0",
+      "lumo": "4:+1:-1:0",
+      "emt": {
+        "w_y": 0.17718406272698675,
+        "w_3": 0.3290943346988073,
+        "w_t": 0.0,
+        "w_mean": 0.16635243811762981,
+        "energyFromRho": 131.44832633702504,
+        "braneLocalisedFraction": 0.9990622148917002,
+        "averages": {
+          "rho": 1.3413770226376696,
+          "p_y": 0.2376707042249598,
+          "p_3": 0.4414395816935416,
+          "p_t": 0.0,
+          "L_s": 0.0
+        },
+        "traceIdentityResidual": 4.996003610813204e-16,
+        "conservationResidualMaxNormalised": [
+          0.001897807573835538,
+          0.0003679238210041838,
+          8.033012282753014e-05
+        ],
+        "rhoRequired_kappa1": -21.0,
+        "pRequired_kappa1": 15.0,
+        "wRequired": -0.7142857142857143,
+        "kappaNeededForRho": -15.655553692656687,
+        "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+      },
+      "orderEstimates": {
+        "total": 1.907038489497033,
+        "free": 1.907038489497033,
+        "entropy": null,
+        "ksSum": 1.907038489497033,
+        "interaction": null,
+        "hartree": null,
+        "exchange": null,
+        "grand": 1.90228460705852,
+        "scalarCharge": 1.788384503266561,
+        "nTotal": null,
+        "mu": 1.9059523911054834,
+        "occupiedEigenvalues_median": 1.9059523911054834,
+        "profile_n_c": 1.97705825210937,
+        "profile_s_c": 1.9665981926428115,
+        "profile_m_eff_out": null,
+        "profile_v_out": null
+      },
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": null
+    },
+    {
+      "label": "m3_L3_N112_lamp1_T0",
+      "params": {
+        "label": "m3_L3_N112_lamp1_T0",
+        "m": 3.0,
+        "a4_0": 0.0,
+        "L": 3.0,
+        "lambda_hat": 0.01622668915433369,
+        "lambda": 2.22588328591683e-05,
+        "T": 0.0,
+        "N": 112.0,
+        "parity": 0,
+        "tip": "g0",
+        "xc": "quadratic",
+        "sea": "free",
+        "delta_k": 0.75,
+        "ell": 8.377580409572781,
+        "volume": 587.9708763079075,
+        "N0": 64,
+        "levels": 3,
+        "mix_beta": 0.4,
+        "mix_history": 6,
+        "tol": 1e-10,
+        "max_iter": 200,
+        "H": 1.0
+      },
+      "converged": true,
+      "failed": null,
+      "extrapolated": {
+        "total": 131.44824699598294,
+        "free": 131.44824699598294,
+        "entropy": 0.0,
+        "ksSum": 131.44816765497288,
+        "interaction": -7.934101007838897e-05,
+        "hartree": 1.0713421138528255e-05,
+        "exchange": -9.005443121691721e-05,
+        "grand": -41.25687273925858,
+        "scalarCharge": -7.20632461778455,
+        "nTotal": 112.0,
+        "mu": 1.5420099976360848
+      },
+      "ksGap": 0.23426384824148383,
+      "homo": "3:+1:-1:0",
+      "lumo": "4:+1:-1:0",
+      "emt": {
+        "w_y": 0.17718389548395388,
+        "w_3": 0.3290939573883912,
+        "w_t": -6.035912824142929e-07,
+        "w_mean": 0.16635199383932572,
+        "energyFromRho": 131.44824699598308,
+        "braneLocalisedFraction": 0.99906220810792,
+        "averages": {
+          "rho": 1.3413762129938707,
+          "p_y": 0.2376703364344152,
+          "p_3": 0.441438809128738,
+          "p_t": -8.096434736638125e-07,
+          "L_s": -8.096434736638125e-07
+        },
+        "traceIdentityResidual": 7.771561172376096e-16,
+        "conservationResidualMaxNormalised": [
+          0.0018978008239429278,
+          0.00036792238507529085,
+          8.032978637159964e-05
+        ],
+        "rhoRequired_kappa1": -21.0,
+        "pRequired_kappa1": 15.0,
+        "wRequired": -0.7142857142857143,
+        "kappaNeededForRho": -15.655563142221874,
+        "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+      },
+      "orderEstimates": {
+        "total": 1.9070374683391633,
+        "free": 1.9070374683391633,
+        "entropy": null,
+        "ksSum": 1.9070364471016639,
+        "interaction": 1.7132206212557872,
+        "hartree": 1.9544488150362365,
+        "exchange": 1.6550494438316246,
+        "grand": 1.9022812820618114,
+        "scalarCharge": 1.7883821093362038,
+        "nTotal": null,
+        "mu": 1.905950831064649,
+        "occupiedEigenvalues_median": 1.905950831064649,
+        "profile_n_c": 1.9770582792599893,
+        "profile_s_c": 1.966596408553927,
+        "profile_m_eff_out": 1.9302675772156543,
+        "profile_v_out": 1.9770582792599558
+      },
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": null
+    },
+    {
+      "label": "m3_L3_N112_lamm1_T0",
+      "params": {
+        "label": "m3_L3_N112_lamm1_T0",
+        "m": 3.0,
+        "a4_0": 0.0,
+        "L": 3.0,
+        "lambda_hat": -0.01622668915433369,
+        "lambda": -2.22588328591683e-05,
+        "T": 0.0,
+        "N": 112.0,
+        "parity": 0,
+        "tip": "g0",
+        "xc": "quadratic",
+        "sea": "free",
+        "delta_k": 0.75,
+        "ell": 8.377580409572781,
+        "volume": 587.9708763079075,
+        "N0": 64,
+        "levels": 3,
+        "mix_beta": 0.4,
+        "mix_history": 6,
+        "tol": 1e-10,
+        "max_iter": 200,
+        "H": 1.0
+      },
+      "converged": true,
+      "failed": null,
+      "extrapolated": {
+        "total": 131.44840567814242,
+        "free": 131.44840567814242,
+        "entropy": 0.0,
+        "ksSum": 131.44848501929675,
+        "interaction": 7.934115434507829e-05,
+        "hartree": -1.0713282077987889e-05,
+        "exchange": 9.005443642306619e-05,
+        "grand": -41.25702322542538,
+        "scalarCharge": -7.206288484677329,
+        "nTotal": 112.0,
+        "mu": 1.5420127580675698
+      },
+      "ksGap": 0.23426382146296643,
+      "homo": "3:+1:-1:0",
+      "lumo": "4:+1:-1:0",
+      "emt": {
+        "w_y": 0.17718422997265035,
+        "w_3": 0.32909471200987184,
+        "w_t": 6.035916512859306e-07,
+        "w_mean": 0.16635288239674564,
+        "energyFromRho": 131.44840567814234,
+        "braneLocalisedFraction": 0.9990622216753613,
+        "averages": {
+          "rho": 1.341377832282237,
+          "p_y": 0.23767107201944032,
+          "p_3": 0.4414403542600787,
+          "p_t": 8.096449458502223e-07,
+          "L_s": 8.096449458502223e-07
+        },
+        "traceIdentityResidual": 7.771561172376096e-16,
+        "conservationResidualMaxNormalised": [
+          0.001897814323655922,
+          0.00036792525677588925,
+          8.033045884186377e-05
+        ],
+        "rhoRequired_kappa1": -21.0,
+        "pRequired_kappa1": 15.0,
+        "wRequired": -0.7142857142857143,
+        "kappaNeededForRho": -15.655544243093937,
+        "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+      },
+      "orderEstimates": {
+        "total": 1.9070395106489535,
+        "free": 1.9070395106489535,
+        "entropy": null,
+        "ksSum": 1.9070405319248862,
+        "interaction": 1.7132209213505345,
+        "hartree": 1.9544470709789192,
+        "exchange": 1.655050354838668,
+        "grand": 1.9022879329945865,
+        "scalarCharge": 1.788386897515233,
+        "nTotal": null,
+        "mu": 1.9059539513460615,
+        "occupiedEigenvalues_median": 1.9059539513460615,
+        "profile_n_c": 1.9770582249574966,
+        "profile_s_c": 1.9665999770200415,
+        "profile_m_eff_out": 1.9302668833851593,
+        "profile_v_out": 1.9770582249575372
+      },
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": null
+    },
+    {
+      "label": "m1_L2_N112_lam0_T0",
+      "params": {
+        "label": "m1_L2_N112_lam0_T0",
+        "m": 1.0,
+        "a4_0": 0.0,
+        "L": 2.0,
+        "lambda_hat": 0.0,
+        "lambda": 0.0,
+        "T": 0.0,
+        "N": 112.0,
+        "parity": 0,
+        "tip": "g0",
+        "xc": "quadratic",
+        "sea": "free",
+        "delta_k": 0.25,
+        "ell": 25.132741228718345,
+        "volume": 15875.213660313506,
+        "N0": 64,
+        "levels": 3,
+        "mix_beta": 0.4,
+        "mix_history": 6,
+        "tol": 1e-10,
+        "max_iter": 200,
+        "H": 1.0
+      },
+      "converged": true,
+      "failed": null,
+      "extrapolated": {
+        "total": 60.725615643815445,
+        "free": 60.725615643815445,
+        "entropy": 0.0,
+        "ksSum": 60.725615643815445,
+        "interaction": 0.0,
+        "hartree": 0.0,
+        "exchange": 0.0,
+        "grand": -17.939326945901936,
+        "scalarCharge": -19.86951286452437,
+        "nTotal": 112.0,
+        "mu": 0.7023655588367623
+      },
+      "ksGap": 0.0962972904003081,
+      "homo": "3:+1:-1:0",
+      "lumo": "4:+1:-1:0",
+      "emt": {
+        "w_y": 0.41625641100028954,
+        "w_3": 0.3036483649855016,
+        "w_t": 0.0,
+        "w_mean": 0.18960021513668485,
+        "energyFromRho": 60.725615643815445,
+        "braneLocalisedFraction": 0.9242631280766174,
+        "averages": {
+          "rho": 0.022951249925547996,
+          "p_y": 0.00955360503403832,
+          "p_3": 0.0069691095362719654,
+          "p_t": 0.0,
+          "L_s": 0.0
+        },
+        "traceIdentityResidual": 3.552713678800501e-15,
+        "conservationResidualMaxNormalised": [
+          4.363760847269025e-05,
+          1.1346585005829043e-05,
+          2.885692311961876e-06
+        ],
+        "rhoRequired_kappa1": -21.0,
+        "pRequired_kappa1": 15.0,
+        "wRequired": -0.7142857142857143,
+        "kappaNeededForRho": -914.9828470398043,
+        "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+      },
+      "orderEstimates": {
+        "total": 1.9820738693759659,
+        "free": 1.9820738693759659,
+        "entropy": null,
+        "ksSum": 1.9820738693759659,
+        "interaction": null,
+        "hartree": null,
+        "exchange": null,
+        "grand": 1.9723522006192724,
+        "scalarCharge": 1.9569094930028172,
+        "nTotal": null,
+        "mu": 1.9804295199190654,
+        "occupiedEigenvalues_median": 1.9804295199190654,
+        "profile_n_c": 1.9924193043948173,
+        "profile_s_c": 1.9883085473446378,
+        "profile_m_eff_out": null,
+        "profile_v_out": null
+      },
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": null
+    },
+    {
+      "label": "m1_L4_N112_lam0_T0",
+      "params": {
+        "label": "m1_L4_N112_lam0_T0",
+        "m": 1.0,
+        "a4_0": 0.0,
+        "L": 4.0,
+        "lambda_hat": 0.0,
+        "lambda": 0.0,
+        "T": 0.0,
+        "N": 112.0,
+        "parity": 0,
+        "tip": "g0",
+        "xc": "quadratic",
+        "sea": "free",
+        "delta_k": 0.25,
+        "ell": 25.132741228718345,
+        "volume": 15875.213660313506,
+        "N0": 64,
+        "levels": 3,
+        "mix_beta": 0.4,
+        "mix_history": 6,
+        "tol": 1e-10,
+        "max_iter": 200,
+        "H": 1.0
+      },
+      "converged": true,
+      "failed": null,
+      "extrapolated": {
+        "total": 61.09103436041283,
+        "free": 61.09103436041283,
+        "entropy": 0.0,
+        "ksSum": 61.09103436041283,
+        "interaction": 0.0,
+        "hartree": 0.0,
+        "exchange": 0.0,
+        "grand": -17.768122854949244,
+        "scalarCharge": -20.85435597281755,
+        "nTotal": 112.0,
+        "mu": 0.704099617994304
+      },
+      "ksGap": 0.09554617560285494,
+      "homo": "3:+1:-1:0",
+      "lumo": "4:+1:-1:0",
+      "emt": {
+        "w_y": 0.4493917947334986,
+        "w_3": 0.2973244856698823,
+        "w_t": 0.0,
+        "w_mean": 0.19162360739187792,
+        "energyFromRho": 61.09103436041282,
+        "braneLocalisedFraction": 0.9235799292488726,
+        "averages": {
+          "rho": 0.023089277508620016,
+          "p_y": 0.010376134060226307,
+          "p_3": 0.006865007764555781,
+          "p_t": 0.0,
+          "L_s": 0.0
+        },
+        "traceIdentityResidual": 3.552713678800501e-15,
+        "conservationResidualMaxNormalised": [
+          0.0001565353270362144,
+          4.3561762764489346e-05,
+          1.1333941759964356e-05
+        ],
+        "rhoRequired_kappa1": -21.0,
+        "pRequired_kappa1": 15.0,
+        "wRequired": -0.7142857142857143,
+        "kappaNeededForRho": -909.5130842513363,
+        "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+      },
+      "orderEstimates": {
+        "total": 1.961606711680644,
+        "free": 1.961606711680644,
+        "entropy": null,
+        "ksSum": 1.961606711680644,
+        "interaction": null,
+        "hartree": null,
+        "exchange": null,
+        "grand": 1.9536920310687111,
+        "scalarCharge": 1.9264009072272117,
+        "nTotal": null,
+        "mu": 1.9600934179629153,
+        "occupiedEigenvalues_median": 1.9600934179629153,
+        "profile_n_c": 1.9865004783683378,
+        "profile_s_c": 1.979872291492731,
+        "profile_m_eff_out": null,
+        "profile_v_out": null
+      },
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": null
+    },
+    {
+      "label": "m1_L4_N112_lamp1_T0",
+      "params": {
+        "label": "m1_L4_N112_lamp1_T0"
+      },
+      "converged": false,
+      "failed": "RuntimeError('occupy_zero: 112 particles unplaced (window too small)')",
+      "extrapolated": null,
+      "ksGap": null,
+      "homo": null,
+      "lumo": null,
+      "emt": null,
+      "orderEstimates": null,
+      "branchOverlap": false,
+      "thermo": {},
+      "excited": null
     }
   ],
   "complete": false

@@ -104,15 +104,17 @@ degenerate gas with the contact interaction the Fock term is exactly
 e_x = -(lambda/32) (n^2 + S^2) (derived in `exchange_trace_identity`
 from Tr[(-i gamma^4) P_+(k) (-i gamma^4) P_+(k')] = 4 [1 + (M^2 - k.k')/
 (E E')] and its P_- partners; it reproduces E_x = -E_H/8 for one filled
-shell).  Three pseudo-potential modes are implemented (`--xc`):
-    hartree    M_eff = m + lambda S_p, v_x = 0;
-    lda-n      (STAGE4_SPEC recommendation, default) M_eff = m + lambda
-               S_p and v_x = d e_x / d n at (n_p(y), T) with the gas
-               relation S = S_gas(n, T; m) of the free gas of mass m,
-               entering as eps -> eps - v_x(y);
-    quadratic  the exact functional derivative of E_x[n_p, S_p]:
-               v_v = -lambda n_p / 16 (vector) and v_s = -lambda S_p / 16
-               (added to M_eff).
+shell).  Three pseudo-potential modes are implemented (Params xc):
+    quadratic  (default, the canonical set and the Rust crate; the exact
+               theory's KS-VS pair) the exact functional derivative of
+               E_x[n_p, S_p]: v_v = -lambda n_p / 16 (vector, entering as
+               eps -> eps - v_v(y)) and v_s = -lambda S_p / 16 (added to
+               M_eff, so M_eff = m + (15/16) lambda S_p);
+    lda-n      (STAGE4_SPEC section 3 recommendation, the theory's variant V)
+               M_eff = m + lambda S_p and v_x = d e_x(n, T)/dn at (n_p(y), T)
+               with the gas relation S = S_gas(n, T; m) of the free gas of
+               mass m;
+    hartree    M_eff = m + lambda S_p, v_x = 0.
 Parity sectors.  The Z2 conditions are boundary conditions, not symmetries
 (STAGE4_SPEC E4.6): parity = +1 / -1 solves one sector, parity = 0 solves
 both and fills them together as one system (the convention of the Rust
@@ -1404,9 +1406,15 @@ def emt_profiles(result, params: Params, grid: Grid):
     conservation = dPy - 3.0 * (P_3 + P_t)
     # stencils touching the end nodes are excluded: the end-node values are only
     # first-order accurate (they are derived through g~/h, see extrapolate_profile)
+    # Normalisation: the largest term of the identity written for the proper
+    # pressure, p_y' + 6H p_y = 3H (p_3 + p_t), i.e. max(|P_y'|, |3H(P_3+P_t)|,
+    # 6H |P_y|) on the inner nodes.  (Without the 6H|P_y| term a free k = 0
+    # state, whose right-hand side vanishes identically and whose P_y is
+    # constant, would divide its derivative round-off by itself.)
     inner = slice(3, grid.N - 2)
-    scale = max(float(np.max(np.abs(dPy[inner]))), float(np.max(np.abs(3.0 * (P_3 + P_t)[inner]))), 1e-300)
-    if scale < 1e-14 * max(float(np.max(np.abs(P_y))), 1e-300) or scale <= 1e-300:
+    scale = max(float(np.max(np.abs(dPy[inner]))), float(np.max(np.abs(3.0 * (P_3 + P_t)[inner]))),
+                6.0 * float(np.max(np.abs(P_y[inner]))), 1e-300)
+    if scale <= 1e-300 or scale < 1e-14 * max(float(np.max(np.abs(P_y))), 1e-300):
         normalised = 0.0
     else:
         normalised = float(np.max(np.abs(conservation[inner])) / scale)

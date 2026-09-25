@@ -2,19 +2,30 @@
 //! `thermo`, `emt` (and `all`).
 //!
 //! Reference numbers (computed, deterministic, recorded in every summary):
-//! * closed shells of the non-interacting spectrum at m = 1, L = 3: N_mid is
-//!   the closed-shell number nearest 100 and N_large the one nearest 1000;
-//! * `lambda_hat_1 = 0.1 m^7 / S_ref`, `lambda_hat_2 = 1.0 m^7 / S_ref` with
-//!   `S_ref = max_y |S_p(y)|` of the non-interacting N_mid ground state at
-//!   m = 1, L = 3, so that `|lambda S_p|/m` reaches 0.1 and 1.0 there.
+//! * closed shells of the non-interacting spectrum at L = 3 for m = 1 (N_mid
+//!   is the closed-shell number nearest 100, N_large the one nearest 1000)
+//!   and for m = 3 (its own N_mid);
+//! * couplings PER CONFIGURATION (m, L, N): `strength = max_y max((15/16)
+//!   |S_p|, n_p/16) / m^7` of the free ground state of that configuration
+//!   (the LDA pair `(M_eff - m, v_x)` per unit lambda_hat, in units of m),
+//!   `lambda_hat_1 = 0.1 / strength`, `lambda_hat_2 = 1.0 / strength`, so
+//!   that the pseudo-potential reaches 0.1 m and 1.0 m at first order (the
+//!   self-consistent `max |lambda S_p|/m` and `max |v_x|/m` are recorded in
+//!   every run.json).  The proper densities at the tip scale like e^{6HL}
+//!   and grow with N, so no global lambda_hat keeps the LDA in the 0.1-1
+//!   window of STAGE4_SPEC section 4 for all configurations (measured: the
+//!   N = 112 value gives |lambda S_p|/m = 11 in the free N = 1016 state, and
+//!   the attractive SCF at that coupling runs away).  For N = 8 the free
+//!   scalar density vanishes (brane zero modes), so the vector part n_p/16
+//!   sets the scale there.
 //!
 //! Matrix (canonical run, no `--quick`; H = 1, a4_0 = 0, Delta k = 0.25 m,
 //! 301 grid points unless stated):
 //! * scf (T = 0): m = 1, L = 3, N in {8, N_mid, N_large} x lambda_hat in
 //!   {0, +-lh1, +-lh2}; L in {2, 4} with N in {8, N_mid}, lambda_hat in {0, lh1};
-//!   m = 3, L = 3, N in {8, N_mid}, lambda_hat in {0, +-lh1}; a4_0 = 0.5
-//!   rescaling pair; grid 601 and Delta k = 0.125 m (N x 8, same density)
-//!   convergence runs; Hellmann-Feynman dE/dm checks.
+//!   m = 3, L = 3, N in {8, N_mid(m = 3)}, lambda_hat in {0, +-lh1}; a4_0 = 0.5
+//!   rescaling pair and grid 601 / Delta k = 0.125 m (N x 8, same density)
+//!   convergence runs at lh1 of (1, 3, N_mid); Hellmann-Feynman dE/dm checks.
 //! * excited: KS gaps, particle-hole list and Delta-SCF for m = 1, L = 3,
 //!   N in {8, N_mid, N_large}, lambda_hat in {0, +-lh1, +-lh2}.
 //! * thermo: T/m in {0, 0.1, 0.3, 1} for m = 1, L = 3, N in {8, N_mid},
@@ -35,21 +46,44 @@ use crate::math::{exp, PI};
 use crate::output::{standard_summary, write_csv, write_json, Json};
 use crate::scf::{
     self, closed_shell_numbers, compute_spectrum, delta_scf, particle_number_from_density, solve,
-    standard_params, Occupation, Params, Solution, Spectrum, Window,
+    solve_ground, standard_params, Occupation, Params, Solution, Spectrum, Window,
 };
 use crate::shooting::{Potential, Shooter, DEFAULT_TOLERANCES};
 use crate::theory;
 use crate::{ExperimentSummary, RunContext, Tolerances};
 
-/// Reference numbers shared by the subcommands.
+/// Coupling scales of one configuration (m, L, N), from its free ground state.
 #[derive(Clone, Debug)]
+pub struct Coupling {
+    pub m: f64,
+    pub length: f64,
+    pub n: f64,
+    /// max_y |S_p(y)| of the free ground state.
+    pub s_ref: f64,
+    /// max_y n_p(y) of the free ground state.
+    pub n_ref: f64,
+    /// Pseudo-potential strength per unit lambda_hat:
+    /// max_y max((15/16)|S_p|, n_p/16) / m^7 (the LDA pair M_eff - m and
+    /// v_x divided by m, at lambda_hat = 1).
+    pub strength: f64,
+    /// 0.1 / strength and 1.0 / strength.
+    pub lambda_hat_1: f64,
+    pub lambda_hat_2: f64,
+}
+
+/// Reference numbers shared by the subcommands: closed shells at m = 1 and
+/// m = 3 (L = 3) and the per-configuration couplings (computed on demand
+/// from the free ground state of exactly that configuration and cached; the
+/// ones used are recorded in every summary.json).
+#[derive(Debug)]
 pub struct Reference {
     pub n_mid: f64,
     pub n_large: f64,
     pub closed_shells: Vec<(f64, f64)>,
-    pub s_ref: f64,
-    pub lambda_hat_1: f64,
-    pub lambda_hat_2: f64,
+    pub n_mid_m3: f64,
+    pub closed_shells_m3: Vec<(f64, f64)>,
+    ctx: RunContext,
+    couplings: std::cell::RefCell<Vec<Coupling>>,
 }
 
 pub fn config_lines() -> Vec<String> {
@@ -116,13 +150,17 @@ fn trim_float(v: f64) -> String {
     s.replace('.', "p").replace('-', "m")
 }
 
-/// Compute the reference numbers (free spectrum at m = 1, L = 3).
-pub fn reference(ctx: &RunContext) -> Result<Reference, String> {
-    let params = params_for(ctx, 1.0, 3.0, 0.0, 0.0, 8.0);
+/// (closed shells (N, eps_HOMO), N_mid, N_large).
+type ClosedShells = (Vec<(f64, f64)>, f64, f64);
+
+/// Closed shells of the free spectrum at (m, L = 3): the list (N, eps_HOMO)
+/// and the closed-shell numbers nearest 100 and 1000 (N > 8).
+fn closed_shells_for(ctx: &RunContext, m: f64) -> Result<ClosedShells, String> {
+    let params = params_for(ctx, m, 3.0, 0.0, 0.0, 8.0);
     let potential = scf::build_potential(&params, &scf::Densities::zero(params.grid_n));
     let window = Window {
-        eps_lo: -1.0,
-        eps_hi: 3.2,
+        eps_lo: -m,
+        eps_hi: 3.2 * m,
     };
     let spectrum = compute_spectrum(&params, &potential, window, &Default::default())?;
     let shells = closed_shell_numbers(&spectrum, 1300.0);
@@ -141,48 +179,113 @@ pub fn reference(ctx: &RunContext) -> Result<Reference, String> {
     };
     let n_mid = pick(100.0);
     let n_large = pick(1000.0);
-    let mut mid = params.clone();
-    mid.n_particles = n_mid;
-    let ground = solve(&mid, &Occupation::Zero, None, 0.0)?;
-    let s_ref = ground
-        .densities
-        .s_c
-        .iter()
-        .zip(mid.grid().iter())
-        .map(|(s, y)| (s * crate::geometry::density_factor(mid.h, *y)).abs())
-        .fold(0.0, f64::max);
-    if s_ref.partial_cmp(&0.0) != Some(std::cmp::Ordering::Greater) {
-        return Err("reference: S_ref vanishes".to_string());
-    }
+    Ok((shells, n_mid, n_large))
+}
+
+/// Compute the reference numbers (closed shells at m = 1 and m = 3, L = 3).
+pub fn reference(ctx: &RunContext) -> Result<Reference, String> {
+    let (closed_shells, n_mid, n_large) = closed_shells_for(ctx, 1.0)?;
+    let (closed_shells_m3, n_mid_m3, _) = closed_shells_for(ctx, 3.0)?;
     Ok(Reference {
         n_mid,
         n_large,
-        closed_shells: shells,
-        s_ref,
-        lambda_hat_1: 0.1 / s_ref,
-        lambda_hat_2: 1.0 / s_ref,
+        closed_shells,
+        n_mid_m3,
+        closed_shells_m3,
+        ctx: ctx.clone(),
+        couplings: std::cell::RefCell::new(Vec::new()),
     })
 }
 
+impl Reference {
+    /// Coupling scales of the configuration (m, L, N): lambda_hat_1 = 0.1 /
+    /// strength and lambda_hat_2 = 1.0 / strength with the pseudo-potential
+    /// strength of the FREE ground state of that configuration, so that the
+    /// LDA pair (M_eff - m, v_x) reaches 0.1 m and 1.0 m at first order.  A
+    /// single global lambda_hat cannot serve every configuration: the proper
+    /// densities at the tip scale like e^{6HL} and grow with N (measured:
+    /// the m = 1, L = 3 value for N = 112 gives |lambda S_p|/m = 11 in the
+    /// free N = 1016 state and the attractive SCF runs away).
+    pub fn coupling(&self, m: f64, length: f64, n: f64) -> Result<Coupling, String> {
+        if let Some(c) = self
+            .couplings
+            .borrow()
+            .iter()
+            .find(|c| c.m == m && c.length == length && c.n == n)
+        {
+            return Ok(c.clone());
+        }
+        let params = params_for(&self.ctx, m, length, 0.0, 0.0, n);
+        let ground = solve(&params, &Occupation::Zero, None, 0.0)?;
+        if !ground.converged {
+            return Err(format!(
+                "reference: free ground state (m = {m}, L = {length}, N = {n}) did not converge"
+            ));
+        }
+        let grid = params.grid();
+        let mut s_ref: f64 = 0.0;
+        let mut n_ref: f64 = 0.0;
+        for (i, y) in grid.iter().enumerate() {
+            let factor = crate::geometry::density_factor(params.h, *y);
+            s_ref = s_ref.max((factor * ground.densities.s_c[i]).abs());
+            n_ref = n_ref.max((factor * ground.densities.n_c[i]).abs());
+        }
+        let strength = (15.0 / 16.0 * s_ref).max(n_ref / 16.0) / m.powi(7);
+        if strength.partial_cmp(&0.0) != Some(std::cmp::Ordering::Greater) {
+            return Err(format!(
+                "reference: pseudo-potential strength vanishes for (m = {m}, L = {length}, N = {n})"
+            ));
+        }
+        let c = Coupling {
+            m,
+            length,
+            n,
+            s_ref,
+            n_ref,
+            strength,
+            lambda_hat_1: 0.1 / strength,
+            lambda_hat_2: 1.0 / strength,
+        };
+        self.couplings.borrow_mut().push(c.clone());
+        Ok(c)
+    }
+}
+
+fn shells_json(shells: &[(f64, f64)]) -> Json {
+    Json::Array(
+        shells
+            .iter()
+            .map(|(n, e)| Json::floats(&[*n, *e]))
+            .collect(),
+    )
+}
+
 fn reference_json(r: &Reference) -> Json {
+    let couplings: Vec<Json> = r
+        .couplings
+        .borrow()
+        .iter()
+        .map(|c| {
+            Json::object(vec![
+                ("m", Json::Float(c.m)),
+                ("L", Json::Float(c.length)),
+                ("N", Json::Float(c.n)),
+                ("sRef_maxProperScalarDensity_free", Json::Float(c.s_ref)),
+                ("nRef_maxProperNumberDensity_free", Json::Float(c.n_ref)),
+                ("strengthPerUnitLambdaHat", Json::Float(c.strength)),
+                ("lambdaHat1", Json::Float(c.lambda_hat_1)),
+                ("lambdaHat2", Json::Float(c.lambda_hat_2)),
+            ])
+        })
+        .collect();
     Json::object(vec![
         ("nMid", Json::Float(r.n_mid)),
         ("nLarge", Json::Float(r.n_large)),
-        (
-            "sRef_maxProperScalarDensity_free_nMid",
-            Json::Float(r.s_ref),
-        ),
-        ("lambdaHat1", Json::Float(r.lambda_hat_1)),
-        ("lambdaHat2", Json::Float(r.lambda_hat_2)),
-        (
-            "closedShells_N_epsHomo",
-            Json::Array(
-                r.closed_shells
-                    .iter()
-                    .map(|(n, e)| Json::floats(&[*n, *e]))
-                    .collect(),
-            ),
-        ),
+        ("nMidM3", Json::Float(r.n_mid_m3)),
+        ("couplingRule", Json::str("per configuration (m, L, N): strength = max_y max((15/16)|S_p|, n_p/16)/m^7 of the free ground state (the LDA pair per unit lambda_hat, in units of m); lambda_hat_1 = 0.1/strength, lambda_hat_2 = 1.0/strength; the achieved max|lambda S_p|/m and max|v_x|/m of every self-consistent run are in its run.json")),
+        ("couplings", Json::Array(couplings)),
+        ("closedShells_m1_L3_N_epsHomo", shells_json(&r.closed_shells)),
+        ("closedShells_m3_L3_N_epsHomo", shells_json(&r.closed_shells_m3)),
     ])
 }
 
@@ -359,6 +462,7 @@ fn params_json(p: &Params) -> Json {
         ("lambdaHat", Json::Float(p.lambda_hat)),
         ("lambda", Json::Float(p.lambda())),
         ("T", Json::Float(p.temperature)),
+        ("occupationSmearing", Json::Float(p.smearing)),
         ("N", Json::Float(p.n_particles)),
         ("fCut", Json::Float(p.f_cut)),
         ("mixBeta", Json::Float(p.mix_beta)),
@@ -374,6 +478,10 @@ fn run_json(s: &Solution, e: &emt::Summary) -> Json {
     Json::object(vec![
         ("parameters", params_json(&s.params)),
         ("converged", Json::Bool(s.converged)),
+        (
+            "exactZeroTemperatureOccupations",
+            Json::Bool(s.params.temperature == 0.0 && s.params.smearing == 0.0),
+        ),
         ("iterations", Json::Int(s.iterations as i64)),
         (
             "finalResidualN",
@@ -413,6 +521,7 @@ fn run_json(s: &Solution, e: &emt::Summary) -> Json {
         ("grandPotential", Json::Float(en.grand)),
         ("scalarTotal", Json::Float(en.scalar_total)),
         ("maxLambdaSOverM", Json::Float(en.max_lambda_s_over_m)),
+        ("maxVxOverM", Json::Float(en.max_v_x_over_m)),
         ("windowLo", Json::Float(s.window.eps_lo)),
         ("windowHi", Json::Float(s.window.eps_hi)),
         ("states", Json::Int(s.spectrum.states.len() as i64)),
@@ -732,34 +841,42 @@ pub fn run_spectrum(ctx: &RunContext) -> Result<ExperimentSummary, String> {
     let reference = reference(ctx)?;
     summary.check(
         "closed_shells_found",
-        reference.n_mid > 8.0 && reference.n_large > reference.n_mid,
+        reference.n_mid > 8.0 && reference.n_large > reference.n_mid && reference.n_mid_m3 > 8.0,
         &format!(
-            "N_mid = {}, N_large = {}",
-            reference.n_mid, reference.n_large
+            "m = 1: N_mid = {}, N_large = {}; m = 3: N_mid = {}",
+            reference.n_mid, reference.n_large, reference.n_mid_m3
         ),
     );
+    let mut coupling_ok = true;
+    let mut coupling_detail = Vec::new();
+    for n in [8.0, reference.n_mid, reference.n_large] {
+        let c = reference.coupling(1.0, 3.0, n)?;
+        coupling_ok &= c.strength > 0.0 && c.lambda_hat_1 > 0.0;
+        coupling_detail.push(format!(
+            "N = {}: S_ref = {:e}, n_ref = {:e}, strength = {:e}, lambda_hat_1 = {:e}, lambda_hat_2 = {:e}",
+            n, c.s_ref, c.n_ref, c.strength, c.lambda_hat_1, c.lambda_hat_2
+        ));
+    }
     summary.check(
         "coupling_scale_positive",
-        reference.s_ref > 0.0,
-        &format!(
-            "S_ref = {:e}, lambda_hat_1 = {:e}, lambda_hat_2 = {:e}",
-            reference.s_ref, reference.lambda_hat_1, reference.lambda_hat_2
-        ),
+        coupling_ok,
+        &format!("m = 1, L = 3: {}", coupling_detail.join("; ")),
     );
-    let closed_rows: Vec<Vec<f64>> = reference
-        .closed_shells
-        .iter()
-        .map(|(n, e)| vec![*n, *e])
-        .collect();
-    write_csv(
-        &dir.join("closed-shells-m1-L3.csv"),
-        &["N", "eps_homo"]
-            .iter()
-            .map(|s| s.to_string())
-            .collect::<Vec<_>>(),
-        &closed_rows,
-    )?;
-    summary.add_file("closed-shells-m1-L3.csv");
+    for (name, shells) in [
+        ("closed-shells-m1-L3.csv", &reference.closed_shells),
+        ("closed-shells-m3-L3.csv", &reference.closed_shells_m3),
+    ] {
+        let closed_rows: Vec<Vec<f64>> = shells.iter().map(|(n, e)| vec![*n, *e]).collect();
+        write_csv(
+            &dir.join(name),
+            &["N", "eps_homo"]
+                .iter()
+                .map(|s| s.to_string())
+                .collect::<Vec<_>>(),
+            &closed_rows,
+        )?;
+        summary.add_file(name);
+    }
     finish(
         ctx,
         &dir,
@@ -812,19 +929,19 @@ fn odd_box_root(m: f64, length: f64, index: i64) -> f64 {
 // scf
 // ---------------------------------------------------------------------------
 
-fn lambda_set(r: &Reference, quick: bool) -> Vec<(String, f64)> {
+fn lambda_set(c: &Coupling, quick: bool) -> Vec<(String, f64)> {
     if quick {
         vec![
             ("lam0".to_string(), 0.0),
-            ("lamp1".to_string(), r.lambda_hat_1),
+            ("lamp1".to_string(), c.lambda_hat_1),
         ]
     } else {
         vec![
             ("lam0".to_string(), 0.0),
-            ("lamp1".to_string(), r.lambda_hat_1),
-            ("lamm1".to_string(), -r.lambda_hat_1),
-            ("lamp2".to_string(), r.lambda_hat_2),
-            ("lamm2".to_string(), -r.lambda_hat_2),
+            ("lamp1".to_string(), c.lambda_hat_1),
+            ("lamm1".to_string(), -c.lambda_hat_1),
+            ("lamp2".to_string(), c.lambda_hat_2),
+            ("lamm2".to_string(), -c.lambda_hat_2),
         ]
     }
 }
@@ -846,12 +963,7 @@ fn solve_and_write(
     records: &mut Vec<Json>,
 ) -> Result<Solution, String> {
     let name = label(params, lambda_name);
-    let mode = if params.temperature > 0.0 {
-        Occupation::Thermal
-    } else {
-        Occupation::Zero
-    };
-    let solution = solve(params, &mode, None, 0.0)?;
+    let solution = solve_ground(params, None, 0.0)?;
     let (_, e) = write_solution(dir, summary, &name, &solution)?;
     let n_density = particle_number_from_density(params, &solution.densities);
     summary.check(
@@ -908,12 +1020,7 @@ fn hellmann_feynman(params: &Params, solution: &Solution) -> Result<(f64, f64), 
         // keep lambda, l, Delta k fixed (they are defined through the unperturbed m)
         p.lambda_hat = params.lambda() * p.m.powi(6);
         p.delta_k_over_m = params.delta_k() / p.m;
-        let s = solve(
-            &p,
-            &Occupation::Zero,
-            Some(&solution.densities),
-            solution.filling.mu,
-        )?;
+        let s = solve_ground(&p, Some(&solution.densities), solution.filling.mu)?;
         if !s.converged {
             return Err("hellmann_feynman: shifted run did not converge".to_string());
         }
@@ -928,12 +1035,12 @@ pub fn run_scf(ctx: &RunContext) -> Result<ExperimentSummary, String> {
     let mut summary = ExperimentSummary::new("scf");
     let reference = reference(ctx)?;
     let mut records = Vec::new();
-    let lambdas = lambda_set(&reference, ctx.quick);
     let ns = n_set(&reference, ctx.quick);
     // A: m = 1, L = 3
     let mut hf_targets: Vec<(String, Params, Solution)> = Vec::new();
     for n in &ns {
-        for (lname, lh) in &lambdas {
+        let c = reference.coupling(1.0, 3.0, *n)?;
+        for (lname, lh) in &lambda_set(&c, ctx.quick) {
             let params = params_for(ctx, 1.0, 3.0, *lh, 0.0, *n);
             let solution = solve_and_write(ctx, &dir, &mut summary, &params, lname, &mut records)?;
             if (*n == reference.n_mid) && (lname == "lam0" || lname == "lamp1") {
@@ -941,33 +1048,32 @@ pub fn run_scf(ctx: &RunContext) -> Result<ExperimentSummary, String> {
             }
         }
     }
-    // B: L dependence
+    // B: L dependence (lambda_hat_1 of each configuration: the tip proper
+    // density scales like e^{6HL}, so a fixed lambda_hat is not comparable)
     for length in [2.0, 4.0] {
         for n in [8.0, reference.n_mid] {
-            for (lname, lh) in lambdas.iter().take(2) {
+            let c = reference.coupling(1.0, length, n)?;
+            for (lname, lh) in &lambda_set(&c, true) {
                 let params = params_for(ctx, 1.0, length, *lh, 0.0, n);
                 solve_and_write(ctx, &dir, &mut summary, &params, lname, &mut records)?;
             }
         }
     }
-    // C: m = 3
-    let m3_lambdas: Vec<(String, f64)> = if ctx.quick {
-        lambdas.clone()
-    } else {
-        lambdas.iter().take(3).cloned().collect()
-    };
-    for n in [8.0, reference.n_mid] {
-        for (lname, lh) in &m3_lambdas {
+    // C: m = 3 (its own closed shells and couplings)
+    for n in [8.0, reference.n_mid_m3] {
+        let c = reference.coupling(3.0, 3.0, n)?;
+        for (lname, lh) in lambda_set(&c, ctx.quick).iter().take(3) {
             let params = params_for(ctx, 3.0, 3.0, *lh, 0.0, n);
             solve_and_write(ctx, &dir, &mut summary, &params, lname, &mut records)?;
         }
     }
-    // D: a4_0 = 0.5 rescaling pair (N_mid, lambda_hat_1)
+    // D: a4_0 = 0.5 rescaling pair (N_mid, lambda_hat_1 of (1, 3, N_mid))
+    let c_mid = reference.coupling(1.0, 3.0, reference.n_mid)?;
     {
-        let mut a = params_for(ctx, 1.0, 3.0, reference.lambda_hat_1, 0.0, reference.n_mid);
+        let mut a = params_for(ctx, 1.0, 3.0, c_mid.lambda_hat_1, 0.0, reference.n_mid);
         a.a4 = 0.5;
         let sa = solve_and_write(ctx, &dir, &mut summary, &a, "lamp1", &mut records)?;
-        let mut b = params_for(ctx, 1.0, 3.0, reference.lambda_hat_1, 0.0, reference.n_mid);
+        let mut b = params_for(ctx, 1.0, 3.0, c_mid.lambda_hat_1, 0.0, reference.n_mid);
         b.delta_k_over_m = 0.25 * exp(-0.5);
         let sb = solve_and_write(ctx, &dir, &mut summary, &b, "lamp1", &mut records)?;
         // same spectra; the densities differ by the torus volume l^3 (a4 does not
@@ -991,10 +1097,11 @@ pub fn run_scf(ctx: &RunContext) -> Result<ExperimentSummary, String> {
         }
         summary.check("a4_rescaling_pair_k0_levels_agree", worst < 1e-8, &format!("k = 0 levels of the a4 = 0.5 run and the Delta k e^{{-0.5}} run: max |d eps| = {worst:e} (finite-k levels differ only through the density, see run.json)"));
     }
-    // E: grid and Delta k convergence (N_mid, lambda_hat_1)
+    // E: grid and Delta k convergence (N_mid, lambda_hat_1 of (1, 3, N_mid);
+    // the Delta k = 0.125 m run has N x 8 particles at the same density)
     {
-        let base = params_for(ctx, 1.0, 3.0, reference.lambda_hat_1, 0.0, reference.n_mid);
-        let base_solution = solve(&base, &Occupation::Zero, None, 0.0)?;
+        let base = params_for(ctx, 1.0, 3.0, c_mid.lambda_hat_1, 0.0, reference.n_mid);
+        let base_solution = solve_ground(&base, None, 0.0)?;
         let mut fine = base.clone();
         fine.grid_n = 601;
         let fine_solution = solve_and_write(ctx, &dir, &mut summary, &fine, "lamp1", &mut records)?;
@@ -1057,10 +1164,11 @@ pub fn run_excited(ctx: &RunContext) -> Result<ExperimentSummary, String> {
     let mut records = Vec::new();
     let mut table = Vec::new();
     for n in n_set(&reference, ctx.quick) {
-        for (lname, lh) in lambda_set(&reference, ctx.quick) {
+        let c = reference.coupling(1.0, 3.0, n)?;
+        for (lname, lh) in lambda_set(&c, ctx.quick) {
             let params = params_for(ctx, 1.0, 3.0, lh, 0.0, n);
             let name = label(&params, &lname);
-            let ground = solve(&params, &Occupation::Zero, None, 0.0)?;
+            let ground = solve_ground(&params, None, 0.0)?;
             summary.check(
                 &format!("{name}_ground_converged"),
                 ground.converged,
@@ -1238,20 +1346,15 @@ pub fn run_thermo(ctx: &RunContext) -> Result<ExperimentSummary, String> {
         vec![0.0, 0.1, 0.3, 1.0]
     };
     for n in [8.0, reference.n_mid] {
-        for (lname, lh) in lambda_set(&reference, true) {
+        let c = reference.coupling(1.0, 3.0, n)?;
+        for (lname, lh) in lambda_set(&c, true) {
             let mut previous: Option<Solution> = None;
             let mut previous_free = f64::INFINITY;
             for t in &temperatures {
                 let params = params_for(ctx, 1.0, 3.0, lh, *t, n);
                 let name = label(&params, &lname);
-                let mode = if *t > 0.0 {
-                    Occupation::Thermal
-                } else {
-                    Occupation::Zero
-                };
-                let solution = solve(
+                let solution = solve_ground(
                     &params,
-                    &mode,
                     previous.as_ref().map(|p| &p.densities),
                     previous.as_ref().map(|p| p.filling.mu).unwrap_or(0.0),
                 )?;
@@ -1390,12 +1493,14 @@ pub fn run_emt(ctx: &RunContext) -> Result<ExperimentSummary, String> {
     let mut table = Vec::new();
     let mut cases: Vec<(Params, String)> = Vec::new();
     for n in n_set(&reference, ctx.quick) {
-        for (lname, lh) in lambda_set(&reference, ctx.quick).iter().take(3) {
+        let c = reference.coupling(1.0, 3.0, n)?;
+        for (lname, lh) in lambda_set(&c, ctx.quick).iter().take(3) {
             cases.push((params_for(ctx, 1.0, 3.0, *lh, 0.0, n), lname.clone()));
         }
     }
+    let c_mid = reference.coupling(1.0, 3.0, reference.n_mid)?;
     cases.push((
-        params_for(ctx, 1.0, 3.0, reference.lambda_hat_1, 0.3, reference.n_mid),
+        params_for(ctx, 1.0, 3.0, c_mid.lambda_hat_1, 0.3, reference.n_mid),
         "lamp1".to_string(),
     ));
     for (params, lname) in &cases {

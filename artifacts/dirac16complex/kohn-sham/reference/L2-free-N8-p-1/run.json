@@ -11,6 +11,7 @@
     "parity": -1,
     "tip": "g0",
     "xc": "quadratic",
+    "sea": "free",
     "delta_k": 0.25,
     "ell": 25.132741228718345,
     "volume": 15875.213660313506,
@@ -33,6 +34,9 @@
       "residualN": 0.0,
       "residualS": 0.0,
       "mu": 1.5195472538275083,
+      "seaTop": -1.5195472538275083,
+      "particleBottom": 1.5195472538275083,
+      "branchOverlap": false,
       "energies": {
         "ksSum": 12.156378030620079,
         "nTotal": 8.0,
@@ -61,6 +65,9 @@
       "residualN": 2.13120995014698e-15,
       "residualS": 3.1573741035317273e-16,
       "mu": 1.5197389018616454,
+      "seaTop": -1.5197389018616454,
+      "particleBottom": 1.5197389018616454,
+      "branchOverlap": false,
       "energies": {
         "ksSum": 12.157911214893318,
         "nTotal": 8.0,
@@ -89,6 +96,9 @@
       "residualN": 1.0260833333067411e-15,
       "residualS": 1.5785929975247156e-16,
       "mu": 1.5197866673942837,
+      "seaTop": -1.5197866673942837,
+      "particleBottom": 1.5197866673942837,
+      "branchOverlap": false,
       "energies": {
         "ksSum": 12.158293339154767,
         "nTotal": 8.0,
@@ -143,7 +153,7 @@
   },
   "homo": "0:-1:+1:0",
   "lumo": "1:-1:+1:0",
-  "ksGap": 0.0009838665013142123,
+  "ksGap": 0.0009838665013044423,
   "emt": {
     "w_y": 0.4661541419626142,
     "w_3": 0.0,
@@ -160,9 +170,9 @@
     },
     "traceIdentityResidual": 5.329070518200751e-15,
     "conservationResidualMaxNormalised": [
-      1.0,
-      1.0,
-      1.0
+      0.00021490940174443942,
+      5.376794399105908e-05,
+      1.3444548465889657e-05
     ],
     "rhoRequired_kappa1": -21.0,
     "pRequired_kappa1": 15.0,
@@ -179,102 +189,102 @@
     "run.json"
   ],
   "excited": {
-    "ksGap": 0.0009838665013142123,
+    "ksGap": 0.0009838665013044423,
     "particleHole": [
       {
         "hole": "0:-1:-1:0",
         "particle": "1:-1:+1:0",
         "epsHole": 1.519802561338493,
-        "epsParticle": 1.5207864278396401,
-        "excitation": 0.0009838665011472347,
+        "epsParticle": 1.5207864278396304,
+        "excitation": 0.0009838665011374648,
         "weight": 96.0
       },
       {
         "hole": "0:-1:+1:0",
         "particle": "1:-1:+1:0",
         "epsHole": 1.519802561338326,
-        "epsParticle": 1.5207864278396401,
-        "excitation": 0.0009838665013142123,
+        "epsParticle": 1.5207864278396304,
+        "excitation": 0.0009838665013044423,
         "weight": 96.0
       },
       {
         "hole": "0:-1:-1:0",
         "particle": "2:-1:+1:0",
         "epsHole": 1.519802561338493,
-        "epsParticle": 1.6049096928562012,
-        "excitation": 0.08510713151770832,
+        "epsParticle": 1.6049096928561986,
+        "excitation": 0.08510713151770566,
         "weight": 192.0
       },
       {
         "hole": "0:-1:+1:0",
         "particle": "2:-1:+1:0",
         "epsHole": 1.519802561338326,
-        "epsParticle": 1.6049096928562012,
-        "excitation": 0.0851071315178753,
+        "epsParticle": 1.6049096928561986,
+        "excitation": 0.08510713151787264,
         "weight": 192.0
       },
       {
         "hole": "0:-1:-1:0",
         "particle": "3:-1:+1:0",
         "epsHole": 1.519802561338493,
-        "epsParticle": 1.6848767517850762,
-        "excitation": 0.16507419044658334,
+        "epsParticle": 1.6848767517850753,
+        "excitation": 0.16507419044658245,
         "weight": 128.0
       },
       {
         "hole": "0:-1:+1:0",
         "particle": "3:-1:+1:0",
         "epsHole": 1.519802561338326,
-        "epsParticle": 1.6848767517850762,
-        "excitation": 0.1650741904467503,
+        "epsParticle": 1.6848767517850753,
+        "excitation": 0.16507419044674942,
         "weight": 128.0
       },
       {
         "hole": "0:-1:-1:0",
         "particle": "4:-1:+1:0",
         "epsHole": 1.519802561338493,
-        "epsParticle": 1.7578824167433387,
-        "excitation": 0.23807985540484577,
+        "epsParticle": 1.7578824167433265,
+        "excitation": 0.23807985540483356,
         "weight": 96.0
       },
       {
         "hole": "0:-1:+1:0",
         "particle": "4:-1:+1:0",
         "epsHole": 1.519802561338326,
-        "epsParticle": 1.7578824167433387,
-        "excitation": 0.23807985540501275,
+        "epsParticle": 1.7578824167433265,
+        "excitation": 0.23807985540500054,
         "weight": 96.0
       },
       {
         "hole": "0:-1:-1:0",
         "particle": "5:-1:+1:0",
         "epsHole": 1.519802561338493,
-        "epsParticle": 1.8245202112130465,
-        "excitation": 0.30471764987455363,
+        "epsParticle": 1.8245202112130663,
+        "excitation": 0.3047176498745734,
         "weight": 384.0
       },
       {
         "hole": "0:-1:+1:0",
         "particle": "5:-1:+1:0",
         "epsHole": 1.519802561338326,
-        "epsParticle": 1.8245202112130465,
-        "excitation": 0.3047176498747206,
+        "epsParticle": 1.8245202112130663,
+        "excitation": 0.30471764987474037,
         "weight": 384.0
       },
       {
         "hole": "0:-1:-1:0",
         "particle": "6:-1:+1:0",
         "epsHole": 1.519802561338493,
-        "epsParticle": 1.8857767475356224,
-        "excitation": 0.3659741861971295,
+        "epsParticle": 1.8857767475356453,
+        "excitation": 0.3659741861971524,
         "weight": 384.0
       },
       {
         "hole": "0:-1:+1:0",
         "particle": "6:-1:+1:0",
         "epsHole": 1.519802561338326,
-        "epsParticle": 1.8857767475356224,
-        "excitation": 0.3659741861972965,
+        "epsParticle": 1.8857767475356453,
+        "excitation": 0.36597418619731936,
         "weight": 384.0
       }
     ],
@@ -285,17 +295,20 @@
       "homoMultiplicity": 8.0,
       "lumoMultiplicity": 24.0,
       "E0": 12.158420490707275,
-      "E1": 12.159404357208503,
-      "deltaSCF": 0.000983866501227837,
-      "ksGap": 0.0009838665013142123,
+      "E1": 12.159404357208492,
+      "deltaSCF": 0.0009838665012171788,
+      "ksGap": 0.0009838665013044423,
       "nTotalExcited": 8.0,
       "converged": true,
       "levelsE1": [
         12.157373329788218,
         12.158897880647784,
-        12.159277898105119
+        12.159277898105112
       ],
-      "orderEstimateE1": 2.004246679907655
+      "orderEstimateE1": 2.0042466799346297
     }
-  }
+  },
+  "tasks": [
+    "excited"
+  ]
 }
