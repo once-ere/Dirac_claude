@@ -1891,7 +1891,62 @@ def rust_window_truncation(result, params: Params, grid: Grid):
            "levelsBeyondShellCap": int(np.sum(qs > RUST_SHELL_CAP))}
     out.update(cut(in_window & (qs <= RUST_SHELL_CAP)))
     out["windowOnly"] = cut(in_window)
+    if T > 0.5 * params.m:
+        # the T = m spectrum.csv is banded: the table lets the checker evaluate the
+        # Rust window it actually used (the complete tables of T <= 0.3 m serve directly)
+        out["edgeTable"] = edge_table(eps, mult, qs, sign, f_full, mu, T)
     return out
+
+
+def edge_table(eps, mult, qs, sign, f, mu, T):
+    """Cumulative sums that give the first-order effect of ANY energy window
+    [lo, hi] with the Rust shell cap (the Rust crate records the window it
+    used, frozen at its first-iteration mu estimate, which in a thermo series
+    is the previous temperature's mu).  Upper cut at hi = mu + x T: particle
+    levels (n2 <= cap) above hi, N_up = sum mult f, E_up = sum mult f eps,
+    S_up = sum mult s(f); lower cut at lo = mu - x T: sea levels below lo,
+    N_dn = sum mult (1 - f), E_dn = sum mult (1 - f) eps, S_dn = sum mult s(f);
+    x on a grid of step 0.02 from 8 to the reference window; the levels with
+    n2 > cap as totals (cap*); and the fixed-spectrum mu response G = sum
+    mult f(1-f)/T, GE = sum mult f(1-f) eps/T, GS = sum mult f(1-f)(eps-mu)/T^2.
+    First order: dN = -N_up + N_dn - N_capP + N_capS, dE likewise, dS the
+    negated sum of the dropped entropies, dmu = -dN/G, then
+    dE += dmu GE, dS += dmu GS (the checker's `truncation_from_table`)."""
+    with np.errstate(divide="ignore", invalid="ignore"):
+        s_level = np.where((f > 0.0) & (f < 1.0), -(f * np.log(f) + (1.0 - f) * np.log1p(-f)), 0.0)
+    cap = qs <= RUST_SHELL_CAP
+    x = np.round(np.arange(8.0, WINDOW_FACTOR_HOT + 1e-9, 0.02), 2)
+    part = (sign > 0) & cap
+    sea = (sign < 0) & cap
+
+    def upper(mask):
+        e, wn, we, ws = eps[mask], (mult * f)[mask], (mult * f * eps)[mask], (mult * s_level)[mask]
+        order = np.argsort(e)
+        e, wn, we, ws = e[order], wn[order], we[order], ws[order]
+        cn, ce, cs = (np.concatenate([[0.0], np.cumsum(v[::-1])])[::-1] for v in (wn, we, ws))
+        idx = np.searchsorted(e, mu + x * T, side="right")
+        return cn[idx], ce[idx], cs[idx]
+
+    def lower(mask):
+        e, wn, we, ws = eps[mask], (mult * (1 - f))[mask], (mult * (1 - f) * eps)[mask], (mult * s_level)[mask]
+        order = np.argsort(e)
+        e, wn, we, ws = e[order], wn[order], we[order], ws[order]
+        cn, ce, cs = (np.concatenate([[0.0], np.cumsum(v)]) for v in (wn, we, ws))
+        idx = np.searchsorted(e, mu - x * T, side="left")
+        return cn[idx], ce[idx], cs[idx]
+    n_up, e_up, s_up = upper(part)
+    n_dn, e_dn, s_dn = lower(sea)
+    beyond = ~cap
+    g = mult * f * (1.0 - f)
+    return {"mu": mu, "T": T, "x": x.tolist(), "N_up": n_up.tolist(), "E_up": e_up.tolist(), "S_up": s_up.tolist(),
+            "N_dn": n_dn.tolist(), "E_dn": e_dn.tolist(), "S_dn": s_dn.tolist(),
+            "capParticles": {"N": float(np.sum((mult * f)[beyond & (sign > 0)])),
+                             "E": float(np.sum((mult * f * eps)[beyond & (sign > 0)])),
+                             "S": float(np.sum((mult * s_level)[beyond & (sign > 0)]))},
+            "capSea": {"N": float(np.sum((mult * (1 - f))[beyond & (sign < 0)])),
+                       "E": float(np.sum((mult * (1 - f) * eps)[beyond & (sign < 0)])),
+                       "S": float(np.sum((mult * s_level)[beyond & (sign < 0)]))},
+            "G": float(np.sum(g) / T), "GE": float(np.sum(g * eps) / T), "GS": float(np.sum(g * (eps - mu)) / T ** 2)}
 
 
 def key_str(key):
@@ -2509,6 +2564,7 @@ QUICK_LEVELS = 2
 HOT_EXACT_SHELLS = 1000000   # T = m runs: no Chebyshev tail
 HOT_SHELL_WORKERS = 6        # T = m runs: worker processes for the shell loop (execution only)
 THERMO_FIRST_ORDER_LIMIT = 1.0   # lamp1 thermo point runs only if lambda_hat_1 strength_free(T) <= 1 m (Rust rule)
+HOT_INTERACTING_MAX_N = 200.0    # interacting T = m points only for N <= 200 (the Rust crate's rule)
 HOT_SERIES_TARGET = 0.1          # lamh: lambda_hat_hot = 0.1/strength_free(T = m) (Rust rule)
 RUST_OUTPUT = os.path.join(REPO, "artifacts", "dirac16complex", "kohn-sham", "rust")
 SPECTRUM_CSV_BAND = 8.0      # T > 0.5 m: spectrum.csv holds the levels within 8 T of mu
@@ -2635,7 +2691,8 @@ def canonical_runs(quick=False, shells_info=None):
     # lambda_hat_1, a point runs only when its first-order pseudo-potential lambda_hat_1
     # strength_free(T) is <= 1 m (THERMO_FIRST_ORDER_LIMIT; the thermal pair plasma raises the
     # free-state strength by orders of magnitude); lamh, lambda_hat_hot = 0.1/strength_free(T = m)
-    # fixed over the series (T = 0 included).  At T = m no interacting point for N > 8 (cost).
+    # fixed over the series (T = 0 included).  At T = m no interacting point for N > 200 (cost;
+    # the Rust crate's HOT_INTERACTING_MAX_N), which leaves both N of the matrix.
     # T = m: every lattice shell of the window (k up to ~28 m, ~9000 shells) is diagonalised
     # exactly (no Chebyshev tail: its rank-ordered branches pass through avoided crossings at
     # large k, measured error 1e-4 in the profiles), the shell loop on worker processes
@@ -2645,12 +2702,12 @@ def canonical_runs(quick=False, shells_info=None):
         for T in (0.1, 0.3, 1.0):
             add(1, 3, N, "lam0", T=T, tasks=["thermo"], **hot(T))
         for T in (0.1, 0.3, 1.0):
-            if T > 0.5 and N > 8.0:
+            if T > 0.5 and N > HOT_INTERACTING_MAX_N:
                 continue
             add(1, 3, N, "lamp1", T=T, tasks=["thermo"], freeSource=rust_label(1, 3, N, "lam0", T),
                 firstOrderLimit=THERMO_FIRST_ORDER_LIMIT, **hot(T))
         for T in (0.0, 0.1, 0.3, 1.0):
-            if T > 0.5 and N > 8.0:
+            if T > 0.5 and N > HOT_INTERACTING_MAX_N:
                 continue
             add(1, 3, N, "lamh", T=T, tasks=["thermo"] if T > 0 else [], hotSource=rust_label(1, 3, N, "lam0", 1.0),
                 **hot(T))
@@ -2660,8 +2717,7 @@ def canonical_runs(quick=False, shells_info=None):
 def skipped_runs(shells_info):
     """Runs of the Rust matrix that neither side computes (recorded; the
     first-order rule of the lamp1 series adds its skips while running)."""
-    return ["%s: not run (T/m = 1 with lambda != 0 and N > 8; ~5e5 levels per grid and iteration; the Rust "
-            "crate skips it too)" % rust_label(1, 3, shells_info["N_mid"], name, 1.0) for name in ("lamp1", "lamh")]
+    return []
 
 
 def rust_hot_coupling(label):

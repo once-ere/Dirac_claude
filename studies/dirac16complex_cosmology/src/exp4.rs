@@ -120,6 +120,32 @@
 //! The grid stops at k = 40; the analytic kink tail beyond it is integrated
 //! separately (64-node Gauss-Legendre in u = k_max/k) and reported both as
 //! the correction and as tail-corrected n a^3, rho a^3, p a^3 and w.
+//! Integrated over all k, the kink formula gives n a^3 = H_inf^4/(64 pi m)
+//! (reported as nA3KinkFormulaAllK): the number a pure dH/dt jump would make.
+//!
+//! # (c) the same transition made smooth (comparison runs)
+//!
+//! The C^1 gluing of (b) makes dH/dt jump, and for m >~ H_inf that jump sets
+//! most of the yield.  To measure how much the result depends on the
+//! sharpness of the transition, every mode of (b) is integrated again in a
+//! smooth background with the same de Sitter past and the same radiation
+//! future:
+//!
+//! ```text
+//! epsilon = -Hdot/H^2 = 1 + tanh(t/tau),   1/H = 1/H_inf + tau softplus(2t/tau),
+//! ```
+//!
+//! tau = PAIR_SMOOTH_TAU / H_inf, so H -> H_inf for t << -tau and
+//! H -> H_inf/(1 + 2 H_inf t) for t >> tau.  a is normalised like the
+//! sudden run in the de Sitter past (ln a -> H_inf t for t -> -inf), so a
+//! comoving k and n a^3 mean the same thing in both runs.  ln a is a 33rd
+//! state component integrated by CVODE with the spinor (d ln a/dt = H(t));
+//! its start value H_inf t0 + delta(t0), delta(t) = int_{-inf}^t (H - H_inf),
+//! is a 32-node Gauss-Legendre quadrature in y = exp(2t/tau).  Only exp, log
+//! and sqrt are evaluated (no tanh, log1p or expm1).  The mode starts at the
+//! same t0(k) in the first-order adiabatic vacuum of h(t0), K = k/a(t0), and
+//! is sampled at the same times as the sudden run; the final |beta_k|^2 in
+//! the first-order adiabatic basis gives nA3Smooth.
 
 use std::f64::consts::PI;
 use std::thread;
@@ -187,6 +213,11 @@ pub const PAIR_ANTIPARTICLE_NODES: [usize; 3] = [20, 36, 48];
 pub const PAIR_TAIL_K: f64 = 8.0;
 /// Gauss-Legendre nodes of the analytic kink-tail integral beyond PAIR_K_MAX.
 pub const PAIR_TAIL_NODES: usize = 64;
+/// (c) Width of the smooth comparison transition in units of 1/H_inf:
+/// epsilon = -Hdot/H^2 = 1 + tanh(t/tau), tau = PAIR_SMOOTH_TAU / H_inf.
+pub const PAIR_SMOOTH_TAU: f64 = 1.0;
+/// Gauss-Legendre nodes of the start value of ln a in the smooth background.
+pub const PAIR_SMOOTH_LN_A_NODES: usize = 32;
 
 /// Default tolerances.  Adams' norm leakage grows with the ~1e5 radians of
 /// phase per thermal mode: max |u^dag u - 1| = 2.4e-4 (rtol 1e-10),
@@ -1035,6 +1066,129 @@ fn kink_tail_moments(mass: f64, k_max: f64, a: f64) -> (f64, f64, f64) {
     (prefactor * n, prefactor * rho, prefactor * p)
 }
 
+/// The kink formula integrated over all k:
+/// (16/(2 pi^2)) int_0^inf k^2 (m k H_inf^2/(4 E^4))^2 dk = H_inf^4/(64 pi m)
+/// (int_0^inf x^4/(1 + x^2)^4 dx = pi/32); 0 for m = 0.
+fn kink_formula_all_k(mass: f64) -> f64 {
+    if mass > 0.0 {
+        let h2 = HUBBLE_INFLATION * HUBBLE_INFLATION;
+        h2 * h2 / (64.0 * PI * mass)
+    } else {
+        0.0
+    }
+}
+
+/// ln(1 + e^x) from exp and log only (the smooth background evaluates no
+/// log1p, expm1 or tanh); the absolute rounding error is ~1e-16.
+fn softplus_exp_log(x: f64) -> f64 {
+    x.max(0.0) + log(1.0 + exp(-x.abs()))
+}
+
+/// Duration tau of the smooth transition (c).
+fn smooth_tau() -> f64 {
+    PAIR_SMOOTH_TAU / HUBBLE_INFLATION
+}
+
+/// H(t) of the smooth background (c): 1/H = 1/H_inf + tau softplus(2t/tau),
+/// so -Hdot/H^2 = 1 + tanh(t/tau).
+fn smooth_hubble(t: f64) -> f64 {
+    let tau = smooth_tau();
+    1.0 / (1.0 / HUBBLE_INFLATION + tau * softplus_exp_log(2.0 * t / tau))
+}
+
+/// ln(1 + y)/y for y >= 0 without log1p: with u = 1 + y rounded,
+/// log(u)/(u - 1) is accurate to a few ulp (and 1 when u rounds to 1).
+fn log1p_over_x(y: f64) -> f64 {
+    let u = 1.0 + y;
+    if u == 1.0 {
+        1.0
+    } else {
+        log(u) / (u - 1.0)
+    }
+}
+
+/// delta(t) = int_{-inf}^t (H(s) - H_inf) ds of the smooth background, so that
+/// ln a(t) = H_inf t + delta(t).  With y = exp(2s/tau), L = ln(1 + y):
+/// H - H_inf = -H_inf^2 tau L/(1 + H_inf tau L) and ds = tau dy/(2y), hence
+/// delta = -(tau H_inf/2) int_0^{y0} H_inf tau (L/y)/(1 + H_inf tau L) dy,
+/// a smooth integrand, by PAIR_SMOOTH_LN_A_NODES-point Gauss-Legendre.
+fn smooth_ln_a_offset(t: f64) -> f64 {
+    let tau = smooth_tau();
+    let y0 = exp(2.0 * t / tau);
+    let (x, w) = gauss_legendre(PAIR_SMOOTH_LN_A_NODES);
+    let c = HUBBLE_INFLATION * tau;
+    let mut sum = 0.0;
+    for (xi, wi) in x.iter().zip(&w) {
+        let y = 0.5 * y0 * (xi + 1.0);
+        let ratio = log1p_over_x(y);
+        sum += wi * c * ratio / (1.0 + c * y * ratio);
+    }
+    -0.5 * tau * HUBBLE_INFLATION * 0.5 * y0 * sum
+}
+
+/// One mode of the smooth comparison run (c).
+struct SmoothPairRun {
+    spec: PairSpec,
+    /// ln a at the start and at every sample.
+    ln_a: Vec<f64>,
+    diags: Vec<Diagnostics>,
+    steps: i64,
+    rhs_evals: i64,
+}
+
+fn run_pair_smooth(
+    alg: &Algebra,
+    ops: ModeOperator,
+    spec: &PairSpec,
+    cfg: &SolverConfig,
+) -> Result<SmoothPairRun, String> {
+    let (mass, k) = (spec.mass, spec.k);
+    let t0 = log(k / K_OVER_A_START) / HUBBLE_INFLATION;
+    let ln_a0 = HUBBLE_INFLATION * t0 + smooth_ln_a_offset(t0);
+    let kk0 = k * exp(-ln_a0);
+    let hubble0 = smooth_hubble(t0);
+    let (h0, e0) = hamiltonian(alg, mass, kk0);
+    let e = eigen_state(alg, &h0, e0, spec.energy_sign, 1.0)?;
+    let hdot0 = hamiltonian_rate(alg, kk0, hubble0);
+    let u0 = adiabatic_state(&h0, &hdot0, e0, spec.energy_sign, &e);
+    let mut y0 = u0.to_state();
+    y0.push(ln_a0);
+    let mut targets = vec![0.0];
+    targets.extend(pair_targets(pair_a2_end(mass)));
+    let t_end = targets[targets.len() - 1];
+    let label = |error: String| format!("smooth pair m = {mass} k = {k}: {error}");
+    let rhs: RhsFn = Box::new(move |t, y, ydot| {
+        ops.rhs(mass, k * exp(-y[2 * N]), y, ydot);
+        ydot[2 * N] = smooth_hubble(t);
+        Ok(())
+    });
+    let out =
+        integrate(y0, t0, &targets, rhs, &cfg.clone().with_stop_time(t_end)).map_err(label)?;
+    let ln_a: Vec<f64> = out.states.iter().map(|state| state[2 * N]).collect();
+    let diags = out
+        .times
+        .iter()
+        .zip(&out.states)
+        .map(|(t, state)| {
+            diagnostics(
+                alg,
+                mass,
+                k * exp(-state[2 * N]),
+                smooth_hubble(*t),
+                &CVec16::from_state(state),
+                spec.energy_sign,
+            )
+        })
+        .collect();
+    Ok(SmoothPairRun {
+        spec: spec.clone(),
+        ln_a,
+        diags,
+        steps: out.steps,
+        rhs_evals: out.rhs_evals,
+    })
+}
+
 struct PairMassResult {
     mass: f64,
     a2_end: f64,
@@ -1055,11 +1209,19 @@ struct PairMassResult {
     w_monotone: bool,
     max_beta2: f64,
     max_beta2_adiabatic: f64,
+    max_beta2_adiabatic_end: f64,
     k_peak: f64,
     tail_max_dev: f64,
     tail_nodes: usize,
     initial_beta2_max: f64,
     delta_prediction_dev: f64,
+    n_a3_kink_formula: f64,
+    n_a3_smooth: f64,
+    n_a3_smooth_instantaneous: f64,
+    max_beta2_adiabatic_end_smooth: f64,
+    max_beta2_smooth: f64,
+    max_beta2_adiabatic_smooth: f64,
+    a_end_smooth: f64,
 }
 
 // =============================================================== run ===
@@ -1085,6 +1247,11 @@ pub fn config_lines() -> Vec<String> {
             fmt17(PAIR_K_MIN),
             fmt17(PAIR_K_MAX),
             N_PAIR_K
+        ),
+        format!(
+            "exp4 (c): smooth-transition comparison of (b), epsilon = 1 + tanh(t/tau), \
+             tau = {}/H_inf, same k grid, masses and samples",
+            fmt17(PAIR_SMOOTH_TAU)
         ),
         format!(
             "exp4: default rtol = {}, atol = {}, max_step = {}, max_num_steps = {}, \
@@ -1638,6 +1805,14 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
     let pair_main: Vec<&PairRun> = pair[..n_main].iter().collect();
     let pair_anti: Vec<&PairRun> = pair[n_main..].iter().collect();
 
+    // (c) the same modes in the smooth background (comparison runs)
+    let smooth = parallel_map(&pair_specs[..n_main], |spec| {
+        run_pair_smooth(&alg, ops, spec, &base_cfg)
+    })?;
+    for run in &smooth {
+        summary.add_stats(run.steps, run.rhs_evals);
+    }
+
     let pgrid_rows: Vec<Vec<f64>> = (0..N_PAIR_K)
         .map(|n| {
             vec![
@@ -1681,6 +1856,20 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
         let last = runs[0].diags.len() - 1;
         let final_beta: Vec<f64> = runs.iter().map(|r| r.diags[last].beta2).collect();
         let final_beta_ad: Vec<f64> = runs.iter().map(|r| r.diags[last].beta2_adiabatic).collect();
+        let smooth_runs = &smooth[index * N_PAIR_K..(index + 1) * N_PAIR_K];
+        let smooth_last = smooth_runs[0].diags.len() - 1;
+        let final_beta_smooth: Vec<f64> = smooth_runs
+            .iter()
+            .map(|r| r.diags[smooth_last].beta2)
+            .collect();
+        let final_beta_ad_smooth: Vec<f64> = smooth_runs
+            .iter()
+            .map(|r| r.diags[smooth_last].beta2_adiabatic)
+            .collect();
+        let a_end_smooth: Vec<f64> = smooth_runs
+            .iter()
+            .map(|r| exp(r.ln_a[smooth_last]))
+            .collect();
         let integral = |values: &[f64]| -> f64 {
             prefactor
                 * (0..N_PAIR_K)
@@ -1708,6 +1897,9 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                 final_beta[n],
                 final_beta_ad[n],
                 tail,
+                a_end_smooth[n],
+                final_beta_smooth[n],
+                final_beta_ad_smooth[n],
             ]);
         }
         // produced-gas EoS from the frozen final spectrum in the first-order
@@ -1847,11 +2039,31 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                 runs.iter()
                     .flat_map(|r| r.diags.iter().map(|d| d.beta2_adiabatic)),
             ),
+            max_beta2_adiabatic_end: max_of(final_beta_ad.iter().copied()),
             k_peak: pgrid.k[peak_node],
             tail_max_dev: tail_dev,
             tail_nodes,
-            initial_beta2_max: max_of(runs.iter().map(|r| r.diags[0].beta2)),
+            initial_beta2_max: max_of(
+                runs.iter()
+                    .map(|r| r.diags[0].beta2)
+                    .chain(smooth_runs.iter().map(|r| r.diags[0].beta2)),
+            ),
             delta_prediction_dev: delta_dev,
+            n_a3_kink_formula: kink_formula_all_k(mass),
+            n_a3_smooth: integral(&final_beta_ad_smooth),
+            n_a3_smooth_instantaneous: integral(&final_beta_smooth),
+            max_beta2_adiabatic_end_smooth: max_of(final_beta_ad_smooth.iter().copied()),
+            max_beta2_smooth: max_of(
+                smooth_runs
+                    .iter()
+                    .flat_map(|r| r.diags.iter().map(|d| d.beta2)),
+            ),
+            max_beta2_adiabatic_smooth: max_of(
+                smooth_runs
+                    .iter()
+                    .flat_map(|r| r.diags.iter().map(|d| d.beta2_adiabatic)),
+            ),
+            a_end_smooth: a_end_smooth[0],
         });
     }
     write_csv(
@@ -1868,6 +2080,9 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
             "beta2_end",
             "beta2_adiabatic_end",
             "beta2_kink_tail_theory",
+            "a_end_smooth",
+            "beta2_end_smooth",
+            "beta2_adiabatic_end_smooth",
         ]),
         &spectrum_rows,
     )?;
@@ -1902,15 +2117,32 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
     // pair measurements
     let pair_all: Vec<&PairRun> = pair.iter().collect();
     let pair_residual = max_of(pair_all.iter().map(|r| r.residual));
+    let smooth_unitarity = max_of(
+        smooth
+            .iter()
+            .flat_map(|r| r.diags.iter().map(|d| (d.norm - 1.0).abs())),
+    );
+    let smooth_krein = max_of(smooth.iter().flat_map(|r| {
+        let k0 = r.diags[0].krein;
+        r.diags.iter().map(move |d| (d.krein - k0).abs())
+    }));
     let pair_unitarity = max_of(
         pair_all
             .iter()
             .flat_map(|r| r.diags.iter().map(|d| (d.norm - 1.0).abs())),
-    );
+    )
+    .max(smooth_unitarity);
     let pair_krein = max_of(pair_all.iter().flat_map(|r| {
         let k0 = r.diags[0].krein;
         r.diags.iter().map(move |d| (d.krein - k0).abs())
-    }));
+    }))
+    .max(smooth_krein);
+    let smooth_mass_dev = max_of(
+        smooth
+            .iter()
+            .zip(&pair_main)
+            .map(|(s, p)| (s.spec.mass - p.spec.mass).abs() + (s.spec.k - p.spec.k).abs()),
+    );
     let massless = &mass_results[0];
     let initial_beta = max_of(mass_results.iter().map(|m| m.initial_beta2_max));
     let initial_bound = {
@@ -1922,8 +2154,14 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
     let tail_dev = max_of(mass_results.iter().map(|m| m.tail_max_dev));
     let pauli_ok = pair_main
         .iter()
-        .all(|r| r.diags.iter().all(|d| d.beta2 <= 1.0 && d.beta2 >= 0.0));
-    let produced_ok = mass_results[1..].iter().all(|m| m.n_a3 > 0.0);
+        .all(|r| r.diags.iter().all(|d| d.beta2 <= 1.0 && d.beta2 >= 0.0))
+        && smooth
+            .iter()
+            .all(|r| r.diags.iter().all(|d| d.beta2 <= 1.0 && d.beta2 >= 0.0))
+        && smooth_mass_dev == 0.0;
+    let produced_ok = mass_results[1..]
+        .iter()
+        .all(|m| m.n_a3 > 0.0 && m.n_a3_smooth > 0.0);
     let pair_eos_ok = mass_results[1..]
         .iter()
         .all(|m| m.w_monotone && m.w_end <= PAIR_W_LATE_MAX && m.w_at_1 > m.w_end);
@@ -1958,22 +2196,34 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
     summary.check(
         "pair_unitarity",
         pair_unitarity <= UNITARITY_LIMIT,
-        &format!("max |u^dag u - 1| = {}", fmt17(pair_unitarity)),
+        &format!(
+            "max |u^dag u - 1| = {} (sudden and smooth runs; smooth alone {})",
+            fmt17(pair_unitarity),
+            fmt17(smooth_unitarity)
+        ),
     );
     summary.check(
         "pair_krein_conserved",
         pair_krein <= KREIN_LIMIT,
-        &format!("max |d(u^dag B u)| = {}", fmt17(pair_krein)),
+        &format!(
+            "max |d(u^dag B u)| = {} (sudden and smooth runs; smooth alone {})",
+            fmt17(pair_krein),
+            fmt17(smooth_krein)
+        ),
     );
     summary.check(
         "pair_massless_no_production",
         massless.max_beta2 <= MASSLESS_BETA_LIMIT
-            && massless.max_beta2_adiabatic <= MASSLESS_BETA_LIMIT,
+            && massless.max_beta2_adiabatic <= MASSLESS_BETA_LIMIT
+            && massless.max_beta2_smooth <= MASSLESS_BETA_LIMIT
+            && massless.max_beta2_adiabatic_smooth <= MASSLESS_BETA_LIMIT,
         &format!(
-            "m = 0: max |beta|^2 = {} (instantaneous), {} (adiabatic) over all k and samples \
-             (limit {})",
+            "m = 0: max |beta|^2 = {} (instantaneous), {} (adiabatic) over all k and samples; \
+             smooth transition {} and {} (limit {})",
             fmt17(massless.max_beta2),
             fmt17(massless.max_beta2_adiabatic),
+            fmt17(massless.max_beta2_smooth),
+            fmt17(massless.max_beta2_adiabatic_smooth),
             fmt17(MASSLESS_BETA_LIMIT)
         ),
     );
@@ -1981,10 +2231,15 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
         "pair_massive_production_pauli",
         produced_ok && pauli_ok,
         &format!(
-            "n a^3 > 0 for m > 0 and 0 <= |beta|^2 <= 1; n a^3 = {:?}",
+            "n a^3 > 0 for m > 0 and 0 <= |beta|^2 <= 1 (sudden and smooth runs); n a^3 = {:?}, \
+             smooth transition {:?}",
             mass_results
                 .iter()
                 .map(|m| fmt17(m.n_a3))
+                .collect::<Vec<_>>(),
+            mass_results
+                .iter()
+                .map(|m| fmt17(m.n_a3_smooth))
                 .collect::<Vec<_>>()
         ),
     );
@@ -2076,10 +2331,46 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                 ("wEndInstantaneous", Json::Float(m.w_end_instantaneous)),
                 ("maxBeta2", Json::Float(m.max_beta2)),
                 ("maxBeta2Adiabatic", Json::Float(m.max_beta2_adiabatic)),
+                (
+                    "maxBeta2AdiabaticEnd",
+                    Json::Float(m.max_beta2_adiabatic_end),
+                ),
                 ("kPeakK3Beta2", Json::Float(m.k_peak)),
                 ("tailNodes", Json::Int(m.tail_nodes as i64)),
                 ("tailMaxRelDev", Json::Float(m.tail_max_dev)),
                 ("initialBeta2Max", Json::Float(m.initial_beta2_max)),
+                ("nA3KinkFormulaAllK", Json::Float(m.n_a3_kink_formula)),
+                (
+                    "nA3OverKinkFormulaAllK",
+                    if m.n_a3_kink_formula > 0.0 {
+                        Json::Float(m.n_a3 / m.n_a3_kink_formula)
+                    } else {
+                        Json::Null
+                    },
+                ),
+                ("nA3Smooth", Json::Float(m.n_a3_smooth)),
+                (
+                    "nA3SmoothInstantaneous",
+                    Json::Float(m.n_a3_smooth_instantaneous),
+                ),
+                (
+                    "nA3SuddenOverSmooth",
+                    if m.mass > 0.0 {
+                        Json::Float(m.n_a3 / m.n_a3_smooth)
+                    } else {
+                        Json::Null
+                    },
+                ),
+                (
+                    "maxBeta2AdiabaticEndSmooth",
+                    Json::Float(m.max_beta2_adiabatic_end_smooth),
+                ),
+                ("maxBeta2Smooth", Json::Float(m.max_beta2_smooth)),
+                (
+                    "maxBeta2AdiabaticSmooth",
+                    Json::Float(m.max_beta2_adiabatic_smooth),
+                ),
+                ("aEndSmooth", Json::Float(m.a_end_smooth)),
             ])
         })
         .collect();
@@ -2154,6 +2445,24 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                             ),
                         ),
                         ("tailQuadratureNodes", Json::Int(PAIR_TAIL_NODES as i64)),
+                        ("smoothTransitionTauHubbleInflation", Json::Float(PAIR_SMOOTH_TAU)),
+                        (
+                            "smoothTransitionRule",
+                            Json::str(
+                                "comparison runs (c): the same modes, start times and samples \
+                                 in the background 1/H = 1/H_inf + tau softplus(2t/tau), \
+                                 i.e. epsilon = -Hdot/H^2 = 1 + tanh(t/tau), tau = \
+                                 smoothTransitionTauHubbleInflation/H_inf; ln a -> H_inf t \
+                                 for t -> -inf (the normalisation of the sudden run), \
+                                 integrated by CVODE as a 33rd state component; nA3Smooth \
+                                 and pair_spectrum.csv beta2_adiabatic_end_smooth use the \
+                                 final first-order adiabatic |beta_k|^2",
+                            ),
+                        ),
+                        (
+                            "smoothLnAQuadratureNodes",
+                            Json::Int(PAIR_SMOOTH_LN_A_NODES as i64),
+                        ),
                     ]),
                 ),
             ]),
@@ -2266,6 +2575,26 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                 ("maxInitialBeta2", Json::Float(initial_beta)),
                 ("tailMaxRelDev", Json::Float(tail_dev)),
                 ("antiparticleMaxDev", Json::Float(pair_anti_dev)),
+                (
+                    "smoothTransition",
+                    Json::object(vec![
+                        ("tau", Json::Float(smooth_tau())),
+                        ("maxUnitarityDev", Json::Float(smooth_unitarity)),
+                        ("maxKreinDrift", Json::Float(smooth_krein)),
+                        (
+                            "lnAOffsetAtT0Min",
+                            Json::Float(
+                                pgrid
+                                    .k
+                                    .iter()
+                                    .map(|k| {
+                                        smooth_ln_a_offset(log(k / K_OVER_A_START) / HUBBLE_INFLATION)
+                                    })
+                                    .fold(f64::INFINITY, f64::min),
+                            ),
+                        ),
+                    ]),
+                ),
                 ("masses", Json::Array(mass_json)),
             ]),
         ),
@@ -2309,10 +2638,19 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                      a_end, which oscillates in k and depends on where the run stops; its \
                      integrals (keys ...Instantaneous) are the literal definition only. The \
                      grid ends at k = 40; the analytic kink tail beyond it is given separately \
-                     (nA3KinkTailBeyondKMax and the ...TailCorrected keys). Most quanta for \
-                     m >= 0.5 H_inf are created after the de Sitter to radiation transition, \
-                     when H ~ m (pair_history.csv); w at a = 1 is that of the final spectrum \
-                     evaluated at a = 1.",
+                     (nA3KinkTailBeyondKMax and the ...TailCorrected keys); w at a = 1 is \
+                     that of the final spectrum evaluated at a = 1.",
+                ),
+                Json::str(
+                    "Where the pairs come from: the C^1 gluing makes dH/dt jump from 0 to \
+                     -2 H_inf^2 at t = 0. The kink formula (m k/(4 E^4))^2 integrated over all \
+                     k is nA3KinkFormulaAllK = H_inf^4/(64 pi m); nA3OverKinkFormulaAllK \
+                     compares it with the computed yield. The smooth comparison runs \
+                     (epsilon = 1 + tanh(t/tau), keys ...Smooth, nA3SuddenOverSmooth) measure \
+                     how much of each yield is due to the sharpness of the transition. The \
+                     first-order adiabatic basis of pair_history.csv cannot see a dH/dt jump \
+                     at the instant it happens (the first-order dressing depends on H, not on \
+                     dH/dt), so pair_history.csv does not show when the quanta are made.",
                 ),
             ]),
         ),
@@ -2435,6 +2773,81 @@ mod tests {
             }
         });
         assert!(failed.is_err());
+    }
+
+    #[test]
+    fn kink_formula_all_k_matches_quadrature() {
+        // (16/(2 pi^2)) int_0^inf k^2 (m k/(4E^4))^2 dk by composite Gauss-Legendre
+        // in k on [0, 60 m] plus the analytic-tail routine beyond 60 m
+        let prefactor = DEGENERACY / (2.0 * PI * PI);
+        let (x, w) = gauss_legendre(48);
+        for mass in [0.1, 0.5, 1.0, 2.0] {
+            let (panels, k_hi) = (200usize, 60.0 * mass);
+            let mut sum = 0.0;
+            for p in 0..panels {
+                let (lo, hi) = (
+                    k_hi * p as f64 / panels as f64,
+                    k_hi * (p + 1) as f64 / panels as f64,
+                );
+                for (xi, wi) in x.iter().zip(&w) {
+                    let k = 0.5 * (lo + hi) + 0.5 * (hi - lo) * xi;
+                    sum += 0.5 * (hi - lo) * wi * k * k * kink_tail(mass, k);
+                }
+            }
+            let total = prefactor * sum + kink_tail_moments(mass, k_hi, 1.0).0;
+            let exact = kink_formula_all_k(mass);
+            assert!(
+                (total / exact - 1.0).abs() < 1e-12,
+                "{mass}: {}",
+                total / exact - 1.0
+            );
+        }
+        assert_eq!(kink_formula_all_k(0.0), 0.0);
+    }
+
+    #[test]
+    fn smooth_background_limits_and_ln_a_offset() {
+        let tau = smooth_tau();
+        // de Sitter past and radiation future
+        assert!((smooth_hubble(-40.0 * tau) - HUBBLE_INFLATION).abs() < 1e-15);
+        let t = 40.0 * tau;
+        let radiation = HUBBLE_INFLATION / (1.0 + 2.0 * HUBBLE_INFLATION * t);
+        assert!((smooth_hubble(t) / radiation - 1.0).abs() < 1e-15);
+        // epsilon = -Hdot/H^2 = 1 + tanh(t/tau) (central differences)
+        for t in [-3.0, -1.0, -0.2, 0.0, 0.4, 1.5, 4.0] {
+            let dt = 1e-4;
+            let hdot = (smooth_hubble(t + dt) - smooth_hubble(t - dt)) / (2.0 * dt);
+            let h = smooth_hubble(t);
+            let epsilon = -hdot / (h * h);
+            let expected = 1.0 + (t / tau).tanh();
+            assert!(
+                (epsilon - expected).abs() < 1e-7,
+                "t = {t}: {epsilon} vs {expected}"
+            );
+        }
+        // delta(t) = int_{-inf}^t (H - H_inf): composite Gauss-Legendre
+        // in t on [t - 60 tau, t]
+        let (x, w) = gauss_legendre(48);
+        for t in [-12.0, -6.0, -3.0, -1.6] {
+            let (panels, lo) = (400usize, t - 60.0 * tau);
+            let mut sum = 0.0;
+            for p in 0..panels {
+                let a = lo + (t - lo) * p as f64 / panels as f64;
+                let b = lo + (t - lo) * (p + 1) as f64 / panels as f64;
+                for (xi, wi) in x.iter().zip(&w) {
+                    let s = 0.5 * (a + b) + 0.5 * (b - a) * xi;
+                    sum += 0.5 * (b - a) * wi * (smooth_hubble(s) - HUBBLE_INFLATION);
+                }
+            }
+            let offset = smooth_ln_a_offset(t);
+            assert!(offset < 0.0);
+            assert!(
+                (offset - sum).abs() <= 1e-15 + 1e-12 * sum.abs(),
+                "t = {t}: {offset} vs {sum}"
+            );
+        }
+        assert_eq!(log1p_over_x(0.0), 1.0);
+        assert!((log1p_over_x(1e-3) - (1e-3f64).ln_1p() / 1e-3).abs() < 1e-15);
     }
 
     #[test]

@@ -404,7 +404,8 @@ class CheckerTests(unittest.TestCase):
         self.assertEqual(len(labels), len(set(labels)))
         self.assertIn("L3-free-N8-p-1", labels)
         self.assertIn("m1_L3_N8_lamp1_T1", labels)
-        self.assertNotIn("m1_L3_N112_lamp1_T1", labels)      # skipped on both sides
+        self.assertIn("m1_L3_N112_lamh_T1", labels)
+        self.assertIn("m1_L3_N112_lamp1_T1", labels)         # skipped at run time by the first-order rule
         self.assertEqual([r["parity"] for r in specs[:2]], [1, -1])
         couplings = {(1.0, 3.0, 8.0): {"lambdaHat1": 0.01, "lambdaHat2": 0.1}}
         spec = next(s for s in specs if s["label"] == "m1_L3_N8_lamm2_T0")
@@ -484,6 +485,21 @@ class CheckerTests(unittest.TestCase):
                 with open(os.path.join(tmp, "a", spec["label"], name), "rb") as fa, \
                         open(os.path.join(tmp, "b", spec["label"], name), "rb") as fb:
                     self.assertEqual(fa.read(), fb.read(), name)
+
+    def test_edge_table_reproduces_the_exact_cut(self):
+        """The first-order edge table of a hot run evaluated at the solver's own
+        window agrees with the exact (re-solved mu) cut, and a narrower window
+        drops more."""
+        p = K.Params(m=1.0, L=3.0, lambda_hat=0.0, T=0.6, N=8.0, parity=1, N0=8, levels=1, exact_shells=100000)
+        grid = K.Grid(3.0, 8)
+        res = K.scf(p, grid)
+        tr = K.rust_window_truncation(res, p, grid)
+        table = tr["edgeTable"]
+        est = C.truncation_from_table(table, *tr["window"])
+        self.assertLess(abs(est["deltaE"] - tr["deltaE"]), 0.02 * abs(tr["deltaE"]) + 1e-12)
+        self.assertLess(abs(est["deltaEntropy"] - tr["deltaEntropy"]), 0.02 * abs(tr["deltaEntropy"]) + 1e-12)
+        narrow = C.truncation_from_table(table, tr["window"][0] + 1.0, tr["window"][1] - 1.0)
+        self.assertLess(narrow["deltaE"], est["deltaE"])
 
     def test_canonical_comparison_and_negative_control(self):
         """A Rust-format copy of a reference run agrees in every compared

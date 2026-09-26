@@ -1143,6 +1143,27 @@ def truncation_from_spectrum(shdr, spec, T, N, mu, lo, hi, cap=RUST_SHELL_CAP):
                       "recorded window and shell cap"}
 
 
+def truncation_from_table(table, lo, hi):
+    """First-order effect of the window [lo, hi] (with the Rust shell cap)
+    from the reference's edge table (solver `edge_table`; T = m runs, whose
+    spectrum.csv is banded): cumulative sums interpolated at the cuts."""
+    mu, T = table["mu"], table["T"]
+    x = np.asarray(table["x"])
+
+    def at(name, xv):
+        return float(np.interp(xv, x, np.asarray(table[name]), left=table[name][0], right=0.0))
+    x_hi, x_lo = (hi - mu) / T, (mu - lo) / T
+    cp, cs = table["capParticles"], table["capSea"]
+    d_n = -at("N_up", x_hi) + at("N_dn", x_lo) - cp["N"] + cs["N"]
+    d_e = -at("E_up", x_hi) + at("E_dn", x_lo) - cp["E"] + cs["E"]
+    d_s = -at("S_up", x_hi) - at("S_dn", x_lo) - cp["S"] - cs["S"]
+    d_mu = -d_n / table["G"] if table["G"] else 0.0
+    d_e += d_mu * table["GE"]
+    d_s += d_mu * table["GS"]
+    return {"window": [lo, hi], "deltaMu": d_mu, "deltaE": d_e, "deltaEntropy": d_s, "deltaF": d_e - T * d_s,
+            "source": "checker: reference edge table (first order) at the Rust run's recorded window and shell cap"}
+
+
 def compare_thermo(worst, where, item, ref, dl, record):
     th = ref.get("thermo") or {}
     if not th:
@@ -1154,10 +1175,20 @@ def compare_thermo(worst, where, item, ref, dl, record):
     vmax = ref["_potScale"]
     lo_r, hi_r = field(item, "windowLo"), field(item, "windowHi")
     banded = (ref.get("spectrumCsv") or {}).get("band") is not None
+    solver_record = {k: v for k, v in (th.get("rustWindowTruncation") or {}).items() if k not in ("windowOnly", "edgeTable")}
     if is_num(lo_r) and is_num(hi_r) and not banded:
         shdr, spec = ref["_spectrum"]
         tr = dict(truncation_from_spectrum(shdr, spec, ref["params"]["T"], N, th["mu"], lo_r, hi_r),
-                  solverRecord={k: v for k, v in (th.get("rustWindowTruncation") or {}).items() if k != "windowOnly"})
+                  solverRecord=solver_record)
+    elif is_num(lo_r) and is_num(hi_r) and isinstance(tr.get("edgeTable"), dict):
+        table = tr["edgeTable"]
+        own = truncation_from_table(table, *tr["window"])
+        tr = dict(truncation_from_table(table, lo_r, hi_r), solverRecord=solver_record,
+                  tableAtSolverWindow={"deltaE": own["deltaE"], "deltaEntropy": own["deltaEntropy"],
+                                       "deltaMu": own["deltaMu"]})
+    else:
+        tr = dict(solver_record, note="the solver's record with the converged-mu window (no Rust window recorded "
+                                      "or no complete level table)")
     e_int = ref["extrapolated"].get("interaction", 0.0) or 0.0
     corr_l = e_int * dl_signed(item, ref)
     out = {"truncation": tr}

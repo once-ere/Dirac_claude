@@ -30,7 +30,15 @@ sample); and, over the full thermal range a in [1, 100], a fourth-order Magnus
 integration of the exact two-level reduction h = (m sigma_z + K sigma_x) (x) I_8
 for five thermal nodes (step c/E with c = 0.05, checked against c = 0.1),
 compared through the representation-independent overlap <u(t_i)|u(t)>, which
-carries the phase.
+carries the phase.  The same two-level Magnus integration samples |beta(t)|^2
+of every thermal node densely on [t_i, 2 t_i] (the CSV samples do not resolve
+the first half-oscillation of the sudden-start wave), and integrates EVERY pair
+mode (c = 0.025) from t0 to a_end twice: in the sudden background (an
+independent re-integration of the committed spectrum) and in the smooth
+comparison background (c) of the Rust program, 1/H = 1 + tau ln(1 + e^{2t/tau})
+(-Hdot/H^2 = 1 + tanh(t/tau)), with ln a computed here by composite
+Gauss-Legendre quadrature (and in closed form beyond t = 20 tau); the kink
+formula (m k/(4 E^4))^2 is integrated over all k by the checker's own quadrature.
 
 Usage: python scripts/check_dirac16complex_exp4.py [--output ROOT]
        [--fixture PATH] [--binary PATH] [--repeat DIR] [--refined DIR]
@@ -87,6 +95,12 @@ MAGNUS_FULL_RANGE_LIMIT = 1.0e-5  # |overlap_CSV - overlap_Magnus| over a in [1,
 UNTRUNCATED_K_FACTOR = 60.0       # kinetic theory without the grid's cut: k in [0, 60 T_i]
 PAIR_REFERENCE_MODES = ((0.1, 33), (0.5, 30), (1.0, 36), (2.0, 39))
 PAIR_REFERENCE_SAMPLES = 4  # t0, kink, first two radiation samples
+PAIR_MAGNUS_C = 0.025             # two-level Magnus step c/E for every pair mode, sudden and smooth
+PAIR_MAGNUS_SELF_NODES = (16, 32, 40, 48)  # smooth-run nodes re-integrated with 2c
+PAIR_SPECTRUM_HEADER = ["m", "node", "k", "t0", "a_end", "beta2_initial", "beta2_kink",
+                        "beta2_adiabatic_kink", "beta2_end", "beta2_adiabatic_end",
+                        "beta2_kink_tail_theory", "a_end_smooth", "beta2_end_smooth",
+                        "beta2_adiabatic_end_smooth"]
 
 
 def sha256_file(path):
@@ -285,6 +299,173 @@ def magnus_overlap(mass, k, t_i, times, c):
         state = mats[0] @ state
         out.append(complex(np.vdot(e_plus, state)))
     return np.array(out)
+
+
+def two_level_step_matrices(mass, h, k1, k2):
+    """Fourth-order Magnus step matrices exp(Omega_n) of h = m sigma_z + K sigma_x for
+    steps of length h (array) with K at the two Gauss points (k1, k2)."""
+    bz = h * mass
+    bx = 0.5 * h * (k1 + k2)
+    by = (math.sqrt(3.0) / 6.0) * h * h * mass * (k1 - k2)
+    norm = np.sqrt(bx * bx + by * by + bz * bz)
+    safe = np.where(norm > 0.0, norm, 1.0)
+    cs, sn = np.cos(norm), np.where(norm > 0.0, np.sin(norm) / safe, 1.0)
+    mats = np.empty((len(h), 2, 2), dtype=complex)
+    mats[:, 0, 0] = cs - 1j * sn * bz
+    mats[:, 0, 1] = -1j * sn * (bx - 1j * by)
+    mats[:, 1, 0] = -1j * sn * (bx + 1j * by)
+    mats[:, 1, 1] = cs + 1j * sn * bz
+    return mats
+
+
+def tree_product(mats):
+    """M_{n-1} ... M_1 M_0 by a pairwise product."""
+    while len(mats) > 1:
+        if len(mats) % 2 == 1:
+            mats = np.concatenate([mats, np.eye(2, dtype=complex)[None, :, :]])
+        mats = np.einsum("nij,njk->nik", mats[1::2], mats[0::2])
+    return mats[0]
+
+
+def prefix_products(mats):
+    """P_j = M_j ... M_0 for every j (Hillis-Steele scan, log2(n) vectorised passes)."""
+    prods = mats.copy()
+    shift = 1
+    while shift < len(prods):
+        prods[shift:] = np.einsum("nij,njk->nik", prods[shift:], prods[:-shift].copy())
+        shift *= 2
+    return prods
+
+
+def two_level_eigenvectors(mass, kk):
+    """e_+ and e_- of m sigma_z + K sigma_x (theta = atan(K/m)), arrays over K."""
+    theta = np.arctan2(kk, mass)
+    cos_h, sin_h = np.cos(0.5 * theta), np.sin(0.5 * theta)
+    return (np.stack([cos_h, sin_h], axis=-1).astype(complex),
+            np.stack([-sin_h, cos_h], axis=-1).astype(complex))
+
+
+def two_level_beta2(mass, kk, hub, u):
+    """(first-order adiabatic |beta|^2, instantaneous |beta|^2) of a two-level state:
+    beta_ad = <e_-|u> - i c <e_+|u>, c = m K H/(4 E^3) (the dressing of the
+    first-order adiabatic positive-frequency state e_+ + i c e_-)."""
+    energy = math.sqrt(mass * mass + kk * kk)
+    e_plus, e_minus = two_level_eigenvectors(mass, kk)
+    c = mass * kk * hub / (4.0 * energy ** 3)
+    amp = np.vdot(e_minus, u) - 1j * c * np.vdot(e_plus, u)
+    norm = np.vdot(u, u).real
+    return abs(amp) ** 2 / norm, abs(np.vdot(e_minus, u)) ** 2 / norm
+
+
+def smooth_hubble(t, tau):
+    """Checker's own smooth background: 1/H = 1 + tau ln(1 + exp(2t/tau)) (H_inf = 1),
+    i.e. -Hdot/H^2 = 1 + tanh(t/tau)."""
+    x = 2.0 * np.asarray(t, dtype=float) / tau
+    return 1.0 / (1.0 + tau * (np.maximum(x, 0.0) + np.log1p(np.exp(-np.abs(x)))))
+
+
+class SmoothScaleFactor:
+    """ln a(t) of the smooth background with ln a -> t for t -> -inf, computed
+    independently of the Rust code: the start offset int_{-inf}^{t0} (H - 1) dt by
+    composite Gauss-Legendre in t on [t0 - 40 tau, t0] (400 panels x 8 nodes), then
+    8-point Gauss-Legendre increments; for t >= T = 20 tau the closed form
+    ln a(T) + (1/2) ln((1 + 2t)/(1 + 2T)) (H = 1/(1 + 2t) there up to e^{-40})."""
+    GL_X, GL_W = np.polynomial.legendre.leggauss(8)
+
+    def __init__(self, tau):
+        self.tau = tau
+        self.switch = 20.0 * tau
+
+    def increments(self, lo, hi):
+        lo, hi = np.asarray(lo, dtype=float), np.asarray(hi, dtype=float)
+        s = 0.5 * (lo + hi)[..., None] + 0.5 * (hi - lo)[..., None] * self.GL_X
+        return 0.5 * (hi - lo) * (smooth_hubble(s, self.tau) @ self.GL_W)
+
+    def start(self, t0):
+        edges = np.linspace(t0 - 40.0 * self.tau, t0, 401)
+        s = 0.5 * (edges[:-1] + edges[1:])[:, None] + 0.5 * np.diff(edges)[:, None] * self.GL_X
+        offset = float(np.sum(0.5 * np.diff(edges) * ((smooth_hubble(s, self.tau) - 1.0)
+                                                     @ self.GL_W)))
+        return t0 + offset
+
+
+def pair_two_level_reference(mass, k, times, tau, c):
+    """Final (beta2_adiabatic, beta2, a) of a pair mode by fourth-order Magnus
+    integration of the two-level reduction from the first-order adiabatic vacuum at
+    times[0] through the sample times.  tau = 0: the sudden background
+    (a = e^t, then (1 + 2t)^{1/2}); tau > 0: the smooth background above.  Steps are
+    uniform in sub-intervals (length 0.25 before T = 20 tau, resp. before t = 0, and
+    growing by 1.5 in 1 + 2t after it) with h <= c/E(sub-interval start)."""
+    t0 = float(times[0])
+    scale = SmoothScaleFactor(tau) if tau > 0.0 else None
+    lna = scale.start(t0) if scale else t0
+    hub0 = float(smooth_hubble(t0, tau)) if scale else 1.0
+    kk0 = k * math.exp(-lna)
+    e0 = math.sqrt(mass * mass + kk0 * kk0)
+    e_plus, e_minus = two_level_eigenvectors(mass, kk0)
+    u = e_plus + 1j * (mass * kk0 * hub0 / (4.0 * e0 ** 3)) * e_minus
+    u = u / math.sqrt(np.vdot(u, u).real)
+    early_end = scale.switch if scale else 0.0
+    bounds, t = [t0], t0
+    for target in times[1:]:
+        while t < target:
+            t = min(t + 0.25 if t < early_end else 0.75 * (1.0 + 2.0 * t) - 0.5, target)
+            bounds.append(t)
+    lna_switch = None
+    for left, right in zip(bounds[:-1], bounds[1:]):
+        if scale is None:
+            k_left = k * math.exp(-left) if left < 0.0 else k / math.sqrt(1.0 + 2.0 * left)
+        else:
+            k_left = k * math.exp(-lna)
+        steps = max(1, int(math.ceil((right - left) * math.sqrt(mass * mass + k_left ** 2) / c)))
+        h = (right - left) / steps
+        starts = left + h * np.arange(steps)
+        g1, g2 = starts + (0.5 - math.sqrt(3.0) / 6.0) * h, starts + (0.5 + math.sqrt(3.0) / 6.0) * h
+        if scale is None:
+            def kk_of(tt):
+                return np.where(tt < 0.0, k * np.exp(-np.minimum(tt, 0.0)),
+                                k / np.sqrt(1.0 + 2.0 * np.maximum(tt, 0.0)))
+            k1, k2 = kk_of(g1), kk_of(g2)
+        elif left >= scale.switch:
+            if lna_switch is None:
+                lna_switch = (lna, left)
+            base, t_sw = lna_switch
+            k1 = k * np.exp(-(base + 0.5 * np.log((1.0 + 2.0 * g1) / (1.0 + 2.0 * t_sw))))
+            k2 = k * np.exp(-(base + 0.5 * np.log((1.0 + 2.0 * g2) / (1.0 + 2.0 * t_sw))))
+            lna = base + 0.5 * math.log((1.0 + 2.0 * right) / (1.0 + 2.0 * t_sw))
+        else:
+            inc = scale.increments(starts, starts + h)
+            at_start = lna + np.concatenate([[0.0], np.cumsum(inc)[:-1]])
+            k1 = k * np.exp(-(at_start + scale.increments(starts, g1)))
+            k2 = k * np.exp(-(at_start + scale.increments(starts, g2)))
+            lna = lna + float(np.sum(inc))
+        u = tree_product(two_level_step_matrices(mass, np.full(steps, h), k1, k2)) @ u
+    t_end = float(times[-1])
+    if scale is None:
+        a_end, hub = math.sqrt(1.0 + 2.0 * t_end), 1.0 / (1.0 + 2.0 * t_end)
+    else:
+        a_end, hub = math.exp(lna), float(smooth_hubble(t_end, tau))
+    beta_ad, beta = two_level_beta2(mass, k / a_end, hub, u)
+    return beta_ad, beta, a_end
+
+
+def thermal_dense_beta2(mass, k, t_i, t_hi, c):
+    """|beta(t)|^2 = |<e_-(t)|u(t)>|^2 of a thermal mode started on e_+(t_i), densely
+    sampled (every Magnus step of length <= c/E(t_i)) on [t_i, t_hi], K = k (t_i/t)^{1/2}."""
+    energy = math.sqrt(mass * mass + k * k)
+    steps = max(1, int(math.ceil((t_hi - t_i) * energy / c)))
+    h = (t_hi - t_i) / steps
+    starts = t_i + h * np.arange(steps)
+    g1 = starts + (0.5 - math.sqrt(3.0) / 6.0) * h
+    g2 = starts + (0.5 + math.sqrt(3.0) / 6.0) * h
+    mats = two_level_step_matrices(mass, np.full(steps, h), k * np.sqrt(t_i / g1),
+                                   k * np.sqrt(t_i / g2))
+    e_plus0, _ = two_level_eigenvectors(mass, k)
+    states = prefix_products(mats) @ e_plus0
+    ends = starts + h
+    _, e_minus = two_level_eigenvectors(mass, k * np.sqrt(t_i / ends))
+    beta2 = np.abs(np.einsum("ni,ni->n", e_minus.conj(), states)) ** 2
+    return ends, beta2 / np.einsum("ni,ni->n", states.conj(), states).real
 
 
 def spinors(data, offset):
@@ -550,6 +731,38 @@ def verify_thermal(directory, summary, alg, checks, measurements, loaded):
     measurements["thermalBeta2PerModeMaxK"] = float(k[int(np.argmax(beta.max(axis=1)))])
     measurements["thermalBeta2PerModeMaxOver4c2"] = float(
         np.max(beta.max(axis=1)[compare] / (4 * c2[compare])))
+    measurements["thermalBeta2PerModeMaxOver4c2K"] = float(
+        k[compare][int(np.argmax(beta.max(axis=1)[compare] / (4 * c2[compare])))])
+    # the mode with the largest sampled |beta|^2: its sampled maximum against 4|c|^2 and
+    # against the checked envelope (1.1 |c| + beta_ad(t))^2
+    max_node = int(np.argmax(beta.max(axis=1)))
+    measurements["thermalBeta2PerModeMaxModeOver4c2"] = float(
+        beta[max_node].max() / (4 * c2[max_node]))
+    measurements["thermalBeta2PerModeMaxModeOverBound"] = float(
+        np.max(beta[max_node] / inst_bound[max_node]))
+    # The CSV samples (61 per mode, first spacing about 1.7 in t) do not resolve the
+    # first half-oscillation of the sudden-start wave: sample |beta(t)|^2 densely
+    # (every Magnus step, c = MAGNUS_C/2) on [t_i, 2 t_i] for every node.
+    dense_max = np.zeros(len(k))
+    dense_ratio = 0.0
+    for node in range(len(k)):
+        t_dense, b_dense = thermal_dense_beta2(mass, k[node], t_i, 2.0 * t_i, 0.5 * MAGNUS_C)
+        kk_dense = k[node] * np.sqrt(t_i / t_dense)
+        e_dense = np.sqrt(mass ** 2 + kk_dense ** 2)
+        ad_dense = mass * kk_dense * (0.5 / t_dense) / (4.0 * e_dense ** 3)
+        bound_dense = (math.sqrt(c2[node]) * (1 + SUDDEN_START_LIMIT) + ad_dense) ** 2 + BETA_FLOOR
+        dense_max[node] = float(np.max(b_dense))
+        dense_ratio = max(dense_ratio, float(np.max(b_dense / bound_dense)))
+    dense_node = int(np.argmax(dense_max))
+    measurements["thermalBeta2DenseMax"] = float(dense_max[dense_node])
+    measurements["thermalBeta2DenseMaxK"] = float(k[dense_node])
+    measurements["thermalBeta2DenseMaxOver4c2"] = float(dense_max[dense_node] / (4 * c2[dense_node]))
+    measurements["thermalBeta2DenseMaxOfSampledMaxMode"] = float(dense_max[max_node])
+    measurements["thermalBeta2DenseMaxOfSampledMaxModeOver4c2"] = float(
+        dense_max[max_node] / (4 * c2[max_node]))
+    measurements["thermalBeta2DenseBoundRatio"] = dense_ratio
+    checks["thermalBetaPerModeIsSuddenStartWave"] = (checks["thermalBetaPerModeIsSuddenStartWave"]
+                                                     and dense_ratio <= 1.0)
     adv = obs["thermal_adiabatic_vacuum.csv"]
     adv_late = max(float(o["beta2"][-1]) for o in adv)
     adv_max = max(float(np.max(o["beta2_adiabatic"])) for o in adv)
@@ -765,7 +978,7 @@ def verify_pair(directory, summary, alg, checks, measurements, loaded):
     measurements["pairMasslessMaxBeta2"] = massless_max
 
     # spectrum, number density, EoS, history, tail
-    _, spectrum = read_csv(os.path.join(directory, "pair_spectrum.csv"))
+    spectrum_header, spectrum = read_csv(os.path.join(directory, "pair_spectrum.csv"))
     _, eos = read_csv(os.path.join(directory, "pair_eos.csv"))
     _, history = read_csv(os.path.join(directory, "pair_history.csv"))
     pref = 16.0 / (2.0 * math.pi ** 2)
@@ -921,7 +1134,100 @@ def verify_pair(directory, summary, alg, checks, measurements, loaded):
                                        and richardson <= 1e-2 * REFERENCE_LIMIT)
     measurements["pairReferenceMaxError"] = ref_err
     measurements["pairReferenceRichardson"] = richardson
-    loaded["pair"] = {"by_mass": by_mass}
+
+    # Fourth-order Magnus integration of the exact two-level reduction for EVERY
+    # (m, k) of the grid, from t0 to a_end: (i) the sudden background (an independent
+    # re-integration of the committed spectrum), (ii) the smooth comparison background
+    # (c), -Hdot/H^2 = 1 + tanh(t/tau), with the checker's own ln a.
+    checks["pairSpectrumHeader"] = spectrum_header == PAIR_SPECTRUM_HEADER
+    tau = summary["pair"]["smoothTransition"]["tau"]
+    col = {name: index for index, name in enumerate(spectrum_header)}
+    sudden_dev = smooth_dev = a_smooth_dev = self_conv = 0.0
+    number_dev = kink_dev = 0.0
+    massless_smooth = 0.0
+    for m in masses:
+        rows = spectrum[spectrum[:, 0] == m]
+        rows = rows[np.argsort(rows[:, 1])]
+        a2_end = 1.0 / (par["hubbleEndOverMass"] * m) if m > 0 else par["masslessA2End"]
+        jj = np.arange(1, n_s + 1)
+        a2 = np.exp(math.log(a2_end) * jj / n_s)
+        a2[-1] = a2_end
+        ref = {"sudden": np.zeros((n_k, 3)), "smooth": np.zeros((n_k, 3))}
+        for node in range(n_k):
+            times = np.concatenate([[t0[node], 0.0], (a2 - 1.0) / 2.0])
+            ref["sudden"][node] = pair_two_level_reference(m, k[node], times, 0.0, PAIR_MAGNUS_C)
+            ref["smooth"][node] = pair_two_level_reference(m, k[node], times, tau, PAIR_MAGNUS_C)
+            if node in PAIR_MAGNUS_SELF_NODES and m > 0:
+                coarse = pair_two_level_reference(m, k[node], times, tau, 2.0 * PAIR_MAGNUS_C)
+                self_conv = max(self_conv, abs(coarse[0] - ref["smooth"][node][0])
+                                / (1e-6 * ref["smooth"][node][0] + 1e-12))
+
+        def dev(values, reference):
+            return float(np.max(np.abs(values - reference) / (1e-6 * np.abs(reference) + 1e-12)))
+        sudden_dev = max(sudden_dev, dev(rows[:, col["beta2_adiabatic_end"]], ref["sudden"][:, 0]),
+                         dev(rows[:, col["beta2_end"]], ref["sudden"][:, 1]))
+        smooth_dev = max(smooth_dev,
+                         dev(rows[:, col["beta2_adiabatic_end_smooth"]], ref["smooth"][:, 0]),
+                         dev(rows[:, col["beta2_end_smooth"]], ref["smooth"][:, 1]))
+        a_smooth_dev = max(a_smooth_dev, rel(rows[:, col["a_end_smooth"]], ref["smooth"][:, 2]))
+        sm = summary_masses[m]
+        n_sudden_ref = pref * np.sum(wln * k ** 3 * ref["sudden"][:, 0])
+        n_smooth_ref = pref * np.sum(wln * k ** 3 * ref["smooth"][:, 0])
+        n_smooth_col = pref * np.sum(wln * k ** 3 * rows[:, col["beta2_adiabatic_end_smooth"]])
+        n_smooth_inst = pref * np.sum(wln * k ** 3 * rows[:, col["beta2_end_smooth"]])
+        # the kink formula over all k by the checker's own quadrature (k in [0, 60 m]
+        # by composite Gauss-Legendre, the tail beyond it in u = 60 m/k)
+        if m > 0:
+            def kink_integrand(q, m=m):
+                e2 = m * m + q * q
+                return pref * q ** 2 * (m * q / (4.0 * e2 * e2)) ** 2
+
+            def kink_tail_integrand(u, m=m):
+                q = 60.0 * m / u
+                return kink_integrand(q) * 60.0 * m / u ** 2
+            kink_all = (composite_gl(kink_integrand, 0.0, 60.0 * m, panels=200)
+                        + composite_gl(kink_tail_integrand, 0.0, 1.0, panels=40))
+            number_dev = max(number_dev,
+                             abs(sm["nA3"] / n_sudden_ref - 1.0) / 1e-6,
+                             abs(sm["nA3Smooth"] / n_smooth_ref - 1.0) / 1e-6,
+                             abs(sm["nA3Smooth"] / n_smooth_col - 1.0) / 1e-10,
+                             abs(sm["nA3SmoothInstantaneous"] / n_smooth_inst - 1.0) / 1e-10,
+                             abs(sm["nA3SuddenOverSmooth"] - sm["nA3"] / sm["nA3Smooth"]) / 1e-12)
+            kink_dev = max(kink_dev, abs(sm["nA3KinkFormulaAllK"] / kink_all - 1.0),
+                           abs(sm["nA3OverKinkFormulaAllK"] - sm["nA3"] / kink_all) / sm["nA3"])
+            measurements["pairNA3Smooth_m%s" % m] = float(n_smooth_ref)
+            measurements["pairNA3SuddenOverSmooth_m%s" % m] = float(sm["nA3"] / n_smooth_ref)
+            measurements["pairNA3KinkFormulaAllK_m%s" % m] = float(kink_all)
+            measurements["pairNA3OverKinkFormulaAllK_m%s" % m] = float(sm["nA3"] / kink_all)
+        else:
+            massless_smooth = max(float(np.max(ref["smooth"][:, :2])),
+                                  float(np.max(rows[:, [col["beta2_end_smooth"],
+                                                        col["beta2_adiabatic_end_smooth"]]])))
+            kink_dev = max(kink_dev, abs(sm["nA3KinkFormulaAllK"]))
+        max_ad_end = float(np.max(rows[:, col["beta2_adiabatic_end"]]))
+        max_ad_end_smooth = float(np.max(rows[:, col["beta2_adiabatic_end_smooth"]]))
+        number_dev = max(number_dev,
+                         abs(sm["maxBeta2AdiabaticEnd"] - max_ad_end) / (1e-12 * max_ad_end + 1e-30),
+                         abs(sm["maxBeta2AdiabaticEndSmooth"] - max_ad_end_smooth)
+                         / (1e-12 * max_ad_end_smooth + 1e-30),
+                         abs(sm["aEndSmooth"] / rows[0, col["a_end_smooth"]] - 1.0) / 1e-12)
+        measurements["pairMaxBeta2AdiabaticEnd_m%s" % m] = max_ad_end
+        measurements["pairMaxBeta2AdiabaticEndSmooth_m%s" % m] = max_ad_end_smooth
+    checks["pairSuddenSpectrumMagnusReference"] = sudden_dev <= 1.0
+    checks["pairSmoothTransitionReference"] = (
+        smooth_dev <= 1.0 and a_smooth_dev <= 1e-10 and self_conv <= 1.0 and number_dev <= 1.0
+        and kink_dev <= 1e-10 and massless_smooth <= MASSLESS_BETA_LIMIT
+        and summary["pair"]["smoothTransition"]["maxUnitarityDev"] <= UNITARITY_LIMIT
+        and summary["pair"]["smoothTransition"]["maxKreinDrift"] <= KREIN_LIMIT
+        and par["smoothTransitionTauHubbleInflation"] == tau == 1.0)
+    measurements["pairMagnusSuddenMaxDevRel1e-6"] = sudden_dev
+    measurements["pairMagnusSmoothMaxDevRel1e-6"] = smooth_dev
+    measurements["pairMagnusSmoothSelfConvergenceRel1e-6"] = self_conv
+    measurements["pairSmoothAEndMaxRelDev"] = a_smooth_dev
+    measurements["pairSmoothNumberAndKinkMaxDev"] = number_dev
+    measurements["pairKinkFormulaAllKMaxRelDev"] = kink_dev
+    measurements["pairSmoothMasslessMaxBeta2"] = massless_smooth
+    loaded["pair"] = {"by_mass": by_mass, "spectrum": spectrum, "spectrumColumns": col}
     return {"tailMaxRelDev": tail_dev, "nA3": n_a3}
 
 
@@ -1001,6 +1307,19 @@ def refined_convergence(refined_root, summary, loaded, fixture_path, measurement
         d_pair = max(d_pair, diff)
         if c["beta2"][-1] >= 1e-6:
             d_pair_rel = max(d_pair_rel, diff / c["beta2"][-1])
+    # smooth comparison runs: final |beta_k|^2 (adiabatic basis) of every (m, k)
+    _, spectrum_refined = read_csv(os.path.join(directory, "pair_spectrum.csv"))
+    col = loaded["pair"]["spectrumColumns"]
+    spectrum_canonical = loaded["pair"]["spectrum"]
+    smooth_c = spectrum_canonical[:, col["beta2_adiabatic_end_smooth"]]
+    smooth_r = spectrum_refined[:, col["beta2_adiabatic_end_smooth"]]
+    same_rows = bool(np.array_equal(spectrum_canonical[:, :3], spectrum_refined[:, :3]))
+    d_smooth = float(np.max(np.abs(smooth_r - smooth_c)))
+    large = smooth_c >= 1e-6
+    d_smooth_rel = float(np.max(np.abs(smooth_r[large] - smooth_c[large]) / smooth_c[large]))
+    measurements["refinedPairSmoothBeta2AbsDiff"] = d_smooth
+    measurements["refinedPairSmoothBeta2RelDiff"] = d_smooth_rel
+    ok &= same_rows and d_smooth <= 1e-9 and d_smooth_rel <= 1e-6
     # the thermal phase error against the full-range Magnus reference: the refined run
     # does not reduce it (it is not a truncation error; the observables are phase invariant)
     measurements["refinedThermalMagnusMaxOverlapDev"] = sub_meas["thermalMagnusFullRangeMaxOverlapDev"]
