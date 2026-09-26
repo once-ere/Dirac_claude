@@ -1076,6 +1076,70 @@ def compare_emt(worst, where, item, ref, dl, record):
     record["emt"] = out
 
 
+RUST_SHELL_CAP = 4096      # the Rust crate's largest lattice n2 (scf.rs standard_params shell_cap)
+
+
+def fermi(x):
+    x = np.asarray(x, dtype=float)
+    out = np.empty_like(x)
+    pos = x > 0
+    out[pos] = np.exp(-x[pos]) / (1.0 + np.exp(-x[pos]))
+    out[~pos] = 1.0 / (1.0 + np.exp(x[~pos]))
+    return out
+
+
+def truncation_from_spectrum(shdr, spec, T, N, mu, lo, hi, cap=RUST_SHELL_CAP):
+    """The reference state restricted to the Rust crate's ACTUAL level set:
+    the energy window [lo, hi] that the Rust run recorded (windowLo,
+    windowHi: frozen at its first-iteration mu estimate, which for a thermo
+    series is the previous temperature's mu) and the shells n2 <= cap.  The
+    levels outside are dropped (particles empty, sea full), mu is re-solved
+    at fixed N and spectrum; returns dE = sum mult (w' - w) eps, dS, dF, dmu.
+    Needs the complete reference level list (spectrum.csv is complete for
+    T <= 0.3 m; the T = m tables are banded, their correction is the
+    solver's own record with the converged-mu window)."""
+    eps = column(shdr, spec, "eps_extrapolated")
+    mult = column(shdr, spec, "mult")
+    branch = column(shdr, spec, "branch")
+    q = column(shdr, spec, "q")
+    f_full = column(shdr, spec, "f")
+    w_full = column(shdr, spec, "w")
+    inside = (eps >= lo) & (eps <= hi) & (q <= cap)
+
+    def weights(mu_):
+        fv = fermi((eps - mu_) / T)
+        return np.where(inside, np.where(branch > 0, fv, -(1.0 - fv)), 0.0), fv
+
+    def count(mu_):
+        return float(np.dot(mult, weights(mu_)[0]))
+    a, b = mu - 5.0 * T, mu + 5.0 * T
+    while count(a) > N:
+        a -= 5.0 * T
+    while count(b) < N:
+        b += 5.0 * T
+    for _ in range(200):
+        mid = 0.5 * (a + b)
+        if count(mid) < N:
+            a = mid
+        else:
+            b = mid
+        if b - a < 1e-15 * max(1.0, abs(mid)):
+            break
+    mu2 = 0.5 * (a + b)
+    w2, f2 = weights(mu2)
+
+    def entropy(fv, mask):
+        fv, mm = fv[mask], mult[mask]
+        ok = (fv > 0.0) & (fv < 1.0)
+        fv = fv[ok]
+        return float(-np.sum(mm[ok] * (fv * np.log(fv) + (1.0 - fv) * np.log1p(-fv))))
+    d_s = entropy(f2, inside) - entropy(f_full, np.ones(len(eps), dtype=bool))
+    d_e = float(np.dot(mult, (w2 - w_full) * eps))
+    return {"window": [lo, hi], "shellCap": cap, "levelsOutside": int(np.sum(~inside)), "deltaMu": mu2 - mu,
+            "deltaE": d_e, "deltaEntropy": d_s, "deltaF": d_e - T * d_s,
+            "source": "checker: reference spectrum.csv restricted to the Rust run's recorded window and shell cap"}
+
+
 def compare_thermo(worst, where, item, ref, dl, record):
     th = ref.get("thermo") or {}
     if not th:
@@ -1085,6 +1149,12 @@ def compare_thermo(worst, where, item, ref, dl, record):
     N = ref["params"]["N"]
     m = ref["params"]["m"]
     vmax = ref["_potScale"]
+    lo_r, hi_r = field(item, "windowLo"), field(item, "windowHi")
+    banded = (ref.get("spectrumCsv") or {}).get("band") is not None
+    if is_num(lo_r) and is_num(hi_r) and not banded:
+        shdr, spec = ref["_spectrum"]
+        tr = dict(truncation_from_spectrum(shdr, spec, ref["params"]["T"], N, th["mu"], lo_r, hi_r),
+                  solverRecord={k: v for k, v in (th.get("rustWindowTruncation") or {}).items() if k != "windowOnly"})
     e_int = ref["extrapolated"].get("interaction", 0.0) or 0.0
     corr_l = e_int * dl_signed(item, ref)
     out = {"truncation": tr}
