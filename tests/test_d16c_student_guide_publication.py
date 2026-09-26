@@ -776,6 +776,54 @@ class PhysicsNumbersTests(GuideTestCase):
         self.assertEqual(round(3 * x0 / (1 + x0) ** 2, 2), -5.13)
         self.assertIn("gives $w_0=-0.90114$, $w_a=-5.1396$", self.text)
 
+    def test_exercise_13_5_program_change_predictions(self):
+        # the x0 = -0.25 run of the changed program: closed-form predictions of the answer
+        omega_r, omega_m, omega_psi = 0.00009, 0.305, 0.69491
+        x0 = -0.25
+        amplitude = omega_psi / (1 + x0)
+
+        def deceleration(a):
+            sigma = a ** -3
+            e2 = omega_r * a ** -4 + omega_m * a ** -3 + amplitude * sigma * (1 + x0 * sigma)
+            de2_dn = (-4 * omega_r * a ** -4 - 3 * omega_m * a ** -3
+                      - 3 * amplitude * sigma * (1 + 2 * x0 * sigma))
+            return -1 - de2_dn / (2 * e2)
+
+        self.assertAlmostEqual(deceleration(1.0), (omega_m + 2 * omega_r) / 2, places=14)
+        self.assertEqual(round(deceleration(1.0), 5), 0.15259)
+        a_cross = (2 * abs(x0)) ** (1 / 3)
+        self.assertLess(deceleration(a_cross), 0.0)
+        low, high = a_cross, 1.0
+        for _ in range(200):
+            middle = 0.5 * (low + high)
+            if deceleration(middle) < 0.0:
+                low = middle
+            else:
+                high = middle
+        self.assertEqual(round(1 / low - 1, 4), 0.0996)
+        rows = csv_rows(NUMERICS / "exp3" / "fits_scan.csv")
+        row = [r for r in rows if abs(float(r["x0"]) + 0.25) < 1e-9][0]
+        self.assertEqual(round(float(row["q0"]), 5), 0.15259)
+        for phrase in ("$q_0=\\frac12(\\Omega_m+2\\Omega_r)=0.15259$", "sign change of $q$ at $z=0.0996$",
+                       "prints `check_count=28` and `failed_check_count=2`",
+                       "`check_parametersMatchContract` and `check_muIndependence` are false",
+                       "git restore studies/dirac16complex_cosmology/src/exp3.rs"):
+            self.assertIn(phrase, self.text)
+        checker = (REPOSITORY_ROOT / "scripts" / "check_dirac16complex_exp3.py").read_text(encoding="utf-8")
+        for name in ('checks["parametersMatchContract"]', 'checks["muIndependence"]',
+                     "X0_CONTRACT = [-0.462654, -0.433107, -0.3, -0.2, 0.0]"):
+            self.assertIn(name, checker)
+
+    def test_quoted_source_lines_exist_verbatim(self):
+        # the exercises tell the student to edit these exact lines
+        for name, line in (("exp2.rs", "pub const HUBBLE_C0: f64 = -0.2;"),
+                           ("exp3.rs", "pub const X0_VALUES: [f64; 5] = [-0.462654, -0.433107, -0.3, -0.2, 0.0];"),
+                           ("exp5.rs", "pub const Q_VALUES: [f64; 2] = [0.05, 0.1];")):
+            with self.subTest(name=name):
+                source = (CRATE / "src" / name).read_text(encoding="utf-8").splitlines()
+                self.assertEqual(sum(1 for text in source if text.strip() == line), 1)
+                self.assertIn("`%s`" % line, self.text)
+
     def test_exercise_13_4_and_13_6_predictions(self):
         c0 = 3 * 1.0 + 3 * 0.3 ** 2 + 9 * 1.0 * (-0.3)
         self.assertAlmostEqual(c0, 0.57, places=12)

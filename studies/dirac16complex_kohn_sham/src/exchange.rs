@@ -160,6 +160,10 @@ pub fn gas_chemical_potential(m: f64, n: f64, t: f64, k_max: f64, nodes: usize) 
     let mut hi = 50.0 * m.max(t).max(1.0) + 10.0 * n.abs().cbrt();
     for _ in 0..200 {
         let mid = 0.5 * (lo + hi);
+        // adjacent doubles: the bracket cannot shrink any further
+        if mid <= lo || mid >= hi {
+            break;
+        }
         if gas_moments(m, mid, t, k_max, nodes).n < n {
             lo = mid;
         } else {

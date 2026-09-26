@@ -5944,6 +5944,27 @@
       "excited": null
     },
     {
+      "label": "m1_L3_N8_lamp1_T1",
+      "params": {
+        "label": "m1_L3_N8_lamp1_T1"
+      },
+      "converged": false,
+      "failed": "MemoryError((48, 97), dtype('float64'))",
+      "extrapolated": null,
+      "ksGap": null,
+      "homo": null,
+      "lumo": null,
+      "emt": null,
+      "orderEstimates": null,
+      "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 0,
+      "particleBottom": null,
+      "collapseSuspected": false,
+      "thermo": {},
+      "excited": null
+    },
+    {
       "label": "m1_L3_N112_lam0_T0p1",
       "params": {
         "label": "m1_L3_N112_lam0_T0p1",

@@ -59,10 +59,23 @@
 //! the brane band has `<S_p> < 0`, `m <S_p> < 0` and a POSITIVE kappa from
 //! the mass condition, while the coupling condition then needs
 //! `lambda = -(5/6) m/<S_p> > 0`; a state dominated by bulk levels has
-//! `<S_p> > 0` and needs kappa < 0.  The gamma^8 map m -> -m (with
-//! lambda -> -lambda, CONTRACT E2) sends the KS state to a state with
-//! `S -> -S`, which leaves `m S` and `lambda S^2` unchanged: the verdict is
-//! the same in the mirror sector.  All numbers are reported as measured.
+//! `<S_p> > 0` and needs kappa < 0.
+//!
+//! Mirror sector (the Kohn-Sham form of the gamma^8 map).  In a block the
+//! swap `(a, b) -> (b, a)` turns `a' = M a + (E - kappa k) b,
+//! b' = -(E + kappa k) a - M b` into the same system with `(M, E) -> (-M,
+//! -E)`, and `s -> -s` maps `E = s(eps - v_x)` to `-E` at fixed eps.  So
+//! the swap together with `s -> -s` maps the problem (m, lambda) with the
+//! tip bag `b(-L) = 0` EXACTLY onto (-m, lambda) with the opposite bag
+//! `a(-L) = 0` and exchanged brane parities: identical energies, number
+//! densities and 3-space pressures, `S -> -S` (`-2 s a b` changes sign),
+//! and `M_eff = m + (15/16) lambda S_p -> -M_eff` self-consistently with
+//! the SAME lambda.  Hence `m S`, `lambda S^2` and the E4.1 verdict are the
+//! same in the mirror sector.  (CONTRACT E2's operator identity
+//! `L_{m,U}[gamma^8 Psi] = -L_{-m,-U}[Psi]` carries an overall sign of L,
+//! which reverses the Krein sign of the canonical anticommutator and with
+//! it the sign of the expectation-value rule; at the mean-field level the
+//! coupling therefore keeps its sign.)  All numbers are reported as measured.
 
 use crate::exchange::interaction_energy_density;
 use crate::geometry::{curvature_closed_form, density_factor, volume_factor, z_of_y};

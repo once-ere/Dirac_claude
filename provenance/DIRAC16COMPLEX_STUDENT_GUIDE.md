@@ -1381,6 +1381,54 @@ EOF
 
 **Exercise.** Which $x_0$ gives $w_0=-0.9$, and what is its $w_a$? **Answer.** $x_0=w_0/(1-w_0)=-0.47368$ and $w_a=-5.13$: the closer $w_0$ is to $-1$, the faster the condensate evolves, the opposite of the slowly varying Unite fit ($w_a=-0.60$). The scan row $x_0=-0.474$ gives $w_0=-0.90114$, $w_a=-5.1396$.
 
+**Exercise.** Now let the program itself integrate $x_0=-0.25$. In `studies/dirac16complex_cosmology/src/exp3.rs` change the line `pub const X0_VALUES: [f64; 5] = [-0.462654, -0.433107, -0.3, -0.2, 0.0];` so that `-0.2` becomes `-0.25`, and save the file. Predict what CVODE will measure for $x_0=-0.25$: $w_0$, $w_a$, the redshifts where $\rho_\psi=0$ and where $w=-1$, and today's deceleration parameter $q_0=\frac12\sum_i\Omega_i(1+3w_i)$ (radiation has $w=1/3$, matter $w=0$). Then rebuild (Section 5.1) and run, in PowerShell:
+
+```
+& $bin exp3 --output build/ex-x0
+```
+
+or in Git Bash, macOS and Linux:
+
+```
+$bin exp3 --output build/ex-x0
+```
+
+Read what the run with $\mu=3$ measured from its `summary.json`. PowerShell:
+
+```
+@'
+import json
+path = "build/ex-x0/exp3/summary.json"
+runs = json.load(open(path))["runs"]
+m = [r for r in runs if r["id"] == "x0_m0p25_mu3"][0]["measured"]
+print("w0", m["w0"], "wa", m["waTangent"], "q0", m["q0"])
+print("z_zero", m["rhoZeros"][0]["z"], "z_cross", m["phantomCrossings"][0]["z"])
+print("z_q_sign_change", m["decelerationSignChanges"][0]["z"])
+'@ | python -
+```
+
+Git Bash, macOS and Linux:
+
+```
+python - <<'EOF'
+import json
+path = "build/ex-x0/exp3/summary.json"
+runs = json.load(open(path))["runs"]
+m = [r for r in runs if r["id"] == "x0_m0p25_mu3"][0]["measured"]
+print("w0", m["w0"], "wa", m["waTangent"], "q0", m["q0"])
+print("z_zero", m["rhoZeros"][0]["z"], "z_cross", m["phantomCrossings"][0]["z"])
+print("z_q_sign_change", m["decelerationSignChanges"][0]["z"])
+EOF
+```
+
+Finally run the EXP-3 checker on the new folder, in any shell:
+
+```
+python scripts/check_dirac16complex_exp3.py --output build/ex-x0
+```
+
+**Answer.** $w_0=-1/3$ and $w_a=-4/3$, as in the first exercise of this section; $\rho_\psi=0$ at $z=0.58740$ and $w=-1$ at $z=0.25992$; and $q_0=\frac12(\Omega_m+2\Omega_r)=0.15259$, because $1+3w_0=0$: a component with $w=-1/3$ neither accelerates nor decelerates the expansion, so the matter decelerates it. The script prints $w_0=-0.33333$, $w_a=-1.33333$ (a finite difference of the CVODE $w$, so its last digits differ from $-4/3$), $q_0=0.15259$, the two redshifts where the closed forms put them (to about $10^{-9}$), and a sign change of $q$ at $z=0.0996$: in this model the expansion accelerated before $z=0.0996$ and decelerates today, the reverse of the observed history. Beyond $z=0.25992$ the effective mass is negative, so there the run is outside the one-mode picture (Section 6.10). All 14 self-checks pass. The checker prints `check_count=28` and `failed_check_count=2`: `check_parametersMatchContract` and `check_muIndependence` are false because it looks for the specified $x_0$ values, among which $-0.2$ is now missing (the $\mu$-independence it does measure, 2.8e-9, is far inside its 1e-8 limit). Undo with `git restore studies/dirac16complex_cosmology/src/exp3.rs` and rebuild.
+
 ### 13.6 Moving the EXP-5 turning point
 
 **Exercise.** In `studies/dirac16complex_cosmology/src/exp5.rs` change the line `pub const Q_VALUES: [f64; 2] = [0.05, 0.1];` to `[0.05, 0.2]` and save. Predict $t^*$ and the end time for $q=0.2$. Then rebuild and run, in PowerShell:

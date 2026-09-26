@@ -45,7 +45,8 @@
 //!   `exactZeroTemperatureOccupations = false`); F = E - T S_ent uses the
 //!   physical T = 0, the smearing entropy is reported.
 //! * Mixing: Anderson (Pulay) on the pair (n_c, S_c); convergence when
-//!   `max|Delta n_c| / max|n_c| < tol` and the same for S_c (tol 1e-10).
+//!   `max|Delta n_c| / D < tol` and `max|Delta S_c| / D < tol` with
+//!   `D = max(max|n_c|, max|S_c|)` (tol 1e-10).
 //! * Delta-SCF: occupations fixed by level identity (shell, parity, s,
 //!   Pruefer index) with one particle moved from the HOMO group to the LUMO
 //!   group, re-converged; `E_1 - E_0`.
@@ -530,6 +531,8 @@ pub fn compute_spectrum(
 /// parallel spectrum multiplied by the thread count.)
 pub struct FreeLevels {
     params: Params,
+    /// The solve this cache serves is interacting (lambda != 0).
+    interacting: bool,
     potential: Arc<Potential>,
     shooter: Shooter,
     shells: Vec<Shell>,
@@ -541,6 +544,14 @@ pub struct FreeLevels {
 /// Cap of the window widening used by [`FreeLevels::classify`] (in units of
 /// m); beyond it the serial fallback handles the misses.
 pub const FREE_WINDOW_SHIFT_CAP: f64 = 3.0;
+/// Quantum of the window widening (in units of m): the eigenvalue-shift
+/// bound is rounded UP to a multiple of it (at least one quantum for an
+/// interacting solve), so that the small iteration-to-iteration changes of
+/// the bound do not trigger a new prefetch.  A prefetch that is not covered
+/// recomputes the whole (mirror-symmetric) union window; measured at T = m
+/// with lambda != 0 before this rule: ~1e6 free-level integrations in every
+/// iteration, more than the interacting spectrum itself.
+pub const FREE_WINDOW_QUANTUM: f64 = 0.25;
 
 // The free levels are cached per solve only (no process-wide cache): a
 // shared cache would change the warm starts of later solves and hence the
@@ -561,6 +572,7 @@ impl FreeLevels {
         free.lambda_hat = 0.0;
         Self {
             params: free,
+            interacting: params.lambda_hat != 0.0,
             potential: Arc::clone(&potential),
             shooter: Shooter::new(potential, params.tolerances),
             shells: shells(params.delta_k(), params.shell_cap),
@@ -570,9 +582,15 @@ impl FreeLevels {
         }
     }
 
-    /// Window widened by the eigenvalue-shift bound (capped).
+    /// Window widened by the eigenvalue-shift bound, rounded up to a
+    /// multiple of [`FREE_WINDOW_QUANTUM`] m (at least one quantum for an
+    /// interacting solve) and capped at [`FREE_WINDOW_SHIFT_CAP`] m.
     pub fn widened(&self, window: Window, shift_bound: f64) -> Window {
-        let widen = shift_bound.min(FREE_WINDOW_SHIFT_CAP * self.params.m) + 1e-6 * self.params.m;
+        let m = self.params.m;
+        let quantum = FREE_WINDOW_QUANTUM * m;
+        let minimum = if self.interacting { 1.0 } else { 0.0 };
+        let steps = (shift_bound / quantum).ceil().max(minimum);
+        let widen = (steps * quantum).min(FREE_WINDOW_SHIFT_CAP * m) + 1e-6 * m;
         Window {
             eps_lo: window.eps_lo - widen,
             eps_hi: window.eps_hi + widen,
@@ -591,8 +609,13 @@ impl FreeLevels {
     }
 
     /// Make sure the cache holds every s = +1 free level with eps in
-    /// `window` (and every level whose mirror lies in it).
+    /// `window` (and every level whose mirror lies in it).  A no-op for a
+    /// non-interacting solve: its own spectrum IS the free spectrum
+    /// ([`FreeLevels::classify`]).
     pub fn prefetch(&mut self, window: Window) -> Result<(), String> {
+        if !self.interacting {
+            return Ok(());
+        }
         let needed = match self.covered {
             Some(c) if c.eps_lo <= window.eps_lo && c.eps_hi >= window.eps_hi => return Ok(()),
             Some(c) => Window {
@@ -639,19 +662,29 @@ impl FreeLevels {
         Ok(eps)
     }
 
-    /// Assign branch and eps_free to every state of the spectrum.
     /// Assign branch and eps_free to every state of the spectrum computed on
     /// `window`; `shift_bound` is the largest possible distance between an
     /// interacting level and its free partner (max |M_eff - m| + max |v_x|,
     /// the norm of the perturbation of the self-adjoint block Hamiltonian),
     /// used to widen the prefetched free window (capped at
-    /// [`FREE_WINDOW_SHIFT_CAP`] m; misses use the serial search).
+    /// [`FREE_WINDOW_SHIFT_CAP`] m; misses use the serial search).  For a
+    /// non-interacting solve (lambda = 0: M_eff = m, v_x = 0 exactly) the
+    /// spectrum is itself the free spectrum and every state is its own
+    /// partner, `eps_free = eps` (measured before this shortcut: at T = m the
+    /// free prefetch repeated the whole spectrum, 680000 integrations).
     pub fn classify(
         &mut self,
         spectrum: &mut Spectrum,
         window: Window,
         shift_bound: f64,
     ) -> Result<(), String> {
+        if !self.interacting {
+            for st in spectrum.states.iter_mut() {
+                st.eps_free = st.eps;
+                st.branch = if st.eps >= 0.0 { 1 } else { -1 };
+            }
+            return Ok(());
+        }
         self.prefetch(self.widened(window, shift_bound))?;
         for st in spectrum.states.iter_mut() {
             let guess = if st.s == 1 { st.eps } else { -st.eps };
@@ -1268,9 +1301,17 @@ pub fn solve(
         Energies,
         Window,
     )> = None;
+    // The window is chosen in the first iteration and then FROZEN (enlarged
+    // only when the edge check fails): a window that followed the running mu
+    // estimate moved its edge by tiny amounts every iteration, and at T > 0
+    // the edge states (occupation ~ f_cut, multiplicity ~ 200) entering or
+    // leaving changed the densities at the 1e-6 level, so the loop could not
+    // reach the 1e-10 tolerance (measured at T = m: stagnation, and a full
+    // free-level prefetch per iteration because the covered window grew).
+    let mut frozen: Option<Window> = None;
     for iteration in 0..params.max_iter {
         let potential = build_potential(params, &densities);
-        let mut window = window_for(params, mu_estimate, margin);
+        let mut window = frozen.unwrap_or_else(|| window_for(params, mu_estimate, margin));
         // enlarge the window until the occupation succeeds and the edge is unoccupied
         let mut enlargements = 0usize;
         let (mut spectrum, filling) = loop {
@@ -1373,6 +1414,7 @@ pub fn solve(
                 }
             }
         };
+        frozen = Some(window);
         warm = spectrum
             .states
             .iter()
@@ -1382,21 +1424,30 @@ pub fn solve(
         let output = densities_from(&spectrum, params);
         let energy = energies(&spectrum, &output, params, filling.mu);
         mu_estimate = filling.mu;
+        // both residuals are relative to the LARGER of the two density scales:
+        // in a T = 0 brane-band state S_c << n_c and the scale is max|n_c|; in
+        // the hot pair plasma the net n_c is tiny while S_c (particles and
+        // antiparticles both count positively) is large, and dividing the
+        // eigenvalue-noise floor of S_c (~1e-12 per level, ~75000 levels) by
+        // max|n_c| would put it above the tolerance for ever (measured: the
+        // S residual stalled at 4e-10 with max|S_c| = 57 max|n_c|)
         let scale_n = output.n_c.iter().map(|v| v.abs()).fold(1e-300, f64::max);
+        let scale_s = output.s_c.iter().map(|v| v.abs()).fold(1e-300, f64::max);
+        let scale = scale_n.max(scale_s);
         let residual_n = output
             .n_c
             .iter()
             .zip(densities.n_c.iter())
             .map(|(o, i)| (o - i).abs())
             .fold(0.0, f64::max)
-            / scale_n;
+            / scale;
         let residual_s = output
             .s_c
             .iter()
             .zip(densities.s_c.iter())
             .map(|(o, i)| (o - i).abs())
             .fold(0.0, f64::max)
-            / scale_n;
+            / scale;
         history.push(HistoryRow {
             iteration,
             residual_n,
@@ -1805,16 +1856,23 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
-    fn probe_leak() {
-        // 20000 short integrations; watch the process memory from outside
-        let pot = Arc::new(Potential::free(1.0, 0.0, 3.0, 1.0, 301));
-        let mut sh = Shooter::new(pot, crate::shooting::DEFAULT_TOLERANCES);
-        for i in 0..20000 {
-            let _ = sh.theta_end(0.5, 0.3 + 1e-6 * i as f64).unwrap();
-        }
-        println!("integrations {}", sh.stats.integrations);
-        std::thread::sleep(std::time::Duration::from_secs(20));
+    fn free_window_widening_is_quantised_and_capped() {
+        let window = Window {
+            eps_lo: -2.0,
+            eps_hi: 5.0,
+        };
+        let width = |w: Window| (w.eps_hi - window.eps_hi, window.eps_lo - w.eps_lo);
+        let close = |a: (f64, f64), b: f64| (a.0 - b).abs() < 1e-5 && (a.1 - b).abs() < 1e-5;
+        // non-interacting solve: no widening beyond the 1e-6 m guard
+        let free = FreeLevels::new(&standard_params(2.0, 3.0, 0.0, 0.0, 8.0));
+        assert!(close(width(free.widened(window, 0.0)), 0.0));
+        // interacting: at least one quantum (0.25 m = 0.5 here), rounded up, capped at 3 m
+        let lev = FreeLevels::new(&standard_params(2.0, 3.0, 0.01, 0.0, 8.0));
+        assert!(close(width(lev.widened(window, 0.0)), 0.5));
+        assert!(close(width(lev.widened(window, 0.3)), 0.5));
+        assert!(close(width(lev.widened(window, 0.51)), 1.0));
+        assert!(close(width(lev.widened(window, 0.7)), 1.0));
+        assert!(close(width(lev.widened(window, 100.0)), 6.0));
     }
 
     #[test]

@@ -29,10 +29,15 @@
 //! * excited: KS gaps, particle-hole list and Delta-SCF for m = 1, L = 3,
 //!   N in {8, N_mid, N_large}, lambda_hat in {0, +-lh1, +-lh2}.
 //! * thermo: T/m in {0, 0.1, 0.3, 1} for m = 1, L = 3, N in {8, N_mid},
-//!   lambda_hat in {0, lh1} (at T/m = 1 the interacting series only for
-//!   N = 8: ~75000 levels per block type and iteration); C_V: fixed-spectrum
-//!   derivative (exact for lambda = 0) at every T, self-consistent central
-//!   differences (delta = 0.05 T) for T <= 0.3 m.
+//!   three series per N at fixed lambda_hat: lam0 (free), lamp1 (the
+//!   T = 0-calibrated lh1; a point is run only when its first-order
+//!   pseudo-potential lh1 strength_free(T) is <= 1 m, the upper edge of the
+//!   STAGE4_SPEC window: the thermal pair plasma multiplies max|S_p| by
+//!   orders of magnitude, 44 m at T = m, N = 8) and lamh (hot-calibrated,
+//!   lambda_hat = 0.1/strength_free(T_max), so the whole series stays in the
+//!   window at first order); C_V: fixed-spectrum derivative (exact for
+//!   lambda = 0) at every T, self-consistent central differences
+//!   (delta = 0.05 T) for T <= 0.3 m.
 //! * emt: EMT profiles and averages for the T = 0 set (m = 1, L = 3) and
 //!   one finite-T case.
 //!
@@ -57,11 +62,12 @@ use crate::scf::{
 /// of m); above it only the fixed-spectrum derivative (exact for lambda = 0).
 pub const CV_FINITE_DIFFERENCE_LIMIT: f64 = 0.3;
 /// Above this T/m the interacting (lambda != 0) thermodynamics is computed
-/// only for N <= HOT_INTERACTING_MAX_N (at T = m the window holds ~75000
-/// levels per block type and iteration; the s = -1 block of an interacting
-/// run is a separate problem).
+/// only for N <= HOT_INTERACTING_MAX_N (cost: at T = m the window holds
+/// ~75000 levels per block type and iteration and the s = -1 block of an
+/// interacting run is a separate problem; the thermo N values 8 and
+/// N_mid = 112 are both below the limit).
 pub const HOT_TEMPERATURE_LIMIT: f64 = 0.5;
-pub const HOT_INTERACTING_MAX_N: f64 = 8.0;
+pub const HOT_INTERACTING_MAX_N: f64 = 200.0;
 use crate::shooting::{Potential, Shooter, DEFAULT_TOLERANCES};
 use crate::theory;
 use crate::{ExperimentSummary, RunContext, Tolerances};
@@ -238,15 +244,7 @@ impl Reference {
                 "reference: free ground state (m = {m}, L = {length}, N = {n}) did not converge"
             ));
         }
-        let grid = params.grid();
-        let mut s_ref: f64 = 0.0;
-        let mut n_ref: f64 = 0.0;
-        for (i, y) in grid.iter().enumerate() {
-            let factor = crate::geometry::density_factor(params.h, *y);
-            s_ref = s_ref.max((factor * ground.densities.s_c[i]).abs());
-            n_ref = n_ref.max((factor * ground.densities.n_c[i]).abs());
-        }
-        let strength = (15.0 / 16.0 * s_ref).max(n_ref / 16.0) / m.powi(7);
+        let (strength, s_ref, n_ref) = strength_of(&params, &ground.densities);
         if strength.partial_cmp(&0.0) != Some(std::cmp::Ordering::Greater) {
             return Err(format!(
                 "reference: pseudo-potential strength vanishes for (m = {m}, L = {length}, N = {n})"
@@ -265,6 +263,22 @@ impl Reference {
         self.couplings.borrow_mut().push(c.clone());
         Ok(c)
     }
+}
+
+/// Pseudo-potential strength per unit lambda_hat of a state (the coupling
+/// rule of [`Reference::coupling`]): `max_y max((15/16)|S_p|, n_p/16) / m^7`
+/// (the first-order LDA pair `(M_eff - m, v_x)` at lambda_hat = 1, in units
+/// of m); returns (strength, max_y |S_p|, max_y |n_p|).
+fn strength_of(params: &Params, densities: &scf::Densities) -> (f64, f64, f64) {
+    let mut s_ref: f64 = 0.0;
+    let mut n_ref: f64 = 0.0;
+    for (i, y) in params.grid().iter().enumerate() {
+        let factor = crate::geometry::density_factor(params.h, *y);
+        s_ref = s_ref.max((factor * densities.s_c[i]).abs());
+        n_ref = n_ref.max((factor * densities.n_c[i]).abs());
+    }
+    let strength = (15.0 / 16.0 * s_ref).max(n_ref / 16.0) / params.m.powi(7);
+    (strength, s_ref, n_ref)
 }
 
 fn shells_json(shells: &[(f64, f64)]) -> Json {
@@ -750,6 +764,16 @@ pub fn run_spectrum(ctx: &RunContext) -> Result<ExperimentSummary, String> {
         &gas_rows,
     )?;
     summary.add_file("uniform-gas-table.csv");
+    // the optional exchange table: a cross-check only (STAGE4_SPEC E4.7)
+    let table_check = theory::exchange_table_check(theory::EXCHANGE_TABLE_PATH);
+    for item in &table_check.items {
+        summary.check(&item.name, item.passed, &item.detail);
+    }
+    write_json(
+        &dir.join("exchange-table-check.json"),
+        &table_check.to_json(),
+    )?;
+    summary.add_file("exchange-table-check.json");
     write_json(
         &dir.join("exchange-check.json"),
         &Json::object(vec![
@@ -757,7 +781,11 @@ pub fn run_spectrum(ctx: &RunContext) -> Result<ExperimentSummary, String> {
             ("kernelDefect", Json::Float(kernel.max(kernel_b))),
             ("closedFormRelativeDefect", Json::Float(closed_form.max(closed_b))),
             ("filledShellDefect", Json::Float(shell)),
-            ("source", Json::str("own quadrature (exchange.rs); artifacts/dirac16complex/kohn-sham/exchange-table.json was not consulted")),
+            ("source", Json::str(if table_check.present {
+                "the Kohn-Sham potentials use the exact closed form, verified by this crate's own quadrature (exchange.rs); artifacts/dirac16complex/kohn-sham/exchange-table.json is used only as a cross-check (exchange-table-check.json)"
+            } else {
+                "the Kohn-Sham potentials use the exact closed form, verified by this crate's own quadrature (exchange.rs); artifacts/dirac16complex/kohn-sham/exchange-table.json absent (cross-check not run)"
+            })),
         ]),
     )?;
     summary.add_file("exchange-check.json");
@@ -907,7 +935,7 @@ pub fn run_spectrum(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                     "not-run: kohn-sham-theory.json absent"
                 }),
             ),
-            ("exchangeTable", theory::exchange_table_note()),
+            ("exchangeTable", theory::exchange_table_note(&table_check)),
         ],
     )?;
     Ok(summary)
@@ -1350,165 +1378,326 @@ pub fn run_excited(ctx: &RunContext) -> Result<ExperimentSummary, String> {
 // thermo
 // ---------------------------------------------------------------------------
 
+/// Upper edge of the STAGE4_SPEC section 4 window for the pseudo-potential
+/// (|lambda S_p|/m in [0.1, 1]).  A point of the T = 0-calibrated thermo
+/// series (lambda_hat_1) is not run when its first-order pseudo-potential
+/// `lambda_hat_1 * strength_free(T)` exceeds it: the thermal pair plasma
+/// raises max|S_p| by orders of magnitude (measured at T = m, N = 8: 44 m;
+/// the Anderson loop oscillated between max|lambda S_p|/m = 3.5 and 55).
+pub const THERMO_FIRST_ORDER_LIMIT: f64 = 1.0;
+/// First-order pseudo-potential (units of m) of the hot-calibrated series at
+/// its highest temperature: `lambda_hat_hot = HOT_SERIES_TARGET /
+/// strength_free(T_max)`, so the whole series stays inside the window at
+/// first order (it is correspondingly weak at low T).
+pub const HOT_SERIES_TARGET: f64 = 0.1;
+
+/// Accumulated thermo output.
+#[derive(Default)]
+struct ThermoOutput {
+    records: Vec<Json>,
+    table: Vec<Vec<f64>>,
+    skipped: Vec<Json>,
+    series: Vec<Json>,
+}
+
+/// One point of a thermo series, kept for the later series of the same N.
+struct ThermoPoint {
+    temperature: f64,
+    strength: f64,
+    s_max: f64,
+    n_max: f64,
+    densities: scf::Densities,
+    mu: f64,
+}
+
+/// One thermodynamic series at fixed (N, lambda_hat) over the temperatures
+/// (`series` = (numeric id for the CSV, lambda label)).  Interacting points
+/// at T > 0 start from the free state at the same T (`free`), the others
+/// from the previous point of the series.  With `limit = Some(x)` a point
+/// whose first-order pseudo-potential `|lambda_hat| strength_free(T)`
+/// exceeds x is recorded as not run.  Returns the points that ran.
+#[allow(clippy::too_many_arguments)]
+fn thermo_series(
+    ctx: &RunContext,
+    dir: &Path,
+    summary: &mut ExperimentSummary,
+    out: &mut ThermoOutput,
+    n: f64,
+    series: (f64, &str),
+    lh: f64,
+    temperatures: &[f64],
+    free: &[ThermoPoint],
+    limit: Option<f64>,
+) -> Result<Vec<ThermoPoint>, String> {
+    let (series_id, lname) = series;
+    let mut points: Vec<ThermoPoint> = Vec::new();
+    let mut previous: Option<(scf::Densities, f64)> = None;
+    let mut previous_free = f64::INFINITY;
+    for t in temperatures {
+        let params = params_for(ctx, 1.0, 3.0, lh, *t, n);
+        let name = label(&params, lname);
+        let free_here = free.iter().find(|p| p.temperature == *t);
+        if let (Some(limit), Some(fp)) = (limit, free_here) {
+            let estimate = lh.abs() * fp.strength;
+            if estimate > limit {
+                out.skipped.push(Json::str(&format!(
+                    "{name}: not run: first-order pseudo-potential |lambda_hat| strength_free(T) = {estimate} m exceeds the STAGE4_SPEC section 4 window edge {limit} m (free state at T/m = {}: max|S_p| = {}, max n_p = {}); the hot-calibrated series lamh covers this temperature",
+                    t / params.m,
+                    fp.s_max,
+                    fp.n_max
+                )));
+                continue;
+            }
+        }
+        if *t > HOT_TEMPERATURE_LIMIT * params.m && lh != 0.0 && n > HOT_INTERACTING_MAX_N {
+            out.skipped.push(Json::str(&format!(
+                "{name}: not run (T/m = {} with lambda != 0 and N > {HOT_INTERACTING_MAX_N}: cost, ~75000 levels per block type and iteration)",
+                t / params.m
+            )));
+            continue;
+        }
+        let (initial, mu_guess) = match (lh != 0.0 && *t > 0.0, free_here, &previous) {
+            (true, Some(fp), _) => (Some(&fp.densities), fp.mu),
+            (_, _, Some((d, mu))) => (Some(d), *mu),
+            _ => (None, 0.0),
+        };
+        let solution = solve_ground(&params, initial, mu_guess)?;
+        let (_, e) = write_solution(dir, summary, &name, &solution)?;
+        summary.check(
+            &format!("{name}_converged"),
+            solution.converged,
+            &format!("{} iterations", solution.iterations),
+        );
+        summary.check(
+            &format!("{name}_particle_number"),
+            (solution.energies.n_total - n).abs() <= 1e-8 * n,
+            &format!("sum weights = {}", solution.energies.n_total),
+        );
+        // heat capacity: the fixed-spectrum derivative (exact for lambda =
+        // 0) always; the fully self-consistent central difference (delta =
+        // 0.05 T) where affordable (T <= 0.3 m: at T = m the window holds
+        // ~75000 levels per block type)
+        let fixed = heat_capacity_fixed_spectrum(&solution);
+        let c_v0 = fixed.map(|h| h.from_energy).unwrap_or(0.0);
+        let c_vs = fixed.map(|h| h.from_entropy).unwrap_or(0.0);
+        let c_v_fd: Option<f64> = if *t > 0.0 && *t <= CV_FINITE_DIFFERENCE_LIMIT * params.m {
+            let d = 0.05 * t;
+            let mut e_pm = Vec::new();
+            for f in [-1.0, 1.0] {
+                let mut p = params.clone();
+                p.temperature = t + f * d;
+                let s = solve_ground(&p, Some(&solution.densities), solution.filling.mu)?;
+                if !s.converged {
+                    return Err(format!(
+                        "{name}: C_V run at T = {} did not converge",
+                        p.temperature
+                    ));
+                }
+                e_pm.push(s.energies.total);
+            }
+            Some((e_pm[1] - e_pm[0]) / (2.0 * d))
+        } else {
+            None
+        };
+        let c_v = c_v_fd.unwrap_or(c_v0);
+        if *t > 0.0 {
+            summary.check(
+                &format!("{name}_heat_capacity_positive"),
+                c_v > 0.0 && c_v0 > 0.0,
+                &format!(
+                    "C_V = {c_v} ({}); fixed-spectrum C_V = {c_v0}, T dS/dT = {c_vs}",
+                    if c_v_fd.is_some() {
+                        "self-consistent central difference, delta = 0.05 T"
+                    } else {
+                        "fixed-spectrum derivative; the finite difference is not computed at this T (cost)"
+                    }
+                ),
+            );
+            if lh == 0.0 {
+                summary.check(
+                    &format!("{name}_fixed_spectrum_cv_identity"),
+                    (c_v0 - c_vs).abs() <= 1e-9 * c_v0.abs().max(1e-300),
+                    &format!("lambda = 0: sum mult df/dT eps = sum mult df/dT (eps - mu): {c_v0} vs {c_vs}"),
+                );
+                if let Some(fd) = c_v_fd {
+                    summary.check(
+                        &format!("{name}_cv_finite_difference_vs_exact"),
+                        (fd - c_v0).abs() <= 2e-2 * c_v0.abs().max(1e-300),
+                        &format!("lambda = 0: central difference {fd} vs exact fixed-spectrum {c_v0} (O(delta^2) truncation, delta = 0.05 T)"),
+                    );
+                }
+            }
+            summary.check(
+                &format!("{name}_free_energy_decreases"),
+                solution.energies.free <= previous_free + 1e-9 * previous_free.abs().max(1.0),
+                &format!(
+                    "F = {} (previous point of the series {})",
+                    solution.energies.free, previous_free
+                ),
+            );
+            summary.check(
+                &format!("{name}_entropy_positive"),
+                solution.energies.entropy > 0.0,
+                &format!("S = {}", solution.energies.entropy),
+            );
+        }
+        previous_free = solution.energies.free;
+        let gap = solution.gap().unwrap_or(f64::NAN);
+        out.table.push(vec![
+            series_id,
+            n,
+            lh,
+            *t,
+            solution.filling.mu,
+            solution.energies.total,
+            solution.energies.free,
+            solution.energies.entropy,
+            c_v,
+            c_v_fd.unwrap_or(f64::NAN),
+            c_v0,
+            c_vs,
+            fixed.map(|h| h.dmu_dt).unwrap_or(0.0),
+            gap,
+            solution.spectrum.states.len() as f64,
+            solution.spectrum.shells_used as f64,
+            e.w_y,
+            e.w_3,
+            e.brane_fraction,
+            solution.params.smearing,
+            solution.energies.max_lambda_s_over_m,
+            solution.energies.max_v_x_over_m,
+            solution.iterations as f64,
+        ]);
+        let mut record = match run_json(&solution, &e) {
+            Json::Object(pairs) => pairs,
+            _ => Vec::new(),
+        };
+        record.insert(0, ("label".to_string(), Json::str(&name)));
+        record.insert(1, ("lambdaName".to_string(), Json::str(lname)));
+        record.push(("heatCapacity".to_string(), Json::Float(c_v)));
+        record.push((
+            "heatCapacityFiniteDifference".to_string(),
+            Json::Float(c_v_fd.unwrap_or(f64::NAN)),
+        ));
+        record.push(("heatCapacityFixedSpectrum".to_string(), Json::Float(c_v0)));
+        record.push((
+            "heatCapacityFixedSpectrumFromEntropy".to_string(),
+            Json::Float(c_vs),
+        ));
+        out.records.push(Json::Object(record));
+        let (strength, s_max, n_max) = strength_of(&params, &solution.densities);
+        previous = Some((solution.densities.clone(), solution.filling.mu));
+        points.push(ThermoPoint {
+            temperature: *t,
+            strength,
+            s_max,
+            n_max,
+            densities: solution.densities,
+            mu: solution.filling.mu,
+        });
+    }
+    Ok(points)
+}
+
 pub fn run_thermo(ctx: &RunContext) -> Result<ExperimentSummary, String> {
     let dir = ctx.experiment_dir("thermo")?;
     let mut summary = ExperimentSummary::new("thermo");
     let reference = reference(ctx)?;
-    let mut records = Vec::new();
-    let mut table = Vec::new();
+    let mut out = ThermoOutput::default();
     let temperatures: Vec<f64> = if ctx.quick {
         vec![0.0, 0.1, 0.3]
     } else {
         vec![0.0, 0.1, 0.3, 1.0]
     };
-    let mut skipped: Vec<Json> = Vec::new();
     for n in [8.0, reference.n_mid] {
         let c = reference.coupling(1.0, 3.0, n)?;
-        for (lname, lh) in lambda_set(&c, true) {
-            let mut previous: Option<Solution> = None;
-            let mut previous_free = f64::INFINITY;
-            for t in &temperatures {
-                let params = params_for(ctx, 1.0, 3.0, lh, *t, n);
-                let name = label(&params, &lname);
-                if *t > HOT_TEMPERATURE_LIMIT * params.m && lh != 0.0 && n > HOT_INTERACTING_MAX_N {
-                    skipped.push(Json::str(&format!(
-                        "{name}: not run (T/m = {} with lambda != 0 and N > {HOT_INTERACTING_MAX_N}: ~75000 levels per block type and iteration)",
-                        t / params.m
-                    )));
-                    continue;
-                }
-                let solution = solve_ground(
-                    &params,
-                    previous.as_ref().map(|p| &p.densities),
-                    previous.as_ref().map(|p| p.filling.mu).unwrap_or(0.0),
-                )?;
-                let (_, e) = write_solution(&dir, &mut summary, &name, &solution)?;
-                summary.check(
-                    &format!("{name}_converged"),
-                    solution.converged,
-                    &format!("{} iterations", solution.iterations),
-                );
-                summary.check(
-                    &format!("{name}_particle_number"),
-                    (solution.energies.n_total - n).abs() <= 1e-8 * n,
-                    &format!("sum weights = {}", solution.energies.n_total),
-                );
-                // heat capacity: the fixed-spectrum derivative (exact for
-                // lambda = 0) always; the fully self-consistent central
-                // difference (delta = 0.05 T) where affordable (T <= 0.3 m: at
-                // T = m the window holds ~75000 levels per block type)
-                let fixed = heat_capacity_fixed_spectrum(&solution);
-                let c_v0 = fixed.map(|h| h.from_energy).unwrap_or(0.0);
-                let c_vs = fixed.map(|h| h.from_entropy).unwrap_or(0.0);
-                let c_v_fd: Option<f64> = if *t > 0.0 && *t <= CV_FINITE_DIFFERENCE_LIMIT * params.m
-                {
-                    let d = 0.05 * t;
-                    let mut e_pm = Vec::new();
-                    for f in [-1.0, 1.0] {
-                        let mut p = params.clone();
-                        p.temperature = t + f * d;
-                        let s = solve_ground(&p, Some(&solution.densities), solution.filling.mu)?;
-                        if !s.converged {
-                            return Err(format!(
-                                "{name}: C_V run at T = {} did not converge",
-                                p.temperature
-                            ));
-                        }
-                        e_pm.push(s.energies.total);
-                    }
-                    Some((e_pm[1] - e_pm[0]) / (2.0 * d))
-                } else {
-                    None
-                };
-                let c_v = c_v_fd.unwrap_or(c_v0);
-                if *t > 0.0 {
-                    summary.check(
-                        &format!("{name}_heat_capacity_positive"),
-                        c_v > 0.0 && c_v0 > 0.0,
-                        &format!(
-                            "C_V = {c_v} ({}); fixed-spectrum C_V = {c_v0}, T dS/dT = {c_vs}",
-                            if c_v_fd.is_some() {
-                                "self-consistent central difference, delta = 0.05 T"
-                            } else {
-                                "fixed-spectrum derivative; the finite difference is not computed at this T (cost)"
-                            }
-                        ),
-                    );
-                    if lh == 0.0 {
-                        summary.check(
-                            &format!("{name}_fixed_spectrum_cv_identity"),
-                            (c_v0 - c_vs).abs() <= 1e-9 * c_v0.abs().max(1e-300),
-                            &format!("lambda = 0: sum mult df/dT eps = sum mult df/dT (eps - mu): {c_v0} vs {c_vs}"),
-                        );
-                        if let Some(fd) = c_v_fd {
-                            summary.check(
-                                &format!("{name}_cv_finite_difference_vs_exact"),
-                                (fd - c_v0).abs() <= 2e-2 * c_v0.abs().max(1e-300),
-                                &format!("lambda = 0: central difference {fd} vs exact fixed-spectrum {c_v0} (O(delta^2) truncation, delta = 0.05 T)"),
-                            );
-                        }
-                    }
-                    summary.check(
-                        &format!("{name}_free_energy_decreases"),
-                        solution.energies.free
-                            <= previous_free + 1e-9 * previous_free.abs().max(1.0),
-                        &format!(
-                            "F = {} (previous {})",
-                            solution.energies.free, previous_free
-                        ),
-                    );
-                    summary.check(
-                        &format!("{name}_entropy_positive"),
-                        solution.energies.entropy > 0.0,
-                        &format!("S = {}", solution.energies.entropy),
-                    );
-                }
-                previous_free = solution.energies.free;
-                let gap = solution.gap().unwrap_or(f64::NAN);
-                table.push(vec![
-                    n,
-                    lh,
-                    *t,
-                    solution.filling.mu,
-                    solution.energies.total,
-                    solution.energies.free,
-                    solution.energies.entropy,
-                    c_v,
-                    c_v_fd.unwrap_or(f64::NAN),
-                    c_v0,
-                    c_vs,
-                    fixed.map(|h| h.dmu_dt).unwrap_or(0.0),
-                    gap,
-                    solution.spectrum.states.len() as f64,
-                    solution.spectrum.shells_used as f64,
-                    e.w_y,
-                    e.w_3,
-                    e.brane_fraction,
-                    solution.params.smearing,
-                ]);
-                let mut record = match run_json(&solution, &e) {
-                    Json::Object(pairs) => pairs,
-                    _ => Vec::new(),
-                };
-                record.insert(0, ("label".to_string(), Json::str(&name)));
-                record.push(("heatCapacity".to_string(), Json::Float(c_v)));
-                record.push((
-                    "heatCapacityFiniteDifference".to_string(),
-                    Json::Float(c_v_fd.unwrap_or(f64::NAN)),
-                ));
-                record.push(("heatCapacityFixedSpectrum".to_string(), Json::Float(c_v0)));
-                record.push((
-                    "heatCapacityFixedSpectrumFromEntropy".to_string(),
-                    Json::Float(c_vs),
-                ));
-                records.push(Json::Object(record));
-                previous = Some(solution);
-            }
-        }
+        // (0) free series: also measures the pseudo-potential strength of
+        // the free state at every T (the first-order estimates below)
+        let free = thermo_series(
+            ctx,
+            &dir,
+            &mut summary,
+            &mut out,
+            n,
+            (0.0, "lam0"),
+            0.0,
+            &temperatures,
+            &[],
+            None,
+        )?;
+        // (1) the T = 0-calibrated coupling lambda_hat_1 of (m, L, N)
+        let ran_1 = thermo_series(
+            ctx,
+            &dir,
+            &mut summary,
+            &mut out,
+            n,
+            (1.0, "lamp1"),
+            c.lambda_hat_1,
+            &temperatures,
+            &free,
+            Some(THERMO_FIRST_ORDER_LIMIT),
+        )?;
+        // (2) hot-calibrated coupling: the first-order pseudo-potential of
+        // the free state at the highest temperature is HOT_SERIES_TARGET m
+        let hottest = free
+            .last()
+            .ok_or_else(|| "thermo: empty free series".to_string())?;
+        let lambda_hot = HOT_SERIES_TARGET / hottest.strength;
+        let ran_hot = thermo_series(
+            ctx,
+            &dir,
+            &mut summary,
+            &mut out,
+            n,
+            (2.0, "lamh"),
+            lambda_hot,
+            &temperatures,
+            &free,
+            None,
+        )?;
+        let estimates = |lh: f64| -> Json {
+            Json::floats(&free.iter().map(|p| lh * p.strength).collect::<Vec<_>>())
+        };
+        out.series.push(Json::object(vec![
+            ("N", Json::Float(n)),
+            ("temperaturesOverM", Json::floats(&temperatures)),
+            (
+                "strengthFree_perUnitLambdaHat",
+                Json::floats(&free.iter().map(|p| p.strength).collect::<Vec<_>>()),
+            ),
+            (
+                "maxProperScalarDensityFree",
+                Json::floats(&free.iter().map(|p| p.s_max).collect::<Vec<_>>()),
+            ),
+            (
+                "maxProperNumberDensityFree",
+                Json::floats(&free.iter().map(|p| p.n_max).collect::<Vec<_>>()),
+            ),
+            ("lambdaHat1", Json::Float(c.lambda_hat_1)),
+            (
+                "firstOrderPseudoPotential_lambdaHat1",
+                estimates(c.lambda_hat_1),
+            ),
+            (
+                "temperaturesRun_lambdaHat1",
+                Json::floats(&ran_1.iter().map(|p| p.temperature).collect::<Vec<_>>()),
+            ),
+            ("lambdaHatHot", Json::Float(lambda_hot)),
+            (
+                "firstOrderPseudoPotential_lambdaHatHot",
+                estimates(lambda_hot),
+            ),
+            (
+                "temperaturesRun_lambdaHatHot",
+                Json::floats(&ran_hot.iter().map(|p| p.temperature).collect::<Vec<_>>()),
+            ),
+        ]));
     }
     write_csv(
         &dir.join("thermodynamics.csv"),
         &[
+            "series",
             "N",
             "lambda_hat",
             "T",
@@ -1528,11 +1717,14 @@ pub fn run_thermo(ctx: &RunContext) -> Result<ExperimentSummary, String> {
             "w_3",
             "brane_fraction",
             "occupation_smearing",
+            "max_lambda_S_over_m",
+            "max_v_x_over_m",
+            "iterations",
         ]
         .iter()
         .map(|s| s.to_string())
         .collect::<Vec<_>>(),
-        &table,
+        &out.table,
     )?;
     summary.add_file("thermodynamics.csv");
     finish(
@@ -1542,9 +1734,12 @@ pub fn run_thermo(ctx: &RunContext) -> Result<ExperimentSummary, String> {
         vec![
             ("reference", reference_json(&reference)),
             ("temperaturesOverM", Json::floats(&temperatures)),
+            ("seriesRule", Json::str("series 0 (lam0): lambda = 0; series 1 (lamp1): the T = 0-calibrated lambda_hat_1 of (m, L, N), a point is run only when its first-order pseudo-potential lambda_hat_1 strength_free(T) <= 1 m (STAGE4_SPEC section 4 window); series 2 (lamh): lambda_hat_hot = 0.1 / strength_free(T_max), fixed over the series (so F(T), S(T), C_V(T) belong to one Hamiltonian); interacting points at T > 0 start from the free state at the same T; strength = max_y max((15/16)|S_p|, n_p/16)/m^7")),
+            ("series", Json::Array(std::mem::take(&mut out.series))),
             ("heatCapacity", Json::str("column C_V: self-consistent central difference dE/dT|_N (delta = 0.05 T) for T <= 0.3 m, else the fixed-spectrum derivative sum mult (df/dT)|_N <h_0> (exact for lambda = 0); columns C_V_fd, C_V_fixed_spectrum, C_V_fixed_spectrum_entropy give all three (nan = not computed)")),
-            ("skippedRuns", Json::Array(skipped)),
-            ("runs", Json::Array(records)),
+            ("excitationSpectrumFiniteT", Json::str("<run>/levels.csv of every thermo run is the Kohn-Sham quasi-particle excitation spectrum at that T: eps with the Fermi-Dirac occupation f (particle branch) or the hole occupation 1 - f (sea branch = thermal antiparticles), multiplicity, Pruefer index and charges; the column ks_gap of thermodynamics.csv is eps_LUMO - eps_HOMO with HOMO/LUMO the highest particle level with f >= 1/2 and the lowest with f < 1/2")),
+            ("skippedRuns", Json::Array(std::mem::take(&mut out.skipped))),
+            ("runs", Json::Array(std::mem::take(&mut out.records))),
         ],
     )?;
     Ok(summary)
@@ -1683,7 +1878,7 @@ pub fn run_emt(ctx: &RunContext) -> Result<ExperimentSummary, String> {
         vec![
             ("reference", reference_json(&reference)),
             ("requiredSource", Json::str("rho_req = -21 H^2/kappa < 0, p_req = +15 H^2/kappa (w_req = -5/7) from G^mu_nu; the Kohn-Sham state has rho > 0")),
-            ("E41", Json::str("STAGE4_SPEC E4.1: the static-field sourcing conditions m S = -36 H^2/kappa and lambda S^2 = 30 H^2/kappa are evaluated per run on <S_p> (run.json: emt.E41_sourcingConditions; emt-summary.csv); they require lambda S/m = -5/6 and m S < 0. Measured sign of S: massive bulk levels carry positive scalar charge, the k = 0 brane zero modes exactly 0, the brane band eps = +ck NEGATIVE scalar charge (d eps/dM = k dc/dM < 0), so the sign of <S_p> depends on the filling and is reported per run; the gamma^8 map m -> -m, lambda -> -lambda flips S and leaves m S and lambda S^2 unchanged")),
+            ("E41", Json::str("STAGE4_SPEC E4.1: the static-field sourcing conditions m S = -36 H^2/kappa and lambda S^2 = 30 H^2/kappa are evaluated per run on <S_p> (run.json: emt.E41_sourcingConditions; emt-summary.csv); they require lambda S/m = -5/6 and m S < 0. Measured sign of S: massive bulk levels carry positive scalar charge, the k = 0 brane zero modes exactly 0, the brane band eps = +ck NEGATIVE scalar charge (d eps/dM = k dc/dM < 0), so the sign of <S_p> depends on the filling and is reported per run; the Kohn-Sham mirror (block swap (a, b) -> (b, a) with s -> -s, the KS form of the gamma^8 map) maps the problem (m, lambda, tip bag b(-L) = 0) exactly onto (-m, lambda, bag a(-L) = 0) with identical energies and S -> -S, so m S, lambda S^2 and the verdict are the same in the mirror sector (emt.rs header)")),
             ("runs", Json::Array(records)),
         ],
     )?;

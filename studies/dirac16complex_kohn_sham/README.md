@@ -15,7 +15,7 @@ Binding documents: `STAGE4_SPEC.md`, `CONTRACT.md` (with errata),
 ```
 cd studies/dirac16complex_kohn_sham
 cargo build --release
-cargo test --release          # 32 unit tests (see below)
+cargo test --release          # 34 unit tests, 2 ignored timing probes (see below)
 cargo clippy --release --all-targets && cargo fmt --check
 cd ../..                      # run from the repository root (relative artifact paths)
 ./studies/dirac16complex_kohn_sham/target/release/dirac16complex_kohn_sham print-config
@@ -76,7 +76,15 @@ verifies the exact 2x2 block basis in Gaussian-integer arithmetic and writes
   `v_s = -lambda S/16` (mass type) and `v_v = -lambda n/16` (potential type);
   the KS equation uses both: `M_eff = m + (15/16) lambda S_p`,
   `eps -> eps - v_v(y)`.  No correlation term (contact interaction beyond HF
-  is not renormalisable in 8D).
+  is not renormalisable in 8D).  The potentials use this exact closed form
+  (STAGE4_SPEC E4.7); `artifacts/dirac16complex/kohn-sham/exchange-table.json`
+  (written by the independent sympy checker) is used only as a cross-check
+  (`spectrum/exchange-table-check.json`): the closed form reproduces the
+  tabulated double quadrature of every row of the 3-space (`d3`) and
+  4-space (`d4`) tables to 1.7e-14, and this crate's own 3-space gas
+  quadrature reproduces the tabulated `S(n, T)` and `mu(n, T)` at T >= 0.3 m
+  to 2e-9 (the lower-T rows are measured only: the fixed 400-node rule does
+  not resolve the Fermi edge).
 * **Boundary conditions** (`shooting.rs`): brane parity `Psi(-y) = +-gamma^0 Psi(y)`
   → `b(0) = 0` (+) or `a(0) = 0` (-); tip bag `gamma^0 chi(-L) = +chi(-L)` →
   `b(-L) = 0`.  In signature (4,4) `(gamma^0)^2 = +1`, so the MIT-type condition
@@ -107,9 +115,16 @@ verifies the exact 2x2 block basis in Gaussian-integer arithmetic and writes
   4 x threads and merged in shell order (the output does not depend on the
   thread count); the free levels that define the branches are computed in
   parallel (union of the windows, widened by the exact eigenvalue-shift bound
-  `max|M_eff - m| + max|v_x|`) once per solve and warm-start the interacting
-  levels (no cache across solves: it would change the 1e-12-level path of
-  the root search and break the byte identity of repeated solves); energy
+  `max|M_eff - m| + max|v_x|` rounded up to a multiple of 0.25 m, at least
+  one quantum, capped at 3 m, so that small changes of the bound do not
+  trigger a new prefetch) and warm-start the interacting levels (no cache
+  across solves: it would change the 1e-12-level path of the root search and
+  break the byte identity of repeated solves); a lambda = 0 solve is its own
+  free spectrum (`eps_free = eps`, no prefetch); the energy
+  window is fixed in the first SCF iteration and enlarged only when its edge
+  is not free (a window following the running mu moved its edge every
+  iteration and, at T > 0, the edge states with occupation ~ f_cut changed
+  the densities at the 1e-6 level, so the loop stagnated); energy
   windows always reach down to the T = 0 floor `-(2.5 m + 2 pi/L)` and, at
   T > 0, up to `mu + T ln(1/f_cut) + 0.5 m` with `f_cut = 1e-8` (the neglected
   Boltzmann tail of the level density ~ eps^3 is ~1e-5 of E at T = m, where
@@ -123,11 +138,22 @@ verifies the exact 2x2 block basis in Gaussian-integer arithmetic and writes
   lambda = 0, where it equals `T dS/dT`) for every T > 0, and the fully
   self-consistent central difference (delta = 0.05 T) for T <= 0.3 m
   (columns `C_V`, `C_V_fd`, `C_V_fixed_spectrum`, `C_V_fixed_spectrum_entropy`);
-  at T = m the interacting (lambda != 0) series is computed for N = 8 only
-  (the N_mid case is recorded as not run: ~75000 levels per block type and
-  iteration);
+  thermodynamics (`thermo`): per N in {8, N_mid} three series at fixed
+  lambda_hat over T/m in {0, 0.1, 0.3, 1}: `lam0` (free), `lamp1` (the
+  T = 0-calibrated lambda_hat_1; a point runs only when its first-order
+  pseudo-potential `lambda_hat_1 strength_free(T)` is at most 1 m, the upper
+  edge of the STAGE4_SPEC window, because the thermal pair plasma multiplies
+  max|S_p| by orders of magnitude: 44 m at T = m, where the Anderson loop
+  oscillated between 3.5 m and 55 m; the skipped points and their estimates
+  are listed in `thermo/summary.json: skippedRuns`) and `lamh`
+  (hot-calibrated `lambda_hat = 0.1/strength_free(T_max)`, so one
+  Hamiltonian covers the whole series inside the window at first order);
+  interacting points at T > 0 start from the free state at the same T;
   proper densities `n_p = e^{-6Hy} n_c`, `S_p = e^{-6Hy} S_c`; Anderson mixing;
-  convergence `max|Delta n_c|/max|n_c| < 1e-10` (same for `S_c`); energies
+  convergence `max|Delta n_c|/D < 1e-10` and `max|Delta S_c|/D < 1e-10` with
+  `D = max(max|n_c|, max|S_c|)` (in the hot pair plasma the net `n_c` is tiny
+  while `S_c` is large, and the eigenvalue-noise floor of ~75000 levels in
+  `S_c` divided by `max|n_c|` never reached 1e-10); energies
   `E = sum w eps - int[(lambda/2) S_p^2 + e_x] dV_p`, entropy, `F`, `Omega`;
   Delta-SCF with occupations fixed by level identity.
 * **Couplings** (`runs.rs`): per configuration (m, L, N), from the free
@@ -160,6 +186,11 @@ verifies the exact 2x2 block basis in Gaussian-integer arithmetic and writes
   scalar charge (`d eps/dM = k dc/dM < 0`, the exact `c(M)` decreases toward
   1 with M); the ground states of this study are dominated by the brane
   band, so `<S_p> < 0` and the mass condition alone gives a positive kappa.
+  Mirror sector: the block swap `(a, b) -> (b, a)` with `s -> -s` maps the
+  problem (m, lambda, tip bag `b(-L) = 0`) exactly onto (-m, lambda, bag
+  `a(-L) = 0`) with identical energies and `S -> -S`, so `m S`, `lambda S^2`
+  and the E4.1 verdict are unchanged there (the KS form of the gamma^8 map;
+  derivation in the `emt.rs` header).
 
 ## Unit tests (`cargo test --release`)
 
@@ -174,21 +205,24 @@ potential) and in `k` (5-point stencils), `(k, eps) -> (-k, -eps)` symmetry,
 deep-evanescence rescaling; `scf`: shells, Anderson, non-interacting fill
 (N = 8 = the brane zero modes, E = 0), thermal fill conserves N, repeat run
 byte-identical, an asymmetric window keeps every mirror state (regression
-test for the closed-shell table); `emt`: `int rho = E`, conservation and the
-E4.1 evaluation (negative scalar charge of the brane band); `theory`: SHA-256
-known answers.
+test for the closed-shell table), free-window widening quantised and capped;
+`emt`: `int rho = E`, conservation and the E4.1 evaluation (negative scalar
+charge of the brane band); `theory`: SHA-256 known answers, the
+exchange-table cross-check (skipped when the table is absent).
 
 ## Output layout (`artifacts/dirac16complex/kohn-sham/rust/`)
 
 `generator-report.json` (exact block basis, from the generator);
 `spectrum/`: `reduction.json`, `geometry.json`, `exchange-check.json`,
-`theory-agreement.json`, `uniform-gas-table.csv`,
+`exchange-table-check.json`, `theory-agreement.json`, `uniform-gas-table.csv`,
 `free-spectrum-m{1,3}-L{2,3,4}.csv`, `closed-shells-m1-L3.csv`,
 `summary.json` (reference numbers: N_mid, N_large, lambda_hat_1,
 lambda_hat_2).  `scf/`, `thermo/`, `emt/`: one directory per run
 (`levels.csv`, `profiles.csv`, `history.csv`, `run.json`) and `summary.json`;
 `excited/`: `particle-hole.csv`, `levels.csv`, `levels-excited.csv` per run and
-`excitations.csv`; `thermo/thermodynamics.csv`; `emt/emt-summary.csv`;
+`excitations.csv`; `thermo/thermodynamics.csv` (column `series`: 0 lam0,
+1 lamp1, 2 lamh; per-series couplings and first-order estimates in
+`thermo/summary.json: series`); `emt/emt-summary.csv`;
 `determinism-report.json` (repeat byte identity and refined-tolerance
 convergence, written by `tools/compare_runs.py`; the repeat and refined
 trees themselves are not committed).

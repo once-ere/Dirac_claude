@@ -27,6 +27,7 @@ use std::fs;
 use std::sync::Arc;
 
 use crate::blocks::{expected_form, Operators, C16, N};
+use crate::exchange::{exchange_energy_density, gas_chemical_potential, gas_moments};
 use crate::jsonread::{parse, Value};
 use crate::math::exp;
 use crate::output::Json;
@@ -47,6 +48,8 @@ pub struct Item {
 /// Outcome of the comparison.
 #[derive(Clone, Debug, Default)]
 pub struct Comparison {
+    /// File compared (THEORY_PATH or EXCHANGE_TABLE_PATH).
+    pub path: String,
     pub present: bool,
     pub sha256: String,
     pub items: Vec<Item>,
@@ -64,7 +67,7 @@ impl Comparison {
 
     pub fn to_json(&self) -> Json {
         let mut pairs = vec![
-            ("path", Json::str(THEORY_PATH)),
+            ("path", Json::str(&self.path)),
             (
                 "status",
                 Json::str(if self.present {
@@ -181,7 +184,10 @@ fn same_list(a: &[f64], b: &[f64]) -> bool {
 /// Load and compare; `zero_mode_slope` is this crate's d eps_0/dk at k = 0
 /// for (H, M, L, a4) = (1, 1, 3, 0) in the s = +1 block.
 pub fn compare(path: &str, tolerances: Tolerances) -> Comparison {
-    let mut out = Comparison::default();
+    let mut out = Comparison {
+        path: path.to_string(),
+        ..Comparison::default()
+    };
     let Ok(bytes) = fs::read(path) else {
         out.notes
             .push(("reason".to_string(), format!("{path} absent")));
@@ -481,24 +487,167 @@ pub fn compare(path: &str, tolerances: Tolerances) -> Comparison {
     out
 }
 
-/// Note about the optional exchange table.
-pub fn exchange_table_note() -> Json {
-    match fs::read(EXCHANGE_TABLE_PATH) {
-        Ok(bytes) => Json::object(vec![
-            ("path", Json::str(EXCHANGE_TABLE_PATH)),
-            ("status", Json::str("present; not used (the crate uses its own exact closed form and quadrature)")),
-            ("sha256", Json::str(&sha256_hex(&bytes))),
-        ]),
-        Err(_) => Json::object(vec![
-            ("path", Json::str(EXCHANGE_TABLE_PATH)),
-            ("status", Json::str("absent; the crate uses its own exact closed form -(lambda/32)(n^2+S^2) verified by quadrature")),
-        ]),
+/// Relative tolerance of the closed form against the tabulated quadrature.
+pub const TABLE_CLOSED_FORM_TOLERANCE: f64 = 1.0e-10;
+/// Rows of the 3-space table recomputed with this crate's own gas
+/// quadrature: T >= this (units of m).  The fixed 400-node Gauss-Legendre
+/// rule of `exchange::gas_moments` does not resolve the Fermi edge at lower
+/// T; those rows are measured and reported, not checked.
+pub const TABLE_OWN_GAS_MIN_T: f64 = 0.3;
+/// Relative tolerance on S(n, T) and absolute tolerance (in units of
+/// T + |mu|) on mu(n, T) for the recomputed 3-space rows.
+pub const TABLE_OWN_GAS_TOLERANCE: f64 = 1.0e-7;
+
+/// Cross-check against the optional uniform-gas exchange table
+/// `exchange-table.json` (written by the independent sympy checker of this
+/// stage).  STAGE4_SPEC E4.7: the exchange is exactly local and this crate
+/// uses the closed form `e_x = -(lambda/32)(n^2 + S^2)` (exchange.rs,
+/// verified by its own quadrature); the table is used ONLY as a cross-check:
+///
+/// * every row of the tables `d3` (momentum in 3-space) and `d4` (momentum
+///   in y and 3-space): the tabulated double-quadrature value
+///   `exOverLambda_quadrature` against [`exchange_energy_density`]`(1, n, S)`
+///   at the tabulated (n, S), relative [`TABLE_CLOSED_FORM_TOLERANCE`];
+/// * the rows of `d3` (the gas of `exchange::gas_moments`) with
+///   T >= [`TABLE_OWN_GAS_MIN_T`]: S(n, T) and mu(n, T) recomputed with this
+///   crate's quadrature (bisection for mu, 400 Gauss-Legendre nodes on
+///   [0, 60 m]).
+pub fn exchange_table_check(path: &str) -> Comparison {
+    let mut out = Comparison {
+        path: path.to_string(),
+        ..Comparison::default()
+    };
+    let Ok(bytes) = fs::read(path) else {
+        out.notes
+            .push(("reason".to_string(), format!("{path} absent")));
+        return out;
+    };
+    out.present = true;
+    out.sha256 = sha256_hex(&bytes);
+    let doc = match String::from_utf8(bytes)
+        .map_err(|e| format!("not UTF-8: {e}"))
+        .and_then(|text| parse(&text))
+    {
+        Ok(d) => d,
+        Err(e) => {
+            out.item("exchange_table_parse", false, e);
+            return out;
+        }
+    };
+    out.item("exchange_table_parse", true, "parsed".to_string());
+    let number = |row: &Value, key: &str| row.get(key).and_then(|v| v.as_rational());
+    for table in ["d3", "d4"] {
+        let rows = doc
+            .path(&["tables", table, "rows"])
+            .and_then(|v| v.as_array())
+            .cloned()
+            .unwrap_or_default();
+        let mut worst: f64 = 0.0;
+        let mut unreadable = 0usize;
+        for row in &rows {
+            match (
+                number(row, "n"),
+                number(row, "S"),
+                number(row, "exOverLambda_quadrature"),
+            ) {
+                (Some(n), Some(s), Some(quadrature)) => {
+                    let closed = exchange_energy_density(1.0, n, s);
+                    let scale = closed.abs().max(quadrature.abs()).max(1e-300);
+                    worst = worst.max((closed - quadrature).abs() / scale);
+                }
+                _ => unreadable += 1,
+            }
+        }
+        out.item(
+            &format!("exchange_table_{table}_closed_form"),
+            !rows.is_empty() && unreadable == 0 && worst < TABLE_CLOSED_FORM_TOLERANCE,
+            format!(
+                "{} rows ({unreadable} unreadable): max relative |-(n^2+S^2)/32 - e_x/lambda (table quadrature)| = {worst:e}",
+                rows.len()
+            ),
+        );
     }
+    // own 3-space gas quadrature against the d3 rows
+    let rows = doc
+        .path(&["tables", "d3", "rows"])
+        .and_then(|v| v.as_array())
+        .cloned()
+        .unwrap_or_default();
+    let (mut worst_s, mut worst_mu, mut checked) = (0.0f64, 0.0f64, 0usize);
+    let (mut low_s, mut low_mu, mut low_rows) = (0.0f64, 0.0f64, 0usize);
+    for row in &rows {
+        let (Some(n), Some(t), Some(s), Some(mu)) = (
+            number(row, "n"),
+            number(row, "T"),
+            number(row, "S"),
+            number(row, "mu"),
+        ) else {
+            continue;
+        };
+        if t <= 0.0 {
+            continue;
+        }
+        let own_mu = gas_chemical_potential(1.0, n, t, 60.0, 400);
+        let own = gas_moments(1.0, own_mu, t, 60.0, 400);
+        let ds = (own.s - s).abs() / s.abs().max(1e-300);
+        let dmu = (own_mu - mu).abs() / (t + mu.abs());
+        if t >= TABLE_OWN_GAS_MIN_T {
+            worst_s = worst_s.max(ds);
+            worst_mu = worst_mu.max(dmu);
+            checked += 1;
+        } else {
+            low_s = low_s.max(ds);
+            low_mu = low_mu.max(dmu);
+            low_rows += 1;
+        }
+    }
+    out.item(
+        "exchange_table_d3_own_gas_quadrature",
+        checked > 0 && worst_s < TABLE_OWN_GAS_TOLERANCE && worst_mu < TABLE_OWN_GAS_TOLERANCE,
+        format!(
+            "{checked} rows with T >= {TABLE_OWN_GAS_MIN_T} m: max relative |S_own - S_table| = {worst_s:e}, max |mu_own - mu_table|/(T + |mu|) = {worst_mu:e}; measured only ({low_rows} rows with 0 < T < {TABLE_OWN_GAS_MIN_T} m, Fermi edge unresolved by the fixed rule): {low_s:e}, {low_mu:e}"
+        ),
+    );
+    out.notes.push((
+        "use".to_string(),
+        "cross-check only: the Kohn-Sham potentials use the exact closed form e_x = -(lambda/32)(n^2 + S^2), v_s = -(lambda/16) S, v_v = -(lambda/16) n (STAGE4_SPEC E4.7)".to_string(),
+    ));
+    out
+}
+
+/// Note about the optional exchange table (summary.json of `spectrum`).
+pub fn exchange_table_note(check: &Comparison) -> Json {
+    let status = if !check.present {
+        "absent; the crate uses its own exact closed form -(lambda/32)(n^2+S^2), verified by its own quadrature (exchange.rs)"
+    } else if check.items.iter().all(|i| i.passed) {
+        "present; used as a cross-check only (exchange-table-check.json: all items passed); the Kohn-Sham potentials use the exact closed form"
+    } else {
+        "present; used as a cross-check only (exchange-table-check.json: at least one item FAILED); the Kohn-Sham potentials use the exact closed form"
+    };
+    Json::object(vec![
+        ("path", Json::str(EXCHANGE_TABLE_PATH)),
+        ("status", Json::str(status)),
+        ("sha256", Json::str(&check.sha256)),
+    ])
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn exchange_table_cross_check_passes_when_present() {
+        // the table is written by another verifier; absent -> nothing to check
+        let check = exchange_table_check(&format!("../../{EXCHANGE_TABLE_PATH}"));
+        if !check.present {
+            return;
+        }
+        assert!(check.items.len() >= 4);
+        for item in &check.items {
+            println!("{}: {}", item.name, item.detail);
+            assert!(item.passed, "{}: {}", item.name, item.detail);
+        }
+    }
 
     #[test]
     fn sha256_known_answers() {

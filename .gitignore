@@ -283,3 +283,7 @@ provenance-latex/PROVENANCE-16-THE-COMPLETE-SOLUTION-AND-ITS-COMMANDS.latexmk.lo
 /vendor/
 /build/
 target/
+
+# editor swap files (never commit)
+*.kate-swp
+.prompt_Dirac_claude*
