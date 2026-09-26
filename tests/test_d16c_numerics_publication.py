@@ -57,8 +57,8 @@ NUMERICS = REPOSITORY_ROOT / "artifacts" / "dirac16complex" / "numerics"
 FIXTURE = REPOSITORY_ROOT / "artifacts" / "dirac16complex" / "arbitrary-field" / "algebra-fixture.json"
 GENERATED_RS = REPOSITORY_ROOT / "studies" / "dirac16complex_cosmology" / "src" / "generated.rs"
 
-MARKDOWN_SHA256 = "bacbc15f814ce2dcecc863fb63ad31874711ad574345ffae2ad75a2b536a3eae"
-TEX_SHA256 = "734fcd9672f592b090d2bf1593daf2bd9b86e60c9c5e2c8ac414aa7b9289a9b0"
+MARKDOWN_SHA256 = "596450b6f16d63bd1b4e991b2ce7055e193126c532fe6309092fea33baf5759f"
+TEX_SHA256 = "44800c49659ff02b85ac952ff165f26f7655fb494e5455466cbe98ab8390ffbe"
 
 TITLE = ("dirac16complex and the dark sector: pressure, energy density and equation of "
          "state from numerical solutions")

@@ -1,34 +1,67 @@
-# HANDOFF — how to restart this project after a session limit
+# HANDOFF — exact restart procedure after a session limit
 
-This file is the complete restart kit.  It is written for a fresh Claude Code
-session (or a human) that has none of the previous conversation.  Everything a
-restart needs is in this repository; nothing depends on the old session's scratch
-directory.
+This file is the complete restart kit for a fresh Claude Code session (or a human)
+that has none of the previous conversation.  Everything a restart needs is committed
+in this repository; nothing depends on the old session's scratch directory.
 
-## 0. Exact restart procedure (do this first)
+## 0. Exact restart procedure
 
-1. Open a terminal in the repository:
-   `cd C:\Users\nsh\Developer\github\Dirac_claude`
-2. Try to resume the previous conversation first (keeps all context):
-   `claude --continue`   (resumes the most recent session in this directory)
-   or `claude --resume` and pick the session titled with "dirac16complex".
-   In the Claude desktop app: reopen the same session from the sidebar.
-3. If resuming is not possible (session limit reached, transcript gone), start a
-   NEW session in the same directory and paste this prompt verbatim:
+### 0.1 Resume the same conversation (preferred: keeps all context)
 
-   ```text
-   Read HANDOFF.md, then handoff/specs/CONTRACT.md (all sections incl. 11),
-   handoff/specs/STAGE4_SPEC.md (incl. section 7), handoff/specs/NUMERICS_CONTRACT.md.
-   Git pull first. Continue every unfinished stage listed in HANDOFF.md section 2,
-   in order, using the Workflow tool with the scripts in handoff/workflows/ (copy
-   each to your scratchpad, set SP to your scratchpad path, keep LF line endings,
-   no "--" before wolframscript arguments). Never modify dirac-main/, vendor/ or the
-   .nb notebook. Do not stop between stages; commit and push to origin main after
-   every completed stage and verify from a fresh clone. Do not take shortcuts.
-   ```
-4. Before anything else the new session must run:
-   `bash scripts/setup_solver.sh` (or `.\scripts\setup_solver.ps1`) to refetch the
-   git-ignored solver engine, then `python -m unittest discover -s tests -v`.
+```powershell
+cd C:\Users\nsh\Developer\github\Dirac_claude
+claude --continue
+```
+
+`claude --continue` (short: `claude -c`) reopens the most recent session started in
+this directory.  If several exist, run `claude --resume` and choose the one whose
+title mentions dirac16complex.  In the Claude desktop app: open the Code tab and
+click the session in the sidebar.  After it opens, type:
+
+```text
+continue with all stages, do not stop
+```
+
+Background workflows do NOT survive a session limit.  The resumed session must
+re-launch them (section 0.3); finished files are on disk and are reused.
+
+### 0.2 Start a new session (if the old one cannot be resumed)
+
+```powershell
+cd C:\Users\nsh\Developer\github\Dirac_claude
+claude
+```
+
+Paste this prompt verbatim as the first message:
+
+```text
+Read HANDOFF.md completely. Then read handoff/specs/CONTRACT.md (all sections,
+including section 11), handoff/specs/STAGE4_SPEC.md (including sections 7 and 8),
+handoff/specs/NUMERICS_CONTRACT.md (including its erratum) and
+handoff/specs/STAGE2_SPEC.md. Run "git pull" and "bash scripts/setup_solver.sh".
+Then continue every unfinished stage listed in HANDOFF.md section 2, in order,
+using the Workflow tool with the scripts in handoff/workflows/ as described in
+HANDOFF.md section 3. Never modify dirac-main/, vendor/, or the .nb notebook.
+Do not stop between stages. Commit and push to origin main after every completed
+stage and after every ~30 minutes of work, verify from a fresh clone, and never
+take shortcuts or weaken a check.
+```
+
+### 0.3 How the new session re-launches the work (what the prompt above makes it do)
+
+1. Copy `handoff/workflows/*.js` and `handoff/tools/wait_for.py` into its own
+   scratchpad directory.  In each `.js` file set `const SP = '<its scratchpad path>'`
+   (keep `ROOT`).  Keep LF line endings (no CR characters) or the Workflow tool
+   refuses the script.
+2. Launch, per unfinished stage, the corresponding script with the Workflow tool
+   (`scriptPath`).  A fresh session has no cached agent results, so every phase runs
+   again; the agents are told that partial files may exist and must inspect and
+   finish them rather than start over (this note is already in the prompts).
+3. After each launch, immediately run the blocking wait in the SAME turn:
+   `python <scratch>/wait_for.py 570 <taskId...>` (repeat until it prints FINISHED),
+   then commit, push, verify from a fresh clone, and launch the next stage.
+   This is the mechanism that prevents the session from returning control to the
+   user while work is running.
 
 ## 1. What this repository is
 
@@ -38,21 +71,33 @@ pair-creation field; (3) dark-sector numerics (five CVODE experiments); (4) Kohn
 DFT ground and first excited states in the primordial field.  README.md gives the
 map; provenance/*.md are the documents; artifacts/dirac16complex/* the reports.
 
-## 2. State at the last push (commit noted in git log) and what remains
+## 2. State at the last push and what remains
 
-| Stage | Done | Remaining |
+| Stage | Done (verified) | Remaining |
 |---|---|---|
-| 1 arbitrary field | exact Wolfram + Python verifiers (all checks pass), Grassmann demo, publication tooling, document `provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.{md,tex,pdf}` (41 pp, registered), 4-lens review with fixes applied | run the gate `scripts/verify_stage1_arbitrary_field.{ps1,sh}` to OK; fix anything it reports |
-| 2 primordial field | COMPLETE and gated (`scripts/verify_stage2_primordial_field.{ps1,sh}` → OK), pushed | nothing |
-| 3 dark-sector numerics | Rust crate `studies/dirac16complex_cosmology` (5 experiments, all checkers pass), Jupyter notebook, Mathematica notebook, figures, builder image support | documents `provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md` and `provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md` (may be partially present: check `ls provenance`), their PDFs (`python scripts/build_provenance_pdf.py <md> --register`), 4-lens review, fixes, gate `scripts/verify_stage3_dark_sector.{ps1,sh}` (create if absent, pattern of the Stage-1/2 gates) |
-| 4 Kohn–Sham DFT | spec `handoff/specs/STAGE4_SPEC.md`; build phase was running: `wolfram/Dirac16ComplexKohnSham.wl`, `scripts/check_dirac16complex_kohn_sham_theory.py`, `studies/dirac16complex_kohn_sham` (Rust), `scripts/ks_reference_solver.py`, `scripts/check_dirac16complex_kohn_sham.py` — check which exist and pass | whatever is missing from `handoff/workflows/wf_stage4.js` phases Build → Integrate → Notebooks → Documents (`provenance/DIRAC16COMPLEX_KOHN_SHAM_PRIMORDIAL.*`, `provenance/DIRAC16COMPLEX_KOHN_SHAM_STUDENT_GUIDE.*`) → Review → Fix → Gate (`scripts/verify_stage4_kohn_sham.{ps1,sh}`) |
-| final | — | README status table; `python -m unittest discover -s tests -v` all green; fresh-clone verification (`git clone` into a scratch dir, run setup_solver, the gates); push |
+| 1 arbitrary field | COMPLETE: 153/153 exact checks in five reports, cross-implementation agreement, document `provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.{md,tex,pdf}` (45 pp), 4-lens review + fixes, gate `scripts/verify_stage1_arbitrary_field.{ps1,sh}` = OK | nothing |
+| 2 primordial field | COMPLETE: 126/126 + 16/16 checks, document `provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD.{md,tex,pdf}` (38 pp), 3-lens review + 21 fixes, gate `scripts/verify_stage2_primordial_field.{ps1,sh}` = OK | nothing |
+| 3 dark-sector numerics | Rust crate `studies/dirac16complex_cosmology` (5 experiments; checkers 25/34/31/51/21), `notebooks/dirac16complex_dark_sector.ipynb`, `notebooks/Dirac16ComplexDarkSector.nb`, figures, documents `provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS` (48 pp) and `provenance/DIRAC16COMPLEX_STUDENT_GUIDE` (49 pp) registered, 4-lens review + fixes applied | the gate agent was still running at the last push: `scripts/verify_stage3_dark_sector.{ps1,sh}` must exist and end with `stage3_dark_sector_verification=OK` (if the files are absent, create them following the Stage-1/2 gate pattern and run them); then push |
+| 4 Kohn–Sham DFT | exact theory `wolfram/Dirac16ComplexKohnSham.wl` + verifier (125/125), `scripts/check_dirac16complex_kohn_sham_theory.py` (sympy) with `artifacts/dirac16complex/kohn-sham/{kohn-sham-theory.json,exchange-table.json,python-theory-report.json}`; Rust crate `studies/dirac16complex_kohn_sham` and `scripts/ks_reference_solver.py` were being written | check which of these pass: `cargo test --release` in the crate, `python scripts/ks_reference_solver.py`, `python scripts/check_dirac16complex_kohn_sham.py`; then the remaining phases of `handoff/workflows/wf_stage4.js`: Integrate → Notebooks (`notebooks/dirac16complex_kohn_sham.ipynb`, `notebooks/Dirac16ComplexKohnSham.nb`) → Documents (`provenance/DIRAC16COMPLEX_KOHN_SHAM_PRIMORDIAL.*`, `provenance/DIRAC16COMPLEX_KOHN_SHAM_STUDENT_GUIDE.*`) → Review → Fix → Gate (`scripts/verify_stage4_kohn_sham.{ps1,sh}`) |
+| final | — | README status table; `python -m unittest discover -s tests -v` all green; fresh-clone verification (clone into a scratch dir, `setup_solver`, run every gate); push |
 
-How to tell what exists: `git log --stat -3`, `ls provenance artifacts/dirac16complex/*`,
+How to tell what exists: `git log --stat -5`, `ls provenance scripts artifacts/dirac16complex/*`,
 `python -m unittest discover -s tests -v`.  Every verifier prints
 `check_count`/`failed_check_count`; every gate ends with `stageN_..._verification=OK`.
 
-## 3. Binding conventions (never change silently)
+## 3. Workflow scripts (handoff/workflows/)
+
+| Script | Covers | Launch when |
+|---|---|---|
+| `wf_stage3_docs.js` | Stage 3 integrate → notebooks → documents → review → fix → gate | the Stage-3 gate is not yet OK (finished phases are redone quickly because the files exist) |
+| `wf_stage4.js` | all of Stage 4 (build → integrate → notebooks → documents → review → fix → gate) | always, until `stage4_kohn_sham_verification=OK` |
+| `wf_stage1_doc.js`, `wf_stage2_doc.js` | Stage 1 / Stage 2 document, review, gate | only if their gates stop passing |
+| `stage1-build-*.js`, `stage2-build-*.js`, `stage3-rust-engine-*.js`, `understand-*.js` | the original build phases (already complete) | never, unless rebuilding from scratch |
+
+Each script defines `const SP = ...` (scratch path) and `ROOT`; update `SP`.
+`handoff/tools/wait_for.py` is the blocking wait helper (section 0.3).
+
+## 4. Binding conventions (never change silently)
 
 - Counting from 0; `eta = diag(+,+,+,+,-,-,-,-)`; `x4` is time; gammas are the
   notebook's `T16^A` in the split-octonion block basis (exact fixture
@@ -62,23 +107,20 @@ How to tell what exists: `git log --stat -3`, `ls provenance artifacts/dirac16co
 - Lagrangian, field equations, energy–momentum tensor, KE/PE splits, quantization:
   `handoff/specs/CONTRACT.md` sections 5–8 with the errata in section 11.
 - Stage-2 corrections: `det g = +cos^2 z`; the condensate CAN source the field for
-  `a4'' = 0` (`handoff/specs/STAGE4_SPEC.md` section 7).
+  `a4'' = 0` (`handoff/specs/STAGE4_SPEC.md` section 7); Stage-4 theory errata in
+  its section 8 (p_req = +15H^2/kappa; 4-fold degeneracy per j-type; current matrix
+  gamma^0 gamma^4; exchange is exactly local: e_x = -(lambda/32)(n^2 + S^2)).
+- Engines: the committed numerical outputs come from the Win11 rustSolveIt engine
+  (commit a8fdff45); macOS/Linux engines differ in their math library
+  (`handoff/specs/NUMERICS_CONTRACT.md` erratum).
 - Tooling: WolframScript 1.14 drops arguments after `--` (pass paths positionally);
-  PDFs only via `scripts/build_provenance_pdf.py`; outputs deterministic (LF,
-  `fmt_e(v,17)`); numbers in documents only from reports.
-
-## 4. Workflow scripts
-
-`handoff/workflows/*.js` are the exact Workflow-tool scripts used.  Each defines
-`const SP = ...` (scratch path) and `ROOT`; update `SP` to the new session's
-scratchpad.  `wf_stage4.js` covers all of Stage 4 end to end; `wf_stage3_docs.js`
-covers Stage 3 documents/review/gate; `wf_stage1_doc.js` the Stage-1 gate.  Agents
-find existing files and should skip finished work (tell them so in the prompt).
-`handoff/tools/wait_for.py` blocks a turn until a background task finishes (so the
-session never returns control while work is running).
+  Windows PowerShell 5.1 cannot run the gates (they re-exec under PowerShell 7);
+  PDFs only via `scripts/build_provenance_pdf.py <md> [--register]`; outputs
+  deterministic (LF, `fmt_e(v,17)`); numbers in documents only from reports; large
+  files written in chunks of ≤ 300 lines per tool call (64k output-token limit).
 
 ## 5. Private inputs (never commit)
 
 `prompt_Dirac_claude*.txt`, the Gmail PDF, `dirac-main/`, `dirac-main_2.zip`,
 `vendor/` are git-ignored on purpose.  The task statements are in the ignored
-prompt files; their substance is summarised in section 2 above and in the specs.
+prompt files; their substance is in section 2 above and in the specs.

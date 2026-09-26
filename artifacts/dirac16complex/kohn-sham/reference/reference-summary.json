@@ -332,9 +332,9 @@
     },
     "rescaling": {
       "lambda_hat": 0.009,
-      "E0_a4_0.5": -0.0009134010690672409,
-      "E0_rescaled": -0.0009134010690672409,
-      "maxEigenvalueDifference": 7.593925488436071e-14,
+      "E0_a4_0.5": -0.0009134010690557724,
+      "E0_rescaled": -0.0009134010690557724,
+      "maxEigenvalueDifference": 8.304468224196171e-14,
       "statesCompared": 337,
       "E0Difference": 0.0
     }
@@ -615,6 +615,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -5.283361123470903e-14,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.42430169941364215,
@@ -826,6 +830,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": 1.5197866673942837,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.0009838665013044423,
@@ -1037,6 +1045,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -4.6317727531171375e-15,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.43073368308442633,
@@ -1248,6 +1260,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": 1.2922763033839895,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.14663398496297608,
@@ -1459,6 +1475,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -1.1878730757729435e-14,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.4307456403479134,
@@ -1670,6 +1690,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": 1.1886565494826946,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.2499869398312804,
@@ -1881,6 +1905,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -4.6317727531171375e-15,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.43073368308442633,
@@ -2092,6 +2120,10 @@
         "profile_v_out": 1.8824544242171186
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -0.00040325148355735966,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.4310739567280842,
@@ -2303,6 +2335,10 @@
         "profile_v_out": 1.8824544242171186
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": 0.0004032514835457279,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.43037289214678914,
@@ -2514,6 +2550,10 @@
         "profile_v_out": 2.1400224247152764
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -0.002262456805032517,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.432078935289582,
@@ -2725,6 +2765,10 @@
         "profile_v_out": 2.1400224247152764
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": 0.0022624568050216573,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.42854629546017364,
@@ -2936,6 +2980,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -4.6317727531171375e-15,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.095546202967415,
@@ -3147,6 +3195,10 @@
         "profile_v_out": 1.9273226256672147
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -0.0009940164764103217,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.0954391828511163,
@@ -3358,6 +3410,10 @@
         "profile_v_out": 1.978886160766141
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": 0.0007036329855495898,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.09564426881339505,
@@ -3569,6 +3625,10 @@
         "profile_v_out": 2.144231505241534
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -0.02066754373338674,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.09423456216140835,
@@ -3780,6 +3840,10 @@
         "profile_v_out": 2.047132456203347
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": 0.0037033684380522497,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.09621636517983223,
@@ -3991,6 +4055,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -4.6317727531171375e-15,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.05300764837590077,
@@ -4202,6 +4270,10 @@
         "profile_v_out": 1.8331098267797137
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -0.0029852120376951197,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": {
         "ksGap": 0.04300223366681033,
@@ -4413,6 +4485,10 @@
         "profile_v_out": 2.1731346725569693
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": 0.013654592375693265,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": null
     },
@@ -4422,7 +4498,7 @@
         "label": "m1_L3_N1016_lamp2_T0"
       },
       "converged": false,
-      "failed": "RuntimeError('occupy_zero: 328 particles unplaced (window too small)')",
+      "failed": "TypeError(\"'float' object is not iterable\")",
       "extrapolated": null,
       "ksGap": null,
       "homo": null,
@@ -4430,6 +4506,10 @@
       "emt": null,
       "orderEstimates": null,
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 0,
+      "particleBottom": null,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": null
     },
@@ -4439,7 +4519,7 @@
         "label": "m1_L3_N1016_lamm2_T0"
       },
       "converged": false,
-      "failed": "RuntimeError('occupy_zero: 64 particles unplaced (window too small)')",
+      "failed": "TypeError(\"'float' object is not iterable\")",
       "extrapolated": null,
       "ksGap": null,
       "homo": null,
@@ -4447,6 +4527,10 @@
       "emt": null,
       "orderEstimates": null,
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 0,
+      "particleBottom": null,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": null
     },
@@ -4539,6 +4623,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -7.307676423912963e-15,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": null
     },
@@ -4568,69 +4656,73 @@
         "max_iter": 200,
         "H": 1.0
       },
-      "converged": false,
+      "converged": true,
       "failed": null,
       "extrapolated": {
-        "total": -4.542808991903154e-07,
-        "free": -4.542808991903154e-07,
+        "total": -4.542811616158721e-07,
+        "free": -4.542811616158721e-07,
         "entropy": 0.0,
-        "ksSum": -9.085617952632286e-07,
-        "interaction": -4.5428089607291316e-07,
-        "hartree": 2.3908274012272055e-26,
-        "exchange": -4.5428089607291316e-07,
-        "grand": 4.542812195820533e-07,
-        "scalarCharge": 6.161827137413664e-12,
+        "ksSum": -9.085620576887851e-07,
+        "interaction": -4.5428089607291295e-07,
+        "hartree": 2.3907370956987105e-26,
+        "exchange": -4.5428089607291295e-07,
+        "grand": 4.54281253581705e-07,
+        "scalarCharge": 6.1278782217582345e-12,
         "nTotal": 8.0,
-        "mu": -1.1357026484654607e-07
+        "mu": -1.1357030189969714e-07
       },
-      "ksGap": 0.8958329719801611,
+      "ksGap": 0.895832971980201,
       "homo": "0:+1:-1:0",
       "lumo": "1:+1:-1:0",
       "emt": {
-        "w_y": 1.0000414475497015,
-        "w_3": 0.9999999931462378,
-        "w_t": 0.9999999931462378,
-        "w_mean": 1.0000059152038754,
-        "energyFromRho": -4.542808991903165e-07,
-        "braneLocalisedFraction": 0.9975595007410254,
+        "w_y": 1.000041222034532,
+        "w_3": 0.999999415251976,
+        "w_t": 0.999999415251976,
+        "w_mean": 1.0000053876494839,
+        "energyFromRho": -4.542811616158733e-07,
+        "braneLocalisedFraction": 0.9975595007410246,
         "averages": {
-          "rho": -4.63575478785068e-09,
-          "p_y": -4.635932699266626e-09,
-          "p_3": -4.635754755978414e-09,
-          "p_t": -4.635754755978414e-09,
-          "L_s": -4.635754755978414e-09
+          "rho": -4.6357574646042945e-09,
+          "p_y": -4.635934336925997e-09,
+          "p_3": -4.63575475597841e-09,
+          "p_t": -4.63575475597841e-09,
+          "L_s": -4.63575475597841e-09
         },
         "traceIdentityResidual": 6.617444900424222e-24,
         "conservationResidualMaxNormalised": [
-          0.00020261879385868024,
-          1.2581082925093725e-05,
-          1.3845971035718174e-06
+          0.00020217813761512572,
+          1.2516012610224539e-05,
+          1.104955086296759e-06
         ],
         "rhoRequired_kappa1": -21.0,
         "pRequired_kappa1": 15.0,
         "wRequired": -0.7142857142857143,
-        "kappaNeededForRho": 4530006646.390465,
+        "kappaNeededForRho": 4530004030.698907,
         "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
       },
       "orderEstimates": {
-        "total": 1.6266342857292413,
-        "free": 1.6266342857292413,
+        "total": 1.6260383779479344,
+        "free": 1.6260383779479344,
         "entropy": null,
-        "ksSum": 1.6266243075515188,
-        "interaction": 1.6266143292985973,
-        "hartree": 3.6598556308035626,
-        "exchange": 1.6266143292985973,
-        "grand": 1.626218716077102,
-        "scalarCharge": 1.742018603613263,
+        "ksSum": 1.6263263259704135,
+        "interaction": 1.6266143292993884,
+        "hartree": 3.6598738362470478,
+        "exchange": 1.6266143292993884,
+        "grand": 1.6262181777117333,
+        "scalarCharge": 1.7419985979229822,
         "nTotal": null,
-        "mu": 1.626426481220877,
-        "occupiedEigenvalues_median": 1.6266244256413511,
-        "profile_n_c": 1.9765702729050143,
-        "profile_s_c": 1.897426384722972,
+        "mu": 1.6261282792344038,
+        "occupiedEigenvalues_median": 1.6263264769979353,
+        "profile_n_c": 1.9765702729014043,
+        "profile_s_c": 1.8974741852037922,
         "profile_m_eff_out": 1.0,
-        "profile_v_out": 2.02781277487879
+        "profile_v_out": 2.0278127748679795
       },
       "branchOverlap": false,
+      "convergedBy": "potentials",
+      "levelsComputed": 3,
+      "particleBottom": -1.1352905012160895e-07,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": null
     },
@@ -4660,69 +4752,73 @@
         "max_iter": 200,
         "H": 1.0
       },
-      "converged": false,
+      "converged": true,
       "failed": null,
       "extrapolated": {
-        "total": 4.542808991903154e-07,
-        "free": 4.542808991903154e-07,
+        "total": 4.542811616158721e-07,
+        "free": 4.542811616158721e-07,
         "entropy": 0.0,
-        "ksSum": 9.085617952632286e-07,
-        "interaction": 4.5428089607291316e-07,
-        "hartree": -2.3908274012272055e-26,
-        "exchange": 4.5428089607291316e-07,
-        "grand": -4.542805725637728e-07,
-        "scalarCharge": -6.161827137413664e-12,
+        "ksSum": 9.085620576887851e-07,
+        "interaction": 4.5428089607291295e-07,
+        "hartree": -2.3907370956987105e-26,
+        "exchange": 4.5428089607291295e-07,
+        "grand": -4.5428053856412125e-07,
+        "scalarCharge": -6.1278782217582345e-12,
         "nTotal": 8.0,
-        "mu": 1.1357018396926104e-07
+        "mu": 1.1357021252249916e-07
       },
-      "ksGap": 0.895832971980132,
+      "ksGap": 0.8958329719801064,
       "homo": "0:+1:-1:0",
       "lumo": "1:+1:-1:0",
       "emt": {
-        "w_y": 1.0000414475497015,
-        "w_3": 0.9999999931462378,
-        "w_t": 0.9999999931462378,
-        "w_mean": 1.0000059152038754,
-        "energyFromRho": 4.542808991903165e-07,
-        "braneLocalisedFraction": 0.9975595007410254,
+        "w_y": 1.000041222034532,
+        "w_3": 0.999999415251976,
+        "w_t": 0.999999415251976,
+        "w_mean": 1.0000053876494839,
+        "energyFromRho": 4.542811616158733e-07,
+        "braneLocalisedFraction": 0.9975595007410246,
         "averages": {
-          "rho": 4.63575478785068e-09,
-          "p_y": 4.635932699266626e-09,
-          "p_3": 4.635754755978414e-09,
-          "p_t": 4.635754755978414e-09,
-          "L_s": 4.635754755978414e-09
+          "rho": 4.6357574646042945e-09,
+          "p_y": 4.635934336925997e-09,
+          "p_3": 4.63575475597841e-09,
+          "p_t": 4.63575475597841e-09,
+          "L_s": 4.63575475597841e-09
         },
         "traceIdentityResidual": 6.617444900424222e-24,
         "conservationResidualMaxNormalised": [
-          0.00020261879385868024,
-          1.2581082925093725e-05,
-          1.3845971035718174e-06
+          0.00020217813761512572,
+          1.2516012610224539e-05,
+          1.104955086296759e-06
         ],
         "rhoRequired_kappa1": -21.0,
         "pRequired_kappa1": 15.0,
         "wRequired": -0.7142857142857143,
-        "kappaNeededForRho": -4530006646.390465,
+        "kappaNeededForRho": -4530004030.698907,
         "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
       },
       "orderEstimates": {
-        "total": 1.6266342857292413,
-        "free": 1.6266342857292413,
+        "total": 1.6260383779479344,
+        "free": 1.6260383779479344,
         "entropy": null,
-        "ksSum": 1.6266243075515188,
-        "interaction": 1.6266143292985973,
-        "hartree": 3.6598556308035626,
-        "exchange": 1.6266143292985973,
-        "grand": 1.6270100984695137,
-        "scalarCharge": 1.742018603613263,
+        "ksSum": 1.6263263259704135,
+        "interaction": 1.6266143292993884,
+        "hartree": 3.6598738362470478,
+        "exchange": 1.6266143292993884,
+        "grand": 1.6270106578744743,
+        "scalarCharge": 1.7419985979229822,
         "nTotal": null,
-        "mu": 1.626822172869824,
-        "occupiedEigenvalues_median": 1.6266244256413511,
-        "profile_n_c": 1.9765702729050143,
-        "profile_s_c": 1.897426384722972,
+        "mu": 1.6265244169347108,
+        "occupiedEigenvalues_median": 1.6263264769979353,
+        "profile_n_c": 1.9765702729014043,
+        "profile_s_c": 1.8974741852037922,
         "profile_m_eff_out": 1.0,
-        "profile_v_out": 2.02781277487879
+        "profile_v_out": 2.0278127748679795
       },
       "branchOverlap": false,
+      "convergedBy": "potentials",
+      "levelsComputed": 3,
+      "particleBottom": 1.1352898003425515e-07,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": null
     },
@@ -4815,6 +4911,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -7.307676423912963e-15,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": null
     },
@@ -4907,6 +5007,10 @@
         "profile_v_out": 1.9770582792599558
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -1.5893626604550058e-06,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": null
     },
@@ -4999,6 +5103,10 @@
         "profile_v_out": 1.9770582249575372
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": 1.5893628272434948e-06,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": null
     },
@@ -5091,6 +5199,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -5.283361123470903e-14,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": null
     },
@@ -5183,6 +5295,10 @@
         "profile_v_out": 1.972599989913921
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -0.00041679465193658437,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": null
     },
@@ -5275,6 +5391,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -1.1878730757729435e-14,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": null
     },
@@ -5284,7 +5404,7 @@
         "label": "m1_L4_N112_lamp1_T0"
       },
       "converged": false,
-      "failed": "RuntimeError('occupy_zero: 112 particles unplaced (window too small)')",
+      "failed": "TypeError(\"'float' object is not iterable\")",
       "extrapolated": null,
       "ksGap": null,
       "homo": null,
@@ -5292,6 +5412,10 @@
       "emt": null,
       "orderEstimates": null,
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 0,
+      "particleBottom": null,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": null
     },
@@ -5384,6 +5508,10 @@
         "profile_v_out": 1.9827190336179366
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -0.0006631134921649114,
+      "collapseSuspected": false,
       "thermo": {},
       "excited": null
     },
@@ -5476,6 +5604,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -1.2442982735068917e-14,
+      "collapseSuspected": false,
       "thermo": {
         "T": 0.1,
         "energy": 1.031867228163497,
@@ -5579,6 +5711,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -1.2442982735068917e-14,
+      "collapseSuspected": false,
       "thermo": {
         "T": 0.3,
         "energy": 108.73661695518386,
@@ -5682,6 +5818,10 @@
         "profile_v_out": 1.9193065507848055
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -0.00033230830246803675,
+      "collapseSuspected": false,
       "thermo": {
         "T": 0.1,
         "energy": 1.029634775051661,
@@ -5691,6 +5831,113 @@
         "grand": -1.4372122748090626,
         "C_V": 33.62087732939734,
         "C_V_fromEntropy": 33.57639653780106,
+        "delta": 0.05,
+        "converged": true
+      },
+      "excited": null
+    },
+    {
+      "label": "m1_L3_N8_lamp1_T0p3",
+      "params": {
+        "label": "m1_L3_N8_lamp1_T0p3",
+        "m": 1.0,
+        "a4_0": 0.0,
+        "L": 3.0,
+        "lambda_hat": 0.01622668915433369,
+        "lambda": 0.01622668915433369,
+        "T": 0.3,
+        "N": 8.0,
+        "parity": 0,
+        "tip": "g0",
+        "xc": "quadratic",
+        "sea": "free",
+        "delta_k": 0.25,
+        "ell": 25.132741228718345,
+        "volume": 15875.213660313506,
+        "N0": 48,
+        "levels": 3,
+        "mix_beta": 0.4,
+        "mix_history": 6,
+        "tol": 1e-10,
+        "max_iter": 200,
+        "H": 1.0
+      },
+      "converged": true,
+      "failed": null,
+      "extrapolated": {
+        "total": 108.65969046772635,
+        "free": -30.499394960224514,
+        "entropy": 463.8636180931696,
+        "ksSum": 108.6700380305872,
+        "interaction": 0.01034756286082801,
+        "hartree": 0.011516397442178469,
+        "exchange": -0.0011688345813504572,
+        "grand": -30.605494747850575,
+        "scalarCharge": -16.28549546585734,
+        "nTotal": 7.999999999997866,
+        "mu": 0.013262473453261711
+      },
+      "ksGap": 0.4309363582407505,
+      "homo": "0:+1:+1:0",
+      "lumo": "1:+1:-1:0",
+      "emt": {
+        "w_y": 0.32576640621339054,
+        "w_3": 0.2747984732987544,
+        "w_t": 9.522908574601193e-05,
+        "w_mean": 0.1643496447666988,
+        "energyFromRho": 108.6596904678007,
+        "braneLocalisedFraction": 0.9052115054393681,
+        "averages": {
+          "rho": 0.0410677980765116,
+          "p_y": 0.013378511911390927,
+          "p_3": 0.011285369367148862,
+          "p_t": 3.910846846173549e-06,
+          "L_s": 3.910846846173549e-06
+        },
+        "traceIdentityResidual": 6.572520305780927e-13,
+        "conservationResidualMaxNormalised": [
+          0.000995247786714821,
+          0.0003285325275598388,
+          8.761405513823356e-05
+        ],
+        "rhoRequired_kappa1": -21.0,
+        "pRequired_kappa1": 15.0,
+        "wRequired": -0.7142857142857143,
+        "kappaNeededForRho": -511.3495483949694,
+        "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+      },
+      "orderEstimates": {
+        "total": 1.8634427193348766,
+        "free": 1.9295759057425323,
+        "entropy": 1.8867482242917044,
+        "ksSum": 1.8633784262731319,
+        "interaction": 2.0360569748715602,
+        "hartree": 2.0335973191567334,
+        "exchange": 2.025381366673741,
+        "grand": 1.9295958555776578,
+        "scalarCharge": 1.9434649139645126,
+        "nTotal": 0.23642676997030906,
+        "mu": 1.923405148463276,
+        "occupiedEigenvalues_median": 2.000899114423144,
+        "profile_n_c": 1.9880570384338572,
+        "profile_s_c": 1.9752902035470847,
+        "profile_m_eff_out": 2.0403142652131567,
+        "profile_v_out": 1.9800963167678747
+      },
+      "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -0.000180814785606034,
+      "collapseSuspected": false,
+      "thermo": {
+        "T": 0.3,
+        "energy": 108.65969046772635,
+        "free": -30.499394960224514,
+        "entropy": 463.8636180931696,
+        "mu": 0.013262473453261711,
+        "grand": -30.605494747850575,
+        "C_V": 1752.1191213879454,
+        "C_V_fromEntropy": 1747.837402092888,
         "delta": 0.05,
         "converged": true
       },
@@ -5785,6 +6032,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -1.2442982735068917e-14,
+      "collapseSuspected": false,
       "thermo": {
         "T": 0.1,
         "energy": 69.5093797955647,
@@ -5888,6 +6139,10 @@
         "profile_v_out": null
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -1.2442982735068917e-14,
+      "collapseSuspected": false,
       "thermo": {
         "T": 0.3,
         "energy": 167.71525057961145,
@@ -5991,6 +6246,10 @@
         "profile_v_out": 1.9447827387634766
       },
       "branchOverlap": false,
+      "convergedBy": null,
+      "levelsComputed": 3,
+      "particleBottom": -0.0009336053642474099,
+      "collapseSuspected": false,
       "thermo": {
         "T": 0.1,
         "energy": 69.55820276732284,

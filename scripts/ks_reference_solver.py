@@ -746,6 +746,8 @@ def order_estimate(q1, q2, q4):
 # ---------------------------------------------------------------------------
 
 WINDOW_FACTOR = 32.0        # f(32) = 1.3e-14: sea states beyond mu - 32 T and all states beyond mu + 32 T are dropped
+WINDOW_FACTOR_HOT = 24.0    # T >= 0.5 m: +-24 T (f(24) = 3.8e-11; the Rust crate truncates at f_cut = 1e-8, +-18.4 T);
+                            # the number of k-lattice states in the window grows like (factor T / Delta k)^3 (10^5 at T = m)
 WINDOW_WIDEN_STEPS = 6      # retries of the filling with a widened window (strongly shifted bands)
 COLLAPSE_LEVEL = 3.0        # an occupied particle-branch level below -COLLAPSE_LEVEL m is a tip collapse
 ZERO_MODE_TOL = 1e-9        # |eps| below this counts as a particle state (eps >= 0)
@@ -1279,7 +1281,8 @@ def window_for(params: Params, mu, mu_free=None):
     if params.T <= 0.0:
         margin = 2.0 + math.pi / params.L
         return -params.m - 1.0, top + margin
-    return mu - WINDOW_FACTOR * params.T, top + WINDOW_FACTOR * params.T
+    factor = WINDOW_FACTOR if params.T < 0.5 * params.m else WINDOW_FACTOR_HOT
+    return mu - factor * params.T, top + factor * params.T
 
 
 def occupy(spec: Spectrum, params: Params, mode, constrained=None):
@@ -1736,7 +1739,13 @@ def thermo_point(params: Params, T: float, delta=0.05, log=None):
         q = Params(**{**params.to_dict_kwargs(), "T": Tv, "label": label})
         if log:
             log("  thermo T = %.6f (%s)" % (Tv, tag))
-        runs[tag] = SectorRun(q, mode="thermal", log=log)
+        # the T (1 +- delta) runs start from the converged centre densities of the
+        # coarsest grid (a warm start; the converged result does not depend on it)
+        initial = None
+        if tag != "center":
+            lv0 = runs["center"].levels[0]
+            initial = (lv0["n_c"].copy(), lv0["s_c"].copy())
+        runs[tag] = SectorRun(q, mode="thermal", log=log, initial=initial)
     c = runs["center"]
     dT = 2 * delta * T
     cv = (runs["plus"].scalars["total"] - runs["minus"].scalars["total"]) / dT
@@ -1759,7 +1768,7 @@ def jsonable(obj):
     if isinstance(obj, (list, tuple)):
         return [jsonable(v) for v in obj]
     if isinstance(obj, np.ndarray):
-        return [jsonable(v) for v in obj.tolist()]
+        return jsonable(obj.tolist())      # a 0-d array gives a bare float, n-d nested lists
     if isinstance(obj, (np.floating,)):
         obj = float(obj)
     if isinstance(obj, (np.integer,)):
@@ -2068,13 +2077,15 @@ def canonical_runs(quick=False):
     # E. Delta k halved at the same density (N x 8)
     runs.append({"label": rust_label(1, 3, "8mid", "lamp1", 0, delta_k_over_m=0.125), "m": 1.0, "lambda_hat": "l1",
                  "N": "8mid", "T": 0.0, "tasks": [], "delta_k_over_m": 0.125, **base})
-    # F. thermodynamics (C_V by central differences, see thermo_point)
+    # F. thermodynamics (C_V by central differences, see thermo_point); the hot
+    # point T = m carries ~10^5 k-lattice states per grid and uses two grid
+    # levels (h and h/2 extrapolation) instead of three
     for Nname in ("8", "mid"):
         for lam_name in ("lam0", "lamp1"):
             for T in (0.1, 0.3, 1.0):
                 runs.append({"label": rust_label(1, 3, Nname, lam_name, T), "m": 1.0,
                              "lambda_hat": LAMBDA_NAMES[lam_name], "N": Nname, "T": T, "tasks": ["thermo"],
-                             **{**base, "N0": 48}})
+                             **{**base, "N0": 48, "levels": 2 if T >= 0.5 else levels}})
     return runs
 
 

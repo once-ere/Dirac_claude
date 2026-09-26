@@ -29,7 +29,10 @@
 //! * excited: KS gaps, particle-hole list and Delta-SCF for m = 1, L = 3,
 //!   N in {8, N_mid, N_large}, lambda_hat in {0, +-lh1, +-lh2}.
 //! * thermo: T/m in {0, 0.1, 0.3, 1} for m = 1, L = 3, N in {8, N_mid},
-//!   lambda_hat in {0, lh1}; C_V by central differences in T.
+//!   lambda_hat in {0, lh1} (at T/m = 1 the interacting series only for
+//!   N = 8: ~75000 levels per block type and iteration); C_V: fixed-spectrum
+//!   derivative (exact for lambda = 0) at every T, self-consistent central
+//!   differences (delta = 0.05 T) for T <= 0.3 m.
 //! * emt: EMT profiles and averages for the T = 0 set (m = 1, L = 3) and
 //!   one finite-T case.
 //!
@@ -45,9 +48,20 @@ use crate::geometry::{curvature_check, geometry_json};
 use crate::math::{exp, PI};
 use crate::output::{standard_summary, write_csv, write_json, Json};
 use crate::scf::{
-    self, closed_shell_numbers, compute_spectrum, delta_scf, particle_number_from_density, solve,
-    solve_ground, standard_params, Occupation, Params, Solution, Spectrum, Window,
+    self, closed_shell_numbers, compute_spectrum, delta_scf, heat_capacity_fixed_spectrum,
+    particle_number_from_density, solve, solve_ground, standard_params, Occupation, Params,
+    Solution, Spectrum, Window,
 };
+
+/// Self-consistent finite-difference C_V is computed for T <= this (in units
+/// of m); above it only the fixed-spectrum derivative (exact for lambda = 0).
+pub const CV_FINITE_DIFFERENCE_LIMIT: f64 = 0.3;
+/// Above this T/m the interacting (lambda != 0) thermodynamics is computed
+/// only for N <= HOT_INTERACTING_MAX_N (at T = m the window holds ~75000
+/// levels per block type and iteration; the s = -1 block of an interacting
+/// run is a separate problem).
+pub const HOT_TEMPERATURE_LIMIT: f64 = 0.5;
+pub const HOT_INTERACTING_MAX_N: f64 = 8.0;
 use crate::shooting::{Potential, Shooter, DEFAULT_TOLERANCES};
 use crate::theory;
 use crate::{ExperimentSummary, RunContext, Tolerances};
@@ -1347,6 +1361,7 @@ pub fn run_thermo(ctx: &RunContext) -> Result<ExperimentSummary, String> {
     } else {
         vec![0.0, 0.1, 0.3, 1.0]
     };
+    let mut skipped: Vec<Json> = Vec::new();
     for n in [8.0, reference.n_mid] {
         let c = reference.coupling(1.0, 3.0, n)?;
         for (lname, lh) in lambda_set(&c, true) {
@@ -1355,6 +1370,13 @@ pub fn run_thermo(ctx: &RunContext) -> Result<ExperimentSummary, String> {
             for t in &temperatures {
                 let params = params_for(ctx, 1.0, 3.0, lh, *t, n);
                 let name = label(&params, &lname);
+                if *t > HOT_TEMPERATURE_LIMIT * params.m && lh != 0.0 && n > HOT_INTERACTING_MAX_N {
+                    skipped.push(Json::str(&format!(
+                        "{name}: not run (T/m = {} with lambda != 0 and N > {HOT_INTERACTING_MAX_N}: ~75000 levels per block type and iteration)",
+                        t / params.m
+                    )));
+                    continue;
+                }
                 let solution = solve_ground(
                     &params,
                     previous.as_ref().map(|p| &p.densities),
@@ -1371,19 +1393,21 @@ pub fn run_thermo(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                     (solution.energies.n_total - n).abs() <= 1e-8 * n,
                     &format!("sum weights = {}", solution.energies.n_total),
                 );
-                // C_V = dE/dT by central differences (fully self-consistent), delta = 0.05 T
-                let c_v = if *t > 0.0 {
+                // heat capacity: the fixed-spectrum derivative (exact for
+                // lambda = 0) always; the fully self-consistent central
+                // difference (delta = 0.05 T) where affordable (T <= 0.3 m: at
+                // T = m the window holds ~75000 levels per block type)
+                let fixed = heat_capacity_fixed_spectrum(&solution);
+                let c_v0 = fixed.map(|h| h.from_energy).unwrap_or(0.0);
+                let c_vs = fixed.map(|h| h.from_entropy).unwrap_or(0.0);
+                let c_v_fd: Option<f64> = if *t > 0.0 && *t <= CV_FINITE_DIFFERENCE_LIMIT * params.m
+                {
                     let d = 0.05 * t;
                     let mut e_pm = Vec::new();
                     for f in [-1.0, 1.0] {
                         let mut p = params.clone();
                         p.temperature = t + f * d;
-                        let s = solve(
-                            &p,
-                            &Occupation::Thermal,
-                            Some(&solution.densities),
-                            solution.filling.mu,
-                        )?;
+                        let s = solve_ground(&p, Some(&solution.densities), solution.filling.mu)?;
                         if !s.converged {
                             return Err(format!(
                                 "{name}: C_V run at T = {} did not converge",
@@ -1392,16 +1416,38 @@ pub fn run_thermo(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                         }
                         e_pm.push(s.energies.total);
                     }
-                    (e_pm[1] - e_pm[0]) / (2.0 * d)
+                    Some((e_pm[1] - e_pm[0]) / (2.0 * d))
                 } else {
-                    0.0
+                    None
                 };
+                let c_v = c_v_fd.unwrap_or(c_v0);
                 if *t > 0.0 {
                     summary.check(
                         &format!("{name}_heat_capacity_positive"),
-                        c_v > 0.0,
-                        &format!("C_V = {c_v}"),
+                        c_v > 0.0 && c_v0 > 0.0,
+                        &format!(
+                            "C_V = {c_v} ({}); fixed-spectrum C_V = {c_v0}, T dS/dT = {c_vs}",
+                            if c_v_fd.is_some() {
+                                "self-consistent central difference, delta = 0.05 T"
+                            } else {
+                                "fixed-spectrum derivative; the finite difference is not computed at this T (cost)"
+                            }
+                        ),
                     );
+                    if lh == 0.0 {
+                        summary.check(
+                            &format!("{name}_fixed_spectrum_cv_identity"),
+                            (c_v0 - c_vs).abs() <= 1e-9 * c_v0.abs().max(1e-300),
+                            &format!("lambda = 0: sum mult df/dT eps = sum mult df/dT (eps - mu): {c_v0} vs {c_vs}"),
+                        );
+                        if let Some(fd) = c_v_fd {
+                            summary.check(
+                                &format!("{name}_cv_finite_difference_vs_exact"),
+                                (fd - c_v0).abs() <= 2e-2 * c_v0.abs().max(1e-300),
+                                &format!("lambda = 0: central difference {fd} vs exact fixed-spectrum {c_v0} (O(delta^2) truncation, delta = 0.05 T)"),
+                            );
+                        }
+                    }
                     summary.check(
                         &format!("{name}_free_energy_decreases"),
                         solution.energies.free
@@ -1428,12 +1474,17 @@ pub fn run_thermo(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                     solution.energies.free,
                     solution.energies.entropy,
                     c_v,
+                    c_v_fd.unwrap_or(f64::NAN),
+                    c_v0,
+                    c_vs,
+                    fixed.map(|h| h.dmu_dt).unwrap_or(0.0),
                     gap,
                     solution.spectrum.states.len() as f64,
                     solution.spectrum.shells_used as f64,
                     e.w_y,
                     e.w_3,
                     e.brane_fraction,
+                    solution.params.smearing,
                 ]);
                 let mut record = match run_json(&solution, &e) {
                     Json::Object(pairs) => pairs,
@@ -1441,6 +1492,15 @@ pub fn run_thermo(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                 };
                 record.insert(0, ("label".to_string(), Json::str(&name)));
                 record.push(("heatCapacity".to_string(), Json::Float(c_v)));
+                record.push((
+                    "heatCapacityFiniteDifference".to_string(),
+                    Json::Float(c_v_fd.unwrap_or(f64::NAN)),
+                ));
+                record.push(("heatCapacityFixedSpectrum".to_string(), Json::Float(c_v0)));
+                record.push((
+                    "heatCapacityFixedSpectrumFromEntropy".to_string(),
+                    Json::Float(c_vs),
+                ));
                 records.push(Json::Object(record));
                 previous = Some(solution);
             }
@@ -1457,12 +1517,17 @@ pub fn run_thermo(ctx: &RunContext) -> Result<ExperimentSummary, String> {
             "F",
             "S_entropy",
             "C_V",
+            "C_V_fd",
+            "C_V_fixed_spectrum",
+            "C_V_fixed_spectrum_entropy",
+            "dmu_dT_fixed_spectrum",
             "ks_gap",
             "states",
             "shells",
             "w_y",
             "w_3",
             "brane_fraction",
+            "occupation_smearing",
         ]
         .iter()
         .map(|s| s.to_string())
@@ -1477,6 +1542,8 @@ pub fn run_thermo(ctx: &RunContext) -> Result<ExperimentSummary, String> {
         vec![
             ("reference", reference_json(&reference)),
             ("temperaturesOverM", Json::floats(&temperatures)),
+            ("heatCapacity", Json::str("column C_V: self-consistent central difference dE/dT|_N (delta = 0.05 T) for T <= 0.3 m, else the fixed-spectrum derivative sum mult (df/dT)|_N <h_0> (exact for lambda = 0); columns C_V_fd, C_V_fixed_spectrum, C_V_fixed_spectrum_entropy give all three (nan = not computed)")),
+            ("skippedRuns", Json::Array(skipped)),
             ("runs", Json::Array(records)),
         ],
     )?;

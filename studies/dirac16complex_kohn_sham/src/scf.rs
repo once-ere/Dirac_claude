@@ -51,6 +51,7 @@
 //!   group, re-converged; `E_1 - E_0`.
 
 use std::collections::HashMap;
+use std::sync::atomic::{AtomicUsize, Ordering as AtomicOrdering};
 use std::sync::Arc;
 
 use crate::exchange::{effective_mass, exchange_energy_density, v_vector};
@@ -408,6 +409,9 @@ fn solve_shell(
     Ok(result)
 }
 
+/// Shells per scheduling block, in units of the thread count.
+pub const SHELL_BLOCK_FACTOR: usize = 4;
+
 /// Number of worker threads (shells are independent; results are merged in
 /// shell order, so the output does not depend on the thread count).
 pub fn worker_threads() -> usize {
@@ -437,30 +441,53 @@ pub fn compute_spectrum(
     };
     let mut empty_in_a_row = 0;
     let mut start = 0;
+    // blocks of SHELL_BLOCK_FACTOR x threads shells; inside a block the
+    // workers pull shells from a shared counter (the work per shell is
+    // uneven: many levels at small k, stiff integrations at large k), and
+    // the results are put back into shell order, so the output does not
+    // depend on the thread count or on the scheduling
+    let block_size = SHELL_BLOCK_FACTOR * threads;
     'blocks: while start < shell_list.len() {
-        let stop = (start + threads).min(shell_list.len());
-        let block: Vec<(usize, Shell)> = (start..stop).map(|i| (i, shell_list[i])).collect();
+        let stop = (start + block_size).min(shell_list.len());
+        let next = AtomicUsize::new(start);
         let results: Vec<Result<ShellResult, String>> = std::thread::scope(|scope| {
-            let handles: Vec<_> = block
-                .iter()
-                .map(|(index, shell)| {
-                    let (index, shell) = (*index, *shell);
+            let handles: Vec<_> = (0..threads.min(stop - start))
+                .map(|_| {
                     let potential = Arc::clone(potential);
                     let negated = Arc::clone(&negated);
+                    let next = &next;
+                    let shell_list = &shell_list;
                     scope.spawn(move || {
-                        solve_shell(
-                            params, &potential, &negated, mirror, window, warm, index, &shell,
-                        )
+                        let mut out: Vec<(usize, Result<ShellResult, String>)> = Vec::new();
+                        loop {
+                            let index = next.fetch_add(1, AtomicOrdering::SeqCst);
+                            if index >= stop {
+                                break;
+                            }
+                            let shell = shell_list[index];
+                            out.push((
+                                index,
+                                solve_shell(
+                                    params, &potential, &negated, mirror, window, warm, index,
+                                    &shell,
+                                ),
+                            ));
+                        }
+                        out
                     })
                 })
                 .collect();
-            handles
-                .into_iter()
-                .map(|h| {
-                    h.join()
-                        .unwrap_or_else(|_| Err("shell thread panicked".to_string()))
-                })
-                .collect()
+            let mut collected: Vec<(usize, Result<ShellResult, String>)> = Vec::new();
+            for handle in handles {
+                match handle.join() {
+                    Ok(part) => collected.extend(part),
+                    Err(_) => {
+                        collected.push((usize::MAX, Err("shell thread panicked".to_string())))
+                    }
+                }
+            }
+            collected.sort_by_key(|(index, _)| *index);
+            collected.into_iter().map(|(_, result)| result).collect()
         });
         for result in results {
             let result = result?;
@@ -514,6 +541,12 @@ pub struct FreeLevels {
 /// Cap of the window widening used by [`FreeLevels::classify`] (in units of
 /// m); beyond it the serial fallback handles the misses.
 pub const FREE_WINDOW_SHIFT_CAP: f64 = 3.0;
+
+// The free levels are cached per solve only (no process-wide cache): a
+// shared cache would change the warm starts of later solves and hence the
+// 1e-12-level path of the root search, so that the same solve would no
+// longer be byte-identical within one process (measured by the unit test
+// `repeat_run_is_byte_identical`).
 
 impl FreeLevels {
     pub fn new(params: &Params) -> Self {
@@ -1494,6 +1527,80 @@ pub fn delta_scf(ground: &Solution) -> Result<Solution, String> {
     let mut params = ground.params.clone();
     params.temperature = 0.0;
     solve(&params, &mode, Some(&ground.densities), ground.filling.mu)
+}
+
+/// Heat capacity at constant N with the Kohn-Sham spectrum and potentials
+/// held fixed (the exact derivative of the Fermi-Dirac occupations):
+///
+/// ```text
+/// df_i/dT|_N = f_i (1 - f_i) [ (eps_i - mu)/T^2 + mu'/T ],
+/// mu' = -(1/T) sum mult f(1-f)(eps - mu) / sum mult f(1-f),
+/// C_V^(0) = sum mult (df_i/dT) <h_0>_i,   <h_0>_i = eps_i - <Delta H>_i,
+/// <Delta H>_i = int [ (M_eff - m)(-2 s a b) + v_x (a^2 + b^2) ] dy,
+/// C_V^(S) = T dS_ent/dT = sum mult (df_i/dT) (eps_i - mu).
+/// ```
+///
+/// (`dw/dT = df/dT` on both branches; the double-counting term changes by
+/// `sum mult dw <Delta H>` at fixed potentials.)  For lambda = 0 the
+/// potentials do not depend on T, so `C_V^(0)` is the EXACT heat capacity
+/// and `C_V^(0) = C_V^(S)` (N conservation); for lambda != 0 it neglects the
+/// self-consistent response of the potentials, which the finite-difference
+/// `C_V` of `runs.rs` includes where it is computed.
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct HeatCapacity {
+    pub from_energy: f64,
+    pub from_entropy: f64,
+    pub dmu_dt: f64,
+}
+
+pub fn heat_capacity_fixed_spectrum(solution: &Solution) -> Option<HeatCapacity> {
+    let params = &solution.params;
+    let t = params.occupation_temperature();
+    if t <= 0.0 {
+        return None;
+    }
+    let mu = solution.filling.mu;
+    let dy = params.dy();
+    let m_eff = &solution.potential.m_eff.values;
+    let v_x = &solution.potential.v_x.values;
+    let mut a_sum = 0.0;
+    let mut b_sum = 0.0;
+    for st in &solution.spectrum.states {
+        let g = st.f * (1.0 - st.f);
+        a_sum += st.mult * g;
+        b_sum += st.mult * g * (st.eps - mu);
+    }
+    let dmu_dt = if a_sum > 0.0 {
+        -b_sum / (a_sum * t)
+    } else {
+        0.0
+    };
+    let mut from_energy = 0.0;
+    let mut from_entropy = 0.0;
+    for st in &solution.spectrum.states {
+        let g = st.f * (1.0 - st.f);
+        if g == 0.0 {
+            continue;
+        }
+        let dfdt = g * ((st.eps - mu) / (t * t) + dmu_dt / t);
+        let s = st.s as f64;
+        let integrand: Vec<f64> = st
+            .level
+            .a
+            .iter()
+            .zip(st.level.b.iter())
+            .zip(m_eff.iter().zip(v_x.iter()))
+            .map(|((a, b), (m, v))| (m - params.m) * (-2.0 * s * a * b) + v * (a * a + b * b))
+            .collect();
+        let delta_h = simpson(dy, &integrand);
+        from_energy += st.mult * dfdt * (st.eps - delta_h);
+        from_entropy += st.mult * dfdt * (st.eps - mu);
+    }
+    Some(HeatCapacity {
+        from_energy,
+        from_entropy,
+        dmu_dt,
+    })
 }
 
 /// Total density integral (N from the profiles, Simpson) as a consistency check.

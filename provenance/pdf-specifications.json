@@ -7,7 +7,7 @@
   "dirac16complex-dark-sector-numerics": {
     "path": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.pdf",
     "pages": 51,
-    "sha256": "a3cb56140d1482fc0b1c71550dfe909c55302cfe7f46f6902cb39fe7dc14db91"
+    "sha256": "981bcc9f9566fdffbb93c9aa665e0bd30ee87e5b10f06daf372a276b94960aa5"
   },
   "dirac16complex-primordial-field": {
     "path": "provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD.pdf",
@@ -16,7 +16,7 @@
   },
   "dirac16complex-student-guide": {
     "path": "provenance/DIRAC16COMPLEX_STUDENT_GUIDE.pdf",
-    "pages": 49,
-    "sha256": "851f54887685daa021603c22231d46e8bdf240c869a053cd4e5d51e81e9bf5b7"
+    "pages": 52,
+    "sha256": "0dfdcc1af1bc2eb7fbe2b6af821fb8071b9a5298c9c8209848ecb8a9b3afe28e"
   }
 }

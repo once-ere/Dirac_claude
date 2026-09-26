@@ -103,9 +103,13 @@ verifies the exact 2x2 block basis in Gaussian-integer arithmetic and writes
   same shell, parity, block type and Pruefer index); normal ordering with
   thermal antiparticles (`w = f` on the particle branch, `-(1-f)` on the
   sea branch); `mu` by bisection; T = 0 ensemble filling of a straddling shell;
-  the free levels that define the branches are computed in parallel once per
-  solve (union of the windows, widened by the exact eigenvalue-shift bound
-  `max|M_eff - m| + max|v_x|`) and warm-start the interacting levels; energy
+  shells are distributed dynamically over the worker threads in blocks of
+  4 x threads and merged in shell order (the output does not depend on the
+  thread count); the free levels that define the branches are computed in
+  parallel (union of the windows, widened by the exact eigenvalue-shift bound
+  `max|M_eff - m| + max|v_x|`) once per solve and warm-start the interacting
+  levels (no cache across solves: it would change the 1e-12-level path of
+  the root search and break the byte identity of repeated solves); energy
   windows always reach down to the T = 0 floor `-(2.5 m + 2 pi/L)` and, at
   T > 0, up to `mu + T ln(1/f_cut) + 0.5 m` with `f_cut = 1e-8` (the neglected
   Boltzmann tail of the level density ~ eps^3 is ~1e-5 of E at T = m, where
@@ -114,7 +118,14 @@ verifies the exact 2x2 block basis in Gaussian-integer arithmetic and writes
   lambda_hat_2) stop the exact T = 0 loop as stagnant and are re-solved with
   Fermi-Dirac occupation smearing (1e-4 m, then 1e-3 m), recorded in
   `run.json` (`parameters.occupationSmearing`,
-  `exactZeroTemperatureOccupations`);
+  `exactZeroTemperatureOccupations`); heat capacity at constant N: the
+  fixed-spectrum derivative `C_V^(0) = sum mult (df/dT)|_N <h_0>` (exact for
+  lambda = 0, where it equals `T dS/dT`) for every T > 0, and the fully
+  self-consistent central difference (delta = 0.05 T) for T <= 0.3 m
+  (columns `C_V`, `C_V_fd`, `C_V_fixed_spectrum`, `C_V_fixed_spectrum_entropy`);
+  at T = m the interacting (lambda != 0) series is computed for N = 8 only
+  (the N_mid case is recorded as not run: ~75000 levels per block type and
+  iteration);
   proper densities `n_p = e^{-6Hy} n_c`, `S_p = e^{-6Hy} S_c`; Anderson mixing;
   convergence `max|Delta n_c|/max|n_c| < 1e-10` (same for `S_c`); energies
   `E = sum w eps - int[(lambda/2) S_p^2 + e_x] dV_p`, entropy, `F`, `Omega`;

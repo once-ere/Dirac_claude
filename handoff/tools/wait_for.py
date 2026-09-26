@@ -39,16 +39,30 @@ def progress():
 
 
 def main():
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
     budget = float(sys.argv[1])
     tasks = sys.argv[2:]
     t0 = time.time()
     while True:
-        finished = [t for t in tasks if done(t)]
+        try:
+            finished = [t for t in tasks if done(t)]
+        except OSError:
+            finished = []
         if finished or time.time() - t0 > budget:
             for t in tasks:
-                print(f"task {t}: {'FINISHED' if done(t) else 'running'}")
-            for line in progress():
-                print(line)
+                try:
+                    state = "FINISHED" if done(t) else "running"
+                except OSError:
+                    state = "unknown"
+                print(f"task {t}: {state}")
+            try:
+                for line in progress():
+                    print(line)
+            except Exception as exc:  # never let reporting kill the wait
+                print(f"progress unavailable: {exc!r}")
             sys.exit(0 if finished else 3)
         time.sleep(15)
 

@@ -58,8 +58,8 @@ FIXTURE = REPOSITORY_ROOT / "artifacts" / "dirac16complex" / "arbitrary-field" /
 CRATE = REPOSITORY_ROOT / "studies" / "dirac16complex_cosmology"
 EXPERIMENTS = ("exp1", "exp2", "exp3", "exp4", "exp5")
 
-MARKDOWN_SHA256 = "3d4cda991e986338a16c0cc3fe2a2148adbf53274f5101e369eb32e5784b8ef3"
-TEX_SHA256 = "38d57cf36abf1f2ae309d67047d487d5b10ccfa9146609d84fc46de986e142db"
+MARKDOWN_SHA256 = "0f2e158c9b571a47e95e23662848b44adb57bb1af469a0e0160a8d00efa59908"
+TEX_SHA256 = "4462651a0820175b81b8e55ae599ba673b456ba15ec7506e21b86070ba3dc003"
 
 TITLE = "A student's guide to the dirac16complex numerical solutions"
 SUBTITLE = ("Installing, deriving, running and checking the five CVODE experiments of Stage 3 "
