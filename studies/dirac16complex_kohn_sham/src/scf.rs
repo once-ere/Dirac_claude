@@ -38,10 +38,10 @@
 //!   lambda_hat_2: the k = 0 bulk level is pulled to within 1e-4 of the
 //!   192-fold brane band): the exact T = 0 aufbau occupations then flip
 //!   between iterations (charge sloshing, no mixing parameter cures it) and
-//!   the loop is stopped as stagnant; [`solve_ground`] retries with
-//!   an annealed Fermi-Dirac occupation smearing (1e-2 m, 1e-3 m, 1e-4 m,
-//!   then exact occupations again; damped mixing, beta x 1/4) and records
-//!   the smearing
+//!   the loop is stopped as stagnant; [`solve_ground`] then follows the
+//!   branch connected to lambda = 0 by continuation in the coupling
+//!   (lambda/4, ..., lambda; exact occupations first, occupation smearing
+//!   1e-3 m / 1e-2 m where they slosh; damped mixing) and records the path
 //!   in the solution's parameters (`run.json: parameters.occupationSmearing`,
 //!   `exactZeroTemperatureOccupations = false`); F = E - T S_ent uses the
 //!   physical T = 0, the smearing entropy is reported.
@@ -96,9 +96,9 @@ pub struct Params {
     /// which the loop stops as stagnant.
     pub stagnation_iterations: usize,
     /// T = 0 fallback of [`solve_ground`] that produced this solution: 0 none
-    /// (exact occupations converged directly), 1 annealed smearing (the
-    /// smallest converged rung, `smearing` > 0), 2 exact occupations
-    /// re-converged after the annealing.
+    /// (exact occupations converged directly), 1 coupling continuation with
+    /// a smeared final result (`smearing` > 0), 2 coupling continuation with
+    /// exact final occupations, 3 continuation failed (not converged).
     pub fallback_stage: i32,
     pub tolerances: Tolerances,
 }
@@ -1224,9 +1224,13 @@ pub const MAX_WINDOW_ENLARGEMENTS: usize = 40;
 /// Iterations without a factor-2 improvement of the residual after which an
 /// SCF loop is declared stagnant (returned as not converged).
 pub const STAGNATION_ITERATIONS: usize = 20;
-/// Smearing ladder (in units of m) of the T = 0 fallback of [`solve_ground`],
-/// traversed from the LARGEST value down (annealing).
-pub const SMEARING_LADDER: [f64; 3] = [1.0e-2, 1.0e-3, 1.0e-4];
+/// Occupation smearings (in units of m) tried, in this order, at a
+/// continuation step of the T = 0 fallback of [`solve_ground`] whose exact
+/// occupations do not converge.
+pub const SMEARING_LADDER: [f64; 2] = [1.0e-3, 1.0e-2];
+/// Number of equal coupling steps lambda/K, 2 lambda/K, ..., lambda of the
+/// continuation.
+pub const CONTINUATION_STEPS: usize = 4;
 /// The fallback attempts mix with `mix_beta` times this factor, allow
 /// [`FALLBACK_MAX_ITER`] iterations and declare stagnation only after
 /// [`FALLBACK_STAGNATION_ITERATIONS`].
@@ -1234,8 +1238,9 @@ pub const FALLBACK_MIX_FACTOR: f64 = 0.25;
 pub const FALLBACK_MAX_ITER: usize = 200;
 pub const FALLBACK_STAGNATION_ITERATIONS: usize = 40;
 
-fn fallback_params(params: &Params, smearing: f64) -> Params {
+fn fallback_params(params: &Params, fraction: f64, smearing: f64) -> Params {
     let mut p = params.clone();
+    p.lambda_hat = params.lambda_hat * fraction;
     p.smearing = smearing * params.m;
     p.mix_beta = params.mix_beta * FALLBACK_MIX_FACTOR;
     p.max_iter = FALLBACK_MAX_ITER;
@@ -1246,27 +1251,31 @@ fn fallback_params(params: &Params, smearing: f64) -> Params {
 /// Ground state at the physical temperature of `params`.  T > 0: the
 /// Fermi-Dirac loop.  T = 0: exact aufbau occupations; if they do not
 /// converge (a level crossing at the Fermi level: the occupations flip
-/// between iterations), an ANNEALED fallback with damped mixing:
+/// between iterations), a CONTINUATION IN THE COUPLING with damped mixing
+/// follows the self-consistent branch connected to lambda = 0 (the same
+/// continuity that defines the particle/sea branches):
 ///
-/// 1. starting again from the original initial state, converge with
-///    Fermi-Dirac occupation smearing at the largest rung of
-///    [`SMEARING_LADDER`] (the smoothest fixed-point map);
-/// 2. step the smearing down the ladder, each attempt starting from the
-///    previous converged solution, and stop at the first rung that does not
-///    converge;
-/// 3. from the smallest converged smearing, retry the exact T = 0
-///    occupations (at the fixed point the Kohn-Sham gap is open, so they are
-///    usually stable there).
+/// * lambda_j = lambda j/K, j = 1..K ([`CONTINUATION_STEPS`]), each step
+///   starting from the converged solution of the previous one (the first
+///   from the original initial state);
+/// * at each step the exact occupations are tried first, then Fermi-Dirac
+///   occupation smearing from [`SMEARING_LADDER`];
+/// * at the last step, a converged smeared solution is followed by one more
+///   exact-occupation attempt started from it (at the fixed point the
+///   Kohn-Sham gap is open, so the exact occupations are stable there).
 ///
-/// The result is the exact T = 0 solution when step 3 converges, else the
-/// converged solution with the smallest smearing (recorded in the returned
-/// parameters: `occupationSmearing`, `mixBeta`; F uses the physical T = 0),
-/// else the last attempt (not converged).  MEASURED motivation: at N = 1016,
-/// attractive lambda_hat_2, the k = 0 bulk level crosses the 192-fold brane
-/// band during the iterations; a descending-from-small ladder that started
-/// each attempt from the previous FAILED attempt converged or sloshed
-/// depending on 1e-11-level differences of lambda_hat (default-tolerance
-/// run converged at 1e-3 m, the refined one failed every rung).
+/// The returned parameters record the path: `fallback_stage` 0 (exact
+/// occupations converged directly), 1 (continuation, final result smeared:
+/// `smearing` > 0, F uses the physical T = 0), 2 (continuation, final result
+/// with exact occupations), 3 (continuation failed: the direct attempt at
+/// the requested coupling is returned, not converged); `mix_beta` shows the
+/// damping.  MEASURED
+/// motivation (N = 1016, attractive lambda_hat_2, the k = 0 bulk level
+/// crossing the 192-fold brane band): restarting smeared attempts from a
+/// failed attempt converged or sloshed depending on 1e-11-level
+/// differences of lambda_hat (default vs refined tolerances), and a cold
+/// start at the full coupling drifted to a different, strongly condensed
+/// branch (max |lambda S_p|/m = 2 to 6, E lower by 1 to 8 m).
 pub fn solve_ground(
     params: &Params,
     initial: Option<&Densities>,
@@ -1281,41 +1290,59 @@ pub fn solve_ground(
     }
     let mut start: Option<Densities> = initial.cloned();
     let mut start_mu = mu_guess;
-    let mut best: Option<Solution> = None;
-    let mut last = exact;
-    for smearing in SMEARING_LADDER {
-        let attempt = solve(
-            &fallback_params(params, smearing),
-            &Occupation::Thermal,
+    let mut direct = exact;
+    for step in 1..=CONTINUATION_STEPS {
+        let fraction = step as f64 / CONTINUATION_STEPS as f64;
+        let final_step = step == CONTINUATION_STEPS;
+        let mut attempt = solve(
+            &fallback_params(params, fraction, 0.0),
+            &Occupation::Zero,
             start.as_ref(),
             start_mu,
         )?;
         if !attempt.converged {
-            last = attempt;
-            break;
+            for smearing in SMEARING_LADDER {
+                attempt = solve(
+                    &fallback_params(params, fraction, smearing),
+                    &Occupation::Thermal,
+                    start.as_ref(),
+                    start_mu,
+                )?;
+                if attempt.converged {
+                    break;
+                }
+            }
+        }
+        if !attempt.converged {
+            // no converged solution at this coupling: report the direct
+            // attempt at the REQUESTED coupling as not converged
+            direct.params.fallback_stage = 3;
+            return Ok(direct);
+        }
+        if final_step {
+            if attempt.params.smearing > 0.0 {
+                let exact_again = solve(
+                    &fallback_params(params, 1.0, 0.0),
+                    &Occupation::Zero,
+                    Some(&attempt.densities),
+                    attempt.filling.mu,
+                )?;
+                if exact_again.converged {
+                    attempt = exact_again;
+                }
+            }
+            attempt.params.fallback_stage = if attempt.params.smearing > 0.0 { 1 } else { 2 };
+            // the returned parameters must be the requested ones (the
+            // continuation multiplies lambda_hat by j/K; at j = K the
+            // product is exact, fraction = 1)
+            attempt.params.lambda_hat = params.lambda_hat;
+            return Ok(attempt);
         }
         start = Some(attempt.densities.clone());
         start_mu = attempt.filling.mu;
-        best = Some(attempt);
     }
-    let Some(best) = best else {
-        return Ok(last);
-    };
-    let mut exact_params = fallback_params(params, 0.0);
-    exact_params.smearing = 0.0;
-    exact_params.fallback_stage = 2;
-    let exact_again = solve(
-        &exact_params,
-        &Occupation::Zero,
-        Some(&best.densities),
-        best.filling.mu,
-    )?;
-    if exact_again.converged {
-        return Ok(exact_again);
-    }
-    let mut best = best;
-    best.params.fallback_stage = 1;
-    Ok(best)
+    direct.params.fallback_stage = 3;
+    Ok(direct)
 }
 
 /// Progress trace on stderr when the environment variable

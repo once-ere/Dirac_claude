@@ -135,9 +135,21 @@ verifies the exact 2x2 block basis in Gaussian-integer arithmetic and writes
   Boltzmann tail of the level density ~ eps^3 is ~1e-5 of E at T = m, where
   the state is a thermal particle-antiparticle plasma of ~75000 levels);
   level crossings at the Fermi level (measured at N = 1016, attractive
-  lambda_hat_2) stop the exact T = 0 loop as stagnant and are re-solved with
-  Fermi-Dirac occupation smearing (1e-4 m, then 1e-3 m), recorded in
-  `run.json` (`parameters.occupationSmearing`,
+  lambda_hat_2) stop the exact T = 0 loop as stagnant; `solve_ground` then
+  follows the self-consistent branch connected to lambda = 0 by
+  continuation in the coupling (lambda/4, lambda/2, 3 lambda/4, lambda,
+  each step started from the previous converged solution, damped mixing
+  beta/4, up to 200 iterations; exact occupations first, Fermi-Dirac
+  occupation smearing 1e-3 m then 1e-2 m where they slosh; at the last step
+  a smeared result is followed by one more exact-occupation attempt from
+  it).  Measured motivation: restarting smeared attempts from a failed
+  attempt converged or sloshed depending on 1e-11-level differences of
+  lambda_hat (default vs refined tolerances), and a cold start at the full
+  coupling drifted to a different, strongly condensed branch
+  (max|lambda S_p|/m = 2 to 6).  The path is recorded in `run.json`
+  (`parameters.zeroTemperatureFallbackStage`: 0 none, 1 continuation with a
+  smeared result, 2 continuation with exact occupations, 3 failed;
+  `parameters.occupationSmearing`, `parameters.mixBeta`,
   `exactZeroTemperatureOccupations`); heat capacity at constant N: the
   fixed-spectrum derivative `C_V^(0) = sum mult (df/dT)|_N <h_0>` (exact for
   lambda = 0, where it equals `T dS/dT`) for every T > 0, and the fully

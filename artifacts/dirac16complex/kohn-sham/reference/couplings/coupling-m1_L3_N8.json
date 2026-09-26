@@ -1,0 +1,37 @@
+{
+  "m": 1.0,
+  "L": 3.0,
+  "N": 8.0,
+  "label": "coupling-m1_L3_N8",
+  "rule": "strength = max over the 301 Rust grid nodes of max((15/16)|S_p|, n_p/16)/m^7",
+  "sRef_maxProperScalarDensity_free": 0.0,
+  "sRefY": -3.0,
+  "nRef_maxProperNumberDensity_free": 164.44172774452576,
+  "nRefY": -3.0,
+  "strengthPerUnitLambdaHat": 10.27760798403286,
+  "lambdaHat1": 0.009729890472117494,
+  "lambdaHat2": 0.09729890472117493,
+  "strengthCoarseNodes": 10.27760798403286,
+  "gridIntervals": [
+    300,
+    600,
+    1200
+  ],
+  "levelsBelowMu": [
+    3,
+    3,
+    3
+  ],
+  "mu": [
+    -2.4072706641928974e-14,
+    -2.4118705444429475e-14,
+    -2.4042040773595307e-14
+  ],
+  "E0_free_levels": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "nFromDensity": 8.000266655726954,
+  "solverVersion": 2
+}

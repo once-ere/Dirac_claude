@@ -88,7 +88,12 @@ import os
 import re
 import sys
 
-import numpy as np
+# one BLAS thread (the reference solver's setting; small dense eigenproblems):
+# must be set before numpy is imported
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+
+import numpy as np  # noqa: E402
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, "scripts"))
@@ -127,8 +132,8 @@ TOL = {
     "referenceCVfixedFd": 1e-2,         # lambda = 0: |C_V(fd) - C_V^(0)| / C_V: O(delta^2 (m/T)^2 / 6) truncation
     "referenceGapDSCF": 1e-7,           # Delta-SCF vs KS gap at lambda = 0
     "stationarity": 1e-4,               # finite-difference Hellmann-Feynman of the Mermin functional (relative)
-    "lambdaHat": 2e-6,                  # |lh_rust/lh_ref - 1|: both sides take the maximum over the Rust grid nodes;
-                                        # the tip end-node densities agree to ~7e-7 (measured)
+    "lambdaHat": 2e-7,                  # |lh_rust/lh_ref - 1|: both sides take the maximum over the Rust grid nodes
+                                        # (reference: occupied free levels on 300/600/1200 intervals); measured 5e-11..5e-8
     "eps": 1e-6,                        # |d eps| <= eps max(1, |eps|/m) m + dl max|V|
     "energy": 1e-6,                     # E_0, F: |dE| <= energy max(|E|, N m) (+ dl |E_int| after correction)
     "scalar": 1e-6,                     # mu, gap, Delta-SCF: |d| <= scalar max(m, |value|) + dl max|V|
@@ -294,6 +299,13 @@ def check_reference_self_tests(reg: Registry, tests):
               "max |eps_extrapolated - analytic| = %s over four BC pairs (lambda = 0, k = 0: the 1D Dirac box)"
               % tests.get("analyticMaxError"))
     reg.measure("referenceAnalyticMaxError", tests.get("analyticMaxError"))
+    canon = (tests.get("analyticCanonicalGrids") or {}).get("maxAbsErrorByMass") or {}
+    if canon:
+        reg.check("reference_analytic_spectra_canonical_grids", all(v < 1e-6 for v in canon.values()),
+                  "k = 0 box on the canonical grids N0 = 60, 120, 240 (five levels per parity, tip g0): max error "
+                  "by mass %s (the eigenvalue accuracy budget behind TOL eps)" % canon)
+    else:
+        reg.comparison("reference_analytic_spectra_canonical_grids", "not run", "no analyticCanonicalGrids record")
     spectra = tests.get("analyticSpectra", {})
     reg.check("reference_zero_modes_where_expected",
               bool(spectra) and all(v["zeroMode"] == (abs(v["extrapolated"][0]) < 1e-9) for v in spectra.values()),
@@ -614,10 +626,13 @@ def rust_runs(rust_dir, summaries):
     parameters come from run.json, the record, or the label (lambda_hat then
     from the summary's per-configuration couplings)."""
     runs = []
-    for sub, summary in summaries.items():
+    for sub in SUBCOMMANDS:
         base = os.path.join(rust_dir, sub)
         if not os.path.isdir(base):
             continue
+        # a subcommand directory without summary.json (a run in progress or an
+        # aborted one): its finished run directories (run.json) are still read
+        summary = summaries.get(sub, {})
         records = {r.get("label"): r for r in summary.get("runs", []) if isinstance(r, dict)}
         reference = summary.get("reference", {}) if isinstance(summary.get("reference"), dict) else {}
         for entry in sorted(os.listdir(base)):
@@ -700,8 +715,10 @@ def check_rust_internal(reg: Registry, rust_dir, summaries, runs):
     verdicts = {sub: s.get("verdict") for sub, s in summaries.items()}
     reg.measure("rustSubcommandsPresent", sorted(summaries))
     missing = [sub for sub in SUBCOMMANDS if sub not in summaries]
-    if missing:
-        reg.comparison("rust_subcommands_missing", "not run", "no summary.json for %s" % missing)
+    partial = [sub for sub in missing if os.path.isdir(os.path.join(rust_dir, sub))]
+    reg.check("rust_outputs_complete", not missing,
+              "summary.json of every subcommand %s; missing: %s (directories without summary, read as partial: %s)"
+              % (list(SUBCOMMANDS), missing, partial))
     reg.check("rust_summaries_success", bool(summaries) and all(v == "SUCCESS" for v in verdicts.values()),
               json.dumps(verdicts))
     failed = []
@@ -984,7 +1001,9 @@ def compare_profiles(worst, where, item, ref, dl, ratio_l, record):
                 partner = {"n_c": "S_c", "S_c": "n_c", "n_p": "S_p", "S_p": "n_p"}[name]
                 scale = max(float(np.max(np.abs(b))), float(np.max(np.abs(column(fhdr, fprof, partner)[jf]))), 1e-300)
             elif group == "potential":
-                scale = max(float(np.max(np.abs(b))), float(np.max(np.abs(a))), 1e-300)
+                # the pseudo-potential pair as one scale (M_eff - m vanishes when S_p does)
+                pair = [(column(fhdr, fprof, "M_eff")[jf] - m) * ratio_l, column(fhdr, fprof, "v_x")[jf] * ratio_l]
+                scale = max(float(np.max(np.abs(pair[0]))), float(np.max(np.abs(pair[1]))), 1e-300)
             else:
                 scale = scale_all
             dev = np.abs(a - b) / scale
@@ -1428,7 +1447,8 @@ def main(argv=None):
         sources["theoryJson"] = sha256_file(args.theory)
 
     summaries = rust_summaries(args.rust) if os.path.isdir(args.rust) else {}
-    if summaries:
+    partial_dirs = [sub for sub in SUBCOMMANDS if os.path.isdir(os.path.join(args.rust, sub))]
+    if summaries or partial_dirs:
         for sub in summaries:
             sources["rust_" + sub] = sha256_file(os.path.join(args.rust, sub, "summary.json"))
         runs = rust_runs(args.rust, summaries)

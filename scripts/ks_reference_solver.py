@@ -816,7 +816,7 @@ class Params:
     def __init__(self, m=1.0, a4=0.0, L=3.0, lambda_hat=0.0, T=0.0, N=8.0, parity=1,
                  tip="g0", xc="quadratic", delta_k_over_m=0.25, ell=None, delta_k=None,
                  N0=100, levels=3, mix_beta=0.4, mix_history=6, tol=1e-10, max_iter=200,
-                 label="run", f_cut=None, sea="free", smearing=0.0, exact_shells=None):
+                 label="run", f_cut=None, sea="free", smearing=0.0, exact_shells=None, shell_workers=0):
         if sea not in ("free", "sign"):
             raise ValueError("sea must be 'free' or 'sign'")
         self.sea = sea
@@ -846,6 +846,9 @@ class Params:
         self.smearing = float(smearing)
         # lattice shells diagonalised exactly before the Chebyshev tail (None: EXACT_SHELLS_MAX)
         self.exact_shells = int(exact_shells) if exact_shells is not None else None
+        # worker processes for the exact shell loop (execution only: the results are
+        # identical to the serial loop and the setting is not recorded in run.json)
+        self.shell_workers = int(shell_workers or 0)
 
     def occupation_temperature(self):
         """Temperature of the Fermi-Dirac occupations: T, or the smearing of the T = 0 fallback."""
@@ -858,7 +861,7 @@ class Params:
                 "delta_k": self.delta_k, "ell": self.ell, "N0": self.N0, "levels": self.levels,
                 "mix_beta": self.mix_beta, "mix_history": self.mix_history, "tol": self.tol,
                 "max_iter": self.max_iter, "label": self.label, "f_cut": self.f_cut, "sea": self.sea,
-                "smearing": self.smearing, "exact_shells": self.exact_shells}
+                "smearing": self.smearing, "exact_shells": self.exact_shells, "shell_workers": self.shell_workers}
 
     def to_dict(self):
         return {"label": self.label, "m": self.m, "a4_0": self.a4, "L": self.L,
@@ -990,6 +993,33 @@ def barycentric_coefficients(xnodes, wts, x):
     return c / c.sum()
 
 
+def shell_states(args):
+    """States of one (lattice shell, parity) inside the window [lo, hi]:
+    (type, rank index, eps, n, s, z, branch) with copies of single profile
+    rows (a row view would keep the whole (2 dim) x (N + 1) array alive)."""
+    L, N, m_eff, v, k, a4, parity, tip, need_minus, m, sea, lo, hi = args
+    grid = Grid(L, N)
+    shell = solve_shell(grid, m_eff, v, k, a4, parity, tip, need_minus, m=m, sea=sea)
+    return [(typ, index, float(shell["eps"][i]), shell["n"][i].copy(), shell["s"][i].copy(), shell["z"][i].copy(),
+             int(shell["branch"][i])) for typ, index, i in index_states(shell, lo, hi)]
+
+
+def shell_states_batch(args_list):
+    return [shell_states(a) for a in args_list]
+
+
+_SHELL_POOL = {}
+
+
+def shell_pool(workers):
+    """A process pool for the shell loop of one run (Params.shell_workers;
+    used for the T = m runs, whose window holds ~9000 lattice shells)."""
+    pool = _SHELL_POOL.get(workers)
+    if pool is None:
+        pool = _SHELL_POOL[workers] = concurrent.futures.ProcessPoolExecutor(max_workers=workers)
+    return pool
+
+
 class Spectrum:
     """All states of one sector within an energy window, at fixed potentials."""
 
@@ -1020,32 +1050,42 @@ class Spectrum:
         last_exact_q = 0
         exhausted = False
         exact_max = p.exact_shells if p.exact_shells is not None else EXACT_SHELLS_MAX
-        for q, r3 in shells:
-            if exact_done >= exact_max:
-                break
-            k = p.delta_k * math.sqrt(q)
-            found = []
-            for parity in self.parities():
-                shell = solve_shell(self.grid, self.m_eff, self.v, k, p.a4, parity, p.tip, need_minus,
-                                    m=p.m, sea=p.sea)
-                here = index_states(shell, self.eps_lo, self.eps_hi)
-                found.extend(here)
-                for typ, index, i in here:
-                    # copies of single rows: a row view would keep the whole
-                    # (2 dim) x (N + 1) array of the shell alive
-                    self.states.append(State(q, r3, k, typ, index, float(shell["eps"][i]),
-                                             shell["n"][i].copy(), shell["s"][i].copy(),
-                                             shell["z"][i].copy(), parity=parity,
-                                             branch=shell["branch"][i]))
-            exact_done += 1
-            last_exact_q = q
-            if found:
-                empty_run = 0
+        shells = shells[:exact_max]
+        parities = self.parities()
+        workers = p.shell_workers if p.shell_workers and p.shell_workers > 1 else 0
+        batch = 8 * workers if workers else 1
+        start = 0
+        while start < len(shells) and not exhausted:
+            chunk = shells[start:start + batch]
+            start += batch
+            args = [(self.grid.L, self.grid.N, self.m_eff, self.v, p.delta_k * math.sqrt(q), p.a4, parity, p.tip,
+                     need_minus, p.m, p.sea, self.eps_lo, self.eps_hi) for q, _ in chunk for parity in parities]
+            if workers:
+                # the same pure function in worker processes; results in the serial order
+                pool = shell_pool(workers)
+                per = max(1, len(args) // (2 * workers))
+                parts = [args[i:i + per] for i in range(0, len(args), per)]
+                results = [r for part in pool.map(shell_states_batch, parts) for r in part]
             else:
-                empty_run += 1
-                if empty_run >= 3 and k > 0.5 * top * math.exp(p.a4):
-                    exhausted = True
-                    break
+                results = [shell_states(a) for a in args]
+            for n_shell, (q, r3) in enumerate(chunk):
+                k = p.delta_k * math.sqrt(q)
+                found = 0
+                for n_par, parity in enumerate(parities):
+                    here = results[n_shell * len(parities) + n_par]
+                    found += len(here)
+                    for typ, index, eps, n_row, s_row, z_row, branch in here:
+                        self.states.append(State(q, r3, k, typ, index, eps, n_row, s_row, z_row, parity=parity,
+                                                 branch=branch))
+                exact_done += 1
+                last_exact_q = q
+                if found:
+                    empty_run = 0
+                else:
+                    empty_run += 1
+                    if empty_run >= 3 and k > 0.5 * top * math.exp(p.a4):
+                        exhausted = True
+                        break
         self.shells_exact = exact_done
         if not exhausted:
             self.compute_tail(last_exact_q, need_minus)
@@ -2380,6 +2420,25 @@ def self_tests(N0=100, L=3.0, M=1.0):
                 "zeroMode": bool(brane == tip)}
     tests["analyticSpectra"] = spectra
     tests["analyticMaxError"] = max(v["maxAbsError"] for v in spectra.values())
+    # the same k = 0 box on the canonical grids (N0 = 60) for both masses of the
+    # canonical set and the canonical tip condition: the accuracy budget of the
+    # extrapolated eigenvalues that the checker compares with the Rust crate
+    canonical = {}
+    for mass in (1.0, 3.0):
+        worst = 0.0
+        for parity in (1, -1):
+            brane = "g0" if parity > 0 else "f0"
+            exact = analytic_box(mass, L, brane, "g0", count=4)
+            per_level = []
+            for lvl in range(3):
+                grid = Grid(L, CANONICAL_N0 * 2 ** lvl)
+                sh = solve_shell(grid, np.full(grid.N + 1, mass), np.zeros(grid.N + 1), 0.0, 0.0, parity, "g0", False)
+                e = sh["eps"][sh["type"] == 1]
+                per_level.append(np.sort(e[e >= -ZERO_MODE_TOL])[:len(exact)])
+            worst = max(worst, float(np.max(np.abs(extrapolate3(*per_level) - np.array(exact)))))
+        canonical["m%g" % mass] = worst
+    tests["analyticCanonicalGrids"] = {"N0": CANONICAL_N0, "L": L, "tip": "g0", "levelsPerSector": 5,
+                                       "maxAbsErrorByMass": canonical}
     # discrete Hellmann-Feynman identities at k = 0.7 with a smooth potential
     grid = Grid(L, N0)
     Mn = M + 0.2 * np.exp(grid.y)
@@ -2432,6 +2491,7 @@ CANONICAL_LEVELS = 3     # grids N0, 2 N0, 4 N0; (h^2, h^3) elimination
 QUICK_N0 = 30
 QUICK_LEVELS = 2
 HOT_EXACT_SHELLS = 1000000   # T = m runs: no Chebyshev tail
+HOT_SHELL_WORKERS = 6        # T = m runs: worker processes for the shell loop (execution only)
 SPECTRUM_CSV_BAND = 8.0      # T > 0.5 m: spectrum.csv holds the levels within 8 T of mu
 
 
@@ -2555,7 +2615,7 @@ def canonical_runs(quick=False, shells_info=None):
                 # T = m: every lattice shell of the window (k up to ~24 m, ~6400 shells) is
                 # diagonalised exactly (no Chebyshev tail: its rank-ordered branches pass
                 # through avoided crossings at large k, measured error 1e-4 in the profiles)
-                extra = {"exact_shells": HOT_EXACT_SHELLS} if T > 0.5 else {}
+                extra = {"exact_shells": HOT_EXACT_SHELLS, "shell_workers": HOT_SHELL_WORKERS} if T > 0.5 else {}
                 add(1, 3, N, lam, T=T, tasks=["thermo"], **extra)
     return runs
 
@@ -2577,65 +2637,62 @@ def coupling_rust_grid(m, L, N, quick=False, log=None):
     """The Rust crate's coupling rule, strength = max_y max((15/16)|S_p|,
     n_p/16)/m^7 of the free ground state (both parities) with the maximum
     taken over the Rust crate's own 301 grid nodes, evaluated independently
-    by the reference: the interior nodes from the occupied levels of the
-    free problem on 300 and 600 intervals (its coarse nodes ARE the Rust
-    nodes; (h^2) elimination, O(h^3)), the two end nodes (the first-order end values of
-    the staggered scheme; the tip carries the maximum of n_p) from the
-    canonical three-level solution (N0 = 60, (h, h^2) elimination).  The
-    maximum over the canonical coarse nodes alone (h = L/60) samples an
-    interior peak of S_p too coarsely: measured 2e-3 low at (1, 3, 1016),
-    whose S_p peaks near y = -2.81 between two coarse nodes; it is recorded
-    as strengthCoarseNodes."""
+    by the reference.  At lambda = 0 the potentials are fixed (M = m, v = 0),
+    so only the occupied levels are needed: they are computed on 300, 600
+    and 1200 intervals (the coarse nodes ARE the Rust nodes) and the
+    densities extrapolated like every profile ((h^2, h^3) in the interior,
+    (h, h^2) at the two end nodes, where n_p peaks at the tip).  The maximum
+    over the canonical coarse nodes (every fifth Rust node, h = L/60) is
+    recorded as strengthCoarseNodes: it samples an interior peak of S_p too
+    coarsely (measured 2e-3 low at (1, 3, 1016), whose S_p peaks near
+    y = -2.81 between two coarse nodes)."""
     base = dict(m=m, L=L, lambda_hat=0.0, T=0.0, N=N, parity=0, tip="g0", xc="quadratic")
-    coarse = SectorRun(Params(N0=QUICK_N0 if quick else CANONICAL_N0,
-                              levels=QUICK_LEVELS if quick else CANONICAL_LEVELS, label="coupling-canonical", **base),
-                       log=log)
-    # the free state on the Rust node set: only the occupied levels matter
-    # (lambda = 0: fixed potentials, no self-consistency), so the window ends
-    # just above the Fermi level of the canonical solution
-    mu_c = float(coarse.scalars["mu"])
     n_fine = QUICK_N0 if quick else RUST_GRID_INTERVALS
-    p_f = Params(N0=n_fine, levels=2, label="coupling-rust-grid", **base)
-    fine_levels = []
-    for lvl in range(2):
+    n_levels = QUICK_LEVELS if quick else CANONICAL_LEVELS
+    params = Params(N0=n_fine, levels=n_levels, label="coupling-rust-grid", **base)
+    levels = []
+    hi = 0.05 * m
+    for lvl in range(n_levels):
         grid = Grid(L, n_fine * 2 ** lvl)
-        hi = mu_c + 0.05 * m
-        for _ in range(8):
-            spec = Spectrum(p_f, grid, np.full(grid.N + 1, float(m)), np.zeros(grid.N + 1), -m - 1.0, hi)
+        for _ in range(60):
+            # sea levels carry no weight at T = 0: the lower edge only trims them
+            spec = Spectrum(params, grid, np.full(grid.N + 1, float(m)), np.zeros(grid.N + 1), -0.5 * m, hi)
             try:
-                occupy_zero(spec.states, N)
+                mu, _, _ = occupy_zero(spec.states, N)
                 break
             except RuntimeError:
-                hi += 0.5 * m
+                hi += 0.25 * m
         else:
             raise RuntimeError("coupling_rust_grid: N = %g not placed below %g" % (N, hi))
-        n_c, s_c = densities(spec.states, p_f, grid)
-        fine_levels.append((grid, n_c, s_c, len(spec.states)))
+        n_c, s_c = densities(spec.states, params, grid)
+        levels.append({"grid": grid, "n_c": n_c, "s_c": s_c, "mu": mu, "levels": len(spec.states),
+                       "E": sum(st.mult * st.w * st.eps for st in spec.states)})
         if log:
-            log("  Rust-grid free state, %d intervals: %d levels in [%g, %g]" % (grid.N, len(spec.states), -m - 1.0, hi))
-    g0 = fine_levels[0][0]
-    subs = [np.arange(0, lv[0].N + 1, 2 ** l) for l, lv in enumerate(fine_levels)]
-    n_x = extrapolate_profile([lv[1][sb] for lv, sb in zip(fine_levels, subs)])
-    s_x = extrapolate_profile([lv[2][sb] for lv, sb in zip(fine_levels, subs)])
+            log("  free state on %d intervals: %d levels below %g, mu = %.12f" % (grid.N, len(spec.states), hi, mu))
+        hi = mu + 0.05 * m
+    g0 = levels[0]["grid"]
+    subs = [np.arange(0, lv["grid"].N + 1, 2 ** l) for l, lv in enumerate(levels)]
+    n_x = extrapolate_profile([lv["n_c"][sb] for lv, sb in zip(levels, subs)])
+    s_x = extrapolate_profile([lv["s_c"][sb] for lv, sb in zip(levels, subs)])
     s_abs = np.abs(g0.density_factor * s_x)
     n_abs = np.abs(g0.density_factor * n_x)
-    for j in (0, -1):
-        s_abs[j] = abs(float(coarse.profiles["s_p"][j]))
-        n_abs[j] = abs(float(coarse.profiles["n_p"][j]))
     y = g0.y
     i_s, i_n = int(np.argmax(s_abs)), int(np.argmax(n_abs))
     strength = max(15.0 / 16.0 * s_abs[i_s], n_abs[i_n] / 16.0) / m ** 7
     if not strength > 0.0:
         raise RuntimeError("coupling strength vanishes for (%g, %g, %g)" % (m, L, N))
+    step = max(1, g0.N // CANONICAL_N0)
+    coarse = max(15.0 / 16.0 * float(np.max(s_abs[::step])), float(np.max(n_abs[::step])) / 16.0) / m ** 7
+    n_total = params.volume * float(np.sum(0.5 * (n_x[1:] + n_x[:-1])) * g0.h)
     return {"m": float(m), "L": float(L), "N": float(N), "label": coupling_label(m, L, N),
             "rule": "strength = max over the 301 Rust grid nodes of max((15/16)|S_p|, n_p/16)/m^7",
             "sRef_maxProperScalarDensity_free": float(s_abs[i_s]), "sRefY": float(y[i_s]),
             "nRef_maxProperNumberDensity_free": float(n_abs[i_n]), "nRefY": float(y[i_n]),
             "strengthPerUnitLambdaHat": float(strength),
             "lambdaHat1": 0.1 / float(strength), "lambdaHat2": 1.0 / float(strength),
-            "strengthCoarseNodes": coarse.coupling_scale["strengthPerUnitLambdaHat"],
-            "canonicalConverged": bool(coarse.converged), "fineGridIntervals": [lv[0].N for lv in fine_levels],
-            "fineGridLevels": [lv[3] for lv in fine_levels], "E0_free": float(coarse.scalars["total"]),
+            "strengthCoarseNodes": float(coarse), "gridIntervals": [lv["grid"].N for lv in levels],
+            "levelsBelowMu": [lv["levels"] for lv in levels], "mu": [lv["mu"] for lv in levels],
+            "E0_free_levels": [lv["E"] for lv in levels], "nFromDensity": n_total,
             "solverVersion": SOLVER_VERSION}
 
 
@@ -2760,8 +2817,8 @@ COUPLING_RULE = ("per configuration (m, L, N), from the free ground state of tha
                  "strength = max_y max((15/16)|S_p|, n_p/16)/m^7 with the maximum over the Rust crate's 301 grid nodes "
                  "(the LDA pair (M_eff - m, v_x) per unit lambda_hat, in units of m); lambda_hat_1 = 0.1/strength, "
                  "lambda_hat_2 = 1.0/strength (the rule of the Rust crate, runs.rs), evaluated independently here "
-                 "(`coupling_rust_grid`: interior nodes from a two-level solution on 300/600 intervals, end nodes from "
-                 "the canonical three-level solution); the convergence runs (a4_0 = 0.5, Delta k = 0.25 e^-0.5 m, "
+                 "(`coupling_rust_grid`: the occupied free levels on 300, 600 and 1200 intervals, whose coarse nodes are "
+                 "the Rust nodes, three-level extrapolation); the convergence runs (a4_0 = 0.5, Delta k = 0.25 e^-0.5 m, "
                  "Delta k = 0.125 m) use the values of (1, 3, N_mid); the achieved max|lambda S_p|/m is in every "
                  "run.json (levels[].energies.maxLambdaSOverM)")
 

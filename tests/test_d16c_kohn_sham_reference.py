@@ -17,7 +17,12 @@ import sys
 import tempfile
 import unittest
 
-import numpy as np
+# one BLAS thread (the reference solver's setting; small dense eigenproblems):
+# must be set before numpy is imported
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+
+import numpy as np  # noqa: E402
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, "scripts"))
@@ -245,6 +250,18 @@ class ScfTests(unittest.TestCase):
         self.assertLess(float(np.max(np.abs(n_c - n_x))), 1e-13 * float(np.max(np.abs(n_x))))
         self.assertLess(float(np.max(np.abs(s_c - s_x))), 1e-12 * float(np.max(np.abs(s_x))))
 
+    def test_parallel_shell_loop_equals_serial(self):
+        """shell_workers changes the execution only: identical states and densities."""
+        grid = K.Grid(3.0, 12)
+        base = dict(m=1.0, L=3.0, lambda_hat=0.0, T=0.5, N=8.0, parity=0, N0=12, exact_shells=1000000)
+        m_eff, v = np.full(13, 1.0), 0.01 * np.sin(grid.y)
+        a = K.Spectrum(K.Params(**base), grid, m_eff, v, -6.0, 6.0)
+        b = K.Spectrum(K.Params(shell_workers=2, **base), grid, m_eff, v, -6.0, 6.0)
+        self.assertEqual([st.key() for st in a.states], [st.key() for st in b.states])
+        self.assertEqual([st.eps for st in a.states], [st.eps for st in b.states])
+        self.assertTrue(all(np.array_equal(x.n, y.n) and np.array_equal(x.s, y.s) for x, y in zip(a.states, b.states)))
+        self.assertEqual(a.shells_exact, b.shells_exact)
+
     def test_fixed_spectrum_heat_capacity_and_truncation(self):
         """lambda = 0: C_V^(0) = C_V^(S) exactly and equal to the central
         difference to O(delta^2); a window that holds every level truncates
@@ -452,6 +469,21 @@ class CheckerTests(unittest.TestCase):
         self.assertLess(C.rust_conservation(hdr, data), 1e-4)
         data[:, 3] *= 2.0
         self.assertGreater(C.rust_conservation(hdr, data), 0.1)
+
+    def test_reference_outputs_are_deterministic(self):
+        """Two executions of the same specification write byte-identical files."""
+        spec = {"label": "m1_L3_N8_lamp1_T0", "m": 1.0, "L": 3.0, "N": 8.0, "T": 0.0, "N0": 10, "levels": 2,
+                "parity": 0, "tip": "g0", "xc": "quadratic", "tasks": ["excited"], "lambda": "lamp1"}
+        with tempfile.TemporaryDirectory() as tmp:
+            for tag in ("a", "b"):
+                with contextlib.redirect_stdout(io.StringIO()):
+                    K.execute_run(spec, 0.01, os.path.join(tmp, tag), lambda msg: None)
+            names = sorted(os.listdir(os.path.join(tmp, "a", spec["label"])))
+            self.assertEqual(names, sorted(os.listdir(os.path.join(tmp, "b", spec["label"]))))
+            for name in names:
+                with open(os.path.join(tmp, "a", spec["label"], name), "rb") as fa, \
+                        open(os.path.join(tmp, "b", spec["label"], name), "rb") as fb:
+                    self.assertEqual(fa.read(), fb.read(), name)
 
     def test_canonical_comparison_and_negative_control(self):
         """A Rust-format copy of a reference run agrees in every compared

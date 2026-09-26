@@ -18,6 +18,7 @@
     "tol": 1.00000000000000004e-10,
     "maxIterations": 80,
     "stagnationIterations": 20,
+    "zeroTemperatureFallbackStage": 0,
     "rtol": 9.99999999999999980e-13,
     "atol": 9.99999999999999999e-15
   },
