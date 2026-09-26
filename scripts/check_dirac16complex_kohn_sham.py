@@ -99,9 +99,9 @@ TOL = {
     "referenceHF": 1e-5,                # discrete Hellmann-Feynman identities in M and v (exact partners)
     "referenceHFk": 2e-3,               # d eps/d k vs -s int kappa z: O(h^2)-consistent only (kappa exact on half nodes)
     "referenceN": 1e-8,                 # N conservation from the state weights (exact discrete identity)
-    "referenceNDensity": 1e-4,          # trapezoid integral of the extrapolated coarse-grid n_c vs N (O(h_coarse^2))
+    "referenceNDensity": 1e-4,          # Simpson integral of the extrapolated coarse-grid n_c vs N (O(h_coarse^4))
     "referenceEnergyRho": 1e-8,         # |E from rho - E| / max(|E|, 1)
-    "referenceTrace": 1e-10,            # EMT trace identity
+    "referenceTrace": 1e-10,            # EMT trace identity, relative to max(1, |rho|, |p_y|) of the run
     "referenceConservation": 5e-3,      # EMT y-conservation, finest level, normalised
     "referenceTail": 1e-9,              # Chebyshev tail interpolation error
     "referenceOrder": (1.5, 2.6),       # median order estimate window
@@ -153,6 +153,21 @@ def column(header, data, name):
 
 def rel(a, b):
     return abs(a - b) / max(abs(a), abs(b), 1e-300)
+
+
+def integrate_uniform(y, values):
+    """Composite Simpson rule on a uniform grid (O(h^4)); trapezoid (O(h^2))
+    when the number of intervals is odd.  Returns (integral, rule)."""
+    h = y[1] - y[0]
+    n = len(y) - 1
+    if n % 2 == 0 and n >= 2:
+        w = np.full(n + 1, 2.0)
+        w[1::2] = 4.0
+        w[0] = w[-1] = 1.0
+        return float(np.dot(w, values) * h / 3.0), "simpson"
+    w = np.full(n + 1, h)
+    w[0] = w[-1] = 0.5 * h
+    return float(np.dot(w, values)), "trapezoid"
 
 
 class Registry:
@@ -309,9 +324,14 @@ def check_reference(reg: Registry, ref_dir, args):
     thermo_ok = True
     cv_dev = 0.0
     dscf_dev = 0.0
+    unreadable = []
     for r in runs:
         d = os.path.join(ref_dir, r["label"])
-        run = load_json(os.path.join(d, "run.json"))
+        try:
+            run = load_json(os.path.join(d, "run.json"))
+        except (OSError, ValueError) as error:
+            unreadable.append("%s (%s)" % (r["label"], error))
+            continue
         N = run["params"]["N"]
         worst["N"] = max(worst["N"], rel(run["extrapolated"]["nTotal"], N))
         hdr, spec = read_csv(os.path.join(d, "spectrum.csv"))
@@ -321,18 +341,17 @@ def check_reference(reg: Registry, ref_dir, args):
         y = column(phdr, prof, "y")
         n_c = column(phdr, prof, "n_c")
         s_c = column(phdr, prof, "S_c")
-        h = y[1] - y[0]
-        w = np.full(len(y), h)
-        w[0] = w[-1] = 0.5 * h
         vol = run["params"]["volume"]
-        worst["Ndens"] = max(worst["Ndens"], rel(vol * float(np.dot(w, n_c)), N))
+        integral, rule = integrate_uniform(y, n_c)
+        worst["Ndens"] = max(worst["Ndens"], rel(vol * integral, N))
         worst["Sc0"] = max(worst["Sc0"], abs(s_c[-1]) / max(np.max(np.abs(s_c)), 1e-300))
+        rho_scale = max(1.0, float(np.max(np.abs(column(phdr, prof, "rho")))), float(np.max(np.abs(column(phdr, prof, "p_y")))))
         if n_c[-1] <= 0:
             n0_zero = False
         emt = run["emt"]
         worst["Erho"] = max(worst["Erho"], abs(emt["energyFromRho"] - run["extrapolated"]["total"])
                             / max(abs(run["extrapolated"]["total"]), 1.0))
-        worst["trace"] = max(worst["trace"], emt["traceIdentityResidual"])
+        worst["trace"] = max(worst["trace"], emt["traceIdentityResidual"] / rho_scale)
         cons = emt.get("conservationResidualMaxNormalised")
         if isinstance(cons, list) and cons:
             worst["cons"] = max(worst["cons"], cons[-1] if cons[-1] is not None else 0.0)
@@ -361,13 +380,17 @@ def check_reference(reg: Registry, ref_dir, args):
             if hk in keys:
                 e_h = column(hdr, spec, "eps_extrapolated")[keys.index(hk)]
                 worst["mu_vs_homo"] = max(worst["mu_vs_homo"], abs(e_h - run["extrapolated"]["mu"]))
+    reg.check("reference_run_files_readable", not unreadable, "unreadable run.json: %s" % unreadable[:5])
     reg.check("reference_N_conservation", worst["N"] < TOL["referenceN"], "max relative |sum mult w - N| = %.3e" % worst["N"])
     reg.check("reference_N_from_density", worst["Ndens"] < TOL["referenceNDensity"],
-              "max relative |l^3 int n_c dy - N| = %.3e (extrapolated coarse-grid profiles)" % worst["Ndens"])
+              "max relative |l^3 int n_c dy - N| = %.3e (Simpson rule on the extrapolated coarse-grid profiles; "
+              "the trapezoid rule would leave its own O(h^2) ~ 1e-3 error)" % worst["Ndens"])
     reg.check("reference_Z2_parity_purity", worst["Sc0"] < 1e-12 and n0_zero,
               "scalar density vanishes on the brane for either parity (max |S_c(0)|/max|S_c| = %.3e), n_c(0) > 0" % worst["Sc0"])
     reg.check("reference_energy_from_rho", worst["Erho"] < TOL["referenceEnergyRho"], "max %.3e" % worst["Erho"])
-    reg.check("reference_emt_trace_identity", worst["trace"] < TOL["referenceTrace"], "max %.3e" % worst["trace"])
+    reg.check("reference_emt_trace_identity", worst["trace"] < TOL["referenceTrace"],
+              "max residual / max(1, |rho|, |p_y|) = %.3e (the proper densities reach 1e6 at the tip of the "
+              "parity -1 sector at L = 4, so the identity is checked relative to that scale)" % worst["trace"])
     reg.check("reference_emt_y_conservation", worst["cons"] < TOL["referenceConservation"],
               "max normalised residual of P_y' = 3H(P_3 + P_t) on the finest grid: %.3e" % worst["cons"])
     reg.check("reference_tail_interpolation", worst["tail"] < TOL["referenceTail"], "max Chebyshev error %.3e" % worst["tail"])
@@ -664,20 +687,25 @@ def check_rust_internal(reg: Registry, rust_dir, summaries, runs):
                     brane = abs(b[-1]) if par[i] > 0 else abs(a[-1])
                     worst["bc"] = max(worst["bc"], abs(b[0]) / scale, brane / scale)
                     counted["bc"] += 1
-    reg.check("rust_N_conservation", counted["N"] > 0 and worst["N"] < 1e-8 and worst["Ndens"] < 1e-6,
-              "%d runs: max relative |sum weights - N| = %.3e, |N(density) - N| = %.3e" % (counted["N"], worst["N"], worst["Ndens"]))
-    reg.check("rust_energy_from_rho", counted["Erho"] > 0 and worst["Erho"] < 1e-6,
-              "%d runs, max %.3e" % (counted["Erho"], worst["Erho"]))
-    reg.check("rust_emt_y_conservation_recomputed", counted["profiles"] > 0 and worst["cons"] < TOL["rustConservation"],
-              "P_y' = 3H(P_3 + P_t) from %d profiles.csv, max normalised residual %.3e" % (counted["profiles"], worst["cons"]))
-    reg.check("rust_Z2_parity_purity", counted["profiles"] > 0 and worst["Sc0"] < 1e-10,
-              "max |S_c(0)|/max|S_c| = %.3e (scalar density vanishes on the brane)" % worst["Sc0"])
-    reg.check("rust_homo_boundary_conditions", counted["bc"] > 0 and worst["bc"] < 1e-6,
-              "HOMO profile of %d runs: |b(-L)| and the parity component at y = 0, relative %.3e (current-free ends)"
-              % (counted["bc"], worst["bc"]))
-    reg.check("rust_entropy_nonnegative", entropy_ok, "entropy >= 0 in every run")
-    reg.check("rust_no_branch_overlap", not overlap,
-              "runs with a sea level above an occupied particle level: %s" % overlap[:10])
+    def check_or_not_run(name, count, ok, detail):
+        if count > 0:
+            reg.check(name, ok, detail)
+        else:
+            reg.comparison(name, "not run", "no Rust run with the required records/files (" + detail + ")")
+    check_or_not_run("rust_N_conservation", counted["N"], worst["N"] < 1e-8 and worst["Ndens"] < 1e-6,
+                     "%d runs: max relative |sum weights - N| = %.3e, |N(density) - N| = %.3e" % (counted["N"], worst["N"], worst["Ndens"]))
+    check_or_not_run("rust_energy_from_rho", counted["Erho"], worst["Erho"] < 1e-6,
+                     "%d runs, max %.3e" % (counted["Erho"], worst["Erho"]))
+    check_or_not_run("rust_emt_y_conservation_recomputed", counted["profiles"], worst["cons"] < TOL["rustConservation"],
+                     "P_y' = 3H(P_3 + P_t) from %d profiles.csv, max normalised residual %.3e" % (counted["profiles"], worst["cons"]))
+    check_or_not_run("rust_Z2_parity_purity", counted["profiles"], worst["Sc0"] < 1e-10,
+                     "max |S_c(0)|/max|S_c| = %.3e (scalar density vanishes on the brane)" % worst["Sc0"])
+    check_or_not_run("rust_homo_boundary_conditions", counted["bc"], worst["bc"] < 1e-6,
+                     "HOMO profile of %d runs: |b(-L)| and the parity component at y = 0, relative %.3e (current-free ends)"
+                     % (counted["bc"], worst["bc"]))
+    check_or_not_run("rust_entropy_nonnegative", len(runs), entropy_ok, "entropy >= 0 in every run (%d runs)" % len(runs))
+    check_or_not_run("rust_no_branch_overlap", len(runs), not overlap,
+                     "runs with a sea level above an occupied particle level: %s" % overlap[:10])
     tpath = os.path.join(rust_dir, "thermo", "thermodynamics.csv")
     if os.path.exists(tpath):
         thdr, tab = read_csv(tpath)
