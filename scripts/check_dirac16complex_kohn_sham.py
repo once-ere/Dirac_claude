@@ -1102,42 +1102,45 @@ def truncation_from_spectrum(shdr, spec, T, N, mu, lo, hi, cap=RUST_SHELL_CAP):
     mult = column(shdr, spec, "mult")
     branch = column(shdr, spec, "branch")
     q = column(shdr, spec, "q")
-    f_full = column(shdr, spec, "f")
-    w_full = column(shdr, spec, "w")
+    everything = np.ones(len(eps), dtype=bool)
     inside = (eps >= lo) & (eps <= hi) & (q <= cap)
 
-    def weights(mu_):
-        fv = fermi((eps - mu_) / T)
-        return np.where(inside, np.where(branch > 0, fv, -(1.0 - fv)), 0.0), fv
+    def solve(mask):
+        """Occupations of the levels in mask at fixed N (mu by bisection);
+        the full set and the cut set are treated alike (same eigenvalues),
+        so that only the dropped levels make the difference."""
+        def weights(mu_):
+            fv = fermi((eps - mu_) / T)
+            return np.where(mask, np.where(branch > 0, fv, -(1.0 - fv)), 0.0), fv
 
-    def count(mu_):
-        return float(np.dot(mult, weights(mu_)[0]))
-    a, b = mu - 5.0 * T, mu + 5.0 * T
-    while count(a) > N:
-        a -= 5.0 * T
-    while count(b) < N:
-        b += 5.0 * T
-    for _ in range(200):
-        mid = 0.5 * (a + b)
-        if count(mid) < N:
-            a = mid
-        else:
-            b = mid
-        if b - a < 1e-15 * max(1.0, abs(mid)):
-            break
-    mu2 = 0.5 * (a + b)
-    w2, f2 = weights(mu2)
-
-    def entropy(fv, mask):
-        fv, mm = fv[mask], mult[mask]
-        ok = (fv > 0.0) & (fv < 1.0)
-        fv = fv[ok]
-        return float(-np.sum(mm[ok] * (fv * np.log(fv) + (1.0 - fv) * np.log1p(-fv))))
-    d_s = entropy(f2, inside) - entropy(f_full, np.ones(len(eps), dtype=bool))
-    d_e = float(np.dot(mult, (w2 - w_full) * eps))
-    return {"window": [lo, hi], "shellCap": cap, "levelsOutside": int(np.sum(~inside)), "deltaMu": mu2 - mu,
-            "deltaE": d_e, "deltaEntropy": d_s, "deltaF": d_e - T * d_s,
-            "source": "checker: reference spectrum.csv restricted to the Rust run's recorded window and shell cap"}
+        def count(mu_):
+            return float(np.dot(mult, weights(mu_)[0]))
+        a, b = mu - 5.0 * T, mu + 5.0 * T
+        while count(a) > N:
+            a -= 5.0 * T
+        while count(b) < N:
+            b += 5.0 * T
+        for _ in range(200):
+            mid = 0.5 * (a + b)
+            if count(mid) < N:
+                a = mid
+            else:
+                b = mid
+            if b - a < 1e-15 * max(1.0, abs(mid)):
+                break
+        mu_ = 0.5 * (a + b)
+        w, fv = weights(mu_)
+        fm, mm = fv[mask], mult[mask]
+        ok = (fm > 0.0) & (fm < 1.0)
+        entropy = float(-np.sum(mm[ok] * (fm[ok] * np.log(fm[ok]) + (1.0 - fm[ok]) * np.log1p(-fm[ok]))))
+        return mu_, w, entropy
+    mu1, w1, s1 = solve(everything)
+    mu2, w2, s2 = solve(inside)
+    d_e = float(np.dot(mult, (w2 - w1) * eps))
+    return {"window": [lo, hi], "shellCap": cap, "levelsOutside": int(np.sum(~inside)), "deltaMu": mu2 - mu1,
+            "deltaE": d_e, "deltaEntropy": s2 - s1, "deltaF": d_e - T * (s2 - s1),
+            "source": "checker: reference spectrum.csv (extrapolated eigenvalues) restricted to the Rust run's "
+                      "recorded window and shell cap"}
 
 
 def compare_thermo(worst, where, item, ref, dl, record):
