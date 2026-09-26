@@ -83,7 +83,9 @@ Lattice shells: k = Delta k sqrt(q), q = n1^2 + n2^2 + n3^2, multiplicity
 4 r3(q) per level; up to 300 shells are diagonalised exactly and the rest
 of the window by Chebyshev interpolation in |k| of the rank-ordered levels
 and their profiles (32 nodes, verified at 6 lattice shells, error recorded);
-the T = m runs diagonalise every shell exactly (`exact_shells`).  The
+the T = m runs diagonalise every shell exactly (`exact_shells`; window
++-28 T, ~9000 shells, the shell loop spread over worker processes with
+results identical to the serial loop, `shell_workers`).  The
 profiles of interpolated levels are never stored: the sums over them are
 formed on the node profiles of each branch (`State`, `tail_sums`).
 Kohn-Sham functional (Mermin, finite T, normal ordered).  Proper densities
@@ -807,6 +809,7 @@ TAIL_TEST_SHELLS = 6
 STAGNATION_ITERATIONS = 20  # T = 0: no factor-2 residual improvement in this many iterations -> stagnant
 SMEARING_LADDER = (1e-4, 1e-3)   # T = 0 fallback: Fermi-Dirac occupation smearing (units of m), as the Rust crate
 RUST_F_CUT = 1e-8           # occupation cutoff of the Rust crate's T > 0 window (truncation diagnostic)
+RUST_SHELL_CAP = 4096       # the Rust crate's largest lattice n2 (scf.rs standard_params shell_cap)
 SOLVER_VERSION = 2          # bumped when the numbers of a run change (--resume keeps only matching versions)
 
 
@@ -1816,14 +1819,18 @@ def fixed_spectrum_cv(eps, mult, f, mu, T, dh, mask=None):
 
 
 def rust_window_truncation(result, params: Params, grid: Grid):
-    """First-order effect of the Rust crate's T > 0 energy window
-    [min(mu - T ln(1/f_cut) - m/2, -(2.5 m + 2 pi/L)), mu + T ln(1/f_cut) + m/2]
-    (f_cut = 1e-8) on the reference state: the levels outside it are dropped
-    (particles empty, sea full), mu is re-solved at fixed N and the spectrum,
-    and dE = sum mult (w' - w) eps (Janak), dS, dF = dE - T dS and the
-    changes of the two fixed-spectrum heat capacities are returned.  The
-    Rust window is frozen at its first-iteration mu estimate; the converged
-    mu is used here (same to leading order)."""
+    """First-order effect of the Rust crate's T > 0 level set on the
+    reference state.  The Rust crate keeps the levels inside the energy
+    window [min(mu - T ln(1/f_cut) - m/2, -(2.5 m + 2 pi/L)),
+    mu + T ln(1/f_cut) + m/2] (f_cut = 1e-8) AND on the lattice shells
+    n2 <= shell_cap = 4096 (scf.rs `shells`; k <= 16 m at Delta k = 0.25 m,
+    which cuts the T = m window, whose levels reach k ~ 19 m).  The levels
+    outside are dropped (particles empty, sea full), mu is re-solved at fixed
+    N and fixed spectrum, and dE = sum mult (w' - w) eps (Janak), dS,
+    dF = dE - T dS and the changes of the two fixed-spectrum heat capacities
+    are returned for the combined cut (top level) and for the energy window
+    alone (windowOnly).  The Rust window is frozen at its first-iteration mu
+    estimate; the converged mu is used here (same to leading order)."""
     T = params.T
     if T <= 0.0:
         return None
@@ -1835,32 +1842,13 @@ def rust_window_truncation(result, params: Params, grid: Grid):
     states = result["spectrum"].states
     eps = np.array([st.eps for st in states])
     mult = np.array([st.mult for st in states])
+    qs = np.array([st.q for st in states])
     sign = np.array([1.0 if st.branch > 0 else -1.0 for st in states])
     w_full = np.array([st.w for st in states])
     f_full = np.array([st.f for st in states])
-    inside = (eps >= lo) & (eps <= hi)
-
-    def weights(m_):
-        fv = _fermi((eps - m_) / T)
-        return np.where(inside, np.where(sign > 0, fv, -(1.0 - fv)), 0.0), fv
-
-    def count(m_):
-        return float(np.dot(mult, weights(m_)[0]))
-    a, b = mu - 5.0 * T, mu + 5.0 * T
-    while count(a) > params.N:
-        a -= 5.0 * T
-    while count(b) < params.N:
-        b += 5.0 * T
-    for _ in range(200):
-        mid = 0.5 * (a + b)
-        if count(mid) < params.N:
-            a = mid
-        else:
-            b = mid
-        if b - a < 1e-15 * max(1.0, abs(mid)):
-            break
-    mu2 = 0.5 * (a + b)
-    w2, f2 = weights(mu2)
+    in_window = (eps >= lo) & (eps <= hi)
+    dh = potential_expectations(result, params, grid, f_full)
+    cv_full = fixed_spectrum_cv(eps, mult, f_full, mu, T, dh)
 
     def entropy(fv, mask):
         fv, mm = fv[mask], mult[mask]
@@ -1868,16 +1856,41 @@ def rust_window_truncation(result, params: Params, grid: Grid):
         fv = fv[ok]
         return float(-np.sum(mm[ok] * (fv * np.log(fv) + (1.0 - fv) * np.log1p(-fv))))
     s_full = entropy(f_full, np.ones(len(states), dtype=bool))
-    s_cut = entropy(f2, inside)
-    d_e = float(np.dot(mult, (w2 - w_full) * eps))
-    dh = potential_expectations(result, params, grid, np.where(inside, np.maximum(f_full, f2), f_full))
-    cv_full = fixed_spectrum_cv(eps, mult, f_full, mu, T, dh)
-    cv_cut = fixed_spectrum_cv(eps, mult, f2, mu2, T, dh, mask=inside)
-    return {"window": [lo, hi], "fCut": RUST_F_CUT, "levelsOutside": int(np.sum(~inside)),
-            "deltaMu": mu2 - mu, "deltaE": d_e, "deltaEntropy": s_cut - s_full,
-            "deltaF": d_e - T * (s_cut - s_full),
-            "deltaCVfixedSpectrum": cv_cut["C_V_fixedSpectrum"] - cv_full["C_V_fixedSpectrum"],
-            "deltaCVfixedSpectrumEntropy": cv_cut["C_V_fixedSpectrumEntropy"] - cv_full["C_V_fixedSpectrumEntropy"]}
+
+    def cut(inside):
+        def weights(m_):
+            fv = _fermi((eps - m_) / T)
+            return np.where(inside, np.where(sign > 0, fv, -(1.0 - fv)), 0.0), fv
+
+        def count(m_):
+            return float(np.dot(mult, weights(m_)[0]))
+        a, b = mu - 5.0 * T, mu + 5.0 * T
+        while count(a) > params.N:
+            a -= 5.0 * T
+        while count(b) < params.N:
+            b += 5.0 * T
+        for _ in range(200):
+            mid = 0.5 * (a + b)
+            if count(mid) < params.N:
+                a = mid
+            else:
+                b = mid
+            if b - a < 1e-15 * max(1.0, abs(mid)):
+                break
+        mu2 = 0.5 * (a + b)
+        w2, f2 = weights(mu2)
+        s_cut = entropy(f2, inside)
+        d_e = float(np.dot(mult, (w2 - w_full) * eps))
+        cv_cut = fixed_spectrum_cv(eps, mult, f2, mu2, T, dh, mask=inside)
+        return {"levelsOutside": int(np.sum(~inside)), "deltaMu": mu2 - mu, "deltaE": d_e,
+                "deltaEntropy": s_cut - s_full, "deltaF": d_e - T * (s_cut - s_full),
+                "deltaCVfixedSpectrum": cv_cut["C_V_fixedSpectrum"] - cv_full["C_V_fixedSpectrum"],
+                "deltaCVfixedSpectrumEntropy": cv_cut["C_V_fixedSpectrumEntropy"] - cv_full["C_V_fixedSpectrumEntropy"]}
+    out = {"window": [lo, hi], "fCut": RUST_F_CUT, "shellCap": RUST_SHELL_CAP,
+           "levelsBeyondShellCap": int(np.sum(qs > RUST_SHELL_CAP))}
+    out.update(cut(in_window & (qs <= RUST_SHELL_CAP)))
+    out["windowOnly"] = cut(in_window)
+    return out
 
 
 def key_str(key):

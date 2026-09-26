@@ -60,9 +60,11 @@ What is checked (each printed as check_<name>=true|false):
               EMT profiles on the common nodes (every coarse reference node
               is a Rust node), EMT averages, brane and tip fractions, the E4.1
               sourcing record, thermodynamics (E, F, S, mu after the
-              first-order correction for the Rust crate's f_cut = 1e-8 energy
-              window, C_V as central difference and in both fixed-spectrum
-              forms), the occupation-smearing fallback; tolerances in TOL.
+              first-order correction for the Rust crate's level set: its
+              f_cut = 1e-8 energy window and its lattice-shell cap
+              n2 <= 4096, which cuts the T = m window; C_V as central
+              difference and in both fixed-spectrum forms), the
+              occupation-smearing fallback; tolerances in TOL.
   reproduce   a few Rust parameter sets re-solved by the reference with
               EXACTLY the Rust lambda_hat (no coupling correction needed).
   repeat /    --repeat byte identity; --refined convergence.
@@ -1226,7 +1228,7 @@ def compare_canonical(reg: Registry, ref_dir, runs):
         "emtAverages": "proper-volume EMT averages",
         "fractions": "brane and tip fractions",
         "sourcingConditions": "E4.1 verdict and sign of <S_p> agree",
-        "thermodynamics": "E, F, S, mu at T > 0 after the f_cut window correction",
+        "thermodynamics": "E, F, S, mu at T > 0 after the correction for the Rust level set (f_cut window, shell cap)",
         "heatCapacity": "C_V central difference and fixed-spectrum forms",
     }
     for quantity, entry in sorted(worst.data.items()):

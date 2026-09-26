@@ -1,0 +1,586 @@
+{
+  "schemaVersion": 1,
+  "study": "dirac16complex-kohn-sham",
+  "experiment": "excited",
+  "fixture": {
+    "path": "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json",
+    "sha256": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
+    "source": "fixture"
+  },
+  "engine": "sundials_rs 7.8.0 CVODE (pure Rust, vendor/rustSolveIt)",
+  "solver": "CVODE BDF/Adams Pruefer shooting + BDF profiles (see shooting.rs)",
+  "refined": false,
+  "tolerances": {
+    "rtol": 9.99999999999999980e-13,
+    "atol": 9.99999999999999999e-15,
+    "maxStep": 5.00000000000000028e-02
+  },
+  "reference": {
+    "nMid": 1.12000000000000000e+02,
+    "nLarge": 1.01600000000000000e+03,
+    "nMidM3": 1.12000000000000000e+02,
+    "couplingRule": "per configuration (m, L, N): strength = max_y max((15/16)|S_p|, n_p/16)/m^7 of the free ground state (the LDA pair per unit lambda_hat, in units of m); lambda_hat_1 = 0.1/strength, lambda_hat_2 = 1.0/strength; the achieved max|lambda S_p|/m and max|v_x|/m of every self-consistent run are in its run.json",
+    "couplings": [
+      {
+        "m": 1.00000000000000000e+00,
+        "L": 3.00000000000000000e+00,
+        "N": 8.00000000000000000e+00,
+        "sRef_maxProperScalarDensity_free": 0.00000000000000000e+00,
+        "nRef_maxProperNumberDensity_free": 1.64441727770995215e+02,
+        "strengthPerUnitLambdaHat": 1.02776079856872009e+01,
+        "lambdaHat1": 9.72989047055131638e-03,
+        "lambdaHat2": 9.72989047055131534e-02
+      },
+      {
+        "m": 1.00000000000000000e+00,
+        "L": 3.00000000000000000e+00,
+        "N": 1.12000000000000000e+02,
+        "sRef_maxProperScalarDensity_free": 6.16644110740572771e+00,
+        "nRef_maxProperNumberDensity_free": 1.67228188445202591e+02,
+        "strengthPerUnitLambdaHat": 1.04517617778251619e+01,
+        "lambdaHat1": 9.56776494965314375e-03,
+        "lambdaHat2": 9.56776494965314306e-02
+      },
+      {
+        "m": 1.00000000000000000e+00,
+        "L": 3.00000000000000000e+00,
+        "N": 1.01600000000000000e+03,
+        "sRef_maxProperScalarDensity_free": 6.76414734526190955e+02,
+        "nRef_maxProperNumberDensity_free": 3.85598907731596637e+03,
+        "strengthPerUnitLambdaHat": 6.34138813618303971e+02,
+        "lambdaHat1": 1.57694179653528109e-04,
+        "lambdaHat2": 1.57694179653528098e-03
+      }
+    ],
+    "closedShells_m1_L3_N_epsHomo": [
+      [
+        8.00000000000000000e+00,
+        0.00000000000000000e+00
+      ],
+      [
+        3.20000000000000000e+01,
+        4.30733678638031026e-01
+      ],
+      [
+        8.00000000000000000e+01,
+        5.87956852750562975e-01
+      ],
+      [
+        1.12000000000000000e+02,
+        7.04099564609105277e-01
+      ],
+      [
+        1.36000000000000000e+02,
+        7.99645766829074733e-01
+      ],
+      [
+        2.32000000000000000e+02,
+        8.82319540531269375e-01
+      ],
+      [
+        3.28000000000000000e+02,
+        9.56006929838804198e-01
+      ],
+      [
+        3.76000000000000000e+02,
+        1.08470485810963546e+00
+      ],
+      [
+        4.96000000000000000e+02,
+        1.14218214860447387e+00
+      ],
+      [
+        5.92000000000000000e+02,
+        1.19613738347395437e+00
+      ],
+      [
+        6.88000000000000000e+02,
+        1.24711254062783472e+00
+      ],
+      [
+        6.96000000000000000e+02,
+        1.29229282806695744e+00
+      ],
+      [
+        7.28000000000000000e+02,
+        1.29552536711324939e+00
+      ],
+      [
+        8.24000000000000000e+02,
+        1.34170568737331397e+00
+      ],
+      [
+        1.01600000000000000e+03,
+        1.38591915422392709e+00
+      ],
+      [
+        1.04000000000000000e+03,
+        1.43892681290871272e+00
+      ],
+      [
+        1.04800000000000000e+03,
+        1.44797193040494854e+00
+      ],
+      [
+        1.07200000000000000e+03,
+        1.46927913522502429e+00
+      ],
+      [
+        1.26400000000000000e+03,
+        1.50875860135845197e+00
+      ],
+      [
+        1.40800000000000000e+03,
+        1.54695116529350063e+00
+      ]
+    ],
+    "closedShells_m3_L3_N_epsHomo": [
+      [
+        8.00000000000000000e+00,
+        0.00000000000000000e+00
+      ],
+      [
+        3.20000000000000000e+01,
+        8.95832758318687361e-01
+      ],
+      [
+        8.00000000000000000e+01,
+        1.26258242904154505e+00
+      ],
+      [
+        1.12000000000000000e+02,
+        1.54201101645932992e+00
+      ],
+      [
+        1.36000000000000000e+02,
+        1.77627479990539561e+00
+      ],
+      [
+        2.32000000000000000e+02,
+        1.98171672907013408e+00
+      ],
+      [
+        3.28000000000000000e+02,
+        2.16671925958345435e+00
+      ],
+      [
+        3.76000000000000000e+02,
+        2.49358198363882266e+00
+      ],
+      [
+        4.96000000000000000e+02,
+        2.64093405087543776e+00
+      ],
+      [
+        5.92000000000000000e+02,
+        2.77995368213713556e+00
+      ],
+      [
+        6.88000000000000000e+02,
+        2.91187567060171792e+00
+      ],
+      [
+        7.20000000000000000e+02,
+        3.03765848338116706e+00
+      ],
+      [
+        7.28000000000000000e+02,
+        3.14544820862348029e+00
+      ],
+      [
+        8.24000000000000000e+02,
+        3.15806365137248912e+00
+      ],
+      [
+        8.32000000000000000e+02,
+        3.17751832586059546e+00
+      ],
+      [
+        1.02400000000000000e+03,
+        3.27370805685270927e+00
+      ],
+      [
+        1.04800000000000000e+03,
+        3.49266248460661011e+00
+      ],
+      [
+        1.05600000000000000e+03,
+        3.55413590703882143e+00
+      ],
+      [
+        1.24800000000000000e+03,
+        3.59675502546866577e+00
+      ],
+      [
+        1.27200000000000000e+03,
+        3.59990934434544130e+00
+      ],
+      [
+        1.28000000000000000e+03,
+        3.65875536825535619e+00
+      ],
+      [
+        1.42400000000000000e+03,
+        3.69768336626264160e+00
+      ]
+    ]
+  },
+  "runs": [
+    {
+      "label": "m1_L3_N8_lam0_T0",
+      "N": 8.00000000000000000e+00,
+      "lambdaHat": 0.00000000000000000e+00,
+      "E0": 0.00000000000000000e+00,
+      "mu": 0.00000000000000000e+00,
+      "epsHomo": 0.00000000000000000e+00,
+      "epsLumo": 4.30733678637911455e-01,
+      "ksGap": 4.30733678637911455e-01,
+      "deltaScf": 4.30733678637911455e-01,
+      "E1": 4.30733678637911455e-01,
+      "lowestParticleHole": 4.30733678637911455e-01,
+      "maxLambdaSOverM": 0.00000000000000000e+00,
+      "groundIterations": 3,
+      "excitedIterations": 3
+    },
+    {
+      "label": "m1_L3_N8_lamp1_T0",
+      "N": 8.00000000000000000e+00,
+      "lambdaHat": 9.72989047055131638e-03,
+      "E0": -9.86833163081004975e-04,
+      "mu": -2.45560183712127298e-04,
+      "epsHomo": -2.45560183712127298e-04,
+      "epsLumo": 4.30698351283217262e-01,
+      "ksGap": 4.30943911466929397e-01,
+      "deltaScf": 4.30938122164611859e-01,
+      "E1": 4.29951289001530845e-01,
+      "lowestParticleHole": 4.30943911466929397e-01,
+      "maxLambdaSOverM": 1.64577875454259732e-02,
+      "groundIterations": 10,
+      "excitedIterations": 10
+    },
+    {
+      "label": "m1_L3_N8_lamm1_T0",
+      "N": 8.00000000000000000e+00,
+      "lambdaHat": -9.72989047055131638e-03,
+      "E0": 9.86833163081004975e-04,
+      "mu": 2.45560183712127298e-04,
+      "epsHomo": 2.45560183712127298e-04,
+      "epsLumo": 4.30761462353368763e-01,
+      "ksGap": 4.30515902169656628e-01,
+      "deltaScf": 4.30523397011038478e-01,
+      "E1": 4.31510230174119491e-01,
+      "lowestParticleHole": 4.30515902169656628e-01,
+      "maxLambdaSOverM": 1.64577875454259732e-02,
+      "groundIterations": 10,
+      "excitedIterations": 10
+    },
+    {
+      "label": "m1_L3_N8_lamp2_T0",
+      "N": 8.00000000000000000e+00,
+      "lambdaHat": 9.72989047055131534e-02,
+      "E0": -7.83039195461048346e-03,
+      "mu": -1.68579328456775705e-03,
+      "epsHomo": -1.68579328456775705e-03,
+      "epsLumo": 4.30212903793655621e-01,
+      "ksGap": 4.31898697078223370e-01,
+      "deltaScf": 4.31945853311124950e-01,
+      "E1": 4.24115461356514456e-01,
+      "lowestParticleHole": 4.31898697078223370e-01,
+      "maxLambdaSOverM": 6.46817724169137964e-01,
+      "groundIterations": 19,
+      "excitedIterations": 14
+    },
+    {
+      "label": "m1_L3_N8_lamm2_T0",
+      "N": 8.00000000000000000e+00,
+      "lambdaHat": -9.72989047055131534e-02,
+      "E0": 7.83039195461048346e-03,
+      "mu": 1.68579328456775705e-03,
+      "epsHomo": 1.68579328456775705e-03,
+      "epsLumo": 4.30823240449466127e-01,
+      "ksGap": 4.29137447164898378e-01,
+      "deltaScf": 4.29160673364784362e-01,
+      "E1": 4.36991065319394856e-01,
+      "lowestParticleHole": 4.29137447164898378e-01,
+      "maxLambdaSOverM": 6.46817724169137964e-01,
+      "groundIterations": 19,
+      "excitedIterations": 13
+    },
+    {
+      "label": "m1_L3_N112_lam0_T0",
+      "N": 1.12000000000000000e+02,
+      "lambdaHat": 0.00000000000000000e+00,
+      "E0": 6.10907232868499364e+01,
+      "mu": 7.04099564609690032e-01,
+      "epsHomo": 7.04099564609690032e-01,
+      "epsLumo": 7.99645766833867344e-01,
+      "ksGap": 9.55462022241773123e-02,
+      "deltaScf": 9.55462022241775344e-02,
+      "E1": 6.11862694890741139e+01,
+      "lowestParticleHole": 9.55462022241773123e-02,
+      "maxLambdaSOverM": 0.00000000000000000e+00,
+      "groundIterations": 3,
+      "excitedIterations": 3
+    },
+    {
+      "label": "m1_L3_N112_lamp1_T0",
+      "N": 1.12000000000000000e+02,
+      "lambdaHat": 9.56776494965314375e-03,
+      "E0": 6.11132120184163909e+01,
+      "mu": 7.04475650075064297e-01,
+      "epsHomo": 7.04475650075064297e-01,
+      "epsLumo": 7.99959783898257282e-01,
+      "ksGap": 9.54841338231929848e-02,
+      "deltaScf": 9.54841922539841903e-02,
+      "E1": 6.12086962106703751e+01,
+      "lowestParticleHole": 9.54841338231929848e-02,
+      "maxLambdaSOverM": 5.92085272228886003e-02,
+      "groundIterations": 11,
+      "excitedIterations": 7
+    },
+    {
+      "label": "m1_L3_N112_lamm1_T0",
+      "N": 1.12000000000000000e+02,
+      "lambdaHat": -9.56776494965314375e-03,
+      "E0": 6.10686104804454573e+01,
+      "mu": 7.03736192198255450e-01,
+      "epsHomo": 7.03736192198255450e-01,
+      "epsLumo": 7.99341326271856389e-01,
+      "ksGap": 9.56051340736009392e-02,
+      "deltaScf": 9.56050822325309468e-02,
+      "E1": 6.11642155626779882e+01,
+      "lowestParticleHole": 9.56051340736009392e-02,
+      "maxLambdaSOverM": 5.83220482297041529e-02,
+      "groundIterations": 11,
+      "excitedIterations": 6
+    },
+    {
+      "label": "m1_L3_N112_lamp2_T0",
+      "N": 1.12000000000000000e+02,
+      "lambdaHat": 9.56776494965314306e-02,
+      "E0": 6.13283110505593925e+01,
+      "mu": 7.08383696538571250e-01,
+      "epsHomo": 7.08383696538571250e-01,
+      "epsLumo": 8.03196897288717460e-01,
+      "ksGap": 9.48132007501462093e-02,
+      "deltaScf": 9.48140419904106579e-02,
+      "E1": 6.14231250925498031e+01,
+      "lowestParticleHole": 9.48132007501462093e-02,
+      "maxLambdaSOverM": 1.35849532271181062e+00,
+      "groundIterations": 20,
+      "excitedIterations": 12
+    },
+    {
+      "label": "m1_L3_N112_lamm2_T0",
+      "N": 1.12000000000000000e+02,
+      "lambdaHat": -9.56776494965314306e-02,
+      "E0": 6.08913051185545839e+01,
+      "mu": 7.00965884924683147e-01,
+      "epsHomo": 7.00965884924683147e-01,
+      "epsLumo": 7.96976039943278924e-01,
+      "ksGap": 9.60101550185957775e-02,
+      "deltaScf": 9.60098274435026156e-02,
+      "E1": 6.09873149459980866e+01,
+      "lowestParticleHole": 9.60101550185957775e-02,
+      "maxLambdaSOverM": 4.52192300530032454e-01,
+      "groundIterations": 13,
+      "excitedIterations": 8
+    },
+    {
+      "label": "m1_L3_N1016_lam0_T0",
+      "N": 1.01600000000000000e+03,
+      "lambdaHat": 0.00000000000000000e+00,
+      "E0": 1.12713662455244594e+03,
+      "mu": 1.38591915422270096e+00,
+      "epsHomo": 1.38591915422270096e+00,
+      "epsLumo": 1.43892681290922964e+00,
+      "ksGap": 5.30076586865286803e-02,
+      "deltaScf": 5.30076583127083723e-02,
+      "E1": 1.12718963221075865e+03,
+      "lowestParticleHole": 5.30076586865286803e-02,
+      "maxLambdaSOverM": 0.00000000000000000e+00,
+      "groundIterations": 3,
+      "excitedIterations": 3
+    },
+    {
+      "label": "m1_L3_N1016_lamp1_T0",
+      "N": 1.01600000000000000e+03,
+      "lambdaHat": 1.57694179653528109e-04,
+      "E0": 1.12716097994655070e+03,
+      "mu": 1.38593431067647566e+00,
+      "epsHomo": 1.38593431067647566e+00,
+      "epsLumo": 1.43919179180096735e+00,
+      "ksGap": 5.32574811244916901e-02,
+      "deltaScf": 5.32688710989077663e-02,
+      "E1": 1.12721424881764960e+03,
+      "lowestParticleHole": 5.32574811244916901e-02,
+      "maxLambdaSOverM": 1.00449043110510575e-01,
+      "groundIterations": 10,
+      "excitedIterations": 6
+    },
+    {
+      "label": "m1_L3_N1016_lamm1_T0",
+      "N": 1.01600000000000000e+03,
+      "lambdaHat": -1.57694179653528109e-04,
+      "E0": 1.12711103875506819e+03,
+      "mu": 1.38590398002897341e+00,
+      "epsHomo": 1.38590398002897341e+00,
+      "epsLumo": 1.43862396135609116e+00,
+      "ksGap": 5.27199813271177486e-02,
+      "deltaScf": 5.27081603306669422e-02,
+      "E1": 1.12716374691539886e+03,
+      "lowestParticleHole": 5.27199813271177486e-02,
+      "maxLambdaSOverM": 1.13627971698902999e-01,
+      "groundIterations": 10,
+      "excitedIterations": 6
+    },
+    {
+      "label": "m1_L3_N1016_lamp2_T0",
+      "N": 1.01600000000000000e+03,
+      "lambdaHat": 1.57694179653528098e-03,
+      "E0": 1.12734220256464937e+03,
+      "mu": 1.38607042679474302e+00,
+      "epsHomo": 1.38607042679474302e+00,
+      "epsLumo": 1.44049444945870042e+00,
+      "ksGap": 5.44240226639574054e-02,
+      "deltaScf": 5.45261237678005273e-02,
+      "E1": 1.12739672868841717e+03,
+      "lowestParticleHole": 5.44240226639574054e-02,
+      "maxLambdaSOverM": 6.65037814437643093e-01,
+      "groundIterations": 10,
+      "excitedIterations": 9
+    },
+    {
+      "label": "m1_L3_N1016_lamm2_T0",
+      "N": 1.01600000000000000e+03,
+      "lambdaHat": -1.57694179653528098e-03,
+      "E0": 1.12685809303463225e+03,
+      "mu": 1.38956720108340503e+00,
+      "epsHomo": 1.38946077952708702e+00,
+      "epsLumo": 1.43071589706042390e+00,
+      "ksGap": 4.12551175333368825e-02,
+      "deltaScf": 4.36184212305761321e-02,
+      "E1": 1.12690171145586282e+03,
+      "lowestParticleHole": 6.58073595616315288e-12,
+      "maxLambdaSOverM": 1.37181448008520213e+00,
+      "groundIterations": 44,
+      "excitedIterations": 59
+    }
+  ],
+  "files": [
+    "m1_L3_N8_lam0_T0/particle-hole.csv",
+    "m1_L3_N8_lam0_T0/levels.csv",
+    "m1_L3_N8_lam0_T0/levels-excited.csv",
+    "m1_L3_N8_lamp1_T0/particle-hole.csv",
+    "m1_L3_N8_lamp1_T0/levels.csv",
+    "m1_L3_N8_lamp1_T0/levels-excited.csv",
+    "m1_L3_N8_lamm1_T0/particle-hole.csv",
+    "m1_L3_N8_lamm1_T0/levels.csv",
+    "m1_L3_N8_lamm1_T0/levels-excited.csv",
+    "m1_L3_N8_lamp2_T0/particle-hole.csv",
+    "m1_L3_N8_lamp2_T0/levels.csv",
+    "m1_L3_N8_lamp2_T0/levels-excited.csv",
+    "m1_L3_N8_lamm2_T0/particle-hole.csv",
+    "m1_L3_N8_lamm2_T0/levels.csv",
+    "m1_L3_N8_lamm2_T0/levels-excited.csv",
+    "m1_L3_N112_lam0_T0/particle-hole.csv",
+    "m1_L3_N112_lam0_T0/levels.csv",
+    "m1_L3_N112_lam0_T0/levels-excited.csv",
+    "m1_L3_N112_lamp1_T0/particle-hole.csv",
+    "m1_L3_N112_lamp1_T0/levels.csv",
+    "m1_L3_N112_lamp1_T0/levels-excited.csv",
+    "m1_L3_N112_lamm1_T0/particle-hole.csv",
+    "m1_L3_N112_lamm1_T0/levels.csv",
+    "m1_L3_N112_lamm1_T0/levels-excited.csv",
+    "m1_L3_N112_lamp2_T0/particle-hole.csv",
+    "m1_L3_N112_lamp2_T0/levels.csv",
+    "m1_L3_N112_lamp2_T0/levels-excited.csv",
+    "m1_L3_N112_lamm2_T0/particle-hole.csv",
+    "m1_L3_N112_lamm2_T0/levels.csv",
+    "m1_L3_N112_lamm2_T0/levels-excited.csv",
+    "m1_L3_N1016_lam0_T0/particle-hole.csv",
+    "m1_L3_N1016_lam0_T0/levels.csv",
+    "m1_L3_N1016_lam0_T0/levels-excited.csv",
+    "m1_L3_N1016_lamp1_T0/particle-hole.csv",
+    "m1_L3_N1016_lamp1_T0/levels.csv",
+    "m1_L3_N1016_lamp1_T0/levels-excited.csv",
+    "m1_L3_N1016_lamm1_T0/particle-hole.csv",
+    "m1_L3_N1016_lamm1_T0/levels.csv",
+    "m1_L3_N1016_lamm1_T0/levels-excited.csv",
+    "m1_L3_N1016_lamp2_T0/particle-hole.csv",
+    "m1_L3_N1016_lamp2_T0/levels.csv",
+    "m1_L3_N1016_lamp2_T0/levels-excited.csv",
+    "m1_L3_N1016_lamm2_T0/particle-hole.csv",
+    "m1_L3_N1016_lamm2_T0/levels.csv",
+    "m1_L3_N1016_lamm2_T0/levels-excited.csv",
+    "excitations.csv",
+    "summary.json"
+  ],
+  "solverTotals": {
+    "steps": 4540236408,
+    "rhsEvaluations": 5468320884
+  },
+  "checks": {
+    "m1_L3_N8_lam0_T0_ground_converged": true,
+    "m1_L3_N8_lam0_T0_delta_scf_converged": true,
+    "m1_L3_N8_lam0_T0_delta_scf_positive": true,
+    "m1_L3_N8_lam0_T0_gap_positive": true,
+    "m1_L3_N8_lamp1_T0_ground_converged": true,
+    "m1_L3_N8_lamp1_T0_delta_scf_converged": true,
+    "m1_L3_N8_lamp1_T0_delta_scf_positive": true,
+    "m1_L3_N8_lamp1_T0_gap_positive": true,
+    "m1_L3_N8_lamm1_T0_ground_converged": true,
+    "m1_L3_N8_lamm1_T0_delta_scf_converged": true,
+    "m1_L3_N8_lamm1_T0_delta_scf_positive": true,
+    "m1_L3_N8_lamm1_T0_gap_positive": true,
+    "m1_L3_N8_lamp2_T0_ground_converged": true,
+    "m1_L3_N8_lamp2_T0_delta_scf_converged": true,
+    "m1_L3_N8_lamp2_T0_delta_scf_positive": true,
+    "m1_L3_N8_lamp2_T0_gap_positive": true,
+    "m1_L3_N8_lamm2_T0_ground_converged": true,
+    "m1_L3_N8_lamm2_T0_delta_scf_converged": true,
+    "m1_L3_N8_lamm2_T0_delta_scf_positive": true,
+    "m1_L3_N8_lamm2_T0_gap_positive": true,
+    "m1_L3_N112_lam0_T0_ground_converged": true,
+    "m1_L3_N112_lam0_T0_delta_scf_converged": true,
+    "m1_L3_N112_lam0_T0_delta_scf_positive": true,
+    "m1_L3_N112_lam0_T0_gap_positive": true,
+    "m1_L3_N112_lamp1_T0_ground_converged": true,
+    "m1_L3_N112_lamp1_T0_delta_scf_converged": true,
+    "m1_L3_N112_lamp1_T0_delta_scf_positive": true,
+    "m1_L3_N112_lamp1_T0_gap_positive": true,
+    "m1_L3_N112_lamm1_T0_ground_converged": true,
+    "m1_L3_N112_lamm1_T0_delta_scf_converged": true,
+    "m1_L3_N112_lamm1_T0_delta_scf_positive": true,
+    "m1_L3_N112_lamm1_T0_gap_positive": true,
+    "m1_L3_N112_lamp2_T0_ground_converged": true,
+    "m1_L3_N112_lamp2_T0_delta_scf_converged": true,
+    "m1_L3_N112_lamp2_T0_delta_scf_positive": true,
+    "m1_L3_N112_lamp2_T0_gap_positive": true,
+    "m1_L3_N112_lamm2_T0_ground_converged": true,
+    "m1_L3_N112_lamm2_T0_delta_scf_converged": true,
+    "m1_L3_N112_lamm2_T0_delta_scf_positive": true,
+    "m1_L3_N112_lamm2_T0_gap_positive": true,
+    "m1_L3_N1016_lam0_T0_ground_converged": true,
+    "m1_L3_N1016_lam0_T0_delta_scf_converged": true,
+    "m1_L3_N1016_lam0_T0_delta_scf_positive": true,
+    "m1_L3_N1016_lam0_T0_gap_positive": true,
+    "m1_L3_N1016_lamp1_T0_ground_converged": true,
+    "m1_L3_N1016_lamp1_T0_delta_scf_converged": true,
+    "m1_L3_N1016_lamp1_T0_delta_scf_positive": true,
+    "m1_L3_N1016_lamp1_T0_gap_positive": true,
+    "m1_L3_N1016_lamm1_T0_ground_converged": true,
+    "m1_L3_N1016_lamm1_T0_delta_scf_converged": true,
+    "m1_L3_N1016_lamm1_T0_delta_scf_positive": true,
+    "m1_L3_N1016_lamm1_T0_gap_positive": true,
+    "m1_L3_N1016_lamp2_T0_ground_converged": true,
+    "m1_L3_N1016_lamp2_T0_delta_scf_converged": true,
+    "m1_L3_N1016_lamp2_T0_delta_scf_positive": true,
+    "m1_L3_N1016_lamp2_T0_gap_positive": true,
+    "m1_L3_N1016_lamm2_T0_ground_converged": true,
+    "m1_L3_N1016_lamm2_T0_delta_scf_converged": true,
+    "m1_L3_N1016_lamm2_T0_delta_scf_positive": true,
+    "m1_L3_N1016_lamm2_T0_gap_positive": true
+  },
+  "verdict": "SUCCESS"
+}
