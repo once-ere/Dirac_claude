@@ -15,7 +15,7 @@ Binding documents: `STAGE4_SPEC.md`, `CONTRACT.md` (with errata),
 ```
 cd studies/dirac16complex_kohn_sham
 cargo build --release
-cargo test --release          # 34 unit tests, 2 ignored timing probes (see below)
+cargo test --release          # 35 unit tests, 2 ignored timing probes (see below)
 cargo clippy --release --all-targets && cargo fmt --check
 cd ../..                      # run from the repository root (relative artifact paths)
 ./studies/dirac16complex_kohn_sham/target/release/dirac16complex_kohn_sham print-config
@@ -101,7 +101,12 @@ verifies the exact 2x2 block basis in Gaussian-integer arithmetic and writes
   by step doubling + Illinois regula falsi; CVODE (Adams for non-stiff shells,
   BDF otherwise).  Profiles: the linear system with accumulators
   `int (a^2+b^2), int(-2ab), int -kappa k (a^2-b^2)`, rescaled through
-  `CVodeReInit` when the amplitude leaves `[1e-40, 1e40]`.
+  `CVodeReInit` when the amplitude leaves `[1e-40, 1e40]`; a profile
+  integration that fails in CVODE is retried deterministically (fresh BDF
+  session with max_step/10, then Adams with max_step/10; counted in
+  `run.json: profileRetries`) and validated by the same matching and winding
+  residuals; the error of a failing level names its shell, block type,
+  parity, Pruefer index and eps.
 * **Self-consistency** (`scf.rs`): torus `Delta k = 0.25 m`, shells with
   lattice multiplicities; states `(eps, s)` with multiplicity `4 g` (the
   `s = -1` states are the `s = +1` levels with `eps -> -eps` when `v_x = 0`,
@@ -202,7 +207,8 @@ rescaling hook); `shooting`: free-box parity ± spectra vs the analytic 1D Dirac
 box (`eps = 0, +-sqrt(M^2 + (n pi/L)^2)`; `tan(pL) = -p/M`), momentum lifts the
 brane mode and the lowest excitation, Hellmann–Feynman in `M` (non-uniform
 potential) and in `k` (5-point stencils), `(k, eps) -> (-k, -eps)` symmetry,
-deep-evanescence rescaling; `scf`: shells, Anderson, non-interacting fill
+deep-evanescence rescaling, the profile fallback ladder reproduces the
+primary integration; `scf`: shells, Anderson, non-interacting fill
 (N = 8 = the brane zero modes, E = 0), thermal fill conserves N, repeat run
 byte-identical, an asymmetric window keeps every mirror state (regression
 test for the closed-shell table), free-window widening quantised and capped;

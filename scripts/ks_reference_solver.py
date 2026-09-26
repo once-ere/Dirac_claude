@@ -9,7 +9,7 @@ CVODE shooting; this file discretises the same Hermitian 2x2 operator by a
 matrix method and diagonalises it.  Nothing is shared with the Rust code
 except the exact algebra fixture (artifacts/dirac16complex/arbitrary-field/
 algebra-fixture.json) and the physics conventions of CONTRACT.md,
-NUMERICS_CONTRACT.md and STAGE4_SPEC.md.
+NUMERICS_CONTRACT.md and STAGE4_SPEC.md (sections 7 and 8 included).
 
 Physics (units H = 1, a4_0 given; y in (-L, 0], brane at y = 0)
 ------------------------------------------------------------------
@@ -26,35 +26,38 @@ from the fixture in `block_reduction`, tolerance 1e-12 on integer data)
     B = b 1  (b = J * i gamma^2 gamma^3 = +-1),  C = b sigma_y,
     B C = -i gamma^4 = sigma_y  in every block.
 Hence the KS equation is the 2x2 Hermitian eigenproblem (block type s = +-1,
-four blocks of each type)
+four blocks of each type; the exact theory's j is -s, see the checker)
     h_s chi = eps chi,   h_s = -i sigma_x d/dy + M_eff(y) sigma_y
                                  - s k kappa(y) sigma_z + v_x(y),
     chi = (f, g),  number density chi^dag chi = |f|^2 + |g|^2,
     scalar density chi^dag (B C) chi = chi^dag sigma_y chi = 2 Im(f* g),
-    y-current -i Psibar gamma^y Psi -> chi^dag sigma_x chi = 2 Re(f* g),
-    x1-current (frame) -> -s chi^dag sigma_z chi.
-Complex conjugation maps h_{-s}(k) to -h_s(k): spec(-s, k) = -spec(s, k) and
-the eigenvectors are complex conjugates, so ONE diagonalisation per
-(k-shell, parity) gives both block types (`solve_shell`).  The 16-component
-spectrum at k is therefore {eps_i} (x4) U {-eps_i} (x4); at k = 0 the two
-types coincide and every level is 8-fold degenerate.
-Boundary conditions.  Brane y = 0 (Z2): Psi(-y) = +- gamma^0 Psi(y), i.e.
-(1 -+ sigma_z) chi(0) = 0: parity +1 <=> g(0) = 0, parity -1 <=> f(0) = 0
-(parity 0: both sectors are solved and filled together as one system, the
-convention of the Rust crate; the canonical reference runs use one sector).
-Tip y = -L: the bag condition (1 + gamma^0) chi(-L) = 0 <=> f(-L) = 0
-(the (4,4)-signature analogue of the MIT condition with outward normal
--e_y; gamma^0 squares to +1 so no factor i appears), option `tip = "g0"`
-for g(-L) = 0.  Every one of these conditions makes the y-current
-2 Re(f* g) vanish at the end.  NOTE (measured, section "spectrum" of the
-JSON output): with tip f(-L) = 0 the parity -1 sector has an exact zero
-mode f = 0, g = exp(-M (y + L)) at k = 0 (localised at the cutoff for
-M > 0); with tip g(-L) = 0 the parity +1 sector has the exact zero mode
-f = exp(M (y + L)), g = 0 (localised at the brane).  A pair of unlike
-conditions (f at one end, g at the other) has no zero mode and the
-analytic k = 0, lambda = 0 spectrum tan(pL) = p/M (p^2 = eps^2 - M^2,
-plus the bound state tanh(qL) = q/M for ML > 1); like conditions give
-p = n pi / L.  Both are used as self-tests.
+    y-current (A4 = gamma^0 gamma^4 after the expectation rule, E4.5)
+    chi^dag sigma_x chi = 2 Re(f* g),  x1-current -s chi^dag sigma_z chi.
+Complex conjugation maps h_{-s}(k; v) to -h_s(k; -v): the type -1 levels
+are the negated levels of h_+ with the vector potential negated (one
+diagonalisation per (k-shell, parity) when v = 0, two otherwise:
+`solve_shell`).  At k = 0 the two types coincide and every level is 8-fold
+degenerate; at k != 0 each level is 4-fold (E4.4).
+Boundary conditions (block-level conditions of E4.5; the reflections are
+boundary conditions, not symmetries, E4.6).  Brane y = 0 (Z2):
+Psi(-y) = +- gamma^0 Psi(y), i.e. (1 -+ sigma_z) chi(0) = 0: parity +1 <=>
+g(0) = 0, parity -1 <=> f(0) = 0.  Tip y = -L: the bag condition
+gamma^0 chi(-L) = +chi(-L) <=> g(-L) = 0 (tip = "g0", the default and the
+canonical choice: the theta = 0 member of the chiral-bag family
+(1 - Q(theta)) chi(-L) = 0, Q = cos(theta) sigma3 + sin(theta) sigma2, and
+the Rust crate's b(-L) = 0; for M > 0 it admits no tip-localised zero mode);
+option tip = "f0" for f(-L) = 0.  Every one of these conditions makes the
+y-current 2 Re(f* g) vanish at the end.  Measured (self-tests): with tip
+g(-L) = 0 the parity +1 sector has the exact zero mode f = exp(M (y + L)),
+g = 0 (localised at the brane, the k = 0 brane zero mode, eps = 0); with
+tip f(-L) = 0 the parity -1 sector has the exact zero mode f = 0,
+g = exp(-M (y + L)) (localised at the cutoff).  Unlike conditions (f at one
+end, g at the other) give tan(pL) = +-p/M (p^2 = eps^2 - M^2, plus the
+bound state tanh(qL) = q/M for ML > 1), like conditions p = n pi / L plus
+the zero mode: the analytic k = 0, lambda = 0 spectra used as self-tests.
+Parity 0 (the Rust convention and the canonical runs) solves both sectors
+and fills them together as one system; +1 / -1 solve one sector (the
+reference-only L series L{2,3,4}-free-N8-p+-1).
 Discretisation (doubler-free).  Staggered (Yee) grid: f on the nodes
 y_j = -L + j h, g on the half nodes y_{j+1/2}, j = 0..N-1, h = L/N.  The
 Hermitian quadratic form Q[chi] = 2 Re Int -i f* (g' + M g) dy
@@ -62,75 +65,101 @@ Hermitian quadratic form Q[chi] = 2 Re Int -i f* (g' + M g) dy
 the trapezoid rule on the nodes, the midpoint rule on the half nodes,
 central differences and averages between the two grids, and a boundary
 condition on g imposed by the odd ghost extension g_{N+1/2} = -g_{N-1/2}.
-With g = i g~ the matrix is real symmetric; the generalised problem
-H c = eps W c (W = quadrature weights) is symmetrised by W^-1/2.  The free
-dispersion of the scheme, eps(p) = +-sqrt(M^2 + (2/h)^2 sin^2(p h / 2)),
+With g = i g~ the matrix is real symmetric (tridiagonal in the interleaved
+order); the generalised problem H c = eps W c (W = quadrature weights) is
+symmetrised by W^-1/2 and diagonalised densely (LAPACK through numpy).  The
+free dispersion of the scheme, eps(p) = +-sqrt(M^2 + (2/h)^2 sin^2(p h/2)),
 is monotonic on the Brillouin zone, so there is no fermion doubler and no
-Wilson term is needed.  The eigenvalue error is c2 h^2 + c3 h^3 + O(h^4)
-(the h^3 term comes from the ghost node); every quantity is computed on
-the three grids N, 2N, 4N and extrapolated by eliminating h^2 and h^3,
-with the order estimates and level values recorded.  The two END-NODE
-values of a profile are only first-order accurate (they are tied to the
-half-node value g~ = O(h) through a division by h) and are extrapolated
-with the (h, h^2) elimination instead (`extrapolate_profile`).
+Wilson term is needed (self-test `freeDispersion`).  The eigenvalue error
+is c2 h^2 + c3 h^3 + O(h^4) (the h^3 term comes from the ghost node); every
+quantity is computed on the three grids N0, 2 N0, 4 N0 (canonical N0 = 60:
+h = L/60 is 5 times the Rust grid spacing L/300, so every coarse node is a
+Rust grid point and the profiles are compared node by node) and
+extrapolated by eliminating h^2 and h^3, with the order estimates and level
+values recorded.  The two END-NODE values of a profile are only first-order
+accurate (tied to the half-node value g~ = O(h) through a division by h)
+and are extrapolated with the (h, h^2) elimination (`extrapolate_profile`).
+Lattice shells: k = Delta k sqrt(q), q = n1^2 + n2^2 + n3^2, multiplicity
+4 r3(q) per level; up to 300 shells are diagonalised exactly and the rest
+of the window by Chebyshev interpolation in |k| of the rank-ordered levels
+and their profiles (32 nodes, verified at 6 lattice shells, error recorded);
+the T = m runs diagonalise every shell exactly (`exact_shells`).  The
+profiles of interpolated levels are never stored: the sums over them are
+formed on the node profiles of each branch (`State`, `tail_sums`).
 Kohn-Sham functional (Mermin, finite T, normal ordered).  Proper densities
 n_p = e^{-6Hy} n_c, S_p = e^{-6Hy} S_c with the coordinate densities
 n_c(y) = (1/l^3) sum_i g_i o_i |chi_i|^2, S_c(y) = (1/l^3) sum_i g_i o_i
 chi_i^dag sigma_y chi_i, o_i = f(eps_i) for a particle state and
 -(1 - f(eps_i)) for a Dirac-sea state (a hole in the sea is an
-antiparticle: it counts negatively in n and positively in S), g_i = 4 r3(q)
-(block multiplicity times the number of lattice vectors with |n|^2 = q,
-k = Delta_k sqrt(q)).  Particle/sea branches (normal ordering with respect
-to the FREE Dirac sea, the convention of the exact theory and of the Rust
-crate; option sea = "free", default): a level is a particle state iff its
-lambda = 0 partner has eps >= 0, the partner being the level of the same
-rank in the ascending spectrum at the same (k, parity, block type); in one
-dimension the levels of a self-adjoint sector do not cross, so the rank is
-a continuous label (the Rust crate's Pruefer index) and the identification
-is the continuation from lambda = 0.  Only the numbers of negative and
-positive free eigenvalues are needed (`free_branch_counts`, one extra
-eigvalsh per shell and grid, cached).  The interacting sign of eps is NOT
-used: the k = 0 brane zero modes move to eps = <v_x> < 0 for lambda > 0
-and stay particle states (with the sign convention, option sea = "sign",
-they would be swallowed by the sea and N = 8 would jump to the next shell:
-a convention-driven discontinuity, recorded for comparison only).
-Coupling rule (the Rust crate's): S_ref = max_y |S_p(y)| of the free
-N_mid ground state at m = 1, L = 3 (both parities filled together),
-lambda_hat_1 = 0.1/S_ref, lambda_hat_2 = 1.0/S_ref (so that |lambda S_p|/m
-reaches 0.1 and 1.0 there); the same numbers are used at m = 3 and the
-achieved max |lambda S_p|/m is reported per run.  Hartree: E_H = (lambda/2)
-Int S_p^2 W^6 dy, M_H = lambda S_p.  Exchange: for the uniform 8-fold
-degenerate gas with the contact interaction the Fock term is exactly
-e_x = -(lambda/32) (n^2 + S^2) (derived in `exchange_trace_identity`
-from Tr[(-i gamma^4) P_+(k) (-i gamma^4) P_+(k')] = 4 [1 + (M^2 - k.k')/
-(E E')] and its P_- partners; it reproduces E_x = -E_H/8 for one filled
-shell).  Three pseudo-potential modes are implemented (Params xc):
-    quadratic  (default, the canonical set and the Rust crate; the exact
-               theory's KS-VS pair) the exact functional derivative of
-               E_x[n_p, S_p]: v_v = -lambda n_p / 16 (vector, entering as
-               eps -> eps - v_v(y)) and v_s = -lambda S_p / 16 (added to
-               M_eff, so M_eff = m + (15/16) lambda S_p);
-    lda-n      (STAGE4_SPEC section 3 recommendation, the theory's variant V)
-               M_eff = m + lambda S_p and v_x = d e_x(n, T)/dn at (n_p(y), T)
-               with the gas relation S = S_gas(n, T; m) of the free gas of
-               mass m;
-    hartree    M_eff = m + lambda S_p, v_x = 0.
-SCF convergence: Anderson-mixed on (n_c, S_c); converged when the relative
-changes of n_c and S_c are both below tol = 1e-10, OR when the changes of
-the KS potentials (M_eff, v_x) are below tol m (the criterion that decides
-when the interaction is negligible and S_c ~ 1e-9 n_c is pure noise on a
-relative scale); run.json records which criterion triggered.
-Parity sectors.  The Z2 conditions are boundary conditions, not symmetries
-(STAGE4_SPEC E4.6): parity = +1 / -1 solves one sector, parity = 0 solves
-both and fills them together as one system (the convention of the Rust
-crate: on the doubled interval the two sectors are the symmetric and
-antisymmetric solutions).  The canonical set uses parity = 0 for the runs
-that mirror the Rust matrix (labels m1_L3_N8_lam0_T0, ... as in the crate)
-and the single sectors for the L series (labels L2-free-N8-p+1, ...).
-Outputs (deterministic, LF, json.dumps(indent=2) + newline) under
+antiparticle: it counts negatively in n and positively in S), g_i = 4 r3(q).
+Particle/sea branches (normal ordering with respect to the FREE Dirac sea,
+the convention of the exact theory and of the Rust crate; option
+sea = "free", default): a level is a particle state iff its lambda = 0
+partner has eps >= 0, the partner being the level of the same rank in the
+ascending spectrum at the same (k, parity, block type); in one dimension
+the levels of a self-adjoint sector do not cross, so the rank is a
+continuous label (the Rust crate's Pruefer index) and the identification
+is the continuation from lambda = 0 (`free_branch_counts`).  The
+interacting sign of eps is NOT used (sea = "sign" is kept for comparison:
+the k = 0 brane zero modes move to eps = <v_x> < 0 for lambda > 0 and would
+be swallowed by the sea).
+Interaction and pseudo-potential (E4.7).  Hartree: E_H = (lambda/2) Int
+S_p^2 dV_p, M_H = lambda S_p.  Exchange of the 8-fold degenerate uniform gas
+with the contact interaction: exactly e_x = -(lambda/32)(n^2 + S^2) at every
+T (derived in `exchange_trace_identity` from Tr[(-i gamma^4) P_+(k)
+(-i gamma^4) P_+(k')] = 4 [1 + (M^2 - k.k')/(E E')] and its P_- partners;
+E_x = -E_H/8 for one filled shell).  Modes (Params xc): quadratic (default,
+the canonical set and the Rust crate): v_v = -lambda n_p/16 (entering as
+eps -> eps - v_v(y)) and v_s = -lambda S_p/16 (so M_eff = m + (15/16)
+lambda S_p); lda-n (the STAGE4_SPEC section 3 variant, M_eff = m +
+lambda S_p, v_x = d e_x(n, T)/dn with S = S_gas(n, T; m)); hartree.  No
+correlation term (the contact interaction beyond HF is not renormalisable
+in 8D).  Energies: E = sum w eps - Int [(M_eff - m) S_p + v_x n_p] dV_p +
+Int e_int dV_p, F = E - T S_ent, Omega = F - mu N.
+Couplings (the Rust crate's rule, runs.rs).  Per configuration (m, L, N):
+strength = max_y max((15/16)|S_p|, n_p/16)/m^7 of the FREE ground state of
+that configuration (both parities), the maximum taken over the Rust crate's
+301 grid nodes, lambda_hat_1 = 0.1/strength, lambda_hat_2 = 1/strength, so
+that the pseudo-potential pair (M_eff - m, v_x) reaches 0.1 m and 1 m at
+first order.  Evaluated independently (`coupling_rust_grid`): the interior
+nodes from a two-level solution on 300/600 intervals (its nodes are the
+Rust nodes), the end nodes from the canonical three-level solution; the
+maximum over the canonical coarse nodes alone misses an interior peak of
+S_p between two nodes (2e-3 low at m = 1, L = 3, N = 1016; recorded).  No global lambda_hat serves every configuration: the proper
+densities at the tip scale like e^{6HL} and grow with N; the previous
+global rule of this file (S_ref of the free N_mid state) gave |v_x| ~ 40 m
+at the tip of the N = 1016 and L = 4 states and a runaway of the
+attractive SCF (`COLLAPSE_LEVEL`: a particle-branch level pulled below
+-3 m by the tip well is recorded as a collapse, never iterated further).
+SCF: Anderson-mixed on (n_c, S_c); converged when the relative changes of
+n_c and S_c are both below tol = 1e-10, OR the changes of the KS
+potentials (M_eff, v_x) are below tol m (run.json records which);
+stagnation (no factor-2 improvement in 20 iterations) stops a loop.  T = 0
+fallback (the Rust protocol): a stagnant exact aufbau (a level crossing at
+the Fermi level) is re-solved with Fermi-Dirac occupation smearing 1e-4 m,
+then 1e-3 m (recorded: params.occupationSmearing, smearingAttempts,
+exactZeroTemperatureOccupations; F = E at the physical T = 0).
+Observables: spectrum.csv (per level: q, r3, k, parity, block type, rank
+index, branch, multiplicity, occupation, weight, eps on each grid and
+extrapolated, interpolated flag), profiles.csv (n_c, S_c, n_p, S_p, M_eff,
+v_x, rho, p_y, p_3, p_t, L_s on the coarse grid, extrapolated), SCF
+histories, run.json (energies, orders, EMT averages and w's, brane and tip
+fractions, E4.1 sourcing conditions, coupling scale, excited: KS gap,
+particle-hole list, Delta-SCF; thermo: E, F, S, mu, C_V as the central
+difference at T (1 +- 0.05) for T <= 0.3 m and the fixed-spectrum
+derivatives C_V^(0), C_V^(S) always (above 0.3 m only those, as the Rust
+crate), and the first-order effect of the Rust crate's f_cut = 1e-8 window
+(`rust_window_truncation`), which the checker applies before comparing).
+Canonical set (`canonical_runs`): the Rust matrix label by label (m = 1,
+L = 3, N in {8, 112, 1016} x lambda in {0, +-l1, +-l2} with excited; L in
+{2, 4} x N in {8, 112} x {0, l1}; m = 3 x N in {8, 112} x {0, +-l1}; the
+a4_0 = 0.5 pair and Delta k = 0.125 m at N = 896; thermo T/m in
+{0.1, 0.3, 1} for N in {8, 112} x {0, l1} except N = 112, l1, T = m, which
+neither side runs) plus the single-parity L series.
+Outputs (deterministic, LF, json.dumps(indent=2) + newline, "%.17e") under
 artifacts/dirac16complex/kohn-sham/reference/: reference-summary.json and
 one directory per run with spectrum.csv, profiles.csv,
-scf-history-level*.csv and run.json (thermo/excited/emt records inside).
+scf-history-level*.csv and run.json.
 
 Usage: python scripts/ks_reference_solver.py [--output DIR] [--quick]
        [--runs NAME,...] [--workers W] [--resume] [--skip-self-tests]
@@ -764,8 +793,10 @@ def order_estimate(q1, q2, q4):
 # ---------------------------------------------------------------------------
 
 WINDOW_FACTOR = 32.0        # f(32) = 1.3e-14: sea states beyond mu - 32 T and all states beyond mu + 32 T are dropped
-WINDOW_FACTOR_HOT = 24.0    # T >= 0.5 m: +-24 T (f(24) = 3.8e-11; the Rust crate truncates at f_cut = 1e-8, +-18.4 T);
-                            # the number of k-lattice states in the window grows like (factor T / Delta k)^3 (10^5 at T = m)
+WINDOW_FACTOR_HOT = 28.0    # T >= 0.5 m: +-28 T (f(28) = 6.9e-13).  Measured at T = m, N = 8 (N0 = 60): the window
+                            # +-24 T changes E by -7e-7 relative against +-32 T, +-28 T by ~1e-8 (e^-4 smaller); the
+                            # Rust crate truncates at f_cut = 1e-8 (+-(18.4 T + m/2)), see rust_window_truncation.
+                            # The number of levels in the window grows like (factor T / Delta k)^3 (~2.5e5 at T = m)
 WINDOW_WIDEN_STEPS = 6      # retries of the filling with a widened window (strongly shifted bands)
 COLLAPSE_LEVEL = 3.0        # an occupied particle-branch level below -COLLAPSE_LEVEL m is a tip collapse
 ZERO_MODE_TOL = 1e-9        # |eps| below this counts as a particle state (eps >= 0)
@@ -785,7 +816,7 @@ class Params:
     def __init__(self, m=1.0, a4=0.0, L=3.0, lambda_hat=0.0, T=0.0, N=8.0, parity=1,
                  tip="g0", xc="quadratic", delta_k_over_m=0.25, ell=None, delta_k=None,
                  N0=100, levels=3, mix_beta=0.4, mix_history=6, tol=1e-10, max_iter=200,
-                 label="run", f_cut=None, sea="free", smearing=0.0):
+                 label="run", f_cut=None, sea="free", smearing=0.0, exact_shells=None):
         if sea not in ("free", "sign"):
             raise ValueError("sea must be 'free' or 'sign'")
         self.sea = sea
@@ -813,6 +844,8 @@ class Params:
         # occupation smearing of the T = 0 fallback (Fermi-Dirac weights at this
         # temperature; the physical T stays 0, so F = E): 0 in every other run
         self.smearing = float(smearing)
+        # lattice shells diagonalised exactly before the Chebyshev tail (None: EXACT_SHELLS_MAX)
+        self.exact_shells = int(exact_shells) if exact_shells is not None else None
 
     def occupation_temperature(self):
         """Temperature of the Fermi-Dirac occupations: T, or the smearing of the T = 0 fallback."""
@@ -825,7 +858,7 @@ class Params:
                 "delta_k": self.delta_k, "ell": self.ell, "N0": self.N0, "levels": self.levels,
                 "mix_beta": self.mix_beta, "mix_history": self.mix_history, "tol": self.tol,
                 "max_iter": self.max_iter, "label": self.label, "f_cut": self.f_cut, "sea": self.sea,
-                "smearing": self.smearing}
+                "smearing": self.smearing, "exact_shells": self.exact_shells}
 
     def to_dict(self):
         return {"label": self.label, "m": self.m, "a4_0": self.a4, "L": self.L,
@@ -834,7 +867,8 @@ class Params:
                 "delta_k": self.delta_k, "ell": self.ell, "volume": self.volume, "N0": self.N0,
                 "levels": self.levels, "mix_beta": self.mix_beta, "mix_history": self.mix_history,
                 "tol": self.tol, "max_iter": self.max_iter, "H": 1.0, "delta_k_over_m": self.delta_k / self.m,
-                "occupationSmearing": self.smearing, "solverVersion": SOLVER_VERSION}
+                "occupationSmearing": self.smearing, "exactShells": self.exact_shells,
+                "solverVersion": SOLVER_VERSION}
 
 
 class State:
@@ -985,8 +1019,9 @@ class Spectrum:
         exact_done = 0
         last_exact_q = 0
         exhausted = False
+        exact_max = p.exact_shells if p.exact_shells is not None else EXACT_SHELLS_MAX
         for q, r3 in shells:
-            if exact_done >= EXACT_SHELLS_MAX:
+            if exact_done >= exact_max:
                 break
             k = p.delta_k * math.sqrt(q)
             found = []
@@ -1458,22 +1493,34 @@ def scf(params: Params, grid: Grid, mode="auto", constrained=None, initial=None,
         # vanishing scale and never falls below tol
         m_eff_out, v_out, _, _ = potentials(params, grid, n_out, s_out, lda)
         res_pot = float(max(np.max(np.abs(m_eff_out - m_eff)), np.max(np.abs(v_out - v))) / params.m)
+        # the Rust crate's criterion: both changes relative to D = max(max|n_c|, max|S_c|)
+        # (in the hot pair plasma the net n_c is small while S_c is large)
+        d_scale = max(float(np.max(np.abs(n_out))), float(np.max(np.abs(s_out))), 1e-300)
+        res_d = float(max(np.max(np.abs(n_out - n_in)), np.max(np.abs(s_out - s_in))) / d_scale)
         en = energies(spec.states, params, grid, n_out, s_out, e_int, dc, mu)
         history.append({"iteration": it, "residualN": res_n, "residualS": res_s, "residualPotential": res_pot,
+                        "residualD": res_d,
                         "mu": mu, "energy": en["total"], "free": en["free"], "states": len(spec.states),
                         "shellsExact": spec.shells_exact, "shellsInterpolated": spec.shells_interpolated})
         if log:
-            log("    it %3d  resN %.3e resS %.3e resV %.3e  mu %.10f  E %.12f  states %d" %
-                (it, res_n, res_s, res_pot, mu, en["total"], len(spec.states)))
+            log("    it %3d  resN %.3e resS %.3e resD %.3e resV %.3e  mu %.10f  E %.12f  states %d" %
+                (it, res_n, res_s, res_d, res_pot, mu, en["total"], len(spec.states)))
         sea_top, particle_bottom = branch_overlap(spec.states)
         by_density = res_n < params.tol and res_s < params.tol
+        if by_density:
+            converged_by = "densities"
+        elif res_d < params.tol:
+            converged_by = "densitiesMax"
+        elif res_pot < params.tol:
+            converged_by = "potentials"
+        else:
+            converged_by = None
         result = {"spectrum": spec, "n_c": n_out, "s_c": s_out, "m_eff": m_eff, "v": v, "e_int": e_int,
                   "dc": dc, "mu": mu, "homo": homo, "lumo": lumo, "energies": en, "history": history,
                   "iterations": it, "residualN": res_n, "residualS": res_s, "residualPotential": res_pot,
-                  "mode": mode, "seaTop": sea_top, "particleBottom": particle_bottom,
-                  "branchOverlap": bool(sea_top > particle_bottom),
-                  "convergedBy": "densities" if by_density else ("potentials" if res_pot < params.tol else None)}
-        if by_density or res_pot < params.tol:
+                  "residualD": res_d, "mode": mode, "seaTop": sea_top, "particleBottom": particle_bottom,
+                  "branchOverlap": bool(sea_top > particle_bottom), "convergedBy": converged_by}
+        if converged_by is not None:
             converged = True
             break
         if particle_bottom < -COLLAPSE_LEVEL * params.m:
@@ -1488,7 +1535,7 @@ def scf(params: Params, grid: Grid, mode="auto", constrained=None, initial=None,
                 log("    tip collapse: lowest occupied particle level %.4f < -%g m; SCF stopped" %
                     (particle_bottom, COLLAPSE_LEVEL * params.m))
             break
-        residual = min(max(res_n, res_s), res_pot)
+        residual = min(max(res_n, res_s), res_pot, res_d)
         if residual < 0.5 * best_residual:
             best_residual = residual
             best_iteration = it
@@ -1685,23 +1732,24 @@ def heat_capacity_fixed_spectrum(result, params: Params, grid: Grid):
     if T <= 0.0:
         return None
     states = result["spectrum"].states
-    mu = result["mu"]
-    dm = result["m_eff"] - params.m
-    v = result["v"]
-    wdm = grid.w * dm
-    wv = grid.w * v
     eps = np.array([st.eps for st in states])
     mult = np.array([st.mult for st in states])
     f = np.array([st.f for st in states])
-    g = f * (1.0 - f)
-    a = float(np.sum(mult * g))
-    b = float(np.sum(mult * g * (eps - mu)))
-    dmu = -b / (a * T) if a > 0 else 0.0
-    dfdt = g * ((eps - mu) / (T * T) + dmu / T)
+    dh = potential_expectations(result, params, grid, f)
+    return fixed_spectrum_cv(eps, mult, f, result["mu"], T, dh)
+
+
+def potential_expectations(result, params: Params, grid: Grid, f):
+    """<Delta H>_i = sum_j w_j [(M_eff - m) s_i + v_x n_i] (the discrete
+    Hellmann-Feynman partners) for every level with 0 < f_i < 1 (0 otherwise),
+    with the potentials that produced the spectrum."""
+    states = result["spectrum"].states
+    wdm = grid.w * (result["m_eff"] - params.m)
+    wv = grid.w * result["v"]
     block_dh = {}
     dh = np.zeros(len(states))
     for i, st in enumerate(states):
-        if g[i] == 0.0:
+        if not 0.0 < f[i] < 1.0:
             continue
         if st.tail is None:
             dh[i] = float(np.dot(wdm, st.s) + np.dot(wv, st.n))
@@ -1710,19 +1758,32 @@ def heat_capacity_fixed_spectrum(result, params: Params, grid: Grid):
             if vec is None:
                 vec = block_dh[id(st.tail)] = st.tail["s"] @ wdm + st.tail["n"] @ wv
             dh[i] = float(st.coef @ vec)
+    return dh
+
+
+def fixed_spectrum_cv(eps, mult, f, mu, T, dh, mask=None):
+    """The fixed-spectrum heat capacities over the levels selected by mask."""
+    if mask is not None:
+        eps, mult, f, dh = eps[mask], mult[mask], f[mask], dh[mask]
+    g = f * (1.0 - f)
+    a = float(np.sum(mult * g))
+    b = float(np.sum(mult * g * (eps - mu)))
+    dmu = -b / (a * T) if a > 0 else 0.0
+    dfdt = g * ((eps - mu) / (T * T) + dmu / T)
     return {"C_V_fixedSpectrum": float(np.sum(mult * dfdt * (eps - dh))),
             "C_V_fixedSpectrumEntropy": float(np.sum(mult * dfdt * (eps - mu))),
             "dmu_dT_fixedSpectrum": dmu}
 
 
-def rust_window_truncation(result, params: Params):
+def rust_window_truncation(result, params: Params, grid: Grid):
     """First-order effect of the Rust crate's T > 0 energy window
     [min(mu - T ln(1/f_cut) - m/2, -(2.5 m + 2 pi/L)), mu + T ln(1/f_cut) + m/2]
     (f_cut = 1e-8) on the reference state: the levels outside it are dropped
     (particles empty, sea full), mu is re-solved at fixed N and the spectrum,
-    and dE = sum mult (w' - w) eps (Janak), dS, dF = dE - T dS are returned.
-    The Rust window is frozen at its first-iteration mu estimate; the
-    converged mu is used here (same to leading order)."""
+    and dE = sum mult (w' - w) eps (Janak), dS, dF = dE - T dS and the
+    changes of the two fixed-spectrum heat capacities are returned.  The
+    Rust window is frozen at its first-iteration mu estimate; the converged
+    mu is used here (same to leading order)."""
     T = params.T
     if T <= 0.0:
         return None
@@ -1769,9 +1830,14 @@ def rust_window_truncation(result, params: Params):
     s_full = entropy(f_full, np.ones(len(states), dtype=bool))
     s_cut = entropy(f2, inside)
     d_e = float(np.dot(mult, (w2 - w_full) * eps))
+    dh = potential_expectations(result, params, grid, np.where(inside, np.maximum(f_full, f2), f_full))
+    cv_full = fixed_spectrum_cv(eps, mult, f_full, mu, T, dh)
+    cv_cut = fixed_spectrum_cv(eps, mult, f2, mu2, T, dh, mask=inside)
     return {"window": [lo, hi], "fCut": RUST_F_CUT, "levelsOutside": int(np.sum(~inside)),
             "deltaMu": mu2 - mu, "deltaE": d_e, "deltaEntropy": s_cut - s_full,
-            "deltaF": d_e - T * (s_cut - s_full)}
+            "deltaF": d_e - T * (s_cut - s_full),
+            "deltaCVfixedSpectrum": cv_cut["C_V_fixedSpectrum"] - cv_full["C_V_fixedSpectrum"],
+            "deltaCVfixedSpectrumEntropy": cv_cut["C_V_fixedSpectrumEntropy"] - cv_full["C_V_fixedSpectrumEntropy"]}
 
 
 def key_str(key):
@@ -1926,7 +1992,7 @@ class SectorRun:
             self.heat_fixed["levels"] = hc
         else:
             self.heat_fixed = None
-        self.truncation = rust_window_truncation(fine, p) if p.T > 0 else None
+        self.truncation = rust_window_truncation(fine, p, self.grids[-1]) if p.T > 0 else None
         # HOMO / LUMO / gap from the finest level, extrapolated where matched
         homo, lumo = fine["homo"], fine["lumo"]
         self.homo = homo.key() if homo is not None else None
@@ -1944,7 +2010,7 @@ class SectorRun:
             "mode": fine["mode"],
             "converged": self.converged,
             "levels": [{"N": g.N, "h": g.h, "iterations": lv["iterations"], "converged": lv["converged"],
-                        "residualN": lv["residualN"], "residualS": lv["residualS"],
+                        "residualN": lv["residualN"], "residualS": lv["residualS"], "residualD": lv.get("residualD"),
                         "residualPotential": lv.get("residualPotential"), "convergedBy": lv.get("convergedBy"),
                         "mu": lv["mu"], "seaTop": lv["seaTop"], "particleBottom": lv["particleBottom"],
                         "branchOverlap": lv["branchOverlap"],
@@ -1976,13 +2042,17 @@ def extrapolate_profile(vals):
     through a division by h; eigenvalues, integrals and interior nodes are
     second order.  The (h, h^2) formula also leaves O(h^3) when no h term is
     present, so it is safe at every end node."""
-    out = extrapolate_values(vals)
+    out = np.array(extrapolate_values(vals), dtype=float)
     if len(vals) == 3:
         q1, q2, q4 = (np.asarray(v, dtype=float) for v in vals)
         for j in (0, -1):
             r12 = 2.0 * q2[j] - q1[j]
             r24 = 2.0 * q4[j] - q2[j]
             out[j] = (4.0 * r24 - r12) / 3.0
+    elif len(vals) == 2:
+        q1, q2 = (np.asarray(v, dtype=float) for v in vals)
+        for j in (0, -1):
+            out[j] = 2.0 * q2[j] - q1[j]      # eliminates the first-order end-node term
     return out
 
 
@@ -1999,10 +2069,28 @@ def extrapolate_values(vals):
 # ---------------------------------------------------------------------------
 
 def particle_hole_list(run: SectorRun, count=12):
+    """Lowest particle-hole excitations eps_a - eps_i > 0 on the particle
+    branch (finest grid; eigenvalues extrapolated where matched).  T = 0:
+    holes are the levels with f > 0, particles those with f < 1 (the
+    straddling group belongs to both).  T > 0 (or occupation smearing): holes
+    f >= 1/2, particles f < 1/2, i.e. the thermal excitation spectrum around
+    mu.  Both sets are ordered in eps and overlap at most in the straddling
+    group, so only the top (count + overlap) holes and the bottom
+    (count + overlap) particles can enter the lowest `count` excitations:
+    the pairs are formed among those candidates (a full double loop over
+    the ~5e5 levels of a T = m spectrum would not fit in memory)."""
     fine = run.levels[-1]
-    states = fine["spectrum"].states
-    occ = [st for st in states if st.branch > 0 and st.f > 1e-12]
-    emp = [st for st in states if st.branch > 0 and st.f < 1.0 - 1e-12]
+    states = [st for st in fine["spectrum"].states if st.branch > 0]
+    if run.params.occupation_temperature() > 0.0:
+        occ = [st for st in states if st.f >= 0.5]
+        emp = [st for st in states if st.f < 0.5]
+    else:
+        occ = [st for st in states if st.f > 1e-12]
+        emp = [st for st in states if st.f < 1.0 - 1e-12]
+    overlap = sum(1 for st in states if 1e-12 < st.f < 1.0 - 1e-12) if run.params.occupation_temperature() <= 0 else 0
+    ncand = count + overlap
+    occ = sorted(occ, key=lambda st: (-st.eps, st.key()))[:ncand]
+    emp = sorted(emp, key=lambda st: (st.eps, st.key()))[:ncand]
     pairs = []
     for i in occ:
         for a in emp:
@@ -2166,9 +2254,17 @@ def write_run(run: SectorRun, directory, extra=None):
     fine = run.levels[-1]
     states = {st.key(): st for st in fine["spectrum"].states}
     rows = []
+    # hot runs (T > 0.5 m, ~2.5e5 levels): spectrum.csv lists the levels within
+    # SPECTRUM_CSV_BAND T of mu only (the sums over all levels are in run.json)
+    band = None
+    if run.params.T > 0.5 * run.params.m:
+        mu = float(run.scalars["mu"])
+        band = [mu - SPECTRUM_CSV_BAND * run.params.T, mu + SPECTRUM_CSV_BAND * run.params.T]
     for key in run.state_keys:
         st = states[key]
         vals, ext = run.state_eps[key]
+        if band is not None and not (band[0] <= float(ext) <= band[1]):
+            continue
         row = [st.q, st.r3, st.k, st.parity, st.type, st.index, st.branch, st.mult, st.f, st.w]
         row += list(vals) + [float(ext), 1.0 if st.interpolated else 0.0]
         rows.append(row)
@@ -2187,13 +2283,15 @@ def write_run(run: SectorRun, directory, extra=None):
               ["y", "z", "W6", "n_c", "S_c", "n_p", "S_p", "M_eff", "v_x", "rho", "p_y", "p_3", "p_t", "L_s"],
               prows)
     for l, lv in enumerate(run.levels):
-        hrows = [[h["iteration"], h["residualN"], h["residualS"], h["mu"], h["energy"], h["free"],
-                  h["states"], h["shellsExact"], h["shellsInterpolated"]] for h in lv["history"]]
+        hrows = [[h["iteration"], h["residualN"], h["residualS"], h["residualD"], h["residualPotential"], h["mu"],
+                  h["energy"], h["free"], h["states"], h["shellsExact"], h["shellsInterpolated"]] for h in lv["history"]]
         write_csv(os.path.join(directory, "scf-history-level%d.csv" % l),
-                  ["iteration", "residualN", "residualS", "mu", "energy", "free", "states",
-                   "shellsExact", "shellsInterpolated"], hrows)
+                  ["iteration", "residualN", "residualS", "residualD", "residualPotential", "mu", "energy", "free",
+                   "states", "shellsExact", "shellsInterpolated"], hrows)
     doc = run.summary()
-    doc["files"] = sorted(os.listdir(directory)) + ["run.json"]
+    doc["spectrumCsv"] = {"band": band, "rows": len(rows), "levelsMatchedOnAllGrids": len(run.state_keys),
+                          "note": ("levels with |eps - mu| <= %g T only" % SPECTRUM_CSV_BAND) if band else "all levels"}
+    doc["files"] = sorted(set(os.listdir(directory)) | {"run.json"})
     if extra:
         doc.update(extra)
     write_json(os.path.join(directory, "run.json"), doc)
@@ -2333,6 +2431,8 @@ CANONICAL_N0 = 60        # h = L/60 = 5 x the Rust grid spacing L/300: every ref
 CANONICAL_LEVELS = 3     # grids N0, 2 N0, 4 N0; (h^2, h^3) elimination
 QUICK_N0 = 30
 QUICK_LEVELS = 2
+HOT_EXACT_SHELLS = 1000000   # T = m runs: no Chebyshev tail
+SPECTRUM_CSV_BAND = 8.0      # T > 0.5 m: spectrum.csv holds the levels within 8 T of mu
 
 
 def closed_shells(m=1.0, L=3.0, N0=CANONICAL_N0, upto=1300, parity=0):
@@ -2452,7 +2552,11 @@ def canonical_runs(quick=False, shells_info=None):
             for T in (0.1, 0.3, 1.0):
                 if T > 0.5 and lam != "lam0" and N > 8.0:
                     continue
-                add(1, 3, N, lam, T=T, tasks=["thermo"])
+                # T = m: every lattice shell of the window (k up to ~24 m, ~6400 shells) is
+                # diagonalised exactly (no Chebyshev tail: its rank-ordered branches pass
+                # through avoided crossings at large k, measured error 1e-4 in the profiles)
+                extra = {"exact_shells": HOT_EXACT_SHELLS} if T > 0.5 else {}
+                add(1, 3, N, lam, T=T, tasks=["thermo"], **extra)
     return runs
 
 
@@ -2462,19 +2566,95 @@ def skipped_runs(shells_info):
             "crate skips it too)" % rust_label(1, 3, shells_info["N_mid"], "lamp1", 1.0)]
 
 
-def coupling_from_doc(doc):
-    """Per-configuration couplings from the free ground state of the
-    configuration (a lam0 T0 run with both parities)."""
-    p = doc["params"]
-    scale = doc["couplingScale"]
-    strength = scale["strengthPerUnitLambdaHat"]
+RUST_GRID_INTERVALS = 300    # the Rust crate's 301-point grid y_i = -L + i L/300 (every L)
+
+
+def coupling_label(m, L, N):
+    return "coupling-m%s_L%s_N%d" % (trim_float(m), trim_float(L), int(N))
+
+
+def coupling_rust_grid(m, L, N, quick=False, log=None):
+    """The Rust crate's coupling rule, strength = max_y max((15/16)|S_p|,
+    n_p/16)/m^7 of the free ground state (both parities) with the maximum
+    taken over the Rust crate's own 301 grid nodes, evaluated independently
+    by the reference: the interior nodes from the occupied levels of the
+    free problem on 300 and 600 intervals (its coarse nodes ARE the Rust
+    nodes; (h^2) elimination, O(h^3)), the two end nodes (the first-order end values of
+    the staggered scheme; the tip carries the maximum of n_p) from the
+    canonical three-level solution (N0 = 60, (h, h^2) elimination).  The
+    maximum over the canonical coarse nodes alone (h = L/60) samples an
+    interior peak of S_p too coarsely: measured 2e-3 low at (1, 3, 1016),
+    whose S_p peaks near y = -2.81 between two coarse nodes; it is recorded
+    as strengthCoarseNodes."""
+    base = dict(m=m, L=L, lambda_hat=0.0, T=0.0, N=N, parity=0, tip="g0", xc="quadratic")
+    coarse = SectorRun(Params(N0=QUICK_N0 if quick else CANONICAL_N0,
+                              levels=QUICK_LEVELS if quick else CANONICAL_LEVELS, label="coupling-canonical", **base),
+                       log=log)
+    # the free state on the Rust node set: only the occupied levels matter
+    # (lambda = 0: fixed potentials, no self-consistency), so the window ends
+    # just above the Fermi level of the canonical solution
+    mu_c = float(coarse.scalars["mu"])
+    n_fine = QUICK_N0 if quick else RUST_GRID_INTERVALS
+    p_f = Params(N0=n_fine, levels=2, label="coupling-rust-grid", **base)
+    fine_levels = []
+    for lvl in range(2):
+        grid = Grid(L, n_fine * 2 ** lvl)
+        hi = mu_c + 0.05 * m
+        for _ in range(8):
+            spec = Spectrum(p_f, grid, np.full(grid.N + 1, float(m)), np.zeros(grid.N + 1), -m - 1.0, hi)
+            try:
+                occupy_zero(spec.states, N)
+                break
+            except RuntimeError:
+                hi += 0.5 * m
+        else:
+            raise RuntimeError("coupling_rust_grid: N = %g not placed below %g" % (N, hi))
+        n_c, s_c = densities(spec.states, p_f, grid)
+        fine_levels.append((grid, n_c, s_c, len(spec.states)))
+        if log:
+            log("  Rust-grid free state, %d intervals: %d levels in [%g, %g]" % (grid.N, len(spec.states), -m - 1.0, hi))
+    g0 = fine_levels[0][0]
+    subs = [np.arange(0, lv[0].N + 1, 2 ** l) for l, lv in enumerate(fine_levels)]
+    n_x = extrapolate_profile([lv[1][sb] for lv, sb in zip(fine_levels, subs)])
+    s_x = extrapolate_profile([lv[2][sb] for lv, sb in zip(fine_levels, subs)])
+    s_abs = np.abs(g0.density_factor * s_x)
+    n_abs = np.abs(g0.density_factor * n_x)
+    for j in (0, -1):
+        s_abs[j] = abs(float(coarse.profiles["s_p"][j]))
+        n_abs[j] = abs(float(coarse.profiles["n_p"][j]))
+    y = g0.y
+    i_s, i_n = int(np.argmax(s_abs)), int(np.argmax(n_abs))
+    strength = max(15.0 / 16.0 * s_abs[i_s], n_abs[i_n] / 16.0) / m ** 7
     if not strength > 0.0:
-        raise RuntimeError("coupling strength vanishes for %s" % p["label"])
-    return {"m": p["m"], "L": p["L"], "N": p["N"], "sourceRun": p["label"],
-            "sRef_maxProperScalarDensity_free": scale["sRef"], "sRefY": scale["sRefY"],
-            "nRef_maxProperNumberDensity_free": scale["nRef"], "nRefY": scale["nRefY"],
-            "strengthPerUnitLambdaHat": strength,
-            "lambdaHat1": 0.1 / strength, "lambdaHat2": 1.0 / strength}
+        raise RuntimeError("coupling strength vanishes for (%g, %g, %g)" % (m, L, N))
+    return {"m": float(m), "L": float(L), "N": float(N), "label": coupling_label(m, L, N),
+            "rule": "strength = max over the 301 Rust grid nodes of max((15/16)|S_p|, n_p/16)/m^7",
+            "sRef_maxProperScalarDensity_free": float(s_abs[i_s]), "sRefY": float(y[i_s]),
+            "nRef_maxProperNumberDensity_free": float(n_abs[i_n]), "nRefY": float(y[i_n]),
+            "strengthPerUnitLambdaHat": float(strength),
+            "lambdaHat1": 0.1 / float(strength), "lambdaHat2": 1.0 / float(strength),
+            "strengthCoarseNodes": coarse.coupling_scale["strengthPerUnitLambdaHat"],
+            "canonicalConverged": bool(coarse.converged), "fineGridIntervals": [lv[0].N for lv in fine_levels],
+            "fineGridLevels": [lv[3] for lv in fine_levels], "E0_free": float(coarse.scalars["total"]),
+            "solverVersion": SOLVER_VERSION}
+
+
+def execute_coupling_worker(task, output_root, quick):
+    label = task["label"]
+
+    def log(msg):
+        print("[%s] %s" % (label, msg), flush=True)
+    try:
+        t0 = time.time()
+        rec = coupling_rust_grid(task["m"], task["L"], task["N"], quick=quick, log=log)
+        write_json(os.path.join(output_root, "couplings", label + ".json"), rec)
+        log("  -> strength %.12g (coarse nodes %.12g) lambda_hat_1 = %.12g (%.0f s)"
+            % (rec["strengthPerUnitLambdaHat"], rec["strengthCoarseNodes"], rec["lambdaHat1"], time.time() - t0))
+        return rec
+    except Exception as error:  # noqa: BLE001
+        import traceback
+        log("FAILED: %r\n%s" % (error, traceback.format_exc()))
+        return {"label": label, "failed": repr(error)}
 
 
 def resolve_lambda(spec, couplings):
@@ -2576,12 +2756,14 @@ def summary_record(doc):
             "couplingConfiguration": doc.get("couplingConfiguration")}
 
 
-COUPLING_RULE = ("per configuration (m, L, N), from the free ground state of that configuration (its lam0 T0 run, "
-                 "both parities, three-level extrapolated profiles): strength = max_y max((15/16)|S_p|, n_p/16)/m^7 "
+COUPLING_RULE = ("per configuration (m, L, N), from the free ground state of that configuration (both parities): "
+                 "strength = max_y max((15/16)|S_p|, n_p/16)/m^7 with the maximum over the Rust crate's 301 grid nodes "
                  "(the LDA pair (M_eff - m, v_x) per unit lambda_hat, in units of m); lambda_hat_1 = 0.1/strength, "
-                 "lambda_hat_2 = 1.0/strength (the rule of the Rust crate, runs.rs); the convergence runs (a4_0 = 0.5, "
-                 "Delta k = 0.25 e^-0.5 m, Delta k = 0.125 m) use the values of (1, 3, N_mid); the achieved "
-                 "max|lambda S_p|/m is in every run.json (levels[].energies.maxLambdaSOverM)")
+                 "lambda_hat_2 = 1.0/strength (the rule of the Rust crate, runs.rs), evaluated independently here "
+                 "(`coupling_rust_grid`: interior nodes from a two-level solution on 300/600 intervals, end nodes from "
+                 "the canonical three-level solution); the convergence runs (a4_0 = 0.5, Delta k = 0.25 e^-0.5 m, "
+                 "Delta k = 0.125 m) use the values of (1, 3, N_mid); the achieved max|lambda S_p|/m is in every "
+                 "run.json (levels[].energies.maxLambdaSOverM)")
 
 
 def main(argv=None):
@@ -2647,31 +2829,28 @@ def main(argv=None):
     specs = canonical_runs(args.quick, shells_info)
     if args.runs:
         wanted = set(args.runs.split(","))
-        chosen = [s for s in specs if s["label"] in wanted]
-        needed = {tuple(s["coupling"]) for s in chosen if LAMBDA_SYMBOLS[s["lambda"]] is not None}
-        sources = [s for s in specs if s["lambda"] == "lam0" and s["T"] == 0.0 and s["parity"] == 0
-                   and (s["m"], s["L"], s["N"]) in needed and s.get("a4", 0.0) == 0.0
-                   and "delta_k_over_m" not in s and s not in chosen]
-        specs = sources + chosen
+        specs = [s for s in specs if s["label"] in wanted]
     labels = [s["label"] for s in specs]
+    # coupling tasks: one per configuration that a run needs
+    configs = sorted({tuple(s["coupling"]) for s in specs if LAMBDA_SYMBOLS[s["lambda"]] is not None})
+    tasks = [{"kind": "coupling", "label": coupling_label(*c), "m": c[0], "L": c[1], "N": c[2]} for c in configs]
     summary["couplingRule"] = COUPLING_RULE
     summary["skippedRuns"] = [] if args.quick else skipped_runs(shells_info)
     couplings = {}
     docs = {}
+    coupling_failures = []
 
-    def register(doc):
-        p = doc.get("params", {})
-        if (not doc.get("failed") and doc.get("converged") and p.get("lambda_hat") == 0.0 and p.get("T") == 0.0
-                and p.get("parity") == 0 and p.get("a4_0") == 0.0 and p.get("delta_k_over_m") == 0.25
-                and doc.get("couplingScale")):
-            key = (p["m"], p["L"], p["N"])
-            if key not in couplings:
-                couplings[key] = coupling_from_doc(doc)
-                c = couplings[key]
-                log("coupling (m = %g, L = %g, N = %g): strength %.10g (S_ref %.6g at y = %.3f, n_ref %.6g at "
-                    "y = %.3f) -> lambda_hat_1 = %.10g, lambda_hat_2 = %.10g"
-                    % (key + (c["strengthPerUnitLambdaHat"], c["sRef_maxProperScalarDensity_free"], c["sRefY"],
-                              c["nRef_maxProperNumberDensity_free"], c["nRefY"], c["lambdaHat1"], c["lambdaHat2"])))
+    def register_coupling(rec):
+        if rec.get("failed"):
+            coupling_failures.append(rec["label"])
+            return
+        key = (rec["m"], rec["L"], rec["N"])
+        couplings[key] = rec
+        log("coupling (m = %g, L = %g, N = %g): strength %.12g (S_ref %.8g at y = %.3f, n_ref %.8g at y = %.3f; "
+            "coarse nodes %.12g) -> lambda_hat_1 = %.12g, lambda_hat_2 = %.12g"
+            % (key + (rec["strengthPerUnitLambdaHat"], rec["sRef_maxProperScalarDensity_free"], rec["sRefY"],
+                      rec["nRef_maxProperNumberDensity_free"], rec["nRefY"], rec["strengthCoarseNodes"],
+                      rec["lambdaHat1"], rec["lambdaHat2"])))
 
     def flush(complete):
         summary["couplings"] = [couplings[k] for k in sorted(couplings)]
@@ -2680,10 +2859,19 @@ def main(argv=None):
         write_json(os.path.join(args.output, "reference-summary.json"), summary)
 
     pending = list(specs)
+    pending_tasks = list(tasks)
     kept = 0
     if args.resume:
-        # resume in dependency order: the lam0 runs first (they fix the couplings)
-        for spec in sorted(pending, key=lambda s: LAMBDA_SYMBOLS[s["lambda"]] is not None):
+        for task in list(pending_tasks):
+            path = os.path.join(args.output, "couplings", task["label"] + ".json")
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as handle:
+                    rec = json.load(handle)
+                if rec.get("solverVersion") == SOLVER_VERSION and not rec.get("failed"):
+                    register_coupling(rec)
+                    pending_tasks.remove(task)
+                    log("resume: keeping %s" % task["label"])
+        for spec in list(pending):
             path = os.path.join(args.output, spec["label"], "run.json")
             lam = resolve_lambda(spec, couplings)
             if lam is None or not os.path.exists(path):
@@ -2692,35 +2880,57 @@ def main(argv=None):
                 doc = json.load(handle)
             if run_matches(doc, spec, lam):
                 docs[spec["label"]] = doc
-                register(doc)
+                pending.remove(spec)
                 kept += 1
                 log("resume: keeping %s" % spec["label"])
-        pending = [s for s in pending if s["label"] not in docs]
-    log("%d runs (%d kept from a previous run), %d workers" % (len(specs), kept, workers))
+    log("%d runs and %d coupling tasks (%d runs kept from a previous run), %d workers"
+        % (len(specs), len(tasks), kept, workers))
     flush(False)
     with concurrent.futures.ProcessPoolExecutor(max_workers=workers) as pool:
         futures = {}
 
+        def priority(spec):
+            """Longest chains first: the T = m runs, N_large, the T <= 0.3 m
+            thermo points (three SCF solutions each), then the rest; the
+            coupling tasks before everything."""
+            if spec["T"] > 0.5 * spec["m"]:
+                return 1
+            if spec["N"] >= 1000.0:
+                return 2
+            if spec["T"] > 0.0:
+                return 3
+            return 4
+
         def submit_ready():
-            for spec in list(pending):
-                lam = resolve_lambda(spec, couplings)
-                if lam is None:
+            # at most `workers` jobs in flight, so that a run whose coupling becomes
+            # known later is not queued behind every cheap run
+            while len(futures) < workers:
+                if pending_tasks:
+                    task = pending_tasks.pop(0)
+                    futures[pool.submit(execute_coupling_worker, task, args.output, args.quick)] = ("coupling", task)
                     continue
+                ready = [s for s in pending if resolve_lambda(s, couplings) is not None]
+                if not ready:
+                    return
+                spec = min(ready, key=lambda s: (priority(s), pending.index(s)))
                 pending.remove(spec)
-                futures[pool.submit(execute_run_worker, spec, lam, args.output)] = spec["label"]
+                lam = resolve_lambda(spec, couplings)
+                futures[pool.submit(execute_run_worker, spec, lam, args.output)] = ("run", spec)
         submit_ready()
         while futures:
             done, _ = concurrent.futures.wait(list(futures), return_when=concurrent.futures.FIRST_COMPLETED)
             for future in done:
-                label = futures.pop(future)
-                docs[label] = future.result()
-                register(docs[label])
+                kind, obj = futures.pop(future)
+                if kind == "coupling":
+                    register_coupling(future.result())
+                else:
+                    docs[obj["label"]] = future.result()
             submit_ready()
             flush(False)
-    for spec in pending:   # couplings never became available (their lam0 run failed)
+    for spec in pending:   # couplings never became available (their coupling task failed)
         docs[spec["label"]] = {"params": {"label": spec["label"]}, "converged": False,
                                "failed": "coupling of configuration %s unavailable" % (spec["coupling"],)}
-    failed = [lab for lab in labels if docs.get(lab, {}).get("failed")]
+    failed = [lab for lab in labels if docs.get(lab, {}).get("failed")] + coupling_failures
     flush(not failed)
     log("wrote %s in %.1f s (%d runs, failed: %s)" % (os.path.join(args.output, "reference-summary.json"),
                                                         time.time() - t_start, len(labels), failed))

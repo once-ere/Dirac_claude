@@ -39,8 +39,9 @@
 //!   192-fold brane band): the exact T = 0 aufbau occupations then flip
 //!   between iterations (charge sloshing, no mixing parameter cures it) and
 //!   the loop is stopped as stagnant; [`solve_ground`] retries with
-//!   Fermi-Dirac occupation smearing from [`SMEARING_LADDER`] (1e-4 m,
-//!   1e-3 m), starting from the failed densities, and records the smearing
+//!   an annealed Fermi-Dirac occupation smearing (1e-2 m, 1e-3 m, 1e-4 m,
+//!   then exact occupations again; damped mixing, beta x 1/4) and records
+//!   the smearing
 //!   in the solution's parameters (`run.json: parameters.occupationSmearing`,
 //!   `exactZeroTemperatureOccupations = false`); F = E - T S_ent uses the
 //!   physical T = 0, the smearing entropy is reported.
@@ -91,6 +92,14 @@ pub struct Params {
     pub mix_history: usize,
     pub tol: f64,
     pub max_iter: usize,
+    /// Iterations without a factor-2 improvement of the residual after
+    /// which the loop stops as stagnant.
+    pub stagnation_iterations: usize,
+    /// T = 0 fallback of [`solve_ground`] that produced this solution: 0 none
+    /// (exact occupations converged directly), 1 annealed smearing (the
+    /// smallest converged rung, `smearing` > 0), 2 exact occupations
+    /// re-converged after the annealing.
+    pub fallback_stage: i32,
     pub tolerances: Tolerances,
 }
 
@@ -333,13 +342,15 @@ fn solve_shell(
         } else {
             window
         };
-        let levels_found = plus.levels(
-            shell.k,
-            parity,
-            plus_window.eps_lo,
-            plus_window.eps_hi,
-            &warm_plus,
-        )?;
+        let levels_found = plus
+            .levels(
+                shell.k,
+                parity,
+                plus_window.eps_lo,
+                plus_window.eps_hi,
+                &warm_plus,
+            )
+            .map_err(|e| format!("shell n2 = {} (s = +1 block): {e}", shell.n2))?;
         for level in levels_found.iter() {
             absorb(&mut result, level);
         }
@@ -356,8 +367,14 @@ fn solve_shell(
                 .filter(|(key, _)| key.0 == shell_index && key.1 == parity && key.2 == -1)
                 .map(|(key, e)| (key.3, *e))
                 .collect();
-            let levels =
-                minus.levels(shell.k, parity, -window.eps_hi, -window.eps_lo, &warm_minus)?;
+            let levels = minus
+                .levels(shell.k, parity, -window.eps_hi, -window.eps_lo, &warm_minus)
+                .map_err(|e| {
+                    format!(
+                        "shell n2 = {} (s = -1 block, negated vector potential): {e}",
+                        shell.n2
+                    )
+                })?;
             for level in levels.iter() {
                 absorb(&mut result, level);
             }
@@ -403,10 +420,7 @@ fn solve_shell(
         }
     }
     result.stats = plus.stats;
-    result.stats.integrations += minus.stats.integrations;
-    result.stats.steps += minus.stats.steps;
-    result.stats.rhs_evals += minus.stats.rhs_evals;
-    result.stats.rescales += minus.stats.rescales;
+    result.stats.add(&minus.stats);
     Ok(result)
 }
 
@@ -492,10 +506,7 @@ pub fn compute_spectrum(
         });
         for result in results {
             let result = result?;
-            spectrum.stats.integrations += result.stats.integrations;
-            spectrum.stats.steps += result.stats.steps;
-            spectrum.stats.rhs_evals += result.stats.rhs_evals;
-            spectrum.stats.rescales += result.stats.rescales;
+            spectrum.stats.add(&result.stats);
             spectrum.max_theta_residual = spectrum.max_theta_residual.max(result.theta);
             spectrum.max_matching_residual = spectrum.max_matching_residual.max(result.matching);
             spectrum.max_winding_residual = spectrum.max_winding_residual.max(result.winding);
@@ -625,10 +636,7 @@ impl FreeLevels {
             None => window,
         };
         let spectrum = compute_spectrum(&self.params, &self.potential, needed, &HashMap::new())?;
-        self.prefetch_stats.integrations += spectrum.stats.integrations;
-        self.prefetch_stats.steps += spectrum.stats.steps;
-        self.prefetch_stats.rhs_evals += spectrum.stats.rhs_evals;
-        self.prefetch_stats.rescales += spectrum.stats.rescales;
+        self.prefetch_stats.add(&spectrum.stats);
         for st in &spectrum.states {
             // an s = -1 state of index n is the mirror of the s = +1 level n
             let eps_plus = if st.s == 1 { st.eps } else { -st.eps };
@@ -701,10 +709,7 @@ impl FreeLevels {
     /// Solver statistics of the prefetches and of the serial fallback.
     pub fn stats(&self) -> Stats {
         let mut total = self.prefetch_stats;
-        total.integrations += self.shooter.stats.integrations;
-        total.steps += self.shooter.stats.steps;
-        total.rhs_evals += self.shooter.stats.rhs_evals;
-        total.rescales += self.shooter.stats.rescales;
+        total.add(&self.shooter.stats);
         total
     }
 
@@ -1219,14 +1224,49 @@ pub const MAX_WINDOW_ENLARGEMENTS: usize = 40;
 /// Iterations without a factor-2 improvement of the residual after which an
 /// SCF loop is declared stagnant (returned as not converged).
 pub const STAGNATION_ITERATIONS: usize = 20;
-/// Smearing ladder (in units of m) of the T = 0 fallback of [`solve_ground`].
-pub const SMEARING_LADDER: [f64; 2] = [1.0e-4, 1.0e-3];
+/// Smearing ladder (in units of m) of the T = 0 fallback of [`solve_ground`],
+/// traversed from the LARGEST value down (annealing).
+pub const SMEARING_LADDER: [f64; 3] = [1.0e-2, 1.0e-3, 1.0e-4];
+/// The fallback attempts mix with `mix_beta` times this factor, allow
+/// [`FALLBACK_MAX_ITER`] iterations and declare stagnation only after
+/// [`FALLBACK_STAGNATION_ITERATIONS`].
+pub const FALLBACK_MIX_FACTOR: f64 = 0.25;
+pub const FALLBACK_MAX_ITER: usize = 200;
+pub const FALLBACK_STAGNATION_ITERATIONS: usize = 40;
 
-/// Ground state at the physical temperature of `params` (T = 0: exact
-/// aufbau occupations; if they do not converge -- a level crossing at the
-/// Fermi level -- retry with Fermi-Dirac smearing from the ladder, starting
-/// from the densities of the failed attempt; the smearing used is recorded
-/// in `params.smearing` of the returned solution, 0 for an exact result).
+fn fallback_params(params: &Params, smearing: f64) -> Params {
+    let mut p = params.clone();
+    p.smearing = smearing * params.m;
+    p.mix_beta = params.mix_beta * FALLBACK_MIX_FACTOR;
+    p.max_iter = FALLBACK_MAX_ITER;
+    p.stagnation_iterations = FALLBACK_STAGNATION_ITERATIONS;
+    p
+}
+
+/// Ground state at the physical temperature of `params`.  T > 0: the
+/// Fermi-Dirac loop.  T = 0: exact aufbau occupations; if they do not
+/// converge (a level crossing at the Fermi level: the occupations flip
+/// between iterations), an ANNEALED fallback with damped mixing:
+///
+/// 1. starting again from the original initial state, converge with
+///    Fermi-Dirac occupation smearing at the largest rung of
+///    [`SMEARING_LADDER`] (the smoothest fixed-point map);
+/// 2. step the smearing down the ladder, each attempt starting from the
+///    previous converged solution, and stop at the first rung that does not
+///    converge;
+/// 3. from the smallest converged smearing, retry the exact T = 0
+///    occupations (at the fixed point the Kohn-Sham gap is open, so they are
+///    usually stable there).
+///
+/// The result is the exact T = 0 solution when step 3 converges, else the
+/// converged solution with the smallest smearing (recorded in the returned
+/// parameters: `occupationSmearing`, `mixBeta`; F uses the physical T = 0),
+/// else the last attempt (not converged).  MEASURED motivation: at N = 1016,
+/// attractive lambda_hat_2, the k = 0 bulk level crosses the 192-fold brane
+/// band during the iterations; a descending-from-small ladder that started
+/// each attempt from the previous FAILED attempt converged or sloshed
+/// depending on 1e-11-level differences of lambda_hat (default-tolerance
+/// run converged at 1e-3 m, the refined one failed every rung).
 pub fn solve_ground(
     params: &Params,
     initial: Option<&Densities>,
@@ -1239,23 +1279,43 @@ pub fn solve_ground(
     if exact.converged {
         return Ok(exact);
     }
+    let mut start: Option<Densities> = initial.cloned();
+    let mut start_mu = mu_guess;
+    let mut best: Option<Solution> = None;
     let mut last = exact;
     for smearing in SMEARING_LADDER {
-        let mut smeared = params.clone();
-        smeared.smearing = smearing * params.m;
         let attempt = solve(
-            &smeared,
+            &fallback_params(params, smearing),
             &Occupation::Thermal,
-            Some(&last.densities),
-            last.filling.mu,
+            start.as_ref(),
+            start_mu,
         )?;
-        let converged = attempt.converged;
-        last = attempt;
-        if converged {
+        if !attempt.converged {
+            last = attempt;
             break;
         }
+        start = Some(attempt.densities.clone());
+        start_mu = attempt.filling.mu;
+        best = Some(attempt);
     }
-    Ok(last)
+    let Some(best) = best else {
+        return Ok(last);
+    };
+    let mut exact_params = fallback_params(params, 0.0);
+    exact_params.smearing = 0.0;
+    exact_params.fallback_stage = 2;
+    let exact_again = solve(
+        &exact_params,
+        &Occupation::Zero,
+        Some(&best.densities),
+        best.filling.mu,
+    )?;
+    if exact_again.converged {
+        return Ok(exact_again);
+    }
+    let mut best = best;
+    best.params.fallback_stage = 1;
+    Ok(best)
 }
 
 /// Progress trace on stderr when the environment variable
@@ -1350,10 +1410,7 @@ pub fn solve(
                     spectrum.stats.integrations
                 );
             }
-            stats.integrations += spectrum.stats.integrations;
-            stats.steps += spectrum.stats.steps;
-            stats.rhs_evals += spectrum.stats.rhs_evals;
-            stats.rescales += spectrum.stats.rescales;
+            stats.add(&spectrum.stats);
             free_levels.classify(&mut spectrum, window, shift_bound)?;
             let after = free_levels.stats();
             if verbose {
@@ -1363,9 +1420,7 @@ pub fn solve(
                     free_levels.fallback_integrations()
                 );
             }
-            stats.integrations += after.integrations - before.integrations;
-            stats.steps += after.steps - before.steps;
-            stats.rhs_evals += after.rhs_evals - before.rhs_evals;
+            stats.add(&after.since(&before));
             match occupy(&mut spectrum, params, mode) {
                 Ok(filling) => {
                     let edge_ok = if matches!(mode, Occupation::Constrained(_)) {
@@ -1483,7 +1538,7 @@ pub fn solve(
             best_residual = residual;
             best_iteration = iteration;
         }
-        if iteration >= best_iteration + STAGNATION_ITERATIONS {
+        if iteration >= best_iteration + params.stagnation_iterations {
             if verbose {
                 eprintln!("[scf] stagnation: no residual improvement by a factor 2 since iteration {best_iteration}; stopping");
             }
@@ -1684,6 +1739,8 @@ pub fn standard_params(
         mix_history: 6,
         tol: 1.0e-10,
         max_iter: 80,
+        stagnation_iterations: STAGNATION_ITERATIONS,
+        fallback_stage: 0,
         tolerances: crate::shooting::DEFAULT_TOLERANCES,
     }
 }

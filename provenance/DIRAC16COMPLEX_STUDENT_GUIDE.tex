@@ -24,7 +24,7 @@
 \tableofcontents
 \newpage
 \begin{abstract}
-This guide takes a student who has never used Rust, CVODE or this repository from an empty computer to a complete and checked reproduction of every numerical solution of Stage 3 of the dirac16complex project. Stage 3 consists of five experiments, EXP-1 to EXP-5. Each one integrates the field equation of dirac16complex, a 16-component complex Grassmann spinor field in eight dimensions with four space-like and four time-like directions, in a homogeneous background, with the CVODE solver of the pure-Rust SUNDIALS 7.8.0 port of the rustSolveIt engine. The guide explains in plain language what is computed and why; how to install Git, Rust, Python with numpy, matplotlib, sympy, nbformat, nbclient and ipykernel, and optionally Jupyter, the Wolfram Engine and a TeX distribution, on Windows 11 (PowerShell and Git Bash), macOS and Linux; how to fetch the code and the pinned solver engine and how to check them; how to build and test the program; the mathematics from zero, including a step-by-step derivation of each experiment's first-order system $u'=f(t,u)$ with its state vector index by index, its right-hand side and its initial data; how CVODE solves such a system; how to run each experiment, read every column of its output and check it with the independent Python checkers (162 checks), the EXP-3 analysis (10 checks), the Jupyter notebook (71 checks) and the Mathematica notebook (49 checks); how to rebuild the PDF documents; exercises with answers; troubleshooting; and a glossary. Every command in this guide was executed while it was written, from fresh clones, on Windows 11 in PowerShell 7 and in Git Bash and on Ubuntu 24.04 under WSL2. Installers, which change the computer, were not executed, and nothing was tested on macOS; Section 2.3 lists exactly what was run where. Three measured facts matter for reproduction: the three platform engines are not byte-identical; the committed results were produced with the Windows 11 engine, which also builds and reproduces every Rust output byte for byte on Linux; and the last digits of the files that Python writes (the EXP-3 analysis, the checker reports) depend on the numpy version, which is why the tested versions are pinned in \texttt{requirem\allowbreak{}ents-sta\allowbreak{}ge3.txt}.
+This guide takes a student who has never used Rust, CVODE or this repository from an empty computer to a complete and checked reproduction of every numerical solution of Stage 3 of the dirac16complex project. Stage 3 consists of five experiments, EXP-1 to EXP-5. Each one integrates the field equation of dirac16complex, a 16-component complex Grassmann spinor field in eight dimensions with four space-like and four time-like directions, in a homogeneous background, with the CVODE solver of the pure-Rust SUNDIALS 7.8.0 port of the rustSolveIt engine. The guide explains in plain language what is computed and why; how to install Git, Rust, Python with numpy, matplotlib, sympy, nbformat, nbclient and ipykernel, and optionally Jupyter, the Wolfram Engine and a TeX distribution, on Windows 11 (PowerShell and Git Bash), macOS and Linux; how to fetch the code and the pinned solver engine and how to check them; how to build and test the program; the mathematics from zero, including a step-by-step derivation of each experiment's first-order system $u'=f(t,u)$ with its state vector index by index, its right-hand side and its initial data; how CVODE solves such a system; how to run each experiment, read every column of its output and check it with the independent Python checkers (162 checks), the EXP-3 analysis (10 checks), the Jupyter notebook (71 checks) and the Mathematica notebook (49 checks); how to rebuild the PDF documents; exercises with answers; troubleshooting; and a glossary. Every command in this guide was executed while it was written, from fresh clones, on Windows 11 in PowerShell 7 and in Git Bash and on Ubuntu 24.04 under WSL2. Installers, which change the computer, were not executed, and nothing was tested on macOS; Section 2.3 lists exactly what was run where. Three measured facts matter for reproduction: the three platform engines are not byte-identical; the committed results were produced with the Windows 11 engine, which also builds and reproduces every Rust output byte for byte on Linux; and the last digits of the files that Python writes (the EXP-3 analysis, the checker reports) depend on the numpy version and platform, which is why the tested versions are pinned in \texttt{requirem\allowbreak{}ents-sta\allowbreak{}ge3.txt} (with them these files, too, were reproduced byte for byte on Windows 11, while on Ubuntu their last digits still differ).
 
 \end{abstract}
 
@@ -103,7 +103,7 @@ To change folder use \texttt{cd FOLDE\allowbreak{}R}; \texttt{\detokenize{cd ..}
 
 \subsection{How this guide was tested}
 
-The commands were executed while the guide was written, from fresh clones of the public repository (Section 4.2) at the commits fbec4d7 and 34b9fd4, which contain the same Stage-3 program, checkers, notebooks and outputs.
+For this edition every command box of the guide was executed by replay scripts that copy the boxes verbatim, in the order of the guide, into a new terminal session and run them in a fresh clone of the public repository (Section 4.2). The steps that the text gives in words were inserted where the text gives them: editing and restoring a source file in Section 13; the commands quoted inside sentences, such as \texttt{\$LASTEXI\allowbreak{}TCODE}, \texttt{git rest\allowbreak{}ore arti\allowbreak{}facts} and \texttt{python -\allowbreak{}m pip in\allowbreak{}stall -r\allowbreak{} require\allowbreak{}ments-st\allowbreak{}age3.txt}; the messages of the setup script (a second run, a different engine, a simulated interrupted download); and the remedies of Section 14. The PowerShell replay cloned commit b3e2493, the Git Bash and Linux replays commit df6b57f; the two contain the same Stage-3 program, checkers, notebooks and outputs. Earlier editions of this guide were tested in the same way at the commits fbec4d7 and 34b9fd4.
 
 \begingroup
 \small
@@ -116,8 +116,8 @@ The commands were executed while the guide was written, from fresh clones of the
 \textbf{Platform} & \textbf{Shells and tools} & \textbf{What was executed} \\
 \midrule
 \endhead
-Windows 11 Pro for Workstations 10.0.26200, Intel Core Ultra 9 275HX, 24 cores & PowerShell 7.6.6; Git Bash (GNU bash 5.2.37, Git 2.51.2); rustc and cargo 1.91.1, rustup 1.28.2; Python 3.14.5 with numpy 2.4.6, matplotlib 3.11.0, sympy 1.14.0, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0, jupyterlab 4.4.10, nbconvert 7.16.6; MiKTeX 26.5 (pdfTeX 4.27); WolframScript 1.14.0 with Wolfram 15.0.1 & every command of Sections 3.5 to 14 except the installers, in both shells where both forms are given \\
-Ubuntu 24.04.4 LTS under WSL2 on the same computer & bash 5.2.21; Git 2.43.0; rustc and cargo 1.93.1; Python 3.12.3 in a virtual environment with numpy 2.5.3, matplotlib 3.11.2, sympy 1.14.0, nbformat 5.11.1, nbclient 0.11.0, ipykernel 7.3.0; TeX Live 2023 (pdfTeX 1.40.25) & clone, engine setup with the \texttt{\detokenize{linux}} and \texttt{\detokenize{win11}} engines, build, tests, all experiments, all checkers, the analysis, the notebook, a PDF build; no Mathematica (no WolframScript there) \\
+Windows 11 Pro for Workstations 10.0.26200, Intel Core Ultra 9 275HX, 24 cores & PowerShell 7.6.6; Git Bash (GNU bash 5.2.37, Git 2.51.2); rustc and cargo 1.91.1, rustup 1.28.2; Python 3.14.5 with numpy 2.4.6, matplotlib 3.11.0, sympy 1.14.0, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0, jupyterlab 4.4.10, nbconvert 7.16.6; MiKTeX 26.5 (pdfTeX 4.27); WolframScript 1.14.0 with Wolfram 15.0.1 & every command of Sections 3.2 to 14 except the installers, in both shells where both forms are given; the interactive route of Section 10.3 in a browser \\
+Ubuntu 24.04.4 LTS under WSL2 on the same computer & bash 5.2.21; Git 2.43.0; rustc and cargo 1.93.1; Python 3.12.3 in a virtual environment with the pinned packages of Section 3.5 and jupyterlab JLAB\_LINUX\_VERSION; TeX Live 2023 (pdfTeX 1.40.25) & every bash command of Sections 3.4 to 14 except the installers and Section 11 (there is no WolframScript there); the \texttt{\detokenize{linux}} engine of Section 4.5 \\
 macOS & none & nothing; the macOS commands follow the official instructions of each tool but are untested \\
 \bottomrule
 \end{longtable}
@@ -125,7 +125,7 @@ macOS & none & nothing; the macOS commands follow the official instructions of e
 
 Not executed anywhere, because they install software or change system settings: \texttt{winget i\allowbreak{}nstall}, \texttt{xcode-se\allowbreak{}lect} (macOS), the rustup installer, \texttt{apt inst\allowbreak{}all}, the MiKTeX, MacTeX and Wolfram installers, and \texttt{wolframs\allowbreak{}cript -a\allowbreak{}ctivate}. On Windows the package identifiers were confirmed with \texttt{winget s\allowbreak{}how}, and on Ubuntu the package names with the simulation \texttt{apt-get \allowbreak{}-s insta\allowbreak{}ll}.
 
-\textbf{Revision after the Stage-3 review.} The commands that this revision changed or added were executed on the working tree of the repository (not on a fresh clone): the pinned package installation of Section 3.5 (on a computer where the pinned versions were already installed, so pip changed nothing), the setup-script messages of Sections 4.3 and 14 (with a simulated interrupted download), the missing-pdflatex message of Section 14, and the notebook of Section 10 in a copied tree with numpy 2.4.6 and with numpy 2.5.3 and matplotlib 3.11.2 on Windows, and with the Ubuntu environment of the table.
+Three effects of the test set-up, not of the guide, should be known. Each replay used a home folder of its own, so that the folder \texttt{\detokenize{src}} of Section 4.1 lay inside the test area; in PowerShell this was done by pointing the variable \texttt{USERPROF\allowbreak{}ILE} elsewhere, and there the Wolfram front end then drew text slightly differently: four of the eight PNG figures of Section 11 differed from the committed ones in a few dozen pixels. The Git Bash replay, and a repetition in a fresh clone with the normal user profile, reproduced all eight byte for byte. The Git Bash and Linux replays cloned a commit in which this guide's Markdown had already been edited but its PDF not yet registered, so there the guide's own PDF build of Section 12 ended with its registry checks false; in the PowerShell replay, at a registered commit, all 14 checks passed. Finally, the computer was running other long computations during the replays, which made some runs up to five times slower than the times quoted in this guide; those were measured on the otherwise idle computer.
 
 \section{Installing the tools}
 
@@ -382,7 +382,7 @@ solver_commit=a8fdff459adfe181573d7924b18bffbdf378fdb3
 solver_setup=OK
 \end{Verbatim}
 
-It takes a few seconds. Running it again prints \texttt{solver\_s\allowbreak{}etup=ALR\allowbreak{}EADY-PRE\allowbreak{}SENT}. If the folder holds a different engine, the script stops with \texttt{vendor/r\allowbreak{}ustSolve\allowbreak{}It is at\allowbreak{} ..., ex\allowbreak{}pected .\allowbreak{}..; remo\allowbreak{}ve it an\allowbreak{}d rerun}. If an earlier run was interrupted (for example by a network failure during the download), the folder is an incomplete checkout, and the script stops with a one-line message that says so and asks you to remove the folder and rerun (the exact text is in Section 14). In both cases delete the folder as shown in Section 4.4 and run the script again.
+It takes a few seconds. Running it again prints \texttt{solver\_s\allowbreak{}etup=ALR\allowbreak{}EADY-PRE\allowbreak{}SENT}. If the folder holds a different engine, the script stops with \texttt{vendor/r\allowbreak{}ustSolve\allowbreak{}It is at\allowbreak{} ..., ex\allowbreak{}pected .\allowbreak{}..; remo\allowbreak{}ve it an\allowbreak{}d rerun}. If an earlier run was interrupted (for example by a network failure during the download), the folder is an incomplete checkout, and the script stops with a one-line message that says so and asks you to remove the folder and rerun (the exact text is in Section 14). In both cases delete the folder as shown in Section 4.4 and run the script again. (The PowerShell script prints these messages as a red error block and writes the folder as \texttt{vendor\textbackslash{}r\allowbreak{}ustSolve\allowbreak{}It}.)
 
 \subsection{Checking the engine}
 
@@ -416,7 +416,7 @@ An earlier version of the comment at the top of \texttt{scripts/\allowbreak{}set
 \begin{enumerate}
 \item With the \texttt{\detokenize{win11}} engine the program reproduces every committed output file byte for byte, on Windows 11 and on Ubuntu 24.04 alike.
 \item With the \texttt{\detokenize{linux}} engine (the default of \texttt{setup\_so\allowbreak{}lver.sh} on Linux) all 69 self-checks and all 162 checker checks still pass, but 14 committed files differ in their last digits: the ten EXP-1 files with $K=0$ (backgrounds and $K=0$ runs) and the three EXP-2 CSV files with their \texttt{summary.\allowbreak{}json}. The same engine gives the same 14 differences on Windows, so they come from the engine, not from the operating system.
-\item The Jupyter notebook asserts that the fresh program outputs are byte-identical to the committed ones, so with the \texttt{\detokenize{linux}} or \texttt{\detokenize{macos}} engine its gauntlet stops with \texttt{Assertio\allowbreak{}nError('\allowbreak{}fresh\_pr\allowbreak{}ogram\_ou\allowbreak{}tputs\_by\allowbreak{}te\_ident\allowbreak{}ical')}.
+\item The Jupyter notebook asserts that the fresh program outputs are byte-identical to the files in \texttt{artifact\allowbreak{}s/dirac1\allowbreak{}6complex\allowbreak{}/numeric\allowbreak{}s/}, so with the \texttt{\detokenize{linux}} or \texttt{\detokenize{macos}} engine its gauntlet stops with \texttt{Assertio\allowbreak{}nError('\allowbreak{}fresh\_pr\allowbreak{}ogram\_ou\allowbreak{}tputs\_by\allowbreak{}te\_ident\allowbreak{}ical')}. (It passes only if an earlier run of \texttt{\detokenize{all}} with the same engine has overwritten those files; \texttt{git rest\allowbreak{}ore arti\allowbreak{}facts} puts the committed ones back.)
 \end{enumerate}
 
 The \texttt{\detokenize{macos}} engine was not run. Because it equals the \texttt{\detokenize{linux}} engine, it can be expected to behave like it.
@@ -1086,7 +1086,7 @@ exp5 & 7 & \texttt{exp5: so\allowbreak{}lver\_ste\allowbreak{}ps=2548 \allowbrea
 \end{longtable}
 \endgroup
 
-That is 69 self-checks in total. EXP-4 integrates 288 million CVODE steps on up to 8 threads; on a computer with fewer cores expect several minutes. The line \texttt{== expN \allowbreak{}==} starts each experiment and a single \texttt{\detokenize{SUCCESS}} ends the whole run.
+That is 69 self-checks in total. EXP-4 integrates 288 million CVODE steps on up to 8 threads; on a computer with fewer cores expect several minutes. The times were measured on the otherwise idle test computer; while other programs kept its cores busy, the same runs took up to five times longer (EXP-4 once needed 347 s). The line \texttt{== expN \allowbreak{}==} starts each experiment and a single \texttt{\detokenize{SUCCESS}} ends the whole run.
 
 \subsection{Reproducing the committed files byte for byte}
 
@@ -1395,7 +1395,7 @@ Expected results and times on the test computer:
 \end{longtable}
 \endgroup
 
-That is $25+34+31+51+21=162$ checker checks. The EXP-4 checker is slow because it runs EXP-4 twice more and integrates reference modes with its own Runge-Kutta and Magnus methods. With the pinned package versions of Section 3.5, on Windows, the final Git command again printed nothing: the checker reports and the analysis files are byte-identical too. That byte identity depends on the package versions, not only on the operating system. With numpy 2.5.3 on Windows (measured during the review of this guide) every check still passed, but \texttt{fits.jso\allowbreak{}n}, \texttt{fits\_sca\allowbreak{}n.csv} and some \texttt{python-c\allowbreak{}heck-rep\allowbreak{}ort.json} files changed in their last digits (for example \texttt{\detokenize{w0}} of one fit from \texttt{-6.04650\allowbreak{}73999586\allowbreak{}2385e-01} to \texttt{-6.04650\allowbreak{}73999586\allowbreak{}2163e-01}); on Ubuntu (Python 3.12.3, numpy 2.5.3) the same happened. That is expected; \texttt{git rest\allowbreak{}ore arti\allowbreak{}facts} puts the committed files back.
+That is $25+34+31+51+21=162$ checker checks. The EXP-4 checker is slow because it runs EXP-4 twice more and integrates reference modes with its own Runge-Kutta and Magnus methods. With the pinned package versions of Section 3.5, on Windows, the final Git command again printed nothing: the checker reports and the analysis files are byte-identical too. That byte identity depends on the numpy version and on the platform. With numpy 2.5.3 on Windows (measured during the review of this guide) every check still passed, but \texttt{fits.jso\allowbreak{}n}, \texttt{fits\_sca\allowbreak{}n.csv} and some \texttt{python-c\allowbreak{}heck-rep\allowbreak{}ort.json} files changed in their last digits (for example \texttt{\detokenize{w0}} of one fit from \texttt{-6.04650\allowbreak{}73999586\allowbreak{}2385e-01} to \texttt{-6.04650\allowbreak{}73999586\allowbreak{}2163e-01}). On Ubuntu the same happened even with the pinned versions (numpy 2.4.6 under Python 3.12.3): all 162 checks and the 10 analysis checks passed, but Git listed the three analysis files and the five \texttt{python-c\allowbreak{}heck-rep\allowbreak{}ort.json} files as modified, with changes in the last digits only (a measured deviation such as \texttt{3.671688\allowbreak{}50878840\allowbreak{}66e-10} can then change in its fifth digit, because it is itself a small difference). That is expected; \texttt{git rest\allowbreak{}ore arti\allowbreak{}facts} puts the committed files back.
 
 \subsection{Checking a scratch folder (the quick form)}
 
@@ -1527,7 +1527,7 @@ To stop JupyterLab, press Ctrl+C twice in the terminal. The notebook is generate
 
 It is new work: none of the three rustSolveIt repositories contains a Mathematica notebook or package (no \texttt{\detokenize{.nb}}, \texttt{\detokenize{.wl}} or \texttt{\detokenize{.wls}} file; each holds 294 Jupyter notebooks), which was verified by listing their full Git trees. It is modelled on the notebook \texttt{DiracTri\allowbreak{}ality.nb} of the dirac repository (https://github.com/once-ere/dirac) and its build and verify scripts.
 
-Evaluate it headless (about 4 to 5 minutes), in any shell:
+Evaluate it headless (about 4 to 7 minutes on the test computer, up to 10 minutes while other programs kept it busy), in any shell:
 
 \begin{Verbatim}[fontsize=\small]
 wolframscript -file scripts/verify_dirac16complex_mathematica_notebook.wls
@@ -1695,6 +1695,54 @@ EOF
 
 \textbf{Exercise.} Which $x_0$ gives $w_0=-0.9$, and what is its $w_a$? \textbf{Answer.} $x_0=w_0/(1-w_0)=-0.47368$ and $w_a=-5.13$: the closer $w_0$ is to $-1$, the faster the condensate evolves, the opposite of the slowly varying Unite fit ($w_a=-0.60$). The scan row $x_0=-0.474$ gives $w_0=-0.90114$, $w_a=-5.1396$.
 
+\textbf{Exercise.} Now let the program itself integrate $x_0=-0.25$. In \texttt{studies/\allowbreak{}dirac16c\allowbreak{}omplex\_c\allowbreak{}osmology\allowbreak{}/src/exp\allowbreak{}3.rs} change the line \texttt{pub cons\allowbreak{}t X0\_VAL\allowbreak{}UES: [f6\allowbreak{}4; 5] = \allowbreak{}[-0.4626\allowbreak{}54, -0.4\allowbreak{}33107, -\allowbreak{}0.3, -0.\allowbreak{}2, 0.0];} so that \texttt{\detokenize{-0.2}} becomes \texttt{\detokenize{-0.25}}, and save the file. Predict what CVODE will measure for $x_0=-0.25$: $w_0$, $w_a$, the redshifts where $\rho_\psi=0$ and where $w=-1$, and today's deceleration parameter $q_0=\frac12\sum_i\Omega_i(1+3w_i)$ (radiation has $w=1/3$, matter $w=0$). Then rebuild (Section 5.1) and run, in PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+& $bin exp3 --output build/ex-x0
+\end{Verbatim}
+
+or in Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+$bin exp3 --output build/ex-x0
+\end{Verbatim}
+
+Read what the run with $\mu=3$ measured from its \texttt{summary.\allowbreak{}json}. PowerShell:
+
+\begin{Verbatim}[fontsize=\small]
+@'
+import json
+path = "build/ex-x0/exp3/summary.json"
+runs = json.load(open(path))["runs"]
+m = [r for r in runs if r["id"] == "x0_m0p25_mu3"][0]["measured"]
+print("w0", m["w0"], "wa", m["waTangent"], "q0", m["q0"])
+print("z_zero", m["rhoZeros"][0]["z"], "z_cross", m["phantomCrossings"][0]["z"])
+print("z_q_sign_change", m["decelerationSignChanges"][0]["z"])
+'@ | python -
+\end{Verbatim}
+
+Git Bash, macOS and Linux:
+
+\begin{Verbatim}[fontsize=\small]
+python - <<'EOF'
+import json
+path = "build/ex-x0/exp3/summary.json"
+runs = json.load(open(path))["runs"]
+m = [r for r in runs if r["id"] == "x0_m0p25_mu3"][0]["measured"]
+print("w0", m["w0"], "wa", m["waTangent"], "q0", m["q0"])
+print("z_zero", m["rhoZeros"][0]["z"], "z_cross", m["phantomCrossings"][0]["z"])
+print("z_q_sign_change", m["decelerationSignChanges"][0]["z"])
+EOF
+\end{Verbatim}
+
+Finally run the EXP-3 checker on the new folder, in any shell:
+
+\begin{Verbatim}[fontsize=\small]
+python scripts/check_dirac16complex_exp3.py --output build/ex-x0
+\end{Verbatim}
+
+\textbf{Answer.} $w_0=-1/3$ and $w_a=-4/3$, as in the first exercise of this section; $\rho_\psi=0$ at $z=0.58740$ and $w=-1$ at $z=0.25992$; and $q_0=\frac12(\Omega_m+2\Omega_r)=0.15259$, because $1+3w_0=0$: a component with $w=-1/3$ neither accelerates nor decelerates the expansion, so the matter decelerates it. The script prints $w_0=-0.33333$, $w_a=-1.33333$ (a finite difference of the CVODE $w$, so its last digits differ from $-4/3$), $q_0=0.15259$, the two redshifts where the closed forms put them (to about $10^{-9}$), and a sign change of $q$ at $z=0.0996$: in this model the expansion accelerated before $z=0.0996$ and decelerates today, the reverse of the observed history. Beyond $z=0.25992$ the effective mass is negative, so there the run is outside the one-mode picture (Section 6.10). All 14 self-checks pass. The checker prints \texttt{check\_co\allowbreak{}unt=28} and \texttt{failed\_c\allowbreak{}heck\_cou\allowbreak{}nt=2}: \texttt{check\_pa\allowbreak{}rameters\allowbreak{}MatchCon\allowbreak{}tract} and \texttt{check\_mu\allowbreak{}Independ\allowbreak{}ence} are false because it looks for the specified $x_0$ values, among which $-0.2$ is now missing (the $\mu$-independence it does measure, 2.8e-9, is far inside its 1e-8 limit). Undo with \texttt{git rest\allowbreak{}ore stud\allowbreak{}ies/dira\allowbreak{}c16compl\allowbreak{}ex\_cosmo\allowbreak{}logy/src\allowbreak{}/exp3.rs} and rebuild.
+
 \subsection{Moving the EXP-5 turning point}
 
 \textbf{Exercise.} In \texttt{studies/\allowbreak{}dirac16c\allowbreak{}omplex\_c\allowbreak{}osmology\allowbreak{}/src/exp\allowbreak{}5.rs} change the line \texttt{pub cons\allowbreak{}t Q\_VALU\allowbreak{}ES: [f64\allowbreak{}; 2] = [\allowbreak{}0.05, 0.\allowbreak{}1];} to \texttt{[0.05, 0\allowbreak{}.2]} and save. Predict $t^*$ and the end time for $q=0.2$. Then rebuild and run, in PowerShell:
@@ -1746,7 +1794,7 @@ cargo prints \texttt{Blocking\allowbreak{} waiting\allowbreak{} for fil\allowbre
 \texttt{No modul\allowbreak{}e named \allowbreak{}nbconver\allowbreak{}t} & JupyterLab is not installed & \texttt{python -\allowbreak{}m pip in\allowbreak{}stall ju\allowbreak{}pyterlab} \\
 the Git check of Section 7.4 lists 14 changed files after \texttt{\detokenize{all}} & the \texttt{\detokenize{linux}} or \texttt{\detokenize{macos}} engine is in use (Section 4.5) & fetch the \texttt{\detokenize{win11}} engine and rebuild; \texttt{git rest\allowbreak{}ore arti\allowbreak{}facts} restores the files \\
 the notebook stops with \texttt{Assertio\allowbreak{}nError('\allowbreak{}fresh\_pr\allowbreak{}ogram\_ou\allowbreak{}tputs\_by\allowbreak{}te\_ident\allowbreak{}ical')} & the same cause & the same remedy \\
-after the checkers or the analysis, Git lists \texttt{fits.jso\allowbreak{}n}, \texttt{fits\_sca\allowbreak{}n.csv} or \texttt{python-c\allowbreak{}heck-rep\allowbreak{}ort.json} files as modified, with only last-digit changes & a numpy version other than the pinned 2.4.6 (Section 3.5) & expected, every check still passes; install the pinned versions for byte identity; \texttt{git rest\allowbreak{}ore arti\allowbreak{}facts} puts the committed files back \\
+after the checkers or the analysis, Git lists \texttt{fits.jso\allowbreak{}n}, \texttt{fits\_sca\allowbreak{}n.csv} or \texttt{python-c\allowbreak{}heck-rep\allowbreak{}ort.json} files as modified, with only last-digit changes & a numpy version other than the pinned 2.4.6 (Section 3.5), or a platform other than Windows (Section 9.2) & expected, every check still passes; on Windows install the pinned versions for byte identity; \texttt{git rest\allowbreak{}ore arti\allowbreak{}facts} puts the committed files back \\
 the notebook stops with \texttt{Assertio\allowbreak{}nError('\allowbreak{}fresh\_an\allowbreak{}alysis\_o\allowbreak{}utputs\_n\allowbreak{}umerical\allowbreak{}ly\_equal\allowbreak{}')} & the EXP-3 analysis files differ by more than the version effects (relative $10^{-6}$) & rerun \texttt{scripts/\allowbreak{}analyze\_\allowbreak{}dirac16c\allowbreak{}omplex\_e\allowbreak{}xp3.py} after \texttt{git rest\allowbreak{}ore arti\allowbreak{}facts}; if it persists, report it, it is not a version effect \\
 the EXP-3 checker reports 30 checks instead of 31 & it ran before the analysis & run \texttt{analyze\_\allowbreak{}dirac16c\allowbreak{}omplex\_e\allowbreak{}xp3.py} first \\
 \texttt{wolframs\allowbreak{}cript} is not recognized & WolframScript is not installed or not on PATH & install the Wolfram Engine or Mathematica; on Windows add its folder for the session with \texttt{\$env:Pat\allowbreak{}h += ";C\allowbreak{}:\textbackslash{}Progra\allowbreak{}m Files\textbackslash{}\allowbreak{}Wolfram \allowbreak{}Research\allowbreak{}\textbackslash{}Wolfram\allowbreak{}Script"} \\

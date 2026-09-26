@@ -35,21 +35,21 @@
         "m": 1.00000000000000000e+00,
         "L": 3.00000000000000000e+00,
         "N": 1.12000000000000000e+02,
-        "sRef_maxProperScalarDensity_free": 6.16644110740686191e+00,
-        "nRef_maxProperNumberDensity_free": 1.67228188445202960e+02,
-        "strengthPerUnitLambdaHat": 1.04517617778251850e+01,
-        "lambdaHat1": 9.56776494965312120e-03,
-        "lambdaHat2": 9.56776494965312085e-02
+        "sRef_maxProperScalarDensity_free": 6.16644110740572771e+00,
+        "nRef_maxProperNumberDensity_free": 1.67228188445202591e+02,
+        "strengthPerUnitLambdaHat": 1.04517617778251619e+01,
+        "lambdaHat1": 9.56776494965314375e-03,
+        "lambdaHat2": 9.56776494965314306e-02
       },
       {
         "m": 1.00000000000000000e+00,
         "L": 3.00000000000000000e+00,
         "N": 1.01600000000000000e+03,
-        "sRef_maxProperScalarDensity_free": 6.76414734525320341e+02,
-        "nRef_maxProperNumberDensity_free": 3.85598907731161626e+03,
-        "strengthPerUnitLambdaHat": 6.34138813617487813e+02,
-        "lambdaHat1": 1.57694179653731072e-04,
-        "lambdaHat2": 1.57694179653731061e-03
+        "sRef_maxProperScalarDensity_free": 6.76414734526190955e+02,
+        "nRef_maxProperNumberDensity_free": 3.85598907731596637e+03,
+        "strengthPerUnitLambdaHat": 6.34138813618303971e+02,
+        "lambdaHat1": 1.57694179653528109e-04,
+        "lambdaHat2": 1.57694179653528098e-03
       }
     ],
     "closedShells_m1_L3_N_epsHomo": [
@@ -228,13 +228,14 @@
   "theoryAgreement": "compared (theory-agreement.json)",
   "exchangeTable": {
     "path": "artifacts/dirac16complex/kohn-sham/exchange-table.json",
-    "status": "present; not used (the crate uses its own exact closed form and quadrature)",
+    "status": "present; used as a cross-check only (exchange-table-check.json: all items passed); the Kohn-Sham potentials use the exact closed form",
     "sha256": "42542b119b258f957e748861d30de7dbc8527f4c0a11f3a2cd6660d9ba98e0a3"
   },
   "files": [
     "reduction.json",
     "geometry.json",
     "uniform-gas-table.csv",
+    "exchange-table-check.json",
     "exchange-check.json",
     "free-spectrum-m1-L2.csv",
     "free-spectrum-m1-L3.csv",
@@ -261,6 +262,10 @@
     "exchange_kernel_identity": true,
     "exchange_closed_form_uniform_gas": true,
     "exchange_filled_shell_one_eighth": true,
+    "exchange_table_parse": true,
+    "exchange_table_d3_closed_form": true,
+    "exchange_table_d4_closed_form": true,
+    "exchange_table_d3_own_gas_quadrature": true,
     "free_box_spectrum_analytic": true,
     "level_residuals_small": true,
     "a4_rescaling_k_to_k_exp_minus_a4": true,

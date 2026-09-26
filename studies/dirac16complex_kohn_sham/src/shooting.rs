@@ -118,6 +118,9 @@ pub struct Stats {
     pub steps: i64,
     pub rhs_evals: i64,
     pub rescales: i64,
+    /// Profile integrations that needed the fallback ladder of
+    /// [`Shooter::profile`] (the primary BDF integration failed).
+    pub profile_retries: i64,
 }
 
 impl Stats {
@@ -125,6 +128,26 @@ impl Stats {
         self.integrations += 1;
         self.steps += run.steps;
         self.rhs_evals += run.rhs_evals;
+    }
+
+    /// Add every counter of `other`.
+    pub fn add(&mut self, other: &Stats) {
+        self.integrations += other.integrations;
+        self.steps += other.steps;
+        self.rhs_evals += other.rhs_evals;
+        self.rescales += other.rescales;
+        self.profile_retries += other.profile_retries;
+    }
+
+    /// Counter differences `self - before`.
+    pub fn since(&self, before: &Stats) -> Stats {
+        Stats {
+            integrations: self.integrations - before.integrations,
+            steps: self.steps - before.steps,
+            rhs_evals: self.rhs_evals - before.rhs_evals,
+            rescales: self.rescales - before.rescales,
+            profile_retries: self.profile_retries - before.profile_retries,
+        }
     }
 }
 
@@ -139,6 +162,27 @@ pub const ADAMS_STIFFNESS_LIMIT: f64 = 20.0;
 pub const THETA_TOLERANCE: f64 = 1.0e-11;
 /// |eps| below this is the exact zero mode and is set to 0.
 pub const ZERO_SNAP: f64 = 1.0e-10;
+
+/// Fallback ladder of the profile integration: (Adams instead of BDF,
+/// divisor of max_step, band of a^2 + b^2 kept by rescaling at the output
+/// points).  Variant 0 is the production integration.  MEASURED failure
+/// that motivated the ladder (thermo, lambda_hot, T = m, N = 8, shell
+/// n2 = 1718, parity +, Pruefer index -2, eps = -18.89693): the potentials
+/// are smooth, but the solution amplitude had grown to ~1e17 (evanescent
+/// growth e^{k int kappa dy} from the tip) and one component passed through
+/// zero at a step point; the fixed atol = 1e-14 is then below the round-off
+/// of a component of that scale, the BDF error test failed repeatedly and h
+/// collapsed to 3.6e-9 (CVODE flag -3).  BDF with max_step/10 fails the same
+/// way; keeping the amplitude O(1) (variant 1: band [1e-2, 1e2]) makes the
+/// absolute tolerance meaningful again, and Adams (variants 2, 3) steps
+/// differently.  Every retry is counted (`Stats::profile_retries`, run.json
+/// `profileRetries`) and the profile is validated like any other.
+pub const PROFILE_LADDER: [(bool, f64, (f64, f64)); 4] = [
+    (false, 1.0, (1.0e-40, 1.0e40)),
+    (false, 1.0, (1.0e-2, 1.0e2)),
+    (true, 10.0, (1.0e-40, 1.0e40)),
+    (true, 10.0, (1.0e-2, 1.0e2)),
+];
 
 pub const DEFAULT_TOLERANCES: Tolerances = Tolerances {
     rtol: 1.0e-12,
@@ -423,7 +467,11 @@ impl Shooter {
             // as a particle state (eps >= 0) in both block types
             let eps = if eps.abs() < ZERO_SNAP { 0.0 } else { eps };
             previous = Some(eps);
-            let mut level = self.profile(k, parity, eps)?;
+            let mut level = self.profile(k, parity, eps).map_err(|e| {
+                format!(
+                    "profile of level k = {k}, parity = {parity}, index = {n}, eps = {eps}: {e}"
+                )
+            })?;
             level.index = n;
             level.theta_residual = residual;
             out.push(level);
@@ -431,47 +479,102 @@ impl Shooter {
         Ok(out)
     }
 
+    /// One integration of the linear profile system at the current (eps, k)
+    /// with the solver variant `variant` of the fallback ladder
+    /// ([`PROFILE_LADDER`]): the method, the maximum step and the band of
+    /// a^2 + b^2 outside which the state is rescaled (CVodeReInit) at an
+    /// output point.  Variant 0 is the persistent BDF session used for every
+    /// production integration.  Returns the run, the log scale applied after
+    /// each target and the number of rescalings.
+    pub fn integrate_profile(
+        &mut self,
+        variant: usize,
+    ) -> Result<(Integration, Vec<f64>, i64), String> {
+        let tol = self.tolerances;
+        let (adams, step_divisor, band) = PROFILE_LADDER[variant.min(PROFILE_LADDER.len() - 1)];
+        let max_step = tol.max_step / step_divisor;
+        let cfg = if adams {
+            SolverConfig::adams(tol.rtol, tol.atol, max_step)
+        } else {
+            SolverConfig::bdf(tol.rtol, tol.atol, max_step)
+        }
+        .with_stop_time(0.0);
+        let (band_lo, band_hi) = band;
+        let y0 = [1.0, 0.0, 0.0, 0.0, 0.0];
+        let t0 = -self.potential.length;
+        let targets: Vec<f64> = self.potential.grid[1..].to_vec();
+        let mut log_scales: Vec<f64> = Vec::with_capacity(targets.len());
+        let mut rescales = 0i64;
+        let mut fresh = if variant == 0 {
+            if self.profile_session.is_none() {
+                self.profile_session = Some(Session::new(&y0, t0, self.profile_rhs(), &cfg)?);
+            }
+            None
+        } else {
+            Some(Session::new(&y0, t0, self.profile_rhs(), &cfg)?)
+        };
+        let run = {
+            let mut adjust = |_y: f64, st: &mut [f64]| -> bool {
+                let r2 = st[0] * st[0] + st[1] * st[1];
+                if r2 > band_hi || (r2 < band_lo && r2 > 0.0) {
+                    let r = r2.sqrt();
+                    st[0] /= r;
+                    st[1] /= r;
+                    st[2] /= r2;
+                    st[3] /= r2;
+                    st[4] /= r2;
+                    log_scales.push(crate::math::log(r));
+                    rescales += 1;
+                    true
+                } else {
+                    log_scales.push(0.0);
+                    false
+                }
+            };
+            let session = match fresh.as_mut() {
+                Some(session) => session,
+                None => self
+                    .profile_session
+                    .as_mut()
+                    .ok_or_else(|| "internal: profile session missing".to_string())?,
+            };
+            session.run(&y0, t0, &targets, Some(&mut adjust))?
+        };
+        Ok((run, log_scales, rescales))
+    }
+
     /// Integrate the linear system at eps and build the normalised profile.
+    /// If the primary BDF integration fails (CVODE error), the fallback
+    /// ladder of [`Shooter::integrate_profile`] is tried in order and the
+    /// retry is counted in `stats.profile_retries`; the profile is then
+    /// validated like every other one (matching and winding residuals).
     pub fn profile(&mut self, k: f64, parity: i32, eps: f64) -> Result<Level, String> {
         self.eps_cell.set(eps);
         self.k_cell.set(k);
-        let cfg = SolverConfig::bdf(
-            self.tolerances.rtol,
-            self.tolerances.atol,
-            self.tolerances.max_step,
-        )
-        .with_stop_time(0.0);
-        let y0 = [1.0, 0.0, 0.0, 0.0, 0.0];
-        let t0 = -self.potential.length;
-        if self.profile_session.is_none() {
-            self.profile_session = Some(Session::new(&y0, t0, self.profile_rhs(), &cfg)?);
-        }
-        let grid = &self.potential.grid;
-        let targets: Vec<f64> = grid[1..].to_vec();
-        let mut log_scales: Vec<f64> = Vec::with_capacity(targets.len());
-        let mut rescales = 0i64;
-        let mut adjust = |_y: f64, st: &mut [f64]| -> bool {
-            let r2 = st[0] * st[0] + st[1] * st[1];
-            if r2 > 1e40 || (r2 < 1e-40 && r2 > 0.0) {
-                let r = r2.sqrt();
-                st[0] /= r;
-                st[1] /= r;
-                st[2] /= r2;
-                st[3] /= r2;
-                st[4] /= r2;
-                log_scales.push(crate::math::log(r));
-                rescales += 1;
-                true
-            } else {
-                log_scales.push(0.0);
-                false
+        let grid = self.potential.grid.clone();
+        let (run, log_scales, rescales) = match self.integrate_profile(0) {
+            Ok(result) => result,
+            Err(first) => {
+                self.stats.profile_retries += 1;
+                let mut messages = vec![first];
+                let mut outcome = None;
+                for variant in 1..PROFILE_LADDER.len() {
+                    match self.integrate_profile(variant) {
+                        Ok(result) => {
+                            outcome = Some(result);
+                            break;
+                        }
+                        Err(message) => messages.push(message),
+                    }
+                }
+                outcome.ok_or_else(|| {
+                    format!(
+                        "all profile integration variants failed: {}",
+                        messages.join("; ")
+                    )
+                })?
             }
         };
-        let run = self
-            .profile_session
-            .as_mut()
-            .ok_or_else(|| "internal: profile session missing".to_string())?
-            .run(&y0, t0, &targets, Some(&mut adjust))?;
         self.stats.absorb(&run);
         self.stats.rescales += rescales;
         let n = grid.len();
@@ -849,6 +952,39 @@ mod tests {
                 level.eps
             );
             assert!(level.matching_residual < 1e-7);
+        }
+    }
+
+    #[test]
+    fn profile_fallback_variants_agree_with_the_primary_integration() {
+        // every variant of the retry ladder of `profile` must reproduce the
+        // primary integration: compare the
+        // rescaled end states of a bound level (k = 2, L = 3, rescalings on)
+        let mut sh = shooter(1.0, 3.0, 301);
+        let levels = sh.levels(2.0, 1, -4.0, 4.0, &[]).unwrap();
+        let level = levels.last().expect("a level in [-4, 4]");
+        sh.eps_cell.set(level.eps);
+        sh.k_cell.set(2.0);
+        let (base, base_scales, _) = sh.integrate_profile(0).unwrap();
+        let last = base.states.last().unwrap().clone();
+        for variant in 1..PROFILE_LADDER.len() {
+            let (run, scales, _) = sh.integrate_profile(variant).unwrap();
+            let end = run.states.last().unwrap();
+            // the rescaling sequence may differ; compare scale-free quantities
+            let total = |s: &[f64]| s.iter().sum::<f64>();
+            let shift = (total(&scales) - total(&base_scales)).abs();
+            let norm = |s: &[f64]| s[0] * s[0] + s[1] * s[1];
+            // matched component (parity +: b(0) = 0) and the normalised charges
+            assert!(end[1].abs() / norm(end).sqrt() < 1e-7, "variant {variant}");
+            for c in [3, 4] {
+                let a = end[c] / end[2];
+                let b = last[c] / last[2];
+                assert!(
+                    (a - b).abs() < 1e-8 * b.abs().max(1.0),
+                    "variant {variant} c {c}: {a} vs {b}"
+                );
+            }
+            assert!(shift.is_finite());
         }
     }
 

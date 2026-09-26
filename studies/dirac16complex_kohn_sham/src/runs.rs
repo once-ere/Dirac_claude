@@ -384,6 +384,7 @@ fn write_solution(
 ) -> Result<(Vec<emt::Row>, emt::Summary), String> {
     let sub = dir.join(name);
     std::fs::create_dir_all(&sub).map_err(|e| format!("cannot create {}: {e}", sub.display()))?;
+    summary.add_stats(solution.stats.steps, solution.stats.rhs_evals);
     write_csv(
         &sub.join("levels.csv"),
         &levels_header(),
@@ -498,6 +499,15 @@ fn params_json(p: &Params) -> Json {
         ("mixBeta", Json::Float(p.mix_beta)),
         ("mixHistory", Json::Int(p.mix_history as i64)),
         ("tol", Json::Float(p.tol)),
+        ("maxIterations", Json::Int(p.max_iter as i64)),
+        (
+            "stagnationIterations",
+            Json::Int(p.stagnation_iterations as i64),
+        ),
+        (
+            "zeroTemperatureFallbackStage",
+            Json::Int(p.fallback_stage as i64),
+        ),
         ("rtol", Json::Float(p.tolerances.rtol)),
         ("atol", Json::Float(p.tolerances.atol)),
     ])
@@ -571,6 +581,7 @@ fn run_json(s: &Solution, e: &emt::Summary) -> Json {
         ("integrations", Json::Int(s.stats.integrations)),
         ("solverSteps", Json::Int(s.stats.steps)),
         ("rescales", Json::Int(s.stats.rescales)),
+        ("profileRetries", Json::Int(s.stats.profile_retries)),
         ("emt", emt_json(e)),
     ])
 }
@@ -1111,35 +1122,65 @@ pub fn run_scf(ctx: &RunContext) -> Result<ExperimentSummary, String> {
             solve_and_write(ctx, &dir, &mut summary, &params, lname, &mut records)?;
         }
     }
-    // D: a4_0 = 0.5 rescaling pair (N_mid, lambda_hat_1 of (1, 3, N_mid))
+    // D: a4_0 = 0.5 rescaling pair (N_mid, lambda_hat_1 of (1, 3, N_mid)).
+    // The reduced equations depend on a4_0 only through kappa k = e^{-Hy -
+    // a4_0} k, and the proper 7-volume does not depend on a4_0 (e^{3 a4_0}
+    // e^{-3 a4_0} = 1).  Hence KS(a4_0 = 0.5, Delta k, l = 2 pi/Delta k,
+    // lambda) is EXACTLY KS(a4_0 = 0, Delta k e^{-0.5}, l_b = l e^{0.5},
+    // lambda e^{1.5}): the densities of the second problem are smaller by
+    // l^3/l_b^3 = e^{-1.5}, which the coupling compensates, so M_eff, v_x,
+    // every level and E (lambda S^2 l^3 is invariant) coincide.  (An earlier
+    // version kept lambda and zipped the two eps-sorted state lists by
+    // position; with the densities differing by e^{1.5} its k = 0 comparison
+    // matched no pair and passed vacuously.)
     let c_mid = reference.coupling(1.0, 3.0, reference.n_mid)?;
     {
+        let rescale = exp(-0.5);
         let mut a = params_for(ctx, 1.0, 3.0, c_mid.lambda_hat_1, 0.0, reference.n_mid);
         a.a4 = 0.5;
         let sa = solve_and_write(ctx, &dir, &mut summary, &a, "lamp1", &mut records)?;
-        let mut b = params_for(ctx, 1.0, 3.0, c_mid.lambda_hat_1, 0.0, reference.n_mid);
-        b.delta_k_over_m = 0.25 * exp(-0.5);
-        let sb = solve_and_write(ctx, &dir, &mut summary, &b, "lamp1", &mut records)?;
-        // same spectra; the densities differ by the torus volume l^3 (a4 does not
-        // rescale l), so compare E per particle only after mapping: with Delta k
-        // -> Delta k e^{-a4} the volume grows by e^{3 a4}; the a4 = 0.5 run at the
-        // original l is therefore the b run at density x e^{1.5}.  Exact statement
-        // checked: single-particle spectra coincide (levels.csv) -- compare eps.
-        let mut worst: f64 = 0.0;
-        let free_a = sa
+        let mut b = params_for(
+            ctx,
+            1.0,
+            3.0,
+            c_mid.lambda_hat_1 / (rescale * rescale * rescale),
+            0.0,
+            reference.n_mid,
+        );
+        b.delta_k_over_m = 0.25 * rescale;
+        let sb = solve_and_write(ctx, &dir, &mut summary, &b, "lamp1rescaled", &mut records)?;
+        let levels_b: std::collections::HashMap<scf::Key, f64> = sb
             .spectrum
             .states
             .iter()
-            .filter(|s| s.weight == 0.0)
-            .count();
-        let _ = free_a;
-        for (x, y) in sa.spectrum.states.iter().zip(sb.spectrum.states.iter()) {
-            if x.n2 == y.n2 && x.parity == y.parity && x.s == y.s && x.index == y.index && x.n2 == 0
-            {
-                worst = worst.max((x.eps - y.eps).abs());
+            .map(|s| (s.key(), s.eps))
+            .collect();
+        let mut worst: f64 = 0.0;
+        let mut matched = 0usize;
+        for x in &sa.spectrum.states {
+            if let Some(e) = levels_b.get(&x.key()) {
+                worst = worst.max((x.eps - e).abs());
+                matched += 1;
             }
         }
-        summary.check("a4_rescaling_pair_k0_levels_agree", worst < 1e-8, &format!("k = 0 levels of the a4 = 0.5 run and the Delta k e^{{-0.5}} run: max |d eps| = {worst:e} (finite-k levels differ only through the density, see run.json)"));
+        let energy_defect = relative(sa.energies.total, sb.energies.total);
+        let mu_defect = (sa.filling.mu - sb.filling.mu).abs();
+        summary.check(
+            "a4_rescaling_pair_exact",
+            matched > 0
+                && matched == sa.spectrum.states.len()
+                && matched == sb.spectrum.states.len()
+                && worst < 1e-8
+                && energy_defect < 1e-8
+                && mu_defect < 1e-8,
+            &format!(
+                "a4_0 = 0.5 (Delta k = 0.25 m, lambda_hat_1) vs a4_0 = 0 (Delta k = 0.25 e^{{-0.5}} m, lambda_hat_1 e^{{1.5}}): {matched} of {} / {} levels matched by key, max |d eps| = {worst:e}, relative dE = {energy_defect:e} (E = {} vs {}), |d mu| = {mu_defect:e}",
+                sa.spectrum.states.len(),
+                sb.spectrum.states.len(),
+                sa.energies.total,
+                sb.energies.total
+            ),
+        );
     }
     // E: grid and Delta k convergence (N_mid, lambda_hat_1 of (1, 3, N_mid);
     // the Delta k = 0.125 m run has N x 8 particles at the same density)
@@ -1213,6 +1254,7 @@ pub fn run_excited(ctx: &RunContext) -> Result<ExperimentSummary, String> {
             let params = params_for(ctx, 1.0, 3.0, lh, 0.0, n);
             let name = label(&params, &lname);
             let ground = solve_ground(&params, None, 0.0)?;
+            summary.add_stats(ground.stats.steps, ground.stats.rhs_evals);
             summary.check(
                 &format!("{name}_ground_converged"),
                 ground.converged,
@@ -1269,6 +1311,7 @@ pub fn run_excited(ctx: &RunContext) -> Result<ExperimentSummary, String> {
             let (delta_scf, excited_energy, excited_converged, excited_iterations) =
                 match delta_scf(&ground) {
                     Ok(ex) => {
+                        summary.add_stats(ex.stats.steps, ex.stats.rhs_evals);
                         write_csv(
                             &sub.join("levels-excited.csv"),
                             &levels_header(),

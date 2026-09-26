@@ -16,6 +16,8 @@
     "mixBeta": 4.00000000000000022e-01,
     "mixHistory": 6,
     "tol": 1.00000000000000004e-10,
+    "maxIterations": 80,
+    "stagnationIterations": 20,
     "rtol": 9.99999999999999980e-13,
     "atol": 9.99999999999999999e-15
   },
@@ -50,9 +52,10 @@
   "maxMatchingResidual": 3.85671932576729531e-10,
   "maxWindingResidual": 3.85671938829545979e-10,
   "maxThetaResidual": 1.20022658478546873e-10,
-  "integrations": 98153,
-  "solverSteps": 130699920,
-  "rescales": 1413,
+  "integrations": 72065,
+  "solverSteps": 98925646,
+  "rescales": 1580,
+  "profileRetries": 0,
   "emt": {
     "energyFromRho": -9.86833164720561304e-04,
     "energyTotal": -9.86833163081004975e-04,

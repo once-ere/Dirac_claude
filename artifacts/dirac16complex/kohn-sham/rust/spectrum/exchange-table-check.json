@@ -1,0 +1,26 @@
+{
+  "path": "artifacts/dirac16complex/kohn-sham/exchange-table.json",
+  "status": "compared",
+  "sha256": "42542b119b258f957e748861d30de7dbc8527f4c0a11f3a2cd6660d9ba98e0a3",
+  "checks": {
+    "exchange_table_parse": {
+      "passed": true,
+      "detail": "parsed"
+    },
+    "exchange_table_d3_closed_form": {
+      "passed": true,
+      "detail": "290 rows (0 unreadable): max relative |-(n^2+S^2)/32 - e_x/lambda (table quadrature)| = 1.7221027741304005e-14"
+    },
+    "exchange_table_d4_closed_form": {
+      "passed": true,
+      "detail": "290 rows (0 unreadable): max relative |-(n^2+S^2)/32 - e_x/lambda (table quadrature)| = 5.347318495601211e-15"
+    },
+    "exchange_table_d3_own_gas_quadrature": {
+      "passed": true,
+      "detail": "174 rows with T >= 0.3 m: max relative |S_own - S_table| = 1.704009042685579e-9, max |mu_own - mu_table|/(T + |mu|) = 1.1544814341541243e-9; measured only (87 rows with 0 < T < 0.3 m, Fermi edge unresolved by the fixed rule): 6.732251203184818e-6, 2.390416464762274e-4"
+    }
+  },
+  "notes": {
+    "use": "cross-check only: the Kohn-Sham potentials use the exact closed form e_x = -(lambda/32)(n^2 + S^2), v_s = -(lambda/16) S, v_v = -(lambda/16) n (STAGE4_SPEC E4.7)"
+  }
+}
