@@ -72,7 +72,35 @@
       "maxAbsResidualMag": 2.22983605742265985e-13,
       "iterations": 154
     },
-    "note": "The -0.764 benchmark is a direct constant-w fit to the Unite supernovae, not a projection of the CPL posterior; the projection here uses the CPL best fit as noise-free data with equal weights on a uniform z grid, fixed Omega_m = 0.305."
+    "constantWProjectionOmegaMFreeOffsetProfiled": {
+      "w": -9.11532334747327644e-01,
+      "OmegaM": 2.77670998572571270e-01,
+      "offset": -9.23601214954933476e-03,
+      "rmsResidualMag": 2.05319780292060683e-03,
+      "maxAbsResidualMag": 8.28636173840719033e-03,
+      "iterations": 138
+    },
+    "constantWProjectionOmegaMFreeOffsetZero": {
+      "w": -8.78830494019402719e-01,
+      "OmegaM": 2.72917654774991414e-01,
+      "offset": 0.00000000000000000e+00,
+      "rmsResidualMag": 3.04480842454716823e-03,
+      "maxAbsResidualMag": 5.91287216750702171e-03,
+      "iterations": 148
+    },
+    "constantWProjectionOmegaMFreeLogGridOffsetProfiled": {
+      "grid": "uniform in ln z on [0.01, 2.26], same point count",
+      "w": -8.72140477176334583e-01,
+      "OmegaM": 2.68198163977334536e-01,
+      "offset": -2.93898668272683187e-03,
+      "rmsResidualMag": 2.24146100580691543e-03,
+      "maxAbsResidualMag": 7.20937458306693865e-03,
+      "iterations": 127
+    },
+    "projectionOmegaMFreeMinusBenchmark": -1.47532334747327631e-01,
+    "projectionOmegaMFreeLogGridMinusBenchmark": -1.08140477176334571e-01,
+    "omegaMAssumption": "Omega_m = 0.305 is an input of the numerical programme (EXP-3); the reference PDF gives no Omega_m, and the Omega_m of the Unite fits is not known here. The Unite CPL distances (the target) always use Omega_m = 0.305; the constantWProjection* fits hold Omega_m at 0.305, the constantWProjectionOmegaMFree* fits let it vary (flat wCDM).",
+    "note": "The -0.764 benchmark is a direct constant-w fit to the Unite supernovae (Omega_m not fixed, likelihood with the real errors), not a projection of the CPL posterior; the projections here use the CPL best fit as noise-free data with equal weights. With Omega_m fixed at the assumed 0.305 the best constant w is far from -0.764; with Omega_m free (the w - Omega_m degeneracy) it moves most of the way towards it. The remaining difference cannot be judged without the Unite likelihood."
   },
   "models": [
     {
@@ -2475,6 +2503,7 @@
     "checks": {
       "nelderMeadRecoversSyntheticCPL": true,
       "nelderMeadRecoversSyntheticWconst": true,
+      "nelderMeadRecoversSyntheticWcdmFreeOmegaM": true,
       "dustModelIsWcdmZero": true,
       "quadratureExactEdS": true,
       "wFitLinearMatchesNelderMead": true,
@@ -2486,6 +2515,7 @@
     "measurements": {
       "nmSyntheticCplError": 1.96226368487373293e-12,
       "nmSyntheticWconstError": 1.39666056497844693e-12,
+      "nmSyntheticWcdmFreeOmegaMError": 4.60569082871842284e-13,
       "dustEqualsWcdm0": 1.42108547152020037e-14,
       "quadratureVsEdS": 5.55111512312578270e-16,
       "wFitLinearVsNM": 6.48496034649781450e-09,

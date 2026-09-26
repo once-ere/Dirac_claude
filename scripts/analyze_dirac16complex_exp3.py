@@ -33,7 +33,10 @@ Fits (as in the contract):
   redshift beyond z_b) and is reported as such.  Supplementary restricted
   fits, clearly labelled: (2r) a in [max(1/3.26, a(w = -3)), 1] with
   a(w = -3) = (4|x0|/3)^(1/n); (3r) z in [0.01, min(2.26, z_b)].
-  Also: the Unite CPL model's own mu(z) and its best constant-w projection;
+  Also: the Unite CPL model's own mu(z) and its best constant-w projection,
+  both with Omega_m fixed at 0.305 (the value assumed by the numerical
+  programme; the reference PDF gives no Omega_m) and with Omega_m free (flat
+  wCDM, (w, Omega_m) fitted together, as an SN-only wCDM fit would do);
   the deflation-index gamma reproducing the Unite tangent (w0, wa) with the
   physical objections.
 
@@ -164,6 +167,19 @@ class CPL:
         return self.w0 + self.wa * (1.0 - a)
 
 
+class WCDMFreeOmegaM:
+    """Flat wCDM with its own Omega_m (radiation Omega_r fixed): the family of an
+    SN-only constant-w fit, in which Omega_m is not fixed."""
+
+    def __init__(self, w, omega_m):
+        self.w, self.omega_m = w, omega_m
+
+    def e2(self, z):
+        zp = 1.0 + z
+        omega_de = 1.0 - self.omega_m - OMEGA_R
+        return OMEGA_R * zp ** 4 + self.omega_m * zp ** 3 + omega_de * zp ** (3.0 * (1.0 + self.w))
+
+
 # ---------------------------------------------------------------- distances
 
 def comoving_distance(e2, z_grid, z_bounce=None):
@@ -281,6 +297,27 @@ def mu_fit(target_mu, z, family, offset_profiled):
     result["maxAbsResidualMag"] = float(np.max(np.abs(residual(theta))))
     result["iterations"] = iterations
     return result
+
+
+def mu_fit_free_omega(target_mu, z, offset_profiled):
+    """Least-squares fit of flat wCDM with (w, Omega_m) both free to target_mu."""
+    def residual(theta):
+        r = distance_modulus(WCDMFreeOmegaM(theta[0], theta[1]).e2, z) - target_mu
+        return r - np.mean(r) if offset_profiled else r
+
+    def chi2(theta):
+        if not 0.0 < theta[1] < 1.0 - OMEGA_R:
+            return 1.0e30
+        r = residual(theta)
+        return float(r @ r)
+
+    theta, value, iterations = minimise(chi2, [-1.0, OMEGA_M], 0.1)
+    raw = distance_modulus(WCDMFreeOmegaM(theta[0], theta[1]).e2, z) - target_mu
+    return {"w": float(theta[0]), "OmegaM": float(theta[1]),
+            "offset": float(-np.mean(raw)) if offset_profiled else 0.0,
+            "rmsResidualMag": math.sqrt(value / len(z)),
+            "maxAbsResidualMag": float(np.max(np.abs(residual(theta)))),
+            "iterations": iterations}
 
 
 def w_fit(w_func, a_lo, a_hi=1.0):
@@ -429,6 +466,9 @@ def unite_block():
     z_log = np.exp(np.linspace(math.log(Z_FIT_MIN), math.log(Z_FIT_MAX), len(z)))
     target_log = distance_modulus(CPL(UNITE_W0, UNITE_WA).e2, z_log)
     projection_log = mu_fit(target_log, z_log, "wconst", True)
+    free = mu_fit_free_omega(target, z, True)
+    free_zero = mu_fit_free_omega(target, z, False)
+    free_log = mu_fit_free_omega(target_log, z_log, True)
     return {
         "w0": UNITE_W0, "wa": UNITE_WA, "wConstantBenchmark": UNITE_WCONST,
         "w0PlusWa": UNITE_W0 + UNITE_WA,
@@ -441,9 +481,23 @@ def unite_block():
                      "supernova sample)"}, **projection_log),
         "projectionLogGridMinusBenchmark": projection_log["w"] - UNITE_WCONST,
         "selfFitCPL": self_fit,
-        "note": "The -0.764 benchmark is a direct constant-w fit to the Unite supernovae, not a projection "
-                "of the CPL posterior; the projection here uses the CPL best fit as noise-free data with "
-                "equal weights on a uniform z grid, fixed Omega_m = 0.305.",
+        "constantWProjectionOmegaMFreeOffsetProfiled": free,
+        "constantWProjectionOmegaMFreeOffsetZero": free_zero,
+        "constantWProjectionOmegaMFreeLogGridOffsetProfiled": dict(
+            {"grid": "uniform in ln z on [0.01, 2.26], same point count"}, **free_log),
+        "projectionOmegaMFreeMinusBenchmark": free["w"] - UNITE_WCONST,
+        "projectionOmegaMFreeLogGridMinusBenchmark": free_log["w"] - UNITE_WCONST,
+        "omegaMAssumption": "Omega_m = 0.305 is an input of the numerical programme (EXP-3); the "
+                            "reference PDF gives no Omega_m, and the Omega_m of the Unite fits is not "
+                            "known here. The Unite CPL distances (the target) always use Omega_m = "
+                            "0.305; the constantWProjection* fits hold Omega_m at 0.305, the "
+                            "constantWProjectionOmegaMFree* fits let it vary (flat wCDM).",
+        "note": "The -0.764 benchmark is a direct constant-w fit to the Unite supernovae (Omega_m not "
+                "fixed, likelihood with the real errors), not a projection of the CPL posterior; the "
+                "projections here use the CPL best fit as noise-free data with equal weights. With "
+                "Omega_m fixed at the assumed 0.305 the best constant w is far from -0.764; with "
+                "Omega_m free (the w - Omega_m degeneracy) it moves most of the way towards it. The "
+                "remaining difference cannot be judged without the Unite likelihood.",
     }, (z, target)
 
 
@@ -599,6 +653,15 @@ def main(argv=None):
     wc = mu_fit(wc_target, z, "wconst", True)
     measurements["nmSyntheticWconstError"] = abs(wc["w"] - UNITE_WCONST)
     checks["nelderMeadRecoversSyntheticWconst"] = measurements["nmSyntheticWconstError"] <= 1e-7
+    free_target = distance_modulus(WCDMFreeOmegaM(-0.8, 0.28).e2, z) + 0.05
+    free_fit = mu_fit_free_omega(free_target, z, True)
+    measurements["nmSyntheticWcdmFreeOmegaMError"] = max(abs(free_fit["w"] + 0.8),
+                                                         abs(free_fit["OmegaM"] - 0.28),
+                                                         abs(free_fit["offset"] - 0.05))
+    same_family = max(abs(WCDMFreeOmegaM(UNITE_WCONST, OMEGA_M).e2(zz_) - CPL(UNITE_WCONST, 0.0).e2(zz_))
+                      for zz_ in (0.0, 0.5, 1.0, 2.26))
+    checks["nelderMeadRecoversSyntheticWcdmFreeOmegaM"] = (
+        measurements["nmSyntheticWcdmFreeOmegaMError"] <= 1e-6 and same_family <= 1e-12)
     dust = Dirac16(0.0)
     zz = np.linspace(0.0, 3.0, 31)
     measurements["dustEqualsWcdm0"] = float(np.max(np.abs(dust.e2(zz) - CPL(0.0, 0.0).e2(zz))))

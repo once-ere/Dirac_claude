@@ -14,12 +14,23 @@ derived columns are only compared against, never used as truth:
     sum w k^2 f eps, p = ... p_1/3; kinetic theory by an independent composite
     Gauss-Legendre quadrature (60 panels x 16 nodes) of the closed-form
     integrands k^2 f E and k^2 f K^2/(3E).
+    The kinetic theory is also evaluated without the momentum cut (on
+    [0, 60 T_i]) to measure what the k_max = 12 T_i truncation of the grid
+    removes (rho and p at a = 1 and at a_end, w at a_end).
 (b) pair creation: a = e^t (t < 0), (1 + 2t)^{1/2} (t > 0);
-    n a^3 = (16/(2 pi^2)) int k^2 |beta_k|^2 dk.
+    n a^3 = (16/(2 pi^2)) int k^2 |beta_k|^2 dk with the final |beta_k|^2 in the
+    first-order adiabatic basis (the instantaneous-basis integrals are the
+    literal definition and are recomputed as well), plus the analytic kink tail
+    (m k/(4 E^4))^2 beyond k_max, integrated here by composite Gauss-Legendre
+    in u = k_max/k.
 Independent references: classical RK4 of the full 16-component mode equation
 (numpy, step c/max(E, H), c = 0.004, Richardson-checked with c = 0.008) for two
 thermal modes (a <= 3) and four pair modes (t0 -> kink -> third radiation
-sample).
+sample); and, over the full thermal range a in [1, 100], a fourth-order Magnus
+integration of the exact two-level reduction h = (m sigma_z + K sigma_x) (x) I_8
+for five thermal nodes (step c/E with c = 0.05, checked against c = 0.1),
+compared through the representation-independent overlap <u(t_i)|u(t)>, which
+carries the phase.
 
 Usage: python scripts/check_dirac16complex_exp4.py [--output ROOT]
        [--fixture PATH] [--binary PATH] [--repeat DIR] [--refined DIR]
@@ -69,6 +80,11 @@ RECOMPUTE_LIMIT = 1.0e-12
 RK4_C = 0.004
 THERMAL_REFERENCE_NODES = (2, 12)
 THERMAL_REFERENCE_A_MAX = 3.0
+MAGNUS_NODES = (0, 2, 16, 30, 47)
+MAGNUS_C = 0.05
+MAGNUS_SELF_LIMIT = 1.0e-8        # |overlap(c) - overlap(2c)|: the reference is converged
+MAGNUS_FULL_RANGE_LIMIT = 1.0e-5  # |overlap_CSV - overlap_Magnus| over a in [1, 100]
+UNTRUNCATED_K_FACTOR = 60.0       # kinetic theory without the grid's cut: k in [0, 60 T_i]
 PAIR_REFERENCE_MODES = ((0.1, 33), (0.5, 30), (1.0, 36), (2.0, 39))
 PAIR_REFERENCE_SAMPLES = 4  # t0, kink, first two radiation samples
 
@@ -227,6 +243,47 @@ def rk4(alg, mass, kfunc, hfunc, u0, t_points, c):
             u = u + (step / 6.0) * (k1 + 2.0 * k2 + 2.0 * k3 + k4)
             t = target if step == target - t else t + step
         out.append(u.copy())
+    return np.array(out)
+
+
+def magnus_overlap(mass, k, t_i, times, c):
+    """<e_+(t_i)|U(t, t_i)|e_+(t_i)> of the two-level reduction h = m sigma_z + K sigma_x,
+    K = k (t_i/t)^{1/2} (radiation era), at every t of `times` (times[0] = t_i).
+
+    Fourth-order Magnus with the two Gauss points: over a step h,
+    Omega = -i (h m sigma_z + h (K1 + K2)/2 sigma_x + (sqrt3/6) h^2 m (K1 - K2) sigma_y),
+    exp(Omega) exactly (a 2 x 2 SU(2) matrix).  In each output interval the steps are
+    uniform with h <= c/E(interval start) (E decreases with t), the step matrices are
+    built at once and multiplied by a pairwise (tree) product."""
+    g1, g2 = 0.5 - math.sqrt(3.0) / 6.0, 0.5 + math.sqrt(3.0) / 6.0
+    theta = math.atan2(k, mass)
+    e_plus = np.array([math.cos(0.5 * theta), math.sin(0.5 * theta)], dtype=complex)
+    state = e_plus.copy()
+    out = [complex(np.vdot(e_plus, state))]
+    for left, right in zip(times[:-1], times[1:]):
+        energy_left = math.sqrt(mass * mass + k * k * t_i / left)
+        steps = max(1, int(math.ceil((right - left) * energy_left / c)))
+        h = (right - left) / steps
+        starts = left + h * np.arange(steps)
+        k1 = k * np.sqrt(t_i / (starts + g1 * h))
+        k2 = k * np.sqrt(t_i / (starts + g2 * h))
+        bz = np.full(steps, h * mass)
+        bx = 0.5 * h * (k1 + k2)
+        by = (math.sqrt(3.0) / 6.0) * h * h * mass * (k1 - k2)
+        norm = np.sqrt(bx * bx + by * by + bz * bz)
+        cs, sn = np.cos(norm), np.sin(norm) / norm
+        # exp(-i b.sigma) = cos|b| - i sin|b| (b.sigma)/|b|
+        mats = np.empty((steps, 2, 2), dtype=complex)
+        mats[:, 0, 0] = cs - 1j * sn * bz
+        mats[:, 0, 1] = -1j * sn * (bx - 1j * by)
+        mats[:, 1, 0] = -1j * sn * (bx + 1j * by)
+        mats[:, 1, 1] = cs + 1j * sn * bz
+        while len(mats) > 1:
+            if len(mats) % 2 == 1:
+                mats = np.concatenate([mats, np.eye(2, dtype=complex)[None, :, :]])
+            mats = np.einsum("nij,njk->nik", mats[1::2], mats[0::2])
+        state = mats[0] @ state
+        out.append(complex(np.vdot(e_plus, state)))
     return np.array(out)
 
 
@@ -442,6 +499,27 @@ def verify_thermal(directory, summary, alg, checks, measurements, loaded):
             * np.sqrt(mass ** 2 + (q / ai) ** 2), 0, 40.0 * temp, panels=200)
     measurements["thermalKmaxTruncationRhoAtA1"] = 1.0 - rho_kin[0] / full_rho(1.0)
 
+    # kinetic theory without the grid's momentum cut (k in [0, 60 T_i]): what the
+    # truncation at k_max = 12 T_i removes from rho, p and w (the mode sum and the
+    # kinetic comparison above share the cut, so that comparison cannot see it)
+    def untruncated(ai):
+        k_hi = UNTRUNCATED_K_FACTOR * temp
+
+        def occupation(q):
+            return q ** 2 / (np.exp(np.sqrt(mass ** 2 + q ** 2) / temp) + 1.0)
+        r = composite_gl(lambda q: occupation(q) * np.sqrt(mass ** 2 + (q / ai) ** 2),
+                         0, k_hi, panels=300)
+        pp = composite_gl(lambda q: occupation(q) * (q / ai) ** 2
+                          / (3.0 * np.sqrt(mass ** 2 + (q / ai) ** 2)), 0, k_hi, panels=300)
+        return deg / (2 * math.pi ** 2 * ai ** 3) * r, deg / (2 * math.pi ** 2 * ai ** 3) * pp
+    rho_full_1, p_full_1 = untruncated(a[0])
+    rho_full_end, p_full_end = untruncated(a[-1])
+    measurements["thermalKmaxTruncationPressureAtA1"] = 1.0 - p_kin[0] / p_full_1
+    measurements["thermalKmaxTruncationRhoAtAEnd"] = 1.0 - rho_kin[-1] / rho_full_end
+    measurements["thermalKmaxTruncationPressureAtAEnd"] = 1.0 - p_kin[-1] / p_full_end
+    measurements["thermalKineticUntruncatedWAtA1"] = p_full_1 / rho_full_1
+    measurements["thermalKineticUntruncatedWAtAEnd"] = p_full_end / rho_full_end
+
     w_kin = p_kin / rho_kin
     checks["thermalWEarlyRadiation"] = (abs(w_eos[0] - 1.0 / 3.0) <= W_EARLY_LIMIT
                                         and w_eos[0] < 1.0 / 3.0
@@ -522,10 +600,33 @@ def verify_thermal(directory, summary, alg, checks, measurements, loaded):
         coarse = rk4(alg, mass, kfunc, hfunc, o["u"][0], t_points, 2 * RK4_C)
         ref_err = max(ref_err, float(np.max(np.linalg.norm(o["u"][mask] - fine, axis=1))))
         richardson = max(richardson, float(np.max(np.linalg.norm(coarse - fine, axis=1))) / 15.0)
+    # full-range reference (a in [1, a_end]): fourth-order Magnus of the exact
+    # two-level reduction, compared through the overlap <u(t_i)|u(t)> (phase included)
+    magnus_dev = magnus_self = magnus_phase = 0.0
+    magnus_nodes = {}
+    for node in MAGNUS_NODES:
+        o = main[node]
+        overlap = o["u"] @ o["u"][0].conj()
+        fine = magnus_overlap(mass, k[node], t_i, o["t"], MAGNUS_C)
+        coarse = magnus_overlap(mass, k[node], t_i, o["t"], 2.0 * MAGNUS_C)
+        dev = float(np.max(np.abs(overlap - fine)))
+        phase = float(np.angle(overlap[-1] / fine[-1]))
+        magnus_dev = max(magnus_dev, dev)
+        magnus_self = max(magnus_self, float(np.max(np.abs(fine - coarse))))
+        magnus_phase = max(magnus_phase, abs(phase))
+        magnus_nodes[node] = {"k": float(k[node]), "maxOverlapDev": dev, "finalPhaseError": phase,
+                              "reference": fine}
     checks["thermalReferenceSolution"] = (ref_err <= REFERENCE_LIMIT
-                                          and richardson <= 1e-2 * REFERENCE_LIMIT)
+                                          and richardson <= 1e-2 * REFERENCE_LIMIT
+                                          and magnus_self <= MAGNUS_SELF_LIMIT
+                                          and magnus_dev <= MAGNUS_FULL_RANGE_LIMIT)
     measurements["thermalReferenceMaxError"] = ref_err
     measurements["thermalReferenceRichardson"] = richardson
+    measurements["thermalMagnusFullRangeMaxOverlapDev"] = magnus_dev
+    measurements["thermalMagnusFullRangeMaxFinalPhaseError"] = magnus_phase
+    measurements["thermalMagnusSelfConvergence"] = magnus_self
+    for node, entry in magnus_nodes.items():
+        measurements["thermalMagnusFinalPhaseError_node%d" % node] = entry["finalPhaseError"]
 
     # method selection record
     ms = summary["methodSelection"]
@@ -547,7 +648,8 @@ def verify_thermal(directory, summary, alg, checks, measurements, loaded):
     measurements["methodTestCostAdams"] = costs["adams"]
     measurements["methodTestCostBdf"] = costs["bdf"]
 
-    loaded["thermal"] = {"rho": rho, "p": p, "beta": beta, "norm": norm, "main": main}
+    loaded["thermal"] = {"rho": rho, "p": p, "beta": beta, "norm": norm, "main": main,
+                         "magnus": magnus_nodes}
     return {"maxRelDevRho": dev_rho, "maxBeta2GasWeighted": float(np.max(beta_weighted)),
             "suddenStartMaxRelDev": sudden_dev, "maxUnitarityDev": unitarity}
 
@@ -673,11 +775,35 @@ def verify_pair(directory, summary, alg, checks, measurements, loaded):
     n_a3 = {}
     quad_dev = 0.0
     summary_masses = {m["m"]: m for m in summary["pair"]["masses"]}
+    k_max = par["kMax"]
+
+    def tail_moments(m, a_value):
+        """Analytic kink tail beyond k_max, independent composite Gauss-Legendre in
+        u = k_max/k (40 panels x 16 nodes): (n a^3, rho a^3, p a^3)."""
+        if m == 0.0:
+            return 0.0, 0.0, 0.0
+
+        def weight(u):
+            kq = k_max / u
+            e1 = m * m + kq * kq
+            return pref * (k_max / u ** 2) * kq ** 2 * (m * kq / (4.0 * e1 * e1)) ** 2
+
+        def energy(u):
+            return np.sqrt(m * m + (k_max / (u * a_value)) ** 2)
+        n_t = composite_gl(weight, 0.0, 1.0, panels=40)
+        rho_t = composite_gl(lambda u: weight(u) * energy(u), 0.0, 1.0, panels=40)
+        p_t = composite_gl(lambda u: weight(u) * (k_max / (u * a_value)) ** 2 / (3.0 * energy(u)),
+                           0.0, 1.0, panels=40)
+        return n_t, rho_t, p_t
+
+    n_a3_inst = {}
     for m in masses:
         runs = by_mass[m]
         beta_end = np.array([o["beta2"][-1] for o in runs])
         beta_ad_end = np.array([o["beta2_adiabatic"][-1] for o in runs])
-        n_a3[m] = pref * np.sum(wln * k ** 3 * beta_end)
+        # the produced gas: final |beta_k|^2 in the first-order adiabatic basis
+        n_a3[m] = pref * np.sum(wln * k ** 3 * beta_ad_end)
+        n_a3_inst[m] = pref * np.sum(wln * k ** 3 * beta_end)
         rows = spectrum[spectrum[:, 0] == m]
         e2 = m * m + k * k
         tail = (m * k / (4.0 * e2 * e2)) ** 2
@@ -690,38 +816,67 @@ def verify_pair(directory, summary, alg, checks, measurements, loaded):
         # quadrature sanity: trapezoid rule on the (non-uniform) nodes in ln k
         # versus the Gauss-Legendre sum (a crude, independent estimate)
         if n_a3[m] > 1e-12:
-            trap = pref * np.trapezoid(k ** 3 * beta_end, lnk)
+            trap = pref * np.trapezoid(k ** 3 * beta_ad_end, lnk)
             quad_dev = max(quad_dev, abs(trap / n_a3[m] - 1.0))
         a2_end = 1.0 / (par["hubbleEndOverMass"] * m) if m > 0 else par["masslessA2End"]
         a_end = math.sqrt(a2_end)
         e_rows = eos[eos[:, 0] == m]
-        occupation = pref * wln * k ** 3 * beta_end
         kk = k[None, :] / e_rows[:, 1][:, None]
         energy = np.sqrt(m * m + kk ** 2)
-        rho = energy @ occupation
-        pres = (kk ** 2 / (3.0 * energy)) @ occupation
-        w_eos = np.where(rho > 0, pres / np.where(rho > 0, rho, 1.0), 0.0)
+
+        def eos_of(occupation):
+            rho_o = energy @ occupation
+            pres_o = (kk ** 2 / (3.0 * energy)) @ occupation
+            return rho_o, pres_o
+
+        def w_of(rho_o, pres_o):
+            return np.where(rho_o > 0, pres_o / np.where(rho_o > 0, rho_o, 1.0), 0.0)
+        rho, pres = eos_of(pref * wln * k ** 3 * beta_ad_end)
+        rho_inst, pres_inst = eos_of(pref * wln * k ** 3 * beta_end)
+        tails = np.array([tail_moments(m, a_value) for a_value in e_rows[:, 1]])
+        rho_tc, pres_tc = rho + tails[:, 1], pres + tails[:, 2]
+        w_eos, w_tc, w_inst = w_of(rho, pres), w_of(rho_tc, pres_tc), w_of(rho_inst, pres_inst)
         n_pts = summary["parameters"]["pair"]["eosPoints"]
         a_grid = np.exp(math.log(a_end) * np.arange(n_pts + 1) / n_pts)
         a_grid[-1] = a_end
+
+        def rdev(column, reference):
+            return float(np.max(np.abs(e_rows[:, column] - reference)
+                                / np.maximum(np.abs(reference), 1e-300)))
         eos_dev = max(eos_dev, rel(e_rows[:, 1], a_grid),
                       abs(e_rows[0, 2] - n_a3[m]) / max(n_a3[m], 1e-300),
-                      float(np.max(np.abs(e_rows[:, 3] - rho) / np.maximum(rho, 1e-300))),
-                      float(np.max(np.abs(e_rows[:, 4] - pres) / np.maximum(pres, 1e-300))))
+                      rdev(3, rho), rdev(4, pres), float(np.max(np.abs(e_rows[:, 5] - w_eos))),
+                      rdev(6, np.full(len(e_rows), n_a3[m] + tails[0, 0])),
+                      rdev(7, rho_tc), rdev(8, pres_tc), float(np.max(np.abs(e_rows[:, 9] - w_tc))),
+                      rdev(10, rho_inst), rdev(11, pres_inst),
+                      float(np.max(np.abs(e_rows[:, 12] - w_inst))))
         if m > 0:
-            eos_ok &= bool(np.all(np.diff(w_eos) <= 0.0)) and w_eos[-1] <= PAIR_W_LATE_MAX \
-                and w_eos[0] > w_eos[-1]
+            eos_ok &= bool(np.all(np.diff(w_eos) <= 0.0)) and w_eos[-1] <= PAIR_W_LATE_MAX                 and w_eos[0] > w_eos[-1] and bool(np.all(np.diff(w_tc) <= 0.0))
             measurements["pairWAtA1_m%s" % m] = float(w_eos[0])
             measurements["pairWEnd_m%s" % m] = float(w_eos[-1])
+            measurements["pairWAtA1TailCorrected_m%s" % m] = float(w_tc[0])
+            measurements["pairWAtA1Instantaneous_m%s" % m] = float(w_inst[0])
+            measurements["pairWEndInstantaneous_m%s" % m] = float(w_inst[-1])
+            measurements["pairTailNA3Fraction_m%s" % m] = float(tails[0, 0] / n_a3[m])
+            measurements["pairTailRhoFractionAtA1_m%s" % m] = float(tails[0, 1] / rho[0])
+            measurements["pairTailPressureFractionAtA1_m%s" % m] = float(tails[0, 2] / pres[0])
         h_rows = history[history[:, 0] == m]
         for row in h_rows:
             sample = int(row[1])
             values = np.array([o["beta2"][sample] for o in runs])
+            values_ad = np.array([o["beta2_adiabatic"][sample] for o in runs])
             recomputed = pref * np.sum(wln * k ** 3 * values)
-            hist_dev = max(hist_dev, abs(row[4] - recomputed) / (1e-10 * recomputed + 1e-20))
+            recomputed_ad = pref * np.sum(wln * k ** 3 * values_ad)
+            hist_dev = max(hist_dev, abs(row[4] - recomputed) / (1e-10 * recomputed + 1e-20),
+                           abs(row[5] - recomputed_ad) / (1e-10 * recomputed_ad + 1e-20))
         sm = summary_masses[m]
-        spec_dev = max(spec_dev, abs(sm["nA3"] - n_a3[m]) / (1e-10 * n_a3[m] + 1e-20))
+        spec_dev = max(spec_dev, abs(sm["nA3"] - n_a3[m]) / (1e-10 * n_a3[m] + 1e-20),
+                       abs(sm["nA3Instantaneous"] - n_a3_inst[m]) / (1e-10 * n_a3_inst[m] + 1e-20),
+                       abs(sm["nA3KinkTailBeyondKMax"] - tails[0, 0]) / (1e-10 * tails[0, 0] + 1e-30),
+                       abs(sm["wEnd"] - w_eos[-1]) / 1e-12,
+                       abs(sm["wFrozenSpectrumAtA1TailCorrected"] - w_tc[0]) / 1e-12)
         measurements["pairNA3_m%s" % m] = float(n_a3[m])
+        measurements["pairNA3Instantaneous_m%s" % m] = float(n_a3_inst[m])
     checks["pairSpectrumAndNumberDensityRecomputed"] = spec_dev <= 1.0
     checks["pairEosRecomputed"] = eos_dev <= 1e-11
     checks["pairHistoryRecomputed"] = hist_dev <= 1.0
@@ -846,6 +1001,14 @@ def refined_convergence(refined_root, summary, loaded, fixture_path, measurement
         d_pair = max(d_pair, diff)
         if c["beta2"][-1] >= 1e-6:
             d_pair_rel = max(d_pair_rel, diff / c["beta2"][-1])
+    # the thermal phase error against the full-range Magnus reference: the refined run
+    # does not reduce it (it is not a truncation error; the observables are phase invariant)
+    measurements["refinedThermalMagnusMaxOverlapDev"] = sub_meas["thermalMagnusFullRangeMaxOverlapDev"]
+    measurements["refinedThermalMagnusMaxFinalPhaseError"] = sub_meas[
+        "thermalMagnusFullRangeMaxFinalPhaseError"]
+    measurements["refinedThermalMaxRawStateDiffMagnusNodes"] = max(
+        float(np.max(np.linalg.norm(ref["main"][node]["u"] - canonical["main"][node]["u"], axis=1)))
+        for node in MAGNUS_NODES)
     measurements["refinedThermalRhoRelDiff"] = d_rho
     measurements["refinedThermalPressureRelDiff"] = d_p
     measurements["refinedThermalBeta2AbsDiff"] = d_beta

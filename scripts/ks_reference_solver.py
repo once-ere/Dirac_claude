@@ -115,6 +115,11 @@ shell).  Three pseudo-potential modes are implemented (Params xc):
                with the gas relation S = S_gas(n, T; m) of the free gas of
                mass m;
     hartree    M_eff = m + lambda S_p, v_x = 0.
+SCF convergence: Anderson-mixed on (n_c, S_c); converged when the relative
+changes of n_c and S_c are both below tol = 1e-10, OR when the changes of
+the KS potentials (M_eff, v_x) are below tol m (the criterion that decides
+when the interaction is negligible and S_c ~ 1e-9 n_c is pure noise on a
+relative scale); run.json records which criterion triggered.
 Parity sectors.  The Z2 conditions are boundary conditions, not symmetries
 (STAGE4_SPEC E4.6): parity = +1 / -1 solves one sector, parity = 0 solves
 both and fills them together as one system (the convention of the Rust
@@ -740,7 +745,9 @@ def order_estimate(q1, q2, q4):
 # 6. The Kohn-Sham problem: parameters, spectrum in a window, occupations
 # ---------------------------------------------------------------------------
 
-WINDOW_FACTOR = 32.0        # f(32) = 1.3e-14: states beyond mu +- 32 T are dropped
+WINDOW_FACTOR = 32.0        # f(32) = 1.3e-14: sea states beyond mu - 32 T and all states beyond mu + 32 T are dropped
+WINDOW_WIDEN_STEPS = 6      # retries of the filling with a widened window (strongly shifted bands)
+COLLAPSE_LEVEL = 3.0        # an occupied particle-branch level below -COLLAPSE_LEVEL m is a tip collapse
 ZERO_MODE_TOL = 1e-9        # |eps| below this counts as a particle state (eps >= 0)
 DEGENERACY_TOL = 1e-9       # relative grouping tolerance of degenerate levels at T = 0
 EXACT_SHELLS_MAX = 300      # lattice shells diagonalised exactly before the Chebyshev tail
@@ -826,7 +833,11 @@ class State:
 def index_states(shell, eps_lo, eps_hi):
     """Rank indices within (type, branch): 0, 1, ... for the particle
     branch ascending in eps, -1, -2, ... for the sea branch descending;
-    returns the states in the window as (type, index, position)."""
+    returns the states in the window as (type, index, position).  The
+    window [eps_lo, eps_hi] bounds the SEA states (deep sea levels have
+    f = 1 and weight 0); PARTICLE states are included whenever eps <= eps_hi,
+    however far a strong attractive well at the tip has pulled them down
+    (they carry weight ~ 1 and must never be lost)."""
     out = []
     for typ in (1, -1):
         sel = np.where(shell["type"] == typ)[0]
@@ -834,7 +845,7 @@ def index_states(shell, eps_lo, eps_hi):
         pos = sel[br > 0]
         neg = sel[br < 0]
         for rank, i in enumerate(pos):
-            if eps_lo <= shell["eps"][i] <= eps_hi:
+            if shell["eps"][i] <= eps_hi:
                 out.append((typ, rank, i))
         for rank, i in enumerate(neg[::-1]):
             if eps_lo <= shell["eps"][i] <= eps_hi:
@@ -1257,13 +1268,18 @@ def free_window(params: Params, grid: Grid):
     return mu, spec
 
 
-def window_for(params: Params, mu):
+def window_for(params: Params, mu, mu_free=None):
     """Energy window around mu: T = 0 needs a small margin above the HOMO
-    (LUMO and gap), T > 0 the 32 T band on both sides."""
+    (LUMO and gap), T > 0 the 32 T band on both sides.  The lower edge only
+    limits the sea states (see index_states); the upper edge is anchored to
+    the larger of mu and the free-spectrum mu_free, so that a band pulled
+    far down by an attractive tip well does not drag the window top below
+    the levels that still have to be filled."""
+    top = mu if mu_free is None else max(mu, mu_free)
     if params.T <= 0.0:
         margin = 2.0 + math.pi / params.L
-        return -params.m - 1.0, mu + margin
-    return mu - WINDOW_FACTOR * params.T, mu + WINDOW_FACTOR * params.T
+        return -params.m - 1.0, top + margin
+    return mu - WINDOW_FACTOR * params.T, top + WINDOW_FACTOR * params.T
 
 
 def occupy(spec: Spectrum, params: Params, mode, constrained=None):
@@ -1293,9 +1309,10 @@ def scf(params: Params, grid: Grid, mode="auto", constrained=None, initial=None,
         n_est = params.N / (params.volume * (1 - math.exp(-6 * params.L)) / 6.0) * math.exp(6 * params.L)
         lda = LdaTable(params.T, params.m, n_est)
     mu, spec = free_window(params, grid)
+    mu_free = mu
     if initial is None:
         if mode == "thermal":
-            lo, hi = window_for(params, mu)
+            lo, hi = window_for(params, mu, mu_free)
             spec = Spectrum(params, grid, np.full(grid.N + 1, params.m), np.zeros(grid.N + 1), lo, hi)
             mu, _, _ = occupy(spec, params, mode, constrained)
         elif mode == "constrained":
@@ -1311,11 +1328,23 @@ def scf(params: Params, grid: Grid, mode="auto", constrained=None, initial=None,
     for it in range(1, params.max_iter + 1):
         n_in, s_in = x_in[:grid.N + 1], x_in[grid.N + 1:]
         m_eff, v, e_int, dc = potentials(params, grid, n_in, s_in, lda)
-        lo, hi = window_for(params, mu)
-        spec = Spectrum(params, grid, m_eff, v, lo, hi)
-        mu, homo, lumo = occupy(spec, params, mode, constrained)
+        lo, hi = window_for(params, mu, mu_free)
+        # a strong repulsive potential can push the levels to be filled above
+        # the window top (or, at T > 0, out of the bracket): widen and retry
+        for widen in range(WINDOW_WIDEN_STEPS + 1):
+            spec = Spectrum(params, grid, m_eff, v, lo, hi)
+            try:
+                mu, homo, lumo = occupy(spec, params, mode, constrained)
+                break
+            except RuntimeError as error:
+                if widen == WINDOW_WIDEN_STEPS:
+                    raise RuntimeError("%s (window [%g, %g] after %d widenings)" % (error, lo, hi, widen))
+                step = 2.0 * (widen + 1) * max(1.0, params.m)
+                lo, hi = lo - step, hi + step
+                if log:
+                    log("    widening the energy window to [%g, %g]: %s" % (lo, hi, error))
         # enlarge the window if mu moved too close to its edge
-        lo2, hi2 = window_for(params, mu)
+        lo2, hi2 = window_for(params, mu, mu_free)
         if lo2 < lo or hi2 > hi:
             spec = Spectrum(params, grid, m_eff, v, min(lo, lo2), max(hi, hi2))
             mu, homo, lumo = occupy(spec, params, mode, constrained)
@@ -1323,21 +1352,42 @@ def scf(params: Params, grid: Grid, mode="auto", constrained=None, initial=None,
         x_out = np.concatenate([n_out, s_out])
         res_n = float(np.max(np.abs(n_out - n_in)) / max(np.max(np.abs(n_out)), 1e-300))
         res_s = float(np.max(np.abs(s_out - s_in)) / max(np.max(np.abs(s_out)), 1e-300))
+        # potential residual: the change of the KS potentials (M_eff, v_x) in
+        # units of m; it is the criterion that matters when the interaction is
+        # negligible (m = 3, N = 8: lambda = lambda_hat/m^6 ~ 2e-5, S_c ~ 1e-9 n_c),
+        # where the RELATIVE residual in S_c divides round-off by an almost
+        # vanishing scale and never falls below tol
+        m_eff_out, v_out, _, _ = potentials(params, grid, n_out, s_out, lda)
+        res_pot = float(max(np.max(np.abs(m_eff_out - m_eff)), np.max(np.abs(v_out - v))) / params.m)
         en = energies(spec.states, params, grid, n_out, s_out, e_int, dc, mu)
-        history.append({"iteration": it, "residualN": res_n, "residualS": res_s, "mu": mu,
-                        "energy": en["total"], "free": en["free"], "states": len(spec.states),
+        history.append({"iteration": it, "residualN": res_n, "residualS": res_s, "residualPotential": res_pot,
+                        "mu": mu, "energy": en["total"], "free": en["free"], "states": len(spec.states),
                         "shellsExact": spec.shells_exact, "shellsInterpolated": spec.shells_interpolated})
         if log:
-            log("    it %3d  resN %.3e resS %.3e  mu %.10f  E %.12f  states %d" %
-                (it, res_n, res_s, mu, en["total"], len(spec.states)))
+            log("    it %3d  resN %.3e resS %.3e resV %.3e  mu %.10f  E %.12f  states %d" %
+                (it, res_n, res_s, res_pot, mu, en["total"], len(spec.states)))
         sea_top, particle_bottom = branch_overlap(spec.states)
+        by_density = res_n < params.tol and res_s < params.tol
         result = {"spectrum": spec, "n_c": n_out, "s_c": s_out, "m_eff": m_eff, "v": v, "e_int": e_int,
                   "dc": dc, "mu": mu, "homo": homo, "lumo": lumo, "energies": en, "history": history,
-                  "iterations": it, "residualN": res_n, "residualS": res_s, "mode": mode,
-                  "seaTop": sea_top, "particleBottom": particle_bottom,
-                  "branchOverlap": bool(sea_top > particle_bottom)}
-        if res_n < params.tol and res_s < params.tol:
+                  "iterations": it, "residualN": res_n, "residualS": res_s, "residualPotential": res_pot,
+                  "mode": mode, "seaTop": sea_top, "particleBottom": particle_bottom,
+                  "branchOverlap": bool(sea_top > particle_bottom),
+                  "convergedBy": "densities" if by_density else ("potentials" if res_pot < params.tol else None)}
+        if by_density or res_pot < params.tol:
             converged = True
+            break
+        if particle_bottom < -COLLAPSE_LEVEL * params.m:
+            # Tip collapse: the attractive exchange well -lambda n_p/16, amplified
+            # by e^{6HL} at the tip, binds tip-localised particle-branch states
+            # whose density deepens the well further; the mean-field functional
+            # is unbounded below in this regime (the kinetic cost ~1/w of a state
+            # of width w cannot balance the exchange gain ~ -e^{6HL} lambda N^2/
+            # (32 l^3 w)) and the SCF runs away.  Recorded, not iterated further.
+            result["convergedBy"] = "collapse"
+            if log:
+                log("    tip collapse: lowest occupied particle level %.4f < -%g m; SCF stopped" %
+                    (particle_bottom, COLLAPSE_LEVEL * params.m))
             break
         x_in = mixer.step(x_in, x_out)
         # keep the input densities physically sane (no NaN)
@@ -1487,6 +1537,10 @@ class SectorRun:
             self.grids.append(grid)
             self.levels.append(res)
             prev = (grid, res)
+            if res.get("convergedBy") == "collapse":
+                if log:
+                    log("  collapse at level %d: finer levels skipped" % lvl)
+                break
         self.extrapolate()
 
     def extrapolate(self):
@@ -1566,8 +1620,9 @@ class SectorRun:
             "mode": fine["mode"],
             "converged": self.converged,
             "levels": [{"N": g.N, "h": g.h, "iterations": lv["iterations"], "converged": lv["converged"],
-                        "residualN": lv["residualN"], "residualS": lv["residualS"], "mu": lv["mu"],
-                        "seaTop": lv["seaTop"], "particleBottom": lv["particleBottom"],
+                        "residualN": lv["residualN"], "residualS": lv["residualS"],
+                        "residualPotential": lv.get("residualPotential"), "convergedBy": lv.get("convergedBy"),
+                        "mu": lv["mu"], "seaTop": lv["seaTop"], "particleBottom": lv["particleBottom"],
                         "branchOverlap": lv["branchOverlap"],
                         "energies": lv["energies"], "states": len(lv["spectrum"].states),
                         "shellsExact": lv["spectrum"].shells_exact,
@@ -2053,7 +2108,8 @@ def run_matches(doc, spec):
             return False
         if "thermo" in tasks and spec.get("T", 0.0) > 0 and "thermo" not in doc:
             return False
-        return bool(same and doc.get("converged"))
+        collapsed = (doc.get("levels") or [{}])[-1].get("convergedBy") == "collapse"
+        return bool(same and (doc.get("converged") or collapsed))
     except Exception:  # noqa: BLE001
         return False
 
@@ -2103,6 +2159,12 @@ def summary_record(doc):
             "homo": doc.get("homo"), "lumo": doc.get("lumo"), "emt": doc.get("emt"),
             "orderEstimates": doc.get("orderEstimates"),
             "branchOverlap": any(lv.get("branchOverlap") for lv in doc.get("levels", [])),
+            "convergedBy": (doc.get("levels") or [{}])[-1].get("convergedBy"),
+            "levelsComputed": len(doc.get("levels") or []),
+            "particleBottom": (doc.get("levels") or [{}])[-1].get("particleBottom"),
+            "collapseSuspected": bool((doc.get("levels") or [{}])[-1].get("particleBottom", 0.0) is not None
+                                      and (doc.get("levels") or [{}])[-1].get("particleBottom", 0.0)
+                                      < -doc["params"].get("m", 1.0)),
             "thermo": {k: v for k, v in (doc.get("thermo") or {}).items() if k != "excitations"},
             "excited": doc.get("excited")}
 

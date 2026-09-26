@@ -1,0 +1,272 @@
+{
+  "params": {
+    "label": "m1_L3_N8_lam0_T0p1",
+    "m": 1.0,
+    "a4_0": 0.0,
+    "L": 3.0,
+    "lambda_hat": 0.0,
+    "lambda": 0.0,
+    "T": 0.1,
+    "N": 8.0,
+    "parity": 0,
+    "tip": "g0",
+    "xc": "quadratic",
+    "sea": "free",
+    "delta_k": 0.25,
+    "ell": 25.132741228718345,
+    "volume": 15875.213660313506,
+    "N0": 48,
+    "levels": 3,
+    "mix_beta": 0.4,
+    "mix_history": 6,
+    "tol": 1e-10,
+    "max_iter": 200,
+    "H": 1.0
+  },
+  "mode": "thermal",
+  "converged": true,
+  "levels": [
+    {
+      "N": 48,
+      "h": 0.0625,
+      "iterations": 2,
+      "converged": true,
+      "residualN": 9.062367293768234e-13,
+      "residualS": 7.700235955625875e-11,
+      "mu": 0.13056173663132484,
+      "seaTop": -0.4309792171229869,
+      "particleBottom": -3.866352679508796e-15,
+      "branchOverlap": false,
+      "energies": {
+        "ksSum": 1.0306801267520762,
+        "nTotal": 7.999999999999997,
+        "interaction": 0.0,
+        "hartree": 0.0,
+        "exchange": 0.0,
+        "doubleCounting": 0.0,
+        "total": 1.0306801267520762,
+        "entropy": 14.241003957066392,
+        "free": -0.39342026895456295,
+        "grand": -1.4379141620051612,
+        "scalarCharge": -0.3766169673602799,
+        "maxLambdaSOverM": 0.0,
+        "meanLambdaSOverM": 0.0
+      },
+      "states": 362,
+      "shellsExact": 91,
+      "shellsInterpolated": 0,
+      "tail": null
+    },
+    {
+      "N": 96,
+      "h": 0.03125,
+      "iterations": 3,
+      "converged": true,
+      "residualN": 6.698616676227357e-13,
+      "residualS": 2.2318620547022585e-13,
+      "mu": 0.13045583805095118,
+      "seaTop": -0.4307963986639052,
+      "particleBottom": -1.0264479448645179e-14,
+      "branchOverlap": false,
+      "energies": {
+        "ksSum": 1.0315631956386866,
+        "nTotal": 8.000000000000034,
+        "interaction": 0.0,
+        "hartree": 0.0,
+        "exchange": 0.0,
+        "doubleCounting": 0.0,
+        "total": 1.0315631956386866,
+        "entropy": 14.253991028502915,
+        "free": -0.3938359072116049,
+        "grand": -1.4374826116192188,
+        "scalarCharge": -0.37741773454865596,
+        "maxLambdaSOverM": 0.0,
+        "meanLambdaSOverM": 0.0
+      },
+      "states": 362,
+      "shellsExact": 91,
+      "shellsInterpolated": 0,
+      "tail": null
+    },
+    {
+      "N": 192,
+      "h": 0.015625,
+      "iterations": 3,
+      "converged": true,
+      "residualN": 6.251284437371569e-13,
+      "residualS": 1.1418571608343773e-13,
+      "mu": 0.13042866055461777,
+      "seaTop": -0.4307495345542517,
+      "particleBottom": -1.2442982735068917e-14,
+      "branchOverlap": false,
+      "energies": {
+        "ksSum": 1.0317903128858001,
+        "nTotal": 8.000000000000092,
+        "interaction": 0.0,
+        "hartree": 0.0,
+        "exchange": 0.0,
+        "doubleCounting": 0.0,
+        "total": 1.0317903128858001,
+        "entropy": 14.25732969601623,
+        "free": -0.39394265671582285,
+        "grand": -1.437371941152777,
+        "scalarCharge": -0.37762603179557447,
+        "maxLambdaSOverM": 0.0,
+        "meanLambdaSOverM": 0.0
+      },
+      "states": 362,
+      "shellsExact": 91,
+      "shellsInterpolated": 0,
+      "tail": null
+    }
+  ],
+  "extrapolated": {
+    "total": 1.031867228163497,
+    "free": -0.3939787808248398,
+    "entropy": 14.25846008988337,
+    "ksSum": 1.031867228163497,
+    "interaction": 0.0,
+    "hartree": 0.0,
+    "exchange": 0.0,
+    "grand": -1.4373345209268287,
+    "scalarCharge": -0.37769700810641865,
+    "nTotal": 8.000000000000123,
+    "mu": 0.13041946751274663
+  },
+  "orderEstimates": {
+    "total": 1.9590887169152784,
+    "free": 1.961099082414007,
+    "entropy": 1.959731809562975,
+    "ksSum": 1.9590887169152784,
+    "interaction": null,
+    "hartree": null,
+    "exchange": null,
+    "grand": 1.9632587366320084,
+    "scalarCharge": 1.9427390893282834,
+    "nTotal": -0.6868421147403697,
+    "mu": 1.9621987871142477,
+    "occupiedEigenvalues_median": 1.9567751066844152,
+    "profile_n_c": 1.9859974869149253,
+    "profile_s_c": 1.9753228052594534,
+    "profile_m_eff_out": null,
+    "profile_v_out": null
+  },
+  "homo": "0:+1:+1:0",
+  "lumo": "1:+1:-1:0",
+  "ksGap": 0.43073369232818604,
+  "emt": {
+    "w_y": 0.4698696195959536,
+    "w_3": 0.29872097788146534,
+    "w_t": 0.0,
+    "w_mean": 0.19514750760576421,
+    "energyFromRho": 1.031867228163496,
+    "braneLocalisedFraction": 0.8781281179076851,
+    "averages": {
+      "rho": 0.00038999301981741327,
+      "p_y": 0.00018324591205497068,
+      "p_3": 0.00011649909982232982,
+      "p_t": 0.0,
+      "L_s": 0.0
+    },
+    "traceIdentityResidual": 1.1102230246251565e-15,
+    "conservationResidualMaxNormalised": [
+      0.00013863716519397479,
+      3.9054818647195e-05,
+      1.0197549291875191e-05
+    ],
+    "rhoRequired_kappa1": -21.0,
+    "pRequired_kappa1": 15.0,
+    "wRequired": -0.7142857142857143,
+    "kappaNeededForRho": -53847.11759669896,
+    "mismatch": "the KS energy density is positive; the field requires rho_req = -21 H^2/kappa < 0 (and p_req = +15 H^2/kappa, w_req = -5/7): no positive kappa can source it"
+  },
+  "files": [
+    "profiles.csv",
+    "scf-history-level0.csv",
+    "scf-history-level1.csv",
+    "scf-history-level2.csv",
+    "spectrum.csv",
+    "run.json"
+  ],
+  "thermo": {
+    "T": 0.1,
+    "energy": 1.031867228163497,
+    "free": -0.3939787808248398,
+    "entropy": 14.25846008988337,
+    "mu": 0.13041946751274663,
+    "grand": -1.4373345209268287,
+    "C_V": 33.61801077209176,
+    "C_V_fromEntropy": 33.573553138433844,
+    "delta": 0.05,
+    "converged": true,
+    "excitations": [
+      {
+        "hole": "0:+1:-1:0",
+        "particle": "0:+1:+1:0",
+        "epsHole": -1.2911206736140687e-14,
+        "epsParticle": 1.2911206736140687e-14,
+        "excitation": 2.5822413472281373e-14,
+        "weight": 2.6861748720052305
+      },
+      {
+        "hole": "0:-1:+1:1",
+        "particle": "0:-1:-1:1",
+        "epsHole": 2.010628570845507,
+        "epsParticle": 2.010628570845555,
+        "excitation": 4.796163466380676e-14,
+        "weight": 1.0941453232565447e-07
+      },
+      {
+        "hole": "0:+1:+1:2",
+        "particle": "0:+1:-1:2",
+        "epsHole": 2.3208814958120834,
+        "epsParticle": 2.3208814958121375,
+        "excitation": 5.417888360170764e-14,
+        "weight": 4.91726495970384e-09
+      },
+      {
+        "hole": "0:-1:+1:0",
+        "particle": "0:-1:-1:0",
+        "epsHole": 1.2922928274724421,
+        "epsParticle": 1.292292827472498,
+        "excitation": 5.595524044110789e-14,
+        "weight": 0.00014398851660811913
+      },
+      {
+        "hole": "0:+1:+1:1",
+        "particle": "0:+1:-1:1",
+        "epsHole": 1.4479719306079377,
+        "epsParticle": 1.4479719306079952,
+        "excitation": 5.750955267558311e-14,
+        "weight": 3.035559359398171e-05
+      },
+      {
+        "hole": "32:-1:+1:0",
+        "particle": "70:+1:-1:0",
+        "epsHole": 2.8061145045601092,
+        "epsParticle": 2.806156154417131,
+        "excitation": 4.164985702193036e-05,
+        "weight": 2.2110801931150788e-08
+      },
+      {
+        "hole": "72:+1:-1:0",
+        "particle": "12:+1:+1:0",
+        "epsHole": 2.841211830006916,
+        "epsParticle": 2.8413369699541096,
+        "excitation": 0.00012513994719354216,
+        "weight": 7.77460386568276e-09
+      },
+      {
+        "hole": "16:-1:+1:0",
+        "particle": "5:+1:+1:0",
+        "epsHole": 2.334367184850636,
+        "epsParticle": 2.3346230476223404,
+        "excitation": 0.0002558627717044182,
+        "weight": 6.183343847922451e-07
+      }
+    ]
+  },
+  "tasks": [
+    "thermo"
+  ]
+}

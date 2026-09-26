@@ -155,3 +155,20 @@ independently (numpy allowed), checks invariants, finite-difference RHS residual
 determinism (repeat run byte-identical) and refined-tolerance convergence.
 Figures (PNG, matplotlib, deterministic metadata) under
 `artifacts/dirac16complex/numerics/figures/`.
+
+## ERRATUM (Stage-3 review): the three rustSolveIt repositories do NOT vendor a
+byte-identical sundials_rs.  The macOS and Linux engines share one tree; the Win11
+engine differs in its mathematical library.  All committed numerical outputs were
+produced with the win11 engine (pinned a8fdff45), which reproduces them byte for byte
+on Windows and Linux; scripts/setup_solver.* document this.
+
+## ERRATUM (Stage-3 review, expectation-value rule): "u^dag C u (identically 0 on those
+eigenvectors)" in EXP-2 is false.  On the positive-energy rest eigenspace C = B exactly
+(C = B(-i gamma^4) and -i gamma^4 u = u), so u^dag C u = u^dag B u is the Krein sign +-1 of
+a joint eigenvector; the rule gives s = +1 for every positive-energy rest state (the two
+agree for B = +1, the states of EXP-2/EXP-3, and differ in sign for B = -1).  The rule is
+stated for a positive-energy quantum above the sea: where M_eff < 0 at k = 0 the occupied
+mode (s(u) = 1 fixed) is a negative-energy eigenvector of h, and phantom w < -1, KE_L < 0,
+rho < 0 and the EXP-3 bounce computed there are mean-field artefacts.  A macroscopic
+occupation of one rest mode also ignores the Pauli principle (at most 8 positive-energy
+quanta per momentum); see provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md, Section 4.6.

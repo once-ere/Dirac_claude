@@ -227,9 +227,11 @@ def key_exp3(summary, report, fits):
 def key_exp4(summary, report):
     thermal = {key: value for key, value in summary["thermal"].items() if key != "modeSolverStats"}
     pair = {key: value for key, value in summary["pair"].items() if key != "masses"}
-    masses = [pick(block, ["m", "a2End", "tEnd", "nA3", "nA3Adiabatic", "nA3AtKink", "rhoA3End",
-                           "wFrozenSpectrumAtA1", "wEnd", "maxBeta2", "maxBeta2Adiabatic", "kPeakK3Beta2",
-                           "tailNodes", "tailMaxRelDev"])
+    masses = [pick(block, ["m", "a2End", "tEnd", "nA3", "nA3Instantaneous", "nA3AtKink",
+                           "nA3KinkTailBeyondKMax", "nA3TailCorrected", "rhoA3End", "rhoA3EndTailCorrected",
+                           "wFrozenSpectrumAtA1", "wEnd", "wFrozenSpectrumAtA1TailCorrected",
+                           "wEndTailCorrected", "wFrozenSpectrumAtA1Instantaneous", "wEndInstantaneous",
+                           "maxBeta2", "maxBeta2Adiabatic", "kPeakK3Beta2", "tailNodes", "tailMaxRelDev"])
               for block in summary["pair"]["masses"]]
     selection = summary["methodSelection"]
     return {

@@ -157,15 +157,28 @@ def sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+PDFLATEX_MISSING_HINT = (
+    "install a TeX distribution (MiKTeX, MacTeX or TeX Live), then open a new "
+    "terminal so that pdflatex is on PATH"
+)
+
+
 def find_pdflatex(explicit: str | None) -> str:
     if explicit:
-        return explicit
+        if shutil.which(explicit) or Path(explicit).is_file():
+            return explicit
+        raise FileNotFoundError(
+            f"pdflatex not found: {explicit!r} does not exist; "
+            + PDFLATEX_MISSING_HINT
+        )
     found = shutil.which("pdflatex")
     if found:
         return found
     if PDFLATEX_FALLBACK.exists():
         return str(PDFLATEX_FALLBACK)
-    raise FileNotFoundError("pdflatex was not found on PATH or in MiKTeX")
+    raise FileNotFoundError(
+        "pdflatex not found on PATH or in MiKTeX; " + PDFLATEX_MISSING_HINT
+    )
 
 
 def scan_log(text: str) -> list[str]:

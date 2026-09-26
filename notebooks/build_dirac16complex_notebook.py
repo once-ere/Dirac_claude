@@ -69,6 +69,13 @@ QUOTES = {
     "e3_cs2_0": ("-12.4", 'FITS["models"][0]["cs2Today"]'),
     "e3_projUniform": ("-1.028", 'FITS["unite"]["constantWProjectionOffsetProfiled"]["w"]'),
     "e3_projLog": ("-0.979", 'FITS["unite"]["constantWProjectionLogGridOffsetProfiled"]["w"]'),
+    "e3_projFree": ("-0.91", 'FITS["unite"]["constantWProjectionOmegaMFreeOffsetProfiled"]["w"]'),
+    "e3_projFreeOm": ("0.278", 'FITS["unite"]["constantWProjectionOmegaMFreeOffsetProfiled"]["OmegaM"]'),
+    "e3_projFreeLog": ("-0.872", 'FITS["unite"]["constantWProjectionOmegaMFreeLogGridOffsetProfiled"]["w"]'),
+    "e3_gvFitW0": ("-0.640", 'FITS["gammaVariant"]["model"]["wFitRequested"]["w0"]'),
+    "e3_gvFitWa": ("-1.98", 'FITS["gammaVariant"]["model"]["wFitRequested"]["wa"]'),
+    "e3_gvZZero": ("6.83", 'FITS["gammaVariant"]["model"]["zZero"]'),
+    "e3_gvZCross": ("0.230", 'FITS["gammaVariant"]["model"]["zPhantomCrossing"]'),
     "e3_gamma": ("0.875", 'FITS["gammaVariant"]["gamma"]'),
     "e3_effW0": ("-0.983", 'FITS["gammaVariant"]["tangentCPLofEffectiveW"]["w0"]'),
     "e3_effWa": ("-0.075", 'FITS["gammaVariant"]["tangentCPLofEffectiveW"]["wa"]'),
@@ -88,6 +95,7 @@ QUOTES = {
     # EXP-4
     "e4_wA1": ("0.3329", 'S4["thermal"]["wAtA1"]'),
     "e4_wAEnd": ("0.0359", 'S4["thermal"]["wAtAEnd"]'),
+    "e4_wAEndFull": ("0.0361", 'REP["exp4"]["measurements"]["thermalKineticUntruncatedWAtAEnd"]'),
     "e4_rhoDev": ("2.0e-8", 'S4["thermal"]["maxRelDevRho"]'),
     "e4_gasBeta": ("3.7e-8", 'S4["thermal"]["maxBeta2GasWeighted"]'),
     "e4_perModeBeta": ("6.4e-5", 'S4["thermal"]["maxBeta2PerMode"]'),
@@ -96,7 +104,7 @@ QUOTES = {
     "e4_n05": ("4.99e-3", 'pair_mass(0.5)["nA3"]'),
     "e4_n1": ("4.41e-3", 'pair_mass(1.0)["nA3"]'),
     "e4_n2": ("2.42e-3", 'pair_mass(2.0)["nA3"]'),
-    "e4_wEnd01": ("3.1e-4", 'pair_mass(0.1)["wEnd"]'),
+    "e4_wEnd01": ("1.2e-4", 'pair_mass(0.1)["wEnd"]'),
     "e4_wPairA1min": ("0.24", 'pair_mass(1.0)["wFrozenSpectrumAtA1"]'),
     "e4_wPairA1max": ("0.31", 'pair_mass(0.1)["wFrozenSpectrumAtA1"]'),
     "e4_steps": ("2.9e8", 'S4["solverTotals"]["steps"]'),
@@ -111,7 +119,7 @@ QUOTES = {
     # totals
     "tot_rust": ("69", 'NSUM["totals"]["rustChecks"]'),
     "tot_python": ("162", 'NSUM["totals"]["pythonChecks"]'),
-    "tot_analysis": ("9", 'NSUM["totals"]["analysisChecks"]'),
+    "tot_analysis": ("10", 'NSUM["totals"]["analysisChecks"]'),
 }
 
 _USED = set()
@@ -179,7 +187,9 @@ notebook
 
 1. runs the program into the scratch folder `build/notebook-run/` and checks
    that every file it writes is **byte-identical** to the committed artifact
-   in `artifacts/dirac16complex/numerics/expN/`;
+   in `artifacts/dirac16complex/numerics/expN/` (the three files of the numpy
+   analysis of EXP-3 are compared value by value instead, because numpy
+   versions differ in the last digits);
 2. loads the CSV/JSON output with the `csv` module and numpy;
 3. **recomputes the key physics independently** in the cell, from the raw
    spinor columns and the exact integer gamma matrices of the algebra fixture
@@ -204,12 +214,15 @@ $m=0$.  That is necessary for a dark-matter candidate, not sufficient: no
 coupling to ordinary matter and no relic abundance were computed.  As dark
 energy, the simplest condensate with an attractive self-interaction can be
 tuned to $w_0$ = «unite_w0» today, but then it evolves about eight times
-faster than the Unite fit ($w_a$ = «e3_waTan0» against «unite_wa»),
-crosses into phantom behaviour at $z$ = «e3_zCross0», turns to negative
-energy at $z$ = «e3_zZero0» and makes the universe bounce at $z$ =
-«e3_zBounce0».  It is excluded as the Unite dark energy.  Section 12 gives
-the full list of what is established, what is model-dependent and what is
-not established.
+faster than the Unite fit ($w_a$ = «e3_waTan0» against «unite_wa»);
+going back in time its $w$ falls below $-1$ at $z$ = «e3_zCross0», its
+energy density turns negative at $z$ = «e3_zZero0» and the universe bounces
+at $z$ = «e3_zBounce0».  (The $w<-1$ and $\rho<0$ epochs are where the single
+mean-field mode occupies a negative-energy level of the instantaneous
+Hamiltonian; they are artefacts of that approximation, not established
+physics.)  It is excluded as the Unite dark energy.  Section 12 gives the
+full list of what is established, what is model-dependent and what is not
+established.
 
 Units: EXP-1 uses $H = 1$ (the constant of the primordial field), $m = 1$,
 $\kappa = 1$; EXP-2 uses $m = \kappa_8 = 1$; EXP-3 uses $H_0 = c = 1$ and
@@ -231,15 +244,18 @@ One-time setup, from the repository root (the folder that contains
    Windows PowerShell `.\scripts\setup_solver.ps1`; macOS or Linux
    `bash scripts/setup_solver.sh` (the platform is detected; pass `win11`,
    `macos` or `linux` to force it).  The pins are Win11 `a8fdff45`, macOS
-   `5360157f`, Linux `6f58e02e`; all three vendor a byte-identical
-   `sundials_rs`.
+   `5360157f`, Linux `6f58e02e`.  The three engines are not byte-identical
+   (the Windows 11 engine has its own mathematical library): fetch `win11` on
+   every platform to reproduce the committed outputs byte for byte.
 2. **Build the compute program**:
    `cd studies/dirac16complex_cosmology` then `cargo build --release`
    (zero warnings expected: the crate has `#![deny(warnings)]`; the
    repository-root `.cargo/config.toml` adds `-C target-feature=+fma`,
    which the pinned numerical outputs assume).  Install Rust from
    https://rustup.rs if `cargo` is missing.
-3. **Python**: 3.10 or newer with `numpy` and `matplotlib`.  For the
+3. **Python**: 3.10 or newer with `numpy` and `matplotlib`; the tested
+   versions are pinned in `requirements-stage3.txt`
+   (`python -m pip install -r requirements-stage3.txt`).  For the
    interactive route also `jupyterlab` (or `notebook`), `ipykernel`,
    `nbformat`, `nbclient`, `nbconvert`.
 
@@ -476,7 +492,10 @@ mostly-plus-for-space convention used here).  The spinor analogues are:
   $PE_L = \frac12(mS + 2U - SU')$, and exactly as for the scalar field
   $\rho = KE_L + PE_L$, $p = KE_L - PE_L = SU' - U$.  A free condensate has
   $KE_L = PE_L = mS/2$, so $p = 0$ (dust).  Phantom ($w < -1$ with $\rho>0$)
-  $\Leftrightarrow KE_L < 0 \Leftrightarrow S\,M_\text{eff} < 0$.
+  $\Leftrightarrow KE_L < 0 \Leftrightarrow S\,M_\text{eff} < 0$.  For every
+  state of positive-energy quanta $KE_L = \varepsilon/2 > 0$, so $KE_L<0$
+  needs an occupied negative-energy level (section 4.6): no positive-energy
+  state of this Lagrangian is phantom.
 - **(B) Hamiltonian split**: $PE_H = mS + U(S)$ (rest mass plus interaction)
   and $KE_H = \rho - PE_H$ (momentum or gradient energy).  For a free gas
   $PE_H = \sum n\,m^2/E$ and $KE_H = \sum n\,K^2/E$.
@@ -507,8 +526,25 @@ for a one-particle state built on the normalised mode $u$.  Hence
 
 $$s(u) = u^\dagger BCu = u^\dagger(-i\gamma^4)u,\qquad \varepsilon(u) = u^\dagger hu,\qquad p_j(u) = -\frac{k_j}{h_j}u^\dagger\gamma^4\gamma^ju,$$
 
-and never $u^\dagger Cu$ (identically 0 on the rest eigenvectors).  A useful
-identity: $\varepsilon(u) = M_\text{eff}\,s(u) + \sum_j p_j(u)$.
+not the c-number bilinear $u^\dagger Cu$: on the positive-energy rest
+eigenspace $C = B$ exactly, so $u^\dagger Cu$ is the Krein sign $\pm1$ of a
+joint eigenvector, while the rule gives $s = +1$ for every positive-energy rest
+state (the two agree for $B = +1$, the states of EXP-2 and EXP-3, and differ in
+sign for $B = -1$).  The rule is for positive-energy quanta above the sea:
+there $s = M_\text{eff}/E$, so $S\,M_\text{eff}\ge0$.  A useful identity:
+$\varepsilon(u) = M_\text{eff}\,s(u) + \sum_j p_j(u)$.
+
+**Two limits of the mean field, stated once.** (i) The condensate is one rest
+mode $u$ times a macroscopic density.  The Pauli principle allows at most 8
+positive-energy quanta per momentum, so a Pauli-consistent homogeneous state
+of density $n$ is a degenerate Fermi sea with Fermi momentum $k_F(n)$ and a
+degeneracy pressure; "a free condensate is dust" holds only when
+$k_F(n)\ll m$.  The $\lambda$ term is treated at Hartree level only (the Fock
+exchange term of a contact interaction is of the same order and is not
+included).  (ii) At $k = 0$ the mode only picks up a phase: when $M_\text{eff}$
+changes sign, $s(u) = 1$ stays and the occupied level becomes a negative-energy
+eigenvector of the instantaneous $h$.  Everything computed there ($w<-1$,
+$KE_L<0$, $\rho<0$) lies outside the domain of the expectation-value rule.
 
 **State layout handed to CVODE (all experiments).** The spinor occupies 32
 consecutive reals $y = (x_0..x_{15}, y_0..y_{15})$ with $u = x + iy$.  Writing
@@ -752,6 +788,59 @@ def compare_files(label, fresh_dir, names):
     return REPRO[label]
 
 
+def _numbers_equal(a, b, rtol, atol, path, bad):
+    """Recursive comparison of two parsed JSON values: same structure, same
+    strings/booleans/nulls, numbers within rtol * max(|a|, |b|) + atol
+    (the Nelder-Mead iteration counts may differ by a step or two)."""
+    if isinstance(a, dict) and isinstance(b, dict) and list(a) == list(b):
+        for key in a:
+            _numbers_equal(a[key], b[key], rtol, atol, f"{path}/{key}", bad)
+    elif isinstance(a, list) and isinstance(b, list) and len(a) == len(b):
+        for i, (x, y) in enumerate(zip(a, b)):
+            _numbers_equal(x, y, rtol, atol, f"{path}/{i}", bad)
+    elif isinstance(a, bool) or isinstance(b, bool) or a is None or b is None or isinstance(a, str):
+        if a != b:
+            bad.append(path)
+    elif isinstance(a, (int, float)) and isinstance(b, (int, float)):
+        if path.endswith("/iterations"):
+            return
+        if not abs(a - b) <= rtol * max(abs(a), abs(b)) + atol:
+            bad.append(path)
+    else:
+        bad.append(path)
+
+
+def compare_files_numerically(label, fresh_dir, names, rtol=1e-9, atol=1e-12):
+    """The EXP-3 analysis files are written by numpy: their last digits depend on the
+    numpy version, so they are compared value by value, not byte by byte."""
+    same = []
+    for n in names:
+        fresh, committed = fresh_dir / n, COMMITTED / fresh_dir.name / n
+        bad = []
+        if n.endswith(".json"):
+            _numbers_equal(load_json(fresh), load_json(committed), rtol, atol, "", bad)
+        else:
+            a, b = load_csv(fresh), load_csv(committed)
+            if list(a) != list(b):
+                bad.append("header")
+            else:
+                for key in a:
+                    x, y = a[key], b[key]
+                    if x.shape != y.shape or not np.array_equal(np.isnan(x), np.isnan(y)):
+                        bad.append(key)
+                        continue
+                    ok = np.isnan(x) | (np.abs(x - y) <= rtol * np.maximum(np.abs(x), np.abs(y)) + atol)
+                    if not ok.all():
+                        bad.append(key)
+        if not bad:
+            same.append(n)
+    REPRO[label] = {"files": len(names), "identical": len(same),
+                    "different": sorted(set(names) - set(same)), "mode": "numeric"}
+    print(f"{label}: {len(same)}/{len(names)} freshly written files equal the committed ones value by value "
+          f"(relative {rtol:.0e}, absolute {atol:.0e}) in artifacts/dirac16complex/numerics/{fresh_dir.name}/")
+    return REPRO[label]
+
+
 def compare_with_committed(exp):
     summary = load_json(OUT / exp / "summary.json")
     compare_files(exp, OUT / exp, summary["files"])
@@ -835,7 +924,8 @@ def save_figure(fig, name):
     show_png(path)
 
 
-print("repository :", REPO.name)
+print("repository : found (the folder that contains studies/dirac16complex_cosmology;"
+      " its name is not printed, so the output does not depend on it)")
 print("simulator  :", find_binary().relative_to(REPO).as_posix()
       if find_binary().is_relative_to(REPO) else find_binary())
 print("fresh runs :", OUT_REL, "| committed artifacts: artifacts/dirac16complex/numerics")
@@ -877,6 +967,17 @@ reports say, and this cell must reproduce: the largest deviation from the
 exact propagator is «e1_maxExact»; a free eigenmode with hidden-space
 momentum $K = 2$ has $w = K^2/(7E^2)$ = «e1_wK2»; the self-consistent
 effective mass of the $\lambda = 0.5$ run is «e1_lambdaMass».
+
+Two readings to keep straight.  The reduction is exact only for $\lambda = 0$:
+the mode's scalar density is $S = S_0\,s(u)/\sin z$, so with $\lambda\ne0$ the
+effective mass depends on $x_0$ and the $\lambda$ run is a pointwise
+(fixed-$x_0$) mean-field approximation, $S_0$ being the local density factor
+$S\sin z$.  The negative-energy and mixed spinors are numerical controls:
+in the positive-norm Fock space the negative-energy levels are filled by the
+sea (Pauli-blocked), so the $2E$ pressure oscillation of the mixture is a
+first-quantised interference effect, not physics of the frozen field; the
+mixtures also carry tensor bilinears, i.e. off-diagonal stresses that the
+diagonal pressures leave out.
 """))
 
 CELLS.append(code(r'''
@@ -1087,7 +1188,10 @@ recomputes $\Theta$, $V$, $s(u)$, $S$, $\rho$, $p$, $w$, $w_\text{eff}$ and the
 constraint residual from the state columns, compares $V$ and $H_iV$ with the
 exact solution, recomputes the Kasner exponents of the backward singularity
 and the late-time $H_it\to2/7$, and tests the phantom criterion
-$w<-1 \Leftrightarrow KE_L<0$ on the $x_0 = -0.4$ run.  Expected from the
+$w<-1 \Leftrightarrow KE_L<0$ on the $x_0 = -0.4$ run.  (Those rows, and
+the rows with $\rho<0$, have $M_\text{eff}<0$: the single occupied mode is then
+a negative-energy eigenvector of $h$, outside the domain of the
+expectation-value rule; see section 12.)  Expected from the
 reports: the constraint holds to «e2_maxConstraint» (relative); for
 $x_0 = -0.4$ the stiff $\lambda S^2/2$ term makes $\sum p_i^2$ = «e2_kasnerSumSqM04»
 instead of the vacuum value 1, and the energy density near the singularity
@@ -1289,14 +1393,17 @@ from $-1$ as the universe expands has $dw/da>0$, hence **$w_a<0$**, and a
 freezing field approaching $-1$ from above has **$w_a>0$**.  The table's signs
 are reversed; this notebook uses the formula-consistent signs.  Unite's
 $w_a$ = «unite_wa» therefore describes $w$ rising with time, from
-«unite_past» at $a\to0$ through $-1$ at $a$ = «unite_cross».
+«unite_past» at $a\to0$ through $-1$ at $a$ = «unite_cross».  That is the
+thawing *sign* of $w_a$, but not a thawing field: a thawing field starts
+frozen at $w\approx-1$ and stays at or above $-1$, while the Unite CPL curve
+(and every attractive condensate below) starts phantom and crosses $-1$.
 """))
 
 CELLS.append(code(r'''
 run("exp3")
 S3 = compare_with_committed("exp3")
 run_python("scripts/analyze_dirac16complex_exp3.py", "--output", OUT_REL)
-compare_files("exp3-analysis", OUT / "exp3", ["fits.json", "fits_scan.csv", "fits_mu_scan.csv"])
+compare_files_numerically("exp3-analysis", OUT / "exp3", ["fits.json", "fits_scan.csv", "fits_mu_scan.csv"])
 FITS = load_json(OUT / "exp3" / "fits.json")
 E3 = OUT / "exp3"
 P3 = S3["parameters"]
@@ -1417,17 +1524,24 @@ for r in TAB3:
     zz = lambda key: f"{1 / r[key] - 1:8.4f}" if key in r else "    none"
     print(f"  {r['x0']:+.6f}   {r['w0']:+.6f}   {r['wa']:+.6f}   {zz('aZero')}  {zz('aCross')}  {zz('aBounce')}  {r['q0']:+.4f}  {r['cs2']:+8.3f}")
 print(f"\nUnite (input PDF): w0 = {UW0}, wa = {UWA}, constant w = {UW}; w0 + wa = {UW0 + UWA:.3f}")
-print(f"best constant w of the Unite CPL model itself: {FITS['unite']['constantWProjectionOffsetProfiled']['w']:.4f} (uniform z), "
-      f"{FITS['unite']['constantWProjectionLogGridOffsetProfiled']['w']:.4f} (log z)  -- not the -0.764 benchmark")
+print(f"best constant w of the Unite CPL model itself, Omega_m fixed at the assumed 0.305: "
+      f"{FITS['unite']['constantWProjectionOffsetProfiled']['w']:.4f} (uniform z), "
+      f"{FITS['unite']['constantWProjectionLogGridOffsetProfiled']['w']:.4f} (log z)")
 print(f"requested fits: w(a) fit on [1/3.26, 1] defined only for x0 > {FITS['scan']['x0CriticalWFit']:.6f}; "
       f"DM(z) fits on [0.01, 2.26] only for x0 > {FITS['scan']['x0CriticalMuFit']:.6f}")
 print(f"max |DM_model - DM_UniteCPL| (x0 = {P3['x0Values'][0]}, z < z_b) = {NB['exp3_dm_maxabs_w0']:.4f} mag "
       f"(analysis: {FITS['models'][0]['muVsUniteCPL']['maxAbsDifferenceMag']:.4f}; both maxima sit at z_b, where "
       f"the last panel ends on the integrable 1/E singularity, so the two quadratures differ slightly there)")
 gv = FITS["gammaVariant"]
-print(f"deflation variant: gamma_d = {gv['gamma']:.6f} reproduces the Unite tangent for p/rho, but distances see "
+print(f"deflation variant: gamma_d = {gv['gamma']:.6f} gives p/rho the tangent CPL parameters of the Unite fit; "
+      f"the CPL fit of its own p/rho on [1/3.26, 1] is ({gv['model']['wFitRequested']['w0']:.4f}, "
+      f"{gv['model']['wFitRequested']['wa']:.4f}); distances see "
       f"({gv['tangentCPLofEffectiveW']['w0']:.4f}, {gv['tangentCPLofEffectiveW']['wa']:.4f}); "
-      f"Gdot/G = {gv['objections'][1]['value']:.3f} H0")
+      f"Gdot/G = {gv['objections'][1]['value']:.3f} H0; rho_psi < 0 beyond z = {gv['model']['zZero']:.2f}, "
+      f"w = -1 at z = {gv['model']['zPhantomCrossing']:.3f}")
+_pm = FITS["unite"]["constantWProjectionOmegaMFreeOffsetProfiled"]
+print(f"best constant w of the Unite CPL distances with Omega_m free: {_pm['w']:.4f} (Omega_m = {_pm['OmegaM']:.4f}, "
+      f"uniform z), {FITS['unite']['constantWProjectionOmegaMFreeLogGridOffsetProfiled']['w']:.4f} (log z)")
 
 labels3 = {x0: (f"x0 = {x0:+.6f}" + (" (w0 = Unite)" if i == 0 else " (w0 = -0.764)" if i == 1 else ""), i)
            for i, x0 in enumerate(P3["x0Values"])}
@@ -1568,8 +1682,15 @@ is conformally invariant).  The cell runs `exp4` (this is the long one), then
 recomputes the Gauss-Legendre grid and Fermi-Dirac weights, the mode sums
 $\rho$, $p$, $KE_H$, $PE_H$ from the raw spinors, the kinetic-theory integrals
 with its own 512-node quadrature, the produced number density
-$na^3 = \frac{16}{2\pi^2}\int k^2|\beta_k|^2dk$ from the spectrum, the produced gas'
-equation of state and the high-$k$ tail $|\beta_k|^2\to(mk/(4E^4))^2$.
+$na^3 = \frac{16}{2\pi^2}\int k^2|\beta_k|^2dk$ from the final spectrum in the
+first-order adiabatic basis, the produced gas' equation of state and the
+high-$k$ tail $|\beta_k|^2\to(mk/(4E^4))^2$.  Two assumptions to keep in mind:
+the hidden-space momentum $k_0$ is set to zero (a compact hidden dimension
+with a Kaluza-Klein gap far above $T$ and $H_\text{inf}$; with $k_0$ the
+relativistic 3-space pressure would be $\rho/4$, not $\rho/3$); and both the
+mode sum and the kinetic-theory comparison stop at $k_\text{max} = 12T_i$, so
+that comparison checks the ODE integration, not the truncation (without the
+cut, kinetic theory gives $w$ = «e4_wAEndFull» at $a = 100$, not «e4_wAEnd»).
 """))
 
 CELLS.append(code(r'''
@@ -1642,9 +1763,14 @@ for rec in S4["pair"]["masses"]:
     m = rec["m"]
     sel = spec["m"] == m
     k = spec["k"][sel]
-    b2 = spec["beta2_end"][sel]
+    # the produced gas: final |beta_k|^2 in the first-order adiabatic basis (the
+    # instantaneous-basis beta2_end carries the adiabatic dressing at a_end for k >~ 12)
+    b2 = spec["beta2_adiabatic_end"][sel]
+    b2inst = spec["beta2_end"][sel]
     wln = np.array([lnw[int(i)] for i in spec["node"][sel]])
     nA3 = C16 * np.sum(wln * k**3 * b2)
+    n_dev = max(n_dev, abs(C16 * np.sum(wln * k**3 * b2inst) - rec["nA3Instantaneous"])
+                / max(rec["nA3Instantaneous"], 1e-30))
     n_dev = max(n_dev, abs(nA3 - rec["nA3"]) / max(rec["nA3"], 1e-30))
     se = peos["m"] == m
     ae = peos["a"][se]
@@ -1661,7 +1787,7 @@ for rec in S4["pair"]["masses"]:
         tail_dev = max(tail_dev, float(np.abs(mine[use] / th[use] - 1).max()))
         hi = k >= PP["tailKMin"]
         tail_cvode = max(tail_cvode, float(np.abs(b2ad[hi] / mine[hi] - 1).max()))
-    PAIR[m] = dict(k=k, b2=b2, b2ad=b2ad, th=th, nA3=nA3, a=ae, w=p_a3 / rho_a3, maxb2=float(b2.max()),
+    PAIR[m] = dict(k=k, b2=b2, b2ad=b2ad, th=th, nA3=nA3, a=ae, w=p_a3 / rho_a3, maxb2=float(b2inst.max()),
                    hist_a=hist["a"][hist["m"] == m], hist_n=hist["n_a3"][hist["m"] == m],
                    hist_nad=hist["n_a3_adiabatic"][hist["m"] == m])
 NB.update(exp4_nA3_dev=n_dev, exp4_pair_eos_dev=eos_dev, exp4_tail_formula_dev=tail_dev, exp4_tail_cvode=tail_cvode,
@@ -1675,11 +1801,17 @@ print(f"mode-sum p   vs kinetic theory: {NB['exp4_p_vs_kinetic']:.2e}  (first-or
 print(f"max |u^dag u - 1| over all thermal modes: {NB['exp4_unitarity']:.2e}")
 print(f"w(a = 1) = {w_modes[0]:.10f} (kinetic {w_kin[0]:.10f});  w(a = {a_t[-1]:.0f}) = {w_modes[-1]:.7f} (kinetic {w_kin[-1]:.7f})")
 print(f"energy above k_max = {kmax:g} (not in the mode sum) at a = 1: {NB['exp4_kmax_truncation']:.2e} of the total")
-print("\npair creation (de Sitter -> radiation, H_inf = 1):")
+print("\npair creation (de Sitter -> radiation, H_inf = 1), final spectrum in the first-order adiabatic basis:")
 print("   m/H_inf    n a^3 (notebook)    n a^3 (Rust)     max |beta_k|^2 (end)  w at a = 1   w at the end")
 for m, v in PAIR.items():
     r = pair_mass(m)
     print(f"   {m:4.1f}      {v['nA3']:.6e}      {r['nA3']:.6e}     {v['maxb2']:.3e}       {v['w'][0]:.4f}      {v['w'][-1]:.3e}")
+print("with the analytic kink tail beyond k = 40 (Rust): " + "; ".join(
+    f"m = {r['m']:g}: n a^3 {r['nA3TailCorrected']:.4e}, w(1) {r['wFrozenSpectrumAtA1TailCorrected']:.4f}"
+    for r in S4["pair"]["masses"] if r["m"] > 0))
+print("instantaneous basis (literal definition, includes the dressing at a_end): " + "; ".join(
+    f"m = {r['m']:g}: n a^3 {r['nA3Instantaneous']:.4e}, w_end {r['wEndInstantaneous']:.2e}"
+    for r in S4["pair"]["masses"] if r["m"] > 0))
 print(f"n a^3 recomputation: {n_dev:.1e};  produced-gas EoS recomputation: {eos_dev:.1e};  "
       f"tail formula (mk/(4E^4))^2: {tail_dev:.1e}")
 print(f"high-k tail (k >= {PP['tailKMin']:g}): CVODE |beta_k|^2 (adiabatic basis) vs (mk/(4E^4))^2: max relative "
@@ -1758,7 +1890,7 @@ for i, m in enumerate((0.1, 0.5, 1.0, 2.0)):
 ax[1].axhline(1 / 3, color=INK2, ls=":", lw=1.0, label="1/3")
 ax[1].axhline(0, color=INK2, ls="--", lw=1.0, label="0")
 ax[0].set_ylabel("n a^3  [H_inf^3], particles + antiparticles")
-ax[1].set_ylabel("w of the produced gas (frozen spectrum)")
+ax[1].set_ylabel("w of the produced gas (final adiabatic-basis spectrum)")
 ax[0].plot([], [], color=INK2, ls="--", lw=1.0, label="instantaneous basis (includes adiabatic dressing)")
 ax[0].set_yscale("log")
 ax[0].set_title("(a) produced comoving number density (adiabatic basis, solid)", loc="left")
@@ -1920,8 +2052,14 @@ def matches_quote(value, text):
 gauntlet("all_runs_success", all(r["exit"] == 0 for r in RUNS) and
          all(r["last"] == "SUCCESS" for r in RUNS if r["command"].startswith("dirac16")),
          f"{len(RUNS)} program runs, every one exited 0 (simulator runs ended with SUCCESS)")
-gauntlet("fresh_outputs_byte_identical", all(v["identical"] == v["files"] for v in REPRO.values()),
-         ", ".join(f"{k} {v['identical']}/{v['files']}" for k, v in REPRO.items()))
+gauntlet("fresh_program_outputs_byte_identical",
+         all(v["identical"] == v["files"] for v in REPRO.values() if v.get("mode") != "numeric"),
+         ", ".join(f"{k} {v['identical']}/{v['files']}" for k, v in REPRO.items() if v.get("mode") != "numeric"))
+gauntlet("fresh_analysis_outputs_numerically_equal",
+         all(v["identical"] == v["files"] for v in REPRO.values() if v.get("mode") == "numeric"),
+         ", ".join(f"{k} {v['identical']}/{v['files']}" for k, v in REPRO.items() if v.get("mode") == "numeric")
+         + " (value by value: relative 1e-9, absolute 1e-12; numpy writes the last digits differently "
+           "from version to version)")
 gauntlet("fixture_hash_consistent",
          all(s["fixture"]["sha256"] == FIX_SHA for s in SUMS.values())
          and all(r["fixtureSha256"] == FIX_SHA for r in REP.values()) and NSUM["fixture"]["sha256"] == FIX_SHA,
@@ -2028,9 +2166,13 @@ gauntlet("exp3_requested_fits_undefined_for_x0_negative",
          all(mm["wFitRequested"]["status"] == "undefined" and mm["muFitRequested"]["status"] == "undefined"
              for mm in FITS["models"] if mm["x0"] < 0),
          "the requested CPL fits on [1/3.26, 1] and z in [0.01, 2.26] do not exist for x0 < 0 (pole, bounce) - reported")
-gauntlet("exp3_unite_constant_w_is_not_a_cpl_projection",
-         abs(FITS["unite"]["constantWProjectionOffsetProfiled"]["w"] - UW) > 0.2,
-         f"best constant w of the Unite CPL curve = {FITS['unite']['constantWProjectionOffsetProfiled']['w']:.4f} vs benchmark {UW}")
+_pf, _pm = FITS["unite"]["constantWProjectionOffsetProfiled"], FITS["unite"]["constantWProjectionOmegaMFreeOffsetProfiled"]
+gauntlet("exp3_unite_constant_w_projections_recorded",
+         all(math.isfinite(v) for v in (_pf["w"], _pm["w"], _pm["OmegaM"]))
+         and _pm["rmsResidualMag"] <= _pf["rmsResidualMag"],
+         f"recorded, not a verdict: best constant w of the noise-free Unite CPL distances = {_pf['w']:.4f} "
+         f"(Omega_m fixed at the assumed 0.305), {_pm['w']:.4f} with Omega_m = {_pm['OmegaM']:.4f} free "
+         f"(rms {_pf['rmsResidualMag']:.4f} -> {_pm['rmsResidualMag']:.4f} mag); benchmark {UW}")
 
 # ---- EXP-4 --------------------------------------------------------------------------
 L4 = S4["limits"]
@@ -2098,7 +2240,8 @@ CELLS.append(md(r"""
 ## 11. The verification gauntlet
 
 Every acceptance criterion, asserted in one place: the program runs, the
-byte-identity of the fresh outputs, the fixture hash, every Rust self-check,
+byte identity of the fresh program outputs (and the value-by-value identity of
+the fresh analysis files), the fixture hash, every Rust self-check,
 every check of the five independent Python checkers (which include the
 repeat-run byte identity and refined-tolerance convergence tests) and of the
 EXP-3 analysis, the notebook's own recomputations against the limits recorded
@@ -2120,26 +2263,34 @@ CELLS.append(md(r"""
 **Established (numerically, within the model):**
 
 - In the good sector the free quanta form an ordinary Fermi gas with 16
-  states per momentum (8 particles + 8 antiparticles).  A thermal gas
-  started at $T = 10m$ has $w$ = «e4_wA1» at $a = 1$ and «e4_wAEnd» at
-  $a = 100$; its energy density agrees with kinetic theory to «e4_rhoDev»,
-  and it scales as $a^{-4}$ early and $a^{-3}$ late: dark-matter-like
-  (cold) behaviour at late times.
-- A homogeneous condensate at rest is exact dust ($KE_L = PE_L$, $p = 0$),
-  also in the primordial field (EXP-1) and in the full 8D Einstein
-  dynamics, where the dust run isotropises to $H_it\to2/7$ and $w_\text{eff}$
-  approaches «e2_finalWeffDust» (4/3, the value for 8D dust seen from 3-space).
+  states per momentum (8 particles + 8 antiparticles), with the hidden-space
+  momentum $k_0$ set to zero.  A thermal gas started at $T = 10m$ has $w$ =
+  «e4_wA1» at $a = 1$ and «e4_wAEnd» at $a = 100$ on the truncated grid
+  $k\le12T_i$ (without the cut, kinetic theory gives «e4_wAEndFull»); its
+  energy density agrees with kinetic theory on the same grid to «e4_rhoDev»
+  (a check of the ODE integration), and it scales as $a^{-4}$ early and
+  $a^{-3}$ late: dark-matter-like (cold) behaviour at late times.  This gas
+  obeys the Pauli principle ($f\le1$, 8 + 8 states per $k$).
 - Expansion creates pairs for $m>0$ and none for $m = 0$ (maximum
-  $|\beta_k|^2$ = «e4_massless» and $na^3$ = «e4_n0», the numerical floor): after a de Sitter to
-  radiation transition $na^3$ = «e4_n01», «e4_n05», «e4_n1», «e4_n2»
-  (units $H_\text{inf}^3$) for $m/H_\text{inf}$ = 0.1, 0.5, 1, 2, and the
-  produced gas goes from $w$ between «e4_wPairA1min» and «e4_wPairA1max» at $a = 1$ to $w$ =
-  «e4_wEnd01» (for $m = 0.1$) by the end.
+  $|\beta_k|^2$ = «e4_massless» and $na^3$ = «e4_n0», the numerical floor):
+  after a de Sitter to radiation transition the final spectrum (first-order
+  adiabatic basis) gives $na^3$ = «e4_n01», «e4_n05», «e4_n1», «e4_n2»
+  (units $H_\text{inf}^3$) for $m/H_\text{inf}$ = 0.1, 0.5, 1, 2.  Most of
+  these quanta are created after the transition, in the radiation era when
+  $H\sim m$; the final spectrum evaluated at $a = 1$ (a hypothetical, since
+  the quanta do not yet exist then) has $w$ between «e4_wPairA1min» and
+  «e4_wPairA1max», and $w$ = «e4_wEnd01» (for $m = 0.1$) by the end.
 
 **Model-dependent or assumed:** that the quanta are *dark* (no coupling to
 ordinary matter was written down or computed); the relic abundance (it
 depends on the unknown $H_\text{inf}$, $m$ and the reheating history, and on
-the chosen de Sitter to radiation gluing); the thermal initial state.
+the chosen de Sitter to radiation gluing); the thermal initial state;
+$k_0 = 0$.  The mean-field condensate ($K = 0$ in EXP-1, $x_0 = 0$ in EXP-2
+and EXP-3) is dust ($KE_L = PE_L$, $p = 0$) as a single-mode picture only: a
+Pauli-consistent state at the same density is a degenerate Fermi sea whose
+pressure is negligible only when $k_F(n)\ll m$, which was not computed (in
+the 8D dust run $H_it\to2/7$ and $w_\text{eff}$ approaches «e2_finalWeffDust»,
+the value 4/3 for 8D dust seen from 3-space).
 
 **Not established:** that dirac16complex is the dark matter.  Two
 obstacles remain open.  (i) EXP-5: every mode with extra-time momentum grows
@@ -2163,57 +2314,71 @@ cannot be sourced by it.
 - The attractive four-fermion condensate has $w = x_0\sigma/(1+x_0\sigma)<0$
   and can be tuned to today's Unite value ($x_0$ = «e3_x0W0» gives $w_0$ =
   «unite_w0»; $x_0$ = «e3_x0W764» gives «unite_w»).
-- It is a concrete realisation of what the input PDF says canonical scalars
-  cannot do: it crosses the phantom divide.  In the Lagrangian split the
-  crossing is exactly $KE_L = 0$ ($M_\text{eff} = 0$); phantom means
-  $KE_L<0$, the fermionic analogue of a negative kinetic term (verified row
-  by row in EXP-2; in EXP-3 the crossing sits at the predicted
-  $a = (2|x_0|)^{1/3}$).
 - **But the same formula fixes the evolution, and it is far too fast.** The
   tangent $w_a$ = «e3_waTan0» (for $w_0$ = «unite_w0») and «e3_waTan1» (for
-  «unite_w»), against Unite's «unite_wa».  Going back in time the model
-  becomes phantom at $z$ = «e3_zCross0», its energy density turns negative
-  at $z$ = «e3_zZero0», and $E^2 = H^2/H_0^2$ reaches zero at $z$ =
-  «e3_zBounce0» («e3_zBounce1» for the $-0.764$ model): a bounce.  There is
-  no matter era and no redshift beyond $z_b$, while supernovae are observed
-  to $z\approx2.3$.  Today $q_\text{dec}$ = «e3_q0_0» and $c_s^2$ =
-  «e3_cs2_0» < 0 (a gradient instability of perturbations).
+  «unite_w»), against Unite's «unite_wa».  Going back in time the effective
+  mass of the model vanishes (and $w = -1$) at $z$ = «e3_zCross0»; before that
+  its $w$ is below $-1$, its energy density turns negative at $z$ =
+  «e3_zZero0», and $E^2 = H^2/H_0^2$ reaches zero at $z$ = «e3_zBounce0»
+  («e3_zBounce1» for the $-0.764$ model).  Today $q_\text{dec}$ = «e3_q0_0»
+  and $c_s^2$ = «e3_cs2_0» < 0 (a gradient instability of perturbations, in a
+  fluid description).
 - The CPL fits that the numerical programme requested over the Unite ranges do not exist: the $w(a)$ fit
   on $[1/3.26, 1]$ crosses the pole of $w$ for every $x_0 <$ «e3_x0CritW», and the
   distance-modulus fit on $z\in[0.01, 2.26]$ crosses the bounce for every
   $x_0 <$ «e3_x0CritMu».  Restricted fits (labelled supplementary) give
   meaningless values such as $(w_0, w_a)\approx$ («e3_muFitW0», «e3_muFitWa»).
 
+**Mean-field artefacts, not established:** the crossing of the phantom
+divide, $KE_L<0$, $\rho_\psi<0$ and the bounce.  They all lie where
+$M_\text{eff}<0$ and the single occupied mode $u$ (with $s(u) = 1$ fixed) has
+become a negative-energy eigenvector of the instantaneous Hamiltonian, outside
+the domain of the expectation-value rule.  For any state of positive-energy
+quanta $S\,M_\text{eff}\ge0$, so $\rho+p\ge0$ and $KE_L\ge0$: no positive-energy
+(normal-ordered) state of this Lagrangian is phantom.  Mean-field normal
+ordering against a fixed sea is also least reliable at the gap closure
+$M_\text{eff} = 0$.
+
 **Verdict:** the stabilised dirac16complex condensate is **excluded as the
-Unite dark energy**.
+Unite dark energy**: tuned to $w_0$ = «unite_w0» it evolves far too fast and
+already leaves the valid regime of the mean field at $z$ = «e3_zCross0».
 
 **Variants and caveats.**
 
 - Letting the extra times deflate ($c\propto a^{-\gamma_d}$) with $\gamma_d$ =
-  «e3_gamma» reproduces the Unite tangent for $w = p/\rho$, but (i) the 4D
-  continuity equation then fails (defect «e3_continuity» today), so distances
-  measure $w_\text{eff}$ with tangent («e3_effW0», «e3_effWa»), not Unite;
-  (ii) Newton's constant would vary as $\dot G/G$ = «e3_gdot» $H_0$ (about
-  «e3_gdotYr» per year, against lunar-laser-ranging bounds of order 1e-13 per
-  year); (iii) the 8D constraint then needs a negative total 8D energy
-  density ($\kappa\rho_8$ = «e3_rho8» $H_a^2$).  It is not a viable rescue.
-- In the full 8D Einstein dynamics (EXP-2) a positive-energy condensate
-  always has $\Theta > \sqrt3H_a$, hence $w_\text{eff} > -1 + (1+w)/\sqrt3$:
-  the dust run never gets below $w_\text{eff}$ = «e2_dustMinWeff».  The bound
-  fails only where $\rho<0$ ($\Theta/(3H_a)$ down to «e2_thetaMinAll» for
-  $x_0 = -0.4$).  A 3-space observer in 8D gravity does not see this matter
-  as dark energy.
+  «e3_gamma» gives $p/\rho$ the tangent CPL parameters of the Unite fit, but
+  the like-for-like comparison, the CPL fit of its own $p/\rho$ on
+  $[1/3.26, 1]$, is $(w_0, w_a)$ = («e3_gvFitW0», «e3_gvFitWa»), far from Unite; its
+  $\rho_\psi$ is negative beyond $z$ = «e3_gvZZero» and $p/\rho$ crosses $-1$ at
+  $z$ = «e3_gvZCross».  Moreover (i) the 4D continuity equation fails (defect
+  «e3_continuity» today), so distances measure $w_\text{eff}$ with tangent
+  («e3_effW0», «e3_effWa»), not Unite; (ii) Newton's constant would vary as
+  $\dot G/G$ = «e3_gdot» $H_0$ (about «e3_gdotYr» per year, against
+  lunar-laser-ranging bounds of order 1e-13 per year); (iii) the 8D constraint
+  then needs a negative total 8D energy density ($\kappa\rho_8$ = «e3_rho8»
+  $H_a^2$).  It is not a viable rescue.
+- In the full 8D Einstein dynamics (EXP-2), with $H_a>0$, $\Theta>0$, $\rho\ge0$
+  and $w\ge-1$, the constraint gives $\Theta\ge\sqrt3H_a$ and hence
+  $w_\text{eff}\ge-1 + (1+w)/\sqrt3$: the dust run never gets below
+  $w_\text{eff}$ = «e2_dustMinWeff».  For $w<-1$ the inequality reverses, and
+  $\Theta<\sqrt3H_a$ occurs where $\rho<0$ ($\Theta/(3H_a)$ down to
+  «e2_thetaMinAll» for $x_0 = -0.4$); both situations are the mean-field
+  artefacts above.  A 3-space observer in 8D gravity does not see
+  positive-energy dust as dark energy.
 - A methodological caution about the benchmark: the constant $w$ =
-  «unite_w» is a direct fit to the supernovae.  It is **not** the constant-$w$
-  projection of the Unite CPL curve, whose own best constant $w$ is
-  «e3_projUniform» (uniform in $z$) or «e3_projLog» (uniform in $\ln z$), under
-  the simplifications used here ($\Omega_m$ = 0.305 fixed, noise-free curve,
-  equal weights).
+  «unite_w» is a direct fit to the supernovae with $\Omega_m$ free.  The
+  noise-free constant-$w$ projection of the Unite CPL curve depends strongly
+  on $\Omega_m$: with $\Omega_m$ fixed at 0.305, an input assumed here that the
+  PDF does not give, it is «e3_projUniform» (uniform in $z$) or «e3_projLog»
+  (uniform in $\ln z$); with $\Omega_m$ free it is «e3_projFree» ($\Omega_m$ =
+  «e3_projFreeOm») or «e3_projFreeLog».  The remaining difference to «unite_w»
+  cannot be judged without the Unite likelihood.
 - What these numbers are **not**: no supernova data, covariance or
   likelihood was used; "fits" are least-squares fits to model curves; the
-  Unite values are taken from the input PDF, which gives no error bars for
-  $(w_0, w_a)$ (the band drawn for the constant $w$ is inferred from its phrase
-  "roughly two standard deviations from $-1$" and is approximate).  All
+  Unite values are taken from the input PDF (an e-mail that cites no primary
+  publication; they were not checked against one), which gives no error bars
+  for $(w_0, w_a)$ (the band drawn for the constant $w$ is inferred from its
+  phrase "roughly two standard deviations from $-1$" and is approximate).  All
   densities are in the units stated in section 1; $\Omega_m$, $\Omega_r$ and
   $\Omega_\psi$ are fixed inputs, not fitted.
 """))
@@ -2230,12 +2395,21 @@ CELLS.append(md(r"""
   has dynamics.  Symmetric bilinears of odd fields vanish; always check the
   symmetry of $CM$ before writing a term.
 - **Read expectation values with the right metric.** In the (8,8) Krein
-  space the physical one-particle expectation is $u^\dagger BMu$; $u^\dagger Cu$
-  vanishes on exactly the states one cares about.
+  space the physical one-particle expectation is $u^\dagger BMu$.  The c-number
+  $u^\dagger Cu$ equals the Krein sign $\pm1$ on the positive-energy rest
+  eigenvectors (there $C = B$), so it agrees with the rule for $B = +1$ and has
+  the wrong sign for $B = -1$.  And the rule is for positive-energy quanta:
+  when the occupied mode turns into a negative-energy level (EXP-2 and EXP-3
+  for $M_\text{eff}<0$) its bilinears no longer describe a state above the sea.
 - **Two kinetic/potential splits, two meanings.** The Lagrangian split is the
   faithful analogue of $\frac12\dot\phi^2$ and $V$ for a condensate (phantom
-  $\Leftrightarrow KE_L<0$); for a gas it is useless ($KE_L = PE_L$ always) and
-  the Hamiltonian split (momentum versus rest-mass energy) is the informative one.
+  $\Leftrightarrow KE_L<0$, which needs an occupied negative-energy level); for
+  a gas it is useless ($KE_L = PE_L$ always) and the Hamiltonian split (momentum
+  versus rest-mass energy) is the informative one.
+- **A mean field of one mode is not a Fermi gas.** The Pauli principle allows 8
+  positive-energy quanta per momentum; a finite density at rest is a Fermi
+  sea with degeneracy pressure.  EXP-4's thermal gas is Pauli-consistent, the
+  EXP-2 and EXP-3 condensates are single-mode pictures.
 - **Specifications can be wrong, and the right response is to measure and
   report, never to relax a limit.** Several expectations written into the
   numerical programme before the computation were measured false: EXP-1 pressures are frozen only for energy
@@ -2266,8 +2440,11 @@ CELLS.append(md(r"""
 (`DIRAC16_NB_OUTPUT`) and compare $|\beta_k|^2$ with the canonical run. (2)
 Change $x_0$ in the closed forms of section 8 and find the largest $|x_0|$ for
 which the bounce lies beyond $z = 2.26$. (3) Derive $w_a = 3x_0/(1+x_0)^2$ by
-hand and show that $w_a/w_0 = 3/(1+x_0)$, so no $x_0$ can give Unite's ratio
-$w_a/w_0\approx0.70$ with $\sigma\propto a^{-3}$.
+hand and show that $w_a/w_0 = 3/(1+x_0)$, so no attractive coupling
+($-1<x_0<0$, the only ones with $w_0<0$) can give Unite's ratio
+$w_a/w_0\approx0.70$ with $\sigma\propto a^{-3}$: there the ratio exceeds 3.
+(The ratio 0.70 is reached at the repulsive $x_0\approx3.31$, where $w_0$ and
+$w_a$ are both positive.)
 """))
 
 

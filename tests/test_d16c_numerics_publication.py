@@ -57,8 +57,8 @@ NUMERICS = REPOSITORY_ROOT / "artifacts" / "dirac16complex" / "numerics"
 FIXTURE = REPOSITORY_ROOT / "artifacts" / "dirac16complex" / "arbitrary-field" / "algebra-fixture.json"
 GENERATED_RS = REPOSITORY_ROOT / "studies" / "dirac16complex_cosmology" / "src" / "generated.rs"
 
-MARKDOWN_SHA256 = "f17d42d373a850cf85ce8360f0599ebad203b86e358f3c9443a95147a5157b8e"
-TEX_SHA256 = "81e3e416f26065e52e80a9f7b6a9038d3906124688e24b5d6ec6e74e44c1930d"
+MARKDOWN_SHA256 = "bacbc15f814ce2dcecc863fb63ad31874711ad574345ffae2ad75a2b536a3eae"
+TEX_SHA256 = "734fcd9672f592b090d2bf1593daf2bd9b86e60c9c5e2c8ac414aa7b9289a9b0"
 
 TITLE = ("dirac16complex and the dark sector: pressure, energy density and equation of "
          "state from numerical solutions")
@@ -134,6 +134,20 @@ REQUIRED_PHRASES = (
     "is not a constant-$w$ projection of the Unite CPL curve",
     "The 4D-effective Friedmann equation with stabilised extra dimensions is an "
     "assumption of this experiment, not a consequence of the 8D equations",
+    "no positive-energy (normal-ordered) state of this Lagrangian is phantom",
+    "**This phantom crossing is a mean-field artefact, not an established property of the field:**",
+    "**Limits of the mean field.**",
+    "2. **The Pauli principle.**",
+    "the Fock exchange term is of the same order and is not included",
+    "the hidden-space momentum $k_0$ is set to zero",
+    "an e-mail that cites no primary publication; they were not checked against one",
+    "the dark-energy fits quoted for Unite in the reference PDF",
+    "$\\Omega_m=0.305$ is an assumed input",
+    "The remaining difference cannot be judged without the Unite likelihood",
+    "but neither is a thawing field in the sense of the PDF and of the standard classification",
+    "The mixed runs are numerical controls only",
+    "The reduction is exact for $\\lambda=0$.",
+    "python -m pip install -r requirements-stage3.txt",
 )
 MAIN_FIGURES = (
     "exp1_frozen_observables", "exp1_einstein_requirement",
@@ -249,11 +263,17 @@ QUOTED_NUMBERS = (
     ("e4", ["thermal", "wAtA1"], F(4), "Their gas has $w=@$ at temperature $T=10m$"),
     ("e4", ["thermal", "wAtAEnd"], F(4), "and $w=@$ after the scale factor has grown a hundredfold"),
     ("e4", ["pair", "masses", "m=0.1", "nA3"], S2, "(comoving number $na^3$ between $@$"),
-    ("e4", ["pair", "masses", "m=0.5", "nA3"], S2, "and $@$ in units of $H_{\\mathrm{inf}}^3$)"),
-    ("e3", ["models", 0, "waTangent"], F(2), "the condensate has $w_a=@$, crosses $w=-1$"),
-    ("e3", ["models", 0, "zPhantomCrossing"], F(3), "crosses $w=-1$ at redshift $z=@$"),
-    ("e3", ["models", 0, "zZero"], F(3), "has negative energy density beyond $z=@$"),
-    ("e3", ["models", 0, "zBounce"], F(3), "a bounce ($H=0$) at $z=@$"),
+    ("e4", ["pair", "masses", "m=0.5", "nA3"], S2, "and $@$ in units of $H_{\\mathrm{inf}}^3$, mostly"),
+    ("e3", ["models", 0, "waTangent"], F(2), "the condensate has $w_a=@$, its effective mass vanishes"),
+    ("e3", ["models", 0, "zPhantomCrossing"], F(3), "vanishes and $w=-1$ at redshift $z=@$"),
+    ("e3", ["models", 0, "zZero"], F(3), "the negative energy density beyond $z=@$"),
+    ("e3", ["models", 0, "zBounce"], F(3), "the bounce ($H=0$) at $z=@$"),
+    ("e3", ["models", 0, "zPhantomCrossing"], F(3), "the mean field leaves its valid regime (positive-energy occupied level) at $z=@$"),
+    ("p4", ["measurements", "thermalKineticUntruncatedWAtAEnd"], F(4), "(on the momentum grid $k\\le12T$; @ without the cut)"),
+    ("fits", ["gammaVariant", "model", "wFitRequested", "w0"], F(3),
+     "but the CPL fit of that $p/\\rho$ over the data range is $(@,-1.98)$"),
+    ("fits", ["gammaVariant", "model", "wFitRequested", "wa"], F(2),
+     "but the CPL fit of that $p/\\rho$ over the data range is $(-0.640,@)$"),
     ("e3", ["models", 0, "cs2Today"], F(1), "its adiabatic sound speed squared today is $@$"),
     ("fits", ["gammaVariant", "objections", "id=newtonConstant", "value"], F(2),
      "imply $\\dot G/G=@\\,H_0$"),
@@ -275,7 +295,7 @@ QUOTED_NUMBERS = (
     ("e1", ["runs", "id=A1_K2_pos_Bp", "initial", "p", 0], F(4), "$p_0=@$, $w=0.11429$"),
     ("e1", ["runs", "id=A1_K2_pos_Bp", "initial", "w"], F(5), "$p_0=1.7889$, $w=@$"),
     ("e1", ["runs", "id=A1_K0p5_pos_Bp_lambda0p5", "initial", "rho"], F(4),
-     "The $\\lambda=0.5$ run has $\\rho=@$"),
+     "The $\\lambda=0.5$ run (pointwise, fixed-$x_0$ mean field) has $\\rho=@$"),
     ("e1", ["runs", "id=A1_K0p5_pos_Bp_lambda0p5", "initial", "pMean"], F(4), "$\\bar p=@$"),
     ("e1", ["runs", "id=A1_K0p5_pos_Bp_lambda0p5", "initial", "w"], F(4), "$w=@$, $\\mathrm{KE}_L"),
     ("e1", ["runs", "id=A1_K0p5_pos_Bp_lambda0p5", "initial", "KE_L"], F(4), "$\\mathrm{KE}_L=@$ and"),
@@ -351,6 +371,9 @@ QUOTED_NUMBERS = (
     ("e2", ["measurements", "minThetaOver3HaPositiveEnergy"], F(5), "over rows with $\\rho>0$ is @."),
     ("p2", ["measurements", "thetaOver3HaMinAllRows"], F(3), "$\\Theta/(3H_a)$ falls to @, while"),
     ("e2", ["measurements", "minBound"], S1, "(minimum $@$)"),
+    ("e2", ["runs", "id=x0_m0p4", "measurements", "phantomRows"], I, "In every one of the $@+122$ rows"),
+    ("e2", ["runs", "id=x0_m0p4", "measurements", "negativeEnergyRows"], I, "In every one of the $14+@$ rows"),
+    ("e2", ["runs", "id=x0_m0p4", "measurements", "phantomRows"], I, "In the attractive run all @ phantom rows"),
     ("e2", ["measurements", "maxConstraintRelative"], S2, "Relative constraint residual at most $@$"),
     ("e2", ["measurements", "maxScalarDensityDrift"], S2, "$|SV/(S_0V_0)-1|$ at most $@$"),
     ("e2", ["measurements", "maxAnisotropyVolumeDrift"], S1, "is conserved (drift $@$)"),
@@ -419,7 +442,9 @@ QUOTED_NUMBERS = (
     ("p3", ["measurements", "waSummaryMaxRelDeviation"], S1, "the tangent $w_a$ to $@$ relative"),
     ("p3", ["measurements", "bounceRelDeviation"], S1, "the bounce stop to $@$"),
     ("fits", ["validation", "measurements", "nmSyntheticCplError"], S1, "curves to $@$ and"),
-    ("fits", ["validation", "measurements", "nmSyntheticWconstError"], S1, "and $@$; Rust distances"),
+    ("fits", ["validation", "measurements", "nmSyntheticWconstError"], S1, "and $@$, and a synthetic wCDM"),
+    ("fits", ["validation", "measurements", "nmSyntheticWcdmFreeOmegaMError"], S1,
+     "a synthetic wCDM curve with $\\Omega_m$ free to $@$; Rust distances"),
     ("fits", ["validation", "measurements", "rustDistanceVsQuadrature"], S1,
      "match an independent quadrature to $@$"),
     ("mm", ["exp3", "ndsolve", "spinorMaxAbsDeviation"], S2, "NDSolve agrees to $@$ in the spinor"),
@@ -437,7 +462,31 @@ QUOTED_NUMBERS = (
     ("fits", ["unite", "w0PlusWa"], F(3), "For the Unite CPL, $w_0+w_a=@$"),
     ("fits", ["unite", "phantomCrossingA"], F(3), "and $w=-1$ at $a=@$."),
     ("fits", ["unite", "constantWProjectionOffsetProfiled", "w"], F(4),
-     "| best constant $w$ for the Unite CPL distances | none | $@$ |"),
+     "| best constant $w$ for the Unite CPL distances, $\\Omega_m=0.305$ fixed | none | $@$ |"),
+    ("fits", ["unite", "constantWProjectionOmegaMFreeOffsetProfiled", "w"], F(4),
+     "| the same with $\\Omega_m$ free (best $\\Omega_m=0.2777$) | none | $@$ |"),
+    ("fits", ["unite", "constantWProjectionOmegaMFreeOffsetProfiled", "OmegaM"], F(4),
+     "| the same with $\\Omega_m$ free (best $\\Omega_m=@$) | none |"),
+    ("fits", ["unite", "constantWProjectionOmegaMFreeOffsetZero", "w"], F(4),
+     "| the same, $\\Omega_m$ free, offset fixed at 0 | none | $@$ |"),
+    ("fits", ["unite", "constantWProjectionOmegaMFreeLogGridOffsetProfiled", "w"], F(4),
+     "| the same, $\\Omega_m$ free, log-uniform $z$ grid | none | $@$ |"),
+    ("fits", ["unite", "constantWProjectionOmegaMFreeOffsetProfiled", "w"], F(4),
+     "With $\\Omega_m$ free the noise-free projection is $@$ ($\\Omega_m=0.2777$"),
+    ("fits", ["unite", "constantWProjectionOmegaMFreeOffsetProfiled", "rmsResidualMag"], F(4),
+     "rms residual @ mag instead of 0.0077 mag"),
+    ("fits", ["unite", "constantWProjectionOffsetProfiled", "rmsResidualMag"], F(4),
+     "mag instead of @ mag)"),
+    ("fits", ["unite", "constantWProjectionOmegaMFreeOffsetZero", "w"], F(4), "$@$ (offset zero) or $-0.8721$"),
+    ("fits", ["unite", "constantWProjectionOmegaMFreeLogGridOffsetProfiled", "w"], F(4),
+     "or $@$ (log-uniform $z$): about $-0.9$"),
+    ("fits", ["gammaVariant", "model", "wFitRequested", "w0"], F(3),
+     "| deflation variant, $p/\\rho$ fit on $a\\in[1/3.26,1]$ | $(@,-1.98)$ | none |"),
+    ("fits", ["gammaVariant", "model", "wFitRequested", "wa"], F(2),
+     "fit on $a\\in[1/3.26,1]$ | $(-0.640,@)$ | none |"),
+    ("fits", ["gammaVariant", "model", "wFitRequested", "rmsResidual"], F(3), "(rms residual @), far from Unite"),
+    ("fits", ["gammaVariant", "model", "zZero"], F(2), "Its $\\rho_\\psi$ is negative beyond $z=@$"),
+    ("fits", ["gammaVariant", "model", "zPhantomCrossing"], F(3), "its $p/\\rho$ crosses $w=-1$ at $z=@$"),
     ("fits", ["unite", "constantWProjectionOffsetZero", "w"], F(4),
      "| the same with the offset fixed at 0 | none | $@$ |"),
     ("fits", ["unite", "constantWProjectionLogGridOffsetProfiled", "w"], F(4),
@@ -447,7 +496,7 @@ QUOTED_NUMBERS = (
     ("fits", ["unite", "constantWProjectionLogGridOffsetProfiled", "w"], F(3), "or $@$ (log-uniform $z$)"),
     ("fits", ["gammaVariant", "gamma"], F(6), "$\\gamma=@$ ($n=0.374457$"),
     ("fits", ["gammaVariant", "n"], F(6), "($n=@$, $x_0=-0.4626545$)"),
-    ("fits", ["gammaVariant", "x0"], F(7), "$x_0=@$) reproduces the Unite tangent"),
+    ("fits", ["gammaVariant", "x0"], F(7), "$x_0=@$) the tangent CPL parameters of $p/\\rho$"),
     ("fits", ["gammaVariant", "tangentCPLofEffectiveW", "w0"], F(4), "| $(@,-0.0749)$ | none |"),
     ("fits", ["gammaVariant", "tangentCPLofEffectiveW", "wa"], F(4), "with tangent $(-0.9827,@)$"),
     ("fits", ["gammaVariant", "effectiveWFitRequested", "w0"], F(3), "fit | $(@,-0.247)$ | none |"),
@@ -500,29 +549,59 @@ QUOTED_NUMBERS = (
     ("e4", ["thermal", "maxBeta2PerModeK"], F(3), "at $k=@$, is"),
     ("p4", ["measurements", "thermalBeta2PerModeMaxOver4c2"], F(3), "is @ times $4|c|^2$"),
     ("p4", ["measurements", "thermalKmaxTruncationRhoAtA1"], S1, "misses $@$ of $\\rho$ at $a=1$"),
+    ("p4", ["measurements", "thermalKmaxTruncationRhoAtAEnd"], S1, "and, at $a=100$, $@$ of $\\rho$"),
+    ("p4", ["measurements", "thermalKmaxTruncationPressureAtAEnd"], S1, "of $\\rho$ and $@$ of $p$ (the checker's"),
+    ("p4", ["measurements", "thermalKineticUntruncatedWAtAEnd"], F(4), "Fermi-Dirac gas has $w=@$ at $a=100$ instead"),
+    ("p4", ["measurements", "thermalMagnusSelfConvergence"], S1, "(Magnus self-convergence $@$)"),
+    ("p4", ["measurements", "thermalMagnusFullRangeMaxFinalPhaseError"], S1,
+     "carry a phase error of at most $@$ rad at $a=100$"),
+    ("p4", ["measurements", "thermalMagnusFullRangeMaxFinalPhaseError"], S1,
+     "phase error (at most $@$ rad at $a=100$ against"),
+    ("p4", ["measurements", "thermalMagnusFullRangeMaxOverlapDev"], S1, "(maximum overlap deviation $@$)"),
+    ("p4", ["measurements", "refinedThermalMagnusMaxFinalPhaseError"], S1, "(maximum phase error $@$ rad"),
+    ("p4", ["measurements", "refinedThermalMagnusMaxOverlapDev"], S1, "overlap deviation $@$; canonical"),
+    ("p4", ["measurements", "refinedThermalMaxRawStateDiffMagnusNodes"], S2, "states differ by up to $@$)"),
     ("e4", ["pair", "masses", "m=0.0", "nA3"], S1, "| 0 | $@$ | $8.5\\times10^{-25}$ |"),
     ("e4", ["pair", "masses", "m=0.0", "maxBeta2"], S1, "| 0 | $1.8\\times10^{-24}$ | $@$ |"),
     ("e4", ["pair", "masses", "m=0.1", "nA3"], S3, "| 0.1 | $@$ | 0.348 |"),
     ("e4", ["pair", "masses", "m=0.5", "nA3"], S3, "| 0.5 | $@$ | 0.0640 |"),
     ("e4", ["pair", "masses", "m=1.0", "nA3"], S3, "| 1 | $@$ | 0.0138 |"),
     ("e4", ["pair", "masses", "m=2.0", "nA3"], S3, "| 2 | $@$ | 0.00265 |"),
-    ("e4", ["pair", "masses", "m=0.1", "maxBeta2"], F(3), "$1.455\\times10^{-3}$ | @ |"),
-    ("e4", ["pair", "masses", "m=0.5", "maxBeta2"], F(4), "$4.991\\times10^{-3}$ | @ |"),
-    ("e4", ["pair", "masses", "m=1.0", "maxBeta2"], F(4), "$4.414\\times10^{-3}$ | @ |"),
-    ("e4", ["pair", "masses", "m=2.0", "maxBeta2"], F(5), "$2.422\\times10^{-3}$ | @ |"),
-    ("e4", ["pair", "masses", "m=0.1", "wFrozenSpectrumAtA1"], F(4), "| 0.1 | @ | $3.09\\times10^{-4}$ |"),
-    ("e4", ["pair", "masses", "m=0.5", "wFrozenSpectrumAtA1"], F(4), "| 0.5 | @ | $1.28\\times10^{-4}$ |"),
-    ("e4", ["pair", "masses", "m=1.0", "wFrozenSpectrumAtA1"], F(4), "| 1 | @ | $1.70\\times10^{-4}$ |"),
-    ("e4", ["pair", "masses", "m=2.0", "wFrozenSpectrumAtA1"], F(4), "| 2 | @ | $3.09\\times10^{-4}$ |"),
-    ("e4", ["pair", "masses", "m=0.1", "wEnd"], S2, "| 0.3095 | $@$ |"),
-    ("e4", ["pair", "masses", "m=0.5", "wEnd"], S2, "| 0.2544 | $@$ |"),
-    ("e4", ["pair", "masses", "m=1.0", "wEnd"], S2, "| 0.2390 | $@$ |"),
-    ("e4", ["pair", "masses", "m=2.0", "wEnd"], S2, "| 0.2397 | $@$ |"),
+    ("e4", ["pair", "masses", "m=0.1", "maxBeta2"], F(3), "$1.454\\times10^{-3}$ | @ |"),
+    ("e4", ["pair", "masses", "m=0.5", "maxBeta2"], F(4), "$4.990\\times10^{-3}$ | @ |"),
+    ("e4", ["pair", "masses", "m=1.0", "maxBeta2"], F(4), "$4.412\\times10^{-3}$ | @ |"),
+    ("e4", ["pair", "masses", "m=2.0", "maxBeta2"], F(5), "$2.421\\times10^{-3}$ | @ |"),
+    ("e4", ["pair", "masses", "m=0.1", "wFrozenSpectrumAtA1"], F(4), "| 0.1 | @ | $1.20\\times10^{-4}$ |"),
+    ("e4", ["pair", "masses", "m=0.5", "wFrozenSpectrumAtA1"], F(4), "| 0.5 | @ | $1.14\\times10^{-4}$ |"),
+    ("e4", ["pair", "masses", "m=1.0", "wFrozenSpectrumAtA1"], F(4), "| 1 | @ | $1.62\\times10^{-4}$ |"),
+    ("e4", ["pair", "masses", "m=2.0", "wFrozenSpectrumAtA1"], F(4), "| 2 | @ | $3.02\\times10^{-4}$ |"),
+    ("e4", ["pair", "masses", "m=0.1", "wEnd"], S2, "| 0.3081 | $@$ |"),
+    ("e4", ["pair", "masses", "m=0.5", "wEnd"], S2, "| 0.2539 | $@$ |"),
+    ("e4", ["pair", "masses", "m=1.0", "wEnd"], S2, "| 0.2386 | $@$ |"),
+    ("e4", ["pair", "masses", "m=2.0", "wEnd"], S2, "| 0.2395 | $@$ |"),
     ("e4", ["pair", "masses", "m=0.0", "rhoA3End"], S1, "| $1/3$ | $1/3$ | $@$ |"),
-    ("e4", ["pair", "masses", "m=0.1", "rhoA3End"], S3, "| $3.09\\times10^{-4}$ | $@$ |"),
-    ("e4", ["pair", "masses", "m=0.5", "rhoA3End"], S3, "| $1.28\\times10^{-4}$ | $@$ |"),
-    ("e4", ["pair", "masses", "m=1.0", "rhoA3End"], S3, "| $1.70\\times10^{-4}$ | $@$ |"),
-    ("e4", ["pair", "masses", "m=2.0", "rhoA3End"], S3, "| 0.2397 | $3.09\\times10^{-4}$ | $@$ |"),
+    ("e4", ["pair", "masses", "m=0.1", "rhoA3End"], S3, "| $1.20\\times10^{-4}$ | $@$ |"),
+    ("e4", ["pair", "masses", "m=0.5", "rhoA3End"], S3, "| $1.14\\times10^{-4}$ | $@$ |"),
+    ("e4", ["pair", "masses", "m=1.0", "rhoA3End"], S3, "| $1.62\\times10^{-4}$ | $@$ |"),
+    ("e4", ["pair", "masses", "m=2.0", "rhoA3End"], S3, "| 0.2395 | $3.02\\times10^{-4}$ | $@$ |"),
+    ("e4", ["pair", "masses", "m=0.1", "nA3Instantaneous"], S3, "it gives $na^3=@$, $4.991"),
+    ("e4", ["pair", "masses", "m=0.5", "nA3Instantaneous"], S3, "=1.455\\times10^{-3}$, $@$, $4.414"),
+    ("e4", ["pair", "masses", "m=1.0", "nA3Instantaneous"], S3, "$4.991\\times10^{-3}$, $@$ and $2.422"),
+    ("e4", ["pair", "masses", "m=2.0", "nA3Instantaneous"], S3, "$4.414\\times10^{-3}$ and $@$, and at the end"),
+    ("e4", ["pair", "masses", "m=0.1", "wEndInstantaneous"], S2, "and at the end $w=@$, $1.28"),
+    ("e4", ["pair", "masses", "m=0.5", "wEndInstantaneous"], S2, "$w=3.09\\times10^{-4}$, $@$, $1.70"),
+    ("e4", ["pair", "masses", "m=1.0", "wEndInstantaneous"], S2, "$1.28\\times10^{-4}$, $@$ and $3.09"),
+    ("e4", ["pair", "masses", "m=2.0", "wEndInstantaneous"], S2, "$1.70\\times10^{-4}$ and $@$ for $m=0.1$"),
+    ("e4", ["pair", "masses", "m=2.0", "nA3KinkTailBeyondKMax"], S2, "adds $@$ to $na^3$ for $m=2$"),
+    ("p4", ["measurements", "pairTailNA3Fraction_m2.0"], S1, "(a fraction $@$)"),
+    ("p4", ["measurements", "pairTailRhoFractionAtA1_m2.0"], S1, "and $@$ of $\\rho$ and"),
+    ("p4", ["measurements", "pairTailPressureFractionAtA1_m2.0"], S1, "$@$ of $p$ at $a=1$; with it"),
+    ("e4", ["pair", "masses", "m=2.0", "nA3TailCorrected"], S3, "with it, $na^3=@$ and"),
+    ("e4", ["pair", "masses", "m=2.0", "wFrozenSpectrumAtA1TailCorrected"], F(4), "at $a=1$ is @ for $m=2$"),
+    ("e4", ["pair", "masses", "m=0.1", "wFrozenSpectrumAtA1TailCorrected"], F(4), "for $m=2$ (@, 0.2540"),
+    ("e4", ["pair", "masses", "m=0.5", "wFrozenSpectrumAtA1TailCorrected"], F(4), "(0.3081, @ and 0.2388"),
+    ("e4", ["pair", "masses", "m=1.0", "wFrozenSpectrumAtA1TailCorrected"], F(4), "0.2540 and @ for the lighter"),
+    ("e4", ["pair", "masses", "m=2.0", "wEndTailCorrected"], S2, "$w$ at the end is $@$ for $m=2$"),
     ("e4", ["pair", "masses", "m=1.0", "rhoA3End"], S3, "(for $m=1$: $@$ against"),
     ("e4", ["pair", "masses", "m=1.0", "nA3"], S3, "against $na^3=@$)"),
     ("e4", ["pair", "tailMaxRelDev"], PERCENT, "follows the kink prediction to @ (limit 35%)"),
@@ -881,7 +960,14 @@ class AgreementWithArtifactsTests(unittest.TestCase):
         gamma = self.reports["fits"]["gammaVariant"]
         self.assertEqual((round(gamma["tangentCPLofPressureRatio"]["w0"], 12),
                           round(gamma["tangentCPLofPressureRatio"]["wa"], 12)), (-0.861, -0.6))
-        self.assertIn("| deflation variant, $p/\\rho$ | $(-0.861,-0.60)$ | none |", self.text)
+        self.assertIn("| deflation variant, tangent of $p/\\rho$ | $(-0.861,-0.60)$ | none |", self.text)
+        fit = gamma["model"]["wFitRequested"]
+        self.assertEqual(fit["status"], "ok")
+        self.assertEqual((f"{fit['w0']:.3f}", f"{fit['wa']:.2f}"), ("-0.640", "-1.98"))
+        self.assertIn("$(-0.640,-1.98)$", self.text)
+        self.assertIn("omegaMAssumption", unite)
+        self.assertLess(unite["constantWProjectionOmegaMFreeOffsetProfiled"]["rmsResidualMag"],
+                        unite["constantWProjectionOffsetProfiled"]["rmsResidualMag"])
         newton = [o for o in gamma["objections"] if o["id"] == "newtonConstant"][0]
         self.assertEqual(f"{2 ** (-3 * gamma['gamma']):.3f}", "0.162")
         self.assertIn("$G_N(z=1)/G_N(0)=0.162$", self.text)
@@ -932,8 +1018,8 @@ class AgreementWithArtifactsTests(unittest.TestCase):
         self.assertIn(f"the remaining {mathematica['checkCount'] - sum(per_experiment)} of the "
                       f"Mathematica notebook's {mathematica['checkCount']} checks", self.text)
         analysis = summary["experiments"][2]["analysis"]
-        self.assertEqual((analysis["checkCount"], analysis["failedCount"]), (9, 0))
-        self.assertIn("the analysis 9 of 9", self.text)
+        self.assertEqual((analysis["checkCount"], analysis["failedCount"]), (10, 0))
+        self.assertIn("the analysis 10 of 10", self.text)
         self.assertIn(f"Totals: {totals['rustChecks']} of {totals['rustChecks']} Rust self-checks, "
                       f"{totals['pythonChecks']} of {totals['pythonChecks']} checker checks and "
                       f"{totals['analysisChecks']} of {totals['analysisChecks']} analysis checks true; "
@@ -951,14 +1037,25 @@ class AgreementWithArtifactsTests(unittest.TestCase):
         self.assertTrue(all(run["gauntletPassed"] for run in notebook["executions"]))
         self.assertEqual(len(notebook["executions"]), 2)
         self.assertTrue(notebook["crossExecution"]["identicalGauntletAndFigures"])
-        fresh = results["fresh_outputs_byte_identical"]["detail"]
+        fresh = results["fresh_program_outputs_byte_identical"]["detail"]
         counts = [(label, int(a), int(b)) for label, a, b in re.findall(r"(exp[\w-]*) (\d+)/(\d+)", fresh)]
-        self.assertTrue(all(a == b for _, a, b in counts))
-        total = sum(a for _, a, _ in counts)
-        analysis = sum(a for label, a, _ in counts if label == "exp3-analysis")
-        self.assertIn(f"all {total} written files ({total - analysis} from the program, "
-                      f"{analysis} from the EXP-3 analysis)", self.text)
-        self.assertIn(f"{total} of {total} freshly written files", self.text)
+        self.assertTrue(counts and all(a == b for _, a, b in counts))
+        program = sum(a for _, a, _ in counts)
+        numeric = results["fresh_analysis_outputs_numerically_equal"]["detail"]
+        analysis_counts = re.findall(r"exp3-analysis (\d+)/(\d+)", numeric)
+        self.assertEqual(len(analysis_counts), 1)
+        analysis = int(analysis_counts[0][0])
+        self.assertEqual(analysis_counts[0][0], analysis_counts[0][1])
+        self.assertIn(f"requires all {program} files written by the program to be byte-identical to the "
+                      f"committed ones and the {analysis} files of the EXP-3 analysis to agree with them "
+                      "value by value", self.text)
+        self.assertIn(f"with {program} of {program} freshly written program files byte-identical and "
+                      f"{analysis} of {analysis} analysis files numerically equal", self.text)
+        mathematica_thermal = self.reports["mm"]["exp4"]["thermal"]
+        self.assertEqual((mathematica_thermal["nodes"], mathematica_thermal["aMax"]),
+                         ([0, 2, 16, 47], [100.0, 100.0, 10.0, 10.0]))
+        self.assertIn("Its thermal nodes 0 and 2 run to $a=100$, the two hardest nodes 16 ($k=32$) and "
+                      "47 ($k=120$) only to $a=10$", self.text)
         stage1 = re.search(r"(\d+)/(\d+) checks", results["stage1_physics_verified"]["detail"])
         self.assertIn(f"the Stage-1 results ({stage1.group(1)} of {stage1.group(2)} checks)", self.text)
         quoted = re.search(r"(\d+) numbers quoted", results["prose_numbers_match_reports"]["detail"])

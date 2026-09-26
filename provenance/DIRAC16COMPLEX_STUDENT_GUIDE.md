@@ -4,7 +4,7 @@
 
 ## Abstract
 
-This guide takes a student who has never used Rust, CVODE or this repository from an empty computer to a complete and checked reproduction of every numerical solution of Stage 3 of the dirac16complex project. Stage 3 consists of five experiments, EXP-1 to EXP-5. Each one integrates the field equation of dirac16complex, a 16-component complex Grassmann spinor field in eight dimensions with four space-like and four time-like directions, in a homogeneous background, with the CVODE solver of the pure-Rust SUNDIALS 7.8.0 port of the rustSolveIt engine. The guide explains in plain language what is computed and why; how to install Git, Rust, Python with numpy, matplotlib, sympy, nbformat, nbclient and ipykernel, and optionally Jupyter, the Wolfram Engine and a TeX distribution, on Windows 11 (PowerShell and Git Bash), macOS and Linux; how to fetch the code and the pinned solver engine and how to check them; how to build and test the program; the mathematics from zero, including a step-by-step derivation of each experiment's first-order system $u'=f(t,u)$ with its state vector index by index, its right-hand side and its initial data; how CVODE solves such a system; how to run each experiment, read every column of its output and check it with the independent Python checkers (162 checks), the EXP-3 analysis (9 checks), the Jupyter notebook (70 checks) and the Mathematica notebook (49 checks); how to rebuild the PDF documents; exercises with answers; troubleshooting; and a glossary. Every command in this guide was executed while it was written, from fresh clones, on Windows 11 in PowerShell 7 and in Git Bash and on Ubuntu 24.04 under WSL2. Installers, which change the computer, were not executed, and nothing was tested on macOS; Section 2.3 lists exactly what was run where. Two measured facts matter for reproduction: the three platform engines are not byte-identical, and the committed results were produced with the Windows 11 engine, which also builds and reproduces every Rust output byte for byte on Linux.
+This guide takes a student who has never used Rust, CVODE or this repository from an empty computer to a complete and checked reproduction of every numerical solution of Stage 3 of the dirac16complex project. Stage 3 consists of five experiments, EXP-1 to EXP-5. Each one integrates the field equation of dirac16complex, a 16-component complex Grassmann spinor field in eight dimensions with four space-like and four time-like directions, in a homogeneous background, with the CVODE solver of the pure-Rust SUNDIALS 7.8.0 port of the rustSolveIt engine. The guide explains in plain language what is computed and why; how to install Git, Rust, Python with numpy, matplotlib, sympy, nbformat, nbclient and ipykernel, and optionally Jupyter, the Wolfram Engine and a TeX distribution, on Windows 11 (PowerShell and Git Bash), macOS and Linux; how to fetch the code and the pinned solver engine and how to check them; how to build and test the program; the mathematics from zero, including a step-by-step derivation of each experiment's first-order system $u'=f(t,u)$ with its state vector index by index, its right-hand side and its initial data; how CVODE solves such a system; how to run each experiment, read every column of its output and check it with the independent Python checkers (162 checks), the EXP-3 analysis (10 checks), the Jupyter notebook (71 checks) and the Mathematica notebook (49 checks); how to rebuild the PDF documents; exercises with answers; troubleshooting; and a glossary. Every command in this guide was executed while it was written, from fresh clones, on Windows 11 in PowerShell 7 and in Git Bash and on Ubuntu 24.04 under WSL2. Installers, which change the computer, were not executed, and nothing was tested on macOS; Section 2.3 lists exactly what was run where. Three measured facts matter for reproduction: the three platform engines are not byte-identical; the committed results were produced with the Windows 11 engine, which also builds and reproduces every Rust output byte for byte on Linux; and the last digits of the files that Python writes (the EXP-3 analysis, the checker reports) depend on the numpy version, which is why the tested versions are pinned in `requirements-stage3.txt`.
 
 ## 1. What you will compute and why
 
@@ -32,13 +32,13 @@ A caution about the CPL form that the input document gets wrong: its table label
 | EXP-4 | expanding 3-space: radiation era, and de Sitter followed by radiation | 32 ODEs per momentum mode, hundreds of modes | do the quanta behave like dark matter, and how many does the expansion create? |
 | EXP-5 | deflating extra times | 32 ODEs, 4 runs | why must the physics be restricted to modes without momentum along the extra times? |
 
-What the committed results say, in one paragraph (the scientific document of Stage 3, DIRAC16COMPLEX_DARK_SECTOR_NUMERICS, discusses them fully): a thermal gas of the free quanta goes from radiation-like, $w=0.3329$ at $a=1$, to dust-like, $w=0.0359$ at $a=100$, and expansion creates such quanta for $m>0$ but not for $m=0$. That is necessary for dark matter, not sufficient. As dark energy the condensate can be tuned to $w_0=-0.861$ today, but then its tangent slope is $w_a=-4.81$, about eight times faster than Unite, and the model universe bounces at redshift $z=0.388$. You will reproduce these numbers yourself in Sections 7 to 9.
+What the committed results say, in one paragraph (the scientific document of Stage 3, DIRAC16COMPLEX_DARK_SECTOR_NUMERICS, discusses them fully): a thermal gas of the free quanta goes from radiation-like, $w=0.3329$ at $a=1$, to dust-like, $w=0.0359$ at $a=100$ (on the program's momentum grid; 0.0361 without its cut), and expansion creates such quanta for $m>0$ but not for $m=0$. That is necessary for dark matter, not sufficient. As dark energy the condensate can be tuned to $w_0=-0.861$ today, but then its tangent slope is $w_a=-4.81$, about eight times faster than Unite. Going back in time its effective mass vanishes at redshift $z=0.026$; beyond that the one-mode approximation of the condensate is no longer valid, and its equations, followed further, give a phantom epoch, negative energy and a model universe that bounces at redshift $z=0.388$. You will reproduce these numbers yourself in Sections 7 to 9.
 
 ### 1.3 What you will have at the end
 
 1. A built program (Section 5.1) that runs the five experiments and checks itself with 69 self-checks.
 2. The output files of every experiment, byte for byte identical to the committed ones under `artifacts/dirac16complex/numerics/`.
-3. Independent confirmation by five Python checkers that recompute the physics from the raw spinor columns (162 checks), by the EXP-3 analysis (9 checks), by the Jupyter notebook (70 checks and 17 figures) and, optionally, by the Mathematica notebook (49 checks).
+3. Independent confirmation by five Python checkers that recompute the physics from the raw spinor columns (162 checks), by the EXP-3 analysis (10 checks), by the Jupyter notebook (71 checks and 17 figures) and, optionally, by the Mathematica notebook (49 checks).
 4. The understanding to change a parameter, predict the result and check the prediction.
 
 ## 2. How to use this guide
@@ -73,6 +73,8 @@ The commands were executed while the guide was written, from fresh clones of the
 
 Not executed anywhere, because they install software or change system settings: `winget install`, `xcode-select` (macOS), the rustup installer, `apt install`, the MiKTeX, MacTeX and Wolfram installers, and `wolframscript -activate`. On Windows the package identifiers were confirmed with `winget show`, and on Ubuntu the package names with the simulation `apt-get -s install`.
 
+**Revision after the Stage-3 review.** The commands that this revision changed or added were executed on the working tree of the repository (not on a fresh clone): the pinned package installation of Section 3.5 (on a computer where the pinned versions were already installed, so pip changed nothing), the setup-script messages of Sections 4.3 and 14 (with a simulated interrupted download), the missing-pdflatex message of Section 14, and the notebook of Section 10 in a copied tree with numpy 2.4.6 and with numpy 2.5.3 and matplotlib 3.11.2 on Windows, and with the Ubuntu environment of the table.
+
 ## 3. Installing the tools
 
 ### 3.1 What you need
@@ -94,7 +96,15 @@ A computer from the last ten years is enough. The program needs only a few megab
 
 ### 3.2 Windows 11
 
-The tool `winget` (App Installer) is part of Windows 11. Open PowerShell and install the tools with these commands (the first use of winget may ask you to accept its source agreements, and some installers open a window):
+The tool `winget` (App Installer) is part of Windows 11. Open PowerShell. **First** install the Microsoft C++ build tools (the linker `link.exe` and the Windows SDK), which Rust on Windows needs; this step is required (the first use of winget may ask you to accept its source agreements, and the installer opens a progress window):
+
+```
+$id = "Microsoft.VisualStudio.2022.BuildTools"
+$vs = "--wait --passive --add Microsoft.VisualStudio.Workload.VCTools"
+winget install --id $id -e --override "$vs --includeRecommended"
+```
+
+Then install the other tools:
 
 ```
 winget install --id Git.Git -e
@@ -103,12 +113,10 @@ winget install --id Rustlang.Rustup -e
 winget install --id Python.Python.3.13 -e
 ```
 
-Rust on Windows needs the Microsoft C++ build tools (the linker `link.exe` and the Windows SDK). If they are not installed, the rustup installer offers to install them through the Visual Studio installer; accept that offer. You can also install them yourself:
+Why this order: when winget installs rustup it runs the rustup installer silently (`-y`), and in that mode rustup does not offer to install the build tools; it only warns that they are missing, and the first build then fails with `linker link.exe not found` (Section 14). This was read from the winget manifest and the rustup source, not observed on a fresh computer. If you prefer rustup's own offer, install rustup interactively instead and accept its offer to install the Visual Studio build tools:
 
 ```
-$id = "Microsoft.VisualStudio.2022.BuildTools"
-$vs = "--wait --passive --add Microsoft.VisualStudio.Workload.VCTools"
-winget install --id $id -e --override "$vs --includeRecommended"
+winget install --id Rustlang.Rustup -e -i
 ```
 
 Optional tools:
@@ -171,24 +179,28 @@ Other distributions have the same tools under similar package names. The Wolfram
 
 ### 3.5 The Python packages
 
+The committed files were produced with these versions, and the byte-for-byte comparisons of this guide assume them: numpy 2.4.6, matplotlib 3.11.0, sympy 1.14.0, nbformat 5.10.4, nbclient 0.10.2 and ipykernel 7.1.0. The same list is in the file `requirements-stage3.txt` of the repository (after Section 4.2 you can also write `python -m pip install -r requirements-stage3.txt`).
+
 **Windows (PowerShell or Git Bash).** Install the packages for your user:
 
 ```
-python -m pip install numpy matplotlib sympy nbformat nbclient ipykernel
+python -m pip install numpy==2.4.6 matplotlib==3.11.0 sympy==1.14.0
+python -m pip install nbformat==5.10.4 nbclient==0.10.2 ipykernel==7.1.0
 python -m pip install jupyterlab
 ```
 
-The second line is optional (interactive notebook and nbconvert). On a computer that already has the packages, pip prints `Requirement already satisfied` for each of them and changes nothing. If pip warns that a script such as `jupyter.exe` is installed in a folder that is not on PATH, this guide avoids the problem by always writing `python -m ...` (Section 14).
+The third line is optional (interactive notebook and nbconvert). On a computer that already has the packages, pip prints `Requirement already satisfied` for each of them and changes nothing. If pip warns that a script such as `jupyter.exe` is installed in a folder that is not on PATH, this guide avoids the problem by always writing `python -m ...` (Section 14).
 
 **macOS and Linux.** Recent systems refuse `pip install` outside a virtual environment (Ubuntu 24.04 prints `error: externally-managed-environment`). Create one virtual environment for this project, outside the repository, and activate it:
 
 ```
 python3 -m venv ~/.venvs/dirac16
 source ~/.venvs/dirac16/bin/activate
-python -m pip install numpy matplotlib sympy nbformat nbclient ipykernel
+python -m pip install numpy==2.4.6 matplotlib==3.11.0 sympy==1.14.0
+python -m pip install nbformat==5.10.4 nbclient==0.10.2 ipykernel==7.1.0
 ```
 
-Optional: `python -m pip install jupyterlab`. The activation lasts until you close the terminal: **in every new terminal run** `source ~/.venvs/dirac16/bin/activate` again. While it is active, `python` means the Python of the environment, which is why the rest of this guide writes `python` on every platform.
+Optional: `python -m pip install jupyterlab`. If pip cannot install one of the pinned versions for your Python (the pins were tested with Python 3.14.5 on Windows), install the packages without the `==` versions, for example `python -m pip install numpy matplotlib sympy nbformat nbclient ipykernel`. Every check of this guide still passes then, but the last digits of the EXP-3 analysis files and of the checker reports can differ from the committed ones, and with a different matplotlib build the figure bytes can differ too (Sections 9.2, 10.2 and 14). The activation lasts until you close the terminal: **in every new terminal run** `source ~/.venvs/dirac16/bin/activate` again. While it is active, `python` means the Python of the environment, which is why the rest of this guide writes `python` on every platform.
 
 ### 3.6 Checking the installation
 
@@ -294,7 +306,7 @@ solver_commit=a8fdff459adfe181573d7924b18bffbdf378fdb3
 solver_setup=OK
 ```
 
-It takes a few seconds. Running it again prints `solver_setup=ALREADY-PRESENT`. If the folder holds a different engine, the script stops with `vendor/rustSolveIt is at ..., expected ...; remove it and rerun`.
+It takes a few seconds. Running it again prints `solver_setup=ALREADY-PRESENT`. If the folder holds a different engine, the script stops with `vendor/rustSolveIt is at ..., expected ...; remove it and rerun`. If an earlier run was interrupted (for example by a network failure during the download), the folder is an incomplete checkout and the script stops with `vendor/rustSolveIt is an incomplete checkout (an interrupted or failed download); remove it and rerun`. In both cases delete the folder as shown in Section 4.4 and run the script again.
 
 ### 4.4 Checking the engine
 
@@ -323,11 +335,11 @@ After a switch, rebuild the program (Section 5).
 
 ### 4.5 The three engines are not identical
 
-The comment at the top of `scripts/setup_solver.sh` says that all three repositories vendor a byte-identical `sundials_rs`. They do not; this was measured while this guide was written. The macOS and Linux engines are identical to each other (their `sundials_rs` folders have the same Git tree, `47d654d5`). The Windows 11 engine is different (tree `eeaa0cad`): its deterministic mathematical library `sundials_libm` is a translation of GNU C Library 2.39, while the other two use different implementations, so some elementary functions can return results that differ in the last bit. The consequences, measured:
+An earlier version of the comment at the top of `scripts/setup_solver.sh` said that all three repositories vendor a byte-identical `sundials_rs`. They do not; this was measured while this guide was written, and the comment now says so. The macOS and Linux engines are identical to each other (their `sundials_rs` folders have the same Git tree, `47d654d5`). The Windows 11 engine is different (tree `eeaa0cad`): its deterministic mathematical library `sundials_libm` is a translation of GNU C Library 2.39, while the other two use different implementations, so some elementary functions can return results that differ in the last bit. The consequences, measured:
 
 1. With the `win11` engine the program reproduces every committed output file byte for byte, on Windows 11 and on Ubuntu 24.04 alike.
 2. With the `linux` engine (the default of `setup_solver.sh` on Linux) all 69 self-checks and all 162 checker checks still pass, but 14 committed files differ in their last digits: the ten EXP-1 files with $K=0$ (backgrounds and $K=0$ runs) and the three EXP-2 CSV files with their `summary.json`. The same engine gives the same 14 differences on Windows, so they come from the engine, not from the operating system.
-3. The Jupyter notebook asserts that fresh outputs are byte-identical to the committed ones, so with the `linux` or `macos` engine its gauntlet stops with `AssertionError('fresh_outputs_byte_identical')`.
+3. The Jupyter notebook asserts that the fresh program outputs are byte-identical to the committed ones, so with the `linux` or `macos` engine its gauntlet stops with `AssertionError('fresh_program_outputs_byte_identical')`.
 
 The `macos` engine was not run. Because it equals the `linux` engine, it can be expected to behave like it.
 
@@ -381,7 +393,7 @@ Cargo reads it because the crate folder lies below the repository root. It tells
 
 ### 5.3 Test
 
-The crate has 24 unit tests (Clifford relations of the generated gamma matrices, the Hamiltonian, CVODE against exact solutions, closed forms of EXP-2 and EXP-3, the EXP-4 algebra, the output format). In any shell:
+The crate has 25 unit tests (Clifford relations of the generated gamma matrices, the Hamiltonian, CVODE against exact solutions, closed forms of EXP-2 and EXP-3, the EXP-4 algebra and its kink-tail integral, the output format). In any shell:
 
 ```
 cd studies/dirac16complex_cosmology
@@ -392,8 +404,8 @@ cd ../..
 Expected output, among the compiler lines:
 
 ```
-running 24 tests
-test result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+running 25 tests
+test result: ok. 25 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 ```
 
 followed by two empty test groups (`running 0 tests`). One test deliberately makes the right-hand side fail and checks that the error is reported, so the line
@@ -421,7 +433,7 @@ The row $u^\dagger$ (read “u dagger”) is the conjugate transpose. A 16 by 16
 
 ### 6.2 The field: a column of 16 complex numbers
 
-The field dirac16complex is $\Psi=(\Psi_0,\dots,\Psi_{15})^T$: at every point of spacetime, 16 complex components. In the quantum theory the components are Grassmann-odd, which means $\Psi_a\Psi_b=-\Psi_b\Psi_a$; this is how fermions obey the Pauli principle (a state holds at most one particle). None of the ODEs below multiplies two Grassmann numbers. Every experiment integrates the **mode amplitude** $u(t)$, an ordinary column of 16 complex numbers, and the Grassmann nature enters only in two places: the counting of states (each state occupied at most once, Section 6.15) and the expectation-value rule of Section 6.10. This is the mean-field, one-particle reading of the field; it is exact for the free modes and an approximation for the self-interacting condensate.
+The field dirac16complex is $\Psi=(\Psi_0,\dots,\Psi_{15})^T$: at every point of spacetime, 16 complex components. In the quantum theory the components are Grassmann-odd, which means $\Psi_a\Psi_b=-\Psi_b\Psi_a$; this is how fermions obey the Pauli principle (a state holds at most one particle). None of the ODEs below multiplies two Grassmann numbers. Every experiment integrates the **mode amplitude** $u(t)$, an ordinary column of 16 complex numbers, and the Grassmann nature enters only in two places: the counting of states (each state occupied at most once, Section 6.14) and the expectation-value rule of Section 6.10. For a gas of free quanta in which every state is occupied at most once (EXP-4) this reading is exact mode by mode. The condensate of EXP-2 and EXP-3 is a mean-field picture: one mode at rest stands for a macroscopic density of quanta. That is an approximation in two ways. The Pauli principle allows at most 8 quanta of positive energy per momentum, so a real state of that density is a Fermi sea, with a degeneracy pressure that the one-mode picture leaves out; and the self-interaction is included only through its mean value (Hartree level).
 
 ### 6.3 Spacetime and the gamma matrices
 
@@ -615,7 +627,7 @@ For $h=-iM\gamma^4-\sum_j(k_j/h_j)\gamma^4\gamma^j$ the pieces are $h_i=-M\gamma
 
 ### 6.10 Energy, pressure, norms and the expectation-value rule
 
-Quantising the field with respect to $t$ gives the anticommutator $\{\Psi,\Psi^\dagger\}\propto B$. Because $B$ has eigenvalues of both signs, the space of states carries an indefinite inner product (a Krein space). The experiments use its positive-norm quantisation, in which a one-particle state built on a normalised mode $u$ ($u^\dagger u=1$) has the **expectation-value rule**
+Quantising the field with respect to $t$ gives the anticommutator $\{\Psi,\Psi^\dagger\}\propto B$. Because $B$ has eigenvalues of both signs, the space of states carries an indefinite inner product (a Krein space). The experiments use its positive-norm quantisation, in which a one-particle state built on a normalised positive-energy mode $u$ ($u^\dagger u=1$) above the filled sea of negative-energy states has the **expectation-value rule**
 
 $$
 \langle\Psi^\dagger M\Psi\rangle=u^\dagger BM\,u .
@@ -638,11 +650,13 @@ $$
 u_0=\tfrac12\bigl(e_0-e_4-i\,e_9-i\,e_{13}\bigr),
 $$
 
-where $e_n$ is the column with 1 in position $n$. Check it with the tables: $(\gamma^4u_0)_0=-u_{13}=i/2$, so $(-i\gamma^4u_0)_0=1/2=(u_0)_0$; do the same for components 4, 9 and 13, and for $(Bu_0)_0=i\,u_9=1/2$. Hence $s(u_0)=u_0^\dagger u_0=1$ and $hu_0=Mu_0$.
+where $e_n$ is the column with 1 in position $n$. Check it with the tables: $(\gamma^4u_0)_0=-u_{13}=i/2$, so $(-i\gamma^4u_0)_0=1/2=(u_0)_0$; do the same for components 4, 9 and 13, and for $(Bu_0)_0=i\,u_9=1/2$. Hence $s(u_0)=u_0^\dagger u_0=1$ and $hu_0=Mu_0$. (The plain product $u^\dagger Cu$ is not the scalar density: on the positive-energy rest states $C=B$, so $u^\dagger Cu$ is $+1$ for $u_0$ but $-1$ for a rest state with $B=-1$, whose scalar density $s$ is still $+1$.)
 
-**Energy density, pressure and $w$.** With $n$ modes per unit volume, the energy density is $\rho=n\,\varepsilon-(\lambda/2)S^2$ and the pressure along $j$ is $p_j=n\,p_j(u)+(\lambda/2)S^2$; the mean transverse pressure is $\bar p=\frac17\sum_{j\in T}p_j$ and $w=\bar p/\rho$. For a condensate at rest this gives $\rho=mS+\frac{\lambda}{2}S^2$ and $p=\frac{\lambda}{2}S^2$.
+**Energy density, pressure and $w$.** With a density $n$ of quanta in the mode $u$ (the mean-field picture of Section 6.2), the energy density is $\rho=n\,\varepsilon-(\lambda/2)S^2$ and the pressure along $j$ is $p_j=n\,p_j(u)+(\lambda/2)S^2$; the mean transverse pressure is $\bar p=\frac17\sum_{j\in T}p_j$ and $w=\bar p/\rho$. For a condensate at rest this gives $\rho=mS+\frac{\lambda}{2}S^2$ and $p=\frac{\lambda}{2}S^2$. In a real state of the same density the Pauli principle adds a degeneracy pressure, negligible only if the Fermi momentum is much smaller than $m$; it is not computed here.
 
 **Kinetic and potential energy.** The input document describes a scalar field with $\rho=\frac12\dot\phi^2+V$ and $p=\frac12\dot\phi^2-V$. The spinor analogues, both reported by every experiment, are the Lagrangian split $KE_L=\frac12n\,\varepsilon$, $PE_L=\rho-KE_L$ (for a condensate at rest $\rho=KE_L+PE_L$ and $p=KE_L-PE_L$ exactly as for the scalar field, and $w<-1$ with $\rho>0$ happens exactly when $KE_L<0$) and the Hamiltonian split $PE_H=mS+U(S)$ (rest mass and interaction), $KE_H=\rho-PE_H$ (momentum energy). For a free gas $KE_L=PE_L=\rho/2$ in every mode, so the scalar-field relation $p=KE-PE$ holds only for condensates, not for a gas.
+
+**When the rule stops applying.** A quantum of positive energy always has $\varepsilon>0$, so $KE_L>0$: no state made of such quanta has $w<-1$. In EXP-2 and EXP-3 the attractive interaction can drive $M_{\mathrm{eff}}=m+\lambda S$ through zero. The rest mode only changes its phase, so $s(u)=1$ stays, but its energy $\varepsilon=M_{\mathrm{eff}}$ becomes negative: the one occupied mode has turned into a negative-energy state, and the rule above, which is for a quantum above the sea, no longer describes it. The rows with $M_{\mathrm{eff}}<0$ (column `M_eff` in the CSV files) contain every phantom row ($w<-1$) and every row with $\rho<0$; the scientific document treats them as artefacts of the one-mode approximation, not as physics.
 
 ### 6.11 EXP-1: the primordial field
 
@@ -660,9 +674,9 @@ $$
 \gamma^4\dot u=(M_{\mathrm{eff}}-iK\gamma^0)u\quad\Longleftrightarrow\quad i\dot u=hu,\qquad h=-iM_{\mathrm{eff}}\gamma^4-K\gamma^4\gamma^0 .
 $$
 
-This is Section 6.8 with $k_0/h_0=K$. Stage 2 verified the reduction exactly (Wolfram check `P_modes_exactReduction`). Because $h$ does not contain $a_4$, the two profiles must give identical spinors; they do, bit for bit.
+This is Section 6.8 with $k_0/h_0=K$. Stage 2 verified the reduction exactly (Wolfram check `P_modes_exactReduction`) for $\lambda=0$. With $\lambda\ne0$ it holds only pointwise: the mode's scalar density is $S=S_0\,s(u)/\sin z$, which depends on $x_0$, so $M_{\mathrm{eff}}=m+\lambda S$ is not the same at every $x_0$, and the $\lambda$ run below treats $S_0$ as the local density factor at one fixed $x_0$ (a mean-field approximation). For the same reason the $K=0$ state is not a homogeneous condensate: its density falls off as $1/\sin z$. Because $h$ does not contain $a_4$, the two profiles must give identical spinors; they do, bit for bit.
 
-**State, right-hand side, initial data.** The state is the 32-real spinor of Section 6.9, with $h_i=-M_{\mathrm{eff}}\gamma^4$ and $h_r=-K\gamma^4\gamma^0$; $M_{\mathrm{eff}}=m+\lambda S_0\,s(u)$ with $m=1$. Runs: $K\in\{0,0.5,2\}$, four initial spinors each, $\lambda=0$ and $S_0=1$, for each profile ($2\times3\times4=24$ runs), plus one run per profile with $\lambda=0.5$, $S_0=1$, $K=0.5$ (26 runs). The four initial spinors are the first vector of the joint eigenspace of $h$ (energy $+E$) and $B$ ($+1$), called `pos_Bp`; energy $+E$ with $B=-1$ (`pos_Bm`); energy $-E$ with $B=+1$ (`neg_Bp`); and a normalised generic vector `mix` with $\mathrm{Re}\,u_n=1/(1+n)$ and $\mathrm{Im}\,u_n=0.1\,(n^2\bmod7)-0.3$ before normalisation. Eigenstates test that $\rho$ and $p$ are frozen; the mixture of both energy signs tests interference. The $\lambda$ run starts on the self-consistent eigenvector with $M_*=m+\lambda S_0M_*/\sqrt{M_*^2+K^2}$, solved by Newton's method: $M_*=1.4734826640642023$. Time runs from 0 to 10 with 201 samples.
+**State, right-hand side, initial data.** The state is the 32-real spinor of Section 6.9, with $h_i=-M_{\mathrm{eff}}\gamma^4$ and $h_r=-K\gamma^4\gamma^0$; $M_{\mathrm{eff}}=m+\lambda S_0\,s(u)$ with $m=1$. Runs: $K\in\{0,0.5,2\}$, four initial spinors each, $\lambda=0$ and $S_0=1$, for each profile ($2\times3\times4=24$ runs), plus one run per profile with $\lambda=0.5$, $S_0=1$, $K=0.5$ (26 runs). The four initial spinors are the first vector of the joint eigenspace of $h$ (energy $+E$) and $B$ ($+1$), called `pos_Bp`; energy $+E$ with $B=-1$ (`pos_Bm`); energy $-E$ with $B=+1$ (`neg_Bp`); and a normalised generic vector `mix` with $\mathrm{Re}\,u_n=1/(1+n)$ and $\mathrm{Im}\,u_n=0.1\,(n^2\bmod7)-0.3$ before normalisation. Eigenstates test that $\rho$ and $p$ are frozen; the mixture of both energy signs tests interference. The `neg_Bp` and `mix` runs are numerical controls: in the quantum theory the negative-energy states are filled by the sea, so their oscillating pressures are not physics of the field. The $\lambda$ run starts on the self-consistent eigenvector with $M_*=m+\lambda S_0M_*/\sqrt{M_*^2+K^2}$, solved by Newton's method: $M_*=1.4734826640642023$. Time runs from 0 to 10 with 201 samples.
 
 **Exact solution and checks.** With $\lambda=0$, $h$ is constant and $u(t)=(\cos Et-i\sin Et\,h/E)\,u(0)$ with $E=\sqrt{M^2+K^2}$; the program compares with it at every sample. It also records the source that 8D Einstein gravity would need for this field ($\kappa=1$): $\rho_{\mathrm{req}}=-3H^2(7+a_4'^2)$, which is negative always.
 
@@ -717,7 +731,7 @@ $$
 E^2=\frac{H^2}{H_0^2}=\Omega_ra^{-4}+\Omega_ma^{-3}+\rho_\psi,
 $$
 
-with $\Omega_r=0.00009$, $\Omega_m=0.305$, $\Omega_\psi=0.69491$ (they add up to 1). Today $w_0=x_0/(1+x_0)$, so $x_0=w_0/(1-w_0)$: $w_0=-0.861$ needs $x_0=-0.462654$, and $w_0=-0.764$ needs $x_0=-0.433107$.
+with $\Omega_r=0.00009$, $\Omega_m=0.305$, $\Omega_\psi=0.69491$ (they add up to 1; these are inputs chosen by the numerical programme, the input document gives no $\Omega_m$). Today $w_0=x_0/(1+x_0)$, so $x_0=w_0/(1-w_0)$: $w_0=-0.861$ needs $x_0=-0.462654$, and $w_0=-0.764$ needs $x_0=-0.433107$.
 
 **Change of variable.** $dN=H\,dt=H_0E\,dt$, so $d/dN=(1/(H_0E))\,d/dt$. The spinor equation $i\dot u=hu$ with $h=-iM_{\mathrm{eff}}\gamma^4$ becomes $du/dN=-i\,(h/H_0)\,u/E$. The time since today is $H_0(t-t_0)$ with $d(H_0t)/dN=1/E$, and the comoving distance obeys $dD_C/dz=1/E$ with $z=e^{-N}-1$, hence $dD_C/dN=-1/(aE)$.
 
@@ -745,7 +759,7 @@ The EXP-3 analysis (`scripts/analyze_dirac16complex_exp3.py`, numpy only, with i
 
 ### 6.14 EXP-4: the quanta as dark matter
 
-**Background.** Only 3-space expands, $b=c=1$, $h_1=h_2=h_3=a(t)$. A mode moving along $x_1$ with comoving momentum $k$ has physical momentum $K=k/a$ and
+**Background.** Only 3-space expands, $b=c=1$, $h_1=h_2=h_3=a(t)$. Only momenta in 3-space are used: the momentum $k_0$ along the hidden direction is set to zero, an assumption (it holds for a small, compact hidden dimension) that also fixes the radiation value $w=1/3$ (with $k_0$ free it would be $1/4$). A mode moving along $x_1$ with comoving momentum $k$ has physical momentum $K=k/a$ and
 
 $$
 h=-im\gamma^4-K\gamma^4\gamma^1,\qquad E=\sqrt{m^2+K^2},\qquad h_i=-m\gamma^4,\quad h_r=-K\gamma^4\gamma^1 .
@@ -761,7 +775,7 @@ $$
 
 the factor $1/3$ averaging a mode moving along $x_1$ over all directions. The program compares $\rho$ and $p$ with the kinetic-theory integrals.
 
-**(b) Pair creation.** $a=e^{t}$ for $t<0$ (de Sitter, $H_{\mathrm{inf}}=1$) joined smoothly to $a=(1+2t)^{1/2}$ for $t>0$ (radiation); the integration is restarted at $t=0$, where $\dot H$ jumps. Each mode starts in the vacuum when it is deep inside the horizon, at $t_0=\ln(k/200)$ where $k/a=200$, in the first-order adiabatic positive-frequency state, and runs until $H=10^{-4}m$ (for $m=0$ the $m=0.1$ end is used). Masses $m\in\{0,0.1,0.5,1,2\}$, 64 Gauss-Legendre nodes in $\ln k$ on $[10^{-3},40]$. The number of created pairs per mode is $\lvert\beta_k\rvert^2=\lvert P_-u\rvert^2/\lvert u\rvert^2$, the weight on the negative-energy eigenspace ($P_-=(1-h/E)/2$), and the comoving number density is $na^3=\frac{16}{2\pi^2}\int k^2\lvert\beta_k\rvert^2dk$. For $m=0$ the mode equation is conformally invariant and nothing is created.
+**(b) Pair creation.** $a=e^{t}$ for $t<0$ (de Sitter, $H_{\mathrm{inf}}=1$) joined smoothly to $a=(1+2t)^{1/2}$ for $t>0$ (radiation); the integration is restarted at $t=0$, where $\dot H$ jumps. Each mode starts in the vacuum when it is deep inside the horizon, at $t_0=\ln(k/200)$ where $k/a=200$, in the first-order adiabatic positive-frequency state, and runs until $H=10^{-4}m$ (for $m=0$ the $m=0.1$ end is used). Masses $m\in\{0,0.1,0.5,1,2\}$, 64 Gauss-Legendre nodes in $\ln k$ on $[10^{-3},40]$. The number of created pairs per mode is $\lvert\beta_k\rvert^2=\lvert P_-u\rvert^2/\lvert u\rvert^2$, the weight on the negative-energy eigenspace ($P_-=(1-h/E)/2$), and the comoving number density is $na^3=\frac{16}{2\pi^2}\int k^2\lvert\beta_k\rvert^2dk$. The program uses the final $\lvert\beta_k\rvert^2$ in the first-order adiabatic basis (column `beta2_adiabatic`), which removes the small dressing $(mKH/(4E^3))^2$ that even an unexcited mode shows in the instantaneous basis; the instantaneous-basis numbers are reported too, and the analytic tail of the spectrum beyond $k=40$ is added as a separate correction. For $m=0$ the mode equation is conformally invariant and nothing is created.
 
 ### 6.15 EXP-5: momentum along an extra time
 
@@ -1012,7 +1026,7 @@ The analysis writes `fits.json` (all fits and the Unite comparison), `fits_mu_sc
 | `pair_antiparticle.csv` | 24 | negative-energy modes for $m=1$ |
 | `pair_spectrum.csv` | 320 | `m`, `node`, `k`, `t0`, `a_end`, $\lvert\beta_k\rvert^2$ at the start, at the joint $t=0$ and at the end (`beta2_initial`, `beta2_kink`, `beta2_adiabatic_kink`, `beta2_end`, `beta2_adiabatic_end`) and the high-$k$ theory `beta2_kink_tail_theory` |
 | `pair_history.csv` | 35 | `m`, `sample`, `t`, `a`, `n_a3`, `n_a3_adiabatic` |
-| `pair_eos.csv` | 305 | the created gas: `m`, `a`, `n_a3`, `rho_a3`, `p_a3`, `w` |
+| `pair_eos.csv` | 305 | the created gas (adiabatic basis, then with the kink tail beyond $k=40$, then in the instantaneous basis): `m`, `a`, `n_a3`, `rho_a3`, `p_a3`, `w`, `n_a3_tail_corrected`, `rho_a3_tail_corrected`, `p_a3_tail_corrected`, `w_tail_corrected`, `rho_a3_instantaneous`, `p_a3_instantaneous`, `w_instantaneous` |
 
 The mode files share these columns:
 
@@ -1072,14 +1086,14 @@ Expected results and times on the test computer:
 
 | Script | Checks | Failed | Time |
 |---|---|---|---|
-| `analyze_dirac16complex_exp3.py` | 9 | 0 | 4 s |
+| `analyze_dirac16complex_exp3.py` | 10 | 0 | 5 s |
 | `check_dirac16complex_exp1.py` | 25 | 0 | 2 s |
 | `check_dirac16complex_exp2.py` | 34 | 0 | 19 s |
 | `check_dirac16complex_exp3.py` | 31 | 0 | 1 s |
-| `check_dirac16complex_exp4.py` | 51 | 0 | 3 to 4 min |
+| `check_dirac16complex_exp4.py` | 51 | 0 | 3 to 7 min |
 | `check_dirac16complex_exp5.py` | 21 | 0 | 5 s |
 
-That is $25+34+31+51+21=162$ checker checks. The EXP-4 checker is slow because it runs EXP-4 twice more and integrates reference modes with its own Runge-Kutta method. On Windows the final Git command again printed nothing: the checker reports and the analysis files are byte-identical too. On Ubuntu (Python 3.12.3, numpy 2.5.3) all checks passed as well, but the five reports and the three analysis files differed in their last digits, because Python's mathematical functions and numpy come from different libraries there; that is expected.
+That is $25+34+31+51+21=162$ checker checks. The EXP-4 checker is slow because it runs EXP-4 twice more and integrates reference modes with its own Runge-Kutta and Magnus methods. With the pinned package versions of Section 3.5, on Windows, the final Git command again printed nothing: the checker reports and the analysis files are byte-identical too. That byte identity depends on the package versions, not only on the operating system. With numpy 2.5.3 on Windows (measured during the review of this guide) every check still passed, but `fits.json`, `fits_scan.csv` and some `python-check-report.json` files changed in their last digits (for example `w0` of one fit from `-6.04650739995862385e-01` to `-6.04650739995862163e-01`); on Ubuntu (Python 3.12.3, numpy 2.5.3) the same happened. That is expected; `git restore artifacts` puts the committed files back.
 
 ### 9.3 Checking a scratch folder (the quick form)
 
@@ -1105,13 +1119,13 @@ python scripts/analyze_dirac16complex_exp3.py --output build/student
 python scripts/check_dirac16complex_exp3.py --output build/student
 ```
 
-The analysis prints `check_count=9` and the checker `check_count=29`. EXP-2, EXP-4 and EXP-5 work like EXP-1 (run the experiment into `build/student`, then its checker) and give 32, 49 and 19 checks in the quick form. If the EXP-3 checker runs before the analysis, `fits.json` is missing and it reports one check fewer (28 in the quick form, 30 in the full form).
+The analysis prints `check_count=10` and the checker `check_count=29`. EXP-2, EXP-4 and EXP-5 work like EXP-1 (run the experiment into `build/student`, then its checker) and give 32, 49 and 19 checks in the quick form. If the EXP-3 checker runs before the analysis, `fits.json` is missing and it reports one check fewer (28 in the quick form, 30 in the full form).
 
 ## 10. The Jupyter notebook
 
 ### 10.1 What it is
 
-`notebooks/dirac16complex_dark_sector.ipynb` is a Python 3 notebook of 23 cells, 8 of them code. For each experiment it runs the program into the scratch folder `build/notebook-run`, checks that every file is byte-identical to the committed one, recomputes the key physics from the raw spinor columns, draws 17 figures into `artifacts/dirac16complex/numerics/figures/`, and ends with a gauntlet of 70 assertions. It finds the program through the environment variable `DIRAC16_BIN` or at the release path of Section 5.1, so build the program first. Its driver is adapted, with attribution, from the rustSolveIt engine's `planet_Mercury/notebook` (Section 16).
+`notebooks/dirac16complex_dark_sector.ipynb` is a Python 3 notebook of 23 cells, 8 of them code. For each experiment it runs the program into the scratch folder `build/notebook-run`, checks that every file the program writes is byte-identical to the committed one (and that the three files of the EXP-3 analysis, whose last digits depend on the numpy version, agree value by value), recomputes the key physics from the raw spinor columns, draws 17 figures into `artifacts/dirac16complex/numerics/figures/`, and ends with a gauntlet of 71 assertions. It finds the program through the environment variable `DIRAC16_BIN` or at the release path of Section 5.1, so build the program first. Its driver is adapted, with attribution, from the rustSolveIt engine's `planet_Mercury/notebook` (Section 16).
 
 ### 10.2 Running it headless
 
@@ -1121,10 +1135,10 @@ The standard-library runner executes every cell in order and writes the outputs 
 python notebooks/run_notebook.py notebooks/dirac16complex_dark_sector.ipynb
 ```
 
-It prints the notebook's output while it runs (about 100 seconds) and ends with
+It prints the notebook's output while it runs (about 2 to 3 minutes) and ends with
 
 ```
-PASS - prose_numbers_match_reports: 64 numbers quoted in the markdown re-read ...
+PASS - prose_numbers_match_reports: 72 numbers quoted in the markdown re-read ...
 ALL CHECKS PASSED
 ok notebooks/dirac16complex_dark_sector.ipynb (8 cells)
 1 ok, 0 failed
@@ -1163,13 +1177,13 @@ Expected output:
 
 ```
 ok notebooks/dirac16complex_dark_sector.ipynb: all structure and execution rules
-pass (23 cells, 8 code cells, 70 gauntlet checks, 17 figures)
+pass (23 cells, 8 code cells, 71 gauntlet checks, 17 figures)
 ok build/nbconvert/dirac16complex_dark_sector.ipynb: all structure and execution
-rules pass (23 cells, 8 code cells, 70 gauntlet checks, 17 figures)
+rules pass (23 cells, 8 code cells, 71 gauntlet checks, 17 figures)
 ok cross-check: both executions printed identical gauntlet results and figure hashes
 ```
 
-(each result is one line on your screen). On Windows, the Git check of Section 7.4 still printed nothing afterwards: the executed notebook and the 17 figures were byte-identical to the committed ones. On Ubuntu the gauntlet and the audit passed as well, but the figures and the notebook differed in their bytes (a different matplotlib build draws the same curves with different pixels); `git restore artifacts notebooks` puts them back. The nbconvert route may print a `RuntimeWarning` about the Proactor event loop on Windows; it is harmless.
+(each result is one line on your screen). On Windows with the pinned package versions of Section 3.5, the Git check of Section 7.4 still printed nothing afterwards: the executed notebook and the 17 figures were byte-identical to the committed ones. The notebook prints no folder name, so a clone in a folder with another name gives the same bytes. With numpy 2.5.3 and matplotlib 3.11.2 on Windows the gauntlet passed as well and the figures were byte-identical, but the executed notebook differed in the lines where the analysis prints its last digits. On Ubuntu with the win11 engine the gauntlet and the audit passed too, but the figures and the notebook differed in their bytes (a different matplotlib build draws the same curves with different pixels). An earlier version of the notebook compared the analysis files byte for byte and therefore stopped on Ubuntu, and with any numpy other than 2.4.6; it now compares them value by value. `git restore artifacts notebooks` puts the committed files back. The nbconvert route may print a `RuntimeWarning` about the Proactor event loop on Windows; it is harmless.
 
 ### 10.3 Running it interactively
 
@@ -1241,7 +1255,7 @@ guide=provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md
 python scripts/build_provenance_pdf.py --developer-layout $guide
 ```
 
-This guide uses the builder's developer layout (ragged table columns and breakable code); without that option the command would build a different LaTeX file and fail.
+This guide uses the builder's developer layout (ragged table columns and breakable code); without that option the command builds a different LaTeX file and fails. **Careful:** in doing so it overwrites the committed `provenance/DIRAC16COMPLEX_STUDENT_GUIDE.tex` (the PDF is not copied). If you ran it without the option, either run it again with the option, which writes the committed bytes back, or restore the file with `git restore provenance/DIRAC16COMPLEX_STUDENT_GUIDE.tex`.
 
 It prints one `check_NAME=true` line per check, then `check_count=14`, `failed_check_count=0` and `provenance_pdf=OK`. The other documents are built without that option, for example `python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD.md`. pdflatex always runs with the repository root as its working folder, because the figure paths are relative to it.
 
@@ -1385,19 +1399,20 @@ $bin exp5 --output build/ex-q
 
 ### 13.7 Massless quanta are not created
 
-**Exercise.** Before looking, say what $na^3$ EXP-4 should find for $m=0$. **Answer.** Zero: a massless spinor's mode equation is conformally invariant, and a radiation or de Sitter universe is conformally flat. The run finds $na^3=1.8\times10^{-24}$ for $m=0$, pure roundoff, against $1.45\times10^{-3}$ for $m=0.1$ and $4.99\times10^{-3}$ for $m=0.5$ (`pair.masses` in `exp4/summary.json`, column `n_a3` of `pair_history.csv`).
+**Exercise.** Before looking, say what $na^3$ EXP-4 should find for $m=0$. **Answer.** Zero: a massless spinor's mode equation is conformally invariant, and a radiation or de Sitter universe is conformally flat. The run finds $na^3=1.8\times10^{-24}$ for $m=0$, pure roundoff, against $1.45\times10^{-3}$ for $m=0.1$ and $4.99\times10^{-3}$ for $m=0.5$ (key `nA3` of `pair.masses` in `exp4/summary.json`, the last row of column `n_a3_adiabatic` of `pair_history.csv`).
 
 ## 14. Troubleshooting
 
 | Symptom | Cause | What to do |
 |---|---|---|
 | `LNK1104: cannot open file ...\deps\...rlib` while linking on Windows | the path is longer than 260 characters | clone into a short folder such as `$HOME\src` (Section 4.1) |
-| `error: linker link.exe not found` on Windows | the Microsoft C++ build tools are missing | install them (Section 3.2) and open a new terminal |
+| `error: linker link.exe not found` on Windows | the Microsoft C++ build tools are missing (a silent winget installation of rustup does not offer them) | install them with the first command of Section 3.2 and open a new terminal |
 | `error: linker cc not found` on Linux, or a message on macOS that the command line developer tools are missing | no C linker | install `build-essential` (Section 3.4) or the Xcode command line tools (Section 3.3) |
 | `rustc` or `cargo` not found right after installing | the terminal was opened before the installation | open a new terminal; on macOS and Linux also `source "$HOME/.cargo/env"` |
 | the program stops at once with an illegal-instruction error (`STATUS_ILLEGAL_INSTRUCTION` on Windows, `SIGILL` elsewhere) | the processor has no FMA, which `.cargo/config.toml` requires (Section 5.2) | use a computer with an x86-64 processor from 2013 or later |
 | `error: failed to load manifest for dependency cvode_rs`, caused by `failed to read ...vendor/rustSolveIt/.../Cargo.toml` | the engine was not fetched | run the setup script (Section 4.3) |
 | `vendor/rustSolveIt is at ..., expected ...` | the folder holds another engine | delete it and run the setup script again (Section 4.4) |
+| `vendor/rustSolveIt is an incomplete checkout (an interrupted or failed download); remove it and rerun` | an earlier engine download stopped halfway | `Remove-Item -Recurse -Force vendor/rustSolveIt` (PowerShell) or `rm -rf vendor/rustSolveIt` (bash), then run the setup script again |
 | cargo prints `Blocking waiting for file lock` | another cargo command is running | wait for it to finish |
 | `error: failed to remove file ...dirac16complex_cosmology.exe`, caused by `Access is denied. (os error 5)`, on Windows | the program is still running (or an antivirus or synchronisation tool holds the file) | wait until the run has finished, then build again; work outside synchronised folders |
 | `running scripts is disabled on this system` | Windows PowerShell 5.1 blocks scripts | use `pwsh`, or `powershell -ExecutionPolicy Bypass -File ...` (Section 4.3) |
@@ -1407,12 +1422,16 @@ $bin exp5 --output build/ex-q
 | `No module named numpy` in a new terminal on macOS or Linux | the virtual environment is not active | `source ~/.venvs/dirac16/bin/activate` |
 | `No module named nbconvert` | JupyterLab is not installed | `python -m pip install jupyterlab` |
 | the Git check of Section 7.4 lists 14 changed files after `all` | the `linux` or `macos` engine is in use (Section 4.5) | fetch the `win11` engine and rebuild; `git restore artifacts` restores the files |
-| the notebook stops with `AssertionError('fresh_outputs_byte_identical')` | the same cause | the same remedy |
+| the notebook stops with `AssertionError('fresh_program_outputs_byte_identical')` | the same cause | the same remedy |
+| after the checkers or the analysis, Git lists `fits.json`, `fits_scan.csv` or `python-check-report.json` files as modified, with only last-digit changes | a numpy version other than the pinned 2.4.6 (Section 3.5) | expected, every check still passes; install the pinned versions for byte identity; `git restore artifacts` puts the committed files back |
+| the notebook stops with `AssertionError('fresh_analysis_outputs_numerically_equal')` | the EXP-3 analysis files differ by more than the last digits (relative $10^{-9}$) | rerun `scripts/analyze_dirac16complex_exp3.py` after `git restore artifacts`; if it persists, report it, it is not a version effect |
 | the EXP-3 checker reports 30 checks instead of 31 | it ran before the analysis | run `analyze_dirac16complex_exp3.py` first |
 | `wolframscript` is not recognized | WolframScript is not installed or not on PATH | install the Wolfram Engine or Mathematica; on Windows add its folder for the session with `$env:Path += ";C:\Program Files\Wolfram Research\WolframScript"` |
 | wolframscript asks for a Wolfram ID or reports that the kernel is not activated | the Wolfram Engine was never activated | run `wolframscript -activate` yourself once |
 | the PDF build lists `latex_warning=` lines and fails the check `logWarningFree` | a LaTeX package is missing or a line is too wide | read `build/NAME/pdf-a/NAME.log`; let MiKTeX install missing packages, or install `texlive-latex-recommended` and `lmodern` on Linux |
 | the PDF build fails only `registeredSha256` and `provenancePdfCopy` | a different TeX installation made different bytes | expected (Section 12); the PDF was still built in `build/NAME/pdf-a/` |
+| the PDF build stops at once with `ERROR: pdflatex not found ...` (older versions of the builder printed `ERROR: [WinError 2] The system cannot find the file specified` or `No such file or directory: 'pdflatex'`) | no TeX distribution is installed, or pdflatex is not on PATH | install MiKTeX, MacTeX or TeX Live (Section 3) and open a new terminal |
+| the guide's PDF build fails and `git status` lists `provenance/DIRAC16COMPLEX_STUDENT_GUIDE.tex` as modified | the build ran without the developer-layout option (Section 12) | run it again with that option, or `git restore provenance/DIRAC16COMPLEX_STUDENT_GUIDE.tex` |
 
 ## 15. Glossary
 

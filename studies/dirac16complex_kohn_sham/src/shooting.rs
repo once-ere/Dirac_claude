@@ -308,9 +308,13 @@ impl Shooter {
         if f0 == 0.0 {
             return Ok((e0, 0.0));
         }
-        // bracket by step doubling in the direction that reduces |f|
+        // bracket by step doubling in the direction that reduces |f|; the
+        // first step is at least the Newton-like estimate |f0| / L of the
+        // distance to the root (d Theta / d eps = L for a free particle at
+        // high energy; Theta is monotone, so an under- or overshoot only
+        // changes the number of bracketing evaluations, never the root)
         let direction = if f0 < 0.0 { 1.0 } else { -1.0 };
-        let mut step = initial_step;
+        let mut step = initial_step.max(1.05 * f0.abs() / self.potential.length);
         let mut e1 = e0 + direction * step;
         let mut f1 = self.theta_end(k, e1)? - t;
         let mut tries = 0;

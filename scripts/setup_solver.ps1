@@ -28,7 +28,11 @@ function Invoke-Git {
 }
 
 if (Test-Path (Join-Path $target '.git')) {
-  $have = (& git -C $target rev-parse HEAD).Trim()
+  $have = (& git -C $target rev-parse -q --verify HEAD 2>$null)
+  if ($LASTEXITCODE -ne 0 -or -not $have) {
+    throw "vendor\rustSolveIt is an incomplete checkout (an interrupted or failed download); remove it and rerun"
+  }
+  $have = $have.Trim()
   if ($have -eq $pin) {
     "solver_platform=$Platform"
     "solver_commit=$have"

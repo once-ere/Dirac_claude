@@ -24,7 +24,7 @@
 \tableofcontents
 \newpage
 \begin{abstract}
-This is the Stage-3 document of the dirac16complex project. It asks how the pressure and the energy density of dirac16complex behave and change in gravitational backgrounds, and whether the framework has any connection to dark matter or dark energy. dirac16complex is the complex, Grassmann-odd, 16-component spinor of Spin(4,4) of Stages 1 and 2. Five experiments were solved as ordinary differential equations with the pure-Rust SUNDIALS 7.8.0 CVODE engine of the rustSolveIt repositories. EXP-1 puts the field in the primordial pair-creation background of the author's notebook. EXP-2 is a self-consistent homogeneous 8-dimensional Einstein cosmology sourced by a mean-field condensate. EXP-3 is a 4-dimensional effective late universe in which the condensate plays the role of dark energy, compared with the Unite supernova results $(w_0,w_a)=(-0.861,-0.60)$ and $w=-0.764$. EXP-4 follows a thermal Fermi gas of dirac16complex quanta and their gravitational pair creation at the end of inflation. EXP-5 follows the modes with momentum along the extra times. All 69 self-checks of the Rust program pass, as do all 162 checks of five independent numpy checkers (including repeat-run byte identity and refined-tolerance convergence), all 9 checks of the EXP-3 analysis, all 70 assertions of a Jupyter notebook and all 49 checks of a Mathematica notebook that re-derives every reduced equation symbolically and re-integrates the solutions with NDSolve. \textbf{Dark matter:} in the sector without extra-time momentum the quanta are ordinary massive fermions. Their gas has $w=0.3329$ at temperature $T=10m$ and $w=0.0359$ after the scale factor has grown a hundredfold, and expansion creates them for $m>0$ (comoving number $na^3$ between $1.45\times10^{-3}$ and $4.99\times10^{-3}$ in units of $H_{\mathrm{inf}}^3$) but not for $m=0$. That is a dark-matter-like equation of state and a production mechanism, not a dark-matter model: the abundance, the darkness, and the stabilisation of the extra dimensions that dust-like dilution in 3-space needs were neither computed nor derived. \textbf{Dark energy:} negative pressure arises only from an attractive four-fermion interaction, and then with a crossing of $w=-1$ at the instant where the effective mass vanishes. Tuned to the Unite value $w_0=-0.861$, the condensate has $w_a=-4.81$, crosses $w=-1$ at redshift $z=0.026$, has negative energy density beyond $z=0.293$ and a bounce ($H=0$) at $z=0.388$, so the model has no matter era; its adiabatic sound speed squared today is $-12.4$. Deflating extra times reproduce the Unite tangent of $p/\rho$ but violate 4-dimensional energy conservation, imply $\dot G/G=2.63\,H_0$ and need a negative 8-dimensional energy density. Within everything computed here the framework does not provide viable dark energy, and it reproduces neither the Unite $(w_0,w_a)$ nor $w=-0.764$ consistently. All results are homogeneous and mean-field; no perturbations and no data likelihood were computed.
+This is the Stage-3 document of the dirac16complex project. It asks how the pressure and the energy density of dirac16complex behave and change in gravitational backgrounds, and whether the framework has any connection to dark matter or dark energy. dirac16complex is the complex, Grassmann-odd, 16-component spinor of Spin(4,4) of Stages 1 and 2. Five experiments were solved as ordinary differential equations with the pure-Rust SUNDIALS 7.8.0 CVODE engine of the rustSolveIt repositories. EXP-1 puts the field in the primordial pair-creation background of the author's notebook. EXP-2 is a self-consistent homogeneous 8-dimensional Einstein cosmology sourced by a mean-field condensate. EXP-3 is a 4-dimensional effective late universe in which the condensate plays the role of dark energy, compared with the Unite supernova fits quoted in the reference PDF, $(w_0,w_a)=(-0.861,-0.60)$ and $w=-0.764$. EXP-4 follows a thermal Fermi gas of dirac16complex quanta and their gravitational pair creation by the transition from inflation to radiation. EXP-5 follows the modes with momentum along the extra times. All 69 self-checks of the Rust program pass, as do all 162 checks of five independent numpy checkers (including repeat-run byte identity and refined-tolerance convergence), all 10 checks of the EXP-3 analysis, all 71 assertions of a Jupyter notebook and all 49 checks of a Mathematica notebook that re-derives every reduced equation symbolically and re-integrates the solutions with NDSolve. \textbf{Dark matter:} in the sector without extra-time momentum the quanta are ordinary massive fermions. Their gas has $w=0.3329$ at temperature $T=10m$ and $w=0.0359$ after the scale factor has grown a hundredfold (on the momentum grid $k\le12T$; 0.0361 without the cut), and expansion creates them for $m>0$ (comoving number $na^3$ between $1.45\times10^{-3}$ and $4.99\times10^{-3}$ in units of $H_{\mathrm{inf}}^3$, mostly in the radiation era when $H$ is of order $m$) but not for $m=0$. That is a dark-matter-like equation of state and a production mechanism, not a dark-matter model: the abundance, the darkness, and the stabilisation of the extra dimensions that dust-like dilution in 3-space needs were neither computed nor derived. \textbf{Dark energy:} negative pressure arises only from an attractive four-fermion interaction. Tuned to the Unite value $w_0=-0.861$, the condensate has $w_a=-4.81$, its effective mass vanishes and $w=-1$ at redshift $z=0.026$, and its adiabatic sound speed squared today is $-12.4$. Beyond that redshift the single mean-field mode occupies a negative-energy level, so the phantom epoch, the negative energy density beyond $z=0.293$ and the bounce ($H=0$) at $z=0.388$ that the equations then give are artefacts of the mean field, not established properties; no state of positive-energy quanta of this Lagrangian is phantom. Deflating extra times give $p/\rho$ the tangent CPL parameters of the Unite fit, but the CPL fit of that $p/\rho$ over the data range is $(-0.640,-1.98)$, and they violate 4-dimensional energy conservation, imply $\dot G/G=2.63\,H_0$ and need a negative 8-dimensional energy density. Within everything computed here the framework does not provide viable dark energy, and it reproduces neither the Unite $(w_0,w_a)$ nor $w=-0.764$ consistently. All results are homogeneous and mean-field; no perturbations and no data likelihood were computed.
 
 \end{abstract}
 
@@ -36,11 +36,11 @@ The short answer, which Section 12 argues in full:
 
 \begin{itemize}
 \item \textbf{What makes $\rho$ and $p$ change?} The 7-volume $V$ (the condensate density obeys $SV=$ const), the redshift of momenta, and the self-interaction $\lambda$.
-\item \textbf{Does anything behave like dark matter?} Yes in its equation of state: free condensates are exact dust, a gas of quanta goes from $w=1/3$ to $w\to0$, and pairs are created gravitationally for $m>0$.
+\item \textbf{Does anything behave like dark matter?} Yes in its equation of state: a Pauli-consistent gas of quanta goes from $w=1/3$ to $w\to0$, pairs are created gravitationally for $m>0$, and the single-mode mean-field condensate is dust (up to a Fermi-degeneracy pressure that was not computed).
 \item \textbf{Is it a dark-matter model?} No: the abundance, the darkness, the stabilisation of the extra dimensions and the perturbations are not established.
 \item \textbf{Does anything give $w<-1/3$?} Only an attractive four-fermion term ($\lambda<0$), and, as a dilution effect only, the frozen density of the primordial field.
-\item \textbf{Does it fit Unite?} No: $w_0=-0.861$ forces $w_a=-4.81$, negative energy density beyond $z=0.293$ and a bounce at $z=0.388$.
-\item \textbf{Deflating extra times?} They match the Unite tangent of $p/\rho$ but break 4D energy conservation, the constancy of $G_N$ and the 8D energy bound.
+\item \textbf{Does it fit Unite?} No: $w_0=-0.861$ forces $w_a=-4.81$, and the mean field leaves its valid regime (positive-energy occupied level) at $z=0.026$; beyond it the equations give a phantom epoch, negative energy density beyond $z=0.293$ and a bounce at $z=0.388$, which are artefacts of that approximation.
+\item \textbf{Deflating extra times?} Their tangent of $p/\rho$ equals the Unite fit values, but the fitted CPL parameters of that $p/\rho$ are $(-0.640,-1.98)$, and they break 4D energy conservation, the constancy of $G_N$ and the 8D energy bound.
 \end{itemize}
 
 \section{Scope and non-claims}
@@ -52,9 +52,9 @@ The short answer, which Section 12 argues in full:
 \begin{enumerate}
 \item No claim is made that dirac16complex is dark matter or dark energy. The computations show which equations of state the framework can produce and what goes wrong.
 \item The signature (4,4) is not observed spacetime. EXP-3 and EXP-4 assume that the hidden space and the extra times are static (stabilised). That assumption is not derived; EXP-2 shows that 8-dimensional Einstein gravity with this matter does not stabilise them.
-\item All condensate results are mean-field: the bilinears are evaluated on one c-number mode by the expectation-value rule of Section 4.6. The gas and pair-creation results are sums over free modes. No interacting quantum field theory, renormalisation or loop correction is computed.
+\item All condensate results are mean-field: the bilinears are evaluated on one c-number rest mode by the expectation-value rule of Section 4.6, at Hartree level, without the Pauli constraint on the occupation of that mode (Section 4.6), and they are valid only while that mode is a positive-energy level of the instantaneous Hamiltonian. The gas and pair-creation results are sums over free modes. No interacting quantum field theory, renormalisation or loop correction is computed.
 \item No perturbations, no structure formation, no CMB, BAO or supernova likelihood and no parameter estimation were computed. The distance-modulus fits of EXP-3 are fits of noise-free model curves with equal weights.
-\item The Unite numbers and the scalar-field formulas are taken from the reference PDF (Section 3.3); they are not re-derived from data here.
+\item The Unite numbers and the scalar-field formulas are taken from the reference PDF (Section 3.3), an e-mail that cites no primary publication; they were not checked against one and are not re-derived from data here.
 \end{enumerate}
 
 \section{Notation and conventions}
@@ -83,9 +83,9 @@ The short answer, which Section 12 argues in full:
 
 The reference on the equation of state is the PDF in the repository root whose name begins with "Gmail - w = equation of state parameter" (an input, git-ignored and not committed). It treats a canonical scalar field with $\mathcal L_\phi=\tfrac12\partial_\mu\phi\,\partial^\mu\phi-V(\phi)$ in signature $(+,-,-,-)$, for which $\rho_\phi=\tfrac12\dot\phi^2+V$, $P_\phi=\tfrac12\dot\phi^2-V$, $w_\phi=P_\phi/\rho_\phi$ and $\ddot\phi+3H\dot\phi+V'(\phi)=0$. Our conventions (mostly plus for space, $\mathcal L=-\tfrac12g^{\mu\nu}\partial_\mu\phi\,\partial_\nu\phi-V$) give the same $\rho$ and $p$. The PDF states that a canonical field has $w\ge-1$ and that crossing the phantom divide $w=-1$ needs non-canonical physics.
 
-The PDF uses the Chevallier-Polarski-Linder (CPL) form $w(a)=w_0+w_a(1-a)$. It quotes the Unite supernova compilation (Pantheon+ and DES-SN5YR combined): the time-evolving fit $w_0=-0.861$ (also written $\approx-0.86$), $w_a=-0.60$, hence $w_0+w_a=-1.461$ in the deep past (phantom); and a constant-$w$ (wCDM) fit $w=-0.764$ of the supernovae alone, "roughly two standard deviations" from $-1$. No error bars on $(w_0,w_a)$ are given in the PDF. It lists the $\Lambda$CDM components as radiation $w=1/3$, matter $w=0$, dark matter $w=0$ and the cosmological constant $w=-1$.
+The PDF uses the Chevallier-Polarski-Linder (CPL) form $w(a)=w_0+w_a(1-a)$. It quotes the Unite supernova compilation (Pantheon+ and DES-SN5YR combined): the time-evolving fit $w_0=-0.861$ (also written $\approx-0.86$), $w_a=-0.60$, hence $w_0+w_a=-1.461$ in the deep past (phantom); and a constant-$w$ (wCDM) fit $w=-0.764$ of the supernovae alone, "roughly two standard deviations" from $-1$. No error bars on $(w_0,w_a)$ are given in the PDF. It lists the $\Lambda$CDM components as radiation $w=1/3$, matter $w=0$, dark matter $w=0$ and the cosmological constant $w=-1$. The PDF calls $-0.764$ a statistical hint, not a definitive value. Its citation markers have no reference list, so the Unite values used here are those quoted in the e-mail; they were not checked against a primary publication. The PDF gives no value of $\Omega_m$; the value $\Omega_m=0.305$ of EXP-3 is an input of the numerical programme.
 
-\textbf{Sign discrepancy in the PDF.} From its own formula, $dw/da=-w_a$. Since $a$ grows with time, a field whose $w$ starts near $-1$ and increases (thawing) has $w_a<0$, and a field whose $w$ approaches $-1$ from above (freezing) has $w_a>0$. The PDF's table of thawing and freezing models writes the opposite: thawing "($w_a>0$)" and freezing "($w_a<0$)". This document uses the formula-consistent signs throughout: \textbf{thawing means $w_a<0$, freezing means $w_a>0$.} The Unite fit ($w_a=-0.60$) is thawing in this sense, and so is every attractive dirac16complex condensate of EXP-3.
+\textbf{Sign discrepancy in the PDF.} From its own formula, $dw/da=-w_a$. Since $a$ grows with time, a field whose $w$ starts near $-1$ and increases (thawing) has $w_a<0$, and a field whose $w$ approaches $-1$ from above (freezing) has $w_a>0$. The PDF's table of thawing and freezing models writes the opposite: thawing "($w_a>0$)" and freezing "($w_a<0$)". This document uses the formula-consistent signs throughout: \textbf{thawing means $w_a<0$, freezing means $w_a>0$.} The Unite fit ($w_a=-0.60$) and every attractive dirac16complex condensate of EXP-3 have the thawing sign of $w_a$ ($w$ increases with time), but neither is a thawing field in the sense of the PDF and of the standard classification: a thawing field starts frozen at $w\approx-1$ and stays at or above $-1$, whereas both start phantom ($w<-1$) and cross $w=-1$.
 
 \section{The framework}
 
@@ -139,7 +139,7 @@ For a homogeneous isotropic condensate on shell:
 \end{aligned}
 \]
 
-So a free condensate ($\lambda=0$) is exact dust ($\mathrm{KE}_L=\mathrm{PE}_L$, $w=0$), a repulsive one is stiffer than dust ($0<w<1$), and an attractive one has negative pressure. For $\rho>0$ the state is phantom ($w<-1$) exactly when $\mathrm{KE}_L<0$, that is when $M_{\mathrm{eff}}=m+\lambda S<0$. Unlike $\tfrac12\dot\phi^2$, $\mathrm{KE}_L$ has no fixed sign, because the fermion Lagrangian is first order in time. For a gas of free quanta, $\mathrm{KE}_L=\mathrm{PE}_L=\rho/2$ for every mode, so the relation $p=\mathrm{KE}-\mathrm{PE}$ of split (A) holds only for homogeneous condensates; the Hamiltonian split then gives $\mathrm{KE}_H=3p$ and $\mathrm{PE}_H=\rho-3p$.
+So in the single-mode mean field a free condensate ($\lambda=0$) is dust ($\mathrm{KE}_L=\mathrm{PE}_L$, $w=0$; Section 4.6 gives the Pauli caveat), a repulsive one is stiffer than dust ($0<w<1$), and an attractive one has negative pressure. For $\rho>0$ the state is phantom ($w<-1$) exactly when $\mathrm{KE}_L<0$, that is when $SM_{\mathrm{eff}}<0$. $\mathrm{KE}_L=\varepsilon/2>0$ for every positive-energy quantum: on positive-energy eigenmodes $s=M_{\mathrm{eff}}/E$, so a state of such quanta has $SM_{\mathrm{eff}}=\sum nM_{\mathrm{eff}}^2/E\ge0$, hence $\rho+p\ge0$ and $\mathrm{KE}_L\ge0$. $\mathrm{KE}_L<0$ needs an occupied negative-energy level, which is what the mean-field mode becomes when $M_{\mathrm{eff}}$ changes sign (Section 4.6): no positive-energy (normal-ordered) state of this Lagrangian is phantom. For a gas of free quanta, $\mathrm{KE}_L=\mathrm{PE}_L=\rho/2$ for every mode, so the relation $p=\mathrm{KE}-\mathrm{PE}$ of split (A) holds only for homogeneous condensates; the Hamiltonian split then gives $\mathrm{KE}_H=3p$ and $\mathrm{PE}_H=\rho-3p$.
 
 \subsection{Homogeneous backgrounds, dilution and the mode equation}
 
@@ -161,7 +161,14 @@ $h$ is Hermitian exactly when $k_5=k_6=k_7=0$. Per mode, $\varepsilon(u)=u^\dagg
 
 Canonical quantization with respect to $x_4$ gives $\{\Psi,\Psi^\dagger\}=B\,\delta^7/\sqrt{|g|}$ in Gaussian normal gauge. The canonical state space is a Krein space of signature (8,8) per mode. In the sector without extra-time momentum (the good sector) the single-particle Hamiltonian is Hermitian, the dispersion is $E^2=m^2+k_0^2+\dots+k_3^2$, and there is an ordinary Fock space with particles and antiparticles of energy $\sqrt{m^2+k^2}$ above a filled Dirac sea. Modes with extra-time momentum have $E^2=m^2+\dots-k_5^2-k_6^2-k_7^2$, which can become negative (Section 10). The unitarily implemented symmetry of the positive structure is Spin(4)$\times$Spin(3), generated by the 9 compact $S^{ab}$ that commute with $B$; the 4 boosts $S^{a4}$ ($a\le3$) also commute with $B$ but are Hermitian, not unitary (Stage 1, erratum E1).
 
-\textbf{Expectation-value rule.} In the positive-norm quantization a one-particle state built on a normalised mode $u$ has $\langle\Psi^\dagger M\Psi\rangle=u^\dagger BMu$, normal ordered relative to the Dirac sea. Hence the scalar density is $s(u)=u^\dagger BCu=u^\dagger(-i\gamma^4)u$ (equal to 1 on positive-energy rest eigenvectors), never $u^\dagger Cu$ (identically 0 there). The mean-field condensate is $S=S_0(V_0/V)\,s(u)$.
+\textbf{Expectation-value rule.} In the positive-norm quantization a one-particle state built on a normalised positive-energy mode $u$ above the Dirac sea has $\langle\Psi^\dagger M\Psi\rangle=u^\dagger BMu$, normal ordered relative to the sea. Hence the scalar density is $s(u)=u^\dagger BCu=u^\dagger(-i\gamma^4)u$, equal to $+1$ on every positive-energy rest eigenvector. The c-number reading $u^\dagger Cu$ is a different quantity: on the positive-energy rest eigenspace $C=B$ exactly, so $u^\dagger Cu$ is the Krein sign $\pm1$ of a joint eigenvector. The two readings agree for $B=+1$ (the states of EXP-2 and EXP-3) and differ in sign for $B=-1$ (for example the EXP-1 runs pos\_Bm). The mean-field condensate is $S=S_0(V_0/V)\,s(u)$.
+
+\textbf{Limits of the mean field.} Two limits matter for the conclusions.
+
+\begin{enumerate}
+\item \textbf{The occupied level must stay a positive-energy level.} At $k=0$, $h=-iM_{\mathrm{eff}}\gamma^4$ only changes the phase of $u$, so $s(u)=1$ stays fixed while $M_{\mathrm{eff}}$ may change sign; then $u^\dagger hu=M_{\mathrm{eff}}s(u)<0$ and the single occupied mode has become a negative-energy eigenvector of the instantaneous $h$. That is outside the domain of the rule, which is stated for a quantum above the sea. The EXP-2 and EXP-3 rows with $M_{\mathrm{eff}}<0$, which contain every phantom row, every row with $\rho<0$ and the approach to the EXP-3 bounce, are therefore mean-field artefacts of fixed normal ordering, not established properties of the field. Normal ordering against a fixed sea is least reliable exactly at the gap closure $M_{\mathrm{eff}}=0$, where the sea modes stop evolving adiabatically. (The same hole reading is applied to the negative-energy runs of EXP-1 in Section 6.5.)
+\item \textbf{The Pauli principle.} The condensate is one rest mode multiplied by a macroscopic density. For a Grassmann field at most 8 positive-energy quanta can occupy one momentum state, so a finite density of fermions cannot all sit in the $k=0$ mode. A Pauli-consistent homogeneous state at density $n$ is a degenerate Fermi sea whose Fermi momentum $k_F$ grows with $n$ and which has a degeneracy pressure. The dust behaviour of the free condensate is therefore a property of the single-mode picture: a real state is dust only up to a Fermi-degeneracy pressure, negligible when $k_F(n)\ll m$. This was not computed. By an order-of-magnitude estimate (not a machine-checked result) it is negligible for EXP-3 if the physical mass is of order eV or more; for the EXP-2 densities it depends on the unspecified sizes of the extra dimensions and is not guaranteed. The $\lambda$ term is also treated at Hartree level only, $U(\langle S\rangle)$; for a contact interaction the Fock exchange term is of the same order and is not included. The Pauli-consistent result of this document is the gas of EXP-4 ($f\le1$, 8 + 8 states per momentum).
+\end{enumerate}
 
 \subsection{dirac16complex beside a canonical scalar field}
 
@@ -176,10 +183,10 @@ Canonical quantization with respect to $x_4$ gives $\{\Psi,\Psi^\dagger\}=B\,\de
 \endhead
 energy density & $\tfrac12\dot\phi^2+V$ & $mS+\tfrac\lambda2S^2$ \\
 pressure & $\tfrac12\dot\phi^2-V$ & $\tfrac\lambda2S^2$ \\
-kinetic energy & $\tfrac12\dot\phi^2\ge0$ & $\mathrm{KE}_L=\tfrac12SM_{\mathrm{eff}}$, either sign \\
+kinetic energy & $\tfrac12\dot\phi^2\ge0$ & $\mathrm{KE}_L=\tfrac12SM_{\mathrm{eff}}$, never negative for quanta of positive energy \\
 potential energy & $V$ & $\mathrm{PE}_L=\tfrac12mS$ \\
 $w\to-1$ & $\dot\phi^2\ll V$ & $M_{\mathrm{eff}}\to0$ \\
-phantom $w<-1$ & impossible for $\rho>0$ & $M_{\mathrm{eff}}<0<\rho$ \\
+phantom $w<-1$ & impossible for $\rho>0$ & only with an occupied negative-energy level (mean-field artefact) \\
 dilution & depends on $V(\phi)$ & $S\propto1/V$ always \\
 cosmological constant & $V=$ const & absent ($U(0)=0$) \\
 \bottomrule
@@ -231,7 +238,7 @@ For each experiment an independent checker (numpy and the standard library only)
 \item \textbf{refined-tolerance convergence}: it reruns with the refined option and requires the errors to shrink or, where a floor is identified, to stay within it.
 \end{itemize}
 
-An analysis script does the EXP-3 fits (Nelder-Mead in numpy; no scipy) and writes fits.json with its own 9 validation checks, and a collector writes numerics-summary.json:
+An analysis script does the EXP-3 fits (Nelder-Mead in numpy; no scipy) and writes fits.json with its own 10 validation checks, and a collector writes numerics-summary.json:
 
 \begin{Verbatim}[fontsize=\small]
 scripts/check_dirac16complex_exp1.py ... scripts/check_dirac16complex_exp5.py
@@ -239,7 +246,7 @@ scripts/analyze_dirac16complex_exp3.py
 studies/dirac16complex_cosmology/tools/build_numerics_summary.py
 \end{Verbatim}
 
-Totals: 69 of 69 Rust self-checks, 162 of 162 checker checks and 9 of 9 analysis checks true; verdict SUCCESS.
+Totals: 69 of 69 Rust self-checks, 162 of 162 checker checks and 10 of 10 analysis checks true; verdict SUCCESS.
 
 \subsection{Notebooks and figures}
 
@@ -264,13 +271,13 @@ The background (Stage 2, $t=Hx_4$, $H=1$) has scale factors $e^{a_4}$ for 3-spac
 \end{aligned}
 \]
 
-In the sector without 3-space and extra-time momentum, a hidden-space plane wave in the proper hidden coordinate $\zeta=\ln(\sin z)/(6H)$ reduces the Dirac equation exactly (verified in Stage 2 and again symbolically in the Mathematica notebook) to
+In the sector without 3-space and extra-time momentum, a hidden-space plane wave in the proper hidden coordinate $\zeta=\ln(\sin z)/(6H)$ reduces the Dirac equation (verified in Stage 2 and again symbolically in the Mathematica notebook) to
 
 \[
 \Psi=e^{-3H\zeta}e^{iK\zeta}u(t):\qquad \gamma^4\dot u=(M_{\mathrm{eff}}-iK\gamma^0)\,u\quad\Longleftrightarrow\quad i\dot u=hu,\qquad h=-iM_{\mathrm{eff}}\gamma^4-K\gamma^4\gamma^0 .
 \]
 
-CVODE integrates the 32 real components of $u$ (state layout: re $u_0,\dots,u_{15}$, then im $u_0,\dots,u_{15}$). With the fixed density factor $S_0$ and $M_{\mathrm{eff}}=m+\lambda S$, $S=S_0s(u)$:
+The reduction is exact for $\lambda=0$. The mode's scalar density is $S=e^{-6H\zeta}S_0s(u)=S_0s(u)/\sin z$, which depends on $x_0$; with $\lambda\ne0$ the effective mass $M_{\mathrm{eff}}=m+\lambda S$ therefore varies with $x_0$, and the reduced equation with a constant $M_{\mathrm{eff}}=m+\lambda S_0s(u)$ holds only pointwise, as a fixed-$x_0$ mean-field approximation in which $S_0$ is the local density factor $S\sin z$ (Stage 2 says the same). CVODE integrates the 32 real components of $u$ (state layout: re $u_0,\dots,u_{15}$, then im $u_0,\dots,u_{15}$). With the density factor $S_0$ and $M_{\mathrm{eff}}=m+\lambda S$, $S=S_0s(u)$:
 
 \[
 \begin{aligned}
@@ -290,7 +297,7 @@ For constant $M_{\mathrm{eff}}$, $h$ is constant with $h^2=E^2$, $E=\sqrt{M_{\ma
 
 \subsection{Initial data and parameters}
 
-$H=m=\kappa=1$; $t\in[0,10]$ with 200 output intervals (201 samples); hidden momenta $K\in\{0,0.5,2\}$; $S_0=1$. Four initial spinors per $(A,K)$: joint eigenvectors of $h$ and $B$ with (energy, Krein) signs $(+,+)$, $(+,-)$ and $(-,+)$, and a generic normalised mixture of both energy signs. One extra run per profile has $\lambda=0.5$, $K=0.5$: its initial state is the positive-energy eigenvector of the self-consistent mass $M_\ast=1+\lambda S_0M_\ast/\sqrt{M_\ast^2+K^2}$, $M_\ast=1.47348266406420$. In total 26 runs.
+$H=m=\kappa=1$; $t\in[0,10]$ with 200 output intervals (201 samples); hidden momenta $K\in\{0,0.5,2\}$; $S_0=1$. Four initial spinors per $(A,K)$: joint eigenvectors of $h$ and $B$ with (energy, Krein) signs $(+,+)$, $(+,-)$ and $(-,+)$, and a generic normalised mixture of both energy signs. Only the positive-energy eigenstates are physical one-particle states; the $(-,+)$ and mixed runs are numerical controls (Section 6.5). One extra run per profile has $\lambda=0.5$, $K=0.5$ (the pointwise mean-field approximation of Section 6.2): its initial state is the positive-energy eigenvector of the self-consistent mass $M_\ast=1+\lambda S_0M_\ast/\sqrt{M_\ast^2+K^2}$, $M_\ast=1.47348266406420$. In total 26 runs.
 
 \subsection{Solver settings and statistics}
 
@@ -305,9 +312,9 @@ BDF + Newton + dense linear solver, rtol $10^{-12}$, atol $10^{-14}$, max\_step 
 \end{figure}
 
 \begin{itemize}
-\item \textbf{Frozen observables.} $\rho=S_0u^\dagger hu$ is constant for every initial spinor (maximum drift $4.19\times10^{-9}$), because $h$ is constant and Hermitian. The pressures and $S$ are constant for energy eigenstates (drift $2.64\times10^{-9}$). For the mixed state with $K\ne0$ the hidden-space pressure $p_0$ and $S$ oscillate at frequency $2E$ (interference of the $+E$ and $-E$ sectors, a Zitterbewegung): the range of $p_0$ is 0.803 for $K=2$ and 0.341 for $K=0.5$, and the checker's exact solution reproduces the range to $3.7\times10^{-10}$.
+\item \textbf{Frozen observables.} $\rho=S_0u^\dagger hu$ is constant for every initial spinor (maximum drift $4.19\times10^{-9}$), because $h$ is constant and Hermitian. The pressures and $S$ are constant for energy eigenstates (drift $2.64\times10^{-9}$). For the mixed state with $K\ne0$ the hidden-space pressure $p_0$ and $S$ oscillate at frequency $2E$ (interference of the $+E$ and $-E$ sectors, a Zitterbewegung): the range of $p_0$ is 0.803 for $K=2$ and 0.341 for $K=0.5$, and the checker's exact solution reproduces the range to $3.7\times10^{-10}$. The mixed runs are numerical controls only, like the $(-,+)$ runs: their negative-energy components are levels that the sea fills in the positive-norm Fock space (Pauli-blocked), so $u^\dagger BMu$ is not the expectation value in any Fock state of such a spinor, and the $2E$ oscillation is a first-quantised interference effect, not physics of the frozen field. The mixtures take negative values of $p_0$, $\bar p$ and $S$ at some times (visible in their CSV columns), and they carry nonzero tensor bilinears $u^\dagger BC\gamma^i\gamma^j\gamma^4u$, $i<j$, whereas the eigenstates do not; in the anisotropic primordial background those bilinears source off-diagonal stresses $T_{ij}$ that the diagonal pressures leave out.
 \item \textbf{Eigenmode laws.} For $K=0$: $\rho=1$, $p=0$, $w=0$, $\mathrm{KE}_L=\mathrm{PE}_L=0.5$ (dust). For $K=0.5$: $\rho=E=1.1180$, $p_0=K^2/E=0.2236$, $w=K^2/(7E^2)=0.02857$. For $K=2$: $\rho=2.2361$, $p_0=1.7889$, $w=0.11429$. In the Lagrangian split every free eigenmode has $\mathrm{KE}_L=\mathrm{PE}_L$ ($w_L=0$) whatever $K$ is; the actual mean pressure is the hidden-space momentum flux.
-\item \textbf{Repulsive interaction.} The $\lambda=0.5$ run has $\rho=1.3318$, $\bar p=0.2471$, $w=0.1856$, $\mathrm{KE}_L=0.7780$ and $\mathrm{PE}_L=0.5538$; the six pressures $p_1,\dots,p_7$ equal $\tfrac\lambda2S^2=0.2242$. $M_{\mathrm{eff}}$ stays at $M_\ast$ to $1.3\times10^{-9}$.
+\item \textbf{Repulsive interaction.} The $\lambda=0.5$ run (pointwise, fixed-$x_0$ mean field) has $\rho=1.3318$, $\bar p=0.2471$, $w=0.1856$, $\mathrm{KE}_L=0.7780$ and $\mathrm{PE}_L=0.5538$; the six pressures $p_1,\dots,p_7$ equal $\tfrac\lambda2S^2=0.2242$. $M_{\mathrm{eff}}$ stays at $M_\ast$ to $1.3\times10^{-9}$.
 \item \textbf{Profile independence.} $a_4$ enters $h$ only through $k_j/h_j$ with $k_j=0$, so the $A=1$ and $A=2$ spinors are bit-identical (difference 0.0): no spurious $a_4$ coupling exists.
 \item \textbf{Negative-energy states.} The $(-,+)$ runs have $\rho=-E$ in this c-number reading; physically an antiparticle is a hole in such a mode and carries $+E$ (EXP-4). They are integrated as controls.
 \end{itemize}
@@ -340,7 +347,7 @@ The Rust program passes 10 of 10 self-checks and the EXP-1 checker 25 of 25. The
 
 \subsection{Physical interpretation}
 
-In the primordial field the 7-volume is constant, so the dilution law $S\propto1/V$ freezes the condensate: energy density and pressure do not change at all while 3-space inflates by up to $e^{10}$. Only interference between energy signs makes pressures oscillate. The frozen field's own equation of state is dust ($K=0$) or slightly stiff ($K\ne0$, or $\lambda>0$); none of these states has negative pressure. The geometry itself would need a source of negative energy density in 8D Einstein gravity, which positive-energy dirac16complex states cannot supply (Stage 2 found an exact source only for linear $a_4$, and it too has negative energy). The frozen density matters for dark energy only as a dilution effect seen from 3-space (Section 12.3).
+In the primordial field the 7-volume is constant, so the dilution law $S\propto1/V$ freezes the field: energy density and pressure do not change at all while 3-space inflates by up to $e^{10}$. (The $K=0$ state is not a homogeneous condensate: its density goes as $1/\sin z$ along the hidden direction.) The oscillating pressures of the mixed runs are first-quantised interference of numerical controls (Section 6.5), not a property of the field. The frozen field's own equation of state is dust ($K=0$) or slightly stiff ($K\ne0$, or $\lambda>0$ in the pointwise mean field); none of the positive-energy eigenstates has negative pressure. The geometry itself would need a source of negative energy density in 8D Einstein gravity, which positive-energy dirac16complex states cannot supply (Stage 2 found an exact source only for linear $a_4$, and it too has negative energy). The frozen density matters for dark energy only as a dilution effect seen from 3-space (Section 12.3).
 
 \section{EXP-2: self-consistent 8-dimensional Einstein cosmology}
 
@@ -422,8 +429,8 @@ Adams + fixed point, rtol $10^{-12}$, atol $10^{-15}$, max\_step 0.02: 1779784 s
 \end{figure}
 
 \begin{itemize}
-\item \textbf{Equation of state.} The dust run keeps $w=0$. The repulsive run is stiff near the singularity ($w\to1$) and dust at late times. The attractive run is dust at late times; backward it becomes phantom ($w<-1$ with $\rho>0$, equivalently $\mathrm{KE}_L<0$ and $M_{\mathrm{eff}}<0$) for $0.4<V/V_0<0.8$ (14 output rows, measured volume range 0.407 to 0.779) and has negative energy density for $V/V_0<0.4$ (122 rows), down to $\rho=-1.06\times10^{6}$ at $V=e^{-7}$. The rows with $w<-1$ and $\rho>0$ are exactly the rows with $\mathrm{KE}_L<0$.
-\item \textbf{The 8D energy bound.} On the constraint surface $\Theta^2-3H_a^2-2\kappa\rho=H_b^2+3H_c^2\ge0$, so wherever $\rho\ge0$, $\Theta\ge\sqrt3H_a$ and $w_{\mathrm{eff}}\ge-1+(1+w)/\sqrt3$. For dust the minimum measured $w_{\mathrm{eff}}$ is $-0.38732>-1+1/\sqrt3=-0.42265$, and the minimum of $\Theta/(3H_a)$ over rows with $\rho>0$ is 0.61268. The bound fails only where $\rho<0$: over all rows of the attractive run $\Theta/(3H_a)$ falls to 0.344, while the bound itself stays non-negative (minimum $1.5\times10^{-9}$).
+\item \textbf{Equation of state.} The dust run keeps $w=0$. The repulsive run is stiff near the singularity ($w\to1$) and dust at late times. The attractive run is dust at late times; backward it becomes phantom ($w<-1$ with $\rho>0$, equivalently $\mathrm{KE}_L<0$ and $M_{\mathrm{eff}}<0$) for $0.4<V/V_0<0.8$ (14 output rows, measured volume range 0.407 to 0.779) and has negative energy density for $V/V_0<0.4$ (122 rows), down to $\rho=-1.06\times10^{6}$ at $V=e^{-7}$. The rows with $w<-1$ and $\rho>0$ are exactly the rows with $\mathrm{KE}_L<0$. \textbf{These backward rows are outside the domain of the mean field.} In every one of the $14+122$ rows with $M_{\mathrm{eff}}<0$ the CSV has $s(u)=1$ and energy\_mode $=u^\dagger hu=M_{\mathrm{eff}}<0$: the single occupied mode is a negative-energy eigenvector of $h$ there (Section 4.6), so the phantom stage and the negative energy density of this run are artefacts of the single-mode mean field with fixed normal ordering, not established properties of the field.
+\item \textbf{The 8D energy bound.} On the constraint surface $\Theta^2-3H_a^2-2\kappa\rho=H_b^2+3H_c^2\ge0$, so wherever $\rho\ge0$ (and $H_a,\Theta>0$), $\Theta\ge\sqrt3H_a$; this gives $w_{\mathrm{eff}}\ge-1+(1+w)/\sqrt3$ only when $1+w\ge0$, and the inequality reverses for $w<-1$. For dust the minimum measured $w_{\mathrm{eff}}$ is $-0.38732>-1+1/\sqrt3=-0.42265$, and the minimum of $\Theta/(3H_a)$ over rows with $\rho>0$ is 0.61268. In the attractive run all 14 phantom rows ($\rho>0$, $w<-1$) have $w_{\mathrm{eff}}<-1+(1+w)/\sqrt3$, so there $w_{\mathrm{eff}}<-1$ occurs with $\rho>0$; and $\Theta<\sqrt3H_a$ occurs where $\rho<0$: over all rows $\Theta/(3H_a)$ falls to 0.344, while the bound $\Theta^2-3H_a^2-2\kappa\rho$ itself stays non-negative (minimum $1.5\times10^{-9}$). Both situations lie in the mean-field artefact region above.
 \end{itemize}
 
 \subsection{Verification}
@@ -440,13 +447,13 @@ The Mathematica notebook derives the constraint and the evolution equations from
 
 \subsection{Physical interpretation}
 
-In a self-consistent 8D cosmology the condensate's energy density falls as $1/V$ and its pressure as $1/V^2$, so every run ends as isotropic 8D dust whatever $\lambda$ is. $\lambda$ only matters near the singularity: repulsion makes the matter stiff, attraction makes it phantom and then negative. Two conclusions matter for the dark sector. First, the extra times do not stay deflating: 8D gravity with this matter drives all seven directions to the same expansion, and a 3-space observer then sees the dust dilute like $a^{-7}$ ($w_{\mathrm{eff}}\to4/3$), not like $a^{-3}$. Dust-like behaviour in 3-space therefore requires stabilised extra dimensions, which EXP-3 and EXP-4 assume and nothing here provides. Second, with non-negative energy density a 3-space observer can never infer $w_{\mathrm{eff}}<-1+(1+w)/\sqrt3$; for dust that is $-0.42265$. Apparent dark-energy-like dilution close to $w_{\mathrm{eff}}=-1$ needs negative 8D energy density.
+In a self-consistent 8D cosmology the condensate's energy density falls as $1/V$ and its pressure as $1/V^2$, so every run ends as isotropic 8D dust whatever $\lambda$ is. $\lambda$ only matters near the singularity: repulsion makes the matter stiff, attraction drives $M_{\mathrm{eff}}$ through zero, after which the equations give phantom and then negative energy density, in the region where the mean field no longer describes a positive-energy state. Two conclusions matter for the dark sector. First, the extra times do not stay deflating: 8D gravity with this matter drives all seven directions to the same expansion, and a 3-space observer then sees the dust dilute like $a^{-7}$ ($w_{\mathrm{eff}}\to4/3$), not like $a^{-3}$. Dust-like behaviour in 3-space therefore requires stabilised extra dimensions, which EXP-3 and EXP-4 assume and nothing here provides. Second, with non-negative energy density, $w\ge-1$ and $H_a,\Theta>0$, a 3-space observer can never infer $w_{\mathrm{eff}}<-1+(1+w)/\sqrt3$; for dust that is $-0.42265$. For dust, apparent dark-energy-like dilution close to $w_{\mathrm{eff}}=-1$ needs negative 8D energy density; with $w$ near or below $-1$ and $\rho>0$ the bound does not apply.
 
 \section{EXP-3: the condensate as late-time dark energy}
 
 \subsection{Purpose}
 
-EXP-3 assumes stabilised extra dimensions ($b$, $c$ constant) and a 4-dimensional effective Friedmann equation, and asks whether an attractive condensate can be the dark energy measured by Unite.
+EXP-3 assumes stabilised extra dimensions ($b$, $c$ constant) and a 4-dimensional effective Friedmann equation, and asks whether an attractive condensate can be the dark energy described by the dark-energy fits quoted for Unite in the reference PDF.
 
 \subsection{Equations solved}
 
@@ -472,7 +479,7 @@ with $D_C$ the comoving distance in units of $c/H_0$ and $\mathrm{DM}(z)=5\log_{
 
 \subsection{Initial data and parameters}
 
-$\Omega_r=0.00009$, $\Omega_m=0.305$, $\Omega_\psi=0.69491$ (flat). $x_0\in\{-0.462654,-0.433107,-0.3,-0.2,0\}$: the first reproduces $w_0=-0.861$, the second $w_0=-0.764$, and $x_0=0$ is dust. $\mu\in\{3,7\}$, so 10 runs. The initial spinor is the positive-energy rest eigenvector of $h(a=1)$ with $B=+1$. Each run is integrated from $N=0$ backward (320 intervals towards $a=1/3.5$) and forward (160 intervals to $a=2$).
+$\Omega_r=0.00009$, $\Omega_m=0.305$, $\Omega_\psi=0.69491$ (flat). These density parameters are inputs assumed by the numerical programme; the reference PDF gives no $\Omega_m$, and the $\Omega_m$ of the Unite fits is not known here. $x_0\in\{-0.462654,-0.433107,-0.3,-0.2,0\}$: the first reproduces $w_0=-0.861$, the second $w_0=-0.764$, and $x_0=0$ is dust. $\mu\in\{3,7\}$, so 10 runs. The initial spinor is the positive-energy rest eigenvector of $h(a=1)$ with $B=+1$. Each run is integrated from $N=0$ backward (320 intervals towards $a=1/3.5$) and forward (160 intervals to $a=2$).
 
 \textbf{Deviation from the programme.} For every $x_0<0$ the attractive term $\rho_\psi\propto-a^{-6}$ dominates in the past and $E^2$ reaches zero at a bounce $a_b>1/3.5$. Smaller $a$ does not exist in these models, so the backward branch stops at the last grid point with $N\ge N_b+0.01$, and a check confirms that the stop sits exactly there. Only the dust model reaches $a=1/3.5$.
 
@@ -552,12 +559,13 @@ $-0.2$ & 0.239 & $z=0.191$, $a=0.840$ & 5.0, 11.7 \\
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.92\linewidth]{artifacts/dirac16complex/numerics/figures/exp3_ke_pe.png}
-\caption{EXP-3 Lagrangian split: \texorpdfstring{$\mathrm{KE}_L$}{KE\_L} (solid) turns negative, and \texorpdfstring{$w$}{w} drops below \texorpdfstring{$-1$}{-1}, for \texorpdfstring{$a<(2\lvert x_0\rvert)^{1/3}$}{a<(2x\_0)\textasciicircum{}1/3}; \texorpdfstring{$\mathrm{PE}_L$}{PE\_L} (dashed) stays positive.}
+\caption{EXP-3 Lagrangian split: \texorpdfstring{$\mathrm{KE}_L$}{KE\_L} (solid) turns negative, and \texorpdfstring{$w$}{w} drops below \texorpdfstring{$-1$}{-1}, for \texorpdfstring{$a<(2\lvert x_0\rvert)^{1/3}$}{a<(2x\_0)\textasciicircum{}1/3}, where the mean-field mode is a negative-energy level (Section 4.6); \texorpdfstring{$\mathrm{PE}_L$}{PE\_L} (dashed) stays positive.}
 \end{figure}
 
 \begin{itemize}
-\item \textbf{The changing equation of state.} For $x_0<0$, $w$ rises with time (thawing, $w_a<0$): it comes up from $-\infty$ at the pole where $\rho_\psi=0$, crosses $-1$ where $M_{\mathrm{eff}}=0$ ($\mathrm{KE}_L=0$), passes $w_0$ today and tends to 0 in the future, because $p_\psi\propto a^{-6}$ dies away faster than $\rho_\psi$. Energy density and pressure change for one reason only: $\sigma=a^{-3}$.
-\item \textbf{Acceleration.} The two Unite-tuned models accelerate today ($q_{\mathrm{dec}}=-0.397$ and $-0.296$) and all the way back to the bounce, and they start to decelerate again at $a=1.144$ and 1.115 when the condensate becomes dust-like. Neither has a matter-dominated era. The weaker couplings decelerate today and accelerate only in the past, near the bounce.
+\item \textbf{The changing equation of state.} For $x_0<0$, $w$ rises with time ($w_a<0$, the thawing sign, but not a thawing field): in the equations it comes up from $-\infty$ at the pole where $\rho_\psi=0$, crosses $-1$ where $M_{\mathrm{eff}}=0$ ($\mathrm{KE}_L=0$), passes $w_0$ today and tends to 0 in the future, because $p_\psi\propto a^{-6}$ dies away faster than $\rho_\psi$. Energy density and pressure change for one reason only: $\sigma=a^{-3}$.
+\item \textbf{Validity of the mean field.} Before the crossing ($a<(2\lvert x_0\rvert)^{1/3}$) $M_{\mathrm{eff}}<0$ while $s(u)=1$: the occupied mode is a negative-energy level of $h$ (Section 4.6). In the committed CSV files of every attractive run all phantom rows and all rows with $\rho_\psi<0$ lie there, for example all rows with $a\le0.973$ for $x_0=-0.462654$. The phantom epoch, the negative energy density and the bounce are therefore artefacts of the mean field; the Unite-tuned model leaves the valid regime at $z=0.026$.
+\item \textbf{Acceleration.} The two Unite-tuned models accelerate today ($q_{\mathrm{dec}}=-0.397$ and $-0.296$) and all the way back to the bounce, and they start to decelerate again at $a=1.144$ and 1.115 when the condensate becomes dust-like. Neither has a matter-dominated era in these equations, and before $z=0.026$ and $z=0.049$ neither is inside the validity of the mean field. The weaker couplings decelerate today and accelerate only in the past, near the bounce.
 \item \textbf{Phase independence.} $\mu=3$ and $\mu=7$ give the same $\rho$ ($1.74\times10^{-9}$), $p$ ($3.00\times10^{-9}$) and $w$ ($2.77\times10^{-9}$, condition-scaled): only $s(u)=1$ matters, not the phase.
 \item \textbf{Sound speed.} $c_s^2=dp/d\rho$ is negative today for every $x_0<0$ ($-12.39$ for the Unite-tuned model). In a fluid description that is a gradient instability of perturbations; perturbations themselves were not computed.
 \end{itemize}
@@ -578,7 +586,7 @@ The fits and the comparison with Unite are tabulated in Section 12.4.
 
 \subsection{Verification}
 
-The Rust program passes 14 of 14 self-checks, the EXP-3 checker 31 of 31 and the analysis 9 of 9 (Nelder-Mead recovers synthetic CPL and constant-$w$ curves to $2.0\times10^{-12}$ and $1.4\times10^{-12}$; Rust distances match an independent quadrature to $1.7\times10^{-9}$). $\sigma$ from the spinor agrees with $a^{-3}$ to $2.50\times10^{-9}$ (refined: $2.10\times10^{-10}$) and $\exp(\ln\sigma)$ to $1.95\times10^{-14}$. The time and distance agree with independent quadratures to $1.11\times10^{-9}$ and $1.75\times10^{-9}$, the spinor with its exact phase to $5.48\times10^{-8}$ (refined $6.41\times10^{-9}$). The roots are reproduced to $2.6\times10^{-9}$ ($\rho_\psi=0$), $2.3\times10^{-9}$ ($w=-1$) and $1.5\times10^{-9}$ ($q_{\mathrm{dec}}=0$), the tangent $w_a$ to $2.8\times10^{-7}$ relative, and the bounce stop to $1.5\times10^{-15}$. The Mathematica notebook derives the Friedmann constraint, the continuity equation, $w$ and $q_{\mathrm{dec}}$ symbolically; NDSolve agrees to $2.12\times10^{-8}$ in the spinor ($1.25\times10^{-9}$ phase aligned) and to $1.95\times10^{-14}$ in $\ln\sigma$, and its exact spinor error is $2.0\times10^{-12}$. The finite-difference negative control with a flipped mass sign fails as it should (2.0). The 4D-effective Friedmann equation with stabilised extra dimensions is an assumption of this experiment, not a consequence of the 8D equations; the Mathematica notebook states this too.
+The Rust program passes 14 of 14 self-checks, the EXP-3 checker 31 of 31 and the analysis 10 of 10 (Nelder-Mead recovers synthetic CPL and constant-$w$ curves to $2.0\times10^{-12}$ and $1.4\times10^{-12}$, and a synthetic wCDM curve with $\Omega_m$ free to $4.6\times10^{-13}$; Rust distances match an independent quadrature to $1.7\times10^{-9}$). $\sigma$ from the spinor agrees with $a^{-3}$ to $2.50\times10^{-9}$ (refined: $2.10\times10^{-10}$) and $\exp(\ln\sigma)$ to $1.95\times10^{-14}$. The time and distance agree with independent quadratures to $1.11\times10^{-9}$ and $1.75\times10^{-9}$, the spinor with its exact phase to $5.48\times10^{-8}$ (refined $6.41\times10^{-9}$). The roots are reproduced to $2.6\times10^{-9}$ ($\rho_\psi=0$), $2.3\times10^{-9}$ ($w=-1$) and $1.5\times10^{-9}$ ($q_{\mathrm{dec}}=0$), the tangent $w_a$ to $2.8\times10^{-7}$ relative, and the bounce stop to $1.5\times10^{-15}$. The Mathematica notebook derives the Friedmann constraint, the continuity equation, $w$ and $q_{\mathrm{dec}}$ symbolically; NDSolve agrees to $2.12\times10^{-8}$ in the spinor ($1.25\times10^{-9}$ phase aligned) and to $1.95\times10^{-14}$ in $\ln\sigma$, and its exact spinor error is $2.0\times10^{-12}$. The finite-difference negative control with a flipped mass sign fails as it should (2.0). The 4D-effective Friedmann equation with stabilised extra dimensions is an assumption of this experiment, not a consequence of the 8D equations; the Mathematica notebook states this too.
 
 \begin{figure}[htbp]
 \centering
@@ -588,13 +596,13 @@ The Rust program passes 14 of 14 self-checks, the EXP-3 checker 31 of 31 and the
 
 \subsection{Physical interpretation}
 
-The attractive condensate is the only object in this framework whose own pressure is negative. Its negative pressure is $\tfrac\lambda2S^2\propto a^{-6}$, so it matters only at high density, that is in the past, and there it wins over the positive $mS$: going back in time the energy density turns negative and $H$ reaches zero. Today's $w_0$ can be tuned to any value in $(-1,0)$ and to the phantom side by the single parameter $x_0$, but $w_a=3x_0/(1+x_0)^2$ is then fixed, and the evolution is fast because the negative-pressure part dilutes like $a^{-6}$. The crossing of $w=-1$ is not the smooth crossing of a non-canonical scalar: it happens where the effective mass passes through zero, just before the energy density does.
+The attractive condensate is the only object in this framework whose own pressure is negative. Its negative pressure is $\tfrac\lambda2S^2\propto a^{-6}$, so it matters only at high density, that is in the past, and there it wins over the positive $mS$: going back in time the effective mass passes through zero, and the equations then continue to negative energy density and to $H=0$. Today's $w_0$ can be tuned to any value in $(-1,0)$ by the single parameter $x_0$, but $w_a=3x_0/(1+x_0)^2$ is then fixed, and the evolution is fast because the negative-pressure part dilutes like $a^{-6}$. The crossing of $w=-1$ is not the smooth crossing of a non-canonical scalar and not an established phantom crossing: it is the instant where the effective mass vanishes, and on the far side of it the single mean-field mode occupies a negative-energy level. Everything computed there (phantom $w$, $\mathrm{KE}_L<0$, $\rho_\psi<0$, the bounce) is a mean-field artefact of fixed normal ordering.
 
 \section{EXP-4: dirac16complex quanta as dark matter}
 
 \subsection{Purpose}
 
-EXP-4 assumes a 3-space FRW universe with the hidden space and the extra times static ($b=c=1$) and asks two things: how the equation of state of a thermal gas of quanta changes from relativistic to non-relativistic, and how many quanta the end of inflation creates.
+EXP-4 assumes a 3-space FRW universe with the hidden space and the extra times static ($b=c=1$) and asks two things: how the equation of state of a thermal gas of quanta changes from relativistic to non-relativistic, and how many quanta the transition from inflation to radiation creates.
 
 \subsection{Equations solved}
 
@@ -604,7 +612,7 @@ A mode with comoving momentum $k$ along $x_1$ and physical momentum $K=k/a$ obey
 i\dot u=h(t)u,\qquad h=-im\gamma^4-K\gamma^4\gamma^1,\qquad h^2=E^2,\qquad E=\sqrt{m^2+K^2},\qquad \dot K=-KH .
 \]
 
-Per mode $\varepsilon=u^\dagger hu$, $p_1=-K\,u^\dagger\gamma^4\gamma^1u$, $s=u^\dagger(-i\gamma^4)u$, with the identity $\varepsilon=ms+p_1$; $|\beta_k|^2=|P_-u|^2/|u|^2$ is the weight on the instantaneous negative-energy subspace. Structure used for the counting and verified numerically: $h=(m\sigma_z+K\sigma_x)\otimes I_8$ with $\sigma_z=-i\gamma^4$ and $\sigma_x=-\gamma^4\gamma^1$, so there are 8 spin states per $k$, and $Ch^\ast C=-h$ maps particles to antiparticles.
+Only 3-space momenta are kept: the hidden-space momentum $k_0$ is set to zero. The hidden direction $x_0$ is space-like, belongs to the good sector and is static here ($b=1$), so this is an assumption, not a consequence: it holds for a compact hidden dimension whose Kaluza-Klein gap is much larger than $T$ and $H_{\mathrm{inf}}$, or by hand. A thermal gas at $T=10m$ would otherwise populate $k_0$; the relativistic 3-space pressure would then be $\rho/4$, not $\rho/3$, and the density of states would change. Per mode $\varepsilon=u^\dagger hu$, $p_1=-K\,u^\dagger\gamma^4\gamma^1u$, $s=u^\dagger(-i\gamma^4)u$, with the identity $\varepsilon=ms+p_1$; $|\beta_k|^2=|P_-u|^2/|u|^2$ is the weight on the instantaneous negative-energy subspace, and the first-order adiabatic $|\beta_k|^2$ removes from it the adiabatic dressing $(mKH/(4E^3))^2$ of an unexcited mode. Structure used for the counting and verified numerically: $h=(m\sigma_z+K\sigma_x)\otimes I_8$ with $\sigma_z=-i\gamma^4$ and $\sigma_x=-\gamma^4\gamma^1$, so there are 8 spin states per $k$, and $Ch^\ast C=-h$ maps particles to antiparticles.
 
 \textbf{(a) Thermal gas.} $a(t)=(t/t_i)^{1/2}$ with $t_i=1/(2H_i)$, and with $W_n=\tfrac{16}{2\pi^2}w_nk_n^2f_n$, $f=1/(e^{E_i/T_i}+1)$ and 16 states per $k$ (8 particles and 8 antiparticles):
 
@@ -618,13 +626,13 @@ compared with the kinetic-theory integrals
 \rho_{\mathrm{kin}}=\frac{16}{2\pi^2a^3}\int k^2f\,E\,dk,\qquad p_{\mathrm{kin}}=\frac{16}{2\pi^2a^3}\int k^2f\,\frac{K^2}{3E}\,dk .
 \]
 
-\textbf{(b) Pair creation.} $a=e^{H_{\mathrm{inf}}t}$ for $t<0$, glued $C^1$ at $t=0$ to $a=(1+2H_{\mathrm{inf}}t)^{1/2}$: $a$ and $H$ are continuous and $\dot H$ jumps from 0 to $-2H_{\mathrm{inf}}^2$. The integration is restarted at $t=0$. Each mode starts in the first-order adiabatic vacuum at $k/a(t_0)=200H_{\mathrm{inf}}$. With 8 filled negative-energy states per $k$ in the Dirac sea, each ending with weight $|\beta_k|^2$ on the positive-energy subspace,
+\textbf{(b) Pair creation.} $a=e^{H_{\mathrm{inf}}t}$ for $t<0$, glued $C^1$ at $t=0$ to $a=(1+2H_{\mathrm{inf}}t)^{1/2}$: $a$ and $H$ are continuous and $\dot H$ jumps from 0 to $-2H_{\mathrm{inf}}^2$. The integration is restarted at $t=0$. Each mode starts in the first-order adiabatic vacuum at $k/a(t_0)=200H_{\mathrm{inf}}$. With 8 filled negative-energy states per $k$ in the Dirac sea, each ending with weight $|\beta_k|^2$ on the positive-energy subspace, and with $|\beta_k|^2$ the final value in the first-order adiabatic basis (the instantaneous-basis final value is dominated for $k\gtrsim12$ by the adiabatic dressing at the end of the run, oscillates in $k$ and depends on where the run stops; its integrals are kept only as the literal definition),
 
 \[
 na^3=\frac{16}{2\pi^2}\int k^2|\beta_k|^2dk,\qquad \rho a^3=\frac{16}{2\pi^2}\int k^2|\beta_k|^2E_k(a)\,dk,\qquad pa^3=\frac{16}{2\pi^2}\int k^2|\beta_k|^2\frac{K^2}{3E}\,dk,
 \]
 
-counting particles and antiparticles. For large $k$ the kink at $t=0$ predicts $|\beta_k|^2\to(mk/(4E^4))^2$ at $a=1$.
+counting particles and antiparticles. For large $k$ the kink at $t=0$ predicts $|\beta_k|^2\to(mk/(4E^4))^2$ at $a=1$. The grid stops at $k=40$; the analytic kink tail beyond it is integrated separately (64-node Gauss-Legendre in $k_{\max}/k$) and reported as a correction to $na^3$, $\rho a^3$ and $pa^3$.
 
 \subsection{Initial data and parameters}
 
@@ -655,10 +663,11 @@ Adams + fixed point, rtol $10^{-13}$, atol $10^{-14}$, max\_step 2.0; 287898778 
 \end{figure}
 
 \begin{itemize}
-\item \textbf{Relativistic to dust.} $w=0.3328543348$ at $a=1$ (kinetic theory: the same to ten digits) and $w=0.0359224$ at $a=100$ (kinetic theory 0.0359223). $\rho a^4$ is constant early and $\rho a^3$ late. The momentum energy $\mathrm{KE}_H=3p$ gives way to rest-mass energy.
-\item \textbf{Agreement with kinetic theory.} $\rho$ agrees to $1.98\times10^{-8}$. $p$ deviates by up to $1.87\times10^{-5}$, independent of the tolerance: the start from the instantaneous eigenvector leaves a free negative-frequency wave that enters $p_1$ and $s$ at first order, $p_1=(1-2|\beta|^2)K^2/E+2\,\mathrm{Re}(\alpha^\ast\beta)\,mK/E$, while $\varepsilon$ has no such term. The deviation stays inside the independently predicted interference envelope (ratio 0.28), and the adiabatic-vacuum runs reduce the single-mode pressure deviation from 1.78 to 0.12 relative.
+\item \textbf{Relativistic to dust.} $w=0.3328543348$ at $a=1$ (kinetic theory: the same to ten digits) and $w=0.0359224$ at $a=100$ (kinetic theory 0.0359223), both on the truncated grid $k\le k_{\max}=12T_i$. $\rho a^4$ is constant early and $\rho a^3$ late. The momentum energy $\mathrm{KE}_H=3p$ gives way to rest-mass energy.
+\item \textbf{Agreement with kinetic theory.} The mode sum and the kinetic comparison share the cut $k\le k_{\max}$, so this comparison checks the ODE integration, not the truncation. $\rho$ agrees to $1.98\times10^{-8}$. $p$ deviates by up to $1.87\times10^{-5}$, independent of the tolerance: the start from the instantaneous eigenvector leaves a free negative-frequency wave that enters $p_1$ and $s$ at first order, $p_1=(1-2|\beta|^2)K^2/E+2\,\mathrm{Re}(\alpha^\ast\beta)\,mK/E$, while $\varepsilon$ has no such term. The deviation stays inside the independently predicted interference envelope (ratio 0.28), and the adiabatic-vacuum runs reduce the single-mode pressure deviation from 1.78 to 0.12 relative.
 \item \textbf{No spurious particle production in the gas.} The occupation-weighted $|\beta|^2$ is $3.7\times10^{-8}$ and the adiabatic-vacuum runs end at $5.6\times10^{-8}$. The largest single-mode value, $6.37\times10^{-5}$ at $k=0.953$, is 0.998 times $4|c|^2$ with $|c|^2=(mkH_i/(4E_i^3))^2$, the sudden-start wave, not particle production.
-\item Spin independence and particle-antiparticle symmetry are exact (deviation 0.0). Truncating the momenta at $k_{\max}$ misses $2.4\times10^{-3}$ of $\rho$ at $a=1$, which is reported, not corrected.
+\item Spin independence and particle-antiparticle symmetry are exact (deviation 0.0).
+\item \textbf{Momentum truncation.} Truncating the momenta at $k_{\max}$ misses $2.4\times10^{-3}$ of $\rho$ at $a=1$ and, at $a=100$, $9.0\times10^{-4}$ of $\rho$ and $5.3\times10^{-3}$ of $p$ (the checker's kinetic theory on $[0,60T_i]$). Without the cut the Fermi-Dirac gas has $w=0.0361$ at $a=100$ instead of 0.0359; the quoted $w(100)$ therefore refers to the truncated grid. The truncation is reported, not corrected.
 \end{itemize}
 
 \begin{figure}[htbp]
@@ -670,8 +679,10 @@ Adams + fixed point, rtol $10^{-13}$, atol $10^{-14}$, max\_step 2.0; 287898778 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.92\linewidth]{artifacts/dirac16complex/numerics/figures/exp4_pair_density.png}
-\caption{EXP-4 (a) the produced comoving number density \texorpdfstring{$na^3$}{na\textasciicircum{}3} (adiabatic basis solid, instantaneous basis dashed), and (b) the equation of state of the produced gas with its frozen spectrum, from nearly \texorpdfstring{$1/3$}{1/3} at \texorpdfstring{$a=1$}{a=1} to dust.}
+\caption{EXP-4 (a) the produced comoving number density \texorpdfstring{$na^3$}{na\textasciicircum{}3} (adiabatic basis solid, instantaneous basis dashed), and (b) the equation of state of the produced gas with its final adiabatic-basis spectrum, from nearly \texorpdfstring{$1/3$}{1/3} when evaluated at \texorpdfstring{$a=1$}{a=1} to dust.}
 \end{figure}
+
+The produced number on the grid $k\le40$, from the final spectrum in the first-order adiabatic basis:
 
 \begin{longtable}{@{}p{0.230\linewidth}p{0.230\linewidth}p{0.230\linewidth}p{0.230\linewidth}@{}}
 \toprule
@@ -683,14 +694,14 @@ Adams + fixed point, rtol $10^{-13}$, atol $10^{-14}$, max\_step 2.0; 287898778 
 \midrule
 \endhead
 0 & $1.8\times10^{-24}$ & $8.5\times10^{-25}$ & $10^5$ \\
-0.1 & $1.455\times10^{-3}$ & 0.348 & $10^5$ \\
-0.5 & $4.991\times10^{-3}$ & 0.0640 & $2\times10^4$ \\
-1 & $4.414\times10^{-3}$ & 0.0138 & $10^4$ \\
-2 & $2.422\times10^{-3}$ & 0.00265 & $5\times10^3$ \\
+0.1 & $1.454\times10^{-3}$ & 0.348 & $10^5$ \\
+0.5 & $4.990\times10^{-3}$ & 0.0640 & $2\times10^4$ \\
+1 & $4.412\times10^{-3}$ & 0.0138 & $10^4$ \\
+2 & $2.421\times10^{-3}$ & 0.00265 & $5\times10^3$ \\
 \bottomrule
 \end{longtable}
 
-The equation of state of the produced gas, with its final (frozen) spectrum:
+The equation of state of the produced gas, from the same final (frozen) spectrum; "$w$ at $a=1$" is that spectrum evaluated at $a=1$, a hypothetical, because the production is not finished at $a=1$ (see below):
 
 \begin{longtable}{@{}p{0.230\linewidth}p{0.230\linewidth}p{0.230\linewidth}p{0.230\linewidth}@{}}
 \toprule
@@ -702,21 +713,24 @@ The equation of state of the produced gas, with its final (frozen) spectrum:
 \midrule
 \endhead
 0 & $1/3$ & $1/3$ & $1.3\times10^{-26}$ \\
-0.1 & 0.3095 & $3.09\times10^{-4}$ & $1.456\times10^{-4}$ \\
-0.5 & 0.2544 & $1.28\times10^{-4}$ & $2.496\times10^{-3}$ \\
-1 & 0.2390 & $1.70\times10^{-4}$ & $4.415\times10^{-3}$ \\
-2 & 0.2397 & $3.09\times10^{-4}$ & $4.845\times10^{-3}$ \\
+0.1 & 0.3081 & $1.20\times10^{-4}$ & $1.454\times10^{-4}$ \\
+0.5 & 0.2539 & $1.14\times10^{-4}$ & $2.495\times10^{-3}$ \\
+1 & 0.2386 & $1.62\times10^{-4}$ & $4.413\times10^{-3}$ \\
+2 & 0.2395 & $3.02\times10^{-4}$ & $4.845\times10^{-3}$ \\
 \bottomrule
 \end{longtable}
 
+\textbf{Basis and truncation.} The tables use the first-order adiabatic basis. The instantaneous-basis final $|\beta_k|^2$ (the literal definition) contains, for $k\gtrsim12$, the adiabatic dressing $(mKH/(4E^3))^2$ at the end of the run; it gives $na^3=1.455\times10^{-3}$, $4.991\times10^{-3}$, $4.414\times10^{-3}$ and $2.422\times10^{-3}$, and at the end $w=3.09\times10^{-4}$, $1.28\times10^{-4}$, $1.70\times10^{-4}$ and $3.09\times10^{-4}$ for $m=0.1$, 0.5, 1 and 2, values that depend on the $k$-grid and on where the run stops. The analytic kink tail beyond $k=40$ adds $1.05\times10^{-6}$ to $na^3$ for $m=2$ (a fraction $4.3\times10^{-4}$), and $6.4\times10^{-3}$ of $\rho$ and $8.9\times10^{-3}$ of $p$ at $a=1$; with it, $na^3=2.422\times10^{-3}$ and $w$ at $a=1$ is 0.2401 for $m=2$ (0.3081, 0.2540 and 0.2388 for the lighter masses), and $w$ at the end is $3.28\times10^{-4}$ for $m=2$.
+
 \begin{itemize}
 \item \textbf{Production for $m>0$ only.} For $m=0$ the mode equation is conformally invariant, $h=K(t)\sigma_x\otimes I_8$ has time-independent eigenvectors, and the measured $|\beta|^2$ ($8.5\times10^{-25}$) is roundoff. For $m>0$ the yield $na^3$ is a few $10^{-3}H_{\mathrm{inf}}^3$, largest near $m=0.5H_{\mathrm{inf}}$; the maximum $|\beta_k|^2\le1$ respects the Pauli principle. The high-$k$ tail follows the kink prediction to 4.2\% (limit 35\%).
-\item \textbf{The produced gas becomes dust}: $w$ falls from values between 0.24 and 0.31 at $a=1$ to about $10^{-4}$ at the end, and $\rho a^3$ approaches $m\,na^3$ (for $m=1$: $4.415\times10^{-3}$ against $na^3=4.414\times10^{-3}$).
+\item \textbf{When the quanta are made.} For $m\ge0.5H_{\mathrm{inf}}$ most of the final number is produced after the de Sitter to radiation transition, in the radiation era when $H$ is of order $m$: the adiabatic-basis $na^3$ at $a=1$ in pair\_history.csv is about a third to a half of its final value for $m=0.5$, 1 and 2 (for $m=0.1$ it is still evolving at $a=1$).
+\item \textbf{The produced gas becomes dust}: the final spectrum has $w$ between 0.24 and 0.31 when evaluated at $a=1$ and about $10^{-4}$ at the end, and $\rho a^3$ approaches $m\,na^3$ (for $m=1$: $4.413\times10^{-3}$ against $na^3=4.412\times10^{-3}$).
 \end{itemize}
 
 \subsection{Verification}
 
-The Rust program passes 23 of 23 self-checks and the EXP-4 checker 51 of 51. The checker recomputes the grids, the initial states, every derived column and every mode sum from the raw spinors (to $2.5\times10^{-15}$), re-derives kinetic theory with an independent Gauss-Legendre quadrature (quadrature error $1.2\times10^{-11}$ in $\rho$), checks unitarity ($2.4\times10^{-7}$ thermal, $4.1\times10^{-8}$ pair) and the Krein norm, integrates selected modes with an independent RK4 with Richardson estimate ($1.74\times10^{-9}$ thermal, $6.2\times10^{-10}$ pair) because the CSV sampling is too sparse for finite differences, and checks repeat-run byte identity and refined convergence (thermal $\rho$ and $p$ change by $3.0\times10^{-8}$ and $3.7\times10^{-8}$ relative, unitarity improves from $2.4\times10^{-7}$ to $4.4\times10^{-8}$, pair $|\beta|^2$ changes by $1.8\times10^{-9}$ relative). The Mathematica notebook derives the mode equation symbolically, re-integrates four thermal nodes and ten pair modes with NDSolve (thermal: $2.62\times10^{-6}$ raw, $5.9\times10^{-8}$ phase aligned; NDSolve Adams against order-8 Runge-Kutta on node 2: $6.6\times10^{-9}$, so the raw deviation is on the Rust side, plausibly the same time-accumulation rounding as in EXP-2 but not proven; pair: $7.6\times10^{-9}$ phase aligned and $1.9\times10^{-9}$ relative in $|\beta|^2$, massless $|\beta|^2=0$), and recomputes kinetic theory with NIntegrate ($\rho$: $1.98\times10^{-8}$, $p$: $1.87\times10^{-5}$, the free-wave effect above).
+The Rust program passes 23 of 23 self-checks and the EXP-4 checker 51 of 51. The checker recomputes the grids, the initial states, every derived column and every mode sum from the raw spinors (to $2.5\times10^{-15}$), re-derives kinetic theory with an independent Gauss-Legendre quadrature (quadrature error $1.2\times10^{-11}$ in $\rho$), checks unitarity ($2.4\times10^{-7}$ thermal, $4.1\times10^{-8}$ pair) and the Krein norm, integrates selected modes with an independent RK4 with Richardson estimate ($1.74\times10^{-9}$ thermal, $6.2\times10^{-10}$ pair) because the CSV sampling is too sparse for finite differences, and checks repeat-run byte identity and refined convergence (thermal $\rho$ and $p$ change by $3.0\times10^{-8}$ and $3.7\times10^{-8}$ relative, unitarity improves from $2.4\times10^{-7}$ to $4.4\times10^{-8}$, pair $|\beta|^2$ changes by $1.8\times10^{-9}$ relative). The RK4 reference covers the thermal modes only up to $a=3$. Over the full range $a\in[1,100]$ the checker compares five thermal nodes (0, 2, 16, 30, 47) with a fourth-order Magnus integration of the exact two-level reduction $h=(m\sigma_z+K\sigma_x)\otimes I_8$, through the overlap $\langle u(t_i)|u(t)\rangle$, which carries the phase (Magnus self-convergence $5.9\times10^{-9}$). The Rust thermal states carry a phase error of at most $6.5\times10^{-6}$ rad at $a=100$ (maximum overlap deviation $6.0\times10^{-6}$), after about $10^5$ radians or more of phase, and the refined run does not reduce it (maximum phase error $7.1\times10^{-6}$ rad, overlap deviation $7.8\times10^{-6}$; canonical and refined states differ by up to $1.24\times10^{-5}$). So the refined convergence is no evidence for the phase; the error is not a truncation error, consistent with the time-accumulation rounding identified in EXP-2, and only phase-invariant quantities ($\varepsilon$, $p_1$, $s$, $|\beta|^2$) enter the results. The Mathematica notebook derives the mode equation symbolically, re-integrates four thermal nodes and ten pair modes with NDSolve and recomputes kinetic theory with NIntegrate. Its thermal nodes 0 and 2 run to $a=100$, the two hardest nodes 16 ($k=32$) and 47 ($k=120$) only to $a=10$ (a small fraction of their phase), so for those two the cross-check is partial. The results (thermal: $2.62\times10^{-6}$ raw, $5.9\times10^{-8}$ phase aligned; NDSolve Adams against order-8 Runge-Kutta on node 2: $6.6\times10^{-9}$, so the raw deviation is on the Rust side; pair: $7.6\times10^{-9}$ phase aligned and $1.9\times10^{-9}$ relative in $|\beta|^2$, massless $|\beta|^2=0$; kinetic theory by NIntegrate ($\rho$: $1.98\times10^{-8}$, $p$: $1.87\times10^{-5}$, the free-wave effect above)).
 
 \begin{figure}[htbp]
 \centering
@@ -732,7 +746,7 @@ The Rust program passes 23 of 23 self-checks and the EXP-4 checker 51 of 51. The
 
 \subsection{Physical interpretation}
 
-In the good sector, with the extra dimensions held static, dirac16complex quanta are an ordinary gas of massive fermions with 16 states per momentum. Their pressure is momentum flux and redshifts away, so the equation of state changes continuously from radiation to dust: the gas is hot, then warm, then cold. The expansion itself creates such quanta when inflation ends, for any $m>0$, in amounts of order $10^{-3}H_{\mathrm{inf}}^3$ per comoving volume at the end of inflation, and the created gas is dust soon after. This is the behaviour a gravitationally produced, heavy, weakly coupled dark-matter candidate needs. What it does not give is a relic density in physical units: that would require $H_{\mathrm{inf}}$ and $m$ in physical units and the post-inflationary history, none of which the framework fixes.
+In the good sector, with the extra dimensions held static and no hidden-space momentum, dirac16complex quanta are an ordinary gas of massive fermions with 16 states per momentum. Their pressure is momentum flux and redshifts away, so the equation of state changes continuously from radiation to dust: the gas is hot, then warm, then cold. The expansion itself creates such quanta for any $m>0$, mainly after the de Sitter to radiation transition, when $H$ is of order $m$, in amounts of order $10^{-3}H_{\mathrm{inf}}^3$ per comoving volume (normalised to $a=1$ at the end of de Sitter), and the created gas is dust soon after. This is the behaviour a gravitationally produced, heavy, weakly coupled dark-matter candidate needs. What it does not give is a relic density in physical units: that would require $H_{\mathrm{inf}}$ and $m$ in physical units and the post-inflationary history, none of which the framework fixes.
 
 \section{EXP-5: the extra-time instability}
 
@@ -805,7 +819,7 @@ notebooks/run_notebook.py                         headless executor
 notebooks/check_notebook.py                       auditor
 \end{Verbatim}
 
-The notebook has 23 cells (15 markdown, 8 code; kernel python3). It runs every subcommand of the Rust program into the git-ignored build/notebook-run and requires all 65 written files (62 from the program, 3 from the EXP-3 analysis) to be byte-identical to the committed ones. It then recomputes the physics from the raw spinor columns with the fixture's gamma matrices, for example the exact EXP-1 propagator ($3.12\times10^{-9}$) and its own Gauss-Legendre quadrature of the EXP-3 comoving distance ($1.7\times10^{-9}$ from CVODE), and writes the 17 figures with fixed metadata. A gauntlet of 70 assertions covers every Rust, checker and analysis check, the Stage-1 results (153 of 153 checks), the fixture hash across all reports, the notebook's own recomputations and the 64 numbers quoted in its markdown. The notebook was executed headless by run\_notebook.py and by python -m nbconvert. The auditor checked both executed copies (verdict SUCCESS, identical gauntlet results and figure hashes) and wrote notebook-report.json.
+The notebook has 23 cells (15 markdown, 8 code; kernel python3). It runs every subcommand of the Rust program into the git-ignored build/notebook-run and requires all 62 files written by the program to be byte-identical to the committed ones and the 3 files of the EXP-3 analysis to agree with them value by value (relative $10^{-9}$, absolute $10^{-12}$), because numpy versions differ in the last digits of those files. It prints no folder name, so its output does not depend on what the clone is called. It then recomputes the physics from the raw spinor columns with the fixture's gamma matrices, for example the exact EXP-1 propagator ($3.12\times10^{-9}$) and its own Gauss-Legendre quadrature of the EXP-3 comoving distance ($1.7\times10^{-9}$ from CVODE), and writes the 17 figures with fixed metadata. A gauntlet of 71 assertions covers every Rust, checker and analysis check, the Stage-1 results (153 of 153 checks), the fixture hash across all reports, the notebook's own recomputations and the 72 numbers quoted in its markdown. The notebook was executed headless by run\_notebook.py and by python -m nbconvert. The auditor checked both executed copies (verdict SUCCESS, identical gauntlet results and figure hashes) and wrote notebook-report.json.
 
 \subsection{The Mathematica notebook}
 
@@ -867,12 +881,12 @@ The finite-difference right-hand-side test uses 9-point stencils; rows the outpu
 \subsection{How pressure and energy density behave and change}
 
 \begin{itemize}
-\item \textbf{Free condensate, any background:} $\rho=mS\propto1/V$ and $p=0$ exactly: dust, whatever the geometry does.
-\item \textbf{Repulsive condensate ($\lambda>0$):} $\rho=mS+\tfrac\lambda2S^2$ and $p=\tfrac\lambda2S^2>0$; $w\to1$ (stiff) at small $V$ and $w\to0$ at large $V$ (EXP-1, EXP-2).
-\item \textbf{Attractive condensate ($\lambda<0$):} $p<0$; phantom where $M_{\mathrm{eff}}<0<\rho$; $\rho<0$ at still smaller $V$; $w\to0$ at large $V$ (EXP-2, EXP-3).
-\item \textbf{Primordial field:} $V$ is constant, so $\rho$ and $p$ are frozen; dust or slightly stiff, with a $2E$ oscillation of the pressure for superpositions of the energy signs (EXP-1).
-\item \textbf{Thermal gas:} $\rho\propto a^{-4}$ early and $\propto a^{-3}$ late; $w$ falls from 0.3329 to 0.0359 as the momenta redshift (EXP-4).
-\item \textbf{Created pairs:} $w$ falls from values between 0.24 and 0.31 at the end of inflation to about $10^{-4}$, and $\rho a^3\to m\,na^3$ (EXP-4).
+\item \textbf{Free condensate, any background (single-mode mean field):} $\rho=mS\propto1/V$ and $p=0$: dust, whatever the geometry does, up to the Fermi-degeneracy pressure of a Pauli-consistent state, which was not computed (Section 4.6).
+\item \textbf{Repulsive condensate ($\lambda>0$):} $\rho=mS+\tfrac\lambda2S^2$ and $p=\tfrac\lambda2S^2>0$; $w\to1$ (stiff) at small $V$ and $w\to0$ at large $V$ (EXP-1 in the pointwise mean field, EXP-2).
+\item \textbf{Attractive condensate ($\lambda<0$):} $p<0$ and $w\to0$ at large $V$; where $M_{\mathrm{eff}}<0$ the equations give phantom $w$ and, at still smaller $V$, $\rho<0$, but there the occupied mode is a negative-energy level and these are mean-field artefacts (EXP-2, EXP-3).
+\item \textbf{Primordial field:} $V$ is constant, so $\rho$ and $p$ are frozen; dust or slightly stiff for the positive-energy eigenstates (EXP-1). The $2E$ oscillation of the mixed control runs is a first-quantised interference effect, not a property of the field.
+\item \textbf{Thermal gas:} $\rho\propto a^{-4}$ early and $\propto a^{-3}$ late; $w$ falls from 0.3329 to 0.0359 (truncated grid; 0.0361 without the momentum cut) as the momenta redshift (EXP-4).
+\item \textbf{Created pairs:} the final spectrum has $w$ between 0.24 and 0.31 when evaluated at $a=1$ and about $10^{-4}$ at the end of the run, and $\rho a^3\to m\,na^3$ (EXP-4); most quanta are produced in the radiation era, when $H$ is of order $m$.
 \item \textbf{Extra-time modes:} no positive norm and super-exponential growth after $t_\ast$; $\rho$ and $p$ are not defined in a positive Fock space (EXP-5).
 \end{itemize}
 
@@ -883,9 +897,9 @@ Three mechanisms control everything. \textbf{Dilution:} $SV$ is constant, so the
 \textbf{What behaves like dark matter.}
 
 \begin{itemize}
-\item The free condensate is exact dust in every background: $w=0$, $\mathrm{KE}_L=\mathrm{PE}_L=\rho/2$, $\mathrm{KE}_H=0$, $\mathrm{PE}_H=\rho$ (EXP-1 with $K=0$, EXP-2 and EXP-3 with $x_0=0$).
-\item A gas of quanta has a time-varying equation of state, relativistic to dust: $w=0.3329$ at $T=10m$ and $0.0359$ after a hundredfold expansion, in agreement with kinetic theory; $\mathrm{KE}_H/\rho=3w$ falls from 1 to about 0.11 while the rest-mass fraction $\mathrm{PE}_H/\rho$ rises (EXP-4a).
-\item Gravitational pair creation at the end of inflation gives $na^3=1.455\times10^{-3}$, $4.991\times10^{-3}$, $4.414\times10^{-3}$ and $2.422\times10^{-3}\,H_{\mathrm{inf}}^3$ for $m/H_{\mathrm{inf}}=0.1$, 0.5, 1 and 2, and nothing for $m=0$ (EXP-4b). The produced gas is dust ($w\approx10^{-4}$) by the end of each run.
+\item A Pauli-consistent gas of quanta ($f\le1$, 8 + 8 states per momentum, $k_0=0$) has a time-varying equation of state, relativistic to dust: $w=0.3329$ at $T=10m$ and $0.0359$ after a hundredfold expansion on the truncated grid (0.0361 without the cut), in agreement with kinetic theory on the same grid; $\mathrm{KE}_H/\rho=3w$ falls from 1 to about 0.11 while the rest-mass fraction $\mathrm{PE}_H/\rho$ rises (EXP-4a). This is the dark-matter-like result that does not depend on the single-mode picture.
+\item Gravitational pair creation by the de Sitter to radiation transition gives $na^3=1.454\times10^{-3}$, $4.990\times10^{-3}$, $4.412\times10^{-3}$ and $2.421\times10^{-3}\,H_{\mathrm{inf}}^3$ for $m/H_{\mathrm{inf}}=0.1$, 0.5, 1 and 2 (final spectrum in the first-order adiabatic basis, $k\le40$), and nothing for $m=0$ (EXP-4b); most of it happens in the radiation era, when $H$ is of order $m$. The produced gas is dust ($w\approx10^{-4}$) by the end of each run.
+\item The free mean-field condensate is dust in every background: $w=0$, $\mathrm{KE}_L=\mathrm{PE}_L=\rho/2$, $\mathrm{KE}_H=0$, $\mathrm{PE}_H=\rho$ (EXP-1 with $K=0$, EXP-2 and EXP-3 with $x_0=0$). That is a property of the single-mode picture: a Pauli-consistent state at the same density is dust only up to a Fermi-degeneracy pressure, negligible when $k_F(n)\ll m$ (Section 4.6), which is plausible for EXP-3 with a physical mass of order eV or more but not guaranteed for the EXP-2 parameters.
 \item Any repulsive or attractive condensate becomes dust at large volume (EXP-2, EXP-3), because the interaction energy dilutes faster.
 \end{itemize}
 
@@ -897,16 +911,17 @@ Three mechanisms control everything. \textbf{Dilution:} $SV$ is constant, so the
 \item \textbf{Stabilised extra dimensions.} In self-consistent 8D gravity (EXP-2) all seven directions end up expanding equally, and a 3-space observer sees the dust dilute like $a^{-7}$ ($w_{\mathrm{eff}}\to4/3$). Dust-like dilution in 3-space, which dark matter needs, requires static extra dimensions; that was assumed in EXP-3 and EXP-4, not derived.
 \item \textbf{The extra-time sector} must be excluded by hand (EXP-5).
 \item \textbf{Structure formation}, free streaming of the warm phase and clustering were not computed.
+\item \textbf{The hidden-space momentum} $k_0$ was set to zero in EXP-4 (a compact hidden dimension with a large Kaluza-Klein gap, or by hand); with it the relativistic pressure would be $\rho/4$.
 \end{enumerate}
 
-\textbf{Answer on dark matter.} There is a qualitative connection: in the good sector, with stabilised extra dimensions, dirac16complex quanta and free condensates are pressureless matter, and expansion produces the quanta gravitationally. The connection is an equation of state and a production mechanism, not a dark-matter model, and nothing computed here predicts the observed dark-matter density.
+\textbf{Answer on dark matter.} There is a qualitative connection: in the good sector, with stabilised extra dimensions, dirac16complex quanta are pressureless matter at late times (and so are free condensates in the single-mode mean field), and expansion produces the quanta gravitationally. The connection is an equation of state and a production mechanism, not a dark-matter model, and nothing computed here predicts the observed dark-matter density.
 
 \subsection{Dark energy: which mechanisms give negative pressure or \texorpdfstring{$w<-1/3$}{w<-1/3}}
 
 \begin{enumerate}
-\item \textbf{Attractive four-fermion interaction ($\lambda<0$).} The only mechanism with genuinely negative pressure, $p=\tfrac\lambda2S^2<0$. $w=x_0\sigma/(1+x_0\sigma)$ lies in $(-1,0)$ at low density and below $-1$ (phantom) where $\mathrm{KE}_L=\tfrac12SM_{\mathrm{eff}}<0$ with $\rho>0$. The phantom crossing happens where $M_{\mathrm{eff}}=0$, is immediately followed by $\rho<0$ at higher density, and in EXP-3 by a bounce (EXP-2: phantom for $0.4<V/V_0<0.8$ and $\rho<0$ below 0.4).
+\item \textbf{Attractive four-fermion interaction ($\lambda<0$).} The only mechanism with genuinely negative pressure, $p=\tfrac\lambda2S^2<0$. $w=x_0\sigma/(1+x_0\sigma)$ lies in $(-1,0)$ at low density. At higher density $M_{\mathrm{eff}}$ passes through zero, and beyond that point the equations give $w<-1$ with $\rho>0$ ($\mathrm{KE}_L=\tfrac12SM_{\mathrm{eff}}<0$), then $\rho<0$, and in EXP-3 a bounce (EXP-2: phantom for $0.4<V/V_0<0.8$ and $\rho<0$ below 0.4). \textbf{This phantom crossing is a mean-field artefact, not an established property of the field:} in all those rows the single occupied mode is a negative-energy eigenvector of the instantaneous $h$ ($s(u)=1$ while $M_{\mathrm{eff}}<0$), outside the domain of the expectation-value rule, and no state of positive-energy quanta has $\mathrm{KE}_L<0$ (Section 4.6).
 \item \textbf{Frozen density in the primordial field.} In EXP-1 the 7-volume is constant ($\Theta=0$), so the density does not dilute while 3-space inflates. For a 3-space observer that is the dilution of a cosmological constant: $w_{\mathrm{eff}}=-1+\Theta(1+w)/(3H_a)=-1$ (derived here from the EXP-2 definition and the EXP-1 background, not a separate machine check). The actual pressure is zero or positive, and the geometry is not self-consistent: 8D Einstein gravity would need $\rho_{\mathrm{req}}\le-21$ (Section 6.5).
-\item \textbf{Deflating extra times} (EXP-3 variant). With $c\propto a^{-\gamma}$, $\sigma\propto a^{-n}$, $n=3(1-\gamma)<3$, the density dilutes more slowly than $a^{-3}$. $\gamma=0.875181$ ($n=0.374457$, $x_0=-0.4626545$) reproduces the Unite tangent of $p/\rho$ exactly, and distances measure $w_{\mathrm{eff}}$ with tangent $(-0.9827,-0.0749)$. Section 12.5 lists why it fails.
+\item \textbf{Deflating extra times} (EXP-3 variant). With $c\propto a^{-\gamma}$, $\sigma\propto a^{-n}$, $n=3(1-\gamma)<3$, the density dilutes more slowly than $a^{-3}$. For $\gamma=0.875181$ ($n=0.374457$, $x_0=-0.4626545$) the tangent CPL parameters of $p/\rho$ at $a=1$ equal the Unite fit values. The Unite values are fit parameters over the data range, not a tangent; the like-for-like comparison, the least-squares CPL fit of the variant's own $p/\rho$ on $a\in[1/3.26,1]$, gives $(w_0,w_a)=(-0.640,-1.98)$ (rms residual 0.154), far from Unite. Distances measure $w_{\mathrm{eff}}$ with tangent $(-0.9827,-0.0749)$. Section 12.5 lists why it fails.
 \end{enumerate}
 
 The Lagrangian has no cosmological-constant term ($U(0)=0$ is forced for a Grassmann field), and a condensate has $w=-1$ only at the instant $M_{\mathrm{eff}}=0$.
@@ -1004,49 +1019,54 @@ References and the deflation variant:
 \endhead
 Unite CPL (PDF) & $(-0.861,-0.60)$ & none \\
 Unite wCDM (PDF) & none & $-0.764$ \\
-best constant $w$ for the Unite CPL distances & none & $-1.0277$ \\
+best constant $w$ for the Unite CPL distances, $\Omega_m=0.305$ fixed & none & $-1.0277$ \\
 the same with the offset fixed at 0 & none & $-0.9747$ \\
 the same on a log-uniform $z$ grid & none & $-0.9790$ \\
+the same with $\Omega_m$ free (best $\Omega_m=0.2777$) & none & $-0.9115$ \\
+the same, $\Omega_m$ free, offset fixed at 0 & none & $-0.8788$ \\
+the same, $\Omega_m$ free, log-uniform $z$ grid & none & $-0.8721$ \\
 $\Lambda$CDM & $(-1,0)$ & $-1$ \\
-deflation variant, $p/\rho$ & $(-0.861,-0.60)$ & none \\
+deflation variant, tangent of $p/\rho$ & $(-0.861,-0.60)$ & none \\
+deflation variant, $p/\rho$ fit on $a\in[1/3.26,1]$ & $(-0.640,-1.98)$ & none \\
 deflation variant, tangent of $w_{\mathrm{eff}}$ & $(-0.9827,-0.0749)$ & none \\
 deflation variant, $w_{\mathrm{eff}}(a)$ fit & $(-0.955,-0.247)$ & none \\
 deflation variant, $\mathrm{DM}(z)$ fits & $(-0.9707,-0.1611)$ & $-1.0159$ \\
 \bottomrule
 \end{longtable}
 
-For the Unite CPL, $w_0+w_a=-1.461$ and $w=-1$ at $a=0.768$. The deflation variant's $p/\rho$ reproduces the Unite tangent by construction.
+For the Unite CPL, $w_0+w_a=-1.461$ and $w=-1$ at $a=0.768$. The Unite CPL distances used as the target always have $\Omega_m=0.305$, the value assumed by the programme; the PDF gives no $\Omega_m$. The tangent of the deflation variant's $p/\rho$ equals the Unite values by construction; its like-for-like fit $(-0.640,-1.98)$ does not.
 
 The scan over $x_0\in[-0.49,0]$ in steps of 0.001 (491 models, fits\_scan.csv) finds $x_0=-0.4626545$ for $w_0=-0.861$, with tangent $w_a=-4.807$, and $x_0=-0.4331066$ for $w_0=-0.764$.
 
 \textbf{Reading the tables.}
 
 \begin{itemize}
-\item Matching today's Unite value $w_0=-0.861$ forces $w_a=-4.81$: the condensate evolves about eight times faster than the Unite fit. It crosses $w=-1$ at $z=0.026$ (the Unite CPL crosses at $a=0.768$), its energy density is negative beyond $z=0.293$ and the universe has a bounce at $z=0.388$. There is no matter era and no redshift beyond 0.388, so the model cannot be confronted with supernovae up to $z=2.26$, let alone with the CMB.
+\item Matching today's Unite value $w_0=-0.861$ forces $w_a=-4.81$: the condensate evolves about eight times faster than the Unite fit. Its effective mass vanishes and $w=-1$ at $z=0.026$ (the Unite CPL crosses $-1$ at $a=0.768$), and beyond that redshift the mean field is outside its valid regime; the equations there give negative energy density beyond $z=0.293$ and a bounce at $z=0.388$. Either way the model provides no description of the universe beyond $z=0.026$, so it cannot be confronted with supernovae up to $z=2.26$, let alone with the CMB.
 \item The fits that the comparison was meant to use do not exist for any $x_0<-0.041$. The restricted fits give values such as $(w_0,w_a)=(2.1,-48)$ with residuals of 0.06 to 0.08 mag, which only show that the CPL form does not describe these models.
-\item \textbf{The benchmark $w=-0.764$.} The model reproduces it only as today's value ($x_0=-0.433107$), with $w_a=-4.04$; a constant-$w$ fit to that model's own distances gives $-2.48$. Moreover, $-0.764$ is not a constant-$w$ projection of the Unite CPL curve: the best constant $w$ for the CPL distances is $-1.028$ (uniform $z$), $-0.975$ (offset zero) or $-0.979$ (log-uniform $z$), with $\Omega_m=0.305$ fixed and noise-free equal weights. The PDF describes $-0.764$ as a direct wCDM fit of the supernovae alone, which is a different statistical question.
-\item Only the deflation variant comes close to Unite in distances ($\max|\Delta\mathrm{DM}|=0.021$ mag, 0.011 mag with the offset profiled), and its distances look like a mildly evolving $w\approx-0.97$ to $-1.02$, not like the Unite CPL; it fails for other reasons (Section 12.5).
+\item \textbf{The benchmark $w=-0.764$.} The model reproduces it only as today's value ($x_0=-0.433107$), with $w_a=-4.04$; a constant-$w$ fit to that model's own distances gives $-2.48$. How $-0.764$ relates to the Unite CPL curve depends on $\Omega_m$, an assumed input here. With $\Omega_m=0.305$ fixed and noise-free equal weights, $-0.764$ is not a constant-$w$ projection of the Unite CPL curve: the best constant $w$ for the CPL distances is $-1.028$ (uniform $z$), $-0.975$ (offset zero) or $-0.979$ (log-uniform $z$). An SN-only wCDM fit, which is what the PDF says $-0.764$ is, leaves $\Omega_m$ free along the strong $w$-$\Omega_m$ degeneracy. With $\Omega_m$ free the noise-free projection is $-0.9115$ ($\Omega_m=0.2777$, rms residual 0.0021 mag instead of 0.0077 mag), $-0.8788$ (offset zero) or $-0.8721$ (log-uniform $z$): about $-0.9$, not $-0.764$, but most of the gap to $-0.764$ with $\Omega_m$ fixed was an $\Omega_m$ effect. The remaining difference cannot be judged without the Unite likelihood, its errors and its $\Omega_m$.
+\item Only the deflation variant comes close to Unite in distances ($\max|\Delta\mathrm{DM}|=0.021$ mag, 0.011 mag with the offset profiled), and its distances look like a mildly evolving $w\approx-0.97$ to $-1.02$, not like the Unite CPL; its own $p/\rho$ fits to $(-0.640,-1.98)$, and it fails for other reasons (Section 12.5).
 \end{itemize}
 
 \subsection{Where the model fails}
 
 \begin{enumerate}
 \item \textbf{Rapid evolution.} $w_a=3x_0/(1+x_0)^2$ is fixed by $w_0$; at the Unite $w_0$ it is $-4.81$ instead of $-0.60$.
-\item \textbf{Negative energy density} beyond the zero of $\rho_\psi$ ($z=0.293$ for the Unite-tuned model), followed by a bounce ($z=0.388$): no matter era, no early universe.
+\item \textbf{The mean field leaves its domain.} Going back in time $M_{\mathrm{eff}}$ vanishes at $z=0.026$ for the Unite-tuned model; beyond it the single occupied mode is a negative-energy level, and the phantom epoch, the negative energy density beyond the zero of $\rho_\psi$ ($z=0.293$) and the bounce ($z=0.388$) that the equations give are artefacts of that approximation. Either way the model gives no matter era and no early universe.
 \item \textbf{Sound speed.} $c_s^2=dp/d\rho=2x_0\sigma/(1+2x_0\sigma)$ is negative today for every attractive model ($-12.39$, $-6.47$, $-1.50$, $-0.667$). In a fluid description that is a gradient instability of perturbations (not computed); at the phantom crossing $1+2x_0\sigma=0$ the closed form diverges.
-\item \textbf{The 8D Einstein bound.} With $\rho\ge0$, a 3-space observer cannot infer $w_{\mathrm{eff}}<-1+(1+w)/\sqrt3$ (EXP-2); for dust $-0.42265$. The deflation variant's $w_{\mathrm{eff}}\approx-0.98$ therefore needs negative 8D energy density: $\kappa\rho_8=3H_a^2(1-3\gamma+\gamma^2)=-2.579H_a^2$ for $\gamma=0.875$; sustained deflation with $\gamma$ between $(3-\sqrt5)/2=0.382$ and $(3+\sqrt5)/2=2.618$ always does. EXP-2 shows, moreover, that the extra times turn to expansion by themselves.
+\item \textbf{The 8D Einstein bound.} With $\rho\ge0$, $w\ge-1$ and $H_a,\Theta>0$, a 3-space observer cannot infer $w_{\mathrm{eff}}<-1+(1+w)/\sqrt3$ (EXP-2); for dust $-0.42265$. The deflation variant (a condensate with $\rho>0$ and $w\ge-1$ today) has $w_{\mathrm{eff}}\approx-0.98$ and therefore needs negative 8D energy density: $\kappa\rho_8=3H_a^2(1-3\gamma+\gamma^2)=-2.579H_a^2$ for $\gamma=0.875$; sustained deflation with $\gamma$ between $(3-\sqrt5)/2=0.382$ and $(3+\sqrt5)/2=2.618$ always does. EXP-2 shows, moreover, that the extra times turn to expansion by themselves.
 \item \textbf{Varying Newton constant.} $G_N=G_8/V_{\mathrm{extra}}\propto a^{3\gamma}$ gives $\dot G/G=3\gamma H_0=2.63H_0$, about $1.8\times10^{-10}$ per year for $H_0=67.4$ km/s/Mpc, some 1800 times the order-of-magnitude lunar-laser-ranging bound of $10^{-13}$ per year, and $G_N(z=1)/G_N(0)=0.162$. The constant-$G_N$ Friedmann equation used in EXP-3 is itself inconsistent with this.
 \item \textbf{4D energy conservation.} For $n\ne3$ the condensate exchanges energy with the extra dimensions: $d\rho/dN+3(\rho+p)=0.254$ today in units of $3H_0^2/\kappa_4$. Distances then measure $w_{\mathrm{eff}}$, not $p/\rho$.
+\item \textbf{The deflation variant's own history.} Its $\rho_\psi$ is negative beyond $z=6.83$, and its $p/\rho$ crosses $w=-1$ at $z=0.230$; the CPL fit of that $p/\rho$ over the data range is $(-0.640,-1.98)$, not the Unite values.
 \item \textbf{Krein structure and the extra-time instability.} The canonical state space is indefinite; only the good sector has a positive Fock space, and modes with extra-time momentum grow super-exponentially (EXP-5). The restriction is imposed by hand.
-\item \textbf{Homogeneous mean field only.} One c-number mode stands for the condensate; quantum corrections, the stability of the condensate and inhomogeneities were not computed.
-\item \textbf{No perturbations and no data likelihood.} Nothing here is a fit to supernova, BAO or CMB data; the distance comparisons use noise-free curves with equal weights and fixed $\Omega_m$.
+\item \textbf{Homogeneous mean field only.} One c-number mode stands for the condensate, at Hartree level and without the Pauli constraint on its occupation; quantum corrections, exchange terms, the stability of the condensate and inhomogeneities were not computed.
+\item \textbf{No perturbations and no data likelihood.} Nothing here is a fit to supernova, BAO or CMB data; the distance comparisons use noise-free curves with equal weights, and $\Omega_m$ is fixed at the assumed 0.305 except in the $\Omega_m$-free projections of Section 12.4.
 \end{enumerate}
 
 \subsection{The answer}
 
 \begin{itemize}
-\item \textbf{Dark matter: a qualified yes.} In the good sector, with stabilised extra dimensions, dirac16complex behaves like cold matter: free condensates are exact dust, a thermal gas turns from radiation into dust, and the end of inflation creates quanta for every $m>0$. This is a dark-matter-like equation of state and a gravitational production mechanism. The abundance, the absence of standard-model couplings, the stabilisation of the extra dimensions and the perturbations are not established, so it is not a dark-matter model.
-\item \textbf{Dark energy: no, within everything computed.} The only negative pressure comes from an attractive four-fermion interaction, and it comes with a phantom crossing where the effective mass vanishes, negative energy density at earlier times, a bounce instead of a matter era, and a negative sound speed squared. Tuned to Unite's $w_0=-0.861$ it evolves eight times too fast ($w_a=-4.81$ against $-0.60$). The frozen density of the primordial field mimics a cosmological constant only in its dilution, in a geometry that needs negative energy. Deflating extra times reproduce the Unite tangent in $p/\rho$ but violate energy conservation in 4D and the 8D energy bound, and they make $G_N$ vary about 1800 times faster than the lunar-laser-ranging bound allows. The framework reproduces neither Unite's $(w_0,w_a)$ nor $w=-0.764$ consistently.
+\item \textbf{Dark matter: a qualified yes.} In the good sector, with stabilised extra dimensions and no hidden-space momentum, dirac16complex behaves like cold matter: a Pauli-consistent thermal gas turns from radiation into dust, the transition from inflation to radiation creates quanta for every $m>0$ (mostly when $H$ is of order $m$), and free condensates are dust in the single-mode mean field (up to a Fermi-degeneracy pressure that was not computed). This is a dark-matter-like equation of state and a gravitational production mechanism. The abundance, the absence of standard-model couplings, the stabilisation of the extra dimensions and the perturbations are not established, so it is not a dark-matter model.
+\item \textbf{Dark energy: no, within everything computed.} The only negative pressure comes from an attractive four-fermion interaction. Tuned to Unite's $w_0=-0.861$ it evolves eight times too fast ($w_a=-4.81$ against $-0.60$), has a negative sound speed squared, and its effective mass vanishes at $z=0.026$, where the single mean-field mode stops being a positive-energy level. The phantom crossing, the negative energy density at earlier times and the bounce that the equations then give are mean-field artefacts, not established properties: no state of positive-energy quanta of this Lagrangian is phantom. The frozen density of the primordial field mimics a cosmological constant only in its dilution, in a geometry that needs negative energy. Deflating extra times give $p/\rho$ the Unite values as its tangent at $a=1$, but its CPL fit over the data range is $(-0.640,-1.98)$; they violate energy conservation in 4D and the 8D energy bound, and they make $G_N$ vary about 1800 times faster than the lunar-laser-ranging bound allows. The framework reproduces neither Unite's $(w_0,w_a)$ nor $w=-0.764$ consistently.
 \end{itemize}
 
 \section{Verification summary}
@@ -1069,7 +1089,7 @@ total & 69 of 69 & 162 of 162 & 24 of 24 \\
 \bottomrule
 \end{longtable}
 
-Every checker includes repeat-run byte identity and refined-tolerance convergence; for the EXP-2 spinor phase the refined run confirms the identified rounding floor instead of a smaller error. In addition: the EXP-3 analysis, 9 of 9 checks; the Jupyter notebook's gauntlet, 70 of 70 assertions in both executions, with 65 of 65 freshly written files byte-identical to the committed ones; and the remaining 25 of the Mathematica notebook's 49 checks (10 algebra, 7 Rust constants, 6 for the binary, 1 for the quoted parameters and 1 for the figures). Every report records the fixture sha256 of Section 14. Where the numerical programme's a priori expectations were contradicted by measurement, the checks test the measured truth and the reports record the deviation: in EXP-1 the pressures are frozen only for eigenstates; in EXP-2 the bound $\Theta>\sqrt3H_a$ holds only where $\rho\ge0$; in EXP-3 the backward range ends at the bounce and the requested fits do not exist; in EXP-4 the per-mode $|\beta|^2\le10^{-6}$ is unattainable at $H_i/m=0.05$ for a sudden start, and the pressure carries the free-wave interference; in EXP-5 the absolute Krein drift at late times is the float64 floor.
+Every checker includes repeat-run byte identity and refined-tolerance convergence; for the EXP-2 spinor phase the refined run confirms the identified rounding floor instead of a smaller error. In addition: the EXP-3 analysis, 10 of 10 checks; the Jupyter notebook's gauntlet, 71 of 71 assertions in both executions, with 62 of 62 freshly written program files byte-identical and 3 of 3 analysis files numerically equal to the committed ones; and the remaining 25 of the Mathematica notebook's 49 checks (10 algebra, 7 Rust constants, 6 for the binary, 1 for the quoted parameters and 1 for the figures). Every report records the fixture sha256 of Section 14. Where the numerical programme's a priori expectations were contradicted by measurement, the checks test the measured truth and the reports record the deviation: in EXP-1 the pressures are frozen only for eigenstates; in EXP-2 the bound $\Theta>\sqrt3H_a$ holds only where $\rho\ge0$, and the phantom and negative-energy rows lie outside the domain of the mean field; in EXP-3 the backward range ends at the bounce and the requested fits do not exist; in EXP-4 the per-mode $|\beta|^2\le10^{-6}$ is unattainable at $H_i/m=0.05$ for a sudden start, and the pressure carries the free-wave interference; in EXP-5 the absolute Krein drift at late times is the float64 floor.
 
 \section{Files and hashes}
 
@@ -1093,11 +1113,11 @@ artifacts/dirac16complex/numerics/exp3/summary.json
 artifacts/dirac16complex/numerics/exp3/python-check-report.json
   86e92fbf565cc6498aed329fc6d5506e8749c6a31a24ec41f2f8f84048263406
 artifacts/dirac16complex/numerics/exp3/fits.json
-  775bada287e5b48e89a7a218cfcdde524d8030eadf1606e1ecc37bcc2d884ce3
+  5cb8fe90bbc8c060d2b69d42b801657ab6a0bd56f81df20df95d567d9570412e
 artifacts/dirac16complex/numerics/exp4/summary.json
-  beaf5bad11dc9e49271a5c55e116fdc5e7661cbdf4ffdeb590be848290a78d07
+  361fb97728a36292b29c0434c431c9377501c8957299e34817fb4c1b47b53af1
 artifacts/dirac16complex/numerics/exp4/python-check-report.json
-  364993ae61e6f5658eb66e17b4be772d0a68e1f964b4f84dd2b89e37c3b2264c
+  10de81074dfd24eae9ecfa622d9be3b6122b72ba7ff6016ef30a9ed6c45d4b57
 artifacts/dirac16complex/numerics/exp5/summary.json
   bbddd4d4e0303c72d8d13494e2f4a54a730f0687fdba54a240156c7b0cfb1746
 artifacts/dirac16complex/numerics/exp5/python-check-report.json
@@ -1115,7 +1135,13 @@ Run every command from the repository root. The engine (once per clone):
 bash scripts/setup_solver.sh
 \end{Verbatim}
 
-(the first in PowerShell, the second in Git Bash, macOS or Linux; the platform is detected or given as win11, macos or linux). Build and run all five experiments, then the EXP-3 analysis:
+(the first in PowerShell, the second in Git Bash, macOS or Linux; the platform is detected or given as win11, macos or linux). The Python packages, at the versions with which the committed files were produced:
+
+\begin{Verbatim}[fontsize=\small]
+python -m pip install -r requirements-stage3.txt
+\end{Verbatim}
+
+With other numpy or matplotlib versions every check still passes, but the last digits of the analysis files and the checker reports can differ from the committed ones. Build and run all five experiments, then the EXP-3 analysis:
 
 \begin{Verbatim}[fontsize=\small]
 cargo build --release --manifest-path studies/dirac16complex_cosmology/Cargo.toml
@@ -1158,12 +1184,12 @@ python scripts/build_provenance_pdf.py --register \
 
 \begin{enumerate}
 \item \textbf{Backgrounds.} All experiments use homogeneous diagonal metrics. EXP-1 prescribes the primordial field, EXP-3 and EXP-4 prescribe 4D or 3-space FRW expansions with static extra dimensions, and only EXP-2 solves 8D Einstein gravity self-consistently. Einstein-Lovelock terms are not included.
-\item \textbf{Mean field.} The condensate is one c-number mode with the expectation-value rule; its quantum stability, fluctuations and renormalisation are not studied. The gas and the pairs are free modes; the $\lambda$ interaction between quanta is not included in EXP-4.
+\item \textbf{Mean field.} The condensate is one c-number rest mode with the expectation-value rule, at Hartree level. The rule holds only while that mode is a positive-energy level; where $M_{\mathrm{eff}}<0$ (the phantom, negative-energy and bounce regimes of EXP-2 and EXP-3) the results are mean-field artefacts. A macroscopic occupation of one momentum state violates the Pauli principle; the Fermi-degeneracy pressure of a Pauli-consistent state and the Fock exchange term were not computed. Its quantum stability, fluctuations and renormalisation are not studied. The gas and the pairs are free modes; the $\lambda$ interaction between quanta is not included in EXP-4, and the hidden-space momentum $k_0$ is set to zero there.
 \item \textbf{Good sector only.} Modes with extra-time momentum are excluded by hand because they are unstable (EXP-5); the Krein space is not given a physical interpretation beyond the good sector.
 \item \textbf{Units and abundances.} The runs use $m$, $H$, $H_0$ or $H_{\mathrm{inf}}$ as units. The EXP-3 masses $m/H_0$ of 3 to 94 serve only to show phase independence, and no physical mass, relic abundance or inflation scale is predicted.
-\item \textbf{Observational comparison.} The Unite numbers come from the reference PDF; no error bars, covariances or data were used. The $\pm0.118$ band of the $w(a)$ figure is an inferred approximation. The distance fits are equal-weight fits of noise-free curves with $\Omega_m=0.305$ fixed.
+\item \textbf{Observational comparison.} The Unite numbers are as quoted in the reference e-mail, which cites no primary publication; they were not checked against one. No error bars, covariances or data were used. The $\pm0.118$ band of the $w(a)$ figure is an inferred approximation. $\Omega_m=0.305$ is an assumed input (the PDF gives none); the distance fits are equal-weight fits of noise-free curves with it fixed, except the $\Omega_m$-free constant-$w$ projections of Section 12.4.
 \item \textbf{Perturbations.} The sound speed is the adiabatic $dp/d\rho$ of the homogeneous solution; no perturbation equations, structure growth or CMB spectra were solved.
-\item \textbf{Numerics.} The EXP-2 spinor phase is limited by the rounding of CVODE's internal time, and the raw EXP-4 thermal-mode deviation plausibly by the same effect (not proven); the EXP-5 absolute Krein drift at the end is limited by float64 cancellation, and the EXP-4 thermal energy density by the momentum cutoff ($2.4\times10^{-3}$ at $a=1$). These floors are identified and reported, not removed.
+\item \textbf{Numerics.} The EXP-2 spinor phase is limited by the rounding of CVODE's internal time; the EXP-4 thermal phase error (at most $6.5\times10^{-6}$ rad at $a=100$ against the Magnus reference) is not reduced by the refined run, consistent with the same effect, and only phase-invariant quantities enter the results. The EXP-5 absolute Krein drift at the end is limited by float64 cancellation. The EXP-4 thermal gas is truncated at $k_{\max}=12T_i$ ($2.4\times10^{-3}$ of $\rho$ at $a=1$; $w(100)=0.0359$ on the grid against 0.0361 without the cut), and the pair-creation grid at $k=40$ (the analytic kink tail is reported as a correction). These floors are identified and reported, not removed.
 \item \textbf{Scope of the answer.} "No viable dark energy" refers to the mechanisms available in this Lagrangian and these backgrounds. A different potential, non-homogeneous states, other couplings or a mechanism that stabilises the extra dimensions were not examined.
 \end{enumerate}
 

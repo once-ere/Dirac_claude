@@ -113,6 +113,13 @@ REQUIRED_PHRASES = (
     "294 Jupyter notebooks",
     "planet_Mercury/notebook",
     "BSD-3-Clause",
+    "requirements-stage3.txt",
+    "python -m pip install numpy==2.4.6 matplotlib==3.11.0 sympy==1.14.0",
+    "python -m pip install nbformat==5.10.4 nbclient==0.10.2 ipykernel==7.1.0",
+    "vendor/rustSolveIt is an incomplete checkout (an interrupted or failed download); remove it and rerun",
+    "ERROR: pdflatex not found",
+    "git restore provenance/DIRAC16COMPLEX_STUDENT_GUIDE.tex",
+    "winget install --id Rustlang.Rustup -e -i",
 )
 ALLOWED_PROVENANCE_MARKDOWN = (
     "provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md",
@@ -373,12 +380,23 @@ class ContentTests(GuideTestCase):
         self.assertIn("late_time_isotropic_dust", summaries["exp2"]["checks"])
         self.assertIn("`late_time_isotropic_dust` FAILS", text)
 
+    def test_pinned_python_packages_match_the_requirements_file(self):
+        lines = (REPOSITORY_ROOT / "requirements-stage3.txt").read_text(encoding="utf-8").splitlines()
+        pins = dict(line.split("==") for line in lines if "==" in line and not line.startswith("#"))
+        self.assertEqual(sorted(pins), sorted(["numpy", "matplotlib", "sympy", "nbformat", "nbclient",
+                                               "ipykernel"]))
+        text = markdown_text()
+        for name, version in pins.items():
+            with self.subTest(package=name):
+                self.assertIn("%s==%s" % (name, version), text)
+                self.assertIn("%s %s" % (name, version), text)
+
     def test_unit_test_count(self):
         count = sum(path.read_text(encoding="utf-8").count("#[test]")
                     for path in (CRATE / "src").glob("*.rs"))
-        self.assertEqual(count, 24)
-        self.assertIn("The crate has 24 unit tests", markdown_text())
-        self.assertIn("running 24 tests", markdown_text())
+        self.assertEqual(count, 25)
+        self.assertIn("The crate has 25 unit tests", markdown_text())
+        self.assertIn("running 25 tests", markdown_text())
 
 
 class AlgebraTablesTests(GuideTestCase):
@@ -621,7 +639,7 @@ class CountsAndSolverTests(GuideTestCase):
         rows = {code_spans(row[0])[0]: row for row in table[1:]}
         fits = load_json(NUMERICS / "exp3" / "fits.json")
         self.assertEqual(int(rows["analyze_dirac16complex_exp3.py"][1]), len(fits["validation"]["checks"]))
-        self.assertEqual(len(fits["validation"]["checks"]), 9)
+        self.assertEqual(len(fits["validation"]["checks"]), 10)
         total = 0
         for experiment in EXPERIMENTS:
             report = self.reports[experiment]
@@ -645,18 +663,20 @@ class CountsAndSolverTests(GuideTestCase):
         self.assertIn("(28 in the quick form, 30 in the full form)", section)
         summary = load_json(NUMERICS / "numerics-summary.json")["totals"]
         self.assertEqual((summary["rustChecks"], summary["pythonChecks"], summary["analysisChecks"]),
-                         (69, 162, 9))
+                         (69, 162, 10))
 
     def test_notebook_counts(self):
         report = load_json(NUMERICS / "notebook-report.json")
         self.assertEqual((report["cells"], report["codeCells"], report["gauntlet"]["count"],
-                          len(report["figures"])), (23, 8, 70, 17))
+                          len(report["figures"])), (23, 8, 71, 17))
         self.assertEqual(report["gauntlet"]["failed"], 0)
         self.assertIn("is a Python 3 notebook of 23 cells, 8 of them code", self.text)
         self.assertIn("draws 17 figures", self.text)
-        self.assertIn("a gauntlet of 70 assertions", self.text)
+        self.assertIn("a gauntlet of 71 assertions", self.text)
         names = [r["name"] for r in report["gauntlet"]["results"]]
-        self.assertIn("fresh_outputs_byte_identical", names)
+        self.assertIn("fresh_program_outputs_byte_identical", names)
+        self.assertIn("fresh_analysis_outputs_numerically_equal", names)
+        self.assertIn("`AssertionError('fresh_program_outputs_byte_identical')`", self.text)
         self.assertIn("prose_numbers_match_reports", names)
 
     def test_mathematica_counts(self):

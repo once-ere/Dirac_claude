@@ -83,7 +83,10 @@ bash scripts/verify_stage1_arbitrary_field.sh
 
 `setup_solver` clones the pinned pure-Rust SUNDIALS 7.8.0 engine from
 `once-ere/rustSolveIt_{Win11,macos-silicon,linux}_SUNDIALS_7_8_0` into the
-git-ignored `vendor/rustSolveIt`.  WolframScript (Wolfram Engine or Mathematica),
+git-ignored `vendor/rustSolveIt`.  The committed numerical outputs were produced
+with the Win11 engine (commit `a8fdff45`), which reproduces them byte for byte on
+Windows and Linux; the macOS/Linux engines carry a different mathematical library,
+so their results agree to solver tolerance rather than byte for byte.  WolframScript (Wolfram Engine or Mathematica),
 Python 3 with numpy and sympy, and a TeX distribution are needed for the exact
 verifiers and the PDFs; the student guide lists every step.
 

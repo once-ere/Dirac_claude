@@ -493,13 +493,27 @@ pub fn compute_spectrum(
     Ok(spectrum)
 }
 
-/// Non-interacting reference levels (lambda = 0) by (shell, parity, index),
-/// computed on demand and cached: they define the particle/sea branches.
+/// Non-interacting reference levels (lambda = 0) by (shell, parity, index):
+/// they define the particle/sea branches.  The free spectrum is computed in
+/// parallel over the shells ([`compute_spectrum`] on the free potential) for
+/// the union of the windows requested so far, widened by the eigenvalue-shift
+/// bound of the interacting problem; keys outside it fall back to a serial
+/// level search.  (Measured before this design: at T = m the window holds
+/// ~75000 levels and the serial per-state search cost as much as the whole
+/// parallel spectrum multiplied by the thread count.)
 pub struct FreeLevels {
+    params: Params,
+    potential: Arc<Potential>,
     shooter: Shooter,
     shells: Vec<Shell>,
     cache: HashMap<(usize, i32, i64), f64>,
+    covered: Option<Window>,
+    prefetch_stats: Stats,
 }
+
+/// Cap of the window widening used by [`FreeLevels::classify`] (in units of
+/// m); beyond it the serial fallback handles the misses.
+pub const FREE_WINDOW_SHIFT_CAP: f64 = 3.0;
 
 impl FreeLevels {
     pub fn new(params: &Params) -> Self {
@@ -510,11 +524,64 @@ impl FreeLevels {
             params.m,
             params.grid_n,
         ));
+        let mut free = params.clone();
+        free.lambda_hat = 0.0;
         Self {
+            params: free,
+            potential: Arc::clone(&potential),
             shooter: Shooter::new(potential, params.tolerances),
             shells: shells(params.delta_k(), params.shell_cap),
             cache: HashMap::new(),
+            covered: None,
+            prefetch_stats: Stats::default(),
         }
+    }
+
+    /// Window widened by the eigenvalue-shift bound (capped).
+    pub fn widened(&self, window: Window, shift_bound: f64) -> Window {
+        let widen = shift_bound.min(FREE_WINDOW_SHIFT_CAP * self.params.m) + 1e-6 * self.params.m;
+        Window {
+            eps_lo: window.eps_lo - widen,
+            eps_hi: window.eps_hi + widen,
+        }
+    }
+
+    /// Insert the cached free levels as warm starts (both block types; the
+    /// negated problem of the s = -1 block has the same free eigenvalues)
+    /// for keys the map does not have yet.
+    pub fn fill_warm(&self, warm: &mut HashMap<Key, f64>) {
+        for ((shell, parity, index), eps) in &self.cache {
+            for s in [1i32, -1] {
+                warm.entry((*shell, *parity, s, *index)).or_insert(*eps);
+            }
+        }
+    }
+
+    /// Make sure the cache holds every s = +1 free level with eps in
+    /// `window` (and every level whose mirror lies in it).
+    pub fn prefetch(&mut self, window: Window) -> Result<(), String> {
+        let needed = match self.covered {
+            Some(c) if c.eps_lo <= window.eps_lo && c.eps_hi >= window.eps_hi => return Ok(()),
+            Some(c) => Window {
+                eps_lo: c.eps_lo.min(window.eps_lo),
+                eps_hi: c.eps_hi.max(window.eps_hi),
+            },
+            None => window,
+        };
+        let spectrum = compute_spectrum(&self.params, &self.potential, needed, &HashMap::new())?;
+        self.prefetch_stats.integrations += spectrum.stats.integrations;
+        self.prefetch_stats.steps += spectrum.stats.steps;
+        self.prefetch_stats.rhs_evals += spectrum.stats.rhs_evals;
+        self.prefetch_stats.rescales += spectrum.stats.rescales;
+        for st in &spectrum.states {
+            // an s = -1 state of index n is the mirror of the s = +1 level n
+            let eps_plus = if st.s == 1 { st.eps } else { -st.eps };
+            self.cache
+                .entry((st.shell, st.parity, st.index))
+                .or_insert(eps_plus);
+        }
+        self.covered = Some(needed);
+        Ok(())
     }
 
     /// eps at lambda = 0 of the s = +1 level (shell, parity, index).
@@ -540,7 +607,19 @@ impl FreeLevels {
     }
 
     /// Assign branch and eps_free to every state of the spectrum.
-    pub fn classify(&mut self, spectrum: &mut Spectrum) -> Result<(), String> {
+    /// Assign branch and eps_free to every state of the spectrum computed on
+    /// `window`; `shift_bound` is the largest possible distance between an
+    /// interacting level and its free partner (max |M_eff - m| + max |v_x|,
+    /// the norm of the perturbation of the self-adjoint block Hamiltonian),
+    /// used to widen the prefetched free window (capped at
+    /// [`FREE_WINDOW_SHIFT_CAP`] m; misses use the serial search).
+    pub fn classify(
+        &mut self,
+        spectrum: &mut Spectrum,
+        window: Window,
+        shift_bound: f64,
+    ) -> Result<(), String> {
+        self.prefetch(self.widened(window, shift_bound))?;
         for st in spectrum.states.iter_mut() {
             let guess = if st.s == 1 { st.eps } else { -st.eps };
             let free_plus = self.level(st.shell, st.parity, st.index, guess)?;
@@ -553,8 +632,19 @@ impl FreeLevels {
         Ok(())
     }
 
+    /// Solver statistics of the prefetches and of the serial fallback.
     pub fn stats(&self) -> Stats {
-        self.shooter.stats
+        let mut total = self.prefetch_stats;
+        total.integrations += self.shooter.stats.integrations;
+        total.steps += self.shooter.stats.steps;
+        total.rhs_evals += self.shooter.stats.rhs_evals;
+        total.rescales += self.shooter.stats.rescales;
+        total
+    }
+
+    /// Number of levels found by the serial fallback (diagnostic).
+    pub fn fallback_integrations(&self) -> i64 {
+        self.shooter.stats.integrations
     }
 }
 
@@ -1157,7 +1247,25 @@ pub fn solve(
                     window.eps_lo, window.eps_hi
                 ));
             }
-            let mut spectrum = compute_spectrum(params, &potential, window, &warm)?;
+            // free levels first (parallel): they classify the branches and
+            // warm-start the interacting levels not seen in the previous iteration
+            let shift_bound = potential
+                .m_eff
+                .values
+                .iter()
+                .map(|m| (m - params.m).abs())
+                .fold(0.0, f64::max)
+                + potential
+                    .v_x
+                    .values
+                    .iter()
+                    .map(|v| v.abs())
+                    .fold(0.0, f64::max);
+            let before = free_levels.stats();
+            free_levels.prefetch(free_levels.widened(window, shift_bound))?;
+            let mut warm_now = warm.clone();
+            free_levels.fill_warm(&mut warm_now);
+            let mut spectrum = compute_spectrum(params, &potential, window, &warm_now)?;
             if verbose {
                 eprintln!(
                     "[scf] iteration {iteration} window [{:.6}, {:.6}] shells {} states {} integrations {}",
@@ -1172,9 +1280,15 @@ pub fn solve(
             stats.steps += spectrum.stats.steps;
             stats.rhs_evals += spectrum.stats.rhs_evals;
             stats.rescales += spectrum.stats.rescales;
-            let before = free_levels.stats();
-            free_levels.classify(&mut spectrum)?;
+            free_levels.classify(&mut spectrum, window, shift_bound)?;
             let after = free_levels.stats();
+            if verbose {
+                eprintln!(
+                    "[scf]   classification: shift bound {shift_bound:.3e}, free-level integrations {} (serial fallback {})",
+                    after.integrations - before.integrations,
+                    free_levels.fallback_integrations()
+                );
+            }
             stats.integrations += after.integrations - before.integrations;
             stats.steps += after.steps - before.steps;
             stats.rhs_evals += after.rhs_evals - before.rhs_evals;

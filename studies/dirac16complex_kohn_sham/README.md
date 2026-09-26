@@ -103,10 +103,35 @@ verifies the exact 2x2 block basis in Gaussian-integer arithmetic and writes
   same shell, parity, block type and Pruefer index); normal ordering with
   thermal antiparticles (`w = f` on the particle branch, `-(1-f)` on the
   sea branch); `mu` by bisection; T = 0 ensemble filling of a straddling shell;
+  the free levels that define the branches are computed in parallel once per
+  solve (union of the windows, widened by the exact eigenvalue-shift bound
+  `max|M_eff - m| + max|v_x|`) and warm-start the interacting levels; energy
+  windows always reach down to the T = 0 floor `-(2.5 m + 2 pi/L)` and, at
+  T > 0, up to `mu + T ln(1/f_cut) + 0.5 m` with `f_cut = 1e-8` (the neglected
+  Boltzmann tail of the level density ~ eps^3 is ~1e-5 of E at T = m, where
+  the state is a thermal particle-antiparticle plasma of ~75000 levels);
+  level crossings at the Fermi level (measured at N = 1016, attractive
+  lambda_hat_2) stop the exact T = 0 loop as stagnant and are re-solved with
+  Fermi-Dirac occupation smearing (1e-4 m, then 1e-3 m), recorded in
+  `run.json` (`parameters.occupationSmearing`,
+  `exactZeroTemperatureOccupations`);
   proper densities `n_p = e^{-6Hy} n_c`, `S_p = e^{-6Hy} S_c`; Anderson mixing;
   convergence `max|Delta n_c|/max|n_c| < 1e-10` (same for `S_c`); energies
   `E = sum w eps - int[(lambda/2) S_p^2 + e_x] dV_p`, entropy, `F`, `Omega`;
   Delta-SCF with occupations fixed by level identity.
+* **Couplings** (`runs.rs`): per configuration (m, L, N), from the free
+  ground state of that configuration: `strength = max_y max((15/16)|S_p|,
+  n_p/16)/m^7` (the LDA pair `(M_eff - m, v_x)` per unit lambda_hat in units
+  of m), `lambda_hat_1 = 0.1/strength`, `lambda_hat_2 = 1.0/strength`, so the
+  pseudo-potential reaches 0.1 m and 1.0 m at first order (STAGE4_SPEC
+  section 4); the self-consistent `max|lambda S_p|/m` and `max|v_x|/m` are
+  in every `run.json`.  No global lambda_hat can serve all configurations:
+  the proper densities at the tip scale like `e^{6HL}` and grow with N
+  (measured: the N = 112 value gives |lambda S_p|/m = 11 in the free N = 1016
+  state and the attractive SCF at that coupling runs away).  For N = 8 the
+  free scalar density vanishes exactly (brane zero modes) and the vector
+  part sets the scale.  The convergence pairs (a4_0 = 0.5, grid 601,
+  Delta k = 0.125 m) reuse the (m = 1, L = 3, N_mid) values.
 * **EMT** (`emt.rs`): `rho = e^{-6Hy}/l^3 sum w eps n - L_s`,
   `p_y = ... [(eps - v_x) n - P1 - M S] + L_s`, `p_3 = ... P1/3 + L_s`,
   `p_t = L_s`, `L_s = (lambda/2) S_p^2 + e_x`; `int rho dV_p = E`; the

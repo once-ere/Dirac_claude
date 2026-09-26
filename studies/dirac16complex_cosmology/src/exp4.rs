@@ -12,6 +12,15 @@
 //! E = sqrt(m^2 + K^2),   dh/dt = K H gamma^4 gamma^1   (dK/dt = -K H).
 //! ```
 //!
+//! Assumption (not derived): the hidden-space momentum k_0 (x0 is space-like,
+//! in the good sector, and static here, b = 1) is set to zero, and so are
+//! k_2, k_3 of a mode along x1 and the extra-time momenta.  A gas at T = 10 m
+//! would populate k_0 unless the hidden space is compact with a Kaluza-Klein
+//! gap far above T and H_inf; with k_0 included, the relativistic 3-space
+//! pressure is rho/4, not rho/3, and the density of states changes.  The
+//! results of this experiment are therefore those of a 3-space gas with
+//! k_0 = 0 (compact hidden dimension with a large KK gap, or k_0 = 0 by hand).
+//!
 //! Every spinor is integrated as 32 real ODEs with CVODE (never by hand).
 //! gamma^4 and gamma^4 gamma^1 are signed permutation matrices, so the RHS
 //! is evaluated in that sparse form (bit-identical to the dense
@@ -98,11 +107,19 @@
 //! particles + 8 |beta_k|^2 antiparticles per d^3k/(2 pi)^3:
 //! `n a^3 = (16/(2 pi^2)) int k^2 |beta_k|^2 dk` (particles + antiparticles).
 //! k-grid: 64-node Gauss-Legendre in ln k on [1e-3, 40].  The produced gas'
-//! EoS uses the final (frozen) occupation:
+//! number and EoS use the final (frozen) occupation in the FIRST-ORDER
+//! ADIABATIC basis, |beta_k|^2 = beta2_adiabatic at the end:
 //! `rho a^3 = (16/(2 pi^2)) int k^2 |beta_k|^2 E_k(a) dk`,
 //! `p a^3 = (16/(2 pi^2)) int k^2 |beta_k|^2 K^2/(3E) dk`.
+//! The instantaneous-basis final |beta_k|^2 is dominated for k >~ 12 by the
+//! adiabatic dressing (m K H/(4 E^3))^2 at a_end, which oscillates in k and
+//! depends on where the run stops; its integrals are reported as the literal
+//! definition (keys ...Instantaneous), not as the produced gas.
 //! High-k tail (the C^1 kink): |beta_k|^2 -> (|Delta theta''|/(8 E^2))^2
 //! = (m k/(4 E^4))^2 at a = 1 (theta = atan(K/m), Delta Hdot = -2 H_inf^2).
+//! The grid stops at k = 40; the analytic kink tail beyond it is integrated
+//! separately (64-node Gauss-Legendre in u = k_max/k) and reported both as
+//! the correction and as tail-corrected n a^3, rho a^3, p a^3 and w.
 
 use std::f64::consts::PI;
 use std::thread;
@@ -168,6 +185,8 @@ pub const PAIR_ANTIPARTICLE_MASS: f64 = 1.0;
 pub const PAIR_ANTIPARTICLE_NODES: [usize; 3] = [20, 36, 48];
 /// Tail comparison with the kink formula for k >= this value.
 pub const PAIR_TAIL_K: f64 = 8.0;
+/// Gauss-Legendre nodes of the analytic kink-tail integral beyond PAIR_K_MAX.
+pub const PAIR_TAIL_NODES: usize = 64;
 
 /// Default tolerances.  Adams' norm leakage grows with the ~1e5 radians of
 /// phase per thermal mode: max |u^dag u - 1| = 2.4e-4 (rtol 1e-10),
@@ -994,16 +1013,45 @@ fn kink_tail(mass: f64, k: f64) -> f64 {
     b * b
 }
 
+/// The analytic kink tail beyond k_max, (16/(2 pi^2)) int_{k_max}^inf k^2
+/// (m k/(4 E_1^4))^2 {1, E_k(a), K^2/(3 E_k(a))} dk with E_1^2 = m^2 + k^2 and
+/// K = k/a: returns (n a^3, rho a^3, p a^3) of the tail at scale factor a.
+/// Gauss-Legendre in u = k_max/k on (0, 1] (dk = k_max du/u^2; the integrand
+/// is smooth and vanishes like u at u = 0).
+fn kink_tail_moments(mass: f64, k_max: f64, a: f64) -> (f64, f64, f64) {
+    let (x, w) = gauss_legendre(PAIR_TAIL_NODES);
+    let prefactor = DEGENERACY / (2.0 * PI * PI);
+    let (mut n, mut rho, mut p) = (0.0, 0.0, 0.0);
+    for (xi, wi) in x.iter().zip(&w) {
+        let u = 0.5 * (xi + 1.0);
+        let k = k_max / u;
+        let weight = 0.5 * wi * k_max / (u * u) * k * k * kink_tail(mass, k);
+        let kk = k / a;
+        let e = (mass * mass + kk * kk).sqrt();
+        n += weight;
+        rho += weight * e;
+        p += weight * kk * kk / (3.0 * e);
+    }
+    (prefactor * n, prefactor * rho, prefactor * p)
+}
+
 struct PairMassResult {
     mass: f64,
     a2_end: f64,
     t_end: f64,
     n_a3: f64,
-    n_a3_adiabatic: f64,
+    n_a3_instantaneous: f64,
     n_a3_kink: f64,
+    n_a3_tail: f64,
     rho_a3_end: f64,
+    rho_a3_end_tail_corrected: f64,
+    rho_a3_end_instantaneous: f64,
     w_at_1: f64,
     w_end: f64,
+    w_at_1_tail_corrected: f64,
+    w_end_tail_corrected: f64,
+    w_at_1_instantaneous: f64,
+    w_end_instantaneous: f64,
     w_monotone: bool,
     max_beta2: f64,
     max_beta2_adiabatic: f64,
@@ -1662,32 +1710,80 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                 tail,
             ]);
         }
-        // produced-gas EoS from the frozen final spectrum
+        // produced-gas EoS from the frozen final spectrum in the first-order
+        // adiabatic basis (the instantaneous basis is kept as the literal
+        // definition; its high-k values are the adiabatic dressing at a_end)
         let ln_a_end = log(a_end);
         let mut w_list = Vec::new();
-        let mut rho_end = 0.0;
-        let n_a3 = integral(&final_beta);
+        let mut w_tail_list = Vec::new();
+        let mut w_inst_list = Vec::new();
+        let (mut rho_end, mut rho_end_tail, mut rho_end_inst) = (0.0, 0.0, 0.0);
+        let n_a3 = integral(&final_beta_ad);
+        let n_a3_instantaneous = integral(&final_beta);
+        let n_a3_tail = kink_tail_moments(mass, PAIR_K_MAX, 1.0).0;
         // (16/(2 pi^2)) w_ln k^3 |beta_k|^2 (frozen final occupation)
-        let occupation_weight: Vec<f64> = (0..N_PAIR_K)
-            .map(|n| prefactor * pgrid.ln_weight[n] * cube(pgrid.k[n]) * final_beta[n])
-            .collect();
+        let occupation = |values: &[f64]| -> Vec<f64> {
+            (0..N_PAIR_K)
+                .map(|n| prefactor * pgrid.ln_weight[n] * cube(pgrid.k[n]) * values[n])
+                .collect()
+        };
+        let occupation_weight = occupation(&final_beta_ad);
+        let occupation_weight_inst = occupation(&final_beta);
+        let moments = |weights: &[f64], a: f64| -> (f64, f64) {
+            let (mut rho, mut p) = (0.0, 0.0);
+            for (k, weight) in pgrid.k.iter().zip(weights) {
+                let kk = k / a;
+                let e = (mass * mass + kk * kk).sqrt();
+                rho += weight * e;
+                p += weight * kk * kk / (3.0 * e);
+            }
+            (rho, p)
+        };
+        let ratio = |p: f64, rho: f64| -> f64 {
+            if rho > 0.0 {
+                p / rho
+            } else {
+                0.0
+            }
+        };
         for i in 0..=N_PAIR_EOS {
             let a = if i == N_PAIR_EOS {
                 a_end
             } else {
                 exp(ln_a_end * i as f64 / N_PAIR_EOS as f64)
             };
-            let (mut rho, mut p) = (0.0, 0.0);
-            for (k, weight) in pgrid.k.iter().zip(&occupation_weight) {
-                let kk = k / a;
-                let e = (mass * mass + kk * kk).sqrt();
-                rho += weight * e;
-                p += weight * kk * kk / (3.0 * e);
-            }
-            let w = if rho > 0.0 { p / rho } else { 0.0 };
+            let (rho, p) = moments(&occupation_weight, a);
+            let (rho_inst, p_inst) = moments(&occupation_weight_inst, a);
+            let (n_tail, rho_tail, p_tail) = if mass > 0.0 {
+                kink_tail_moments(mass, PAIR_K_MAX, a)
+            } else {
+                (0.0, 0.0, 0.0)
+            };
+            let (rho_tc, p_tc) = (rho + rho_tail, p + p_tail);
+            let w = ratio(p, rho);
+            let w_tc = ratio(p_tc, rho_tc);
+            let w_inst = ratio(p_inst, rho_inst);
             w_list.push(w);
+            w_tail_list.push(w_tc);
+            w_inst_list.push(w_inst);
             rho_end = rho;
-            eos_pair_rows.push(vec![mass, a, n_a3, rho, p, w]);
+            rho_end_tail = rho_tc;
+            rho_end_inst = rho_inst;
+            eos_pair_rows.push(vec![
+                mass,
+                a,
+                n_a3,
+                rho,
+                p,
+                w,
+                n_a3 + n_tail,
+                rho_tc,
+                p_tc,
+                w_tc,
+                rho_inst,
+                p_inst,
+                w_inst,
+            ]);
         }
         // production history on the common times (sample 0 = t0(k) differs
         // per k and is summarised as initialBeta2Max instead)
@@ -1708,7 +1804,7 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
             ]);
         }
         let (peak_node, _) = (0..N_PAIR_K)
-            .map(|n| (n, cube(pgrid.k[n]) * final_beta[n]))
+            .map(|n| (n, cube(pgrid.k[n]) * final_beta_ad[n]))
             .fold(
                 (0usize, -1.0f64),
                 |best, item| {
@@ -1732,12 +1828,20 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
             a2_end,
             t_end: runs[0].times[last],
             n_a3,
-            n_a3_adiabatic: integral(&final_beta_ad),
+            n_a3_instantaneous,
             n_a3_kink: integral(&kink_values),
+            n_a3_tail,
             rho_a3_end: rho_end,
+            rho_a3_end_tail_corrected: rho_end_tail,
+            rho_a3_end_instantaneous: rho_end_inst,
             w_at_1: w_list[0],
             w_end: w_list[w_list.len() - 1],
-            w_monotone: w_list.windows(2).all(|pair| pair[1] <= pair[0]),
+            w_at_1_tail_corrected: w_tail_list[0],
+            w_end_tail_corrected: w_tail_list[w_tail_list.len() - 1],
+            w_at_1_instantaneous: w_inst_list[0],
+            w_end_instantaneous: w_inst_list[w_inst_list.len() - 1],
+            w_monotone: w_list.windows(2).all(|pair| pair[1] <= pair[0])
+                && w_tail_list.windows(2).all(|pair| pair[1] <= pair[0]),
             max_beta2: max_of(runs.iter().flat_map(|r| r.diags.iter().map(|d| d.beta2))),
             max_beta2_adiabatic: max_of(
                 runs.iter()
@@ -1770,7 +1874,21 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
     summary.add_file("pair_spectrum.csv");
     write_csv(
         &directory.join("pair_eos.csv"),
-        &strings(&["m", "a", "n_a3", "rho_a3", "p_a3", "w"]),
+        &strings(&[
+            "m",
+            "a",
+            "n_a3",
+            "rho_a3",
+            "p_a3",
+            "w",
+            "n_a3_tail_corrected",
+            "rho_a3_tail_corrected",
+            "p_a3_tail_corrected",
+            "w_tail_corrected",
+            "rho_a3_instantaneous",
+            "p_a3_instantaneous",
+            "w_instantaneous",
+        ]),
         &eos_pair_rows,
     )?;
     summary.add_file("pair_eos.csv");
@@ -1931,11 +2049,31 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                 ("a2End", Json::Float(m.a2_end)),
                 ("tEnd", Json::Float(m.t_end)),
                 ("nA3", Json::Float(m.n_a3)),
-                ("nA3Adiabatic", Json::Float(m.n_a3_adiabatic)),
+                ("nA3Instantaneous", Json::Float(m.n_a3_instantaneous)),
                 ("nA3AtKink", Json::Float(m.n_a3_kink)),
+                ("nA3KinkTailBeyondKMax", Json::Float(m.n_a3_tail)),
+                ("nA3TailCorrected", Json::Float(m.n_a3 + m.n_a3_tail)),
                 ("rhoA3End", Json::Float(m.rho_a3_end)),
+                (
+                    "rhoA3EndTailCorrected",
+                    Json::Float(m.rho_a3_end_tail_corrected),
+                ),
+                (
+                    "rhoA3EndInstantaneous",
+                    Json::Float(m.rho_a3_end_instantaneous),
+                ),
                 ("wFrozenSpectrumAtA1", Json::Float(m.w_at_1)),
                 ("wEnd", Json::Float(m.w_end)),
+                (
+                    "wFrozenSpectrumAtA1TailCorrected",
+                    Json::Float(m.w_at_1_tail_corrected),
+                ),
+                ("wEndTailCorrected", Json::Float(m.w_end_tail_corrected)),
+                (
+                    "wFrozenSpectrumAtA1Instantaneous",
+                    Json::Float(m.w_at_1_instantaneous),
+                ),
+                ("wEndInstantaneous", Json::Float(m.w_end_instantaneous)),
                 ("maxBeta2", Json::Float(m.max_beta2)),
                 ("maxBeta2Adiabatic", Json::Float(m.max_beta2_adiabatic)),
                 ("kPeakK3Beta2", Json::Float(m.k_peak)),
@@ -2003,6 +2141,19 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                             ),
                         ),
                         ("tailKMin", Json::Float(PAIR_TAIL_K)),
+                        (
+                            "occupationBasis",
+                            Json::str(
+                                "nA3, rhoA3End, wFrozenSpectrumAtA1, wEnd and pair_eos.csv \
+                                 (n_a3, rho_a3, p_a3, w) use the final |beta_k|^2 in the \
+                                 first-order adiabatic basis (beta2_adiabatic_end) on the grid \
+                                 k <= kMax; ...TailCorrected add the analytic kink tail \
+                                 (m k/(4 E^4))^2 for k > kMax; ...Instantaneous use the \
+                                 instantaneous-basis final |beta_k|^2 (beta2_end), which \
+                                 includes the adiabatic dressing at a_end",
+                            ),
+                        ),
+                        ("tailQuadratureNodes", Json::Int(PAIR_TAIL_NODES as i64)),
                     ]),
                 ),
             ]),
@@ -2151,6 +2302,18 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                     "m = 0: h = K(t) sigma_x (x) I_8 has time-independent eigenvectors, so no \
                      pairs are created (conformal invariance); measured |beta|^2 is roundoff.",
                 ),
+                Json::str(
+                    "Pair creation: the produced number and its EoS use the final |beta_k|^2 in \
+                     the first-order adiabatic basis. The instantaneous-basis final |beta_k|^2 \
+                     is dominated for k >~ 12 by the adiabatic dressing (m K H/(4 E^3))^2 at \
+                     a_end, which oscillates in k and depends on where the run stops; its \
+                     integrals (keys ...Instantaneous) are the literal definition only. The \
+                     grid ends at k = 40; the analytic kink tail beyond it is given separately \
+                     (nA3KinkTailBeyondKMax and the ...TailCorrected keys). Most quanta for \
+                     m >= 0.5 H_inf are created after the de Sitter to radiation transition, \
+                     when H ~ m (pair_history.csv); w at a = 1 is that of the final spectrum \
+                     evaluated at a = 1.",
+                ),
             ]),
         ),
     ];
@@ -2272,5 +2435,29 @@ mod tests {
             }
         });
         assert!(failed.is_err());
+    }
+
+    #[test]
+    fn kink_tail_moments_match_the_large_k_asymptotics() {
+        // For k_max >> m: |beta|^2 -> m^2/(16 k^6), so (without 16/(2 pi^2))
+        // n = m^2/(48 k_max^3), rho(a = 1) = m^2/(32 k_max^2), p(1) = rho(1)/3,
+        // with relative corrections O(m^2/k_max^2).
+        let prefactor = DEGENERACY / (2.0 * PI * PI);
+        let (mass, k_max) = (2.0, 4000.0);
+        let (n, rho, p) = kink_tail_moments(mass, k_max, 1.0);
+        let n0 = prefactor * mass * mass / (48.0 * k_max * k_max * k_max);
+        let rho0 = prefactor * mass * mass / (32.0 * k_max * k_max);
+        assert!((n / n0 - 1.0).abs() < 1e-5, "{}", n / n0 - 1.0);
+        assert!((rho / rho0 - 1.0).abs() < 1e-5, "{}", rho / rho0 - 1.0);
+        assert!(
+            (3.0 * p / rho0 - 1.0).abs() < 1e-5,
+            "{}",
+            3.0 * p / rho0 - 1.0
+        );
+        // late times: the tail quanta are non-relativistic, rho -> m n
+        let (n_late, rho_late, p_late) = kink_tail_moments(mass, 40.0, 1.0e6);
+        assert!((rho_late / (mass * n_late) - 1.0).abs() < 1e-6);
+        assert!(p_late / rho_late < 1e-6);
+        assert_eq!(kink_tail_moments(0.0, 40.0, 1.0), (0.0, 0.0, 0.0));
     }
 }

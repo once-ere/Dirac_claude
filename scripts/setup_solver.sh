@@ -5,8 +5,11 @@
 #   vendor/rustSolveIt/sundials_rs/crates/{sundials_core,cvode_rs}
 # This script clones the platform's rustSolveIt repository at a pinned commit
 # into vendor/rustSolveIt (vendor/ is git-ignored: the engine is fetched, not
-# redistributed).  All three platform repositories vendor a byte-identical
-# sundials_rs; only the surrounding tooling differs.
+# redistributed).  The three platform repositories do NOT vendor a
+# byte-identical sundials_rs (the macOS and Linux engines share one tree, the
+# Windows 11 engine differs in its mathematical library); the committed
+# outputs were produced with the win11 engine, which reproduces them byte for
+# byte on Windows and Linux (see the student guide, Section 4.5).
 #
 # Usage:  bash scripts/setup_solver.sh [win11|macos|linux]
 #         (default: detected from uname)
@@ -36,7 +39,10 @@ case "${platform}" in
 esac
 
 if [[ -d "${target}/.git" ]]; then
-  have="$(git -C "${target}" rev-parse HEAD)"
+  if ! have="$(git -C "${target}" rev-parse -q --verify HEAD 2>/dev/null)"; then
+    echo "vendor/rustSolveIt is an incomplete checkout (an interrupted or failed download);"          "remove it and rerun" >&2
+    exit 1
+  fi
   if [[ "${have}" == "${pin}" ]]; then
     echo "solver_platform=${platform}"
     echo "solver_commit=${have}"

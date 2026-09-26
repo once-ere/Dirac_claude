@@ -28,7 +28,7 @@
       "notebook": "notebooks/dirac16complex_dark_sector.ipynb",
       "problems": [],
       "rulesPassed": true,
-      "gauntletChecks": 70,
+      "gauntletChecks": 71,
       "gauntletPassed": true,
       "nbformatValid": true
     },
@@ -37,7 +37,7 @@
       "notebook": "build/nbconvert/dirac16complex_dark_sector.ipynb",
       "problems": [],
       "rulesPassed": true,
-      "gauntletChecks": 70,
+      "gauntletChecks": 71,
       "gauntletPassed": true,
       "nbformatValid": true
     }
@@ -100,8 +100,8 @@
     },
     {
       "file": "artifacts/dirac16complex/numerics/figures/exp4_pair_density.png",
-      "sha256": "1457cc3d213ad321416c7d96929164784f8cf44217e825f78f50ff242da19ca3",
-      "bytes": 87910
+      "sha256": "30031fb2982d0a358c0999ec86a14a5db369abf02414b9bc6200bced05a950e9",
+      "bytes": 89313
     },
     {
       "file": "artifacts/dirac16complex/numerics/figures/exp4_pair_spectra.png",
@@ -135,8 +135,8 @@
     }
   ],
   "gauntlet": {
-    "count": 70,
-    "passed": 70,
+    "count": 71,
+    "passed": 71,
     "failed": 0,
     "results": [
       {
@@ -145,9 +145,14 @@
         "detail": "7 program runs, every one exited 0 (simulator runs ended with SUCCESS)"
       },
       {
-        "name": "fresh_outputs_byte_identical",
+        "name": "fresh_program_outputs_byte_identical",
         "passed": true,
-        "detail": "exp1 29/29, exp2 4/4, exp3 11/11, exp3-analysis 3/3, exp4 13/13, exp5 5/5"
+        "detail": "exp1 29/29, exp2 4/4, exp3 11/11, exp4 13/13, exp5 5/5"
+      },
+      {
+        "name": "fresh_analysis_outputs_numerically_equal",
+        "passed": true,
+        "detail": "exp3-analysis 3/3 (value by value: relative 1e-9, absolute 1e-12; numpy writes the last digits differently from version to version)"
       },
       {
         "name": "fixture_hash_consistent",
@@ -222,12 +227,12 @@
       {
         "name": "exp3_analysis_checks",
         "passed": true,
-        "detail": "9/9 checks of analyze_dirac16complex_exp3.py true"
+        "detail": "10/10 checks of analyze_dirac16complex_exp3.py true"
       },
       {
         "name": "numerics_summary",
         "passed": true,
-        "detail": "69 Rust + 162 Python + 9 analysis checks, verdict SUCCESS"
+        "detail": "69 Rust + 162 Python + 10 analysis checks, verdict SUCCESS"
       },
       {
         "name": "exp1_background_recomputed",
@@ -385,9 +390,9 @@
         "detail": "the requested CPL fits on [1/3.26, 1] and z in [0.01, 2.26] do not exist for x0 < 0 (pole, bounce) - reported"
       },
       {
-        "name": "exp3_unite_constant_w_is_not_a_cpl_projection",
+        "name": "exp3_unite_constant_w_projections_recorded",
         "passed": true,
-        "detail": "best constant w of the Unite CPL curve = -1.0277 vs benchmark -0.764"
+        "detail": "recorded, not a verdict: best constant w of the noise-free Unite CPL distances = -1.0277 (Omega_m fixed at the assumed 0.305), -0.9115 with Omega_m = 0.2777 free (rms 0.0077 -> 0.0021 mag); benchmark -0.764"
       },
       {
         "name": "exp4_grid_and_weights",
@@ -432,7 +437,7 @@
       {
         "name": "exp4_massive_production",
         "passed": true,
-        "detail": "m=0.1: 1.455e-03, m=0.5: 4.991e-03, m=1: 4.414e-03, m=2: 2.422e-03"
+        "detail": "m=0.1: 1.454e-03, m=0.5: 4.990e-03, m=1: 4.412e-03, m=2: 2.421e-03"
       },
       {
         "name": "exp4_number_density_recomputed",
@@ -442,7 +447,7 @@
       {
         "name": "exp4_produced_gas_eos",
         "passed": true,
-        "detail": "recomputed 7.8e-16; final w < 0.001 for every m > 0"
+        "detail": "recomputed 8.9e-16; final w < 0.001 for every m > 0"
       },
       {
         "name": "exp4_kink_tail",
@@ -487,7 +492,7 @@
       {
         "name": "prose_numbers_match_reports",
         "passed": true,
-        "detail": "64 numbers quoted in the markdown re-read from the reports"
+        "detail": "72 numbers quoted in the markdown re-read from the reports"
       }
     ]
   },
