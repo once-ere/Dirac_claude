@@ -99,8 +99,95 @@
     },
     "projectionOmegaMFreeMinusBenchmark": -1.47532334747327631e-01,
     "projectionOmegaMFreeLogGridMinusBenchmark": -1.08140477176334571e-01,
+    "omegaMFreeClosesGapToBenchmark": {
+      "meaning": "1 - |w_free - (-0.764)| / |w_fixed - (-0.764)|: the fraction of the distance between the constant-w projection with Omega_m = 0.305 fixed and the benchmark -0.764 that letting Omega_m float removes",
+      "uniformGridOffsetProfiled": 4.40492175806358133e-01,
+      "uniformGridOffsetZero": 4.55053832970718330e-01,
+      "logGridOffsetProfiled": 4.97133039022592982e-01
+    },
+    "lcdmVsUniteCPL": {
+      "range": [
+        1.00000000000000002e-02,
+        2.25999999999999979e+00
+      ],
+      "meaning": "LambdaCDM (Omega_m = 0.305) against the Unite CPL distances: the baseline for any 'close to Unite in distances' statement",
+      "maxAbsDifferenceMag": 2.37836967205409255e-02,
+      "maxAbsDifferenceOffsetProfiledMag": 1.28706722354721501e-02,
+      "rmsDifferenceOffsetProfiledMag": 8.21175898447485189e-03
+    },
+    "benchmarkVsUniteCPL": {
+      "range": [
+        1.00000000000000002e-02,
+        2.25999999999999979e+00
+      ],
+      "meaning": "flat wCDM with w = -0.764 against the Unite CPL distances, with the assumed Omega_m = 0.305 and with the Omega_m that best fits them (offset profiled); the Omega_m of the Unite wCDM fit is not known here",
+      "OmegaMAssumed": {
+        "OmegaM": 3.04999999999999993e-01,
+        "maxAbsDifferenceMag": 1.12840194164321339e-01,
+        "maxAbsDifferenceOffsetProfiledMag": 8.42791496934336692e-02,
+        "rmsDifferenceOffsetProfiledMag": 3.25022469725546187e-02
+      },
+      "OmegaMFitted": {
+        "OmegaM": 2.40165349015733220e-01,
+        "iterations": 66,
+        "maxAbsDifferenceMag": 2.97113695705268910e-02,
+        "maxAbsDifferenceOffsetProfiledMag": 1.86812216471418414e-02,
+        "rmsDifferenceOffsetProfiledMag": 8.71990353300056316e-03
+      }
+    },
     "omegaMAssumption": "Omega_m = 0.305 is an input of the numerical programme (EXP-3); the reference PDF gives no Omega_m, and the Omega_m of the Unite fits is not known here. The Unite CPL distances (the target) always use Omega_m = 0.305; the constantWProjection* fits hold Omega_m at 0.305, the constantWProjectionOmegaMFree* fits let it vary (flat wCDM).",
-    "note": "The -0.764 benchmark is a direct constant-w fit to the Unite supernovae (Omega_m not fixed, likelihood with the real errors), not a projection of the CPL posterior; the projections here use the CPL best fit as noise-free data with equal weights. With Omega_m fixed at the assumed 0.305 the best constant w is far from -0.764; with Omega_m free (the w - Omega_m degeneracy) it moves most of the way towards it. The remaining difference cannot be judged without the Unite likelihood."
+    "note": "The PDF says only that -0.764 is a constant-w (wCDM) fit to the Unite supernovae alone; it gives no Omega_m, prior or likelihood. An SN-only wCDM fit normally leaves Omega_m free and uses the real errors (an assumption here, not stated in the PDF); it is not a projection of the CPL posterior. The projections here use the CPL best fit as noise-free data with equal weights. With Omega_m fixed at the assumed 0.305 the best constant w is far from -0.764; letting Omega_m float (the w - Omega_m degeneracy) removes less than half of that distance (omegaMFreeClosesGapToBenchmark). The remaining difference cannot be judged without the Unite likelihood."
+  },
+  "meanFieldScales": {
+    "assumptions": "h = 0.674, rho_crit = 1.05368e-5 h^2 GeV cm^-3, Omega_psi = 0.69491; number density n = S_0 = rho_psi0/(m (1 + x0)) of non-relativistic quanta with 3-space momenta only (k_0 = 0) and 8 positive-energy states per momentum; order-of-magnitude estimates, not results of the ODEs",
+    "littleH": 6.74000000000000044e-01,
+    "rhoCritOverH2EV4": 8.09595614842213033e-11,
+    "rhoPsi0EV4": 2.55573900794825047e-11,
+    "rhoPsi0QuarterPowerEV": 2.24842872694832425e-03,
+    "lambdaM2Rule": "lambda m^2 = lambdaM2Coefficient (m / rhoPsi0QuarterPowerEV)^4",
+    "models": [
+      {
+        "x0": -4.62654000000000010e-01,
+        "lambdaM2Coefficient": -4.97210552568000008e-01,
+        "atMass1EV": {
+          "massEV": 1.00000000000000000e+00,
+          "lambdaM2": -1.94546685331207237e+10,
+          "contactScaleEV": 1.01391857630298083e-05,
+          "fermiMomentumEV": 7.06113470641631536e-04,
+          "fermiMomentumOverMass": 7.06113470641631536e-04
+        },
+        "whereFermiMomentumOverMassIs0p1": {
+          "massEV": 2.43587990405113065e-02,
+          "lambdaM2": -6.84931793187240510e+03,
+          "contactScaleEV": 4.16243253461192795e-04,
+          "fermiMomentumEV": 2.43587990405113013e-03,
+          "fermiMomentumOverMass": 9.99999999999999778e-02
+        },
+        "whereAbsLambdaM2Is2": {
+          "massEV": 3.18420881272409766e-03,
+          "lambdaM2": -2.00000000000000000e+00,
+          "contactScaleEV": 3.18420881272409766e-03,
+          "fermiMomentumEV": 4.79962510932537348e-03,
+          "fermiMomentumOverMass": 1.50732109343648335e+00
+        }
+      },
+      {
+        "x0": 0.00000000000000000e+00,
+        "lambdaM2Coefficient": 0.00000000000000000e+00,
+        "atMass1EV": {
+          "massEV": 1.00000000000000000e+00,
+          "lambdaM2": 0.00000000000000000e+00,
+          "fermiMomentumEV": 5.74062489611831188e-04,
+          "fermiMomentumOverMass": 5.74062489611831188e-04
+        },
+        "whereFermiMomentumOverMassIs0p1": {
+          "massEV": 2.08554409959571564e-02,
+          "lambdaM2": 0.00000000000000000e+00,
+          "fermiMomentumEV": 2.08554409959571573e-03,
+          "fermiMomentumOverMass": 1.00000000000000006e-01
+        }
+      }
+    ]
   },
   "models": [
     {

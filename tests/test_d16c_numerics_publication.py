@@ -57,8 +57,8 @@ NUMERICS = REPOSITORY_ROOT / "artifacts" / "dirac16complex" / "numerics"
 FIXTURE = REPOSITORY_ROOT / "artifacts" / "dirac16complex" / "arbitrary-field" / "algebra-fixture.json"
 GENERATED_RS = REPOSITORY_ROOT / "studies" / "dirac16complex_cosmology" / "src" / "generated.rs"
 
-MARKDOWN_SHA256 = "596450b6f16d63bd1b4e991b2ce7055e193126c532fe6309092fea33baf5759f"
-TEX_SHA256 = "44800c49659ff02b85ac952ff165f26f7655fb494e5455466cbe98ab8390ffbe"
+MARKDOWN_SHA256 = "34f0f9785b18073ddb011eb32b19a0cf1ea46186f5cbdb6cb930caef684461b6"
+TEX_SHA256 = "8dce383d6ab84f90184d8d4e880d9a77f6c24e1985f7dc92af3dd6fe4db3d57c"
 
 TITLE = ("dirac16complex and the dark sector: pressure, energy density and equation of "
          "state from numerical solutions")
@@ -134,7 +134,9 @@ REQUIRED_PHRASES = (
     "is not a constant-$w$ projection of the Unite CPL curve",
     "The 4D-effective Friedmann equation with stabilised extra dimensions is an "
     "assumption of this experiment, not a consequence of the 8D equations",
-    "no positive-energy (normal-ordered) state of this Lagrangian is phantom",
+    "no state with definite occupation numbers of positive-energy quanta of this Lagrangian is phantom",
+    "Coherent superpositions of the vacuum and pair states",
+    "they are not the mechanism of the phantom epochs of EXP-2 and EXP-3",
     "**This phantom crossing is a mean-field artefact, not an established property of the field:**",
     "**Limits of the mean field.**",
     "2. **The Pauli principle.**",
@@ -145,7 +147,23 @@ REQUIRED_PHRASES = (
     "$\\Omega_m=0.305$ is an assumed input",
     "The remaining difference cannot be judged without the Unite likelihood",
     "but neither is a thawing field in the sense of the PDF and of the standard classification",
-    "The mixed runs are numerical controls only",
+    "a coherent superposition of the vacuum and one particle-antiparticle pair",
+    "so the $2E$ oscillation of $p_0$ and $S$ is physical in that state",
+    "3. **The strength of the tuned coupling.**",
+    "That reassurance applies to $x_0=0$ only",
+    "**Consistency of the diagonal ansatz.**",
+    "**(c) The same transition made smooth (comparison runs).**",
+    "**What sets the yield.**",
+    "strongly model-dependent",
+    "becomes pressureless (dust-like) at late times",
+    "Whether such a relic is cold, warm or hot depends on $m$, on the decoupling temperature and on "
+    "free streaming, none of which was computed.",
+    "Freeing $\\Omega_m$ closes less than half of the gap to $-0.764$",
+    "so distances at this level do not distinguish it from $\\Lambda$CDM",
+    "The dash-dot $w=-0.764$ curve uses the assumed $\\Omega_m=0.305$, not the unknown $\\Omega_m$ of "
+    "the Unite wCDM fit",
+    "how $\\Omega_m$ was treated is not stated and is an assumption here",
+    "does not resolve the first half-oscillation of that wave",
     "The reduction is exact for $\\lambda=0$.",
     "python -m pip install -r requirements-stage3.txt",
 )
@@ -250,6 +268,24 @@ def PERCENT(value):
     return f"{100 * value:.1f}%"
 
 
+def PERCENT0(value):
+    return f"{100 * value:.0f}%"
+
+
+def INV2(value):
+    """1/value with two decimals (the text quotes the reciprocal of a reported ratio)."""
+    return f"{1 / value:.2f}"
+
+
+def MEV(decimals):
+    """a value in eV quoted in meV"""
+    return lambda value: f"{1000 * value:.{decimals}f}"
+
+
+def MICROEV(value):
+    return f"{1e6 * value:.0f}"
+
+
 # (report, path, formatter, template): the formatted value replaces "@" in the
 # template, and the result must occur in the Markdown.  A path element "key=value"
 # selects the one list entry whose field key has that value.
@@ -262,8 +298,11 @@ QUOTED_NUMBERS = (
     ("mm", ["checkCount"], I, "all @ checks of a Mathematica notebook"),
     ("e4", ["thermal", "wAtA1"], F(4), "Their gas has $w=@$ at temperature $T=10m$"),
     ("e4", ["thermal", "wAtAEnd"], F(4), "and $w=@$ after the scale factor has grown a hundredfold"),
-    ("e4", ["pair", "masses", "m=0.1", "nA3"], S2, "(comoving number $na^3$ between $@$"),
-    ("e4", ["pair", "masses", "m=0.5", "nA3"], S2, "and $@$ in units of $H_{\\mathrm{inf}}^3$, mostly"),
+    ("e4", ["pair", "masses", "m=0.1", "nA3"], S2, "the comoving number $na^3$ lies between $@$"),
+    ("e4", ["pair", "masses", "m=0.5", "nA3"], S2, "and $@$ in units of $H_{\\mathrm{inf}}^3$; for"),
+    ("e4", ["pair", "masses", "m=0.5", "nA3SuddenOverSmoothSameFinalH"], F(2), "is @ to 796 times smaller"),
+    ("e4", ["pair", "masses", "m=2.0", "nA3SuddenOverSmoothSameFinalH"], I, "is 3.25 to @ times smaller"),
+    ("e4", ["pair", "masses", "m=0.1", "nA3SuddenOverSmoothSameFinalH"], F(2), "(@ times for $m=0.1$)"),
     ("e3", ["models", 0, "waTangent"], F(2), "the condensate has $w_a=@$, its effective mass vanishes"),
     ("e3", ["models", 0, "zPhantomCrossing"], F(3), "vanishes and $w=-1$ at redshift $z=@$"),
     ("e3", ["models", 0, "zZero"], F(3), "the negative energy density beyond $z=@$"),
@@ -388,8 +427,14 @@ QUOTED_NUMBERS = (
     ("e2", ["measurements", "maxSpinorPhaseRoundingBound"], S2, "\\mathrm{ulp}(t_{\\mathrm{end}})/2=@$"),
     ("p2", ["measurements", "refined_spinorPhaseRefined"], S2, "in the refined run ($@$)"),
     ("p2", ["measurements", "refined_spinorShapeRefined"], S1, "the shape error shrinks to $@$"),
-    ("p2", ["measurements", "refined_gravityCanonical"], S1, "the gravity error from $@$"),
-    ("p2", ["measurements", "refined_gravityRefined"], S1, "to $@$. The checker confirms"),
+    ("p2", ["measurements", "refined_gravityCanonical"], S1,
+     "divided by the same amplification factor) from $@$"),
+    ("p2", ["measurements", "refined_gravityRefined"], S1, "to $@$ (raw: from"),
+    ("p2", ["measurements", "refined_gravityRawCanonical"], S1, "(raw: from $@$ to"),
+    ("p2", ["measurements", "refined_gravityRawRefined"], S1, "to $@$). The checker confirms"),
+    ("p2", ["measurements", "exactAmplificationFactorMax"], I, "(at most @, at the backward end"),
+    ("p2", ["measurements", "exactVolumeMaxRelativeErrorRaw"], S1, "the raw relative error of $V$ is $@$ there"),
+    ("p2", ["measurements", "refined_volumeRawRefined"], S1, "and $@$ in the refined run, a converging"),
     ("p2", ["measurements", "phaseDriftBinadeMaxRelativeDeviation"], PERCENT, "prediction to @ over 21 binades"),
     ("p2", ["measurements", "phaseDriftBinadesTested"], I, "over @ binades"),
     ("mm", ["exp2", "ndsolve", "lnScaleMaxAbsDeviation"], S2, "NDSolve agrees with Rust to $@$ in $\\ln h_i$"),
@@ -545,9 +590,15 @@ QUOTED_NUMBERS = (
     ("e4", ["thermal", "adiabaticVacuumMaxRelPressureDev"], F(2), "from 1.78 to @ relative"),
     ("e4", ["thermal", "maxBeta2GasWeighted"], S1, "The occupation-weighted $|\\beta|^2$ is $@$"),
     ("e4", ["thermal", "adiabaticVacuumLateBeta2"], S1, "the adiabatic-vacuum runs end at $@$"),
-    ("e4", ["thermal", "maxBeta2PerMode"], S2, "The largest single-mode value, $@$ at"),
+    ("e4", ["thermal", "maxBeta2PerMode"], S2, "The largest sampled single-mode value, $@$ at"),
     ("e4", ["thermal", "maxBeta2PerModeK"], F(3), "at $k=@$, is"),
-    ("p4", ["measurements", "thermalBeta2PerModeMaxOver4c2"], F(3), "is @ times $4|c|^2$"),
+    ("p4", ["measurements", "thermalBeta2PerModeMaxModeOver4c2"], F(3), "is @ times $4|c|^2$"),
+    ("p4", ["measurements", "thermalBeta2PerModeMaxModeOverBound"], F(3), "and @ times the checked envelope"),
+    ("e4", ["thermal", "suddenStartBoundMaxRatio"], F(3), "(largest ratio over all modes @)"),
+    ("p4", ["measurements", "thermalBeta2DenseMax"], S2, "finds the continuous-time maximum $@$ in the same mode"),
+    ("p4", ["measurements", "thermalBeta2DenseMaxOfSampledMaxModeOver4c2"], F(3),
+     "in the same mode, @ times $4|c|^2$"),
+    ("p4", ["measurements", "thermalBeta2DenseBoundRatio"], F(3), "(ratio at most @ over all modes)"),
     ("p4", ["measurements", "thermalKmaxTruncationRhoAtA1"], S1, "misses $@$ of $\\rho$ at $a=1$"),
     ("p4", ["measurements", "thermalKmaxTruncationRhoAtAEnd"], S1, "and, at $a=100$, $@$ of $\\rho$"),
     ("p4", ["measurements", "thermalKmaxTruncationPressureAtAEnd"], S1, "of $\\rho$ and $@$ of $p$ (the checker's"),
@@ -684,6 +735,92 @@ QUOTED_NUMBERS = (
     ("mm", ["exp5", "ndsolve", "maxRelativeStateDeviation"], S2, "| EXP-5 state (relative) | $@$ |"),
     ("mm", ["exp5", "ndsolve", "ndsolveSelfRelativeError"], S1,
      "| EXP-5 machine against 32-digit precision | $@$ |"),
+    # ---- EXP-4 pair creation: final adiabatic maxima, smooth transition, kink formula
+    ("e4", ["pair", "masses", "m=0.0", "maxBeta2AdiabaticEnd"], S1, "| $8.5\\times10^{-25}$ | $@$ |"),
+    ("e4", ["pair", "masses", "m=0.1", "maxBeta2AdiabaticEnd"], F(3), "| 0.348 | @ |"),
+    ("e4", ["pair", "masses", "m=0.5", "maxBeta2AdiabaticEnd"], F(4), "| 0.0640 | @ |"),
+    ("e4", ["pair", "masses", "m=1.0", "maxBeta2AdiabaticEnd"], F(5), "| 0.0138 | @ |"),
+    ("e4", ["pair", "masses", "m=2.0", "maxBeta2AdiabaticEnd"], S2, "| 0.00265 | $@$ |"),
+    ("e4", ["pair", "masses", "m=0.1", "nA3SmoothRadiationNormalised"], S3, "| 0.1 | $@$ | 1.35 |"),
+    ("e4", ["pair", "masses", "m=0.5", "nA3SmoothRadiationNormalised"], S3, "| 0.5 | $@$ | 3.25 |"),
+    ("e4", ["pair", "masses", "m=1.0", "nA3SmoothRadiationNormalised"], S3, "| 1 | $@$ | 13.3 |"),
+    ("e4", ["pair", "masses", "m=2.0", "nA3SmoothRadiationNormalised"], S3, "| 2 | $@$ | 796 |"),
+    ("e4", ["pair", "masses", "m=0.1", "nA3SuddenOverSmoothSameFinalH"], F(2), "| @ | $4.97\\times10^{-2}$ |"),
+    ("e4", ["pair", "masses", "m=0.5", "nA3SuddenOverSmoothSameFinalH"], F(2), "| @ | $9.95\\times10^{-3}$ |"),
+    ("e4", ["pair", "masses", "m=1.0", "nA3SuddenOverSmoothSameFinalH"], F(1), "| @ | $4.97\\times10^{-3}$ |"),
+    ("e4", ["pair", "masses", "m=2.0", "nA3SuddenOverSmoothSameFinalH"], I, "| @ | $2.49\\times10^{-3}$ |"),
+    ("e4", ["pair", "masses", "m=0.1", "nA3KinkFormulaAllK"], S2, "| 1.35 | $@$ |"),
+    ("e4", ["pair", "masses", "m=0.5", "nA3KinkFormulaAllK"], S2, "| 3.25 | $@$ |"),
+    ("e4", ["pair", "masses", "m=1.0", "nA3KinkFormulaAllK"], S2, "| 13.3 | $@$ |"),
+    ("e4", ["pair", "masses", "m=2.0", "nA3KinkFormulaAllK"], S2, "| 796 | $@$ |"),
+    ("e4", ["pair", "masses", "m=0.1", "maxBeta2AdiabaticEndSmooth"], F(3), "smooth runs are @, 0.0442"),
+    ("e4", ["pair", "masses", "m=0.5", "maxBeta2AdiabaticEndSmooth"], F(4), "are 0.346, @, 0.00214"),
+    ("e4", ["pair", "masses", "m=1.0", "maxBeta2AdiabaticEndSmooth"], F(5), "0.0442, @ and"),
+    ("e4", ["pair", "masses", "m=2.0", "maxBeta2AdiabaticEndSmooth"], S2, "0.00214 and $@$ for $m=0.1$"),
+    ("e4", ["pair", "masses", "m=0.1", "nA3Smooth"], S3, "give $na^3=@$, $4.335"),
+    ("e4", ["pair", "masses", "m=0.5", "nA3Smooth"], S3, "3.032\\times10^{-4}$, $@$, $9.390"),
+    ("e4", ["pair", "masses", "m=1.0", "nA3Smooth"], S3, "$4.335\\times10^{-4}$, $@$ and $8.589"),
+    ("e4", ["pair", "masses", "m=2.0", "nA3Smooth"], S3, "$9.390\\times10^{-5}$ and $@$ (ratios"),
+    ("e4", ["pair", "masses", "m=0.1", "nA3SuddenOverSmooth"], F(2), "(ratios @, 11.5"),
+    ("e4", ["pair", "masses", "m=0.5", "nA3SuddenOverSmooth"], F(1), "4.79, @, 47.0"),
+    ("e4", ["pair", "masses", "m=1.0", "nA3SuddenOverSmooth"], F(1), "11.5, @ and 2819"),
+    ("e4", ["pair", "masses", "m=2.0", "nA3SuddenOverSmooth"], I, "47.0 and @)"),
+    ("e4", ["pair", "masses", "m=0.0", "maxBeta2Smooth"], S1, "($|\\beta_k|^2\\le@$, roundoff)"),
+    ("p4", ["measurements", "pairAEndSmoothOverSudden_m0.1"], F(3), "by a constant factor (@)"),
+    ("p4", ["measurements", "pairAEndSmoothOverSudden_m2.0"], F(3), "by $@^{-3}$, the radiation-era"),
+    ("e4", ["pair", "masses", "m=1.0", "nA3OverKinkFormulaAllK"], INV2, "is @ and 1.03 times the computed"),
+    ("e4", ["pair", "masses", "m=2.0", "nA3OverKinkFormulaAllK"], INV2, "is 1.13 and @ times the computed"),
+    ("e4", ["pair", "masses", "m=1.0", "nA3SuddenOverSmoothSameFinalH"], F(1), "gives @ and 796 times fewer quanta"),
+    ("e4", ["pair", "masses", "m=0.1", "nA3SuddenOverSmoothSameFinalH"], F(2),
+     "gives @, 3.25, 13.3 and 796 times fewer quanta"),
+    ("e4", ["pair", "masses", "m=0.1", "maxBeta2AdiabaticEndSmooth"], F(3),
+     "largest $|\\beta_k|^2$ from 0.347 to @"),
+    ("p4", ["measurements", "pairMagnusSuddenMaxDevRel1e-6"], F(2), "worst ratio to that tolerance @ and"),
+    ("p4", ["measurements", "pairMagnusSmoothMaxDevRel1e-6"], F(2), "tolerance 0.08 and @, Richardson"),
+    ("p4", ["measurements", "pairMagnusSmoothRichardsonRel1e-6"], F(2), "estimate of the Magnus error @)"),
+    ("p4", ["measurements", "pairSmoothAEndMaxRelDev"], S1, "the smooth $a_{\\mathrm{end}}$ to $@$"),
+    ("p4", ["measurements", "pairKinkFormulaAllKMaxRelDev"], S1, "over all $k$ to $@$. The Mathematica"),
+    ("p4", ["measurements", "refinedPairSmoothBeta2RelDiff"], S1,
+     "and the smooth-transition final $|\\beta_k|^2$ by $@$ relative"),
+    # ---- EXP-3 distance comparisons, the benchmark and the mean-field scales
+    ("fits", ["unite", "benchmarkVsUniteCPL", "OmegaMAssumed", "maxAbsDifferenceOffsetProfiledMag"], F(3),
+     "by up to @ mag with the offset profiled"),
+    ("fits", ["unite", "benchmarkVsUniteCPL", "OmegaMFitted", "OmegaM"], F(3), "uses the $\\Omega_m=@$ that best fits"),
+    ("fits", ["unite", "benchmarkVsUniteCPL", "OmegaMFitted", "maxAbsDifferenceOffsetProfiledMag"], F(3),
+     "differs by at most @ mag"),
+    ("fits", ["unite", "omegaMFreeClosesGapToBenchmark", "uniformGridOffsetProfiled"], PERCENT0,
+     "of the gap to $-0.764$: @ (from"),
+    ("fits", ["unite", "omegaMFreeClosesGapToBenchmark", "uniformGridOffsetZero"], PERCENT0, "@ with the offset at zero"),
+    ("fits", ["unite", "omegaMFreeClosesGapToBenchmark", "logGridOffsetProfiled"], PERCENT0,
+     "and @ on the log-uniform grid"),
+    ("fits", ["unite", "constantWProjectionOffsetProfiled", "w"], F(3), "(from $@$ to $-0.912$)"),
+    ("fits", ["unite", "constantWProjectionOmegaMFreeOffsetProfiled", "w"], F(3), "to $@$), 46% with"),
+    ("fits", ["unite", "lcdmVsUniteCPL", "maxAbsDifferenceMag"], F(3), "$\\Lambda$CDM itself (@ mag"),
+    ("fits", ["unite", "lcdmVsUniteCPL", "maxAbsDifferenceOffsetProfiledMag"], F(3),
+     "@ mag with the offset profiled), so distances"),
+    ("fits", ["meanFieldScales", "rhoPsi0QuarterPowerEV"], MEV(2), "$\\rho_{\\psi0}^{1/4}=@$ meV"),
+    ("fits", ["meanFieldScales", "models", 1, "atMass1EV", "fermiMomentumEV"], MEV(2), "gives $k_F=@$ meV at $m=1$ eV"),
+    ("fits", ["meanFieldScales", "models", 1, "whereFermiMomentumOverMassIs0p1", "massEV"], MEV(0),
+     "for $m\\ge@$ meV. That reassurance"),
+    ("fits", ["meanFieldScales", "models", 0, "lambdaM2Coefficient"], F(3), "m^4/\\rho_{\\psi0}=@\\,(m/2.25"),
+    ("fits", ["meanFieldScales", "models", 0, "whereFermiMomentumOverMassIs0p1", "massEV"], MEV(0),
+     "at $m=@$ meV, where $k_F/m=0.1$ for this model"),
+    ("fits", ["meanFieldScales", "models", 0, "whereFermiMomentumOverMassIs0p1", "lambdaM2"], S1,
+     "$\\lambda m^2=@$, and at $m=1$ eV"),
+    ("fits", ["meanFieldScales", "models", 0, "atMass1EV", "lambdaM2"], S1, "$\\lambda m^2=@$; its scale"),
+    ("fits", ["meanFieldScales", "models", 0, "whereFermiMomentumOverMassIs0p1", "contactScaleEV"], MEV(2),
+     "(@ meV and 10 $\\mu$eV there)"),
+    ("fits", ["meanFieldScales", "models", 0, "atMass1EV", "contactScaleEV"], MICROEV,
+     "meV and @ $\\mu$eV there)"),
+    ("fits", ["meanFieldScales", "models", 0, "whereFermiMomentumOverMassIs0p1", "fermiMomentumEV"], MEV(1),
+     "below both $k_F$ (@ meV and"),
+    ("fits", ["meanFieldScales", "models", 0, "atMass1EV", "fermiMomentumEV"], MEV(2), "meV and @ meV) and $m$"),
+    ("fits", ["meanFieldScales", "models", 0, "whereAbsLambdaM2Is2", "massEV"], MEV(1), "needs $m\\le@$ meV, where"),
+    ("fits", ["meanFieldScales", "models", 0, "whereAbsLambdaM2Is2", "fermiMomentumOverMass"], F(1),
+     "where $k_F/m\\ge@$. There is no mass"),
+    # ---- EXP-2 and EXP-3: the off-diagonal stress bilinears
+    ("p2", ["measurements", "offDiagonalTensorBilinearMaxAllPlanes"], F(1), "vanish in all 21 planes (@ exactly)"),
+    ("p3", ["measurements", "offDiagonalTensorBilinearMax"], F(1), "they do in every row (@)"),
     # ---- notebook
     ("nb", ["cells"], I, "The notebook has @ cells"),
     ("nb", ["markdownCells"], I, "(@ markdown, 8 code; kernel python3)"),

@@ -73,6 +73,11 @@ MU_SCAN_STEP_CENTI = 1       # mu-fit scan x0 = k / 100, k = -49 .. 0
 GL_NODES, GL_WEIGHTS = np.polynomial.legendre.leggauss(8)
 H0_PER_YEAR = 67.4 / 3.0856775814913673e19 * 3.15576e7   # 67.4 km/s/Mpc in 1/yr
 LLR_GDOT_BOUND = 1.0e-13                                 # |Gdot/G| per yr, order of magnitude
+# physical scales of the mean field (meanFieldScales): h = 0.674 as in H0_PER_YEAR,
+# rho_crit / h^2 = 1.05368e-5 GeV cm^-3 (PDG), hbar c = 1.973269804e-5 eV cm
+HUBBLE_LITTLE_H = 0.674
+RHO_CRIT_OVER_H2_EV4 = 1.05368e-5 * 1.0e9 * 1.973269804e-5 ** 3   # eV^4
+STATES_PER_MOMENTUM = 8                                  # positive-energy quanta per momentum
 
 
 # ---------------------------------------------------------------- models
@@ -457,6 +462,35 @@ def gamma_variant():
     }
 
 
+def curve_difference(model_mu, target_mu):
+    """Largest |Delta DM| between two curves on the same z grid, with the same H0 and
+    with the mean offset removed (H0 and absolute magnitude free), and the rms of the
+    offset-removed difference."""
+    diff = np.asarray(model_mu) - np.asarray(target_mu)
+    shifted = diff - np.mean(diff)
+    return {"maxAbsDifferenceMag": float(np.max(np.abs(diff))),
+            "maxAbsDifferenceOffsetProfiledMag": float(np.max(np.abs(shifted))),
+            "rmsDifferenceOffsetProfiledMag": float(math.sqrt(np.mean(shifted ** 2)))}
+
+
+def benchmark_omega_fit(target_mu, z):
+    """Omega_m of flat wCDM with w = -0.764 held fixed that best fits target_mu
+    (equal weights, offset profiled)."""
+    def chi2(theta):
+        if not 0.0 < theta[0] < 1.0 - OMEGA_R:
+            return 1.0e30
+        r = distance_modulus(WCDMFreeOmegaM(UNITE_WCONST, theta[0]).e2, z) - target_mu
+        r = r - np.mean(r)
+        return float(r @ r)
+    theta, _, iterations = minimise(chi2, [OMEGA_M], 0.05)
+    return float(theta[0]), iterations
+
+
+def gap_closed(fixed, free):
+    """Fraction of |w_projection - w_benchmark| (Omega_m fixed) that freeing Omega_m removes."""
+    return 1.0 - abs(free["w"] - UNITE_WCONST) / abs(fixed["w"] - UNITE_WCONST)
+
+
 def unite_block():
     z = z_fit_grid()
     target = distance_modulus(CPL(UNITE_W0, UNITE_WA).e2, z)
@@ -469,6 +503,7 @@ def unite_block():
     free = mu_fit_free_omega(target, z, True)
     free_zero = mu_fit_free_omega(target, z, False)
     free_log = mu_fit_free_omega(target_log, z_log, True)
+    bench_omega, bench_iterations = benchmark_omega_fit(target, z)
     return {
         "w0": UNITE_W0, "wa": UNITE_WA, "wConstantBenchmark": UNITE_WCONST,
         "w0PlusWa": UNITE_W0 + UNITE_WA,
@@ -487,18 +522,87 @@ def unite_block():
             {"grid": "uniform in ln z on [0.01, 2.26], same point count"}, **free_log),
         "projectionOmegaMFreeMinusBenchmark": free["w"] - UNITE_WCONST,
         "projectionOmegaMFreeLogGridMinusBenchmark": free_log["w"] - UNITE_WCONST,
+        "omegaMFreeClosesGapToBenchmark": {
+            "meaning": "1 - |w_free - (-0.764)| / |w_fixed - (-0.764)|: the fraction of the "
+                       "distance between the constant-w projection with Omega_m = 0.305 fixed "
+                       "and the benchmark -0.764 that letting Omega_m float removes",
+            "uniformGridOffsetProfiled": gap_closed(projection, free),
+            "uniformGridOffsetZero": gap_closed(projection_zero, free_zero),
+            "logGridOffsetProfiled": gap_closed(projection_log, free_log),
+        },
+        "lcdmVsUniteCPL": dict(
+            {"range": [Z_FIT_MIN, Z_FIT_MAX],
+             "meaning": "LambdaCDM (Omega_m = 0.305) against the Unite CPL distances: the "
+                        "baseline for any 'close to Unite in distances' statement"},
+            **curve_difference(distance_modulus(CPL(-1.0, 0.0).e2, z), target)),
+        "benchmarkVsUniteCPL": {
+            "range": [Z_FIT_MIN, Z_FIT_MAX],
+            "meaning": "flat wCDM with w = -0.764 against the Unite CPL distances, with the "
+                       "assumed Omega_m = 0.305 and with the Omega_m that best fits them "
+                       "(offset profiled); the Omega_m of the Unite wCDM fit is not known here",
+            "OmegaMAssumed": dict({"OmegaM": OMEGA_M}, **curve_difference(
+                distance_modulus(WCDMFreeOmegaM(UNITE_WCONST, OMEGA_M).e2, z), target)),
+            "OmegaMFitted": dict({"OmegaM": bench_omega, "iterations": bench_iterations},
+                                 **curve_difference(distance_modulus(
+                                     WCDMFreeOmegaM(UNITE_WCONST, bench_omega).e2, z), target)),
+        },
         "omegaMAssumption": "Omega_m = 0.305 is an input of the numerical programme (EXP-3); the "
                             "reference PDF gives no Omega_m, and the Omega_m of the Unite fits is not "
                             "known here. The Unite CPL distances (the target) always use Omega_m = "
                             "0.305; the constantWProjection* fits hold Omega_m at 0.305, the "
                             "constantWProjectionOmegaMFree* fits let it vary (flat wCDM).",
-        "note": "The -0.764 benchmark is a direct constant-w fit to the Unite supernovae (Omega_m not "
-                "fixed, likelihood with the real errors), not a projection of the CPL posterior; the "
-                "projections here use the CPL best fit as noise-free data with equal weights. With "
-                "Omega_m fixed at the assumed 0.305 the best constant w is far from -0.764; with "
-                "Omega_m free (the w - Omega_m degeneracy) it moves most of the way towards it. The "
-                "remaining difference cannot be judged without the Unite likelihood.",
+        "note": "The PDF says only that -0.764 is a constant-w (wCDM) fit to the Unite supernovae "
+                "alone; it gives no Omega_m, prior or likelihood. An SN-only wCDM fit normally "
+                "leaves Omega_m free and uses the real errors (an assumption here, not stated in "
+                "the PDF); it is not a projection of the CPL posterior. The projections here use "
+                "the CPL best fit as noise-free data with equal weights. With Omega_m fixed at the "
+                "assumed 0.305 the best constant w is far from -0.764; letting Omega_m float (the "
+                "w - Omega_m degeneracy) removes less than half of that distance "
+                "(omegaMFreeClosesGapToBenchmark). The remaining difference cannot be judged "
+                "without the Unite likelihood.",
     }, (z, target)
+
+
+def mean_field_scales(x0_values):
+    """Order-of-magnitude scales of the EXP-3 mean field in physical units (not a fit):
+    today rho_psi0 = Omega_psi rho_crit = m S_0 (1 + x0) and x0 = lambda S_0/(2m), so
+    lambda m^2 = 2 x0 (1 + x0) m^4 / rho_psi0 is fixed by the tuning; a Pauli-consistent
+    state of density n = S_0 (non-relativistic quanta, 3-space momenta only, 8 states per
+    momentum) has k_F = (6 pi^2 n / 8)^(1/3)."""
+    rho0 = OMEGA_PSI * RHO_CRIT_OVER_H2_EV4 * HUBBLE_LITTLE_H ** 2
+    models = []
+    for x0 in x0_values:
+        coefficient = 2.0 * x0 * (1.0 + x0)
+        fermi_constant = 6.0 * math.pi ** 2 * rho0 / (STATES_PER_MOMENTUM * (1.0 + x0))
+
+        def at_mass(mass, coefficient=coefficient, fermi_constant=fermi_constant):
+            lam_m2 = coefficient * mass ** 4 / rho0
+            k_f = (fermi_constant / mass) ** (1.0 / 3.0)
+            entry = {"massEV": mass, "lambdaM2": lam_m2}
+            if lam_m2 != 0.0:
+                entry["contactScaleEV"] = mass / math.sqrt(abs(lam_m2) / 2.0)
+            entry.update({"fermiMomentumEV": k_f, "fermiMomentumOverMass": k_f / mass})
+            return entry
+        # k_F/m = fermi_constant^(1/3) m^(-4/3)
+        block = {"x0": x0, "lambdaM2Coefficient": coefficient,
+                 "atMass1EV": at_mass(1.0),
+                 "whereFermiMomentumOverMassIs0p1": at_mass(
+                     (10.0 * fermi_constant ** (1.0 / 3.0)) ** 0.75)}
+        if coefficient != 0.0:
+            block["whereAbsLambdaM2Is2"] = at_mass((2.0 * rho0 / abs(coefficient)) ** 0.25)
+        models.append(block)
+    return {
+        "assumptions": "h = 0.674, rho_crit = 1.05368e-5 h^2 GeV cm^-3, Omega_psi = 0.69491; "
+                       "number density n = S_0 = rho_psi0/(m (1 + x0)) of non-relativistic "
+                       "quanta with 3-space momenta only (k_0 = 0) and 8 positive-energy states "
+                       "per momentum; order-of-magnitude estimates, not results of the ODEs",
+        "littleH": HUBBLE_LITTLE_H,
+        "rhoCritOverH2EV4": RHO_CRIT_OVER_H2_EV4,
+        "rhoPsi0EV4": rho0,
+        "rhoPsi0QuarterPowerEV": rho0 ** 0.25,
+        "lambdaM2Rule": "lambda m^2 = lambdaM2Coefficient (m / rhoPsi0QuarterPowerEV)^4",
+        "models": models,
+    }
 
 
 def fine_scan():
@@ -779,6 +883,7 @@ def main(argv=None):
                           "(w >= -3 for w(a); z < z_b for mu(z)); they are not the contract's fits.",
         },
         "unite": unite,
+        "meanFieldScales": mean_field_scales([X0_CANONICAL[0], X0_CANONICAL[-1]]),
         "models": models,
         "gammaVariant": gv,
         "scan": scan_summary,

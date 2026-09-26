@@ -344,7 +344,8 @@ run_step stage3-21-notebook-run 0 \
     "$python_command" notebooks/run_notebook.py "$executed_notebook"
 run_step stage3-22-notebook-nbconvert 0 \
     "$python_command" -m nbconvert --to notebook --execute "$clean_notebook" \
-    --output-dir "$nbconvert_directory" --ExecutePreprocessor.timeout=3600
+    --output-dir "$nbconvert_directory" --ExecutePreprocessor.timeout=3600 \
+    --ExecutePreprocessor.startup_timeout=600
 run_step stage3-23-notebook-audit 0 \
     "$python_command" notebooks/check_notebook.py "$executed_notebook" \
     --also "$nbconvert_notebook" --report "$fresh_notebook_report"

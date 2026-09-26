@@ -72,6 +72,7 @@ QUOTES = {
     "e3_projFree": ("-0.91", 'FITS["unite"]["constantWProjectionOmegaMFreeOffsetProfiled"]["w"]'),
     "e3_projFreeOm": ("0.278", 'FITS["unite"]["constantWProjectionOmegaMFreeOffsetProfiled"]["OmegaM"]'),
     "e3_projFreeLog": ("-0.872", 'FITS["unite"]["constantWProjectionOmegaMFreeLogGridOffsetProfiled"]["w"]'),
+    "e3_gapClosed": ("0.44", 'FITS["unite"]["omegaMFreeClosesGapToBenchmark"]["uniformGridOffsetProfiled"]'),
     "e3_gvFitW0": ("-0.640", 'FITS["gammaVariant"]["model"]["wFitRequested"]["w0"]'),
     "e3_gvFitWa": ("-1.98", 'FITS["gammaVariant"]["model"]["wFitRequested"]["wa"]'),
     "e3_gvZZero": ("6.83", 'FITS["gammaVariant"]["model"]["zZero"]'),
@@ -107,7 +108,12 @@ QUOTES = {
     "e4_wEnd01": ("1.2e-4", 'pair_mass(0.1)["wEnd"]'),
     "e4_wPairA1min": ("0.24", 'pair_mass(1.0)["wFrozenSpectrumAtA1"]'),
     "e4_wPairA1max": ("0.31", 'pair_mass(0.1)["wFrozenSpectrumAtA1"]'),
-    "e4_steps": ("2.9e8", 'S4["solverTotals"]["steps"]'),
+    "e4_steps": ("3.4e8", 'S4["solverTotals"]["steps"]'),
+    "e4_kinkOverN2": ("1.03", '1 / pair_mass(2.0)["nA3OverKinkFormulaAllK"]'),
+    "e4_suddenOverSmooth01": ("1.35", 'pair_mass(0.1)["nA3SuddenOverSmoothSameFinalH"]'),
+    "e4_suddenOverSmooth05": ("3.2", 'pair_mass(0.5)["nA3SuddenOverSmoothSameFinalH"]'),
+    "e4_suddenOverSmooth1": ("13", 'pair_mass(1.0)["nA3SuddenOverSmoothSameFinalH"]'),
+    "e4_suddenOverSmooth2": ("796", 'pair_mass(2.0)["nA3SuddenOverSmoothSameFinalH"]'),
     "st1_checks": ("153", 'ST1["counts"]["total"]["passed"]'),
     "e4_massless": ("8.5e-25", 'pair_mass(0.0)["maxBeta2"]'),
     # EXP-5
@@ -118,7 +124,7 @@ QUOTES = {
     "e5_gammaFirst": ("31.00", 'record(S5, "q0p05_Cp")["wkb"]["gammaFirstOrder"]'),
     # totals
     "tot_rust": ("69", 'NSUM["totals"]["rustChecks"]'),
-    "tot_python": ("162", 'NSUM["totals"]["pythonChecks"]'),
+    "tot_python": ("167", 'NSUM["totals"]["pythonChecks"]'),
     "tot_analysis": ("10", 'NSUM["totals"]["analysisChecks"]'),
 }
 
@@ -240,20 +246,28 @@ One-time setup, from the repository root (the folder that contains
 `studies/` and `notebooks/`):
 
 1. **Fetch the solver engine** (git-ignored, pinned commit, sparse checkout
-   of `sundials_rs` and `planet_Mercury/notebook`):
-   Windows PowerShell `.\scripts\setup_solver.ps1`; macOS or Linux
-   `bash scripts/setup_solver.sh` (the platform is detected; pass `win11`,
-   `macos` or `linux` to force it).  The pins are Win11 `a8fdff45`, macOS
-   `5360157f`, Linux `6f58e02e`.  The three engines are not byte-identical
-   (the Windows 11 engine has its own mathematical library): fetch `win11` on
-   every platform to reproduce the committed outputs byte for byte.
+   of `sundials_rs` and `planet_Mercury/notebook`), on every platform the
+   Windows 11 engine: PowerShell 7
+   `pwsh -NoProfile -File scripts/setup_solver.ps1 -Platform win11`
+   (Windows PowerShell 5.1:
+   `powershell -ExecutionPolicy Bypass -File scripts/setup_solver.ps1 -Platform win11`);
+   Git Bash, macOS or Linux `bash scripts/setup_solver.sh win11`.  The pins
+   are Win11 `a8fdff45`, macOS `5360157f`, Linux `6f58e02e`.  The three
+   engines are not byte-identical (the Windows 11 engine has its own
+   mathematical library), and only `win11` reproduces the committed outputs
+   byte for byte.  Without an argument `setup_solver.sh` fetches the
+   platform's own engine (`macos` or `linux`); with that engine every check
+   of the program and of the checkers still passes, but this notebook's
+   gauntlet stops at `fresh_program_outputs_byte_identical`, because it
+   requires the freshly written files to equal the committed ones.
 2. **Build the compute program**:
    `cd studies/dirac16complex_cosmology` then `cargo build --release`
    (zero warnings expected: the crate has `#![deny(warnings)]`; the
    repository-root `.cargo/config.toml` adds `-C target-feature=+fma`,
    which the pinned numerical outputs assume).  Install Rust from
    https://rustup.rs if `cargo` is missing.
-3. **Python**: 3.10 or newer with `numpy` and `matplotlib`; the tested
+3. **Python**: 3.11 or newer with `numpy` and `matplotlib` (the pinned
+   numpy 2.4.6 and matplotlib 3.11.0 need Python 3.11+); the tested
    versions are pinned in `requirements-stage3.txt`
    (`python -m pip install -r requirements-stage3.txt`).  For the
    interactive route also `jupyterlab` (or `notebook`), `ipykernel`,
@@ -270,7 +284,10 @@ Then choose one of three ways to run it:
   notebook only if every cell succeeds):
   `python notebooks/run_notebook.py notebooks/dirac16complex_dark_sector.ipynb`
 * **Headless, Jupyter's own executor** (writes an executed copy):
-  `python -m nbconvert --to notebook --execute notebooks/dirac16complex_dark_sector.ipynb --output-dir build/nbconvert --ExecutePreprocessor.timeout=3600`
+  `python -m nbconvert --to notebook --execute notebooks/dirac16complex_dark_sector.ipynb --output-dir build/nbconvert --ExecutePreprocessor.timeout=3600 --ExecutePreprocessor.startup_timeout=600`
+  (the startup timeout allows for a slow first kernel start on a busy
+  computer; without it nbconvert gives up after 60 s with
+  `RuntimeError: Kernel didn't respond in 60 seconds`)
 
 Afterwards the structure audit
 `python notebooks/check_notebook.py notebooks/dirac16complex_dark_sector.ipynb`
@@ -491,11 +508,21 @@ mostly-plus-for-space convention used here).  The spinor analogues are:
   homogeneous condensate at rest: $KE_L = \frac12 S(m+U')$,
   $PE_L = \frac12(mS + 2U - SU')$, and exactly as for the scalar field
   $\rho = KE_L + PE_L$, $p = KE_L - PE_L = SU' - U$.  A free condensate has
-  $KE_L = PE_L = mS/2$, so $p = 0$ (dust).  Phantom ($w < -1$ with $\rho>0$)
-  $\Leftrightarrow KE_L < 0 \Leftrightarrow S\,M_\text{eff} < 0$.  For every
-  state of positive-energy quanta $KE_L = \varepsilon/2 > 0$, so $KE_L<0$
-  needs an occupied negative-energy level (section 4.6): no positive-energy
-  state of this Lagrangian is phantom.
+  $KE_L = PE_L = mS/2$, so $p = 0$ (dust).  For this homogeneous $k = 0$
+  condensate, phantom ($w < -1$ with $\rho>0$) $\Leftrightarrow KE_L < 0
+  \Leftrightarrow S\,M_\text{eff} < 0$, and that needs the occupied level to
+  be a negative-energy level (section 4.6).  For quanta with momentum
+  $KE_L = \rho/2$ whatever $p$ is, so $KE_L\ge0$ says nothing about $w$.  In a
+  state with definite occupation numbers of positive-energy quanta (at
+  Hartree level, fixed normal ordering) the $\lambda S^2/2$ terms cancel in
+  $\rho + p = \sum n\,(E + K^2/(dE))\ge0$ ($d$ the number of directions the
+  pressure is averaged over), so no such state is phantom.  Coherent
+  superpositions of the vacuum and pair states (the Bogoliubov-rotated
+  states that EXP-4's pair creation produces) are ordinary states of the
+  same Fock space, but their pressure has an interference term linear in the
+  pair amplitude $\beta$ while $\rho$ is quadratic in it, so they can have
+  $\rho + p < 0$ with $\rho > 0$ transiently: a null-energy-condition
+  violation, standard in quantum field theory.
 - **(B) Hamiltonian split**: $PE_H = mS + U(S)$ (rest mass plus interaction)
   and $KE_H = \rho - PE_H$ (momentum or gradient energy).  For a free gas
   $PE_H = \sum n\,m^2/E$ and $KE_H = \sum n\,K^2/E$.
@@ -531,7 +558,8 @@ eigenspace $C = B$ exactly, so $u^\dagger Cu$ is the Krein sign $\pm1$ of a
 joint eigenvector, while the rule gives $s = +1$ for every positive-energy rest
 state (the two agree for $B = +1$, the states of EXP-2 and EXP-3, and differ in
 sign for $B = -1$).  The rule is for positive-energy quanta above the sea:
-there $s = M_\text{eff}/E$, so $S\,M_\text{eff}\ge0$.  A useful identity:
+there $s = M_\text{eff}/E$, so $S\,M_\text{eff}\ge0$ for a state with definite
+occupation numbers of such quanta.  A useful identity:
 $\varepsilon(u) = M_\text{eff}\,s(u) + \sum_j p_j(u)$.
 
 **Two limits of the mean field, stated once.** (i) The condensate is one rest
@@ -976,12 +1004,16 @@ Two readings to keep straight.  The reduction is exact only for $\lambda = 0$:
 the mode's scalar density is $S = S_0\,s(u)/\sin z$, so with $\lambda\ne0$ the
 effective mass depends on $x_0$ and the $\lambda$ run is a pointwise
 (fixed-$x_0$) mean-field approximation, $S_0$ being the local density factor
-$S\sin z$.  The negative-energy and mixed spinors are numerical controls:
-in the positive-norm Fock space the negative-energy levels are filled by the
-sea (Pauli-blocked), so the $2E$ pressure oscillation of the mixture is a
-first-quantised interference effect, not physics of the frozen field; the
-mixtures also carry tensor bilinears, i.e. off-diagonal stresses that the
-diagonal pressures leave out.
+$S\sin z$.  The negative-energy runs are controls (a negative-energy
+level is filled by the sea; an antiparticle is a hole in it).  The mixed
+spinor $u = \alpha u_+ + \beta u_-$ does describe a Fock state: the sea with its
+level $u_-$ replaced by $u$, a coherent superposition of the vacuum and one
+particle-antiparticle pair.  Its normal-ordered expectation values are
+$u^\dagger BMu - u_-^\dagger BMu_-$, i.e. the CSV columns minus a constant,
+so the $2E$ oscillation of $p_0$ and $S$ is physical in that state (an
+interference of its vacuum and pair components).  The mixtures also carry
+tensor bilinears, i.e. off-diagonal stresses that the diagonal pressures
+leave out.
 """))
 
 CELLS.append(code(r'''
@@ -1400,7 +1432,11 @@ $w_a$ = «unite_wa» therefore describes $w$ rising with time, from
 «unite_past» at $a\to0$ through $-1$ at $a$ = «unite_cross».  That is the
 thawing *sign* of $w_a$, but not a thawing field: a thawing field starts
 frozen at $w\approx-1$ and stays at or above $-1$, while the Unite CPL curve
-(and every attractive condensate below) starts phantom and crosses $-1$.
+starts phantom ($w_0 + w_a$ = «unite_past») and crosses $-1$.  The attractive
+condensates below are not thawing fields either: their equations give $w<-1$
+only between the zero of $\rho_\psi$ and the zero of $M_\text{eff}$ (between
+the bounce and the zero of $\rho_\psi$ they give $w>1$), and that whole
+region has $M_\text{eff}<0$, where the mean field is not valid (section 4.6).
 """))
 
 CELLS.append(code(r'''
@@ -1426,6 +1462,12 @@ def E_model(z, x0):
 def E_cpl(z, w0, wa):
     a = 1 / (1 + z)
     return np.sqrt(Or * a**-4 + Om * a**-3 + ODE * a**(-3 * (1 + w0 + wa)) * np.exp(-3 * wa * (1 - a)))
+
+
+def E_wcdm(z, w, om):
+    """flat wCDM with its own Omega_m (Omega_r fixed)"""
+    a = 1 / (1 + z)
+    return np.sqrt(Or * a**-4 + om * a**-3 + (1 - om - Or) * a**(-3 * (1 + w)))
 
 
 def comoving_distance(Efun, z):
@@ -1515,6 +1557,21 @@ DM_W764 = (zg, 5 * np.log10(comoving_distance(lambda zz: E_cpl(zz, UW, 0.0), zg)
                             / comoving_distance(lambda zz: E_cpl(zz, UW0, UWA), zg)))
 DM_LCDM = (zg, 5 * np.log10(comoving_distance(lambda zz: E_cpl(zz, -1.0, 0.0), zg)
                             / comoving_distance(lambda zz: E_cpl(zz, UW0, UWA), zg)))
+BENCH = FITS["unite"]["benchmarkVsUniteCPL"]
+OM_W764_FIT = BENCH["OmegaMFitted"]["OmegaM"]
+DM_W764_FIT = (zg, 5 * np.log10(comoving_distance(lambda zz: E_wcdm(zz, UW, OM_W764_FIT), zg)
+                                / comoving_distance(lambda zz: E_cpl(zz, UW0, UWA), zg)))
+
+
+def curve_stats(dm):
+    """(max |Delta DM| same H0, max |Delta DM| with the mean offset removed)"""
+    return float(np.abs(dm).max()), float(np.abs(dm - dm.mean()).max())
+
+
+NB["exp3_curve_stats_dev"] = max(
+    max(abs(x - y) for x, y in zip(curve_stats(dm), (ref["maxAbsDifferenceMag"], ref["maxAbsDifferenceOffsetProfiledMag"])))
+    for dm, ref in ((DM_W764[1], BENCH["OmegaMAssumed"]), (DM_W764_FIT[1], BENCH["OmegaMFitted"]),
+                    (DM_LCDM[1], FITS["unite"]["lcdmVsUniteCPL"])))
 NB["exp3_dm_maxabs_w0"] = float(np.abs(DM3[P3["x0Values"][0]][1]).max())
 
 print(f"\nclosed forms vs CSV (rho, p, E^2, each on the scale of its terms): max deviation {dev3['closed']:.2e}")
@@ -1531,6 +1588,13 @@ print(f"\nUnite (input PDF): w0 = {UW0}, wa = {UWA}, constant w = {UW}; w0 + wa 
 print(f"best constant w of the Unite CPL model itself, Omega_m fixed at the assumed 0.305: "
       f"{FITS['unite']['constantWProjectionOffsetProfiled']['w']:.4f} (uniform z), "
       f"{FITS['unite']['constantWProjectionLogGridOffsetProfiled']['w']:.4f} (log z)")
+_gap = FITS["unite"]["omegaMFreeClosesGapToBenchmark"]
+print(f"with Omega_m free: {FITS['unite']['constantWProjectionOmegaMFreeOffsetProfiled']['w']:.4f}; freeing Omega_m "
+      f"removes {100 * _gap['uniformGridOffsetProfiled']:.0f}% ({100 * _gap['uniformGridOffsetZero']:.0f}% offset zero, "
+      f"{100 * _gap['logGridOffsetProfiled']:.0f}% log z) of the distance to {UW}")
+_s305, _sfit, _slcdm = curve_stats(DM_W764[1]), curve_stats(DM_W764_FIT[1]), curve_stats(DM_LCDM[1])
+print(f"max |DM - DM_UniteCPL| (same H0 / offset profiled): w = {UW} with Omega_m = 0.305 {_s305[0]:.3f} / {_s305[1]:.3f} mag; "
+      f"with its best Omega_m = {OM_W764_FIT:.3f} {_sfit[0]:.3f} / {_sfit[1]:.3f} mag; LambdaCDM {_slcdm[0]:.3f} / {_slcdm[1]:.3f} mag")
 print(f"requested fits: w(a) fit on [1/3.26, 1] defined only for x0 > {FITS['scan']['x0CriticalWFit']:.6f}; "
       f"DM(z) fits on [0.01, 2.26] only for x0 > {FITS['scan']['x0CriticalMuFit']:.6f}")
 print(f"max |DM_model - DM_UniteCPL| (x0 = {P3['x0Values'][0]}, z < z_b) = {NB['exp3_dm_maxabs_w0']:.4f} mag "
@@ -1618,7 +1682,9 @@ for x0, (zz, dm) in DM3.items():
     lab, c = labels3[x0]
     ax[0].plot(zz, dm, color=PALETTE[c], label=lab)
     ax[1].plot(zz, dm - dm.mean(), color=PALETTE[c], label=lab)
-for (zz, dm), lab, ls in [(DM_W764, f"constant w = {UW}", "-."), (DM_LCDM, "LambdaCDM (w = -1)", ":")]:
+for (zz, dm), lab, ls in [(DM_W764, f"constant w = {UW}, Omega_m = 0.305 (assumed)", "-."),
+                          (DM_W764_FIT, f"constant w = {UW}, Omega_m = {OM_W764_FIT:.3f} (best fit, offset profiled)", "--"),
+                          (DM_LCDM, "LambdaCDM (w = -1)", ":")]:
     ax[0].plot(zz, dm, color=INK2, ls=ls, label=lab)
     ax[1].plot(zz, dm - dm.mean(), color=INK2, ls=ls, label=lab)
 for axis in ax:
@@ -1629,7 +1695,8 @@ ax[0].set_ylabel("DM_model - DM_UniteCPL  [mag]")
 ax[1].set_ylabel("same, offset profiled (H0 / M free)  [mag]")
 ax[0].set_title("(a) same H0 (curves stop at the bounce z_b)", loc="left")
 ax[1].set_title("(b) mean offset over each z range removed (colours as in (a))", loc="left")
-fig.suptitle("EXP-3: distance-modulus difference against the Unite CPL model (Omega_m = 0.305 fixed)",
+fig.suptitle("EXP-3: distance-modulus difference against the Unite CPL model (Omega_m = 0.305 for the target "
+             "and every curve except the dashed w = -0.764 one)",
              x=0.01, ha="left", fontsize=10, fontweight="bold")
 save_figure(fig, "exp3_distance_modulus.png")
 
@@ -1688,7 +1755,11 @@ $\rho$, $p$, $KE_H$, $PE_H$ from the raw spinors, the kinetic-theory integrals
 with its own 512-node quadrature, the produced number density
 $na^3 = \frac{16}{2\pi^2}\int k^2|\beta_k|^2dk$ from the final spectrum in the
 first-order adiabatic basis, the produced gas' equation of state and the
-high-$k$ tail $|\beta_k|^2\to(mk/(4E^4))^2$.  Two assumptions to keep in mind:
+high-$k$ tail $|\beta_k|^2\to(mk/(4E^4))^2$, and the same numbers for the
+program's comparison runs in which the transition is smooth
+($-\dot H/H^2 = 1 + \tanh(t/\tau)$, $\tau = 1/H_\text{inf}$): the $C^1$ gluing
+makes $\dot H$ jump, and for $m\gtrsim H_\text{inf}$ that jump sets most of
+the yield.  Two assumptions to keep in mind:
 the hidden-space momentum $k_0$ is set to zero (a compact hidden dimension
 with a Kaluza-Klein gap far above $T$ and $H_\text{inf}$; with $k_0$ the
 relativistic 3-space pressure would be $\rho/4$, not $\rho/3$); and both the
@@ -1776,6 +1847,16 @@ for rec in S4["pair"]["masses"]:
     n_dev = max(n_dev, abs(C16 * np.sum(wln * k**3 * b2inst) - rec["nA3Instantaneous"])
                 / max(rec["nA3Instantaneous"], 1e-30))
     n_dev = max(n_dev, abs(nA3 - rec["nA3"]) / max(rec["nA3"], 1e-30))
+    # the smooth comparison transition (c): same grid, epsilon = 1 + tanh(t/tau)
+    b2s = spec["beta2_adiabatic_end_smooth"][sel]
+    nA3s = C16 * np.sum(wln * k**3 * b2s)
+    nA3s_rad = nA3s * (math.sqrt(rec["a2End"]) / rec["aEndSmooth"])**3
+    n_dev = max(n_dev, abs(nA3s - rec["nA3Smooth"]) / max(rec["nA3Smooth"], 1e-30),
+                abs(nA3s_rad - rec["nA3SmoothRadiationNormalised"]) / max(rec["nA3SmoothRadiationNormalised"], 1e-30),
+                abs(float(spec["a_end_smooth"][sel].max()) / rec["aEndSmooth"] - 1))
+    if m > 0:
+        # the kink formula (m k/(4 E^4))^2 over all k: H_inf^4/(64 pi m)
+        n_dev = max(n_dev, abs(1 / (64 * math.pi * m) / rec["nA3KinkFormulaAllK"] - 1))
     se = peos["m"] == m
     ae = peos["a"][se]
     Ee = np.sqrt(m**2 + (k[None, :] / ae[:, None])**2)
@@ -1792,6 +1873,7 @@ for rec in S4["pair"]["masses"]:
         hi = k >= PP["tailKMin"]
         tail_cvode = max(tail_cvode, float(np.abs(b2ad[hi] / mine[hi] - 1).max()))
     PAIR[m] = dict(k=k, b2=b2, b2ad=b2ad, th=th, nA3=nA3, a=ae, w=p_a3 / rho_a3, maxb2=float(b2inst.max()),
+                   b2s=b2s, nA3s=nA3s, nA3s_rad=nA3s_rad,
                    hist_a=hist["a"][hist["m"] == m], hist_n=hist["n_a3"][hist["m"] == m],
                    hist_nad=hist["n_a3_adiabatic"][hist["m"] == m])
 NB.update(exp4_nA3_dev=n_dev, exp4_pair_eos_dev=eos_dev, exp4_tail_formula_dev=tail_dev, exp4_tail_cvode=tail_cvode,
@@ -1816,6 +1898,13 @@ print("with the analytic kink tail beyond k = 40 (Rust): " + "; ".join(
 print("instantaneous basis (literal definition, includes the dressing at a_end): " + "; ".join(
     f"m = {r['m']:g}: n a^3 {r['nA3Instantaneous']:.4e}, w_end {r['wEndInstantaneous']:.2e}"
     for r in S4["pair"]["masses"] if r["m"] > 0))
+print("\nthe same modes with a smooth transition, -Hdot/H^2 = 1 + tanh(t/tau), tau = "
+      f"{S4['pair']['smoothTransition']['tau']:g}/H_inf (comparison runs of the program):")
+print("   m/H_inf    n a^3 sudden    n a^3 smooth (same final H)   sudden/smooth   kink formula 1/(64 pi m)")
+for m, v in PAIR.items():
+    if m > 0:
+        print(f"   {m:4.1f}      {v['nA3']:.4e}      {v['nA3s_rad']:.4e}                 {v['nA3'] / v['nA3s_rad']:9.2f}"
+              f"       {1 / (64 * math.pi * m):.4e}")
 print(f"n a^3 recomputation: {n_dev:.1e};  produced-gas EoS recomputation: {eos_dev:.1e};  "
       f"tail formula (mk/(4E^4))^2: {tail_dev:.1e}")
 print(f"high-k tail (k >= {PP['tailKMin']:g}): CVODE |beta_k|^2 (adiabatic basis) vs (mk/(4E^4))^2: max relative "
@@ -1874,13 +1963,18 @@ for i, m in enumerate((0.1, 0.5, 1.0, 2.0)):
     ax.loglog(v["k"], v["b2ad"], color=PALETTE[i], marker="o", ms=2.5, label=f"m / H_inf = {m:g}")
     use = v["k"] >= PP["tailKMin"]
     ax.loglog(v["k"][use], v["th"][use], color=PALETTE[i], ls="--", lw=1.0)
+    pos = v["b2s"] > 0
+    ax.loglog(v["k"][pos], v["b2s"][pos], color=PALETTE[i], ls=":", lw=1.4)
 ax.plot([], [], color=INK2, ls="--", lw=1.0, label=f"kink tail (m k / (4 E^4))^2, k >= {PP['tailKMin']:g}")
+ax.plot([], [], color=INK2, ls=":", lw=1.4,
+        label=f"smooth transition, tau = {S4['pair']['smoothTransition']['tau']:g}/H_inf")
 ax.text(0.02, 0.04, f"m = 0: |beta_k|^2 <= {PAIR[0.0]['maxb2']:.1e} at the end (no production)",
         transform=ax.transAxes, color=INK2, fontsize=8)
 ax.set_ylim(1e-14, 1.5)
 ax.set_xlabel("comoving momentum k  [H_inf]")
 ax.set_ylabel("|beta_k|^2 at the end (first-order adiabatic basis)")
-ax.set_title("EXP-4: pairs created by the de Sitter -> radiation transition", loc="left")
+ax.set_title("EXP-4: pairs created by the de Sitter -> radiation transition (sudden C^1 junction; dotted: smooth)",
+             loc="left", fontsize=9)
 ax.legend(loc="lower left", bbox_to_anchor=(0.0, 0.08))
 save_figure(fig, "exp4_pair_spectra.png")
 
@@ -2173,10 +2267,12 @@ gauntlet("exp3_requested_fits_undefined_for_x0_negative",
 _pf, _pm = FITS["unite"]["constantWProjectionOffsetProfiled"], FITS["unite"]["constantWProjectionOmegaMFreeOffsetProfiled"]
 gauntlet("exp3_unite_constant_w_projections_recorded",
          all(math.isfinite(v) for v in (_pf["w"], _pm["w"], _pm["OmegaM"]))
-         and _pm["rmsResidualMag"] <= _pf["rmsResidualMag"],
+         and _pm["rmsResidualMag"] <= _pf["rmsResidualMag"] and NB["exp3_curve_stats_dev"] < 1e-9,
          f"recorded, not a verdict: best constant w of the noise-free Unite CPL distances = {_pf['w']:.4f} "
          f"(Omega_m fixed at the assumed 0.305), {_pm['w']:.4f} with Omega_m = {_pm['OmegaM']:.4f} free "
-         f"(rms {_pf['rmsResidualMag']:.4f} -> {_pm['rmsResidualMag']:.4f} mag); benchmark {UW}")
+         f"(rms {_pf['rmsResidualMag']:.4f} -> {_pm['rmsResidualMag']:.4f} mag); benchmark {UW}; "
+         f"curves w = {UW} (Omega_m 0.305 and {OM_W764_FIT:.3f}) and LambdaCDM against Unite CPL "
+         f"recomputed to {NB['exp3_curve_stats_dev']:.1e}")
 
 # ---- EXP-4 --------------------------------------------------------------------------
 L4 = S4["limits"]
@@ -2273,22 +2369,32 @@ CELLS.append(md(r"""
   $k\le12T_i$ (without the cut, kinetic theory gives «e4_wAEndFull»); its
   energy density agrees with kinetic theory on the same grid to «e4_rhoDev»
   (a check of the ODE integration), and it scales as $a^{-4}$ early and
-  $a^{-3}$ late: dark-matter-like (cold) behaviour at late times.  This gas
+  $a^{-3}$ late: it becomes pressureless (dust-like) at late times.  Whether
+  such a relic is cold, warm or hot depends on $m$, on the decoupling
+  temperature and on free streaming, none of which was computed.  This gas
   obeys the Pauli principle ($f\le1$, 8 + 8 states per $k$).
 - Expansion creates pairs for $m>0$ and none for $m = 0$ (maximum
   $|\beta_k|^2$ = «e4_massless» and $na^3$ = «e4_n0», the numerical floor):
   after a de Sitter to radiation transition the final spectrum (first-order
   adiabatic basis) gives $na^3$ = «e4_n01», «e4_n05», «e4_n1», «e4_n2»
-  (units $H_\text{inf}^3$) for $m/H_\text{inf}$ = 0.1, 0.5, 1, 2.  Most of
-  these quanta are created after the transition, in the radiation era when
-  $H\sim m$; the final spectrum evaluated at $a = 1$ (a hypothetical, since
-  the quanta do not yet exist then) has $w$ between «e4_wPairA1min» and
-  «e4_wPairA1max», and $w$ = «e4_wEnd01» (for $m = 0.1$) by the end.
+  (units $H_\text{inf}^3$) for $m/H_\text{inf}$ = 0.1, 0.5, 1, 2 with the
+  sudden ($C^1$) transition.  These yields are model-dependent: for
+  $m\gtrsim H_\text{inf}$ they are set by the jump of $\dot H$ at the
+  junction (the kink formula integrated over all $k$, $H_\text{inf}^4/(64\pi m)$,
+  is «e4_kinkOverN2» times the computed yield for $m = 2$), and the smooth
+  transition with $\tau = 1/H_\text{inf}$ makes, at the same final $H$,
+  «e4_suddenOverSmooth05», «e4_suddenOverSmooth1» and «e4_suddenOverSmooth2»
+  times fewer quanta for $m$ = 0.5, 1 and 2, but only «e4_suddenOverSmooth01»
+  times fewer for $m = 0.1$, whose low-$k$ production is robust.  The final
+  spectrum evaluated at $a = 1$ (a hypothetical) has $w$ between
+  «e4_wPairA1min» and «e4_wPairA1max», and $w$ = «e4_wEnd01» (for $m = 0.1$)
+  by the end.
 
 **Model-dependent or assumed:** that the quanta are *dark* (no coupling to
 ordinary matter was written down or computed); the relic abundance (it
 depends on the unknown $H_\text{inf}$, $m$ and the reheating history, and on
-the chosen de Sitter to radiation gluing); the thermal initial state;
+how sudden the de Sitter to radiation transition is, see above); the
+thermal initial state;
 $k_0 = 0$.  The mean-field condensate ($K = 0$ in EXP-1, $x_0 = 0$ in EXP-2
 and EXP-3) is dust ($KE_L = PE_L$, $p = 0$) as a single-mode picture only: a
 Pauli-consistent state at the same density is a degenerate Fermi sea whose
@@ -2337,11 +2443,13 @@ cannot be sourced by it.
 divide, $KE_L<0$, $\rho_\psi<0$ and the bounce.  They all lie where
 $M_\text{eff}<0$ and the single occupied mode $u$ (with $s(u) = 1$ fixed) has
 become a negative-energy eigenvector of the instantaneous Hamiltonian, outside
-the domain of the expectation-value rule.  For any state of positive-energy
-quanta $S\,M_\text{eff}\ge0$, so $\rho+p\ge0$ and $KE_L\ge0$: no positive-energy
-(normal-ordered) state of this Lagrangian is phantom.  Mean-field normal
-ordering against a fixed sea is also least reliable at the gap closure
-$M_\text{eff} = 0$.
+the domain of the expectation-value rule.  A state with definite occupation
+numbers of positive-energy quanta has $\rho + p = \sum n\,(E + K^2/(dE))\ge0$
+(Hartree level, fixed normal ordering), so it is never phantom; coherent
+pair superpositions can violate $\rho + p\ge0$ transiently (section 4.5),
+but that is not what happens here: here the occupied $k = 0$ level itself
+has become a negative-energy level.  Mean-field normal ordering against a
+fixed sea is also least reliable at the gap closure $M_\text{eff} = 0$.
 
 **Verdict:** the stabilised dirac16complex condensate is **excluded as the
 Unite dark energy**: tuned to $w_0$ = «unite_w0» it evolves far too fast and
@@ -2369,14 +2477,17 @@ already leaves the valid regime of the mean field at $z$ = «e3_zCross0».
   «e2_thetaMinAll» for $x_0 = -0.4$); both situations are the mean-field
   artefacts above.  A 3-space observer in 8D gravity does not see
   positive-energy dust as dark energy.
-- A methodological caution about the benchmark: the constant $w$ =
-  «unite_w» is a direct fit to the supernovae with $\Omega_m$ free.  The
-  noise-free constant-$w$ projection of the Unite CPL curve depends strongly
-  on $\Omega_m$: with $\Omega_m$ fixed at 0.305, an input assumed here that the
+- A methodological caution about the benchmark: the PDF says only that
+  the constant $w$ = «unite_w» is a wCDM fit to the Unite supernovae alone;
+  such an SN-only fit normally leaves $\Omega_m$ free, but the PDF does not
+  say how $\Omega_m$ was treated (an assumption here).  The noise-free
+  constant-$w$ projection of the Unite CPL curve depends strongly on
+  $\Omega_m$: with $\Omega_m$ fixed at 0.305, an input assumed here that the
   PDF does not give, it is «e3_projUniform» (uniform in $z$) or «e3_projLog»
   (uniform in $\ln z$); with $\Omega_m$ free it is «e3_projFree» ($\Omega_m$ =
-  «e3_projFreeOm») or «e3_projFreeLog».  The remaining difference to «unite_w»
-  cannot be judged without the Unite likelihood.
+  «e3_projFreeOm») or «e3_projFreeLog», which removes less than half of the
+  distance to «unite_w» (a fraction «e3_gapClosed» on the uniform grid).  The
+  remaining difference cannot be judged without the Unite likelihood.
 - What these numbers are **not**: no supernova data, covariance or
   likelihood was used; "fits" are least-squares fits to model curves; the
   Unite values are taken from the input PDF (an e-mail that cites no primary
@@ -2406,10 +2517,11 @@ CELLS.append(md(r"""
   when the occupied mode turns into a negative-energy level (EXP-2 and EXP-3
   for $M_\text{eff}<0$) its bilinears no longer describe a state above the sea.
 - **Two kinetic/potential splits, two meanings.** The Lagrangian split is the
-  faithful analogue of $\frac12\dot\phi^2$ and $V$ for a condensate (phantom
-  $\Leftrightarrow KE_L<0$, which needs an occupied negative-energy level); for
-  a gas it is useless ($KE_L = PE_L$ always) and the Hamiltonian split (momentum
-  versus rest-mass energy) is the informative one.
+  faithful analogue of $\frac12\dot\phi^2$ and $V$ for a homogeneous
+  condensate (there phantom $\Leftrightarrow KE_L<0$, which needs an occupied
+  negative-energy level); for a gas it is useless ($KE_L = PE_L$ always) and
+  the Hamiltonian split (momentum versus rest-mass energy) is the informative
+  one.
 - **A mean field of one mode is not a Fermi gas.** The Pauli principle allows 8
   positive-energy quanta per momentum; a finite density at rest is a Fermi
   sea with degeneracy pressure.  EXP-4's thermal gas is Pauli-consistent, the

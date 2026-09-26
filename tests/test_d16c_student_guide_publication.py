@@ -58,8 +58,8 @@ FIXTURE = REPOSITORY_ROOT / "artifacts" / "dirac16complex" / "arbitrary-field" /
 CRATE = REPOSITORY_ROOT / "studies" / "dirac16complex_cosmology"
 EXPERIMENTS = ("exp1", "exp2", "exp3", "exp4", "exp5")
 
-MARKDOWN_SHA256 = "054f8c8e82e54719cb5f751c272c941bb576a3293d08f9c3278de2ed209376b5"
-TEX_SHA256 = "d991b8638219539a079fa475e9c589981f5a5df4bdd9dbb72ee4830a2add5a91"
+MARKDOWN_SHA256 = "f0627e7b275b12ac5d87eb2640f456a3d7c7c766cff5066d4f90fe28b6a83e3e"
+TEX_SHA256 = "bc1a7039df305705bdea1d31de63d2deae15a713858f70403bf91b1d55802f40"
 
 TITLE = "A student's guide to the dirac16complex numerical solutions"
 SUBTITLE = ("Installing, deriving, running and checking the five CVODE experiments of Stage 3 "
@@ -120,6 +120,12 @@ REQUIRED_PHRASES = (
     "ERROR: pdflatex not found",
     "git restore provenance/DIRAC16COMPLEX_STUDENT_GUIDE.tex",
     "winget install --id Rustlang.Rustup -e -i",
+    "winget install --id Python.Python.3.14 -e",
+    "Python 3.11 or newer",
+    "--ExecutePreprocessor.startup_timeout=600",
+    "RuntimeError: Kernel didn't respond in 60 seconds",
+    "the key `measurements.maxExactError` in `summary.json`",
+    "`beta2_adiabatic_end_smooth`",
 )
 ALLOWED_PROVENANCE_MARKDOWN = (
     "provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md",
@@ -394,9 +400,9 @@ class ContentTests(GuideTestCase):
     def test_unit_test_count(self):
         count = sum(path.read_text(encoding="utf-8").count("#[test]")
                     for path in (CRATE / "src").glob("*.rs"))
-        self.assertEqual(count, 25)
-        self.assertIn("The crate has 25 unit tests", markdown_text())
-        self.assertIn("running 25 tests", markdown_text())
+        self.assertEqual(count, 27)
+        self.assertIn("The crate has 27 unit tests", markdown_text())
+        self.assertIn("running 27 tests", markdown_text())
 
 
 class AlgebraTablesTests(GuideTestCase):
@@ -651,19 +657,20 @@ class CountsAndSolverTests(GuideTestCase):
                 self.assertTrue(report["checks"]["repeatByteIdentity"])
                 self.assertTrue(report["checks"]["refinedConvergence"])
             total += report["checkCount"]
-        self.assertEqual(total, 162)
-        self.assertIn("That is $25+34+31+51+21=162$ checker checks.", self.text)
+        self.assertEqual(total, 167)
+        self.assertIn("That is $25+35+32+54+21=167$ checker checks.", self.text)
         quick = [self.reports[e]["checkCount"] - 2 for e in EXPERIMENTS]
-        self.assertEqual(quick, [23, 32, 29, 49, 19])
+        self.assertEqual(quick, [23, 33, 30, 52, 19])
         self.assertIn("fitsConsistent", self.reports["exp3"]["checks"])
         section = self.section["9.3"]
         self.assertIn("`check_count=23`", section)
-        self.assertIn("the checker `check_count=29`", section)
-        self.assertIn("give 32, 49 and 19 checks in the quick form", section)
-        self.assertIn("(28 in the quick form, 30 in the full form)", section)
+        self.assertIn("the checker `check_count=30`", section)
+        self.assertIn("give 33, 52 and 19 checks in the quick form", section)
+        self.assertIn("it reports one check fewer (29)", section)
+        self.assertIn("a checker run before the analysis still reports all 32 checks", section)
         summary = load_json(NUMERICS / "numerics-summary.json")["totals"]
         self.assertEqual((summary["rustChecks"], summary["pythonChecks"], summary["analysisChecks"]),
-                         (69, 162, 10))
+                         (69, 167, 10))
 
     def test_notebook_counts(self):
         report = load_json(NUMERICS / "notebook-report.json")
@@ -805,7 +812,8 @@ class PhysicsNumbersTests(GuideTestCase):
         row = [r for r in rows if abs(float(r["x0"]) + 0.25) < 1e-9][0]
         self.assertEqual(round(float(row["q0"]), 5), 0.15259)
         for phrase in ("$q_0=\\frac12(\\Omega_m+2\\Omega_r)=0.15259$", "sign change of $q$ at $z=0.0996$",
-                       "prints `check_count=28` and `failed_check_count=2`",
+                       "prints `check_count=29` and `failed_check_count=2`",
+                       "largest deviation 3.0e-9, in $p$, is far inside its 1e-8 limit",
                        "`check_parametersMatchContract` and `check_muIndependence` are false",
                        "git restore studies/dirac16complex_cosmology/src/exp3.rs"):
             self.assertIn(phrase, self.text)

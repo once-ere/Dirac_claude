@@ -1919,25 +1919,24 @@ def edge_table(eps, mult, qs, sign, f, mu, T):
     part = (sign > 0) & cap
     sea = (sign < 0) & cap
 
-    def upper(mask):
-        e, wn, we, ws = eps[mask], (mult * f)[mask], (mult * f * eps)[mask], (mult * s_level)[mask]
-        order = np.argsort(e)
-        e, wn, we, ws = e[order], wn[order], we[order], ws[order]
-        cn, ce, cs = (np.concatenate([[0.0], np.cumsum(v[::-1])])[::-1] for v in (wn, we, ws))
-        idx = np.searchsorted(e, mu + x * T, side="right")
-        return cn[idx], ce[idx], cs[idx]
-
-    def lower(mask):
-        e, wn, we, ws = eps[mask], (mult * (1 - f))[mask], (mult * (1 - f) * eps)[mask], (mult * s_level)[mask]
-        order = np.argsort(e)
-        e, wn, we, ws = e[order], wn[order], we[order], ws[order]
-        cn, ce, cs = (np.concatenate([[0.0], np.cumsum(v)]) for v in (wn, we, ws))
-        idx = np.searchsorted(e, mu - x * T, side="left")
-        return cn[idx], ce[idx], cs[idx]
-    n_up, e_up, s_up = upper(part)
-    n_dn, e_dn, s_dn = lower(sea)
-    beyond = ~cap
     g = mult * f * (1.0 - f)
+    xe = eps - mu
+
+    def upper(mask, *weights):
+        order = np.argsort(eps[mask])
+        e = eps[mask][order]
+        idx = np.searchsorted(e, mu + x * T, side="right")
+        return [np.concatenate([[0.0], np.cumsum(w[mask][order][::-1])])[::-1][idx] for w in weights]
+
+    def lower(mask, *weights):
+        order = np.argsort(eps[mask])
+        e = eps[mask][order]
+        idx = np.searchsorted(e, mu - x * T, side="left")
+        return [np.concatenate([[0.0], np.cumsum(w[mask][order])])[idx] for w in weights]
+    n_up, e_up, s_up, g0_up, g1_up, g2_up = upper(part, mult * f, mult * f * eps, mult * s_level, g, g * xe, g * xe ** 2)
+    n_dn, e_dn, s_dn, g0_dn, g1_dn, g2_dn = lower(sea, mult * (1 - f), mult * (1 - f) * eps, mult * s_level,
+                                                 g, g * xe, g * xe ** 2)
+    beyond = ~cap
     return {"mu": mu, "T": T, "x": x.tolist(), "N_up": n_up.tolist(), "E_up": e_up.tolist(), "S_up": s_up.tolist(),
             "N_dn": n_dn.tolist(), "E_dn": e_dn.tolist(), "S_dn": s_dn.tolist(),
             "capParticles": {"N": float(np.sum((mult * f)[beyond & (sign > 0)])),
@@ -1946,7 +1945,12 @@ def edge_table(eps, mult, qs, sign, f, mu, T):
             "capSea": {"N": float(np.sum((mult * (1 - f))[beyond & (sign < 0)])),
                        "E": float(np.sum((mult * (1 - f) * eps)[beyond & (sign < 0)])),
                        "S": float(np.sum((mult * s_level)[beyond & (sign < 0)]))},
-            "G": float(np.sum(g) / T), "GE": float(np.sum(g * eps) / T), "GS": float(np.sum(g * (eps - mu)) / T ** 2)}
+            "G": float(np.sum(g) / T), "GE": float(np.sum(g * eps) / T), "GS": float(np.sum(g * (eps - mu)) / T ** 2),
+            # C_V^(S) = (A2 - A1^2/A0)/T^2 with A_k = sum mult f(1-f)(eps - mu)^k over the kept levels
+            "A": [float(np.sum(g)), float(np.sum(g * xe)), float(np.sum(g * xe ** 2))],
+            "A_up": [g0_up.tolist(), g1_up.tolist(), g2_up.tolist()],
+            "A_dn": [g0_dn.tolist(), g1_dn.tolist(), g2_dn.tolist()],
+            "A_cap": [float(np.sum(g[beyond])), float(np.sum((g * xe)[beyond])), float(np.sum((g * xe ** 2)[beyond]))]}
 
 
 def key_str(key):

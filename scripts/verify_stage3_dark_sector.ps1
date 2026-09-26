@@ -321,7 +321,8 @@ Invoke-GateStep -Name "stage3-21-notebook-run" `
     -Command "python notebooks/run_notebook.py $executedNotebook"
 Invoke-GateStep -Name "stage3-22-notebook-nbconvert" `
     -Command ("python -m nbconvert --to notebook --execute $cleanNotebook " +
-        "--output-dir $nbconvertDirectory --ExecutePreprocessor.timeout=3600")
+        "--output-dir $nbconvertDirectory --ExecutePreprocessor.timeout=3600 " +
+        "--ExecutePreprocessor.startup_timeout=600")
 Invoke-GateStep -Name "stage3-23-notebook-audit" `
     -Command ("python notebooks/check_notebook.py $executedNotebook " +
         "--also $nbconvertNotebook --report $freshNotebookReport")

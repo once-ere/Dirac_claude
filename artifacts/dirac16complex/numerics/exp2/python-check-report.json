@@ -13,6 +13,7 @@
     "structureGrid": true,
     "structureFinite": true,
     "initialState": true,
+    "offDiagonalStressVanishes": true,
     "constraintSolve": true,
     "derivedColumnsRecomputed": true,
     "contractIdentities": true,
@@ -41,6 +42,8 @@
   },
   "measurements": {
     "constraintLhs0": 1.3200000000000003,
+    "offDiagonalTensorBilinearMaxCrossGroupPlanes": 0.0,
+    "offDiagonalTensorBilinearMaxAllPlanes": 0.0,
     "einsteinRoutineSelfTestDeviation": 1.7763568394002505e-15,
     "fdGravityStencilPoints": 9.0,
     "fdSpinorStencilPoints": 7.0,
@@ -61,6 +64,10 @@
     "closedFormFdMaxRelative": 1.569180370539882e-13,
     "jQuadratureMaxDeviation": 2.008282991655046e-15,
     "exactMaxRelativeError": 1.0149047031284952e-10,
+    "exactVolumeMaxRelativeErrorRaw": 6.223133530713909e-08,
+    "exactHubbleMaxErrorOverRateScaleRaw": 1.596336886248396e-08,
+    "exactLnScaleMaxAbsErrorRaw": 3.1633732078262256e-08,
+    "exactAmplificationFactorMax": 977.3930794151814,
     "spinorExactMaxError": 2.242186377304463e-07,
     "spinorShapeMaxError": 2.0165691339002478e-10,
     "spinorPhaseMaxError": 2.242185470427645e-07,
@@ -83,7 +90,11 @@
     "refined_spinorPhaseBoundRefined": 2.6414400642956597e-06,
     "refined_spinorPhaseDifference": 4.649815132235265e-08,
     "refined_spinorModulusDifference": 1.491613499382538e-10,
-    "refined_refinedPhaseDriftBinadeDeviation": 0.015824730423059027
+    "refined_refinedPhaseDriftBinadeDeviation": 0.015824730423059027,
+    "refined_volumeRawCanonical": 6.223133530713909e-08,
+    "refined_volumeRawRefined": 8.474890789145206e-09,
+    "refined_gravityRawCanonical": 3.1633732078262256e-08,
+    "refined_gravityRawRefined": 4.237622697189636e-09
   },
   "runs": {
     "x0_0": {
@@ -192,7 +203,7 @@
       "diracFdRows": 176
     }
   },
-  "checkCount": 34,
+  "checkCount": 35,
   "failedCheckCount": 0,
   "verdict": "SUCCESS"
 }

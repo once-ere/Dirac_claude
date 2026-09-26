@@ -24,7 +24,7 @@
 \tableofcontents
 \newpage
 \begin{abstract}
-This guide takes a student who has never used Rust, CVODE or this repository from an empty computer to a complete and checked reproduction of every numerical solution of Stage 3 of the dirac16complex project. Stage 3 consists of five experiments, EXP-1 to EXP-5. Each one integrates the field equation of dirac16complex, a 16-component complex Grassmann spinor field in eight dimensions with four space-like and four time-like directions, in a homogeneous background, with the CVODE solver of the pure-Rust SUNDIALS 7.8.0 port of the rustSolveIt engine. The guide explains in plain language what is computed and why; how to install Git, Rust, Python with numpy, matplotlib, sympy, nbformat, nbclient and ipykernel, and optionally Jupyter, the Wolfram Engine and a TeX distribution, on Windows 11 (PowerShell and Git Bash), macOS and Linux; how to fetch the code and the pinned solver engine and how to check them; how to build and test the program; the mathematics from zero, including a step-by-step derivation of each experiment's first-order system $u'=f(t,u)$ with its state vector index by index, its right-hand side and its initial data; how CVODE solves such a system; how to run each experiment, read every column of its output and check it with the independent Python checkers (162 checks), the EXP-3 analysis (10 checks), the Jupyter notebook (71 checks) and the Mathematica notebook (49 checks); how to rebuild the PDF documents; exercises with answers; troubleshooting; and a glossary. Every command in this guide was executed while it was written, from fresh clones, on Windows 11 in PowerShell 7 and in Git Bash and on Ubuntu 24.04 under WSL2. Installers, which change the computer, were not executed, and nothing was tested on macOS; Section 2.3 lists exactly what was run where. Three measured facts matter for reproduction: the three platform engines are not byte-identical; the committed results were produced with the Windows 11 engine, which also builds and reproduces every Rust output byte for byte on Linux; and the last digits of the files that Python writes (the EXP-3 analysis, the checker reports) depend on the numpy version and platform, which is why the tested versions are pinned in \texttt{requirem\allowbreak{}ents-sta\allowbreak{}ge3.txt} (with them these files, too, were reproduced byte for byte on Windows 11, while on Ubuntu their last digits still differ).
+This guide takes a student who has never used Rust, CVODE or this repository from an empty computer to a complete and checked reproduction of every numerical solution of Stage 3 of the dirac16complex project. Stage 3 consists of five experiments, EXP-1 to EXP-5. Each one integrates the field equation of dirac16complex, a 16-component complex Grassmann spinor field in eight dimensions with four space-like and four time-like directions, in a homogeneous background, with the CVODE solver of the pure-Rust SUNDIALS 7.8.0 port of the rustSolveIt engine. The guide explains in plain language what is computed and why; how to install Git, Rust, Python with numpy, matplotlib, sympy, nbformat, nbclient and ipykernel, and optionally Jupyter, the Wolfram Engine and a TeX distribution, on Windows 11 (PowerShell and Git Bash), macOS and Linux; how to fetch the code and the pinned solver engine and how to check them; how to build and test the program; the mathematics from zero, including a step-by-step derivation of each experiment's first-order system $u'=f(t,u)$ with its state vector index by index, its right-hand side and its initial data; how CVODE solves such a system; how to run each experiment, read every column of its output and check it with the independent Python checkers (167 checks), the EXP-3 analysis (10 checks), the Jupyter notebook (71 checks) and the Mathematica notebook (49 checks); how to rebuild the PDF documents; exercises with answers; troubleshooting; and a glossary. Every command in this guide was executed while it was written, from fresh clones, on Windows 11 in PowerShell 7 and in Git Bash and on Ubuntu 24.04 under WSL2. Installers, which change the computer, were not executed, and nothing was tested on macOS; Section 2.3 lists exactly what was run where. Three measured facts matter for reproduction: the three platform engines are not byte-identical; the committed results were produced with the Windows 11 engine, which also builds and reproduces every Rust output byte for byte on Linux; and the last digits of the files that Python writes (the EXP-3 analysis, the checker reports) depend on the numpy version and platform, which is why the tested versions are pinned in \texttt{requirem\allowbreak{}ents-sta\allowbreak{}ge3.txt} (with them these files, too, were reproduced byte for byte on Windows 11, while on Ubuntu their last digits still differ).
 
 \end{abstract}
 
@@ -73,7 +73,7 @@ What the committed results say, in one paragraph (the scientific document of Sta
 \begin{enumerate}
 \item A built program (Section 5.1) that runs the five experiments and checks itself with 69 self-checks.
 \item The output files of every experiment, byte for byte identical to the committed ones under \texttt{artifact\allowbreak{}s/dirac1\allowbreak{}6complex\allowbreak{}/numeric\allowbreak{}s/}.
-\item Independent confirmation by five Python checkers that recompute the physics from the raw spinor columns (162 checks), by the EXP-3 analysis (10 checks), by the Jupyter notebook (71 checks and 17 figures) and, optionally, by the Mathematica notebook (49 checks).
+\item Independent confirmation by five Python checkers that recompute the physics from the raw spinor columns (167 checks), by the EXP-3 analysis (10 checks), by the Jupyter notebook (71 checks and 17 figures) and, optionally, by the Mathematica notebook (49 checks).
 \item The understanding to change a parameter, predict the result and check the prediction.
 \end{enumerate}
 
@@ -145,7 +145,7 @@ Three effects of the test set-up, not of the guide, should be known. Each replay
 Git & downloading the code and the solver engine; comparing results & yes \\
 Rust (rustup, rustc, cargo) & building and running the five experiments & yes \\
 a C linker (MSVC Build Tools on Windows, Xcode Command Line Tools on macOS, build-essential on Linux) & Rust uses it to link the program & yes \\
-Python 3.10 or newer & the checkers, the analysis, the notebook, the PDF builder & yes \\
+Python 3.11 or newer (the pinned numpy 2.4.6 and matplotlib 3.11.0 need 3.11) & the checkers, the analysis, the notebook, the PDF builder & yes \\
 numpy, matplotlib, sympy, nbformat, nbclient, ipykernel & the checkers and the notebook & yes \\
 JupyterLab (brings nbconvert) & opening the notebook interactively and the nbconvert route & optional \\
 Wolfram Engine or Mathematica (wolframscript) & the Mathematica cross-check notebook & optional \\
@@ -156,7 +156,7 @@ a TeX distribution (MiKTeX, MacTeX or TeX Live) & rebuilding the PDF documents &
 
 Section 3.6 shows how to check each of them.
 
-A computer from the last ten years is enough. The program needs only a few megabytes of memory (EXP-4, the largest run, peaked at 14 MB), and the code, the engine, the build and the scratch runs of this guide take about 250 MB of disk.
+A computer from the last ten years is enough. The program needs only a few megabytes of memory (EXP-4, the largest run, peaked at 16 MB of working set on Windows), and the code, the engine, the build and the scratch runs of this guide take about 250 MB of disk.
 
 \subsection{Windows 11}
 
@@ -174,8 +174,10 @@ Then install the other tools:
 winget install --id Git.Git -e
 winget install --id Microsoft.PowerShell -e
 winget install --id Rustlang.Rustup -e
-winget install --id Python.Python.3.13 -e
+winget install --id Python.Python.3.14 -e
 \end{Verbatim}
+
+The last line installs the newest Python 3.14 release. The Windows measurements of this guide, including every byte-for-byte comparison, were made with Python 3.14.5; with another release the last-digit caveat of Sections 9.2 and 14 may apply (a later 3.14 release was not tested).
 
 Why this order: when winget installs rustup it runs the rustup installer silently (\texttt{\detokenize{-y}}), and in that mode rustup does not offer to install the build tools; it only warns that they are missing, and the first build then fails with \texttt{linker l\allowbreak{}ink.exe \allowbreak{}not foun\allowbreak{}d} (Section 14). This was read from the winget manifest and the rustup source, not observed on a fresh computer. If you prefer rustup's own offer, install rustup interactively instead and accept its offer to install the Visual Studio build tools:
 
@@ -240,6 +242,14 @@ sudo apt install -y texlive-latex-base texlive-latex-recommended lmodern
 \end{Verbatim}
 
 Other distributions have the same tools under similar package names. The Wolfram Engine for Linux is at https://www.wolfram.com/engine/.
+
+Check the Python version:
+
+\begin{Verbatim}[fontsize=\small]
+python3 --version
+\end{Verbatim}
+
+The pinned numpy 2.4.6 and matplotlib 3.11.0 of Section 3.5 need Python 3.11 or newer. Ubuntu 22.04 ships Python 3.10, on which the pinned \texttt{pip inst\allowbreak{}all} lines fail. There, install a newer Python (for example \texttt{python3.\allowbreak{}11} with its \texttt{\detokenize{venv}} module from your distribution or from https://www.python.org) and create the virtual environment of Section 3.5 with it, or accept the newest packages that support Python 3.10 (unpinned; this was not tested, and at best the last digits of the files that Python writes then differ from the committed ones, Sections 9.2 and 14).
 
 \subsection{The Python packages}
 
@@ -415,7 +425,7 @@ An earlier version of the comment at the top of \texttt{scripts/\allowbreak{}set
 
 \begin{enumerate}
 \item With the \texttt{\detokenize{win11}} engine the program reproduces every committed output file byte for byte, on Windows 11 and on Ubuntu 24.04 alike.
-\item With the \texttt{\detokenize{linux}} engine (the default of \texttt{setup\_so\allowbreak{}lver.sh} on Linux) all 69 self-checks and all 162 checker checks still pass, but 14 committed files differ in their last digits: the ten EXP-1 files with $K=0$ (backgrounds and $K=0$ runs) and the three EXP-2 CSV files with their \texttt{summary.\allowbreak{}json}. The same engine gives the same 14 differences on Windows, so they come from the engine, not from the operating system.
+\item With the \texttt{\detokenize{linux}} engine (the default of \texttt{setup\_so\allowbreak{}lver.sh} on Linux) all 69 self-checks and all 167 checker checks still pass, but 14 committed files differ in their last digits: the ten EXP-1 files with $K=0$ (backgrounds and $K=0$ runs) and the three EXP-2 CSV files with their \texttt{summary.\allowbreak{}json}. The same engine gives the same 14 differences on Windows, so they come from the engine, not from the operating system. (Measured again on Windows after the smooth-transition runs of EXP-4 were added: the EXP-4 files stay byte-identical, because the new code evaluates \texttt{\detokenize{exp}} but no \texttt{\detokenize{log}}, and the two engines' \texttt{\detokenize{exp}} agree bit for bit while their \texttt{\detokenize{log}} does not for some arguments.)
 \item The Jupyter notebook asserts that the fresh program outputs are byte-identical to the files in \texttt{artifact\allowbreak{}s/dirac1\allowbreak{}6complex\allowbreak{}/numeric\allowbreak{}s/}, so with the \texttt{\detokenize{linux}} or \texttt{\detokenize{macos}} engine its gauntlet stops with \texttt{Assertio\allowbreak{}nError('\allowbreak{}fresh\_pr\allowbreak{}ogram\_ou\allowbreak{}tputs\_by\allowbreak{}te\_ident\allowbreak{}ical')}. (It passes only if an earlier run of \texttt{\detokenize{all}} with the same engine has overwritten those files; \texttt{git rest\allowbreak{}ore arti\allowbreak{}facts} puts the committed ones back.)
 \end{enumerate}
 
@@ -483,7 +493,7 @@ Cargo reads it because the crate folder lies below the repository root. It tells
 
 \subsection{Test}
 
-The crate has 25 unit tests (Clifford relations of the generated gamma matrices, the Hamiltonian, CVODE against exact solutions, closed forms of EXP-2 and EXP-3, the EXP-4 algebra and its kink-tail integral, the output format). In any shell:
+The crate has 27 unit tests (Clifford relations of the generated gamma matrices, the Hamiltonian, CVODE against exact solutions, closed forms of EXP-2 and EXP-3, the EXP-4 algebra, its kink-tail integrals and its smooth-transition background, the output format). In any shell:
 
 \begin{Verbatim}[fontsize=\small]
 cd studies/dirac16complex_cosmology
@@ -494,8 +504,8 @@ cd ../..
 Expected output, among the compiler lines:
 
 \begin{Verbatim}[fontsize=\small]
-running 25 tests
-test result: ok. 25 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+running 27 tests
+test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 \end{Verbatim}
 
 followed by two empty test groups (\texttt{running \allowbreak{}0 tests}). One test deliberately makes the right-hand side fail and checks that the error is reported, so the line
@@ -800,7 +810,7 @@ where $e_n$ is the column with 1 in position $n$. Check it with the tables: $(\g
 
 \textbf{Kinetic and potential energy.} The input document describes a scalar field with $\rho=\frac12\dot\phi^2+V$ and $p=\frac12\dot\phi^2-V$. The spinor analogues, both reported by every experiment, are the Lagrangian split $KE_L=\frac12n\,\varepsilon$, $PE_L=\rho-KE_L$ (for a condensate at rest $\rho=KE_L+PE_L$ and $p=KE_L-PE_L$ exactly as for the scalar field, and $w<-1$ with $\rho>0$ happens exactly when $KE_L<0$) and the Hamiltonian split $PE_H=mS+U(S)$ (rest mass and interaction), $KE_H=\rho-PE_H$ (momentum energy). For a free gas $KE_L=PE_L=\rho/2$ in every mode, so the scalar-field relation $p=KE-PE$ holds only for condensates, not for a gas.
 
-\textbf{When the rule stops applying.} A quantum of positive energy always has $\varepsilon>0$, so $KE_L>0$: no state made of such quanta has $w<-1$. In EXP-2 and EXP-3 the attractive interaction can drive $M_{\mathrm{eff}}=m+\lambda S$ through zero. The rest mode only changes its phase, so $s(u)=1$ stays, but its energy $\varepsilon=M_{\mathrm{eff}}$ becomes negative: the one occupied mode has turned into a negative-energy state, and the rule above, which is for a quantum above the sea, no longer describes it. The rows with $M_{\mathrm{eff}}<0$ (column \texttt{\detokenize{M_eff}} in the CSV files) contain every phantom row ($w<-1$) and every row with $\rho<0$; the scientific document treats them as artefacts of the one-mode approximation, not as physics.
+\textbf{When the rule stops applying.} A quantum of positive energy always has $\varepsilon>0$, so $KE_L>0$. For a condensate at rest that settles the question, because there $w<-1$ happens exactly when $KE_L<0$. For quanta with momentum it does not ($KE_L=\rho/2$ whatever the pressure is); what holds instead is that in a state with definite occupation numbers of positive-energy quanta each occupied mode adds its energy and its momentum flux, $\rho+p=\sum n\,(E+K^2/(dE))\ge0$ ($d$ the number of directions the pressure is averaged over; the $\lambda$ terms cancel), so no such state has $w<-1$. Coherent superpositions of the vacuum and pair states, like the states that EXP-4's pair creation produces, are allowed states of the same theory whose pressure has a term linear in the pair amplitude; they can have $\rho+p<0$ with $\rho>0$ for a while, a known effect in quantum field theory, and it is not what happens in EXP-2 and EXP-3. In EXP-2 and EXP-3 the attractive interaction can drive $M_{\mathrm{eff}}=m+\lambda S$ through zero. The rest mode only changes its phase, so $s(u)=1$ stays, but its energy $\varepsilon=M_{\mathrm{eff}}$ becomes negative: the one occupied mode has turned into a negative-energy state, and the rule above, which is for a quantum above the sea, no longer describes it. The rows with $M_{\mathrm{eff}}<0$ (column \texttt{\detokenize{M_eff}} in the CSV files) contain every phantom row ($w<-1$) and every row with $\rho<0$; the scientific document treats them as artefacts of the one-mode approximation, not as physics.
 
 \subsection{EXP-1: the primordial field}
 
@@ -820,7 +830,7 @@ ds^2=d\zeta^2-dt^2+e^{2H\zeta}\bigl[e^{2a_4(t)}(dx_1^2+dx_2^2+dx_3^2)-e^{-2a_4(t
 
 This is Section 6.8 with $k_0/h_0=K$. Stage 2 verified the reduction exactly (Wolfram check \texttt{P\_modes\_\allowbreak{}exactRed\allowbreak{}uction}) for $\lambda=0$. With $\lambda\ne0$ it holds only pointwise: the mode's scalar density is $S=S_0\,s(u)/\sin z$, which depends on $x_0$, so $M_{\mathrm{eff}}=m+\lambda S$ is not the same at every $x_0$, and the $\lambda$ run below treats $S_0$ as the local density factor at one fixed $x_0$ (a mean-field approximation). For the same reason the $K=0$ state is not a homogeneous condensate: its density falls off as $1/\sin z$. Because $h$ does not contain $a_4$, the two profiles must give identical spinors; they do, bit for bit.
 
-\textbf{State, right-hand side, initial data.} The state is the 32-real spinor of Section 6.9, with $h_i=-M_{\mathrm{eff}}\gamma^4$ and $h_r=-K\gamma^4\gamma^0$; $M_{\mathrm{eff}}=m+\lambda S_0\,s(u)$ with $m=1$. Runs: $K\in\{0,0.5,2\}$, four initial spinors each, $\lambda=0$ and $S_0=1$, for each profile ($2\times3\times4=24$ runs), plus one run per profile with $\lambda=0.5$, $S_0=1$, $K=0.5$ (26 runs). The four initial spinors are the first vector of the joint eigenspace of $h$ (energy $+E$) and $B$ ($+1$), called \texttt{\detokenize{pos_Bp}}; energy $+E$ with $B=-1$ (\texttt{\detokenize{pos_Bm}}); energy $-E$ with $B=+1$ (\texttt{\detokenize{neg_Bp}}); and a normalised generic vector \texttt{\detokenize{mix}} with $\mathrm{Re}\,u_n=1/(1+n)$ and $\mathrm{Im}\,u_n=0.1\,(n^2\bmod7)-0.3$ before normalisation. Eigenstates test that $\rho$ and $p$ are frozen; the mixture of both energy signs tests interference. The \texttt{\detokenize{neg_Bp}} and \texttt{\detokenize{mix}} runs are numerical controls: in the quantum theory the negative-energy states are filled by the sea, so their oscillating pressures are not physics of the field. The $\lambda$ run starts on the self-consistent eigenvector with $M_*=m+\lambda S_0M_*/\sqrt{M_*^2+K^2}$, solved by Newton's method: $M_*=1.4734826640642023$. Time runs from 0 to 10 with 201 samples.
+\textbf{State, right-hand side, initial data.} The state is the 32-real spinor of Section 6.9, with $h_i=-M_{\mathrm{eff}}\gamma^4$ and $h_r=-K\gamma^4\gamma^0$; $M_{\mathrm{eff}}=m+\lambda S_0\,s(u)$ with $m=1$. Runs: $K\in\{0,0.5,2\}$, four initial spinors each, $\lambda=0$ and $S_0=1$, for each profile ($2\times3\times4=24$ runs), plus one run per profile with $\lambda=0.5$, $S_0=1$, $K=0.5$ (26 runs). The four initial spinors are the first vector of the joint eigenspace of $h$ (energy $+E$) and $B$ ($+1$), called \texttt{\detokenize{pos_Bp}}; energy $+E$ with $B=-1$ (\texttt{\detokenize{pos_Bm}}); energy $-E$ with $B=+1$ (\texttt{\detokenize{neg_Bp}}); and a normalised generic vector \texttt{\detokenize{mix}} with $\mathrm{Re}\,u_n=1/(1+n)$ and $\mathrm{Im}\,u_n=0.1\,(n^2\bmod7)-0.3$ before normalisation. Eigenstates test that $\rho$ and $p$ are frozen; the mixture of both energy signs tests interference. The \texttt{\detokenize{neg_Bp}} runs are numerical controls: in the quantum theory the negative-energy states are filled by the sea. The \texttt{\detokenize{mix}} runs are more than controls: replacing one filled sea level $u_-$ by the mixture $u$ gives a state of the quantum theory (a superposition of the vacuum and one particle-antiparticle pair) whose normal-ordered expectation values are the CSV columns minus a constant, so the oscillating pressure of the mixture is physical in that state, although it is not the pressure of a single quantum. The $\lambda$ run starts on the self-consistent eigenvector with $M_*=m+\lambda S_0M_*/\sqrt{M_*^2+K^2}$, solved by Newton's method: $M_*=1.4734826640642023$. Time runs from 0 to 10 with 201 samples.
 
 \textbf{Exact solution and checks.} With $\lambda=0$, $h$ is constant and $u(t)=(\cos Et-i\sin Et\,h/E)\,u(0)$ with $E=\sqrt{M^2+K^2}$; the program compares with it at every sample. It also records the source that 8D Einstein gravity would need for this field ($\kappa=1$): $\rho_{\mathrm{req}}=-3H^2(7+a_4'^2)$, which is negative always.
 
@@ -945,6 +955,8 @@ the factor $1/3$ averaging a mode moving along $x_1$ over all directions. The pr
 
 \textbf{(b) Pair creation.} $a=e^{t}$ for $t<0$ (de Sitter, $H_{\mathrm{inf}}=1$) joined smoothly to $a=(1+2t)^{1/2}$ for $t>0$ (radiation); the integration is restarted at $t=0$, where $\dot H$ jumps. Each mode starts in the vacuum when it is deep inside the horizon, at $t_0=\ln(k/200)$ where $k/a=200$, in the first-order adiabatic positive-frequency state, and runs until $H=10^{-4}m$ (for $m=0$ the $m=0.1$ end is used). Masses $m\in\{0,0.1,0.5,1,2\}$, 64 Gauss-Legendre nodes in $\ln k$ on $[10^{-3},40]$. The number of created pairs per mode is $\lvert\beta_k\rvert^2=\lvert P_-u\rvert^2/\lvert u\rvert^2$, the weight on the negative-energy eigenspace ($P_-=(1-h/E)/2$), and the comoving number density is $na^3=\frac{16}{2\pi^2}\int k^2\lvert\beta_k\rvert^2dk$. The program uses the final $\lvert\beta_k\rvert^2$ in the first-order adiabatic basis (column \texttt{beta2\_ad\allowbreak{}iabatic}), which removes the small dressing $(mKH/(4E^3))^2$ that even an unexcited mode shows in the instantaneous basis; the instantaneous-basis numbers are reported too, and the analytic tail of the spectrum beyond $k=40$ is added as a separate correction. For $m=0$ the mode equation is conformally invariant and nothing is created.
 
+\textbf{(c) The same transition made smooth.} Because $\dot H$ jumps at $t=0$, the program integrates every mode of (b) a second time in a background in which the transition takes about one Hubble time: $1/H=1+\tau\ln(1+e^{2t/\tau})$ with $\tau=1$, so that $\epsilon=-\dot H/H^2=1+\tanh(t/\tau)$ rises smoothly from 0 (de Sitter) to 2 (radiation). Here $\ln a$ has no closed form, so it becomes a 33rd state component, $d\ln a/dt=H(t)$, integrated by CVODE together with the 32 spinor components; its start value $\ln a(t_0)=t_0+\int_{-\infty}^{t_0}(H-1)\,dt$ keeps the normalisation $\ln a\to t$ of the de Sitter past. The final $\lvert\beta_k\rvert^2$ of these runs are the columns \texttt{beta2\_en\allowbreak{}d\_smooth} and \texttt{beta2\_ad\allowbreak{}iabatic\_\allowbreak{}end\_smoo\allowbreak{}th} of \texttt{pair\_spe\allowbreak{}ctrum.cs\allowbreak{}v}, and \texttt{summary.\allowbreak{}json} compares the produced numbers of the two transitions (keys ending in \texttt{\detokenize{Smooth}}). For $m\gtrsim1$ the smooth transition makes far fewer pairs: the sudden yields are set by the jump of $\dot H$.
+
 \subsection{EXP-5: momentum along an extra time}
 
 The extra times deflate, $c=e^{-t}$ ($H=1$), and the mode has momentum $q$ along $x_5$ and none elsewhere, $m=1$. Then $k_5/h_5=Q(t)=q\,e^{t}$ and
@@ -982,7 +994,7 @@ After each step CVODE estimates the local error $e_i$ of every component and acc
 EXP-1 & BDF + Newton + dense & 1e-12, 1e-14 & 0.02 & 33866 & 34950 \\
 EXP-2 & Adams + fixed point & 1e-12, 1e-15 & 0.02 & 1779784 & 1781396 \\
 EXP-3 & Adams + fixed point & 1e-11, 1e-13 & 0.01 & 6074 & 10115 \\
-EXP-4 & Adams + fixed point & 1e-13, 1e-14 & 2.0 & 287898778 & 435564940 \\
+EXP-4 & Adams + fixed point & 1e-13, 1e-14 & 2.0 & 339071692 & 511425232 \\
 EXP-5 & Adams + fixed point & 1e-10, 1e-12 & 0.02 & 2548 & 4800 \\
 \bottomrule
 \end{longtable}
@@ -1080,13 +1092,13 @@ Run the others into the same folder in the same way (\texttt{\detokenize{exp2}} 
 exp1 & 10 & \texttt{exp1: so\allowbreak{}lver\_ste\allowbreak{}ps=33866\allowbreak{} rhs\_eva\allowbreak{}luations\allowbreak{}=34950 f\allowbreak{}iles=29 \allowbreak{}verdict=\allowbreak{}SUCCESS} & 29 & 0.2 s \\
 exp2 & 15 & \texttt{exp2: so\allowbreak{}lver\_ste\allowbreak{}ps=17797\allowbreak{}84 rhs\_e\allowbreak{}valuatio\allowbreak{}ns=17813\allowbreak{}96 files\allowbreak{}=4 verdi\allowbreak{}ct=SUCCE\allowbreak{}SS} & 4 & 5 s \\
 exp3 & 14 & \texttt{exp3: so\allowbreak{}lver\_ste\allowbreak{}ps=6074 \allowbreak{}rhs\_eval\allowbreak{}uations=\allowbreak{}10115 fi\allowbreak{}les=11 v\allowbreak{}erdict=S\allowbreak{}UCCESS} & 11 & 0.1 s \\
-exp4 & 23 & \texttt{exp4: so\allowbreak{}lver\_ste\allowbreak{}ps=28789\allowbreak{}8778 rhs\allowbreak{}\_evaluat\allowbreak{}ions=435\allowbreak{}564940 f\allowbreak{}iles=13 \allowbreak{}verdict=\allowbreak{}SUCCESS} & 13 & 72 s \\
+exp4 & 23 & \texttt{exp4: so\allowbreak{}lver\_ste\allowbreak{}ps=33907\allowbreak{}1692 rhs\allowbreak{}\_evaluat\allowbreak{}ions=511\allowbreak{}425232 f\allowbreak{}iles=13 \allowbreak{}verdict=\allowbreak{}SUCCESS} & 13 & about 85 s \\
 exp5 & 7 & \texttt{exp5: so\allowbreak{}lver\_ste\allowbreak{}ps=2548 \allowbreak{}rhs\_eval\allowbreak{}uations=\allowbreak{}4800 fil\allowbreak{}es=5 ver\allowbreak{}dict=SUC\allowbreak{}CESS} & 5 & 0.1 s \\
 \bottomrule
 \end{longtable}
 \endgroup
 
-That is 69 self-checks in total. EXP-4 integrates 288 million CVODE steps on up to 8 threads; on a computer with fewer cores expect several minutes. The times were measured on the otherwise idle test computer; while other programs kept its cores busy, the same runs took up to five times longer (EXP-4 once needed 347 s). The line \texttt{== expN \allowbreak{}==} starts each experiment and a single \texttt{\detokenize{SUCCESS}} ends the whole run.
+That is 69 self-checks in total. EXP-4 integrates 339 million CVODE steps on up to 8 threads; on a computer with fewer cores expect several minutes. The times were measured on the otherwise idle test computer, except the EXP-4 time: it was 72 s before the smooth-transition comparison runs of Section 6.14 (c) added 18\% more steps, and about 85 s is that time scaled by the step count (the new program was only timed on a busy computer, where EXP-4 took 258 s to 298 s). While other programs kept its cores busy, the runs took up to five times longer. The line \texttt{== expN \allowbreak{}==} starts each experiment and a single \texttt{\detokenize{SUCCESS}} ends the whole run.
 
 \subsection{Reproducing the committed files byte for byte}
 
@@ -1287,7 +1299,7 @@ The analysis writes \texttt{fits.jso\allowbreak{}n} (all fits and the Unite comp
 \texttt{pair\_gri\allowbreak{}d.csv} & 64 & \texttt{\detokenize{node}}, \texttt{\detokenize{x}}, \texttt{gl\_weigh\allowbreak{}t}, \texttt{\detokenize{k}}, \texttt{ln\_k\_wei\allowbreak{}ght}, start time \texttt{\detokenize{t0}} \\
 \texttt{pair\_mod\allowbreak{}es.csv} & 2560 & every pair-creation mode at 8 times, for the five masses \\
 \texttt{pair\_ant\allowbreak{}iparticl\allowbreak{}e.csv} & 24 & negative-energy modes for $m=1$ \\
-\texttt{pair\_spe\allowbreak{}ctrum.cs\allowbreak{}v} & 320 & \texttt{\detokenize{m}}, \texttt{\detokenize{node}}, \texttt{\detokenize{k}}, \texttt{\detokenize{t0}}, \texttt{\detokenize{a_end}}, $\lvert\beta_k\rvert^2$ at the start, at the joint $t=0$ and at the end (\texttt{beta2\_in\allowbreak{}itial}, \texttt{beta2\_ki\allowbreak{}nk}, \texttt{beta2\_ad\allowbreak{}iabatic\_\allowbreak{}kink}, \texttt{beta2\_en\allowbreak{}d}, \texttt{beta2\_ad\allowbreak{}iabatic\_\allowbreak{}end}) and the high-$k$ theory \texttt{beta2\_ki\allowbreak{}nk\_tail\_\allowbreak{}theory} \\
+\texttt{pair\_spe\allowbreak{}ctrum.cs\allowbreak{}v} & 320 & \texttt{\detokenize{m}}, \texttt{\detokenize{node}}, \texttt{\detokenize{k}}, \texttt{\detokenize{t0}}, \texttt{\detokenize{a_end}}, $\lvert\beta_k\rvert^2$ at the start, at the joint $t=0$ and at the end (\texttt{beta2\_in\allowbreak{}itial}, \texttt{beta2\_ki\allowbreak{}nk}, \texttt{beta2\_ad\allowbreak{}iabatic\_\allowbreak{}kink}, \texttt{beta2\_en\allowbreak{}d}, \texttt{beta2\_ad\allowbreak{}iabatic\_\allowbreak{}end}), the high-$k$ theory \texttt{beta2\_ki\allowbreak{}nk\_tail\_\allowbreak{}theory}, and for the smooth transition (c) the final scale factor \texttt{a\_end\_sm\allowbreak{}ooth} and final $\lvert\beta_k\rvert^2$ (\texttt{beta2\_en\allowbreak{}d\_smooth}, \texttt{beta2\_ad\allowbreak{}iabatic\_\allowbreak{}end\_smoo\allowbreak{}th}) \\
 \texttt{pair\_his\allowbreak{}tory.csv} & 35 & \texttt{\detokenize{m}}, \texttt{\detokenize{sample}}, \texttt{\detokenize{t}}, \texttt{\detokenize{a}}, \texttt{\detokenize{n_a3}}, \texttt{n\_a3\_adi\allowbreak{}abatic} \\
 \texttt{pair\_eos\allowbreak{}.csv} & 305 & the created gas (adiabatic basis, then with the kink tail beyond $k=40$, then in the instantaneous basis): \texttt{\detokenize{m}}, \texttt{\detokenize{a}}, \texttt{\detokenize{n_a3}}, \texttt{\detokenize{rho_a3}}, \texttt{\detokenize{p_a3}}, \texttt{\detokenize{w}}, \texttt{n\_a3\_tai\allowbreak{}l\_correc\allowbreak{}ted}, \texttt{rho\_a3\_t\allowbreak{}ail\_corr\allowbreak{}ected}, \texttt{p\_a3\_tai\allowbreak{}l\_correc\allowbreak{}ted}, \texttt{w\_tail\_c\allowbreak{}orrected}, \texttt{rho\_a3\_i\allowbreak{}nstantan\allowbreak{}eous}, \texttt{p\_a3\_ins\allowbreak{}tantaneo\allowbreak{}us}, \texttt{w\_instan\allowbreak{}taneous} \\
 \bottomrule
@@ -1387,15 +1399,15 @@ Expected results and times on the test computer:
 \endhead
 \texttt{analyze\_\allowbreak{}dirac16c\allowbreak{}omplex\_e\allowbreak{}xp3.py} & 10 & 0 & 5 s \\
 \texttt{check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}1.py} & 25 & 0 & 2 s \\
-\texttt{check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}2.py} & 34 & 0 & 19 s \\
-\texttt{check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}3.py} & 31 & 0 & 1 s \\
-\texttt{check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}4.py} & 51 & 0 & 3 to 7 min \\
+\texttt{check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}2.py} & 35 & 0 & 19 s \\
+\texttt{check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}3.py} & 32 & 0 & 1 s \\
+\texttt{check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}4.py} & 54 & 0 & several minutes (see below) \\
 \texttt{check\_di\allowbreak{}rac16com\allowbreak{}plex\_exp\allowbreak{}5.py} & 21 & 0 & 5 s \\
 \bottomrule
 \end{longtable}
 \endgroup
 
-That is $25+34+31+51+21=162$ checker checks. The EXP-4 checker is slow because it runs EXP-4 twice more and integrates reference modes with its own Runge-Kutta and Magnus methods. With the pinned package versions of Section 3.5, on Windows, the final Git command again printed nothing: the checker reports and the analysis files are byte-identical too. That byte identity depends on the numpy version and on the platform. With numpy 2.5.3 on Windows (measured during the review of this guide) every check still passed, but \texttt{fits.jso\allowbreak{}n}, \texttt{fits\_sca\allowbreak{}n.csv} and some \texttt{python-c\allowbreak{}heck-rep\allowbreak{}ort.json} files changed in their last digits (for example \texttt{\detokenize{w0}} of one fit from \texttt{-6.04650\allowbreak{}73999586\allowbreak{}2385e-01} to \texttt{-6.04650\allowbreak{}73999586\allowbreak{}2163e-01}). On Ubuntu the same happened even with the pinned versions (numpy 2.4.6 under Python 3.12.3): all 162 checks and the 10 analysis checks passed, but Git listed the three analysis files and the five \texttt{python-c\allowbreak{}heck-rep\allowbreak{}ort.json} files as modified, with changes in the last digits only (a measured deviation such as \texttt{3.671688\allowbreak{}50878840\allowbreak{}66e-10} can then change in its fifth digit, because it is itself a small difference). That is expected; \texttt{git rest\allowbreak{}ore arti\allowbreak{}facts} puts the committed files back.
+That is $25+35+32+54+21=167$ checker checks. The EXP-4 checker is slow because it runs EXP-4 twice more and integrates reference modes with its own Runge-Kutta and Magnus methods, among them all 640 pair modes of the sudden and the smooth transition. It took 3 to 7 minutes on the idle test computer before those Magnus references and the smooth-transition runs were added; the present version was timed only on a busy computer, where it took 13.7 minutes. The times of the other checkers were measured before the EXP-2 and EXP-3 checkers gained their newest check (the off-diagonal stress bilinears, a few matrix products per output row). With the pinned package versions of Section 3.5, on Windows, the final Git command again printed nothing: the checker reports and the analysis files are byte-identical too. That byte identity depends on the numpy version and on the platform. With numpy 2.5.3 on Windows (measured during the review of this guide) every check still passed, but \texttt{fits.jso\allowbreak{}n}, \texttt{fits\_sca\allowbreak{}n.csv} and some \texttt{python-c\allowbreak{}heck-rep\allowbreak{}ort.json} files changed in their last digits (for example \texttt{\detokenize{w0}} of one fit from \texttt{-6.04650\allowbreak{}73999586\allowbreak{}2385e-01} to \texttt{-6.04650\allowbreak{}73999586\allowbreak{}2163e-01}). On Ubuntu the same happened even with the pinned versions (numpy 2.4.6 under Python 3.12.3): all checks of that version of the checkers (162) and the 10 analysis checks passed, but Git listed the three analysis files and the five \texttt{python-c\allowbreak{}heck-rep\allowbreak{}ort.json} files as modified, with changes in the last digits only (a measured deviation such as \texttt{3.671688\allowbreak{}50878840\allowbreak{}66e-10} can then change in its fifth digit, because it is itself a small difference). That is expected; \texttt{git rest\allowbreak{}ore arti\allowbreak{}facts} puts the committed files back.
 
 \subsection{Checking a scratch folder (the quick form)}
 
@@ -1421,7 +1433,7 @@ python scripts/analyze_dirac16complex_exp3.py --output build/student
 python scripts/check_dirac16complex_exp3.py --output build/student
 \end{Verbatim}
 
-The analysis prints \texttt{check\_co\allowbreak{}unt=10} and the checker \texttt{check\_co\allowbreak{}unt=29}. EXP-2, EXP-4 and EXP-5 work like EXP-1 (run the experiment into \texttt{build/st\allowbreak{}udent}, then its checker) and give 32, 49 and 19 checks in the quick form. If the EXP-3 checker runs before the analysis, \texttt{fits.jso\allowbreak{}n} is missing and it reports one check fewer (28 in the quick form, 30 in the full form).
+The analysis prints \texttt{check\_co\allowbreak{}unt=10} and the checker \texttt{check\_co\allowbreak{}unt=30}. EXP-2, EXP-4 and EXP-5 work like EXP-1 (run the experiment into \texttt{build/st\allowbreak{}udent}, then its checker) and give 33, 52 and 19 checks in the quick form. The EXP-3 checker checks \texttt{fits.jso\allowbreak{}n} only when that file is present: if it runs in \texttt{build/st\allowbreak{}udent} before the analysis, \texttt{fits.jso\allowbreak{}n} is missing and it reports one check fewer (29). In the committed folder (the full form of Section 9.2) the committed \texttt{fits.jso\allowbreak{}n} is always present, so a checker run before the analysis still reports all 32 checks, but it has then validated the committed \texttt{fits.jso\allowbreak{}n}, not yours; run the analysis first so that it checks your own.
 
 \section{The Jupyter notebook}
 
@@ -1437,10 +1449,10 @@ The standard-library runner executes every cell in order and writes the outputs 
 python notebooks/run_notebook.py notebooks/dirac16complex_dark_sector.ipynb
 \end{Verbatim}
 
-It prints the notebook's output while it runs (about 2 to 3 minutes) and ends with
+It prints the notebook's output while it runs (2 to 3 minutes on the idle test computer before the EXP-4 smooth-transition runs were added, which lengthen EXP-4 by about a fifth) and ends with
 
 \begin{Verbatim}[fontsize=\small]
-PASS - prose_numbers_match_reports: 72 numbers quoted in the markdown re-read ...
+PASS - prose_numbers_match_reports: 78 numbers quoted in the markdown re-read ...
 ALL CHECKS PASSED
 ok notebooks/dirac16complex_dark_sector.ipynb (8 cells)
 1 ok, 0 failed
@@ -1450,7 +1462,8 @@ ok notebooks/dirac16complex_dark_sector.ipynb (8 cells)
 
 \begin{Verbatim}[fontsize=\small]
 $nb = "notebooks/dirac16complex_dark_sector.ipynb"
-$opts = "--output-dir", "build/nbconvert", "--ExecutePreprocessor.timeout=3600"
+$opts = "--output-dir", "build/nbconvert", "--ExecutePreprocessor.timeout=3600",
+    "--ExecutePreprocessor.startup_timeout=600"
 python -m nbconvert --to notebook --execute $nb @opts
 \end{Verbatim}
 
@@ -1458,10 +1471,11 @@ Git Bash, macOS and Linux:
 
 \begin{Verbatim}[fontsize=\small]
 python -m nbconvert --to notebook --execute notebooks/dirac16complex_dark_sector.ipynb \
-    --output-dir build/nbconvert --ExecutePreprocessor.timeout=3600
+    --output-dir build/nbconvert --ExecutePreprocessor.timeout=3600 \
+    --ExecutePreprocessor.startup_timeout=600
 \end{Verbatim}
 
-nbconvert comes with JupyterLab (Section 3.5). Then audit both executed copies. PowerShell:
+nbconvert comes with JupyterLab (Section 3.5). The startup timeout gives the Jupyter kernel 600 s to start instead of nbconvert's default 60 s: on a busy computer the first kernel start can take longer than a minute, and nbconvert then stops with \texttt{RuntimeE\allowbreak{}rror: Ke\allowbreak{}rnel did\allowbreak{}n't resp\allowbreak{}ond in 6\allowbreak{}0 second\allowbreak{}s} (observed once during the review of this guide, with all cores busy; the unchanged command passed when it was run again). Then audit both executed copies. PowerShell:
 
 \begin{Verbatim}[fontsize=\small]
 $copy = "build/nbconvert/dirac16complex_dark_sector.ipynb"
@@ -1613,7 +1627,7 @@ Git Bash, macOS and Linux:
 $bin exp1 --output build/ex-refined --refined
 \end{Verbatim}
 
-\textbf{Answer.} The tolerances become rtol 1e-13, atol 1e-15 and max\_step 0.01, the step count grows to 57960, and the largest distance from the exact solution (\texttt{maxExact\allowbreak{}Error} in \texttt{summary.\allowbreak{}json}) falls from 6.2e-9 to 1.3e-10: the solution converges.
+\textbf{Answer.} The tolerances become rtol 1e-13, atol 1e-15 and max\_step 0.01, the step count grows to 57960, and the largest distance from the exact solution (the key \texttt{measurem\allowbreak{}ents.max\allowbreak{}ExactErr\allowbreak{}or} in \texttt{summary.\allowbreak{}json}, the maximum over the 26 runs; every run also has its own \texttt{maxExact\allowbreak{}Error}) falls from 6.2e-9 to 1.3e-10: the solution converges.
 
 \subsection{Predicting EXP-1 from the formulas}
 
@@ -1741,7 +1755,7 @@ Finally run the EXP-3 checker on the new folder, in any shell:
 python scripts/check_dirac16complex_exp3.py --output build/ex-x0
 \end{Verbatim}
 
-\textbf{Answer.} $w_0=-1/3$ and $w_a=-4/3$, as in the first exercise of this section; $\rho_\psi=0$ at $z=0.58740$ and $w=-1$ at $z=0.25992$; and $q_0=\frac12(\Omega_m+2\Omega_r)=0.15259$, because $1+3w_0=0$: a component with $w=-1/3$ neither accelerates nor decelerates the expansion, so the matter decelerates it. The script prints $w_0=-0.33333$, $w_a=-1.33333$ (a finite difference of the CVODE $w$, so its last digits differ from $-4/3$), $q_0=0.15259$, the two redshifts where the closed forms put them (to about $10^{-9}$), and a sign change of $q$ at $z=0.0996$: in this model the expansion accelerated before $z=0.0996$ and decelerates today, the reverse of the observed history. Beyond $z=0.25992$ the effective mass is negative, so there the run is outside the one-mode picture (Section 6.10). All 14 self-checks pass. The checker prints \texttt{check\_co\allowbreak{}unt=28} and \texttt{failed\_c\allowbreak{}heck\_cou\allowbreak{}nt=2}: \texttt{check\_pa\allowbreak{}rameters\allowbreak{}MatchCon\allowbreak{}tract} and \texttt{check\_mu\allowbreak{}Independ\allowbreak{}ence} are false because it looks for the specified $x_0$ values, among which $-0.2$ is now missing (the $\mu$-independence it does measure, 2.8e-9, is far inside its 1e-8 limit). Undo with \texttt{git rest\allowbreak{}ore stud\allowbreak{}ies/dira\allowbreak{}c16compl\allowbreak{}ex\_cosmo\allowbreak{}logy/src\allowbreak{}/exp3.rs} and rebuild.
+\textbf{Answer.} $w_0=-1/3$ and $w_a=-4/3$, as in the first exercise of this section; $\rho_\psi=0$ at $z=0.58740$ and $w=-1$ at $z=0.25992$; and $q_0=\frac12(\Omega_m+2\Omega_r)=0.15259$, because $1+3w_0=0$: a component with $w=-1/3$ neither accelerates nor decelerates the expansion, so the matter decelerates it. The script prints $w_0=-0.33333$, $w_a=-1.33333$ (a finite difference of the CVODE $w$, so its last digits differ from $-4/3$), $q_0=0.15259$, the two redshifts where the closed forms put them (to about $10^{-9}$), and a sign change of $q$ at $z=0.0996$: in this model the expansion accelerated before $z=0.0996$ and decelerates today, the reverse of the observed history. Beyond $z=0.25992$ the effective mass is negative, so there the run is outside the one-mode picture (Section 6.10). All 14 self-checks pass. The checker prints \texttt{check\_co\allowbreak{}unt=29} and \texttt{failed\_c\allowbreak{}heck\_cou\allowbreak{}nt=2}: \texttt{check\_pa\allowbreak{}rameters\allowbreak{}MatchCon\allowbreak{}tract} and \texttt{check\_mu\allowbreak{}Independ\allowbreak{}ence} are false because it looks for the specified $x_0$ values, among which $-0.2$ is now missing (the $\mu$-independence it does measure, largest deviation 3.0e-9, in $p$, is far inside its 1e-8 limit). Undo with \texttt{git rest\allowbreak{}ore stud\allowbreak{}ies/dira\allowbreak{}c16compl\allowbreak{}ex\_cosmo\allowbreak{}logy/src\allowbreak{}/exp3.rs} and rebuild.
 
 \subsection{Moving the EXP-5 turning point}
 
@@ -1796,7 +1810,8 @@ the Git check of Section 7.4 lists 14 changed files after \texttt{\detokenize{al
 the notebook stops with \texttt{Assertio\allowbreak{}nError('\allowbreak{}fresh\_pr\allowbreak{}ogram\_ou\allowbreak{}tputs\_by\allowbreak{}te\_ident\allowbreak{}ical')} & the same cause & the same remedy \\
 after the checkers or the analysis, Git lists \texttt{fits.jso\allowbreak{}n}, \texttt{fits\_sca\allowbreak{}n.csv} or \texttt{python-c\allowbreak{}heck-rep\allowbreak{}ort.json} files as modified, with only last-digit changes & a numpy version other than the pinned 2.4.6 (Section 3.5), or a platform other than Windows (Section 9.2) & expected, every check still passes; on Windows install the pinned versions for byte identity; \texttt{git rest\allowbreak{}ore arti\allowbreak{}facts} puts the committed files back \\
 the notebook stops with \texttt{Assertio\allowbreak{}nError('\allowbreak{}fresh\_an\allowbreak{}alysis\_o\allowbreak{}utputs\_n\allowbreak{}umerical\allowbreak{}ly\_equal\allowbreak{}')} & the EXP-3 analysis files differ by more than the version effects (relative $10^{-6}$) & rerun \texttt{scripts/\allowbreak{}analyze\_\allowbreak{}dirac16c\allowbreak{}omplex\_e\allowbreak{}xp3.py} after \texttt{git rest\allowbreak{}ore arti\allowbreak{}facts}; if it persists, report it, it is not a version effect \\
-the EXP-3 checker reports 30 checks instead of 31 & it ran before the analysis & run \texttt{analyze\_\allowbreak{}dirac16c\allowbreak{}omplex\_e\allowbreak{}xp3.py} first \\
+the EXP-3 checker reports 29 checks instead of 30 in a scratch folder & it ran before the analysis, so that folder has no \texttt{fits.jso\allowbreak{}n} & run \texttt{analyze\_\allowbreak{}dirac16c\allowbreak{}omplex\_e\allowbreak{}xp3.py} first; in the committed folder the committed \texttt{fits.jso\allowbreak{}n} is checked instead (Section 9.3) \\
+nbconvert stops with \texttt{RuntimeE\allowbreak{}rror: Ke\allowbreak{}rnel did\allowbreak{}n't resp\allowbreak{}ond in 6\allowbreak{}0 second\allowbreak{}s} & a slow or busy computer, or the first kernel start after installing & run it again, and give the kernel more time with the startup-timeout option of Section 10.2 (\texttt{ExecuteP\allowbreak{}reproces\allowbreak{}sor.star\allowbreak{}tup\_time\allowbreak{}out=600}) \\
 \texttt{wolframs\allowbreak{}cript} is not recognized & WolframScript is not installed or not on PATH & install the Wolfram Engine or Mathematica; on Windows add its folder for the session with \texttt{\$env:Pat\allowbreak{}h += ";C\allowbreak{}:\textbackslash{}Progra\allowbreak{}m Files\textbackslash{}\allowbreak{}Wolfram \allowbreak{}Research\allowbreak{}\textbackslash{}Wolfram\allowbreak{}Script"} \\
 wolframscript asks for a Wolfram ID or reports that the kernel is not activated & the Wolfram Engine was never activated & run \texttt{wolframs\allowbreak{}cript -a\allowbreak{}ctivate} yourself once \\
 the PDF build lists \texttt{latex\_wa\allowbreak{}rning=} lines and fails the check \texttt{logWarni\allowbreak{}ngFree} & a LaTeX package is missing or a line is too wide & read \texttt{build/NA\allowbreak{}ME/pdf-a\allowbreak{}/NAME.lo\allowbreak{}g}; let MiKTeX install missing packages, or install \texttt{texlive-\allowbreak{}latex-re\allowbreak{}commende\allowbreak{}d} and \texttt{\detokenize{lmodern}} on Linux \\

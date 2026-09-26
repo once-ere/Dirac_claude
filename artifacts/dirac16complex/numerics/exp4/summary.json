@@ -65,7 +65,10 @@
       ],
       "tailKMin": 8.00000000000000000e+00,
       "occupationBasis": "nA3, rhoA3End, wFrozenSpectrumAtA1, wEnd and pair_eos.csv (n_a3, rho_a3, p_a3, w) use the final |beta_k|^2 in the first-order adiabatic basis (beta2_adiabatic_end) on the grid k <= kMax; ...TailCorrected add the analytic kink tail (m k/(4 E^4))^2 for k > kMax; ...Instantaneous use the instantaneous-basis final |beta_k|^2 (beta2_end), which includes the adiabatic dressing at a_end",
-      "tailQuadratureNodes": 64
+      "tailQuadratureNodes": 64,
+      "smoothTransitionTauHubbleInflation": 1.00000000000000000e+00,
+      "smoothTransitionRule": "comparison runs (c): the same modes, start times and samples in the background 1/H = 1/H_inf + tau softplus(2t/tau), i.e. epsilon = -Hdot/H^2 = 1 + tanh(t/tau), tau = smoothTransitionTauHubbleInflation/H_inf; ln a -> H_inf t for t -> -inf (the normalisation of the sudden run), integrated by CVODE as a 33rd state component; nA3Smooth and pair_spectrum.csv beta2_adiabatic_end_smooth use the final first-order adiabatic |beta_k|^2",
+      "smoothLnAQuadratureNodes": 32
     }
   },
   "stateLayout": "u_re_0..u_re_15, u_im_0..u_im_15 (u = re + i im in C^16)",
@@ -560,6 +563,12 @@
     "maxInitialBeta2": 1.56203134349038838e-10,
     "tailMaxRelDev": 4.15954815314989457e-02,
     "antiparticleMaxDev": 0.00000000000000000e+00,
+    "smoothTransition": {
+      "tau": 1.00000000000000000e+00,
+      "maxUnitarityDev": 3.63432464123292220e-08,
+      "maxKreinDrift": 3.63432465233515245e-08,
+      "lnAOffsetAtT0Min": -1.92852889445940361e-02
+    },
     "masses": [
       {
         "m": 0.00000000000000000e+00,
@@ -581,10 +590,22 @@
         "wEndInstantaneous": 3.33333333333333315e-01,
         "maxBeta2": 8.50694699914114945e-25,
         "maxBeta2Adiabatic": 8.50395350372324209e-25,
+        "maxBeta2AdiabaticEnd": 7.74134962124964496e-25,
         "kPeakK3Beta2": 2.67399945190777633e+00,
         "tailNodes": 0,
         "tailMaxRelDev": 0.00000000000000000e+00,
-        "initialBeta2Max": 6.16298371064820826e-33
+        "initialBeta2Max": 6.16298371064820826e-33,
+        "nA3KinkFormulaAllK": 0.00000000000000000e+00,
+        "nA3OverKinkFormulaAllK": null,
+        "nA3Smooth": 1.32164399366035866e-20,
+        "nA3SmoothInstantaneous": 1.32164399361710302e-20,
+        "nA3SuddenOverSmooth": null,
+        "nA3SmoothRadiationNormalised": 4.68248790671913897e-20,
+        "nA3SuddenOverSmoothSameFinalH": null,
+        "maxBeta2AdiabaticEndSmooth": 2.52283927914147179e-23,
+        "maxBeta2Smooth": 2.52283927914147179e-23,
+        "maxBeta2AdiabaticSmooth": 2.52283927914147179e-23,
+        "aEndSmooth": 2.07433680955101892e+02
       },
       {
         "m": 1.00000000000000006e-01,
@@ -606,10 +627,22 @@
         "wEndInstantaneous": 3.09199787996301530e-04,
         "maxBeta2": 3.47573969430569230e-01,
         "maxBeta2Adiabatic": 6.47057813546459859e-01,
+        "maxBeta2AdiabaticEnd": 3.47041155548197144e-01,
         "kPeakK3Beta2": 2.94434948679090813e-01,
         "tailNodes": 16,
         "tailMaxRelDev": 4.15954815314989457e-02,
-        "initialBeta2Max": 3.90624707031244822e-13
+        "initialBeta2Max": 3.90624707031244822e-13,
+        "nA3KinkFormulaAllK": 4.97359197162172972e-02,
+        "nA3OverKinkFormulaAllK": 2.92271119355360376e-02,
+        "nA3Smooth": 3.03209745035524028e-04,
+        "nA3SmoothInstantaneous": 3.04004553192461591e-04,
+        "nA3SuddenOverSmooth": 4.79416416049691474e+00,
+        "nA3SmoothRadiationNormalised": 1.07424992750779799e-03,
+        "nA3SuddenOverSmoothSameFinalH": 1.35316489723678823e+00,
+        "maxBeta2AdiabaticEndSmooth": 3.45825075183851638e-01,
+        "maxBeta2Smooth": 3.46636921383035201e-01,
+        "maxBeta2AdiabaticSmooth": 3.45825077600475428e-01,
+        "aEndSmooth": 2.07433680952543938e+02
       },
       {
         "m": 5.00000000000000000e-01,
@@ -631,10 +664,22 @@
         "wEndInstantaneous": 1.28107341079778704e-04,
         "maxBeta2": 6.40160061787482942e-02,
         "maxBeta2Adiabatic": 5.28282505970836813e-02,
+        "maxBeta2AdiabaticEnd": 5.09548707487555499e-02,
         "kPeakK3Beta2": 8.12986053294263544e-01,
         "tailNodes": 16,
         "tailMaxRelDev": 4.07748505093099567e-02,
-        "initialBeta2Max": 9.76544189672471165e-12
+        "initialBeta2Max": 9.76544189672471165e-12,
+        "nA3KinkFormulaAllK": 9.94718394324345910e-03,
+        "nA3OverKinkFormulaAllK": 5.01615932343898008e-01,
+        "nA3Smooth": 4.33465306096501401e-04,
+        "nA3SmoothInstantaneous": 4.34912371164387554e-04,
+        "nA3SuddenOverSmooth": 1.15111079888259429e+01,
+        "nA3SmoothRadiationNormalised": 1.53573584381881635e-03,
+        "nA3SuddenOverSmoothSameFinalH": 3.24903919379705020e+00,
+        "maxBeta2AdiabaticEndSmooth": 4.41652515495224163e-02,
+        "maxBeta2Smooth": 5.55538387634431433e-02,
+        "maxBeta2AdiabaticSmooth": 4.65365688355067891e-02,
+        "aEndSmooth": 9.27671622869165731e+01
       },
       {
         "m": 1.00000000000000000e+00,
@@ -656,10 +701,22 @@
         "wEndInstantaneous": 1.70390713341761555e-04,
         "maxBeta2": 1.38462830433377180e-02,
         "maxBeta2Adiabatic": 5.98023234422647484e-03,
+        "maxBeta2AdiabaticEnd": 5.88309081336160430e-03,
         "kPeakK3Beta2": 1.32740758536630099e+00,
         "tailNodes": 16,
         "tailMaxRelDev": 3.81571372019757771e-02,
-        "initialBeta2Max": 3.90595704574527757e-11
+        "initialBeta2Max": 3.90595704574527757e-11,
+        "nA3KinkFormulaAllK": 4.97359197162172955e-03,
+        "nA3OverKinkFormulaAllK": 8.87125809656513997e-01,
+        "nA3Smooth": 9.38968467117253744e-05,
+        "nA3SmoothInstantaneous": 9.51169828092636888e-05,
+        "nA3SuddenOverSmooth": 4.69898826131196472e+01,
+        "nA3SmoothRadiationNormalised": 3.32669653342005614e-04,
+        "nA3SuddenOverSmoothSameFinalH": 1.32630126024451052e+01,
+        "maxBeta2AdiabaticEndSmooth": 2.13749821000706842e-03,
+        "maxBeta2Smooth": 7.12837450769848464e-03,
+        "maxBeta2AdiabaticSmooth": 3.46238755807785209e-03,
+        "aEndSmooth": 6.55962895247918993e+01
       },
       {
         "m": 2.00000000000000000e+00,
@@ -681,10 +738,22 @@
         "wEndInstantaneous": 3.09015004149752856e-04,
         "maxBeta2": 2.64513418375261506e-03,
         "maxBeta2Adiabatic": 3.55058496873213473e-04,
+        "maxBeta2AdiabaticEnd": 3.53518413035165354e-04,
         "kPeakK3Beta2": 2.67399945190777633e+00,
         "tailNodes": 16,
         "tailMaxRelDev": 2.88112828190547621e-02,
-        "initialBeta2Max": 1.56203134349038838e-10
+        "initialBeta2Max": 1.56203134349038838e-10,
+        "nA3KinkFormulaAllK": 2.48679598581086478e-03,
+        "nA3OverKinkFormulaAllK": 9.73633964253109108e-01,
+        "nA3Smooth": 8.58941116553159431e-07,
+        "nA3SmoothInstantaneous": 1.69361333678519262e-06,
+        "nA3SuddenOverSmooth": 2.81885333848016126e+03,
+        "nA3SmoothRadiationNormalised": 3.04316548952646867e-06,
+        "nA3SuddenOverSmoothSameFinalH": 7.95628447511905051e+02,
+        "maxBeta2AdiabaticEndSmooth": 3.64982604083289406e-06,
+        "maxBeta2Smooth": 8.86981990079813718e-04,
+        "maxBeta2AdiabaticSmooth": 4.98149940191525400e-05,
+        "aEndSmooth": 4.63835811434646459e+01
       }
     ]
   },
@@ -694,7 +763,8 @@
     "Lagrangian split for the gas: KE_L = PE_L = rho/2 exactly (w_L = 0); the scalar-field relation p = KE - PE holds only for homogeneous condensates. Hamiltonian split: KE_H = 3p (momentum energy), PE_H = rho - 3p (rest mass).",
     "Spin independence and antiparticle symmetry are exact consequences of h(t) = (m sigma_z + K sigma_x) (x) I_8 and C h^* C = -h; the runs verify them to solver accuracy.",
     "m = 0: h = K(t) sigma_x (x) I_8 has time-independent eigenvectors, so no pairs are created (conformal invariance); measured |beta|^2 is roundoff.",
-    "Pair creation: the produced number and its EoS use the final |beta_k|^2 in the first-order adiabatic basis. The instantaneous-basis final |beta_k|^2 is dominated for k >~ 12 by the adiabatic dressing (m K H/(4 E^3))^2 at a_end, which oscillates in k and depends on where the run stops; its integrals (keys ...Instantaneous) are the literal definition only. The grid ends at k = 40; the analytic kink tail beyond it is given separately (nA3KinkTailBeyondKMax and the ...TailCorrected keys). Most quanta for m >= 0.5 H_inf are created after the de Sitter to radiation transition, when H ~ m (pair_history.csv); w at a = 1 is that of the final spectrum evaluated at a = 1."
+    "Pair creation: the produced number and its EoS use the final |beta_k|^2 in the first-order adiabatic basis. The instantaneous-basis final |beta_k|^2 is dominated for k >~ 12 by the adiabatic dressing (m K H/(4 E^3))^2 at a_end, which oscillates in k and depends on where the run stops; its integrals (keys ...Instantaneous) are the literal definition only. The grid ends at k = 40; the analytic kink tail beyond it is given separately (nA3KinkTailBeyondKMax and the ...TailCorrected keys); w at a = 1 is that of the final spectrum evaluated at a = 1.",
+    "Where the pairs come from: the C^1 gluing makes dH/dt jump from 0 to -2 H_inf^2 at t = 0. The kink formula (m k/(4 E^4))^2 integrated over all k is nA3KinkFormulaAllK = H_inf^4/(64 pi m); nA3OverKinkFormulaAllK compares it with the computed yield. The smooth comparison runs (epsilon = 1 + tanh(t/tau), keys ...Smooth) measure how much of each yield is due to the sharpness of the transition. With a normalised in the de Sitter past (nA3Smooth, nA3SuddenOverSmooth) the smooth universe has a smaller late-time a (aEndSmooth against a2End^{1/2}); nA3SmoothRadiationNormalised = nA3Smooth (a_end/aEndSmooth)^3 uses the radiation-era normalisation a -> (1 + 2 H_inf t)^{1/2} of the sudden run, so nA3SuddenOverSmoothSameFinalH compares the physical number densities at the same final H (the comparison that matters for an abundance). The first-order adiabatic basis of pair_history.csv cannot see a dH/dt jump at the instant it happens (the first-order dressing depends on H, not on dH/dt), so pair_history.csv does not show when the quanta are made."
   ],
   "files": [
     "thermal_grid.csv",
@@ -712,8 +782,8 @@
     "summary.json"
   ],
   "solverTotals": {
-    "steps": 287898778,
-    "rhsEvaluations": 435564940
+    "steps": 339071692,
+    "rhsEvaluations": 511425232
   },
   "checks": {
     "thermal_grid_gauss_legendre": true,

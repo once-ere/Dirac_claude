@@ -17,6 +17,13 @@ Checks (check_<name>=true/false):
   provenance / algebra / parametersMatchContract / structure*
   closureE0            Omega_r + Omega_m + Omega_psi = 1 and E(N=0) = 1
   initialEigenvector   u0: h(1) u0 = mu u0, B u0 = u0, s(u0) = 1
+  offDiagonalStressVanishes  the 3-space expands (H_a) while the hidden space and the
+                       extra times are static (H_0 = H_c = 0); by Stage 1 T_ij (i != j)
+                       = (1/4)(H_i - H_j) Psibar gamma_i gamma_j gamma^{x4} Psi, so a
+                       diagonal metric needs the tensor bilinears
+                       u^dag B C gamma^i gamma^j gamma^4 u of the 12 planes (i in {1,2,3},
+                       j in {0,5,6,7}) to vanish: at every row, relative to u^dag u,
+                       <= 1e-12
   columnsRecomputed    every derived column vs the recomputation from state
   sigmaSpinor          a^3 sigma_spinor = 1 (<= 1e-8); sigmaState exp(ln sigma)
   rhoClosedForm        rho_psi(a) vs A a^-3 (1 + x0 a^-3) (scaled, <= 1e-8)
@@ -316,6 +323,16 @@ def verify(root, fixture_path):
     closure = abs(OMEGA_R + OMEGA_M + OMEGA_PSI - 1.0)
 
     runs = [Run(directory, run, gammas) for run in summary["runs"]]
+    # tensor bilinears of the planes between the expanding 3-space and the static directions
+    cross_planes = [(i, j) for i in (1, 2, 3) for j in (0, 5, 6, 7)]
+    offdiag = 0.0
+    for r in runs:
+        for i, j in cross_planes:
+            matrix = b_matrix @ charge @ gammas[min(i, j)] @ gammas[max(i, j)] @ gammas[4]
+            values = np.einsum("ni,ij,nj->n", r.u.conj(), matrix, r.u)
+            offdiag = max(offdiag, float(np.max(np.abs(values) / r.hilbert)))
+    checks["offDiagonalStressVanishes"] = len(cross_planes) == 12 and offdiag <= 1e-12
+    measurements["offDiagonalTensorBilinearMax"] = offdiag
     header_ok = grid_ok = finite_ok = True
     e0_dev = eigen_dev = 0.0
     column_dev = 0.0

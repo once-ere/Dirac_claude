@@ -498,6 +498,8 @@ class CheckerTests(unittest.TestCase):
         est = C.truncation_from_table(table, *tr["window"])
         self.assertLess(abs(est["deltaE"] - tr["deltaE"]), 0.02 * abs(tr["deltaE"]) + 1e-12)
         self.assertLess(abs(est["deltaEntropy"] - tr["deltaEntropy"]), 0.02 * abs(tr["deltaEntropy"]) + 1e-12)
+        self.assertLess(abs(est["deltaCVfixedSpectrumEntropy"] - tr["deltaCVfixedSpectrumEntropy"]),
+                        0.05 * abs(tr["deltaCVfixedSpectrumEntropy"]) + 1e-12)
         narrow = C.truncation_from_table(table, tr["window"][0] + 1.0, tr["window"][1] - 1.0)
         self.assertLess(narrow["deltaE"], est["deltaE"])
 

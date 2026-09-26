@@ -75,8 +75,8 @@
     },
     {
       "file": "artifacts/dirac16complex/numerics/figures/exp3_distance_modulus.png",
-      "sha256": "a92f92f57c0927a092b755d543cb4d891f059a14f31c5ecfa342637e48f26816",
-      "bytes": 89097
+      "sha256": "014181b9e5526af14a120a7ffdde1550057c20ca5f985c15c2be8241b03112b2",
+      "bytes": 97782
     },
     {
       "file": "artifacts/dirac16complex/numerics/figures/exp3_ke_pe.png",
@@ -105,8 +105,8 @@
     },
     {
       "file": "artifacts/dirac16complex/numerics/figures/exp4_pair_spectra.png",
-      "sha256": "1e0a578d4c89ec694207754f358eaa1ba44dd7dc95621bfc253ee26f0295e563",
-      "bytes": 66870
+      "sha256": "41e136628e5c70d4709687ece0c46807825be80b6ec07256d7ba6786e293151f",
+      "bytes": 86685
     },
     {
       "file": "artifacts/dirac16complex/numerics/figures/exp4_thermal_scaling.png",
@@ -207,17 +207,17 @@
       {
         "name": "exp2_python_checker",
         "passed": true,
-        "detail": "34/34 checks of scripts/check_dirac16complex_exp2.py true (incl. repeat-run byte identity and refined-tolerance convergence)"
+        "detail": "35/35 checks of scripts/check_dirac16complex_exp2.py true (incl. repeat-run byte identity and refined-tolerance convergence)"
       },
       {
         "name": "exp3_python_checker",
         "passed": true,
-        "detail": "31/31 checks of scripts/check_dirac16complex_exp3.py true (incl. repeat-run byte identity and refined-tolerance convergence)"
+        "detail": "32/32 checks of scripts/check_dirac16complex_exp3.py true (incl. repeat-run byte identity and refined-tolerance convergence)"
       },
       {
         "name": "exp4_python_checker",
         "passed": true,
-        "detail": "51/51 checks of scripts/check_dirac16complex_exp4.py true (incl. repeat-run byte identity and refined-tolerance convergence)"
+        "detail": "54/54 checks of scripts/check_dirac16complex_exp4.py true (incl. repeat-run byte identity and refined-tolerance convergence)"
       },
       {
         "name": "exp5_python_checker",
@@ -232,7 +232,7 @@
       {
         "name": "numerics_summary",
         "passed": true,
-        "detail": "69 Rust + 162 Python + 10 analysis checks, verdict SUCCESS"
+        "detail": "69 Rust + 167 Python + 10 analysis checks, verdict SUCCESS"
       },
       {
         "name": "exp1_background_recomputed",
@@ -392,7 +392,7 @@
       {
         "name": "exp3_unite_constant_w_projections_recorded",
         "passed": true,
-        "detail": "recorded, not a verdict: best constant w of the noise-free Unite CPL distances = -1.0277 (Omega_m fixed at the assumed 0.305), -0.9115 with Omega_m = 0.2777 free (rms 0.0077 -> 0.0021 mag); benchmark -0.764"
+        "detail": "recorded, not a verdict: best constant w of the noise-free Unite CPL distances = -1.0277 (Omega_m fixed at the assumed 0.305), -0.9115 with Omega_m = 0.2777 free (rms 0.0077 -> 0.0021 mag); benchmark -0.764; curves w = -0.764 (Omega_m 0.305 and 0.240) and LambdaCDM against Unite CPL recomputed to 1.8e-15"
       },
       {
         "name": "exp4_grid_and_weights",
@@ -442,7 +442,7 @@
       {
         "name": "exp4_number_density_recomputed",
         "passed": true,
-        "detail": "n a^3 from the spectrum: 5.2e-16"
+        "detail": "n a^3 from the spectrum: 9.0e-12"
       },
       {
         "name": "exp4_produced_gas_eos",
@@ -492,7 +492,7 @@
       {
         "name": "prose_numbers_match_reports",
         "passed": true,
-        "detail": "72 numbers quoted in the markdown re-read from the reports"
+        "detail": "78 numbers quoted in the markdown re-read from the reports"
       }
     ]
   },

@@ -134,6 +134,9 @@ TOL = {
     "referenceCVfixedFd": 1e-2,         # lambda = 0: |C_V(fd) - C_V^(0)| / C_V: O(delta^2 (m/T)^2 / 6) truncation
     "referenceGapDSCF": 1e-7,           # Delta-SCF vs KS gap at lambda = 0
     "stationarity": 1e-4,               # finite-difference Hellmann-Feynman of the Mermin functional (relative)
+    "hotCoupling": 1e-2,                # lamh: own coarse-node strength of the free T = m state vs the Rust value
+                                        # (S_p peaks sharply near y = -2.85; the Rust side samples 5x finer and
+                                        # misses ~5e-5 of the thermal level set): measured 3e-3
     "lambdaHat": 2e-7,                  # |lh_rust/lh_ref - 1|: both sides take the maximum over the Rust grid nodes
                                         # (reference: occupied free levels on 300/600/1200 intervals); measured 5e-11..5e-8
     "eps": 1e-6,                        # |d eps| <= eps max(1, |eps|/m) m + dl max|V|
@@ -514,6 +517,21 @@ def check_reference(reg: Registry, ref_dir, args):
                 {"m%g_L%g_N%g" % (c["m"], c["L"], c["N"]):
                  (c["strengthCoarseNodes"] / c["strengthPerUnitLambdaHat"] - 1.0) if is_num(c.get("strengthCoarseNodes"))
                  else None for c in couplings})
+    hot = summary.get("hotCouplings") or {}
+    if hot:
+        diffs = {lab: h.get("relativeDifference") for lab, h in hot.items()}
+        adopted = {lab: h.get("source") for lab, h in hot.items()}
+        known = [abs(v) for v in diffs.values() if is_num(v)]
+        reg.measure("referenceHotCouplingSources", adopted)
+        reg.measure("referenceHotCouplingRelativeDifference", diffs)
+        if known:
+            reg.check("reference_hot_coupling_rule", max(known) < TOL["hotCoupling"],
+                      "lamh series: the reference's own lambda_hat_hot = 0.1/strength_free(T = m) (maximum over its "
+                      "coarse nodes, full level set) vs the Rust value (its node set, its f_cut window and shell cap), "
+                      "max relative difference %.3e; the Rust value is adopted for the runs so that both sides solve "
+                      "the same Hamiltonian" % max(known))
+        else:
+            reg.comparison("reference_hot_coupling_rule", "not run", "no Rust lamh value was available to the solver")
     overlap = [r["label"] for r in runs if r.get("branchOverlap")]
     reg.check("reference_no_branch_overlap", not overlap,
               "runs with a sea level above an occupied particle level: %s" % overlap[:10])
@@ -1130,15 +1148,21 @@ def truncation_from_spectrum(shdr, spec, T, N, mu, lo, hi, cap=RUST_SHELL_CAP):
                 break
         mu_ = 0.5 * (a + b)
         w, fv = weights(mu_)
-        fm, mm = fv[mask], mult[mask]
+        fm, mm, em = fv[mask], mult[mask], eps[mask]
         ok = (fm > 0.0) & (fm < 1.0)
         entropy = float(-np.sum(mm[ok] * (fm[ok] * np.log(fm[ok]) + (1.0 - fm[ok]) * np.log1p(-fm[ok]))))
-        return mu_, w, entropy
-    mu1, w1, s1 = solve(everything)
-    mu2, w2, s2 = solve(inside)
+        # fixed-spectrum heat capacity T dS/dT over the kept levels (the <Delta H>
+        # part of C_V^(0) of the dropped edge levels is of second order)
+        g = mm * fm * (1.0 - fm)
+        dmu = -float(np.sum(g * (em - mu_))) / (float(np.sum(g)) * T) if np.sum(g) > 0 else 0.0
+        cv = float(np.sum(g * ((em - mu_) / T ** 2 + dmu / T) * (em - mu_)))
+        return mu_, w, entropy, cv
+    mu1, w1, s1, cv1 = solve(everything)
+    mu2, w2, s2, cv2 = solve(inside)
     d_e = float(np.dot(mult, (w2 - w1) * eps))
     return {"window": [lo, hi], "shellCap": cap, "levelsOutside": int(np.sum(~inside)), "deltaMu": mu2 - mu1,
             "deltaE": d_e, "deltaEntropy": s2 - s1, "deltaF": d_e - T * (s2 - s1),
+            "deltaCVfixedSpectrum": cv2 - cv1, "deltaCVfixedSpectrumEntropy": cv2 - cv1,
             "source": "checker: reference spectrum.csv (extrapolated eigenvalues) restricted to the Rust run's "
                       "recorded window and shell cap"}
 
@@ -1160,7 +1184,17 @@ def truncation_from_table(table, lo, hi):
     d_mu = -d_n / table["G"] if table["G"] else 0.0
     d_e += d_mu * table["GE"]
     d_s += d_mu * table["GS"]
-    return {"window": [lo, hi], "deltaMu": d_mu, "deltaE": d_e, "deltaEntropy": d_s, "deltaF": d_e - T * d_s,
+    out = {}
+    if "A" in table:
+        full = table["A"]
+        kept = [full[k] - float(np.interp(x_hi, x, np.asarray(table["A_up"][k]), left=table["A_up"][k][0], right=0.0))
+                - float(np.interp(x_lo, x, np.asarray(table["A_dn"][k]), left=table["A_dn"][k][0], right=0.0))
+                - table["A_cap"][k] for k in range(3)]
+
+        def cv(a):
+            return (a[2] - a[1] ** 2 / a[0]) / T ** 2 if a[0] > 0 else 0.0
+        out = {"deltaCVfixedSpectrum": cv(kept) - cv(full), "deltaCVfixedSpectrumEntropy": cv(kept) - cv(full)}
+    return {"window": [lo, hi], "deltaMu": d_mu, "deltaE": d_e, "deltaEntropy": d_s, "deltaF": d_e - T * d_s, **out,
             "source": "checker: reference edge table (first order) at the Rust run's recorded window and shell cap"}
 
 

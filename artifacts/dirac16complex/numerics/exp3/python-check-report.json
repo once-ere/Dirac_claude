@@ -9,6 +9,7 @@
     "algebraFromFixture": true,
     "parametersMatchContract": true,
     "structureFilesPresent": true,
+    "offDiagonalStressVanishes": true,
     "fitsConsistent": true,
     "structureHeaders": true,
     "structureGrid": true,
@@ -37,6 +38,7 @@
     "refinedConvergence": true
   },
   "measurements": {
+    "offDiagonalTensorBilinearMax": 0.0,
     "fitsMaxDeviation": 0.0,
     "closureDefect": 0.0,
     "maxE0Deviation": 0.0,
@@ -72,7 +74,7 @@
     "canonicalMaxSigmaDeviation": 2.5039448292574207e-09,
     "refinedMaxSigmaDeviation": 2.104209029241133e-10
   },
-  "checkCount": 31,
+  "checkCount": 32,
   "failedCheckCount": 0,
   "verdict": "SUCCESS"
 }

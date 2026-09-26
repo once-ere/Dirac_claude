@@ -12,12 +12,12 @@
   "totals": {
     "rustChecks": 69,
     "rustFailed": 0,
-    "pythonChecks": 162,
+    "pythonChecks": 167,
     "pythonFailed": 0,
     "analysisChecks": 10,
     "analysisFailed": 0,
-    "solverSteps": 289721050,
-    "rhsEvaluations": 437396201
+    "solverSteps": 340893964,
+    "rhsEvaluations": 513256493
   },
   "verdict": "SUCCESS",
   "experiments": [
@@ -248,8 +248,8 @@
       "python": {
         "checker": "scripts/check_dirac16complex_exp2.py",
         "verdict": "SUCCESS",
-        "checkCount": 34,
-        "passedCount": 34,
+        "checkCount": 35,
+        "passedCount": 35,
         "failedCount": 0,
         "failed": [],
         "repeatByteIdentity": true,
@@ -264,6 +264,7 @@
           "structureGrid": true,
           "structureFinite": true,
           "initialState": true,
+          "offDiagonalStressVanishes": true,
           "constraintSolve": true,
           "derivedColumnsRecomputed": true,
           "contractIdentities": true,
@@ -529,6 +530,8 @@
         },
         "pythonMeasurements": {
           "constraintLhs0": 1.3200000000000003,
+          "offDiagonalTensorBilinearMaxCrossGroupPlanes": 0.0,
+          "offDiagonalTensorBilinearMaxAllPlanes": 0.0,
           "einsteinRoutineSelfTestDeviation": 1.7763568394002505e-15,
           "fdGravityStencilPoints": 9.0,
           "fdSpinorStencilPoints": 7.0,
@@ -549,6 +552,10 @@
           "closedFormFdMaxRelative": 1.569180370539882e-13,
           "jQuadratureMaxDeviation": 2.008282991655046e-15,
           "exactMaxRelativeError": 1.0149047031284952e-10,
+          "exactVolumeMaxRelativeErrorRaw": 6.223133530713909e-08,
+          "exactHubbleMaxErrorOverRateScaleRaw": 1.596336886248396e-08,
+          "exactLnScaleMaxAbsErrorRaw": 3.1633732078262256e-08,
+          "exactAmplificationFactorMax": 977.3930794151814,
           "spinorExactMaxError": 2.242186377304463e-07,
           "spinorShapeMaxError": 2.0165691339002478e-10,
           "spinorPhaseMaxError": 2.242185470427645e-07,
@@ -571,7 +578,11 @@
           "refined_spinorPhaseBoundRefined": 2.6414400642956597e-06,
           "refined_spinorPhaseDifference": 4.649815132235265e-08,
           "refined_spinorModulusDifference": 1.491613499382538e-10,
-          "refined_refinedPhaseDriftBinadeDeviation": 0.015824730423059027
+          "refined_refinedPhaseDriftBinadeDeviation": 0.015824730423059027,
+          "refined_volumeRawCanonical": 6.223133530713909e-08,
+          "refined_volumeRawRefined": 8.474890789145206e-09,
+          "refined_gravityRawCanonical": 3.1633732078262256e-08,
+          "refined_gravityRawRefined": 4.237622697189636e-09
         },
         "notes": [
           "rho - p = m S is lambda-independent, so the three runs differ only through S_0 (fixed by the constraint); V(t) is exactly quadratic and H_i V exactly linear in t.",
@@ -588,7 +599,7 @@
         },
         {
           "path": "exp2/python-check-report.json",
-          "sha256": "b2d0c6d55cc0a3f6ebe0fcd3c6de0221964e32a9607c07e374398dcac4e70d5d"
+          "sha256": "756af8dfaff3dc146109e4833cd75223bf97d828881ccac0ef5c0b686975f0ef"
         }
       ]
     },
@@ -621,8 +632,8 @@
       "python": {
         "checker": "scripts/check_dirac16complex_exp3.py",
         "verdict": "SUCCESS",
-        "checkCount": 31,
-        "passedCount": 31,
+        "checkCount": 32,
+        "passedCount": 32,
         "failedCount": 0,
         "failed": [],
         "repeatByteIdentity": true,
@@ -633,6 +644,7 @@
           "algebraFromFixture": true,
           "parametersMatchContract": true,
           "structureFilesPresent": true,
+          "offDiagonalStressVanishes": true,
           "fitsConsistent": true,
           "structureHeaders": true,
           "structureGrid": true,
@@ -1350,8 +1362,44 @@
           },
           "projectionOmegaMFreeMinusBenchmark": -0.14753233474732763,
           "projectionOmegaMFreeLogGridMinusBenchmark": -0.10814047717633457,
+          "omegaMFreeClosesGapToBenchmark": {
+            "meaning": "1 - |w_free - (-0.764)| / |w_fixed - (-0.764)|: the fraction of the distance between the constant-w projection with Omega_m = 0.305 fixed and the benchmark -0.764 that letting Omega_m float removes",
+            "uniformGridOffsetProfiled": 0.44049217580635813,
+            "uniformGridOffsetZero": 0.45505383297071833,
+            "logGridOffsetProfiled": 0.497133039022593
+          },
+          "lcdmVsUniteCPL": {
+            "range": [
+              0.01,
+              2.26
+            ],
+            "meaning": "LambdaCDM (Omega_m = 0.305) against the Unite CPL distances: the baseline for any 'close to Unite in distances' statement",
+            "maxAbsDifferenceMag": 0.023783696720540926,
+            "maxAbsDifferenceOffsetProfiledMag": 0.01287067223547215,
+            "rmsDifferenceOffsetProfiledMag": 0.008211758984474852
+          },
+          "benchmarkVsUniteCPL": {
+            "range": [
+              0.01,
+              2.26
+            ],
+            "meaning": "flat wCDM with w = -0.764 against the Unite CPL distances, with the assumed Omega_m = 0.305 and with the Omega_m that best fits them (offset profiled); the Omega_m of the Unite wCDM fit is not known here",
+            "OmegaMAssumed": {
+              "OmegaM": 0.305,
+              "maxAbsDifferenceMag": 0.11284019416432134,
+              "maxAbsDifferenceOffsetProfiledMag": 0.08427914969343367,
+              "rmsDifferenceOffsetProfiledMag": 0.03250224697255462
+            },
+            "OmegaMFitted": {
+              "OmegaM": 0.24016534901573322,
+              "iterations": 66,
+              "maxAbsDifferenceMag": 0.02971136957052689,
+              "maxAbsDifferenceOffsetProfiledMag": 0.01868122164714184,
+              "rmsDifferenceOffsetProfiledMag": 0.008719903533000563
+            }
+          },
           "omegaMAssumption": "Omega_m = 0.305 is an input of the numerical programme (EXP-3); the reference PDF gives no Omega_m, and the Omega_m of the Unite fits is not known here. The Unite CPL distances (the target) always use Omega_m = 0.305; the constantWProjection* fits hold Omega_m at 0.305, the constantWProjectionOmegaMFree* fits let it vary (flat wCDM).",
-          "note": "The -0.764 benchmark is a direct constant-w fit to the Unite supernovae (Omega_m not fixed, likelihood with the real errors), not a projection of the CPL posterior; the projections here use the CPL best fit as noise-free data with equal weights. With Omega_m fixed at the assumed 0.305 the best constant w is far from -0.764; with Omega_m free (the w - Omega_m degeneracy) it moves most of the way towards it. The remaining difference cannot be judged without the Unite likelihood."
+          "note": "The PDF says only that -0.764 is a constant-w (wCDM) fit to the Unite supernovae alone; it gives no Omega_m, prior or likelihood. An SN-only wCDM fit normally leaves Omega_m free and uses the real errors (an assumption here, not stated in the PDF); it is not a projection of the CPL posterior. The projections here use the CPL best fit as noise-free data with equal weights. With Omega_m fixed at the assumed 0.305 the best constant w is far from -0.764; letting Omega_m float (the w - Omega_m degeneracy) removes less than half of that distance (omegaMFreeClosesGapToBenchmark). The remaining difference cannot be judged without the Unite likelihood."
         },
         "gammaVariant": {
           "definition": "c ~ a^-gamma (b static) => V ~ a^{3(1-gamma)}, sigma = a^{-n}, n = 3(1 - gamma); x0 from w0 = x0/(1+x0), n from wa = n x0/(1+x0)^2",
@@ -1514,6 +1562,7 @@
           "maxWaTangentRelDeviation": 2.7640470377642976e-07
         },
         "pythonMeasurements": {
+          "offDiagonalTensorBilinearMax": 0.0,
           "fitsMaxDeviation": 0.0,
           "closureDefect": 0.0,
           "maxE0Deviation": 0.0,
@@ -1569,11 +1618,11 @@
         },
         {
           "path": "exp3/python-check-report.json",
-          "sha256": "86e92fbf565cc6498aed329fc6d5506e8749c6a31a24ec41f2f8f84048263406"
+          "sha256": "f4a1ea92195f490e4dc0054af62ef0d05767f92aae4da4a046cd59d3430b025f"
         },
         {
           "path": "exp3/fits.json",
-          "sha256": "5cb8fe90bbc8c060d2b69d42b801657ab6a0bd56f81df20df95d567d9570412e"
+          "sha256": "84aad4a5e48b23588fca0b2b2328e3d6db6b9b0b94e35175caaaa41ba0e14b58"
         }
       ]
     },
@@ -1615,8 +1664,8 @@
       "python": {
         "checker": "scripts/check_dirac16complex_exp4.py",
         "verdict": "SUCCESS",
-        "checkCount": 51,
-        "passedCount": 51,
+        "checkCount": 54,
+        "passedCount": 54,
         "failedCount": 0,
         "failed": [],
         "repeatByteIdentity": true,
@@ -1670,6 +1719,9 @@
           "pairMassiveProduction": true,
           "pairAntiparticleSymmetry": true,
           "pairReferenceSolution": true,
+          "pairSpectrumHeader": true,
+          "pairSuddenSpectrumMagnusReference": true,
+          "pairSmoothTransitionReference": true,
           "summaryConsistent": true,
           "repeatByteIdentity": true,
           "refinedConvergence": true
@@ -1683,8 +1735,8 @@
           "atol": 1e-14,
           "maxStep": 2.0
         },
-        "steps": 287898778,
-        "rhsEvaluations": 435564940,
+        "steps": 339071692,
+        "rhsEvaluations": 511425232,
         "outputFiles": 13
       },
       "keyResults": {
@@ -1738,7 +1790,10 @@
             ],
             "tailKMin": 8.0,
             "occupationBasis": "nA3, rhoA3End, wFrozenSpectrumAtA1, wEnd and pair_eos.csv (n_a3, rho_a3, p_a3, w) use the final |beta_k|^2 in the first-order adiabatic basis (beta2_adiabatic_end) on the grid k <= kMax; ...TailCorrected add the analytic kink tail (m k/(4 E^4))^2 for k > kMax; ...Instantaneous use the instantaneous-basis final |beta_k|^2 (beta2_end), which includes the adiabatic dressing at a_end",
-            "tailQuadratureNodes": 64
+            "tailQuadratureNodes": 64,
+            "smoothTransitionTauHubbleInflation": 1.0,
+            "smoothTransitionRule": "comparison runs (c): the same modes, start times and samples in the background 1/H = 1/H_inf + tau softplus(2t/tau), i.e. epsilon = -Hdot/H^2 = 1 + tanh(t/tau), tau = smoothTransitionTauHubbleInflation/H_inf; ln a -> H_inf t for t -> -inf (the normalisation of the sudden run), integrated by CVODE as a 33rd state component; nA3Smooth and pair_spectrum.csv beta2_adiabatic_end_smooth use the final first-order adiabatic |beta_k|^2",
+            "smoothLnAQuadratureNodes": 32
           }
         },
         "counting": {
@@ -1813,7 +1868,13 @@
           "maxKreinDrift": 4.090501293241289e-08,
           "maxInitialBeta2": 1.5620313434903884e-10,
           "tailMaxRelDev": 0.041595481531498946,
-          "antiparticleMaxDev": 0.0
+          "antiparticleMaxDev": 0.0,
+          "smoothTransition": {
+            "tau": 1.0,
+            "maxUnitarityDev": 3.634324641232922e-08,
+            "maxKreinDrift": 3.6343246523351525e-08,
+            "lnAOffsetAtT0Min": -0.019285288944594036
+          }
         },
         "pairMasses": [
           {
@@ -1980,6 +2041,15 @@
           "thermalBeta2PerModeMax": 6.369367418377017e-05,
           "thermalBeta2PerModeMaxK": 0.9525249766303889,
           "thermalBeta2PerModeMaxOver4c2": 0.9976720712952802,
+          "thermalBeta2PerModeMaxOver4c2K": 28.61034151666602,
+          "thermalBeta2PerModeMaxModeOver4c2": 0.7793332098779171,
+          "thermalBeta2PerModeMaxModeOverBound": 0.889665667840233,
+          "thermalBeta2DenseMax": 7.492830220508893e-05,
+          "thermalBeta2DenseMaxK": 0.9525249766303889,
+          "thermalBeta2DenseMaxOver4c2": 0.9167961342552603,
+          "thermalBeta2DenseMaxOfSampledMaxMode": 7.492830220508893e-05,
+          "thermalBeta2DenseMaxOfSampledMaxModeOver4c2": 0.9167961342552603,
+          "thermalBeta2DenseBoundRatio": 0.9070009748485696,
           "thermalAdiabaticVacuumLateBeta2": 5.6126298718347015e-08,
           "thermalAdiabaticVacuumMaxAdiabaticBeta2": 1.596799067282273e-07,
           "thermalAdiabaticVacuumPressureDev": 0.1209687671732682,
@@ -2056,6 +2126,53 @@
           "pairAntiparticleMaxDev": 0.0,
           "pairReferenceMaxError": 6.212050680186322e-10,
           "pairReferenceRichardson": 4.6211455744818593e-10,
+          "pairMaxBeta2AdiabaticEnd_m0.0": 7.741349621249645e-25,
+          "pairMaxBeta2AdiabaticEndSmooth_m0.0": 2.5228392791414718e-23,
+          "pairNA3Smooth_m0.1": 0.0003032097345465293,
+          "pairNA3SuddenOverSmooth_m0.1": 4.79416432634239,
+          "pairAEndSmoothOverSudden_m0.1": 0.6559628952440777,
+          "pairNA3SmoothRadiationNormalised_m0.1": 0.0010742498903394111,
+          "pairNA3SuddenOverSmoothSameFinalH_m0.1": 1.3531649440554632,
+          "pairNA3KinkFormulaAllK_m0.1": 0.049735919716217304,
+          "pairNA3OverKinkFormulaAllK_m0.1": 0.029227111935536034,
+          "pairMaxBeta2AdiabaticEnd_m0.1": 0.34704115554819714,
+          "pairMaxBeta2AdiabaticEndSmooth_m0.1": 0.34582507518385164,
+          "pairNA3Smooth_m0.5": 0.00043346529382910337,
+          "pairNA3SuddenOverSmooth_m0.5": 11.511108314599067,
+          "pairAEndSmoothOverSudden_m0.5": 0.6559628952440789,
+          "pairNA3SmoothRadiationNormalised_m0.5": 0.0015357358003636114,
+          "pairNA3SuddenOverSmoothSameFinalH_m0.5": 3.2490392857319157,
+          "pairNA3KinkFormulaAllK_m0.5": 0.009947183943243473,
+          "pairNA3OverKinkFormulaAllK_m0.5": 0.5016159323438973,
+          "pairMaxBeta2AdiabaticEnd_m0.5": 0.05095487074875555,
+          "pairMaxBeta2AdiabaticEndSmooth_m0.5": 0.044165251549522416,
+          "pairNA3Smooth_m1.0": 9.389684403998216e-05,
+          "pairNA3SuddenOverSmooth_m1.0": 46.98988395017097,
+          "pairAEndSmoothOverSudden_m1.0": 0.6559628952442416,
+          "pairNA3SmoothRadiationNormalised_m1.0": 0.00033266964388181,
+          "pairNA3SuddenOverSmoothSameFinalH_m1.0": 13.263012979608142,
+          "pairNA3KinkFormulaAllK_m1.0": 0.0049735919716217365,
+          "pairNA3OverKinkFormulaAllK_m1.0": 0.8871258096565128,
+          "pairMaxBeta2AdiabaticEnd_m1.0": 0.005883090813361604,
+          "pairMaxBeta2AdiabaticEndSmooth_m1.0": 0.0021374982100070684,
+          "pairNA3Smooth_m2.0": 8.589410604789375e-07,
+          "pairNA3SuddenOverSmooth_m2.0": 2818.8535225032742,
+          "pairAEndSmoothOverSudden_m2.0": 0.6559628952444447,
+          "pairNA3SmoothRadiationNormalised_m2.0": 3.0431652908702078e-06,
+          "pairNA3SuddenOverSmoothSameFinalH_m2.0": 795.6284994501199,
+          "pairNA3KinkFormulaAllK_m2.0": 0.0024867959858108682,
+          "pairNA3OverKinkFormulaAllK_m2.0": 0.9736339642531078,
+          "pairMaxBeta2AdiabaticEnd_m2.0": 0.00035351841303516535,
+          "pairMaxBeta2AdiabaticEndSmooth_m2.0": 3.649826040832894e-06,
+          "pairMagnusSuddenMaxDevRel1e-6": 0.08133673626507829,
+          "pairMagnusSmoothMaxDevRel1e-6": 0.09190182998185942,
+          "pairMagnusSmoothRichardsonRel1e-6": 0.06330691622298718,
+          "pairSmoothAEndMaxRelDev": 1.611156093291076e-11,
+          "pairSmoothNumberAndKinkMaxDev": 0.06528296814245493,
+          "pairKinkFormulaAllKMaxRelDev": 5.502443638612158e-13,
+          "pairSmoothMasslessMaxBeta2": 2.5228392791414718e-23,
+          "refinedPairSmoothBeta2AbsDiff": 2.0073831485944993e-11,
+          "refinedPairSmoothBeta2RelDiff": 3.3021917791564485e-09,
           "refinedThermalMagnusMaxOverlapDev": 7.837941120080936e-06,
           "refinedThermalMagnusMaxFinalPhaseError": 7.10367097722031e-06,
           "refinedThermalMaxRawStateDiffMagnusNodes": 1.2434003968454466e-05,
@@ -2073,17 +2190,18 @@
           "Lagrangian split for the gas: KE_L = PE_L = rho/2 exactly (w_L = 0); the scalar-field relation p = KE - PE holds only for homogeneous condensates. Hamiltonian split: KE_H = 3p (momentum energy), PE_H = rho - 3p (rest mass).",
           "Spin independence and antiparticle symmetry are exact consequences of h(t) = (m sigma_z + K sigma_x) (x) I_8 and C h^* C = -h; the runs verify them to solver accuracy.",
           "m = 0: h = K(t) sigma_x (x) I_8 has time-independent eigenvectors, so no pairs are created (conformal invariance); measured |beta|^2 is roundoff.",
-          "Pair creation: the produced number and its EoS use the final |beta_k|^2 in the first-order adiabatic basis. The instantaneous-basis final |beta_k|^2 is dominated for k >~ 12 by the adiabatic dressing (m K H/(4 E^3))^2 at a_end, which oscillates in k and depends on where the run stops; its integrals (keys ...Instantaneous) are the literal definition only. The grid ends at k = 40; the analytic kink tail beyond it is given separately (nA3KinkTailBeyondKMax and the ...TailCorrected keys). Most quanta for m >= 0.5 H_inf are created after the de Sitter to radiation transition, when H ~ m (pair_history.csv); w at a = 1 is that of the final spectrum evaluated at a = 1."
+          "Pair creation: the produced number and its EoS use the final |beta_k|^2 in the first-order adiabatic basis. The instantaneous-basis final |beta_k|^2 is dominated for k >~ 12 by the adiabatic dressing (m K H/(4 E^3))^2 at a_end, which oscillates in k and depends on where the run stops; its integrals (keys ...Instantaneous) are the literal definition only. The grid ends at k = 40; the analytic kink tail beyond it is given separately (nA3KinkTailBeyondKMax and the ...TailCorrected keys); w at a = 1 is that of the final spectrum evaluated at a = 1.",
+          "Where the pairs come from: the C^1 gluing makes dH/dt jump from 0 to -2 H_inf^2 at t = 0. The kink formula (m k/(4 E^4))^2 integrated over all k is nA3KinkFormulaAllK = H_inf^4/(64 pi m); nA3OverKinkFormulaAllK compares it with the computed yield. The smooth comparison runs (epsilon = 1 + tanh(t/tau), keys ...Smooth) measure how much of each yield is due to the sharpness of the transition. With a normalised in the de Sitter past (nA3Smooth, nA3SuddenOverSmooth) the smooth universe has a smaller late-time a (aEndSmooth against a2End^{1/2}); nA3SmoothRadiationNormalised = nA3Smooth (a_end/aEndSmooth)^3 uses the radiation-era normalisation a -> (1 + 2 H_inf t)^{1/2} of the sudden run, so nA3SuddenOverSmoothSameFinalH compares the physical number densities at the same final H (the comparison that matters for an abundance). The first-order adiabatic basis of pair_history.csv cannot see a dH/dt jump at the instant it happens (the first-order dressing depends on H, not on dH/dt), so pair_history.csv does not show when the quanta are made."
         ]
       },
       "sources": [
         {
           "path": "exp4/summary.json",
-          "sha256": "361fb97728a36292b29c0434c431c9377501c8957299e34817fb4c1b47b53af1"
+          "sha256": "c648518ed5ba4693bf6d271de3ee294a330daf9f15e669e17fa43519c1a9f8ec"
         },
         {
           "path": "exp4/python-check-report.json",
-          "sha256": "10de81074dfd24eae9ecfa622d9be3b6122b72ba7ff6016ef30a9ed6c45d4b57"
+          "sha256": "59302eaa00d26957b388a97ea8dd2b3c9ad8b997ae996f05f40ee92971473edb"
         }
       ]
     },

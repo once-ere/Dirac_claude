@@ -1159,7 +1159,8 @@ def verify_pair(directory, summary, alg, checks, measurements, loaded):
             ref["smooth"][node] = pair_two_level_reference(m, k[node], times, tau, PAIR_MAGNUS_C)
             if node in PAIR_MAGNUS_SELF_NODES and m > 0:
                 coarse = pair_two_level_reference(m, k[node], times, tau, 2.0 * PAIR_MAGNUS_C)
-                self_conv = max(self_conv, abs(coarse[0] - ref["smooth"][node][0])
+                # Richardson estimate of the fourth-order error at c: |f(2c) - f(c)|/15
+                self_conv = max(self_conv, abs(coarse[0] - ref["smooth"][node][0]) / 15.0
                                 / (1e-6 * ref["smooth"][node][0] + 1e-12))
 
         def dev(values, reference):
@@ -1195,8 +1196,20 @@ def verify_pair(directory, summary, alg, checks, measurements, loaded):
                              abs(sm["nA3SuddenOverSmooth"] - sm["nA3"] / sm["nA3Smooth"]) / 1e-12)
             kink_dev = max(kink_dev, abs(sm["nA3KinkFormulaAllK"] / kink_all - 1.0),
                            abs(sm["nA3OverKinkFormulaAllK"] - sm["nA3"] / kink_all) / sm["nA3"])
+            # the same comparison at the same final H: the radiation-era normalisation
+            # a -> (1 + 2t)^{1/2} of the sudden run (the smooth a is smaller at late times)
+            a_ratio = ref["smooth"][0, 2] / math.sqrt(a2_end)
+            radiation = n_smooth_ref / a_ratio ** 3
+            number_dev = max(number_dev,
+                             abs(sm["nA3SmoothRadiationNormalised"] / radiation - 1.0) / 1e-6,
+                             abs(sm["nA3SuddenOverSmoothSameFinalH"]
+                                 - sm["nA3"] / sm["nA3SmoothRadiationNormalised"])
+                             / (1e-12 * sm["nA3SuddenOverSmoothSameFinalH"]))
             measurements["pairNA3Smooth_m%s" % m] = float(n_smooth_ref)
             measurements["pairNA3SuddenOverSmooth_m%s" % m] = float(sm["nA3"] / n_smooth_ref)
+            measurements["pairAEndSmoothOverSudden_m%s" % m] = float(a_ratio)
+            measurements["pairNA3SmoothRadiationNormalised_m%s" % m] = float(radiation)
+            measurements["pairNA3SuddenOverSmoothSameFinalH_m%s" % m] = float(sm["nA3"] / radiation)
             measurements["pairNA3KinkFormulaAllK_m%s" % m] = float(kink_all)
             measurements["pairNA3OverKinkFormulaAllK_m%s" % m] = float(sm["nA3"] / kink_all)
         else:
@@ -1222,7 +1235,7 @@ def verify_pair(directory, summary, alg, checks, measurements, loaded):
         and par["smoothTransitionTauHubbleInflation"] == tau == 1.0)
     measurements["pairMagnusSuddenMaxDevRel1e-6"] = sudden_dev
     measurements["pairMagnusSmoothMaxDevRel1e-6"] = smooth_dev
-    measurements["pairMagnusSmoothSelfConvergenceRel1e-6"] = self_conv
+    measurements["pairMagnusSmoothRichardsonRel1e-6"] = self_conv
     measurements["pairSmoothAEndMaxRelDev"] = a_smooth_dev
     measurements["pairSmoothNumberAndKinkMaxDev"] = number_dev
     measurements["pairKinkFormulaAllKMaxRelDev"] = kink_dev

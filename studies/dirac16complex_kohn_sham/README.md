@@ -184,14 +184,21 @@ verifies the exact 2x2 block basis in Gaussian-integer arithmetic and writes
   (measured: the N = 112 value gives |lambda S_p|/m = 11 in the free N = 1016
   state and the attractive SCF at that coupling runs away).  For N = 8 the
   free scalar density vanishes exactly (brane zero modes) and the vector
-  part sets the scale.  The convergence pairs (a4_0 = 0.5, grid 601,
-  Delta k = 0.125 m) reuse the (m = 1, L = 3, N_mid) values.
+  part sets the scale.  The convergence runs (grid 601, Delta k = 0.125 m
+  with 8 N) reuse the (m = 1, L = 3, N_mid) value; the a4_0 = 0.5 run is
+  paired with the EXACTLY equivalent a4_0 = 0 problem at Delta k e^{-0.5}
+  and lambda_hat_1 e^{1.5} (same M_eff, v_x, levels and E: the torus of the
+  partner is larger by e^{1.5} in coordinate volume), compared level by
+  level (`a4_rescaling_pair_exact`).
 * **EMT** (`emt.rs`): `rho = e^{-6Hy}/l^3 sum w eps n - L_s`,
   `p_y = ... [(eps - v_x) n - P1 - M S] + L_s`, `p_3 = ... P1/3 + L_s`,
   `p_t = L_s`, `L_s = (lambda/2) S_p^2 + e_x`; `int rho dV_p = E`; the
   conservation `p_y' + 6H p_y - 3H p_3 - 3H p_t = 0` is checked; proper-volume
   averages, `w_y, w_3, w_t`, brane-localised fraction (within 1/H of the
-  brane), and the mismatch with `rho_req < 0`.  STAGE4_SPEC E4.1: the
+  brane), and the comparison with `rho_req < 0` (the sign of `<rho>`, the
+  kappa it would need and its sign compatibility per run; the spec's
+  expectation of a positive KS energy density fails for N = 8, recorded in
+  `emt/summary.json: positiveRhoExpectation`).  STAGE4_SPEC E4.1: the
   static-field sourcing conditions `m S = -36 H^2/kappa`, `lambda S^2 =
   30 H^2/kappa` (together `lambda S/m = -5/6`, `m S < 0`) are evaluated on
   `<S_p>` of every run (`run.json: emt.E41_sourcingConditions`, columns of
@@ -244,6 +251,60 @@ lambda_hat_2).  `scf/`, `thermo/`, `emt/`: one directory per run
 `determinism-report.json` (repeat byte identity and refined-tolerance
 convergence, written by `tools/compare_runs.py`; the repeat and refined
 trees themselves are not committed).
+
+## Canonical results (`artifacts/dirac16complex/kohn-sham/rust/`, H = 1, m = 1, L = 3 unless stated)
+
+All five subcommands SUCCESS (spectrum 33 checks, scf 137, excited 60,
+thermo 102, emt 60); `determinism-report.json`: a second run is
+byte-identical (327 files) and a `--refined` run (rtol, atol / 10,
+max_step / 2) agrees to 6.0e-8 relative in E and F (65 runs) and 2.8e-8
+absolute in 364829 eigenvalues.
+
+* Free spectrum: brane zero modes `eps = 0` at k = 0 (exact), split as
+  `+-c k` with `c = 1.9051482` (theory file: 1.9051482536); KS gap of
+  N = 8: 0.4243017 (L = 2), 0.4307337 (L = 3), 0.4307456 (L = 4) m;
+  closed shells N_mid = 112, N_large = 1016 (also N_mid = 112 at m = 3).
+* Couplings (first-order pseudo-potential 0.1 m / 1 m): lambda_hat_1 =
+  9.73e-3 (N = 8), 9.57e-3 (112), 1.577e-4 (1016); lambda_hat_2 = 10 x;
+  self-consistent max|lambda S_p|/m up to 1.37 and max|v_x|/m up to 1.5
+  (N = 1016, attractive lambda_hat_2).
+* Ground states E_0 / KS gap / Delta-SCF (m): N = 8: 0 / 0.430734 /
+  0.430734 (lambda = 0), -9.87e-4 / 0.430944 / 0.430938 (+lh1),
+  -7.83e-3 / 0.431899 / 0.431946 (+lh2); N = 112: 61.090723 / 0.0955462 /
+  0.0955462, 61.113212 / 0.0954841 / 0.0954842 (+lh1), 61.328311 /
+  0.0948132 / 0.0948140 (+lh2), 60.891305 / 0.0960102 / 0.0960098 (-lh2);
+  N = 1016: 1127.136625 / 0.0530077 / 0.0530077, 1127.342203 / 0.0544240 /
+  0.0545261 (+lh2), 1126.858093 / 0.0412551 / 0.0436184 (-lh2: level
+  crossing, coupling continuation, smearing 1e-3 m).
+* Thermodynamics (N = 8, lambda = 0): F = -0.39398, -30.5115, -11447.70 and
+  C_V = 33.62, 1754.1, 2.383e5 at T/m = 0.1, 0.3, 1 (E = 46811.7 at T = m:
+  a thermal pair plasma of ~75000 levels per block type); the
+  T = 0-calibrated lh1 would reach a first-order pseudo-potential of 41 m
+  at T = m (not run, recorded), the hot-calibrated lambda_hat = 2.368e-5
+  gives max|lambda S_p|/m = 0.104 at T = m.
+* EMT: w_y = 0.449, 0.336 and w_3 = 0.297, 0.290 (N = 112, 1016; w_t = p_t/rho
+  = 0 without interaction); brane-localised fraction of N within 1/H of the
+  brane 0.867 (N = 8), 0.924 (112), 0.962 (1016), 0.998 at m = 3; <rho> > 0
+  for every state with bulk levels, so rho_req = -21 H^2/kappa would need
+  kappa = -909 (N = 112), -49.3 (N = 1016); for N = 8 the spec's
+  positive-energy expectation FAILS (measured): <rho> = 0 (free) and
+  -3.7e-7 (lambda > 0, sign-compatible kappa = 5.6e7, but then the E4.1
+  mass condition gives kappa = -1.2e7); the E4.1 conditions are met in no
+  run (they would need lambda <S_p>/m = -5/6, i.e. lambda_hat ~ 106
+  (N = 112) and 9.6 (N = 1016) at first order, 10^3 to 10^4 x lambda_hat_2).
+
+## Provenance of the canonical tree
+
+`spectrum`, `scf`, `excited` and `thermo` were produced by one release
+build (SHA-256 of the executable 6e7d2a93...), `emt` by the final build
+(SHA-256 17b010b8...), which differs from the first ONLY in `runs::run_emt`
+(the positive-energy assertion replaced by the evaluated comparison and
+the per-run sign lists); the final build reproduces the `spectrum` tree of
+the first byte for byte (15 files).  The repeat and refined trees were
+produced the same way (the same build per subcommand), so the byte
+comparison of `determinism-report.json` compares like with like.
+Temporary diagnostic examples used during development are not part of the
+crate.
 
 ## Origin of copied code
 

@@ -141,11 +141,18 @@
 //! comoving k and n a^3 mean the same thing in both runs.  ln a is a 33rd
 //! state component integrated by CVODE with the spinor (d ln a/dt = H(t));
 //! its start value H_inf t0 + delta(t0), delta(t) = int_{-inf}^t (H - H_inf),
-//! is a 32-node Gauss-Legendre quadrature in y = exp(2t/tau).  Only exp, log
-//! and sqrt are evaluated (no tanh, log1p or expm1).  The mode starts at the
+//! is a 32-node Gauss-Legendre quadrature in y = exp(2t/tau).  Only exp and
+//! arithmetic are evaluated there (ln(1 + y) is an atanh series): the
+//! engines' deterministic libraries agree on exp but can differ in the last
+//! bit of log, log1p, expm1 and tanh.  The mode starts at the
 //! same t0(k) in the first-order adiabatic vacuum of h(t0), K = k/a(t0), and
 //! is sampled at the same times as the sudden run; the final |beta_k|^2 in
-//! the first-order adiabatic basis gives nA3Smooth.
+//! the first-order adiabatic basis gives nA3Smooth.  Since H_smooth <= H_sudden
+//! at every t, the smooth universe expands less and its late-time a is smaller
+//! by a constant factor (aEndSmooth against a_end = (1 + 2 H_inf t_end)^{1/2});
+//! nA3SmoothRadiationNormalised = nA3Smooth (a_end/aEndSmooth)^3 is the comoving
+//! number with the radiation-era normalisation of the sudden run, so the two
+//! runs are compared at the same final H (both end at the same t_end and H).
 
 use std::f64::consts::PI;
 use std::thread;
@@ -218,6 +225,8 @@ pub const PAIR_TAIL_NODES: usize = 64;
 pub const PAIR_SMOOTH_TAU: f64 = 1.0;
 /// Gauss-Legendre nodes of the start value of ln a in the smooth background.
 pub const PAIR_SMOOTH_LN_A_NODES: usize = 32;
+/// Terms of the atanh series of ln(1 + y)/y, 0 <= y <= 1.
+pub const LOG1P_SERIES_TERMS: usize = 22;
 
 /// Default tolerances.  Adams' norm leakage grows with the ~1e5 radians of
 /// phase per thermal mode: max |u^dag u - 1| = 2.4e-4 (rtol 1e-10),
@@ -1078,10 +1087,11 @@ fn kink_formula_all_k(mass: f64) -> f64 {
     }
 }
 
-/// ln(1 + e^x) from exp and log only (the smooth background evaluates no
-/// log1p, expm1 or tanh); the absolute rounding error is ~1e-16.
-fn softplus_exp_log(x: f64) -> f64 {
-    x.max(0.0) + log(1.0 + exp(-x.abs()))
+/// ln(1 + e^x) = max(x, 0) + ln(1 + y), y = e^{-|x|} in (0, 1], from exp
+/// and arithmetic only (see log1p_over_x).
+fn softplus_exp(x: f64) -> f64 {
+    let y = exp(-x.abs());
+    x.max(0.0) + y * log1p_over_x(y)
 }
 
 /// Duration tau of the smooth transition (c).
@@ -1093,18 +1103,23 @@ fn smooth_tau() -> f64 {
 /// so -Hdot/H^2 = 1 + tanh(t/tau).
 fn smooth_hubble(t: f64) -> f64 {
     let tau = smooth_tau();
-    1.0 / (1.0 / HUBBLE_INFLATION + tau * softplus_exp_log(2.0 * t / tau))
+    1.0 / (1.0 / HUBBLE_INFLATION + tau * softplus_exp(2.0 * t / tau))
 }
 
-/// ln(1 + y)/y for y >= 0 without log1p: with u = 1 + y rounded,
-/// log(u)/(u - 1) is accurate to a few ulp (and 1 when u rounds to 1).
+/// ln(1 + y)/y for 0 <= y <= 1 from basic arithmetic only.  The engines'
+/// deterministic libraries agree bit for bit on exp but not on log (nor
+/// log1p) for some arguments near 1, so the smooth background uses no log:
+/// ln(1 + y) = 2 atanh(s), s = y/(2 + y) in [0, 1/3], hence
+/// ln(1 + y)/y = (2/(2 + y)) sum_{n>=0} s^{2n}/(2n + 1), summed by Horner's
+/// rule over LOG1P_SERIES_TERMS terms ((1/9)^22/45 < 1e-22).
 fn log1p_over_x(y: f64) -> f64 {
-    let u = 1.0 + y;
-    if u == 1.0 {
-        1.0
-    } else {
-        log(u) / (u - 1.0)
+    let s = y / (2.0 + y);
+    let s2 = s * s;
+    let mut sum = 0.0;
+    for n in (0..LOG1P_SERIES_TERMS).rev() {
+        sum = sum * s2 + 1.0 / (2 * n + 1) as f64;
     }
+    2.0 / (2.0 + y) * sum
 }
 
 /// delta(t) = int_{-inf}^t (H(s) - H_inf) ds of the smooth background, so that
@@ -2362,6 +2377,20 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                     },
                 ),
                 (
+                    "nA3SmoothRadiationNormalised",
+                    Json::Float(m.n_a3_smooth * cube(m.a2_end.sqrt() / m.a_end_smooth)),
+                ),
+                (
+                    "nA3SuddenOverSmoothSameFinalH",
+                    if m.mass > 0.0 {
+                        Json::Float(
+                            m.n_a3 / (m.n_a3_smooth * cube(m.a2_end.sqrt() / m.a_end_smooth)),
+                        )
+                    } else {
+                        Json::Null
+                    },
+                ),
+                (
                     "maxBeta2AdiabaticEndSmooth",
                     Json::Float(m.max_beta2_adiabatic_end_smooth),
                 ),
@@ -2646,8 +2675,14 @@ pub fn run(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                      -2 H_inf^2 at t = 0. The kink formula (m k/(4 E^4))^2 integrated over all \
                      k is nA3KinkFormulaAllK = H_inf^4/(64 pi m); nA3OverKinkFormulaAllK \
                      compares it with the computed yield. The smooth comparison runs \
-                     (epsilon = 1 + tanh(t/tau), keys ...Smooth, nA3SuddenOverSmooth) measure \
-                     how much of each yield is due to the sharpness of the transition. The \
+                     (epsilon = 1 + tanh(t/tau), keys ...Smooth) measure how much of each \
+                     yield is due to the sharpness of the transition. With a normalised in the \
+                     de Sitter past (nA3Smooth, nA3SuddenOverSmooth) the smooth universe has a \
+                     smaller late-time a (aEndSmooth against a2End^{1/2}); \
+                     nA3SmoothRadiationNormalised = nA3Smooth (a_end/aEndSmooth)^3 uses the \
+                     radiation-era normalisation a -> (1 + 2 H_inf t)^{1/2} of the sudden run, \
+                     so nA3SuddenOverSmoothSameFinalH compares the physical number densities \
+                     at the same final H (the comparison that matters for an abundance). The \
                      first-order adiabatic basis of pair_history.csv cannot see a dH/dt jump \
                      at the instant it happens (the first-order dressing depends on H, not on \
                      dH/dt), so pair_history.csv does not show when the quanta are made.",
@@ -2847,7 +2882,18 @@ mod tests {
             );
         }
         assert_eq!(log1p_over_x(0.0), 1.0);
-        assert!((log1p_over_x(1e-3) - (1e-3f64).ln_1p() / 1e-3).abs() < 1e-15);
+        for y in [1e-300, 1e-12, 1e-6, 1e-3, 0.04, 0.3, 0.7, 1.0f64] {
+            let exact = y.ln_1p() / y;
+            assert!(
+                (log1p_over_x(y) / exact - 1.0).abs() < 4e-16,
+                "y = {y}: {} vs {exact}",
+                log1p_over_x(y)
+            );
+        }
+        for x in [-40.0, -3.0, -0.5, 0.0, 0.5, 3.0, 40.0f64] {
+            let exact = x.max(0.0) + (-x.abs()).exp().ln_1p();
+            assert!((softplus_exp(x) - exact).abs() <= 4e-16 * exact.max(1.0));
+        }
     }
 
     #[test]

@@ -21,6 +21,13 @@ Checks (each printed as check_<name>=true/false):
   provenance*, algebraFromFixture, parametersMatchContract, structure*
   initialState            u(0) = joint (h = +M_eff, B = +1) eigenvector, s = 1,
                           initial H's, ln h = 0
+  offDiagonalStressVanishes  consistency of the diagonal ansatz: by Stage 1,
+                          T_ij (i != j) = (1/4)(H_i - H_j) Psibar gamma_i gamma_j gamma^{x4} Psi,
+                          so G_ij = 0 = kappa T_ij needs the tensor bilinear
+                          u^dag B C gamma^i gamma^j gamma^4 u (expectation-value rule) to
+                          vanish in every plane (i, j) of directions with different Hubble
+                          rates (b-a, b-c, a-c): at every row, relative to u^dag u, <= 1e-12
+                          (it stays zero because u(t) is u(0) times a phase)
   constraintSolve         S_0 = C_0 / (kappa m s0 (1 + x0 s0)) with C_0 summed over
                           the 21 direction pairs; lambda = 2 m x0 / S_0; matches summary
   derivedColumnsRecomputed  every derived CSV column recomputed from the state
@@ -474,6 +481,14 @@ def verify(root, fixture_path):
     gammas = load_fixture_algebra(fixture_path)
     algebra_ok, charge, b_matrix = algebra_checks(gammas)
     checks["algebraFromFixture"] = algebra_ok
+    # tensor bilinears of the 21 transverse planes (expectation-value rule u^dag B M u);
+    # a plane matters for G_ij = kappa T_ij when its two directions lie in different groups
+    planes = [(i, j) for i in TRANSVERSE for j in TRANSVERSE if i < j]
+    plane_matrices = {plane: b_matrix @ charge @ gammas[plane[0]] @ gammas[plane[1]] @ gammas[4]
+                      for plane in planes}
+    cross_planes = [plane for plane in planes
+                    if GROUP_OF_FRAME[plane[0]] != GROUP_OF_FRAME[plane[1]]]
+    offdiag_cross = offdiag_all = 0.0
 
     parameters = summary["parameters"]
     checks["parametersMatchContract"] = (
@@ -499,6 +514,7 @@ def verify(root, fixture_path):
     bound_identity = 0.0
     closed_fd = quad_dev = 0.0
     exact_dev = spinor_dev = shape_dev = phase_dev = 0.0
+    exact_raw_v = exact_raw_h = exact_raw_l = amplification_max = 0.0
     phase_ok = True
     binade_dev = 0.0
     binade_count = 0
@@ -536,6 +552,12 @@ def verify(root, fixture_path):
         initial_ok &= abs(s0 - 1.0) <= 1e-14
         initial_ok &= float(np.max(np.abs(h0 @ u0 - m_eff0 * u0))) <= 1e-12
         initial_ok &= float(np.max(np.abs(b_matrix @ u0 - u0))) <= 1e-12
+        hilbert_rows = np.einsum("ni,ni->n", u.conj(), u).real
+        for plane in planes:
+            value = float(np.max(np.abs(bilinear(u, plane_matrices[plane])) / hilbert_rows))
+            offdiag_all = max(offdiag_all, value)
+            if plane in cross_planes:
+                offdiag_cross = max(offdiag_cross, value)
         solve_ok &= (abs(run["S0"] - s0_density) <= 1e-14 * s0_density
                      and abs(run["lambda"] - lam) <= 1e-14 * max(1.0, abs(lam))
                      and abs(s0_density - c0 / (1.0 + x0)) <= 1e-13
@@ -678,6 +700,11 @@ def verify(root, fixture_path):
         dev_h = np.max(np.abs(rates - exact_rates), axis=1) / rate_scale_exact / amplification
         dev_l = np.max(np.abs(q["ln_h"] - exact_ln) / (1.0 + np.abs(exact_ln)), axis=1) / amplification
         exact_dev = max(exact_dev, float(np.max(dev_v)), float(np.max(dev_h)), float(np.max(dev_l)))
+        # the same errors without the division by the amplification factor
+        exact_raw_v = max(exact_raw_v, float(np.max(dev_v * amplification)))
+        exact_raw_h = max(exact_raw_h, float(np.max(dev_h * amplification)))
+        exact_raw_l = max(exact_raw_l, float(np.max(np.abs(q["ln_h"] - exact_ln))))
+        amplification_max = max(amplification_max, float(np.max(amplification)))
         phase = MASS * t + lam * s0_density * s0 * bg.j_integral(t)
         u_exact = np.exp(-1j * phase)[:, None] * u0[None, :]
         spinor_err = np.linalg.norm(u - u_exact, axis=1)
@@ -785,6 +812,9 @@ def verify(root, fixture_path):
     checks["structureGrid"] = grid_ok
     checks["structureFinite"] = finite_ok
     checks["initialState"] = initial_ok
+    checks["offDiagonalStressVanishes"] = len(cross_planes) == 15 and offdiag_cross <= 1e-12
+    measurements["offDiagonalTensorBilinearMaxCrossGroupPlanes"] = offdiag_cross
+    measurements["offDiagonalTensorBilinearMaxAllPlanes"] = offdiag_all
     checks["constraintSolve"] = solve_ok
     checks["derivedColumnsRecomputed"] = derived_dev <= DERIVED_LIMIT
     checks["contractIdentities"] = identity_dev <= IDENTITY_LIMIT
@@ -835,6 +865,10 @@ def verify(root, fixture_path):
         "closedFormFdMaxRelative": closed_fd,
         "jQuadratureMaxDeviation": quad_dev,
         "exactMaxRelativeError": exact_dev,
+        "exactVolumeMaxRelativeErrorRaw": exact_raw_v,
+        "exactHubbleMaxErrorOverRateScaleRaw": exact_raw_h,
+        "exactLnScaleMaxAbsErrorRaw": exact_raw_l,
+        "exactAmplificationFactorMax": amplification_max,
         "spinorExactMaxError": spinor_dev,
         "spinorShapeMaxError": shape_dev,
         "spinorPhaseMaxError": phase_dev,
@@ -885,6 +919,10 @@ def run_errors(directory, run, gammas, b_matrix):
     gravity = max(float(np.max(np.max(np.abs(data[:, 4:7] - exact_rates), axis=1) / scale / amplification)),
                   float(np.max(np.max(np.abs(data[:, 1:4] - exact_ln) / (1.0 + np.abs(exact_ln)), axis=1)
                                / amplification)))
+    ln_v = data[:, 1] + 3.0 * data[:, 2] + 3.0 * data[:, 3]
+    raw = {"volume": float(np.max(np.abs(np.exp(ln_v) / bg.volume(t) - 1.0))),
+           "gravity": max(float(np.max(np.max(np.abs(data[:, 4:7] - exact_rates), axis=1) / scale)),
+                          float(np.max(np.abs(data[:, 1:4] - exact_ln))))}
     phase = MASS * t + lam * s0_density * s0 * bg.j_integral(t)
     overlap = u @ u[i0].conj()
     shape = float(np.max(np.linalg.norm(u - overlap[:, None] * u[i0][None, :], axis=1)
@@ -897,7 +935,7 @@ def run_errors(directory, run, gammas, b_matrix):
              * float(np.spacing(t[-1])) / 2.0
              + float(np.max(np.abs(q["M_eff"][~forward_rows]))) * run["solver"]["backward"]["steps"]
              * float(np.spacing(abs(t[0]))) / 2.0)
-    return gravity, shape, phase_error, bound, data, amplification, phase_series, q["M_eff"]
+    return gravity, shape, phase_error, bound, data, amplification, phase_series, q["M_eff"], raw
 
 
 def refined_convergence(root, refined_root, summary, fixture_path):
@@ -916,17 +954,24 @@ def refined_convergence(root, refined_root, summary, fixture_path):
               "spinorPhaseCanonical": 0.0, "spinorPhaseRefined": 0.0,
               "spinorPhaseBoundCanonical": 0.0, "spinorPhaseBoundRefined": 0.0,
               "spinorPhaseDifference": 0.0, "spinorModulusDifference": 0.0,
-              "refinedPhaseDriftBinadeDeviation": 0.0}
+              "refinedPhaseDriftBinadeDeviation": 0.0,
+              "volumeRawCanonical": 0.0, "volumeRawRefined": 0.0,
+              "gravityRawCanonical": 0.0, "gravityRawRefined": 0.0}
     phase_ok = True
     binades = 0
     for run in summary["runs"]:
         run_r = refined_runs.get(run["id"])
         if run_r is None:
             return False, report
-        g_c, sh_c, ph_c, b_c, data_c, amp, _, _ = run_errors(os.path.join(root, EXPERIMENT), run,
-                                                             gammas, b_matrix)
-        g_r, sh_r, ph_r, b_r, data_r, _, series_r, m_eff_r = run_errors(
+        g_c, sh_c, ph_c, b_c, data_c, amp, _, _, raw_c = run_errors(
+            os.path.join(root, EXPERIMENT), run, gammas, b_matrix)
+        g_r, sh_r, ph_r, b_r, data_r, _, series_r, m_eff_r, raw_r = run_errors(
             os.path.join(refined_root, EXPERIMENT), run_r, gammas, b_matrix)
+        for key, value in (("volumeRawCanonical", raw_c["volume"]),
+                           ("volumeRawRefined", raw_r["volume"]),
+                           ("gravityRawCanonical", raw_c["gravity"]),
+                           ("gravityRawRefined", raw_r["gravity"])):
+            report[key] = max(report[key], value)
         deviation, count = phase_drift_binade_test(data_r[:, 0], series_r, m_eff_r,
                                                    refined["tolerances"]["maxStep"], data_r[-1, 0])
         report["refinedPhaseDriftBinadeDeviation"] = max(report["refinedPhaseDriftBinadeDeviation"], deviation)
