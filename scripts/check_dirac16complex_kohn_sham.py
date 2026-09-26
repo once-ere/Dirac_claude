@@ -304,7 +304,7 @@ def check_reference_self_tests(reg: Registry, tests):
     canon = (tests.get("analyticCanonicalGrids") or {}).get("maxAbsErrorByMass") or {}
     if canon:
         reg.check("reference_analytic_spectra_canonical_grids", all(v < 1e-6 for v in canon.values()),
-                  "k = 0 box on the canonical grids N0 = 60, 120, 240 (five levels per parity, tip g0): max error "
+                  "k = 0 box on the canonical grids (N0 = 60 for m = 1, 120 for m = 3; five levels per parity, tip g0): max error "
                   "by mass %s (the eigenvalue accuracy budget behind TOL eps)" % canon)
     else:
         reg.comparison("reference_analytic_spectra_canonical_grids", "not run", "no analyticCanonicalGrids record")
@@ -734,7 +734,7 @@ def check_rust_internal(reg: Registry, rust_dir, summaries, runs):
     reg.check("rust_own_checks_passed", total > 0 and not failed, "%d Rust checks, failed: %s" % (total, failed[:20]))
     reg.measure("rustRunCount", len(runs))
     reg.measure("rustRunLabels", ["%s/%s" % (r["sub"], r["label"]) for r in runs])
-    worst = {"N": 0.0, "Ndens": 0.0, "Erho": 0.0, "cons": 0.0, "Sc0": 0.0, "bc": 0.0}
+    worst = {"N": 0.0, "Ndens": 0.0, "Erho": 0.0, "cons": 0.0, "Sc0": 0.0, "bc": 0.0, "match": 0.0}
     counted = {"N": 0, "Erho": 0, "profiles": 0, "bc": 0}
     entropy_ok = True
     overlap = []
@@ -753,6 +753,9 @@ def check_rust_internal(reg: Registry, rust_dir, summaries, runs):
         if isinstance(emt, dict) and is_num(energy) and is_num(emt.get("energyFromRho")):
             worst["Erho"] = max(worst["Erho"], abs(emt["energyFromRho"] - energy) / max(abs(energy), 1.0))
             counted["Erho"] += 1
+        for key in ("maxMatchingResidual", "maxWindingResidual"):
+            if is_num(field(item, key)):
+                worst["match"] = max(worst["match"], float(field(item, key)))
         ent = field(item, "entropy")
         if is_num(ent) and ent < -1e-12:
             entropy_ok = False
@@ -801,9 +804,12 @@ def check_rust_internal(reg: Registry, rust_dir, summaries, runs):
     check_or_not_run("rust_emt_y_conservation_recomputed", counted["profiles"], worst["cons"] < TOL["rustConservation"],
                      "P_y' = 3H(P_3 + P_t) from %d profiles.csv, max normalised residual %.3e"
                      % (counted["profiles"], worst["cons"]))
-    check_or_not_run("rust_Z2_parity_purity", counted["profiles"], worst["Sc0"] < 1e-10,
-                     "max |S_c(0)|/max(|S_c|, |n_c|) = %.3e (the scalar density vanishes on the brane for both parities)"
-                     % worst["Sc0"])
+    # the brane condition is met through the root search of the shooting method:
+    # S_c(0) = -2 s a(0) b(0) vanishes to the matching residual (recorded per run)
+    z2_tol = max(1e-10, 10.0 * worst["match"])
+    check_or_not_run("rust_Z2_parity_purity", counted["profiles"], worst["Sc0"] < z2_tol,
+                     "max |S_c(0)|/max(|S_c|, |n_c|) = %.3e (the scalar density vanishes on the brane for both parities; "
+                     "tolerance 10 x the largest Rust matching/winding residual %.2e)" % (worst["Sc0"], worst["match"]))
     check_or_not_run("rust_homo_boundary_conditions", counted["bc"], worst["bc"] < 1e-6,
                      "HOMO profile of %d runs: |b(-L)| and the parity component at y = 0, relative %.3e (current-free ends)"
                      % (counted["bc"], worst["bc"]))
@@ -914,6 +920,7 @@ def compare_levels(worst, where, item, ref, dl, record):
         return
     m = ref["params"]["m"]
     vmax = ref["_potScale"]
+    trel = truncation_relative(ref)
     mine = {}
     e_ref = column(shdr, spec, "eps_extrapolated")
     for q, par, typ, br, e, f in zip(column(shdr, spec, "q").astype(int), column(shdr, spec, "parity").astype(int),
@@ -934,7 +941,7 @@ def compare_levels(worst, where, item, ref, dl, record):
             continue
         compared += 1
         cand = mine.get((int(rec["n2"]), int(rec["parity"]), int(rec["s"])), [])
-        tol = TOL["eps"] * max(1.0, abs(eps) / m) * m + dl * vmax
+        tol = TOL["eps"] * max(1.0, abs(eps) / m) * m + (dl + trel) * vmax
         if not cand:
             unmatched += 1
             continue
@@ -959,6 +966,18 @@ def compare_levels(worst, where, item, ref, dl, record):
               % (unmatched, branch_bad, occ_bad, compared))
 
 
+def truncation_relative(ref):
+    """|dE/E| of the Rust level set (f_cut window, shell cap) at T > 0: the
+    relative size of the thermal contributions missing on the Rust side,
+    which enter the EMT averages and profiles at first order (0 at T = 0)."""
+    th = ref.get("thermo") or {}
+    tr = th.get("rustWindowTruncation") or {}
+    e = th.get("energy")
+    if is_num(tr.get("deltaE")) and is_num(e) and e != 0.0:
+        return abs(tr["deltaE"] / e)
+    return 0.0
+
+
 def compare_profiles(worst, where, item, ref, dl, ratio_l, record):
     ppath = os.path.join(item["dir"], "profiles.csv")
     if not os.path.exists(ppath):
@@ -979,7 +998,7 @@ def compare_profiles(worst, where, item, ref, dl, ratio_l, record):
     jf = np.array([b for _, b in pairs])
     ends = np.array([(j == 0 or j == len(y_f) - 1) for j in jf])
     m = ref["params"]["m"]
-    vrel = dl * ref["_potScale"] / m
+    vrel = dl * ref["_potScale"] / m + 2.0 * truncation_relative(ref)
     out = {"commonNodes": len(pairs)}
     groups = {"density": ("n_c", "S_c", "n_p", "S_p"), "potential": ("M_eff", "v_x"),
               "emt": ("rho", "p_y", "p_3", "p_t")}
@@ -1028,7 +1047,7 @@ def compare_emt(worst, where, item, ref, dl, record):
     pairs = {"rhoAvg": avg["rho"], "pYAvg": avg["p_y"], "p3Avg": avg["p_3"], "pTAvg": avg["p_t"],
              "sPAvg": avg.get("s_p"), "nPAvg": avg.get("n_p")}
     scale = max(abs(avg["rho"]), abs(avg["p_y"]), abs(avg["p_3"]), 1e-300)
-    vrel = dl * ref["_potScale"] / ref["params"]["m"]
+    vrel = dl * ref["_potScale"] / ref["params"]["m"] + 2.0 * truncation_relative(ref)
     out = {}
     for k, v in pairs.items():
         if is_num(e_r.get(k)) and is_num(v):

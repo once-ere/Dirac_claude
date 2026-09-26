@@ -74,7 +74,8 @@ Wilson term is needed (self-test `freeDispersion`).  The eigenvalue error
 is c2 h^2 + c3 h^3 + O(h^4) (the h^3 term comes from the ghost node); every
 quantity is computed on the three grids N0, 2 N0, 4 N0 (canonical N0 = 60:
 h = L/60 is 5 times the Rust grid spacing L/300, so every coarse node is a
-Rust grid point and the profiles are compared node by node) and
+Rust grid point and the profiles are compared node by node; m = 3 uses
+N0 = 120, M h = 0.075, every other coarse node a Rust node) and
 extrapolated by eliminating h^2 and h^3, with the order estimates and level
 values recorded.  The two END-NODE values of a profile are only first-order
 accurate (tied to the half-node value g~ = O(h) through a division by h)
@@ -2443,14 +2444,16 @@ def self_tests(N0=100, L=3.0, M=1.0):
             brane = "g0" if parity > 0 else "f0"
             exact = analytic_box(mass, L, brane, "g0", count=4)
             per_level = []
+            n0 = CANONICAL_N0 * (2 if mass > 2.0 else 1)      # the canonical grids of that mass
             for lvl in range(3):
-                grid = Grid(L, CANONICAL_N0 * 2 ** lvl)
+                grid = Grid(L, n0 * 2 ** lvl)
                 sh = solve_shell(grid, np.full(grid.N + 1, mass), np.zeros(grid.N + 1), 0.0, 0.0, parity, "g0", False)
                 e = sh["eps"][sh["type"] == 1]
                 per_level.append(np.sort(e[e >= -ZERO_MODE_TOL])[:len(exact)])
             worst = max(worst, float(np.max(np.abs(extrapolate3(*per_level) - np.array(exact)))))
         canonical["m%g" % mass] = worst
-    tests["analyticCanonicalGrids"] = {"N0": CANONICAL_N0, "L": L, "tip": "g0", "levelsPerSector": 5,
+    tests["analyticCanonicalGrids"] = {"N0": {"m1": CANONICAL_N0, "m3": 2 * CANONICAL_N0}, "L": L, "tip": "g0",
+                                       "levelsPerSector": 5,
                                        "maxAbsErrorByMass": canonical}
     # discrete Hellmann-Feynman identities at k = 0.7 with a smooth potential
     grid = Grid(L, N0)
@@ -2505,6 +2508,9 @@ QUICK_N0 = 30
 QUICK_LEVELS = 2
 HOT_EXACT_SHELLS = 1000000   # T = m runs: no Chebyshev tail
 HOT_SHELL_WORKERS = 6        # T = m runs: worker processes for the shell loop (execution only)
+THERMO_FIRST_ORDER_LIMIT = 1.0   # lamp1 thermo point runs only if lambda_hat_1 strength_free(T) <= 1 m (Rust rule)
+HOT_SERIES_TARGET = 0.1          # lamh: lambda_hat_hot = 0.1/strength_free(T = m) (Rust rule)
+RUST_OUTPUT = os.path.join(REPO, "artifacts", "dirac16complex", "kohn-sham", "rust")
 SPECTRUM_CSV_BAND = 8.0      # T > 0.5 m: spectrum.csv holds the levels within 8 T of mu
 
 
@@ -2553,7 +2559,7 @@ def trim_float(v):
 
 
 LAMBDA_SYMBOLS = {"lam0": None, "lamp1": (1.0, "lambdaHat1"), "lamm1": (-1.0, "lambdaHat1"),
-                  "lamp2": (1.0, "lambdaHat2"), "lamm2": (-1.0, "lambdaHat2")}
+                  "lamp2": (1.0, "lambdaHat2"), "lamm2": (-1.0, "lambdaHat2"), "lamh": "hot"}
 
 
 def rust_label(m, L, N, lam_name, T, a4=0.0, delta_k_over_m=0.25):
@@ -2587,6 +2593,12 @@ def canonical_runs(quick=False, shells_info=None):
         spec = {**base, "label": label, "m": float(m), "L": float(L), "N": float(N), "T": float(T),
                 "lambda": lam_name, "coupling": list(coupling or (float(m), float(L), float(N))),
                 "tasks": list(tasks), **extra}
+        # m = 3: twice the grid points (M h = 0.075 instead of 0.15 at level 0).  Measured at
+        # (3, 3, 8, lambda_hat_1): N0 = 60 leaves E_0 1.2e-5 and mu 3e-6 off the Rust values
+        # (the level sequence converges with order ~1.7, outside the asymptotic range of the
+        # (h^2, h^3) elimination), N0 = 120 8e-7 and 2e-7; every other coarse node is a Rust node
+        if m > 2.0:
+            spec["N0"] = 2 * base["N0"]
         runs.append(spec)
     if quick:
         add(1, 3, n8, "lam0", tasks=["excited"])
@@ -2618,25 +2630,57 @@ def canonical_runs(quick=False, shells_info=None):
     add(1, 3, nmid, "lamp1", coupling=mid, a4=0.5)
     add(1, 3, nmid, "lamp1", coupling=mid, delta_k_over_m=0.25 * math.exp(-0.5))
     add(1, 3, 8.0 * nmid, "lamp1", coupling=mid, delta_k_over_m=0.125)
-    # F. thermodynamics: T/m in {0.1, 0.3, 1}, N in {8, N_mid}, lambda_hat in {0, lambda_hat_1};
-    # at T = m the interacting series only for N = 8 (as the Rust crate)
+    # F. thermodynamics, the three series per N of the Rust crate (runs.rs run_thermo), T/m in
+    # {0.1, 0.3, 1} (T = 0 is the scf run of the same label): lam0; lamp1, the T = 0 calibrated
+    # lambda_hat_1, a point runs only when its first-order pseudo-potential lambda_hat_1
+    # strength_free(T) is <= 1 m (THERMO_FIRST_ORDER_LIMIT; the thermal pair plasma raises the
+    # free-state strength by orders of magnitude); lamh, lambda_hat_hot = 0.1/strength_free(T = m)
+    # fixed over the series (T = 0 included).  At T = m no interacting point for N > 8 (cost).
+    # T = m: every lattice shell of the window (k up to ~28 m, ~9000 shells) is diagonalised
+    # exactly (no Chebyshev tail: its rank-ordered branches pass through avoided crossings at
+    # large k, measured error 1e-4 in the profiles), the shell loop on worker processes
+    def hot(T):
+        return {"exact_shells": HOT_EXACT_SHELLS, "shell_workers": HOT_SHELL_WORKERS} if T > 0.5 else {}
     for N in (n8, nmid):
-        for lam in ("lam0", "lamp1"):
-            for T in (0.1, 0.3, 1.0):
-                if T > 0.5 and lam != "lam0" and N > 8.0:
-                    continue
-                # T = m: every lattice shell of the window (k up to ~24 m, ~6400 shells) is
-                # diagonalised exactly (no Chebyshev tail: its rank-ordered branches pass
-                # through avoided crossings at large k, measured error 1e-4 in the profiles)
-                extra = {"exact_shells": HOT_EXACT_SHELLS, "shell_workers": HOT_SHELL_WORKERS} if T > 0.5 else {}
-                add(1, 3, N, lam, T=T, tasks=["thermo"], **extra)
+        for T in (0.1, 0.3, 1.0):
+            add(1, 3, N, "lam0", T=T, tasks=["thermo"], **hot(T))
+        for T in (0.1, 0.3, 1.0):
+            if T > 0.5 and N > 8.0:
+                continue
+            add(1, 3, N, "lamp1", T=T, tasks=["thermo"], freeSource=rust_label(1, 3, N, "lam0", T),
+                firstOrderLimit=THERMO_FIRST_ORDER_LIMIT, **hot(T))
+        for T in (0.0, 0.1, 0.3, 1.0):
+            if T > 0.5 and N > 8.0:
+                continue
+            add(1, 3, N, "lamh", T=T, tasks=["thermo"] if T > 0 else [], hotSource=rust_label(1, 3, N, "lam0", 1.0),
+                **hot(T))
     return runs
 
 
 def skipped_runs(shells_info):
-    """Runs of the Rust matrix that neither side computes (recorded)."""
+    """Runs of the Rust matrix that neither side computes (recorded; the
+    first-order rule of the lamp1 series adds its skips while running)."""
     return ["%s: not run (T/m = 1 with lambda != 0 and N > 8; ~5e5 levels per grid and iteration; the Rust "
-            "crate skips it too)" % rust_label(1, 3, shells_info["N_mid"], "lamp1", 1.0)]
+            "crate skips it too)" % rust_label(1, 3, shells_info["N_mid"], name, 1.0) for name in ("lamp1", "lamh")]
+
+
+def rust_hot_coupling(label):
+    """lambda_hat of a lamh run in the Rust outputs (run.json of that label or
+    of any lamh run of the same N), None when absent."""
+    import glob
+    candidates = [os.path.join(RUST_OUTPUT, "thermo", label, "run.json")]
+    prefix = label.rsplit("_T", 1)[0]
+    candidates += sorted(glob.glob(os.path.join(RUST_OUTPUT, "thermo", prefix + "_T*", "run.json")))
+    for path in candidates:
+        try:
+            with open(path, "r", encoding="utf-8") as handle:
+                doc = json.load(handle)
+            value = doc["parameters"]["lambdaHat"]
+            if isinstance(value, float) and value > 0.0:
+                return value, os.path.relpath(path, REPO).replace(os.sep, "/")
+        except (OSError, ValueError, KeyError, TypeError):
+            continue
+    return None, None
 
 
 RUST_GRID_INTERVALS = 300    # the Rust crate's 301-point grid y_i = -L + i L/300 (every L)
@@ -2732,6 +2776,9 @@ def resolve_lambda(spec, couplings):
     sym = LAMBDA_SYMBOLS[spec["lambda"]]
     if sym is None:
         return 0.0
+    if sym == "hot":
+        hot = spec.get("couplingHot")
+        return None if hot is None else hot["used"]
     c = couplings.get(tuple(spec["coupling"]))
     if c is None:
         return None
@@ -2741,7 +2788,8 @@ def resolve_lambda(spec, couplings):
 
 def params_of(spec, lambda_hat):
     """Params of a specification with its numeric coupling."""
-    kw = {k: v for k, v in spec.items() if k not in ("tasks", "lambda", "coupling")}
+    kw = {k: v for k, v in spec.items() if k not in ("tasks", "lambda", "coupling", "freeSource",
+                                                     "firstOrderLimit", "hotSource", "couplingHot")}
     return Params(lambda_hat=lambda_hat, **kw)
 
 
@@ -2784,6 +2832,8 @@ def execute_run(spec, lambda_hat, output_root, log):
     extra["tasks"] = tasks
     extra["lambdaName"] = spec.get("lambda")
     extra["couplingConfiguration"] = spec.get("coupling")
+    if spec.get("couplingHot"):
+        extra["couplingHot"] = spec["couplingHot"]
     doc = write_run(run, directory, extra)
     log("  -> %s: E0 = %.12f  mu = %.10f  converged = %s  gap = %s  (%.0f s)" %
         (label, run.scalars["total"], run.scalars["mu"], run.converged, run.gap, time.time() - t0))
@@ -2902,7 +2952,7 @@ def main(argv=None):
         specs = [s for s in specs if s["label"] in wanted]
     labels = [s["label"] for s in specs]
     # coupling tasks: one per configuration that a run needs
-    configs = sorted({tuple(s["coupling"]) for s in specs if LAMBDA_SYMBOLS[s["lambda"]] is not None})
+    configs = sorted({tuple(s["coupling"]) for s in specs if LAMBDA_SYMBOLS[s["lambda"]] not in (None, "hot")})
     tasks = [{"kind": "coupling", "label": coupling_label(*c), "m": c[0], "L": c[1], "N": c[2]} for c in configs]
     summary["couplingRule"] = COUPLING_RULE
     summary["skippedRuns"] = [] if args.quick else skipped_runs(shells_info)
@@ -2922,8 +2972,59 @@ def main(argv=None):
                       rec["nRef_maxProperNumberDensity_free"], rec["nRefY"], rec["strengthCoarseNodes"],
                       rec["lambdaHat1"], rec["lambdaHat2"])))
 
+    skipped = []
+    hot_couplings = {}
+
+    def prepare(spec):
+        """("run", lambda_hat) | ("wait", None) | ("skip", reason) for a specification:
+        the coupling of its configuration, the first-order rule of the lamp1 thermo
+        series (needs the free state at the same T) and the hot coupling of the lamh
+        series (needs the free state at T = m)."""
+        sym = LAMBDA_SYMBOLS[spec["lambda"]]
+        if sym == "hot":
+            if spec.get("couplingHot") is None:
+                src = docs.get(spec["hotSource"])
+                if src is None or src.get("failed") or not src.get("couplingScale"):
+                    return ("wait", None) if src is None else ("skip", "free T = m state %s unavailable"
+                                                                        % spec["hotSource"])
+                strength = src["couplingScale"]["strengthPerUnitLambdaHat"]
+                own = HOT_SERIES_TARGET / strength
+                rust, rust_path = rust_hot_coupling(spec["label"])
+                spec["couplingHot"] = {
+                    "rule": "lambda_hat_hot = %g / strength_free(T = m), strength = max_y max((15/16)|S_p|, n_p/16)/m^7 "
+                            "of the free state at T = m (%s)" % (HOT_SERIES_TARGET, spec["hotSource"]),
+                    "strengthFreeCoarseNodes": strength, "reference": own, "rust": rust, "rustSource": rust_path,
+                    "used": rust if rust is not None else own,
+                    "source": "rust" if rust is not None else "reference",
+                    "relativeDifference": (rust / own - 1.0) if rust is not None else None,
+                    "note": "the Rust value (its own free state at T = m, on its f_cut window, shell cap and node set) "
+                            "is adopted when present so that both sides solve the same Hamiltonian; the reference's own "
+                            "value (maximum over its coarse nodes) is recorded"}
+                hot_couplings[spec["label"]] = spec["couplingHot"]
+            return ("run", spec["couplingHot"]["used"])
+        lam = resolve_lambda(spec, couplings)
+        if lam is None:
+            return ("wait", None)
+        limit = spec.get("firstOrderLimit")
+        if limit is not None and spec["T"] > 0.0:
+            src = docs.get(spec["freeSource"])
+            if src is None:
+                return ("wait", None)
+            strength = (src.get("couplingScale") or {}).get("strengthPerUnitLambdaHat")
+            if strength is None:
+                return ("skip", "free state %s unavailable" % spec["freeSource"])
+            estimate = abs(lam) * strength
+            if estimate > limit:
+                return ("skip", "%s: not run: first-order pseudo-potential |lambda_hat| strength_free(T) = %.6g m "
+                                "exceeds the STAGE4_SPEC section 4 window edge %g m (free state %s); the "
+                                "hot-calibrated series lamh covers this temperature (the Rust rule)"
+                        % (spec["label"], estimate, limit, spec["freeSource"]))
+        return ("run", lam)
+
     def flush(complete):
         summary["couplings"] = [couplings[k] for k in sorted(couplings)]
+        summary["hotCouplings"] = hot_couplings
+        summary["skippedRuns"] = ([] if args.quick else skipped_runs(shells_info)) + skipped
         summary["runs"] = [summary_record(docs[lab]) for lab in labels if lab in docs]
         summary["complete"] = bool(complete)
         write_json(os.path.join(args.output, "reference-summary.json"), summary)
@@ -2941,10 +3042,10 @@ def main(argv=None):
                     register_coupling(rec)
                     pending_tasks.remove(task)
                     log("resume: keeping %s" % task["label"])
-        for spec in list(pending):
+        for spec in sorted(pending, key=lambda sp: (sp["lambda"] != "lam0", pending.index(sp))):
             path = os.path.join(args.output, spec["label"], "run.json")
-            lam = resolve_lambda(spec, couplings)
-            if lam is None or not os.path.exists(path):
+            state, lam = prepare(spec)
+            if state != "run" or not os.path.exists(path):
                 continue
             with open(path, "r", encoding="utf-8") as handle:
                 doc = json.load(handle)
@@ -2979,12 +3080,20 @@ def main(argv=None):
                     task = pending_tasks.pop(0)
                     futures[pool.submit(execute_coupling_worker, task, args.output, args.quick)] = ("coupling", task)
                     continue
-                ready = [s for s in pending if resolve_lambda(s, couplings) is not None]
+                ready = []
+                for sp in list(pending):
+                    state, value = prepare(sp)
+                    if state == "skip":
+                        pending.remove(sp)
+                        labels.remove(sp["label"])
+                        skipped.append(value)
+                        log("skipped %s" % value)
+                    elif state == "run":
+                        ready.append((sp, value))
                 if not ready:
                     return
-                spec = min(ready, key=lambda s: (priority(s), pending.index(s)))
+                spec, lam = min(ready, key=lambda item: (priority(item[0]), pending.index(item[0])))
                 pending.remove(spec)
-                lam = resolve_lambda(spec, couplings)
                 futures[pool.submit(execute_run_worker, spec, lam, args.output)] = ("run", spec)
         submit_ready()
         while futures:
@@ -2997,9 +3106,9 @@ def main(argv=None):
                     docs[obj["label"]] = future.result()
             submit_ready()
             flush(False)
-    for spec in pending:   # couplings never became available (their coupling task failed)
+    for spec in pending:   # a dependency never became available (its coupling task or source run failed)
         docs[spec["label"]] = {"params": {"label": spec["label"]}, "converged": False,
-                               "failed": "coupling of configuration %s unavailable" % (spec["coupling"],)}
+                               "failed": "dependency unavailable (coupling %s / source run)" % (spec["coupling"],)}
     failed = [lab for lab in labels if docs.get(lab, {}).get("failed")] + coupling_failures
     flush(not failed)
     log("wrote %s in %.1f s (%d runs, failed: %s)" % (os.path.join(args.output, "reference-summary.json"),
