@@ -22,7 +22,7 @@
       "thermo": "SUCCESS",
       "emt": "SUCCESS"
     },
-    "repeatFilesCompared": 327,
+    "repeatFilesCompared": 330,
     "repeatDifferingFiles": [],
     "refinedRunsCompared": 65,
     "refinedLevelsCompared": 364829,
@@ -493,7 +493,7 @@
   "sourceSha256": {
     "spectrum/summary.json": "52d4eb13142740b90ad7aad1c2868748501291ecd9c103149ecc1dadb95c5091",
     "scf/summary.json": "44017474744f7f501b0a07f5d64a1bb1e8fc8e8412ddf10a3e23313a2a101759",
-    "excited/summary.json": "d833cdba67eaffb5da5a88dffca1b08aef4948fa262969f730a35b26e0ac6603",
+    "excited/summary.json": "99394347e61fd4b57f8bb38c60f542df9a46ab5151771ba443422c9f0d270a88",
     "thermo/summary.json": "2d59bcec411c16a3dc4e4da71bced467f6c73dd113746a90c16c8a6c602f7fef",
     "emt/summary.json": "d93d3d0879aa2f35685c610ca9c88fb77f1ac8600b9df3dd78a01573054ba6f7",
     "tools/compare_runs.py": "82088af7fa49c16b764a8b7ad9fea9d1cc8079ad0bd1e9c630c9c37f9847059c"

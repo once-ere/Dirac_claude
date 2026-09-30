@@ -39,9 +39,9 @@ so directions 0 to 3 are space-like and 4 to 7 are time-like: the signature is (
 
 **What it needs from Chapter 2.** The eight real 16 by 16 gamma matrices $\gamma^0,\dots,\gamma^7$ of the notebook, with the Clifford relation $\gamma^a\gamma^b+\gamma^b\gamma^a=2\eta^{ab}\,1$; the 28 spin generators $S^{ab}=\tfrac14[\gamma^a,\gamma^b]$, where $[A,B]=AB-BA$ is the commutator (and $\{A,B\}=AB+BA$ the anticommutator); the charge matrix $C=\gamma^0\gamma^1\gamma^2\gamma^3$; and three facts proved there and verified by the Stage-1 algebra reports:
 
-- (F1) the only complex 16 by 16 matrices that commute with all eight $\gamma^a$ are the multiples of the identity (Stage 1, Result 4.1; check ALG_pinIrreducibleComplex in wolfram-algebra-report.json and python-algebra-report.json);
-- (F2) the 28 matrices $S^{ab}$ with $a<b$ are linearly independent (Stage 1, Result 3.2; check ALG_faithful);
-- (F3) $(S^{ab})^TC=-CS^{ab}$ for all $a,b$ (Stage 1, Result 3.5; check ALG_spinTransposeProperties).
+- (F1) the only complex 16 by 16 matrices that commute with all eight $\gamma^a$ are the multiples of the identity (Stage 1, Result 4.1; check `ALG_pinIrreducibleComplex` in `wolfram-algebra-report.json` and `python-algebra-report.json`);
+- (F2) the 256 ordered products $\gamma^{a_1}\cdots\gamma^{a_k}$ with $a_1<\dots<a_k$ (including the identity, $k=0$) are linearly independent; in particular the eight $\gamma^a$ are linearly independent, and so are the 28 matrices $S^{ab}=\tfrac12\gamma^a\gamma^b$ with $a<b$ (Stage 1, Result 3.2; check `ALG_faithful`);
+- (F3) $(S^{ab})^TC=-CS^{ab}$ for all $a,b$ (Stage 1, Result 3.5; check `ALG_spinTransposeProperties`).
 
 For the two-dimensional spinor examples we use the Pauli matrices
 
@@ -75,7 +75,7 @@ At $r=0$ the determinant vanishes and the polar chart fails, although nothing is
 
 **Example 2: the sphere.** On the sphere of radius $a$ the chart $(\theta,\varphi)$ with $0<\theta<\pi$ and $0<\varphi<2\pi$ labels the point with Cartesian position $(a\sin\theta\cos\varphi,\ a\sin\theta\sin\varphi,\ a\cos\theta)$. It misses the two poles and one half-circle between them; a second chart covers those.
 
-**Example 3: the project.** The project works on an 8-dimensional manifold $M$ with coordinates $x^0,\dots,x^7$. For the primordial field of the notebook (Chapter 9) the chart is described by $z=6Hx^0$ and $t=Hx^4$, where $H>0$ is the notebook's single inverse length, and $z$ runs over the interval $(0,\pi/2)$. At $z=\pi/2$ this chart ends: the metric component $g_{00}=\cot^2z$ of Section 4.4 vanishes there. In the coordinate $\zeta=\ln(\sin z)/(6H)$ the same metric is perfectly regular at $\zeta=0$, which corresponds to $z=\pi/2$ (Stage-2 document, §4.4; check P_zeta_warpedMetric in wolfram-primordial-report.json). As in the plane, a formula that breaks down may be a failure of the chart, not of the space.
+**Example 3: the project.** The project works on an 8-dimensional manifold $M$ with coordinates $x^0,\dots,x^7$. For the primordial field of the notebook (Chapter 9) the chart is described by $z=6Hx^0$ and $t=Hx^4$, where $H>0$ is the notebook's single inverse length, and $z$ runs over the interval $(0,\pi/2)$. At $z=\pi/2$ this chart ends: the metric component $g_{00}=\cot^2z$ of Section 4.4 vanishes there. In the coordinate $\zeta=\ln(\sin z)/(6H)$ the same metric (Section 4.4) is perfectly regular at $\zeta=0$, which corresponds to $z=\pi/2$. (The Stage-2 document, §4.4, verifies this form of the metric with the check `P_zeta_warpedMetric` in `wolfram-primordial-report.json` and records its regularity at $\zeta=0$ as an observation read off from it.) As in the plane, a formula that breaks down may be a failure of the chart, not of the space.
 
 ### 4.3 Vectors, covectors and tensors
 
@@ -172,7 +172,7 @@ ds^2={}&\cot^2z\,(dx^0)^2+s^{1/3}e^{2a_4}\bigl((dx^1)^2+(dx^2)^2+(dx^3)^2\bigr)-
 \end{aligned}
 $$
 
-where $a_4(t)$ is an arbitrary smooth real function and a prime means $d/dt$, so that $\partial_4a_4=Ha_4'$. For $z$ in $(0,\pi/2)$ the diagonal entries have the signs $(+,+,+,+,-,-,-,-)$, so the signature is (4,4) (check P_metric_signature44 in wolfram-primordial-report.json). Three-space expands with the scale factor $s^{1/6}e^{a_4}$ when $a_4$ grows, and the three extra times contract with the scale factor $s^{1/6}e^{-a_4}$. Chapter 9 discusses this field in detail; here it serves as the running example.
+where $a_4(t)$ is an arbitrary smooth real function and a prime means $d/dt$, so that $\partial_4a_4=Ha_4'$. For $z$ in $(0,\pi/2)$ the diagonal entries have the signs $(+,+,+,+,-,-,-,-)$, so the signature is (4,4) (check `P_metric_signature44` in `wolfram-primordial-report.json`). Three-space expands with the scale factor $s^{1/6}e^{a_4}$ when $a_4$ grows, and the three extra times contract with the scale factor $s^{1/6}e^{-a_4}$. Chapter 9 discusses this field in detail; here it serves as the running example.
 
 **Worked example: a change of coordinates in the primordial field.** Put $\zeta=\ln(\sin z)/(6H)$, which runs over $(-\infty,0)$ when $z$ runs over $(0,\pi/2)$. Then $d\zeta=\frac{1}{6H}\,\frac{\cos z}{\sin z}\,dz=\cot z\,dx^0$, because $dz=6H\,dx^0$. So $\cot^2z\,(dx^0)^2=d\zeta^2$. Also $\sin z=e^{6H\zeta}$, so $s^{1/3}=e^{2H\zeta}$, and the metric becomes the warped form
 
@@ -180,7 +180,7 @@ $$
 ds^2=d\zeta^2-(dx^4)^2+e^{2H\zeta}\Bigl[e^{2a_4}\bigl((dx^1)^2+(dx^2)^2+(dx^3)^2\bigr)-e^{-2a_4}\bigl((dx^5)^2+(dx^6)^2+(dx^7)^2\bigr)\Bigr]
 $$
 
-(Stage-2 document, §4.4; check P_zeta_warpedMetric). All six transverse directions share the warp factor $e^{2H\zeta}$.
+(Stage-2 document, §4.4; check `P_zeta_warpedMetric`). All six transverse directions share the warp factor $e^{2H\zeta}$.
 
 **The volume element.** Take determinants in the transformation law of the metric: $\det g'=(\det J)^2\det g$ with $J=(\partial x^\alpha/\partial x'^\mu)$. Hence $\sqrt{\lvert\det g'\rvert}=\lvert\det J\rvert\sqrt{\lvert\det g\rvert}$. The change-of-variables rule of integral calculus says $d^nx=\lvert\det J\rvert\,d^nx'$ for the coordinate volume elements. Together,
 
@@ -196,7 +196,7 @@ $$
 \det g=\cot^2z\cdot\bigl(s^{1/3}e^{2a_4}\bigr)^3\cdot(-1)\cdot\bigl(-s^{1/3}e^{-2a_4}\bigr)^3=\cot^2z\cdot s^2\cdot(-1)(-1)^3=\cos^2z .
 $$
 
-The sign is $+$ because there are four negative entries. So $\sqrt{\lvert g\rvert}=\cos z$ on $(0,\pi/2)$ (checks P_metric_detG_equals_plus_cos2z and P_metric_sqrtAbsDetG_cosz). The Stage-2 specification had written $\det g=-\cos^2z$; the exact computation corrected it. Since $\sqrt{\lvert g\rvert}$ does not depend on $x^4$, the growth of 3-space is exactly compensated by the shrinking of the extra times: the 7-volume of a comoving region stays constant.
+The sign is $+$ because there are four negative entries. So $\sqrt{\lvert g\rvert}=\cos z$ on $(0,\pi/2)$ (checks `P_metric_detG_equals_plus_cos2z` and `P_metric_sqrtAbsDetG_cosz`). The Stage-2 specification had written $\det g=-\cos^2z$; the exact computation corrected it. Since $\sqrt{\lvert g\rvert}$ does not depend on $x^4$, the growth of 3-space is exactly compensated by the shrinking of the extra times: the 7-volume of a comoving region stays constant.
 
 ### 4.5 The covariant derivative and the Christoffel symbols
 
@@ -220,7 +220,7 @@ $$
 \Gamma'^\mu{}_{\nu\lambda}=\frac{\partial x'^\mu}{\partial x^\alpha}\frac{\partial x^\beta}{\partial x'^\nu}\frac{\partial x^\sigma}{\partial x'^\lambda}\,\Gamma^\alpha{}_{\beta\sigma}-\frac{\partial x^\beta}{\partial x'^\nu}\frac{\partial x^\sigma}{\partial x'^\lambda}\,\frac{\partial^2x'^\mu}{\partial x^\beta\partial x^\sigma}.
 $$
 
-(To obtain it, write $\Gamma'^\mu{}_{\nu\lambda}V'^\lambda$ with $V'^\lambda=(\partial x'^\lambda/\partial x^\sigma)V^\sigma$, collect the coefficient of $V^\sigma$, and multiply by $\partial x^\sigma/\partial x'^\lambda$.) The last term is the inhomogeneous part; it is what cancels the unwanted term of $\partial'_\nu V'^\mu$. Because of it, the $\Gamma$ are not the components of a tensor. It is symmetric in $\nu$ and $\lambda$.
+(To obtain it, write $\Gamma'^\mu{}_{\nu\lambda}V'^\lambda$ with $V'^\lambda=(\partial x'^\lambda/\partial x^\sigma)V^\sigma$, collect the coefficient of $V^\sigma$, and multiply by $\partial x^\sigma/\partial x'^\lambda$.) The last term is the inhomogeneous part; it is what cancels the unwanted term of $\partial'_\nu V'^\mu$. Because of it, the $\Gamma$ are not the components of a tensor. The inhomogeneous part is symmetric in $\nu$ and $\lambda$, because second partial derivatives do not depend on the order.
 
 **Covectors and general tensors.** For a scalar function $f$ (a tensor without indices) we set $\nabla_\nu f=\partial_\nu f$. We require the product rule $\nabla_\nu(V^\mu W_\mu)=(\nabla_\nu V^\mu)W_\mu+V^\mu\nabla_\nu W_\mu$. The left side is $\partial_\nu(V^\mu W_\mu)=(\partial_\nu V^\mu)W_\mu+V^\mu\partial_\nu W_\mu$. Subtracting $(\nabla_\nu V^\mu)W_\mu=(\partial_\nu V^\mu)W_\mu+\Gamma^\mu{}_{\nu\lambda}V^\lambda W_\mu$ leaves, for every $V$,
 
@@ -310,7 +310,10 @@ The covariant derivative of the constant field vanishes, as it should: the Chris
 **Worked example: the 37 Christoffel symbols of the primordial field.** The scale factors are $h=(\cot z,\ s^{1/6}e^{a_4}\ (\times3),\ 1,\ s^{1/6}e^{-a_4}\ (\times3))$ with the signs of $\eta$, and they depend on $x^0$ and $x^4$ only. With $\partial_0=6H\,d/dz$ and $\partial_4=H\,d/dt$ the logarithmic derivatives are
 
 $$
-\partial_0\ln\cot z=-\frac{6H}{\sin z\cos z},\qquad \partial_0\ln h_k=H\cot z,\qquad \partial_4\ln h_i=Ha_4',\qquad \partial_4\ln h_j=-Ha_4',
+\begin{aligned}
+&\partial_0\ln\cot z=-\frac{6H}{\sin z\cos z},\qquad \partial_0\ln h_k=H\cot z,\\
+&\partial_4\ln h_i=Ha_4',\qquad \partial_4\ln h_j=-Ha_4',
+\end{aligned}
 $$
 
 for $k\in\{1,2,3,5,6,7\}$, $i\in\{1,2,3\}$ and $j\in\{5,6,7\}$. (For the first: $\frac{d}{dz}\ln\cot z=-\frac{1}{\sin^2z}\cdot\frac{\sin z}{\cos z}$. For the second: $\ln h_k=\tfrac16\ln\sin z\pm a_4$, and $\frac{d}{dz}\tfrac16\ln\sin z=\tfrac16\cot z$.) Now apply the four cases. Case (a) gives only $\Gamma^0{}_{00}$, since $h_0$ is the only scale factor that depends on its own coordinate. Case (b) gives $\Gamma^k{}_{k0}=\Gamma^k{}_{0k}=H\cot z$ and $\Gamma^k{}_{k4}=\Gamma^k{}_{4k}=\pm Ha_4'$. Case (c) with $\mu=0$ gives $\Gamma^0{}_{kk}=-\eta_{kk}\,h_k^2\,\tan^2z\,\partial_0\ln h_k=-\eta_{kk}H\tan z\,h_k^2$, and with $\mu=4$ it gives $\Gamma^4{}_{kk}=\eta_{kk}h_k^2\,\partial_4\ln h_k$. Nothing depends on $x^1,x^2,x^3,x^5,x^6,x^7$, so case (c) with those values of $\mu$ gives zero. The complete list:
@@ -326,7 +329,7 @@ for $k\in\{1,2,3,5,6,7\}$, $i\in\{1,2,3\}$ and $j\in\{5,6,7\}$. (For the first: 
 | $\Gamma^4{}_{ii}$ | $Ha_4'\,s^{1/3}e^{2a_4}$ | 3 |
 | $\Gamma^4{}_{jj}$ | $Ha_4'\,s^{1/3}e^{-2a_4}$ | 3 |
 
-In total $1+12+6+6+3+3+3+3=37$ of the $8^3=512$ symbols are nonzero. This is exactly the count and the closed forms that the Stage-2 verifiers found (measurement christoffelNonzeroCount = 37 and checks P_christoffel_count and P_christoffel_closedForms512 in wolfram-primordial-report.json; nonzeroOrderedCount = 37 and check P_christoffel in python-primordial-report.json; the table of the Stage-2 document, §5, lists the same values with $\sec z/\sin z$ written for $1/(\sin z\cos z)$). As a check of the contracted formula $\Gamma^\rho{}_{\rho\nu}=\partial_\nu\ln\sqrt{\lvert g\rvert}$ with $\sqrt{\lvert g\rvert}=\cos z$:
+In total $1+12+6+6+3+3+3+3=37$ of the $8^3=512$ symbols are nonzero. This is exactly the count and the closed forms that the Stage-2 verifiers found (measurement `christoffelNonzeroCount` = 37 and checks `P_christoffel_count` and `P_christoffel_closedForms512` in `wolfram-primordial-report.json`; `nonzeroOrderedCount` = 37 and check `P_christoffel` in `python-primordial-report.json`; the table of the Stage-2 document, §5, lists the same values with $\sec z/\sin z$ written for $1/(\sin z\cos z)$). As a check of the contracted formula $\Gamma^\rho{}_{\rho\nu}=\partial_\nu\ln\sqrt{\lvert g\rvert}$ with $\sqrt{\lvert g\rvert}=\cos z$:
 
 $$
 \sum_\rho\Gamma^\rho{}_{\rho0}=-\frac{6H}{\sin z\cos z}+6H\frac{\cos z}{\sin z}=\frac{6H(\cos^2z-1)}{\sin z\cos z}=-6H\tan z=\partial_0\ln\cos z,
@@ -403,7 +406,7 @@ $$
 R^\rho{}_{\sigma\mu\nu}=\partial_\mu\Gamma^\rho{}_{\nu\sigma}-\partial_\nu\Gamma^\rho{}_{\mu\sigma}+\Gamma^\rho{}_{\mu\lambda}\Gamma^\lambda{}_{\nu\sigma}-\Gamma^\rho{}_{\nu\lambda}\Gamma^\lambda{}_{\mu\sigma}.
 $$
 
-This is the convention of the whole project (Stage 1, §5.5; measurement convention.curvature of wolfram-geometry-report.json).
+This is the convention of the whole project (Stage 1, §5.5; measurement `convention.curvature` of `wolfram-geometry-report.json`).
 
 *Proof.* $\nabla_\nu V^\rho$ has one lower index $\nu$ and one upper index $\rho$, so by the rule of Section 4.5
 
@@ -480,13 +483,13 @@ $$
 R_{44}=-6H^2a_4'^2 ,
 $$
 
-in agreement with the Stage-2 verifier (check P_einstein_R44; Stage-2 document, §15.1). The same method, applied to all components, gives the scalar curvature
+in agreement with the Stage-2 verifier (check `P_einstein_R44`; Stage-2 document, §15.1). The same method, applied to all components, gives the scalar curvature
 
 $$
 R=6H^2\bigl(a_4'^2-7\bigr)
 $$
 
-(check P_einstein_ricciScalar in wolfram-primordial-report.json; measurement P_einstein.ricciScalar in python-primordial-report.json; it also equals the notebook's own stored output of cell 583, check P_einstein_notebookCell583). Section 4.15 gives a short program that reproduces it. *Numbers.* At the first exact test point of Stage 1, $H=2/3$ and $a_4'=3/7$, so $R=6\cdot\frac49\cdot\bigl(\frac{9}{49}-7\bigr)=\frac83\cdot\frac{-334}{49}=-\frac{2672}{147}$, the value recorded as G2.p1.scalarCurvature in wolfram-geometry-report.json. The Riemann tensor of the primordial field vanishes nowhere: where $a_4'\ne0$ we have $R_{44}\ne0$, and where $a_4'=0$ we have $R=-42H^2\ne0$. The primordial field is curved everywhere.
+(check `P_einstein_ricciScalar` in `wolfram-primordial-report.json`; measurement `P_einstein.ricciScalar` in `python-primordial-report.json`; it also equals the notebook's own stored output of cell 583, check `P_einstein_notebookCell583`). Section 4.15 gives a short program that reproduces it. *Numbers.* At the first exact test point of Stage 1, $H=2/3$ and $a_4'=3/7$, so $R=6\cdot\frac49\cdot\bigl(\frac{9}{49}-7\bigr)=\frac83\cdot\frac{-334}{49}=-\frac{2672}{147}$, the value recorded as `G2.p1.scalarCurvature` in `wolfram-geometry-report.json`. The Riemann tensor of the primordial field vanishes nowhere: where $a_4'\ne0$ we have $R_{44}\ne0$, and where $a_4'=0$ we have $R=-42H^2\ne0$. The primordial field is curved everywhere.
 
 **The second Bianchi identity.** For every metric,
 
@@ -546,7 +549,7 @@ $$
 
 The factor $\tfrac16=\tfrac1{n-2}$ is the one that appears in the evolution equations of the Stage-3 experiment EXP-2. Without matter ($T_{\mu\nu}=0$) the equations say $R_{\mu\nu}=0$: a vacuum solution has vanishing Ricci tensor.
 
-**Worked example: what the primordial field would need as a source.** The primordial field is a prescribed metric, not a solution of the vacuum equations: $R_{44}=-6H^2a_4'^2$ is not zero unless $a_4$ is constant, and we will see that $G^4{}_4$ is never zero. Its mixed Einstein tensor is diagonal, with (Stage-2 document, §15.1; checks P_einstein_GmixedClosedForms and P_einstein_offDiagonalZero in wolfram-primordial-report.json, measurement P_einstein.einsteinMixedDiagonal in python-primordial-report.json)
+**Worked example: what the primordial field would need as a source.** The primordial field is a prescribed metric, not a solution of the vacuum equations: $R_{44}=-6H^2a_4'^2$ is not zero unless $a_4$ is constant, and we will see that $G^4{}_4$ is never zero. Its mixed Einstein tensor is diagonal, with (Stage-2 document, §15.1; checks `P_einstein_GmixedClosedForms` and `P_einstein_offDiagonalZero` in `wolfram-primordial-report.json`, measurement `P_einstein.einsteinMixedDiagonal` in `python-primordial-report.json`)
 
 $$
 \begin{aligned}
@@ -555,19 +558,19 @@ G^4{}_4&=3H^2\bigl(7+a_4'^2\bigr), &\qquad G^j{}_j&=H^2\bigl(15-3a_4'^2-a_4''\bi
 \end{aligned}
 $$
 
-The component $G^4{}_4$ follows from our two results: $G^4{}_4=g^{44}R_{44}-\tfrac12R=6H^2a_4'^2-3H^2(a_4'^2-7)=3H^2(7+a_4'^2)$. The Python verifier also checks the contracted Bianchi identity $\nabla_\mu G^\mu{}_\nu=0$ for all eight values of $\nu$ (measurement P_einstein.contractedBianchi). If the field obeyed the 8-dimensional Einstein equations, its source would need the energy density
+The component $G^4{}_4$ follows from our two results: $G^4{}_4=g^{44}R_{44}-\tfrac12R=6H^2a_4'^2-3H^2(a_4'^2-7)=3H^2(7+a_4'^2)$. The Python verifier also checks the contracted Bianchi identity $\nabla_\mu G^\mu{}_\nu=0$ for all eight values of $\nu$ (measurement `P_einstein.contractedBianchi`). If the field obeyed the 8-dimensional Einstein equations, its source would need the energy density
 
 $$
 \rho_{\mathrm{req}}=-T^4{}_4=-\frac{G^4{}_4}{\kappa}=-\frac{3H^2\bigl(7+a_4'^2\bigr)}{\kappa}\le-\frac{21H^2}{\kappa}<0
 $$
 
-for every $a_4$. This negative energy density is the Stage-2 result checked as P_einstein_rhoRequiredNegative.
+for every $a_4$. This negative energy density is the Stage-2 result checked as `P_einstein_rhoRequiredNegative`.
 
-For the notebook's choice $a_4=t$ ($a_4'=1$, $a_4''=0$) the formulas give $R=-36H^2$, $G^\mu{}_\nu=\mathrm{diag}(12,12,12,12,24,12,12,12)\,H^2$, $\rho_{\mathrm{req}}=-24H^2/\kappa$ and the equal pressures $p=12H^2/\kappa$ in all seven transverse directions, so $w=p/\rho=-\tfrac12$ (python-primordial-report.json, measurement P_a4linear, row "a4 = t"). A cosmological constant cannot supply this: $\Lambda$ contributes equally to all diagonal components, but $G^0{}_0=G^4{}_4$ would require $-3H^2(a_4'^2-5)=3H^2(7+a_4'^2)$, that is $a_4'^2=-1$, which no real $a_4$ satisfies. Chapter 9 discusses which states of dirac16complex can supply such a source.
+For the notebook's choice $a_4=t$ ($a_4'=1$, $a_4''=0$) the formulas give $R=-36H^2$, $G^\mu{}_\nu=\mathrm{diag}(12,12,12,12,24,12,12,12)\,H^2$, $\rho_{\mathrm{req}}=-24H^2/\kappa$ and the equal pressures $p=12H^2/\kappa$ in all seven transverse directions, so $w=p/\rho=-\tfrac12$ (`python-primordial-report.json`, measurement `P_a4linear`, row "a4 = t"). A cosmological constant cannot supply this: $\Lambda$ contributes equally to all diagonal components, but $G^0{}_0=G^4{}_4$ would require $-3H^2(a_4'^2-5)=3H^2(7+a_4'^2)$, that is $a_4'^2=-1$, which no real $a_4$ satisfies. Chapter 9 discusses which states of dirac16complex can supply such a source.
 
 ### 4.9 The Einstein-Lovelock equations
 
-**The question.** Is $G_{\mu\nu}$ the only possible left-hand side? Lovelock answered this in 1971 (D. Lovelock, J. Math. Phys. 12, 498 (1971)). The notebook's title and its cell 14 refer to his result, in the form of equation (4.38) of the book by Lovelock and Rund, *Tensors, Differential Forms, and Variational Principles* (handoff/surveys/survey_notebook-physics.md, item 1). We define the objects and prove what can be proved at this level; the rest is quoted.
+**The question.** Is $G_{\mu\nu}$ the only possible left-hand side? Lovelock answered this in 1971 (D. Lovelock, J. Math. Phys. 12, 498 (1971)). The notebook's title and its cell 14 refer to his result, in the form of equation (4.38) of the book by Lovelock and Rund, *Tensors, Differential Forms, and Variational Principles* (`handoff/surveys/survey_notebook-physics.md`, item 1). We define the objects and prove what can be proved at this level; the rest is quoted.
 
 **Generalized Kronecker delta.** For $2p$ indices,
 
@@ -575,7 +578,7 @@ $$
 \delta^{\mu_1\cdots\mu_p}{}_{\nu_1\cdots\nu_p}:=\det\begin{pmatrix}\delta^{\mu_1}{}_{\nu_1}&\cdots&\delta^{\mu_1}{}_{\nu_p}\\ \vdots&&\vdots\\ \delta^{\mu_p}{}_{\nu_1}&\cdots&\delta^{\mu_p}{}_{\nu_p}\end{pmatrix}.
 $$
 
-It equals $+1$ if the upper indices are distinct and are an even rearrangement of the lower ones, $-1$ for an odd rearrangement, and 0 otherwise. Exchanging two upper indices exchanges two rows and flips the sign. Hence it vanishes whenever two upper indices are equal, and therefore it vanishes identically when $p>n$: among more than $n$ indices, each running over $n$ values, two must be equal. For $p=2$, $\delta^{\alpha\beta}{}_{\gamma\delta}=\delta^\alpha{}_\gamma\delta^\beta{}_\delta-\delta^\alpha{}_\delta\delta^\beta{}_\gamma$.
+It equals $+1$ if the upper indices are distinct and are an even rearrangement of the lower ones, $-1$ for an odd rearrangement, and 0 otherwise. Exchanging two upper indices exchanges two rows and flips the sign. Hence it vanishes whenever two upper indices are equal, and therefore it vanishes identically when $p>n$: among more than $n$ indices, each running over $n$ values, two must be equal. For $p=2$, $\delta^{\alpha\beta}{}_{\mu\nu}=\delta^\alpha{}_\mu\delta^\beta{}_\nu-\delta^\alpha{}_\nu\delta^\beta{}_\mu$.
 
 **Lovelock scalars and tensors.** Write $R^{\alpha\beta}{}_{\mu\nu}:=g^{\beta\lambda}R^\alpha{}_{\lambda\mu\nu}$; it is antisymmetric in $\alpha,\beta$ by (S2) and in $\mu,\nu$ by (S1). For $k=0,1,2,\dots$ define
 
@@ -610,7 +613,7 @@ with constants $\alpha_k$; the choice $\alpha_0=-2\Lambda$, $\alpha_1=1$ and all
 
 **Which orders exist (proved).** $E^{(k)}$ contains the generalized delta with $p=2k+1$ upper indices, so it vanishes identically when $2k+1>n$. In $n=4$ only $k=0$ and $k=1$ survive: Einstein's equations with a cosmological constant are the only choice in four dimensions. In $n=8$ the orders $k=0,1,2,3$ survive. The order-2 scalar is the Gauss-Bonnet combination $L_2=R^2-4R_{\mu\nu}R^{\mu\nu}+R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}$ (a standard expansion of the definition that we quote; this book does not use it). Each order has a different power of length: $R$ has the dimension $1/\text{length}^2$, so $L_k$ has $1/\text{length}^{2k}$.
 
-**The notebook and the project.** The notebook's cell 14 states "m-1 = 8/2 - 1 = 3", keeps the orders 1, 2 and 3, and writes the vacuum equations as $0=-\Lambda+H^{-2}w_1\,\mathrm{Lovelock1}+H^{-4}w_2\,\mathrm{Lovelock2}+H^{-6}w_3\,\mathrm{Lovelock3}$ with pure numbers $w_1,w_2,w_3,\Lambda$. The inverse length $H$ is introduced exactly to make the orders, which have different dimensions, comparable (survey_notebook-physics.md, item 1). This agrees with the counting just proved. But no code of the notebook defines Lovelock2 or Lovelock3, and its curvature code stops at the Einstein tensor (cells 583 and 584, which the Stage-2 verifier reproduces exactly: checks P_einstein_notebookCell583 and P_einstein_notebookCell584). The project does not compute the orders 2 and 3 either (Stage-2 document, §1, non-claim 4). Every gravitational statement in this book therefore uses the 8-dimensional Einstein equations only. Whether the Lovelock terms change the picture is an open problem (Chapter 18).
+**The notebook and the project.** The notebook's cell 14 states "m-1 = 8/2 - 1 = 3", keeps the orders 1, 2 and 3, and writes the vacuum equations as $0=-\Lambda+H^{-2}w_1\,\mathrm{Lovelock1}+H^{-4}w_2\,\mathrm{Lovelock2}+H^{-6}w_3\,\mathrm{Lovelock3}$ with pure numbers $w_1,w_2,w_3,\Lambda$. The inverse length $H$ is introduced exactly to make the orders, which have different dimensions, comparable (`survey_notebook-physics.md`, item 1). This agrees with the counting just proved. But no code of the notebook defines Lovelock2 or Lovelock3, and its curvature code stops at the Einstein tensor (cells 583 and 584, which the Stage-2 verifier reproduces exactly: checks `P_einstein_notebookCell583` and `P_einstein_notebookCell584`). The project does not compute the orders 2 and 3 either (Stage-2 document, §1, non-claim 4). Every gravitational statement in this book therefore uses the 8-dimensional Einstein equations only. Whether the Lovelock terms change the picture is an open problem (Chapter 18).
 
 ### 4.10 The vielbein
 
@@ -656,7 +659,7 @@ They obey the curved Clifford relation: $\gamma^\mu\gamma^\nu+\gamma^\nu\gamma^\
 
 **Worked example: the polar plane.** The unit radial vector $E_0$ has polar components $(1,0)$ and the unit angular vector $E_1$ has $(0,1/r)$, because $g(E_1,E_1)=r^2(1/r)^2=1$. So $e_a{}^\mu=\mathrm{diag}(1,1/r)$ and $e_\mu{}^a=\mathrm{diag}(1,r)$, with frame indices $a=0$ (radial) and $a=1$ (angular). The plane is Euclidean, $\eta=\mathrm{diag}(1,1)$, and a two-dimensional Clifford algebra is given by $\gamma^0=\sigma_1$, $\gamma^1=\sigma_2$. The curved gammas are $\gamma^r=\sigma_1$ and $\gamma^\varphi=\sigma_2/r$; for example $\gamma^\varphi\gamma^\varphi+\gamma^\varphi\gamma^\varphi=2\sigma_2^2/r^2=2/r^2=2g^{\varphi\varphi}$.
 
-**Worked example: the primordial field.** A diagonal metric $g_{\mu\mu}=\eta_{\mu\mu}h_\mu^2$ has the diagonal vielbein $e_\mu{}^a=h_\mu\,\delta_\mu{}^a$ (no sum), since then $e\,\eta\,e^T=\mathrm{diag}(\eta_{\mu\mu}h_\mu^2)$. For the primordial field (Stage-2 document, §4.2; check P_metric_vielbeinProduct)
+**Worked example: the primordial field.** A diagonal metric $g_{\mu\mu}=\eta_{\mu\mu}h_\mu^2$ has the diagonal vielbein $e_\mu{}^a=h_\mu\,\delta_\mu{}^a$ (no sum), since then $e\,\eta\,e^T=\mathrm{diag}(\eta_{\mu\mu}h_\mu^2)$. For the primordial field (Stage-2 document, §4.2; check `P_metric_vielbeinProduct`)
 
 $$
 e_\mu{}^a=\mathrm{diag}\bigl(\cot z,\ s^{1/6}e^{a_4}\ (\times3),\ 1,\ s^{1/6}e^{-a_4}\ (\times3)\bigr),
@@ -665,10 +668,13 @@ $$
 and the curved gammas are
 
 $$
-\gamma^{x_0}=\tan z\,\gamma^0,\qquad \gamma^{x_i}=s^{-1/6}e^{-a_4}\gamma^i\ \ (i=1,2,3),\qquad \gamma^{x_4}=\gamma^4,\qquad \gamma^{x_j}=s^{-1/6}e^{a_4}\gamma^j\ \ (j=5,6,7).
+\begin{aligned}
+&\gamma^{x_0}=\tan z\,\gamma^0,\qquad \gamma^{x_i}=s^{-1/6}e^{-a_4}\gamma^i\ \ (i=1,2,3),\\
+&\gamma^{x_4}=\gamma^4,\qquad \gamma^{x_j}=s^{-1/6}e^{a_4}\gamma^j\ \ (j=5,6,7).
+\end{aligned}
 $$
 
-In the notebook these are the matrices (T16^α) of cell 475, built from its diagonal octad (cells 279, 283 and 302).
+In the notebook these are the matrices `(T16^α)` of cell 475, built from its diagonal octad (cells 279, 283 and 302).
 
 ### 4.11 The spin connection and the vielbein postulate
 
@@ -770,7 +776,7 @@ and all other components vanish. (For $\mu=a$: $\omega_a{}^a{}_b=\frac{h_a}{h_b}
 | $\omega_{j\,j0}=-\omega_{j\,0j}$ | $\eta_{jj}\,\partial_0h_j/h_0$ | $-H\cot z\,h_j\tan z=-\alpha_j$ |
 | $\omega_{j\,j4}=-\omega_{j\,4j}$ | $\eta_{jj}\,\partial_4h_j/h_4$ | $-(-Ha_4'h_j)=\alpha_ja_4'$ |
 
-That is $6\times2\times2=24$ nonzero components, and $\omega_{0ab}=\omega_{4ab}=0$. In the notation of the Stage-2 document (§6): $\omega_{i\,0i}=-H s^{1/6}e^{a_4}$, $\omega_{i\,i4}=Hs^{1/6}e^{a_4}a_4'$, $\omega_{j\,0j}=Hs^{1/6}e^{-a_4}$, $\omega_{j\,j4}=Hs^{1/6}e^{-a_4}a_4'$. The Stage-2 verifiers find the same: the vielbein postulate holds in all 512 components, exactly 24 components are nonzero, with these closed forms (checks P_spinconn_vielbeinPostulate512, P_spinconn_count24, P_spinconn_antisymmetry and P_spinconn_closedForms in wolfram-primordial-report.json; nonzeroCount = 24 and check P_spinconn in python-primordial-report.json).
+That is $6\times2\times2=24$ nonzero components, and $\omega_{0ab}=\omega_{4ab}=0$. In the notation of the Stage-2 document (§6): $\omega_{i\,0i}=-H s^{1/6}e^{a_4}$, $\omega_{i\,i4}=Hs^{1/6}e^{a_4}a_4'$, $\omega_{j\,0j}=Hs^{1/6}e^{-a_4}$, $\omega_{j\,j4}=Hs^{1/6}e^{-a_4}a_4'$. The Stage-2 verifiers find the same: the vielbein postulate holds in all 512 components, exactly 24 components are nonzero, with these closed forms (checks `P_spinconn_vielbeinPostulate512`, `P_spinconn_count24`, `P_spinconn_antisymmetry` and `P_spinconn_closedForms` in `wolfram-primordial-report.json`; `nonzeroCount` = 24 and check `P_spinconn` in `python-primordial-report.json`).
 
 **The mixed components and the space-time pairs.** Since $\omega_{\mu ab}=\eta_{aa}\omega_\mu{}^a{}_b$ (no sum, $\eta_{aa}=\pm1$),
 
@@ -778,9 +784,9 @@ $$
 \omega_\mu{}^b{}_a=\eta_{bb}\,\omega_{\mu ba}=-\eta_{bb}\,\omega_{\mu ab}=-\eta_{aa}\eta_{bb}\,\omega_\mu{}^a{}_b\qquad(\text{no sum}).
 $$
 
-For a pair of two space-like or two time-like frame directions, $\eta_{aa}\eta_{bb}=+1$ and the mixed components are antisymmetric in $(a,b)$, like the lowered ones. For a space-time pair, one space-like and one time-like direction (a boost pair), $\eta_{aa}\eta_{bb}=-1$ and the mixed components are symmetric: $\omega_\mu{}^b{}_a=+\omega_\mu{}^a{}_b$. In the primordial field the 12 components of the pairs $(i,4)$ for $\mu=i$ and $(0,j)$ for $\mu=j$ are of this kind; for example $\omega_1{}^1{}_4=\omega_1{}^4{}_1=Hs^{1/6}e^{a_4}a_4'$ (Stage-2 document, §6; measurement G2.p1.nonzeroOmegaMixedSymmetricPart = 12 in wolfram-geometry-report.json). The notebook's own stored mixed connection (the output of its cell 501) equals the correct $\omega_\mu{}^a{}_b$ entry by entry (check P_spinconn_notebookCell501OmegaMuIJEqualsMixedOmega): the notebook computes $\omega$ correctly. Its error, which Section 4.14 explains, is in how it contracts $\omega$ with $S^{ab}$.
+For a pair of two space-like or two time-like frame directions, $\eta_{aa}\eta_{bb}=+1$ and the mixed components are antisymmetric in $(a,b)$, like the lowered ones. For a space-time pair, one space-like and one time-like direction (a boost pair), $\eta_{aa}\eta_{bb}=-1$ and the mixed components are symmetric: $\omega_\mu{}^b{}_a=+\omega_\mu{}^a{}_b$. In the primordial field the 12 components of the pairs $(i,4)$ for $\mu=i$ and $(0,j)$ for $\mu=j$ are of this kind; for example $\omega_1{}^1{}_4=\omega_1{}^4{}_1=Hs^{1/6}e^{a_4}a_4'$ (Stage-2 document, §6; measurement `G2.p1.nonzeroOmegaMixedSymmetricPart` = 12 in `wolfram-geometry-report.json`). The notebook's own stored mixed connection (the output of its cell 501) equals the correct $\omega_\mu{}^a{}_b$ entry by entry (check `P_spinconn_notebookCell501OmegaMuIJEqualsMixedOmega`): the notebook computes $\omega$ correctly. Its error, which Section 4.14 explains, is in how it contracts $\omega$ with $S^{ab}$.
 
-**An arbitrary gravitational field.** The general statements of this section are proved above for every vielbein. Stage 1 also tested them with exact rational arithmetic in a generic non-diagonal vielbein, the test geometry G1, $e_\mu{}^a=\delta_\mu{}^a+P_\mu{}^a(x)$ with polynomial entries $P$, at three rational points (Stage 1, §5.7). There all 512 components of the vielbein postulate vanish together with their 4096 first derivatives, $\omega_{\mu ab}=-\omega_{\mu ba}$, and 448 of the 512 components $\omega_{\mu ab}$ are nonzero at each point; in the primordial field G2 the count is 24 (Stage 1, Result 5.1; checks GEO_vielbeinPostulate_G1, GEO_vielbeinPostulate_G2, GEO_omegaAntisymmetry_G1 and GEO_omegaAntisymmetry_G2 in wolfram-geometry-report.json and python-geometry-report.json). The Python checker computes $\omega$ in two independent ways, from the Christoffel symbols as above and from the derivatives of the vielbein alone (the anholonomy route), and the two agree.
+**An arbitrary gravitational field.** The general statements of this section are proved above for every vielbein. Stage 1 also tested them with exact rational arithmetic in a generic non-diagonal vielbein, the test geometry G1, $e_\mu{}^a=\delta_\mu{}^a+P_\mu{}^a(x)$ with polynomial entries $P$, at three rational points (Stage 1, §5.7). There all 512 components of the vielbein postulate vanish together with their 4096 first derivatives, $\omega_{\mu ab}=-\omega_{\mu ba}$, and 448 of the 512 components $\omega_{\mu ab}$ are nonzero at each point; in the primordial field G2 the count is 24 (Stage 1, Result 5.1; checks `GEO_vielbeinPostulate_G1`, `GEO_vielbeinPostulate_G2`, `GEO_omegaAntisymmetry_G1` and `GEO_omegaAntisymmetry_G2` in `wolfram-geometry-report.json` and `python-geometry-report.json`). The Python checker computes $\omega$ in two independent ways, from the Christoffel symbols as above and from the derivatives of the vielbein alone (the anholonomy route), and the two agree.
 
 ### 4.12 The covariant derivative of a spinor
 
@@ -802,7 +808,7 @@ $$
 [\Omega_\mu,\gamma^a]=-\omega_\mu{}^a{}_b\,\gamma^b .
 $$
 
-**A commutator identity.** From the Clifford relation, for all $a,b,c$:
+**A commutator identity.** From the Clifford relation, for all $a,c,d$:
 
 $$
 [S^{cd},\gamma^a]=\eta^{da}\gamma^c-\eta^{ca}\gamma^d .
@@ -814,7 +820,7 @@ $$
 \gamma^c\gamma^d\gamma^a-\gamma^a\gamma^c\gamma^d=\gamma^c(2\eta^{da}-\gamma^a\gamma^d)-\gamma^a\gamma^c\gamma^d=2\eta^{da}\gamma^c-(2\eta^{ca}-\gamma^a\gamma^c)\gamma^d-\gamma^a\gamma^c\gamma^d=2\eta^{da}\gamma^c-2\eta^{ca}\gamma^d .
 $$
 
-Divide by 2. $\square$ (This is Stage 1, Result 3.5, checked in all 512 cases: check ALG_SabGammaCommutator in python-geometry-report.json.)
+Divide by 2. $\square$ (This is Stage 1, Result 3.5, checked in all 512 cases: check `ALG_SabGammaCommutator` in `python-geometry-report.json`.)
 
 **Theorem (the spinor connection).** The matrices
 
@@ -854,9 +860,9 @@ $$
 -(\partial_\mu R)R^{-1}\gamma^a+\gamma^a(\partial_\mu R)R^{-1}=(\partial_\mu\Lambda^a{}_b)\,R\gamma^bR^{-1}=\bigl((\partial_\mu\Lambda)\Lambda^{-1}\bigr)^a{}_d\,\gamma^d .
 $$
 
-The left side is $-[(\partial_\mu R)R^{-1},\gamma^a]$. Adding the two parts, $[X_\mu,\gamma^a]=-(\Lambda\omega_\mu\Lambda^{-1}-(\partial_\mu\Lambda)\Lambda^{-1})^a{}_d\gamma^d$, as required. Traces: $\mathrm{tr}(R\Omega_\mu R^{-1})=\mathrm{tr}\,\Omega_\mu=0$, and $\mathrm{tr}((\partial_\mu R)R^{-1})=\partial_\mu\ln\det R=0$ by the determinant lemma of Section 4.5 (its proof works unchanged for complex matrices). Finally $D'_\mu(R\Psi)=(\partial_\mu R)\Psi+R\partial_\mu\Psi+R\Omega_\mu\Psi-(\partial_\mu R)\Psi=R\,D_\mu\Psi$. $\square$
+The left side is $-[(\partial_\mu R)R^{-1},\gamma^a]$. Adding the two parts, $[X_\mu,\gamma^a]=-(\Lambda\omega_\mu\Lambda^{-1}-(\partial_\mu\Lambda)\Lambda^{-1})^a{}_d\gamma^d$, as required. Traces: $\mathrm{tr}(R\Omega_\mu R^{-1})=\mathrm{tr}\,\Omega_\mu=0$, and $\mathrm{tr}((\partial_\mu R)R^{-1})=\mathrm{tr}(R^{-1}\partial_\mu R)=(\partial_\mu\det R)/\det R=0$, because $\det R=1$ is constant (the middle step is the determinant lemma of Section 4.5, whose proof works unchanged for complex matrices). Finally $D'_\mu(R\Psi)=(\partial_\mu R)\Psi+R\partial_\mu\Psi+R\Omega_\mu\Psi-(\partial_\mu R)\Psi=R\,D_\mu\Psi$. $\square$
 
-Stage 1 tested this with finite, point-dependent products of two reflections built from exact rational vector fields: recomputing $\Omega$ from the rotated frame gives exactly $R\Omega R^{-1}-(\partial R)R^{-1}$ and $\gamma'^\mu=R\gamma^\mu R^{-1}$ (Stage 1, Result 5.4; checks LAG_localSpinInvariance_G1 and LAG_localSpinInvariance_G2 in wolfram-geometry-report.json).
+Stage 1 tested this with finite, point-dependent products of two reflections built from exact rational vector fields: recomputing $\Omega$ from the rotated frame gives exactly $R\Omega R^{-1}-(\partial R)R^{-1}$ and $\gamma'^\mu=R\gamma^\mu R^{-1}$ (Stage 1, Result 5.4; checks `LAG_localSpinInvariance_G1` and `LAG_localSpinInvariance_G2` in `wolfram-geometry-report.json`).
 
 **Theorem (the gammas are covariantly constant).** With the canonical connection,
 
@@ -872,9 +878,9 @@ $$
 D_\mu\gamma^\nu=\bigl(\partial_\mu e_a{}^\nu+\Gamma^\nu{}_{\mu\lambda}e_a{}^\lambda-\omega_\mu{}^b{}_a\,e_b{}^\nu\bigr)\gamma^a ,
 $$
 
-and the bracket is the inverse vielbein postulate of Section 4.11, which vanishes. Conversely, if $D_\mu\gamma^\nu=0$, the bracket vanishes because the eight $\gamma^a$ are linearly independent (fact (F2) includes the monomials of degree one), which gives back the inverse postulate and hence the postulate. $\square$
+and the bracket is the inverse vielbein postulate of Section 4.11, which vanishes. Conversely, if $D_\mu\gamma^\nu=0$, the bracket vanishes because the eight $\gamma^a$ are linearly independent (fact (F2)), which gives back the inverse postulate and hence the postulate. $\square$
 
-This is Stage 1, Result 5.2, verified in all 64 pairs $(\mu,\nu)$ in G1 and G2 (checks GEO_gammaCovariantConstancy_G1 and GEO_gammaCovariantConstancy_G2), and in the primordial field by the Stage-2 check P_gammaConst_DmuGammaNuZero64.
+This is Stage 1, Result 5.2, verified in all 64 pairs $(\mu,\nu)$ in G1 and G2 (checks `GEO_gammaCovariantConstancy_G1` and `GEO_gammaCovariantConstancy_G2`), and in the primordial field by the Stage-2 check `P_gammaConst_DmuGammaNuZero64`.
 
 **The divergence identity.** Contract $\mu$ with $\nu$ in $D_\mu\gamma^\nu=0$ and use $\Gamma^\mu{}_{\mu\lambda}=\partial_\lambda\ln\sqrt{\lvert g\rvert}$ (Section 4.5):
 
@@ -884,7 +890,7 @@ $$
 \partial_\mu\bigl(\sqrt{\lvert g\rvert}\,\gamma^\mu\bigr)=\sqrt{\lvert g\rvert}\,[\gamma^\mu,\Omega_\mu].
 $$
 
-(Stage 1, Result 5.3; checks GEO_divergenceIdentity_G1 and GEO_divergenceIdentity_G2.) This identity is used in Chapter 5, to show that the notebook's Lagrangian carries no dynamics for a Grassmann field, and in Chapter 7, to derive the field equations.
+(Stage 1, Result 5.3; checks `GEO_divergenceIdentity_G1` and `GEO_divergenceIdentity_G2`.) This identity is used in Chapter 5, to show that the notebook's Lagrangian carries no dynamics for a Grassmann field, and in Chapter 7, to derive the field equations.
 
 **Diagonal vielbeins: the contraction $\gamma^\mu\Omega_\mu$.** For $e_\mu{}^a=h_\mu\delta_\mu{}^a$ the field equations of Chapter 7 need only the combination $\gamma^\mu\Omega_\mu$ (summed over $\mu$). We show
 
@@ -900,7 +906,7 @@ $$
 
 because $\gamma^\mu\gamma^\mu=\eta^{\mu\mu}$ for a frame matrix and $\eta_{\mu\mu}\eta^{\mu\mu}=1$. The inner sum is $\partial_b\ln\prod_{c\ne b}h_c$. For the anticommutator: $\gamma^\mu S^{\mu b}=\tfrac12\eta^{\mu\mu}\gamma^b$ and $S^{\mu b}\gamma^\mu=\tfrac12\gamma^\mu\gamma^b\gamma^\mu=-\tfrac12\eta^{\mu\mu}\gamma^b$, so every term of $\{\gamma^\mu,\Omega_\mu\}$ cancels. $\square$
 
-This is the formula of Stage 1, §8.5 (checks GEO_diagonalSlashFormula_G2 and GEO_diagonalSlashFormula_G3; GEO_anticommutatorGammaOmegaVanishesDiagonal_G2 for the anticommutator).
+This is the formula of Stage 1, §8.5 (checks `GEO_diagonalSlashFormula_G2` and `GEO_diagonalSlashFormula_G3`; `GEO_anticommutatorGammaOmegaVanishesDiagonal_G2` for the anticommutator).
 
 **Worked example: the polar plane.** Only $\omega_{\varphi01}=-1=-\omega_{\varphi10}$ is nonzero, so $\Omega_r=0$ and $\Omega_\varphi=\omega_{\varphi01}S^{01}=-\tfrac12\gamma^0\gamma^1=-\tfrac12\sigma_1\sigma_2=-\tfrac i2\sigma_3$. Directly,
 
@@ -926,11 +932,13 @@ $$
 \end{aligned}
 $$
 
-using $S^{ba}=-S^{ab}$ (Stage-2 document, §7.1; check P_Omega_closedForms). Now contract with $\gamma^{x_i}=\gamma^i/h_i$ and $\gamma^{x_j}=\gamma^j/h_j$; note $\alpha_i/h_i=\alpha_j/h_j=H$. With $S^{0i}=\tfrac12\gamma^0\gamma^i$ and $\gamma^i\gamma^0\gamma^i=-\gamma^0(\gamma^i)^2=-\gamma^0$, $\gamma^i\gamma^4\gamma^i=-\gamma^4$ (since $(\gamma^i)^2=+1$), and, since $(\gamma^j)^2=-1$, $\gamma^j\gamma^0\gamma^j=\gamma^0$, $\gamma^j\gamma^4\gamma^j=\gamma^4$:
+using $S^{ba}=-S^{ab}$ (Stage-2 document, §7.1; check `P_Omega_closedForms`). Now contract with $\gamma^{x_i}=\gamma^i/h_i$ and $\gamma^{x_j}=\gamma^j/h_j$; note $\alpha_i/h_i=\alpha_j/h_j=H$. With $S^{0i}=\tfrac12\gamma^0\gamma^i$ and $\gamma^i\gamma^0\gamma^i=-\gamma^0(\gamma^i)^2=-\gamma^0$, $\gamma^i\gamma^4\gamma^i=-\gamma^4$ (since $(\gamma^i)^2=+1$), and, since $(\gamma^j)^2=-1$, $\gamma^j\gamma^0\gamma^j=\gamma^0$, $\gamma^j\gamma^4\gamma^j=\gamma^4$:
 
 $$
-\gamma^{x_i}\Omega_i=-\tfrac H2\bigl(\gamma^i\gamma^0\gamma^i+a_4'\gamma^i\gamma^4\gamma^i\bigr)=\tfrac H2\bigl(\gamma^0+a_4'\gamma^4\bigr),\qquad
-\gamma^{x_j}\Omega_j=\tfrac H2\bigl(\gamma^j\gamma^0\gamma^j-a_4'\gamma^j\gamma^4\gamma^j\bigr)=\tfrac H2\bigl(\gamma^0-a_4'\gamma^4\bigr).
+\begin{aligned}
+\gamma^{x_i}\Omega_i&=-\tfrac H2\bigl(\gamma^i\gamma^0\gamma^i+a_4'\gamma^i\gamma^4\gamma^i\bigr)=\tfrac H2\bigl(\gamma^0+a_4'\gamma^4\bigr),\\
+\gamma^{x_j}\Omega_j&=\tfrac H2\bigl(\gamma^j\gamma^0\gamma^j-a_4'\gamma^j\gamma^4\gamma^j\bigr)=\tfrac H2\bigl(\gamma^0-a_4'\gamma^4\bigr).
+\end{aligned}
 $$
 
 Summing over the three $i$ and the three $j$,
@@ -939,7 +947,7 @@ $$
 \gamma^\mu\Omega_\mu=\tfrac{3H}2\bigl(\gamma^0+a_4'\gamma^4\bigr)+\tfrac{3H}2\bigl(\gamma^0-a_4'\gamma^4\bigr)=3H\gamma^0 .
 $$
 
-The free function $a_4$ cancels: the boosts of 3-space and the rotations of the extra times contribute opposite amounts. The general formula agrees: only $b=0$ contributes, because $\prod_{c\ne0}h_c=s^{1/2}e^{3a_4}\cdot1\cdot s^{1/2}e^{-3a_4}=s$ gives $\frac12\tan z\,\partial_0\ln s=\frac12\tan z\cdot6H\cot z=3H$, while $\prod_{c\ne4}h_c=\cot z\cdot s=\cos z$ does not depend on $x^4$. In words, $a_4$ cancels because the 7-volume is constant (Stage-2 document, §8.1; checks P_Omega_gammaSlash3Hgamma0 and P_Omega_contractDiagonalFormula; Stage-1 check GEO_primordialInvariants_G2). With $\{\gamma^\mu,\Omega_\mu\}=0$ we get $[\gamma^\mu,\Omega_\mu]=6H\gamma^0$, and the divergence identity can be checked by hand: $\partial_\mu(\sqrt{\lvert g\rvert}\gamma^\mu)=\partial_0(\cos z\tan z\,\gamma^0)=\partial_0(\sin z)\gamma^0=6H\cos z\,\gamma^0=\sqrt{\lvert g\rvert}\cdot6H\gamma^0$ (check P_gammaConst_divergenceIdentity).
+The free function $a_4$ cancels: the boosts of 3-space and the rotations of the extra times contribute opposite amounts. The general formula agrees: only $b=0$ contributes, because $\prod_{c\ne0}h_c=s^{1/2}e^{3a_4}\cdot1\cdot s^{1/2}e^{-3a_4}=s$ gives $\frac12\tan z\,\partial_0\ln s=\frac12\tan z\cdot6H\cot z=3H$, while $\prod_{c\ne4}h_c=\cot z\cdot s=\cos z$ does not depend on $x^4$. In words, $a_4$ cancels because the 7-volume is constant (Stage-2 document, §8.1; checks `P_Omega_gammaSlash3Hgamma0` and `P_Omega_contractDiagonalFormula`; Stage-1 check `GEO_primordialInvariants_G2`). With $\{\gamma^\mu,\Omega_\mu\}=0$ we get $[\gamma^\mu,\Omega_\mu]=6H\gamma^0$, and the divergence identity can be checked by hand: $\partial_\mu(\sqrt{\lvert g\rvert}\gamma^\mu)=\partial_0(\cos z\tan z\,\gamma^0)=\partial_0(\sin z)\gamma^0=6H\cos z\,\gamma^0=\sqrt{\lvert g\rvert}\cdot6H\gamma^0$ (check `P_gammaConst_divergenceIdentity`).
 
 ### 4.13 The curvature of the spinor connection
 
@@ -981,7 +989,7 @@ Then $R(\omega)^a{}_{b\mu\nu}=e_\rho{}^a\,R^\rho{}_{\sigma\mu\nu}\,e_b{}^\sigma$
 
 *Proof.* $\Omega_\mu=\Omega(\omega_\mu)$ is linear in $\omega$, so $\partial_\mu\Omega_\nu-\partial_\nu\Omega_\mu=\Omega(\partial_\mu\omega_\nu-\partial_\nu\omega_\mu)$, and by the first lemma $[\Omega_\mu,\Omega_\nu]=\Omega([\omega_\mu,\omega_\nu])$. So $F_{\mu\nu}=\Omega(R(\omega)_{\mu\nu})$, and the second lemma identifies $R(\omega)$. $\square$
 
-The sign and the placement of $\eta$ matter. Stage 1 verified the form with $+\tfrac12$ and the lowered first index at all six Wolfram points and at the Python points; the forms with $-\tfrac12$ and without $\eta$ (mixed indices) fail there (Stage 1, Result 5.5; checks GEO_curvature_G1 and GEO_curvature_G2; measurements G1.p1.curvatureCandidate.plusHalfLowered = true, minusHalfLowered = false and plusHalfMixedNoEta = false in wolfram-geometry-report.json).
+The sign and the placement of $\eta$ matter. Stage 1 verified the form with $+\tfrac12$ and the lowered first index at all six Wolfram points and at the Python points; the forms with $-\tfrac12$ and without $\eta$ (mixed indices) fail there (Stage 1, Result 5.5; checks `GEO_curvature_G1` and `GEO_curvature_G2`; measurements `G1.p1.curvatureCandidate.plusHalfLowered` = true, `minusHalfLowered` = false and `plusHalfMixedNoEta` = false in `wolfram-geometry-report.json`).
 
 **Theorem (the spin connection cannot be removed in a curved field).** Near a point, the spinor connection is pure gauge, $\Omega_\mu=-(\partial_\mu R)R^{-1}$ for some spin transformation $R(x)$, if and only if the Riemann tensor vanishes there.
 
@@ -1009,7 +1017,7 @@ $$
 (\gamma^\mu D_\mu)^2\Psi=\gamma^\mu\gamma^\nu\bigl(\partial_\mu D_\nu\Psi+\Omega_\mu D_\nu\Psi\bigr)-\gamma^\mu\Gamma^\nu{}_{\mu\lambda}\gamma^\lambda D_\nu\Psi=\gamma^\mu\gamma^\nu\,\nabla_\mu(D_\nu\Psi),
 $$
 
-after renaming $\lambda\leftrightarrow\nu$ in the last term. Step 2. Split $\gamma^\mu\gamma^\nu=g^{\mu\nu}+\tfrac12[\gamma^\mu,\gamma^\nu]$ (the curved Clifford relation). The first part, $g^{\mu\nu}\nabla_\mu(D_\nu\Psi)$, is the first term of the formula. The second part is $\tfrac12[\gamma^\mu,\gamma^\nu]\nabla_\mu(D_\nu\Psi)$. Since $[\gamma^\mu,\gamma^\nu]$ is antisymmetric in $\mu,\nu$, only the antisymmetric part of $\nabla_\mu(D_\nu\Psi)$ contributes, and that is $\tfrac12\bigl(\nabla_\mu(D_\nu\Psi)-\nabla_\nu(D_\mu\Psi)\bigr)=\tfrac12F_{\mu\nu}\Psi$ (the $\Gamma$ terms cancel because $\Gamma$ is symmetric). So the second part is $\tfrac14[\gamma^\mu,\gamma^\nu]F_{\mu\nu}\Psi=\tfrac12\gamma^\mu\gamma^\nu F_{\mu\nu}\Psi$, where the last step uses $\gamma^\nu\gamma^\mu F_{\mu\nu}=-\gamma^\nu\gamma^\mu F_{\nu\mu}=-\gamma^\mu\gamma^\nu F_{\mu\nu}$ (rename the summed indices). Step 3. In frame components, $\gamma^\mu\gamma^\nu F_{\mu\nu}=\gamma^c\gamma^dF_{cd}$ with $F_{cd}=\tfrac12R_{abcd}S^{ab}=\tfrac14R_{abcd}\gamma^a\gamma^b$ (the terms with $a=b$ vanish, and $S^{ab}=\tfrac12\gamma^a\gamma^b$ otherwise). By pair symmetry (S4), $R_{abcd}\gamma^c\gamma^d\gamma^a\gamma^b=R_{cdab}\gamma^c\gamma^d\gamma^a\gamma^b$, which after renaming the summed indices is $R_{abcd}\gamma^a\gamma^b\gamma^c\gamma^d$. Step 4. For three frame gammas,
+after renaming $\lambda\leftrightarrow\nu$ in the last term. Step 2. Split $\gamma^\mu\gamma^\nu=g^{\mu\nu}+\tfrac12[\gamma^\mu,\gamma^\nu]$ (the curved Clifford relation). The first part, $g^{\mu\nu}\nabla_\mu(D_\nu\Psi)$, is the first term of the formula. The second part is $\tfrac12[\gamma^\mu,\gamma^\nu]\nabla_\mu(D_\nu\Psi)$. Since $[\gamma^\mu,\gamma^\nu]$ is antisymmetric in $\mu,\nu$, only the antisymmetric part of $\nabla_\mu(D_\nu\Psi)$ contributes, and that is $\tfrac12\bigl(\nabla_\mu(D_\nu\Psi)-\nabla_\nu(D_\mu\Psi)\bigr)=\tfrac12F_{\mu\nu}\Psi$ (the $\Gamma$ terms cancel because $\Gamma$ is symmetric). So the second part is $\tfrac14[\gamma^\mu,\gamma^\nu]F_{\mu\nu}\Psi=\tfrac12\gamma^\mu\gamma^\nu F_{\mu\nu}\Psi$, where the last step uses $\gamma^\nu\gamma^\mu F_{\mu\nu}=-\gamma^\nu\gamma^\mu F_{\nu\mu}=-\gamma^\mu\gamma^\nu F_{\mu\nu}$ (rename the summed indices). Step 3. In frame components, $\gamma^\mu\gamma^\nu F_{\mu\nu}=\gamma^c\gamma^dF_{cd}$ with $F_{cd}=\tfrac12R_{abcd}S^{ab}=\tfrac14R_{abcd}\gamma^a\gamma^b$ (the terms with $a=b$ vanish, and $S^{ab}=\tfrac12\gamma^a\gamma^b$ otherwise). The symmetries (S1) to (S4) hold equally for the frame components $R_{abcd}$, which are obtained from $R_{\rho\sigma\mu\nu}$ by multiplying with inverse vielbeins. By pair symmetry (S4), $R_{abcd}\gamma^c\gamma^d\gamma^a\gamma^b=R_{cdab}\gamma^c\gamma^d\gamma^a\gamma^b$, which after renaming the summed indices is $R_{abcd}\gamma^a\gamma^b\gamma^c\gamma^d$. Step 4. For three frame gammas,
 
 $$
 \gamma^b\gamma^c\gamma^d=\gamma^{[bcd]}+\eta^{bc}\gamma^d-\eta^{bd}\gamma^c+\eta^{cd}\gamma^b ,
@@ -1023,7 +1031,7 @@ $$
 
 because $R_{ad}$ is symmetric and $\tfrac12(\gamma^a\gamma^d+\gamma^d\gamma^a)=\eta^{ad}$. Step 5. The second part of Step 2 is $\tfrac12\cdot\tfrac14\cdot(-2R)\Psi=-\tfrac14R\Psi$. $\square$
 
-The constant $-\tfrac14$ is exactly the value that Stage 1 measured at all its test points: lichnerowiczC = -1/4 at the three G1 points and the three Wolfram G2 points, with $+\tfrac14$ failing (Stage 1, Result 8.2; checks GEO_lichnerowicz_G1, GEO_lichnerowicz_G2 and GEO_lichnerowiczConstantSameG1G2). In the primordial field, with $R=6H^2(a_4'^2-7)$, the curvature term is $-\tfrac R4\Psi=\tfrac32H^2(7-a_4'^2)\Psi$, which is $9H^2\Psi$ for $a_4=t$ (Stage-2 document, §7.3). Because of this term, curvature enters the second-order form of the field equations explicitly (Chapter 7).
+The constant $-\tfrac14$ is exactly the value that Stage 1 measured at all its test points: `lichnerowiczC` = -1/4 at the three G1 points and the three Wolfram G2 points, with $+\tfrac14$ failing (Stage 1, Result 8.2; checks `GEO_lichnerowicz_G1`, `GEO_lichnerowicz_G2` and `GEO_lichnerowiczConstantSameG1G2`). In the primordial field, with $R=6H^2(a_4'^2-7)$, the curvature term is $-\tfrac R4\Psi=\tfrac32H^2(7-a_4'^2)\Psi$, which is $9H^2\Psi$ for $a_4=t$ (Stage-2 document, §7.3). Because of this term, curvature enters the second-order form of the field equations explicitly (Chapter 7).
 
 ### 4.14 Why the notebook's contraction is wrong
 
@@ -1038,7 +1046,7 @@ b]].\[CapitalPsi]16,{a,1,8},{b,1,8}]),{\[Alpha]1,1,Length[X]}]+
 constraintVars]&
 ```
 
-Mathematica lists count from 1, so ωmat[[μ+1,a+1,b+1]] is our $\omega_\mu{}^a{}_b$, the mixed spin connection with the first frame index up, and SAB[[a+1,b+1]] is $S^{ab}$, with both indices up. Q1 is the notebook's book-keeping switch, equal to 1. So the notebook's spinor connection is
+Mathematica lists count from 1, so `ωmat[[μ+1,a+1,b+1]]` is our $\omega_\mu{}^a{}_b$, the mixed spin connection with the first frame index up, and `SAB[[a+1,b+1]]` is $S^{ab}$, with both indices up. `Q1` is the notebook's book-keeping switch, equal to 1. So the notebook's spinor connection is
 
 $$
 \Omega^{\mathrm{nb}}_\mu=\tfrac12\,\omega_\mu{}^a{}_b\,S^{ab}\qquad\text{instead of}\qquad \Omega_\mu=\tfrac12\,\omega_{\mu ab}\,S^{ab}.
@@ -1064,7 +1072,7 @@ $$
 \Omega^{\mathrm{nb}}_\mu=\Omega^{\mathrm{ss}}_\mu-\Omega^{\mathrm{tt}}_\mu,\qquad \Omega^{\mathrm{nb}}_\mu-\Omega_\mu=-\Omega^{\mathrm{st}}_\mu-2\,\Omega^{\mathrm{tt}}_\mu .
 $$
 
-Of the 28 pairs $a<b$ in signature (4,4), 6 are space-space, 6 are time-time and $4\times4=16$ are boost pairs: the notebook's contraction deletes 16 of the 28 components of the connection and reverses 6 more. (This is the index argument of Stage 1, §5.6, and of CONTRACT.md, §3, item 4.) In a positive-definite space, such as the polar plane or the sphere, all $\eta^{aa}=+1$ and the two contractions coincide. The mistake is therefore invisible in every textbook example with a positive metric; it appears only with an indefinite metric.
+Of the 28 pairs $a<b$ in signature (4,4), 6 are space-space, 6 are time-time and $4\times4=16$ are boost pairs: for each $\mu$, the notebook's contraction deletes 16 of the 28 independent components of the connection and reverses the sign of 6 more. (This is the index argument of Stage 1, §5.6, and of `CONTRACT.md`, §3, item 4.) In a positive-definite space, such as the polar plane or the sphere, all $\eta^{aa}=+1$ and the two contractions coincide. The mistake is therefore invisible in every textbook example with a positive metric; it appears only with an indefinite metric.
 
 **Consequence: the gammas are no longer covariantly constant.** With $\Omega^{\mathrm{nb}}$ in place of $\Omega$ the covariant derivative of the gammas is, by the theorem of Section 4.12,
 
@@ -1086,7 +1094,7 @@ $$
 \gamma^\mu\Omega^{\mathrm{nb}}_\mu=\tfrac{3H}{2}\bigl(\gamma^0+a_4'\gamma^4\bigr)\qquad\text{instead of the correct}\qquad \gamma^\mu\Omega_\mu=3H\gamma^0 .
 $$
 
-Half of the $\gamma^0$ term is lost, and the $a_4'$ terms no longer cancel. *Numbers.* At the three exact G2 test points of Stage 1, $(H,a_4')=(2/3,3/7)$, $(1/5,-4/9)$ and $(5/7,6/5)$, this gives $\gamma^0+\tfrac37\gamma^4$, $\tfrac3{10}\gamma^0-\tfrac2{15}\gamma^4$ and $\tfrac{15}{14}\gamma^0+\tfrac97\gamma^4$, exactly the values recorded as G2.p1.notebookSlash, G2.p2.notebookSlash and G2.p3.notebookSlash in wolfram-geometry-report.json; the correct values are $2\gamma^0$, $\tfrac35\gamma^0$ and $\tfrac{15}7\gamma^0$.
+Half of the $\gamma^0$ term is lost, and the $a_4'$ terms no longer cancel. *Numbers.* At the three exact G2 test points of Stage 1, $(H,a_4')=(2/3,3/7)$, $(1/5,-4/9)$ and $(5/7,6/5)$, this gives $\gamma^0+\tfrac37\gamma^4$, $\tfrac3{10}\gamma^0-\tfrac2{15}\gamma^4$ and $\tfrac{15}{14}\gamma^0+\tfrac97\gamma^4$, exactly the values recorded as `G2.p1.notebookSlash`, `G2.p2.notebookSlash` and `G2.p3.notebookSlash` in `wolfram-geometry-report.json`; the correct values are $2\gamma^0$, $\tfrac35\gamma^0$ and $\tfrac{15}7\gamma^0$.
 
 **Worked example: one component of $D_\mu\gamma^\nu$.** Take $\mu=1$, $\nu=4$. Since $\gamma^{x_4}=\gamma^4$ is constant, $\partial_1\gamma^{x_4}=0$. The only nonzero $\Gamma^4{}_{1\lambda}$ is $\Gamma^4{}_{11}=Ha_4's^{1/3}e^{2a_4}$, so $\Gamma^4{}_{1\lambda}\gamma^{x_\lambda}=Ha_4's^{1/3}e^{2a_4}\cdot s^{-1/6}e^{-a_4}\gamma^1=\alpha_1a_4'\gamma^1$. For the commutator we need $[S^{01},\gamma^4]=0$ ($\gamma^4$ anticommutes with both $\gamma^0$ and $\gamma^1$, so it commutes with their product) and $[S^{41},\gamma^4]=\eta^{14}\gamma^4-\eta^{44}\gamma^1=\gamma^1$ (the identity of Section 4.12). With the correct connection,
 
@@ -1100,9 +1108,9 @@ $$
 D^{\mathrm{nb}}_1\gamma^{x_4}=\alpha_1a_4'\gamma^1-\alpha_1[S^{01},\gamma^4]=H\,s^{1/6}e^{a_4}a_4'\,\gamma^1\ne0 ,
 $$
 
-which is the entry "$(i,4)$" of the table in the Stage-2 document, §8.3 (check P_gammaConst_notebookContractionClosedForms).
+which is the entry "$(i,4)$" of the table in the Stage-2 document, §8.3 (check `P_gammaConst_notebookContractionClosedForms`).
 
-**What the verifiers measured.** In the primordial field the notebook's contraction violates $D_\mu\gamma^\nu=0$ in 15 of the 64 pairs $(\mu,\nu)$, with 288 nonzero matrix entries; in the generic test geometry G1 it violates it in all 64 pairs, with 4096 nonzero entries. The largest violation is $2/3$, $1/5$ and $9/5$ at the three G2 points and approximately 1.46822, 1.52979 and 1.68937 at the three G1 points. The symmetric part of $\omega_\mu{}^a{}_b$ that the contraction deletes has 12 nonzero entries in G2 and 256 at each G1 point (in G1 every boost pair is populated: 8 values of $\mu$, 16 pairs, 2 orders). Replacing $\Omega$ by $\Omega^{\mathrm{nb}}$ makes all eleven connection-sensitive G2 checks fail, and it breaks local spin invariance already at first order. (Stage 1, Result 5.6; checks GEO_notebookContractionFails_G1, GEO_notebookContractionFails_G2 and NEG_notebookConnectionDetected_G2; Stage-2 checks P_gammaConst_notebookContractionFails and P_gammaConst_divergenceIdentityFailsNotebookContraction; measurements notebookDGammaMaxAbs, notebookDGammaNonzeroEntries and nonzeroOmegaMixedSymmetricPart in wolfram-geometry-report.json.)
+**What the verifiers measured.** In the primordial field the notebook's contraction violates $D_\mu\gamma^\nu=0$ in 15 of the 64 pairs $(\mu,\nu)$, with 288 nonzero matrix entries; in the generic test geometry G1 it violates it in all 64 pairs, with 4096 nonzero entries. The largest violation is $2/3$, $1/5$ and $9/5$ at the three G2 points and approximately 1.46822, 1.52979 and 1.68937 at the three G1 points. The symmetric part of $\omega_\mu{}^a{}_b$ that the contraction deletes has 12 nonzero entries in G2 and 256 at each G1 point (in G1 every boost pair is populated: 8 values of $\mu$, 16 pairs, 2 orders). Replacing $\Omega$ by $\Omega^{\mathrm{nb}}$ makes all eleven connection-sensitive G2 checks fail, and it breaks local spin invariance already at first order. (Stage 1, Result 5.6; checks `GEO_notebookContractionFails_G1`, `GEO_notebookContractionFails_G2` and `NEG_notebookConnectionDetected_G2`; Stage-2 checks `P_gammaConst_notebookContractionFails` and `P_gammaConst_divergenceIdentityFailsNotebookContraction`; measurements `notebookDGammaMaxAbs`, `notebookDGammaNonzeroEntries` and `nonzeroOmegaMixedSymmetricPart` in `wolfram-geometry-report.json`.)
 
 **The repair.** Lower the index first, $\omega_{\mu ab}=\eta_{ac}\omega_\mu{}^c{}_b$, and contract that with $S^{ab}$. In WolframScript, with the notebook's own names (Stage-1 document, §7.2):
 
@@ -1118,9 +1126,9 @@ The notebook's other two problems with Lg[] are separate: for an anticommuting (
 
 ### 4.15 Where the computations live in the repository
 
-**The objects and their checks.** Every formula of this chapter is implemented twice, independently, with exact arithmetic: in Wolfram Language and in Python. The reports are JSON files; each check is a named true/false entry, and each measurement a named value.
+**The objects and their checks.** The formulas of Sections 4.4 to 4.14 that the project uses in eight dimensions are verified by exact computer algebra, most of them twice and independently: in Wolfram Language and in Python. (The two-dimensional examples and the Lovelock tensors of orders 2 and 3 are not part of any verifier.) The reports are JSON files; each check is a named entry that is either true or false, and each measurement a named value.
 
-In the list below, "Stage 1" names checks of the arbitrary-field geometry reports and "Stage 2" checks of wolfram-primordial-report.json; the numbers in parentheses are the sections of this chapter.
+In the list below, "Stage 1" names checks of the arbitrary-field geometry reports and "Stage 2" checks of `wolfram-primordial-report.json`; the numbers in parentheses are the sections of this chapter.
 
 ```
 metric from the vielbein, det g (4.4, 4.10)
@@ -1155,40 +1163,49 @@ the notebook's contraction (4.14)
              P_gammaConst_notebookContractionClosedForms
 ```
 
-The Stage-1 checks are in artifacts/dirac16complex/arbitrary-field/wolfram-geometry-report.json (43 of 43 true) and python-geometry-report.json (52 of 52 true); the Stage-2 checks are in artifacts/dirac16complex/primordial-field/wolfram-primordial-report.json (126 of 126 true) and python-primordial-report.json (16 of 16 true) (Stage-1 document, §11; Stage-2 document, abstract). The programs are:
+The reports, with the number of true checks (Stage-1 document, §11; Stage-2 document, abstract), and the programs that write them:
 
-- wolfram/Dirac16ComplexGeometry.wl with scripts/verify_dirac16complex_geometry.wls (Stage 1, Wolfram);
-- scripts/d16c_geometry_sympy.py with scripts/check_dirac16complex_geometry.py (Stage 1, Python and sympy);
-- wolfram/Dirac16ComplexPrimordial.wl with scripts/verify_dirac16complex_primordial.wls (Stage 2, Wolfram);
-- scripts/check_dirac16complex_primordial.py (Stage 2, Python and sympy).
+```
+artifacts/dirac16complex/arbitrary-field/
+    wolfram-geometry-report.json     43 of 43 true
+    python-geometry-report.json      52 of 52 true
+artifacts/dirac16complex/primordial-field/
+    wolfram-primordial-report.json   126 of 126 true
+    python-primordial-report.json    16 of 16 true
+
+Stage 1, Wolfram:  wolfram/Dirac16ComplexGeometry.wl
+                   scripts/verify_dirac16complex_geometry.wls
+Stage 1, Python:   scripts/d16c_geometry_sympy.py
+                   scripts/check_dirac16complex_geometry.py
+Stage 2, Wolfram:  wolfram/Dirac16ComplexPrimordial.wl
+                   scripts/verify_dirac16complex_primordial.wls
+Stage 2, Python:   scripts/check_dirac16complex_primordial.py
+```
 
 Chapter 19 gives the commands that rerun them and the lines they print.
 
-**How the Python checker computes the geometry.** The class Geometry in scripts/d16c_geometry_sympy.py follows Sections 4.4 to 4.12 line by line. Its arrays are exact "jets": the value and the derivatives of every quantity at one point. The function jein(spec, A, B) is a sum over repeated indices, written in the letter notation of numpy's einsum (for example "rs,smn->rmn" means $\sum_s A_{rs}B_{smn}$). An excerpt, with the indentation removed and one comment shortened:
+**How the Python checker computes the geometry.** The class Geometry in `scripts/d16c_geometry_sympy.py` follows Sections 4.4 to 4.12 line by line. Its arrays are exact "jets": the value and the derivatives of every quantity at one point. The function jein(spec, A, B) is a sum over repeated indices, written in the letter notation of numpy's einsum (for example "rs,smn->rmn" means $\sum_s A_{rs}B_{smn}$). An excerpt, with the indentation and three comment lines removed and one comment shortened:
 
 ```
 self.einv = jinv(e, dom)                                    # [a, mu] = e_a^mu
 self.g = jein("mb,nb->mn", jein("ma,ab->mb", e, ETA), e)   # g = e eta e^T
 self.ginv = jinv(self.g, dom)
-# Christoffel symbols
 dg = self.g.grad()                                           # [l, m, n] = d_l g_mn
 t1 = dg.map(lambda a: np.einsum("mns->smn", a))              # d_m g_ns
 t2 = dg.map(lambda a: np.einsum("nms->smn", a))              # d_n g_ms
 gam1 = (t1 + t2 - dg).scale(half)                            # Gamma_{s m n}
 self.Gamma = jein("rs,smn->rmn", self.ginv, gam1)           # Gamma^r_{mn}
-# canonical spin connection (Christoffel route)
 self.de = e.grad()                                           # [m, n, a] = d_m e_n^a
 inner = jein("rmn,ra->mna", self.Gamma, e) - self.de
 self.omega_mixed = jein("bn,mna->mab", self.einv, inner)    # omega_mu^a_b
 self.omega_low = jein("ac,mcb->mab", ETA, self.omega_mixed)  # omega_{mu a b}
-# spinor connections
 self.Omega = jein("mab,abij->mij", self.omega_low, gd.S).scale(half)
 self.Omega_nb = jein("mab,abij->mij", self.omega_mixed, gd.S).scale(half)
 ```
 
 Read it against the formulas: gam1 is $\Gamma_{\sigma\mu\nu}=\tfrac12(\partial_\mu g_{\nu\sigma}+\partial_\nu g_{\mu\sigma}-\partial_\sigma g_{\mu\nu})$, self.Gamma raises its first index, inner is $\Gamma^\rho{}_{\mu\nu}e_\rho{}^a-\partial_\mu e_\nu{}^a$, and self.omega_mixed multiplies by $e_b{}^\nu$: the solution of the vielbein postulate. The last two lines are the correct contraction, with the lowered $\omega_{\mu ab}$, and the notebook's contraction, with the mixed $\omega_\mu{}^a{}_b$; gd.S holds the 64 matrices $S^{ab}$. The same class also computes $\omega$ by a second, independent route from the derivatives of the vielbein alone (the anholonomy route) and compares the two.
 
-**Try it yourself.** The following short program (not part of the repository; it needs Python with sympy, see Chapter 19) computes the Christoffel symbols and the scalar curvature of the primordial metric from the formulas of Sections 4.5 and 4.7. Save it as curvature.py and run python curvature.py; it takes a few seconds.
+**Try it yourself.** The following short program (not part of the repository; it needs Python with sympy, see Chapter 19) computes the Christoffel symbols and the scalar curvature of the primordial metric from the formulas of Sections 4.5 and 4.7. Save it as `curvature.py` and run python `curvature.py`; it takes a few seconds.
 
 ```
 import sympy as sp
@@ -1251,7 +1268,7 @@ that is, 37 nonzero symbols and $R=6H^2(a_4'^2-7)$ (the sum for R uses only the 
 
 **Computed by the verifiers and quoted here:** the full scalar curvature $R=6H^2(a_4'^2-7)$ and the other components of the Einstein tensor of the primordial field, and all numbers at the test points (counts of nonzero components, curvature values, sizes of the violations), each with its report and check.
 
-**Assumed or quoted without proof:** that spacetime is a smooth manifold with a smooth metric of signature (4,4) and admits a spin structure (Stage 1, §4.5, assumes the latter); the standard theorems we named (Sylvester's law of inertia, the change-of-variables rule for integrals, the inverse function theorem, the flatness theorem, the local existence of orthonormal frames and of smooth spin coverings of frame rotations, Newton's limit of Einstein's equations, the Gauss-Bonnet expansion, and Lovelock's theorem); the facts (F1) to (F3) about the gamma matrices, which Chapter 2 proves; and two choices of the project: the connection is the torsion-free Levi-Civita connection, and the law of gravity is the 8-dimensional Einstein equation $G^\mu{}_\nu=\kappa T^\mu{}_\nu$ without the Lovelock terms of order 2 and 3, which neither the notebook nor the project computes. The Stage-1 test-point checks do not replace the general proofs: they test them exactly at three points of one generic vielbein, in the primordial family and in homogeneous frames, not symbolically for every vielbein (Stage-1 document, §13, limitation 1).
+**Assumed or quoted without proof:** that spacetime is a smooth manifold with a smooth metric of signature (4,4) and admits a spin structure (Stage 1, §4.5, assumes the latter); the standard theorems we named (Sylvester's law of inertia, the change-of-variables rule for integrals, the inverse function theorem, the flatness theorem, the local existence of orthonormal frames and of smooth spin coverings of frame rotations, Newton's limit of Einstein's equations, the Gauss-Bonnet expansion, and Lovelock's theorem); the facts (F1) to (F3) about the gamma matrices, which Chapter 2 proves, and the determinant 1 of the elements of Pin(4,4) as 16 by 16 matrices (derived in Stage 1, §4.2); and two choices of the project: the connection is the torsion-free Levi-Civita connection, and the law of gravity is the 8-dimensional Einstein equation $G^\mu{}_\nu=\kappa T^\mu{}_\nu$ without the Lovelock terms of order 2 and 3, which neither the notebook nor the project computes. The Stage-1 test-point checks do not replace the general proofs: they test them exactly at three points of one generic vielbein, in the primordial family and in homogeneous frames, not symbolically for every vielbein (Stage-1 document, §13, limitation 1).
 
 ### 4.17 Exercises
 
@@ -1295,7 +1312,7 @@ $$
 
 So $R_{ww}=R^y{}_{wyw}=-H^2e^{2Hy}$. For $R_{yy}=R^w{}_{ywy}=\partial_w\Gamma^w{}_{yy}-\partial_y\Gamma^w{}_{wy}+\Gamma^w{}_{w\lambda}\Gamma^\lambda{}_{yy}-\Gamma^w{}_{y\lambda}\Gamma^\lambda{}_{wy}=0-0+0-H\cdot H=-H^2$. $R_{yw}=0$. Finally $R=g^{yy}R_{yy}+g^{ww}R_{ww}=-H^2+e^{-2Hy}(-H^2e^{2Hy})=-2H^2$: constant and negative, a space of constant negative curvature (the hyperbolic plane). The warped form of the primordial field (Section 4.4) has the same kind of warp factor, $e^{2H\zeta}$, in each of its six transverse directions.
 
-**Answer 5.** With $a_4'=a_4''=0$: $R=6H^2(0-7)=-42H^2$; $G^0{}_0=-3H^2(0-5)=15H^2$, $G^i{}_i=15H^2$, $G^4{}_4=21H^2$, $G^j{}_j=15H^2$, so $G^\mu{}_\nu=\mathrm{diag}(15,15,15,15,21,15,15,15)\,H^2$. The required source has $\rho_{\mathrm{req}}=-G^4{}_4/\kappa=-21H^2/\kappa$ and the equal pressures $p=15H^2/\kappa$ in all seven transverse directions, so $w=-15/21=-5/7$. These are the values of the Stage-4 exact theory for the static field (checks KS_geometry_ricciScalarMinus42H2, KS_geometry_einsteinMixedDiag and KS_geometry_requiredSource in artifacts/dirac16complex/kohn-sham/wolfram-kohn-sham-report.json; STAGE4_SPEC.md, erratum E4.3, for the sign of $p$), and $w=-5/7$ is the value of the Stage-2 formula $w=(c^2-5)/(c^2+7)$ at $c=0$ (Stage-2 document, §15.4).
+**Answer 5.** With $a_4'=a_4''=0$: $R=6H^2(0-7)=-42H^2$; $G^0{}_0=-3H^2(0-5)=15H^2$, $G^i{}_i=15H^2$, $G^4{}_4=21H^2$, $G^j{}_j=15H^2$, so $G^\mu{}_\nu=\mathrm{diag}(15,15,15,15,21,15,15,15)\,H^2$. The required source has $\rho_{\mathrm{req}}=-G^4{}_4/\kappa=-21H^2/\kappa$ and the equal pressures $p=15H^2/\kappa$ in all seven transverse directions, so $w=-15/21=-5/7$. These are the values of the Stage-4 exact theory for the static field (checks `KS_geometry_ricciScalarMinus42H2`, `KS_geometry_einsteinMixedDiag` and `KS_geometry_requiredSource` in `artifacts/dirac16complex/kohn-sham/wolfram-kohn-sham-report.json`; `STAGE4_SPEC.md`, erratum E4.3, for the sign of $p$), and $w=-5/7$ is the value of the Stage-2 formula $w=(c^2-5)/(c^2+7)$ at $c=0$ (Stage-2 document, §15.4).
 
 **Answer 6.** (a) $G_{\theta\theta}=R_{\theta\theta}-\tfrac12g_{\theta\theta}R=1-\tfrac12a^2\cdot\tfrac2{a^2}=0$, $G_{\varphi\varphi}=\sin^2\theta-\tfrac12a^2\sin^2\theta\cdot\tfrac{2}{a^2}=0$ and $G_{\theta\varphi}=0$. (b) By Section 4.9, $G^\mu{}_\nu=E^{(1)\mu}{}_\nu$ is a contraction of the generalized delta with $2k+1=3$ upper indices. In two dimensions each index takes only two values, so two of the three upper indices are always equal and the delta vanishes. Hence $G_{\mu\nu}=0$ for every two-dimensional metric, and Einstein's equations in two dimensions would force $T_{\mu\nu}=0$.
 
@@ -1303,10 +1320,10 @@ So $R_{ww}=R^y{}_{wyw}=-H^2e^{2Hy}$. For $R_{yy}=R^w{}_{ywy}=\partial_w\Gamma^w{
 
 **Answer 8.** (a) $\sigma_3^2=1$, so the exponential series splits into even and odd powers: $\exp(i\varphi\sigma_3/2)=\cos(\varphi/2)+i\sigma_3\sin(\varphi/2)=\mathrm{diag}(e^{i\varphi/2},e^{-i\varphi/2})$. Since $\sigma_3$ anticommutes with $\sigma_1$ and $\sigma_2$, moving $\sigma_1$ through $R$ reverses the sign of the exponent: $R\sigma_1=\sigma_1R^{-1}$. Hence $R\sigma_1R^{-1}=\sigma_1R^{-2}=\sigma_1(\cos\varphi-i\sigma_3\sin\varphi)=\cos\varphi\,\sigma_1-\sin\varphi\,\sigma_2$, using $\sigma_1\sigma_3=-i\sigma_2$. In the same way $R\sigma_2R^{-1}=\sigma_2(\cos\varphi-i\sigma_3\sin\varphi)=\cos\varphi\,\sigma_2+\sin\varphi\,\sigma_1$, using $\sigma_2\sigma_3=i\sigma_1$. Therefore $R(\cos\varphi\,\sigma_1+\sin\varphi\,\sigma_2)R^{-1}=(\cos^2\varphi+\sin^2\varphi)\sigma_1+(-\cos\varphi\sin\varphi+\sin\varphi\cos\varphi)\sigma_2=\sigma_1$: the curved gamma $\gamma^r$ of the Cartesian frame, transformed with $R$, is the curved gamma $\gamma^r=\sigma_1$ of the polar frame, as the covariance theorem of Section 4.12 requires. (b) $\partial_\varphi R=\tfrac i2\sigma_3R$, so $-(\partial_\varphi R)R^{-1}=-\tfrac i2\sigma_3$, which is $\Omega_\varphi$ of Section 4.12. By the covariance theorem the polar connection is $R\cdot0\cdot R^{-1}-(\partial_\varphi R)R^{-1}$, and the two computations agree. (c) $R(2\pi)=\mathrm{diag}(e^{i\pi},e^{-i\pi})=-1$. After one full turn around the origin the polar frame is back where it started, but the spin transformation that connects it with the Cartesian frame has become $-1$. So the polar-frame components $R\Psi$ of a smooth spinor field change sign after a full turn. This is the sign of Chapter 2: a rotation by $2\pi$ acts on spinors as $-1$. (d) From $\gamma^\varphi\Omega_\varphi=\frac{\sigma_2}{r}\bigl(-\frac i2\sigma_3\bigr)=\frac{1}{2r}\sigma_1$: it is the spinor connection of the turning polar frame. By covariance, $\gamma^\mu D_\mu(R\Psi)=R\,(\sigma_1\partial_x+\sigma_2\partial_y)\Psi$, so the term $1/(2r)$ is exactly what is needed for the polar form to describe the same flat-space Dirac operator.
 
-**Answer 9.** Use the diagonal formula of Section 4.12. The scale factors depend on $t=x^4$ only, so only $b=4$ contributes; $h_4=1$, and $\prod_{c\ne4}h_c=V$ is the 7-volume. So $\gamma^\mu\Omega_\mu=\tfrac12\,\partial_t\ln V\,\gamma^4=\tfrac12\sum_{j\ne4}\frac{\dot h_j}{h_j}\,\gamma^4=\tfrac12\Theta\gamma^4$. This is the one line of geometry that the Stage-3 experiments need (student guide, §6.6; check GEO_diagonalSlashFormula_G3 in python-geometry-report.json).
+**Answer 9.** Use the diagonal formula of Section 4.12. The scale factors depend on $t=x^4$ only, so only $b=4$ contributes; $h_4=1$, and $\prod_{c\ne4}h_c=V$ is the 7-volume. So $\gamma^\mu\Omega_\mu=\tfrac12\,\partial_t\ln V\,\gamma^4=\tfrac12\sum_{j\ne4}\frac{\dot h_j}{h_j}\,\gamma^4=\tfrac12\Theta\gamma^4$. This is the one line of geometry that the Stage-3 experiments need (student guide, §6.6; check `GEO_diagonalSlashFormula_G3` in `python-geometry-report.json`).
 
-**Answer 10.** (a) Space-space: choose 2 of the 4 space-like directions, $\binom42=6$; time-time: likewise 6; boost pairs: $4\times4=16$; total $6+6+16=28$. (b) With three space directions and one time direction: space-space $\binom32=3$, time-time 0, boosts $3\times1=3$. The same mistake in ordinary four-dimensional spacetime would delete all three boost components of the connection. (c) The symmetric part of $\omega_\mu{}^a{}_b$ is the boost part: for each of the 8 values of $\mu$, 16 pairs in 2 orders, $8\times16\times2=256$ entries. $\omega_{\mu ab}$ has, for each $\mu$, $8\times7=56$ ordered pairs with $a\ne b$, in total $8\times56=448$. Both numbers are exactly the measurements nonzeroOmegaMixedSymmetricPart = 256 and nonzeroOmegaLower = 448 at each G1 point in wolfram-geometry-report.json: the generic vielbein G1 populates every component.
+**Answer 10.** (a) Space-space: choose 2 of the 4 space-like directions, $\binom42=6$; time-time: likewise 6; boost pairs: $4\times4=16$; total $6+6+16=28$. (b) With three space directions and one time direction: space-space $\binom32=3$, time-time 0, boosts $3\times1=3$. The same mistake in ordinary four-dimensional spacetime would delete all three boost components of the connection. (c) The symmetric part of $\omega_\mu{}^a{}_b$ is the boost part: for each of the 8 values of $\mu$, 16 pairs in 2 orders, $8\times16\times2=256$ entries. $\omega_{\mu ab}$ has, for each $\mu$, $8\times7=56$ ordered pairs with $a\ne b$, in total $8\times56=448$. Both numbers are exactly the measurements `nonzeroOmegaMixedSymmetricPart` = 256 and `nonzeroOmegaLower` = 448 at each G1 point in `wolfram-geometry-report.json`: the generic vielbein G1 populates every component.
 
-**Answer 11.** Correct: $\gamma^\mu\Omega_\mu=3H\gamma^0=2\gamma^0$. Notebook: $\tfrac{3H}{2}(\gamma^0+a_4'\gamma^4)=\gamma^0+\tfrac37\gamma^4$, the value G2.p1.notebookSlash of wolfram-geometry-report.json. For $D_5\gamma^{x_5}$: $\gamma^{x_5}=\gamma^5/h_5$ does not depend on $x^5$, so $\partial_5\gamma^{x_5}=0$. The nonzero $\Gamma^5{}_{5\lambda}$ are $\Gamma^5{}_{50}=H\cot z$ and $\Gamma^5{}_{54}=-Ha_4'$, so $\Gamma^5{}_{5\lambda}\gamma^{x_\lambda}=H\cot z\tan z\,\gamma^0-Ha_4'\gamma^4=H\gamma^0-Ha_4'\gamma^4$. With the identity of Section 4.12, $[S^{05},\gamma^5]=\eta^{55}\gamma^0-\eta^{05}\gamma^5=-\gamma^0$ and $[S^{45},\gamma^5]=\eta^{55}\gamma^4-\eta^{45}\gamma^5=-\gamma^4$. With $\Omega_5=\alpha_5(S^{05}-a_4'S^{45})$ and $\alpha_5/h_5=H$: $[\Omega_5,\gamma^{x_5}]=H(-\gamma^0+a_4'\gamma^4)$, and $D_5\gamma^{x_5}=0$. With $\Omega^{\mathrm{nb}}_5=\alpha_5a_4'S^{45}$: $[\Omega^{\mathrm{nb}}_5,\gamma^{x_5}]=-Ha_4'\gamma^4$, and $D^{\mathrm{nb}}_5\gamma^{x_5}=H\gamma^0-2Ha_4'\gamma^4=\tfrac23\gamma^0-\tfrac47\gamma^4$. This is the entry "$(j,j)$" of the table of the Stage-2 document, §8.3.
+**Answer 11.** Correct: $\gamma^\mu\Omega_\mu=3H\gamma^0=2\gamma^0$. Notebook: $\tfrac{3H}{2}(\gamma^0+a_4'\gamma^4)=\gamma^0+\tfrac37\gamma^4$, the value `G2.p1.notebookSlash` of `wolfram-geometry-report.json`. For $D_5\gamma^{x_5}$: $\gamma^{x_5}=\gamma^5/h_5$ does not depend on $x^5$, so $\partial_5\gamma^{x_5}=0$. The nonzero $\Gamma^5{}_{5\lambda}$ are $\Gamma^5{}_{50}=H\cot z$ and $\Gamma^5{}_{54}=-Ha_4'$, so $\Gamma^5{}_{5\lambda}\gamma^{x_\lambda}=H\cot z\tan z\,\gamma^0-Ha_4'\gamma^4=H\gamma^0-Ha_4'\gamma^4$. With the identity of Section 4.12, $[S^{05},\gamma^5]=\eta^{55}\gamma^0-\eta^{05}\gamma^5=-\gamma^0$ and $[S^{45},\gamma^5]=\eta^{55}\gamma^4-\eta^{45}\gamma^5=-\gamma^4$. With $\Omega_5=\alpha_5(S^{05}-a_4'S^{45})$ and $\alpha_5/h_5=H$: $[\Omega_5,\gamma^{x_5}]=H(-\gamma^0+a_4'\gamma^4)$, and $D_5\gamma^{x_5}=0$. With $\Omega^{\mathrm{nb}}_5=\alpha_5a_4'S^{45}$: $[\Omega^{\mathrm{nb}}_5,\gamma^{x_5}]=-Ha_4'\gamma^4$, and $D^{\mathrm{nb}}_5\gamma^{x_5}=H\gamma^0-2Ha_4'\gamma^4=\tfrac23\gamma^0-\tfrac47\gamma^4$. This is the entry "$(j,j)$" of the table of the Stage-2 document, §8.3.
 
 **Answer 12.** (a) $G^\mu{}_\mu=R^\mu{}_\mu-\tfrac12\delta^\mu{}_\mu R=R-\tfrac82R=-3R$. (b) With $a_4=t$, $G^\mu{}_\mu=(7\cdot12+24)H^2=108H^2$ and $-3R=-3(-36H^2)=108H^2$. The two values of Section 4.8 are consistent.

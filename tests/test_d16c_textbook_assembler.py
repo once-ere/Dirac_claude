@@ -170,9 +170,16 @@ class AssemblyTests(TextbookTestCase):
         self.assertIn("chapterHeadings", self.failed(self.run_assemble()))
 
     def test_first_line_must_be_the_chapter_heading(self) -> None:
+        for prefix in ("Some text.\n\n", "```\ncode\n```\n\n", "$$\nx\n$$\n\n"):
+            with self.subTest(prefix=prefix):
+                self.write_plan3()
+                self.write("01-one.md", prefix + chapter_text(1, "One"))
+                self.assertIn("chapterHeadings", self.failed(self.run_assemble()))
         self.write_plan3()
-        self.write("01-one.md", "Some text.\n\n" + chapter_text(1, "One"))
-        self.assertIn("chapterHeadings", self.failed(self.run_assemble()))
+        self.write("01-one.md", "\n\n" + chapter_text(1, "One"))
+        assembly = self.run_assemble()
+        self.assertEqual(self.failed(assembly), set(), assembly.problems)
+        self.assertIn("\n\n## 1. One\n\nIntroduction to chapter 1.", assembly.text)
 
     def test_heading_levels(self) -> None:
         for extra, check in (
@@ -276,6 +283,14 @@ class ReferenceTests(TextbookTestCase):
             [("1.1", "resolved"), ("1.2", "resolved"), ("1.3", "unresolved")],
         )
 
+    def test_en_dash_range(self) -> None:
+        assembly = self.references_of("Chapters 0–2 and Sections 1.1–1.2.")
+        self.assertEqual(self.failed(assembly), set(), assembly.problems)
+        self.assertEqual(
+            [target for target, _ in self.statuses(assembly)],
+            ["0", "1", "2", "1.1", "1.2"],
+        )
+
     def test_singular_forms_take_one_number(self) -> None:
         assembly = self.references_of(
             "The gammas of Chapter 2, 16 by 16 matrices, and Section 1.2, 17 of them."
@@ -319,6 +334,7 @@ class ReferenceTests(TextbookTestCase):
             "Read STAGE4_SPEC.md Section 7 first.",
             "See Sections 2-4 of the Stage-1 document.",
             "See Section 5 of Stage 1.",
+            "It is in the Stage-2 document's Section 4.4.",
         )
         for sentence in sentences:
             with self.subTest(sentence=sentence):
@@ -337,6 +353,9 @@ class ReferenceTests(TextbookTestCase):
             "Chapter 1 of this book explains it.",
             "In Stage 4, Chapter 2 solves it.",
             "The Stage-1 document proves it. Section 1.1 repeats the proof.",
+            "The class in `scripts/check.py` follows Sections 1.1 to 1.2 line by line.",
+            "It is excluded (Stage-2 document §15.5, Chapter 2).",
+            "The Stage-1 document and the student guide agree with Section 1.2.",
         )
         for sentence in sentences:
             with self.subTest(sentence=sentence):

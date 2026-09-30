@@ -83,7 +83,7 @@ where $Y_n$ is the computed approximation of $Y(t_n)$.
 | 0.125 | 8 | 0.343609 | 0.024271 | 2.12 |
 | 0.0625 | 16 | 0.356074 | 0.011805 | 2.06 |
 
-Halving the step halves the error (the ratio tends to $2^1=2$): order 1 confirmed. The method **converges**, the error tends to 0 as $h\to0$, but slowly: for 6 correct digits Euler would need about a million steps here. Better methods (Section 10.6) reach the same accuracy with far fewer steps.
+Halving the step halves the error (the ratio tends to $2^1=2$): order 1 confirmed. The method **converges**, the error tends to 0 as $h\to0$, but slowly: the error is close to $0.19\,h$, so for 6 correct digits (an error below $5\times10^{-7}$) Euler would need a step of about $2.6\times10^{-6}$, that is about 400000 steps. Better methods (Section 10.6) reach the same accuracy with far fewer steps.
 
 ### 10.4 Stability: decay and oscillation
 
@@ -278,7 +278,7 @@ $$
 
 and dividing by $12\Delta$ gives $u'-\tfrac{\Delta^4}{30}u^{(5)}$. The formula is exact up to $\tfrac{\Delta^4}{30}u^{(5)}$. For an oscillation with frequency at most $E$, $\lvert u^{(5)}\rvert\le E^5\lvert u\rvert$, so the residual $\lVert\text{formula}-(-ihu)\rVert$ must stay below about $\tfrac{\Delta^4}{30}E^5$. The EXP-1 checker allows $1.5\,\tfrac{\Delta^4}{30}E^5+10^{-6}$ and finds at most 0.63 of it (`fdResidualWorstRatioToBound`); EXP-5 finds at most 0.71.
 
-**4. Refined-tolerance convergence.** The checker reruns the program with `--refined` (rtol and atol divided by 10, max_step by 2) and requires the errors to shrink. In EXP-5 the relative error against an independent reference falls from $3.34\times10^{-8}$ to $2.28\times10^{-9}$ (`canonicalMaxRelativeError` and `refinedMaxRelativeError` in `exp5/python-check-report.json`). In EXP-1 every run's distance from the exact solution strictly decreases. Where a floor was identified instead, as the rounding floor of Section 10.10, the check tests that the floor is explained, not that it shrinks.
+**4. Refined-tolerance convergence.** The checker reruns the program with `--refined` (rtol and atol divided by 10, max_step by 2) and requires the errors to shrink. In EXP-5 the relative error against an independent reference falls from $3.34\times10^{-8}$ to $2.28\times10^{-9}$ (`canonicalMaxRelativeError` and `refinedMaxRelativeError` in `exp5/python-check-report.json`). In EXP-1 every run's distance from the exact solution strictly decreases. Where a floor was identified instead, such as the rounding floor of Section 10.10, the check requires the error to stay within that floor rather than to shrink (Stage-3 document §5.3).
 
 **5. Independent integrators.** Where no exact solution exists, the checkers integrate selected modes again with methods that share no code with CVODE. The classical **fourth-order Runge–Kutta method** (RK4) makes a step with four evaluations of $f$,
 
@@ -290,7 +290,7 @@ $$
 Y_{n+1}=Y_n+\tfrac h6\bigl(k_1+2k_2+2k_3+k_4\bigr).
 $$
 
-For $y'=-y$ one RK4 step multiplies by $1-h+\tfrac{h^2}{2}-\tfrac{h^3}{6}+\tfrac{h^4}{24}$, which is $0.606771$ for $h=0.5$; two steps give $y(1)\approx0.368171$, an error of only $2.9\times10^{-4}$, against $0.118$ for Euler with the same step (Section 10.3). The error of such a reference is itself estimated by **Richardson's rule**: for a method of order $p$, halving the step reduces the error by about $2^p$, so the difference $Y_{h/2}-Y_h$ is about $(2^p-1)$ times the error of $Y_{h/2}$. The EXP-4 and EXP-5 checkers use RK4 with a Richardson estimate, and the EXP-4 checker also uses a fourth-order **Magnus method**, which advances $i\dot u=h(t)u$ by exponentials of Hermitian matrices and therefore keeps $u^\dagger u$ exactly (Stage-3 document §9.6 and §10.6). A Mathematica notebook re-integrates all five experiments with Mathematica's NDSolve, including an order-8 Runge–Kutta method and a 32-digit arithmetic run (Stage-3 document §11.2); the figure shows its agreement with CVODE.
+For $y'=-y$ one RK4 step multiplies by $1-h+\tfrac{h^2}{2}-\tfrac{h^3}{6}+\tfrac{h^4}{24}$, which is $0.606771$ for $h=0.5$; two steps give $y(1)\approx0.368171$, an error of only $2.9\times10^{-4}$, against $0.118$ for Euler with the same step (Section 10.3). The error of such a reference is itself estimated by **Richardson's rule**: for a method of order $p$, halving the step reduces the error by about $2^p$, so the difference $Y_{h/2}-Y_h$ is about $(2^p-1)$ times the error of $Y_{h/2}$. The EXP-4 and EXP-5 checkers use RK4 with a Richardson estimate, and the EXP-4 checker also uses a fourth-order **Magnus method**, which advances $i\dot u=h(t)u$ by the exponential of $-i$ times a Hermitian matrix, a unitary matrix, and therefore keeps $u^\dagger u$ exactly (Stage-3 document §9.6 and §10.6). A Mathematica notebook re-integrates all five experiments with Mathematica's NDSolve, including an order-8 Runge–Kutta method and a 32-digit arithmetic run (Stage-3 document §11.2); the figure shows its agreement with CVODE.
 
 ![Agreement of Mathematica's NDSolve with the Rust CVODE solutions, as digits of agreement ($-\log_{10}$ of the largest deviation) for each experiment; "aligned" means that a constant phase was removed first. From the Stage-3 Mathematica notebook.](artifacts/dirac16complex/numerics/figures/mathematica/cross_check_deviations.png)
 

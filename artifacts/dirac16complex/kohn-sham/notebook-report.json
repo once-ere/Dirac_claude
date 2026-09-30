@@ -50,7 +50,7 @@
     "gauntlet_rust_excited_self_checks": true,
     "gauntlet_rust_thermo_self_checks": true,
     "gauntlet_rust_emt_self_checks": true,
-    "gauntlet_determinism_report_current": false,
+    "gauntlet_determinism_report_current": true,
     "gauntlet_exact_theory_wolfram": true,
     "gauntlet_exact_theory_python_sympy": true,
     "gauntlet_algebra_relations_exact": true,
@@ -104,9 +104,8 @@
     "gauntlet_prose_numbers_match_files": true
   },
   "checkCount": 74,
-  "failedCheckCount": 7,
+  "failedCheckCount": 6,
   "failed": [
-    "gauntlet_determinism_report_current",
     "gauntlet_python_check_report",
     "gauntlet_rust_vs_reference_deltaSCF",
     "gauntlet_rust_vs_reference_eigenvalues",
@@ -119,7 +118,7 @@
       "code cell 17 has an error output (AssertionError)"
     ],
     "problems_execution0_r07_gauntlet_passed": [
-      "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole",
+      "gauntlet FAIL lines: rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole",
       "gauntlet SKIP lines: python_check_report",
       "the gauntlet did not print ALL CHECKS PASSED"
     ],
@@ -127,7 +126,7 @@
       "code cell 17 has an error output (AssertionError)"
     ],
     "problems_execution1_r07_gauntlet_passed": [
-      "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole",
+      "gauntlet FAIL lines: rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole",
       "gauntlet SKIP lines: python_check_report",
       "the gauntlet did not print ALL CHECKS PASSED"
     ],
@@ -139,9 +138,8 @@
     "figures": 14,
     "requiredFigures": 14,
     "gauntletCount": 60,
-    "gauntletPassed": 55,
+    "gauntletPassed": 56,
     "gauntletFailed": [
-      "determinism_report_current",
       "rust_vs_reference_deltaSCF",
       "rust_vs_reference_eigenvalues",
       "rust_vs_reference_particleHole"
@@ -152,16 +150,16 @@
     "executions": 2
   },
   "sourceSha256": {
-    "builder": "29501d56c085d29e02be9f71da38642260bdacbe806ee43ec69413fa48153303",
+    "builder": "e88f95cf6f5f582d5e09ac7c62b050590244a2e8bb0663cdf208d98e41cdecbb",
     "auditor": "4ee6dfdca59b076bcec372dca4b82f1c84e00009b178a83ab835d7ad5e1d9c91",
     "runner": "ef5bbd8c082f2e17ed2c894788f5f9edd791a23ecb25ebe266881fe2d7cff40c",
-    "notebookCells": "411d225952e003293bda36cc96e595db414d80011590a1c93ea0b4fb769a75e4",
+    "notebookCells": "51c7b36ff114f809f1b1c0a2720459d8dda642da595fb8485169d8225724d045",
     "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
     "artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json": "5b150b36e13b903c32b86e8debbaeda48798e0beb0bc6a216e416d2671f4e01a",
     "artifacts/dirac16complex/kohn-sham/exchange-table.json": "42542b119b258f957e748861d30de7dbc8527f4c0a11f3a2cd6660d9ba98e0a3",
     "artifacts/dirac16complex/kohn-sham/wolfram-kohn-sham-report.json": "9f04bc10b2e513a790ea6f317473caa8d245a98ee38cbdeb5997f17557fe8978",
     "artifacts/dirac16complex/kohn-sham/python-theory-report.json": "042ef6dc641fd3ec69cdc6d775832f824beb3b39f769e65eadfae8682a78356b",
-    "artifacts/dirac16complex/kohn-sham/rust/determinism-report.json": "b25c152f23e97c4b6bc47dfa5f13d45182cb4b3ae71ab6110d69eae89abbe78b",
+    "artifacts/dirac16complex/kohn-sham/rust/determinism-report.json": "3c65bc93ab53c13073e9bb07f8bc66c9b5327b170a2c14e2e67ee77cd9aa023c",
     "artifacts/dirac16complex/kohn-sham/reference/reference-summary.json": "f6247addb043a970856476d690f437b8d1d2a1a7d340d643a170ae283bf43d64",
     "artifacts/dirac16complex/kohn-sham/python-check-report.json": null,
     "scripts/check_dirac16complex_kohn_sham.py": "a2883b47fd5a4febbf19fe479c1b7afaa1ba001621a0455e946e1682c02294ee",
@@ -177,7 +175,7 @@
       "notebook": "notebooks/dirac16complex_kohn_sham.ipynb",
       "problems": [
         "code cell 17 has an error output (AssertionError)",
-        "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole",
+        "gauntlet FAIL lines: rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole",
         "gauntlet SKIP lines: python_check_report",
         "the gauntlet did not print ALL CHECKS PASSED"
       ],
@@ -185,14 +183,14 @@
       "gauntletChecks": 60,
       "gauntletPassed": false,
       "nbformatValid": true,
-      "cellsSha256": "411d225952e003293bda36cc96e595db414d80011590a1c93ea0b4fb769a75e4"
+      "cellsSha256": "51c7b36ff114f809f1b1c0a2720459d8dda642da595fb8485169d8225724d045"
     },
     {
       "runner": "Jupyter kernel python3 through nbclient (python -m nbconvert --to notebook --execute, or the builder's --execute)",
       "notebook": "dirac16complex_kohn_sham.ipynb",
       "problems": [
         "code cell 17 has an error output (AssertionError)",
-        "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole",
+        "gauntlet FAIL lines: rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole",
         "gauntlet SKIP lines: python_check_report",
         "the gauntlet did not print ALL CHECKS PASSED"
       ],
@@ -200,7 +198,7 @@
       "gauntletChecks": 60,
       "gauntletPassed": false,
       "nbformatValid": true,
-      "cellsSha256": "411d225952e003293bda36cc96e595db414d80011590a1c93ea0b4fb769a75e4"
+      "cellsSha256": "51c7b36ff114f809f1b1c0a2720459d8dda642da595fb8485169d8225724d045"
     }
   ],
   "crossExecution": {
@@ -211,8 +209,8 @@
   "figures": [
     {
       "file": "artifacts/dirac16complex/kohn-sham/figures/block_structure.png",
-      "sha256": "8b11e0b83ded984c5e0d779474084ae9961812040c4b0cf26b508e3bdc4c348f",
-      "bytes": 33383,
+      "sha256": "5c5f5920db4ee7df2b5dcd24de2f645854973259f67d68556c9963f627189f6b",
+      "bytes": 35851,
       "description": "Eight 2x2 blocks: |entries| of the y-current matrix gamma^0 gamma^4 in the original spinor basis and in the explicit block basis of kohn-sham-theory.json, and of the full reduced-equation operator in the block basis (section 6.1)."
     },
     {
@@ -296,8 +294,8 @@
   ],
   "gauntlet": {
     "count": 60,
-    "passed": 55,
-    "failed": 4,
+    "passed": 56,
+    "failed": 3,
     "skipped": 1,
     "results": [
       {
@@ -350,9 +348,9 @@
       },
       {
         "name": "determinism_report_current",
-        "status": "FAIL",
-        "passed": false,
-        "detail": "repeat byte identity and refined convergence ['canonical_summaries_present', 'canonical_verdicts_success', 'refined_convergence', 'repeat_byte_identity']; summaries changed since the report was written: ['excited/summary.json']"
+        "status": "PASS",
+        "passed": true,
+        "detail": "repeat byte identity and refined convergence ['canonical_summaries_present', 'canonical_verdicts_success', 'refined_convergence', 'repeat_byte_identity']; summaries changed since the report was written: []"
       },
       {
         "name": "exact_theory_wolfram",

@@ -73,16 +73,15 @@ same chapter).  Text inside fenced code, display math, inline math $...$ and
 code spans `...` is not scanned.  Lower-case "section 7" is never a reference.
 A reference is EXTERNAL (it points into another document and is not checked)
 when
-  (a) the (at most three) words directly before the keyword, collected back
-      from the keyword up to a sentence end ". ", "; ", ": ", "! ", "? " or
-      one of the words and, or, see, also, in, with, then, while, but, from,
-      to, cf., unlike, like, as, than, where, which, name another document:
-      they contain DIRAC16COMPLEX, a repository folder (provenance/,
-      handoff/, artifacts/, scripts/, studies/, wolfram/, notebooks/), a file
-      suffix .md .tex .pdf .json .nb .wl, SPEC, CONTRACT, HANDOFF, README,
-      GUIDE, "student guide", or the word document(s) or specification(s)
-      (either case of the first letter), for example
-      "the Stage-1 document, Section 7.7", "(Stage-1 document, Section 7.7)"
+  (a) the word directly before the keyword (in the same sentence; a token
+      made only of brackets, quotes or commas, such as "(", is skipped) names
+      another document: it contains DIRAC16COMPLEX, a repository folder
+      (provenance/, handoff/, artifacts/, scripts/, studies/, wolfram/,
+      notebooks/), a file suffix .md .tex .pdf .json .nb .wl, SPEC,
+      CONTRACT, HANDOFF, README, or one of the words document(s),
+      specification(s), guide (either case of the first letter), for example
+      "the Stage-1 document, Section 7.7", "(Stage-1 document, Section 7.7)",
+      "the Stage-1 document (Section 7.7)", "the student guide, Section 6.4"
       or "`README.md` Section 3";
   (b) for Section only: the text directly before the keyword ends with a
       stage name "Stage 1", "Stage-1" (optionally followed by a comma), as in
@@ -215,17 +214,10 @@ LIST_SEPARATOR = re.compile(
 RANGE_SEPARATOR = re.compile(r"[ \t]+to[ \t]+|[ \t]*[-–][ \t]*")
 SENTENCE_BOUNDARY = re.compile(r"[.;:!?](?=\s)|\n[ \t]*\n")
 AFTER_BOUNDARY = re.compile(r"[,.;:!?](?=\s)|\n[ \t]*\n")
-STOP_WORDS = frozenset(
-    {
-        "and", "or", "see", "also", "in", "with", "then", "while", "but",
-        "from", "to", "cf.", "cf", "unlike", "like", "as", "than", "where",
-        "which",
-    }
-)
 EXTERNAL_MARKER = re.compile(
     r"DIRAC16COMPLEX|provenance/|handoff/|artifacts/|scripts/|studies/|"
     r"wolfram/|notebooks/|\.md\b|\.tex\b|\.pdf\b|\.json\b|\.nb\b|\.wl\b|"
-    r"SPEC|CONTRACT|HANDOFF|README|GUIDE|[Ss]tudent [Gg]uide|"
+    r"SPEC|CONTRACT|HANDOFF|README|GUIDE|[Gg]uides?\b|"
     r"[Dd]ocuments?\b|[Ss]pecifications?\b"
 )
 STAGE_NAME_AT_END = re.compile(r"Stage[- ]?\d+[a-z]*[ \t]*,?[ \t]*$")
@@ -401,39 +393,47 @@ def structural_lines(lines: list[str]):
 def scan_headings(chapter: Chapter, problems: list[Problem]) -> None:
     """Check the chapter heading, the heading levels and the section numbers;
     record the sections of the chapter."""
-    first_seen = False
+    first_line = next(
+        (index + 1 for index, line in enumerate(chapter.lines) if line.strip()),
+        None,
+    )
+    if first_line is None:
+        problems.append(
+            Problem("chapterHeadings", chapter.display, "has no heading")
+        )
+        return
+    first = chapter.lines[first_line - 1].strip()
+    heading = HEADING_PATTERN.match(first)
+    chapter_heading = (
+        CHAPTER_HEADING_PATTERN.fullmatch(heading.group(2))
+        if heading and len(heading.group(1)) == 2
+        else None
+    )
+    if chapter_heading is None:
+        problems.append(
+            Problem(
+                "chapterHeadings",
+                f"{chapter.display}:{first_line}",
+                f"the first line must be '## {chapter.number}. Title', "
+                f"found {first[:60]!r}",
+            )
+        )
+    else:
+        if int(chapter_heading.group(1)) != chapter.number:
+            problems.append(
+                Problem(
+                    "chapterHeadings",
+                    f"{chapter.display}:{first_line}",
+                    f"heading number {chapter_heading.group(1)} does not "
+                    f"match the file number {chapter.number:02d}",
+                )
+            )
+        chapter.title = chapter_heading.group(2).strip()
     expected_section = 1
     for number, stripped in structural_lines(chapter.lines):
         location = f"{chapter.display}:{number}"
-        if not first_seen and stripped:
-            first_seen = True
-            heading = HEADING_PATTERN.match(stripped)
-            chapter_heading = (
-                CHAPTER_HEADING_PATTERN.fullmatch(heading.group(2))
-                if heading and len(heading.group(1)) == 2
-                else None
-            )
-            if chapter_heading is None:
-                problems.append(
-                    Problem(
-                        "chapterHeadings",
-                        location,
-                        f"the first line must be '## {chapter.number}. Title', "
-                        f"found {stripped[:60]!r}",
-                    )
-                )
-            else:
-                if int(chapter_heading.group(1)) != chapter.number:
-                    problems.append(
-                        Problem(
-                            "chapterHeadings",
-                            location,
-                            f"heading number {chapter_heading.group(1)} does not "
-                            f"match the file number {chapter.number:02d}",
-                        )
-                    )
-                chapter.title = chapter_heading.group(2).strip()
-                continue
+        if number == first_line and chapter_heading is not None:
+            continue
         heading = HEADING_PATTERN.match(stripped)
         if heading is None:
             continue
@@ -506,10 +506,6 @@ def scan_headings(chapter: Chapter, problems: list[Problem]) -> None:
                     location,
                 )
             )
-    if not first_seen:
-        problems.append(
-            Problem("chapterHeadings", chapter.display, "has no heading")
-        )
 
 
 def line_starts(text: str) -> list[int]:
@@ -525,18 +521,12 @@ def is_external(text: str, start: int, end: int, base: str) -> bool:
     if boundaries:
         before = before[boundaries[-1].end():]
     before = THIS_BOOK.sub(" ", before)
-    collected: list[str] = []
     for token in reversed(before.split()):
-        bare = token.strip("()[]*,`'\"")
-        if not bare:
+        if not token.strip("()[]*,`'\""):
             continue
-        if bare.lower() in STOP_WORDS:
-            break
-        collected.append(token)
-        if len(collected) == 3:
-            break
-    if EXTERNAL_MARKER.search(" ".join(reversed(collected))):
-        return True
+        if EXTERNAL_MARKER.search(token):
+            return True
+        break
     if base == "Section" and STAGE_NAME_AT_END.search(before.replace("(", " ")):
         return True
     after = text[end:end + 120]

@@ -1143,7 +1143,7 @@ print(f"block ODE matrix M s3 - kk s2 + i j (eps - v) s1: {ode_dev:.1e}")
 print("block types j:", NB["block_types"], "| blocks per type:", NB["blocks_per_type"])
 
 seq = matplotlib.colors.LinearSegmentedColormap.from_list("seq", [SURFACE, PALETTE[0]])
-fig, axes = plt.subplots(1, 3, figsize=(10.5, 4.1))
+fig, axes = plt.subplots(1, 3, figsize=(10.5, 4.6))
 M_demo, kk_demo, ev_demo = 1.0, 0.7, 0.4
 panels = [(np.abs(G0 @ G4), "gamma^0 gamma^4 (y-current), original basis"),
           (np.abs(U.conj().T @ G0 @ G4 @ U), "gamma^0 gamma^4 in the block basis"),
