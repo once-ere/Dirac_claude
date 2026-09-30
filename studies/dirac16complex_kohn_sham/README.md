@@ -261,7 +261,7 @@ trees themselves are not committed).
 
 ## Canonical results (`artifacts/dirac16complex/kohn-sham/rust/`, H = 1, m = 1, L = 3 unless stated)
 
-All five subcommands SUCCESS (spectrum 33 checks, scf 137, excited 60,
+All five subcommands SUCCESS (spectrum 33 checks, scf 137, excited 65,
 thermo 102, emt 60); `determinism-report.json`: a second run is
 byte-identical (327 files) and a `--refined` run (rtol, atol / 10,
 max_step / 2) agrees to 6.0e-8 relative in E and F (65 runs) and 2.8e-8
@@ -282,7 +282,11 @@ absolute in 364829 eigenvalues.
   0.0948132 / 0.0948140 (+lh2), 60.891305 / 0.0960102 / 0.0960098 (-lh2);
   N = 1016: 1127.136625 / 0.0530077 / 0.0530077, 1127.342203 / 0.0544240 /
   0.0545261 (+lh2), 1126.858093 / 0.0412551 / 0.0436184 (-lh2: level
-  crossing, coupling continuation, smearing 1e-3 m).
+  crossing, coupling continuation, smearing 1e-3 m; on 601 grid points
+  1126.858089 / 0.0412551 / 0.0436194).  The lowest particle-hole
+  excitation of the -lh2 ensemble is zero (6.6e-12: the two numerically split
+  halves of the fractionally occupied k = 0 level), then 3.69e-3 m (band ->
+  k = 0 level) and the KS gap 0.0412551 m.
 * Thermodynamics (N = 8, lambda = 0): F = -0.39398, -30.5115, -11447.70 and
   C_V = 33.62, 1754.1, 2.383e5 at T/m = 0.1, 0.3, 1 (E = 46811.7 at T = m:
   a thermal pair plasma of ~75000 levels per block type); the
@@ -302,16 +306,20 @@ absolute in 364829 eigenvalues.
 
 ## Provenance of the canonical tree
 
-`spectrum`, `scf`, `excited` and `thermo` were produced by one release
-build (SHA-256 of the executable 6e7d2a93...), `emt` by the final build
-(SHA-256 17b010b8...), which differs from the first ONLY in `runs::run_emt`
-(the positive-energy assertion replaced by the evaluated comparison and
-the per-run sign lists); the final build reproduces the `spectrum` tree of
-the first byte for byte (15 files).  The repeat and refined trees were
-produced the same way (the same build per subcommand), so the byte
-comparison of `determinism-report.json` compares like with like.
-Temporary diagnostic examples used during development are not part of the
-crate.
+`spectrum`, `scf` and `thermo` were produced by one release build (SHA-256
+of the executable 6e7d2a93...).  `emt` was produced by a later build
+(SHA-256 17b010b8...), which differs from 6e7d2a93 only in `runs::run_emt`
+(the positive-energy assertion replaced by the evaluated comparison and the
+per-run sign lists) and reproduces the `spectrum` tree of 6e7d2a93 byte for
+byte (15 files).  `excited` was produced by the final build (SHA-256
+3bbc395a...), which adds the occupation-floor particle-hole rule, the
+parameter blocks of the excited records and the 601-point refinement run;
+its other excited outputs are byte-identical to those of 6e7d2a93.  The
+Stage-4 gate reproduces every subcommand with the final build.  The repeat
+and refined trees were produced the same way (the same build per
+subcommand), so the byte comparison of `determinism-report.json` compares
+like with like.  Temporary diagnostic examples used during development are
+not part of the crate.
 
 ## Origin of copied code
 
