@@ -15,6 +15,7 @@ import math
 import os
 import sys
 import tempfile
+import types
 import unittest
 
 # one BLAS thread (the reference solver's setting; small dense eigenproblems):
@@ -28,6 +29,48 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, "scripts"))
 import ks_reference_solver as K  # noqa: E402
 import check_dirac16complex_kohn_sham as C  # noqa: E402
+
+
+class ParticleHoleRuleTests(unittest.TestCase):
+    """T = 0 particle-hole pairs come from the exact aufbau of the converged
+    spectrum, also for a run converged with occupation smearing (the
+    N = 1016, -lambda_hat_2 level crossing); physical T > 0 keeps the thermal
+    rule (holes f >= 1/2, particles f < 1/2)."""
+
+    @staticmethod
+    def _run(T, smearing, fs):
+        # A: eps 0.5, mult 8; open-shell pair B1/B2: eps 0.7 and 0.7 + 1e-12,
+        # mult 4 each (degenerate within DEGENERACY_TOL); C: eps 0.9, mult 4.
+        # N = 12: A full, the 8-fold B group half filled (an open shell).
+        specs = [(1, 2.0, 0.5, 1, 0), (0, 1.0, 0.7, 1, 1), (0, 1.0, 0.7 + 1e-12, -1, 1), (2, 1.0, 0.9, 1, 0)]
+        states = []
+        for (q, r3, eps, typ, idx), f in zip(specs, fs):
+            st = K.State(q, r3, 0.25 * math.sqrt(q), typ, idx, eps, None, None, None, branch=1)
+            st.f = f
+            st.w = f
+            states.append(st)
+        run = types.SimpleNamespace()
+        run.params = K.Params(m=1.0, L=3.0, lambda_hat=0.0, T=T, N=12.0, parity=1, N0=24, smearing=smearing)
+        run.levels = [{"spectrum": types.SimpleNamespace(states=states)}]
+        run.state_eps = {}
+        return run, states
+
+    def test_smeared_zero_temperature_run_uses_the_aufbau(self):
+        smeared = [0.978, 0.526, 0.526, 1e-185]
+        run, states = self._run(0.0, 1e-3, smeared)
+        pairs = K.particle_hole_list(run)
+        self.assertLess(pairs[0]["excitation"], 1e-9)          # inside the half-filled shell
+        self.assertTrue(all(abs(p["epsHole"] - 0.9) > 1e-6 for p in pairs))   # f = 1e-185 is no hole
+        self.assertEqual([st.f for st in states], smeared)     # the run's own occupations are untouched
+        # negative control: the smeared f taken as thermal would give 0.2 (B -> C)
+        run_t, _ = self._run(1e-3, 0.0, smeared)
+        self.assertAlmostEqual(K.particle_hole_list(run_t)[0]["excitation"], 0.2, places=9)
+
+    def test_exact_zero_temperature_run_is_unchanged(self):
+        run, _ = self._run(0.0, 0.0, [1.0, 0.5, 0.5, 0.0])
+        pairs = K.particle_hole_list(run)
+        self.assertLess(pairs[0]["excitation"], 1e-9)
+        self.assertTrue(all(abs(p["epsHole"] - 0.9) > 1e-6 for p in pairs))
 
 
 class AlgebraTests(unittest.TestCase):

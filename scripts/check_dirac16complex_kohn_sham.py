@@ -586,7 +586,8 @@ SUBCOMMANDS = ("spectrum", "scf", "excited", "thermo", "emt")
 LABEL_RE = re.compile(r"^m(?P<m>[0-9p]+)_L(?P<L>[0-9p]+)_N(?P<N>\d+)_(?P<lam>lam[a-z0-9]+)_T(?P<T>[0-9p]+)"
                       r"(?:_a4(?P<a4>[0-9pm]+))?(?:_g(?P<g>\d+))?(?:_dk(?P<dk>[0-9pm]+))?$")
 LAMBDA_KEYS = {"lam0": (0.0, None), "lamp1": (1.0, "lambdaHat1"), "lamm1": (-1.0, "lambdaHat1"),
-               "lamp2": (1.0, "lambdaHat2"), "lamm2": (-1.0, "lambdaHat2")}
+               "lamp2": (1.0, "lambdaHat2"), "lamm2": (-1.0, "lambdaHat2"),
+               "lamp1rescaled": (math.exp(1.5), "lambdaHat1")}  # a4_0 rescaling partner (runs.rs block D)
 
 
 def rust_number(text):
@@ -692,6 +693,20 @@ def rust_runs(rust_dir, summaries):
                           "gridPoints": parsed["gridPoints"], "deltaKOverM": parsed["deltaKOverM"],
                           "ell": 2.0 * math.pi / (parsed["deltaKOverM"] * parsed["m"]), "fromLabel": True}
             runs.append({"sub": sub, "label": entry, "dir": d, "run": run, "record": record, "params": params})
+    # the excited records of the Rust crate carry no parameter block: their
+    # ground state IS the scf run of the same label (runs.rs solves it with
+    # the same parameters), so they inherit its parameters, which record in
+    # particular the T = 0 occupation smearing of a level-crossing fallback
+    # (without it the smeared f of such a run would be compared as exact
+    # T = 0 occupations)
+    scf_params = {r["label"]: r["params"] for r in runs
+                  if r["sub"] == "scf" and isinstance(r["params"], dict) and not r["params"].get("fromLabel")}
+    for r in runs:
+        if r["sub"] != "scf" and isinstance(r["params"], dict) and r["params"].get("fromLabel") \
+                and r["label"] in scf_params:
+            inherited = dict(scf_params[r["label"]])
+            inherited["inheritedFrom"] = "scf/" + r["label"]
+            r["params"] = inherited
     return runs
 
 

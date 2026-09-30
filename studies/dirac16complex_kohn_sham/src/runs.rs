@@ -1261,15 +1261,24 @@ pub fn run_excited(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                 &format!("{} iterations", ground.iterations),
             );
             let gap = ground.gap().unwrap_or(f64::NAN);
-            // particle-hole list: lowest 12 excitations eps_a - eps_i (occupied i, empty a)
-            let occupied: Vec<&scf::State> = ground
-                .spectrum
+            // particle-hole list: lowest 12 excitations eps_a - eps_i (occupied i,
+            // empty a) in the EXACT T = 0 aufbau occupations of the converged
+            // spectrum (N states in order of eps; a group degenerate within 1e-9
+            // that straddles N is shared equally and belongs to both sets).  For
+            // exact-occupation runs these are the ground-state f.  For a run that
+            // converged only with occupation smearing (a level crossing at the
+            // Fermi level, scf.rs) the smeared f are a convergence device, not the
+            // physical T = 0 occupations: with them every state with f > 0 (down
+            // to f ~ 1e-185) would count as a hole and every state with f < 1 as a
+            // particle.
+            let mut aufbau = ground.spectrum.clone();
+            scf::occupy(&mut aufbau, &params, &scf::Occupation::Zero)?;
+            let occupied: Vec<&scf::State> = aufbau
                 .states
                 .iter()
                 .filter(|s| s.branch > 0 && s.f > 0.0)
                 .collect();
-            let empty: Vec<&scf::State> = ground
-                .spectrum
+            let empty: Vec<&scf::State> = aufbau
                 .states
                 .iter()
                 .filter(|s| s.branch > 0 && s.f < 1.0)

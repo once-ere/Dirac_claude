@@ -2181,26 +2181,49 @@ def extrapolate_values(vals):
 # 9. Excited states (KS gap, particle-hole list, Delta-SCF) and thermodynamics
 # ---------------------------------------------------------------------------
 
+def aufbau_occupations(states, N):
+    """{key: f} of the exact T = 0 aufbau (occupy_zero) of a converged
+    spectrum, leaving the states' own occupations unchanged."""
+    saved = [(st.f, st.w) for st in states]
+    try:
+        occupy_zero(states, N)
+        return {st.key(): st.f for st in states}
+    finally:
+        for st, (f, w) in zip(states, saved):
+            st.f, st.w = f, w
+
+
 def particle_hole_list(run: SectorRun, count=12):
     """Lowest particle-hole excitations eps_a - eps_i > 0 on the particle
     branch (finest grid; eigenvalues extrapolated where matched).  T = 0:
-    holes are the levels with f > 0, particles those with f < 1 (the
-    straddling group belongs to both).  T > 0 (or occupation smearing): holes
-    f >= 1/2, particles f < 1/2, i.e. the thermal excitation spectrum around
-    mu.  Both sets are ordered in eps and overlap at most in the straddling
-    group, so only the top (count + overlap) holes and the bottom
-    (count + overlap) particles can enter the lowest `count` excitations:
-    the pairs are formed among those candidates (a full double loop over
-    the ~5e5 levels of a T = m spectrum would not fit in memory)."""
+    holes are the levels occupied in the EXACT T = 0 aufbau of the converged
+    spectrum, particles those not full (the straddling group, shared equally,
+    belongs to both).  For a T = 0 run that converged only with occupation
+    smearing (a level crossing at the Fermi level) the aufbau is recomputed
+    from the converged spectrum: the smeared f are a convergence device, not
+    the physical T = 0 occupations (the rule of the Rust crate, runs.rs).
+    T > 0: holes f >= 1/2, particles f < 1/2, i.e. the thermal excitation
+    spectrum around mu.  Both sets are ordered in eps and overlap at most in
+    the straddling group, so only the top (count + overlap) holes and the
+    bottom (count + overlap) particles can enter the lowest `count`
+    excitations: the pairs are formed among those candidates (a full double
+    loop over the ~5e5 levels of a T = m spectrum would not fit in memory)."""
     fine = run.levels[-1]
-    states = [st for st in fine["spectrum"].states if st.branch > 0]
-    if run.params.occupation_temperature() > 0.0:
+    every = fine["spectrum"].states
+    states = [st for st in every if st.branch > 0]
+    if run.params.T > 0.0:
+        f_of = {st.key(): st.f for st in states}
         occ = [st for st in states if st.f >= 0.5]
         emp = [st for st in states if st.f < 0.5]
+        overlap = 0
     else:
-        occ = [st for st in states if st.f > 1e-12]
-        emp = [st for st in states if st.f < 1.0 - 1e-12]
-    overlap = sum(1 for st in states if 1e-12 < st.f < 1.0 - 1e-12) if run.params.occupation_temperature() <= 0 else 0
+        if run.params.occupation_temperature() > 0.0:
+            f_of = aufbau_occupations(every, run.params.N)
+        else:
+            f_of = {st.key(): st.f for st in states}
+        occ = [st for st in states if f_of[st.key()] > 1e-12]
+        emp = [st for st in states if f_of[st.key()] < 1.0 - 1e-12]
+        overlap = sum(1 for st in states if 1e-12 < f_of[st.key()] < 1.0 - 1e-12)
     ncand = count + overlap
     occ = sorted(occ, key=lambda st: (-st.eps, st.key()))[:ncand]
     emp = sorted(emp, key=lambda st: (st.eps, st.key()))[:ncand]
@@ -2216,7 +2239,8 @@ def particle_hole_list(run: SectorRun, count=12):
             ea = run.state_eps.get(a.key(), ([], a.eps))[1]
             pairs.append({"hole": key_str(i.key()), "particle": key_str(a.key()),
                           "epsHole": float(ei), "epsParticle": float(ea),
-                          "excitation": float(ea - ei), "weight": float(i.mult * i.f * a.mult * (1.0 - a.f))})
+                          "excitation": float(ea - ei),
+                          "weight": float(i.mult * f_of[i.key()] * a.mult * (1.0 - f_of[a.key()]))})
     pairs.sort(key=lambda d: (d["excitation"], d["hole"], d["particle"]))
     return pairs[:count]
 
@@ -2618,8 +2642,12 @@ def trim_float(v):
     return text.replace(".", "p").replace("-", "m")
 
 
+# lamp1rescaled: the a4_0 = 0.5 rescaling partner of the Rust crate (runs.rs, block D):
+# KS(a4_0 = 0.5, Delta k, l, lambda) equals KS(a4_0 = 0, Delta k e^{-0.5}, l e^{0.5},
+# lambda e^{1.5}) exactly, so the partner run carries lambda_hat_1 e^{1.5}.
 LAMBDA_SYMBOLS = {"lam0": None, "lamp1": (1.0, "lambdaHat1"), "lamm1": (-1.0, "lambdaHat1"),
-                  "lamp2": (1.0, "lambdaHat2"), "lamm2": (-1.0, "lambdaHat2"), "lamh": "hot"}
+                  "lamp2": (1.0, "lambdaHat2"), "lamm2": (-1.0, "lambdaHat2"), "lamh": "hot",
+                  "lamp1rescaled": (math.exp(1.5), "lambdaHat1")}
 
 
 def rust_label(m, L, N, lam_name, T, a4=0.0, delta_k_over_m=0.25):
@@ -2688,7 +2716,7 @@ def canonical_runs(quick=False, shells_info=None):
     # D. a4_0 = 0.5 rescaling pair and E. Delta k halved (N x 8): lambda_hat_1 of (1, 3, N_mid)
     mid = (1.0, 3.0, nmid)
     add(1, 3, nmid, "lamp1", coupling=mid, a4=0.5)
-    add(1, 3, nmid, "lamp1", coupling=mid, delta_k_over_m=0.25 * math.exp(-0.5))
+    add(1, 3, nmid, "lamp1rescaled", coupling=mid, delta_k_over_m=0.25 * math.exp(-0.5))
     add(1, 3, 8.0 * nmid, "lamp1", coupling=mid, delta_k_over_m=0.125)
     # F. thermodynamics, the three series per N of the Rust crate (runs.rs run_thermo), T/m in
     # {0.1, 0.3, 1} (T = 0 is the scf run of the same label): lam0; lamp1, the T = 0 calibrated
