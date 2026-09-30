@@ -245,7 +245,14 @@ exchange-table cross-check (skipped when the table is absent).
 lambda_hat_2).  `scf/`, `thermo/`, `emt/`: one directory per run
 (`levels.csv`, `profiles.csv`, `history.csv`, `run.json`) and `summary.json`;
 `excited/`: `particle-hole.csv`, `levels.csv`, `levels-excited.csv` per run and
-`excitations.csv`; `thermo/thermodynamics.csv` (column `series`: 0 lam0,
+`excitations.csv`; the summary record of every excited run carries the
+parameters of its converged ground state (including the T = 0 occupation
+smearing of a level-crossing fallback); the particle-hole lists count a
+state as a hole when f > 1e-12 and as a particle when f < 1 - 1e-12
+(`PH_OCCUPATION_FLOOR`, the reference solver's T = 0 rule: the Fermi-Dirac
+tails of a smeared run are neither); the run `m1_L3_N1016_lamm2_T0_g601` is
+the 601-point grid refinement of the hardest Delta-SCF (check
+`excited_grid_refinement_delta_scf`; not a row of `excitations.csv`); `thermo/thermodynamics.csv` (column `series`: 0 lam0,
 1 lamp1, 2 lamh; per-series couplings and first-order estimates in
 `thermo/summary.json: series`); `emt/emt-summary.csv`;
 `determinism-report.json` (repeat byte identity and refined-tolerance
