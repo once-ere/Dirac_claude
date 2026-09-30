@@ -142,6 +142,8 @@ TOL = {
     "eps": 1e-6,                        # |d eps| <= eps max(1, |eps|/m) m + dl max|V|
     "energy": 1e-6,                     # E_0, F: |dE| <= energy max(|E|, N m) (+ dl |E_int| after correction)
     "scalar": 1e-6,                     # mu, gap, Delta-SCF: |d| <= scalar max(m, |value|) + dl max|V|
+                                        # (+ for E_0, mu, gap, Delta-SCF, lowest particle-hole of a run with a Rust
+                                        # _g601 partner: the measured |X(601) - X(301)|, rust_grid_uncertainties)
     "profileInterior": 2e-5,            # max |d profile| / max|profile| on interior common nodes (+ dl max|V|/m)
     "profileEnd": 2e-3,                 # the two end nodes: O(h^3) after the (h, h^2) elimination
     "emtAverage": 2e-5,                 # |d <X>| / max(|<rho>|, |<p_y>|, |<p_3>|)
@@ -1292,6 +1294,38 @@ def dl_signed(item, ref):
     return 0.0
 
 
+def rust_quantity(item, name):
+    """E0, mu, ksGap, deltaScf or lowestParticleHole of a Rust run."""
+    if name == "E0":
+        return rust_energy(item)
+    value = field(item, name)
+    return value if is_num(value) else None
+
+
+def rust_grid_uncertainties(runs):
+    """{(sub, base label): {quantity: |X(finer grid) - X(301 points)|}} from
+    the Rust grid-refinement pairs (a run with the label suffix _g601 and the
+    run of its base label in the same subcommand): the measured y-grid
+    uncertainty of the Rust value.  It is added to the comparison tolerance
+    of both members of the pair and recorded with the comparison."""
+    by_key = {(it["sub"], it["label"]): it for it in runs}
+    out = {}
+    for it in runs:
+        found = re.search(r"_g(\d+)$", it["label"])
+        if not found:
+            continue
+        base = by_key.get((it["sub"], it["label"][:found.start()]))
+        if base is None:
+            continue
+        unc = {}
+        for name in ("E0", "mu", "ksGap", "deltaScf", "lowestParticleHole"):
+            fine, coarse = rust_quantity(it, name), rust_quantity(base, name)
+            if is_num(fine) and is_num(coarse):
+                unc[name] = abs(fine - coarse)
+        out[(it["sub"], base["label"])] = unc
+    return out
+
+
 def compare_canonical(reg: Registry, ref_dir, runs):
     """Every Rust run with a reference run of the same label (see
     reference_label_for), quantity by quantity; one aggregated check per
@@ -1299,6 +1333,7 @@ def compare_canonical(reg: Registry, ref_dir, runs):
     worst = Worst()
     compared = []
     missing = []
+    grid_uncertainty = rust_grid_uncertainties(runs)
     for item in runs:
         if item["sub"] == "spectrum":
             continue
@@ -1311,6 +1346,9 @@ def compare_canonical(reg: Registry, ref_dir, runs):
         compared.append(where)
         p = item["params"] or {}
         record = {"referenceLabel": label}
+        gu = grid_uncertainty.get((item["sub"], label), {})
+        if gu:
+            record["rustGridUncertainty"] = gu
         lr, lf = p.get("lambdaHat"), ref["params"].get("lambda_hat")
         dl = abs(dl_signed(item, ref))
         ratio_l = 1.0 + dl_signed(item, ref)
@@ -1334,7 +1372,7 @@ def compare_canonical(reg: Registry, ref_dir, runs):
             if is_num(e_r) and is_num(e_f):
                 e_f2 = e_f + (ref["extrapolated"].get("interaction") or 0.0) * dl_signed(item, ref)
                 dev = abs(e_r - e_f2)
-                tol = TOL["energy"] * max(abs(e_r), N * m)
+                tol = TOL["energy"] * max(abs(e_r), N * m) + gu.get("E0", 0.0)
                 record["E0"] = {"rust": e_r, "reference": e_f, "referenceLambdaCorrected": e_f2, "deviation": dev,
                                 "tolerance": tol}
                 worst.add("E0", where, dev, tol)
@@ -1342,7 +1380,7 @@ def compare_canonical(reg: Registry, ref_dir, runs):
                 vr = field(item, key_r)
                 if is_num(vr) and is_num(value_f):
                     dev = abs(vr - value_f)
-                    tol = TOL["scalar"] * max(m, abs(vr)) + dl * vmax
+                    tol = TOL["scalar"] * max(m, abs(vr)) + dl * vmax + gu.get(key_r, 0.0)
                     record[key_r] = {"rust": vr, "reference": value_f, "deviation": dev, "tolerance": tol}
                     worst.add("muAndGap", where + ":" + key_r, dev, tol)
         if item["sub"] == "excited":
@@ -1351,7 +1389,7 @@ def compare_canonical(reg: Registry, ref_dir, runs):
             ds = ex.get("deltaSCF") or {}
             if is_num(rec.get("deltaScf")) and ds.get("available") and is_num(ds.get("deltaSCF")):
                 dev = abs(rec["deltaScf"] - ds["deltaSCF"])
-                tol = TOL["scalar"] * max(m, abs(rec["deltaScf"])) + dl * vmax
+                tol = TOL["scalar"] * max(m, abs(rec["deltaScf"])) + dl * vmax + gu.get("deltaScf", 0.0)
                 record["deltaSCF"] = {"rust": rec["deltaScf"], "reference": ds["deltaSCF"], "deviation": dev,
                                       "tolerance": tol}
                 worst.add("deltaSCF", where, dev, tol)
@@ -1361,9 +1399,10 @@ def compare_canonical(reg: Registry, ref_dir, runs):
             ph = ex.get("particleHole") or []
             if is_num(rec.get("lowestParticleHole")) and ph:
                 dev = abs(rec["lowestParticleHole"] - ph[0]["excitation"])
-                tol = TOL["scalar"] * max(m, abs(rec["lowestParticleHole"])) + dl * vmax
+                tol = (TOL["scalar"] * max(m, abs(rec["lowestParticleHole"])) + dl * vmax
+                       + gu.get("lowestParticleHole", 0.0))
                 record["lowestParticleHole"] = {"rust": rec["lowestParticleHole"], "reference": ph[0]["excitation"],
-                                                "deviation": dev}
+                                                "deviation": dev, "tolerance": tol}
                 worst.add("particleHole", where, dev, tol)
             for key_r, value_f in (("E0", ref["extrapolated"]["total"]), ("mu", ref["extrapolated"].get("mu")),
                                    ("ksGap", ref.get("ksGap"))):
@@ -1371,12 +1410,13 @@ def compare_canonical(reg: Registry, ref_dir, runs):
                 if is_num(vr) and is_num(value_f):
                     if key_r == "E0":
                         value_f = value_f + (ref["extrapolated"].get("interaction") or 0.0) * dl_signed(item, ref)
-                        tol = TOL["energy"] * max(abs(vr), N * m)
+                        tol = TOL["energy"] * max(abs(vr), N * m) + gu.get("E0", 0.0)
                         worst.add("E0", where, abs(vr - value_f), tol)
                     else:
-                        tol = TOL["scalar"] * max(m, abs(vr)) + dl * vmax
+                        tol = TOL["scalar"] * max(m, abs(vr)) + dl * vmax + gu.get(key_r, 0.0)
                         worst.add("muAndGap", where + ":" + key_r, abs(vr - value_f), tol)
-                    record[key_r] = {"rust": vr, "reference": value_f, "deviation": abs(vr - value_f)}
+                    record[key_r] = {"rust": vr, "reference": value_f, "deviation": abs(vr - value_f),
+                                     "tolerance": tol}
         compare_profiles(worst, where, item, ref, dl, ratio_l, record)
         compare_emt(worst, where, item, ref, dl, record)
         if T > 0.0:

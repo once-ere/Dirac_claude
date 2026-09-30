@@ -76,6 +76,30 @@ class ParticleHoleRuleTests(unittest.TestCase):
         self.assertTrue(all(abs(p["epsHole"] - 0.9) > 1e-6 for p in pairs))
 
 
+class GridUncertaintyTests(unittest.TestCase):
+    """The checker's measured Rust grid uncertainty: a _g601 run and the run
+    of its base label in the same subcommand form a pair; each quantity's
+    |X(601) - X(301)| is returned under the base label, runs without a
+    partner get nothing."""
+
+    def test_refinement_pairs(self):
+        runs = [
+            {"sub": "excited", "label": "m1_L3_N1016_lamm2_T0", "run": None,
+             "record": {"deltaScf": 0.0436184, "E0": 1126.858, "ksGap": 0.0412551}},
+            {"sub": "excited", "label": "m1_L3_N1016_lamm2_T0_g601", "run": None,
+             "record": {"deltaScf": 0.0436210, "E0": 1126.8581, "ksGap": 0.0412551}},
+            {"sub": "scf", "label": "m1_L3_N1016_lamm2_T0_g601", "run": {"energy": 1.0}, "record": None},
+            {"sub": "scf", "label": "m1_L3_N8_lam0_T0", "run": {"energy": 0.0}, "record": None},
+        ]
+        gu = C.rust_grid_uncertainties(runs)
+        self.assertEqual(set(gu), {("excited", "m1_L3_N1016_lamm2_T0")})   # the scf _g601 run has no base
+        unc = gu[("excited", "m1_L3_N1016_lamm2_T0")]
+        self.assertAlmostEqual(unc["deltaScf"], 2.6e-6, places=12)
+        self.assertAlmostEqual(unc["E0"], 1e-4, places=9)
+        self.assertEqual(unc["ksGap"], 0.0)
+        self.assertNotIn("mu", unc)
+
+
 class AlgebraTests(unittest.TestCase):
 
     @classmethod
