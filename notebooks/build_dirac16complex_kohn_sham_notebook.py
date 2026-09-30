@@ -38,6 +38,20 @@ Execution needs nbformat, nbclient and ipykernel (kernel "python3"); it runs
 with the repository root as working directory and records no cell timings.
 Exit code 0 only if the build (and, with --execute, every cell) succeeded.
 Re-running the builder on unchanged inputs produces the identical file.
+
+Refreshing the committed notebook, figures and report after the committed
+outputs change (the procedure the Stage-4 gate repeats, steps 33-38):
+    python notebooks/build_dirac16complex_kohn_sham_notebook.py
+    python notebooks/run_notebook.py notebooks/dirac16complex_kohn_sham.ipynb
+    python -m nbconvert --to notebook --execute notebooks/dirac16complex_kohn_sham.ipynb --output-dir build/nbconvert
+    python notebooks/check_dirac16complex_kohn_sham_notebook.py notebooks/dirac16complex_kohn_sham.ipynb
+        --also build/nbconvert/dirac16complex_kohn_sham.ipynb
+        --report artifacts/dirac16complex/kohn-sham/notebook-report.json      (one command)
+run_notebook.py writes the executed notebook back only if every cell (the
+gauntlet included) succeeds; while a gauntlet check fails, record the failing
+state with this builder's --execute (nbclient writes the notebook in either
+case, the failure visible in the gauntlet cell) and nbconvert --allow-errors;
+the audit then reports verdict FAILURE with the failing checks named.
 """
 
 import argparse
@@ -69,12 +83,20 @@ import numpy as np
 
 
 def find_repo():
+    """The repository: the working directory or one of its parents that contains
+    studies/dirac16complex_kohn_sham; for a copy of the notebook executed outside the
+    repository, the environment variable DIRAC16KS_REPO names it."""
+    marker = Path("studies") / "dirac16complex_kohn_sham" / "Cargo.toml"
     here = Path.cwd().resolve()
     for folder in (here, *here.parents):
-        if (folder / "studies" / "dirac16complex_kohn_sham" / "Cargo.toml").is_file():
+        if (folder / marker).is_file():
             return folder
+    env = os.environ.get("DIRAC16KS_REPO", "")
+    if env and (Path(env) / marker).is_file():
+        return Path(env).resolve()
     raise RuntimeError("start the notebook inside the Dirac_claude repository "
-                       "(the folder that contains studies/dirac16complex_kohn_sham)")
+                       "(the folder that contains studies/dirac16complex_kohn_sham), "
+                       "or set DIRAC16KS_REPO to that folder")
 
 
 REPO = find_repo()
@@ -476,20 +498,26 @@ Then choose one of three ways to run it:
   (or `python -m jupyterlab ...`).  If asked for a kernel, choose
   **Python 3 (ipykernel)**.  Click the first cell and press **Shift+Enter**
   repeatedly, or use Run, Run All Cells.
-* **Headless with Jupyter's executor (nbclient)**, rebuilding the notebook
-  first: `python notebooks/build_dirac16complex_kohn_sham_notebook.py --execute`
-  (writes the executed notebook in place; this is how the committed copy was made).
-* **Headless with the standard-library runner** of Stage 3:
+* **Headless with the standard-library runner** of Stage 3 (this is how the
+  committed copy was executed):
   `python notebooks/run_notebook.py notebooks/dirac16complex_kohn_sham.ipynb`
   (writes the outputs back only if every cell succeeds).
+* **Headless with Jupyter's executor**:
+  `python -m nbconvert --to notebook --execute notebooks/dirac16complex_kohn_sham.ipynb --output-dir build/nbconvert`
+  (nbconvert drives the kernel through nbclient), or rebuild and execute in
+  one step with nbclient directly:
+  `python notebooks/build_dirac16complex_kohn_sham_notebook.py --execute --output build/nbclient/dirac16complex_kohn_sham.ipynb`.
 
 Afterwards the audit
-`python notebooks/check_dirac16complex_kohn_sham_notebook.py notebooks/dirac16complex_kohn_sham.ipynb --report artifacts/dirac16complex/kohn-sham/notebook-report.json`
-checks the structure, the execution, the figures and the gauntlet and writes
-the report.  **Edit the builder, not the `.ipynb`**: the builder reads the
-committed outputs and fills in every number quoted in this text, so after the
-outputs change, re-running the builder refreshes the prose; the gauntlet
-refuses a notebook whose prose no longer matches the files.
+`python notebooks/check_dirac16complex_kohn_sham_notebook.py notebooks/dirac16complex_kohn_sham.ipynb --also build/nbconvert/dirac16complex_kohn_sham.ipynb --report artifacts/dirac16complex/kohn-sham/notebook-report.json`
+checks the structure, the execution, the figures and the gauntlet of both
+executions (and that they printed identical gauntlet results and figure
+hashes) and writes the report.  **Edit the builder, not the `.ipynb`**: the
+builder reads the committed outputs and fills in every number quoted in this
+text, so after the outputs change, re-running the builder
+(`python notebooks/build_dirac16complex_kohn_sham_notebook.py`) refreshes the
+prose; the gauntlet refuses a notebook whose prose no longer matches the
+files, and the audit refuses one whose cells differ from the builder's.
 
 The notebook finds the program through the environment variable
 `DIRAC16KS_BIN` first, then
@@ -497,7 +525,9 @@ The notebook finds the program through the environment variable
 (`.exe` on Windows).  `DIRAC16KS_NB_OUTPUT` changes the scratch output folder
 (default `build/notebook-kohn-sham`, git-ignored); `DIRAC16KS_NB_SPECTRUM=0`
 skips the one-minute spectrum re-run (the gauntlet then prints a SKIP line
-for it, which the audit reports).  The whole notebook runs in a few minutes.
+for it, which the audit counts as incomplete, not as passed);
+`DIRAC16KS_REPO` names the repository when a copy of the notebook is executed
+in a folder outside it.  The whole notebook runs in a few minutes.
 
 **Where this notebook comes from.** Its driver pattern (the builder's
 `md()`/`code()` helpers, `find_binary()` and `run()` with the rule that the
@@ -588,6 +618,8 @@ q("th_p_brane", "{}", 'THEORY["geometry"]["extensions"]["E2_Z2mirror"]["branePre
 q("th_stress", "{}", 'THEORY["geometry"]["extensions"]["E2_Z2mirror"]["braneStress"]')
 q("th_israel", "{}", 'THEORY["geometry"]["extensions"]["E2_Z2mirror"]["israelConvention"]')
 q("th_w_req", "{}", 'THEORY["geometry"]["requiredSource"]["w"]')
+q("rho_brane", "{:+.0f}", 'GEOM["braneEnergyDensity_kappa1"]')
+q("p_brane", "{:+.0f}", 'GEOM["braneStress_kappa1_x1_x2_x3_x4_x5_x6_x7"][0]')
 
 CELLS.append(md(r"""
 ## 4. The physics
@@ -625,9 +657,20 @@ The notebook's "pair of universes" is the $Z_2$ mirror extension
 $W = e^{-H|y|}$: two copies of the patch glued at $y = 0$.  The extrinsic
 curvature of the surfaces $y = $ const is $K^i{}_j = H\delta^i_j$ on the six
 warped directions («ext_K» $H$ measured) and 0 on $x_4$, so the gluing carries
-an Israel brane stress.  With the convention `«th_israel»` the exact
-theory gives `«th_stress»`, i.e. `«th_rho_brane»` and `«th_p_brane»`.
-The brane is not a pure tension.  At the other end the
+an Israel brane stress.  The exact theory records its sign convention
+(quoted verbatim from `kohn-sham-theory.json`):
+
+> `«th_israel»`
+
+and gives
+
+* brane stress: `«th_stress»`,
+* brane energy density: `«th_rho_brane»`,
+* brane pressure: `«th_p_brane»`,
+
+i.e. $\rho_\text{brane}$ = «rho_brane» $H/\kappa$ and $p_\text{brane}$ = «p_brane» $H/\kappa$
+in the six warped directions (the program's `geometry.json` re-derives both
+from the jump of $K^i{}_j$).  At the other end the
 numerical domain is cut at $y = -L$ (the "tip cutoff"), $L \in \{2, 3, 4\}/H$;
 the tip is a genuine singular end ($W^6\to0$), and the $L$-dependence is
 reported in section 14.
@@ -823,6 +866,7 @@ import sys
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import matplotlib.ticker
 
 CRATE = REPO / "studies" / "dirac16complex_kohn_sham"
 _out_env = os.environ.get("DIRAC16KS_NB_OUTPUT", "")
@@ -1099,7 +1143,7 @@ print(f"block ODE matrix M s3 - kk s2 + i j (eps - v) s1: {ode_dev:.1e}")
 print("block types j:", NB["block_types"], "| blocks per type:", NB["blocks_per_type"])
 
 seq = matplotlib.colors.LinearSegmentedColormap.from_list("seq", [SURFACE, PALETTE[0]])
-fig, axes = plt.subplots(1, 3, figsize=(10.5, 3.6))
+fig, axes = plt.subplots(1, 3, figsize=(10.5, 4.1))
 M_demo, kk_demo, ev_demo = 1.0, 0.7, 0.4
 panels = [(np.abs(G0 @ G4), "gamma^0 gamma^4 (y-current), original basis"),
           (np.abs(U.conj().T @ G0 @ G4 @ U), "gamma^0 gamma^4 in the block basis"),
@@ -1119,7 +1163,7 @@ for ax in axes:
     ax.set_xlabel("column")
 fig.suptitle("Eight 2x2 blocks: |matrix entries| (white = 0); operator shown for M = 1, kappa k = 0.7, eps - v = 0.4",
              fontsize=9)
-fig.tight_layout()
+fig.tight_layout(rect=(0, 0, 1, 0.94))
 save_figure(fig, "block_structure.png")
 '''))
 
@@ -1173,7 +1217,9 @@ NB.update(ex_quadrature=max(d["quadrature_vs_closed"] for d in ex_dev.values()),
           ex_rest_ratio=ratio_rest, ex_rest_S_over_n=float((t4["S"][rest] / t4["n"][rest])[0]))
 print(f"rest-gas limit (T = 0, n = {t4['n'].min():g}): S/n = {NB['ex_rest_S_over_n']:.6f}, "
       f"-e_x/e_H = {ratio_rest:.6f} (1/8 = 0.125 exactly as S -> n)")
-print(f"Rust cross-check of the same table: {SPEC['exchangeTable']['status'][:60]}...")
+NB["ex_table_sha_current"] = SPEC["exchangeTable"]["sha256"] == sha256(KSDIR / "exchange-table.json")
+print(f"the Rust spectrum subcommand on the same table: {SPEC['exchangeTable']['status']} "
+      f"(recorded sha256 equals the file: {NB['ex_table_sha_current']})")
 
 fig, axes = plt.subplots(1, 2, figsize=(10, 3.8))
 for i, T in enumerate((0.0, 0.3, 1.0, 2.0)):
@@ -1209,6 +1255,7 @@ q("gap8_L2", "{:.7f}", 'SCF["m1_L2_N8_lam0_T0"]["ksGap"]')
 q("gap8_L4", "{:.7f}", 'SCF["m1_L4_N8_lam0_T0"]["ksGap"]')
 q("c_rust", "{:.10f}", 'float(AGREE["checks"]["theory_zero_mode_splitting"]["detail"].split(") = ")[1].split()[0])')
 q("free_rows_m1L3", "{:d}", 'len(load_csv(RUST / "spectrum" / "free-spectrum-m1-L3.csv")["eps"])')
+q("scf_max_n2", "{:.0f}", 'float(np.max(levels("scf", "m1_L3_N1016_lam0_T0")["n2"]))')
 
 CELLS.append(md(r"""
 ## 7. The free spectrum ($\lambda = 0$) and its analytic checks
@@ -1236,7 +1283,8 @@ against four exact statements:
    $k\ge0.25\,m$ are far from the linear regime at $m = 1$: there
    $\kappa(-L)k = e^{L}k$ is of order 5, which is why the slope is measured at
    $k = 10^{-4}$ and not read off the band.)  The program's own
-   Hellmann-Feynman slope is «c_rust» against the theory value «c_theory».
+   Hellmann-Feynman slope for its block type $s = +1$ (i.e. $j = -1$, hence
+   the sign) is «c_rust», against the theory value $c$ = «c_theory» of $j = +1$.
 3. **Mirror spectra (E4.4).**  At fixed $(n_2, \text{parity})$ the $s = -1$
    levels are the negated $s = +1$ levels.
 4. **Multiplicities.**  Every row carries $4\times r_3(n_2)$ states, $r_3$ the
@@ -1380,8 +1428,8 @@ lv = levels("scf", INT_LABEL)
 fig, axes = plt.subplots(2, 2, figsize=(10, 7.2), sharex=True, sharey=True)
 kline = np.linspace(0, 0.3, 50)
 for row, parity in enumerate((1, -1)):
-    for col, (src, title) in enumerate(((d, "free, m = 1, L = 3"),
-                                        (lv, f"self-consistent {INT_LABEL} (+lambda_hat_2)"))):
+    for col, (src, title) in enumerate(((d, "free, m = 1, L = 3 (shells n2 <= 16)"),
+                                        (lv, f"self-consistent {INT_LABEL} (all shells)"))):
         ax = axes[row, col]
         for i, (s, marker) in enumerate(((1, "o"), (-1, "^"))):
             sel = (src["parity"] == parity) & (src["s"] == s) & (np.abs(src["eps"]) < 3.0)
@@ -1389,21 +1437,23 @@ for row, parity in enumerate((1, -1)):
                     mfc="none", color=PALETTE[i], label=f"block type s = {s:+d} (j = {-s:+d})")
         if parity == 1 and col == 0:
             c13 = c_closed(1, 3)
-            ax.plot(kline, c13 * kline, "--", color=MUTED, lw=1)
+            ax.plot(kline, c13 * kline, "--", color=MUTED, lw=1, label="zero-mode band +-c k near k = 0 (closed-form c)")
             ax.plot(kline, -c13 * kline, "--", color=MUTED, lw=1)
-            ax.text(0.31, c13 * 0.3, "+-c k", color=INK2, fontsize=7.5, va="center")
         if col == 1:
-            ax.axhline(SCF[INT_LABEL]["mu"], color=PALETTE[2], lw=1, ls=":")
-            ax.text(1.0, SCF[INT_LABEL]["mu"] + 0.05, "mu", color=INK2, fontsize=7.5, ha="right")
+            ax.axhline(SCF[INT_LABEL]["mu"], color=PALETTE[2], lw=1, ls=":", label="chemical potential mu")
         ax.set_title(f"parity {'+' if parity == 1 else '-'}: {title}", fontsize=8.5)
         if row == 1:
             ax.set_xlabel("k  [m]  (shells k^2 = (0.25 m)^2 n2)")
         if col == 0:
             ax.set_ylabel("eps  [m]")
-axes[0, 0].legend(loc="lower left")
-fig.suptitle("Kohn-Sham spectrum eps_n(k) per parity and block type (|eps| < 3 m; the two types offset by +-0.006 in k)",
-             fontsize=9)
-fig.tight_layout()
+handles, names = axes[0, 0].get_legend_handles_labels()
+h2, n2 = axes[0, 1].get_legend_handles_labels()
+handles.append(h2[-1])
+names.append(n2[-1])
+fig.legend(handles, names, loc="lower center", ncol=4, fontsize=7.5)
+fig.suptitle("Kohn-Sham spectrum eps_n(k) per parity and block type: free (left), N = 112 at +lambda_hat_2 (right)\n"
+             "|eps| < 3 m; the two block types are offset by +-0.006 in k for visibility", fontsize=9)
+fig.tight_layout(rect=(0, 0.04, 1, 1))
 save_figure(fig, "ks_spectrum.png")
 '''))
 
@@ -1580,10 +1630,13 @@ lowest $N$ particle levels.  The next cell performs this aufbau **in the
 cell**, from `free-spectrum-m1-L3.csv` alone: it sorts the particle levels
 ($\varepsilon \ge 0$; the $k = 0$ zero modes count as particles, the negative
 brane band $-ck$ as Dirac sea), finds every closed shell whose top lies below
-the lowest level of the largest shell in the file (the brane band rises with
-$k$, so no level of an absent shell can come lower), and compares the shell
-list with `closed-shells-m1-L3.csv` and $E_0(N)$ with the self-consistent
-$\lambda = 0$ runs ($m = 1$ and $m = 3$).  For the interacting runs it
+the lowest level of the largest shell in the file ($n_2 = 16$; the in-cell
+aufbau assumes that no level of a larger shell lies below that guard), and
+compares the shell list with `closed-shells-m1-L3.csv` and $E_0(N)$ with the
+self-consistent $\lambda = 0$ runs ($m = 1$ and $m = 3$).  Those runs use every
+level in their energy window from the shells up to $n_2$ = «scf_max_n2», so
+their agreement with the in-cell aufbau confirms the assumption for the
+closed shells used here.  For the interacting runs it
 compares $E_0(\hat\lambda) - E_0(0)$ with the first-order (Hellmann-Feynman)
 value $\lambda\,\partial E/\partial\lambda|_0 = \lambda\int[S_p^2/2 - (n_p^2+S_p^2)/32]dV_p$
 evaluated on the free densities.
@@ -1777,29 +1830,44 @@ for label in EXCITED_EXTRA:
           f"E0 {v['rec']['E0']:.9f}, lowest particle-hole {v['rec']['lowestParticleHole']:.3e}")
 
 xi = {"lamm2": -10, "lamm1": -1, "lam0": 0, "lamp1": 1, "lamp2": 10}
-fig, axes = plt.subplots(1, 2, figsize=(10.5, 3.9))
+fig, axes = plt.subplots(1, 3, figsize=(13, 4.0))
 for N, color in SERIES_N.items():
     labs = [f"m1_L3_N{N}_{n}_T0" for n in LAMBDA_NAMES]
     xs = [xi[n] for n in LAMBDA_NAMES]
     axes[0].plot(xs, [EXC[l]["row"]["ks_gap"] for l in labs], "o-", color=color, ms=4, label=f"N = {N}: KS gap")
     axes[0].plot(xs, [EXC[l]["row"]["delta_scf"] for l in labs], "s--", mfc="none", color=color, ms=6, lw=1,
                  label=f"N = {N}: Delta-SCF")
-    axes[1].plot(xs, [EXC[l]["row"]["delta_scf"] - EXC[l]["row"]["ks_gap"] for l in labs], "o-", color=color, ms=4,
+    axes[2].plot(xs, [EXC[l]["row"]["delta_scf"] - EXC[l]["row"]["ks_gap"] for l in labs], "o-", color=color, ms=4,
                  label=f"N = {N}")
+Nv = sorted(SERIES_N)
+for i, name in enumerate(LAMBDA_NAMES):
+    labs = [f"m1_L3_N{N}_{name}_T0" for N in Nv]
+    axes[1].plot(Nv, [EXC[l]["row"]["ks_gap"] for l in labs], "o-", color=PALETTE[3 + i], ms=4, lw=1.2,
+                 label=f"{name}: KS gap")
+    axes[1].plot(Nv, [EXC[l]["row"]["delta_scf"] for l in labs], "s", mfc="none", color=PALETTE[3 + i], ms=7)
+axes[1].plot([], [], "s", mfc="none", color=MUTED, ms=7, label="Delta-SCF (open squares)")
 sm = EXC[SMEARED]["row"]
 axes[0].annotate("smeared ensemble\n(section 10.2)", xy=(-10, sm["ks_gap"]), xytext=(-6, 0.2), fontsize=7,
                  color=INK2, arrowprops={"arrowstyle": "->", "color": MUTED, "lw": 0.8})
-for ax in axes:
+for ax in (axes[0], axes[2]):
     ax.set_xscale("symlog", linthresh=1)
     ax.set_xlabel("lambda_hat / lambda_hat_1  (-10, -1, 0, 1, 10)")
 axes[0].set_yscale("log")
 axes[0].set_ylabel("excitation energy  [m]")
-axes[0].set_title("KS gap and Delta-SCF, m = 1, L = 3")
+axes[0].set_title("KS gap and Delta-SCF against the coupling")
 axes[0].legend(loc="center right", fontsize=6.5)
-axes[1].set_yscale("symlog", linthresh=1e-6)
-axes[1].set_ylabel("Delta-SCF - KS gap  [m]")
-axes[1].set_title("Orbital relaxation (zero at lambda = 0)")
-axes[1].legend(loc="upper left")
+axes[1].set_xscale("log")
+axes[1].set_yscale("log")
+axes[1].set_xlabel("N (closed shells 8, 112, 1016)")
+axes[1].set_ylabel("excitation energy  [m]")
+axes[1].set_title("KS gap and Delta-SCF against N")
+axes[1].legend(loc="upper right", fontsize=6.5)
+axes[2].set_yscale("symlog", linthresh=1e-6)
+axes[2].set_ylabel("Delta-SCF - KS gap  [m]")
+axes[2].set_title("Orbital relaxation (zero at lambda = 0)")
+axes[2].legend(loc="upper left")
+fig.suptitle("First excited states, m = 1, L = 3 (lambda_hat_1 per configuration; lambda_hat_2 = 10 lambda_hat_1)",
+             fontsize=9.5)
 fig.tight_layout()
 save_figure(fig, "ks_gap_delta_scf.png")
 '''))
@@ -1916,14 +1984,14 @@ print("fractionally occupied particle levels of the smeared ensemble (floor 1e-1
 for g in frac:
     print(f"  eps = {g['eps']:.10f} m, k = {g['k']:.6f} m, states = {g['mult']:.0f} ({g['rows']} rows), f = {g['f']:.6f}")
 N_sm = float(np.sum(lvs["multiplicity"] * lvs["weight"]))
-NB["smeared"] = {"N": N_sm, "moved": MOVED, "into_k0": KZERO["mult"] * KZERO["f"] - 0.0,
+NB["smeared"] = {"N": N_sm, "moved": MOVED, "into_k0": KZERO["count"],
                  "k0_split": float(np.ptp(lvs["eps"][(lvs["n2"] == 0) & (np.abs(lvs["eps"] - KZERO["eps"]) < 1e-9)])),
                  "occ_band_and_k0": len(frac) == 2 and frac[0]["mult"] == BAND["mult"]}
 filled_below = float(np.sum((lvs["multiplicity"] * lvs["weight"])[(lvs["branch"] > 0) & (lvs["eps"] < BAND["eps"] - 1e-9)]))
-print(f"particles below the band {filled_below:.6f}; in the band {BAND['mult'] * BAND['f']:.6f}; in the k = 0 level "
-      f"{KZERO['mult'] * KZERO['f']:.6f}; total {N_sm:.9f}")
+print(f"particles below the band {filled_below:.6f}; in the band {BAND['count']:.6f}; in the k = 0 level "
+      f"{KZERO['count']:.6f}; total {N_sm:.9f}")
 print(f"the two rows of the k = 0 level differ by {NB['smeared']['k0_split']:.1e} m (the first particle-hole entry)")
-NB["smeared"]["balance"] = abs(filled_below + BAND["mult"] * BAND["f"] + KZERO["mult"] * KZERO["f"] - N_sm)
+NB["smeared"]["balance"] = abs(filled_below + BAND["count"] + KZERO["count"] - N_sm)
 
 fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.0), sharey=True)
 seq = matplotlib.colors.LinearSegmentedColormap.from_list("occ", ["#dce9f8", PALETTE[0], "#0b2e59"])
@@ -1990,9 +2058,12 @@ specification); the last panel of the figure shows its occupations.
 
 The next cell recomputes, for every run with $T > 0$, the entropy
 $S = -\sum\text{mult}\,[f\ln f + (1-f)\ln(1-f)]$ from the levels, $F = E - TS$,
-and (with section 8) $N$ and $E$; it checks that the two fixed-spectrum forms
-of $C_V$ agree and that at $\lambda = 0$ the central difference agrees with the
-fixed-spectrum value to its truncation error.
+and (with section 8) $N$ and $E$; it checks that at $\lambda = 0$ the two
+fixed-spectrum forms of $C_V$ (the $T$-derivative of the energy and $T$ times
+the $T$-derivative of the entropy, both at a frozen spectrum) agree exactly and
+that the central difference agrees with them to its truncation error; at
+$\lambda \neq 0$ the frozen-spectrum forms are not exact, and their difference
+is printed as a measurement.
 """))
 
 CELLS.append(code(r'''
@@ -2014,15 +2085,21 @@ NB["thermo_F"] = max(v["F_dev"] for v in TH.values())
 t = THERMO_TABLE
 fin = np.isfinite(t["C_V_fd"]) & (t["T"] > 0)
 free = fin & (t["series"] == 0)
-NB["cv_fixed_forms"] = float(np.nanmax(np.abs(t["C_V_fixed_spectrum"] - t["C_V_fixed_spectrum_entropy"])
-                                       / np.maximum(np.abs(t["C_V_fixed_spectrum"]), 1e-300)))
+cv_forms = (np.abs(t["C_V_fixed_spectrum"] - t["C_V_fixed_spectrum_entropy"])
+            / np.maximum(np.abs(t["C_V_fixed_spectrum"]), 1e-300))
+NB["cv_fixed_forms"] = float(np.nanmax(cv_forms[t["series"] == 0]))                # lambda = 0: an identity
+NB["cv_fixed_forms_interacting"] = float(np.nanmax(cv_forms[t["series"] != 0]))    # lambda != 0: measured only
 NB["cv_fd_vs_fixed_free"] = float(np.max(np.abs(t["C_V_fd"][free] - t["C_V_fixed_spectrum"][free]) / t["C_V_fd"][free]))
 NB["thermo_monotone"] = all(
     np.all(np.diff(t["F"][(t["series"] == s) & (t["N"] == N)]) < 0) and np.all(np.diff(t["S_entropy"][(t["series"] == s) & (t["N"] == N)]) > 0)
     for s in (0, 1, 2) for N in (8, 112))
 print(f"{len(TH)} runs with T > 0: entropy from the levels vs run.json {NB['thermo_S']:.1e}; |E - TS - F| {NB['thermo_F']:.1e}")
-print(f"C_V: the two fixed-spectrum forms agree to {NB['cv_fixed_forms']:.1e}; lambda = 0 central difference vs "
-      f"fixed spectrum {NB['cv_fd_vs_fixed_free']:.1e} (truncation O(delta^2) of the central difference)")
+print(f"C_V: the two fixed-spectrum forms (energy and entropy derivative) agree at lambda = 0 to "
+      f"{NB['cv_fixed_forms']:.1e} (an identity there); at lambda != 0 they differ by up to "
+      f"{NB['cv_fixed_forms_interacting']:.1e} (relative; the frozen-potential derivative is not exact with "
+      "interaction)")
+print(f"lambda = 0 central difference vs fixed spectrum {NB['cv_fd_vs_fixed_free']:.1e} "
+      "(truncation O(delta^2) of the central difference)")
 print(f"F decreases and S increases with T in every series: {NB['thermo_monotone']}")
 print("\nseries N    T      mu          E              F               S            C_V         KS gap")
 for i in range(len(t["T"])):
@@ -2075,6 +2152,8 @@ q("kappa_8p1_mass", "{:.2e}", 'EMT["m1_L3_N8_lamp1_T0"]["emt"]["E41_sourcingCond
 q("lhneed_112", "{:.0f}", 'EMT["m1_L3_N112_lam0_T0"]["emt"]["E41_sourcingConditions"]["lambdaHatNeededFirstOrder"]')
 q("lhneed_1016", "{:.1f}", 'EMT["m1_L3_N1016_lam0_T0"]["emt"]["E41_sourcingConditions"]["lambdaHatNeededFirstOrder"]')
 q("n_emt", "{:d}", 'len(EMT)')
+q("lhneed_ratio_112", "{:.0f}", 'EMT["m1_L3_N112_lam0_T0"]["emt"]["E41_sourcingConditions"]["lambdaHatNeededFirstOrder"] / lam_hat(112, "lamp2")')
+q("lhneed_ratio_1016", "{:.0f}", 'EMT["m1_L3_N1016_lam0_T0"]["emt"]["E41_sourcingConditions"]["lambdaHatNeededFirstOrder"] / lam_hat(1016, "lamp2")')
 q("sp_112", "{:.3e}", 'EMT["m1_L3_N112_lam0_T0"]["emt"]["sPAvg"]')
 q("sp_1016", "{:.3e}", 'EMT["m1_L3_N1016_lam0_T0"]["emt"]["sPAvg"]')
 q("emt_met", "{:d}", 'sum(bool(r["emt"]["E41_sourcingConditions"]["met"]) for r in EMT.values())')
@@ -2106,7 +2185,9 @@ sign.  The two static-field sourcing conditions of STAGE4_SPEC E4.1,
 $mS = -36H^2/\kappa$ and $\lambda S^2 = 30H^2/\kappa$ (together
 $\lambda S/m = -5/6$, $mS < 0$), are met in «emt_met» of the «n_emt» runs; at
 first order they would need $\hat\lambda\approx$ «lhneed_112» ($N$ = «n_mid»)
-or «lhneed_1016» ($N$ = «n_large»), $10^3$ to $10^4$ times $\hat\lambda_2$.
+or «lhneed_1016» ($N$ = «n_large»), «lhneed_ratio_112» and «lhneed_ratio_1016» times $\hat\lambda_2$
+of the same configuration, far outside the window where the first-order
+estimate means anything.
 The average scalar density of these states is negative
 ($\langle S_p\rangle$ = «sp_112» and «sp_1016» $m^7$ at $\lambda = 0$): the
 brane band $\varepsilon = +ck$ carries negative scalar charge, so the mass
@@ -2115,7 +2196,8 @@ $\kappa < 0$.
 
 The next cell recomputes from `profiles.csv`, for every emt run: $\int\rho\,dV_p$
 against $E$; the proper volume against its closed form
-$\ell^3(1 - e^{-6HL})/(6H)$; the averages, the three $w$'s, the identity
+$\ell^3(1 - e^{-6HL})/(6H)$ (the difference must not exceed the leading Simpson
+error, $h^4(6H)^4/180$ relative, $h$ the grid step); the averages, the three $w$'s, the identity
 $p_t = L_s = \frac{\lambda}{2}S_p^2 - \frac{\lambda}{32}(n_p^2 + S_p^2)$; the
 conservation law $(e^{6Hy}p_y)' = 3He^{6Hy}(p_3 + p_t)$ with a fourth-order
 stencil; $\kappa_\text{needed} = \rho_\text{req}/\langle\rho\rangle$ and the E4.1
@@ -2154,7 +2236,9 @@ for label, r in EMT.items():
     s41 = e["E41_sourcingConditions"]
     EMTR[label] = {
         "E_rho": abs(e_rho - r["energy"]) / max(abs(r["energy"]), N * m),
-        "volume": abs(V - vol * (1 - math.exp(-6 * H * p["L"])) / (6 * H)) / V,
+        # the Simpson error of int e^(6Hy) dy is h^4 (6H)^4 / 180 relative (leading order): the ratio is ~1
+        "volume": (abs(V - vol * (1 - math.exp(-6 * H * p["L"])) / (6 * H)) / V)
+                  / ((y[1] - y[0]) ** 4 * (6 * H) ** 4 / 180.0),
         "averages": max(abs(avg["rho"] - e["rhoAvg"]), abs(avg["p_y"] - e["pYAvg"]), abs(avg["p_3"] - e["p3Avg"]),
                         abs(avg["p_t"] - e["pTAvg"])) / max(abs(avg["rho"]), abs(avg["p_y"]), 1e-300),
         "w": max(abs(ww["p_y"] - e["wY"]), abs(ww["p_3"] - e["w3"]), abs(ww["p_t"] - e["wT"])) if avg["rho"] else 0.0,
@@ -2212,26 +2296,57 @@ fig.tight_layout()
 save_figure(fig, "emt_profiles.png")
 
 labels = list(EMTR)
-fig, axes = plt.subplots(1, 3, figsize=(12.5, 4.2), sharey=True)
+
+
+def signed_axis(ax, exponents, linthresh):
+    """symlog x axis with a few labelled ticks: 0 and +-10^e for e in exponents."""
+    ax.set_xscale("symlog", linthresh=linthresh)
+    ticks = sorted([-(10.0 ** e) for e in exponents] + [0.0] + [10.0 ** e for e in exponents])
+    ax.set_xticks(ticks)
+    ax.set_xticklabels(["0" if t == 0 else f"{'-' if t < 0 else ''}1e{int(round(math.log10(abs(t))))}" for t in ticks],
+                       fontsize=7)
+    ax.xaxis.set_minor_locator(matplotlib.ticker.NullLocator())
+
+
+fig, axes = plt.subplots(1, 4, figsize=(14, 4.4), sharey=True)
 ypos = np.arange(len(labels))
-axes[0].plot([EMTR[l]["rho"] for l in labels], ypos, "o", color=PALETTE[0], label="<rho> of the KS state")
-axes[0].axvline(GEOM["rhoRequired_kappa1"], color=PALETTE[7], ls="--", lw=1)
-axes[0].text(GEOM["rhoRequired_kappa1"] * 0.8, len(labels) - 0.6, "rho_req (kappa = 1)", color=INK2, fontsize=7.5)
-axes[0].set_xscale("symlog", linthresh=1e-7)
-axes[0].set_title("proper-volume average <rho>  [m^8]")
-axes[1].plot([EMTR[l]["kappaNeeded"] for l in labels], ypos, "s", color=PALETTE[1])
-axes[1].axvline(0, color=MUTED, lw=1)
+rho = np.array([EMTR[l]["rho"] for l in labels])
+axes[0].plot(rho, ypos, "o", color=PALETTE[0], label="<rho> of the KS state")
+axes[0].axvline(GEOM["rhoRequired_kappa1"], color=PALETTE[7], ls="--", lw=1, label="rho_req at kappa = +1")
+axes[0].axvline(0, color=MUTED, lw=0.8)
+signed_axis(axes[0], (-6, -2, 1), 1e-8)
+axes[0].set_title("<rho>  [m^8]")
+axes[0].legend(loc="lower left", fontsize=6.5)
+wy = np.array([EMT[l]["emt"]["wY"] for l in labels])
+w3 = np.array([EMT[l]["emt"]["w3"] for l in labels])
+axes[1].plot(wy, ypos + 0.12, "o", color=PALETTE[1], mfc="none", label="w_y = <p_y>/<rho>")
+axes[1].plot(w3, ypos - 0.12, "s", color=PALETTE[2], mfc="none", label="w_3 = <p_3>/<rho>")
+axes[1].axvline(15.0 / -21.0, color=PALETTE[7], ls="--", lw=1, label="w_req = p_req/rho_req = -5/7")
 axes[1].set_xscale("symlog", linthresh=1.0)
-axes[1].set_title("kappa = rho_req/<rho> it would need")
-axes[2].plot([abs(EMTR[l]["lambdaS"]) for l in labels], ypos, "^", color=PALETTE[2], label="|lambda <S_p>/m|")
-axes[2].axvline(5.0 / 6.0, color=PALETTE[7], ls="--", lw=1)
-axes[2].text(5.0 / 6.0 * 0.05, len(labels) - 0.6, "E4.1 needs 5/6", color=INK2, fontsize=7.5)
-axes[2].set_xscale("log")
-axes[2].set_title("E4.1: |lambda <S_p>/m| against 5/6")
+axes[1].set_title("equation of state (0 where <rho> = 0)")
+axes[1].legend(loc="lower right", fontsize=6.5)
+kap = np.array([EMTR[l]["kappaNeeded"] if EMTR[l]["rho"] != 0 else np.nan for l in labels])
+kmass = np.array([np.nan if EMT[l]["emt"]["E41_sourcingConditions"]["kappaFromMassCondition"] is None
+                  else EMT[l]["emt"]["E41_sourcingConditions"]["kappaFromMassCondition"] for l in labels])
+axes[2].plot(kap, ypos + 0.12, "s", color=PALETTE[1], label="kappa = rho_req/<rho>")
+axes[2].plot(kmass, ypos - 0.12, "D", color=PALETTE[4], mfc="none", label="kappa from m<S_p> = -36 H^2/kappa")
+axes[2].axvline(0, color=MUTED, lw=1)
+signed_axis(axes[2], (2, 5, 8), 1.0)
+axes[2].set_title("the kappa each condition would need\n(no marker: undefined, <rho> = 0 or <S_p> = 0)", fontsize=8.5)
+axes[2].legend(loc="lower left", fontsize=6.5)
+ls_ = np.array([EMTR[l]["lambdaS"] for l in labels])
+axes[3].plot(ls_, ypos, "^", color=PALETTE[2], label="lambda <S_p>/m of the KS state")
+axes[3].axvline(-5.0 / 6.0, color=PALETTE[7], ls="--", lw=1, label="E4.1 needs -5/6")
+axes[3].axvline(0, color=MUTED, lw=0.8)
+signed_axis(axes[3], (-8, -4, 0), 1e-9)
+axes[3].set_title("E4.1: lambda <S_p>/m against -5/6")
+axes[3].legend(loc="lower left", fontsize=6.5)
 axes[0].set_yticks(ypos)
 axes[0].set_yticklabels(labels, fontsize=7)
-fig.suptitle("The Kohn-Sham state against the source the static field requires (rho_req = -21 H^2/kappa, p_req = +15 H^2/kappa)",
-             fontsize=9.5)
+for ax in axes:
+    ax.set_ylim(-0.8, len(labels) - 0.2)
+fig.suptitle("The Kohn-Sham states (emt runs) against the source the static field requires: rho_req = -21 H^2/kappa, "
+             "p_req = +15 H^2/kappa (kappa > 0)", fontsize=9.5)
 fig.tight_layout()
 save_figure(fig, "einstein_source.png")
 '''))
@@ -2295,7 +2410,7 @@ axes[1].set_xscale("symlog", linthresh=1)
 axes[1].set_xlabel("lambda_hat / lambda_hat_1")
 axes[1].set_ylabel("fraction within 1/H of the brane")
 axes[1].set_title("Brane fraction against the coupling")
-axes[1].legend(loc="lower left", fontsize=7)
+axes[1].legend(loc="center left", bbox_to_anchor=(1.01, 0.5), fontsize=7)
 fig.tight_layout()
 save_figure(fig, "brane_localisation.png")
 '''))
@@ -2306,6 +2421,9 @@ save_figure(fig, "brane_localisation.png")
 q("E_L2", "{:.6f}", 'SCF["m1_L2_N112_lam0_T0"]["energy"]')
 q("E_L3", "{:.6f}", 'SCF["m1_L3_N112_lam0_T0"]["energy"]')
 q("E_L4", "{:.6f}", 'SCF["m1_L4_N112_lam0_T0"]["energy"]')
+q("lh1_L2_112", "{:.3e}", 'lam_hat(112, "lamp1", L=2)')
+q("lh1_L3_112", "{:.3e}", 'lam_hat(112, "lamp1", L=3)')
+q("lh1_L4_112", "{:.3e}", 'lam_hat(112, "lamp1", L=4)')
 q("E_g601_diff", "{:.1e}", 'abs(SCF["m1_L3_N112_lamp1_T0_g601"]["energy"] - SCF["m1_L3_N112_lamp1_T0"]["energy"])')
 q("E_a4_diff", "{:.1e}", 'abs(SCF["m1_L3_N112_lamp1_T0_a40p5"]["energy"] - SCF["m1_L3_N112_lamp1rescaled_T0_dk0p15163266492815836"]["energy"])')
 q("E_a4", "{:.6f}", 'SCF["m1_L3_N112_lamp1_T0_a40p5"]["energy"]')
@@ -2321,7 +2439,12 @@ CELLS.append(md(r"""
   ground state hardly notices it: for $N$ = «n_mid», $\lambda = 0$,
   $E_0$ = «E_L2», «E_L3», «E_L4» $m$ for $L = 2, 3, 4$, and the change from
   3 to 4 is far smaller than from 2 to 3 (the gauntlet asserts this trend for
-  $E_0$ and the KS gap of all eight $L$-series runs).
+  $E_0$ and the KS gap of the four $L$-series: $N$ = 8 and «n_mid», `lam0`
+  and `lamp1`).  The interacting series `lamp1` keeps the first-order
+  pseudo-potential strength at $0.1\,m$, not the coupling: for $N$ = «n_mid»
+  $\hat\lambda_1$ = «lh1_L2_112», «lh1_L3_112», «lh1_L4_112» at $L = 2, 3, 4$
+  (the proper densities near the tip grow like $e^{6HL}$), so its $L$-trend
+  tests the calibrated problem as a whole, not one fixed Hamiltonian.
 * **Grid.**  The 601-point run of $N$ = «n_mid», $+\hat\lambda_1$ changes
   $E_0$ by «E_g601_diff» $m$ against the 301-point run.
 * **Momentum lattice.**  `m1_L3_N896_lamp1_T0_dk0p125` halves $\Delta k$ at
@@ -2442,8 +2565,14 @@ therefore available whether or not the checker's report is present; when the
 report is present, the gauntlet additionally requires that it is **current**
 (its recorded SHA-256 of the reference summary, the reference solver, the
 checker, the theory file and the Rust summaries equal the files on disk) and
-that it has no failed check.  The figure shows, per run, the deviation divided
-by its tolerance (below 1 = agreement).
+that it has no failed check.  A reference directory that cannot be read
+completely (for example one that is being rewritten) is left out and named;
+the gauntlet requires that every Rust run has a readable reference run of the
+same label (a `_g601` grid twin is compared with the reference run of its base
+label) and that `reference-summary.json` declares itself complete.  The figure
+shows, per run, the worst deviation divided by its tolerance for each compared
+quantity (below 1 = agreement); the tolerances are exactly the checker's,
+captured comparison by comparison while `compare_canonical` runs.
 """))
 
 CELLS.append(code(r'''
@@ -2454,11 +2583,28 @@ sys.path.insert(0, str(REPO / "scripts"))
 with contextlib.redirect_stdout(io.StringIO()):
     import check_dirac16complex_kohn_sham as CK
 
-REFSUM_STATUS = optional_json(REFDIR / "reference-summary.json")[1]
-XREG = None
-if REFSUM_STATUS != "present":
-    SKIPPED["rust_vs_reference"] = f"reference/reference-summary.json is {REFSUM_STATUS}"
-    print("reference summary", REFSUM_STATUS, "- the run-by-run comparison is skipped")
+
+class RecordingWorst(CK.Worst):
+    # the checker's Worst, recording every single comparison (quantity, run, deviation,
+    # tolerance), so that the per-run figure uses exactly the checker's tolerances
+    instances = []
+
+    def __init__(self):
+        super().__init__()
+        self.every = []
+        RecordingWorst.instances.append(self)
+
+    def add(self, quantity, where, deviation, tolerance, detail=""):
+        super().add(quantity, where, deviation, tolerance, detail)
+        if deviation is not None and math.isfinite(deviation):
+            self.every.append((quantity, where.split(":")[0], float(deviation), float(tolerance)))
+
+
+REFSUM, REFSUM_STATUS = optional_json(REFDIR / "reference-summary.json")
+XREG, XEVERY, REF_UNREADABLE, REF_MISSING, XRUNS = None, [], [], [], []
+if not REFDIR.is_dir():
+    SKIPPED["rust_vs_reference"] = "the reference tree artifacts/dirac16complex/kohn-sham/reference is absent"
+    print(SKIPPED["rust_vs_reference"])
 else:
     XSUM = CK.rust_summaries(str(RUST))
     XRUNS = CK.rust_runs(str(RUST), XSUM)
@@ -2473,14 +2619,42 @@ else:
         XRUNS.append({"sub": "excited", "label": label, "dir": str(RUST / "excited" / label), "run": None,
                       "record": record, "params": params})
         rebuilt.append(label)
+    # a reference run that cannot be read completely (a directory being rewritten) is left out
+    # and reported; a Rust run without a reference run is reported (coverage check)
+    usable = []
+    for item in XRUNS:
+        if item["sub"] == "spectrum":
+            continue
+        try:
+            ref = CK.load_reference_run(str(REFDIR), CK.reference_label_for(item))
+        except Exception as exc:  # noqa: BLE001 - an unreadable directory is reported, not fatal
+            REF_UNREADABLE.append(f"{item['sub']}/{item['label']} ({type(exc).__name__})")
+            continue
+        if ref is None:
+            REF_MISSING.append(f"{item['sub']}/{item['label']}")
+        usable.append(item)
     XREG = CK.Registry()
-    CK.compare_canonical(XREG, str(REFDIR), XRUNS)
+    _saved_worst = CK.Worst
+    CK.Worst = RecordingWorst
+    try:
+        CK.compare_canonical(XREG, str(REFDIR), usable)
+    finally:
+        CK.Worst = _saved_worst
+    XEVERY = RecordingWorst.instances[-1].every if RecordingWorst.instances else []
     compared = XREG.measurements.get("canonicalCompared", [])
-    print(f"Rust runs: {len(XRUNS)} ({'excited records rebuilt from the CSV files: ' + str(len(rebuilt)) if rebuilt else 'excited records from summary.json'}); "
-          f"compared with a reference run of the same label: {len(compared)}; without one: "
-          f"{XREG.measurements.get('canonicalWithoutReferenceRun', [])}")
+    print(f"Rust runs: {len(usable)} ("
+          + (f"excited records rebuilt from the CSV files: {len(rebuilt)}" if rebuilt else "excited records from summary.json")
+          + f"); compared with the reference run of the same label: {len(compared)}; without a reference run: "
+          f"{REF_MISSING}; reference directories unreadable (being rewritten?): {REF_UNREADABLE}")
     for name, ok in sorted(XREG.checks.items()):
         print(f"{'agree' if ok else 'DIFFER'}  {name}: {XREG.measurements.get(name + '_detail', '')}")
+if REFSUM is not None:
+    REF_LABELS = {r.get("label") for r in REFSUM.get("runs", []) if isinstance(r, dict)}
+    print(f"\nreference-summary.json: complete = {REFSUM.get('complete')}, {len(REF_LABELS)} runs recorded, "
+          f"skipped by rule: {len(REFSUM.get('skippedRuns', []))}")
+else:
+    REF_LABELS = set()
+    print(f"\nreference-summary.json is {REFSUM_STATUS}")
 
 # ---- the checker's own report, if present, and whether it is current -------------
 CHECK_CURRENT = None
@@ -2495,66 +2669,54 @@ if CHECKREP is not None:
     missing = [k for k in files if k not in src]
     CHECK_CURRENT = {"stale": stale, "notRecorded": missing, "failed": CHECKREP.get("failed", []),
                      "checkCount": CHECKREP.get("checkCount"), "failedCheckCount": CHECKREP.get("failedCheckCount")}
-    print(f"\npython-check-report.json: {CHECK_CURRENT['checkCount']} checks, {CHECK_CURRENT['failedCheckCount']} failed "
+    print(f"python-check-report.json: {CHECK_CURRENT['checkCount']} checks, {CHECK_CURRENT['failedCheckCount']} failed "
           f"{CHECK_CURRENT['failed']}; inputs changed since it was written: {stale}; not recorded: {missing}")
 else:
-    print(f"\npython-check-report.json is {CHECKREP_STATUS}: only the in-notebook comparison above is available")
+    print(f"python-check-report.json is {CHECKREP_STATUS}: the in-notebook comparison above stands in for it")
 
 if XREG is not None:
-    TOLX = CK.TOL
-    groups = {}
-    for name, entry in XREG.comparisons.items():
-        if not name.startswith("canonical_") or entry.get("status") != "ran":
-            continue
-        rec = entry["detail"]
-        sub, label = name[len("canonical_"):].split("_", 1)
-        ratios = {}
-        for q_ in ("E0", "mu", "ksGap", "deltaSCF"):
-            x = rec.get(q_)
-            if isinstance(x, dict) and x.get("tolerance"):
-                ratios[q_] = x["deviation"] / x["tolerance"]
-        ev = rec.get("eigenvalues") or {}
-        if ev.get("compared"):
-            ratios["eigenvalues"] = ev["maxDeviationOverTolerance"]
-        prof = rec.get("profiles") or {}
-        interior = [v["interior"] for k, v in prof.items() if isinstance(v, dict) and "interior" in v]
-        if interior:
-            ratios["profiles (interior)"] = max(interior) / TOLX["profileInterior"]
-        th = rec.get("thermo") or {}
-        tvals = [v["deviation"] / v["tolerance"] for k, v in th.items()
-                 if isinstance(v, dict) and v.get("tolerance") and "deviation" in v]
-        if tvals:
-            ratios["thermodynamics"] = max(tvals)
-        groups[(sub, label)] = ratios
-    order = sorted(groups, key=lambda k: (CK.SUBCOMMANDS.index(k[0]), k[1]))
-    quantities = ["E0", "mu", "ksGap", "deltaSCF", "eigenvalues", "profiles (interior)", "thermodynamics"]
-    markers = ["o", "s", "^", "D", "v", "P", "X"]
-    fig, ax = plt.subplots(figsize=(12.5, 4.6))
-    for qi, qn in enumerate(quantities):
-        xs = [i for i, k in enumerate(order) if qn in groups[k]]
-        ys = [max(groups[order[i]][qn], 1e-6) for i in xs]
+    SHOWN = ["E0", "muAndGap", "deltaSCF", "particleHole", "eigenvalues", "profilesInterior", "emtAverages",
+             "thermodynamics"]
+    per_run = {}
+    for quantity, where, dev, tol in XEVERY:
+        name = quantity if quantity in SHOWN else "other"
+        ratio = dev / tol if tol > 0 else float("inf")
+        slot = per_run.setdefault(tuple(where.split("/", 1)), {})
+        slot[name] = max(slot.get(name, 0.0), ratio)
+    order = sorted(per_run, key=lambda k: (CK.SUBCOMMANDS.index(k[0]), k[1]))
+    NB["xref_runs"] = len(order)
+    NB["xref_worst"] = max((max(v.values()) for v in per_run.values()), default=float("nan"))
+    fig, ax = plt.subplots(figsize=(13, 5.2))
+    markers = ["o", "s", "D", "*", "v", "P", "^", "X", "."]
+    FLOOR = 1e-6
+    for qi, qn in enumerate(SHOWN + ["other"]):
+        xs = [i for i, k in enumerate(order) if qn in per_run[k]]
+        ys = [max(per_run[order[i]][qn], FLOOR) for i in xs]
         if xs:
-            ax.plot(xs, ys, markers[qi], ms=4.5, mfc="none", color=PALETTE[qi], label=qn)
+            ax.plot(xs, ys, markers[qi], ms=4.5, mfc="none", color=(PALETTE + [MUTED])[qi],
+                    label=qn if qn != "other" else "other (couplings, fractions, profile ends, C_V, matching, E4.1)")
     ax.axhline(1.0, color=PALETTE[7], lw=1.2, ls="--")
     ax.text(0.5, 1.25, "tolerance", color=INK2, fontsize=7.5)
     ax.set_yscale("log")
-    ax.set_ylim(1e-6, max(10.0, 3 * max((max(v.values()) for v in groups.values() if v), default=1.0)))
+    top = max(10.0, 3.0 * NB["xref_worst"]) if math.isfinite(NB["xref_worst"]) else 10.0
+    ax.set_ylim(FLOOR * 0.6, top)
     bounds = [i for i in range(1, len(order)) if order[i][0] != order[i - 1][0]]
     for b in bounds:
         ax.axvline(b - 0.5, color=AXIS, lw=0.8)
-    starts = [0] + bounds
-    for s0 in starts:
-        ax.text(s0, ax.get_ylim()[1] * 0.5, order[s0][0], color=INK2, fontsize=8, va="top")
-    ax.set_xlabel("run (grouped by subcommand, labels sorted)")
-    ax.set_ylabel("deviation / tolerance  (profiles: / 2e-5)")
-    ax.set_title("Rust against the independent reference solver, run by run (tolerances of check_dirac16complex_kohn_sham.py)")
-    ax.legend(loc="upper right", ncol=4, fontsize=7)
+    for s0 in [0] + bounds:
+        ax.text(s0, top * 0.45, order[s0][0], color=INK2, fontsize=8, va="top")
+    ax.set_xlabel(f"run (grouped by subcommand, labels sorted; {len(order)} runs; values below {FLOOR:g} drawn at {FLOOR:g})")
+    ax.set_ylabel("deviation / tolerance (worst per quantity)")
+    ax.set_title("Rust against the independent reference solver, run by run, with the tolerances of "
+                 "check_dirac16complex_kohn_sham.py (compare_canonical)")
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.13), ncol=5, fontsize=7)
     fig.tight_layout()
     save_figure(fig, "rust_vs_reference.png")
-    worst_rows = sorted(((max(v.values()), k) for k, v in groups.items() if v), reverse=True)[:8]
+    worst_rows = sorted(((max(v.values()), k) for k, v in per_run.items() if v), reverse=True)[:8]
     print("\nlargest deviation/tolerance per run:")
     for value, (sub, label) in worst_rows:
-        print(f"  {value:9.3g}  {sub}/{label}  " + ", ".join(f"{k} {x:.2g}" for k, x in groups[(sub, label)].items()))
+        print(f"  {value:9.3g}  {sub}/{label}  "
+              + ", ".join(f"{k} {x:.2g}" for k, x in sorted(per_run[(sub, label)].items())))
 '''))
 
 # ===========================================================================
@@ -2578,9 +2740,9 @@ FIGURE_DESCRIPTIONS = {
     "ground_state_energy.png": "Ground-state energy against N: free closed shells from the in-cell aufbau with the "
                                "self-consistent +-lambda_hat_2 points; interaction energy E0(lambda) - E0(0) against "
                                "the first-order Hellmann-Feynman value (section 9).",
-    "ks_gap_delta_scf.png": "KS gap and Delta-SCF against lambda_hat/lambda_hat_1 for N = 8, 112, 1016, and their "
-                            "difference (orbital relaxation); the smeared N = 1016, -lambda_hat_2 ensemble is marked "
-                            "(section 10).",
+    "ks_gap_delta_scf.png": "KS gap and Delta-SCF against lambda_hat/lambda_hat_1 for N = 8, 112, 1016 (the smeared "
+                            "N = 1016, -lambda_hat_2 ensemble marked), the same against N for the five couplings, and "
+                            "their difference Delta-SCF - KS gap (orbital relaxation, zero at lambda = 0) (section 10).",
     "fermi_level_N1016_lamm2.png": "The level crossing at the Fermi level: particle levels near mu with their "
                                    "occupations for the free N = 1016 state (exact aufbau) and the smeared "
                                    "-lambda_hat_2 ensemble (192-fold band at k = 0.935, 8-fold k = 0 level) "
@@ -2589,16 +2751,19 @@ FIGURE_DESCRIPTIONS = {
                           "and the occupations of the finite-T Kohn-Sham excitation spectrum (section 11).",
     "emt_profiles.png": "Energy-momentum tensor of the +lambda_hat_1 ground states (N = 112, 1016): rho, p_y, p_3, "
                         "p_t against y, the local p/rho with w_req = -5/7, and rho e^{6Hy} (section 12).",
-    "einstein_source.png": "Per emt run: <rho> against rho_req = -21 H^2/kappa, the kappa it would need, and "
-                           "|lambda <S_p>/m| against the E4.1 value 5/6 (section 12).",
+    "einstein_source.png": "Per emt run: <rho> against rho_req = -21 H^2/kappa (kappa = 1); w_y and w_3 against "
+                           "w_req = -5/7; the kappa that rho_req/<rho> and the E4.1 mass condition m<S_p> = "
+                           "-36 H^2/kappa would each need (opposite signs); lambda <S_p>/m against the E4.1 value -5/6 "
+                           "(section 12).",
     "brane_localisation.png": "Cumulative fraction of the particles within a distance d of the brane (N = 8, 112, "
                               "1016 at m = 1; N = 112 at m = 3) and the fraction within 1/H against the coupling "
                               "(section 13).",
     "convergence.png": "Tip-cutoff convergence L = 2, 3, 4: KS gap, |E0(L) - E0(4)| and n_c(y) of N = 112 at "
                        "+lambda_hat_1 (section 14).",
-    "rust_vs_reference.png": "Rust against the independent reference solver, run by run: deviation/tolerance of "
-                             "E0, mu, KS gap, Delta-SCF, eigenvalues, interior profiles and thermodynamics, with the "
-                             "tolerances of check_dirac16complex_kohn_sham.py (section 15).",
+    "rust_vs_reference.png": "Rust against the independent reference solver, run by run: the worst "
+                             "deviation/tolerance per quantity (E0, mu and KS gap, Delta-SCF, lowest particle-hole, "
+                             "eigenvalues, interior profiles, EMT averages, thermodynamics, other), with the exact "
+                             "per-comparison tolerances of check_dirac16complex_kohn_sham.py (section 15).",
 }
 REQUIRED_FIGURES = sorted(FIGURE_DESCRIPTIONS)
 
@@ -2625,7 +2790,8 @@ def skip(name, why):
 R = NB["recompute"]
 # ---- the program, its self-checks and its reproducibility -----------------------------
 gauntlet("program_runs_success", RUNS and all(r["exit"] == 0 and r["last"] == "SUCCESS" for r in RUNS),
-         f"{len(RUNS)} program runs (print-config, spectrum), every one exited 0 with SUCCESS as its last line")
+         f"{len(RUNS)} program runs ({', '.join(r['command'].split()[1] for r in RUNS)}), every one exited 0 "
+         "with SUCCESS as its last line")
 present = {sub: s for sub, s in SUMMARY.items() if s is not None}
 gauntlet("fixture_hash_consistent", CONFIG.get("fixture sha256") == FIX_SHA and
          all(s["fixture"]["sha256"] == FIX_SHA for s in present.values()),
@@ -2667,9 +2833,10 @@ gauntlet("block_basis_exact", max(NB["basis_unitary"], NB["basis_off_block"], NB
          f"{NB['basis_vs_theory']:.1e}, vs closed forms {NB['basis_vs_formula']:.1e}; two types j = +-1, 4 blocks each")
 gauntlet("block_ode_exact", NB["block_ode"] < 1e-14,
          f"g0[M - i kk g1 + i(eps - v) g4] -> M s3 - kk s2 + i j (eps - v) s1 in every block: {NB['block_ode']:.1e}")
-gauntlet("exchange_closed_form", NB["ex_quadrature"] < 1e-12 and NB["ex_potentials"] < 1e-12,
+gauntlet("exchange_closed_form", NB["ex_quadrature"] < 1e-12 and NB["ex_potentials"] < 1e-12
+         and NB["ex_table_sha_current"],
          f"double quadrature vs -(n^2 + S^2)/32: {NB['ex_quadrature']:.1e}; v_v, v_s, n-only v_x columns: "
-         f"{NB['ex_potentials']:.1e}")
+         f"{NB['ex_potentials']:.1e}; the table the Rust spectrum run checked is this file (sha256)")
 
 # ---- the free spectrum --------------------------------------------------------------------
 gauntlet("box_spectrum_analytic", NB["box_dev"] < 1e-8 and NB["box_count_bad"] == 0,
@@ -2725,15 +2892,18 @@ gauntlet("level_crossing_run_as_documented",
 gauntlet("entropy_and_free_energy", NB["thermo_S"] < 1e-10 and NB["thermo_F"] < 1e-12,
          f"S from the occupations vs run.json {NB['thermo_S']:.1e}; |E - TS - F| {NB['thermo_F']:.1e}")
 gauntlet("heat_capacity_forms", NB["cv_fixed_forms"] < 1e-10 and NB["cv_fd_vs_fixed_free"] < 1e-2,
-         f"fixed-spectrum forms {NB['cv_fixed_forms']:.1e}; lambda = 0 central difference vs fixed spectrum "
-         f"{NB['cv_fd_vs_fixed_free']:.1e} < 1e-2 (the checker's tolerance)")
+         f"lambda = 0: the two fixed-spectrum forms agree to {NB['cv_fixed_forms']:.1e}, the central difference "
+         f"agrees with them to {NB['cv_fd_vs_fixed_free']:.1e} < 1e-2 (the checker's tolerance); lambda != 0: "
+         f"forms differ by {NB['cv_fixed_forms_interacting']:.1e} (measured)")
 gauntlet("thermodynamic_monotonicity", NB["thermo_monotone"], "F decreases and S increases with T in all six series")
 
 # ---- energy-momentum tensor ------------------------------------------------------------------
 E_ = NB["emt"]
-gauntlet("emt_recomputed", E_["E_rho"] < 1e-7 and max(E_["volume"], E_["averages"], E_["w"], E_["Ls"], E_["kappa"]) < 1e-12
+gauntlet("emt_recomputed", E_["E_rho"] < 1e-7 and E_["volume"] < 1.05
+         and max(E_["averages"], E_["w"], E_["Ls"], E_["kappa"]) < 1e-12
          and E_["E41"] < 1e-10,
-         f"int rho dV = E {E_['E_rho']:.1e}; volume {E_['volume']:.1e}; averages {E_['averages']:.1e}; w {E_['w']:.1e}; "
+         f"int rho dV = E {E_['E_rho']:.1e}; proper volume (Simpson) vs l^3 (1 - e^(-6HL))/(6H): error / its "
+         f"leading-order value h^4 (6H)^4/180 = {E_['volume']:.4f}; averages {E_['averages']:.1e}; w {E_['w']:.1e}; "
          f"p_t = L_s {E_['Ls']:.1e}; kappa needed {E_['kappa']:.1e}; E4.1 {E_['E41']:.1e}")
 gauntlet("emt_conservation", E_["conservation"] < 1e-2,
          f"(e^(6Hy) p_y)' = 3H e^(6Hy)(p_3 + p_t), fourth-order stencil: {E_['conservation']:.1e} < 1e-2 "
@@ -2759,6 +2929,16 @@ if XREG is None:
 else:
     for name, ok in sorted(XREG.checks.items()):
         gauntlet("rust_vs_reference_" + name[len("canonical_"):], ok, XREG.measurements.get(name + "_detail", ""))
+    gauntlet("rust_vs_reference_coverage", bool(XREG.checks) and not REF_MISSING and not REF_UNREADABLE,
+             f"{len(XREG.measurements.get('canonicalCompared', []))} Rust runs compared with the reference run of the "
+             f"same label; without a reference run: {REF_MISSING}; unreadable reference directories: {REF_UNREADABLE}")
+if REFSUM is None:
+    skip("reference_summary_complete", f"artifacts/dirac16complex/kohn-sham/reference/reference-summary.json is {REFSUM_STATUS}")
+else:
+    needed = sorted({CK.reference_label_for(it) for it in XRUNS if it["sub"] != "spectrum"} - REF_LABELS)
+    gauntlet("reference_summary_complete", REFSUM.get("complete") is True and not needed,
+             f"reference-summary.json: complete = {REFSUM.get('complete')}; labels compared here but not recorded "
+             f"in it: {needed}")
 if CHECK_CURRENT is None:
     skip("python_check_report", f"artifacts/dirac16complex/kohn-sham/python-check-report.json is {CHECKREP_STATUS}")
 else:
@@ -2863,10 +3043,17 @@ in 8D); the good sector without extra-time momentum; the positive-norm
 quantisation with the expectation rule $u^\dagger BMu$.
 
 **Not established:** a Kohn-Sham state that sources the primordial geometry.
-The E4.1 conditions need $\lambda S/m = -5/6$ with $mS < 0$; the mirror sector
-of the $\gamma^8$ map ($m\to-m$) maps the problem onto one with identical
+The E4.1 conditions need $\lambda S/m = -5/6$ with $mS < 0$.  The mirror
+sector does not help: the Kohn-Sham form of the $\gamma^8$ map (in a block the
+swap $(a, b)\to(b, a)$ together with $s\to-s$) maps the problem
+$(m, \lambda)$ with the tip bag $b(-L) = 0$ exactly onto $(-m, \lambda)$ with
+the opposite bag $a(-L) = 0$ and exchanged brane parities, with identical
 energies and $S\to-S$, so $mS$ and $\lambda S^2$, and hence the verdict, are
-unchanged there (the program's `emt` module derives this).
+the same there (derived in the header of the program's `src/emt.rs`; the
+overall sign of CONTRACT E2's identity $L_{m,U}[\gamma^8\Psi] = -L_{-m,-U}[\Psi]$
+reverses the Krein sign of the expectation rule, so at the mean-field level the
+coupling keeps its sign).  This mirror statement is structural and was not
+computed as a separate run here.
 """))
 
 CELLS.append(md(r"""

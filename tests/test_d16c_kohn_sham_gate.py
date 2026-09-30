@@ -7,13 +7,19 @@
     of every input, and refuses missing inputs, inconsistent fixture hashes,
     a --refined Rust summary and stale reports (a preview with
     --allow-incomplete is marked INCOMPLETE); a failed producer check gives
-    verdict FAILURE.
-  * scripts/verify_stage4_kohn_sham_audit.py: the same / rust-outputs /
-    snapshot / unchanged / fresh / determinism / reference-quick /
-    checker-report subcommands, each with a negative control.
+    verdict FAILURE; the fallback parameters of an excited record are taken
+    from the record itself, and the aufbau count of a smeared run is counted.
+  * scripts/verify_stage4_kohn_sham_audit.py: the same / rust-run /
+    rust-outputs / snapshot / unchanged / fresh / determinism /
+    reference-quick / checker-report subcommands, each with a negative
+    control (rust-run with stand-in subcommand scripts run by this Python:
+    concurrent and sequential, a failing job stops the others).
   * scripts/verify_stage4_kohn_sham.{ps1,sh}: both twins list the same steps
-    in the same order (their --dry-run / -DryRun output), select steps with
-    --steps / -Steps, end with the same final lines and are LF-only.
+    in the same order with the same expected wall times (their --dry-run /
+    -DryRun output), launch the same Rust jobs (concurrent by default,
+    --sequential-rust / -SequentialRust, --refined-thermo / -RefinedThermo),
+    select steps with --steps / -Steps, end with the same final lines and are
+    LF-only.
 
 Run from the repository root:
     python -m unittest discover -s tests -p "test_d16c_kohn_sham_gate.py" -v
@@ -140,7 +146,15 @@ def make_root(root):
                      "lowestParticleHole": 0.4307336786379114, "maxLambdaSOverM": 0.0},
                     {"label": "m1_L3_N1016_lamm2_T0", "N": 1016.0, "lambdaHat": -0.0015, "E0": 1126.8,
                      "mu": 1.39, "epsHomo": 1.389, "epsLumo": 1.43, "ksGap": 0.041, "deltaScf": 0.0436,
-                     "E1": 1126.84, "lowestParticleHole": 6.6e-12, "maxLambdaSOverM": 1.37}]
+                     "E1": 1126.84, "lowestParticleHole": 6.6e-12, "maxLambdaSOverM": 1.37},
+                    # a refinement record that carries the parameters of its own ground state
+                    {"label": "m1_L3_N1016_lamm2_T0_g601", "N": 1016.0, "lambdaHat": -0.0015,
+                     "parameters": {"m": 1.0, "L": 3.0, "N": 1016.0, "T": 0.0, "lambdaHat": -0.0015,
+                                    "gridPoints": 601, "occupationSmearing": 0.001,
+                                    "zeroTemperatureFallbackStage": 1},
+                     "exactZeroTemperatureOccupations": False, "E0": 1126.8, "mu": 1.39, "epsHomo": 1.389,
+                     "epsLumo": 1.43, "ksGap": 0.041, "deltaScf": 0.04362, "E1": 1126.84,
+                     "lowestParticleHole": 1.7e-12, "maxLambdaSOverM": 1.37}]
     summaries = {
         "spectrum": dict(common, experiment="spectrum", checks={"s1": True},
                          files=["reduction.json", "summary.json"],
@@ -159,14 +173,15 @@ def make_root(root):
     write_json(os.path.join(root, "rust", "spectrum", "theory-agreement.json"),
                {"path": "x", "status": "compared", "sha256": theory_sha,
                 "checks": {"theory_zero_mode_splitting": {"passed": True, "detail": "c = 1.9"}}})
-    for label in ("m1_L3_N8_lam0_T0", "m1_L3_N1016_lamm2_T0"):
+    for label in ("m1_L3_N8_lam0_T0", "m1_L3_N1016_lamm2_T0", "m1_L3_N1016_lamm2_T0_g601"):
         write_text(os.path.join(root, "rust", "excited", label, "particle-hole.csv"),
                    "excitation,eps_hole,eps_particle,k_hole,k_particle\n"
                    "6.58073595616315288e-12,1.38946077952050628e+00,1.38946077952708702e+00,0.0e+00,0.0e+00\n"
                    "3.69079856789222838e-03,1.38576998095261406e+00,1.38946077952050628e+00,9.35e-01,0.0e+00\n")
         write_text(os.path.join(root, "rust", "excited", label, "levels.csv"),
                    LEVELS_HEADER + level_row(14.0, 0.935, 192.0, 1.3857, 0.978) + level_row(0.0, 0.0, 4.0, 1.3894, 0.5266)
-                   + level_row(30.0, 1.4, 192.0, 1.8, 1e-185) + level_row(1.0, 0.25, 24.0, 0.9, 1.0))
+                   + level_row(30.0, 1.4, 192.0, 1.8, 1e-185) + level_row(1.0, 0.25, 824.0, 0.9, 1.0)
+                   + level_row(1.0, 0.25, 824.0, -0.9, 1.0, branch=-1.0))
     write_json(os.path.join(root, "rust", "determinism-report.json"),
                {"schemaVersion": 1, "producer": "compare_runs",
                 "checks": {"repeat_byte_identity": True, "refined_convergence": True},
@@ -237,10 +252,22 @@ class SummaryBuilderTests(unittest.TestCase):
         self.assertEqual(rows["m1_L3_N1016_lamm2_T0"]["occupationSmearing"], 0.001)
         self.assertEqual(rows["m1_L3_N1016_lamm2_T0"]["occupationSource"], "scf run of the same label")
         self.assertEqual(rows["m1_L3_N8_lam0_T0"]["particleHoleFirst"][0]["excitation"], 6.580735956163153e-12)
+        self.assertEqual(rows["m1_L3_N1016_lamm2_T0"]["zeroTemperatureFallbackStage"], 1)
+        refinement = document["physics"]["excitedRefinements"][0]
+        self.assertEqual(refinement["label"], "m1_L3_N1016_lamm2_T0_g601")
+        self.assertEqual(refinement["occupationSource"], "excited record")
+        self.assertEqual((refinement["gridPoints"], refinement["zeroTemperatureFallbackStage"]), (601, 1))
         smeared = document["physics"]["smearedGroundStates"]["runs"]
-        self.assertEqual([run["label"] for run in smeared], ["m1_L3_N1016_lamm2_T0"])
+        self.assertEqual([run["label"] for run in smeared], ["m1_L3_N1016_lamm2_T0", "m1_L3_N1016_lamm2_T0_g601"])
         # the floor selects the two fractional levels, not the Fermi-Dirac tail (1e-185) nor f = 1
         self.assertEqual([level["f"] for level in smeared[0]["fractionallyOccupiedLevels"]], [0.978, 0.5266])
+        # counted, not computed: 824 fully occupied particle states + the 192-fold band = N = 1016
+        # (the Dirac-sea row of the same |eps| is not counted); the k = 0 level lies above
+        self.assertEqual([level["statesAtOrBelow"] for level in smeared[0]["fractionallyOccupiedLevels"]],
+                         [1016.0, 1020.0])
+        self.assertEqual((smeared[0]["aufbauCountClosesAt"]["eps"], smeared[0]["aufbauCountClosesAt"]["multiplicity"]),
+                         (1.3857, 192.0))
+        self.assertEqual(smeared[1]["zeroTemperatureFallbackStage"], 1)
         self.assertEqual(document["physics"]["lConvergence"][0]["N"], 8.0)
         self.assertEqual([entry["L"] for entry in document["physics"]["lConvergence"][0]["byL"]], [2.0, 3.0])
         self.assertEqual(document["totals"]["byProducer"]["wolfram"], {"checks": 2, "failed": 0})
@@ -397,6 +424,66 @@ class AuditTests(unittest.TestCase):
         write_text("committed/thermo/unlisted.csv", "x\n")
         self.assertEqual(run_audit("rust-outputs", "--committed", "committed", "--run", "run")[0], 1)
 
+    FAKE_SUBCOMMAND = (
+        "import os, sys, time\n"
+        "args = sys.argv[1:]\n"
+        "out = args[args.index('--output') + 1]\n"
+        "name = os.path.basename(sys.argv[0])\n"
+        "os.makedirs(os.path.join(out, name), exist_ok=True)\n"
+        "time.sleep(float(os.environ.get('FAKE_SLEEP_' + name, '0.2')))\n"
+        "with open(os.path.join(out, name, 'mode.txt'), 'w') as handle:\n"
+        "    handle.write('refined' if '--refined' in args else 'canonical')\n"
+        "code = int(os.environ.get('FAKE_EXIT_' + name, '0'))\n"
+        "print('SUCCESS' if code == 0 else 'FAILURE')\n"
+        "sys.exit(code)\n")
+
+    def test_rust_run_concurrent_sequential_and_failures(self):
+        # the "binary" is this Python; the subcommand names are small scripts in the
+        # working directory, so "<python> scf [--refined] --output DIR" runs the scf stand-in
+        for sub in SUBCOMMANDS:
+            write_text(sub, self.FAKE_SUBCOMMAND)
+        jobs = []
+        for sub in SUBCOMMANDS:
+            jobs += ["--job", sub, "run-a", "canonical"]
+        jobs += ["--job", "scf", "refined", "refined"]
+        code, text = run_audit("rust-run", "--binary", sys.executable, "--log-prefix", "logs/r", *jobs)
+        self.assertEqual(code, 0, text)
+        self.assertIn("concurrent (6 processes)", text)
+        self.assertEqual(text.count("exit=0 last=SUCCESS"), 6)
+        with open(os.path.join("refined", "scf", "mode.txt"), encoding="utf-8") as handle:
+            self.assertEqual(handle.read(), "refined")
+        with open(os.path.join("run-a", "thermo", "mode.txt"), encoding="utf-8") as handle:
+            self.assertEqual(handle.read(), "canonical")
+        self.assertTrue(os.path.isfile(os.path.join("logs", "r-refined-scf.log")))
+        code, text = run_audit("rust-run", "--sequential", "--binary", sys.executable, "--log-prefix", "logs/s", *jobs)
+        self.assertEqual(code, 0, text)
+        self.assertIn("stage4_rust_run_mode=sequential", text)
+        # a failing job: its exit code and last line are reported, the others are stopped
+        os.environ["FAKE_EXIT_scf"] = "1"
+        os.environ["FAKE_SLEEP_thermo"] = "60"
+        try:
+            started = time.monotonic()
+            code, text = run_audit("rust-run", "--binary", sys.executable, "--log-prefix", "logs/f",
+                                   "--job", "scf", "run-a", "canonical", "--job", "thermo", "run-a", "canonical")
+            self.assertLess(time.monotonic() - started, 50.0)
+            self.assertEqual(code, 1)
+            self.assertIn("canonical scf exited 1 with last line 'FAILURE'", text)
+            self.assertIn("canonical thermo STOPPED", text)
+            code, text = run_audit("rust-run", "--sequential", "--binary", sys.executable, "--log-prefix", "logs/g",
+                                   "--job", "scf", "run-a", "canonical", "--job", "emt", "run-a", "canonical")
+            self.assertEqual(code, 1)
+            self.assertIn("canonical emt NOT STARTED", text)
+        finally:
+            del os.environ["FAKE_EXIT_scf"]
+            del os.environ["FAKE_SLEEP_thermo"]
+        # a job whose last line is not SUCCESS fails even with exit code 0
+        write_text("emt", "print('SUCCESS')\nprint('trailing output')\n")
+        code, text = run_audit("rust-run", "--binary", sys.executable, "--log-prefix", "logs/h",
+                               "--job", "emt", "run-a", "canonical")
+        self.assertEqual(code, 1, text)
+        self.assertEqual(run_audit("rust-run", "--binary", "missing.exe", "--log-prefix", "logs/m",
+                                   "--job", "emt", "run-a", "canonical")[0], 1)
+
     def test_snapshot_unchanged_fresh(self):
         write_text("tree/a.txt", "a\n")
         write_json("tree/b.json", {"engine": {"binary": "x"}, "v": 1})
@@ -508,6 +595,16 @@ class GateTwinTests(unittest.TestCase):
                     names.append(line[len(prefix):].split(" ")[0])
         return names
 
+    @staticmethod
+    def expected_of(output):
+        """(step, expected wall time) of every dry-run line."""
+        pairs = []
+        for line in output.splitlines():
+            if line.startswith("stage4_dry_run_step="):
+                name, _, rest = line[len("stage4_dry_run_step="):].partition(" expected=[")
+                pairs.append((name, rest[:-1] if rest.endswith("]") else rest))
+        return pairs
+
     def run_twin(self, command):
         completed = subprocess.run(command, cwd=REPO, capture_output=True, text=True, encoding="utf-8",
                                    errors="replace", timeout=300)
@@ -526,10 +623,28 @@ class GateTwinTests(unittest.TestCase):
         self.assertEqual(code_ps, 0, out_ps[-2000:])
         steps_sh, steps_ps = self.steps_of(out_sh), self.steps_of(out_ps)
         self.assertEqual(steps_sh, steps_ps)
-        self.assertEqual(len(steps_sh), 46)
-        self.assertEqual([name[7:9] for name in steps_sh], ["%02d" % n for n in range(46)])
+        self.assertEqual(len(steps_sh), 37)
+        self.assertEqual([name[7:9] for name in steps_sh], ["%02d" % n for n in range(37)])
+        self.assertIn("stage4-14-rust-runs", steps_sh)
+        # the same expected wall time for every step, and no unfilled placeholder
+        self.assertEqual(self.expected_of(out_sh), self.expected_of(out_ps))
+        self.assertNotIn("@@", out_sh + out_ps)
         self.assertTrue(out_sh.rstrip().endswith("stage4_kohn_sham_verification=DRY-RUN"))
         self.assertTrue(out_ps.rstrip().endswith("stage4_kohn_sham_verification=DRY-RUN"))
+        # step 14 launches all Rust processes concurrently unless asked otherwise
+        for output in (out_sh, out_ps):
+            command = [line for line in output.splitlines() if "rust-run" in line][0]
+            self.assertEqual(command.count("--job"), 9)
+            self.assertNotIn("--sequential", command)
+        code_sh, out_sh = self.run_twin([bash, GATE_SH, "--dry-run", "--sequential-rust", "--refined-thermo",
+                                         "--steps", "14"])
+        code_ps, out_ps = self.run_twin([pwsh, "-NoProfile", "-File", GATE_PS1, "-DryRun", "-SequentialRust",
+                                         "-RefinedThermo", "-Steps", "14"])
+        for output in (out_sh, out_ps):
+            command = [line for line in output.splitlines() if "rust-run" in line][0]
+            self.assertEqual(command.count("--job"), 10)
+            self.assertIn("--sequential", command)
+        self.assertEqual(self.expected_of(out_sh), self.expected_of(out_ps))
         # step selection: only 05 and 13 are listed as steps to run
         code_sh, out_sh = self.run_twin([bash, GATE_SH, "--dry-run", "--steps", "05,stage4-13-print-config"])
         code_ps, out_ps = self.run_twin([pwsh, "-NoProfile", "-File", GATE_PS1, "-DryRun", "-Steps",

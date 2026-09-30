@@ -20,6 +20,18 @@ repository root):
       vendor/rustSolveIt is a git checkout at exactly SHA, its tracked files
       are unmodified and the two path dependencies
       sundials_rs/crates/{sundials_core,cvode_rs} exist.
+  rust-run --binary PATH --log-prefix PREFIX [--sequential]
+           --job SUB OUTPUT canonical|refined [--job ...]
+      Run the Rust binary once per job ("<binary> SUB [--refined] --output
+      OUTPUT", from the current directory), each job's stdout and stderr in
+      its own log PREFIX-<canonical|refined>-SUB.log.  By default all jobs
+      run as concurrent processes (each process still uses all its worker
+      threads; the outputs do not depend on the thread count or on the
+      scheduling, and every subcommand writes only OUTPUT/SUB/); with
+      --sequential one after another in the order given.  Every job must
+      exit 0 with the last stdout line SUCCESS; the first failure stops
+      the remaining jobs.  Prints stage4_rust_job=... per job (exit code,
+      last line, wall seconds) and the total wall time.
   same [--rtol X --atol Y] --pair EXPECTED ACTUAL [--pair ...]
       Every ACTUAL file equals its EXPECTED file byte for byte.  With --rtol
       (and --atol) a .json pair that is not byte-identical may instead be
@@ -80,9 +92,11 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 SUBCOMMANDS = ("spectrum", "scf", "excited", "thermo", "emt")
@@ -105,7 +119,7 @@ def load_json(path: Path):
 
 
 def emit(name: str, value) -> None:
-    print(f"stage4_{name}={value}")
+    print(f"stage4_{name}={value}", flush=True)
 
 
 # ---------------------------------------------------------------------------
@@ -145,6 +159,85 @@ def cmd_solver(arguments) -> list[str]:
         manifest = vendor / "sundials_rs" / "crates" / crate / "Cargo.toml"
         if not manifest.is_file():
             problems.append(f"missing {manifest.as_posix()}")
+    return problems
+
+
+# ---------------------------------------------------------------------------
+# rust-run (the canonical and refined Rust runs of the gate)
+
+
+def last_line(path: Path) -> str:
+    try:
+        lines = [line.strip() for line in path.read_text(encoding="utf-8", errors="replace").splitlines()]
+    except OSError:
+        return ""
+    lines = [line for line in lines if line]
+    return lines[-1] if lines else ""
+
+
+def cmd_rust_run(arguments) -> list[str]:
+    binary = Path(arguments.binary)
+    if not binary.is_file():
+        raise AuditFailure(f"missing binary {binary.as_posix()}")
+    executable = os.path.abspath(str(binary))
+    jobs = []
+    for sub, output, mode in arguments.job:
+        if sub not in SUBCOMMANDS or mode not in ("canonical", "refined"):
+            raise AuditFailure(f"bad job {sub} {output} {mode}")
+        command = [executable, sub] + (["--refined"] if mode == "refined" else []) + ["--output", output]
+        log = Path(f"{arguments.log_prefix}-{mode}-{sub}.log")
+        log.parent.mkdir(parents=True, exist_ok=True)
+        jobs.append({"sub": sub, "mode": mode, "output": output, "command": command, "log": log})
+    emit("rust_run_mode", "sequential" if arguments.sequential else f"concurrent ({len(jobs)} processes)")
+    started = time.monotonic()
+    problems: list[str] = []
+
+    def start(job):
+        job["handle"] = open(job["log"], "wb")
+        job["started"] = time.monotonic()
+        job["process"] = subprocess.Popen(job["command"], stdout=job["handle"], stderr=subprocess.STDOUT)
+
+    def finish(job, code):
+        job["handle"].close()
+        job["seconds"] = time.monotonic() - job["started"]
+        job["code"] = code
+        job["last"] = last_line(job["log"])
+        emit("rust_job", f"{job['mode']} {job['sub']} exit={code} last={job['last']} "
+                         f"seconds={job['seconds']:.0f} log={job['log'].as_posix()}")
+        if code != 0 or job["last"] != "SUCCESS":
+            problems.append(f"{job['mode']} {job['sub']} exited {code} with last line {job['last']!r} "
+                            f"(log {job['log'].as_posix()})")
+
+    def stop_others(running):
+        for job in running:
+            job["process"].terminate()
+        for job in running:
+            job["process"].wait()
+            job["handle"].close()
+            emit("rust_job", f"{job['mode']} {job['sub']} STOPPED after the failure above")
+
+    if arguments.sequential:
+        for index, job in enumerate(jobs):
+            start(job)
+            finish(job, job["process"].wait())
+            if problems:
+                for rest in jobs[index + 1:]:
+                    emit("rust_job", f"{rest['mode']} {rest['sub']} NOT STARTED after the failure above")
+                break
+    else:
+        for job in jobs:
+            start(job)
+        running = list(jobs)
+        while running and not problems:
+            time.sleep(2.0)
+            for job in list(running):
+                code = job["process"].poll()
+                if code is not None:
+                    running.remove(job)
+                    finish(job, code)
+        if running:
+            stop_others(running)
+    emit("rust_run_total_seconds", f"{time.monotonic() - started:.0f}")
     return problems
 
 
@@ -483,6 +576,11 @@ def main(argv=None) -> int:
     solver = commands.add_parser("solver")
     solver.add_argument("--pin", required=True)
     solver.add_argument("--vendor", default="vendor/rustSolveIt")
+    rust_run = commands.add_parser("rust-run")
+    rust_run.add_argument("--binary", required=True)
+    rust_run.add_argument("--log-prefix", required=True)
+    rust_run.add_argument("--sequential", action="store_true")
+    rust_run.add_argument("--job", nargs=3, action="append", required=True, metavar=("SUB", "OUTPUT", "MODE"))
     same = commands.add_parser("same")
     same.add_argument("--pair", nargs=2, action="append", required=True, metavar=("EXPECTED", "ACTUAL"))
     same.add_argument("--rtol", type=float, default=None)
@@ -521,7 +619,7 @@ def main(argv=None) -> int:
     arguments = parser.parse_args(argv)
 
     handlers = {
-        "solver": cmd_solver, "same": cmd_same, "rust-outputs": cmd_rust_outputs,
+        "solver": cmd_solver, "rust-run": cmd_rust_run, "same": cmd_same, "rust-outputs": cmd_rust_outputs,
         "determinism": cmd_determinism, "reference-quick": cmd_reference_quick,
         "checker-report": cmd_checker_report, "prepare-notebook": cmd_prepare_notebook,
         "notebook": cmd_notebook, "snapshot": cmd_snapshot, "unchanged": cmd_unchanged, "fresh": cmd_fresh,

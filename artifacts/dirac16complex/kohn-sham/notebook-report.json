@@ -1,0 +1,670 @@
+{
+  "schemaVersion": 1,
+  "producer": "notebooks/check_dirac16complex_kohn_sham_notebook.py",
+  "notebook": "notebooks/dirac16complex_kohn_sham.ipynb",
+  "builder": "notebooks/build_dirac16complex_kohn_sham_notebook.py",
+  "runner": "notebooks/run_notebook.py",
+  "adaptedFrom": "notebooks/check_notebook.py (Stage 3), adapted from rustSolveIt planet_Mercury/notebook (build_notebook.py, run_notebook.py, check_notebook.py) at a8fdff459adfe181573d7924b18bffbdf378fdb3, BSD-3-Clause, once-ere",
+  "kernel": "python3 (Python 3 (ipykernel))",
+  "fixtureSha256": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
+  "cells": 43,
+  "markdownCells": 25,
+  "codeCells": 18,
+  "executedCodeCells": 18,
+  "rules": [
+    "R1 how-to-run needles",
+    "R2 no cross-references",
+    "R3 markdown lead-in >= 80 chars before every code cell",
+    "R4 required headings",
+    "R5 headless, driver needles",
+    "R6 executed counts 1..n",
+    "R7 no error outputs",
+    "R7 gauntlet: only PASS lines (a SKIP is not a pass), ALL CHECKS PASSED",
+    "R8 figure hashes match the PNG files on disk, one embedded image each",
+    "R9 kernel python3",
+    "R10 determinism settings",
+    "R11 nbformat schema",
+    "R12 cells equal the builder's current output",
+    "cross-execution identical gauntlet and figure hashes (--also)"
+  ],
+  "checks": {
+    "r01_how_to_run_needles": true,
+    "r02_no_cross_references": true,
+    "r03_markdown_lead_ins": true,
+    "r04_required_headings": true,
+    "r05_headless_driver": true,
+    "r06_executed_in_order": true,
+    "r07_no_error_outputs": false,
+    "r07_gauntlet_passed": false,
+    "r08_figures_match_disk": true,
+    "r09_kernel_python3": true,
+    "r10_determinism_settings": true,
+    "r11_nbformat_valid": true,
+    "r12_cells_match_builder": true,
+    "cross_execution_identical": true,
+    "gauntlet_program_runs_success": true,
+    "gauntlet_fixture_hash_consistent": true,
+    "gauntlet_fresh_spectrum_byte_identical": true,
+    "gauntlet_rust_spectrum_self_checks": true,
+    "gauntlet_rust_scf_self_checks": true,
+    "gauntlet_rust_excited_self_checks": true,
+    "gauntlet_rust_thermo_self_checks": true,
+    "gauntlet_rust_emt_self_checks": true,
+    "gauntlet_determinism_report_current": false,
+    "gauntlet_exact_theory_wolfram": true,
+    "gauntlet_exact_theory_python_sympy": true,
+    "gauntlet_algebra_relations_exact": true,
+    "gauntlet_block_basis_exact": true,
+    "gauntlet_block_ode_exact": true,
+    "gauntlet_exchange_closed_form": true,
+    "gauntlet_box_spectrum_analytic": true,
+    "gauntlet_chiral_zero_mode": true,
+    "gauntlet_zero_mode_splitting": true,
+    "gauntlet_mirror_spectra_and_multiplicities": true,
+    "gauntlet_particle_number": true,
+    "gauntlet_energy_recomputed": true,
+    "gauntlet_pseudo_potential_formula": true,
+    "gauntlet_profile_columns": true,
+    "gauntlet_scf_converged": true,
+    "gauntlet_closed_shells_and_aufbau": true,
+    "gauntlet_first_order_coupling": true,
+    "gauntlet_ks_gap_recomputed": true,
+    "gauntlet_delta_scf_bookkeeping": true,
+    "gauntlet_delta_scf_equals_gap_free": true,
+    "gauntlet_particle_hole_lists": true,
+    "gauntlet_level_crossing_run_as_documented": true,
+    "gauntlet_entropy_and_free_energy": true,
+    "gauntlet_heat_capacity_forms": true,
+    "gauntlet_thermodynamic_monotonicity": true,
+    "gauntlet_emt_recomputed": true,
+    "gauntlet_emt_conservation": true,
+    "gauntlet_einstein_source_mismatch": true,
+    "gauntlet_brane_fraction": true,
+    "gauntlet_l_convergence_trend": true,
+    "gauntlet_grid_convergence": true,
+    "gauntlet_a4_rescaling_exact": true,
+    "gauntlet_rust_vs_reference_E0": true,
+    "gauntlet_rust_vs_reference_deltaSCF": false,
+    "gauntlet_rust_vs_reference_eigenvalueMatching": true,
+    "gauntlet_rust_vs_reference_eigenvalues": false,
+    "gauntlet_rust_vs_reference_emtAverages": true,
+    "gauntlet_rust_vs_reference_fractions": true,
+    "gauntlet_rust_vs_reference_heatCapacity": true,
+    "gauntlet_rust_vs_reference_lambdaHat": true,
+    "gauntlet_rust_vs_reference_muAndGap": true,
+    "gauntlet_rust_vs_reference_particleHole": false,
+    "gauntlet_rust_vs_reference_profilesEnds": true,
+    "gauntlet_rust_vs_reference_profilesInterior": true,
+    "gauntlet_rust_vs_reference_sourcingConditions": true,
+    "gauntlet_rust_vs_reference_thermodynamics": true,
+    "gauntlet_rust_vs_reference_coverage": false,
+    "gauntlet_reference_summary_complete": false,
+    "gauntlet_python_check_report": false,
+    "gauntlet_figures_written": true,
+    "gauntlet_prose_numbers_match_files": true
+  },
+  "checkCount": 74,
+  "failedCheckCount": 9,
+  "failed": [
+    "gauntlet_determinism_report_current",
+    "gauntlet_python_check_report",
+    "gauntlet_reference_summary_complete",
+    "gauntlet_rust_vs_reference_coverage",
+    "gauntlet_rust_vs_reference_deltaSCF",
+    "gauntlet_rust_vs_reference_eigenvalues",
+    "gauntlet_rust_vs_reference_particleHole",
+    "r07_gauntlet_passed",
+    "r07_no_error_outputs"
+  ],
+  "measurements": {
+    "problems_execution0_r07_no_error_outputs": [
+      "code cell 17 has an error output (AssertionError)"
+    ],
+    "problems_execution0_r07_gauntlet_passed": [
+      "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole, rust_vs_reference_coverage, reference_summary_complete",
+      "gauntlet SKIP lines: python_check_report",
+      "the gauntlet did not print ALL CHECKS PASSED"
+    ],
+    "problems_execution1_r07_no_error_outputs": [
+      "code cell 17 has an error output (AssertionError)"
+    ],
+    "problems_execution1_r07_gauntlet_passed": [
+      "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole, rust_vs_reference_coverage, reference_summary_complete",
+      "gauntlet SKIP lines: python_check_report",
+      "the gauntlet did not print ALL CHECKS PASSED"
+    ],
+    "cells": 43,
+    "codeCells": 18,
+    "markdownCells": 25,
+    "executedCodeCells": 18,
+    "embeddedImages": 14,
+    "figures": 14,
+    "requiredFigures": 14,
+    "gauntletCount": 60,
+    "gauntletPassed": 53,
+    "gauntletFailed": [
+      "determinism_report_current",
+      "rust_vs_reference_deltaSCF",
+      "rust_vs_reference_eigenvalues",
+      "rust_vs_reference_particleHole",
+      "rust_vs_reference_coverage",
+      "reference_summary_complete"
+    ],
+    "gauntletSkipped": [
+      "python_check_report"
+    ],
+    "executions": 2
+  },
+  "sourceSha256": {
+    "builder": "497d1c804d6221a9c5193bf75624e8421bd7c1d5b79fcad41e28f956ec7a7e9a",
+    "auditor": "4ee6dfdca59b076bcec372dca4b82f1c84e00009b178a83ab835d7ad5e1d9c91",
+    "runner": "ef5bbd8c082f2e17ed2c894788f5f9edd791a23ecb25ebe266881fe2d7cff40c",
+    "notebookCells": "7820174d6637185aa80e75197828c7016ec775d4d3ed1d083eec6d900e532cd5",
+    "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
+    "artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json": "5b150b36e13b903c32b86e8debbaeda48798e0beb0bc6a216e416d2671f4e01a",
+    "artifacts/dirac16complex/kohn-sham/exchange-table.json": "42542b119b258f957e748861d30de7dbc8527f4c0a11f3a2cd6660d9ba98e0a3",
+    "artifacts/dirac16complex/kohn-sham/wolfram-kohn-sham-report.json": "9f04bc10b2e513a790ea6f317473caa8d245a98ee38cbdeb5997f17557fe8978",
+    "artifacts/dirac16complex/kohn-sham/python-theory-report.json": "042ef6dc641fd3ec69cdc6d775832f824beb3b39f769e65eadfae8682a78356b",
+    "artifacts/dirac16complex/kohn-sham/rust/determinism-report.json": "b25c152f23e97c4b6bc47dfa5f13d45182cb4b3ae71ab6110d69eae89abbe78b",
+    "artifacts/dirac16complex/kohn-sham/reference/reference-summary.json": "1a22b9c19deac5e1d32818d0e3aa5aa17c7889f40aff8000f9bc796663f83682",
+    "artifacts/dirac16complex/kohn-sham/python-check-report.json": null,
+    "scripts/check_dirac16complex_kohn_sham.py": "a2883b47fd5a4febbf19fe479c1b7afaa1ba001621a0455e946e1682c02294ee",
+    "artifacts/dirac16complex/kohn-sham/rust/spectrum/summary.json": "52d4eb13142740b90ad7aad1c2868748501291ecd9c103149ecc1dadb95c5091",
+    "artifacts/dirac16complex/kohn-sham/rust/scf/summary.json": "44017474744f7f501b0a07f5d64a1bb1e8fc8e8412ddf10a3e23313a2a101759",
+    "artifacts/dirac16complex/kohn-sham/rust/excited/summary.json": "99394347e61fd4b57f8bb38c60f542df9a46ab5151771ba443422c9f0d270a88",
+    "artifacts/dirac16complex/kohn-sham/rust/thermo/summary.json": "2d59bcec411c16a3dc4e4da71bced467f6c73dd113746a90c16c8a6c602f7fef",
+    "artifacts/dirac16complex/kohn-sham/rust/emt/summary.json": "d93d3d0879aa2f35685c610ca9c88fb77f1ac8600b9df3dd78a01573054ba6f7"
+  },
+  "executions": [
+    {
+      "runner": "Jupyter kernel python3 through nbclient (python -m nbconvert --to notebook --execute, or the builder's --execute)",
+      "notebook": "notebooks/dirac16complex_kohn_sham.ipynb",
+      "problems": [
+        "code cell 17 has an error output (AssertionError)",
+        "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole, rust_vs_reference_coverage, reference_summary_complete",
+        "gauntlet SKIP lines: python_check_report",
+        "the gauntlet did not print ALL CHECKS PASSED"
+      ],
+      "rulesPassed": false,
+      "gauntletChecks": 60,
+      "gauntletPassed": false,
+      "nbformatValid": true,
+      "cellsSha256": "7820174d6637185aa80e75197828c7016ec775d4d3ed1d083eec6d900e532cd5"
+    },
+    {
+      "runner": "Jupyter kernel python3 through nbclient (python -m nbconvert --to notebook --execute, or the builder's --execute)",
+      "notebook": "dirac16complex_kohn_sham.ipynb",
+      "problems": [
+        "code cell 17 has an error output (AssertionError)",
+        "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole, rust_vs_reference_coverage, reference_summary_complete",
+        "gauntlet SKIP lines: python_check_report",
+        "the gauntlet did not print ALL CHECKS PASSED"
+      ],
+      "rulesPassed": false,
+      "gauntletChecks": 60,
+      "gauntletPassed": false,
+      "nbformatValid": true,
+      "cellsSha256": "7820174d6637185aa80e75197828c7016ec775d4d3ed1d083eec6d900e532cd5"
+    }
+  ],
+  "crossExecution": {
+    "compared": true,
+    "problems": [],
+    "identicalGauntletAndFigures": true
+  },
+  "figures": [
+    {
+      "file": "artifacts/dirac16complex/kohn-sham/figures/block_structure.png",
+      "sha256": "746e55a2df1a9e2ce91d940d41d9e6c3b785cf6b9952adab0bd1dcd3f78ff3a5",
+      "bytes": 33951,
+      "description": "Eight 2x2 blocks: |entries| of the y-current matrix gamma^0 gamma^4 in the original spinor basis and in the explicit block basis of kohn-sham-theory.json, and of the full reduced-equation operator in the block basis (section 6.1)."
+    },
+    {
+      "file": "artifacts/dirac16complex/kohn-sham/figures/brane_localisation.png",
+      "sha256": "18bfe1a4158765125a3ca1073e956b7900ae25bc07b48afa997e3f26704767bc",
+      "bytes": 66976,
+      "description": "Cumulative fraction of the particles within a distance d of the brane (N = 8, 112, 1016 at m = 1; N = 112 at m = 3) and the fraction within 1/H against the coupling (section 13)."
+    },
+    {
+      "file": "artifacts/dirac16complex/kohn-sham/figures/convergence.png",
+      "sha256": "9eb2f88b2ae612604722d5977fa8dbe6ee993fe16a1b00930400d1ba41b61087",
+      "bytes": 64834,
+      "description": "Tip-cutoff convergence L = 2, 3, 4: KS gap, |E0(L) - E0(4)| and n_c(y) of N = 112 at +lambda_hat_1 (section 14)."
+    },
+    {
+      "file": "artifacts/dirac16complex/kohn-sham/figures/density_profiles.png",
+      "sha256": "896fa07f1873919c9103d851e53688d197c8969849b02b8c63acca260e67c3b8",
+      "bytes": 190965,
+      "description": "Ground-state profiles against y (m = 1, L = 3): n_c, n_p for N = 8, 112, 1016 at lambda = 0; S_p; the pseudo-potential pair M_eff - m and v_x at +-lambda_hat_2; the HOMO orbital |chi|^2 against z = 6Hx0 (section 8)."
+    },
+    {
+      "file": "artifacts/dirac16complex/kohn-sham/figures/einstein_source.png",
+      "sha256": "a99f04cbee0355b7b194fe2b98e1f70de9fa3b27d2aa624f0089f3a03074f24c",
+      "bytes": 75000,
+      "description": "Per emt run: <rho> against rho_req = -21 H^2/kappa (kappa = 1); w_y and w_3 against w_req = -5/7; the kappa that rho_req/<rho> and the E4.1 mass condition m<S_p> = -36 H^2/kappa would each need (opposite signs); lambda <S_p>/m against the E4.1 value -5/6 (section 12)."
+    },
+    {
+      "file": "artifacts/dirac16complex/kohn-sham/figures/emt_profiles.png",
+      "sha256": "b5a3dfef0f3a5fa116aa08d022fda96259e33a633912507073c6e69383aeeaa8",
+      "bytes": 142165,
+      "description": "Energy-momentum tensor of the +lambda_hat_1 ground states (N = 112, 1016): rho, p_y, p_3, p_t against y, the local p/rho with w_req = -5/7, and rho e^{6Hy} (section 12)."
+    },
+    {
+      "file": "artifacts/dirac16complex/kohn-sham/figures/exchange_uniform_gas.png",
+      "sha256": "883d4d70dabdf1a096f311d0676d9653e72bc31983232b97b4deb9db98b87f02",
+      "bytes": 76865,
+      "description": "Uniform 8-fold gas: -e_x/lambda against n at T = 0, 0.3, 1, 2 m from the double quadrature of exchange-table.json (markers) and the closed form -(n^2+S^2)/32 (lines); relative deviation of every row of the d4 and d3 tables (section 6.2)."
+    },
+    {
+      "file": "artifacts/dirac16complex/kohn-sham/figures/fermi_level_N1016_lamm2.png",
+      "sha256": "f08dd5ee9ac3b2716fd64a3a6f7c7e1e423138b25cb05c03f90faac4ed097ba2",
+      "bytes": 47912,
+      "description": "The level crossing at the Fermi level: particle levels near mu with their occupations for the free N = 1016 state (exact aufbau) and the smeared -lambda_hat_2 ensemble (192-fold band at k = 0.935, 8-fold k = 0 level) (section 10.2)."
+    },
+    {
+      "file": "artifacts/dirac16complex/kohn-sham/figures/ground_state_energy.png",
+      "sha256": "d0cd3b543b1d0de997534ef5e8cabeb026085a93548f4081e6720e02faf75f12",
+      "bytes": 66171,
+      "description": "Ground-state energy against N: free closed shells from the in-cell aufbau with the self-consistent +-lambda_hat_2 points; interaction energy E0(lambda) - E0(0) against the first-order Hellmann-Feynman value (section 9)."
+    },
+    {
+      "file": "artifacts/dirac16complex/kohn-sham/figures/ks_gap_delta_scf.png",
+      "sha256": "9af7a6d79c51f98ff4e93f0aa1e427612b0c26d6465baf994760dc0c7f695906",
+      "bytes": 105660,
+      "description": "KS gap and Delta-SCF against lambda_hat/lambda_hat_1 for N = 8, 112, 1016 (the smeared N = 1016, -lambda_hat_2 ensemble marked), the same against N for the five couplings, and their difference Delta-SCF - KS gap (orbital relaxation, zero at lambda = 0) (section 10)."
+    },
+    {
+      "file": "artifacts/dirac16complex/kohn-sham/figures/ks_spectrum.png",
+      "sha256": "4cfffbec5bd7b7b2bd337c0435a4b0b752bde3c7abc4a69acd40342b9acd9de5",
+      "bytes": 70924,
+      "description": "Kohn-Sham spectrum eps_n(k) per parity (rows) and block type s = -j (markers): free spectrum m = 1, L = 3 with the zero-mode band +-ck, and the self-consistent spectrum of m1_L3_N112_lamp2_T0 with its chemical potential (section 7)."
+    },
+    {
+      "file": "artifacts/dirac16complex/kohn-sham/figures/rust_vs_reference.png",
+      "sha256": "8c0649abbb79ebe0cd8a1c12683632a5cbd3eda2c8582e69a7b461f0e407bf70",
+      "bytes": 70118,
+      "description": "Rust against the independent reference solver, run by run: the worst deviation/tolerance per quantity (E0, mu and KS gap, Delta-SCF, lowest particle-hole, eigenvalues, interior profiles, EMT averages, thermodynamics, other), with the exact per-comparison tolerances of check_dirac16complex_kohn_sham.py (section 15)."
+    },
+    {
+      "file": "artifacts/dirac16complex/kohn-sham/figures/scf_history.png",
+      "sha256": "46efdfa00b517c5c2ffe04f159face0ff30dce71952b7b277782aabe8708aa03",
+      "bytes": 69334,
+      "description": "Self-consistency histories: density residual per Anderson iteration for N = 8, 112, 1016 at +lambda_hat_2 and -lambda_hat_2 (section 8.1)."
+    },
+    {
+      "file": "artifacts/dirac16complex/kohn-sham/figures/thermodynamics.png",
+      "sha256": "d6af59925692326c20963bd4c8495c01911ea9278a2eb456440d0e63aad36042",
+      "bytes": 118644,
+      "description": "E, F, S, C_V and the KS gap against T for N = 8, 112 in the series lam0, lamp1, lamh, and the occupations of the finite-T Kohn-Sham excitation spectrum (section 11)."
+    }
+  ],
+  "gauntlet": {
+    "count": 60,
+    "passed": 53,
+    "failed": 6,
+    "skipped": 1,
+    "results": [
+      {
+        "name": "program_runs_success",
+        "status": "PASS",
+        "passed": true,
+        "detail": "2 program runs (print-config, spectrum), every one exited 0 with SUCCESS as its last line"
+      },
+      {
+        "name": "fixture_hash_consistent",
+        "status": "PASS",
+        "passed": true,
+        "detail": "print-config and 5 summaries name the algebra fixture sha256 8b4f15462ca4d61e..."
+      },
+      {
+        "name": "fresh_spectrum_byte_identical",
+        "status": "PASS",
+        "passed": true,
+        "detail": "15/15 files of the re-run spectrum subcommand equal the committed ones"
+      },
+      {
+        "name": "rust_spectrum_self_checks",
+        "status": "PASS",
+        "passed": true,
+        "detail": "33/33 checks of the program true, verdict SUCCESS"
+      },
+      {
+        "name": "rust_scf_self_checks",
+        "status": "PASS",
+        "passed": true,
+        "detail": "137/137 checks of the program true, verdict SUCCESS"
+      },
+      {
+        "name": "rust_excited_self_checks",
+        "status": "PASS",
+        "passed": true,
+        "detail": "65/65 checks of the program true, verdict SUCCESS"
+      },
+      {
+        "name": "rust_thermo_self_checks",
+        "status": "PASS",
+        "passed": true,
+        "detail": "102/102 checks of the program true, verdict SUCCESS"
+      },
+      {
+        "name": "rust_emt_self_checks",
+        "status": "PASS",
+        "passed": true,
+        "detail": "60/60 checks of the program true, verdict SUCCESS"
+      },
+      {
+        "name": "determinism_report_current",
+        "status": "FAIL",
+        "passed": false,
+        "detail": "repeat byte identity and refined convergence ['canonical_summaries_present', 'canonical_verdicts_success', 'refined_convergence', 'repeat_byte_identity']; summaries changed since the report was written: ['excited/summary.json']"
+      },
+      {
+        "name": "exact_theory_wolfram",
+        "status": "PASS",
+        "passed": true,
+        "detail": "125/125 exact checks of scripts/verify_dirac16complex_kohn_sham.wls (wolfram/Dirac16ComplexKohnSham.wl) true"
+      },
+      {
+        "name": "exact_theory_python_sympy",
+        "status": "PASS",
+        "passed": true,
+        "detail": "157/157 exact checks of scripts/check_dirac16complex_kohn_sham_theory.py true"
+      },
+      {
+        "name": "algebra_relations_exact",
+        "status": "PASS",
+        "passed": true,
+        "detail": "Clifford relations, C = g0g1g2g3, B = -iCg4, B^2 = 1 from the integer fixture: exact (0.0)"
+      },
+      {
+        "name": "block_basis_exact",
+        "status": "PASS",
+        "passed": true,
+        "detail": "unitary 1.1e-16, off-block 7.0e-17, vs stored blocks 1.1e-16, vs closed forms 1.1e-16; two types j = +-1, 4 blocks each"
+      },
+      {
+        "name": "block_ode_exact",
+        "status": "PASS",
+        "passed": true,
+        "detail": "g0[M - i kk g1 + i(eps - v) g4] -> M s3 - kk s2 + i j (eps - v) s1 in every block: 4.4e-16"
+      },
+      {
+        "name": "exchange_closed_form",
+        "status": "PASS",
+        "passed": true,
+        "detail": "double quadrature vs -(n^2 + S^2)/32: 1.7e-14; v_v, v_s, n-only v_x columns: 1.7e-14; the table the Rust spectrum run checked is this file (sha256)"
+      },
+      {
+        "name": "box_spectrum_analytic",
+        "status": "PASS",
+        "passed": true,
+        "detail": "k = 0 levels of 6 (m, L) x 2 parities x 2 types vs sqrt(M^2 + (n pi/L)^2), tan(pL) = -p/M: 2.8e-10"
+      },
+      {
+        "name": "chiral_zero_mode",
+        "status": "PASS",
+        "passed": true,
+        "detail": "eps = 0 and zero scalar charge: 0.0e+00"
+      },
+      {
+        "name": "zero_mode_splitting",
+        "status": "PASS",
+        "passed": true,
+        "detail": "in-cell RK4 shooting slope vs closed-form c: 1.5e-07 (12 cases); sign = -s (s = -j); program's Hellmann-Feynman slope vs closed form 1.2e-09"
+      },
+      {
+        "name": "mirror_spectra_and_multiplicities",
+        "status": "PASS",
+        "passed": true,
+        "detail": "s = -1 levels = -(s = +1 levels): 0.0e+00; multiplicity 4 r3(n2) everywhere"
+      },
+      {
+        "name": "particle_number",
+        "status": "PASS",
+        "passed": true,
+        "detail": "65 runs: sum of weights 4.2e-11, density integral 7.3e-08 (vs the program's own 6.3e-16)"
+      },
+      {
+        "name": "energy_recomputed",
+        "status": "PASS",
+        "passed": true,
+        "detail": "E_H 5.0e-19, E_x 2.6e-18, sum w eps 1.8e-14, E = sum w eps - E_H - E_x 1.8e-14"
+      },
+      {
+        "name": "pseudo_potential_formula",
+        "status": "PASS",
+        "passed": true,
+        "detail": "M_eff = m + (15/16) lambda S_p: 2.5e-06, v_x = -lambda n_p/16: 9.0e-07 (relative to the potential scale; self-consistency of the last iteration)"
+      },
+      {
+        "name": "profile_columns",
+        "status": "PASS",
+        "passed": true,
+        "detail": "n_c = e^(6Hy) n_p, volume factor, z = arcsin e^(6Hy): 2.2e-16"
+      },
+      {
+        "name": "scf_converged",
+        "status": "PASS",
+        "passed": true,
+        "detail": "all 33 scf runs converged, residuals < 1e-10"
+      },
+      {
+        "name": "closed_shells_and_aufbau",
+        "status": "PASS",
+        "passed": true,
+        "detail": "closed shells from the free spectrum vs closed-shells-m1-L3.csv 2.5e-12; aufbau E0 vs scf lambda = 0: 5.6e-12"
+      },
+      {
+        "name": "first_order_coupling",
+        "status": "PASS",
+        "passed": true,
+        "detail": "+-lambda_hat_1: |(E0(lambda) - E0(0)) / (lambda dE/dlambda|0) - 1| = 0.025 < 0.05"
+      },
+      {
+        "name": "ks_gap_recomputed",
+        "status": "PASS",
+        "passed": true,
+        "detail": "LUMO - HOMO from levels.csv vs the run records 0.0e+00, vs scf run.json 0.0e+00, vs excitations.csv 0.0e+00; records vs excitations.csv 0.0e+00"
+      },
+      {
+        "name": "delta_scf_bookkeeping",
+        "status": "PASS",
+        "passed": true,
+        "detail": "E1 - E0 = Delta-SCF 0.0e+00; excited ground state = scf ground state; exactly one particle moved up 0.0e+00"
+      },
+      {
+        "name": "delta_scf_equals_gap_free",
+        "status": "PASS",
+        "passed": true,
+        "detail": "lambda = 0: Delta-SCF = KS gap to 3.7e-10"
+      },
+      {
+        "name": "particle_hole_lists",
+        "status": "PASS",
+        "passed": true,
+        "detail": "16 lists rebuilt with the 1e-12 occupation floor: max deviation 0.0e+00; differing runs []"
+      },
+      {
+        "name": "level_crossing_run_as_documented",
+        "status": "PASS",
+        "passed": true,
+        "detail": "smearing 1e-3 m at T = 0, F = E, exact occupations false; fractional levels = the 192-fold band (f = 0.9781) and the 8-fold k = 0 level (f = 0.5266); 4.213 particles moved; N = 1016 is a closed shell of the free aufbau"
+      },
+      {
+        "name": "entropy_and_free_energy",
+        "status": "PASS",
+        "passed": true,
+        "detail": "S from the occupations vs run.json 1.1e-14; |E - TS - F| 0.0e+00"
+      },
+      {
+        "name": "heat_capacity_forms",
+        "status": "PASS",
+        "passed": true,
+        "detail": "lambda = 0: the two fixed-spectrum forms agree to 5.7e-15, the central difference agrees with them to 7.5e-03 < 1e-2 (the checker's tolerance); lambda != 0: forms differ by 7.7e-04 (measured)"
+      },
+      {
+        "name": "thermodynamic_monotonicity",
+        "status": "PASS",
+        "passed": true,
+        "detail": "F decreases and S increases with T in all six series"
+      },
+      {
+        "name": "emt_recomputed",
+        "status": "PASS",
+        "passed": true,
+        "detail": "int rho dV = E 4.2e-10; proper volume (Simpson) vs l^3 (1 - e^(-6HL))/(6H): error / its leading-order value h^4 (6H)^4/180 = 0.9996; averages 4.5e-16; w 1.8e-15; p_t = L_s 1.0e-17; kappa needed 5.0e-16; E4.1 4.1e-16"
+      },
+      {
+        "name": "emt_conservation",
+        "status": "PASS",
+        "passed": true,
+        "detail": "(e^(6Hy) p_y)' = 3H e^(6Hy)(p_3 + p_t), fourth-order stencil: 1.1e-06 < 1e-2 (program's own measure 2.1e-05)"
+      },
+      {
+        "name": "einstein_source_mismatch",
+        "status": "PASS",
+        "passed": true,
+        "detail": "rho_req = -21 H^2/kappa < 0 while <rho> > 0 for every N > 8 run (kappa < 0 needed); E4.1 met in no run; <S_p> < 0 at lambda = 0"
+      },
+      {
+        "name": "brane_fraction",
+        "status": "PASS",
+        "passed": true,
+        "detail": "within 1/H of the brane recomputed for 33 runs: 5.6e-16; tip 4.2e-17"
+      },
+      {
+        "name": "l_convergence_trend",
+        "status": "PASS",
+        "passed": true,
+        "detail": "|X(L=4) - X(L=3)| <= |X(L=3) - X(L=2)| for E0 and the KS gap, 4 series"
+      },
+      {
+        "name": "grid_convergence",
+        "status": "PASS",
+        "passed": true,
+        "detail": "601 vs 301 grid points: 4.7e-11"
+      },
+      {
+        "name": "a4_rescaling_exact",
+        "status": "PASS",
+        "passed": true,
+        "detail": "a4 = 0.5 vs its a4 = 0 partner: levels 1.6e-10, E0 4.6e-13"
+      },
+      {
+        "name": "rust_vs_reference_E0",
+        "status": "PASS",
+        "passed": true,
+        "detail": "E_0 (lambda_hat-corrected): |dE| <= 1e-06 max(|E|, N m); 80 comparisons, worst 8.276e-07 (tolerance 2.400e-05, ratio 0.0345) at scf/m3_L3_N8_lamm1_T0 ; failures: []"
+      },
+      {
+        "name": "rust_vs_reference_deltaSCF",
+        "status": "FAIL",
+        "passed": false,
+        "detail": "Delta-SCF E_1 - E_0; 16 comparisons, worst 3.271e-06 (tolerance 1.938e-06, ratio 1.69) at excited/m1_L3_N1016_lamm2_T0 ; failures: ['excited/m1_L3_N1016_lamm2_T0', 'excited/m1_L3_N1016_lamm2_T0_g601']"
+      },
+      {
+        "name": "rust_vs_reference_eigenvalueMatching",
+        "status": "PASS",
+        "passed": true,
+        "detail": "every level in the common window matched, same branch, same T = 0 occupation; 80 comparisons, worst 0.000e+00 (tolerance 5.000e-01, ratio 0) at scf/m1_L2_N112_lam0_T0 unmatched 0, branch mismatches 0, occupation mismatches 0, compared 460; failures: []"
+      },
+      {
+        "name": "rust_vs_reference_eigenvalues",
+        "status": "FAIL",
+        "passed": false,
+        "detail": "eigenvalues per (q, parity, block type): |d eps| <= 1e-06 max(1, |eps|/m) m + dl max|V|; 52668 comparisons, worst 1.541e-06 (tolerance 1.054e-06, ratio 1.46) at excited/m1_L3_N1016_lamm2_T0_g601 eps -1.05374707; failures: ['excited/m1_L3_N1016_lamm2_T0_g601', 'excited/m1_L3_N1016_lamm2_T0_g601', 'excited/m1_L3_N1016_lamm2_T0_g601', 'excited/m1_L3_N1016_lamm2_T0_g601']"
+      },
+      {
+        "name": "rust_vs_reference_emtAverages",
+        "status": "PASS",
+        "passed": true,
+        "detail": "proper-volume EMT averages; 384 comparisons, worst 5.834e-05 (tolerance 1.318e-04, ratio 0.443) at thermo/m1_L3_N112_lam0_T1:rhoAvg ; failures: []"
+      },
+      {
+        "name": "rust_vs_reference_fractions",
+        "status": "PASS",
+        "passed": true,
+        "detail": "brane and tip fractions; 128 comparisons, worst 1.618e-06 (tolerance 1.000e-05, ratio 0.162) at scf/m1_L4_N112_lam0_T0:braneFraction_within_1_over_H ; failures: []"
+      },
+      {
+        "name": "rust_vs_reference_heatCapacity",
+        "status": "PASS",
+        "passed": true,
+        "detail": "C_V central difference and fixed-spectrum forms; 42 comparisons, worst 2.761e-05 (tolerance 1.000e-03, ratio 0.0276) at thermo/m1_L3_N112_lamh_T0p3:C_V_fd ; failures: []"
+      },
+      {
+        "name": "rust_vs_reference_lambdaHat",
+        "status": "PASS",
+        "passed": true,
+        "detail": "couplings derived independently on both sides; 80 comparisons, worst 4.979e-08 (tolerance 2.000e-07, ratio 0.249) at scf/m1_L4_N8_lamp1_T0 ; failures: []"
+      },
+      {
+        "name": "rust_vs_reference_muAndGap",
+        "status": "PASS",
+        "passed": true,
+        "detail": "mu, eps_HOMO-based KS gap: |d| <= 1e-06 max(m, |x|) + dl max|V|; 160 comparisons, worst 2.412e-07 (tolerance 3.002e-06, ratio 0.0803) at scf/m3_L3_N8_lamp1_T0:mu ; failures: []"
+      },
+      {
+        "name": "rust_vs_reference_particleHole",
+        "status": "FAIL",
+        "passed": false,
+        "detail": "lowest particle-hole excitation; 16 comparisons, worst 4.126e-02 (tolerance 1.000e-06, ratio 4.13e+04) at excited/m1_L3_N1016_lamm2_T0_g601 ; failures: ['excited/m1_L3_N1016_lamm2_T0', 'excited/m1_L3_N1016_lamm2_T0_g601']"
+      },
+      {
+        "name": "rust_vs_reference_profilesEnds",
+        "status": "PASS",
+        "passed": true,
+        "detail": "profiles on the two end nodes (O(h^3) reference end values); 600 comparisons, worst 3.063e-04 (tolerance 2.000e-03, ratio 0.153) at scf/m1_L3_N112_lamp2_T0:p_t ; failures: []"
+      },
+      {
+        "name": "rust_vs_reference_profilesInterior",
+        "status": "PASS",
+        "passed": true,
+        "detail": "profiles on the interior common nodes (relative to the profile scale); 600 comparisons, worst 1.291e-05 (tolerance 2.000e-05, ratio 0.646) at scf/m3_L3_N8_lamm1_T0:p_3 ; failures: []"
+      },
+      {
+        "name": "rust_vs_reference_sourcingConditions",
+        "status": "PASS",
+        "passed": true,
+        "detail": "E4.1 verdict and sign of <S_p> agree; 64 comparisons, worst 0.000e+00 (tolerance 5.000e-01, ratio 0) at scf/m1_L2_N112_lam0_T0 ; failures: []"
+      },
+      {
+        "name": "rust_vs_reference_thermodynamics",
+        "status": "PASS",
+        "passed": true,
+        "detail": "E, F, S, mu at T > 0 after the correction for the Rust level set (f_cut window, shell cap); 64 comparisons, worst 4.081e-03 (tolerance 1.809e-02, ratio 0.226) at thermo/m1_L3_N8_lamh_T1:freeEnergy ; failures: []"
+      },
+      {
+        "name": "rust_vs_reference_coverage",
+        "status": "FAIL",
+        "passed": false,
+        "detail": "80 Rust runs compared with the reference run of the same label; without a reference run: ['thermo/m1_L3_N112_lamh_T1']; unreadable reference directories: []"
+      },
+      {
+        "name": "reference_summary_complete",
+        "status": "FAIL",
+        "passed": false,
+        "detail": "reference-summary.json: complete = False; labels compared here but not recorded in it: ['m1_L3_N112_lamh_T1']"
+      },
+      {
+        "name": "python_check_report",
+        "status": "SKIP",
+        "passed": false,
+        "detail": "artifacts/dirac16complex/kohn-sham/python-check-report.json is absent"
+      },
+      {
+        "name": "figures_written",
+        "status": "PASS",
+        "passed": true,
+        "detail": "14 of 14 PNG figures in artifacts/dirac16complex/kohn-sham/figures, hashes re-read"
+      },
+      {
+        "name": "prose_numbers_match_files",
+        "status": "PASS",
+        "passed": true,
+        "detail": "171 numbers and strings quoted in the markdown re-read from the committed files"
+      }
+    ]
+  },
+  "verdict": "FAILURE"
+}

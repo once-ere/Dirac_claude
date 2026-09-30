@@ -202,7 +202,7 @@ cellsRealForm = {
       tail = StringDrop[generatedKS, start];
       stop = StringPosition[tail, "pub const "];
       If[stop =!= {}, tail = StringTake[tail, stop[[1, 1]] - 1]];
-      ToExpression /@ StringCases[tail, RegularExpression["-?[0-9]+\.[0-9]+"]]];
+      ToExpression /@ StringCases[tail, RegularExpression["-?[0-9]+\\.[0-9]+"]]];
     rustGammaValuesKS = rustConstantKS["GAMMA"];
     rustBlockLabels = ToExpression[StringReplace[First[StringCases[generatedKS, "BLOCK_LABELS: [[i32; 3]; BLOCK_COUNT] = " ~~ x : Shortest[__] ~~ ";" :> x]], {"[" -> "{", "]" -> "}"}]];
     rustBasisRe = ArrayReshape[Round[rustConstantKS["BLOCK_BASIS_RE"]], {8, 2, 16}];
@@ -244,8 +244,8 @@ cellsRealForm = {
       "variationalCoefficient" -> Simplify[TrigReduce[variationalCoefficient - (-2 kappaKS kk Sin[2 thP[yy]] - 2 meff[yy] Cos[2 thP[yy]])]] === 0,
       "pruferMonotoneInEps" -> Simplify[D[dThetaCandidate[yy], yy] - (s + Derivative[1][gG][yy] dThetaCandidate[yy])] === 0 && (dThetaCandidate[-lL] === 0),
       "bagIsThetaZero" -> (-rP[yy] Sin[thP[yy]] /. thP[yy] -> 0) === 0,
-      "parityPlusTargetsNPi" -> Sort[t /. Solve[Sin[t] == 0 && -10 < t < 10, t]] === Pi Range[-3, 3],
-      "parityMinusTargetsHalfPiPlusNPi" -> Sort[t /. Solve[Cos[t] == 0 && -10 < t < 10, t]] === Pi/2 + Pi Range[-4, 2],
+      "parityPlusTargetsNPi" -> Sort[t /. Solve[Sin[t] == 0 && -10 < t < 10, t]] === Sort[Pi Range[-3, 3]],
+      "parityMinusTargetsHalfPiPlusNPi" -> Sort[t /. Solve[Cos[t] == 0 && -10 < t < 10, t]] === Sort[Pi/2 + Pi Range[-3, 2]],
       "currentVanishesForEitherComponentZero" -> Simplify[ComplexExpand[currentOf[complexChi]] - 2 jj (c1 c2 + d1 d2)] === 0 && Simplify[ComplexExpand[currentOf[complexChi]] /. {c2 -> 0, d2 -> 0}] === 0 && Simplify[ComplexExpand[currentOf[complexChi]] /. {c1 -> 0, d1 -> 0}] === 0,
       "standingWaveCarriesNoCurrent" -> Simplify[ComplexExpand[currentOf[realPair]]] === 0
     |>;
