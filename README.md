@@ -60,9 +60,11 @@ proved exactly, in Wolfram Language and independently in Python):
 Status at this push (2026-09-30; HANDOFF.md section 2 is the authoritative,
 per-stage list):
 
-- **Stages 1 and 2 are complete.** Their exact verifiers, documents, reviews and
-  gates (`scripts/verify_stage1_arbitrary_field.*`, `scripts/verify_stage2_primordial_field.*`)
-  passed and were verified from a fresh clone.
+- **Stages 1 and 2 are complete in content.** Their exact verifiers, documents and
+  reviews are done, and their gates (`scripts/verify_stage1_arbitrary_field.*`,
+  `scripts/verify_stage2_primordial_field.*`) pass on the author's machine.  A
+  fresh public clone showed that the Stage 1 gate needs the private input folder
+  `dirac-main/`, which is not in the repository; a public-clone mode is being added.
 - **Stage 3 is complete.** The engine, the five experiments and their checkers,
   both notebooks, the figures and both documents are committed; the 21 problems of
   the second review round are fixed; the gate `scripts/verify_stage3_dark_sector.*`
