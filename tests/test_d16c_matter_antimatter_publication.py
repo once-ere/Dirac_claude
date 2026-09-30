@@ -64,8 +64,8 @@ PAIRING_PYTHON_REPORT = PAIRING / "python-pairing-report.json"
 PAIRING_THEORY = PAIRING / "pairing-theory.json"
 STAGE1 = REPOSITORY_ROOT / "artifacts" / "dirac16complex" / "arbitrary-field"
 
-MARKDOWN_SHA256 = "127b195177e7ebdc986d7800e413fc46b9d4380d47cb443acdb12c3aac8339ff"
-TEX_SHA256 = "3a3f2a537f34860dee60033b38df5029af8381b51c9c42d8742411b850c84a8e"
+MARKDOWN_SHA256 = "9f8da536d91f9ec4b72aeb710e5e920f92d7562aa9dc4c29da7040f651ad40a0"
+TEX_SHA256 = "710e7073f0d20e887c9e8c4c813827133b6e8470a755bbd960153b0405f5ea02"
 
 # The status under which both matter-antimatter reports cite the Stage-5 Fock-level result
 # (the Stage-5 reports are complete; the Stage-5 documents and gate are not).

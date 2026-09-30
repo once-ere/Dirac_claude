@@ -19,7 +19,7 @@ The commands of this appendix were run for this edition from a fresh clone of th
 | 3: dark-sector numerics | `verify_stage3_dark_sector` | `stage3_dark_sector_verification=OK` | complete; both twins passed from fresh public clones of earlier commits; at `4cd47fe` its last-but-one step, all unit tests, fails for reasons outside Stage 3 (Sections 19.8 and 19.11) |
 | 4: Kohn–Sham states | `verify_stage4_kohn_sham` | `stage4_kohn_sham_verification=OK` | not finished: the gate has never been run to the end and cannot pass yet (Section 19.9) |
 | 5: dirac16complex00 and the pairing theorems | none yet | none | exact theory committed and checked; Kohn–Sham pair numerics partial; documents and gate not written (Section 19.10) |
-| matter and antimatter | none | none | exact theory committed and checked; document built and registered (Section 19.10) |
+| matter and antimatter | none | none | exact theory committed and checked; document built and registered (Section 19.10); at `4cd47fe` six of its publication tests fail, because the document quotes the sha256 values of earlier files (Section 19.11) |
 | this textbook | the assembler and the PDF builder | `textbook_assembly=OK`, `provenance_pdf=OK` | Section 19.12 |
 
 The sources of this table are `README.md` (section "Stages and documents"), `HANDOFF.md` (section 2), the committed gate logs in `handoff/reviews/`, and the committed reports named in Sections 19.6 to 19.12. The rest of this appendix goes through the stages one by one.
@@ -531,11 +531,11 @@ Its 15 files in `build/textbook/ks/spectrum/` were byte-identical to the committ
 | matter and antimatter, Wolfram | `scripts/verify_dirac16complex_matter_antimatter.wls` with `wolfram/Dirac16ComplexMatterAntimatter.wl` | `wolfram-matter-antimatter-report.json` (44 of 44) and `matter-antimatter-theory.json` |
 | matter and antimatter, sympy | `scripts/check_dirac16complex_matter_antimatter.py` | `python-matter-antimatter-report.json` (75 of 75 at commit `4cd47fe`; 77 of 77 from commit `27794e8` on) |
 
-The Stage-5 reports lie in `artifacts/dirac16complex/pair-creation/`, the matter–antimatter reports in `artifacts/dirac16complex/matter-antimatter/`. The matter–antimatter document `provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md` is written, and its PDF is registered in `provenance/pdf-specifications.json` (edition `dirac16complex-matter-antimatter`, 32 pages).
+The Stage-5 reports lie in `artifacts/dirac16complex/pair-creation/`, the matter–antimatter reports in `artifacts/dirac16complex/matter-antimatter/`. The matter–antimatter document `provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md` is written, and its PDF is registered in `provenance/pdf-specifications.json` (edition `dirac16complex-matter-antimatter`, 32 pages at commit `4cd47fe`; the document is still being revised, and each revision registers a new edition).
 
 **What does not exist yet.** The two Stage-5 documents `provenance/DIRAC16COMPLEX00_FIELD_THEORY` and `provenance/DIRAC16COMPLEX_PAIR_CREATION` and the gate `scripts/verify_stage5_pair_creation.{ps1,sh}` planned in `handoff/specs/STAGE5_SPEC.md` (its §6) are not written. The Kohn–Sham demonstration of the pairing (Chapter 15) is **partial**:
 
-- The Rust solver has the new subcommand `pairs` (file `studies/dirac16complex_kohn_sham/src/pairs.rs`). At commit `4cd47fe` its committed outputs, in `artifacts/dirac16complex/pair-creation/rust/pairs/`, cover 18 parameter sets of dirac16complex (later commits add further runs as they finish), each with the three universes $+M$, $-M$ and the $-M$ control and a file `pairing.json`: mass $m=1$ with $N=8$ at the five couplings $0,\pm\hat\lambda_1,\pm\hat\lambda_2$ ($T=0$) and $N=112$ at the same five couplings at $T=0$ and $T=0.1\,m$, and mass $m=3$ with $N=8$ at the couplings $0$ and $\pm\hat\lambda_1$. There are no committed Rust runs of dirac16complex00 and none with $m=3$, $N=112$.
+- The Rust solver has the new subcommand `pairs` (file `studies/dirac16complex_kohn_sham/src/pairs.rs`). At commit `4cd47fe` its committed outputs, in `artifacts/dirac16complex/pair-creation/rust/pairs/`, cover 18 parameter sets of dirac16complex (later commits add further runs as they finish), each with the three universes $+M$, $-M$ and the $-M$ control and a file `pairing.json`: mass $m=1$ with $N=8$ at the five couplings $0,\pm\hat\lambda_1,\pm\hat\lambda_2$ ($T=0$) and $N=112$ at the same five couplings at $T=0$ and $T=0.1\,m$, and mass $m=3$ with $N=8$ at the couplings $0$ and $\pm\hat\lambda_1$. At that commit there were no committed Rust runs of dirac16complex00 and none with $m=3$, $N=112$.
 - The reference runs of the independent solver (`scripts/ks_reference_pairs.py`, outputs in `artifacts/dirac16complex/pair-creation/reference/`) are marked incomplete in their summary `reference-pairs-summary.json` (entry `complete` is false): of the 49 runs recorded there, 17 converged (10 of dirac16complex, 7 of dirac16complex00), 2 did not converge, 6 failed and 24 were not attempted, and 131 runs of the planned matrix are listed as pending.
 - The checker `scripts/check_dirac16complex_pairs.py` (Rust against reference, pairing identities, pair totals) exists, but no report of it is committed.
 - One Stage-5 numerical report is complete: `artifacts/dirac16complex/pair-creation/rust/stage4-identity-report.json`, 9 of 9 checks true, which shows that adding the subcommand `pairs` left the Stage-4 outputs byte-identical (a fresh `spectrum` run and quick `scf` and `excited` runs).
@@ -605,7 +605,7 @@ failed_check_count=0
 provenance_pdf=OK
 ```
 
-and the rebuilt PDF was byte-identical to the committed one (sha256 `0b064200babdb2be...`).
+and the rebuilt PDF was byte-identical to the one committed at `4cd47fe` (sha256 `0b064200babdb2be...`).
 
 ### 19.11 The unit tests
 
@@ -621,7 +621,7 @@ This runs the 34 tests of the textbook assembler (4 seconds) and ends with `OK`.
 python -m unittest discover -s tests -v
 ```
 
-For this edition this command ran 578 tests in 1280 seconds (21 minutes) from the fresh clone and ended with
+For this edition this command ran 578 tests in 1280 seconds (21 minutes) from the fresh clone of commit `4cd47fe` and ended with
 
 ```
 Ran 578 tests in 1280.371s
@@ -632,7 +632,7 @@ FAILED (failures=10, skipped=2)
 The two skipped tests need the folder `dirac-main/` (Section 19.6). The ten failures lie in two files, and all of them concern committed records of unfinished work, not the tools or the results of Stages 1 to 3:
 
 - Four tests of `tests/test_d16c_kohn_sham_notebook.py` test the committed report of the Stage-4 Jupyter notebook. Its verdict is FAILURE (Section 19.9); the file `artifacts/dirac16complex/kohn-sham/reference/reference-summary.json`, on which it depends, has changed since the report was written; and the report names an older way of executing the notebook. The notebook has to be executed again once the cross-check is settled.
-- Six tests of `tests/test_d16c_matter_antimatter_publication.py` compare the matter–antimatter document with the files it cites. The sha256 values that the document records for its sympy checker, its Wolfram package, its Wolfram report and its theory file are those of earlier versions of these files (compare Section 19.10), and one status sentence of the Wolfram report now calls the cited Stage-5 values provisional until the Stage-5 gate passes, which the test does not yet expect. The document has to be updated to the current files.
+- Six tests of `tests/test_d16c_matter_antimatter_publication.py` compare the matter–antimatter document with the files it cites. The sha256 values that the document records for its sympy checker, its Wolfram package, its Wolfram report and its theory file are those of earlier versions of these files (compare Section 19.10), and one status sentence of the Wolfram report now calls the cited Stage-5 values provisional until the Stage-5 gate passes, which the test does not yet expect. The document has to be updated to the current files; the matter–antimatter workflow was doing this when this edition was written.
 
 Every test that the gates of Stages 1 and 2 run passed (Sections 19.6 and 19.7). The Stage-3 gate, however, runs all 578 tests in its step 31 and therefore cannot end with OK at this commit (Section 19.8), and the Stage-4 gate runs the four failing notebook tests in its step 35.
 
@@ -755,7 +755,7 @@ What did the failed step compare, what is the most likely cause when every earli
 
 **Exercise 19.5.** The Python algebra checker of Section 19.5 printed `check_count=20`, the committed report has 21 checks, and the EXP-5 checker of Section 19.8 printed `check_count=19` against 21. Name the missing checks in each case and say what has to be added to the command line to obtain them.
 
-**Exercise 19.6.** Compute the sha256 of `provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.pdf` in both shells and compare it with the value registered for the edition `dirac16complex-matter-antimatter` in `provenance/pdf-specifications.json`.
+**Exercise 19.6.** Compute the sha256 of `provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.pdf` in both shells and compare it with the value registered for the edition `dirac16complex-matter-antimatter` in `provenance/pdf-specifications.json` of the same clone.
 
 **Exercise 19.7.** Add the step times of the Stage-1 run in the table of Section 19.6, counting the steps that took under a second as 0, and compare the sum with the total of 1133 seconds. Where did the rest of the time go?
 
@@ -795,7 +795,7 @@ The sum is $21+43+21+52+16=153$: the 153 of 153 exact Stage-1 checks of the tabl
 
 **Answer 19.5.** The algebra checker lacks `ALG_wolframAgreement`, its comparison with the Wolfram algebra report; the empty option `--wolfram-report=` switches it off, and the option `--wolfram-report` followed by the path of a Wolfram report switches it on (step 07 of the Stage-1 gate). The EXP-5 checker lacks `repeatByteIdentity` and `refinedConvergence`. With the option `--repeat` followed by a folder below `build/`, the checker runs the program once more into that folder and requires every file to be byte-identical; with `--refined` followed by another folder, it runs the program with ten times tighter tolerances and requires the errors to shrink (student guide, §9.1). For example `python scripts/check_dirac16complex_exp5.py --output build/textbook --repeat build/repeat --refined build/refined`, written with a line continuation in either shell, printed `check_repeatByteIdentity=true`, `check_refinedConvergence=true` and `check_count=21` after 17 seconds for this edition.
 
-**Answer 19.6.** PowerShell: `Get-FileHash -Algorithm SHA256 provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.pdf` prints, in upper-case letters, `0B064200BABDB2BEE194E73CD0E0CAA4266D722D19E0CCE59CC8C543FC6BA6C3`. Bash: `sha256sum provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.pdf` prints the same 64 digits in lower case, followed by the file name (macOS: `shasum -a 256` instead of `sha256sum`). The registry entry holds `0b064200babdb2bee194e73cd0e0caa4266d722d19e0cce59cc8c543fc6ba6c3` and 32 pages: the same number, since upper and lower case denote the same hexadecimal digits.
+**Answer 19.6.** PowerShell: `Get-FileHash -Algorithm SHA256 provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.pdf` prints, in upper-case letters, `0B064200BABDB2BEE194E73CD0E0CAA4266D722D19E0CCE59CC8C543FC6BA6C3`. Bash: `sha256sum provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.pdf` prints the same 64 digits in lower case, followed by the file name (macOS: `shasum -a 256` instead of `sha256sum`). The registry entry holds `0b064200babdb2bee194e73cd0e0caa4266d722d19e0cce59cc8c543fc6ba6c3` and 32 pages: the same number, since upper and lower case denote the same hexadecimal digits. (These are the values at commit `4cd47fe`; a later edition of the document has another sha256, and the registry of the same clone always holds the one that the PDF of that clone must have.)
 
 **Answer 19.7.** $3+7+49+535+337+43+1+51+55+0+10+0+0=1091$ seconds. The remaining 42 seconds lie between the steps: the gate looks up the tools (on Windows through PowerShell), removes and creates `build/stage1/`, starts a new process for every step, audits the five reports with short Python programs and computes the eight sha256 values.
 

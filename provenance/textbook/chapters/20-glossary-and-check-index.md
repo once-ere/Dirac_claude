@@ -45,7 +45,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **Bianchi identities** (Chapter 4). The first, $R^\rho{}_{\sigma\mu\nu}+R^\rho{}_{\mu\nu\sigma}+R^\rho{}_{\nu\sigma\mu}=0$, and the second, the vanishing cyclic sum of covariant derivatives of the Riemann tensor; the contracted form gives $\nabla_\mu G^\mu{}_\nu=0$.
 - **big-bang nucleosynthesis** (Chapter 17). The formation of the light nuclei in the first minutes of the universe; the observed abundances fix the baryon-to-photon ratio.
 - **bilinear** (Chapters 3 and 5). Linear in each of two arguments; in field theory a bilinear is an expression $\Psi^\dagger M\Psi$ or $\bar\Psi M\Psi$ quadratic in the field.
-- **binomial coefficient, binomial theorem** (Chapter 2). $\binom nk=\frac{n!}{k!(n-k)!}$, the number of subsets with $k$ elements of a set with $n$ elements (with the factorial $n!=1\cdot2\cdots n$, $0!=1$); the binomial theorem is $(x+y)^n=\sum_k\binom nkx^ky^{n-k}$.
+- **binomial coefficient, factorial, binomial theorem** (Chapter 2). $\binom nk=\frac{n!}{k!(n-k)!}$, the number of subsets with $k$ elements of a set with $n$ elements (with the factorial $n!=1\cdot2\cdots n$, $0!=1$); the binomial theorem is $(x+y)^n=\sum_k\binom nkx^ky^{n-k}$.
 - **bisection** (Chapter 10). A root finder that halves a bracketing interval in every step, keeping the half on which the function changes sign.
 - **block matrix** (Chapter 1). A matrix cut into smaller matrices (blocks), multiplied block by block with the order of factors kept.
 - **block type** (Chapter 13). The label $j=\pm1$ (the eigenvalue of $J=\gamma^0\gamma^1\gamma^4$) of the eight $2\times2$ blocks of the reduced Kohn–Sham equation; the two types carry opposite spectra of $h-v$.
@@ -159,7 +159,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **dual (of an antisymmetric $4\times4$ matrix)** (Chapter 3). $({\ast}A)_{pq}=\tfrac12\sum_{r,s}\epsilon_{pqrs}A_{rs}$; the matrix is self-dual if ${\ast}A=A$ and anti-self-dual if ${\ast}A=-A$.
 - **dummy index** (Chapter 1). An index that is summed over; its name can be changed without changing the expression.
 - **dynamics** (Chapter 16). The equations that say how a state changes in time and how often a transition happens; conservation laws alone do not decide this.
-- **eigenvalue, eigenvector** (Chapter 1). A number $\lambda$ and a nonzero vector $v$ with $Av=\lambda v$.
+- **eigenvalue, eigenvector, eigenspace** (Chapters 1 and 2). A number $\lambda$ and a nonzero vector $v$ with $Av=\lambda v$; the eigenspace of $\lambda$ is the subspace of all such $v$ together with 0.
 - **eigenvalue problem** (Chapter 10). The task of finding the values of a parameter (for example the Kohn–Sham level $\varepsilon$) for which a differential equation with boundary conditions has a nonzero solution.
 - **Einstein equations** (Chapter 4). $G^\mu{}_\nu=\kappa T^\mu{}_\nu$ (in this book with $\kappa$ of eight dimensions), relating the curvature of spacetime to its energy–momentum source.
 - **Einstein–Lovelock equations** (Chapter 4). The Einstein equations supplemented by the Lovelock tensors of orders 2 and 3, the most general equations of this kind in eight dimensions; the notebook names them, but neither the notebook nor the project computes the higher orders.
@@ -179,7 +179,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **erratum** (Chapter 18). A recorded correction of a specification or of the notebook, with its evidence, such as the errata E4.1 to E4.13 of the Stage-4 specification; errata are cited from Chapter 3 on.
 - **Euler–Lagrange equations** (Chapter 5). The conditions for the action to be stationary, $\frac{d}{dt}\frac{\partial L}{\partial\dot q}=\frac{\partial L}{\partial q}$, and their field version with $\partial_\mu$.
 - **Euler–Lagrange expression** (Chapter 5). The left side $E^A$ of the Euler–Lagrange field equation of the component $A$; it vanishes exactly on solutions and is unchanged when a total divergence is added to $\mathcal L$.
-- **Euler's method** (Chapter 10). The simplest method for $y'=f(t,y)$: $y_{n+1}=y_n+hf(t_n,y_n)$ (explicit); the implicit (backward) form evaluates $f$ at the new point.
+- **Euler's method, explicit and implicit Euler** (Chapter 10). The simplest method for $y'=f(t,y)$: $y_{n+1}=y_n+hf(t_n,y_n)$ (explicit); the implicit (backward) form evaluates $f$ at the new point.
 - **even, odd** (Chapters 2 and 5). A Clifford monomial or a Grassmann monomial of even or odd degree; even Grassmann elements commute with everything, odd ones anticommute with each other.
 - **evolution equations** (Chapter 11). The Einstein equations with second time derivatives, which advance the metric in time, as opposed to the constraint.
 - **exact symmetry** (Chapter 17). A map $T$ with $\mathcal L_{m,\lambda}[T\Psi](x)=\mathcal L_{m,\lambda}[\Psi](Rx)$ for every field, in flat space or in a gravitational field in which the reflection $R$ is an isometry.
@@ -248,7 +248,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **Heisenberg equation** (Chapter 8). $\dot O=i[H,O]$ for an operator without explicit time dependence; the quantum form of Hamilton's equations.
 - **Hellmann–Feynman rule** (Chapter 13). For a normalized eigenvector $\chi$ of $h(k)$ with boundary conditions that do not depend on $k$, $d\varepsilon/dk=\langle\chi|(\partial_kh)\chi\rangle$; the Stage-4 checks whose names begin with `KS_functional_hellmannFeynman` test the analogous relations for the derivatives of the energy functional with respect to the coupling, the mass and the temperature.
 - **Hermitian** (Chapter 1). A square matrix with $A^\dagger=A$; its eigenvalues are real and it has an orthonormal basis of eigenvectors.
-- **Hermitian conjugate** (Chapter 1). $A^\dagger=(A^\ast)^T$, the conjugate transpose.
+- **Hermitian conjugate, conjugate transpose** (Chapter 1). $A^\dagger=(A^\ast)^T$, the conjugate transpose.
 - **Hermitian form** (Chapter 8). A rule $[f,h]=f^\dagger Gh$ with a Hermitian matrix $G$; it is non-degenerate if $Gf=0$ only for $f=0$ and indefinite if some $[f,f]$ are negative.
 - **hidden space** (Chapter 9). The coordinate $x_0$, space-like like $x_1,x_2,x_3$; in the static member of the primordial field the warp factor depends on it.
 - **Hilbert adjoint, Hilbert norm** (Chapters 8 and 11). The adjoint and the norm $u^\dagger u$ with respect to the positive inner product, as opposed to the Krein adjoint and the Krein norm $u^\dagger Bu$.
@@ -274,7 +274,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **interaction, $U(S)$** (Chapter 6). The term $-\sqrt{|g|}\,U(S)$ of the Lagrangian, a function of the scalar density $S=\bar\Psi\Psi$; for the contact interaction of Chapters 11 and 13, $U=\tfrac\lambda2S^2$.
 - **interpolation** (Chapter 10). Computing the solution between two steps from a polynomial through computed values; CVODE returns output at requested times this way.
 - **intertwiner** (Chapter 2). A matrix $X$ with $X\rho(g)=\rho'(g)X$ for all $g$; an invertible one makes the two representations equivalent.
-- **invariant bilinear form** (Chapter 6). A matrix $G$ with $(S^{ab})^TG+GS^{ab}=0$ for all $a,b$, so that $\Psi^TG\Phi$ does not change under spin rotations; Chapter 8 shows that no such form gives a positive charge density, and Theorem M3 of Chapter 17 lists all of them.
+- **invariant bilinear form** (Chapters 6 and 8). A matrix $G$ with $(S^{ab})^TG+GS^{ab}=0$ for all $a,b$, so that $\Psi^TG\Phi$ does not change under spin rotations; Chapter 8 shows that no such form gives a positive charge density in signature (4,4), and Theorem M3 of Chapter 17 lists all of them.
 - **invariant mass** (Chapter 16). $\mu^2=E_{\mathrm{tot}}^2-|\mathbf p_{\mathrm{tot}}|^2$ of a group of particles; conserved in every process, so a single photon in empty space cannot make a pair.
 - **inversion (of a permutation)** (Chapter 1). A pair of places $i<j$ with $\sigma(i)>\sigma(j)$; the sign of the permutation is $(-1)$ to the number of inversions.
 - **invertible** (Chapter 1). A square matrix $A$ with an inverse $A^{-1}$, $AA^{-1}=A^{-1}A=I$; equivalently $\det A\ne0$.
@@ -340,7 +340,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **matter–antimatter problem** (Chapter 17). The question why the universe contains baryons but essentially no antibaryons. Chapter 17 shows that the theory of this book, as built, does not solve it: its U(1) charge is exactly conserved (Theorem M1).
 - **max_step** (Chapter 10). The largest step size allowed to CVODE in an experiment.
 - **mean field** (Chapter 11). The approximation in which each quantum moves in the average field of all the others, with a bilinear such as $S$ replaced by its expectation value; the Hartree idea (Chapter 12).
-- **Mermin's functional** (Chapter 12). The free energy functional of the Kohn–Sham ensemble at temperature $T$, $F=\sum_af_a\langle\varphi_a|-\tfrac12\nabla^2|\varphi_a\rangle-TS_s+\int vn+E_H+F_{xc}$; its stationary point has Fermi–Dirac occupations.
+- **Mermin's functional, Mermin's Kohn–Sham functional** (Chapter 12). The free energy functional of the Kohn–Sham ensemble at temperature $T$, $F=\sum_af_a\langle\varphi_a|-\tfrac12\nabla^2|\varphi_a\rangle-TS_s+\int vn+E_H+F_{xc}$; its stationary point has Fermi–Dirac occupations.
 - **Mermin's theorem** (Chapter 12). The finite-temperature analogue of the Hohenberg–Kohn theorems (1965): the equilibrium density determines the potential, and the grand potential is minimal at it.
 - **metric** (Chapter 1). A symmetric matrix $g_{\mu\nu}$ (in Chapter 4 a field of such matrices) that defines lengths and angles through the line element; of signature (4,4) in this book.
 - **mirror map, T2** (Chapter 15). The combination of the field with the reflection of one space-like direction; it maps the theory with $(m,\lambda)$ to $(-m,\lambda)$ and leaves energy, momentum and charge unchanged (only reflected).
@@ -352,7 +352,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **mode operators** (Chapter 8). The 16 operators $\Psi_k$ obtained from the field by a Fourier transform over the slice; they annihilate and create the quanta of momentum $k$.
 - **modulus** (Chapter 1). $|z|=\sqrt{a^2+b^2}$ for $z=a+ib$.
 - **momentum** (Chapter 5). $p=\partial L/\partial\dot q$, the canonical momentum; for a first-order Lagrangian it is a function of the coordinates (a constraint).
-- **monomial** (Chapters 2 and 5). A product of generators, such as $\gamma^{a_1}\cdots\gamma^{a_k}$ with increasing indices (there are 256) or a product of distinct Grassmann generators.
+- **monomial, degree** (Chapters 2 and 5). A product of generators, such as $\gamma_A=\gamma^{a_1}\cdots\gamma^{a_k}$ with increasing indices (there are 256 for eight gammas) or a product of distinct Grassmann generators; the number $k$ of factors is its degree, and it is even or odd with $k$.
 - **N-representable** (Chapter 12). A density that comes from some antisymmetric $N$-particle wave function.
 - **natural cubic spline** (Chapter 13). Piecewise cubic interpolation with continuous first and second derivatives and zero second derivatives at the ends; the Stage-4 solver interpolates its potentials this way.
 - **NEC**: see null energy condition.
@@ -468,6 +468,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **second class** (Chapter 8). Constraints whose brackets with each other form an invertible matrix; they are solved with the Dirac bracket.
 - **second quantization** (Chapter 6). Turning a classical field into operators that create and annihilate particles; in Chapter 12 the occupation-number description of many fermions.
 - **self-consistency** (Chapter 12). The condition that the orbitals computed in a potential give back the density or density matrix from which the potential was built; reached by iteration.
+- **set, subset, empty set** (Chapter 2). A set is a collection of distinct elements; a subset contains only elements of the set; the empty set has none. The subsets $A$ of $\{0,\dots,7\}$ label the 256 gamma monomials $\gamma_A$.
 - **shells** (Chapter 13). The groups of lattice momenta with the same $|\mathbf k|^2=\Delta k^2\,\nu$, $\nu=n_1^2+n_2^2+n_3^2$, whose Kohn–Sham levels coincide.
 - **shift bound, window floor** (Chapter 15). The Stage-4 solver searches for levels above a fixed negative energy, the window floor ($-4.594$ for $m=1$); the shift bound $\max|M_{\mathrm{eff}}-m|+\max|v_x|$ limits how far the interaction can move a level, and the solver requires it to be at most the absolute value of the floor (its window premise).
 - **shooting method** (Chapter 10). Solving a boundary-value or eigenvalue problem by integrating from one end with trial values and adjusting them until the condition at the other end holds.
@@ -519,6 +520,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **tangent CPL parameters** (Chapter 11). The values $w_0=w(1)$ and $w_a=-dw/da$ at $a=1$ of a model's equation of state, compared with the CPL fits of supernova data.
 - **tensor** (Chapter 4). An object with upper and lower indices whose components transform with one factor $\partial x'/\partial x$ or $\partial x/\partial x'$ per index.
 - **tensor product, Kronecker product** (Chapter 1). $A\otimes B$, the block matrix with blocks $a_{ij}B$.
+- **Theorems M1 to M6** (Chapter 17). The results of the matter–antimatter analysis: M1 exact U(1) symmetry and charge conservation for both fields; M2 the classification of C, P, CP and their combinations; M3 the charge-violating terms that the symmetry allows (no Majorana mass term for the anticommuting field); M4 the chirality pair of universes with zero total charge and energy–momentum; M5 a conditional scenario stated as a hypothesis, which predicts no value of the asymmetry; M6 the Sakharov scorecard.
 - **thermal particle–antiparticle pairs** (Chapter 13). At $T>0$ particle and sea levels have fractional weights; the gas contains pairs that do not change $N$.
 - **Thomas–Fermi model** (Chapter 12). The 1927 approximation of the kinetic energy by that of a uniform gas, $\int C_Fn^{5/3}$; too crude, which is why Kohn–Sham keeps the kinetic energy exact.
 - **3-space, time, extra times, hidden space** (Chapter 9). The coordinates $x_1,x_2,x_3$ (ordinary space), $x_4$ (the time of evolution), $x_5,x_6,x_7$ (the extra times) and $x_0$ (the hidden space).
@@ -625,6 +627,45 @@ Names of **measurements** (numbers and tables that a report records next to its 
 
 **How it was verified.** The index was produced by a short program that reads every committed JSON file under `artifacts/`, collects the names in their entries `checks`, and then searches the chapter files for these names. Every row of Sections 20.10 to 20.14 therefore names a check that exists, with the value shown, in the committed file shown. The program also listed the names in the chapters that look like check names but occur in no entry `checks`; each of them was read in its sentence and found to be a measurement, a comparison recorded inside a report or a name inside a program, and none of them is called a check by the text. The reports were those of the commit named in Section 20.15.
 
+**The keys of the files.** To keep the tables of Sections 20.10 to 20.14 short, their column "Files" names each committed file by a key:
+
+| Key | Committed file (in `artifacts/dirac16complex/`) | Written by |
+| --- | --- | --- |
+| WA | `arbitrary-field/wolfram-algebra-report.json` | Stage 1, Wolfram algebra verifier |
+| PA | `arbitrary-field/python-algebra-report.json` | Stage 1, Python algebra checker |
+| WG | `arbitrary-field/wolfram-geometry-report.json` | Stage 1, Wolfram geometry verifier |
+| PG | `arbitrary-field/python-geometry-report.json` | Stage 1, Python geometry checker |
+| GD | `arbitrary-field/grassmann-demo-report.json` | Stage 1, Grassmann demonstration |
+| WP | `primordial-field/wolfram-primordial-report.json` | Stage 2, Wolfram verifier |
+| PP | `primordial-field/python-primordial-report.json` | Stage 2, Python checker |
+| E1S | `numerics/exp1/summary.json` | EXP-1, self-checks of the Rust program |
+| E1C | `numerics/exp1/python-check-report.json` | EXP-1, independent checker |
+| E2S | `numerics/exp2/summary.json` | EXP-2, self-checks of the Rust program |
+| E2C | `numerics/exp2/python-check-report.json` | EXP-2, independent checker |
+| E3S | `numerics/exp3/summary.json` | EXP-3, self-checks of the Rust program |
+| E3C | `numerics/exp3/python-check-report.json` | EXP-3, independent checker |
+| E3F | `numerics/exp3/fits.json` | EXP-3, fit analysis (checks nested in the fits) |
+| E4S | `numerics/exp4/summary.json` | EXP-4, self-checks of the Rust program |
+| E4C | `numerics/exp4/python-check-report.json` | EXP-4, independent checker |
+| E5S | `numerics/exp5/summary.json` | EXP-5, self-checks of the Rust program |
+| E5C | `numerics/exp5/python-check-report.json` | EXP-5, independent checker |
+| WK | `kohn-sham/wolfram-kohn-sham-report.json` | Stage 4, Wolfram exact theory |
+| PT | `kohn-sham/python-theory-report.json` | Stage 4, sympy exact theory |
+| PC | `kohn-sham/python-check-report.json` | Stage 4, cross-checker (Rust against reference) |
+| NB | `kohn-sham/notebook-report.json` | Stage 4, Jupyter notebook |
+| RSP | `kohn-sham/rust/spectrum/summary.json` | Stage 4, Rust subcommand spectrum |
+| RXT | `kohn-sham/rust/spectrum/exchange-table-check.json` | Stage 4, Rust check of the exchange table |
+| RSC | `kohn-sham/rust/scf/summary.json` | Stage 4, Rust subcommand scf |
+| REX | `kohn-sham/rust/excited/summary.json` | Stage 4, Rust subcommand excited |
+| RTH | `kohn-sham/rust/thermo/summary.json` | Stage 4, Rust subcommand thermo |
+| REM | `kohn-sham/rust/emt/summary.json` | Stage 4, Rust subcommand emt |
+| W00 | `pair-creation/wolfram-dirac16complex00-report.json` | Stage 5, Wolfram, dirac16complex00 |
+| P00 | `pair-creation/python-dirac16complex00-report.json` | Stage 5, sympy, dirac16complex00 |
+| WPR | `pair-creation/wolfram-pairing-report.json` | Stage 5, Wolfram, pairing theorems |
+| PPR | `pair-creation/python-pairing-report.json` | Stage 5, sympy, pairing theorems |
+| WMA | `matter-antimatter/wolfram-matter-antimatter-report.json` | matter and antimatter, Wolfram |
+| PMA | `matter-antimatter/python-matter-antimatter-report.json` | matter and antimatter, sympy |
+
 **Looking up a check yourself.** The following command prints every committed file whose entry `checks` contains a given name, with its value. In PowerShell and in Bash alike (only the quoting of Section 19.3 matters, and the lines between the double quotes are the same):
 
 ```
@@ -649,621 +690,621 @@ in both shells within two seconds; with `canonical_eigenvalues` instead of `ALG_
 
 ### 20.10 Index of checks: Stage 1, the field in an arbitrary gravitational field
 
-The reports of Stage 1 lie in `artifacts/dirac16complex/arbitrary-field/`. The prefixes are `ALG_` (algebra), `GEO_` (geometry), `LAG_` (Lagrangian), `EMT_` (energy–momentum tensor), `QNT_` (quantization), `GR_` (Grassmann demonstration) and `NEG_` (negative controls); the endings `_G1` and `_G2` name the two test geometries (Chapter 4). The table has 90 rows.
+The prefixes are `ALG_` (algebra), `GEO_` (geometry), `LAG_` (Lagrangian), `EMT_` (energy–momentum tensor), `QNT_` (quantization), `GR_` (Grassmann demonstration) and `NEG_` (negative controls); the endings `_G1` and `_G2` name the two test geometries (Chapter 4). Some checks of these names are repeated, with the same name, in the reports of Stage 5 and of the matter–antimatter analysis; the column "Files" then lists those too. The table has 90 rows; the keys in the column "Files" are those of Section 20.9.
 
-| Check | Committed report | Value | Cited in chapters |
+| Check | Files | Value | Cited in chapters |
 | --- | --- | --- | --- |
-| `ALG_CAnticommutatorGammaSSymmetric` | `arbitrary-field/python-geometry-report.json` | true | 5 |
-| `ALG_CCommutatorGammaSAntisymmetric` | `arbitrary-field/python-geometry-report.json` | true | 5 |
-| `ALG_chargeFormB` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 2, 8, 18 |
-| `ALG_chargeMatrix` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 0, 2, 3, 5 |
-| `ALG_chirality` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json` | true | 0, 2, 3 |
-| `ALG_clifford` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json` | true | 0, 2, 3, 5 |
-| `ALG_cliffordPictureIntertwiner` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json` | true | 0, 2, 3 |
-| `ALG_expression1` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json` | true | 0, 2, 3, 5 |
-| `ALG_faithful` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json` | true | 2, 4 |
-| `ALG_fixtureAgreement` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json` | true | 2, 3 |
-| `ALG_gamma8Map` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 0, 6, 15, 16, 18 |
-| `ALG_gammaTransposeSymmetry` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json` | true | 2, 5 |
-| `ALG_grassmannLemmas` | `arbitrary-field/wolfram-geometry-report.json` | true | 5 |
-| `ALG_invariantForms` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 0, 8, 18 |
-| `ALG_octonionPictureIntertwiner` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json` | true | 0, 3 |
-| `ALG_pinIrreducibleComplex` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 0, 2, 4 |
-| `ALG_pinLiftCharacter` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 2, 6 |
-| `ALG_SabGammaCommutator` | `arbitrary-field/python-geometry-report.json` | true | 2, 4 |
-| `ALG_spinDecomposition` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 0, 2 |
-| `ALG_spinTransposeProperties` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json` | true | 2, 4, 5 |
-| `ALG_wolframAgreement` | `arbitrary-field/python-algebra-report.json` | true | 2, 3, 19 |
-| `EMT_conservation_G1` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 0, 7 |
-| `EMT_conservation_G2` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `EMT_homogeneousReduction` | `arbitrary-field/python-geometry-report.json` | true | 0, 7, 11 |
-| `EMT_homogeneousReduction_G3` | `arbitrary-field/wolfram-geometry-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 0, 7, 11 |
-| `EMT_homogeneousTimeSpaceVanishesOnShell_G3` | `arbitrary-field/python-geometry-report.json` | true | 7 |
-| `EMT_onshellLagrangianSUprimeMinusU_G1` | `arbitrary-field/python-geometry-report.json` | true | 7 |
-| `EMT_onshellLagrangianSUprimeMinusU_G2` | `arbitrary-field/python-geometry-report.json` | true | 7 |
-| `EMT_symmetricHermitian_G1` | `arbitrary-field/wolfram-geometry-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 0, 7 |
-| `EMT_symmetricHermitian_G2` | `arbitrary-field/wolfram-geometry-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `EMT_trace_G1` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 0, 7 |
-| `EMT_trace_G2` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `EMT_traceOffShellIdentity_G1` | `arbitrary-field/python-geometry-report.json` | true | 7 |
-| `EMT_variation` | `arbitrary-field/python-geometry-report.json` | true | 7 |
-| `EMT_variation_G3` | `arbitrary-field/wolfram-geometry-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `GEO_anticommutatorGammaOmegaVanishesDiagonal_G2` | `arbitrary-field/python-geometry-report.json` | true | 4, 5, 6 |
-| `GEO_curvature_G1` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 4 |
-| `GEO_curvature_G2` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 4 |
-| `GEO_diagonalSlashFormula_G2` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 4 |
-| `GEO_diagonalSlashFormula_G3` | `arbitrary-field/python-geometry-report.json` | true | 4 |
-| `GEO_divergenceIdentity_G1` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 4, 5 |
-| `GEO_divergenceIdentity_G2` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 4, 5 |
-| `GEO_frameNondegenerate_G1` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 4 |
-| `GEO_gammaCovariantConstancy_G1` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 0, 4, 5 |
-| `GEO_gammaCovariantConstancy_G2` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 0, 4, 5 |
-| `GEO_lichnerowiczConstantSameG1G2` | `arbitrary-field/python-geometry-report.json` | true | 4 |
-| `GEO_lichnerowicz_G1` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 4, 7 |
-| `GEO_lichnerowicz_G2` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 4, 7 |
-| `GEO_notebookContractionFails_G1` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 0, 4 |
-| `GEO_notebookContractionFails_G2` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 0, 4 |
-| `GEO_omegaAntisymmetry_G1` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 4 |
-| `GEO_omegaAntisymmetry_G2` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 4 |
-| `GEO_primordialInvariants_G2` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 4 |
-| `GEO_sqrtgSquaredEqualsDetg_G1` | `arbitrary-field/python-geometry-report.json` | true | 4 |
-| `GEO_vielbeinPostulate_G1` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 4 |
-| `GEO_vielbeinPostulate_G2` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json` | true | 4 |
-| `GEO_wolframAgreement` | `arbitrary-field/python-geometry-report.json` | true | 19 |
-| `GR_bilinearOnlyAntisymmetricPartSurvives` | `arbitrary-field/grassmann-demo-report.json` | true | 5 |
-| `GR_complexPsiEquation` | `arbitrary-field/grassmann-demo-report.json` | true | 7 |
-| `GR_complexQuarticEL` | `arbitrary-field/grassmann-demo-report.json` | true | 0, 7 |
-| `GR_conjugationRules` | `arbitrary-field/grassmann-demo-report.json` | true | 5 |
-| `GR_currentHermitian` | `arbitrary-field/grassmann-demo-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 7, 8 |
-| `GR_emtHermitian` | `arbitrary-field/grassmann-demo-report.json` | true | 7 |
-| `GR_kineticSymmetricMatrixContrast` | `arbitrary-field/grassmann-demo-report.json` | true | 5 |
-| `GR_kineticTotalDerivativeReal` | `arbitrary-field/grassmann-demo-report.json` | true | 5 |
-| `GR_lagrangianHermitian` | `arbitrary-field/grassmann-demo-report.json` | true | 6 |
-| `GR_massTermVanishesReal` | `arbitrary-field/grassmann-demo-report.json` | true | 5 |
-| `GR_notebookLgELTrivial` | `arbitrary-field/grassmann-demo-report.json` | true | 5 |
-| `GR_notebookLgPureDivergence` | `arbitrary-field/grassmann-demo-report.json` | true | 0, 5 |
-| `GR_quarticTermPolynomial` | `arbitrary-field/grassmann-demo-report.json` | true | 5 |
-| `GR_scalarBilinearHermitian` | `arbitrary-field/grassmann-demo-report.json` | true | 5 |
-| `GR_unsymmetrizedKineticNotHermitian` | `arbitrary-field/grassmann-demo-report.json` | true | 6 |
-| `LAG_eulerLagrangePsibar_G1` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 0, 7 |
-| `LAG_eulerLagrangePsibar_G2` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `LAG_eulerLagrangePsi_G1` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 0, 7 |
-| `LAG_eulerLagrangePsi_G2` | `arbitrary-field/python-geometry-report.json`, `arbitrary-field/wolfram-geometry-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `LAG_hermiticity_G1` | `arbitrary-field/wolfram-geometry-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `LAG_hermiticity_G2` | `arbitrary-field/wolfram-geometry-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `LAG_localSpinInvariance_G1` | `arbitrary-field/wolfram-geometry-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 4, 6 |
-| `LAG_localSpinInvariance_G2` | `arbitrary-field/wolfram-geometry-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 4, 6 |
-| `LAG_notebookLgGrassmannTrivial_G1` | `arbitrary-field/wolfram-geometry-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 0, 5 |
-| `LAG_notebookLgGrassmannTrivial_G2` | `arbitrary-field/wolfram-geometry-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 0, 5 |
-| `NEG_notebookConnectionDetected_G2` | `arbitrary-field/wolfram-geometry-report.json` | true | 4 |
-| `QNT_canonicalMomentum_G1` | `arbitrary-field/wolfram-geometry-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 8 |
-| `QNT_canonicalMomentum_G2` | `arbitrary-field/wolfram-geometry-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 8 |
-| `QNT_currentHermiticity` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 7, 8 |
-| `QNT_curvedAnticommutatorMatrix` | `arbitrary-field/wolfram-algebra-report.json` | true | 8 |
-| `QNT_flatModeHamiltonian` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 0, 8, 18 |
-| `QNT_kreinSignature` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 0, 7, 8, 18 |
-| `QNT_unitaryAndKreinSubgroups` | `arbitrary-field/python-algebra-report.json`, `arbitrary-field/wolfram-algebra-report.json` | true | 2, 8 |
+| `ALG_CAnticommutatorGammaSSymmetric` | PG | true | 5 |
+| `ALG_CCommutatorGammaSAntisymmetric` | PG | true | 5 |
+| `ALG_chargeFormB` | WA, PA, W00, WMA | true | 2, 8, 18 |
+| `ALG_chargeMatrix` | WA, PA, WG | true | 0, 2, 3, 5 |
+| `ALG_chirality` | WA, PA | true | 0, 2, 3 |
+| `ALG_clifford` | WA, PA | true | 0, 2, 3, 5 |
+| `ALG_cliffordPictureIntertwiner` | WA, PA | true | 0, 2, 3 |
+| `ALG_expression1` | WA, PA | true | 0, 2, 3, 5 |
+| `ALG_faithful` | WA, PA | true | 2, 4 |
+| `ALG_fixtureAgreement` | WA, PA | true | 2, 3 |
+| `ALG_gamma8Map` | WA, PA, W00, WMA | true | 0, 6, 15, 16, 18 |
+| `ALG_gammaTransposeSymmetry` | WA, PA | true | 2, 5 |
+| `ALG_grassmannLemmas` | WG | true | 5 |
+| `ALG_invariantForms` | WA, PA, W00, WMA | true | 0, 8, 18 |
+| `ALG_octonionPictureIntertwiner` | WA, PA | true | 0, 3 |
+| `ALG_pinIrreducibleComplex` | WA, PA, W00 | true | 0, 2, 4 |
+| `ALG_pinLiftCharacter` | WA, PA, W00, WMA | true | 2, 6 |
+| `ALG_SabGammaCommutator` | PG | true | 2, 4 |
+| `ALG_spinDecomposition` | WA, PA, W00 | true | 0, 2 |
+| `ALG_spinTransposeProperties` | WA, PA | true | 2, 4, 5 |
+| `ALG_wolframAgreement` | PA | true | 2, 3, 19 |
+| `EMT_conservation_G1` | WG, PG, W00, WMA | true | 0, 7 |
+| `EMT_conservation_G2` | WG, PG, W00, WMA | true | 7 |
+| `EMT_homogeneousReduction` | PG | true | 0, 7, 11 |
+| `EMT_homogeneousReduction_G3` | WG, W00 | true | 0, 7, 11 |
+| `EMT_homogeneousTimeSpaceVanishesOnShell_G3` | PG | true | 7 |
+| `EMT_onshellLagrangianSUprimeMinusU_G1` | PG | true | 7 |
+| `EMT_onshellLagrangianSUprimeMinusU_G2` | PG | true | 7 |
+| `EMT_symmetricHermitian_G1` | WG, W00 | true | 0, 7 |
+| `EMT_symmetricHermitian_G2` | WG, W00 | true | 7 |
+| `EMT_trace_G1` | WG, PG, W00 | true | 0, 7 |
+| `EMT_trace_G2` | WG, PG, W00 | true | 7 |
+| `EMT_traceOffShellIdentity_G1` | PG | true | 7 |
+| `EMT_variation` | PG | true | 7 |
+| `EMT_variation_G3` | WG, W00 | true | 7 |
+| `GEO_anticommutatorGammaOmegaVanishesDiagonal_G2` | PG | true | 4, 5, 6 |
+| `GEO_curvature_G1` | WG, PG | true | 4 |
+| `GEO_curvature_G2` | WG, PG | true | 4 |
+| `GEO_diagonalSlashFormula_G2` | WG, PG | true | 4 |
+| `GEO_diagonalSlashFormula_G3` | PG | true | 4 |
+| `GEO_divergenceIdentity_G1` | WG, PG, WMA | true | 4, 5 |
+| `GEO_divergenceIdentity_G2` | WG, PG, WMA | true | 4, 5 |
+| `GEO_frameNondegenerate_G1` | WG, PG | true | 4 |
+| `GEO_gammaCovariantConstancy_G1` | WG, PG | true | 0, 4, 5 |
+| `GEO_gammaCovariantConstancy_G2` | WG, PG | true | 0, 4, 5 |
+| `GEO_lichnerowiczConstantSameG1G2` | PG | true | 4 |
+| `GEO_lichnerowicz_G1` | WG, PG | true | 4, 7 |
+| `GEO_lichnerowicz_G2` | WG, PG | true | 4, 7 |
+| `GEO_notebookContractionFails_G1` | WG, PG | true | 0, 4 |
+| `GEO_notebookContractionFails_G2` | WG, PG | true | 0, 4 |
+| `GEO_omegaAntisymmetry_G1` | WG, PG | true | 4 |
+| `GEO_omegaAntisymmetry_G2` | WG, PG | true | 4 |
+| `GEO_primordialInvariants_G2` | WG, PG | true | 4 |
+| `GEO_sqrtgSquaredEqualsDetg_G1` | PG | true | 4 |
+| `GEO_vielbeinPostulate_G1` | WG, PG | true | 4 |
+| `GEO_vielbeinPostulate_G2` | WG, PG | true | 4 |
+| `GEO_wolframAgreement` | PG | true | 19 |
+| `GR_bilinearOnlyAntisymmetricPartSurvives` | GD | true | 5 |
+| `GR_complexPsiEquation` | GD | true | 7 |
+| `GR_complexQuarticEL` | GD | true | 0, 7 |
+| `GR_conjugationRules` | GD | true | 5 |
+| `GR_currentHermitian` | GD, WMA | true | 7, 8 |
+| `GR_emtHermitian` | GD | true | 7 |
+| `GR_kineticSymmetricMatrixContrast` | GD | true | 5 |
+| `GR_kineticTotalDerivativeReal` | GD | true | 5 |
+| `GR_lagrangianHermitian` | GD | true | 6 |
+| `GR_massTermVanishesReal` | GD | true | 5 |
+| `GR_notebookLgELTrivial` | GD | true | 5 |
+| `GR_notebookLgPureDivergence` | GD | true | 0, 5 |
+| `GR_quarticTermPolynomial` | GD | true | 5 |
+| `GR_scalarBilinearHermitian` | GD | true | 5 |
+| `GR_unsymmetrizedKineticNotHermitian` | GD | true | 6 |
+| `LAG_eulerLagrangePsibar_G1` | WG, PG, W00, WMA | true | 0, 7 |
+| `LAG_eulerLagrangePsibar_G2` | WG, PG, W00, WMA | true | 7 |
+| `LAG_eulerLagrangePsi_G1` | WG, PG, W00, WMA | true | 0, 7 |
+| `LAG_eulerLagrangePsi_G2` | WG, PG, W00, WMA | true | 7 |
+| `LAG_hermiticity_G1` | WG, W00 | true | 6 |
+| `LAG_hermiticity_G2` | WG, W00 | true | 6 |
+| `LAG_localSpinInvariance_G1` | WG, W00, WMA | true | 4, 6 |
+| `LAG_localSpinInvariance_G2` | WG, W00, WMA | true | 4, 6 |
+| `LAG_notebookLgGrassmannTrivial_G1` | WG, W00 | true | 0, 5 |
+| `LAG_notebookLgGrassmannTrivial_G2` | WG, W00 | true | 0, 5 |
+| `NEG_notebookConnectionDetected_G2` | WG | true | 4 |
+| `QNT_canonicalMomentum_G1` | WG, W00 | true | 8 |
+| `QNT_canonicalMomentum_G2` | WG, W00 | true | 8 |
+| `QNT_currentHermiticity` | WA, PA, WMA | true | 7, 8 |
+| `QNT_curvedAnticommutatorMatrix` | WA | true | 8 |
+| `QNT_flatModeHamiltonian` | WA, PA, W00 | true | 0, 8, 18 |
+| `QNT_kreinSignature` | WA, PA, W00 | true | 0, 7, 8, 18 |
+| `QNT_unitaryAndKreinSubgroups` | WA, PA | true | 2, 8 |
 
 ### 20.11 Index of checks: Stage 2, the primordial field
 
-The reports of Stage 2 lie in `artifacts/dirac16complex/primordial-field/`; every name begins with `P_`. The table has 70 rows.
+Every name begins with `P_`. The table has 70 rows; the keys in the column "Files" are those of Section 20.9.
 
-| Check | Committed report | Value | Cited in chapters |
+| Check | Files | Value | Cited in chapters |
 | --- | --- | --- | --- |
-| `P_a4linear` | `primordial-field/python-primordial-report.json` | true | 4, 19 |
-| `P_a4linear_cell150AlternativesRhoNegative` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_a4linear_values` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_blocks_fourBlocksOfFour` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_blocks_matchNotebookSets` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_christoffel` | `primordial-field/python-primordial-report.json` | true | 4 |
-| `P_christoffel_closedForms512` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_christoffel_count` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_einstein` | `primordial-field/python-primordial-report.json` | true | 0, 4 |
-| `P_einstein_energyConditionForms` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_einstein_GmixedClosedForms` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_einstein_notebookCell583` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_einstein_notebookCell584` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_einstein_offDiagonalZero` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_einstein_R44` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_einstein_requiredSource` | `primordial-field/wolfram-primordial-report.json` | true | 0, 9, 18 |
-| `P_einstein_rhoRequiredNegative` | `primordial-field/wolfram-primordial-report.json` | true | 0, 4, 9, 18 |
-| `P_einstein_ricciScalar` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_gammaConst_divergenceIdentity` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_gammaConst_divergenceIdentityFailsNotebookContraction` | `primordial-field/wolfram-primordial-report.json` | true | 4 |
-| `P_gammaConst_DmuGammaNuZero64` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_gammaConst_notebookContractionClosedForms` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_gammaConst_notebookContractionFails` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_metric` | `primordial-field/python-primordial-report.json` | true | 0 |
-| `P_metric_detG_equals_plus_cos2z` | `primordial-field/wolfram-primordial-report.json` | true | 0, 1, 4, 9 |
-| `P_metric_notebookCell1060Det` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_metric_signature44` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_metric_sqrtAbsDetG_cosz` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_metric_vielbeinProduct` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_modes_exactReduction` | `primordial-field/wolfram-primordial-report.json` | true | 11 |
-| `P_notebookCompare_*` | `primordial-field/wolfram-primordial-report.json` | all 16 true | 9 |
-| `P_notebookCompare_cell1137Reproduced16of16` | `primordial-field/wolfram-primordial-report.json` | true | 0, 9 |
-| `P_notebookCompare_commutingQ1DropsOutCliffordGammas` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_notebookCompare_correctVsStoredDifferOnlyByQ` | `primordial-field/wolfram-primordial-report.json` | true | 0, 9 |
-| `P_notebookCompare_eLaztCell1096` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_notebookCompare_literalRebuildResidualIsExactlyQTerms` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_notebookCompare_qOnlyInYZ0to7` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_notebookCompare_qTermFromNonCliffordExtraTimeGammas` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_notebookCompare_qVectorIs2HqAtCell1079` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_notebookCompare_reconstructedGamma5NotClifford` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_notebookCompare_reconstructedGammaForm` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_notebookCompare_reconstructionReproducesStoredEla` | `primordial-field/wolfram-primordial-report.json` | true | 0, 9 |
-| `P_notebookCompare_relabelCell1111` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_notebookCompare_storedEla16` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_Omega` | `primordial-field/python-primordial-report.json` | true | 0 |
-| `P_Omega_closedForms` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_Omega_contractDiagonalFormula` | `primordial-field/wolfram-primordial-report.json` | true | 4 |
-| `P_Omega_gammaSlash3Hgamma0` | `primordial-field/wolfram-primordial-report.json` | true | 0, 4, 9 |
-| `P_Omega_OmegaGammaAndAnticommutator` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_Omega_slashA4Independent` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_source` | `primordial-field/python-primordial-report.json` | true | 0 |
-| `P_source_einsteinTransverseDifferenceIs2H2a4pp` | `primordial-field/wolfram-primordial-report.json` | true | 0, 9, 18 |
-| `P_source_realKDiagonalIsC1OverSPlusC2OverS2` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_source_realKPlaneWaveCannotSource` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_source_transversePressuresEqualForEveryX0X4State` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_source_x0IndependentDiagonalOnShell` | `pair-creation/wolfram-dirac16complex00-report.json`, `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_source_x0IndependentExactExamples` | `pair-creation/wolfram-dirac16complex00-report.json`, `primordial-field/wolfram-primordial-report.json` | true | 0, 9, 18 |
-| `P_source_x0IndependentOffDiagonalAre15Bilinears` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_source_x0IndependentSourceConditions` | `primordial-field/wolfram-primordial-report.json` | true | 0, 9, 18 |
-| `P_source_x0IndependentStateSolvesDiracExactly` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_spinconn` | `primordial-field/python-primordial-report.json` | true | 4 |
-| `P_spinconn_antisymmetry` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_spinconn_closedForms` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_spinconn_count24` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_spinconn_notebookCell501OmegaMuIJEqualsMixedOmega` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_spinconn_vielbeinPostulate512` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_zeta_gZetaZetaIsOne` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_zeta_range` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
-| `P_zeta_warpedMetric` | `primordial-field/wolfram-primordial-report.json` | true | 4, 9 |
-| `P_zeta_warpFactor` | `primordial-field/wolfram-primordial-report.json` | true | 9 |
+| `P_a4linear` | PP | true | 4, 19 |
+| `P_a4linear_cell150AlternativesRhoNegative` | WP | true | 9 |
+| `P_a4linear_values` | WP | true | 9 |
+| `P_blocks_fourBlocksOfFour` | WP | true | 9 |
+| `P_blocks_matchNotebookSets` | WP | true | 9 |
+| `P_christoffel` | PP | true | 4 |
+| `P_christoffel_closedForms512` | WP | true | 4, 9 |
+| `P_christoffel_count` | WP | true | 4, 9 |
+| `P_einstein` | PP | true | 0, 4 |
+| `P_einstein_energyConditionForms` | WP | true | 9 |
+| `P_einstein_GmixedClosedForms` | WP | true | 4, 9 |
+| `P_einstein_notebookCell583` | WP | true | 4, 9 |
+| `P_einstein_notebookCell584` | WP | true | 4, 9 |
+| `P_einstein_offDiagonalZero` | WP | true | 4, 9 |
+| `P_einstein_R44` | WP | true | 4, 9 |
+| `P_einstein_requiredSource` | WP | true | 0, 9, 18 |
+| `P_einstein_rhoRequiredNegative` | WP | true | 0, 4, 9, 18 |
+| `P_einstein_ricciScalar` | WP | true | 4, 9 |
+| `P_gammaConst_divergenceIdentity` | WP | true | 4, 9 |
+| `P_gammaConst_divergenceIdentityFailsNotebookContraction` | WP | true | 4 |
+| `P_gammaConst_DmuGammaNuZero64` | WP | true | 4, 9 |
+| `P_gammaConst_notebookContractionClosedForms` | WP | true | 4, 9 |
+| `P_gammaConst_notebookContractionFails` | WP | true | 4, 9 |
+| `P_metric` | PP | true | 0 |
+| `P_metric_detG_equals_plus_cos2z` | WP | true | 0, 1, 4, 9 |
+| `P_metric_notebookCell1060Det` | WP | true | 9 |
+| `P_metric_signature44` | WP | true | 4, 9 |
+| `P_metric_sqrtAbsDetG_cosz` | WP | true | 4, 9 |
+| `P_metric_vielbeinProduct` | WP | true | 4, 9 |
+| `P_modes_exactReduction` | WP | true | 11 |
+| `P_notebookCompare_*` | WP | all 16 true | 9 |
+| `P_notebookCompare_cell1137Reproduced16of16` | WP | true | 0, 9 |
+| `P_notebookCompare_commutingQ1DropsOutCliffordGammas` | WP | true | 9 |
+| `P_notebookCompare_correctVsStoredDifferOnlyByQ` | WP | true | 0, 9 |
+| `P_notebookCompare_eLaztCell1096` | WP | true | 9 |
+| `P_notebookCompare_literalRebuildResidualIsExactlyQTerms` | WP | true | 9 |
+| `P_notebookCompare_qOnlyInYZ0to7` | WP | true | 9 |
+| `P_notebookCompare_qTermFromNonCliffordExtraTimeGammas` | WP | true | 9 |
+| `P_notebookCompare_qVectorIs2HqAtCell1079` | WP | true | 9 |
+| `P_notebookCompare_reconstructedGamma5NotClifford` | WP | true | 9 |
+| `P_notebookCompare_reconstructedGammaForm` | WP | true | 9 |
+| `P_notebookCompare_reconstructionReproducesStoredEla` | WP | true | 0, 9 |
+| `P_notebookCompare_relabelCell1111` | WP | true | 9 |
+| `P_notebookCompare_storedEla16` | WP | true | 9 |
+| `P_Omega` | PP | true | 0 |
+| `P_Omega_closedForms` | WP | true | 4, 9 |
+| `P_Omega_contractDiagonalFormula` | WP | true | 4 |
+| `P_Omega_gammaSlash3Hgamma0` | WP | true | 0, 4, 9 |
+| `P_Omega_OmegaGammaAndAnticommutator` | WP | true | 9 |
+| `P_Omega_slashA4Independent` | WP | true | 9 |
+| `P_source` | PP | true | 0 |
+| `P_source_einsteinTransverseDifferenceIs2H2a4pp` | WP | true | 0, 9, 18 |
+| `P_source_realKDiagonalIsC1OverSPlusC2OverS2` | WP | true | 9 |
+| `P_source_realKPlaneWaveCannotSource` | WP | true | 9 |
+| `P_source_transversePressuresEqualForEveryX0X4State` | WP | true | 9 |
+| `P_source_x0IndependentDiagonalOnShell` | WP, W00 | true | 9 |
+| `P_source_x0IndependentExactExamples` | WP, W00 | true | 0, 9, 18 |
+| `P_source_x0IndependentOffDiagonalAre15Bilinears` | WP | true | 9 |
+| `P_source_x0IndependentSourceConditions` | WP | true | 0, 9, 18 |
+| `P_source_x0IndependentStateSolvesDiracExactly` | WP | true | 9 |
+| `P_spinconn` | PP | true | 4 |
+| `P_spinconn_antisymmetry` | WP | true | 4, 9 |
+| `P_spinconn_closedForms` | WP | true | 4, 9 |
+| `P_spinconn_count24` | WP | true | 4, 9 |
+| `P_spinconn_notebookCell501OmegaMuIJEqualsMixedOmega` | WP | true | 4, 9 |
+| `P_spinconn_vielbeinPostulate512` | WP | true | 4, 9 |
+| `P_zeta_gZetaZetaIsOne` | WP | true | 9 |
+| `P_zeta_range` | WP | true | 9 |
+| `P_zeta_warpedMetric` | WP | true | 4, 9 |
+| `P_zeta_warpFactor` | WP | true | 9 |
 
 ### 20.12 Index of checks: Stage 3, the dark-sector experiments
 
-The reports of Stage 3 lie in `artifacts/dirac16complex/numerics/`. Names with underscores between lower-case words (such as `seven_volume_constant`) are self-checks of the Rust program, stored in the `summary.json` of each experiment; names in camel case (such as `eigenmodeLaws`) are checks of the independent Python checkers, stored in `python-check-report.json`. The table has 52 rows.
+Names with underscores between lower-case words (such as `seven_volume_constant`) are self-checks of the Rust program, stored in the `summary.json` of each experiment; names in camel case (such as `eigenmodeLaws`) are checks of the independent Python checkers. The table has 52 rows; the keys in the column "Files" are those of Section 20.9.
 
-| Check | Committed report | Value | Cited in chapters |
+| Check | Files | Value | Cited in chapters |
 | --- | --- | --- | --- |
-| `a4_profile_independence` | `numerics/exp1/summary.json` | true | 11 |
-| `backward_kasner_exponents` | `numerics/exp2/summary.json` | true | 11 |
-| `bounceAndStop` | `numerics/exp3/python-check-report.json` | true | 11 |
-| `boundNonnegative` | `numerics/exp2/python-check-report.json` | true | 11 |
-| `closedFormVerified` | `numerics/exp2/python-check-report.json` | true | 11 |
-| `constraintPreserved` | `numerics/exp2/python-check-report.json` | true | 11 |
-| `constraint_preserved` | `numerics/exp2/summary.json` | true | 11 |
-| `decelerationRoots` | `numerics/exp3/python-check-report.json` | true | 11 |
-| `diracEquationFd` | `numerics/exp2/python-check-report.json` | true | 11 |
-| `eigenmodeLaws` | `numerics/exp1/python-check-report.json` | true | 11 |
-| `einsteinSourceNegative` | `numerics/exp1/python-check-report.json` | true | 11 |
-| `einstein_source_negative_energy` | `numerics/exp1/summary.json` | true | 11 |
-| `einsteinTensorFromMetric` | `numerics/exp2/python-check-report.json` | true | 11 |
-| `energy_squared_changes_sign_at_tstar` | `numerics/exp5/summary.json` | true | 11 |
-| `exactSolution` | `numerics/exp1/python-check-report.json`, `numerics/exp2/python-check-report.json` | true | 11 |
-| `exact_solution` | `numerics/exp2/summary.json` | true | 11 |
-| `exact_solution_all_runs` | `numerics/exp1/summary.json` | true | 11 |
-| `extra_times_turn_to_expansion` | `numerics/exp2/summary.json` | true | 11 |
-| `gammaVariantReproducesUniteTangent` | `numerics/exp3/fits.json` | true | 11 |
-| `growth_matches_wkb_first_order` | `numerics/exp5/summary.json` | true | 8 |
-| `growth_matches_wkb_leading_order` | `numerics/exp5/summary.json` | true | 8, 11 |
-| `hilbert_norm_superexponential_growth` | `numerics/exp5/summary.json` | true | 11 |
-| `hubble_positive_backward_stop_at_predicted_bounce` | `numerics/exp3/summary.json` | true | 11 |
-| `kasnerExponents` | `numerics/exp2/python-check-report.json` | true | 11 |
-| `kreinConservedNormalized` | `numerics/exp5/python-check-report.json` | true | 11 |
-| `mixedStateOscillationMatchesExact` | `numerics/exp1/python-check-report.json` | true | 11 |
-| `muIndependence` | `numerics/exp3/python-check-report.json` | true | 11 |
-| `offDiagonalStressVanishes` | `numerics/exp2/python-check-report.json`, `numerics/exp3/python-check-report.json` | true | 11 |
-| `pairPauli` | `numerics/exp4/python-check-report.json` | true | 11 |
-| `pairSmoothTransitionReference` | `numerics/exp4/python-check-report.json` | true | 11 |
-| `pairSuddenSpectrumMagnusReference` | `numerics/exp4/python-check-report.json` | true | 11 |
-| `pairTailMatchesKinkTheory` | `numerics/exp4/python-check-report.json` | true | 11 |
-| `pair_tail_matches_kink_theory` | `numerics/exp4/summary.json` | true | 11 |
-| `phantomCrossing` | `numerics/exp3/python-check-report.json` | true | 11 |
-| `phantom_crossing_at_cube_root_2abs_x0` | `numerics/exp3/summary.json` | true | 11 |
-| `phantom_iff_negative_kinetic_energy` | `numerics/exp2/summary.json` | true | 11 |
-| `phantomStructure` | `numerics/exp2/python-check-report.json` | true | 11 |
-| `phaseDriftIsTimeRounding` | `numerics/exp2/python-check-report.json` | true | 11 |
-| `refinedConvergence` | `numerics/exp1/python-check-report.json`, `numerics/exp2/python-check-report.json`, `numerics/exp3/python-check-report.json`, `numerics/exp4/python-check-report.json`, `numerics/exp5/python-check-report.json` | true | 11, 19 |
-| `repeatByteIdentity` | `numerics/exp1/python-check-report.json`, `numerics/exp2/python-check-report.json`, `numerics/exp3/python-check-report.json`, `numerics/exp4/python-check-report.json`, `numerics/exp5/python-check-report.json` | true | 10, 11, 19 |
-| `rho_frozen_all_runs` | `numerics/exp1/summary.json` | true | 11 |
-| `rho_p_w_match_closed_form` | `numerics/exp3/summary.json` | true | 11 |
-| `rho_p_w_mu_independent` | `numerics/exp3/summary.json` | true | 11 |
-| `rhoZeroLocation` | `numerics/exp3/python-check-report.json` | true | 11 |
-| `seven_volume_constant` | `numerics/exp1/summary.json` | true | 11 |
-| `sigma_from_spinor_equals_a_minus_3` | `numerics/exp3/summary.json` | true | 11 |
-| `spinorPhaseWithinTimeRounding` | `numerics/exp2/python-check-report.json` | true | 11 |
-| `S_times_V_constant` | `numerics/exp2/summary.json` | true | 11 |
-| `tangentCPL` | `numerics/exp3/python-check-report.json` | true | 11 |
-| `wkbFirstOrder` | `numerics/exp5/python-check-report.json` | true | 8, 11 |
-| `wkbLateRate` | `numerics/exp5/python-check-report.json` | true | 8, 11 |
-| `wkbLeading` | `numerics/exp5/python-check-report.json` | true | 8, 11 |
+| `a4_profile_independence` | E1S | true | 11 |
+| `backward_kasner_exponents` | E2S | true | 11 |
+| `bounceAndStop` | E3C | true | 11 |
+| `boundNonnegative` | E2C | true | 11 |
+| `closedFormVerified` | E2C | true | 11 |
+| `constraintPreserved` | E2C | true | 11 |
+| `constraint_preserved` | E2S | true | 11 |
+| `decelerationRoots` | E3C | true | 11 |
+| `diracEquationFd` | E2C | true | 11 |
+| `eigenmodeLaws` | E1C | true | 11 |
+| `einsteinSourceNegative` | E1C | true | 11 |
+| `einstein_source_negative_energy` | E1S | true | 11 |
+| `einsteinTensorFromMetric` | E2C | true | 11 |
+| `energy_squared_changes_sign_at_tstar` | E5S | true | 11 |
+| `exactSolution` | E1C, E2C | true | 11 |
+| `exact_solution` | E2S | true | 11 |
+| `exact_solution_all_runs` | E1S | true | 11 |
+| `extra_times_turn_to_expansion` | E2S | true | 11 |
+| `gammaVariantReproducesUniteTangent` | E3F | true | 11 |
+| `growth_matches_wkb_first_order` | E5S | true | 8 |
+| `growth_matches_wkb_leading_order` | E5S | true | 8, 11 |
+| `hilbert_norm_superexponential_growth` | E5S | true | 11 |
+| `hubble_positive_backward_stop_at_predicted_bounce` | E3S | true | 11 |
+| `kasnerExponents` | E2C | true | 11 |
+| `kreinConservedNormalized` | E5C | true | 11 |
+| `mixedStateOscillationMatchesExact` | E1C | true | 11 |
+| `muIndependence` | E3C | true | 11 |
+| `offDiagonalStressVanishes` | E2C, E3C | true | 11 |
+| `pairPauli` | E4C | true | 11 |
+| `pairSmoothTransitionReference` | E4C | true | 11 |
+| `pairSuddenSpectrumMagnusReference` | E4C | true | 11 |
+| `pairTailMatchesKinkTheory` | E4C | true | 11 |
+| `pair_tail_matches_kink_theory` | E4S | true | 11 |
+| `phantomCrossing` | E3C | true | 11 |
+| `phantom_crossing_at_cube_root_2abs_x0` | E3S | true | 11 |
+| `phantom_iff_negative_kinetic_energy` | E2S | true | 11 |
+| `phantomStructure` | E2C | true | 11 |
+| `phaseDriftIsTimeRounding` | E2C | true | 11 |
+| `refinedConvergence` | E1C, E2C, E3C, E4C, E5C | true | 11, 19 |
+| `repeatByteIdentity` | E1C, E2C, E3C, E4C, E5C | true | 10, 11, 19 |
+| `rho_frozen_all_runs` | E1S | true | 11 |
+| `rho_p_w_match_closed_form` | E3S | true | 11 |
+| `rho_p_w_mu_independent` | E3S | true | 11 |
+| `rhoZeroLocation` | E3C | true | 11 |
+| `seven_volume_constant` | E1S | true | 11 |
+| `sigma_from_spinor_equals_a_minus_3` | E3S | true | 11 |
+| `spinorPhaseWithinTimeRounding` | E2C | true | 11 |
+| `S_times_V_constant` | E2S | true | 11 |
+| `tangentCPL` | E3C | true | 11 |
+| `wkbFirstOrder` | E5C | true | 8, 11 |
+| `wkbLateRate` | E5C | true | 8, 11 |
+| `wkbLeading` | E5C | true | 8, 11 |
 
 ### 20.13 Index of checks: Stage 4, the Kohn–Sham states
 
-The reports of Stage 4 lie in `artifacts/dirac16complex/kohn-sham/`. Names beginning with `KS_` are exact checks of the Wolfram verifier and of the sympy checker; names in lower case with underscores are self-checks of the Rust solver (in the `summary.json` of each folder of `rust/`) or checks of the cross-checker (in `python-check-report.json`); a Rust self-check that is made for every run carries the name of the run in front, such as `m1_L3_N112_lam0_T0_energy_from_rho`, and is indexed as a family `*_energy_from_rho`. The table has 102 rows.
+Names beginning with `KS_` are exact checks of the Wolfram verifier and of the sympy checker; names in lower case with underscores are self-checks of the Rust solver or checks of the cross-checker. A Rust self-check that is made for every run carries the name of the run in front, such as `m1_L3_N112_lam0_T0_energy_from_rho`, and is indexed as a family, here `*_energy_from_rho`. The table has 102 rows; the keys in the column "Files" are those of Section 20.9.
 
-| Check | Committed report | Value | Cited in chapters |
+| Check | Files | Value | Cited in chapters |
 | --- | --- | --- | --- |
-| `a4_rescaling_pair_exact` | `kohn-sham/rust/scf/summary.json` | true | 13 |
-| `canonical_deltaSCF` | `kohn-sham/python-check-report.json` | true | 14, 19 |
-| `canonical_eigenvalues` | `kohn-sham/python-check-report.json` | false | 14, 16, 18, 19 |
-| `*_cv_finite_difference_vs_exact` | `kohn-sham/rust/thermo/summary.json` | all 4 true | 13 |
-| `*_emt_conservation` | `kohn-sham/rust/emt/summary.json`, `kohn-sham/rust/scf/summary.json` | all 43 true | 13 |
-| `*_energy_from_rho` | `kohn-sham/rust/emt/summary.json`, `kohn-sham/rust/scf/summary.json` | all 43 true | 13 |
-| `*_entropy_positive` | `kohn-sham/rust/thermo/summary.json` | all 16 true | 13 |
-| `exchange_table_d3_closed_form` | `kohn-sham/rust/spectrum/exchange-table-check.json`, `kohn-sham/rust/spectrum/summary.json` | true | 13 |
-| `exchange_table_d4_closed_form` | `kohn-sham/rust/spectrum/exchange-table-check.json`, `kohn-sham/rust/spectrum/summary.json` | true | 13 |
-| `excited_grid_refinement_delta_scf` | `kohn-sham/rust/excited/summary.json` | true | 13 |
-| `*_free_energy_decreases` | `kohn-sham/rust/thermo/summary.json` | all 16 true | 13 |
-| `gauntlet_*` | `kohn-sham/notebook-report.json` | 56 of 60 true | 19 |
-| `grid_refinement_energy` | `kohn-sham/rust/scf/summary.json` | true | 13 |
-| `*_heat_capacity_positive` | `kohn-sham/rust/thermo/summary.json` | all 16 true | 13 |
-| `KS_boundary_bagFamily` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_boundary_bagThetaZeroIsEvenParity` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_boundary_currentBlockForm` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_boundary_currentConservedAlongY` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_boundary_currentMatrix` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_boundary_hilbertNormNotConservedAlongY` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_boundary_parityA_symmetryIffMassOdd` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 13 |
-| `KS_boundary_parityB_couplesJBlocks` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_boundary_parityB_symmetryForEvenMass` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_boundary_parityKillsCurrent` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_boundary_parityProjectorsBlockForm` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_boundary_selfAdjointBoundaryTerm` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_emt_offBlockComponentsVanishPerOrbital` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_emt_p1` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_emt_p2p3` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_emt_pt` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_emt_py` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_emt_rho` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 13 |
-| `KS_emt_T41cancelsOverShell` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_emt_Ty1ProportionalToCurrent` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_emt_Ty4ProportionalToCurrent` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_exchange_angularAverageOfPdotQVanishes` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 0, 13 |
-| `KS_exchange_blockFormOfFockTerm` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 0, 13 |
-| `KS_exchange_couplingDimension` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13, 18 |
-| `KS_exchange_filledShellOneEighth` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_exchange_filledShellScalarDensity` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_exchange_kernelPlusMinus` | `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_exchange_kernelPlusPlus` | `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_exchange_ldaPotentials` | `kohn-sham/python-theory-report.json` | true | 13 |
-| `KS_exchange_restGasLimit` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_exchange_uniformGasClosedForm` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 0, 13, 18 |
-| `KS_exchange_wickTheoremHF` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13, 18 |
-| `KS_functional` | `kohn-sham/python-theory-report.json` | true | 13 |
-| `KS_functional_fermiDiracOccupations` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_functional_hellmannFeynmanLambda` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_functional_hellmannFeynmanMass` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_functional_hellmannFeynmanMomentum` | `kohn-sham/python-theory-report.json` | true | 13 |
-| `KS_functional_hellmannFeynmanTemperature` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_functional_merminStructure` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_functional_stationarityGivesKSEquation` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_functional_totalEnergyDoubleCounting` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_geometry_braneEnergyPositive` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 9, 13 |
-| `KS_geometry_christoffelClosedForms` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_geometry_christoffelCount18` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 9 |
-| `KS_geometry_constantCurvatureSevenSpace` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 9, 13, 18 |
-| `KS_geometry_einsteinMixedDiag` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 4, 9, 13, 18 |
-| `KS_geometry_extrinsicCurvature` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 9, 13 |
-| `KS_geometry_inducedMetricFlat` | `kohn-sham/wolfram-kohn-sham-report.json` | true | 9 |
-| `KS_geometry_israelConventionRandallSundrum` | `kohn-sham/python-theory-report.json` | true | 9, 13 |
-| `KS_geometry_israelJump` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 9, 13 |
-| `KS_geometry_israelStress` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 0, 9, 13 |
-| `KS_geometry_kretschmannConstant` | `kohn-sham/wolfram-kohn-sham-report.json` | true | 9, 18 |
-| `KS_geometry_notebookChart` | `kohn-sham/wolfram-kohn-sham-report.json` | true | 9 |
-| `KS_geometry_requiredSource` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 0, 4, 9, 13 |
-| `KS_geometry_rhoRequiredNegative` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 9, 13 |
-| `KS_geometry_ricciMixed` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 9 |
-| `KS_geometry_ricciScalarMinus42H2` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 0, 4, 9, 13 |
-| `KS_geometry_signature44` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 9 |
-| `KS_geometry_sqrtDetG_W6` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 9, 13 |
-| `KS_reduction_a4IsMomentumRescaling` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 9, 13 |
-| `KS_reduction_algebraDim8` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_ansatzRemoves3H` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 13 |
-| `KS_reduction_basisUnitary` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_blockHamiltonianEquivalentToODE` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_blockODEMatrix` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 0, 13 |
-| `KS_reduction_blocksA0A1A4` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_blocksBC` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json`, `pair-creation/wolfram-dirac16complex00-report.json` | true | 13 |
-| `KS_reduction_blockTypes` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_fiveMatricesBlockDiagonal` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_flatMeasure` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_gamma8SwapsJ` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_gammaSlashOmega3Hgamma0` | `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_hMinusEqualsMinusHPlus` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 0, 13 |
-| `KS_reduction_JK1K2commute` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_k0MassiveLevels` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_k0ZeroMode` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_mirrorPatchSameForm` | `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_projectorsRank2` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_reconstructFromBlocks` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_reducedEquationODEForm` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_rotationalSymmetry` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_sigma3ConjugationFlipsK` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_withoutW3the3HTermSurvives` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `KS_reduction_zeroModeSplitting` | `kohn-sham/python-theory-report.json`, `kohn-sham/wolfram-kohn-sham-report.json` | true | 13 |
-| `m1_L3_N112_lam0_T0_hellmann_feynman_dE_dm` | `kohn-sham/rust/scf/summary.json` | true | 13 |
-| `m1_L3_N112_lamp1_T0_hellmann_feynman_dE_dm` | `kohn-sham/rust/scf/summary.json` | true | 13 |
-| `r07_*` | `kohn-sham/notebook-report.json` | 0 of 2 true | 19 |
-| `theory_zero_mode_splitting` | `kohn-sham/rust/spectrum/summary.json` | true | 13 |
+| `a4_rescaling_pair_exact` | RSC | true | 13 |
+| `canonical_deltaSCF` | PC | true | 14, 19 |
+| `canonical_eigenvalues` | PC | false | 14, 16, 18, 19 |
+| `*_cv_finite_difference_vs_exact` | RTH | all 4 true | 13 |
+| `*_emt_conservation` | RSC, REM | all 43 true | 13 |
+| `*_energy_from_rho` | RSC, REM | all 43 true | 13 |
+| `*_entropy_positive` | RTH | all 16 true | 13 |
+| `exchange_table_d3_closed_form` | RSP, RXT | true | 13 |
+| `exchange_table_d4_closed_form` | RSP, RXT | true | 13 |
+| `excited_grid_refinement_delta_scf` | REX | true | 13 |
+| `*_free_energy_decreases` | RTH | all 16 true | 13 |
+| `gauntlet_*` | NB | 56 of 60 true | 19 |
+| `grid_refinement_energy` | RSC | true | 13 |
+| `*_heat_capacity_positive` | RTH | all 16 true | 13 |
+| `KS_boundary_bagFamily` | WK, PT | true | 13 |
+| `KS_boundary_bagThetaZeroIsEvenParity` | WK, PT | true | 13 |
+| `KS_boundary_currentBlockForm` | WK, PT | true | 13 |
+| `KS_boundary_currentConservedAlongY` | WK, PT | true | 13 |
+| `KS_boundary_currentMatrix` | WK, PT | true | 13 |
+| `KS_boundary_hilbertNormNotConservedAlongY` | WK, PT | true | 13 |
+| `KS_boundary_parityA_symmetryIffMassOdd` | WK, PT, W00 | true | 13 |
+| `KS_boundary_parityB_couplesJBlocks` | WK, PT | true | 13 |
+| `KS_boundary_parityB_symmetryForEvenMass` | WK, PT | true | 13 |
+| `KS_boundary_parityKillsCurrent` | WK, PT | true | 13 |
+| `KS_boundary_parityProjectorsBlockForm` | WK, PT | true | 13 |
+| `KS_boundary_selfAdjointBoundaryTerm` | WK, PT | true | 13 |
+| `KS_emt_offBlockComponentsVanishPerOrbital` | WK, PT | true | 13 |
+| `KS_emt_p1` | WK, PT | true | 13 |
+| `KS_emt_p2p3` | WK, PT | true | 13 |
+| `KS_emt_pt` | WK, PT | true | 13 |
+| `KS_emt_py` | WK, PT | true | 13 |
+| `KS_emt_rho` | WK, PT, W00 | true | 13 |
+| `KS_emt_T41cancelsOverShell` | WK, PT | true | 13 |
+| `KS_emt_Ty1ProportionalToCurrent` | WK, PT | true | 13 |
+| `KS_emt_Ty4ProportionalToCurrent` | WK, PT | true | 13 |
+| `KS_exchange_angularAverageOfPdotQVanishes` | WK, PT | true | 0, 13 |
+| `KS_exchange_blockFormOfFockTerm` | WK, PT | true | 0, 13 |
+| `KS_exchange_couplingDimension` | WK, PT | true | 13, 18 |
+| `KS_exchange_filledShellOneEighth` | WK, PT | true | 13 |
+| `KS_exchange_filledShellScalarDensity` | WK, PT | true | 13 |
+| `KS_exchange_kernelPlusMinus` | WK | true | 13 |
+| `KS_exchange_kernelPlusPlus` | WK | true | 13 |
+| `KS_exchange_ldaPotentials` | PT | true | 13 |
+| `KS_exchange_restGasLimit` | WK, PT | true | 13 |
+| `KS_exchange_uniformGasClosedForm` | WK, PT | true | 0, 13, 18 |
+| `KS_exchange_wickTheoremHF` | WK, PT | true | 13, 18 |
+| `KS_functional` | PT | true | 13 |
+| `KS_functional_fermiDiracOccupations` | WK, PT | true | 13 |
+| `KS_functional_hellmannFeynmanLambda` | WK, PT | true | 13 |
+| `KS_functional_hellmannFeynmanMass` | WK, PT | true | 13 |
+| `KS_functional_hellmannFeynmanMomentum` | PT | true | 13 |
+| `KS_functional_hellmannFeynmanTemperature` | WK, PT | true | 13 |
+| `KS_functional_merminStructure` | WK, PT | true | 13 |
+| `KS_functional_stationarityGivesKSEquation` | WK, PT | true | 13 |
+| `KS_functional_totalEnergyDoubleCounting` | WK, PT | true | 13 |
+| `KS_geometry_braneEnergyPositive` | WK, PT | true | 9, 13 |
+| `KS_geometry_christoffelClosedForms` | WK, PT | true | 13 |
+| `KS_geometry_christoffelCount18` | WK, PT | true | 9 |
+| `KS_geometry_constantCurvatureSevenSpace` | WK, PT | true | 9, 13, 18 |
+| `KS_geometry_einsteinMixedDiag` | WK, PT | true | 4, 9, 13, 18 |
+| `KS_geometry_extrinsicCurvature` | WK, PT | true | 9, 13 |
+| `KS_geometry_inducedMetricFlat` | WK | true | 9 |
+| `KS_geometry_israelConventionRandallSundrum` | PT | true | 9, 13 |
+| `KS_geometry_israelJump` | WK, PT | true | 9, 13 |
+| `KS_geometry_israelStress` | WK, PT | true | 0, 9, 13 |
+| `KS_geometry_kretschmannConstant` | WK | true | 9, 18 |
+| `KS_geometry_notebookChart` | WK | true | 9 |
+| `KS_geometry_requiredSource` | WK, PT | true | 0, 4, 9, 13 |
+| `KS_geometry_rhoRequiredNegative` | WK, PT | true | 9, 13 |
+| `KS_geometry_ricciMixed` | WK, PT | true | 9 |
+| `KS_geometry_ricciScalarMinus42H2` | WK, PT | true | 0, 4, 9, 13 |
+| `KS_geometry_signature44` | WK, PT | true | 9 |
+| `KS_geometry_sqrtDetG_W6` | WK, PT | true | 9, 13 |
+| `KS_reduction_a4IsMomentumRescaling` | WK, PT | true | 9, 13 |
+| `KS_reduction_algebraDim8` | WK, PT | true | 13 |
+| `KS_reduction_ansatzRemoves3H` | WK, PT, W00 | true | 13 |
+| `KS_reduction_basisUnitary` | WK, PT | true | 13 |
+| `KS_reduction_blockHamiltonianEquivalentToODE` | WK, PT | true | 13 |
+| `KS_reduction_blockODEMatrix` | WK, PT | true | 0, 13 |
+| `KS_reduction_blocksA0A1A4` | WK, PT | true | 13 |
+| `KS_reduction_blocksBC` | WK, PT, W00 | true | 13 |
+| `KS_reduction_blockTypes` | WK, PT | true | 13 |
+| `KS_reduction_fiveMatricesBlockDiagonal` | WK, PT | true | 13 |
+| `KS_reduction_flatMeasure` | WK, PT | true | 13 |
+| `KS_reduction_gamma8SwapsJ` | WK, PT | true | 13 |
+| `KS_reduction_gammaSlashOmega3Hgamma0` | WK | true | 13 |
+| `KS_reduction_hMinusEqualsMinusHPlus` | WK, PT | true | 0, 13 |
+| `KS_reduction_JK1K2commute` | WK, PT | true | 13 |
+| `KS_reduction_k0MassiveLevels` | WK, PT | true | 13 |
+| `KS_reduction_k0ZeroMode` | WK, PT | true | 13 |
+| `KS_reduction_mirrorPatchSameForm` | WK | true | 13 |
+| `KS_reduction_projectorsRank2` | WK, PT | true | 13 |
+| `KS_reduction_reconstructFromBlocks` | WK, PT | true | 13 |
+| `KS_reduction_reducedEquationODEForm` | WK, PT | true | 13 |
+| `KS_reduction_rotationalSymmetry` | WK, PT | true | 13 |
+| `KS_reduction_sigma3ConjugationFlipsK` | WK, PT | true | 13 |
+| `KS_reduction_withoutW3the3HTermSurvives` | WK, PT | true | 13 |
+| `KS_reduction_zeroModeSplitting` | WK, PT | true | 13 |
+| `m1_L3_N112_lam0_T0_hellmann_feynman_dE_dm` | RSC | true | 13 |
+| `m1_L3_N112_lamp1_T0_hellmann_feynman_dE_dm` | RSC | true | 13 |
+| `r07_*` | NB | 0 of 2 true | 19 |
+| `theory_zero_mode_splitting` | RSP | true | 13 |
 
 ### 20.14 Index of checks: Stage 5 and the matter–antimatter analysis
 
-The reports of Stage 5 lie in `artifacts/dirac16complex/pair-creation/`, those of the matter–antimatter analysis in `artifacts/dirac16complex/matter-antimatter/`. The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the sympy checkers of Stage 5), `PAIR_` (pairing theorems, Wolfram) and `MA_` (matter and antimatter, both programs). The table has 269 rows.
+The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checkers of Stage 5), `PAIR_` (pairing theorems, Wolfram) and `MA_` (matter and antimatter, both programs). The table has 269 rows; the keys in the column "Files" are those of Section 20.9.
 
-| Check | Committed report | Value | Cited in chapters |
+| Check | Files | Value | Cited in chapters |
 | --- | --- | --- | --- |
-| `C00_algebra_anticommutatorTotallyAntisymmetric` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_algebra_leadFacts` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_algebra_pinModuleAndSpinInvariance` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_charge_indefinite` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7, 14, 15 |
-| `C00_connection_nonTrivialCoupling` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6, 7 |
-| `C00_connection_OmegaTermInFieldEquation` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_current_conservationAndReality` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7, 14 |
-| `C00_EL_commutingCurved` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7, 14 |
-| `C00_EL_commutingFlat` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `C00_EL_commutingGeneralSmoothU` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6, 7 |
-| `C00_EL_identicalFormBothStatistics` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7, 14 |
-| `C00_EMT_conservationOnShell` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `C00_EMT_generalSmoothU` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6, 7 |
-| `C00_EMT_homogeneousEquationsOfState` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `C00_EMT_observerSplitGaussianNormal` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `C00_EMT_symmetricAndReal` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `C00_EMT_traceOnShell` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `C00_EMT_vielbeinVariation` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `C00_energy_unboundedBelow` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7, 14, 15, 18 |
-| `C00_lagrangian_coefficientHermiticity` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_lagrangian_grassmannFlatHermitianAndEL` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_lagrangian_realCommuting` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_massTerm_commutingExplicitSpinors` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_massTerm_dispersionFlat` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_massTerm_grassmannNonzero` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_primordial_ELcommuting` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `C00_primordial_geometryMatchesStage2` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `C00_primordial_homogeneousState` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7 |
-| `C00_primordial_staticFieldSourcedExactly` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7, 18 |
-| `C00_realRestriction_commutingFlatDecomposition` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_realRestriction_commutingNonTrivial` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_realRestriction_commutingNotebookContraction` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_realRestriction_grassmannComplexDecomposition` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_realRestriction_grassmannCurvedTrivial` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_realRestriction_grassmannFlatTrivial` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_realRestriction_relationToL1` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 6 |
-| `C00_static_blocksFromStage4Theory` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 14 |
-| `C00_static_classicalEnergyKreinSigned` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7, 14, 15 |
-| `C00_static_classicalModeIsKreinWeightedKS` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7, 14, 15 |
-| `C00_static_geometryAndReducedEquation` | `pair-creation/wolfram-dirac16complex00-report.json` | true | 7, 14 |
-| `MA_agreesWithWolfram` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M1` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M1_*` | `matter-antimatter/python-matter-antimatter-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json` | all 46 true | 16 |
-| `MA_M1_chargeDensityMatrix` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M1_divergenceIdentityAllFirstJets` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M1_ksFixedNetNumberRecorded` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M1_negativeControlNotebookConnection` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 7, 17 |
-| `MA_M1_noetherCurrentLocalPhase_grassmann_G1` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M1_noetherIdentity_*` | `matter-antimatter/python-matter-antimatter-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json` | all 6 true | 17 |
-| `MA_M1_noetherIdentity_commuting_G1` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 7, 16, 17 |
-| `MA_M1_noetherIdentity_grassmann_G1` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 7, 16, 17 |
-| `MA_M1_onShellConservation_G1` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 16, 17 |
-| `MA_M1_stage1ChecksCited` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M1_u1InvarianceCommutingGenericU_flat` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M1_u1InvarianceCommutingGenericU_G1` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 6 |
-| `MA_M1_u1InvarianceGrassmann_G1` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 6, 17 |
-| `MA_M2` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M2_*` | `matter-antimatter/python-matter-antimatter-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json` | all 26 true | 6 |
-| `MA_M2_C_and_CP_status` | `matter-antimatter/python-matter-antimatter-report.json` | true | 6, 17 |
-| `MA_M2_canonicalStructure` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M2_canonicalStructureOfExactGrassmannSymmetries` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M2_chargeConjugationSolutionSpaces` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M2_conjugationIntertwiners` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M2_cpScopeInCurvedFields` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17, 19 |
-| `MA_M2_discreteGroupCharacterTable` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M2_frameLevelG1_commuting` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M2_frameLevelG1_grassmann` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M2_internalMapsCurvedJets` | `matter-antimatter/python-matter-antimatter-report.json` | true | 6 |
-| `MA_M2_lagrangianFlatCommuting_all` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 6, 17 |
-| `MA_M2_lagrangianFlatGrassmann_all` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 6, 17 |
-| `MA_M2_namedReflectionsFlatJets` | `matter-antimatter/python-matter-antimatter-report.json` | true | 6 |
-| `MA_M2_signPatternClassification` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M2_spin0ContainsChargeReversingTimeRotation` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M2_statisticsSign` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M2_symmetrySummaryAndChargeReversal` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M3` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M3_*` | `matter-antimatter/python-matter-antimatter-report.json`, `matter-antimatter/wolfram-matter-antimatter-report.json` | all 17 true | 18 |
-| `MA_M3_allInvariantFormsSymmetric` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M3_commutingSurvival` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M3_derivativeTypeSurvivalCurved` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M3_extraGrassmannQuarticCharge4` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M3_grassmannSurvival` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M3_invariantFormsSpan_C_Cgamma8` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M3_kineticInvariantForms` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M3_massTypeSurvivalAndCharge` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M3_notebookLgIsMajoranaType` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M3_pinCharacterForms` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M3_pinCharactersMajoranaTerms` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M3_quarticChargeViolatingExamplesGrassmann` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M3_spinInvariantForms` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M3_u1Charge` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M4` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M4_currentFlipG1_grassmann` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M4_currentFlipMatrix` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 17 |
-| `MA_M4_gamma8ChargeFlipCurved` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M4_gamma8EMTPairing` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M4_gamma8EulerLagrangePairing` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M4_gamma8MatrixFacts` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17 |
-| `MA_M4_imageFieldFockModel` | `matter-antimatter/python-matter-antimatter-report.json` | true | 17, 19 |
-| `MA_M4_kreinModeFacts` | `matter-antimatter/python-matter-antimatter-report.json` | true | 15, 17 |
-| `MA_M4_kreinOneParticle` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 15, 16, 17 |
-| `MA_M4_pairEMTAndCurrentG1_commuting` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 15, 16, 17 |
-| `MA_M4_pairEMTG1_grassmann` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 15, 16, 17 |
-| `MA_M5_implication` | `matter-antimatter/wolfram-matter-antimatter-report.json` | true | 16, 17 |
-| `PAIR_algebra_bilinearParities` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_algebra_BProperties` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_algebra_chiralBlockStructure` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_algebra_CProperties` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_algebra_gamma8InIdentityComponent` | `pair-creation/wolfram-pairing-report.json` | true | 6, 15 |
-| `PAIR_algebra_gamma8Properties` | `pair-creation/wolfram-pairing-report.json` | true | 6, 15 |
-| `PAIR_algebra_kreinUnderBasicReflections` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_stat_*` | `pair-creation/wolfram-pairing-report.json` | all 13 true | 14 |
-| `PAIR_stat_bosonThermalWickPlus` | `pair-creation/wolfram-pairing-report.json` | true | 14 |
-| `PAIR_stat_classicalGaussianWickPlus` | `pair-creation/wolfram-pairing-report.json` | true | 14, 18 |
-| `PAIR_stat_expectationRuleCovarianceIndefinite` | `pair-creation/wolfram-pairing-report.json` | true | 14, 15 |
-| `PAIR_stat_expectationRuleTraces` | `pair-creation/wolfram-pairing-report.json` | true | 14 |
-| `PAIR_stat_fermionWickMinus` | `pair-creation/wolfram-pairing-report.json` | true | 14, 18 |
-| `PAIR_stat_filledShellExchangeRatio` | `pair-creation/wolfram-pairing-report.json` | true | 14 |
-| `PAIR_stat_fixedAmplitudePhasesDeviate` | `pair-creation/wolfram-pairing-report.json` | true | 14 |
-| `PAIR_stat_ldaPotentials` | `pair-creation/wolfram-pairing-report.json` | true | 14, 15 |
-| `PAIR_stat_singleModeMoments` | `pair-creation/wolfram-pairing-report.json` | true | 14 |
-| `PAIR_stat_T0TotalDerivative` | `pair-creation/wolfram-pairing-report.json` | true | 14 |
-| `PAIR_stat_uniformGasExchange` | `pair-creation/wolfram-pairing-report.json` | true | 14, 15 |
-| `PAIR_T1generic_*` | `pair-creation/wolfram-pairing-report.json` | all 9 true | 7, 16 |
-| `PAIR_T1generic_conjugateFieldEquation` | `pair-creation/wolfram-pairing-report.json` | true | 7, 15, 16 |
-| `PAIR_T1generic_current` | `pair-creation/wolfram-pairing-report.json` | true | 7, 15, 16 |
-| `PAIR_T1generic_emtAll36` | `pair-creation/wolfram-pairing-report.json` | true | 7, 15, 16 |
-| `PAIR_T1generic_fieldEquation` | `pair-creation/wolfram-pairing-report.json` | true | 7, 15, 16 |
-| `PAIR_T1generic_lagrangian` | `pair-creation/wolfram-pairing-report.json` | true | 6, 15, 16 |
-| `PAIR_T1generic_naiveFixedLambdaFails` | `pair-creation/wolfram-pairing-report.json` | true | 6, 15, 16 |
-| `PAIR_T1grassmann_*` | `pair-creation/wolfram-pairing-report.json` | all 7 true | 7, 16 |
-| `PAIR_T1grassmann_current` | `pair-creation/wolfram-pairing-report.json` | true | 7, 15, 16 |
-| `PAIR_T1grassmann_diracOperator` | `pair-creation/wolfram-pairing-report.json` | true | 7, 15, 16 |
-| `PAIR_T1grassmann_emt` | `pair-creation/wolfram-pairing-report.json` | true | 7, 15, 16 |
-| `PAIR_T1grassmann_lagrangian` | `pair-creation/wolfram-pairing-report.json` | true | 6, 15, 16 |
-| `PAIR_T1grassmann_naiveFixedLambdaFails` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T1jets_*` | `pair-creation/wolfram-pairing-report.json` | all 13 true | 7, 15, 16 |
-| `PAIR_T1jets_conservationBoth` | `pair-creation/wolfram-pairing-report.json` | true | 7 |
-| `PAIR_T1jets_emt` | `pair-creation/wolfram-pairing-report.json` | true | 7, 16 |
-| `PAIR_T1jets_fieldEquations` | `pair-creation/wolfram-pairing-report.json` | true | 7, 16 |
-| `PAIR_T1jets_gamma8WithFrameSignIsSymmetry` | `pair-creation/wolfram-pairing-report.json` | true | 6, 15, 16 |
-| `PAIR_T1jets_lagrangian` | `pair-creation/wolfram-pairing-report.json` | true | 6, 16 |
-| `PAIR_T1jets_naiveFixedLambdaFails` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T1jets_onShellImage` | `pair-creation/wolfram-pairing-report.json` | true | 7, 15 |
-| `PAIR_T1jets_pairEMTAndCurrentVanish` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16 |
-| `PAIR_T1jets_vielbeinSignFlipGeometry` | `pair-creation/wolfram-pairing-report.json` | true | 6, 15 |
-| `PAIR_T1jets_vielbeinSignFlipIsT1` | `pair-creation/wolfram-pairing-report.json` | true | 6, 15, 16 |
-| `PAIR_T1krein_*` | `pair-creation/wolfram-pairing-report.json` | all 12 true | 16, 17, 18 |
-| `PAIR_T1krein_imageAnticommutatorMinusB` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16, 17 |
-| `PAIR_T1krein_imageExpectationValues` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16, 17 |
-| `PAIR_T1krein_imageOperatorIdentities` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16, 17 |
-| `PAIR_T1krein_independentCARPlusB` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16, 17 |
-| `PAIR_T1krein_independentExpectationValues` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16, 17 |
-| `PAIR_T1krein_minusMModes` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T1primordial_*` | `pair-creation/wolfram-pairing-report.json` | all 6 true | 15, 16 |
-| `PAIR_T1primordial_current` | `pair-creation/wolfram-pairing-report.json` | true | 16 |
-| `PAIR_T1primordial_diracOperator` | `pair-creation/wolfram-pairing-report.json` | true | 16 |
-| `PAIR_T1primordial_emt64` | `pair-creation/wolfram-pairing-report.json` | true | 7, 16 |
-| `PAIR_T1primordial_lagrangian` | `pair-creation/wolfram-pairing-report.json` | true | 6, 16 |
-| `PAIR_T2frame_*` | `pair-creation/wolfram-pairing-report.json` | all 12 true | 6, 16 |
-| `PAIR_T2frame_characterIsMinusNorm` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16 |
-| `PAIR_T2frame_frameReflectionsGeometry` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T2frame_gamma8TimesUntwistedSpacelike` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T2frame_onShellImage` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16 |
-| `PAIR_T2frame_scalarAndCurrentSigns` | `pair-creation/wolfram-pairing-report.json` | true | 16 |
-| `PAIR_T2frame_twistedSpacelikeMapsToMinusMSameLambda` | `pair-creation/wolfram-pairing-report.json` | true | 6, 15, 16 |
-| `PAIR_T2frame_twistedTimelike` | `pair-creation/wolfram-pairing-report.json` | true | 6, 15 |
-| `PAIR_T2frame_untwistedSpacelikeContractE3` | `pair-creation/wolfram-pairing-report.json` | true | 6, 15 |
-| `PAIR_T2z2_*` | `pair-creation/wolfram-pairing-report.json` | all 11 true | 16, 18 |
-| `PAIR_T2z2_currentPullback` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16 |
-| `PAIR_T2z2_diracOperator` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16 |
-| `PAIR_T2z2_emtPullback` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16 |
-| `PAIR_T2z2_geometry` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T2z2_lagrangianEven` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T2z2_massFunctionMap` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16 |
-| `PAIR_T2z2_PBfieldLevelFlipsLambda` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T2z2_ruleParities` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T2z2_sameMassFails` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T2z2_scalarOdd` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T2z2_symmetricIffOddMass` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16 |
-| `PAIR_T3block_*` | `pair-creation/wolfram-pairing-report.json` | all 18 true | 16 |
-| `PAIR_T3block_bagAngleMap` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3block_densityAndCurrentMaps` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3block_gamma1IsSigma1InEveryBlock` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3block_gamma8IsSigma2BetweenPartnerBlocks` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3block_hamiltonianSigma2` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3block_parityMap` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3block_potentialsImageRule` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3block_potentialsStandardRule` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3block_sigma2IsRustSwap` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3block_sigma2MapsBlockODE` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3block_statisticsCoefficients` | `pair-creation/wolfram-pairing-report.json` | true | 14 |
-| `PAIR_T3emt_imageRuleMinusT` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3emt_stage4CrossCheck` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3emt_standardRulePlusT` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3ks_*` | `pair-creation/wolfram-pairing-report.json` | all 19 true | 16 |
-| `PAIR_T3ks_controlDiffersFromPairedProblem` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3ks_controlMixedSectorLevelsDisjoint` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3ks_controlSplittingClosedForm` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16 |
-| `PAIR_T3ks_controlSubGapBoundState` | `pair-creation/wolfram-pairing-report.json` | true | 15, 18 |
-| `PAIR_T3ks_imageRuleEnergyOdd` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16 |
-| `PAIR_T3ks_massiveLevelsMap` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3ks_mixedSectorSolutions` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3ks_occupationsAndTemperature` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3ks_sigma1FunctionalInvariant` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3ks_sigma2Densities` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3ks_sigma2FunctionalInvariant` | `pair-creation/wolfram-pairing-report.json` | true | 14, 15, 16 |
-| `PAIR_T3ks_sigma2KSOperatorEquivariant` | `pair-creation/wolfram-pairing-report.json` | true | 14, 15, 16 |
-| `PAIR_T3ks_stationarityBothStatistics` | `pair-creation/wolfram-pairing-report.json` | true | 14, 15 |
-| `PAIR_T3ks_zeroModeImage` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3ks_zeroModeSplittingMapsExactly` | `pair-creation/wolfram-pairing-report.json` | true | 15 |
-| `PAIR_T3ks_zeroModeUntransformedControl` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16 |
-| `PAIR_totals_fieldLevelChiralPair` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16, 18 |
-| `PAIR_totals_fieldLevelMirrorPair` | `pair-creation/wolfram-pairing-report.json` | true | 15, 18 |
-| `PAIR_totals_ksKreinImagePair` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16, 18 |
-| `PAIR_totals_ksMirrorPair` | `pair-creation/wolfram-pairing-report.json` | true | 15, 16 |
-| `S5_agreesWithWolfram` | `pair-creation/python-dirac16complex00-report.json` | true | 6 |
-| `S5_algebra_anticommutatorTotallyAntisymmetric` | `pair-creation/python-dirac16complex00-report.json` | true | 6 |
-| `S5_algebra_pinModuleAndSpinInvariance` | `pair-creation/python-dirac16complex00-report.json` | true | 6 |
-| `S5_connection_nonTrivialCoupling` | `pair-creation/python-dirac16complex00-report.json` | true | 6 |
-| `S5_connection_OmegaTermInFieldEquation` | `pair-creation/python-dirac16complex00-report.json` | true | 6 |
-| `S5_EL_grassmannCurved` | `pair-creation/python-dirac16complex00-report.json` | true | 7 |
-| `S5_EL_identicalFormBothStatistics` | `pair-creation/python-dirac16complex00-report.json` | true | 7 |
-| `S5_EMT_conservationOnShell` | `pair-creation/python-dirac16complex00-report.json` | true | 7 |
-| `S5_EMT_homogeneousEquationsOfState` | `pair-creation/python-dirac16complex00-report.json` | true | 7 |
-| `S5_EMT_symmetricAndReal` | `pair-creation/python-dirac16complex00-report.json` | true | 7 |
-| `S5_EMT_traceOnShell` | `pair-creation/python-dirac16complex00-report.json` | true | 7 |
-| `S5_EMT_vielbeinVariation` | `pair-creation/python-dirac16complex00-report.json` | true | 7 |
-| `S5_energy_unboundedBelow` | `pair-creation/python-dirac16complex00-report.json` | true | 18 |
-| `S5_lagrangian_coefficientHermiticity` | `pair-creation/python-dirac16complex00-report.json` | true | 6 |
-| `S5_lagrangian_realCommuting` | `pair-creation/python-dirac16complex00-report.json` | true | 6 |
-| `S5_massTerm_commutingExplicitSpinors` | `pair-creation/python-dirac16complex00-report.json` | true | 6 |
-| `S5_massTerm_dispersionFlat` | `pair-creation/python-dirac16complex00-report.json` | true | 6 |
-| `S5_massTerm_grassmannNonzero` | `pair-creation/python-dirac16complex00-report.json` | true | 6 |
-| `S5_pairingAgreesWithWolfram` | `pair-creation/python-pairing-report.json` | true | 15 |
-| `S5_primordial_homogeneousState` | `pair-creation/python-dirac16complex00-report.json` | true | 7 |
-| `S5_primordial_staticFieldSourcedExactly` | `pair-creation/python-dirac16complex00-report.json` | true | 7, 18 |
-| `S5_realRestriction_commutingNonTrivial` | `pair-creation/python-dirac16complex00-report.json` | true | 6 |
-| `S5_realRestriction_commutingNotebookContraction` | `pair-creation/python-dirac16complex00-report.json` | true | 6 |
-| `S5_realRestriction_grassmannComplexDecomposition` | `pair-creation/python-dirac16complex00-report.json` | true | 6 |
-| `S5_stat` | `pair-creation/python-pairing-report.json` | true | 14 |
-| `S5_stat_*` | `pair-creation/python-pairing-report.json` | all 15 true | 14 |
-| `S5_stat_bosonThermalWickPlus` | `pair-creation/python-pairing-report.json` | true | 14 |
-| `S5_stat_classicalGaussianWickPlus` | `pair-creation/python-pairing-report.json` | true | 14 |
-| `S5_stat_expectationRuleKreinFock` | `pair-creation/python-pairing-report.json` | true | 14 |
-| `S5_stat_expectationRuleTraces` | `pair-creation/python-pairing-report.json` | true | 14 |
-| `S5_stat_fermionWickMinus` | `pair-creation/python-pairing-report.json` | true | 14 |
-| `S5_static_classicalEnergyKreinSigned` | `pair-creation/python-dirac16complex00-report.json` | true | 14 |
-| `S5_static_classicalModeIsKreinWeightedKS` | `pair-creation/python-dirac16complex00-report.json` | true | 14 |
-| `S5_static_geometryAndReducedEquation` | `pair-creation/python-dirac16complex00-report.json` | true | 7 |
-| `S5_static_sourceProperChart` | `pair-creation/python-dirac16complex00-report.json` | true | 7 |
-| `S5_stat_ldaPotentials` | `pair-creation/python-pairing-report.json` | true | 14 |
-| `S5_stat_uniformGasExactFinite` | `pair-creation/python-pairing-report.json` | true | 14 |
-| `S5_stat_uniformGasExchange` | `pair-creation/python-pairing-report.json` | true | 14 |
-| `S5_T1generic` | `pair-creation/python-pairing-report.json` | true | 16 |
-| `S5_T1generic_eulerLagrangeFromLagrangian` | `pair-creation/python-pairing-report.json` | true | 15 |
-| `S5_T1generic_fieldEquation` | `pair-creation/python-pairing-report.json` | true | 7 |
-| `S5_T1generic_lagrangian` | `pair-creation/python-pairing-report.json` | true | 6 |
-| `S5_T1grassmann` | `pair-creation/python-pairing-report.json` | true | 15, 16 |
-| `S5_T1jets` | `pair-creation/python-pairing-report.json` | true | 16 |
-| `S5_T1krein_*` | `pair-creation/python-pairing-report.json` | all 13 true | 15, 18 |
-| `S5_T1krein_imageOperatorIdentities` | `pair-creation/python-pairing-report.json` | true | 15 |
-| `S5_T1primordial` | `pair-creation/python-pairing-report.json` | true | 16 |
-| `S5_T2frame` | `pair-creation/python-pairing-report.json` | true | 16 |
-| `S5_T2z2_fieldEquationMapsToMinusMSameLambda` | `pair-creation/python-pairing-report.json` | true | 15 |
-| `S5_T2z2_kineticEven` | `pair-creation/python-pairing-report.json` | true | 15 |
-| `S5_T2z2_PBRuleMatrixEvenCOdd` | `pair-creation/python-pairing-report.json` | true | 15 |
-| `S5_T3block` | `pair-creation/python-pairing-report.json` | true | 16 |
-| `S5_T3ks` | `pair-creation/python-pairing-report.json` | true | 16 |
+| `C00_algebra_anticommutatorTotallyAntisymmetric` | W00 | true | 6 |
+| `C00_algebra_leadFacts` | W00 | true | 6 |
+| `C00_algebra_pinModuleAndSpinInvariance` | W00 | true | 6 |
+| `C00_charge_indefinite` | W00 | true | 7, 14, 15 |
+| `C00_connection_nonTrivialCoupling` | W00 | true | 6, 7 |
+| `C00_connection_OmegaTermInFieldEquation` | W00 | true | 6 |
+| `C00_current_conservationAndReality` | W00 | true | 7, 14 |
+| `C00_EL_commutingCurved` | W00 | true | 7, 14 |
+| `C00_EL_commutingFlat` | W00 | true | 7 |
+| `C00_EL_commutingGeneralSmoothU` | W00 | true | 6, 7 |
+| `C00_EL_identicalFormBothStatistics` | W00 | true | 7, 14 |
+| `C00_EMT_conservationOnShell` | W00 | true | 7 |
+| `C00_EMT_generalSmoothU` | W00 | true | 6, 7 |
+| `C00_EMT_homogeneousEquationsOfState` | W00 | true | 7 |
+| `C00_EMT_observerSplitGaussianNormal` | W00 | true | 7 |
+| `C00_EMT_symmetricAndReal` | W00 | true | 7 |
+| `C00_EMT_traceOnShell` | W00 | true | 7 |
+| `C00_EMT_vielbeinVariation` | W00 | true | 7 |
+| `C00_energy_unboundedBelow` | W00 | true | 7, 14, 15, 18 |
+| `C00_lagrangian_coefficientHermiticity` | W00 | true | 6 |
+| `C00_lagrangian_grassmannFlatHermitianAndEL` | W00 | true | 6 |
+| `C00_lagrangian_realCommuting` | W00 | true | 6 |
+| `C00_massTerm_commutingExplicitSpinors` | W00 | true | 6 |
+| `C00_massTerm_dispersionFlat` | W00 | true | 6 |
+| `C00_massTerm_grassmannNonzero` | W00 | true | 6 |
+| `C00_primordial_ELcommuting` | W00 | true | 7 |
+| `C00_primordial_geometryMatchesStage2` | W00 | true | 7 |
+| `C00_primordial_homogeneousState` | W00 | true | 7 |
+| `C00_primordial_staticFieldSourcedExactly` | W00 | true | 7, 18 |
+| `C00_realRestriction_commutingFlatDecomposition` | W00 | true | 6 |
+| `C00_realRestriction_commutingNonTrivial` | W00 | true | 6 |
+| `C00_realRestriction_commutingNotebookContraction` | W00 | true | 6 |
+| `C00_realRestriction_grassmannComplexDecomposition` | W00 | true | 6 |
+| `C00_realRestriction_grassmannCurvedTrivial` | W00 | true | 6 |
+| `C00_realRestriction_grassmannFlatTrivial` | W00 | true | 6 |
+| `C00_realRestriction_relationToL1` | W00 | true | 6 |
+| `C00_static_blocksFromStage4Theory` | W00 | true | 14 |
+| `C00_static_classicalEnergyKreinSigned` | W00 | true | 7, 14, 15 |
+| `C00_static_classicalModeIsKreinWeightedKS` | W00 | true | 7, 14, 15 |
+| `C00_static_geometryAndReducedEquation` | W00 | true | 7, 14 |
+| `MA_agreesWithWolfram` | PMA | true | 17 |
+| `MA_M1` | PMA | true | 17 |
+| `MA_M1_*` | WMA, PMA | all 46 true | 16 |
+| `MA_M1_chargeDensityMatrix` | WMA | true | 17 |
+| `MA_M1_divergenceIdentityAllFirstJets` | PMA | true | 17 |
+| `MA_M1_ksFixedNetNumberRecorded` | WMA | true | 17 |
+| `MA_M1_negativeControlNotebookConnection` | WMA | true | 7, 17 |
+| `MA_M1_noetherCurrentLocalPhase_grassmann_G1` | WMA | true | 17 |
+| `MA_M1_noetherIdentity_*` | WMA, PMA | all 6 true | 17 |
+| `MA_M1_noetherIdentity_commuting_G1` | WMA | true | 7, 16, 17 |
+| `MA_M1_noetherIdentity_grassmann_G1` | WMA | true | 7, 16, 17 |
+| `MA_M1_onShellConservation_G1` | WMA | true | 16, 17 |
+| `MA_M1_stage1ChecksCited` | WMA | true | 17 |
+| `MA_M1_u1InvarianceCommutingGenericU_flat` | WMA | true | 17 |
+| `MA_M1_u1InvarianceCommutingGenericU_G1` | WMA | true | 6 |
+| `MA_M1_u1InvarianceGrassmann_G1` | WMA | true | 6, 17 |
+| `MA_M2` | PMA | true | 17 |
+| `MA_M2_*` | WMA, PMA | all 26 true | 6 |
+| `MA_M2_C_and_CP_status` | PMA | true | 6, 17 |
+| `MA_M2_canonicalStructure` | WMA | true | 17 |
+| `MA_M2_canonicalStructureOfExactGrassmannSymmetries` | PMA | true | 17 |
+| `MA_M2_chargeConjugationSolutionSpaces` | PMA | true | 17 |
+| `MA_M2_conjugationIntertwiners` | WMA | true | 17 |
+| `MA_M2_cpScopeInCurvedFields` | PMA | true | 17, 19 |
+| `MA_M2_discreteGroupCharacterTable` | PMA | true | 17 |
+| `MA_M2_frameLevelG1_commuting` | WMA | true | 17 |
+| `MA_M2_frameLevelG1_grassmann` | WMA | true | 17 |
+| `MA_M2_internalMapsCurvedJets` | PMA | true | 6 |
+| `MA_M2_lagrangianFlatCommuting_all` | WMA | true | 6, 17 |
+| `MA_M2_lagrangianFlatGrassmann_all` | WMA | true | 6, 17 |
+| `MA_M2_namedReflectionsFlatJets` | PMA | true | 6 |
+| `MA_M2_signPatternClassification` | WMA | true | 17 |
+| `MA_M2_spin0ContainsChargeReversingTimeRotation` | PMA | true | 17 |
+| `MA_M2_statisticsSign` | WMA | true | 17 |
+| `MA_M2_symmetrySummaryAndChargeReversal` | WMA | true | 17 |
+| `MA_M3` | PMA | true | 17 |
+| `MA_M3_*` | WMA, PMA | all 17 true | 18 |
+| `MA_M3_allInvariantFormsSymmetric` | PMA | true | 17 |
+| `MA_M3_commutingSurvival` | WMA | true | 17 |
+| `MA_M3_derivativeTypeSurvivalCurved` | PMA | true | 17 |
+| `MA_M3_extraGrassmannQuarticCharge4` | WMA | true | 17 |
+| `MA_M3_grassmannSurvival` | WMA | true | 17 |
+| `MA_M3_invariantFormsSpan_C_Cgamma8` | PMA | true | 17 |
+| `MA_M3_kineticInvariantForms` | WMA | true | 17 |
+| `MA_M3_massTypeSurvivalAndCharge` | PMA | true | 17 |
+| `MA_M3_notebookLgIsMajoranaType` | WMA | true | 17 |
+| `MA_M3_pinCharacterForms` | WMA | true | 17 |
+| `MA_M3_pinCharactersMajoranaTerms` | WMA | true | 17 |
+| `MA_M3_quarticChargeViolatingExamplesGrassmann` | PMA | true | 17 |
+| `MA_M3_spinInvariantForms` | WMA | true | 17 |
+| `MA_M3_u1Charge` | WMA | true | 17 |
+| `MA_M4` | PMA | true | 17 |
+| `MA_M4_currentFlipG1_grassmann` | WMA | true | 17 |
+| `MA_M4_currentFlipMatrix` | WMA | true | 17 |
+| `MA_M4_gamma8ChargeFlipCurved` | PMA | true | 17 |
+| `MA_M4_gamma8EMTPairing` | PMA | true | 17 |
+| `MA_M4_gamma8EulerLagrangePairing` | PMA | true | 17 |
+| `MA_M4_gamma8MatrixFacts` | PMA | true | 17 |
+| `MA_M4_imageFieldFockModel` | PMA | true | 17, 19 |
+| `MA_M4_kreinModeFacts` | PMA | true | 15, 17 |
+| `MA_M4_kreinOneParticle` | WMA | true | 15, 16, 17 |
+| `MA_M4_pairEMTAndCurrentG1_commuting` | WMA | true | 15, 16, 17 |
+| `MA_M4_pairEMTG1_grassmann` | WMA | true | 15, 16, 17 |
+| `MA_M5_implication` | WMA | true | 16, 17 |
+| `PAIR_algebra_bilinearParities` | WPR | true | 15 |
+| `PAIR_algebra_BProperties` | WPR | true | 15 |
+| `PAIR_algebra_chiralBlockStructure` | WPR | true | 15 |
+| `PAIR_algebra_CProperties` | WPR | true | 15 |
+| `PAIR_algebra_gamma8InIdentityComponent` | WPR | true | 6, 15 |
+| `PAIR_algebra_gamma8Properties` | WPR | true | 6, 15 |
+| `PAIR_algebra_kreinUnderBasicReflections` | WPR | true | 15 |
+| `PAIR_stat_*` | WPR | all 13 true | 14 |
+| `PAIR_stat_bosonThermalWickPlus` | WPR | true | 14 |
+| `PAIR_stat_classicalGaussianWickPlus` | WPR | true | 14, 18 |
+| `PAIR_stat_expectationRuleCovarianceIndefinite` | WPR | true | 14, 15 |
+| `PAIR_stat_expectationRuleTraces` | WPR | true | 14 |
+| `PAIR_stat_fermionWickMinus` | WPR | true | 14, 18 |
+| `PAIR_stat_filledShellExchangeRatio` | WPR | true | 14 |
+| `PAIR_stat_fixedAmplitudePhasesDeviate` | WPR | true | 14 |
+| `PAIR_stat_ldaPotentials` | WPR | true | 14, 15 |
+| `PAIR_stat_singleModeMoments` | WPR | true | 14 |
+| `PAIR_stat_T0TotalDerivative` | WPR | true | 14 |
+| `PAIR_stat_uniformGasExchange` | WPR | true | 14, 15 |
+| `PAIR_T1generic_*` | WPR | all 9 true | 7, 16 |
+| `PAIR_T1generic_conjugateFieldEquation` | WPR | true | 7, 15, 16 |
+| `PAIR_T1generic_current` | WPR | true | 7, 15, 16 |
+| `PAIR_T1generic_emtAll36` | WPR | true | 7, 15, 16 |
+| `PAIR_T1generic_fieldEquation` | WPR | true | 7, 15, 16 |
+| `PAIR_T1generic_lagrangian` | WPR | true | 6, 15, 16 |
+| `PAIR_T1generic_naiveFixedLambdaFails` | WPR | true | 6, 15, 16 |
+| `PAIR_T1grassmann_*` | WPR | all 7 true | 7, 16 |
+| `PAIR_T1grassmann_current` | WPR | true | 7, 15, 16 |
+| `PAIR_T1grassmann_diracOperator` | WPR | true | 7, 15, 16 |
+| `PAIR_T1grassmann_emt` | WPR | true | 7, 15, 16 |
+| `PAIR_T1grassmann_lagrangian` | WPR | true | 6, 15, 16 |
+| `PAIR_T1grassmann_naiveFixedLambdaFails` | WPR | true | 15 |
+| `PAIR_T1jets_*` | WPR | all 13 true | 7, 15, 16 |
+| `PAIR_T1jets_conservationBoth` | WPR | true | 7 |
+| `PAIR_T1jets_emt` | WPR | true | 7, 16 |
+| `PAIR_T1jets_fieldEquations` | WPR | true | 7, 16 |
+| `PAIR_T1jets_gamma8WithFrameSignIsSymmetry` | WPR | true | 6, 15, 16 |
+| `PAIR_T1jets_lagrangian` | WPR | true | 6, 16 |
+| `PAIR_T1jets_naiveFixedLambdaFails` | WPR | true | 15 |
+| `PAIR_T1jets_onShellImage` | WPR | true | 7, 15 |
+| `PAIR_T1jets_pairEMTAndCurrentVanish` | WPR | true | 15, 16 |
+| `PAIR_T1jets_vielbeinSignFlipGeometry` | WPR | true | 6, 15 |
+| `PAIR_T1jets_vielbeinSignFlipIsT1` | WPR | true | 6, 15, 16 |
+| `PAIR_T1krein_*` | WPR | all 12 true | 16, 17, 18 |
+| `PAIR_T1krein_imageAnticommutatorMinusB` | WPR | true | 15, 16, 17 |
+| `PAIR_T1krein_imageExpectationValues` | WPR | true | 15, 16, 17 |
+| `PAIR_T1krein_imageOperatorIdentities` | WPR | true | 15, 16, 17 |
+| `PAIR_T1krein_independentCARPlusB` | WPR | true | 15, 16, 17 |
+| `PAIR_T1krein_independentExpectationValues` | WPR | true | 15, 16, 17 |
+| `PAIR_T1krein_minusMModes` | WPR | true | 15 |
+| `PAIR_T1primordial_*` | WPR | all 6 true | 15, 16 |
+| `PAIR_T1primordial_current` | WPR | true | 16 |
+| `PAIR_T1primordial_diracOperator` | WPR | true | 16 |
+| `PAIR_T1primordial_emt64` | WPR | true | 7, 16 |
+| `PAIR_T1primordial_lagrangian` | WPR | true | 6, 16 |
+| `PAIR_T2frame_*` | WPR | all 12 true | 6, 16 |
+| `PAIR_T2frame_characterIsMinusNorm` | WPR | true | 15, 16 |
+| `PAIR_T2frame_frameReflectionsGeometry` | WPR | true | 15 |
+| `PAIR_T2frame_gamma8TimesUntwistedSpacelike` | WPR | true | 15 |
+| `PAIR_T2frame_onShellImage` | WPR | true | 15, 16 |
+| `PAIR_T2frame_scalarAndCurrentSigns` | WPR | true | 16 |
+| `PAIR_T2frame_twistedSpacelikeMapsToMinusMSameLambda` | WPR | true | 6, 15, 16 |
+| `PAIR_T2frame_twistedTimelike` | WPR | true | 6, 15 |
+| `PAIR_T2frame_untwistedSpacelikeContractE3` | WPR | true | 6, 15 |
+| `PAIR_T2z2_*` | WPR | all 11 true | 16, 18 |
+| `PAIR_T2z2_currentPullback` | WPR | true | 15, 16 |
+| `PAIR_T2z2_diracOperator` | WPR | true | 15, 16 |
+| `PAIR_T2z2_emtPullback` | WPR | true | 15, 16 |
+| `PAIR_T2z2_geometry` | WPR | true | 15 |
+| `PAIR_T2z2_lagrangianEven` | WPR | true | 15 |
+| `PAIR_T2z2_massFunctionMap` | WPR | true | 15, 16 |
+| `PAIR_T2z2_PBfieldLevelFlipsLambda` | WPR | true | 15 |
+| `PAIR_T2z2_ruleParities` | WPR | true | 15 |
+| `PAIR_T2z2_sameMassFails` | WPR | true | 15 |
+| `PAIR_T2z2_scalarOdd` | WPR | true | 15 |
+| `PAIR_T2z2_symmetricIffOddMass` | WPR | true | 15, 16 |
+| `PAIR_T3block_*` | WPR | all 18 true | 16 |
+| `PAIR_T3block_bagAngleMap` | WPR | true | 15 |
+| `PAIR_T3block_densityAndCurrentMaps` | WPR | true | 15 |
+| `PAIR_T3block_gamma1IsSigma1InEveryBlock` | WPR | true | 15 |
+| `PAIR_T3block_gamma8IsSigma2BetweenPartnerBlocks` | WPR | true | 15 |
+| `PAIR_T3block_hamiltonianSigma2` | WPR | true | 15 |
+| `PAIR_T3block_parityMap` | WPR | true | 15 |
+| `PAIR_T3block_potentialsImageRule` | WPR | true | 15 |
+| `PAIR_T3block_potentialsStandardRule` | WPR | true | 15 |
+| `PAIR_T3block_sigma2IsRustSwap` | WPR | true | 15 |
+| `PAIR_T3block_sigma2MapsBlockODE` | WPR | true | 15 |
+| `PAIR_T3block_statisticsCoefficients` | WPR | true | 14 |
+| `PAIR_T3emt_imageRuleMinusT` | WPR | true | 15 |
+| `PAIR_T3emt_stage4CrossCheck` | WPR | true | 15 |
+| `PAIR_T3emt_standardRulePlusT` | WPR | true | 15 |
+| `PAIR_T3ks_*` | WPR | all 19 true | 16 |
+| `PAIR_T3ks_controlDiffersFromPairedProblem` | WPR | true | 15 |
+| `PAIR_T3ks_controlMixedSectorLevelsDisjoint` | WPR | true | 15 |
+| `PAIR_T3ks_controlSplittingClosedForm` | WPR | true | 15, 16 |
+| `PAIR_T3ks_controlSubGapBoundState` | WPR | true | 15, 18 |
+| `PAIR_T3ks_imageRuleEnergyOdd` | WPR | true | 15, 16 |
+| `PAIR_T3ks_massiveLevelsMap` | WPR | true | 15 |
+| `PAIR_T3ks_mixedSectorSolutions` | WPR | true | 15 |
+| `PAIR_T3ks_occupationsAndTemperature` | WPR | true | 15 |
+| `PAIR_T3ks_sigma1FunctionalInvariant` | WPR | true | 15 |
+| `PAIR_T3ks_sigma2Densities` | WPR | true | 15 |
+| `PAIR_T3ks_sigma2FunctionalInvariant` | WPR | true | 14, 15, 16 |
+| `PAIR_T3ks_sigma2KSOperatorEquivariant` | WPR | true | 14, 15, 16 |
+| `PAIR_T3ks_stationarityBothStatistics` | WPR | true | 14, 15 |
+| `PAIR_T3ks_zeroModeImage` | WPR | true | 15 |
+| `PAIR_T3ks_zeroModeSplittingMapsExactly` | WPR | true | 15 |
+| `PAIR_T3ks_zeroModeUntransformedControl` | WPR | true | 15, 16 |
+| `PAIR_totals_fieldLevelChiralPair` | WPR | true | 15, 16, 18 |
+| `PAIR_totals_fieldLevelMirrorPair` | WPR | true | 15, 18 |
+| `PAIR_totals_ksKreinImagePair` | WPR | true | 15, 16, 18 |
+| `PAIR_totals_ksMirrorPair` | WPR | true | 15, 16 |
+| `S5_agreesWithWolfram` | P00 | true | 6 |
+| `S5_algebra_anticommutatorTotallyAntisymmetric` | P00 | true | 6 |
+| `S5_algebra_pinModuleAndSpinInvariance` | P00 | true | 6 |
+| `S5_connection_nonTrivialCoupling` | P00 | true | 6 |
+| `S5_connection_OmegaTermInFieldEquation` | P00 | true | 6 |
+| `S5_EL_grassmannCurved` | P00 | true | 7 |
+| `S5_EL_identicalFormBothStatistics` | P00 | true | 7 |
+| `S5_EMT_conservationOnShell` | P00 | true | 7 |
+| `S5_EMT_homogeneousEquationsOfState` | P00 | true | 7 |
+| `S5_EMT_symmetricAndReal` | P00 | true | 7 |
+| `S5_EMT_traceOnShell` | P00 | true | 7 |
+| `S5_EMT_vielbeinVariation` | P00 | true | 7 |
+| `S5_energy_unboundedBelow` | P00 | true | 18 |
+| `S5_lagrangian_coefficientHermiticity` | P00 | true | 6 |
+| `S5_lagrangian_realCommuting` | P00 | true | 6 |
+| `S5_massTerm_commutingExplicitSpinors` | P00 | true | 6 |
+| `S5_massTerm_dispersionFlat` | P00 | true | 6 |
+| `S5_massTerm_grassmannNonzero` | P00 | true | 6 |
+| `S5_pairingAgreesWithWolfram` | PPR | true | 15 |
+| `S5_primordial_homogeneousState` | P00 | true | 7 |
+| `S5_primordial_staticFieldSourcedExactly` | P00 | true | 7, 18 |
+| `S5_realRestriction_commutingNonTrivial` | P00 | true | 6 |
+| `S5_realRestriction_commutingNotebookContraction` | P00 | true | 6 |
+| `S5_realRestriction_grassmannComplexDecomposition` | P00 | true | 6 |
+| `S5_stat` | PPR | true | 14 |
+| `S5_stat_*` | PPR | all 15 true | 14 |
+| `S5_stat_bosonThermalWickPlus` | PPR | true | 14 |
+| `S5_stat_classicalGaussianWickPlus` | PPR | true | 14 |
+| `S5_stat_expectationRuleKreinFock` | PPR | true | 14 |
+| `S5_stat_expectationRuleTraces` | PPR | true | 14 |
+| `S5_stat_fermionWickMinus` | PPR | true | 14 |
+| `S5_static_classicalEnergyKreinSigned` | P00 | true | 14 |
+| `S5_static_classicalModeIsKreinWeightedKS` | P00 | true | 14 |
+| `S5_static_geometryAndReducedEquation` | P00 | true | 7 |
+| `S5_static_sourceProperChart` | P00 | true | 7 |
+| `S5_stat_ldaPotentials` | PPR | true | 14 |
+| `S5_stat_uniformGasExactFinite` | PPR | true | 14 |
+| `S5_stat_uniformGasExchange` | PPR | true | 14 |
+| `S5_T1generic` | PPR | true | 16 |
+| `S5_T1generic_eulerLagrangeFromLagrangian` | PPR | true | 15 |
+| `S5_T1generic_fieldEquation` | PPR | true | 7 |
+| `S5_T1generic_lagrangian` | PPR | true | 6 |
+| `S5_T1grassmann` | PPR | true | 15, 16 |
+| `S5_T1jets` | PPR | true | 16 |
+| `S5_T1krein_*` | PPR | all 13 true | 15, 18 |
+| `S5_T1krein_imageOperatorIdentities` | PPR | true | 15 |
+| `S5_T1primordial` | PPR | true | 16 |
+| `S5_T2frame` | PPR | true | 16 |
+| `S5_T2z2_fieldEquationMapsToMinusMSameLambda` | PPR | true | 15 |
+| `S5_T2z2_kineticEven` | PPR | true | 15 |
+| `S5_T2z2_PBRuleMatrixEvenCOdd` | PPR | true | 15 |
+| `S5_T3block` | PPR | true | 16 |
+| `S5_T3ks` | PPR | true | 16 |
 
 ### 20.15 Checks of the tools, and the state of the index
 
@@ -1278,7 +1319,7 @@ The reports of Stage 5 lie in `artifacts/dirac16complex/pair-creation/`, those o
 | `registeredSha256` | `scripts/build_provenance_pdf.py` | the PDF has the registered sha256 | 19 |
 | `provenancePdfCopy` | `scripts/build_provenance_pdf.py` | the verified PDF was copied to its final place | 19 |
 
-**The commit of the index.** The index of Sections 20.10 to 20.14 was made from the chapter files of this edition and the committed reports of commit `d4f7c58` (2026-09-30). The reports are the same as in commit `4cd47fe`, which Chapter 19 tested, except that further Rust runs of the subcommand `pairs` were added and that the sympy report of the matter–antimatter analysis, `matter-antimatter/python-matter-antimatter-report.json`, was regenerated in commit `27794e8`; it has 77 checks instead of 75 (Section 19.10). The two checks it gained, `MA_M2_cpScopeInCurvedFields` and `MA_M4_imageFieldFockModel`, are cited in Chapters 17 and 19; in commit `4cd47fe` they exist in the checker `scripts/check_dirac16complex_matter_antimatter.py` but not yet in the committed report.
+**The commit of the index.** The index of Sections 20.10 to 20.14 was made from the chapter files of this edition and the committed reports of commit `8a5f182` (2026-09-30). The reports are the same as in commit `4cd47fe`, which Chapter 19 tested, except that further Rust runs of the subcommand `pairs` were added and that the sympy report of the matter–antimatter analysis, `matter-antimatter/python-matter-antimatter-report.json`, was regenerated in commit `27794e8`; it has 77 checks instead of 75 (Section 19.10). The two checks it gained, `MA_M2_cpScopeInCurvedFields` and `MA_M4_imageFieldFockModel`, are cited in Chapters 17 and 19; in commit `4cd47fe` they exist in the checker `scripts/check_dirac16complex_matter_antimatter.py` but not yet in the committed report.
 
 **Counting.** The five tables list 583 rows: 558 single checks and 25 families. Every single check listed is true in every committed file shown, except `canonical_eigenvalues` (Section 19.9); every family is entirely true, except the two families `gauntlet_*` and `r07_*` of the Jupyter notebook's Stage-4 report, whose six false checks Section 19.9 explains.
 

@@ -83,17 +83,13 @@ A. Textbook (`handoff/specs/TEXTBOOK_SPEC.md`; chapters in `provenance/textbook/
      `scripts/build_textbook.py`, PDF with `--developer-layout --number-sections-from-zero`,
      registration, `tests/test_d16c_textbook_publication.py`, nine whole-book review
      lenses, skeptics, per-chapter fixers, rebuild and re-register).  Push.
-B. Matter-antimatter (`provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.*`): theorems M1-M6
-   verified (Wolfram 44/44 at its last run, Python 77/77 after the lead's rerun at 14:26);
-   the fixer of the 18 review findings (`handoff/reviews/matter_antimatter_review_findings.json`)
-   was running at the pause.  After a restart, if
-   `python -m unittest tests.test_d16c_matter_antimatter tests.test_d16c_matter_antimatter_publication`
-   still fails (it failed 10 of 48 at 14:28: stale counts 75 vs 77, check names, recorded
-   sha256, Krein wording), run only the fix stage of `handoff/workflows/wf_matter_antimatter.js`
-   with the findings from that JSON file (rerun the Wolfram verifier and the Python checker,
-   update the document's verification records, rebuild and re-register the PDF, all tests pass).
-   The textbook's Chapter 17 must agree with the final document (run the textbook final
-   workflow after this).
+B. Matter-antimatter (`provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.*`): COMPLETE 2026-09-30 15:40 -
+   Wolfram 44/44 (twice, byte-identical), Python 77/77 (twice, byte-identical), all 49 tests of
+   tests/test_d16c_matter_antimatter*.py pass, PDF 36 pages registered; 17 of the 18 review findings
+   fixed, the 18th (Chapter 0 'no CP violation') belongs to the textbook final workflow.  When the
+   Stage-5 documents and gate are complete, change the PROVISIONAL status strings in
+   wolfram/Dirac16ComplexMatterAntimatter.wl (stage5Krein, M4/M5 statements) and
+   scripts/check_dirac16complex_matter_antimatter.py, rerun both, rebuild the PDF.
 C. Stage 5: exact theory COMPLETE (Wolfram 00 46/46, pairing 141/141; sympy 00 49/49,
    pairing 172/172, all under `artifacts/dirac16complex/pair-creation/`).  Numerics partial:
    `rust/pairs/` has run folders but no `summary.json`; `scripts/ks_reference_pairs.py
@@ -103,6 +99,13 @@ C. Stage 5: exact theory COMPLETE (Wolfram 00 46/46, pairing 141/141; sympy 00 4
    DIRAC16COMPLEX00_FIELD_THEORY and DIRAC16COMPLEX_PAIR_CREATION, the gate
    `scripts/verify_stage5_pair_creation.*`, four review lenses, fixer), then the gate from a
    fresh clone.
+   Stage-5 correction required (found by the matter-antimatter review, finding F1, confirmed by
+   MA_M4_imageFieldFockModel): `pairing-theory.json` T1krein.imageField says the image universe carries
+   'energy -|eps| and charge -1 per quantum' and T1krein.consequence 'T^pair = 0 at the operator level';
+   under the image field's own anticommutator (-B) those operators are minus its x4-translation
+   generator and minus its charge, so the physical reading must be corrected in
+   wolfram/Dirac16ComplexPairing.wl and scripts/check_dirac16complex_pairing.py (see
+   provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md section 7.3) before the Stage-5 documents are written.
 D. Stage 4: cross-check final state 63 checks, 1 failed (canonical_eigenvalues, section 2
    Stage-4 row); analyse it (Rust 301 vs 601 grid error of the deep state), then rerun the
    documents phase of `wf_stage4_notebooks_documents.js` (it was at doc-main/doc-student when
