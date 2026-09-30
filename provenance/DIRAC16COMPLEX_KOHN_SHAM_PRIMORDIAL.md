@@ -129,3 +129,158 @@ On the $y>0$ side the reduced equation of Section 5.3 has the same form with $\k
 ### 4.7 The ±M mirror pair: a structural remark
 
 **This remark is structural, not physical.** The map $\Psi\to\gamma^8\Psi$ sends the Lagrangian $\mathcal L_{m,U}$ to $-\mathcal L_{-m,-U}$ (physics contract, erratum E2): a mirror copy carrying $\gamma^8\Psi$ has mass $-m$ (and coupling $-\lambda$ for $U=\tfrac\lambda2S^2$), the notebook's "$\pm M$ pair". In the reduced problem the brane reflection $\chi(y)\to\gamma^0\chi(-y)$ maps a solution with the mass function $M(y)$ onto one with $-M(-y)$: it is a symmetry exactly when $M_{\mathrm{eff}}$ is odd across the brane, that is, when the mirror universe carries the opposite mass (erratum E4.6, Section 5.9). Section 11.4 states the Kohn–Sham form of this map. Nothing in Stage 4 shows that a big bang produces such a pair, or that the mirror copy exists.
+
+## 5. Sector, ansatz and the exact reduction to 2×2 blocks
+
+### 5.1 Field equation and the spin connection
+
+In the mean field the quanta obey the Stage-1 field equation with an effective mass, $\gamma^\mu D_\mu\Psi=M_{\mathrm{eff}}\Psi$, $M_{\mathrm{eff}}=m+U'(S)$ at the Hartree level (Section 6 adds the exchange). In the static field the vielbein postulate holds in all 512 components, 12 components $\omega_{\mu ab}$ are nonzero, and
+
+$$
+\Omega_y=\Omega_4=0,\qquad \Omega_{x_i}=-He^{Hy+a_{4,0}}S^{0i}\ (i=1,2,3),\qquad \Omega_{x_j}=+He^{Hy-a_{4,0}}S^{0j}\ (j=5,6,7),\qquad \gamma^\mu\Omega_\mu=3H\gamma^0 ,
+$$
+
+independent of $a_{4,0}$, with $S^{ab}=\tfrac14[\gamma^a,\gamma^b]$. The divergence identity $\partial_\mu(\sqrt{|g|}\gamma^\mu)=\sqrt{|g|}[\gamma^\mu,\Omega_\mu]$ holds (Wolfram checks `KS_reduction_vielbeinPostulate512`, `KS_reduction_OmegaClosedForms`, `KS_reduction_gammaSlashOmega3Hgamma0`, `KS_reduction_divergenceIdentity`).
+
+### 5.2 The good sector and the stationary ansatz
+
+**Sector.** $\Psi$ does not depend on the extra times $x_5,x_6,x_7$ (extra-time momenta $q=0$). Modes with $q\ne0$ have a non-Hermitian single-particle operator and grow without bound (Stage 1 and the Stage-3 experiment EXP-5), so they are excluded. The 3-space is a coordinate torus of size $\ell$ with $\vec k\in(2\pi/\ell)\mathbb Z^3$; $\ell$ is chosen so that $\Delta k=2\pi/\ell=0.25m$.
+
+**Ansatz.**
+
+$$
+\Psi=e^{-i\varepsilon x_4}\,e^{i\vec k\cdot\vec x}\,W(y)^{-3}\,\chi(y),\qquad W^{-3}=e^{-3Hy},
+$$
+
+with $\chi(y)\in\mathbb C^{16}$. The factor $W^{-3}$ is chosen so that the derivative $\partial_y(e^{-3Hy}\chi)=e^{-3Hy}(\chi'-3H\chi)$ cancels the spin-connection term $3H\gamma^0$ exactly; without it the term survives (`KS_reduction_ansatzRemoves3H`, `KS_reduction_withoutW3the3HTermSurvives`).
+
+### 5.3 The reduced equation
+
+Dividing the field equation by the common factor gives
+
+$$
+\gamma^0\chi'+i\kappa(y)\,k_j\gamma^j\chi-i\varepsilon\gamma^4\chi=M_{\mathrm{eff}}(y)\chi,\qquad \kappa(y)=e^{-Hy-a_{4,0}},
+$$
+
+and since $(\gamma^0)^2=+1$, an ordinary differential equation $\chi'=\gamma^0[M_{\mathrm{eff}}\chi-i\kappa k_j\gamma^j\chi+i\varepsilon\gamma^4\chi]$. Three properties:
+
+1. **Flat measure.** $\sqrt{|g|}\,\Psi^\dagger\Psi=\chi^\dagger\chi$, so an orbital is normalised by $\int_{-L}^0\chi^\dagger\chi\,dy=1$ with the ordinary measure (`KS_reduction_flatMeasure`).
+2. **Confinement.** The momentum enters with the weight $\kappa(y)=e^{-Hy-a_{4,0}}$, which grows toward the tip: momentum costs more energy far from the brane, so the quanta are pushed toward $y=0$.
+3. **Rotations.** The spectrum depends on $|\vec k|$ only (`KS_reduction_rotationalSymmetry`); all computations take $\vec k=(k,0,0)$, and then only $A_0=\gamma^0$, $A_1=\gamma^0\gamma^1$ and $A_4=\gamma^0\gamma^4$ appear: $\chi'=[M_{\mathrm{eff}}A_0-i\kappa kA_1+i(\varepsilon-v_v)A_4]\chi$, where the vector exchange potential $v_v$ of Section 6.5 has been included.
+
+### 5.4 Block diagonalisation: commuting operators and the explicit basis
+
+The operators
+
+$$
+J=\gamma^0\gamma^1\gamma^4\ (J^2=1),\qquad K_1=\gamma^2\gamma^3\ (K_1^2=-1),\qquad K_2=\gamma^5\gamma^6\ (K_2^2=-1)
+$$
+
+commute with each other and with $\gamma^0$, $\gamma^0\gamma^1$, $\gamma^0\gamma^4$, $B$ and $C$. Their joint eigenspaces are the ranges of the rank-2 projectors
+
+$$
+P(j,s_2,s_3)=\tfrac12(1+jJ)\cdot\tfrac12(1-is_2K_1)\cdot\tfrac12(1-is_3K_2),\qquad j,s_2,s_3=\pm1,
+$$
+
+eight blocks whose projectors sum to 1. In each block the basis is $v_+=8P(j,s_2,s_3)\tfrac12(1+\gamma^0)e_c$ (with $e_c$ the first standard basis vector with nonzero image) and $v_-=\gamma^0\gamma^1v_+$; the entries are in $\{0,\pm1,\pm i\}$ and $|v_\pm|^2=8$, so $V=[v_+\,v_-\,\cdots]/(2\sqrt2)$ is unitary and $\chi_{16}=V\chi_{\mathrm{block}}$. The block index is $\beta=4(1-j)/2+2(1-s_2)/2+(1-s_3)/2$, i.e. $(j,s_2,s_3)=(1,1,1),(1,1,-1),(1,-1,1),(1,-1,-1),(-1,1,1),(-1,1,-1),(-1,-1,1),(-1,-1,-1)$ for $\beta=0,\dots,7$. The unnormalised basis matrix $2\sqrt2\,V$ (rows: spinor components $\Psi_0,\dots,\Psi_{15}$; columns: $v_+,v_-$ of block 0, then block 1, and so on), exported exactly in `kohn-sham-theory.json`, is
+
+```text
+        blk0    blk1    blk2    blk3    blk4    blk5    blk6    blk7
+row 0:   0  i    1  0    1  0    0 -i    1  0    0  i    0 -i    1  0
+row 1:   0 -1   -i  0    i  0    0 -1    i  0    0  1    0  1   -i  0
+row 2:   0 -i    1  0    1  0    0  i   -1  0    0  i    0 -i   -1  0
+row 3:   0 -1    i  0   -i  0    0 -1    i  0    0 -1    0 -1   -i  0
+row 4:   1  0    0  i    0 -i    1  0    0  i    1  0    1  0    0 -i
+row 5:   i  0    0  1    0  1   -i  0    0 -1   -i  0    i  0    0 -1
+row 6:  -1  0    0  i    0 -i   -1  0    0 -i    1  0    1  0    0  i
+row 7:   i  0    0 -1    0 -1   -i  0    0 -1    i  0   -i  0    0 -1
+row 8:   0 -i    1  0    1  0    0  i    1  0    0 -i    0  i    1  0
+row 9:   0  1   -i  0    i  0    0  1    i  0    0 -1    0 -1   -i  0
+row 10:  0  i    1  0    1  0    0 -i   -1  0    0 -i    0  i   -1  0
+row 11:  0  1    i  0   -i  0    0  1    i  0    0  1    0  1   -i  0
+row 12:  1  0    0 -i    0  i    1  0    0 -i    1  0    1  0    0  i
+row 13:  i  0    0 -1    0 -1   -i  0    0  1   -i  0    i  0    0  1
+row 14: -1  0    0 -i    0  i   -1  0    0  i    1  0    1  0    0 -i
+row 15:  i  0    0  1    0  1   -i  0    0  1    i  0   -i  0    0  1
+```
+
+(the seed columns $c$ are 4, 0, 0, 4, 0, 4, 4, 0 for $\beta=0,\dots,7$). The Wolfram verifier proves that $V$ is unitary, is a joint eigenbasis, block-diagonalises the five matrices $\gamma^0,\gamma^0\gamma^1,\gamma^0\gamma^4,B,C$ and reconstructs them from their blocks; $\gamma^2\gamma^3$ itself is not block diagonal (checks `KS_reduction_basisUnitary` to `KS_reduction_gamma2gamma3NotBlockDiagonal`). The real algebra generated by $A_0,A_1,A_4$ has dimension 8; its commutant has dimension 32, and 16 together with $B$ and $C$. The chirality $\gamma^8$ anticommutes with $J$ and commutes with $K_1$, $K_2$: it maps block $(j,s_2,s_3)$ onto $(-j,s_2,s_3)$. The Rust constants generator verifies the same reduction in Gaussian-integer arithmetic for its own basis (`rust/generator-report.json`), and the programs' block forms agree with this basis (Section 13.1).
+
+### 5.5 The block matrices, the block equation and the block Hamiltonian
+
+In every block (exact):
+
+| operator | block form | operator | block form |
+| --- | --- | --- | --- |
+| $A_0=\gamma^0$ | $\sigma_3$ | $B$ | $js_2$ (a number) |
+| $A_1=\gamma^0\gamma^1$ | $-i\sigma_2$ | $C$ | $s_2\sigma_2$ |
+| $A_4=\gamma^0\gamma^4$ | $j\sigma_1$ | $BC=-i\gamma^4$ | $j\sigma_2$ |
+| $\gamma^4\gamma^1$ | $-j\sigma_3$ | $J,\ K_1,\ K_2$ | $j,\ is_2,\ is_3$ |
+
+Hence the 16-component equation is eight copies of the **block equation** (erratum E4.7)
+
+$$
+\chi'=N\chi,\qquad N=M_{\mathrm{eff}}(y)\,\sigma_3-\kappa(y)\,k\,\sigma_2+ij\bigl(\varepsilon-v_v(y)\bigr)\sigma_1 ,
+$$
+
+in components $\chi_1'=M_{\mathrm{eff}}\chi_1+(i\kappa k+ij(\varepsilon-v_v))\chi_2$ and $\chi_2'=-M_{\mathrm{eff}}\chi_2+(-i\kappa k+ij(\varepsilon-v_v))\chi_1$. It is equivalent to the eigenvalue problem of the block Hamiltonian
+
+$$
+h_j\chi=\varepsilon\chi,\qquad h_j=j\Bigl[-i\sigma_1\frac{d}{dy}+M_{\mathrm{eff}}(y)\,\sigma_2+\kappa(y)\,k\,\sigma_3\Bigr]+v_v(y)
+$$
+
+(`KS_reduction_blockODEMatrix`, `KS_reduction_blockHamiltonianEquivalentToODE`). **Real form used by the programs.** With $\chi=(a,ib)$ and the program label $s=-j$ the system is real, $a'=M_{\mathrm{eff}}a+(s(\varepsilon-v_x)-\kappa k)b$, $b'=-(s(\varepsilon-v_x)+\kappa k)a-M_{\mathrm{eff}}b$ (the equation printed by `print-config`; Mathematica check `realFormIsBlockODEWithSMinusJ`).
+
+### 5.6 Two block types and the degeneracy
+
+For the y-equation the eight blocks form two inequivalent types, $j=+1$ (blocks 0 to 3) and $j=-1$ (blocks 4 to 7), four blocks each; together with $B$ and $C$ there are four types $(j,s_2)$ of two blocks each. The two $j$-types have opposite Hamiltonians up to the vector potential (erratum E4.4):
+
+$$
+h_{-1}-v_v=-(h_{+1}-v_v),\qquad \mathrm{spec}(h_{-1}-v_v)=-\mathrm{spec}(h_{+1}-v_v).
+$$
+
+At a fixed $\vec k=(k,0,0)$ every level of $h_{+1}$ is 4-fold (blocks 0 to 3) and every level of $h_{-1}$ is 4-fold. The map $\sigma_3N(k,j)\sigma_3=N(-k,-j)$ at fixed $\varepsilon$ makes the $(k,j)$ and $(-k,-j)$ orbitals equal in $\lvert\chi\rvert^2$ and in their scalar densities, so every level is 8-fold at $k=0$ and over every closed lattice shell $\{\vec k,-\vec k\}$. A lattice shell $\lvert\vec k\rvert^2=(\Delta k)^2n_2$ with $r_3(n_2)$ lattice vectors contributes $4r_3(n_2)$ states per level of each type.
+
+### 5.7 Exact solutions at k = 0 and the brane band
+
+For $k=0$, a constant $M_{\mathrm{eff}}=M$, $v_v=0$, the even brane parity $\chi_2(0)=0$ and the tip bag $\chi_2(-L)=0$ (Section 5.9) the spectrum is exact:
+
+- the **chiral zero mode** $\varepsilon=0$, $\chi=(e^{My},0)$, normalisable on $(-\infty,0]$ for $M>0$ and localised at the brane; its proper density is $n_p\propto e^{(2M-6H)y}$, which grows toward the tip for $M<3H$;
+- the massive levels $\varepsilon=\pm\sqrt{M^2+(n\pi/L)^2}$, $n=1,2,\dots$, with $\chi_2=\sin(n\pi y/L)$;
+- with the odd brane parity $\chi_1(0)=0$ and the same tip condition the levels solve $\tan(pL)=-p/M$, $p^2=\varepsilon^2-M^2$ (Mathematica check `parityMinusIsTanPLMinusPOverM`).
+
+Each level is 4-fold per $j$, 8-fold in total. For $k\ne0$ the zero mode splits linearly (first-order Hellmann–Feynman in $k$):
+
+$$
+\frac{d\varepsilon_0}{dk}\Big|_{k=0}=j\,c,\qquad c=\frac{\int_{-L}^0e^{-Hy-a_{4,0}}e^{2My}dy}{\int_{-L}^0e^{2My}dy}=e^{-a_{4,0}}\,\frac{2M}{2M-H}\,\frac{1-e^{-(2M-H)L}}{1-e^{-2ML}}>0 .
+$$
+
+For $M=H=1$, $L=3$ this is $c=2/(1+e^{-3})=1.9051482536$ (exact theory; Mathematica check `splittingAtM1H1L3Is2Over1PlusExpMinus3`). The zero-mode band $\varepsilon=\pm ck+O(k^2)$, four states at $+ck$ and four at $-ck$ for each $\vec k$, is the massless brane fermion of the orbifold. The Rust program measures the slope $-1.9051482524522905$ for its $s=+1$ blocks (theory: $+c$ for $j=+1$, i.e. $s=-1$), and the Mathematica notebook's NDSolve shooting agrees with the closed form to $1.6\times10^{-7}$.
+
+### 5.8 Densities and currents of an orbital
+
+For a Hilbert-normalised block orbital ($\int\chi^\dagger\chi\,dy=1$) the expectation-value rule gives the proper densities (per unit coordinate 3-volume)
+
+$$
+n=\frac{e^{-6Hy}}{\ell^3}\chi^\dagger\chi,\qquad s=\frac{e^{-6Hy}}{\ell^3}\chi^\dagger(j\sigma_2)\chi,\qquad t=\frac{e^{-6Hy}}{\ell^3}\chi^\dagger(j\sigma_3)\chi,\qquad c=\frac{e^{-6Hy}}{\ell^3}\chi^\dagger(j\sigma_1)\chi ,
+$$
+
+the number, scalar, $x_1$-current and y-current densities ($s=u^\dagger BCu$, $t=u^\dagger B(-\gamma^4\gamma^1)u$, $c=u^\dagger B(-iC\gamma^0)u$). The coordinate densities are $n_c=e^{6Hy}n_p$, $S_c=e^{6Hy}S_p$. **The y-current** is $J^y=-i\bar\Psi\gamma^0\Psi$; after the expectation rule its matrix is $A_4=\gamma^0\gamma^4$ ($B$ is absorbed: $B(-iC\gamma^0)=-\gamma^4\gamma^0$; erratum E4.5 corrects the specification's "$B\gamma^4\gamma^0$"), with the block form $j\sigma_1$. For real $\varepsilon$, $M_{\mathrm{eff}}$ and $v_v$, $N^\dagger A_4+A_4N=0$, so $\chi^\dagger A_4\chi$ is constant in $y$ for every solution, while the Hilbert norm density $\chi^\dagger\chi$ is not (`KS_boundary_currentConservedAlongY`, `KS_boundary_hilbertNormNotConservedAlongY`).
+
+### 5.9 Boundary conditions
+
+**At the brane** the Z2 parity conditions $\Psi(-y)=\pm\gamma^0\Psi(y)$ become $(1\mp\gamma^0)\chi(0)=0$, and since $\gamma^0=\sigma_3$ in every block: **even parity $\chi_2(0)=0$, odd parity $\chi_1(0)=0$** (in the real form $b(0)=0$ and $a(0)=0$). Either condition kills the current $\chi^\dagger\sigma_1\chi=2\,\mathrm{Re}(\chi_1^{\ast}\chi_2)$ at $y=0$. Both parities are solved and filled together as one system.
+
+**Parities are boundary conditions, not symmetries (erratum E4.6).** The reflection $P_A:\chi(y)\to\gamma^0\chi(-y)$ maps a solution with the mass function $M(y)$ onto one with $-M(-y)$; it is a symmetry of the Z2 problem only for an odd mass function (the $\pm M$ mirror pair of Section 4.7). Under $P_A$ the number density and the $x_1$-current are even and the scalar density and the y-current odd, consistent with an odd Hartree shift $\lambda S_p$. The symmetry of an even mass function (an identical mirror universe) is $P_B:\chi(y)\to i\gamma^0\gamma^8\chi(-y)$; it also kills the current, but it anticommutes with $J$ and couples block $(j,s_2,s_3)$ with $(-j,s_2,s_3)$, so the Kohn–Sham problem would become a $4\times4$ system on block pairs. The Kohn–Sham problem uses the block-level conditions of $P_A$ type.
+
+**At the tip** the chiral-bag family
+
+$$
+\bigl(1-Q(\theta)\bigr)\chi(-L)=0,\qquad Q(\theta)=\cos\theta\,\sigma_3+\sin\theta\,\sigma_2,\qquad Q^\dagger=Q,\ Q^2=1,\ \{Q,\sigma_1\}=0,
+$$
+
+kills the current, since $\chi^\dagger\sigma_1\chi=\chi^\dagger\sigma_1Q\chi=-\chi^\dagger Q\sigma_1\chi=-\chi^\dagger\sigma_1\chi$ for $Q\chi=\chi$. In the 16-component form $Q(\theta)=\cos\theta\,\gamma^0+i\sin\theta\,\gamma^0\gamma^1$. The canonical choice is $\theta=0$: $\gamma^0\chi(-L)=+\chi(-L)$, i.e. $\chi_2(-L)=0$ ($b(-L)=0$), the even-parity condition at the tip. For $M>0$ it admits no tip-localised zero mode and it admits the brane zero mode $e^{My}$ for every $L$. In signature (4,4) $(\gamma^0)^2=+1$, so this MIT-type condition carries no factor $i$. With any pair of current-killing end conditions the boundary term $-ij[\phi^\dagger\sigma_1\chi]$ of $\langle\phi|h\chi\rangle-\langle h\phi|\chi\rangle$ vanishes, $h_j$ is self-adjoint, the levels are real and orbitals of different $\varepsilon$ are orthogonal in the flat measure (`KS_boundary_selfAdjointBoundaryTerm`).
+
+### 5.10 The constant $a_{4,0}$ is a momentum rescaling
+
+$a_{4,0}$ enters only through $\kappa(y)$, as $k\to ke^{-a_{4,0}}$ (`KS_reduction_a4IsMomentumRescaling`). A run with $a_{4,0}=0.5$ is therefore exactly equivalent to the $a_{4,0}=0$ problem with $\Delta k\,e^{-0.5}$, $\ell\,e^{0.5}$ and $\lambda\,e^{1.5}$ (erratum E4.10: the partner torus is larger by $e^{1.5}$ in coordinate volume, so the same Hartree and exchange potentials need $\lambda e^{1.5}$; label `lamp1rescaled`). Section 8.6 reports the numerical equivalence.
