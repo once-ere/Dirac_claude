@@ -75,7 +75,10 @@ is c2 h^2 + c3 h^3 + O(h^4) (the h^3 term comes from the ghost node); every
 quantity is computed on the three grids N0, 2 N0, 4 N0 (canonical N0 = 60:
 h = L/60 is 5 times the Rust grid spacing L/300, so every coarse node is a
 Rust grid point and the profiles are compared node by node; m = 3 uses
-N0 = 120, M h = 0.075, every other coarse node a Rust node) and
+N0 = 120, M h = 0.075, every other coarse node a Rust node, and so does the
+smeared run m1_L3_N1016_lamm2_T0, whose 60/120/240 levels are not yet
+asymptotic, with its fallback smearing 1e-3 m given directly; STAGE4_SPEC
+E4.13) and
 extrapolated by eliminating h^2 and h^3, with the order estimates and level
 values recorded.  The two END-NODE values of a profile are only first-order
 accurate (tied to the half-node value g~ = O(h) through a division by h)
@@ -194,6 +197,11 @@ SOLVER_VERSION is unchanged because no Stage-4 number changes):
     v_x = sg (lambda/16)(n + S_gas dS_gas/dn) (S_gas of the gas of mass |m|);
     hartree: no exchange (statistics-independent).  Written to run.json
     (params.statistics, params.statisticsSign) only when "commuting".
+  * continuation_steps (default None = off): the T = 0 continuation fallback
+    of STAGE4_SPEC E4.8 (the Rust solve_ground): used only when the direct
+    solution collapses or does not converge; lambda_hat j/K, j = 1..K, each
+    from the previous densities with the mixing reduced by
+    continuation_mix_factor; recorded in run.json ("continuation") when used.
   * window_cap (execution guard, default None = none): an SCF whose energy
     window would reach beyond window_cap |m| aborts with RuntimeError; it
     can only abort a run, never change its numbers (not in run.json).
@@ -868,7 +876,8 @@ class Params:
                  tip="g0", xc="quadratic", delta_k_over_m=0.25, ell=None, delta_k=None,
                  N0=100, levels=3, mix_beta=0.4, mix_history=6, tol=1e-10, max_iter=200,
                  label="run", f_cut=None, sea="free", smearing=0.0, exact_shells=None, shell_workers=0,
-                 statistics=DEFAULT_STATISTICS, window_cap=None):
+                 statistics=DEFAULT_STATISTICS, window_cap=None, continuation_steps=None,
+                 continuation_mix_factor=0.25):
         if sea not in ("free", "sign"):
             raise ValueError("sea must be 'free' or 'sign'")
         if statistics not in STATISTICS_SIGNS:
@@ -916,6 +925,13 @@ class Params:
         # levels; one such attempt committed 167 GB).  The cap can only abort a run, never change
         # its numbers, so it is not recorded in run.json
         self.window_cap = float(window_cap) if window_cap is not None else None
+        # Stage 5 (default None = off, the Stage-4 behaviour): the T = 0 continuation fallback of
+        # STAGE4_SPEC E4.8 / the Rust solve_ground.  Only when the direct solution (with its
+        # smearing ladder) collapses or does not converge, the coupling is switched on in
+        # continuation_steps steps lambda_hat j/K from the previous step's densities (mixing
+        # mix_beta * continuation_mix_factor); recorded in run.json ("continuation") only when used
+        self.continuation_steps = int(continuation_steps) if continuation_steps else None
+        self.continuation_mix_factor = float(continuation_mix_factor)
 
     def occupation_temperature(self):
         """Temperature of the Fermi-Dirac occupations: T, or the smearing of the T = 0 fallback."""
@@ -929,7 +945,9 @@ class Params:
                 "mix_beta": self.mix_beta, "mix_history": self.mix_history, "tol": self.tol,
                 "max_iter": self.max_iter, "label": self.label, "f_cut": self.f_cut, "sea": self.sea,
                 "smearing": self.smearing, "exact_shells": self.exact_shells, "shell_workers": self.shell_workers,
-                "statistics": self.statistics, "window_cap": self.window_cap}
+                "statistics": self.statistics, "window_cap": self.window_cap,
+                "continuation_steps": self.continuation_steps,
+                "continuation_mix_factor": self.continuation_mix_factor}
 
     def to_dict(self):
         out = {"label": self.label, "m": self.m, "a4_0": self.a4, "L": self.L,
@@ -2070,6 +2088,24 @@ class SectorRun:
         self.params = params
         self.mode = mode
         self.smearing_attempts = []
+        self.continuation = None
+        continuation = bool(params.continuation_steps and mode == "auto" and constrained is None
+                            and params.T <= 0.0 and params.lambda_hat != 0.0)
+        direct_error = None
+        try:
+            self.solve_direct(params, mode, constrained, log, initial)
+        except RuntimeError as error:
+            if not continuation:
+                raise
+            direct_error = error
+            if log:
+                log("  direct solution failed (%r): continuation in the coupling" % (error,))
+        if continuation and (direct_error is not None or not all(lv["converged"] for lv in self.levels)):
+            self.continue_in_coupling(params, log, initial, direct_error)
+        self.extrapolate()
+
+    def solve_direct(self, params, mode, constrained, log, initial):
+        """The Stage-4 protocol: the solution at the requested coupling with the T = 0 smearing ladder."""
         ladder = []
         if mode == "auto" and params.T <= 0.0 and params.smearing == 0.0:
             ladder = [x * params.mass_scale for x in SMEARING_LADDER]
@@ -2097,7 +2133,54 @@ class SectorRun:
             self.smearing_attempts.append({"smearing": attempt.smearing,
                                            "converged": all(lv["converged"] for lv in self.levels)})
         self.params = attempt
-        self.extrapolate()
+
+    def continue_in_coupling(self, params, log, initial, direct_error=None):
+        """Stage-5 continuation fallback (Params.continuation_steps; STAGE4_SPEC E4.8, the Rust
+        solve_ground): lambda_hat j/K, j = 1..K, each a full three-level solution (with its own
+        smearing ladder) started from the coarse densities of step j - 1; the step j = K is the
+        requested coupling.  If a step fails, the direct attempt is kept (recorded) or, if the
+        direct attempt raised, its error is raised again."""
+        K = params.continuation_steps
+        direct = self.levels[-1] if direct_error is None else {}
+        record = {"steps": K, "mixFactor": params.continuation_mix_factor,
+                  "directConvergedBy": direct.get("convergedBy") if direct_error is None else "error: %r" % (direct_error,),
+                  "fractions": [], "used": False}
+        saved = (getattr(self, "levels", None), getattr(self, "grids", None), self.params, self.smearing_attempts)
+        start = initial
+        sub = None
+        for j in range(1, K + 1):
+            fraction = j / K
+            kw = {**params.to_dict_kwargs(), "lambda_hat": params.lambda_hat * fraction, "continuation_steps": None,
+                  "mix_beta": params.mix_beta * params.continuation_mix_factor,
+                  "label": params.label if j == K else "%s-continuation%d" % (params.label, j)}
+            if log:
+                log("  continuation step %d/%d: lambda_hat = %.12g" % (j, K, kw["lambda_hat"]))
+            try:
+                sub = SectorRun(Params(**kw), mode="auto", log=log, initial=start)
+            except RuntimeError as error:
+                record["fractions"].append({"fraction": fraction, "converged": False, "error": repr(error)})
+                sub = None
+                break
+            fine = sub.levels[-1]
+            record["fractions"].append({"fraction": fraction, "converged": sub.converged,
+                                        "convergedBy": fine.get("convergedBy"),
+                                        "occupationSmearing": sub.params.smearing,
+                                        "energy": float(sub.scalars["total"])})
+            if not sub.converged:
+                sub = None
+                break
+            lv0 = sub.levels[0]
+            start = (lv0["n_c"].copy(), lv0["s_c"].copy())
+        self.continuation = record
+        if sub is not None:
+            self.levels, self.grids, self.smearing_attempts = sub.levels, sub.grids, sub.smearing_attempts
+            self.params = sub.params
+            record["used"] = True
+            return
+        if direct_error is not None:
+            raise RuntimeError("%s; continuation in the coupling failed as well: %s"
+                               % (direct_error, record["fractions"][-1] if record["fractions"] else "no step"))
+        self.levels, self.grids, self.params, self.smearing_attempts = saved
 
     def solve_levels(self, params, mode, constrained, log, initial):
         self.levels = []
@@ -2241,6 +2324,8 @@ class SectorRun:
             "exactZeroTemperatureOccupations": bool(p.T > 0.0 or p.smearing == 0.0),
             "smearingAttempts": self.smearing_attempts,
             "solverVersion": SOLVER_VERSION,
+            # Stage 5: present only when the continuation fallback was attempted (never in Stage 4)
+            **({"continuation": self.continuation} if getattr(self, "continuation", None) else {}),
         }
 
 
@@ -2766,6 +2851,19 @@ def canonical_runs(quick=False, shells_info=None):
         # (h^2, h^3) elimination), N0 = 120 8e-7 and 2e-7; every other coarse node is a Rust node
         if m > 2.0:
             spec["N0"] = 2 * base["N0"]
+        # m1_L3_N1016_lamm2_T0 (STAGE4_SPEC E4.13): its exact T = 0 aufbau stagnates in both codes
+        # (the 192-fold k = 0.935 band and the 8-fold k = 0 level 3.7e-3 m above it), and both fall
+        # back to the occupation smearing 1e-3 m.  On the grids 60/120/240 the level values of
+        # Delta-SCF (0.0430172, 0.0434646, 0.0435817; difference ratio 3.8) are not yet asymptotic
+        # and the (h^2, h^3) elimination is biased: E_0 1126.858099432, Delta-SCF 0.0436218, against
+        # Rust (601 points) 1126.858089030 and 0.0436194.  Measured on 2026-09-30, the grids
+        # 120/240/480 (ratio 3.95) give E_0 1126.858089105 and Delta-SCF 0.0436199531 (Rust 301/601
+        # extrapolation 0.0436196717).  So this run uses N0 = 120 and takes the smearing 1e-3 m
+        # directly: the same ensemble, without the failing exact and 1e-4 m attempts, which cost
+        # hours at N0 = 120 and do not change the result
+        if label == "m1_L3_N1016_lamm2_T0" and not quick:
+            spec["N0"] = 2 * base["N0"]
+            spec["smearing"] = 1e-3
         runs.append(spec)
     if quick:
         add(1, 3, n8, "lam0", tasks=["excited"])

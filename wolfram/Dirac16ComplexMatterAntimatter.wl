@@ -18,10 +18,13 @@
    reversals, CPT-like combinations, and their action on L), M3 (the exact classification
    of the Spin(4,4)- and Pin(4,4)-invariant Majorana-type bilinears Psi^T M Psi and
    Psi^T M gamma^a d_a Psi, which survive for which statistics, their U(1) charge), M4 (the
-   charge flip j -> -j under gamma^8 and the pair totals; the Krein-level mapping is taken
-   from the Stage-5 pairing report if that report is present and final, otherwise it is
-   recorded as OPEN), and M5 (the implication H1 & H2 & H3 => total charge of the pair
-   vanishes, with H1-H3 recorded as unproved hypotheses).
+   charge flip j -> -j under gamma^8 and the classical pair totals; the one-particle Krein
+   facts including the canonical generators of the image field; the Fock-level mapping is
+   cited from the Stage-5 pairing report as PROVISIONAL while Stage 5 has not passed its
+   gate, and as OPEN if that report is absent or not all true), and M5 (the classical-level
+   implication H1 & H2 & H3 => total charge of the pair vanishes, with H1-H3 recorded as
+   unproved hypotheses; at the quantum level no reading gives a cancellation between two
+   independent universes).
 
    Conventions: CONTRACT.md with errata section 11 (zero-based indices, x4 = time,
    eta = diag(+,+,+,+,-,-,-,-), gamma^a = [[0, taubar_a],[tau_a, 0]] of the exact fixture
@@ -843,9 +846,9 @@ checkM2Summary[rows_List] := Module[{exists, single, summary, qRev, canon, cUnit
       r_Association :> (r["MBMdaggerSign"] === needRho[type, rDiag[r["R"]][[5]]]), {type, {"linear", "antilinear"}}]];
   canonOK = AllTrue[canon, TrueQ] && Length[canon] > 0 && cUnitary === <|"M=I" -> -1, "M=gamma8" -> 1|>;
   addMeas["M2_canonicalStructure", <|
-    "unitaryChargeConjugation" -> "M B^T M^dagger = B holds for M = gamma^8 and fails (= -B) for M = I: the unitary charge conjugation of the quantised Grassmann field is C8 (Psi -> gamma^8 Psi^{dagger T}), which maps L_{m,lambda} -> L_{-m,lambda}",
+    "unitaryChargeConjugation" -> "M B^T M^dagger = B holds for M = gamma^8 and fails (= -B) for M = I: the charge conjugation of the quantised Grassmann field that preserves the canonical anticommutator as a linear (unitary-type) automorphism is C8 (Psi -> gamma^8 Psi^{dagger T}), which maps L_{m,lambda} -> L_{-m,lambda}",
     "signs M B^T M^dagger / B" -> cUnitary,
-    "exactSymmetriesImplementable" -> "every exact symmetry of the Grassmann theory preserves the canonical anticommutator with a unitary implementation if it preserves x4 and an antiunitary one if it reverses x4 (checked for all exact maps)",
+    "exactSymmetriesImplementable" -> "every exact symmetry of the Grassmann theory preserves the canonical anticommutator: as a linear (unitary-type) automorphism if it preserves x4 and as an antilinear (antiunitary-type) one if it reverses x4 (checked for all exact maps); whether a unitary or antiunitary operator on the positive (J = B) Fock space implements it is not decided here",
     "exactGrassmannSymmetriesChecked" -> Length[canon]|>];
   addCheck["MA_M2_canonicalStructure", canonOK];
 ];
@@ -1100,13 +1103,21 @@ checkM4Krein[] := Module[{ks, h, hermR, En, proj, ok, ePlus, ePlusM, gramP, gram
     "rest: gamma8 E_+(m=1) = E_+(m=-1)" -> imgSpan,
     "rest: B-form on E_+(1) has signature (4,4)" -> (hermInertia[gramP] === {4, 4, 0}),
     "rest: B-form on E_+(-1) has signature (4,4)" -> (hermInertia[gramPM] === {4, 4, 0}),
-    "rest: Gram(gamma8 E_+(1)) = - Gram(E_+(1))" -> zeroE[gramImg + gramP]|>;
+    "rest: Gram(gamma8 E_+(1)) = - Gram(E_+(1))" -> zeroE[gramImg + gramP],
+    (* canonical generators: for {Psi, Psi^dagger} = G one has [Psi, Psi^dagger X Psi] = G X Psi *)
+    "plus field, G = B: B.(B h_k(m)) = h_k(m) and B.B = 1 (H_+ and Q_+ generate x4-evolution and the phase)" ->
+      (zeroE[Bm.Bm.h[mS] - h[mS]] && zeroE[Bm.Bm - id16]),
+    "image field, G = -B: (-B).(B h_k(-m)) = -h_k(-m) (H[Psi_-; -m] generates the reversed x4-evolution)" ->
+      zeroE[(-Bm).(Bm.h[-mS]) + h[-mS]],
+    "image field, G = -B: (-B).B = -1 (Q[Psi_-] generates the inverse phase)" -> zeroE[(-Bm).Bm + id16],
+    "gamma8 (B h_k(-m)) gamma8 = -B h_k(m) (H[gamma8 Psi; -m] = -H[Psi; m], so -H[Psi_-; -m] = +H_+)" ->
+      zeroE[g8.Bm.h[-mS].g8 + Bm.h[mS]]|>;
   addMeas["M4_kreinOneParticle", <|"checks" -> ok,
-    "statement" -> "one-particle level of the good sector: gamma^8 maps the positive- (negative-) energy eigenspace of h_k(m) onto the positive- (negative-) energy eigenspace of h_k(-m) (energy sign preserved) and reverses the Krein norm u^dagger B u of every vector; the charge density Psi^dagger B Psi of the image configuration is minus that of the original. Which Fock states of the -M theory the image states are (particles or holes) depends on the canonical structure assigned to the image field (its anticommutator is -B): that Fock-level statement is taken from the Stage-5 pairing report (PAIR_T1krein) if final, otherwise it is OPEN."|>];
+    "statement" -> "one-particle level of the good sector: gamma^8 maps the positive- (negative-) energy eigenspace of h_k(m) onto the positive- (negative-) energy eigenspace of h_k(-m) (energy sign preserved) and reverses the Krein norm u^dagger B u of every vector; the charge density Psi^dagger B Psi of the image configuration is minus that of the original. Canonical generators (matrix level): with the image anticommutator -B, the L_{-m,-lambda} Hamiltonian H[Psi_-; -m] generates the reversed x4-evolution and Q[Psi_-] the inverse phase, so the image field's own x4-generator is -H[Psi_-; -m] = +H_+ and its own U(1) generator is -Q[Psi_-] = +Q_+: the image field is the same quantum system as Psi_+, with the same energy and charge. The Fock-level statements are cited from the Stage-5 pairing report (PAIR_T1krein) as PROVISIONAL (Stage 5 not gated)."|>];
   addCheck["MA_M4_kreinOneParticle", AllTrue[Values[ok], TrueQ]];
 ];
 
-(* the Krein-level particle/antiparticle mapping of Stage 5 (read only; used only if final) *)
+(* the Krein-level particle/antiparticle mapping of Stage 5 (read only; cited as PROVISIONAL while Stage 5 is not gated) *)
 stage5Krein[root_String] := Module[{fRep, fTh, rep, th, checks, kreinChecks, final, pick, sha},
   fRep = FileNameJoin[{root, "artifacts", "dirac16complex", "pair-creation", "wolfram-pairing-report.json"}];
   fTh = FileNameJoin[{root, "artifacts", "dirac16complex", "pair-creation", "pairing-theory.json"}];
@@ -1127,7 +1138,7 @@ stage5Krein[root_String] := Module[{fRep, fTh, rep, th, checks, kreinChecks, fin
     Return[<|"status" -> "OPEN", "reason" -> "the Stage-5 pairing report is present but not final (not every check true, or no PAIR_T1krein checks)",
       "failedChecks" -> Keys[Select[checks, ! TrueQ[#] &]], "kreinCheckCount" -> Length[kreinChecks],
       "reportSha256" -> sha[fRep], "theorySha256" -> sha[fTh]|>]];
-  <|"status" -> "taken from the Stage-5 pairing report (all of its checks true)",
+  <|"status" -> "PROVISIONAL: cited from the Stage-5 pairing report (all of its checks true); OPEN until the Stage-5 gate passes (the files carry no finality flag)",
     "kreinChecks" -> kreinChecks, "kreinTheory" -> pick, "reportSha256" -> sha[fRep], "theorySha256" -> sha[fTh],
     "reportProducer" -> rep["producer"]|>];
 

@@ -115,6 +115,11 @@ ATTEMPT_LIMIT = 10.0
 # execution guard of every pairs run (ks_reference_solver.Params.window_cap): an SCF whose energy window would
 # reach beyond WINDOW_CAP |m| aborts instead of widening further (it cannot change the numbers of a run)
 WINDOW_CAP = 20.0
+# the T = 0 ground state is the branch reached by continuation in the coupling from lambda = 0 where the direct
+# solution fails (STAGE4_SPEC E4.8; the Rust pairs universes use scf::solve_ground with CONTINUATION_STEPS = 4
+# and the mixing reduced by FALLBACK_MIX_FACTOR = 0.25): ks_reference_solver.Params.continuation_steps
+CONTINUATION_STEPS = 4
+CONTINUATION_MIX_FACTOR = 0.25
 QUICK = {"configs": ((1.0, 8.0),), "lambdas": ("lam0", "lamp1"), "thermoN": (), "N0": KS.QUICK_N0,
          "levels": KS.QUICK_LEVELS}
 
@@ -191,7 +196,8 @@ def params_of(spec, lambda_hat):
     """Solver parameters of a pairs specification (Stage-4 defaults otherwise)."""
     return KS.Params(m=spec["m"], a4=0.0, L=spec["L"], lambda_hat=lambda_hat, T=spec["T"], N=spec["N"],
                      parity=0, tip=spec["tip"], xc="quadratic", N0=spec["N0"], levels=spec["levels"],
-                     label=spec["label"], statistics=spec["statistics"], window_cap=WINDOW_CAP)
+                     label=spec["label"], statistics=spec["statistics"], window_cap=WINDOW_CAP,
+                     continuation_steps=CONTINUATION_STEPS, continuation_mix_factor=CONTINUATION_MIX_FACTOR)
 
 
 def pairs_record(spec, coupling):
@@ -277,8 +283,11 @@ def run_matches(doc, spec, coupling):
             return False
         if (doc.get("pairs") or {}).get("universe") != spec["universe"]:
             return False
-        collapsed = (doc.get("levels") or [{}])[-1].get("convergedBy") == "collapse"
-        return bool(same and (doc.get("converged") or collapsed))
+        if doc.get("converged"):
+            return bool(same)
+        # not converged: kept only if the continuation fallback was tried (interacting T = 0) or does not apply
+        applicable = spec["T"] <= 0.0 and spec["lambda"] != "lam0"
+        return bool(same and (doc.get("continuation") is not None or not applicable))
     except Exception:  # noqa: BLE001
         return False
 
@@ -357,6 +366,10 @@ def matrix_description(quick, thermo_n, fields, universes):
             "grids": ("N0 = %d (|m| = 1), %d (|m| = 3), levels N0, 2 N0, 4 N0" %
                       ((QUICK["N0"] if quick else KS.CANONICAL_N0), 2 * (QUICK["N0"] if quick else KS.CANONICAL_N0))
                       if not quick else "quick: N0 = %d, %d levels" % (QUICK["N0"], QUICK["levels"])),
+            "groundState": "T = 0: the direct solution with the Stage-4 smearing ladder; where it collapses or does "
+                           "not converge, continuation in the coupling lambda_hat j/%d from its free densities (mixing "
+                           "x %g; STAGE4_SPEC E4.8, the Rust solve_ground); execution guard: energy windows beyond %g "
+                           "|m| abort the SCF" % (CONTINUATION_STEPS, CONTINUATION_MIX_FACTOR, WINDOW_CAP),
             "labelScheme": "<field>_m<|m|>_L<L>_N<N>_<lambda>_T<T/|m|>/<universe> (the Rust pairs labels, "
                            "pairs.rs Config::label and write_universe; 'p' = decimal point)",
             "couplingRule": "lambda_hat of the Stage-4 reference coupling of (|m|, L, N) (" + rel_path(STAGE4_COUPLINGS)

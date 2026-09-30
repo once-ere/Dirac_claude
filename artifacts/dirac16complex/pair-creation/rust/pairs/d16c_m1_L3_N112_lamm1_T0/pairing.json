@@ -1,0 +1,340 @@
+{
+  "configuration": {
+    "label": "d16c_m1_L3_N112_lamm1_T0",
+    "statistics": "dirac16complex",
+    "exchangeSign": -1.00000000000000000e+00,
+    "massCoefficient_MeffEquals_m_plus_coefficient_lambda_Sp": 9.37500000000000000e-01,
+    "absMass": 1.00000000000000000e+00,
+    "L": 3.00000000000000000e+00,
+    "N": 1.12000000000000000e+02,
+    "lambdaName": "lamm1",
+    "lambdaHat": -9.56776494965314375e-03,
+    "lambda": -9.56776494965314375e-03,
+    "TOverAbsM": 0.00000000000000000e+00,
+    "T": 0.00000000000000000e+00
+  },
+  "universes": {
+    "plusM": {
+      "converged": true,
+      "iterations": 11,
+      "zeroTemperatureFallbackStage": 0,
+      "occupationSmearing": 0.00000000000000000e+00,
+      "states": 787,
+      "E": 6.10686104804454573e+01,
+      "F": 6.10686104804454573e+01,
+      "mu": 7.03736192198255450e-01,
+      "S_entropy": 0.00000000000000000e+00,
+      "N_sumWeights": 1.12000000000000000e+02,
+      "N_fromDensity": 1.12000000087412957e+02,
+      "scalarTotal": -2.07616372809744369e+01,
+      "ksGap": 9.56051340736009392e-02,
+      "deltaScf": 9.56050822325309468e-02,
+      "E1": 6.11642155626779882e+01,
+      "excitedConverged": true,
+      "particleHoleExcitations": [
+        9.56051340736009392e-02,
+        1.78321273198333796e-01,
+        2.11835814620751073e-01,
+        2.52040680944109252e-01,
+        2.94551953745483930e-01,
+        3.68271361491259386e-01,
+        3.69202046856904165e-01,
+        3.80783958112593135e-01,
+        4.38277939182928122e-01,
+        4.51918185981637022e-01,
+        4.92247183693071078e-01,
+        4.97014638659743269e-01
+      ],
+      "rhoAvg": 2.30807376967956633e-02,
+      "pYAvg": 1.03152945141663458e-02,
+      "p3Avg": 6.86247398210027525e-03,
+      "pTAvg": -8.27773631929291553e-06,
+      "nPAvg": 4.23301365748348646e-02,
+      "sPAvg": -7.84681197263319488e-03,
+      "energyFromRho": 6.10686105273628996e+01,
+      "conservationResidualMax_normalised": 2.07963769204568741e-05,
+      "maxLambdaSOverAbsM": 5.83220482297041529e-02,
+      "maxVxOverAbsM": 8.82373148201161944e-02,
+      "shiftBound_maxAbsMeffMinusM_plus_maxAbsVx": 1.42914241317935231e-01,
+      "windowFloor": -4.59439510239319482e+00,
+      "windowPremiseHolds": true
+    },
+    "minusM": {
+      "converged": true,
+      "iterations": 11,
+      "zeroTemperatureFallbackStage": 0,
+      "occupationSmearing": 0.00000000000000000e+00,
+      "states": 787,
+      "E": 6.10686104792076918e+01,
+      "F": 6.10686104792076918e+01,
+      "mu": 7.03736192182117026e-01,
+      "S_entropy": 0.00000000000000000e+00,
+      "N_sumWeights": 1.12000000000000000e+02,
+      "N_fromDensity": 1.12000000087017298e+02,
+      "scalarTotal": 2.07616372817682127e+01,
+      "ksGap": 9.56051340984848119e-02,
+      "deltaScf": 9.56050835191248893e-02,
+      "E1": 6.11642155627268167e+01,
+      "excitedConverged": true,
+      "particleHoleExcitations": [
+        9.56051340984848119e-02,
+        1.78321273225876098e-01,
+        2.11835814640995435e-01,
+        2.52040680955334939e-01,
+        2.94551953768386721e-01,
+        3.68271361497845562e-01,
+        3.69202046871276668e-01,
+        3.80783958116340360e-01,
+        4.38277939198032040e-01,
+        4.51918185998667954e-01,
+        4.92247183706170377e-01,
+        4.97014638658850982e-01
+      ],
+      "rhoAvg": 2.30807376962189302e-02,
+      "pYAvg": 1.03152945140435430e-02,
+      "p3Avg": 6.86247398204930300e-03,
+      "pTAvg": -8.27773631938420027e-06,
+      "nPAvg": 4.23301365746853245e-02,
+      "sPAvg": 7.84681197293320316e-03,
+      "energyFromRho": 6.10686105258369381e+01,
+      "conservationResidualMax_normalised": 2.07825707048022388e-05,
+      "maxLambdaSOverAbsM": 5.83220482265206785e-02,
+      "maxVxOverAbsM": 8.82373147482304748e-02,
+      "shiftBound_maxAbsMeffMinusM_plus_maxAbsVx": 1.42914241677451925e-01,
+      "windowFloor": -4.59439510239319482e+00,
+      "windowPremiseHolds": true
+    },
+    "minusM_control": {
+      "error": "not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 63.11982819727636 > |window floor| = 4.594395102393195 (the untransformed tip bag puts the zero modes at the tip, where the proper-density factor is e^{6HL})"
+    }
+  },
+  "levelMap": "plusM (shell, parity p, block type s, Pruefer index n) -> minusM (shell, -p, -s, -n), same eps; orbital (a, b) -> +-(b, a)",
+  "pairingDeviation_plusM_vs_minusM": {
+    "statesA": 787,
+    "statesB": 787,
+    "matchedByImageKey": 787,
+    "multiplicityMismatches": 0,
+    "maxAbsDeltaEps": 3.06425995688641706e-10,
+    "maxAbsDeltaOccupation": 0.00000000000000000e+00,
+    "maxAbsDeltaWeight": 0.00000000000000000e+00,
+    "multisetEntriesA": 149056,
+    "multisetEntriesB": 149056,
+    "sortedSpectrumMaxAbsDeltaEps": 3.06425995688641706e-10,
+    "scalars_absDifference_absValueA": {
+      "E": [
+        1.23776544569409452e-09,
+        6.10686104804454573e+01
+      ],
+      "F": [
+        1.23776544569409452e-09,
+        6.10686104804454573e+01
+      ],
+      "mu": [
+        1.61384239305562005e-11,
+        7.03736192198255450e-01
+      ],
+      "S_entropy": [
+        0.00000000000000000e+00,
+        0.00000000000000000e+00
+      ],
+      "N_sumWeights": [
+        0.00000000000000000e+00,
+        1.12000000000000000e+02
+      ],
+      "N_fromDensity": [
+        3.95658616980654188e-10,
+        1.12000000087412957e+02
+      ],
+      "ksGap": [
+        2.48838727401334836e-11,
+        9.56051340736009392e-02
+      ],
+      "deltaScf": [
+        1.28659394249552861e-09,
+        9.56050822325309468e-02
+      ],
+      "E1": [
+        4.88284968014340848e-11,
+        6.11642155626779882e+01
+      ]
+    },
+    "scalarTotalFlip_absSum_absValueA": [
+      7.93775711827038322e-10,
+      2.07616372809744369e+01
+    ],
+    "particleHoleMaxAbsDelta": 2.75423017725984209e-11,
+    "profileNorms": "n_c, S_c: max|X_plusM - sign X_minusM| in the SCF norm D = max(max|n_c|, max|S_c|); n_p, S_p: (X / e^{-6Hy}) in the norm D; v_x: (X / e^{-6Hy}) in the norm (|lambda|/16) D; M_eff: relative to max|M_eff|; rho, p_y, p_3, p_t: (X / e^{-6Hy}) relative to its maximum",
+    "profiles_sign_deviation_norm_rawMaxAbsDeviation_rawScale": {
+      "n_c": [
+        1.00000000000000000e+00,
+        2.81233369925359966e-14,
+        1.56781777932654756e-02,
+        2.81233369925359966e-14,
+        1.56781777932654756e-02
+      ],
+      "n_p": [
+        1.00000000000000000e+00,
+        2.81233369925359966e-14,
+        1.56781777932654756e-02,
+        1.20213201171281980e-07,
+        1.47557663106370569e+02
+      ],
+      "v_x": [
+        1.00000000000000000e+00,
+        2.76471553983803631e-17,
+        9.37531999780223026e-06,
+        3.36340566509107930e-10,
+        8.82373214891772895e-02
+      ],
+      "rho": [
+        1.00000000000000000e+00,
+        1.96113958406129996e-13,
+        8.64338471160450671e-03,
+        9.48526679422911911e-09,
+        5.29931536279366089e+00
+      ],
+      "p_y": [
+        1.00000000000000000e+00,
+        3.01538308211668493e-14,
+        3.42681302872800990e-03,
+        4.57540245690779557e-08,
+        1.87320738319326132e+01
+      ],
+      "p_3": [
+        1.00000000000000000e+00,
+        7.88735396439754766e-15,
+        1.73893072160397457e-03,
+        1.22731655949337437e-08,
+        1.09876318164665605e+01
+      ],
+      "p_t": [
+        1.00000000000000000e+00,
+        1.61548797148079932e-16,
+        1.56154558468657163e-06,
+        1.06072892691599918e-08,
+        6.51004598681873237e+00
+      ],
+      "S_c": [
+        -1.00000000000000000e+00,
+        1.53163444613127547e-13,
+        1.56781777932654756e-02,
+        1.53163444613127547e-13,
+        1.30670048902646867e-03
+      ],
+      "S_p": [
+        -1.00000000000000000e+00,
+        1.53163444613127547e-13,
+        1.56781777932654756e-02,
+        2.25143104159997165e-09,
+        6.09568154491697456e+00
+      ],
+      "M_eff": [
+        -1.00000000000000000e+00,
+        1.39345202043728023e-09,
+        1.05467692018827464e+00,
+        1.39345202043728023e-09,
+        1.05467692018827464e+00
+      ]
+    },
+    "averages_sign_absDeviation_scale_absDeviationTimesProperVolume": {
+      "rhoAvg": [
+        1.00000000000000000e+00,
+        5.76733105717153194e-13,
+        2.30807376967956633e-02,
+        1.52596029962105291e-09
+      ],
+      "pYAvg": [
+        1.00000000000000000e+00,
+        1.22802809587874151e-13,
+        1.03152945141663458e-02,
+        3.24920158484750071e-10
+      ],
+      "p3Avg": [
+        1.00000000000000000e+00,
+        5.09722472563645113e-14,
+        6.86247398210027525e-03,
+        1.34865893642364911e-10
+      ],
+      "pTAvg": [
+        1.00000000000000000e+00,
+        9.12847407255959475e-17,
+        8.27773631938420027e-06,
+        2.41527474194928231e-13
+      ],
+      "nPAvg": [
+        1.00000000000000000e+00,
+        1.49540102523104679e-13,
+        4.23301365748348646e-02,
+        3.95663535506199883e-10
+      ],
+      "sPAvg": [
+        -1.00000000000000000e+00,
+        3.00008282105856949e-13,
+        7.84681197293320316e-03,
+        7.93782641420916998e-10
+      ]
+    },
+    "orbitalSwapMaxDeviation": 3.40534456102353777e-10,
+    "orbitalsCompared": 787
+  },
+  "pairTotals": {
+    "mirrorPair": {
+      "definition": "plusM + minusM: the ordinary -M universe (standard expectation rule, the same lambda) with the +M universe",
+      "expected": "E = 2 E_+, F = 2 F_+, charge 2N, scalarTotal = 0, <rho>, <p_y>, <p_3>, <p_t>, <n_p> doubled, <S_p> = 0",
+      "totals": {
+        "E": 1.22137220959653149e+02,
+        "F": 1.22137220959653149e+02,
+        "charge_N": 2.24000000000000000e+02,
+        "scalarTotal": 7.93775711827038322e-10,
+        "rhoAvg": 4.61614753930145935e-02,
+        "pYAvg": 2.06305890282098905e-02,
+        "p3Avg": 1.37249479641495774e-02,
+        "pTAvg": -1.65554726386771175e-05,
+        "nPAvg": 8.46602731495201821e-02,
+        "sPAvg": 3.00008282105856949e-13
+      }
+    },
+    "kreinImagePair": {
+      "definition": "plusM - minusM: the gamma^8 image of the +M state with the Krein metric -B (coupling -lambda), whose one-body densities and energies are those of minusM with reversed sign, together with the +M universe",
+      "expected": "E = 0, F = 0, charge 0, <rho> = <p_y> = <p_3> = <p_t> = <n_p> = 0, scalarTotal = 2 S_+, <S_p> = 2 <S_p>_+",
+      "totals": {
+        "E": 1.23776544569409452e-09,
+        "F": 1.23776544569409452e-09,
+        "charge_N": 0.00000000000000000e+00,
+        "scalarTotal": -4.15232745627426496e+01,
+        "rhoAvg": 5.76733105717153194e-13,
+        "pYAvg": 1.22802809587874151e-13,
+        "p3Avg": 5.09722472563645113e-14,
+        "pTAvg": 9.12847407255959475e-17,
+        "nPAvg": 1.49540102523104679e-13,
+        "sPAvg": -1.56936239455663998e-02
+      }
+    }
+  },
+  "controlDeviation_plusM_vs_minusMControl": null,
+  "controlOutcome": "control not solved: not run: the first SCF update violates the window premise of the solver: shift bound max|M_eff - m| + max|v_x| = 63.11982819727636 > |window floor| = 4.594395102393195 (the untransformed tip bag puts the zero modes at the tip, where the proper-density factor is e^{6HL})",
+  "firstUpdateShiftBound_absWindowFloor": {
+    "plusM": [
+      1.55311617898322318e-01,
+      4.59439510239319482e+00
+    ],
+    "minusM": [
+      1.55311617900588395e-01,
+      4.59439510239319482e+00
+    ],
+    "minusM_control": [
+      6.31198281972763624e+01,
+      4.59439510239319482e+00
+    ]
+  },
+  "stage4Reproduction": {
+    "stage4Run": "m1_L3_N112_lamm1_T0",
+    "bitwiseEqual": true,
+    "stage4_E_gap_deltaScf_mu": [
+      6.10686104804454573e+01,
+      9.56051340736009392e-02,
+      9.56050822325309468e-02,
+      7.03736192198255450e-01
+    ]
+  }
+}
