@@ -67,6 +67,9 @@ pub const CV_FINITE_DIFFERENCE_LIMIT: f64 = 0.3;
 /// interacting run is a separate problem; the thermo N values 8 and
 /// N_mid = 112 are both below the limit).
 pub const HOT_TEMPERATURE_LIMIT: f64 = 0.5;
+/// Occupation floor of the particle-hole lists of the excited subcommand
+/// (the T = 0 rule of the reference solver, scripts/ks_reference_solver.py).
+pub const PH_OCCUPATION_FLOOR: f64 = 1e-12;
 pub const HOT_INTERACTING_MAX_N: f64 = 200.0;
 use crate::shooting::{Potential, Shooter, DEFAULT_TOLERANCES};
 use crate::theory;
@@ -1261,27 +1264,28 @@ pub fn run_excited(ctx: &RunContext) -> Result<ExperimentSummary, String> {
                 &format!("{} iterations", ground.iterations),
             );
             let gap = ground.gap().unwrap_or(f64::NAN);
-            // particle-hole list: lowest 12 excitations eps_a - eps_i (occupied i,
-            // empty a) in the EXACT T = 0 aufbau occupations of the converged
-            // spectrum (N states in order of eps; a group degenerate within 1e-9
-            // that straddles N is shared equally and belongs to both sets).  For
-            // exact-occupation runs these are the ground-state f.  For a run that
-            // converged only with occupation smearing (a level crossing at the
-            // Fermi level, scf.rs) the smeared f are a convergence device, not the
-            // physical T = 0 occupations: with them every state with f > 0 (down
-            // to f ~ 1e-185) would count as a hole and every state with f < 1 as a
-            // particle.
-            let mut aufbau = ground.spectrum.clone();
-            scf::occupy(&mut aufbau, &params, &scf::Occupation::Zero)?;
-            let occupied: Vec<&scf::State> = aufbau
+            // particle-hole list: lowest 12 excitations eps_a - eps_i of the
+            // converged ground state: holes i hold more than PH_OCCUPATION_FLOOR
+            // of a particle, particles a have more than PH_OCCUPATION_FLOOR of a
+            // vacancy (a fractionally occupied level belongs to both sets).  For
+            // exact T = 0 occupations (0, 1 or the fraction of a straddling
+            // shell) the floor changes nothing.  For a run converged only with
+            // occupation smearing (a level crossing at the Fermi level, scf.rs)
+            // the floor keeps the Fermi-Dirac tails (f down to ~1e-185) from
+            // counting as holes or particles; the ensemble's fractionally
+            // occupied levels are the ones the KS gap and Delta-SCF of this run
+            // refer to.
+            let occupied: Vec<&scf::State> = ground
+                .spectrum
                 .states
                 .iter()
-                .filter(|s| s.branch > 0 && s.f > 0.0)
+                .filter(|s| s.branch > 0 && s.f > PH_OCCUPATION_FLOOR)
                 .collect();
-            let empty: Vec<&scf::State> = aufbau
+            let empty: Vec<&scf::State> = ground
+                .spectrum
                 .states
                 .iter()
-                .filter(|s| s.branch > 0 && s.f < 1.0)
+                .filter(|s| s.branch > 0 && s.f < 1.0 - PH_OCCUPATION_FLOOR)
                 .collect();
             let mut ph: Vec<(f64, f64, f64, f64, f64)> = Vec::new();
             for i in &occupied {

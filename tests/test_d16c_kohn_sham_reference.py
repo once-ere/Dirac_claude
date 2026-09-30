@@ -32,10 +32,13 @@ import check_dirac16complex_kohn_sham as C  # noqa: E402
 
 
 class ParticleHoleRuleTests(unittest.TestCase):
-    """T = 0 particle-hole pairs come from the exact aufbau of the converged
-    spectrum, also for a run converged with occupation smearing (the
-    N = 1016, -lambda_hat_2 level crossing); physical T > 0 keeps the thermal
-    rule (holes f >= 1/2, particles f < 1/2)."""
+    """T = 0 particle-hole pairs (exact occupations, or a run converged with
+    occupation smearing such as the N = 1016, -lambda_hat_2 level crossing):
+    holes hold more than 1e-12 of a particle, particles more than 1e-12 of a
+    vacancy, so the Fermi-Dirac tails of a smeared run (f ~ 1e-185) are
+    neither; physical T > 0 keeps the thermal rule (holes f >= 1/2,
+    particles f < 1/2).  The Rust crate uses the same floor
+    (runs.rs PH_OCCUPATION_FLOOR)."""
 
     @staticmethod
     def _run(T, smearing, fs):
@@ -55,11 +58,11 @@ class ParticleHoleRuleTests(unittest.TestCase):
         run.state_eps = {}
         return run, states
 
-    def test_smeared_zero_temperature_run_uses_the_aufbau(self):
+    def test_smeared_zero_temperature_run_uses_the_occupation_floor(self):
         smeared = [0.978, 0.526, 0.526, 1e-185]
         run, states = self._run(0.0, 1e-3, smeared)
         pairs = K.particle_hole_list(run)
-        self.assertLess(pairs[0]["excitation"], 1e-9)          # inside the half-filled shell
+        self.assertLess(pairs[0]["excitation"], 1e-9)          # inside the fractionally occupied level
         self.assertTrue(all(abs(p["epsHole"] - 0.9) > 1e-6 for p in pairs))   # f = 1e-185 is no hole
         self.assertEqual([st.f for st in states], smeared)     # the run's own occupations are untouched
         # negative control: the smeared f taken as thermal would give 0.2 (B -> C)
