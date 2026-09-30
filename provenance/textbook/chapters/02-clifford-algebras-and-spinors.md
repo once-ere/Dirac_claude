@@ -8,7 +8,7 @@ The story has five steps.
 
 1. The **square-root problem.** The length of a vector is the square root of a sum of squares. Paul Dirac discovered that a sum of squares can be written as the square of a *linear* expression, provided the coefficients are matrices that anticommute. The Pauli matrices (three directions) and the Dirac matrices (four directions) are the first examples (Section 2.3 and Section 2.4).
 2. The **Clifford algebra** $\mathrm{Cl}(p,q)$ is the general rule behind these examples, for any number of directions with any signs (Section 2.5).
-3. **How big the matrices must be.** In 8 directions the anticommuting matrices must be at least 16 by 16, and for signature (4,4) real 16 by 16 matrices exist. We construct them in two ways: by a tensor-product recipe (Section 2.7) and by the author's notebook, whose matrices are called T16^A (Section 2.8). This is why a spinor in 4+4 dimensions has 16 components.
+3. **How big the matrices must be.** In 8 directions the anticommuting matrices must be at least 16 by 16, and for signature (4,4) real 16 by 16 matrices exist. We construct them in two ways: by a tensor-product recipe (Section 2.7) and by the author's notebook, whose matrices are called $\mathrm{T16}^A$ (Section 2.8). This is why a spinor in 4+4 dimensions has 16 components.
 4. The **special matrices** of the theory: the charge matrix $C=\sigma_{16}$, the chirality $\gamma^8$, the spin generators $S^{ab}$ and the matrix $B$ (Section 2.9 to Section 2.12).
 5. **Symmetry groups.** After defining groups and representations from zero (Section 2.13) we build the groups Pin(4,4) and Spin(4,4), which act on spinors, and we prove the **representation theorem**: under Pin(4,4) the 16 complex components form one indivisible (irreducible) block, while under Spin(4,4) they split into two blocks of 8 that are irreducible and genuinely different from each other (Section 2.14 and Section 2.15).
 
@@ -354,9 +354,9 @@ $$
 
 using $PG=-N$ twice. The subscript dm stands for dirac-main. The repository checks that these tensor matrices satisfy the Clifford relation and equal dirac-main's committed generators (check `ALG_cliffordPictureIntertwiner`).
 
-### 2.8 The notebook's gamma matrices T16^A
+### 2.8 The notebook's gamma matrices $\mathrm{T16}^A$
 
-The author's notebook uses a different set of real 16 by 16 matrices, called (T16^A)[a] there. In this book they are written $\gamma^a$ without a hat, and they are the **primary gamma matrices** of the whole project (contract, §1). The notebook builds them in **block form** from eight real 8 by 8 matrices $\tau_a$ and eight partners $\bar\tau_a$:
+The author's notebook uses a different set of real 16 by 16 matrices, called $(\mathrm{T16}^A)[a]$ there. In this book they are written $\gamma^a$ without a hat, and they are the **primary gamma matrices** of the whole project (contract, §1). The notebook builds them in **block form** from eight real 8 by 8 matrices $\tau_a$ and eight partners $\bar\tau_a$:
 
 $$
 \gamma^a=\begin{pmatrix}0&\bar\tau_a\\ \tau_a&0\end{pmatrix}\qquad(a=0,\dots,7).
@@ -787,3 +787,109 @@ Had the two halves been equivalent through an invertible $T$, the matrix $\begin
 - The vector space $\mathbb R^8$ and the two halves $\Delta_-$ and $\Delta_+$ are all 8-dimensional. The notebook remarks on these three 8-dimensional representations of Spin(4,4) (cell 669, per the notebook survey); the symmetry that permutes them is called **triality**. It is a standard fact that this book neither proves nor uses; Chapter 3 shows the concrete identification of all three spaces with the split octonions.
 
 **What the computer computed.** The Python checker writes the commutant condition $\gamma^aX-X\gamma^a=0$ ($a=0,\dots,7$) for an unknown 16 by 16 matrix $X$ as $8\cdot256=2048$ linear equations in the 256 unknowns $X_{ij}$, with integer coefficients, and solves them by exact Gaussian elimination with fractions (functions `intertwiner_equations` and `nullspace` of `scripts/d16c_exact.py`); the Wolfram verifier does the same with its own code. The solution space has dimension exactly 1 (the scalar matrices), which is Theorem 2.11 in computed form (Stage 1, Result 4.1; check `ALG_pinIrreducibleComplex`). Gaussian elimination only adds, subtracts, multiplies and divides the integer coefficients, so it runs identically whether complex or only rational solutions are allowed; the dimension over the complex numbers is the same. For the 28 spin generators (whose products give all even monomials, so they have the same commutant as $\mathrm{Spin}(4,4)$), the computed commutant has dimension 2 and is spanned by $P_-$ and $P_+$; every $S^{ab}$ and every even monomial is block diagonal; the commutants of the two blocks have dimensions (1, 1); the even monomials restricted to each block have rank (64, 64); and the intertwiner spaces between the blocks have dimensions (0, 0) in both directions (Stage 1, Result 4.2; check `ALG_spinDecomposition`). Every one of these numbers is predicted by Theorem 2.12.
+
+### 2.16 What the computer checked
+
+Each statement below is proved by hand in this chapter (or, where marked, taken from the check and proved by hand in Chapter 3) and is also checked with exact integer or rational arithmetic by two independent programs: the Wolfram verifier `scripts/verify_dirac16complex_algebra.wls` (with the package `wolfram/Dirac16ComplexAlgebra.wl`) and the Python checker `scripts/check_dirac16complex_algebra.py` (with `scripts/d16c_exact.py`). Every check is recorded as true in both algebra reports, `wolfram-algebra-report.json` (21 of 21 checks true) and `python-algebra-report.json` (21 of 21 checks true), in the folder `artifacts/dirac16complex/arbitrary-field/` (Stage 1, §11).
+
+| Statement (where in this chapter; where in Stage 1) | Check |
+| --- | --- |
+| Clifford relation of the notebook's gammas, all 64 pairs (2.8, proved by hand in Chapter 3; Result 3.1) | `ALG_clifford` |
+| $\gamma^a$ symmetric for $a\le3$ and antisymmetric for $a\ge4$ (2.8; Result 3.1) | `ALG_gammaTransposeSymmetry` |
+| the 256 monomials have rank 256, the 128 even ones rank 128 (2.6 and 2.8; Result 3.2) | `ALG_faithful` |
+| $C=\gamma^0\gamma^1\gamma^2\gamma^3=\mathrm{diag}(-\sigma,\sigma)$ is symmetric, $C^2=1$, signature (8,8) (2.9; Result 3.3) | `ALG_chargeMatrix` |
+| expression [1], $(C\gamma^a)^T=-C\gamma^a$: eight times True (2.9; Result 3.4) | `ALG_expression1` |
+| $(CS^{ab})^T=-CS^{ab}$, the triple identities of Exercise 2.8, and $[S^{ab},\gamma^c]$ (2.11; Result 3.5) | `ALG_spinTransposeProperties` |
+| $\gamma^8=\mathrm{diag}(-I_8,I_8)$ and its commutation rules (2.10; Result 3.6) | `ALG_chirality` |
+| the tensor-picture gammas satisfy the Clifford relation (2.7; Result 3.7) | `ALG_cliffordPictureIntertwiner` |
+| $B$ is Hermitian, $B^2=1$, eight eigenvalues $+1$ and eight $-1$, $[C,B]=0$, $BC=-i\gamma^4$ (2.12; Result 10.2) | `ALG_chargeFormB` |
+| $\Psi^\dagger C\Psi\to-n(u)\,\Psi^\dagger C\Psi$ for a unit vector; the untwisted image lies in O(4,4) (2.14; §4.2 and §7.7) | `ALG_pinLiftCharacter` |
+| the commutant of the eight gammas has dimension 1 (2.15; Result 4.1) | `ALG_pinIrreducibleComplex` |
+| the commutant of the $S^{ab}$ has dimension 2; block commutants (1, 1); even ranks (64, 64); cross intertwiners (0, 0) (2.15; Result 4.2) | `ALG_spinDecomposition` |
+| exactly 13 of the 28 $S^{ab}$ commute with $B$ (Exercise 2.10; Result 10.6) | `QNT_unitaryAndKreinSubgroups` |
+
+The two programs also check each other. The Wolfram verifier reads the exact data file `algebra-fixture.json` written by Python and finds all 75 stored matrices equal to its own (check `ALG_fixtureAgreement`), and the Python checker reads the Wolfram report and finds all 47 shared measurements equal (check `ALG_wolframAgreement`, Python report only; Stage 1, §3.4 and §11.6). To rerun the Python algebra checker without touching the committed reports, run from the repository root (in PowerShell set the variable with `$env:PYTHONUTF8 = "1"` instead of `export`):
+
+```
+export PYTHONUTF8=1
+python scripts/check_dirac16complex_algebra.py --wolfram-report= \
+    --output build/textbook/python-algebra-report.json
+```
+
+It prints one line per check and ends with `check_count=20` and `failed_check_count=0`: the 21 checks of the committed report except the comparison with the Wolfram report, which the empty `--wolfram-report=` switches off. The complete Stage-1 gate, which also runs the Wolfram verifier, is `bash scripts/verify_stage1_arbitrary_field.sh` (Git Bash) or `pwsh -NoProfile -File scripts/verify_stage1_arbitrary_field.ps1` (PowerShell); it ends with the line `stage1_arbitrary_field_verification=OK` (Stage 1, §12; Chapter 19). Without the separately published dirac-main folder the comparisons with dirac-main record "not-run" and the gate runs in its public-clone mode, described in Stage 1, §12.
+
+### 2.17 What we proved and what we assumed
+
+**Proved in this chapter, step by step.** A linear expression $\sum_ap_a\gamma^a$ squares to the quadratic form $\sum_a\eta^{aa}p_a^2$ exactly when the matrices satisfy the Clifford relation (Section 2.3). The Pauli and Dirac matrices satisfy it (Section 2.3 and Section 2.4). The three monomial rules (R1) to (R3) follow from the relation. For an even number $n$ of generators every monomial except 1 is traceless, the $2^n$ monomials are independent, and the matrices must be at least $2^{n/2}$ by $2^{n/2}$; for 4+4 dimensions this is 16, and 16 by 16 gammas span all 16 by 16 matrices, so only multiples of $I$ commute with all of them (Theorem 2.1, Theorem 2.2, Corollary 2.3). Real 16 by 16 gammas of signature (4,4) exist (Theorem 2.4). Given the Clifford relation of the notebook's gammas: they are symmetric for $a\le3$ and antisymmetric for $a\ge4$; $C$ is symmetric with $C^2=1$ and signature (8,8); expression [1] holds; $\gamma^8$ squares to 1, anticommutes with every $\gamma^a$ and has eight eigenvalues of each sign; the spin generators rotate the gammas, their exponentials are rotations and boosts, a rotation by $2\pi$ equals $-1$ on spinors, and $R^TCR=C$; $B$ is Hermitian with $B^2=1$, signature (8,8) and $BC=-i\gamma^4$. Schur's lemma (first part) and the span criterion (Theorem 2.6, Theorem 2.7). Conjugation by a unit vector is a reflection up to sign; Pin(4,4) and Spin(4,4) are groups with a well-defined parity; the spinor-norm formula (Theorem 2.8); both vector actions are homomorphisms into O(4,4) with determinant $(-1)^{|g|}$ (Theorem 2.9) and kernel $\{\pm1\}$ (Theorem 2.10); every element of Pin(4,4) has spinor determinant 1; the products of exponentials all have spinor norm $+1$. Finally the **representation theorem**: $\mathbb C^{16}$ is an irreducible complex representation of Pin(4,4) with scalar commutant (Theorem 2.11), and under Spin(4,4) (and under its part connected to 1) it is the sum of two irreducible, inequivalent 8-dimensional halves, the images of $P_-$ and $P_+$, with a two-dimensional commutant (Theorem 2.12).
+
+**Assumed or quoted.** The power series of the exponential, sine, cosine, cosh and sinh functions, and the convergence of the exponential series of a matrix, are quoted from calculus and analysis. The Cartan–Dieudonné theorem is quoted; it is needed only for the word "onto", that is, for the statements that Pin(4,4) and Spin(4,4) are double covers of all of O(4,4) and SO(4,4). Three properties of the notebook's particular matrices, their Clifford relation, $C=\mathrm{diag}(-\sigma,\sigma)$ and $\gamma^8=\mathrm{diag}(-I_8,I_8)$, are taken in this chapter from the exact machine checks and proved by hand in Chapter 3. The conventions (counting from 0, the metric $\eta$ with $x_4$ as time, the notebook's basis as the primary basis, the names of the matrices) are choices, not results. Nothing in this chapter is a physical claim: it is algebra. Triality and the topology of the groups (how many connected pieces Spin(4,4) has) are only described, not proved.
+
+### 2.18 Exercises
+
+**Exercise 2.1.** Compute $\sigma_y\sigma_z$, $\sigma_z\sigma_y$ and $\sigma_z\sigma_x$, and confirm $\sigma_y\sigma_z=i\sigma_x$ and $\sigma_z\sigma_x=i\sigma_y$. What is $(\sigma_x\sigma_y\sigma_z)^2$?
+
+**Exercise 2.2.** Show that no real 2 by 2 matrix $M$ anticommutes with both $\sigma_x$ and $\sigma_z$ and satisfies $M^2=I$. Find all complex matrices that do.
+
+**Exercise 2.3.** Compute $(3\sigma_x+4N)^2$. Of which quadratic form in $(p,q)$ is $p\sigma_x+qN$ a square root?
+
+**Exercise 2.4.** Show that exactly half of the $2^n$ monomials are even ($n\ge1$). For $n=8$, list the number of monomials of each degree $k=0,\dots,8$.
+
+**Exercise 2.5.** Use (R2) to count the monomials of $\mathrm{Cl}(4,4)$ that square to $+1$. Then show that for the notebook's gammas a monomial is a symmetric matrix exactly when it squares to $+1$, and deduce from a dimension count, without the first part, that there must be exactly $136=16\cdot17/2$ of them.
+
+**Exercise 2.6.** Compute $(P\otimes G)(N\otimes P)$ with the mixed-product rule, and check the result by multiplying the two 4 by 4 matrices in block form.
+
+**Exercise 2.7.** In the tensor picture write $\hat\gamma^1\hat\gamma^5$ as one Kronecker product and verify that it squares to $+1$, as (R2) predicts.
+
+**Exercise 2.8.** Prove that $C\{\gamma^c,S^{ab}\}$ is symmetric and $C[\gamma^c,S^{ab}]$ is antisymmetric, for all $a,b,c$.
+
+**Exercise 2.9.** Compute the commutator $[S^{01},S^{12}]$.
+
+**Exercise 2.10.** Which of the 28 spin generators $S^{ab}$ ($a<b$) commute with $B$? Count them.
+
+**Exercise 2.11.** Show directly from the definition that the reflection $R_u$ preserves the metric, $\eta(R_uv,R_uw)=\eta(v,w)$, and that $R_u(R_uv)=v$.
+
+**Exercise 2.12.** For the null vector $u=e_0+e_4$ show that $\gamma(u)^2=0$ and conclude that $\gamma(u)$ has no inverse.
+
+**Exercise 2.13.** For $g=\gamma^0\gamma^1\gamma^4$ find the parity and the spinor norm, and verify $g^TCg=(-1)^3N(g)C$ by a direct computation. What does $\Psi\mapsto g\Psi$ do to $\Psi^\dagger C\Psi$?
+
+**Exercise 2.14.** Show that $\exp(4\pi S^{01})=1$ and $\exp(\pi S^{01})=\gamma^0\gamma^1$. Which vector transformation does $\exp(\pi S^{01})$ produce?
+
+**Exercise 2.15.** Using the tables of Section 2.8, compute $\gamma^0e_3$ and $\gamma^4e_3$, where $e_3$ is the column with a 1 in position 3 and 0 elsewhere. Check that both lie in the chirality $+1$ half, and compute $P_-(e_3+e_{11})$.
+
+### 2.19 Answers to the exercises
+
+**Answer 2.1.** $\sigma_y\sigma_z=\begin{pmatrix}0&-i\\ i&0\end{pmatrix}\begin{pmatrix}1&0\\0&-1\end{pmatrix}=\begin{pmatrix}0&i\\ i&0\end{pmatrix}=i\sigma_x$, and $\sigma_z\sigma_y=\begin{pmatrix}0&-i\\ -i&0\end{pmatrix}=-i\sigma_x$. Next, $\sigma_z\sigma_x=\begin{pmatrix}1&0\\0&-1\end{pmatrix}\begin{pmatrix}0&1\\1&0\end{pmatrix}=\begin{pmatrix}0&1\\-1&0\end{pmatrix}$, and $i\sigma_y=\begin{pmatrix}0&-i^2\\ i^2&0\end{pmatrix}=\begin{pmatrix}0&1\\-1&0\end{pmatrix}$, the same. Since $\sigma_x\sigma_y\sigma_z=iI$, its square is $i^2I=-I$.
+
+**Answer 2.2.** Write $M=\begin{pmatrix}\alpha&\beta\\ \gamma&\delta\end{pmatrix}$. Then $\sigma_zM+M\sigma_z=\begin{pmatrix}2\alpha&0\\0&-2\delta\end{pmatrix}$, so $\alpha=\delta=0$. With $M=\begin{pmatrix}0&\beta\\ \gamma&0\end{pmatrix}$, $\sigma_xM+M\sigma_x=\begin{pmatrix}\beta+\gamma&0\\0&\beta+\gamma\end{pmatrix}$, so $\gamma=-\beta$ and $M=\beta N$. Then $M^2=\beta^2N^2=-\beta^2I$, which equals $I$ only for $\beta^2=-1$. No real $\beta$ does this; the complex solutions are $\beta=\pm i$, that is, $M=\pm iN=\mp\sigma_y$.
+
+**Answer 2.3.** $3\sigma_x+4N=\begin{pmatrix}0&7\\-1&0\end{pmatrix}$ and its square is $\begin{pmatrix}-7&0\\0&-7\end{pmatrix}=-7I=(3^2-4^2)I$. In general $(p\sigma_x+qN)^2=(p^2-q^2)I$, a square root of $p^2-q^2$ (Section 2.3).
+
+**Answer 2.4.** By the binomial theorem, $0=(1-1)^n=\sum_k\binom nk(-1)^k$, so the number of monomials of even degree equals the number of odd degree; they add up to $2^n$, so each is $2^{n-1}$. For $n=8$ the numbers $\binom8k$ are 1, 8, 28, 56, 70, 56, 28, 8, 1 for $k=0,\dots,8$; the even degrees give $1+28+70+28+1=128$ and the odd ones $8+56+56+8=128$.
+
+**Answer 2.5.** By (R2) the sign of $\gamma_A^2$ is $(-1)^{k(k-1)/2}$ times $(-1)^t$, where $t$ is the number of time-like indices (indices $\ge4$) in $A$ and $s=k-t$ the number of space-like ones. Counting subsets with $s$ space-like and $t$ time-like indices, $\binom4s\binom4t$ of them, the monomials with square $+1$ are, by degree: $k=0$: 1; $k=1$: $t=0$, 4; $k=2$ (sign $-(-1)^t$): $t=1$, $4\cdot4=16$; $k=3$ (sign $-(-1)^t$): $t=1$ or 3, $6\cdot4+1\cdot4=28$; $k=4$ (sign $+(-1)^t$): $t=0,2,4$, $1+36+1=38$; $k=5$ (sign $+(-1)^t$): $t=2$ or 4, $4\cdot6+4\cdot1=28$; $k=6$ (sign $-(-1)^t$): $t=3$, $4\cdot4=16$; $k=7$ (sign $-(-1)^t$): $t=3$, 4; $k=8$: 1. The total is $1+4+16+28+38+28+16+4+1=136$. For the second part: every monomial is a product of orthogonal matrices (N2), hence orthogonal, so $\gamma_A^T=\gamma_A^{-1}=\pm\gamma_A$ with the sign of $\gamma_A^2$. So a monomial is symmetric exactly when its square is $+1$, and antisymmetric otherwise. The symmetric monomials are independent elements of the space of symmetric 16 by 16 matrices, whose dimension is $16\cdot17/2=136$ (the free entries on and above the diagonal), so there are at most 136 of them; likewise at most $16\cdot15/2=120$ antisymmetric ones. Since there are $256=136+120$ monomials in all, both bounds are reached. The notebook counts the same 136 and 120 (its cells 597 to 599 and 608 to 609, according to the notebook survey).
+
+**Answer 2.6.** $(P\otimes G)(N\otimes P)=(PN)\otimes(GP)=(-G)\otimes N$, because $PN=-G$ and $GP=N$. In block form $P\otimes G=\begin{pmatrix}0&G\\ G&0\end{pmatrix}$ and $N\otimes P=\begin{pmatrix}0&P\\-P&0\end{pmatrix}$, whose product is $\begin{pmatrix}-GP&0\\0&GP\end{pmatrix}=\begin{pmatrix}-N&0\\0&N\end{pmatrix}$; and $(-G)\otimes N$ has the blocks $-1\cdot N$ and $+1\cdot N$ on the diagonal, the same matrix.
+
+**Answer 2.7.** $\hat\gamma^1=G\otimes P\otimes I_2\otimes I_2$ and $\hat\gamma^5=\hat\gamma_2^-=G\otimes N\otimes I_2\otimes I_2$, so $\hat\gamma^1\hat\gamma^5=G^2\otimes PN\otimes I_2\otimes I_2=I_2\otimes(-G)\otimes I_2\otimes I_2$. Its square is $I_2\otimes G^2\otimes I_2\otimes I_2=I_{16}$. (R2) with $k=2$ predicts $(-1)^1\eta^{11}\eta^{55}=(-1)(+1)(-1)=+1$.
+
+**Answer 2.8.** Put $A=C\gamma^c$ and $\Sigma=CS^{ab}$; both are antisymmetric, by expression [1] and by (S5). Since $C^2=1$, $C\gamma^cS^{ab}=C\gamma^cCCS^{ab}=AC\Sigma$, and $(AC\Sigma)^T=\Sigma^TC^TA^T=(-\Sigma)C(-A)=\Sigma CA=CS^{ab}CC\gamma^c=CS^{ab}\gamma^c$. So $(C\gamma^cS^{ab})^T=CS^{ab}\gamma^c$, and transposing $C\{\gamma^c,S^{ab}\}=C\gamma^cS^{ab}+CS^{ab}\gamma^c$ gives $CS^{ab}\gamma^c+C\gamma^cS^{ab}$, the same matrix (symmetric), while transposing $C[\gamma^c,S^{ab}]=C\gamma^cS^{ab}-CS^{ab}\gamma^c$ gives $CS^{ab}\gamma^c-C\gamma^cS^{ab}$, its negative (antisymmetric).
+
+**Answer 2.9.** $S^{01}S^{12}=\tfrac14\gamma^0\gamma^1\gamma^1\gamma^2=\tfrac14\gamma^0\gamma^2$. For the other order, $\gamma^1\gamma^2\gamma^0\gamma^1$: move the last $\gamma^1$ to the front past $\gamma^0$ and $\gamma^2$ (two signs), which gives $\gamma^1\gamma^1\gamma^2\gamma^0=\gamma^2\gamma^0=-\gamma^0\gamma^2$; so $S^{12}S^{01}=-\tfrac14\gamma^0\gamma^2$. Hence $[S^{01},S^{12}]=\tfrac12\gamma^0\gamma^2=S^{02}$. Two infinitesimal rotations in the planes (0,1) and (1,2) fail to commute by an infinitesimal rotation in the plane (0,2), exactly as for rotations of ordinary space.
+
+**Answer 2.10.** $B$ is $-i$ times the monomial $\gamma_A$ with $A=\{0,1,2,3,4\}$ of degree 5. By (R3), $\gamma^c\gamma_A=(-1)^4\gamma_A\gamma^c=\gamma_A\gamma^c$ if $c\in A$ and $\gamma^c\gamma_A=(-1)^5\gamma_A\gamma^c=-\gamma_A\gamma^c$ if $c\notin A$. So $S^{ab}=\tfrac12\gamma^a\gamma^b$ commutes with $B$ when $a,b$ are both in $A$ or both outside $A$ (the two signs cancel), and anticommutes when exactly one is in $A$. The commuting ones are the $\binom52=10$ pairs inside $\{0,1,2,3,4\}$ and the $\binom32=3$ pairs inside $\{5,6,7\}$: 13 in all. This is erratum E1 of the contract: 13, not 9 (Stage 1, Result 10.6); the four boosts $S^{a4}$ with $a\le3$ are among the 13.
+
+**Answer 2.11.** Write $c=\eta(u,u)=\pm1$. Expanding with the bilinearity of $\eta$,
+
+$$
+\eta(R_uv,R_uw)=\eta(v,w)-\frac{2\eta(u,w)\eta(v,u)}{c}-\frac{2\eta(u,v)\eta(u,w)}{c}+\frac{4\eta(u,v)\eta(u,w)\eta(u,u)}{c^2}=\eta(v,w),
+$$
+
+because $\eta(u,u)/c^2=1/c$ and the last three terms add up to $(-4+4)\eta(u,v)\eta(u,w)/c=0$. Next, $\eta(u,R_uv)=\eta(u,v)-2\eta(u,v)=-\eta(u,v)$, so $R_u(R_uv)=R_uv+2\frac{\eta(u,v)}cu=v$.
+
+**Answer 2.12.** $\gamma(u)^2=(\gamma^0+\gamma^4)^2=(\gamma^0)^2+(\gamma^4)^2+\{\gamma^0,\gamma^4\}=1-1+0=0$. If $\gamma(u)$ had an inverse, then $\gamma(u)=\gamma(u)^{-1}\gamma(u)^2=0$; but $\gamma(u)$ is a nonzero combination of two independent monomials. So it has no inverse.
+
+**Answer 2.13.** Three factors: odd parity. $N(g)=n(e_0)n(e_1)n(e_4)=(+1)(+1)(-1)=-1$, so the formula predicts $g^TCg=(-1)^3(-1)C=C$. Directly: $g^T=(\gamma^4)^T(\gamma^1)^T(\gamma^0)^T=-\gamma^4\gamma^1\gamma^0$ by (N3). From (C1), $C\gamma^0=-\gamma^0C$, $C\gamma^1=-\gamma^1C$ and $C\gamma^4=\gamma^4C$. So $\gamma^0C\gamma^0=-\gamma^0\gamma^0C=-C$, then $\gamma^1(-C)\gamma^1=+\gamma^1\gamma^1C=C$, then $-\gamma^4C\gamma^4=-\gamma^4\gamma^4C=C$. Hence $g^TCg=-\gamma^4\gamma^1(\gamma^0C\gamma^0)\gamma^1\gamma^4=C$. Under $\Psi\mapsto g\Psi$ the bilinear $\Psi^\dagger C\Psi$ becomes $\Psi^\dagger g^TCg\Psi=\Psi^\dagger C\Psi$: it is unchanged.
+
+**Answer 2.14.** By (S4), $\exp(\theta S^{01})=\cos\tfrac\theta2+\gamma^0\gamma^1\sin\tfrac\theta2$. For $\theta=4\pi$: $\cos2\pi+\gamma^0\gamma^1\sin2\pi=1$. For $\theta=\pi$: $\cos\tfrac\pi2+\gamma^0\gamma^1\sin\tfrac\pi2=\gamma^0\gamma^1$. By the worked example of Section 2.11 it maps $\gamma^0\to\cos\pi\,\gamma^0-\sin\pi\,\gamma^1=-\gamma^0$ and $\gamma^1\to-\gamma^1$ and leaves the other six directions alone: the rotation by $\pi$ in the plane (0,1), $(v_0,v_1)\mapsto(-v_0,-v_1)$.
+
+**Answer 2.15.** $\gamma^0e_3$ is column 3 of $\gamma^0$. The table says that row 11 of $\gamma^0$ has its entry $+1$ in column 3 (entry $+3$), and no other row points to column 3; so $\gamma^0e_3=e_{11}$. In the same way row 14 of $\gamma^4$ has the entry $+3$, so $\gamma^4e_3=e_{14}$. Both $e_{11}$ and $e_{14}$ have their nonzero component among positions 8 to 15, the chirality $+1$ half, while $e_3$ lies in the $-1$ half, as (X6) requires. Finally $P_-=\mathrm{diag}(I_8,0)$ keeps the upper eight components and deletes the lower ones, so $P_-(e_3+e_{11})=e_3$.

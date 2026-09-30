@@ -97,19 +97,17 @@
     "gauntlet_rust_vs_reference_profilesInterior": true,
     "gauntlet_rust_vs_reference_sourcingConditions": true,
     "gauntlet_rust_vs_reference_thermodynamics": true,
-    "gauntlet_rust_vs_reference_coverage": false,
-    "gauntlet_reference_summary_complete": false,
+    "gauntlet_rust_vs_reference_coverage": true,
+    "gauntlet_reference_summary_complete": true,
     "gauntlet_python_check_report": false,
     "gauntlet_figures_written": true,
     "gauntlet_prose_numbers_match_files": true
   },
   "checkCount": 74,
-  "failedCheckCount": 9,
+  "failedCheckCount": 7,
   "failed": [
     "gauntlet_determinism_report_current",
     "gauntlet_python_check_report",
-    "gauntlet_reference_summary_complete",
-    "gauntlet_rust_vs_reference_coverage",
     "gauntlet_rust_vs_reference_deltaSCF",
     "gauntlet_rust_vs_reference_eigenvalues",
     "gauntlet_rust_vs_reference_particleHole",
@@ -121,7 +119,7 @@
       "code cell 17 has an error output (AssertionError)"
     ],
     "problems_execution0_r07_gauntlet_passed": [
-      "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole, rust_vs_reference_coverage, reference_summary_complete",
+      "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole",
       "gauntlet SKIP lines: python_check_report",
       "the gauntlet did not print ALL CHECKS PASSED"
     ],
@@ -129,7 +127,7 @@
       "code cell 17 has an error output (AssertionError)"
     ],
     "problems_execution1_r07_gauntlet_passed": [
-      "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole, rust_vs_reference_coverage, reference_summary_complete",
+      "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole",
       "gauntlet SKIP lines: python_check_report",
       "the gauntlet did not print ALL CHECKS PASSED"
     ],
@@ -141,14 +139,12 @@
     "figures": 14,
     "requiredFigures": 14,
     "gauntletCount": 60,
-    "gauntletPassed": 53,
+    "gauntletPassed": 55,
     "gauntletFailed": [
       "determinism_report_current",
       "rust_vs_reference_deltaSCF",
       "rust_vs_reference_eigenvalues",
-      "rust_vs_reference_particleHole",
-      "rust_vs_reference_coverage",
-      "reference_summary_complete"
+      "rust_vs_reference_particleHole"
     ],
     "gauntletSkipped": [
       "python_check_report"
@@ -156,17 +152,17 @@
     "executions": 2
   },
   "sourceSha256": {
-    "builder": "497d1c804d6221a9c5193bf75624e8421bd7c1d5b79fcad41e28f956ec7a7e9a",
+    "builder": "29501d56c085d29e02be9f71da38642260bdacbe806ee43ec69413fa48153303",
     "auditor": "4ee6dfdca59b076bcec372dca4b82f1c84e00009b178a83ab835d7ad5e1d9c91",
     "runner": "ef5bbd8c082f2e17ed2c894788f5f9edd791a23ecb25ebe266881fe2d7cff40c",
-    "notebookCells": "7820174d6637185aa80e75197828c7016ec775d4d3ed1d083eec6d900e532cd5",
+    "notebookCells": "411d225952e003293bda36cc96e595db414d80011590a1c93ea0b4fb769a75e4",
     "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
     "artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json": "5b150b36e13b903c32b86e8debbaeda48798e0beb0bc6a216e416d2671f4e01a",
     "artifacts/dirac16complex/kohn-sham/exchange-table.json": "42542b119b258f957e748861d30de7dbc8527f4c0a11f3a2cd6660d9ba98e0a3",
     "artifacts/dirac16complex/kohn-sham/wolfram-kohn-sham-report.json": "9f04bc10b2e513a790ea6f317473caa8d245a98ee38cbdeb5997f17557fe8978",
     "artifacts/dirac16complex/kohn-sham/python-theory-report.json": "042ef6dc641fd3ec69cdc6d775832f824beb3b39f769e65eadfae8682a78356b",
     "artifacts/dirac16complex/kohn-sham/rust/determinism-report.json": "b25c152f23e97c4b6bc47dfa5f13d45182cb4b3ae71ab6110d69eae89abbe78b",
-    "artifacts/dirac16complex/kohn-sham/reference/reference-summary.json": "1a22b9c19deac5e1d32818d0e3aa5aa17c7889f40aff8000f9bc796663f83682",
+    "artifacts/dirac16complex/kohn-sham/reference/reference-summary.json": "f6247addb043a970856476d690f437b8d1d2a1a7d340d643a170ae283bf43d64",
     "artifacts/dirac16complex/kohn-sham/python-check-report.json": null,
     "scripts/check_dirac16complex_kohn_sham.py": "a2883b47fd5a4febbf19fe479c1b7afaa1ba001621a0455e946e1682c02294ee",
     "artifacts/dirac16complex/kohn-sham/rust/spectrum/summary.json": "52d4eb13142740b90ad7aad1c2868748501291ecd9c103149ecc1dadb95c5091",
@@ -181,7 +177,7 @@
       "notebook": "notebooks/dirac16complex_kohn_sham.ipynb",
       "problems": [
         "code cell 17 has an error output (AssertionError)",
-        "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole, rust_vs_reference_coverage, reference_summary_complete",
+        "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole",
         "gauntlet SKIP lines: python_check_report",
         "the gauntlet did not print ALL CHECKS PASSED"
       ],
@@ -189,14 +185,14 @@
       "gauntletChecks": 60,
       "gauntletPassed": false,
       "nbformatValid": true,
-      "cellsSha256": "7820174d6637185aa80e75197828c7016ec775d4d3ed1d083eec6d900e532cd5"
+      "cellsSha256": "411d225952e003293bda36cc96e595db414d80011590a1c93ea0b4fb769a75e4"
     },
     {
       "runner": "Jupyter kernel python3 through nbclient (python -m nbconvert --to notebook --execute, or the builder's --execute)",
       "notebook": "dirac16complex_kohn_sham.ipynb",
       "problems": [
         "code cell 17 has an error output (AssertionError)",
-        "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole, rust_vs_reference_coverage, reference_summary_complete",
+        "gauntlet FAIL lines: determinism_report_current, rust_vs_reference_deltaSCF, rust_vs_reference_eigenvalues, rust_vs_reference_particleHole",
         "gauntlet SKIP lines: python_check_report",
         "the gauntlet did not print ALL CHECKS PASSED"
       ],
@@ -204,7 +200,7 @@
       "gauntletChecks": 60,
       "gauntletPassed": false,
       "nbformatValid": true,
-      "cellsSha256": "7820174d6637185aa80e75197828c7016ec775d4d3ed1d083eec6d900e532cd5"
+      "cellsSha256": "411d225952e003293bda36cc96e595db414d80011590a1c93ea0b4fb769a75e4"
     }
   ],
   "crossExecution": {
@@ -215,14 +211,14 @@
   "figures": [
     {
       "file": "artifacts/dirac16complex/kohn-sham/figures/block_structure.png",
-      "sha256": "746e55a2df1a9e2ce91d940d41d9e6c3b785cf6b9952adab0bd1dcd3f78ff3a5",
-      "bytes": 33951,
+      "sha256": "8b11e0b83ded984c5e0d779474084ae9961812040c4b0cf26b508e3bdc4c348f",
+      "bytes": 33383,
       "description": "Eight 2x2 blocks: |entries| of the y-current matrix gamma^0 gamma^4 in the original spinor basis and in the explicit block basis of kohn-sham-theory.json, and of the full reduced-equation operator in the block basis (section 6.1)."
     },
     {
       "file": "artifacts/dirac16complex/kohn-sham/figures/brane_localisation.png",
-      "sha256": "18bfe1a4158765125a3ca1073e956b7900ae25bc07b48afa997e3f26704767bc",
-      "bytes": 66976,
+      "sha256": "6664acfaf1399da98acd76be5c16449dab7236abf7d6c3991c6d077b719b14aa",
+      "bytes": 66412,
       "description": "Cumulative fraction of the particles within a distance d of the brane (N = 8, 112, 1016 at m = 1; N = 112 at m = 3) and the fraction within 1/H against the coupling (section 13)."
     },
     {
@@ -275,14 +271,14 @@
     },
     {
       "file": "artifacts/dirac16complex/kohn-sham/figures/ks_spectrum.png",
-      "sha256": "4cfffbec5bd7b7b2bd337c0435a4b0b752bde3c7abc4a69acd40342b9acd9de5",
-      "bytes": 70924,
+      "sha256": "f468ecd9110e904511e7cbdeff9e5a6aef95920ee4a54f0f0da5340c6da3cdb4",
+      "bytes": 73895,
       "description": "Kohn-Sham spectrum eps_n(k) per parity (rows) and block type s = -j (markers): free spectrum m = 1, L = 3 with the zero-mode band +-ck, and the self-consistent spectrum of m1_L3_N112_lamp2_T0 with its chemical potential (section 7)."
     },
     {
       "file": "artifacts/dirac16complex/kohn-sham/figures/rust_vs_reference.png",
-      "sha256": "8c0649abbb79ebe0cd8a1c12683632a5cbd3eda2c8582e69a7b461f0e407bf70",
-      "bytes": 70118,
+      "sha256": "b5bf9db23a8430af804d1270e74020aac4a4d18e80acfdde1d5465ca1f4e076b",
+      "bytes": 70659,
       "description": "Rust against the independent reference solver, run by run: the worst deviation/tolerance per quantity (E0, mu and KS gap, Delta-SCF, lowest particle-hole, eigenvalues, interior profiles, EMT averages, thermodynamics, other), with the exact per-comparison tolerances of check_dirac16complex_kohn_sham.py (section 15)."
     },
     {
@@ -300,8 +296,8 @@
   ],
   "gauntlet": {
     "count": 60,
-    "passed": 53,
-    "failed": 6,
+    "passed": 55,
+    "failed": 4,
     "skipped": 1,
     "results": [
       {
@@ -566,37 +562,37 @@
         "name": "rust_vs_reference_eigenvalueMatching",
         "status": "PASS",
         "passed": true,
-        "detail": "every level in the common window matched, same branch, same T = 0 occupation; 80 comparisons, worst 0.000e+00 (tolerance 5.000e-01, ratio 0) at scf/m1_L2_N112_lam0_T0 unmatched 0, branch mismatches 0, occupation mismatches 0, compared 460; failures: []"
+        "detail": "every level in the common window matched, same branch, same T = 0 occupation; 81 comparisons, worst 0.000e+00 (tolerance 5.000e-01, ratio 0) at scf/m1_L2_N112_lam0_T0 unmatched 0, branch mismatches 0, occupation mismatches 0, compared 460; failures: []"
       },
       {
         "name": "rust_vs_reference_eigenvalues",
         "status": "FAIL",
         "passed": false,
-        "detail": "eigenvalues per (q, parity, block type): |d eps| <= 1e-06 max(1, |eps|/m) m + dl max|V|; 52668 comparisons, worst 1.541e-06 (tolerance 1.054e-06, ratio 1.46) at excited/m1_L3_N1016_lamm2_T0_g601 eps -1.05374707; failures: ['excited/m1_L3_N1016_lamm2_T0_g601', 'excited/m1_L3_N1016_lamm2_T0_g601', 'excited/m1_L3_N1016_lamm2_T0_g601', 'excited/m1_L3_N1016_lamm2_T0_g601']"
+        "detail": "eigenvalues per (q, parity, block type): |d eps| <= 1e-06 max(1, |eps|/m) m + dl max|V|; 58412 comparisons, worst 1.541e-06 (tolerance 1.054e-06, ratio 1.46) at excited/m1_L3_N1016_lamm2_T0_g601 eps -1.05374707; failures: ['excited/m1_L3_N1016_lamm2_T0_g601', 'excited/m1_L3_N1016_lamm2_T0_g601', 'excited/m1_L3_N1016_lamm2_T0_g601', 'excited/m1_L3_N1016_lamm2_T0_g601']"
       },
       {
         "name": "rust_vs_reference_emtAverages",
         "status": "PASS",
         "passed": true,
-        "detail": "proper-volume EMT averages; 384 comparisons, worst 5.834e-05 (tolerance 1.318e-04, ratio 0.443) at thermo/m1_L3_N112_lam0_T1:rhoAvg ; failures: []"
+        "detail": "proper-volume EMT averages; 390 comparisons, worst 5.834e-05 (tolerance 1.318e-04, ratio 0.443) at thermo/m1_L3_N112_lam0_T1:rhoAvg ; failures: []"
       },
       {
         "name": "rust_vs_reference_fractions",
         "status": "PASS",
         "passed": true,
-        "detail": "brane and tip fractions; 128 comparisons, worst 1.618e-06 (tolerance 1.000e-05, ratio 0.162) at scf/m1_L4_N112_lam0_T0:braneFraction_within_1_over_H ; failures: []"
+        "detail": "brane and tip fractions; 130 comparisons, worst 1.618e-06 (tolerance 1.000e-05, ratio 0.162) at scf/m1_L4_N112_lam0_T0:braneFraction_within_1_over_H ; failures: []"
       },
       {
         "name": "rust_vs_reference_heatCapacity",
         "status": "PASS",
         "passed": true,
-        "detail": "C_V central difference and fixed-spectrum forms; 42 comparisons, worst 2.761e-05 (tolerance 1.000e-03, ratio 0.0276) at thermo/m1_L3_N112_lamh_T0p3:C_V_fd ; failures: []"
+        "detail": "C_V central difference and fixed-spectrum forms; 44 comparisons, worst 2.761e-05 (tolerance 1.000e-03, ratio 0.0276) at thermo/m1_L3_N112_lamh_T0p3:C_V_fd ; failures: []"
       },
       {
         "name": "rust_vs_reference_lambdaHat",
         "status": "PASS",
         "passed": true,
-        "detail": "couplings derived independently on both sides; 80 comparisons, worst 4.979e-08 (tolerance 2.000e-07, ratio 0.249) at scf/m1_L4_N8_lamp1_T0 ; failures: []"
+        "detail": "couplings derived independently on both sides; 81 comparisons, worst 4.979e-08 (tolerance 2.000e-07, ratio 0.249) at scf/m1_L4_N8_lamp1_T0 ; failures: []"
       },
       {
         "name": "rust_vs_reference_muAndGap",
@@ -614,37 +610,37 @@
         "name": "rust_vs_reference_profilesEnds",
         "status": "PASS",
         "passed": true,
-        "detail": "profiles on the two end nodes (O(h^3) reference end values); 600 comparisons, worst 3.063e-04 (tolerance 2.000e-03, ratio 0.153) at scf/m1_L3_N112_lamp2_T0:p_t ; failures: []"
+        "detail": "profiles on the two end nodes (O(h^3) reference end values); 610 comparisons, worst 3.063e-04 (tolerance 2.000e-03, ratio 0.153) at scf/m1_L3_N112_lamp2_T0:p_t ; failures: []"
       },
       {
         "name": "rust_vs_reference_profilesInterior",
         "status": "PASS",
         "passed": true,
-        "detail": "profiles on the interior common nodes (relative to the profile scale); 600 comparisons, worst 1.291e-05 (tolerance 2.000e-05, ratio 0.646) at scf/m3_L3_N8_lamm1_T0:p_3 ; failures: []"
+        "detail": "profiles on the interior common nodes (relative to the profile scale); 610 comparisons, worst 1.291e-05 (tolerance 2.000e-05, ratio 0.646) at scf/m3_L3_N8_lamm1_T0:p_3 ; failures: []"
       },
       {
         "name": "rust_vs_reference_sourcingConditions",
         "status": "PASS",
         "passed": true,
-        "detail": "E4.1 verdict and sign of <S_p> agree; 64 comparisons, worst 0.000e+00 (tolerance 5.000e-01, ratio 0) at scf/m1_L2_N112_lam0_T0 ; failures: []"
+        "detail": "E4.1 verdict and sign of <S_p> agree; 65 comparisons, worst 0.000e+00 (tolerance 5.000e-01, ratio 0) at scf/m1_L2_N112_lam0_T0 ; failures: []"
       },
       {
         "name": "rust_vs_reference_thermodynamics",
         "status": "PASS",
         "passed": true,
-        "detail": "E, F, S, mu at T > 0 after the correction for the Rust level set (f_cut window, shell cap); 64 comparisons, worst 4.081e-03 (tolerance 1.809e-02, ratio 0.226) at thermo/m1_L3_N8_lamh_T1:freeEnergy ; failures: []"
+        "detail": "E, F, S, mu at T > 0 after the correction for the Rust level set (f_cut window, shell cap); 68 comparisons, worst 4.093e-03 (tolerance 1.809e-02, ratio 0.226) at thermo/m1_L3_N112_lamh_T1:freeEnergy ; failures: []"
       },
       {
         "name": "rust_vs_reference_coverage",
-        "status": "FAIL",
-        "passed": false,
-        "detail": "80 Rust runs compared with the reference run of the same label; without a reference run: ['thermo/m1_L3_N112_lamh_T1']; unreadable reference directories: []"
+        "status": "PASS",
+        "passed": true,
+        "detail": "81 Rust runs compared with the reference run of the same label; without a reference run: []; unreadable reference directories: []"
       },
       {
         "name": "reference_summary_complete",
-        "status": "FAIL",
-        "passed": false,
-        "detail": "reference-summary.json: complete = False; labels compared here but not recorded in it: ['m1_L3_N112_lamh_T1']"
+        "status": "PASS",
+        "passed": true,
+        "detail": "reference-summary.json: complete = True; labels compared here but not recorded in it: []"
       },
       {
         "name": "python_check_report",

@@ -36,7 +36,7 @@ $$
 \frac{dO}{dt}=i\,[H,O].
 $$
 
-**Canonical quantization in one line.** For a particle with coordinate $q$ and momentum $p$ (Section 5.2) the rule is $[q,p]=i$: the classical Poisson bracket, times $i$, becomes the commutator. For fermions the commutator is replaced by the anticommutator. The next two sections show why this gives the Pauli principle.
+**Canonical quantization in one line.** For a particle with coordinate $q$ and momentum $p$ (Section 5.2) the classical **Poisson bracket** of two functions $F(q,p)$ and $G(q,p)$ is $\{F,G\}_{\mathrm P}=\frac{\partial F}{\partial q}\frac{\partial G}{\partial p}-\frac{\partial F}{\partial p}\frac{\partial G}{\partial q}$, so $\{q,p\}_{\mathrm P}=1$, and Hamilton's equations read $\dot F=\{F,H\}_{\mathrm P}$. The quantization rule is $[q,p]=i$: the Poisson bracket, times $i$, becomes the commutator, and $\dot F=\{F,H\}_{\mathrm P}$ becomes the Heisenberg equation. For fermions the commutator is replaced by the anticommutator. The next two sections show why this gives the Pauli principle.
 
 ### 8.3 One fermion mode: anticommutators and the Pauli principle
 
@@ -110,7 +110,7 @@ $$
 
 The constraints are therefore of the kind Dirac calls **second class**: they can be solved, and the resulting bracket (the **Dirac bracket**) is built from $K^{-1}$. The identity above was verified symbolically for an arbitrary $e_a{}^4$ and at the G1 points (check `QNT_curvedAnticommutatorMatrix`, `wolfram-algebra-report.json`). The graded constraint computation itself is a derivation, not a separate machine check (Stage-1 document, §10.2).
 
-**$K$ is anti-Hermitian.** $K=\sqrt{|g|}\,e_a{}^4\,C\gamma^a$ is a real combination of the real antisymmetric matrices $C\gamma^a$ (expression [1], Section 5.12), so $K^T=-K$ and, being real, $K^\dagger=-K$. This makes $\Psi^\dagger K\partial_4\Psi$ real up to a total derivative, as a Lagrangian must be.
+**$K$ is anti-Hermitian.** $K=\sqrt{|g|}\,e_a{}^4\,C\gamma^a$ is a real combination of the real antisymmetric matrices $C\gamma^a$ (expression [1], Section 5.12), so $K^T=-K$ and, being real, $K^\dagger=-K$. This is what makes the anticommutator matrix $iK^{-1}$ of Section 8.6 Hermitian. (When $K$ depends on $x_4$, the total derivative added above also puts the derivative-free term $-\tfrac12\bar\Psi\,\partial_4(\sqrt{|g|}\gamma^{x_4})\Psi$ into $\mathcal H$; the Stage-1 document, §9.5 and §10.4, discusses it. It vanishes in flat space and in the primordial field.)
 
 **The Hamiltonian in flat space.** In flat space ($g=\eta$, $\sqrt{|g|}=1$, $\Omega_\mu=0$, $\gamma^{x_4}=\gamma^4$) with $U=0$,
 
@@ -343,13 +343,13 @@ These counts, 13, 9, 21 and 12, are Result 10.6 of the Stage-1 document (check `
 
 ### 8.12 The U(1) charge and the expectation-value rule
 
-**The current.** The phase symmetry $\Psi\to e^{i\alpha}\Psi$ (Section 5.7) gives the conserved current $J^\mu=-i\bar\Psi\gamma^\mu\Psi$ (Chapter 7). Its matrices $-iC\gamma^a$ are Hermitian: $(-iC\gamma^a)^\dagger=i(\gamma^a)^TC=i(-C\gamma^aC)C=-iC\gamma^a$ (Section 5.12). In Gaussian normal gauge $J^4=-i\Psi^\dagger C\gamma^4\Psi=\Psi^\dagger B\Psi$: the charge density is the Krein form (checks `QNT_currentHermiticity`, both algebra reports, and `GR_currentHermitian`, `grassmann-demo-report.json`). The conserved charge is $Q=\int\sqrt{|g|}\,J^4\,d^7x$. As a quadratic form in classical spinors it is indefinite, of signature (8,8). In the positive representation, $\Psi^\dagger B\Psi=\chi BB\Psi=\chi\Psi$, and in the good sector, after normal ordering, the mode expansion of Section 8.10 gives
+**The current.** The phase symmetry $\Psi\to e^{i\alpha}\Psi$ (Section 5.7) gives the conserved current $J^\mu=-i\bar\Psi\gamma^\mu\Psi$ (Chapter 7). Its matrices $-iC\gamma^a$ are Hermitian: $(-iC\gamma^a)^\dagger=i(\gamma^a)^TC=i(-C\gamma^aC)C=-iC\gamma^a$ (Section 5.12). In Gaussian normal gauge $J^4=-i\Psi^\dagger C\gamma^4\Psi=\Psi^\dagger B\Psi$: the charge density is the Krein form (checks `QNT_currentHermiticity`, both algebra reports, and `GR_currentHermitian`, `grassmann-demo-report.json`). The conserved charge is $Q=\int\sqrt{|g|}\,J^4\,d^7x$. As a quadratic form in classical spinors it is indefinite, of signature (8,8). In the positive representation, $\Psi^\dagger B\Psi=\chi BB\Psi=\chi\Psi$, and in the good sector the mode expansion of Section 8.10 gives, after normal ordering (summed over all modes),
 
 $$
-Q=\sum\bigl(b^\ast b-d^\ast d\bigr):
+Q=\sum\bigl(b^\ast b-d^\ast d\bigr).
 $$
 
-particles have charge $+1$ and antiparticles charge $-1$ (derived, Stage-1 document §10.9).
+Particles have charge $+1$ and antiparticles charge $-1$ (derived, Stage-1 document §10.9).
 
 **The expectation-value rule.** Every classical bilinear becomes, in the positive representation, $\Psi^\dagger M\Psi=\chi BM\Psi$ (Section 8.7). For a one-particle state $|u\rangle=b_u^\ast|0\rangle$, whose wave function $u$ is a normalized ($u^\dagger u=1$) positive-energy solution in the good sector, the normal-ordered expectation value is
 

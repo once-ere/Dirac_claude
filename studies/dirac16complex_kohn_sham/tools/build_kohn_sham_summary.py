@@ -21,8 +21,11 @@ Inputs (paths relative to --root, default artifacts/dirac16complex/kohn-sham):
   rust/spectrum/theory-agreement.json  (zero-mode splitting comparison)
   rust/excited/<label>/particle-hole.csv, levels.csv
                                        (first particle-hole pairs of every excited
-                                       run; fractionally occupied levels of the
-                                       runs converged with occupation smearing)
+                                       run; for the runs converged with occupation
+                                       smearing: the fractionally occupied levels
+                                       and the COUNT of particle-branch states up
+                                       to each of them, i.e. where the exact T = 0
+                                       aufbau count closes)
   rust/determinism-report.json         studies/dirac16complex_kohn_sham/tools/compare_runs.py
   reference/reference-summary.json     scripts/ks_reference_solver.py
   python-check-report.json             scripts/check_dirac16complex_kohn_sham.py

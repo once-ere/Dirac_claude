@@ -7,9 +7,10 @@
 # scripts/verify_stage3_dark_sector.sh (itself modelled on the
 # verify_phase*.sh gates of https://github.com/once-ere/dirac,
 # GPL-3.0-or-later, with the command resolution of its
-# scripts/resolve_wolframscript.sh inlined).  The comparisons are made by one
-# program, scripts/verify_stage4_kohn_sham_audit.py, which both twins call,
-# so that both apply exactly the same rules.
+# scripts/resolve_wolframscript.sh inlined).  The comparisons, and the launch
+# of the Rust runs, are made by one program,
+# scripts/verify_stage4_kohn_sham_audit.py, which both twins call, so that
+# both apply exactly the same rules.
 #
 # Run from any directory with Git Bash or WSL:
 #   bash scripts/verify_stage4_kohn_sham.sh
@@ -21,30 +22,33 @@
 #                      names; build/stage4 is kept unless step 00 is listed);
 #                      the last line is then stage4_kohn_sham_verification=PARTIAL
 #                      (exit 3), never OK
-#   --refined-thermo   also run "thermo --refined" (adds hours) so that the
+#   --refined-thermo   also run "thermo --refined" in step 14 so that the
 #                      refined tree is complete and the fresh determinism report
 #                      must equal the committed one byte for byte
+#   --sequential-rust  run the Rust processes of step 14 one after another
+#                      instead of concurrently (same outputs)
 #
 # Needs: python (numpy, matplotlib, nbformat, nbclient, nbconvert,
 # ipykernel), cargo with rustfmt and clippy, git, pdflatex (PATH or MiKTeX);
 # wolframscript is optional: without it the two Wolfram steps (the exact
 # theory verifier and the Mathematica notebook) are skipped with the message
-# stage4_skipped_step=..., the sympy theory checker then compares with the
+# stage4_skipped_step=..., the sympy theory checker still compares with the
 # committed kohn-sham-theory.json, and the line before the final line says
 # which cross-checks were not run.  Every step runs through
 # scripts/run_logged.sh with its log in build/logs/ (*-bash.log, so the
-# PowerShell twin's logs are not overwritten; build/ is git-ignored; the gate
-# deletes and recreates only build/stage4/).  The gate stops at the first
-# failing step and prints stage4_failed_step, stage4_failed_log and
-# stage4_kohn_sham_verification=FAILED.  A Wolfram step whose log shows a
-# licence or kernel-limit message is retried after 30 s, at most 3 attempts.
-# Never run two gates at once (either twin): both would delete and rewrite
-# build/stage4.
+# PowerShell twin's logs are not overwritten; the Rust processes of step 14
+# write build/logs/stage4-14-rust-runs-bash-<canonical|refined>-<sub>.log;
+# build/ is git-ignored; the gate deletes and recreates only build/stage4/).
+# The gate stops at the first failing step and prints stage4_failed_step,
+# stage4_failed_log and stage4_kohn_sham_verification=FAILED.  A Wolfram step
+# whose log shows a licence or kernel-limit message is retried after 30 s, at
+# most 3 attempts.  Never run two gates at once (either twin): both would
+# delete and rewrite build/stage4.
 #
-# What is and is not re-run, the step list (stage4-00 .. stage4-45) and the
-# expected wall time of every step: see the header of the PowerShell twin
-# scripts/verify_stage4_kohn_sham.ps1 and the TIMING notes there; --dry-run
-# prints them.
+# What is and is not re-run, the step list (stage4-00 .. stage4-36) and the
+# measured wall time of every step (TIMING): see the header of the PowerShell
+# twin scripts/verify_stage4_kohn_sham.ps1; --dry-run prints the expected
+# wall time of every step.
 #
 # The Wolfram report path is passed positionally, never after "--"
 # (WolframScript 1.14 drops "--" and every argument after it).
@@ -52,21 +56,24 @@ set -euo pipefail
 
 dry_run=0
 refined_thermo=0
+sequential_rust=0
 steps_option=""
+usage() {
+    printf 'usage: %s [--dry-run] [--steps LIST] [--refined-thermo] [--sequential-rust]\n' "$0" >&2
+    exit 2
+}
 while (($# > 0)); do
     case "$1" in
         --dry-run) dry_run=1 ;;
         --refined-thermo) refined_thermo=1 ;;
+        --sequential-rust) sequential_rust=1 ;;
         --steps)
             shift
-            (($# > 0)) || { printf 'usage: %s [--dry-run] [--steps LIST] [--refined-thermo]\n' "$0" >&2; exit 2; }
+            (($# > 0)) || usage
             steps_option="$1"
             ;;
         --steps=*) steps_option="${1#--steps=}" ;;
-        *)
-            printf 'usage: %s [--dry-run] [--steps LIST] [--refined-thermo]\n' "$0" >&2
-            exit 2
-            ;;
+        *) usage ;;
     esac
     shift
 done
@@ -257,6 +264,29 @@ skip_step() {
     fi
 }
 
+# Expected wall time per step (TIMING in the PowerShell twin; same strings).
+expect() {
+    case "$1" in
+        00) printf '%s' "about 10 s" ;;
+        01) printf '%s' "about 10 s (about 1 min when the engine is cloned)" ;;
+        03) printf '%s' "about 45 s" ;;
+        04) printf '%s' "about 3 min" ;;
+        10) printf '%s' "PROVISIONAL" ;;
+        11) printf '%s' "PROVISIONAL" ;;
+        12) printf '%s' "PROVISIONAL" ;;
+        14) printf '%s' "PROVISIONAL" ;;
+        15 | 16) printf '%s' "about 1 min" ;;
+        18) printf '%s' "PROVISIONAL" ;;
+        20) printf '%s' "PROVISIONAL" ;;
+        25 | 26) printf '%s' "PROVISIONAL" ;;
+        30) printf '%s' "PROVISIONAL" ;;
+        32 | 33) printf '%s' "PROVISIONAL" ;;
+        34) printf '%s' "about 10 s" ;;
+        35) printf '%s' "PROVISIONAL" ;;
+        *) printf '%s' "seconds" ;;
+    esac
+}
+
 solver_pin=a8fdff459adfe181573d7924b18bffbdf378fdb3
 crate=studies/dirac16complex_kohn_sham
 manifest=$crate/Cargo.toml
@@ -290,6 +320,10 @@ documents=(
 )
 audit=("$python_command" scripts/verify_stage4_kohn_sham_audit.py)
 subcommands=(spectrum scf excited thermo emt)
+refined_subcommands=(spectrum scf excited emt)
+if ((refined_thermo == 1)); then
+    refined_subcommands=("${subcommands[@]}")
+fi
 # Committed files that the gate regenerates in place (figures, Mathematica
 # report, .tex/.pdf) or must leave alone; all must end the run byte-identical
 # (mathematica-report.json modulo engine.binary).
@@ -351,19 +385,19 @@ if ((dry_run == 0)); then
     mkdir -p -- "$stage_build"
 fi
 
-run_step stage4-00-snapshot 0 "seconds" "" \
+run_step stage4-00-snapshot 0 "$(expect 00)" "" \
     "${audit[@]}" snapshot --into "$snapshot" "${committed_paths[@]}"
-run_step stage4-01-solver-setup 0 "seconds; about 1 min when the engine is cloned" "" \
+run_step stage4-01-solver-setup 0 "$(expect 01)" "" \
     "$BASH" scripts/setup_solver.sh win11
-run_step stage4-02-solver-pin 0 "seconds" "" \
+run_step stage4-02-solver-pin 0 "$(expect 02)" "" \
     "${audit[@]}" solver --pin "$solver_pin"
 
 # Exact theory.  The sympy checker compares with the committed
-# kohn-sham-theory.json (its report records that path); step 05 proves that
-# the fresh Wolfram theory file is identical to it.
+# kohn-sham-theory.json (its report records that path and its sha256); step
+# 05 proves that the fresh Wolfram theory file is identical to it.
 theory_pairs=()
 if [[ -n "$wolframscript_command" ]]; then
-    run_step stage4-03-theory-wolfram 1 "about 25 s" \
+    run_step stage4-03-theory-wolfram 1 "$(expect 03)" \
         "scripts/verify_dirac16complex_kohn_sham.wls|wolfram/Dirac16ComplexKohnSham.wl" \
         "$wolframscript_command" -file scripts/verify_dirac16complex_kohn_sham.wls \
         "$theory_build/wolfram-kohn-sham-report.json"
@@ -372,22 +406,22 @@ if [[ -n "$wolframscript_command" ]]; then
 else
     skip_step stage4-03-theory-wolfram "wolframscript was not found; the exact Wolfram theory verifier was NOT run"
 fi
-run_step stage4-04-theory-sympy 0 "about 2 min" "$kohn_sham/kohn-sham-theory.json" \
+run_step stage4-04-theory-sympy 0 "$(expect 04)" "$kohn_sham/kohn-sham-theory.json" \
     "$python_command" scripts/check_dirac16complex_kohn_sham_theory.py \
     --output "$theory_build/python-theory-report.json" --table "$theory_build/exchange-table.json"
 theory_pairs+=(--pair "$kohn_sham/python-theory-report.json" "$theory_build/python-theory-report.json"
     --pair "$kohn_sham/exchange-table.json" "$theory_build/exchange-table.json")
-run_step stage4-05-theory-same 0 "seconds" "" \
+run_step stage4-05-theory-same 0 "$(expect 05)" "" \
     "${audit[@]}" same --rtol 1e-9 --atol 1e-12 "${theory_pairs[@]}"
 
 constants_generator=scripts/generate_dirac16complex_ks_constants.py
 if [[ -f "$constants_generator" ]]; then
-    run_step stage4-06-constants-check 0 "seconds" "" \
+    run_step stage4-06-constants-check 0 "$(expect 06)" "" \
         "$python_command" "$constants_generator" --check
-    run_step stage4-07-constants-regenerate 0 "seconds" "" \
+    run_step stage4-07-constants-regenerate 0 "$(expect 07)" "" \
         "$python_command" "$constants_generator" --output "$constants_build/generated.rs" \
         --report "$constants_build/generator-report.json"
-    run_step stage4-08-constants-same 0 "seconds" "" \
+    run_step stage4-08-constants-same 0 "$(expect 08)" "" \
         "${audit[@]}" same --pair "$crate/src/generated.rs" "$constants_build/generated.rs" \
         --pair "$committed_rust/generator-report.json" "$constants_build/generator-report.json"
 else
@@ -396,14 +430,14 @@ else
     done
 fi
 
-run_step stage4-09-cargo-fmt 0 "seconds" "" \
+run_step stage4-09-cargo-fmt 0 "$(expect 09)" "" \
     "$cargo_command" fmt --manifest-path "$manifest" --check
-run_step stage4-10-cargo-clippy 0 "about 1 min cold, seconds warm" "" \
+run_step stage4-10-cargo-clippy 0 "$(expect 10)" "" \
     "$cargo_command" clippy --manifest-path "$manifest" --release --all-targets \
     -- -D warnings
-run_step stage4-11-cargo-test 0 "about 1-2 min" "" \
+run_step stage4-11-cargo-test 0 "$(expect 11)" "" \
     "$cargo_command" test --manifest-path "$manifest" --release
-run_step stage4-12-cargo-build 0 "about 1 min cold, seconds warm" "" \
+run_step stage4-12-cargo-build 0 "$(expect 12)" "" \
     "$cargo_command" build --manifest-path "$manifest" --release
 
 binary=$crate/target/release/dirac16complex_kohn_sham.exe
@@ -415,114 +449,106 @@ if ((dry_run == 0 && partial == 0)) && [[ ! -f "$binary" ]]; then
 fi
 printf 'stage4_binary=%s\n' "$binary"
 
-run_step stage4-13-print-config 0 "seconds" "$binary" "./$binary" print-config
+run_step stage4-13-print-config 0 "$(expect 13)" "$binary" "./$binary" print-config
 
-# The canonical Rust tree, one subcommand per step (each writes only
-# build/stage4/run-a/<sub>/); the TIMING notes of the PowerShell twin give the
-# measured wall times.
-rust_expected() {
-    case "$1" in
-        spectrum) printf '%s' "about 1 min" ;;
-        scf) printf '%s' "about 10 min alone (29-36 min when three full runs shared the machine)" ;;
-        excited) printf '%s' "about 15-25 min alone (10 min for the 15 runs without the 601-point refinement)" ;;
-        thermo) printf '%s' "about 1 h alone (2 h 42 min - 3 h 03 min when three full runs shared the machine)" ;;
-        emt) printf '%s' "about 3-6 min" ;;
-    esac
-}
-step_number=14
+# The canonical tree (every subcommand into build/stage4/run-a) and the
+# refined tree (build/stage4/refined), launched by the audit program: all
+# processes concurrently, or one after another with --sequential-rust.
+rust_jobs=()
 for subcommand in "${subcommands[@]}"; do
-    run_step "$(printf 'stage4-%02d-rust-%s' "$step_number" "$subcommand")" 0 \
-        "$(rust_expected "$subcommand")" "$binary" \
-        "./$binary" "$subcommand" --output "$run_a"
-    step_number=$((step_number + 1))
+    rust_jobs+=(--job "$subcommand" "$run_a" canonical)
 done
-run_step stage4-19-rust-compare 0 "about 30 s" "" \
+for subcommand in "${refined_subcommands[@]}"; do
+    rust_jobs+=(--job "$subcommand" "$refined_root" refined)
+done
+rust_mode=()
+if ((sequential_rust == 1)); then
+    rust_mode=(--sequential)
+fi
+rust_expected="$(expect 14)"
+if ((refined_thermo == 1)); then
+    rust_expected+="; with thermo --refined: PROVISIONAL"
+fi
+run_step stage4-14-rust-runs 0 "$rust_expected" "$binary" \
+    "${audit[@]}" rust-run --binary "$binary" --log-prefix build/logs/stage4-14-rust-runs-bash \
+    "${rust_mode[@]}" "${rust_jobs[@]}"
+run_step stage4-15-rust-compare 0 "$(expect 15)" "" \
     "${audit[@]}" rust-outputs --committed "$committed_rust" --run "$run_a"
-
-step_number=20
-for subcommand in "${subcommands[@]}"; do
-    name="$(printf 'stage4-%02d-refined-%s' "$step_number" "$subcommand")"
-    step_number=$((step_number + 1))
-    if [[ "$subcommand" == thermo ]] && ((refined_thermo == 0)); then
-        skip_step "$name" "thermo --refined takes longer than all other refined runs together; run the gate with --refined-thermo to include it"
-        continue
-    fi
-    run_step "$name" 0 "about 1.2 x the canonical $subcommand" "$binary" \
-        "./$binary" "$subcommand" --refined --output "$refined_root"
-done
 determinism_options=()
 if ((refined_thermo == 1)); then
     determinism_options=(--full-refined)
 fi
-run_step stage4-25-determinism 0 "about 1 min" "" \
+run_step stage4-16-determinism 0 "$(expect 16)" "" \
     "$python_command" "$crate/tools/compare_runs.py" --canonical "$committed_rust" \
     --repeat "$run_a" --refined "$refined_root" --report "$fresh_determinism"
-run_step stage4-26-determinism-audit 0 "seconds" "$committed_rust/determinism-report.json" \
+run_step stage4-17-determinism-audit 0 "$(expect 17)" "$committed_rust/determinism-report.json" \
     "${audit[@]}" determinism --committed "$committed_rust/determinism-report.json" \
     --fresh "$fresh_determinism" "${determinism_options[@]}"
 
 # The Python reference solver: its --quick self-tests and reduced parameter
-# set (the canonical reference run takes several hours and is not repeated).
-run_step stage4-27-reference-quick 0 "see TIMING" "" \
+# set (the canonical reference run takes several hours and is not repeated),
+# then the cross-checker on the committed trees with the gate's run-a and
+# refined trees as --repeat / --refined.
+run_step stage4-18-reference-quick 0 "$(expect 18)" "" \
     "$python_command" scripts/ks_reference_solver.py --quick --output "$reference_quick"
-run_step stage4-28-reference-quick-audit 0 "seconds" "" \
+run_step stage4-19-reference-quick-audit 0 "$(expect 19)" "" \
     "${audit[@]}" reference-quick --summary "$reference_quick/reference-summary.json"
-run_step stage4-29-cross-check 0 "see TIMING" "$kohn_sham/reference/reference-summary.json" \
+run_step stage4-20-cross-check 0 "$(expect 20)" "$kohn_sham/reference/reference-summary.json" \
     "$python_command" scripts/check_dirac16complex_kohn_sham.py --rust "$committed_rust" \
     --repeat "$run_a" --refined "$refined_root" --report "$fresh_check_report"
-run_step stage4-30-cross-check-audit 0 "seconds" "$kohn_sham/python-check-report.json" \
+run_step stage4-21-cross-check-audit 0 "$(expect 21)" "$kohn_sham/python-check-report.json" \
     "${audit[@]}" checker-report --committed "$kohn_sham/python-check-report.json" \
     --fresh "$fresh_check_report"
-run_step stage4-31-summary 0 "seconds" "" \
+run_step stage4-22-summary 0 "$(expect 22)" "" \
     "$python_command" "$crate/tools/build_kohn_sham_summary.py" --output "$fresh_summary"
-run_step stage4-32-summary-same 0 "seconds" "$kohn_sham/kohn-sham-summary.json" \
+run_step stage4-23-summary-same 0 "$(expect 23)" "$kohn_sham/kohn-sham-summary.json" \
     "${audit[@]}" same --pair "$kohn_sham/kohn-sham-summary.json" "$fresh_summary"
 
-run_step stage4-33-notebook-prepare 0 "seconds" "$committed_notebook" \
+run_step stage4-24-notebook-prepare 0 "$(expect 24)" "$committed_notebook" \
     "${audit[@]}" prepare-notebook --source "$committed_notebook" \
     --dest "$clean_notebook" --dest "$executed_notebook"
-run_step stage4-34-notebook-run 0 "minutes (the notebook reads the committed outputs)" "" \
+run_step stage4-25-notebook-run 0 "$(expect 25)" "" \
     "$python_command" notebooks/run_notebook.py "$executed_notebook"
-run_step stage4-35-notebook-nbconvert 0 "as step 34" "" \
+run_step stage4-26-notebook-nbconvert 0 "$(expect 26)" "" \
     "$python_command" -m nbconvert --to notebook --execute "$clean_notebook" \
     --output-dir "$nbconvert_directory" --ExecutePreprocessor.timeout=3600 \
     --ExecutePreprocessor.startup_timeout=600
-run_step stage4-36-notebook-audit 0 "seconds" "$notebook_auditor" \
+run_step stage4-27-notebook-audit 0 "$(expect 27)" "$notebook_auditor" \
     "$python_command" "$notebook_auditor" "$executed_notebook" \
     --also "$nbconvert_notebook" --report "$fresh_notebook_report"
-run_step stage4-37-notebook-compare 0 "seconds" "$kohn_sham/notebook-report.json" \
+run_step stage4-28-notebook-compare 0 "$(expect 28)" "$kohn_sham/notebook-report.json" \
     "${audit[@]}" notebook --committed-report "$kohn_sham/notebook-report.json" \
     --fresh-report "$fresh_notebook_report" \
     --committed-notebook "$committed_notebook" \
     --fresh-notebook "$executed_notebook"
-run_step stage4-38-figures-unchanged 0 "seconds" "" \
+run_step stage4-29-figures-unchanged 0 "$(expect 29)" "" \
     "${audit[@]}" unchanged --snapshot "$snapshot" "$kohn_sham/figures"
 
 mathematica_ran=0
 if [[ -n "$wolframscript_command" ]]; then
-    run_step stage4-39-mathematica-notebook 1 "minutes" "$mathematica_notebook|$mathematica_verifier" \
+    run_step stage4-30-mathematica-notebook 1 "$(expect 30)" "$mathematica_notebook|$mathematica_verifier" \
         "$wolframscript_command" -file "$mathematica_verifier"
-    run_step stage4-40-mathematica-unchanged 0 "seconds" "$mathematica_report" \
+    run_step stage4-31-mathematica-unchanged 0 "$(expect 31)" "$mathematica_report" \
         "${audit[@]}" unchanged --snapshot "$snapshot" \
         --ignore-json-key engine.binary "$mathematica_report" "$mathematica_figures"
     mathematica_ran=1
 else
-    skip_step stage4-39-mathematica-notebook "wolframscript was not found on PATH; $mathematica_notebook was NOT evaluated"
-    skip_step stage4-40-mathematica-unchanged "no Mathematica run"
+    skip_step stage4-30-mathematica-notebook "wolframscript was not found on PATH; $mathematica_notebook was NOT evaluated"
+    skip_step stage4-31-mathematica-unchanged "no Mathematica run"
 fi
 
-run_step stage4-41-pdf-primordial 0 "about 1-3 min" "${documents[0]}.md" \
+run_step stage4-32-pdf-primordial 0 "$(expect 32)" "${documents[0]}.md" \
     "$python_command" scripts/build_provenance_pdf.py "${documents[0]}.md"
 # The student guide is built in the developer layout of the PDF builder
 # (ragged table columns, breakable code spans), as registered; without the
 # flag the builder writes a different .tex.
-run_step stage4-42-pdf-student-guide 0 "about 1-3 min" "${documents[1]}.md" \
+run_step stage4-33-pdf-student-guide 0 "$(expect 33)" "${documents[1]}.md" \
     "$python_command" scripts/build_provenance_pdf.py --developer-layout \
     "${documents[1]}.md"
-run_step stage4-43-committed-unchanged 0 "seconds" "" \
+run_step stage4-34-committed-unchanged 0 "$(expect 34)" "" \
     "${audit[@]}" unchanged --snapshot "$snapshot" \
     --ignore-json-key engine.binary "${committed_paths[@]}"
-run_step stage4-44-unit-tests 0 "minutes" "" \
+run_step stage4-35-unit-tests 0 "$(expect 35)" "" \
     "$python_command" -m unittest discover -s tests -p "test_d16c_kohn_sham*.py" -v
 
 outputs=(
@@ -537,10 +563,8 @@ fi
 for subcommand in "${subcommands[@]}"; do
     outputs+=("$run_a/$subcommand/summary.json")
 done
-for subcommand in "${subcommands[@]}"; do
-    if [[ "$subcommand" != thermo ]] || ((refined_thermo == 1)); then
-        outputs+=("$refined_root/$subcommand/summary.json")
-    fi
+for subcommand in "${refined_subcommands[@]}"; do
+    outputs+=("$refined_root/$subcommand/summary.json")
 done
 outputs+=(
     "$fresh_determinism"
@@ -557,7 +581,7 @@ fi
 for document in "${documents[@]}"; do
     outputs+=("$document.tex" "$document.pdf")
 done
-run_step stage4-45-fresh-outputs 0 "seconds" "" \
+run_step stage4-36-fresh-outputs 0 "$(expect 36)" "" \
     "${audit[@]}" fresh --since "$gate_started_epoch" "${outputs[@]}"
 
 if ((dry_run == 1)); then

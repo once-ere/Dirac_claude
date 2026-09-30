@@ -4,7 +4,7 @@
 
 Physics describes how things change. For a single particle the thing that changes is its position; for a field, such as the electromagnetic field or the dirac16complex field of this book, it is a list of numbers attached to every point of spacetime. In both cases the most economical way to write down the laws of change is to write down one function, the **Lagrangian**, and to demand that a certain integral of it, the **action**, does not change to first order when the motion is changed slightly. This one demand produces the equations of motion, called the **Euler–Lagrange equations**. The same Lagrangian also tells us which quantities are conserved (energy, momentum, charge), through a theorem of Emmy Noether, and it gives the **energy–momentum tensor**, the object that tells gravity where the energy is.
 
-This chapter builds that machinery from zero. It then introduces **Grassmann numbers**, the anticommuting numbers ($\theta_1\theta_2=-\theta_2\theta_1$) that are needed to describe fermions such as electrons, and it ends with the first theorem of the dirac16complex project: the Lagrangian $\mathrm{Lg}[\,]$ that the author wrote in the notebook (cell 1064) contains no dynamics at all when its field is taken to be a real Grassmann field, as a fermion field must be. Its Euler–Lagrange equations read $0=0$. This is why the project had to replace $\mathrm{Lg}[\,]$ by a new Lagrangian (Chapter 6).
+This chapter builds that machinery from zero. It then introduces **Grassmann numbers**, the anticommuting numbers ($\theta_1\theta_2=-\theta_2\theta_1$) that are needed to describe fermions such as electrons, and it ends with one of the first results of the dirac16complex project: the Lagrangian $\mathrm{Lg}[\,]$ that the author wrote in the notebook (cell 1064) contains no dynamics at all when its field is taken to be a real Grassmann field, as a fermion field must be. Its Euler–Lagrange equations read $0=0$. This is why the project had to replace $\mathrm{Lg}[\,]$ by a new Lagrangian (Chapter 6).
 
 We use the conventions of the whole book (Chapter 1): everything is counted from 0; there are eight coordinates $x=(x_0,x_1,\dots,x_7)$; $x_4$ is the time; the flat metric is
 
@@ -114,7 +114,13 @@ In $\partial_\mu(\dots)$ the derivative is the **total** derivative with respect
 
 **Proposition 5.1.** If $\mathcal L=\partial_\mu V^\mu$, where each $V^\mu$ is a function of the fields $\phi_A$ and of $x$ (but not of the derivatives of the fields), then every Euler–Lagrange expression vanishes identically: $E^A=0$ for every field configuration, whether or not it satisfies any equation.
 
-*Proof by the action.* For any variation $\xi_A$ that vanishes near the boundary, $S[\phi+\epsilon\xi]=\int_R\partial_\mu V^\mu(\phi+\epsilon\xi,x)\,d^8x=0$ for every $\epsilon$, because $V^\mu(\phi+\epsilon\xi,x)-V^\mu(\phi,x)$ vanishes near the boundary and the integral of $\partial_\mu V^\mu(\phi,x)$ does not depend on $\epsilon$. So $\int E^A\xi_A\,d^8x=0$ for every $\xi$, and the fundamental lemma gives $E^A=0$ for every $\phi$. $\square$
+*Proof by the action.* Take any variation $\xi_A$ that vanishes near the boundary. The Lagrangian evaluated on $\phi+\epsilon\xi$ is the total divergence of the functions $x\mapsto V^\mu(\phi(x)+\epsilon\xi(x),x)$, so
+
+$$
+S[\phi+\epsilon\xi]-S[\phi]=\int_R\partial_\mu\Bigl(V^\mu(\phi+\epsilon\xi,x)-V^\mu(\phi,x)\Bigr)d^8x=0\qquad\text{for every }\epsilon,
+$$
+
+by the divergence theorem, because the bracket vanishes near the boundary (there $\xi=0$). Hence $\frac{d}{d\epsilon}S[\phi+\epsilon\xi]=0$, that is $\int E^A\xi_A\,d^8x=0$ for every $\xi$, and the fundamental lemma gives $E^A=0$ for every $\phi$. $\square$
 
 *Proof by direct computation.* By the chain rule $\partial_\mu V^\mu=\partial^{\mathrm{expl}}_\mu V^\mu+\frac{\partial V^\mu}{\partial\phi_B}\partial_\mu\phi_B$, where $\partial^{\mathrm{expl}}_\mu$ differentiates only the explicit $x$-dependence. Then $\frac{\partial\mathcal L}{\partial(\partial_\nu\phi_A)}=\frac{\partial V^\nu}{\partial\phi_A}$ and $\frac{\partial\mathcal L}{\partial\phi_A}=\partial^{\mathrm{expl}}_\mu\frac{\partial V^\mu}{\partial\phi_A}+\frac{\partial^2V^\mu}{\partial\phi_A\partial\phi_B}\partial_\mu\phi_B=\partial_\mu\Bigl(\frac{\partial V^\mu}{\partial\phi_A}\Bigr)$, the total derivative of the function $\partial V^\mu/\partial\phi_A$. Hence $E^A=\partial_\mu(\partial V^\mu/\partial\phi_A)-\partial_\nu(\partial V^\nu/\partial\phi_A)=0$. $\square$
 
@@ -208,7 +214,7 @@ $$
 \rho=\Theta^4{}_4=\tfrac12(\partial_4\phi)^2+\tfrac12\sum_{i=0}^{3}(\partial_i\phi)^2-\tfrac12\sum_{j=5}^{7}(\partial_j\phi)^2+V(\phi).
 $$
 
-(Derivation: $\Theta^4{}_4=(\partial_4\phi)^2-\mathcal L$ and $-\mathcal L=\tfrac12\sum_{i\le3}(\partial_i\phi)^2-\tfrac12(\partial_4\phi)^2-\tfrac12\sum_{j\ge5}(\partial_j\phi)^2+V$.) The gradients along the extra times enter with a **minus** sign. For example, at $x_4=0$ take $\partial_4\phi=0$ and $\phi=\epsilon\sin(kx_5)$ with $m=1$: then $\rho=\tfrac12\epsilon^2\bigl(\sin^2(kx_5)-k^2\cos^2(kx_5)\bigr)$, whose average over $x_5$ is $\tfrac14\epsilon^2(1-k^2)$, negative for $k>1$ and as negative as we like for large $k$. The energy of a field theory with several time directions is not bounded below; this is the classical face of the extra-time instability of Chapter 8. This observation is derived here; it is not a check of the repository.
+(Derivation: $\Theta^4{}_4=(\partial_4\phi)^2-\mathcal L$ and $-\mathcal L=\tfrac12\sum_{i\le3}(\partial_i\phi)^2-\tfrac12(\partial_4\phi)^2-\tfrac12\sum_{j\ge5}(\partial_j\phi)^2+V$.) The gradients along the extra times enter with a **minus** sign. For example, at $x_4=0$ take $\partial_4\phi=0$ and $\phi=\epsilon\sin(kx_5)$ with $m=1$: then $\rho=\tfrac12\epsilon^2\bigl(\sin^2(kx_5)-k^2\cos^2(kx_5)\bigr)$, whose average over $x_5$ is $\tfrac14\epsilon^2(1-k^2)$, negative for $k>1$ and as negative as we like for large $k$. The energy of a scalar field in 4+4 dimensions is not bounded below; this is the classical face of the extra-time instability of Chapter 8. This observation is derived here; it is not a check of the repository.
 
 ### 5.8 The energy–momentum tensor
 
@@ -270,7 +276,7 @@ These are the formulas $\rho_\phi=\tfrac12\dot\phi^2+V$ and $P_\phi=\tfrac12\dot
 
 ### 5.9 Grassmann numbers from zero
 
-**Why a new kind of number.** Electrons, quarks and the quanta of the dirac16complex field are **fermions**: two of them can never occupy the same state (the Pauli principle). In quantum theory this is expressed by operators that **anticommute**, $ab=-ba$ (Chapter 8). The classical field whose quantization produces such operators must itself take values that anticommute. Ordinary numbers cannot do that, so one introduces new symbols with exactly this property. They are called **Grassmann numbers** after Hermann Grassmann. They are not results of measurements; they are bookkeeping symbols with precise algebraic rules, and every statement about them in this book is a statement about those rules.
+**Why a new kind of number.** Electrons, quarks and, by construction, the quanta of the dirac16complex field are **fermions**: two of them can never occupy the same state (the Pauli principle). In quantum theory this is expressed by operators that **anticommute**, $ab=-ba$ (Chapter 8). The classical field whose quantization produces such operators must itself take values that anticommute. Ordinary numbers cannot do that, so one introduces new symbols with exactly this property. They are called **Grassmann numbers** after Hermann Grassmann. They are not results of measurements; they are bookkeeping symbols with precise algebraic rules, and every statement about them in this book is a statement about those rules.
 
 **Definition.** Choose $n$ symbols $\theta_0,\theta_1,\dots,\theta_{n-1}$, the **generators**. The **Grassmann algebra** $\Lambda_n$ consists of all finite sums of complex numbers times products of generators, added and multiplied with the usual distributive rules, with ordinary numbers commuting with everything, and with the single new rule
 
@@ -404,7 +410,7 @@ The two lemmas side by side:
 
 ### 5.12 The author's Lagrangian Lg[] and the matrices it uses
 
-**The matrices.** Chapter 2 constructs the eight real $16\times16$ integer matrices $\gamma^0,\dots,\gamma^7$ of the notebook (its T16^A) and proves their properties. We need five facts, all verified exactly by the repository (Stage-1 document, Results 3.1, 3.3 and 3.5; checks `ALG_clifford`, `ALG_gammaTransposeSymmetry`, `ALG_chargeMatrix` and `ALG_spinTransposeProperties` in `wolfram-algebra-report.json` and `python-algebra-report.json`):
+**The matrices.** Chapter 2 constructs the eight real $16\times16$ integer matrices $\gamma^0,\dots,\gamma^7$ of the notebook (its T16^A) and proves their properties. We need the following definitions and facts, all facts verified exactly by the repository (Stage-1 document, Results 3.1, 3.3 and 3.5; checks `ALG_clifford`, `ALG_gammaTransposeSymmetry`, `ALG_chargeMatrix`, `ALG_expression1` and `ALG_spinTransposeProperties` in `wolfram-algebra-report.json` and `python-algebra-report.json`):
 
 - the Clifford relation $\gamma^a\gamma^b+\gamma^b\gamma^a=2\eta^{ab}I_{16}$, so different gammas anticommute, $(\gamma^a)^2=+1$ for $a\le3$ and $(\gamma^a)^2=-1$ for $a\ge4$;
 - $\gamma^a$ is symmetric for $a\le3$ and antisymmetric for $a\ge4$;
@@ -412,7 +418,7 @@ The two lemmas side by side:
 - the spin matrices $S^{ab}=\tfrac14(\gamma^a\gamma^b-\gamma^b\gamma^a)$ generate the rotations of spinors (Chapter 2);
 - expression [1] of the task: $(C\gamma^a)^T=-C\gamma^a$ for every $a$.
 
-The last three follow from the first two, and we prove them because the whole theorem rests on them. *$C$ is symmetric:* $C^T=(\gamma^3)^T(\gamma^2)^T(\gamma^1)^T(\gamma^0)^T=\gamma^3\gamma^2\gamma^1\gamma^0$, and reversing four mutually anticommuting factors takes $3+2+1=6$ exchanges, so $C^T=(+1)C$. *$C^2=1$:* $C\cdot C=C\cdot C^T=\gamma^0\gamma^1\gamma^2\gamma^3\gamma^3\gamma^2\gamma^1\gamma^0=1$, collapsing the squares $(\gamma^a)^2=1$ from the middle. *Expression [1]:* for $a\le3$, $(C\gamma^a)^T=(\gamma^a)^TC^T=\gamma^aC$, and $\gamma^a$ anticommutes with the three factors of $C$ other than itself and commutes with itself, so $\gamma^aC=(-1)^3C\gamma^a=-C\gamma^a$. For $a\ge4$, $(C\gamma^a)^T=-\gamma^aC$, and $\gamma^a$ anticommutes with all four factors, so $\gamma^aC=C\gamma^a$ and again $(C\gamma^a)^T=-C\gamma^a$. $\square$
+The properties of $C$ and expression [1] follow from the first two facts, and we prove them because the whole theorem rests on them. *$C$ is symmetric:* $C^T=(\gamma^3)^T(\gamma^2)^T(\gamma^1)^T(\gamma^0)^T=\gamma^3\gamma^2\gamma^1\gamma^0$, and reversing four mutually anticommuting factors takes $3+2+1=6$ exchanges, so $C^T=(+1)C$. *$C^2=1$:* $C\cdot C=C\cdot C^T=\gamma^0\gamma^1\gamma^2\gamma^3\gamma^3\gamma^2\gamma^1\gamma^0=1$, collapsing the squares $(\gamma^a)^2=1$ from the middle. *Expression [1]:* for $a\le3$, $(C\gamma^a)^T=(\gamma^a)^TC^T=\gamma^aC$, and $\gamma^a$ anticommutes with the three factors of $C$ other than itself and commutes with itself, so $\gamma^aC=(-1)^3C\gamma^a=-C\gamma^a$. For $a\ge4$, $(C\gamma^a)^T=-\gamma^aC$, and $\gamma^a$ anticommutes with all four factors, so $\gamma^aC=C\gamma^a$ and again $(C\gamma^a)^T=-C\gamma^a$. $\square$
 
 **Two consequences.** Multiplying $(\gamma^a)^TC=-C\gamma^a$ on the right by $C$ gives $(\gamma^a)^T=-C\gamma^aC$. Then $(S^{ab})^T=\tfrac14[(\gamma^b)^T,(\gamma^a)^T]=\tfrac14C[\gamma^b,\gamma^a]C=-CS^{ab}C$, hence
 
@@ -541,7 +547,8 @@ Everything in Sections 5.12 to 5.14 was checked by two independent exact program
 | only the antisymmetric part of a random integer matrix survives | `GR_bilinearOnlyAntisymmetricPartSurvives` (grassmann-demo) |
 | Lemma 5.5 for each constant $C\gamma^a$ and a random antisymmetric matrix | `GR_kineticTotalDerivativeReal` (grassmann-demo) |
 | the symmetric-matrix contrast | `GR_kineticSymmetricMatrixContrast` (grassmann-demo) |
-| Lemmas 5.4, 5.5 and the Lemma 6.3 split | `ALG_grassmannLemmas` (wolfram-geometry) |
+| $\Psi^TC\Psi=0$, $\Psi^TC\gamma^0\Psi\ne0$, derivatives of $\tfrac\lambda2S^2$ | `ALG_grassmannLemmas` (wolfram-geometry) |
+| the split of $C\gamma^cS^{ab}$ of Section 5.12 | `ALG_spinTransposeProperties` (both algebra reports) |
 | Theorem 5.6 at G1 p1 and in the symbolic G2 | `GR_notebookLgELTrivial`, `GR_notebookLgPureDivergence` (grassmann-demo) |
 | Theorem 5.6 and $X\Psi$ at all six G1 and G2 points | `LAG_notebookLgGrassmannTrivial_G1`, `_G2` (wolfram-geometry) |
 | the divergence identity | `GEO_divergenceIdentity_G1`, `_G2` (wolfram-geometry, python-geometry) |
@@ -560,7 +567,7 @@ export PYTHONUTF8=1
 python scripts/demo_grassmann_lagrangians.py
 ```
 
-The last two lines it prints are `check_count`=16 and `failed_check_count`=0. The whole Stage-1 gate, which runs this step and all others, is described in Chapter 19.
+The last two lines it prints are `check_count=16` and `failed_check_count=0`. The whole Stage-1 gate, which runs this step and all others, is described in Chapter 19.
 
 ### 5.16 What we proved and what we assumed
 
