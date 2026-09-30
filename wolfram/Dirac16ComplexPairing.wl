@@ -46,6 +46,9 @@
                       Psi'(y) = gamma^0 Psi(-y) maps mass m(y) to -m(-y) with the same
                       lambda; EMT pull-back; "Z2 symmetric iff the mass function is
                       odd"; P_B = i gamma^0 gamma^8 flips lambda at the field level.
+     PAIR_T1primordial T1 in the Stage-2 primordial field (notebook chart, arbitrary
+                      a4(t), generic spinor fields of all eight coordinates): L, the Dirac
+                      operator, all 64 components of T_mu nu, j^mu.
      PAIR_T3block     the maps on the exact 2x2 block basis of kohn-sham-theory.json:
                       gamma^8 = c sigma2 between blocks (j,s2,s3) and (-j,s2,s3),
                       gamma^1 = c sigma1 inside each block, gamma^0 = sigma3; the maps
@@ -651,6 +654,29 @@ checkT2Z2[] := Module[{gM, gP, psiF, psiBF, ycR, psiR, psiBR, pcM, pcP, sgn, PB,
     "interpretation" -> "the Z2 mirror universe of mass -M is the mirror image (frame reflection of the hidden direction) of the +M universe: same energy density, same pressures, same charge, opposite scalar density. The sign of m relative to the orientation of the frame is not an invariant: the Pin reflections of character -1 map (m, lambda) -> (-m, lambda) with L -> +L."|>;];
 
 (* ================================================================== *)
+(* 7b. PAIR_T1primordial: T1 in the Stage-2 primordial field           *)
+(* ================================================================== *)
+
+(* the notebook chart of the primordial field (CONTRACT section 9): z = 6 H x0, t = H x4, a4 an ARBITRARY function,
+   h = (cot z, s^{1/6} e^{a4(t)} (x3), 1, s^{1/6} e^{-a4(t)} (x3)), s = sin z; generic spinor fields of all eight
+   coordinates.  The gamma^8 map does not touch the geometric coefficients, so the identities cancel term by term. *)
+checkT1Primordial[] := Module[{xn = {x0, x1, x2, x3, x4, x5, x6, x7}, hh, gm, psiF, psiBF, pc, pc8, TP, T8, t0 = AbsoluteTime[]},
+  Block[{yc = {x0, x1, x2, x3, x4, x5, x6, x7}},
+   hh = {Cot[6 H x0], Sin[6 H x0]^(1/6) E^(a4f[H x4]), Sin[6 H x0]^(1/6) E^(a4f[H x4]), Sin[6 H x0]^(1/6) E^(a4f[H x4]), 1,
+     Sin[6 H x0]^(1/6) E^(-a4f[H x4]), Sin[6 H x0]^(1/6) E^(-a4f[H x4]), Sin[6 H x0]^(1/6) E^(-a4f[H x4])};
+   gm = diagGeometry[hh];
+   psiF = Table[pf[k] @@ xn, {k, 0, 15}]; psiBF = Table[pfb[k] @@ xn, {k, 0, 15}];
+   pc = zPieces[gm, psiF, psiBF]; pc8 = zPieces[gm, g8.psiF, psiBF.g8];
+   addCheck["PAIR_T1primordial_nontrivialCoupling", ! zeroE[Sum[gm["gU"][[mu]].gm["Om"][[mu]], {mu, 8}]] && ! FreeQ[gm["Om"], a4f] && pc["S"] =!= 0];
+   addCheck["PAIR_T1primordial_scalarAndKinetic", Expand[pc8["S"] - pc["S"]] === 0 && Expand[pc8["kin"] + pc["kin"]] === 0];
+   addCheck["PAIR_T1primordial_lagrangian", Expand[zLs[pc8, -m, -lam] + zLs[pc, m, lam]] === 0];
+   addCheck["PAIR_T1primordial_diracOperator", zeroE[zDirac[gm, pc8, -m, -lam] + g8.zDirac[gm, pc, m, lam]]];
+   TP = zT[gm, pc, m, lam]; T8 = zT[gm, pc8, -m, -lam];
+   addCheck["PAIR_T1primordial_emt64", zeroE[TP + T8] && ! zeroE[TP[[5, 5]]] && ! zeroE[TP[[1, 5]]]];
+   addCheck["PAIR_T1primordial_current", zeroE[zCur[gm, pc8] + zCur[gm, pc]]]];
+  logT["T1primordial seconds: ", Round[AbsoluteTime[] - t0]];];
+
+(* ================================================================== *)
 (* 8. PAIR_T3block: the maps on the exact 2x2 block basis of Stage 4  *)
 (* ================================================================== *)
 
@@ -1063,13 +1089,16 @@ buildTheory[] := Module[{},
     "name" -> "T1: the chirality map gamma^8 (field level, arbitrary gravitational field, both statistics)",
     "statement" -> "For every vielbein e (hence every metric g = e eta e^T and its Levi-Civita spin connection), every mass m and coupling lambda of U = (lambda/2) S^2, and every field configuration Psi (off shell), with Psi_- := gamma^8 Psi: Psibar_- = Psibar gamma^8, S[Psi_-] = S[Psi], the kinetic term changes sign, j^mu[Psi_-] = -j^mu[Psi], L_{m,lambda}[gamma^8 Psi] = -L_{-m,-lambda}[Psi], E_{-m,-lambda}[gamma^8 Psi] = -gamma^8 E_{m,lambda}[Psi] (field equation) and the conjugate equation likewise, T_{mu nu}[gamma^8 Psi; -m, -lambda] = -T_{mu nu}[Psi; m, lambda] (all 36 components). Hence Psi solves EL_{m,lambda} iff gamma^8 Psi solves EL_{-m,-lambda}. The same identities hold for Grassmann-odd components (dirac16complex) and for commuting components (dirac16complex00).",
     "proof" -> "gamma^8 is Hermitian, (gamma^8)^2 = 1, gamma^8 gamma^a = -gamma^a gamma^8, [gamma^8, C] = 0, [gamma^8, S^{ab}] = 0 (so [gamma^8, Omega_mu] = 0 for every connection). Every term of L, of the field equations, of T_{mu nu} and of j^mu is a bilinear Psi^dagger X Psi with X in {C gamma^a, C gamma^a S^{bc}, C S^{bc} gamma^a} (one gamma: gamma^8 X gamma^8 = -X) or X = C (mass term, S: gamma^8 C gamma^8 = +C), multiplied by geometric coefficients (e_a^mu, omega_{mu ab}, sqrt|g|, g_{mu nu}) that the map does not touch; U = (lambda/2) S^2 is even. The map is linear and keeps the order Psi^dagger ... Psi, so it is compatible with Grassmann-odd components (in the notebook basis it is the automorphism theta_a -> chi(a) theta_a of the Grassmann algebra). QED; verified as a polynomial identity in completely generic independent symbols (PAIR_T1generic_*), with exact jets of the general non-diagonal vielbein G1 at three points (PAIR_T1jets_*) and with a Grassmann algebra of 288 odd generators (PAIR_T1grassmann_*).",
+    "fieldsCovered" -> "dirac16complex: Grassmann-odd components (PAIR_T1grassmann_* with 288 odd generators; the generic-symbol identities keep the order Psi^dagger ... Psi); dirac16complex00: commuting components (PAIR_T1generic_*, PAIR_T1jets_* with exact rational field jets, PAIR_T1primordial_* with generic functions of all eight coordinates in the Stage-2 primordial field with an arbitrary a4(t))",
+    "primordialField" -> "in the notebook chart of the primordial field (z = 6 H x0, t = H x4, a4 an arbitrary function) the identities L_{m,lambda}[gamma^8 Psi] = -L_{-m,-lambda}[Psi], E_{-m,-lambda}[gamma^8 Psi] = -gamma^8 E_{m,lambda}[Psi], T_{mu nu}[gamma^8 Psi; -m, -lambda] = -T_{mu nu}[Psi; m, lambda] (64 components) and j -> -j hold for generic fields of all eight coordinates (PAIR_T1primordial_*)",
     "vielbeinForm" -> "equivalently, (gamma^8, e -> -e) is an exact symmetry (the frame map -1 lies in SO_0(4,4) and gamma^8 in Spin_0(4,4)), so T1 is the same as reversing the sign of the vielbein at fixed Psi: L_{m,lambda}[-e, Psi] = -L_{-m,-lambda}[e, Psi] (g, sqrt|g| and Omega are unchanged, gamma^mu -> -gamma^mu)",
     "naiveFormFails" -> "at fixed lambda the map gives L_{m,lambda}[gamma^8 Psi] + L_{-m,lambda}[Psi] = -lambda S^2 != 0 (CONTRACT erratum E2)",
     "kreinMetric" -> "gamma^8 B gamma^8 = -B: the image field has the canonical anticommutator -B (it is canonically a field of -L_{-m,-lambda}); see T1krein",
     "checks" -> chk["PAIR_algebra_bilinearParities", "PAIR_T1generic_lagrangian", "PAIR_T1generic_fieldEquation", "PAIR_T1generic_conjugateFieldEquation",
       "PAIR_T1generic_emtAll36", "PAIR_T1generic_current", "PAIR_T1grassmann_lagrangian", "PAIR_T1grassmann_diracOperator", "PAIR_T1grassmann_emt",
       "PAIR_T1grassmann_current", "PAIR_T1jets_lagrangian", "PAIR_T1jets_emt", "PAIR_T1jets_fieldEquations", "PAIR_T1jets_onShellImage",
-      "PAIR_T1jets_conservationBoth", "PAIR_T1jets_vielbeinSignFlipIsT1", "PAIR_T1jets_gamma8WithFrameSignIsSymmetry", "PAIR_T1krein_imageAnticommutatorMinusB"],
+      "PAIR_T1jets_conservationBoth", "PAIR_T1jets_vielbeinSignFlipIsT1", "PAIR_T1jets_gamma8WithFrameSignIsSymmetry", "PAIR_T1krein_imageAnticommutatorMinusB",
+      "PAIR_T1primordial_lagrangian", "PAIR_T1primordial_diracOperator", "PAIR_T1primordial_emt64", "PAIR_T1primordial_current"],
     "corollaryPair" -> <|
       "statement" -> "COROLLARY (pair, proved): for Psi_+ with (m, lambda) and Psi_- = gamma^8 Psi_+ with (-m, -lambda) in the SAME gravitational field: T^pair_{mu nu} = T_{mu nu}[Psi_+; m, lambda] + T_{mu nu}[Psi_-; -m, -lambda] = 0 identically, j^pair = 0 (total charge Q = integral sqrt|g| j^4 d^7x = 0), L^pair = 0 (total action 0), S^pair = 2 S; total energy, momentum and stresses vanish at every point, in any gravitational field, at every x4, in particular at x4 = 0. The Einstein (or Einstein-Lovelock) equations with the pair as source are the source-free equations.",
       "hypotheses" -> "(i) the -M member carries the coupling -lambda (for lambda = 0 both members are the same free field with masses +m and -m); (ii) for the quantum field dirac16complex the -M member is the image field gamma^8 Psi_+ on the same state space, whose canonical anticommutator is -B (Krein metric reversed); an independently quantised -m universe with its own positive (J = B) structure has the SAME energy-momentum as the +m universe and the pair does not cancel (T1krein); (iii) for the classical field dirac16complex00 no further hypothesis is needed (the identity is between c-number fields).",
@@ -1092,6 +1121,7 @@ buildTheory[] := Module[{},
     "blockMaps" -> $theory["T3blockMaps"],
     "theoremStandardRule" -> "THEOREM (proved): let the +M universe be the Stage-4 KS problem with (m, lambda, statistics sg, parity p at the brane, tip bag angle theta, occupations by Fermi-Dirac at T, N particles). The -M universe with (-m, the SAME lambda, the same sg, parity -p, bag angle pi - theta) is its exact image under chi -> sigma2 chi in the partner block (j, s2, s3) -> (-j, s2, s3), k unchanged (the block form of gamma^8 with the standard expectation rule). The KS operators are unitarily equivalent (sigma2 h_j(M_eff) sigma2 = h_{-j}(-M_eff), with M_eff -> -M_eff, v_v -> v_v self-consistently), the domains correspond (p -> -p, theta -> pi - theta), the Mermin functional is invariant, so the spectra (with multiplicities), occupations, mu, E, F, S_ent, the KS gap, the particle-hole list and the Delta-SCF energies are identical, n_p(y), t, c and the EMT profiles (rho, p_y, p_3, p_t and their averages) are identical, S_p(y) -> -S_p(y) and M_eff(y) -> -M_eff(y). The SCF iteration map is equivariant, so every iterate, the lambda-continuation branch (lambda is not changed) and hence the KS ground state (STAGE4_SPEC E4.8) and the first excited state (KS gap, particle-hole pairs with the occupation floor, Delta-SCF) map exactly. The sigma1 route (gamma^1: same j, k -> -k, theta -> theta + pi) gives the same result over closed shells {k, -k}.",
     "theoremImageRule" -> "THEOREM (proved): the gamma^8 image of the +M KS state with the Krein metric -B (T1) solves the KS equations of (-m, -lambda) with the same orbitals sigma2 chi, the same eigenvalues (x4-frequencies) and occupations; its one-body densities and energies change sign: n -> -n (charge), S -> +S, t -> -t, c -> -c, E -> -E, T_{mu nu} -> -T_{mu nu}; the orbital energies (Janak) are -eps, so at finite T the image is a stationary state of F_- at temperature -T and chemical potential -mu: F_-(-T) = -F_+(T). The image is therefore obtained from the standard-rule -M run by reversing the sign of every one-body density and energy and of lambda.",
+    "stage4Z2Pair" -> "the Stage-4 parity conditions at the brane are the Z2 identification Psi(-y) = +-gamma^0 Psi(y) (P_A); by T2 (PAIR_T2z2_*) a Stage-4 KS state of the +M universe on y < 0 continues across the brane to a universe of mass -M(-y) on y > 0 with the same lambda, the same energy density and pressures (EMT pull-back), the same charge and the opposite scalar density; the brane carries the Israel stress of Stage 4. Every Stage-4 KS state is therefore already a {+M, -M} mirror pair across the brane.",
     "whatMustTransform" -> <|"lambda" -> "unchanged for the ordinary -M universe (standard rule); -lambda for the Krein image (T1); the ordinary KS problem with -lambda does NOT map (PAIR_T3ks_sigma2KSOperatorEquivariant, second part)",
       "parity" -> "p -> -p (even chi_2(0) = 0 <-> odd chi_1(0) = 0)",
       "bagAngle" -> "theta -> pi - theta (sigma2 route, same k); Stage-4 default theta = 0 -> pi; the asymptotic prescription theta(k) = -sgn(k) pi/2 is invariant",
@@ -1158,6 +1188,7 @@ D16PairRun[repoRoot_String] := Module[{fixFile, ksFile, res, t0 = AbsoluteTime[]
     step["T1 Krein-Fock model", checkT1Krein[]];
     step["T2 frame reflections (G1)", checkT2Frame[]];
     step["T2 Z2 coordinate action", checkT2Z2[]];
+    step["T1 in the Stage-2 primordial field", checkT1Primordial[]];
     step["T3 block maps", checkT3Block[ksFile]];
     step["T3 KS functional", checkT3KS[]];
     step["T3 spectra and control", checkT3Spectra[]];

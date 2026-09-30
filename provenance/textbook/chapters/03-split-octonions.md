@@ -249,3 +249,197 @@ $$
 by Theorem 3.3 (5). $\square$
 
 With Theorem 3.4 and Theorem 3.5 every statement of Chapter 2 about the notebook's gammas now rests on hand computations with six 4 by 4 matrices; the machine checks (`ALG_clifford`, `ALG_chargeMatrix`, `ALG_chirality`) confirm them. The tables of Section 2.8 can also be read off from the blocks: rows 0 to 7 of $\gamma^a$ are the rows of $\bar\tau_a$ with the column numbers shifted by 8, and rows 8 to 15 are the rows of $\tau_a$. For example, row 0 of $\tau_1$ is $+7$, so row 0 of $\bar\tau_1=-\tau_1$ is $-7$ and row 0 of $\gamma^1$ is $-(7+8)=-15$, as in the table.
+
+### 3.7 Algebras, composition algebras, and why octonions
+
+**Algebras.** A (real) **algebra** is a real vector space $\mathcal A$ with a product $xy$ that is **bilinear**: $(\alpha x+\beta y)z=\alpha\,xz+\beta\,yz$ and $x(\alpha y+\beta z)=\alpha\,xy+\beta\,xz$ for numbers $\alpha,\beta$. It has a **unit** $e$ if $ex=xe=x$ for all $x$; it is **associative** if $(xy)z=x(yz)$ and **commutative** if $xy=yx$. Examples: the real numbers; the complex numbers, as pairs with $(a,b)(c,d)=(ac-bd,\ ad+bc)$; the quaternions (associative, not commutative); the $d$ by $d$ matrices (associative, not commutative); and $\mathbb R^3$ with the cross product, which is bilinear but neither associative nor unital. For the cross product with the unit vectors $\hat e_1,\hat e_2,\hat e_3$: $(\hat e_1\times\hat e_1)\times\hat e_2=0$, but $\hat e_1\times(\hat e_1\times\hat e_2)=\hat e_1\times\hat e_3=-\hat e_2$.
+
+**Composition algebras.** An algebra with a unit is a **composition algebra** if it carries a quadratic norm $N(x)=B(x,x)$, with $B$ a symmetric bilinear form that has no nonzero vector orthogonal to everything, such that
+
+$$
+N(xy)=N(x)\,N(y)\qquad\text{for all }x,y .
+$$
+
+The real numbers with $N(x)=x^2$ and the complex numbers with $N(z)=|z|^2$ are examples. So are the quaternions with $N(q)=q_1^2+q_2^2+q_3^2+q_4^2$: the determinant of the 2 by 2 matrix of $q$ (Section 3.3) is
+
+$$
+\det\begin{pmatrix}q_4-iq_3&-q_2-iq_1\\ q_2-iq_1&q_4+iq_3\end{pmatrix}=(q_4^2+q_3^2)-(-q_2-iq_1)(q_2-iq_1)=q_4^2+q_3^2+q_2^2+q_1^2,
+$$
+
+and $\det(XY)=\det X\det Y$ gives $N(xy)=N(x)N(y)$.
+
+**Hurwitz's theorem (quoted).** A theorem of Adolf Hurwitz (1898), which we quote without proof, says that composition algebras over the real numbers exist only in dimensions 1, 2, 4 and 8. With a positive norm they are the real numbers, the complex numbers, the quaternions and the **octonions**; the octonions, of dimension 8, are not associative. In dimensions 2, 4 and 8 there is also a **split** version, whose norm is indefinite: in dimension 4 it is the algebra of real 2 by 2 matrices with $N=\det$, of signature (2,2) (we met it as $\mathrm{Cl}(1,1)$ in Section 2.5), and in dimension 8 it is the algebra of **split octonions**, whose norm has signature (4,4).
+
+That last sentence is the reason why octonions appear in a 4+4 dimensional theory. The vector space $\mathbb R^8$ with the metric $\eta=\mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$ can be given a product that turns it into the split octonions, with $N(x)=\eta(x,x)$. Nothing in the rest of the book depends on Hurwitz's theorem: we construct the split octonions explicitly and prove every property we use.
+
+### 3.8 The split octonions in Zorn's vector-matrix form
+
+**Zorn's vector matrices.** Max Zorn (1933) wrote a split octonion like a 2 by 2 matrix with two numbers on the diagonal and two three-dimensional vectors off the diagonal,
+
+$$
+x=\begin{pmatrix}a&u\\ v&b\end{pmatrix},\qquad a,b\in\mathbb R,\quad u,v\in\mathbb R^3 .
+$$
+
+The dictionary with the eight coordinates $x=(x_0,\dots,x_7)$ used by dirac-main and by the repository (Stage 1, §3.3; function `to_zorn` of `scripts/d16c_exact.py`) is
+
+$$
+a=x_0+x_4,\qquad b=x_0-x_4,\qquad u_i=x_i+x_{i+4},\qquad v_i=-x_i+x_{i+4}\qquad(i=1,2,3),
+$$
+
+and back: $x_0=\tfrac12(a+b)$, $x_4=\tfrac12(a-b)$, $x_i=\tfrac12(u_i-v_i)$, $x_{i+4}=\tfrac12(u_i+v_i)$. The product of two vector matrices is
+
+$$
+\begin{pmatrix}a&u\\ v&b\end{pmatrix}\begin{pmatrix}c&r\\ w&d\end{pmatrix}=\begin{pmatrix}ac+u\cdot w&ar+du-v\times w\\ cv+bw+u\times r&v\cdot r+bd\end{pmatrix},
+$$
+
+written compactly $(a,u,v,b)(c,r,w,d)=(ac+u\cdot w,\ ar+du-v\times w,\ cv+bw+u\times r,\ v\cdot r+bd)$. Without the two cross-product terms this would be the ordinary product of 2 by 2 matrices with the entries multiplied by dot products; the cross products are what makes the algebra non-associative. The product is bilinear, because each entry is a sum of products of one entry of each factor.
+
+**The basis in Zorn form.** With $\hat e_1=(1,0,0)$, $\hat e_2=(0,1,0)$, $\hat e_3=(0,0,1)$ the eight basis vectors are
+
+$$
+\begin{aligned}
+&e_0=(1,0,0,1),&&e_i=(0,\hat e_i,-\hat e_i,0),\\
+&e_4=(1,0,0,-1),&&e_{i+4}=(0,\hat e_i,\hat e_i,0)\qquad(i=1,2,3).
+\end{aligned}
+$$
+
+**The unit.** $e_0$ is the unit: $(1,0,0,1)(c,r,w,d)=(c,\ r,\ w,\ d)$, since every term with a zero vector or zero number drops out, and in the same way $(a,u,v,b)(1,0,0,1)=(a,u,v,b)$.
+
+**Worked example: $e_1e_2=-e_3$.** Here $e_1=(0,\hat e_1,-\hat e_1,0)$ and $e_2=(0,\hat e_2,-\hat e_2,0)$, so $a=b=c=d=0$, $u=\hat e_1$, $v=-\hat e_1$, $r=\hat e_2$, $w=-\hat e_2$. The four entries of the product are
+
+$$
+u\cdot w=-\hat e_1\cdot\hat e_2=0,\qquad-v\times w=-\hat e_1\times\hat e_2=-\hat e_3,\qquad u\times r=\hat e_1\times\hat e_2=\hat e_3,\qquad v\cdot r=-\hat e_1\cdot\hat e_2=0 .
+$$
+
+So $e_1e_2=(0,-\hat e_3,\hat e_3,0)$. Translating back, $x_0=x_4=0$, $x_3=\tfrac12(u_3-v_3)=\tfrac12(-1-1)=-1$ and $x_7=\tfrac12(u_3+v_3)=0$: the product is $-e_3$.
+
+**The multiplication table.** Repeating this for all 64 pairs gives the table below; the entry in row $a$ and column $j$ is $e_ae_j$ (computed with `octonion_product` of `scripts/d16c_exact.py`).
+
+```
+e_a e_j      (row: e_a, column: e_j)
+
+         e0   e1   e2   e3   e4   e5   e6   e7
+  e0     e0   e1   e2   e3   e4   e5   e6   e7
+  e1     e1  -e0  -e3   e2  -e5   e4   e7  -e6
+  e2     e2   e3  -e0  -e1  -e6  -e7   e4   e5
+  e3     e3  -e2   e1  -e0  -e7   e6  -e5   e4
+  e4     e4   e5   e6   e7   e0   e1   e2   e3
+  e5     e5  -e4   e7  -e6  -e1   e0  -e3   e2
+  e6     e6  -e7  -e4   e5  -e2   e3   e0  -e1
+  e7     e7   e6  -e5  -e4  -e3  -e2   e1   e0
+```
+
+The Wolfram verifier records six of these entries as worked examples ($e_1e_1=-e_0$, $e_4e_4=e_0$, $e_1e_2=-e_3$, $e_2e_1=e_3$, $e_1e_4=-e_5$, $e_4e_1=e_5$), counts 64 nonzero structure constants, and finds the whole table equal to the multiplication tensor published by dirac-main in `split-octonion.json` (Stage 1, Result 3.8; check `ALG_octonionPictureIntertwiner`). Note that $e_ae_a=-e_0$ for $a=1,2,3$ but $e_ae_a=+e_0$ for $a=4,\dots,7$: the squares follow the signs of $\eta$ with a minus sign, $e_ae_a=-\eta_{aa}e_0$ for $a\ge1$.
+
+**Conjugation and norm.** The **conjugate** of $x$ is $\bar x:=(x_0,-x_1,-x_2,\dots,-x_7)$. In Zorn form it exchanges $a$ and $b$ and negates both vectors: $\bar x=(b,-u,-v,a)$ (with $x_4\to-x_4$ the numbers $x_0\pm x_4$ trade places, and $u_i=x_i+x_{i+4}$, $v_i=-x_i+x_{i+4}$ both change sign). The **norm** is the metric of this book:
+
+$$
+N(x):=\eta(x,x)=x_0^2+x_1^2+x_2^2+x_3^2-x_4^2-x_5^2-x_6^2-x_7^2=ab-u\cdot v .
+$$
+
+*Proof of the last equality.* $ab=(x_0+x_4)(x_0-x_4)=x_0^2-x_4^2$, and $u_iv_i=(x_{i+4}+x_i)(x_{i+4}-x_i)=x_{i+4}^2-x_i^2$, so $-u\cdot v=\sum_{i=1}^3(x_i^2-x_{i+4}^2)$. $\square$ The norm is the "determinant" $ab-u\cdot v$ of the vector matrix, and $N(\bar x)=ba-(-u)\cdot(-v)=N(x)$.
+
+**Theorem 3.6 (the basic identities).** For all split octonions $x,y$:
+
+1. $\bar x(xy)=N(x)\,y$ and $x(\bar xy)=N(x)\,y$;
+2. $\bar xx=x\bar x=N(x)\,e_0$;
+3. $N(xy)=N(x)\,N(y)$ (the split octonions are a composition algebra);
+4. $\overline{xy}=\bar y\,\bar x$ (conjugation reverses products).
+
+*Proof.* Write $x=(a,u,v,b)$, $y=(c,r,w,d)$ and $xy=(A,R,W,D)$ with
+
+$$
+A=ac+u\cdot w,\qquad R=ar+du-v\times w,\qquad W=cv+bw+u\times r,\qquad D=v\cdot r+bd .
+$$
+
+(1) By the product formula with $\bar x=(b,-u,-v,a)$ on the left, $\bar x(xy)=\bigl(bA-u\cdot W,\ bR-Du+v\times W,\ -Av+aW-u\times R,\ -v\cdot R+aD\bigr)$. We expand each entry, using (V1) and (V3) of Section 3.2.
+
+$$
+\begin{aligned}
+bA-u\cdot W&=abc+b\,u\cdot w-c\,u\cdot v-b\,u\cdot w-u\cdot(u\times r)=(ab-u\cdot v)\,c,\\
+bR-Du+v\times W&=abr+bd\,u-b\,v\times w-(v\cdot r)u-bd\,u+c\,v\times v+b\,v\times w+v\times(u\times r)\\
+&=ab\,r-(v\cdot r)\,u+\bigl(u\,(v\cdot r)-r\,(v\cdot u)\bigr)=(ab-u\cdot v)\,r,\\
+-Av+aW-u\times R&=-ac\,v-(u\cdot w)v+ac\,v+ab\,w+a\,u\times r-a\,u\times r-d\,u\times u+u\times(v\times w)\\
+&=-(u\cdot w)\,v+ab\,w+\bigl(v\,(u\cdot w)-w\,(u\cdot v)\bigr)=(ab-u\cdot v)\,w,\\
+-v\cdot R+aD&=-a\,v\cdot r-d\,v\cdot u+v\cdot(v\times w)+a\,v\cdot r+abd=(ab-u\cdot v)\,d .
+\end{aligned}
+$$
+
+So $\bar x(xy)=N(x)(c,r,w,d)=N(x)y$. Applying this to $\bar x$ in place of $x$, with $\bar{\bar x}=x$ and $N(\bar x)=N(x)$, gives $x(\bar xy)=N(x)y$.
+
+(2) Put $y=e_0$ in (1): $\bar x(xe_0)=\bar xx=N(x)e_0$ and $x(\bar xe_0)=x\bar x=N(x)e_0$.
+
+(3) $N(xy)=AD-R\cdot W$. First,
+
+$$
+AD=ac\,(v\cdot r)+abcd+(u\cdot w)(v\cdot r)+bd\,(u\cdot w).
+$$
+
+Next, multiplying out $R\cdot W$ term by term and dropping the terms that vanish by (V1) ($r\cdot(u\times r)=0$, $u\cdot(u\times r)=0$, $(v\times w)\cdot v=0$, $(v\times w)\cdot w=0$),
+
+$$
+R\cdot W=ac\,(r\cdot v)+ab\,(r\cdot w)+cd\,(u\cdot v)+bd\,(u\cdot w)-(v\times w)\cdot(u\times r).
+$$
+
+By (V4), $(v\times w)\cdot(u\times r)=(v\cdot u)(w\cdot r)-(v\cdot r)(w\cdot u)$. Subtracting,
+
+$$
+N(xy)=abcd-ab\,(r\cdot w)-cd\,(u\cdot v)+(u\cdot v)(r\cdot w)=(ab-u\cdot v)(cd-r\cdot w)=N(x)N(y).
+$$
+
+(4) By the product formula, $\bar y\,\bar x=(d,-r,-w,c)(b,-u,-v,a)=\bigl(db+r\cdot v,\ -du-ar-w\times v,\ -bw-cv+r\times u,\ w\cdot u+ca\bigr)$. The conjugate of $xy=(A,R,W,D)$ is $(D,-R,-W,A)$, and indeed $D=v\cdot r+bd$, $-R=-ar-du+v\times w$, $-W=-cv-bw-u\times r$ and $A=ac+u\cdot w$ agree entry by entry with $\bar y\bar x$ (use $-w\times v=v\times w$ and $r\times u=-u\times r$). $\square$
+
+The Wolfram verifier checks the unit law, the composition law (3), the reversal (4) and the identification of $N$ with $\eta$ (check `ALG_octonionPictureIntertwiner`), and the Python checker tests the unit law, $x\bar x=N(x)e_0$, (3), (4) and the alternative laws of Exercise 3.8 on three rational sample octonions (all within the same check).
+
+**The split octonions are not associative.** From the table: $e_1e_2=-e_3$ and $e_3e_4=-e_7$, so $(e_1e_2)e_4=-e_3e_4=e_7$; and $e_2e_4=-e_6$ and $e_1e_6=e_7$, so $e_1(e_2e_4)=-e_1e_6=-e_7$. The **associator** is
+
+$$
+(e_1e_2)e_4-e_1(e_2e_4)=2e_7\ne0 ,
+$$
+
+as recorded by the Wolfram verifier (Stage 1, Result 3.8). The algebra is nevertheless **alternative**: $x(xy)=(xx)y$ and $(yx)x=y(xx)$ for all $x,y$ (Exercise 3.8).
+
+### 3.9 Octonion gamma matrices
+
+**Left multiplication matrices.** For a split octonion $x$, the map $y\mapsto xy$ is linear; its 8 by 8 matrix is $L_x$, whose column $j$ is the coordinate column of $xe_j$. Because the product is bilinear, $L_x$ depends linearly on $x$. For the basis vectors, $L_{e_a}$ is read off row $a$ of the multiplication table: $(L_{e_a})_{ij}$ is the coefficient of $e_i$ in $e_ae_j$. As signed permutations ($L_{e_0}=I_8$):
+
+| $i$ | $L_{e_1}$ | $L_{e_2}$ | $L_{e_3}$ | $L_{e_4}$ | $L_{e_5}$ | $L_{e_6}$ | $L_{e_7}$ |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 | $-1$ | $-2$ | $-3$ | $+4$ | $+5$ | $+6$ | $+7$ |
+| 1 | $+0$ | $-3$ | $+2$ | $+5$ | $-4$ | $-7$ | $+6$ |
+| 2 | $+3$ | $+0$ | $-1$ | $+6$ | $+7$ | $-4$ | $-5$ |
+| 3 | $-2$ | $+1$ | $+0$ | $+7$ | $-6$ | $+5$ | $-4$ |
+| 4 | $+5$ | $+6$ | $+7$ | $+0$ | $-1$ | $-2$ | $-3$ |
+| 5 | $-4$ | $+7$ | $-6$ | $+1$ | $+0$ | $+3$ | $-2$ |
+| 6 | $-7$ | $-4$ | $+5$ | $+2$ | $-3$ | $+0$ | $+1$ |
+| 7 | $+6$ | $-5$ | $-4$ | $+3$ | $+2$ | $-1$ | $+0$ |
+
+For example, row 0 of $L_{e_1}$ is $-1$: the coefficient of $e_0$ in $e_1e_1$ is $-1$. Notice that $L_{e_4}=\sigma$, the matrix $\begin{pmatrix}0&I_4\\ I_4&0\end{pmatrix}$ of the notebook, and that $L_{e_1},L_{e_2},L_{e_3}$ keep the two halves $\{e_0,\dots,e_3\}$ and $\{e_4,\dots,e_7\}$ separate while $L_{e_4},\dots,L_{e_7}$ exchange them. In matrix language, Theorem 3.6 (1) says
+
+$$
+L_{\bar x}L_x=L_xL_{\bar x}=N(x)\,I_8 .
+$$
+
+**The octonion gammas** (Stage 1, §3.3; function `octonion_gammas`) are the 16 by 16 matrices
+
+$$
+\Gamma(x):=\begin{pmatrix}0&L_{\bar x}\\ L_x&0\end{pmatrix},\qquad\Gamma^a:=\Gamma(e_a)\quad(a=0,\dots,7).
+$$
+
+**Theorem 3.7.** $\Gamma(x)\Gamma(y)+\Gamma(y)\Gamma(x)=2\eta(x,y)\,I_{16}$ for all $x,y$. In particular $\{\Gamma^a,\Gamma^b\}=2\eta^{ab}I_{16}$.
+
+*Proof.* By the block rule and the matrix form of Theorem 3.6 (1), $\Gamma(x)^2=\mathrm{diag}(L_{\bar x}L_x,\ L_xL_{\bar x})=N(x)I_{16}$. Conjugation is linear, so $\Gamma$ depends linearly on $x$, and applying this to $x+y$,
+
+$$
+\Gamma(x)^2+\Gamma(y)^2+\Gamma(x)\Gamma(y)+\Gamma(y)\Gamma(x)=N(x+y)\,I_{16}=\bigl(N(x)+N(y)+2\eta(x,y)\bigr)I_{16}.
+$$
+
+Subtracting $\Gamma(x)^2=N(x)I_{16}$ and $\Gamma(y)^2=N(y)I_{16}$ leaves the claim. For $x=e_a$, $y=e_b$, $\eta(e_a,e_b)=\eta_{ab}=\eta^{ab}$. $\square$
+
+So the split octonions give a *third* set of real 16 by 16 gammas of signature (4,4), next to the tensor picture of Section 2.7 and the notebook's. Their chirality $\Gamma^0\cdots\Gamma^7$ is again $\mathrm{diag}(-I_8,I_8)$ (Section 3.12). In this picture a spinor is a pair of split octonions $(y,z)$, the upper and the lower half, and a vector $x$ acts by $\Gamma(x)(y,z)=(\bar xz,\ xy)$: the vectors and both halves of the spinor space are three copies of the same 8-dimensional algebra, a concrete face of the triality mentioned in Section 2.15.
+
+**Lemma 3.8 (transposes of the multiplication matrices).** For every $x$, $L_x^T\eta L_x=N(x)\,\eta$; and if $N(x)\ne0$, then $L_x^T\eta=\eta L_{\bar x}$, that is, $L_x^T=\eta L_{\bar x}\eta$.
+
+*Proof.* Replace $y$ by $y+z$ in $N(xy)=N(x)N(y)$. On the left, $N(xy+xz)=N(xy)+N(xz)+2\eta(xy,xz)$; on the right, $N(x)\bigl(N(y)+N(z)+2\eta(y,z)\bigr)$. The first two terms agree on both sides by Theorem 3.6 (3), so $\eta(xy,xz)=N(x)\eta(y,z)$, which in matrix form is $(L_xy)^T\eta(L_xz)=N(x)\,y^T\eta z$ for all columns $y,z$, that is, $L_x^T\eta L_x=N(x)\eta$. Multiply on the right by $L_{\bar x}$ and use $L_xL_{\bar x}=N(x)I_8$: $N(x)L_x^T\eta=N(x)\eta L_{\bar x}$; divide by $N(x)\ne0$. Finally $\eta^{-1}=\eta$. $\square$
+
+For a basis vector $e_a$ with $a\ge1$ we have $\bar e_a=-e_a$ and $N(e_a)=\eta_{aa}\ne0$, so $L_{e_a}^T=-\eta L_{e_a}\eta$. For $a=1,2,3$, $L_{e_a}$ keeps the two halves separate and therefore commutes with $\eta=\mathrm{diag}(I_4,-I_4)$: $L_{e_a}$ is **antisymmetric**. For $a=4,\dots,7$ it exchanges the halves, so $\eta L_{e_a}\eta=-L_{e_a}$: $L_{e_a}$ is **symmetric**. It follows (Exercise 3.10) that $\Gamma^a$ is symmetric for $a\le3$ and antisymmetric for $a\ge4$, the same pattern as the notebook's gammas and the tensor ones. The repository checks that the $\Gamma^a$ satisfy the Clifford relation and that they equal the octonion Clifford generators published by dirac-main in `triality44.json` (check `ALG_octonionPictureIntertwiner`).

@@ -267,22 +267,19 @@ skip_step() {
 # Expected wall time per step (TIMING in the PowerShell twin; same strings).
 expect() {
     case "$1" in
-        00) printf '%s' "about 10 s" ;;
         01) printf '%s' "about 10 s (about 1 min when the engine is cloned)" ;;
         03) printf '%s' "about 45 s" ;;
         04) printf '%s' "about 3 min" ;;
-        10) printf '%s' "PROVISIONAL" ;;
-        11) printf '%s' "PROVISIONAL" ;;
-        12) printf '%s' "PROVISIONAL" ;;
-        14) printf '%s' "PROVISIONAL" ;;
-        15 | 16) printf '%s' "about 1 min" ;;
-        18) printf '%s' "PROVISIONAL" ;;
-        20) printf '%s' "PROVISIONAL" ;;
-        25 | 26) printf '%s' "PROVISIONAL" ;;
-        30) printf '%s' "PROVISIONAL" ;;
-        32 | 33) printf '%s' "PROVISIONAL" ;;
-        34) printf '%s' "about 10 s" ;;
-        35) printf '%s' "PROVISIONAL" ;;
+        10) printf '%s' "seconds (3 s cold or warm)" ;;
+        11) printf '%s' "about 1 min (35-79 s)" ;;
+        12) printf '%s' "seconds" ;;
+        14) printf '%s' "about 3 h (estimate, see TIMING)" ;;
+        18) printf '%s' "about 20 s" ;;
+        20) printf '%s' "about 3 min" ;;
+        25 | 26) printf '%s' "minutes (Stage-3 analogue 2-39 min)" ;;
+        30) printf '%s' "about 10 min (Stage-3 analogue)" ;;
+        32 | 33) printf '%s' "under 1 min (Stage-3 analogue)" ;;
+        35) printf '%s' "about 1.5 min" ;;
         *) printf '%s' "seconds" ;;
     esac
 }
@@ -467,7 +464,7 @@ if ((sequential_rust == 1)); then
 fi
 rust_expected="$(expect 14)"
 if ((refined_thermo == 1)); then
-    rust_expected+="; with thermo --refined: PROVISIONAL"
+    rust_expected+="; with thermo --refined: about 3.5 h (estimate)"
 fi
 run_step stage4-14-rust-runs 0 "$rust_expected" "$binary" \
     "${audit[@]}" rust-run --binary "$binary" --log-prefix build/logs/stage4-14-rust-runs-bash \

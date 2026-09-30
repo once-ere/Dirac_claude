@@ -633,7 +633,7 @@ class GateTwinTests(unittest.TestCase):
         self.assertTrue(out_ps.rstrip().endswith("stage4_kohn_sham_verification=DRY-RUN"))
         # step 14 launches all Rust processes concurrently unless asked otherwise
         for output in (out_sh, out_ps):
-            command = [line for line in output.splitlines() if "rust-run" in line][0]
+            command = [line for line in output.splitlines() if "rust-run --binary" in line][0]
             self.assertEqual(command.count("--job"), 9)
             self.assertNotIn("--sequential", command)
         code_sh, out_sh = self.run_twin([bash, GATE_SH, "--dry-run", "--sequential-rust", "--refined-thermo",
@@ -641,7 +641,7 @@ class GateTwinTests(unittest.TestCase):
         code_ps, out_ps = self.run_twin([pwsh, "-NoProfile", "-File", GATE_PS1, "-DryRun", "-SequentialRust",
                                          "-RefinedThermo", "-Steps", "14"])
         for output in (out_sh, out_ps):
-            command = [line for line in output.splitlines() if "rust-run" in line][0]
+            command = [line for line in output.splitlines() if "rust-run --binary" in line][0]
             self.assertEqual(command.count("--job"), 10)
             self.assertIn("--sequential", command)
         self.assertEqual(self.expected_of(out_sh), self.expected_of(out_ps))

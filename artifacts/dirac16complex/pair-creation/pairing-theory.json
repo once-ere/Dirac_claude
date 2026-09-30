@@ -1,0 +1,837 @@
+{
+	"schemaVersion":1,
+	"producer":"scripts\/verify_dirac16complex_pairing.wls (wolfram\/Dirac16ComplexPairing.wl)",
+	"description":"Exact Stage-5 pairing theory of dirac16complex (anticommuting) and dirac16complex00 (commuting): the chirality map T1 (field level, arbitrary gravitational field, Krein metric), the mirror map T2 (Pin(4,4) reflections of character -1, Z2 coordinate action), the Kohn-Sham level T3 (exact 2x2 block maps, boundary conditions, densities, potentials, functional, EMT, untransformed-BC control), the statistics sign of the exchange energy, the pair totals and the prescription for the numerics. Complex entries are [re, im] pairs of exact rational strings.",
+	"sourceSha256":{
+		"wolfram\/Dirac16ComplexPairing.wl":"d83072e21552b679c404955789ca6b6cbc33b05130c626d2fa0e54e089424490",
+		"scripts\/verify_dirac16complex_pairing.wls":"92f9864281d9b11c54ce3c9a053ff28dc2b604fbe775e998018fb844a16b3bbb",
+		"wolfram\/Dirac16ComplexGeometry.wl":"f5b674665eee4000750161e6ab6312c38bfac9da7a17450a2b3bdd88ef292af2",
+		"artifacts\/dirac16complex\/arbitrary-field\/algebra-fixture.json":"8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
+		"artifacts\/dirac16complex\/kohn-sham\/kohn-sham-theory.json":"5b150b36e13b903c32b86e8debbaeda48798e0beb0bc6a216e416d2671f4e01a"
+	},
+	"conventions":{
+		"coordinates":"x0..x7 zero-based; x4 = time; in the primordial field the proper hidden-space coordinate y = ln(sin z)\/(6H) <= 0 (y < 0 the notebook patch, y > 0 the Z2 mirror side)",
+		"frame":"eta = diag(+1,+1,+1,+1,-1,-1,-1,-1); gamma^a = [[0, taubar_a],[tau_a, 0]] (algebra-fixture.json); C = gamma^0 gamma^1 gamma^2 gamma^3; Psibar = Psi^dagger C; B = -i C gamma^4; gamma^8 = gamma^0...gamma^7 = diag(-I8, +I8); Omega_mu = (1\/8) omega_{mu ab} [gamma^a, gamma^b]",
+		"lagrangian":"L = sqrt|g| [ (1\/2)(Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi) - m Psibar Psi - (lambda\/2)(Psibar Psi)^2 ] for both fields (STAGE5_SPEC (L1)); field equation E = gamma^mu D_mu Psi - (m + lambda S) Psi = 0; T_{mu nu} of CONTRACT section 7; j^mu = Psibar gamma^mu Psi",
+		"fields":"dirac16complex: Grassmann-odd components (second quantised, Krein space); dirac16complex00: commuting classical components",
+		"expectationRule":"<Psi^dagger X Psi> = u^dagger B X u for a Hilbert-normalised one-particle mode u (NUMERICS_CONTRACT, Stage 4)",
+		"statisticsSign":"sg = -1 (dirac16complex, anticommuting), sg = +1 (dirac16complex00, commuting)",
+		"matrixEntryFormat":"matrix and vector entries are [re, im] pairs of exact rational strings",
+		"inputFormDictionary":"strings copied from Wolfram InputForm use: Mz = M (constant effective mass of the k = 0 box), LL = L (tip cutoff), a4c = a_4, H = H, Y = e^{HL}, E^x = e^x"
+	},
+	"algebra":{
+		"facts":{
+			"gamma8":"gamma^8 = gamma^0 gamma^1 ... gamma^7 = diag(-I8, +I8) is Hermitian, (gamma^8)^2 = 1, anticommutes with every gamma^a, commutes with C and with every S^{ab} (hence with every Omega_mu, in any gravitational field)",
+			"C":"C = gamma^0 gamma^1 gamma^2 gamma^3 is real symmetric, C^2 = 1; C gamma^a is real antisymmetric (anti-Hermitian) for a = 0..7; gamma^a dagger C = -C gamma^a for every a",
+			"B":"B = -i C gamma^4 is Hermitian, B^2 = 1, spectrum (+1)^8 (-1)^8, [B, C] = 0, BC = -i gamma^4; gamma^8 B gamma^8 = -B",
+			"bilinearParities":"gamma^8 X gamma^8 = -X for all 456 matrices X in {C gamma^a, C gamma^a S^{bc}, C S^{bc} gamma^a} (every matrix of the kinetic, connection, energy-momentum and current bilinears) and gamma^8 C gamma^8 = +C (mass term, S)",
+			"chiralBlockStructure":"in the notebook basis C and every S^{ab} are block diagonal in (Psi_0..Psi_7 | Psi_8..Psi_15) and every gamma^a is block off-diagonal; gamma^8 multiplies the upper components by -1: every kinetic, connection, current and EMT-bilinear monomial pairs an upper with a lower component (sign -1), every monomial of S = Psibar Psi pairs equal chiralities (sign +1). For Grassmann-odd components gamma^8 is therefore the algebra automorphism theta_a -> chi(a) theta_a of the Grassmann algebra (chi = -1 for a < 8, +1 for a >= 8), compatible with all products and with the ordering of odd factors.",
+			"kreinUnderReflections":"u B u^dagger = +B for u = gamma^0..gamma^4 and -B for u = gamma^5, gamma^6, gamma^7 (measured); gamma^8 B gamma^8 = -B"
+		}
+	},
+	"T1krein":{
+		"canonical":"the canonical anticommutator of dirac16complex in the Gaussian-normal gauge is {Psi, Psi^dagger} = B delta^7\/sqrt|g| (Stage 1); for the image Psi_- := gamma^8 Psi_+ it is gamma^8 B gamma^8 = -B: the image field is the canonical field of the Lagrangian -L_{-m,-lambda} = L_{m,lambda}[gamma^8 .] (same field equations as L_{-m,-lambda}, opposite overall sign, opposite Krein metric)",
+		"fockModel":"four modes of the rest sector (m = 1): joint eigenvectors u_n of h = -i m gamma^4 and B with (eps, beta) = (+1,+1), (+1,-1), (-1,+1), (-1,-1); Krein CAR {b_n, b_n^K} = beta_n realised as b_n = a_n, b_n^K = beta_n a_n^*; sea = modes 3, 4 filled; normal ordering = subtraction of the sea expectation value",
+		"expectationRule":"one particle in mode u: <:Psi^K M Psi:> = u^dagger B M u; one hole in mode u: -u^dagger B M u (verified for M = C, B, B h, C gamma^4, BC); every excitation has energy |eps| > 0 (the J = B positivity)",
+		"imageField":"Psi_- = gamma^8 Psi on the same Fock space and state: {Psi_-, Psi_-^K} = -B P_-; operator identities H[Psi_-; -m] = -H[Psi; m] (H = Psi^K B h Psi), Q[Psi_-] = -Q[Psi] (Q = Psi^K B Psi = J^4), S[Psi_-] = S[Psi]; expectation values <Psi_-^K M Psi_-> = u_-^dagger (-B) M u_-, u_- = gamma^8 u: the image universe carries the Krein metric -B, energy -|eps| and charge -1 per quantum. Since gamma^8 acts linearly and pointwise, normal ordering (subtraction of the sea value) commutes with the map: :T_{mu nu}[gamma^8 Psi; -m, -lambda]: = -:T_{mu nu}[Psi; m, lambda]: and :H_-: = -:H_+: as operators.",
+		"independentQuantisation":"if the -m theory L_{-m,-lambda} is quantised independently with its own canonical structure (+B) and the J = B positive-norm Fock space, its modes are w_n = gamma^8 u_n (same eps, Krein sign -beta_n); a quantum in w has energy +|eps|, charge +1 and scalar density -u^dagger B C u: (E, Q, S) -> (E, Q, -S). Its energy-momentum does NOT cancel that of the +m universe.",
+		"consequence":"T^pair = 0 at the operator level holds for the pair (Psi_+, Psi_- = gamma^8 Psi_+), whose second member carries the Krein metric -B (it is canonically a field of -L_{-m,-lambda}); an independently quantised -m universe with the positive (J = B) structure has the same energy-momentum as the +m universe (this is the T2-type pairing, see T3)."
+	},
+	"T2frameTable":[
+		{
+			"u":"gamma^0",
+			"vector":[
+				"1",
+				"0",
+				"0",
+				"0",
+				"0",
+				"0",
+				"0",
+				"0"
+			],
+			"norm":"1",
+			"character":"-1",
+			"uBudaggerSign":"1",
+			"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]; T -> +T; S -> -S; j -> +j",
+			"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi] (CONTRACT E3)",
+			"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+		},
+		{
+			"u":"gamma^1",
+			"vector":[
+				"0",
+				"1",
+				"0",
+				"0",
+				"0",
+				"0",
+				"0",
+				"0"
+			],
+			"norm":"1",
+			"character":"-1",
+			"uBudaggerSign":"1",
+			"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]; T -> +T; S -> -S; j -> +j",
+			"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi] (CONTRACT E3)",
+			"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+		},
+		{
+			"u":"gamma^2",
+			"vector":[
+				"0",
+				"0",
+				"1",
+				"0",
+				"0",
+				"0",
+				"0",
+				"0"
+			],
+			"norm":"1",
+			"character":"-1",
+			"uBudaggerSign":"1",
+			"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]; T -> +T; S -> -S; j -> +j",
+			"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi] (CONTRACT E3)",
+			"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+		},
+		{
+			"u":"gamma^3",
+			"vector":[
+				"0",
+				"0",
+				"0",
+				"1",
+				"0",
+				"0",
+				"0",
+				"0"
+			],
+			"norm":"1",
+			"character":"-1",
+			"uBudaggerSign":"1",
+			"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]; T -> +T; S -> -S; j -> +j",
+			"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi] (CONTRACT E3)",
+			"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+		},
+		{
+			"u":"gamma^4",
+			"vector":[
+				"0",
+				"0",
+				"0",
+				"0",
+				"1",
+				"0",
+				"0",
+				"0"
+			],
+			"norm":"-1",
+			"character":"1",
+			"uBudaggerSign":"1",
+			"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]; T -> -T; S -> +S; j -> -j",
+			"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi] (exact symmetry)",
+			"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+		},
+		{
+			"u":"gamma^5",
+			"vector":[
+				"0",
+				"0",
+				"0",
+				"0",
+				"0",
+				"1",
+				"0",
+				"0"
+			],
+			"norm":"-1",
+			"character":"1",
+			"uBudaggerSign":"-1",
+			"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]; T -> -T; S -> +S; j -> -j",
+			"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi] (exact symmetry)",
+			"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+		},
+		{
+			"u":"gamma^6",
+			"vector":[
+				"0",
+				"0",
+				"0",
+				"0",
+				"0",
+				"0",
+				"1",
+				"0"
+			],
+			"norm":"-1",
+			"character":"1",
+			"uBudaggerSign":"-1",
+			"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]; T -> -T; S -> +S; j -> -j",
+			"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi] (exact symmetry)",
+			"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+		},
+		{
+			"u":"gamma^7",
+			"vector":[
+				"0",
+				"0",
+				"0",
+				"0",
+				"0",
+				"0",
+				"0",
+				"1"
+			],
+			"norm":"-1",
+			"character":"1",
+			"uBudaggerSign":"-1",
+			"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]; T -> -T; S -> +S; j -> -j",
+			"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi] (exact symmetry)",
+			"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+		},
+		{
+			"u":"spacelikeGeneral",
+			"vector":[
+				"5\/4",
+				"1\/2",
+				"-1\/4",
+				"1\/4",
+				"3\/4",
+				"-1\/4",
+				"1\/2",
+				"1\/4"
+			],
+			"norm":"1",
+			"character":"-1",
+			"uBudaggerSign":"0",
+			"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]; T -> +T; S -> -S; j -> +j",
+			"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi] (CONTRACT E3)",
+			"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+		},
+		{
+			"u":"timelikeGeneral",
+			"vector":[
+				"-4\/5",
+				"-2\/5",
+				"-2\/5",
+				"2\/5",
+				"3\/5",
+				"-6\/5",
+				"2\/5",
+				"-2\/5"
+			],
+			"norm":"-1",
+			"character":"1",
+			"uBudaggerSign":"0",
+			"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]; T -> -T; S -> +S; j -> -j",
+			"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi] (exact symmetry)",
+			"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+		}
+	],
+	"T2z2":{
+		"geometry":"static primordial field, proper chart y (STAGE4_SPEC section 1): y < 0: W = e^{Hy}; Z2 mirror side y > 0: W = e^{-Hy}; vielbein h = (1, W e^{a4} (x3), 1, W e^{-a4} (x3)); the reflection phi: y -> -y is an isometry of the Z2 geometry whose differential reflects the frame vector e_0",
+		"map":"Psi'(y, x) = gamma^0 Psi(-y, x), Psi'^dagger(y, x) = Psi^dagger(-y, x) gamma^0 (u = gamma^0: n(u) = +1, character -1, twisted lift = the coordinate reflection of x0 ~ y)",
+		"diracOperator":"gamma^mu D_mu Psi' = -gamma^0 (gamma^mu D_mu Psi)(-y) and S[Psi'] = -S[Psi](-y), hence E_{-m,lambda}[Psi'](y) = -gamma^0 E_{m,lambda}[Psi](-y): Psi solves the equation with (m, lambda) on y < 0 iff Psi' solves it with (-m, lambda) on y > 0 (the SAME lambda)",
+		"massFunction":"for a mass function m(y): Psi' solves the equation with -m(-y); a configuration with Psi(-y) = +-gamma^0 Psi(y) satisfies the equation with ONE global mass function m(y) on both sides iff (m(y) + m(-y)) Psi = 0, i.e. iff the mass function is odd: the Z2 mirror universe carries the mass -M (STAGE4_SPEC E4.6); with the Hartree term lambda S the effective mass is odd automatically because S is P_A-odd",
+		"lagrangian":"L_{-m,lambda}[Psi'](y) = L_{m,lambda}[Psi](-y) (sqrt|g| even)",
+		"emt":"T'_{mu nu}(y) = s_mu s_nu T_{mu nu}(-y), s = (-1, 1, 1, 1, 1, 1, 1, 1) in the order (y, x1, x2, x3, x4, x5, x6, x7): the pull-back phi^* T; in particular rho'(y) = rho(-y), all pressures even, T'_{y i} = -T_{y i}(-y)",
+		"current":"j'^mu(y) = s_mu j^mu(-y): the charge density j^4 is even (same charge on both sides)",
+		"PB":"P_B: Psi'(y) = i gamma^0 gamma^8 Psi(-y) at the field level maps (m, lambda) -> (m, -lambda) with L -> -L and S -> -S (P_B = P_A composed with the gamma^8 map T1); at the Kohn-Sham mean-field level with the standard expectation rule it is the even-mass symmetry with the same lambda (Stage 4), because the rule matrix BC is P_B-even while C is P_B-odd: gamma^8 reverses the Krein metric B",
+		"interpretation":"the Z2 mirror universe of mass -M is the mirror image (frame reflection of the hidden direction) of the +M universe: same energy density, same pressures, same charge, opposite scalar density. The sign of m relative to the orientation of the frame is not an invariant: the Pin reflections of character -1 map (m, lambda) -> (-m, lambda) with L -> +L."
+	},
+	"T3blockMaps":{
+		"basisSource":"artifacts\/dirac16complex\/kohn-sham\/kohn-sham-theory.json, reduction.blockDiagonalisation (block order (j,s2,s3) = (1,1,1),(1,1,-1),(1,-1,1),(1,-1,-1),(-1,1,1),(-1,1,-1),(-1,-1,1),(-1,-1,-1)); re-verified here",
+		"gamma8":{
+			"blockAction":"V^dagger gamma^8 V maps block (j,s2,s3) onto block (-j,s2,s3); every nonzero 2x2 block is c sigma2 with a phase c in {+-1, +-i}",
+			"phasesByTargetBlock":[
+				[
+					"1",
+					"0"
+				],
+				[
+					"1",
+					"0"
+				],
+				[
+					"-1",
+					"0"
+				],
+				[
+					"-1",
+					"0"
+				],
+				[
+					"1",
+					"0"
+				],
+				[
+					"1",
+					"0"
+				],
+				[
+					"-1",
+					"0"
+				],
+				[
+					"-1",
+					"0"
+				]
+			],
+			"map":"chi -> sigma2 chi (up to the phase), j -> -j, k unchanged"
+		},
+		"gamma1":{
+			"blockAction":"V^dagger gamma^1 V is block diagonal with c sigma1 in every block",
+			"phases":[
+				[
+					"-1",
+					"0"
+				],
+				[
+					"-1",
+					"0"
+				],
+				[
+					"-1",
+					"0"
+				],
+				[
+					"-1",
+					"0"
+				],
+				[
+					"-1",
+					"0"
+				],
+				[
+					"-1",
+					"0"
+				],
+				[
+					"-1",
+					"0"
+				],
+				[
+					"-1",
+					"0"
+				]
+			],
+			"map":"chi -> sigma1 chi, j unchanged, k -> -k (reflection of x1)"
+		},
+		"gamma0":"sigma3 in every block (with y -> -y: the Stage-4 reflection P_A)",
+		"otherGammas":"<|\"gamma^2\" -> {{6}, {7}, {4}, {5}, {2}, {3}, {0}, {1}}, \"gamma^3\" -> {{6}, {7}, {4}, {5}, {2}, {3}, {0}, {1}}, \"gamma^5\" -> {{5}, {4}, {7}, {6}, {1}, {0}, {3}, {2}}, \"gamma^6\" -> {{5}, {4}, {7}, {6}, {1}, {0}, {3}, {2}}, \"gamma^7\" -> {{4}, {5}, {6}, {7}, {0}, {1}, {2}, {3}}|>",
+		"blockODE":"chi' = N_j(M, k) chi, N_j(M, k) = M sigma3 - kappa k sigma2 + i j (eps - v_v) sigma1",
+		"odeMaps":{
+			"sigma2":"sigma2 N_j(M, k) sigma2 = N_{-j}(-M, k) (16-component: gamma^8 N(M) gamma^8 = N(-M))",
+			"sigma1":"sigma1 N_j(M, k) sigma1 = N_j(-M, -k) (16-component: gamma^1 N(M, k) gamma^1 = N(-M, -k))",
+			"sigma3":"-sigma3 N_j(M, k) sigma3 = N_j(-M, k): chi(y) -> sigma3 chi(-y) maps M(y) to -M(-y) when kappa is even (Z2 geometry)",
+			"antiunitary":"K N_j(M, k) K = N_{-j}(M, -k) (complex conjugation, a symmetry of the same mass); sigma2 K: (j, M, k) -> (j, -M, -k)"
+		},
+		"hamiltonianMaps":"h_j(M, k) = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v_v: sigma2 h_j(M, k) = h_{-j}(-M, k) sigma2 and sigma1 h_j(M, k) = h_j(-M, -k) sigma1 as differential operators (v_v unchanged); sigma3 h_j(M(y)) chi(-y) = [h_j(-M(-y)) sigma3 chi(-.)](y) for even kappa and v_v(y) -> v_v(-y)",
+		"boundaryConditions":{
+			"parity":"even parity chi_2(0) = 0 (P_e = (1 - sigma3)\/2) <-> odd parity chi_1(0) = 0 under sigma2 and under sigma1 (p -> -p); unchanged under sigma3",
+			"bag":"(1 - Q(theta)) chi(-L) = 0, Q = cos(theta) sigma3 + sin(theta) sigma2: sigma2 Q(theta) sigma2 = Q(pi - theta) (theta -> pi - theta), sigma1 Q(theta) sigma1 = Q(theta + pi), sigma3 Q(theta) sigma3 = Q(-theta)",
+			"stage4Default":"theta = 0 (chi_2(-L) = 0, Rust b(-L) = 0) -> theta = pi (chi_1(-L) = 0, Rust a(-L) = 0) under both sigma2 and sigma1",
+			"asymptoticBag":"the k-dependent asymptotic prescription theta(k) = -sgn(k) pi\/2 is mapped onto itself: sigma2 (same k): pi - (-pi\/2) = -pi\/2 mod 2 pi; sigma1 (k -> -k): -pi\/2 + pi = +pi\/2 = theta(-k)",
+			"rustNotation":"chi = (a, i b): sigma2 (a, i b) = (b, i a), i.e. the swap (a, b) -> (b, a) of the Rust crate (emt.rs header)"
+		},
+		"densitiesAndCurrents":{
+			"matrices":"per block: n = chi^dagger chi, s = j chi^dagger sigma2 chi (= u^dagger B C u), t = j chi^dagger sigma3 chi (k-current), c = j chi^dagger sigma1 chi (y-current, A4 = gamma^0 gamma^4)",
+			"sigma2":"(n, s, t, c) -> (n, -s, t, c)",
+			"sigma1":"(n, s, t, c) -> (n, -s, -t, c)",
+			"sigma3":"(n, s, t, c) -> (n, -s, t, -c) (P_A, Stage 4)",
+			"imageRule":"with the Krein metric -B of the gamma^8 image every one-body expectation value changes sign in addition: sigma2 route (n, s, t, c) -> (-n, s, -t, -c)"
+		},
+		"potentials":{
+			"definitions":"M_eff = m + lambda S_p + v_s, v_s = sg (lambda\/16) S_p, v_v = sg (lambda\/16) n_p, sg = -1 (dirac16complex, anticommuting), sg = +1 (dirac16complex00, commuting): M_eff = m + (15\/16) lambda S_p resp. m + (17\/16) lambda S_p",
+			"standardRule":"(m, lambda, n, S) -> (-m, lambda, n, -S): M_eff -> -M_eff, v_s -> -v_s, v_v -> v_v, e_H + e_x invariant (both statistics); with lambda -> -lambda instead the map FAILS for lambda != 0",
+			"imageRule":"(m, lambda, n, S) -> (-m, -lambda, -n, S): M_eff -> -M_eff, v_s -> -v_s, v_v -> v_v, e_H + e_x -> -(e_H + e_x) (both statistics)"
+		},
+		"orbitalEMT":"the Stage-4 per-orbital EMT (rho = eps n - (M_eff - m) s - v_v n, p_y = eps n - m s - kappa k t, p_1 = kappa k t + (M_eff - m) s + v_v n, p_2 = p_3 = p_t = (M_eff - m) s + v_v n) is invariant under the sigma2 and sigma1 maps with the standard rule and changes sign under the image rule"
+	},
+	"statistics":{
+		"wick":{
+			"anticommuting":"exact fermionic Fock space (4 modes, Jordan-Wigner), quasi-free states D = prod_n [(1 - f_n) a_n a_n^* + f_n a_n^* a_n] in 3 bases x 4 occupation sets (pure Slater determinants and mixed states): <:(Psi^* A Psi)(Psi^* B Psi):> = Tr(A rho) Tr(B rho) - Tr(A rho B rho), <(Psi^* A Psi)(Psi^* B Psi)> = the same + Tr(A B rho), rho_ba = <Psi^*_a Psi_b>",
+			"commutingQuantum":"bosonic thermal quasi-free states (exact series): <:(Psi^* A Psi)(Psi^* B Psi):> = Tr(A rho) Tr(B rho) + Tr(A rho B rho); full product + Tr(A B rho)",
+			"commutingClassical":"classical circular Gaussian ensemble of commuting modes (exact moment integrals <cbar^a c^b> = delta_ab a! f^a): <(Psi^* A Psi)(Psi^* B Psi)> = Tr(A rho) Tr(B rho) + Tr(A rho B rho) with no extra term; the moment tensor equals the bosonic normal-ordered one",
+			"fixedAmplitudePhases":"a random-phase ensemble with FIXED amplitudes (|c_n|^2 = f_n) gives the Gaussian result minus sum_n f_n^2 (U^+ A U)_nn (U^+ B U)_nn: the + exchange sign of the commuting model requires Gaussian (Rayleigh) amplitudes"
+		},
+		"hartreeFock":{
+			"rule":"two-point function of the expectation rule: G_ab = <Psi^dagger_a Psi_b> = (rho B)_ba (Stage 4), i.e. the Wick formulas with rho -> rho B and A = B = C",
+			"formula":"E_HF = (lambda\/2) [ Tr(BC rho)^2 + sg Tr(BC rho BC rho) ], sg = -1 (dirac16complex), sg = +1 (dirac16complex00)",
+			"filledShell":"Tr(BC P_+ BC P_+) = Tr(BC P_+)^2\/8 (8 states at one momentum): E_x = sg E_H\/8, i.e. -E_H\/8 (anticommuting), +E_H\/8 (commuting)",
+			"uniformGas":"e_x = sg (lambda\/32) (n^2 + S^2) for every T: -(lambda\/32)(n^2 + S^2) (dirac16complex), +(lambda\/32)(n^2 + S^2) (dirac16complex00)",
+			"lda":"v_v = sg (lambda\/16) n, v_s = sg (lambda\/16) S, M_eff = m + lambda S_p + v_s = m + (1 + sg\/16) lambda S_p: m + (15\/16) lambda S_p (dirac16complex), m + (17\/16) lambda S_p (dirac16complex00); v_x = v_v = +(lambda\/16) n_p for dirac16complex00",
+			"T0":"de_x\/dn |_{T=0} = sg (lambda\/16) [ n + S m\/E_F ]; rest-gas limit e_x\/e_H -> sg\/8",
+			"verdict":"with the Stage-4 expectation-rule matrices the statement of STAGE5_SPEC section 4 holds exactly: only the sign of the exchange term changes"
+		},
+		"positivity":{
+			"measured":"the covariance implied by the expectation rule, K = rho B, restricted to a filled rest shell has eigenvalues (+1)^4 (-1)^4 (0)^8: it is indefinite, while the covariance of a classical Gaussian ensemble is positive semidefinite",
+			"consequence":"the dirac16complex00 Kohn-Sham model with the expectation rule is a FORMAL (Krein-signed) Gaussian functional: for modes of Krein sign -1 (4 of the 8 blocks, B = j s2) it does not correspond to a probability distribution of classical fields. With the positive classical covariance K = rho instead, a filled shell has Tr(B P_+) = 0 (zero charge) and Tr(C P_+) = 0 (zero scalar density) at every momentum. The Stage-5 model keeps the expectation rule by prescription (STAGE5_SPEC section 4), so that the two theories differ only in the exchange sign; this is a modelling choice, stated as such.",
+			"status":"a DFT-motivated mean field of a random-phase (Gaussian) ensemble of classical modes with Fermi-Dirac occupations (Pauli filling imposed by prescription), not a quantum theory of commuting spinors (which would violate the spin-statistics connection)"
+		}
+	},
+	"T1":{
+		"name":"T1: the chirality map gamma^8 (field level, arbitrary gravitational field, both statistics)",
+		"statement":"For every vielbein e (hence every metric g = e eta e^T and its Levi-Civita spin connection), every mass m and coupling lambda of U = (lambda\/2) S^2, and every field configuration Psi (off shell), with Psi_- := gamma^8 Psi: Psibar_- = Psibar gamma^8, S[Psi_-] = S[Psi], the kinetic term changes sign, j^mu[Psi_-] = -j^mu[Psi], L_{m,lambda}[gamma^8 Psi] = -L_{-m,-lambda}[Psi], E_{-m,-lambda}[gamma^8 Psi] = -gamma^8 E_{m,lambda}[Psi] (field equation) and the conjugate equation likewise, T_{mu nu}[gamma^8 Psi; -m, -lambda] = -T_{mu nu}[Psi; m, lambda] (all 36 components). Hence Psi solves EL_{m,lambda} iff gamma^8 Psi solves EL_{-m,-lambda}. The same identities hold for Grassmann-odd components (dirac16complex) and for commuting components (dirac16complex00).",
+		"proof":"gamma^8 is Hermitian, (gamma^8)^2 = 1, gamma^8 gamma^a = -gamma^a gamma^8, [gamma^8, C] = 0, [gamma^8, S^{ab}] = 0 (so [gamma^8, Omega_mu] = 0 for every connection). Every term of L, of the field equations, of T_{mu nu} and of j^mu is a bilinear Psi^dagger X Psi with X in {C gamma^a, C gamma^a S^{bc}, C S^{bc} gamma^a} (one gamma: gamma^8 X gamma^8 = -X) or X = C (mass term, S: gamma^8 C gamma^8 = +C), multiplied by geometric coefficients (e_a^mu, omega_{mu ab}, sqrt|g|, g_{mu nu}) that the map does not touch; U = (lambda\/2) S^2 is even. The map is linear and keeps the order Psi^dagger ... Psi, so it is compatible with Grassmann-odd components (in the notebook basis it is the automorphism theta_a -> chi(a) theta_a of the Grassmann algebra). QED; verified as a polynomial identity in completely generic independent symbols (PAIR_T1generic_*), with exact jets of the general non-diagonal vielbein G1 at three points (PAIR_T1jets_*) and with a Grassmann algebra of 288 odd generators (PAIR_T1grassmann_*).",
+		"vielbeinForm":"equivalently, (gamma^8, e -> -e) is an exact symmetry (the frame map -1 lies in SO_0(4,4) and gamma^8 in Spin_0(4,4)), so T1 is the same as reversing the sign of the vielbein at fixed Psi: L_{m,lambda}[-e, Psi] = -L_{-m,-lambda}[e, Psi] (g, sqrt|g| and Omega are unchanged, gamma^mu -> -gamma^mu)",
+		"naiveFormFails":"at fixed lambda the map gives L_{m,lambda}[gamma^8 Psi] + L_{-m,lambda}[Psi] = -lambda S^2 != 0 (CONTRACT erratum E2)",
+		"kreinMetric":"gamma^8 B gamma^8 = -B: the image field has the canonical anticommutator -B (it is canonically a field of -L_{-m,-lambda}); see T1krein",
+		"checks":{
+			"PAIR_algebra_bilinearParities":true,
+			"PAIR_T1generic_lagrangian":true,
+			"PAIR_T1generic_fieldEquation":true,
+			"PAIR_T1generic_conjugateFieldEquation":true,
+			"PAIR_T1generic_emtAll36":true,
+			"PAIR_T1generic_current":true,
+			"PAIR_T1grassmann_lagrangian":true,
+			"PAIR_T1grassmann_diracOperator":true,
+			"PAIR_T1grassmann_emt":true,
+			"PAIR_T1grassmann_current":true,
+			"PAIR_T1jets_lagrangian":true,
+			"PAIR_T1jets_emt":true,
+			"PAIR_T1jets_fieldEquations":true,
+			"PAIR_T1jets_onShellImage":true,
+			"PAIR_T1jets_conservationBoth":true,
+			"PAIR_T1jets_vielbeinSignFlipIsT1":true,
+			"PAIR_T1jets_gamma8WithFrameSignIsSymmetry":true,
+			"PAIR_T1krein_imageAnticommutatorMinusB":true
+		},
+		"corollaryPair":{
+			"statement":"COROLLARY (pair, proved): for Psi_+ with (m, lambda) and Psi_- = gamma^8 Psi_+ with (-m, -lambda) in the SAME gravitational field: T^pair_{mu nu} = T_{mu nu}[Psi_+; m, lambda] + T_{mu nu}[Psi_-; -m, -lambda] = 0 identically, j^pair = 0 (total charge Q = integral sqrt|g| j^4 d^7x = 0), L^pair = 0 (total action 0), S^pair = 2 S; total energy, momentum and stresses vanish at every point, in any gravitational field, at every x4, in particular at x4 = 0. The Einstein (or Einstein-Lovelock) equations with the pair as source are the source-free equations.",
+			"hypotheses":"(i) the -M member carries the coupling -lambda (for lambda = 0 both members are the same free field with masses +m and -m); (ii) for the quantum field dirac16complex the -M member is the image field gamma^8 Psi_+ on the same state space, whose canonical anticommutator is -B (Krein metric reversed); an independently quantised -m universe with its own positive (J = B) structure has the SAME energy-momentum as the +m universe and the pair does not cancel (T1krein); (iii) for the classical field dirac16complex00 no further hypothesis is needed (the identity is between c-number fields).",
+			"noGoFixedLambda":"analytic remark (not machine-checked beyond PAIR_T1generic_naiveFixedLambdaFails): for lambda != 0 no map Psi -> M Psi (M constant, any frame change) gives (m, lambda) -> (-m, lambda) with L -> -L for commuting fields, because the quartic parts would require S_M^2 = -S^2 with the real bilinear S_M = Psi^dagger M^dagger C M Psi; the even interaction forces lambda -> -lambda in every T -> -T map",
+			"meaning":"a theorem about kinematics and constraints: a {+M, -M} pair of this type carries no net energy-momentum and no net charge, so its appearance from the field-free state is consistent with every conservation law and with the gravitational constraints. It is NOT a computed creation rate or amplitude.",
+			"checks":{
+				"PAIR_T1jets_pairEMTAndCurrentVanish":true,
+				"PAIR_totals_fieldLevelChiralPair":true,
+				"PAIR_T1generic_emtAll36":true
+			}
+		}
+	},
+	"T2":{
+		"name":"T2: the mirror map (Pin(4,4) reflection of character -1), (m, lambda) -> (-m, lambda)",
+		"statement":"For a unit vector u = v_a gamma^a with n(u) = eta(v, v) = +1 (space-like; character chi(u) = -n(u) = -1, u^dagger C = chi C u^{-1}), the transformation Psi -> u Psi together with the frame reflection e -> e R_u of the vielbein (twisted lift, gamma'^mu = -u gamma^mu u^{-1}; the metric, sqrt|g| and Omega_mu -> u Omega_mu u^{-1} as required) gives L_{m,lambda}[e R_u, u Psi] = L_{-m,lambda}[e, Psi], T_{mu nu}[e R_u, u Psi; m, lambda] = T_{mu nu}[e, Psi; -m, lambda] (same metric, same coordinates: T -> +T), S -> -S, j -> +j. Solutions with (m, lambda) map onto solutions with (-m, lambda) (the SAME lambda). Equivalently: gamma^8 u with the untwisted frame action e -> -e R_u. For time-like u (chi = +1) the twisted action gives -L_{-m,-lambda} (a T1-type map) and the untwisted action is an exact symmetry.",
+		"reflectionsThatDoIt":"exactly the space-like unit vectors (n(u) = +1): gamma^0 (hidden space x0 ~ y), gamma^1, gamma^2, gamma^3 (3-space) and every space-like combination (verified on a general rational unit vector); the time-like ones gamma^4..gamma^7 do not",
+		"table":[
+			{
+				"u":"gamma^0",
+				"vector":[
+					"1",
+					"0",
+					"0",
+					"0",
+					"0",
+					"0",
+					"0",
+					"0"
+				],
+				"norm":"1",
+				"character":"-1",
+				"uBudaggerSign":"1",
+				"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]; T -> +T; S -> -S; j -> +j",
+				"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi] (CONTRACT E3)",
+				"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+			},
+			{
+				"u":"gamma^1",
+				"vector":[
+					"0",
+					"1",
+					"0",
+					"0",
+					"0",
+					"0",
+					"0",
+					"0"
+				],
+				"norm":"1",
+				"character":"-1",
+				"uBudaggerSign":"1",
+				"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]; T -> +T; S -> -S; j -> +j",
+				"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi] (CONTRACT E3)",
+				"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+			},
+			{
+				"u":"gamma^2",
+				"vector":[
+					"0",
+					"0",
+					"1",
+					"0",
+					"0",
+					"0",
+					"0",
+					"0"
+				],
+				"norm":"1",
+				"character":"-1",
+				"uBudaggerSign":"1",
+				"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]; T -> +T; S -> -S; j -> +j",
+				"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi] (CONTRACT E3)",
+				"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+			},
+			{
+				"u":"gamma^3",
+				"vector":[
+					"0",
+					"0",
+					"0",
+					"1",
+					"0",
+					"0",
+					"0",
+					"0"
+				],
+				"norm":"1",
+				"character":"-1",
+				"uBudaggerSign":"1",
+				"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]; T -> +T; S -> -S; j -> +j",
+				"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi] (CONTRACT E3)",
+				"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+			},
+			{
+				"u":"gamma^4",
+				"vector":[
+					"0",
+					"0",
+					"0",
+					"0",
+					"1",
+					"0",
+					"0",
+					"0"
+				],
+				"norm":"-1",
+				"character":"1",
+				"uBudaggerSign":"1",
+				"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]; T -> -T; S -> +S; j -> -j",
+				"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi] (exact symmetry)",
+				"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+			},
+			{
+				"u":"gamma^5",
+				"vector":[
+					"0",
+					"0",
+					"0",
+					"0",
+					"0",
+					"1",
+					"0",
+					"0"
+				],
+				"norm":"-1",
+				"character":"1",
+				"uBudaggerSign":"-1",
+				"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]; T -> -T; S -> +S; j -> -j",
+				"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi] (exact symmetry)",
+				"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+			},
+			{
+				"u":"gamma^6",
+				"vector":[
+					"0",
+					"0",
+					"0",
+					"0",
+					"0",
+					"0",
+					"1",
+					"0"
+				],
+				"norm":"-1",
+				"character":"1",
+				"uBudaggerSign":"-1",
+				"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]; T -> -T; S -> +S; j -> -j",
+				"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi] (exact symmetry)",
+				"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+			},
+			{
+				"u":"gamma^7",
+				"vector":[
+					"0",
+					"0",
+					"0",
+					"0",
+					"0",
+					"0",
+					"0",
+					"1"
+				],
+				"norm":"-1",
+				"character":"1",
+				"uBudaggerSign":"-1",
+				"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]; T -> -T; S -> +S; j -> -j",
+				"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi] (exact symmetry)",
+				"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+			},
+			{
+				"u":"spacelikeGeneral",
+				"vector":[
+					"5\/4",
+					"1\/2",
+					"-1\/4",
+					"1\/4",
+					"3\/4",
+					"-1\/4",
+					"1\/2",
+					"1\/4"
+				],
+				"norm":"1",
+				"character":"-1",
+				"uBudaggerSign":"0",
+				"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]; T -> +T; S -> -S; j -> +j",
+				"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi] (CONTRACT E3)",
+				"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+			},
+			{
+				"u":"timelikeGeneral",
+				"vector":[
+					"-4\/5",
+					"-2\/5",
+					"-2\/5",
+					"2\/5",
+					"3\/5",
+					"-6\/5",
+					"2\/5",
+					"-2\/5"
+				],
+				"norm":"-1",
+				"character":"1",
+				"uBudaggerSign":"0",
+				"twistedFrameResult":"L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]; T -> -T; S -> +S; j -> -j",
+				"untwistedFrameResult":"L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi] (exact symmetry)",
+				"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+			}
+		],
+		"coordinateAction":{
+			"geometry":"static primordial field, proper chart y (STAGE4_SPEC section 1): y < 0: W = e^{Hy}; Z2 mirror side y > 0: W = e^{-Hy}; vielbein h = (1, W e^{a4} (x3), 1, W e^{-a4} (x3)); the reflection phi: y -> -y is an isometry of the Z2 geometry whose differential reflects the frame vector e_0",
+			"map":"Psi'(y, x) = gamma^0 Psi(-y, x), Psi'^dagger(y, x) = Psi^dagger(-y, x) gamma^0 (u = gamma^0: n(u) = +1, character -1, twisted lift = the coordinate reflection of x0 ~ y)",
+			"diracOperator":"gamma^mu D_mu Psi' = -gamma^0 (gamma^mu D_mu Psi)(-y) and S[Psi'] = -S[Psi](-y), hence E_{-m,lambda}[Psi'](y) = -gamma^0 E_{m,lambda}[Psi](-y): Psi solves the equation with (m, lambda) on y < 0 iff Psi' solves it with (-m, lambda) on y > 0 (the SAME lambda)",
+			"massFunction":"for a mass function m(y): Psi' solves the equation with -m(-y); a configuration with Psi(-y) = +-gamma^0 Psi(y) satisfies the equation with ONE global mass function m(y) on both sides iff (m(y) + m(-y)) Psi = 0, i.e. iff the mass function is odd: the Z2 mirror universe carries the mass -M (STAGE4_SPEC E4.6); with the Hartree term lambda S the effective mass is odd automatically because S is P_A-odd",
+			"lagrangian":"L_{-m,lambda}[Psi'](y) = L_{m,lambda}[Psi](-y) (sqrt|g| even)",
+			"emt":"T'_{mu nu}(y) = s_mu s_nu T_{mu nu}(-y), s = (-1, 1, 1, 1, 1, 1, 1, 1) in the order (y, x1, x2, x3, x4, x5, x6, x7): the pull-back phi^* T; in particular rho'(y) = rho(-y), all pressures even, T'_{y i} = -T_{y i}(-y)",
+			"current":"j'^mu(y) = s_mu j^mu(-y): the charge density j^4 is even (same charge on both sides)",
+			"PB":"P_B: Psi'(y) = i gamma^0 gamma^8 Psi(-y) at the field level maps (m, lambda) -> (m, -lambda) with L -> -L and S -> -S (P_B = P_A composed with the gamma^8 map T1); at the Kohn-Sham mean-field level with the standard expectation rule it is the even-mass symmetry with the same lambda (Stage 4), because the rule matrix BC is P_B-even while C is P_B-odd: gamma^8 reverses the Krein metric B",
+			"interpretation":"the Z2 mirror universe of mass -M is the mirror image (frame reflection of the hidden direction) of the +M universe: same energy density, same pressures, same charge, opposite scalar density. The sign of m relative to the orientation of the frame is not an invariant: the Pin reflections of character -1 map (m, lambda) -> (-m, lambda) with L -> +L."
+		},
+		"stage4Connection":"in the Z2-extended static primordial field the isometry y -> -y realises the frame reflection R_{gamma^0}; T2 with u = gamma^0 is the Stage-4 reflection P_A: Psi(-y) = +-gamma^0 Psi(y); it maps (m(y), lambda) to (-m(-y), lambda), so a Z2-symmetric configuration exists iff the mass function is odd: the Z2 mirror universe of mass -M with the same lambda, the same energy density and pressures (EMT pull-back) and the same charge",
+		"remark":"the sign of m relative to the frame orientation is not an invariant of the theory; the T2 pair is the +M universe and its mirror image: its energy-momentum doubles (T^pair = 2T), it does not cancel",
+		"checks":{
+			"PAIR_T2frame_characterIsMinusNorm":true,
+			"PAIR_T2frame_frameReflectionsGeometry":true,
+			"PAIR_T2frame_twistedSpacelikeMapsToMinusMSameLambda":true,
+			"PAIR_T2frame_gamma8TimesUntwistedSpacelike":true,
+			"PAIR_T2frame_untwistedSpacelikeContractE3":true,
+			"PAIR_T2frame_twistedTimelike":true,
+			"PAIR_T2frame_onShellImage":true,
+			"PAIR_T2z2_diracOperator":true,
+			"PAIR_T2z2_emtPullback":true,
+			"PAIR_T2z2_symmetricIffOddMass":true,
+			"PAIR_T2z2_PBfieldLevelFlipsLambda":true,
+			"PAIR_totals_fieldLevelMirrorPair":true
+		}
+	},
+	"T3":{
+		"name":"T3: the Kohn-Sham level (static primordial field, eight 2x2 blocks, both statistics)",
+		"blockMaps":{
+			"basisSource":"artifacts\/dirac16complex\/kohn-sham\/kohn-sham-theory.json, reduction.blockDiagonalisation (block order (j,s2,s3) = (1,1,1),(1,1,-1),(1,-1,1),(1,-1,-1),(-1,1,1),(-1,1,-1),(-1,-1,1),(-1,-1,-1)); re-verified here",
+			"gamma8":{
+				"blockAction":"V^dagger gamma^8 V maps block (j,s2,s3) onto block (-j,s2,s3); every nonzero 2x2 block is c sigma2 with a phase c in {+-1, +-i}",
+				"phasesByTargetBlock":[
+					[
+						"1",
+						"0"
+					],
+					[
+						"1",
+						"0"
+					],
+					[
+						"-1",
+						"0"
+					],
+					[
+						"-1",
+						"0"
+					],
+					[
+						"1",
+						"0"
+					],
+					[
+						"1",
+						"0"
+					],
+					[
+						"-1",
+						"0"
+					],
+					[
+						"-1",
+						"0"
+					]
+				],
+				"map":"chi -> sigma2 chi (up to the phase), j -> -j, k unchanged"
+			},
+			"gamma1":{
+				"blockAction":"V^dagger gamma^1 V is block diagonal with c sigma1 in every block",
+				"phases":[
+					[
+						"-1",
+						"0"
+					],
+					[
+						"-1",
+						"0"
+					],
+					[
+						"-1",
+						"0"
+					],
+					[
+						"-1",
+						"0"
+					],
+					[
+						"-1",
+						"0"
+					],
+					[
+						"-1",
+						"0"
+					],
+					[
+						"-1",
+						"0"
+					],
+					[
+						"-1",
+						"0"
+					]
+				],
+				"map":"chi -> sigma1 chi, j unchanged, k -> -k (reflection of x1)"
+			},
+			"gamma0":"sigma3 in every block (with y -> -y: the Stage-4 reflection P_A)",
+			"otherGammas":"<|\"gamma^2\" -> {{6}, {7}, {4}, {5}, {2}, {3}, {0}, {1}}, \"gamma^3\" -> {{6}, {7}, {4}, {5}, {2}, {3}, {0}, {1}}, \"gamma^5\" -> {{5}, {4}, {7}, {6}, {1}, {0}, {3}, {2}}, \"gamma^6\" -> {{5}, {4}, {7}, {6}, {1}, {0}, {3}, {2}}, \"gamma^7\" -> {{4}, {5}, {6}, {7}, {0}, {1}, {2}, {3}}|>",
+			"blockODE":"chi' = N_j(M, k) chi, N_j(M, k) = M sigma3 - kappa k sigma2 + i j (eps - v_v) sigma1",
+			"odeMaps":{
+				"sigma2":"sigma2 N_j(M, k) sigma2 = N_{-j}(-M, k) (16-component: gamma^8 N(M) gamma^8 = N(-M))",
+				"sigma1":"sigma1 N_j(M, k) sigma1 = N_j(-M, -k) (16-component: gamma^1 N(M, k) gamma^1 = N(-M, -k))",
+				"sigma3":"-sigma3 N_j(M, k) sigma3 = N_j(-M, k): chi(y) -> sigma3 chi(-y) maps M(y) to -M(-y) when kappa is even (Z2 geometry)",
+				"antiunitary":"K N_j(M, k) K = N_{-j}(M, -k) (complex conjugation, a symmetry of the same mass); sigma2 K: (j, M, k) -> (j, -M, -k)"
+			},
+			"hamiltonianMaps":"h_j(M, k) = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v_v: sigma2 h_j(M, k) = h_{-j}(-M, k) sigma2 and sigma1 h_j(M, k) = h_j(-M, -k) sigma1 as differential operators (v_v unchanged); sigma3 h_j(M(y)) chi(-y) = [h_j(-M(-y)) sigma3 chi(-.)](y) for even kappa and v_v(y) -> v_v(-y)",
+			"boundaryConditions":{
+				"parity":"even parity chi_2(0) = 0 (P_e = (1 - sigma3)\/2) <-> odd parity chi_1(0) = 0 under sigma2 and under sigma1 (p -> -p); unchanged under sigma3",
+				"bag":"(1 - Q(theta)) chi(-L) = 0, Q = cos(theta) sigma3 + sin(theta) sigma2: sigma2 Q(theta) sigma2 = Q(pi - theta) (theta -> pi - theta), sigma1 Q(theta) sigma1 = Q(theta + pi), sigma3 Q(theta) sigma3 = Q(-theta)",
+				"stage4Default":"theta = 0 (chi_2(-L) = 0, Rust b(-L) = 0) -> theta = pi (chi_1(-L) = 0, Rust a(-L) = 0) under both sigma2 and sigma1",
+				"asymptoticBag":"the k-dependent asymptotic prescription theta(k) = -sgn(k) pi\/2 is mapped onto itself: sigma2 (same k): pi - (-pi\/2) = -pi\/2 mod 2 pi; sigma1 (k -> -k): -pi\/2 + pi = +pi\/2 = theta(-k)",
+				"rustNotation":"chi = (a, i b): sigma2 (a, i b) = (b, i a), i.e. the swap (a, b) -> (b, a) of the Rust crate (emt.rs header)"
+			},
+			"densitiesAndCurrents":{
+				"matrices":"per block: n = chi^dagger chi, s = j chi^dagger sigma2 chi (= u^dagger B C u), t = j chi^dagger sigma3 chi (k-current), c = j chi^dagger sigma1 chi (y-current, A4 = gamma^0 gamma^4)",
+				"sigma2":"(n, s, t, c) -> (n, -s, t, c)",
+				"sigma1":"(n, s, t, c) -> (n, -s, -t, c)",
+				"sigma3":"(n, s, t, c) -> (n, -s, t, -c) (P_A, Stage 4)",
+				"imageRule":"with the Krein metric -B of the gamma^8 image every one-body expectation value changes sign in addition: sigma2 route (n, s, t, c) -> (-n, s, -t, -c)"
+			},
+			"potentials":{
+				"definitions":"M_eff = m + lambda S_p + v_s, v_s = sg (lambda\/16) S_p, v_v = sg (lambda\/16) n_p, sg = -1 (dirac16complex, anticommuting), sg = +1 (dirac16complex00, commuting): M_eff = m + (15\/16) lambda S_p resp. m + (17\/16) lambda S_p",
+				"standardRule":"(m, lambda, n, S) -> (-m, lambda, n, -S): M_eff -> -M_eff, v_s -> -v_s, v_v -> v_v, e_H + e_x invariant (both statistics); with lambda -> -lambda instead the map FAILS for lambda != 0",
+				"imageRule":"(m, lambda, n, S) -> (-m, -lambda, -n, S): M_eff -> -M_eff, v_s -> -v_s, v_v -> v_v, e_H + e_x -> -(e_H + e_x) (both statistics)"
+			},
+			"orbitalEMT":"the Stage-4 per-orbital EMT (rho = eps n - (M_eff - m) s - v_v n, p_y = eps n - m s - kappa k t, p_1 = kappa k t + (M_eff - m) s + v_v n, p_2 = p_3 = p_t = (M_eff - m) s + v_v n) is invariant under the sigma2 and sigma1 maps with the standard rule and changes sign under the image rule"
+		},
+		"theoremStandardRule":"THEOREM (proved): let the +M universe be the Stage-4 KS problem with (m, lambda, statistics sg, parity p at the brane, tip bag angle theta, occupations by Fermi-Dirac at T, N particles). The -M universe with (-m, the SAME lambda, the same sg, parity -p, bag angle pi - theta) is its exact image under chi -> sigma2 chi in the partner block (j, s2, s3) -> (-j, s2, s3), k unchanged (the block form of gamma^8 with the standard expectation rule). The KS operators are unitarily equivalent (sigma2 h_j(M_eff) sigma2 = h_{-j}(-M_eff), with M_eff -> -M_eff, v_v -> v_v self-consistently), the domains correspond (p -> -p, theta -> pi - theta), the Mermin functional is invariant, so the spectra (with multiplicities), occupations, mu, E, F, S_ent, the KS gap, the particle-hole list and the Delta-SCF energies are identical, n_p(y), t, c and the EMT profiles (rho, p_y, p_3, p_t and their averages) are identical, S_p(y) -> -S_p(y) and M_eff(y) -> -M_eff(y). The SCF iteration map is equivariant, so every iterate, the lambda-continuation branch (lambda is not changed) and hence the KS ground state (STAGE4_SPEC E4.8) and the first excited state (KS gap, particle-hole pairs with the occupation floor, Delta-SCF) map exactly. The sigma1 route (gamma^1: same j, k -> -k, theta -> theta + pi) gives the same result over closed shells {k, -k}.",
+		"theoremImageRule":"THEOREM (proved): the gamma^8 image of the +M KS state with the Krein metric -B (T1) solves the KS equations of (-m, -lambda) with the same orbitals sigma2 chi, the same eigenvalues (x4-frequencies) and occupations; its one-body densities and energies change sign: n -> -n (charge), S -> +S, t -> -t, c -> -c, E -> -E, T_{mu nu} -> -T_{mu nu}; the orbital energies (Janak) are -eps, so at finite T the image is a stationary state of F_- at temperature -T and chemical potential -mu: F_-(-T) = -F_+(T). The image is therefore obtained from the standard-rule -M run by reversing the sign of every one-body density and energy and of lambda.",
+		"whatMustTransform":{
+			"lambda":"unchanged for the ordinary -M universe (standard rule); -lambda for the Krein image (T1); the ordinary KS problem with -lambda does NOT map (PAIR_T3ks_sigma2KSOperatorEquivariant, second part)",
+			"parity":"p -> -p (even chi_2(0) = 0 <-> odd chi_1(0) = 0)",
+			"bagAngle":"theta -> pi - theta (sigma2 route, same k); Stage-4 default theta = 0 -> pi; the asymptotic prescription theta(k) = -sgn(k) pi\/2 is invariant",
+			"blocks":"j -> -j (Rust block type s -> -s), s2, s3, k unchanged; orbital (a, b) -> (b, a) in the Rust notation chi = (a, i b)",
+			"statistics":"unchanged; both statistics signs are covered by the same proof (sg kept symbolic)"
+		},
+		"untransformedBCControl":{
+			"statement":"if the -M universe keeps the untransformed boundary conditions (p, theta), it is the image of the +M problem with (-p, pi - theta), NOT of (+M, p, theta): the pairing fails in general",
+			"exact":"k = 0, constant M, v_v = 0, even parity and theta = 0: the +M problem has the brane zero mode (e^{My}, 0) (eps = 0); the -M problem with the same BCs has the tip-localised zero mode (e^{-My}, 0) (normalised brane density ratio e^{-2ML}); the massive k = 0 levels +-sqrt(M^2 + (n pi\/L)^2) coincide, but the first-order k-splitting of the zero-mode band changes from c(M) = e^{-a4} (2M\/(2M-H)) (1 - e^{-(2M-H)L})\/(1 - e^{-2ML}) to c_ctrl = e^{-a4} (2M\/(2M+H)) (e^{(2M+H)L} - 1)\/(e^{2ML} - 1); at M = H: c_ctrl - c(M) = (2\/3)(Y - 1)^2\/(Y + 1) > 0, Y = e^{HL} > 1, for every L; with the transformed BCs (odd parity, theta = pi) the -M zero mode (0, e^{My}) has exactly c(M)",
+			"valuesM1H1L3a0_floatLabelled":"{1.90514825364486643824230369645649559722`17., 13.42197519757682301453825187090231339885`17.}",
+			"closedForms":{
+				"cPaired":"(2*(1 - E^(LL*(H - 2*Mz)))*Mz)\/(E^a4c*(1 - E^(-2*LL*Mz))*(-H + 2*Mz))",
+				"cControl":"(2*(-1 + E^(LL*(H + 2*Mz)))*Mz)\/(E^a4c*(-1 + E^(2*LL*Mz))*(H + 2*Mz))"
+			},
+			"consequence":"the k != 0 spectra, hence occupations, energies, densities and the EMT of the untransformed -M universe differ from those of the +M universe; the numerical control must show this",
+			"checks":{
+				"PAIR_T3ks_zeroModeUntransformedControl":true,
+				"PAIR_T3ks_controlSplittingClosedForm":true,
+				"PAIR_T3ks_controlDiffersFromPairedProblem":true,
+				"PAIR_T3ks_controlZeroModeAtTip":true
+			}
+		},
+		"pairTotalsKS":{
+			"mirrorPair":"ordinary -M universe (standard rule, the same lambda): E_pair = 2 E_+, F_pair = 2 F_+, charge N_pair = 2N, S_pair(y) = 0, T_pair = 2 T_+ (rho, p_y, p_3, p_t doubled)",
+			"kreinImagePair":"Krein image (T1, -lambda, metric -B): E_pair = 0, charge 0, T_pair = 0 pointwise, S_pair = 2 S_+; the image is computed from the ordinary -M run (identical orbitals, eigenvalues, occupations) by reversing the sign of all one-body densities and energies",
+			"checks":{
+				"PAIR_totals_ksMirrorPair":true,
+				"PAIR_totals_ksKreinImagePair":true,
+				"PAIR_T3ks_imageRuleEnergyOdd":true,
+				"PAIR_T3ks_occupationsAndTemperature":true
+			}
+		},
+		"numericsPrescription":{
+			"plusM":"the Stage-4 KS problem (m, lambda, statistics, parity sectors +-, tip bag b(-L) = 0 i.e. theta = 0)",
+			"minusMTransformed":"m -> -m everywhere (bare mass and M_eff), lambda unchanged, statistics unchanged, parity p -> -p (the + sector b(0) = 0 of the +M run corresponds to the - sector a(0) = 0 of the -M run), tip bag theta = pi (a(-L) = 0), block type s -> -s, same k and N and T",
+			"minusMUntransformedControl":"m -> -m, everything else as for +M (same parity labels, b(-L) = 0)",
+			"expectedIdentities":"per k and block pair: eigenvalue lists identical; mu, E, F, S_ent, KS gap, particle-hole list, Delta-SCF identical; n_p(y), rho(y), p_y(y), p_3(y), p_t(y), v_x(y) identical; S_p(y) and M_eff(y) change sign; to solver precision",
+			"pairTotalsToReport":"mirror pair (sum of the +M and transformed -M runs): 2E, 2N, S = 0, 2 <rho>, 2 <p>; Krein image pair: E = 0, charge 0, <rho> = <p> = 0 (from the +M run and minus the -M run), S = 2 <S_p>",
+			"statisticsFormulas":"dirac16complex: e_x = -(lambda\/32)(n^2 + S^2), M_eff = m + (15\/16) lambda S_p, v_x = -(lambda\/16) n_p; dirac16complex00: e_x = +(lambda\/32)(n^2 + S^2), M_eff = m + (17\/16) lambda S_p, v_x = +(lambda\/16) n_p"
+		},
+		"checks":{
+			"PAIR_T3block_gamma8IsSigma2BetweenPartnerBlocks":true,
+			"PAIR_T3block_gamma1IsSigma1InEveryBlock":true,
+			"PAIR_T3block_sigma2MapsBlockODE":true,
+			"PAIR_T3block_hamiltonianSigma2":true,
+			"PAIR_T3block_parityMap":true,
+			"PAIR_T3block_bagAngleMap":true,
+			"PAIR_T3block_densityAndCurrentMaps":true,
+			"PAIR_T3block_potentialsStandardRule":true,
+			"PAIR_T3block_potentialsImageRule":true,
+			"PAIR_T3ks_stationarityBothStatistics":true,
+			"PAIR_T3ks_sigma2FunctionalInvariant":true,
+			"PAIR_T3ks_sigma2KSOperatorEquivariant":true,
+			"PAIR_T3ks_sigma1FunctionalInvariant":true,
+			"PAIR_T3ks_zeroModeSplittingMapsExactly":true,
+			"PAIR_T3ks_massiveLevelsMap":true,
+			"PAIR_T3emt_gamma8OperatorIdentity64":true,
+			"PAIR_T3emt_standardRulePlusT":true,
+			"PAIR_T3emt_imageRuleMinusT":true,
+			"PAIR_T3emt_stage4CrossCheck":true
+		}
+	},
+	"pairTotals":{
+		"fieldLevel":{
+			"chiralPairT1":"{(m, lambda, Psi), (-m, -lambda, gamma^8 Psi)}: T = 0, j = 0, L = 0, S = 2S (PAIR_totals_fieldLevelChiralPair)",
+			"mirrorPairT2":"{(m, lambda, e, Psi), (-m, lambda, e R_u, u Psi)}, u space-like: T = 2T, j = 2j, L = 2L, S = 0 (PAIR_totals_fieldLevelMirrorPair)"
+		},
+		"ksLevel":{
+			"mirrorPair":"ordinary -M universe (standard rule, the same lambda): E_pair = 2 E_+, F_pair = 2 F_+, charge N_pair = 2N, S_pair(y) = 0, T_pair = 2 T_+ (rho, p_y, p_3, p_t doubled)",
+			"kreinImagePair":"Krein image (T1, -lambda, metric -B): E_pair = 0, charge 0, T_pair = 0 pointwise, S_pair = 2 S_+; the image is computed from the ordinary -M run (identical orbitals, eigenvalues, occupations) by reversing the sign of all one-body densities and energies",
+			"checks":{
+				"PAIR_totals_ksMirrorPair":true,
+				"PAIR_totals_ksKreinImagePair":true,
+				"PAIR_T3ks_imageRuleEnergyOdd":true,
+				"PAIR_T3ks_occupationsAndTemperature":true
+			}
+		}
+	},
+	"notProved":[
+		"no dynamical creation rate, amplitude or probability of pair creation is derived; no wave function of the universe",
+		"the theorems do not show that pairs ARE created at x4 = 0; T1 shows that a {+M, -M} pair of the chiral type carries zero total energy-momentum, charge and action in every gravitational field at every x4, so its creation is consistent with all conservation laws and constraints",
+		"the chiral (cancelling) pair needs lambda -> -lambda (or lambda = 0) and, for the quantum field, the reversed Krein metric -B for the -M member; with the positive (J = B) quantisation of the -M universe as an independent field the pair is the T2-type mirror pair, whose energy-momentum doubles",
+		"the Kohn-Sham statements are about the mean-field (Hartree-Fock-LDA, no correlation) model of Stage 4; for dirac16complex00 the model is a formal Krein-signed Gaussian functional with Pauli filling imposed by prescription",
+		"the primordial field requires rho_req = -21 H^2\/kappa < 0 (Stage 4); the pairing theorems do not change the Stage-4 sourcing analysis"
+	],
+	"notebookHypothesis":"cells 6, 7, 17 of the author's notebook: 'at time x4 = 0 a pair of universes with masses +-M is created' \/ 'TODO: prove Universe(s) of masses +-M are created in pairs'. Proved here: T1 (a chiral pair with -lambda has T^pair = 0, j^pair = 0 in every field), T2 (the mirror universe of mass -M with the same lambda is the exact reflection image, equal energy), T3 (both statements at the Kohn-Sham level, exact block maps and boundary conditions). Interpretation, not derived: that such a pair is actually produced."
+}

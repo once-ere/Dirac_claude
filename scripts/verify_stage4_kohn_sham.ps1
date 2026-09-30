@@ -154,7 +154,73 @@
 # Only then does it print
 #   stage4_kohn_sham_verification=OK
 #
-# TIMING: PROVISIONAL
+# TIMING (wall times on the machine that produced the committed outputs:
+# Intel Core Ultra 9 275HX, 24 cores / 24 logical processors, Windows 11.
+# Measured on 2026-09-26 and 2026-09-30 while OTHER jobs loaded the machine
+# (the CPU load is given where it was recorded); an otherwise idle machine
+# is faster.  "estimate" marks a figure that was not measured, and "Stage-3
+# analogue" a step whose Stage-4 files did not exist when this gate was
+# written: the figure is the matching step of the Stage-3 gate run from
+# fresh clones on 2026-09-30, not a Stage-4 measurement.)
+#   00 about 3 s (a run stopped by the then missing documents had copied
+#   the 205 MB of kohn-sham artifacts, notebooks and crate sources in
+#   2.4 s).  01 9 s, 02 2 s, 03 45 s,
+#   04 171 s, 05 3 s, 06-08 5 s together, 09 3 s, 10 3 s, 11 79 s (35
+#   tests; the two longest take 75 s), 12 1 s, 13 1 s (PowerShell twin,
+#   2026-09-30, warm cargo target, load 100 %).  With an empty target
+#   directory (as in a fresh clone): 10 3 s, 11 35 s (compilation 6 s,
+#   tests 29 s), 12 1 s (load 15-40 % when they started).
+#   14 (Rust).  Not yet run as a whole.  Measured parts (first to last file
+#   written): the committed canonical tree of 2026-09-26 was produced while
+#   the repeat and the refined "all" runs shared the machine: spectrum
+#   1 min, scf 29 min (refined 36 min), thermo 2 h 38 min (repeat 2 h 42
+#   min, refined 3 h 03 min), emt 5 min (refined 3 min); excited (final
+#   build 3bbc395a, 2026-09-30) 21 min canonical and 58 min repeat under
+#   different loads.  Step 14 is bounded by its one canonical thermo
+#   process: about 3 h (estimate); with -RefinedThermo two thermo processes
+#   share the machine as on 2026-09-26: about 3.5 h (estimate); with
+#   -SequentialRust the sum of all nine processes, about 4.5 h (estimate;
+#   about 7.5 h with -RefinedThermo).
+#   Concurrency measurement (2026-09-30, binary 3bbc395a, the reduced
+#   --quick parameter matrix of all five subcommands, scratch outputs, load
+#   100 %): five concurrent processes 1025 s; the same five one after
+#   another, immediately afterwards, 1274 s (spectrum 80, scf 434, excited
+#   81, thermo 630, emt 49 s; an earlier sequential run 1434 s); total CPU
+#   time 11584 s concurrent and 11652 s sequential; all 206 output files
+#   byte-identical between the concurrent tree and both sequential trees.
+#   One process keeps only part of the 24 cores busy (average cores in the
+#   sequential run: spectrum 2.1, scf 7.8, excited 7.0, thermo 10.6, emt
+#   17.7; the shell loop is parallel, the SCF iteration between shell loops
+#   and the small configurations are not), so concurrent processes fill
+#   idle cores: 20 % shorter here (29 % against the earlier sequential
+#   run), and not more, because thermo is half of the sequential total and
+#   becomes the critical path (1020 s of the concurrent 1025 s).  In step 14
+#   the four refined processes also run in the shadow of the canonical
+#   thermo process; hence all nine run concurrently by default.
+#   Determinism under concurrency at full scale: on 2026-09-26 the
+#   canonical, repeat and refined runs of spectrum, scf and thermo
+#   overlapped in time, and the repeat files are byte-identical to the
+#   canonical ones (determinism-report.json).  Every subcommand writes only
+#   <output>/<subcommand>/ and reads only committed inputs, and every
+#   process merges its parallel shell results in shell order, so no output
+#   depends on the thread count or on timing.  Memory is not a constraint
+#   (working sets of 30-60 MB were observed for the --quick processes and
+#   for a canonical excited process).
+#   15 under 1 s (330 files compared in 0.3 s).  16 about 5 s (4.3 s for
+#   the committed tree against itself, all 65 refined runs compared).
+#   17 seconds.  18 18 s (self-tests and 4 runs; load 93-96 %).
+#   19 seconds.  20 172 s (one canonical-grid reproduction and the
+#   stationarity runs; load 99 % falling to 53 %).  21-23 seconds.
+#   24-29 notebook: Stage-3 analogue run 126-2318 s (load dependent),
+#   nbconvert 179-207 s, audit and comparisons seconds; the Stage-4
+#   notebook re-runs print-config and the canonical spectrum subcommand
+#   (about 1 min on 2026-09-26) and reads everything else.
+#   30-31 Mathematica: Stage-3 analogue 506-589 s.  32-33 PDFs: Stage-3
+#   analogue 8-38 s each.  34 seconds (estimate: the files of step 00).
+#   35 83 s (108 tests of
+#   test_d16c_kohn_sham_{gate,notebook,reference,theory}.py; load 59-32 %;
+#   the document tests did not exist yet).  36 seconds.
+#   Total: about 4 h (estimate), dominated by step 14.
 #
 # PYTHONUTF8=1 and a UTF-8 console encoding are set for this process only.
 # The Wolfram report path is passed positionally, never after "--"
@@ -408,14 +474,14 @@ if (-not $partial -and -not $DryRun) {
 
 # Expected wall time per step (TIMING above; the bash twin prints the same).
 $expect = @{
-    "00" = "about 10 s"; "01" = "about 10 s (about 1 min when the engine is cloned)"; "02" = "seconds";
+    "00" = "seconds"; "01" = "about 10 s (about 1 min when the engine is cloned)"; "02" = "seconds";
     "03" = "about 45 s"; "04" = "about 3 min"; "05" = "seconds"; "06" = "seconds"; "07" = "seconds";
-    "08" = "seconds"; "09" = "seconds"; "10" = "PROVISIONAL"; "11" = "PROVISIONAL"; "12" = "PROVISIONAL";
-    "13" = "seconds"; "14" = "PROVISIONAL"; "15" = "about 1 min"; "16" = "about 1 min"; "17" = "seconds";
-    "18" = "PROVISIONAL"; "19" = "seconds"; "20" = "PROVISIONAL"; "21" = "seconds"; "22" = "seconds";
-    "23" = "seconds"; "24" = "seconds"; "25" = "PROVISIONAL"; "26" = "PROVISIONAL"; "27" = "seconds";
-    "28" = "seconds"; "29" = "seconds"; "30" = "PROVISIONAL"; "31" = "seconds"; "32" = "PROVISIONAL";
-    "33" = "PROVISIONAL"; "34" = "about 10 s"; "35" = "PROVISIONAL"; "36" = "seconds"
+    "08" = "seconds"; "09" = "seconds"; "10" = "seconds (3 s cold or warm)"; "11" = "about 1 min (35-79 s)"; "12" = "seconds";
+    "13" = "seconds"; "14" = "about 3 h (estimate, see TIMING)"; "15" = "seconds"; "16" = "seconds"; "17" = "seconds";
+    "18" = "about 20 s"; "19" = "seconds"; "20" = "about 3 min"; "21" = "seconds"; "22" = "seconds";
+    "23" = "seconds"; "24" = "seconds"; "25" = "minutes (Stage-3 analogue 2-39 min)"; "26" = "minutes (Stage-3 analogue 2-39 min)"; "27" = "seconds";
+    "28" = "seconds"; "29" = "seconds"; "30" = "about 10 min (Stage-3 analogue)"; "31" = "seconds"; "32" = "under 1 min (Stage-3 analogue)";
+    "33" = "under 1 min (Stage-3 analogue)"; "34" = "seconds"; "35" = "about 1.5 min"; "36" = "seconds"
 }
 
 # build/stage4 belongs to this gate: start from an empty directory (a partial
@@ -506,7 +572,7 @@ foreach ($subcommand in $subcommands) { $rustJobs += "--job $subcommand $runA ca
 foreach ($subcommand in $refinedSubcommands) { $rustJobs += "--job $subcommand $refinedRoot refined" }
 $rustMode = if ($SequentialRust) { " --sequential" } else { "" }
 $rustExpected = $expect["14"]
-if ($RefinedThermo) { $rustExpected += "; with thermo --refined: PROVISIONAL" }
+if ($RefinedThermo) { $rustExpected += "; with thermo --refined: about 3.5 h (estimate)" }
 Invoke-GateStep -Name "stage4-14-rust-runs" -Expected $rustExpected -Inputs @($binary) `
     -Command ("$audit rust-run --binary $binary --log-prefix build/logs/stage4-14-rust-runs$rustMode " +
         ($rustJobs -join " "))
