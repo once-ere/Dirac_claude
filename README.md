@@ -63,11 +63,10 @@ per-stage list):
 - **Stages 1 and 2 are complete.** Their exact verifiers, documents, reviews and
   gates (`scripts/verify_stage1_arbitrary_field.*`, `scripts/verify_stage2_primordial_field.*`)
   passed and were verified from a fresh clone.
-- **Stage 3 is not finished.** The engine, the five experiments and their checkers,
-  both notebooks, the figures and both documents are committed, and the 21 problems
-  found by the second review round have been fixed in the text
-  (`handoff/reviews/stage3_review_round2_findings.json`).  The gate
-  `scripts/verify_stage3_dark_sector.*` has not yet been run to the end after those fixes.
+- **Stage 3 is complete.** The engine, the five experiments and their checkers,
+  both notebooks, the figures and both documents are committed; the 21 problems of
+  the second review round are fixed; the gate `scripts/verify_stage3_dark_sector.*`
+  passed from a fresh clone (all 32 steps, 323 unit tests).
 - **Stage 4 is not finished.** The exact Kohn–Sham theory (Wolfram 125/125, sympy
   157/157) and the Rust Kohn–Sham solver `studies/dirac16complex_kohn_sham` are
   complete and reproducible.  The independent Python reference agrees on 65 of 69
@@ -81,14 +80,25 @@ Windows 11 (PowerShell), from the repository root:
 ```powershell
 .\scripts\setup_solver.ps1 -Platform win11
 .\scripts\verify_stage1_arbitrary_field.ps1
+.\scripts\verify_stage2_primordial_field.ps1
+.\scripts\verify_stage3_dark_sector.ps1
+.\scripts\verify_stage4_kohn_sham.ps1
 ```
 
 Git Bash, macOS or Linux:
 
 ```bash
-bash scripts/setup_solver.sh
+bash scripts/setup_solver.sh win11
 bash scripts/verify_stage1_arbitrary_field.sh
+bash scripts/verify_stage2_primordial_field.sh
+bash scripts/verify_stage3_dark_sector.sh
+bash scripts/verify_stage4_kohn_sham.sh
 ```
+
+Each gate ends with the line `stageN_..._verification=OK`.  The Stage 3 gate
+reruns all five experiments twice and executes both notebooks (tens of minutes).
+The Stage 4 gate reproduces the Rust Kohn–Sham outputs byte for byte, which takes
+hours; its header lists the wall time of every step.
 
 `setup_solver` clones the pinned pure-Rust SUNDIALS 7.8.0 engine from
 `once-ere/rustSolveIt_{Win11,macos-silicon,linux}_SUNDIALS_7_8_0` into the
@@ -101,13 +111,18 @@ verifiers and the PDFs; the student guide lists every step.
 
 ## Repository map
 
-- `wolfram/` exact Wolfram Language packages (algebra, geometry, primordial field).
+- `wolfram/` exact Wolfram Language packages (algebra, geometry, primordial field,
+  Kohn–Sham reduction).
 - `scripts/` verifiers, independent exact Python checkers, the Grassmann-algebra
   demonstration, publication tooling and stage gates.
 - `artifacts/dirac16complex/` exact fixtures and machine-readable reports.
 - `provenance/` the documents (Markdown source, generated LaTeX, PDF).
 - `studies/dirac16complex_cosmology/` the Rust CVODE study (Stage 3).
-- `notebooks/` Jupyter and Mathematica notebooks (Stage 3).
+- `studies/dirac16complex_kohn_sham/` the Rust Kohn–Sham solver: CVODE shooting of
+  the reduced 2×2 block equations and self-consistent field iteration (Stage 4).
+- `notebooks/` Jupyter and Mathematica notebooks (Stages 3 and 4).
+- `handoff/` the restart kit (specifications, workflow scripts, review records);
+  see `HANDOFF.md`.
 - `tests/` unittest suites.
 - `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb`
   the author's original notebook (input; not modified).
@@ -119,7 +134,10 @@ an indefinite-metric (Krein) state space; a positive Fock space exists in the se
 independent of the three extra times, while modes depending on them are unstable.
 The cosmological computations are homogeneous backgrounds (mean field and mode
 sums); perturbation stability and data likelihoods are not studied, and no
-observational detection is claimed.
+observational detection is claimed.  The Kohn–Sham computations of Stage 4 are
+static mean-field states of a finite number of quanta in the fixed primordial
+field (no back-reaction on the metric), with the exact Hartree–Fock exchange of
+the contact interaction and no correlation term.
 
 ## Credits and licences
 

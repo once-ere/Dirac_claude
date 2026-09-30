@@ -1,7 +1,5 @@
-# Stage 3 gate run of 2026-09-30 05:55 (bash scripts/verify_stage3_dark_sector.sh), state of commit c612395.
-# Steps stage3-00 .. stage3-21 completed without failure (the gate stops at the first failure).
-# At stage3-22 (nbconvert) the run was invalidated: a second gate run started concurrently deleted build/stage3
-# (including the snapshot needed by stage3-30), and the run was stopped. Steps 22-31 were NOT run. Stage 3 is NOT gated.
+# Stage 3 gate, fresh clone of commit 1fb83c3, 2026-09-30 06:09-06:37 (Win11, win11 engine a8fdff45).
+# Result: stage3_dark_sector_verification=OK (all 32 steps; unit tests: 323 run, OK, 2 skipped).
 
 stage3_tool_python=/c/Python314/python.exe
 stage3_tool_cargo=/c/Users/nsh/.cargo/bin/cargo.exe
@@ -26,45 +24,51 @@ stage3_step_ok=stage3-02-solver-pin
 stage3_step=stage3-03-cargo-fmt
 stage3_step_ok=stage3-03-cargo-fmt
 stage3_step=stage3-04-cargo-clippy
-    Finished `release` profile [optimized] target(s) in 0.18s
+    Checking sundials_core v7.8.0 (C:\Users\nsh\AppData\Local\Temp\claude\C--Users-nsh-Developer-github-Dirac-claude\cc75e05b-1dc1-4a82-a1dd-e65cb8479099\scratchpad\g3\vendor\rustSolveIt\sundials_rs\crates\sundials_core)
+    Checking cvode_rs v7.8.0 (C:\Users\nsh\AppData\Local\Temp\claude\C--Users-nsh-Developer-github-Dirac-claude\cc75e05b-1dc1-4a82-a1dd-e65cb8479099\scratchpad\g3\vendor\rustSolveIt\sundials_rs\crates\cvode_rs)
+    Checking dirac16complex_cosmology v0.1.0 (C:\Users\nsh\AppData\Local\Temp\claude\C--Users-nsh-Developer-github-Dirac-claude\cc75e05b-1dc1-4a82-a1dd-e65cb8479099\scratchpad\g3\studies\dirac16complex_cosmology)
+    Finished `release` profile [optimized] target(s) in 3.02s
 stage3_step_ok=stage3-04-cargo-clippy
 stage3_step=stage3-05-cargo-test
-    Finished `release` profile [optimized] target(s) in 0.08s
-     Running unittests src\lib.rs (studies\dirac16complex_cosmology\target\release\deps\dirac16complex_cosmology-37b82b7425574052.exe)
+   Compiling sundials_core v7.8.0 (C:\Users\nsh\AppData\Local\Temp\claude\C--Users-nsh-Developer-github-Dirac-claude\cc75e05b-1dc1-4a82-a1dd-e65cb8479099\scratchpad\g3\vendor\rustSolveIt\sundials_rs\crates\sundials_core)
+   Compiling cvode_rs v7.8.0 (C:\Users\nsh\AppData\Local\Temp\claude\C--Users-nsh-Developer-github-Dirac-claude\cc75e05b-1dc1-4a82-a1dd-e65cb8479099\scratchpad\g3\vendor\rustSolveIt\sundials_rs\crates\cvode_rs)
+   Compiling dirac16complex_cosmology v0.1.0 (C:\Users\nsh\AppData\Local\Temp\claude\C--Users-nsh-Developer-github-Dirac-claude\cc75e05b-1dc1-4a82-a1dd-e65cb8479099\scratchpad\g3\studies\dirac16complex_cosmology)
+    Finished `release` profile [optimized] target(s) in 4.43s
+     Running unittests src\lib.rs (studies\dirac16complex_cosmology\target\release\deps\dirac16complex_cosmology-078dc1c30651d62b.exe)
 
 running 27 tests
-test exp3::tests::lagrange_is_exact_on_quartics ... ok
-[ERROR][rank 0][C:\Users\nsh\Developer\github\Dirac_claude\vendor\rustSolveIt\sundials_rs\crates\cvode_rs\src\cvode.rs:4221][cvHandleFailure] At t = 0.496781677252198, the right-hand side routine failed in an unrecoverable manner.
+[ERROR][rank 0][C:\Users\nsh\AppData\Local\Temp\claude\C--Users-nsh-Developer-github-Dirac-claude\cc75e05b-1dc1-4a82-a1dd-e65cb8479099\scratchpad\g3\vendor\rustSolveIt\sundials_rs\crates\cvode_rs\src\cvode.rs:4221][cvHandleFailure] At t = 0.496781677252198, the right-hand side routine failed in an unrecoverable manner.
 test exp2::tests::grouped_pair_sum_equals_seven_direction_sum ... ok
-test exp3::tests::bounce_is_the_root_of_e2 ... ok
-test exp3::tests::closure_and_closed_forms ... ok
 test exp2::tests::closed_form_background_solves_the_equations ... ok
-test exp4::tests::kink_tail_moments_match_the_large_k_asymptotics ... ok
-test exp4::tests::gauss_legendre_small_orders_and_exactness ... ok
+test exp3::tests::closure_and_closed_forms ... ok
+test exp3::tests::bounce_is_the_root_of_e2 ... ok
+test exp3::tests::lagrange_is_exact_on_quartics ... ok
+test exp4::tests::adiabatic_state_and_beta_diagnostics ... ok
 test exp4::tests::sparse_rhs_equals_dense_rhs ... ok
-test exp4::tests::two_level_structure_and_charge_conjugation ... ok
-test spinor::tests::charge_b_and_chirality_identities ... ok
 test driver::tests::closure_error_is_reported_and_targets_validated ... ok
 test exp2::tests::initial_data_satisfy_the_constraint ... ok
-test driver::tests::harmonic_oscillator_backward_and_vector_atol ... ok
-test exp3::tests::short_integration_keeps_sigma_and_phase ... ok
 test output::tests::json_layout_is_fixed ... ok
-test spinor::tests::energy_eigenvalues_are_plus_minus_sqrt_m2_k2 ... ok
-test exp4::tests::adiabatic_state_and_beta_diagnostics ... ok
-test spinor::tests::clifford_relations_from_generated_constants ... ok
-test driver::tests::harmonic_oscillator_forward_both_methods ... ok
 test output::tests::fmt17_normalises_negative_zero ... ok
 test exp4::tests::kink_formula_all_k_matches_quadrature ... ok
+test exp4::tests::gauss_legendre_small_orders_and_exactness ... ok
+test driver::tests::harmonic_oscillator_backward_and_vector_atol ... ok
+test spinor::tests::charge_b_and_chirality_identities ... ok
+test exp4::tests::two_level_structure_and_charge_conjugation ... ok
+test exp3::tests::short_integration_keeps_sigma_and_phase ... ok
+test exp4::tests::kink_tail_moments_match_the_large_k_asymptotics ... ok
 test spinor::tests::hamiltonian_hermitian_only_in_good_sector ... ok
-test exp4::tests::smooth_background_limits_and_ln_a_offset ... ok
+test spinor::tests::clifford_relations_from_generated_constants ... ok
 test spinor::tests::rest_eigenvector_scalar_density_is_one ... ok
+test spinor::tests::energy_eigenvalues_are_plus_minus_sqrt_m2_k2 ... ok
+test driver::tests::harmonic_oscillator_forward_both_methods ... ok
 test exp2::tests::short_integration_matches_closed_form ... ok
 test exp4::tests::parallel_map_keeps_order ... ok
+test exp4::tests::smooth_background_limits_and_ln_a_offset ... ok
 test spinor::tests::cvode_matches_exact_solution_for_constant_h ... ok
 
 test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-     Running unittests src\main.rs (studies\dirac16complex_cosmology\target\release\deps\dirac16complex_cosmology-5765ec38f8009867.exe)
+     Running unittests src\main.rs (studies\dirac16complex_cosmology\target\release\deps\dirac16complex_cosmology-e73d3fc4a7d17970.exe)
 
 running 0 tests
 
@@ -78,7 +82,8 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 stage3_step_ok=stage3-05-cargo-test
 stage3_step=stage3-06-cargo-build
-    Finished `release` profile [optimized] target(s) in 0.03s
+   Compiling dirac16complex_cosmology v0.1.0 (C:\Users\nsh\AppData\Local\Temp\claude\C--Users-nsh-Developer-github-Dirac-claude\cc75e05b-1dc1-4a82-a1dd-e65cb8479099\scratchpad\g3\studies\dirac16complex_cosmology)
+    Finished `release` profile [optimized] target(s) in 0.33s
 stage3_step_ok=stage3-06-cargo-build
 stage3_binary=studies/dirac16complex_cosmology/target/release/dirac16complex_cosmology.exe
 stage3_step=stage3-07-run-a
@@ -785,7 +790,7 @@ exp3: rust 14/14, python 32/32 (repeat=True, refined=True), analysis 10/10, step
 exp4: rust 23/23, python 54/54 (repeat=True, refined=True), steps=339071692, rhs=511425232
 exp5: rust 7/7, python 21/21 (repeat=True, refined=True), steps=2548, rhs=4800
 totals: rust 69 checks (0 failed), python 167 checks (0 failed), analysis 10 checks (0 failed)
-wrote C:\Users\nsh\Developer\github\Dirac_claude\build\stage3\run-a\numerics-summary.json
+wrote C:\Users\nsh\AppData\Local\Temp\claude\C--Users-nsh-Developer-github-Dirac-claude\cc75e05b-1dc1-4a82-a1dd-e65cb8479099\scratchpad\g3\build\stage3\run-a\numerics-summary.json
 SUCCESS
 stage3_step_ok=stage3-18-numerics-summary
 stage3_step=stage3-19-compare-numerics-summary
@@ -1151,3 +1156,484 @@ stage3_step=stage3-22-notebook-nbconvert
 [NbConvertApp] Converting notebook build/stage3/notebook-clean/dirac16complex_dark_sector.ipynb to notebook
 C:\Users\nsh\AppData\Roaming\Python\Python314\site-packages\zmq\_future.py:718: RuntimeWarning: Proactor event loop does not implement add_reader family of methods required for zmq. Registering an additional selector thread for add_reader support via tornado. Use `asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())` to avoid this warning.
   self._get_loop()
+[NbConvertApp] Writing 2153512 bytes to build\stage3\nbconvert\dirac16complex_dark_sector.ipynb
+stage3_step_ok=stage3-22-notebook-nbconvert
+stage3_step=stage3-23-notebook-audit
+ok build\stage3\notebook\dirac16complex_dark_sector.ipynb: all structure and execution rules pass (23 cells, 8 code cells, 71 gauntlet checks, 17 figures)
+ok build\stage3\nbconvert\dirac16complex_dark_sector.ipynb: all structure and execution rules pass (23 cells, 8 code cells, 71 gauntlet checks, 17 figures)
+ok cross-check: both executions printed identical gauntlet results and figure hashes
+wrote build/stage3/notebook-report.json (verdict SUCCESS)
+stage3_step_ok=stage3-23-notebook-audit
+stage3_step=stage3-24-notebook-compare
+stage3_notebook_report=equal to the committed report except the notebook paths: 2 executions, gauntlet 71/71, 17 figures with the committed sha256
+stage3_notebook_executed_copy_byte_identical_to_committed=yes
+stage3_audit_notebook=OK
+stage3_step_ok=stage3-24-notebook-compare
+stage3_step=stage3-25-figures-unchanged
+stage3_unchanged_files=25/25 byte-identical to the snapshot taken at the gate start
+stage3_audit_unchanged=OK
+stage3_step_ok=stage3-25-figures-unchanged
+stage3_step=stage3-26-mathematica-notebook
+input_cell_count=37
+failed_evaluation_count=0
+message_count=0
+notebook_check_count=49
+failed_notebook_check_count=0
+report=C:\Users\nsh\AppData\Local\Temp\claude\C--Users-nsh-Developer-github-Dirac-claude\cc75e05b-1dc1-4a82-a1dd-e65cb8479099\scratchpad\g3\artifacts\dirac16complex\numerics\mathematica-report.json
+elapsed_seconds=500
+dirac16complex_mathematica_notebook=OK
+stage3_step_ok=stage3-26-mathematica-notebook
+stage3_step=stage3-27-mathematica-unchanged
+stage3_unchanged_files=9/9 byte-identical to the snapshot taken at the gate start
+stage3_audit_unchanged=OK
+stage3_step_ok=stage3-27-mathematica-unchanged
+stage3_step=stage3-28-pdf-numerics
+check_texBuildExitCodes=true
+check_texRepeatByteIdentity=true
+check_pdflatexExitCodes=true
+check_logWarningFree=true
+check_pdfRepeatByteIdentity=true
+check_pdfHeader=true
+check_pdfEndMarker=true
+check_pdfLetterMediaBox=true
+check_pdfPageCountPositive=true
+check_editionRegistered=true
+check_registeredPath=true
+check_registeredPageCount=true
+check_registeredSha256=true
+check_provenancePdfCopy=true
+measurement_mode=verify
+measurement_edition=dirac16complex-dark-sector-numerics
+measurement_markdown=provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md
+measurement_markdownSha256=34f0f9785b18073ddb011eb32b19a0cf1ea46186f5cbdb6cb930caef684461b6
+measurement_specifications=<scratch>/g3/provenance/pdf-specifications.json
+measurement_pdflatexVersion=MiKTeX-pdfTeX 4.27 (MiKTeX 26.5)
+measurement_texBuildExitCodes=[0, 0]
+measurement_texSha256=8dce383d6ab84f90184d8d4e880d9a77f6c24e1985f7dc92af3dd6fe4db3d57c
+measurement_texBytes=140884
+measurement_pdflatexExitCodes=[0, 0, 0, 0, 0, 0]
+measurement_warningLineCount=0
+measurement_pdfSha256=8002daccfee621a92078957ff3c559631c3a26082d45f712a069d9fdb39d8d0a
+measurement_pdfBytes=2404410
+measurement_pageCount=55
+measurement_mediaBoxes=[(0.0, 0.0, 612.0, 792.0)]
+measurement_registeredPages=55
+measurement_registeredSha256=8002daccfee621a92078957ff3c559631c3a26082d45f712a069d9fdb39d8d0a
+measurement_report=<scratch>/g3/build/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS/build-provenance-pdf.json
+check_count=14
+failed_check_count=0
+provenance_pdf=OK
+stage3_step_ok=stage3-28-pdf-numerics
+stage3_step=stage3-29-pdf-student-guide
+check_texBuildExitCodes=true
+check_texRepeatByteIdentity=true
+check_pdflatexExitCodes=true
+check_logWarningFree=true
+check_pdfRepeatByteIdentity=true
+check_pdfHeader=true
+check_pdfEndMarker=true
+check_pdfLetterMediaBox=true
+check_pdfPageCountPositive=true
+check_editionRegistered=true
+check_registeredPath=true
+check_registeredPageCount=true
+check_registeredSha256=true
+check_provenancePdfCopy=true
+measurement_mode=verify
+measurement_edition=dirac16complex-student-guide
+measurement_markdown=provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md
+measurement_markdownSha256=f0627e7b275b12ac5d87eb2640f456a3d7c7c766cff5066d4f90fe28b6a83e3e
+measurement_specifications=<scratch>/g3/provenance/pdf-specifications.json
+measurement_pdflatexVersion=MiKTeX-pdfTeX 4.27 (MiKTeX 26.5)
+measurement_texBuildExitCodes=[0, 0]
+measurement_texSha256=bc1a7039df305705bdea1d31de63d2deae15a713858f70403bf91b1d55802f40
+measurement_texBytes=154945
+measurement_pdflatexExitCodes=[0, 0, 0, 0, 0, 0]
+measurement_warningLineCount=0
+measurement_pdfSha256=272d3aed9c8fda5248d6a4c2af3a8aa81f32743974381071e04e912ee873300d
+measurement_pdfBytes=829956
+measurement_pageCount=55
+measurement_mediaBoxes=[(0.0, 0.0, 612.0, 792.0)]
+measurement_registeredPages=55
+measurement_registeredSha256=272d3aed9c8fda5248d6a4c2af3a8aa81f32743974381071e04e912ee873300d
+measurement_report=<scratch>/g3/build/DIRAC16COMPLEX_STUDENT_GUIDE/build-provenance-pdf.json
+check_count=14
+failed_check_count=0
+provenance_pdf=OK
+stage3_step_ok=stage3-29-pdf-student-guide
+stage3_step=stage3-30-committed-unchanged
+stage3_unchanged_files=110/110 byte-identical to the snapshot taken at the gate start
+stage3_audit_unchanged=OK
+stage3_step_ok=stage3-30-committed-unchanged
+stage3_step=stage3-31-unit-tests
+test_charge_matrix_and_chirality (test_d16c_algebra.ConstructionTests.test_charge_matrix_and_chirality) ... ok
+test_clifford_intertwiner_normalisation (test_d16c_algebra.ConstructionTests.test_clifford_intertwiner_normalisation) ... ok
+test_flat_mode_hamiltonian_random_momenta (test_d16c_algebra.ConstructionTests.test_flat_mode_hamiltonian_random_momenta) ... ok
+test_notebook_gammas_clifford_and_transpose (test_d16c_algebra.ConstructionTests.test_notebook_gammas_clifford_and_transpose) ... ok
+test_octonion_gammas_clifford (test_d16c_algebra.ConstructionTests.test_octonion_gammas_clifford) ... ok
+test_tau_structure (test_d16c_algebra.ConstructionTests.test_tau_structure) ... ok
+test_tensor_gammas_equal_dirac_main_seed (test_d16c_algebra.ConstructionTests.test_tensor_gammas_equal_dirac_main_seed) ... skipped 'dirac-main cl44 seed not present'
+test_zorn_octonion_identities_random (test_d16c_algebra.ConstructionTests.test_zorn_octonion_identities_random) ... ok
+test_complex_rank_and_hermitian_signature (test_d16c_algebra.ExactLinearAlgebraTests.test_complex_rank_and_hermitian_signature) ... ok
+test_inverse_and_determinant (test_d16c_algebra.ExactLinearAlgebraTests.test_inverse_and_determinant) ... ok
+test_kron_and_blocks (test_d16c_algebra.ExactLinearAlgebraTests.test_kron_and_blocks) ... ok
+test_mathematica_signature (test_d16c_algebra.ExactLinearAlgebraTests.test_mathematica_signature) ... ok
+test_primitive_integer_vector (test_d16c_algebra.ExactLinearAlgebraTests.test_primitive_integer_vector) ... ok
+test_rank_nullspace_and_rref (test_d16c_algebra.ExactLinearAlgebraTests.test_rank_nullspace_and_rref) ... ok
+test_rational_json_round_trip (test_d16c_algebra.ExactLinearAlgebraTests.test_rational_json_round_trip) ... ok
+test_symmetric_signature (test_d16c_algebra.ExactLinearAlgebraTests.test_symmetric_signature) ... ok
+test_all_algebra_checks_pass (test_d16c_algebra.VerifierTests.test_all_algebra_checks_pass) ... ok
+test_commuting_with_b_measurements (test_d16c_algebra.VerifierTests.test_commuting_with_b_measurements) ... ok
+test_fixture_deterministic_lf (test_d16c_algebra.VerifierTests.test_fixture_deterministic_lf) ... ok
+test_main_prints_protocol_and_writes_report (test_d16c_algebra.VerifierTests.test_main_prints_protocol_and_writes_report) ... ok
+test_report_is_deterministic (test_d16c_algebra.VerifierTests.test_report_is_deterministic) ... ok
+test_tampered_fixture_is_detected (test_d16c_algebra.VerifierTests.test_tampered_fixture_is_detected) ... ok
+test_verify_with_temporary_fixture (test_d16c_algebra.VerifierTests.test_verify_with_temporary_fixture) ... ok
+test_wolfram_agreement_comparison_logic (test_d16c_algebra.VerifierTests.test_wolfram_agreement_comparison_logic) ... ok
+test_all_checks_true_and_every_check_is_listed (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_all_checks_true_and_every_check_is_listed) ... ok
+test_counts_quoted_match_the_summary (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_counts_quoted_match_the_summary) ... ok
+test_cross_implementation_agreement_quoted (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_cross_implementation_agreement_quoted) ... ok
+test_every_cited_name_exists_in_a_report (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_every_cited_name_exists_in_a_report) ... ok
+test_expression_1_block_is_the_verified_literal_input (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_expression_1_block_is_the_verified_literal_input) ... ok
+test_geometry_numbers (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_geometry_numbers) ... ok
+test_grassmann_numbers (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_grassmann_numbers) ... ok
+test_homogeneous_sample_quoted_matches_the_python_report (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_homogeneous_sample_quoted_matches_the_python_report) ... ok
+test_intertwiner_matrices_are_the_report_matrices (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_intertwiner_matrices_are_the_report_matrices) ... ok
+test_quantization_numbers (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_quantization_numbers) ... ok
+test_recorded_hashes_match_the_files_and_the_reports (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_recorded_hashes_match_the_files_and_the_reports) ... ok
+test_representation_theory_numbers (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_representation_theory_numbers) ... ok
+test_subgroup_counts (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_subgroup_counts) ... ok
+test_every_fenced_code_line_fits (test_d16c_arbitrary_field_publication.ContentTests.test_every_fenced_code_line_fits) ... ok
+test_expression_2_is_quoted_verbatim (test_d16c_arbitrary_field_publication.ContentTests.test_expression_2_is_quoted_verbatim) ... ok
+test_lichnerowicz_constant_and_curvature_sign_are_stated (test_d16c_arbitrary_field_publication.ContentTests.test_lichnerowicz_constant_and_curvature_sign_are_stated) ... ok
+test_new_lagrangian_uses_the_notebook_names (test_d16c_arbitrary_field_publication.ContentTests.test_new_lagrangian_uses_the_notebook_names) ... ok
+test_no_placeholders_or_todo_and_no_other_provenance_documents (test_d16c_arbitrary_field_publication.ContentTests.test_no_placeholders_or_todo_and_no_other_provenance_documents) ... ok
+test_required_phrases (test_d16c_arbitrary_field_publication.ContentTests.test_required_phrases) ... ok
+test_required_sections_in_order (test_d16c_arbitrary_field_publication.ContentTests.test_required_sections_in_order) ... ok
+test_thawing_freezing_signs_are_formula_consistent (test_d16c_arbitrary_field_publication.ContentTests.test_thawing_freezing_signs_are_formula_consistent) ... ok
+test_title_and_subtitle (test_d16c_arbitrary_field_publication.ContentTests.test_title_and_subtitle) ... ok
+test_markdown_is_lf_only_utf8 (test_d16c_arbitrary_field_publication.PinTests.test_markdown_is_lf_only_utf8) ... ok
+test_markdown_sha256_pin (test_d16c_arbitrary_field_publication.PinTests.test_markdown_sha256_pin) ... ok
+test_registered_edition_matches_the_committed_pdf (test_d16c_arbitrary_field_publication.PinTests.test_registered_edition_matches_the_committed_pdf) ... ok
+test_tex_is_the_builder_output_of_the_markdown (test_d16c_arbitrary_field_publication.PinTests.test_tex_is_the_builder_output_of_the_markdown) ... ok
+test_tex_sha256_pin (test_d16c_arbitrary_field_publication.PinTests.test_tex_sha256_pin) ... ok
+test_minisuperspace_variation_and_homogeneous_reduction (test_d16c_geometry.TestEMTReductions.test_minisuperspace_variation_and_homogeneous_reduction) ... ok
+test_notebook_gamma_facts (test_d16c_geometry.TestGammaAlgebra.test_notebook_gamma_facts) ... ok
+test_emt_trace_onshell (test_d16c_geometry.TestGenericG1Point.test_emt_trace_onshell) ... ok
+test_euler_lagrange_commuting_proxy (test_d16c_geometry.TestGenericG1Point.test_euler_lagrange_commuting_proxy) ... ok
+test_signature_and_identities (test_d16c_geometry.TestGenericG1Point.test_signature_and_identities) ... ok
+test_batched_el_equals_single (test_d16c_geometry.TestGrassmannAlgebra.test_batched_el_equals_single) ... ok
+test_conjugation_rules (test_d16c_geometry.TestGrassmannAlgebra.test_conjugation_rules) ... ok
+test_even_derivation_leibniz (test_d16c_geometry.TestGrassmannAlgebra.test_even_derivation_leibniz) ... ok
+test_signs_and_derivatives (test_d16c_geometry.TestGrassmannAlgebra.test_signs_and_derivatives) ... ok
+test_connection_identities (test_d16c_geometry.TestPrimordialG2.test_connection_identities) ... ok
+test_lichnerowicz (test_d16c_geometry.TestPrimordialG2.test_lichnerowicz) ... ok
+test_notebook_lg_trivial_and_complex_nontrivial (test_d16c_geometry.TestPrimordialG2.test_notebook_lg_trivial_and_complex_nontrivial) ... ok
+test_primordial_facts (test_d16c_geometry.TestPrimordialG2.test_primordial_facts) ... ok
+test_mass_kinetic_quartic (test_d16c_geometry.TestRealGrassmannDemos.test_mass_kinetic_quartic) ... ok
+test_agreement_and_tampering (test_d16c_geometry.TestWolframAgreementLogic.test_agreement_and_tampering) ... ok
+test_block_reduction_detects_wrong_gammas (test_d16c_kohn_sham_reference.AlgebraTests.test_block_reduction_detects_wrong_gammas) ... ok
+test_clifford_and_block_reduction (test_d16c_kohn_sham_reference.AlgebraTests.test_clifford_and_block_reduction) ... ok
+test_exchange_trace_identity_and_negative_control (test_d16c_kohn_sham_reference.AlgebraTests.test_exchange_trace_identity_and_negative_control) ... ok
+test_canonical_comparison_and_negative_control (test_d16c_kohn_sham_reference.CheckerTests.test_canonical_comparison_and_negative_control)
+A Rust-format copy of a reference run agrees in every compared ... ok
+test_coupling_rule_on_the_rust_grid (test_d16c_kohn_sham_reference.CheckerTests.test_coupling_rule_on_the_rust_grid)
+The per-configuration coupling of the free N = 8 state: the brane ... ok
+test_edge_table_reproduces_the_exact_cut (test_d16c_kohn_sham_reference.CheckerTests.test_edge_table_reproduces_the_exact_cut)
+The first-order edge table of a hot run evaluated at the solver's own ... ok
+test_reference_outputs_are_deterministic (test_d16c_kohn_sham_reference.CheckerTests.test_reference_outputs_are_deterministic)
+Two executions of the same specification write byte-identical files. ... ok
+test_registry_and_missing_inputs (test_d16c_kohn_sham_reference.CheckerTests.test_registry_and_missing_inputs) ... ok
+test_rust_conservation_recomputation_detects_violation (test_d16c_kohn_sham_reference.CheckerTests.test_rust_conservation_recomputation_detects_violation) ... ok
+test_rust_labels_and_couplings (test_d16c_kohn_sham_reference.CheckerTests.test_rust_labels_and_couplings) ... ok
+test_rust_summary_records_and_checks_forms (test_d16c_kohn_sham_reference.CheckerTests.test_rust_summary_records_and_checks_forms) ... ok
+test_analytic_box_spectra_all_boundary_pairs (test_d16c_kohn_sham_reference.DiscretisationTests.test_analytic_box_spectra_all_boundary_pairs) ... ok
+test_discrete_hellmann_feynman_and_norm (test_d16c_kohn_sham_reference.DiscretisationTests.test_discrete_hellmann_feynman_and_norm) ... ok
+test_lattice_shells (test_d16c_kohn_sham_reference.DiscretisationTests.test_lattice_shells) ... ok
+test_no_doubler (test_d16c_kohn_sham_reference.DiscretisationTests.test_no_doubler) ... ok
+test_closed_forms_and_inversion (test_d16c_kohn_sham_reference.GasTests.test_closed_forms_and_inversion) ... ok
+test_lda_n_potential_reduces_to_quadratic_slope (test_d16c_kohn_sham_reference.GasTests.test_lda_n_potential_reduces_to_quadratic_slope) ... ok
+test_branch_classification_free_sea_convention (test_d16c_kohn_sham_reference.ScfTests.test_branch_classification_free_sea_convention)
+lambda > 0 pushes the k = 0 zero-mode band below eps = 0; with the ... ok
+test_compact_tail_sums_equal_explicit_sums (test_d16c_kohn_sham_reference.ScfTests.test_compact_tail_sums_equal_explicit_sums)
+Chebyshev-tail levels carry no profile arrays: the per-block sums of ... ok
+test_constrained_occupation_defaults (test_d16c_kohn_sham_reference.ScfTests.test_constrained_occupation_defaults) ... ok
+test_fixed_spectrum_heat_capacity_and_truncation (test_d16c_kohn_sham_reference.ScfTests.test_fixed_spectrum_heat_capacity_and_truncation)
+lambda = 0: C_V^(0) = C_V^(S) exactly and equal to the central ... ok
+test_free_branch_counts_match_sign_of_free_spectrum (test_d16c_kohn_sham_reference.ScfTests.test_free_branch_counts_match_sign_of_free_spectrum) ... ok
+test_free_ground_state_zero_modes_and_gap (test_d16c_kohn_sham_reference.ScfTests.test_free_ground_state_zero_modes_and_gap) ... ok
+test_interacting_scf_converges_and_energy_functional (test_d16c_kohn_sham_reference.ScfTests.test_interacting_scf_converges_and_energy_functional) ... ok
+test_parallel_shell_loop_equals_serial (test_d16c_kohn_sham_reference.ScfTests.test_parallel_shell_loop_equals_serial)
+shell_workers changes the execution only: identical states and densities. ... ok
+test_smearing_fallback_parameters (test_d16c_kohn_sham_reference.ScfTests.test_smearing_fallback_parameters)
+Occupation smearing at T = 0: Fermi-Dirac weights at the smearing, ... ok
+test_thermal_occupations_and_entropy (test_d16c_kohn_sham_reference.ScfTests.test_thermal_occupations_and_entropy) ... ok
+test_union_parity_equals_lower_sector_for_free_n8 (test_d16c_kohn_sham_reference.ScfTests.test_union_parity_equals_lower_sector_for_free_n8) ... ok
+test_extrapolate3_removes_h2_and_h3 (test_d16c_kohn_sham_reference.SectorRunTests.test_extrapolate3_removes_h2_and_h3) ... ok
+test_extrapolation_and_emt_identities (test_d16c_kohn_sham_reference.SectorRunTests.test_extrapolation_and_emt_identities) ... ok
+test_interval_integral_partial_cells (test_d16c_kohn_sham_reference.SectorRunTests.test_interval_integral_partial_cells) ... ok
+test_write_run_and_checker_report (test_d16c_kohn_sham_reference.SectorRunTests.test_write_run_and_checker_report) ... ok
+test_contract_construction_matches_fixture_and_clifford (test_d16c_kohn_sham_theory.AlgebraTests.test_contract_construction_matches_fixture_and_clifford) ... ok
+test_fixture_mismatch_is_detected (test_d16c_kohn_sham_theory.AlgebraTests.test_fixture_mismatch_is_detected) ... ok
+test_boundary_family (test_d16c_kohn_sham_theory.BoundaryTests.test_boundary_family) ... ok
+test_negative_control_wrong_current_matrix (test_d16c_kohn_sham_theory.BoundaryTests.test_negative_control_wrong_current_matrix) ... ok
+test_gaussian_rationals (test_d16c_kohn_sham_theory.ExactArithmeticTests.test_gaussian_rationals) ... ok
+test_matrix_rank_and_products (test_d16c_kohn_sham_theory.ExactArithmeticTests.test_matrix_rank_and_products) ... ok
+test_exchange_algebra_family (test_d16c_kohn_sham_theory.ExchangeTests.test_exchange_algebra_family) ... ok
+test_finite_temperature_point_and_float_double_sum (test_d16c_kohn_sham_theory.ExchangeTests.test_finite_temperature_point_and_float_double_sum) ... ok
+test_kernel_table_and_wrong_kernel (test_d16c_kohn_sham_theory.ExchangeTests.test_kernel_table_and_wrong_kernel) ... ok
+test_t0_closed_forms_and_gas_quadrature (test_d16c_kohn_sham_theory.ExchangeTests.test_t0_closed_forms_and_gas_quadrature) ... ok
+test_wick_theorem_detects_a_wrong_sign (test_d16c_kohn_sham_theory.ExchangeTests.test_wick_theorem_detects_a_wrong_sign) ... ok
+test_emt_family_and_negative_control (test_d16c_kohn_sham_theory.FunctionalAndEmtTests.test_emt_family_and_negative_control) ... ok
+test_functional_family (test_d16c_kohn_sham_theory.FunctionalAndEmtTests.test_functional_family) ... ok
+test_curvature_of_a_wrong_warp_differs (test_d16c_kohn_sham_theory.GeometryTests.test_curvature_of_a_wrong_warp_differs) ... ok
+test_geometry_family (test_d16c_kohn_sham_theory.GeometryTests.test_geometry_family) ... ok
+test_block_forms_are_the_pauli_combinations (test_d16c_kohn_sham_theory.ReductionTests.test_block_forms_are_the_pauli_combinations) ... ok
+test_block_ode_and_hamiltonian (test_d16c_kohn_sham_theory.ReductionTests.test_block_ode_and_hamiltonian) ... ok
+test_block_reduction_family (test_d16c_kohn_sham_theory.ReductionTests.test_block_reduction_family) ... ok
+test_negative_control_wrong_generator_breaks_block_form (test_d16c_kohn_sham_theory.ReductionTests.test_negative_control_wrong_generator_breaks_block_form) ... ok
+test_SLOW_main_quick_mode_writes_deterministic_lf_report_and_table (test_d16c_kohn_sham_theory.ReportTests.test_SLOW_main_quick_mode_writes_deterministic_lf_report_and_table) ... ok
+test_SLOW_missing_theory_file_records_not_run (test_d16c_kohn_sham_theory.ReportTests.test_SLOW_missing_theory_file_records_not_run) ... ok
+test_agreement_with_committed_theory_file_when_present (test_d16c_kohn_sham_theory.WolframComparisonTests.test_agreement_with_committed_theory_file_when_present) ... ok
+test_inputform_translation (test_d16c_kohn_sham_theory.WolframComparisonTests.test_inputform_translation) ... ok
+test_wrong_basis_in_theory_file_is_detected (test_d16c_kohn_sham_theory.WolframComparisonTests.test_wrong_basis_in_theory_file_is_detected) ... ok
+test_check_counts_match_the_reports (test_d16c_numerics_publication.AgreementWithArtifactsTests.test_check_counts_match_the_reports) ... ok
+test_derived_numbers_match_the_reports (test_d16c_numerics_publication.AgreementWithArtifactsTests.test_derived_numbers_match_the_reports)
+Numbers the text derives by one arithmetic step from the reports. ... ok
+test_epoch_tables_match_the_exp3_summary (test_d16c_numerics_publication.AgreementWithArtifactsTests.test_epoch_tables_match_the_exp3_summary) ... ok
+test_mathematica_provenance_statement (test_d16c_numerics_publication.AgreementWithArtifactsTests.test_mathematica_provenance_statement) ... ok
+test_notebook_statements_match_the_notebook_report (test_d16c_numerics_publication.AgreementWithArtifactsTests.test_notebook_statements_match_the_notebook_report) ... ok
+test_pinned_solver_commits_match_the_setup_scripts (test_d16c_numerics_publication.AgreementWithArtifactsTests.test_pinned_solver_commits_match_the_setup_scripts) ... ok
+test_quoted_numbers_match_the_reports (test_d16c_numerics_publication.AgreementWithArtifactsTests.test_quoted_numbers_match_the_reports) ... ok
+test_recorded_hashes_match_the_files_and_the_summary (test_d16c_numerics_publication.AgreementWithArtifactsTests.test_recorded_hashes_match_the_files_and_the_summary) ... ok
+test_restricted_fit_tables_match_fits_json (test_d16c_numerics_publication.AgreementWithArtifactsTests.test_restricted_fit_tables_match_fits_json) ... ok
+test_solver_settings_quoted_match_the_summaries (test_d16c_numerics_publication.AgreementWithArtifactsTests.test_solver_settings_quoted_match_the_summaries) ... ok
+test_unite_values_match_fits_json (test_d16c_numerics_publication.AgreementWithArtifactsTests.test_unite_values_match_fits_json) ... ok
+test_every_experiment_has_the_seven_subsections (test_d16c_numerics_publication.ContentTests.test_every_experiment_has_the_seven_subsections) ... ok
+test_every_fenced_code_line_fits (test_d16c_numerics_publication.ContentTests.test_every_fenced_code_line_fits) ... ok
+test_no_double_hyphen_or_stray_asterisk_in_prose (test_d16c_numerics_publication.ContentTests.test_no_double_hyphen_or_stray_asterisk_in_prose)
+-- would become an en dash, and a lone * would open an emphasis. ... ok
+test_no_placeholders_or_todo_and_no_other_provenance_markdown (test_d16c_numerics_publication.ContentTests.test_no_placeholders_or_todo_and_no_other_provenance_markdown) ... ok
+test_required_phrases (test_d16c_numerics_publication.ContentTests.test_required_phrases) ... ok
+test_required_sections_in_order (test_d16c_numerics_publication.ContentTests.test_required_sections_in_order) ... ok
+test_tables_have_at_most_four_columns (test_d16c_numerics_publication.ContentTests.test_tables_have_at_most_four_columns)
+Five or more p-columns of 0.92/n linewidth overflow the text block. ... ok
+test_title_and_subtitle (test_d16c_numerics_publication.ContentTests.test_title_and_subtitle) ... ok
+test_every_figure_has_a_caption_of_substance (test_d16c_numerics_publication.FigureTests.test_every_figure_has_a_caption_of_substance) ... ok
+test_every_figure_is_an_existing_png (test_d16c_numerics_publication.FigureTests.test_every_figure_is_an_existing_png) ... ok
+test_figures_in_order (test_d16c_numerics_publication.FigureTests.test_figures_in_order) ... ok
+test_main_figures_are_the_notebook_figures_with_recorded_hashes (test_d16c_numerics_publication.FigureTests.test_main_figures_are_the_notebook_figures_with_recorded_hashes) ... ok
+test_mathematica_figures_are_the_reported_ones (test_d16c_numerics_publication.FigureTests.test_mathematica_figures_are_the_reported_ones) ... ok
+test_figures_are_embedded_without_timestamps (test_d16c_numerics_publication.PdfTests.test_figures_are_embedded_without_timestamps) ... ok
+test_no_notforces_endash_or_quoteleft_substitutions (test_d16c_numerics_publication.PdfTests.test_no_notforces_endash_or_quoteleft_substitutions) ... ok
+test_markdown_is_lf_only_utf8 (test_d16c_numerics_publication.PinTests.test_markdown_is_lf_only_utf8) ... ok
+test_markdown_sha256_pin (test_d16c_numerics_publication.PinTests.test_markdown_sha256_pin) ... ok
+test_registered_edition_matches_the_committed_pdf (test_d16c_numerics_publication.PinTests.test_registered_edition_matches_the_committed_pdf) ... ok
+test_tex_is_the_builder_output_of_the_markdown (test_d16c_numerics_publication.PinTests.test_tex_is_the_builder_output_of_the_markdown) ... ok
+test_tex_sha256_pin (test_d16c_numerics_publication.PinTests.test_tex_sha256_pin) ... ok
+test_blade_algebra (test_d16c_primordial.AlgebraTests.test_blade_algebra) ... ok
+test_fixture_mismatch_is_detected (test_d16c_primordial.AlgebraTests.test_fixture_mismatch_is_detected) ... ok
+test_setup_and_fixture (test_d16c_primordial.AlgebraTests.test_setup_and_fixture) ... ok
+test_canonical_substitutions (test_d16c_primordial.ExactScalarTests.test_canonical_substitutions) ... ok
+test_derivations_match_sympy_differentiation (test_d16c_primordial.ExactScalarTests.test_derivations_match_sympy_differentiation) ... ok
+test_zero_test_uses_the_trig_relation_and_detects_nonzero (test_d16c_primordial.ExactScalarTests.test_zero_test_uses_the_trig_relation_and_detects_nonzero) ... ok
+test_blocks_agree_with_notebook (test_d16c_primordial.FieldEquationTests.test_blocks_agree_with_notebook) ... ok
+test_emt_modes_quantization (test_d16c_primordial.FieldEquationTests.test_emt_modes_quantization) ... ok
+test_euler_lagrange_components (test_d16c_primordial.FieldEquationTests.test_euler_lagrange_components) ... ok
+test_notebook_cell1137_equals_correct_equations_plus_q_terms (test_d16c_primordial.FieldEquationTests.test_notebook_cell1137_equals_correct_equations_plus_q_terms) ... ok
+test_p0_is_not_frozen_for_nonzero_k (test_d16c_primordial.FieldEquationTests.test_p0_is_not_frozen_for_nonzero_k) ... ok
+test_a4_linear_numbers (test_d16c_primordial.GeometryTests.test_a4_linear_numbers) ... ok
+test_christoffel_and_spin_connection (test_d16c_primordial.GeometryTests.test_christoffel_and_spin_connection) ... ok
+test_einstein_and_notebook_cell_584 (test_d16c_primordial.GeometryTests.test_einstein_and_notebook_cell_584) ... ok
+test_gamma_constancy_detects_a_perturbed_connection (test_d16c_primordial.GeometryTests.test_gamma_constancy_detects_a_perturbed_connection) ... ok
+test_metric_and_zeta (test_d16c_primordial.GeometryTests.test_metric_and_zeta) ... ok
+test_omega_and_gamma_constancy (test_d16c_primordial.GeometryTests.test_omega_and_gamma_constancy) ... ok
+test_source_rejects_a_wrong_example (test_d16c_primordial.GeometryTests.test_source_rejects_a_wrong_example) ... ok
+test_source_x0_independent_state_supplies_linear_a4_exactly (test_d16c_primordial.GeometryTests.test_source_x0_independent_state_supplies_linear_a4_exactly) ... ok
+test_wrong_closed_form_is_rejected (test_d16c_primordial.GeometryTests.test_wrong_closed_form_is_rejected) ... ok
+test_default_invocation_compares_with_the_wolfram_components (test_d16c_primordial.ReportTests.test_default_invocation_compares_with_the_wolfram_components) ... ok
+test_main_writes_deterministic_lf_report (test_d16c_primordial.ReportTests.test_main_writes_deterministic_lf_report) ... ok
+test_missing_wolfram_components_fail_by_default (test_d16c_primordial.ReportTests.test_missing_wolfram_components_fail_by_default) ... ok
+test_evaluator_matches_direct_arithmetic (test_d16c_primordial.SampleRingTests.test_evaluator_matches_direct_arithmetic) ... ok
+test_radical_and_transcendental_arithmetic (test_d16c_primordial.SampleRingTests.test_radical_and_transcendental_arithmetic) ... ok
+test_nested_wolfram_layout_with_both_printers_and_evolution (test_d16c_primordial.WolframComparisonTests.test_nested_wolfram_layout_with_both_printers_and_evolution) ... ok
+test_synthetic_components_agree_and_perturbation_is_caught (test_d16c_primordial.WolframComparisonTests.test_synthetic_components_agree_and_perturbation_is_caught) ... ok
+test_block_and_notebook_equations_are_the_component_tex (test_d16c_primordial_publication.AgreementWithArtifactsTests.test_block_and_notebook_equations_are_the_component_tex) ... ok
+test_cell_labels_and_session_evidence_quoted_match_the_wolfram_report (test_d16c_primordial_publication.AgreementWithArtifactsTests.test_cell_labels_and_session_evidence_quoted_match_the_wolfram_report) ... ok
+test_check_counts_quoted_match_the_reports (test_d16c_primordial_publication.AgreementWithArtifactsTests.test_check_counts_quoted_match_the_reports) ... ok
+test_christoffel_spin_connection_and_connection_terms_are_the_component_tex (test_d16c_primordial_publication.AgreementWithArtifactsTests.test_christoffel_spin_connection_and_connection_terms_are_the_component_tex) ... ok
+test_einstein_and_source_quoted_match_the_components (test_d16c_primordial_publication.AgreementWithArtifactsTests.test_einstein_and_source_quoted_match_the_components) ... ok
+test_energy_condition_table_is_the_component_tex (test_d16c_primordial_publication.AgreementWithArtifactsTests.test_energy_condition_table_is_the_component_tex) ... ok
+test_exact_examples_quoted_match_the_python_report (test_d16c_primordial_publication.AgreementWithArtifactsTests.test_exact_examples_quoted_match_the_python_report) ... ok
+test_geometry_counts_quoted_match_the_components (test_d16c_primordial_publication.AgreementWithArtifactsTests.test_geometry_counts_quoted_match_the_components) ... ok
+test_notebook_contraction_table_matches_both_reports (test_d16c_primordial_publication.AgreementWithArtifactsTests.test_notebook_contraction_table_matches_both_reports) ... ok
+test_omega_array_is_generated_from_the_component_file (test_d16c_primordial_publication.AgreementWithArtifactsTests.test_omega_array_is_generated_from_the_component_file) ... ok
+test_q_term_signs_quoted_match_the_wolfram_report (test_d16c_primordial_publication.AgreementWithArtifactsTests.test_q_term_signs_quoted_match_the_wolfram_report) ... ok
+test_recorded_hashes_match_the_reports (test_d16c_primordial_publication.AgreementWithArtifactsTests.test_recorded_hashes_match_the_reports) ... ok
+test_sixteen_component_equations_are_the_component_tex (test_d16c_primordial_publication.AgreementWithArtifactsTests.test_sixteen_component_equations_are_the_component_tex) ... ok
+test_source_analysis_quoted_matches_both_reports (test_d16c_primordial_publication.AgreementWithArtifactsTests.test_source_analysis_quoted_matches_both_reports) ... ok
+test_wolfram_agreement_quoted_matches_the_python_report (test_d16c_primordial_publication.AgreementWithArtifactsTests.test_wolfram_agreement_quoted_matches_the_python_report) ... ok
+test_every_fenced_code_line_fits (test_d16c_primordial_publication.ContentTests.test_every_fenced_code_line_fits) ... ok
+test_no_placeholders_or_todo_and_no_other_provenance_documents (test_d16c_primordial_publication.ContentTests.test_no_placeholders_or_todo_and_no_other_provenance_documents) ... ok
+test_required_phrases (test_d16c_primordial_publication.ContentTests.test_required_phrases) ... ok
+test_required_sections_in_order (test_d16c_primordial_publication.ContentTests.test_required_sections_in_order) ... ok
+test_title_and_subtitle (test_d16c_primordial_publication.ContentTests.test_title_and_subtitle) ... ok
+test_no_notforces_endash_or_quoteleft_substitutions (test_d16c_primordial_publication.PdfGlyphTests.test_no_notforces_endash_or_quoteleft_substitutions) ... ok
+test_markdown_is_lf_only_utf8 (test_d16c_primordial_publication.PinTests.test_markdown_is_lf_only_utf8) ... ok
+test_markdown_sha256_pin (test_d16c_primordial_publication.PinTests.test_markdown_sha256_pin) ... ok
+test_registered_edition_matches_the_committed_pdf (test_d16c_primordial_publication.PinTests.test_registered_edition_matches_the_committed_pdf) ... ok
+test_tex_is_the_builder_output_of_the_markdown (test_d16c_primordial_publication.PinTests.test_tex_is_the_builder_output_of_the_markdown) ... ok
+test_tex_sha256_pin (test_d16c_primordial_publication.PinTests.test_tex_sha256_pin) ... ok
+test_c_and_b_tables_are_the_fixture (test_d16c_student_guide_publication.AlgebraTablesTests.test_c_and_b_tables_are_the_fixture) ... ok
+test_gamma_tables_are_the_fixture (test_d16c_student_guide_publication.AlgebraTablesTests.test_gamma_tables_are_the_fixture) ... ok
+test_rest_eigenvector_is_the_committed_initial_spinor (test_d16c_student_guide_publication.AlgebraTablesTests.test_rest_eigenvector_is_the_committed_initial_spinor) ... ok
+test_worked_examples_follow_from_the_tables (test_d16c_student_guide_publication.AlgebraTablesTests.test_worked_examples_follow_from_the_tables) ... ok
+test_every_fenced_code_line_fits_and_has_no_tab_or_backtick (test_d16c_student_guide_publication.ContentTests.test_every_fenced_code_line_fits_and_has_no_tab_or_backtick) ... ok
+test_every_repository_path_in_code_exists (test_d16c_student_guide_publication.ContentTests.test_every_repository_path_in_code_exists) ... ok
+test_no_double_hyphen_in_inline_code_and_no_straight_quotes_in_prose (test_d16c_student_guide_publication.ContentTests.test_no_double_hyphen_in_inline_code_and_no_straight_quotes_in_prose) ... ok
+test_no_placeholders_or_todo_and_no_other_provenance_documents (test_d16c_student_guide_publication.ContentTests.test_no_placeholders_or_todo_and_no_other_provenance_documents) ... ok
+test_pinned_python_packages_match_the_requirements_file (test_d16c_student_guide_publication.ContentTests.test_pinned_python_packages_match_the_requirements_file) ... ok
+test_quoted_self_check_names_exist (test_d16c_student_guide_publication.ContentTests.test_quoted_self_check_names_exist) ... ok
+test_required_phrases (test_d16c_student_guide_publication.ContentTests.test_required_phrases) ... ok
+test_required_sections_in_order (test_d16c_student_guide_publication.ContentTests.test_required_sections_in_order) ... ok
+test_subsection_numbers_are_consecutive (test_d16c_student_guide_publication.ContentTests.test_subsection_numbers_are_consecutive) ... ok
+test_thawing_freezing_signs_are_formula_consistent (test_d16c_student_guide_publication.ContentTests.test_thawing_freezing_signs_are_formula_consistent) ... ok
+test_title_and_subtitle (test_d16c_student_guide_publication.ContentTests.test_title_and_subtitle) ... ok
+test_unit_test_count (test_d16c_student_guide_publication.ContentTests.test_unit_test_count) ... ok
+test_checker_table_and_quick_form_counts (test_d16c_student_guide_publication.CountsAndSolverTests.test_checker_table_and_quick_form_counts) ... ok
+test_expected_summary_lines_and_self_check_counts (test_d16c_student_guide_publication.CountsAndSolverTests.test_expected_summary_lines_and_self_check_counts) ... ok
+test_mathematica_counts (test_d16c_student_guide_publication.CountsAndSolverTests.test_mathematica_counts) ... ok
+test_notebook_counts (test_d16c_student_guide_publication.CountsAndSolverTests.test_notebook_counts) ... ok
+test_solver_table (test_d16c_student_guide_publication.CountsAndSolverTests.test_solver_table) ... ok
+test_checker_options_exist (test_d16c_student_guide_publication.EngineAndCommandTests.test_checker_options_exist) ... ok
+test_engine_table_matches_both_setup_scripts (test_d16c_student_guide_publication.EngineAndCommandTests.test_engine_table_matches_both_setup_scripts) ... ok
+test_engine_tree_ids_when_the_win11_engine_is_present (test_d16c_student_guide_publication.EngineAndCommandTests.test_engine_tree_ids_when_the_win11_engine_is_present) ... ok
+test_fma_block_is_the_cargo_config (test_d16c_student_guide_publication.EngineAndCommandTests.test_fma_block_is_the_cargo_config) ... ok
+test_print_config_fixture_hash (test_d16c_student_guide_publication.EngineAndCommandTests.test_print_config_fixture_hash) ... ok
+test_usage_block_is_the_program_usage (test_d16c_student_guide_publication.EngineAndCommandTests.test_usage_block_is_the_program_usage) ... ok
+test_exp1_tables (test_d16c_student_guide_publication.OutputTablesTests.test_exp1_tables) ... ok
+test_exp2_table (test_d16c_student_guide_publication.OutputTablesTests.test_exp2_table) ... ok
+test_exp3_tables (test_d16c_student_guide_publication.OutputTablesTests.test_exp3_tables) ... ok
+test_exp4_tables (test_d16c_student_guide_publication.OutputTablesTests.test_exp4_tables) ... ok
+test_exp5_table (test_d16c_student_guide_publication.OutputTablesTests.test_exp5_table) ... ok
+test_state_layout_tables (test_d16c_student_guide_publication.OutputTablesTests.test_state_layout_tables) ... ok
+test_no_endash_quoteleft_or_notforces (test_d16c_student_guide_publication.PdfGlyphTests.test_no_endash_quoteleft_or_notforces) ... ok
+test_exercise_13_3_answers (test_d16c_student_guide_publication.PhysicsNumbersTests.test_exercise_13_3_answers) ... ok
+test_exercise_13_4_and_13_6_predictions (test_d16c_student_guide_publication.PhysicsNumbersTests.test_exercise_13_4_and_13_6_predictions) ... ok
+test_exercise_13_5_answers (test_d16c_student_guide_publication.PhysicsNumbersTests.test_exercise_13_5_answers) ... ok
+test_exercise_13_5_program_change_predictions (test_d16c_student_guide_publication.PhysicsNumbersTests.test_exercise_13_5_program_change_predictions) ... ok
+test_exercise_13_7_pair_numbers (test_d16c_student_guide_publication.PhysicsNumbersTests.test_exercise_13_7_pair_numbers) ... ok
+test_exp1_values (test_d16c_student_guide_publication.PhysicsNumbersTests.test_exp1_values) ... ok
+test_exp2_initial_data (test_d16c_student_guide_publication.PhysicsNumbersTests.test_exp2_initial_data) ... ok
+test_exp3_parameters_and_closed_forms (test_d16c_student_guide_publication.PhysicsNumbersTests.test_exp3_parameters_and_closed_forms) ... ok
+test_quoted_source_lines_exist_verbatim (test_d16c_student_guide_publication.PhysicsNumbersTests.test_quoted_source_lines_exist_verbatim) ... ok
+test_section_1_results (test_d16c_student_guide_publication.PhysicsNumbersTests.test_section_1_results) ... ok
+test_figures_exist_and_are_notebook_figures (test_d16c_student_guide_publication.PinTests.test_figures_exist_and_are_notebook_figures) ... ok
+test_markdown_is_lf_only_utf8 (test_d16c_student_guide_publication.PinTests.test_markdown_is_lf_only_utf8) ... ok
+test_markdown_sha256_pin (test_d16c_student_guide_publication.PinTests.test_markdown_sha256_pin) ... ok
+test_registered_edition_matches_the_committed_pdf (test_d16c_student_guide_publication.PinTests.test_registered_edition_matches_the_committed_pdf) ... ok
+test_tex_is_the_builder_output_of_the_markdown_in_developer_layout (test_d16c_student_guide_publication.PinTests.test_tex_is_the_builder_output_of_the_markdown_in_developer_layout) ... ok
+test_tex_sha256_pin (test_d16c_student_guide_publication.PinTests.test_tex_sha256_pin) ... ok
+test_figures_register_verify_and_missing_file (test_publication_tooling.BuildProvenancePdfTests.test_figures_register_verify_and_missing_file) ... ok
+test_register_verify_and_reject (test_publication_tooling.BuildProvenancePdfTests.test_register_verify_and_reject) ... ok
+test_author_and_date_are_escaped_and_may_use_greek (test_publication_tooling.ConvertDeterminismTests.test_author_and_date_are_escaped_and_may_use_greek) ... ok
+test_cli_author_and_date_options (test_publication_tooling.ConvertDeterminismTests.test_cli_author_and_date_options) ... ok
+test_cli_output_is_independent_of_hash_seed (test_publication_tooling.ConvertDeterminismTests.test_cli_output_is_independent_of_hash_seed) ... ok
+test_determinism_primitives_are_kept (test_publication_tooling.ConvertDeterminismTests.test_determinism_primitives_are_kept) ... ok
+test_dirac_main_documents_are_reproduced_byte_for_byte (test_publication_tooling.ConvertDeterminismTests.test_dirac_main_documents_are_reproduced_byte_for_byte) ... skipped 'dirac-main reference absent'
+test_missing_title_or_subtitle_is_rejected (test_publication_tooling.ConvertDeterminismTests.test_missing_title_or_subtitle_is_rejected) ... ok
+test_old_subset_output_equals_the_origin_builder (test_publication_tooling.ConvertDeterminismTests.test_old_subset_output_equals_the_origin_builder) ... ok
+test_positional_signature_and_default_author_and_date (test_publication_tooling.ConvertDeterminismTests.test_positional_signature_and_default_author_and_date) ... ok
+test_repeated_conversion_is_identical (test_publication_tooling.ConvertDeterminismTests.test_repeated_conversion_is_identical) ... ok
+test_figure_document_compiles_warning_free (test_publication_tooling.FigurePdfTests.test_figure_document_compiles_warning_free) ... ok
+test_pdflatex_outside_the_root_does_not_find_the_figure (test_publication_tooling.FigurePdfTests.test_pdflatex_outside_the_root_does_not_find_the_figure) ... ok
+test_two_builds_are_byte_identical_and_embed_the_images (test_publication_tooling.FigurePdfTests.test_two_builds_are_byte_identical_and_embed_the_images) ... ok
+test_accepted_figure_paths (test_publication_tooling.FigureTests.test_accepted_figure_paths) ... ok
+test_caption_ends_at_the_balanced_bracket (test_publication_tooling.FigureTests.test_caption_ends_at_the_balanced_bracket) ... ok
+test_caption_markup_is_safe_as_a_moving_argument (test_publication_tooling.FigureTests.test_caption_markup_is_safe_as_a_moving_argument) ... ok
+test_cli_checks_figures_against_the_image_root (test_publication_tooling.FigureTests.test_cli_checks_figures_against_the_image_root) ... ok
+test_empty_caption_is_rejected (test_publication_tooling.FigureTests.test_empty_caption_is_rejected) ... ok
+test_figure_closes_paragraph_and_list (test_publication_tooling.FigureTests.test_figure_closes_paragraph_and_list) ... ok
+test_figure_files_are_checked_against_the_image_root (test_publication_tooling.FigureTests.test_figure_files_are_checked_against_the_image_root) ... ok
+test_figure_line_becomes_a_figure_environment (test_publication_tooling.FigureTests.test_figure_line_becomes_a_figure_environment) ... ok
+test_figure_lines_in_code_and_math_stay_literal (test_publication_tooling.FigureTests.test_figure_lines_in_code_and_math_stay_literal) ... ok
+test_figure_paths_lists_the_figures_in_order (test_publication_tooling.FigureTests.test_figure_paths_lists_the_figures_in_order) ... ok
+test_graphicx_is_loaded_only_with_a_figure (test_publication_tooling.FigureTests.test_graphicx_is_loaded_only_with_a_figure) ... ok
+test_old_subset_with_a_figure_keeps_the_origin_bytes (test_publication_tooling.FigureTests.test_old_subset_with_a_figure_keeps_the_origin_bytes) ... ok
+test_unsupported_figure_paths_are_rejected (test_publication_tooling.FigureTests.test_unsupported_figure_paths_are_rejected) ... ok
+test_code_span_with_greek_is_escaped_not_detokenized (test_publication_tooling.GreekAndSymbolTests.test_code_span_with_greek_is_escaped_not_detokenized) ... ok
+test_compound_codes_are_braced_in_math (test_publication_tooling.GreekAndSymbolTests.test_compound_codes_are_braced_in_math) ... ok
+test_display_math_gets_commands (test_publication_tooling.GreekAndSymbolTests.test_display_math_gets_commands) ... ok
+test_every_math_character_has_a_valid_code (test_publication_tooling.GreekAndSymbolTests.test_every_math_character_has_a_valid_code) ... ok
+test_fenced_code_keeps_characters (test_publication_tooling.GreekAndSymbolTests.test_fenced_code_keeps_characters) ... ok
+test_heading_keeps_unicode_for_bookmarks (test_publication_tooling.GreekAndSymbolTests.test_heading_keeps_unicode_for_bookmarks) ... ok
+test_heading_math_is_wrapped_for_bookmarks (test_publication_tooling.GreekAndSymbolTests.test_heading_math_is_wrapped_for_bookmarks) ... ok
+test_inline_math_gets_commands (test_publication_tooling.GreekAndSymbolTests.test_inline_math_gets_commands) ... ok
+test_native_latin_letters_are_not_declared (test_publication_tooling.GreekAndSymbolTests.test_native_latin_letters_are_not_declared) ... ok
+test_prose_keeps_characters_and_declares_exactly_those_used (test_publication_tooling.GreekAndSymbolTests.test_prose_keeps_characters_and_declares_exactly_those_used) ... ok
+test_unsupported_characters_are_rejected_with_line (test_publication_tooling.GreekAndSymbolTests.test_unsupported_characters_are_rejected_with_line) ... ok
+test_balanced_parentheses_in_url (test_publication_tooling.LinkTests.test_balanced_parentheses_in_url) ... ok
+test_brackets_without_target_stay_text (test_publication_tooling.LinkTests.test_brackets_without_target_stay_text) ... ok
+test_images_are_rejected (test_publication_tooling.LinkTests.test_images_are_rejected) ... ok
+test_invalid_targets_are_rejected (test_publication_tooling.LinkTests.test_invalid_targets_are_rejected) ... ok
+test_link_in_heading_is_wrapped_for_bookmarks (test_publication_tooling.LinkTests.test_link_in_heading_is_wrapped_for_bookmarks) ... ok
+test_link_text_markup_and_nesting_in_bold (test_publication_tooling.LinkTests.test_link_text_markup_and_nesting_in_bold) ... ok
+test_list_item_starting_with_bracket_is_guarded (test_publication_tooling.LinkTests.test_list_item_starting_with_bracket_is_guarded) ... ok
+test_plain_link (test_publication_tooling.LinkTests.test_plain_link) ... ok
+test_url_special_characters (test_publication_tooling.LinkTests.test_url_special_characters) ... ok
+test_warning_pattern_matches_like_the_gates (test_publication_tooling.LogScanTests.test_warning_pattern_matches_like_the_gates) ... ok
+test_checker_rejects_mutated_bytes (test_publication_tooling.PdfTests.test_checker_rejects_mutated_bytes) ... ok
+test_feature_document_compiles_warning_free (test_publication_tooling.PdfTests.test_feature_document_compiles_warning_free) ... ok
+test_provenance_checker_cli_with_a_temporary_registry (test_publication_tooling.PdfTests.test_provenance_checker_cli_with_a_temporary_registry) ... ok
+test_two_builds_are_byte_identical_letter_pdfs (test_publication_tooling.PdfTests.test_two_builds_are_byte_identical_letter_pdfs) ... ok
+test_built_in_registry_is_empty (test_publication_tooling.RegistryTests.test_built_in_registry_is_empty) ... ok
+test_cli_rejects_unregistered_edition (test_publication_tooling.RegistryTests.test_cli_rejects_unregistered_edition) ... ok
+test_duplicate_keys_and_non_object_are_rejected (test_publication_tooling.RegistryTests.test_duplicate_keys_and_non_object_are_rejected) ... ok
+test_invalid_entries_are_rejected (test_publication_tooling.RegistryTests.test_invalid_entries_are_rejected) ... ok
+test_register_round_trip_and_canonical_dump (test_publication_tooling.RegistryTests.test_register_round_trip_and_canonical_dump) ... ok
+test_registered_pdfs_are_self_consistent (test_publication_tooling.RegistryTests.test_registered_pdfs_are_self_consistent) ... ok
+test_repository_registry_is_valid_and_canonical (test_publication_tooling.RegistryTests.test_repository_registry_is_valid_and_canonical) ... ok
+test_code_line_limit (test_publication_tooling.StructureValidationTests.test_code_line_limit) ... ok
+test_code_spans_unsafe_for_detokenize (test_publication_tooling.StructureValidationTests.test_code_spans_unsafe_for_detokenize) ... ok
+test_heading_code_spans_are_safe_in_the_toc (test_publication_tooling.StructureValidationTests.test_heading_code_spans_are_safe_in_the_toc) ... ok
+test_tab_in_code_is_rejected (test_publication_tooling.StructureValidationTests.test_tab_in_code_is_rejected) ... ok
+test_unclosed_blocks_are_rejected (test_publication_tooling.StructureValidationTests.test_unclosed_blocks_are_rejected) ... ok
+test_developer_layout_table (test_publication_tooling.TableTests.test_developer_layout_table) ... ok
+test_inconsistent_row_is_rejected (test_publication_tooling.TableTests.test_inconsistent_row_is_rejected) ... ok
+test_table_rendering (test_publication_tooling.TableTests.test_table_rendering) ... ok
+
+----------------------------------------------------------------------
+Ran 323 tests in 315.598s
+
+OK (skipped=2)
+stage3_step_ok=stage3-31-unit-tests
+stage3_step=stage3-32-fresh-outputs
+stage3_sha256=f8886625011a35c5ea31c89ffb623e4c6b0678adc300fc4b725179808601272a  build/stage3/run-a/exp1/summary.json
+stage3_sha256=c8f7ecd95f7414f81e2569be7a41f2127d0c1cbd3a7a07b2c0dbcb667c43d5d0  build/stage3/run-a/exp2/summary.json
+stage3_sha256=7bfedf4bd5e5765c171dcc71896e4a9f481bfedfeafa6ddae04b924ca31081ee  build/stage3/run-a/exp3/summary.json
+stage3_sha256=c648518ed5ba4693bf6d271de3ee294a330daf9f15e669e17fa43519c1a9f8ec  build/stage3/run-a/exp4/summary.json
+stage3_sha256=bbddd4d4e0303c72d8d13494e2f4a54a730f0687fdba54a240156c7b0cfb1746  build/stage3/run-a/exp5/summary.json
+stage3_sha256=f8886625011a35c5ea31c89ffb623e4c6b0678adc300fc4b725179808601272a  build/stage3/run-b/exp1/summary.json
+stage3_sha256=c8f7ecd95f7414f81e2569be7a41f2127d0c1cbd3a7a07b2c0dbcb667c43d5d0  build/stage3/run-b/exp2/summary.json
+stage3_sha256=7bfedf4bd5e5765c171dcc71896e4a9f481bfedfeafa6ddae04b924ca31081ee  build/stage3/run-b/exp3/summary.json
+stage3_sha256=c648518ed5ba4693bf6d271de3ee294a330daf9f15e669e17fa43519c1a9f8ec  build/stage3/run-b/exp4/summary.json
+stage3_sha256=bbddd4d4e0303c72d8d13494e2f4a54a730f0687fdba54a240156c7b0cfb1746  build/stage3/run-b/exp5/summary.json
+stage3_sha256=840fc6fb8797fa66cd043a199357b599c6b2202cbeef426f0ed9058d318fafe4  build/stage3/run-a/exp1/python-check-report.json
+stage3_sha256=756af8dfaff3dc146109e4833cd75223bf97d828881ccac0ef5c0b686975f0ef  build/stage3/run-a/exp2/python-check-report.json
+stage3_sha256=f4a1ea92195f490e4dc0054af62ef0d05767f92aae4da4a046cd59d3430b025f  build/stage3/run-a/exp3/python-check-report.json
+stage3_sha256=59302eaa00d26957b388a97ea8dd2b3c9ad8b997ae996f05f40ee92971473edb  build/stage3/run-a/exp4/python-check-report.json
+stage3_sha256=bf7d379b6cf41da6984c1a3490aec5ffedf968295ee52c2c06dcb4f5d8128e03  build/stage3/run-a/exp5/python-check-report.json
+stage3_sha256=84aad4a5e48b23588fca0b2b2328e3d6db6b9b0b94e35175caaaa41ba0e14b58  build/stage3/run-a/exp3/fits.json
+stage3_sha256=af91bbe05ae512a699286fe64a45a06b5906d1776aa82e17a708de9788fb2c88  build/stage3/run-a/numerics-summary.json
+stage3_sha256=5cd2befc1862041c0047c3d38db1dcc182aa47dde8db0cd571a2023fbc9ac5f0  build/stage3/notebook/dirac16complex_dark_sector.ipynb
+stage3_sha256=abe32b906f316a99bdd67957838d43bbfa20747b55b4f5b5e9255a6c60b1d809  build/stage3/nbconvert/dirac16complex_dark_sector.ipynb
+stage3_sha256=43e55129c9ab4b8a23c9dae0880c53fa13a91f762642c66a2caf5916e70a3c3a  build/stage3/notebook-report.json
+stage3_sha256=6047dd48cad77fbcf45486046cb19e0a98fddd6ef0db9181459431d7d39062d6  artifacts/dirac16complex/numerics/mathematica-report.json
+stage3_sha256=8dce383d6ab84f90184d8d4e880d9a77f6c24e1985f7dc92af3dd6fe4db3d57c  provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.tex
+stage3_sha256=8002daccfee621a92078957ff3c559631c3a26082d45f712a069d9fdb39d8d0a  provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.pdf
+stage3_sha256=bc1a7039df305705bdea1d31de63d2deae15a713858f70403bf91b1d55802f40  provenance/DIRAC16COMPLEX_STUDENT_GUIDE.tex
+stage3_sha256=272d3aed9c8fda5248d6a4c2af3a8aa81f32743974381071e04e912ee873300d  provenance/DIRAC16COMPLEX_STUDENT_GUIDE.pdf
+stage3_audit_fresh=OK
+stage3_step_ok=stage3-32-fresh-outputs
+stage3_dark_sector_verification=OK
+gate3_exit=0
