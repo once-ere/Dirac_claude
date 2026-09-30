@@ -162,3 +162,28 @@ E4.7 Exchange is exactly local: e_x = -(lambda/32)(n^2 + S^2) for every T (angul
      unnecessary: implement the closed form (and keep the table only as a cross-check).
      Block ODE: chi' = [M_eff sigma3 - kappa k sigma2 + i j (eps - v_v) sigma1] chi,
      h_j = j[-i sigma1 d_y + M_eff sigma2 + kappa k sigma3] + v_v.
+
+## 9. ERRATA and findings from the Stage-4 numerics (2026-09-30; binding)
+
+E4.8 Ground state := the self-consistent branch reached by continuation in the coupling
+     from lambda = 0 (Rust solve_ground: lambda/4, ..., lambda; exact T = 0 aufbau first,
+     occupation smearing 1e-3 m / 1e-2 m only where the aufbau sloshes).  At N = 1016 with
+     -lambda_hat_2 the 192-fold k = 0.935 band and the 8-fold k = 0 level cross at the
+     Fermi level under self-consistency; the ground state is converged with smearing
+     1e-3 m at the physical T = 0 (F = E).  The aufbau count closes exactly at the band;
+     the ensemble moves about 4.2 particles into the k = 0 level 3.7e-3 m above it.  Its
+     KS gap (0.041255 m) and Delta-SCF (0.04362 m) refer to this ensemble.  An exploratory
+     reference run on twice-finer grids converged the exact aufbau from its own start to
+     a state about 1.01 m higher (handoff/reviews/stage4_refgrid_N0120_exploratory.log).
+E4.9 Particle-hole pairs of T = 0 runs (exact or smeared): holes f > 1e-12, particles
+     f < 1 - 1e-12 in both solvers (Rust PH_OCCUPATION_FLOOR); finite T: holes f >= 1/2,
+     particles f < 1/2.  NOT the aufbau of a smeared spectrum (it contradicts the run's
+     own KS gap and Delta-SCF).
+E4.10 The a4_0 = 0.5 rescaling partner is KS(a4_0 = 0, Delta k e^{-0.5}, l e^{0.5},
+     lambda e^{1.5}) (label lamp1rescaled), not the same lambda.
+E4.11 N = 896 at Delta k = 0.125 m (the "same density" partner of N = 112) is an OPEN
+     shell of the T = 0 aufbau (80 of the 192 states at k = 0.468, filled equally): KS
+     gap 0 by definition; E/N differs from N = 112 by 6.6 % (finite shell spacing).
+E4.12 Cross-check tolerances include the measured Rust grid uncertainty |X(601) - X(301)|
+     for runs with a _g601 partner (check_dirac16complex_kohn_sham.py
+     rust_grid_uncertainties); the hardest Delta-SCF (N = 1016, -lambda_hat_2) has one.
