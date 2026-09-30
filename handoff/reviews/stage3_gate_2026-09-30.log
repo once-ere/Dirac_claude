@@ -1,0 +1,1153 @@
+# Stage 3 gate run of 2026-09-30 05:55 (bash scripts/verify_stage3_dark_sector.sh), state of commit c612395.
+# Steps stage3-00 .. stage3-21 completed without failure (the gate stops at the first failure).
+# At stage3-22 (nbconvert) the run was invalidated: a second gate run started concurrently deleted build/stage3
+# (including the snapshot needed by stage3-30), and the run was stopped. Steps 22-31 were NOT run. Stage 3 is NOT gated.
+
+stage3_tool_python=/c/Python314/python.exe
+stage3_tool_cargo=/c/Users/nsh/.cargo/bin/cargo.exe
+stage3_tool_git=/mingw64/bin/git.exe
+stage3_tool_pdflatex=/c/Program Files/MiKTeX/miktex/bin/x64/pdflatex.exe
+stage3_tool_wolframscript=/c/Program Files/Wolfram Research/WolframScript/wolframscript.exe
+stage3_step=stage3-00-snapshot
+stage3_snapshot=110 files copied into build/stage3/snapshot
+stage3_audit_snapshot=OK
+stage3_step_ok=stage3-00-snapshot
+stage3_step=stage3-01-solver-setup
+solver_platform=win11
+solver_commit=a8fdff459adfe181573d7924b18bffbdf378fdb3
+solver_setup=ALREADY-PRESENT
+stage3_step_ok=stage3-01-solver-setup
+stage3_step=stage3-02-solver-pin
+stage3_solver_commit=a8fdff459adfe181573d7924b18bffbdf378fdb3
+stage3_solver_remote=https://github.com/once-ere/rustSolveIt_Win11_SUNDIALS_7_8_0.git
+stage3_solver_modified_tracked_files=0
+stage3_audit_solver=OK
+stage3_step_ok=stage3-02-solver-pin
+stage3_step=stage3-03-cargo-fmt
+stage3_step_ok=stage3-03-cargo-fmt
+stage3_step=stage3-04-cargo-clippy
+    Finished `release` profile [optimized] target(s) in 0.18s
+stage3_step_ok=stage3-04-cargo-clippy
+stage3_step=stage3-05-cargo-test
+    Finished `release` profile [optimized] target(s) in 0.08s
+     Running unittests src\lib.rs (studies\dirac16complex_cosmology\target\release\deps\dirac16complex_cosmology-37b82b7425574052.exe)
+
+running 27 tests
+test exp3::tests::lagrange_is_exact_on_quartics ... ok
+[ERROR][rank 0][C:\Users\nsh\Developer\github\Dirac_claude\vendor\rustSolveIt\sundials_rs\crates\cvode_rs\src\cvode.rs:4221][cvHandleFailure] At t = 0.496781677252198, the right-hand side routine failed in an unrecoverable manner.
+test exp2::tests::grouped_pair_sum_equals_seven_direction_sum ... ok
+test exp3::tests::bounce_is_the_root_of_e2 ... ok
+test exp3::tests::closure_and_closed_forms ... ok
+test exp2::tests::closed_form_background_solves_the_equations ... ok
+test exp4::tests::kink_tail_moments_match_the_large_k_asymptotics ... ok
+test exp4::tests::gauss_legendre_small_orders_and_exactness ... ok
+test exp4::tests::sparse_rhs_equals_dense_rhs ... ok
+test exp4::tests::two_level_structure_and_charge_conjugation ... ok
+test spinor::tests::charge_b_and_chirality_identities ... ok
+test driver::tests::closure_error_is_reported_and_targets_validated ... ok
+test exp2::tests::initial_data_satisfy_the_constraint ... ok
+test driver::tests::harmonic_oscillator_backward_and_vector_atol ... ok
+test exp3::tests::short_integration_keeps_sigma_and_phase ... ok
+test output::tests::json_layout_is_fixed ... ok
+test spinor::tests::energy_eigenvalues_are_plus_minus_sqrt_m2_k2 ... ok
+test exp4::tests::adiabatic_state_and_beta_diagnostics ... ok
+test spinor::tests::clifford_relations_from_generated_constants ... ok
+test driver::tests::harmonic_oscillator_forward_both_methods ... ok
+test output::tests::fmt17_normalises_negative_zero ... ok
+test exp4::tests::kink_formula_all_k_matches_quadrature ... ok
+test spinor::tests::hamiltonian_hermitian_only_in_good_sector ... ok
+test exp4::tests::smooth_background_limits_and_ln_a_offset ... ok
+test spinor::tests::rest_eigenvector_scalar_density_is_one ... ok
+test exp2::tests::short_integration_matches_closed_form ... ok
+test exp4::tests::parallel_map_keeps_order ... ok
+test spinor::tests::cvode_matches_exact_solution_for_constant_h ... ok
+
+test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\main.rs (studies\dirac16complex_cosmology\target\release\deps\dirac16complex_cosmology-5765ec38f8009867.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests dirac16complex_cosmology
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+stage3_step_ok=stage3-05-cargo-test
+stage3_step=stage3-06-cargo-build
+    Finished `release` profile [optimized] target(s) in 0.03s
+stage3_step_ok=stage3-06-cargo-build
+stage3_binary=studies/dirac16complex_cosmology/target/release/dirac16complex_cosmology.exe
+stage3_step=stage3-07-run-a
+== exp1 ==
+PASS - exact_solution_all_runs: max |u - exp(-iht)u0| = 6.24599767338994569e-09 (limit 9.99999999999999955e-08)
+PASS - rho_frozen_all_runs: max |rho(t) - rho(0)| = 4.19369583504192178e-09
+PASS - pressures_and_S_frozen_eigenstate_runs: max |p_j(t) - p_j(0)| = 1.91578175545714657e-09, max |S(t) - S(0)| = 2.64258881443879545e-09
+PASS - hilbert_norm_conserved: max |u^dag u - 1| drift = 2.69516875484043794e-09
+PASS - krein_norm_conserved: max |u^dag B u| drift = 2.69516875484043794e-09
+PASS - a4_profile_independence: 13 run pairs, max |state_A1 - state_A2| = 0.00000000000000000e+00
+PASS - einstein_source_negative_energy: max rho_req = -2.10000000001132534e+01
+PASS - seven_volume_constant: max |V/V0 - 1| = 6.66133814775093924e-16
+PASS - initial_joint_eigenvectors: max |h u0 - E u0|, |B u0 - b u0| = 1.11022302462515654e-16
+PASS - lambda_run_meff_constant: max |M_eff(t) - M*| = 1.32129440721939773e-09
+exp1: solver_steps=33866 rhs_evaluations=34950 files=29 verdict=SUCCESS
+== exp2 ==
+PASS - initial_positive_energy_rest_eigenvector: max |h u0 - M u0|, |B u0 - u0|, |s(u0) - 1| = 0.00000000000000000e+00
+PASS - initial_constraint_solved: max relative residual at t = 0: 0.00000000000000000e+00
+PASS - constraint_preserved: max |sum H_iH_j - kappa rho| / (sum |H_iH_j| + kappa |rho|) = 1.25938706724218517e-10 (limit 1.00000000000000006e-09)
+PASS - S_times_V_constant: max |s(u) - s(u0)| = max |S V/(S_0 V_0) - s0| = 4.03314048824654492e-10
+PASS - spinor_norms_conserved: max |u^dag u - 1|, |u^dag B u - 1| = 4.03314048824654492e-10
+PASS - anisotropy_times_volume_constant: max |(H_i - H_j) V - (H_i0 - H_j0)| / max|H_i0 - H_j0| = 6.22368268032857941e-10
+PASS - bound_nonnegative: min (Theta^2 - 3H_a^2 - 2 kappa rho) = 1.54765603391763234e-09, max |bound - (H_b^2 + 3H_c^2 + 2 res)|/Theta^2 = 1.97001731192377113e-15
+PASS - exact_solution: max relative error of V, H_i, ln h_i vs the closed form (per 1 + |t_s|/(t - t_s)) = 1.01490692350383538e-10
+PASS - spinor_exact_shape: max |u - (u0^dag u) u0| + ||u0^dag u| - 1| = 2.01656913390024783e-10 (u stays on the ray of u0)
+PASS - spinor_exact_phase_within_time_rounding: max |arg(u0^dag u) + m t + lambda S_0 J(t)| = 2.24218547017235799e-07 <= max|M_eff| N_steps ulp(t_end)/2 (max 1.32088817838501059e-06) + 1.00000000000000006e-09; total |u - u_exact| = 2.24218637730446311e-07
+PASS - late_time_isotropic_dust: at t_end: max of 7 max|H_i - H_j|/Theta, |7 H_i t/2 - 1|, |w|, |w_eff - 4/3| = 7.19681686224715733e-04
+PASS - extra_times_turn_to_expansion: H_c(0) < 0, H_c(t_end) > 0, crossing at -H_c0/beta within 1 %
+PASS - theta_exceeds_sqrt3_Ha_for_positive_energy: min Theta/(3H_a) (rho > 0) = 6.12676555953013735e-01, dust min w_eff = -3.87323444046986265e-01 > -4.22649730810374158e-01
+PASS - backward_kasner_exponents: H_i/Theta extrapolated to V = 0: max |p_i - p_i,exact|, relative sum p_i^2 deviation = 2.85651951043981130e-07
+PASS - phantom_iff_negative_kinetic_energy: w < -1 <=> KE_L < 0 on rho > 0 rows; x0 = -4.00000000000000022e-01: 14 phantom rows for V/V0 in [4.06569659739693834e-01, 7.78800783071402325e-01], 122 rho < 0 rows
+exp2: solver_steps=1779784 rhs_evaluations=1781396 files=4 verdict=SUCCESS
+== exp3 ==
+PASS - closure_E0_equals_1: |Omega_r + Omega_m + Omega_psi - 1| = 0.00000000000000000e+00, max |E(0) - 1| = 0.00000000000000000e+00, max |Omega_psi(1) - Omega_psi| = 0.00000000000000000e+00
+PASS - initial_positive_energy_B_eigenvector: max |h u0 - mu u0|, |B u0 - u0| = 0.00000000000000000e+00, max |s(u0) - 1| = 0.00000000000000000e+00
+PASS - sigma_from_spinor_equals_a_minus_3: max |a^3 sigma_spinor - 1| = 2.50394482925742068e-09 (limit 1.00000000000000002e-08)
+PASS - ln_sigma_state_reproduces_minus_3: max |a^3 exp(ln sigma) - 1| = 1.95399252334027551e-14 (limit 9.99999999999999980e-13)
+PASS - spinor_stays_in_rest_eigenspace: max |(1 - (-i gamma^4)) u| / (2 |u|) = 0.00000000000000000e+00
+PASS - hilbert_and_krein_norms_conserved: max |u^dag u - 1| = 2.50394494027972314e-09, max |u^dag B u - 1| = 2.50394494027972314e-09
+PASS - rho_p_w_mu_independent: mu = 3 vs 7: rho 1.73749257785179425e-09, p 3.00483891934469913e-09, w (condition-scaled) 2.76976578674928039e-09, sigma 2.76976570488223992e-09 (limit 1.00000000000000002e-08)
+PASS - rho_p_w_match_closed_form: scaled max deviation rho 1.67992345592009441e-09, p 2.78924546455657910e-09, w 2.50394507621366287e-09 (limit 1.00000000000000002e-08)
+PASS - kinetic_potential_split_identities: KE_L + PE_L = rho, KE_L - PE_L = p, KE_H = 0, PE_H = rho, PE_L = (A/2) sigma: max 1.08135767365875414e-15
+PASS - hubble_positive_backward_stop_at_predicted_bounce: E > 0 on every row; x0 < 0 stops at N_b + [1.00000000000000002e-02, 1.00000000000000002e-02 + dN), x0 = 0 reaches ln(1/3.5)
+PASS - rho_psi_zero_at_cube_root_abs_x0: max |a_zero - |x0|^(1/3)| / a = 2.63322237422482140e-09
+PASS - phantom_crossing_at_cube_root_2abs_x0: max |a_cross - (2|x0|)^(1/3)| / a = 2.34557556604216452e-09
+PASS - deceleration_sign_changes_match_closed_form: max relative a deviation = 1.47272809200149658e-09
+PASS - tangent_cpl_w0_wa: max |w(1) - x0/(1+x0)| = 5.55111512312578270e-17, max |wa_FD - 3x0/(1+x0)^2| / max(|wa|,1) = 2.76404703776429760e-07
+exp3: solver_steps=6074 rhs_evaluations=10115 files=11 verdict=SUCCESS
+== exp4 ==
+PASS - thermal_grid_gauss_legendre: weights sum to k_max, exact for k^2, |P_48(x_n)| <= 1e-13
+PASS - thermal_initial_eigenvectors: max |h u0 -+ E u0| = 7.10542735760100186e-15, u0^dag B u0 = b_sign, antiparticle eps/E = -1.00000000000000022e+00
+PASS - thermal_unitarity: max |u^dag u - 1| = 2.42114697179829363e-07 (limit 9.99999999999999955e-07)
+PASS - thermal_krein_conserved: max |d(u^dag B u)| = 2.42114697179829363e-07
+PASS - thermal_energy_split_identities: eps = m s + p_1 per mode and KE_H + PE_H = rho: max rel residual 9.45974247981092632e-16
+PASS - thermal_rho_matches_kinetic_theory: max |rho_modes/rho_kinetic - 1| = 1.97630236802584535e-08 (same GL nodes; limit 9.99999999999999955e-07)
+PASS - thermal_pressure_matches_kinetic_theory_plus_free_wave: max |p_modes/p_kinetic - 1| = 1.86921892308604191e-05 (literal 1e-6 not met: first-order interference 2 Re(alpha^* beta) m K/E of the sudden-start free wave); |p - p_kin| / (free-wave envelope + 1e-6 p_kin) max = 2.82623568933180913e-01
+PASS - thermal_w_early_radiation: w(a=1) = 3.32854334804484508e-01 (kinetic 3.32854334804484620e-01), 1/3 - w = 4.78998528848806338e-04
+PASS - thermal_w_decreases_to_dust: w strictly decreasing on the grid, w(a=1.00000000000000000e+02) = 3.59223844229396919e-02 (kinetic 3.59222887073100891e-02)
+PASS - thermal_beta2_gas_weighted_below_1e-6: max_t sum w k^2 f |beta|^2 / sum w k^2 f = 3.73497923269909748e-08 (limit 9.99999999999999955e-07)
+PASS - thermal_beta2_per_mode_is_sudden_start_wave: late adiabatic |beta|^2 vs (m k H_i/(4E_i^3))^2: max rel dev 1.23822667973206846e-02 over 17 modes; |beta(t)|^2 / bound max 9.05644094192409321e-01; per-mode max |beta|^2 = 6.36936741837701729e-05 at k = 9.52524976630388931e-01
+PASS - thermal_beta2_adiabatic_vacuum_below_1e-6: adiabatic-vacuum start: late instantaneous |beta|^2 = 5.61262987183470149e-08, max adiabatic-basis |beta|^2 = 1.59679906728227300e-07
+PASS - thermal_spin_independence: B = -1 spin state vs B = +1 at 4 nodes: max dev 0.00000000000000000e+00
+PASS - thermal_antiparticle_symmetry: negative-energy mode: max |eps(v)+eps(u)|/E, |p1(v)+p1(u)|/E, |s(v)+s(u)|, |beta dev| = 0.00000000000000000e+00
+PASS - method_selected_by_test: selected adams (max error vs reference: adams 1.71380947909235483e-09, bdf 1.84002422836347532e-08; selected <= 2 x other and <= 9.99999999999999955e-07)
+PASS - pair_initial_adiabatic_vacuum: K(t0) = 2.00000000000000000e+02: eigen residual 1.42108547152020037e-14, |delta| vs m K0 H/(4E0^3) dev 1.25607396694702104e-19, max |beta(t0)|^2 = 1.56203134349038838e-10 (bound 1.56250000000000003e-10)
+PASS - pair_unitarity: max |u^dag u - 1| = 4.09050127103682826e-08 (sudden and smooth runs; smooth alone 3.63432464123292220e-08)
+PASS - pair_krein_conserved: max |d(u^dag B u)| = 4.09050129324128875e-08 (sudden and smooth runs; smooth alone 3.63432465233515245e-08)
+PASS - pair_massless_no_production: m = 0: max |beta|^2 = 8.50694699914114945e-25 (instantaneous), 8.50395350372324209e-25 (adiabatic) over all k and samples; smooth transition 2.52283927914147179e-23 and 2.52283927914147179e-23 (limit 1.00000000000000004e-10)
+PASS - pair_massive_production_pauli: n a^3 > 0 for m > 0 and 0 <= |beta|^2 <= 1 (sudden and smooth runs); n a^3 = ["1.78135110896364887e-24", "1.45363729276271666e-03", "4.98966594788631968e-03", "4.41220180472606457e-03", "2.42122903395375084e-03"], smooth transition ["1.32164399366035866e-20", "3.03209745035524028e-04", "4.33465306096501401e-04", "9.38968467117253744e-05", "8.58941116553159431e-07"]
+PASS - pair_tail_matches_kink_theory: k >= 8.00000000000000000e+00: adiabatic |beta|^2 vs (m k/(4E^4))^2, max rel dev 4.15954815314989457e-02 (limit 3.49999999999999978e-01)
+PASS - pair_antiparticle_symmetry: negative-energy modes (m = 1.00000000000000000e+00): weight on positive subspace vs |beta|^2 and eps(v) = -eps(u): max dev 0.00000000000000000e+00
+PASS - pair_eos_relativistic_to_dust: w of the produced gas decreasing, w(a_end) <= 1.00000000000000002e-03: w(1) = ["3.08074209250610798e-01", "2.53941276862740539e-01", "2.38603500781695094e-01", "2.39479852008875366e-01"], w(a_end) = ["1.20091299380492388e-04", "1.13783946682049692e-04", "1.62100634564682223e-04", "3.01892183278678532e-04"]
+exp4: solver_steps=339071692 rhs_evaluations=511425232 files=13 verdict=SUCCESS
+== exp5 ==
+PASS - energy_squared_changes_sign_at_tstar: E^2(t) > 0 before t* and < 0 after on every grid point
+PASS - initial_positive_energy_C_eigenvector: max residual 5.55111512312578270e-17, all |u0^dag B u0| > 0.5
+PASS - krein_norm_conserved_normalized: max |d(u^dag B u)| / max(u^dag u, 1) = 1.07513772432693882e-09 (limit 1.00000000000000002e-08)
+PASS - krein_norm_conserved_before_tstar: max |d(u^dag B u)| for t <= t* = 1.27911337077790677e-09
+PASS - hilbert_norm_superexponential_growth: final u^dag u min = 1.25845288148261040e+16, late/early growth-rate ratio min = 1.05571863071942929e+01
+PASS - growth_matches_wkb_leading_order: max relative deviation 1.02792069598497070e-03 (limit 1.00000000000000002e-02)
+PASS - growth_matches_wkb_first_order: max relative deviation 2.46855133793743697e-04 (limit 2.00000000000000004e-03)
+exp5: solver_steps=2548 rhs_evaluations=4800 files=5 verdict=SUCCESS
+SUCCESS
+stage3_step_ok=stage3-07-run-a
+stage3_step=stage3-08-run-b
+== exp1 ==
+PASS - exact_solution_all_runs: max |u - exp(-iht)u0| = 6.24599767338994569e-09 (limit 9.99999999999999955e-08)
+PASS - rho_frozen_all_runs: max |rho(t) - rho(0)| = 4.19369583504192178e-09
+PASS - pressures_and_S_frozen_eigenstate_runs: max |p_j(t) - p_j(0)| = 1.91578175545714657e-09, max |S(t) - S(0)| = 2.64258881443879545e-09
+PASS - hilbert_norm_conserved: max |u^dag u - 1| drift = 2.69516875484043794e-09
+PASS - krein_norm_conserved: max |u^dag B u| drift = 2.69516875484043794e-09
+PASS - a4_profile_independence: 13 run pairs, max |state_A1 - state_A2| = 0.00000000000000000e+00
+PASS - einstein_source_negative_energy: max rho_req = -2.10000000001132534e+01
+PASS - seven_volume_constant: max |V/V0 - 1| = 6.66133814775093924e-16
+PASS - initial_joint_eigenvectors: max |h u0 - E u0|, |B u0 - b u0| = 1.11022302462515654e-16
+PASS - lambda_run_meff_constant: max |M_eff(t) - M*| = 1.32129440721939773e-09
+exp1: solver_steps=33866 rhs_evaluations=34950 files=29 verdict=SUCCESS
+== exp2 ==
+PASS - initial_positive_energy_rest_eigenvector: max |h u0 - M u0|, |B u0 - u0|, |s(u0) - 1| = 0.00000000000000000e+00
+PASS - initial_constraint_solved: max relative residual at t = 0: 0.00000000000000000e+00
+PASS - constraint_preserved: max |sum H_iH_j - kappa rho| / (sum |H_iH_j| + kappa |rho|) = 1.25938706724218517e-10 (limit 1.00000000000000006e-09)
+PASS - S_times_V_constant: max |s(u) - s(u0)| = max |S V/(S_0 V_0) - s0| = 4.03314048824654492e-10
+PASS - spinor_norms_conserved: max |u^dag u - 1|, |u^dag B u - 1| = 4.03314048824654492e-10
+PASS - anisotropy_times_volume_constant: max |(H_i - H_j) V - (H_i0 - H_j0)| / max|H_i0 - H_j0| = 6.22368268032857941e-10
+PASS - bound_nonnegative: min (Theta^2 - 3H_a^2 - 2 kappa rho) = 1.54765603391763234e-09, max |bound - (H_b^2 + 3H_c^2 + 2 res)|/Theta^2 = 1.97001731192377113e-15
+PASS - exact_solution: max relative error of V, H_i, ln h_i vs the closed form (per 1 + |t_s|/(t - t_s)) = 1.01490692350383538e-10
+PASS - spinor_exact_shape: max |u - (u0^dag u) u0| + ||u0^dag u| - 1| = 2.01656913390024783e-10 (u stays on the ray of u0)
+PASS - spinor_exact_phase_within_time_rounding: max |arg(u0^dag u) + m t + lambda S_0 J(t)| = 2.24218547017235799e-07 <= max|M_eff| N_steps ulp(t_end)/2 (max 1.32088817838501059e-06) + 1.00000000000000006e-09; total |u - u_exact| = 2.24218637730446311e-07
+PASS - late_time_isotropic_dust: at t_end: max of 7 max|H_i - H_j|/Theta, |7 H_i t/2 - 1|, |w|, |w_eff - 4/3| = 7.19681686224715733e-04
+PASS - extra_times_turn_to_expansion: H_c(0) < 0, H_c(t_end) > 0, crossing at -H_c0/beta within 1 %
+PASS - theta_exceeds_sqrt3_Ha_for_positive_energy: min Theta/(3H_a) (rho > 0) = 6.12676555953013735e-01, dust min w_eff = -3.87323444046986265e-01 > -4.22649730810374158e-01
+PASS - backward_kasner_exponents: H_i/Theta extrapolated to V = 0: max |p_i - p_i,exact|, relative sum p_i^2 deviation = 2.85651951043981130e-07
+PASS - phantom_iff_negative_kinetic_energy: w < -1 <=> KE_L < 0 on rho > 0 rows; x0 = -4.00000000000000022e-01: 14 phantom rows for V/V0 in [4.06569659739693834e-01, 7.78800783071402325e-01], 122 rho < 0 rows
+exp2: solver_steps=1779784 rhs_evaluations=1781396 files=4 verdict=SUCCESS
+== exp3 ==
+PASS - closure_E0_equals_1: |Omega_r + Omega_m + Omega_psi - 1| = 0.00000000000000000e+00, max |E(0) - 1| = 0.00000000000000000e+00, max |Omega_psi(1) - Omega_psi| = 0.00000000000000000e+00
+PASS - initial_positive_energy_B_eigenvector: max |h u0 - mu u0|, |B u0 - u0| = 0.00000000000000000e+00, max |s(u0) - 1| = 0.00000000000000000e+00
+PASS - sigma_from_spinor_equals_a_minus_3: max |a^3 sigma_spinor - 1| = 2.50394482925742068e-09 (limit 1.00000000000000002e-08)
+PASS - ln_sigma_state_reproduces_minus_3: max |a^3 exp(ln sigma) - 1| = 1.95399252334027551e-14 (limit 9.99999999999999980e-13)
+PASS - spinor_stays_in_rest_eigenspace: max |(1 - (-i gamma^4)) u| / (2 |u|) = 0.00000000000000000e+00
+PASS - hilbert_and_krein_norms_conserved: max |u^dag u - 1| = 2.50394494027972314e-09, max |u^dag B u - 1| = 2.50394494027972314e-09
+PASS - rho_p_w_mu_independent: mu = 3 vs 7: rho 1.73749257785179425e-09, p 3.00483891934469913e-09, w (condition-scaled) 2.76976578674928039e-09, sigma 2.76976570488223992e-09 (limit 1.00000000000000002e-08)
+PASS - rho_p_w_match_closed_form: scaled max deviation rho 1.67992345592009441e-09, p 2.78924546455657910e-09, w 2.50394507621366287e-09 (limit 1.00000000000000002e-08)
+PASS - kinetic_potential_split_identities: KE_L + PE_L = rho, KE_L - PE_L = p, KE_H = 0, PE_H = rho, PE_L = (A/2) sigma: max 1.08135767365875414e-15
+PASS - hubble_positive_backward_stop_at_predicted_bounce: E > 0 on every row; x0 < 0 stops at N_b + [1.00000000000000002e-02, 1.00000000000000002e-02 + dN), x0 = 0 reaches ln(1/3.5)
+PASS - rho_psi_zero_at_cube_root_abs_x0: max |a_zero - |x0|^(1/3)| / a = 2.63322237422482140e-09
+PASS - phantom_crossing_at_cube_root_2abs_x0: max |a_cross - (2|x0|)^(1/3)| / a = 2.34557556604216452e-09
+PASS - deceleration_sign_changes_match_closed_form: max relative a deviation = 1.47272809200149658e-09
+PASS - tangent_cpl_w0_wa: max |w(1) - x0/(1+x0)| = 5.55111512312578270e-17, max |wa_FD - 3x0/(1+x0)^2| / max(|wa|,1) = 2.76404703776429760e-07
+exp3: solver_steps=6074 rhs_evaluations=10115 files=11 verdict=SUCCESS
+== exp4 ==
+PASS - thermal_grid_gauss_legendre: weights sum to k_max, exact for k^2, |P_48(x_n)| <= 1e-13
+PASS - thermal_initial_eigenvectors: max |h u0 -+ E u0| = 7.10542735760100186e-15, u0^dag B u0 = b_sign, antiparticle eps/E = -1.00000000000000022e+00
+PASS - thermal_unitarity: max |u^dag u - 1| = 2.42114697179829363e-07 (limit 9.99999999999999955e-07)
+PASS - thermal_krein_conserved: max |d(u^dag B u)| = 2.42114697179829363e-07
+PASS - thermal_energy_split_identities: eps = m s + p_1 per mode and KE_H + PE_H = rho: max rel residual 9.45974247981092632e-16
+PASS - thermal_rho_matches_kinetic_theory: max |rho_modes/rho_kinetic - 1| = 1.97630236802584535e-08 (same GL nodes; limit 9.99999999999999955e-07)
+PASS - thermal_pressure_matches_kinetic_theory_plus_free_wave: max |p_modes/p_kinetic - 1| = 1.86921892308604191e-05 (literal 1e-6 not met: first-order interference 2 Re(alpha^* beta) m K/E of the sudden-start free wave); |p - p_kin| / (free-wave envelope + 1e-6 p_kin) max = 2.82623568933180913e-01
+PASS - thermal_w_early_radiation: w(a=1) = 3.32854334804484508e-01 (kinetic 3.32854334804484620e-01), 1/3 - w = 4.78998528848806338e-04
+PASS - thermal_w_decreases_to_dust: w strictly decreasing on the grid, w(a=1.00000000000000000e+02) = 3.59223844229396919e-02 (kinetic 3.59222887073100891e-02)
+PASS - thermal_beta2_gas_weighted_below_1e-6: max_t sum w k^2 f |beta|^2 / sum w k^2 f = 3.73497923269909748e-08 (limit 9.99999999999999955e-07)
+PASS - thermal_beta2_per_mode_is_sudden_start_wave: late adiabatic |beta|^2 vs (m k H_i/(4E_i^3))^2: max rel dev 1.23822667973206846e-02 over 17 modes; |beta(t)|^2 / bound max 9.05644094192409321e-01; per-mode max |beta|^2 = 6.36936741837701729e-05 at k = 9.52524976630388931e-01
+PASS - thermal_beta2_adiabatic_vacuum_below_1e-6: adiabatic-vacuum start: late instantaneous |beta|^2 = 5.61262987183470149e-08, max adiabatic-basis |beta|^2 = 1.59679906728227300e-07
+PASS - thermal_spin_independence: B = -1 spin state vs B = +1 at 4 nodes: max dev 0.00000000000000000e+00
+PASS - thermal_antiparticle_symmetry: negative-energy mode: max |eps(v)+eps(u)|/E, |p1(v)+p1(u)|/E, |s(v)+s(u)|, |beta dev| = 0.00000000000000000e+00
+PASS - method_selected_by_test: selected adams (max error vs reference: adams 1.71380947909235483e-09, bdf 1.84002422836347532e-08; selected <= 2 x other and <= 9.99999999999999955e-07)
+PASS - pair_initial_adiabatic_vacuum: K(t0) = 2.00000000000000000e+02: eigen residual 1.42108547152020037e-14, |delta| vs m K0 H/(4E0^3) dev 1.25607396694702104e-19, max |beta(t0)|^2 = 1.56203134349038838e-10 (bound 1.56250000000000003e-10)
+PASS - pair_unitarity: max |u^dag u - 1| = 4.09050127103682826e-08 (sudden and smooth runs; smooth alone 3.63432464123292220e-08)
+PASS - pair_krein_conserved: max |d(u^dag B u)| = 4.09050129324128875e-08 (sudden and smooth runs; smooth alone 3.63432465233515245e-08)
+PASS - pair_massless_no_production: m = 0: max |beta|^2 = 8.50694699914114945e-25 (instantaneous), 8.50395350372324209e-25 (adiabatic) over all k and samples; smooth transition 2.52283927914147179e-23 and 2.52283927914147179e-23 (limit 1.00000000000000004e-10)
+PASS - pair_massive_production_pauli: n a^3 > 0 for m > 0 and 0 <= |beta|^2 <= 1 (sudden and smooth runs); n a^3 = ["1.78135110896364887e-24", "1.45363729276271666e-03", "4.98966594788631968e-03", "4.41220180472606457e-03", "2.42122903395375084e-03"], smooth transition ["1.32164399366035866e-20", "3.03209745035524028e-04", "4.33465306096501401e-04", "9.38968467117253744e-05", "8.58941116553159431e-07"]
+PASS - pair_tail_matches_kink_theory: k >= 8.00000000000000000e+00: adiabatic |beta|^2 vs (m k/(4E^4))^2, max rel dev 4.15954815314989457e-02 (limit 3.49999999999999978e-01)
+PASS - pair_antiparticle_symmetry: negative-energy modes (m = 1.00000000000000000e+00): weight on positive subspace vs |beta|^2 and eps(v) = -eps(u): max dev 0.00000000000000000e+00
+PASS - pair_eos_relativistic_to_dust: w of the produced gas decreasing, w(a_end) <= 1.00000000000000002e-03: w(1) = ["3.08074209250610798e-01", "2.53941276862740539e-01", "2.38603500781695094e-01", "2.39479852008875366e-01"], w(a_end) = ["1.20091299380492388e-04", "1.13783946682049692e-04", "1.62100634564682223e-04", "3.01892183278678532e-04"]
+exp4: solver_steps=339071692 rhs_evaluations=511425232 files=13 verdict=SUCCESS
+== exp5 ==
+PASS - energy_squared_changes_sign_at_tstar: E^2(t) > 0 before t* and < 0 after on every grid point
+PASS - initial_positive_energy_C_eigenvector: max residual 5.55111512312578270e-17, all |u0^dag B u0| > 0.5
+PASS - krein_norm_conserved_normalized: max |d(u^dag B u)| / max(u^dag u, 1) = 1.07513772432693882e-09 (limit 1.00000000000000002e-08)
+PASS - krein_norm_conserved_before_tstar: max |d(u^dag B u)| for t <= t* = 1.27911337077790677e-09
+PASS - hilbert_norm_superexponential_growth: final u^dag u min = 1.25845288148261040e+16, late/early growth-rate ratio min = 1.05571863071942929e+01
+PASS - growth_matches_wkb_leading_order: max relative deviation 1.02792069598497070e-03 (limit 1.00000000000000002e-02)
+PASS - growth_matches_wkb_first_order: max relative deviation 2.46855133793743697e-04 (limit 2.00000000000000004e-03)
+exp5: solver_steps=2548 rhs_evaluations=4800 files=5 verdict=SUCCESS
+SUCCESS
+stage3_step_ok=stage3-08-run-b
+stage3_step=stage3-09-compare-outputs
+stage3_outputs_exp1=29 files byte-identical in build/stage3/run-a, build/stage3/run-b and artifacts/dirac16complex/numerics/exp1
+stage3_outputs_exp2=4 files byte-identical in build/stage3/run-a, build/stage3/run-b and artifacts/dirac16complex/numerics/exp2
+stage3_outputs_exp3=11 files byte-identical in build/stage3/run-a, build/stage3/run-b and artifacts/dirac16complex/numerics/exp3
+stage3_outputs_exp4=13 files byte-identical in build/stage3/run-a, build/stage3/run-b and artifacts/dirac16complex/numerics/exp4
+stage3_outputs_exp5=5 files byte-identical in build/stage3/run-a, build/stage3/run-b and artifacts/dirac16complex/numerics/exp5
+stage3_outputs_compared_files=62 per run, 2 runs
+stage3_audit_outputs=OK
+stage3_step_ok=stage3-09-compare-outputs
+stage3_step=stage3-10-analysis-exp3
+check_nelderMeadRecoversSyntheticCPL=true
+check_nelderMeadRecoversSyntheticWconst=true
+check_nelderMeadRecoversSyntheticWcdmFreeOmegaM=true
+check_dustModelIsWcdmZero=true
+check_quadratureExactEdS=true
+check_wFitLinearMatchesNelderMead=true
+check_wFitRecoversCPL=true
+check_gammaVariantReproducesUniteTangent=true
+check_bounceScanMatchesCubic=true
+check_rustDistanceMatchesQuadrature=true
+measurement_nmSyntheticCplError=1.962263684873733e-12
+measurement_nmSyntheticWconstError=1.396660564978447e-12
+measurement_nmSyntheticWcdmFreeOmegaMError=4.605690828718423e-13
+measurement_dustEqualsWcdm0=1.4210854715202004e-14
+measurement_quadratureVsEdS=5.551115123125783e-16
+measurement_wFitLinearVsNM=6.4849603464978145e-09
+measurement_wFitCplSelf=5.551115123125783e-16
+measurement_gammaTangentVsUnite=1.1102230246251565e-16
+measurement_bounceScanVsCubic=7.771561172376096e-16
+measurement_rustDistanceVsQuadrature=1.7468703150669285e-09
+measurement_uniteConstantWProjection=-1.0276823443174365
+model x0=-0.462654 tangent (w0, wa) = (-0.860998, -4.806949), zBounce = 0.38754513144263925, wFitRequested = undefined, muFitRequested = undefined
+model x0=-0.433107 tangent (w0, wa) = (-0.764001, -4.043098), zBounce = 0.42335359794916116, wFitRequested = undefined, muFitRequested = undefined
+model x0=-0.3 tangent (w0, wa) = (-0.428571, -1.836735), zBounce = 0.6334045515444631, wFitRequested = undefined, muFitRequested = undefined
+model x0=-0.2 tangent (w0, wa) = (-0.250000, -0.937500), zBounce = 0.8904975601521121, wFitRequested = undefined, muFitRequested = undefined
+model x0=0.0 tangent (w0, wa) = (0.000000, 0.000000), zBounce = None, wFitRequested = ok, muFitRequested = ok
+gamma variant: gamma = 0.875181, n = 0.374457, effective tangent = (-0.982650, -0.074891)
+check_count=10
+failed_check_count=0
+stage3_step_ok=stage3-10-analysis-exp3
+stage3_step=stage3-11-compare-analysis
+stage3_analysis_validation_checks=10/10 true
+stage3_analysis_fits.json=byte-identical to the committed file
+stage3_analysis_fits_scan.csv=byte-identical to the committed file
+stage3_analysis_fits_mu_scan.csv=byte-identical to the committed file
+stage3_audit_analysis=OK
+stage3_step_ok=stage3-11-compare-analysis
+stage3_step=stage3-12-check-exp1
+check_provenanceFixtureHash=true
+check_provenanceSchema=true
+check_algebraFromFixture=true
+check_parametersMatchContract=true
+check_structureFilesPresent=true
+check_backgroundRecomputed=true
+check_einsteinSourceNegative=true
+check_structureHeaders=true
+check_structureGrid=true
+check_structureFinite=true
+check_initialJointEigenvectors=true
+check_derivedColumnsRecomputed=true
+check_fdResidual=true
+check_kineticFromTimeDerivative=true
+check_exactSolution=true
+check_rhoFrozenAllRuns=true
+check_pressuresAndSFrozenEigenstates=true
+check_mixedStateOscillationMatchesExact=true
+check_eigenmodeLaws=true
+check_normsConserved=true
+check_lambdaRun=true
+check_a4ProfileIndependence=true
+check_summaryConsistent=true
+check_repeatByteIdentity=true
+check_refinedConvergence=true
+measurement_backgroundMaxDeviation=1.1102230246251565e-14
+measurement_rhoReqMax=-21.000000000113253
+measurement_derivedMaxDeviation=8.881784197001252e-16
+measurement_fdResidualWorstRatioToBound=0.62963343718149
+measurement_kineticFdWorstRatioToBound=0.3148164859199126
+measurement_exactMaxError=6.246008619450513e-09
+measurement_rhoMaxDrift=4.193695835041922e-09
+measurement_eigenstatePressureOrSMaxDrift=2.6425888144387955e-09
+measurement_mixedStatePressureRange=0.8030276398996576
+measurement_mixedStateRangeDeviationFromExact=3.6716885087884066e-10
+measurement_eigenmodeLawMaxDeviation=1.9157819775017515e-09
+measurement_normMaxDrift=2.695168754840438e-09
+measurement_lambdaMeffMaxDrift=1.3212946292640027e-09
+measurement_profileMaxDifference=0.0
+measurement_refinedMaxDifference=6.128230172776806e-09
+measurement_canonicalMaxExactError=6.246000023415782e-09
+check_count=25
+failed_check_count=0
+stage3_step_ok=stage3-12-check-exp1
+stage3_step=stage3-13-check-exp2
+check_provenanceFixtureHash=true
+check_provenanceSchema=true
+check_algebraFromFixture=true
+check_parametersMatchContract=true
+check_structureFilesPresent=true
+check_structureHeaders=true
+check_structureGrid=true
+check_structureFinite=true
+check_initialState=true
+check_offDiagonalStressVanishes=true
+check_constraintSolve=true
+check_derivedColumnsRecomputed=true
+check_contractIdentities=true
+check_constraintPreserved=true
+check_anisotropyTimesVolumeConstant=true
+check_scalarDensityTimesVolumeConstant=true
+check_continuityFd=true
+check_einsteinEvolutionFd=true
+check_einsteinRoutineKnownMetrics=true
+check_einsteinTensorFromMetric=true
+check_diracEquationFd=true
+check_boundNonnegative=true
+check_closedFormVerified=true
+check_exactSolution=true
+check_spinorShape=true
+check_spinorPhaseWithinTimeRounding=true
+check_phaseDriftIsTimeRounding=true
+check_lateTimeDust=true
+check_extraTimesExpand=true
+check_thetaBoundPositiveEnergy=true
+check_kasnerExponents=true
+check_phantomStructure=true
+check_summaryConsistent=true
+check_repeatByteIdentity=true
+check_refinedConvergence=true
+measurement_constraintLhs0=1.3200000000000003
+measurement_offDiagonalTensorBilinearMaxCrossGroupPlanes=0.0
+measurement_offDiagonalTensorBilinearMaxAllPlanes=0.0
+measurement_einsteinRoutineSelfTestDeviation=1.7763568394002505e-15
+measurement_fdGravityStencilPoints=9.0
+measurement_fdSpinorStencilPoints=7.0
+measurement_derivedMaxDeviation=5.579120148870013e-13
+measurement_identityMaxDeviation=3.7823091230264245e-16
+measurement_constraintRelativeMax=1.259386515367047e-10
+measurement_anisotropyVolumeMaxDrift=6.223682680328579e-10
+measurement_scalarDensityVolumeMaxDrift=4.033140488246545e-10
+measurement_normMaxDrift=4.033140488246545e-10
+measurement_continuityFdMaxRelative=2.065077743371814e-10
+measurement_evolutionFdMaxRelative=5.0705097866243705e-11
+measurement_einsteinTensorMaxRelative=1.1270033716907324e-10
+measurement_diracFdMaxRelative=2.5884068410425276e-08
+measurement_kineticFdMaxRelative=9.397329052146738e-09
+measurement_diracFdRows=559.0
+measurement_boundMin=1.547656033917629e-09
+measurement_boundIdentityMaxDeviation=2.0552600010215194e-15
+measurement_closedFormFdMaxRelative=1.569180370539882e-13
+measurement_jQuadratureMaxDeviation=2.008282991655046e-15
+measurement_exactMaxRelativeError=1.0149047031284952e-10
+measurement_exactVolumeMaxRelativeErrorRaw=6.223133530713909e-08
+measurement_exactHubbleMaxErrorOverRateScaleRaw=1.596336886248396e-08
+measurement_exactLnScaleMaxAbsErrorRaw=3.1633732078262256e-08
+measurement_exactAmplificationFactorMax=977.3930794151814
+measurement_spinorExactMaxError=2.242186377304463e-07
+measurement_spinorShapeMaxError=2.0165691339002478e-10
+measurement_spinorPhaseMaxError=2.242185470427645e-07
+measurement_phaseDriftBinadeMaxRelativeDeviation=0.017106267813494083
+measurement_phaseDriftBinadesTested=21.0
+measurement_lateTimeMaxDeviation=0.0007196816862247157
+measurement_thetaOver3HaMinPositiveEnergy=0.612676555953014
+measurement_thetaOver3HaMinAllRows=0.3436797370413978
+measurement_dustMinWeff=-0.38732344404698604
+measurement_kasnerMaxDeviation=2.856517647101017e-07
+measurement_summaryMaxDeviation=1.1368683772161603e-13
+measurement_refined_gravityCanonical=1.6332598622486224e-11
+measurement_refined_gravityRefined=3.4847413654198897e-12
+measurement_refined_gravityDifference=1.4109762232839255e-11
+measurement_refined_spinorShapeCanonical=2.0165691339002478e-10
+measurement_refined_spinorShapeRefined=5.249556345177098e-11
+measurement_refined_spinorPhaseCanonical=2.242185470427645e-07
+measurement_refined_spinorPhaseRefined=2.707166983751806e-07
+measurement_refined_spinorPhaseBoundCanonical=1.3208881783850106e-06
+measurement_refined_spinorPhaseBoundRefined=2.6414400642956597e-06
+measurement_refined_spinorPhaseDifference=4.649815132235265e-08
+measurement_refined_spinorModulusDifference=1.491613499382538e-10
+measurement_refined_refinedPhaseDriftBinadeDeviation=0.015824730423059027
+measurement_refined_volumeRawCanonical=6.223133530713909e-08
+measurement_refined_volumeRawRefined=8.474890789145206e-09
+measurement_refined_gravityRawCanonical=3.1633732078262256e-08
+measurement_refined_gravityRawRefined=4.237622697189636e-09
+check_count=35
+failed_check_count=0
+stage3_step_ok=stage3-13-check-exp2
+stage3_step=stage3-14-check-exp3
+check_provenanceFixtureHash=true
+check_provenanceSchema=true
+check_algebraFromFixture=true
+check_parametersMatchContract=true
+check_structureFilesPresent=true
+check_offDiagonalStressVanishes=true
+check_fitsConsistent=true
+check_structureHeaders=true
+check_structureGrid=true
+check_structureFinite=true
+check_closureE0=true
+check_initialEigenvector=true
+check_columnsRecomputed=true
+check_sigmaSpinorVsAnalytic=true
+check_sigmaStateVsAnalytic=true
+check_rhoClosedForm=true
+check_wClosedForm=true
+check_energySplitClosedForm=true
+check_kineticDefinitionFD=true
+check_muIndependence=true
+check_fdResidual=true
+check_decelerationFD=true
+check_referenceTimeDistance=true
+check_referenceSpinorPhase=true
+check_bounceAndStop=true
+check_rhoZeroLocation=true
+check_phantomCrossing=true
+check_decelerationRoots=true
+check_tangentCPL=true
+check_summaryConsistent=true
+check_repeatByteIdentity=true
+check_refinedConvergence=true
+measurement_offDiagonalTensorBilinearMax=0.0
+measurement_fitsMaxDeviation=0.0
+measurement_closureDefect=0.0
+measurement_maxE0Deviation=0.0
+measurement_initialEigenResidual=0.0
+measurement_columnMaxScaledDeviation=3.552713678800501e-15
+measurement_sigmaSpinorMaxRelDeviation=2.5039448292574207e-09
+measurement_sigmaStateMaxRelDeviation=1.9539925233402755e-14
+measurement_rhoClosedFormMaxScaledDeviation=1.6799233613345484e-09
+measurement_pClosedFormMaxScaledDeviation=2.789245464556579e-09
+measurement_wClosedFormMaxConditionScaledDeviation=2.5039448892955788e-09
+measurement_energySplitMaxScaledDeviation=4.469169038708606e-09
+measurement_kineticDefinitionWorstRatioToBound=0.42500146547432294
+measurement_muIndependenceRho=1.7374926814488285e-09
+measurement_muIndependenceP=3.004838815747665e-09
+measurement_muIndependenceW=2.7697660187355176e-09
+measurement_muIndependenceSigma=2.76976570488224e-09
+measurement_fdResidualWorstRatioToBound=0.4258876038951506
+measurement_decelerationFdWorstRatioToBound=0.322872390081543
+measurement_referenceTimeMaxAbsError=1.1144786760119985e-09
+measurement_referenceDistanceMaxAbsError=1.7468705371115334e-09
+measurement_referenceSpinorMaxError=5.4794949852434584e-08
+measurement_bounceRelDeviation=1.4692117434949918e-15
+measurement_rhoZeroMaxRelError=2.6332223742248214e-09
+measurement_phantomCrossingMaxRelError=2.3455755660421645e-09
+measurement_decelerationRootMaxRelError=1.4727275631117685e-09
+measurement_w0MaxDeviation=5.551115123125783e-17
+measurement_waSummaryMaxRelDeviation=2.7640470377642976e-07
+measurement_waFiniteDifferenceMaxRelDeviation=2.7640470322212076e-07
+measurement_summaryMaxDeviation=1.4727275631117685e-09
+measurement_refinedMaxSpinorDifference=4.838019194283468e-08
+measurement_canonicalMaxSpinorError=5.4794949852434584e-08
+measurement_refinedMaxSpinorError=6.414897187560502e-09
+measurement_canonicalMaxSigmaDeviation=2.5039448292574207e-09
+measurement_refinedMaxSigmaDeviation=2.104209029241133e-10
+check_count=32
+failed_check_count=0
+stage3_step_ok=stage3-14-check-exp3
+stage3_step=stage3-15-check-exp4
+check_provenanceFixtureHash=true
+check_provenanceSchema=true
+check_structureFilesPresent=true
+check_algebraFromFixture=true
+check_parametersThermal=true
+check_thermalGrid=true
+check_structureThermalHeaders=true
+check_structureThermalFinite=true
+check_thermalTimeGrid=true
+check_thermalColumnsRecomputed=true
+check_structureThermalModeCount=true
+check_thermalInitialStates=true
+check_thermalExactStructure=true
+check_thermalUnitarity=true
+check_thermalKreinConserved=true
+check_thermalEosRecomputed=true
+check_thermalRhoMatchesKineticTheory=true
+check_thermalPressureMatchesKineticTheoryPlusFreeWave=true
+check_thermalWEarlyRadiation=true
+check_thermalWDecreasesToDust=true
+check_thermalBetaGasWeightedBelow1e-6=true
+check_thermalBetaPerModeIsSuddenStartWave=true
+check_thermalAdiabaticVacuumBelow1e-6=true
+check_thermalSpinIndependence=true
+check_thermalAntiparticleSymmetry=true
+check_thermalReferenceSolution=true
+check_methodSelectionConsistent=true
+check_parametersPair=true
+check_pairGrid=true
+check_structurePairHeaders=true
+check_structurePairFinite=true
+check_pairTimeGrid=true
+check_pairColumnsRecomputed=true
+check_pairInitialAdiabaticVacuum=true
+check_pairUnitarity=true
+check_pairKreinConserved=true
+check_pairPauli=true
+check_structurePairModeCount=true
+check_pairMasslessNoProduction=true
+check_pairSpectrumAndNumberDensityRecomputed=true
+check_pairEosRecomputed=true
+check_pairHistoryRecomputed=true
+check_pairEosRelativisticToDust=true
+check_pairTailMatchesKinkTheory=true
+check_pairNumberDensityQuadratureSanity=true
+check_pairMassiveProduction=true
+check_pairAntiparticleSymmetry=true
+check_pairReferenceSolution=true
+check_pairSpectrumHeader=true
+check_pairSuddenSpectrumMagnusReference=true
+check_pairSmoothTransitionReference=true
+check_summaryConsistent=true
+check_repeatByteIdentity=true
+check_refinedConvergence=true
+measurement_thermalGridMaxNodeDev=1.1102230246251565e-16
+measurement_thermalColumnMaxDeviation=2.546249021305323e-15
+measurement_thermalBetaColumnDeviationRatio=0.008090959054427612
+measurement_thermalInitialResidual=7.105427357601002e-15
+measurement_thermalMaxUnitarityDev=2.4211469717982936e-07
+measurement_thermalMaxKreinDrift=2.4211469717982936e-07
+measurement_thermalEosMaxDeviation=1.7129727561751109e-15
+measurement_thermalHamiltonianSplitIdentity=5.458062912593982e-16
+measurement_thermalMaxRelDevRho=1.97543961188984e-08
+measurement_thermalMaxRelDevPressureLiteral=1.8692189244662316e-05
+measurement_thermalPressureEnvelopeRatio=0.2826235692106153
+measurement_thermalGL48QuadratureErrorRho=1.2349010702905616e-11
+measurement_thermalGL48QuadratureErrorP=4.210765069956324e-11
+measurement_thermalKmaxTruncationRhoAtA1=0.002420874020403141
+measurement_thermalKmaxTruncationPressureAtA1=0.002424208891723678
+measurement_thermalKmaxTruncationRhoAtAEnd=0.0009049724702507866
+measurement_thermalKmaxTruncationPressureAtAEnd=0.005297586799845044
+measurement_thermalKineticUntruncatedWAtA1=0.33285544753576124
+measurement_thermalKineticUntruncatedWAtAEnd=0.03608092184067466
+measurement_thermalWAtA1=0.3328543348044846
+measurement_thermalWKineticAtA1=0.33285433481192817
+measurement_thermalWAtAEnd=0.03592238442293969
+measurement_thermalWKineticAtAEnd=0.03592228870775418
+measurement_thermalBeta2GasWeightedMax=3.734979232699109e-08
+measurement_thermalSuddenStartMaxRelDev=0.01238226679732013
+measurement_thermalSuddenStartBoundRatio=0.9056440941924093
+measurement_thermalBeta2PerModeMax=6.369367418377017e-05
+measurement_thermalBeta2PerModeMaxK=0.9525249766303889
+measurement_thermalBeta2PerModeMaxOver4c2=0.9976720712952802
+measurement_thermalBeta2PerModeMaxOver4c2K=28.61034151666602
+measurement_thermalBeta2PerModeMaxModeOver4c2=0.7793332098779171
+measurement_thermalBeta2PerModeMaxModeOverBound=0.889665667840233
+measurement_thermalBeta2DenseMax=7.492830220508893e-05
+measurement_thermalBeta2DenseMaxK=0.9525249766303889
+measurement_thermalBeta2DenseMaxOver4c2=0.9167961342552603
+measurement_thermalBeta2DenseMaxOfSampledMaxMode=7.492830220508893e-05
+measurement_thermalBeta2DenseMaxOfSampledMaxModeOver4c2=0.9167961342552603
+measurement_thermalBeta2DenseBoundRatio=0.9070009748485696
+measurement_thermalAdiabaticVacuumLateBeta2=5.6126298718347015e-08
+measurement_thermalAdiabaticVacuumMaxAdiabaticBeta2=1.596799067282273e-07
+measurement_thermalAdiabaticVacuumPressureDev=0.1209687671732682
+measurement_thermalInstantaneousPressureDevSameNodes=1.7825402445377057
+measurement_thermalSpinMaxDev=0.0
+measurement_thermalAntiparticleMaxDev=0.0
+measurement_thermalReferenceMaxError=1.7362662011604228e-09
+measurement_thermalReferenceRichardson=1.5978643949199696e-09
+measurement_thermalMagnusFullRangeMaxOverlapDev=6.04498719640765e-06
+measurement_thermalMagnusFullRangeMaxFinalPhaseError=6.508378970964575e-06
+measurement_thermalMagnusSelfConvergence=5.885846661142327e-09
+measurement_thermalMagnusFinalPhaseError_node0=-2.0319547623656745e-06
+measurement_thermalMagnusFinalPhaseError_node2=-6.508378970964575e-06
+measurement_thermalMagnusFinalPhaseError_node16=5.330535940415629e-06
+measurement_thermalMagnusFinalPhaseError_node30=-6.298287656297467e-06
+measurement_thermalMagnusFinalPhaseError_node47=-5.880835758950941e-06
+measurement_methodTestErrorAdams=1.7138094790923548e-09
+measurement_methodTestErrorBdf=1.8400242283634753e-08
+measurement_methodTestCostAdams=90349.0
+measurement_methodTestCostBdf=484825.0
+measurement_pairColumnMaxDeviation=1.0585907841753384e-15
+measurement_pairBetaColumnDeviationRatio=7.106215137262112e-06
+measurement_pairInitialResidual=1.421085471520208e-14
+measurement_pairInitialBeta2Max=1.5620313434903884e-10
+measurement_pairMaxUnitarityDev=4.090501271036828e-08
+measurement_pairMaxKreinDrift=4.090501293241289e-08
+measurement_pairMasslessMaxBeta2=8.50694699914115e-25
+measurement_pairNA3_m0.0=1.7813511089636485e-24
+measurement_pairNA3Instantaneous_m0.0=1.7813511090742342e-24
+measurement_pairWAtA1_m0.1=0.3080742092506111
+measurement_pairWEnd_m0.1=0.00012009129938049235
+measurement_pairWAtA1TailCorrected_m0.1=0.30808049427471124
+measurement_pairWAtA1Instantaneous_m0.1=0.30949621240438807
+measurement_pairWEndInstantaneous_m0.1=0.0003091997879963023
+measurement_pairTailNA3Fraction_m0.1=1.8151246708355723e-06
+measurement_pairTailRhoFractionAtA1_m0.1=0.00024889412823237854
+measurement_pairTailPressureFractionAtA1_m0.1=0.00026930021292568445
+measurement_pairNA3_m0.1=0.0014536372927627175
+measurement_pairNA3Instantaneous_m0.1=0.001454920813028923
+measurement_pairWAtA1_m0.5=0.25394127686274054
+measurement_pairWEnd_m0.5=0.00011378394668204969
+measurement_pairWAtA1TailCorrected_m0.5=0.2539965287272389
+measurement_pairWAtA1Instantaneous_m0.5=0.25441868784321287
+measurement_pairWEndInstantaneous_m0.5=0.00012810734107977868
+measurement_pairTailNA3Fraction_m0.5=1.3215229884930527e-05
+measurement_pairTailRhoFractionAtA1_m0.5=0.0006966502263732012
+measurement_pairTailPressureFractionAtA1_m0.5=0.0009143791297059064
+measurement_pairNA3_m0.5=0.0049896659478863205
+measurement_pairNA3Instantaneous_m0.5=0.004990718453291538
+measurement_pairWAtA1_m1.0=0.2386035007816951
+measurement_pairWEnd_m1.0=0.0001621006345646822
+measurement_pairWAtA1TailCorrected_m1.0=0.23876903095818247
+measurement_pairWAtA1Instantaneous_m1.0=0.2390072076442503
+measurement_pairWEndInstantaneous_m1.0=0.00017039071334176156
+measurement_pairTailNA3Fraction_m1.0=5.971211566275504e-05
+measurement_pairTailRhoFractionAtA1_m1.0=0.0017523798027050913
+measurement_pairTailPressureFractionAtA1_m1.0=0.002447341308643393
+measurement_pairNA3_m1.0=0.004412201804726065
+measurement_pairNA3Instantaneous_m1.0=0.004413691852677346
+measurement_pairWAtA1_m2.0=0.2394798520088752
+measurement_pairWEnd_m2.0=0.00030189218327867837
+measurement_pairWAtA1TailCorrected_m2.0=0.24007233202904704
+measurement_pairWAtA1Instantaneous_m2.0=0.23972458217031306
+measurement_pairWEndInstantaneous_m2.0=0.00030901500414975296
+measurement_pairTailNA3Fraction_m2.0=0.00043330249573902046
+measurement_pairTailRhoFractionAtA1_m2.0=0.006381345035558483
+measurement_pairTailPressureFractionAtA1_m2.0=0.008871161337871579
+measurement_pairNA3_m2.0=0.0024212290339537504
+measurement_pairNA3Instantaneous_m2.0=0.002421531976511611
+measurement_pairSpectrumMaxDeviation=0.0002220446049250313
+measurement_pairEosMaxDeviation=2.503327618182102e-15
+measurement_pairTailMaxRelDev=0.041595481531498946
+measurement_pairQuadratureTrapezoidVsGL=0.0003973857554779858
+measurement_pairAntiparticleMaxDev=0.0
+measurement_pairReferenceMaxError=6.212050680186322e-10
+measurement_pairReferenceRichardson=4.6211455744818593e-10
+measurement_pairMaxBeta2AdiabaticEnd_m0.0=7.741349621249645e-25
+measurement_pairMaxBeta2AdiabaticEndSmooth_m0.0=2.5228392791414718e-23
+measurement_pairNA3Smooth_m0.1=0.0003032097345465293
+measurement_pairNA3SuddenOverSmooth_m0.1=4.79416432634239
+measurement_pairAEndSmoothOverSudden_m0.1=0.6559628952440777
+measurement_pairNA3SmoothRadiationNormalised_m0.1=0.0010742498903394111
+measurement_pairNA3SuddenOverSmoothSameFinalH_m0.1=1.3531649440554632
+measurement_pairNA3KinkFormulaAllK_m0.1=0.049735919716217304
+measurement_pairNA3OverKinkFormulaAllK_m0.1=0.029227111935536034
+measurement_pairMaxBeta2AdiabaticEnd_m0.1=0.34704115554819714
+measurement_pairMaxBeta2AdiabaticEndSmooth_m0.1=0.34582507518385164
+measurement_pairNA3Smooth_m0.5=0.00043346529382910337
+measurement_pairNA3SuddenOverSmooth_m0.5=11.511108314599067
+measurement_pairAEndSmoothOverSudden_m0.5=0.6559628952440789
+measurement_pairNA3SmoothRadiationNormalised_m0.5=0.0015357358003636114
+measurement_pairNA3SuddenOverSmoothSameFinalH_m0.5=3.2490392857319157
+measurement_pairNA3KinkFormulaAllK_m0.5=0.009947183943243473
+measurement_pairNA3OverKinkFormulaAllK_m0.5=0.5016159323438973
+measurement_pairMaxBeta2AdiabaticEnd_m0.5=0.05095487074875555
+measurement_pairMaxBeta2AdiabaticEndSmooth_m0.5=0.044165251549522416
+measurement_pairNA3Smooth_m1.0=9.389684403998216e-05
+measurement_pairNA3SuddenOverSmooth_m1.0=46.98988395017097
+measurement_pairAEndSmoothOverSudden_m1.0=0.6559628952442416
+measurement_pairNA3SmoothRadiationNormalised_m1.0=0.00033266964388181
+measurement_pairNA3SuddenOverSmoothSameFinalH_m1.0=13.263012979608142
+measurement_pairNA3KinkFormulaAllK_m1.0=0.0049735919716217365
+measurement_pairNA3OverKinkFormulaAllK_m1.0=0.8871258096565128
+measurement_pairMaxBeta2AdiabaticEnd_m1.0=0.005883090813361604
+measurement_pairMaxBeta2AdiabaticEndSmooth_m1.0=0.0021374982100070684
+measurement_pairNA3Smooth_m2.0=8.589410604789375e-07
+measurement_pairNA3SuddenOverSmooth_m2.0=2818.8535225032742
+measurement_pairAEndSmoothOverSudden_m2.0=0.6559628952444447
+measurement_pairNA3SmoothRadiationNormalised_m2.0=3.0431652908702078e-06
+measurement_pairNA3SuddenOverSmoothSameFinalH_m2.0=795.6284994501199
+measurement_pairNA3KinkFormulaAllK_m2.0=0.0024867959858108682
+measurement_pairNA3OverKinkFormulaAllK_m2.0=0.9736339642531078
+measurement_pairMaxBeta2AdiabaticEnd_m2.0=0.00035351841303516535
+measurement_pairMaxBeta2AdiabaticEndSmooth_m2.0=3.649826040832894e-06
+measurement_pairMagnusSuddenMaxDevRel1e-6=0.08133673626507829
+measurement_pairMagnusSmoothMaxDevRel1e-6=0.09190182998185942
+measurement_pairMagnusSmoothRichardsonRel1e-6=0.06330691622298718
+measurement_pairSmoothAEndMaxRelDev=1.611156093291076e-11
+measurement_pairSmoothNumberAndKinkMaxDev=0.06528296814245493
+measurement_pairKinkFormulaAllKMaxRelDev=5.502443638612158e-13
+measurement_pairSmoothMasslessMaxBeta2=2.5228392791414718e-23
+measurement_refinedPairSmoothBeta2AbsDiff=2.0073831485944993e-11
+measurement_refinedPairSmoothBeta2RelDiff=3.3021917791564485e-09
+measurement_refinedThermalMagnusMaxOverlapDev=7.837941120080936e-06
+measurement_refinedThermalMagnusMaxFinalPhaseError=7.10367097722031e-06
+measurement_refinedThermalMaxRawStateDiffMagnusNodes=1.2434003968454466e-05
+measurement_refinedThermalRhoRelDiff=2.981873004070934e-08
+measurement_refinedThermalPressureRelDiff=3.682435523177929e-08
+measurement_refinedThermalBeta2AbsDiff=1.9554412715526003e-13
+measurement_refinedThermalUnitarityCanonical=2.4211469717982936e-07
+measurement_refinedThermalUnitarityRefined=4.371170492234455e-08
+measurement_refinedPairBeta2AbsDiff=1.0510925463336207e-11
+measurement_refinedPairBeta2RelDiff=1.801308340469569e-09
+check_count=54
+failed_check_count=0
+stage3_step_ok=stage3-15-check-exp4
+stage3_step=stage3-16-check-exp5
+check_provenanceFixtureHash=true
+check_provenanceSchema=true
+check_algebraFromFixture=true
+check_parametersMatchContract=true
+check_structureFilesPresent=true
+check_structureHeaders=true
+check_structureFinite=true
+check_structureGrid=true
+check_columnsRecomputed=true
+check_initialEigenvector=true
+check_fdResidual=true
+check_referenceSolution=true
+check_kreinConservedNormalized=true
+check_kreinConservedBeforeTStar=true
+check_superExponentialGrowth=true
+check_wkbLeading=true
+check_wkbFirstOrder=true
+check_wkbLateRate=true
+check_summaryConsistent=true
+check_repeatByteIdentity=true
+check_refinedConvergence=true
+measurement_columnMaxDeviation=4.440892098500626e-16
+measurement_wkbClosedFormVsQuadrature=1.0658141036401503e-14
+measurement_fdResidualWorstRatioToBound=0.7065511154959886
+measurement_referenceMaxRelativeError=3.3378233113541935e-08
+measurement_referenceRichardsonEstimate=3.1746790566207922e-12
+measurement_kreinMaxNormalizedDrift=1.0751377243269388e-09
+measurement_kreinMaxDriftBeforeTStar=1.2791133707779068e-09
+measurement_wkbLeadingMaxRelDev=0.001027920695985657
+measurement_wkbFirstOrderMaxRelDev=0.00024685513379443114
+measurement_wkbLateRateMaxRelDev=4.5749135138611846e-06
+measurement_summaryMaxDeviation=2.1316282072803006e-14
+measurement_refinedMaxRelativeDifference=3.1099627023219996e-08
+measurement_canonicalMaxRelativeError=3.3378233113541935e-08
+measurement_refinedMaxRelativeError=2.2786293850066233e-09
+check_count=21
+failed_check_count=0
+stage3_step_ok=stage3-16-check-exp5
+stage3_step=stage3-17-audit-reports
+stage3_report_exp1=25/25 checks true, including repeatByteIdentity and refinedConvergence; byte-identical to the committed report: yes
+stage3_report_exp2=35/35 checks true, including repeatByteIdentity and refinedConvergence; byte-identical to the committed report: yes
+stage3_report_exp3=32/32 checks true, including repeatByteIdentity and refinedConvergence; byte-identical to the committed report: yes
+stage3_report_exp4=54/54 checks true, including repeatByteIdentity and refinedConvergence; byte-identical to the committed report: yes
+stage3_report_exp5=21/21 checks true, including repeatByteIdentity and refinedConvergence; byte-identical to the committed report: yes
+stage3_report_total_checks=167
+stage3_audit_reports=OK
+stage3_step_ok=stage3-17-audit-reports
+stage3_step=stage3-18-numerics-summary
+exp1: rust 10/10, python 25/25 (repeat=True, refined=True), steps=33866, rhs=34950
+exp2: rust 15/15, python 35/35 (repeat=True, refined=True), steps=1779784, rhs=1781396
+exp3: rust 14/14, python 32/32 (repeat=True, refined=True), analysis 10/10, steps=6074, rhs=10115
+exp4: rust 23/23, python 54/54 (repeat=True, refined=True), steps=339071692, rhs=511425232
+exp5: rust 7/7, python 21/21 (repeat=True, refined=True), steps=2548, rhs=4800
+totals: rust 69 checks (0 failed), python 167 checks (0 failed), analysis 10 checks (0 failed)
+wrote C:\Users\nsh\Developer\github\Dirac_claude\build\stage3\run-a\numerics-summary.json
+SUCCESS
+stage3_step_ok=stage3-18-numerics-summary
+stage3_step=stage3-19-compare-numerics-summary
+stage3_numerics_summary_totals={"analysisChecks": 10, "analysisFailed": 0, "pythonChecks": 167, "pythonFailed": 0, "rhsEvaluations": 513256493, "rustChecks": 69, "rustFailed": 0, "solverSteps": 340893964}
+stage3_numerics_summary_byte_identical=yes
+stage3_audit_numerics_summary=OK
+stage3_step_ok=stage3-19-compare-numerics-summary
+stage3_step=stage3-20-notebook-prepare
+stage3_notebook_prepared=build/stage3/notebook-clean/dirac16complex_dark_sector.ipynb (8 code cells cleared)
+stage3_notebook_prepared=build/stage3/notebook/dirac16complex_dark_sector.ipynb (8 code cells cleared)
+stage3_audit_prepare_notebook=OK
+stage3_step_ok=stage3-20-notebook-prepare
+stage3_step=stage3-21-notebook-run
+repository : found (the folder that contains studies/dirac16complex_cosmology; its name is not printed, so the output does not depend on it)
+simulator  : studies/dirac16complex_cosmology/target/release/dirac16complex_cosmology.exe
+fresh runs : build/notebook-run | committed artifacts: artifacts/dirac16complex/numerics
+fixture sha256: 8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b
+algebra check clifford                 max deviation = 0.0e+00
+algebra check C_is_gamma0123           max deviation = 0.0e+00
+algebra check B_is_minus_i_C_gamma4    max deviation = 0.0e+00
+algebra check B_squared_is_1           max deviation = 0.0e+00
+algebra check B_hermitian              max deviation = 0.0e+00
+algebra check BC_is_minus_i_gamma4     max deviation = 0.0e+00
+study            = dirac16complex-cosmology
+engine           = sundials_rs 7.8.0 CVODE (pure Rust, vendor/rustSolveIt)
+fixture          = artifacts/dirac16complex/arbitrary-field/algebra-fixture.json
+fixture sha256   = 8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b
+fixture source   = fixture
+output root      = build/notebook-run
+rtol override    = none
+atol override    = none
+refined          = false
+state layout     = spinor u in C^16 as 32 reals (re0..re15, im0..im15)
+exp1: H = 1.00000000000000000e+00, m = 1.00000000000000000e+00, kappa = 1.00000000000000000e+00
+exp1: a4' window t1 = 2.00000000000000000e+00, t2 = 7.00000000000000000e+00, width = 5.00000000000000000e-01, amplitudes A = [1.0, 2.0]
+exp1: hidden momenta K = [0.0, 0.5, 2.0]; spinors pos_Bp, pos_Bm, neg_Bp, mix
+exp1: lambda run lambda = 5.00000000000000000e-01, S0 = 1.00000000000000000e+00, K = 5.00000000000000000e-01
+exp1: t in [0.00000000000000000e+00, 1.00000000000000000e+01], 200 output intervals
+exp1: default rtol = 9.99999999999999980e-13, atol = 9.99999999999999999e-15, max_step = 2.00000000000000004e-02, method BDF + Newton + dense
+exp2: kappa_8 = 1.00000000000000000e+00, m = 1.00000000000000000e+00, H_b0 = 0.00000000000000000e+00, H_a0 = 1.00000000000000000e+00, H_c0 = -2.00000000000000011e-01, x0 = [0.0, -0.4, 0.5]
+exp2: output grid uniform in ln V, step 5.00000000000000028e-02, ln V in [-7.00000000000000000e+00, 1.85000000000000000e+01]
+exp2: default rtol = 9.99999999999999980e-13, atol = 1.00000000000000008e-15, max_step = 2.00000000000000004e-02, method Adams + fixed point
+exp3: Omega_r = 9.00000000000000057e-05, Omega_m = 3.04999999999999993e-01, Omega_psi = 6.94910000000000028e-01, x0 = [-0.462654, -0.433107, -0.3, -0.2, 0.0], mu = M_eff(1)/H0 = [3.0, 7.0]
+exp3: N in [ln(1/3.50000000000000000e+00), ln 2.00000000000000000e+00], 320 + 160 output intervals, bounce margin 1.00000000000000002e-02
+exp3: default rtol = 9.99999999999999939e-12, atol = 1.00000000000000003e-13, max_step = 1.00000000000000002e-02, method Adams + fixed point
+exp4 (a): m = 1.00000000000000000e+00, T_i = 1.00000000000000000e+01, H_i = 5.00000000000000028e-02, t_i = 1.00000000000000000e+01, a in [1, 1.00000000000000000e+02], k in [0, 1.20000000000000000e+02] (48 GL nodes)
+exp4 (b): H_inf = 1.00000000000000000e+00, K0 = 2.00000000000000000e+02, m = [0.0, 0.1, 0.5, 1.0, 2.0], k in [1.00000000000000002e-03, 4.00000000000000000e+01] (64 GL nodes in ln k)
+exp4 (c): smooth-transition comparison of (b), epsilon = 1 + tanh(t/tau), tau = 1.00000000000000000e+00/H_inf, same k grid, masses and samples
+exp4: default rtol = 1.00000000000000003e-13, atol = 9.99999999999999999e-15, max_step = 2.00000000000000000e+00, max_num_steps = 50000000, method Adams or BDF chosen at run time by the method-selection test
+exp5: H = 1.00000000000000000e+00, m = 1.00000000000000000e+00, q = [0.05, 0.1], C signs = [1.0, -1.0]
+exp5: t in [0, t* + 3.00000000000000000e+00], 600 output intervals, WKB window [t* + 1.50000000000000000e+00, t_end]
+exp5: default rtol = 1.00000000000000004e-10, atol = 9.99999999999999980e-13, max_step = 2.00000000000000004e-02, method Adams + fixed point
+all              = exp1, exp2, exp3, exp4, exp5
+SUCCESS
+== exp1 ==
+PASS - exact_solution_all_runs: max |u - exp(-iht)u0| = 6.24599767338994569e-09 (limit 9.99999999999999955e-08)
+PASS - rho_frozen_all_runs: max |rho(t) - rho(0)| = 4.19369583504192178e-09
+PASS - pressures_and_S_frozen_eigenstate_runs: max |p_j(t) - p_j(0)| = 1.91578175545714657e-09, max |S(t) - S(0)| = 2.64258881443879545e-09
+PASS - hilbert_norm_conserved: max |u^dag u - 1| drift = 2.69516875484043794e-09
+PASS - krein_norm_conserved: max |u^dag B u| drift = 2.69516875484043794e-09
+PASS - a4_profile_independence: 13 run pairs, max |state_A1 - state_A2| = 0.00000000000000000e+00
+PASS - einstein_source_negative_energy: max rho_req = -2.10000000001132534e+01
+PASS - seven_volume_constant: max |V/V0 - 1| = 6.66133814775093924e-16
+PASS - initial_joint_eigenvectors: max |h u0 - E u0|, |B u0 - b u0| = 1.11022302462515654e-16
+PASS - lambda_run_meff_constant: max |M_eff(t) - M*| = 1.32129440721939773e-09
+exp1: solver_steps=33866 rhs_evaluations=34950 files=29 verdict=SUCCESS
+SUCCESS
+exp1: 29/29 freshly written files are byte-identical to artifacts/dirac16complex/numerics/exp1/
+
+background recomputed from the closed-form window: max deviation 3.6e-15
+Einstein source the field would need: max rho_req = -21.000000000 (< 0), 7-volume defect 6.7e-16
+spinor observables recomputed from the raw columns: max deviation 8.9e-16
+max |u - exact propagator|      = 3.12e-09   (Rust: 6.25e-09, limit 1e-07)
+max rho drift (all 26 runs)     = 4.19e-09   (limit 1e-08)
+max p_0 / S drift (eigenstates) = 2.64e-09
+max Hilbert / Krein norm drift  = 2.70e-09   (limit 1e-08)
+mixed-state p_0 range (K != 0)  = 0.803028  (interference of +E and -E at frequency 2E)
+profile A1 vs A2 spinor difference = 0.0e+00 (bit-identical)
+lambda run: self-consistent M_eff = 1.473482664064202  (Rust 1.473482664064202)
+
+free positive-energy eigenmodes (K = hidden-space momentum):
+   K       E        rho       p_0      w = K^2/(7E^2)   KE_L = PE_L
+   0.0  1.00000  1.00000  0.00000   0.00000        0.50000
+   0.5  1.11803  1.11803  0.22361   0.02857        0.55902
+   2.0  2.23607  2.23607  1.78885   0.11429        1.11803
+figure exp1_frozen_observables.png sha256 719b7bc3220da6a7a3c85829b8848fa17c97e4b27c9b0d53fc40af98c8e6d934
+figure exp1_einstein_requirement.png sha256 42475d956a3c63fbbef0cea4da32ec5d886c4b7a00fc9f46075baea2f84b3191
+== exp2 ==
+PASS - initial_positive_energy_rest_eigenvector: max |h u0 - M u0|, |B u0 - u0|, |s(u0) - 1| = 0.00000000000000000e+00
+PASS - initial_constraint_solved: max relative residual at t = 0: 0.00000000000000000e+00
+PASS - constraint_preserved: max |sum H_iH_j - kappa rho| / (sum |H_iH_j| + kappa |rho|) = 1.25938706724218517e-10 (limit 1.00000000000000006e-09)
+PASS - S_times_V_constant: max |s(u) - s(u0)| = max |S V/(S_0 V_0) - s0| = 4.03314048824654492e-10
+PASS - spinor_norms_conserved: max |u^dag u - 1|, |u^dag B u - 1| = 4.03314048824654492e-10
+PASS - anisotropy_times_volume_constant: max |(H_i - H_j) V - (H_i0 - H_j0)| / max|H_i0 - H_j0| = 6.22368268032857941e-10
+PASS - bound_nonnegative: min (Theta^2 - 3H_a^2 - 2 kappa rho) = 1.54765603391763234e-09, max |bound - (H_b^2 + 3H_c^2 + 2 res)|/Theta^2 = 1.97001731192377113e-15
+PASS - exact_solution: max relative error of V, H_i, ln h_i vs the closed form (per 1 + |t_s|/(t - t_s)) = 1.01490692350383538e-10
+PASS - spinor_exact_shape: max |u - (u0^dag u) u0| + ||u0^dag u| - 1| = 2.01656913390024783e-10 (u stays on the ray of u0)
+PASS - spinor_exact_phase_within_time_rounding: max |arg(u0^dag u) + m t + lambda S_0 J(t)| = 2.24218547017235799e-07 <= max|M_eff| N_steps ulp(t_end)/2 (max 1.32088817838501059e-06) + 1.00000000000000006e-09; total |u - u_exact| = 2.24218637730446311e-07
+PASS - late_time_isotropic_dust: at t_end: max of 7 max|H_i - H_j|/Theta, |7 H_i t/2 - 1|, |w|, |w_eff - 4/3| = 7.19681686224715733e-04
+PASS - extra_times_turn_to_expansion: H_c(0) < 0, H_c(t_end) > 0, crossing at -H_c0/beta within 1 %
+PASS - theta_exceeds_sqrt3_Ha_for_positive_energy: min Theta/(3H_a) (rho > 0) = 6.12676555953013735e-01, dust min w_eff = -3.87323444046986265e-01 > -4.22649730810374158e-01
+PASS - backward_kasner_exponents: H_i/Theta extrapolated to V = 0: max |p_i - p_i,exact|, relative sum p_i^2 deviation = 2.85651951043981130e-07
+PASS - phantom_iff_negative_kinetic_energy: w < -1 <=> KE_L < 0 on rho > 0 rows; x0 = -4.00000000000000022e-01: 14 phantom rows for V/V0 in [4.06569659739693834e-01, 7.78800783071402325e-01], 122 rho < 0 rows
+exp2: solver_steps=1779784 rhs_evaluations=1781396 files=4 verdict=SUCCESS
+SUCCESS
+exp2: 4/4 freshly written files are byte-identical to artifacts/dirac16complex/numerics/exp2/
+
+state-derived columns recomputed: max scaled deviation 2.4e-13
+constraint sum_(i<j) H_i H_j = kappa rho: max residual / (sum of |terms|) = 1.26e-10 (Rust 1.26e-10, limit 1e-09)
+S V / (S0 V0) - 1: max 4.03e-10;  bound identity Theta^2-3H_a^2-2kappa rho = H_b^2+3H_c^2: 1.5e-14
+exact solution: max |V - V_exact| / max(1, V) = 1.01e-10 (pure relative error 6.2e-08, largest at the backward end V = 9e-4); max H_i V error = 5.00e-10
+
+ run     x0     S0      lambda     t_s        Kasner (p_b, p_a, p_c)          sum p^2   H_c turns   late H_i t
+ x0_0       0.0  1.320  +0.00000  -0.495409  (-0.06658, +0.54427, -0.18875)  1.00000   t = 0.9091   0.28576
+ x0_m0p4   -0.4  2.200  -0.36364  -0.626640  (-0.29025, +0.97298, -0.54290)  3.80851   t = 0.5455   0.28576
+ x0_0p5     0.5  0.880  +1.13636  -0.462399  (-0.03523, +0.48418, -0.13911)  0.76259   t = 1.3636   0.28577
+
+min Theta/(3 H_a) on rows with rho > 0 = 0.61268 > 1/sqrt3 = 0.57735; over all rows 0.34368
+dust run: min w_eff = -0.38732 > -1 + 1/sqrt3 = -0.42265
+x0 = -0.4: 14 phantom rows (w < -1, rho > 0), 122 rows with rho < 0; phantom <=> KE_L < 0: True
+figure exp2_hubble.png sha256 af815eb061bcd44d93b39d897c15c6e4a3a81cc1fd5315322db2ab7620fff2c8
+figure exp2_volume_density.png sha256 097750e8b52828ee25a700e3698db11c1ca206b39326ab3f349eb7c187302e19
+figure exp2_eos_constraint.png sha256 36207840f68c0a2b8f1bfefa240fc7a0b5c382c354b7876623eb50051b321638
+== exp3 ==
+PASS - closure_E0_equals_1: |Omega_r + Omega_m + Omega_psi - 1| = 0.00000000000000000e+00, max |E(0) - 1| = 0.00000000000000000e+00, max |Omega_psi(1) - Omega_psi| = 0.00000000000000000e+00
+PASS - initial_positive_energy_B_eigenvector: max |h u0 - mu u0|, |B u0 - u0| = 0.00000000000000000e+00, max |s(u0) - 1| = 0.00000000000000000e+00
+PASS - sigma_from_spinor_equals_a_minus_3: max |a^3 sigma_spinor - 1| = 2.50394482925742068e-09 (limit 1.00000000000000002e-08)
+PASS - ln_sigma_state_reproduces_minus_3: max |a^3 exp(ln sigma) - 1| = 1.95399252334027551e-14 (limit 9.99999999999999980e-13)
+PASS - spinor_stays_in_rest_eigenspace: max |(1 - (-i gamma^4)) u| / (2 |u|) = 0.00000000000000000e+00
+PASS - hilbert_and_krein_norms_conserved: max |u^dag u - 1| = 2.50394494027972314e-09, max |u^dag B u - 1| = 2.50394494027972314e-09
+PASS - rho_p_w_mu_independent: mu = 3 vs 7: rho 1.73749257785179425e-09, p 3.00483891934469913e-09, w (condition-scaled) 2.76976578674928039e-09, sigma 2.76976570488223992e-09 (limit 1.00000000000000002e-08)
+PASS - rho_p_w_match_closed_form: scaled max deviation rho 1.67992345592009441e-09, p 2.78924546455657910e-09, w 2.50394507621366287e-09 (limit 1.00000000000000002e-08)
+PASS - kinetic_potential_split_identities: KE_L + PE_L = rho, KE_L - PE_L = p, KE_H = 0, PE_H = rho, PE_L = (A/2) sigma: max 1.08135767365875414e-15
+PASS - hubble_positive_backward_stop_at_predicted_bounce: E > 0 on every row; x0 < 0 stops at N_b + [1.00000000000000002e-02, 1.00000000000000002e-02 + dN), x0 = 0 reaches ln(1/3.5)
+PASS - rho_psi_zero_at_cube_root_abs_x0: max |a_zero - |x0|^(1/3)| / a = 2.63322237422482140e-09
+PASS - phantom_crossing_at_cube_root_2abs_x0: max |a_cross - (2|x0|)^(1/3)| / a = 2.34557556604216452e-09
+PASS - deceleration_sign_changes_match_closed_form: max relative a deviation = 1.47272809200149658e-09
+PASS - tangent_cpl_w0_wa: max |w(1) - x0/(1+x0)| = 5.55111512312578270e-17, max |wa_FD - 3x0/(1+x0)^2| / max(|wa|,1) = 2.76404703776429760e-07
+exp3: solver_steps=6074 rhs_evaluations=10115 files=11 verdict=SUCCESS
+SUCCESS
+exp3: 11/11 freshly written files are byte-identical to artifacts/dirac16complex/numerics/exp3/
+check_nelderMeadRecoversSyntheticCPL=true
+check_nelderMeadRecoversSyntheticWconst=true
+check_nelderMeadRecoversSyntheticWcdmFreeOmegaM=true
+check_dustModelIsWcdmZero=true
+check_quadratureExactEdS=true
+check_wFitLinearMatchesNelderMead=true
+check_wFitRecoversCPL=true
+check_gammaVariantReproducesUniteTangent=true
+check_bounceScanMatchesCubic=true
+check_rustDistanceMatchesQuadrature=true
+measurement_nmSyntheticCplError=1.962263684873733e-12
+measurement_nmSyntheticWconstError=1.396660564978447e-12
+measurement_nmSyntheticWcdmFreeOmegaMError=4.605690828718423e-13
+measurement_dustEqualsWcdm0=1.4210854715202004e-14
+measurement_quadratureVsEdS=5.551115123125783e-16
+measurement_wFitLinearVsNM=6.4849603464978145e-09
+measurement_wFitCplSelf=5.551115123125783e-16
+measurement_gammaTangentVsUnite=1.1102230246251565e-16
+measurement_bounceScanVsCubic=7.771561172376096e-16
+measurement_rustDistanceVsQuadrature=1.7468703150669285e-09
+measurement_uniteConstantWProjection=-1.0276823443174365
+model x0=-0.462654 tangent (w0, wa) = (-0.860998, -4.806949), zBounce = 0.38754513144263925, wFitRequested = undefined, muFitRequested = undefined
+model x0=-0.433107 tangent (w0, wa) = (-0.764001, -4.043098), zBounce = 0.42335359794916116, wFitRequested = undefined, muFitRequested = undefined
+model x0=-0.3 tangent (w0, wa) = (-0.428571, -1.836735), zBounce = 0.6334045515444631, wFitRequested = undefined, muFitRequested = undefined
+model x0=-0.2 tangent (w0, wa) = (-0.250000, -0.937500), zBounce = 0.8904975601521121, wFitRequested = undefined, muFitRequested = undefined
+model x0=0.0 tangent (w0, wa) = (0.000000, 0.000000), zBounce = None, wFitRequested = ok, muFitRequested = ok
+gamma variant: gamma = 0.875181, n = 0.374457, effective tangent = (-0.982650, -0.074891)
+check_count=10
+failed_check_count=0
+exp3-analysis: 3/3 freshly written files equal the committed ones value by value (relative 1e-06, absolute 1e-08) in artifacts/dirac16complex/numerics/exp3/
+
+closed forms vs CSV (rho, p, E^2, each on the scale of its terms): max deviation 2.79e-09
+sigma from the spinor's scalar density / a^-3 - 1: max 2.50e-09; exp(ln sigma)/a^-3 - 1: 2.0e-14
+KE_L, PE_L closed forms: 2.2e-09;  spinor norms drift: 2.5e-09;  mu = 3 vs 7: 4.8e-09
+comoving distance, notebook quadrature vs CVODE state D_C: max |diff| = 1.75e-09
+tangent CPL vs fits.json: 0.0e+00;  roots/q0/cs2 vs fits.json: 7.8e-16
+x0 = w0/(1 - w0): Unite w0 -0.861 -> -0.462654, benchmark w -0.764 -> -0.433107
+
+   x0       w0(tangent)  wa(tangent)   z(rho=0)  z(w=-1)  z(bounce)   q0      cs2 today
+  -0.462654   -0.860998   -4.806949     0.2929    0.0262    0.3875  -0.3974   -12.388
+  -0.433107   -0.764001   -4.043098     0.3217    0.0490    0.4234  -0.2963    -6.475
+  -0.300000   -0.428571   -1.836735     0.4938    0.1856    0.6334  +0.0533    -1.500
+  -0.200000   -0.250000   -0.937500     0.7100    0.3572    0.8905  +0.2395    -0.667
+  +0.000000   +0.000000   +0.000000       none      none      none  +0.5000    +0.000
+
+Unite (input PDF): w0 = -0.861, wa = -0.6, constant w = -0.764; w0 + wa = -1.461
+best constant w of the Unite CPL model itself, Omega_m fixed at the assumed 0.305: -1.0277 (uniform z), -0.9790 (log z)
+with Omega_m free: -0.9115; freeing Omega_m removes 44% (46% offset zero, 50% log z) of the distance to -0.764
+max |DM - DM_UniteCPL| (same H0 / offset profiled): w = -0.764 with Omega_m = 0.305 0.113 / 0.084 mag; with its best Omega_m = 0.240 0.030 / 0.019 mag; LambdaCDM 0.024 / 0.013 mag
+requested fits: w(a) fit on [1/3.26, 1] defined only for x0 > -0.028863; DM(z) fits on [0.01, 2.26] only for x0 > -0.041024
+max |DM_model - DM_UniteCPL| (x0 = -0.462654, z < z_b) = 0.8245 mag (analysis: 0.8317; both maxima sit at z_b, where the last panel ends on the integrable 1/E singularity, so the two quadratures differ slightly there)
+deflation variant: gamma_d = 0.875181 gives p/rho the tangent CPL parameters of the Unite fit; the CPL fit of its own p/rho on [1/3.26, 1] is (-0.6396, -1.9824); distances see (-0.9827, -0.0749); Gdot/G = 2.626 H0; rho_psi < 0 beyond z = 6.83, w = -1 at z = 0.230
+best constant w of the Unite CPL distances with Omega_m free: -0.9115 (Omega_m = 0.2777, uniform z), -0.8721 (log z)
+figure exp3_w_of_a.png sha256 c5d9e35378948d87fc6978c894628dcba93a9b9bf9f176a68850ee19a290a3f2
+figure exp3_rho_psi.png sha256 93d296d6b58dbd0f0df9e706099b599620403b494eb9ad813faaa6bb64933ea5
+figure exp3_ke_pe.png sha256 71275e8777920ef2405ea5e1b5d45e23c5bd8d8aa6d7a3f6e2fa25e4dea0e8de
+figure exp3_distance_modulus.png sha256 014181b9e5526af14a120a7ffdde1550057c20ca5f985c15c2be8241b03112b2
+figure exp3_w0wa_plane.png sha256 16afd9a42370d3343d60a9f6cea453f9eefa280bf56e64d9cc30d52a03df96a1
+== exp4 ==
+PASS - thermal_grid_gauss_legendre: weights sum to k_max, exact for k^2, |P_48(x_n)| <= 1e-13
+PASS - thermal_initial_eigenvectors: max |h u0 -+ E u0| = 7.10542735760100186e-15, u0^dag B u0 = b_sign, antiparticle eps/E = -1.00000000000000022e+00
+PASS - thermal_unitarity: max |u^dag u - 1| = 2.42114697179829363e-07 (limit 9.99999999999999955e-07)
+PASS - thermal_krein_conserved: max |d(u^dag B u)| = 2.42114697179829363e-07
+PASS - thermal_energy_split_identities: eps = m s + p_1 per mode and KE_H + PE_H = rho: max rel residual 9.45974247981092632e-16
+PASS - thermal_rho_matches_kinetic_theory: max |rho_modes/rho_kinetic - 1| = 1.97630236802584535e-08 (same GL nodes; limit 9.99999999999999955e-07)
+PASS - thermal_pressure_matches_kinetic_theory_plus_free_wave: max |p_modes/p_kinetic - 1| = 1.86921892308604191e-05 (literal 1e-6 not met: first-order interference 2 Re(alpha^* beta) m K/E of the sudden-start free wave); |p - p_kin| / (free-wave envelope + 1e-6 p_kin) max = 2.82623568933180913e-01
+PASS - thermal_w_early_radiation: w(a=1) = 3.32854334804484508e-01 (kinetic 3.32854334804484620e-01), 1/3 - w = 4.78998528848806338e-04
+PASS - thermal_w_decreases_to_dust: w strictly decreasing on the grid, w(a=1.00000000000000000e+02) = 3.59223844229396919e-02 (kinetic 3.59222887073100891e-02)
+PASS - thermal_beta2_gas_weighted_below_1e-6: max_t sum w k^2 f |beta|^2 / sum w k^2 f = 3.73497923269909748e-08 (limit 9.99999999999999955e-07)
+PASS - thermal_beta2_per_mode_is_sudden_start_wave: late adiabatic |beta|^2 vs (m k H_i/(4E_i^3))^2: max rel dev 1.23822667973206846e-02 over 17 modes; |beta(t)|^2 / bound max 9.05644094192409321e-01; per-mode max |beta|^2 = 6.36936741837701729e-05 at k = 9.52524976630388931e-01
+PASS - thermal_beta2_adiabatic_vacuum_below_1e-6: adiabatic-vacuum start: late instantaneous |beta|^2 = 5.61262987183470149e-08, max adiabatic-basis |beta|^2 = 1.59679906728227300e-07
+PASS - thermal_spin_independence: B = -1 spin state vs B = +1 at 4 nodes: max dev 0.00000000000000000e+00
+PASS - thermal_antiparticle_symmetry: negative-energy mode: max |eps(v)+eps(u)|/E, |p1(v)+p1(u)|/E, |s(v)+s(u)|, |beta dev| = 0.00000000000000000e+00
+PASS - method_selected_by_test: selected adams (max error vs reference: adams 1.71380947909235483e-09, bdf 1.84002422836347532e-08; selected <= 2 x other and <= 9.99999999999999955e-07)
+PASS - pair_initial_adiabatic_vacuum: K(t0) = 2.00000000000000000e+02: eigen residual 1.42108547152020037e-14, |delta| vs m K0 H/(4E0^3) dev 1.25607396694702104e-19, max |beta(t0)|^2 = 1.56203134349038838e-10 (bound 1.56250000000000003e-10)
+PASS - pair_unitarity: max |u^dag u - 1| = 4.09050127103682826e-08 (sudden and smooth runs; smooth alone 3.63432464123292220e-08)
+PASS - pair_krein_conserved: max |d(u^dag B u)| = 4.09050129324128875e-08 (sudden and smooth runs; smooth alone 3.63432465233515245e-08)
+PASS - pair_massless_no_production: m = 0: max |beta|^2 = 8.50694699914114945e-25 (instantaneous), 8.50395350372324209e-25 (adiabatic) over all k and samples; smooth transition 2.52283927914147179e-23 and 2.52283927914147179e-23 (limit 1.00000000000000004e-10)
+PASS - pair_massive_production_pauli: n a^3 > 0 for m > 0 and 0 <= |beta|^2 <= 1 (sudden and smooth runs); n a^3 = ["1.78135110896364887e-24", "1.45363729276271666e-03", "4.98966594788631968e-03", "4.41220180472606457e-03", "2.42122903395375084e-03"], smooth transition ["1.32164399366035866e-20", "3.03209745035524028e-04", "4.33465306096501401e-04", "9.38968467117253744e-05", "8.58941116553159431e-07"]
+PASS - pair_tail_matches_kink_theory: k >= 8.00000000000000000e+00: adiabatic |beta|^2 vs (m k/(4E^4))^2, max rel dev 4.15954815314989457e-02 (limit 3.49999999999999978e-01)
+PASS - pair_antiparticle_symmetry: negative-energy modes (m = 1.00000000000000000e+00): weight on positive subspace vs |beta|^2 and eps(v) = -eps(u): max dev 0.00000000000000000e+00
+PASS - pair_eos_relativistic_to_dust: w of the produced gas decreasing, w(a_end) <= 1.00000000000000002e-03: w(1) = ["3.08074209250610798e-01", "2.53941276862740539e-01", "2.38603500781695094e-01", "2.39479852008875366e-01"], w(a_end) = ["1.20091299380492388e-04", "1.13783946682049692e-04", "1.62100634564682223e-04", "3.01892183278678532e-04"]
+exp4: solver_steps=339071692 rhs_evaluations=511425232 files=13 verdict=SUCCESS
+SUCCESS
+exp4: 13/13 freshly written files are byte-identical to artifacts/dirac16complex/numerics/exp4/
+
+Gauss-Legendre grid, Fermi-Dirac weights recomputed: max deviation 5.7e-15
+mode sums from the raw spinors vs thermal_eos.csv: max relative deviation 4.8e-15
+kinetic theory (512-node quadrature) vs the CSV's kinetic columns: 4.2e-11
+mode-sum rho vs kinetic theory: 1.98e-08  (limit 1e-06)
+mode-sum p   vs kinetic theory: 1.87e-05  (first-order free-wave interference; see section 12)
+max |u^dag u - 1| over all thermal modes: 2.42e-07
+w(a = 1) = 0.3328543348 (kinetic 0.3328543348);  w(a = 100) = 0.0359224 (kinetic 0.0359223)
+energy above k_max = 120 (not in the mode sum) at a = 1: 2.42e-03 of the total
+
+pair creation (de Sitter -> radiation, H_inf = 1), final spectrum in the first-order adiabatic basis:
+   m/H_inf    n a^3 (notebook)    n a^3 (Rust)     max |beta_k|^2 (end)  w at a = 1   w at the end
+    0.0      1.781351e-24      1.781351e-24     7.741e-25       0.3333      3.333e-01
+    0.1      1.453637e-03      1.453637e-03     3.470e-01       0.3081      1.201e-04
+    0.5      4.989666e-03      4.989666e-03     5.095e-02       0.2539      1.138e-04
+    1.0      4.412202e-03      4.412202e-03     5.883e-03       0.2386      1.621e-04
+    2.0      2.421229e-03      2.421229e-03     3.535e-04       0.2395      3.019e-04
+with the analytic kink tail beyond k = 40 (Rust): m = 0.1: n a^3 1.4536e-03, w(1) 0.3081; m = 0.5: n a^3 4.9897e-03, w(1) 0.2540; m = 1: n a^3 4.4125e-03, w(1) 0.2388; m = 2: n a^3 2.4223e-03, w(1) 0.2401
+instantaneous basis (literal definition, includes the dressing at a_end): m = 0.1: n a^3 1.4549e-03, w_end 3.09e-04; m = 0.5: n a^3 4.9907e-03, w_end 1.28e-04; m = 1: n a^3 4.4137e-03, w_end 1.70e-04; m = 2: n a^3 2.4215e-03, w_end 3.09e-04
+
+the same modes with a smooth transition, -Hdot/H^2 = 1 + tanh(t/tau), tau = 1/H_inf (comparison runs of the program):
+   m/H_inf    n a^3 sudden    n a^3 smooth (same final H)   sudden/smooth   kink formula 1/(64 pi m)
+    0.1      1.4536e-03      1.0742e-03                      1.35       4.9736e-02
+    0.5      4.9897e-03      1.5357e-03                      3.25       9.9472e-03
+    1.0      4.4122e-03      3.3267e-04                     13.26       4.9736e-03
+    2.0      2.4212e-03      3.0432e-06                    795.63       2.4868e-03
+n a^3 recomputation: 9.0e-12;  produced-gas EoS recomputation: 8.9e-16;  tail formula (mk/(4E^4))^2: 0.0e+00
+high-k tail (k >= 8): CVODE |beta_k|^2 (adiabatic basis) vs (mk/(4E^4))^2: max relative deviation 0.0416 (Rust 0.0416, limit 0.35)
+figure exp4_thermal_scaling.png sha256 0db10806f00d3a706b131586d0a191cf6c4b786dc5d5b6ceaa4f158022aafa04
+figure exp4_thermal_w.png sha256 0de3ee0fc58bbcdd438313aa77c14789b4ec43a0c41ac505396ea4e39cc5fdad
+figure exp4_thermal_split.png sha256 d4b8ac3c2c18637e0f2f7a70722b7795091b08180ae61a9288af6c15845dfd1e
+figure exp4_pair_spectra.png sha256 41e136628e5c70d4709687ece0c46807825be80b6ec07256d7ba6786e293151f
+figure exp4_pair_density.png sha256 30031fb2982d0a358c0999ec86a14a5db369abf02414b9bc6200bced05a950e9
+== exp5 ==
+PASS - energy_squared_changes_sign_at_tstar: E^2(t) > 0 before t* and < 0 after on every grid point
+PASS - initial_positive_energy_C_eigenvector: max residual 5.55111512312578270e-17, all |u0^dag B u0| > 0.5
+PASS - krein_norm_conserved_normalized: max |d(u^dag B u)| / max(u^dag u, 1) = 1.07513772432693882e-09 (limit 1.00000000000000002e-08)
+PASS - krein_norm_conserved_before_tstar: max |d(u^dag B u)| for t <= t* = 1.27911337077790677e-09
+PASS - hilbert_norm_superexponential_growth: final u^dag u min = 1.25845288148261040e+16, late/early growth-rate ratio min = 1.05571863071942929e+01
+PASS - growth_matches_wkb_leading_order: max relative deviation 1.02792069598497070e-03 (limit 1.00000000000000002e-02)
+PASS - growth_matches_wkb_first_order: max relative deviation 2.46855133793743697e-04 (limit 2.00000000000000004e-03)
+exp5: solver_steps=2548 rhs_evaluations=4800 files=5 verdict=SUCCESS
+SUCCESS
+exp5: 5/5 freshly written files are byte-identical to artifacts/dirac16complex/numerics/exp5/
+
+norms recomputed from the raw spinors with the fixture's B: max deviation 6.7e-16
+E^2 = m^2 - q^2 e^(2Ht) recomputed: 2.8e-16;  t* = ln(m/q)/H: 0.0e+00
+
+ run        t*        final u^dag u    growth over [t*+1.5, t_end]:  numerical   2 Delta W   first-order WKB
+ q0p05_Cp   2.99573   1.2585e+16                       30.9922    31.0241     30.9999
+ q0p05_Cm   2.99573   1.2585e+16                       30.9922    31.0241     30.9999
+ q0p1_Cp    2.30259   1.3133e+16                       30.9455    30.9770     30.9530
+ q0p1_Cm    2.30259   1.3133e+16                       30.9455    30.9770     30.9530
+
+relative deviation from WKB: leading 1.03e-03 (limit 1e-02), first order 2.47e-04 (limit 2e-03)
+growth rate late / early (min over runs): 14.04  (super-exponential)
+Krein norm drift / max(u^dag u, 1): 1.08e-09;  absolute drift up to t*: 1.28e-09
+figure exp5_growth.png sha256 b5c7546f94f6226e2c99bd1bbbf62af330b94ef5d20c1b13a93fc7a6b453f38f
+figure exp5_krein.png sha256 78570341b44825997c549a14d21a44733aab9897f7ad4c428ce54bdec53a28df
+PASS - all_runs_success: 7 program runs, every one exited 0 (simulator runs ended with SUCCESS)
+PASS - fresh_program_outputs_byte_identical: exp1 29/29, exp2 4/4, exp3 11/11, exp4 13/13, exp5 5/5
+PASS - fresh_analysis_outputs_numerically_equal: exp3-analysis 3/3 (value by value: relative 1e-6, absolute 1e-8; numpy versions and builds differ in the last digits, and the Nelder-Mead fit parameters in flat directions by up to ~1e-7 relative)
+PASS - fixture_hash_consistent: sha256 8b4f15462ca4d61e... in 5 summaries, 5 checker reports and numerics-summary.json
+PASS - stage1_physics_verified: Stage 1 (Lagrangian, field equations, EMT, Lichnerowicz, Krein structure): 153/153 checks, no disagreement
+PASS - stage2_mode_reduction_verified: the EXP-1 reduction gamma^4 du/dt = (M_eff - iK gamma^0) u is verified exactly in Stage 2
+PASS - algebra_relations_exact: Clifford relations, C = g0g1g2g3, B = -iCg4, B^2 = 1, B Hermitian, BC = -ig4: all exact (0.0)
+PASS - exp1_rust_self_checks: 10/10 Rust checks true, verdict SUCCESS
+PASS - exp2_rust_self_checks: 15/15 Rust checks true, verdict SUCCESS
+PASS - exp3_rust_self_checks: 14/14 Rust checks true, verdict SUCCESS
+PASS - exp4_rust_self_checks: 23/23 Rust checks true, verdict SUCCESS
+PASS - exp5_rust_self_checks: 7/7 Rust checks true, verdict SUCCESS
+PASS - exp1_python_checker: 25/25 checks of scripts/check_dirac16complex_exp1.py true (incl. repeat-run byte identity and refined-tolerance convergence)
+PASS - exp2_python_checker: 35/35 checks of scripts/check_dirac16complex_exp2.py true (incl. repeat-run byte identity and refined-tolerance convergence)
+PASS - exp3_python_checker: 32/32 checks of scripts/check_dirac16complex_exp3.py true (incl. repeat-run byte identity and refined-tolerance convergence)
+PASS - exp4_python_checker: 54/54 checks of scripts/check_dirac16complex_exp4.py true (incl. repeat-run byte identity and refined-tolerance convergence)
+PASS - exp5_python_checker: 21/21 checks of scripts/check_dirac16complex_exp5.py true (incl. repeat-run byte identity and refined-tolerance convergence)
+PASS - exp3_analysis_checks: 10/10 checks of analyze_dirac16complex_exp3.py true
+PASS - numerics_summary: 69 Rust + 167 Python + 10 analysis checks, verdict SUCCESS
+PASS - exp1_background_recomputed: a4, a4', a4'', scale factors, rho_req, p_req, w_req from the closed-form window: 3.6e-15
+PASS - exp1_einstein_source_negative: max rho_req = -21.000000 < 0 for both profiles
+PASS - exp1_seven_volume_constant: |V/V0 - 1| = 6.7e-16 <= 1e-13
+PASS - exp1_observables_recomputed: rho, p_j, S, M_eff, KE/PE (both splits), w, norms from the raw spinor: 8.9e-16
+PASS - exp1_exact_propagator: max |u - exp(-iht) u0| = 3.12e-09 <= 1e-07
+PASS - exp1_rho_frozen: max rho drift 4.19e-09 <= 1e-08 (all 26 runs)
+PASS - exp1_eigenstate_pressure_and_S_frozen: max p_0 / S drift 2.64e-09 <= 1e-08
+PASS - exp1_norms_conserved: Hilbert and Krein norm drift 2.70e-09 <= 1e-08
+PASS - exp1_profile_independence: A = 1 vs A = 2 spinors differ by 0.0e+00
+PASS - exp1_eigenmode_laws: rho = E, p_0 = K^2/E, S = 1/E, KE_L = PE_L = E/2, w = K^2/(7E^2): 1.4e-17
+PASS - exp1_lambda_self_consistent_mass: fixed point M* = 1.473482664064202 (difference 0.0e+00)
+PASS - exp1_mixed_state_oscillation: p_0 range 0.803028, checker's exact-solution deviation 3.7e-10
+PASS - exp2_columns_recomputed: Theta, V, s(u), S, M_eff, rho, p, KE_L, PE_L, bound from the state: 2.4e-13
+PASS - exp2_constraint_preserved: max |sum H_iH_j - kappa rho| / (sum of |terms|) = 1.26e-10 <= 1e-09
+PASS - exp2_SV_constant: max |S V/(S0 V0) - 1| = 4.03e-10 <= 1e-09
+PASS - exp2_exact_volume: |V - V_exact|/max(1, V) with V_exact = 1 + Theta0 t + alpha t^2: 1.0e-10; H_i V = H_i0 + beta t: 5.0e-10
+PASS - exp2_bound_identity: Theta^2 - 3H_a^2 - 2 kappa rho = H_b^2 + 3H_c^2 + 2(constraint residual): 1.5e-14
+PASS - exp2_kasner_exponents: closed form vs summary 0.0e+00; extrapolated from CVODE 2.9e-07
+PASS - exp2_late_time_isotropic_dust: max |H_i (t - t_s) - 2/7| at the end = 1.1e-04 <= 1e-03
+PASS - exp2_theta_bound_positive_energy: min Theta/(3H_a) (rho > 0) = 0.6127 > 0.5774; dust min w_eff = -0.3873 > -0.4226
+PASS - exp2_bound_fails_only_with_negative_energy: over all rows min Theta/(3H_a) = 0.3437 (x0 = -0.4, rho < 0) - reported, not hidden
+PASS - exp2_phantom_iff_negative_kinetic_energy: x0 = -0.4: rows with w < -1 and rho > 0 are exactly the rows with KE_L < 0 (14 rows)
+PASS - exp3_sigma_from_spinor: s(u)/s(u0) - 1 = 2.5e-09, exp(ln sigma)/a^-3 - 1 = 2.0e-14
+PASS - exp3_closed_forms: rho, p, E: 2.8e-09; KE_L, PE_L: 2.2e-09
+PASS - exp3_norms_conserved: u^dag u and u^dag B u drift 2.5e-09
+PASS - exp3_mu_independence: mu = 3 vs 7: 4.8e-09
+PASS - exp3_distance_quadrature: notebook Gauss-Legendre D_C vs CVODE D_C: 1.7e-09
+PASS - exp3_tangent_cpl: w0 = x0/(1+x0), wa = 3x0/(1+x0)^2 vs fits.json: 0.0e+00
+PASS - exp3_x0_reproduces_unite_w0: x0 = w0/(1 - w0) reproduces the canonical x0 values to 4.9e-07
+PASS - exp3_roots_q0_cs2: rho_psi = 0, w = -1, bounce, q0, cs2 recomputed: 7.8e-16
+PASS - exp3_requested_fits_undefined_for_x0_negative: the requested CPL fits on [1/3.26, 1] and z in [0.01, 2.26] do not exist for x0 < 0 (pole, bounce) - reported
+PASS - exp3_unite_constant_w_projections_recorded: recorded, not a verdict: best constant w of the noise-free Unite CPL distances = -1.0277 (Omega_m fixed at the assumed 0.305), -0.9115 with Omega_m = 0.2777 free (rms 0.0077 -> 0.0021 mag); benchmark -0.764; curves w = -0.764 (Omega_m 0.305 and 0.240) and LambdaCDM against Unite CPL recomputed to 1.8e-15
+PASS - exp4_grid_and_weights: 48-node Gauss-Legendre grid and FD weights: 5.7e-15
+PASS - exp4_mode_sums_recomputed: rho, p, KE_H, PE_H from the raw spinors vs thermal_eos.csv: 4.8e-15
+PASS - exp4_rho_matches_kinetic_theory: max |rho/rho_kin - 1| = 1.98e-08 <= 1e-06
+PASS - exp4_pressure_matches_kinetic_plus_free_wave: |p/p_kin - 1| = 1.87e-05, inside the predicted interference envelope (ratio 0.28)
+PASS - exp4_unitarity: max |u^dag u - 1| = 2.4e-07
+PASS - exp4_w_radiation_to_dust: w(1) = 0.3329 within 0.005 of 1/3, w(100) = 0.0359 < 0.05
+PASS - exp4_gas_weighted_beta_below_1e-6: 3.7e-08; adiabatic-vacuum runs 5.6e-08
+PASS - exp4_massless_no_production: m = 0: max |beta_k|^2 at the end 7.7e-25, over the run 8.5e-25 <= 1e-10
+PASS - exp4_massive_production: m=0.1: 1.454e-03, m=0.5: 4.990e-03, m=1: 4.412e-03, m=2: 2.421e-03
+PASS - exp4_number_density_recomputed: n a^3 from the spectrum: 9.0e-12
+PASS - exp4_produced_gas_eos: recomputed 8.9e-16; final w < 0.001 for every m > 0
+PASS - exp4_kink_tail: formula 0.0e+00; CVODE tail vs theory 0.042 <= 0.35
+PASS - exp5_norms_recomputed: u^dag u, u^dag B u from the raw spinors: 6.7e-16
+PASS - exp5_energy_turns_imaginary_at_tstar: E^2 and t* = ln(m/q)/H recomputed: 2.8e-16
+PASS - exp5_krein_conserved: normalised drift 1.1e-09; absolute before t* 1.3e-09
+PASS - exp5_wkb_leading: 1.03e-03 <= 0.01
+PASS - exp5_wkb_first_order: 2.47e-04 <= 0.002
+PASS - exp5_super_exponential: late/early growth-rate ratio 14.04
+PASS - figures_written: 17 PNG figures in artifacts/dirac16complex/numerics/figures, hashes re-read
+PASS - prose_numbers_match_reports: 78 numbers quoted in the markdown re-read from the reports
+ALL CHECKS PASSED
+ok build\stage3\notebook\dirac16complex_dark_sector.ipynb (8 cells)
+1 ok, 0 failed
+stage3_step_ok=stage3-21-notebook-run
+stage3_step=stage3-22-notebook-nbconvert
+[NbConvertApp] Making directory build/stage3/nbconvert
+[NbConvertApp] Converting notebook build/stage3/notebook-clean/dirac16complex_dark_sector.ipynb to notebook
+C:\Users\nsh\AppData\Roaming\Python\Python314\site-packages\zmq\_future.py:718: RuntimeWarning: Proactor event loop does not implement add_reader family of methods required for zmq. Registering an additional selector thread for add_reader support via tornado. Use `asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())` to avoid this warning.
+  self._get_loop()

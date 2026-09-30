@@ -64,10 +64,10 @@ per-stage list):
   gates (`scripts/verify_stage1_arbitrary_field.*`, `scripts/verify_stage2_primordial_field.*`)
   passed and were verified from a fresh clone.
 - **Stage 3 is not finished.** The engine, the five experiments and their checkers,
-  both notebooks, the figures and both documents are committed.  The second review
-  round found 21 problems in the documents and the notebook (none in the engine);
-  they are not fixed yet and are listed in `handoff/reviews/stage3_review_round2_findings.json`.
-  The gate `scripts/verify_stage3_dark_sector.*` has not yet ended with OK after those fixes.
+  both notebooks, the figures and both documents are committed, and the 21 problems
+  found by the second review round have been fixed in the text
+  (`handoff/reviews/stage3_review_round2_findings.json`).  The gate
+  `scripts/verify_stage3_dark_sector.*` has not yet been run to the end after those fixes.
 - **Stage 4 is not finished.** The exact Kohn–Sham theory (Wolfram 125/125, sympy
   157/157) and the Rust Kohn–Sham solver `studies/dirac16complex_kohn_sham` are
   complete and reproducible.  The independent Python reference agrees on 65 of 69

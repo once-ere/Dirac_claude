@@ -1,7 +1,7 @@
 {
  "stage": 3,
  "round": 2,
- "status": "UNFIXED: the fix agent was stopped by the weekly usage limit on 2026-09-26",
+ "status": "FIXED IN TEXT (verified 2026-09-30 by searching the committed files): the round-2 fix agent applied all 21 fixes to provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md, provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md (both .tex/.pdf rebuilt and registered; build_provenance_pdf.py verify mode 14/14 for each, the guide with --developer-layout), notebooks/build_dirac16complex_notebook.py and the executed notebook (cell sources identical to the builder output; check_notebook.py SUCCESS, 71 gauntlet checks, 17 figures), scripts/analyze_dirac16complex_exp3.py and scripts/check_dirac16complex_exp{2,3}.py (new check offDiagonalStressVanishes in the committed reports), before the weekly usage limit stopped it while it was updating test sha256 pins (the publication tests now pass, 81/81). NOT DONE: an independent re-review of these fixes, and a complete Stage-3 gate run after them.",
  "finding_count": 21,
  "findings": [
   {
