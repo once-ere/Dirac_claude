@@ -1251,154 +1251,42 @@ pub fn run_excited(ctx: &RunContext) -> Result<ExperimentSummary, String> {
     let reference = reference(ctx)?;
     let mut records = Vec::new();
     let mut table = Vec::new();
+    let mut refinement_base: Option<(Params, String, f64)> = None;
     for n in n_set(&reference, ctx.quick) {
         let c = reference.coupling(1.0, 3.0, n)?;
         for (lname, lh) in lambda_set(&c, ctx.quick) {
             let params = params_for(ctx, 1.0, 3.0, lh, 0.0, n);
             let name = label(&params, &lname);
-            let ground = solve_ground(&params, None, 0.0)?;
-            summary.add_stats(ground.stats.steps, ground.stats.rhs_evals);
-            summary.check(
-                &format!("{name}_ground_converged"),
-                ground.converged,
-                &format!("{} iterations", ground.iterations),
-            );
-            let gap = ground.gap().unwrap_or(f64::NAN);
-            // particle-hole list: lowest 12 excitations eps_a - eps_i of the
-            // converged ground state: holes i hold more than PH_OCCUPATION_FLOOR
-            // of a particle, particles a have more than PH_OCCUPATION_FLOOR of a
-            // vacancy (a fractionally occupied level belongs to both sets).  For
-            // exact T = 0 occupations (0, 1 or the fraction of a straddling
-            // shell) the floor changes nothing.  For a run converged only with
-            // occupation smearing (a level crossing at the Fermi level, scf.rs)
-            // the floor keeps the Fermi-Dirac tails (f down to ~1e-185) from
-            // counting as holes or particles; the ensemble's fractionally
-            // occupied levels are the ones the KS gap and Delta-SCF of this run
-            // refer to.
-            let occupied: Vec<&scf::State> = ground
-                .spectrum
-                .states
-                .iter()
-                .filter(|s| s.branch > 0 && s.f > PH_OCCUPATION_FLOOR)
-                .collect();
-            let empty: Vec<&scf::State> = ground
-                .spectrum
-                .states
-                .iter()
-                .filter(|s| s.branch > 0 && s.f < 1.0 - PH_OCCUPATION_FLOOR)
-                .collect();
-            let mut ph: Vec<(f64, f64, f64, f64, f64)> = Vec::new();
-            for i in &occupied {
-                for a in &empty {
-                    if a.eps > i.eps {
-                        ph.push((a.eps - i.eps, i.eps, a.eps, i.k, a.k));
-                    }
-                }
-            }
-            ph.sort_by(|x, y| x.0.partial_cmp(&y.0).unwrap());
-            ph.truncate(12);
-            let ph_rows: Vec<Vec<f64>> = ph.iter().map(|p| vec![p.0, p.1, p.2, p.3, p.4]).collect();
-            let sub = dir.join(&name);
-            std::fs::create_dir_all(&sub).map_err(|e| e.to_string())?;
-            write_csv(
-                &sub.join("particle-hole.csv"),
-                &[
-                    "excitation",
-                    "eps_hole",
-                    "eps_particle",
-                    "k_hole",
-                    "k_particle",
-                ]
-                .iter()
-                .map(|s| s.to_string())
-                .collect::<Vec<_>>(),
-                &ph_rows,
+            let delta = excited_run(
+                &dir,
+                &mut summary,
+                &mut records,
+                Some(&mut table),
+                &params,
+                &name,
             )?;
-            summary.add_file(&format!("{name}/particle-hole.csv"));
-            write_csv(
-                &sub.join("levels.csv"),
-                &levels_header(),
-                &levels_rows(&ground.spectrum),
-            )?;
-            summary.add_file(&format!("{name}/levels.csv"));
-            let (delta_scf, excited_energy, excited_converged, excited_iterations) =
-                match delta_scf(&ground) {
-                    Ok(ex) => {
-                        summary.add_stats(ex.stats.steps, ex.stats.rhs_evals);
-                        write_csv(
-                            &sub.join("levels-excited.csv"),
-                            &levels_header(),
-                            &levels_rows(&ex.spectrum),
-                        )?;
-                        summary.add_file(&format!("{name}/levels-excited.csv"));
-                        (
-                            ex.energies.total - ground.energies.total,
-                            ex.energies.total,
-                            ex.converged,
-                            ex.iterations as i64,
-                        )
-                    }
-                    Err(message) => {
-                        summary.check(&format!("{name}_delta_scf_defined"), false, &message);
-                        (f64::NAN, f64::NAN, false, 0)
-                    }
-                };
-            if delta_scf.is_finite() {
-                summary.check(
-                    &format!("{name}_delta_scf_converged"),
-                    excited_converged,
-                    &format!("{excited_iterations} iterations"),
-                );
-                summary.check(
-                    &format!("{name}_delta_scf_positive"),
-                    delta_scf > 0.0,
-                    &format!("E1 - E0 = {delta_scf}, KS gap = {gap}"),
-                );
+            if !ctx.quick && n == reference.n_large && lname == "lamm2" {
+                refinement_base = Some((params.clone(), lname.clone(), delta));
             }
-            summary.check(
-                &format!("{name}_gap_positive"),
-                gap > 0.0,
-                &format!("eps_LUMO - eps_HOMO = {gap}"),
-            );
-            table.push(vec![
-                n,
-                lh,
-                ground.energies.total,
-                ground.filling.mu,
-                gap,
-                delta_scf,
-                excited_energy,
-                ground.energies.max_lambda_s_over_m,
-            ]);
-            records.push(Json::object(vec![
-                ("label", Json::str(&name)),
-                ("N", Json::Float(n)),
-                ("lambdaHat", Json::Float(lh)),
-                ("E0", Json::Float(ground.energies.total)),
-                ("mu", Json::Float(ground.filling.mu)),
-                (
-                    "epsHomo",
-                    Json::Float(ground.filling.homo.map(|h| h.1).unwrap_or(f64::NAN)),
-                ),
-                (
-                    "epsLumo",
-                    Json::Float(ground.filling.lumo.map(|h| h.1).unwrap_or(f64::NAN)),
-                ),
-                ("ksGap", Json::Float(gap)),
-                ("deltaScf", Json::Float(delta_scf)),
-                ("E1", Json::Float(excited_energy)),
-                (
-                    "lowestParticleHole",
-                    Json::Float(ph.first().map(|p| p.0).unwrap_or(f64::NAN)),
-                ),
-                (
-                    "maxLambdaSOverM",
-                    Json::Float(ground.energies.max_lambda_s_over_m),
-                ),
-                ("groundIterations", Json::Int(ground.iterations as i64)),
-                ("excitedIterations", Json::Int(excited_iterations)),
-            ]));
         }
+    }
+    // Grid refinement of the hardest Delta-SCF: N_large with -lambda_hat_2
+    // (max |lambda S_p|/m ~ 1.4, converged only with occupation smearing)
+    // on 601 instead of 301 grid points.  Its record and directory carry the
+    // label suffix _g601; it is not a row of excitations.csv.
+    if let Some((base, lname, delta_301)) = refinement_base {
+        let mut fine = base.clone();
+        fine.grid_n = 601;
+        let name = label(&fine, &lname);
+        let delta_601 = excited_run(&dir, &mut summary, &mut records, None, &fine, &name)?;
+        let defect = (delta_601 - delta_301).abs();
+        summary.check(
+            "excited_grid_refinement_delta_scf",
+            defect.is_finite() && defect < 1e-5,
+            &format!(
+                "Delta-SCF(601) = {delta_601}, Delta-SCF(301) = {delta_301}, |difference| = {defect:e} m"
+            ),
+        );
     }
     write_csv(
         &dir.join("excitations.csv"),
@@ -1428,6 +1316,174 @@ pub fn run_excited(ctx: &RunContext) -> Result<ExperimentSummary, String> {
         ],
     )?;
     Ok(summary)
+}
+
+/// One excited-state run of the `excited` subcommand: ground state, the
+/// particle-hole list, Delta-SCF, its CSV files, checks and summary record;
+/// `table` receives the excitations.csv row.  Returns E_1 - E_0 (NaN when
+/// Delta-SCF is undefined).
+fn excited_run(
+    dir: &Path,
+    summary: &mut ExperimentSummary,
+    records: &mut Vec<Json>,
+    table: Option<&mut Vec<Vec<f64>>>,
+    params: &Params,
+    name: &str,
+) -> Result<f64, String> {
+    let n = params.n_particles;
+    let lh = params.lambda_hat;
+    let ground = solve_ground(params, None, 0.0)?;
+    summary.add_stats(ground.stats.steps, ground.stats.rhs_evals);
+    summary.check(
+        &format!("{name}_ground_converged"),
+        ground.converged,
+        &format!("{} iterations", ground.iterations),
+    );
+    let gap = ground.gap().unwrap_or(f64::NAN);
+    // particle-hole list: lowest 12 excitations eps_a - eps_i of the
+    // converged ground state: holes i hold more than PH_OCCUPATION_FLOOR
+    // of a particle, particles a have more than PH_OCCUPATION_FLOOR of a
+    // vacancy (a fractionally occupied level belongs to both sets).  For
+    // exact T = 0 occupations (0, 1 or the fraction of a straddling
+    // shell) the floor changes nothing.  For a run converged only with
+    // occupation smearing (a level crossing at the Fermi level, scf.rs)
+    // the floor keeps the Fermi-Dirac tails (f down to ~1e-185) from
+    // counting as holes or particles; the ensemble's fractionally
+    // occupied levels are the ones the KS gap and Delta-SCF of this run
+    // refer to.
+    let occupied: Vec<&scf::State> = ground
+        .spectrum
+        .states
+        .iter()
+        .filter(|s| s.branch > 0 && s.f > PH_OCCUPATION_FLOOR)
+        .collect();
+    let empty: Vec<&scf::State> = ground
+        .spectrum
+        .states
+        .iter()
+        .filter(|s| s.branch > 0 && s.f < 1.0 - PH_OCCUPATION_FLOOR)
+        .collect();
+    let mut ph: Vec<(f64, f64, f64, f64, f64)> = Vec::new();
+    for i in &occupied {
+        for a in &empty {
+            if a.eps > i.eps {
+                ph.push((a.eps - i.eps, i.eps, a.eps, i.k, a.k));
+            }
+        }
+    }
+    ph.sort_by(|x, y| x.0.partial_cmp(&y.0).unwrap());
+    ph.truncate(12);
+    let ph_rows: Vec<Vec<f64>> = ph.iter().map(|p| vec![p.0, p.1, p.2, p.3, p.4]).collect();
+    let sub = dir.join(name);
+    std::fs::create_dir_all(&sub).map_err(|e| e.to_string())?;
+    write_csv(
+        &sub.join("particle-hole.csv"),
+        &[
+            "excitation",
+            "eps_hole",
+            "eps_particle",
+            "k_hole",
+            "k_particle",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect::<Vec<_>>(),
+        &ph_rows,
+    )?;
+    summary.add_file(&format!("{name}/particle-hole.csv"));
+    write_csv(
+        &sub.join("levels.csv"),
+        &levels_header(),
+        &levels_rows(&ground.spectrum),
+    )?;
+    summary.add_file(&format!("{name}/levels.csv"));
+    let (delta_scf, excited_energy, excited_converged, excited_iterations) =
+        match delta_scf(&ground) {
+            Ok(ex) => {
+                summary.add_stats(ex.stats.steps, ex.stats.rhs_evals);
+                write_csv(
+                    &sub.join("levels-excited.csv"),
+                    &levels_header(),
+                    &levels_rows(&ex.spectrum),
+                )?;
+                summary.add_file(&format!("{name}/levels-excited.csv"));
+                (
+                    ex.energies.total - ground.energies.total,
+                    ex.energies.total,
+                    ex.converged,
+                    ex.iterations as i64,
+                )
+            }
+            Err(message) => {
+                summary.check(&format!("{name}_delta_scf_defined"), false, &message);
+                (f64::NAN, f64::NAN, false, 0)
+            }
+        };
+    if delta_scf.is_finite() {
+        summary.check(
+            &format!("{name}_delta_scf_converged"),
+            excited_converged,
+            &format!("{excited_iterations} iterations"),
+        );
+        summary.check(
+            &format!("{name}_delta_scf_positive"),
+            delta_scf > 0.0,
+            &format!("E1 - E0 = {delta_scf}, KS gap = {gap}"),
+        );
+    }
+    summary.check(
+        &format!("{name}_gap_positive"),
+        gap > 0.0,
+        &format!("eps_LUMO - eps_HOMO = {gap}"),
+    );
+    if let Some(table) = table {
+        table.push(vec![
+            n,
+            lh,
+            ground.energies.total,
+            ground.filling.mu,
+            gap,
+            delta_scf,
+            excited_energy,
+            ground.energies.max_lambda_s_over_m,
+        ]);
+    }
+    records.push(Json::object(vec![
+        ("label", Json::str(name)),
+        // the parameters of the converged ground state, including the T = 0
+        // occupation smearing of a level-crossing fallback (scf.rs)
+        ("parameters", params_json(&ground.params)),
+        (
+            "exactZeroTemperatureOccupations",
+            Json::Bool(ground.params.temperature == 0.0 && ground.params.smearing == 0.0),
+        ),
+        ("N", Json::Float(n)),
+        ("lambdaHat", Json::Float(lh)),
+        ("E0", Json::Float(ground.energies.total)),
+        ("mu", Json::Float(ground.filling.mu)),
+        (
+            "epsHomo",
+            Json::Float(ground.filling.homo.map(|h| h.1).unwrap_or(f64::NAN)),
+        ),
+        (
+            "epsLumo",
+            Json::Float(ground.filling.lumo.map(|h| h.1).unwrap_or(f64::NAN)),
+        ),
+        ("ksGap", Json::Float(gap)),
+        ("deltaScf", Json::Float(delta_scf)),
+        ("E1", Json::Float(excited_energy)),
+        (
+            "lowestParticleHole",
+            Json::Float(ph.first().map(|p| p.0).unwrap_or(f64::NAN)),
+        ),
+        (
+            "maxLambdaSOverM",
+            Json::Float(ground.energies.max_lambda_s_over_m),
+        ),
+        ("groundIterations", Json::Int(ground.iterations as i64)),
+        ("excitedIterations", Json::Int(excited_iterations)),
+    ]));
+    Ok(delta_scf)
 }
 
 // ---------------------------------------------------------------------------
