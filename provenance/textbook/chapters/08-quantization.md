@@ -380,7 +380,7 @@ $$
 For $q=0.05$ and $q=0.1$ the turning times are $t_\ast=2.99573$ and $2.30259$, and each run starts on a positive-energy eigenvector of $h$ with Krein norm $u^\dagger Bu=\pm E_0/m$, $E_0=0.998749$ and $0.994987$ (`artifacts/dirac16complex/numerics/exp5/summary.json`). The committed results are:
 
 - the Hilbert norm $u^\dagger u$ grows to $1.258\times10^{16}$ ($q=0.05$) and $1.313\times10^{16}$ ($q=0.1$) by $x_4=t_\ast+3$, and its logarithmic growth rate rises from about 2.4 to 25.3: super-exponential growth, because $Q$ keeps growing;
-- the growth agrees with the WKB estimate $2W(x_4)$, $W=\sqrt{Q^2-m^2}-m\arccos(m/Q)$, to $1.03\times10^{-3}$ relative at leading order and $2.47\times10^{-4}$ at first order ($q=0.05$);
+- the growth agrees with the **WKB estimate** (named after Wentzel, Kramers and Brillouin: while $Q$ changes slowly, treat it as constant, so that the norm grows at the rate $2\kappa$ with $\kappa=\sqrt{Q^2-m^2}$, and add up these rates), $\ln(u^\dagger u)\approx2W(x_4)$ with $W=\int_{t_\ast}^{x_4}\kappa\,dx_4'=\sqrt{Q^2-m^2}-m\arccos(m/Q)$, to $1.03\times10^{-3}$ relative at leading order and $2.47\times10^{-4}$ at first order ($q=0.05$);
 - the Krein norm stays at its initial value: its drift, divided by $\max(u^\dagger u,1)$, is at most $1.08\times10^{-9}$, as the conservation law of Section 8.9 requires.
 
 ![EXP-5: (a) $\ln(u^\dagger u)$ for both momenta and both signs of $C$ together with the WKB curve $2W$; (b) $E^2$, which turns negative at $t_\ast=\ln(m/q)$ (dotted).](artifacts/dirac16complex/numerics/figures/exp5_growth.png)
