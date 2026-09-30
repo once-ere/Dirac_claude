@@ -211,3 +211,35 @@ Stage 1-3 output; Stage-4 outputs must stay byte-identical.  The Stage-4 work th
 was paused on 2026-09-30 (suspended processes, uncommitted files of stopped agents)
 is NOT part of Stage 5: do not touch artifacts/dirac16complex/kohn-sham/** except by
 the byte-identity checks above.
+
+## 8. Lead's independent numerical checks (2026-09-30, binding input for the numerics agents)
+
+* Block map (reference eigensolver, unmodified, grid N = 240, L = 3, M(y) = 1 + 0.3 cos y,
+  v(y) = 0.2 e^y): spec h_{+1}(M, v; parity +1, tip g0) = spec h_{-1}(-M, v; parity -1,
+  tip f0) to 7.6e-6 at k = 0 and 7.5e-5 at k = 0.75 (all other parity/tip combinations
+  differ by O(0.2..2)).  In the reference's variables: tip g0 <-> f0 and the parity
+  sector flips; the vector potential v is unchanged; eps is unchanged.
+* lambda = 0, N = 8, L = 3, parity 0, N0 = 40, two levels: m = +1 tip g0: E = 0, gap
+  0.4307366923; m = -1 tip f0: E = 0, gap 0.4307336459; m = -1 tip g0 (untransformed):
+  gap 0.1008519432.  N = 112: E = 61.0911465 (m = +1, g0) and 61.0907178 (m = -1, f0),
+  gaps 0.0955469 and 0.0955462, scalarCharge -20.8526 and +20.8534, nTotal 112 both.
+* WARNING (reference negative-mass bookkeeping): in the same N = 112 runs the internal
+  arrays lv['n_c'] and lv['s_c'] (which feed M_eff and v_x) satisfy n_c(-M) = -n_c(+M) and
+  s_c(-M) = +s_c(+M), although nTotal and scalarCharge are consistent (n invariant, S
+  flipped).  With lambda != 0 (lambda_hat = 0.0973, N = 8) no sign of lambda pairs the -M
+  universe with the +M one in the unmodified reference: E(+1, +lambda, g0) = -0.0078300806,
+  E(-1, +lambda, f0) = +0.0075217455, E(-1, -lambda, f0) = -0.0075217455.  Audit and fix
+  the density bookkeeping for m < 0 (branch classification against the free spectrum, the
+  type -1 conjugation map, the weights) before any lambda != 0 pairing test.
+* Expectation from the block analysis (to be proved or refuted exactly, not assumed):
+  with the Stage-4 expectation rule the per-block scalar density carries the factor j and
+  flips under the map (s -> -s), the number density does not (n -> n); then
+  M_eff -> -M_eff requires (m, lambda) -> (-m, +lambda) and v_x = -(lambda/16) n is
+  unchanged as the map requires, so the KS ground and excited states of the +M and -M
+  universes would coincide with the SAME lambda (a mirror pair of equal energy), whereas at
+  the level of the classical field bilinears (no Krein metric) T1 gives
+  (m, lambda) -> (-m, -lambda) with T -> -T.  Which statement holds for which field and
+  which density definition must come out of the exact theory (pairing-theory.json).
+* Wick sign (independent numpy check): commuting circular Gaussian: Tr(A rho)Tr(B rho) +
+  Tr(A rho B rho) (exact Isserlis 0.2307291551, Monte Carlo 0.226); fermionic quasi-free
+  state, exact 3-mode Fock space, normal ordered: Tr(AG)Tr(BG) - Tr(AGBG) (0.369553091).
