@@ -56,6 +56,7 @@ proved exactly, in Wolfram Language and independently in Python):
 | 2. Primordial pair-creation field | `provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD` | see the status list below |
 | 3. Dark-sector numerics | `provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS`, `provenance/DIRAC16COMPLEX_STUDENT_GUIDE` | see the status list below |
 | 4. Kohn–Sham DFT, ground and first excited states | `provenance/DIRAC16COMPLEX_KOHN_SHAM_PRIMORDIAL`, `provenance/DIRAC16COMPLEX_KOHN_SHAM_STUDENT_GUIDE` (not yet written) | see the status list below |
+| 5. dirac16complex00 (commuting spinor field) and the {+M, −M} pairing | `provenance/DIRAC16COMPLEX00_FIELD_THEORY`, `provenance/DIRAC16COMPLEX_PAIR_CREATION` (in progress) | see the status list below |
 
 Status at this push (2026-09-30; HANDOFF.md section 2 is the authoritative,
 per-stage list):
@@ -75,6 +76,13 @@ per-stage list):
   complete and reproducible.  The independent Python reference agrees on 65 of 69
   cross-checks; 4 disagreements remain (`handoff/reviews/stage4_crosscheck_quick_2026-09-30.log`).
   The Stage-4 notebooks, documents, review and gate do not exist yet.
+- **Stage 4 is paused** at the user's request (2026-09-30).
+- **Stage 5 is in progress** (specification `handoff/specs/STAGE5_SPEC.md`): the
+  classical commuting 16-component Pin(4,4) spinor field dirac16complex00, the
+  Lagrangians of both fields with explicit mass terms, their energy-momentum tensors
+  and equations of state in an arbitrary and in the primordial field, the Kohn–Sham
+  ground and first excited states of both fields, and exact theorems on pairs of
+  universes of masses +M and −M.
 
 ## Reproducing
 
