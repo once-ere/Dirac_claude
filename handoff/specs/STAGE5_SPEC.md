@@ -1,0 +1,213 @@
+# STAGE 5 SPEC — dirac16complex00 (commuting), both Lagrangians with explicit mass
+# terms, their EMT/EoS in arbitrary and primordial fields, Kohn–Sham DFT of both in
+# the primordial field, and the exact {+M, -M} pairing theorems
+
+Binding for every Stage-5 agent.  Conventions are those of Stages 1-4
+(`handoff/specs/CONTRACT.md` with errata §11, `STAGE2_SPEC.md`, `STAGE4_SPEC.md`
+with errata §7-§9, `HANDOFF.md` §4): counting from 0, x = {x0..x7}, x4 = time,
+eta = diag(+1,+1,+1,+1,-1,-1,-1,-1), gamma^a = notebook T16^A[a] (exact fixture
+`artifacts/dirac16complex/arbitrary-field/algebra-fixture.json`), C = sigma16,
+Psibar = Psi^dagger C, B = -i C gamma^4, gamma^8 = diag(-I8, +I8) (fixture key
+"chirality"), canonical spin connection Omega_mu = (1/8) omega_{mu ab}[gamma^a, gamma^b]
+with omega_{mu ab} = eta_{ac} omega_mu^c_b.
+
+## 0. What the user asked (verbatim substance) and how "prove" is honoured
+
+1. Recall: dirac16complex is the SECOND-QUANTIZED (anticommuting, Grassmann) spinor field.
+2. Define dirac16complex00: a 16-component Pin(4,4) CLASSICAL spinor field whose 16
+   components are COMMUTING complex scalar fields that transform together as a
+   Pin(4,4) spinor (the analogue of Dirac's original 4-component wave function).
+3. A non-zero, non-trivial Lagrangian for dirac16complex00 with a non-zero,
+   non-trivial coupling to the spin connection and to gravity.
+4. For BOTH Lagrangians an explicit non-zero, non-trivial mass term, linear in the
+   mass and quadratic in the spinor components.
+5. Write out and record (md, tex, pdf): both Lagrangians, the EMT (operator for
+   dirac16complex, classical for dirac16complex00), kinetic energy, potential energy,
+   pressure, energy density and equations of state for the covariant field equations
+   (the Euler–Lagrange equations of both), in an ARBITRARY gravitational field and in
+   the PRIMORDIAL gravitational field.
+6. CRITICAL: in the primordial field, a DFT-motivated approximation like Stage 4
+   (Kohn–Sham fermion-gas thermodynamic effective potential, DFT ground and first
+   excited states) for EACH field, and "PROVE that Universes of masses {+mass, -mass}
+   are created in pairs" for each field; new md/tex/pdf with the exact proof results.
+7. Push; check and verify the repository.
+
+The author's notebook states the goal as a HYPOTHESIS (cell 6: "at time x4 = 0 ... a
+pair of universes with MASSES ± M is created"; cell 17: "TODO: prove Universe(s) of
+masses ±M are created in pairs!"; cell 7: "Are Universe(s) of masses ± M created in
+pairs at time x4 = 0?").  HONESTY RULE: prove exactly what the equations imply, as
+theorems with hypotheses stated; verify each exactly (Wolfram and independently
+sympy) and numerically (Kohn–Sham, two solvers).  State separately, as
+interpretation, what is not derived (a dynamical creation rate or amplitude, a wave
+function of the universe).  Never write "proved" for anything that is not.
+
+## 1. The two fields and their Lagrangians (arbitrary gravitational field)
+
+Both fields: Psi : M^8 -> C^16, Psibar = Psi^dagger C, D_mu = d_mu + Omega_mu,
+gamma^mu = e_a^mu gamma^a.  dirac16complex: Grassmann-odd components (Stage 1).
+dirac16complex00: commuting (c-number) components.
+
+    L = sqrt|g| [ (1/2)(Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi)
+                  - m Psibar Psi  -  U(Psibar Psi) ]                        (L1)
+
+* The mass term L_m = -m sqrt|g| Psibar Psi is LINEAR in m and QUADRATIC in the
+  components.  Non-zero and non-trivial: exhibit exact configurations with
+  Psibar Psi != 0 (for the Grassmann field: a nonzero element of the Grassmann
+  algebra; for the commuting field: a numerical spinor), and show that it changes the
+  field equation (the free equation gamma^mu D_mu Psi = m Psi has the mass-shell
+  consequence (gamma^mu D_mu)^2 Psi = m^2 Psi + ..., i.e. m enters the dispersion
+  k^2 = m^2 in flat space).
+* U: dirac16complex: polynomial in S = Psibar Psi, default U = (lambda/2) S^2
+  (Grassmann: only polynomials, S^17 = 0).  dirac16complex00: any smooth U(S); default
+  the same U = (lambda/2) S^2 so that the two theories differ ONLY in the statistics.
+* Reality: C gamma^a is real antisymmetric (anti-Hermitian) and C is real symmetric;
+  prove L real (Hermitian) for commuting components by the same argument as for the
+  Grassmann ones (complex conjugation reverses products in both conventions); verify.
+* Non-trivial gravitational/spin-connection coupling: gamma^mu Omega_mu != 0 in a
+  curved field (explicit metric jets), the divergence identity
+  d_mu(sqrt|g| gamma^mu) = sqrt|g| [gamma^mu, Omega_mu], and the Lichnerowicz
+  formula; the coupling enters the field equation (show a nonzero Omega-dependent term).
+* REAL restriction (the notebook's Lg[]): for REAL COMMUTING Psi16 the notebook-type
+  Lagrangian Psi^T sigma16 T16^a D_a Psi (+ mass term (H M) Psi^T sigma16 Psi) is
+  NON-trivial (sigma16 T16^a antisymmetric gives a symplectic first-order kinetic
+  term; sigma16 symmetric gives a nonzero mass term), in contrast with the Grassmann
+  case of Stage 1 where it is a total divergence with an identically vanishing mass
+  term.  Prove both statements exactly; state which Lagrangian dirac16complex00 uses
+  (the complex (L1)) and how the real restriction relates to it.
+
+## 2. Field equations, EMT, conserved current, energies (arbitrary field)
+
+    gamma^mu D_mu Psi = (m + U'(S)) Psi,      (D_mu Psibar) gamma^mu = -(m + U'(S)) Psibar    (EL)
+
+Same form for both statistics (derive for commuting components: the variation of a
+product has no Grassmann signs; verify that the result is identical).
+
+EMT (vielbein variation, symmetric, Belinfante-equivalent; Stage-1 form):
+
+    T_mu nu = -(1/4)[Psibar gamma_mu D_nu Psi + Psibar gamma_nu D_mu Psi
+                     - (D_mu Psibar) gamma_nu Psi - (D_nu Psibar) gamma_mu Psi] + g_mu nu L_s
+
+(L_s = L/sqrt|g|).  For dirac16complex T_mu nu is an operator (normal ordered with
+respect to the free Krein vacuum as in Stage 1); for dirac16complex00 a c-number
+field.  Prove conservation nabla^mu T_mu nu = 0 on shell (both), the trace on shell
+(-m S + 7 S U' - 8 U), the current j^mu = Psibar gamma^mu Psi and its conservation.
+Energy density rho = T_44 (x4 time; state the index position and sign convention used
+in Stage 1 and keep it), pressures p_(i) = T^i_i (no sum) etc., kinetic/potential
+splits KE_L, PE_L and KE_H, PE_H exactly as Stage 1 (CONTRACT §7-§8), equations of
+state w_(i) = p_(i)/rho.  For dirac16complex00 add: the conserved charge density
+j^4 is INDEFINITE (Krein metric B of signature (8,8)), so the Dirac probability
+interpretation fails in (4,4); the classical energy is not bounded below; state and
+prove both exactly (explicit solutions).
+
+## 3. Primordial gravitational field
+
+Use the Stage-2 primordial field (Dirac16ComplexPrimordial.wl, STAGE2_SPEC.md, with
+its errata) and the Stage-4 static warped form (STAGE4_SPEC §1, §8 E4.3: R = -42H^2,
+rho_req = -21H^2/kappa, p_req = +15H^2/kappa).  Specialise §1-§2 for both fields:
+reduced EL equations (the 3H gamma^0 term removed by W^{-3}), the homogeneous
+(cosmological) mean-field EMT, KE/PE, rho, p, w, and the reduced 2x2 block equations
+of Stage 4.
+
+## 4. Kohn–Sham DFT of both fields in the primordial field
+
+Common frame (Stage 4, unchanged): static warped chart, sector and ansatz, eight 2x2
+blocks, parity conditions at the brane, bag condition at the tip, Mermin finite-T
+functional, Fermi–Dirac occupations with mu from N ("fermion-gas thermodynamics";
+for dirac16complex00 this is the Pauli filling of Dirac one-particle states, imposed
+as the user specifies), no correlation term, no-sea convention of Stage 4.
+
+The ONLY place where the statistics enters the energy functional of a quasi-free
+(Gaussian) state with one-body density matrix rho is the Wick contraction of the
+interaction:
+
+    dirac16complex   (anticommuting): <U> = (lambda/2)[Tr(M rho)^2 - Tr(M rho M rho)]
+    dirac16complex00 (commuting):     <U> = (lambda/2)[Tr(M rho)^2 + Tr(M rho M rho)]
+
+with M the expectation-rule matrix of S (Stage 4: BC).  Consequences to derive
+exactly: filled shell E_x = -E_H/8 (anticommuting) versus +E_H/8 (commuting); uniform
+gas e_x = -(lambda/32)(n^2 + S^2) versus e_x^{00} = +(lambda/32)(n^2 + S^2); KS
+potentials M_eff = m + lambda S_p + v_s, v_s = -+(lambda/16) S, v_v = -+(lambda/16) n
+(upper sign anticommuting).  So dirac16complex00 has M_eff = m + (17/16) lambda S_p and
+v_x = +(lambda/16) n_p.  State the status of this model plainly: a DFT-motivated
+mean field of a random-phase (Gaussian) ensemble of classical modes with Fermi–Dirac
+occupations, not a quantum theory of commuting spinors (which would violate the
+spin-statistics connection).
+
+Ground state: the self-consistent branch reached by continuation in lambda from
+lambda = 0 (STAGE4_SPEC E4.8).  First excited state: KS gap, particle-hole list
+(occupation floor 1e-12, E4.9), Delta-SCF.  Finite T as in Stage 4.
+
+## 5. The {+M, -M} pairing theorems (to PROVE exactly, both fields)
+
+T1 (chirality map, field level, arbitrary gravitational field, both statistics).
+    Gamma8 : Psi -> gamma^8 Psi.  gamma^8 is Hermitian, (gamma^8)^2 = 1, anticommutes
+    with every gamma^a, commutes with C and with every Omega_mu.  Hence
+    S[gamma^8 Psi] = S[Psi], kinetic term -> -(kinetic term), j^mu -> -j^mu, B -> -B,
+    L_{m,lambda}[gamma^8 Psi] = -L_{-m,-lambda}[Psi], Psi solves EL_{m,lambda} iff
+    gamma^8 Psi solves EL_{-m,-lambda}, and
+    T_mu nu[gamma^8 Psi; -m, -lambda] = -T_mu nu[Psi; m, lambda].
+    COROLLARY (pair): for Psi_+ with (m, lambda) and Psi_- = gamma^8 Psi_+ with
+    (-m, -lambda): T_mu nu^{pair} = 0 identically, total charge 0, total energy,
+    momentum and stresses 0 — in ANY gravitational field, at every x4, in particular
+    at x4 = 0.  The Einstein (or Einstein–Lovelock) equations with the pair as source
+    are the source-free equations: a {+M, -M} pair of this type carries no net
+    energy-momentum and no net charge, so its creation from the field-free state is
+    consistent with every conservation law and constraint.  (Theorem about
+    consistency/kinematics, NOT a computed creation rate.)  For lambda = 0 the pair
+    consists of the same free field with masses +m and -m.
+T2 (mirror map with the same lambda).  Combine gamma^8 with a Pin(4,4) reflection of
+    character -1 (CONTRACT E3) to get a map (m, lambda) -> (-m, lambda) with
+    L -> +L (up to the coordinate reflection); derive the EMT relation (T -> +T on the
+    reflected coordinates).  In the Z2-extended primordial field (Stage 4: the
+    reflection Psi(-y) = +-gamma^0 Psi(y) is a symmetry iff the mass function is odd)
+    this is the "mirror universe" of mass -M on the other side of the brane.
+T3 (Kohn–Sham level, primordial field, both statistics).  The block-level image of
+    T1/T2 (sigma1 conjugation of the 2x2 blocks etc.): derive exactly how
+    (m, lambda, parity p, bag angle theta, j) map, show the KS equations, occupations,
+    energies, densities (n -> n, S -> -S or as derived), potentials, EMT profiles and
+    the KS ground and first excited states of the +M universe map EXACTLY onto those
+    of the -M universe (with the transformed boundary conditions), and state what
+    changes if the -M universe keeps the untransformed boundary conditions.  Derive
+    the pair totals at the KS level (energy, charge, EMT averages) including the
+    normal ordering/expectation rule (B -> -B under gamma^8).
+T4 Numerical demonstration (both solvers, both fields): compute KS ground and first
+    excited states of the +M and -M universes (m = 1 and 3, L = 3, N = 8 and 112,
+    lambda in {0, +-lambda_hat_1, +-lambda_hat_2}, T = 0 and one T > 0), verify the
+    pairing to solver precision, report the pair totals, and the untransformed-BC
+    control.
+
+## 6. Deliverables (Stage 5)
+
+* wolfram/Dirac16Complex00.wl + scripts/verify_dirac16complex00.wls (exact: §1-§3 for
+  the commuting field, the real restriction vs the notebook's Lg[], side-by-side with
+  the Grassmann field) -> artifacts/dirac16complex/pair-creation/wolfram-dirac16complex00-report.json
+* wolfram/Dirac16ComplexPairing.wl + scripts/verify_dirac16complex_pairing.wls (exact:
+  T1-T3, the Wick sign, the uniform-gas e_x^{00}) -> .../wolfram-pairing-report.json
+* scripts/check_dirac16complex00.py, scripts/check_dirac16complex_pairing.py
+  (independent sympy/mpmath, own derivations; agreement checks with the Wolfram reports)
+* Numerics: the Stage-4 Rust crate studies/dirac16complex_kohn_sham gains a
+  `pairs` subcommand (and whatever parameters it needs: mass sign, statistics sign,
+  transformed boundary conditions) with outputs in
+  artifacts/dirac16complex/pair-creation/rust/; the Stage-4 subcommands and outputs
+  must stay BYTE-IDENTICAL (new parameters default to the Stage-4 values and are not
+  written when default; verify by rerunning `spectrum`, `excited --quick` and one scf
+  run and comparing bytes); the reference solver scripts/ks_reference_solver.py gains
+  the same options (Stage-4 outputs unchanged) with outputs in .../pair-creation/reference/;
+  a checker scripts/check_dirac16complex_pairs.py (Rust vs reference; pairing
+  identities; pair totals).
+* Documents: provenance/DIRAC16COMPLEX00_FIELD_THEORY.{md,tex,pdf} (item 5 of §0 for
+  both fields) and provenance/DIRAC16COMPLEX_PAIR_CREATION.{md,tex,pdf} (items 6: the
+  DFT of both fields, the theorems with proofs, verification records, the numerics,
+  what is and is not proved), registered, pinned in tests.
+* Gate scripts/verify_stage5_pair_creation.{ps1,sh} (Stage-3/4 pattern; final line
+  stage5_pair_creation_verification=OK); unit tests tests/test_d16c_stage5_*.py.
+
+## 7. Process rules
+
+Exact first (Wolfram + independent sympy), then numerics, then documents, then four
+adversarial review lenses, then fixes, then the gate from a fresh public clone, then
+push.  Never modify dirac-main/, vendor/, the author's .nb input notebook, or any
+Stage 1-3 output; Stage-4 outputs must stay byte-identical.  The Stage-4 work that
+was paused on 2026-09-30 (suspended processes, uncommitted files of stopped agents)
+is NOT part of Stage 5: do not touch artifacts/dirac16complex/kohn-sham/** except by
+the byte-identity checks above.
