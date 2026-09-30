@@ -335,6 +335,39 @@ class ConvertDeterminismTests(unittest.TestCase):
         ):
             self.assertIn(primitive, latex)
 
+    def test_sections_from_zero_is_opt_in(self) -> None:
+        markdown = minimal("## 0. First\n\nText.\n\n### 0.1 Sub\n\nMore.\n")
+        plain = builder.convert(markdown, True, True)
+        zero = builder.convert(markdown, True, True, sections_from_zero=True)
+        self.assertNotIn("\\setcounter{section}{-1}", plain)
+        self.assertEqual(
+            zero,
+            plain.replace(
+                "\\newpage\n", "\\newpage\n\\setcounter{section}{-1}\n", 1
+            ),
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "doc.md"
+            source.write_bytes(markdown.encode("utf-8"))
+            target = Path(directory) / "doc.tex"
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPTS / "build_dissertation_tex.py"),
+                    "--strip-heading-numbers",
+                    "--developer-layout",
+                    "--number-sections-from-zero",
+                    "--input",
+                    str(source),
+                    "--output",
+                    str(target),
+                ],
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            self.assertEqual(target.read_bytes(), zero.encode("utf-8"))
+
     def test_positional_signature_and_default_author_and_date(self) -> None:
         latex = builder.convert(minimal("Text.\n"), True, False)
         self.assertIn(

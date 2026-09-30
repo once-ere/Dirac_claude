@@ -84,6 +84,11 @@
 #     symbol inside fenced code is set in the math font and may be wider, so
 #     such lines must be kept shorter (the log scan of build_provenance_pdf.py
 #     reports any Overfull line).
+#   * --number-sections-from-zero (added 2026-09-30; keyword
+#     sections_from_zero= of convert()) emits \setcounter{section}{-1} after
+#     \newpage, so that the first section is numbered 0: the textbook counts
+#     its chapters from 0, and with --strip-heading-numbers LaTeX would
+#     otherwise print chapter N as N+1.  Without it the output is unchanged.
 #   * Unchanged: the preamble for documents that use none of the extensions,
 #     and every determinism primitive (\pdfobjcompresslevel=0,
 #     \pdfinfoomitdate=1, \pdftrailerid{}, \pdfsuppressptexinfo=15, LF-only
@@ -379,6 +384,11 @@ def parse_arguments() -> argparse.Namespace:
             "Use compact ragged tables and breakable long code spans for "
             "the repository-wide Developer Summary."
         ),
+    )
+    parser.add_argument(
+        "--number-sections-from-zero",
+        action="store_true",
+        help="Number the first section 0 instead of 1 (the textbook).",
     )
     parser.add_argument("--author", default=DEFAULT_AUTHOR)
     parser.add_argument("--date", default=DEFAULT_DATE)
@@ -885,6 +895,7 @@ def convert(
     author: str = DEFAULT_AUTHOR,
     date: str = DEFAULT_DATE,
     image_root: Path | None = None,
+    sections_from_zero: bool = False,
 ) -> str:
     """Return the LaTeX document for markdown.
 
@@ -1103,6 +1114,8 @@ def convert(
 \tableofcontents
 \newpage
 """
+    if sections_from_zero:
+        preamble += "\\setcounter{section}{-1}\n"
     return preamble + "\n".join(body) + "\n\\end{document}\n"
 
 
@@ -1119,6 +1132,7 @@ def main() -> int:
         author=arguments.author,
         date=arguments.date,
         image_root=arguments.image_root,
+        sections_from_zero=arguments.number_sections_from_zero,
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(latex, encoding="utf-8", newline="\n")

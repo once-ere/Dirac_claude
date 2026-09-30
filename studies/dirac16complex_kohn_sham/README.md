@@ -58,7 +58,9 @@ verifies the exact 2x2 block basis in Gaussian-integer arithmetic and writes
 * **Reduction** (`blocks.rs`, exact in the generator): the ansatz
   `Psi = e^{-i eps x4} e^{ikx} W^{-3} chi(y)` removes the spin connection;
   `gamma^0, gamma^0 gamma^1, gamma^0 gamma^4, C, B` are simultaneously
-  block-diagonal in eight 2x2 blocks labelled by `J = gamma^0 gamma^1 gamma^4 = s`,
+  block-diagonal in eight 2x2 blocks labelled by `A0 A1 A4 = -gamma^0 gamma^1 gamma^4 = s`
+  (so `s = -j`, where `j` is the eigenvalue of `J = gamma^0 gamma^1 gamma^4` used by the
+  exact theory; `rust/spectrum/theory-agreement.json`, note `labelRelation`),
   `i gamma^2 gamma^3 = c1`, `i gamma^5 gamma^6 = c2`.  Block forms:
   `A0 -> sigma_z, A1 -> -i sigma_y, A4 -> -s sigma_x, C -> -c1 sigma_y,
   B -> c1 s (scalar), BC -> -s sigma_y, gamma^4 gamma^1 -> s sigma_z`.

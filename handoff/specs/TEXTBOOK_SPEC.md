@@ -65,7 +65,8 @@ from 0; x = {x0, ..., x7}; x4 is time; eta = diag(+1,+1,+1,+1,-1,-1,-1,-1).
   chapters in order into provenance/DIRAC16COMPLEX_TEXTBOOK.md (deterministic, LF), checks
   cross-references "Chapter N" / "Section N.M" resolve, and fails on duplicate section numbers.
 * PDF: python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_TEXTBOOK.md
-  --developer-layout [--register]; warning-free; registered in provenance/pdf-specifications.json;
+  --developer-layout --number-sections-from-zero [--register] (the option, added 2026-09-30,
+  makes LaTeX number chapter N as N; without it every chapter prints one too high); warning-free; registered in provenance/pdf-specifications.json;
   pinned in tests/test_d16c_textbook_publication.py.
 * Each chapter writer test-builds its chapter alone in scratch (wrap it with a "# " title line)
   with build_provenance_pdf.py in verify mode until warning-free.

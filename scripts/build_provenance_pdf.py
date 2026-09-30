@@ -131,6 +131,11 @@ def parse_arguments() -> argparse.Namespace:
     )
     parser.add_argument("--developer-layout", action="store_true")
     parser.add_argument(
+        "--number-sections-from-zero",
+        action="store_true",
+        help="pass --number-sections-from-zero to the builder (the textbook)",
+    )
+    parser.add_argument(
         "--author", default=build_dissertation_tex.DEFAULT_AUTHOR
     )
     parser.add_argument("--date", default=build_dissertation_tex.DEFAULT_DATE)
@@ -347,6 +352,8 @@ def build_and_check(arguments: argparse.Namespace) -> tuple[
         builder.append("--strip-heading-numbers")
     if arguments.developer_layout:
         builder.append("--developer-layout")
+    if arguments.number_sections_from_zero:
+        builder.append("--number-sections-from-zero")
     exit_codes = []
     for seed, output in zip(
         HASH_SEEDS, (tex_relative, relative_posix(repeat_tex, root))

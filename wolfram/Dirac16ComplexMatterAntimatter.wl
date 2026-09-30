@@ -450,3 +450,221 @@ checkM1Noether[] := Module[{locC, locG, frmC, frmG, idG, idC, ctrl, v, geo, cp, 
   addMeas["M1_negativeControlNotebookConnectionIdentityFails", ctrl];
   addCheck["MA_M1_negativeControlNotebookConnection", And @@ ctrl];
 ];
+
+(* on-shell conservation with exact on-shell jets (Stage-1 solver, commuting evaluation) *)
+randomSym2[seed_Integer] := Module[{r = geoRandom[seed, 36*16], c = 0, arr = ConstantArray[0, {8, 8, 16}]},
+  Do[With[{vv = r[[16 c + 1 ;; 16 c + 16]]}, arr[[i, j]] = vv; arr[[j, i]] = vv; c++], {i, 8}, {j, i, 8}];
+  arr];
+randomFree[seed_Integer] := {geoRandom[seed, 16], Partition[geoRandom[seed + 1, 128], 16], randomSym2[seed + 2],
+  geoRandom[seed + 3, 16], Partition[geoRandom[seed + 4, 128], 16], randomSym2[seed + 5]};
+mList = {3/7, -2/5, 5/9}; lamList = {5/11, 7/13, -3/8};
+
+checkM1OnShell[] := Module[{res},
+  res = Table[Module[{geo = geoAt[k], v, free, sol, ok, p0, p1, p2, q0, q1, q2, parts, fe, div, divFree},
+      v = geoVals[geo];
+      free = randomFree[4100 + 10 k];
+      {sol, ok} = geoSolveOnShell[geo, free, mList[[k]], lamList[[k]]];
+      {p0, p1, p2, q0, q1, q2} = sol;
+      parts = cParts[v, p0, p1, q0, q1];
+      fe = cFieldEqs[v, parts, mList[[k]], (lamList[[k]] #) &];
+      div = cDivCurrent[geo, p0, p1, q0, q1];
+      divFree = cDivCurrent[geo, free[[1]], free[[2]], free[[4]], free[[5]]];
+      <|"point" -> k, "m" -> jnum[mList[[k]]], "lambda" -> jnum[lamList[[k]]], "solverResidualZero" -> ok,
+        "fieldEquationsZeroAtPoint" -> (zeroE[fe["E"]] && zeroE[fe["Ebar"]]),
+        "divergenceOnShellIsZero" -> (Expand[div] === 0),
+        "divergenceOffShellIsNonzero" -> (Expand[divFree] =!= 0)|>], {k, 3}];
+  addMeas["M1_onShellConservationG1", res];
+  addCheck["MA_M1_onShellConservation_G1", AllTrue[res, #["solverResidualZero"] && #["fieldEquationsZeroAtPoint"] &&
+      #["divergenceOnShellIsZero"] && #["divergenceOffShellIsNonzero"] &]];
+];
+
+(* the charge density: Gaussian normal gauge and a general frame *)
+checkM1Charge[] := Module[{x, ee, gx4, hermR, cp, ok},
+  hermR[m_] := Transpose[m] /. Complex[a_, b_] :> Complex[a, -b];   (* all symbols real *)
+  ee = Table[Symbol["Dirac16ComplexMatterAntimatter`Private`ev" <> ToString[a]], {a, 0, 7}];
+  gx4 = Sum[ee[[a + 1]] G[a], {a, 0, 7}];                   (* gamma^{x4} = e_a^4 gamma^a *)
+  cp = Expand[CharacteristicPolynomial[Bm, x]];
+  ok = <|
+    "j4MatrixIsIB" -> (C16.G[4] === I Bm),
+    "J4MatrixIsB" -> (-I C16.G[4] === Bm),
+    "BHermitian" -> (herm[Bm] === Bm),
+    "BSpectrum" -> (cp === Expand[(x - 1)^8 (x + 1)^8]),
+    "BTraceless" -> (Tr[Bm] === 0),
+    "generalFrameChargeMatrixHermitian" -> zeroE[hermR[-I C16.gx4] - (-I C16.gx4)]|>;
+  addMeas["M1_chargeDensity", <|"checks" -> ok,
+    "statement" -> "sqrt|g| j^{x4} = sqrt|g| Psibar gamma^{x4} Psi; in Gaussian normal gauge gamma^{x4} = gamma^4 and J^4 = -i j^4 = Psi^dagger B Psi with B Hermitian, B^2 = 1, spectrum (+1)^8 (-1)^8: the conserved charge density is an indefinite (8,8) form (Krein structure, Stage 1 Theorem 10.1). Q = integral over the slice x4 = const of sqrt|g| J^{x4} d^7x.",
+    "chargeConservation" -> "derived: integrating the exact local identity d_mu(sqrt|g| j^mu) = 0 (on shell) over a slab between two slices x4 = t1, t2 and applying the divergence theorem in the slice coordinates gives Q(t2) - Q(t1) = - (flux through the lateral boundary), which vanishes for fields with compact support on the slices (or sufficient fall-off, or periodic identifications). The divergence theorem is pure calculus and holds for the indefinite slice metric as well. Not a separate machine check.",
+    "consequence" -> "no solution of the field equations of L1 (either statistics, any U, any gravitational field with g^44 != 0) changes Q inside one universe"|>];
+  addCheck["MA_M1_chargeDensityMatrix", AllTrue[Values[ok], TrueQ]];
+];
+
+(* recorded Stage-4 Kohn-Sham runs: the net occupation equals the imposed N (data, not a proof) *)
+checkM1KS[root_String] := Module[{refFiles, rustFiles, refRows, rustRows, tol, theoryFile, theory, defn, rowsOK, constraintInFunctional},
+  tol[n_] := 10^-9 Max[1, Abs[n]];
+  refFiles = Sort[FileNames["run.json", FileNameJoin[{root, "artifacts", "dirac16complex", "kohn-sham", "reference"}], 2]];
+  rustFiles = Sort[FileNames["run.json", FileNameJoin[{root, "artifacts", "dirac16complex", "kohn-sham", "rust", "scf"}], 2]];
+  refRows = Map[Function[f, Module[{d = Quiet[Import[f, "RawJSON"]], nn, lv},
+      If[! AssociationQ[d], Return[<|"file" -> f, "parsed" -> False|>, Module]];
+      nn = d["params"]["N"];
+      lv = If[ListQ[d["levels"]], d["levels"], {}];
+      <|"parsed" -> True, "N" -> nn, "levels" -> Length[lv],
+        "maxAbsDeviation" -> If[lv === {}, Missing[], Max[Abs[#["energies"]["nTotal"] - nn] & /@ lv]],
+        "ok" -> (lv =!= {} && AllTrue[lv, Abs[#["energies"]["nTotal"] - nn] <= tol[nn] &])|>]], refFiles];
+  rustRows = Map[Function[f, Module[{d = Quiet[Import[f, "RawJSON"]], nn},
+      If[! AssociationQ[d], Return[<|"file" -> f, "parsed" -> False|>, Module]];
+      nn = d["parameters"]["N"];
+      <|"parsed" -> True, "N" -> nn, "maxAbsDeviation" -> Abs[d["nTotal"] - nn], "ok" -> (Abs[d["nTotal"] - nn] <= tol[nn])|>]], rustFiles];
+  theoryFile = FileNameJoin[{root, "artifacts", "dirac16complex", "kohn-sham", "kohn-sham-theory.json"}];
+  theory = Quiet[Import[theoryFile, "RawJSON"]];
+  defn = If[AssociationQ[theory], theory["functional"]["definition"], ""];
+  constraintInFunctional = StringQ[defn] && StringContainsQ[defn, "sum_n f_n = N"];
+  rowsOK = Length[refRows] > 0 && Length[rustRows] > 0 && AllTrue[Join[refRows, rustRows], TrueQ[#["parsed"]] && TrueQ[#["ok"]] &];
+  addMeas["M1_ksFixedNetNumber", <|
+    "status" -> "recorded floating-point data (not an exact proof): the Stage-4 Mermin functional constrains sum_n f_n = N with the chemical potential mu as Lagrange multiplier, and in the no-sea convention the net occupation nTotal (particle occupations minus sea holes) is the Kohn-Sham image of the U(1) charge; every recorded run has nTotal = N to 1e-9 relative",
+    "functionalContainsConstraint" -> constraintInFunctional,
+    "referenceRunFiles" -> Length[refFiles], "referenceLevelsChecked" -> Total[Lookup[refRows, "levels", 0]],
+    "rustRunFiles" -> Length[rustFiles],
+    "maxAbsDeviationReference" -> If[refRows === {}, Missing[], Max[DeleteMissing[Lookup[refRows, "maxAbsDeviation", Missing[]]]]],
+    "maxAbsDeviationRust" -> If[rustRows === {}, Missing[], Max[DeleteMissing[Lookup[rustRows, "maxAbsDeviation", Missing[]]]]]|>];
+  addCheck["MA_M1_ksFixedNetNumberRecorded", rowsOK && constraintInFunctional];
+];
+
+(* ================================================================== *)
+(* 6. M2: discrete maps (C, P, T and combinations), both statistics    *)
+(* ================================================================== *)
+(* A discrete map is a triple (M, R, type): R a subset of the frame/coordinate directions
+   0..7 that are reflected (Lambda = diag(rd), rd_a = -1 for a in R), M a constant 16x16
+   matrix, type "linear" (Psi'(x) = M Psi(Rx)) or "antilinear" (Psi'(x) = M Psi^*(Rx)).
+   In a curved field the same map acts on the frame, e_mu^a -> e_mu^b Lambda_b^a (same
+   metric), without a coordinate change; a coordinate reflection is then a diffeomorphism,
+   under which L is a scalar density. *)
+
+signOf[x_, y_] := Which[zeroE[x - y], 1, zeroE[x + y], -1, True, 0];
+gSignOf[x_Association, y_Association] := Which[gEqualQ[x, y], 1, gEqualQ[x, gNeg[y]], -1, True, 0];
+rDiag[R_List] := Table[If[MemberQ[R, a], -1, 1], {a, 0, 7}];
+sCount[R_List] := Count[R, _?(# <= 3 &)];
+tCount[R_List] := Length[R] - sCount[R];
+constSign[list_List] := If[Length[Union[list]] === 1 && MemberQ[{1, -1}, First[list]], First[list], 0];
+(* M^{-1} gamma^a M rd_a = eps gamma^a for all a *)
+epsOf[M_, rd_] := With[{Mi = Inverse[M]}, constSign[Table[signOf[Mi.G[a].M rd[[a + 1]], G[a]], {a, 0, 7}]]];
+(* M^dagger C gamma^a M rd_a = kappaLin C gamma^a for all a;  M^dagger C M = sigmaLin C *)
+kappaLinOf[M_, rd_] := constSign[Table[signOf[herm[M].C16.G[a].M rd[[a + 1]], C16.G[a]], {a, 0, 7}]];
+sigmaLinOf[M_] := signOf[herm[M].C16.M, C16];
+(* the image of L_{m,lambda}: kappa L_{sigma kappa m, kappa lambda} *)
+lMapString[k_, s_] := Which[
+  k === 1 && s === 1, "L_{m,lambda} (exact symmetry)",
+  k === 1 && s === -1, "L_{-m,lambda}",
+  k === -1 && s === 1, "-L_{-m,-lambda}",
+  k === -1 && s === -1, "-L_{m,-lambda}",
+  True, "undefined"];
+
+(* X -> A.X - s X.B on row-major vec(X) *)
+opAXsXB[a_, b_, s_] := KroneckerProduct[a, IdentityMatrix[Length[b]]] - s KroneckerProduct[IdentityMatrix[Length[a]], Transpose[b]];
+nullBasis[rows_] := Module[{mat = SparseArray[rows], ns}, ns = Normal /@ NullSpace[mat]; Partition[#, 16] & /@ ns];
+primitive[m_] := Module[{flat = Flatten[m], nz, sc, g, f},
+  nz = Select[flat, # =!= 0 &];
+  If[nz === {}, Return[m]];
+  sc = (LCM @@ (Denominator /@ (Flatten[{Re[#], Im[#]} & /@ nz]))) m;
+  f = First[Select[Flatten[sc], # =!= 0 &]];
+  sc/f];
+
+monoPrim := monoPrim = primitive /@ monomials;
+monoIndex[x_] := With[{px = primitive[x]}, SelectFirst[Range[256], monoPrim[[#]] === px &, 0]];
+
+checkM2Intertwiners[] := Module[{sol, solT, okC, okT, pats, patOK, comm, eachDim, explicit, explicitOK},
+  (* Psi -> M Psi^*: the Dirac operator maps to eta times itself iff gamma^a M = eta M gamma^{a*} (all a) *)
+  sol = Association[Table[eta -> nullBasis[Join @@ Table[opAXsXB[G[a], Conjugate[G[a]], eta], {a, 0, 7}]], {eta, {1, -1}}]];
+  okC = Length[sol[1]] === 1 && Length[sol[-1]] === 1 &&
+    primitive[First[sol[1]]] === id16 && primitive[First[sol[-1]]] === primitive[g8] &&
+    AllTrue[Join[sol[1], sol[-1]], Function[x, AllTrue[spinGens, zeroE[#.x - x.#] &]]];
+  addMeas["M2_conjugationIntertwiners", <|
+    "condition" -> "gamma^a M = eta M conj(gamma^a) for a = 0..7 (the gammas are real)",
+    "dimensionEtaPlus" -> Length[sol[1]], "dimensionEtaMinus" -> Length[sol[-1]],
+    "basisEtaPlus" -> "I16", "basisEtaMinus" -> "gamma^8",
+    "commuteWithEverySab" -> AllTrue[Join[sol[1], sol[-1]], Function[x, AllTrue[spinGens, zeroE[#.x - x.#] &]]],
+    "meaning" -> "the only constant charge conjugations Psi -> M Psi^* compatible with the Dirac operator are M = z I (eta = +1: same sign of the kinetic operator) and M = z gamma^8 (eta = -1); both commute with every Omega_mu, so the statement holds in every gravitational field (real vielbein, real Omega)"|>];
+  addCheck["MA_M2_conjugationIntertwiners", okC];
+  (* Psi -> M Psibar^T = M C Psi^*: condition gamma^a M = zeta M gamma^{aT} *)
+  solT = Association[Table[zeta -> nullBasis[Join @@ Table[opAXsXB[G[a], Transpose[G[a]], zeta], {a, 0, 7}]], {zeta, {1, -1}}]];
+  okT = Length[solT[1]] === 1 && Length[solT[-1]] === 1 &&
+    primitive[First[solT[-1]]] === primitive[C16] && primitive[First[solT[1]]] === primitive[g8.C16] &&
+    primitive[First[solT[-1]].C16] === id16 && primitive[First[solT[1]].C16] === primitive[g8];
+  addMeas["M2_transposeIntertwiners", <|
+    "condition" -> "gamma^a M = zeta M gamma^{aT} (a = 0..7)",
+    "dimensionZetaPlus" -> Length[solT[1]], "dimensionZetaMinus" -> Length[solT[-1]],
+    "basisZetaMinus" -> "C (Psi -> C Psibar^T = Psi^*)", "basisZetaPlus" -> "gamma^8 C (Psi -> gamma^8 C Psibar^T = gamma^8 Psi^*)",
+    "meaning" -> "the Psibar^T forms are the same two maps: M Psibar^T = (M C) Psi^*"|>];
+  addCheck["MA_M2_transposeIntertwiners", okT];
+  (* all sign patterns: M gamma^a M^{-1} = eps_a gamma^a *)
+  pats = Table[Table[signOf[monomials[[i]].G[a].Inverse[monomials[[i]]], G[a]], {a, 0, 7}], {i, 256}];
+  comm = nullBasis[Join @@ Table[opAXsXB[G[a], G[a], 1], {a, 0, 7}]];
+  patOK = Sort[pats] === Sort[Tuples[{-1, 1}, 8]] && Length[comm] === 1 && primitive[First[comm]] === id16;
+  (* explicit exact null spaces for the patterns of the single reflections, of the 3-space, 4-space,
+     time and full reflections (both signs) *)
+  explicit = Table[Module[{rd = rDiag[Rset], ns},
+      Table[ns = nullBasis[Join @@ Table[opAXsXB[G[a], G[a], eps rd[[a + 1]]], {a, 0, 7}]];
+        <|"R" -> Rset, "eps" -> eps, "dimension" -> Length[ns],
+          "monomial" -> If[Length[ns] === 1, With[{i = monoIndex[First[ns]]}, If[i === 0, "none", allSubsets[[i]]]], "none"]|>, {eps, {1, -1}}]],
+    {Rset, Join[Table[{b}, {b, 0, 7}], {{1, 2, 3}, {0, 1, 2, 3}, {4, 5, 6, 7}, {1, 2, 3, 4}, Range[0, 7], {}}]}];
+  explicit = Flatten[explicit, 1];
+  explicitOK = AllTrue[explicit, #["dimension"] === 1 &&
+      (#["monomial"] === #["R"] && #["eps"] === (-1)^Length[#["R"]] || #["monomial"] === Complement[Range[0, 7], #["R"]] && #["eps"] === -(-1)^Length[#["R"]]) &];
+  addMeas["M2_signPatternClassification", <|
+    "statement" -> "the 256 Clifford monomials Gamma_A realise the 256 sign patterns M gamma^a M^{-1} = eps_a gamma^a bijectively; since the commutant of the gammas is one-dimensional, the solution space of every pattern is exactly one-dimensional, spanned by its monomial. For the map (M, R): M^{-1} gamma^a M rd_a = eps gamma^a has exactly the two solutions M = Gamma_R (eps = (-1)^|R|) and M = Gamma_{R^c} (eps = -(-1)^|R|), up to a scalar.",
+    "patternsDistinct" -> (Length[Union[pats]] === 256), "commutantDimension" -> Length[comm],
+    "explicitNullSpaces" -> explicit|>];
+  addCheck["MA_M2_signPatternClassification", patOK && explicitOK];
+];
+
+(* statistics sign of the antilinear substitution: (M conj(Psi))^dagger X (M conj(Psi)) = s Psi^dagger (M^dagger X M)^T Psi *)
+checkM2StatisticsSign[] := Module[{Y, gr, co, sG, sC},
+  Y = Partition[geoRandom[777, 256], 16] + I Partition[geoRandom[778, 256], 16];
+  gr = gBil[gP, Y, gQ];                         (* sum_ij Y_ij Psi_i Psi^dagger_j *)
+  sG = gSignOf[gr, gBil[gQ, Transpose[Y], gP]];
+  sC = signOf[Expand[pSym.Y.qSym], Expand[qSym.Transpose[Y].pSym]];
+  addMeas["M2_statisticsSign", <|"grassmann" -> sG, "commuting" -> sC,
+    "statement" -> "Psi^T Y Psi^* = s Psi^dagger Y^T Psi for every matrix Y (tested with an exact random Gaussian-rational Y): s = -1 for Grassmann components, s = +1 for commuting components"|>];
+  addCheck["MA_M2_statisticsSign", sG === -1 && sC === 1];
+];
+
+(* the matrix-level classification of all 256 x 2 maps (M, R) and both types, both statistics *)
+classifyRow[R_List, which_String] := Module[{rd = rDiag[R], A, M, eps, kl, sl, rho, rhoL, entries},
+  A = If[which === "GammaR", R, Complement[Range[0, 7], R]];
+  M = monoOf[A];
+  eps = epsOf[M, rd]; kl = kappaLinOf[M, rd]; sl = sigmaLinOf[M];
+  rho = signOf[M.Bm.herm[M], Bm]; rhoL = signOf[herm[M].Bm.M, Bm];
+  entries = Association[Flatten[Table[
+      With[{sg = If[type === "antilinear", st[[2]], 1]},
+        (type <> "/" <> st[[1]]) -> <|"kappa" -> sg kl, "sigma" -> sg sl, "Lmap" -> lMapString[sg kl, sg sl],
+          "exact" -> (sg kl === 1 && sg sl === 1), "exactAtMassZero" -> (sg kl === 1),
+          "currentSigns" -> If[type === "linear", kl rd, -st[[2]] kl rd]|>],
+      {type, {"linear", "antilinear"}}, {st, {{"commuting", 1}, {"grassmann", -1}}}]]];
+  <|"R" -> R, "sR" -> sCount[R], "tR" -> tCount[R], "M" -> which, "monomial" -> A, "eps" -> eps,
+    "kappaLin" -> kl, "sigmaLin" -> sl, "MBMdaggerSign" -> rho, "MdaggerBMSign" -> rhoL, "maps" -> entries|>];
+
+checkM2Classification[] := Module[{rows, wellDefined, epsRule, sigmaRule, kappaRule, linRule, antiRuleC, antiRuleG, bRule, byR},
+  rows = Flatten[Table[classifyRow[R, w], {R, allSubsets}, {w, {"GammaR", "GammaRc"}}], 1];
+  $theory["M2_classificationRows"] = rows;
+  wellDefined = AllTrue[rows, MemberQ[{1, -1}, #["eps"]] && MemberQ[{1, -1}, #["kappaLin"]] && MemberQ[{1, -1}, #["sigmaLin"]] &];
+  epsRule = AllTrue[rows, #["eps"] === If[#["M"] === "GammaR", 1, -1] (-1)^Length[#["R"]] &];
+  sigmaRule = AllTrue[rows, #["sigmaLin"] === (-1)^#["sR"] &];
+  kappaRule = AllTrue[rows, #["kappaLin"] === #["sigmaLin"] #["eps"] &];
+  byR = GroupBy[rows, #["R"] &];
+  linRule = AllTrue[Keys[byR], Function[R, AnyTrue[byR[R], #["maps"]["linear/commuting"]["exact"] &] === EvenQ[sCount[R]] &&
+      AnyTrue[byR[R], #["maps"]["linear/grassmann"]["exact"] &] === EvenQ[sCount[R]]]];
+  antiRuleC = AllTrue[Keys[byR], Function[R, AnyTrue[byR[R], #["maps"]["antilinear/commuting"]["exact"] &] === EvenQ[sCount[R]]]];
+  antiRuleG = AllTrue[Keys[byR], Function[R, AnyTrue[byR[R], #["maps"]["antilinear/grassmann"]["exact"] &] === OddQ[sCount[R]]]];
+  (* for an exact linear symmetry the x4 component of the kinetic term forces M^dagger B M = rd_4 B *)
+  bRule = AllTrue[Select[rows, #["maps"]["linear/commuting"]["exact"] &], #["MdaggerBMSign"] === rDiag[#["R"]][[5]] &];
+  addMeas["M2_classificationSummary", <|
+    "rows" -> Length[rows],
+    "rule_eps" -> "eps(Gamma_R) = (-1)^|R|, eps(Gamma_{R^c}) = -(-1)^|R|", "rule_epsVerified" -> epsRule,
+    "rule_sigma" -> "M^dagger C M = (-1)^{s_R} C for both M (s_R = number of reflected space-like directions 0..3)", "rule_sigmaVerified" -> sigmaRule,
+    "rule_kappa" -> "kappaLin = sigmaLin eps", "rule_kappaVerified" -> kappaRule,
+    "rule_linear" -> "an exact linear symmetry (L -> L) with reflected set R exists iff s_R is even (both statistics; any number of time-like reflections)", "rule_linearVerified" -> linRule,
+    "rule_antilinearCommuting" -> "an exact antilinear symmetry exists iff s_R is even (commuting components)", "rule_antilinearCommutingVerified" -> antiRuleC,
+    "rule_antilinearGrassmann" -> "an exact antilinear symmetry exists iff s_R is odd (Grassmann components)", "rule_antilinearGrassmannVerified" -> antiRuleG,
+    "rule_general" -> "for every map: L_{m,lambda}[T Psi] = kappa L_{sigma kappa m, kappa lambda}[Psi] (up to the reflection of the arguments), with (kappa, sigma) = (kappaLin, sigmaLin) for linear maps and s (kappaLin, sigmaLin) for antilinear maps, s the statistics sign",
+    "rule_BUnderExactLinear" -> "M^dagger B M = rd_4 B for every exact linear symmetry", "rule_BUnderExactLinearVerified" -> bRule|>];
+  addCheck["MA_M2_matrixClassification", wellDefined && epsRule && sigmaRule && kappaRule && linRule && antiRuleC && antiRuleG && bRule && Length[rows] === 512];
+  rows];
