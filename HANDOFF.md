@@ -47,21 +47,69 @@ stage and after every ~30 minutes of work, verify from a fresh clone, and never
 take shortcuts or weaken a check.
 ```
 
-### 0.3 How the new session re-launches the work (what the prompt above makes it do)
+### 0.3 How the new session re-launches the work
 
-1. Copy `handoff/workflows/*.js` and `handoff/tools/wait_for.py` into its own
-   scratchpad directory.  In each `.js` file set `const SP = '<its scratchpad path>'`
-   (keep `ROOT`).  Keep LF line endings (no CR characters) or the Workflow tool
-   refuses the script.
-2. Launch, per unfinished stage, the corresponding script with the Workflow tool
-   (`scriptPath`).  A fresh session has no cached agent results, so every phase runs
-   again; the agents are told that partial files may exist and must inspect and
-   finish them rather than start over (this note is already in the prompts).
-3. After each launch, immediately run the blocking wait in the SAME turn:
-   `python <scratch>/wait_for.py 570 <taskId...>` (repeat until it prints FINISHED),
-   then commit, push, verify from a fresh clone, and launch the next stage.
-   This is the mechanism that prevents the session from returning control to the
-   user while work is running.
+1. Copy the needed `handoff/workflows/*.js` into its own scratchpad directory and set
+   `const SP = '<its scratchpad path>'` in each (keep `ROOT`; LF line endings only).
+2. Launch each script with the Workflow tool (`scriptPath`).  A fresh session has no
+   cached agent results (resume by run id works only inside the session that ran it),
+   so every agent runs again; the prompts tell the agents that partial files exist and
+   must be inspected and finished, not restarted from zero.
+3. NEVER use blocking waits or sleep loops (the user forbids any delay): launch the
+   workflows in the background, do real work meanwhile, and act on the completion
+   notifications.  Commit and push after every milestone; the Stop hook
+   (`.claude/settings.local.json` -> `.claude/hooks/stop_push_verify.py`, git-ignored,
+   so it must be re-created in a new clone; see the memory note) commits, pushes and
+   checks the repository every time the session stops.
+4. When the user writes "pause" or "STOP": halt at once (create `.claude/ALLOW_STOP` in
+   the same first action so the Stop hook allows the stop), push, report in a few lines.
+
+### 0.4 State at the pause of 2026-09-30 15:05 and the exact order of work
+
+The user's priority (2026-09-30 12:10): the TEXTBOOK first, then the other stages.
+
+A. Textbook (`handoff/specs/TEXTBOOK_SPEC.md`; chapters in `provenance/textbook/chapters/`).
+   * Chapters 00-05, 08-13: written and adversarially reviewed (198 findings, skeptic-
+     verified, fixed; `handoff/workflows/wf_textbook_wave_a_review.js`); cross-chapter
+     items the per-chapter fixers could not apply: `handoff/reviews/textbook_wave_a_carryover.json`.
+   * Chapters 06, 07, 14, 15, 16, 17, 18: written, reviewed and fixed
+     (`handoff/workflows/wf_textbook_wave_b_chapters.js`).
+   * Chapters 19 and 20: the writer was still running at the pause.  After a restart:
+     if `20-glossary-and-check-index.md` is missing or incomplete, run
+     `wf_textbook_wave_b_chapters.js` with `TASKS` reduced to the `back` entry (writer,
+     reviewer, fixer of chapters 19 and 20).  Chapter 19 had CRLF line endings: convert to LF.
+   * Then run `handoff/workflows/wf_textbook_final.js` (carry-over items, final honesty
+     ledger of Chapter 0 and Stage-4 status in Chapter 13, assembly with
+     `scripts/build_textbook.py`, PDF with `--developer-layout --number-sections-from-zero`,
+     registration, `tests/test_d16c_textbook_publication.py`, nine whole-book review
+     lenses, skeptics, per-chapter fixers, rebuild and re-register).  Push.
+B. Matter-antimatter (`provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.*`): theorems M1-M6
+   verified (Wolfram 44/44 at its last run, Python 77/77 after the lead's rerun at 14:26);
+   the fixer of the 18 review findings (`handoff/reviews/matter_antimatter_review_findings.json`)
+   was running at the pause.  After a restart, if
+   `python -m unittest tests.test_d16c_matter_antimatter tests.test_d16c_matter_antimatter_publication`
+   still fails (it failed 10 of 48 at 14:28: stale counts 75 vs 77, check names, recorded
+   sha256, Krein wording), run only the fix stage of `handoff/workflows/wf_matter_antimatter.js`
+   with the findings from that JSON file (rerun the Wolfram verifier and the Python checker,
+   update the document's verification records, rebuild and re-register the PDF, all tests pass).
+   The textbook's Chapter 17 must agree with the final document (run the textbook final
+   workflow after this).
+C. Stage 5: exact theory COMPLETE (Wolfram 00 46/46, pairing 141/141; sympy 00 49/49,
+   pairing 172/172, all under `artifacts/dirac16complex/pair-creation/`).  Numerics partial:
+   `rust/pairs/` has run folders but no `summary.json`; `scripts/ks_reference_pairs.py
+   --workers 10 --resume` was stopped at 12:12 (partial `reference/`).  After the textbook:
+   rerun the `rust-pairs` and `reference-pairs` agents of `wf_stage5_theory_numerics.js`
+   (and its checker), then `handoff/workflows/wf_stage5_docs_review.js` (documents
+   DIRAC16COMPLEX00_FIELD_THEORY and DIRAC16COMPLEX_PAIR_CREATION, the gate
+   `scripts/verify_stage5_pair_creation.*`, four review lenses, fixer), then the gate from a
+   fresh clone.
+D. Stage 4: cross-check final state 63 checks, 1 failed (canonical_eigenvalues, section 2
+   Stage-4 row); analyse it (Rust 301 vs 601 grid error of the deep state), then rerun the
+   documents phase of `wf_stage4_notebooks_documents.js` (it was at doc-main/doc-student when
+   the previous session ended), then `wf_stage4_review.js`, then the gate
+   `scripts/verify_stage4_kohn_sham.{ps1,sh}` from a fresh clone (both twins; hours).
+E. Final: README.md, HANDOFF.md and the memory notes; `python -m unittest discover -s tests
+   -p "test_*.py"`; every stage's gate from fresh public clones; push.
 
 ## 1. What this repository is
 

@@ -11,8 +11,8 @@
   },
   "dirac16complex-matter-antimatter": {
     "path": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.pdf",
-    "pages": 32,
-    "sha256": "0b064200babdb2bee194e73cd0e0caa4266d722d19e0cce59cc8c543fc6ba6c3"
+    "pages": 36,
+    "sha256": "00ba5230614bbf30e782bfa9ed1dc5faaeb2ae9a66cd0bdf4147d1ce419f00e1"
   },
   "dirac16complex-primordial-field": {
     "path": "provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD.pdf",

@@ -307,11 +307,11 @@ python scripts/check_dirac16complex_primordial.py \
     --wolfram-components "$s/primordial-components.json"
 ```
 
-The variable `s` only abbreviates the folder. The Wolfram verifier prints one progress line per group of checks (from `zero-test sanity` to `P_a4linear`), then its checks and measurements, and ends with `check_count=126`, `failed_check_count=0` and `elapsed_seconds=`; it writes the report and, next to it, `primordial-components.json`. It took 79 seconds. The Python checker ends with `check_count=16` and `failed_check_count=0` after 10 seconds. The two Wolfram files it wrote were byte-identical to the committed ones.
+The variable `s` only abbreviates the folder. The Wolfram verifier prints one progress line per group of checks (from `zero-test sanity` to `P_a4linear`), then its checks and measurements, and ends with `check_count=126`, `failed_check_count=0` and `elapsed_seconds=`; it writes the report and, next to it, `primordial-components.json`. It took 79 seconds in Bash and 73 seconds in PowerShell. The Python checker ends with `check_count=16` and `failed_check_count=0` after 10 and 14 seconds. The two Wolfram files it wrote were byte-identical to the committed ones.
 
 ### 19.8 Stage 3: the dark-sector experiments
 
-**What the gate does.** The Stage-3 gate runs 32 steps (header of `scripts/verify_stage3_dark_sector.sh`). In groups:
+**What the gate does.** The Stage-3 gate runs 33 steps, numbered 00 to 32 (header of `scripts/verify_stage3_dark_sector.sh`). In groups:
 
 | Steps | What they do |
 | --- | --- |
@@ -529,13 +529,13 @@ Its 15 files in `build/textbook/ks/spectrum/` were byte-identical to the committ
 | pairing theorems, Wolfram | `scripts/verify_dirac16complex_pairing.wls` with `wolfram/Dirac16ComplexPairing.wl` | `wolfram-pairing-report.json` (141 of 141) and `pairing-theory.json` |
 | pairing theorems, sympy | `scripts/check_dirac16complex_pairing.py` | `python-pairing-report.json` (172 of 172) |
 | matter and antimatter, Wolfram | `scripts/verify_dirac16complex_matter_antimatter.wls` with `wolfram/Dirac16ComplexMatterAntimatter.wl` | `wolfram-matter-antimatter-report.json` (44 of 44) and `matter-antimatter-theory.json` |
-| matter and antimatter, sympy | `scripts/check_dirac16complex_matter_antimatter.py` | `python-matter-antimatter-report.json` (75 of 75) |
+| matter and antimatter, sympy | `scripts/check_dirac16complex_matter_antimatter.py` | `python-matter-antimatter-report.json` (75 of 75 at commit `4cd47fe`; 77 of 77 from commit `27794e8` on) |
 
 The Stage-5 reports lie in `artifacts/dirac16complex/pair-creation/`, the matter–antimatter reports in `artifacts/dirac16complex/matter-antimatter/`. The matter–antimatter document `provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md` is written, and its PDF is registered in `provenance/pdf-specifications.json` (edition `dirac16complex-matter-antimatter`, 32 pages).
 
 **What does not exist yet.** The two Stage-5 documents `provenance/DIRAC16COMPLEX00_FIELD_THEORY` and `provenance/DIRAC16COMPLEX_PAIR_CREATION` and the gate `scripts/verify_stage5_pair_creation.{ps1,sh}` planned in `handoff/specs/STAGE5_SPEC.md` (its §6) are not written. The Kohn–Sham demonstration of the pairing (Chapter 15) is **partial**:
 
-- The Rust solver has the new subcommand `pairs` (file `studies/dirac16complex_kohn_sham/src/pairs.rs`). Its committed outputs, in `artifacts/dirac16complex/pair-creation/rust/pairs/`, cover 18 parameter sets of dirac16complex, each with the three universes $+M$, $-M$ and the $-M$ control and a file `pairing.json`: mass $m=1$ with $N=8$ at the five couplings $0,\pm\hat\lambda_1,\pm\hat\lambda_2$ ($T=0$) and $N=112$ at the same five couplings at $T=0$ and $T=0.1\,m$, and mass $m=3$ with $N=8$ at the couplings $0$ and $\pm\hat\lambda_1$. There are no committed Rust runs of dirac16complex00 and none with $m=3$, $N=112$.
+- The Rust solver has the new subcommand `pairs` (file `studies/dirac16complex_kohn_sham/src/pairs.rs`). At commit `4cd47fe` its committed outputs, in `artifacts/dirac16complex/pair-creation/rust/pairs/`, cover 18 parameter sets of dirac16complex (later commits add further runs as they finish), each with the three universes $+M$, $-M$ and the $-M$ control and a file `pairing.json`: mass $m=1$ with $N=8$ at the five couplings $0,\pm\hat\lambda_1,\pm\hat\lambda_2$ ($T=0$) and $N=112$ at the same five couplings at $T=0$ and $T=0.1\,m$, and mass $m=3$ with $N=8$ at the couplings $0$ and $\pm\hat\lambda_1$. There are no committed Rust runs of dirac16complex00 and none with $m=3$, $N=112$.
 - The reference runs of the independent solver (`scripts/ks_reference_pairs.py`, outputs in `artifacts/dirac16complex/pair-creation/reference/`) are marked incomplete in their summary `reference-pairs-summary.json` (entry `complete` is false): of the 49 runs recorded there, 17 converged (10 of dirac16complex, 7 of dirac16complex00), 2 did not converge, 6 failed and 24 were not attempted, and 131 runs of the planned matrix are listed as pending.
 - The checker `scripts/check_dirac16complex_pairs.py` (Rust against reference, pairing identities, pair totals) exists, but no report of it is committed.
 - One Stage-5 numerical report is complete: `artifacts/dirac16complex/pair-creation/rust/stage4-identity-report.json`, 9 of 9 checks true, which shows that adding the subcommand `pairs` left the Stage-4 outputs byte-identical (a fresh `spectrum` run and quick `scf` and `excited` runs).
@@ -587,7 +587,7 @@ The three Python checkers compare their own results with the committed Wolfram t
 | `verify_dirac16complex_pairing.wls` | 507 s | `check_count=141`, `failed_check_count=0` | report and theory file byte-identical |
 | `verify_dirac16complex_matter_antimatter.wls` | 681 s | `check_count=44`, `failed_check_count=0` | report and theory file byte-identical |
 
-Together they took 37 minutes on the busy test computer. Every check of every report was true, and eleven of the twelve new files were byte-identical to the committed files of the same name. The twelfth, the sympy report of the matter–antimatter analysis, has 77 checks instead of the committed 75: the checker of this commit contains two checks, `MA_M2_cpScopeInCurvedFields` and `MA_M4_imageFieldFockModel`, that the committed report does not have, and the 75 checks of the committed report are all present and true in the new one. The committed report was written by an earlier version of the checker: it records for its checker the sha256 `20914546...`, while the checker file of this commit has the sha256 `ef1a00dc...`. Regenerating the committed report is part of the unfinished work of the matter–antimatter analysis (Section 19.11).
+Together they took 37 minutes on the busy test computer. Every check of every report was true, and eleven of the twelve new files were byte-identical to the committed files of the same name. The twelfth, the sympy report of the matter–antimatter analysis, has 77 checks instead of the committed 75: the checker of this commit contains two checks, `MA_M2_cpScopeInCurvedFields` and `MA_M4_imageFieldFockModel`, that the committed report does not have, and the 75 checks of the committed report are all present and true in the new one. The committed report was written by an earlier version of the checker: it records for its checker the sha256 `20914546...`, while the checker file of this commit has the sha256 `ef1a00dc...`. Later on the same day the committed report was replaced by a regenerated one (commit `27794e8`), and that file is byte-identical to the one this rerun wrote.
 
 **The matter–antimatter PDF.** In either shell:
 
@@ -645,7 +645,9 @@ provenance/textbook/chapters/     00-how-to-read.md ... 20-glossary-and-check-in
 scripts/build_textbook.py         the assembler
 provenance/DIRAC16COMPLEX_TEXTBOOK.md   the assembled book (.tex and .pdf beside it)
 scripts/build_provenance_pdf.py   the PDF builder
-``` In PowerShell:
+```
+
+In PowerShell:
 
 ```
 python scripts/build_textbook.py
@@ -723,7 +725,7 @@ Then run the partial Stage-4 gate and the single programs of Sections 19.9 and 1
 
 ### 19.14 What we proved and what we assumed
 
-This appendix proves no theorem. It records **measurements of reproducibility**, each made for this edition from a fresh public clone of commit `4cd47fe` on the test computer of Section 19.2, or quoted from a committed log or script header that is named where it is used: the Stage-1 and Stage-2 gates ended with their OK lines (after 1133 and 320 seconds); the Stage-2 verifiers, the Stage-3 programs and checkers, steps 01 to 13 of the Stage-4 gate and its `spectrum` subcommand, the six exact programs of Stage 5 and the matter–antimatter analysis, and two PDFs were rerun, and every file that should be byte-identical was byte-identical, except the one sympy report of the matter–antimatter analysis explained in Section 19.10; and the complete unit-test suite ran 578 tests, of which 10 failed and 2 were skipped (Section 19.11). It also records, from the committed files and these runs, the **state of the stages**: Stages 1 and 2 are complete, and the Bash twins of their gates passed at this commit; Stage 3 is complete and its gate passed at earlier commits, but at this commit its unit-test step fails for reasons outside Stage 3; the Stage-4 gate cannot pass yet, for the four reasons of Section 19.9, among them one false check of the cross-checker; Stage 5 has its exact theory but only part of its Kohn–Sham numerics, no documents and no gate; and the committed records of the matter–antimatter analysis (its sympy report and the hashes quoted in its document) lag behind its current files.
+This appendix proves no theorem. It records **measurements of reproducibility**, each made for this edition from a fresh public clone of commit `4cd47fe` on the test computer of Section 19.2, or quoted from a committed log or script header that is named where it is used: the Stage-1 and Stage-2 gates ended with their OK lines (after 1133 and 320 seconds); the Stage-2 verifiers, the Stage-3 programs and checkers, steps 01 to 13 of the Stage-4 gate and its `spectrum` subcommand, the six exact programs of Stage 5 and the matter–antimatter analysis, and two PDFs were rerun, and every file that should be byte-identical was byte-identical, except the one sympy report of the matter–antimatter analysis explained in Section 19.10; and the complete unit-test suite ran 578 tests, of which 10 failed and 2 were skipped (Section 19.11). It also records, from the committed files and these runs, the **state of the stages**: Stages 1 and 2 are complete, and the Bash twins of their gates passed at this commit; Stage 3 is complete and its gate passed at earlier commits, but at this commit its unit-test step fails for reasons outside Stage 3; the Stage-4 gate cannot pass yet, for the four reasons of Section 19.9, among them one false check of the cross-checker; Stage 5 has its exact theory but only part of its Kohn–Sham numerics, no documents and no gate; and at commit `4cd47fe` the committed records of the matter–antimatter analysis (its sympy report and the hashes quoted in its document) lagged behind its current files; the report was regenerated later the same day.
 
 It **assumes**: that the tools behave as their versions say (a different version of Python's packages, of pdflatex or of the Rust compiler can change the last digits or bytes of some files without changing any check, as Sections 19.2 and 19.4 explain); that the `win11` engine is used for every byte comparison; that the reader's computer has the processor feature FMA (Section 10.10); and that the wall times, measured on a busy computer, are upper values for that computer and only indications for another. A byte-identical rerun shows that a program reproduces its committed output; it does not show that the output is correct. Correctness rests on the derivations of the chapters and on the independent checks named there.
 
@@ -761,7 +763,7 @@ What did the failed step compare, what is the most likely cause when every earli
 
 **Exercise 19.9.** You changed one sentence of Chapter 7 and want to know, within a second and without building a PDF, whether every "Section N.M" reference of the book still resolves. Which command do you run, and which line of its output answers the question?
 
-**Exercise 19.10.** A friend reruns the matter–antimatter checker from a fresh clone and reports: "77 checks, all true, but the committed report has 75: the repository is broken." Explain what the two numbers mean and whether the friend's conclusion is right.
+**Exercise 19.10.** A friend reruns the matter–antimatter checker from a fresh clone of commit `4cd47fe` and reports: "77 checks, all true, but the committed report has 75: the repository is broken." Explain what the two numbers mean and whether the friend's conclusion is right.
 
 ### 19.16 Answers to the exercises
 
@@ -801,4 +803,4 @@ The sum is $21+43+21+52+16=153$: the 153 of 153 exact Stage-1 checks of the tabl
 
 **Answer 19.9.** `python scripts/build_textbook.py --check` (add `--allow-missing` while chapters are missing). The line `check_crossReferencesResolve=true` answers it; any unresolved reference is printed before it as a line beginning with `problem=`. The option `--list-references` prints every reference with its classification.
 
-**Answer 19.10.** The committed report was written by an earlier version of the checker, which had 75 checks; the checker in the same commit has two more, `MA_M2_cpScopeInCurvedFields` and `MA_M4_imageFieldFockModel`, and all 77 are true (Section 19.10). Nothing is broken in the sense of a false check: every committed check is reproduced as true, and two more checks pass. What the friend has found is that the committed report is not the newest one; regenerating it would change its check count and its recorded hashes, not any conclusion.
+**Answer 19.10.** The committed report was written by an earlier version of the checker, which had 75 checks; the checker in the same commit has two more, `MA_M2_cpScopeInCurvedFields` and `MA_M4_imageFieldFockModel`, and all 77 are true (Section 19.10). Nothing is broken in the sense of a false check: every committed check is reproduced as true, and two more checks pass. What the friend has found is that the committed report was not the newest one; regenerating it changes its check count and its recorded hashes, not any conclusion. The report committed later that day (commit `27794e8`) is byte-identical to the friend's file.

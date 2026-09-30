@@ -4,18 +4,18 @@
 
 ## 1. Summary: the honest answer first
 
-**The honest answer.** The request was to prove that this theory solves the current matter-antimatter mysteries; that statement is not proved in this document, and it cannot be proved, because within the theory as built its central part is false. The dirac16complex Lagrangian is exactly invariant under the phase transformation $\Psi\to e^{i\alpha}\Psi$ for every potential $U(S)$. This holds for anticommuting components (dirac16complex) and for commuting components (dirac16complex00) alike. The associated charge $Q$ is therefore conserved in every gravitational field, and no process described by the theory can create a net charge inside one universe. Sakharov's first condition fails for this charge. The theory also has exact symmetries that reverse the charge: C for the commuting field and CP for the anticommuting field. So Sakharov's second condition fails as well. No departure-from-equilibrium computation exists (the third condition). What can be proved, and is proved below exactly with two independent implementations, is a precise account of matter and antimatter in the theory as it stands, together with a list of what would have to be added.
+**The honest answer.** The request was to prove that this theory solves the current matter-antimatter mysteries; that statement is not proved in this document, and it cannot be proved, because within the theory as built its central part is false. The dirac16complex Lagrangian is exactly invariant under the phase transformation $\Psi\to e^{i\alpha}\Psi$ for every potential $U(S)$. This holds for anticommuting components (dirac16complex) and for commuting components (dirac16complex00) alike. The associated charge $Q$ is therefore conserved in every gravitational field (for vanishing flux through the boundary of the slices), and no process described by the theory can create a net charge inside one universe; for the quantized field this holds at the formal level of Section 4.2. Sakharov's first condition fails for this charge. The theory also has exact symmetries of the Lagrangian that reverse the charge: C for the commuting field, in every gravitational field, and CP for the anticommuting field, in flat space and in gravitational fields with the corresponding reflection isometry. So Sakharov's second condition fails as well. No departure-from-equilibrium computation exists (the third condition). What can be proved is proved below exactly, with the machine checks named in each section (two independent implementations for M1 to M4 at the field and one-particle level). It is a precise account of matter and antimatter in the theory as it stands, together with a list of what would have to be added.
 
-What is proved (theorems M1 to M4 and the implication in M5):
+What is proved (theorems M1 to M4 at the field and one-particle level, and the classical implication in M5; the Fock-level statements of M4 taken from Stage 5 are cited, Section 7.3):
 
-- **M1 (exact U(1) and charge conservation).** For both statistics, every potential $U(S)$ and every gravitational field, the Lagrangian is invariant under $\Psi\to e^{i\alpha}\Psi$. The Noether current is $j^\mu=\bar\Psi\gamma^\mu\Psi$, the off-shell identity $\partial_\mu(\sqrt{|g|}\,j^\mu)=\sqrt{|g|}\,(\bar E\Psi+\bar\Psi E)$ holds, the current is conserved on shell, and the charge $Q$ of every slice $x_4=\text{const}$ is independent of $x_4$.
-- **M2 (discrete symmetries).** All maps built from a constant $16\times16$ matrix, complex conjugation and reflections of frame directions are classified exactly, for both statistics, by one transformation rule. For the commuting field, C ($\Psi\to\Psi^\ast$) is an exact symmetry and reverses the charge. For the anticommuting field no constant C is a symmetry when $m\ne0$, but CP (C followed by the reflection of an odd number of the space-like directions $x_0,\dots,x_3$) is an exact symmetry, is implemented unitarily after quantization, and reverses the charge.
+- **M1 (exact U(1) and charge conservation).** For both statistics, every potential $U(S)$ and every gravitational field, the Lagrangian is invariant under $\Psi\to e^{i\alpha}\Psi$. The Noether current is $j^\mu=\bar\Psi\gamma^\mu\Psi$, the off-shell identity $\partial_\mu(\sqrt{|g|}\,j^\mu)=\sqrt{|g|}\,(\bar E\Psi+\bar\Psi E)$ holds, the current is conserved on shell, and the charge $Q$ of every slice $x_4=\text{const}$ is independent of $x_4$ (for vanishing boundary flux).
+- **M2 (discrete symmetries).** All maps built from a constant $16\times16$ matrix, complex conjugation and reflections of frame directions are classified exactly, for both statistics, by one transformation rule. For the commuting field, C ($C_0:\Psi\to\Psi^\ast$) is an exact symmetry in every gravitational field and reverses the charge. For the anticommuting field no constant C is a symmetry when $m\ne0$, but CP $=C_8P$ ($C_8:\Psi\to\gamma^8\Psi^\ast$, followed by the reflection of an odd number of the space-like directions $x_0,\dots,x_3$; $C_0P$ is not exact) is an exact symmetry of the Lagrangian in flat space and in gravitational fields with the corresponding reflection isometry, and it reverses the charge. It preserves the canonical anticommutation relations as a linear (unitary-type) automorphism (derived); its implementation on the positive Fock space is not decided. In a generic gravitational field the background breaks it (Section 5.3).
 - **M3 (charge-violating terms allowed by the symmetry).** The bilinears $\Psi^TM\Psi$ invariant under the identity component $\mathrm{Spin}_0(4,4)$ are exactly those with $M=C(\alpha P_-+\beta P_+)$, and all of them are symmetric. Hence the anticommuting field admits no Majorana-type mass term at all, while the commuting field admits two. The derivative bilinears are classified in the same way. Every such term carries U(1) charge 2 and is absent from the Lagrangian.
-- **M4 (the pair).** Under the chirality map $\Psi\to\gamma^8\Psi$ the current changes sign. A universe $\Psi_+$ with parameters $(m,\lambda)$ and its image $\Psi_-=\gamma^8\Psi_+$ with $(-m,-\lambda)$ have total charge 0 and total classical energy-momentum 0 in every gravitational field. The one-particle and Fock-level (Krein) forms of this statement are given, including the case in which the pair does not cancel.
-- **M5 (a labelled hypothesis and its exact consequence).** If (H1) our universe is one member of such a pair, (H2) the pair was created with $Q_+=-Q_-\ne0$, and (H3) the dirac16complex charge is identified with baryon number, then the total baryon number of the pair is zero and the excess seen in one member is compensated exactly by the other. The implication is proved. H1, H2 and H3 are assumptions, none of them is derived, and the observed baryon-to-photon ratio $\eta\approx6\times10^{-10}$ is not predicted.
-- **M6 (Sakharov scorecard).** Condition 1 fails (M1), condition 2 fails (M2), condition 3 is not addressed (Section 9).
+- **M4 (the pair).** Under the chirality map $\Psi\to\gamma^8\Psi$ the current changes sign, and solutions with the parameters $(m,\lambda)$ go to solutions with $(-m,-\lambda)$. A configuration $\Psi_+$ with $(m,\lambda)$ and a second, independent classical field with the Lagrangian $\mathcal L_{-m,-\lambda}$ in the configuration $\Psi_-=\gamma^8\Psi_+$ have total charge 0 and total classical energy-momentum 0 in every gravitational field. The one-particle (Krein) form is proved here. At the quantum level no reading gives a cancellation between two independent universes: the image field $\gamma^8\Psi_+$ is the same quantum system as $\Psi_+$, with its own energy and charge equal to $+H_+$ and $+Q_+$ (proved here in an exact Fock model, Python only) and its own gravitational source equal to $+T_+$ (derived), and an independently quantised $-m$ field has positive energies. The Fock-level statements of Stage 5 are cited as a provisional Stage-5 result (Section 7.3).
+- **M5 (a labelled hypothesis and its exact consequence).** If (H1) our universe is one member of a pair of two independent classical fields in the correlated configuration of M4 (the correlation is part of the assumption), (H2) the pair was created with $Q_+=-Q_-\ne0$, and (H3) the dirac16complex charge is identified with baryon number, then the total baryon number of the pair is zero and the excess of one member is balanced by the other. The implication is proved. H1, H2 and H3 are assumptions, none of them is derived, and the observed baryon-to-photon ratio $\eta\approx6\times10^{-10}$ is not predicted. The balance is a property of the assumed configuration, not a compensation mechanism, and it has no quantum counterpart with two independent universes (Section 8.3).
+- **M6 (Sakharov scorecard).** Condition 1 fails (M1), condition 2 fails for the Lagrangian (M2), condition 3 is not addressed (Section 9).
 
-Labels used throughout. **Proved** means a complete argument is given here and the statement is also verified by named exact machine checks. **Derived** means that the statement follows from checked results by the argument given, but is not itself a machine check. **Recorded data** means floating-point numbers read from committed outputs. **Hypothesis** marks an assumption that nothing in this repository derives. Every number is copied from the reports listed in Section 11 or from the cited literature.
+Labels used throughout. **Proved** means a complete argument is given here and the statement is also verified by named exact machine checks. **Derived** means that the statement follows from checked results by the argument given, but is not itself a machine check. **Recorded data** means floating-point numbers read from committed outputs. **Cited** means a result of another stage, taken from its reports, identified by their sha256 and not re-proved here. **Hypothesis** marks an assumption that nothing in this repository derives. Every number is copied from the reports listed in Section 11 or from the cited literature, except the one conversion in Section 2.2, which is marked as arithmetic done here.
 
 ## 2. The matter-antimatter problem from zero
 
@@ -35,7 +35,13 @@ $$
 \eta=\frac{n_B-n_{\bar B}}{n_\gamma}\approx6\times10^{-10},
 $$
 
-the number density of baryons minus antibaryons divided by the number density of photons of the cosmic microwave background, roughly six baryons for every ten billion photons. It is measured in two independent ways. The abundances of the light elements (deuterium and helium in particular) produced in big-bang nucleosynthesis depend on $\eta$ [5]. The acoustic peaks of the cosmic microwave background fix the baryon density; the Planck 2018 cosmological parameters give $\Omega_bh^2=0.0224\pm0.0001$ [2]. The two determinations agree [5], [2].
+the number density of baryons minus antibaryons divided by the number density of photons of the cosmic microwave background, roughly six baryons for every ten billion photons [5], [2]. It is measured in two independent ways. The abundances of the light elements (deuterium and helium in particular) produced in big-bang nucleosynthesis depend on $\eta$ [5]. The acoustic peaks of the cosmic microwave background fix the baryon density; the Planck 2018 cosmological parameters give $\Omega_bh^2=0.0224\pm0.0001$ [2]. The two quantities are related through the photon number density of the microwave background at its present temperature $T_0$; Cyburt et al. [5] (their equation (11)) give
+
+$$
+\eta_{10}\equiv10^{10}\,\eta=273.3036\,\Omega_bh^2\,\bigl(1+7.16958\times10^{-3}\,Y_p\bigr)\Bigl(\frac{2.7255\ \mathrm K}{T_0}\Bigr)^3,
+$$
+
+where $Y_p$ is the primordial helium-4 mass fraction, whose small effect enters through the mean mass per baryon. With the Planck value and $Y_p\approx0.25$ this gives $\eta\approx6.1\times10^{-10}$ (arithmetic done here). The two determinations agree [5], [2].
 
 Why is this a problem? If the hot early universe had contained exactly as many baryons as antibaryons, almost all of them would have annihilated, and far less matter than observed would remain. The excess could be put into the initial conditions of the universe, but the standard view, reviewed in [4], is that it should be generated by physical processes, from a state without asymmetry.
 
@@ -59,11 +65,11 @@ The Standard Model contains all three ingredients in principle. Baryon number is
 
 ### 2.6 Pair-of-universes ideas
 
-One class of ideas replaces “why is there more matter?” by a global symmetry: the universe as a whole is symmetric, but it consists of two parts, each of which is asymmetric. The known published example is the CPT-symmetric universe of Boyle, Finn and Turok [3]. They propose that the universe after the big bang is the CPT image of the universe before it, so that the pre-bang and post-bang epochs form a universe-antiuniverse pair, and they argue that CPT symmetry selects a vacuum state and gives a new interpretation of the cosmological baryon asymmetry. Nothing here depends on or tests that proposal. The pair of Section 7 is of a different kind: both members exist at the same time $x_4$, and they are related by the chirality map with $m\to-m$, not by a time reflection through a bang. The resemblance is only structural, a global symmetry with local asymmetry.
+One class of ideas replaces “why is there more matter?” by a global symmetry: the universe as a whole is symmetric, but it consists of two parts, each of which is asymmetric. The known published example is the CPT-symmetric universe of Boyle, Finn and Turok [3]. They propose that the universe after the big bang is the CPT image of the universe before it, so that the pre-bang and post-bang epochs form a universe-antiuniverse pair, and they argue that CPT symmetry selects a vacuum state and gives a new interpretation of the cosmological baryon asymmetry. Nothing here depends on or tests that proposal. The pair of Section 7 is of a different kind: both members exist at the same time $x_4$, and they are related by the chirality map with $m\to-m$, not by a time reflection through a bang. The resemblance is only structural: a global symmetry with local asymmetry arises here only under the hypotheses H1 and H2 of Section 8, and only for classical fields.
 
 ### 2.7 What a solution inside this theory would have to show
 
-To solve the problem, a theory would have to show that a net baryon number can arise from a symmetric state, which requires the three conditions of Section 2.4, and it would have to compute $\eta$. Sections 4 to 9 show that the dirac16complex theory as built meets neither of the first two conditions: its charge is exactly conserved (M1), and it has exact charge-reversing symmetries (M2). What the theory does provide is an exact pairing of universes of masses $+M$ and $-M$ with opposite charges (M4). This gives a conditional scenario (M5) that is stated here as a hypothesis, together with what would have to be added (Section 10).
+To solve the problem, a theory would have to show that a net baryon number can arise from a symmetric state, which requires the three conditions of Section 2.4, and it would have to compute $\eta$. Sections 4 to 9 show that the dirac16complex theory as built meets neither of the first two conditions: its charge is exactly conserved (M1), and it has exact charge-reversing symmetries (M2). What the theory does provide is an exact pairing of solutions, $(m,\lambda)\leftrightarrow(-m,-\lambda)$, with opposite charges (M4), which the pair-of-universes picture (H1) reads as two universes of masses $+M$ and $-M$. Here $M$ is the universe mass of the author's notebook; the theorems use the mass parameter $m$ of the Lagrangian, and "$\pm M$ universe" below means a solution with $\pm m$. This gives a conditional scenario (M5) that is stated here as a hypothesis, together with what would have to be added (Section 10).
 
 ## 3. The theory, its two fields and the conventions
 
@@ -122,7 +128,7 @@ In Gaussian normal gauge ($g^{44}=-1$, $\gamma^{x_4}=\gamma^4$) the charge densi
 4. (conservation) on every solution $\nabla_\mu j^\mu=|g|^{-1/2}\partial_\mu(\sqrt{|g|}\,j^\mu)=0$, and $Q(x_4)$ does not depend on $x_4$ whenever the flux of $\sqrt{|g|}\,J^\mu$ through the boundary of the slices vanishes (compact support, sufficient fall-off, or periodic identification of the slice coordinates);
 5. (charge density) in Gaussian normal gauge $J^4=\Psi^\dagger B\Psi$, with $B$ Hermitian, $B^2=1$, spectrum $(+1)^8(-1)^8$ and trace 0.
 
-**Consequence.** No solution of the field equations of either field, for any $U$ and in any gravitational field with $g^{44}\ne0$, changes $Q$. The charge of a universe is fixed by its initial data at $x_4=0$.
+**Consequence.** No solution of the field equations of either field, for any $U$ and in any gravitational field with $g^{44}\ne0$, changes $Q$ (for vanishing boundary flux, as in item 4). The charge of a universe is fixed by its initial data at $x_4=0$.
 
 ### 4.2 Proof
 
@@ -178,7 +184,7 @@ the flux through the lateral boundary, which vanishes under the stated condition
 
 *Item 5.* $\sqrt{|g|}\,J^{x_4}=-i\sqrt{|g|}\,\Psi^\dagger C\gamma^{x_4}\Psi$, and in Gaussian normal gauge $-iC\gamma^4=B$. The properties of $B$ are those of Stage 1 (Result 10.2); they are re-verified here, including the Hermiticity of the charge matrix $-i\sqrt{|g|}\,C\gamma^{x_4}$ in a general frame.
 
-*The quantized field.* The identity of item 3 is algebraic, and in it every $\Psi^\dagger$ stands to the left of every $\Psi$, so it holds for the operator-valued field as well; the Heisenberg equations of the quantized theory are the field equations (Stage 1, Section 10.4), and normal ordering changes $Q$ by a constant. Hence the normal-ordered charge is conserved in the quantized theory too (derived, not a separate machine check). $\square$
+*The quantized field.* The identity of item 3 is algebraic, and in it every $\Psi^\dagger$ stands to the left of every $\Psi$, so it holds for the operator-valued field as well; the Heisenberg equations of the quantized theory are the field equations (Stage 1, Section 10.4), and normal ordering changes $Q$ by a constant. Hence the normal-ordered charge is conserved in the quantized theory too (derived and formal, not a separate machine check: no regularization is constructed). A classically conserved current can fail to be conserved after quantization through an anomaly, and this is how baryon number is violated in the Standard Model (Section 2.5, [7]). No anomaly of that kind is expected here: the U(1) acts in the same way on both chiralities (it is vector-like), no gauge field couples to $j$, and the U(1)-invariant mass term $m\bar\Psi\Psi$ would permit a U(1)-preserving regularization of Pauli-Villars type. This is an argument, not a proof; a regularized quantum theory in signature (4,4) is not constructed here (non-claim 8). $\square$
 
 ### 4.3 How M1 was verified
 
@@ -305,6 +311,8 @@ So $K\to s\sigma_R\varepsilon\,K$, and in the same way $j^a\to-s\sigma_R\varepsi
 
 *Curved fields.* In a curved field the same maps are used in frame form: $\Psi\to M\Psi$ (or $M\Psi^\ast$) together with the constant frame change $e_\mu{}^a\to r_a\,e_\mu{}^a$ (no sum over $a$), which leaves the metric unchanged. Then $\gamma'^\mu=\sum_ar_ae_a{}^\mu\gamma^a$ and $\omega'_{\mu ab}=r_ar_b\,\omega_{\mu ab}$. Lemma B gives $M[\gamma^a,\gamma^b]M^{-1}=r_ar_b[\gamma^a,\gamma^b]$, hence $\Omega'_\mu=M\Omega_\mu M^{-1}$ and $D'_\mu(M\Psi)=MD_\mu\Psi$. For antilinear maps $\Omega_\mu$ is real, so $(D_\mu\Psi)^\ast=D_\mu\Psi^\ast$. With these replacements the flat computation goes through unchanged, with $\partial_a$ replaced by $D_\mu$, and the rule holds in every gravitational field. When the metric has a reflection isometry, the coordinate form $\Psi(Rx)$ holds as well. $\square$
 
+*Scope in a gravitational field.* The frame form changes the background frame, $e\to e\,\mathrm{diag}(r)$. When $R=\emptyset$ (the internal maps $C_0$, $C_8$ and the chirality map) nothing changes, so $C_0$ is an exact symmetry of the commuting field in every gravitational field (check MA_M2_internalMapsCurvedJets). The exact CP maps of the anticommuting field have $s_R$ odd (Corollary M2.1 below). Then $\mathrm{diag}(r)$ has space-block determinant $-1$ and lies outside $\mathrm{SO}_0(4,4)$: it is not a local Lorentz transformation, and no linear Pin lift of it is an exact symmetry that could undo it. For these maps the rule relates the theory on the frame $e$ to the theory on the frame $e\,\mathrm{diag}(r)$. It is a symmetry of a fixed background only when the metric has the corresponding reflection isometry, as in flat space, in the primordial field for reflections of $x_1,x_2,x_3$, and in G_B. At a fixed frame of the generic field G_A, which has no reflection isometry, the internal part $\Gamma_{R^c}\Psi^\ast$ of $C_8P_b$ ($b=0,\dots,3$) and of $C_8P_{123}$ maps $\mathcal L$ to none of $\pm\mathcal L_{\pm m,\pm\lambda}$ (check MA_M2_cpScopeInCurvedFields, which also verifies the determinant statement for all 128 sets $R$ with $s_R$ odd and that no linear Pin lift of such a reflection is exact). A generic gravitational field therefore breaks CP of the anticommuting field. This does not open a way to an asymmetry, because the charge is conserved in every gravitational field (M1).
+
 ### 5.4 Classification
 
 **Corollary M2.1 (exact symmetries).** A map of Section 5.1 is an exact symmetry, $\mathcal L[T\Psi](x)=\mathcal L[\Psi](Rx)$ for all $m$ and $\lambda$, if and only if $\kappa=\sigma=1$. Then it is a symmetry for every potential $U$, because $S\to S$ and $K\to K$. Explicitly:
@@ -345,13 +353,13 @@ The table applies the rule to the named maps. $R_Ax$ denotes $x$ with the coordi
 Reading of the table:
 
 - **Commuting field (dirac16complex00).** C is exact and reverses the charge. P and CP with one reflected space-like direction (or three) are not exact for $m\ne0$; P is exact at $m=0$. CP with an even number of reflected space-like directions, for example $C_0P_{0123}$, is exact. T (linear and antilinear) and the full antilinear inversion CPT are exact.
-- **Anticommuting field (dirac16complex).** No constant C is exact for $m\ne0$: $C_0$ gives $-\mathcal L_{m,-\lambda}$, and the unitary charge conjugation $C_8$ gives $\mathcal L_{-m,\lambda}$, the theory with the opposite mass (C is exact at $m=0$). CP with an odd number of reflected space-like directions is exact and reverses the charge: $C_8P_b$ for $b=0,1,2,3$ and $C_8P_{123}$. T is exact as a linear map (implemented antiunitarily after quantization, Section 5.6). The antilinear total inversion is not exact, while $CP_{123}T$ is.
+- **Anticommuting field (dirac16complex).** No constant C is exact for $m\ne0$: $C_0$ gives $-\mathcal L_{m,-\lambda}$, and the charge conjugation of unitary type, $C_8$, gives $\mathcal L_{-m,\lambda}$, the theory with the opposite mass (C is exact at $m=0$). CP with an odd number of reflected space-like directions is exact and reverses the charge: $C_8P_b$ for $b=0,1,2,3$ and $C_8P_{123}$ (in flat space and in gravitational fields with the reflection isometry, Section 5.3); $C_0P_b$ is not exact. T is exact as a linear map; on the canonical structure it acts as an antilinear (antiunitary-type) automorphism (derived, Section 5.6). The antilinear total inversion is not exact, while $CP_{123}T$ is.
 
-For both fields an exact symmetry exists that preserves $x_4$ and reverses $Q$: $C_0$ for the commuting field, $C_8P_b$ for the anticommuting field.
+For both fields an exact symmetry exists that preserves $x_4$ and reverses $Q$: $C_0$ for the commuting field (in every gravitational field), $C_8P_b$ for the anticommuting field (in flat space and in gravitational fields with the reflection isometry).
 
 ### 5.6 The quantized anticommuting field
 
-The canonical anticommutator is $\{\Psi_a,\Psi^\dagger_b\}=B_{ab}\,\delta^7$ (flat space, Gaussian normal gauge). A map is compatible with it if the transformed operators satisfy the same relation; it is then implemented by a unitary operator if the c-number $B$ is reproduced, and by an antiunitary operator if $B^\ast=-B$ is reproduced (an antiunitary operator complex-conjugates c-numbers). From Lemma B, $MCM^{-1}=\sigma_RC$ and $M\gamma^4M^{-1}=\varepsilon r_4\gamma^4$, and $B^T=-B$, so
+The canonical anticommutator is $\{\Psi_a,\Psi^\dagger_b\}=B_{ab}\,\delta^7$ (flat space, Gaussian normal gauge). A map is compatible with it if the transformed operators satisfy the same relation. It is then a linear automorphism of the anticommutation relations (of unitary type) if the c-number $B$ is reproduced, and it can only be an antilinear one (of antiunitary type) if $B^\ast=-B$ is reproduced, because an antiunitary operator complex-conjugates c-numbers. An automorphism of the anticommutation relations is not yet an operator on a given Fock space; whether it is implemented there is a separate question. From Lemma B, $MCM^{-1}=\sigma_RC$ and $M\gamma^4M^{-1}=\varepsilon r_4\gamma^4$, and $B^T=-B$, so
 
 $$
 \begin{aligned}
@@ -360,17 +368,17 @@ $$
 \end{aligned}
 $$
 
-For an exact symmetry of the anticommuting field ($\sigma_R\varepsilon=1$ for linear, $\sigma_R=-1$ and $\varepsilon=1$ for antilinear maps) both expressions equal $r_4B$ (derived). Hence every exact symmetry is compatible with the canonical structure: unitarily if it preserves $x_4$ and antiunitarily if it reverses $x_4$. The unitary charge conjugation is $C_8$ ($MB^TM^\dagger=+B$), while $C_0$ would need an antiunitary implementation although it preserves $x_4$ ($MB^TM^\dagger=-B$). For the unitary CP, $U\,J^4\,U^{-1}=\bigl(M\Psi^{\dagger T}\bigr)^\dagger B\,M\Psi^{\dagger T}$; reordering the operator product produces the sign of Lemma C and a c-number, so the normal-ordered charge is reversed, $:Q:\ \to\ -:Q:$ (derived). Whether each map is also implemented on the positive ($J=B$) Fock space of the good sector is not decided here.
+For an exact symmetry of the anticommuting field ($\sigma_R\varepsilon=1$ for linear, $\sigma_R=-1$ and $\varepsilon=1$ for antilinear maps) both expressions equal $r_4B$ (derived). Hence every exact symmetry is compatible with the canonical structure: as an automorphism of unitary type if it preserves $x_4$ and of antiunitary type if it reverses $x_4$. The charge conjugation of unitary type is $C_8$ ($MB^TM^\dagger=+B$), while $C_0$ could only be of antiunitary type although it preserves $x_4$ ($MB^TM^\dagger=-B$). For CP, acting as a linear automorphism $\alpha$ of the field algebra, $\alpha(J^4)=\bigl(M\Psi^{\dagger T}\bigr)^\dagger B\,M\Psi^{\dagger T}$; reordering the operator product produces the sign of Lemma C and a c-number, so the normal-ordered charge is reversed, $:Q:\ \to\ -:Q:$ (derived). Whether each map is also implemented by a unitary or antiunitary operator on the positive ($J=B$) Fock space of the good sector, and whether it leaves the vacuum invariant, is not decided here.
 
 ### 5.7 A remark on the slicing in signature (4,4)
 
-The identity component $\mathrm{Spin}_0(4,4)$, under which $\mathcal L$ is invariant, contains $\exp(\pi S^{45})=\gamma^4\gamma^5$ ($S^{45}=\tfrac12\gamma^4\gamma^5$ with $(S^{45})^2=-\tfrac14$), the rotation by $\pi$ in the plane of the two time-like directions $x_4,x_5$, and the product of four such rotations, $\gamma^8$, the total inversion. Both are exact symmetries, and both reverse $x_4$ and the $x_4$-component of the current. In signature (4,4) the time orientation of the slicing $x_4=\text{const}$ can therefore be reversed continuously, and the sign of $Q$ refers to a chosen slicing. These maps reverse $x_4$; they are not C or CP in Sakharov's sense and are not used in Section 9.
+The identity component $\mathrm{Spin}_0(4,4)$, under which $\mathcal L$ is invariant, contains $\exp(\pi S^{45})=\gamma^4\gamma^5$ ($S^{45}=\tfrac12\gamma^4\gamma^5$ with $(S^{45})^2=-\tfrac14$), the rotation by $\pi$ in the plane of the two time-like directions $x_4,x_5$, and the product of four such rotations, $\gamma^8$, the total inversion. Both are exact symmetries. For the classical fields both reverse $x_4$ and the $x_4$-component of the current. In signature (4,4) the time orientation of the slicing $x_4=\text{const}$ can therefore be reversed continuously, and the sign of the classical charge $Q$ refers to a chosen slicing. This remark concerns the classical fields only. After quantization of the anticommuting field both maps have $MBM^\dagger=-B$, so by the criterion of Section 5.6 they are of antiunitary type, like time reversal. For such an antilinear automorphism $A$ with $M$ real, $A\,J^4A^{-1}=\Psi^\dagger M^TB^\ast M\Psi=-\Psi^\dagger M^TBM\Psi=+J^4$ at the reflected point, because $M^TBM=-B$ and $B^\ast=-B$: the quantum charge is preserved, not reversed (check MA_M2_spin0ContainsChargeReversingTimeRotation verifies the three matrix identities for both maps). These maps reverse $x_4$; they are not C or CP in Sakharov's sense and are not used in Section 9.
 
 ### 5.8 How M2 was verified
 
 **Wolfram:** the intertwiner spaces of Lemma A are one-dimensional each (bases $1$, $\gamma^8$, $C$, $\gamma^8C$, all commuting with every $S^{ab}$); the 256 monomials realise the 256 sign patterns bijectively, with the explicit null spaces; the statistics sign $s$ is computed with an exact random Gaussian-rational $Y$; all 512 pairs $(M,R)$ satisfy the rules for $\varepsilon$, $\sigma_R$ and $\kappa$; for all 1024 maps per statistics, the Lagrangian density computed from the transformed jets (commuting symbols, respectively the Grassmann algebra) equals $\kappa\mathcal L_{\sigma\kappa m,\kappa\lambda}$ as given by the rule, and the eight current signs agree, with no mismatch; the frame form in the curved field G1 is checked for 31 frame reflections (21 at p1, 5 each at p2 and p3) for both statistics; and all 256 exact maps of the anticommuting field preserve the canonical structure as in Section 5.6.
 
-**Python** (independent): the solution spaces of Lemma A, including the linear intertwiners $1$ and $\gamma^8$; the internal maps $C_0$, $C_8$ and the chirality map on curved jets in G_A, agreeing with the hand derivation $(\kappa,\sigma,q)=(s,s,-s)$ for $C_0$ and $C_8=C_0\circ$chirality; named reflections on flat jets for both lifts; three generic, non-axis unit vectors $u=(2,0,0,0,1,1,1,0)$ with $n(u)=+1$, $u=(1,1,0,0,1,0,1,1)$ and $u=(0,1,0,1,1,1,1,0)$ with $n(u)=-1$; reflections in the curved field G_B, which has reflection isometries; the rotation $\exp(\pi S^{45})$ and the total inversion of Section 5.7; the complete character table of the 1024 maps per statistics (4 classes of 256, 256 exact symmetries, 64 exact charge-reversing symmetries without $x_4$ reversal), with multiplicativity of the characters checked on 400 random composites; the C and CP status; the canonical structure of the 256 exact maps of the anticommuting field (128 unitary and $x_4$-preserving, 128 antiunitary and $x_4$-reversing, none other); and C combined with spatial parities.
+**Python** (independent): the solution spaces of Lemma A, including the linear intertwiners $1$ and $\gamma^8$; the internal maps $C_0$, $C_8$ and the chirality map on curved jets in G_A, agreeing with the hand derivation $(\kappa,\sigma,q)=(s,s,-s)$ for $C_0$ and $C_8=C_0\circ$chirality; the scope of CP in a gravitational field (Section 5.3: the internal parts of $C_8P_b$ and $C_8P_{123}$ at a fixed frame of G_A, the space-block determinant of the 128 frame reflections with $s_R$ odd, and the non-exactness of their linear Pin lifts); named reflections on flat jets for both lifts; three generic, non-axis unit vectors $u=(2,0,0,0,1,1,1,0)$ with $n(u)=+1$, $u=(1,1,0,0,1,0,1,1)$ and $u=(0,1,0,1,1,1,1,0)$ with $n(u)=-1$; reflections in the curved field G_B, which has reflection isometries; the rotation $\exp(\pi S^{45})$ and the total inversion of Section 5.7, including $MBM^\dagger=-B$, $M^TBM=-B$ and $M^TB^\ast M=+B$ for both; the complete character table of the 1024 maps per statistics (4 classes of 256, 256 exact symmetries, 64 exact charge-reversing symmetries without $x_4$ reversal), with multiplicativity of the characters checked on 400 random composites; the C and CP status; the canonical structure of the 256 exact maps of the anticommuting field (128 of unitary type and $x_4$-preserving, 128 of antiunitary type and $x_4$-reversing, none other); and C combined with spatial parities.
 
 ```
 checks (Wolfram)
@@ -383,7 +391,7 @@ checks (Wolfram)
 checks (Python)
   MA_M2_chargeConjugationSolutionSpaces  MA_M2_psibarTransposeFormsReduceToPsiStarForms
   MA_M2_internalMapsCurvedJets  MA_M2_internalMapsAsDerived
-  MA_M2_namedReflectionsFlatJets
+  MA_M2_cpScopeInCurvedFields  MA_M2_namedReflectionsFlatJets
   MA_M2_genericUnitVectorReflections  MA_M2_reflectionsInCurvedFieldWithIsometry
   MA_M2_spin0ContainsChargeReversingTimeRotation  MA_M2_discreteGroupCharacterTable
   MA_M2_characterHomomorphism  MA_M2_C_and_CP_status
@@ -400,7 +408,7 @@ Sakharov's first condition needs an interaction that changes the charge. The sim
 **Theorem M3.**
 
 1. (invariant forms) The constant matrices $M$ with $(S^{ab})^TM+MS^{ab}=0$ for all 28 generators, that is, with $\Psi^TM\Psi$ invariant under $\mathrm{Spin}_0(4,4)$, are exactly $M=C(\alpha P_-+\beta P_+)$ with complex $\alpha,\beta$. The space has dimension 2, all its elements are symmetric, and it contains no nonzero antisymmetric matrix.
-2. (the full group) The elements of $\mathrm{Spin}(4,4)$ of spinor norm $-1$, such as $g=\gamma^a\gamma^b$ with $a$ space-like and $b$ time-like, act by $g^T(CP_\pm)g=-CP_\pm$. No nonzero form is strictly invariant under the full $\mathrm{Spin}(4,4)$; both basis forms carry the spinor-norm character.
+2. (the full group) The elements of $\mathrm{Spin}(4,4)$ of spinor norm $-1$, such as $g=\gamma^a\gamma^b$ with $a$ space-like and $b$ time-like, act by $g^T(CP_\pm)g=-CP_\pm$. No nonzero form is strictly invariant under the full $\mathrm{Spin}(4,4)$; both basis forms carry the spinor-norm character. (Stage 1, Result 10.3, calls $CP_\pm$ the Spin(4,4)-invariant bilinear forms. There, invariance means invariance under the 28 generators, that is under $\mathrm{Spin}_0(4,4)$, which is item 1; item 2 refines that statement: under the component of spinor norm $-1$ both forms change sign.)
 3. (Pin characters) For every unit vector $u=u_a\gamma^a$, $u^2=n(u)=\pm1$: $u^TCu=-n(u)\,C$ and $u^T(C\gamma^8)u=+n(u)\,C\gamma^8$. Among the $\mathrm{Spin}_0$-invariant forms, the trivial character $\chi=1$ and the determinant character $\chi(u)=-1$ admit no nonzero covariant form; $C$ carries $\chi(u)=-n(u)$ (the character of $\bar\Psi\Psi$), and $C\gamma^8$ carries $\chi(u)=+n(u)$. The chiral forms $CP_\pm$ are $\mathrm{Spin}_0$-invariant but not Pin-covariant, because $u$ exchanges the two chiralities.
 4. (derivative terms) The derivative bilinears $\Psi^TM\gamma^a\partial_a\Psi$ that are $\mathrm{Spin}_0$-invariant have $M$ in the same two-dimensional space. $M\gamma^a$ is symmetric for every $a$ exactly when $M\propto C\gamma^8$, and antisymmetric for every $a$ exactly when $M\propto C$.
 5. (what survives) For **anticommuting** components every invariant mass-type term $\Psi^TM\Psi$ vanishes identically: no Majorana mass term exists. The derivative term $\sqrt{|g|}\,\Psi^TC\gamma^\mu D_\mu\Psi$ is a total divergence (identically vanishing Euler-Lagrange equations), while $\sqrt{|g|}\,\Psi^TC\gamma^8\gamma^\mu D_\mu\Psi$ survives, with flat-space Euler-Lagrange expression $2C\gamma^8\gamma^a\partial_a\Psi$. For **commuting** components the two chiral mass terms $\Psi^TCP_\pm\Psi$ survive (equivalently $\Psi^TC\Psi$ and $\Psi^TC\gamma^8\Psi$), and so does the derivative term $\sqrt{|g|}\,\Psi^TC\gamma^\mu D_\mu\Psi$, which is the form of the notebook Lagrangian Lg[]; $\sqrt{|g|}\,\Psi^TC\gamma^8\gamma^\mu D_\mu\Psi$ is a total divergence.
@@ -409,6 +417,8 @@ Sakharov's first condition needs an interaction that changes the charge. The sim
 ### 6.2 Proof
 
 *Item 1.* From $(CS^{ab})^T=-CS^{ab}$ (Stage 1, Result 3.5) and $C^T=C$ one gets $(S^{ab})^T=-CS^{ab}C^{-1}$. The condition becomes $-CS^{ab}C^{-1}M+MS^{ab}=0$, that is, $S^{ab}(C^{-1}M)=(C^{-1}M)S^{ab}$: the matrix $C^{-1}M$ lies in the commutant of the 28 generators. That commutant is spanned by $P_-$ and $P_+$ (Stage 1, Result 4.2, dimension 2). So $M=C(\alpha P_-+\beta P_+)$. Since $\gamma^8$ is symmetric and commutes with $C$, $(CP_\pm)^T=P_\pm C=CP_\pm$: both are symmetric, and a nonzero antisymmetric solution cannot exist.
+
+*Item 2.* By the proof of Lemma B, $(\gamma^a)^TC\gamma^a=-C$ for $a\le3$ and $+C$ for $a\ge4$; since $\gamma^8$ commutes with $C$ and anticommutes with $\gamma^a$, $(\gamma^a)^TC\gamma^8\gamma^a=-(\gamma^a)^TC\gamma^a\,\gamma^8$, which is $+C\gamma^8$ for $a\le3$ and $-C\gamma^8$ for $a\ge4$. For $g=\gamma^a\gamma^b$ with $a\le3<b$ this gives $g^TCg=-C$ and $g^T(C\gamma^8)g=-C\gamma^8$, hence $g^T(CP_\pm)g=-CP_\pm$. The elements of spinor norm $-1$ form the coset $g\,\mathrm{Spin}_0(4,4)$, and the forms of item 1 are invariant under $\mathrm{Spin}_0(4,4)$, so every such element changes the sign of every form of item 1, and no nonzero form is invariant under both components.
 
 *Item 3.* $(C\gamma^a)^T=-C\gamma^a$ gives $(\gamma^a)^TC=-C\gamma^a$, hence $u^TCu=-Cu\,u=-n(u)C$. With $\gamma^8u=-u\gamma^8$, $u^TC\gamma^8u=-Cu\gamma^8u=C\gamma^8u^2=n(u)C\gamma^8$. A form $\alpha CP_-+\beta CP_+$ is covariant for a character only if it is proportional to $C$ or to $C\gamma^8$, because $u^T(CP_\pm)u=-n(u)\,CP_\mp$ exchanges the two chiral pieces.
 
@@ -478,13 +488,13 @@ $$
 
 For the field equation, $\gamma^\mu D_\mu(\gamma^8\Psi)=-\gamma^8\gamma^\mu D_\mu\Psi$ and $(m+\lambda S)\gamma^8\Psi=\gamma^8(m+\lambda S)\Psi$, so $E_{-m,-\lambda}[\gamma^8\Psi]=-\gamma^8\gamma^\mu D_\mu\Psi+\gamma^8(m+\lambda S)\Psi=-\gamma^8E_{m,\lambda}[\Psi]$. $T_{\mu\nu}=-\tfrac14[\text{kinetic bilinears}]+g_{\mu\nu}\mathcal L_s$ (Stage 1, Section 9): the kinetic bilinears change sign, and $\mathcal L_s[\gamma^8\Psi;-m,-\lambda]=-\mathcal L_s[\Psi;m,\lambda]$ by the Lagrangian identity with $(m,\lambda)$ replaced by $(-m,-\lambda)$. The map is linear and keeps every $\Psi^\dagger$ to the left of every $\Psi$, so the proof holds for both statistics. The even potential forces $\lambda\to-\lambda$: at fixed $\lambda$ one gets $\mathcal L_{m,\lambda}[\gamma^8\Psi]+\mathcal L_{-m,\lambda}[\Psi]=-\lambda\sqrt{|g|}\,S^2\ne0$ (CONTRACT erratum E2). $\square$
 
-**Corollary M4.1 (the pair).** Let $\Psi_+$ carry $(m,\lambda)$ and $\Psi_-=\gamma^8\Psi_+$ carry $(-m,-\lambda)$ in the same gravitational field. Then, at every point and every $x_4$ (in particular at $x_4=0$),
+**Corollary M4.1 (the pair, classical fields).** Let $\Psi_+$ be a configuration of a classical field with the Lagrangian $\mathcal L_{m,\lambda}$, and let $\Psi_-$ be the configuration $\gamma^8\Psi_+$ of a second, independent classical field with the Lagrangian $\mathcal L_{-m,-\lambda}$ (equivalently, one whose action on the paired configuration is $S_{-m,-\lambda}[\gamma^8\Psi_+]=-S_{m,\lambda}[\Psi_+]$), in the same gravitational field. Then, at every point and every $x_4$ (in particular at $x_4=0$),
 
 $$
 j^\mu_++j^\mu_-=0,\qquad Q_++Q_-=0,\qquad T^{\mathrm{pair}}_{\mu\nu}=T_{\mu\nu}[\Psi_+;m,\lambda]+T_{\mu\nu}[\Psi_-;-m,-\lambda]=0 .
 $$
 
-The pair carries no net charge and no net energy, momentum or stress, so the Einstein (or Einstein-Lovelock) equations with the pair as source are the source-free equations. This is a statement about conservation laws and constraints. It is not a computed creation rate or amplitude.
+Here $Q_-$ is the Noether charge of the second field in its own right (by M1, item 2, with $(-m,-\lambda)$ its Noether current is $i\sqrt{|g|}\,j^\mu[\Psi_-]$), and $T_{\mu\nu}[\Psi_-;-m,-\lambda]$ is its own metric energy-momentum tensor; in particular its classical energy is minus that of $\Psi_+$. By Theorem M4 the second field solves its field equations exactly when the first one does. The pair carries no net charge and no net energy, momentum or stress, so the Einstein (or Einstein-Lovelock) equations with the pair as source are the source-free equations. This is a statement about classical fields, conservation laws and constraints. The correlation $\Psi_-=\gamma^8\Psi_+$ between the two fields is a property of the chosen configurations, not a consequence of any dynamics, and nothing here is a computed creation rate or amplitude. The quantum level is different (Section 7.3): there no reading of the pair gives a cancellation between two independent universes.
 
 ### 7.2 One-particle (Krein) level
 
@@ -496,32 +506,45 @@ $$
 
 So $\gamma^8$ maps the positive-energy (negative-energy) eigenspace of $h_k(m)$ onto the positive-energy (negative-energy) eigenspace of $h_k(-m)$ with the same energy, it preserves the Hilbert norm $u^\dagger u$, and it reverses the Krein norm $u^\dagger Bu$. At rest the $B$-form on each positive-energy space has signature (4,4), and the Gram matrix of the image is minus the original one.
 
-Which charge and energy an image mode carries depends on the canonical structure given to the image field. With the Stage-1 expectation rule $\langle\Psi^\dagger X\Psi\rangle=u^\dagger BXu$ for a Hilbert-normalised positive-energy mode $u$, the energy is $X=Bh$, the charge $X=B$ and the scalar density $X=C$. For the image field $\Psi_-=\gamma^8\Psi$ the canonical anticommutator is $\gamma^8B\gamma^8=-B$ and the rule reads $u_-^\dagger(-B)Xu_-$ with $u_-=\gamma^8u$. For an independently quantised $-m$ theory with its own positive structure the rule is $u_-^\dagger BXu_-$. The table gives $(E,Q,S)$ per quantum for three exact positive-energy modes $u$ with mass $m$ and momentum $k=(k_0,k_1,k_2,k_3)$, in the $+m$ universe, for the image field (metric $-B$) and for the independently quantised field (metric $+B$).
+Which charge and energy an image mode carries depends on the canonical structure given to the image field. With the Stage-1 expectation rule $\langle\Psi^\dagger X\Psi\rangle=u^\dagger BXu$ for a Hilbert-normalised positive-energy mode $u$, the energy is $X=Bh$, the charge $X=B$ and the scalar density $X=C$. For the image field $\Psi_-=\gamma^8\Psi$ the canonical anticommutator is $\gamma^8B\gamma^8=-B$ and the rule reads $u_-^\dagger(-B)Xu_-$ with $u_-=\gamma^8u$. For an independently quantised $-m$ theory with its own positive structure the rule is $u_-^\dagger BXu_-$. The table gives $(E,Q,S)$ per quantum for three exact positive-energy modes $u$ with mass $m$ and momentum $k=(k_0,k_1,k_2,k_3)$: in the $+m$ universe; the formulas $H[\Psi_-;-m]$, $Q[\Psi_-]$ and $S[\Psi_-]$ of the Lagrangian $\mathcal L_{-m,-\lambda}$ evaluated on the image field with its metric $-B$; and the independently quantised field (metric $+B$).
 
-| $m$, $k$ | $+m$ universe | Image field, $-B$ | Independent, $+B$ |
+| $m$, $k$ | $+m$ universe | $\mathcal L_{-m,-\lambda}$ formulas, image, $-B$ | Independent, $+B$ |
 |---|---|---|---|
 | $1$, $(1,1,2,3)$ | $(4,1,1/4)$ | $(-4,-1,1/4)$ | $(4,1,-1/4)$ |
 | $3$, $(1,1,1,2)$ | $(4,1,3/4)$ | $(-4,-1,3/4)$ | $(4,1,-3/4)$ |
 | $3/5$, $(4/5,0,0,0)$ | $(1,1,3/5)$ | $(-1,-1,3/5)$ | $(1,1,-3/5)$ |
 
-In general (derived from the two matrix identities above): the image field has $(E,Q,S)\to(-E,-Q,S)$ per quantum, and the independently quantised field has $(E,Q,S)\to(E,Q,-S)$ per quantum.
+In general (derived from the two matrix identities above): the $\mathcal L_{-m,-\lambda}$ formulas evaluated on the image field give $(E,Q,S)\to(-E,-Q,S)$ per quantum, and the independently quantised field has $(E,Q,S)\to(E,Q,-S)$ per quantum. The third column is not the energy and charge of the image field itself. With the anticommutator $-B$ the operator $H[\Psi_-;-m]$ generates the reversed $x_4$-evolution and $Q[\Psi_-]$ the inverse phase, so the image field's own generators are $-H[\Psi_-;-m]$ and $-Q[\Psi_-]$, with $(+E,+Q)$ per quantum, as in the $+m$ universe (Section 7.3; the matrix identities $(-B)(Bh_k(-m))=-h_k(-m)$, $(-B)B=-1$ and $\gamma^8Bh_k(-m)\gamma^8=-Bh_k(m)$ are part of MA_M4_kreinOneParticle).
 
-### 7.3 Fock level (from Stage 5, PAIR_T1krein)
+### 7.3 Fock level: the image field and an independently quantised field
 
-The Stage-5 Wolfram pairing report is present, all of its 141 checks are true, and its sha256 is recorded in both matter-antimatter reports. Its exact Fock-level result (the checks PAIR_T1krein_*, in a Fock model of four rest-sector modes with $m=1$, Krein anticommutators $\{b_n,b_n^K\}=\beta_n$, the sea formed by the two negative-energy modes and normal ordering as subtraction of the sea value) is:
+**What is proved here and what is cited.** The matrix identities behind the Fock-level statements are proved here by both implementations (MA_M4_kreinOneParticle, MA_M4_kreinModeFacts). The canonical structure of the image field is proved here by the Python implementation only, in an exact Fock model (check MA_M4_imageFieldFockModel). Its four modes $v_n$ of the good sector, with $m=1$ at rest and at $k=(1,1,2,3)$, are joint eigenvectors of $h_k(m)$ (energy $\epsilon_n=\pm E$) and of $B$ (Krein sign $\beta_n=\pm1$). They are realised on the 16-dimensional Fock space of four fermionic modes with exact Gaussian-rational matrices, with the Krein anticommutators $\{b_n,b_n^K\}=\beta_n$ and without normal ordering, which changes $H$ and $Q$ by constants and leaves every commutator below unchanged. The Stage-5 Fock-level result PAIR_T1krein is cited, not re-proved. It uses a Fock model of four rest-sector modes with $m=1$, the Krein anticommutators $\{b_n,b_n^K\}=\beta_n$, the sea formed by the two negative-energy modes and normal ordering as subtraction of the sea value. The Stage-5 Wolfram pairing report is present, all of its 141 checks are true (among them the twelve PAIR_T1krein checks), and the independent Stage-5 Python pairing report has 172 of 172 checks true (among them S5_T1krein). The Stage-5 documents and the Stage-5 gate are not complete, so both matter-antimatter reports record this citation as PROVISIONAL, open until the Stage-5 gate passes (Section 11.4).
 
-- the image field $\Psi_-=\gamma^8\Psi$ on the same Fock space and state has the anticommutator $-B$ on its modes; the operator identities $H[\Psi_-;-m]=-H[\Psi;m]$, $Q[\Psi_-]=-Q[\Psi]$ and $S[\Psi_-]=S[\Psi]$ hold, normal ordering commutes with the map, and $:T_{\mu\nu}[\gamma^8\Psi;-m,-\lambda]:\ =-:T_{\mu\nu}[\Psi;m,\lambda]:$ as operators; the image universe carries the Krein metric $-B$, energy $-|\epsilon|$ and charge $-1$ per quantum;
-- an independently quantised $-m$ theory with the positive ($J=B$) structure has the modes $w_n=\gamma^8u_n$ (same $\epsilon$, Krein sign $-\beta_n$); a quantum in $w_n$ has energy $+|\epsilon|$, charge $+1$ and scalar density $-u^\dagger BCu$, and in the state with the same mode occupations such a universe has the same energy-momentum and the same charge as the $+m$ universe, so the pair totals add instead of cancelling (Stage 5 calls this the T2-type pairing).
+**The image field.** The image field $\Psi_-=\gamma^8\Psi$ on the same Fock space and in the same state has the anticommutator $-B$ on its modes. The operator identities $H[\Psi_-;-m]=-H[\Psi;m]$, $Q[\Psi_-]=-Q[\Psi]$ and $S[\Psi_-]=S[\Psi]$ hold, with $H=\Psi^KBh\Psi$ and $Q=\Psi^KB\Psi$ (Stage 5; re-proved in MA_M4_imageFieldFockModel). Normal ordering commutes with the map, and $:T_{\mu\nu}[\gamma^8\Psi;-m,-\lambda]:\ =-:T_{\mu\nu}[\Psi;m,\lambda]:$ as operators (Stage 5, cited). Stage 5 describes the image as a universe with the Krein metric $-B$, energy $-|\epsilon|$ and charge $-1$ per quantum. These numbers are the expectation values of the $\mathcal L_{-m,-\lambda}$ formulas; they are not the image field's own Hamiltonian and charge. For operators with $\{\Psi_a,\Psi^K_b\}=G_{ab}$ one has $[\Psi,\Psi^KX\Psi]=GX\Psi$, and with $G=-B$
 
-**How particles and antiparticles map** (derived from these operator identities). In the $+m$ universe a particle has $(E,Q)=(+|\epsilon|,+1)$ and an antiparticle (a hole in the sea) has $(+|\epsilon|,-1)$. Measured with the image field, the same states have $(-|\epsilon|,-1)$ and $(-|\epsilon|,+1)$: a particle of the $+M$ universe is a negative-energy, negative-charge quantum of the $-M$ image universe, and an antiparticle is a negative-energy, positive-charge quantum. In the independently quantised $-M$ universe, particles and antiparticles have the same energies and charges as in the $+M$ universe and the opposite scalar density. For the positive- and negative-norm modes: a mode $u_n$ with Krein sign $\beta_n=u_n^\dagger Bu_n$ goes to $w_n=\gamma^8u_n$ with $w_n^\dagger Bw_n=-\beta_n$, because $\gamma^8B\gamma^8=-B$. Measured with the image field's own metric $-B$ the sign is $\beta_n$ again, so the image field reproduces the occupation pattern of the $+M$ universe with opposite energy and charge; measured with $+B$ (independent quantization) every positive-norm mode becomes a negative-norm mode and conversely (derived from the matrix identity and the Stage-5 mode list).
+$$
+[\Psi_-,H[\Psi_-;-m]]=-h(-m)\,\Psi_-,\qquad [\Psi_-,Q[\Psi_-]]=-\Psi_-,
+$$
 
-So the cancellation of Corollary M4.1 holds for the pair in which the $-M$ member is the image field, with the Krein metric $-B$, and it does not hold automatically if the $-M$ universe is an independently quantised field with positive energies. In the second case the charges would cancel only if the $-M$ universe were in a state with the opposite charge, which is an additional assumption about its state and yields no cancellation of energy.
+while the image field evolves by $i\partial_4\Psi_-=\gamma^8h(m)\gamma^8\Psi_-=h(-m)\Psi_-$. So $H[\Psi_-;-m]$ generates the reversed $x_4$-evolution and $Q[\Psi_-]$ the inverse phase, and the image field's own $x_4$-generator and U(1) generator are
+
+$$
+-H[\Psi_-;-m]=+H_+,\qquad -Q[\Psi_-]=+Q_+ .
+$$
+
+Its canonical Lagrangian is $-\mathcal L_{-m,-\lambda}=\mathcal L_{m,\lambda}[\gamma^8\,\cdot\,]$ (Stage 5). Its Noether current is $-i\sqrt{|g|}\,j^\mu[\Psi_-]=+i\sqrt{|g|}\,j^\mu[\Psi_+]$ (M1, item 2), and its metric energy-momentum tensor is $-T_{\mu\nu}[\Psi_-;-m,-\lambda]=+T_{\mu\nu}[\Psi_+;m,\lambda]$ (M4) (derived). Relative to its own canonical structure the image field therefore has the energy $+H_+$, the charge $+Q_+$ and the gravitational source $+T_+$. It is the same quantum system as $\Psi_+$ written in other variables: the same operators, the same Fock space and the same state. The identities $Q_++Q[\Psi_-]=0$ and $H_++H[\Psi_-;-m]=0$ have the form $X+(-X)=0$ and hold in every state, including every state with $Q_+\ne0$ (in the Fock model $Q_+$ takes the values 0 to 4). They are not a compensation by a second universe.
+
+**An independently quantised field.** An independently quantised theory $\mathcal L_{-m,-\lambda}$ with its own anticommutator $+B$ and the positive ($J=B$) structure has the modes $w_n=\gamma^8u_n$ (same $\epsilon$, Krein sign $-\beta_n$); a quantum in $w_n$ has energy $+|\epsilon|$, charge $+1$ and scalar density $-u^\dagger BCu$ (Stage 5). In the state with the same mode occupations its free Hamiltonian and its charge equal those of the $+m$ universe, and its scalar density is reversed: $H'=H_+$, $Q'=Q_+$ and $S'=-S_+$ as operators (MA_M4_imageFieldFockModel). The kinetic and mass energies therefore add instead of cancelling. The interaction energy changes sign: with $(-m,-\lambda)$ the potential of the second field is $-\tfrac\lambda2S'^2$, and $S'^2=S_+^2$ (checked in the Fock model), so it equals $-\tfrac\lambda2S_+^2$. Equivalently, the Wick form $\langle U\rangle=\tfrac\lambda2\bigl[\mathrm{Tr}(M\rho)^2-\mathrm{Tr}(M\rho M\rho)\bigr]$ of Stage 5 is even in the scalar-density matrix and odd in $\lambda$ (derived). Equal energies hold for $\lambda=0$ (the free Stage-5 Fock model) and for the choice $(-m,+\lambda)$ of the Stage-5 theorem T2, which Stage 5 calls the T2-type pairing. For the $(-m,-\lambda)$ partner of M4 the kinetic and mass energies add and the interaction energies cancel.
+
+**How particles and antiparticles map** (derived from these operator identities). In the $+m$ universe a particle has $(E,Q)=(+|\epsilon|,+1)$ and an antiparticle (a hole in the sea) has $(+|\epsilon|,-1)$. The image field describes the same particles and antiparticles, with the same energies and charges when these are measured with its own generators $-H[\Psi_-;-m]$ and $-Q[\Psi_-]$; the $\mathcal L_{-m,-\lambda}$ formulas evaluated on the same states give $(-|\epsilon|,-1)$ and $(-|\epsilon|,+1)$. In the independently quantised $-M$ universe particles and antiparticles have the same energies and charges as in the $+M$ universe and the opposite scalar density. For the positive- and negative-norm modes: a mode $u_n$ with Krein sign $\beta_n=u_n^\dagger Bu_n$ goes to $w_n=\gamma^8u_n$ with $w_n^\dagger Bw_n=-\beta_n$, because $\gamma^8B\gamma^8=-B$. Measured with the image field's own metric $-B$ the sign is $\beta_n$ again, so the image field reproduces the occupation pattern of the $+M$ universe; measured with $+B$ (independent quantization) every positive-norm mode becomes a negative-norm mode and conversely (derived from the matrix identity and the Stage-5 mode list; the sign flip is also checked in MA_M4_imageFieldFockModel).
+
+**Consequence for the pair.** At the quantum level no reading gives a cancellation between two independent, consistently quantised universes. In the image-field reading the $-M$ member has no degrees of freedom of its own. Counted with its own energy-momentum tensor it would source $+T_+$, so a pair counted as two sources would source $2T_+$, not 0; since it is the same system, it adds nothing. In the independent reading the kinetic and mass energies add, and the charges cancel only if the $-M$ universe is in a state with the opposite charge, which is an additional assumption about its state. The cancellation of Corollary M4.1 is therefore a statement about classical fields only.
 
 ### 7.4 How M4 was verified
 
-**Wolfram:** the matrix facts (the current matrices are odd under $\gamma^8$, the mass matrix is even, $\bar\Psi\to\bar\Psi\gamma^8$, $B\to-B$); the current flip in G1 for Grassmann components at three points; for commuting components at the three G1 points the jets of $T^{\mathrm{pair}}_{\mu\nu}$ and of the pair current vanish while the individual ones do not, and the image of an on-shell solution solves the $(-m,-\lambda)$ equations; for Grassmann components all 64 components of $T^{\mathrm{pair}}_{\mu\nu}$ vanish at p1 (64 nonzero components individually, symmetric); the one-particle facts of Section 7.2; and the consistency with the Stage-5 Krein result.
+**Wolfram:** the matrix facts (the current matrices are odd under $\gamma^8$, the mass matrix is even, $\bar\Psi\to\bar\Psi\gamma^8$, $B\to-B$); the current flip in G1 for Grassmann components at three points; for commuting components at the three G1 points the jets of $T^{\mathrm{pair}}_{\mu\nu}$ and of the pair current vanish while the individual ones do not, and the image of an on-shell solution solves the $(-m,-\lambda)$ equations; for Grassmann components all 64 components of $T^{\mathrm{pair}}_{\mu\nu}$ vanish at p1 (64 nonzero components individually, symmetric); the one-particle facts of Section 7.2, including the canonical generators of the image field at the matrix level. The verifier also reads the Stage-5 pairing files and records their hashes and the status of the citation; this is not a check.
 
-**Python** (independent): the $\gamma^8$ matrix facts, including $(\gamma^8)^TC\gamma^a\gamma^8=-C\gamma^a$ and commutation with $\Omega_\mu$ in G_A; in G_A for both statistics the current flip, $S$ invariant, $K\to-K$, $\mathcal L_{m,\lambda}[\gamma^8\Psi]=-\mathcal L_{-m,-\lambda}[\Psi]$, the Euler-Lagrange pairing and the pairing of all 36 independent components of $T_{\mu\nu}$ (36 nonzero), so the pair totals vanish identically as polynomial identities; the three Krein mode samples of the table in Section 7.2; the citation of the Stage-5 report with all twelve PAIR_T1krein checks true.
+**Python** (independent): the $\gamma^8$ matrix facts, including $(\gamma^8)^TC\gamma^a\gamma^8=-C\gamma^a$ and commutation with $\Omega_\mu$ in G_A; in G_A for both statistics the current flip, $S$ invariant, $K\to-K$, $\mathcal L_{m,\lambda}[\gamma^8\Psi]=-\mathcal L_{-m,-\lambda}[\Psi]$, the Euler-Lagrange pairing and the pairing of all 36 independent components of $T_{\mu\nu}$ (36 nonzero), so the pair totals vanish identically as polynomial identities; the three Krein mode samples of the table in Section 7.2; the exact Fock model of Section 7.3 (the anticommutators $B$ and $-B$, the generators of the image field, the operator identities, and the independently quantised field with $H'=H_+$, $Q'=Q_+$, $S'=-S_+$ and $S'^2=S_+^2$); the citation of the Stage-5 reports with all twelve PAIR_T1krein checks and all fourteen S5_T1krein checks true.
 
 ```
 checks (Wolfram)
@@ -530,14 +553,21 @@ checks (Wolfram)
   MA_M4_pairEMTG1_grassmann  MA_M4_kreinOneParticle
 checks (Python)
   MA_M4_gamma8MatrixFacts  MA_M4_gamma8ChargeFlipCurved  MA_M4_gamma8EulerLagrangePairing
-  MA_M4_gamma8EMTPairing  MA_M4_kreinModeFacts  MA_M4
-checks (Stage-5 pairing report, cited)
+  MA_M4_gamma8EMTPairing  MA_M4_kreinModeFacts  MA_M4_imageFieldFockModel  MA_M4
+checks (Stage-5 Wolfram pairing report, cited)
   PAIR_T1krein_restHamiltonians  PAIR_T1krein_modes  PAIR_T1krein_fieldCAR
   PAIR_T1krein_statesNormalised  PAIR_T1krein_expectationRule
   PAIR_T1krein_positiveExcitations  PAIR_T1krein_imageAnticommutatorMinusB
   PAIR_T1krein_imageOperatorIdentities  PAIR_T1krein_imageExpectationValues
   PAIR_T1krein_minusMModes  PAIR_T1krein_independentCARPlusB
   PAIR_T1krein_independentExpectationValues
+checks (Stage-5 Python pairing report, cited)
+  S5_T1krein_restHamiltonians  S5_T1krein_modes  S5_T1krein_fieldCAR
+  S5_T1krein_bilinearFromFields  S5_T1krein_statesNormalised
+  S5_T1krein_expectationRule  S5_T1krein_positiveExcitations
+  S5_T1krein_imageAnticommutatorMinusB  S5_T1krein_imageOperatorIdentities
+  S5_T1krein_imageExpectationValues  S5_T1krein_minusMModes
+  S5_T1krein_independentCARPlusB  S5_T1krein_independentExpectationValues  S5_T1krein
 ```
 
 ## 8. M5: the conditional scenario, stated as a hypothesis
@@ -546,32 +576,33 @@ checks (Stage-5 pairing report, cited)
 
 The following three statements are **hypotheses**. None of them is derived anywhere in this repository.
 
-- **H1 (hypothesis, not derived).** Our universe is one member of a chirality pair created together: $\Psi_+$ with $(m,\lambda)$ and $\Psi_-=\gamma^8\Psi_+$ with $(-m,-\lambda)$, where $\Psi_-$ is the image field of Section 7.3, with the Krein metric $-B$. No creation process, rate or amplitude is computed anywhere in this repository.
+- **H1 (hypothesis, not derived).** Our universe is one member of a chirality pair created together: two independent classical fields in the same gravitational field, $\Psi_+$ with the Lagrangian $\mathcal L_{m,\lambda}$ and $\Psi_-$ with the Lagrangian $\mathcal L_{-m,-\lambda}$, in the correlated configuration $\Psi_-=\gamma^8\Psi_+$ of Corollary M4.1. The correlation between the two fields is part of the assumption. H1 is a statement about classical fields; it has no quantum counterpart with two independent universes (Section 7.3). No creation process, rate or amplitude is computed anywhere in this repository.
 - **H2 (hypothesis, not derived).** The creation assigns $Q_+=-Q_-\ne0$. Given H1, the relation $Q_-=-Q_+$ follows from M4; the content of H2 is $Q_+\ne0$, and nothing here computes the value or the sign of $Q_+$.
 - **H3 (hypothesis, not derivable within the theory).** The dirac16complex U(1) charge is identified with baryon number $B$ (or with $B-L$). The theory contains no Standard-Model baryons, quarks or leptons, so this identification cannot be derived from it.
 
 ### 8.2 The implication and its proof
 
-**Proposition M5.** If H1, H2 and H3 hold, then $Q_+(x_4)+Q_-(x_4)=0$ at every $x_4$, each of $Q_+$ and $Q_-$ is separately conserved, and the baryon excess $B_+=Q_+\ne0$ seen in one member is exactly compensated by $B_-=-Q_+$ in the other. The pair also carries $T^{\mathrm{pair}}_{\mu\nu}=0$ (for the classical bilinears, and for the normal-ordered operators in the image-field reading of H1).
+**Proposition M5.** If H1, H2 and H3 hold, then, for the two classical fields of H1, $Q_+(x_4)+Q_-(x_4)=0$ at every $x_4$, each of $Q_+$ and $Q_-$ is separately conserved, and the baryon excess $B_+=Q_+\ne0$ of one member is balanced by $B_-=-Q_+$ of the other. The pair also carries $T^{\mathrm{pair}}_{\mu\nu}=0$ (classical bilinears). The balance is put in by the correlated configuration assumed in H1; it is not a compensation mechanism, and it has no quantum counterpart with two independent universes (Section 7.3).
 
-*Proof.* By M4, $\sqrt{|g|}\,j^{x_4}[\gamma^8\Psi_+]=-\sqrt{|g|}\,j^{x_4}[\Psi_+]$ at every point, so $Q_-=-Q_+$ at every $x_4$ and $Q_++Q_-=0$. By M1 each charge is conserved, $dQ_\pm/dx_4=0$. By H3, $B_\pm=Q_\pm$, and by H2, $B_+\ne0$. The statement about $T^{\mathrm{pair}}_{\mu\nu}$ is Corollary M4.1 together with the Stage-5 operator identity of Section 7.3. $\square$
+*Proof.* By M4, $\sqrt{|g|}\,j^{x_4}[\gamma^8\Psi_+]=-\sqrt{|g|}\,j^{x_4}[\Psi_+]$ at every point, and the Noether current of $\mathcal L_{-m,-\lambda}$ is $i\sqrt{|g|}\,j^\mu$ (M1, item 2, with $(-m,-\lambda)$), so the charge of the second field is $Q_-=-Q_+$ at every $x_4$ and $Q_++Q_-=0$. By M1 each charge is conserved, $dQ_\pm/dx_4=0$. By H3, $B_\pm=Q_\pm$, and by H2, $B_+\ne0$. The statement about $T^{\mathrm{pair}}_{\mu\nu}$ is Corollary M4.1. $\square$
 
-The Wolfram verifier checks the implication symbolically: $Q_++Q_-$ simplifies to 0, and $dQ_-/dx_4$ simplifies to 0 given $dQ_+/dx_4=0$ (check MA_M5_implication, with the ingredients computed in the checks of M1 and M4). The implication is elementary; the substance lies in the hypotheses.
+The Wolfram verifier checks the implication symbolically: $Q_++Q_-$ simplifies to 0, and $dQ_-/dx_4$ simplifies to 0 given $dQ_+/dx_4=0$ (check MA_M5_implication, Wolfram only, with the ingredients computed in the checks of M1 and M4). The Python checker records the implication and its ingredients as the measurement M5_conditionalScenario, without a separate check. The implication is elementary; the substance lies in the hypotheses.
 
 ### 8.3 What M5 does not do
 
 1. It does not produce an asymmetry. By M1, $Q_+$ is constant, so a nonzero $Q_+$ today is the same as a nonzero $Q_+$ at $x_4=0$: the asymmetry of our universe is an initial condition. H2 puts it in by hand.
 2. It does not predict $\eta$. The observed $\eta\approx6\times10^{-10}$ is **not predicted**: nothing here computes the magnitude or the sign of $Q_+$, nor the photon content that $\eta$ refers to.
-3. It does not satisfy Sakharov's conditions; it replaces them by a global symmetry of the pair together with an initial condition in each member.
-4. It depends on the reading of H1. The cancellation $Q_++Q_-=0$ holds when the $-M$ member is the image field $\gamma^8\Psi_+$, which carries the Krein metric $-B$ and energy $-|\epsilon|$ per quantum. If the $-M$ universe is instead quantised independently with its own positive structure, its quanta carry charge $+1$ and energy $+|\epsilon|$, and the cancellation is not automatic; it would need a further assumption about the state of the $-M$ universe (Section 7.3).
-5. It does not relate the dirac16complex charge to the baryons of the Standard Model (H3), and it does not show that pairs are created (H1).
+3. It does not satisfy Sakharov's conditions; it replaces them by an assumed correlated configuration of two classical fields, a global symmetry of the pair, together with an initial condition in each member.
+4. It is classical. The balance holds for two classical fields in the correlated configuration of H1. At the quantum level no reading gives a cancellation between two independent, consistently quantised universes (Section 7.3). The image field $\gamma^8\Psi_+$ is the same quantum system as $\Psi_+$, with its own energy, charge and gravitational source $+H_+$, $+Q_+$ and $+T_+$. An independently quantised $-M$ universe has positive kinetic and mass energies that add to those of the $+M$ universe, and its charge would cancel only by a further assumption about its state.
+5. It is not a compensation by a second universe. Even for the classical fields, $Q_-=-Q_+$ is a property of the assumed configuration, not the result of a process that moves charge from one member to the other. In the image-field reading of the quantum theory the $-M$ member has no degrees of freedom of its own, $Q_++Q[\gamma^8\Psi_+]=0$ is an identity valid in every state, including every state with $Q_+\ne0$, and "created together" has no content.
+6. It does not relate the dirac16complex charge to the baryons of the Standard Model (H3), and it does not show that pairs are created (H1).
 
 ## 9. M6: the Sakharov scorecard
 
 | Sakharov condition [1] | Status in the theory as built | What would have to be added |
 |---|---|---|
-| 1. Violation of the conserved number (baryon number; here the charge $Q$) | Fails, by M1: $Q$ is exactly conserved in every gravitational field, for both statistics and every potential | A U(1)-violating interaction from the list of M3 (Section 10, item 1) |
-| 2. C and CP violation | Fails, by M2: C is exact for the commuting field and CP is exact for the anticommuting field; each reverses $Q$ and preserves $x_4$ | Terms that break all 64 exact charge-reversing symmetries without $x_4$ reversal (Section 10, item 2) |
+| 1. Violation of the conserved charge (applied to the U(1) charge $Q$, the only candidate; $Q$ stands for baryon number only under H3) | Fails, by M1: $Q$ is exactly conserved in every gravitational field (vanishing boundary flux), for both statistics and every potential | A U(1)-violating interaction from the list of M3 (Section 10, item 1) |
+| 2. C and CP violation | Fails for the Lagrangian, by M2: C is exact for the commuting field in every gravitational field, and CP is exact for the anticommuting field in flat space and in gravitational fields with the reflection isometry; each reverses $Q$ and preserves $x_4$. A generic gravitational field breaks CP of the anticommuting field, which does not help because row 1 fails | Terms that break all 64 exact charge-reversing symmetries without $x_4$ reversal (Section 10, item 2) |
 | 3. Departure from thermal equilibrium | Not addressed by any computation; the Kohn-Sham states of Stages 4 and 5 are equilibrium states at fixed $N$ | A non-equilibrium history and a computation of rates (Section 10, item 3) |
 
 Since condition 1 fails exactly, no departure from equilibrium can create a net charge inside one universe. The computed checks behind the rows are
@@ -581,6 +612,7 @@ row 1  Wolfram  MA_M1_noetherIdentity_grassmann_G1  MA_M1_noetherIdentity_commut
        Python   MA_M1_noetherIdentity_<X>_<G> for both statistics and both geometries
 row 2  Wolfram  MA_M2_symmetrySummaryAndChargeReversal
        Python   MA_M2_discreteGroupCharacterTable  MA_M2_C_and_CP_status
+                MA_M2_cpScopeInCurvedFields
 row 3  none; nothing was computed
 ```
 
@@ -598,7 +630,7 @@ The following list is a consequence of M1 to M3. It describes necessary ingredie
 
 ### 11.1 The reports
 
-Two independent exact implementations were written for this analysis, and one Stage-5 report is used as an input. All three have schemaVersion 1, and every check in them is true:
+Two independent exact implementations were written for this analysis, and two Stage-5 reports are used as inputs. All four have schemaVersion 1, and every check in them is true:
 
 ```
 artifacts/dirac16complex/matter-antimatter/wolfram-matter-antimatter-report.json
@@ -607,13 +639,16 @@ artifacts/dirac16complex/matter-antimatter/wolfram-matter-antimatter-report.json
            with wolfram/Dirac16ComplexMatterAntimatter.wl, Wolfram Language 15.0.1
   also writes artifacts/dirac16complex/matter-antimatter/matter-antimatter-theory.json
 artifacts/dirac16complex/matter-antimatter/python-matter-antimatter-report.json
-  75 of 75 checks true
+  77 of 77 checks true
   producer scripts/check_dirac16complex_matter_antimatter.py
            with scripts/grassmann_algebra.py (the report records no versions;
-           the rerun of Section 11.3 used Python 3.14.5, sympy 1.14.0, numpy 2.4.6)
+           the runs of Section 11.3 used Python 3.14.5, sympy 1.14.0, numpy 2.4.6)
 artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json (Stage-5 input)
   141 of 141 checks true
   producer scripts/verify_dirac16complex_pairing.wls (wolfram/Dirac16ComplexPairing.wl)
+artifacts/dirac16complex/pair-creation/python-pairing-report.json (Stage-5 input)
+  172 of 172 checks true
+  producer scripts/check_dirac16complex_pairing.py
 ```
 
 Both matter-antimatter implementations compute everything exactly: integers, rationals, Gaussian rationals, exact symbolic algebra and exact Grassmann algebras. No floating-point number decides any check, with the one labelled exception MA_M1_ksFixedNetNumberRecorded (Section 4.4). Each checker prints check_<name>=true|false, measurement_<name>=..., check_count and failed_check_count, and exits with a nonzero status if a check fails. Both start from the gamma matrices built from the definitions and compare them with the exact fixture: the Wolfram package compares $\eta$, $\gamma^0,\dots,\gamma^7$, $C$, $\gamma^8$, the 28 $S^{ab}$, $B$ and the gammas of the Stage-1 geometry package (MA_algebra_fixtureMatches, MA_algebra_basicFacts); the Python checker compares the gammas, $C$, the chirality, $\eta$, the $S^{ab}$ and $B$ (MA_fixtureAgreement). The Python checker uses nothing produced by Wolfram as truth; it compares with the Wolfram theory file only in its agreement checks (Section 11.3).
@@ -644,7 +679,7 @@ The Wolfram report, all 44 checks:
   MA_M4_pairEMTG1_grassmann  MA_M4_kreinOneParticle  MA_M5_implication
 ```
 
-The Python report, all 75 checks:
+The Python report, all 77 checks:
 
 ```
   MA_fixtureAgreement  MA_M1_geometry_G_A_generic_nondiagonal
@@ -678,7 +713,8 @@ The Python report, all 75 checks:
   MA_M1_hermiticity_commuting_G_B_diagonal_x0_x4  MA_M1_divergenceIdentityAllFirstJets
   MA_M1  MA_M2_chargeConjugationSolutionSpaces
   MA_M2_psibarTransposeFormsReduceToPsiStarForms  MA_M2_internalMapsCurvedJets
-  MA_M2_internalMapsAsDerived  MA_M2_namedReflectionsFlatJets
+  MA_M2_internalMapsAsDerived  MA_M2_cpScopeInCurvedFields
+  MA_M2_namedReflectionsFlatJets
   MA_M2_genericUnitVectorReflections  MA_M2_reflectionsInCurvedFieldWithIsometry
   MA_M2_spin0ContainsChargeReversingTimeRotation  MA_M2_discreteGroupCharacterTable
   MA_M2_characterHomomorphism  MA_M2_C_and_CP_status
@@ -688,8 +724,9 @@ The Python report, all 75 checks:
   MA_M3_derivativeBilinearClassification  MA_M3_massTypeSurvivalAndCharge
   MA_M3_derivativeTypeSurvivalCurved  MA_M3_quarticChargeViolatingExamplesGrassmann
   MA_M3  MA_M4_gamma8MatrixFacts  MA_M4_gamma8ChargeFlipCurved
-  MA_M4_gamma8EulerLagrangePairing  MA_M4_gamma8EMTPairing  MA_M4_kreinModeFacts  MA_M4
-  MA_wolfram_chargeConjugationIntertwiners  MA_wolfram_classificationRows
+  MA_M4_gamma8EulerLagrangePairing  MA_M4_gamma8EMTPairing  MA_M4_kreinModeFacts
+  MA_M4_imageFieldFockModel  MA_M4  MA_wolfram_chargeConjugationIntertwiners
+  MA_wolfram_classificationRows
   MA_wolfram_symmetrySummary  MA_wolfram_chargeReversingSymmetries
   MA_wolfram_invariantForms  MA_wolfram_pinCharacters  MA_wolfram_kineticForms
   MA_wolfram_survival  MA_wolfram_quarticQ4  MA_wolfram_kreinOneParticle
@@ -700,36 +737,34 @@ The honest answer is recorded in the reports themselves: in the Python report as
 
 ### 11.3 Agreement between the implementations
 
-The Python check MA_agreesWithWolfram compares its own results with the Wolfram theory file item by item: the charge-conjugation intertwiners (proportional bases), the classification rows (2048 compared, no disagreement), the C, P, CP, T and CPT summary (22 items compared, no difference), the number of exact charge-reversing symmetries without $x_4$ reversal (64 for each statistics in both), the invariant forms, the Pin-covariant forms, the kinetic forms, the survival table, the quartic $Q_4$ (40 monomials in both, proportional with factor 8), the one-particle Krein facts and the $\gamma^8$ matrix facts. The two implementations were written independently and share only the fixture and the conventions.
+The Python check MA_agreesWithWolfram compares its own results with the Wolfram theory file item by item: the charge-conjugation intertwiners (proportional bases), the classification rows (2048 compared, no disagreement), the C, P, CP, T and CPT summary (22 items compared, no difference), the number of exact charge-reversing symmetries without $x_4$ reversal (64 for each statistics in both), the invariant forms, the Pin-covariant forms, the kinetic forms, the survival table, the quartic $Q_4$ (40 monomials in both, proportional with factor 8), the one-particle Krein facts (including the canonical generators of the image field) and the $\gamma^8$ matrix facts. The two implementations were written independently and share only the fixture and the conventions.
 
-The Python report records in its inputSha256 the hash of the Wolfram theory file it compared with. At the time of writing that hash came from an earlier Wolfram run; the Wolfram verifier was then run once more and rewrote the theory file:
+The Python report records in its inputSha256 the hash of the Wolfram theory file it compared with, and that hash is the hash of the current theory file:
 
 ```
-matter-antimatter-theory.json compared by the committed Python report
-  a3a85c9adc1b19733a3a4f09e8702eed2b6966e6156b644012011fcfe57a0d31
-matter-antimatter-theory.json, current file
-  a2b7907be22469d1c3259a9d916d929f40e44b6ee97f66bc195691f112fdfb2c
+matter-antimatter-theory.json compared by the Python report
+  1505a3962938477e5db42f568c0a1afcd21898c4409793178f8311b792638f10
 ```
 
-While writing this document the Python checker was run again against the current theory file, with its output in a scratch directory: it reported 75 of 75 checks true, and its checks and measurements were identical to those of the committed report. Only the recorded input hash differed. Regenerating the committed Python report therefore changes that one hash and nothing else. The Wolfram verifier was also run again while writing this document, with the report and theory paths in a scratch directory; the run took about 13 minutes, reported 44 of 44 checks true, and wrote a report and a theory file that are byte-identical to the committed ones.
+After the last change of either implementation both were run again. The Wolfram verifier was run twice, once into the committed paths and once with the report and theory paths in a scratch directory; each run took about 12 minutes and reported 44 of 44 checks true, and the two runs wrote byte-identical reports and byte-identical theory files, equal to the committed ones. The Python checker was run twice against that theory file (about 70 seconds each); both runs reported 77 of 77 checks true and wrote byte-identical reports, equal to the committed one.
 
 ### 11.4 Stage-5 inputs
 
-The Krein-level mapping of Section 7.3 is taken from the Stage-5 exact pairing results, artifacts/dirac16complex/pair-creation/pairing-theory.json (key T1krein) and wolfram-pairing-report.json (141 of 141 checks true). Both files are present, and their sha256 values are recorded in both matter-antimatter reports. The files carry no finality flag, so they are cited by hash, not re-proved here beyond the one-particle facts of Section 7.2, which both matter-antimatter implementations verify independently. At the time of writing the Fock-level statements of Section 7.3 rest on the Stage-5 Wolfram report. If the Stage-5 files change, both matter-antimatter verifiers have to be rerun.
+What is proved here and what is cited. The field-level and one-particle statements of M4 (Sections 7.1 and 7.2) are proved here, by both implementations. The canonical structure of the image field and the operator identities of Section 7.3 in the four-mode Fock model are proved here by the Python implementation only (MA_M4_imageFieldFockModel). The remaining Fock-level statements of Section 7.3 (the Stage-5 Fock model with the sea and normal ordering, the normal-ordered energy-momentum tensor, the Stage-5 mode list) are cited from the Stage-5 exact pairing results: artifacts/dirac16complex/pair-creation/pairing-theory.json (key T1krein), the Stage-5 Wolfram report wolfram-pairing-report.json (141 of 141 checks true, among them the twelve PAIR_T1krein checks) and the independent Stage-5 Python report python-pairing-report.json (172 of 172 checks true, among them the fourteen S5_T1krein checks, compared against the same pairing-theory.json). The Stage-5 reports are complete, but the Stage-5 documents and the Stage-5 gate are not, and the files carry no finality flag. Both matter-antimatter reports therefore record the citation as PROVISIONAL, open until the Stage-5 gate passes (Wolfram measurement M4_kreinLevelStatus, Python measurement stage5Pairing). The hashes of pairing-theory.json and of the Stage-5 Wolfram report are recorded in both matter-antimatter reports, the hash of the Stage-5 Python report in the Python report. The Stage-5 text T1krein.imageField describes the image as a universe with energy $-|\epsilon|$ and charge $-1$ per quantum; Section 7.3 explains why these are the values of the $\mathcal L_{-m,-\lambda}$ formulas and not the image field's own energy and charge. If the Stage-5 files change, both matter-antimatter verifiers have to be rerun.
 
 ### 11.5 Files and hashes
 
-The sha256 values of the producers and inputs as recorded in the reports, and of the two Wolfram outputs:
+The sha256 values of the producers and inputs as recorded in the reports, and of the two Wolfram outputs (the Stage-5 Python report is an input of the Python checker only):
 
 ```
 wolfram/Dirac16ComplexMatterAntimatter.wl
-  baa2e24ffcfba97421e70fa6f5afee8b01fe80c432a31fca77e1054862b54d2a
+  382c34694f91bf2ed68cee42736dd9298171e2abf61d0b388d6228e4d47ef4c5
 scripts/verify_dirac16complex_matter_antimatter.wls
   5d85f7d8a76a78b0f8853d41af0d2a352b426c553d5eba4569ade2fd5d9fc73f
 wolfram/Dirac16ComplexGeometry.wl
   f5b674665eee4000750161e6ab6312c38bfac9da7a17450a2b3bdd88ef292af2
 scripts/check_dirac16complex_matter_antimatter.py
-  20914546ed5894ef223be8a1ae7ffecb62b308fdbf13d88f35a939a3c27bd526
+  ef1a00dc02e72186cd6c78d83ad3d930c372ccd9440983a307e8e04cae622231
 scripts/grassmann_algebra.py
   dfce851d3dc7ab82202a62d414cc259644a64a101f08e9ba80ed747faa8bc24c
 artifacts/dirac16complex/arbitrary-field/algebra-fixture.json
@@ -738,10 +773,12 @@ artifacts/dirac16complex/pair-creation/pairing-theory.json
   5a267bd696391b131134577ccdcf7766b83f96f3eb32b9b8de60c9175b1ebf6a
 artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json
   735534de950c7fb0327370c33caa275cf805aa91a41dee903e4eaec7a6fa0de8
+artifacts/dirac16complex/pair-creation/python-pairing-report.json
+  773b3a63aa041ad873c31635cb69b36f548c40db47fcff68d6603da5e38fcc97
 artifacts/dirac16complex/matter-antimatter/matter-antimatter-theory.json
-  a2b7907be22469d1c3259a9d916d929f40e44b6ee97f66bc195691f112fdfb2c
+  1505a3962938477e5db42f568c0a1afcd21898c4409793178f8311b792638f10
 artifacts/dirac16complex/matter-antimatter/wolfram-matter-antimatter-report.json
-  126b6daa66ddca4e5b98c3549ec5571b385092eb2d16b46ccdb1f724f8ac9162
+  ad6b91296034a24c14b2ee08c7bfe8da98aaff2db83544897767e498adeaa269
 ```
 
 The Stage-1 reports cited in MA_M1_stage1ChecksCited:
@@ -757,7 +794,7 @@ artifacts/dirac16complex/arbitrary-field/grassmann-demo-report.json
 
 ## 12. Reproduction
 
-Run every command from the repository root. The order matters: the Wolfram verifier reads the Stage-5 pairing files and writes both its report and matter-antimatter-theory.json, and the Python checker compares with that theory file. The Wolfram report path is a plain positional argument, because WolframScript 1.14 drops a double-hyphen separator and every argument after it when it is combined with -file; an optional second positional argument sets the theory path. The Python checker takes its report path from its output option, as in the scratch rerun at the end of Section 12.2. Set PYTHONUTF8=1 for the Python steps. The Wolfram step takes about 13 minutes, the Python checker about half a minute.
+Run every command from the repository root. The order matters: the Wolfram verifier reads the Stage-5 pairing files and writes both its report and matter-antimatter-theory.json, and the Python checker compares with that theory file. The Wolfram report path is a plain positional argument, because WolframScript 1.14 drops a double-hyphen separator and every argument after it when it is combined with -file; an optional second positional argument sets the theory path. The Python checker takes its report path from its output option, as in the scratch rerun at the end of Section 12.2. Set PYTHONUTF8=1 for the Python steps. The Wolfram step takes about 12 minutes, the Python checker about a minute.
 
 ### 12.1 PowerShell
 
@@ -815,11 +852,11 @@ python scripts/build_provenance_pdf.py --register \
 1. This document does not claim, and does not prove, that the dirac16complex theory solves the matter-antimatter problem or any of the current matter-antimatter mysteries. Within the theory as built the claim is false in its central part (M1, M2).
 2. The observed baryon-to-photon ratio $\eta\approx6\times10^{-10}$ is not predicted, and no value of the charge of our universe is computed.
 3. No creation of universes is derived: no creation process, rate, amplitude or wave function of the universe. Corollary M4.1 is a statement about conservation laws and constraints.
-4. H1, H2 and H3 are hypotheses. The implication of M5 is proved; the scenario is not a result.
+4. H1, H2 and H3 are hypotheses. The classical-level implication of M5 is proved; the scenario is not a result, and it has no quantum counterpart with two independent universes (Section 7.3).
 5. The dirac16complex charge is not baryon number. The theory contains no quarks, leptons or baryons of the Standard Model.
 6. The $-M$ member of the pair is not antimatter in our universe. Its negative mass is a parameter of a second field configuration; nothing here says that antimatter has negative mass or falls upward, which the ALPHA-g observation [12] rules out for antihydrogen.
 7. The charge-violating terms of M3 are a classification of what the symmetry allows. They are not proposed as part of the theory, they are not claimed to be natural, and higher-order terms are not classified.
-8. The quantum statements are formal: the canonical state space is a Krein space, the positive Fock space exists only in the good sector, and the extra-time sector is ill-posed (Stage 1, Section 10.10). The commuting field dirac16complex00 is treated as a classical field.
+8. The quantum statements are formal: the canonical state space is a Krein space, the positive Fock space exists only in the good sector, and the extra-time sector is ill-posed (Stage 1, Section 10.10). The conservation of the quantized charge is argued without a regularization, and no anomaly is computed (Section 4.2). The discrete maps of Section 5.6 are automorphisms of the anticommutation relations; their implementation on a Fock space is not decided. The commuting field dirac16complex00 is treated as a classical field.
 9. The signature (4,4) is not the signature of observed spacetime, and nothing here is fitted to or compared with data.
 10. Nothing here tests or depends on the CPT-symmetric universe of Boyle, Finn and Turok [3]; it is cited as the known published example of a pair-of-universes idea.
 11. The check MA_M1_ksFixedNetNumberRecorded is a record of floating-point data read from the committed Stage-4 runs, not a proof.

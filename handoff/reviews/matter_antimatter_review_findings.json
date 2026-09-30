@@ -1,0 +1,164 @@
+[
+ {
+  "reviewer": "review:honesty",
+  "severity": "major",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Summary M5 bullet (line 15); Proposition M5 (line 555); Section 2.6 last sentence (line 62); Section 8.3 (lines 561-567)",
+  "problem": "The document says the excess in one member of the pair \"is compensated exactly by the other\" (a global symmetry with local asymmetry), which reads as two physical systems balancing each other. Its own Section 7.3 shows this is not so. H1 requires Psi_- to be the image field, and the image field is gamma^8 Psi on the same Fock space and in the same state. So under H1 the -M member has no degrees of freedom of its own: Q_+ + Q_- = Q[Psi] + Q[gamma^8 Psi] = 0 is an operator identity that holds in every state, including Q_+ = 0. It is a redescription of one field, not compensation by a second reservoir, and \"created together\" in H1 is empty in that reading. Section 8.3 lists what M5 does not do but leaves this out. This is the one place where the text implies an explanation that its own results undercut.",
+  "evidence": "Line 549: H1 says \"where Psi_- is the image field of Section 7.3, with the Krein metric -B\". Line 513: \"the image field Psi_-=gamma^8 Psi on the same Fock space and state has the anticommutator -B\". Line 516: \"Measured with the image field, the same states have (-|eps|,-1) and (-|eps|,+1)\". pairing-theory.json T1krein.imageField: \"Psi_- = gamma^8 Psi on the same Fock space and state\". Line 555: \"the baryon excess B_+=Q_+ != 0 seen in one member is exactly compensated by B_-=-Q_+ in the other\". Line 62: \"The resemblance is only structural, a global symmetry with local asymmetry\" (stated with no H1/H2 label).",
+  "fix": "Add an item to Section 8.3, and a clause to the Summary M5 bullet and Proposition M5, saying: in the image-field reading (the only one in which the cancellation holds, item 4) Psi_- is gamma^8 of the same field in the same state. It has no independent degrees of freedom, and Q_+ + Q_- = 0 is an identity valid in every state, not a physical compensation by a second universe. The alternative is to state H1 classically, as two independent fields with correlated initial data Psi_-(0) = gamma^8 Psi_+(0), and say that the correlation itself is the assumption. In Section 2.6 write \"a global symmetry with local asymmetry only under H1 and H2\"."
+ },
+ {
+  "reviewer": "review:honesty",
+  "severity": "major",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Summary M4 bullet (line 14, under \"What is proved\"); Section 7.3 (lines 511-518); Section 11.4 (line 718)",
+  "problem": "The Fock-level (Krein) mapping is listed under \"What is proved\" and presented in 7.3 as an established result. By the document's own account it rests on Stage-5 files that are not final and are cited by hash rather than proved here. The binding spec M4 says that if the Stage-5 report is not final, only the field-level result may be stated and the Krein-level mapping must be marked OPEN. The document does neither, and the label definition on line 18 (\"Proved means a complete argument is given here\") does not fit the Fock-level statements.",
+  "evidence": "Line 718: \"The files carry no finality flag, so they are cited by hash, not re-proved here ... At the time of writing the Fock-level statements of Section 7.3 rest on the Stage-5 Wolfram report.\" MATTER_ANTIMATTER_SPEC M4: \"if that report is not final, state the field-level result only and mark the Krein-level mapping OPEN\". The cited wolfram-pairing-report.json (sha 735534de...) is an uncommitted working-tree change (git diff --stat shows both pairing files modified against HEAD; the HEAD version hashes to ed9efc4f...). The HANDOFF.md Stage-5 row does not mark Stage 5 complete (review and gate pending).",
+  "fix": "Either (a) mark the Fock-level mapping in the Summary M4 bullet and in 7.3 as \"Stage-5 result, provisional (OPEN until the Stage-5 gate passes)\" and keep only the field-level and one-particle statements under \"What is proved\", or (b) record finality evidence (a committed Stage-5 report plus a passed Stage-5 gate) and cite it. In either case also cite the independent Stage-5 Python report artifacts/dirac16complex/pair-creation/python-pairing-report.json (172 of 172 checks true, S5_T1krein true, compared against the same pairing-theory.json hash 5a267bd6...) and update the 'rests on the Stage-5 Wolfram report' sentence."
+ },
+ {
+  "reviewer": "review:honesty",
+  "severity": "minor",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Summary M2 bullet (line 12)",
+  "problem": "The summary says, under \"What is proved\", that CP \"is implemented unitarily after quantization\". Section 5.6 only derives that CP is compatible with the canonical anticommutator, and says implementation on the positive Fock space is not decided. The phrase \"C followed by the reflection of an odd number of space-like directions\" also leaves out that only C8 with the lift Gamma_{R^c} is exact; C0 P_b is not.",
+  "evidence": "Line 363: \"Whether each map is also implemented on the positive (J=B) Fock space of the good sector is not decided here.\" Python measurement M2.canonicalStructureOfExactGrassmannSymmetries.statement: \"Implementability on the positive (J = B) Fock space is not decided here\". Table line 333: C0P_b, anticommuting: -L_{-m,-lambda} (not exact).",
+  "fix": "Replace with \"is compatible with the canonical anticommutator as a unitary map (derived; implementation on the positive Fock space not decided)\" and write \"CP = C8 P (C8: Psi -> gamma^8 Psi^*, followed by an odd reflection of x0..x3)\"."
+ },
+ {
+  "reviewer": "review:honesty",
+  "severity": "minor",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Summary, first paragraph (line 7): \"What can be proved, and is proved below exactly with two independent implementations\"",
+  "problem": "The blanket claim of two independent implementations does not hold for every item the summary lists as proved, and it conflicts with the document's own labels.",
+  "evidence": "MA_M5_implication exists only in the Wolfram report; the Python check list (lines 649-697) has no MA_M5 check. MA_M1_onShellConservation_G1 is Wolfram only. The Fock-level M4 statements rest on the Stage-5 Wolfram report (line 718). The quantized-field conservation (line 181) and the unitary/antiunitary statements of 5.6 are labelled \"derived, not a separate machine check\".",
+  "fix": "Change to \"proved exactly, with the machine checks named in each section (two independent implementations for M1-M4 at field level)\"."
+ },
+ {
+  "reviewer": "review:honesty",
+  "severity": "minor",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Summary M1 bullet (line 11); Section 4.1 \"Consequence\" (line 125)",
+  "problem": "Conservation of Q is stated with no condition, but Theorem M1 item 4 proves it only when the flux through the lateral boundary of the slices vanishes (compact support, fall-off or periodic identification).",
+  "evidence": "Line 11: \"the charge Q of every slice x_4=const is independent of x_4\". Line 125: \"No solution of the field equations of either field, for any U and in any gravitational field with g^{44}!=0, changes Q.\" Line 122, item 4: \"whenever the flux of sqrt|g| J^mu through the boundary of the slices vanishes\". Line 174: Q(t2)-Q(t1) equals minus the lateral flux integral.",
+  "fix": "Add \"(for vanishing boundary flux)\" in both places."
+ },
+ {
+  "reviewer": "review:honesty",
+  "severity": "minor",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Section 4.2, paragraph \"The quantized field\" (line 181), relied on by the first paragraph (line 7)",
+  "problem": "The quantum-level conservation of Q is argued formally: the classical identity is algebraic, so it is said to hold for the operator field. The argument skips regularization and anomalies. The document itself cites the Standard-Model case in which a classically conserved baryon current is violated quantum-mechanically (sphalerons [7]). The first paragraph's unqualified \"no process described by the theory can create a net charge\" rests on this formal step for the quantized field. No anomaly is expected here (the U(1) is vector-like and there are no gauge fields), but that is not shown.",
+  "evidence": "Line 181: \"The identity of item 3 is algebraic ... so it holds for the operator-valued field as well ... Hence the normal-ordered charge is conserved in the quantized theory too (derived, not a separate machine check).\" Line 58: \"Baryon number is violated at high temperature by electroweak sphaleron processes [7].\"",
+  "fix": "Add one sentence: the operator statement is formal (no regularization); unlike the Standard-Model baryon current, the U(1) current here is vector-like and couples to no gauge field, so no anomaly is expected, but this is not proved here (see non-claim 8)."
+ },
+ {
+  "reviewer": "review:honesty",
+  "severity": "minor",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Section 2.2 display of eta (lines 34-38); Summary M5 bullet (line 15); Section 8.3 item 2 (line 564); non-claim 2 (line 816)",
+  "problem": "The literature value eta ~ 6e-10 has no citation where it is first introduced and defined, nor at three later uses. Only Section 10 item 5 (line 595) attaches [2], [5]. The Planck number that is cited is Omega_b h^2, and the conversion to eta is neither given nor cited, so the reader cannot get eta from [2] as quoted.",
+  "evidence": "Line 35: \"eta=(n_B-n_Bbar)/n_gamma ~ 6x10^-10,\" with no reference. Line 38 cites [5] only for the statement that BBN abundances \"depend on eta\", and [2] for Omega_b h^2=0.0224+-0.0001. Line 595: \"eta~6x10^-10 [2], [5]\" is the only cited occurrence.",
+  "fix": "Cite [5] (Cyburt et al., who work with eta directly) and [2] at the display in Section 2.2. Optionally give the standard relation between eta and Omega_b h^2 (eta_10 ~ 274 Omega_b h^2) with its source, so the Planck value can be converted."
+ },
+ {
+  "reviewer": "review:honesty",
+  "severity": "minor",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Section 9 scorecard, row 1 label (line 573)",
+  "problem": "The row label \"Violation of the conserved number (baryon number; here the charge Q)\" treats Q as the theory's baryon number. That identification is exactly hypothesis H3, which the document says cannot be derived. For baryon number itself the condition cannot even be posed in the theory, because the theory contains no baryons.",
+  "evidence": "Line 573: \"1. Violation of the conserved number (baryon number; here the charge Q)\". Line 551: H3 \"cannot be derived from it\". Line 819: \"The dirac16complex charge is not baryon number.\" The first paragraph is more careful: \"Sakharov's first condition fails for this charge\".",
+  "fix": "Relabel as \"1. Violation of the conserved charge (applied to the U(1) charge Q, the only candidate; Q stands for baryon number only under H3)\"."
+ },
+ {
+  "reviewer": "review:honesty",
+  "severity": "minor",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Section 2.7 (line 66); Summary M4 bullet (line 14)",
+  "problem": "Interpretation is stated as a property of the theory. M4 proves a map between solutions with (m,lambda) and (-m,-lambda). \"What the theory does provide is an exact pairing of universes of masses +M and -M with opposite charges\" and \"A universe Psi_+ ...\" already assume the universe reading (H1). The universe mass M is also never defined; the theorems use the Lagrangian parameter m.",
+  "evidence": "Line 66: \"What the theory does provide is an exact pairing of universes of masses +M and -M with opposite charges (M4).\" Line 14: \"A universe Psi_+ with parameters (m,lambda) and its image ...\". Line 820 calls -M \"a parameter of a second field configuration\".",
+  "fix": "Write \"an exact pairing of solutions (m,lambda) <-> (-m,-lambda) with opposite charges (M4), which the pair-of-universes picture (H1) reads as two universes\", and use m or define M once."
+ },
+ {
+  "reviewer": "review:honesty",
+  "severity": "minor",
+  "file": "provenance/textbook/chapters/00-how-to-read.md",
+  "location": "line 25 and ledger row L42 (line 233); not this agent's file, reported only because TEXTBOOK_SPEC requires agreement with this document",
+  "problem": "The textbook says the theory has \"no CP violation\". That contradicts this document for dirac16complex00. There, CP with an odd number of reflected space-like directions is violated for m != 0, and condition 2 fails because C is exact, not because CP is.",
+  "evidence": "Textbook line 25: \"The theory as built contains ... no CP violation\". MA document line 347: \"P and CP with one reflected space-like direction (or three) are not exact for m!=0\". Python measurement M2.discreteGroupCharacterTable.commuting.CP_exact_improperSpatialReflection = false. For the Grassmann field, C is violated (C_exact=false) and CP is exact.",
+  "fix": "(For the textbook agent) Replace with \"an exact charge-reversing symmetry (C for dirac16complex00, CP for dirac16complex), so Sakharov's second condition fails\"."
+ },
+ {
+  "reviewer": "review:rigour",
+  "severity": "major",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Sec. 7.2 (table column 'Image field, -B'), Sec. 7.3 bullet 1 and its closing paragraph ('So the cancellation of Corollary M4.1 holds for the pair in which the -M member is the image field'), Sec. 8.1 H1, Sec. 8.2 Proposition M5 last sentence, Sec. 8.3 item 4; Corollary M4.1's Einstein-equation sentence read at operator level",
+  "problem": "The Fock-level cancellation in the 'image-field reading' has the wrong physical sign. The document says the image universe carries 'energy -|eps| and charge -1 per quantum', and it adopts this reading for H1. But these numbers are the expectation values of H[Psi_-;-m] and Q[Psi_-]. Under the image field's own anticommutator (-B), those operators are minus its x4-translation generator and minus its U(1) generator. The image field is also not a second system: the document itself puts Psi_- = gamma^8 Psi_+ on the same Fock space and in the same state. So Q_+ + Q_- = 0 and :T^pair: = 0 are the identity X + (-X) = 0 for one universe written in two sets of variables, not compensation by a second universe. With respect to its own canonical Lagrangian, the image member has energy +H_+, Noether charge +Q_+ and gravitational (metric-variation) source +T_+. So the pair sources 2T_+, not 0. Under neither reading does the document show a Fock-level cancellation between two consistently quantised universes, and M5 built on H1-as-image is empty as a two-universe statement.",
+  "evidence": "(1) Exact check (sympy, fixture gammas, m=1, k=(1,1,2,3)). For fermion operators with {Psi_a,Psi^dag_b}=G_ab one has [Psi, Psi^dag X Psi] = G X Psi. With G = -B and X = B h(-m): [Psi_-, H[Psi_-;-m]] = -h(-m) Psi_-. The actual evolution is i d_4 Psi_- = gamma^8 h(m) gamma^8 Psi_- = h(-m) Psi_- (both verified True). So H[Psi_-;-m] generates the reversed x4-evolution, and the Hamiltonian of the image field is -H[Psi_-;-m] = +H[Psi_+;m]. Likewise [Psi_-, Q[Psi_-]] = -Psi_- while [Psi_+, Q_+] = +Psi_+: the U(1) generator of the image field is -Q[Psi_-] = +Q_+. (2) pairing-theory.json T1krein.canonical states that the image field 'is the canonical field of the Lagrangian -L_{-m,-lambda} = L_{m,lambda}[gamma^8 .]'. By M1 item 2 applied to -L_{-m,-lambda}, its Noether current is -i sqrt|g| j[Psi_-] = +i sqrt|g| j[Psi_+]. Its canonical Hamiltonian is -H[Psi_-;-m] = +H_+, and its metric EMT is -T[Psi_-;-m,-lambda] = +T[Psi_+;m,lambda]. (3) Stage-5 pairTotals.ksLevel.kreinImagePair itself says the image is obtained 'by reversing the sign of all one-body densities and energies' of the ordinary run, i.e. a relabelling.",
+  "fix": "State explicitly that in the image-field reading the -M member is the same quantum system (same operators, Fock space and state). Relative to its own canonical structure (-B, Lagrangian -L_{-m,-lambda}), its energy, U(1) charge and gravitational source equal +H_+, +Q_+ and +T_+. The values -|eps| and -1 are expectation values of the L_{-m,-lambda} formulas, which are not that field's Hamiltonian or charge. Restrict Corollary M4.1 and the T^pair = 0 / Q_+ + Q_- = 0 part of M5 to the classical level, where the second member is an independent field defined by the Lagrangian +L_{-m,-lambda} (equivalently, one carrying the action -S_+ on the paired configuration). Say plainly that at the quantum level no reading gives a cancellation between two independent, consistently quantised universes: the independent reading gives energies that add and charges that cancel only by an extra assumption on the state. Rewrite H1, Sec. 7.3, 8.2 and 8.3(4) accordingly. The same correction is needed in the Stage-5 source (pairing-theory.json T1krein.imageField / consequence)."
+ },
+ {
+  "reviewer": "review:rigour",
+  "severity": "minor",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Sec. 7.3 bullet 2 ('an independently quantised -m theory ... has the same energy-momentum and the same charge as the +m universe')",
+  "problem": "The -M member of M4/M5 carries (-m,-lambda), but the 'same energy-momentum' statement holds only for lambda = 0 (the free four-mode Fock model) or for the same lambda (Stage-5 T2). For an independently quantised L_{-m,-lambda} with lambda != 0, S -> -S and lambda -> -lambda reverse the sign of the interaction energy, so the energies are not equal.",
+  "evidence": "pairing-theory.json pairTotals.ksLevel.mirrorPair: 'ordinary -M universe (standard rule, the same lambda): E_pair = 2 E_+'. pairing-theory T2 is (m,lambda) -> (-m,lambda). The Stage-5 Fock model (T1krein.fockModel) is free (rest sector, m = 1, no lambda). With the Wick form <U> = (lambda/2)[Tr(M rho)^2 - Tr(M rho M rho)], flipping the sign of every scalar-density matrix element leaves both traces unchanged, so <U> changes sign with lambda.",
+  "fix": "Say that the statement is for lambda = 0 (free Fock model) or for the T2 choice (-m, +lambda), and that for (-m,-lambda) the kinetic and mass parts agree while the interaction energy changes sign."
+ },
+ {
+  "reviewer": "review:rigour",
+  "severity": "minor",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Sec. 1 (M2 bullet: CP 'is implemented unitarily after quantization'); Sec. 5.5 reading ('T is exact as a linear map (implemented antiunitarily after quantization)')",
+  "problem": "The summary states unitary implementability as proved, but Sec. 5.6 only derives compatibility with the canonical anticommutator (M B^T M^dag = B), and it ends with 'Whether each map is also implemented on the positive (J=B) Fock space of the good sector is not decided here.' No implementing operator and no vacuum invariance are shown, so the summary overstates Sec. 5.6.",
+  "evidence": "My check reproduces the CAR condition for all 256 exact anticommuting maps (128 with M B M^dag or M B^T M^dag = +B and x4 preserved, 128 with -B and x4 reversed). I also checked that M = Gamma_{b^c} for C8P_b anticommutes with B, so the map is compatible with the Hilbert-representation CAR {Psi, chi} = delta as well. Still, a CAR automorphism is not the same as a unitary operator on the Fock space.",
+  "fix": "In Sec. 1 and 5.5, say 'preserves the canonical anticommutation relations as a linear (unitary-type) automorphism (derived); implementation on the positive Fock space not decided', matching Sec. 5.6."
+ },
+ {
+  "reviewer": "review:rigour",
+  "severity": "minor",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Sec. 1 (M2 bullet), Sec. 5.3 'Curved fields' paragraph, Sec. 9 scorecard row 2",
+  "problem": "The scope of 'CP is exact for the anticommuting field' is not stated. Every exact x4-preserving charge-reversing map of the anticommuting field has s_R odd. In a curved field its frame form changes the background vielbein e -> e diag(r), with diag(r) outside SO_0(4,4), so it is not a Spin_0 gauge transformation. The rule is then an identity between the theories on e and on e diag(r), not a symmetry of a fixed background. In a background without a reflection isometry, the anticommuting field has no exact charge-reversing symmetry among the classified maps. The commuting field keeps C0 (R empty) in every background. The conclusion that Sakharov condition 2 fails for the Lagrangian (flat or microscopic level) stands, and row 1 already excludes an asymmetry.",
+  "evidence": "My exact curved-point check (random rational vielbein, arbitrary antisymmetric omega) confirms the frame-form rule in 36 samples. With the frame kept fixed, L[C8P_b Psi] is proportional to none of +-L_{+-m} for b = 0..3. diag(r) for R = {0}, {1,2,3}, {0,5} has space-block determinant -1, so it is not in SO_0(4,4).",
+  "fix": "Qualify: CP is an exact symmetry in flat space and in backgrounds with the corresponding reflection isometry (e.g. x1,x2,x3 in the primordial field and G_B). In a generic gravitational field it relates the theories on the frames e and e diag(r), and the background breaks it."
+ },
+ {
+  "reviewer": "review:rigour",
+  "severity": "minor",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Sec. 4.2, paragraph 'The quantized field'",
+  "problem": "Quantum conservation of the normal-ordered charge is argued only from the classical operator identity plus 'normal ordering changes Q by a constant'. That argument ignores regularization and anomalies, which is exactly how baryon number is violated in the Standard Model (Sec. 2.5, ref. [7]). The conclusion is probably right here, but the reason that makes it right is not given.",
+  "evidence": "Sec. 2.5 cites anomalous electroweak B violation [7]. Sec. 4.2 gives no anomaly or regularization argument, and the statement is labelled 'derived' without that step.",
+  "fix": "Add: the U(1) acts equally on both chiralities, no gauge field couples to j, and the U(1)-invariant mass term m Psibar Psi permits a U(1)-preserving (Pauli-Villars-type) regularization, so no ABJ-type anomaly arises. Keep the statement labelled derived and formal, given the Krein and ultrahyperbolic caveats."
+ },
+ {
+  "reviewer": "review:rigour",
+  "severity": "minor",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Sec. 5.7 ('Both are exact symmetries, and both reverse x4 and the x4-component of the current ... the sign of Q refers to a chosen slicing')",
+  "problem": "This holds for classical bilinears only. For the quantised anticommuting field both maps (exp(pi S^45) = gamma^4 gamma^5 with R={4,5}, and gamma^8 with all x reflected) have M B M^dag = -B, so by the document's own Sec. 5.6 criterion they are implemented antiunitarily. Under an antiunitary A, J^4 is even, so the quantum charge is preserved, not reversed.",
+  "evidence": "Exact check: for both maps M B M^dag = -B. A J^4 A^{-1} = Psi^dag M^dag B^* M Psi = -Psi^dag (M^T B M) Psi = +J^4 at the reflected point, since M^T B M = -B and B^* = -B. Hence Q'(t) = Q(-t) = Q.",
+  "fix": "Restrict the remark to the classical fields and add that, after quantization, these x4-reversing Spin_0 maps are antiunitary and leave the charge unchanged, like time reversal."
+ },
+ {
+  "reviewer": "review:rigour",
+  "severity": "minor",
+  "file": "provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md",
+  "location": "Sec. 6.1 item 2 versus the cited Stage-1 check ALG_invariantForms (Sec. 4.3 list) and Stage-1 Result 10.3 / Theorem 10.1",
+  "problem": "M3 item 2 ('No nonzero form is strictly invariant under the full Spin(4,4)') contradicts, without comment, the literal Stage-1 statement 'The Spin(4,4)-invariant bilinear forms form a 2-dimensional space spanned by CP_- and CP_+' (Result 10.3), which this document cites.",
+  "evidence": "Exact check: g = gamma^a gamma^b with a<=3<b (spinor norm -1, in Spin(4,4)) gives g^T (C P_+-) g = -C P_+- for all 16 pairs. Stage-1 provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.md line 1082 says 'The Spin(4,4)-invariant bilinear forms form a 2-dimensional space spanned by CP_- and CP_+'.",
+  "fix": "Add a note that Stage 1's 'Spin(4,4)-invariant' means invariant under the 28 generators (Spin_0(4,4)), and that item 2 refines it: under the spinor-norm -1 component both forms change sign."
+ },
+ {
+  "reviewer": "review:rigour",
+  "severity": "minor",
+  "file": "artifacts/dirac16complex/matter-antimatter/python-matter-antimatter-report.json",
+  "location": "inputSha256['artifacts/dirac16complex/matter-antimatter/matter-antimatter-theory.json']; document Sec. 11.3 and 11.4",
+  "problem": "The verification records are stale. The Python report on disk records theory hash a3a85c9a..., while the current theory file is a2b7907b.... The document explains this instead of regenerating the report. Separately, Sec. 11.4 says the Fock-level statements 'rest on the Stage-5 Wolfram report', but an independent Stage-5 Python report now exists and covers them.",
+  "evidence": "My scratch rerun of scripts/check_dirac16complex_matter_antimatter.py gives 75/75 checks true, with checks, measurements and sourceSha256 identical and only that input hash different, confirming Sec. 11.3. artifacts/dirac16complex/pair-creation/python-pairing-report.json (10:11) has 172/172 checks true, including S5_T1krein_restHamiltonians ... S5_T1krein_independentExpectationValues and S5_T1krein.",
+  "fix": "Regenerate python-matter-antimatter-report.json against the current theory file before publication. Update Sec. 11.4 to cite python-pairing-report.json (with its hash) as the independent Stage-5 verification of the Krein-level statements."
+ }
+]
