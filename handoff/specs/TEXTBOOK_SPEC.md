@@ -32,7 +32,11 @@ this project and must not be written as established:
   anything it does not say).  The theory as built contains no Standard-Model baryons, no
   baryon-number-violating interaction, no CP violation and no departure-from-equilibrium
   computation, so it does NOT solve the matter–antimatter problem; the chapter lists what would
-  be needed and labels every scenario as a hypothesis.
+  be needed and labels every scenario as a hypothesis.  The exact analysis is
+  handoff/specs/MATTER_ANTIMATTER_SPEC.md and provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md
+  (theorems M1-M6: exact U(1) charge conservation, discrete symmetries, the allowed
+  charge-violating terms, the gamma^8 pair with opposite charge, the labelled conditional
+  scenario, the Sakharov scorecard); chapter 17 must agree with it.
 Numbers only from the committed reports/outputs (cite the file).  Derivations must be
 correct and complete; where the repository proves something by a verifier, the book gives
 the derivation in words and formulas AND names the check (file and check name).
