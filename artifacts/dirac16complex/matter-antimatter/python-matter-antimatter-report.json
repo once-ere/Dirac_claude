@@ -39,6 +39,7 @@
     "MA_M2_psibarTransposeFormsReduceToPsiStarForms": true,
     "MA_M2_internalMapsCurvedJets": true,
     "MA_M2_internalMapsAsDerived": true,
+    "MA_M2_cpScopeInCurvedFields": true,
     "MA_M2_namedReflectionsFlatJets": true,
     "MA_M2_genericUnitVectorReflections": true,
     "MA_M2_reflectionsInCurvedFieldWithIsometry": true,
@@ -63,6 +64,7 @@
     "MA_M4_gamma8EulerLagrangePairing": true,
     "MA_M4_gamma8EMTPairing": true,
     "MA_M4_kreinModeFacts": true,
+    "MA_M4_imageFieldFockModel": true,
     "MA_M4": true,
     "MA_wolfram_chargeConjugationIntertwiners": true,
     "MA_wolfram_classificationRows": true,
@@ -393,6 +395,92 @@
         }
       },
       "internalMapsAsDerived": "hand derivation: C0 gives (sigmaK, sigmaS, q) = (eps, eps, -eps); C8 = C0 o chirality",
+      "cpScopeInCurvedFields": {
+        "internalPartAtFixedFrame": {
+          "C8P_0": {
+            "monomial": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "fixedFrame_G_A_generic_nondiagonal": "not of the form +-L_{+-m,+-lam}",
+            "kineticSignRelation": 0,
+            "scalarSignRelation": 1,
+            "withReflection": "L_{m,lam} -> +L_{m,lam}",
+            "chargeSignWithReflection": -1
+          },
+          "C8P_1": {
+            "monomial": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "fixedFrame_G_A_generic_nondiagonal": "not of the form +-L_{+-m,+-lam}",
+            "kineticSignRelation": 0,
+            "scalarSignRelation": 1,
+            "withReflection": "L_{m,lam} -> +L_{m,lam}",
+            "chargeSignWithReflection": -1
+          },
+          "C8P_2": {
+            "monomial": [
+              0,
+              1,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "fixedFrame_G_A_generic_nondiagonal": "not of the form +-L_{+-m,+-lam}",
+            "kineticSignRelation": 0,
+            "scalarSignRelation": 1,
+            "withReflection": "L_{m,lam} -> +L_{m,lam}",
+            "chargeSignWithReflection": -1
+          },
+          "C8P_3": {
+            "monomial": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "fixedFrame_G_A_generic_nondiagonal": "not of the form +-L_{+-m,+-lam}",
+            "kineticSignRelation": 0,
+            "scalarSignRelation": 1,
+            "withReflection": "L_{m,lam} -> +L_{m,lam}",
+            "chargeSignWithReflection": -1
+          },
+          "C8P_123": {
+            "monomial": [
+              0,
+              4,
+              5,
+              6,
+              7
+            ],
+            "fixedFrame_G_A_generic_nondiagonal": "not of the form +-L_{+-m,+-lam}",
+            "kineticSignRelation": 0,
+            "scalarSignRelation": 1,
+            "withReflection": "L_{m,lam} -> +L_{m,lam}",
+            "chargeSignWithReflection": -1
+          }
+        },
+        "frameChangesWithOddSpatialReflections": 128,
+        "spaceBlockDeterminantMinusOne": true,
+        "linearPinLiftsNotExact": true,
+        "statement": "CP (C8 P_b, C8 P_123) is an exact symmetry of the Grassmann L in flat space and in backgrounds with the corresponding reflection isometry; in a generic gravitational field its frame form relates the theories on the frames e and e diag(r) (diag(r) outside SO_0(4,4), not undone by any linear Pin lift), and at a fixed frame its internal part is not a symmetry: the background breaks it. The commuting field keeps C0 (R empty) in every background (internalMapsCurvedJets)."
+      },
       "namedReflectionsFlatJets": {
         "identity | s=+1 | linear | grassmann": {
           "axesReflected": [],
@@ -2123,9 +2211,21 @@
                 -1
               ]
             }
+          },
+          "quantisedGrassmannField": {
+            "exp(pi S^45) = gamma4 gamma5": {
+              "M B M^dagger = -B": true,
+              "M^T B M = -B": true,
+              "M^T B^* M = +B (antiunitary conjugation keeps J^4)": true
+            },
+            "gamma8 (total inversion)": {
+              "M B M^dagger = -B": true,
+              "M^T B M = -B": true,
+              "M^T B^* M = +B (antiunitary conjugation keeps J^4)": true
+            }
           }
         },
-        "meaning": "in signature (4,4) the identity component of the symmetry group of L contains elements that reverse x4 (rotation by pi in the time-like (x4, x5) plane): the sign of the charge Q of the x4 slicing is not invariant under Spin_0(4,4); these maps reverse x4 and are therefore not C or CP in Sakharov's sense"
+        "meaning": "in signature (4,4) the identity component of the symmetry group of L contains elements that reverse x4 (rotation by pi in the time-like (x4, x5) plane): for the classical fields they reverse j^4, so the sign of the classical charge Q of the x4 slicing is not invariant under Spin_0(4,4); after quantization of the Grassmann field they are of antiunitary type (M B M^dagger = -B) and keep J^4 at the reflected point, so the quantum charge is preserved, as under time reversal; these maps reverse x4 and are not C or CP in Sakharov's sense"
       },
       "discreteGroupCharacterTable": {
         "grassmann": {
@@ -2219,7 +2319,7 @@
       "C_and_CP_status": {
         "grassmann": "no exact internal charge-flipping map for m != 0 (C8 maps m -> -m); exact CP (C8 composed with an odd spatial Pin reflection); C exact at m = 0",
         "commuting": "C0 (Psi -> Psi^*) is exact and flips the charge",
-        "consequence": "for both statistics an exact symmetry of L maps charge Q to -Q without reversing x4: Sakharov's second condition (C and CP violation) fails for L as built"
+        "consequence": "for both statistics an exact symmetry of L maps charge Q to -Q without reversing x4 (commuting: C0 in every background; Grassmann: CP in flat space and in backgrounds with the reflection isometry, see cpScopeInCurvedFields): Sakharov's second condition (C and CP violation) fails for L as built"
       },
       "canonicalStructureOfExactGrassmannSymmetries": {
         "counts": {
@@ -2229,7 +2329,7 @@
           "C8_unitary": true,
           "C0_antiunitaryType": true
         },
-        "statement": "every exact symmetry of the Grassmann L (256 of the 1024 maps) preserves the canonical anticommutator {Psi, Psi^dagger} = B: with a unitary implementation when it preserves x4 and an antiunitary one when it reverses x4; the charge-flipping C8 o P (x4 preserved) is unitary. Implementability on the positive (J = B) Fock space is not decided here"
+        "statement": "every exact symmetry of the Grassmann L (256 of the 1024 maps) preserves the canonical anticommutator {Psi, Psi^dagger} = B: as a linear (unitary-type) automorphism when it preserves x4 and as an antilinear (antiunitary-type) one when it reverses x4; the charge-flipping C8 o P (x4 preserved) is of unitary type. Implementation by a unitary or antiunitary operator on the positive (J = B) Fock space is not decided here"
       },
       "chargeConjugationWithSpatialParity": {
         "table": {
@@ -3345,11 +3445,124 @@
           }
         ],
         "ok": true,
-        "reading": "gamma^8 maps the positive-energy space of h_k(m) onto that of h_k(-m) (same energy E), reverses the Krein form f^dagger B h (the classical charge density u^dagger B u) and preserves the Hilbert norm u^dagger u (the Fock charge of a positive-energy mode under the Stage-1 expectation rule <Psi^dagger B Psi> = u^dagger B B u = u^dagger u). Which of the two is the charge of the -M universe depends on the canonical structure assigned to it; this checker does not decide it (Krein-level mapping: see stage5Pairing)"
+        "reading": "gamma^8 maps the positive-energy space of h_k(m) onto that of h_k(-m) (same energy E), reverses the Krein form f^dagger B h (the classical charge density u^dagger B u) and preserves the Hilbert norm u^dagger u (the Fock charge of a positive-energy mode under the Stage-1 expectation rule <Psi^dagger B Psi> = u^dagger B B u = u^dagger u). The column imageWithMetricMinusB gives the expectation values of the L_{-m,-lambda} formulas H[Psi_-; -m], Q[Psi_-], S[Psi_-] under the image anticommutator -B; they are not the image field's own energy and charge, which are +H_+ and +Q_+ (imageFieldFockModel)"
+      },
+      "imageFieldFockModel": {
+        "ok": true,
+        "fockCAR": true,
+        "samples": [
+          {
+            "m": "1",
+            "k": [
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "E": "1",
+            "modes (eps, beta)": [
+              [
+                1,
+                1
+              ],
+              [
+                1,
+                -1
+              ],
+              [
+                -1,
+                1
+              ],
+              [
+                -1,
+                -1
+              ]
+            ],
+            "modesAreJointEigenvectors": true,
+            "{Psi, Psi^K} = B P": true,
+            "image: {Psi_-, Psi_-^K} = -B P_-": true,
+            "gamma8 h(m) gamma8 = h(-m)": true,
+            "[Psi, H_+] = h(m) Psi (H_+ generates i d4 Psi)": true,
+            "[Psi_-, H[Psi_-;-m]] = -h(-m) Psi_- (reversed evolution)": true,
+            "[Psi_-, -H[Psi_-;-m]] = h(-m) Psi_- = i d4 Psi_- (own generator -H[Psi_-;-m] = +H_+)": true,
+            "[Psi, Q_+] = Psi": true,
+            "[Psi_-, Q[Psi_-]] = -Psi_- (own U(1) generator -Q[Psi_-] = +Q_+)": true,
+            "operators: H[Psi_-;-m] = -H_+, Q[Psi_-] = -Q_+, S[Psi_-] = S_+": true,
+            "Q_+ = sum_n a_n^dagger a_n, H_+ = sum_n eps_n a_n^dagger a_n": true,
+            "Q_+ eigenvalues on the Fock basis (Q_+ + Q[Psi_-] = 0 in every one)": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "independent: Krein signs of w_n = gamma8 v_n are -beta_n": true,
+            "independent: {Psi', Psi'^K} = B P' (+B structure)": true,
+            "independent: [Psi', H'] = h(-m) Psi' (H' generates its evolution)": true,
+            "independent: H' = H_+, Q' = Q_+, S' = -S_+": true,
+            "independent: S'^2 = S_+^2 != 0 (so (-lam/2) S'^2 = -(lam/2) S_+^2)": true,
+            "H_+, Q_+, S_+ nonzero operators": true
+          },
+          {
+            "m": "1",
+            "k": [
+              "1",
+              "1",
+              "2",
+              "3"
+            ],
+            "E": "4",
+            "modes (eps, beta)": [
+              [
+                4,
+                1
+              ],
+              [
+                4,
+                -1
+              ],
+              [
+                -4,
+                1
+              ],
+              [
+                -4,
+                -1
+              ]
+            ],
+            "modesAreJointEigenvectors": true,
+            "{Psi, Psi^K} = B P": true,
+            "image: {Psi_-, Psi_-^K} = -B P_-": true,
+            "gamma8 h(m) gamma8 = h(-m)": true,
+            "[Psi, H_+] = h(m) Psi (H_+ generates i d4 Psi)": true,
+            "[Psi_-, H[Psi_-;-m]] = -h(-m) Psi_- (reversed evolution)": true,
+            "[Psi_-, -H[Psi_-;-m]] = h(-m) Psi_- = i d4 Psi_- (own generator -H[Psi_-;-m] = +H_+)": true,
+            "[Psi, Q_+] = Psi": true,
+            "[Psi_-, Q[Psi_-]] = -Psi_- (own U(1) generator -Q[Psi_-] = +Q_+)": true,
+            "operators: H[Psi_-;-m] = -H_+, Q[Psi_-] = -Q_+, S[Psi_-] = S_+": true,
+            "Q_+ = sum_n a_n^dagger a_n, H_+ = sum_n eps_n a_n^dagger a_n": true,
+            "Q_+ eigenvalues on the Fock basis (Q_+ + Q[Psi_-] = 0 in every one)": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "independent: Krein signs of w_n = gamma8 v_n are -beta_n": true,
+            "independent: {Psi', Psi'^K} = B P' (+B structure)": true,
+            "independent: [Psi', H'] = h(-m) Psi' (H' generates its evolution)": true,
+            "independent: H' = H_+, Q' = Q_+, S' = -S_+": true,
+            "independent: S'^2 = S_+^2 != 0 (so (-lam/2) S'^2 = -(lam/2) S_+^2)": true,
+            "H_+, Q_+, S_+ nonzero operators": true
+          }
+        ],
+        "reading": "The image field Psi_- = gamma^8 Psi_+ is the same quantum system as Psi_+ (same operators, Fock space and state). With its own anticommutator -B the L_{-m,-lambda} Hamiltonian H[Psi_-; -m] generates the reversed x4-evolution and Q[Psi_-] the inverse phase, so the image field's own x4-generator and U(1) generator are -H[Psi_-; -m] = +H_+ and -Q[Psi_-] = +Q_+ (its gravitational source, from its canonical Lagrangian -L_{-m,-lambda}, is -T[Psi_-; -m, -lambda] = +T_+ by M4). The relations Q_+ + Q[Psi_-] = 0 and H_+ + H[Psi_-; -m] = 0 are operator identities X + (-X) = 0 valid in every state, including states with Q_+ != 0; they are not a compensation by a second universe. An independently quantised -m field with the +B structure has H' = H_+, Q' = Q_+ and S' = -S_+ in the state with the same occupations: energies add, charges cancel only by an extra assumption on its state, and with (-m, -lambda) its interaction energy (-lambda/2) S'^2 = -(lambda/2) S_+^2 has the opposite sign (equal for the T2 choice (-m, +lambda))."
       },
       "stage5Pairing": {
         "pairingTheory": "artifacts/dirac16complex/pair-creation/pairing-theory.json",
         "pairingReport": "artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json",
+        "pairingPythonReport": "artifacts/dirac16complex/pair-creation/python-pairing-report.json",
+        "pythonReportChecksTrue": "172 of 172",
         "T1kreinPresent": true,
         "T1kreinReportChecks": {
           "PAIR_T1krein_restHamiltonians": true,
@@ -3366,6 +3579,24 @@
           "PAIR_T1krein_independentExpectationValues": true
         },
         "T1kreinReportChecksAllTrue": true,
+        "T1kreinPythonReportChecks": {
+          "S5_T1krein_restHamiltonians": true,
+          "S5_T1krein_modes": true,
+          "S5_T1krein_fieldCAR": true,
+          "S5_T1krein_bilinearFromFields": true,
+          "S5_T1krein_statesNormalised": true,
+          "S5_T1krein_expectationRule": true,
+          "S5_T1krein_positiveExcitations": true,
+          "S5_T1krein_imageAnticommutatorMinusB": true,
+          "S5_T1krein_imageOperatorIdentities": true,
+          "S5_T1krein_imageExpectationValues": true,
+          "S5_T1krein_minusMModes": true,
+          "S5_T1krein_independentCARPlusB": true,
+          "S5_T1krein_independentExpectationValues": true,
+          "S5_T1krein": true
+        },
+        "T1kreinPythonReportChecksAllTrue": true,
+        "pythonReportComparedWithThisPairingTheory": true,
         "T1krein": {
           "canonical": "the canonical anticommutator of dirac16complex in the Gaussian-normal gauge is {Psi, Psi^dagger} = B delta^7/sqrt|g| (Stage 1); for the image Psi_- := gamma^8 Psi_+ it is gamma^8 B gamma^8 = -B: the image field is the canonical field of the Lagrangian -L_{-m,-lambda} = L_{m,lambda}[gamma^8 .] (same field equations as L_{-m,-lambda}, opposite overall sign, opposite Krein metric)",
           "consequence": "T^pair = 0 at the operator level holds for the pair (Psi_+, Psi_- = gamma^8 Psi_+), whose second member carries the Krein metric -B (it is canonically a field of -L_{-m,-lambda}); an independently quantised -m universe with the positive (J = B) structure has the same energy-momentum as the +m universe (this is the T2-type pairing, see T3).",
@@ -3374,27 +3605,29 @@
           "imageField": "Psi_- = gamma^8 Psi on the same Fock space and state: {Psi_-, Psi_-^K} = -B P_- (P_- = gamma^8 P gamma^8, the projector on the image modes); operator identities H[Psi_-; -m] = -H[Psi; m] (H = Psi^K B h Psi), Q[Psi_-] = -Q[Psi] (Q = Psi^K B Psi = J^4), S[Psi_-] = S[Psi]; expectation values <Psi_-^K M Psi_-> = u_-^dagger (-B) M u_-, u_- = gamma^8 u: the image universe carries the Krein metric -B, energy -|eps| and charge -1 per quantum. Since gamma^8 acts linearly and pointwise, normal ordering (subtraction of the sea value) commutes with the map: :T_{mu nu}[gamma^8 Psi; -m, -lambda]: = -:T_{mu nu}[Psi; m, lambda]: and :H_-: = -:H_+: as operators.",
           "independentQuantisation": "if the -m theory L_{-m,-lambda} is quantised independently with its own canonical structure (+B) and the J = B positive-norm Fock space, its modes are w_n = gamma^8 u_n (same eps, Krein sign -beta_n); a quantum in w has energy +|eps|, charge +1 and scalar density -u^dagger B C u: (E, Q, S) -> (E, Q, -S). Its energy-momentum does NOT cancel that of the +m universe."
         },
-        "status": "used as recorded by the Stage-5 Wolfram report (all PAIR_T1krein checks true); the file does not carry a finality flag, so it is cited with its sha256, not re-proved here beyond the mode-level facts of MA_M4_kreinModeFacts"
+        "status": "PROVISIONAL (OPEN until the Stage-5 gate passes): cited from the Stage-5 Wolfram report (all PAIR_T1krein checks true) and the independent Stage-5 Python report (all S5_T1krein checks true); the files carry no finality flag, so they are cited with their sha256, not re-proved here; the one-particle facts are re-verified in MA_M4_kreinModeFacts and the canonical structure of the image field in MA_M4_imageFieldFockModel"
       }
     },
     "M5_conditionalScenario": {
       "hypotheses": {
-        "H1": "HYPOTHESIS (not derived): our universe is one member of a gamma^8 pair created together",
+        "H1": "HYPOTHESIS (not derived): our universe is one member of a pair of two independent classical fields, Psi_+ with L_{m,lam} and Psi_- with +L_{-m,-lam}, in the correlated configuration Psi_- = gamma^8 Psi_+ (the correlation is the assumption), created together",
         "H2": "HYPOTHESIS (not derived): the creation assigns Q_+ = -Q_- != 0 (nothing here computes Q_+)",
         "H3": "HYPOTHESIS (not derivable here): the dirac16complex charge is baryon number (or B - L); the theory contains no Standard-Model baryons"
       },
-      "implication": "IF H1-H3 THEN Q_+ + Q_- = 0 at every x4 (Q_- = Q[gamma^8 Psi_+] = -Q_+ by M4, conservation by M1)",
+      "implication": "IF H1-H3 THEN (classical level) Q_+ + Q_- = 0 at every x4 (Q_- = Q[gamma^8 Psi_+] = -Q_+ by M4, the Noether current of L_{-m,-lam} being i sqrt|g| j; conservation by M1) and T^pair = 0 (classical bilinears)",
+      "quantumLevel": "no quantum counterpart with two independent universes: the image field gamma^8 Psi_+ is the same quantum system (own energy +H_+, charge +Q_+, source +T_+; Q_+ + Q[Psi_-] = 0 is an operator identity in every state), and an independently quantised -m field has H' = H_+, Q' = Q_+ in the same occupations (energies add; charges cancel only by an extra assumption on its state; the interaction energy changes sign with lambda -> -lambda)",
       "ingredientsComputed": {
         "gamma8FlipsCurrent": true,
-        "noetherConservation": true
+        "noetherConservation": true,
+        "imageFieldIsTheSameQuantumSystem": true
       },
       "implicationHoldsGivenIngredients": true,
       "notPredicted": "the observed baryon-to-photon ratio eta ~ 6e-10 is NOT predicted; no creation process, rate, or value of Q_+ is computed"
     },
     "M6_sakharovScorecard": [
       {
-        "condition": "1. violation of the conserved charge (baryon number)",
-        "statusInTheoryAsBuilt": "FAILS: Q is exactly conserved in every gravitational field (M1: Noether identity on curved jets, both statistics)",
+        "condition": "1. violation of the conserved charge (applied to the U(1) charge Q, the only candidate; Q stands for baryon number only under H3)",
+        "statusInTheoryAsBuilt": "FAILS: Q is exactly conserved in every gravitational field (M1: Noether identity on curved jets, both statistics; vanishing boundary flux)",
         "computedBy": [
           "MA_M1_noetherIdentity_grassmann_G_A_generic_nondiagonal",
           "MA_M1_noetherIdentity_commuting_G_A_generic_nondiagonal",
@@ -3405,10 +3638,11 @@
       },
       {
         "condition": "2. C and CP violation",
-        "statusInTheoryAsBuilt": "FAILS: exact charge-flipping symmetries of L exist without reversing x4 (commuting: C exact = True; Grassmann: C exact = False, CP exact = True)",
+        "statusInTheoryAsBuilt": "FAILS for the Lagrangian: exact charge-flipping symmetries of L exist without reversing x4 (commuting: C exact = True, in every background; Grassmann: C exact = False, CP exact = True, in flat space and in backgrounds with the reflection isometry; a generic gravitational background breaks CP of the Grassmann field, which does not help because condition 1 fails)",
         "computedBy": [
           "MA_M2_discreteGroupCharacterTable",
-          "MA_M2_C_and_CP_status"
+          "MA_M2_C_and_CP_status",
+          "MA_M2_cpScopeInCurvedFields"
         ],
         "wouldNeed": "terms that break every charge-flipping symmetry of the table (none is present in L1)"
       },
@@ -3419,7 +3653,7 @@
         "wouldNeed": "a non-equilibrium history (e.g. of the primordial field); not computed"
       }
     ],
-    "honestAnswer": "NOT PROVED and not provable within the theory as built: L1 has an exact U(1) symmetry, so Q is conserved in every gravitational field and no dynamics of the theory creates a net charge inside one universe (Sakharov's first condition fails); exact charge-flipping C or CP symmetries exist (second condition fails). The gamma^8 pair has total charge 0 and total classical energy-momentum 0; under hypotheses H1-H3 (not derived) this would give a global symmetry with local asymmetry, without predicting eta ~ 6e-10.",
+    "honestAnswer": "NOT PROVED and not provable within the theory as built: L1 has an exact U(1) symmetry, so Q is conserved in every gravitational field and no dynamics of the theory creates a net charge inside one universe (Sakharov's first condition fails); exact charge-flipping C or CP symmetries exist (second condition fails). The gamma^8 pair of two independent classical fields (second member with the Lagrangian +L_{-m,-lambda}) has total charge 0 and total classical energy-momentum 0; at the quantum level no reading gives a cancellation between two independent universes (the image field is the same system). Under hypotheses H1-H3 (not derived) the classical pair would give a global symmetry with local asymmetry, without predicting eta ~ 6e-10.",
     "MA_agreesWithWolfram": {
       "chargeConjugationIntertwiners": {
         "etaPlus": {
@@ -3528,8 +3762,12 @@
           "gamma8 P_+-(m) gamma8 = P_+-(-m) (E^2 = m^2 + k^2)": true,
           "gamma8 B gamma8 = -B (Krein norm of the image = - Krein norm)": true,
           "rest: B-form on E_+(1) has signature (4,4)": true,
-          "rest: Gram(gamma8 E_+(1)) = - Gram(E_+(1))": true
-        }
+          "rest: Gram(gamma8 E_+(1)) = - Gram(E_+(1))": true,
+          "image field, G = -B: (-B).(B h_k(-m)) = -h_k(-m) (H[Psi_-; -m] generates the reversed x4-evolution)": true,
+          "image field, G = -B: (-B).B = -1 (Q[Psi_-] generates the inverse phase)": true,
+          "gamma8 (B h_k(-m)) gamma8 = -B h_k(m) (H[gamma8 Psi; -m] = -H[Psi; m], so -H[Psi_-; -m] = +H_+)": true
+        },
+        "thisCheckerImageFieldFockModel": true
       },
       "gamma8MatrixFacts": {
         "wolfram": {
@@ -3574,13 +3812,14 @@
     }
   },
   "sourceSha256": {
-    "scripts/check_dirac16complex_matter_antimatter.py": "20914546ed5894ef223be8a1ae7ffecb62b308fdbf13d88f35a939a3c27bd526",
+    "scripts/check_dirac16complex_matter_antimatter.py": "ef1a00dc02e72186cd6c78d83ad3d930c372ccd9440983a307e8e04cae622231",
     "scripts/grassmann_algebra.py": "dfce851d3dc7ab82202a62d414cc259644a64a101f08e9ba80ed747faa8bc24c"
   },
   "inputSha256": {
     "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
     "artifacts/dirac16complex/pair-creation/pairing-theory.json": "5a267bd696391b131134577ccdcf7766b83f96f3eb32b9b8de60c9175b1ebf6a",
     "artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json": "735534de950c7fb0327370c33caa275cf805aa91a41dee903e4eaec7a6fa0de8",
-    "artifacts/dirac16complex/matter-antimatter/matter-antimatter-theory.json": "a3a85c9adc1b19733a3a4f09e8702eed2b6966e6156b644012011fcfe57a0d31"
+    "artifacts/dirac16complex/pair-creation/python-pairing-report.json": "773b3a63aa041ad873c31635cb69b36f548c40db47fcff68d6603da5e38fcc97",
+    "artifacts/dirac16complex/matter-antimatter/matter-antimatter-theory.json": "1505a3962938477e5db42f568c0a1afcd21898c4409793178f8311b792638f10"
   }
 }
