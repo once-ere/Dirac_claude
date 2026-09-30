@@ -1322,6 +1322,37 @@
       "universe": "minusM_control"
     },
     {
+      "label": "d16c_m3_L3_N112_lamm2_T0/minusM_control",
+      "converged": false,
+      "failed": "RuntimeError('energy window [-64, 64.5895] beyond the cap 20 |m| (window_cap): SCF aborted')",
+      "pairs": {
+        "field": "d16c",
+        "fieldName": "dirac16complex",
+        "universe": "minusM_control",
+        "universeDescription": "-M universe with the untransformed boundary conditions (mass -m, tip bag theta = 0: g(-L) = 0); the control of T3.untransformedBCControl",
+        "statistics": "anticommuting",
+        "statisticsSign": -1,
+        "massSign": -1,
+        "massScale": 3.0,
+        "tip": "g0",
+        "bagAngleTheta": 0.0,
+        "tOverM": 0.0,
+        "partnerLabel": "d16c_m3_L3_N112_lamm2_T0/plusM",
+        "configLabel": "d16c_m3_L3_N112_lamm2_T0",
+        "couplingSource": {
+          "configuration": [
+            3.0,
+            3.0,
+            112.0
+          ],
+          "source": "artifacts/dirac16complex/kohn-sham/reference/couplings/coupling-m3_L3_N112.json",
+          "sha256": "f8518583d1cbbce343ed7e1ffa6e57b894b53130870976811e01d8c7fbd725fe"
+        }
+      },
+      "field": "d16c",
+      "universe": "minusM_control"
+    },
+    {
       "label": "d16c_m3_L3_N112_lam0_T0p1/plusM",
       "params": {
         "label": "d16c_m3_L3_N112_lam0_T0p1/plusM",
@@ -3351,6 +3382,7 @@
   ],
   "failed": [
     "d16c_m3_L3_N112_lamm1_T0/minusM_control",
+    "d16c_m3_L3_N112_lamm2_T0/minusM_control",
     "d16c_m3_L3_N112_lamp2_T0/minusM_control"
   ],
   "thermoFirstOrder": {
@@ -3867,6 +3899,7 @@
   ],
   "failedControl": [
     "d16c_m3_L3_N112_lamm1_T0/minusM_control",
+    "d16c_m3_L3_N112_lamm2_T0/minusM_control",
     "d16c_m3_L3_N112_lamp2_T0/minusM_control"
   ],
   "failedOther": [],
@@ -4023,7 +4056,6 @@
     "d16c_m3_L3_N112_lamm1_T0/minusM",
     "d16c_m3_L3_N112_lamm1_T0/plusM",
     "d16c_m3_L3_N112_lamm2_T0/minusM",
-    "d16c_m3_L3_N112_lamm2_T0/minusM_control",
     "d16c_m3_L3_N112_lamm2_T0/plusM",
     "d16c_m3_L3_N112_lamp1_T0/minusM",
     "d16c_m3_L3_N112_lamp1_T0/minusM_control",

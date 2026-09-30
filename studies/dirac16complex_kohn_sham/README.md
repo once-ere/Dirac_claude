@@ -372,18 +372,37 @@ python studies/dirac16complex_kohn_sham/tools/compare_pairs_runs.py --stage4-com
 ### Universes, maps and checks
 
 Per configuration (statistics, |m|, L = 3, N, lambda_hat, T): `plusM` (+|m|,
-`b(-L) = 0`, the Stage-4 problem), `minusM` (-|m|, the same lambda and
-statistics, `a(-L) = 0`: the transformed boundary conditions of
-T3.theoremStandardRule) and `minusM_control` (-|m|, `b(-L) = 0`, untransformed).
+`b(-L) = 0`, the Stage-4 problem, solved by `scf::solve_ground`), `minusM`
+(-|m|, the same lambda and statistics, `a(-L) = 0`: the transformed boundary
+conditions of T3.theoremStandardRule, solved by `scf::solve_ground`) and
+`minusM_control` (-|m|, `b(-L) = 0`, untransformed).  The control is solved by
+the direct Stage-4 SCF attempt (the first stage of `solve_ground`, without
+the coupling continuation) and only when its first SCF update satisfies the
+window premise of the solver, `max|M_eff - m| + max|v_x| <= |window floor|`
+(`pairs::first_update_shift`; the analogue of the Stage-4 thermo rule that
+runs a point only when its first-order pseudo-potential lies in the window).
+At lambda = 0 the control always runs (the exact control of the theory:
+tip-localised zero mode, mixed-sector levels `q cos qL - M sin qL = 0`, bound
+state `tanh(kappa L) = kappa/M`).  At lambda != 0 its free state has the
+zero modes at the tip, where the proper-density factor is `e^{6HL}` = 6.6e7
+(L = 3); the measured first-update shift bounds are recorded in
+`pairing.json` and `summary.json: controlOutcomes` (not run when above the
+floor).
 Level map plusM -> minusM: `(shell, p, s, n) -> (shell, -p, -s, -n)`, same eps,
 orbital `(a, b) -> +-(b, a)`.  Checked per configuration: levels (eps, f,
 weights, multiplicities, the sorted spectra with multiplicity), orbitals, mu,
 E, F, S_ent, N, the KS gap, the particle-hole list, Delta-SCF and E1 (T = 0),
 the total scalar charge (opposite), the profiles n_c, n_p, v_x, rho, p_y,
-p_3, p_t (equal) and S_c, S_p, M_eff (opposite), the EMT averages, the pair
+p_3, p_t (equal) and S_c, S_p, M_eff (opposite) in the SCF's own convergence
+norm (coordinate densities relative to `D = max(max|n_c|, max|S_c|)`, the
+proper quantities divided by `e^{-6Hy}` first: relative to their own maximum
+the tip amplification `e^{6HL}` of the SCF resolution would dominate), the
+EMT averages (relative, or in energy units after multiplication with the
+proper volume), the first SCF updates (equal shift bounds), the pair
 totals (mirror pair plusM + minusM: 2E, 2N, S = 0; Krein-image pair plusM -
 minusM: E = 0, charge 0, <rho> = <p> = 0, S = 2 S_+), the KS potentials
-against the formulas of the statistics, the window premise of the solver
+against the formulas of the statistics (node by node, within the residual
+bound of the last SCF iteration, whose input densities built them), the window premise of the solver
 (max|M_eff - m| + max|v_x| <= |window floor|), and for plusM of dirac16complex
 the bitwise reproduction of the committed Stage-4 numbers.  Across
 configurations: plusM(lambda) vs minusM(-lambda) must not map; the two
