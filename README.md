@@ -69,8 +69,8 @@ per-stage list):
   which is not in the repository; a public-clone mode is being added.
 - **Stage 3 is complete.** The engine, the five experiments and their checkers,
   both notebooks, the figures and both documents are committed; the 21 problems of
-  the second review round are fixed; the gate `scripts/verify_stage3_dark_sector.*`
-  passed from a fresh clone (all 32 steps, 323 unit tests).
+  the second review round are fixed; both gate twins `scripts/verify_stage3_dark_sector.{sh,ps1}`
+  passed from fresh public clones (all 32 steps, 323 unit tests).
 - **Stage 4 is not finished.** The exact Kohn–Sham theory (Wolfram 125/125, sympy
   157/157) and the Rust Kohn–Sham solver `studies/dirac16complex_kohn_sham` are
   complete and reproducible.  The independent Python reference agrees on 65 of 69
