@@ -243,3 +243,13 @@ the byte-identity checks above.
 * Wick sign (independent numpy check): commuting circular Gaussian: Tr(A rho)Tr(B rho) +
   Tr(A rho B rho) (exact Isserlis 0.2307291551, Monte Carlo 0.226); fermionic quasi-free
   state, exact 3-mode Fock space, normal ordered: Tr(AG)Tr(BG) - Tr(AGBG) (0.369553091).
+* Diagnosis of the warning above: densities() sums mult * w * n over states with
+  w = f on the particle branch and w = -(1 - f) on the sea branch; the branch comes from
+  free_branch_counts(grid, m, ...) (rank against the free spectrum with the BARE m).  For
+  m < 0 the occupied positive-energy states of the -M universe evidently get sea-branch
+  weights, so n_c integrates to -N while the physical scalar density flip (s -> -s) is
+  undone by the negative weights.  Under the exact map the -M universe has the SAME eps
+  spectrum as the +M universe, so its particle/sea classification must be the image of
+  the +M one (by energy rank of the mapped levels), not the rank against a free spectrum
+  computed with the wrong conventions.  Fix it at the root in both solvers and test it on
+  lambda = 0 (n_c(-M) = n_c(+M), s_c(-M) = -s_c(+M) node by node).
