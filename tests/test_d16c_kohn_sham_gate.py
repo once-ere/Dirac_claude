@@ -367,6 +367,37 @@ class SummaryBuilderTests(unittest.TestCase):
         self.assertEqual(document["producers"]["notebook"]["checkCount"], 7)
         self.assertEqual(document["totals"]["byProducer"]["notebook"], {"checks": 7, "failed": 0})
 
+    def test_optional_report_sources_and_counts_are_checked(self):
+        theory = "artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json"
+        current = sha_file(os.path.join(self.root, "kohn-sham-theory.json"))
+        report = {"producer": "nb", "verdict": "SUCCESS", "checks": {"a": True, "b": True}, "checkCount": 2,
+                  "failedCheckCount": 0, "gauntlet": {"count": 3, "passed": 2, "failed": 0, "skipped": 1},
+                  "sourceSha256": {"builder": "named entries are not paths", FIXTURE: sha_repo(FIXTURE),
+                                   theory: current,
+                                   "scripts/check_dirac16complex_kohn_sham.py":
+                                       sha_repo("scripts/check_dirac16complex_kohn_sham.py")}}
+        path = os.path.join(self.root, "notebook-report.json")
+        write_json(path, report)
+        code, text = self.build()
+        self.assertEqual(code, 0, text)
+        with open(self.output, encoding="utf-8") as handle:
+            document = json.load(handle)
+        self.assertEqual(document["producers"]["notebook"]["gauntlet"]["skipped"], 1)
+        self.assertTrue(document["consistency"]["notebook_report_source_" + theory]["passed"])
+        # a recorded source that is not the current file: the report is stale
+        write_json(path, dict(report, sourceSha256=dict(report["sourceSha256"], **{theory: "0" * 64})))
+        code, text = self.build()
+        self.assertEqual(code, 1)
+        self.assertIn("notebook_report_source_" + theory, text)
+        # a recorded fixture hash that is not the fixture: refused even as a preview
+        write_json(path, dict(report, sourceSha256=dict(report["sourceSha256"], **{FIXTURE: "1" * 64})))
+        self.assertEqual(self.build("--allow-incomplete")[0], 1)
+        # checkCount that does not match the checks object: refused
+        write_json(path, dict(report, checkCount=5))
+        code, text = self.build("--allow-incomplete")
+        self.assertEqual(code, 1)
+        self.assertIn("does not match its checks", text)
+
     def test_nan_sources_become_null(self):
         self.assertIsNone(builder.clean(float("nan")))
         self.assertEqual(builder.clean({"a": [1.0, float("inf")]}), {"a": [1.0, None]})

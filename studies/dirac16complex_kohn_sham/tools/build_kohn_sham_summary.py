@@ -362,22 +362,51 @@ def cross_check_producer(inp):
     return block, report
 
 
+def recorded_sources_current(inp, name, recorded, fixture_sha):
+    """Every repository path (a key with a '/') recorded in a report's sourceSha256
+    equals the current file: kohn-sham artifacts are resolved against the root,
+    everything else against the repository; the fixture must match exactly."""
+    for key in sorted(recorded):
+        value = recorded[key]
+        if "/" not in key:
+            continue                      # named entries (builder, runner, ...) are not paths
+        if key == FIXTURE:
+            fixture_consistency(inp, name + "_source", value, fixture_sha)
+            continue
+        if key.startswith(CANONICAL_ROOT + "/"):
+            relative, repository = key[len(CANONICAL_ROOT) + 1:], False
+        else:
+            relative, repository = key, True
+        path = os.path.join(REPO, *relative.split("/")) if repository else inp.path(relative)
+        current = inp.sha(relative, repository) if os.path.isfile(path) else None
+        inp.require("%s_source_%s" % (name, key), current == value,
+                    "%s records sha256 %s for %s, the file is %s" % (name, value, key, current or "missing"))
+
+
 def optional_producer(inp, relative, fixture_sha):
     """Notebook / Mathematica report: counted when present."""
     if not inp.exists(relative):
         return {"status": "absent", "report": CANONICAL_ROOT + "/" + relative}
     report = inp.json(relative)
+    name = os.path.splitext(relative)[0].replace("-", "_")
     block = {"status": "present", "report": CANONICAL_ROOT + "/" + relative,
              "producer": report.get("producer") or report.get("generatedBy"),
              "verdict": report.get("verdict")}
     if isinstance(report.get("checks"), dict) and report["checks"]:
         block.update(check_block(report["checks"]))
+        for key, count in (("checkCount", block["checkCount"]), ("failedCheckCount", block["failedCount"])):
+            if key in report and report[key] != count:
+                raise SummaryError("%s: %s = %r does not match its checks (%d)" % (relative, key, report[key], count))
+    if isinstance(report.get("sourceSha256"), dict):
+        recorded_sources_current(inp, name, report["sourceSha256"], fixture_sha)
     gauntlet = report.get("gauntlet")
     if isinstance(gauntlet, dict):
-        block["gauntlet"] = pick(gauntlet, ["count", "passed", "failed"])
+        block["gauntlet"] = pick(gauntlet, ["count", "passed", "failed", "skipped"])
         if "checkCount" not in block and isinstance(gauntlet.get("count"), int):
+            # a skipped gauntlet item is neither passed nor failed; the verdict decides
             failed = gauntlet.get("failed") if isinstance(gauntlet.get("failed"), int) else 0
-            block.update({"checkCount": gauntlet["count"], "passedCount": gauntlet["count"] - failed,
+            passed = gauntlet.get("passed") if isinstance(gauntlet.get("passed"), int) else gauntlet["count"] - failed
+            block.update({"checkCount": gauntlet["count"], "passedCount": passed,
                           "failedCount": failed, "failed": []})
     if isinstance(report.get("figures"), list):
         block["figures"] = len(report["figures"])

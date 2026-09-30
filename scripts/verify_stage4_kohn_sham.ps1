@@ -69,16 +69,16 @@
 #   Re-run in reduced form: the Python reference solver.  Its canonical run
 #   (every run of reference-summary.json on the three grids N0, 2 N0, 4 N0,
 #   N0 = 60, or 120 for m = 3; several hours with 8 to 12 worker processes)
-#   is NOT repeated; the
-#   gate runs "ks_reference_solver.py --quick" (its self-tests at N0 = 64
-#   plus the reduced parameter set on the two quick grids N0 = 30, 60) into
-#   build/stage4/reference-quick, and the cross-checker re-solves one
-#   Rust scf parameter set (--max-reproductions 1: the first present of its
-#   priority list, m1_L2_N8_lamp1_T0) with the reference solver on the
-#   canonical grids at exactly the Rust lambda_hat, and runs its
-#   stationarity (Hellmann-Feynman) identities with small self-consistent
-#   reference runs.  The committed reference tree is compared with the
-#   committed Rust tree (identical to run-a by step 15) run by run.
+#   is NOT repeated; the gate runs "ks_reference_solver.py --quick" (its
+#   self-tests at N0 = 64 plus the reduced parameter set on the two quick
+#   grids N0 = 30, 60) into build/stage4/reference-quick, and the
+#   cross-checker re-solves one Rust scf parameter set
+#   (--max-reproductions 1: the first present of its priority list,
+#   m1_L2_N8_lamp1_T0) with the reference solver on the canonical grids
+#   at exactly the Rust lambda_hat, and runs its stationarity
+#   (Hellmann-Feynman) identities with small self-consistent reference
+#   runs.  The committed reference tree is compared with the committed
+#   Rust tree (identical to run-a by step 15) run by run.
 #   Not re-run at all: the canonical reference runs (see above) and,
 #   without -RefinedThermo, thermo --refined (the committed
 #   determinism-report.json then cannot be reproduced byte for byte; step 17
@@ -169,7 +169,9 @@
 #   tests; the two longest take 75 s), 12 1 s, 13 1 s (PowerShell twin,
 #   2026-09-30, warm cargo target, load 100 %).  With an empty target
 #   directory (as in a fresh clone): 10 3 s, 11 35 s (compilation 6 s,
-#   tests 29 s), 12 1 s (load 15-40 % when they started).
+#   tests 29 s), 12 1 s (load 15-40 % when they started).  At a load of
+#   about 25 % both twins ran steps 01-13, 18 and 19 in 109 s (PowerShell)
+#   and 118 s (bash): 03 10 s, 04 50 s, 11 29-33 s, 18 18-21 s.
 #   14 (Rust).  Not yet run as a whole.  Measured parts (first to last file
 #   written): the committed canonical tree of 2026-09-26 was produced while
 #   the repeat and the refined "all" runs shared the machine: spectrum
@@ -180,7 +182,10 @@
 #   process: about 3 h (estimate); with -RefinedThermo two thermo processes
 #   share the machine as on 2026-09-26: about 3.5 h (estimate); with
 #   -SequentialRust the sum of all nine processes, about 4.5 h (estimate;
-#   about 7.5 h with -RefinedThermo).
+#   about 7.5 h with -RefinedThermo).  The launcher of step 14 run on
+#   spectrum alone (canonical and refined as two concurrent processes,
+#   load about 25 %): 46 s, the canonical output byte-identical to the
+#   committed spectrum/ tree (15 files).
 #   Concurrency measurement (2026-09-30, binary 3bbc395a, the reduced
 #   --quick parameter matrix of all five subcommands, scratch outputs, load
 #   100 %): five concurrent processes 1025 s; the same five one after

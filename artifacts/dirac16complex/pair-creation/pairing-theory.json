@@ -3,7 +3,7 @@
 	"producer":"scripts\/verify_dirac16complex_pairing.wls (wolfram\/Dirac16ComplexPairing.wl)",
 	"description":"Exact Stage-5 pairing theory of dirac16complex (anticommuting) and dirac16complex00 (commuting): the chirality map T1 (field level, arbitrary gravitational field, Krein metric), the mirror map T2 (Pin(4,4) reflections of character -1, Z2 coordinate action), the Kohn-Sham level T3 (exact 2x2 block maps, boundary conditions, densities, potentials, functional, EMT, untransformed-BC control), the statistics sign of the exchange energy, the pair totals and the prescription for the numerics. Complex entries are [re, im] pairs of exact rational strings.",
 	"sourceSha256":{
-		"wolfram\/Dirac16ComplexPairing.wl":"d83072e21552b679c404955789ca6b6cbc33b05130c626d2fa0e54e089424490",
+		"wolfram\/Dirac16ComplexPairing.wl":"5ce1f6ca7bdb4029ae1f0df34821b5c42f0494d18c0e02d85812efe0ad2c7d1d",
 		"scripts\/verify_dirac16complex_pairing.wls":"92f9864281d9b11c54ce3c9a053ff28dc2b604fbe775e998018fb844a16b3bbb",
 		"wolfram\/Dirac16ComplexGeometry.wl":"f5b674665eee4000750161e6ab6312c38bfac9da7a17450a2b3bdd88ef292af2",
 		"artifacts\/dirac16complex\/arbitrary-field\/algebra-fixture.json":"8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
@@ -375,6 +375,8 @@
 		"name":"T1: the chirality map gamma^8 (field level, arbitrary gravitational field, both statistics)",
 		"statement":"For every vielbein e (hence every metric g = e eta e^T and its Levi-Civita spin connection), every mass m and coupling lambda of U = (lambda\/2) S^2, and every field configuration Psi (off shell), with Psi_- := gamma^8 Psi: Psibar_- = Psibar gamma^8, S[Psi_-] = S[Psi], the kinetic term changes sign, j^mu[Psi_-] = -j^mu[Psi], L_{m,lambda}[gamma^8 Psi] = -L_{-m,-lambda}[Psi], E_{-m,-lambda}[gamma^8 Psi] = -gamma^8 E_{m,lambda}[Psi] (field equation) and the conjugate equation likewise, T_{mu nu}[gamma^8 Psi; -m, -lambda] = -T_{mu nu}[Psi; m, lambda] (all 36 components). Hence Psi solves EL_{m,lambda} iff gamma^8 Psi solves EL_{-m,-lambda}. The same identities hold for Grassmann-odd components (dirac16complex) and for commuting components (dirac16complex00).",
 		"proof":"gamma^8 is Hermitian, (gamma^8)^2 = 1, gamma^8 gamma^a = -gamma^a gamma^8, [gamma^8, C] = 0, [gamma^8, S^{ab}] = 0 (so [gamma^8, Omega_mu] = 0 for every connection). Every term of L, of the field equations, of T_{mu nu} and of j^mu is a bilinear Psi^dagger X Psi with X in {C gamma^a, C gamma^a S^{bc}, C S^{bc} gamma^a} (one gamma: gamma^8 X gamma^8 = -X) or X = C (mass term, S: gamma^8 C gamma^8 = +C), multiplied by geometric coefficients (e_a^mu, omega_{mu ab}, sqrt|g|, g_{mu nu}) that the map does not touch; U = (lambda\/2) S^2 is even. The map is linear and keeps the order Psi^dagger ... Psi, so it is compatible with Grassmann-odd components (in the notebook basis it is the automorphism theta_a -> chi(a) theta_a of the Grassmann algebra). QED; verified as a polynomial identity in completely generic independent symbols (PAIR_T1generic_*), with exact jets of the general non-diagonal vielbein G1 at three points (PAIR_T1jets_*) and with a Grassmann algebra of 288 odd generators (PAIR_T1grassmann_*).",
+		"fieldsCovered":"dirac16complex: Grassmann-odd components (PAIR_T1grassmann_* with 288 odd generators; the generic-symbol identities keep the order Psi^dagger ... Psi); dirac16complex00: commuting components (PAIR_T1generic_*, PAIR_T1jets_* with exact rational field jets, PAIR_T1primordial_* with generic functions of all eight coordinates in the Stage-2 primordial field with an arbitrary a4(t))",
+		"primordialField":"in the notebook chart of the primordial field (z = 6 H x0, t = H x4, a4 an arbitrary function) the identities L_{m,lambda}[gamma^8 Psi] = -L_{-m,-lambda}[Psi], E_{-m,-lambda}[gamma^8 Psi] = -gamma^8 E_{m,lambda}[Psi], T_{mu nu}[gamma^8 Psi; -m, -lambda] = -T_{mu nu}[Psi; m, lambda] (64 components) and j -> -j hold for generic fields of all eight coordinates (PAIR_T1primordial_*)",
 		"vielbeinForm":"equivalently, (gamma^8, e -> -e) is an exact symmetry (the frame map -1 lies in SO_0(4,4) and gamma^8 in Spin_0(4,4)), so T1 is the same as reversing the sign of the vielbein at fixed Psi: L_{m,lambda}[-e, Psi] = -L_{-m,-lambda}[e, Psi] (g, sqrt|g| and Omega are unchanged, gamma^mu -> -gamma^mu)",
 		"naiveFormFails":"at fixed lambda the map gives L_{m,lambda}[gamma^8 Psi] + L_{-m,lambda}[Psi] = -lambda S^2 != 0 (CONTRACT erratum E2)",
 		"kreinMetric":"gamma^8 B gamma^8 = -B: the image field has the canonical anticommutator -B (it is canonically a field of -L_{-m,-lambda}); see T1krein",
@@ -396,7 +398,11 @@
 			"PAIR_T1jets_conservationBoth":true,
 			"PAIR_T1jets_vielbeinSignFlipIsT1":true,
 			"PAIR_T1jets_gamma8WithFrameSignIsSymmetry":true,
-			"PAIR_T1krein_imageAnticommutatorMinusB":true
+			"PAIR_T1krein_imageAnticommutatorMinusB":true,
+			"PAIR_T1primordial_lagrangian":true,
+			"PAIR_T1primordial_diracOperator":true,
+			"PAIR_T1primordial_emt64":true,
+			"PAIR_T1primordial_current":true
 		},
 		"corollaryPair":{
 			"statement":"COROLLARY (pair, proved): for Psi_+ with (m, lambda) and Psi_- = gamma^8 Psi_+ with (-m, -lambda) in the SAME gravitational field: T^pair_{mu nu} = T_{mu nu}[Psi_+; m, lambda] + T_{mu nu}[Psi_-; -m, -lambda] = 0 identically, j^pair = 0 (total charge Q = integral sqrt|g| j^4 d^7x = 0), L^pair = 0 (total action 0), S^pair = 2 S; total energy, momentum and stresses vanish at every point, in any gravitational field, at every x4, in particular at x4 = 0. The Einstein (or Einstein-Lovelock) equations with the pair as source are the source-free equations.",
@@ -606,6 +612,7 @@
 				"gamma8TimesUntwisted":"L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
 			}
 		],
+		"tableKey":"per unit vector u: norm n(u) = eta(v, v); character chi(u) (u^dagger C = chi C u^{-1}); uBudaggerSign = +1 if u B u^dagger = B, -1 if = -B, 0 if neither (general vectors mix the two); R_u = the hyperplane reflection (twisted frame action e -> e R_u, realised as e -> -e (eta Lambda^T eta) with u gamma^a u^{-1} = Lambda^c_a gamma^c); the untwisted action is e -> e (eta Lambda^T eta)",
 		"coordinateAction":{
 			"geometry":"static primordial field, proper chart y (STAGE4_SPEC section 1): y < 0: W = e^{Hy}; Z2 mirror side y > 0: W = e^{-Hy}; vielbein h = (1, W e^{a4} (x3), 1, W e^{-a4} (x3)); the reflection phi: y -> -y is an isometry of the Z2 geometry whose differential reflects the frame vector e_0",
 			"map":"Psi'(y, x) = gamma^0 Psi(-y, x), Psi'^dagger(y, x) = Psi^dagger(-y, x) gamma^0 (u = gamma^0: n(u) = +1, character -1, twisted lift = the coordinate reflection of x0 ~ y)",
@@ -747,6 +754,7 @@
 		},
 		"theoremStandardRule":"THEOREM (proved): let the +M universe be the Stage-4 KS problem with (m, lambda, statistics sg, parity p at the brane, tip bag angle theta, occupations by Fermi-Dirac at T, N particles). The -M universe with (-m, the SAME lambda, the same sg, parity -p, bag angle pi - theta) is its exact image under chi -> sigma2 chi in the partner block (j, s2, s3) -> (-j, s2, s3), k unchanged (the block form of gamma^8 with the standard expectation rule). The KS operators are unitarily equivalent (sigma2 h_j(M_eff) sigma2 = h_{-j}(-M_eff), with M_eff -> -M_eff, v_v -> v_v self-consistently), the domains correspond (p -> -p, theta -> pi - theta), the Mermin functional is invariant, so the spectra (with multiplicities), occupations, mu, E, F, S_ent, the KS gap, the particle-hole list and the Delta-SCF energies are identical, n_p(y), t, c and the EMT profiles (rho, p_y, p_3, p_t and their averages) are identical, S_p(y) -> -S_p(y) and M_eff(y) -> -M_eff(y). The SCF iteration map is equivariant, so every iterate, the lambda-continuation branch (lambda is not changed) and hence the KS ground state (STAGE4_SPEC E4.8) and the first excited state (KS gap, particle-hole pairs with the occupation floor, Delta-SCF) map exactly. The sigma1 route (gamma^1: same j, k -> -k, theta -> theta + pi) gives the same result over closed shells {k, -k}.",
 		"theoremImageRule":"THEOREM (proved): the gamma^8 image of the +M KS state with the Krein metric -B (T1) solves the KS equations of (-m, -lambda) with the same orbitals sigma2 chi, the same eigenvalues (x4-frequencies) and occupations; its one-body densities and energies change sign: n -> -n (charge), S -> +S, t -> -t, c -> -c, E -> -E, T_{mu nu} -> -T_{mu nu}; the orbital energies (Janak) are -eps, so at finite T the image is a stationary state of F_- at temperature -T and chemical potential -mu: F_-(-T) = -F_+(T). The image is therefore obtained from the standard-rule -M run by reversing the sign of every one-body density and energy and of lambda.",
+		"stage4Z2Pair":"the Stage-4 parity conditions at the brane are the Z2 identification Psi(-y) = +-gamma^0 Psi(y) (P_A); by T2 (PAIR_T2z2_*) a Stage-4 KS state of the +M universe on y < 0 continues across the brane to a universe of mass -M(-y) on y > 0 with the same lambda, the same energy density and pressures (EMT pull-back), the same charge and the opposite scalar density; the brane carries the Israel stress of Stage 4. Every Stage-4 KS state is therefore already a {+M, -M} mirror pair across the brane.",
 		"whatMustTransform":{
 			"lambda":"unchanged for the ordinary -M universe (standard rule); -lambda for the Krein image (T1); the ordinary KS problem with -lambda does NOT map (PAIR_T3ks_sigma2KSOperatorEquivariant, second part)",
 			"parity":"p -> -p (even chi_2(0) = 0 <-> odd chi_1(0) = 0)",
@@ -785,7 +793,7 @@
 			"minusMTransformed":"m -> -m everywhere (bare mass and M_eff), lambda unchanged, statistics unchanged, parity p -> -p (the + sector b(0) = 0 of the +M run corresponds to the - sector a(0) = 0 of the -M run), tip bag theta = pi (a(-L) = 0), block type s -> -s, same k and N and T",
 			"minusMUntransformedControl":"m -> -m, everything else as for +M (same parity labels, b(-L) = 0)",
 			"expectedIdentities":"per k and block pair: eigenvalue lists identical; mu, E, F, S_ent, KS gap, particle-hole list, Delta-SCF identical; n_p(y), rho(y), p_y(y), p_3(y), p_t(y), v_x(y) identical; S_p(y) and M_eff(y) change sign; to solver precision",
-			"pairTotalsToReport":"mirror pair (sum of the +M and transformed -M runs): 2E, 2N, S = 0, 2 <rho>, 2 <p>; Krein image pair: E = 0, charge 0, <rho> = <p> = 0 (from the +M run and minus the -M run), S = 2 <S_p>",
+			"pairTotalsToReport":"mirror pair = (+M run) + (transformed -M run): 2E, 2N, S = 0, 2 <rho>, 2 <p>; Krein image pair = (+M run) - (transformed -M run) for every one-body density and energy (the image carries the Krein metric -B and -lambda): E = 0, charge 0, <rho> = <p> = 0 to solver precision, S = 2 <S_p>",
 			"statisticsFormulas":"dirac16complex: e_x = -(lambda\/32)(n^2 + S^2), M_eff = m + (15\/16) lambda S_p, v_x = -(lambda\/16) n_p; dirac16complex00: e_x = +(lambda\/32)(n^2 + S^2), M_eff = m + (17\/16) lambda S_p, v_x = +(lambda\/16) n_p"
 		},
 		"checks":{

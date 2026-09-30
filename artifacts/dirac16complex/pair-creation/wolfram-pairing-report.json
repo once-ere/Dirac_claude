@@ -74,6 +74,12 @@
 		"PAIR_T2z2_symmetricIffOddMass":true,
 		"PAIR_T2z2_PBfieldLevelFlipsLambda":true,
 		"PAIR_T2z2_ruleParities":true,
+		"PAIR_T1primordial_nontrivialCoupling":true,
+		"PAIR_T1primordial_scalarAndKinetic":true,
+		"PAIR_T1primordial_lagrangian":true,
+		"PAIR_T1primordial_diracOperator":true,
+		"PAIR_T1primordial_emt64":true,
+		"PAIR_T1primordial_current":true,
 		"PAIR_T3block_basisFromStage4":true,
 		"PAIR_T3block_gamma8IsSigma2BetweenPartnerBlocks":true,
 		"PAIR_T3block_gamma1IsSigma1InEveryBlock":true,
@@ -165,7 +171,7 @@
 		"stat_restShellCovarianceEigenvalues":"{-1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1}"
 	},
 	"sourceSha256":{
-		"wolfram\/Dirac16ComplexPairing.wl":"d83072e21552b679c404955789ca6b6cbc33b05130c626d2fa0e54e089424490",
+		"wolfram\/Dirac16ComplexPairing.wl":"5ce1f6ca7bdb4029ae1f0df34821b5c42f0494d18c0e02d85812efe0ad2c7d1d",
 		"scripts\/verify_dirac16complex_pairing.wls":"92f9864281d9b11c54ce3c9a053ff28dc2b604fbe775e998018fb844a16b3bbb",
 		"wolfram\/Dirac16ComplexGeometry.wl":"f5b674665eee4000750161e6ab6312c38bfac9da7a17450a2b3bdd88ef292af2",
 		"artifacts\/dirac16complex\/arbitrary-field\/algebra-fixture.json":"8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
