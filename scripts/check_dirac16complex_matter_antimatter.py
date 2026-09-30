@@ -2322,9 +2322,13 @@ def hermitian_signature_exact(H):
     return pos, neg
 
 
-def stage5_pairing(theory_path=DEFAULT_PAIRING, report_path=DEFAULT_PAIRING_REPORT):
-    """Read (never trust as a proof input) the Stage-5 Krein-level result PAIR_T1krein."""
-    out = {"pairingTheory": relative(theory_path), "pairingReport": relative(report_path)}
+def stage5_pairing(theory_path=DEFAULT_PAIRING, report_path=DEFAULT_PAIRING_REPORT,
+                   python_report_path=DEFAULT_PAIRING_PYTHON_REPORT):
+    """Read (never trust as a proof input) the Stage-5 Krein-level result PAIR_T1krein and the independent
+    Stage-5 Python verification S5_T1krein.  Stage 5 has not passed its gate and the files carry no finality
+    flag, so a complete, all-true citation is PROVISIONAL (OPEN until the Stage-5 gate passes)."""
+    out = {"pairingTheory": relative(theory_path), "pairingReport": relative(report_path),
+           "pairingPythonReport": relative(python_report_path)}
     inputs = {}
     if not os.path.exists(theory_path):
         out["status"] = "OPEN: pairing-theory.json absent; the Krein-level particle/antiparticle mapping is not stated here"
@@ -2339,16 +2343,31 @@ def stage5_pairing(theory_path=DEFAULT_PAIRING, report_path=DEFAULT_PAIRING_REPO
         with open(report_path, "r", encoding="utf-8") as handle:
             report = json.load(handle)
         report_checks = {k: v for k, v in report.get("checks", {}).items() if "T1krein" in k}
+    python_checks, python_count, python_theory_hash = {}, 0, None
+    if os.path.exists(python_report_path):
+        inputs[relative(python_report_path)] = sha256_file(python_report_path)
+        with open(python_report_path, "r", encoding="utf-8") as handle:
+            preport = json.load(handle)
+        all_checks = preport.get("checks", {})
+        python_count = sum(1 for v in all_checks.values() if v is True)
+        out["pythonReportChecksTrue"] = "%d of %d" % (python_count, len(all_checks))
+        python_checks = {k: v for k, v in all_checks.items() if "T1krein" in k}
+        python_theory_hash = preport.get("inputSha256", {}).get(relative(theory_path))
     out["T1kreinPresent"] = isinstance(t1k, dict)
     out["T1kreinReportChecks"] = report_checks
     out["T1kreinReportChecksAllTrue"] = bool(report_checks) and all(report_checks.values())
+    out["T1kreinPythonReportChecks"] = python_checks
+    out["T1kreinPythonReportChecksAllTrue"] = bool(python_checks) and all(python_checks.values())
+    out["pythonReportComparedWithThisPairingTheory"] = python_theory_hash == inputs[relative(theory_path)]
     if isinstance(t1k, dict):
         out["T1krein"] = {k: t1k[k] for k in sorted(t1k)}
-    final = out["T1kreinPresent"] and out["T1kreinReportChecksAllTrue"]
-    out["status"] = ("used as recorded by the Stage-5 Wolfram report (all PAIR_T1krein checks true); the file does "
-                     "not carry a finality flag, so it is cited with its sha256, not re-proved here beyond the "
-                     "mode-level facts of MA_M4_kreinModeFacts") if final else \
-        "OPEN: PAIR_T1krein missing or not all true; only the field-level result is stated"
+    complete = out["T1kreinPresent"] and out["T1kreinReportChecksAllTrue"]
+    out["status"] = ("PROVISIONAL (OPEN until the Stage-5 gate passes): cited from the Stage-5 Wolfram report (all "
+                     "PAIR_T1krein checks true)%s; the files carry no finality flag, so they are cited with their "
+                     "sha256, not re-proved here; the one-particle facts are re-verified in MA_M4_kreinModeFacts "
+                     "and the canonical structure of the image field in MA_M4_imageFieldFockModel"
+                     % (" and the independent Stage-5 Python report (all S5_T1krein checks true)"
+                        if out["T1kreinPythonReportChecksAllTrue"] else "")) if complete else         "OPEN: PAIR_T1krein missing or not all true; only the field-level result is stated"
     return out, inputs
 
 
@@ -2580,12 +2599,21 @@ def compare_m4(rec, theory, own, compared):
         ok_mine = bool(mine) and all(s["gamma8 h_k(m) gamma8 = h_k(-m)"] and s["gamma8 P_+(m) gamma8 = P_+(-m)"] and
                                      s["kreinSignatureOnPositiveEnergySpace"] == [4, 4] and s["kreinFormOfImage = -kreinForm"]
                                      for s in mine)
+        fock = m4.get("imageFieldFockModel", {}).get("samples", [])
+        ok_fock = bool(fock) and all(
+            s["[Psi_-, H[Psi_-;-m]] = -h(-m) Psi_- (reversed evolution)"] and
+            s["[Psi_-, Q[Psi_-]] = -Psi_- (own U(1) generator -Q[Psi_-] = +Q_+)"] and
+            s["operators: H[Psi_-;-m] = -H_+, Q[Psi_-] = -Q_+, S[Psi_-] = S_+"] for s in fock)
         keys = ["gamma8 h_k(m) gamma8 = h_k(-m)", "gamma8 P_+-(m) gamma8 = P_+-(-m) (E^2 = m^2 + k^2)",
                 "gamma8 B gamma8 = -B (Krein norm of the image = - Krein norm)", "rest: B-form on E_+(1) has signature (4,4)",
-                "rest: Gram(gamma8 E_+(1)) = - Gram(E_+(1))"]
+                "rest: Gram(gamma8 E_+(1)) = - Gram(E_+(1))",
+                "image field, G = -B: (-B).(B h_k(-m)) = -h_k(-m) (H[Psi_-; -m] generates the reversed x4-evolution)",
+                "image field, G = -B: (-B).B = -1 (Q[Psi_-] generates the inverse phase)",
+                "gamma8 (B h_k(-m)) gamma8 = -B h_k(m) (H[gamma8 Psi; -m] = -H[Psi; m], so -H[Psi_-; -m] = +H_+)"]
         compared.append("M4_kreinOneParticle")
-        rec.check("kreinOneParticle", ok_mine and all(chk.get(k) is True for k in keys),
-                  {"wolframChecks": {k: chk.get(k) for k in keys}})
+        rec.check("kreinOneParticle", ok_mine and ok_fock and all(chk.get(k) is True for k in keys),
+                  {"wolframChecks": {k: chk.get(k) for k in keys},
+                   "thisCheckerImageFieldFockModel": ok_fock})
     mf = first_found(theory, "matrixFacts")
     if isinstance(mf, dict) and m4:
         mine = m4.get("gamma8MatrixFacts", {})
@@ -2621,13 +2649,24 @@ def m5_record(checks):
     flip = checks.get("MA_M4_gamma8ChargeFlipCurved", False)
     cons = checks.get("MA_M1_noetherIdentity_grassmann_G_A_generic_nondiagonal", False) and \
         checks.get("MA_M1_noetherIdentity_commuting_G_A_generic_nondiagonal", False)
+    fock = checks.get("MA_M4_imageFieldFockModel", False)
     return {
-        "hypotheses": {"H1": "HYPOTHESIS (not derived): our universe is one member of a gamma^8 pair created together",
+        "hypotheses": {"H1": "HYPOTHESIS (not derived): our universe is one member of a pair of two independent "
+                             "classical fields, Psi_+ with L_{m,lam} and Psi_- with +L_{-m,-lam}, in the correlated "
+                             "configuration Psi_- = gamma^8 Psi_+ (the correlation is the assumption), created together",
                        "H2": "HYPOTHESIS (not derived): the creation assigns Q_+ = -Q_- != 0 (nothing here computes Q_+)",
                        "H3": "HYPOTHESIS (not derivable here): the dirac16complex charge is baryon number (or B - L); "
                              "the theory contains no Standard-Model baryons"},
-        "implication": "IF H1-H3 THEN Q_+ + Q_- = 0 at every x4 (Q_- = Q[gamma^8 Psi_+] = -Q_+ by M4, conservation by M1)",
-        "ingredientsComputed": {"gamma8FlipsCurrent": flip, "noetherConservation": cons},
+        "implication": "IF H1-H3 THEN (classical level) Q_+ + Q_- = 0 at every x4 (Q_- = Q[gamma^8 Psi_+] = -Q_+ by "
+                       "M4, the Noether current of L_{-m,-lam} being i sqrt|g| j; conservation by M1) and "
+                       "T^pair = 0 (classical bilinears)",
+        "quantumLevel": "no quantum counterpart with two independent universes: the image field gamma^8 Psi_+ is the "
+                        "same quantum system (own energy +H_+, charge +Q_+, source +T_+; Q_+ + Q[Psi_-] = 0 is an "
+                        "operator identity in every state), and an independently quantised -m field has H' = H_+, "
+                        "Q' = Q_+ in the same occupations (energies add; charges cancel only by an extra assumption "
+                        "on its state; the interaction energy changes sign with lambda -> -lambda)",
+        "ingredientsComputed": {"gamma8FlipsCurrent": flip, "noetherConservation": cons,
+                                "imageFieldIsTheSameQuantumSystem": fock},
         "implicationHoldsGivenIngredients": bool(flip and cons),
         "notPredicted": "the observed baryon-to-photon ratio eta ~ 6e-10 is NOT predicted; no creation process, rate, "
                         "or value of Q_+ is computed",
@@ -2638,19 +2677,23 @@ def m6_scorecard(checks, summary):
     g = summary.get("grassmann", {}) if summary else {}
     c = summary.get("commuting", {}) if summary else {}
     return [
-        {"condition": "1. violation of the conserved charge (baryon number)",
+        {"condition": "1. violation of the conserved charge (applied to the U(1) charge Q, the only candidate; Q "
+                      "stands for baryon number only under H3)",
          "statusInTheoryAsBuilt": "FAILS: Q is exactly conserved in every gravitational field (M1: Noether identity "
-                                  "on curved jets, both statistics)",
+                                  "on curved jets, both statistics; vanishing boundary flux)",
          "computedBy": [k for k in checks if k.startswith("MA_M1_noetherIdentity")],
          "wouldNeed": "a U(1)-breaking term; M3: for Grassmann Psi no invariant mass-type Psi^T M Psi exists (all "
                       "invariant M are symmetric); allowed: the derivative term Psi^T C gamma8 gamma^mu D_mu Psi "
                       "(charge 2) and invariant quartic terms (charge 2, 4); for commuting Psi: Psi^T C Psi, "
                       "Psi^T C gamma8 Psi (charge 2). Not present in L1; not claimed natural."},
         {"condition": "2. C and CP violation",
-         "statusInTheoryAsBuilt": "FAILS: exact charge-flipping symmetries of L exist without reversing x4 "
-                                  "(commuting: C exact = %s; Grassmann: C exact = %s, CP exact = %s)"
+         "statusInTheoryAsBuilt": "FAILS for the Lagrangian: exact charge-flipping symmetries of L exist without "
+                                  "reversing x4 (commuting: C exact = %s, in every background; Grassmann: C exact = "
+                                  "%s, CP exact = %s, in flat space and in backgrounds with the reflection isometry; "
+                                  "a generic gravitational background breaks CP of the Grassmann field, which does "
+                                  "not help because condition 1 fails)"
                                   % (c.get("C_exact"), g.get("C_exact"), g.get("CP_exact_improperSpatialReflection")),
-         "computedBy": ["MA_M2_discreteGroupCharacterTable", "MA_M2_C_and_CP_status"],
+         "computedBy": ["MA_M2_discreteGroupCharacterTable", "MA_M2_C_and_CP_status", "MA_M2_cpScopeInCurvedFields"],
          "wouldNeed": "terms that break every charge-flipping symmetry of the table (none is present in L1)"},
         {"condition": "3. departure from thermal equilibrium",
          "statusInTheoryAsBuilt": "NOT ADDRESSED by an exact computation here; the Kohn-Sham states of Stages 4/5 are "
@@ -2665,7 +2708,8 @@ def m6_scorecard(checks, summary):
 # ---------------------------------------------------------------------------
 
 def run_checks(fixture_path=DEFAULT_FIXTURE, theory_path=DEFAULT_THEORY, pairing_path=DEFAULT_PAIRING,
-               pairing_report_path=DEFAULT_PAIRING_REPORT, families=None, quick=False):
+               pairing_report_path=DEFAULT_PAIRING_REPORT, families=None, quick=False,
+               pairing_python_report_path=DEFAULT_PAIRING_PYTHON_REPORT):
     families = list(FAMILIES) if families is None else families
     checks, measurements, inputs, timings, exceptions = {}, {}, {}, {}, {}
     start = time.time()
@@ -2717,7 +2761,7 @@ def run_checks(fixture_path=DEFAULT_FIXTURE, theory_path=DEFAULT_THEORY, pairing
     if "M4" in families:
         def m4():
             rec = check_M4(alg, quick=quick, geo=geo_a)
-            info, inp = stage5_pairing(pairing_path, pairing_report_path)
+            info, inp = stage5_pairing(pairing_path, pairing_report_path, pairing_python_report_path)
             inputs.update(inp)
             rec.measure("stage5Pairing", info)
             own["M4"] = rec.measurements
@@ -2729,8 +2773,11 @@ def run_checks(fixture_path=DEFAULT_FIXTURE, theory_path=DEFAULT_THEORY, pairing
                                     "symmetry, so Q is conserved in every gravitational field and no dynamics of "
                                     "the theory creates a net charge inside one universe (Sakharov's first "
                                     "condition fails); exact charge-flipping C or CP symmetries exist (second "
-                                    "condition fails). The gamma^8 pair has total charge 0 and total classical "
-                                    "energy-momentum 0; under hypotheses H1-H3 (not derived) this would give a "
+                                    "condition fails). The gamma^8 pair of two independent classical fields "
+                                    "(second member with the Lagrangian +L_{-m,-lambda}) has total charge 0 and "
+                                    "total classical energy-momentum 0; at the quantum level no reading gives a "
+                                    "cancellation between two independent universes (the image field is the same "
+                                    "system). Under hypotheses H1-H3 (not derived) the classical pair would give a "
                                     "global symmetry with local asymmetry, without predicting eta ~ 6e-10.")
     if theory_path and os.path.exists(theory_path) and "M2" in families and "M3" in families:
         t0 = time.time()
@@ -2814,6 +2861,8 @@ def main(argv=None):
     parser.add_argument("--fixture", default=DEFAULT_FIXTURE)
     parser.add_argument("--pairing", default=DEFAULT_PAIRING, help="Stage-5 pairing-theory.json (read when present)")
     parser.add_argument("--pairing-report", default=DEFAULT_PAIRING_REPORT)
+    parser.add_argument("--pairing-python-report", default=DEFAULT_PAIRING_PYTHON_REPORT,
+                        help="Stage-5 python-pairing-report.json (read when present)")
     parser.add_argument("--families", default=",".join(FAMILIES))
     parser.add_argument("--quick", action="store_true", help="one curved geometry in M1, chain generators in quartics")
     parser.add_argument("--no-write", action="store_true")
@@ -2825,7 +2874,8 @@ def main(argv=None):
         return 2
     checks, measurements, inputs, timings = run_checks(
         fixture_path=arguments.fixture, theory_path=arguments.theory, pairing_path=arguments.pairing,
-        pairing_report_path=arguments.pairing_report, families=families, quick=arguments.quick)
+        pairing_report_path=arguments.pairing_report, families=families, quick=arguments.quick,
+        pairing_python_report_path=arguments.pairing_python_report)
     report = build_report(checks, measurements, inputs)
     lines, failed = report_lines(report)
     for line in lines:
