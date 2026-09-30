@@ -25,6 +25,12 @@ every check of every report is true, both agreement checks are present and true,
 key measurement disagrees.  Standard library only; deterministic LF output.
 
 Usage (from any directory):  python scripts/build_stage1_summary.py [--output PATH]
+                                 [--reports-directory DIR]
+
+--reports-directory (default artifacts/dirac16complex/arbitrary-field) is the directory
+the five reports and the fixture are read from.  The public-clone mode of
+scripts/verify_stage1_arbitrary_field.{sh,ps1} passes build/stage1, where it has
+regenerated them; the paths recorded in "reports" and "fixture" are then those under DIR.
 """
 
 import argparse
@@ -309,11 +315,15 @@ NOT_COMPARABLE = (
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
+    parser.add_argument("--reports-directory", default=ARTIFACTS,
+                        help="directory of the five reports and algebra-fixture.json "
+                             "(default: artifacts/dirac16complex/arbitrary-field)")
     arguments = parser.parse_args(argv)
+    reports_directory = os.path.abspath(arguments.reports_directory)
 
     reports, meta = {}, {}
     for prefix, name in REPORTS:
-        path = os.path.join(ARTIFACTS, name)
+        path = os.path.join(reports_directory, name)
         if not os.path.exists(path):
             print("error=missing report %s" % relative(path))
             return 2
@@ -323,7 +333,7 @@ def main(argv=None):
             return 2
         reports[prefix] = document
         meta[prefix] = {"path": relative(path), "sha256": digest, "producer": document.get("producer")}
-    fixture, fixture_digest = load(os.path.join(ARTIFACTS, FIXTURE))
+    fixture, fixture_digest = load(os.path.join(reports_directory, FIXTURE))
 
     checks, counts, failed = {}, {}, []
     for prefix, _ in REPORTS:
@@ -385,7 +395,7 @@ def main(argv=None):
         "producer": PRODUCER,
         "stage": "Stage 1: dirac16complex in an arbitrary gravitational field",
         "reports": meta,
-        "fixture": {"path": relative(os.path.join(ARTIFACTS, FIXTURE)), "sha256": fixture_digest},
+        "fixture": {"path": relative(os.path.join(reports_directory, FIXTURE)), "sha256": fixture_digest},
         "counts": dict(counts, total={"checks": len(checks), "passed": len(checks) - len(failed),
                                       "failed": len(failed)}),
         "checks": checks,

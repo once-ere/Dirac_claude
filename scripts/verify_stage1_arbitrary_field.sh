@@ -34,7 +34,8 @@
 # (--wolfram-report=), because the Wolfram report on disk may predate this
 # run; step 07 repeats it against the report written by step 03.  The unit
 # test steps run the Stage 1 test files only (tests/test_d16c_[ag]*.py, i.e.
-# algebra, geometry and the arbitrary-field publication test, and
+# algebra, geometry, the arbitrary-field publication test and the tests of
+# the public-clone audit and of scripts/run_with_report_path.py, and
 # tests/test_publication_tooling.py); Stage 2 and Stage 3 tests have their
 # own gates.
 # Step 12 runs tests/test_d16c_arbitrary_field_publication.py once more, after
@@ -51,6 +52,46 @@
 # and Git Bash on 2026-09-25), whereas "wolframscript -file s.wls r.json"
 # gives {"s.wls", "r.json"}.  Scripts that filter "--" out of
 # Rest[$ScriptCommandLine] read the path the same way in both forms.
+#
+# dirac-main and the public-clone mode.  The algebra verifiers cross-check
+# three exact fixtures of dirac-main (the separately published
+# https://github.com/once-ere/dirac, read here only as a reference input):
+# dirac-main/artifacts/exact/{cl44-seed,split-octonion,triality44}.json.
+# dirac-main/ is git-ignored, so a fresh clone of this repository does not
+# contain it.  The gate first prints stage1_dirac_main=present|absent
+# (present = all three files exist).
+#   present: the gate runs exactly as described above; it rewrites the
+#     committed reports and stage1-summary.json in place, and the unit tests
+#     then compare them with the recorded hashes.
+#   absent ("public-clone mode"): without dirac-main the verifiers record
+#     those cross-checks as "not-run", so the reports they write cannot equal
+#     the committed ones.  The gate therefore writes every regenerated file
+#     into build/stage1/ (emptied first) and leaves the committed reports,
+#     stage1-summary.json and the provenance .tex/.pdf with their committed
+#     bytes: step 01 --output, steps 02 and 07 --output, steps 03 and 04 the
+#     positional report path, steps 05 and 06 through
+#     scripts/run_with_report_path.py (both scripts write to a fixed path,
+#     and adding an option to them would change their sha256, which the
+#     committed reports and the document record), step 10
+#     --reports-directory build/stage1.  The Wolfram and Python algebra
+#     verifiers still read the committed algebra-fixture.json, which step 13
+#     requires to be byte-identical to the one step 01 regenerates.  Steps
+#     08, 09, 11 and 12 are the same as in the other mode, so the unit tests
+#     check the committed reports against the recorded hashes; step 11 checks
+#     the committed document in verify mode and rewrites the .tex/.pdf with
+#     the same bytes.  The rewritten-during-this-run and every-check-true
+#     audits described above apply to the files in build/stage1/.  The extra
+#     step 13 (stage1-13-public-clone-audit) runs
+#     scripts/verify_stage1_public_clone_audit.py, which requires each file
+#     regenerated in build/stage1/ to equal the committed one byte for byte,
+#     or value for value except for the differences the missing dirac-main
+#     causes: dirac-main cross-checks true -> "not-run", the dirac-main
+#     entries of referenceFilesPresent and sourceSha256, hashes of files that
+#     differ only for these reasons, and the build/stage1/ input paths the
+#     regenerated reports record (its docstring lists the exact rules).  The
+#     gate then prints
+#       stage1_skipped=dirac-main cross-checks (...)
+#     before stage1_arbitrary_field_verification=OK.  Nothing else is skipped.
 set -euo pipefail
 
 skip_provenance_pdf=0
@@ -69,6 +110,15 @@ repository_root="$(cd -- "$script_dir/.." && pwd)"
 cd -- "$repository_root"
 gate_started_epoch="$(date +%s)"
 export PYTHONUTF8=1
+
+dirac_main=present
+for dirac_main_file in \
+    dirac-main/artifacts/exact/cl44-seed.json \
+    dirac-main/artifacts/exact/split-octonion.json \
+    dirac-main/artifacts/exact/triality44.json; do
+    [[ -f "$dirac_main_file" ]] || dirac_main=absent
+done
+printf 'stage1_dirac_main=%s\n' "$dirac_main"
 
 stop_gate() {
     # stop_gate STEP LOG REASON [CODE]
@@ -184,19 +234,37 @@ run_step() {
 }
 
 artifact_directory=artifacts/dirac16complex/arbitrary-field
-algebra_report=$artifact_directory/wolfram-algebra-report.json
-geometry_report=$artifact_directory/wolfram-geometry-report.json
-python_algebra_report=$artifact_directory/python-algebra-report.json
-python_geometry_report=$artifact_directory/python-geometry-report.json
-grassmann_report=$artifact_directory/grassmann-demo-report.json
-summary_report=$artifact_directory/stage1-summary.json
+# The directory the reports are written to: the committed one, or build/stage1
+# in public-clone mode (see the header).
+report_directory=$artifact_directory
+if [[ "$dirac_main" == absent ]]; then
+    report_directory=build/stage1
+    rm -rf -- "$report_directory"
+    mkdir -p -- "$report_directory"
+fi
+algebra_report=$report_directory/wolfram-algebra-report.json
+geometry_report=$report_directory/wolfram-geometry-report.json
+python_algebra_report=$report_directory/python-algebra-report.json
+python_geometry_report=$report_directory/python-geometry-report.json
+grassmann_report=$report_directory/grassmann-demo-report.json
+summary_report=$report_directory/stage1-summary.json
 provenance_markdown=provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.md
 
-run_step stage1-01-build-fixture 0 \
-    "$python_command" scripts/build_dirac16complex_fixture.py
-# Python-only pass: the Wolfram report on disk may predate this run.
-run_step stage1-02-check-algebra 0 \
-    "$python_command" scripts/check_dirac16complex_algebra.py --wolfram-report=
+if [[ "$dirac_main" == present ]]; then
+    run_step stage1-01-build-fixture 0 \
+        "$python_command" scripts/build_dirac16complex_fixture.py
+    # Python-only pass: the Wolfram report on disk may predate this run.
+    run_step stage1-02-check-algebra 0 \
+        "$python_command" scripts/check_dirac16complex_algebra.py --wolfram-report=
+else
+    run_step stage1-01-build-fixture 0 \
+        "$python_command" scripts/build_dirac16complex_fixture.py \
+        --output "$report_directory/algebra-fixture.json"
+    # Python-only pass: the Wolfram report on disk may predate this run.
+    run_step stage1-02-check-algebra 0 \
+        "$python_command" scripts/check_dirac16complex_algebra.py --wolfram-report= \
+        --output "$python_algebra_report"
+fi
 # No "--" before the report path: WolframScript 1.14.0 drops "--" and every
 # argument after it from $ScriptCommandLine (see the header).
 run_step stage1-03-wolfram-algebra 1 \
@@ -205,23 +273,42 @@ run_step stage1-03-wolfram-algebra 1 \
 run_step stage1-04-wolfram-geometry 1 \
     "$wolframscript_command" -file scripts/verify_dirac16complex_geometry.wls \
     "$geometry_report"
-# Reads the Wolfram geometry report written by step 04 (GEO_wolframAgreement).
-run_step stage1-05-check-geometry 0 \
-    "$python_command" scripts/check_dirac16complex_geometry.py \
-    --wolfram-report "$geometry_report"
-run_step stage1-06-grassmann-demo 0 \
-    "$python_command" scripts/demo_grassmann_lagrangians.py
-# Reads the Wolfram algebra report written by step 03 (ALG_wolframAgreement).
-run_step stage1-07-check-algebra-crosscheck 0 \
-    "$python_command" scripts/check_dirac16complex_algebra.py \
-    --wolfram-report "$algebra_report"
+# Step 05 reads the Wolfram geometry report written by step 04
+# (GEO_wolframAgreement), step 07 the Wolfram algebra report written by step 03
+# (ALG_wolframAgreement).
+if [[ "$dirac_main" == present ]]; then
+    run_step stage1-05-check-geometry 0 \
+        "$python_command" scripts/check_dirac16complex_geometry.py \
+        --wolfram-report "$geometry_report"
+    run_step stage1-06-grassmann-demo 0 \
+        "$python_command" scripts/demo_grassmann_lagrangians.py
+    run_step stage1-07-check-algebra-crosscheck 0 \
+        "$python_command" scripts/check_dirac16complex_algebra.py \
+        --wolfram-report "$algebra_report"
+else
+    run_step stage1-05-check-geometry 0 \
+        "$python_command" scripts/run_with_report_path.py "$python_geometry_report" \
+        scripts/check_dirac16complex_geometry.py --wolfram-report "$geometry_report"
+    run_step stage1-06-grassmann-demo 0 \
+        "$python_command" scripts/run_with_report_path.py "$grassmann_report" \
+        scripts/demo_grassmann_lagrangians.py
+    run_step stage1-07-check-algebra-crosscheck 0 \
+        "$python_command" scripts/check_dirac16complex_algebra.py \
+        --wolfram-report "$algebra_report" --output "$python_algebra_report"
+fi
 run_step stage1-08-python-tests 0 \
     "$python_command" -m unittest discover -s tests -p 'test_d16c_[ag]*.py' -v
 run_step stage1-09-publication-tests 0 \
     "$python_command" -m unittest discover -s tests \
     -p 'test_publication_tooling.py' -v
-run_step stage1-10-summary 0 \
-    "$python_command" scripts/build_stage1_summary.py --output "$summary_report"
+if [[ "$dirac_main" == present ]]; then
+    run_step stage1-10-summary 0 \
+        "$python_command" scripts/build_stage1_summary.py --output "$summary_report"
+else
+    run_step stage1-10-summary 0 \
+        "$python_command" scripts/build_stage1_summary.py --output "$summary_report" \
+        --reports-directory "$report_directory"
+fi
 if ((skip_provenance_pdf == 0)); then
     run_step stage1-11-provenance-pdf 0 \
         "$python_command" scripts/build_provenance_pdf.py "$provenance_markdown"
@@ -229,6 +316,12 @@ if ((skip_provenance_pdf == 0)); then
     run_step stage1-12-publication-recheck 0 \
         "$python_command" -m unittest discover -s tests \
         -p 'test_d16c_arbitrary_field_publication.py' -v
+fi
+if [[ "$dirac_main" == absent ]]; then
+    # Compares every file regenerated in build/stage1 with the committed one.
+    run_step stage1-13-public-clone-audit 0 \
+        "$python_command" scripts/verify_stage1_public_clone_audit.py \
+        --committed "$artifact_directory" --regenerated "$report_directory"
 fi
 
 outputs=(
@@ -309,6 +402,11 @@ for output in "${outputs[@]}"; do
     printf 'stage1_sha256=%s  %s\n' \
         "$(sha256sum -- "$output" | cut -d' ' -f1)" "$output"
 done
+if [[ "$dirac_main" == absent ]]; then
+    printf '%s %s\n' \
+        'stage1_skipped=dirac-main cross-checks (dirac-main/ is a git-ignored' \
+        'reference input, not in the repository; see stage1_audit_not_run in build/logs/stage1-13-public-clone-audit-bash.log)'
+fi
 if ((skip_provenance_pdf == 1)); then
     printf 'stage1_skipped_step=stage1-11-provenance-pdf,stage1-12-publication-recheck (--skip-provenance-pdf; %s not built or checked)\n' \
         "$provenance_markdown"

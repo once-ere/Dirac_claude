@@ -20,7 +20,10 @@ scripts/verify_stage1_arbitrary_field.{ps1,sh} before step 08 runs these tests;
 stage1-summary.json is rewritten by step 10, and step 12 runs this file again
 after steps 10 and 11, so the summary hash quoted in the document is compared with
 the summary written by the same gate run).  The dirac-main reference files are
-compared only when the git-ignored dirac-main folder is present.
+compared only when the git-ignored dirac-main folder is present.  Without it the
+gate runs in its public-clone mode: it writes the regenerated files into
+build/stage1/ instead, so these tests check the committed reports and summary, and
+scripts/verify_stage1_public_clone_audit.py compares the regenerated files with them.
 
 After an intended edit of the document: rebuild and register it with
     python scripts/build_provenance_pdf.py --register provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.md
@@ -60,8 +63,8 @@ REPORT_FILES = {
 SUMMARY = ARTIFACTS / "stage1-summary.json"
 FIXTURE = ARTIFACTS / "algebra-fixture.json"
 
-MARKDOWN_SHA256 = "f16c20ad4b324e800ed4018af099900b7b45a53b63aca590f6e2bd61a1b67076"
-TEX_SHA256 = "66e3319061f7ebce7f2d56d61cfcadb820323abdca4128b897d7696397559fb9"
+MARKDOWN_SHA256 = "2997c4353afd4a05ba1b6f86f043901c9b4c7ea193fb24ce964113ab6ec044ef"
+TEX_SHA256 = "4b4d15bbacc4ec981cc2eb3f7af7961780a75ed28cf30ceb081dc8792232de88"
 
 TITLE = ("dirac16complex: a complex Grassmann spinor of Pin(4,4) in an arbitrary "
          "gravitational field")
