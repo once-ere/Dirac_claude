@@ -1388,6 +1388,50 @@ def check_M2(alg, quick=False, geo_curved=None, geo_diag=None):
     rec.check("internalMapsAsDerived", all((table["%s | %s" % k]["sigmaK"], table["%s | %s" % k]["sigmaS"],
                                             table["%s | %s" % k]["chargeSign_q4"]) == v for k, v in exp_int.items()),
               "hand derivation: C0 gives (sigmaK, sigmaS, q) = (eps, eps, -eps); C8 = C0 o chirality")
+    # (c) scope of CP in a gravitational field.  The exact CP maps of the Grassmann field (C8 P_b, C8 P_123)
+    # act in frame form together with the frame change e -> e diag(r).  (i) At a FIXED frame of the generic
+    # field G_A (which has no reflection isometry) their internal part Gamma_{R^c} Psi^* maps L to none of
+    # +-L_{+-m,+-lam}; with the reflection the same matrix gives the exact, charge-reversing map (flat
+    # criterion).  (ii) Every diag(r) with an odd number of reflected space-like directions has space-block
+    # determinant -1, so it lies outside SO_0(4,4) (not a local Lorentz transformation), and (iii) neither
+    # linear Pin lift of such a diag(r) is an exact symmetry of the Grassmann L, so the frame change cannot be
+    # undone by a symmetry: the rule relates the theories on the frames e and e diag(r).
+    fixed = {}
+    ok_fixed = True
+    cp_sets = {"C8P_%d" % b: [b] for b in range(4)}
+    cp_sets["C8P_123"] = [1, 2, 3]
+    for name, axes in cp_sets.items():
+        comp = [a for a in range(8) if a not in axes]
+        M = pin_product(alg, comp)
+        jc = jet_characters(alg, geo_curved, "grassmann", M, None, True)
+        mc = matrix_characters(alg, M, lam_matrix(diag_signs(axes)), True, "grassmann")
+        not_form = not (jc["sigmaK"] in (1, -1) and jc["sigmaS"] in (1, -1))
+        good = not_form and mc is not None and (mc["sigmaK"], mc["sigmaS"]) == (1, 1) and mc["q"][4] == -1
+        ok_fixed = ok_fixed and good
+        fixed[name] = {"monomial": comp, "fixedFrame_" + geo_curved.name: lagrangian_map_text(jc["sigmaK"], jc["sigmaS"]),
+                       "kineticSignRelation": jc["sigmaK"], "scalarSignRelation": jc["sigmaS"],
+                       "withReflection": lagrangian_map_text(mc["sigmaK"], mc["sigmaS"]) if mc else None,
+                       "chargeSignWithReflection": mc["q"][4] if mc else None}
+    odd_sets = [[a for a in range(8) if mask >> a & 1] for mask in range(256)]
+    odd_sets = [R for R in odd_sets if len([a for a in R if a < 4]) % 2 == 1]
+    det_space = all(int(np.prod(diag_signs(R)[:4])) == -1 for R in odd_sets)
+    lifts_not_exact = True
+    for R in odd_sets:
+        Lam = lam_matrix(diag_signs(R))
+        for with_g8 in (False, True):
+            mc = matrix_characters(alg, pin_product(alg, R, with_g8), Lam, False, "grassmann")
+            lifts_not_exact = lifts_not_exact and mc is not None and (mc["sigmaK"], mc["sigmaS"]) != (1, 1)
+    rec.check("cpScopeInCurvedFields", ok_fixed and det_space and lifts_not_exact and len(odd_sets) == 128,
+              {"internalPartAtFixedFrame": fixed,
+               "frameChangesWithOddSpatialReflections": len(odd_sets),
+               "spaceBlockDeterminantMinusOne": det_space,
+               "linearPinLiftsNotExact": lifts_not_exact,
+               "statement": "CP (C8 P_b, C8 P_123) is an exact symmetry of the Grassmann L in flat space and in "
+                            "backgrounds with the corresponding reflection isometry; in a generic gravitational "
+                            "field its frame form relates the theories on the frames e and e diag(r) (diag(r) "
+                            "outside SO_0(4,4), not undone by any linear Pin lift), and at a fixed frame its "
+                            "internal part is not a symmetry: the background breaks it. The commuting field keeps "
+                            "C0 (R empty) in every background (internalMapsCurvedJets)."})
     return rec, flat, geo_curved, table
 
 
@@ -1539,15 +1583,29 @@ def check_M2_group(alg, rec):
     inv = next(x for x in rows if x["axes"] == list(range(8)) and not x["gamma8"] and not x["antilinear"])
     lifts["rotationByPiInX4X5"] = {s: r45[s] for s in STATISTICS}
     lifts["totalInversion"] = {s: inv[s] for s in STATISTICS}
+    # quantised Grassmann field: both maps give M B M^dagger = -B (x4 reversed: antiunitary type, Section 5.6)
+    # and M^T B M = -B; for an antiunitary A with A Psi(x) A^-1 = M Psi(Rx) (M real),
+    # A J^4 A^-1 = Psi^dagger M^T B^* M Psi = -Psi^dagger M^T B M Psi = +J^4(Rx): the quantum charge is kept
+    Bi = alg.B_imag                                          # B = i Bi, Bi real antisymmetric, B^* = -B
+    quantum = {}
+    for name, M in (("exp(pi S^45) = gamma4 gamma5", alg.gam[4] @ alg.gam[5]), ("gamma8 (total inversion)", alg.g8)):
+        quantum[name] = {"M B M^dagger = -B": bool(np.array_equal(M @ Bi @ M.T, -Bi)),
+                         "M^T B M = -B": bool(np.array_equal(M.T @ Bi @ M, -Bi)),
+                         "M^T B^* M = +B (antiunitary conjugation keeps J^4)": bool(np.array_equal(M.T @ (-Bi) @ M, Bi))}
+    lifts["quantisedGrassmannField"] = quantum
     rec.check("spin0ContainsChargeReversingTimeRotation",
               all(v for k, v in lifts.items() if isinstance(v, bool)) and
               all(r45[s]["sigmaK"] == 1 and r45[s]["sigmaS"] == 1 and r45[s]["q"][4] == -1 and
-                  inv[s]["sigmaK"] == 1 and inv[s]["sigmaS"] == 1 and inv[s]["q"][4] == -1 for s in STATISTICS),
+                  inv[s]["sigmaK"] == 1 and inv[s]["sigmaS"] == 1 and inv[s]["q"][4] == -1 for s in STATISTICS) and
+              all(all(v.values()) for v in quantum.values()),
               {"facts": lifts,
                "meaning": "in signature (4,4) the identity component of the symmetry group of L contains elements "
-                          "that reverse x4 (rotation by pi in the time-like (x4, x5) plane): the sign of the charge "
-                          "Q of the x4 slicing is not invariant under Spin_0(4,4); these maps reverse x4 and are "
-                          "therefore not C or CP in Sakharov's sense"})
+                          "that reverse x4 (rotation by pi in the time-like (x4, x5) plane): for the classical "
+                          "fields they reverse j^4, so the sign of the classical charge Q of the x4 slicing is not "
+                          "invariant under Spin_0(4,4); after quantization of the Grassmann field they are of "
+                          "antiunitary type (M B M^dagger = -B) and keep J^4 at the reflected point, so the quantum "
+                          "charge is preserved, as under time reversal; these maps reverse x4 and are not C or CP "
+                          "in Sakharov's sense"})
     rec.check("discreteGroupCharacterTable", complete and len(rows) == 1024, summary)
     # homomorphism property: T_{g1} T_{g2} Psi(x) = R1 R2 Psi^{(*)}(Lam2 Lam1 x) has the product characters
     rng = random.Random(SEED + 11)
@@ -1573,7 +1631,9 @@ def check_M2_group(alg, rec):
                             "(C8 composed with an odd spatial Pin reflection); C exact at m = 0",
                "commuting": "C0 (Psi -> Psi^*) is exact and flips the charge",
                "consequence": "for both statistics an exact symmetry of L maps charge Q to -Q without reversing "
-                              "x4: Sakharov's second condition (C and CP violation) fails for L as built"})
+                              "x4 (commuting: C0 in every background; Grassmann: CP in flat space and in "
+                              "backgrounds with the reflection isometry, see cpScopeInCurvedFields): Sakharov's "
+                              "second condition (C and CP violation) fails for L as built"})
     # canonical structure of the quantised Grassmann field, {Psi_a, Psi^dagger_b} = B_ab delta (Gaussian normal
     # gauge): Psi -> R Psi (Lam x) preserves it with a unitary (antiunitary) implementation iff R B R^dagger = +B
     # (-B); Psi -> R Psi^{dagger T}(Lam x) iff R B^T R^dagger = +B (-B) (antiunitary maps conjugate B, B^* = -B)
@@ -1600,9 +1660,10 @@ def check_M2_group(alg, rec):
               not canon["other"] and canon["unitary_preservesX4"] + canon["antiunitary_reversesX4"] == 256 and
               canon["C8_unitary"] and canon["C0_antiunitaryType"],
               {"counts": canon, "statement": "every exact symmetry of the Grassmann L (256 of the 1024 maps) preserves "
-               "the canonical anticommutator {Psi, Psi^dagger} = B: with a unitary implementation when it preserves "
-               "x4 and an antiunitary one when it reverses x4; the charge-flipping C8 o P (x4 preserved) is unitary. "
-               "Implementability on the positive (J = B) Fock space is not decided here"})
+               "the canonical anticommutator {Psi, Psi^dagger} = B: as a linear (unitary-type) automorphism when it "
+               "preserves x4 and as an antilinear (antiunitary-type) one when it reverses x4; the charge-flipping "
+               "C8 o P (x4 preserved) is of unitary type. Implementation by a unitary or antiunitary operator on the "
+               "positive (J = B) Fock space is not decided here"})
     # charge conjugation combined with spatial parities P_A (A = {1}, {1,2,3}, {0,1,2,3}), both internal choices
     cp = {}
     for axes in ([1], [1, 2, 3], [0, 1, 2, 3]):
@@ -1980,6 +2041,8 @@ def check_M4(alg, quick=False, geo=None):
     rec.check("gamma8EMTPairing", ok_emt)
     krein = krein_mode_facts(alg)
     rec.check("kreinModeFacts", krein["ok"], krein)
+    fock = image_field_fock_model(alg)
+    rec.check("imageFieldFockModel", fock["ok"], fock)
     return rec
 
 
@@ -2039,10 +2102,207 @@ def krein_mode_facts(alg):
     out["reading"] = ("gamma^8 maps the positive-energy space of h_k(m) onto that of h_k(-m) (same energy E), "
                       "reverses the Krein form f^dagger B h (the classical charge density u^dagger B u) and "
                       "preserves the Hilbert norm u^dagger u (the Fock charge of a positive-energy mode under "
-                      "the Stage-1 expectation rule <Psi^dagger B Psi> = u^dagger B B u = u^dagger u). Which "
-                      "of the two is the charge of the -M universe depends on the canonical structure assigned "
-                      "to it; this checker does not decide it (Krein-level mapping: see stage5Pairing)")
+                      "the Stage-1 expectation rule <Psi^dagger B Psi> = u^dagger B B u = u^dagger u). The "
+                      "column imageWithMetricMinusB gives the expectation values of the L_{-m,-lambda} formulas "
+                      "H[Psi_-; -m], Q[Psi_-], S[Psi_-] under the image anticommutator -B; they are not the "
+                      "image field's own energy and charge, which are +H_+ and +Q_+ (imageFieldFockModel)")
     return out
+
+
+def image_field_fock_model(alg):
+    """Exact four-mode Fock model of the good sector: the canonical structure of the image field.
+
+    Four modes v_n, joint eigenvectors of h_k(m) (eigenvalue eps_n = +-E) and B (Krein sign beta_n = +-1),
+    are realised on the 16-dimensional Fock space of four fermionic modes a_n (Jordan-Wigner, exact
+    Gaussian rationals, sympy DomainMatrix over QQ_I): Psi = sum_n v_n a_n / N_n and
+    Psi^K = sum_n v_n^dagger beta_n a_n^dagger (N_n = v_n^dagger v_n), i.e. the Krein CAR
+    {b_n, b_n^K} = beta_n with b_n = a_n, b_n^K = beta_n a_n^dagger, so {Psi_c, Psi^K_d} = (B P)_{cd} with P the
+    projector on the four modes and i d_4 Psi = h Psi.  Every bilinear X[Psi] = sum_{cd} Psi^K_c X_{cd} Psi_d is
+    a genuine operator product.  The image field Psi_- = gamma^8 Psi, Psi_-^K = Psi^K gamma^8 lives on the same
+    Fock space; the independently quantised -m field Psi' = sum_n w_n a_n / N_n, w_n = gamma^8 v_n, with its
+    own Krein signs w_n^dagger B w_n / N_n, is identified with it mode by mode (the same occupations).  For
+    {Psi, Psi^K} = G one has [Psi, Psi^K X Psi] = G X Psi; the generator of i d_4 Psi_- = h(-m) Psi_- is
+    therefore the bilinear whose commutator with Psi_- gives h(-m) Psi_-."""
+    from sympy.polys.domains import QQ_I
+
+    def gi(re, im=0):
+        return QQ_I(QQ(Fraction(re).numerator, Fraction(re).denominator),
+                    QQ(Fraction(im).numerator, Fraction(im).denominator))
+
+    def dmat(rows):
+        return DomainMatrix([[v if not isinstance(v, (int, np.integer, Fraction)) else gi(v) for v in row]
+                             for row in rows], (len(rows), len(rows[0])), QQ_I).to_sparse()
+
+    def conj(z):
+        return QQ_I(z.x, -z.y)
+
+    def herm(M):
+        rows = M.to_list()
+        return DomainMatrix([[conj(rows[i][j]) for i in range(len(rows))] for j in range(len(rows[0]))],
+                            (len(rows[0]), len(rows)), QQ_I).to_sparse()
+
+    def real_int(A):
+        return dmat([[gi(int(v)) for v in row] for row in np.array(A).tolist()])
+
+    G = [real_int(alg.gam[a]) for a in range(8)]
+    G8 = real_int(alg.g8)
+    Cm = real_int(alg.C)
+    Bm = dmat([[gi(0, int(v)) for v in row] for row in alg.B_imag.tolist()])     # B = i * B_imag
+    I16 = DomainMatrix.eye(16, QQ_I).to_sparse()
+    nmodes, dim = 4, 16
+    zero_f = DomainMatrix.zeros((dim, dim), QQ_I).to_sparse()
+    eye_f = DomainMatrix.eye(dim, QQ_I).to_sparse()
+    a_ops = []
+    for n in range(nmodes):
+        rows = [[gi(0)] * dim for _ in range(dim)]
+        for s in range(dim):
+            if s >> n & 1:
+                rows[s ^ (1 << n)][s] = gi((-1) ** bin(s & ((1 << n) - 1)).count("1"))
+        a_ops.append(dmat(rows))
+    ad_ops = [herm(x) for x in a_ops]
+    car = all((a_ops[i] * ad_ops[j] + ad_ops[j] * a_ops[i] - (eye_f if i == j else zero_f)).is_zero_matrix and
+              (a_ops[i] * a_ops[j] + a_ops[j] * a_ops[i]).is_zero_matrix for i in range(nmodes) for j in range(nmodes))
+
+    def field(vecs, norms, signs):
+        psi = [zero_f for _ in range(16)]
+        psik = [zero_f for _ in range(16)]
+        for n, (v, nv, bt) in enumerate(zip(vecs, norms, signs)):
+            col = v.to_list()
+            for c in range(16):
+                if col[c][0] != gi(0):
+                    psi[c] = psi[c] + a_ops[n] * (col[c][0] / nv)
+                    psik[c] = psik[c] + ad_ops[n] * (conj(col[c][0]) * gi(bt))
+        return psi, psik
+
+    def bil(psik, X, psi):
+        rows = X.to_list()
+        op = zero_f
+        for c in range(16):
+            for d in range(16):
+                if rows[c][d] != gi(0):
+                    op = op + psik[c] * psi[d] * rows[c][d]
+        return op
+
+    def apply(Mx, psi):
+        rows = Mx.to_list()
+        out = []
+        for c in range(16):
+            op = zero_f
+            for d in range(16):
+                if rows[c][d] != gi(0):
+                    op = op + psi[d] * rows[c][d]
+            out.append(op)
+        return out
+
+    def comm(x, y):
+        return x * y - y * x
+
+    def eq_ops(xs, ys):
+        return all((x - y).is_zero_matrix for x, y in zip(xs, ys))
+
+    def car_matrix(psi, psik, target):
+        rows = target.to_list()
+        return all((psi[c] * psik[d] + psik[d] * psi[c] - eye_f * rows[c][d]).is_zero_matrix and
+                   (psi[c] * psi[d] + psi[d] * psi[c]).is_zero_matrix for c in range(16) for d in range(16))
+
+    samples, ok = [], car
+    for m, k in ((1, (0, 0, 0, 0)), (1, (1, 1, 2, 3))):
+        E2 = m * m + sum(x * x for x in k)
+        E = int(round(E2 ** 0.5))
+        assert E * E == E2
+        def h(mass):
+            H = G[4] * gi(0, -mass)
+            for j in range(4):
+                H = H - G[4] * G[j] * gi(k[j])
+            return H
+        hp, hm = h(m), h(-m)
+        vecs, norms, eps, betas = [], [], [], []
+        for e in (1, -1):
+            for bt in (1, -1):
+                Pr = (I16 + hp * gi(Fraction(e, E))) * (I16 + Bm * gi(bt)) * gi(Fraction(1, 4))
+                cols = [Pr.extract(list(range(16)), [j]) for j in range(16)]
+                v = next(cv for cv in cols if not cv.is_zero_matrix)
+                vecs.append(v)
+                norms.append((herm(v) * v).to_list()[0][0])
+                eps.append(e * E)
+                betas.append(bt)
+        modes_ok = all((hp * v - v * gi(e)).is_zero_matrix and (Bm * v - v * gi(bt)).is_zero_matrix and
+                       nv.y == 0 and nv.x > 0 for v, nv, e, bt in zip(vecs, norms, eps, betas))
+        P = DomainMatrix.zeros((16, 16), QQ_I).to_sparse()
+        for v, nv in zip(vecs, norms):
+            P = P + v * herm(v) * (gi(1) / nv)
+        psi, psik = field(vecs, norms, betas)
+        car_plus = car_matrix(psi, psik, Bm * P)
+        Hp, Qp, Sp = bil(psik, Bm * hp, psi), bil(psik, Bm, psi), bil(psik, Cm, psi)
+        # the image field on the same Fock space and state
+        psim, psikm = apply(G8, psi), apply(G8.transpose(), psik)
+        Pm = G8 * P * G8
+        car_image = car_matrix(psim, psikm, -(Bm * Pm)) and (G8 * Bm * P * G8 + Bm * Pm).is_zero_matrix
+        conj_h = (G8 * hp * G8 - hm).is_zero_matrix
+        Hm, Qm, Sm = bil(psikm, Bm * hm, psim), bil(psikm, Bm, psim), bil(psikm, Cm, psim)
+        gen_plus = eq_ops([comm(x, Hp) for x in psi], apply(hp, psi))
+        gen_img_reversed = eq_ops([comm(x, Hm) for x in psim], [-y for y in apply(hm, psim)])
+        gen_img_own = eq_ops([comm(x, -Hm) for x in psim], apply(hm, psim))
+        u1_plus = eq_ops([comm(x, Qp) for x in psi], psi)
+        u1_img = eq_ops([comm(x, Qm) for x in psim], [-y for y in psim])
+        identities = (Hm + Hp).is_zero_matrix and (Qm + Qp).is_zero_matrix and (Sm - Sp).is_zero_matrix
+        number = zero_f
+        energy = zero_f
+        for n in range(nmodes):
+            number = number + ad_ops[n] * a_ops[n]
+            energy = energy + ad_ops[n] * a_ops[n] * gi(eps[n])
+        q_is_number = (Qp - number).is_zero_matrix and (Hp - energy).is_zero_matrix
+        q_values = sorted({int(Qp.to_list()[s][s].x) for s in range(dim)})
+        # the independently quantised -m field with its own positive structure (+B)
+        wvecs = [G8 * v for v in vecs]
+        wbetas = [((herm(w) * Bm * w).to_list()[0][0] / nv) for w, nv in zip(wvecs, norms)]
+        signs_flip = [int(b.x) for b in wbetas] == [-b for b in betas] and all(b.y == 0 for b in wbetas)
+        psiw, psikw = field(wvecs, norms, [int(b.x) for b in wbetas])
+        car_indep = car_matrix(psiw, psikw, Bm * (G8 * P * G8))
+        Hw, Qw, Sw = bil(psikw, Bm * hm, psiw), bil(psikw, Bm, psiw), bil(psikw, Cm, psiw)
+        gen_indep = eq_ops([comm(x, Hw) for x in psiw], apply(hm, psiw))
+        indep = (Hw - Hp).is_zero_matrix and (Qw - Qp).is_zero_matrix and (Sw + Sp).is_zero_matrix
+        s2 = Sp * Sp
+        interaction = (Sw * Sw - s2).is_zero_matrix and not s2.is_zero_matrix
+        nonzero = not (Hp.is_zero_matrix or Qp.is_zero_matrix or Sp.is_zero_matrix)
+        good = (modes_ok and car_plus and car_image and conj_h and gen_plus and gen_img_reversed and gen_img_own and
+                u1_plus and u1_img and identities and q_is_number and signs_flip and car_indep and gen_indep and
+                indep and interaction and nonzero and q_values == [0, 1, 2, 3, 4])
+        ok = ok and good
+        samples.append({
+            "m": str(m), "k": [str(x) for x in k], "E": str(E),
+            "modes (eps, beta)": [[e, b] for e, b in zip(eps, betas)],
+            "modesAreJointEigenvectors": modes_ok,
+            "{Psi, Psi^K} = B P": car_plus,
+            "image: {Psi_-, Psi_-^K} = -B P_-": car_image,
+            "gamma8 h(m) gamma8 = h(-m)": conj_h,
+            "[Psi, H_+] = h(m) Psi (H_+ generates i d4 Psi)": gen_plus,
+            "[Psi_-, H[Psi_-;-m]] = -h(-m) Psi_- (reversed evolution)": gen_img_reversed,
+            "[Psi_-, -H[Psi_-;-m]] = h(-m) Psi_- = i d4 Psi_- (own generator -H[Psi_-;-m] = +H_+)": gen_img_own,
+            "[Psi, Q_+] = Psi": u1_plus,
+            "[Psi_-, Q[Psi_-]] = -Psi_- (own U(1) generator -Q[Psi_-] = +Q_+)": u1_img,
+            "operators: H[Psi_-;-m] = -H_+, Q[Psi_-] = -Q_+, S[Psi_-] = S_+": identities,
+            "Q_+ = sum_n a_n^dagger a_n, H_+ = sum_n eps_n a_n^dagger a_n": q_is_number,
+            "Q_+ eigenvalues on the Fock basis (Q_+ + Q[Psi_-] = 0 in every one)": q_values,
+            "independent: Krein signs of w_n = gamma8 v_n are -beta_n": signs_flip,
+            "independent: {Psi', Psi'^K} = B P' (+B structure)": car_indep,
+            "independent: [Psi', H'] = h(-m) Psi' (H' generates its evolution)": gen_indep,
+            "independent: H' = H_+, Q' = Q_+, S' = -S_+": indep,
+            "independent: S'^2 = S_+^2 != 0 (so (-lam/2) S'^2 = -(lam/2) S_+^2)": interaction,
+            "H_+, Q_+, S_+ nonzero operators": nonzero})
+    return {"ok": ok, "fockCAR": car, "samples": samples,
+            "reading": "The image field Psi_- = gamma^8 Psi_+ is the same quantum system as Psi_+ (same operators, Fock "
+                       "space and state). With its own anticommutator -B the L_{-m,-lambda} Hamiltonian "
+                       "H[Psi_-; -m] generates the reversed x4-evolution and Q[Psi_-] the inverse phase, so the image "
+                       "field's own x4-generator and U(1) generator are -H[Psi_-; -m] = +H_+ and -Q[Psi_-] = +Q_+ "
+                       "(its gravitational source, from its canonical Lagrangian -L_{-m,-lambda}, is "
+                       "-T[Psi_-; -m, -lambda] = +T_+ by M4). The relations Q_+ + Q[Psi_-] = 0 and "
+                       "H_+ + H[Psi_-; -m] = 0 are operator identities X + (-X) = 0 valid in every state, including "
+                       "states with Q_+ != 0; they are not a compensation by a second universe. An independently "
+                       "quantised -m field with the +B structure has H' = H_+, Q' = Q_+ and S' = -S_+ in the state "
+                       "with the same occupations: energies add, charges cancel only by an extra assumption on its "
+                       "state, and with (-m, -lambda) its interaction energy (-lambda/2) S'^2 = -(lambda/2) S_+^2 "
+                       "has the opposite sign (equal for the T2 choice (-m, +lambda))."}
 
 
 def hermitian_signature_exact(H):

@@ -1869,12 +1869,12 @@
 			}
 		},
 		"M2_canonicalStructure":{
-			"unitaryChargeConjugation":"M B^T M^dagger = B holds for M = gamma^8 and fails (= -B) for M = I: the unitary charge conjugation of the quantised Grassmann field is C8 (Psi -> gamma^8 Psi^{dagger T}), which maps L_{m,lambda} -> L_{-m,lambda}",
+			"unitaryChargeConjugation":"M B^T M^dagger = B holds for M = gamma^8 and fails (= -B) for M = I: the charge conjugation of the quantised Grassmann field that preserves the canonical anticommutator as a linear (unitary-type) automorphism is C8 (Psi -> gamma^8 Psi^{dagger T}), which maps L_{m,lambda} -> L_{-m,lambda}",
 			"signs M B^T M^dagger / B":{
 				"M=I":-1,
 				"M=gamma8":1
 			},
-			"exactSymmetriesImplementable":"every exact symmetry of the Grassmann theory preserves the canonical anticommutator with a unitary implementation if it preserves x4 and an antiunitary one if it reverses x4 (checked for all exact maps)",
+			"exactSymmetriesImplementable":"every exact symmetry of the Grassmann theory preserves the canonical anticommutator: as a linear (unitary-type) automorphism if it preserves x4 and as an antilinear (antiunitary-type) one if it reverses x4 (checked for all exact maps); whether a unitary or antiunitary operator on the positive (J = B) Fock space implements it is not decided here",
 			"exactGrassmannSymmetriesChecked":256
 		},
 		"M3_spinInvariantMassForms":{
@@ -2136,11 +2136,15 @@
 				"rest: gamma8 E_+(m=1) = E_+(m=-1)":true,
 				"rest: B-form on E_+(1) has signature (4,4)":true,
 				"rest: B-form on E_+(-1) has signature (4,4)":true,
-				"rest: Gram(gamma8 E_+(1)) = - Gram(E_+(1))":true
+				"rest: Gram(gamma8 E_+(1)) = - Gram(E_+(1))":true,
+				"plus field, G = B: B.(B h_k(m)) = h_k(m) and B.B = 1 (H_+ and Q_+ generate x4-evolution and the phase)":true,
+				"image field, G = -B: (-B).(B h_k(-m)) = -h_k(-m) (H[Psi_-; -m] generates the reversed x4-evolution)":true,
+				"image field, G = -B: (-B).B = -1 (Q[Psi_-] generates the inverse phase)":true,
+				"gamma8 (B h_k(-m)) gamma8 = -B h_k(m) (H[gamma8 Psi; -m] = -H[Psi; m], so -H[Psi_-; -m] = +H_+)":true
 			},
-			"statement":"one-particle level of the good sector: gamma^8 maps the positive- (negative-) energy eigenspace of h_k(m) onto the positive- (negative-) energy eigenspace of h_k(-m) (energy sign preserved) and reverses the Krein norm u^dagger B u of every vector; the charge density Psi^dagger B Psi of the image configuration is minus that of the original. Which Fock states of the -M theory the image states are (particles or holes) depends on the canonical structure assigned to the image field (its anticommutator is -B): that Fock-level statement is taken from the Stage-5 pairing report (PAIR_T1krein) if final, otherwise it is OPEN."
+			"statement":"one-particle level of the good sector: gamma^8 maps the positive- (negative-) energy eigenspace of h_k(m) onto the positive- (negative-) energy eigenspace of h_k(-m) (energy sign preserved) and reverses the Krein norm u^dagger B u of every vector; the charge density Psi^dagger B Psi of the image configuration is minus that of the original. Canonical generators (matrix level): with the image anticommutator -B, the L_{-m,-lambda} Hamiltonian H[Psi_-; -m] generates the reversed x4-evolution and Q[Psi_-] the inverse phase, so the image field's own x4-generator is -H[Psi_-; -m] = +H_+ and its own U(1) generator is -Q[Psi_-] = +Q_+: the image field is the same quantum system as Psi_+, with the same energy and charge. The Fock-level statements are cited from the Stage-5 pairing report (PAIR_T1krein) as PROVISIONAL (Stage 5 not gated)."
 		},
-		"M4_kreinLevelStatus":"taken from the Stage-5 pairing report (all of its checks true)",
+		"M4_kreinLevelStatus":"PROVISIONAL: cited from the Stage-5 pairing report (all of its checks true); OPEN until the Stage-5 gate passes (the files carry no finality flag)",
 		"M4_kreinLevelConsistency":{
 			"stage5ImageAnticommutatorMinusB":true,
 			"thisPackageGamma8BGamma8MinusB":true,
@@ -2148,27 +2152,29 @@
 		},
 		"M5_implication":{
 			"hypotheses":{
-				"H1":"ASSUMPTION (not derived): our universe is one member of a gamma^8 pair (Psi_+ with (m, lambda), Psi_- = gamma^8 Psi_+ with (-m, -lambda)) created together; no creation process, rate or amplitude is computed anywhere in this repository",
+				"H1":"ASSUMPTION (not derived): our universe is one member of a pair of two independent classical fields, Psi_+ with the Lagrangian L_{m,lambda} and Psi_- with the Lagrangian +L_{-m,-lambda}, in the same gravitational field and in the correlated configuration Psi_- = gamma^8 Psi_+ (the correlation is the assumption); no creation process, rate or amplitude is computed anywhere in this repository",
 				"H2":"ASSUMPTION (not derived): the creation assigns Q_+ = -Q_- != 0; the relation Q_- = -Q_+ follows from H1 and M4, the value Q_+ != 0 is not computed",
 				"H3":"ASSUMPTION (not derivable): the dirac16complex U(1) charge is identified with baryon number B (or B - L); the theory contains no Standard-Model baryons, quarks or leptons"
 			},
-			"implication":"IF H1, H2, H3 THEN Q_+(x4) + Q_-(x4) = 0 at every x4 (M4 pointwise: sqrt|g| j^4[gamma^8 Psi] = - sqrt|g| j^4[Psi]), each Q_+- is separately conserved (M1), and the excess B_+ = Q_+ seen in one member is exactly compensated by B_- = -Q_+ in the other: a global symmetry with local asymmetry. The pair also carries T^pair_{mu nu} = 0 (M4, classical bilinears).",
+			"implication":"IF H1, H2, H3 THEN (classical level) Q_+(x4) + Q_-(x4) = 0 at every x4 (M4 pointwise: sqrt|g| j^4[gamma^8 Psi] = - sqrt|g| j^4[Psi], and the Noether current of L_{-m,-lambda} is i sqrt|g| j), each Q_+- is separately conserved (M1), and the excess B_+ = Q_+ of one member is balanced by B_- = -Q_+ of the other. The pair also carries T^pair_{mu nu} = 0 (M4, classical bilinears; the second member has the classical energy -E_+). This is a statement about two classical fields with correlated configurations; it has no quantum counterpart with two independent universes (kreinLevelCaveat).",
 			"symbolicCheck":{
 				"Q_+ + Q_- simplifies to":"0",
 				"dQ_-/dx4 given dQ_+/dx4 = 0":"0"
 			},
 			"notPredicted":"the observed baryon-to-photon ratio eta ~ 6e-10 is NOT predicted; nothing here computes the magnitude or the sign of Q_+",
 			"kreinLevelCaveat":{
-				"source":"Stage-5 pairing report (PAIR_T1krein, all Stage-5 checks true)",
-				"imageField":"Psi_- = gamma^8 Psi on the same Fock space and state: {Psi_-, Psi_-^K} = -B P_- (P_- = gamma^8 P gamma^8, the projector on the image modes); operator identities H[Psi_-; -m] = -H[Psi; m] (H = Psi^K B h Psi), Q[Psi_-] = -Q[Psi] (Q = Psi^K B Psi = J^4), S[Psi_-] = S[Psi]; expectation values <Psi_-^K M Psi_-> = u_-^dagger (-B) M u_-, u_- = gamma^8 u: the image universe carries the Krein metric -B, energy -|eps| and charge -1 per quantum. Since gamma^8 acts linearly and pointwise, normal ordering (subtraction of the sea value) commutes with the map: :T_{mu nu}[gamma^8 Psi; -m, -lambda]: = -:T_{mu nu}[Psi; m, lambda]: and :H_-: = -:H_+: as operators.",
-				"independentQuantisation":"if the -m theory L_{-m,-lambda} is quantised independently with its own canonical structure (+B) and the J = B positive-norm Fock space, its modes are w_n = gamma^8 u_n (same eps, Krein sign -beta_n); a quantum in w has energy +|eps|, charge +1 and scalar density -u^dagger B C u: (E, Q, S) -> (E, Q, -S). Its energy-momentum does NOT cancel that of the +m universe.",
-				"consequenceForM5":"the charge cancellation Q_+ + Q_- = 0 of the implication holds for the pair (Psi_+, Psi_- = gamma^8 Psi_+) in which the second member is the gamma^8 image field, which carries the Krein metric -B (it is canonically a field of -L_{-m,-lambda}; energy -|eps| and charge -1 per quantum). If instead the -M universe is quantised independently with its own positive (J = B) structure, its quanta carry charge +1 and energy +|eps|: the cancellation is then NOT automatic and would require an additional assumption on the state of the -M universe. H1 must therefore be read in the first (image-field) sense."
+				"quantumLevel":"At the quantum level no reading of H1 gives a cancellation between two independent, consistently quantised universes. (a) Image-field reading: Psi_- = gamma^8 Psi_+ is the same quantum system (the same operators, Fock space and state); Q_+ + Q[Psi_-] = 0 and H_+ + H[Psi_-; -m] = 0 are operator identities X + (-X) = 0 valid in every state, not a compensation by a second universe. Relative to its own canonical structure (anticommutator -B, Lagrangian -L_{-m,-lambda}) the image field has the x4-generator -H[Psi_-; -m] = +H_+, the U(1) generator -Q[Psi_-] = +Q_+ and the gravitational source -T[Psi_-; -m, -lambda] = +T_+ (MA_M4_kreinOneParticle, matrix level); the values -|eps| and -1 per quantum are expectation values of the L_{-m,-lambda} formulas, which are not that field's Hamiltonian or charge. (b) Independent reading (L_{-m,-lambda} quantised with its own anticommutator +B and the positive J = B Fock space): kinetic and mass energies are positive and add, the charges cancel only by an additional assumption on the state of the -M universe, and for lambda != 0 its interaction energy has the opposite sign.",
+				"stage5":{
+					"source":"Stage-5 pairing report (PAIR_T1krein, all Stage-5 checks true), PROVISIONAL until the Stage-5 gate passes",
+					"imageField":"Psi_- = gamma^8 Psi on the same Fock space and state: {Psi_-, Psi_-^K} = -B P_- (P_- = gamma^8 P gamma^8, the projector on the image modes); operator identities H[Psi_-; -m] = -H[Psi; m] (H = Psi^K B h Psi), Q[Psi_-] = -Q[Psi] (Q = Psi^K B Psi = J^4), S[Psi_-] = S[Psi]; expectation values <Psi_-^K M Psi_-> = u_-^dagger (-B) M u_-, u_- = gamma^8 u: the image universe carries the Krein metric -B, energy -|eps| and charge -1 per quantum. Since gamma^8 acts linearly and pointwise, normal ordering (subtraction of the sea value) commutes with the map: :T_{mu nu}[gamma^8 Psi; -m, -lambda]: = -:T_{mu nu}[Psi; m, lambda]: and :H_-: = -:H_+: as operators.",
+					"independentQuantisation":"if the -m theory L_{-m,-lambda} is quantised independently with its own canonical structure (+B) and the J = B positive-norm Fock space, its modes are w_n = gamma^8 u_n (same eps, Krein sign -beta_n); a quantum in w has energy +|eps|, charge +1 and scalar density -u^dagger B C u: (E, Q, S) -> (E, Q, -S). Its energy-momentum does NOT cancel that of the +m universe."
+				}
 			},
-			"status":"the implication is proved (it is elementary given M1 and M4); the scenario itself is a hypothesis, not a result"
+			"status":"the classical-level implication is proved (it is elementary given M1 and M4); the scenario itself is a hypothesis, not a result"
 		}
 	},
 	"sourceSha256":{
-		"wolfram/Dirac16ComplexMatterAntimatter.wl":"baa2e24ffcfba97421e70fa6f5afee8b01fe80c432a31fca77e1054862b54d2a",
+		"wolfram/Dirac16ComplexMatterAntimatter.wl":"382c34694f91bf2ed68cee42736dd9298171e2abf61d0b388d6228e4d47ef4c5",
 		"scripts/verify_dirac16complex_matter_antimatter.wls":"5d85f7d8a76a78b0f8853d41af0d2a352b426c553d5eba4569ade2fd5d9fc73f",
 		"wolfram/Dirac16ComplexGeometry.wl":"f5b674665eee4000750161e6ab6312c38bfac9da7a17450a2b3bdd88ef292af2",
 		"artifacts/dirac16complex/arbitrary-field/algebra-fixture.json":"8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
