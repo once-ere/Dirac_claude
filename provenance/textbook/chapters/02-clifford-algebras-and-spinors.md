@@ -810,11 +810,19 @@ Each statement below is proved by hand in this chapter (or, where marked, taken 
 | the commutant of the $S^{ab}$ has dimension 2; block commutants (1, 1); even ranks (64, 64); cross intertwiners (0, 0) (2.15; Result 4.2) | `ALG_spinDecomposition` |
 | exactly 13 of the 28 $S^{ab}$ commute with $B$ (Exercise 2.10; Result 10.6) | `QNT_unitaryAndKreinSubgroups` |
 
-The two programs also check each other. The Wolfram verifier reads the exact data file `algebra-fixture.json` written by Python and finds all 75 stored matrices equal to its own (check `ALG_fixtureAgreement`), and the Python checker reads the Wolfram report and finds all 47 shared measurements equal (check `ALG_wolframAgreement`, Python report only; Stage 1, §3.4 and §11.6). To rerun the Python algebra checker without touching the committed reports, run from the repository root (in PowerShell set the variable with `$env:PYTHONUTF8 = "1"` instead of `export`):
+The two programs also check each other. The Wolfram verifier reads the exact data file `algebra-fixture.json` written by Python and finds all 75 stored matrices equal to its own (check `ALG_fixtureAgreement`), and the Python checker reads the Wolfram report and finds all 47 shared measurements equal (check `ALG_wolframAgreement`, Python report only; Stage 1, §3.4 and §11.6). To rerun the Python algebra checker without touching the committed reports, run from the repository root, in Git Bash
 
 ```
 export PYTHONUTF8=1
 python scripts/check_dirac16complex_algebra.py --wolfram-report= \
+    --output build/textbook/python-algebra-report.json
+```
+
+or in PowerShell (where the line continuation is a backtick)
+
+```
+$env:PYTHONUTF8 = "1"
+python scripts/check_dirac16complex_algebra.py --wolfram-report= `
     --output build/textbook/python-algebra-report.json
 ```
 
