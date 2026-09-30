@@ -1156,22 +1156,23 @@ checkM5[stage5_Association] := Module[{t, qp, qm, rules, total, dqm, ok, kreinNo
   dqm = D[qm[t], t] /. rules;
   ok = total === 0 && dqm === 0 && TrueQ[$checks["MA_M4_pairEMTAndCurrentG1_commuting"]] && TrueQ[$checks["MA_M4_currentFlipG1_grassmann"]] &&
     TrueQ[$checks["MA_M1_noetherIdentity_grassmann_G1"]] && TrueQ[$checks["MA_M1_noetherIdentity_commuting_G1"]];
-  kreinNote = If[KeyExistsQ[stage5, "kreinTheory"] && AssociationQ[stage5["kreinTheory"]["T1krein"]],
-    <|"source" -> "Stage-5 pairing report (PAIR_T1krein, all Stage-5 checks true)",
-      "imageField" -> Lookup[stage5["kreinTheory"]["T1krein"], "imageField", "absent"],
-      "independentQuantisation" -> Lookup[stage5["kreinTheory"]["T1krein"], "independentQuantisation", "absent"],
-      "consequenceForM5" -> "the charge cancellation Q_+ + Q_- = 0 of the implication holds for the pair (Psi_+, Psi_- = gamma^8 Psi_+) in which the second member is the gamma^8 image field, which carries the Krein metric -B (it is canonically a field of -L_{-m,-lambda}; energy -|eps| and charge -1 per quantum). If instead the -M universe is quantised independently with its own positive (J = B) structure, its quanta carry charge +1 and energy +|eps|: the cancellation is then NOT automatic and would require an additional assumption on the state of the -M universe. H1 must therefore be read in the first (image-field) sense."|>,
-    <|"source" -> "none: the Stage-5 Krein-level result is OPEN", "consequenceForM5" -> "only the field-level statement is used; which Fock states of the -M universe the image corresponds to is OPEN"|>];
+  kreinNote = <|
+    "quantumLevel" -> "At the quantum level no reading of H1 gives a cancellation between two independent, consistently quantised universes. (a) Image-field reading: Psi_- = gamma^8 Psi_+ is the same quantum system (the same operators, Fock space and state); Q_+ + Q[Psi_-] = 0 and H_+ + H[Psi_-; -m] = 0 are operator identities X + (-X) = 0 valid in every state, not a compensation by a second universe. Relative to its own canonical structure (anticommutator -B, Lagrangian -L_{-m,-lambda}) the image field has the x4-generator -H[Psi_-; -m] = +H_+, the U(1) generator -Q[Psi_-] = +Q_+ and the gravitational source -T[Psi_-; -m, -lambda] = +T_+ (MA_M4_kreinOneParticle, matrix level); the values -|eps| and -1 per quantum are expectation values of the L_{-m,-lambda} formulas, which are not that field's Hamiltonian or charge. (b) Independent reading (L_{-m,-lambda} quantised with its own anticommutator +B and the positive J = B Fock space): kinetic and mass energies are positive and add, the charges cancel only by an additional assumption on the state of the -M universe, and for lambda != 0 its interaction energy has the opposite sign.",
+    "stage5" -> If[KeyExistsQ[stage5, "kreinTheory"] && AssociationQ[stage5["kreinTheory"]["T1krein"]],
+      <|"source" -> "Stage-5 pairing report (PAIR_T1krein, all Stage-5 checks true), PROVISIONAL until the Stage-5 gate passes",
+        "imageField" -> Lookup[stage5["kreinTheory"]["T1krein"], "imageField", "absent"],
+        "independentQuantisation" -> Lookup[stage5["kreinTheory"]["T1krein"], "independentQuantisation", "absent"]|>,
+      <|"source" -> "none: the Stage-5 Krein-level result is OPEN"|>]|>;
   addMeas["M5_implication", <|
     "hypotheses" -> <|
-      "H1" -> "ASSUMPTION (not derived): our universe is one member of a gamma^8 pair (Psi_+ with (m, lambda), Psi_- = gamma^8 Psi_+ with (-m, -lambda)) created together; no creation process, rate or amplitude is computed anywhere in this repository",
+      "H1" -> "ASSUMPTION (not derived): our universe is one member of a pair of two independent classical fields, Psi_+ with the Lagrangian L_{m,lambda} and Psi_- with the Lagrangian +L_{-m,-lambda}, in the same gravitational field and in the correlated configuration Psi_- = gamma^8 Psi_+ (the correlation is the assumption); no creation process, rate or amplitude is computed anywhere in this repository",
       "H2" -> "ASSUMPTION (not derived): the creation assigns Q_+ = -Q_- != 0; the relation Q_- = -Q_+ follows from H1 and M4, the value Q_+ != 0 is not computed",
       "H3" -> "ASSUMPTION (not derivable): the dirac16complex U(1) charge is identified with baryon number B (or B - L); the theory contains no Standard-Model baryons, quarks or leptons"|>,
-    "implication" -> "IF H1, H2, H3 THEN Q_+(x4) + Q_-(x4) = 0 at every x4 (M4 pointwise: sqrt|g| j^4[gamma^8 Psi] = - sqrt|g| j^4[Psi]), each Q_+- is separately conserved (M1), and the excess B_+ = Q_+ seen in one member is exactly compensated by B_- = -Q_+ in the other: a global symmetry with local asymmetry. The pair also carries T^pair_{mu nu} = 0 (M4, classical bilinears).",
+    "implication" -> "IF H1, H2, H3 THEN (classical level) Q_+(x4) + Q_-(x4) = 0 at every x4 (M4 pointwise: sqrt|g| j^4[gamma^8 Psi] = - sqrt|g| j^4[Psi], and the Noether current of L_{-m,-lambda} is i sqrt|g| j), each Q_+- is separately conserved (M1), and the excess B_+ = Q_+ of one member is balanced by B_- = -Q_+ of the other. The pair also carries T^pair_{mu nu} = 0 (M4, classical bilinears; the second member has the classical energy -E_+). This is a statement about two classical fields with correlated configurations; it has no quantum counterpart with two independent universes (kreinLevelCaveat).",
     "symbolicCheck" -> <|"Q_+ + Q_- simplifies to" -> toStr[total], "dQ_-/dx4 given dQ_+/dx4 = 0" -> toStr[dqm]|>,
     "notPredicted" -> "the observed baryon-to-photon ratio eta ~ 6e-10 is NOT predicted; nothing here computes the magnitude or the sign of Q_+",
     "kreinLevelCaveat" -> kreinNote,
-    "status" -> "the implication is proved (it is elementary given M1 and M4); the scenario itself is a hypothesis, not a result"|>];
+    "status" -> "the classical-level implication is proved (it is elementary given M1 and M4); the scenario itself is a hypothesis, not a result"|>];
   addCheck["MA_M5_implication", ok];
 ];
 
@@ -1208,8 +1209,9 @@ buildTheory[stage5_Association] := Module[{sum = $theory["M2_symmetrySummary"], 
       "statistics" -> "dirac16complex: Grassmann-odd components (exact Grassmann algebra of this package); dirac16complex00: commuting components (exact symbols)",
       "discreteMaps" -> "(M, R, type): Psi'(x) = M Psi(Rx) (linear) or M conj(Psi)(Rx) (antilinear), R = the set of reflected directions; in a curved field the frame e_mu^a -> e_mu^b R_b^a is reflected instead (same metric)"|>,
     "M1" -> <|
-      "theorem" -> "For both statistics and every potential U(S) (commuting: any function; Grassmann: any polynomial, S^17 = 0), L1 is invariant under Psi -> e^{i alpha} Psi. Noether current: j^mu = Psibar gamma^mu Psi (L[e^{i alpha(x)} Psi] - L[Psi] = i sqrt|g| d_mu alpha j^mu). Off shell, in every gravitational field: d_mu(sqrt|g| j^mu) = sqrt|g| (Ebar Psi + Psibar E), E = gamma^mu D_mu Psi - (m + U') Psi, Ebar = (D_mu Psibar) gamma^mu + (m + U') Psibar; hence nabla_mu j^mu = 0 on shell and Q = integral sqrt|g| J^{x4} d^7x is conserved.",
-      "consequence" -> "no process described by L1 changes Q inside one universe; the Kohn-Sham states of Stages 4/5 carry the fixed net number N imposed through the chemical potential",
+      "theorem" -> "For both statistics and every potential U(S) (commuting: any function; Grassmann: any polynomial, S^17 = 0), L1 is invariant under Psi -> e^{i alpha} Psi. Noether current: j^mu = Psibar gamma^mu Psi (L[e^{i alpha(x)} Psi] - L[Psi] = i sqrt|g| d_mu alpha j^mu). Off shell, in every gravitational field: d_mu(sqrt|g| j^mu) = sqrt|g| (Ebar Psi + Psibar E), E = gamma^mu D_mu Psi - (m + U') Psi, Ebar = (D_mu Psibar) gamma^mu + (m + U') Psibar; hence nabla_mu j^mu = 0 on shell and Q = integral sqrt|g| J^{x4} d^7x is conserved whenever the flux of sqrt|g| J^mu through the lateral boundary of the slices vanishes.",
+      "consequence" -> "no process described by L1 changes Q inside one universe (for vanishing boundary flux); the Kohn-Sham states of Stages 4/5 carry the fixed net number N imposed through the chemical potential",
+      "quantumLevel" -> "formal: the off-shell identity is algebraic with every Psi^dagger to the left of every Psi, so it holds for the operator field without regularization; the U(1) acts equally on both chiralities, no gauge field couples to j and the U(1)-invariant mass term permits a U(1)-preserving (Pauli-Villars-type) regulator, so no anomaly of the ABJ type is expected, but a regularised quantum theory in signature (4,4) is not constructed here",
       "chargeMatrixB" -> jmat[Bm],
       "machineChecks" -> {"MA_M1_u1InvarianceCommutingGenericU_flat", "MA_M1_u1InvarianceCommutingGenericU_G1", "MA_M1_u1InvarianceGrassmann_G1",
         "MA_M1_grassmannPotentialsPolynomialAndNeutral", "MA_M1_noetherCurrentLocalPhase_commuting_G1", "MA_M1_noetherCurrentLocalPhase_grassmann_G1",
@@ -1229,8 +1231,8 @@ buildTheory[stage5_Association] := Module[{sum = $theory["M2_symmetrySummary"], 
       "canonicalStructure" -> $meas["M2_canonicalStructure"],
       "answer" -> <|
         "commuting (dirac16complex00)" -> "C (Psi -> conj(Psi)) is an exact symmetry of L1 and reverses j; no P with a single space-like reflection and no CP of that type is exact for m != 0; T (x4) is exact (linear and antilinear); the full-inversion CPT is exact",
-        "grassmann (dirac16complex)" -> "no constant C is an exact symmetry for m != 0 (the canonical unitary C8: Psi -> gamma^8 Psi^{dagger T} maps L_{m,lambda} -> L_{-m,lambda}, the mirror theory); P with one space-like reflection maps m -> -m or L -> -L_{m,-lambda}; CP (C8 P_b for b = 0..3, C8 P3) is an exact unitary symmetry that reverses the charge; T (x4, linear substitution, antiunitary implementation) is exact; the full-inversion antilinear CPT is not, CP3T (x1..x4) is",
-        "sakharov2" -> "for both statistics there is an exact symmetry that reverses the charge and preserves the time orientation (commuting: C; Grassmann: CP): Sakharov's second condition (C and CP violation) fails"|>|>,
+        "grassmann (dirac16complex)" -> "no constant C is an exact symmetry for m != 0 (C8: Psi -> gamma^8 Psi^{dagger T}, which preserves the canonical anticommutator as a linear automorphism, maps L_{m,lambda} -> L_{-m,lambda}, the mirror theory); P with one space-like reflection maps m -> -m or L -> -L_{m,-lambda}; CP (C8 P_b for b = 0..3, C8 P3) is an exact symmetry that reverses the charge and preserves the canonical anticommutator as a linear (unitary-type) automorphism, in flat space and in backgrounds with the corresponding reflection isometry (in a generic gravitational field its frame form relates the theories on the frames e and e diag(r), and the background breaks it); T (x4, linear substitution, antilinear-type on the canonical structure) is exact; the full-inversion antilinear CPT is not, CP3T (x1..x4) is",
+        "sakharov2" -> "for both statistics there is an exact symmetry of the Lagrangian that reverses the charge and preserves the time orientation (commuting: C, in every background; Grassmann: CP, in flat space and in backgrounds with the reflection isometry): Sakharov's second condition (C and CP violation) fails for the Lagrangian"|>|>,
     "M3" -> <|
       "invariantMassForms" -> <|"CPminus" -> jmat[C16.Pm], "CPplus" -> jmat[C16.Pp], "statement" -> $meas["M3_spinInvariantMassForms"]["statement"]|>,
       "pinCovariantForms" -> <|"C" -> <|"matrix" -> jmat[C16], "character" -> "-n(u)"|>, "Cgamma8" -> <|"matrix" -> jmat[C16.g8], "character" -> "+n(u)"|>,
@@ -1242,7 +1244,7 @@ buildTheory[stage5_Association] := Module[{sum = $theory["M2_symmetrySummary"], 
       "extraGrassmannQuartic" -> $meas["M3_extraGrassmannQuartic"],
       "classificationStatement" -> "This is a classification of the U(1)-violating (charge 2) local terms allowed by Spin_0(4,4) and Pin(4,4); it is what the theory would need to ADD to meet Sakharov's first condition. None of these terms is present in L1, and nothing here claims that such a term is present, natural or sufficient."|>,
     "M4" -> <|
-      "fieldLevel" -> "Psi -> gamma^8 Psi: j^mu -> -j^mu in every gravitational field (both statistics); for Psi_- = gamma^8 Psi_+ with (-m, -lambda): Q_+ + Q_- = 0 and T^pair_{mu nu} = 0 (classical bilinears); gamma^8 maps solutions of EL_{m,lambda} to solutions of EL_{-m,-lambda}",
+      "fieldLevel" -> "Psi -> gamma^8 Psi: j^mu -> -j^mu in every gravitational field (both statistics); for Psi_- = gamma^8 Psi_+ with (-m, -lambda): Q_+ + Q_- = 0 and T^pair_{mu nu} = 0 (classical bilinears, the second member an independent classical field with the Lagrangian +L_{-m,-lambda}); gamma^8 maps solutions of EL_{m,lambda} to solutions of EL_{-m,-lambda}. At the quantum level the image field gamma^8 Psi_+ is the same system as Psi_+ (its own Hamiltonian, charge and source are +H_+, +Q_+, +T_+), and an independently quantised -m field has positive energies: no reading gives a cancellation between two independent universes",
       "matrixFacts" -> $meas["M4_matrixFacts"],
       "kreinOneParticle" -> $meas["M4_kreinOneParticle"],
       "kreinLevelStage5" -> stage5|>,
@@ -1251,7 +1253,7 @@ buildTheory[stage5_Association] := Module[{sum = $theory["M2_symmetrySummary"], 
       "condition1 (B violation)" -> <|"status" -> "fails in the theory as built: L1 is exactly U(1) invariant and Q is conserved (M1)",
         "wouldNeed" -> "a U(1)-violating term (M3): commuting components: Psi^T C P_+- Psi, Psi^T C gamma^a d_a Psi; Grassmann components: no bilinear mass term exists, Psi^T C gamma^8 gamma^a d_a Psi or a quartic such as Q4 (charge 4)"|>,
       "condition2 (C and CP violation)" -> <|"commuting" -> If[TrueQ[sum["commuting"]["C (R empty, antilinear) exact"]], "fails: C is exact", "C not exact"],
-        "grassmann" -> If[TrueQ[sum["grassmann"]["CP (one space-like reflection, antilinear) exact"]], "fails: CP (C8 P_b, C8 P3) is exact", "CP not exact"]|>,
+        "grassmann" -> If[TrueQ[sum["grassmann"]["CP (one space-like reflection, antilinear) exact"]], "fails: CP (C8 P_b, C8 P3) is exact (flat space and backgrounds with the reflection isometry)", "CP not exact"]|>,
       "condition3 (departure from equilibrium)" -> "not addressed by any theorem here; with conditions 1 and 2 failing exactly, a departure from equilibrium cannot generate a net charge inside one universe"|>|>;
   th];
 

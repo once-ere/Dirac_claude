@@ -20,7 +20,8 @@ provable and is not claimed.  What this checker establishes (by computation):
       Noether current N^mu = i sqrt|g| Psibar gamma^mu Psi; the off-shell Noether
       identity d_mu N^mu = -sum(dPsi E + dPsi^* E^*) holds exactly on jets in curved
       fields (both statistics), hence d_mu(sqrt|g| j^mu) = 0 on shell: Q is conserved
-      and no dynamics of L changes Q inside one universe.  The divergence identity
+      (vanishing lateral boundary flux) and no dynamics of L changes Q inside one
+      universe.  The divergence identity
       d_mu(sqrt|g| gamma^mu) = sqrt|g| [gamma^mu, Omega_mu] is proved for arbitrary
       first vielbein jets (linearity: all 512 basis directions, exact integers).
   M2  Exact solution spaces of the charge-conjugation intertwining conditions, their
@@ -31,8 +32,13 @@ provable and is not claimed.  What this checker establishes (by computation):
       conjugation (matrix criterion, validated by jet computations, characters checked
       to be multiplicative); C / CP status for both statistics; the canonical
       anticommutator {Psi, Psi^dagger} = B is preserved by every exact symmetry of the
-      Grassmann L (unitary if x4 is preserved, antiunitary if reversed); Spin_0(4,4)
-      itself contains x4-reversing, charge-reversing rotations (exp(pi S^{45})).
+      Grassmann L (as a linear, unitary-type automorphism if x4 is preserved, as an
+      antilinear, antiunitary-type one if reversed; implementation on the positive Fock
+      space not decided); in a generic curved field the internal part of CP is not a
+      symmetry at a fixed frame, and the frame change diag(r) of its frame form lies
+      outside SO_0(4,4); Spin_0(4,4) itself contains x4-reversing rotations
+      (exp(pi S^{45})), which reverse the classical charge but, being antiunitary-type
+      after quantization, preserve the quantum charge.
   M3  Exact classification of Spin_0(4,4)-invariant bilinear forms (nullspace of
       S^{ab T} M + M S^{ab} = 0), their symmetry, their Pin(4,4) characters, which
       Psi^T M Psi and Psi^T M gamma^mu D_mu Psi survive for each statistics (U(1)
@@ -41,11 +47,18 @@ provable and is not claimed.  What this checker establishes (by computation):
   M4  gamma^8: j -> -j, S -> S, K -> -K, L_{m,lam} -> -L_{-m,-lam}, EL and T_{mu nu}
       pairing (field level, curved jets, both statistics); exact good-sector mode facts
       at the Krein level (gamma^8 h_k(m) gamma^8 = h_k(-m), B -> -B, per-quantum
-      (E, Q, S) of the image under the metrics -B and +B); the Krein-level
-      particle/antiparticle mapping itself is cited from the Stage-5 pairing-theory.json
-      (PAIR_T1krein) when present with all report checks true, and is OPEN otherwise.
-  M5  The implication (H1-H3 are HYPOTHESES; none is derived here) is recorded with
-      its exact ingredient (Q[gamma^8 Psi] = -Q[Psi]); eta ~ 6e-10 is NOT predicted.
+      (E, Q, S) of the image under the metrics -B and +B); an exact four-mode Fock
+      model (genuine operators on the 16-dimensional Fock space) showing that the image
+      field gamma^8 Psi is the same quantum system: its own x4-generator and U(1)
+      generator are -H[Psi_-; -m] = +H_+ and -Q[Psi_-] = +Q_+, while an independently
+      quantised -m field has H' = H_+, Q' = Q_+, S' = -S (so its interaction energy
+      changes sign with lambda -> -lambda); the Stage-5 Krein-level mapping
+      (PAIR_T1krein, S5_T1krein) is cited as PROVISIONAL (Stage 5 not gated) when
+      present with all report checks true, and is OPEN otherwise.
+  M5  The classical-level implication (H1-H3 are HYPOTHESES; none is derived here) is
+      recorded with its exact ingredient (Q[gamma^8 Psi] = -Q[Psi]); at the quantum
+      level no reading gives a cancellation between two independent universes;
+      eta ~ 6e-10 is NOT predicted.
   M6  Sakharov scorecard assembled from the computed checks.
 
 Conventions (CONTRACT.md with errata section 11; STAGE5_SPEC.md):
@@ -69,8 +82,8 @@ When artifacts/dirac16complex/matter-antimatter/matter-antimatter-theory.json ex
 otherwise measurement wolframAgreement=not-run.
 
 Usage: python scripts/check_dirac16complex_matter_antimatter.py [--output PATH]
-       [--theory PATH] [--fixture PATH] [--pairing PATH] [--families M1,M2,M3,M4]
-       [--quick] [--no-write]
+       [--theory PATH] [--fixture PATH] [--pairing PATH] [--pairing-report PATH]
+       [--pairing-python-report PATH] [--families M1,M2,M3,M4] [--quick] [--no-write]
 """
 
 from __future__ import annotations
@@ -104,6 +117,7 @@ DEFAULT_FIXTURE = os.path.join(REPOSITORY_ROOT, "artifacts", "dirac16complex", "
 PAIRING_DIRECTORY = os.path.join(REPOSITORY_ROOT, "artifacts", "dirac16complex", "pair-creation")
 DEFAULT_PAIRING = os.path.join(PAIRING_DIRECTORY, "pairing-theory.json")
 DEFAULT_PAIRING_REPORT = os.path.join(PAIRING_DIRECTORY, "wolfram-pairing-report.json")
+DEFAULT_PAIRING_PYTHON_REPORT = os.path.join(PAIRING_DIRECTORY, "python-pairing-report.json")
 PRODUCER = "scripts/check_dirac16complex_matter_antimatter.py"
 SOURCE_FILES = ["scripts/check_dirac16complex_matter_antimatter.py", "scripts/grassmann_algebra.py"]
 FAMILIES = ["M1", "M2", "M3", "M4"]
