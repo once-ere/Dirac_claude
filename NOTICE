@@ -31,6 +31,12 @@ the dirac repository (its scripts/verify_phase*.ps1 and .sh):
   scripts/build_provenance_pdf.py
   scripts/verify_stage1_arbitrary_field.ps1
   scripts/verify_stage1_arbitrary_field.sh
+  scripts/verify_stage2_primordial_field.ps1
+  scripts/verify_stage2_primordial_field.sh
+  scripts/verify_stage3_dark_sector.ps1
+  scripts/verify_stage3_dark_sector.sh
+  scripts/verify_stage4_kohn_sham.ps1
+  scripts/verify_stage4_kohn_sham.sh
 
 This section also covers any other file whose header names
 https://github.com/once-ere/dirac as its origin.  The dirac repository
