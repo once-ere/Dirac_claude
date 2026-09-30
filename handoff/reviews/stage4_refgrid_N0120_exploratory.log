@@ -1,0 +1,19 @@
+# Exploratory reference run (not a canonical output), 2026-09-30: scripts/ks_reference_solver.py --config with
+# {"label": "m1_L3_N1016_lamm2_T0", "m": 1.0, "L": 3.0, "N": 1016.0, "lambda_hat": -0.0015769417965291643, "T": 0.0, "N0": 120, "levels": 3, "lambda": "lamm2", "tasks": ["excited"]}
+# i.e. the N = 1016, -lambda_hat_2 case on grids N0 = 120, 240, 480 (the canonical reference uses 60, 120, 240).
+# The exact T = 0 aufbau converged here, from the solver's own start, to mu = 1.38577 m with
+# E = 1127.9435 (N = 120), 1127.8871 (N = 240), 1127.8728 (N = 480) m; the canonical smeared ground state has
+# E = 1126.9332 (N = 120), 1126.8771 (N = 240) m, extrapolated 1126.8581 m (reference) / 1126.8581 m (Rust).
+# The run was stopped during the finest ground-state level before its Delta-SCF; its state was not analysed further.
+
+06:20:06
+run m1_L3_N1016_lamm2_T0: {"label": "m1_L3_N1016_lamm2_T0", "m": 1.0, "a4_0": 0.0, "L": 3.0, "lambda_hat": -0.0015769417965291643, "lambda": -0.0015769417965291643, "T": 0.0, "N": 1016.0, "parity": 1, "tip": "g0", "xc": "quadratic", "sea": "free", "delta_k": 0.25, "ell": 25.132741228718345, "volume": 15875.213660313506, "N0": 120, "levels": 3, "mix_beta": 0.4, "mix_history": 6, "tol": 1e-10, "max_
+  level 0 (N = 120)
+  level 1 (N = 240)
+  level 2 (N = 480)
+  level 0 (N = 120)
+    it  18  resN 5.529e-11 resS 1.612e-10 resD 5.529e-11 resV 7.625e-08  mu 1.3858443011  E 1127.943478491598  states 314
+  level 1 (N = 240)
+    it  12  resN 6.763e-11 resS 2.361e-10 resD 6.763e-11 resV 2.110e-07  mu 1.3857828216  E 1127.887117444037  states 314
+  level 2 (N = 480)
+    it  11  resN 1.420e-10 resS 6.721e-10 resD 1.420e-10 resV 1.038e-06  mu 1.3857672017  E 1127.872827344809  states 314
