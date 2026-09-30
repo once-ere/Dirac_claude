@@ -1,0 +1,176 @@
+{
+ "stage": 3,
+ "round": 2,
+ "status": "UNFIXED: the fix agent was stopped by the weekly usage limit on 2026-09-26",
+ "finding_count": 21,
+ "findings": [
+  {
+   "severity": "major",
+   "file": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md (also .tex:1046; scripts/analyze_dirac16complex_exp3.py:495-500 -> artifacts/dirac16complex/numerics/exp3/fits.json:103 and numerics-summary.json:1354)",
+   "location": "Section 12.4, bullet 'The benchmark w=-0.764' (md line 766); fits.json unite.note",
+   "problem": "Two sources say that letting Omega_m float explains most of the gap between the Unite CPL projection and -0.764. The .md says 'most of the gap to -0.764 with Omega_m fixed was an Omega_m effect'. The analysis note, copied into fits.json and numerics-summary.json, says the projection 'moves most of the way towards it'. The committed numbers show that freeing Omega_m closes less than half of the gap in every variant.",
+   "evidence": "Committed fits.json values. Uniform z grid, offset profiled: -1.0276823 with Omega_m fixed and -0.9115323 with Omega_m free. The gap to -0.764 goes from 0.2637 to 0.1475, so 44% is closed. Offset zero: -0.9747190 to -0.8788305, gap 0.2107 to 0.1148, 45.5% closed. Log-uniform z: -0.9790479 to -0.8721405, gap 0.2150 to 0.1081, 49.7% closed. I reproduced all six projections independently with trapezoid quadrature and golden-section search (for example -1.0276823, -0.9115325 with Omega_m=0.277671 and rms 0.002053 mag), so the numbers are right and only the wording is wrong.",
+   "fix": "Replace the wording with something like: 'with Omega_m free the projection moves from -1.028 to -0.912, which closes less than half (44%; 46% with offset zero, 50% on the log grid) of the gap to -0.764. The larger part remains and cannot be judged without the Unite likelihood.' Change the note string in analyze_dirac16complex_exp3.py the same way, regenerate fits.json and numerics-summary.json, then update the md/tex, the PDF and its hash pins."
+  },
+  {
+   "severity": "minor",
+   "file": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md (also .tex); notebooks/build_dirac16complex_notebook.py:1500-1511, 1616-1634 (figure exp3_distance_modulus.png)",
+   "location": "Figure caption at md line 436; notebook DM_W764 curve",
+   "problem": "The distance-modulus figure draws the Unite constant-w benchmark w=-0.764 with Omega_m=0.305. The document itself argues that -0.764 is an SN-only wCDM fit with Omega_m free. At Omega_m=0.305 the benchmark curve sits up to 0.11 mag from the Unite CPL curve. A reader will take that as a large inconsistency between two Unite fits to the same supernovae, but it is mostly produced by fixing Omega_m. The md caption does not say that the -0.764 curve uses Omega_m=0.305 or warn about this; only the figure's suptitle says 'Omega_m = 0.305 fixed'.",
+   "evidence": "My scratch recomputation on the analysis z grid (0.01 + 0.005k, 451 points), against the Unite CPL with Omega_m=0.305. w=-0.764 with Omega_m=0.305 gives max |dDM| = 0.113 mag with the same H0 and 0.084 mag with the offset profiled (rms 0.0325). w=-0.764 with its best Omega_m=0.240 gives max 0.019 mag profiled (rms 0.0087). Panel (b) of exp3_distance_modulus.png shows the dash-dot -0.764 curve going from +0.08 to -0.03 mag.",
+   "fix": "Add to the caption (md/tex and the notebook suptitle or legend) that the w=-0.764 curve uses the assumed Omega_m=0.305, not the unknown Omega_m of the Unite wCDM fit. Alternatively, also draw the -0.764 curve with Omega_m profiled, which would need a new analysis output so that the number comes from a committed file."
+  },
+  {
+   "severity": "minor",
+   "file": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md (also .tex:1047)",
+   "location": "Section 12.4, 'Reading the tables', last bullet (md line 767)",
+   "problem": "The document says 'Only the deflation variant comes close to Unite in distances (max|dDM|=0.021 mag, 0.011 mag with the offset profiled)' but gives no baseline. LambdaCDM, which is plotted in the same figure, is just as close to the Unite CPL distances. The 0.021 mag agreement therefore does not tell Unite-like distances apart from LambdaCDM-like ones, and the sentence overstates how Unite-like the variant is.",
+   "evidence": "From the committed fits.json curves (muLCDM minus muUniteCPL on z = 0.02 to 2.26): max |dDM| = 0.0238 mag with the same H0 and 0.0129 mag with the offset profiled. My independent recomputation on the 451-point grid gives 0.0238 and 0.0129. For the deflation variant, fits.json gammaVariant.model.muVsUniteCPL gives 0.0213 and 0.0107.",
+   "fix": "State the LambdaCDM baseline next to it, for example: 'as close as LambdaCDM itself (0.024 mag, 0.013 mag profiled), so distances do not distinguish it from LambdaCDM'. Add LambdaCDM's muVsUniteCPL maxima to fits.json so that the number is a committed output."
+  },
+  {
+   "severity": "minor",
+   "file": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md (also .tex:88); notebooks/build_dirac16complex_notebook.py:1402-1403 (executed ipynb cell 13)",
+   "location": "Section 3.3, 'Sign discrepancy in the PDF', last sentence; notebook EXP-3 markdown remark",
+   "problem": "The thawing remark says the Unite CPL curve 'and every attractive condensate' of EXP-3 'start phantom (w<-1) and cross w=-1'. For the condensate this is wrong twice. First, the document itself classifies the w<-1 epoch and the crossing as mean-field artefacts (Sections 4.6, 8.7, 12.3, 12.6: 'no state of positive-energy quanta of this Lagrangian is phantom'), but here it states them as fact. Second, even in the raw equations the history does not start phantom. Between the bounce and the zero of rho_psi, rho_psi < 0 and w = x0 sigma/(1+x0 sigma) > 1, so w<-1 appears only between the pole and the zero of M_eff.",
+   "evidence": "x0=-0.462654, bounce at a_b=0.720697 (fits.json): sigma=2.6714, x0 sigma=-1.2359, so w=+5.24 at the bounce. w stays above 1 until the pole at a=0.7734, is below -1 only for 0.7734 < a < 0.9745, and there M_eff < 0, which Section 8.5 calls outside the mean field's domain. The md line 58 sentence 'whereas both start phantom (w<-1) and cross w=-1' has no artefact qualifier.",
+   "fix": "Rephrase, for example: 'The Unite CPL curve starts phantom (w0+wa=-1.461) and crosses -1 at a=0.768. The condensate's equations give w<-1 only between the zero of rho_psi and M_eff=0, a region where the mean field is not valid (Section 4.6). Neither is a thawing field.' Make the same change in the notebook markdown."
+  },
+  {
+   "severity": "minor",
+   "file": "notebooks/build_dirac16complex_notebook.py:2372-2373 (executed ipynb cell 21); scripts/analyze_dirac16complex_exp3.py:495-496 (fits.json unite.note, numerics-summary.json:1354)",
+   "location": "Notebook 12.2 'methodological caution'; analysis note string",
+   "problem": "Both files state as fact details of the Unite -0.764 fit that the PDF does not give. The notebook says it 'is a direct fit to the supernovae with Omega_m free'. The analysis note says '(Omega_m not fixed, likelihood with the real errors)'. The PDF says only that -0.764 comes from 'fitting a constant dark energy model (wCDM) using the Unite supernova data alone'. It gives no Omega_m, prior or likelihood, and its citation markers [1,2,3] have no reference list. Leaving Omega_m free is usual for SN-only fits, but here it is an assumption, and the honesty rule requires assumptions to be labelled as such. The md (Section 12.4) handles this better: it gives the Omega_m-free reading as what SN-only wCDM fits do.",
+   "evidence": "pdftotext of the Gmail PDF, section on -0.764: 'This specific value is a result of fitting a constant dark energy model (wCDM) using the Unite supernova data alone. [1]'. It says nothing about Omega_m. Notebook cell 21 prints 'the constant w = -0.764 is a direct fit to the supernovae with Omega_m free.'",
+   "fix": "Phrase it as an assumption, for example: 'an SN-only wCDM fit, which normally leaves Omega_m free (the PDF does not say how Omega_m was treated)'. Change the note string in the analysis script to match and regenerate fits.json and numerics-summary.json."
+  },
+  {
+   "severity": "major",
+   "file": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md",
+   "location": "line 506 (EXP-4a bullet 'No spurious particle production in the gas'); same text in provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.tex line 668 and hence the PDF; also in the stage-3 engine report",
+   "problem": "The document says the largest single-mode thermal |beta|^2, 6.37e-5 at k=0.953, 'is 0.998 times 4|c|^2 with |c|^2=(m k H_i/(4E_i^3))^2'. No committed output supports this ratio, and the correct value is about 0.78. The text also calls 6.37e-5 the largest value. It is only the largest of the 61 CSV samples. The continuous-time maximum is larger.",
+   "evidence": "For node 2 (k=0.9525249766303889, E_i=1.38105), |c|^2=2.0432e-5 (thermal_grid.csv column beta2_sudden_start), so 4|c|^2=8.1728e-5. The stored maximum beta2 (summary.json thermal.maxBeta2PerMode) is 6.3694e-5, a ratio of 0.779, not 0.998. In the Rust code (exp4.rs 1357-1374) the only related ratio is suddenStartBoundMaxRatio=0.906, taken against (|c|(1+0.1)+beta_ad(t))^2. No computed quantity equals 0.998. I integrated the exact 2x2 reduction (4th-order Magnus, dt=1e-3). It reproduces the Rust sample at t=13.5936 to 1e-12 (6.369367418e-5). The continuous maximum of that mode is 7.49e-5 at t=11.13, which is 0.917 x 4|c|^2. The mode at k=m/sqrt2 reaches 8.19e-5. The 61 output samples are spaced about 1.66 in t at the start, more than one oscillation period, so they do not resolve the first half-oscillation.",
+   "fix": "Replace the sentence. Suggested wording: 'The largest sampled single-mode value, 6.37e-5 at k=0.953, is 0.78 x 4|c|^2 and 0.89 of the checked envelope (1.1|c|+beta_ad(t))^2 (maximum ratio over all modes 0.906). The output grid does not resolve the first half-oscillation; the continuous-time maximum of that mode is about 0.92 x 4|c|^2.' Alternatively, drop the ratio. Regenerate the .tex and the PDF, and correct the engine-report sentence ('which is 0.998 x 4|c|^2')."
+  },
+  {
+   "severity": "minor",
+   "file": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md",
+   "location": "line 766 (benchmark w=-0.764 bullet); tex line 1046; the hard-coded note string in scripts/analyze_dirac16complex_exp3.py line ~499, propagated to artifacts/dirac16complex/numerics/exp3/fits.json unite.note and numerics-summary.json line 1354",
+   "problem": "Qualitative claim contradicted by the committed fit numbers. The document says 'most of the gap to -0.764 with Omega_m fixed was an Omega_m effect'. fits.json says the Omega_m-free projection 'moves most of the way towards it'. The committed values show that freeing Omega_m closes only 44-50% of the gap.",
+   "evidence": "From fits.json unite (I reproduced it with my own Simpson quadrature and Levenberg-Marquardt, agreeing to 1e-8). Uniform z, offset profiled: fixed -1.02768 -> free -0.91153. The gap to -0.764 falls from 0.2637 to 0.1475, 44% closed. Offset zero: -0.97472 -> -0.87883, 0.2107 -> 0.1148, 45.5% closed. Log-uniform z: -0.97905 -> -0.87214, 0.2150 -> 0.1081, 49.7% closed.",
+   "fix": "Change the wording to 'about half of the gap (44-50%) is an Omega_m effect', both in the document and in the note string of analyze_dirac16complex_exp3.py. Then rerun the analysis, the exp3 checker and build_numerics_summary.py so that fits.json and numerics-summary.json stay consistent."
+  },
+  {
+   "severity": "minor",
+   "file": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md",
+   "location": "EXP-4b pair-creation table lines 515-522 (column 'max|beta_k|^2') together with line 534 ('The tables use the first-order adiabatic basis'); tex lines ~694-723",
+   "problem": "The max|beta_k|^2 column does not use the adiabatic basis the text claims. It is summary.json pair.masses[].maxBeta2: the maximum over all output times of the instantaneous-basis |beta|^2. For m >= 0.5 this maximum is set by the transient at the de Sitter to radiation kink (t=0), not by the final occupation. The column therefore overstates the produced occupation, by 7.5x for m=2.",
+   "evidence": "exp4.rs:1845 computes max_beta2 over all run diagnostics in the instantaneous basis (d.beta2). The table values 0.0640, 0.0138 and 0.00265 equal the pair_spectrum.csv beta2_kink maxima (6.402e-2 at node 29 for m=0.5, 1.3846e-2 at node 35 for m=1, 2.6451e-3 at node 39 for m=2). The final adiabatic-basis maxima (beta2_adiabatic_end) are 0.347, 0.0510, 5.88e-3 and 3.54e-4 for m=0.1, 0.5, 1, 2. summary.json also has maxBeta2Adiabatic=0.647 for m=0.1, attained at the kink where the first-order basis is not meaningful (m K H/(4E^3) is about 0.9).",
+   "fix": "Label the column 'max over the run of the instantaneous |beta_k|^2 (reached at the transition for m>=0.5)', or replace it with the final adiabatic-basis maximum from pair_spectrum.csv (0.347, 0.0510, 0.00588, 3.54e-4). Also qualify the sentence 'The tables use the first-order adiabatic basis'."
+  },
+  {
+   "severity": "minor",
+   "file": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md",
+   "location": "line 346 (EXP-2 verification paragraph: 'exact volume at most 1.0e-10' and 'gravity error from 1.6e-11 to 3.5e-12'); tex line 438",
+   "problem": "These errors against the closed form are quoted without saying they are divided by the amplification factor 1+|t_s|/(t-t_s), which is up to about 890 at the backward end. The raw deviation from the exact solution is 2-3 orders of magnitude larger and would exceed the stated 1e-9 'exact' limit if read literally. The Rust PASS line ('per 1 + |t_s|/(t - t_s)') and the Mathematica paragraph (line 348) state the normalisation; this sentence does not.",
+   "evidence": "I recomputed from the committed exp2 CSVs against V=1+2.4t+alpha t^2, H_i V=H_i0+beta t and the analytic integral for ln h_i. Raw maxima in the canonical run: |V/V_exact-1| = 5.78e-8, 3.30e-8, 6.22e-8 (x0=0, -0.4, 0.5); |H_i-H_exact|/Theta = 3.18e-8, 3.24e-8, 3.04e-8; |ln h_i - exact| = 3.1e-8. All occur at the backward end, t=t_back. summary.json reports maxExactVolumeError 8.3e-11, 6.2e-11, 1.01e-10 and maxExactHubbleError 1.2-1.6e-11 (amplification-normalised, exp2.rs:578-597). In my refined rerun the raw errors are 7.6e-9, 4.4e-9, 8.5e-9 (V), so they are truncation errors that converge. They are not a failure, but they are mislabelled in the text.",
+   "fix": "Write 'exact volume at most 1.0e-10 after division by the amplification factor 1+|t_s|/(t-t_s) (raw relative error 6.2e-8 at the backward end, 8.5e-9 in the refined run)', and qualify the gravity-error numbers the same way."
+  },
+  {
+   "severity": "major",
+   "file": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md",
+   "location": "Abstract (line 7); Sec. 4.4 (line 110); Sec. 4.7 table rows 'kinetic energy' and 'phantom' (lines 145-148); Sec. 6.5 mixed-state bullet (line 263); Sec. 12.3 item 1 (line 689); Sec. 12.6 (line 785). The same claim appears in provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md Sec. 6.10 (line 659) and notebooks/build_dirac16complex_notebook.py (lines 494-498 and 2339-2342).",
+   "problem": "The documents claim that no state of positive-energy quanta, or no positive-energy normal-ordered state, of this Lagrangian is phantom. As a general statement this is false. The argument rests on rho+p = S*M_eff and on 'KE_L >= 0 implies w >= -1'. Both hold only for the homogeneous k=0 condensate. For any state with momentum, KE_L = rho/2 whatever p is. Coherent Bogoliubov (squeezed) superpositions are ordinary states of the positive-norm Fock space, and EXP-4b itself produces them. In such states the normal-ordered pressure has a term linear in beta, while rho is quadratic in beta, so rho+p < 0 with rho > 0 at suitable phases. The same error leads Sec. 6.5 to dismiss the 2E pressure oscillation of the 'mix' runs as purely first-quantised. Take the Fock state in which one sea mode u_- is replaced by u = alpha u_- + beta u_+. Its normal-ordered expectation is u^dag B M u - u_-^dag B M u_-, and that expectation carries exactly this oscillation.",
+   "evidence": "The document's own EXP-4 formula (Sec. 9.5) is p_1 = (1-2|beta|^2)K^2/E + 2Re(alpha* beta) mK/E. The cross term is linear in beta, and eps has no cross term. I checked this independently with the fixture gamma matrices (scratchpad stage3_doc_tmp/physrev2/nec.py): m = K = 1, one sea mode rotated, pressure averaged isotropically (p = p_1/3), best phase. |beta| = 0.05 gives rho = 0.00707, p = -0.0224, w = -3.16. |beta| = 0.01 gives w = -16.5. |beta| = 0.10 gives w = -1.49. For incoherent number states the correct identity is rho + p = sum n (E + K^2/(dE)) >= 0, not S*M_eff.",
+   "fix": "Restrict the statement to incoherent occupation-number (Fock) states at Hartree level, with fixed normal ordering. Replace the derivation 'S M_eff >= 0 hence rho+p >= 0' by rho+p = sum n(E + K^2/(dE)) >= 0 for such states. State explicitly that coherent pair superpositions, which include the pair-creation state of EXP-4b, can violate the null energy condition transiently, as is standard in QFT. Base the 'mean-field artefact' verdict only on the argument that is actually valid: the occupied k=0 level becomes a negative-energy level when M_eff < 0. Reword Sec. 6.5 so the mix-run oscillation is not called unphysical."
+  },
+  {
+   "severity": "major",
+   "file": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md",
+   "location": "Abstract (line 7: 'mostly in the radiation era when H is of order m'); Sec. 9.5 bullets 'Production for m>0 only' and 'When the quanta are made' (lines 536-537); Sec. 9.7 (line 550); Sec. 12.1 (line 662); Sec. 12.2 (line 672); Sec. 12.6 (line 784). The same attribution is made in studies/dirac16complex_cosmology/src/exp4.rs (summary note, lines ~2311-2314) and notebooks/build_dirac16complex_notebook.py (line 2283).",
+   "problem": "The documents attribute the EXP-4b pair yields to production 'in the radiation era when H is of order m' and present them as a generic production mechanism of a few 1e-3 H_inf^3, largest near m = 0.5 H_inf. For m >= 0.5 H_inf the yield in the dominant momentum range is instead set by the instantaneous jump of Hdot (0 to -2H_inf^2) at the C^1 de Sitter/radiation junction. It is an artefact of how sharp the chosen transition is. A smooth transition, which NUMERICS_CONTRACT explicitly allowed, suppresses it by orders of magnitude. The quoted 'a third to a half at a=1' is measured in the first-order adiabatic basis, which by construction cannot see an Hdot jump at the instant it happens. It says nothing about when the physical production occurs.",
+   "evidence": "(1) I integrated the documents' own kink formula (mk/(4E^4))^2 over all k with the committed 64-node grid. It gives na^3 = 2.49e-3 for m=2 and 4.97e-3 for m=1, against the committed 2.421e-3 and 4.412e-3 (ratios 1.03 and 1.13). At k=2.67, m=2, pair_spectrum.csv has |beta|^2 = 1.203e-4 and the kink formula gives 1.156e-4. (2) I wrote an independent RK4 of the two-level mode (m sigma_z + (k/a) sigma_x) with Hdot = -2H^2 (1+tanh(t/tau))/2 (scratchpad physrev2/kink2.py, kink3.py). At tau = 0 it reproduces Rust: m=2,k=2.67: 1.20e-4; m=0.5,k=0.5: 2.346e-2 vs 2.353e-2; m=0.1,k=0.05: 0.2734 vs 0.2735. With tau = 1/H_inf the values become: m=2,k=2.67: 9.7e-10 (1.2e5 times smaller); m=1,k=1.5: 1.05e-6 (1100x); m=0.5,k=1: 4.8e-5 (78x); m=0.5,k=0.5: 3.0e-3 (7.7x). For m=0.1 at k=0.05 the change is only 1.2x (0.273 to 0.224), so light-field de Sitter production is robust.",
+   "fix": "State that for m >~ 0.5 H_inf the produced number, and the 'largest near m=0.5' ranking, are fixed by the discontinuity of Hdot at the junction and are strongly model-dependent. Only the m=0.1 low-k production is robust. Either add a smooth-transition (tanh-blend) run and report its yields, or label the current yields as sudden-transition upper estimates. Drop 'created in the radiation era when H ~ m' as the stated mechanism."
+  },
+  {
+   "severity": "minor",
+   "file": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md",
+   "location": "Sec. 7.2-7.3 (EXP-2 'self-consistent' 8D Einstein cosmology; initial data line 315); also EXP-3 initial spinor (Sec. 8.3). Code: studies/dirac16complex_cosmology/src/exp2.rs initial_spinor (lines 345-362); scripts/check_dirac16complex_exp2.py has no such check.",
+   "problem": "EXP-2 integrates only the diagonal Einstein equations. By Stage 1 (ARBITRARY_FIELD line 960), T_ij (i != j) is proportional to (H_i - H_j) Psibar gamma^i gamma^j gamma^4 Psi. For the rest mode this bilinear is the spin density u^dag(i gamma^i gamma^j)u. In EXP-2, H_b, H_a and H_c all differ, so G_ij = kappa T_ij = 0 holds only if the (0,1),(0,2),(0,3) spin densities vanish. The (space, extra-time) pairs vanish automatically for B eigenstates. The same condition applies in EXP-3, where H_0 = 0 differs from H_a. Neither the documents nor any checker states or tests this condition. u(0) is described as 'the first vector' of a 4-dimensional eigenspace, as though any vector would do.",
+   "evidence": "From the t=0 rows of artifacts/.../exp2/run_x0_*.csv and the fixture gammas (physrev2/offdiag.py), the committed u0 has all 21 tensor bilinears u^dag B C gamma^i gamma^j gamma^4 u and all 7 vector bilinears equal to zero. The EXP-3 states are also unpolarised. The published runs are therefore consistent. However, a random normalised vector in the same (-i gamma^4 = +1, B = +1) eigenspace (physrev2/joint.py) gives (0,1) = 0.727, (0,2) = 0.517, (0,3) = -0.373. Such a state gives T_0j != 0 while G_0j = 0, so the diagonal ansatz fails for it.",
+   "fix": "State the consistency condition: the initial spinor must be spin-unpolarised in every plane (i,j) with H_i != H_j. The bilinears stay zero because u(t) is u0 times a phase. Add a Rust or checker check that these bilinears vanish. Note that the choice of u0 is not arbitrary. A Pauli-consistent state that fills all spin states per momentum is automatically unpolarised."
+  },
+  {
+   "severity": "minor",
+   "file": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md",
+   "location": "Sec. 4.6 'Limits of the mean field' item 2 (line 137: Pauli caveat 'negligible for EXP-3 if the physical mass is of order eV or more'); Sec. 12.2 third bullet (line 673); Sec. 16.2 (line 892).",
+   "problem": "The eV-mass estimate is offered as a reassurance that the single-mode picture is Pauli-consistent for EXP-3. It leaves out that the Unite tuning also fixes the four-fermion coupling: lambda m^2 = 2 x0 (1+x0) m^4 / rho_psi0. In any mass range where degeneracy pressure is negligible, the contact interaction is then ultra-strong. Its scale |lambda/2|^(-1/2) lies below both k_F and m, far beyond any perturbative or NJL-critical value. The Hartree treatment with normal ordering against the free sea is therefore not self-consistent there. There is no mass at which both approximations hold.",
+   "evidence": "I used rho_psi0 = 0.695 rho_crit = 2.56e-11 eV^4 (h = 0.674), so rho_psi0^(1/4) = 2.25 meV, and x0 = -0.462654. Then lambda m^2 = -0.497 (m / 2.25 meV)^4, which is -1.9e10 at m = 1 eV. There |lambda/2|^(-1/2) is about 10 micro-eV, k_F = (6 pi^2 n / 8)^(1/3) is about 0.7 meV, and m = 1 eV. k_F/m < 0.1 needs m >~ 25 meV, which gives |lambda| m^2 >~ 7e3. |lambda| m^2 <~ 2 needs m <~ 3 meV, where k_F/m > 1. These are my order-of-magnitude estimates, not machine-checked outputs.",
+   "fix": "Add this as a further limit of the mean field in Sec. 4.6 and 16.2. The Unite-tuned coupling is outside the validity of a contact/Hartree description for every mass at which the Pauli caveat is negligible. Do not present the eV estimate as a reassurance for the attractive (x0 < 0) models; it applies only to x0 = 0."
+  },
+  {
+   "severity": "minor",
+   "file": "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md",
+   "location": "Sec. 12.6 'Dark matter: a qualified yes ... behaves like cold matter' (line 784); notebooks/build_dirac16complex_notebook.py (line ~2276, 'dark-matter-like (cold) behaviour').",
+   "problem": "EXP-4a is a free-streaming thermal relic that decoupled while relativistic (T_i = 10m). In the standard cosmological classification that is hot or warm dark matter. That its homogeneous equation of state tends to w -> 0 does not make it 'cold', which is a statement about its velocity dispersion or free-streaming length at structure formation. Sec. 12.2 item 5 itself concedes that free streaming was not computed.",
+   "evidence": "Sec. 9.7 describes the same gas as 'hot, then warm, then cold', and Sec. 12.2 item 5 says 'free streaming of the warm phase and clustering were not computed'. The 'cold' label in the final answer is therefore not supported by any computed quantity.",
+   "fix": "Replace 'behaves like cold matter' with 'becomes pressureless (dust-like) at late times', and state that whether the relic is cold, warm or hot depends on m, on the decoupling temperature and on free streaming, none of which was computed."
+  },
+  {
+   "severity": "minor",
+   "file": "provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md",
+   "location": "Section 10.2 (nbconvert boxes, lines 1147-1160) and Section 14 troubleshooting table (lines 1452-1482); same command in notebooks/build_dirac16complex_notebook.py how-to-run cell",
+   "problem": "The nbconvert route can fail at kernel start with nbclient's default 60 s startup timeout. The guide's command does not set a startup timeout, and neither Section 10.2 nor the troubleshooting table mentions this failure or its remedy.",
+   "evidence": "In the fresh clone the guide's PowerShell box ($opts = \"--output-dir\",\"build/nbconvert\",\"--ExecutePreprocessor.timeout=3600\"; python -m nbconvert --to notebook --execute $nb @opts) exited 1 after 140 s: '[NbConvertApp] ERROR | Error occurred while starting new kernel client ... Kernel didn't respond in 60 seconds' followed by 'RuntimeError: Kernel didn't respond in 60 seconds'. The next step, check_notebook.py --also, then printed 'FAIL build\\nbconvert\\dirac16complex_dark_sector.ipynb: unreadable notebook JSON: FileNotFoundError' and 'FAIL cross-check'. The CPU was at 100% on all 24 logical processors from other runs. Rerunning the same command without changes passed in 614 s, and the audit printed all three 'ok' lines. grep finds no 'startup_timeout' anywhere in the guide, the notebooks or the scripts. Log: scratchpad/stage3_doc_tmp/asr/nbconvert.log (failure) and nbconvert2.log (pass).",
+   "fix": "Add --ExecutePreprocessor.startup_timeout=600 to both nbconvert boxes and to the notebook's how-to-run text. Also add a Section 14 row: symptom 'RuntimeError: Kernel didn't respond in 60 seconds'; cause: slow or busy computer, or first kernel start; remedy: rerun, or add the startup_timeout option."
+  },
+  {
+   "severity": "minor",
+   "file": "provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md",
+   "location": "Section 3.1 table (line 87, 'Python 3.10 or newer'); also notebooks/build_dirac16complex_notebook.py line 256 ('3.10 or newer')",
+   "problem": "The stated minimum Python version, 3.10, conflicts with the pinned packages, which need Python 3.11 or newer. On Python 3.10 (for example the python3 of Ubuntu 22.04, which a reader of 'Linux (Ubuntu or Debian)' may have) the pinned pip lines of Section 3.5 and requirements-stage3.txt fail. The student then falls back to unpinned packages and loses the byte-identity results the guide promises.",
+   "evidence": "Installed package metadata (importlib.metadata): numpy 2.4.6 Requires-Python '>=3.11'; matplotlib 3.11.0 Requires-Python '>=3.11'. Guide line 87: '| Python 3.10 or newer | ... | yes |'. Section 3.5 pins numpy==2.4.6 and matplotlib==3.11.0.",
+   "fix": "State 'Python 3.11 or newer (the pinned numpy 2.4.6 and matplotlib 3.11.0 need 3.11+)' in Section 3.1 and in the notebook's how-to-run cell. Optionally tell Ubuntu 22.04 users to install a newer Python or accept the unpinned fallback."
+  },
+  {
+   "severity": "minor",
+   "file": "provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md",
+   "location": "Section 3.2 (line 113, 'winget install --id Python.Python.3.13 -e') versus Sections 2.3, 3.5 and 3.6 (lines 70, 182, 203, 218-227)",
+   "problem": "On Windows the guide's own installer line installs Python 3.13. Every Windows measurement, the byte-identity claims for the checker reports, the analysis files and the executed notebook, and the Section 3.6 expected output ('Python 3.14.5', with 'your version numbers may be newer') are for Python 3.14.5. A student who follows Section 3.2 gets an older, untested Python. The guide cannot promise that its Windows byte-identity statements hold for that version.",
+   "evidence": "Guide line 113 installs Python.Python.3.13. Line 70 and requirements-stage3.txt say tested with Python 3.14.5. Line 225 shows the expected output 'Python 3.14.5'. 'winget search --id Python.Python.3' lists 'Python 3.14  Python.Python.3.14  3.14.7'. Section 9.2 (line 1096) itself shows that the last digits of the analysis and report files change with the platform or build.",
+   "fix": "Install Python.Python.3.14 in Section 3.2 so it matches the tested version. Alternatively, say explicitly that byte identity was only verified with Python 3.14.5, and that with 3.13 the last-digit caveat of Sections 9.2 and 14 may apply."
+  },
+  {
+   "severity": "minor",
+   "file": "notebooks/build_dirac16complex_notebook.py",
+   "location": "How-to-run markdown cell, lines 244-249 (rendered as cell 1 of notebooks/dirac16complex_dark_sector.ipynb)",
+   "problem": "The notebook's own setup instructions lead a macOS or Linux student into a configuration where the notebook's gauntlet is known to fail. The first command given is 'bash scripts/setup_solver.sh' ('the platform is detected'), which fetches the linux or macos engine. With those engines the gauntlet stops with AssertionError('fresh_program_outputs_byte_identical') (guide Section 4.5, item 3). The cell only says to fetch win11 'to reproduce the committed outputs byte for byte', not that the notebook fails otherwise. The same cell tells Windows users 'Windows PowerShell `.\\scripts\\setup_solver.ps1`'. In Windows PowerShell 5.1 that is blocked by the default execution policy, which the guide handles with -ExecutionPolicy Bypass (Section 4.3) but the notebook does not.",
+   "evidence": "Measured in the clone: after 'rm -rf vendor/rustSolveIt; bash scripts/setup_solver.sh linux', a rebuild and '$bin all', git status listed exactly the 14 files of Section 4.5 (the ten EXP-1 K=0 and background files, the three EXP-2 CSV files and exp2/summary.json). Those are files the notebook asserts to be byte-identical. Notebook text: 'macOS or Linux `bash scripts/setup_solver.sh` (the platform is detected; pass `win11`, `macos` or `linux` to force it)'.",
+   "fix": "In the notebook's how-to-run cell, give the command as 'bash scripts/setup_solver.sh win11' (and 'pwsh -NoProfile -File scripts/setup_solver.ps1 -Platform win11'), and state that with another engine this notebook's gauntlet stops at fresh_program_outputs_byte_identical. Optionally, make win11 the default of setup_solver.sh, since it is the only engine that reproduces the committed outputs."
+  },
+  {
+   "severity": "minor",
+   "file": "provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md",
+   "location": "Section 9.3 last sentence (line 1122: '28 in the quick form, 30 in the full form') and the Section 14 row 'the EXP-3 checker reports 30 checks instead of 31' (line 1476)",
+   "problem": "The '30 in the full form' case and its troubleshooting row cannot occur in a clone. The full form checks the committed folder, where fits.json is committed. If the student runs the EXP-3 checker before the analysis, it silently validates the committed fits.json and still reports the full count. So the ordering instruction of Section 9.2 is not actually enforced, and the documented symptom never appears.",
+   "evidence": "scripts/check_dirac16complex_exp3.py lines 518-520 check fits.json only 'when present'. In the clone, right after 'git restore artifacts' and without running the analysis, 'python scripts/check_dirac16complex_exp3.py' printed check_fitsConsistent=true and check_count=29, that is 31 minus the two repeat/refined checks, not 28 or 30. The committed file artifacts/dirac16complex/numerics/exp3/fits.json is tracked.",
+   "fix": "Drop '30 in the full form' and the Section 14 row, or reword them: in the committed folder the checker then validates the committed fits.json rather than a fresh one; run the analysis first so that it checks your own."
+  },
+  {
+   "severity": "minor",
+   "file": "provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md",
+   "location": "Section 13.2 answer (line 1302: '(`maxExactError` in `summary.json`) falls from 6.2e-9 to 1.3e-10')",
+   "problem": "The instruction is ambiguous. summary.json contains 27 keys named maxExactError: 26 per run plus measurements.maxExactError. A student who searches the file finds 8.24e-10 first, not the quoted 6.2e-9. Unlike Section 13.5, the guide gives no reader script and no JSON path here.",
+   "evidence": "In artifacts/dirac16complex/numerics/exp1/summary.json the first occurrence is /runs[0]/maxExactError = 8.241569518046749e-10; the quoted value is /measurements/maxExactError = 6.245997673389946e-09. In build/ex-refined/exp1/summary.json, /measurements/maxExactError = 1.31546252977539335e-10 (matches 1.3e-10).",
+   "fix": "Write 'measurements.maxExactError in summary.json' (the maximum over the 26 runs), or add a two-line Python reader as in Section 13.5."
+  },
+  {
+   "severity": "minor",
+   "file": "provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md",
+   "location": "Section 13.5, third exercise answer (line 1430: 'the \u03bc-independence it does measure, 2.8e-9, is far inside its 1e-8 limit')",
+   "problem": "The quoted number is not the value that the check compares with its 1e-8 limit. check_muIndependence uses max(rho, p, w, sigma), and the largest of these is the pressure deviation, 3.0e-9. The value 2.8e-9 is only the w (and sigma) deviation.",
+   "evidence": "'python scripts/check_dirac16complex_exp3.py --output build/ex-x0' (after the X0_VALUES edit) printed measurement_muIndependenceRho=1.737e-09, measurement_muIndependenceP=3.0048e-09, measurement_muIndependenceW=2.7698e-09 and measurement_muIndependenceSigma=2.7698e-09. check_dirac16complex_exp3.py line 556: checks['muIndependence'] = mu_grid_ok and max(mu_rho, mu_p, mu_w, mu_sigma) <= MU_LIMIT.",
+   "fix": "Quote the governing value, for example 'the \u03bc-independence it does measure (largest deviation 3.0e-9, in p) is far inside its 1e-8 limit'."
+  }
+ ]
+}

@@ -52,18 +52,27 @@ proved exactly, in Wolfram Language and independently in Python):
 
 | Stage | Document (Markdown, LaTeX, PDF) | Status |
 |---|---|---|
-| 1. Arbitrary gravitational field | `provenance/DIRAC16COMPLEX_ARBITRARY_FIELD` | see the table below |
-| 2. Primordial pair-creation field | `provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD` | see the table below |
-| 3. Dark-sector numerics | `provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS`, `provenance/DIRAC16COMPLEX_STUDENT_GUIDE` | see the table below |
+| 1. Arbitrary gravitational field | `provenance/DIRAC16COMPLEX_ARBITRARY_FIELD` | see the status list below |
+| 2. Primordial pair-creation field | `provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD` | see the status list below |
+| 3. Dark-sector numerics | `provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS`, `provenance/DIRAC16COMPLEX_STUDENT_GUIDE` | see the status list below |
+| 4. Kohn–Sham DFT, ground and first excited states | `provenance/DIRAC16COMPLEX_KOHN_SHAM_PRIMORDIAL`, `provenance/DIRAC16COMPLEX_KOHN_SHAM_STUDENT_GUIDE` (not yet written) | see the status list below |
 
-Status at this push (work in progress; the documentation, review and gate phases
-are still running): the exact verifiers of Stages 1 and 2 pass (Wolfram algebra
-20/21 with one check encoding a since-corrected design claim, Wolfram geometry 43/43,
-Python algebra 21/21, Python geometry 51/51, Grassmann demonstration 16/16, Wolfram
-primordial 114/114, Python primordial 14/14 with 0 coefficient mismatches); the
-Stage-3 Rust study builds cleanly and its five experiments pass their independent
-checkers (25/25, 34/34, 31/31, 51/51, 21/21).  PDFs and notebooks that are not yet
-present in this commit are still being produced.
+Status at this push (2026-09-30; HANDOFF.md section 2 is the authoritative,
+per-stage list):
+
+- **Stages 1 and 2 are complete.** Their exact verifiers, documents, reviews and
+  gates (`scripts/verify_stage1_arbitrary_field.*`, `scripts/verify_stage2_primordial_field.*`)
+  passed and were verified from a fresh clone.
+- **Stage 3 is not finished.** The engine, the five experiments and their checkers,
+  both notebooks, the figures and both documents are committed.  The second review
+  round found 21 problems in the documents and the notebook (none in the engine);
+  they are not fixed yet and are listed in `handoff/reviews/stage3_review_round2_findings.json`.
+  The gate `scripts/verify_stage3_dark_sector.*` has not yet ended with OK after those fixes.
+- **Stage 4 is not finished.** The exact Kohn–Sham theory (Wolfram 125/125, sympy
+  157/157) and the Rust Kohn–Sham solver `studies/dirac16complex_kohn_sham` are
+  complete and reproducible.  The independent Python reference agrees on 65 of 69
+  cross-checks; 4 disagreements remain (`handoff/reviews/stage4_crosscheck_quick_2026-09-30.log`).
+  The Stage-4 notebooks, documents, review and gate do not exist yet.
 
 ## Reproducing
 
