@@ -1,0 +1,1491 @@
+# Stage 1 gate verification run 'public_ps1' (2026-09-30): fresh public clone + the Stage-1 public-clone-mode files overlaid. Result line and gate exit at the end.
+
+head=8c86dbeaed739e68f9616bc74ce6800072fd6537
+stage1_dirac_main=absent
+stage1_tool_python=C:\Python314\python.exe
+stage1_tool_wolframscript=C:\Program Files\Wolfram Research\WolframScript\wolframscript.exe
+stage1_tool_pdflatex=C:\Program Files\MiKTeX\miktex\bin\x64\pdflatex.exe
+stage1_step=stage1-01-build-fixture
+output=<scratch>/s1v_public_ps1/build/stage1/algebra-fixture.json
+output_bytes=213133
+output_sha256=8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b
+stage1_step_ok=stage1-01-build-fixture
+stage1_step=stage1-02-check-algebra
+check_ALG_clifford=true
+check_ALG_gammaTransposeSymmetry=true
+check_ALG_chargeMatrix=true
+check_ALG_expression1=true
+check_ALG_spinTransposeProperties=true
+check_ALG_chirality=true
+check_ALG_faithful=true
+check_ALG_pinIrreducibleComplex=true
+check_ALG_spinDecomposition=true
+check_ALG_cliffordPictureIntertwiner=true
+check_ALG_octonionPictureIntertwiner=true
+check_ALG_chargeFormB=true
+check_ALG_invariantForms=true
+check_ALG_gamma8Map=true
+check_ALG_pinLiftCharacter=true
+check_QNT_flatModeHamiltonian=true
+check_QNT_kreinSignature=true
+check_QNT_unitaryAndKreinSubgroups=true
+check_QNT_currentHermiticity=true
+check_ALG_fixtureAgreement=true
+measurement_ALG_gammaCount=8
+measurement_ALG_gammaIntegerEntries=true
+measurement_ALG_cliffordPairsVerified=64
+measurement_ALG_gammaTransposeKinds=["symmetric","symmetric","symmetric","symmetric","antisymmetric","antisymmetric","antisymmetric","antisymmetric"]
+measurement_ALG_chargeMatrixSignature=[8,8,0]
+measurement_ALG_expression1PerFrameIndex=[true,true,true,true,true,true,true,true]
+measurement_ALG_spinTransposeIdentitiesVerified=476
+measurement_ALG_chiralityDiagonal=[-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1]
+measurement_chirality=[[-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,-1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,-1,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,-1,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,-1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,-1,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,-1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]]
+measurement_ALG_monomialCount=256
+measurement_ALG_fullAlgebraRank=256
+measurement_ALG_evenAlgebraRank=128
+measurement_ALG_oddAlgebraRank=128
+measurement_ALG_pinCommutantDimensionQ=1
+measurement_ALG_pinCommutantArgument=the commutant equations gamma^a X = X gamma^a have rational coefficients, so the complex solution space is the complexification of the rational one (rank is invariant under field extension): dim_C = dim_Q = 1; with Cl(4,4) (x) C = Mat16(C) this makes C^16 an irreducible complex Pin(4,4) module
+measurement_ALG_spinCommutantDimensionQ=2
+measurement_ALG_spinMinusBlockCommutantDimension=1
+measurement_ALG_spinPlusBlockCommutantDimension=1
+measurement_ALG_spinCrossIntertwinerDimension=0
+measurement_ALG_spinCrossIntertwinerDimensionReverse=0
+measurement_ALG_evenAlgebraRankMinusBlock=64
+measurement_ALG_evenAlgebraRankPlusBlock=64
+measurement_ALG_cliffordIntertwinerDimension=1
+measurement_ALG_cliffordIntertwinerRank=16
+measurement_ALG_cliffordTensorGammasClifford=true
+measurement_ALG_cliffordKChargeKinvEqualsCdm=true
+measurement_ALG_cliffordKChiralityKinvSignVsGGGG=1
+measurement_ALG_cliffordKIsSignedPermutation=false
+measurement_K_clifford=[[0,0,0,0,0,0,0,0,1,-1,0,0,1,1,0,0],[-1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0],[0,0,-1,1,0,0,-1,-1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,-1,0,0,-1,-1],[0,0,1,1,0,0,-1,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,-1,1],[0,0,0,0,0,0,0,0,-1,-1,0,0,1,-1,0,0],[1,1,0,0,1,-1,0,0,0,0,0,0,0,0,0,0],[1,-1,0,0,1,1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,-1,1,0,0,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,-1,1,0,0,-1,-1],[0,0,1,-1,0,0,-1,-1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,1,0,0,-1,1],[0,0,-1,-1,0,0,-1,1,0,0,0,0,0,0,0,0],[-1,-1,0,0,1,-1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,1,0,0,1,-1,0,0]]
+measurement_ALG_zornModelIdentitiesOnSamples=true
+measurement_ALG_zornSampleAssociative=false
+measurement_ALG_octonionGammasClifford=true
+measurement_ALG_octonionIntertwinerDimension=1
+measurement_ALG_octonionIntertwinerRank=16
+measurement_ALG_octonionIntertwinerDirection=gamma^a K = K Gamma^a
+measurement_ALG_octonionReverseIntertwinerDimension=1
+measurement_ALG_octonionKIsSignedPermutation=false
+measurement_ALG_octonionKBlockDiagonal=true
+measurement_ALG_octonionKEqualBlocks=true
+measurement_ALG_octonionKGramFactor=2
+measurement_ALG_tauEqualsLeftMultiplicationPerIndex=[true,false,false,false,false,false,false,false]
+measurement_ALG_tauLeftMultiplicationIntertwinerDimension=1
+measurement_ALG_tauEqualsLeftMultiplicationUpToSignedPermutation=false
+measurement_K_octonion=[[1,0,0,0,0,0,0,-1,0,0,0,0,0,0,0,0],[0,0,0,-1,-1,0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0],[0,-1,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],[0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,-1,0,0,0,0,0,0,0,0,0,0],[0,-1,0,0,0,0,-1,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,-1],[0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0],[0,0,0,0,0,0,0,0,0,-1,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0,0,0,0,-1,1,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,-1,0,0],[0,0,0,0,0,0,0,0,0,-1,0,0,0,0,-1,0]]
+measurement_ALG_octonionGammasEqualDiracMainTriality44Json=not-run
+measurement_ALG_KcliffordKoctonionEqualsDiracMainCanonicalIntertwiner=not-run
+measurement_ALG_zornProductEqualsDiracMainSplitOctonionJson=not-run
+measurement_ALG_chargeFormBEigenvalueMultiplicities={"plus1":8,"minus1":8}
+measurement_ALG_chargeFormBHermitianSignature=[8,8,0]
+measurement_ALG_invariantFormDimensionQ=2
+measurement_ALG_invariantFormsSpannedByCPminusCPplus=true
+measurement_ALG_invariantFormsBlockDiagonal=true
+measurement_ALG_invariantFormsTimesGamma4BlockOffDiagonal=true
+measurement_ALG_invariantFormsCPminusCPplusSymmetric=true
+measurement_ALG_gamma8MapKineticSign=-1
+measurement_ALG_gamma8MapMassSign=1
+measurement_ALG_gamma8MapPotentialSign=1
+measurement_ALG_gamma8MapLagrangianStatement=Psi -> gamma8 Psi: K -> -K, S = Psibar Psi -> S, hence L_{m,U}[gamma8 Psi] = -L_{-m,-U}[Psi]; the contract form L_m -> -L_{-m} holds exactly when U = 0
+measurement_ALG_pinLiftVectorNorms=[1,1,1,1,-1,-1,-1,-1,"49/36","-31/36","155/144","-7/25"]
+measurement_ALG_pinLiftTransposeSign_s_u=[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
+measurement_ALG_pinLiftMassFactor=[-1,-1,-1,-1,1,1,1,1,"-49/36","31/36","-155/144","7/25"]
+measurement_ALG_pinLiftKineticFactorUntwisted=[-1,-1,-1,-1,1,1,1,1,"-49/36","31/36","-155/144","7/25"]
+measurement_ALG_pinLiftKineticFactorTwisted=[1,1,1,1,-1,-1,-1,-1,"49/36","-31/36","155/144","-7/25"]
+measurement_ALG_pinLiftUntwistedAdjointInO44=true
+measurement_ALG_pinLiftProductPairs=[[0,4],[1,5],[0,1],[4,5],[8,9],[10,11]]
+measurement_ALG_pinLiftProductBilinearFactor=[-1,-1,1,1,"-1519/1296","-217/720"]
+measurement_ALG_pinLiftGamma0Gamma4FlipsPsibarPsi=true
+measurement_ALG_pinLiftQuarticPotentialFactor=[1,1,1,1,1,1,1,1,"2401/1296","961/1296","24025/20736","49/625"]
+measurement_ALG_pinLiftInteractingNote=for a unit spacelike u (character -1) S -> -S while U(S) = (lambda/2) S^2 is invariant, so L_{m,lambda} -> -L_{m,-lambda} and the field equation gamma^mu D_mu Psi = (m + lambda S) Psi maps to the lambda -> -lambda equation; L -> +-L and Pin(4,4)-covariance of the field equations are exact for U = 0
+measurement_ALG_pinLiftCharacterStatement=Psi -> u Psi with u^2 = n(u): u^T C = -C u, Psibar Psi -> -n(u) Psibar Psi; untwisted lift (v -> u v u^-1): kinetic term -> -n(u) x kinetic (same as mass, so the free Lagrangian goes to -n(u) L); twisted lift (v -> alpha(u) v u^-1): kinetic -> +n(u), opposite to mass; for g = u1 u2 Psibar Psi -> n(u1) n(u2) Psibar Psi (spinor norm), gamma0 gamma4 flips it; U(S) = (lambda/2) S^2 is invariant under every sign flip of S
+measurement_QNT_flatModeCoefficientCliffordAlgebra=true
+measurement_QNT_flatModeCoefficientHermitian={"m":true,"0":true,"1":true,"2":true,"3":true,"5":false,"6":false,"7":false}
+measurement_QNT_flatModeCoefficientCommutesWithB={"m":true,"0":true,"1":true,"2":true,"3":true,"5":false,"6":false,"7":false}
+measurement_QNT_flatModeExtraTimePartsIndependent=true
+measurement_QNT_flatModeSamples=[{"m":1,"k":[0,0,0,0,0,0,0,0],"extraTimeFree":true,"hermitian":true,"commutesWithB":true,"energySquared":1,"squareIsEnergySquaredTimesIdentity":true},{"m":"3/2","k":["1/2","-1/3",2,0,0,0,0,0],"extraTimeFree":true,"hermitian":true,"commutesWithB":true,"energySquared":"119/18","squareIsEnergySquaredTimesIdentity":true},{"m":0,"k":[1,1,1,1,0,0,0,0],"extraTimeFree":true,"hermitian":true,"commutesWithB":true,"energySquared":4,"squareIsEnergySquaredTimesIdentity":true},{"m":"-2/3","k":["-2/7","5/3",0,"1/4",0,0,0,0],"extraTimeFree":true,"hermitian":true,"commutesWithB":true,"energySquared":"23753/7056","squareIsEnergySquaredTimesIdentity":true},{"m":"7/5","k":[0,0,0,-3,0,0,0,0],"extraTimeFree":true,"hermitian":true,"commutesWithB":true,"energySquared":"274/25","squareIsEnergySquaredTimesIdentity":true},{"m":1,"k":[0,0,0,0,0,1,0,0],"extraTimeFree":false,"hermitian":false,"commutesWithB":false,"energySquared":0,"squareIsEnergySquaredTimesIdentity":true},{"m":1,"k":["1/2",0,0,0,0,0,"-2/3",0],"extraTimeFree":false,"hermitian":false,"commutesWithB":false,"energySquared":"29/36","squareIsEnergySquaredTimesIdentity":true},{"m":"1/2","k":["1/7","2/7","3/7","4/7",0,"5/7","6/7",1],"extraTimeFree":false,"hermitian":false,"commutesWithB":false,"energySquared":"-271/196","squareIsEnergySquaredTimesIdentity":true},{"m":1,"k":[0,0,0,0,0,0,0,2],"extraTimeFree":false,"hermitian":false,"commutesWithB":false,"energySquared":-3,"squareIsEnergySquaredTimesIdentity":true},{"m":0,"k":[0,3,0,0,0,3,0,0],"extraTimeFree":false,"hermitian":false,"commutesWithB":false,"energySquared":0,"squareIsEnergySquaredTimesIdentity":true}]
+measurement_QNT_flatModeSampleCount=10
+measurement_QNT_flatModeNegativeEnergySquaredSamples=2
+measurement_QNT_flatModeMomentumConvention=k_j with j in {0,1,2,3,5,6,7} (k_4 excluded); E^2 = m^2 + k0^2+k1^2+k2^2+k3^2 - k5^2 - k6^2 - k7^2
+measurement_QNT_kreinPositiveEnergyEigenspaceDimension=8
+measurement_QNT_kreinNegativeEnergyEigenspaceDimension=8
+measurement_QNT_kreinBSignatureOnPlusEigenspace=[4,4]
+measurement_QNT_kreinBSignatureOnMinusEigenspace=[4,4]
+measurement_QNT_kreinProjectorCrossCheck=true
+measurement_QNT_unitaryGenerators=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3],[5,6],[5,7],[6,7]]
+measurement_QNT_unitaryGeneratorCount=9
+measurement_QNT_antiHermitianGeneratorCount=12
+measurement_QNT_generatorsCommutingWithB=[[0,1],[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,3],[2,4],[3,4],[5,6],[5,7],[6,7]]
+measurement_QNT_generatorsCommutingWithBCount=13
+measurement_QNT_literalClaimExactlyNineCommuteWithB=false
+measurement_QNT_kreinGeneratorCount=21
+measurement_QNT_kreinFailingGenerators=[[0,4],[1,4],[2,4],[3,4],[4,5],[4,6],[4,7]]
+measurement_QNT_boostsCommutingWithBHermitian=true
+measurement_QNT_unitaryCheckMeaning=canonical meaning (CONTRACT.md section 11, E1): (a) exactly 13 S^ab commute with B: the 9 with a,b in {0,1,2,3} or {5,6,7} and the 4 Hermitian boosts S^{a4}, a<4; (b) exactly 9 are anti-Hermitian (unitary w.r.t. Psi^dagger Psi) and commute with B (Spin(4)xSpin(3)); (c) Krein condition S^T B + B S = 0 holds exactly for the 21 with a,b != 4 (spin(4,3)) and fails for the 7 S^{a4}
+measurement_QNT_currentMatrixHermitianPerIndex=[true,true,true,true,true,true,true,true]
+measurement_QNT_currentTimeComponentEqualsB=true
+measurement_ALG_fixturePresent=true
+measurement_ALG_fixtureFieldAgreement={"schemaVersion":true,"indexing":true,"eta":true,"sigma8":true,"C":true,"chirality":true,"K_clifford":true,"K_octonion":true,"tau":true,"taubar":true,"gamma":true,"gammaClifford":true,"gammaOctonion":true,"S":true,"B":true}
+measurement_ALG_fixtureLfOnlyWithTrailingNewline=true
+measurement_ALG_fixtureInMemoryJsonRoundTrip=true
+measurement_ALG_fixtureByteIdenticalToRegeneration=true
+measurement_ALG_fixtureSha256=8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b
+measurement_wolframAgreement=not-run
+check_count=20
+failed_check_count=0
+report=build/stage1/python-algebra-report.json
+stage1_step_ok=stage1-02-check-algebra
+stage1_step=stage1-03-wolfram-algebra
+check_ALG_clifford=true
+check_ALG_gammaTransposeSymmetry=true
+check_ALG_chargeMatrix=true
+check_ALG_expression1=true
+check_ALG_spinTransposeProperties=true
+check_ALG_chirality=true
+check_ALG_faithful=true
+check_ALG_pinIrreducibleComplex=true
+check_ALG_spinDecomposition=true
+check_ALG_cliffordPictureIntertwiner=true
+check_ALG_octonionPictureIntertwiner=true
+check_ALG_chargeFormB=true
+check_ALG_invariantForms=true
+check_ALG_gamma8Map=true
+check_ALG_pinLiftCharacter=true
+check_QNT_curvedAnticommutatorMatrix=true
+check_QNT_flatModeHamiltonian=true
+check_QNT_kreinSignature=true
+check_QNT_unitaryAndKreinSubgroups=true
+check_QNT_currentHermiticity=true
+check_ALG_fixtureAgreement=true
+measurement_K_clifford=[[0,0,0,0,0,0,0,0,1,-1,0,0,1,1,0,0],[-1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0],[0,0,-1,1,0,0,-1,-1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,-1,0,0,-1,-1],[0,0,1,1,0,0,-1,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,-1,1],[0,0,0,0,0,0,0,0,-1,-1,0,0,1,-1,0,0],[1,1,0,0,1,-1,0,0,0,0,0,0,0,0,0,0],[1,-1,0,0,1,1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,-1,1,0,0,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,-1,1,0,0,-1,-1],[0,0,1,-1,0,0,-1,-1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,1,0,0,-1,1],[0,0,-1,-1,0,0,-1,1,0,0,0,0,0,0,0,0],[-1,-1,0,0,1,-1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,1,0,0,1,-1,0,0]]
+measurement_K_octonion=[[1,0,0,0,0,0,0,-1,0,0,0,0,0,0,0,0],[0,0,0,-1,-1,0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0],[0,-1,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],[0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,-1,0,0,0,0,0,0,0,0,0,0],[0,-1,0,0,0,0,-1,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,-1],[0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0],[0,0,0,0,0,0,0,0,0,-1,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0,0,0,0,-1,1,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,-1,0,0],[0,0,0,0,0,0,0,0,0,-1,0,0,0,0,-1,0]]
+measurement_volumeElementSign=1
+measurement_chiralityDiagonal=[-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1]
+measurement_ALG_clifford.pairsChecked=64
+measurement_ALG_clifford.pairsSatisfied=64
+measurement_ALG_clifford.integerEntries=true
+measurement_ALG_clifford.squares=[1,1,1,1,-1,-1,-1,-1]
+measurement_ALG_gammaTransposeSymmetry.perGeneratorExpectedSymmetryHolds=[true,true,true,true,true,true,true,true]
+measurement_ALG_gammaTransposeSymmetry.symmetryType=["symmetric","symmetric","symmetric","symmetric","antisymmetric","antisymmetric","antisymmetric","antisymmetric"]
+measurement_ALG_chargeMatrix.equalsGamma0123=true
+measurement_ALG_chargeMatrix.equalsBlockDiagMinusSigmaSigma=true
+measurement_ALG_chargeMatrix.symmetric=true
+measurement_ALG_chargeMatrix.squareIsIdentity=true
+measurement_ALG_chargeMatrix.signature=[8,8]
+measurement_ALG_chargeMatrix.zeroEigenvalues=0
+measurement_ALG_chargeMatrix.characteristicPolynomial=(-1 + x)^8*(1 + x)^8
+measurement_ALG_chargeMatrix.eigenvalues=[-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1]
+measurement_ALG_expression1.list=[true,true,true,true,true,true,true,true]
+measurement_ALG_expression1.listWolframForm={True, True, True, True, True, True, True, True}
+measurement_ALG_expression1.literalInput=\[Sigma]16.(T16^A)[#]==-Transpose[\[Sigma]16.(T16^A)[#]]&/@Range[0,7]
+measurement_ALG_expression1.literalResultSymbolizeEmulation=[true,true,true,true,true,true,true,true]
+measurement_ALG_expression1.literalEvaluatedStringSymbolizeEmulation=\[Sigma]16.T16\[UnderBracket]Superscript\[UnderBracket]A[#]==-Transpose[\[Sigma]16.T16\[UnderBracket]Superscript\[UnderBracket]A[#]]&/@Range[0,7]
+measurement_ALG_expression1.notebookDefinitionsMatchPackageSymbolizeEmulation={"etaMatchesPackage":true,"sigmaMatchesPackage":true,"tauMatchesPackage":true,"tauBarMatchesPackage":true,"gammasMatchPackage":true,"sigma16MatchesPackage":true}
+measurement_ALG_expression1.literalResultPowerUpValue=[true,true,true,true,true,true,true,true]
+measurement_ALG_expression1.notebookDefinitionsMatchPackagePowerUpValue={"etaMatchesPackage":true,"sigmaMatchesPackage":true,"tauMatchesPackage":true,"tauBarMatchesPackage":true,"gammasMatchPackage":true,"sigma16MatchesPackage":true}
+measurement_ALG_expression1.notebookCellsEvaluated=11
+measurement_ALG_expression1.note=Notebook definition cells are evaluated verbatim in an isolated context. The notebook Symbolize's OverBar[tau] and T16^A (Notation package); variant Symbolize rewrites these templates to atomic symbols before parsing, variant PowerUpValue parses the task's literal string unchanged with T16^A = Power[T16,A] resolved by an UpValue to the same atomic symbol.
+measurement_ALG_spinTransposeProperties.cSpinAntisymmetricPairs=64
+measurement_ALG_spinTransposeProperties.pairsChecked=64
+measurement_ALG_spinTransposeProperties.cAnticommutatorSymmetricTriples=512
+measurement_ALG_spinTransposeProperties.cCommutatorAntisymmetricTriples=512
+measurement_ALG_spinTransposeProperties.triplesChecked=512
+measurement_ALG_spinTransposeProperties.supplementarySpinVectorRelation=[S^{ab}, gamma^c] = eta^{bc} gamma^a - eta^{ac} gamma^b
+measurement_ALG_spinTransposeProperties.supplementarySpinVectorRelationHolds=true
+measurement_ALG_spinTransposeProperties.supplementaryLieRelationsHold=true
+measurement_ALG_chirality.equalsDiagMinusI8PlusI8=true
+measurement_ALG_chirality.squareIsIdentity=true
+measurement_ALG_chirality.anticommutesWithGammas=[true,true,true,true,true,true,true,true]
+measurement_ALG_chirality.commutesWithAllSpin=true
+measurement_ALG_chirality.commutesWithC=true
+measurement_ALG_chirality.upperBlockChirality=[-1]
+measurement_ALG_chirality.lowerBlockChirality=[1]
+measurement_ALG_faithful.monomialCount=256
+measurement_ALG_faithful.fullRank=256
+measurement_ALG_faithful.evenMonomialCount=128
+measurement_ALG_faithful.evenRank=128
+measurement_ALG_pinIrreducibleComplex.commutantDimension=1
+measurement_ALG_pinIrreducibleComplex.commutantIsScalars=true
+measurement_ALG_pinIrreducibleComplex.linearizationIdentityVerified=true
+measurement_ALG_pinIrreducibleComplex.field=Q (exact rational null space of an integer coefficient matrix)
+measurement_ALG_pinIrreducibleComplex.complexificationNote=The coefficient matrix is rational; its rank, hence the solution dimension, is unchanged by extension of scalars Q -> C, so the complex commutant of {gamma^a} in Mat16(C) is 1-dimensional (Schur: C^16 is an irreducible complex Pin(4,4)/Cl(4,4) module).
+measurement_ALG_spinDecomposition.spinCommutantDimension=2
+measurement_ALG_spinDecomposition.spinCommutantSpannedByChiralProjectors=true
+measurement_ALG_spinDecomposition.spinGeneratorsBlockDiagonal=true
+measurement_ALG_spinDecomposition.blockCommutantDimensions=[1,1]
+measurement_ALG_spinDecomposition.blockOrder={upper spinor indices 0..7 (chirality -1), lower spinor indices 8..15 (chirality +1)}
+measurement_ALG_spinDecomposition.evenAlgebraBlockDiagonal=true
+measurement_ALG_spinDecomposition.blockEvenAlgebraRanks=[64,64]
+measurement_ALG_spinDecomposition.crossIntertwinerDimensions=[0,0]
+measurement_ALG_spinDecomposition.conclusion=C^16 = C^8_- (+) C^8_+ as Spin(4,4) modules; each summand irreducible over C (commutant 1, even algebra = End(C^8)) and the two are inequivalent (cross intertwiners 0).
+measurement_ALG_cliffordPictureIntertwiner.cliffordRelationsTensorPicture=true
+measurement_ALG_cliffordPictureIntertwiner.intertwinerDimension=1
+measurement_ALG_cliffordPictureIntertwiner.intertwinerEquation=gammaHat^a . K == K . gamma^a (K maps the notebook picture to the dirac-main tensor picture)
+measurement_ALG_cliffordPictureIntertwiner.rank=16
+measurement_ALG_cliffordPictureIntertwiner.primitiveEntriesCoprime=true
+measurement_ALG_cliffordPictureIntertwiner.firstNonzeroPositive=true
+measurement_ALG_cliffordPictureIntertwiner.KCKinverseEqualsCdm=true
+measurement_ALG_cliffordPictureIntertwiner.diracMainVolumeEqualsGGGG=true
+measurement_ALG_cliffordPictureIntertwiner.volumeElementSign=1
+measurement_ALG_cliffordPictureIntertwiner.volumeElementStatement=K.gamma8.Inverse[K] == (1) G(x)G(x)G(x)G
+measurement_ALG_cliffordPictureIntertwiner.diracMainPlusIndicesZeroBased=[0,3,5,6,9,10,12,15]
+measurement_ALG_cliffordPictureIntertwiner.diracMainMinusIndicesZeroBased=[1,2,4,7,8,11,13,14]
+measurement_ALG_cliffordPictureIntertwiner.imageOfNotebookMinusAndPlusBlocks=[[1,2,4,7,8,11,13,14],[0,3,5,6,9,10,12,15]]
+measurement_ALG_cliffordPictureIntertwiner.matchesDiracMainCl44SeedGenerators=not-run
+measurement_ALG_cliffordPictureIntertwiner.matchesDiracMainCl44SeedVolumeElement=not-run
+measurement_ALG_octonionPictureIntertwiner.unitLaw=true
+measurement_ALG_octonionPictureIntertwiner.workedExamplesW9={"e1e1=-e0":true,"e4e4=e0":true,"e1e2=-e3":true,"e2e1=e3":true,"e1e4=-e5":true,"e4e1=e5":true}
+measurement_ALG_octonionPictureIntertwiner.associatorE1E2E4=[0,0,0,0,0,0,0,2]
+measurement_ALG_octonionPictureIntertwiner.associatorEquals2e7=true
+measurement_ALG_octonionPictureIntertwiner.normIsEtaQuadraticForm=true
+measurement_ALG_octonionPictureIntertwiner.normComposition=true
+measurement_ALG_octonionPictureIntertwiner.conjugationFixesE0NegatesOthers=true
+measurement_ALG_octonionPictureIntertwiner.conjugationReversesProducts=true
+measurement_ALG_octonionPictureIntertwiner.nonzeroStructureConstants=64
+measurement_ALG_octonionPictureIntertwiner.matchesDiracMainSplitOctonionMultiplicationTensor=not-run
+measurement_ALG_octonionPictureIntertwiner.gammasFromDiracMainSplitOctonionJsonEqualRebuilt=not-run
+measurement_ALG_octonionPictureIntertwiner.matchesDiracMainTriality44OctonionCliffordGenerators=not-run
+measurement_ALG_octonionPictureIntertwiner.diracMainCanonicalIntertwinerEqualsPrimitiveKcliffordKoctonion=not-run
+measurement_ALG_octonionPictureIntertwiner.diracMainCanonicalIntertwinerVerified=not-run
+measurement_ALG_octonionPictureIntertwiner.cliffordRelationsSameEta=true
+measurement_ALG_octonionPictureIntertwiner.intertwinerEquation=gamma^a . K == K . Gamma(e_a) (K maps the octonion picture to the notebook picture)
+measurement_ALG_octonionPictureIntertwiner.intertwinerDimension=1
+measurement_ALG_octonionPictureIntertwiner.rank=16
+measurement_ALG_octonionPictureIntertwiner.intertwinerVerified=true
+measurement_ALG_octonionPictureIntertwiner.tauEqualsLeftMultiplication=[true,false,false,false,false,false,false,false]
+measurement_ALG_octonionPictureIntertwiner.notebookBasisChange={"Q":[[1,0,0,0,0,0,0,-1],[0,0,0,-1,-1,0,0,0],[0,0,1,0,0,1,0,0],[0,-1,0,0,0,0,1,0],[1,0,0,0,0,0,0,1],[0,0,0,-1,1,0,0,0],[0,0,1,0,0,-1,0,0],[0,-1,0,0,0,0,-1,0]],"RequalsQ":true,"tauEqualsQLQinv":true,"nonzeroEntriesPerRowOfQ":[2],"QtransposeQ":"2 I8","QQtranspose":"2 I8","QtransposeSigmaQOverEta":2,"interpretation":"tau[a] = Q L_{e_a} Q^-1 and taubar[a] = Q L_{conj e_a} Q^-1 with one and the same Q in both chiral blocks (K_octonion = diag(Q, Q)). Q is not a (scaled) signed permutation: it is a +-1 matrix with two nonzero entries per row and column, Q^T Q = 2 I8, and Q^T sigma Q = 2 eta, i.e. the notebook's 8-space basis is a null (light-cone) basis in which the split-octonion norm eta appears as sigma/2."}
+measurement_ALG_octonionPictureIntertwiner.tauBarEqualsLeftMultiplicationByConjugate=[true,false,false,false,false,false,false,false]
+measurement_ALG_octonionPictureIntertwiner.tauEqualsRightMultiplication=[true,false,false,false,false,false,false,false]
+measurement_ALG_octonionPictureIntertwiner.intertwinerBlockType=block-diagonal
+measurement_ALG_octonionPictureIntertwiner.upperBlockQIsScaledSignedPermutation=false
+measurement_ALG_octonionPictureIntertwiner.lowerBlockRIsScaledSignedPermutation=false
+measurement_ALG_octonionPictureIntertwiner.QProportionalToR=true
+measurement_ALG_octonionPictureIntertwiner.tauEqualsRLQinvAndTauBarEqualsQLbarRinv=true
+measurement_ALG_octonionPictureIntertwiner.signedPermutationQ=not a signed permutation
+measurement_ALG_octonionPictureIntertwiner.signedPermutationR=not a signed permutation
+measurement_ALG_octonionPictureIntertwiner.octonionPictureVolumeElementDiagonal=[-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1]
+measurement_ALG_octonionPictureIntertwiner.rightMultiplicationPictureCliffordRelations=true
+measurement_ALG_octonionPictureIntertwiner.rightMultiplicationPictureIntertwinerDimension=1
+measurement_ALG_octonionPictureIntertwiner.rightMultiplicationPictureIntertwinerRank=16
+measurement_ALG_chargeFormB.hermitian=true
+measurement_ALG_chargeFormB.squareIsIdentity=true
+measurement_ALG_chargeFormB.eigenvalues=[-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1]
+measurement_ALG_chargeFormB.characteristicPolynomial=(-1 + x)^8*(1 + x)^8
+measurement_ALG_chargeFormB.commutesWithC=true
+measurement_ALG_chargeFormB.BCEqualsMinusIGamma4=true
+measurement_ALG_invariantForms.invariantBilinearFormDimension=2
+measurement_ALG_invariantForms.basisIsCPminusCPplus=true
+measurement_ALG_invariantForms.basisBlockDiagonalInChirality=true
+measurement_ALG_invariantForms.hermitianIffAlphaBetaReal=true
+measurement_ALG_invariantForms.Hgamma4BlockOffDiagonal=true
+measurement_ALG_invariantForms.Hgamma4SimilarToMinusItself=true
+measurement_ALG_invariantForms.Hgamma4Traceless=true
+measurement_ALG_invariantForms.Hgamma4Squared=-alpha beta I16
+measurement_ALG_invariantForms.Hgamma4SquaredVerified=true
+measurement_ALG_invariantForms.Hgamma4Eigenvalues=for alpha beta != 0: (H gamma^4)^2 = -alpha beta I16 makes H gamma^4 diagonalizable with eigenvalues +-sqrt(-alpha beta); similarity to its negative (Z = diag(I8,-I8)) gives multiplicity 8 each
+measurement_ALG_invariantForms.hermitianDensityOffDiagonal=true
+measurement_ALG_invariantForms.hermitianDensityFormula=Herm(c H gamma^4) = [[0, k Y], [conj(k) Y^T, 0]], Y = tau[4]^T sigma, k = (conj(c) beta - c alpha)/2
+measurement_ALG_invariantForms.hermitianDensityFormulaVerified=true
+measurement_ALG_invariantForms.YSignedOrthogonal=true
+measurement_ALG_invariantForms.hermitianDensitySquare=|k|^2 I16
+measurement_ALG_invariantForms.hermitianDensitySquareVerified=true
+measurement_ALG_invariantForms.conclusion=For every Spin(4,4)-invariant Hermitian form H = alpha C.P- + beta C.P+ (alpha, beta real) and every constant c, the charge-density matrix Herm(c H gamma^4) is traceless with square |k|^2 I16, hence has eigenvalues +|k| (x8) and -|k| (x8): signature (8,8), indefinite, unless it vanishes identically.
+measurement_ALG_gamma8Map.gamma8TransposeCEqualsCGamma8=true
+measurement_ALG_gamma8Map.PsibarTransformsTo=Psibar gamma8
+measurement_ALG_gamma8Map.kineticMatrixSigns=[-1,-1,-1,-1,-1,-1,-1,-1]
+measurement_ALG_gamma8Map.massMatrixSign=1
+measurement_ALG_gamma8Map.covariantDerivativeCommutes=true
+measurement_ALG_gamma8Map.spinConnectionBilinearInvariant=true
+measurement_ALG_gamma8Map.freeLagrangianMap=L_m[gamma8 Psi] = -L_{-m}[Psi] (U = 0)
+measurement_ALG_gamma8Map.freeLagrangianMapVerified=true
+measurement_ALG_gamma8Map.interactingLagrangianMap=L_{m,U}[gamma8 Psi] = -L_{-m,-U}[Psi]; for U(S) = (lambda/2) S^2 the self-coupling sign also flips (lambda -> -lambda), so L_m -> -L_{-m} holds exactly only when U = 0
+measurement_ALG_gamma8Map.interactingLagrangianMapVerified=true
+measurement_ALG_pinLiftCharacter.unitVectors={"e0":{"norm":1,"normVerified":true,"lambdaReconstructs":true,"lambdaInO44":true,"massSign":-1,"kineticSignUntwisted":-1,"kineticSignTwisted":1,"detLambdaUntwisted":-1,"detLambdaTwisted":-1,"diracOperatorCovariantUntwisted":true,"diracOperatorSignTwisted":-1,"lambdaUntwistedDiagonal":[1,-1,-1,-1,-1,-1,-1,-1]},"e1":{"norm":1,"normVerified":true,"lambdaReconstructs":true,"lambdaInO44":true,"massSign":-1,"kineticSignUntwisted":-1,"kineticSignTwisted":1,"detLambdaUntwisted":-1,"detLambdaTwisted":-1,"diracOperatorCovariantUntwisted":true,"diracOperatorSignTwisted":-1,"lambdaUntwistedDiagonal":[-1,1,-1,-1,-1,-1,-1,-1]},"e2":{"norm":1,"normVerified":true,"lambdaReconstructs":true,"lambdaInO44":true,"massSign":-1,"kineticSignUntwisted":-1,"kineticSignTwisted":1,"detLambdaUntwisted":-1,"detLambdaTwisted":-1,"diracOperatorCovariantUntwisted":true,"diracOperatorSignTwisted":-1,"lambdaUntwistedDiagonal":[-1,-1,1,-1,-1,-1,-1,-1]},"e3":{"norm":1,"normVerified":true,"lambdaReconstructs":true,"lambdaInO44":true,"massSign":-1,"kineticSignUntwisted":-1,"kineticSignTwisted":1,"detLambdaUntwisted":-1,"detLambdaTwisted":-1,"diracOperatorCovariantUntwisted":true,"diracOperatorSignTwisted":-1,"lambdaUntwistedDiagonal":[-1,-1,-1,1,-1,-1,-1,-1]},"e4":{"norm":-1,"normVerified":true,"lambdaReconstructs":true,"lambdaInO44":true,"massSign":1,"kineticSignUntwisted":1,"kineticSignTwisted":-1,"detLambdaUntwisted":-1,"detLambdaTwisted":-1,"diracOperatorCovariantUntwisted":true,"diracOperatorSignTwisted":-1,"lambdaUntwistedDiagonal":[-1,-1,-1,-1,1,-1,-1,-1]},"e5":{"norm":-1,"normVerified":true,"lambdaReconstructs":true,"lambdaInO44":true,"massSign":1,"kineticSignUntwisted":1,"kineticSignTwisted":-1,"detLambdaUntwisted":-1,"detLambdaTwisted":-1,"diracOperatorCovariantUntwisted":true,"diracOperatorSignTwisted":-1,"lambdaUntwistedDiagonal":[-1,-1,-1,-1,-1,1,-1,-1]},"e6":{"norm":-1,"normVerified":true,"lambdaReconstructs":true,"lambdaInO44":true,"massSign":1,"kineticSignUntwisted":1,"kineticSignTwisted":-1,"detLambdaUntwisted":-1,"detLambdaTwisted":-1,"diracOperatorCovariantUntwisted":true,"diracOperatorSignTwisted":-1,"lambdaUntwistedDiagonal":[-1,-1,-1,-1,-1,-1,1,-1]},"e7":{"norm":-1,"normVerified":true,"lambdaReconstructs":true,"lambdaInO44":true,"massSign":1,"kineticSignUntwisted":1,"kineticSignTwisted":-1,"detLambdaUntwisted":-1,"detLambdaTwisted":-1,"diracOperatorCovariantUntwisted":true,"diracOperatorSignTwisted":-1,"lambdaUntwistedDiagonal":[-1,-1,-1,-1,-1,-1,-1,1]},"e0+e1+e4":{"norm":1,"normVerified":true,"lambdaReconstructs":true,"lambdaInO44":true,"massSign":-1,"kineticSignUntwisted":-1,"kineticSignTwisted":1,"detLambdaUntwisted":-1,"detLambdaTwisted":-1,"diracOperatorCovariantUntwisted":true,"diracOperatorSignTwisted":-1},"e0+e4+e5":{"norm":-1,"normVerified":true,"lambdaReconstructs":true,"lambdaInO44":true,"massSign":1,"kineticSignUntwisted":1,"kineticSignTwisted":-1,"detLambdaUntwisted":-1,"detLambdaTwisted":-1,"diracOperatorCovariantUntwisted":true,"diracOperatorSignTwisted":-1}}
+measurement_ALG_pinLiftCharacter.productsPositiveTimesNegative={"e0e4":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true},"e0e5":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true},"e0e6":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true},"e0e7":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true},"e1e4":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true},"e1e5":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true},"e1e6":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true},"e1e7":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true},"e2e4":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true},"e2e5":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true},"e2e6":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true},"e2e7":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true},"e3e4":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true},"e3e5":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true},"e3e6":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true},"e3e7":{"spinorNorm":-1,"massSign":-1,"kineticSign":-1,"diracOperatorCovariant":true}}
+measurement_ALG_pinLiftCharacter.allBivectorProductsSignEqualsSpinorNorm=true
+measurement_ALG_pinLiftCharacter.character=Psi -> u Psi (u unit vector): Psibar Psi -> -n(u) Psibar Psi; with the untwisted adjoint vector action the kinetic term also picks up -n(u) (same sign: free Lagrangian L -> -n(u) L, free field equations Pin(4,4)-covariant); with the twisted adjoint (reflection) the kinetic term picks up +n(u), opposite to the mass term. For g = u1 u2: sign = n(u1) n(u2) (spinor norm); n(u1)=+1, n(u2)=-1 gives -1.
+measurement_ALG_pinLiftCharacter.interactionMapLambdaFlipVerified=true
+measurement_ALG_pinLiftCharacter.interactionMapIsNotMinusSelf=true
+measurement_ALG_pinLiftCharacter.oddPotentialGivesMinusSelfVerified=true
+measurement_ALG_pinLiftCharacter.interactionCaveat=U(Psibar Psi) -> U(chi Psibar Psi). For chi = -1 and U(S) = (lambda/2) S^2 the interaction term does not flip: L_{m,lambda} -> -L_{m,-lambda}; the interacting field equation gamma.D Psi = (m + U'(S)) Psi is mapped to the one with U'(S) -> -U'(-S) (lambda -> -lambda). Exact covariance of the interacting theory under chi = -1 elements requires U odd (U(-S) = -U(S)).
+measurement_QNT_curvedAnticommutatorMatrix.symbolicProductIdentity=true
+measurement_QNT_curvedAnticommutatorMatrix.statement=(C gamma^4)(gamma^4 C) = (gamma^4 C)(C gamma^4) = g^44 I16 for gamma^4 = e_a^4 gamma^a with symbolic e_a^4; hence (C gamma^4)^-1 = gamma^4 C / g^44 whenever g^44 != 0
+measurement_QNT_curvedAnticommutatorMatrix.gamma4CAntisymmetric=true
+measurement_QNT_curvedAnticommutatorMatrix.G1Points=[{"detVielbein":"8730286014951721928504132748723695542930461054904720450085966334353586259236451917045027672855083074829122807534550852798637473811934160881/5830385474319805441329849379639239454291400859118124380810706771166072547115982722377484401689266684114333535956689809000000000000000000000","detNonzero":true,"metricInertia":[4,4,0],"signature44":true,"gUpper44":"-66052764774308859691862167694844226301364359372011006113386133876773438121796538781887367607959977733658207487505220452654574211111887017656084303955000769496601032287526395861782134816165119879331508276055768861225350608685916785354932643791367913682107083018415886458053000000/76217893902861617480179250783959336665100541395554013176205768626967216987548679189840654652736751806632969323906301896268758492119262525349959247444000564702677606364267438252602397886601859011798394452199627244359164553940948759902328294104627444395063859991669031533590696161","gUpper44FromVielbein":true,"inverseFormulaExact":true},{"detVielbein":"166838578544839618908450770680658161976523671373174452031532543530651647381615477855576323/89939653473440330578454191517748817467464604414345561006835089408000000000000000000000000","detNonzero":true,"metricInertia":[4,4,0],"signature44":true,"gUpper44":"-25276425321471452905578583761576329847993101777511904574825623458929579129948066305980350015498648636555629089069802397775597908000750020536755150214602541601207149724714896000000/27835111290862618810345887859036066260707346100503793175586845060827181666642151194402778850412744244816538330876844639112826219983550758115381224696358807247824955112986478200329","gUpper44FromVielbein":true,"inverseFormulaExact":true},{"detVielbein":"641746341050179883864555193389422428673872937637900648707934018876147/468006998280337753584232705470057723558100992000000000000000000000000","detNonzero":true,"metricInertia":[4,4,0],"signature44":true,"gUpper44":"-318952466166564576272994512564706063255863271525429735940048306855351311736802345907870617644482328672102538275200667009270005559296000000/411838366251293794726284490645078710059685744289571041907746101670242973782122335509039219076794734676400279533325381168644856904925565609","gUpper44FromVielbein":true,"inverseFormulaExact":true}]
+measurement_QNT_curvedAnticommutatorMatrix.G1AllPassed=true
+measurement_QNT_curvedAnticommutatorMatrix.G2GaussianNormalReducesToB=true
+measurement_QNT_curvedAnticommutatorMatrix.G2Statement=primordial field (CONTRACT section 9) with cot z, sin z and the arbitrary function a4 kept as independent exact symbols (no numerical substitution is needed because e_4^4 = 1 exactly): gamma^4 = gamma^{a=4}, g^44 = -1, i (C gamma^4)^-1 = B
+measurement_QNT_curvedAnticommutatorMatrix.G1Definition=e_mu^a = delta_mu^a + P_mu^a(x), P_mu^a = (1/10)((mu+1) x_a - (a+1) x_mu) + (1/20) x_mu x_a + (1/30) x_((mu+a) mod 8)^2 (mu != a), P_mu^mu = (1/10) x_mu^2 + (1/40) x_((mu+1) mod 8); points p1, p2, p3 of the task; gamma^4 = e_a^4 gamma^a with e_a^mu = Inverse[e_mu^a]
+measurement_QNT_curvedAnticommutatorMatrix.G1PointList=[["1/7","-2/9","1/5","3/11","-1/13","2/17","-3/19","1/23"],["-1/3","1/4","2/7","-1/5","1/6","-2/11","1/9","3/13"],["2/9","1/8","-1/7","1/10","-3/14","1/12","2/15","-1/16"]]
+measurement_QNT_flatModeHamiltonian.hamiltonian=h_k = -I m gamma^4 - gamma^4 sum_{j in {0,1,2,3,5,6,7}} k_j gamma^j (m, k_j real)
+measurement_QNT_flatModeHamiltonian.antiHermitianPart=-gamma^4 (k5 gamma^5 + k6 gamma^6 + k7 gamma^7)
+measurement_QNT_flatModeHamiltonian.antiHermitianPartVerified=true
+measurement_QNT_flatModeHamiltonian.antiHermitianPartSquare=-(k5^2 + k6^2 + k7^2) I16 (nonzero iff (k5,k6,k7) != 0)
+measurement_QNT_flatModeHamiltonian.antiHermitianPartSquareVerified=true
+measurement_QNT_flatModeHamiltonian.hermitianPartVerified=true
+measurement_QNT_flatModeHamiltonian.hSquared=(m^2 + k0^2 + k1^2 + k2^2 + k3^2 - k5^2 - k6^2 - k7^2) I16
+measurement_QNT_flatModeHamiltonian.hSquaredVerified=true
+measurement_QNT_flatModeHamiltonian.commutatorWithB=[h_k, B] = 2 I (k5 C gamma^5 + k6 C gamma^6 + k7 C gamma^7)
+measurement_QNT_flatModeHamiltonian.commutatorWithBVerified=true
+measurement_QNT_flatModeHamiltonian.commutatorSquareFactor=(C sum_{j=5,6,7} k_j gamma^j)^2 = -(k5^2+k6^2+k7^2) I16 (so [h_k,B]=0 iff k5=k6=k7=0)
+measurement_QNT_flatModeHamiltonian.commutatorSquareVerified=true
+measurement_QNT_kreinSignature.restPositiveFrequencySpace=eigenspace of -I gamma^4 with eigenvalue +1 (h_0 = m(-I gamma^4), m > 0)
+measurement_QNT_kreinSignature.restPositiveFrequency={"dimension":8,"BPreservesSpace":true,"restrictionSquaresToIdentity":true,"signature":[4,4],"characteristicPolynomial":"(-1 + x)^4*(1 + x)^4"}
+measurement_QNT_kreinSignature.restNegativeFrequency={"dimension":8,"BPreservesSpace":true,"restrictionSquaresToIdentity":true,"signature":[4,4],"characteristicPolynomial":"(-1 + x)^4*(1 + x)^4"}
+measurement_QNT_kreinSignature.goodSectorExample1=m = 1, k = (1,1,2,3,0,0,0) over directions (0,1,2,3,5,6,7), E = 4
+measurement_QNT_kreinSignature.goodSectorExample1Positive={"dimension":8,"BPreservesSpace":true,"restrictionSquaresToIdentity":true,"signature":[4,4],"characteristicPolynomial":"(-1 + x)^4*(1 + x)^4"}
+measurement_QNT_kreinSignature.goodSectorExample1Negative={"dimension":8,"BPreservesSpace":true,"restrictionSquaresToIdentity":true,"signature":[4,4],"characteristicPolynomial":"(-1 + x)^4*(1 + x)^4"}
+measurement_QNT_kreinSignature.goodSectorExample2=m = 3, k = (1,1,1,2,0,0,0), E = 4
+measurement_QNT_kreinSignature.goodSectorExample2Positive={"dimension":8,"BPreservesSpace":true,"restrictionSquaresToIdentity":true,"signature":[4,4],"characteristicPolynomial":"(-1 + x)^4*(1 + x)^4"}
+measurement_QNT_kreinSignature.hSquaredEquals16=[true,true]
+measurement_QNT_kreinSignature.method=basis V of the eigenspace (exact Gaussian rationals); M = (V^dagger V)^-1 V^dagger B V is the matrix of B restricted (B V = V M verified); M^2 = I so the eigenvalues are +-1 and the signature of the B-form on the space is ((d + Tr M)/2, (d - Tr M)/2) with respect to the positive Hilbert product.
+measurement_QNT_unitaryAndKreinSubgroups.meaning=canonical meaning (CONTRACT.md section 11, E1): (a) exactly 13 of the 28 S^{ab} commute with B (so(4)+so(3) and the 4 Hermitian boosts S^{b4}, b=0..3); (b) exactly 9 commute with B and are anti-Hermitian (unitarily implemented Spin(4)xSpin(3)); (c) the 21 with a,b != 4 are Krein-unitary, the 7 S^{4b} are not
+measurement_QNT_unitaryAndKreinSubgroups.expectedCommutingWithB=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3],[5,6],[5,7],[6,7],[0,4],[1,4],[2,4],[3,4]]
+measurement_QNT_unitaryAndKreinSubgroups.expectedCountCommutingWithB=13
+measurement_QNT_unitaryAndKreinSubgroups.generatorsCommutingWithB=[[0,1],[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,3],[2,4],[3,4],[5,6],[5,7],[6,7]]
+measurement_QNT_unitaryAndKreinSubgroups.countCommutingWithB=13
+measurement_QNT_unitaryAndKreinSubgroups.commutingWithBMatchesCanonical=true
+measurement_QNT_unitaryAndKreinSubgroups.literalClaimExactlyNineCommuteWithB=false
+measurement_QNT_unitaryAndKreinSubgroups.compactGenerators=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3],[5,6],[5,7],[6,7]]
+measurement_QNT_unitaryAndKreinSubgroups.commutingWithBBeyondCompact=[[0,4],[1,4],[2,4],[3,4]]
+measurement_QNT_unitaryAndKreinSubgroups.extraCommutingGeneratorsAreHermitian=true
+measurement_QNT_unitaryAndKreinSubgroups.extraCommutingGeneratorsAnticommuteWithC=true
+measurement_QNT_unitaryAndKreinSubgroups.extraCommutingGeneratorsAnticommuteWithGamma4=true
+measurement_QNT_unitaryAndKreinSubgroups.commutingWithBAndAntiHermitian=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3],[5,6],[5,7],[6,7]]
+measurement_QNT_unitaryAndKreinSubgroups.countCommutingWithBAndAntiHermitian=9
+measurement_QNT_unitaryAndKreinSubgroups.commutingWithBAndInStabilizer=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3],[5,6],[5,7],[6,7]]
+measurement_QNT_unitaryAndKreinSubgroups.countCommutingWithBAndInStabilizer=9
+measurement_QNT_unitaryAndKreinSubgroups.compactSubgroupMatchesExpectation=true
+measurement_QNT_unitaryAndKreinSubgroups.kreinAntiHermitianGenerators=[[0,1],[0,2],[0,3],[0,5],[0,6],[0,7],[1,2],[1,3],[1,5],[1,6],[1,7],[2,3],[2,5],[2,6],[2,7],[3,5],[3,6],[3,7],[5,6],[5,7],[6,7]]
+measurement_QNT_unitaryAndKreinSubgroups.countKreinAntiHermitian=21
+measurement_QNT_unitaryAndKreinSubgroups.stabilizerGeneratorCount=21
+measurement_QNT_unitaryAndKreinSubgroups.kreinUnitaryOnStabilizer=true
+measurement_QNT_unitaryAndKreinSubgroups.boostGenerators=[[0,4],[1,4],[2,4],[3,4],[4,5],[4,6],[4,7]]
+measurement_QNT_unitaryAndKreinSubgroups.kreinUnitarityFailsForAllBoosts=true
+measurement_QNT_unitaryAndKreinSubgroups.hilbertAntiHermitianGenerators=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3],[4,5],[4,6],[4,7],[5,6],[5,7],[6,7]]
+measurement_QNT_unitaryAndKreinSubgroups.countHilbertAntiHermitian=12
+measurement_QNT_unitaryAndKreinSubgroups.finding=13 of the 28 S^{ab} commute with B = -I C gamma^4, not 9: the 6 generators of so(4) (a,b in {0,1,2,3}), the 3 of so(3) (a,b in {5,6,7}) AND the 4 boosts S^{b4}, b in {0,1,2,3} (S^{b4} anticommutes with C and with gamma^4, hence commutes with B; it is Hermitian, so exp(theta S^{b4}) is neither unitary for Psi^dagger Psi nor Krein-unitary). The unitarily implemented so(4)+so(3) is exactly (commuting with B) AND (anti-Hermitian), equivalently (commuting with B) AND (in the direction-4 stabilizer spin(4,3)). Krein: S^dagger B + B S = 0 exactly for the 21 generators with a,b != 4 and fails for all 7 S^{4b}. The literal claim 'exactly 9 commute with B' is false and is recorded as literalClaimExactlyNineCommuteWithB = false; the check tests the canonical meaning (a)-(c).
+measurement_QNT_currentHermiticity.currentMatricesHermitian=[true,true,true,true,true,true,true,true]
+measurement_QNT_currentHermiticity.J4MatrixEqualsB=true
+measurement_fixtureAgreement=run
+measurement_fixtureAgreement.path=artifacts/dirac16complex/arbitrary-field/algebra-fixture.json
+measurement_fixtureAgreement.summary={"agree":true,"matricesFound":75,"agreeByName":75,"agreeByValue":0,"disagreeByName":0,"unmatched":0,"vectorsNotCompared":0}
+measurement_fixtureAgreement.details=[{"path":"eta","status":"agree-by-name","valueMatches":["eta","taubar7"],"inexactEntries":false},{"path":"sigma8","status":"agree-by-name","valueMatches":["sigma8","octonionLeft4"],"inexactEntries":false},{"path":"tau/0","status":"agree-by-name","valueMatches":["I8","tau0","taubar0","octonionLeft0"],"inexactEntries":false},{"path":"tau/1","status":"agree-by-name","valueMatches":["tau1"],"inexactEntries":false},{"path":"tau/2","status":"agree-by-name","valueMatches":["tau2"],"inexactEntries":false},{"path":"tau/3","status":"agree-by-name","valueMatches":["tau3"],"inexactEntries":false},{"path":"tau/4","status":"agree-by-name","valueMatches":["tau4"],"inexactEntries":false},{"path":"tau/5","status":"agree-by-name","valueMatches":["tau5"],"inexactEntries":false},{"path":"tau/6","status":"agree-by-name","valueMatches":["tau6"],"inexactEntries":false},{"path":"tau/7","status":"agree-by-name","valueMatches":["tau7"],"inexactEntries":false},{"path":"taubar/0","status":"agree-by-name","valueMatches":["I8","tau0","taubar0","octonionLeft0"],"inexactEntries":false},{"path":"taubar/1","status":"agree-by-name","valueMatches":["taubar1"],"inexactEntries":false},{"path":"taubar/2","status":"agree-by-name","valueMatches":["taubar2"],"inexactEntries":false},{"path":"taubar/3","status":"agree-by-name","valueMatches":["taubar3"],"inexactEntries":false},{"path":"taubar/4","status":"agree-by-name","valueMatches":["taubar4"],"inexactEntries":false},{"path":"taubar/5","status":"agree-by-name","valueMatches":["taubar5"],"inexactEntries":false},{"path":"taubar/6","status":"agree-by-name","valueMatches":["taubar6"],"inexactEntries":false},{"path":"taubar/7","status":"agree-by-name","valueMatches":["eta","taubar7"],"inexactEntries":false},{"path":"gamma/0","status":"agree-by-name","valueMatches":["gamma0","gammaHat0","octonionGamma0"],"inexactEntries":false},{"path":"gamma/1","status":"agree-by-name","valueMatches":["gamma1"],"inexactEntries":false},{"path":"gamma/2","status":"agree-by-name","valueMatches":["gamma2"],"inexactEntries":false},{"path":"gamma/3","status":"agree-by-name","valueMatches":["gamma3"],"inexactEntries":false},{"path":"gamma/4","status":"agree-by-name","valueMatches":["gamma4"],"inexactEntries":false},{"path":"gamma/5","status":"agree-by-name","valueMatches":["gamma5"],"inexactEntries":false},{"path":"gamma/6","status":"agree-by-name","valueMatches":["gamma6"],"inexactEntries":false},{"path":"gamma/7","status":"agree-by-name","valueMatches":["gamma7"],"inexactEntries":false},{"path":"C","status":"agree-by-name","valueMatches":["C"],"inexactEntries":false},{"path":"chirality","status":"agree-by-name","valueMatches":["gamma8"],"inexactEntries":false},{"path":"S/0/matrix","status":"agree-by-name","valueMatches":["S01"],"inexactEntries":false},{"path":"S/1/matrix","status":"agree-by-name","valueMatches":["S02"],"inexactEntries":false},{"path":"S/2/matrix","status":"agree-by-name","valueMatches":["S03"],"inexactEntries":false},{"path":"S/3/matrix","status":"agree-by-name","valueMatches":["S04"],"inexactEntries":false},{"path":"S/4/matrix","status":"agree-by-name","valueMatches":["S05"],"inexactEntries":false},{"path":"S/5/matrix","status":"agree-by-name","valueMatches":["S06"],"inexactEntries":false},{"path":"S/6/matrix","status":"agree-by-name","valueMatches":["S07"],"inexactEntries":false},{"path":"S/7/matrix","status":"agree-by-name","valueMatches":["S12"],"inexactEntries":false},{"path":"S/8/matrix","status":"agree-by-name","valueMatches":["S13"],"inexactEntries":false},{"path":"S/9/matrix","status":"agree-by-name","valueMatches":["S14"],"inexactEntries":false},{"path":"S/10/matrix","status":"agree-by-name","valueMatches":["S15"],"inexactEntries":false},{"path":"S/11/matrix","status":"agree-by-name","valueMatches":["S16"],"inexactEntries":false},{"path":"S/12/matrix","status":"agree-by-name","valueMatches":["S17"],"inexactEntries":false},{"path":"S/13/matrix","status":"agree-by-name","valueMatches":["S23"],"inexactEntries":false},{"path":"S/14/matrix","status":"agree-by-name","valueMatches":["S24"],"inexactEntries":false},{"path":"S/15/matrix","status":"agree-by-name","valueMatches":["S25"],"inexactEntries":false},{"path":"S/16/matrix","status":"agree-by-name","valueMatches":["S26"],"inexactEntries":false},{"path":"S/17/matrix","status":"agree-by-name","valueMatches":["S27"],"inexactEntries":false},{"path":"S/18/matrix","status":"agree-by-name","valueMatches":["S34"],"inexactEntries":false},{"path":"S/19/matrix","status":"agree-by-name","valueMatches":["S35"],"inexactEntries":false},{"path":"S/20/matrix","status":"agree-by-name","valueMatches":["S36"],"inexactEntries":false},{"path":"S/21/matrix","status":"agree-by-name","valueMatches":["S37"],"inexactEntries":false},{"path":"S/22/matrix","status":"agree-by-name","valueMatches":["S45"],"inexactEntries":false},{"path":"S/23/matrix","status":"agree-by-name","valueMatches":["S46"],"inexactEntries":false},{"path":"S/24/matrix","status":"agree-by-name","valueMatches":["S47"],"inexactEntries":false},{"path":"S/25/matrix","status":"agree-by-name","valueMatches":["S56"],"inexactEntries":false},{"path":"S/26/matrix","status":"agree-by-name","valueMatches":["S57"],"inexactEntries":false},{"path":"S/27/matrix","status":"agree-by-name","valueMatches":["S67"],"inexactEntries":false},{"path":"B","status":"agree-by-name","valueMatches":["B","current4"],"inexactEntries":false},{"path":"gammaClifford/0","status":"agree-by-name","valueMatches":["gamma0","gammaHat0","octonionGamma0"],"inexactEntries":false},{"path":"gammaClifford/1","status":"agree-by-name","valueMatches":["gammaHat1"],"inexactEntries":false},{"path":"gammaClifford/2","status":"agree-by-name","valueMatches":["gammaHat2"],"inexactEntries":false},{"path":"gammaClifford/3","status":"agree-by-name","valueMatches":["gammaHat3"],"inexactEntries":false},{"path":"gammaClifford/4","status":"agree-by-name","valueMatches":["gammaHat4"],"inexactEntries":false},{"path":"gammaClifford/5","status":"agree-by-name","valueMatches":["gammaHat5"],"inexactEntries":false},{"path":"gammaClifford/6","status":"agree-by-name","valueMatches":["gammaHat6"],"inexactEntries":false},{"path":"gammaClifford/7","status":"agree-by-name","valueMatches":["gammaHat7"],"inexactEntries":false},{"path":"gammaOctonion/0","status":"agree-by-name","valueMatches":["gamma0","gammaHat0","octonionGamma0"],"inexactEntries":false},{"path":"gammaOctonion/1","status":"agree-by-name","valueMatches":["octonionGamma1"],"inexactEntries":false},{"path":"gammaOctonion/2","status":"agree-by-name","valueMatches":["octonionGamma2"],"inexactEntries":false},{"path":"gammaOctonion/3","status":"agree-by-name","valueMatches":["octonionGamma3"],"inexactEntries":false},{"path":"gammaOctonion/4","status":"agree-by-name","valueMatches":["Cgamma0","octonionGamma4"],"inexactEntries":false},{"path":"gammaOctonion/5","status":"agree-by-name","valueMatches":["octonionGamma5"],"inexactEntries":false},{"path":"gammaOctonion/6","status":"agree-by-name","valueMatches":["octonionGamma6"],"inexactEntries":false},{"path":"gammaOctonion/7","status":"agree-by-name","valueMatches":["octonionGamma7"],"inexactEntries":false},{"path":"K_clifford","status":"agree-by-name","valueMatches":["K_clifford"],"inexactEntries":false},{"path":"K_octonion","status":"agree-by-name","valueMatches":["K_octonion"],"inexactEntries":false}]
+measurement_referenceFilesPresent={"dirac-main/artifacts/exact/cl44-seed.json":false,"dirac-main/artifacts/exact/split-octonion.json":false,"dirac-main/artifacts/exact/triality44.json":false,"artifacts/dirac16complex/arbitrary-field/algebra-fixture.json":true}
+report_path=build/stage1/wolfram-algebra-report.json
+elapsed_seconds=8
+check_count=21
+failed_check_count=0
+stage1_step_ok=stage1-03-wolfram-algebra
+stage1_step=stage1-04-wolfram-geometry
+check_ALG_chargeMatrix=true
+check_ALG_cliffordRelations=true
+check_ALG_grassmannLemmas=true
+check_EMT_conservation_G1=true
+check_EMT_conservation_G2=true
+check_EMT_homogeneousReduction_G3=true
+check_EMT_symmetricHermitian_G1=true
+check_EMT_symmetricHermitian_G2=true
+check_EMT_trace_G1=true
+check_EMT_trace_G2=true
+check_EMT_variation_G3=true
+check_GEO_curvature_G1=true
+check_GEO_curvature_G2=true
+check_GEO_diagonalSlashFormula_G2=true
+check_GEO_divergenceIdentity_G1=true
+check_GEO_divergenceIdentity_G2=true
+check_GEO_frameNondegenerate_G1=true
+check_GEO_frameNondegenerate_G2=true
+check_GEO_gammaCovariantConstancy_G1=true
+check_GEO_gammaCovariantConstancy_G2=true
+check_GEO_lichnerowicz_G1=true
+check_GEO_lichnerowicz_G2=true
+check_GEO_notebookContractionFails_G1=true
+check_GEO_notebookContractionFails_G2=true
+check_GEO_omegaAntisymmetry_G1=true
+check_GEO_omegaAntisymmetry_G2=true
+check_GEO_primordialInvariants_G2=true
+check_GEO_symbolicJetAgreement_G2=true
+check_GEO_vielbeinPostulate_G1=true
+check_GEO_vielbeinPostulate_G2=true
+check_LAG_eulerLagrangePsibar_G1=true
+check_LAG_eulerLagrangePsibar_G2=true
+check_LAG_eulerLagrangePsi_G1=true
+check_LAG_eulerLagrangePsi_G2=true
+check_LAG_hermiticity_G1=true
+check_LAG_hermiticity_G2=true
+check_LAG_localSpinInvariance_G1=true
+check_LAG_localSpinInvariance_G2=true
+check_LAG_notebookLgGrassmannTrivial_G1=true
+check_LAG_notebookLgGrassmannTrivial_G2=true
+check_NEG_notebookConnectionDetected_G2=true
+check_QNT_canonicalMomentum_G1=true
+check_QNT_canonicalMomentum_G2=true
+measurement_convention.grassmann=Psi_a, Psi^dagger_a are independent odd generators (Psi_a Psi_b = -Psi_b Psi_a, Psi_a Psi^dagger_b = -Psi^dagger_b Psi_a), (theta1 theta2)^* = theta2^* theta1^*; Euler-Lagrange: left derivatives for Psi^dagger, right derivatives for Psi; checked: dL(lambda S^2/2)/dPsi^dagger_a = lambda S (C Psi)_a, dR(lambda S^2/2)/dPsi_a = lambda S Psibar_a, S even, Psi^T C Psi = 0 for real Grassmann Psi
+measurement_convention.eulerLagrangeJetIdentity=EL_a = dL0/du_a - Sum_mu d_mu(dL/du_{mu a}) = 9 dL0/du_a - Sum_mu dL_mu/du_{mu a}, L_mu = total x^mu derivative of L at the point (exact Grassmann identity [dL/du_{mu a}, d_lam] = delta_{lam mu} dL/du_a)
+measurement_convention.fieldJets=Psi, d_mu Psi, d_mu d_nu Psi and the same for Psi^dagger at the point: independent exact rationals from D16GeoRandomRationals (64-bit LCG, state' = (6364136223846793005 state + 1442695040888963407) mod 2^64, value = (floor(state/2^33) mod 19 - 9)/(floor(state/2^13) mod 9 + 1)); seeds 10000*geometry + 100*point (+10 on-shell free data, +20 spin-invariance fields, +30.. unit vector fields)
+measurement_convention.commutingEvaluation=EMT, Lichnerowicz, on-shell and invariance checks evaluate bilinears with commuting exact numbers (Psi^dagger always leftmost, Psi rightmost: exact for bilinears); quartic terms enter only through the even scalar S = Psibar Psi, all manipulations keep each bilinear intact. The Euler-Lagrange, canonical-momentum and notebook-Lg checks use the genuine Grassmann algebra.
+measurement_convention.onShellJets=at the point: free data Psi, d_mu Psi (mu != 4), d_mu d_nu Psi (mu,nu != 4) and the same for Psi^dagger; the field equations gamma^mu D_mu Psi = (m + lambda S) Psi, (D_mu Psibar) gamma^mu = -(m + lambda S) Psibar and their first derivatives are solved exactly (linear systems with matrix gamma^4) for d_4 Psi, d_4 d_nu Psi, d_4 Psi^dagger, d_4 d_nu Psi^dagger; residuals (value and all 8 first derivatives) verified exactly zero
+measurement_convention.parameters=m = {3/7, -2/5, 5/9}, lambda = {5/11, 7/13, -3/8}, notebook H M = {2/3, -5/7, 4/9} at points p1, p2, p3 of each geometry; U(S) = (lambda/2) S^2
+measurement_convention.curvature=F_{mu nu} = d_mu Omega_nu - d_nu Omega_mu + [Omega_mu, Omega_nu] = +(1/2) R_{mu nu a b} S^{ab} with R_{mu nu a b} := eta_{ac} e_rho^c R^rho_{sigma mu nu} e_b^sigma and R^rho_{sigma mu nu} = d_mu Gamma^rho_{nu sigma} - d_nu Gamma^rho_{mu sigma} + Gamma^rho_{mu lambda} Gamma^lambda_{nu sigma} - Gamma^rho_{nu lambda} Gamma^lambda_{mu sigma}
+measurement_convention.lichnerowicz=(gamma^mu D_mu)^2 Psi = g^{mu nu}(D_mu D_nu Psi - Gamma^lambda_{mu nu} D_lambda Psi) + c R Psi with c = -1/4, R = g^{sigma nu} R^rho_{sigma rho nu} ({gamma^a, gamma^b} = +2 eta^{ab})
+measurement_convention.localSpinInvariance=(i) finite local transformation: R(x) = nslash(x) mslash(x), n, m exact rational unit vector fields (reflections of e_0, e_1 in polynomial fields); frame e_a^mu -> Lambda_a^c e_c^mu with R gamma^a R^-1 = Lambda^c_a gamma^c, Psi -> R Psi, Psi^dagger -> Psi^dagger R^T; Omega recomputed from the rotated frame; checked Omega' = R Omega R^-1 - (d R) R^-1, gamma'^mu = R gamma^mu R^-1, g' = g and L' = L (value and first derivatives); (ii) for a spacelike/timelike pair (<n,n><m,m> = -1, spinor norm -1): Psibar -> -Psibar R^-1, S -> -S and L[m, lambda] -> -L[m, -lambda] (the naive L -> -L fails for lambda != 0: kinetic and mass terms flip, U(S) = lambda S^2/2 does not); (iii) first-order infinitesimal: R_kappa = n_kappa mslash = -1 + kappa epsilon(x) + O(kappa^2), epsilon = [mslash, wslash] in spin(4,4), exact dual-number arithmetic kappa^2 = 0: the kappa^1 part of L' - L (value and first derivatives) vanishes; the notebook contraction gives a nonzero first-order change
+measurement_G1.definition=e_mu^a = delta_mu^a + P_mu^a(x), P_mu^a = (1/10)((mu+1) x_a - (a+1) x_mu) + (1/20) x_mu x_a + (1/30) x_((mu+a) mod 8)^2 (mu != a), P_mu^mu = (1/10) x_mu^2 + (1/40) x_((mu+1) mod 8)
+measurement_G2.definition=primordial vielbein diag(cot z, s^(1/6) e^a4 (x3), 1, s^(1/6) e^-a4 (x3)), z = 6 H x0, t = H x4, s = sin z; exact point data w = s^(1/6) rational, sin z = w^6, cos z = cs with cs^2 = 1 - w^12 (arithmetic in Q(cs), basis {1, cs}), exp(a4(t)) = ea rational (a4(t) = Log[ea]), a4', a4'', a4''' rational (a4''' never enters: second-order vielbein jets suffice)
+measurement_G3.definition=minisuperspace/Bianchi-I: ds^2 = -N(t)^2 dt^2 + Sum_{i != 4} eps_i h_i(t)^2 dx_i^2, t = x4, eps = eta; covariant side at N = 1 with h_i = 1 + x4^2/(i+2); variation side: symbolic N, h_i, N', h_i' in the reduced Lagrangian sqrt|g| Ls with homogeneous Psi(t), Psi^dagger(t) held fixed
+measurement_G1.p1.coordinates={1/7, -2/9, 1/5, 3/11, -1/13, 2/17, -3/19, 1/23}
+measurement_G1.p1.detFrame=8730286014951721928504132748723695542930461054904720450085966334353586259236451917045027672855083074829122807534550852798637473811934160881/5830385474319805441329849379639239454291400859118124380810706771166072547115982722377484401689266684114333535956689809000000000000000000000
+measurement_G1.p1.detFrameDecimal=1.4973771551477442787
+measurement_G1.p1.metricInertia={4, 4, 0}
+measurement_G1.p1.inverseMetric44=-66052764774308859691862167694844226301364359372011006113386133876773438121796538781887367607959977733658207487505220452654574211111887017656084303955000769496601032287526395861782134816165119879331508276055768861225350608685916785354932643791367913682107083018415886458053000000/76217893902861617480179250783959336665100541395554013176205768626967216987548679189840654652736751806632969323906301896268758492119262525349959247444000564702677606364267438252602397886601859011798394452199627244359164553940948759902328294104627444395063859991669031533590696161
+measurement_G1.p1.sqrtAbsG=8730286014951721928504132748723695542930461054904720450085966334353586259236451917045027672855083074829122807534550852798637473811934160881/5830385474319805441329849379639239454291400859118124380810706771166072547115982722377484401689266684114333535956689809000000000000000000000
+measurement_G1.p1.scalarCurvature=-1614887249541739257516573315529246657600730202325497804963393765125570372712966530392922017691573928687372617643677993201121474913352616382125932929761861832188610336344471582303766151473176061369213859808574386703329734101410861016581342676230099174119568809647376403736913026568714188243921604354376728273143323647028906969728823638201992823928620680427487101237084595984790644335199676322134421279157220079288922000/665404013229226894636381674992814053166805266621030073944260885760914977872528101237581877255720767860475267763369285746414768380307770015351127257502771956794242323127295935065619161904097739375995230127971230124090203862799887149778040018324880213517738276103978788641728560893295073985029214325041386918926858281823981032630503880042537525278099712596170061281391706352183513790235396224530139231731605390163077841
+measurement_G1.p1.scalarCurvatureDecimal=-2.426927426699216826
+measurement_G1.p1.vielbeinPostulateComponentsZero=512 values and 4096 first derivatives
+measurement_G1.p1.nonzeroOmegaLower=448
+measurement_G1.p1.nonzeroOmegaMixedSymmetricPart=256
+measurement_G1.p1.notebookDGammaMaxAbs=111904566286114641331338071240282792305845238830315434753663765811445460150325836954890076018576609456646411157656431136979416712328665474812049456727591565178094684043088637293009886330848086085348090640829114350767263199725131391611430047723453739214547483732253128285173841550/76217893902861617480179250783959336665100541395554013176205768626967216987548679189840654652736751806632969323906301896268758492119262525349959247444000564702677606364267438252602397886601859011798394452199627244359164553940948759902328294104627444395063859991669031533590696161
+measurement_G1.p1.notebookDGammaMaxAbsDecimal=1.4682190828932516586
+measurement_G1.p1.notebookDGammaNonzeroEntries=4096
+measurement_G1.p1.divergenceLhsMaxAbs=54363701323205936743043614739535831515758908467009054462592990706849839592954291603544676674490696171939478670961809/5546034753025139865512809180352790650868204109260812328957704302606575964366397739305454186053460000000000000000000
+measurement_G1.p1.curvatureCandidate.plusHalfLowered=true
+measurement_G1.p1.curvatureCandidate.minusHalfLowered=false
+measurement_G1.p1.curvatureCandidate.plusHalfMixedNoEta=false
+measurement_G1.p1.curvatureFMaxAbs=8444173473433050249232308447238648798897543867664619955456329253989665263880338587508976413132428829229113762377838438193074336217033276180482194649029789892795937579445519523451064405308865883366343095416659841133925183284677838437830324921609361000677339282932674362892628817182905/5723049217378073133351699582865938671509069452309359741374938754661714389161055223006755076564697219656456400593476396787028537656251184503477739972075114402394656106680113403511408852509160389477917842626765610524440948026317960483546026947728265544736555119054444239794258193337168
+measurement_G1.p1.lichnerowiczC=-1/4
+measurement_G1.p1.lichnerowiczPlusQuarterHolds=false
+measurement_G1.p1.hermiticity=(C gamma^a)^dagger = -C gamma^a, C^dagger = C; Ls = psb K psi + psb K^mu d_mu psi + d_mu psb L^mu psi - (lambda/2) S^2 with K = K^dagger and L^mu = (K^mu)^dagger (Grassmann conjugation (theta1 theta2)^* = theta2^* theta1^*)
+measurement_G1.p1.grassmannLagrangianMonomials=1288
+measurement_G1.p1.grassmannELPsibarMonomials=896
+measurement_G1.p1.grassmannELPsiMonomials=896
+measurement_G1.p1.canonicalMomentum=Pi_a = dR L'/d(d_4 Psi_a) = sqrt|g| (Psi^dagger C gamma^4)_a (right derivative), L' = L + (1/2) d_4(sqrt|g| Psibar gamma^4 Psi); {Psi, Psi^dagger} = i (sqrt|g| C gamma^4)^(-1) = i gamma^4 C/(g^44 sqrt|g|)
+measurement_G1.p1.notebookLgMonomials=544
+measurement_G1.p1.notebookLgResidualXMaxAbs=7507358109637902111087660718812346536124899947119359579482804686749829091516534650278451009470150903500371686678991/756277466321609981660837615502653270572936923990110772130596041264533086049963328087107389007290000000000000000000
+measurement_G1.p1.notebookLgResidualXMaxAbsDecimal=9.9267245739216146405
+measurement_G1.p1.notebookLgResidualXRank=16
+measurement_G1.p1.notebookLgResidualX=X = sqrt|g| C Sum_alpha [gamma^alpha, OmegaNotebook_alpha - Omega_alpha] (E = X Psi, no derivative terms)
+measurement_G1.p1.emtDivergenceOffShellMaxAbs=1255571952177130943123675744293154322903473218399721326293754285217770180135598959746867157269494006492239586224649408562280476458227223282011059694774806789434268806588290266498406564042262474615347851937268538852937909894591914225061200708086766583971852352009702935177171834271964179579638675148138068870136894014920917410800072630395440245749280321018399189180980848161813092953819150897328486227418698730130033297790989387666003/5182411085225289069570447635621240884210088145799691197967936764688864407671177873265471606649038636889630839045320950898680885265547878636615454794418339930600190178633842978372283053242786275799711426124636555754211296404577967053462939500991368091157651697225994914470004339151874544625679495679823522460155465639306867301431570148426547293429693842722270833374680197967955252308856730002085344556361119356766258403906389785600
+measurement_G1.p1.onShellJetsResidualZero=true
+measurement_G1.p1.emtTraceOnShell=2757231919/23950080
+measurement_G1.p1.spinInvariance.identityComponent.LprimeOverL=1
+measurement_G1.p1.spinInvariance.spacelikeTimelikePair.LprimeOverL=-1
+measurement_G1.p1.spinInvariance.notebookContractionLagrangianChangeMaxAbs=34034796624706175106438359895957678232921741081575919747492789085413786817499626414340026281862630769806080242267134470953946883241652300130787929/164187010310631552532473136733269373071689978814694064234976336409818565715310729419295325156074873193872061557673381250000000000000000000000
+measurement_G1.p1.spinInvariance.infinitesimal.notebookContractionFirstOrderChangeMaxAbs=983300115399651285720512654634127839414721019599729232559234892556087311065970187596284587581040651755650537871237259339858361996209016752074663/22702401425667572695848137424847123190159602008945352091749814417160097975450372462914909157383192342856383820320270000000000000000000000000
+measurement_G1.p1.spinInvariance.infinitesimal.generatorMaxAbs=5029/105
+measurement_G1.p1.spinInvariance.details={True, True, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> 1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> -1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> 1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>}
+measurement_G1.p2.coordinates={-1/3, 1/4, 2/7, -1/5, 1/6, -2/11, 1/9, 3/13}
+measurement_G1.p2.detFrame=166838578544839618908450770680658161976523671373174452031532543530651647381615477855576323/89939653473440330578454191517748817467464604414345561006835089408000000000000000000000000
+measurement_G1.p2.detFrameDecimal=1.8550057966824161675
+measurement_G1.p2.metricInertia={4, 4, 0}
+measurement_G1.p2.inverseMetric44=-25276425321471452905578583761576329847993101777511904574825623458929579129948066305980350015498648636555629089069802397775597908000750020536755150214602541601207149724714896000000/27835111290862618810345887859036066260707346100503793175586845060827181666642151194402778850412744244816538330876844639112826219983550758115381224696358807247824955112986478200329
+measurement_G1.p2.sqrtAbsG=166838578544839618908450770680658161976523671373174452031532543530651647381615477855576323/89939653473440330578454191517748817467464604414345561006835089408000000000000000000000000
+measurement_G1.p2.scalarCurvature=61338015674141044938154233973088504023529591030433073907569106559884424891889554693429321794490998485072462234280567636610660590976229807105861781197437420335725177901703167673457668250902003806757420020358026651753305848813683880050935517180099512707611850222000000000/4643970401404935143662064045823545446763976173071448133124616662294458410849675115667313250974889794445987130314754918226543571363416156092024835456072388715423902711332055918919280315313888198205531058156761111128008807729310735363019804086928408040673459290143210267
+measurement_G1.p2.scalarCurvatureDecimal=13.208097893040947037
+measurement_G1.p2.vielbeinPostulateComponentsZero=512 values and 4096 first derivatives
+measurement_G1.p2.nonzeroOmegaLower=448
+measurement_G1.p2.nonzeroOmegaMixedSymmetricPart=256
+measurement_G1.p2.notebookDGammaMaxAbs=42581933129880022626105666772023555448678300403760184723799890462777517887491856677300434349781488308231248820762883982603592043704133059632121427512598416771697177689681385120000/27835111290862618810345887859036066260707346100503793175586845060827181666642151194402778850412744244816538330876844639112826219983550758115381224696358807247824955112986478200329
+measurement_G1.p2.notebookDGammaMaxAbsDecimal=1.5297920918986343737
+measurement_G1.p2.notebookDGammaNonzeroEntries=4096
+measurement_G1.p2.divergenceLhsMaxAbs=33724772973506641455319129716946656729725936532561312327735863399369031726923/3051283534299781027679829350592627140040391021488005836800000000000000000000
+measurement_G1.p2.curvatureCandidate.plusHalfLowered=true
+measurement_G1.p2.curvatureCandidate.minusHalfLowered=false
+measurement_G1.p2.curvatureCandidate.plusHalfMixedNoEta=false
+measurement_G1.p2.curvatureFMaxAbs=3810962755908497660938624151698532556773694948830823396025515202103753352204852241738744935902569126324785238363885533043452307508289612973427109928898129983553608213509085241749675/3006192019413162831517355888775895156156393378854409662963379266569335619997352328995500115844576378440186139734699221024185231758223481876461172267206751182765095152202539645635532
+measurement_G1.p2.lichnerowiczC=-1/4
+measurement_G1.p2.lichnerowiczPlusQuarterHolds=false
+measurement_G1.p2.hermiticity=(C gamma^a)^dagger = -C gamma^a, C^dagger = C; Ls = psb K psi + psb K^mu d_mu psi + d_mu psb L^mu psi - (lambda/2) S^2 with K = K^dagger and L^mu = (K^mu)^dagger (Grassmann conjugation (theta1 theta2)^* = theta2^* theta1^*)
+measurement_G1.p2.grassmannLagrangianMonomials=1288
+measurement_G1.p2.grassmannELPsibarMonomials=896
+measurement_G1.p2.grassmannELPsiMonomials=896
+measurement_G1.p2.canonicalMomentum=Pi_a = dR L'/d(d_4 Psi_a) = sqrt|g| (Psi^dagger C gamma^4)_a (right derivative), L' = L + (1/2) d_4(sqrt|g| Psibar gamma^4 Psi); {Psi, Psi^dagger} = i (sqrt|g| C gamma^4)^(-1) = i gamma^4 C/(g^44 sqrt|g|)
+measurement_G1.p2.notebookLgMonomials=544
+measurement_G1.p2.notebookLgResidualXMaxAbs=362743124890053763456310827532512599089601230719017941154322814252537473459/29339264752882509881536820678775260961926836745076979200000000000000000000
+measurement_G1.p2.notebookLgResidualXMaxAbsDecimal=12.363742852636249261
+measurement_G1.p2.notebookLgResidualXRank=16
+measurement_G1.p2.notebookLgResidualX=X = sqrt|g| C Sum_alpha [gamma^alpha, OmegaNotebook_alpha - Omega_alpha] (E = X Psi, no derivative terms)
+measurement_G1.p2.emtDivergenceOffShellMaxAbs=41492961602315560545993054550576856915972894904832171280474975882679426985512543107158819489538377605116696705619256748988915530888068544839423192393912895414672685864183272522165142367148510335777815399074441945376147171095538912168963670182231123989268884815111155028761514201051/27603641180308658527587630939535581052801637214946657074220513450491706055955151135843548880575519981008209685320367176212668388668718728357399666115106603071328562864248330281424677860649679414595802548088699231460439476117545140642964422185717832026517200780053414160865164800
+measurement_G1.p2.onShellJetsResidualZero=true
+measurement_G1.p2.emtTraceOnShell=212281945067/582266880
+measurement_G1.p2.spinInvariance.identityComponent.LprimeOverL=1
+measurement_G1.p2.spinInvariance.spacelikeTimelikePair.LprimeOverL=-1
+measurement_G1.p2.spinInvariance.notebookContractionLagrangianChangeMaxAbs=7247224688339554997146660300893937621956744354016494420663253998462191203031167346414328746968634323/16496508777011101525857549435012865099481971201521246388387764879360000000000000000000000000000
+measurement_G1.p2.spinInvariance.infinitesimal.notebookContractionFirstOrderChangeMaxAbs=6638328755479171790320830632611652887219320263816838732534071011386493050778810506063818318113/548580746627130615649750157875474584511184975733341526820061184000000000000000000000000000
+measurement_G1.p2.spinInvariance.infinitesimal.generatorMaxAbs=551/10
+measurement_G1.p2.spinInvariance.details={True, True, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> 1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> -1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> 1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>}
+measurement_G1.p3.coordinates={2/9, 1/8, -1/7, 1/10, -3/14, 1/12, 2/15, -1/16}
+measurement_G1.p3.detFrame=641746341050179883864555193389422428673872937637900648707934018876147/468006998280337753584232705470057723558100992000000000000000000000000
+measurement_G1.p3.detFrameDecimal=1.3712323606446835315
+measurement_G1.p3.metricInertia={4, 4, 0}
+measurement_G1.p3.inverseMetric44=-318952466166564576272994512564706063255863271525429735940048306855351311736802345907870617644482328672102538275200667009270005559296000000/411838366251293794726284490645078710059685744289571041907746101670242973782122335509039219076794734676400279533325381168644856904925565609
+measurement_G1.p3.sqrtAbsG=641746341050179883864555193389422428673872937637900648707934018876147/468006998280337753584232705470057723558100992000000000000000000000000
+measurement_G1.p3.scalarCurvature=9689398045997180497937441617950595040040778796452519749391809645068059409541780150394566200740289790184231562521836960890276560278493261631737370014739207493165173254049690695391938882482893606800588800000000/264295764645851680671056237994090054609031949568238825207257274053669837697104865377003865233845083580846906140801316464642203777545751202540961873245410781984892799396828521227038225251299727181806493628523
+measurement_G1.p3.scalarCurvatureDecimal=36.661193034934481057
+measurement_G1.p3.vielbeinPostulateComponentsZero=512 values and 4096 first derivatives
+measurement_G1.p3.nonzeroOmegaLower=448
+measurement_G1.p3.nonzeroOmegaMixedSymmetricPart=256
+measurement_G1.p3.notebookDGammaMaxAbs=695745835659961890630435148300697054132902001778840399684884162947901779335775159746814629973732371410883457992706676758820733356974080000/411838366251293794726284490645078710059685744289571041907746101670242973782122335509039219076794734676400279533325381168644856904925565609
+measurement_G1.p3.notebookDGammaMaxAbsDecimal=1.6893662482029045236
+measurement_G1.p3.notebookDGammaNonzeroEntries=4096
+measurement_G1.p3.divergenceLhsMaxAbs=196397968383786225053092766988595870699543183128247841953/20889242388517465572911252750110556160000000000000000000
+measurement_G1.p3.curvatureCandidate.plusHalfLowered=true
+measurement_G1.p3.curvatureCandidate.minusHalfLowered=false
+measurement_G1.p3.curvatureCandidate.plusHalfMixedNoEta=false
+measurement_G1.p3.curvatureFMaxAbs=778135142412799210389370771218609894168889905472381634116354963959557453155233209177181494329910876282865314894149432798236595133431384000/411838366251293794726284490645078710059685744289571041907746101670242973782122335509039219076794734676400279533325381168644856904925565609
+measurement_G1.p3.lichnerowiczC=-1/4
+measurement_G1.p3.lichnerowiczPlusQuarterHolds=false
+measurement_G1.p3.hermiticity=(C gamma^a)^dagger = -C gamma^a, C^dagger = C; Ls = psb K psi + psb K^mu d_mu psi + d_mu psb L^mu psi - (lambda/2) S^2 with K = K^dagger and L^mu = (K^mu)^dagger (Grassmann conjugation (theta1 theta2)^* = theta2^* theta1^*)
+measurement_G1.p3.grassmannLagrangianMonomials=1288
+measurement_G1.p3.grassmannELPsibarMonomials=896
+measurement_G1.p3.grassmannELPsiMonomials=896
+measurement_G1.p3.canonicalMomentum=Pi_a = dR L'/d(d_4 Psi_a) = sqrt|g| (Psi^dagger C gamma^4)_a (right derivative), L' = L + (1/2) d_4(sqrt|g| Psibar gamma^4 Psi); {Psi, Psi^dagger} = i (sqrt|g| C gamma^4)^(-1) = i gamma^4 C/(g^44 sqrt|g|)
+measurement_G1.p3.notebookLgMonomials=544
+measurement_G1.p3.notebookLgResidualXMaxAbs=7837680764187481210495896179897915092307054016969305801927/731123483598111295051893846253869465600000000000000000000
+measurement_G1.p3.notebookLgResidualXMaxAbsDecimal=10.720050634422992323
+measurement_G1.p3.notebookLgResidualXRank=16
+measurement_G1.p3.notebookLgResidualX=X = sqrt|g| C Sum_alpha [gamma^alpha, OmegaNotebook_alpha - Omega_alpha] (E = X Psi, no derivative terms)
+measurement_G1.p3.emtDivergenceOffShellMaxAbs=447844279232601801503333139418055955528861487432025094606378543381959016919231922080641933492970818859185681415694014888627125450786917812755363969056267536549539326866199873364182529784556921634180680161229896562295983/268541411809122642069356085401227117246271438806103013695386654904067989969871157934420055324961571003489630841047148812330216139028246149858579884777225060786698117326339174592029367301736605999255033142171593472000
+measurement_G1.p3.onShellJetsResidualZero=true
+measurement_G1.p3.emtTraceOnShell=-562874723/1382400
+measurement_G1.p3.spinInvariance.identityComponent.LprimeOverL=1
+measurement_G1.p3.spinInvariance.spacelikeTimelikePair.LprimeOverL=-1
+measurement_G1.p3.spinInvariance.notebookContractionLagrangianChangeMaxAbs=18468345997075632127777458764626942543734791183432122299794104793710171423212341/223897473021052833425656827751284802810967752704000000000000000000000000000
+measurement_G1.p3.spinInvariance.infinitesimal.notebookContractionFirstOrderChangeMaxAbs=5120867639262594617722695513165581557447085735750537087919672028755596296559/1243874850116960185698093487507137793394265292800000000000000000000000000
+measurement_G1.p3.spinInvariance.infinitesimal.generatorMaxAbs=1694/25
+measurement_G1.p3.spinInvariance.details={True, True, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> 1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> -1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> 1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>}
+measurement_G2.p1.point=w = 1/2, sin z = 1/64, cos z = (3*Sqrt[455])/64, H = 2/3, a4(t) = Log[2], a4'(t) = 3/7, a4''(t) = -5/11, a4'''(t) = 2/13
+measurement_G2.p1.detFrame=(3*Sqrt[455])/64
+measurement_G2.p1.detFrameDecimal=0.99987792223600976957
+measurement_G2.p1.metricInertia={4, 4, 0}
+measurement_G2.p1.inverseMetric44=-1
+measurement_G2.p1.sqrtAbsG=(3*Sqrt[455])/64
+measurement_G2.p1.scalarCurvature=-2672/147
+measurement_G2.p1.scalarCurvatureDecimal=-18.176870748299319728
+measurement_G2.p1.vielbeinPostulateComponentsZero=512 values and 4096 first derivatives
+measurement_G2.p1.nonzeroOmegaLower=24
+measurement_G2.p1.nonzeroOmegaMixedSymmetricPart=12
+measurement_G2.p1.notebookDGammaMaxAbs=2/3
+measurement_G2.p1.notebookDGammaMaxAbsDecimal=0.66666666666666666667
+measurement_G2.p1.notebookDGammaNonzeroEntries=288
+measurement_G2.p1.divergenceLhsMaxAbs=(3*Sqrt[455])/16
+measurement_G2.p1.curvatureCandidate.plusHalfLowered=true
+measurement_G2.p1.curvatureCandidate.minusHalfLowered=false
+measurement_G2.p1.curvatureCandidate.plusHalfMixedNoEta=false
+measurement_G2.p1.curvatureFMaxAbs=(2*Sqrt[455])/3
+measurement_G2.p1.lichnerowiczC=-1/4
+measurement_G2.p1.lichnerowiczPlusQuarterHolds=false
+measurement_G2.p1.hermiticity=(C gamma^a)^dagger = -C gamma^a, C^dagger = C; Ls = psb K psi + psb K^mu d_mu psi + d_mu psb L^mu psi - (lambda/2) S^2 with K = K^dagger and L^mu = (K^mu)^dagger (Grassmann conjugation (theta1 theta2)^* = theta2^* theta1^*)
+measurement_G2.p1.grassmannLagrangianMonomials=392
+measurement_G2.p1.grassmannELPsibarMonomials=400
+measurement_G2.p1.grassmannELPsiMonomials=400
+measurement_G2.p1.canonicalMomentum=Pi_a = dR L'/d(d_4 Psi_a) = sqrt|g| (Psi^dagger C gamma^4)_a (right derivative), L' = L + (1/2) d_4(sqrt|g| Psibar gamma^4 Psi); {Psi, Psi^dagger} = i (sqrt|g| C gamma^4)^(-1) = i gamma^4 C/(g^44 sqrt|g|)
+measurement_G2.p1.notebookLgMonomials=136
+measurement_G2.p1.notebookLgResidualXMaxAbs=(3*Sqrt[455])/32
+measurement_G2.p1.notebookLgResidualXMaxAbsDecimal=1.9997558444720195391
+measurement_G2.p1.notebookLgResidualXRank=16
+measurement_G2.p1.notebookLgResidualX=X = sqrt|g| C Sum_alpha [gamma^alpha, OmegaNotebook_alpha - Omega_alpha] (E = X Psi, no derivative terms)
+measurement_G2.p1.emtDivergenceOffShellMaxAbs=3739528561/41057280 + (3254682461*Sqrt[13/35])/338688
+measurement_G2.p1.onShellJetsResidualZero=true
+measurement_G2.p1.emtTraceOnShell=1862887753/4656960
+measurement_G2.p1.spinInvariance.identityComponent.LprimeOverL=1
+measurement_G2.p1.spinInvariance.spacelikeTimelikePair.LprimeOverL=-1
+measurement_G2.p1.spinInvariance.notebookContractionLagrangianChangeMaxAbs=69842735976530071/72013536000000 + (32834294498394637301*Sqrt[13/35])/10287648000000
+measurement_G2.p1.spinInvariance.infinitesimal.notebookContractionFirstOrderChangeMaxAbs=31507350759959/1600300800000 + (1732916231445899*Sqrt[13/35])/152409600000
+measurement_G2.p1.spinInvariance.infinitesimal.generatorMaxAbs=3704/105
+measurement_G2.p1.spinInvariance.details={True, True, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> 1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> -1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> 1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>}
+measurement_G2.p1.notebookSlash=gamma^mu OmegaNotebook_mu = (1) gamma^0 + (3/7) gamma^4, residual zero: true
+measurement_G2.p1.notebookSlashEqualsThreeHalfHTimesGamma0PlusA1Gamma4=true
+measurement_G2.p1.negativeControl=Omega := OmegaNotebook, every check recomputed; results: {"GEO_frameNondegenerate_G2" -> "true", "GEO_vielbeinPostulate_G2" -> "true", "GEO_omegaAntisymmetry_G2" -> "true", "GEO_gammaCovariantConstancy_G2" -> "false", "GEO_notebookContractionFails_G2" -> "true", "GEO_divergenceIdentity_G2" -> "false", "GEO_curvature_G2" -> "false", "GEO_lichnerowicz_G2" -> "false", "LAG_hermiticity_G2" -> "true", "LAG_eulerLagrangePsibar_G2" -> "false", "LAG_eulerLagrangePsi_G2" -> "false", "QNT_canonicalMomentum_G2" -> "true", "LAG_notebookLgGrassmannTrivial_G2" -> "false", "EMT_conservation_G2" -> "false", "EMT_trace_G2" -> "true", "EMT_symmetricHermitian_G2" -> "true", "LAG_localSpinInvariance_G2" -> "false", "GEO_diagonalSlashFormula_G2" -> "false", "GEO_primordialInvariants_G2" -> "false", "GEO_symbolicJetAgreement_G2" -> "false"}
+measurement_G2.p2.point=w = 2/3, sin z = 64/729, cos z = Sqrt[527345]/729, H = 1/5, a4(t) = Log[3/2], a4'(t) = -4/9, a4''(t) = 7/12, a4'''(t) = -1/8
+measurement_G2.p2.detFrame=Sqrt[527345]/729
+measurement_G2.p2.detFrameDecimal=0.99613887253271120432
+measurement_G2.p2.metricInertia={4, 4, 0}
+measurement_G2.p2.inverseMetric44=-1
+measurement_G2.p2.sqrtAbsG=Sqrt[527345]/729
+measurement_G2.p2.scalarCurvature=-1102/675
+measurement_G2.p2.scalarCurvatureDecimal=-1.6325925925925925926
+measurement_G2.p2.vielbeinPostulateComponentsZero=512 values and 4096 first derivatives
+measurement_G2.p2.nonzeroOmegaLower=24
+measurement_G2.p2.nonzeroOmegaMixedSymmetricPart=12
+measurement_G2.p2.notebookDGammaMaxAbs=1/5
+measurement_G2.p2.notebookDGammaMaxAbsDecimal=0.2
+measurement_G2.p2.notebookDGammaNonzeroEntries=288
+measurement_G2.p2.divergenceLhsMaxAbs=(2*Sqrt[105469/5])/243
+measurement_G2.p2.curvatureCandidate.plusHalfLowered=true
+measurement_G2.p2.curvatureCandidate.minusHalfLowered=false
+measurement_G2.p2.curvatureCandidate.plusHalfMixedNoEta=false
+measurement_G2.p2.curvatureFMaxAbs=Sqrt[105469/5]/640
+measurement_G2.p2.lichnerowiczC=-1/4
+measurement_G2.p2.lichnerowiczPlusQuarterHolds=false
+measurement_G2.p2.hermiticity=(C gamma^a)^dagger = -C gamma^a, C^dagger = C; Ls = psb K psi + psb K^mu d_mu psi + d_mu psb L^mu psi - (lambda/2) S^2 with K = K^dagger and L^mu = (K^mu)^dagger (Grassmann conjugation (theta1 theta2)^* = theta2^* theta1^*)
+measurement_G2.p2.grassmannLagrangianMonomials=392
+measurement_G2.p2.grassmannELPsibarMonomials=400
+measurement_G2.p2.grassmannELPsiMonomials=400
+measurement_G2.p2.canonicalMomentum=Pi_a = dR L'/d(d_4 Psi_a) = sqrt|g| (Psi^dagger C gamma^4)_a (right derivative), L' = L + (1/2) d_4(sqrt|g| Psibar gamma^4 Psi); {Psi, Psi^dagger} = i (sqrt|g| C gamma^4)^(-1) = i gamma^4 C/(g^44 sqrt|g|)
+measurement_G2.p2.notebookLgMonomials=136
+measurement_G2.p2.notebookLgResidualXMaxAbs=Sqrt[105469/5]/243
+measurement_G2.p2.notebookLgResidualXMaxAbsDecimal=0.59768332351962672259
+measurement_G2.p2.notebookLgResidualXRank=16
+measurement_G2.p2.notebookLgResidualX=X = sqrt|g| C Sum_alpha [gamma^alpha, OmegaNotebook_alpha - Omega_alpha] (E = X Psi, no derivative terms)
+measurement_G2.p2.emtDivergenceOffShellMaxAbs=617350145457137/1208608128000 + 1088018755321/(655711875*Sqrt[527345])
+measurement_G2.p2.onShellJetsResidualZero=true
+measurement_G2.p2.emtTraceOnShell=8359015747/58240000
+measurement_G2.p2.spinInvariance.identityComponent.LprimeOverL=1
+measurement_G2.p2.spinInvariance.spacelikeTimelikePair.LprimeOverL=-1
+measurement_G2.p2.spinInvariance.notebookContractionLagrangianChangeMaxAbs=-863892656457696952/54929409609375 + (3472816817077917031*Sqrt[15067/35])/200884698000000
+measurement_G2.p2.spinInvariance.infinitesimal.notebookContractionFirstOrderChangeMaxAbs=-1094637121118/58126359375 + (285790300101059*Sqrt[15067/35])/462944160000
+measurement_G2.p2.spinInvariance.infinitesimal.generatorMaxAbs=1859/25
+measurement_G2.p2.spinInvariance.details={True, True, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> 1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> -1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> 1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>}
+measurement_G2.p2.notebookSlash=gamma^mu OmegaNotebook_mu = (3/10) gamma^0 + (-2/15) gamma^4, residual zero: true
+measurement_G2.p2.notebookSlashEqualsThreeHalfHTimesGamma0PlusA1Gamma4=true
+measurement_G2.p3.point=w = 3/4, sin z = 729/4096, cos z = (5*Sqrt[649831])/4096, H = 5/7, a4(t) = Log[5/7], a4'(t) = 6/5, a4''(t) = -2/3, a4'''(t) = 3/10
+measurement_G2.p3.detFrame=(5*Sqrt[649831])/4096
+measurement_G2.p3.detFrameDecimal=0.98403437337113464822
+measurement_G2.p3.metricInertia={4, 4, 0}
+measurement_G2.p3.inverseMetric44=-1
+measurement_G2.p3.sqrtAbsG=(5*Sqrt[649831])/4096
+measurement_G2.p3.scalarCurvature=-834/49
+measurement_G2.p3.scalarCurvatureDecimal=-17.020408163265306122
+measurement_G2.p3.vielbeinPostulateComponentsZero=512 values and 4096 first derivatives
+measurement_G2.p3.nonzeroOmegaLower=24
+measurement_G2.p3.nonzeroOmegaMixedSymmetricPart=12
+measurement_G2.p3.notebookDGammaMaxAbs=9/5
+measurement_G2.p3.notebookDGammaMaxAbsDecimal=1.8
+measurement_G2.p3.notebookDGammaNonzeroEntries=288
+measurement_G2.p3.divergenceLhsMaxAbs=(75*Sqrt[92833/7])/2048
+measurement_G2.p3.curvatureCandidate.plusHalfLowered=true
+measurement_G2.p3.curvatureCandidate.minusHalfLowered=false
+measurement_G2.p3.curvatureCandidate.plusHalfMixedNoEta=false
+measurement_G2.p3.curvatureFMaxAbs=(5*Sqrt[92833/7])/324
+measurement_G2.p3.lichnerowiczC=-1/4
+measurement_G2.p3.lichnerowiczPlusQuarterHolds=false
+measurement_G2.p3.hermiticity=(C gamma^a)^dagger = -C gamma^a, C^dagger = C; Ls = psb K psi + psb K^mu d_mu psi + d_mu psb L^mu psi - (lambda/2) S^2 with K = K^dagger and L^mu = (K^mu)^dagger (Grassmann conjugation (theta1 theta2)^* = theta2^* theta1^*)
+measurement_G2.p3.grassmannLagrangianMonomials=392
+measurement_G2.p3.grassmannELPsibarMonomials=400
+measurement_G2.p3.grassmannELPsiMonomials=400
+measurement_G2.p3.canonicalMomentum=Pi_a = dR L'/d(d_4 Psi_a) = sqrt|g| (Psi^dagger C gamma^4)_a (right derivative), L' = L + (1/2) d_4(sqrt|g| Psibar gamma^4 Psi); {Psi, Psi^dagger} = i (sqrt|g| C gamma^4)^(-1) = i gamma^4 C/(g^44 sqrt|g|)
+measurement_G2.p3.notebookLgMonomials=136
+measurement_G2.p3.notebookLgResidualXMaxAbs=(45*Sqrt[92833/7])/2048
+measurement_G2.p3.notebookLgResidualXMaxAbsDecimal=2.5303741029543462383
+measurement_G2.p3.notebookLgResidualXRank=16
+measurement_G2.p3.notebookLgResidualX=X = sqrt|g| C Sum_alpha [gamma^alpha, OmegaNotebook_alpha - Omega_alpha] (E = X Psi, no derivative terms)
+measurement_G2.p3.emtDivergenceOffShellMaxAbs=-65616755791/2000376000 + (284143852697*Sqrt[92833/7])/97218273600
+measurement_G2.p3.onShellJetsResidualZero=true
+measurement_G2.p3.emtTraceOnShell=-6197909201/12700800
+measurement_G2.p3.spinInvariance.identityComponent.LprimeOverL=1
+measurement_G2.p3.spinInvariance.spacelikeTimelikePair.LprimeOverL=-1
+measurement_G2.p3.spinInvariance.notebookContractionLagrangianChangeMaxAbs=-21492038203957991/541900800000 + (2032314231398005153*Sqrt[92833/7])/82959593472000
+measurement_G2.p3.spinInvariance.infinitesimal.notebookContractionFirstOrderChangeMaxAbs=8301629557579/2809856000 + (962669208692861*Sqrt[92833/7])/2633637888000
+measurement_G2.p3.spinInvariance.infinitesimal.generatorMaxAbs=653/15
+measurement_G2.p3.spinInvariance.details={True, True, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> 1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> -1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>, <|"RinverseValue" -> True, "LambdaInO44" -> True, "adjointAction" -> True, "metricInvariant" -> True, "gammaCovariant" -> True, "connectionTransformation" -> True, "lagrangianRatio" -> 1, "lagrangianTransforms" -> True, "naiveSignFlipFailsForLambda" -> True|>}
+measurement_G2.p3.notebookSlash=gamma^mu OmegaNotebook_mu = (15/14) gamma^0 + (9/7) gamma^4, residual zero: true
+measurement_G2.p3.notebookSlashEqualsThreeHalfHTimesGamma0PlusA1Gamma4=true
+measurement_G3.p1.frame=h_i = 1 + x4^2/(i+2) (i != 4), h_4 = N = 1, x4 = 1/3
+measurement_G3.p1.onShellHomogeneous=true
+measurement_G3.p1.variation.offShell.rho=210854818088209/7097654108160
+measurement_G3.p1.variation.offShell.p0=-171452041091857/7097654108160
+measurement_G3.p1.variation.onShell.rho=210854818088209/7097654108160
+measurement_G3.p1.variation.onShell.p0=178827259862161/7097654108160
+measurement_G3.p1.homogeneous.subchecks={True, True, True, True, True, True, True, True, True, True}
+measurement_G3.p1.homogeneous.rho=210854818088209/7097654108160
+measurement_G3.p1.homogeneous.KE=38968207795037/1419530821632
+measurement_G3.p1.homogeneous.PE=13372631/5927040
+measurement_G3.p1.homogeneous.p1=178827259862161/7097654108160
+measurement_G3.p2.frame=h_i = 1 + x4^2/(i+2) (i != 4), h_4 = N = 1, x4 = -2/5
+measurement_G3.p2.onShellHomogeneous=true
+measurement_G3.p2.variation.offShell.rho=14794312877/2717245440
+measurement_G3.p2.variation.offShell.p0=-21419530541/2717245440
+measurement_G3.p2.variation.onShell.rho=14794312877/2717245440
+measurement_G3.p2.variation.onShell.p0=2129545609/543449088
+measurement_G3.p2.homogeneous.subchecks={True, True, True, True, True, True, True, True, True, True}
+measurement_G3.p2.homogeneous.rho=14794312877/2717245440
+measurement_G3.p2.homogeneous.KE=12721020461/2717245440
+measurement_G3.p2.homogeneous.PE=46147/60480
+measurement_G3.p2.homogeneous.p1=2129545609/543449088
+measurement_G3.p3.frame=h_i = 1 + x4^2/(i+2) (i != 4), h_4 = N = 1, x4 = 3/7
+measurement_G3.p3.onShellHomogeneous=true
+measurement_G3.p3.variation.offShell.rho=-15747083/2073600
+measurement_G3.p3.variation.offShell.p0=71539661/14515200
+measurement_G3.p3.variation.onShell.rho=-15747083/2073600
+measurement_G3.p3.variation.onShell.p0=-3308761/691200
+measurement_G3.p3.homogeneous.subchecks={True, True, True, True, True, True, True, True, True, True}
+measurement_G3.p3.homogeneous.rho=-15747083/2073600
+measurement_G3.p3.homogeneous.KE=-12836683/2073600
+measurement_G3.p3.homogeneous.PE=-1819/1296
+measurement_G3.p3.homogeneous.p1=-3308761/691200
+measurement_emt.signConvention=CONTRACT section 7 sign confirmed: T_{mu nu} = -(2/sqrt|g|) dS/dg^{mu nu} (rho = -(1/sqrt|g|) dS/dN at N = 1, T^i_i = (h_i/sqrt|g|) dS/dh_i) equals the covariant formula, T_44 = rho = m S + U
+measurement_emt.offDiagonalHomogeneous=Bianchi-I, homogeneous Psi(t): T_ij = (1/4)(H_i - H_j) Psibar gamma_i gamma_j gamma^4 Psi (curved gammas, gamma_i = g_ii gamma^i; equivalently c_ij = g_ii g_jj/4 with upper curved gammas), off- and on-shell; T_4i = -(1/4)(Psibar gamma_i d_4 Psi - d_4 Psibar gamma_i Psi) off-shell and T_4i = 0 identically on-shell; d/dt(Psibar gamma^i gamma^j gamma^4 Psi) = -(Sum_k H_k) Psibar gamma^i gamma^j gamma^4 Psi (flat gammas, on-shell), so zero initial data stay zero
+measurement_emt.trace=on-shell T^mu_mu = -m S + 7 S U'(S) - 8 U(S) = -m S + 3 lambda S^2
+check_count=43
+failed_check_count=0
+report=build/stage1/wolfram-geometry-report.json
+stage1_step_ok=stage1-04-wolfram-geometry
+stage1_step=stage1-05-check-geometry
+report_path_redirect=<scratch>/s1v_public_ps1/artifacts/dirac16complex/arbitrary-field/python-geometry-report.json -> <scratch>/s1v_public_ps1/build/stage1/python-geometry-report.json
+[31;1m[    0.9 s] algebra done[0m
+[31;1m[  102.0 s] G1 done[0m
+[31;1m[  215.1 s] G2 done[0m
+[31;1m[  218.1 s] G3 done[0m
+[31;1m[  220.2 s] EMT variation (minisuperspace) done[0m
+[31;1m[  227.0 s] EMT variation (diagonal local) done[0m
+[31;1m[  227.0 s] Wolfram agreement done[0m
+[31;1mruntime_seconds=227.0[0m
+check_ALG_cliffordRelations=true
+check_ALG_sigma16EqualsGamma0123=true
+check_ALG_CSymmetricInvolution=true
+check_ALG_expression1CgammaAntisymmetric=true
+check_ALG_gammaSymmetryPattern=true
+check_ALG_CSabAntisymmetric=true
+check_ALG_chiralityDiag=true
+check_ALG_CAnticommutatorGammaSSymmetric=true
+check_ALG_CCommutatorGammaSAntisymmetric=true
+check_ALG_SabGammaCommutator=true
+check_GEO_frameNondegenerate_G1=true
+check_GEO_vielbeinPostulate_G1=true
+check_GEO_omegaAntisymmetry_G1=true
+check_GEO_gammaCovariantConstancy_G1=true
+check_GEO_notebookContractionFails_G1=true
+check_GEO_divergenceIdentity_G1=true
+check_GEO_sqrtgSquaredEqualsDetg_G1=true
+check_GEO_curvature_G1=true
+check_GEO_lichnerowicz_G1=true
+check_LAG_eulerLagrangePsibar_G1=true
+check_LAG_eulerLagrangePsi_G1=true
+check_EMT_onshellJetSolve_G1=true
+check_EMT_symmetric_G1=true
+check_EMT_trace_G1=true
+check_EMT_traceOffShellIdentity_G1=true
+check_EMT_onshellLagrangianSUprimeMinusU_G1=true
+check_EMT_conservation_G1=true
+check_GEO_vielbeinPostulate_G2=true
+check_GEO_omegaAntisymmetry_G2=true
+check_GEO_gammaCovariantConstancy_G2=true
+check_GEO_notebookContractionFails_G2=true
+check_GEO_divergenceIdentity_G2=true
+check_GEO_sqrtgSquaredEqualsDetg_G2=true
+check_GEO_curvature_G2=true
+check_GEO_anticommutatorGammaOmegaVanishesDiagonal_G2=true
+check_GEO_primordialInvariants_G2=true
+check_GEO_diagonalSlashFormula_G2=true
+check_GEO_lichnerowicz_G2=true
+check_LAG_eulerLagrangePsibar_G2=true
+check_LAG_eulerLagrangePsi_G2=true
+check_EMT_onshellJetSolve_G2=true
+check_EMT_symmetric_G2=true
+check_EMT_trace_G2=true
+check_EMT_traceOffShellIdentity_G2=true
+check_EMT_onshellLagrangianSUprimeMinusU_G2=true
+check_EMT_conservation_G2=true
+check_GEO_lichnerowiczConstantSameG1G2=true
+check_EMT_homogeneousReduction=true
+check_GEO_diagonalSlashFormula_G3=true
+check_EMT_homogeneousTimeSpaceVanishesOnShell_G3=true
+check_EMT_variation=true
+check_GEO_wolframAgreement=true
+measurement_GEO_detVielbein_G1_p1=8730286014951721928504132748723695542930461054904720450085966334353586259236451917045027672855083074829122807534550852798637473811934160881/5830385474319805441329849379639239454291400859118124380810706771166072547115982722377484401689266684114333535956689809000000000000000000000
+measurement_GEO_metricSignature_G1_p1=(4,4,0)
+measurement_GEO_inverseMetric44_G1_p1=-66052764774308859691862167694844226301364359372011006113386133876773438121796538781887367607959977733658207487505220452654574211111887017656084303955000769496601032287526395861782134816165119879331508276055768861225350608685916785354932643791367913682107083018415886458053000000/76217893902861617480179250783959336665100541395554013176205768626967216987548679189840654652736751806632969323906301896268758492119262525349959247444000564702677606364267438252602397886601859011798394452199627244359164553940948759902328294104627444395063859991669031533590696161
+measurement_GEO_vielbeinPostulate_christoffelRoute_G1_p1=True
+measurement_GEO_vielbeinPostulate_anholonomyRoute_G1_p1=True
+measurement_GEO_omegaTwoRoutesAgree_G1_p1=True
+measurement_GEO_nonzeroOmegaLowComponents_G1_p1=448
+measurement_GEO_nonzeroOmegaMixedSymmetricPart_G1_p1=256
+measurement_GEO_notebookContraction_nonzeroEntries_DmuGammaNu_G1_p1=4096
+measurement_GEO_notebookContraction_nonzeroPairs_DmuGammaNu_G1_p1=64
+measurement_GEO_divergenceIdentity_lhsNonzeroEntries_G1_p1=64
+measurement_GEO_anticommutatorGammaMuOmegaMu_canonical_nonzeroEntries_G1_p1=128
+measurement_GEO_anticommutatorGammaMuOmegaMu_notebook_nonzeroEntries_G1_p1=128
+measurement_GEO_divergenceIdentity_notebookContraction_nonzeroEntries_G1_p1=64
+measurement_GEO_curvature_spinCurvaturePlusHalfRiemannS_G1_p1=True
+measurement_GEO_curvature_spinCurvatureMinusHalfRiemannS_G1_p1=False
+measurement_GEO_curvature_spinCurvatureNonzeroEntries_G1_p1=6272
+measurement_GEO_curvature_frameCurvatureEqualsRiemann_G1_p1=True
+measurement_GEO_curvature_ricciSymmetric_G1_p1=True
+measurement_GEO_ricciScalar_G1_p1=-1614887249541739257516573315529246657600730202325497804963393765125570372712966530392922017691573928687372617643677993201121474913352616382125932929761861832188610336344471582303766151473176061369213859808574386703329734101410861016581342676230099174119568809647376403736913026568714188243921604354376728273143323647028906969728823638201992823928620680427487101237084595984790644335199676322134421279157220079288922000/665404013229226894636381674992814053166805266621030073944260885760914977872528101237581877255720767860475267763369285746414768380307770015351127257502771956794242323127295935065619161904097739375995230127971230124090203862799887149778040018324880213517738276103978788641728560893295073985029214325041386918926858281823981032630503880042537525278099712596170061281391706352183513790235396224530139231731605390163077841
+measurement_GEO_lichnerowicz_c_G1_p1=-1/4
+measurement_LAG_mass_G1_p1=3/8
+measurement_LAG_eulerLagrangePsibar_spinConnectionTermNonzeroComponents_G1_p1=16
+measurement_EMT_lambda_G1_p1=5/7
+measurement_EMT_trace_G1_p1=34673890679/13335840
+measurement_EMT_S_G1_p1=-262679/7560
+measurement_EMT_nonzeroEntries_T_dT_G1_p1=[64, 512]
+measurement_EMT_offShellDivergenceNonzeroComponents_G1_p1=8
+measurement_GEO_detVielbein_G1_p2=166838578544839618908450770680658161976523671373174452031532543530651647381615477855576323/89939653473440330578454191517748817467464604414345561006835089408000000000000000000000000
+measurement_GEO_metricSignature_G1_p2=(4,4,0)
+measurement_GEO_inverseMetric44_G1_p2=-25276425321471452905578583761576329847993101777511904574825623458929579129948066305980350015498648636555629089069802397775597908000750020536755150214602541601207149724714896000000/27835111290862618810345887859036066260707346100503793175586845060827181666642151194402778850412744244816538330876844639112826219983550758115381224696358807247824955112986478200329
+measurement_GEO_vielbeinPostulate_christoffelRoute_G1_p2=True
+measurement_GEO_vielbeinPostulate_anholonomyRoute_G1_p2=True
+measurement_GEO_omegaTwoRoutesAgree_G1_p2=True
+measurement_GEO_nonzeroOmegaLowComponents_G1_p2=448
+measurement_GEO_nonzeroOmegaMixedSymmetricPart_G1_p2=256
+measurement_GEO_notebookContraction_nonzeroEntries_DmuGammaNu_G1_p2=4096
+measurement_GEO_notebookContraction_nonzeroPairs_DmuGammaNu_G1_p2=64
+measurement_GEO_divergenceIdentity_lhsNonzeroEntries_G1_p2=64
+measurement_GEO_anticommutatorGammaMuOmegaMu_canonical_nonzeroEntries_G1_p2=128
+measurement_GEO_anticommutatorGammaMuOmegaMu_notebook_nonzeroEntries_G1_p2=128
+measurement_GEO_divergenceIdentity_notebookContraction_nonzeroEntries_G1_p2=64
+measurement_GEO_curvature_spinCurvaturePlusHalfRiemannS_G1_p2=True
+measurement_GEO_curvature_spinCurvatureMinusHalfRiemannS_G1_p2=False
+measurement_GEO_curvature_spinCurvatureNonzeroEntries_G1_p2=6272
+measurement_GEO_curvature_frameCurvatureEqualsRiemann_G1_p2=True
+measurement_GEO_curvature_ricciSymmetric_G1_p2=True
+measurement_GEO_ricciScalar_G1_p2=61338015674141044938154233973088504023529591030433073907569106559884424891889554693429321794490998485072462234280567636610660590976229807105861781197437420335725177901703167673457668250902003806757420020358026651753305848813683880050935517180099512707611850222000000000/4643970401404935143662064045823545446763976173071448133124616662294458410849675115667313250974889794445987130314754918226543571363416156092024835456072388715423902711332055918919280315313888198205531058156761111128008807729310735363019804086928408040673459290143210267
+measurement_GEO_lichnerowicz_c_G1_p2=-1/4
+measurement_LAG_mass_G1_p2=1/3
+measurement_LAG_eulerLagrangePsibar_spinConnectionTermNonzeroComponents_G1_p2=16
+measurement_EMT_lambda_G1_p2=-1
+measurement_EMT_trace_G1_p2=-39613897/6858432
+measurement_EMT_S_G1_p2=-6551/4536
+measurement_EMT_nonzeroEntries_T_dT_G1_p2=[64, 512]
+measurement_EMT_offShellDivergenceNonzeroComponents_G1_p2=8
+measurement_GEO_detVielbein_G1_p3=641746341050179883864555193389422428673872937637900648707934018876147/468006998280337753584232705470057723558100992000000000000000000000000
+measurement_GEO_metricSignature_G1_p3=(4,4,0)
+measurement_GEO_inverseMetric44_G1_p3=-318952466166564576272994512564706063255863271525429735940048306855351311736802345907870617644482328672102538275200667009270005559296000000/411838366251293794726284490645078710059685744289571041907746101670242973782122335509039219076794734676400279533325381168644856904925565609
+measurement_GEO_vielbeinPostulate_christoffelRoute_G1_p3=True
+measurement_GEO_vielbeinPostulate_anholonomyRoute_G1_p3=True
+measurement_GEO_omegaTwoRoutesAgree_G1_p3=True
+measurement_GEO_nonzeroOmegaLowComponents_G1_p3=448
+measurement_GEO_nonzeroOmegaMixedSymmetricPart_G1_p3=256
+measurement_GEO_notebookContraction_nonzeroEntries_DmuGammaNu_G1_p3=4096
+measurement_GEO_notebookContraction_nonzeroPairs_DmuGammaNu_G1_p3=64
+measurement_GEO_divergenceIdentity_lhsNonzeroEntries_G1_p3=64
+measurement_GEO_anticommutatorGammaMuOmegaMu_canonical_nonzeroEntries_G1_p3=128
+measurement_GEO_anticommutatorGammaMuOmegaMu_notebook_nonzeroEntries_G1_p3=128
+measurement_GEO_divergenceIdentity_notebookContraction_nonzeroEntries_G1_p3=64
+measurement_GEO_curvature_spinCurvaturePlusHalfRiemannS_G1_p3=True
+measurement_GEO_curvature_spinCurvatureMinusHalfRiemannS_G1_p3=False
+measurement_GEO_curvature_spinCurvatureNonzeroEntries_G1_p3=6272
+measurement_GEO_curvature_frameCurvatureEqualsRiemann_G1_p3=True
+measurement_GEO_curvature_ricciSymmetric_G1_p3=True
+measurement_GEO_ricciScalar_G1_p3=9689398045997180497937441617950595040040778796452519749391809645068059409541780150394566200740289790184231562521836960890276560278493261631737370014739207493165173254049690695391938882482893606800588800000000/264295764645851680671056237994090054609031949568238825207257274053669837697104865377003865233845083580846906140801316464642203777545751202540961873245410781984892799396828521227038225251299727181806493628523
+measurement_GEO_lichnerowicz_c_G1_p3=-1/4
+measurement_LAG_mass_G1_p3=-1
+measurement_LAG_eulerLagrangePsibar_spinConnectionTermNonzeroComponents_G1_p3=16
+measurement_EMT_lambda_G1_p3=-1/3
+measurement_EMT_trace_G1_p3=-94318987249/228614400
+measurement_EMT_S_G1_p3=-299647/15120
+measurement_EMT_nonzeroEntries_T_dT_G1_p3=[64, 512]
+measurement_EMT_offShellDivergenceNonzeroComponents_G1_p3=8
+measurement_GEO_lichnerowicz_c_G1=-1/4
+measurement_G2_domain=QQ(w,c,E,A1,A2,A3,H) mod (w^12+c^2-1)
+measurement_G2_substitution=z=6Hx0, t=Hx4; exact symbolic differentiation in (z,t), then a4'''->A3, a4''->A2, a4'->A1, a4->log(E) (E=exp(A0)), sin z->w^6, cos z->c with w=sin(z)^(1/6)>0, c>0; relation w^12+c^2-1=0 applied only by ideal reduction inside zero tests (counted)
+measurement_GEO_vielbeinPostulate_christoffelRoute_G2=True
+measurement_GEO_vielbeinPostulate_anholonomyRoute_G2=True
+measurement_GEO_omegaTwoRoutesAgree_G2=True
+measurement_GEO_nonzeroOmegaLowComponents_G2=24
+measurement_GEO_nonzeroOmegaMixedSymmetricPart_G2=12
+measurement_GEO_notebookContraction_nonzeroEntries_DmuGammaNu_G2=288
+measurement_GEO_notebookContraction_nonzeroPairs_DmuGammaNu_G2=15
+measurement_GEO_divergenceIdentity_lhsNonzeroEntries_G2=16
+measurement_GEO_anticommutatorGammaMuOmegaMu_canonical_nonzeroEntries_G2=0
+measurement_GEO_anticommutatorGammaMuOmegaMu_notebook_nonzeroEntries_G2=0
+measurement_GEO_divergenceIdentity_notebookContraction_nonzeroEntries_G2=32
+measurement_GEO_curvature_spinCurvaturePlusHalfRiemannS_G2=True
+measurement_GEO_curvature_spinCurvatureMinusHalfRiemannS_G2=False
+measurement_GEO_curvature_spinCurvatureNonzeroEntries_G2=1248
+measurement_GEO_curvature_frameCurvatureEqualsRiemann_G2=True
+measurement_GEO_curvature_ricciSymmetric_G2=True
+measurement_GEO_sqrtg_G2=c
+measurement_GEO_primordialInvariants_sqrtgEqualsCosz_G2=True
+measurement_GEO_primordialInvariants_d4sqrtgZero_G2=True
+measurement_GEO_primordialInvariants_omegaLowNonzeroCount24_G2=True
+measurement_GEO_ricciScalar_G2=6*H**2*(A1**2 - 7)
+measurement_GEO_primordialInvariants_ricciScalar_G2=True
+measurement_GEO_primordialInvariants_einsteinTensorMixed_G2=True
+measurement_GEO_einsteinTensorMixedDiagonal_G2=["-3*H**2*(A1**2 - 5)", "-H**2*(3*A1**2 - A2 - 15)", "-H**2*(3*A1**2 - A2 - 15)", "-H**2*(3*A1**2 - A2 - 15)", "3*H**2*(A1**2 + 7)", "-H**2*(3*A1**2 + A2 - 15)", "-H**2*(3*A1**2 + A2 - 15)", "-H**2*(3*A1**2 + A2 - 15)"]
+measurement_GEO_slashOmega_canonical_G2=gamma^mu Omega_mu = (3*H) gamma^0
+measurement_GEO_slashOmega_notebook_coefficients_G2={"gamma0": "3*H/2", "gamma4": "3*A1*H/2", "residualNonzero": 0}
+measurement_LAG_eulerLagrangePsibar_spinConnectionTermNonzeroComponents_G2_s0=16
+measurement_EMT_nonzeroEntries_T_dT_G2_s0=[64, 512]
+measurement_EMT_offShellDivergenceNonzeroComponents_G2_s0=8
+measurement_LAG_eulerLagrangePsibar_spinConnectionTermNonzeroComponents_G2_s1=16
+measurement_EMT_nonzeroEntries_T_dT_G2_s1=[64, 512]
+measurement_LAG_eulerLagrangePsibar_spinConnectionTermNonzeroComponents_G2_s2=16
+measurement_EMT_nonzeroEntries_T_dT_G2_s2=[64, 512]
+measurement_GEO_lichnerowicz_c_G2=-1/4
+measurement_G2_relationUsesInZeroTests=0
+measurement_EMT_homogeneous_offDiagonalNonzeroCounts_G3_q1={"T_4i": 0, "T_ij": 42}
+measurement_EMT_homogeneous_G3_q1={"x4": "1/3", "m": "4", "lambda": "7/6", "S": "-75899/7560", "rho": "260864863/13996800", "p": "5760658201/97977600", "KE": "3793356121/97977600", "PE": "-75899/3780", "w": "75899/24059"}
+measurement_EMT_homogeneous_offDiagonalNonzeroCounts_G3_q2={"T_4i": 0, "T_ij": 42}
+measurement_EMT_homogeneous_G3_q2={"x4": "-2/5", "m": "2/3", "lambda": "2/3", "S": "-35543/2520", "rho": "1084168129/19051200", "p": "1263304849/19051200", "KE": "1173736489/19051200", "PE": "-35543/7560", "w": "35543/30503"}
+measurement_EMT_homogeneous_offDiagonalNonzeroCounts_G3_q3={"T_4i": 0, "T_ij": 42}
+measurement_EMT_homogeneous_G3_q3={"x4": "3/7", "m": "-1/2", "lambda": "-4", "S": "15853/504", "rho": "-253315087/127008", "p": "-251317609/127008", "KE": "-63079087/31752", "PE": "-15853/2016", "w": "15853/15979"}
+measurement_EMT_homogeneousReduction_diagonalPart_G3=True
+measurement_EMT_homogeneousReduction_offDiagonalForms_G3=True
+measurement_EMT_homogeneousReduction_offDiagonalFormulas_G3=T_ij = +(1/4) eps_i eps_j h_i h_j (H_i - H_j) Psibar gamma^(i) gamma^(j) gamma^(4) Psi (i!=j, both !=4); T_4i = -(1/4) eps_i h_i (Psibar gamma^(i) d_4 Psi - d_4 Psibar gamma^(i) Psi); H_i = h_i'/h_i, gamma^(a) flat, eps = eta diagonal
+measurement_EMT_variation_minisuperspace_rho_seed4101=4427303/1016064
+measurement_EMT_variation_minisuperspace_T11mixed_seed4101=-(22136515*h4 + 22952376)/(5080320*h4)
+measurement_EMT_variation_minisuperspace_noMetricVelocityDependence=True
+measurement_EMT_variation_minisuperspace_diagonalTmixedAgree=True
+measurement_EMT_variation_minisuperspace_rhoAndPressure=True
+measurement_EMT_variation_minisuperspace_setup=minisuperspace: diagonal vielbein diag(h_0..h_7)(x4), lapse N = h_4, symbolic h_mu and h_mu'; homogeneous fields Psi(x4); exact random rational field jets, off-shell
+measurement_EMT_variation_diagonalLocal_rho_seed4101=(139217281*h0*h1*h2*h3*h5*h6*h7 - 25675020*h0*h1*h2*h3*h5*h6 - 492946380*h0*h1*h2*h3*h5*h7 + 592513452*h0*h1*h2*h3*h6*h7 + 525556850*h0*h1*h2*h5*h6*h7 + 437789940*h0*h1*h3*h5*h6*h7 - 418117140*h0*h2*h3*h5*h6*h7 - 195846000*h1*h2*h3*h5*h6*h7)/(12700800*h0*h1*h2*h3*h5*h6*h7)
+measurement_EMT_variation_diagonalLocal_T11mixed_seed4101=-(139217281*h0*h2*h3*h4*h5*h6*h7 - 25675020*h0*h2*h3*h4*h5*h6 - 492946380*h0*h2*h3*h4*h5*h7 + 592513452*h0*h2*h3*h4*h6*h7 - 28110180*h0*h2*h3*h5*h6*h7 + 525556850*h0*h2*h4*h5*h6*h7 + 437789940*h0*h3*h4*h5*h6*h7 - 195846000*h2*h3*h4*h5*h6*h7)/(12700800*h0*h2*h3*h4*h5*h6*h7)
+measurement_EMT_variation_diagonalLocal_noMetricVelocityDependence=True
+measurement_EMT_variation_diagonalLocal_diagonalTmixedAgree=True
+measurement_EMT_variation_diagonalLocal_rhoAndPressure=True
+measurement_EMT_variation_diagonalLocal_setup=diagonal vielbein diag(h_0..h_7) with symbolic h_mu and symbolic d_nu h_mu (all nu); exact random rational field jets, off-shell
+measurement_GEO_lichnerowicz_statement=(gamma^mu D_mu)^2 Psi = g^{mu nu} nabla_mu D_nu Psi + c R Psi with c = -1/4; R = g^{sn} R^r_{s r n}, R^r_{s m n} = d_m Gamma^r_{ns} - d_n Gamma^r_{ms} + Gamma^r_{ml} Gamma^l_{ns} - Gamma^r_{nl} Gamma^l_{ms}
+measurement_GEO_spinCurvature_statement=F_{mu nu} = d_mu Omega_nu - d_nu Omega_mu + [Omega_mu, Omega_nu] = (1/2) R_{ab mu nu} S^{ab}, R_{ab mu nu} = eta_ac e_r^c R^r_{s mu nu} e_b^s
+measurement_EMT_signConvention=T_{mu nu} = -(2/sqrt|g|) dS/dg^{mu nu} reproduces CONTRACT section 7 exactly: T^mu_mu(no sum) = (h_mu/sqrt|g|) dL/dh_mu for diagonal e = diag(h); rho = T_44/N^2 = -(N/sqrt|g|) dL/dN; p_i = T^i_i = (h_i/sqrt|g|) dL/dh_i; homogeneous: rho = m S + U, p = L_s (= S U' - U on shell)
+measurement_EMT_traceStatement=T^mu_mu = 7 K - 8 (m S + U) off shell; on shell T^mu_mu = -m S + 7 S U' - 8 U (= -m S + 3 lam S^2 for U = lam S^2/2)
+measurement_LAG_commutingProxyJustification=Commuting proxy: the Lagrangian is bilinear in (Psibar-jets, Psi-jets) and every term is written with the Psibar factor (Psi^* or d_mu Psi^*) to the LEFT of the Psi factor. The Grassmann left derivative d/dPsi^*_a acts on that leftmost factor without any sign, so term by term it equals the ordinary derivative of the same polynomial in commuting symbols; the EL expression is linear in the Psi-jets, hence evaluating it on commuting exact rationals is exact. (For the Psi-equation the Grassmann result differs from the commuting one only by an overall sign.) The genuine Grassmann computation is repeated in demo_grassmann_lagrangians.py.
+measurement_seeds={"G1": {"p1": 1101, "p2": 1202, "p3": 1303}, "G2": [2101, 2202, 2303], "G3": {"q1": 3101, "q2": 3202, "q3": 3303}, "variation": [4101, 4202, 4303]}
+measurement_G1_points={"p1": ["1/7", "-2/9", "1/5", "3/11", "-1/13", "2/17", "-3/19", "1/23"], "p2": ["-1/3", "1/4", "2/7", "-1/5", "1/6", "-2/11", "1/9", "3/13"], "p3": ["2/9", "1/8", "-1/7", "1/10", "-3/14", "1/12", "2/15", "-1/16"]}
+measurement_G3_points_x4={"q1": "1/3", "q2": "-2/5", "q3": "3/7"}
+measurement_GEO_wolframReportSha256=cec9ee0d577c4e7f0e82efd404d412a503140ccb1547118ab48a78a3d773f0ac
+measurement_GEO_wolframSharedMeasurementCount=84
+measurement_GEO_wolframSharedMeasurementsAgreeing=84
+measurement_GEO_wolframSharedMeasurementDisagreements=[]
+measurement_GEO_wolframSharedMeasurements=[{"measurement": "G1_p1 coordinates", "wolfram": "[1/7, -2/9, 1/5, 3/11, -1/13, 2/17, -3/19, 1/23]", "python": "[1/7, -2/9, 1/5, 3/11, -1/13, 2/17, -3/19, 1/23]", "agree": true}, {"measurement": "G1_p1 det e", "wolfram": "8730286014951721928504132748723695542930461054904720450085966334353586259236451917045027672855083074829122807534550852798637473811934160881/5830385474319805441329849379639239454291400859118124380810706771166072547115982722377484401689266684114333535956689809000000000000000000000", "python": "8730286014951721928504132748723695542930461054904720450085966334353586259236451917045027672855083074829122807534550852798637473811934160881/5830385474319805441329849379639239454291400859118124380810706771166072547115982722377484401689266684114333535956689809000000000000000000000", "agree": true}, {"measurement": "G1_p1 sqrt|g| = |det e|", "wolfram": "8730286014951721928504132748723695542930461054904720450085966334353586259236451917045027672855083074829122807534550852798637473811934160881/5830385474319805441329849379639239454291400859118124380810706771166072547115982722377484401689266684114333535956689809000000000000000000000", "python": "8730286014951721928504132748723695542930461054904720450085966334353586259236451917045027672855083074829122807534550852798637473811934160881/5830385474319805441329849379639239454291400859118124380810706771166072547115982722377484401689266684114333535956689809000000000000000000000", "agree": true}, {"measurement": "G1_p1 metric inertia", "wolfram": "{4, 4, 0}", "python": "(4,4,0)", "agree": true}, {"measurement": "G1_p1 g^44", "wolfram": "-66052764774308859691862167694844226301364359372011006113386133876773438121796538781887367607959977733658207487505220452654574211111887017656084303955000769496601032287526395861782134816165119879331508276055768861225350608685916785354932643791367913682107083018415886458053000000/76217893902861617480179250783959336665100541395554013176205768626967216987548679189840654652736751806632969323906301896268758492119262525349959247444000564702677606364267438252602397886601859011798394452199627244359164553940948759902328294104627444395063859991669031533590696161", "python": "-66052764774308859691862167694844226301364359372011006113386133876773438121796538781887367607959977733658207487505220452654574211111887017656084303955000769496601032287526395861782134816165119879331508276055768861225350608685916785354932643791367913682107083018415886458053000000/76217893902861617480179250783959336665100541395554013176205768626967216987548679189840654652736751806632969323906301896268758492119262525349959247444000564702677606364267438252602397886601859011798394452199627244359164553940948759902328294104627444395063859991669031533590696161", "agree": true}, {"measurement": "G1_p1 R", "wolfram": "-1614887249541739257516573315529246657600730202325497804963393765125570372712966530392922017691573928687372617643677993201121474913352616382125932929761861832188610336344471582303766151473176061369213859808574386703329734101410861016581342676230099174119568809647376403736913026568714188243921604354376728273143323647028906969728823638201992823928620680427487101237084595984790644335199676322134421279157220079288922000/665404013229226894636381674992814053166805266621030073944260885760914977872528101237581877255720767860475267763369285746414768380307770015351127257502771956794242323127295935065619161904097739375995230127971230124090203862799887149778040018324880213517738276103978788641728560893295073985029214325041386918926858281823981032630503880042537525278099712596170061281391706352183513790235396224530139231731605390163077841", "python": "-1614887249541739257516573315529246657600730202325497804963393765125570372712966530392922017691573928687372617643677993201121474913352616382125932929761861832188610336344471582303766151473176061369213859808574386703329734101410861016581342676230099174119568809647376403736913026568714188243921604354376728273143323647028906969728823638201992823928620680427487101237084595984790644335199676322134421279157220079288922000/665404013229226894636381674992814053166805266621030073944260885760914977872528101237581877255720767860475267763369285746414768380307770015351127257502771956794242323127295935065619161904097739375995230127971230124090203862799887149778040018324880213517738276103978788641728560893295073985029214325041386918926858281823981032630503880042537525278099712596170061281391706352183513790235396224530139231731605390163077841", "agree": true}, {"measurement": "G1_p2 coordinates", "wolfram": "[-1/3, 1/4, 2/7, -1/5, 1/6, -2/11, 1/9, 3/13]", "python": "[-1/3, 1/4, 2/7, -1/5, 1/6, -2/11, 1/9, 3/13]", "agree": true}, {"measurement": "G1_p2 det e", "wolfram": "166838578544839618908450770680658161976523671373174452031532543530651647381615477855576323/89939653473440330578454191517748817467464604414345561006835089408000000000000000000000000", "python": "166838578544839618908450770680658161976523671373174452031532543530651647381615477855576323/89939653473440330578454191517748817467464604414345561006835089408000000000000000000000000", "agree": true}, {"measurement": "G1_p2 sqrt|g| = |det e|", "wolfram": "166838578544839618908450770680658161976523671373174452031532543530651647381615477855576323/89939653473440330578454191517748817467464604414345561006835089408000000000000000000000000", "python": "166838578544839618908450770680658161976523671373174452031532543530651647381615477855576323/89939653473440330578454191517748817467464604414345561006835089408000000000000000000000000", "agree": true}, {"measurement": "G1_p2 metric inertia", "wolfram": "{4, 4, 0}", "python": "(4,4,0)", "agree": true}, {"measurement": "G1_p2 g^44", "wolfram": "-25276425321471452905578583761576329847993101777511904574825623458929579129948066305980350015498648636555629089069802397775597908000750020536755150214602541601207149724714896000000/27835111290862618810345887859036066260707346100503793175586845060827181666642151194402778850412744244816538330876844639112826219983550758115381224696358807247824955112986478200329", "python": "-25276425321471452905578583761576329847993101777511904574825623458929579129948066305980350015498648636555629089069802397775597908000750020536755150214602541601207149724714896000000/27835111290862618810345887859036066260707346100503793175586845060827181666642151194402778850412744244816538330876844639112826219983550758115381224696358807247824955112986478200329", "agree": true}, {"measurement": "G1_p2 R", "wolfram": "61338015674141044938154233973088504023529591030433073907569106559884424891889554693429321794490998485072462234280567636610660590976229807105861781197437420335725177901703167673457668250902003806757420020358026651753305848813683880050935517180099512707611850222000000000/4643970401404935143662064045823545446763976173071448133124616662294458410849675115667313250974889794445987130314754918226543571363416156092024835456072388715423902711332055918919280315313888198205531058156761111128008807729310735363019804086928408040673459290143210267", "python": "61338015674141044938154233973088504023529591030433073907569106559884424891889554693429321794490998485072462234280567636610660590976229807105861781197437420335725177901703167673457668250902003806757420020358026651753305848813683880050935517180099512707611850222000000000/4643970401404935143662064045823545446763976173071448133124616662294458410849675115667313250974889794445987130314754918226543571363416156092024835456072388715423902711332055918919280315313888198205531058156761111128008807729310735363019804086928408040673459290143210267", "agree": true}, {"measurement": "G1_p3 coordinates", "wolfram": "[2/9, 1/8, -1/7, 1/10, -3/14, 1/12, 2/15, -1/16]", "python": "[2/9, 1/8, -1/7, 1/10, -3/14, 1/12, 2/15, -1/16]", "agree": true}, {"measurement": "G1_p3 det e", "wolfram": "641746341050179883864555193389422428673872937637900648707934018876147/468006998280337753584232705470057723558100992000000000000000000000000", "python": "641746341050179883864555193389422428673872937637900648707934018876147/468006998280337753584232705470057723558100992000000000000000000000000", "agree": true}, {"measurement": "G1_p3 sqrt|g| = |det e|", "wolfram": "641746341050179883864555193389422428673872937637900648707934018876147/468006998280337753584232705470057723558100992000000000000000000000000", "python": "641746341050179883864555193389422428673872937637900648707934018876147/468006998280337753584232705470057723558100992000000000000000000000000", "agree": true}, {"measurement": "G1_p3 metric inertia", "wolfram": "{4, 4, 0}", "python": "(4,4,0)", "agree": true}, {"measurement": "G1_p3 g^44", "wolfram": "-318952466166564576272994512564706063255863271525429735940048306855351311736802345907870617644482328672102538275200667009270005559296000000/411838366251293794726284490645078710059685744289571041907746101670242973782122335509039219076794734676400279533325381168644856904925565609", "python": "-318952466166564576272994512564706063255863271525429735940048306855351311736802345907870617644482328672102538275200667009270005559296000000/411838366251293794726284490645078710059685744289571041907746101670242973782122335509039219076794734676400279533325381168644856904925565609", "agree": true}, {"measurement": "G1_p3 R", "wolfram": "9689398045997180497937441617950595040040778796452519749391809645068059409541780150394566200740289790184231562521836960890276560278493261631737370014739207493165173254049690695391938882482893606800588800000000/264295764645851680671056237994090054609031949568238825207257274053669837697104865377003865233845083580846906140801316464642203777545751202540961873245410781984892799396828521227038225251299727181806493628523", "python": "9689398045997180497937441617950595040040778796452519749391809645068059409541780150394566200740289790184231562521836960890276560278493261631737370014739207493165173254049690695391938882482893606800588800000000/264295764645851680671056237994090054609031949568238825207257274053669837697104865377003865233845083580846906140801316464642203777545751202540961873245410781984892799396828521227038225251299727181806493628523", "agree": true}, {"measurement": "G1.p1 nonzeroOmegaLower", "wolfram": "448", "python": "448", "agree": true}, {"measurement": "G1.p1 nonzeroOmegaMixedSymmetricPart", "wolfram": "256", "python": "256", "agree": true}, {"measurement": "G1.p1 notebookDGammaNonzeroEntries", "wolfram": "4096", "python": "4096", "agree": true}, {"measurement": "G1.p1 Lichnerowicz c", "wolfram": "-1/4", "python": "-1/4", "agree": true}, {"measurement": "G1.p1 Lichnerowicz c = +1/4 fails", "wolfram": "false", "python": "c unique", "agree": true}, {"measurement": "G1.p1 curvatureCandidate.plusHalfLowered", "wolfram": "True", "python": "True", "agree": true}, {"measurement": "G1.p1 curvatureCandidate.minusHalfLowered", "wolfram": "False", "python": "False", "agree": true}, {"measurement": "G1.p2 nonzeroOmegaLower", "wolfram": "448", "python": "448", "agree": true}, {"measurement": "G1.p2 nonzeroOmegaMixedSymmetricPart", "wolfram": "256", "python": "256", "agree": true}, {"measurement": "G1.p2 notebookDGammaNonzeroEntries", "wolfram": "4096", "python": "4096", "agree": true}, {"measurement": "G1.p2 Lichnerowicz c", "wolfram": "-1/4", "python": "-1/4", "agree": true}, {"measurement": "G1.p2 Lichnerowicz c = +1/4 fails", "wolfram": "false", "python": "c unique", "agree": true}, {"measurement": "G1.p2 curvatureCandidate.plusHalfLowered", "wolfram": "True", "python": "True", "agree": true}, {"measurement": "G1.p2 curvatureCandidate.minusHalfLowered", "wolfram": "False", "python": "False", "agree": true}, {"measurement": "G1.p3 nonzeroOmegaLower", "wolfram": "448", "python": "448", "agree": true}, {"measurement": "G1.p3 nonzeroOmegaMixedSymmetricPart", "wolfram": "256", "python": "256", "agree": true}, {"measurement": "G1.p3 notebookDGammaNonzeroEntries", "wolfram": "4096", "python": "4096", "agree": true}, {"measurement": "G1.p3 Lichnerowicz c", "wolfram": "-1/4", "python": "-1/4", "agree": true}, {"measurement": "G1.p3 Lichnerowicz c = +1/4 fails", "wolfram": "false", "python": "c unique", "agree": true}, {"measurement": "G1.p3 curvatureCandidate.plusHalfLowered", "wolfram": "True", "python": "True", "agree": true}, {"measurement": "G1.p3 curvatureCandidate.minusHalfLowered", "wolfram": "False", "python": "False", "agree": true}, {"measurement": "G2.p1 nonzeroOmegaLower", "wolfram": "24", "python": "24", "agree": true}, {"measurement": "G2.p1 nonzeroOmegaMixedSymmetricPart", "wolfram": "12", "python": "12", "agree": true}, {"measurement": "G2.p1 notebookDGammaNonzeroEntries", "wolfram": "288", "python": "288", "agree": true}, {"measurement": "G2.p1 Lichnerowicz c", "wolfram": "-1/4", "python": "-1/4", "agree": true}, {"measurement": "G2.p1 Lichnerowicz c = +1/4 fails", "wolfram": "false", "python": "c unique", "agree": true}, {"measurement": "G2.p1 curvatureCandidate.plusHalfLowered", "wolfram": "True", "python": "True", "agree": true}, {"measurement": "G2.p1 curvatureCandidate.minusHalfLowered", "wolfram": "False", "python": "False", "agree": true}, {"measurement": "G2.p2 nonzeroOmegaLower", "wolfram": "24", "python": "24", "agree": true}, {"measurement": "G2.p2 nonzeroOmegaMixedSymmetricPart", "wolfram": "12", "python": "12", "agree": true}, {"measurement": "G2.p2 notebookDGammaNonzeroEntries", "wolfram": "288", "python": "288", "agree": true}, {"measurement": "G2.p2 Lichnerowicz c", "wolfram": "-1/4", "python": "-1/4", "agree": true}, {"measurement": "G2.p2 Lichnerowicz c = +1/4 fails", "wolfram": "false", "python": "c unique", "agree": true}, {"measurement": "G2.p2 curvatureCandidate.plusHalfLowered", "wolfram": "True", "python": "True", "agree": true}, {"measurement": "G2.p2 curvatureCandidate.minusHalfLowered", "wolfram": "False", "python": "False", "agree": true}, {"measurement": "G2.p3 nonzeroOmegaLower", "wolfram": "24", "python": "24", "agree": true}, {"measurement": "G2.p3 nonzeroOmegaMixedSymmetricPart", "wolfram": "12", "python": "12", "agree": true}, {"measurement": "G2.p3 notebookDGammaNonzeroEntries", "wolfram": "288", "python": "288", "agree": true}, {"measurement": "G2.p3 Lichnerowicz c", "wolfram": "-1/4", "python": "-1/4", "agree": true}, {"measurement": "G2.p3 Lichnerowicz c = +1/4 fails", "wolfram": "false", "python": "c unique", "agree": true}, {"measurement": "G2.p3 curvatureCandidate.plusHalfLowered", "wolfram": "True", "python": "True", "agree": true}, {"measurement": "G2.p3 curvatureCandidate.minusHalfLowered", "wolfram": "False", "python": "False", "agree": true}, {"measurement": "G2.p1 sin^2 z + cos^2 z = 1 and sin z = w^6", "wolfram": "(1/64, 3*sqrt(455)/64)", "python": "identity", "agree": true}, {"measurement": "G2.p1 sqrt|g|", "wolfram": "3*sqrt(455)/64", "python": "3*sqrt(455)/64", "agree": true}, {"measurement": "G2.p1 det e = sqrt|g|", "wolfram": "(3*Sqrt[455])/64", "python": "3*sqrt(455)/64", "agree": true}, {"measurement": "G2.p1 R", "wolfram": "-2672/147", "python": "-2672/147", "agree": true}, {"measurement": "G2.p1 notebook gamma^mu Omega_mu, gamma^0 coefficient", "wolfram": "1", "python": "1", "agree": true}, {"measurement": "G2.p1 notebook gamma^mu Omega_mu, gamma^4 coefficient", "wolfram": "3/7", "python": "3/7", "agree": true}, {"measurement": "G2.p1 notebook gamma^mu Omega_mu residual", "wolfram": "True", "python": "0", "agree": true}, {"measurement": "G2.p2 sin^2 z + cos^2 z = 1 and sin z = w^6", "wolfram": "(64/729, sqrt(527345)/729)", "python": "identity", "agree": true}, {"measurement": "G2.p2 sqrt|g|", "wolfram": "sqrt(527345)/729", "python": "sqrt(527345)/729", "agree": true}, {"measurement": "G2.p2 det e = sqrt|g|", "wolfram": "Sqrt[527345]/729", "python": "sqrt(527345)/729", "agree": true}, {"measurement": "G2.p2 R", "wolfram": "-1102/675", "python": "-1102/675", "agree": true}, {"measurement": "G2.p2 notebook gamma^mu Omega_mu, gamma^0 coefficient", "wolfram": "3/10", "python": "3/10", "agree": true}, {"measurement": "G2.p2 notebook gamma^mu Omega_mu, gamma^4 coefficient", "wolfram": "-2/15", "python": "-2/15", "agree": true}, {"measurement": "G2.p2 notebook gamma^mu Omega_mu residual", "wolfram": "True", "python": "0", "agree": true}, {"measurement": "G2.p3 sin^2 z + cos^2 z = 1 and sin z = w^6", "wolfram": "(729/4096, 5*sqrt(649831)/4096)", "python": "identity", "agree": true}, {"measurement": "G2.p3 sqrt|g|", "wolfram": "5*sqrt(649831)/4096", "python": "5*sqrt(649831)/4096", "agree": true}, {"measurement": "G2.p3 det e = sqrt|g|", "wolfram": "(5*Sqrt[649831])/4096", "python": "5*sqrt(649831)/4096", "agree": true}, {"measurement": "G2.p3 R", "wolfram": "-834/49", "python": "-834/49", "agree": true}, {"measurement": "G2.p3 notebook gamma^mu Omega_mu, gamma^0 coefficient", "wolfram": "15/14", "python": "15/14", "agree": true}, {"measurement": "G2.p3 notebook gamma^mu Omega_mu, gamma^4 coefficient", "wolfram": "9/7", "python": "9/7", "agree": true}, {"measurement": "G2.p3 notebook gamma^mu Omega_mu residual", "wolfram": "True", "python": "0", "agree": true}, {"measurement": "Lichnerowicz constant (convention statements)", "wolfram": "-1/4", "python": "[-1/4]", "agree": true}, {"measurement": "EMT sign convention", "wolfram": "True", "python": "True", "agree": true}, {"measurement": "EMT on-shell trace formula", "wolfram": "on-shellT^mu_mu=-mS+7SU'-8U=-mS+3lamS^2", "python": "T^mu_mu=7K-8(mS+U)offshell;onshellT^mu_mu=-mS+7SU'-8U(=-mS+3lamS^2forU=lamS^2/2)", "agree": true}]
+measurement_GEO_wolframCheckNamesShared=["ALG_cliffordRelations", "EMT_conservation_G1", "EMT_conservation_G2", "EMT_trace_G1", "EMT_trace_G2", "GEO_curvature_G1", "GEO_curvature_G2", "GEO_diagonalSlashFormula_G2", "GEO_divergenceIdentity_G1", "GEO_divergenceIdentity_G2", "GEO_frameNondegenerate_G1", "GEO_gammaCovariantConstancy_G1", "GEO_gammaCovariantConstancy_G2", "GEO_lichnerowicz_G1", "GEO_lichnerowicz_G2", "GEO_notebookContractionFails_G1", "GEO_notebookContractionFails_G2", "GEO_omegaAntisymmetry_G1", "GEO_omegaAntisymmetry_G2", "GEO_primordialInvariants_G2", "GEO_vielbeinPostulate_G1", "GEO_vielbeinPostulate_G2", "LAG_eulerLagrangePsi_G1", "LAG_eulerLagrangePsi_G2", "LAG_eulerLagrangePsibar_G1", "LAG_eulerLagrangePsibar_G2"]
+measurement_GEO_wolframCheckVerdictDisagreements=[]
+check_count=52
+failed_check_count=0
+stage1_step_ok=stage1-05-check-geometry
+stage1_step=stage1-06-grassmann-demo
+report_path_redirect=<scratch>/s1v_public_ps1/artifacts/dirac16complex/arbitrary-field/grassmann-demo-report.json -> <scratch>/s1v_public_ps1/build/stage1/grassmann-demo-report.json
+[31;1m[    0.2 s] flat demos done[0m
+[31;1m[    1.7 s] quartic/current done[0m
+[31;1m[   24.5 s] geometries built[0m
+[31;1m[   34.1 s] notebook Lg G1_p1[0m
+[31;1m[   40.6 s] complex L G1_p1[0m
+[31;1m[   41.7 s] EMT hermitian G1_p1[0m
+[31;1m[   46.3 s] notebook Lg G2[0m
+[31;1m[   51.1 s] complex L G2[0m
+[31;1m[   52.8 s] EMT hermitian G2[0m
+[31;1m[   52.8 s] done[0m
+check_GR_conjugationRules=true
+check_GR_massTermVanishesReal=true
+check_GR_bilinearOnlyAntisymmetricPartSurvives=true
+check_GR_kineticTotalDerivativeReal=true
+check_GR_kineticSymmetricMatrixContrast=true
+check_GR_quarticTermPolynomial=true
+check_GR_scalarBilinearHermitian=true
+check_GR_currentHermitian=true
+check_GR_notebookLgELTrivial=true
+check_GR_notebookLgPureDivergence=true
+check_GR_complexLagrangianNonTrivial=true
+check_GR_complexQuarticEL=true
+check_GR_complexPsiEquation=true
+check_GR_lagrangianHermitian=true
+check_GR_emtHermitian=true
+check_GR_unsymmetrizedKineticNotHermitian=true
+measurement_GR_massTermVanishesReal_PsiT_C_Psi_nonzeroMonomials=0
+measurement_GR_massTermVanishesReal_PsiT_Cgamma_a_Psi_nonzeroMonomials=[8, 8, 8, 8, 8, 8, 8, 8]
+measurement_GR_massTermVanishesReal_PsiT_Cgamma_a_Psi_coefficientValues=["-2", "2"]
+measurement_GR_kineticTotalDerivativeReal_matricesTested=["Cgamma0", "Cgamma1", "Cgamma2", "Cgamma3", "Cgamma4", "Cgamma5", "Cgamma6", "Cgamma7", "randomAntisymmetric"]
+measurement_GR_kineticSymmetricMatrixContrast_statement=A = C (symmetric): Psi^T C d_0 Psi has 16 monomials, d_0(Psi^T C Psi) = 0, EL_0 = 2 (C d_0 Psi)_0
+measurement_GR_quarticTermPolynomial_nonzeroMonomials_k1_to_k17=[16, 120, 560, 1820, 4368, 8008, 11440, 12870, 11440, 8008, 4368, 1820, 560, 120, 16, 1, 0]
+measurement_GR_quarticTermPolynomial_degreeArgument=S = Psibar Psi has Grassmann degree 2; S^17 has degree 34 > 32 generators (16 Psi + 16 Psi^*) => 0; explicit powers computed for all k = 1..17; |coefficients| = k!, #monomials = binom(16,k)
+measurement_GR_currentHermitian_statement=Psibar gamma^a Psi is anti-Hermitian ((Psi^dag A Psi)^* = Psi^dag A^dag Psi, A = C gamma^a real antisymmetric); J^a = -i Psibar gamma^a Psi is Hermitian (Gaussian-rational coefficients)
+measurement_GR_notebookLgEL_canonicalOmega_nonzeroComponents_G1_p1=0
+measurement_GR_notebookLgEL_notebookContraction_nonzeroComponents_G1_p1=16
+measurement_GR_notebookLgEL_notebookContraction_totalTerms_G1_p1=64
+measurement_GR_notebookLgEL_notebookContraction_derivativeFree_G1_p1=True
+measurement_GR_notebookLgEL_notebookContraction_matchesSqrtgC[gamma,OmegaNB-Omega]Psi_G1_p1=True
+measurement_GR_notebookLg_lagrangianTerms_canonical_G1_p1=544
+measurement_GR_complexLagrangianNonTrivial_EL0_derivativeJetTerms_G1_p1=32
+measurement_GR_complexLagrangianNonTrivial_EL0_spinConnectionTerms_G1_p1=8
+measurement_GR_complexLagrangianNonTrivial_gammaMuOmegaMu_nonzeroEntries_G1_p1=128
+measurement_GR_parameters_G1_p1={"HM": "-4", "m": "4", "lambda": "1/4"}
+measurement_GR_notebookLgEL_canonicalOmega_nonzeroComponents_G2=0
+measurement_GR_notebookLgEL_notebookContraction_nonzeroComponents_G2=16
+measurement_GR_notebookLgEL_notebookContraction_totalTerms_G2=32
+measurement_GR_notebookLgEL_notebookContraction_derivativeFree_G2=True
+measurement_GR_notebookLgEL_notebookContraction_matchesSqrtgC[gamma,OmegaNB-Omega]Psi_G2=True
+measurement_GR_notebookLg_lagrangianTerms_canonical_G2=136
+measurement_GR_complexLagrangianNonTrivial_EL0_derivativeJetTerms_G2=8
+measurement_GR_complexLagrangianNonTrivial_EL0_spinConnectionTerms_G2=1
+measurement_GR_complexLagrangianNonTrivial_gammaMuOmegaMu_nonzeroEntries_G2=16
+measurement_GR_parameters_G2={"HM": "-1", "m": "1/2", "lambda": "1/6"}
+measurement_GR_geometries=G1 at p1 (generic non-diagonal vielbein, exact rationals) and G2 (primordial field, symbolic point w=sin(z)^(1/6), c=cos z, E=exp(a4), A1, A2, H); coefficient functions carried as exact order-1 Taylor data, total derivative d_mu = explicit coefficient derivative + even derivation on field jets
+measurement_GR_generatorCounts={"realPsi16JetSpace": 720, "complexPsiJetSpace": 1440}
+measurement_G2_relationUsesInZeroTests=0
+check_count=16
+failed_check_count=0
+stage1_step_ok=stage1-06-grassmann-demo
+stage1_step=stage1-07-check-algebra-crosscheck
+check_ALG_clifford=true
+check_ALG_gammaTransposeSymmetry=true
+check_ALG_chargeMatrix=true
+check_ALG_expression1=true
+check_ALG_spinTransposeProperties=true
+check_ALG_chirality=true
+check_ALG_faithful=true
+check_ALG_pinIrreducibleComplex=true
+check_ALG_spinDecomposition=true
+check_ALG_cliffordPictureIntertwiner=true
+check_ALG_octonionPictureIntertwiner=true
+check_ALG_chargeFormB=true
+check_ALG_invariantForms=true
+check_ALG_gamma8Map=true
+check_ALG_pinLiftCharacter=true
+check_QNT_flatModeHamiltonian=true
+check_QNT_kreinSignature=true
+check_QNT_unitaryAndKreinSubgroups=true
+check_QNT_currentHermiticity=true
+check_ALG_fixtureAgreement=true
+check_ALG_wolframAgreement=true
+measurement_ALG_gammaCount=8
+measurement_ALG_gammaIntegerEntries=true
+measurement_ALG_cliffordPairsVerified=64
+measurement_ALG_gammaTransposeKinds=["symmetric","symmetric","symmetric","symmetric","antisymmetric","antisymmetric","antisymmetric","antisymmetric"]
+measurement_ALG_chargeMatrixSignature=[8,8,0]
+measurement_ALG_expression1PerFrameIndex=[true,true,true,true,true,true,true,true]
+measurement_ALG_spinTransposeIdentitiesVerified=476
+measurement_ALG_chiralityDiagonal=[-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1]
+measurement_chirality=[[-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,-1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,-1,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,-1,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,-1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,-1,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,-1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]]
+measurement_ALG_monomialCount=256
+measurement_ALG_fullAlgebraRank=256
+measurement_ALG_evenAlgebraRank=128
+measurement_ALG_oddAlgebraRank=128
+measurement_ALG_pinCommutantDimensionQ=1
+measurement_ALG_pinCommutantArgument=the commutant equations gamma^a X = X gamma^a have rational coefficients, so the complex solution space is the complexification of the rational one (rank is invariant under field extension): dim_C = dim_Q = 1; with Cl(4,4) (x) C = Mat16(C) this makes C^16 an irreducible complex Pin(4,4) module
+measurement_ALG_spinCommutantDimensionQ=2
+measurement_ALG_spinMinusBlockCommutantDimension=1
+measurement_ALG_spinPlusBlockCommutantDimension=1
+measurement_ALG_spinCrossIntertwinerDimension=0
+measurement_ALG_spinCrossIntertwinerDimensionReverse=0
+measurement_ALG_evenAlgebraRankMinusBlock=64
+measurement_ALG_evenAlgebraRankPlusBlock=64
+measurement_ALG_cliffordIntertwinerDimension=1
+measurement_ALG_cliffordIntertwinerRank=16
+measurement_ALG_cliffordTensorGammasClifford=true
+measurement_ALG_cliffordKChargeKinvEqualsCdm=true
+measurement_ALG_cliffordKChiralityKinvSignVsGGGG=1
+measurement_ALG_cliffordKIsSignedPermutation=false
+measurement_K_clifford=[[0,0,0,0,0,0,0,0,1,-1,0,0,1,1,0,0],[-1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0],[0,0,-1,1,0,0,-1,-1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,-1,0,0,-1,-1],[0,0,1,1,0,0,-1,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,-1,1],[0,0,0,0,0,0,0,0,-1,-1,0,0,1,-1,0,0],[1,1,0,0,1,-1,0,0,0,0,0,0,0,0,0,0],[1,-1,0,0,1,1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,-1,1,0,0,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,-1,1,0,0,-1,-1],[0,0,1,-1,0,0,-1,-1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,1,0,0,-1,1],[0,0,-1,-1,0,0,-1,1,0,0,0,0,0,0,0,0],[-1,-1,0,0,1,-1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,1,0,0,1,-1,0,0]]
+measurement_ALG_zornModelIdentitiesOnSamples=true
+measurement_ALG_zornSampleAssociative=false
+measurement_ALG_octonionGammasClifford=true
+measurement_ALG_octonionIntertwinerDimension=1
+measurement_ALG_octonionIntertwinerRank=16
+measurement_ALG_octonionIntertwinerDirection=gamma^a K = K Gamma^a
+measurement_ALG_octonionReverseIntertwinerDimension=1
+measurement_ALG_octonionKIsSignedPermutation=false
+measurement_ALG_octonionKBlockDiagonal=true
+measurement_ALG_octonionKEqualBlocks=true
+measurement_ALG_octonionKGramFactor=2
+measurement_ALG_tauEqualsLeftMultiplicationPerIndex=[true,false,false,false,false,false,false,false]
+measurement_ALG_tauLeftMultiplicationIntertwinerDimension=1
+measurement_ALG_tauEqualsLeftMultiplicationUpToSignedPermutation=false
+measurement_K_octonion=[[1,0,0,0,0,0,0,-1,0,0,0,0,0,0,0,0],[0,0,0,-1,-1,0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0],[0,-1,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],[0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,-1,0,0,0,0,0,0,0,0,0,0],[0,-1,0,0,0,0,-1,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,-1],[0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0],[0,0,0,0,0,0,0,0,0,-1,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0,0,0,0,-1,1,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,-1,0,0],[0,0,0,0,0,0,0,0,0,-1,0,0,0,0,-1,0]]
+measurement_ALG_octonionGammasEqualDiracMainTriality44Json=not-run
+measurement_ALG_KcliffordKoctonionEqualsDiracMainCanonicalIntertwiner=not-run
+measurement_ALG_zornProductEqualsDiracMainSplitOctonionJson=not-run
+measurement_ALG_chargeFormBEigenvalueMultiplicities={"plus1":8,"minus1":8}
+measurement_ALG_chargeFormBHermitianSignature=[8,8,0]
+measurement_ALG_invariantFormDimensionQ=2
+measurement_ALG_invariantFormsSpannedByCPminusCPplus=true
+measurement_ALG_invariantFormsBlockDiagonal=true
+measurement_ALG_invariantFormsTimesGamma4BlockOffDiagonal=true
+measurement_ALG_invariantFormsCPminusCPplusSymmetric=true
+measurement_ALG_gamma8MapKineticSign=-1
+measurement_ALG_gamma8MapMassSign=1
+measurement_ALG_gamma8MapPotentialSign=1
+measurement_ALG_gamma8MapLagrangianStatement=Psi -> gamma8 Psi: K -> -K, S = Psibar Psi -> S, hence L_{m,U}[gamma8 Psi] = -L_{-m,-U}[Psi]; the contract form L_m -> -L_{-m} holds exactly when U = 0
+measurement_ALG_pinLiftVectorNorms=[1,1,1,1,-1,-1,-1,-1,"49/36","-31/36","155/144","-7/25"]
+measurement_ALG_pinLiftTransposeSign_s_u=[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
+measurement_ALG_pinLiftMassFactor=[-1,-1,-1,-1,1,1,1,1,"-49/36","31/36","-155/144","7/25"]
+measurement_ALG_pinLiftKineticFactorUntwisted=[-1,-1,-1,-1,1,1,1,1,"-49/36","31/36","-155/144","7/25"]
+measurement_ALG_pinLiftKineticFactorTwisted=[1,1,1,1,-1,-1,-1,-1,"49/36","-31/36","155/144","-7/25"]
+measurement_ALG_pinLiftUntwistedAdjointInO44=true
+measurement_ALG_pinLiftProductPairs=[[0,4],[1,5],[0,1],[4,5],[8,9],[10,11]]
+measurement_ALG_pinLiftProductBilinearFactor=[-1,-1,1,1,"-1519/1296","-217/720"]
+measurement_ALG_pinLiftGamma0Gamma4FlipsPsibarPsi=true
+measurement_ALG_pinLiftQuarticPotentialFactor=[1,1,1,1,1,1,1,1,"2401/1296","961/1296","24025/20736","49/625"]
+measurement_ALG_pinLiftInteractingNote=for a unit spacelike u (character -1) S -> -S while U(S) = (lambda/2) S^2 is invariant, so L_{m,lambda} -> -L_{m,-lambda} and the field equation gamma^mu D_mu Psi = (m + lambda S) Psi maps to the lambda -> -lambda equation; L -> +-L and Pin(4,4)-covariance of the field equations are exact for U = 0
+measurement_ALG_pinLiftCharacterStatement=Psi -> u Psi with u^2 = n(u): u^T C = -C u, Psibar Psi -> -n(u) Psibar Psi; untwisted lift (v -> u v u^-1): kinetic term -> -n(u) x kinetic (same as mass, so the free Lagrangian goes to -n(u) L); twisted lift (v -> alpha(u) v u^-1): kinetic -> +n(u), opposite to mass; for g = u1 u2 Psibar Psi -> n(u1) n(u2) Psibar Psi (spinor norm), gamma0 gamma4 flips it; U(S) = (lambda/2) S^2 is invariant under every sign flip of S
+measurement_QNT_flatModeCoefficientCliffordAlgebra=true
+measurement_QNT_flatModeCoefficientHermitian={"m":true,"0":true,"1":true,"2":true,"3":true,"5":false,"6":false,"7":false}
+measurement_QNT_flatModeCoefficientCommutesWithB={"m":true,"0":true,"1":true,"2":true,"3":true,"5":false,"6":false,"7":false}
+measurement_QNT_flatModeExtraTimePartsIndependent=true
+measurement_QNT_flatModeSamples=[{"m":1,"k":[0,0,0,0,0,0,0,0],"extraTimeFree":true,"hermitian":true,"commutesWithB":true,"energySquared":1,"squareIsEnergySquaredTimesIdentity":true},{"m":"3/2","k":["1/2","-1/3",2,0,0,0,0,0],"extraTimeFree":true,"hermitian":true,"commutesWithB":true,"energySquared":"119/18","squareIsEnergySquaredTimesIdentity":true},{"m":0,"k":[1,1,1,1,0,0,0,0],"extraTimeFree":true,"hermitian":true,"commutesWithB":true,"energySquared":4,"squareIsEnergySquaredTimesIdentity":true},{"m":"-2/3","k":["-2/7","5/3",0,"1/4",0,0,0,0],"extraTimeFree":true,"hermitian":true,"commutesWithB":true,"energySquared":"23753/7056","squareIsEnergySquaredTimesIdentity":true},{"m":"7/5","k":[0,0,0,-3,0,0,0,0],"extraTimeFree":true,"hermitian":true,"commutesWithB":true,"energySquared":"274/25","squareIsEnergySquaredTimesIdentity":true},{"m":1,"k":[0,0,0,0,0,1,0,0],"extraTimeFree":false,"hermitian":false,"commutesWithB":false,"energySquared":0,"squareIsEnergySquaredTimesIdentity":true},{"m":1,"k":["1/2",0,0,0,0,0,"-2/3",0],"extraTimeFree":false,"hermitian":false,"commutesWithB":false,"energySquared":"29/36","squareIsEnergySquaredTimesIdentity":true},{"m":"1/2","k":["1/7","2/7","3/7","4/7",0,"5/7","6/7",1],"extraTimeFree":false,"hermitian":false,"commutesWithB":false,"energySquared":"-271/196","squareIsEnergySquaredTimesIdentity":true},{"m":1,"k":[0,0,0,0,0,0,0,2],"extraTimeFree":false,"hermitian":false,"commutesWithB":false,"energySquared":-3,"squareIsEnergySquaredTimesIdentity":true},{"m":0,"k":[0,3,0,0,0,3,0,0],"extraTimeFree":false,"hermitian":false,"commutesWithB":false,"energySquared":0,"squareIsEnergySquaredTimesIdentity":true}]
+measurement_QNT_flatModeSampleCount=10
+measurement_QNT_flatModeNegativeEnergySquaredSamples=2
+measurement_QNT_flatModeMomentumConvention=k_j with j in {0,1,2,3,5,6,7} (k_4 excluded); E^2 = m^2 + k0^2+k1^2+k2^2+k3^2 - k5^2 - k6^2 - k7^2
+measurement_QNT_kreinPositiveEnergyEigenspaceDimension=8
+measurement_QNT_kreinNegativeEnergyEigenspaceDimension=8
+measurement_QNT_kreinBSignatureOnPlusEigenspace=[4,4]
+measurement_QNT_kreinBSignatureOnMinusEigenspace=[4,4]
+measurement_QNT_kreinProjectorCrossCheck=true
+measurement_QNT_unitaryGenerators=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3],[5,6],[5,7],[6,7]]
+measurement_QNT_unitaryGeneratorCount=9
+measurement_QNT_antiHermitianGeneratorCount=12
+measurement_QNT_generatorsCommutingWithB=[[0,1],[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,3],[2,4],[3,4],[5,6],[5,7],[6,7]]
+measurement_QNT_generatorsCommutingWithBCount=13
+measurement_QNT_literalClaimExactlyNineCommuteWithB=false
+measurement_QNT_kreinGeneratorCount=21
+measurement_QNT_kreinFailingGenerators=[[0,4],[1,4],[2,4],[3,4],[4,5],[4,6],[4,7]]
+measurement_QNT_boostsCommutingWithBHermitian=true
+measurement_QNT_unitaryCheckMeaning=canonical meaning (CONTRACT.md section 11, E1): (a) exactly 13 S^ab commute with B: the 9 with a,b in {0,1,2,3} or {5,6,7} and the 4 Hermitian boosts S^{a4}, a<4; (b) exactly 9 are anti-Hermitian (unitary w.r.t. Psi^dagger Psi) and commute with B (Spin(4)xSpin(3)); (c) Krein condition S^T B + B S = 0 holds exactly for the 21 with a,b != 4 (spin(4,3)) and fails for the 7 S^{a4}
+measurement_QNT_currentMatrixHermitianPerIndex=[true,true,true,true,true,true,true,true]
+measurement_QNT_currentTimeComponentEqualsB=true
+measurement_ALG_fixturePresent=true
+measurement_ALG_fixtureFieldAgreement={"schemaVersion":true,"indexing":true,"eta":true,"sigma8":true,"C":true,"chirality":true,"K_clifford":true,"K_octonion":true,"tau":true,"taubar":true,"gamma":true,"gammaClifford":true,"gammaOctonion":true,"S":true,"B":true}
+measurement_ALG_fixtureLfOnlyWithTrailingNewline=true
+measurement_ALG_fixtureInMemoryJsonRoundTrip=true
+measurement_ALG_fixtureByteIdenticalToRegeneration=true
+measurement_ALG_fixtureSha256=8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b
+measurement_wolframReportSha256=39cc390b53266bda09549faf5e099bc8ebcfb49bef19cff4701987716c13a709
+measurement_wolframMatrixAgreement={"K_clifford":true,"K_octonion":true,"chirality":true}
+measurement_wolframMatrixKeysFound={"K_clifford":"K_clifford","K_octonion":"K_octonion","chirality":"chiralityDiagonal"}
+measurement_wolframKOctonionDirection=gamma^a K = K Gamma^a
+measurement_wolframCheckNamesShared=["ALG_chargeFormB","ALG_chargeMatrix","ALG_chirality","ALG_clifford","ALG_cliffordPictureIntertwiner","ALG_expression1","ALG_faithful","ALG_fixtureAgreement","ALG_gamma8Map","ALG_gammaTransposeSymmetry","ALG_invariantForms","ALG_octonionPictureIntertwiner","ALG_pinIrreducibleComplex","ALG_pinLiftCharacter","ALG_spinDecomposition","ALG_spinTransposeProperties","QNT_currentHermiticity","QNT_flatModeHamiltonian","QNT_kreinSignature","QNT_unitaryAndKreinSubgroups"]
+measurement_wolframCheckVerdictDisagreements=[]
+measurement_wolframChecksFalse=[]
+measurement_wolframSharedMeasurementCount=47
+measurement_wolframSharedMeasurementsAgreeing=47
+measurement_wolframSharedMeasurementDisagreements=[]
+measurement_wolframSharedMeasurements=[{"measurement":"chiralityDiagonal <-> ALG_chiralityDiagonal","agree":true,"wolfram":[-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1],"python":[-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1]},{"measurement":"volumeElementSign <-> ALG_cliffordKChiralityKinvSignVsGGGG","agree":true,"wolfram":1,"python":1},{"measurement":"ALG_gammaTransposeSymmetry.symmetryType <-> ALG_gammaTransposeKinds","agree":true,"wolfram":["symmetric","symmetric","symmetric","symmetric","antisymmetric","antisymmetric","antisymmetric","antisymmetric"],"python":["symmetric","symmetric","symmetric","symmetric","antisymmetric","antisymmetric","antisymmetric","antisymmetric"]},{"measurement":"ALG_chargeMatrix.signature <-> ALG_chargeMatrixSignature","agree":true,"wolfram":[8,8],"python":[8,8]},{"measurement":"ALG_chargeMatrix.zeroEigenvalues <-> ALG_chargeMatrixSignature","agree":true,"wolfram":0,"python":0},{"measurement":"ALG_expression1.list <-> ALG_expression1PerFrameIndex","agree":true,"wolfram":[true,true,true,true,true,true,true,true],"python":[true,true,true,true,true,true,true,true]},{"measurement":"ALG_faithful.monomialCount <-> ALG_monomialCount","agree":true,"wolfram":256,"python":256},{"measurement":"ALG_faithful.fullRank <-> ALG_fullAlgebraRank","agree":true,"wolfram":256,"python":256},{"measurement":"ALG_faithful.evenRank <-> ALG_evenAlgebraRank","agree":true,"wolfram":128,"python":128},{"measurement":"ALG_pinIrreducibleComplex.commutantDimension <-> ALG_pinCommutantDimensionQ","agree":true,"wolfram":1,"python":1},{"measurement":"ALG_spinDecomposition.spinCommutantDimension <-> ALG_spinCommutantDimensionQ","agree":true,"wolfram":2,"python":2},{"measurement":"ALG_spinDecomposition.blockCommutantDimensions <-> ALG_spinMinusBlockCommutantDimension+ALG_spinPlusBlockCommutantDimension","agree":true,"wolfram":[1,1],"python":[1,1]},{"measurement":"ALG_spinDecomposition.crossIntertwinerDimensions <-> ALG_spinCrossIntertwinerDimension+ALG_spinCrossIntertwinerDimensionReverse","agree":true,"wolfram":[0,0],"python":[0,0]},{"measurement":"ALG_spinDecomposition.blockEvenAlgebraRanks <-> ALG_evenAlgebraRankMinusBlock+ALG_evenAlgebraRankPlusBlock","agree":true,"wolfram":[64,64],"python":[64,64]},{"measurement":"ALG_cliffordPictureIntertwiner.intertwinerDimension <-> ALG_cliffordIntertwinerDimension","agree":true,"wolfram":1,"python":1},{"measurement":"ALG_cliffordPictureIntertwiner.rank <-> ALG_cliffordIntertwinerRank","agree":true,"wolfram":16,"python":16},{"measurement":"ALG_cliffordPictureIntertwiner.KCKinverseEqualsCdm <-> ALG_cliffordKChargeKinvEqualsCdm","agree":true,"wolfram":true,"python":true},{"measurement":"ALG_octonionPictureIntertwiner.intertwinerDimension <-> ALG_octonionIntertwinerDimension","agree":true,"wolfram":1,"python":1},{"measurement":"ALG_octonionPictureIntertwiner.rank <-> ALG_octonionIntertwinerRank","agree":true,"wolfram":16,"python":16},{"measurement":"ALG_octonionPictureIntertwiner.intertwinerBlockType <-> ALG_octonionKBlockDiagonal","agree":true,"wolfram":true,"python":true},{"measurement":"ALG_octonionPictureIntertwiner.upperBlockQIsScaledSignedPermutation <-> ALG_octonionKIsSignedPermutation","agree":true,"wolfram":false,"python":false},{"measurement":"ALG_octonionPictureIntertwiner.tauEqualsLeftMultiplication <-> ALG_tauEqualsLeftMultiplicationPerIndex","agree":true,"wolfram":[true,false,false,false,false,false,false,false],"python":[true,false,false,false,false,false,false,false]},{"measurement":"ALG_octonionPictureIntertwiner.diracMainCanonicalIntertwinerEqualsPrimitiveKcliffordKoctonion <-> ALG_KcliffordKoctonionEqualsDiracMainCanonicalIntertwiner","agree":true,"wolfram":"not-run","python":"not-run"},{"measurement":"ALG_octonionPictureIntertwiner.matchesDiracMainTriality44OctonionCliffordGenerators <-> ALG_octonionGammasEqualDiracMainTriality44Json","agree":true,"wolfram":"not-run","python":"not-run"},{"measurement":"ALG_octonionPictureIntertwiner.matchesDiracMainSplitOctonionMultiplicationTensor <-> ALG_zornProductEqualsDiracMainSplitOctonionJson","agree":true,"wolfram":"not-run","python":"not-run"},{"measurement":"ALG_chargeFormB.eigenvalues <-> ALG_chargeFormBEigenvalueMultiplicities","agree":true,"wolfram":{"plus1":8,"minus1":8},"python":{"plus1":8,"minus1":8}},{"measurement":"ALG_invariantForms.invariantBilinearFormDimension <-> ALG_invariantFormDimensionQ","agree":true,"wolfram":2,"python":2},{"measurement":"ALG_invariantForms.basisIsCPminusCPplus <-> ALG_invariantFormsSpannedByCPminusCPplus","agree":true,"wolfram":true,"python":true},{"measurement":"ALG_invariantForms.basisBlockDiagonalInChirality <-> ALG_invariantFormsBlockDiagonal","agree":true,"wolfram":true,"python":true},{"measurement":"ALG_invariantForms.Hgamma4BlockOffDiagonal <-> ALG_invariantFormsTimesGamma4BlockOffDiagonal","agree":true,"wolfram":true,"python":true},{"measurement":"ALG_gamma8Map.kineticMatrixSigns <-> ALG_gamma8MapKineticSign","agree":true,"wolfram":-1,"python":-1},{"measurement":"ALG_gamma8Map.massMatrixSign <-> ALG_gamma8MapMassSign","agree":true,"wolfram":1,"python":1},{"measurement":"QNT_kreinSignature.restPositiveFrequency <-> QNT_kreinPositiveEnergyEigenspaceDimension","agree":true,"wolfram":8,"python":8},{"measurement":"QNT_kreinSignature.restNegativeFrequency <-> QNT_kreinNegativeEnergyEigenspaceDimension","agree":true,"wolfram":8,"python":8},{"measurement":"QNT_kreinSignature.restPositiveFrequency <-> QNT_kreinBSignatureOnPlusEigenspace","agree":true,"wolfram":[4,4],"python":[4,4]},{"measurement":"QNT_kreinSignature.restNegativeFrequency <-> QNT_kreinBSignatureOnMinusEigenspace","agree":true,"wolfram":[4,4],"python":[4,4]},{"measurement":"QNT_unitaryAndKreinSubgroups.generatorsCommutingWithB <-> QNT_generatorsCommutingWithB","agree":true,"wolfram":[[0,1],[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,3],[2,4],[3,4],[5,6],[5,7],[6,7]],"python":[[0,1],[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,3],[2,4],[3,4],[5,6],[5,7],[6,7]]},{"measurement":"QNT_unitaryAndKreinSubgroups.countCommutingWithB <-> QNT_generatorsCommutingWithBCount","agree":true,"wolfram":13,"python":13},{"measurement":"QNT_unitaryAndKreinSubgroups.literalClaimExactlyNineCommuteWithB <-> QNT_literalClaimExactlyNineCommuteWithB","agree":true,"wolfram":false,"python":false},{"measurement":"QNT_unitaryAndKreinSubgroups.extraCommutingGeneratorsAreHermitian <-> QNT_boostsCommutingWithBHermitian","agree":true,"wolfram":true,"python":true},{"measurement":"QNT_unitaryAndKreinSubgroups.commutingWithBAndAntiHermitian <-> QNT_unitaryGenerators","agree":true,"wolfram":[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3],[5,6],[5,7],[6,7]],"python":[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3],[5,6],[5,7],[6,7]]},{"measurement":"QNT_unitaryAndKreinSubgroups.countCommutingWithBAndAntiHermitian <-> QNT_unitaryGeneratorCount","agree":true,"wolfram":9,"python":9},{"measurement":"QNT_unitaryAndKreinSubgroups.countHilbertAntiHermitian <-> QNT_antiHermitianGeneratorCount","agree":true,"wolfram":12,"python":12},{"measurement":"QNT_unitaryAndKreinSubgroups.countKreinAntiHermitian <-> QNT_kreinGeneratorCount","agree":true,"wolfram":21,"python":21},{"measurement":"QNT_unitaryAndKreinSubgroups.kreinAntiHermitianGenerators <-> QNT_kreinFailingGenerators","agree":true,"wolfram":[[0,4],[1,4],[2,4],[3,4],[4,5],[4,6],[4,7]],"python":[[0,4],[1,4],[2,4],[3,4],[4,5],[4,6],[4,7]]},{"measurement":"QNT_currentHermiticity.currentMatricesHermitian <-> QNT_currentMatrixHermitianPerIndex","agree":true,"wolfram":[true,true,true,true,true,true,true,true],"python":[true,true,true,true,true,true,true,true]},{"measurement":"QNT_currentHermiticity.J4MatrixEqualsB <-> QNT_currentTimeComponentEqualsB","agree":true,"wolfram":true,"python":true}]
+check_count=21
+failed_check_count=0
+report=build/stage1/python-algebra-report.json
+stage1_step_ok=stage1-07-check-algebra-crosscheck
+stage1_step=stage1-08-python-tests
+[31;1mtest_charge_matrix_and_chirality (test_d16c_algebra.ConstructionTests.test_charge_matrix_and_chirality) ... ok[0m
+[31;1mtest_clifford_intertwiner_normalisation (test_d16c_algebra.ConstructionTests.test_clifford_intertwiner_normalisation) ... ok[0m
+[31;1mtest_flat_mode_hamiltonian_random_momenta (test_d16c_algebra.ConstructionTests.test_flat_mode_hamiltonian_random_momenta) ... ok[0m
+[31;1mtest_notebook_gammas_clifford_and_transpose (test_d16c_algebra.ConstructionTests.test_notebook_gammas_clifford_and_transpose) ... ok[0m
+[31;1mtest_octonion_gammas_clifford (test_d16c_algebra.ConstructionTests.test_octonion_gammas_clifford) ... ok[0m
+[31;1mtest_tau_structure (test_d16c_algebra.ConstructionTests.test_tau_structure) ... ok[0m
+[31;1mtest_tensor_gammas_equal_dirac_main_seed (test_d16c_algebra.ConstructionTests.test_tensor_gammas_equal_dirac_main_seed) ... skipped 'dirac-main cl44 seed not present'[0m
+[31;1mtest_zorn_octonion_identities_random (test_d16c_algebra.ConstructionTests.test_zorn_octonion_identities_random) ... ok[0m
+[31;1mtest_complex_rank_and_hermitian_signature (test_d16c_algebra.ExactLinearAlgebraTests.test_complex_rank_and_hermitian_signature) ... ok[0m
+[31;1mtest_inverse_and_determinant (test_d16c_algebra.ExactLinearAlgebraTests.test_inverse_and_determinant) ... ok[0m
+[31;1mtest_kron_and_blocks (test_d16c_algebra.ExactLinearAlgebraTests.test_kron_and_blocks) ... ok[0m
+[31;1mtest_mathematica_signature (test_d16c_algebra.ExactLinearAlgebraTests.test_mathematica_signature) ... ok[0m
+[31;1mtest_primitive_integer_vector (test_d16c_algebra.ExactLinearAlgebraTests.test_primitive_integer_vector) ... ok[0m
+[31;1mtest_rank_nullspace_and_rref (test_d16c_algebra.ExactLinearAlgebraTests.test_rank_nullspace_and_rref) ... ok[0m
+[31;1mtest_rational_json_round_trip (test_d16c_algebra.ExactLinearAlgebraTests.test_rational_json_round_trip) ... ok[0m
+[31;1mtest_symmetric_signature (test_d16c_algebra.ExactLinearAlgebraTests.test_symmetric_signature) ... ok[0m
+[31;1mtest_all_algebra_checks_pass (test_d16c_algebra.VerifierTests.test_all_algebra_checks_pass) ... ok[0m
+[31;1mtest_commuting_with_b_measurements (test_d16c_algebra.VerifierTests.test_commuting_with_b_measurements) ... ok[0m
+[31;1mtest_fixture_deterministic_lf (test_d16c_algebra.VerifierTests.test_fixture_deterministic_lf) ... ok[0m
+[31;1mtest_main_prints_protocol_and_writes_report (test_d16c_algebra.VerifierTests.test_main_prints_protocol_and_writes_report) ... ok[0m
+[31;1mtest_report_is_deterministic (test_d16c_algebra.VerifierTests.test_report_is_deterministic) ... ok[0m
+[31;1mtest_tampered_fixture_is_detected (test_d16c_algebra.VerifierTests.test_tampered_fixture_is_detected) ... ok[0m
+[31;1mtest_verify_with_temporary_fixture (test_d16c_algebra.VerifierTests.test_verify_with_temporary_fixture) ... ok[0m
+[31;1mtest_wolfram_agreement_comparison_logic (test_d16c_algebra.VerifierTests.test_wolfram_agreement_comparison_logic) ... ok[0m
+[31;1mtest_committed_reports_against_themselves (test_d16c_arbitrary_field_public_clone_audit.AllowedDifferencesTests.test_committed_reports_against_themselves) ... ok[0m
+[31;1mtest_identical_trees_pass (test_d16c_arbitrary_field_public_clone_audit.AllowedDifferencesTests.test_identical_trees_pass) ... ok[0m
+[31;1mtest_missing_dirac_main_differences_pass (test_d16c_arbitrary_field_public_clone_audit.AllowedDifferencesTests.test_missing_dirac_main_differences_pass) ... ok[0m
+[31;1mtest_real_committed_reports_without_dirac_main_pass (test_d16c_arbitrary_field_public_clone_audit.AllowedDifferencesTests.test_real_committed_reports_without_dirac_main_pass)[0m
+[31;1mThe no-dirac-main versions of the committed reports, derived as the verifiers write them. ... ok[0m
+[31;1mtest_array_length (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_array_length) ... ok[0m
+[31;1mtest_changed_dirac_main_source_hash (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_changed_dirac_main_source_hash) ... ok[0m
+[31;1mtest_changed_fixture (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_changed_fixture) ... ok[0m
+[31;1mtest_dirac_main_check_committed_not_run (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_dirac_main_check_committed_not_run) ... ok[0m
+[31;1mtest_dirac_main_check_false_instead_of_not_run (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_dirac_main_check_false_instead_of_not_run) ... ok[0m
+[31;1mtest_dirac_main_in_a_value_does_not_allow_not_run (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_dirac_main_in_a_value_does_not_allow_not_run) ... ok[0m
+[31;1mtest_dirac_main_present_allows_nothing (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_dirac_main_present_allows_nothing) ... ok[0m
+[31;1mtest_extra_key (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_extra_key) ... ok[0m
+[31;1mtest_formatting_only_difference (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_formatting_only_difference) ... ok[0m
+[31;1mtest_hash_of_a_file_with_a_forbidden_difference (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_hash_of_a_file_with_a_forbidden_difference) ... ok[0m
+[31;1mtest_hash_of_an_unchanged_file (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_hash_of_an_unchanged_file) ... ok[0m
+[31;1mtest_invalid_json (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_invalid_json) ... ok[0m
+[31;1mtest_key_order (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_key_order) ... ok[0m
+[31;1mtest_missing_regenerated_file (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_missing_regenerated_file) ... ok[0m
+[31;1mtest_not_run_in_a_row_not_about_dirac_main (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_not_run_in_a_row_not_about_dirac_main) ... ok[0m
+[31;1mtest_not_run_of_a_check_not_about_dirac_main (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_not_run_of_a_check_not_about_dirac_main) ... ok[0m
+[31;1mtest_number_literal (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_number_literal) ... ok[0m
+[31;1mtest_reference_file_not_of_dirac_main (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_reference_file_not_of_dirac_main) ... ok[0m
+[31;1mtest_relocation_must_match_the_committed_path (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_relocation_must_match_the_committed_path) ... ok[0m
+[31;1mtest_relocation_only_of_the_stage1_files (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_relocation_only_of_the_stage1_files) ... ok[0m
+[31;1mtest_removal_of_a_source_hash_not_of_dirac_main (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_removal_of_a_source_hash_not_of_dirac_main) ... ok[0m
+[31;1mtest_type_change_true_to_one (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_type_change_true_to_one) ... ok[0m
+[31;1mtest_unexplained_hash (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_unexplained_hash) ... ok[0m
+[31;1mtest_usage_errors (test_d16c_arbitrary_field_public_clone_audit.ForbiddenDifferencesTests.test_usage_errors) ... ok[0m
+[31;1mtest_exit_status_is_passed_on (test_d16c_arbitrary_field_public_clone_audit.RunWithReportPathTests.test_exit_status_is_passed_on) ... ok[0m
+[31;1mtest_main_without_parameters (test_d16c_arbitrary_field_public_clone_audit.RunWithReportPathTests.test_main_without_parameters) ... ok[0m
+[31;1mtest_refusals (test_d16c_arbitrary_field_public_clone_audit.RunWithReportPathTests.test_refusals) ... ok[0m
+[31;1mtest_report_is_written_to_the_given_path (test_d16c_arbitrary_field_public_clone_audit.RunWithReportPathTests.test_report_is_written_to_the_given_path) ... ok[0m
+[31;1mtest_stage1_producers_have_the_expected_interface (test_d16c_arbitrary_field_public_clone_audit.RunWithReportPathTests.test_stage1_producers_have_the_expected_interface)[0m
+[31;1mThe two Stage 1 scripts the gate runs through the runner keep REPORT_PATH and main(). ... ok[0m
+[31;1mtest_all_checks_true_and_every_check_is_listed (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_all_checks_true_and_every_check_is_listed) ... ok[0m
+[31;1mtest_counts_quoted_match_the_summary (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_counts_quoted_match_the_summary) ... ok[0m
+[31;1mtest_cross_implementation_agreement_quoted (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_cross_implementation_agreement_quoted) ... ok[0m
+[31;1mtest_every_cited_name_exists_in_a_report (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_every_cited_name_exists_in_a_report) ... ok[0m
+[31;1mtest_expression_1_block_is_the_verified_literal_input (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_expression_1_block_is_the_verified_literal_input) ... ok[0m
+[31;1mtest_geometry_numbers (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_geometry_numbers) ... ok[0m
+[31;1mtest_grassmann_numbers (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_grassmann_numbers) ... ok[0m
+[31;1mtest_homogeneous_sample_quoted_matches_the_python_report (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_homogeneous_sample_quoted_matches_the_python_report) ... ok[0m
+[31;1mtest_intertwiner_matrices_are_the_report_matrices (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_intertwiner_matrices_are_the_report_matrices) ... ok[0m
+[31;1mtest_quantization_numbers (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_quantization_numbers) ... ok[0m
+[31;1mtest_recorded_hashes_match_the_files_and_the_reports (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_recorded_hashes_match_the_files_and_the_reports) ... ok[0m
+[31;1mtest_representation_theory_numbers (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_representation_theory_numbers) ... ok[0m
+[31;1mtest_subgroup_counts (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_subgroup_counts) ... ok[0m
+[31;1mtest_every_fenced_code_line_fits (test_d16c_arbitrary_field_publication.ContentTests.test_every_fenced_code_line_fits) ... ok[0m
+[31;1mtest_expression_2_is_quoted_verbatim (test_d16c_arbitrary_field_publication.ContentTests.test_expression_2_is_quoted_verbatim) ... ok[0m
+[31;1mtest_lichnerowicz_constant_and_curvature_sign_are_stated (test_d16c_arbitrary_field_publication.ContentTests.test_lichnerowicz_constant_and_curvature_sign_are_stated) ... ok[0m
+[31;1mtest_new_lagrangian_uses_the_notebook_names (test_d16c_arbitrary_field_publication.ContentTests.test_new_lagrangian_uses_the_notebook_names) ... ok[0m
+[31;1mtest_no_placeholders_or_todo_and_no_other_provenance_documents (test_d16c_arbitrary_field_publication.ContentTests.test_no_placeholders_or_todo_and_no_other_provenance_documents) ... ok[0m
+[31;1mtest_required_phrases (test_d16c_arbitrary_field_publication.ContentTests.test_required_phrases) ... ok[0m
+[31;1mtest_required_sections_in_order (test_d16c_arbitrary_field_publication.ContentTests.test_required_sections_in_order) ... ok[0m
+[31;1mtest_thawing_freezing_signs_are_formula_consistent (test_d16c_arbitrary_field_publication.ContentTests.test_thawing_freezing_signs_are_formula_consistent) ... ok[0m
+[31;1mtest_title_and_subtitle (test_d16c_arbitrary_field_publication.ContentTests.test_title_and_subtitle) ... ok[0m
+[31;1mtest_markdown_is_lf_only_utf8 (test_d16c_arbitrary_field_publication.PinTests.test_markdown_is_lf_only_utf8) ... ok[0m
+[31;1mtest_markdown_sha256_pin (test_d16c_arbitrary_field_publication.PinTests.test_markdown_sha256_pin) ... ok[0m
+[31;1mtest_registered_edition_matches_the_committed_pdf (test_d16c_arbitrary_field_publication.PinTests.test_registered_edition_matches_the_committed_pdf) ... ok[0m
+[31;1mtest_tex_is_the_builder_output_of_the_markdown (test_d16c_arbitrary_field_publication.PinTests.test_tex_is_the_builder_output_of_the_markdown) ... ok[0m
+[31;1mtest_tex_sha256_pin (test_d16c_arbitrary_field_publication.PinTests.test_tex_sha256_pin) ... ok[0m
+[31;1mtest_minisuperspace_variation_and_homogeneous_reduction (test_d16c_geometry.TestEMTReductions.test_minisuperspace_variation_and_homogeneous_reduction) ... ok[0m
+[31;1mtest_notebook_gamma_facts (test_d16c_geometry.TestGammaAlgebra.test_notebook_gamma_facts) ... ok[0m
+[31;1mtest_emt_trace_onshell (test_d16c_geometry.TestGenericG1Point.test_emt_trace_onshell) ... ok[0m
+[31;1mtest_euler_lagrange_commuting_proxy (test_d16c_geometry.TestGenericG1Point.test_euler_lagrange_commuting_proxy) ... ok[0m
+[31;1mtest_signature_and_identities (test_d16c_geometry.TestGenericG1Point.test_signature_and_identities) ... ok[0m
+[31;1mtest_batched_el_equals_single (test_d16c_geometry.TestGrassmannAlgebra.test_batched_el_equals_single) ... ok[0m
+[31;1mtest_conjugation_rules (test_d16c_geometry.TestGrassmannAlgebra.test_conjugation_rules) ... ok[0m
+[31;1mtest_even_derivation_leibniz (test_d16c_geometry.TestGrassmannAlgebra.test_even_derivation_leibniz) ... ok[0m
+[31;1mtest_signs_and_derivatives (test_d16c_geometry.TestGrassmannAlgebra.test_signs_and_derivatives) ... ok[0m
+[31;1mtest_connection_identities (test_d16c_geometry.TestPrimordialG2.test_connection_identities) ... ok[0m
+[31;1mtest_lichnerowicz (test_d16c_geometry.TestPrimordialG2.test_lichnerowicz) ... ok[0m
+[31;1mtest_notebook_lg_trivial_and_complex_nontrivial (test_d16c_geometry.TestPrimordialG2.test_notebook_lg_trivial_and_complex_nontrivial) ... ok[0m
+[31;1mtest_primordial_facts (test_d16c_geometry.TestPrimordialG2.test_primordial_facts) ... ok[0m
+[31;1mtest_mass_kinetic_quartic (test_d16c_geometry.TestRealGrassmannDemos.test_mass_kinetic_quartic) ... ok[0m
+[31;1mtest_agreement_and_tampering (test_d16c_geometry.TestWolframAgreementLogic.test_agreement_and_tampering) ... ok[0m
+[31;1m[0m
+[31;1m----------------------------------------------------------------------[0m
+[31;1mRan 99 tests in 67.111s[0m
+[31;1m[0m
+[31;1mOK (skipped=1)[0m
+stage1_step_ok=stage1-08-python-tests
+stage1_step=stage1-09-publication-tests
+[31;1mtest_figures_register_verify_and_missing_file (test_publication_tooling.BuildProvenancePdfTests.test_figures_register_verify_and_missing_file) ... ok[0m
+[31;1mtest_register_verify_and_reject (test_publication_tooling.BuildProvenancePdfTests.test_register_verify_and_reject) ... ok[0m
+[31;1mtest_author_and_date_are_escaped_and_may_use_greek (test_publication_tooling.ConvertDeterminismTests.test_author_and_date_are_escaped_and_may_use_greek) ... ok[0m
+[31;1mtest_cli_author_and_date_options (test_publication_tooling.ConvertDeterminismTests.test_cli_author_and_date_options) ... ok[0m
+[31;1mtest_cli_output_is_independent_of_hash_seed (test_publication_tooling.ConvertDeterminismTests.test_cli_output_is_independent_of_hash_seed) ... ok[0m
+[31;1mtest_determinism_primitives_are_kept (test_publication_tooling.ConvertDeterminismTests.test_determinism_primitives_are_kept) ... ok[0m
+[31;1mtest_dirac_main_documents_are_reproduced_byte_for_byte (test_publication_tooling.ConvertDeterminismTests.test_dirac_main_documents_are_reproduced_byte_for_byte) ... skipped 'dirac-main reference absent'[0m
+[31;1mtest_missing_title_or_subtitle_is_rejected (test_publication_tooling.ConvertDeterminismTests.test_missing_title_or_subtitle_is_rejected) ... ok[0m
+[31;1mtest_old_subset_output_equals_the_origin_builder (test_publication_tooling.ConvertDeterminismTests.test_old_subset_output_equals_the_origin_builder) ... ok[0m
+[31;1mtest_positional_signature_and_default_author_and_date (test_publication_tooling.ConvertDeterminismTests.test_positional_signature_and_default_author_and_date) ... ok[0m
+[31;1mtest_repeated_conversion_is_identical (test_publication_tooling.ConvertDeterminismTests.test_repeated_conversion_is_identical) ... ok[0m
+[31;1mtest_figure_document_compiles_warning_free (test_publication_tooling.FigurePdfTests.test_figure_document_compiles_warning_free) ... ok[0m
+[31;1mtest_pdflatex_outside_the_root_does_not_find_the_figure (test_publication_tooling.FigurePdfTests.test_pdflatex_outside_the_root_does_not_find_the_figure) ... ok[0m
+[31;1mtest_two_builds_are_byte_identical_and_embed_the_images (test_publication_tooling.FigurePdfTests.test_two_builds_are_byte_identical_and_embed_the_images) ... ok[0m
+[31;1mtest_accepted_figure_paths (test_publication_tooling.FigureTests.test_accepted_figure_paths) ... ok[0m
+[31;1mtest_caption_ends_at_the_balanced_bracket (test_publication_tooling.FigureTests.test_caption_ends_at_the_balanced_bracket) ... ok[0m
+[31;1mtest_caption_markup_is_safe_as_a_moving_argument (test_publication_tooling.FigureTests.test_caption_markup_is_safe_as_a_moving_argument) ... ok[0m
+[31;1mtest_cli_checks_figures_against_the_image_root (test_publication_tooling.FigureTests.test_cli_checks_figures_against_the_image_root) ... ok[0m
+[31;1mtest_empty_caption_is_rejected (test_publication_tooling.FigureTests.test_empty_caption_is_rejected) ... ok[0m
+[31;1mtest_figure_closes_paragraph_and_list (test_publication_tooling.FigureTests.test_figure_closes_paragraph_and_list) ... ok[0m
+[31;1mtest_figure_files_are_checked_against_the_image_root (test_publication_tooling.FigureTests.test_figure_files_are_checked_against_the_image_root) ... ok[0m
+[31;1mtest_figure_line_becomes_a_figure_environment (test_publication_tooling.FigureTests.test_figure_line_becomes_a_figure_environment) ... ok[0m
+[31;1mtest_figure_lines_in_code_and_math_stay_literal (test_publication_tooling.FigureTests.test_figure_lines_in_code_and_math_stay_literal) ... ok[0m
+[31;1mtest_figure_paths_lists_the_figures_in_order (test_publication_tooling.FigureTests.test_figure_paths_lists_the_figures_in_order) ... ok[0m
+[31;1mtest_graphicx_is_loaded_only_with_a_figure (test_publication_tooling.FigureTests.test_graphicx_is_loaded_only_with_a_figure) ... ok[0m
+[31;1mtest_old_subset_with_a_figure_keeps_the_origin_bytes (test_publication_tooling.FigureTests.test_old_subset_with_a_figure_keeps_the_origin_bytes) ... ok[0m
+[31;1mtest_unsupported_figure_paths_are_rejected (test_publication_tooling.FigureTests.test_unsupported_figure_paths_are_rejected) ... ok[0m
+[31;1mtest_code_span_with_greek_is_escaped_not_detokenized (test_publication_tooling.GreekAndSymbolTests.test_code_span_with_greek_is_escaped_not_detokenized) ... ok[0m
+[31;1mtest_compound_codes_are_braced_in_math (test_publication_tooling.GreekAndSymbolTests.test_compound_codes_are_braced_in_math) ... ok[0m
+[31;1mtest_display_math_gets_commands (test_publication_tooling.GreekAndSymbolTests.test_display_math_gets_commands) ... ok[0m
+[31;1mtest_every_math_character_has_a_valid_code (test_publication_tooling.GreekAndSymbolTests.test_every_math_character_has_a_valid_code) ... ok[0m
+[31;1mtest_fenced_code_keeps_characters (test_publication_tooling.GreekAndSymbolTests.test_fenced_code_keeps_characters) ... ok[0m
+[31;1mtest_heading_keeps_unicode_for_bookmarks (test_publication_tooling.GreekAndSymbolTests.test_heading_keeps_unicode_for_bookmarks) ... ok[0m
+[31;1mtest_heading_math_is_wrapped_for_bookmarks (test_publication_tooling.GreekAndSymbolTests.test_heading_math_is_wrapped_for_bookmarks) ... ok[0m
+[31;1mtest_inline_math_gets_commands (test_publication_tooling.GreekAndSymbolTests.test_inline_math_gets_commands) ... ok[0m
+[31;1mtest_native_latin_letters_are_not_declared (test_publication_tooling.GreekAndSymbolTests.test_native_latin_letters_are_not_declared) ... ok[0m
+[31;1mtest_prose_keeps_characters_and_declares_exactly_those_used (test_publication_tooling.GreekAndSymbolTests.test_prose_keeps_characters_and_declares_exactly_those_used) ... ok[0m
+[31;1mtest_unsupported_characters_are_rejected_with_line (test_publication_tooling.GreekAndSymbolTests.test_unsupported_characters_are_rejected_with_line) ... ok[0m
+[31;1mtest_balanced_parentheses_in_url (test_publication_tooling.LinkTests.test_balanced_parentheses_in_url) ... ok[0m
+[31;1mtest_brackets_without_target_stay_text (test_publication_tooling.LinkTests.test_brackets_without_target_stay_text) ... ok[0m
+[31;1mtest_images_are_rejected (test_publication_tooling.LinkTests.test_images_are_rejected) ... ok[0m
+[31;1mtest_invalid_targets_are_rejected (test_publication_tooling.LinkTests.test_invalid_targets_are_rejected) ... ok[0m
+[31;1mtest_link_in_heading_is_wrapped_for_bookmarks (test_publication_tooling.LinkTests.test_link_in_heading_is_wrapped_for_bookmarks) ... ok[0m
+[31;1mtest_link_text_markup_and_nesting_in_bold (test_publication_tooling.LinkTests.test_link_text_markup_and_nesting_in_bold) ... ok[0m
+[31;1mtest_list_item_starting_with_bracket_is_guarded (test_publication_tooling.LinkTests.test_list_item_starting_with_bracket_is_guarded) ... ok[0m
+[31;1mtest_plain_link (test_publication_tooling.LinkTests.test_plain_link) ... ok[0m
+[31;1mtest_url_special_characters (test_publication_tooling.LinkTests.test_url_special_characters) ... ok[0m
+[31;1mtest_warning_pattern_matches_like_the_gates (test_publication_tooling.LogScanTests.test_warning_pattern_matches_like_the_gates) ... ok[0m
+[31;1mtest_checker_rejects_mutated_bytes (test_publication_tooling.PdfTests.test_checker_rejects_mutated_bytes) ... ok[0m
+[31;1mtest_feature_document_compiles_warning_free (test_publication_tooling.PdfTests.test_feature_document_compiles_warning_free) ... ok[0m
+[31;1mtest_provenance_checker_cli_with_a_temporary_registry (test_publication_tooling.PdfTests.test_provenance_checker_cli_with_a_temporary_registry) ... ok[0m
+[31;1mtest_two_builds_are_byte_identical_letter_pdfs (test_publication_tooling.PdfTests.test_two_builds_are_byte_identical_letter_pdfs) ... ok[0m
+[31;1mtest_built_in_registry_is_empty (test_publication_tooling.RegistryTests.test_built_in_registry_is_empty) ... ok[0m
+[31;1mtest_cli_rejects_unregistered_edition (test_publication_tooling.RegistryTests.test_cli_rejects_unregistered_edition) ... ok[0m
+[31;1mtest_duplicate_keys_and_non_object_are_rejected (test_publication_tooling.RegistryTests.test_duplicate_keys_and_non_object_are_rejected) ... ok[0m
+[31;1mtest_invalid_entries_are_rejected (test_publication_tooling.RegistryTests.test_invalid_entries_are_rejected) ... ok[0m
+[31;1mtest_register_round_trip_and_canonical_dump (test_publication_tooling.RegistryTests.test_register_round_trip_and_canonical_dump) ... ok[0m
+[31;1mtest_registered_pdfs_are_self_consistent (test_publication_tooling.RegistryTests.test_registered_pdfs_are_self_consistent) ... ok[0m
+[31;1mtest_repository_registry_is_valid_and_canonical (test_publication_tooling.RegistryTests.test_repository_registry_is_valid_and_canonical) ... ok[0m
+[31;1mtest_code_line_limit (test_publication_tooling.StructureValidationTests.test_code_line_limit) ... ok[0m
+[31;1mtest_code_spans_unsafe_for_detokenize (test_publication_tooling.StructureValidationTests.test_code_spans_unsafe_for_detokenize) ... ok[0m
+[31;1mtest_heading_code_spans_are_safe_in_the_toc (test_publication_tooling.StructureValidationTests.test_heading_code_spans_are_safe_in_the_toc) ... ok[0m
+[31;1mtest_tab_in_code_is_rejected (test_publication_tooling.StructureValidationTests.test_tab_in_code_is_rejected) ... ok[0m
+[31;1mtest_unclosed_blocks_are_rejected (test_publication_tooling.StructureValidationTests.test_unclosed_blocks_are_rejected) ... ok[0m
+[31;1mtest_developer_layout_table (test_publication_tooling.TableTests.test_developer_layout_table) ... ok[0m
+[31;1mtest_inconsistent_row_is_rejected (test_publication_tooling.TableTests.test_inconsistent_row_is_rejected) ... ok[0m
+[31;1mtest_table_rendering (test_publication_tooling.TableTests.test_table_rendering) ... ok[0m
+[31;1m[0m
+[31;1m----------------------------------------------------------------------[0m
+[31;1mRan 67 tests in 103.693s[0m
+[31;1m[0m
+[31;1mOK (skipped=1)[0m
+stage1_step_ok=stage1-09-publication-tests
+stage1_step=stage1-10-summary
+stage1_summary_wolfram-algebra=21/21
+stage1_summary_wolfram-geometry=43/43
+stage1_summary_python-algebra=21/21
+stage1_summary_python-geometry=52/52
+stage1_summary_grassmann-demo=16/16
+stage1_summary_total=153/153
+stage1_summary_agreed_measurements=30/30
+stage1_summary=build/stage1/stage1-summary.json
+stage1_summary_sha256=03165f0f31e5660db998e91a8231ff001bcb310e5f8126fc70aad268696af4d6
+stage1_step_ok=stage1-10-summary
+stage1_step=stage1-11-provenance-pdf
+check_texBuildExitCodes=true
+check_texRepeatByteIdentity=true
+check_pdflatexExitCodes=true
+check_logWarningFree=true
+check_pdfRepeatByteIdentity=true
+check_pdfHeader=true
+check_pdfEndMarker=true
+check_pdfLetterMediaBox=true
+check_pdfPageCountPositive=true
+check_editionRegistered=true
+check_registeredPath=true
+check_registeredPageCount=true
+check_registeredSha256=true
+check_provenancePdfCopy=true
+measurement_mode=verify
+measurement_edition=dirac16complex-arbitrary-field
+measurement_markdown=provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.md
+measurement_markdownSha256=2997c4353afd4a05ba1b6f86f043901c9b4c7ea193fb24ce964113ab6ec044ef
+measurement_specifications=<scratch>/s1v_public_ps1/provenance/pdf-specifications.json
+measurement_pdflatexVersion=MiKTeX-pdfTeX 4.27 (MiKTeX 26.5)
+measurement_texBuildExitCodes=[0, 0]
+measurement_texSha256=4b4d15bbacc4ec981cc2eb3f7af7961780a75ed28cf30ceb081dc8792232de88
+measurement_texBytes=126712
+measurement_pdflatexExitCodes=[0, 0, 0, 0, 0, 0]
+measurement_warningLineCount=0
+measurement_pdfSha256=83252f8478aa1f05d1f923912de8796bb0314e189590e5e618ef733a17649290
+measurement_pdfBytes=643598
+measurement_pageCount=45
+measurement_mediaBoxes=[(0.0, 0.0, 612.0, 792.0)]
+measurement_registeredPages=45
+measurement_registeredSha256=83252f8478aa1f05d1f923912de8796bb0314e189590e5e618ef733a17649290
+measurement_report=<scratch>/s1v_public_ps1/build/DIRAC16COMPLEX_ARBITRARY_FIELD/build-provenance-pdf.json
+check_count=14
+failed_check_count=0
+provenance_pdf=OK
+stage1_step_ok=stage1-11-provenance-pdf
+stage1_step=stage1-12-publication-recheck
+[31;1mtest_all_checks_true_and_every_check_is_listed (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_all_checks_true_and_every_check_is_listed) ... ok[0m
+[31;1mtest_counts_quoted_match_the_summary (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_counts_quoted_match_the_summary) ... ok[0m
+[31;1mtest_cross_implementation_agreement_quoted (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_cross_implementation_agreement_quoted) ... ok[0m
+[31;1mtest_every_cited_name_exists_in_a_report (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_every_cited_name_exists_in_a_report) ... ok[0m
+[31;1mtest_expression_1_block_is_the_verified_literal_input (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_expression_1_block_is_the_verified_literal_input) ... ok[0m
+[31;1mtest_geometry_numbers (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_geometry_numbers) ... ok[0m
+[31;1mtest_grassmann_numbers (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_grassmann_numbers) ... ok[0m
+[31;1mtest_homogeneous_sample_quoted_matches_the_python_report (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_homogeneous_sample_quoted_matches_the_python_report) ... ok[0m
+[31;1mtest_intertwiner_matrices_are_the_report_matrices (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_intertwiner_matrices_are_the_report_matrices) ... ok[0m
+[31;1mtest_quantization_numbers (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_quantization_numbers) ... ok[0m
+[31;1mtest_recorded_hashes_match_the_files_and_the_reports (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_recorded_hashes_match_the_files_and_the_reports) ... ok[0m
+[31;1mtest_representation_theory_numbers (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_representation_theory_numbers) ... ok[0m
+[31;1mtest_subgroup_counts (test_d16c_arbitrary_field_publication.AgreementWithArtifactsTests.test_subgroup_counts) ... ok[0m
+[31;1mtest_every_fenced_code_line_fits (test_d16c_arbitrary_field_publication.ContentTests.test_every_fenced_code_line_fits) ... ok[0m
+[31;1mtest_expression_2_is_quoted_verbatim (test_d16c_arbitrary_field_publication.ContentTests.test_expression_2_is_quoted_verbatim) ... ok[0m
+[31;1mtest_lichnerowicz_constant_and_curvature_sign_are_stated (test_d16c_arbitrary_field_publication.ContentTests.test_lichnerowicz_constant_and_curvature_sign_are_stated) ... ok[0m
+[31;1mtest_new_lagrangian_uses_the_notebook_names (test_d16c_arbitrary_field_publication.ContentTests.test_new_lagrangian_uses_the_notebook_names) ... ok[0m
+[31;1mtest_no_placeholders_or_todo_and_no_other_provenance_documents (test_d16c_arbitrary_field_publication.ContentTests.test_no_placeholders_or_todo_and_no_other_provenance_documents) ... ok[0m
+[31;1mtest_required_phrases (test_d16c_arbitrary_field_publication.ContentTests.test_required_phrases) ... ok[0m
+[31;1mtest_required_sections_in_order (test_d16c_arbitrary_field_publication.ContentTests.test_required_sections_in_order) ... ok[0m
+[31;1mtest_thawing_freezing_signs_are_formula_consistent (test_d16c_arbitrary_field_publication.ContentTests.test_thawing_freezing_signs_are_formula_consistent) ... ok[0m
+[31;1mtest_title_and_subtitle (test_d16c_arbitrary_field_publication.ContentTests.test_title_and_subtitle) ... ok[0m
+[31;1mtest_markdown_is_lf_only_utf8 (test_d16c_arbitrary_field_publication.PinTests.test_markdown_is_lf_only_utf8) ... ok[0m
+[31;1mtest_markdown_sha256_pin (test_d16c_arbitrary_field_publication.PinTests.test_markdown_sha256_pin) ... ok[0m
+[31;1mtest_registered_edition_matches_the_committed_pdf (test_d16c_arbitrary_field_publication.PinTests.test_registered_edition_matches_the_committed_pdf) ... ok[0m
+[31;1mtest_tex_is_the_builder_output_of_the_markdown (test_d16c_arbitrary_field_publication.PinTests.test_tex_is_the_builder_output_of_the_markdown) ... ok[0m
+[31;1mtest_tex_sha256_pin (test_d16c_arbitrary_field_publication.PinTests.test_tex_sha256_pin) ... ok[0m
+[31;1m[0m
+[31;1m----------------------------------------------------------------------[0m
+[31;1mRan 27 tests in 0.030s[0m
+[31;1m[0m
+[31;1mOK[0m
+stage1_step_ok=stage1-12-publication-recheck
+stage1_step=stage1-13-public-clone-audit
+stage1_audit_committed=artifacts/dirac16complex/arbitrary-field
+stage1_audit_regenerated=build/stage1
+stage1_audit_dirac_main=absent
+stage1_audit_file=algebra-fixture.json identical sha256=8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b
+stage1_audit_allowed=wolfram-algebra-report.json /measurements/ALG_cliffordPictureIntertwiner.matchesDiracMainCl44SeedGenerators not-run: true -> "not-run"
+stage1_audit_not_run=wolfram-algebra-report.json:/measurements/ALG_cliffordPictureIntertwiner.matchesDiracMainCl44SeedGenerators
+stage1_audit_allowed=wolfram-algebra-report.json /measurements/ALG_cliffordPictureIntertwiner.matchesDiracMainCl44SeedVolumeElement not-run: true -> "not-run"
+stage1_audit_not_run=wolfram-algebra-report.json:/measurements/ALG_cliffordPictureIntertwiner.matchesDiracMainCl44SeedVolumeElement
+stage1_audit_allowed=wolfram-algebra-report.json /measurements/ALG_octonionPictureIntertwiner.matchesDiracMainSplitOctonionMultiplicationTensor not-run: true -> "not-run"
+stage1_audit_not_run=wolfram-algebra-report.json:/measurements/ALG_octonionPictureIntertwiner.matchesDiracMainSplitOctonionMultiplicationTensor
+stage1_audit_allowed=wolfram-algebra-report.json /measurements/ALG_octonionPictureIntertwiner.gammasFromDiracMainSplitOctonionJsonEqualRebuilt not-run: true -> "not-run"
+stage1_audit_not_run=wolfram-algebra-report.json:/measurements/ALG_octonionPictureIntertwiner.gammasFromDiracMainSplitOctonionJsonEqualRebuilt
+stage1_audit_allowed=wolfram-algebra-report.json /measurements/ALG_octonionPictureIntertwiner.matchesDiracMainTriality44OctonionCliffordGenerators not-run: true -> "not-run"
+stage1_audit_not_run=wolfram-algebra-report.json:/measurements/ALG_octonionPictureIntertwiner.matchesDiracMainTriality44OctonionCliffordGenerators
+stage1_audit_allowed=wolfram-algebra-report.json /measurements/ALG_octonionPictureIntertwiner.diracMainCanonicalIntertwinerEqualsPrimitiveKcliffordKoctonion not-run: true -> "not-run"
+stage1_audit_not_run=wolfram-algebra-report.json:/measurements/ALG_octonionPictureIntertwiner.diracMainCanonicalIntertwinerEqualsPrimitiveKcliffordKoctonion
+stage1_audit_allowed=wolfram-algebra-report.json /measurements/ALG_octonionPictureIntertwiner.diracMainCanonicalIntertwinerVerified not-run: true -> "not-run"
+stage1_audit_not_run=wolfram-algebra-report.json:/measurements/ALG_octonionPictureIntertwiner.diracMainCanonicalIntertwinerVerified
+stage1_audit_allowed=wolfram-algebra-report.json /measurements/referenceFilesPresent/dirac-main/artifacts/exact/cl44-seed.json reference: true -> false
+stage1_audit_allowed=wolfram-algebra-report.json /measurements/referenceFilesPresent/dirac-main/artifacts/exact/split-octonion.json reference: true -> false
+stage1_audit_allowed=wolfram-algebra-report.json /measurements/referenceFilesPresent/dirac-main/artifacts/exact/triality44.json reference: true -> false
+stage1_audit_allowed=wolfram-algebra-report.json /sourceSha256/dirac-main/artifacts/exact/cl44-seed.json source-hash: "52e7a73b14467435d7986b33bf29547510b321853ffbd76121896d70b796d133" -> (absent)
+stage1_audit_allowed=wolfram-algebra-report.json /sourceSha256/dirac-main/artifacts/exact/split-octonion.json source-hash: "cbc28db6709ec1fc35ccfcc26353d1952b42bb516f6c50d6a52e2d6d355be710" -> (absent)
+stage1_audit_allowed=wolfram-algebra-report.json /sourceSha256/dirac-main/artifacts/exact/triality44.json source-hash: "a8c31c07809fc884ae0495d91f4105fac0909c954bb185c643306c57699cd395" -> (absent)
+stage1_audit_file=wolfram-algebra-report.json allowed-differences=13 committed_sha256=d43adeeba580bdd8cec56fac5fa74906b7578c06c8589e52dbe3da1404cd49e7 regenerated_sha256=39cc390b53266bda09549faf5e099bc8ebcfb49bef19cff4701987716c13a709
+stage1_audit_file=wolfram-geometry-report.json identical sha256=cec9ee0d577c4e7f0e82efd404d412a503140ccb1547118ab48a78a3d773f0ac
+stage1_audit_file=grassmann-demo-report.json identical sha256=b83997857ccfc9fb71f05efbcaebe16f29bf36687cc08c16e0823a26a6369f09
+stage1_audit_file=python-geometry-report.json identical sha256=deec576c1613bb06ce8ac4ad9f89a7b008239bd9d4b624bea14728fa77b2a197
+stage1_audit_allowed=python-algebra-report.json /inputSha256/build/stage1/wolfram-algebra-report.json relocated: "artifacts/dirac16complex/arbitrary-field/wolfram-algebra-report.json" -> "build/stage1/wolfram-algebra-report.json"
+stage1_audit_allowed=python-algebra-report.json /measurements/ALG_octonionGammasEqualDiracMainTriality44Json not-run: true -> "not-run"
+stage1_audit_not_run=python-algebra-report.json:/measurements/ALG_octonionGammasEqualDiracMainTriality44Json
+stage1_audit_allowed=python-algebra-report.json /measurements/ALG_KcliffordKoctonionEqualsDiracMainCanonicalIntertwiner not-run: true -> "not-run"
+stage1_audit_not_run=python-algebra-report.json:/measurements/ALG_KcliffordKoctonionEqualsDiracMainCanonicalIntertwiner
+stage1_audit_allowed=python-algebra-report.json /measurements/ALG_zornProductEqualsDiracMainSplitOctonionJson not-run: true -> "not-run"
+stage1_audit_not_run=python-algebra-report.json:/measurements/ALG_zornProductEqualsDiracMainSplitOctonionJson
+stage1_audit_allowed=python-algebra-report.json /measurements/wolframReportSha256 hash of wolfram-algebra-report.json: "d43adeeba580bdd8cec56fac5fa74906b7578c06c8589e52dbe3da1404cd49e7" -> "39cc390b53266bda09549faf5e099bc8ebcfb49bef19cff4701987716c13a709"
+stage1_audit_allowed=python-algebra-report.json /measurements/wolframSharedMeasurements[22]/wolfram not-run: true -> "not-run"
+stage1_audit_not_run=python-algebra-report.json:/measurements/wolframSharedMeasurements[22]/wolfram
+stage1_audit_allowed=python-algebra-report.json /measurements/wolframSharedMeasurements[22]/python not-run: true -> "not-run"
+stage1_audit_not_run=python-algebra-report.json:/measurements/wolframSharedMeasurements[22]/python
+stage1_audit_allowed=python-algebra-report.json /measurements/wolframSharedMeasurements[23]/wolfram not-run: true -> "not-run"
+stage1_audit_not_run=python-algebra-report.json:/measurements/wolframSharedMeasurements[23]/wolfram
+stage1_audit_allowed=python-algebra-report.json /measurements/wolframSharedMeasurements[23]/python not-run: true -> "not-run"
+stage1_audit_not_run=python-algebra-report.json:/measurements/wolframSharedMeasurements[23]/python
+stage1_audit_allowed=python-algebra-report.json /measurements/wolframSharedMeasurements[24]/wolfram not-run: true -> "not-run"
+stage1_audit_not_run=python-algebra-report.json:/measurements/wolframSharedMeasurements[24]/wolfram
+stage1_audit_allowed=python-algebra-report.json /measurements/wolframSharedMeasurements[24]/python not-run: true -> "not-run"
+stage1_audit_not_run=python-algebra-report.json:/measurements/wolframSharedMeasurements[24]/python
+stage1_audit_allowed=python-algebra-report.json /inputSha256/artifacts/dirac16complex/arbitrary-field/wolfram-algebra-report.json hash of wolfram-algebra-report.json: "d43adeeba580bdd8cec56fac5fa74906b7578c06c8589e52dbe3da1404cd49e7" -> "39cc390b53266bda09549faf5e099bc8ebcfb49bef19cff4701987716c13a709"
+stage1_audit_file=python-algebra-report.json allowed-differences=12 committed_sha256=3275b2af1a2f56f9bd779ad359e7ed078cb2c64c744863732f789f410bb50c97 regenerated_sha256=2be5b910e107fb7798479fc203a9ffc0ee2d9498dded28f18d60ef2942a0ed9b
+stage1_audit_allowed=stage1-summary.json /reports/wolfram-algebra/path relocated: "artifacts/dirac16complex/arbitrary-field/wolfram-algebra-report.json" -> "build/stage1/wolfram-algebra-report.json"
+stage1_audit_allowed=stage1-summary.json /reports/wolfram-geometry/path relocated: "artifacts/dirac16complex/arbitrary-field/wolfram-geometry-report.json" -> "build/stage1/wolfram-geometry-report.json"
+stage1_audit_allowed=stage1-summary.json /reports/python-algebra/path relocated: "artifacts/dirac16complex/arbitrary-field/python-algebra-report.json" -> "build/stage1/python-algebra-report.json"
+stage1_audit_allowed=stage1-summary.json /reports/python-geometry/path relocated: "artifacts/dirac16complex/arbitrary-field/python-geometry-report.json" -> "build/stage1/python-geometry-report.json"
+stage1_audit_allowed=stage1-summary.json /reports/grassmann-demo/path relocated: "artifacts/dirac16complex/arbitrary-field/grassmann-demo-report.json" -> "build/stage1/grassmann-demo-report.json"
+stage1_audit_allowed=stage1-summary.json /fixture/path relocated: "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json" -> "build/stage1/algebra-fixture.json"
+stage1_audit_allowed=stage1-summary.json /reports/wolfram-algebra/sha256 hash of wolfram-algebra-report.json: "d43adeeba580bdd8cec56fac5fa74906b7578c06c8589e52dbe3da1404cd49e7" -> "39cc390b53266bda09549faf5e099bc8ebcfb49bef19cff4701987716c13a709"
+stage1_audit_allowed=stage1-summary.json /reports/python-algebra/sha256 hash of python-algebra-report.json: "3275b2af1a2f56f9bd779ad359e7ed078cb2c64c744863732f789f410bb50c97" -> "2be5b910e107fb7798479fc203a9ffc0ee2d9498dded28f18d60ef2942a0ed9b"
+stage1_audit_allowed=stage1-summary.json /crossImplementationComparisons/algebra (ALG_wolframAgreement, scripts/check_dirac16complex_algebra.py)/wolframReportSha256 hash of wolfram-algebra-report.json: "d43adeeba580bdd8cec56fac5fa74906b7578c06c8589e52dbe3da1404cd49e7" -> "39cc390b53266bda09549faf5e099bc8ebcfb49bef19cff4701987716c13a709"
+stage1_audit_file=stage1-summary.json allowed-differences=9 committed_sha256=a65972b5a52f947d9bee9f67e09f7151fff617c03f496ba313e07db168c10770 regenerated_sha256=03165f0f31e5660db998e91a8231ff001bcb310e5f8126fc70aad268696af4d6
+stage1_public_clone_audit=OK
+stage1_step_ok=stage1-13-public-clone-audit
+stage1_report_checks=build/stage1/wolfram-algebra-report.json 21 true
+stage1_report_checks=build/stage1/wolfram-geometry-report.json 43 true
+stage1_report_checks=build/stage1/python-algebra-report.json 21 true
+stage1_report_checks=build/stage1/python-geometry-report.json 52 true
+stage1_report_checks=build/stage1/grassmann-demo-report.json 16 true
+stage1_sha256=39cc390b53266bda09549faf5e099bc8ebcfb49bef19cff4701987716c13a709  build/stage1/wolfram-algebra-report.json
+stage1_sha256=cec9ee0d577c4e7f0e82efd404d412a503140ccb1547118ab48a78a3d773f0ac  build/stage1/wolfram-geometry-report.json
+stage1_sha256=2be5b910e107fb7798479fc203a9ffc0ee2d9498dded28f18d60ef2942a0ed9b  build/stage1/python-algebra-report.json
+stage1_sha256=deec576c1613bb06ce8ac4ad9f89a7b008239bd9d4b624bea14728fa77b2a197  build/stage1/python-geometry-report.json
+stage1_sha256=b83997857ccfc9fb71f05efbcaebe16f29bf36687cc08c16e0823a26a6369f09  build/stage1/grassmann-demo-report.json
+stage1_sha256=03165f0f31e5660db998e91a8231ff001bcb310e5f8126fc70aad268696af4d6  build/stage1/stage1-summary.json
+stage1_sha256=4b4d15bbacc4ec981cc2eb3f7af7961780a75ed28cf30ceb081dc8792232de88  provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.tex
+stage1_sha256=83252f8478aa1f05d1f923912de8796bb0314e189590e5e618ef733a17649290  provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.pdf
+stage1_skipped=dirac-main cross-checks (dirac-main/ is a git-ignored reference input, not in the repository; see stage1_audit_not_run in build/logs/stage1-13-public-clone-audit.log)
+stage1_arbitrary_field_verification=OK
+gate_exit=0
+modified_committed_after_overlay=8

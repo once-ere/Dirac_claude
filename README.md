@@ -61,12 +61,13 @@ proved exactly, in Wolfram Language and independently in Python):
 Status at this push (2026-09-30; HANDOFF.md section 2 is the authoritative,
 per-stage list):
 
-- **Stages 1 and 2 are complete in content.** Their exact verifiers, documents and
-  reviews are done.  The Stage 2 gate `scripts/verify_stage2_primordial_field.*`
-  passed from a fresh public clone.  The Stage 1 gate
-  `scripts/verify_stage1_arbitrary_field.*` passes on the author's machine, but a
-  fresh public clone showed that it needs the private input folder `dirac-main/`,
-  which is not in the repository; a public-clone mode is being added.
+- **Stages 1 and 2 are complete.** Their exact verifiers, documents and reviews are
+  done, and both gate twins of each stage pass from fresh public clones.  The Stage 1
+  gate needs nothing private: without the git-ignored reference folder `dirac-main/`
+  it runs in a public-clone mode that regenerates every file into `build/stage1/`,
+  requires the regenerated files to equal the committed ones except for the
+  dirac-main cross-checks, which it reports as skipped; with `dirac-main/` it also
+  reproduces those cross-checks.
 - **Stage 3 is complete.** The engine, the five experiments and their checkers,
   both notebooks, the figures and both documents are committed; the 21 problems of
   the second review round are fixed; both gate twins `scripts/verify_stage3_dark_sector.{sh,ps1}`
