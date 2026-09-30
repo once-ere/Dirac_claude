@@ -4,7 +4,19 @@
 
 Most equations of this book cannot be solved with pencil and paper once the background changes in time or the particles interact. The Stage-3 experiments of Chapter 11 follow a 16-component complex spinor through expanding and deflating universes; the Kohn–Sham calculation of Chapter 13 has to find the stationary states of many quanta in the static primordial field. In both cases the computer solves **ordinary differential equations**, equations for functions of one variable, with a program called **CVODE**. This chapter explains from zero what that program does, why each of its settings was chosen, and, most importantly, why we may trust its answers: every numerical result of the project is checked by independent programs against exact solutions, conservation laws and each other.
 
-The sources are the Stage-3 document `provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md` (its §5 and the solver and verification sections of each experiment, cited as §N), the student guide `provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md` (§4.5, §5.2, §6.9, §6.16 and §13), the programme `handoff/specs/NUMERICS_CONTRACT.md`, the CVODE driver `studies/dirac16complex_cosmology/src/driver.rs`, the checkers `scripts/check_dirac16complex_exp1.py` to `scripts/check_dirac16complex_exp5.py`, and the committed reports `artifacts/dirac16complex/numerics/expN/summary.json` and `artifacts/dirac16complex/numerics/expN/python-check-report.json` for $N=1,\dots,5$. Every number about the project's runs in this chapter is copied from those files. The small examples that teach the methods (Sections 10.3 to 10.8, 10.11 and 10.12) are ordinary arithmetic that the reader can repeat with a pocket calculator.
+The sources of this chapter are these files of the repository.
+
+| Source | What this chapter takes from it |
+| --- | --- |
+| `provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md` | the Stage-3 document: §5 (method and verification strategy) and the solver and verification sections of each experiment, cited as §N |
+| `provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md` | §4.5 (engines), §5.2 (FMA), §6.9 (real state layout), §6.16 (CVODE), §7 and §8 (program and files), §13 (exercises) |
+| `handoff/specs/NUMERICS_CONTRACT.md` | the numerical programme and its errata |
+| `studies/dirac16complex_cosmology/src/driver.rs` | the CVODE driver |
+| `scripts/check_dirac16complex_exp1.py` to `..._exp5.py` | the independent checkers |
+| `artifacts/dirac16complex/numerics/expN/summary.json` | settings, solver statistics and self-checks of experiment N = 1, ..., 5 |
+| `artifacts/dirac16complex/numerics/expN/python-check-report.json` | the results of the independent checker of experiment N |
+
+Every number about the project's runs in this chapter is copied from those files. The small examples that teach the methods (in Sections 10.2 to 10.8, 10.11 and 10.12) are ordinary arithmetic that the reader can repeat with a pocket calculator.
 
 ### 10.2 Ordinary differential equations
 
@@ -145,8 +157,8 @@ For a linear right-hand side one iteration is exact, whatever the stiffness. The
 
 **The two configurations of the project.** The driver `studies/dirac16complex_cosmology/src/driver.rs` offers exactly two, and every summary file records which one was used:
 
-- `Method::Bdf`: BDF, Newton iteration and the dense direct linear solver with the difference-quotient Jacobian (EXP-1; the house style of the related projects dirac-main and planet_Mercury, according to the driver's header);
-- `Method::Adams`: Adams–Moulton with fixed-point iteration and no linear solver (EXP-2 to EXP-5).
+- BDF with Newton iteration and the dense direct linear solver, using the difference-quotient Jacobian, called `Method::Bdf` in the code: used for EXP-1 (according to the driver's header it is the house style of the related projects dirac-main and planet_Mercury);
+- Adams–Moulton with fixed-point iteration and no linear solver, called `Method::Adams` in the code: used for EXP-2 to EXP-5.
 
 The EXP-4 method test of Section 10.8 shows the cost of the Jacobian: its BDF runs spent 2464 and 164384 right-hand-side evaluations on difference-quotient Jacobians, which are $77\times32$ and $5137\times32$, one evaluation per component of the 32-dimensional state (this factorization is our reading of the recorded counts).
 
@@ -168,7 +180,7 @@ and accepts the step if $\lVert e\rVert\le1$; otherwise it repeats the step with
 
 **The settings of the five experiments** (from the `tolerances`, `solver` and `solverTotals` entries of the five `summary.json` files):
 
-| Experiment | Method | rtol | atol | max_step | Steps | RHS evaluations |
+| Run | Method | rtol | atol | max_step | Steps | RHS evaluations |
 | --- | --- | --- | --- | --- | --- | --- |
 | EXP-1 | BDF + Newton + dense | $10^{-12}$ | $10^{-14}$ | 0.02 | 33866 | 34950 |
 | EXP-2 | Adams + fixed point | $10^{-12}$ | $10^{-15}$ | 0.02 | 1779784 | 1781396 |
