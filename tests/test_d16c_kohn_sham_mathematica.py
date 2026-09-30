@@ -173,35 +173,36 @@ class AgreementAgainstRustFiles(unittest.TestCase):
     def setUpClass(cls):
         cls.report = load_json(REPORT)
         cls.m = cls.report["measurements"]
-        cls.run = load_json(SCF_RUN)
+        cls.scf_run = load_json(SCF_RUN)
         cls.spectrum = load_json(RUST / "spectrum" / "summary.json")
 
     def test_level_counts(self):
         total = sum(len(csv_rows(RUST / "spectrum" / name)) for name in FREE_FILES)
         self.assertEqual(self.m["freeSpectraLevelCount"], total)
-        self.assertEqual(self.m["scfSpectrumLevelCount"], self.run["states"])
-        self.assertEqual(self.m["scfSpectrumShells"], self.run["shellsUsed"])
+        self.assertEqual(self.m["scfSpectrumLevelCount"], self.scf_run["states"])
+        self.assertEqual(self.m["scfSpectrumShells"], self.scf_run["shellsUsed"])
         k0 = sum(1 for name in FREE_FILES for row in csv_rows(RUST / "spectrum" / name) if row["n2"] == 0)
         self.assertEqual(self.m["boxExactLevelCount"], k0)
 
     def test_parameter_set(self):
         coupling = [c for c in self.spectrum["reference"]["couplings"] if c["N"] == 8 and c["m"] == 1 and c["L"] == 3][0]
         self.assertEqual(self.m["scfLambdaHat"], coupling["lambdaHat2"])
-        parameters = self.run["parameters"]
+        parameters = self.scf_run["parameters"]
         self.assertEqual((parameters["N"], parameters["T"], parameters["L"], parameters["m"], parameters["H"]), (8, 0, 3, 1, 1))
 
     def test_scf_numbers_against_run_json(self):
-        self.assertLessEqual(abs(self.m["scfEnergy"] - self.run["energy"]), 1e-9)
-        self.assertLessEqual(abs(self.m["scfEpsHomo"] - self.run["epsHomo"]), 1e-9)
-        self.assertLessEqual(abs(self.m["scfKsGap"] - self.run["ksGap"]), 1e-8)
+        self.assertLessEqual(abs(self.m["scfEnergy"] - self.scf_run["energy"]), 1e-9)
+        self.assertLessEqual(abs(self.m["scfEpsHomo"] - self.scf_run["epsHomo"]), 1e-9)
+        self.assertLessEqual(abs(self.m["scfKsGap"] - self.scf_run["ksGap"]), 1e-8)
         for name, tolerance in (("scfEnergyDeviation", 1e-9), ("scfEpsHomoDeviation", 1e-9), ("scfKsSumDeviation", 1e-9),
                                 ("scfHartreeDeviation", 1e-9), ("scfExchangeDeviation", 1e-9), ("scfNcMaxDeviationOverD", 1e-9),
                                 ("scfScMaxDeviationOverD", 1e-9), ("scfHomoProfileMaxDeviation", 1e-8),
                                 ("scfSpectrumMaxAbsDeviation", 1e-8), ("scfKsGapDeviation", 1e-8), ("scfEpsFreeMaxAbsDeviation", 1e-8),
                                 ("freeSpectraMaxAbsDeviation", 1e-8), ("boxExactVsRustMaxAbsDeviation", 1e-8),
                                 ("boxNDSolveVsExactMaxAbsDeviation", 1e-10), ("closedShellsMaxAbsDeviation", 1e-8),
-                                ("freeSpectraMaxScalarChargeDeviation", 1e-8), ("freeSpectraMaxMatchingResidual", 1e-8),
-                                ("zeroModeSlopeMaxDeviation", 1e-6)):
+                                ("freeSpectraMaxScalarChargeDeviation", 1e-8), ("freeSpectraMaxPressureChargeRelativeDeviation", 1e-8),
+                                ("freeSpectraMaxMatchingResidual", 1e-8),
+                                ("zeroModeSlopeMaxDeviation", 1e-6), ("worstLevelNotebookMinusReferenceMax", 1e-11)):
             self.assertLessEqual(self.m[name], tolerance, name)
         self.assertLessEqual(self.m["scfMeffMaxAbsDeviation"], self.m["scfMeffTolerance"])
         self.assertLessEqual(self.m["scfVxMaxAbsDeviation"], self.m["scfVxTolerance"])

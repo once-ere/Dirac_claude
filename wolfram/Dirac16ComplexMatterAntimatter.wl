@@ -47,6 +47,8 @@
    test is Expand[...] === 0 (or Together for rational functions).  No floating point
    number decides any check, with one labelled exception: MA_M1_ksFixedNetNumberRecorded
    reads the recorded floating-point Stage-4 Kohn-Sham runs (a data check, not a proof).
+   (The reused Stage-1 geometry package fixes the branch sqrt|g| = |det e| from the sign of
+   the exact rational det e at the evaluation point.)
 
    Reused machinery (read only): wolfram/Dirac16ComplexGeometry.wl (public API:
    D16GeoFrameJet, D16GeoJetGeometry, D16GeoFieldJets, D16GeoLagrangianJets, D16GeoEMTJets,
@@ -498,6 +500,25 @@ checkM1Charge[] := Module[{x, ee, gx4, hermR, cp, ok},
   addCheck["MA_M1_chargeDensityMatrix", AllTrue[Values[ok], TrueQ]];
 ];
 
+(* the Stage-1 checks this analysis builds on (read from the committed Stage-1 reports) *)
+checkM1Stage1[root_String] := Module[{files, need, rows, ok},
+  files = <|"wolfram-geometry" -> "wolfram-geometry-report.json", "wolfram-algebra" -> "wolfram-algebra-report.json",
+    "grassmann-demo" -> "grassmann-demo-report.json"|>;
+  need = <|"wolfram-geometry" -> {"GEO_divergenceIdentity_G1", "GEO_divergenceIdentity_G2", "LAG_eulerLagrangePsibar_G1",
+      "LAG_eulerLagrangePsibar_G2", "LAG_eulerLagrangePsi_G1", "LAG_eulerLagrangePsi_G2", "LAG_localSpinInvariance_G1",
+      "LAG_localSpinInvariance_G2", "EMT_conservation_G1", "EMT_conservation_G2"},
+    "wolfram-algebra" -> {"QNT_currentHermiticity", "ALG_gamma8Map", "ALG_pinLiftCharacter", "ALG_invariantForms", "ALG_chargeFormB"},
+    "grassmann-demo" -> {"GR_currentHermitian"}|>;
+  rows = Association[KeyValueMap[Function[{key, fname}, Module[{f = FileNameJoin[{root, "artifacts", "dirac16complex", "arbitrary-field", fname}], d},
+      d = If[FileExistsQ[f], Quiet[Import[f, "RawJSON"]], $Failed];
+      key -> <|"file" -> fname, "sha256" -> If[FileExistsQ[f], ToLowerCase[FileHash[f, "SHA256", All, "HexString"]], "missing"],
+        "checks" -> If[AssociationQ[d] && AssociationQ[d["checks"]], Association[(# -> Lookup[d["checks"], #, "absent"]) & /@ need[key]], "unreadable"]|>]], files]];
+  ok = AllTrue[Values[rows], AssociationQ[#["checks"]] && AllTrue[Values[#["checks"]], TrueQ] &];
+  addMeas["M1_stage1ChecksCited", <|"reports" -> rows,
+    "role" -> "Stage-1 results used here: the Euler-Lagrange equations of L1 (both variations, lambda != 0, genuine Grassmann algebra), the divergence identity d_mu(sqrt|g| gamma^mu) = sqrt|g| [gamma^mu, Omega_mu], local Spin invariance, EMT conservation, Hermiticity of the current, the chirality map, the Pin characters, the invariant forms and the charge form B; M1 re-verifies the U(1) and current statements independently in this package"|>];
+  addCheck["MA_M1_stage1ChecksCited", ok];
+];
+
 (* recorded Stage-4 Kohn-Sham runs: the net occupation equals the imposed N (data, not a proof) *)
 checkM1KS[root_String] := Module[{refFiles, rustFiles, refRows, rustRows, tol, theoryFile, theory, defn, rowsOK, constraintInFunctional},
   tol[n_] := 10^-9 Max[1, Abs[n]];
@@ -524,8 +545,8 @@ checkM1KS[root_String] := Module[{refFiles, rustFiles, refRows, rustRows, tol, t
     "functionalContainsConstraint" -> constraintInFunctional,
     "referenceRunFiles" -> Length[refFiles], "referenceLevelsChecked" -> Total[Lookup[refRows, "levels", 0]],
     "rustRunFiles" -> Length[rustFiles],
-    "maxAbsDeviationReference" -> If[refRows === {}, Missing[], Max[DeleteMissing[Lookup[refRows, "maxAbsDeviation", Missing[]]]]],
-    "maxAbsDeviationRust" -> If[rustRows === {}, Missing[], Max[DeleteMissing[Lookup[rustRows, "maxAbsDeviation", Missing[]]]]]|>];
+    "maxAbsDeviationReference" -> If[refRows === {}, Missing[], N[Max[DeleteMissing[Lookup[refRows, "maxAbsDeviation", Missing[]]]]]],
+    "maxAbsDeviationRust" -> If[rustRows === {}, Missing[], N[Max[DeleteMissing[Lookup[rustRows, "maxAbsDeviation", Missing[]]]]]]|>];
   addCheck["MA_M1_ksFixedNetNumberRecorded", rowsOK && constraintInFunctional];
 ];
 
@@ -668,3 +689,592 @@ checkM2Classification[] := Module[{rows, wellDefined, epsRule, sigmaRule, kappaR
     "rule_BUnderExactLinear" -> "M^dagger B M = rd_4 B for every exact linear symmetry", "rule_BUnderExactLinearVerified" -> bRule|>];
   addCheck["MA_M2_matrixClassification", wellDefined && epsRule && sigmaRule && kappaRule && linRule && antiRuleC && antiRuleG && bRule && Length[rows] === 512];
   rows];
+
+(* transformed field data. coord = True: flat coordinate reflection Psi'(x) = M Psi(Rx) (the
+   derivatives pick up rd_mu); coord = False: frame reflection in a curved field (no
+   coordinate change). *)
+cTransform[M_, rd_, type_, coord_] := Module[{f = If[coord, rd, ConstantArray[1, 8]], Md = herm[M]},
+  If[type === "linear",
+    {M.pSym, Table[f[[mu]] M.dpSym[[mu]], {mu, 8}], qSym.Md, Table[f[[mu]] dqSym[[mu]].Md, {mu, 8}]},
+    {M.qSym, Table[f[[mu]] M.dqSym[[mu]], {mu, 8}], pSym.Md, Table[f[[mu]] dpSym[[mu]].Md, {mu, 8}]}]];
+gTransform[M_, rd_, type_, coord_] := Module[{f = If[coord, rd, ConstantArray[1, 8]], Md = herm[M]},
+  If[type === "linear",
+    {gMatVec[M, gP], Table[gVecScale[f[[mu]], gMatVec[M, gDP[[mu]]]], {mu, 8}], gRowMat[gQ, Md], Table[gVecScale[f[[mu]], gRowMat[gDQ[[mu]], Md]], {mu, 8}]},
+    {gMatVec[M, gQ], Table[gVecScale[f[[mu]], gMatVec[M, gDQ[[mu]]]], {mu, 8}], gRowMat[gP, Md], Table[gVecScale[f[[mu]], gRowMat[gDP[[mu]], Md]], {mu, 8}]}]];
+
+(* measure (kappa, sigma, current signs) and verify L' = kappa L_{sigma kappa m, kappa lambda} *)
+verifyMapC[vO_, vN_, orig_, M_, rd_, type_, coord_] := Module[{tr, new, kS, sS, jS, lOK},
+  tr = cTransform[M, rd, type, coord];
+  new = cParts[vN, Sequence @@ tr];
+  kS = signOf[new["K"], orig["K"]]; sS = signOf[new["S"], orig["S"]];
+  jS = Table[signOf[Expand[tr[[3]].C16.vN["gam"][[mu]].tr[[1]]], Expand[qSym.C16.vO["gam"][[mu]].pSym]], {mu, 8}];
+  lOK = MemberQ[{1, -1}, kS] && MemberQ[{1, -1}, sS] &&
+    zeroE[cLs[new, mS, uQuartic[lamS]] - kS cLs[orig, sS kS mS, uQuartic[kS lamS]]];
+  <|"kappa" -> kS, "sigma" -> sS, "currentSigns" -> jS, "LmapHolds" -> lOK|>];
+verifyMapG[vO_, vN_, orig_, origL_, M_, rd_, type_, coord_] := Module[{tr, new, kS, sS, jS, lOK},
+  tr = gTransform[M, rd, type, coord];
+  new = gParts[vN, Sequence @@ tr];
+  kS = gSignOf[new["K"], orig["K"]]; sS = gSignOf[new["S"], orig["S"]];
+  jS = Table[gSignOf[gBil[tr[[3]], C16.vN["gam"][[mu]], tr[[1]]], gBil[gQ, C16.vO["gam"][[mu]], gP]], {mu, 8}];
+  lOK = MemberQ[{1, -1}, kS] && MemberQ[{1, -1}, sS] &&
+    gEqualQ[gLs[new, mS, lamS, 0], gScale[kS, gLs[orig, sS kS mS, kS lamS, 0]]];
+  <|"kappa" -> kS, "sigma" -> sS, "currentSigns" -> jS, "LmapHolds" -> lOK|>];
+predicted[row_, type_, stat_, coord_] := With[{e = row["maps"][type <> "/" <> stat]},
+  <|"kappa" -> e["kappa"], "sigma" -> e["sigma"],
+    "currentSigns" -> If[coord, e["currentSigns"], e["currentSigns"] rDiag[row["R"]]], "LmapHolds" -> True|>];
+
+checkM2FlatAll[rows_List] := Module[{origC, origG, origGL, resC, resG, badC, badG},
+  origC = cParts[flatVals, pSym, dpSym, qSym, dqSym];
+  origG = gParts[flatVals, gP, gDP, gQ, gDQ];
+  origGL = gLs[origG, mS, lamS, 0];
+  badC = {}; badG = {};
+  Do[With[{M = monoOf[row["monomial"]], rd = rDiag[row["R"]]},
+      Do[
+        If[verifyMapC[flatVals, flatVals, origC, M, rd, type, True] =!= predicted[row, type, "commuting", True],
+          AppendTo[badC, {row["R"], row["M"], type}]];
+        If[verifyMapG[flatVals, flatVals, origG, origGL, M, rd, type, True] =!= predicted[row, type, "grassmann", True],
+          AppendTo[badG, {row["R"], row["M"], type}]],
+        {type, {"linear", "antilinear"}}]],
+    {row, rows}];
+  addMeas["M2_lagrangianLevelFlat", <|"mapsPerStatistics" -> 2 Length[rows],
+    "statement" -> "for all 512 (M, R) and both types (1024 maps) the transformed Lagrangian density, computed from the transformed jets (commuting symbols, respectively the Grassmann algebra), equals kappa L_{sigma kappa m, kappa lambda} of the original jets at the reflected point, with (kappa, sigma) and the eight current signs exactly as predicted by the matrix classification",
+    "mismatchesCommuting" -> badC, "mismatchesGrassmann" -> badG|>];
+  addCheck["MA_M2_lagrangianFlatCommuting_all", badC === {} && Length[rows] === 512];
+  addCheck["MA_M2_lagrangianFlatGrassmann_all", badG === {} && Length[rows] === 512];
+];
+
+(* named maps: (label, R, which monomial, type, expected Lmap commuting, expected Lmap Grassmann) derived by hand *)
+namedMaps = {
+  {"C: Psi -> conj(Psi) (= C Psibar^T)", {}, "GammaR", "antilinear", "L_{m,lambda} (exact symmetry)", "-L_{m,-lambda}"},
+  {"C8: Psi -> gamma^8 conj(Psi) (= gamma^8 C Psibar^T)", {}, "GammaRc", "antilinear", "-L_{-m,-lambda}", "L_{-m,lambda}"},
+  {"chirality map Psi -> gamma^8 Psi (Stage-5 T1)", {}, "GammaRc", "linear", "-L_{-m,-lambda}", "-L_{-m,-lambda}"},
+  {"P_0 twisted lift: u = gamma^0, x0 -> -x0", {0}, "GammaR", "linear", "L_{-m,lambda}", "L_{-m,lambda}"},
+  {"P_4 twisted lift: u = gamma^4, x4 -> -x4", {4}, "GammaR", "linear", "-L_{-m,-lambda}", "-L_{-m,-lambda}"},
+  {"P_u untwisted lift, u = gamma^0 (all directions but x0 reflected)", Complement[Range[0, 7], {0}], "GammaRc", "linear", "-L_{m,-lambda}", "-L_{m,-lambda}"},
+  {"P_u untwisted lift, u = gamma^5 (all directions but x5 reflected)", Complement[Range[0, 7], {5}], "GammaRc", "linear", "L_{m,lambda} (exact symmetry)", "L_{m,lambda} (exact symmetry)"},
+  {"P3: M = gamma^1 gamma^2 gamma^3, (x1,x2,x3) reflected", {1, 2, 3}, "GammaR", "linear", "L_{-m,lambda}", "L_{-m,lambda}"},
+  {"P3': M = Gamma_{0,4,5,6,7}, (x1,x2,x3) reflected", {1, 2, 3}, "GammaRc", "linear", "-L_{m,-lambda}", "-L_{m,-lambda}"},
+  {"C8 P3: antilinear, M = Gamma_{0,4,5,6,7}, (x1,x2,x3) reflected", {1, 2, 3}, "GammaRc", "antilinear", "-L_{m,-lambda}", "L_{m,lambda} (exact symmetry)"},
+  {"C P3: antilinear, M = gamma^1 gamma^2 gamma^3, (x1,x2,x3) reflected", {1, 2, 3}, "GammaR", "antilinear", "L_{-m,lambda}", "-L_{-m,-lambda}"},
+  {"C8 P_0: antilinear, M = Gamma_{1..7}, x0 reflected", {0}, "GammaRc", "antilinear", "-L_{m,-lambda}", "L_{m,lambda} (exact symmetry)"},
+  {"P4: M = C = gamma^0 gamma^1 gamma^2 gamma^3, (x0..x3) reflected", {0, 1, 2, 3}, "GammaR", "linear", "L_{m,lambda} (exact symmetry)", "L_{m,lambda} (exact symmetry)"},
+  {"T linear: M = Gamma_{0,1,2,3,5,6,7}, x4 reflected", {4}, "GammaRc", "linear", "L_{m,lambda} (exact symmetry)", "L_{m,lambda} (exact symmetry)"},
+  {"T antilinear: M = Gamma_{0,1,2,3,5,6,7}, x4 reflected", {4}, "GammaRc", "antilinear", "L_{m,lambda} (exact symmetry)", "-L_{m,-lambda}"},
+  {"T' antilinear: M = gamma^4, x4 reflected", {4}, "GammaR", "antilinear", "-L_{-m,-lambda}", "L_{-m,lambda}"},
+  {"all-time reversal: M = gamma^4 gamma^5 gamma^6 gamma^7, (x4..x7) reflected", {4, 5, 6, 7}, "GammaR", "linear", "L_{m,lambda} (exact symmetry)", "L_{m,lambda} (exact symmetry)"},
+  {"full inversion: M = gamma^8 (a Spin_0(4,4) element), all x reflected", Range[0, 7], "GammaR", "linear", "L_{m,lambda} (exact symmetry)", "L_{m,lambda} (exact symmetry)"},
+  {"CPT (full): antilinear, M = gamma^8, all x reflected", Range[0, 7], "GammaR", "antilinear", "L_{m,lambda} (exact symmetry)", "-L_{m,-lambda}"},
+  {"CPT (full) with M = I: antilinear, all x reflected", Range[0, 7], "GammaRc", "antilinear", "-L_{-m,-lambda}", "L_{-m,lambda}"},
+  {"CP3T: antilinear, M = gamma^1 gamma^2 gamma^3 gamma^4, (x1..x4) reflected", {1, 2, 3, 4}, "GammaR", "antilinear", "-L_{m,-lambda}", "L_{m,lambda} (exact symmetry)"}};
+
+checkM2Named[rows_List] := Module[{rowOf, named, handOK, g1C, g1G, g1Res, vO, origC, origG, origGL, vN},
+  rowOf[R_, w_] := SelectFirst[rows, #["R"] === Sort[R] && #["M"] === w &];
+  named = Table[With[{row = rowOf[nm[[2]], nm[[3]]]},
+      <|"label" -> nm[[1]], "R" -> Sort[nm[[2]]], "sR" -> row["sR"], "tR" -> row["tR"], "monomial" -> row["monomial"], "type" -> nm[[4]],
+        "commuting" -> row["maps"][nm[[4]] <> "/commuting"]["Lmap"], "grassmann" -> row["maps"][nm[[4]] <> "/grassmann"]["Lmap"],
+        "currentSignsCommuting" -> row["maps"][nm[[4]] <> "/commuting"]["currentSigns"],
+        "currentSignsGrassmann" -> row["maps"][nm[[4]] <> "/grassmann"]["currentSigns"],
+        "handDerivedCommuting" -> nm[[5]], "handDerivedGrassmann" -> nm[[6]]|>], {nm, namedMaps}];
+  handOK = AllTrue[named, #["commuting"] === #["handDerivedCommuting"] && #["grassmann"] === #["handDerivedGrassmann"] &];
+  $theory["M2_namedMaps"] = named;
+  addCheck["MA_M2_namedTransformations", handOK];
+  (* the same maps as frame reflections in the general curved field G1 (point 1 for all maps,
+     points 2 and 3 for C, C8, C8 P3, T linear and the chirality map) *)
+  g1Res = Flatten[Table[
+      vO = geoVals[geoAt[k]];
+      origC = cParts[vO, pSym, dpSym, qSym, dqSym];
+      origG = gParts[vO, gP, gDP, gQ, gDQ]; origGL = gLs[origG, mS, lamS, 0];
+      Table[If[k > 1 && ! MemberQ[{1, 2, 3, 10, 14}, i], Nothing,
+        Module[{nm = namedMaps[[i]], row, M, rd, rc, rg},
+          row = rowOf[nm[[2]], nm[[3]]]; M = monoOf[row["monomial"]]; rd = rDiag[row["R"]];
+          vN = geoVals[geoAt[k, rd]];
+          rc = verifyMapC[vO, vN, origC, M, rd, nm[[4]], False];
+          rg = verifyMapG[vO, vN, origG, origGL, M, rd, nm[[4]], False];
+          <|"point" -> k, "label" -> nm[[1]],
+            "commutingAgrees" -> (rc === predicted[row, nm[[4]], "commuting", False]),
+            "grassmannAgrees" -> (rg === predicted[row, nm[[4]], "grassmann", False]),
+            "commuting" -> rc, "grassmann" -> rg|>]], {i, Length[namedMaps]}], {k, 3}], 1];
+  addMeas["M2_frameLevelG1", g1Res];
+  addCheck["MA_M2_frameLevelG1_commuting", AllTrue[g1Res, #["commutingAgrees"] &] && Length[g1Res] === Length[namedMaps] + 10];
+  addCheck["MA_M2_frameLevelG1_grassmann", AllTrue[g1Res, #["grassmannAgrees"] &] && Length[g1Res] === Length[namedMaps] + 10];
+  named];
+
+(* symmetry summary and the canonical structure of the Grassmann (quantum) field *)
+checkM2Summary[rows_List] := Module[{exists, single, summary, qRev, canon, cUnitary, needRho, canonOK, qRevOK},
+  exists[pred_, key_, flag_: "exact"] := AnyTrue[Select[rows, pred], #["maps"][key][flag] &];
+  single = (Length[#["R"]] === 1 && #["sR"] === 1) &;
+  summary = Association[Table[stat -> <|
+      "C (R empty, antilinear) exact" -> exists[#["R"] === {} &, "antilinear/" <> stat],
+      "C exact at m = 0" -> exists[#["R"] === {} &, "antilinear/" <> stat, "exactAtMassZero"],
+      "P (one space-like reflection, linear) exact" -> exists[single, "linear/" <> stat],
+      "P exact at m = 0" -> exists[single, "linear/" <> stat, "exactAtMassZero"],
+      "CP (one space-like reflection, antilinear) exact" -> exists[single, "antilinear/" <> stat],
+      "P3 (x1,x2,x3, linear) exact" -> exists[#["R"] === {1, 2, 3} &, "linear/" <> stat],
+      "CP3 (x1,x2,x3, antilinear) exact" -> exists[#["R"] === {1, 2, 3} &, "antilinear/" <> stat],
+      "T (x4, linear) exact" -> exists[#["R"] === {4} &, "linear/" <> stat],
+      "T (x4, antilinear) exact" -> exists[#["R"] === {4} &, "antilinear/" <> stat],
+      "CPT (all x, antilinear) exact" -> exists[#["R"] === Range[0, 7] &, "antilinear/" <> stat],
+      "CP3T (x1..x4, antilinear) exact" -> exists[#["R"] === {1, 2, 3, 4} &, "antilinear/" <> stat]|>,
+    {stat, {"commuting", "grassmann"}}]];
+  (* exact symmetries that preserve the time orientation (x4 not reflected) and reverse j^4 *)
+  qRev = Association[Table[stat -> Flatten[Table[
+        Select[rows, #["maps"][type <> "/" <> stat]["exact"] && ! MemberQ[#["R"], 4] &&
+            #["maps"][type <> "/" <> stat]["currentSigns"][[5]] === -1 &] /. r_Association :> {type, r["R"], r["monomial"]},
+        {type, {"linear", "antilinear"}}], 1], {stat, {"commuting", "grassmann"}}]];
+  qRevOK = MemberQ[qRev["commuting"], {"antilinear", {}, {}}] && MemberQ[qRev["grassmann"], {"antilinear", {1, 2, 3}, {0, 4, 5, 6, 7}}] &&
+    ! MemberQ[qRev["grassmann"], {"antilinear", {}, _}];
+  $theory["M2_symmetrySummary"] = summary;
+  $theory["M2_chargeReversingExactSymmetriesPreservingTimeOrientation"] = <|
+    "definition" -> "exact symmetries (L -> L) with x4 not reflected and j^4 -> -j^4 (classical substitution rule); entries {type, reflected directions R, monomial A of M = Gamma_A}",
+    "commuting" -> qRev["commuting"], "grassmann" -> qRev["grassmann"]|>;
+  addMeas["M2_symmetrySummary", summary];
+  addCheck["MA_M2_symmetrySummaryAndChargeReversal", qRevOK &&
+    summary["commuting"]["C (R empty, antilinear) exact"] && ! summary["grassmann"]["C (R empty, antilinear) exact"] &&
+    summary["grassmann"]["C exact at m = 0"] && ! summary["commuting"]["P (one space-like reflection, linear) exact"] &&
+    ! summary["grassmann"]["P (one space-like reflection, linear) exact"] && summary["grassmann"]["CP (one space-like reflection, antilinear) exact"] &&
+    ! summary["commuting"]["CP (one space-like reflection, antilinear) exact"] && summary["grassmann"]["CP3 (x1,x2,x3, antilinear) exact"] &&
+    summary["commuting"]["T (x4, linear) exact"] && summary["grassmann"]["T (x4, linear) exact"]];
+  (* canonical anticommutator {Psi, Psi^dagger} = B (Gaussian normal gauge, flat).  A unitary operator
+     with U Psi U^-1 = M Psi^{dagger T} preserves it iff M B^T M^dagger = B; with U Psi U^-1 = M Psi
+     iff M B M^dagger = B; an antiunitary one iff the same products equal conj(B) = -B. *)
+  cUnitary = <|"M=I" -> signOf[id16.Transpose[Bm].herm[id16], Bm], "M=gamma8" -> signOf[g8.Transpose[Bm].herm[g8], Bm]|>;
+  needRho[type_, rd4_] := If[type === "linear", rd4, -rd4];
+  canon = Flatten[Table[Select[rows, #["maps"][type <> "/grassmann"]["exact"] &] /.
+      r_Association :> (r["MBMdaggerSign"] === needRho[type, rDiag[r["R"]][[5]]]), {type, {"linear", "antilinear"}}]];
+  canonOK = AllTrue[canon, TrueQ] && Length[canon] > 0 && cUnitary === <|"M=I" -> -1, "M=gamma8" -> 1|>;
+  addMeas["M2_canonicalStructure", <|
+    "unitaryChargeConjugation" -> "M B^T M^dagger = B holds for M = gamma^8 and fails (= -B) for M = I: the unitary charge conjugation of the quantised Grassmann field is C8 (Psi -> gamma^8 Psi^{dagger T}), which maps L_{m,lambda} -> L_{-m,lambda}",
+    "signs M B^T M^dagger / B" -> cUnitary,
+    "exactSymmetriesImplementable" -> "every exact symmetry of the Grassmann theory preserves the canonical anticommutator with a unitary implementation if it preserves x4 and an antiunitary one if it reverses x4 (checked for all exact maps)",
+    "exactGrassmannSymmetriesChecked" -> Length[canon]|>];
+  addCheck["MA_M2_canonicalStructure", canonOK];
+];
+
+(* ================================================================== *)
+(* 7. M3: Spin(4,4)- and Pin(4,4)-invariant Majorana-type bilinears    *)
+(* ================================================================== *)
+(* Psi^T M Psi and Psi^T M gamma^a d_a Psi (U(1) charge +2).  Invariance under the identity
+   component Spin_0(4,4) is the Lie-algebra condition S^{ab T} M + M S^{ab} = 0 (28
+   generators); the other components and Pin(4,4) act through characters. *)
+
+formOpT[x_] := KroneckerProduct[Transpose[x], id16] + KroneckerProduct[id16, Transpose[x]];   (* M -> X^T M + M X *)
+kinOpT[x_, a_] := KroneckerProduct[Transpose[x], Transpose[G[a]]] +                          (* X^T M gamma^a *)
+  KroneckerProduct[id16, Transpose[G[a].x]] +                                                 (* M gamma^a X *)
+  KroneckerProduct[id16, Transpose[x.G[a] - G[a].x]];                                         (* M [X, gamma^a] *)
+transposeOp = Module[{perm = Flatten[Table[16 (j - 1) + i, {i, 16}, {j, 16}]]}, IdentityMatrix[256][[perm]]];  (* vec(M) -> vec(M^T) *)
+spanEqualQ[basis_List, target_List] := MatrixRank[Flatten /@ basis] === Length[target] &&
+  MatrixRank[Join[Flatten /@ basis, Flatten /@ target]] === Length[target];
+
+{al, be} = {Symbol["Dirac16ComplexMatterAntimatter`Private`alphaCoef"], Symbol["Dirac16ComplexMatterAntimatter`Private`betaCoef"]};
+checkM3Forms[] := Module[{rows, basis, sym, anti, spanOK, chars, charRes, charOK, u1, v1, extra, spinComp, kin, kinOK, gen,
+    symSol, antiSol, cg8},
+  cg8 = C16.g8;
+  rows = Join @@ (formOpT /@ spinGens);
+  basis = nullBasis[rows];
+  spanOK = Length[basis] === 2 && spanEqualQ[basis, {C16.Pm, C16.Pp}];
+  sym = nullBasis[Join[rows, transposeOp - IdentityMatrix[256]]];
+  anti = nullBasis[Join[rows, transposeOp + IdentityMatrix[256]]];
+  addMeas["M3_spinInvariantMassForms", <|"dimension" -> Length[basis], "basis" -> "C P_-, C P_+ (C P_- = diag(-sigma, 0), C P_+ = diag(0, sigma))",
+    "symmetricSubspaceDimension" -> Length[sym], "antisymmetricSubspaceDimension" -> Length[anti],
+    "statement" -> "every Spin_0(4,4)-invariant bilinear form Psi^T M Psi has M = alpha C P_- + beta C P_+; all of them are symmetric, none is antisymmetric"|>];
+  addCheck["MA_M3_spinInvariantForms", spanOK && Length[sym] === 2 && Length[anti] === 0 &&
+    AllTrue[{C16.Pm, C16.Pp}, Function[m, Transpose[m] === m && AllTrue[spinGens, zeroE[Transpose[#].m + m.#] &]]]];
+  (* discrete components of Spin(4,4): gamma^a gamma^b with a space-like, b time-like has spinor norm -1 *)
+  spinComp = Table[signOf[Transpose[G[a].G[b]].(C16.Pm).(G[a].G[b]), C16.Pm] === -1 &&
+      signOf[Transpose[G[a].G[b]].(C16.Pp).(G[a].G[b]), C16.Pp] === -1, {a, 0, 3}, {b, 4, 7}];
+  (* Pin(4,4) characters chi = (value on space-like, value on time-like unit vectors) *)
+  chars = {{1, 1}, {-1, 1}, {1, -1}, {-1, -1}};
+  charRes = Table[Module[{eqs, ns},
+      eqs = Join[rows, Join @@ Table[KroneckerProduct[Transpose[G[a]], Transpose[G[a]]] - If[a <= 3, ch[[1]], ch[[2]]] IdentityMatrix[256], {a, 0, 7}]];
+      ns = nullBasis[eqs];
+      <|"character" -> ch, "dimension" -> Length[ns],
+        "basis" -> Which[ns === {}, "none", Length[ns] === 1 && primitive[First[ns]] === primitive[C16], "C",
+          Length[ns] === 1 && primitive[First[ns]] === primitive[cg8], "C gamma^8", True, "other"]|>], {ch, chars}];
+  charOK = (Lookup[#, "basis"] & /@ charRes) === {"none", "C", "C gamma^8", "none"};
+  (* non-basis unit vectors *)
+  u1 = G[0] + G[1] + G[4]; v1 = G[0] + G[4] + G[5];
+  extra = {signOf[Transpose[u1].C16.u1, C16], signOf[Transpose[v1].C16.v1, C16], signOf[Transpose[u1].cg8.u1, cg8], signOf[Transpose[v1].cg8.v1, cg8]};
+  addMeas["M3_pinCharacterForms", <|"characters" -> charRes,
+    "statement" -> "u^T M u = chi(u) M for every unit vector u: M = C has chi(u) = -n(u) (the character of Psibar Psi), M = C gamma^8 has chi(u) = +n(u); the trivial and the determinant characters admit no invariant form",
+    "nonBasisUnitVectors" -> <|"u = gamma0+gamma1+gamma4 (n = +1): C, C gamma^8" -> extra[[{1, 3}]], "v = gamma0+gamma4+gamma5 (n = -1): C, C gamma^8" -> extra[[{2, 4}]]|>,
+    "otherComponentOfSpin44" -> "g = gamma^a gamma^b (a space-like, b time-like, spinor norm -1): g^T (C P_+-) g = -C P_+-: Spin(4,4) acts on the invariant forms through the spinor norm", "otherComponentVerified" -> (And @@ Flatten[spinComp])|>];
+  addCheck["MA_M3_pinCharacterForms", charOK && extra === {-1, 1, 1, -1} && And @@ Flatten[spinComp]];
+  (* kinetic type Psi^T M gamma^a d_a Psi *)
+  kin = nullBasis[Join @@ Flatten[Table[kinOpT[x, a], {x, spinGens}, {a, 0, 7}], 1]];
+  gen = al C16.Pm + be C16.Pp;
+  symSol = Solve[Thread[DeleteCases[Union[Flatten[Table[Transpose[gen.G[a]] - gen.G[a], {a, 0, 7}]]], 0] == 0], {be}];
+  antiSol = Solve[Thread[DeleteCases[Union[Flatten[Table[Transpose[gen.G[a]] + gen.G[a], {a, 0, 7}]]], 0] == 0], {be}];
+  kinOK = Length[kin] === 2 && spanEqualQ[kin, {C16.Pm, C16.Pp}] &&
+    zeroE[(gen /. First[symSol] /. {al -> -1, be -> 1}) - cg8] && zeroE[(gen /. First[antiSol] /. {al -> 1, be -> 1}) - C16] &&
+    AllTrue[Range[0, 7], Transpose[cg8.G[#]] === cg8.G[#] && Transpose[C16.G[#]] === -C16.G[#] &];
+  addMeas["M3_kineticInvariantForms", <|"dimension" -> Length[kin], "basis" -> "C P_-, C P_+ (same space as the mass type)",
+    "symmetricForAllA" -> "M gamma^a symmetric for every a iff M is proportional to C gamma^8 = C P_+ - C P_-",
+    "antisymmetricForAllA" -> "M gamma^a antisymmetric for every a iff M is proportional to C = C P_- + C P_+",
+    "solveSymmetric" -> toStr[symSol], "solveAntisymmetric" -> toStr[antiSol]|>];
+  addCheck["MA_M3_kineticInvariantForms", kinOK];
+];
+
+(* commuting total derivative on polynomials of p (value) and dp (first derivatives) *)
+cTotalD[expr_, a_Integer] := Sum[dpSym[[a, c]] D[expr, pSym[[c]]], {c, 16}] + If[FreeQ[expr, Alternatives @@ Flatten[dpSym]], 0,
+  Throw["cTotalD: second derivatives not needed here", d16maErr]];
+gDerivation[x_Association, f_] := gFromPairs[Flatten[KeyValueMap[Function[{key, c},
+    Flatten[Table[With[{img = f[key[[p]]]},
+        KeyValueMap[Function[{k1, c1}, With[{new = ReplacePart[key, p -> First[k1]]},
+            If[DuplicateFreeQ[new], {Sort[new], Signature[new] c c1}, Nothing]]], img]], {p, Length[key]}], 1]], x], 1]];
+
+checkM3Survival[] := Module[{massG, massC, ctrlG, kinG, kinC, elG, elC, tdC, tdG, lk, u1G, u1C, res, cg8},
+  cg8 = C16.g8;
+  (* mass type *)
+  massG = <|"C P_-" -> gZeroQ[gBil[gP, C16.Pm, gP]], "C P_+" -> gZeroQ[gBil[gP, C16.Pp, gP]],
+    "C" -> gZeroQ[gBil[gP, C16, gP]], "C gamma^8" -> gZeroQ[gBil[gP, cg8, gP]]|>;
+  ctrlG = Length[gBil[gP, C16.Sab[0, 1], gP]];         (* an antisymmetric (non-invariant) matrix: nonzero *)
+  massC = <|"C P_-" -> MatrixRank[C16.Pm], "C P_+" -> MatrixRank[C16.Pp], "C" -> MatrixRank[C16], "C gamma^8" -> MatrixRank[cg8],
+    "nonzeroPolynomials" -> AllTrue[{C16.Pm, C16.Pp, C16, cg8}, Expand[pSym.#.pSym] =!= 0 &]|>;
+  (* kinetic type: Grassmann EL (left derivatives) and total-derivative test *)
+  elG[m_] := Module[{L = gAdd[Table[gBil[gP, m.G[a], gDP[[a + 1]]], {a, 0, 7}]]},
+    Table[gAdd[{gLeftD[L, idP0[c]], gNeg[gAdd[Table[gTotalD[gLeftD[L, idP1[a, c]], a], {a, 0, 7}]]]}], {c, 0, 15}]];
+  kinG = <|"C gamma^8: Euler-Lagrange nonzero" -> ! AllTrue[elG[cg8], gZeroQ],
+    "C gamma^8: EL = 2 C gamma^8 gamma^a d_a Psi" -> AllTrue[Range[16], Function[c, gEqualQ[elG[cg8][[c]],
+        gScale[2, gAdd[Table[gMatVec[cg8.G[a], gDP[[a + 1]]][[c]], {a, 0, 7}]]]]]],
+    "C: Euler-Lagrange identically zero" -> AllTrue[elG[C16], gZeroQ],
+    "C: equals (1/2) d_a(Psi^T C gamma^a Psi)" -> gEqualQ[gAdd[Table[gBil[gP, C16.G[a], gDP[[a + 1]]], {a, 0, 7}]],
+        gScale[1/2, gAdd[Table[gTotalD[gBil[gP, C16.G[a], gP], a], {a, 0, 7}]]]]|>;
+  (* commuting EL *)
+  elC[m_] := Module[{L = Expand[Sum[pSym.(m.G[a]).dpSym[[a + 1]], {a, 0, 7}]]},
+    Table[Expand[D[L, pSym[[c]]] - Sum[cTotalD[D[L, dpSym[[a + 1, c]]], a + 1], {a, 0, 7}]], {c, 16}]];
+  kinC = <|"C: Euler-Lagrange nonzero" -> ! zeroE[elC[C16]],
+    "C: EL = 2 C gamma^a d_a Psi" -> zeroE[elC[C16] - 2 Sum[C16.G[a].dpSym[[a + 1]], {a, 0, 7}]],
+    "C gamma^8: Euler-Lagrange identically zero" -> zeroE[elC[cg8]],
+    "C gamma^8: equals (1/2) d_a(Psi^T C gamma^8 gamma^a Psi)" -> zeroE[Sum[pSym.(cg8.G[a]).dpSym[[a + 1]], {a, 0, 7}] -
+        (1/2) Sum[cTotalD[pSym.(cg8.G[a]).pSym, a + 1], {a, 0, 7}]]|>;
+  (* U(1) charge +2 *)
+  lk = gAdd[Table[gBil[gP, cg8.G[a], gDP[[a + 1]]], {a, 0, 7}]];
+  u1G = gCharges[lk] === {2};
+  u1C = Expand[(phS pSym).C16.(phS pSym) - phS^2 pSym.C16.pSym] === 0 &&
+    Expand[Sum[(phS pSym).(C16.G[a]).(phS dpSym[[a + 1]]), {a, 0, 7}] - phS^2 Sum[pSym.(C16.G[a]).dpSym[[a + 1]], {a, 0, 7}]] === 0;
+  res = <|"grassmannMassTypeVanishes" -> massG, "grassmannControlAntisymmetricNonzeroMonomials" -> ctrlG,
+    "commutingMassTypeRanks" -> massC, "grassmannKinetic" -> kinG, "commutingKinetic" -> kinC,
+    "u1ChargeGrassmannKinetic" -> gCharges[lk], "u1ChargeCommutingIsTwo" -> u1C,
+    "conclusion" -> "Grassmann components: no Spin_0(4,4)-invariant Majorana mass term exists (every invariant M is symmetric, so Psi^T M Psi = 0); the only invariant Majorana-type kinetic term is Psi^T C gamma^8 gamma^a d_a Psi (Psi^T C gamma^a d_a Psi is a total derivative). Commuting components: the two chiral Majorana mass terms Psi^T C P_+- Psi (equivalently C and C gamma^8) survive and the kinetic term Psi^T C gamma^a d_a Psi (the notebook Lg[] form) survives, Psi^T C gamma^8 gamma^a d_a Psi is a total derivative. Every such term has U(1) charge 2 (it is not invariant under Psi -> e^{i alpha} Psi) and is absent from L1."|>;
+  addMeas["M3_survival", res];
+  addCheck["MA_M3_grassmannSurvival", AllTrue[Values[massG], TrueQ] && ctrlG > 0 && AllTrue[Values[kinG], TrueQ]];
+  addCheck["MA_M3_commutingSurvival", massC["C P_-"] === 8 && massC["C P_+"] === 8 && massC["C"] === 16 && massC["C gamma^8"] === 16 &&
+    massC["nonzeroPolynomials"] && AllTrue[Values[kinC], TrueQ]];
+  addCheck["MA_M3_u1Charge", u1G && u1C && gCharges[gBil[gP, C16.Sab[0, 1], gP]] === {2}];
+];
+
+(* Pin(4,4) characters of the surviving Majorana-type terms, flat coordinate action
+   Psi'(x) = u Psi(Rx), u = gamma^b, with the twisted (R = {b}) and untwisted (R = all but b) lifts *)
+checkM3PinKinetic[] := Module[{cg8, tab, ok},
+  cg8 = C16.g8;
+  tab = Table[With[{u = G[b], rdT = rDiag[{b}], rdU = rDiag[Complement[Range[0, 7], {b}]]},
+      <|"b" -> b, "n" -> etaD[[b + 1]],
+        "massC" -> signOf[Transpose[u].C16.u, C16], "massCgamma8" -> signOf[Transpose[u].cg8.u, cg8],
+        "kinCTwisted" -> constSign[Table[signOf[Transpose[u].C16.G[a].u rdT[[a + 1]], C16.G[a]], {a, 0, 7}]],
+        "kinCUntwisted" -> constSign[Table[signOf[Transpose[u].C16.G[a].u rdU[[a + 1]], C16.G[a]], {a, 0, 7}]],
+        "kinCgamma8Twisted" -> constSign[Table[signOf[Transpose[u].cg8.G[a].u rdT[[a + 1]], cg8.G[a]], {a, 0, 7}]],
+        "kinCgamma8Untwisted" -> constSign[Table[signOf[Transpose[u].cg8.G[a].u rdU[[a + 1]], cg8.G[a]], {a, 0, 7}]]|>], {b, 0, 7}];
+  (* expected: C-type mass and untwisted kinetic -n(u) (as Psibar Psi and the Dirac kinetic term);
+     C gamma^8-type mass and untwisted kinetic +n(u); twisted kinetic = - untwisted *)
+  ok = AllTrue[tab, #["massC"] === -#["n"] && #["kinCUntwisted"] === -#["n"] && #["kinCTwisted"] === #["n"] &&
+      #["massCgamma8"] === #["n"] && #["kinCgamma8Untwisted"] === #["n"] && #["kinCgamma8Twisted"] === -#["n"] &];
+  addMeas["M3_pinCharactersMajoranaTerms", <|"table" -> tab,
+    "statement" -> "Psi -> u Psi (u = gamma^b, n = eta_bb): Psi^T C Psi and (untwisted lift) Psi^T C gamma^a d_a Psi pick up -n(u); Psi^T C gamma^8 Psi and (untwisted) Psi^T C gamma^8 gamma^a d_a Psi pick up +n(u); with the twisted lift the kinetic sign is reversed"|>];
+  addCheck["MA_M3_pinCharactersMajoranaTerms", ok];
+];
+
+(* the notebook Lg[] = sqrt g [Psi^T sigma16 T16^a D_a Psi + H M Psi^T sigma16 Psi] is of Majorana type *)
+checkM3NotebookLg[] := Module[{inSpan, ok},
+  inSpan = spanEqualQ[{C16.Pm, C16.Pp}, {C16.Pm, C16.Pp}] && MatrixRank[{Flatten[C16.Pm], Flatten[C16.Pp], Flatten[C16]}] === 2;
+  ok = <|"sigma16EqualsC" -> (C16 === G[0].G[1].G[2].G[3]),
+    "kineticMatrixIsCgamma" -> AllTrue[Range[0, 7], C16.G[#] === C16.G[#] &],
+    "CInInvariantSpan" -> inSpan,
+    "chargeTwoForComplexPsi" -> (Expand[(phS pSym).C16.(phS pSym) - phS^2 pSym.C16.pSym] === 0 && Expand[pSym.C16.pSym] =!= 0),
+    "survivesForCommuting" -> TrueQ[$checks["MA_M3_commutingSurvival"]],
+    "trivialForGrassmann" -> TrueQ[$checks["MA_M3_grassmannSurvival"]]|>;
+  addMeas["M3_notebookLg", <|"checks" -> ok,
+    "statement" -> "the notebook Lagrangian Lg[] uses Transpose[Psi16] (not ConjugateTranspose): its kinetic matrix sigma16 T16^a = C gamma^a and its mass matrix sigma16 = C belong to the classified Spin_0-invariant Majorana-type family M = C (Pin character -n(u)). For a complex commuting Psi it has U(1) charge 2; for a real commuting Psi (Stage-5 real restriction) it is non-trivial; for a Grassmann Psi it is a total derivative with vanishing mass term (Stage 1). dirac16complex00 uses the charge-0 Lagrangian L1 instead."|>];
+  addCheck["MA_M3_notebookLgIsMajoranaType", AllTrue[Values[ok], TrueQ]];
+];
+
+(* EXTRA (beyond the spec's bilinears): a non-vanishing Spin_0-invariant charge-4 quartic of the
+   Grassmann field.  omega_+-^{ab} = Psi^T C P_+- S^{ab} Psi (C P_+- S^{ab} antisymmetric, so these
+   survive for Grassmann components); Q4 = sum_{a<b} eta_aa eta_bb omega_-^{ab} omega_+^{ab}. *)
+checkM3Quartic[] := Module[{wm, wp, q4, qmm, qpp, gensOp, inv, ctrl, antisym},
+  antisym = AllTrue[pairsAB, Transpose[C16.Pm.(Sab @@ #)] === -C16.Pm.(Sab @@ #) && Transpose[C16.Pp.(Sab @@ #)] === -C16.Pp.(Sab @@ #) &];
+  wm = Association[Table[ab -> gBil[gP, C16.Pm.(Sab @@ ab), gP], {ab, pairsAB}]];
+  wp = Association[Table[ab -> gBil[gP, C16.Pp.(Sab @@ ab), gP], {ab, pairsAB}]];
+  q4 = gAdd[Table[gScale[etaD[[ab[[1]] + 1]] etaD[[ab[[2]] + 1]], gMul[wm[ab], wp[ab]]], {ab, pairsAB}]];
+  qmm = gAdd[Table[gScale[etaD[[ab[[1]] + 1]] etaD[[ab[[2]] + 1]], gMul[wm[ab], wm[ab]]], {ab, pairsAB}]];
+  qpp = gAdd[Table[gScale[etaD[[ab[[1]] + 1]] etaD[[ab[[2]] + 1]], gMul[wp[ab], wp[ab]]], {ab, pairsAB}]];
+  (* infinitesimal Spin_0 action: the even derivation Psi_i -> sum_j X_ij Psi_j *)
+  gensOp[x_] := Function[id, gAdd[Table[If[x[[id - 16, j + 1]] =!= 0, gScale[x[[id - 16, j + 1]], gGen[idP0[j]]], Nothing], {j, 0, 15}]]];
+  inv = AllTrue[spinGens, Function[x, gZeroQ[gDerivation[q4, gensOp[x]]]]];
+  ctrl = ! gZeroQ[gDerivation[gMul[wm[{0, 1}], wp[{0, 1}]], gensOp[Sab[0, 2]]]];
+  addMeas["M3_extraGrassmannQuartic", <|
+    "definition" -> "Q4 = sum_{a<b} eta_aa eta_bb (Psi^T C P_- S^{ab} Psi)(Psi^T C P_+ S^{ab} Psi)",
+    "omegaMatricesAntisymmetric" -> antisym, "omegaNonzero" -> AllTrue[Join[Values[wm], Values[wp]], ! gZeroQ[#] &],
+    "Q4Monomials" -> Length[q4], "Q4Charges" -> gCharges[q4], "Q4InvariantUnderAll28Generators" -> inv,
+    "controlSingleTermNotInvariant" -> ctrl, "chiralOnlyQuarticsVanish" -> (gZeroQ[qmm] && gZeroQ[qpp]),
+    "status" -> "EXTRA, not required by the spec: a non-vanishing Spin_0(4,4)-invariant local quartic term of U(1) charge 4 exists for the Grassmann field (no bilinear Majorana mass term does). No classification of higher-order terms is attempted; nothing here says such a term is present, natural, or sufficient for baryogenesis."|>];
+  addCheck["MA_M3_extraGrassmannQuarticCharge4", antisym && Length[q4] > 0 && gCharges[q4] === {4} && inv && ctrl && gZeroQ[qmm] && gZeroQ[qpp]];
+];
+
+(* ================================================================== *)
+(* 8. M4: the charge flip under gamma^8 and the pair totals           *)
+(* ================================================================== *)
+
+imageData[{p0_, p1_, p2_, q0_, q1_, q2_}] := {g8.p0, (g8.#) & /@ p1, Map[g8.# &, p2, {2}], q0.g8, (#.g8) & /@ q1, Map[#.g8 &, q2, {2}]};
+currentValueAndDerivatives[geo_, p0_, p1_, q0_, q1_] := Module[{gm = geo["gamma"]},
+  Table[{q0.C16.gm[[1, mu]].p0, Table[q1[[lam]].C16.gm[[1, mu]].p0 + q0.C16.gm[[2, lam, mu]].p0 + q0.C16.gm[[1, mu]].p1[[lam]], {lam, 8}]}, {mu, 8}]];
+
+checkM4[] := Module[{mat, jG, emtC, emtG, v, geo, parts, partsI, tr, free, sol, ok, solI, okI, fld, fldI, lag, lagI, T, TI, jv, jvI, feI},
+  mat = <|"currentMatricesOdd" -> AllTrue[Range[0, 7], g8.C16.G[#].g8 === -C16.G[#] &], "massMatrixEven" -> (g8.C16.g8 === C16),
+    "PsibarMapsToPsibarGamma8" -> (Transpose[g8].C16 === C16.g8), "kreinMetricFlips" -> (g8.Bm.g8 === -Bm)|>;
+  addMeas["M4_matrixFacts", mat];
+  addCheck["MA_M4_currentFlipMatrix", AllTrue[Values[mat], TrueQ]];
+  (* curved field G1, Grassmann: j^mu[gamma^8 Psi] = -j^mu[Psi] *)
+  jG = Table[v = geoVals[geoAt[k]];
+    tr = gTransform[g8, ConstantArray[1, 8], "linear", False];
+    AllTrue[Range[8], gEqualQ[gBil[tr[[3]], C16.v["gam"][[#]], tr[[1]]], gNeg[gBil[gQ, C16.v["gam"][[#]], gP]]] &], {k, 3}];
+  addMeas["M4_currentFlipGrassmannG1", jG];
+  addCheck["MA_M4_currentFlipG1_grassmann", And @@ jG];
+  (* commuting jets: T_{mu nu} and j^mu of the pair (off shell), the image of an on-shell solution *)
+  emtC = Table[geo = geoAt[k];
+    free = randomFree[5200 + 10 k];
+    fld = geoFieldJets @@ free; fldI = geoFieldJets @@ imageData[free];
+    lag = geoLagJets[geo, fld, mList[[k]], lamList[[k]]]; lagI = geoLagJets[geo, fldI, -mList[[k]], -lamList[[k]]];
+    T = geoEMTJets[geo, lag]; TI = geoEMTJets[geo, lagI];
+    jv = currentValueAndDerivatives[geo, free[[1]], free[[2]], free[[4]], free[[5]]];
+    jvI = currentValueAndDerivatives[geo, Sequence @@ imageData[free][[{1, 2, 4, 5}]]];
+    {sol, ok} = geoSolveOnShell[geo, randomFree[5300 + 10 k], mList[[k]], lamList[[k]]];
+    {solI, okI} = geoSolveOnShell[geo, imageData[sol], -mList[[k]], -lamList[[k]]];
+    feI = cFieldEqs[geoVals[geo], cParts[geoVals[geo], Sequence @@ imageData[sol][[{1, 2, 4, 5}]]], -mList[[k]], (-lamList[[k]] #) &];
+    <|"point" -> k, "pairEMTJetsVanish" -> zeroE[T + TI], "EMTNonzero" -> ! zeroE[T],
+      "pairCurrentJetsVanish" -> zeroE[jv + jvI], "currentNonzero" -> ! zeroE[jv],
+      "imageOfSolutionSolvesMinusMMinusLambda" -> (ok && okI && zeroE[solI - imageData[sol]] && zeroE[feI["E"]] && zeroE[feI["Ebar"]])|>, {k, 3}];
+  addMeas["M4_pairTotalsCommutingG1", emtC];
+  addCheck["MA_M4_pairEMTAndCurrentG1_commuting", AllTrue[emtC, AllTrue[Values[KeyDrop[#, "point"]], TrueQ] &]];
+  (* Grassmann: the pair energy-momentum tensor at G1 point 1, all 64 components *)
+  emtG = Module[{gEMT, v1 = geoVals[geoAt[1]], TG, TGI, pI},
+    gEMT[vv_, pr_, m_, lam_] := Module[{A, Bq, ls = gLs[pr, m, lam, 0]},
+      A = Table[gDot[pr["bar"], gMatVec[vv["gamLow"][[mu]], pr["Dpsi"][[nu]]]], {mu, 8}, {nu, 8}];
+      Bq = Table[gDot[gRowMat[pr["Dbar"][[mu]], vv["gamLow"][[nu]]], pr["psi"]], {mu, 8}, {nu, 8}];
+      Table[gAdd[{gScale[-1/4, gAdd[{A[[mu, nu]], A[[nu, mu]], gNeg[Bq[[mu, nu]]], gNeg[Bq[[nu, mu]]]}]], gScale[vv["g"][[mu, nu]], ls]}], {mu, 8}, {nu, 8}]];
+    parts = gParts[v1, gP, gDP, gQ, gDQ];
+    tr = gTransform[g8, ConstantArray[1, 8], "linear", False];
+    pI = gParts[v1, Sequence @@ tr];
+    TG = gEMT[v1, parts, mS, lamS]; TGI = gEMT[v1, pI, -mS, -lamS];
+    <|"pairEMTVanishesAll64" -> AllTrue[Flatten[MapThread[gZeroQ[gAdd[{#1, #2}]] &, {TG, TGI}, 2]], TrueQ],
+      "EMTNonzeroComponents" -> Count[Flatten[Map[gZeroQ, TG, {2}]], False],
+      "symmetric" -> AllTrue[Flatten[Table[gEqualQ[TG[[mu, nu]], TG[[nu, mu]]], {mu, 8}, {nu, 8}]], TrueQ]|>];
+  addMeas["M4_pairEMTGrassmannG1point1", emtG];
+  addCheck["MA_M4_pairEMTG1_grassmann", emtG["pairEMTVanishesAll64"] && emtG["EMTNonzeroComponents"] === 64 && emtG["symmetric"]];
+];
+
+(* exact inertia of a Hermitian matrix (all eigenvalues real: Descartes' rule is exact) *)
+hermInertia[m_] := Module[{x, cl, cln, ch},
+  ch[l_] := Count[Partition[Sign[l], 2, 1], {s1_, s2_} /; s1 =!= s2];
+  cl = Select[CoefficientList[Expand[CharacteristicPolynomial[m, x]], x], # =!= 0 &];
+  cln = Select[CoefficientList[Expand[CharacteristicPolynomial[m, x] /. x -> -x], x], # =!= 0 &];
+  {ch[cl], ch[cln], Length[m] - ch[cl] - ch[cln]}];
+
+(* one-particle level of the good sector (flat, k5 = k6 = k7 = 0), Stage-1 section 10.6 *)
+checkM4Krein[] := Module[{ks, h, hermR, En, proj, ok, ePlus, ePlusM, gramP, gramPM, gramImg, imgSpan},
+  ks = Table[Symbol["Dirac16ComplexMatterAntimatter`Private`k" <> ToString[j]], {j, 0, 3}];
+  En = Symbol["Dirac16ComplexMatterAntimatter`Private`energyE"];
+  hermR[m_] := Transpose[m] /. Complex[a_, b_] :> Complex[a, -b];
+  h[m_] := -I m G[4] - G[4].Sum[ks[[j + 1]] G[j], {j, 0, 3}];
+  proj[m_, s_] := (id16 + s h[m]/En)/2;
+  ePlus = NullSpace[(h[1] /. Thread[ks -> 0]) - id16]; ePlusM = NullSpace[(h[-1] /. Thread[ks -> 0]) - id16];
+  gramP = Conjugate[ePlus].Bm.Transpose[ePlus]; gramPM = Conjugate[ePlusM].Bm.Transpose[ePlusM];
+  gramImg = Conjugate[ePlus.g8].Bm.Transpose[ePlus.g8];
+  imgSpan = MatrixRank[ePlusM] === 8 && MatrixRank[Join[ePlusM, (g8.#) & /@ ePlus]] === 8;
+  ok = <|
+    "gamma8 h_k(m) gamma8 = h_k(-m)" -> zeroE[g8.h[mS].g8 - h[-mS]],
+    "h_k(m)^2 = (m^2 + k^2) I" -> zeroE[h[mS].h[mS] - (mS^2 + ks.ks) id16],
+    "h_k(m) Hermitian (real m, k)" -> zeroE[hermR[h[mS]] - h[mS]],
+    "[h_k(m), B] = 0" -> zeroE[h[mS].Bm - Bm.h[mS]],
+    "gamma8 P_+-(m) gamma8 = P_+-(-m) (E^2 = m^2 + k^2)" -> (zeroE[g8.proj[mS, 1].g8 - proj[-mS, 1]] && zeroE[g8.proj[mS, -1].g8 - proj[-mS, -1]]),
+    "gamma8 B gamma8 = -B (Krein norm of the image = - Krein norm)" -> (g8.Bm.g8 === -Bm),
+    "rest: gamma8 E_+(m=1) = E_+(m=-1)" -> imgSpan,
+    "rest: B-form on E_+(1) has signature (4,4)" -> (hermInertia[gramP] === {4, 4, 0}),
+    "rest: B-form on E_+(-1) has signature (4,4)" -> (hermInertia[gramPM] === {4, 4, 0}),
+    "rest: Gram(gamma8 E_+(1)) = - Gram(E_+(1))" -> zeroE[gramImg + gramP]|>;
+  addMeas["M4_kreinOneParticle", <|"checks" -> ok,
+    "statement" -> "one-particle level of the good sector: gamma^8 maps the positive- (negative-) energy eigenspace of h_k(m) onto the positive- (negative-) energy eigenspace of h_k(-m) (energy sign preserved) and reverses the Krein norm u^dagger B u of every vector; the charge density Psi^dagger B Psi of the image configuration is minus that of the original. Which Fock states of the -M theory the image states are (particles or holes) depends on the canonical structure assigned to the image field (its anticommutator is -B): that Fock-level statement is taken from the Stage-5 pairing report (PAIR_T1krein) if final, otherwise it is OPEN."|>];
+  addCheck["MA_M4_kreinOneParticle", AllTrue[Values[ok], TrueQ]];
+];
+
+(* the Krein-level particle/antiparticle mapping of Stage 5 (read only; used only if final) *)
+stage5Krein[root_String] := Module[{fRep, fTh, rep, th, checks, kreinChecks, final, pick, sha},
+  fRep = FileNameJoin[{root, "artifacts", "dirac16complex", "pair-creation", "wolfram-pairing-report.json"}];
+  fTh = FileNameJoin[{root, "artifacts", "dirac16complex", "pair-creation", "pairing-theory.json"}];
+  sha[f_] := ToLowerCase[FileHash[f, "SHA256", All, "HexString"]];
+  If[! FileExistsQ[fRep] || ! FileExistsQ[fTh],
+    Return[<|"status" -> "OPEN", "reason" -> "the Stage-5 pairing report (artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json and pairing-theory.json) is not present; only the field-level result (M4: j -> -j, pair charge 0, pair T_{mu nu} = 0) is stated",
+      "reportPresent" -> FileExistsQ[fRep], "theoryPresent" -> FileExistsQ[fTh]|>]];
+  rep = Quiet[Import[fRep, "RawJSON"]]; th = Quiet[Import[fTh, "RawJSON"]];
+  If[! AssociationQ[rep] || ! AssociationQ[th] || ! AssociationQ[rep["checks"]],
+    Return[<|"status" -> "OPEN", "reason" -> "the Stage-5 pairing files are present but not parseable"|>]];
+  checks = rep["checks"];
+  kreinChecks = KeySelect[checks, StringStartsQ[#, "PAIR_T1krein"] &];
+  final = Length[checks] > 0 && AllTrue[Values[checks], TrueQ] && Length[kreinChecks] > 0;
+  pick = Association[Flatten[Join[
+      KeyValueMap[If[StringContainsQ[#1, "krein", IgnoreCase -> True], {#1 -> #2}, {}] &, th],
+      KeyValueMap[Function[{k1, v1}, If[AssociationQ[v1], KeyValueMap[If[StringContainsQ[#1, "krein", IgnoreCase -> True], {(k1 <> "." <> #1) -> #2}, {}] &, v1], {}]], th]]]];
+  If[! final,
+    Return[<|"status" -> "OPEN", "reason" -> "the Stage-5 pairing report is present but not final (not every check true, or no PAIR_T1krein checks)",
+      "failedChecks" -> Keys[Select[checks, ! TrueQ[#] &]], "kreinCheckCount" -> Length[kreinChecks],
+      "reportSha256" -> sha[fRep], "theorySha256" -> sha[fTh]|>]];
+  <|"status" -> "taken from the Stage-5 pairing report (all of its checks true)",
+    "kreinChecks" -> kreinChecks, "kreinTheory" -> pick, "reportSha256" -> sha[fRep], "theorySha256" -> sha[fTh],
+    "reportProducer" -> rep["producer"]|>];
+
+(* ================================================================== *)
+(* 9. M5: the conditional scenario (hypotheses H1-H3) and its exact implication *)
+(* ================================================================== *)
+checkM5[stage5_Association] := Module[{t, qp, qm, rules, total, dqm, ok, kreinNote},
+  t = Symbol["Dirac16ComplexMatterAntimatter`Private`time"];
+  qp = Symbol["Dirac16ComplexMatterAntimatter`Private`Qplus"];
+  (* H1 with M4: the partner universe is the gamma^8 image, whose charge is minus the charge at every x4 *)
+  qm = Function[s, -qp[s]];
+  (* M1: dQ_+/dx4 = 0 *)
+  rules = {Derivative[1][qp][t] -> 0};
+  total = Simplify[qp[t] + qm[t]];
+  dqm = D[qm[t], t] /. rules;
+  ok = total === 0 && dqm === 0 && TrueQ[$checks["MA_M4_pairEMTAndCurrentG1_commuting"]] && TrueQ[$checks["MA_M4_currentFlipG1_grassmann"]] &&
+    TrueQ[$checks["MA_M1_noetherIdentity_grassmann_G1"]] && TrueQ[$checks["MA_M1_noetherIdentity_commuting_G1"]];
+  kreinNote = If[KeyExistsQ[stage5, "kreinTheory"] && AssociationQ[stage5["kreinTheory"]["T1krein"]],
+    <|"source" -> "Stage-5 pairing report (PAIR_T1krein, all Stage-5 checks true)",
+      "imageField" -> Lookup[stage5["kreinTheory"]["T1krein"], "imageField", "absent"],
+      "independentQuantisation" -> Lookup[stage5["kreinTheory"]["T1krein"], "independentQuantisation", "absent"],
+      "consequenceForM5" -> "the charge cancellation Q_+ + Q_- = 0 of the implication holds for the pair (Psi_+, Psi_- = gamma^8 Psi_+) in which the second member is the gamma^8 image field, which carries the Krein metric -B (it is canonically a field of -L_{-m,-lambda}; energy -|eps| and charge -1 per quantum). If instead the -M universe is quantised independently with its own positive (J = B) structure, its quanta carry charge +1 and energy +|eps|: the cancellation is then NOT automatic and would require an additional assumption on the state of the -M universe. H1 must therefore be read in the first (image-field) sense."|>,
+    <|"source" -> "none: the Stage-5 Krein-level result is OPEN", "consequenceForM5" -> "only the field-level statement is used; which Fock states of the -M universe the image corresponds to is OPEN"|>];
+  addMeas["M5_implication", <|
+    "hypotheses" -> <|
+      "H1" -> "ASSUMPTION (not derived): our universe is one member of a gamma^8 pair (Psi_+ with (m, lambda), Psi_- = gamma^8 Psi_+ with (-m, -lambda)) created together; no creation process, rate or amplitude is computed anywhere in this repository",
+      "H2" -> "ASSUMPTION (not derived): the creation assigns Q_+ = -Q_- != 0; the relation Q_- = -Q_+ follows from H1 and M4, the value Q_+ != 0 is not computed",
+      "H3" -> "ASSUMPTION (not derivable): the dirac16complex U(1) charge is identified with baryon number B (or B - L); the theory contains no Standard-Model baryons, quarks or leptons"|>,
+    "implication" -> "IF H1, H2, H3 THEN Q_+(x4) + Q_-(x4) = 0 at every x4 (M4 pointwise: sqrt|g| j^4[gamma^8 Psi] = - sqrt|g| j^4[Psi]), each Q_+- is separately conserved (M1), and the excess B_+ = Q_+ seen in one member is exactly compensated by B_- = -Q_+ in the other: a global symmetry with local asymmetry. The pair also carries T^pair_{mu nu} = 0 (M4, classical bilinears).",
+    "symbolicCheck" -> <|"Q_+ + Q_- simplifies to" -> toStr[total], "dQ_-/dx4 given dQ_+/dx4 = 0" -> toStr[dqm]|>,
+    "notPredicted" -> "the observed baryon-to-photon ratio eta ~ 6e-10 is NOT predicted; nothing here computes the magnitude or the sign of Q_+",
+    "kreinLevelCaveat" -> kreinNote,
+    "status" -> "the implication is proved (it is elementary given M1 and M4); the scenario itself is a hypothesis, not a result"|>];
+  addCheck["MA_M5_implication", ok];
+];
+
+(* ================================================================== *)
+(* 10. theory export and entry point                                   *)
+(* ================================================================== *)
+
+(* JSON-ready form: exact rationals as "p/q", Gaussian rationals as {"re", "im"}, recorded
+   floating-point data kept as numbers, anything symbolic as its InputForm string *)
+jsonReady[x_Association] := Association[KeyValueMap[(If[StringQ[#1], #1, toStr[#1]] -> jsonReady[#2]) &, x]];
+jsonReady[x_List] := jsonReady /@ x;
+jsonReady[x_Integer] := x;
+jsonReady[x_Real] := x;
+jsonReady[x_String] := x;
+jsonReady[True] := True;
+jsonReady[False] := False;
+jsonReady[x_Rational] := ratStr[x];
+jsonReady[Complex[a_, b_]] := {jsonReady[a], jsonReady[b]};
+jsonReady[x_Missing] := "missing";
+jsonReady[x_] := toStr[x];
+
+buildTheory[stage5_Association] := Module[{sum = $theory["M2_symmetrySummary"], rows = $theory["M2_classificationRows"], th},
+  th = <|
+    "schemaVersion" -> 1,
+    "producer" -> "wolfram/Dirac16ComplexMatterAntimatter.wl (D16MARun) via scripts/verify_dirac16complex_matter_antimatter.wls",
+    "title" -> "Matter and antimatter in the dirac16complex theory: what can be proved (exact Wolfram results, M1-M5)",
+    "honestyRule" -> "The statement 'the theory solves the matter-antimatter problem' is NOT proved and cannot be proved: within the theory as built the Lagrangian L1 is exactly U(1) invariant for every U (both statistics), the charge Q is conserved in every gravitational field, so no dynamics of the theory creates a net charge inside one universe (Sakharov's first condition fails for this charge). Everything below is either an exact theorem with machine checks or an explicitly labelled hypothesis.",
+    "conventions" -> <|"indices" -> "zero-based; x4 = evolution time; eta = diag(+1,+1,+1,+1,-1,-1,-1,-1)",
+      "gammas" -> "gamma^a = notebook T16^A[a] (exact fixture algebra-fixture.json), real signed permutation matrices",
+      "C" -> "C = sigma16 = gamma^0 gamma^1 gamma^2 gamma^3 (real symmetric); Psibar = Psi^dagger C", "B" -> "B = -i C gamma^4",
+      "chirality" -> "gamma^8 = gamma^0 ... gamma^7 = diag(-I8, +I8); P_-+ = (1 -+ gamma^8)/2",
+      "lagrangian" -> "L1 = sqrt|g| [ (1/2)(Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi) - m Psibar Psi - U(Psibar Psi) ], U = (lambda/2) S^2 by default",
+      "current" -> "j^mu = Psibar gamma^mu Psi (spec normalization); Hermitian current J^mu = -i j^mu; Gaussian normal gauge J^4 = Psi^dagger B Psi",
+      "statistics" -> "dirac16complex: Grassmann-odd components (exact Grassmann algebra of this package); dirac16complex00: commuting components (exact symbols)",
+      "discreteMaps" -> "(M, R, type): Psi'(x) = M Psi(Rx) (linear) or M conj(Psi)(Rx) (antilinear), R = the set of reflected directions; in a curved field the frame e_mu^a -> e_mu^b R_b^a is reflected instead (same metric)"|>,
+    "M1" -> <|
+      "theorem" -> "For both statistics and every potential U(S) (commuting: any function; Grassmann: any polynomial, S^17 = 0), L1 is invariant under Psi -> e^{i alpha} Psi. Noether current: j^mu = Psibar gamma^mu Psi (L[e^{i alpha(x)} Psi] - L[Psi] = i sqrt|g| d_mu alpha j^mu). Off shell, in every gravitational field: d_mu(sqrt|g| j^mu) = sqrt|g| (Ebar Psi + Psibar E), E = gamma^mu D_mu Psi - (m + U') Psi, Ebar = (D_mu Psibar) gamma^mu + (m + U') Psibar; hence nabla_mu j^mu = 0 on shell and Q = integral sqrt|g| J^{x4} d^7x is conserved.",
+      "consequence" -> "no process described by L1 changes Q inside one universe; the Kohn-Sham states of Stages 4/5 carry the fixed net number N imposed through the chemical potential",
+      "chargeMatrixB" -> jmat[Bm],
+      "machineChecks" -> {"MA_M1_u1InvarianceCommutingGenericU_flat", "MA_M1_u1InvarianceCommutingGenericU_G1", "MA_M1_u1InvarianceGrassmann_G1",
+        "MA_M1_grassmannPotentialsPolynomialAndNeutral", "MA_M1_noetherCurrentLocalPhase_commuting_G1", "MA_M1_noetherCurrentLocalPhase_grassmann_G1",
+        "MA_M1_noetherCurrentFormula_grassmann_G1", "MA_M1_noetherCurrentFormula_commuting_G1", "MA_M1_noetherIdentity_grassmann_G1",
+        "MA_M1_noetherIdentity_commuting_G1", "MA_M1_negativeControlNotebookConnection", "MA_M1_onShellConservation_G1",
+        "MA_M1_chargeDensityMatrix", "MA_M1_ksFixedNetNumberRecorded", "MA_M1_stage1ChecksCited"},
+      "stage1Checks" -> $meas["M1_stage1ChecksCited"]|>,
+    "M2" -> <|
+      "conjugationIntertwiners" -> <|"condition" -> "gamma^a M = eta M conj(gamma^a)", "etaPlus" -> jmat[id16], "etaMinus" -> jmat[g8]|>,
+      "transposeIntertwiners" -> <|"condition" -> "gamma^a M = zeta M gamma^{aT} (Psi -> M Psibar^T)", "zetaMinus" -> jmat[C16], "zetaPlus" -> jmat[g8.C16]|>,
+      "statisticsSign" -> $meas["M2_statisticsSign"],
+      "rules" -> $meas["M2_classificationSummary"],
+      "classificationRows" -> rows,
+      "namedMaps" -> $theory["M2_namedMaps"],
+      "symmetrySummary" -> sum,
+      "chargeReversingExactSymmetriesPreservingTimeOrientation" -> $theory["M2_chargeReversingExactSymmetriesPreservingTimeOrientation"],
+      "canonicalStructure" -> $meas["M2_canonicalStructure"],
+      "answer" -> <|
+        "commuting (dirac16complex00)" -> "C (Psi -> conj(Psi)) is an exact symmetry of L1 and reverses j; no P with a single space-like reflection and no CP of that type is exact for m != 0; T (x4) is exact (linear and antilinear); the full-inversion CPT is exact",
+        "grassmann (dirac16complex)" -> "no constant C is an exact symmetry for m != 0 (the canonical unitary C8: Psi -> gamma^8 Psi^{dagger T} maps L_{m,lambda} -> L_{-m,lambda}, the mirror theory); P with one space-like reflection maps m -> -m or L -> -L_{m,-lambda}; CP (C8 P_b for b = 0..3, C8 P3) is an exact unitary symmetry that reverses the charge; T (x4, linear substitution, antiunitary implementation) is exact; the full-inversion antilinear CPT is not, CP3T (x1..x4) is",
+        "sakharov2" -> "for both statistics there is an exact symmetry that reverses the charge and preserves the time orientation (commuting: C; Grassmann: CP): Sakharov's second condition (C and CP violation) fails"|>|>,
+    "M3" -> <|
+      "invariantMassForms" -> <|"CPminus" -> jmat[C16.Pm], "CPplus" -> jmat[C16.Pp], "statement" -> $meas["M3_spinInvariantMassForms"]["statement"]|>,
+      "pinCovariantForms" -> <|"C" -> <|"matrix" -> jmat[C16], "character" -> "-n(u)"|>, "Cgamma8" -> <|"matrix" -> jmat[C16.g8], "character" -> "+n(u)"|>,
+        "characters" -> $meas["M3_pinCharacterForms"]["characters"]|>,
+      "kineticForms" -> $meas["M3_kineticInvariantForms"],
+      "survival" -> $meas["M3_survival"],
+      "pinCharactersMajoranaTerms" -> $meas["M3_pinCharactersMajoranaTerms"],
+      "notebookLg" -> $meas["M3_notebookLg"],
+      "extraGrassmannQuartic" -> $meas["M3_extraGrassmannQuartic"],
+      "classificationStatement" -> "This is a classification of the U(1)-violating (charge 2) local terms allowed by Spin_0(4,4) and Pin(4,4); it is what the theory would need to ADD to meet Sakharov's first condition. None of these terms is present in L1, and nothing here claims that such a term is present, natural or sufficient."|>,
+    "M4" -> <|
+      "fieldLevel" -> "Psi -> gamma^8 Psi: j^mu -> -j^mu in every gravitational field (both statistics); for Psi_- = gamma^8 Psi_+ with (-m, -lambda): Q_+ + Q_- = 0 and T^pair_{mu nu} = 0 (classical bilinears); gamma^8 maps solutions of EL_{m,lambda} to solutions of EL_{-m,-lambda}",
+      "matrixFacts" -> $meas["M4_matrixFacts"],
+      "kreinOneParticle" -> $meas["M4_kreinOneParticle"],
+      "kreinLevelStage5" -> stage5|>,
+    "M5" -> $meas["M5_implication"],
+    "sakharovInputs" -> <|
+      "condition1 (B violation)" -> <|"status" -> "fails in the theory as built: L1 is exactly U(1) invariant and Q is conserved (M1)",
+        "wouldNeed" -> "a U(1)-violating term (M3): commuting components: Psi^T C P_+- Psi, Psi^T C gamma^a d_a Psi; Grassmann components: no bilinear mass term exists, Psi^T C gamma^8 gamma^a d_a Psi or a quartic such as Q4 (charge 4)"|>,
+      "condition2 (C and CP violation)" -> <|"commuting" -> If[TrueQ[sum["commuting"]["C (R empty, antilinear) exact"]], "fails: C is exact", "C not exact"],
+        "grassmann" -> If[TrueQ[sum["grassmann"]["CP (one space-like reflection, antilinear) exact"]], "fails: CP (C8 P_b, C8 P3) is exact", "CP not exact"]|>,
+      "condition3 (departure from equilibrium)" -> "not addressed by any theorem here; with conditions 1 and 2 failing exactly, a departure from equilibrium cannot generate a net charge inside one universe"|>|>;
+  th];
+
+D16MAExpectedCheckCount = 44;
+
+D16MARun[root_String] := Module[{rows, stage5, res},
+  $checks = <||>; $meas = <||>; $theory = <||>; geoCache = <||>;
+  res = Catch[
+    logT["algebra and fixture"];
+    checkAlgebra[FileNameJoin[{root, "artifacts", "dirac16complex", "arbitrary-field", "algebra-fixture.json"}]];
+    logT["M1: U(1) invariance"]; checkM1Invariance[];
+    logT["M1: Noether current and identity"]; checkM1Noether[];
+    logT["M1: on-shell conservation"]; checkM1OnShell[];
+    logT["M1: charge"]; checkM1Charge[]; checkM1KS[root]; checkM1Stage1[root];
+    logT["M2: intertwiners"]; checkM2Intertwiners[]; checkM2StatisticsSign[];
+    logT["M2: classification"]; rows = checkM2Classification[];
+    logT["M2: all maps at the Lagrangian level (flat)"]; checkM2FlatAll[rows];
+    logT["M2: named maps and the curved field G1"]; checkM2Named[rows];
+    logT["M2: summary and canonical structure"]; checkM2Summary[rows];
+    logT["M3: invariant forms"]; checkM3Forms[]; checkM3Survival[]; checkM3PinKinetic[]; checkM3NotebookLg[];
+    logT["M3: extra quartic"]; checkM3Quartic[];
+    logT["M4"]; checkM4[]; checkM4Krein[];
+    stage5 = stage5Krein[root];
+    addMeas["M4_kreinLevelStatus", stage5["status"]];
+    addMeas["M4_kreinLevelConsistency", If[KeyExistsQ[stage5, "kreinChecks"],
+      <|"stage5ImageAnticommutatorMinusB" -> Lookup[stage5["kreinChecks"], "PAIR_T1krein_imageAnticommutatorMinusB", "absent"],
+        "thisPackageGamma8BGamma8MinusB" -> TrueQ[$meas["M4_kreinOneParticle"]["checks"]["gamma8 B gamma8 = -B (Krein norm of the image = - Krein norm)"]],
+        "thisPackageEnergySignPreserved" -> TrueQ[$meas["M4_kreinOneParticle"]["checks"]["gamma8 P_+-(m) gamma8 = P_+-(-m) (E^2 = m^2 + k^2)"]]|>,
+      "not compared (Stage-5 Krein-level result OPEN)"]];
+    logT["M5"]; checkM5[stage5];
+    "ok", d16maErr];
+  If[res =!= "ok", addMeas["internalError", toStr[res]]; addCheck["MA_internalError", False]];
+  If[Length[$checks] =!= D16MAExpectedCheckCount, addMeas["checkCountMismatch", {Length[$checks], D16MAExpectedCheckCount}]];
+  <|"checks" -> $checks, "measurements" -> jsonReady[$meas], "theory" -> jsonReady[If[res === "ok", buildTheory[stage5], <||>]]|>];
+
+End[];
+EndPackage[];

@@ -1,0 +1,841 @@
+# Matter and antimatter in the dirac16complex theory: what can be proved
+
+## Exact charge conservation, discrete symmetries, the allowed charge-violating terms, the chirality pair of universes and the Sakharov conditions, with independent machine checks
+
+## 1. Summary: the honest answer first
+
+**The honest answer.** The request was to prove that this theory solves the current matter-antimatter mysteries; that statement is not proved in this document, and it cannot be proved, because within the theory as built its central part is false. The dirac16complex Lagrangian is exactly invariant under the phase transformation $\Psi\to e^{i\alpha}\Psi$ for every potential $U(S)$. This holds for anticommuting components (dirac16complex) and for commuting components (dirac16complex00) alike. The associated charge $Q$ is therefore conserved in every gravitational field, and no process described by the theory can create a net charge inside one universe. Sakharov's first condition fails for this charge. The theory also has exact symmetries that reverse the charge: C for the commuting field and CP for the anticommuting field. So Sakharov's second condition fails as well. No departure-from-equilibrium computation exists (the third condition). What can be proved, and is proved below exactly with two independent implementations, is a precise account of matter and antimatter in the theory as it stands, together with a list of what would have to be added.
+
+What is proved (theorems M1 to M4 and the implication in M5):
+
+- **M1 (exact U(1) and charge conservation).** For both statistics, every potential $U(S)$ and every gravitational field, the Lagrangian is invariant under $\Psi\to e^{i\alpha}\Psi$. The Noether current is $j^\mu=\bar\Psi\gamma^\mu\Psi$, the off-shell identity $\partial_\mu(\sqrt{|g|}\,j^\mu)=\sqrt{|g|}\,(\bar E\Psi+\bar\Psi E)$ holds, the current is conserved on shell, and the charge $Q$ of every slice $x_4=\text{const}$ is independent of $x_4$.
+- **M2 (discrete symmetries).** All maps built from a constant $16\times16$ matrix, complex conjugation and reflections of frame directions are classified exactly, for both statistics, by one transformation rule. For the commuting field, C ($\Psi\to\Psi^\ast$) is an exact symmetry and reverses the charge. For the anticommuting field no constant C is a symmetry when $m\ne0$, but CP (C followed by the reflection of an odd number of the space-like directions $x_0,\dots,x_3$) is an exact symmetry, is implemented unitarily after quantization, and reverses the charge.
+- **M3 (charge-violating terms allowed by the symmetry).** The bilinears $\Psi^TM\Psi$ invariant under the identity component $\mathrm{Spin}_0(4,4)$ are exactly those with $M=C(\alpha P_-+\beta P_+)$, and all of them are symmetric. Hence the anticommuting field admits no Majorana-type mass term at all, while the commuting field admits two. The derivative bilinears are classified in the same way. Every such term carries U(1) charge 2 and is absent from the Lagrangian.
+- **M4 (the pair).** Under the chirality map $\Psi\to\gamma^8\Psi$ the current changes sign. A universe $\Psi_+$ with parameters $(m,\lambda)$ and its image $\Psi_-=\gamma^8\Psi_+$ with $(-m,-\lambda)$ have total charge 0 and total classical energy-momentum 0 in every gravitational field. The one-particle and Fock-level (Krein) forms of this statement are given, including the case in which the pair does not cancel.
+- **M5 (a labelled hypothesis and its exact consequence).** If (H1) our universe is one member of such a pair, (H2) the pair was created with $Q_+=-Q_-\ne0$, and (H3) the dirac16complex charge is identified with baryon number, then the total baryon number of the pair is zero and the excess seen in one member is compensated exactly by the other. The implication is proved. H1, H2 and H3 are assumptions, none of them is derived, and the observed baryon-to-photon ratio $\eta\approx6\times10^{-10}$ is not predicted.
+- **M6 (Sakharov scorecard).** Condition 1 fails (M1), condition 2 fails (M2), condition 3 is not addressed (Section 9).
+
+Labels used throughout. **Proved** means a complete argument is given here and the statement is also verified by named exact machine checks. **Derived** means that the statement follows from checked results by the argument given, but is not itself a machine check. **Recorded data** means floating-point numbers read from committed outputs. **Hypothesis** marks an assumption that nothing in this repository derives. Every number is copied from the reports listed in Section 11 or from the cited literature.
+
+## 2. The matter-antimatter problem from zero
+
+### 2.1 Particles, antiparticles and conserved charges
+
+Every known particle has an antiparticle with the same mass and the opposite charges: the electron has the positron, the proton the antiproton. A particle and its antiparticle can annihilate into radiation, and radiation of enough energy can create a particle-antiparticle pair. In both processes every conserved charge is unchanged, because the two members of a pair carry opposite charges.
+
+Three charges matter here. The electric charge is exactly conserved. The baryon number $B$ counts baryons (protons, neutrons and their relatives) as $+1$ and antibaryons as $-1$; each quark carries $1/3$. The lepton number $L$ counts electrons, muons, tau leptons and neutrinos as $+1$ and their antiparticles as $-1$. “Matter” in cosmology means baryons, and the matter-antimatter problem is the question why the universe contains baryons but essentially no antibaryons.
+
+A charge is conserved when no process can change it. Noether's theorem connects conservation to symmetry: if the action does not change under a continuous transformation that is the same at every point, there is a current $j^\mu$ with $\nabla_\mu j^\mu=0$, and the integral of its time component over space does not change with time. Theorem M1 is an instance of this theorem. It is the reason the dirac16complex theory, as built, cannot produce an asymmetry.
+
+### 2.2 What is observed: the baryon asymmetry
+
+The observed universe consists of matter. The size of the excess is expressed by the baryon-to-photon ratio
+
+$$
+\eta=\frac{n_B-n_{\bar B}}{n_\gamma}\approx6\times10^{-10},
+$$
+
+the number density of baryons minus antibaryons divided by the number density of photons of the cosmic microwave background, roughly six baryons for every ten billion photons. It is measured in two independent ways. The abundances of the light elements (deuterium and helium in particular) produced in big-bang nucleosynthesis depend on $\eta$ [5]. The acoustic peaks of the cosmic microwave background fix the baryon density; the Planck 2018 cosmological parameters give $\Omega_bh^2=0.0224\pm0.0001$ [2]. The two determinations agree [5], [2].
+
+Why is this a problem? If the hot early universe had contained exactly as many baryons as antibaryons, almost all of them would have annihilated, and far less matter than observed would remain. The excess could be put into the initial conditions of the universe, but the standard view, reviewed in [4], is that it should be generated by physical processes, from a state without asymmetry.
+
+### 2.3 No antimatter domains
+
+Could the universe be a patchwork of matter regions and antimatter regions, symmetric on the whole? Cohen, De Rújula and Glashow [6] showed that after recombination annihilation near the boundaries of such regions cannot be avoided, and that the gamma rays it produces would exceed the observed diffuse gamma-ray background unless the matter region we live in is essentially the entire visible universe. They concluded that a matter-antimatter symmetric universe of this kind is empirically excluded. Antimatter and matter also respond to gravity in the same direction as far as tested: antihydrogen atoms released in the ALPHA-g experiment move downward in the Earth's gravity, and repulsive “antigravity” is ruled out in that case [12]. This matters below, because the negative-mass member of the pair of Section 7 is not antimatter in our universe.
+
+### 2.4 Sakharov's three conditions
+
+In 1967 Sakharov [1] identified three ingredients that any process generating the baryon asymmetry from a symmetric state must contain:
+
+1. **Baryon-number violation.** Some process must change $B$; otherwise $B=0$ stays $B=0$.
+2. **C and CP violation.** C (charge conjugation) exchanges particles and antiparticles. If C were an exact symmetry, every process raising $B$ would have a mirror process lowering $B$ at the same rate, and the two would cancel. The same argument applies to CP, C combined with a spatial reflection P. Both C and CP must therefore be violated.
+3. **Departure from thermal equilibrium.** In thermal equilibrium, with the baryon-number-violating reactions themselves in equilibrium, the chemical potential of $B$ vanishes and the number of particles in each state is fixed by its energy alone. Particles and antiparticles have the same masses, so their equilibrium numbers are equal and the average $B$ vanishes. An asymmetry can only be produced while the universe is out of equilibrium, for example during a phase transition or in the decay of heavy particles.
+
+These three conditions are the yardstick of Section 9.
+
+### 2.5 Why the Standard Model is not enough
+
+The Standard Model contains all three ingredients in principle. Baryon number is violated at high temperature by electroweak sphaleron processes [7]. C is violated maximally by the weak interaction, and CP is violated by the complex phase of the quark mixing matrix. A departure from equilibrium could occur at the electroweak transition. The literature consensus, reviewed by Canetti, Drewes and Shaposhnikov [4], is nevertheless that the Standard Model cannot produce the observed asymmetry, for two reasons. First, lattice studies show that for Higgs masses of the order of the W-boson mass and above the electroweak transition is not a first-order phase transition, so it provides no strong departure from equilibrium [8]; the Higgs boson discovered at the LHC [10], [11] is heavier than the endpoint found in [8]. Second, the CP violation of the quark mixing matrix produces an asymmetry far too small [9], [13]. New physics beyond the Standard Model is therefore needed.
+
+### 2.6 Pair-of-universes ideas
+
+One class of ideas replaces “why is there more matter?” by a global symmetry: the universe as a whole is symmetric, but it consists of two parts, each of which is asymmetric. The known published example is the CPT-symmetric universe of Boyle, Finn and Turok [3]. They propose that the universe after the big bang is the CPT image of the universe before it, so that the pre-bang and post-bang epochs form a universe-antiuniverse pair, and they argue that CPT symmetry selects a vacuum state and gives a new interpretation of the cosmological baryon asymmetry. Nothing here depends on or tests that proposal. The pair of Section 7 is of a different kind: both members exist at the same time $x_4$, and they are related by the chirality map with $m\to-m$, not by a time reflection through a bang. The resemblance is only structural, a global symmetry with local asymmetry.
+
+### 2.7 What a solution inside this theory would have to show
+
+To solve the problem, a theory would have to show that a net baryon number can arise from a symmetric state, which requires the three conditions of Section 2.4, and it would have to compute $\eta$. Sections 4 to 9 show that the dirac16complex theory as built meets neither of the first two conditions: its charge is exactly conserved (M1), and it has exact charge-reversing symmetries (M2). What the theory does provide is an exact pairing of universes of masses $+M$ and $-M$ with opposite charges (M4). This gives a conditional scenario (M5) that is stated here as a hypothesis, together with what would have to be added (Section 10).
+
+## 3. The theory, its two fields and the conventions
+
+The conventions are those of the Stage-1 document on dirac16complex in an arbitrary gravitational field and of the Stage-5 specification: indices count from 0; the coordinates are $x_0,\dots,x_7$, and $x_4$ is the evolution time; the tangent metric is $\eta=\mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$, so the directions $0,1,2,3$ are space-like and $4,5,6,7$ time-like. The gamma matrices $\gamma^0,\dots,\gamma^7$ are the notebook's split-octonion matrices, real signed permutation matrices with $\{\gamma^a,\gamma^b\}=2\eta^{ab}$, stored in the exact fixture artifacts/dirac16complex/arbitrary-field/algebra-fixture.json. Further
+
+$$
+\begin{aligned}
+&C=\gamma^0\gamma^1\gamma^2\gamma^3=C^T=C^{-1},\qquad \bar\Psi=\Psi^\dagger C,\qquad (C\gamma^a)^T=-C\gamma^a,\\
+&\gamma^8=\gamma^0\gamma^1\cdots\gamma^7=\mathrm{diag}(-I_8,I_8),\qquad P_\mp=\tfrac12(1\mp\gamma^8),\qquad B=-iC\gamma^4,\\
+&S^{ab}=\tfrac14[\gamma^a,\gamma^b],\qquad \Omega_\mu=\tfrac12\omega_{\mu ab}S^{ab},\qquad D_\mu\Psi=\partial_\mu\Psi+\Omega_\mu\Psi,\qquad D_\mu\bar\Psi=\partial_\mu\bar\Psi-\bar\Psi\Omega_\mu .
+\end{aligned}
+$$
+
+Here $\omega_{\mu ab}=\eta_{ac}\,\omega_\mu{}^c{}_b$ is the canonical (Levi-Civita) spin connection of the vielbein $e_\mu{}^a$, and $\gamma^\mu=e_a{}^\mu\gamma^a$.
+
+**The two fields.** Both are 16-component complex fields $\Psi=(\Psi_0,\dots,\Psi_{15})^T$ carrying the irreducible complex Clifford module of Pin(4,4). For **dirac16complex** the components are anticommuting (Grassmann-odd): $\Psi_a\Psi_b=-\Psi_b\Psi_a$, $\Psi_a\Psi_b^\ast=-\Psi_b^\ast\Psi_a$, and complex conjugation reverses products, $(\theta_1\theta_2)^\ast=\theta_2^\ast\theta_1^\ast$. For **dirac16complex00** the components are commuting complex numbers. We write $s=-1$ for anticommuting and $s=+1$ for commuting components (the statistics sign).
+
+**The Lagrangian** (L1 of the Stage-5 specification), for both fields:
+
+$$
+\begin{aligned}
+&\mathcal L=\sqrt{|g|}\,\bigl[K-mS-U(S)\bigr],\qquad S=\bar\Psi\Psi,\\
+&K=\tfrac12\bigl(\bar\Psi\gamma^\mu D_\mu\Psi-(D_\mu\bar\Psi)\gamma^\mu\Psi\bigr),\qquad U(S)=\tfrac\lambda2S^2\ \text{(default)}.
+\end{aligned}
+$$
+
+For anticommuting components $U$ must be a polynomial in $S$ of degree at most 16, because $S^{17}=0$; for commuting components $U$ may be any function. $\mathcal L_{m,\lambda}$ denotes the Lagrangian with mass $m$ and $U=\tfrac\lambda2S^2$.
+
+**The field equations** are $E=0$ and $\bar E=0$ with
+
+$$
+E:=\gamma^\mu D_\mu\Psi-\bigl(m+U'(S)\bigr)\Psi,\qquad \bar E:=(D_\mu\bar\Psi)\gamma^\mu+\bigl(m+U'(S)\bigr)\bar\Psi ,
+$$
+
+derived in Stage 1 (Section 8) and re-verified there in a genuine Grassmann algebra.
+
+**Current and charge.** The current is $j^\mu=\bar\Psi\gamma^\mu\Psi$. Because $C\gamma^a$ is real and antisymmetric, $j^\mu$ is anti-Hermitian, and the Hermitian current of Stage 1 is $J^\mu=-ij^\mu$. The charge of the slice $\Sigma_{x_4}=\{x_4=\text{const}\}$ is
+
+$$
+Q(x_4)=\int_{\Sigma_{x_4}}\sqrt{|g|}\,J^{x_4}\,d^7x .
+$$
+
+In Gaussian normal gauge ($g^{44}=-1$, $\gamma^{x_4}=\gamma^4$) the charge density is $J^4=\Psi^\dagger B\Psi$. The matrix $B$ is Hermitian with $B^2=1$ and has 8 eigenvalues $+1$ and 8 eigenvalues $-1$, so $Q$ is an indefinite quadratic form. After quantization $B$ is the Krein metric of the canonical anticommutator $\{\Psi,\Psi^\dagger\}=B\,\delta^7/\sqrt{|g|}$, and in the good sector particles carry $Q=+1$ and antiparticles $Q=-1$ (Stage 1, Sections 10.5 to 10.9).
+
+**Test geometries.** The Wolfram checks use G1, the generic non-diagonal vielbein of Stage 1 at its three rational points p1, p2, p3. The Python checks use two fields built independently from vielbein jets at one point: G_A, a non-diagonal vielbein with space-space, space-time and time-time mixing, and G_B, a diagonal vielbein depending on $x_0$ and $x_4$ only, for which every reflection of $x_1,x_2,x_3,x_5,x_6,x_7$ is an isometry. The Python checker also proves the one geometric input of M1 for arbitrary first vielbein jets (Section 4.2).
+
+## 4. Theorem M1: exact U(1) symmetry and charge conservation
+
+### 4.1 Statement
+
+**Theorem M1.** For both statistics, every potential $U$ (a polynomial of degree at most 16 in $S$ for anticommuting components, an arbitrary function for commuting ones) and every vielbein:
+
+1. (global phase) $\mathcal L[e^{i\alpha}\Psi]=\mathcal L[\Psi]$ for every constant real $\alpha$;
+2. (local phase and Noether current) for a phase $\alpha(x)$ that depends on the point, $\mathcal L[e^{i\alpha}\Psi]=\mathcal L[\Psi]+i\sqrt{|g|}\,(\partial_\mu\alpha)\,j^\mu$ with $j^\mu=\bar\Psi\gamma^\mu\Psi$, so the Noether current is $N^\mu=i\sqrt{|g|}\,j^\mu$; it equals the Noether formula $N^\mu=\frac{\partial\mathcal L}{\partial(\partial_\mu\Psi_a)}(i\Psi_a)+(-i\Psi^\dagger_a)\frac{\partial\mathcal L}{\partial(\partial_\mu\Psi^\dagger_a)}$ (right derivative for $\Psi$ and left derivative for $\Psi^\dagger$ in the anticommuting case);
+3. (off-shell identity) with $E$ and $\bar E$ of Section 3, $\partial_\mu\bigl(\sqrt{|g|}\,j^\mu\bigr)=\sqrt{|g|}\,\bigl(\bar E\,\Psi+\bar\Psi\,E\bigr)$;
+4. (conservation) on every solution $\nabla_\mu j^\mu=|g|^{-1/2}\partial_\mu(\sqrt{|g|}\,j^\mu)=0$, and $Q(x_4)$ does not depend on $x_4$ whenever the flux of $\sqrt{|g|}\,J^\mu$ through the boundary of the slices vanishes (compact support, sufficient fall-off, or periodic identification of the slice coordinates);
+5. (charge density) in Gaussian normal gauge $J^4=\Psi^\dagger B\Psi$, with $B$ Hermitian, $B^2=1$, spectrum $(+1)^8(-1)^8$ and trace 0.
+
+**Consequence.** No solution of the field equations of either field, for any $U$ and in any gravitational field with $g^{44}\ne0$, changes $Q$. The charge of a universe is fixed by its initial data at $x_4=0$.
+
+### 4.2 Proof
+
+*Item 1.* For commuting components the phase multiplies $\Psi$ by $e^{i\alpha}$ and $\Psi^\dagger$ by $e^{-i\alpha}$. For anticommuting components complex conjugation is antilinear, $(c\theta)^\ast=\bar c\,\theta^\ast$, so the substitution $\Psi\to e^{i\alpha}\Psi$, $\Psi^\ast\to e^{-i\alpha}\Psi^\ast$ is an automorphism of the Grassmann algebra that preserves the order of every product. Every term of $\mathcal L$ is a sum of products that contain as many factors from $\Psi^\dagger$ (or $\partial\Psi^\dagger$) as factors from $\Psi$ (or $\partial\Psi$): $K$ and $S$ are bilinears $\Psi^\dagger X\Psi$ whose geometric matrices $X$ are untouched by the phase, and $U(S)$ is a function of $S$. For anticommuting components $S^k$ has exactly $\binom{16}{k}$ monomials, each with $k$ factors $\Psi^\ast$ and $k$ factors $\Psi$, and $S^{17}=0$, so every admissible $U$ is a polynomial in $S$ of degree at most 16 and has charge 0. Hence every monomial of $\mathcal L$ is multiplied by $e^{i\alpha}e^{-i\alpha}=1$.
+
+*Item 2.* With $\alpha=\alpha(x)$ one has $D_\mu(e^{i\alpha}\Psi)=e^{i\alpha}\bigl(D_\mu\Psi+i(\partial_\mu\alpha)\Psi\bigr)$ and $D_\mu(\bar\Psi e^{-i\alpha})=e^{-i\alpha}\bigl(D_\mu\bar\Psi-i(\partial_\mu\alpha)\bar\Psi\bigr)$, while $S$ and $U(S)$ are unchanged. Therefore
+
+$$
+K\ \to\ K+\tfrac12\bigl(i(\partial_\mu\alpha)\bar\Psi\gamma^\mu\Psi+i(\partial_\mu\alpha)\bar\Psi\gamma^\mu\Psi\bigr)=K+i(\partial_\mu\alpha)\,j^\mu ,
+$$
+
+and $\mathcal L$ changes by $i\sqrt{|g|}\,(\partial_\mu\alpha)j^\mu$. The coefficient of $\partial_\mu\alpha$ is the Noether current. The Noether formula gives the same expression, because $\partial\mathcal L/\partial(\partial_\mu\Psi)=\tfrac12\sqrt{|g|}\,\bar\Psi\gamma^\mu$ and $\partial\mathcal L/\partial(\partial_\mu\Psi^\dagger)=-\tfrac12\sqrt{|g|}\,C\gamma^\mu\Psi$ with the derivative conventions of item 2.
+
+*Item 3.* The Leibniz rule gives
+
+$$
+\begin{aligned}
+\partial_\mu\bigl(\sqrt{|g|}\,\bar\Psi\gamma^\mu\Psi\bigr)&=\sqrt{|g|}\,(\partial_\mu\bar\Psi)\gamma^\mu\Psi+\bar\Psi\,\partial_\mu\bigl(\sqrt{|g|}\,\gamma^\mu\bigr)\Psi\\
+&\quad+\sqrt{|g|}\,\bar\Psi\gamma^\mu\partial_\mu\Psi .
+\end{aligned}
+$$
+
+The only geometric input is the divergence identity of Stage 1 (Result 5.3), a consequence of the covariant constancy of the gammas:
+
+$$
+\partial_\mu\bigl(\sqrt{|g|}\,\gamma^\mu\bigr)=\sqrt{|g|}\,[\gamma^\mu,\Omega_\mu]=\sqrt{|g|}\,\bigl(\gamma^\mu\Omega_\mu-\Omega_\mu\gamma^\mu\bigr).
+$$
+
+Substituting it and collecting terms,
+
+$$
+\begin{aligned}
+\partial_\mu\bigl(\sqrt{|g|}\,j^\mu\bigr)&=\sqrt{|g|}\,\bigl[(\partial_\mu\bar\Psi-\bar\Psi\Omega_\mu)\gamma^\mu\Psi+\bar\Psi\gamma^\mu(\partial_\mu\Psi+\Omega_\mu\Psi)\bigr]\\
+&=\sqrt{|g|}\,\bigl[(D_\mu\bar\Psi)\gamma^\mu\Psi+\bar\Psi\gamma^\mu D_\mu\Psi\bigr].
+\end{aligned}
+$$
+
+On the other hand
+
+$$
+\bar E\,\Psi+\bar\Psi\,E=(D_\mu\bar\Psi)\gamma^\mu\Psi+\bigl(m+U'(S)\bigr)S+\bar\Psi\gamma^\mu D_\mu\Psi-\bigl(m+U'(S)\bigr)S ,
+$$
+
+because $U'(S)$ is even and commutes with every component. The two potential terms cancel, and item 3 follows. No factor was reordered, so the argument holds verbatim for both statistics.
+
+*Item 4.* On shell $E=\bar E=0$, so $\partial_\mu(\sqrt{|g|}\,j^\mu)=0$, and for a vector field $\nabla_\mu j^\mu=|g|^{-1/2}\partial_\mu(\sqrt{|g|}\,j^\mu)$. Integrate $\partial_\mu(\sqrt{|g|}\,J^\mu)=0$ over the slab between the slices $x_4=t_1$ and $x_4=t_2$. The divergence theorem in the coordinates $x_0,\dots,x_7$ (pure calculus, valid for any signature) gives
+
+$$
+Q(t_2)-Q(t_1)=-\int_{t_1}^{t_2}dx_4\oint\sqrt{|g|}\,J^i\,dS_i ,
+$$
+
+the flux through the lateral boundary, which vanishes under the stated conditions. The indefiniteness of $J^4$ plays no role: $Q$ is conserved although it is not positive.
+
+*Item 5.* $\sqrt{|g|}\,J^{x_4}=-i\sqrt{|g|}\,\Psi^\dagger C\gamma^{x_4}\Psi$, and in Gaussian normal gauge $-iC\gamma^4=B$. The properties of $B$ are those of Stage 1 (Result 10.2); they are re-verified here, including the Hermiticity of the charge matrix $-i\sqrt{|g|}\,C\gamma^{x_4}$ in a general frame.
+
+*The quantized field.* The identity of item 3 is algebraic, and in it every $\Psi^\dagger$ stands to the left of every $\Psi$, so it holds for the operator-valued field as well; the Heisenberg equations of the quantized theory are the field equations (Stage 1, Section 10.4), and normal ordering changes $Q$ by a constant. Hence the normal-ordered charge is conserved in the quantized theory too (derived, not a separate machine check). $\square$
+
+### 4.3 How M1 was verified
+
+**Wolfram** (wolfram/Dirac16ComplexMatterAntimatter.wl; anticommuting components in the package's exact Grassmann algebra with 1440 odd generators for the values and the first and second derivatives of $\Psi$ and $\Psi^\dagger$; commuting components as exact symbols):
+
+- Commuting components with an undefined function $U$, in flat space and at the three G1 points: the argument of $U$ is identically invariant, so $U(S)$ is invariant for every function $U$.
+- Anticommuting components at the three G1 points with $U=\tfrac\lambda2S^2+\tfrac{c_3}{3}S^3$: the Lagrangian density has 1848 monomials at each point, all of U(1) charge 0, and the explicit phase automorphism leaves it unchanged. The powers $S^k$, $k=1,\dots,17$, have 16, 120, 560, 1820, 4368, 8008, 11440, 12870, 11440, 8008, 4368, 1820, 560, 120, 16, 1 and 0 monomials, with coefficients $\pm k!$ and charge 0.
+- The local-phase variation and the Noether formula both give $i\sqrt{|g|}\,\bar\Psi\gamma^\mu\Psi$ at the three G1 points, for both statistics.
+- The off-shell identity of item 3 holds exactly at the three G1 points: for anticommuting components with 1088 monomials on the left-hand side and the potential terms cancelling; for commuting components with an undefined function $U'$.
+- Negative control: with the notebook's contraction of the spin connection (Stage 1, Section 5.6) the identity fails at all three points, as it must, since the divergence identity fails for that contraction.
+- On shell: with exact on-shell jets from the Stage-1 solver at the three G1 points, for $(m,\lambda)=(3/7,5/11)$, $(-2/5,7/13)$ and $(5/9,-3/8)$, the field equations vanish at the point and so does the divergence of the current, while for generic off-shell data the divergence does not vanish.
+
+**Python** (scripts/check_dirac16complex_matter_antimatter.py, independent; anticommuting components with scripts/grassmann_algebra.py, commuting components with its own exact polynomial class; exact phase $e^{i\alpha}=(3+4i)/5$; $m=3/2$, $\lambda=5/7$ and $U=\tfrac\lambda2S^2+\tfrac{\mu_3}3S^3$ with $\mu_3=2/3$):
+
+- In G_A and in G_B, for both statistics: finite U(1) invariance, the Noether current $N^\mu=i\sqrt{|g|}\,\bar\Psi\gamma^\mu\Psi$, the Euler-Lagrange expressions computed directly and in closed form, the off-shell Noether identity, the current divergence identity and Hermiticity, all as exact polynomial identities in fully generic field jets. The Lagrangian density has 1364 (anticommuting) and 1636 (commuting) monomials in G_A and 952 and 1224 in G_B; the Noether divergence has 592 monomials in G_A and 272 in G_B.
+- The divergence identity $\partial_\mu(\sqrt{|g|}\,\gamma^\mu)=\sqrt{|g|}\,[\gamma^\mu,\Omega_\mu]$ and $D_\mu\gamma^\nu=0$ are proved for arbitrary first vielbein jets. At a point both sides are linear in the 512 numbers $\partial_\lambda e_\nu{}^a$, and all 512 basis directions are verified exactly (448 of them have $\Omega\ne0$), for the identity frame and for a unimodular non-diagonal frame; a constant change of coordinates brings any frame at a point to such a frame. With the notebook contraction both identities fail (negative control).
+
+```
+checks (Wolfram)
+  MA_M1_u1InvarianceCommutingGenericU_flat  MA_M1_u1InvarianceCommutingGenericU_G1
+  MA_M1_u1InvarianceGrassmann_G1  MA_M1_grassmannPotentialsPolynomialAndNeutral
+  MA_M1_noetherCurrentLocalPhase_commuting_G1
+  MA_M1_noetherCurrentLocalPhase_grassmann_G1
+  MA_M1_noetherCurrentFormula_grassmann_G1  MA_M1_noetherCurrentFormula_commuting_G1
+  MA_M1_noetherIdentity_grassmann_G1  MA_M1_noetherIdentity_commuting_G1
+  MA_M1_negativeControlNotebookConnection  MA_M1_onShellConservation_G1
+  MA_M1_chargeDensityMatrix  MA_M1_stage1ChecksCited
+checks (Python), for G in {G_A_generic_nondiagonal, G_B_diagonal_x0_x4} and
+  X in {grassmann, commuting}: MA_M1_<name>_<X>_<G> with <name> one of
+    u1Invariance  noetherCurrentIsISqrtgPsibarGammaPsi  eulerLagrangeCrossCheck
+    eulerLagrangeClosedForm  noetherIdentity  currentDivergenceIdentity  hermiticity
+  and MA_M1_geometry_<G>  MA_M1_divergenceIdentityAllFirstJets  MA_M1
+```
+
+The check MA_M1_stage1ChecksCited cites, by check name and report hash, the Stage-1 results used here: the Euler-Lagrange equations for both variations with $\lambda\ne0$ in a genuine Grassmann algebra, the divergence identity, local spin invariance, the conservation of the energy-momentum tensor, the Hermiticity of the current, the chirality map, the Pin characters, the invariant forms and the charge form $B$. The cited Stage-1 checks are
+
+```
+wolfram-geometry-report.json  GEO_divergenceIdentity_G1  GEO_divergenceIdentity_G2
+  LAG_eulerLagrangePsibar_G1  LAG_eulerLagrangePsibar_G2  LAG_eulerLagrangePsi_G1
+  LAG_eulerLagrangePsi_G2  LAG_localSpinInvariance_G1  LAG_localSpinInvariance_G2
+  EMT_conservation_G1  EMT_conservation_G2
+wolfram-algebra-report.json   QNT_currentHermiticity  ALG_gamma8Map
+  ALG_pinLiftCharacter  ALG_invariantForms  ALG_chargeFormB
+grassmann-demo-report.json    GR_currentHermitian
+```
+
+### 4.4 The Kohn-Sham states have a fixed particle number (recorded data)
+
+The Kohn-Sham (density-functional) states of Stages 4 and 5 are computed at a fixed particle number $N$: the Mermin functional contains the constraint $\sum_nf_n=N$ with the chemical potential $\mu$ as its Lagrange multiplier, and in the no-sea convention of Stage 4 the net occupation (particle occupations minus sea holes) is the Kohn-Sham image of the U(1) charge. These states are therefore, by construction, states of one fixed charge. As a data check, not a proof, the Wolfram verifier reads the committed Stage-4 runs (check MA_M1_ksFixedNetNumberRecorded): 56 reference-solver run files with 168 levels and 33 Rust run files all have net occupation $N$ to $10^{-9}$ relative, with largest absolute deviations 3.5073e-10 (reference solver) and 1.012e-11 (Rust). This is recorded floating-point data, and it is the only check quoted in this document that is not exact.
+
+## 5. Theorem M2: charge conjugation, reflections and time reversal
+
+### 5.1 The maps
+
+For a subset $R\subseteq\{0,\dots,7\}$ of directions let $r_a=-1$ for $a\in R$ and $r_a=+1$ otherwise, and let $x\mapsto Rx$ be the reflection $x_a\mapsto r_ax_a$. For a constant invertible $16\times16$ matrix $M$ consider the linear and the antilinear maps
+
+$$
+T^{\mathrm{lin}}_{M,R}:\ \Psi'(x)=M\,\Psi(Rx),\qquad T^{\mathrm{anti}}_{M,R}:\ \Psi'(x)=M\,\Psi^\ast(Rx).
+$$
+
+For $R=\emptyset$ the antilinear maps are the charge conjugations; for $R\ne\emptyset$ and $M$ a Pin(4,4) element they are reflections (P-type if $R\subseteq\{0,1,2,3\}$, T-type if $4\in R$) and their combinations with C. The form $\Psi'=M\bar\Psi^T$ of the specification is included: since $C^T=C$, $\bar\Psi^T=C\Psi^\ast$, so $M\bar\Psi^T=(MC)\Psi^\ast$. We write $s_R=|R\cap\{0,1,2,3\}|$ for the number of reflected space-like directions, $\sigma_R=(-1)^{s_R}$, and $\Gamma_A=\gamma^{a_1}\gamma^{a_2}\cdots\gamma^{a_k}$ ($a_1<\dots<a_k$) for the Clifford monomial of a set $A$, with $\Gamma_\emptyset=1$ and $R^c$ the complement of $R$.
+
+### 5.2 Three lemmas
+
+**Lemma A (charge-conjugation intertwiners).** The solutions of $\gamma^aM=\eta\,M\,(\gamma^a)^\ast$ for all $a$ are $M\in\mathbb C\cdot1$ for $\eta=+1$ and $M\in\mathbb C\cdot\gamma^8$ for $\eta=-1$. The solutions of $\gamma^aM=\zeta\,M(\gamma^a)^T$ are $M\in\mathbb C\cdot C$ for $\zeta=-1$ and $M\in\mathbb C\cdot\gamma^8C$ for $\zeta=+1$. Hence every constant charge conjugation compatible with the Dirac operator is, up to a factor, $C_0:\Psi\to\Psi^\ast$ or $C_8:\Psi\to\gamma^8\Psi^\ast$, and the forms $C\bar\Psi^T=\Psi^\ast$ and $\gamma^8C\bar\Psi^T=\gamma^8\Psi^\ast$ are the same two maps.
+
+*Proof.* The gammas are real, so the first condition reads $\gamma^aM=\eta M\gamma^a$. For $\eta=+1$, $M$ commutes with every $\gamma^a$, and the commutant of the gammas consists of the scalars (Stage 1, Result 4.1: $\mathbb C^{16}$ is an irreducible Pin(4,4) module). For $\eta=-1$, $\gamma^8$ anticommutes with every $\gamma^a$, so $\gamma^8M$ commutes with every $\gamma^a$ and is a scalar. For the transposed condition, $(C\gamma^a)^T=-C\gamma^a$ gives $(\gamma^a)^T=-C\gamma^aC^{-1}$, so $\gamma^aM=\zeta M(\gamma^a)^T$ becomes $\gamma^a(MC)=-\zeta(MC)\gamma^a$, and the first part applies to $MC$. $\square$
+
+**Lemma B (sign patterns).** For every $R$ the equation $M^{-1}\gamma^aM\,r_a=\varepsilon\gamma^a$ (all $a$, one common sign $\varepsilon$) has, up to a factor, exactly two solutions: $M=\Gamma_R$ with $\varepsilon=(-1)^{|R|}$ and $M=\Gamma_{R^c}$ with $\varepsilon=-(-1)^{|R|}$. Both satisfy $M^\dagger=M^T=M^{-1}$ and
+
+$$
+M^\dagger CM=\sigma_R\,C,\qquad \sigma_R=(-1)^{s_R}.
+$$
+
+*Proof.* $\gamma^a$ anticommutes with $\gamma^b$ for $b\ne a$ and commutes with itself, so $\Gamma_A^{-1}\gamma^a\Gamma_A=(-1)^{|A|}\gamma^a$ for $a\notin A$ and $(-1)^{|A|-1}\gamma^a$ for $a\in A$. For $A=R$ this is $(-1)^{|R|}r_a\gamma^a$, for $A=R^c$ it is $-(-1)^{|R|}r_a\gamma^a$. The 256 monomials realise the 256 sign patterns $\gamma^a\mapsto\pm\gamma^a$ bijectively, and two solutions of the same pattern differ by an element of the commutant, a scalar (Lemma A). The gammas are real signed permutation matrices, hence orthogonal, and so are their products: $M^\dagger=M^T=M^{-1}$. Finally $(\gamma^a)^TC\gamma^a=-C$ for $a\le3$ ($\gamma^a$ symmetric, anticommuting with $C$, square $+1$) and $(\gamma^a)^TC\gamma^a=+C$ for $a\ge4$ ($\gamma^a$ antisymmetric, commuting with $C$, square $-1$). Applying this factor by factor, $\Gamma_A^TC\Gamma_A=(-1)^{|A\cap\{0,1,2,3\}|}C$; for $A=R$ and $A=R^c$ the exponents are $s_R$ and $4-s_R$, of the same parity. $\square$
+
+**Lemma C (statistics sign).** For every matrix $Y$, $\Psi^TY\Psi^\ast=s\,\Psi^\dagger Y^T\Psi$, with $s=-1$ for anticommuting and $s=+1$ for commuting components; the same holds with derivatives on either factor.
+
+*Proof.* $\Psi^TY\Psi^\ast=\sum_{ij}\Psi_iY_{ij}\Psi^\ast_j=s\sum_{ij}\Psi^\ast_jY_{ij}\Psi_i=s\,\Psi^\dagger Y^T\Psi$, because exchanging two odd factors costs a sign and exchanging two commuting factors does not. $\square$
+
+### 5.3 The transformation rule
+
+**Theorem M2 (transformation rule).** Let $M$ be one of the two solutions of Lemma B for $R$, with its sign $\varepsilon$ (a factor of modulus 1 is irrelevant). Then, for $U=\tfrac\lambda2S^2$,
+
+$$
+\mathcal L_{m,\lambda}[T\Psi](x)=\kappa\,\mathcal L_{\sigma\kappa m,\,\kappa\lambda}[\Psi](Rx),\qquad j'^a(x)=c_j\,r_a\,j^a(Rx),
+$$
+
+with
+
+$$
+\begin{aligned}
+&\text{linear maps:}&&\kappa=\sigma_R\varepsilon,\qquad \sigma=\sigma_R,\qquad c_j=\kappa,\\
+&\text{antilinear maps:}&&\kappa=s\,\sigma_R\varepsilon,\qquad \sigma=s\,\sigma_R,\qquad c_j=-\kappa .
+\end{aligned}
+$$
+
+Here $\kappa$ is the sign of the kinetic term ($K\to\kappa K$), $\sigma$ the sign of the scalar ($S\to\sigma S$), and $c_j$ the sign of the current relative to the vector law $j^a\to r_aj^a$.
+
+*Proof, linear maps (flat space).* $\partial_a\Psi'(x)=r_aM(\partial_a\Psi)(Rx)$ and $\Psi'^\dagger=\Psi^\dagger M^\dagger$. By Lemma B, $M^\dagger C\gamma^aM=(M^{-1}CM)(M^{-1}\gamma^aM)=\sigma_R\varepsilon\,r_a\,C\gamma^a$. Hence $S\to\sigma_RS$, $j^a\to\sigma_R\varepsilon r_aj^a$, and in $K$ every term acquires $\sigma_R\varepsilon r_a\cdot r_a=\sigma_R\varepsilon$. Then
+
+$$
+\kappa K-m\sigma S-\tfrac\lambda2S^2=\kappa\bigl[K-(\sigma\kappa m)S-\kappa\tfrac\lambda2S^2\bigr]=\kappa\,\mathcal L_{\sigma\kappa m,\kappa\lambda}/\sqrt{|g|},
+$$
+
+using $\kappa^2=1$ and $(\sigma S)^2=S^2$.
+
+*Proof, antilinear maps (flat space).* Now $\Psi'^\dagger=\Psi^TM^\dagger$ (conjugation is antilinear and $(M\Psi^\ast)^\ast=M^\ast\Psi$). By Lemma C and Lemma B,
+
+$$
+S'=\Psi^T(M^\dagger CM)\Psi^\ast=s\,\Psi^\dagger(\sigma_RC)^T\Psi=s\sigma_R\,S ,
+$$
+
+and with $Y=M^\dagger C\gamma^aM=\sigma_R\varepsilon r_aC\gamma^a$ and $(C\gamma^a)^T=-C\gamma^a$,
+
+$$
+\begin{aligned}
+\Psi'^\dagger C\gamma^a\partial_a\Psi'&=r_a\,\Psi^TY\partial_a\Psi^\ast=r_a\,s\,(\partial_a\Psi^\dagger)Y^T\Psi=-s\sigma_R\varepsilon\,(\partial_a\Psi^\dagger)C\gamma^a\Psi,\\
+-(\partial_a\Psi'^\dagger)C\gamma^a\Psi'&=-r_a\,(\partial_a\Psi^T)Y\Psi^\ast=-r_a\,s\,\Psi^\dagger Y^T\partial_a\Psi=s\sigma_R\varepsilon\,\Psi^\dagger C\gamma^a\partial_a\Psi .
+\end{aligned}
+$$
+
+So $K\to s\sigma_R\varepsilon\,K$, and in the same way $j^a\to-s\sigma_R\varepsilon\,r_aj^a$. The Lagrangian follows as in the linear case.
+
+*Curved fields.* In a curved field the same maps are used in frame form: $\Psi\to M\Psi$ (or $M\Psi^\ast$) together with the constant frame change $e_\mu{}^a\to r_a\,e_\mu{}^a$ (no sum over $a$), which leaves the metric unchanged. Then $\gamma'^\mu=\sum_ar_ae_a{}^\mu\gamma^a$ and $\omega'_{\mu ab}=r_ar_b\,\omega_{\mu ab}$. Lemma B gives $M[\gamma^a,\gamma^b]M^{-1}=r_ar_b[\gamma^a,\gamma^b]$, hence $\Omega'_\mu=M\Omega_\mu M^{-1}$ and $D'_\mu(M\Psi)=MD_\mu\Psi$. For antilinear maps $\Omega_\mu$ is real, so $(D_\mu\Psi)^\ast=D_\mu\Psi^\ast$. With these replacements the flat computation goes through unchanged, with $\partial_a$ replaced by $D_\mu$, and the rule holds in every gravitational field. When the metric has a reflection isometry, the coordinate form $\Psi(Rx)$ holds as well. $\square$
+
+### 5.4 Classification
+
+**Corollary M2.1 (exact symmetries).** A map of Section 5.1 is an exact symmetry, $\mathcal L[T\Psi](x)=\mathcal L[\Psi](Rx)$ for all $m$ and $\lambda$, if and only if $\kappa=\sigma=1$. Then it is a symmetry for every potential $U$, because $S\to S$ and $K\to K$. Explicitly:
+
+- linear maps: an exact symmetry with reflected set $R$ exists if and only if $s_R$ is even, for any number of reflected time-like directions; it is the monomial among $\Gamma_R,\Gamma_{R^c}$ with $\varepsilon=+1$;
+- antilinear maps, commuting components: if and only if $s_R$ is even;
+- antilinear maps, anticommuting components: if and only if $s_R$ is odd.
+
+No map of Section 5.1 sends $\mathcal L_{m,\lambda}$ to $-\mathcal L_{m,\lambda}$ when $\lambda\ne0$: that would need $\kappa=-1$ together with $\sigma\kappa=1$ and $\kappa\lambda=\lambda$. For $\lambda=0$ ($U=0$) the maps of the class $-\mathcal L_{m,-\lambda}$ do so, and they are then symmetries of the field equations, which are the same for $\mathcal L$ and $-\mathcal L$ (derived from the rule).
+
+**Corollary M2.2 (charge).** For an exact symmetry, $c_j=+1$ for linear and $c_j=-1$ for antilinear maps. If $x_4$ is not reflected ($r_4=+1$), an exact linear symmetry preserves $j^4$ and $Q$, and an exact antilinear symmetry reverses them, $Q\to-Q$.
+
+**Counting.** Per statistics there are $256$ sets $R$, 2 matrices and 2 types, 1024 maps. Their Lagrangian images fall into the four classes $\mathcal L_{m,\lambda}$, $\mathcal L_{-m,\lambda}$, $-\mathcal L_{m,-\lambda}$ and $-\mathcal L_{-m,-\lambda}$ with 256 maps each. The exact symmetries number 256 for each statistics: 128 linear (the sets with $s_R$ even) and 128 antilinear. Among them, the charge-reversing ones that do not reflect $x_4$ are the exact antilinear maps with $4\notin R$. There are $8\times8=64$ of them for each statistics: $R\cap\{0,1,2,3\}$ of even size (commuting) or odd size (anticommuting), times any subset of $\{5,6,7\}$.
+
+### 5.5 C, P, CP, T and CPT for the two fields
+
+The table applies the rule to the named maps. $R_Ax$ denotes $x$ with the coordinates $x_a$, $a\in A$, reversed, and $\Gamma_A$ is the Clifford monomial of Section 5.1. “exact” means $\mathcal L\to\mathcal L$; the charge is stated for the maps that preserve $x_4$. $P_b$ is the twisted Pin lift of the unit vector $\gamma^b$, which acts as the reflection of $x_b$, and $P'_b$ is the other lift.
+
+| Map | Definition | Commuting | Anticommuting |
+|---|---|---|---|
+| $C_0$ | $\Psi^\ast(x)$ | exact, $Q\to-Q$ | $-\mathcal L_{m,-\lambda}$, $Q\to Q$ |
+| $C_8$ | $\gamma^8\Psi^\ast(x)$ | $-\mathcal L_{-m,-\lambda}$, $Q\to Q$ | $\mathcal L_{-m,\lambda}$, $Q\to-Q$ |
+| chirality | $\gamma^8\Psi(x)$ | $-\mathcal L_{-m,-\lambda}$, $Q\to-Q$ | $-\mathcal L_{-m,-\lambda}$, $Q\to-Q$ |
+| $P_b$, $b\le3$ | $\gamma^b\Psi(R_bx)$ | $\mathcal L_{-m,\lambda}$ | $\mathcal L_{-m,\lambda}$ |
+| $P'_b$, $b\le3$ | $\Gamma_{\{b\}^c}\Psi(R_bx)$ | $-\mathcal L_{m,-\lambda}$ | $-\mathcal L_{m,-\lambda}$ |
+| $C_0P_b$ | $\gamma^b\Psi^\ast(R_bx)$ | $\mathcal L_{-m,\lambda}$ | $-\mathcal L_{-m,-\lambda}$ |
+| $C_8P_b$ | $\Gamma_{\{b\}^c}\Psi^\ast(R_bx)$ | $-\mathcal L_{m,-\lambda}$ | exact, $Q\to-Q$ |
+| $P_{123}$ | $\gamma^1\gamma^2\gamma^3\Psi(R_{123}x)$ | $\mathcal L_{-m,\lambda}$ | $\mathcal L_{-m,\lambda}$ |
+| $C_8P_{123}$ | $\Gamma_{\{0,4,5,6,7\}}\Psi^\ast(R_{123}x)$ | $-\mathcal L_{m,-\lambda}$ | exact, $Q\to-Q$ |
+| $P_{0123}$ | $C\Psi(R_{0123}x)$ | exact, $Q\to Q$ | exact, $Q\to Q$ |
+| $C_0P_{0123}$ | $C\Psi^\ast(R_{0123}x)$ | exact, $Q\to-Q$ | $-\mathcal L_{m,-\lambda}$ |
+| $T$ | $\Gamma_{\{4\}^c}\Psi(R_4x)$ | exact | exact |
+| $T$, antilinear | $\Gamma_{\{4\}^c}\Psi^\ast(R_4x)$ | exact | $-\mathcal L_{m,-\lambda}$ |
+| total inversion | $\gamma^8\Psi(-x)$ | exact | exact |
+| CPT | $\gamma^8\Psi^\ast(-x)$ | exact | $-\mathcal L_{m,-\lambda}$ |
+| $CP_{123}T$ | $\gamma^1\gamma^2\gamma^3\gamma^4\Psi^\ast(R_{1234}x)$ | $-\mathcal L_{m,-\lambda}$ | exact |
+
+Reading of the table:
+
+- **Commuting field (dirac16complex00).** C is exact and reverses the charge. P and CP with one reflected space-like direction (or three) are not exact for $m\ne0$; P is exact at $m=0$. CP with an even number of reflected space-like directions, for example $C_0P_{0123}$, is exact. T (linear and antilinear) and the full antilinear inversion CPT are exact.
+- **Anticommuting field (dirac16complex).** No constant C is exact for $m\ne0$: $C_0$ gives $-\mathcal L_{m,-\lambda}$, and the unitary charge conjugation $C_8$ gives $\mathcal L_{-m,\lambda}$, the theory with the opposite mass (C is exact at $m=0$). CP with an odd number of reflected space-like directions is exact and reverses the charge: $C_8P_b$ for $b=0,1,2,3$ and $C_8P_{123}$. T is exact as a linear map (implemented antiunitarily after quantization, Section 5.6). The antilinear total inversion is not exact, while $CP_{123}T$ is.
+
+For both fields an exact symmetry exists that preserves $x_4$ and reverses $Q$: $C_0$ for the commuting field, $C_8P_b$ for the anticommuting field.
+
+### 5.6 The quantized anticommuting field
+
+The canonical anticommutator is $\{\Psi_a,\Psi^\dagger_b\}=B_{ab}\,\delta^7$ (flat space, Gaussian normal gauge). A map is compatible with it if the transformed operators satisfy the same relation; it is then implemented by a unitary operator if the c-number $B$ is reproduced, and by an antiunitary operator if $B^\ast=-B$ is reproduced (an antiunitary operator complex-conjugates c-numbers). From Lemma B, $MCM^{-1}=\sigma_RC$ and $M\gamma^4M^{-1}=\varepsilon r_4\gamma^4$, and $B^T=-B$, so
+
+$$
+\begin{aligned}
+&\text{linear }\Psi\to M\Psi:&&\{M\Psi,(M\Psi)^\dagger\}=MBM^\dagger=\sigma_R\varepsilon\,r_4\,B,\\
+&\text{antilinear }\Psi\to M\Psi^{\dagger T}:&&\{M\Psi^{\dagger T},(M\Psi^{\dagger T})^\dagger\}=MB^TM^\dagger=-\sigma_R\varepsilon\,r_4\,B .
+\end{aligned}
+$$
+
+For an exact symmetry of the anticommuting field ($\sigma_R\varepsilon=1$ for linear, $\sigma_R=-1$ and $\varepsilon=1$ for antilinear maps) both expressions equal $r_4B$ (derived). Hence every exact symmetry is compatible with the canonical structure: unitarily if it preserves $x_4$ and antiunitarily if it reverses $x_4$. The unitary charge conjugation is $C_8$ ($MB^TM^\dagger=+B$), while $C_0$ would need an antiunitary implementation although it preserves $x_4$ ($MB^TM^\dagger=-B$). For the unitary CP, $U\,J^4\,U^{-1}=\bigl(M\Psi^{\dagger T}\bigr)^\dagger B\,M\Psi^{\dagger T}$; reordering the operator product produces the sign of Lemma C and a c-number, so the normal-ordered charge is reversed, $:Q:\ \to\ -:Q:$ (derived). Whether each map is also implemented on the positive ($J=B$) Fock space of the good sector is not decided here.
+
+### 5.7 A remark on the slicing in signature (4,4)
+
+The identity component $\mathrm{Spin}_0(4,4)$, under which $\mathcal L$ is invariant, contains $\exp(\pi S^{45})=\gamma^4\gamma^5$ ($S^{45}=\tfrac12\gamma^4\gamma^5$ with $(S^{45})^2=-\tfrac14$), the rotation by $\pi$ in the plane of the two time-like directions $x_4,x_5$, and the product of four such rotations, $\gamma^8$, the total inversion. Both are exact symmetries, and both reverse $x_4$ and the $x_4$-component of the current. In signature (4,4) the time orientation of the slicing $x_4=\text{const}$ can therefore be reversed continuously, and the sign of $Q$ refers to a chosen slicing. These maps reverse $x_4$; they are not C or CP in Sakharov's sense and are not used in Section 9.
+
+### 5.8 How M2 was verified
+
+**Wolfram:** the intertwiner spaces of Lemma A are one-dimensional each (bases $1$, $\gamma^8$, $C$, $\gamma^8C$, all commuting with every $S^{ab}$); the 256 monomials realise the 256 sign patterns bijectively, with the explicit null spaces; the statistics sign $s$ is computed with an exact random Gaussian-rational $Y$; all 512 pairs $(M,R)$ satisfy the rules for $\varepsilon$, $\sigma_R$ and $\kappa$; for all 1024 maps per statistics, the Lagrangian density computed from the transformed jets (commuting symbols, respectively the Grassmann algebra) equals $\kappa\mathcal L_{\sigma\kappa m,\kappa\lambda}$ as given by the rule, and the eight current signs agree, with no mismatch; the frame form in the curved field G1 is checked for 31 frame reflections (21 at p1, 5 each at p2 and p3) for both statistics; and all 256 exact maps of the anticommuting field preserve the canonical structure as in Section 5.6.
+
+**Python** (independent): the solution spaces of Lemma A, including the linear intertwiners $1$ and $\gamma^8$; the internal maps $C_0$, $C_8$ and the chirality map on curved jets in G_A, agreeing with the hand derivation $(\kappa,\sigma,q)=(s,s,-s)$ for $C_0$ and $C_8=C_0\circ$chirality; named reflections on flat jets for both lifts; three generic, non-axis unit vectors $u=(2,0,0,0,1,1,1,0)$ with $n(u)=+1$, $u=(1,1,0,0,1,0,1,1)$ and $u=(0,1,0,1,1,1,1,0)$ with $n(u)=-1$; reflections in the curved field G_B, which has reflection isometries; the rotation $\exp(\pi S^{45})$ and the total inversion of Section 5.7; the complete character table of the 1024 maps per statistics (4 classes of 256, 256 exact symmetries, 64 exact charge-reversing symmetries without $x_4$ reversal), with multiplicativity of the characters checked on 400 random composites; the C and CP status; the canonical structure of the 256 exact maps of the anticommuting field (128 unitary and $x_4$-preserving, 128 antiunitary and $x_4$-reversing, none other); and C combined with spatial parities.
+
+```
+checks (Wolfram)
+  MA_M2_conjugationIntertwiners  MA_M2_transposeIntertwiners
+  MA_M2_signPatternClassification
+  MA_M2_statisticsSign  MA_M2_matrixClassification  MA_M2_lagrangianFlatCommuting_all
+  MA_M2_lagrangianFlatGrassmann_all  MA_M2_namedTransformations
+  MA_M2_frameLevelG1_commuting  MA_M2_frameLevelG1_grassmann
+  MA_M2_symmetrySummaryAndChargeReversal  MA_M2_canonicalStructure
+checks (Python)
+  MA_M2_chargeConjugationSolutionSpaces  MA_M2_psibarTransposeFormsReduceToPsiStarForms
+  MA_M2_internalMapsCurvedJets  MA_M2_internalMapsAsDerived
+  MA_M2_namedReflectionsFlatJets
+  MA_M2_genericUnitVectorReflections  MA_M2_reflectionsInCurvedFieldWithIsometry
+  MA_M2_spin0ContainsChargeReversingTimeRotation  MA_M2_discreteGroupCharacterTable
+  MA_M2_characterHomomorphism  MA_M2_C_and_CP_status
+  MA_M2_canonicalStructureOfExactGrassmannSymmetries
+  MA_M2_chargeConjugationWithSpatialParity  MA_M2
+```
+
+## 6. Theorem M3: the charge-violating terms allowed by the symmetry
+
+Sakharov's first condition needs an interaction that changes the charge. The simplest candidates are “Majorana-type” terms built with $\Psi^T$ instead of $\Psi^\dagger$: under $\Psi\to e^{i\alpha}\Psi$ they are multiplied by $e^{2i\alpha}$ (U(1) charge 2), so they violate the U(1) of M1. Theorem M3 classifies the ones that the local Lorentz symmetry allows. It is a classification, not a claim that any such term is present in the theory or natural.
+
+### 6.1 Statement
+
+**Theorem M3.**
+
+1. (invariant forms) The constant matrices $M$ with $(S^{ab})^TM+MS^{ab}=0$ for all 28 generators, that is, with $\Psi^TM\Psi$ invariant under $\mathrm{Spin}_0(4,4)$, are exactly $M=C(\alpha P_-+\beta P_+)$ with complex $\alpha,\beta$. The space has dimension 2, all its elements are symmetric, and it contains no nonzero antisymmetric matrix.
+2. (the full group) The elements of $\mathrm{Spin}(4,4)$ of spinor norm $-1$, such as $g=\gamma^a\gamma^b$ with $a$ space-like and $b$ time-like, act by $g^T(CP_\pm)g=-CP_\pm$. No nonzero form is strictly invariant under the full $\mathrm{Spin}(4,4)$; both basis forms carry the spinor-norm character.
+3. (Pin characters) For every unit vector $u=u_a\gamma^a$, $u^2=n(u)=\pm1$: $u^TCu=-n(u)\,C$ and $u^T(C\gamma^8)u=+n(u)\,C\gamma^8$. Among the $\mathrm{Spin}_0$-invariant forms, the trivial character $\chi=1$ and the determinant character $\chi(u)=-1$ admit no nonzero covariant form; $C$ carries $\chi(u)=-n(u)$ (the character of $\bar\Psi\Psi$), and $C\gamma^8$ carries $\chi(u)=+n(u)$. The chiral forms $CP_\pm$ are $\mathrm{Spin}_0$-invariant but not Pin-covariant, because $u$ exchanges the two chiralities.
+4. (derivative terms) The derivative bilinears $\Psi^TM\gamma^a\partial_a\Psi$ that are $\mathrm{Spin}_0$-invariant have $M$ in the same two-dimensional space. $M\gamma^a$ is symmetric for every $a$ exactly when $M\propto C\gamma^8$, and antisymmetric for every $a$ exactly when $M\propto C$.
+5. (what survives) For **anticommuting** components every invariant mass-type term $\Psi^TM\Psi$ vanishes identically: no Majorana mass term exists. The derivative term $\sqrt{|g|}\,\Psi^TC\gamma^\mu D_\mu\Psi$ is a total divergence (identically vanishing Euler-Lagrange equations), while $\sqrt{|g|}\,\Psi^TC\gamma^8\gamma^\mu D_\mu\Psi$ survives, with flat-space Euler-Lagrange expression $2C\gamma^8\gamma^a\partial_a\Psi$. For **commuting** components the two chiral mass terms $\Psi^TCP_\pm\Psi$ survive (equivalently $\Psi^TC\Psi$ and $\Psi^TC\gamma^8\Psi$), and so does the derivative term $\sqrt{|g|}\,\Psi^TC\gamma^\mu D_\mu\Psi$, which is the form of the notebook Lagrangian Lg[]; $\sqrt{|g|}\,\Psi^TC\gamma^8\gamma^\mu D_\mu\Psi$ is a total divergence.
+6. (charge) Every term of items 1 to 5 has U(1) charge 2, and none of them is contained in $\mathcal L$.
+
+### 6.2 Proof
+
+*Item 1.* From $(CS^{ab})^T=-CS^{ab}$ (Stage 1, Result 3.5) and $C^T=C$ one gets $(S^{ab})^T=-CS^{ab}C^{-1}$. The condition becomes $-CS^{ab}C^{-1}M+MS^{ab}=0$, that is, $S^{ab}(C^{-1}M)=(C^{-1}M)S^{ab}$: the matrix $C^{-1}M$ lies in the commutant of the 28 generators. That commutant is spanned by $P_-$ and $P_+$ (Stage 1, Result 4.2, dimension 2). So $M=C(\alpha P_-+\beta P_+)$. Since $\gamma^8$ is symmetric and commutes with $C$, $(CP_\pm)^T=P_\pm C=CP_\pm$: both are symmetric, and a nonzero antisymmetric solution cannot exist.
+
+*Item 3.* $(C\gamma^a)^T=-C\gamma^a$ gives $(\gamma^a)^TC=-C\gamma^a$, hence $u^TCu=-Cu\,u=-n(u)C$. With $\gamma^8u=-u\gamma^8$, $u^TC\gamma^8u=-Cu\gamma^8u=C\gamma^8u^2=n(u)C\gamma^8$. A form $\alpha CP_-+\beta CP_+$ is covariant for a character only if it is proportional to $C$ or to $C\gamma^8$, because $u^T(CP_\pm)u=-n(u)\,CP_\mp$ exchanges the two chiral pieces.
+
+*Item 4.* $M\gamma^a$ symmetric for all $a$: $(C\gamma^8\gamma^a)^T=(\gamma^a)^T\gamma^8C=(\gamma^a)^TC\gamma^8=-C\gamma^a\gamma^8=C\gamma^8\gamma^a$. $M\gamma^a$ antisymmetric for all $a$: $(C\gamma^a)^T=-C\gamma^a$ (expression [1] of Stage 1). The combinations $\alpha CP_-+\beta CP_+$ with both $\alpha$ and $\beta$ nonzero and $\alpha\ne\pm\beta$ have neither property; the exact solutions are $\beta=-\alpha$ (symmetric) and $\beta=\alpha$ (antisymmetric).
+
+*Item 5.* For anticommuting components $\Psi_i\Psi_j=-\Psi_j\Psi_i$, so $\Psi^TM\Psi=\Psi^TM_A\Psi$ with $M_A=\tfrac12(M-M^T)$. The map $M\mapsto(S^{ab})^TM+MS^{ab}$ sends symmetric matrices to symmetric ones and antisymmetric matrices to antisymmetric ones, so the invariance of $\Psi^TM_A\Psi$ is the condition of item 1 for $M_A$ alone. By item 1, $M_A$ is then symmetric and antisymmetric at once, hence zero: every invariant mass-type term vanishes. For commuting components only the symmetric part $M_S=\tfrac12(M+M^T)$ counts, and $CP_\pm$ are symmetric and nonzero. For derivative terms, if $A$ is antisymmetric and the components anticommute, then $\partial_a(\Psi^TA\Psi)=2\,\Psi^TA\,\partial_a\Psi$, so $\Psi^TC\gamma^a\partial_a\Psi=\tfrac12\partial_a(\Psi^TC\gamma^a\Psi)$ is a total derivative. In curved space, with $\sqrt{|g|}$ and the canonical connection, this is the Stage-1 theorem that Lg[] is a pure divergence for a Grassmann field (Stage 1, Section 6). If instead $X$ is symmetric, varying $\Psi^TX\partial_a\Psi$ and integrating by parts gives the Euler-Lagrange expression $2X\partial_a\Psi\ne0$. For commuting components the roles of symmetric and antisymmetric are exchanged.
+
+*Item 6.* $\Psi^T\to e^{i\alpha}\Psi^T$ and $\Psi\to e^{i\alpha}\Psi$, so every term $\Psi^TX\Psi$ is multiplied by $e^{2i\alpha}$. $\mathcal L$ contains only $\Psi^\dagger\cdots\Psi$ bilinears and functions of $S$. $\square$
+
+**Pin characters of the Majorana-type terms.** For $\Psi\to u\Psi$ with $u=\gamma^b$ ($n=\eta_{bb}$): $\Psi^TC\Psi$ picks up $-n$ and $\Psi^TC\gamma^8\Psi$ picks up $+n$; the kinetic term $\Psi^TC\gamma^a\partial_a\Psi$ picks up $+n$ with the twisted lift and $-n$ with the untwisted lift, and $\Psi^TC\gamma^8\gamma^a\partial_a\Psi$ picks up $-n$ (twisted) and $+n$ (untwisted).
+
+**The notebook Lagrangian.** Lg[] uses Transpose[Psi16], not ConjugateTranspose: its kinetic matrix $\sigma_{16}T16^a=C\gamma^a$ and its mass matrix $\sigma_{16}=C$ belong to the family of item 1 with the Pin character $-n(u)$. For a complex commuting field it has U(1) charge 2; for a real commuting field (the Stage-5 real restriction) it is non-trivial; for a Grassmann field it is a total derivative with a vanishing mass term (Stage 1). dirac16complex00 uses the charge-0 Lagrangian $\mathcal L$ instead.
+
+### 6.3 Quartic examples (not a classification)
+
+For anticommuting components invariant charge-violating terms of higher order exist. Since $C$ is an invariant form and $\gamma^a\gamma^b$ transforms as a tensor, the bilinears $T^{ab}=\Psi^TC\gamma^a\gamma^b\Psi$ ($a\ne b$, antisymmetric matrices, hence non-vanishing for Grassmann components) form an antisymmetric tensor, and full contractions are $\mathrm{Spin}_0$-invariant:
+
+$$
+\begin{aligned}
+&Q_4=\sum_{a<b}\eta_{aa}\eta_{bb}\,\bigl(\Psi^TC\gamma^a\gamma^b\Psi\bigr)^2 \qquad\text{(40 monomials, charge 4)},\\
+&Q_2=\sum_{a<b}\eta_{aa}\eta_{bb}\,\bigl(\Psi^TC\gamma^a\gamma^b\Psi\bigr)\bigl(\Psi^\dagger C\gamma^a\gamma^b\Psi\bigr)\qquad\text{(160 monomials, charge 2)}.
+\end{aligned}
+$$
+
+$Q_4$ equals exactly 8 times the chiral form $\sum_{a<b}\eta_{aa}\eta_{bb}(\Psi^TCP_-S^{ab}\Psi)(\Psi^TCP_+S^{ab}\Psi)$ of the Wolfram package, which is invariant under all 28 generators (a single term is not, the control), while the purely chiral quartics vanish. The analogous contraction with one factor $\Psi^TC\gamma^8\gamma^a\gamma^b\Psi$ vanishes, and for commuting components all three contractions vanish because $C\gamma^a\gamma^b$ is antisymmetric. These are examples only: higher-order charge-violating terms are not classified, and nothing here says that such a term is present, natural, or sufficient for generating an asymmetry.
+
+### 6.4 How M3 was verified
+
+**Wolfram:** the null space of the 28 conditions has dimension 2 with basis $CP_-$, $CP_+$, symmetric subspace of dimension 2 and antisymmetric subspace of dimension 0; the character table over the four characters (dimensions 0, 1, 1, 0 for the trivial, $-n$, $+n$ and determinant characters), confirmed on two non-basis unit vectors ($\gamma^0+\gamma^1+\gamma^4$ with $n=+1$, $\gamma^0+\gamma^4+\gamma^5$ with $n=-1$) and for the spinor-norm $-1$ component; the kinetic forms (the same space; $\beta=-\alpha$ symmetric, $\beta=\alpha$ antisymmetric); survival: all four mass-type forms vanish for Grassmann components (a control with an antisymmetric matrix has 8 nonzero monomials), the commuting forms have ranks 8, 8, 16 and 16 for $CP_-$, $CP_+$, $C$ and $C\gamma^8$; the kinetic Euler-Lagrange expressions ($2C\gamma^8\gamma^a\partial_a\Psi$ for Grassmann, $2C\gamma^a\partial_a\Psi$ for commuting, the other form a total derivative); the U(1) charge 2; the Pin characters of the four terms; the notebook Lg[] identification; the quartic $Q_4$.
+
+**Python** (independent): the null space of $S^{abT}M+MS^{ab}=0$ as an exact integer basis equal to $\tfrac12(C\gamma^8-C)$ and $\tfrac12(C\gamma^8+C)$; symmetric dimension 2, antisymmetric 0; strictly invariant under the full Spin(4,4): 0, covariant with the spinor-norm character: 2; the Pin characters of $C$ and $C\gamma^8$; survival with monomial counts ($\Psi^TC\Psi$ and $\Psi^TC\gamma^8\Psi$: 0 monomials for Grassmann, 8 each for commuting, while $\Psi^\dagger C\Psi$ and $\Psi^\dagger C\gamma^8\Psi$ have 16 monomials and charge 0); the derivative terms in the curved field G_A ($\Psi^TC\gamma^8\gamma^\mu D_\mu\Psi$ for Grassmann and $\Psi^TC\gamma^\mu D_\mu\Psi$ for commuting components with 16 nonzero Euler-Lagrange components each, the other two total divergences); the quartics $Q_4$ (40 monomials, charge 4) and $Q_2$ (160 monomials, charge 2), and the relation $Q_4=8\times$ the Wolfram chiral form.
+
+```
+checks (Wolfram)
+  MA_M3_spinInvariantForms  MA_M3_pinCharacterForms  MA_M3_kineticInvariantForms
+  MA_M3_grassmannSurvival  MA_M3_commutingSurvival  MA_M3_u1Charge
+  MA_M3_pinCharactersMajoranaTerms  MA_M3_notebookLgIsMajoranaType
+  MA_M3_extraGrassmannQuarticCharge4
+checks (Python)
+  MA_M3_invariantFormsSpan_C_Cgamma8  MA_M3_allInvariantFormsSymmetric
+  MA_M3_fullSpinCharacter  MA_M3_pinCharacters  MA_M3_derivativeBilinearClassification
+  MA_M3_massTypeSurvivalAndCharge  MA_M3_derivativeTypeSurvivalCurved
+  MA_M3_quarticChargeViolatingExamplesGrassmann  MA_M3
+```
+
+## 7. Theorem M4: the chirality pair of universes
+
+### 7.1 Field level
+
+**Theorem M4 (field level; Stage-5 theorem T1).** For every vielbein, every $m$ and $\lambda$, both statistics and every configuration $\Psi$ (off shell), with $\Psi_-:=\gamma^8\Psi$:
+
+$$
+\begin{aligned}
+&\bar\Psi_-=\bar\Psi\gamma^8,\qquad S[\Psi_-]=S[\Psi],\qquad K[\Psi_-]=-K[\Psi],\qquad j^\mu[\Psi_-]=-j^\mu[\Psi],\\
+&\mathcal L_{m,\lambda}[\gamma^8\Psi]=-\mathcal L_{-m,-\lambda}[\Psi],\qquad E_{-m,-\lambda}[\gamma^8\Psi]=-\gamma^8E_{m,\lambda}[\Psi],\\
+&T_{\mu\nu}[\gamma^8\Psi;-m,-\lambda]=-T_{\mu\nu}[\Psi;m,\lambda].
+\end{aligned}
+$$
+
+Hence $\Psi$ solves the field equations with $(m,\lambda)$ if and only if $\gamma^8\Psi$ solves them with $(-m,-\lambda)$.
+
+*Proof.* $\gamma^8$ is Hermitian, $(\gamma^8)^2=1$, it anticommutes with every $\gamma^a$, and it commutes with $C$ and with every $S^{ab}$, hence with every $\Omega_\mu$ and with $D_\mu$. Therefore $\bar\Psi_-=\Psi^\dagger\gamma^8C=\bar\Psi\gamma^8$. A bilinear $\bar\Psi X\Psi$ goes to $\bar\Psi\gamma^8X\gamma^8\Psi$, which is $-\bar\Psi X\Psi$ when $X$ contains one gamma matrix (the current, the kinetic term, the kinetic part of $T_{\mu\nu}$) and $+\bar\Psi X\Psi$ for $X=1$ (the scalar $S$). Consequently
+
+$$
+\mathcal L_{m,\lambda}[\gamma^8\Psi]=\sqrt{|g|}\bigl[-K-mS-\tfrac\lambda2S^2\bigr]=-\sqrt{|g|}\bigl[K-(-m)S-\tfrac{(-\lambda)}2S^2\bigr]=-\mathcal L_{-m,-\lambda}[\Psi].
+$$
+
+For the field equation, $\gamma^\mu D_\mu(\gamma^8\Psi)=-\gamma^8\gamma^\mu D_\mu\Psi$ and $(m+\lambda S)\gamma^8\Psi=\gamma^8(m+\lambda S)\Psi$, so $E_{-m,-\lambda}[\gamma^8\Psi]=-\gamma^8\gamma^\mu D_\mu\Psi+\gamma^8(m+\lambda S)\Psi=-\gamma^8E_{m,\lambda}[\Psi]$. $T_{\mu\nu}=-\tfrac14[\text{kinetic bilinears}]+g_{\mu\nu}\mathcal L_s$ (Stage 1, Section 9): the kinetic bilinears change sign, and $\mathcal L_s[\gamma^8\Psi;-m,-\lambda]=-\mathcal L_s[\Psi;m,\lambda]$ by the Lagrangian identity with $(m,\lambda)$ replaced by $(-m,-\lambda)$. The map is linear and keeps every $\Psi^\dagger$ to the left of every $\Psi$, so the proof holds for both statistics. The even potential forces $\lambda\to-\lambda$: at fixed $\lambda$ one gets $\mathcal L_{m,\lambda}[\gamma^8\Psi]+\mathcal L_{-m,\lambda}[\Psi]=-\lambda\sqrt{|g|}\,S^2\ne0$ (CONTRACT erratum E2). $\square$
+
+**Corollary M4.1 (the pair).** Let $\Psi_+$ carry $(m,\lambda)$ and $\Psi_-=\gamma^8\Psi_+$ carry $(-m,-\lambda)$ in the same gravitational field. Then, at every point and every $x_4$ (in particular at $x_4=0$),
+
+$$
+j^\mu_++j^\mu_-=0,\qquad Q_++Q_-=0,\qquad T^{\mathrm{pair}}_{\mu\nu}=T_{\mu\nu}[\Psi_+;m,\lambda]+T_{\mu\nu}[\Psi_-;-m,-\lambda]=0 .
+$$
+
+The pair carries no net charge and no net energy, momentum or stress, so the Einstein (or Einstein-Lovelock) equations with the pair as source are the source-free equations. This is a statement about conservation laws and constraints. It is not a computed creation rate or amplitude.
+
+### 7.2 One-particle (Krein) level
+
+In the good sector (flat space, no momenta along $x_5,x_6,x_7$) the mode Hamiltonian is $h_k(m)=-im\gamma^4-\gamma^4\sum_{j\ne4}k_j\gamma^j$, Hermitian, commuting with $B$, with $h_k(m)^2=(m^2+k^2)\,1$ (Stage 1, Section 10.6). Since $\gamma^8\gamma^4\gamma^8=-\gamma^4$ and $\gamma^8\gamma^4\gamma^j\gamma^8=\gamma^4\gamma^j$,
+
+$$
+\gamma^8h_k(m)\gamma^8=h_k(-m),\qquad \gamma^8B\gamma^8=-B .
+$$
+
+So $\gamma^8$ maps the positive-energy (negative-energy) eigenspace of $h_k(m)$ onto the positive-energy (negative-energy) eigenspace of $h_k(-m)$ with the same energy, it preserves the Hilbert norm $u^\dagger u$, and it reverses the Krein norm $u^\dagger Bu$. At rest the $B$-form on each positive-energy space has signature (4,4), and the Gram matrix of the image is minus the original one.
+
+Which charge and energy an image mode carries depends on the canonical structure given to the image field. With the Stage-1 expectation rule $\langle\Psi^\dagger X\Psi\rangle=u^\dagger BXu$ for a Hilbert-normalised positive-energy mode $u$, the energy is $X=Bh$, the charge $X=B$ and the scalar density $X=C$. For the image field $\Psi_-=\gamma^8\Psi$ the canonical anticommutator is $\gamma^8B\gamma^8=-B$ and the rule reads $u_-^\dagger(-B)Xu_-$ with $u_-=\gamma^8u$. For an independently quantised $-m$ theory with its own positive structure the rule is $u_-^\dagger BXu_-$. The table gives $(E,Q,S)$ per quantum for three exact positive-energy modes $u$ with mass $m$ and momentum $k=(k_0,k_1,k_2,k_3)$, in the $+m$ universe, for the image field (metric $-B$) and for the independently quantised field (metric $+B$).
+
+| $m$, $k$ | $+m$ universe | Image field, $-B$ | Independent, $+B$ |
+|---|---|---|---|
+| $1$, $(1,1,2,3)$ | $(4,1,1/4)$ | $(-4,-1,1/4)$ | $(4,1,-1/4)$ |
+| $3$, $(1,1,1,2)$ | $(4,1,3/4)$ | $(-4,-1,3/4)$ | $(4,1,-3/4)$ |
+| $3/5$, $(4/5,0,0,0)$ | $(1,1,3/5)$ | $(-1,-1,3/5)$ | $(1,1,-3/5)$ |
+
+In general (derived from the two matrix identities above): the image field has $(E,Q,S)\to(-E,-Q,S)$ per quantum, and the independently quantised field has $(E,Q,S)\to(E,Q,-S)$ per quantum.
+
+### 7.3 Fock level (from Stage 5, PAIR_T1krein)
+
+The Stage-5 Wolfram pairing report is present, all of its 141 checks are true, and its sha256 is recorded in both matter-antimatter reports. Its exact Fock-level result (the checks PAIR_T1krein_*, in a Fock model of four rest-sector modes with $m=1$, Krein anticommutators $\{b_n,b_n^K\}=\beta_n$, the sea formed by the two negative-energy modes and normal ordering as subtraction of the sea value) is:
+
+- the image field $\Psi_-=\gamma^8\Psi$ on the same Fock space and state has the anticommutator $-B$ on its modes; the operator identities $H[\Psi_-;-m]=-H[\Psi;m]$, $Q[\Psi_-]=-Q[\Psi]$ and $S[\Psi_-]=S[\Psi]$ hold, normal ordering commutes with the map, and $:T_{\mu\nu}[\gamma^8\Psi;-m,-\lambda]:\ =-:T_{\mu\nu}[\Psi;m,\lambda]:$ as operators; the image universe carries the Krein metric $-B$, energy $-|\epsilon|$ and charge $-1$ per quantum;
+- an independently quantised $-m$ theory with the positive ($J=B$) structure has the modes $w_n=\gamma^8u_n$ (same $\epsilon$, Krein sign $-\beta_n$); a quantum in $w_n$ has energy $+|\epsilon|$, charge $+1$ and scalar density $-u^\dagger BCu$, and in the state with the same mode occupations such a universe has the same energy-momentum and the same charge as the $+m$ universe, so the pair totals add instead of cancelling (Stage 5 calls this the T2-type pairing).
+
+**How particles and antiparticles map** (derived from these operator identities). In the $+m$ universe a particle has $(E,Q)=(+|\epsilon|,+1)$ and an antiparticle (a hole in the sea) has $(+|\epsilon|,-1)$. Measured with the image field, the same states have $(-|\epsilon|,-1)$ and $(-|\epsilon|,+1)$: a particle of the $+M$ universe is a negative-energy, negative-charge quantum of the $-M$ image universe, and an antiparticle is a negative-energy, positive-charge quantum. In the independently quantised $-M$ universe, particles and antiparticles have the same energies and charges as in the $+M$ universe and the opposite scalar density. For the positive- and negative-norm modes: a mode $u_n$ with Krein sign $\beta_n=u_n^\dagger Bu_n$ goes to $w_n=\gamma^8u_n$ with $w_n^\dagger Bw_n=-\beta_n$, because $\gamma^8B\gamma^8=-B$. Measured with the image field's own metric $-B$ the sign is $\beta_n$ again, so the image field reproduces the occupation pattern of the $+M$ universe with opposite energy and charge; measured with $+B$ (independent quantization) every positive-norm mode becomes a negative-norm mode and conversely (derived from the matrix identity and the Stage-5 mode list).
+
+So the cancellation of Corollary M4.1 holds for the pair in which the $-M$ member is the image field, with the Krein metric $-B$, and it does not hold automatically if the $-M$ universe is an independently quantised field with positive energies. In the second case the charges would cancel only if the $-M$ universe were in a state with the opposite charge, which is an additional assumption about its state and yields no cancellation of energy.
+
+### 7.4 How M4 was verified
+
+**Wolfram:** the matrix facts (the current matrices are odd under $\gamma^8$, the mass matrix is even, $\bar\Psi\to\bar\Psi\gamma^8$, $B\to-B$); the current flip in G1 for Grassmann components at three points; for commuting components at the three G1 points the jets of $T^{\mathrm{pair}}_{\mu\nu}$ and of the pair current vanish while the individual ones do not, and the image of an on-shell solution solves the $(-m,-\lambda)$ equations; for Grassmann components all 64 components of $T^{\mathrm{pair}}_{\mu\nu}$ vanish at p1 (64 nonzero components individually, symmetric); the one-particle facts of Section 7.2; and the consistency with the Stage-5 Krein result.
+
+**Python** (independent): the $\gamma^8$ matrix facts, including $(\gamma^8)^TC\gamma^a\gamma^8=-C\gamma^a$ and commutation with $\Omega_\mu$ in G_A; in G_A for both statistics the current flip, $S$ invariant, $K\to-K$, $\mathcal L_{m,\lambda}[\gamma^8\Psi]=-\mathcal L_{-m,-\lambda}[\Psi]$, the Euler-Lagrange pairing and the pairing of all 36 independent components of $T_{\mu\nu}$ (36 nonzero), so the pair totals vanish identically as polynomial identities; the three Krein mode samples of the table in Section 7.2; the citation of the Stage-5 report with all twelve PAIR_T1krein checks true.
+
+```
+checks (Wolfram)
+  MA_M4_currentFlipMatrix  MA_M4_currentFlipG1_grassmann
+  MA_M4_pairEMTAndCurrentG1_commuting
+  MA_M4_pairEMTG1_grassmann  MA_M4_kreinOneParticle
+checks (Python)
+  MA_M4_gamma8MatrixFacts  MA_M4_gamma8ChargeFlipCurved  MA_M4_gamma8EulerLagrangePairing
+  MA_M4_gamma8EMTPairing  MA_M4_kreinModeFacts  MA_M4
+checks (Stage-5 pairing report, cited)
+  PAIR_T1krein_restHamiltonians  PAIR_T1krein_modes  PAIR_T1krein_fieldCAR
+  PAIR_T1krein_statesNormalised  PAIR_T1krein_expectationRule
+  PAIR_T1krein_positiveExcitations  PAIR_T1krein_imageAnticommutatorMinusB
+  PAIR_T1krein_imageOperatorIdentities  PAIR_T1krein_imageExpectationValues
+  PAIR_T1krein_minusMModes  PAIR_T1krein_independentCARPlusB
+  PAIR_T1krein_independentExpectationValues
+```
+
+## 8. M5: the conditional scenario, stated as a hypothesis
+
+### 8.1 The hypotheses
+
+The following three statements are **hypotheses**. None of them is derived anywhere in this repository.
+
+- **H1 (hypothesis, not derived).** Our universe is one member of a chirality pair created together: $\Psi_+$ with $(m,\lambda)$ and $\Psi_-=\gamma^8\Psi_+$ with $(-m,-\lambda)$, where $\Psi_-$ is the image field of Section 7.3, with the Krein metric $-B$. No creation process, rate or amplitude is computed anywhere in this repository.
+- **H2 (hypothesis, not derived).** The creation assigns $Q_+=-Q_-\ne0$. Given H1, the relation $Q_-=-Q_+$ follows from M4; the content of H2 is $Q_+\ne0$, and nothing here computes the value or the sign of $Q_+$.
+- **H3 (hypothesis, not derivable within the theory).** The dirac16complex U(1) charge is identified with baryon number $B$ (or with $B-L$). The theory contains no Standard-Model baryons, quarks or leptons, so this identification cannot be derived from it.
+
+### 8.2 The implication and its proof
+
+**Proposition M5.** If H1, H2 and H3 hold, then $Q_+(x_4)+Q_-(x_4)=0$ at every $x_4$, each of $Q_+$ and $Q_-$ is separately conserved, and the baryon excess $B_+=Q_+\ne0$ seen in one member is exactly compensated by $B_-=-Q_+$ in the other. The pair also carries $T^{\mathrm{pair}}_{\mu\nu}=0$ (for the classical bilinears, and for the normal-ordered operators in the image-field reading of H1).
+
+*Proof.* By M4, $\sqrt{|g|}\,j^{x_4}[\gamma^8\Psi_+]=-\sqrt{|g|}\,j^{x_4}[\Psi_+]$ at every point, so $Q_-=-Q_+$ at every $x_4$ and $Q_++Q_-=0$. By M1 each charge is conserved, $dQ_\pm/dx_4=0$. By H3, $B_\pm=Q_\pm$, and by H2, $B_+\ne0$. The statement about $T^{\mathrm{pair}}_{\mu\nu}$ is Corollary M4.1 together with the Stage-5 operator identity of Section 7.3. $\square$
+
+The Wolfram verifier checks the implication symbolically: $Q_++Q_-$ simplifies to 0, and $dQ_-/dx_4$ simplifies to 0 given $dQ_+/dx_4=0$ (check MA_M5_implication, with the ingredients computed in the checks of M1 and M4). The implication is elementary; the substance lies in the hypotheses.
+
+### 8.3 What M5 does not do
+
+1. It does not produce an asymmetry. By M1, $Q_+$ is constant, so a nonzero $Q_+$ today is the same as a nonzero $Q_+$ at $x_4=0$: the asymmetry of our universe is an initial condition. H2 puts it in by hand.
+2. It does not predict $\eta$. The observed $\eta\approx6\times10^{-10}$ is **not predicted**: nothing here computes the magnitude or the sign of $Q_+$, nor the photon content that $\eta$ refers to.
+3. It does not satisfy Sakharov's conditions; it replaces them by a global symmetry of the pair together with an initial condition in each member.
+4. It depends on the reading of H1. The cancellation $Q_++Q_-=0$ holds when the $-M$ member is the image field $\gamma^8\Psi_+$, which carries the Krein metric $-B$ and energy $-|\epsilon|$ per quantum. If the $-M$ universe is instead quantised independently with its own positive structure, its quanta carry charge $+1$ and energy $+|\epsilon|$, and the cancellation is not automatic; it would need a further assumption about the state of the $-M$ universe (Section 7.3).
+5. It does not relate the dirac16complex charge to the baryons of the Standard Model (H3), and it does not show that pairs are created (H1).
+
+## 9. M6: the Sakharov scorecard
+
+| Sakharov condition [1] | Status in the theory as built | What would have to be added |
+|---|---|---|
+| 1. Violation of the conserved number (baryon number; here the charge $Q$) | Fails, by M1: $Q$ is exactly conserved in every gravitational field, for both statistics and every potential | A U(1)-violating interaction from the list of M3 (Section 10, item 1) |
+| 2. C and CP violation | Fails, by M2: C is exact for the commuting field and CP is exact for the anticommuting field; each reverses $Q$ and preserves $x_4$ | Terms that break all 64 exact charge-reversing symmetries without $x_4$ reversal (Section 10, item 2) |
+| 3. Departure from thermal equilibrium | Not addressed by any computation; the Kohn-Sham states of Stages 4 and 5 are equilibrium states at fixed $N$ | A non-equilibrium history and a computation of rates (Section 10, item 3) |
+
+Since condition 1 fails exactly, no departure from equilibrium can create a net charge inside one universe. The computed checks behind the rows are
+
+```
+row 1  Wolfram  MA_M1_noetherIdentity_grassmann_G1  MA_M1_noetherIdentity_commuting_G1
+       Python   MA_M1_noetherIdentity_<X>_<G> for both statistics and both geometries
+row 2  Wolfram  MA_M2_symmetrySummaryAndChargeReversal
+       Python   MA_M2_discreteGroupCharacterTable  MA_M2_C_and_CP_status
+row 3  none; nothing was computed
+```
+
+## 10. What would have to be added to the theory
+
+The following list is a consequence of M1 to M3. It describes necessary ingredients; none of them is present in the theory, none is claimed to be natural, and none has been shown to be sufficient.
+
+1. **A charge-violating interaction.** By M3, for the anticommuting field no Majorana-type mass term exists. The lowest-order candidates are the derivative term $\sqrt{|g|}\,\Psi^TC\gamma^8\gamma^\mu D_\mu\Psi$ plus its Hermitian conjugate (charge 2), and quartic terms such as $Q_4$ (charge 4) and $Q_2$ (charge 2) plus their conjugates. For the commuting field the mass terms $\Psi^TCP_\pm\Psi$ and the derivative term $\sqrt{|g|}\,\Psi^TC\gamma^\mu D_\mu\Psi$ (the form of the notebook Lagrangian Lg[]), each plus its complex conjugate, have charge 2. Each such term breaks the U(1) of M1 to a discrete subgroup (derived): $e^{i\alpha}$ with $e^{2i\alpha}=1$ for charge-2 terms, $e^{4i\alpha}=1$ for charge-4 terms.
+2. **Breaking of every charge-reversing symmetry.** The added terms must break every exact symmetry of Section 5 that reverses $Q$ without reversing $x_4$: $C_0$ (and the 63 others) for the commuting field, the CP family for the anticommuting field (64 maps, among them $C_8P_b$ for $b=0,1,2,3$ and $C_8P_{123}$). A remark that is derived but not machine-checked: the U(1) rotation $\Psi\to e^{i\alpha}\Psi$ is a symmetry of $\mathcal L$ and multiplies the coefficient $g$ of a charge-2 term by $e^{2i\alpha}$, so the phase of a single such coefficient can be removed; only relative phases between several charge-violating terms can be physical. Whether a given combination breaks the CP family is not computed here.
+3. **A departure from equilibrium.** A dynamical history in which the charge-violating processes are out of equilibrium, for example during the evolution of the primordial field, and a computation of their rates. Nothing of this kind has been computed.
+4. **A link to baryons.** The dirac16complex charge would have to be connected to the baryon number of the Standard Model (H3), which requires couplings to Standard-Model fields that the theory does not contain.
+5. **A computation of $\eta$.** Only with items 1 to 4 could a value of $\eta$ be computed and compared with $\eta\approx6\times10^{-10}$ [2], [5].
+
+## 11. Verification records
+
+### 11.1 The reports
+
+Two independent exact implementations were written for this analysis, and one Stage-5 report is used as an input. All three have schemaVersion 1, and every check in them is true:
+
+```
+artifacts/dirac16complex/matter-antimatter/wolfram-matter-antimatter-report.json
+  44 of 44 checks true
+  producer scripts/verify_dirac16complex_matter_antimatter.wls
+           with wolfram/Dirac16ComplexMatterAntimatter.wl, Wolfram Language 15.0.1
+  also writes artifacts/dirac16complex/matter-antimatter/matter-antimatter-theory.json
+artifacts/dirac16complex/matter-antimatter/python-matter-antimatter-report.json
+  75 of 75 checks true
+  producer scripts/check_dirac16complex_matter_antimatter.py
+           with scripts/grassmann_algebra.py (the report records no versions;
+           the rerun of Section 11.3 used Python 3.14.5, sympy 1.14.0, numpy 2.4.6)
+artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json (Stage-5 input)
+  141 of 141 checks true
+  producer scripts/verify_dirac16complex_pairing.wls (wolfram/Dirac16ComplexPairing.wl)
+```
+
+Both matter-antimatter implementations compute everything exactly: integers, rationals, Gaussian rationals, exact symbolic algebra and exact Grassmann algebras. No floating-point number decides any check, with the one labelled exception MA_M1_ksFixedNetNumberRecorded (Section 4.4). Each checker prints check_<name>=true|false, measurement_<name>=..., check_count and failed_check_count, and exits with a nonzero status if a check fails. Both start from the gamma matrices built from the definitions and compare them with the exact fixture: the Wolfram package compares $\eta$, $\gamma^0,\dots,\gamma^7$, $C$, $\gamma^8$, the 28 $S^{ab}$, $B$ and the gammas of the Stage-1 geometry package (MA_algebra_fixtureMatches, MA_algebra_basicFacts); the Python checker compares the gammas, $C$, the chirality, $\eta$, the $S^{ab}$ and $B$ (MA_fixtureAgreement). The Python checker uses nothing produced by Wolfram as truth; it compares with the Wolfram theory file only in its agreement checks (Section 11.3).
+
+### 11.2 All checks
+
+The Wolfram report, all 44 checks:
+
+```
+  MA_algebra_fixtureMatches  MA_algebra_basicFacts
+  MA_M1_u1InvarianceCommutingGenericU_flat  MA_M1_u1InvarianceCommutingGenericU_G1
+  MA_M1_u1InvarianceGrassmann_G1  MA_M1_grassmannPotentialsPolynomialAndNeutral
+  MA_M1_noetherCurrentLocalPhase_commuting_G1
+  MA_M1_noetherCurrentLocalPhase_grassmann_G1  MA_M1_noetherCurrentFormula_grassmann_G1
+  MA_M1_noetherCurrentFormula_commuting_G1  MA_M1_noetherIdentity_grassmann_G1
+  MA_M1_noetherIdentity_commuting_G1  MA_M1_negativeControlNotebookConnection
+  MA_M1_onShellConservation_G1  MA_M1_chargeDensityMatrix  MA_M1_ksFixedNetNumberRecorded
+  MA_M1_stage1ChecksCited  MA_M2_conjugationIntertwiners  MA_M2_transposeIntertwiners
+  MA_M2_signPatternClassification  MA_M2_statisticsSign  MA_M2_matrixClassification
+  MA_M2_lagrangianFlatCommuting_all  MA_M2_lagrangianFlatGrassmann_all
+  MA_M2_namedTransformations  MA_M2_frameLevelG1_commuting  MA_M2_frameLevelG1_grassmann
+  MA_M2_symmetrySummaryAndChargeReversal  MA_M2_canonicalStructure
+  MA_M3_spinInvariantForms  MA_M3_pinCharacterForms  MA_M3_kineticInvariantForms
+  MA_M3_grassmannSurvival  MA_M3_commutingSurvival  MA_M3_u1Charge
+  MA_M3_pinCharactersMajoranaTerms  MA_M3_notebookLgIsMajoranaType
+  MA_M3_extraGrassmannQuarticCharge4  MA_M4_currentFlipMatrix
+  MA_M4_currentFlipG1_grassmann  MA_M4_pairEMTAndCurrentG1_commuting
+  MA_M4_pairEMTG1_grassmann  MA_M4_kreinOneParticle  MA_M5_implication
+```
+
+The Python report, all 75 checks:
+
+```
+  MA_fixtureAgreement  MA_M1_geometry_G_A_generic_nondiagonal
+  MA_M1_u1Invariance_grassmann_G_A_generic_nondiagonal
+  MA_M1_noetherCurrentIsISqrtgPsibarGammaPsi_grassmann_G_A_generic_nondiagonal
+  MA_M1_eulerLagrangeCrossCheck_grassmann_G_A_generic_nondiagonal
+  MA_M1_eulerLagrangeClosedForm_grassmann_G_A_generic_nondiagonal
+  MA_M1_noetherIdentity_grassmann_G_A_generic_nondiagonal
+  MA_M1_currentDivergenceIdentity_grassmann_G_A_generic_nondiagonal
+  MA_M1_hermiticity_grassmann_G_A_generic_nondiagonal
+  MA_M1_u1Invariance_commuting_G_A_generic_nondiagonal
+  MA_M1_noetherCurrentIsISqrtgPsibarGammaPsi_commuting_G_A_generic_nondiagonal
+  MA_M1_eulerLagrangeCrossCheck_commuting_G_A_generic_nondiagonal
+  MA_M1_eulerLagrangeClosedForm_commuting_G_A_generic_nondiagonal
+  MA_M1_noetherIdentity_commuting_G_A_generic_nondiagonal
+  MA_M1_currentDivergenceIdentity_commuting_G_A_generic_nondiagonal
+  MA_M1_hermiticity_commuting_G_A_generic_nondiagonal  MA_M1_geometry_G_B_diagonal_x0_x4
+  MA_M1_u1Invariance_grassmann_G_B_diagonal_x0_x4
+  MA_M1_noetherCurrentIsISqrtgPsibarGammaPsi_grassmann_G_B_diagonal_x0_x4
+  MA_M1_eulerLagrangeCrossCheck_grassmann_G_B_diagonal_x0_x4
+  MA_M1_eulerLagrangeClosedForm_grassmann_G_B_diagonal_x0_x4
+  MA_M1_noetherIdentity_grassmann_G_B_diagonal_x0_x4
+  MA_M1_currentDivergenceIdentity_grassmann_G_B_diagonal_x0_x4
+  MA_M1_hermiticity_grassmann_G_B_diagonal_x0_x4
+  MA_M1_u1Invariance_commuting_G_B_diagonal_x0_x4
+  MA_M1_noetherCurrentIsISqrtgPsibarGammaPsi_commuting_G_B_diagonal_x0_x4
+  MA_M1_eulerLagrangeCrossCheck_commuting_G_B_diagonal_x0_x4
+  MA_M1_eulerLagrangeClosedForm_commuting_G_B_diagonal_x0_x4
+  MA_M1_noetherIdentity_commuting_G_B_diagonal_x0_x4
+  MA_M1_currentDivergenceIdentity_commuting_G_B_diagonal_x0_x4
+  MA_M1_hermiticity_commuting_G_B_diagonal_x0_x4  MA_M1_divergenceIdentityAllFirstJets
+  MA_M1  MA_M2_chargeConjugationSolutionSpaces
+  MA_M2_psibarTransposeFormsReduceToPsiStarForms  MA_M2_internalMapsCurvedJets
+  MA_M2_internalMapsAsDerived  MA_M2_namedReflectionsFlatJets
+  MA_M2_genericUnitVectorReflections  MA_M2_reflectionsInCurvedFieldWithIsometry
+  MA_M2_spin0ContainsChargeReversingTimeRotation  MA_M2_discreteGroupCharacterTable
+  MA_M2_characterHomomorphism  MA_M2_C_and_CP_status
+  MA_M2_canonicalStructureOfExactGrassmannSymmetries
+  MA_M2_chargeConjugationWithSpatialParity  MA_M2  MA_M3_invariantFormsSpan_C_Cgamma8
+  MA_M3_allInvariantFormsSymmetric  MA_M3_fullSpinCharacter  MA_M3_pinCharacters
+  MA_M3_derivativeBilinearClassification  MA_M3_massTypeSurvivalAndCharge
+  MA_M3_derivativeTypeSurvivalCurved  MA_M3_quarticChargeViolatingExamplesGrassmann
+  MA_M3  MA_M4_gamma8MatrixFacts  MA_M4_gamma8ChargeFlipCurved
+  MA_M4_gamma8EulerLagrangePairing  MA_M4_gamma8EMTPairing  MA_M4_kreinModeFacts  MA_M4
+  MA_wolfram_chargeConjugationIntertwiners  MA_wolfram_classificationRows
+  MA_wolfram_symmetrySummary  MA_wolfram_chargeReversingSymmetries
+  MA_wolfram_invariantForms  MA_wolfram_pinCharacters  MA_wolfram_kineticForms
+  MA_wolfram_survival  MA_wolfram_quarticQ4  MA_wolfram_kreinOneParticle
+  MA_wolfram_gamma8MatrixFacts  MA_agreesWithWolfram  MA_internal_noException
+```
+
+The honest answer is recorded in the reports themselves: in the Python report as the measurement honestAnswer, and in the Wolfram theory file as the key honestyRule. Both state that the claim is not proved and not provable within the theory as built.
+
+### 11.3 Agreement between the implementations
+
+The Python check MA_agreesWithWolfram compares its own results with the Wolfram theory file item by item: the charge-conjugation intertwiners (proportional bases), the classification rows (2048 compared, no disagreement), the C, P, CP, T and CPT summary (22 items compared, no difference), the number of exact charge-reversing symmetries without $x_4$ reversal (64 for each statistics in both), the invariant forms, the Pin-covariant forms, the kinetic forms, the survival table, the quartic $Q_4$ (40 monomials in both, proportional with factor 8), the one-particle Krein facts and the $\gamma^8$ matrix facts. The two implementations were written independently and share only the fixture and the conventions.
+
+The Python report records in its inputSha256 the hash of the Wolfram theory file it compared with. At the time of writing that hash came from an earlier Wolfram run; the Wolfram verifier was then run once more and rewrote the theory file:
+
+```
+matter-antimatter-theory.json compared by the committed Python report
+  a3a85c9adc1b19733a3a4f09e8702eed2b6966e6156b644012011fcfe57a0d31
+matter-antimatter-theory.json, current file
+  a2b7907be22469d1c3259a9d916d929f40e44b6ee97f66bc195691f112fdfb2c
+```
+
+While writing this document the Python checker was run again against the current theory file, with its output in a scratch directory: it reported 75 of 75 checks true, and its checks and measurements were identical to those of the committed report. Only the recorded input hash differed. Regenerating the committed Python report therefore changes that one hash and nothing else. The Wolfram verifier was also run again while writing this document, with the report and theory paths in a scratch directory; the run took about 13 minutes, reported 44 of 44 checks true, and wrote a report and a theory file that are byte-identical to the committed ones.
+
+### 11.4 Stage-5 inputs
+
+The Krein-level mapping of Section 7.3 is taken from the Stage-5 exact pairing results, artifacts/dirac16complex/pair-creation/pairing-theory.json (key T1krein) and wolfram-pairing-report.json (141 of 141 checks true). Both files are present, and their sha256 values are recorded in both matter-antimatter reports. The files carry no finality flag, so they are cited by hash, not re-proved here beyond the one-particle facts of Section 7.2, which both matter-antimatter implementations verify independently. At the time of writing the Fock-level statements of Section 7.3 rest on the Stage-5 Wolfram report. If the Stage-5 files change, both matter-antimatter verifiers have to be rerun.
+
+### 11.5 Files and hashes
+
+The sha256 values of the producers and inputs as recorded in the reports, and of the two Wolfram outputs:
+
+```
+wolfram/Dirac16ComplexMatterAntimatter.wl
+  baa2e24ffcfba97421e70fa6f5afee8b01fe80c432a31fca77e1054862b54d2a
+scripts/verify_dirac16complex_matter_antimatter.wls
+  5d85f7d8a76a78b0f8853d41af0d2a352b426c553d5eba4569ade2fd5d9fc73f
+wolfram/Dirac16ComplexGeometry.wl
+  f5b674665eee4000750161e6ab6312c38bfac9da7a17450a2b3bdd88ef292af2
+scripts/check_dirac16complex_matter_antimatter.py
+  20914546ed5894ef223be8a1ae7ffecb62b308fdbf13d88f35a939a3c27bd526
+scripts/grassmann_algebra.py
+  dfce851d3dc7ab82202a62d414cc259644a64a101f08e9ba80ed747faa8bc24c
+artifacts/dirac16complex/arbitrary-field/algebra-fixture.json
+  8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b
+artifacts/dirac16complex/pair-creation/pairing-theory.json
+  5a267bd696391b131134577ccdcf7766b83f96f3eb32b9b8de60c9175b1ebf6a
+artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json
+  735534de950c7fb0327370c33caa275cf805aa91a41dee903e4eaec7a6fa0de8
+artifacts/dirac16complex/matter-antimatter/matter-antimatter-theory.json
+  a2b7907be22469d1c3259a9d916d929f40e44b6ee97f66bc195691f112fdfb2c
+artifacts/dirac16complex/matter-antimatter/wolfram-matter-antimatter-report.json
+  126b6daa66ddca4e5b98c3549ec5571b385092eb2d16b46ccdb1f724f8ac9162
+```
+
+The Stage-1 reports cited in MA_M1_stage1ChecksCited:
+
+```
+artifacts/dirac16complex/arbitrary-field/wolfram-geometry-report.json
+  cec9ee0d577c4e7f0e82efd404d412a503140ccb1547118ab48a78a3d773f0ac
+artifacts/dirac16complex/arbitrary-field/wolfram-algebra-report.json
+  d43adeeba580bdd8cec56fac5fa74906b7578c06c8589e52dbe3da1404cd49e7
+artifacts/dirac16complex/arbitrary-field/grassmann-demo-report.json
+  b83997857ccfc9fb71f05efbcaebe16f29bf36687cc08c16e0823a26a6369f09
+```
+
+## 12. Reproduction
+
+Run every command from the repository root. The order matters: the Wolfram verifier reads the Stage-5 pairing files and writes both its report and matter-antimatter-theory.json, and the Python checker compares with that theory file. The Wolfram report path is a plain positional argument, because WolframScript 1.14 drops a double-hyphen separator and every argument after it when it is combined with -file; an optional second positional argument sets the theory path. The Python checker takes its report path from its output option, as in the scratch rerun at the end of Section 12.2. Set PYTHONUTF8=1 for the Python steps. The Wolfram step takes about 13 minutes, the Python checker about half a minute.
+
+### 12.1 PowerShell
+
+```
+$env:PYTHONUTF8 = "1"
+$m = "artifacts/dirac16complex/matter-antimatter"
+$v = "scripts/verify_dirac16complex_matter_antimatter.wls"
+wolframscript -file $v "$m/wolfram-matter-antimatter-report.json"
+python scripts/check_dirac16complex_matter_antimatter.py
+python -m unittest discover -s tests -p "test_d16c_matter_antimatter.py" -v
+python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md
+python -m unittest discover -s tests -p "test_d16c_matter_antimatter_publication.py" -v
+```
+
+### 12.2 Git Bash
+
+```
+export PYTHONUTF8=1
+m=artifacts/dirac16complex/matter-antimatter
+wolframscript -file scripts/verify_dirac16complex_matter_antimatter.wls \
+    "$m/wolfram-matter-antimatter-report.json"
+python scripts/check_dirac16complex_matter_antimatter.py
+python -m unittest discover -s tests -p "test_d16c_matter_antimatter.py" -v
+python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md
+python -m unittest discover -s tests -p "test_d16c_matter_antimatter_publication.py" -v
+```
+
+A rerun that leaves the committed files untouched writes into a scratch directory (here build/, which git ignores):
+
+```
+wolframscript -file scripts/verify_dirac16complex_matter_antimatter.wls \
+    build/ma/wolfram-report.json build/ma/theory.json
+python scripts/check_dirac16complex_matter_antimatter.py \
+    --theory build/ma/theory.json --output build/ma/python-report.json
+```
+
+The Stage-5 inputs are regenerated, if needed, before the first step with
+
+```
+wolframscript -file scripts/verify_dirac16complex_pairing.wls \
+    artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json
+```
+
+(in PowerShell each of these commands is written on one line, without the backslash). If this changes the bytes of the pairing files, their hashes in Section 11.5 change as well. The PDF step builds this document twice (two builder runs, three pdflatex passes each), requires warning-free logs and byte-identical PDFs, and compares the result with the registered edition dirac16complex-matter-antimatter in provenance/pdf-specifications.json. After an edit of this document the edition is registered again with
+
+```
+python scripts/build_provenance_pdf.py --register \
+    provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md
+```
+
+(one line in PowerShell), and the sha256 pins in tests/test_d16c_matter_antimatter_publication.py are updated. That test also checks that the check counts, check names, numbers and hashes quoted here agree with the reports.
+
+## 13. Non-claims
+
+1. This document does not claim, and does not prove, that the dirac16complex theory solves the matter-antimatter problem or any of the current matter-antimatter mysteries. Within the theory as built the claim is false in its central part (M1, M2).
+2. The observed baryon-to-photon ratio $\eta\approx6\times10^{-10}$ is not predicted, and no value of the charge of our universe is computed.
+3. No creation of universes is derived: no creation process, rate, amplitude or wave function of the universe. Corollary M4.1 is a statement about conservation laws and constraints.
+4. H1, H2 and H3 are hypotheses. The implication of M5 is proved; the scenario is not a result.
+5. The dirac16complex charge is not baryon number. The theory contains no quarks, leptons or baryons of the Standard Model.
+6. The $-M$ member of the pair is not antimatter in our universe. Its negative mass is a parameter of a second field configuration; nothing here says that antimatter has negative mass or falls upward, which the ALPHA-g observation [12] rules out for antihydrogen.
+7. The charge-violating terms of M3 are a classification of what the symmetry allows. They are not proposed as part of the theory, they are not claimed to be natural, and higher-order terms are not classified.
+8. The quantum statements are formal: the canonical state space is a Krein space, the positive Fock space exists only in the good sector, and the extra-time sector is ill-posed (Stage 1, Section 10.10). The commuting field dirac16complex00 is treated as a classical field.
+9. The signature (4,4) is not the signature of observed spacetime, and nothing here is fitted to or compared with data.
+10. Nothing here tests or depends on the CPT-symmetric universe of Boyle, Finn and Turok [3]; it is cited as the known published example of a pair-of-universes idea.
+11. The check MA_M1_ksFixedNetNumberRecorded is a record of floating-point data read from the committed Stage-4 runs, not a proof.
+
+## 14. References
+
+- [1] A. D. Sakharov, “Violation of CP invariance, C asymmetry, and baryon asymmetry of the universe”, JETP Lett. 5, 24 (1967).
+- [2] Planck Collaboration (N. Aghanim et al.), “Planck 2018 results. VI. Cosmological parameters”, Astron. Astrophys. 641, A6 (2020), arXiv:1807.06209; erratum Astron. Astrophys. 652, C4 (2021).
+- [3] L. Boyle, K. Finn and N. Turok, “CPT-Symmetric Universe”, Phys. Rev. Lett. 121, 251301 (2018).
+- [4] L. Canetti, M. Drewes and M. Shaposhnikov, “Matter and antimatter in the universe”, New J. Phys. 14, 095012 (2012), arXiv:1204.4186.
+- [5] R. H. Cyburt, B. D. Fields, K. A. Olive and T.-H. Yeh, “Big bang nucleosynthesis: Present status”, Rev. Mod. Phys. 88, 015004 (2016).
+- [6] A. G. Cohen, A. De Rújula and S. L. Glashow, “A matter-antimatter universe?”, Astrophys. J. 495, 539 (1998).
+- [7] V. A. Kuzmin, V. A. Rubakov and M. E. Shaposhnikov, “On anomalous electroweak baryon-number non-conservation in the early universe”, Phys. Lett. B 155, 36 (1985).
+- [8] K. Kajantie, M. Laine, K. Rummukainen and M. E. Shaposhnikov, “Is there a hot electroweak phase transition at $m_H\gtrsim m_W$?”, Phys. Rev. Lett. 77, 2887 (1996), arXiv:hep-ph/9605288.
+- [9] M. B. Gavela, P. Hernández, J. Orloff and O. Pène, “Standard Model CP-violation and baryon asymmetry”, Mod. Phys. Lett. A 9, 795 (1994).
+- [10] ATLAS Collaboration, “Observation of a new particle in the search for the Standard Model Higgs boson with the ATLAS detector at the LHC”, Phys. Lett. B 716, 1 (2012).
+- [11] CMS Collaboration, “Observation of a new boson at a mass of 125 GeV with the CMS experiment at the LHC”, Phys. Lett. B 716, 30 (2012).
+- [12] ALPHA Collaboration (E. K. Anderson et al.), “Observation of the effect of gravity on the motion of antimatter”, Nature 621, 716 (2023).
+- [13] P. Huet and E. Sather, “Electroweak baryogenesis and standard model CP violation”, Phys. Rev. D 51, 379 (1995), arXiv:hep-ph/9404302.

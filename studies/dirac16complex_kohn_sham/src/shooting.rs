@@ -51,6 +51,22 @@
 //! `a^2 + b^2`, scalar density `-2 s a b`, 3-space pressure bilinear
 //! `-s kappa k (a^2 - b^2)`; Hellmann-Feynman: `d eps/d M = int (-2 a b)`,
 //! `d eps/d k = -int kappa (a^2 - b^2)` (checked in the unit tests).
+//!
+//! Stage 5: the tip bag ([`TipBag`], a field of [`Potential`]).  The
+//! chiral-bag family `(1 - Q(theta)) chi(-L) = 0`, `Q = cos(theta) sigma3 +
+//! sin(theta) sigma2` (STAGE4_SPEC E4.5) contains the Stage-4 condition
+//! theta = 0 (`b(-L) = 0`, Pruefer `theta(-L) = 0`, the default) and its
+//! image theta = pi (`a(-L) = 0`, Pruefer `theta(-L) = pi/2`) under the
+//! block form sigma2 of gamma^8 (pairing-theory.json, T3.blockMaps.
+//! boundaryConditions: `sigma2 Q(theta) sigma2 = Q(pi - theta)`).  With the
+//! swap `(a, b) -> (b, a)` the s-block problem (M, eps, v_x) with bag
+//! `b(-L) = 0` becomes the (-s)-block problem (-M, eps, v_x) with bag
+//! `a(-L) = 0`; the Pruefer angle maps as `theta -> pi/2 - theta`, so the
+//! brane parities are exchanged and the level (parity p, index n) of the
+//! first problem is the level (-p, -n) of the second, with the same eps.
+//! The level conditions `Theta(eps) = n pi` (parity +) and `pi/2 + n pi`
+//! (parity -) are unchanged; only the initial angle (and, for the profile,
+//! the initial vector `(a, b) = (0, -1)` instead of `(1, 0)`) changes.
 
 use std::cell::Cell;
 use std::rc::Rc;
@@ -60,6 +76,63 @@ use crate::driver::{Integration, RhsFn, Session, SolverConfig};
 use crate::math::{atan2, cos, exp, sin, PI};
 use crate::spline::Spline;
 use crate::Tolerances;
+
+/// Boundary condition at the tip cutoff y = -L (Stage 5; see the module
+/// header).  The default is the Stage-4 condition.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum TipBag {
+    /// `b(-L) = 0` (chi_2(-L) = 0, bag angle theta = 0, gamma^0 chi = +chi):
+    /// the Stage-4 condition.
+    #[default]
+    B,
+    /// `a(-L) = 0` (chi_1(-L) = 0, bag angle theta = pi, gamma^0 chi = -chi):
+    /// the image of `B` under the block form of gamma^8 (the transformed
+    /// boundary condition of the -M universe).
+    A,
+}
+
+impl TipBag {
+    /// Pruefer angle theta(-L) (a = r cos theta, b = -r sin theta).
+    pub fn pruefer_angle(self) -> f64 {
+        match self {
+            TipBag::B => 0.0,
+            TipBag::A => PI / 2.0,
+        }
+    }
+
+    /// Initial vector (a, b)(-L) of the profile integration (exact, with
+    /// atan2(-b, a) equal to the Pruefer angle).
+    pub fn initial_vector(self) -> (f64, f64) {
+        match self {
+            TipBag::B => (1.0, 0.0),
+            TipBag::A => (0.0, -1.0),
+        }
+    }
+
+    /// Bag angle theta of `(1 - Q(theta)) chi(-L) = 0`.
+    pub fn bag_angle(self) -> f64 {
+        match self {
+            TipBag::B => 0.0,
+            TipBag::A => PI,
+        }
+    }
+
+    /// The image under the block map (theta -> pi - theta).
+    pub fn swapped(self) -> Self {
+        match self {
+            TipBag::B => TipBag::A,
+            TipBag::A => TipBag::B,
+        }
+    }
+
+    /// Human-readable statement of the condition.
+    pub fn describe(self) -> &'static str {
+        match self {
+            TipBag::B => "b(-L) = 0 (bag angle theta = 0, Stage-4 condition)",
+            TipBag::A => "a(-L) = 0 (bag angle theta = pi, transformed condition)",
+        }
+    }
+}
 
 /// Potentials and geometry of one Kohn-Sham problem on the grid.
 #[derive(Clone, Debug)]
@@ -72,10 +145,13 @@ pub struct Potential {
     pub grid: Vec<f64>,
     pub m_eff: Spline,
     pub v_x: Spline,
+    /// Boundary condition at the tip (Stage 5; default: the Stage-4 `b(-L) = 0`).
+    pub tip: TipBag,
 }
 
 impl Potential {
-    /// Constant-mass, zero-potential problem on `n` grid points.
+    /// Constant-mass, zero-potential problem on `n` grid points (Stage-4
+    /// tip condition `b(-L) = 0`; see [`Potential::with_tip`]).
     pub fn free(h: f64, a4: f64, length: f64, mass: f64, n: usize) -> Self {
         let dy = length / (n as f64 - 1.0);
         let grid = grid_points(length, n);
@@ -86,7 +162,14 @@ impl Potential {
             grid,
             m_eff: Spline::constant(-length, dy, n, mass),
             v_x: Spline::constant(-length, dy, n, 0.0),
+            tip: TipBag::B,
         }
+    }
+
+    /// The same problem with the tip condition `tip`.
+    pub fn with_tip(mut self, tip: TipBag) -> Self {
+        self.tip = tip;
+        self
     }
 
     pub fn kappa(&self, y: f64) -> f64 {
@@ -317,7 +400,7 @@ impl Shooter {
         self.k_cell.set(k);
         let cfg = self.config(k);
         let use_adams = cfg.method == crate::driver::Method::Adams;
-        let y0 = [0.0];
+        let y0 = [self.potential.tip.pruefer_angle()];
         let t0 = -self.potential.length;
         if use_adams && self.theta_adams.is_none() {
             self.theta_adams = Some(Session::new(&y0, t0, self.theta_rhs(), &cfg)?);
@@ -500,7 +583,8 @@ impl Shooter {
         }
         .with_stop_time(0.0);
         let (band_lo, band_hi) = band;
-        let y0 = [1.0, 0.0, 0.0, 0.0, 0.0];
+        let (a0, b0) = self.potential.tip.initial_vector();
+        let y0 = [a0, b0, 0.0, 0.0, 0.0];
         let t0 = -self.potential.length;
         let targets: Vec<f64> = self.potential.grid[1..].to_vec();
         let mut log_scales: Vec<f64> = Vec::with_capacity(targets.len());
@@ -605,9 +689,11 @@ impl Shooter {
         } else {
             last[0].abs()
         } / r0;
-        // winding: theta with a = r cos theta, b = -r sin theta, unwrapped
-        let mut theta_prev = 0.0;
-        let mut winding = 0.0;
+        // winding: theta with a = r cos theta, b = -r sin theta, unwrapped,
+        // from the Pruefer angle of the tip condition (0 for the Stage-4 bag)
+        let tip_angle = self.potential.tip.pruefer_angle();
+        let mut theta_prev = tip_angle;
+        let mut winding = tip_angle;
         for i in 1..n {
             let th = atan2(-run.states[i][1], run.states[i][0]);
             let mut d = th - theta_prev;
@@ -895,6 +981,7 @@ mod tests {
                 grid,
                 m_eff: Spline::new(-length, dy, m),
                 v_x: Spline::new(-length, dy, v),
+                tip: TipBag::B,
             })
         };
         let mut base = Shooter::new(build(0.0, 0.0), DEFAULT_TOLERANCES);

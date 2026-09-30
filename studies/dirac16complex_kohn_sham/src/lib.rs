@@ -35,6 +35,10 @@
 //! * [`emt`]       -- energy-momentum profiles, proper-volume averages, w's,
 //!   brane-localised fraction, comparison with the required source.
 //! * [`runs`]      -- the parameter matrix and the subcommands.
+//! * [`pairs`]     -- Stage 5: the {+M, -M} pairing of the Kohn-Sham states
+//!   of dirac16complex and dirac16complex00 (subcommand `pairs`; its
+//!   parameters -- statistics sign, negative mass, tip bag -- default to the
+//!   Stage-4 values, so the Stage-4 subcommands are unchanged).
 //! * [`theory`]    -- agreement check against the Wolfram theory file
 //!   (kohn-sham-theory.json) when it exists; [`jsonread`] is its JSON reader.
 //!
@@ -51,6 +55,7 @@ mod generated;
 pub mod geometry;
 pub mod jsonread;
 pub mod output;
+pub mod pairs;
 pub mod runs;
 pub mod scf;
 pub mod shooting;

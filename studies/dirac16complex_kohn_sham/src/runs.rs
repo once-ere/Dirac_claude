@@ -105,8 +105,8 @@ pub struct Reference {
     pub closed_shells: Vec<(f64, f64)>,
     pub n_mid_m3: f64,
     pub closed_shells_m3: Vec<(f64, f64)>,
-    ctx: RunContext,
-    couplings: std::cell::RefCell<Vec<Coupling>>,
+    pub(crate) ctx: RunContext,
+    pub(crate) couplings: std::cell::RefCell<Vec<Coupling>>,
 }
 
 pub fn config_lines() -> Vec<String> {
@@ -127,11 +127,11 @@ pub fn config_lines() -> Vec<String> {
     ]
 }
 
-fn tolerances_of(ctx: &RunContext) -> Tolerances {
+pub(crate) fn tolerances_of(ctx: &RunContext) -> Tolerances {
     ctx.tolerances(DEFAULT_TOLERANCES)
 }
 
-fn params_for(
+pub(crate) fn params_for(
     ctx: &RunContext,
     m: f64,
     length: f64,
@@ -170,7 +170,7 @@ fn label(p: &Params, lambda_name: &str) -> String {
     s
 }
 
-fn trim_float(v: f64) -> String {
+pub(crate) fn trim_float(v: f64) -> String {
     let s = format!("{v}");
     s.replace('.', "p").replace('-', "m")
 }
@@ -280,7 +280,7 @@ fn strength_of(params: &Params, densities: &scf::Densities) -> (f64, f64, f64) {
         s_ref = s_ref.max((factor * densities.s_c[i]).abs());
         n_ref = n_ref.max((factor * densities.n_c[i]).abs());
     }
-    let strength = (15.0 / 16.0 * s_ref).max(n_ref / 16.0) / params.m.powi(7);
+    let strength = (15.0 / 16.0 * s_ref).max(n_ref / 16.0) / params.mass_scale().powi(7);
     (strength, s_ref, n_ref)
 }
 
@@ -293,7 +293,7 @@ fn shells_json(shells: &[(f64, f64)]) -> Json {
     )
 }
 
-fn reference_json(r: &Reference) -> Json {
+pub(crate) fn reference_json(r: &Reference) -> Json {
     let couplings: Vec<Json> = r
         .couplings
         .borrow()
@@ -326,7 +326,7 @@ fn reference_json(r: &Reference) -> Json {
 // writers
 // ---------------------------------------------------------------------------
 
-fn levels_header() -> Vec<String> {
+pub(crate) fn levels_header() -> Vec<String> {
     [
         "n2",
         "k",
@@ -351,7 +351,7 @@ fn levels_header() -> Vec<String> {
     .collect()
 }
 
-fn levels_rows(spectrum: &Spectrum) -> Vec<Vec<f64>> {
+pub(crate) fn levels_rows(spectrum: &Spectrum) -> Vec<Vec<f64>> {
     spectrum
         .states
         .iter()
@@ -484,8 +484,8 @@ fn write_solution(
     Ok((rows, emt_summary))
 }
 
-fn params_json(p: &Params) -> Json {
-    Json::object(vec![
+pub(crate) fn params_json(p: &Params) -> Json {
+    let mut pairs = vec![
         ("H", Json::Float(p.h)),
         ("m", Json::Float(p.m)),
         ("a4_0", Json::Float(p.a4)),
@@ -513,10 +513,21 @@ fn params_json(p: &Params) -> Json {
         ),
         ("rtol", Json::Float(p.tolerances.rtol)),
         ("atol", Json::Float(p.tolerances.atol)),
-    ])
+    ];
+    // Stage-5 parameters: written only when they differ from the Stage-4
+    // defaults, so that every Stage-4 run.json/summary.json is unchanged
+    if p.statistics != crate::exchange::Statistics::default() {
+        pairs.push(("statistics", Json::str(p.statistics.field_name())));
+        pairs.push(("exchangeSign", Json::Float(p.statistics.sign())));
+    }
+    if p.tip_bag != crate::shooting::TipBag::default() {
+        pairs.push(("tipBag", Json::str(p.tip_bag.describe())));
+        pairs.push(("bagAngleTheta", Json::Float(p.tip_bag.bag_angle())));
+    }
+    Json::object(pairs)
 }
 
-fn run_json(s: &Solution, e: &emt::Summary) -> Json {
+pub(crate) fn run_json(s: &Solution, e: &emt::Summary) -> Json {
     let en = &s.energies;
     Json::object(vec![
         ("parameters", params_json(&s.params)),
@@ -645,7 +656,7 @@ fn emt_json(e: &emt::Summary) -> Json {
     ])
 }
 
-fn finish(
+pub(crate) fn finish(
     ctx: &RunContext,
     dir: &Path,
     summary: &mut ExperimentSummary,
@@ -958,7 +969,7 @@ pub fn run_spectrum(ctx: &RunContext) -> Result<ExperimentSummary, String> {
 /// Analytic odd-parity box level of index n (tan(pL) = -p/M): the n-th
 /// positive root p_n lies in ((n + 1/2) pi/L, (n + 3/2) pi/L) for n >= 0;
 /// negative indices mirror.
-fn odd_box_root(m: f64, length: f64, index: i64) -> f64 {
+pub(crate) fn odd_box_root(m: f64, length: f64, index: i64) -> f64 {
     let n = if index >= 0 { index } else { -index - 1 } as f64;
     let g = |p: f64| crate::math::sin(p * length) * m + p * crate::math::cos(p * length);
     let mut a = (n + 0.5) * PI / length + 1e-12;
@@ -987,7 +998,7 @@ fn odd_box_root(m: f64, length: f64, index: i64) -> f64 {
 // scf
 // ---------------------------------------------------------------------------
 
-fn lambda_set(c: &Coupling, quick: bool) -> Vec<(String, f64)> {
+pub(crate) fn lambda_set(c: &Coupling, quick: bool) -> Vec<(String, f64)> {
     if quick {
         vec![
             ("lam0".to_string(), 0.0),

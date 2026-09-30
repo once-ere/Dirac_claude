@@ -80,6 +80,104 @@ pub fn interaction_energy_density(lambda: f64, n: f64, s: f64) -> f64 {
     0.5 * lambda * s * s + exchange_energy_density(lambda, n, s)
 }
 
+/// Statistics of the field components (Stage 5, STAGE5_SPEC section 4 and
+/// `artifacts/dirac16complex/pair-creation/pairing-theory.json`,
+/// `statistics.hartreeFock`).  The only place where the statistics enters
+/// the energy functional of a quasi-free state with the expectation rule is
+/// the sign `sg` of the Wick (exchange) contraction:
+///
+/// ```text
+/// E_HF = (lambda/2) [ Tr(BC rho)^2 + sg Tr(BC rho BC rho) ],
+/// e_x  = sg (lambda/32) (n^2 + S^2),  v_v = sg (lambda/16) n,  v_s = sg (lambda/16) S,
+/// M_eff = m + lambda S + v_s = m + (1 + sg/16) lambda S,
+/// ```
+///
+/// `sg = -1` for dirac16complex (anticommuting, Grassmann components: the
+/// Stage-4 functional, M_eff = m + (15/16) lambda S_p, v_x = -(lambda/16) n_p)
+/// and `sg = +1` for dirac16complex00 (commuting c-number components:
+/// M_eff = m + (17/16) lambda S_p, v_x = +(lambda/16) n_p).  The default is
+/// the Stage-4 value; the anticommuting methods call the Stage-4 functions
+/// above, so every Stage-4 number is unchanged bit for bit.  Status of the
+/// commuting model (pairing-theory.json, statistics.positivity): a formal
+/// Krein-signed Gaussian functional with Fermi-Dirac (Pauli) filling imposed
+/// as specified, not a quantum theory of commuting spinors.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum Statistics {
+    /// dirac16complex: second-quantised, Grassmann-odd components (sg = -1).
+    #[default]
+    Anticommuting,
+    /// dirac16complex00: classical commuting components (sg = +1).
+    Commuting,
+}
+
+impl Statistics {
+    /// Both statistics, the Stage-4 one first.
+    pub const ALL: [Statistics; 2] = [Statistics::Anticommuting, Statistics::Commuting];
+
+    /// The Wick sign sg of the exchange contraction.
+    pub fn sign(self) -> f64 {
+        match self {
+            Statistics::Anticommuting => -1.0,
+            Statistics::Commuting => 1.0,
+        }
+    }
+
+    /// Name of the field of this statistics.
+    pub fn field_name(self) -> &'static str {
+        match self {
+            Statistics::Anticommuting => "dirac16complex",
+            Statistics::Commuting => "dirac16complex00",
+        }
+    }
+
+    /// Short label used in run names.
+    pub fn short_label(self) -> &'static str {
+        match self {
+            Statistics::Anticommuting => "d16c",
+            Statistics::Commuting => "d16c00",
+        }
+    }
+
+    /// e_x = sg (lambda/32)(n^2 + S^2).
+    pub fn exchange_energy_density(self, lambda: f64, n: f64, s: f64) -> f64 {
+        match self {
+            Statistics::Anticommuting => exchange_energy_density(lambda, n, s),
+            Statistics::Commuting => lambda * (n * n + s * s) / 32.0,
+        }
+    }
+
+    /// v_s = d e_x / dS = sg (lambda/16) S.
+    pub fn v_scalar(self, lambda: f64, s: f64) -> f64 {
+        match self {
+            Statistics::Anticommuting => v_scalar(lambda, s),
+            Statistics::Commuting => lambda * s / 16.0,
+        }
+    }
+
+    /// v_v = d e_x / dn = sg (lambda/16) n.
+    pub fn v_vector(self, lambda: f64, n: f64) -> f64 {
+        match self {
+            Statistics::Anticommuting => v_vector(lambda, n),
+            Statistics::Commuting => lambda * n / 16.0,
+        }
+    }
+
+    /// M_eff = m + lambda S + v_s.
+    pub fn effective_mass(self, m: f64, lambda: f64, s: f64) -> f64 {
+        m + hartree_mass(lambda, s) + self.v_scalar(lambda, s)
+    }
+
+    /// Hartree + exchange energy density (lambda/2) S^2 + e_x.
+    pub fn interaction_energy_density(self, lambda: f64, n: f64, s: f64) -> f64 {
+        0.5 * lambda * s * s + self.exchange_energy_density(lambda, n, s)
+    }
+
+    /// Coefficient of lambda S_p in M_eff: 15/16 (sg = -1) or 17/16 (sg = +1).
+    pub fn mass_coefficient(self) -> f64 {
+        1.0 + self.sign() / 16.0
+    }
+}
+
 /// Gauss-Legendre nodes and weights on [-1, 1] (Newton on Legendre polynomials).
 pub fn gauss_legendre(n: usize) -> (Vec<f64>, Vec<f64>) {
     let mut x = vec![0.0; n];
@@ -311,6 +409,61 @@ mod tests {
         assert!((dn - v_vector(lambda, n)).abs() < 1e-9);
         assert!((ds - v_scalar(lambda, s)).abs() < 1e-9);
         assert!((effective_mass(1.0, lambda, s) - (1.0 + 15.0 / 16.0 * lambda * s)).abs() < 1e-15);
+    }
+
+    #[test]
+    fn statistics_sign_of_the_exchange() {
+        // pairing-theory.json statistics.hartreeFock: e_x = sg (lambda/32)(n^2 + S^2),
+        // v_v = sg (lambda/16) n, v_s = sg (lambda/16) S, M_eff = m + (1 + sg/16) lambda S
+        let (lambda, n, s, m, h) = (0.7, 1.3, -0.9, -2.0, 1e-6);
+        for stats in Statistics::ALL {
+            let sg = stats.sign();
+            let ex = stats.exchange_energy_density(lambda, n, s);
+            assert!((ex - sg * lambda * (n * n + s * s) / 32.0).abs() < 1e-15);
+            let dn = (stats.exchange_energy_density(lambda, n + h, s)
+                - stats.exchange_energy_density(lambda, n - h, s))
+                / (2.0 * h);
+            let ds = (stats.exchange_energy_density(lambda, n, s + h)
+                - stats.exchange_energy_density(lambda, n, s - h))
+                / (2.0 * h);
+            assert!((dn - stats.v_vector(lambda, n)).abs() < 1e-9);
+            assert!((ds - stats.v_scalar(lambda, s)).abs() < 1e-9);
+            assert!((stats.v_vector(lambda, n) - sg * lambda * n / 16.0).abs() < 1e-15);
+            let coefficient = if sg < 0.0 { 15.0 / 16.0 } else { 17.0 / 16.0 };
+            assert!(
+                (stats.effective_mass(m, lambda, s) - (m + coefficient * lambda * s)).abs() < 1e-15
+            );
+            assert_eq!(stats.mass_coefficient(), coefficient);
+            // the homogeneity used by the energy functional: S v_s + n v_v = 2 e_x
+            let euler = s * stats.v_scalar(lambda, s) + n * stats.v_vector(lambda, n);
+            assert!((euler - 2.0 * ex).abs() < 1e-15);
+        }
+        // the anticommuting methods ARE the Stage-4 functions (bit for bit)
+        let a = Statistics::Anticommuting;
+        assert_eq!(Statistics::default(), a);
+        assert_eq!(
+            a.exchange_energy_density(lambda, n, s).to_bits(),
+            exchange_energy_density(lambda, n, s).to_bits()
+        );
+        assert_eq!(
+            a.effective_mass(m, lambda, s).to_bits(),
+            effective_mass(m, lambda, s).to_bits()
+        );
+        assert_eq!(
+            a.v_vector(lambda, n).to_bits(),
+            v_vector(lambda, n).to_bits()
+        );
+        assert_eq!(
+            a.interaction_energy_density(lambda, n, s).to_bits(),
+            interaction_energy_density(lambda, n, s).to_bits()
+        );
+        // the two statistics differ exactly in the sign of the exchange
+        let c = Statistics::Commuting;
+        assert_eq!(
+            c.exchange_energy_density(lambda, n, s),
+            -a.exchange_energy_density(lambda, n, s)
+        );
+        assert_eq!(c.v_vector(lambda, n), -a.v_vector(lambda, n));
     }
 
     #[test]

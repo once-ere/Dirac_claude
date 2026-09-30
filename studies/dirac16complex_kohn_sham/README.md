@@ -15,7 +15,7 @@ Binding documents: `STAGE4_SPEC.md`, `CONTRACT.md` (with errata),
 ```
 cd studies/dirac16complex_kohn_sham
 cargo build --release
-cargo test --release          # 35 unit tests, 2 ignored timing probes (see below)
+cargo test --release          # 46 unit tests (35 Stage 4, 11 Stage 5), 2 ignored timing probes
 cargo clippy --release --all-targets && cargo fmt --check
 cd ../..                      # run from the repository root (relative artifact paths)
 ./studies/dirac16complex_kohn_sham/target/release/dirac16complex_kohn_sham print-config
@@ -30,7 +30,8 @@ byte identity of every file listed in the summaries) and a `--refined` run
 and writes a checker-format report (`check_<name>=...`, exit 1 on failure).
 
 Subcommands: `print-config`, `spectrum`, `scf`, `excited`, `thermo`, `emt`,
-`all`.  The default output root is `artifacts/dirac16complex/kohn-sham/rust/`
+`all` (Stage 4), and `pairs` (Stage 5, section "Stage 5" below; not part of
+`all`).  The default output root is `artifacts/dirac16complex/kohn-sham/rust/`
 (canonical artifacts); subcommand X writes into `<root>/X/`.  Every check prints
 `PASS - name: detail` / `FAIL - name: detail`; the last stdout line is
 `SUCCESS` or `FAILURE` (exit code 0/1).  Outputs are deterministic (CSV with
@@ -322,6 +323,95 @@ and refined trees were produced the same way (the same build per
 subcommand), so the byte comparison of `determinism-report.json` compares
 like with like.  Temporary diagnostic examples used during development are
 not part of the crate.
+
+## Stage 5: the `pairs` subcommand ({+M, -M} pairing, both statistics)
+
+Binding: `handoff/specs/STAGE5_SPEC.md` (sections 4, 5: T3, T4) and the exact
+theory `artifacts/dirac16complex/pair-creation/pairing-theory.json` (section
+T3, `wolfram/Dirac16ComplexPairing.wl`).  Module `src/pairs.rs`; output root
+`artifacts/dirac16complex/pair-creation/rust/` (the subcommand writes into
+`<root>/pairs/`; `--output DIR` writes into `DIR/pairs/`).
+
+```
+./studies/dirac16complex_kohn_sham/target/release/dirac16complex_kohn_sham pairs [--output DIR] [--refined] [--quick]
+python studies/dirac16complex_kohn_sham/tools/compare_pairs_runs.py --canonical artifacts/dirac16complex/pair-creation/rust \
+    --repeat DIR2 --refined DIR3 --report artifacts/dirac16complex/pair-creation/rust/determinism-report.json
+python studies/dirac16complex_kohn_sham/tools/compare_pairs_runs.py --stage4-committed artifacts/dirac16complex/kohn-sham/rust \
+    --stage4-run DIR4 --full spectrum --quick excited scf --report artifacts/dirac16complex/pair-creation/rust/stage4-identity-report.json
+```
+
+`pairs` is not part of `all` and does not change `print-config`.
+
+### New parameters (all default to the Stage-4 values)
+
+* `Params::statistics` (`exchange::Statistics`): `Anticommuting`
+  (dirac16complex, the Stage-4 functional: `e_x = -(lambda/32)(n^2 + S^2)`,
+  `M_eff = m + (15/16) lambda S_p`, `v_x = -(lambda/16) n_p`) or `Commuting`
+  (dirac16complex00: `e_x = +(lambda/32)(n^2 + S^2)`, `M_eff = m + (17/16)
+  lambda S_p`, `v_x = +(lambda/16) n_p`), the formulas of
+  pairing-theory.json `statistics.hartreeFock` / `T3.numericsPrescription`.
+  The anticommuting methods call the Stage-4 functions, bit for bit.
+* `Params::tip_bag` / `Potential::tip` (`shooting::TipBag`): `B` (`b(-L) =
+  0`, bag angle theta = 0, Pruefer `theta(-L) = 0`, Stage 4) or `A` (`a(-L)
+  = 0`, theta = pi, Pruefer `theta(-L) = pi/2`, profile start `(a, b) = (0,
+  -1)`): the image of `B` under the block form of gamma^8
+  (`sigma2 Q(theta) sigma2 = Q(pi - theta)`).
+* Negative mass: every scale of the units "m = 1" uses `|m|`
+  (`Params::mass_scale`: Delta k, the window floor, the T = 0 and T > 0
+  margins, the window enlargement, the fallback smearing, the free-level
+  window quantum and cap, max|lambda S_p|/m and max|v_x|/m, the coupling
+  strength per m^7); `lambda_hat = lambda m^6` is even in m.  The free
+  partner levels that classify the particle/sea branches are computed with
+  the signed m and the run's tip bag, so the branch labels of the -M universe
+  are the images of the +M ones (the zero mode `(0, e^{My})` of minusM is a
+  particle state like `(e^{My}, 0)` of plusM).
+* `run.json` / `summary.json` of the Stage-4 subcommands are unchanged:
+  `statistics`, `exchangeSign`, `tipBag`, `bagAngleTheta` are written into a
+  parameter block only when they differ from the defaults.
+
+### Universes, maps and checks
+
+Per configuration (statistics, |m|, L = 3, N, lambda_hat, T): `plusM` (+|m|,
+`b(-L) = 0`, the Stage-4 problem), `minusM` (-|m|, the same lambda and
+statistics, `a(-L) = 0`: the transformed boundary conditions of
+T3.theoremStandardRule) and `minusM_control` (-|m|, `b(-L) = 0`, untransformed).
+Level map plusM -> minusM: `(shell, p, s, n) -> (shell, -p, -s, -n)`, same eps,
+orbital `(a, b) -> +-(b, a)`.  Checked per configuration: levels (eps, f,
+weights, multiplicities, the sorted spectra with multiplicity), orbitals, mu,
+E, F, S_ent, N, the KS gap, the particle-hole list, Delta-SCF and E1 (T = 0),
+the total scalar charge (opposite), the profiles n_c, n_p, v_x, rho, p_y,
+p_3, p_t (equal) and S_c, S_p, M_eff (opposite), the EMT averages, the pair
+totals (mirror pair plusM + minusM: 2E, 2N, S = 0; Krein-image pair plusM -
+minusM: E = 0, charge 0, <rho> = <p> = 0, S = 2 S_+), the KS potentials
+against the formulas of the statistics, the window premise of the solver
+(max|M_eff - m| + max|v_x| <= |window floor|), and for plusM of dirac16complex
+the bitwise reproduction of the committed Stage-4 numbers.  Across
+configurations: plusM(lambda) vs minusM(-lambda) must not map; the two
+statistics are bitwise identical at lambda = 0 and differ at lambda != 0.
+The lambda-independent free section checks the key map on the free spectra
+(|m| = 1, 3; L = 2, 3, 4), the analytic k = 0 box spectra of the three
+universes (the control's mixed sector `q cos qL - M sin qL = 0` and its
+bound state `tanh(kappa L) = kappa/M`), the zero modes and their
+localisation, the splitting constants `c(M)` and `c_ctrl(M)` against the
+closed forms and the values exported by the exact theory, and the 16 x 16
+block map of gamma^8 in this crate's basis.
+
+First excited state: T = 0 KS gap, particle-hole list (floor 1e-12),
+Delta-SCF; T > 0 the Mermin state, the KS gap and the particle-hole list with
+the finite-T rule (holes f >= 1/2, particles f < 1/2); Delta-SCF is the T = 0
+construction of Stage 4 and is not computed at T > 0.
+
+### Unit tests added (Stage 5)
+
+`exchange::statistics_sign_of_the_exchange`; `pairs`: the swap identity of
+the real block system, the key map, gamma^8 = sigma2 between partner blocks,
+the block map on the free spectrum (shooting levels and profiles, KS
+spectrum keys and multiplicities), the negative-mass free box spectra
+(minusM and the control, incl. the bound state) against the analytic ones,
+the zero-mode localisation `(0, e^{My})` and `(e^{-My}, 0)` and the
+splitting constants, the statistics sign in the KS potentials (v_x opposite,
+(M_eff - m) in the ratio 17/15), the Stage-4 defaults (no new keys in
+`run.json`; |m| scales), and an interacting SCF pairing (both statistics).
 
 ## Origin of copied code
 

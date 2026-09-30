@@ -163,6 +163,51 @@ Outputs (deterministic, LF, json.dumps(indent=2) + newline, "%.17e") under
 artifacts/dirac16complex/kohn-sham/reference/: reference-summary.json and
 one directory per run with spectrum.csv, profiles.csv,
 scf-history-level*.csv and run.json.
+Stage-5 options (STAGE5_SPEC section 6; the {+M, -M} pairs of
+scripts/ks_reference_pairs.py).  Every default reproduces Stage 4 bit for
+bit and writes nothing new (the Stage-4 outputs stay byte-identical;
+SOLVER_VERSION is unchanged because no Stage-4 number changes):
+  * negative bare mass m < 0.  Every SCALE of the problem uses |m|: the
+    lattice spacing Delta k = (Delta k/m) |m| (hence l and the volume l^3),
+    the energy windows, the widening steps, the potential residual in units
+    of |m|, the collapse level, the occupation-smearing ladder, the |lambda
+    S_p|/|m| diagnostics, the coupling scale per |m|^7, the C_V
+    finite-difference limit, the hot-run spectrum band and the Rust window
+    model; the SIGN of m enters only the physics (M_eff = m + ..., the
+    free-spectrum branch classification, the E4.1 sourcing record m S).
+    Measured root cause of the lead's warning (STAGE5_SPEC section 8,
+    "reference negative-mass bookkeeping"): before this change Delta k =
+    0.25 m was negative for m < 0, so l and the volume l^3 were negative and
+    n_c = sum mult w n / l^3 changed sign (n_c(-M) = -n_c(+M) node by node,
+    ratio -1.00001 on N0 = 40); nTotal (a sum of weights) was unaffected.
+    The particle/sea classification by rank against the free spectrum of
+    the SAME (signed-mass, same-boundary-condition) operator is the exact
+    image of the +M classification (the swap f <-> g maps h_s(M; p, tip)
+    onto h_{-s}(-M; -p, tip') with the same eigenvalues), so it needed no
+    change; the pairs checker verifies it level by level.
+  * statistics = "anticommuting" (dirac16complex, the default, sg = -1) or
+    "commuting" (dirac16complex00, sg = +1): the Wick contraction of the
+    contact interaction (pairing-theory.json statistics.hartreeFock),
+    e_x = sg (lambda/32)(n^2 + S^2), v_v = sg lambda n_p/16,
+    v_s = sg lambda S_p/16, M_eff = m + (1 + sg/16) lambda S_p (15/16 resp.
+    17/16); mode lda-n: e_x = sg (lambda/32)(n^2 + S_gas^2),
+    v_x = sg (lambda/16)(n + S_gas dS_gas/dn) (S_gas of the gas of mass |m|);
+    hartree: no exchange (statistics-independent).  Written to run.json
+    (params.statistics, params.statisticsSign) only when "commuting".
+  * window_cap (execution guard, default None = none): an SCF whose energy
+    window would reach beyond window_cap |m| aborts with RuntimeError; it
+    can only abort a run, never change its numbers (not in run.json).
+  * transformed boundary conditions: the tip bag theta = pi, i.e.
+    f(-L) = 0 (tip = "f0", the Rust crate's a(-L) = 0), which the solver
+    already had; the -M universe of the exact map is (-m, tip "f0", both
+    parities, the same lambda and statistics), the untransformed control
+    (-m, tip "g0").  In the reference's per-block basis the exact map is
+    the component swap f <-> g with the block type s -> -s and the parity
+    p -> -p (sigma_x h_s(M, k, v) sigma_x = h_{-s}(-M, k, v)); the
+    staggered grid is mapped onto the scheme with the two grids exchanged,
+    so the reference realises the pairing to its discretisation error (the
+    three-grid extrapolation), not to rounding (pairing-theory.json
+    T3.numericsPrescription.discretisationNote).
 
 Usage: python scripts/ks_reference_solver.py [--output DIR] [--quick]
        [--runs NAME,...] [--workers W] [--resume] [--skip-self-tests]
@@ -812,6 +857,8 @@ SMEARING_LADDER = (1e-4, 1e-3)   # T = 0 fallback: Fermi-Dirac occupation smeari
 RUST_F_CUT = 1e-8           # occupation cutoff of the Rust crate's T > 0 window (truncation diagnostic)
 RUST_SHELL_CAP = 4096       # the Rust crate's largest lattice n2 (scf.rs standard_params shell_cap)
 SOLVER_VERSION = 2          # bumped when the numbers of a run change (--resume keeps only matching versions)
+STATISTICS_SIGNS = {"anticommuting": -1, "commuting": 1}   # Stage 5: sg of the exchange term (dirac16complex, dirac16complex00)
+DEFAULT_STATISTICS = "anticommuting"                       # Stage 4 (dirac16complex): nothing new is written for it
 
 
 class Params:
@@ -820,11 +867,21 @@ class Params:
     def __init__(self, m=1.0, a4=0.0, L=3.0, lambda_hat=0.0, T=0.0, N=8.0, parity=1,
                  tip="g0", xc="quadratic", delta_k_over_m=0.25, ell=None, delta_k=None,
                  N0=100, levels=3, mix_beta=0.4, mix_history=6, tol=1e-10, max_iter=200,
-                 label="run", f_cut=None, sea="free", smearing=0.0, exact_shells=None, shell_workers=0):
+                 label="run", f_cut=None, sea="free", smearing=0.0, exact_shells=None, shell_workers=0,
+                 statistics=DEFAULT_STATISTICS, window_cap=None):
         if sea not in ("free", "sign"):
             raise ValueError("sea must be 'free' or 'sign'")
+        if statistics not in STATISTICS_SIGNS:
+            raise ValueError("statistics must be one of %s" % sorted(STATISTICS_SIGNS))
+        if tip not in ("g0", "f0"):
+            raise ValueError("tip must be 'g0' (theta = 0, g(-L) = 0) or 'f0' (theta = pi, f(-L) = 0)")
         self.sea = sea
         self.m = float(m)
+        # Stage 5: every scale of the problem uses |m| (the sign of m is physics only);
+        # for m > 0 this is m itself, bit for bit
+        self.mass_scale = abs(self.m)
+        self.statistics = statistics
+        self.sg = STATISTICS_SIGNS[statistics]
         self.a4 = float(a4)
         self.L = float(L)
         self.lambda_hat = float(lambda_hat)
@@ -834,7 +891,7 @@ class Params:
         self.parity = int(parity)
         self.tip = tip
         self.xc = xc
-        self.delta_k = float(delta_k) if delta_k is not None else float(delta_k_over_m) * self.m
+        self.delta_k = float(delta_k) if delta_k is not None else float(delta_k_over_m) * self.mass_scale
         self.ell = float(ell) if ell is not None else 2.0 * math.pi / self.delta_k
         self.volume = self.ell ** 3
         self.N0 = int(N0)
@@ -853,6 +910,12 @@ class Params:
         # worker processes for the exact shell loop (execution only: the results are
         # identical to the serial loop and the setting is not recorded in run.json)
         self.shell_workers = int(shell_workers or 0)
+        # Stage 5 (execution guard, default None = no cap, the Stage-4 behaviour): an SCF whose
+        # energy window would reach beyond window_cap |m| is aborted with RuntimeError instead of
+        # widening further (the widened windows of a runaway pseudo-potential hold millions of
+        # levels; one such attempt committed 167 GB).  The cap can only abort a run, never change
+        # its numbers, so it is not recorded in run.json
+        self.window_cap = float(window_cap) if window_cap is not None else None
 
     def occupation_temperature(self):
         """Temperature of the Fermi-Dirac occupations: T, or the smearing of the T = 0 fallback."""
@@ -865,17 +928,23 @@ class Params:
                 "delta_k": self.delta_k, "ell": self.ell, "N0": self.N0, "levels": self.levels,
                 "mix_beta": self.mix_beta, "mix_history": self.mix_history, "tol": self.tol,
                 "max_iter": self.max_iter, "label": self.label, "f_cut": self.f_cut, "sea": self.sea,
-                "smearing": self.smearing, "exact_shells": self.exact_shells, "shell_workers": self.shell_workers}
+                "smearing": self.smearing, "exact_shells": self.exact_shells, "shell_workers": self.shell_workers,
+                "statistics": self.statistics, "window_cap": self.window_cap}
 
     def to_dict(self):
-        return {"label": self.label, "m": self.m, "a4_0": self.a4, "L": self.L,
-                "lambda_hat": self.lambda_hat, "lambda": self.lam, "T": self.T, "N": self.N,
-                "parity": self.parity, "tip": self.tip, "xc": self.xc, "sea": self.sea,
-                "delta_k": self.delta_k, "ell": self.ell, "volume": self.volume, "N0": self.N0,
-                "levels": self.levels, "mix_beta": self.mix_beta, "mix_history": self.mix_history,
-                "tol": self.tol, "max_iter": self.max_iter, "H": 1.0, "delta_k_over_m": self.delta_k / self.m,
-                "occupationSmearing": self.smearing, "exactShells": self.exact_shells,
-                "solverVersion": SOLVER_VERSION}
+        out = {"label": self.label, "m": self.m, "a4_0": self.a4, "L": self.L,
+               "lambda_hat": self.lambda_hat, "lambda": self.lam, "T": self.T, "N": self.N,
+               "parity": self.parity, "tip": self.tip, "xc": self.xc, "sea": self.sea,
+               "delta_k": self.delta_k, "ell": self.ell, "volume": self.volume, "N0": self.N0,
+               "levels": self.levels, "mix_beta": self.mix_beta, "mix_history": self.mix_history,
+               "tol": self.tol, "max_iter": self.max_iter, "H": 1.0, "delta_k_over_m": self.delta_k / self.mass_scale,
+               "occupationSmearing": self.smearing, "exactShells": self.exact_shells,
+               "solverVersion": SOLVER_VERSION}
+        if self.statistics != DEFAULT_STATISTICS:
+            # Stage 5 (dirac16complex00): written only when not the Stage-4 default
+            out["statistics"] = self.statistics
+            out["statisticsSign"] = self.sg
+        return out
 
 
 class State:
@@ -1348,15 +1417,23 @@ def potentials(params: Params, grid: Grid, n_c, s_c, lda: LdaTable = None):
     lam = params.lam
     s_p = grid.density_factor * s_c
     n_p = grid.density_factor * n_c
+    # Stage 5: the statistics sign sg of the exchange term (dirac16complex sg = -1, the
+    # Stage-4 expressions below unchanged; dirac16complex00 sg = +1, the commuting Wick
+    # contraction <U> = (lambda/2)[Tr(BC rho)^2 + Tr(BC rho BC rho)])
+    commuting = params.sg > 0
     if params.xc == "hartree":
         m_eff = params.m + lam * s_p
         v = np.zeros_like(n_p)
         e_int = 0.5 * lam * s_p * s_p
-    elif params.xc == "quadratic":
+    elif params.xc == "quadratic" and not commuting:
         m_eff = params.m + lam * s_p - lam * s_p / 16.0
         v = -lam * n_p / 16.0
         e_int = 0.5 * lam * s_p * s_p - (lam / 32.0) * (n_p * n_p + s_p * s_p)
-    elif params.xc == "lda-n":
+    elif params.xc == "quadratic":
+        m_eff = params.m + lam * s_p + lam * s_p / 16.0
+        v = lam * n_p / 16.0
+        e_int = 0.5 * lam * s_p * s_p + (lam / 32.0) * (n_p * n_p + s_p * s_p)
+    elif params.xc == "lda-n" and not commuting:
         m_eff = params.m + lam * s_p
         v = np.zeros_like(n_p)
         e_int = 0.5 * lam * s_p * s_p
@@ -1364,6 +1441,14 @@ def potentials(params: Params, grid: Grid, n_c, s_c, lda: LdaTable = None):
             Sg, dSdn = lda.lookup(n_p[j])
             v[j] = -(lam / 16.0) * (n_p[j] + Sg * dSdn)
             e_int[j] += -(lam / 32.0) * (n_p[j] ** 2 + Sg ** 2)
+    elif params.xc == "lda-n":
+        m_eff = params.m + lam * s_p
+        v = np.zeros_like(n_p)
+        e_int = 0.5 * lam * s_p * s_p
+        for j in range(len(n_p)):
+            Sg, dSdn = lda.lookup(n_p[j])
+            v[j] = (lam / 16.0) * (n_p[j] + Sg * dSdn)
+            e_int[j] += (lam / 32.0) * (n_p[j] ** 2 + Sg ** 2)
     else:
         raise ValueError("unknown xc mode %r" % params.xc)
     dc = (m_eff - params.m) * s_p + v * n_p
@@ -1386,7 +1471,7 @@ def energies(states, params: Params, grid: Grid, n_c, s_c, e_int, dc, mu):
     total = ks_sum - dc_total + e_int_total
     free = total - params.T * entropy
     scalar_total = vol * grid.integrate(s_c)
-    lam_s_over_m = np.abs(params.lam * grid.density_factor * s_c) / params.m
+    lam_s_over_m = np.abs(params.lam * grid.density_factor * s_c) / params.mass_scale
     return {"ksSum": ks_sum, "nTotal": n_total, "interaction": e_int_total, "hartree": hartree,
             "exchange": e_int_total - hartree, "doubleCounting": dc_total, "total": total,
             "entropy": entropy, "free": free, "grand": free - mu * n_total,
@@ -1432,7 +1517,7 @@ def free_window(params: Params, grid: Grid):
     """Initial energy window from the free spectrum (lambda = 0)."""
     m_eff = np.full(grid.N + 1, params.m)
     v = np.zeros(grid.N + 1)
-    top = params.m + 4.0 + 3.0 * (params.N / 8.0) ** (1.0 / 3.0) * params.delta_k + 2.0 * math.pi / params.L
+    top = params.mass_scale + 4.0 + 3.0 * (params.N / 8.0) ** (1.0 / 3.0) * params.delta_k + 2.0 * math.pi / params.L
     spec = Spectrum(params, grid, m_eff, v, -top, top)
     mu, homo, lumo = occupy_zero(spec.states, params.N)
     return mu, spec
@@ -1448,9 +1533,16 @@ def window_for(params: Params, mu, mu_free=None):
     top = mu if mu_free is None else max(mu, mu_free)
     if params.T <= 0.0:
         margin = 2.0 + math.pi / params.L
-        return -params.m - 1.0, top + margin
-    factor = WINDOW_FACTOR if params.T < 0.5 * params.m else WINDOW_FACTOR_HOT
+        return -params.mass_scale - 1.0, top + margin
+    factor = WINDOW_FACTOR if params.T < 0.5 * params.mass_scale else WINDOW_FACTOR_HOT
     return mu - factor * params.T, top + factor * params.T
+
+
+def check_window_cap(params: Params, lo, hi):
+    """Stage 5 execution guard (Params.window_cap; None: no cap)."""
+    if params.window_cap is not None and max(abs(lo), abs(hi)) > params.window_cap * params.mass_scale:
+        raise RuntimeError("energy window [%g, %g] beyond the cap %g |m| (window_cap): SCF aborted"
+                           % (lo, hi, params.window_cap))
 
 
 def occupy(spec: Spectrum, params: Params, mode, constrained=None):
@@ -1483,12 +1575,14 @@ def scf(params: Params, grid: Grid, mode="auto", constrained=None, initial=None,
     lda = None
     if params.xc == "lda-n":
         n_est = params.N / (params.volume * (1 - math.exp(-6 * params.L)) / 6.0) * math.exp(6 * params.L)
-        lda = LdaTable(params.T, params.m, n_est)
+        # the free gas of mass |m| (S_gas of mass -m is -S_gas; e_x and v_x are even in it)
+        lda = LdaTable(params.T, params.mass_scale, n_est)
     mu, spec = free_window(params, grid)
     mu_free = mu
     if initial is None:
         if mode == "thermal":
             lo, hi = window_for(params, mu, mu_free)
+            check_window_cap(params, lo, hi)
             spec = Spectrum(params, grid, np.full(grid.N + 1, params.m), np.zeros(grid.N + 1), lo, hi)
             mu, _, _ = occupy(spec, params, mode, constrained)
         elif mode == "constrained":
@@ -1507,6 +1601,7 @@ def scf(params: Params, grid: Grid, mode="auto", constrained=None, initial=None,
         n_in, s_in = x_in[:grid.N + 1], x_in[grid.N + 1:]
         m_eff, v, e_int, dc = potentials(params, grid, n_in, s_in, lda)
         lo, hi = window_for(params, mu, mu_free)
+        check_window_cap(params, lo, hi)
         # a strong repulsive potential can push the levels to be filled above
         # the window top (or, at T > 0, out of the bracket): widen and retry
         for widen in range(WINDOW_WIDEN_STEPS + 1):
@@ -1517,13 +1612,15 @@ def scf(params: Params, grid: Grid, mode="auto", constrained=None, initial=None,
             except RuntimeError as error:
                 if widen == WINDOW_WIDEN_STEPS:
                     raise RuntimeError("%s (window [%g, %g] after %d widenings)" % (error, lo, hi, widen))
-                step = 2.0 * (widen + 1) * max(1.0, params.m)
+                step = 2.0 * (widen + 1) * max(1.0, params.mass_scale)
                 lo, hi = lo - step, hi + step
+                check_window_cap(params, lo, hi)
                 if log:
                     log("    widening the energy window to [%g, %g]: %s" % (lo, hi, error))
         # enlarge the window if mu moved too close to its edge
         lo2, hi2 = window_for(params, mu, mu_free)
         if lo2 < lo or hi2 > hi:
+            check_window_cap(params, min(lo, lo2), max(hi, hi2))
             spec = Spectrum(params, grid, m_eff, v, min(lo, lo2), max(hi, hi2))
             mu, homo, lumo = occupy(spec, params, mode, constrained)
         n_out, s_out = densities(spec.states, params, grid)
@@ -1536,7 +1633,7 @@ def scf(params: Params, grid: Grid, mode="auto", constrained=None, initial=None,
         # where the RELATIVE residual in S_c divides round-off by an almost
         # vanishing scale and never falls below tol
         m_eff_out, v_out, _, _ = potentials(params, grid, n_out, s_out, lda)
-        res_pot = float(max(np.max(np.abs(m_eff_out - m_eff)), np.max(np.abs(v_out - v))) / params.m)
+        res_pot = float(max(np.max(np.abs(m_eff_out - m_eff)), np.max(np.abs(v_out - v))) / params.mass_scale)
         # the Rust crate's criterion: both changes relative to D = max(max|n_c|, max|S_c|)
         # (in the hot pair plasma the net n_c is small while S_c is large)
         d_scale = max(float(np.max(np.abs(n_out))), float(np.max(np.abs(s_out))), 1e-300)
@@ -1567,7 +1664,7 @@ def scf(params: Params, grid: Grid, mode="auto", constrained=None, initial=None,
         if converged_by is not None:
             converged = True
             break
-        if particle_bottom < -COLLAPSE_LEVEL * params.m:
+        if particle_bottom < -COLLAPSE_LEVEL * params.mass_scale:
             # Tip collapse: the attractive exchange well -lambda n_p/16, amplified
             # by e^{6HL} at the tip, binds tip-localised particle-branch states
             # whose density deepens the well further; the mean-field functional
@@ -1577,7 +1674,7 @@ def scf(params: Params, grid: Grid, mode="auto", constrained=None, initial=None,
             result["convergedBy"] = "collapse"
             if log:
                 log("    tip collapse: lowest occupied particle level %.4f < -%g m; SCF stopped" %
-                    (particle_bottom, COLLAPSE_LEVEL * params.m))
+                    (particle_bottom, COLLAPSE_LEVEL * params.mass_scale))
             break
         residual = min(max(res_n, res_s), res_pot, res_d)
         if residual < 0.5 * best_residual:
@@ -1837,9 +1934,9 @@ def rust_window_truncation(result, params: Params, grid: Grid):
         return None
     mu = result["mu"]
     thermal = T * math.log(1.0 / RUST_F_CUT)
-    floor = -(2.5 * params.m + 2.0 * math.pi / params.L)
-    lo = min(mu - thermal - 0.5 * params.m, floor)
-    hi = mu + thermal + 0.5 * params.m
+    floor = -(2.5 * params.mass_scale + 2.0 * math.pi / params.L)
+    lo = min(mu - thermal - 0.5 * params.mass_scale, floor)
+    hi = mu + thermal + 0.5 * params.mass_scale
     states = result["spectrum"].states
     eps = np.array([st.eps for st in states])
     mult = np.array([st.mult for st in states])
@@ -1891,7 +1988,7 @@ def rust_window_truncation(result, params: Params, grid: Grid):
            "levelsBeyondShellCap": int(np.sum(qs > RUST_SHELL_CAP))}
     out.update(cut(in_window & (qs <= RUST_SHELL_CAP)))
     out["windowOnly"] = cut(in_window)
-    if T > 0.5 * params.m:
+    if T > 0.5 * params.mass_scale:
         # the T = m spectrum.csv is banded: the table lets the checker evaluate the
         # Rust window it actually used (the complete tables of T <= 0.3 m serve directly)
         out["edgeTable"] = edge_table(eps, mult, qs, sign, f_full, mu, T)
@@ -1975,7 +2072,7 @@ class SectorRun:
         self.smearing_attempts = []
         ladder = []
         if mode == "auto" and params.T <= 0.0 and params.smearing == 0.0:
-            ladder = [x * params.m for x in SMEARING_LADDER]
+            ladder = [x * params.mass_scale for x in SMEARING_LADDER]
         attempt = params
         start = initial
         while True:
@@ -2090,13 +2187,13 @@ class SectorRun:
         self.emt["mismatch"] = self.emt_levels[-1]["mismatch"]
         self.coarse_grid = coarse
         # coupling scale of this state (the rule of the Rust crate, applied to the
-        # free ground state of a configuration): max_y max((15/16)|S_p|, n_p/16)/m^7
+        # free ground state of a configuration): max_y max((15/16)|S_p|, n_p/16)/|m|^7
         s_abs = np.abs(np.asarray(self.profiles["s_p"], dtype=float))
         n_abs = np.abs(np.asarray(self.profiles["n_p"], dtype=float))
         self.coupling_scale = {"sRef": float(np.max(s_abs)), "sRefY": float(coarse.y[int(np.argmax(s_abs))]),
                                "nRef": float(np.max(n_abs)), "nRefY": float(coarse.y[int(np.argmax(n_abs))]),
                                "strengthPerUnitLambdaHat": float(max(15.0 / 16.0 * np.max(s_abs), np.max(n_abs) / 16.0)
-                                                                 / p.m ** 7)}
+                                                                 / p.mass_scale ** 7)}
         # heat capacity with the spectrum held fixed (T > 0 or smearing), per level and extrapolated
         hc = [heat_capacity_fixed_spectrum(lv, p, g) for lv, g in zip(self.levels, self.grids)]
         if all(h is not None for h in hc):
@@ -2277,7 +2374,7 @@ def thermo_point(params: Params, T: float, delta=0.05, log=None):
     reported C_V is the central difference where it exists, else C_V^(0)."""
     runs = {}
     tags = [("center", T)]
-    with_fd = T <= CV_FINITE_DIFFERENCE_LIMIT * params.m + 1e-12
+    with_fd = T <= CV_FINITE_DIFFERENCE_LIMIT * params.mass_scale + 1e-12
     if with_fd:
         tags += [("plus", T * (1 + delta)), ("minus", T * (1 - delta))]
     for tag, Tv in tags:
@@ -2376,7 +2473,7 @@ def write_run(run: SectorRun, directory, extra=None):
     # hot runs (T > 0.5 m, ~2.5e5 levels): spectrum.csv lists the levels within
     # SPECTRUM_CSV_BAND T of mu only (the sums over all levels are in run.json)
     band = None
-    if run.params.T > 0.5 * run.params.m:
+    if run.params.T > 0.5 * run.params.mass_scale:
         mu = float(run.scalars["mu"])
         band = [mu - SPECTRUM_CSV_BAND * run.params.T, mu + SPECTRUM_CSV_BAND * run.params.T]
     for key in run.state_keys:
@@ -2773,6 +2870,10 @@ def coupling_rust_grid(m, L, N, quick=False, log=None):
     recorded as strengthCoarseNodes: it samples an interior peak of S_p too
     coarsely (measured 2e-3 low at (1, 3, 1016), whose S_p peaks near
     y = -2.81 between two coarse nodes)."""
+    if not m > 0.0:
+        # the rule is defined on the +|m| configuration (tip g0); a -M universe of the
+        # Stage-5 pairs uses the coupling of its +|m| partner (scripts/ks_reference_pairs.py)
+        raise ValueError("coupling_rust_grid: the coupling rule needs m > 0 (got %r)" % (m,))
     base = dict(m=m, L=L, lambda_hat=0.0, T=0.0, N=N, parity=0, tip="g0", xc="quadratic")
     n_fine = QUICK_N0 if quick else RUST_GRID_INTERVALS
     n_levels = QUICK_LEVELS if quick else CANONICAL_LEVELS
@@ -2871,6 +2972,8 @@ def run_matches(doc, spec, lambda_hat):
         keys = ("m", "a4_0", "L", "lambda_hat", "T", "N", "parity", "tip", "xc", "sea", "delta_k", "ell",
                 "N0", "levels", "tol", "solverVersion")
         same = all(p.get(k) == q[k] for k in keys)
+        # Stage 5: the statistics (absent in a Stage-4 run.json = the default)
+        same = same and (p.get("statistics", DEFAULT_STATISTICS) == q.get("statistics", DEFAULT_STATISTICS))
         tasks = spec.get("tasks", [])
         if "excited" in tasks and spec.get("T", 0.0) <= 0 and "excited" not in doc:
             return False
@@ -2936,7 +3039,7 @@ def summary_record(doc):
             "convergedBy": last.get("convergedBy"),
             "levelsComputed": len(doc.get("levels") or []),
             "particleBottom": bottom,
-            "collapseSuspected": bool(bottom is not None and bottom < -doc["params"].get("m", 1.0)),
+            "collapseSuspected": bool(bottom is not None and bottom < -abs(doc["params"].get("m", 1.0))),
             "exactZeroTemperatureOccupations": doc.get("exactZeroTemperatureOccupations"),
             "couplingScale": doc.get("couplingScale"),
             "heatCapacityFixedSpectrum": {k: v for k, v in (doc.get("heatCapacityFixedSpectrum") or {}).items()

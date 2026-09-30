@@ -1,0 +1,3586 @@
+{
+  "schemaVersion": 1,
+  "producer": "scripts/check_dirac16complex_matter_antimatter.py",
+  "checks": {
+    "MA_fixtureAgreement": true,
+    "MA_M1_geometry_G_A_generic_nondiagonal": true,
+    "MA_M1_u1Invariance_grassmann_G_A_generic_nondiagonal": true,
+    "MA_M1_noetherCurrentIsISqrtgPsibarGammaPsi_grassmann_G_A_generic_nondiagonal": true,
+    "MA_M1_eulerLagrangeCrossCheck_grassmann_G_A_generic_nondiagonal": true,
+    "MA_M1_eulerLagrangeClosedForm_grassmann_G_A_generic_nondiagonal": true,
+    "MA_M1_noetherIdentity_grassmann_G_A_generic_nondiagonal": true,
+    "MA_M1_currentDivergenceIdentity_grassmann_G_A_generic_nondiagonal": true,
+    "MA_M1_hermiticity_grassmann_G_A_generic_nondiagonal": true,
+    "MA_M1_u1Invariance_commuting_G_A_generic_nondiagonal": true,
+    "MA_M1_noetherCurrentIsISqrtgPsibarGammaPsi_commuting_G_A_generic_nondiagonal": true,
+    "MA_M1_eulerLagrangeCrossCheck_commuting_G_A_generic_nondiagonal": true,
+    "MA_M1_eulerLagrangeClosedForm_commuting_G_A_generic_nondiagonal": true,
+    "MA_M1_noetherIdentity_commuting_G_A_generic_nondiagonal": true,
+    "MA_M1_currentDivergenceIdentity_commuting_G_A_generic_nondiagonal": true,
+    "MA_M1_hermiticity_commuting_G_A_generic_nondiagonal": true,
+    "MA_M1_geometry_G_B_diagonal_x0_x4": true,
+    "MA_M1_u1Invariance_grassmann_G_B_diagonal_x0_x4": true,
+    "MA_M1_noetherCurrentIsISqrtgPsibarGammaPsi_grassmann_G_B_diagonal_x0_x4": true,
+    "MA_M1_eulerLagrangeCrossCheck_grassmann_G_B_diagonal_x0_x4": true,
+    "MA_M1_eulerLagrangeClosedForm_grassmann_G_B_diagonal_x0_x4": true,
+    "MA_M1_noetherIdentity_grassmann_G_B_diagonal_x0_x4": true,
+    "MA_M1_currentDivergenceIdentity_grassmann_G_B_diagonal_x0_x4": true,
+    "MA_M1_hermiticity_grassmann_G_B_diagonal_x0_x4": true,
+    "MA_M1_u1Invariance_commuting_G_B_diagonal_x0_x4": true,
+    "MA_M1_noetherCurrentIsISqrtgPsibarGammaPsi_commuting_G_B_diagonal_x0_x4": true,
+    "MA_M1_eulerLagrangeCrossCheck_commuting_G_B_diagonal_x0_x4": true,
+    "MA_M1_eulerLagrangeClosedForm_commuting_G_B_diagonal_x0_x4": true,
+    "MA_M1_noetherIdentity_commuting_G_B_diagonal_x0_x4": true,
+    "MA_M1_currentDivergenceIdentity_commuting_G_B_diagonal_x0_x4": true,
+    "MA_M1_hermiticity_commuting_G_B_diagonal_x0_x4": true,
+    "MA_M1_divergenceIdentityAllFirstJets": true,
+    "MA_M1": true,
+    "MA_M2_chargeConjugationSolutionSpaces": true,
+    "MA_M2_psibarTransposeFormsReduceToPsiStarForms": true,
+    "MA_M2_internalMapsCurvedJets": true,
+    "MA_M2_internalMapsAsDerived": true,
+    "MA_M2_namedReflectionsFlatJets": true,
+    "MA_M2_genericUnitVectorReflections": true,
+    "MA_M2_reflectionsInCurvedFieldWithIsometry": true,
+    "MA_M2_spin0ContainsChargeReversingTimeRotation": true,
+    "MA_M2_discreteGroupCharacterTable": true,
+    "MA_M2_characterHomomorphism": true,
+    "MA_M2_C_and_CP_status": true,
+    "MA_M2_canonicalStructureOfExactGrassmannSymmetries": true,
+    "MA_M2_chargeConjugationWithSpatialParity": true,
+    "MA_M2": true,
+    "MA_M3_invariantFormsSpan_C_Cgamma8": true,
+    "MA_M3_allInvariantFormsSymmetric": true,
+    "MA_M3_fullSpinCharacter": true,
+    "MA_M3_pinCharacters": true,
+    "MA_M3_derivativeBilinearClassification": true,
+    "MA_M3_massTypeSurvivalAndCharge": true,
+    "MA_M3_derivativeTypeSurvivalCurved": true,
+    "MA_M3_quarticChargeViolatingExamplesGrassmann": true,
+    "MA_M3": true,
+    "MA_M4_gamma8MatrixFacts": true,
+    "MA_M4_gamma8ChargeFlipCurved": true,
+    "MA_M4_gamma8EulerLagrangePairing": true,
+    "MA_M4_gamma8EMTPairing": true,
+    "MA_M4_kreinModeFacts": true,
+    "MA_M4": true,
+    "MA_wolfram_chargeConjugationIntertwiners": true,
+    "MA_wolfram_classificationRows": true,
+    "MA_wolfram_symmetrySummary": true,
+    "MA_wolfram_chargeReversingSymmetries": true,
+    "MA_wolfram_invariantForms": true,
+    "MA_wolfram_pinCharacters": true,
+    "MA_wolfram_kineticForms": true,
+    "MA_wolfram_survival": true,
+    "MA_wolfram_quarticQ4": true,
+    "MA_wolfram_kreinOneParticle": true,
+    "MA_wolfram_gamma8MatrixFacts": true,
+    "MA_agreesWithWolfram": true,
+    "MA_internal_noException": true
+  },
+  "measurements": {
+    "fixtureAgreement": {
+      "gamma": true,
+      "C": true,
+      "chirality": true,
+      "eta": true,
+      "S": true,
+      "B": true
+    },
+    "M1": {
+      "geometry_G_A_generic_nondiagonal": {
+        "inverseMetric": true,
+        "omegaAntisymmetric": true,
+        "gammaCovariantlyConstant": true,
+        "divergenceIdentity": true,
+        "gammaMuOmegaMuNonzeroEntries": 124,
+        "riemannProxyOmegaGradientNonzero": 7032
+      },
+      "geometry_G_B_diagonal_x0_x4": {
+        "inverseMetric": true,
+        "omegaAntisymmetric": true,
+        "gammaCovariantlyConstant": true,
+        "divergenceIdentity": true,
+        "gammaMuOmegaMuNonzeroEntries": 16,
+        "riemannProxyOmegaGradientNonzero": 256
+      },
+      "perStatisticsAndGeometry": {
+        "grassmann_G_A_generic_nondiagonal": {
+          "lagrangianMonomials": 1364,
+          "U": "(lam/2) S^2 + (mu3/3) S^3",
+          "m": "3/2",
+          "lam": "5/7",
+          "mu3": "2/3",
+          "noetherDivergenceMonomials": 592,
+          "currentMonomials_mu4": 32,
+          "eulerLagrangePsiStarMonomials_a0": 145,
+          "eulerLagrangeSignConvention": "E^Psi uses the left Grassmann derivative: sign +1"
+        },
+        "commuting_G_A_generic_nondiagonal": {
+          "lagrangianMonomials": 1636,
+          "U": "(lam/2) S^2 + (mu3/3) S^3",
+          "m": "3/2",
+          "lam": "5/7",
+          "mu3": "2/3",
+          "noetherDivergenceMonomials": 592,
+          "currentMonomials_mu4": 32,
+          "eulerLagrangePsiStarMonomials_a0": 177,
+          "eulerLagrangeSignConvention": "E^Psi uses the ordinary derivative: sign -1"
+        },
+        "grassmann_G_B_diagonal_x0_x4": {
+          "lagrangianMonomials": 952,
+          "U": "(lam/2) S^2 + (mu3/3) S^3",
+          "m": "3/2",
+          "lam": "5/7",
+          "mu3": "2/3",
+          "noetherDivergenceMonomials": 272,
+          "currentMonomials_mu4": 16,
+          "eulerLagrangePsiStarMonomials_a0": 130,
+          "eulerLagrangeSignConvention": "E^Psi uses the left Grassmann derivative: sign +1"
+        },
+        "commuting_G_B_diagonal_x0_x4": {
+          "lagrangianMonomials": 1224,
+          "U": "(lam/2) S^2 + (mu3/3) S^3",
+          "m": "3/2",
+          "lam": "5/7",
+          "mu3": "2/3",
+          "noetherDivergenceMonomials": 272,
+          "currentMonomials_mu4": 16,
+          "eulerLagrangePsiStarMonomials_a0": 162,
+          "eulerLagrangeSignConvention": "E^Psi uses the ordinary derivative: sign -1"
+        }
+      },
+      "divergenceIdentityAllFirstJets": {
+        "proofs": {
+          "E0_identity": {
+            "directions": 512,
+            "omegaAntisymmetric": true,
+            "divergenceIdentity": true,
+            "gammaCovariantlyConstant": true,
+            "directionsWithNonzeroOmega": 448
+          },
+          "E0_unimodular_nondiagonal": {
+            "directions": 512,
+            "omegaAntisymmetric": true,
+            "divergenceIdentity": true,
+            "gammaCovariantlyConstant": true,
+            "directionsWithNonzeroOmega": 448
+          }
+        },
+        "negativeControlNotebookContraction": {
+          "directions": 512,
+          "omegaAntisymmetric": true,
+          "divergenceIdentity": false,
+          "gammaCovariantlyConstant": false,
+          "directionsWithNonzeroOmega": 384
+        },
+        "argument": "both sides are linear in the 512 first derivatives d_l e_nu^a at fixed e(0); all 512 basis directions verified exactly; a constant GL(8) change of coordinates brings any e(0) to the identity, under which both sides are scalar densities"
+      },
+      "chargeConservation": "d_4 (sqrt|g| j^4) = - sum_{i != 4} d_i (sqrt|g| j^i) on shell (Noether identity above); Q = integral over a slice x4 = const of sqrt|g| j^4 (times i for the Hermitian J^4) is x4-independent when the flux through the boundary of the slice vanishes (assumption: decay or periodicity); hence no process described by L changes Q inside one universe",
+      "scopeOfVerification": "the U(1) invariance, the Noether current, the off-shell Noether identity and the current divergence identity are verified as exact polynomial identities in fully generic field jets (16 complex components and all first derivatives, both statistics) at one point of each explicit curved field listed in perStatisticsAndGeometry; the only geometric input of the general proof, the divergence identity d_mu(sqrt|g| gamma^mu) = sqrt|g| [gamma^mu, Omega_mu], is proved for arbitrary first vielbein jets (divergenceIdentityAllFirstJets); the rest of the proof is algebra (N^mu = i sqrt|g| Psibar gamma^mu Psi and the field equations), valid in every gravitational field",
+      "kohnShamRemark": "the Kohn-Sham states of Stages 4/5 are computed at fixed particle number N (chemical potential from N): cited from STAGE4_SPEC/STAGE5_SPEC, not recomputed here"
+    },
+    "M2": {
+      "chargeConjugationSolutionSpaces": {
+        "Psi->M Psi^*: M gamma^a* = s gamma^a M | s=+1": {
+          "dimension": 1,
+          "basis": [
+            "I"
+          ]
+        },
+        "Psi->M Psi^*: M gamma^a* = s gamma^a M | s=-1": {
+          "dimension": 1,
+          "basis": [
+            "gamma8"
+          ]
+        },
+        "Psi->M Psibar^T: M gamma^aT = s gamma^a M | s=+1": {
+          "dimension": 1,
+          "basis": [
+            "C gamma8"
+          ]
+        },
+        "Psi->M Psibar^T: M gamma^aT = s gamma^a M | s=-1": {
+          "dimension": 1,
+          "basis": [
+            "C"
+          ]
+        },
+        "Psi->M Psi (linear): M gamma^a = s gamma^a M | s=+1": {
+          "dimension": 1,
+          "basis": [
+            "I"
+          ]
+        },
+        "Psi->M Psi (linear): M gamma^a = s gamma^a M | s=-1": {
+          "dimension": 1,
+          "basis": [
+            "gamma8"
+          ]
+        }
+      },
+      "psibarTransposeFormsReduceToPsiStarForms": "Psi -> C Psibar^T = Psi^*;  Psi -> C gamma8 Psibar^T = gamma8 Psi^*",
+      "internalMapsCurvedJets": {
+        "C0: Psi -> Psi^* | grassmann": {
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "currentSigns": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "C0: Psi -> Psi^* | commuting": {
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "currentSigns": [
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "C8: Psi -> gamma8 Psi^* | grassmann": {
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "currentSigns": [
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "C8: Psi -> gamma8 Psi^* | commuting": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "currentSigns": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "chirality: Psi -> gamma8 Psi | grassmann": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "currentSigns": [
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "chirality: Psi -> gamma8 Psi | commuting": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "currentSigns": [
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "Psi -> C Psibar^T | grassmann": {
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "currentSigns": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "Psi -> C Psibar^T | commuting": {
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "currentSigns": [
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "Psi -> C gamma8 Psibar^T | grassmann": {
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "currentSigns": [
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "Psi -> C gamma8 Psibar^T | commuting": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "currentSigns": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        }
+      },
+      "internalMapsAsDerived": "hand derivation: C0 gives (sigmaK, sigmaS, q) = (eps, eps, -eps); C8 = C0 o chirality",
+      "namedReflectionsFlatJets": {
+        "identity | s=+1 | linear | grassmann": {
+          "axesReflected": [],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "identity | s=+1 | linear | commuting": {
+          "axesReflected": [],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "identity | s=+1 | antilinear | grassmann": {
+          "axesReflected": [],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "identity | s=+1 | antilinear | commuting": {
+          "axesReflected": [],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "identity | s=-1 | linear | grassmann": {
+          "axesReflected": [],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "identity | s=-1 | linear | commuting": {
+          "axesReflected": [],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "identity | s=-1 | antilinear | grassmann": {
+          "axesReflected": [],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "identity | s=-1 | antilinear | commuting": {
+          "axesReflected": [],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P0_hiddenSpace | s=+1 | linear | grassmann": {
+          "axesReflected": [
+            0
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P0_hiddenSpace | s=+1 | linear | commuting": {
+          "axesReflected": [
+            0
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P0_hiddenSpace | s=+1 | antilinear | grassmann": {
+          "axesReflected": [
+            0
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P0_hiddenSpace | s=+1 | antilinear | commuting": {
+          "axesReflected": [
+            0
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P0_hiddenSpace | s=-1 | linear | grassmann": {
+          "axesReflected": [
+            0
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P0_hiddenSpace | s=-1 | linear | commuting": {
+          "axesReflected": [
+            0
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P0_hiddenSpace | s=-1 | antilinear | grassmann": {
+          "axesReflected": [
+            0
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P0_hiddenSpace | s=-1 | antilinear | commuting": {
+          "axesReflected": [
+            0
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1 | s=+1 | linear | grassmann": {
+          "axesReflected": [
+            1
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1 | s=+1 | linear | commuting": {
+          "axesReflected": [
+            1
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1 | s=+1 | antilinear | grassmann": {
+          "axesReflected": [
+            1
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1 | s=+1 | antilinear | commuting": {
+          "axesReflected": [
+            1
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1 | s=-1 | linear | grassmann": {
+          "axesReflected": [
+            1
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1 | s=-1 | linear | commuting": {
+          "axesReflected": [
+            1
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1 | s=-1 | antilinear | grassmann": {
+          "axesReflected": [
+            1
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1 | s=-1 | antilinear | commuting": {
+          "axesReflected": [
+            1
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P3_threeSpace | s=+1 | linear | grassmann": {
+          "axesReflected": [
+            1,
+            2,
+            3
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P3_threeSpace | s=+1 | linear | commuting": {
+          "axesReflected": [
+            1,
+            2,
+            3
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P3_threeSpace | s=+1 | antilinear | grassmann": {
+          "axesReflected": [
+            1,
+            2,
+            3
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P3_threeSpace | s=+1 | antilinear | commuting": {
+          "axesReflected": [
+            1,
+            2,
+            3
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P3_threeSpace | s=-1 | linear | grassmann": {
+          "axesReflected": [
+            1,
+            2,
+            3
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P3_threeSpace | s=-1 | linear | commuting": {
+          "axesReflected": [
+            1,
+            2,
+            3
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P3_threeSpace | s=-1 | antilinear | grassmann": {
+          "axesReflected": [
+            1,
+            2,
+            3
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P3_threeSpace | s=-1 | antilinear | commuting": {
+          "axesReflected": [
+            1,
+            2,
+            3
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P4_allSpace | s=+1 | linear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P4_allSpace | s=+1 | linear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P4_allSpace | s=+1 | antilinear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P4_allSpace | s=+1 | antilinear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P4_allSpace | s=-1 | linear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P4_allSpace | s=-1 | linear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P4_allSpace | s=-1 | antilinear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P4_allSpace | s=-1 | antilinear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_time | s=+1 | linear | grassmann": {
+          "axesReflected": [
+            4
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_time | s=+1 | linear | commuting": {
+          "axesReflected": [
+            4
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_time | s=+1 | antilinear | grassmann": {
+          "axesReflected": [
+            4
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_time | s=+1 | antilinear | commuting": {
+          "axesReflected": [
+            4
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_time | s=-1 | linear | grassmann": {
+          "axesReflected": [
+            4
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_time | s=-1 | linear | commuting": {
+          "axesReflected": [
+            4
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_time | s=-1 | antilinear | grassmann": {
+          "axesReflected": [
+            4
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_time | s=-1 | antilinear | commuting": {
+          "axesReflected": [
+            4
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T47_allTimes | s=+1 | linear | grassmann": {
+          "axesReflected": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T47_allTimes | s=+1 | linear | commuting": {
+          "axesReflected": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T47_allTimes | s=+1 | antilinear | grassmann": {
+          "axesReflected": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T47_allTimes | s=+1 | antilinear | commuting": {
+          "axesReflected": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T47_allTimes | s=-1 | linear | grassmann": {
+          "axesReflected": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T47_allTimes | s=-1 | linear | commuting": {
+          "axesReflected": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T47_allTimes | s=-1 | antilinear | grassmann": {
+          "axesReflected": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T47_allTimes | s=-1 | antilinear | commuting": {
+          "axesReflected": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "X5_extraTime | s=+1 | linear | grassmann": {
+          "axesReflected": [
+            5
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "X5_extraTime | s=+1 | linear | commuting": {
+          "axesReflected": [
+            5
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "X5_extraTime | s=+1 | antilinear | grassmann": {
+          "axesReflected": [
+            5
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "X5_extraTime | s=+1 | antilinear | commuting": {
+          "axesReflected": [
+            5
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "X5_extraTime | s=-1 | linear | grassmann": {
+          "axesReflected": [
+            5
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "X5_extraTime | s=-1 | linear | commuting": {
+          "axesReflected": [
+            5
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "X5_extraTime | s=-1 | antilinear | grassmann": {
+          "axesReflected": [
+            5
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "X5_extraTime | s=-1 | antilinear | commuting": {
+          "axesReflected": [
+            5
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "R45_rotationByPi | s=+1 | linear | grassmann": {
+          "axesReflected": [
+            4,
+            5
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "R45_rotationByPi | s=+1 | linear | commuting": {
+          "axesReflected": [
+            4,
+            5
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "R45_rotationByPi | s=+1 | antilinear | grassmann": {
+          "axesReflected": [
+            4,
+            5
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "R45_rotationByPi | s=+1 | antilinear | commuting": {
+          "axesReflected": [
+            4,
+            5
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "R45_rotationByPi | s=-1 | linear | grassmann": {
+          "axesReflected": [
+            4,
+            5
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "R45_rotationByPi | s=-1 | linear | commuting": {
+          "axesReflected": [
+            4,
+            5
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "R45_rotationByPi | s=-1 | antilinear | grassmann": {
+          "axesReflected": [
+            4,
+            5
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "R45_rotationByPi | s=-1 | antilinear | commuting": {
+          "axesReflected": [
+            4,
+            5
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT5_x0to4 | s=+1 | linear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT5_x0to4 | s=+1 | linear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT5_x0to4 | s=+1 | antilinear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT5_x0to4 | s=+1 | antilinear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT5_x0to4 | s=-1 | linear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT5_x0to4 | s=-1 | linear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT5_x0to4 | s=-1 | antilinear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT5_x0to4 | s=-1 | antilinear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT8_totalInversion | s=+1 | linear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT8_totalInversion | s=+1 | linear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT8_totalInversion | s=+1 | antilinear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT8_totalInversion | s=+1 | antilinear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT8_totalInversion | s=-1 | linear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT8_totalInversion | s=-1 | linear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT8_totalInversion | s=-1 | antilinear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "PT8_totalInversion | s=-1 | antilinear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1_untwistedLift_allButX1 | s=+1 | linear | grassmann": {
+          "axesReflected": [
+            0,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1_untwistedLift_allButX1 | s=+1 | linear | commuting": {
+          "axesReflected": [
+            0,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1_untwistedLift_allButX1 | s=+1 | antilinear | grassmann": {
+          "axesReflected": [
+            0,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1_untwistedLift_allButX1 | s=+1 | antilinear | commuting": {
+          "axesReflected": [
+            0,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1_untwistedLift_allButX1 | s=-1 | linear | grassmann": {
+          "axesReflected": [
+            0,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1_untwistedLift_allButX1 | s=-1 | linear | commuting": {
+          "axesReflected": [
+            0,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1_untwistedLift_allButX1 | s=-1 | antilinear | grassmann": {
+          "axesReflected": [
+            0,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "P1_untwistedLift_allButX1 | s=-1 | antilinear | commuting": {
+          "axesReflected": [
+            0,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_untwistedLift_allButX4 | s=+1 | linear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_untwistedLift_allButX4 | s=+1 | linear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_untwistedLift_allButX4 | s=+1 | antilinear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_untwistedLift_allButX4 | s=+1 | antilinear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A gamma8",
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_untwistedLift_allButX4 | s=-1 | linear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_untwistedLift_allButX4 | s=-1 | linear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_untwistedLift_allButX4 | s=-1 | antilinear | grassmann": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "matrixCriterionAgrees": true
+        },
+        "T4_untwistedLift_allButX4 | s=-1 | antilinear | commuting": {
+          "axesReflected": [
+            0,
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "R": "R_A (twisted lift)",
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "matrixCriterionAgrees": true
+        }
+      },
+      "genericUnitVectorReflections": {
+        "u=[2, 0, 0, 0, 1, 1, 1, 0] n(u)=+1 | linear | grassmann": {
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "expected(eps n, -eps n)": [
+            1,
+            -1
+          ],
+          "map": "L_{m,lam} -> +L_{-m,lam}"
+        },
+        "u=[2, 0, 0, 0, 1, 1, 1, 0] n(u)=+1 | linear | commuting": {
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "expected(eps n, -eps n)": [
+            1,
+            -1
+          ],
+          "map": "L_{m,lam} -> +L_{-m,lam}"
+        },
+        "u=[2, 0, 0, 0, 1, 1, 1, 0] n(u)=+1 | antilinear | grassmann": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "expected(eps n, -eps n)": [
+            -1,
+            1
+          ],
+          "map": "L_{m,lam} -> -L_{-m,-lam}"
+        },
+        "u=[2, 0, 0, 0, 1, 1, 1, 0] n(u)=+1 | antilinear | commuting": {
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "expected(eps n, -eps n)": [
+            1,
+            -1
+          ],
+          "map": "L_{m,lam} -> +L_{-m,lam}"
+        },
+        "u=[1, 1, 0, 0, 1, 0, 1, 1] n(u)=-1 | linear | grassmann": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "expected(eps n, -eps n)": [
+            -1,
+            1
+          ],
+          "map": "L_{m,lam} -> -L_{-m,-lam}"
+        },
+        "u=[1, 1, 0, 0, 1, 0, 1, 1] n(u)=-1 | linear | commuting": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "expected(eps n, -eps n)": [
+            -1,
+            1
+          ],
+          "map": "L_{m,lam} -> -L_{-m,-lam}"
+        },
+        "u=[1, 1, 0, 0, 1, 0, 1, 1] n(u)=-1 | antilinear | grassmann": {
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "expected(eps n, -eps n)": [
+            1,
+            -1
+          ],
+          "map": "L_{m,lam} -> +L_{-m,lam}"
+        },
+        "u=[1, 1, 0, 0, 1, 0, 1, 1] n(u)=-1 | antilinear | commuting": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "expected(eps n, -eps n)": [
+            -1,
+            1
+          ],
+          "map": "L_{m,lam} -> -L_{-m,-lam}"
+        },
+        "u=[0, 1, 0, 1, 1, 1, 1, 0] n(u)=-1 | linear | grassmann": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "expected(eps n, -eps n)": [
+            -1,
+            1
+          ],
+          "map": "L_{m,lam} -> -L_{-m,-lam}"
+        },
+        "u=[0, 1, 0, 1, 1, 1, 1, 0] n(u)=-1 | linear | commuting": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "expected(eps n, -eps n)": [
+            -1,
+            1
+          ],
+          "map": "L_{m,lam} -> -L_{-m,-lam}"
+        },
+        "u=[0, 1, 0, 1, 1, 1, 1, 0] n(u)=-1 | antilinear | grassmann": {
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "expected(eps n, -eps n)": [
+            1,
+            -1
+          ],
+          "map": "L_{m,lam} -> +L_{-m,lam}"
+        },
+        "u=[0, 1, 0, 1, 1, 1, 1, 0] n(u)=-1 | antilinear | commuting": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "expected(eps n, -eps n)": [
+            -1,
+            1
+          ],
+          "map": "L_{m,lam} -> -L_{-m,-lam}"
+        }
+      },
+      "reflectionsInCurvedFieldWithIsometry": {
+        "P1 | R_A | linear | grassmann": {
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "flatCharactersAgree": true
+        },
+        "P1 | R_A | linear | commuting": {
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "flatCharactersAgree": true
+        },
+        "P1 | R_A | antilinear | grassmann": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "flatCharactersAgree": true
+        },
+        "P1 | R_A | antilinear | commuting": {
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "flatCharactersAgree": true
+        },
+        "P1 | R_A gamma8 | linear | grassmann": {
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "flatCharactersAgree": true
+        },
+        "P1 | R_A gamma8 | linear | commuting": {
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "flatCharactersAgree": true
+        },
+        "P1 | R_A gamma8 | antilinear | grassmann": {
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "flatCharactersAgree": true
+        },
+        "P1 | R_A gamma8 | antilinear | commuting": {
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "flatCharactersAgree": true
+        },
+        "P3_threeSpace | R_A | linear | grassmann": {
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "flatCharactersAgree": true
+        },
+        "P3_threeSpace | R_A | linear | commuting": {
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "flatCharactersAgree": true
+        },
+        "P3_threeSpace | R_A | antilinear | grassmann": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "flatCharactersAgree": true
+        },
+        "P3_threeSpace | R_A | antilinear | commuting": {
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "flatCharactersAgree": true
+        },
+        "P3_threeSpace | R_A gamma8 | linear | grassmann": {
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "flatCharactersAgree": true
+        },
+        "P3_threeSpace | R_A gamma8 | linear | commuting": {
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "flatCharactersAgree": true
+        },
+        "P3_threeSpace | R_A gamma8 | antilinear | grassmann": {
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "flatCharactersAgree": true
+        },
+        "P3_threeSpace | R_A gamma8 | antilinear | commuting": {
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "flatCharactersAgree": true
+        },
+        "identity | R_A | linear | grassmann": {
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "flatCharactersAgree": true
+        },
+        "identity | R_A | linear | commuting": {
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "flatCharactersAgree": true
+        },
+        "identity | R_A | antilinear | grassmann": {
+          "sigmaK": -1,
+          "sigmaS": -1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{m,-lam}",
+          "flatCharactersAgree": true
+        },
+        "identity | R_A | antilinear | commuting": {
+          "sigmaK": 1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{m,lam}",
+          "flatCharactersAgree": true
+        },
+        "identity | R_A gamma8 | linear | grassmann": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "flatCharactersAgree": true
+        },
+        "identity | R_A gamma8 | linear | commuting": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "flatCharactersAgree": true
+        },
+        "identity | R_A gamma8 | antilinear | grassmann": {
+          "sigmaK": 1,
+          "sigmaS": -1,
+          "chargeSign_q4": -1,
+          "map": "L_{m,lam} -> +L_{-m,lam}",
+          "flatCharactersAgree": true
+        },
+        "identity | R_A gamma8 | antilinear | commuting": {
+          "sigmaK": -1,
+          "sigmaS": 1,
+          "chargeSign_q4": 1,
+          "map": "L_{m,lam} -> -L_{-m,-lam}",
+          "flatCharactersAgree": true
+        }
+      },
+      "spin0ContainsChargeReversingTimeRotation": {
+        "facts": {
+          "S45squaredIsMinusQuarter": true,
+          "expPiS45EqualsGamma4Gamma5": true,
+          "productOfFourPiRotationsEqualsGamma8": true,
+          "rotationByPiInX4X5": {
+            "grassmann": {
+              "sigmaK": 1,
+              "sigmaS": 1,
+              "q": [
+                1,
+                1,
+                1,
+                1,
+                -1,
+                -1,
+                1,
+                1
+              ]
+            },
+            "commuting": {
+              "sigmaK": 1,
+              "sigmaS": 1,
+              "q": [
+                1,
+                1,
+                1,
+                1,
+                -1,
+                -1,
+                1,
+                1
+              ]
+            }
+          },
+          "totalInversion": {
+            "grassmann": {
+              "sigmaK": 1,
+              "sigmaS": 1,
+              "q": [
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1
+              ]
+            },
+            "commuting": {
+              "sigmaK": 1,
+              "sigmaS": 1,
+              "q": [
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1
+              ]
+            }
+          }
+        },
+        "meaning": "in signature (4,4) the identity component of the symmetry group of L contains elements that reverse x4 (rotation by pi in the time-like (x4, x5) plane): the sign of the charge Q of the x4 slicing is not invariant under Spin_0(4,4); these maps reverse x4 and are therefore not C or CP in Sakharov's sense"
+      },
+      "discreteGroupCharacterTable": {
+        "grassmann": {
+          "classCounts": {
+            "L_{m,lam} -> +L_{-m,lam}": 256,
+            "L_{m,lam} -> +L_{m,lam}": 256,
+            "L_{m,lam} -> -L_{-m,-lam}": 256,
+            "L_{m,lam} -> -L_{m,-lam}": 256
+          },
+          "exactSymmetries": 256,
+          "exactChargeFlippingWithoutX4Reversal": 64,
+          "C_exact": false,
+          "C_exactMaps": [],
+          "C_exactWhen_m_equals_0": true,
+          "CP_exact_anySpatialReflection": true,
+          "CP_exact_improperSpatialReflection": true,
+          "CP_examples": [
+            {
+              "axes": [
+                0
+              ],
+              "gamma8": true,
+              "antilinear": true
+            },
+            {
+              "axes": [
+                1
+              ],
+              "gamma8": true,
+              "antilinear": true
+            },
+            {
+              "axes": [
+                2
+              ],
+              "gamma8": true,
+              "antilinear": true
+            },
+            {
+              "axes": [
+                0,
+                1,
+                2
+              ],
+              "gamma8": true,
+              "antilinear": true
+            },
+            {
+              "axes": [
+                3
+              ],
+              "gamma8": true,
+              "antilinear": true
+            },
+            {
+              "axes": [
+                0,
+                1,
+                3
+              ],
+              "gamma8": true,
+              "antilinear": true
+            }
+          ]
+        },
+        "commuting": {
+          "classCounts": {
+            "L_{m,lam} -> +L_{-m,lam}": 256,
+            "L_{m,lam} -> +L_{m,lam}": 256,
+            "L_{m,lam} -> -L_{-m,-lam}": 256,
+            "L_{m,lam} -> -L_{m,-lam}": 256
+          },
+          "exactSymmetries": 256,
+          "exactChargeFlippingWithoutX4Reversal": 64,
+          "C_exact": true,
+          "C_exactMaps": [
+            {
+              "gamma8": false,
+              "antilinear": true
+            }
+          ],
+          "C_exactWhen_m_equals_0": true,
+          "CP_exact_anySpatialReflection": true,
+          "CP_exact_improperSpatialReflection": false,
+          "CP_examples": []
+        }
+      },
+      "characterHomomorphism": {
+        "randomCompositesTested": 400
+      },
+      "C_and_CP_status": {
+        "grassmann": "no exact internal charge-flipping map for m != 0 (C8 maps m -> -m); exact CP (C8 composed with an odd spatial Pin reflection); C exact at m = 0",
+        "commuting": "C0 (Psi -> Psi^*) is exact and flips the charge",
+        "consequence": "for both statistics an exact symmetry of L maps charge Q to -Q without reversing x4: Sakharov's second condition (C and CP violation) fails for L as built"
+      },
+      "canonicalStructureOfExactGrassmannSymmetries": {
+        "counts": {
+          "unitary_preservesX4": 128,
+          "antiunitary_reversesX4": 128,
+          "other": [],
+          "C8_unitary": true,
+          "C0_antiunitaryType": true
+        },
+        "statement": "every exact symmetry of the Grassmann L (256 of the 1024 maps) preserves the canonical anticommutator {Psi, Psi^dagger} = B: with a unitary implementation when it preserves x4 and an antiunitary one when it reverses x4; the charge-flipping C8 o P (x4 preserved) is unitary. Implementability on the positive (J = B) Fock space is not decided here"
+      },
+      "chargeConjugationWithSpatialParity": {
+        "table": {
+          "C0 o P1": {
+            "grassmann": {
+              "map": "L_{m,lam} -> -L_{-m,-lam}",
+              "q4": 1,
+              "exactChargeFlip": false
+            },
+            "commuting": {
+              "map": "L_{m,lam} -> +L_{-m,lam}",
+              "q4": -1,
+              "exactChargeFlip": false
+            }
+          },
+          "C8 o P1": {
+            "grassmann": {
+              "map": "L_{m,lam} -> +L_{m,lam}",
+              "q4": -1,
+              "exactChargeFlip": true
+            },
+            "commuting": {
+              "map": "L_{m,lam} -> -L_{m,-lam}",
+              "q4": 1,
+              "exactChargeFlip": false
+            }
+          },
+          "C0 o P123": {
+            "grassmann": {
+              "map": "L_{m,lam} -> -L_{-m,-lam}",
+              "q4": 1,
+              "exactChargeFlip": false
+            },
+            "commuting": {
+              "map": "L_{m,lam} -> +L_{-m,lam}",
+              "q4": -1,
+              "exactChargeFlip": false
+            }
+          },
+          "C8 o P123": {
+            "grassmann": {
+              "map": "L_{m,lam} -> +L_{m,lam}",
+              "q4": -1,
+              "exactChargeFlip": true
+            },
+            "commuting": {
+              "map": "L_{m,lam} -> -L_{m,-lam}",
+              "q4": 1,
+              "exactChargeFlip": false
+            }
+          },
+          "C0 o P0123": {
+            "grassmann": {
+              "map": "L_{m,lam} -> -L_{m,-lam}",
+              "q4": 1,
+              "exactChargeFlip": false
+            },
+            "commuting": {
+              "map": "L_{m,lam} -> +L_{m,lam}",
+              "q4": -1,
+              "exactChargeFlip": true
+            }
+          },
+          "C8 o P0123": {
+            "grassmann": {
+              "map": "L_{m,lam} -> +L_{-m,lam}",
+              "q4": -1,
+              "exactChargeFlip": false
+            },
+            "commuting": {
+              "map": "L_{m,lam} -> -L_{-m,-lam}",
+              "q4": 1,
+              "exactChargeFlip": false
+            }
+          }
+        },
+        "Pin elements": "P_A: R = product of gamma^a over A (twisted lift, coordinates x^a -> -x^a for a in A); C0: Psi -> Psi^*, C8: Psi -> gamma8 Psi^*"
+      },
+      "timeReversalAndCPTLike": {
+        "T4_time | R_A | antilinear": {
+          "grassmann": {
+            "sigmaK": 1,
+            "sigmaS": -1,
+            "q4": 1,
+            "map": "L_{m,lam} -> +L_{-m,lam}"
+          },
+          "commuting": {
+            "sigmaK": -1,
+            "sigmaS": 1,
+            "q4": -1,
+            "map": "L_{m,lam} -> -L_{-m,-lam}"
+          }
+        },
+        "T4_time | R_A | linear": {
+          "grassmann": {
+            "sigmaK": -1,
+            "sigmaS": 1,
+            "q4": 1,
+            "map": "L_{m,lam} -> -L_{-m,-lam}"
+          },
+          "commuting": {
+            "sigmaK": -1,
+            "sigmaS": 1,
+            "q4": 1,
+            "map": "L_{m,lam} -> -L_{-m,-lam}"
+          }
+        },
+        "T4_time | R_A gamma8 | antilinear": {
+          "grassmann": {
+            "sigmaK": -1,
+            "sigmaS": -1,
+            "q4": -1,
+            "map": "L_{m,lam} -> -L_{m,-lam}"
+          },
+          "commuting": {
+            "sigmaK": 1,
+            "sigmaS": 1,
+            "q4": 1,
+            "map": "L_{m,lam} -> +L_{m,lam}"
+          }
+        },
+        "T4_time | R_A gamma8 | linear": {
+          "grassmann": {
+            "sigmaK": 1,
+            "sigmaS": 1,
+            "q4": -1,
+            "map": "L_{m,lam} -> +L_{m,lam}"
+          },
+          "commuting": {
+            "sigmaK": 1,
+            "sigmaS": 1,
+            "q4": -1,
+            "map": "L_{m,lam} -> +L_{m,lam}"
+          }
+        },
+        "CPT_like_totalInversion | R_A | antilinear": {
+          "grassmann": {
+            "sigmaK": -1,
+            "sigmaS": -1,
+            "q4": -1,
+            "map": "L_{m,lam} -> -L_{m,-lam}"
+          },
+          "commuting": {
+            "sigmaK": 1,
+            "sigmaS": 1,
+            "q4": 1,
+            "map": "L_{m,lam} -> +L_{m,lam}"
+          }
+        },
+        "CPT_like_totalInversion | R_A | linear": {
+          "grassmann": {
+            "sigmaK": 1,
+            "sigmaS": 1,
+            "q4": -1,
+            "map": "L_{m,lam} -> +L_{m,lam}"
+          },
+          "commuting": {
+            "sigmaK": 1,
+            "sigmaS": 1,
+            "q4": -1,
+            "map": "L_{m,lam} -> +L_{m,lam}"
+          }
+        },
+        "CPT_like_totalInversion | R_A gamma8 | antilinear": {
+          "grassmann": {
+            "sigmaK": 1,
+            "sigmaS": -1,
+            "q4": 1,
+            "map": "L_{m,lam} -> +L_{-m,lam}"
+          },
+          "commuting": {
+            "sigmaK": -1,
+            "sigmaS": 1,
+            "q4": -1,
+            "map": "L_{m,lam} -> -L_{-m,-lam}"
+          }
+        },
+        "CPT_like_totalInversion | R_A gamma8 | linear": {
+          "grassmann": {
+            "sigmaK": -1,
+            "sigmaS": 1,
+            "q4": 1,
+            "map": "L_{m,lam} -> -L_{-m,-lam}"
+          },
+          "commuting": {
+            "sigmaK": -1,
+            "sigmaS": 1,
+            "q4": 1,
+            "map": "L_{m,lam} -> -L_{-m,-lam}"
+          }
+        },
+        "CPT_like_x0to4 | R_A | antilinear": {
+          "grassmann": {
+            "sigmaK": 1,
+            "sigmaS": -1,
+            "q4": 1,
+            "map": "L_{m,lam} -> +L_{-m,lam}"
+          },
+          "commuting": {
+            "sigmaK": -1,
+            "sigmaS": 1,
+            "q4": -1,
+            "map": "L_{m,lam} -> -L_{-m,-lam}"
+          }
+        },
+        "CPT_like_x0to4 | R_A | linear": {
+          "grassmann": {
+            "sigmaK": -1,
+            "sigmaS": 1,
+            "q4": 1,
+            "map": "L_{m,lam} -> -L_{-m,-lam}"
+          },
+          "commuting": {
+            "sigmaK": -1,
+            "sigmaS": 1,
+            "q4": 1,
+            "map": "L_{m,lam} -> -L_{-m,-lam}"
+          }
+        },
+        "CPT_like_x0to4 | R_A gamma8 | antilinear": {
+          "grassmann": {
+            "sigmaK": -1,
+            "sigmaS": -1,
+            "q4": -1,
+            "map": "L_{m,lam} -> -L_{m,-lam}"
+          },
+          "commuting": {
+            "sigmaK": 1,
+            "sigmaS": 1,
+            "q4": 1,
+            "map": "L_{m,lam} -> +L_{m,lam}"
+          }
+        },
+        "CPT_like_x0to4 | R_A gamma8 | linear": {
+          "grassmann": {
+            "sigmaK": 1,
+            "sigmaS": 1,
+            "q4": -1,
+            "map": "L_{m,lam} -> +L_{m,lam}"
+          },
+          "commuting": {
+            "sigmaK": 1,
+            "sigmaS": 1,
+            "q4": -1,
+            "map": "L_{m,lam} -> +L_{m,lam}"
+          }
+        }
+      }
+    },
+    "M3": {
+      "invariantFormsSpan_C_Cgamma8": {
+        "dimension": 2,
+        "basisPrimitive": [
+          [
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "basisInTermsOf_C_and_Cgamma8": [
+          [
+            "-1/2",
+            "1/2"
+          ],
+          [
+            "1/2",
+            "1/2"
+          ]
+        ],
+        "chainGeneratorsGiveSameSpace": true,
+        "equation": "S^{ab T} M + M S^{ab} = 0 for all 28 a < b (Lie algebra of Spin_0(4,4))"
+      },
+      "allInvariantFormsSymmetric": {
+        "symmetricInvariantDimension": 2,
+        "antisymmetricInvariantDimension": 0
+      },
+      "fullSpinCharacter": {
+        "strictlyInvariantUnderFullSpin44": 0,
+        "covariantWithSpinorNormCharacter": 2
+      },
+      "pinCharacters": {
+        "spin0InvariantAndPinCovariant": {
+          "trivial": {
+            "dimension": 0,
+            "basis": []
+          },
+          "det": {
+            "dimension": 0,
+            "basis": []
+          },
+          "n": {
+            "dimension": 1,
+            "basis": [
+              "C gamma8"
+            ]
+          },
+          "det*n": {
+            "dimension": 1,
+            "basis": [
+              "C"
+            ]
+          }
+        },
+        "characterConditionAlone(notSpin0Invariant)": {
+          "trivial": {
+            "dimension": 1,
+            "basis": [
+              "I"
+            ]
+          },
+          "det": {
+            "dimension": 1,
+            "basis": [
+              "gamma8"
+            ]
+          },
+          "n": {
+            "dimension": 1,
+            "basis": [
+              "C gamma8"
+            ]
+          },
+          "det*n": {
+            "dimension": 1,
+            "basis": [
+              "C"
+            ]
+          }
+        },
+        "characters": "trivial chi = 1, det chi(u) = -1, n chi(u) = eta(u,u), det*n chi(u) = -eta(u,u)",
+        "meaning": "Psi -> u Psi (u unit vector, u^2 = n(u)): Psi^T C Psi -> -n(u) Psi^T C Psi and Psi^T C gamma8 Psi -> +n(u) Psi^T C gamma8 Psi; the chiral combinations C P_-+ are Spin_0-invariant but not Pin-covariant (u exchanges the chiralities)"
+      },
+      "derivativeBilinearClassification": {
+        "dimension": 2,
+        "sameSpaceAsInvariantForms": true,
+        "symmetry": {
+          "C gamma^a antisymmetric": true,
+          "C gamma8 gamma^a symmetric": true
+        }
+      },
+      "massTypeSurvivalAndCharge": {
+        "grassmann | Psi^T C Psi": {
+          "monomials": 0,
+          "charge2": null
+        },
+        "grassmann | Psi^dagger C Psi": {
+          "monomials": 16,
+          "charge0": true
+        },
+        "grassmann | Psi^T C gamma8 Psi": {
+          "monomials": 0,
+          "charge2": null
+        },
+        "grassmann | Psi^dagger C gamma8 Psi": {
+          "monomials": 16,
+          "charge0": true
+        },
+        "grassmann | random M: only the antisymmetric part survives": true,
+        "commuting | Psi^T C Psi": {
+          "monomials": 8,
+          "charge2": true
+        },
+        "commuting | Psi^dagger C Psi": {
+          "monomials": 16,
+          "charge0": true
+        },
+        "commuting | Psi^T C gamma8 Psi": {
+          "monomials": 8,
+          "charge2": true
+        },
+        "commuting | Psi^dagger C gamma8 Psi": {
+          "monomials": 16,
+          "charge0": true
+        },
+        "commuting | random M: only the symmetric part survives": true
+      },
+      "derivativeTypeSurvivalCurved": {
+        "grassmann | sqrt|g| Psi^T C gamma^mu D_mu Psi": {
+          "eulerLagrangeIdenticallyZero": true,
+          "totalDivergence": true,
+          "nonzeroELComponents": 0,
+          "charge2": true
+        },
+        "grassmann | sqrt|g| Psi^T C gamma8 gamma^mu D_mu Psi": {
+          "eulerLagrangeIdenticallyZero": false,
+          "totalDivergence": false,
+          "nonzeroELComponents": 16,
+          "charge2": true
+        },
+        "commuting | sqrt|g| Psi^T C gamma^mu D_mu Psi": {
+          "eulerLagrangeIdenticallyZero": false,
+          "totalDivergence": false,
+          "nonzeroELComponents": 16,
+          "charge2": true
+        },
+        "commuting | sqrt|g| Psi^T C gamma8 gamma^mu D_mu Psi": {
+          "eulerLagrangeIdenticallyZero": true,
+          "totalDivergence": true,
+          "nonzeroELComponents": 0,
+          "charge2": true
+        }
+      },
+      "quarticChargeViolatingExamplesGrassmann": {
+        "examples": {
+          "grassmann | Q4 = sum_{a<b} eta_aa eta_bb (Psi^T C g^a g^b Psi)^2": {
+            "monomials": 40,
+            "spin0Invariant": true,
+            "u1Charge": 4
+          },
+          "grassmann | Q4' = sum_{a<b} eta_aa eta_bb (Psi^T C g^a g^b Psi)(Psi^T C g8 g^a g^b Psi)": {
+            "monomials": 0,
+            "spin0Invariant": true,
+            "u1Charge": null
+          },
+          "grassmann | Q2 = sum_{a<b} eta_aa eta_bb (Psi^T C g^a g^b Psi)(Psi^dagger C g^a g^b Psi)": {
+            "monomials": 160,
+            "spin0Invariant": true,
+            "u1Charge": 2
+          },
+          "grassmann | antisymmetry of C g^a g^b, C g8 g^a g^b (a != b)": true,
+          "commuting | Q4 = sum_{a<b} eta_aa eta_bb (Psi^T C g^a g^b Psi)^2": {
+            "monomials": 0,
+            "spin0Invariant": true,
+            "u1Charge": null
+          },
+          "commuting | Q4' = sum_{a<b} eta_aa eta_bb (Psi^T C g^a g^b Psi)(Psi^T C g8 g^a g^b Psi)": {
+            "monomials": 0,
+            "spin0Invariant": true,
+            "u1Charge": null
+          },
+          "commuting | Q2 = sum_{a<b} eta_aa eta_bb (Psi^T C g^a g^b Psi)(Psi^dagger C g^a g^b Psi)": {
+            "monomials": 0,
+            "spin0Invariant": true,
+            "u1Charge": null
+          },
+          "commuting | antisymmetry of C g^a g^b, C g8 g^a g^b (a != b)": true,
+          "grassmann | relation to the chiral form": {
+            "chiralMonomials": 40,
+            "Q4Monomials": 40,
+            "proportional": true,
+            "relation": "sum eta eta (Psi^T C g^a g^b Psi)^2 = 8 sum eta eta (Psi^T C P_- S^{ab} Psi)(Psi^T C P_+ S^{ab} Psi)",
+            "chiralSquaresVanish": true
+          }
+        },
+        "nonzeroInvariantChargeViolatingGrassmann": [
+          "grassmann | Q4 = sum_{a<b} eta_aa eta_bb (Psi^T C g^a g^b Psi)^2",
+          "grassmann | Q2 = sum_{a<b} eta_aa eta_bb (Psi^T C g^a g^b Psi)(Psi^dagger C g^a g^b Psi)"
+        ],
+        "status": "examples only; no classification of higher-order invariants is claimed"
+      }
+    },
+    "M4": {
+      "gamma8MatrixFacts": {
+        "hermitianInvolution": true,
+        "anticommutesWithAllGamma": true,
+        "commutesWithC": true,
+        "commutesWithAllSab": true,
+        "gamma8 B gamma8 = -B": true,
+        "gamma8^T C gamma^a gamma8 = -C gamma^a": true,
+        "commutesWithOmega_mu_G_A_generic_nondiagonal": true
+      },
+      "gamma8ChargeFlipCurved": {
+        "geometry": "G_A_generic_nondiagonal",
+        "perStatistics": {
+          "grassmann": {
+            "currentFlips": true,
+            "S_invariant": true,
+            "K_flips": true,
+            "L_{m,lam}[g8 Psi] = -L_{-m,-lam}[Psi]": true,
+            "eulerLagrangePairing": true,
+            "emtPairing": true,
+            "emtNonzeroComponents": 36,
+            "pairTotals": "j_+ + j_- = 0 and T_+ + T_- = 0 identically (polynomial identities above)"
+          },
+          "commuting": {
+            "currentFlips": true,
+            "S_invariant": true,
+            "K_flips": true,
+            "L_{m,lam}[g8 Psi] = -L_{-m,-lam}[Psi]": true,
+            "eulerLagrangePairing": true,
+            "emtPairing": true,
+            "emtNonzeroComponents": 36,
+            "pairTotals": "j_+ + j_- = 0 and T_+ + T_- = 0 identically (polynomial identities above)"
+          }
+        }
+      },
+      "kreinModeFacts": {
+        "samples": [
+          {
+            "m": "1",
+            "k": [
+              "1",
+              "1",
+              "2",
+              "3"
+            ],
+            "E": "4",
+            "gamma8 h_k(m) gamma8 = h_k(-m)": true,
+            "h_k^2 = E^2": true,
+            "gamma8 P_+(m) gamma8 = P_+(-m)": true,
+            "positiveEnergyDimension": 8,
+            "kreinSignatureOnPositiveEnergySpace": [
+              4,
+              4
+            ],
+            "kreinFormOfImage = -kreinForm": true,
+            "hilbertNormPreserved": true,
+            "perQuantum(E, Q, S)": {
+              "plusUniverse": [
+                "4",
+                "1",
+                "1/4"
+              ],
+              "imageWithMetricMinusB": [
+                "-4",
+                "-1",
+                "1/4"
+              ],
+              "independentMinusMWithMetricPlusB": [
+                "4",
+                "1",
+                "-1/4"
+              ]
+            },
+            "expectationPatternAsStage5T1krein": true
+          },
+          {
+            "m": "3",
+            "k": [
+              "1",
+              "1",
+              "1",
+              "2"
+            ],
+            "E": "4",
+            "gamma8 h_k(m) gamma8 = h_k(-m)": true,
+            "h_k^2 = E^2": true,
+            "gamma8 P_+(m) gamma8 = P_+(-m)": true,
+            "positiveEnergyDimension": 8,
+            "kreinSignatureOnPositiveEnergySpace": [
+              4,
+              4
+            ],
+            "kreinFormOfImage = -kreinForm": true,
+            "hilbertNormPreserved": true,
+            "perQuantum(E, Q, S)": {
+              "plusUniverse": [
+                "4",
+                "1",
+                "3/4"
+              ],
+              "imageWithMetricMinusB": [
+                "-4",
+                "-1",
+                "3/4"
+              ],
+              "independentMinusMWithMetricPlusB": [
+                "4",
+                "1",
+                "-3/4"
+              ]
+            },
+            "expectationPatternAsStage5T1krein": true
+          },
+          {
+            "m": "3/5",
+            "k": [
+              "4/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "E": "1",
+            "gamma8 h_k(m) gamma8 = h_k(-m)": true,
+            "h_k^2 = E^2": true,
+            "gamma8 P_+(m) gamma8 = P_+(-m)": true,
+            "positiveEnergyDimension": 8,
+            "kreinSignatureOnPositiveEnergySpace": [
+              4,
+              4
+            ],
+            "kreinFormOfImage = -kreinForm": true,
+            "hilbertNormPreserved": true,
+            "perQuantum(E, Q, S)": {
+              "plusUniverse": [
+                "1",
+                "1",
+                "3/5"
+              ],
+              "imageWithMetricMinusB": [
+                "-1",
+                "-1",
+                "3/5"
+              ],
+              "independentMinusMWithMetricPlusB": [
+                "1",
+                "1",
+                "-3/5"
+              ]
+            },
+            "expectationPatternAsStage5T1krein": true
+          }
+        ],
+        "ok": true,
+        "reading": "gamma^8 maps the positive-energy space of h_k(m) onto that of h_k(-m) (same energy E), reverses the Krein form f^dagger B h (the classical charge density u^dagger B u) and preserves the Hilbert norm u^dagger u (the Fock charge of a positive-energy mode under the Stage-1 expectation rule <Psi^dagger B Psi> = u^dagger B B u = u^dagger u). Which of the two is the charge of the -M universe depends on the canonical structure assigned to it; this checker does not decide it (Krein-level mapping: see stage5Pairing)"
+      },
+      "stage5Pairing": {
+        "pairingTheory": "artifacts/dirac16complex/pair-creation/pairing-theory.json",
+        "pairingReport": "artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json",
+        "T1kreinPresent": true,
+        "T1kreinReportChecks": {
+          "PAIR_T1krein_restHamiltonians": true,
+          "PAIR_T1krein_modes": true,
+          "PAIR_T1krein_fieldCAR": true,
+          "PAIR_T1krein_statesNormalised": true,
+          "PAIR_T1krein_expectationRule": true,
+          "PAIR_T1krein_positiveExcitations": true,
+          "PAIR_T1krein_imageAnticommutatorMinusB": true,
+          "PAIR_T1krein_imageOperatorIdentities": true,
+          "PAIR_T1krein_imageExpectationValues": true,
+          "PAIR_T1krein_minusMModes": true,
+          "PAIR_T1krein_independentCARPlusB": true,
+          "PAIR_T1krein_independentExpectationValues": true
+        },
+        "T1kreinReportChecksAllTrue": true,
+        "T1krein": {
+          "canonical": "the canonical anticommutator of dirac16complex in the Gaussian-normal gauge is {Psi, Psi^dagger} = B delta^7/sqrt|g| (Stage 1); for the image Psi_- := gamma^8 Psi_+ it is gamma^8 B gamma^8 = -B: the image field is the canonical field of the Lagrangian -L_{-m,-lambda} = L_{m,lambda}[gamma^8 .] (same field equations as L_{-m,-lambda}, opposite overall sign, opposite Krein metric)",
+          "consequence": "T^pair = 0 at the operator level holds for the pair (Psi_+, Psi_- = gamma^8 Psi_+), whose second member carries the Krein metric -B (it is canonically a field of -L_{-m,-lambda}); an independently quantised -m universe with the positive (J = B) structure has the same energy-momentum as the +m universe (this is the T2-type pairing, see T3).",
+          "expectationRule": "one particle in mode u: <:Psi^K M Psi:> = u^dagger B M u; one hole in mode u: -u^dagger B M u (verified for M = C, B, B h, C gamma^4, BC); every excitation has energy |eps| > 0 (the J = B positivity)",
+          "fockModel": "four modes of the rest sector (m = 1): joint eigenvectors u_n of h = -i m gamma^4 and B with (eps, beta) = (+1,+1), (+1,-1), (-1,+1), (-1,-1); Krein CAR {b_n, b_n^K} = beta_n realised as b_n = a_n, b_n^K = beta_n a_n^*; sea = modes 3, 4 filled; normal ordering = subtraction of the sea expectation value",
+          "imageField": "Psi_- = gamma^8 Psi on the same Fock space and state: {Psi_-, Psi_-^K} = -B P_- (P_- = gamma^8 P gamma^8, the projector on the image modes); operator identities H[Psi_-; -m] = -H[Psi; m] (H = Psi^K B h Psi), Q[Psi_-] = -Q[Psi] (Q = Psi^K B Psi = J^4), S[Psi_-] = S[Psi]; expectation values <Psi_-^K M Psi_-> = u_-^dagger (-B) M u_-, u_- = gamma^8 u: the image universe carries the Krein metric -B, energy -|eps| and charge -1 per quantum. Since gamma^8 acts linearly and pointwise, normal ordering (subtraction of the sea value) commutes with the map: :T_{mu nu}[gamma^8 Psi; -m, -lambda]: = -:T_{mu nu}[Psi; m, lambda]: and :H_-: = -:H_+: as operators.",
+          "independentQuantisation": "if the -m theory L_{-m,-lambda} is quantised independently with its own canonical structure (+B) and the J = B positive-norm Fock space, its modes are w_n = gamma^8 u_n (same eps, Krein sign -beta_n); a quantum in w has energy +|eps|, charge +1 and scalar density -u^dagger B C u: (E, Q, S) -> (E, Q, -S). Its energy-momentum does NOT cancel that of the +m universe."
+        },
+        "status": "used as recorded by the Stage-5 Wolfram report (all PAIR_T1krein checks true); the file does not carry a finality flag, so it is cited with its sha256, not re-proved here beyond the mode-level facts of MA_M4_kreinModeFacts"
+      }
+    },
+    "M5_conditionalScenario": {
+      "hypotheses": {
+        "H1": "HYPOTHESIS (not derived): our universe is one member of a gamma^8 pair created together",
+        "H2": "HYPOTHESIS (not derived): the creation assigns Q_+ = -Q_- != 0 (nothing here computes Q_+)",
+        "H3": "HYPOTHESIS (not derivable here): the dirac16complex charge is baryon number (or B - L); the theory contains no Standard-Model baryons"
+      },
+      "implication": "IF H1-H3 THEN Q_+ + Q_- = 0 at every x4 (Q_- = Q[gamma^8 Psi_+] = -Q_+ by M4, conservation by M1)",
+      "ingredientsComputed": {
+        "gamma8FlipsCurrent": true,
+        "noetherConservation": true
+      },
+      "implicationHoldsGivenIngredients": true,
+      "notPredicted": "the observed baryon-to-photon ratio eta ~ 6e-10 is NOT predicted; no creation process, rate, or value of Q_+ is computed"
+    },
+    "M6_sakharovScorecard": [
+      {
+        "condition": "1. violation of the conserved charge (baryon number)",
+        "statusInTheoryAsBuilt": "FAILS: Q is exactly conserved in every gravitational field (M1: Noether identity on curved jets, both statistics)",
+        "computedBy": [
+          "MA_M1_noetherIdentity_grassmann_G_A_generic_nondiagonal",
+          "MA_M1_noetherIdentity_commuting_G_A_generic_nondiagonal",
+          "MA_M1_noetherIdentity_grassmann_G_B_diagonal_x0_x4",
+          "MA_M1_noetherIdentity_commuting_G_B_diagonal_x0_x4"
+        ],
+        "wouldNeed": "a U(1)-breaking term; M3: for Grassmann Psi no invariant mass-type Psi^T M Psi exists (all invariant M are symmetric); allowed: the derivative term Psi^T C gamma8 gamma^mu D_mu Psi (charge 2) and invariant quartic terms (charge 2, 4); for commuting Psi: Psi^T C Psi, Psi^T C gamma8 Psi (charge 2). Not present in L1; not claimed natural."
+      },
+      {
+        "condition": "2. C and CP violation",
+        "statusInTheoryAsBuilt": "FAILS: exact charge-flipping symmetries of L exist without reversing x4 (commuting: C exact = True; Grassmann: C exact = False, CP exact = True)",
+        "computedBy": [
+          "MA_M2_discreteGroupCharacterTable",
+          "MA_M2_C_and_CP_status"
+        ],
+        "wouldNeed": "terms that break every charge-flipping symmetry of the table (none is present in L1)"
+      },
+      {
+        "condition": "3. departure from thermal equilibrium",
+        "statusInTheoryAsBuilt": "NOT ADDRESSED by an exact computation here; the Kohn-Sham states of Stages 4/5 are equilibrium (Mermin) states at fixed N",
+        "computedBy": [],
+        "wouldNeed": "a non-equilibrium history (e.g. of the primordial field); not computed"
+      }
+    ],
+    "honestAnswer": "NOT PROVED and not provable within the theory as built: L1 has an exact U(1) symmetry, so Q is conserved in every gravitational field and no dynamics of the theory creates a net charge inside one universe (Sakharov's first condition fails); exact charge-flipping C or CP symmetries exist (second condition fails). The gamma^8 pair has total charge 0 and total classical energy-momentum 0; under hypotheses H1-H3 (not derived) this would give a global symmetry with local asymmetry, without predicting eta ~ 6e-10.",
+    "MA_agreesWithWolfram": {
+      "chargeConjugationIntertwiners": {
+        "etaPlus": {
+          "python": "Psi->M Psi^*: M gamma^a* = s gamma^a M | s=+1",
+          "proportional": true
+        },
+        "etaMinus": {
+          "python": "Psi->M Psi^*: M gamma^a* = s gamma^a M | s=-1",
+          "proportional": true
+        },
+        "zetaPlus": {
+          "python": "Psi->M Psibar^T: M gamma^aT = s gamma^a M | s=+1",
+          "proportional": true
+        },
+        "zetaMinus": {
+          "python": "Psi->M Psibar^T: M gamma^aT = s gamma^a M | s=-1",
+          "proportional": true
+        }
+      },
+      "classificationRows": {
+        "compared": 2048,
+        "disagreements": []
+      },
+      "symmetrySummary": {
+        "python": {
+          "grassmann": {
+            "C (R empty, antilinear) exact": false,
+            "C exact at m = 0": true,
+            "P (one space-like reflection, linear) exact": false,
+            "P exact at m = 0": true,
+            "CP (one space-like reflection, antilinear) exact": true,
+            "P3 (x1,x2,x3, linear) exact": false,
+            "CP3 (x1,x2,x3, antilinear) exact": true,
+            "T (x4, linear) exact": true,
+            "T (x4, antilinear) exact": false,
+            "CPT (all x, antilinear) exact": false,
+            "CP3T (x1..x4, antilinear) exact": true
+          },
+          "commuting": {
+            "C (R empty, antilinear) exact": true,
+            "C exact at m = 0": true,
+            "P (one space-like reflection, linear) exact": false,
+            "P exact at m = 0": true,
+            "CP (one space-like reflection, antilinear) exact": false,
+            "P3 (x1,x2,x3, linear) exact": false,
+            "CP3 (x1,x2,x3, antilinear) exact": false,
+            "T (x4, linear) exact": true,
+            "T (x4, antilinear) exact": true,
+            "CPT (all x, antilinear) exact": true,
+            "CP3T (x1..x4, antilinear) exact": false
+          }
+        },
+        "itemsCompared": 22,
+        "diffs": []
+      },
+      "chargeReversingSymmetries": {
+        "counts": {
+          "grassmann": [
+            64,
+            64
+          ],
+          "commuting": [
+            64,
+            64
+          ]
+        }
+      },
+      "invariantForms": "span{C P_-, C P_+} (Wolfram) equals the Python nullspace of S^{ab T} M + M S^{ab} = 0",
+      "pinCharacters": [],
+      "kineticForms": {
+        "wolframDimension": 2
+      },
+      "survival": {
+        "wolfram": {
+          "grassmann C gamma8 nontrivial": true,
+          "grassmann C trivial": true,
+          "commuting C nontrivial": true,
+          "commuting C gamma8 trivial": true
+        },
+        "python": {
+          "grassmann C gamma8 nontrivial": true,
+          "grassmann C trivial": true,
+          "commuting C nontrivial": true,
+          "commuting C gamma8 trivial": true
+        }
+      },
+      "quarticQ4": {
+        "wolfram": {
+          "definition": "Q4 = sum_{a<b} eta_aa eta_bb (Psi^T C P_- S^{ab} Psi)(Psi^T C P_+ S^{ab} Psi)",
+          "Q4Monomials": 40,
+          "Q4Charges": [
+            4
+          ]
+        },
+        "python": {
+          "chiralMonomials": 40,
+          "Q4Monomials": 40,
+          "proportional": true,
+          "relation": "sum eta eta (Psi^T C g^a g^b Psi)^2 = 8 sum eta eta (Psi^T C P_- S^{ab} Psi)(Psi^T C P_+ S^{ab} Psi)",
+          "chiralSquaresVanish": true
+        }
+      },
+      "kreinOneParticle": {
+        "wolframChecks": {
+          "gamma8 h_k(m) gamma8 = h_k(-m)": true,
+          "gamma8 P_+-(m) gamma8 = P_+-(-m) (E^2 = m^2 + k^2)": true,
+          "gamma8 B gamma8 = -B (Krein norm of the image = - Krein norm)": true,
+          "rest: B-form on E_+(1) has signature (4,4)": true,
+          "rest: Gram(gamma8 E_+(1)) = - Gram(E_+(1))": true
+        }
+      },
+      "gamma8MatrixFacts": {
+        "wolfram": {
+          "currentMatricesOdd": true,
+          "massMatrixEven": true,
+          "PsibarMapsToPsibarGamma8": true,
+          "kreinMetricFlips": true
+        }
+      },
+      "comparedItems": [
+        "M2_intertwiners",
+        "M2_classificationRows",
+        "M2_symmetrySummary",
+        "M2_chargeReversingExactSymmetriesPreservingTimeOrientation",
+        "M3_invariantMassForms",
+        "M3_pinCovariantForms",
+        "M3_kineticForms",
+        "M3_survival",
+        "M3_extraGrassmannQuartic",
+        "M4_kreinOneParticle",
+        "M4_matrixFacts"
+      ]
+    },
+    "wolframAgreement": "compared",
+    "families": [
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ],
+    "quick": false,
+    "conventions": {
+      "statisticsSign": "eps = -1 Grassmann, +1 commuting (reordering Psi Psi^* -> Psi^* Psi)",
+      "lagrangianMap": "K -> sigmaK K, S -> sigmaS S  =>  L_{m,lam} -> sigmaK L_{sigmaS sigmaK m, sigmaK lam}",
+      "current": "j^mu = Psibar gamma^mu Psi; N^mu = i sqrt|g| j^mu; J^mu = -i j^mu",
+      "exactPhase": "e^{i alpha} = (3 + 4 i)/5",
+      "parameters": {
+        "m": "3/2",
+        "lambda": "5/7",
+        "mu3": "2/3"
+      }
+    }
+  },
+  "sourceSha256": {
+    "scripts/check_dirac16complex_matter_antimatter.py": "20914546ed5894ef223be8a1ae7ffecb62b308fdbf13d88f35a939a3c27bd526",
+    "scripts/grassmann_algebra.py": "dfce851d3dc7ab82202a62d414cc259644a64a101f08e9ba80ed747faa8bc24c"
+  },
+  "inputSha256": {
+    "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
+    "artifacts/dirac16complex/pair-creation/pairing-theory.json": "5a267bd696391b131134577ccdcf7766b83f96f3eb32b9b8de60c9175b1ebf6a",
+    "artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json": "735534de950c7fb0327370c33caa275cf805aa91a41dee903e4eaec7a6fa0de8",
+    "artifacts/dirac16complex/matter-antimatter/matter-antimatter-theory.json": "a3a85c9adc1b19733a3a4f09e8702eed2b6966e6156b644012011fcfe57a0d31"
+  }
+}

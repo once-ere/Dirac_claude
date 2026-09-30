@@ -1,0 +1,2670 @@
+{
+  "schemaVersion": 1,
+  "producer": "scripts/check_dirac16complex_pairing.py",
+  "checks": {
+    "S5_algebra_fixtureMatches": true,
+    "S5_algebra_clifford": true,
+    "S5_algebra_gamma8Properties": true,
+    "S5_algebra_CProperties": true,
+    "S5_algebra_BProperties": true,
+    "S5_algebra_gamma8InIdentityComponent": true,
+    "S5_algebra_gammaDaggerC": true,
+    "S5_algebra_bilinearParities": true,
+    "S5_algebra_chiralBlockStructure": true,
+    "S5_algebra_characterIsMinusNorm": true,
+    "S5_algebra_kreinUnderBasicReflections": true,
+    "S5_algebra": true,
+    "S5_T1generic_nontrivial": true,
+    "S5_T1generic_scalarInvariantKineticOdd": true,
+    "S5_T1generic_lagrangian": true,
+    "S5_T1generic_naiveFixedLambdaFails": true,
+    "S5_T1generic_fieldEquation": true,
+    "S5_T1generic_conjugateFieldEquation": true,
+    "S5_T1generic_eulerLagrangeFromLagrangian": true,
+    "S5_T1generic_current": true,
+    "S5_T1generic_emtAll36": true,
+    "S5_T1generic_connectionCommutesWithGamma8": true,
+    "S5_T1generic": true,
+    "S5_T1grassmann_nontrivial": true,
+    "S5_T1grassmann_scalarEvenKineticOdd": true,
+    "S5_T1grassmann_lagrangian": true,
+    "S5_T1grassmann_naiveFixedLambdaFails": true,
+    "S5_T1grassmann_diracOperator": true,
+    "S5_T1grassmann_conjugateDiracOperator": true,
+    "S5_T1grassmann_emt": true,
+    "S5_T1grassmann_current": true,
+    "S5_T1grassmann_eulerLagrangeFromLagrangian": true,
+    "S5_T1grassmann": true,
+    "S5_T1jets_lagrangian": true,
+    "S5_T1jets_scalarEvenKineticOdd": true,
+    "S5_T1jets_naiveFixedLambdaFails": true,
+    "S5_T1jets_emt": true,
+    "S5_T1jets_current": true,
+    "S5_T1jets_fieldEquations": true,
+    "S5_T1jets_connectionCommutes": true,
+    "S5_T1jets_onShellImage": true,
+    "S5_T1jets_pairEMTAndCurrentVanish": true,
+    "S5_T1jets_conservationBoth": true,
+    "S5_T1jets_vielbeinSignFlipGeometry": true,
+    "S5_T1jets_vielbeinSignFlipIsT1": true,
+    "S5_T1jets_gamma8WithFrameSignIsSymmetry": true,
+    "S5_T1jets": true,
+    "S5_T1primordial_nontrivialCoupling": true,
+    "S5_T1primordial_scalarAndKinetic": true,
+    "S5_T1primordial_lagrangian": true,
+    "S5_T1primordial_diracOperator": true,
+    "S5_T1primordial_emt64": true,
+    "S5_T1primordial_current": true,
+    "S5_T1primordial": true,
+    "S5_T1krein_restHamiltonians": true,
+    "S5_T1krein_modes": true,
+    "S5_T1krein_fieldCAR": true,
+    "S5_T1krein_bilinearFromFields": true,
+    "S5_T1krein_statesNormalised": true,
+    "S5_T1krein_expectationRule": true,
+    "S5_T1krein_positiveExcitations": true,
+    "S5_T1krein_imageAnticommutatorMinusB": true,
+    "S5_T1krein_imageOperatorIdentities": true,
+    "S5_T1krein_imageExpectationValues": true,
+    "S5_T1krein_minusMModes": true,
+    "S5_T1krein_independentCARPlusB": true,
+    "S5_T1krein_independentExpectationValues": true,
+    "S5_T1krein": true,
+    "S5_T2frame_unitVectors": true,
+    "S5_T2frame_characterIsMinusNorm": true,
+    "S5_T2frame_untwistedAdjointIsMinusReflection": true,
+    "S5_T2frame_frameReflectionsGeometry": true,
+    "S5_T2frame_scalarAndCurrentSigns": true,
+    "S5_T2frame_twistedSpacelikeMapsToMinusMSameLambda": true,
+    "S5_T2frame_onShellImage": true,
+    "S5_T2frame_untwistedSpacelikeContractE3": true,
+    "S5_T2frame_gamma8TimesUntwistedSpacelike": true,
+    "S5_T2frame_twistedTimelike": true,
+    "S5_T2frame_untwistedTimelikeSymmetry": true,
+    "S5_T2frame_gamma8TimesUntwistedTimelike": true,
+    "S5_T2frame": true,
+    "S5_T2z2_geometry": true,
+    "S5_T2z2_diracOperator": true,
+    "S5_T2z2_scalarOdd": true,
+    "S5_T2z2_kineticEven": true,
+    "S5_T2z2_lagrangianEven": true,
+    "S5_T2z2_fieldEquationMapsToMinusMSameLambda": true,
+    "S5_T2z2_sameMassFails": true,
+    "S5_T2z2_massFunctionMap": true,
+    "S5_T2z2_symmetricIffOddMass": true,
+    "S5_T2z2_emtPullback": true,
+    "S5_T2z2_currentPullback": true,
+    "S5_T2z2_PBfieldLevelFlipsLambda": true,
+    "S5_T2z2_ruleParities": true,
+    "S5_T2z2_PBRuleMatrixEvenCOdd": true,
+    "S5_T2z2": true,
+    "S5_T3block_gamma8IsSigma2BetweenPartnerBlocks": true,
+    "S5_T3block_gamma1IsSigma1InEveryBlock": true,
+    "S5_T3block_gamma0IsSigma3": true,
+    "S5_T3block_blockODEMaps": true,
+    "S5_T3block_sixteenComponentODEMaps": true,
+    "S5_T3block_hamiltonianMaps": true,
+    "S5_T3block_parityMap": true,
+    "S5_T3block_bagAngleMap": true,
+    "S5_T3block_sigma2IsRustSwap": true,
+    "S5_T3block_densityAndCurrentMaps": true,
+    "S5_T3block_densityMaps16": true,
+    "S5_T3block_potentialsStandardRule": true,
+    "S5_T3block_potentialsImageRule": true,
+    "S5_T3block_statisticsCoefficients": true,
+    "S5_T3block": true,
+    "S5_T3ks_stationarityBothStatistics": true,
+    "S5_T3ks_sigma2FunctionalInvariant": true,
+    "S5_T3ks_sigma2Densities": true,
+    "S5_T3ks_sigma2KSOperatorEquivariant": true,
+    "S5_T3ks_sigma1FunctionalInvariant": true,
+    "S5_T3ks_imageRuleEnergyOdd": true,
+    "S5_T3ks_occupationsAndTemperature": true,
+    "S5_T3ks_zeroModePlusM": true,
+    "S5_T3ks_zeroModeImage": true,
+    "S5_T3ks_zeroModeUntransformedControl": true,
+    "S5_T3ks_zeroModeSplittingMapsExactly": true,
+    "S5_T3ks_controlSplittingClosedForm": true,
+    "S5_T3ks_controlDiffersFromPairedProblem": true,
+    "S5_T3ks_massiveLevelsMap": true,
+    "S5_T3ks_mixedSectorSolutions": true,
+    "S5_T3ks_controlMixedSectorLevelsDisjoint": true,
+    "S5_T3ks_controlSubGapBoundState": true,
+    "S5_T3ks": true,
+    "S5_T3emt_gamma8OperatorIdentity64": true,
+    "S5_T3emt_standardRulePlusT": true,
+    "S5_T3emt_imageRuleMinusT": true,
+    "S5_T3emt_stage4CrossCheck": true,
+    "S5_T3emt_orbitalFormulasMap": true,
+    "S5_T3emt_connectionClosedForms": true,
+    "S5_T3emt": true,
+    "S5_stat_testUnitaries": true,
+    "S5_stat_fermionQuasiFreeStates": true,
+    "S5_stat_fermionWickMinus": true,
+    "S5_stat_singleModeMoments": true,
+    "S5_stat_bosonThermalWickPlus": true,
+    "S5_stat_classicalGaussianWickPlus": true,
+    "S5_stat_fixedAmplitudePhasesDeviate": true,
+    "S5_stat_expectationRuleTraces": true,
+    "S5_stat_expectationRuleKreinFock": true,
+    "S5_stat_filledShellExchangeRatio": true,
+    "S5_stat_uniformGasExactFinite": true,
+    "S5_stat_uniformGasExchange": true,
+    "S5_stat_ldaPotentials": true,
+    "S5_stat_T0TotalDerivative": true,
+    "S5_stat_expectationRuleCovarianceIndefinite": true,
+    "S5_stat": true,
+    "S5_totals_fieldLevelChiralPair": true,
+    "S5_totals_fieldLevelMirrorPair": true,
+    "S5_totals_ksMirrorPair": true,
+    "S5_totals_ksKreinImagePair": true,
+    "S5_totals": true,
+    "S5_wolfram_reportAllTrue": true,
+    "S5_wolfram_sourcesCurrent": true,
+    "S5_wolfram_theoryChecksTrue": true,
+    "S5_wolfram_algebraMeasurements": true,
+    "S5_wolfram_monomialCounts": true,
+    "S5_wolfram_kreinScalarDensities": true,
+    "S5_wolfram_blockMaps": true,
+    "S5_wolfram_densitySigns": true,
+    "S5_wolfram_zeroModeSplitting": true,
+    "S5_wolfram_statisticsNumbers": true,
+    "S5_wolfram_T2table": true,
+    "S5_wolfram_statementsAgree": true,
+    "S5_wolfram_honestyStatements": true,
+    "S5_pairingAgreesWithWolfram": true,
+    "S5_internal_noException": true
+  },
+  "measurements": {
+    "quick": false,
+    "families": [
+      "algebra",
+      "T1generic",
+      "T1grassmann",
+      "T1jets",
+      "T1primordial",
+      "T1krein",
+      "T2frame",
+      "T2z2",
+      "T3block",
+      "T3ks",
+      "T3emt",
+      "stat",
+      "totals"
+    ],
+    "S5_algebra": {
+      "fixtureMatches": "gamma^a, C, chirality rebuilt from CONTRACT section 1 equal the committed fixture",
+      "clifford": "{gamma^a, gamma^b} = 2 eta^{ab}",
+      "gamma8Properties": "gamma^8 = gamma^0...gamma^7 = diag(-I8, +I8): Hermitian, square 1, anticommutes with every gamma^a, commutes with C and with all 28 S^{bc} (hence with Omega_mu for every connection)",
+      "CProperties": "C real symmetric, C^2 = 1; C gamma^a real antisymmetric (anti-Hermitian), a = 0..7",
+      "BProperties": "B = -i C gamma^4 = -i gamma^0..gamma^4: Hermitian, B^2 = 1, Tr B = 0 (spectrum (+1)^8 (-1)^8), [B, C] = 0, BC = -i gamma^4, gamma^8 B gamma^8 = -B",
+      "gamma8InIdentityComponent": "gamma^8 = (g0 g1)(g2 g3)(g4 g5)(g6 g7), four commuting bivectors with X^2 = -1, so gamma^8 = exp((pi/2)(X1 + X2 + X3 + X4)) lies in Spin_0(4,4); its vector action is -1 (in SO_0(4,4))",
+      "gammaDaggerC": "gamma^a dagger C = -C gamma^a for a = 0..7",
+      "bilinearParities": {
+        "count": 456,
+        "statement": "gamma^8 X gamma^8 = -X for X in {C gamma^a, C gamma^a S^{bc}, C S^{bc} gamma^a} (8 + 224 + 224 = 456) and gamma^8 C gamma^8 = +C"
+      },
+      "oddBilinearMatrixCount": 456,
+      "chiralBlockStructure": "C and every S^{bc} are block diagonal in (Psi_0..Psi_7 | Psi_8..Psi_15), every gamma^a is block off-diagonal: gamma^8 Psi = (-Psi_upper, +Psi_lower)",
+      "characterIsMinusNorm": {
+        "basisCharacters": [
+          -1,
+          -1,
+          -1,
+          -1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "basisNorms": [
+          1,
+          1,
+          1,
+          1,
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "general": {
+          "spacelikeInteger": {
+            "vector": [
+              "1",
+              "1",
+              "1",
+              "1",
+              "1",
+              "1",
+              "1",
+              "0"
+            ],
+            "norm": "1",
+            "uSquaredIsNorm": true,
+            "character": -1,
+            "kreinSign": 0
+          },
+          "spacelikeRational": {
+            "vector": [
+              "3/5",
+              "4/5",
+              "1/2",
+              "1/2",
+              "1/2",
+              "1/2",
+              "0",
+              "0"
+            ],
+            "norm": "1",
+            "uSquaredIsNorm": true,
+            "character": -1,
+            "kreinSign": 0
+          },
+          "timelikeInteger": {
+            "vector": [
+              "1",
+              "1",
+              "1",
+              "0",
+              "1",
+              "1",
+              "1",
+              "1"
+            ],
+            "norm": "-1",
+            "uSquaredIsNorm": true,
+            "character": 1,
+            "kreinSign": 0
+          },
+          "timelikeRational": {
+            "vector": [
+              "1/2",
+              "0",
+              "1/2",
+              "0",
+              "3/5",
+              "4/5",
+              "1/2",
+              "1/2"
+            ],
+            "norm": "-1",
+            "uSquaredIsNorm": true,
+            "character": 1,
+            "kreinSign": 0
+          }
+        },
+        "statement": "u^dagger C = chi(u) C u^{-1} with chi(u) = -n(u) for every real unit vector"
+      },
+      "kreinUnderBasicReflections": {
+        "uBudaggerSigns_gamma0to7": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          -1,
+          -1,
+          -1
+        ],
+        "derivation": "B = -i gamma^0 gamma^1 gamma^2 gamma^3 gamma^4: gamma^a (a <= 4) commutes with the 5-fold product, gamma^5..gamma^7 anticommute; with gamma^a dagger = eta_aa gamma^a this gives +B, +B, +B, +B, +B, -B, -B, -B (not the Pin character: B is tied to the x4 foliation)"
+      },
+      "uBudaggerSigns": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        -1,
+        -1,
+        -1
+      ]
+    },
+    "S5_T1generic": {
+      "variables": 4143,
+      "kineticMonomials": 23552,
+      "connectionMonomials": 21504,
+      "lagrangianMonomials": 23704,
+      "nontrivial": {
+        "kineticMonomials": 23552,
+        "connectionMonomials": 21504,
+        "S": 16,
+        "S^2": 136,
+        "note": "the connection enters L through Psibar {gamma^mu, Omega_mu} Psi / 2 (non-trivial coupling to the spin connection and, through e_a^mu and sqrt|g|, to gravity)"
+      },
+      "scalarInvariantKineticOdd": "S[gamma^8 Psi] = S[Psi], K[gamma^8 Psi] = -K[Psi], U even",
+      "lagrangian": "L_{m,lam}[gamma^8 Psi] = -L_{-m,-lam}[Psi] (polynomial identity)",
+      "naiveFixedLambdaFails": "L_{m,lam}[gamma^8 Psi] + L_{-m,lam}[Psi] = -lam sqrt|g| S^2 != 0 (CONTRACT erratum E2)",
+      "fieldEquation": "E_{-m,-lam}[gamma^8 Psi] = -gamma^8 E_{m,lam}[Psi] (16 components, with the cubic term)",
+      "conjugateFieldEquation": "Ebar_{-m,-lam}[gamma^8 Psi] = -Ebar_{m,lam}[Psi] gamma^8",
+      "eulerLagrangeFromLagrangian": {
+        "statement": "gamma^8 EL^{(m,lam)}[gamma^8 Psi] = -EL^{(-m,-lam)}[Psi] for the Euler-Lagrange expressions dL/dPsi^* - d_mu dL/d(d_mu Psi^*) derived from L (total derivative acting on the geometric coefficients too); hence Psi solves EL_{m,lam} iff gamma^8 Psi solves EL_{-m,-lam}",
+        "monomials": 24848
+      },
+      "current": "j^mu[gamma^8 Psi] = -j^mu[Psi] (every mu)",
+      "emtAll36": {
+        "components": 36,
+        "statement": "T_{mu nu}[gamma^8 Psi; -m, -lam] = -T_{mu nu}[Psi; m, lam]",
+        "method": "T = K_{mu nu} + g_{mu nu} L_s with g_{mu nu} an independent symbol: the identity holds iff it holds for K_{mu nu} (each component) and for L_s; T_44 also assembled in full"
+      },
+      "connectionCommutesWithGamma8": "[gamma^8, gamma^b gamma^c] = 0 for all 28 pairs: [gamma^8, Omega_mu] = 0 for every connection"
+    },
+    "S5_T1grassmann": {
+      "generators": 1440,
+      "couplings": {
+        "m": "4051/7078",
+        "lam": "-291/349",
+        "sqrtg": "2984/545"
+      },
+      "monomials_Ls": 1288,
+      "monomials_S2": 120,
+      "nontrivial": {
+        "S^2": 120,
+        "note": "the quartic self-interaction S^2 is a nonzero degree-4 element (120 monomials; squares of odd generators vanish, unlike the commuting 136)"
+      },
+      "scalarEvenKineticOdd": "S -> S, K -> -K, S^2 -> S^2 under theta -> chi theta",
+      "lagrangian": "L_{m,lam}[gamma^8 Psi] = -L_{-m,-lam}[Psi] in the Grassmann algebra (all m, lam: K odd, S and S^2 even)",
+      "naiveFixedLambdaFails": "L_{m,lam}[gamma^8 Psi] + L_{-m,lam}[Psi] = -lam S^2 != 0",
+      "diracOperator": "E_{-m,-lam}[gamma^8 Psi] = -gamma^8 E_{m,lam}[Psi] with the cubic term lam S Psi (odd, degree 3)",
+      "conjugateDiracOperator": "Ebar_{-m,-lam}[gamma^8 Psi] = -Ebar_{m,lam}[Psi] gamma^8",
+      "emt": {
+        "components": 36,
+        "statement": "T_{mu nu}[gamma^8 Psi; -m, -lam] = -T_{mu nu}[Psi; m, lam] (Grassmann-even elements)"
+      },
+      "current": "j^mu -> -j^mu",
+      "eulerLagrangeFromLagrangian": {
+        "statement": "left-derivative Euler-Lagrange expressions of sqrt|g| L_{m,lam} (constant coefficients): gamma^8 EL^{(m,lam)}[gamma^8 Psi] = -EL^{(-m,-lam)}[Psi]",
+        "generators": 1440,
+        "monomials": 896
+      }
+    },
+    "S5_T1jets": {
+      "couplings_p1": {
+        "m": "3/7",
+        "lam": "-5/4"
+      },
+      "S_value_p1": "-3047/576",
+      "couplings_p2": {
+        "m": "-2/9",
+        "lam": "7/3"
+      },
+      "S_value_p2": "1462/105",
+      "couplings_p3": {
+        "m": "5/2",
+        "lam": "1/6"
+      },
+      "S_value_p3": "487607/28224",
+      "lagrangian": {
+        "points": [
+          "p1",
+          "p2",
+          "p3"
+        ],
+        "results": [
+          true,
+          true,
+          true
+        ],
+        "statement": "L_s[gamma^8 Psi; m, lam] = -L_s[Psi; -m, -lam] (jets of order 1-2 at the G1 points)"
+      },
+      "scalarEvenKineticOdd": {
+        "points": [
+          "p1",
+          "p2",
+          "p3"
+        ],
+        "results": [
+          true,
+          true,
+          true
+        ],
+        "statement": "S even, kinetic term odd under Psi -> gamma^8 Psi"
+      },
+      "naiveFixedLambdaFails": {
+        "points": [
+          "p1",
+          "p2",
+          "p3"
+        ],
+        "results": [
+          true,
+          true,
+          true
+        ],
+        "statement": "L_s[gamma^8 Psi; m, lam] + L_s[Psi; -m, lam] = -lam S^2 != 0"
+      },
+      "emt": {
+        "points": [
+          "p1",
+          "p2",
+          "p3"
+        ],
+        "results": [
+          true,
+          true,
+          true
+        ],
+        "statement": "T_{mu nu}[gamma^8 Psi; -m, -lam] = -T_{mu nu}[Psi; m, lam], all 64 components (jets)"
+      },
+      "current": {
+        "points": [
+          "p1",
+          "p2",
+          "p3"
+        ],
+        "results": [
+          true,
+          true,
+          true
+        ],
+        "statement": "j^mu[gamma^8 Psi] = -j^mu[Psi]"
+      },
+      "fieldEquations": {
+        "points": [
+          "p1",
+          "p2",
+          "p3"
+        ],
+        "results": [
+          true,
+          true,
+          true
+        ],
+        "statement": "E_{-m,-lam}[gamma^8 Psi] = -gamma^8 E_{m,lam}[Psi] and the conjugate equation"
+      },
+      "connectionCommutes": {
+        "points": [
+          "p1",
+          "p2",
+          "p3"
+        ],
+        "results": [
+          true,
+          true,
+          true
+        ],
+        "statement": "[gamma^8, Omega_mu] = 0 for the G1 connection; gamma^mu Omega_mu != 0 (curved field)"
+      },
+      "onShellImage": {
+        "points": [
+          "p1",
+          "p2",
+          "p3"
+        ],
+        "results": [
+          true,
+          true,
+          true
+        ],
+        "statement": "an on-shell Psi (m, lam) has an on-shell image for (-m, -lam); the image is not a solution for (m, lam) or (-m, lam)"
+      },
+      "pairEMTAndCurrentVanish": {
+        "points": [
+          "p1",
+          "p2",
+          "p3"
+        ],
+        "results": [
+          true,
+          true,
+          true
+        ],
+        "statement": "on shell: T[Psi] + T[gamma^8 Psi] = 0, j + j' = 0, L + L' = 0, S' = S"
+      },
+      "conservationBoth": {
+        "points": [
+          "p1",
+          "p2",
+          "p3"
+        ],
+        "results": [
+          true
+        ],
+        "statement": "nabla^mu T_{mu nu} = 0 for both members of the pair (order-2 jets at p1); nonzero off shell"
+      },
+      "vielbeinSignFlipGeometry": {
+        "points": [
+          "p1",
+          "p2",
+          "p3"
+        ],
+        "results": [
+          true,
+          true,
+          true
+        ],
+        "statement": "e -> -e leaves g, sqrt|g| and Omega unchanged and reverses gamma^mu"
+      },
+      "vielbeinSignFlipIsT1": {
+        "points": [
+          "p1",
+          "p2",
+          "p3"
+        ],
+        "results": [
+          true,
+          true,
+          true
+        ],
+        "statement": "L_s[-e, Psi; m, lam] = -L_s[e, Psi; -m, -lam] and T likewise"
+      },
+      "gamma8WithFrameSignIsSymmetry": {
+        "points": [
+          "p1",
+          "p2",
+          "p3"
+        ],
+        "results": [
+          true,
+          true,
+          true
+        ],
+        "statement": "(gamma^8, e -> -e) is an exact symmetry: L, T invariant, E[-e, gamma^8 Psi] = +gamma^8 E[e, Psi] (gamma'^mu = -gamma^mu and gamma^mu gamma^8 = -gamma^8 gamma^mu)"
+      }
+    },
+    "S5_T1primordial": {
+      "nontrivialCoupling": {
+        "slashOmega": "gamma^mu Omega_mu = 3H gamma^0 (a4 cancels)",
+        "OmegaNonzeroEntries": 192,
+        "note": "the individual Omega_mu depend on a4(t) (E = e^{a4}, A1 = a4'), gamma^mu Omega_mu does not"
+      },
+      "couplings": {
+        "m": "-4/11",
+        "lam": "9/5"
+      },
+      "lagrangian": "L[gamma^8 Psi; m, lam] = -L[Psi; -m, -lam] in the notebook chart, generic fields of all 8 coordinates",
+      "emt64": {
+        "nonzeroComponents": 64
+      },
+      "domain": "QQ(w,c,E,A1,A2,A3,H) mod (w^12+c^2-1)",
+      "relationUses": 0
+    },
+    "S5_T1krein": {
+      "restHamiltonians": "h(m) = -i m gamma^4 (k = 0, CONTRACT section 8): Hermitian, h^2 = m^2, [h, B] = 0, gamma^8 h(m) gamma^8 = h(-m)",
+      "modes": {
+        "(eps, beta)": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            -1
+          ],
+          [
+            -1,
+            1
+          ],
+          [
+            -1,
+            -1
+          ]
+        ],
+        "vectors": "(v+ +- i v-)/4 of Stage-4 blocks 0 and 2 (exact, orthonormal)"
+      },
+      "fieldCAR": "{Psi_a, Psi^K_b} = (B P)_ab (P the projector on the four modes), {Psi_a, Psi_b} = 0: the Krein CAR {c_n, c_n^K} = beta_n realised on a positive Fock space",
+      "bilinearFromFields": "sum Psi^K_a C_ab Psi_b equals the mode form sum beta_n u_n^dagger C u_m c_n^dagger c_m",
+      "expectationRule": {
+        "rule": "particle in mode u: <:Psi^K M Psi:> = u^dagger B M u; hole: -u^dagger B M u (normal ordering = subtraction of the sea value)",
+        "values": {
+          "C": {
+            "particle0": [
+              "1",
+              "0"
+            ],
+            "particle1": [
+              "1",
+              "0"
+            ],
+            "hole2": [
+              "1",
+              "0"
+            ],
+            "hole3": [
+              "1",
+              "0"
+            ]
+          },
+          "B": {
+            "particle0": [
+              "1",
+              "0"
+            ],
+            "particle1": [
+              "1",
+              "0"
+            ],
+            "hole2": [
+              "-1",
+              "0"
+            ],
+            "hole3": [
+              "-1",
+              "0"
+            ]
+          },
+          "Bh": {
+            "particle0": [
+              "1",
+              "0"
+            ],
+            "particle1": [
+              "1",
+              "0"
+            ],
+            "hole2": [
+              "1",
+              "0"
+            ],
+            "hole3": [
+              "1",
+              "0"
+            ]
+          },
+          "Cgamma4": {
+            "particle0": [
+              "0",
+              "1"
+            ],
+            "particle1": [
+              "0",
+              "1"
+            ],
+            "hole2": [
+              "0",
+              "-1"
+            ],
+            "hole3": [
+              "0",
+              "-1"
+            ]
+          },
+          "BC": {
+            "particle0": [
+              "1",
+              "0"
+            ],
+            "particle1": [
+              "-1",
+              "0"
+            ],
+            "hole2": [
+              "1",
+              "0"
+            ],
+            "hole3": [
+              "-1",
+              "0"
+            ]
+          }
+        }
+      },
+      "positiveExcitations": {
+        "energies": [
+          [
+            "1",
+            "0"
+          ],
+          [
+            "1",
+            "0"
+          ],
+          [
+            "1",
+            "0"
+          ],
+          [
+            "1",
+            "0"
+          ]
+        ],
+        "note": "every excitation has energy |eps| = m > 0"
+      },
+      "scalarDensity_particle0_particle1_hole2_hole3": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "imageAnticommutatorMinusB": "{Psi_-, Psi_-^K} = gamma^8 B P gamma^8 = -B P_- (P_- = gamma^8 P gamma^8): the image carries the Krein metric -B, i.e. it is canonically a field of -L_{-m,-lam}",
+      "imageOperatorIdentities": "H[Psi_-; -m] = Psi_-^K B h(-m) Psi_- = -H[Psi; m], Q_- = -Q, S_- = S as Fock operators; normal ordering commutes with the map (:H_-: = -:H_+:)",
+      "imageExpectationValues": {
+        "(+ universe, image)": {
+          "particle0": {
+            "E": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "-1",
+                "0"
+              ]
+            ],
+            "Q": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "-1",
+                "0"
+              ]
+            ],
+            "S": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "1",
+                "0"
+              ]
+            ]
+          },
+          "particle1": {
+            "E": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "-1",
+                "0"
+              ]
+            ],
+            "Q": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "-1",
+                "0"
+              ]
+            ],
+            "S": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "1",
+                "0"
+              ]
+            ]
+          },
+          "hole2": {
+            "E": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "-1",
+                "0"
+              ]
+            ],
+            "Q": [
+              [
+                "-1",
+                "0"
+              ],
+              [
+                "1",
+                "0"
+              ]
+            ],
+            "S": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "1",
+                "0"
+              ]
+            ]
+          },
+          "hole3": {
+            "E": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "-1",
+                "0"
+              ]
+            ],
+            "Q": [
+              [
+                "-1",
+                "0"
+              ],
+              [
+                "1",
+                "0"
+              ]
+            ],
+            "S": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "1",
+                "0"
+              ]
+            ]
+          }
+        },
+        "statement": "every quantum of the image has energy -|eps| and the opposite charge; particle values u_-^dagger (-B) M u_-, u_- = gamma^8 u"
+      },
+      "minusMModes": "w_n = gamma^8 u_n: h(-m) w_n = eps_n w_n (same eps), B w_n = -beta_n w_n",
+      "independentCARPlusB": "the independently quantised -m field has {Psi', Psi'^K} = +B P_w (its own positive J = B structure)",
+      "independentExpectationValues": {
+        "values": {
+          "particle0": {
+            "+m (E,Q,S)": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "1",
+                "0"
+              ],
+              [
+                "1",
+                "0"
+              ]
+            ],
+            "-m independent (E,Q,S)": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "1",
+                "0"
+              ],
+              [
+                "-1",
+                "0"
+              ]
+            ]
+          },
+          "particle1": {
+            "+m (E,Q,S)": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "1",
+                "0"
+              ],
+              [
+                "1",
+                "0"
+              ]
+            ],
+            "-m independent (E,Q,S)": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "1",
+                "0"
+              ],
+              [
+                "-1",
+                "0"
+              ]
+            ]
+          },
+          "hole2": {
+            "+m (E,Q,S)": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "-1",
+                "0"
+              ],
+              [
+                "1",
+                "0"
+              ]
+            ],
+            "-m independent (E,Q,S)": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "-1",
+                "0"
+              ],
+              [
+                "-1",
+                "0"
+              ]
+            ]
+          },
+          "hole3": {
+            "+m (E,Q,S)": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "-1",
+                "0"
+              ],
+              [
+                "1",
+                "0"
+              ]
+            ],
+            "-m independent (E,Q,S)": [
+              [
+                "1",
+                "0"
+              ],
+              [
+                "-1",
+                "0"
+              ],
+              [
+                "-1",
+                "0"
+              ]
+            ]
+          }
+        },
+        "statement": "an independently (positively) quantised -m universe: (E, Q, S) -> (E, Q, -S); its energy-momentum does NOT cancel that of the +m universe"
+      }
+    },
+    "S5_T2frame": {
+      "unitVectors": {
+        "results": 12,
+        "statement": "u = v_a gamma^a with u^2 = n(u) = +-1"
+      },
+      "characterIsMinusNorm": {
+        "results": 12,
+        "statement": "chi(u) = -n(u)"
+      },
+      "untwistedAdjointIsMinusReflection": {
+        "results": 12,
+        "statement": "u gamma^a u^{-1} = -R_u(gamma^a) (R_u the hyperplane reflection)"
+      },
+      "frameReflectionsGeometry": {
+        "results": 24,
+        "statement": "e -> e R_u (twisted) / e -> -e R_u (untwisted): g, sqrt|g| unchanged, Omega -> u Omega u^{-1}, gamma^mu -> -+ u gamma^mu u^{-1}"
+      },
+      "scalarAndCurrentSigns": {
+        "results": 36,
+        "statement": "kinetic term -> sK K, S -> sS S, j -> sK j with sK = -chi (twisted) / chi (untwisted), sS = chi; gamma^8 u flips sK"
+      },
+      "twistedSpacelikeMapsToMinusMSameLambda": {
+        "results": 6,
+        "statement": "space-like u (chi = -1), twisted: L_{m,lam}[e R_u, u Psi] = L_{-m,lam}[e, Psi], T -> +T (same metric), S -> -S, j -> +j"
+      },
+      "onShellImage": {
+        "results": 2,
+        "statement": "Psi on shell for (-m, lam) in the frame e => u Psi on shell for (m, lam) in the frame e R_u (not for (-m, lam))"
+      },
+      "untwistedSpacelikeContractE3": {
+        "results": 6,
+        "statement": "space-like u, untwisted: L -> -L_{m,-lam} (CONTRACT E3)"
+      },
+      "gamma8TimesUntwistedSpacelike": {
+        "results": 6,
+        "statement": "gamma^8 u, untwisted, space-like: L -> +L_{-m,lam}"
+      },
+      "twistedTimelike": {
+        "results": 6,
+        "statement": "time-like u (chi = +1), twisted: L -> -L_{-m,-lam}, T -> -T"
+      },
+      "untwistedTimelikeSymmetry": {
+        "results": 6,
+        "statement": "time-like u, untwisted: exact symmetry"
+      },
+      "gamma8TimesUntwistedTimelike": {
+        "results": 6,
+        "statement": "gamma^8 u, untwisted, time-like: L -> -L_{-m,-lam}"
+      },
+      "table": [
+        {
+          "u": "gamma^0",
+          "vector": [
+            "1",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0"
+          ],
+          "norm": "1",
+          "character": -1,
+          "uBudaggerSign": 1,
+          "twisted_u": {
+            "sK": 1,
+            "sS": -1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]"
+          },
+          "untwisted_u": {
+            "sK": -1,
+            "sS": -1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi]"
+          },
+          "untwisted_gamma8u": {
+            "sK": 1,
+            "sS": -1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+          }
+        },
+        {
+          "u": "gamma^1",
+          "vector": [
+            "0",
+            "1",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0"
+          ],
+          "norm": "1",
+          "character": -1,
+          "uBudaggerSign": 1,
+          "twisted_u": {
+            "sK": 1,
+            "sS": -1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]"
+          },
+          "untwisted_u": {
+            "sK": -1,
+            "sS": -1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi]"
+          },
+          "untwisted_gamma8u": {
+            "sK": 1,
+            "sS": -1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+          }
+        },
+        {
+          "u": "gamma^2",
+          "vector": [
+            "0",
+            "0",
+            "1",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0"
+          ],
+          "norm": "1",
+          "character": -1,
+          "uBudaggerSign": 1,
+          "twisted_u": {
+            "sK": 1,
+            "sS": -1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]"
+          },
+          "untwisted_u": {
+            "sK": -1,
+            "sS": -1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi]"
+          },
+          "untwisted_gamma8u": {
+            "sK": 1,
+            "sS": -1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+          }
+        },
+        {
+          "u": "gamma^3",
+          "vector": [
+            "0",
+            "0",
+            "0",
+            "1",
+            "0",
+            "0",
+            "0",
+            "0"
+          ],
+          "norm": "1",
+          "character": -1,
+          "uBudaggerSign": 1,
+          "twisted_u": {
+            "sK": 1,
+            "sS": -1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]"
+          },
+          "untwisted_u": {
+            "sK": -1,
+            "sS": -1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi]"
+          },
+          "untwisted_gamma8u": {
+            "sK": 1,
+            "sS": -1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+          }
+        },
+        {
+          "u": "gamma^4",
+          "vector": [
+            "0",
+            "0",
+            "0",
+            "0",
+            "1",
+            "0",
+            "0",
+            "0"
+          ],
+          "norm": "-1",
+          "character": 1,
+          "uBudaggerSign": 1,
+          "twisted_u": {
+            "sK": -1,
+            "sS": 1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]"
+          },
+          "untwisted_u": {
+            "sK": 1,
+            "sS": 1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi]"
+          },
+          "untwisted_gamma8u": {
+            "sK": -1,
+            "sS": 1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+          }
+        },
+        {
+          "u": "gamma^5",
+          "vector": [
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "1",
+            "0",
+            "0"
+          ],
+          "norm": "-1",
+          "character": 1,
+          "uBudaggerSign": -1,
+          "twisted_u": {
+            "sK": -1,
+            "sS": 1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]"
+          },
+          "untwisted_u": {
+            "sK": 1,
+            "sS": 1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi]"
+          },
+          "untwisted_gamma8u": {
+            "sK": -1,
+            "sS": 1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+          }
+        },
+        {
+          "u": "gamma^6",
+          "vector": [
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "1",
+            "0"
+          ],
+          "norm": "-1",
+          "character": 1,
+          "uBudaggerSign": -1,
+          "twisted_u": {
+            "sK": -1,
+            "sS": 1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]"
+          },
+          "untwisted_u": {
+            "sK": 1,
+            "sS": 1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi]"
+          },
+          "untwisted_gamma8u": {
+            "sK": -1,
+            "sS": 1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+          }
+        },
+        {
+          "u": "gamma^7",
+          "vector": [
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "1"
+          ],
+          "norm": "-1",
+          "character": 1,
+          "uBudaggerSign": -1,
+          "twisted_u": {
+            "sK": -1,
+            "sS": 1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]"
+          },
+          "untwisted_u": {
+            "sK": 1,
+            "sS": 1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi]"
+          },
+          "untwisted_gamma8u": {
+            "sK": -1,
+            "sS": 1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+          }
+        },
+        {
+          "u": "spacelikeInteger",
+          "vector": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1",
+            "1",
+            "1",
+            "0"
+          ],
+          "norm": "1",
+          "character": -1,
+          "uBudaggerSign": 0,
+          "twisted_u": {
+            "sK": 1,
+            "sS": -1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]"
+          },
+          "untwisted_u": {
+            "sK": -1,
+            "sS": -1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi]"
+          },
+          "untwisted_gamma8u": {
+            "sK": 1,
+            "sS": -1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+          }
+        },
+        {
+          "u": "spacelikeRational",
+          "vector": [
+            "3/5",
+            "4/5",
+            "1/2",
+            "1/2",
+            "1/2",
+            "1/2",
+            "0",
+            "0"
+          ],
+          "norm": "1",
+          "character": -1,
+          "uBudaggerSign": 0,
+          "twisted_u": {
+            "sK": 1,
+            "sS": -1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[e R_u, u Psi] = +L_{-m,lambda}[e, Psi]"
+          },
+          "untwisted_u": {
+            "sK": -1,
+            "sS": -1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, u Psi] = -L_{m,-lambda}[e, Psi]"
+          },
+          "untwisted_gamma8u": {
+            "sK": 1,
+            "sS": -1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, gamma^8 u Psi] = +L_{-m,lambda}[e, Psi]"
+          }
+        },
+        {
+          "u": "timelikeInteger",
+          "vector": [
+            "1",
+            "1",
+            "1",
+            "0",
+            "1",
+            "1",
+            "1",
+            "1"
+          ],
+          "norm": "-1",
+          "character": 1,
+          "uBudaggerSign": 0,
+          "twisted_u": {
+            "sK": -1,
+            "sS": 1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]"
+          },
+          "untwisted_u": {
+            "sK": 1,
+            "sS": 1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi]"
+          },
+          "untwisted_gamma8u": {
+            "sK": -1,
+            "sS": 1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+          }
+        },
+        {
+          "u": "timelikeRational",
+          "vector": [
+            "1/2",
+            "0",
+            "1/2",
+            "0",
+            "3/5",
+            "4/5",
+            "1/2",
+            "1/2"
+          ],
+          "norm": "-1",
+          "character": 1,
+          "uBudaggerSign": 0,
+          "twisted_u": {
+            "sK": -1,
+            "sS": 1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[e R_u, u Psi] = -L_{-m,-lambda}[e, Psi]"
+          },
+          "untwisted_u": {
+            "sK": 1,
+            "sS": 1,
+            "sj": 1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, u Psi] = L_{m,lambda}[e, Psi]"
+          },
+          "untwisted_gamma8u": {
+            "sK": -1,
+            "sS": 1,
+            "sj": -1,
+            "L": true,
+            "T": true,
+            "result": "L_{m,lambda}[-e R_u, gamma^8 u Psi] = -L_{-m,-lambda}[e, Psi]"
+          }
+        }
+      ],
+      "couplings": {
+        "m": "5/3",
+        "lam": "-2/7"
+      }
+    },
+    "S5_T2z2": {
+      "geometry": {
+        "statement": "h_mu(y) = h_mu(-y) (W = e^{-H|y|} even): y -> -y is an isometry; Omega^+_mu(y) = gamma^0 Omega^-_mu(-y) gamma^0 (the frame reflection of e_0); gamma^mu Omega_mu = -3H gamma^0 (y > 0) and +3H gamma^0 (y < 0); vielbein postulate on both patches",
+        "W(y>0)": "exp(-H*y)",
+        "W(-y)": "exp(-H*y)"
+      },
+      "diracOperator": "gamma^mu D_mu Psi'(y) = -gamma^0 (gamma^mu D_mu Psi)(-y) for Psi'(y) = gamma^0 Psi(-y) (all 9 data components, both patches)",
+      "scalarOdd": "S[Psi'](y) = -S[Psi](-y) (gamma^0 C gamma^0 = -C)",
+      "kineticEven": "K[Psi'](y) = K[Psi](-y)",
+      "lagrangianEven": "L_{-m,lam}[Psi'](y) = L_{m,lam}[Psi](-y) with the quartic term; sqrt|g| = W^6 is even",
+      "fieldEquationMapsToMinusMSameLambda": "E_{-m,lam}[Psi'](y) = -gamma^0 E_{m,lam}[Psi](-y) (with the cubic term): Psi solves (m, lam) on y < 0 iff Psi' solves (-m, lam) on y > 0 (the SAME lambda)",
+      "sameMassFails": "with the same mass: E_{m,lam}[Psi'](y) + gamma^0 E_{m,lam}[Psi](-y) = -2m gamma^0 Psi(-y) != 0",
+      "massFunctionMap": "for a mass function m(y): E_{m(y)}[Psi'](y) = -gamma^0 E_{-m(y)}[Psi](-y): the image solves the equation with the mass function y -> -m(-y)",
+      "symmetricIffOddMass": "a Z2-symmetric configuration Psi(y) = gamma^0 Psi(-y) solves the equations on both sides with ONE mass function m iff (m(y) + m(-y)) Psi(-y) = 0, i.e. iff m is odd where Psi != 0: the -M mirror universe",
+      "emtPullback": {
+        "components": 64,
+        "statement": "T'_{mu nu}(y) = s_mu s_nu T_{mu nu}(-y), s = (-1, 1, ..., 1) (order y, x1..x7) for Psi' with (-m, lam): kinetic parts pulled back, L_s even, S odd, g_{mu nu} even: the EMT of the mirror universe is the pull-back (same energy density and pressures)"
+      },
+      "currentPullback": "j'^mu(y) = s_mu j^mu(-y): the charge density j^4 is even",
+      "PBfieldLevelFlipsLambda": "P_B: Psi'(y) = i gamma^0 gamma^8 Psi(-y): D Psi' = P_B (D Psi)(-y), S -> -S, K -> -K, hence E_{m,-lam}[Psi'](y) = P_B E_{m,lam}[Psi](-y) and L_{m,-lam}[Psi'](y) = -L_{m,lam}[Psi](-y)",
+      "ruleParities": {
+        "table": {
+          "n": {
+            "P_A": "even",
+            "P_B": "even"
+          },
+          "s": {
+            "P_A": "odd",
+            "P_B": "even"
+          },
+          "t": {
+            "P_A": "even",
+            "P_B": "even"
+          },
+          "c": {
+            "P_A": "odd",
+            "P_B": "odd"
+          }
+        },
+        "note": "expectation-rule matrices n = B B, s = BC, t = -gamma^4 gamma^1, c = gamma^0 gamma^4: the rule matrix BC is P_B-even while C is P_B-odd"
+      },
+      "PBRuleMatrixEvenCOdd": "P_B BC P_B = BC, P_B C P_B = -C: P_B is a same-lambda symmetry only at the mean-field level with the expectation rule, not at the field level"
+    },
+    "S5_T3block": {
+      "gamma8IsSigma2BetweenPartnerBlocks": {
+        "phasesByTargetBlock": [
+          [
+            "1",
+            "0"
+          ],
+          [
+            "1",
+            "0"
+          ],
+          [
+            "-1",
+            "0"
+          ],
+          [
+            "-1",
+            "0"
+          ],
+          [
+            "1",
+            "0"
+          ],
+          [
+            "1",
+            "0"
+          ],
+          [
+            "-1",
+            "0"
+          ],
+          [
+            "-1",
+            "0"
+          ]
+        ],
+        "statement": "V^dagger gamma^8 V maps block (j, s2, s3) onto (-j, s2, s3) as c sigma2 (|c| = 1)"
+      },
+      "gamma8PhasesByTargetBlock": [
+        1,
+        1,
+        -1,
+        -1,
+        1,
+        1,
+        -1,
+        -1
+      ],
+      "gamma1IsSigma1InEveryBlock": {
+        "phases": [
+          [
+            "-1",
+            "0"
+          ],
+          [
+            "-1",
+            "0"
+          ],
+          [
+            "-1",
+            "0"
+          ],
+          [
+            "-1",
+            "0"
+          ],
+          [
+            "-1",
+            "0"
+          ],
+          [
+            "-1",
+            "0"
+          ],
+          [
+            "-1",
+            "0"
+          ],
+          [
+            "-1",
+            "0"
+          ]
+        ]
+      },
+      "gamma1Phases": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "gamma0IsSigma3": "gamma^0 = sigma3 in every block (block diagonal)",
+      "otherGammasTargetBlocks": {
+        "gamma^2": [
+          [
+            6
+          ],
+          [
+            7
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            0
+          ],
+          [
+            1
+          ]
+        ],
+        "gamma^3": [
+          [
+            6
+          ],
+          [
+            7
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            0
+          ],
+          [
+            1
+          ]
+        ],
+        "gamma^5": [
+          [
+            5
+          ],
+          [
+            4
+          ],
+          [
+            7
+          ],
+          [
+            6
+          ],
+          [
+            1
+          ],
+          [
+            0
+          ],
+          [
+            3
+          ],
+          [
+            2
+          ]
+        ],
+        "gamma^6": [
+          [
+            5
+          ],
+          [
+            4
+          ],
+          [
+            7
+          ],
+          [
+            6
+          ],
+          [
+            1
+          ],
+          [
+            0
+          ],
+          [
+            3
+          ],
+          [
+            2
+          ]
+        ],
+        "gamma^7": [
+          [
+            4
+          ],
+          [
+            5
+          ],
+          [
+            6
+          ],
+          [
+            7
+          ],
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "blockODEMaps": {
+        "results": {
+          "sigma2": true,
+          "sigma1": true,
+          "sigma3": true,
+          "antiunitary": true,
+          "sigma2K": true
+        },
+        "N_j(M, k)": "M sigma3 - kappa k sigma2 + i j (eps - v_v) sigma1",
+        "sigma2": "sigma2 N_j(M, k) sigma2 = N_{-j}(-M, k)",
+        "sigma1": "sigma1 N_j(M, k) sigma1 = N_j(-M, -k)",
+        "sigma3": "-sigma3 N_j(M, k) sigma3 = N_j(-M, k) (with y -> -y)",
+        "antiunitary": "K N_j(M, k) K = N_{-j}(M, -k)",
+        "sigma2K": "sigma2 K: (j, M, k) -> (j, -M, -k)"
+      },
+      "sixteenComponentODEMaps": "gamma^8 N(M, k) gamma^8 = N(-M, k), gamma^1 N(M, k) gamma^1 = N(-M, -k), N = M gamma^0 - i kappa k gamma^0 gamma^1 + i (eps - v_v) gamma^0 gamma^4",
+      "hamiltonianMaps": "sigma2 h_j(M, k) = h_{-j}(-M, k) sigma2 and sigma1 h_j(M, k) = h_j(-M, -k) sigma1 as differential operators, v_v unchanged (h_j = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v_v)",
+      "parityMap": "even parity chi_2(0) = 0 <-> odd parity chi_1(0) = 0 under sigma2 and sigma1 (p -> -p); unchanged under sigma3",
+      "bagAngleMap": {
+        "sigma2": "sigma2 Q(theta) sigma2 = Q(pi - theta)",
+        "sigma1": "sigma1 Q(theta) sigma1 = Q(theta + pi)",
+        "sigma3": "sigma3 Q(theta) sigma3 = Q(-theta)",
+        "stage4Default": "theta = 0 (chi_2(-L) = 0) -> theta = pi (chi_1(-L) = 0) under sigma2 and sigma1",
+        "asymptoticBag": "theta(k) = -sgn(k) pi/2 is mapped onto itself (sigma2: same k; sigma1: k -> -k)"
+      },
+      "sigma2IsRustSwap": "chi = (a, i b): sigma2 (a, i b) = (b, i a), the component swap a <-> b",
+      "densityAndCurrentMaps": {
+        "signs (n, s, t, c)": {
+          "sigma2": [
+            1,
+            -1,
+            1,
+            1
+          ],
+          "sigma1": [
+            1,
+            -1,
+            -1,
+            1
+          ],
+          "sigma3": [
+            1,
+            -1,
+            1,
+            -1
+          ]
+        },
+        "densities": "n = chi^dagger chi, s = j chi^dagger sigma2 chi, t = j chi^dagger sigma3 chi, c = j chi^dagger sigma1 chi",
+        "imageRule": "with the Krein metric -B of the gamma^8 image every one-body density flips in addition: sigma2 route (n, s, t, c) -> (-n, s, -t, -c)"
+      },
+      "densitySigns": {
+        "sigma2": [
+          1,
+          -1,
+          1,
+          1
+        ],
+        "sigma1": [
+          1,
+          -1,
+          -1,
+          1
+        ],
+        "sigma3": [
+          1,
+          -1,
+          1,
+          -1
+        ]
+      },
+      "densityMaps16": "on 16-component orbitals of the Stage-4 blocks: u -> gamma^8 u gives (n, s, t, c) -> (n, -s, t, c) with the standard rule and (-n, s, -t, -c) with the image rule",
+      "potentialsStandardRule": {
+        "map": "(m, lam, n, S) -> (-m, lam, n, -S): M_eff -> -M_eff, v_s -> -v_s, v_v -> v_v, e_H + e_x invariant",
+        "withMinusLambda": "M_eff(-m, -lam, n, -S) + M_eff = 2 lam S (1 + sg/16) != 0: fails for lam S != 0"
+      },
+      "potentialsImageRule": "(m, lam, n, S) -> (-m, -lam, -n, S): M_eff -> -M_eff, v_v -> v_v, e_H + e_x -> -(e_H + e_x)",
+      "statisticsCoefficients": {
+        "M_eff": "m + (1 + sg/16) lam S_p",
+        "dirac16complex": "m + (15/16) lam S_p",
+        "dirac16complex00": "m + (17/16) lam S_p"
+      }
+    },
+    "S5_T3ks": {
+      "stationarityBothStatistics": "d e / d chi_i^* = f_i h_KS chi_i with h_KS = j[-i sigma1 d_y + M_eff sigma2 + kappa k sigma3] + v_v, M_eff = m + lam S_p + v_s, v_s = sg (lam/16) S_p, v_v = sg (lam/16) n_p (sg symbolic: both statistics)",
+      "sigma2FunctionalInvariant": "E[sigma2 chi; j -> -j, -m, lam] = E[chi; j, m, lam] for sg = +-1 (entropy terms depend on f only)",
+      "sigma2Densities": "n_p -> n_p, S_p -> -S_p",
+      "sigma2KSOperatorEquivariant": {
+        "statement": "sigma2 h_KS,j[m, lam; n, S] = h_KS,-j[-m, lam; n, -S] sigma2: the SCF map is equivariant",
+        "negativeControl": "the ordinary KS problem with -lam (and the mapped densities) does NOT map"
+      },
+      "sigma1FunctionalInvariant": "sigma1 route (gamma^1: same j, k -> -k): E[sigma1 chi; -m, -k] = E[chi; m, k] (closed shells {k, -k})",
+      "imageRuleEnergyOdd": "Krein image (metric -B, -lam): n -> -n, S -> S, E -> -E, and the image orbitals sigma2 chi solve the KS equations of (-m, -lam) with the image densities",
+      "occupationsAndTemperature": "f_FD(eps; mu, T) = f_FD(-eps; -mu, -T); the Mermin stationarity eps - mu + T ln(f/(1-f)) = 0 maps onto itself for (-eps, -mu, -T): the image is a stationary state of F_- at temperature -T, F_-(-T) = -F_+(T)",
+      "zeroModePlusM": "+M, even parity chi_2(0) = 0, bag theta = 0 (chi_2(-L) = 0): chi = (e^{My}, 0), eps = 0",
+      "zeroModeImage": "image sigma2 chi = (0, i e^{My}) solves the -M block (-j) with chi_1 = 0 at y = 0 and y = -L (odd parity, theta = pi)",
+      "zeroModeUntransformedControl": {
+        "statement": "-M with the untransformed BCs (even parity, theta = 0): chi = (e^{-My}, 0), eps = 0, localised at the tip",
+        "braneToTipDensityRatio": {
+          "control": "exp(-2*L*M)",
+          "+M": "exp(2*L*M)"
+        }
+      },
+      "zeroModeSplittingMapsExactly": {
+        "c(M)": "2*M*(1 - exp(L*(H - 2*M)))*exp(-a4)/((1 - exp(-2*L*M))*(-H + 2*M))",
+        "note": "d eps/dk|_0 = j c(M) for +M (block j) and for the image (block -j, sigma3 = -1)"
+      },
+      "controlSplittingClosedForm": {
+        "c_ctrl": "2*M*(exp(L*(H + 2*M)) - 1)*exp(-a4)/((H + 2*M)*(exp(2*L*M) - 1))"
+      },
+      "controlDiffersFromPairedProblem": {
+        "atMEqualsH": "c_ctrl - c(M) = (2/3)(Y - 1)^2/(Y + 1) > 0, Y = e^{HL} > 1 (a4 = 0)",
+        "values_M1_H1_L3_a0 (float, labelled)": {
+          "cPlus": 1.9051482536448665,
+          "cControl": 13.421975197576822
+        }
+      },
+      "cValues_M1_H1_L3_a0_float": {
+        "cPlus": 1.9051482536448665,
+        "cControl": 13.421975197576822
+      },
+      "massiveLevelsMap": "eps = +-sqrt(M^2 + (n pi/L)^2): the +M even/theta = 0 orbital maps onto a -M odd/theta = pi orbital at the same eps (these levels coincide also for the untransformed control)",
+      "mixedSectorSolutions": {
+        "+M": "odd parity chi_1(0) = 0, theta = 0: eps = +-sqrt(M^2 + q^2), q cos(qL) + M sin(qL) = 0",
+        "control": "-M, same BCs: q cos(qL) - M sin(qL) = 0",
+        "transformed": "-M, even parity with theta = pi (the image): the same condition as +M"
+      },
+      "controlMixedSectorLevelsDisjoint": "q cos qL + M sin qL = 0 and q cos qL - M sin qL = 0 have no common solution (sin^2 + cos^2 = 1, M, q > 0)",
+      "controlSubGapBoundState": {
+        "statement": "control (-M, odd parity, theta = 0): chi = (sinh(ky), ...), |eps| = sqrt(M^2 - k^2) < M with tanh(kL) = k/M: a root k in (0, M) iff ML > 1; +M: k cosh kL + M sinh kL > 0, no bound state",
+        "M1_L3": "tanh(3/2) > 1/2 (e^3 > 3) and tanh(3) < 1: root in (1/2, 1)",
+        "root_float_labelled": 0.9949015284526289
+      }
+    },
+    "S5_T3emt": {
+      "gamma8OperatorIdentity64": {
+        "components": 64,
+        "statement": "gamma^8 X_{mu nu}(-m, -M_eff) gamma^8 = -X_{mu nu}(m, M_eff)"
+      },
+      "standardRulePlusT": "(gamma^8 chi)^dagger B X(-m, -M_eff) (gamma^8 chi) = chi^dagger B X(m, M_eff) chi: T -> +T (gamma^8 B gamma^8 = -B)",
+      "imageRuleMinusT": "with the Krein metric -B of the image: T -> -T",
+      "stage4CrossCheck": {
+        "orbitalEMT": {
+          "rho = T_44": {
+            "n": "eps - vv",
+            "s": "-M + m",
+            "t": "0",
+            "c": "0"
+          },
+          "p_y = T_00": {
+            "n": "eps",
+            "s": "-m",
+            "t": "-k*exp(-H*y - a4)",
+            "c": "0"
+          },
+          "p_1 = T^1_1": {
+            "n": "vv",
+            "s": "M - m",
+            "t": "k*exp(-H*y - a4)",
+            "c": "0"
+          },
+          "p_2 = T^2_2": {
+            "n": "vv",
+            "s": "M - m",
+            "t": "0",
+            "c": "0"
+          },
+          "p_3 = T^3_3": {
+            "n": "vv",
+            "s": "M - m",
+            "t": "0",
+            "c": "0"
+          },
+          "p_t = T^5_5": {
+            "n": "vv",
+            "s": "M - m",
+            "t": "0",
+            "c": "0"
+          }
+        },
+        "blocks": [
+          0,
+          4
+        ],
+        "statement": "reduced to the Stage-4 blocks the kernels give rho = (eps - v_v) n - (M_eff - m) s, p_y = eps n - m s - kappa k t, p_1 = v_v n + (M_eff - m) s + kappa k t, p_2 = p_3 = p_t = v_v n + (M_eff - m) s (per e^{-6Hy}/l^3; STAGE4 emt family)"
+      },
+      "orbitalFormulasMap": "the per-orbital rho, p_y, p_(i) are invariant under the standard-rule map and change sign under the image rule; the interaction part e_H + e_x is invariant (standard) / odd (image, -lam), so the KS-state EMT maps the same way",
+      "connectionClosedForms": "own spin connection: Omega_i = -W' e^{a4} S^{0i} (i = 1..3), Omega_j = +W' e^{-a4} S^{0j} (j = 5..7), Omega_y = Omega_4 = 0 (the Stage-4 closed forms)"
+    },
+    "S5_stat": {
+      "testUnitaries": "three exact unitaries (identity and two Cayley transforms of anti-Hermitian Gaussian-integer matrices) and Hermitian A, B with Gaussian-integer entries",
+      "fermionQuasiFreeStates": "D = prod_n [(1 - f_n) c c^+ + f_n c^+ c]: Tr D = 1, <psi^+ A psi> = Tr(A rho), rho = U diag(f) U^+ (pure Slater determinants and mixed states)",
+      "fermionWickMinus": {
+        "statement": "<:(psi^+ A psi)(psi^+ B psi):> = Tr(A rho) Tr(B rho) - Tr(A rho B rho); the full product adds Tr(A B rho) (12 states: 3 bases x 4 occupation sets)",
+        "cases": [
+          {
+            "basis": "identity",
+            "f": [
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "<:(psi^+ A psi)(psi^+ B psi):>": [
+              "-1",
+              "0"
+            ]
+          },
+          {
+            "basis": "identity",
+            "f": [
+              "1",
+              "1",
+              "0",
+              "0"
+            ],
+            "<:(psi^+ A psi)(psi^+ B psi):>": [
+              "5",
+              "0"
+            ]
+          },
+          {
+            "basis": "identity",
+            "f": [
+              "1/3",
+              "2/5",
+              "1/7",
+              "3/4"
+            ],
+            "<:(psi^+ A psi)(psi^+ B psi):>": [
+              "-1741/420",
+              "0"
+            ]
+          },
+          {
+            "basis": "identity",
+            "f": [
+              "1/2",
+              "1/2",
+              "1/2",
+              "1/2"
+            ],
+            "<:(psi^+ A psi)(psi^+ B psi):>": [
+              "-13/4",
+              "0"
+            ]
+          },
+          {
+            "basis": "U1",
+            "f": [
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "<:(psi^+ A psi)(psi^+ B psi):>": [
+              "-11909/1009",
+              "0"
+            ]
+          },
+          {
+            "basis": "U1",
+            "f": [
+              "1",
+              "1",
+              "0",
+              "0"
+            ],
+            "<:(psi^+ A psi)(psi^+ B psi):>": [
+              "2157/1009",
+              "0"
+            ]
+          },
+          {
+            "basis": "U1",
+            "f": [
+              "1/3",
+              "2/5",
+              "1/7",
+              "3/4"
+            ],
+            "<:(psi^+ A psi)(psi^+ B psi):>": [
+              "-213629/84756",
+              "0"
+            ]
+          },
+          {
+            "basis": "U1",
+            "f": [
+              "1/2",
+              "1/2",
+              "1/2",
+              "1/2"
+            ],
+            "<:(psi^+ A psi)(psi^+ B psi):>": [
+              "-13/4",
+              "0"
+            ]
+          },
+          {
+            "basis": "U2",
+            "f": [
+              "1",
+              "0",
+              "1",
+              "0"
+            ],
+            "<:(psi^+ A psi)(psi^+ B psi):>": [
+              "-10505/8033",
+              "0"
+            ]
+          },
+          {
+            "basis": "U2",
+            "f": [
+              "1",
+              "1",
+              "0",
+              "0"
+            ],
+            "<:(psi^+ A psi)(psi^+ B psi):>": [
+              "1345/8033",
+              "0"
+            ]
+          },
+          {
+            "basis": "U2",
+            "f": [
+              "1/3",
+              "2/5",
+              "1/7",
+              "3/4"
+            ],
+            "<:(psi^+ A psi)(psi^+ B psi):>": [
+              "-12001613/3373860",
+              "0"
+            ]
+          },
+          {
+            "basis": "U2",
+            "f": [
+              "1/2",
+              "1/2",
+              "1/2",
+              "1/2"
+            ],
+            "<:(psi^+ A psi)(psi^+ B psi):>": [
+              "-13/4",
+              "0"
+            ]
+          }
+        ]
+      },
+      "singleModeMoments": "geometric (thermal) number distribution (1 - q) q^k, q = f/(1 + f): <k> = f, <k^2> = f + 2 f^2 (exact series)",
+      "bosonThermalWickPlus": "bosonic thermal quasi-free states (symbolic occupations f0, f1, f2, a rational unitary basis change): <:(psi^+ A psi)(psi^+ B psi):> = Tr(A rho) Tr(B rho) + Tr(A rho B rho); full product + Tr(A B rho)",
+      "classicalGaussianWickPlus": "circular Gaussian ensemble, density (1/(pi f)) e^{-|c|^2/f} per mode: <c-bar^a c^b> = delta_ab a! f^a (exact integrals); <(psi^* A psi)(psi^* B psi)> = Tr(A rho) Tr(B rho) + Tr(A rho B rho), no Tr(A B rho) term",
+      "fixedAmplitudePhasesDeviate": "random phases with FIXED amplitudes |c_n|^2 = f_n: the Gaussian result minus sum_n f_n^2 (U^+AU)_nn (U^+BU)_nn",
+      "expectationRuleTraces": "with the two-point function G = rho B of the rule: Tr(C G) = Tr(BC rho), Tr(C G C G) = Tr(BC rho BC rho); hence E_HF = (lam/2)[Tr(BC rho)^2 + sg Tr(BC rho BC rho)], sg = -1 (anticommuting), +1 (commuting)",
+      "expectationRuleKreinFock": {
+        "statement": "anticommuting Krein-Fock field on 4 moving-shell modes (m = 7, p = 24, E = 25) with BOTH Krein signs: <:S^2:> = Tr(BC rho)^2 - Tr(BC rho BC rho), <S> = Tr(BC rho)",
+        "cases": [
+          {
+            "occupied": [
+              0
+            ],
+            "<:S^2:>": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "49/625",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "49/625",
+              "0"
+            ]
+          },
+          {
+            "occupied": [
+              1
+            ],
+            "<:S^2:>": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "49/625",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "49/625",
+              "0"
+            ]
+          },
+          {
+            "occupied": [
+              0,
+              1
+            ],
+            "<:S^2:>": [
+              "-2",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "2",
+              "0"
+            ]
+          },
+          {
+            "occupied": [
+              0,
+              2
+            ],
+            "<:S^2:>": [
+              "98/625",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "196/625",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "98/625",
+              "0"
+            ]
+          },
+          {
+            "occupied": [
+              1,
+              3
+            ],
+            "<:S^2:>": [
+              "98/625",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "196/625",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "98/625",
+              "0"
+            ]
+          },
+          {
+            "occupied": [
+              2,
+              3
+            ],
+            "<:S^2:>": [
+              "-2",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "2",
+              "0"
+            ]
+          },
+          {
+            "occupied": [
+              0,
+              1,
+              2
+            ],
+            "<:S^2:>": [
+              "-2",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "49/625",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "1299/625",
+              "0"
+            ]
+          },
+          {
+            "occupied": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "<:S^2:>": [
+              "-4",
+              "0"
+            ],
+            "Tr(BC rho)^2": [
+              "0",
+              "0"
+            ],
+            "Tr(BC rho BC rho)": [
+              "4",
+              "0"
+            ]
+          }
+        ]
+      },
+      "filledShellExchangeRatio": {
+        "Tr(BC P+)": [
+          "16/5",
+          "0"
+        ],
+        "Tr(BC P+ BC P+)": [
+          "32/25",
+          "0"
+        ],
+        "ratio": "1/8",
+        "statement": "E_x = sg (lam/2) Tr(BC P BC P) = sg E_H / 8: -E_H/8 (dirac16complex), +E_H/8 (dirac16complex00)"
+      },
+      "filledShellRatio": "1/8",
+      "uniformGasExactFinite": {
+        "gas": "m = 2, 11 momenta closed under p -> -p on the shells E = 2, 3, 4, 5 (exact), arbitrary isotropic occupations f_+(E), f_-(E); rho = sum [f_+ P_+(p) - f_- P_-(p)] (holes of the sea)",
+        "n": [
+          "510808/15015",
+          "0"
+        ],
+        "S": [
+          "2403416/75075",
+          "0"
+        ],
+        "Tr(BC rho BC rho)": [
+          "768720549416/5636255625",
+          "0"
+        ],
+        "statement": "Tr(BC rho BC rho) = (n^2 + S^2)/16 exactly: e_x = sg (lam/32)(n^2 + S^2) for both statistics"
+      },
+      "uniformGasExchange": {
+        "kernel": "Tr(P_a(p) BC P_b(q) BC) = 4[1 + a b (m^2 - p.q)/(E_p E_q)] (exact trace table)",
+        "gas": "rho = int [f_+ P_+ - f_- P_-]: Tr(BC rho BC rho) = 4[(I0+ - I0-)^2 + (I1+ + I1-)^2] - 4 |J|^2 with I0 = int f, I1 = int f m/E, J = int (f_+ + f_-) p/E... = 0 for any occupation even under p -> -p",
+        "n": "8 (I0+ - I0-)",
+        "S": "8 (I1+ + I1-)",
+        "result": "e_x = sg (lam/2) Tr(BC rho BC rho) = sg (lam/32)(n^2 + S^2) for every T: -(lam/32)(n^2 + S^2) (dirac16complex), +(lam/32)(n^2 + S^2) (dirac16complex00)"
+      },
+      "ldaPotentials": {
+        "dirac16complex (sg=-1)": {
+          "v_v": "-lam*n/16",
+          "v_s": "-S*lam/16",
+          "M_eff": "15*S*lam/16 + m"
+        },
+        "dirac16complex00 (sg=+1)": {
+          "v_v": "lam*n/16",
+          "v_s": "S*lam/16",
+          "M_eff": "17*S*lam/16 + m"
+        },
+        "note": "M_eff = m + (15/16) lam S_p resp. m + (17/16) lam S_p; v_x = v_v"
+      },
+      "T0TotalDerivative": {
+        "statement": "at T = 0 along the gas: de_x/dn = sg (lam/16)[n + S m/E_F] (d = 3 and 4)",
+        "restGasLimit": "S -> n (m/E -> 1): e_x/e_H -> sg/8"
+      },
+      "expectationRuleCovarianceIndefinite": {
+        "eigenvalues of K = P_+ B (filled rest shell)": [
+          -1,
+          -1,
+          -1,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        "consequence": "K is indefinite: the dirac16complex00 KS model with the expectation rule is a formal (Krein-signed) Gaussian functional, not a probability ensemble of classical fields; with the positive covariance K = rho a filled shell has Tr(B P_+) = Tr(C P_+) = 0 (zero charge, zero scalar density) at rest and at the moving point m = 2, p = (0,1,2,4)"
+      },
+      "restShellCovarianceEigenvalues": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "S5_totals": {
+      "fieldLevelChiralPair": {
+        "field": "Stage-2 primordial field (notebook chart, arbitrary a4(t), generic point)",
+        "pair": "{(m, lam, Psi), (-m, -lam, gamma^8 Psi)}",
+        "totals": "T = 0 (64 components), j = 0, L = 0, S = 2 S",
+        "meaning": "the chiral {+M, -M} pair carries no energy-momentum, no charge and no action, at every x4"
+      },
+      "fieldLevelMirrorPair": {
+        "pair": "{(m, lam, e, Psi), (-m, lam, e R_u, u Psi)}, u = gamma^1 (space-like, chi = -1), G1 field at p2",
+        "totals": "T = 2T, j = 2j, L = 2L, S = 0: the mirror pair doubles the energy-momentum"
+      },
+      "ksMirrorPair": {
+        "orbital": "+M: chi = ((M sin qy + q cos qy)/(i eps), sin qy), q = n pi/L, block j = +1 (even parity, theta = 0); -M: sigma2 chi in block j = -1 (odd parity, theta = pi), the same eps",
+        "totals": "n_pair = 2n, S_pair = 0, rho, p_y, p_(i) doubled (standard rule); E_pair = 2E (same spectrum)"
+      },
+      "ksKreinImagePair": {
+        "totals": "Krein image (metric -B, -lam): n_pair = 0 (charge 0), rho_pair = p_pair = 0 pointwise, S_pair = 2 S_+",
+        "note": "the image values are the negatives of the standard-rule values of the mapped orbital"
+      }
+    },
+    "S5_pairingAgreesWithWolfram": {
+      "reportAllTrue": {
+        "wolframCheckCount": 141,
+        "wolframFailed": []
+      },
+      "sourcesCurrent": {
+        "comparedFiles": [
+          "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json",
+          "artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json",
+          "scripts/verify_dirac16complex_pairing.wls",
+          "wolfram/Dirac16ComplexGeometry.wl",
+          "wolfram/Dirac16ComplexPairing.wl"
+        ],
+        "note": "the Wolfram report and pairing-theory.json were produced from the current Wolfram sources and inputs"
+      },
+      "theoryChecksTrue": {
+        "referencedChecks": 66
+      },
+      "algebraMeasurements": {
+        "wolfram": [
+          456,
+          [
+            1,
+            1,
+            1,
+            1,
+            1,
+            -1,
+            -1,
+            -1
+          ]
+        ],
+        "python": [
+          456,
+          [
+            1,
+            1,
+            1,
+            1,
+            1,
+            -1,
+            -1,
+            -1
+          ]
+        ]
+      },
+      "monomialCounts": {
+        "wolfram": [
+          23552,
+          21504,
+          1288,
+          120
+        ],
+        "python": [
+          23552,
+          21504,
+          1288,
+          120
+        ],
+        "note": "generic-coefficient supports; an independent count of the same polynomials"
+      },
+      "kreinScalarDensities": {
+        "wolfram": "{1, 1, 1, 1}",
+        "python": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "blockMaps": {
+        "gamma8Phases": [
+          true,
+          [
+            [
+              "1",
+              "0"
+            ],
+            [
+              "1",
+              "0"
+            ],
+            [
+              "-1",
+              "0"
+            ],
+            [
+              "-1",
+              "0"
+            ],
+            [
+              "1",
+              "0"
+            ],
+            [
+              "1",
+              "0"
+            ],
+            [
+              "-1",
+              "0"
+            ],
+            [
+              "-1",
+              "0"
+            ]
+          ]
+        ],
+        "gamma1Phases": true,
+        "otherGammas": true,
+        "basisIdenticalToStage4Export": true
+      },
+      "densitySigns": {
+        "wolfram": {
+          "sigma2": [
+            1,
+            -1,
+            1,
+            1
+          ],
+          "sigma1": [
+            1,
+            -1,
+            -1,
+            1
+          ],
+          "sigma3": [
+            1,
+            -1,
+            1,
+            -1
+          ]
+        },
+        "python": {
+          "sigma2": [
+            1,
+            -1,
+            1,
+            1
+          ],
+          "sigma1": [
+            1,
+            -1,
+            -1,
+            1
+          ],
+          "sigma3": [
+            1,
+            -1,
+            1,
+            -1
+          ]
+        }
+      },
+      "zeroModeSplitting": {
+        "wolframFloats": [
+          1.9051482536448665,
+          13.421975197576822
+        ],
+        "pythonFloats": {
+          "cPlus": 1.9051482536448665,
+          "cControl": 13.421975197576822
+        }
+      },
+      "statisticsNumbers": {
+        "filledShellRatio": [
+          "1/8",
+          "1/8"
+        ],
+        "covarianceEigenvalues": [
+          -1,
+          -1,
+          -1,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "T2table": {
+        "rows": [
+          {
+            "u": "gamma^0",
+            "agrees": true
+          },
+          {
+            "u": "gamma^1",
+            "agrees": true
+          },
+          {
+            "u": "gamma^2",
+            "agrees": true
+          },
+          {
+            "u": "gamma^3",
+            "agrees": true
+          },
+          {
+            "u": "gamma^4",
+            "agrees": true
+          },
+          {
+            "u": "gamma^5",
+            "agrees": true
+          },
+          {
+            "u": "gamma^6",
+            "agrees": true
+          },
+          {
+            "u": "gamma^7",
+            "agrees": true
+          },
+          {
+            "u": "spacelikeGeneral",
+            "agrees": true
+          },
+          {
+            "u": "timelikeGeneral",
+            "agrees": true
+          }
+        ],
+        "note": "norm, character and Krein sign recomputed from the Wolfram vectors; result strings generated from the signs derived here (the sign pattern of the basis vectors is the one computed with G1 jets)"
+      },
+      "statementsAgree": {
+        "fragments": 26,
+        "missing": [],
+        "note": "each fragment states a result that the corresponding family of this checker computed (all of them passed); the fragment must occur in the Wolfram statement"
+      },
+      "honestyStatements": "pairing-theory.json keeps the non-claims: no creation rate/amplitude is derived; pair creation itself is interpretation"
+    }
+  },
+  "sourceSha256": {
+    "scripts/check_dirac16complex_pairing.py": "aca4e5a32fece02e1ae90aae7b36ae6f69323892adcbf9e65e541fcd1d58ad39",
+    "scripts/check_dirac16complex_kohn_sham_theory.py": "b03957b29e4c6f86b8f3da5704cb6bf429eabbfbc60cf250dae38aa9223d548e",
+    "scripts/d16c_geometry_sympy.py": "4f7eca4cf247354650ed9beb0b9c46530d14c9965f095979ea5ee24651af9f25",
+    "scripts/grassmann_algebra.py": "dfce851d3dc7ab82202a62d414cc259644a64a101f08e9ba80ed747faa8bc24c"
+  },
+  "inputSha256": {
+    "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
+    "artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json": "5b150b36e13b903c32b86e8debbaeda48798e0beb0bc6a216e416d2671f4e01a",
+    "artifacts/dirac16complex/pair-creation/pairing-theory.json": "5a267bd696391b131134577ccdcf7766b83f96f3eb32b9b8de60c9175b1ebf6a",
+    "artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json": "735534de950c7fb0327370c33caa275cf805aa91a41dee903e4eaec7a6fa0de8"
+  }
+}

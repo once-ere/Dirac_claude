@@ -182,10 +182,15 @@
 #   process: about 3 h (estimate); with -RefinedThermo two thermo processes
 #   share the machine as on 2026-09-26: about 3.5 h (estimate); with
 #   -SequentialRust the sum of all nine processes, about 4.5 h (estimate;
-#   about 7.5 h with -RefinedThermo).  The launcher of step 14 run on
-#   spectrum alone (canonical and refined as two concurrent processes,
-#   load about 25 %): 46 s, the canonical output byte-identical to the
-#   committed spectrum/ tree (15 files).
+#   about 7.5 h with -RefinedThermo).  The launcher of step 14 with the
+#   final build 3bbc395a (2026-09-30, scratch outputs): canonical and
+#   refined spectrum as two concurrent processes 46 s (load about 25 %);
+#   canonical scf and emt as two concurrent processes 620 s and 127 s
+#   (load about 100 %); all three byte-identical to the committed trees
+#   (15, 133 and 42 files), although the committed scf and emt trees were
+#   written by the builds 6e7d2a93 and 17b010b8 (crate README).  thermo
+#   (written by 6e7d2a93) was not re-run for this measurement (about
+#   2.5 h): step 15 is its first reproduction with the final build.
 #   Concurrency measurement (2026-09-30, binary 3bbc395a, the reduced
 #   --quick parameter matrix of all five subcommands, scratch outputs, load
 #   100 %): five concurrent processes 1025 s; the same five one after

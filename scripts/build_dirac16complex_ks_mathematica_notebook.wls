@@ -335,7 +335,7 @@ cellsBox = {
 
 cellsShooting = {
   section["NDSolve shooting for the k != 0 single-particle problem"],
-  text["The eigenvalue problem of one block type s at momentum k is solved by NDSolve shooting with the Pruefer angle derived above: theta' = s (eps - v_v(y)) + kappa(y) k cos(2 theta) - M_eff(y) sin(2 theta), theta(-L) = 0 (the tip bag b(-L) = 0), integrated to the brane; the level condition is Theta(eps) := theta(0; eps) = n pi (brane parity +, b(0) = 0) or pi/2 + n pi (parity -, a(0) = 0). Because Theta is strictly monotone in eps (increasing for s = +1, decreasing for s = -1), the integers n between Theta at the two window edges enumerate every level in the window exactly once (oscillation count: no level is missed), and n is the Pruefer index of the Rust output. The variational equation theta_eps' = s + (-2 kappa k sin(2 theta) - 2 M_eff cos(2 theta)) theta_eps, theta_eps(-L) = 0 (its coefficient was derived symbolically above), is integrated together with theta and gives the exact derivative dTheta/deps. The integration runs in u = y + L in [0, L], so that NDSolve never has to land on the endpoint y = 0 (landing there produced step-size warnings in a trial). ParametricNDSolveValue returns (Theta, dTheta/deps) as a function of (eps, k, s). For a constant potential NDSolve runs with its automatic method (non-stiff/stiff switching) at PrecisionGoal 13, AccuracyGoal 14; for the spline potentials of the self-consistent loop, whose third derivative jumps at each of the 301 nodes, the automatic method needed about 4600 steps per integration in a trial, and the explicit Runge-Kutta method of order 5 is used instead at PrecisionGoal 12, AccuracyGoal 13 (about 700 steps, Theta error about 1e-12 against a WorkingPrecision 24 reference in the same trial). Level search in a group (k, s, parity): Theta at the two window edges gives the targets; Theta is sampled at n_levels + 1 further equally spaced energies (a group without levels costs two integrations); each root of Theta(eps) - target is found by Newton's method with the exact derivative, started at the linear interpolation inside the sample cell that brackets the target and safeguarded by that bracket (a step that leaves it is replaced by bisection), and stopped after a Newton step below 1e-10 max(1, |eps|) (the error after such a step is of the order of its square, below the integration error). At every root the linear two-component system (a(-L) = 1, b(-L) = 0, with the accumulators Integral(a^2 + b^2), Integral(-2ab) and Integral(-kappa k (a^2 - b^2))) is integrated separately; it gives the matching residual |b(0)|/|chi(0)| (parity +) or |a(0)|/|chi(0)| (parity -) and the charges of the state of block type s, the scalar charge Integral(-2 s a b)/Integral(a^2 + b^2) (the scalar density of type s is -2 s a b, derived above) and the 3-space pressure charge Integral(-s kappa k (a^2 - b^2))/Integral(a^2 + b^2), i.e. the columns scalar_charge and pressure_charge of the Rust files. Both codes shoot on the same Pruefer form; they share no code: NDSolve versus CVODE, Newton with the variational derivative versus bracketing plus Illinois regula falsi in Rust, and the symbolic derivation of the Pruefer equation above."],
+  text["The eigenvalue problem of one block type s at momentum k is solved by NDSolve shooting with the Pruefer angle derived above: theta' = s (eps - v_v(y)) + kappa(y) k cos(2 theta) - M_eff(y) sin(2 theta), theta(-L) = 0 (the tip bag b(-L) = 0), integrated to the brane; the level condition is Theta(eps) := theta(0; eps) = n pi (brane parity +, b(0) = 0) or pi/2 + n pi (parity -, a(0) = 0). Because Theta is strictly monotone in eps (increasing for s = +1, decreasing for s = -1), the integers n between Theta at the two window edges enumerate every level in the window exactly once (oscillation count: no level is missed), and n is the Pruefer index of the Rust output. The variational equation theta_eps' = s + (-2 kappa k sin(2 theta) - 2 M_eff cos(2 theta)) theta_eps, theta_eps(-L) = 0 (its coefficient was derived symbolically above), is integrated together with theta and gives the exact derivative dTheta/deps. The integration runs in u = y + L in [0, L], so that NDSolve never has to land on the endpoint y = 0 (landing there produced step-size warnings in a trial). ParametricNDSolveValue returns (Theta, dTheta/deps) as a function of (eps, k, s). For a constant potential NDSolve runs with its automatic method (non-stiff/stiff switching) at PrecisionGoal 13, AccuracyGoal 14; for the spline potentials of the self-consistent loop, whose third derivative jumps at each of the 301 nodes, the automatic method needed about 4600 steps per integration in a trial, and the explicit Runge-Kutta method of order 5 is used instead at PrecisionGoal 12, AccuracyGoal 13 (about 700 steps, Theta error about 1e-12 against a WorkingPrecision 24 reference in the same trial). Level search in a group (k, s, parity): Theta at the two window edges gives the targets; Theta is sampled at n_levels + 1 further equally spaced energies (a group without levels costs two integrations); each root of Theta(eps) - target is found by Newton's method with the exact derivative, started at the linear interpolation inside the sample cell that brackets the target and safeguarded by that bracket (a step that leaves it is replaced by bisection), and stopped at the first Newton step below 1e-10 max(1, |eps|), which is taken (clipped to the bracket) (the error after such a step is of the order of its square, below the integration error). At every root the linear two-component system (a(-L) = 1, b(-L) = 0, with the accumulators Integral(a^2 + b^2), Integral(-2ab) and Integral(-kappa k (a^2 - b^2))) is integrated separately; it gives the matching residual |b(0)|/|chi(0)| (parity +) or |a(0)|/|chi(0)| (parity -) and the charges of the state of block type s, the scalar charge Integral(-2 s a b)/Integral(a^2 + b^2) (the scalar density of type s is -2 s a b, derived above) and the 3-space pressure charge Integral(-s kappa k (a^2 - b^2))/Integral(a^2 + b^2), i.e. the columns scalar_charge and pressure_charge of the Rust files. Both codes shoot on the same Pruefer form; they share no code: NDSolve versus CVODE, Newton with the variational derivative versus bracketing plus Illinois regula falsi in Rust, and the symbolic derivation of the Pruefer equation above."],
   inputCell[
     smoothOptions = {PrecisionGoal -> 13, AccuracyGoal -> 14};
     splineOptions = {Method -> {"ExplicitRungeKutta", "DifferenceOrder" -> 5}, PrecisionGoal -> 12, AccuracyGoal -> 13};
@@ -359,9 +359,8 @@ cellsShooting = {
         If[f == 0., Break[]];
         If[f fa < 0, b = x, a = x; fa = f];
         xn = x - f/d;
-        If[Min[a, b] < xn < Max[a, b],
-          If[Abs[xn - x] <= 10^-10 Max[1, Abs[x]], x = xn; Break[]],
-          xn = (a + b)/2];
+        If[Abs[xn - x] <= 10^-10 Max[1, Abs[x]], x = Clip[xn, {Min[a, b], Max[a, b]}]; Break[]];
+        If[! (Min[a, b] < xn < Max[a, b]), xn = (a + b)/2];
         x = xn];
       {x, iterations}];
     rootInBracket[theta_, k_, s_, target_, {lo_, hi_}, x0_] := Module[{flo = First[theta[N[lo], k, s]] - target, fhi = First[theta[N[hi], k, s]] - target},
@@ -390,15 +389,15 @@ cellsShooting = {
         "variationalDerivativeVsCentralDifference" -> Abs[Last[theta[0.7, 0.5, 1]] - fd]/Abs[fd]|>];
     toolTest
   ],
-  text["Zero-mode splitting, numerically: the parity +, index 0 level of each block type at small k (m = H = 1, L = 3, a4 = 0) gives the slope d eps/dk at k = 0 by Richardson extrapolation, (4 eps(h) - eps(2h))/(2h) = d eps/dk + O(h^2), h = 2e-4. The exact slope is -s c (j = -s)."],
+  text["Zero-mode splitting, numerically: the parity +, index 0 level of each block type at small k (m = H = 1, L = 3, a4 = 0) gives the slope d eps/dk at k = 0 by Richardson extrapolation, (4 eps(h) - eps(2h))/(2h) = d eps/dk + O(h^2), h = 1e-4 (tolerance 1e-6 for the O(h^2) truncation; the eigenvalue error of about 1e-13 contributes about 1e-9). The exact slope is -s c (j = -s)."],
   inputCell[
-    zeroModeSlope = Module[{theta = pruferThetaD[1. &, 0. &, 3., 1., 0., smoothOptions], h = 2 10^-4, level},
+    zeroModeSlope = Module[{theta = pruferThetaD[1. &, 0. &, 3., 1., 0., smoothOptions], h = 10^-4, level},
       level[k_, s_] := First[rootInBracket[theta, N[k], s, 0., {-0.2, 0.2}, 0.]];
       Association[Table[s -> (4 level[h, s] - level[2 h, s])/(2 h), {s, {1, -1}}]]];
     zeroModeSlopeDeviation = Max[Abs[zeroModeSlope[1] + N[cSplittingM1L3]], Abs[zeroModeSlope[-1] - N[cSplittingM1L3]]];
     {zeroModeSlope, N[cSplittingM1L3], zeroModeSlopeDeviation}
   ],
-  text["The six Rust free-spectrum files are recomputed completely: every representable shell n2 <= 16 (lattice multiplicity g(n2) = SquaresR[3, n2], the number of integer vectors with n1^2 + n2^2 + n3^2 = n2), both parities, both block types, every level in -4m <= eps <= 4m, with k = 0.25 m sqrt(n2) (torus spacing Delta k = 0.25 m). The two lists are matched by the key (n2, parity, s, Pruefer index); a missing or extra level makes the key lists differ. Compared: eps, the k and multiplicity (4 g) columns, scalar_charge and pressure_charge; the k = 0 levels are also compared with the exact box levels."],
+  text["The six Rust free-spectrum files are recomputed completely: every representable shell n2 <= 16 (lattice multiplicity g(n2) = SquaresR[3, n2], the number of integer vectors with n1^2 + n2^2 + n3^2 = n2), both parities, both block types, every level in -4m <= eps <= 4m, with k = 0.25 m sqrt(n2) (torus spacing Delta k = 0.25 m). The two lists are matched by the key (n2, parity, s, Pruefer index); a missing or extra level makes the key lists differ. Compared: eps, the k and multiplicity (4 g) columns, scalar_charge and pressure_charge; the k = 0 levels are also compared with the exact box levels. Tolerances: 1e-8 for eigenvalues and scalar charges (the acceptance threshold of the Rust code's own analytic box check, free_box_spectrum_analytic) and 1e-8 relative to max(1, |charge|) for the pressure charges, whose magnitude grows with k; the linear-system matching residuals must stay below 1e-8."],
   inputCell[
     freeSpectrumRun[config_] := Module[{mv, lv, t, idx, mF, vF, theta, ends, dk, mine = {}, rust, keysOK, matched},
       {mv, lv} = config; t = freeTables[config]; idx = t["index"];
@@ -415,6 +414,7 @@ cellsShooting = {
         "maxAbsDeviation" -> If[keysOK, Max[Abs[#[[1, "eps"]] - #[[2, "eps"]]] & /@ matched], Infinity],
         "maxScalarChargeDeviation" -> If[keysOK, Max[Abs[#[[1, "scalarCharge"]] - #[[2, "scalarCharge"]]] & /@ matched], Infinity],
         "maxPressureChargeDeviation" -> If[keysOK, Max[Abs[#[[1, "pressureCharge"]] - #[[2, "pressureCharge"]]] & /@ matched], Infinity],
+        "maxPressureChargeRelativeDeviation" -> If[keysOK, Max[Abs[#[[1, "pressureCharge"]] - #[[2, "pressureCharge"]]]/Max[1, Abs[#[[2, "pressureCharge"]]]] & /@ matched], Infinity],
         "kColumnMaxDeviation" -> If[keysOK, Max[Abs[#[[1, "k"]] - #[[2, "k"]]] & /@ matched], Infinity],
         "multiplicityColumnIdentical" -> keysOK && AllTrue[matched, #[[1, "multiplicity"]] == #[[2, "multiplicity"]] &],
         "k0VsExactBoxMaxAbsDeviation" -> Module[{k0 = SortBy[Select[mine, #["n2"] == 0 &], keyOf], exact = SortBy[boxLevelsExact[config], keyOf]}, If[(keyOf /@ k0) === (keyOf /@ exact), Max[Abs[k0[[All, "eps"]] - N[exact[[All, "eps"]]]]], Infinity]],
@@ -422,6 +422,21 @@ cellsShooting = {
         "mine" -> mine|>];
     freeSpectrumResults = AssociationMap[freeSpectrumRun, freeConfigurations];
     Dataset[KeyMap[freeFileName, KeyDrop[#, "mine"] & /@ freeSpectrumResults]]
+  ],
+  text["Error attribution. At the level with the largest notebook-Rust deviation of each of the six files, Theta is recomputed with NDSolve at WorkingPrecision 32 (PrecisionGoal 24, AccuracyGoal 26; the ODE has exact coefficients, the momentum is the machine k of the discrete problem), and one Newton step from the notebook's eigenvalue with a central-difference derivative (step 1e-8) gives a reference eigenvalue whose error is far below 1e-12 (the Newton error is of the order of the square of the notebook's error). The deviations of the notebook's and of the Rust eigenvalue from this reference show which side carries the difference."],
+  inputCell[
+    errorAttributionOf[config_] := Module[{mv, lv, res = freeSpectrumResults[config], t = freeTables[config], idx, rust, worst, target, k, e0, th, f0, d, ref},
+      {mv, lv} = config; idx = t["index"];
+      rust = Association[(Round /@ #[[{idx["n2"], idx["parity"], idx["s"], idx["index"]}]] -> #[[idx["eps"]]]) & /@ t["rows"]];
+      worst = First[MaximalBy[res["mine"], Abs[#["eps"] - rust[fullKey[#]]] &]];
+      target = If[worst["parity"] == 1, 0, Pi/2] + worst["index"] Pi;
+      k = SetPrecision[worst["k"], 40]; e0 = SetPrecision[worst["eps"], 40];
+      th[e_] := NDSolveValue[{Derivative[1][thH][uH] == worst["s"] e + Exp[-(uH - lv)] k Cos[2 thH[uH]] - mv Sin[2 thH[uH]], thH[0] == 0}, thH[lv], {uH, 0, lv}, WorkingPrecision -> 32, PrecisionGoal -> 24, AccuracyGoal -> 26, MaxSteps -> Infinity];
+      f0 = th[e0] - target; d = (th[e0 + 10^-8] - th[e0 - 10^-8])/(2 10^-8);
+      ref = e0 - f0/d;
+      <|"key" -> fullKey[worst], "k" -> worst["k"], "referenceEps" -> N[ref], "notebookMinusReference" -> N[worst["eps"] - ref], "rustMinusReference" -> N[rust[fullKey[worst]] - ref]|>];
+    errorAttribution = Association[(freeFileName[#] -> errorAttributionOf[#]) & /@ freeConfigurations];
+    Dataset[errorAttribution]
   ],
   text["Closed shells. The Rust study picks its particle numbers from the closed shells of the free spectrum at L = 3 (spectrum/summary.json: closedShells_m1_L3_N_epsHomo and closedShells_m3_L3_N_epsHomo, also written as closed-shells-m{1,3}-L3.csv): the particle states (eps >= 0) sorted by eps, grouped into degenerate levels (|eps_j - eps_i| <= 1e-9 max(1, |eps_i|)), with the cumulative multiplicity 4 g(n2) recorded after each group until it exceeds 1300. Here the particle states are those with s (target - Theta(0)) >= 0 (equivalent to eps >= 0 by the monotonicity of Theta; exact for the k = 0 zero mode, where Theta(0) = 0 identically), computed in the window [-0.5 m, 1.7 m] over the shells n2 = 0, 1, 2, ... until two consecutive shells have no level in the window (the stopping rule of the Rust code). The table is complete when its last energy lies inside the window and its count exceeds 1300; that no shell beyond the stop has a level in the window is the stopping-rule assumption (the lowest |eps| of a shell grows with k), supported here by the measured increase of the lowest particle level with n2. N_mid and N_large are the closed-shell numbers (N > 8) nearest 100 and 1000."],
   inputCell[
@@ -463,7 +478,8 @@ cellsShooting = {
       "boxExactVsRust" -> KeyMap[ToString, boxComparison],
       "freeSpectra" -> Association[KeyValueMap[freeFileName[#1] -> KeyDrop[#2, "mine"] &, freeSpectrumResults]],
       "closedShells" -> KeyMap["m" <> ToString[#] <> "_L3" &, closedShellComparison],
-      "closedShellNumbers" -> closedShellNumbers
+      "closedShellNumbers" -> closedShellNumbers,
+      "errorAttribution" -> errorAttribution
     |>;
     shootingChecks = <|
       "boxExactLevelsEqualRustK0" -> AllTrue[Values[boxComparison], #["keysIdentical"] && #["maxAbsDeviation"] <= 10^-8 &],
@@ -471,10 +487,11 @@ cellsShooting = {
       "zeroModeSlopeEqualsMinusSC" -> zeroModeSlopeDeviation <= 10^-6,
       "freeSpectraSameLevelKeys" -> AllTrue[Values[freeSpectrumResults], #["keysIdentical"] && #["levels"] == #["rustLevels"] &],
       "freeSpectraEigenvalues" -> AllTrue[Values[freeSpectrumResults], #["maxAbsDeviation"] <= 10^-8 &],
-      "freeSpectraCharges" -> AllTrue[Values[freeSpectrumResults], #["maxScalarChargeDeviation"] <= 10^-8 && #["maxPressureChargeDeviation"] <= 10^-7 &],
+      "freeSpectraCharges" -> AllTrue[Values[freeSpectrumResults], #["maxScalarChargeDeviation"] <= 10^-8 && #["maxPressureChargeRelativeDeviation"] <= 10^-8 &],
       "freeSpectraKAndMultiplicityColumns" -> AllTrue[Values[freeSpectrumResults], #["kColumnMaxDeviation"] <= 10^-14 && #["multiplicityColumnIdentical"] &],
       "freeSpectraK0NDSolveEqualsExactBox" -> AllTrue[Values[freeSpectrumResults], #["k0VsExactBoxMaxAbsDeviation"] <= 10^-10 &],
       "freeSpectraLinearMatchingResiduals" -> AllTrue[Values[freeSpectrumResults], #["maxMatchingResidual"] <= 10^-8 && #["maxRootIterations"] < 60 &],
+      "notebookEigenvaluesWithin1e11OfHighPrecisionReference" -> AllTrue[Values[errorAttribution], Abs[#["notebookMinusReference"]] <= 10^-11 &],
       "closedShellTablesEqualRust" -> AllTrue[Values[closedShellComparison], #["countsIdentical"] && #["maxAbsDeviation"] <= 10^-8 && #["csvEqualsSummary"] && #["complete"] && #["branchMatchesEpsSign"] &],
       "closedShellStoppingRuleSupported" -> AllTrue[Values[closedShellComparison], #["lowestParticleLevelIncreasesWithN2"] &],
       "closedShellNumbersEqualRust" -> Values[closedShellNumbers] == Round[Lookup[spectrumSummary["reference"], {"nMid", "nLarge", "nMidM3"}]]
@@ -763,12 +780,16 @@ cellsFigures = {
       AppendTo[figureFiles, exportFigure["free_spectrum_m1_L3.png", g]]; g]
   ],
   inputCell[
-    Module[{lengths = Range[8/5, 22/5, 1/20], plusCurves, minusCurves, rustDots, g},
-      plusCurves = Table[Table[{N[lv], N[Sqrt[1 + (n Pi/lv)^2]]}, {lv, lengths}], {n, 1, 3}];
-      minusCurves = Table[Table[{N[lv], N[Sqrt[1 + oddBoxMomentum[1, lv, j]^2]]}, {lv, lengths}], {j, 1, 3}];
+    Module[{lengths = Range[8/5, 22/5, 1/20], plotMomentum, plusCurves, minusCurves, rustDots, g},
+      plotMomentum[lv_, j_] := Module[{a = N[(j - 1/2) Pi/lv], b = N[j Pi/lv], ga, c},
+        ga = Sign[Sin[a lv] + a Cos[a lv]];
+        Do[c = (a + b)/2; If[Sign[Sin[c lv] + c Cos[c lv]] == ga, a = c, b = c], {60}];
+        (a + b)/2];
+      plusCurves = Table[Table[{N[lv], N[Sqrt[1 + (n Pi/lv)^2]]}, {lv, lengths}], {n, 1, 5}];
+      minusCurves = Table[Table[{N[lv], Sqrt[1 + plotMomentum[N[lv], j]^2]}, {lv, lengths}], {j, 1, 5}];
       rustDots = Table[Flatten[Table[Module[{t = freeTables[{1, lv}]}, Select[Transpose[{ConstantArray[N[lv], Length[t["rows"]]], columnOf[t, "eps"], columnOf[t, "n2"], columnOf[t, "parity"], columnOf[t, "s"]}], #[[3]] == 0 && #[[4]] == parity && #[[5]] == 1 && 0.5 <= #[[2]] <= 3.4 &][[All, 1 ;; 2]]], {lv, {2, 3, 4}}], 1], {parity, {1, -1}}];
       g = Legended[Show[
-          ListLinePlot[Join[plusCurves, minusCurves, {Table[{N[lv], 0.}, {lv, lengths}]}], PlotStyle -> Join[ConstantArray[Directive[vizColors[[1]], AbsoluteThickness[2]], 3], ConstantArray[Directive[vizColors[[2]], AbsoluteThickness[2]], 3], {Directive[vizColors[[3]], AbsoluteThickness[2]]}], PlotRange -> {{1.55, 4.45}, {-0.15, 3.45}}],
+          ListLinePlot[Join[plusCurves, minusCurves, {Table[{N[lv], 0.}, {lv, lengths}]}], PlotStyle -> Join[ConstantArray[Directive[vizColors[[1]], AbsoluteThickness[2]], 5], ConstantArray[Directive[vizColors[[2]], AbsoluteThickness[2]], 5], {Directive[vizColors[[3]], AbsoluteThickness[2]]}], PlotRange -> {{1.55, 4.45}, {-0.15, 3.45}}],
           ListPlot[{rustDots[[1]], rustDots[[2]], Table[{N[lv], 0.}, {lv, {2, 3, 4}}]}, PlotStyle -> (Directive[#, AbsolutePointSize[9]] & /@ vizColors[[1 ;; 3]])],
           Sequence @@ vizStyle["k = 0, lambda = 0 box levels (m = 1): exact solution vs the Rust free spectra at L = 2, 3, 4", "tip cutoff L (units 1/H)", "eps / m"]],
         dotLineLegend[{"parity +, sqrt(m^2 + (n pi/L)^2), exact", "parity +, Rust", "parity -, tan(pL) = -p/m, exact", "parity -, Rust", "brane zero mode eps = 0, exact", "zero mode, Rust"}, vizColors[[{1, 1, 2, 2, 3, 3}]], {"line", "dot", "line", "dot", "line", "dot"}]];
@@ -785,11 +806,11 @@ cellsFigures = {
   ],
   inputCell[
     Module[{logPositive, rustY = columnOf[scfProfiles, "y"], g},
-      logPositive[pairs_] := {#[[1]], Log10[#[[2]]]} & /@ Select[pairs, #[[2]] > 0 &];
+      logPositive[pairs_] := With[{floor = 10^-10 Max[pairs[[All, 2]]]}, {#[[1]], Log10[#[[2]]]} & /@ Select[pairs, #[[2]] > floor &]];
       g = Legended[Show[
           ListLinePlot[{logPositive[Transpose[{scfGrid, scfNp}]], logPositive[Transpose[{scfGrid, scfSp}]]}, PlotStyle -> (Directive[#, AbsoluteThickness[2]] & /@ vizColors[[1 ;; 2]]), PlotRange -> All],
           ListPlot[{logPositive[Transpose[{rustY, columnOf[scfProfiles, "n_p"]}][[1 ;; -1 ;; 6]]], logPositive[Transpose[{rustY, columnOf[scfProfiles, "S_p"]}][[1 ;; -1 ;; 6]]]}, PlotStyle -> (Directive[#, AbsolutePointSize[6]] & /@ vizColors[[1 ;; 2]])],
-          Sequence @@ vizStyle["Proper densities of the N = 8, lambda_hat_2 ground state (brane zero modes; S_p = 0 at the tip is not drawn)", "hidden coordinate y (tip -L to brane 0)", "log10 density (per unit proper volume)"]],
+          Sequence @@ vizStyle["Proper densities, N = 8, lambda_hat_2 ground state (points below 1e-10 of max omitted)", "hidden coordinate y (tip -L to brane 0)", "log10 density (per unit proper volume)"]],
         dotLineLegend[{"number density n_p, Rust", "n_p, Wolfram Language loop", "scalar density S_p, Rust", "S_p, Wolfram Language loop"}, vizColors[[{1, 1, 2, 2}]], {"dot", "line", "dot", "line"}]];
       AppendTo[figureFiles, exportFigure["scf_proper_densities.png", g]]; g]
   ],
@@ -805,7 +826,7 @@ cellsFigures = {
   ],
   inputCell[
     Module[{labels, values, g},
-      labels = {"k = 0 box: exact vs Rust", "free spectra: NDSolve vs Rust (2824 levels)", "free spectra: scalar charges", "closed-shell tables", "SCF: eps_HOMO", "SCF: E_0", "SCF: n_c / D", "SCF: M_eff(y)", "SCF: v_x(y)", "SCF: full spectrum (788 levels)", "SCF: KS gap"};
+      labels = {"k = 0 box: exact vs Rust", "free spectra: NDSolve vs Rust (" <> ToString[Total[#["levels"] & /@ Values[freeSpectrumResults]]] <> " levels)", "free spectra: scalar charges", "closed-shell tables", "SCF: eps_HOMO", "SCF: E_0", "SCF: n_c / D", "SCF: M_eff(y)", "SCF: v_x(y)", "SCF: full spectrum (" <> ToString[scfSpectrumComparison["levels"]] <> " levels)", "SCF: KS gap"};
       values = {Max[#["maxAbsDeviation"] & /@ Values[boxComparison]], Max[#["maxAbsDeviation"] & /@ Values[freeSpectrumResults]], Max[#["maxScalarChargeDeviation"] & /@ Values[freeSpectrumResults]], Max[#["maxAbsDeviation"] & /@ Values[closedShellComparison]],
         scfComparison["epsHomoDeviation"], scfComparison["energyDeviation"], scfComparison["ncMaxDeviationOverD"], scfComparison["mEffMaxAbsDeviation"], scfComparison["vxMaxAbsDeviation"], scfSpectrumComparison["maxAbsDeviation"], scfSpectrumComparison["ksGapDeviation"]};
       g = BarChart[-Log10[values], ChartStyle -> vizColors[[1]], BarOrigin -> Left, BarSpacing -> 0.35,
@@ -832,11 +853,12 @@ cellsReport = {
       {"exact theory", "checks of wolfram/Dirac16ComplexKohnSham.wl (all pass)", theoryCheckSummary["checkCount"]},
       {"k = 0 box", "exact levels vs Rust, six files", Max[#["maxAbsDeviation"] & /@ Values[boxComparison]]},
       {"k = 0 box", "NDSolve shooting vs exact levels", Max[#["k0VsExactBoxMaxAbsDeviation"] & /@ Values[freeSpectrumResults]]},
-      {"zero mode", "slope d eps/dk vs -s c (Richardson, h = 2e-4)", zeroModeSlopeDeviation},
+      {"zero mode", "slope d eps/dk vs -s c (Richardson, h = 1e-4)", zeroModeSlopeDeviation},
       {"free spectra", "levels compared (six files, keys identical)", Total[#["levels"] & /@ Values[freeSpectrumResults]]},
       {"free spectra", "eps, NDSolve vs Rust", Max[#["maxAbsDeviation"] & /@ Values[freeSpectrumResults]]},
       {"free spectra", "scalar / pressure charges vs Rust", {Max[#["maxScalarChargeDeviation"] & /@ Values[freeSpectrumResults]], Max[#["maxPressureChargeDeviation"] & /@ Values[freeSpectrumResults]]}},
       {"free spectra", "linear-system matching residual (max)", Max[#["maxMatchingResidual"] & /@ Values[freeSpectrumResults]]},
+      {"free spectra", "worst level per file vs WorkingPrecision-32 reference: notebook / Rust", {Max[Abs[#["notebookMinusReference"]] & /@ Values[errorAttribution]], Max[Abs[#["rustMinusReference"]] & /@ Values[errorAttribution]]}},
       {"closed shells", "tables m = 1, 3 (L = 3) vs Rust", Max[#["maxAbsDeviation"] & /@ Values[closedShellComparison]]},
       {"SCF N = 8", "iterations to 1e-12 (Rust: to 1e-10)", {scfComparison["iterations"], scfComparison["rustIterations"]}},
       {"SCF N = 8", "eps_HOMO (= mu), WL vs Rust", scfComparison["epsHomoDeviation"]},
@@ -887,8 +909,9 @@ cellsReport = {
       "boxExactLevelCount" -> Total[#["levels"] & /@ Values[boxComparison]], "boxExactVsRustMaxAbsDeviation" -> Max[#["maxAbsDeviation"] & /@ Values[boxComparison]],
       "boxNDSolveVsExactMaxAbsDeviation" -> Max[#["k0VsExactBoxMaxAbsDeviation"] & /@ Values[freeSpectrumResults]],
       "freeSpectraLevelCount" -> Total[#["levels"] & /@ Values[freeSpectrumResults]], "freeSpectraMaxAbsDeviation" -> Max[#["maxAbsDeviation"] & /@ Values[freeSpectrumResults]],
-      "freeSpectraMaxScalarChargeDeviation" -> Max[#["maxScalarChargeDeviation"] & /@ Values[freeSpectrumResults]], "freeSpectraMaxPressureChargeDeviation" -> Max[#["maxPressureChargeDeviation"] & /@ Values[freeSpectrumResults]],
+      "freeSpectraMaxScalarChargeDeviation" -> Max[#["maxScalarChargeDeviation"] & /@ Values[freeSpectrumResults]], "freeSpectraMaxPressureChargeDeviation" -> Max[#["maxPressureChargeDeviation"] & /@ Values[freeSpectrumResults]], "freeSpectraMaxPressureChargeRelativeDeviation" -> Max[#["maxPressureChargeRelativeDeviation"] & /@ Values[freeSpectrumResults]],
       "freeSpectraMaxMatchingResidual" -> Max[#["maxMatchingResidual"] & /@ Values[freeSpectrumResults]],
+      "worstLevelNotebookMinusReferenceMax" -> Max[Abs[#["notebookMinusReference"]] & /@ Values[errorAttribution]], "worstLevelRustMinusReferenceMax" -> Max[Abs[#["rustMinusReference"]] & /@ Values[errorAttribution]],
       "closedShellEntries_m1_L3" -> closedShellComparison[1]["entries"], "closedShellEntries_m3_L3" -> closedShellComparison[3]["entries"], "closedShellsMaxAbsDeviation" -> Max[#["maxAbsDeviation"] & /@ Values[closedShellComparison]],
       "scfLambdaHat" -> scfLambdaHat, "scfIterations" -> scfComparison["iterations"], "scfFinalResidual" -> Max[scfComparison["finalResidualN"], scfComparison["finalResidualS"]],
       "scfEpsHomo" -> scfComparison["epsHomo"], "scfEpsHomoDeviation" -> scfComparison["epsHomoDeviation"],

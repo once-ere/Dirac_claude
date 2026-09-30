@@ -56,10 +56,10 @@ use std::collections::HashMap;
 use std::sync::atomic::{AtomicUsize, Ordering as AtomicOrdering};
 use std::sync::Arc;
 
-use crate::exchange::{effective_mass, exchange_energy_density, v_vector};
+use crate::exchange::Statistics;
 use crate::geometry::density_factor;
 use crate::math::{exp, fermi, log, PI};
-use crate::shooting::{grid_points, simpson, Level, Potential, Shooter, Stats};
+use crate::shooting::{grid_points, simpson, Level, Potential, Shooter, Stats, TipBag};
 use crate::spline::Spline;
 use crate::Tolerances;
 
@@ -101,6 +101,11 @@ pub struct Params {
     /// exact final occupations, 3 continuation failed (not converged).
     pub fallback_stage: i32,
     pub tolerances: Tolerances,
+    /// Stage 5: statistics of the components (sign of the exchange); the
+    /// default is the Stage-4 dirac16complex (anticommuting).
+    pub statistics: Statistics,
+    /// Stage 5: tip boundary condition; the default is the Stage-4 `b(-L) = 0`.
+    pub tip_bag: TipBag,
 }
 
 impl Params {
@@ -108,8 +113,14 @@ impl Params {
         self.lambda_hat / self.m.powi(6)
     }
 
+    /// Mass scale |m| of the units "m = 1" (Delta k, windows, smearing,
+    /// ratios): Stage 5 admits m < 0, whose scales are those of |m|.
+    pub fn mass_scale(&self) -> f64 {
+        self.m.abs()
+    }
+
     pub fn delta_k(&self) -> f64 {
-        self.delta_k_over_m * self.m
+        self.delta_k_over_m * self.mass_scale()
     }
 
     pub fn ell(&self) -> f64 {
@@ -142,7 +153,8 @@ impl Params {
     /// above it (the free particle branch starts at eps >= 0 and the
     /// potentials shift it by less than this margin).
     pub fn window_floor(&self) -> f64 {
-        -(self.m + 1.5 * self.m + 2.0 * PI / self.length)
+        let m = self.mass_scale();
+        -(m + 1.5 * m + 2.0 * PI / self.length)
     }
 }
 
@@ -237,8 +249,8 @@ pub fn build_potential(params: &Params, densities: &Densities) -> Arc<Potential>
         let factor = density_factor(params.h, *y);
         let s_p = factor * densities.s_c[i];
         let n_p = factor * densities.n_c[i];
-        m_eff.push(effective_mass(params.m, lambda, s_p));
-        v_x.push(v_vector(lambda, n_p));
+        m_eff.push(params.statistics.effective_mass(params.m, lambda, s_p));
+        v_x.push(params.statistics.v_vector(lambda, n_p));
     }
     Arc::new(Potential {
         h: params.h,
@@ -247,6 +259,7 @@ pub fn build_potential(params: &Params, densities: &Densities) -> Arc<Potential>
         grid,
         m_eff: Spline::new(-params.length, params.dy(), m_eff),
         v_x: Spline::new(-params.length, params.dy(), v_x),
+        tip: params.tip_bag,
     })
 }
 
@@ -263,6 +276,7 @@ fn negated_vector(potential: &Potential) -> Arc<Potential> {
         grid: potential.grid.clone(),
         m_eff: potential.m_eff.clone(),
         v_x: Spline::new(potential.v_x.y0, potential.v_x.dy, values),
+        tip: potential.tip,
     })
 }
 
@@ -572,13 +586,10 @@ pub const FREE_WINDOW_QUANTUM: f64 = 0.25;
 
 impl FreeLevels {
     pub fn new(params: &Params) -> Self {
-        let potential = Arc::new(Potential::free(
-            params.h,
-            params.a4,
-            params.length,
-            params.m,
-            params.grid_n,
-        ));
+        let potential = Arc::new(
+            Potential::free(params.h, params.a4, params.length, params.m, params.grid_n)
+                .with_tip(params.tip_bag),
+        );
         let mut free = params.clone();
         free.lambda_hat = 0.0;
         Self {
@@ -597,7 +608,7 @@ impl FreeLevels {
     /// multiple of [`FREE_WINDOW_QUANTUM`] m (at least one quantum for an
     /// interacting solve) and capped at [`FREE_WINDOW_SHIFT_CAP`] m.
     pub fn widened(&self, window: Window, shift_bound: f64) -> Window {
-        let m = self.params.m;
+        let m = self.params.mass_scale();
         let quantum = FREE_WINDOW_QUANTUM * m;
         let minimum = if self.interacting { 1.0 } else { 0.0 };
         let steps = (shift_bound / quantum).ceil().max(minimum);
@@ -990,13 +1001,16 @@ pub fn energies(spectrum: &Spectrum, densities: &Densities, params: &Params, mu:
         let factor = density_factor(params.h, *y);
         let s_p = factor * densities.s_c[i];
         let n_p = factor * densities.n_c[i];
-        max_ratio_v = max_ratio_v.max(v_vector(lambda, n_p).abs() / params.m);
+        max_ratio_v =
+            max_ratio_v.max(params.statistics.v_vector(lambda, n_p).abs() / params.mass_scale());
         // dV_p = e^{6Hy} l^3 dy: e^{6Hy} (lambda/2) S_p^2 = e^{-6Hy} (lambda/2) S_c^2
         hartree_int
             .push(params.volume() * factor * 0.5 * lambda * densities.s_c[i] * densities.s_c[i]);
-        exchange_int.push(params.volume() / factor * exchange_energy_density(lambda, n_p, s_p));
+        exchange_int.push(
+            params.volume() / factor * params.statistics.exchange_energy_density(lambda, n_p, s_p),
+        );
         scalar_int.push(params.volume() * densities.s_c[i]);
-        max_ratio = max_ratio.max((lambda * s_p).abs() / params.m);
+        max_ratio = max_ratio.max((lambda * s_p).abs() / params.mass_scale());
     }
     let dy = params.dy();
     let hartree = simpson(dy, &hartree_int);
@@ -1241,7 +1255,7 @@ pub const FALLBACK_STAGNATION_ITERATIONS: usize = 40;
 fn fallback_params(params: &Params, fraction: f64, smearing: f64) -> Params {
     let mut p = params.clone();
     p.lambda_hat = params.lambda_hat * fraction;
-    p.smearing = smearing * params.m;
+    p.smearing = smearing * params.mass_scale();
     p.mix_beta = params.mix_beta * FALLBACK_MIX_FACTOR;
     p.max_iter = FALLBACK_MAX_ITER;
     p.stagnation_iterations = FALLBACK_STAGNATION_ITERATIONS;
@@ -1368,9 +1382,9 @@ pub fn solve(
     let t_occ = params.occupation_temperature();
     // T = 0: room for the LUMO and the gap; T > 0: the thermal term sets the window
     let margin = if t_occ > 0.0 {
-        0.5 * params.m
+        0.5 * params.mass_scale()
     } else {
-        1.5 * params.m + 2.0 * PI / params.length
+        1.5 * params.mass_scale() + 2.0 * PI / params.length
     };
     // stagnation stop: the exact T = 0 occupations cannot converge through a
     // level crossing at the Fermi level (charge sloshing); give up when the
@@ -1467,8 +1481,8 @@ pub fn solve(
                     mu_estimate = filling.mu;
                     let wider = window_for(params, mu_estimate, margin);
                     window = Window {
-                        eps_lo: wider.eps_lo.min(window.eps_lo) - 0.5 * params.m,
-                        eps_hi: wider.eps_hi.max(window.eps_hi) + 0.5 * params.m,
+                        eps_lo: wider.eps_lo.min(window.eps_lo) - 0.5 * params.mass_scale(),
+                        eps_hi: wider.eps_hi.max(window.eps_hi) + 0.5 * params.mass_scale(),
                     };
                     enlargements += 1;
                     if verbose {
@@ -1479,7 +1493,7 @@ pub fn solve(
                     }
                 }
                 Err(message) => {
-                    if window.eps_hi > 200.0 * params.m.max(1.0) {
+                    if window.eps_hi > 200.0 * params.mass_scale().max(1.0) {
                         return Err(format!("solve: window exhausted ({message})"));
                     }
                     window = Window {
@@ -1769,6 +1783,8 @@ pub fn standard_params(
         stagnation_iterations: STAGNATION_ITERATIONS,
         fallback_stage: 0,
         tolerances: crate::shooting::DEFAULT_TOLERANCES,
+        statistics: Statistics::Anticommuting,
+        tip_bag: TipBag::B,
     }
 }
 

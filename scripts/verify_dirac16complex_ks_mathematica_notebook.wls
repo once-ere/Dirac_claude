@@ -28,7 +28,7 @@ ClearAll["Global`*"];
 
 Module[
   {scriptDirectory, repositoryRoot, arguments, verbose, notebookPath, notebook, inputBoxes,
-   expectedInputCount = 32, expectedCheckCount = 93, messages = {}, results, failedCells = {},
+   expectedInputCount = 33, expectedCheckCount = 94, messages = {}, results, failedCells = {},
    checks, failedChecks, measurements, start = AbsoluteTime[], ok, fail},
 
   fail[text_String] := (Print["ERROR: ", text]; Print["dirac16complex_ks_mathematica_notebook=FAILED"]; Exit[2]);

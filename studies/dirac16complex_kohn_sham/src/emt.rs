@@ -77,7 +77,6 @@
 //! it the sign of the expectation-value rule; at the mean-field level the
 //! coupling therefore keeps its sign.)  All numbers are reported as measured.
 
-use crate::exchange::interaction_energy_density;
 use crate::geometry::{curvature_closed_form, density_factor, volume_factor, z_of_y};
 use crate::scf::Solution;
 use crate::shooting::simpson;
@@ -164,7 +163,9 @@ pub fn compute(solution: &Solution) -> (Vec<Row>, Summary) {
         row.s_p = factor * row.s_c;
         row.m_eff = solution.potential.m_eff.values[i];
         row.v_x = solution.potential.v_x.values[i];
-        row.l_s = interaction_energy_density(lambda, row.n_p, row.s_p);
+        row.l_s = params
+            .statistics
+            .interaction_energy_density(lambda, row.n_p, row.s_p);
     }
     for st in &solution.spectrum.states {
         if st.weight == 0.0 {

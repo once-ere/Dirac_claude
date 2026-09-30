@@ -1428,20 +1428,21 @@ at n_levels + 1 further equally spaced energies (a group without levels costs \
 two integrations); each root of Theta(eps) - target is found by Newton's \
 method with the exact derivative, started at the linear interpolation inside \
 the sample cell that brackets the target and safeguarded by that bracket (a \
-step that leaves it is replaced by bisection), and stopped after a Newton \
-step below 1e-10 max(1, |eps|) (the error after such a step is of the order \
-of its square, below the integration error). At every root the linear \
-two-component system (a(-L) = 1, b(-L) = 0, with the accumulators \
-Integral(a^2 + b^2), Integral(-2ab) and Integral(-kappa k (a^2 - b^2))) is \
-integrated separately; it gives the matching residual |b(0)|/|chi(0)| (parity \
-+) or |a(0)|/|chi(0)| (parity -) and the charges of the state of block type \
-s, the scalar charge Integral(-2 s a b)/Integral(a^2 + b^2) (the scalar \
-density of type s is -2 s a b, derived above) and the 3-space pressure charge \
-Integral(-s kappa k (a^2 - b^2))/Integral(a^2 + b^2), i.e. the columns \
-scalar_charge and pressure_charge of the Rust files. Both codes shoot on the \
-same Pruefer form; they share no code: NDSolve versus CVODE, Newton with the \
-variational derivative versus bracketing plus Illinois regula falsi in Rust, \
-and the symbolic derivation of the Pruefer equation above.", "Text"],
+step that leaves it is replaced by bisection), and stopped at the first \
+Newton step below 1e-10 max(1, |eps|), which is taken (clipped to the \
+bracket) (the error after such a step is of the order of its square, below \
+the integration error). At every root the linear two-component system (a(-L) \
+= 1, b(-L) = 0, with the accumulators Integral(a^2 + b^2), Integral(-2ab) and \
+Integral(-kappa k (a^2 - b^2))) is integrated separately; it gives the \
+matching residual |b(0)|/|chi(0)| (parity +) or |a(0)|/|chi(0)| (parity -) \
+and the charges of the state of block type s, the scalar charge Integral(-2 s \
+a b)/Integral(a^2 + b^2) (the scalar density of type s is -2 s a b, derived \
+above) and the 3-space pressure charge Integral(-s kappa k (a^2 - \
+b^2))/Integral(a^2 + b^2), i.e. the columns scalar_charge and pressure_charge \
+of the Rust files. Both codes shoot on the same Pruefer form; they share no \
+code: NDSolve versus CVODE, Newton with the variational derivative versus \
+bracketing plus Illinois regula falsi in Rust, and the symbolic derivation of \
+the Pruefer equation above.", "Text"],
   Cell[BoxData[RowBox[{RowBox[{"smoothOptions", "=",
         RowBox[{"{", RowBox[{RowBox[{"PrecisionGoal", "\[Rule]", "13"}], ",",
             RowBox[{"AccuracyGoal", "\[Rule]", "14"}]}], "}"}]}], ";",
@@ -1575,25 +1576,29 @@ and the symbolic derivation of the Pruefer equation above.", "Text"],
                         ",", RowBox[{RowBox[{"a", "=", "x"}], ";", RowBox[
                           {"fa", "=", "f"}]}]}], "]"}], ";", RowBox[
                      {"xn", "=", RowBox[{"x", "-", FractionBox["f", "d"]}]}],
-                    ";", RowBox[{"If", "[", RowBox[{RowBox[{RowBox[{"Min",
-                          "[", RowBox[{"a", ",", "b"}], "]"}], "<", "xn",
-                          "<", RowBox[{"Max", "[", RowBox[{"a", ",", "b"}],
-                          "]"}]}], ",", RowBox[{"If", "[", RowBox[{RowBox[
-                          {RowBox[{"Abs", "[", RowBox[{"xn", "-", "x"}],
-                          "]"}], "\[LessEqual]", FractionBox[RowBox[{"Max",
-                          "[", RowBox[{"1", ",", RowBox[{"Abs", "[", "x",
-                          "]"}]}], "]"}], SuperscriptBox["10", "10"]]}], ",",
-                          RowBox[{RowBox[{"x", "=", "xn"}], ";", RowBox[
-                          {"Break", "[", "]"}]}]}], "]"}], ",", RowBox[
-                         {"xn", "=", FractionBox[RowBox[{"a", "+", "b"}],
-                          "2"]}]}], "]"}], ";", RowBox[{"x", "=", "xn"}]}]}],
-                "]"}], ";", RowBox[{"{", RowBox[{"x", ",", "iterations"}],
-                "}"}]}]}], "]"}]}], ";",
-      RowBox[{RowBox[{"rootInBracket", "[", RowBox[{"theta_", ",", "k_", ",",
-            "s_", ",", "target_", ",", RowBox[{"{", RowBox[{"lo_", ",",
-                "hi_"}], "}"}], ",", "x0_"}], "]"}], ":=",
-        RowBox[{"Module", "[", RowBox[
-           {RowBox[{"{", RowBox[{RowBox[{"flo", "=", RowBox[
+                    ";", RowBox[{"If", "[", RowBox[{RowBox[{RowBox[{"Abs",
+                          "[", RowBox[{"xn", "-", "x"}], "]"}],
+                          "\[LessEqual]", FractionBox[RowBox[{"Max", "[",
+                          RowBox[{"1", ",", RowBox[{"Abs", "[", "x", "]"}]}],
+                          "]"}], SuperscriptBox["10", "10"]]}], ",",
+                        RowBox[{RowBox[{"x", "=", RowBox[{"Clip", "[",
+                          RowBox[{"xn", ",", RowBox[{"{", RowBox[{RowBox[
+                          {"Min", "[", RowBox[{"a", ",", "b"}], "]"}], ",",
+                          RowBox[{"Max", "[", RowBox[{"a", ",", "b"}],
+                          "]"}]}], "}"}]}], "]"}]}], ";", RowBox[{"Break",
+                          "[", "]"}]}]}], "]"}], ";", RowBox[{"If", "[",
+                      RowBox[{RowBox[{"!", RowBox[{RowBox[{"Min", "[",
+                          RowBox[{"a", ",", "b"}], "]"}], "<", "xn", "<",
+                          RowBox[{"Max", "[", RowBox[{"a", ",", "b"}],
+                          "]"}]}]}], ",", RowBox[{"xn", "=", FractionBox[
+                          RowBox[{"a", "+", "b"}], "2"]}]}], "]"}], ";",
+                    RowBox[{"x", "=", "xn"}]}]}], "]"}], ";",
+              RowBox[{"{", RowBox[{"x", ",", "iterations"}], "}"}]}]}],
+          "]"}]}], ";", RowBox[{RowBox[{"rootInBracket", "[",
+          RowBox[{"theta_", ",", "k_", ",", "s_", ",", "target_", ",",
+            RowBox[{"{", RowBox[{"lo_", ",", "hi_"}], "}"}], ",", "x0_"}],
+          "]"}], ":=", RowBox[{"Module", "[",
+          RowBox[{RowBox[{"{", RowBox[{RowBox[{"flo", "=", RowBox[
                    {RowBox[{"First", "[", RowBox[{"theta", "[", RowBox[
                          {RowBox[{"N", "[", "lo", "]"}], ",", "k", ",",
                           "s"}], "]"}], "]"}], "-", "target"}]}], ",",
@@ -1796,15 +1801,16 @@ and the symbolic derivation of the Pruefer equation above.", "Text"],
    "Input"], Cell["Zero-mode splitting, numerically: the parity +, index 0 \
 level of each block type at small k (m = H = 1, L = 3, a4 = 0) gives the \
 slope d eps/dk at k = 0 by Richardson extrapolation, (4 eps(h) - \
-eps(2h))/(2h) = d eps/dk + O(h^2), h = 2e-4. The exact slope is -s c (j = \
--s).", "Text"],
+eps(2h))/(2h) = d eps/dk + O(h^2), h = 1e-4 (tolerance 1e-6 for the O(h^2) \
+truncation; the eigenvalue error of about 1e-13 contributes about 1e-9). The \
+exact slope is -s c (j = -s).", "Text"],
   Cell[BoxData[RowBox[{RowBox[{"zeroModeSlope", "=",
         RowBox[{"Module", "[", RowBox[
            {RowBox[{"{", RowBox[{RowBox[{"theta", "=", RowBox[
                    {"pruferThetaD", "[", RowBox[{RowBox[{"1.`", "&"}], ",",
                       RowBox[{"0.`", "&"}], ",", "3.`", ",", "1.`", ",",
                       "0.`", ",", "smoothOptions"}], "]"}]}], ",",
-                RowBox[{"h", "=", FractionBox["2", SuperscriptBox["10",
+                RowBox[{"h", "=", FractionBox["1", SuperscriptBox["10",
                     "4"]]}], ",", "level"}], "}"}], ",",
             RowBox[{RowBox[{RowBox[{"level", "[", RowBox[{"k_", ",", "s_"}],
                   "]"}], ":=", RowBox[{"First", "[", RowBox[{"rootInBracket",
@@ -1838,7 +1844,11 @@ both block types, every level in -4m <= eps <= 4m, with k = 0.25 m sqrt(n2) \
 parity, s, Pruefer index); a missing or extra level makes the key lists \
 differ. Compared: eps, the k and multiplicity (4 g) columns, scalar_charge \
 and pressure_charge; the k = 0 levels are also compared with the exact box \
-levels.", "Text"],
+levels. Tolerances: 1e-8 for eigenvalues and scalar charges (the acceptance \
+threshold of the Rust code's own analytic box check, \
+free_box_spectrum_analytic) and 1e-8 relative to max(1, |charge|) for the \
+pressure charges, whose magnitude grows with k; the linear-system matching \
+residuals must stay below 1e-8.", "Text"],
   Cell[BoxData[RowBox[{RowBox[{RowBox[{"freeSpectrumRun", "[", "config_",
           "]"}], ":=", RowBox[{"Module", "[",
           RowBox[{RowBox[{"{", RowBox[{"mv", ",", "lv", ",", "t", ",", "idx",
@@ -1956,13 +1966,28 @@ levels.", "Text"],
                           "\"pressureCharge\""}],
                           "\[RightDoubleBracket]"}]}], "]"}], "&"}], ")"}],
                           "/@", "matched"}], "]"}], ",", "\[Infinity]"}],
-                      "]"}]}], ",", RowBox[{"\"kColumnMaxDeviation\"",
-                    "\[Rule]", RowBox[{"If", "[", RowBox[{"keysOK", ",",
-                        RowBox[{"Max", "[", RowBox[{RowBox[{"(", RowBox[
-                          {RowBox[{"Abs", "[", RowBox[{RowBox[{"#1",
+                      "]"}]}], ",", RowBox[
+                   {"\"maxPressureChargeRelativeDeviation\"", "\[Rule]",
+                    RowBox[{"If", "[", RowBox[{"keysOK", ",", RowBox[{"Max",
+                          "[", RowBox[{RowBox[{"(", RowBox[{FractionBox[
+                          RowBox[{"Abs", "[", RowBox[{RowBox[{"#1",
                           "\[LeftDoubleBracket]", RowBox[{"1", ",",
-                          "\"k\""}], "\[RightDoubleBracket]"}], "-", RowBox[
+                          "\"pressureCharge\""}], "\[RightDoubleBracket]"}],
+                          "-", RowBox[{"#1", "\[LeftDoubleBracket]", RowBox[
+                          {"2", ",", "\"pressureCharge\""}],
+                          "\[RightDoubleBracket]"}]}], "]"}], RowBox[{"Max",
+                          "[", RowBox[{"1", ",", RowBox[{"Abs", "[", RowBox[
                           {"#1", "\[LeftDoubleBracket]", RowBox[{"2", ",",
+                          "\"pressureCharge\""}], "\[RightDoubleBracket]"}],
+                          "]"}]}], "]"}]], "&"}], ")"}], "/@", "matched"}],
+                          "]"}], ",", "\[Infinity]"}], "]"}]}], ",",
+                  RowBox[{"\"kColumnMaxDeviation\"", "\[Rule]", RowBox[
+                     {"If", "[", RowBox[{"keysOK", ",", RowBox[{"Max", "[",
+                          RowBox[{RowBox[{"(", RowBox[{RowBox[{"Abs", "[",
+                          RowBox[{RowBox[{"#1", "\[LeftDoubleBracket]",
+                          RowBox[{"1", ",", "\"k\""}],
+                          "\[RightDoubleBracket]"}], "-", RowBox[{"#1",
+                          "\[LeftDoubleBracket]", RowBox[{"2", ",",
                           "\"k\""}], "\[RightDoubleBracket]"}]}], "]"}],
                           "&"}], ")"}], "/@", "matched"}], "]"}], ",",
                         "\[Infinity]"}], "]"}]}], ",", RowBox[
@@ -2009,23 +2034,117 @@ levels.", "Text"],
           RowBox[{"freeFileName", ",", RowBox[{RowBox[{"(", RowBox[
                  {RowBox[{"KeyDrop", "[", RowBox[{"#1", ",", "\"mine\""}],
                     "]"}], "&"}], ")"}], "/@", "freeSpectrumResults"}]}],
-          "]"}], "]"}]}]], "Input"], Cell["Closed shells. The Rust study \
-picks its particle numbers from the closed shells of the free spectrum at L = \
-3 (spectrum/summary.json: closedShells_m1_L3_N_epsHomo and \
-closedShells_m3_L3_N_epsHomo, also written as closed-shells-m{1,3}-L3.csv): \
-the particle states (eps >= 0) sorted by eps, grouped into degenerate levels \
-(|eps_j - eps_i| <= 1e-9 max(1, |eps_i|)), with the cumulative multiplicity 4 \
-g(n2) recorded after each group until it exceeds 1300. Here the particle \
-states are those with s (target - Theta(0)) >= 0 (equivalent to eps >= 0 by \
-the monotonicity of Theta; exact for the k = 0 zero mode, where Theta(0) = 0 \
-identically), computed in the window [-0.5 m, 1.7 m] over the shells n2 = 0, \
-1, 2, ... until two consecutive shells have no level in the window (the \
-stopping rule of the Rust code). The table is complete when its last energy \
-lies inside the window and its count exceeds 1300; that no shell beyond the \
-stop has a level in the window is the stopping-rule assumption (the lowest \
-|eps| of a shell grows with k), supported here by the measured increase of \
-the lowest particle level with n2. N_mid and N_large are the closed-shell \
-numbers (N > 8) nearest 100 and 1000.", "Text"],
+          "]"}], "]"}]}]], "Input"], Cell["Error attribution. At the level \
+with the largest notebook-Rust deviation of each of the six files, Theta is \
+recomputed with NDSolve at WorkingPrecision 32 (PrecisionGoal 24, \
+AccuracyGoal 26; the ODE has exact coefficients, the momentum is the machine \
+k of the discrete problem), and one Newton step from the notebook's \
+eigenvalue with a central-difference derivative (step 1e-8) gives a reference \
+eigenvalue whose error is far below 1e-12 (the Newton error is of the order \
+of the square of the notebook's error). The deviations of the notebook's and \
+of the Rust eigenvalue from this reference show which side carries the \
+difference.", "Text"],
+  Cell[BoxData[RowBox[{RowBox[{RowBox[{"errorAttributionOf", "[", "config_",
+          "]"}], ":=", RowBox[{"Module", "[",
+          RowBox[{RowBox[{"{", RowBox[{"mv", ",", "lv", ",", RowBox[
+                 {"res", "=", RowBox[{"freeSpectrumResults", "[", "config",
+                    "]"}]}], ",", RowBox[{"t", "=", RowBox[{"freeTables",
+                    "[", "config", "]"}]}], ",", "idx", ",", "rust", ",",
+                "worst", ",", "target", ",", "k", ",", "e0", ",", "th", ",",
+                "f0", ",", "d", ",", "ref"}], "}"}], ",",
+            RowBox[{RowBox[{RowBox[{"{", RowBox[{"mv", ",", "lv"}], "}"}],
+                "=", "config"}], ";", RowBox[{"idx", "=", RowBox[{"t", "[",
+                  "\"index\"", "]"}]}], ";", RowBox[{"rust", "=",
+                RowBox[{"Association", "[", RowBox[{RowBox[{"(", RowBox[
+                       {RowBox[{RowBox[{"Round", "/@", RowBox[{"#1",
+                          "\[LeftDoubleBracket]", RowBox[{"{", RowBox[
+                          {RowBox[{"idx", "[", "\"n2\"", "]"}], ",", RowBox[
+                          {"idx", "[", "\"parity\"", "]"}], ",", RowBox[
+                          {"idx", "[", "\"s\"", "]"}], ",", RowBox[{"idx",
+                          "[", "\"index\"", "]"}]}], "}"}],
+                          "\[RightDoubleBracket]"}]}], "\[Rule]", RowBox[
+                          {"#1", "\[LeftDoubleBracket]", RowBox[{"idx", "[",
+                          "\"eps\"", "]"}], "\[RightDoubleBracket]"}]}],
+                        "&"}], ")"}], "/@", RowBox[{"t", "[", "\"rows\"",
+                      "]"}]}], "]"}]}], ";", RowBox[{"worst", "=",
+                RowBox[{"First", "[", RowBox[{"MaximalBy", "[", RowBox[
+                     {RowBox[{"res", "[", "\"mine\"", "]"}], ",", RowBox[
+                       {RowBox[{"Abs", "[", RowBox[{RowBox[{"#1", "[",
+                          "\"eps\"", "]"}], "-", RowBox[{"rust", "[", RowBox[
+                          {"fullKey", "[", "#1", "]"}], "]"}]}], "]"}],
+                        "&"}]}], "]"}], "]"}]}], ";", RowBox[{"target", "=",
+                RowBox[{RowBox[{"If", "[", RowBox[{RowBox[{RowBox[{"worst",
+                          "[", "\"parity\"", "]"}], "\[Equal]", "1"}], ",",
+                      "0", ",", FractionBox["\[Pi]", "2"]}], "]"}], "+",
+                  RowBox[{RowBox[{"worst", "[", "\"index\"", "]"}], " ",
+                    "\[Pi]"}]}]}], ";", RowBox[{"k", "=", RowBox[
+                 {"SetPrecision", "[", RowBox[{RowBox[{"worst", "[", "\"k\"",
+                      "]"}], ",", "40"}], "]"}]}], ";", RowBox[{"e0", "=",
+                RowBox[{"SetPrecision", "[", RowBox[{RowBox[{"worst", "[",
+                      "\"eps\"", "]"}], ",", "40"}], "]"}]}], ";",
+              RowBox[{RowBox[{"th", "[", "e_", "]"}], ":=", RowBox[
+                 {"NDSolveValue", "[", RowBox[{RowBox[{"{", RowBox[
+                       {RowBox[{RowBox[{SuperscriptBox["thH", "\[Prime]",
+                          MultilineFunction -> None], "[", "uH", "]"}],
+                          "\[Equal]", RowBox[{RowBox[{RowBox[{"worst", "[",
+                          "\"s\"", "]"}], " ", "e"}], "+", RowBox[{RowBox[
+                          {"Exp", "[", RowBox[{"-", RowBox[{"(", RowBox[
+                          {"uH", "-", "lv"}], ")"}]}], "]"}], " ", "k", " ",
+                          RowBox[{"Cos", "[", RowBox[{"2", " ", RowBox[
+                          {"thH", "[", "uH", "]"}]}], "]"}]}], "-", RowBox[
+                          {"mv", " ", RowBox[{"Sin", "[", RowBox[{"2", " ",
+                          RowBox[{"thH", "[", "uH", "]"}]}], "]"}]}]}]}],
+                        ",", RowBox[{RowBox[{"thH", "[", "0", "]"}],
+                          "\[Equal]", "0"}]}], "}"}], ",", RowBox[{"thH",
+                      "[", "lv", "]"}], ",", RowBox[{"{", RowBox[{"uH", ",",
+                        "0", ",", "lv"}], "}"}], ",", RowBox[
+                     {"WorkingPrecision", "\[Rule]", "32"}], ",", RowBox[
+                     {"PrecisionGoal", "\[Rule]", "24"}], ",", RowBox[
+                     {"AccuracyGoal", "\[Rule]", "26"}], ",", RowBox[
+                     {"MaxSteps", "\[Rule]", "\[Infinity]"}]}], "]"}]}], ";",
+              RowBox[{"f0", "=", RowBox[{RowBox[{"th", "[", "e0", "]"}], "-",
+                  "target"}]}], ";", RowBox[{"d", "=", FractionBox[
+                 RowBox[{RowBox[{"th", "[", RowBox[{"e0", "+", FractionBox[
+                        "1", SuperscriptBox["10", "8"]]}], "]"}], "-",
+                   RowBox[{"th", "[", RowBox[{"e0", "-", FractionBox["1",
+                        SuperscriptBox["10", "8"]]}], "]"}]}], FractionBox[
+                  "2", SuperscriptBox["10", "8"]]]}], ";", RowBox[{"ref",
+                "=", RowBox[{"e0", "-", FractionBox["f0", "d"]}]}], ";",
+              RowBox[{"Association", "[", RowBox[{RowBox[{"\"key\"",
+                    "\[Rule]", RowBox[{"fullKey", "[", "worst", "]"}]}], ",",
+                  RowBox[{"\"k\"", "\[Rule]", RowBox[{"worst", "[", "\"k\"",
+                      "]"}]}], ",", RowBox[{"\"referenceEps\"", "\[Rule]",
+                    RowBox[{"N", "[", "ref", "]"}]}], ",", RowBox[
+                   {"\"notebookMinusReference\"", "\[Rule]", RowBox[
+                     {"N", "[", RowBox[{RowBox[{"worst", "[", "\"eps\"",
+                          "]"}], "-", "ref"}], "]"}]}], ",", RowBox[
+                   {"\"rustMinusReference\"", "\[Rule]", RowBox[{"N", "[",
+                      RowBox[{RowBox[{"rust", "[", RowBox[{"fullKey", "[",
+                          "worst", "]"}], "]"}], "-", "ref"}], "]"}]}]}],
+                "]"}]}]}], "]"}]}], ";", RowBox[{"errorAttribution", "=",
+        RowBox[{"Association", "[", RowBox[
+           {RowBox[{"(", RowBox[{RowBox[{RowBox[{"freeFileName", "[", "#1",
+                    "]"}], "\[Rule]", RowBox[{"errorAttributionOf", "[",
+                    "#1", "]"}]}], "&"}], ")"}], "/@",
+            "freeConfigurations"}], "]"}]}], ";",
+      RowBox[{"Dataset", "[", "errorAttribution", "]"}]}]], "Input"],
+  Cell["Closed shells. The Rust study picks its particle numbers from the \
+closed shells of the free spectrum at L = 3 (spectrum/summary.json: \
+closedShells_m1_L3_N_epsHomo and closedShells_m3_L3_N_epsHomo, also written \
+as closed-shells-m{1,3}-L3.csv): the particle states (eps >= 0) sorted by \
+eps, grouped into degenerate levels (|eps_j - eps_i| <= 1e-9 max(1, \
+|eps_i|)), with the cumulative multiplicity 4 g(n2) recorded after each group \
+until it exceeds 1300. Here the particle states are those with s (target - \
+Theta(0)) >= 0 (equivalent to eps >= 0 by the monotonicity of Theta; exact \
+for the k = 0 zero mode, where Theta(0) = 0 identically), computed in the \
+window [-0.5 m, 1.7 m] over the shells n2 = 0, 1, 2, ... until two \
+consecutive shells have no level in the window (the stopping rule of the Rust \
+code). The table is complete when its last energy lies inside the window and \
+its count exceeds 1300; that no shell beyond the stop has a level in the \
+window is the stopping-rule assumption (the lowest |eps| of a shell grows \
+with k), supported here by the measured increase of the lowest particle level \
+with n2. N_mid and N_large are the closed-shell numbers (N > 8) nearest 100 \
+and 1000.", "Text"],
   Cell[BoxData[RowBox[{RowBox[{RowBox[{"closedShellRun", "[", "mv_", "]"}],
         ":=", RowBox[{"Module", "[", RowBox[
            {RowBox[{"{", RowBox[{"mF", ",", "vF", ",", "theta", ",", "ends",
@@ -2269,7 +2388,8 @@ numbers (N > 8) nearest 100 and 1000.", "Text"],
                         "[", "#1", "]"}], "<>", "\"_L3\""}], "&"}], ",",
                   "closedShellComparison"}], "]"}]}], ",",
             RowBox[{"\"closedShellNumbers\"", "\[Rule]",
-              "closedShellNumbers"}]}], "]"}]}], ";",
+              "closedShellNumbers"}], ",", RowBox[{"\"errorAttribution\"",
+              "\[Rule]", "errorAttribution"}]}], "]"}]}], ";",
       RowBox[{"shootingChecks", "=", RowBox[{"Association", "[",
           RowBox[{RowBox[{"\"boxExactLevelsEqualRustK0\"", "\[Rule]",
               RowBox[{"AllTrue", "[", RowBox[{RowBox[{"Values", "[",
@@ -2308,9 +2428,9 @@ numbers (N > 8) nearest 100 and 1000.", "Text"],
                           "\"maxScalarChargeDeviation\"", "]"}],
                         "\[LessEqual]", FractionBox["1", SuperscriptBox["10",
                           "8"]]}], "&&", RowBox[{RowBox[{"#1", "[",
-                          "\"maxPressureChargeDeviation\"", "]"}],
+                          "\"maxPressureChargeRelativeDeviation\"", "]"}],
                         "\[LessEqual]", FractionBox["1", SuperscriptBox["10",
-                          "7"]]}]}], "&"}]}], "]"}]}], ",",
+                          "8"]]}]}], "&"}]}], "]"}]}], ",",
             RowBox[{"\"freeSpectraKAndMultiplicityColumns\"", "\[Rule]",
               RowBox[{"AllTrue", "[", RowBox[{RowBox[{"Values", "[",
                     "freeSpectrumResults", "]"}], ",", RowBox[
@@ -2334,6 +2454,14 @@ numbers (N > 8) nearest 100 and 1000.", "Text"],
                         FractionBox["1", SuperscriptBox["10", "8"]]}], "&&",
                       RowBox[{RowBox[{"#1", "[", "\"maxRootIterations\"",
                           "]"}], "<", "60"}]}], "&"}]}], "]"}]}], ",",
+            RowBox[
+             {"\"notebookEigenvaluesWithin1e11OfHighPrecisionReference\"",
+              "\[Rule]", RowBox[{"AllTrue", "[", RowBox[{RowBox[{"Values",
+                    "[", "errorAttribution", "]"}], ",", RowBox[
+                   {RowBox[{RowBox[{"Abs", "[", RowBox[{"#1", "[",
+                          "\"notebookMinusReference\"", "]"}], "]"}],
+                      "\[LessEqual]", FractionBox["1", SuperscriptBox["10",
+                        "11"]]}], "&"}]}], "]"}]}], ",",
             RowBox[{"\"closedShellTablesEqualRust\"", "\[Rule]",
               RowBox[{"AllTrue", "[", RowBox[{RowBox[{"Values", "[",
                     "closedShellComparison", "]"}], ",", RowBox[
@@ -4007,42 +4135,63 @@ L = 3: levels of both block types vs |k| (Delta k = 0.25 m)\"", ",",
       RowBox[{RowBox[{"{", RowBox[{RowBox[{"lengths", "=", RowBox[{"Range",
                 "[", RowBox[{FractionBox["8", "5"], ",", FractionBox["22",
                    "5"], ",", FractionBox["1", "20"]}], "]"}]}], ",",
-            "plusCurves", ",", "minusCurves", ",", "rustDots", ",", "g"}],
-          "}"}], ",", RowBox[{RowBox[{"plusCurves", "=",
+            "plotMomentum", ",", "plusCurves", ",", "minusCurves", ",",
+            "rustDots", ",", "g"}], "}"}], ",",
+        RowBox[{RowBox[{RowBox[{"plotMomentum", "[", RowBox[{"lv_", ",",
+                "j_"}], "]"}], ":=", RowBox[{"Module", "[",
+              RowBox[{RowBox[{"{", RowBox[{RowBox[{"a", "=", RowBox[
+                       {"N", "[", FractionBox[RowBox[{RowBox[{"(", RowBox[
+                          {"j", "-", FractionBox["1", "2"]}], ")"}], " ",
+                          "\[Pi]"}], "lv"], "]"}]}], ",", RowBox[{"b", "=",
+                      RowBox[{"N", "[", FractionBox[RowBox[{"j", " ",
+                          "\[Pi]"}], "lv"], "]"}]}], ",", "ga", ",", "c"}],
+                  "}"}], ",", RowBox[{RowBox[{"ga", "=", RowBox[{"Sign", "[",
+                      RowBox[{RowBox[{"Sin", "[", RowBox[{"a", " ", "lv"}],
+                          "]"}], "+", RowBox[{"a", " ", RowBox[{"Cos", "[",
+                          RowBox[{"a", " ", "lv"}], "]"}]}]}], "]"}]}], ";",
+                  RowBox[{"Do", "[", RowBox[{RowBox[{RowBox[{"c", "=",
+                          FractionBox[RowBox[{"a", "+", "b"}], "2"]}], ";",
+                        RowBox[{"If", "[", RowBox[{RowBox[{RowBox[{"Sign",
+                          "[", RowBox[{RowBox[{"Sin", "[", RowBox[{"c", " ",
+                          "lv"}], "]"}], "+", RowBox[{"c", " ", RowBox[
+                          {"Cos", "[", RowBox[{"c", " ", "lv"}], "]"}]}]}],
+                          "]"}], "\[Equal]", "ga"}], ",", RowBox[{"a", "=",
+                          "c"}], ",", RowBox[{"b", "=", "c"}]}], "]"}]}],
+                      ",", RowBox[{"{", "60", "}"}]}], "]"}], ";",
+                  FractionBox[RowBox[{"a", "+", "b"}], "2"]}]}], "]"}]}],
+          ";", RowBox[{"plusCurves", "=", RowBox[{"Table", "[",
+              RowBox[{RowBox[{"Table", "[", RowBox[{RowBox[{"{", RowBox[
+                       {RowBox[{"N", "[", "lv", "]"}], ",", RowBox[{"N", "[",
+                          SqrtBox[RowBox[{"1", "+", SuperscriptBox[RowBox[
+                          {"(", FractionBox[RowBox[{"n", " ", "\[Pi]"}],
+                          "lv"], ")"}], "2"]}]], "]"}]}], "}"}], ",",
+                    RowBox[{"{", RowBox[{"lv", ",", "lengths"}], "}"}]}],
+                  "]"}], ",", RowBox[{"{", RowBox[{"n", ",", "1", ",", "5"}],
+                  "}"}]}], "]"}]}], ";", RowBox[{"minusCurves", "=",
             RowBox[{"Table", "[", RowBox[{RowBox[{"Table", "[", RowBox[
                    {RowBox[{"{", RowBox[{RowBox[{"N", "[", "lv", "]"}], ",",
-                        RowBox[{"N", "[", SqrtBox[RowBox[{"1", "+",
-                          SuperscriptBox[RowBox[{"(", FractionBox[RowBox[
-                          {"n", " ", "\[Pi]"}], "lv"], ")"}], "2"]}]],
-                          "]"}]}], "}"}], ",", RowBox[{"{", RowBox[{"lv",
-                        ",", "lengths"}], "}"}]}], "]"}], ",",
-                RowBox[{"{", RowBox[{"n", ",", "1", ",", "3"}], "}"}]}],
-              "]"}]}], ";", RowBox[{"minusCurves", "=",
-            RowBox[{"Table", "[", RowBox[{RowBox[{"Table", "[", RowBox[
-                   {RowBox[{"{", RowBox[{RowBox[{"N", "[", "lv", "]"}], ",",
-                        RowBox[{"N", "[", SqrtBox[RowBox[{"1", "+",
-                          SuperscriptBox[RowBox[{"oddBoxMomentum", "[",
-                          RowBox[{"1", ",", "lv", ",", "j"}], "]"}], "2"]}]],
-                          "]"}]}], "}"}], ",", RowBox[{"{", RowBox[{"lv",
-                        ",", "lengths"}], "}"}]}], "]"}], ",",
-                RowBox[{"{", RowBox[{"j", ",", "1", ",", "3"}], "}"}]}],
-              "]"}]}], ";", RowBox[{"rustDots", "=",
-            RowBox[{"Table", "[", RowBox[{RowBox[{"Flatten", "[",
-                  RowBox[{RowBox[{"Table", "[", RowBox[{RowBox[{"Module",
-                          "[", RowBox[{RowBox[{"{", RowBox[{"t", "=", RowBox[
-                          {"freeTables", "[", RowBox[{"{", RowBox[{"1", ",",
-                          "lv"}], "}"}], "]"}]}], "}"}], ",", RowBox[
-                          {RowBox[{"Select", "[", RowBox[{TemplateBox[
-                          {RowBox[{"{", RowBox[{RowBox[{"ConstantArray", "[",
-                          RowBox[{RowBox[{"N", "[", "lv", "]"}], ",", RowBox[
-                          {"Length", "[", RowBox[{"t", "[", "\"rows\"",
-                          "]"}], "]"}]}], "]"}], ",", RowBox[{"columnOf",
-                          "[", RowBox[{"t", ",", "\"eps\""}], "]"}], ",",
+                        SqrtBox[RowBox[{"1", "+", SuperscriptBox[RowBox[
+                          {"plotMomentum", "[", RowBox[{RowBox[{"N", "[",
+                          "lv", "]"}], ",", "j"}], "]"}], "2"]}]]}], "}"}],
+                    ",", RowBox[{"{", RowBox[{"lv", ",", "lengths"}],
+                      "}"}]}], "]"}], ",", RowBox[{"{", RowBox[{"j", ",",
+                    "1", ",", "5"}], "}"}]}], "]"}]}], ";",
+          RowBox[{"rustDots", "=", RowBox[{"Table", "[", RowBox[{
+                RowBox[{"Flatten", "[", RowBox[{RowBox[{"Table", "[",
+                      RowBox[{RowBox[{"Module", "[", RowBox[{RowBox[{"{",
+                          RowBox[{"t", "=", RowBox[{"freeTables", "[", RowBox[
+                          {"{", RowBox[{"1", ",", "lv"}], "}"}], "]"}]}],
+                          "}"}], ",", RowBox[{RowBox[{"Select", "[", RowBox[
+                          {TemplateBox[{RowBox[{"{", RowBox[{RowBox[
+                          {"ConstantArray", "[", RowBox[{RowBox[{"N", "[",
+                          "lv", "]"}], ",", RowBox[{"Length", "[", RowBox[
+                          {"t", "[", "\"rows\"", "]"}], "]"}]}], "]"}], ",",
                           RowBox[{"columnOf", "[", RowBox[{"t", ",",
-                          "\"n2\""}], "]"}], ",", RowBox[{"columnOf", "[",
-                          RowBox[{"t", ",", "\"parity\""}], "]"}], ",",
-                          RowBox[{"columnOf", "[", RowBox[{"t", ",",
-                          "\"s\""}], "]"}]}], "}"}]}, "Transpose",
+                          "\"eps\""}], "]"}], ",", RowBox[{"columnOf", "[",
+                          RowBox[{"t", ",", "\"n2\""}], "]"}], ",", RowBox[
+                          {"columnOf", "[", RowBox[{"t", ",", "\"parity\""}],
+                          "]"}], ",", RowBox[{"columnOf", "[", RowBox[{"t",
+                          ",", "\"s\""}], "]"}]}], "}"}]}, "Transpose",
                           SyntaxForm -> SuperscriptBox], ",", RowBox[{RowBox[
                           {RowBox[{RowBox[{"#1", "\[LeftDoubleBracket]", "3",
                           "\[RightDoubleBracket]"}], "\[Equal]", "0"}], "&&",
@@ -4075,12 +4224,12 @@ L = 3: levels of both block types vs |k| (Delta k = 0.25 m)\"", ",",
                           "\[LeftDoubleBracket]", "1",
                           "\[RightDoubleBracket]"}], ",", RowBox[
                           {"AbsoluteThickness", "[", "2", "]"}]}], "]"}],
-                          ",", "3"}], "]"}], ",", RowBox[{"ConstantArray",
+                          ",", "5"}], "]"}], ",", RowBox[{"ConstantArray",
                           "[", RowBox[{RowBox[{"Directive", "[", RowBox[
                           {RowBox[{"vizColors", "\[LeftDoubleBracket]", "2",
                           "\[RightDoubleBracket]"}], ",", RowBox[
                           {"AbsoluteThickness", "[", "2", "]"}]}], "]"}],
-                          ",", "3"}], "]"}], ",", RowBox[{"{", RowBox[
+                          ",", "5"}], "]"}], ",", RowBox[{"{", RowBox[
                           {"Directive", "[", RowBox[{RowBox[{"vizColors",
                           "\[LeftDoubleBracket]", "3",
                           "\[RightDoubleBracket]"}], ",", RowBox[
@@ -4200,36 +4349,41 @@ pseudo-potential of the N = 8, lambda_hat_2, T = 0 ground state (L = 3, m = H \
             RowBox[{"rustY", "=", RowBox[{"columnOf", "[", RowBox[
                  {"scfProfiles", ",", "\"y\""}], "]"}]}], ",", "g"}], "}"}],
         ",", RowBox[{RowBox[{RowBox[{"logPositive", "[", "pairs_", "]"}],
-            ":=", RowBox[{RowBox[{"(", RowBox[{RowBox[{"{", RowBox[
-                     {RowBox[{"#1", "\[LeftDoubleBracket]", "1",
-                        "\[RightDoubleBracket]"}], ",", RowBox[{"Log10", "[",
-                        RowBox[{"#1", "\[LeftDoubleBracket]", "2",
+            ":=", RowBox[{"With", "[", RowBox[{RowBox[{"{", RowBox[
+                   {"floor", "=", FractionBox[RowBox[{"Max", "[", RowBox[
+                        {"pairs", "\[LeftDoubleBracket]", RowBox[{"All", ",",
+                          "2"}], "\[RightDoubleBracket]"}], "]"}],
+                     SuperscriptBox["10", "10"]]}], "}"}], ",",
+                RowBox[{RowBox[{"(", RowBox[{RowBox[{"{", RowBox[{RowBox[
+                          {"#1", "\[LeftDoubleBracket]", "1",
+                          "\[RightDoubleBracket]"}], ",", RowBox[{"Log10",
+                          "[", RowBox[{"#1", "\[LeftDoubleBracket]", "2",
                           "\[RightDoubleBracket]"}], "]"}]}], "}"}], "&"}],
-                ")"}], "/@", RowBox[{"Select", "[", RowBox[{"pairs", ",",
-                  RowBox[{RowBox[{RowBox[{"#1", "\[LeftDoubleBracket]", "2",
-                        "\[RightDoubleBracket]"}], ">", "0"}], "&"}]}],
-                "]"}]}]}], ";", RowBox[{"g", "=", RowBox[{"Legended", "[",
-              RowBox[{RowBox[{"Show", "[", RowBox[{RowBox[{"ListLinePlot",
-                      "[", RowBox[{RowBox[{"{", RowBox[{RowBox[
-                          {"logPositive", "[", TemplateBox[{RowBox[{"{",
-                          RowBox[{"scfGrid", ",", "scfNp"}], "}"}]},
-                          "Transpose", SyntaxForm -> SuperscriptBox], "]"}],
-                          ",", RowBox[{"logPositive", "[", TemplateBox[
-                          {RowBox[{"{", RowBox[{"scfGrid", ",", "scfSp"}],
-                          "}"}]}, "Transpose", SyntaxForm -> SuperscriptBox],
-                          "]"}]}], "}"}], ",", RowBox[{"PlotStyle",
-                          "\[Rule]", RowBox[{RowBox[{"(", RowBox[{RowBox[
-                          {"Directive", "[", RowBox[{"#1", ",", RowBox[
-                          {"AbsoluteThickness", "[", "2", "]"}]}], "]"}],
-                          "&"}], ")"}], "/@", RowBox[{"vizColors",
-                          "\[LeftDoubleBracket]", RowBox[{"1", ";;", "2"}],
-                          "\[RightDoubleBracket]"}]}]}], ",", RowBox[
-                         {"PlotRange", "\[Rule]", "All"}]}], "]"}], ",",
-                    RowBox[{"ListPlot", "[", RowBox[{RowBox[{"{", RowBox[
-                          {RowBox[{"logPositive", "[", RowBox[{TemplateBox[
-                          {RowBox[{"{", RowBox[{"rustY", ",", RowBox[
-                          {"columnOf", "[", RowBox[{"scfProfiles", ",",
-                          "\"n_p\""}], "]"}]}], "}"}]}, "Transpose",
+                    ")"}], "/@", RowBox[{"Select", "[", RowBox[{"pairs", ",",
+                      RowBox[{RowBox[{RowBox[{"#1", "\[LeftDoubleBracket]",
+                          "2", "\[RightDoubleBracket]"}], ">", "floor"}],
+                        "&"}]}], "]"}]}]}], "]"}]}], ";",
+          RowBox[{"g", "=", RowBox[{"Legended", "[", RowBox[{RowBox[
+                 {"Show", "[", RowBox[{RowBox[{"ListLinePlot", "[",
+                      RowBox[{RowBox[{"{", RowBox[{RowBox[{"logPositive",
+                          "[", TemplateBox[{RowBox[{"{", RowBox[{"scfGrid",
+                          ",", "scfNp"}], "}"}]}, "Transpose", SyntaxForm ->
+                          SuperscriptBox], "]"}], ",", RowBox[{"logPositive",
+                          "[", TemplateBox[{RowBox[{"{", RowBox[{"scfGrid",
+                          ",", "scfSp"}], "}"}]}, "Transpose", SyntaxForm ->
+                          SuperscriptBox], "]"}]}], "}"}], ",", RowBox[
+                         {"PlotStyle", "\[Rule]", RowBox[{RowBox[{"(",
+                          RowBox[{RowBox[{"Directive", "[", RowBox[{"#1",
+                          ",", RowBox[{"AbsoluteThickness", "[", "2",
+                          "]"}]}], "]"}], "&"}], ")"}], "/@", RowBox[
+                          {"vizColors", "\[LeftDoubleBracket]", RowBox[{"1",
+                          ";;", "2"}], "\[RightDoubleBracket]"}]}]}], ",",
+                        RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}],
+                    ",", RowBox[{"ListPlot", "[", RowBox[{RowBox[{"{",
+                          RowBox[{RowBox[{"logPositive", "[", RowBox[
+                          {TemplateBox[{RowBox[{"{", RowBox[{"rustY", ",",
+                          RowBox[{"columnOf", "[", RowBox[{"scfProfiles",
+                          ",", "\"n_p\""}], "]"}]}], "}"}]}, "Transpose",
                           SyntaxForm -> SuperscriptBox],
                           "\[LeftDoubleBracket]", RowBox[{"1", ";;", RowBox[
                           {"-", "1"}], ";;", "6"}],
@@ -4248,9 +4402,9 @@ pseudo-potential of the N = 8, lambda_hat_2, T = 0 ground state (L = 3, m = H \
                           {"vizColors", "\[LeftDoubleBracket]", RowBox[{"1",
                           ";;", "2"}], "\[RightDoubleBracket]"}]}]}]}],
                       "]"}], ",", RowBox[{"Sequence", "@@", RowBox[
-                       {"vizStyle", "[", RowBox[{"\"Proper densities of the N \
-= 8, lambda_hat_2 ground state (brane zero modes; S_p = 0 at the tip is not \
-drawn)\"", ",", "\"hidden coordinate y (tip -L to brane 0)\"", ",",
+                       {"vizStyle", "[", RowBox[{"\"Proper densities, N = 8, \
+lambda_hat_2 ground state (points below 1e-10 of max omitted)\"", ",",
+                          "\"hidden coordinate y (tip -L to brane 0)\"", ",",
                           "\"log10 density (per unit proper volume)\""}],
                         "]"}]}]}], "]"}], ",", RowBox[{"dotLineLegend", "[",
                   RowBox[{RowBox[{"{", RowBox[
@@ -4342,12 +4496,18 @@ ncy: Anderson mixing (beta 0.4, history 6) from zero densities\"", ",",
       RowBox[{RowBox[{"{", RowBox[{"labels", ",", "values", ",", "g"}],
           "}"}], ",", RowBox[{RowBox[{"labels", "=",
             RowBox[{"{", RowBox[{"\"k = 0 box: exact vs Rust\"", ",",
-                "\"free spectra: NDSolve vs Rust (2824 levels)\"", ",",
-                "\"free spectra: scalar charges\"", ",",
-                "\"closed-shell tables\"", ",", "\"SCF: eps_HOMO\"", ",",
-                "\"SCF: E_0\"", ",", "\"SCF: n_c / D\"", ",",
+                RowBox[{"\"free spectra: NDSolve vs Rust (\"", "<>",
+                  RowBox[{"ToString", "[", RowBox[{"Total", "[", RowBox[
+                       {RowBox[{"(", RowBox[{RowBox[{"#1", "[", "\"levels\"",
+                          "]"}], "&"}], ")"}], "/@", RowBox[{"Values", "[",
+                          "freeSpectrumResults", "]"}]}], "]"}], "]"}], "<>",
+                  "\" levels)\""}], ",", "\"free spectra: scalar charges\"",
+                ",", "\"closed-shell tables\"", ",", "\"SCF: eps_HOMO\"",
+                ",", "\"SCF: E_0\"", ",", "\"SCF: n_c / D\"", ",",
                 "\"SCF: M_eff(y)\"", ",", "\"SCF: v_x(y)\"", ",",
-                "\"SCF: full spectrum (788 levels)\"", ",",
+                RowBox[{"\"SCF: full spectrum (\"", "<>", RowBox[{"ToString",
+                    "[", RowBox[{"scfSpectrumComparison", "[", "\"levels\"",
+                      "]"}], "]"}], "<>", "\" levels)\""}], ",",
                 "\"SCF: KS gap\""}], "}"}]}], ";",
           RowBox[{"values", "=", RowBox[{"{", RowBox[{RowBox[{"Max", "[",
                   RowBox[{RowBox[{"(", RowBox[{RowBox[{"#1", "[",
@@ -4460,7 +4620,7 @@ artifacts/dirac16complex/kohn-sham/rust/spectrum and rust/scf).", "Text"],
                       ")"}], "/@", RowBox[{"Values", "[",
                       "freeSpectrumResults", "]"}]}], "]"}]}], "}"}], ",",
             RowBox[{"{", RowBox[{"\"zero mode\"", ",",
-                "\"slope d eps/dk vs -s c (Richardson, h = 2e-4)\"", ",",
+                "\"slope d eps/dk vs -s c (Richardson, h = 1e-4)\"", ",",
                 "zeroModeSlopeDeviation"}], "}"}], ",",
             RowBox[{"{", RowBox[{"\"free spectra\"", ",",
                 "\"levels compared (six files, keys identical)\"", ",",
@@ -4492,7 +4652,19 @@ artifacts/dirac16complex/kohn-sham/rust/spectrum and rust/scf).", "Text"],
                        {RowBox[{"#1", "[", "\"maxMatchingResidual\"", "]"}],
                         "&"}], ")"}], "/@", RowBox[{"Values", "[",
                       "freeSpectrumResults", "]"}]}], "]"}]}], "}"}], ",",
-            RowBox[{"{", RowBox[{"\"closed shells\"", ",",
+            RowBox[{"{", RowBox[{"\"free spectra\"", ",", "\"worst level per \
+file vs WorkingPrecision-32 reference: notebook / Rust\"", ",",
+                RowBox[{"{", RowBox[{RowBox[{"Max", "[", RowBox[
+                       {RowBox[{"(", RowBox[{RowBox[{"Abs", "[", RowBox[
+                          {"#1", "[", "\"notebookMinusReference\"", "]"}],
+                          "]"}], "&"}], ")"}], "/@", RowBox[{"Values", "[",
+                          "errorAttribution", "]"}]}], "]"}], ",",
+                    RowBox[{"Max", "[", RowBox[{RowBox[{"(", RowBox[
+                          {RowBox[{"Abs", "[", RowBox[{"#1", "[",
+                          "\"rustMinusReference\"", "]"}], "]"}], "&"}],
+                          ")"}], "/@", RowBox[{"Values", "[",
+                          "errorAttribution", "]"}]}], "]"}]}], "}"}]}],
+              "}"}], ",", RowBox[{"{", RowBox[{"\"closed shells\"", ",",
                 "\"tables m = 1, 3 (L = 3) vs Rust\"", ",", RowBox[
                  {"Max", "[", RowBox[{RowBox[{"(", RowBox[{RowBox[{"#1", "[",
                           "\"maxAbsDeviation\"", "]"}], "&"}], ")"}], "/@",
@@ -4724,13 +4896,31 @@ engine.binary is the platform-specific binary name).", "Text"],
                      {RowBox[{"#1", "[", "\"maxPressureChargeDeviation\"",
                         "]"}], "&"}], ")"}], "/@", RowBox[{"Values", "[",
                     "freeSpectrumResults", "]"}]}], "]"}]}], ",",
+            RowBox[{"\"freeSpectraMaxPressureChargeRelativeDeviation\"",
+              "\[Rule]", RowBox[{"Max", "[", RowBox[{RowBox[{"(", RowBox[
+                     {RowBox[{"#1", "[",
+                        "\"maxPressureChargeRelativeDeviation\"", "]"}],
+                      "&"}], ")"}], "/@", RowBox[{"Values", "[",
+                    "freeSpectrumResults", "]"}]}], "]"}]}], ",",
             RowBox[{"\"freeSpectraMaxMatchingResidual\"", "\[Rule]",
               RowBox[{"Max", "[", RowBox[{RowBox[{"(", RowBox[
                      {RowBox[{"#1", "[", "\"maxMatchingResidual\"", "]"}],
                       "&"}], ")"}], "/@", RowBox[{"Values", "[",
                     "freeSpectrumResults", "]"}]}], "]"}]}], ",",
-            RowBox[{"\"closedShellEntries_m1_L3\"", "\[Rule]",
-              RowBox[{RowBox[{"closedShellComparison", "[", "1", "]"}], "[",
+            RowBox[{"\"worstLevelNotebookMinusReferenceMax\"", "\[Rule]",
+              RowBox[{"Max", "[", RowBox[{RowBox[{"(", RowBox[
+                     {RowBox[{"Abs", "[", RowBox[{"#1", "[",
+                          "\"notebookMinusReference\"", "]"}], "]"}], "&"}],
+                    ")"}], "/@", RowBox[{"Values", "[", "errorAttribution",
+                    "]"}]}], "]"}]}], ",", RowBox[
+             {"\"worstLevelRustMinusReferenceMax\"", "\[Rule]",
+              RowBox[{"Max", "[", RowBox[{RowBox[{"(", RowBox[
+                     {RowBox[{"Abs", "[", RowBox[{"#1", "[",
+                          "\"rustMinusReference\"", "]"}], "]"}], "&"}],
+                    ")"}], "/@", RowBox[{"Values", "[", "errorAttribution",
+                    "]"}]}], "]"}]}], ",", RowBox[
+             {"\"closedShellEntries_m1_L3\"", "\[Rule]", RowBox[{
+                RowBox[{"closedShellComparison", "[", "1", "]"}], "[",
                 "\"entries\"", "]"}]}], ",", RowBox[
              {"\"closedShellEntries_m3_L3\"", "\[Rule]", RowBox[{
                 RowBox[{"closedShellComparison", "[", "3", "]"}], "[",

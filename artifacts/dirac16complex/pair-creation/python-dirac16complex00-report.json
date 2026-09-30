@@ -1,0 +1,2198 @@
+{
+  "schemaVersion": 1,
+  "producer": "scripts/check_dirac16complex00.py",
+  "checks": {
+    "S5_fixture_matchesContractConstruction": true,
+    "S5_algebra_leadFacts": true,
+    "S5_algebra_pinModuleAndSpinInvariance": true,
+    "S5_algebra_anticommutatorTotallyAntisymmetric": true,
+    "S5_lagrangian_realCommuting": true,
+    "S5_lagrangian_coefficientHermiticity": true,
+    "S5_lagrangian_grassmannFlatHermitianAndEL": true,
+    "S5_massTerm_commutingExplicitSpinors": true,
+    "S5_massTerm_grassmannNonzero": true,
+    "S5_massTerm_dispersionFlat": true,
+    "S5_realRestriction_commutingNonTrivial": true,
+    "S5_realRestriction_grassmannFlatTrivial": true,
+    "S5_realRestriction_grassmannCurvedTrivial": true,
+    "S5_realRestriction_grassmannComplexDecomposition": true,
+    "S5_realRestriction_relationToL1": true,
+    "S5_realRestriction_commutingFlatDecomposition": true,
+    "S5_realRestriction_commutingNotebookContraction": true,
+    "S5_connection_nonTrivialCoupling": true,
+    "S5_connection_OmegaTermInFieldEquation": true,
+    "S5_EL_commutingFlat": true,
+    "S5_EL_commutingCurved": true,
+    "S5_EL_commutingGeneralSmoothU": true,
+    "S5_EL_grassmannCurved": true,
+    "S5_EL_identicalFormBothStatistics": true,
+    "S5_EMT_symmetricAndReal": true,
+    "S5_EMT_conservationOnShell": true,
+    "S5_EMT_traceOnShell": true,
+    "S5_current_conservationAndReality": true,
+    "S5_EMT_observerSplitGaussianNormal": true,
+    "S5_EMT_generalSmoothU": true,
+    "S5_EMT_homogeneousEquationsOfState": true,
+    "S5_EMT_vielbeinVariation": true,
+    "S5_geometry_G4Generic": true,
+    "S5_charge_indefinite": true,
+    "S5_energy_unboundedBelow": true,
+    "S5_primordial_geometryMatchesStage2": true,
+    "S5_primordial_ELcommuting": true,
+    "S5_primordial_homogeneousState": true,
+    "S5_primordial_staticFieldSourcedExactly": true,
+    "S5_static_geometryAndReducedEquation": true,
+    "S5_static_blocksFromStage4Theory": true,
+    "S5_static_classicalModeIsKreinWeightedKS": true,
+    "S5_static_classicalEnergyKreinSigned": true,
+    "S5_static_KSorbitalEnergySplit": true,
+    "S5_static_meanFieldOneBodyEMT": true,
+    "S5_static_sourceProperChart": true,
+    "S5_citation_pythonStage1to4ReportsMatchSources": true,
+    "S5_agreesWithWolfram": true,
+    "S5_internal_noException": true
+  },
+  "measurements": {
+    "fixture_matchesContractConstruction": {
+      "gamma": true,
+      "C": true,
+      "chirality": true,
+      "B": true,
+      "S": true,
+      "SCount": 28
+    },
+    "algebra_leadFacts": {
+      "clifford": true,
+      "gammaSymmetryPattern": true,
+      "gamma8Hermitian": true,
+      "gamma8SquaredIsOne": true,
+      "gamma8AnticommutesWithEveryGamma": true,
+      "gamma8CommutesWithC": true,
+      "gamma8CommutesWithEveryBivector": true,
+      "gamma8CommutesWithEverySab": true,
+      "gamma8IsDiagMinusI8PlusI8": true,
+      "CRealSymmetric": true,
+      "CSquaredIsOne": true,
+      "CEqualsBlockDiagMinusSigmaSigma": true,
+      "CgammaRealAntisymmetric": true,
+      "CSabRealAntisymmetric": true,
+      "BHermitian": true,
+      "BSquaredIsOne": true,
+      "BSignature": [
+        8,
+        8,
+        0
+      ],
+      "BEigenvaluesPlusMinusOneEight": true,
+      "BCommutesWithC": true,
+      "BCEqualsMinusIGamma4": true,
+      "gamma8Bgamma8EqualsMinusB": true,
+      "gamma8CgammaGamma8EqualsMinusCgamma": true,
+      "Cgamma4EqualsIB": true,
+      "CSignature": [
+        8,
+        8,
+        0
+      ]
+    },
+    "algebra_pinModuleAndSpinInvariance": {
+      "commutantOfGammas": 1,
+      "commutantOfSpinGenerators": 2,
+      "invariantBilinearForms": 2,
+      "formsSpannedByCPminusCPplus": true,
+      "SabRealAndCPreserving": true,
+      "statement": "C^16 is an irreducible complex Pin(4,4) (Clifford) module (commutant 1), splitting under Spin(4,4) into the two chiral halves (commutant 2); every S^{ab} is real with S^T C + C S = 0, so Psi^dagger C Psi is Spin_0(4,4)-invariant (R^dagger = R^T, R^T C R = C); the invariant forms X (S^T X + X S = 0) are spanned by C P_- and C P_+. The 16 commuting components of dirac16complex00 carry the same representation as the 16 Grassmann components of dirac16complex."
+    },
+    "algebra_anticommutatorTotallyAntisymmetric": {
+      "anticommutator": true,
+      "CanticommutatorSymmetric": true,
+      "CcommutatorAntisymmetric": true,
+      "commutatorVector": true
+    },
+    "lagrangian_realCommuting": {
+      "flat": {
+        "swapSymmetricValue": true,
+        "swapSymmetricJets": true,
+        "K0Hermitian": true,
+        "K0ClosedForm": true,
+        "KmuClosedForm": true,
+        "LmuEqualsKmuDagger": true,
+        "KmuAntisymmetric": true,
+        "unsymmetrizedKineticNotReal": true,
+        "complexDataImLZeroValueAndJets": true,
+        "complexDataLNonzero": true,
+        "complexDataUnsymmetrizedImNonzero": true
+      },
+      "G1p1": {
+        "swapSymmetricValue": true,
+        "swapSymmetricJets": true,
+        "K0Hermitian": true,
+        "K0ClosedForm": true,
+        "KmuClosedForm": true,
+        "LmuEqualsKmuDagger": true,
+        "KmuAntisymmetric": true,
+        "unsymmetrizedKineticNotReal": true,
+        "complexDataImLZeroValueAndJets": true,
+        "complexDataLNonzero": true,
+        "complexDataUnsymmetrizedImNonzero": true
+      },
+      "G2": {
+        "swapSymmetricValue": true,
+        "swapSymmetricJets": true,
+        "K0Hermitian": true,
+        "K0ClosedForm": true,
+        "KmuClosedForm": true,
+        "LmuEqualsKmuDagger": true,
+        "KmuAntisymmetric": true,
+        "unsymmetrizedKineticNotReal": true
+      },
+      "G1p2": {
+        "swapSymmetricValue": true,
+        "swapSymmetricJets": true,
+        "K0Hermitian": true,
+        "K0ClosedForm": true,
+        "KmuClosedForm": true,
+        "LmuEqualsKmuDagger": true,
+        "KmuAntisymmetric": true,
+        "unsymmetrizedKineticNotReal": true,
+        "complexDataImLZeroValueAndJets": true,
+        "complexDataLNonzero": true,
+        "complexDataUnsymmetrizedImNonzero": true
+      },
+      "G1p3": {
+        "swapSymmetricValue": true,
+        "swapSymmetricJets": true,
+        "K0Hermitian": true,
+        "K0ClosedForm": true,
+        "KmuClosedForm": true,
+        "LmuEqualsKmuDagger": true,
+        "KmuAntisymmetric": true,
+        "unsymmetrizedKineticNotReal": true,
+        "complexDataImLZeroValueAndJets": true,
+        "complexDataLNonzero": true,
+        "complexDataUnsymmetrizedImNonzero": true
+      }
+    },
+    "lagrangian_coefficientHermiticity": {
+      "statement": "Ls = chi^T K0 psi + chi^T K^mu d_mu psi + d_mu chi^T L^mu psi - m S - U with K0 = (1/2) sqrt|g| C {gamma^mu, Omega_mu} real symmetric (Hermitian), K^mu = (1/2) sqrt|g| C gamma^mu real antisymmetric and L^mu = (K^mu)^T = (K^mu)^dagger (coefficients read off the symbolic polynomial L); because complex conjugation reverses products (trivially for commuting numbers, by (theta1 theta2)^* = theta2^* theta1^* for Grassmann numbers) this makes L real/Hermitian for both statistics.",
+      "points": [
+        "G1p1",
+        "G1p2",
+        "G1p3",
+        "G2",
+        "flat"
+      ]
+    },
+    "lagrangian_grassmannFlatHermitianAndEL": {
+      "hermitian": true,
+      "unsymmetrizedKineticNotHermitian": true,
+      "SHermitian": true,
+      "leftEL": true,
+      "rightEL": true,
+      "massTermInEquation": true,
+      "LMonomials": 392
+    },
+    "massTerm_commutingExplicitSpinors": {
+      "e0+e4": {
+        "S": "-2",
+        "imaginaryPart": "0"
+      },
+      "e8+e12": {
+        "S": "2",
+        "imaginaryPart": "0"
+      },
+      "e0+ie4": {
+        "S": "0",
+        "imaginaryPart": "0"
+      },
+      "charPolyC": "(x - 1)**8*(x + 1)**8",
+      "signatureC": [
+        8,
+        8,
+        0
+      ]
+    },
+    "massTerm_grassmannNonzero": {
+      "SMonomials": 16,
+      "SHermitian": true,
+      "SEven": true,
+      "powerMonomialCounts": [
+        16,
+        120,
+        560,
+        1820,
+        4368,
+        8008,
+        11440,
+        12870,
+        11440,
+        8008,
+        4368,
+        1820,
+        560,
+        120,
+        16,
+        1,
+        0
+      ],
+      "binomialCounts": true,
+      "S17Zero": true,
+      "S16Nonzero": true,
+      "S2Monomials": 120,
+      "S3Monomials": 560
+    },
+    "massTerm_dispersionFlat": {
+      "productIdentity": true,
+      "dimensionOnShell_m1_k11234": 8,
+      "dimensionOffShell_k4_3": 0,
+      "dispersion": "k4^2 + k5^2 + k6^2 + k7^2 - k0^2 - k1^2 - k2^2 - k3^2 = m^2 (Psi = u e^{i k.x})"
+    },
+    "realRestriction_commutingNonTrivial": {
+      "flat": {
+        "canonical": {
+          "EL": true,
+          "massPartIs2sqrtgCX": true,
+          "kineticNotDivergence": true,
+          "notebookExtraTermNonzero": false,
+          "Lnonzero": true
+        }
+      },
+      "G1p1": {
+        "canonical": {
+          "EL": true,
+          "massPartIs2sqrtgCX": true,
+          "kineticNotDivergence": true,
+          "notebookExtraTermNonzero": true,
+          "Lnonzero": true
+        },
+        "notebookContraction": {
+          "EL": true,
+          "massPartIs2sqrtgCX": true,
+          "kineticNotDivergence": true,
+          "notebookExtraTermNonzero": true,
+          "Lnonzero": true
+        }
+      },
+      "G2": {
+        "canonical": {
+          "EL": true,
+          "massPartIs2sqrtgCX": true,
+          "kineticNotDivergence": true,
+          "notebookExtraTermNonzero": false,
+          "Lnonzero": true
+        },
+        "notebookContraction": {
+          "EL": true,
+          "massPartIs2sqrtgCX": true,
+          "kineticNotDivergence": true,
+          "notebookExtraTermNonzero": false,
+          "Lnonzero": true
+        }
+      },
+      "G1p2": {
+        "canonical": {
+          "EL": true,
+          "massPartIs2sqrtgCX": true,
+          "kineticNotDivergence": true,
+          "notebookExtraTermNonzero": true,
+          "Lnonzero": true
+        },
+        "notebookContraction": {
+          "EL": true,
+          "massPartIs2sqrtgCX": true,
+          "kineticNotDivergence": true,
+          "notebookExtraTermNonzero": true,
+          "Lnonzero": true
+        }
+      },
+      "G1p3": {
+        "canonical": {
+          "EL": true,
+          "massPartIs2sqrtgCX": true,
+          "kineticNotDivergence": true,
+          "notebookExtraTermNonzero": true,
+          "Lnonzero": true
+        },
+        "notebookContraction": {
+          "EL": true,
+          "massPartIs2sqrtgCX": true,
+          "kineticNotDivergence": true,
+          "notebookExtraTermNonzero": true,
+          "Lnonzero": true
+        }
+      }
+    },
+    "realRestriction_grassmannFlatTrivial": {
+      "massTermZero": true,
+      "vectorBilinearMonomials": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "kineticIsHalfTotalDerivative": true,
+      "flatLgELzero": true,
+      "flatLgNonzero": true
+    },
+    "realRestriction_grassmannCurvedTrivial": {
+      "point": "G1p1",
+      "HM": "2/3",
+      "canonical": {
+        "massTermZero": true,
+        "ELzero": true,
+        "ELderivativeFree": true,
+        "LgMonomials": 544,
+        "LgNonzero": true
+      },
+      "notebookContraction": {
+        "massTermZero": true,
+        "ELzero": false,
+        "ELderivativeFree": true,
+        "LgMonomials": 544,
+        "LgNonzero": true
+      }
+    },
+    "realRestriction_grassmannComplexDecomposition": {
+      "crossTermOnly": true,
+      "diagonalTermsVanish": true
+    },
+    "realRestriction_relationToL1": {
+      "flat": {
+        "decomposition": true,
+        "imaginaryPartZero": true,
+        "consistentTruncation": true,
+        "realEquation": true
+      },
+      "G1p1": {
+        "decomposition": true,
+        "imaginaryPartZero": true,
+        "consistentTruncation": true,
+        "realEquation": true
+      },
+      "G2": {
+        "decomposition": true,
+        "imaginaryPartZero": true,
+        "consistentTruncation": true,
+        "realEquation": true
+      }
+    },
+    "realRestriction_commutingFlatDecomposition": {
+      "statement": "commuting Psi = X + i Y: Psibar Psi = X^T C X + Y^T C Y and the symmetrized kinetic term = X^T C gamma^mu d_mu X + Y^T C gamma^mu d_mu Y exactly (flat; symbolic jets)",
+      "flat": {
+        "decomposition": true,
+        "imaginaryPartZero": true,
+        "consistentTruncation": true,
+        "realEquation": true
+      }
+    },
+    "realRestriction_commutingNotebookContraction": {
+      "G1p1": {
+        "EL": true,
+        "massPartIs2sqrtgCX": true,
+        "kineticNotDivergence": true,
+        "notebookExtraTermNonzero": true,
+        "Lnonzero": true
+      },
+      "G2": {
+        "EL": true,
+        "massPartIs2sqrtgCX": true,
+        "kineticNotDivergence": true,
+        "notebookExtraTermNonzero": false,
+        "Lnonzero": true
+      },
+      "G1p2": {
+        "EL": true,
+        "massPartIs2sqrtgCX": true,
+        "kineticNotDivergence": true,
+        "notebookExtraTermNonzero": true,
+        "Lnonzero": true
+      },
+      "G1p3": {
+        "EL": true,
+        "massPartIs2sqrtgCX": true,
+        "kineticNotDivergence": true,
+        "notebookExtraTermNonzero": true,
+        "Lnonzero": true
+      }
+    },
+    "connection_nonTrivialCoupling": {
+      "G1p1": {
+        "gammaOmegaNonzeroEntries": 128,
+        "divergenceIdentity": true,
+        "gammaCovariantlyConstant": true,
+        "spinCurvatureIsHalfRiemannS": true,
+        "spinCurvatureNonzero": true,
+        "lichnerowiczC": [
+          "-1/4"
+        ],
+        "lichnerowicz": true,
+        "scalarCurvature": {
+          "exactSha256": "a8ee3f55d102dca4703dbcafdedf0e96a4b1f796f9bea4b5e7690e44c764d580",
+          "exactLength": 837,
+          "decimal": "-2.426927426699216826"
+        },
+        "onShellFirstOrder": true,
+        "onShellSecondOrder": true,
+        "onShellLichnerowiczMassShell": true,
+        "onlyTotallyAntisymmetricOmega": true,
+        "anticommutatorTermNonzero": true,
+        "totallyAntisymmetricOmegaNonzero": true,
+        "omegaTermNonzeroComponents": 16
+      },
+      "G1p2": {
+        "gammaOmegaNonzeroEntries": 128,
+        "divergenceIdentity": true,
+        "gammaCovariantlyConstant": true,
+        "spinCurvatureIsHalfRiemannS": true,
+        "spinCurvatureNonzero": true,
+        "lichnerowiczC": [
+          "-1/4"
+        ],
+        "lichnerowicz": true,
+        "scalarCurvature": {
+          "exactSha256": "b8d83c14eb667e17888bb20c06224c8a54983a62fb02f0674a2dad8b45461f13",
+          "exactLength": 538,
+          "decimal": "13.208097893040947037"
+        },
+        "onShellFirstOrder": true,
+        "onShellSecondOrder": true,
+        "onShellLichnerowiczMassShell": true,
+        "onlyTotallyAntisymmetricOmega": true,
+        "anticommutatorTermNonzero": true,
+        "totallyAntisymmetricOmegaNonzero": true,
+        "omegaTermNonzeroComponents": 16
+      },
+      "G1p3": {
+        "gammaOmegaNonzeroEntries": 128,
+        "divergenceIdentity": true,
+        "gammaCovariantlyConstant": true,
+        "spinCurvatureIsHalfRiemannS": true,
+        "spinCurvatureNonzero": true,
+        "lichnerowiczC": [
+          "-1/4"
+        ],
+        "lichnerowicz": true,
+        "scalarCurvature": {
+          "exactSha256": "03141a244220611e89dc441884b435b7f7258870c90e08bb51beb3ed6c30ef34",
+          "exactLength": 416,
+          "decimal": "36.661193034934481057"
+        },
+        "onShellFirstOrder": true,
+        "onShellSecondOrder": true,
+        "onShellLichnerowiczMassShell": true,
+        "onlyTotallyAntisymmetricOmega": true,
+        "anticommutatorTermNonzero": true,
+        "totallyAntisymmetricOmegaNonzero": true,
+        "omegaTermNonzeroComponents": 16
+      },
+      "G2": {
+        "gammaOmegaNonzeroEntries": 16,
+        "gammaOmegaEquals3Hgamma0": true,
+        "divergenceIdentity": true,
+        "gammaCovariantlyConstant": true,
+        "spinCurvatureIsHalfRiemannS": true,
+        "spinCurvatureNonzero": true,
+        "lichnerowiczC": [
+          "-1/4"
+        ],
+        "lichnerowicz": true,
+        "scalarCurvature": "6*H**2*(A1**2 - 7)",
+        "onShellFirstOrder": true,
+        "onShellSecondOrder": true,
+        "onShellLichnerowiczMassShell": true,
+        "onlyTotallyAntisymmetricOmega": true,
+        "anticommutatorTermNonzero": false,
+        "totallyAntisymmetricOmegaNonzero": false,
+        "omegaTermNonzeroComponents": 16
+      }
+    },
+    "connection_OmegaTermInFieldEquation": {
+      "G1p1": 16,
+      "G1p2": 16,
+      "G1p3": 16,
+      "G2": 16
+    },
+    "EL_commutingFlat": {
+      "quartic": {
+        "psiDagger": true,
+        "psi": true,
+        "momentaClosedForms": true,
+        "massTermInEquation": true,
+        "omegaTermNonzeroComponents": 0,
+        "LTerms": 408
+      },
+      "generalU": {
+        "psiDagger": true,
+        "psi": true,
+        "momentaClosedForms": true,
+        "massTermInEquation": true,
+        "omegaTermNonzeroComponents": 0,
+        "LTerms": 273
+      }
+    },
+    "EL_commutingCurved": {
+      "G1p1": {
+        "psiDagger": true,
+        "psi": true,
+        "momentaClosedForms": true,
+        "massTermInEquation": true,
+        "omegaTermNonzeroComponents": 16,
+        "LTerms": 1304
+      },
+      "G2": {
+        "psiDagger": true,
+        "psi": true,
+        "momentaClosedForms": true,
+        "massTermInEquation": true,
+        "omegaTermNonzeroComponents": 16,
+        "LTerms": 408
+      },
+      "G1p2": {
+        "psiDagger": true,
+        "psi": true,
+        "momentaClosedForms": true,
+        "massTermInEquation": true,
+        "omegaTermNonzeroComponents": 16,
+        "LTerms": 1304
+      },
+      "G1p3": {
+        "psiDagger": true,
+        "psi": true,
+        "momentaClosedForms": true,
+        "massTermInEquation": true,
+        "omegaTermNonzeroComponents": 16,
+        "LTerms": 1304
+      }
+    },
+    "EL_commutingGeneralSmoothU": {
+      "G1p1": {
+        "psiDagger": true,
+        "psi": true,
+        "momentaClosedForms": true,
+        "massTermInEquation": true,
+        "omegaTermNonzeroComponents": 16,
+        "LTerms": 1169
+      },
+      "G2": {
+        "psiDagger": true,
+        "psi": true,
+        "momentaClosedForms": true,
+        "massTermInEquation": true,
+        "omegaTermNonzeroComponents": 16,
+        "LTerms": 273
+      }
+    },
+    "EL_grassmannCurved": {
+      "point": "G1p1",
+      "m": "3/7",
+      "lambda": "5/11",
+      "hermitianAllParts": true,
+      "leftEL": true,
+      "rightEL": true,
+      "valueMonomials": 1288
+    },
+    "EL_identicalFormBothStatistics": {
+      "statement": "commuting components (symbolic jets, flat, G1 and G2) and Grassmann components (exact Grassmann algebra, flat and G1 p1 with left derivatives for Psi^* and right derivatives for Psi) give the same field equations gamma^mu D_mu Psi = (m + U'(S)) Psi, (D_mu Psibar) gamma^mu = -(m + U'(S)) Psibar."
+    },
+    "EMT_symmetricAndReal": {
+      "G1p1": {
+        "symmetricOffShell": true,
+        "swapSymmetricOffShell": true,
+        "realForConjugateData": true
+      },
+      "G1p2": {
+        "symmetricOffShell": true,
+        "swapSymmetricOffShell": true,
+        "realForConjugateData": true
+      },
+      "G1p3": {
+        "symmetricOffShell": true,
+        "swapSymmetricOffShell": true,
+        "realForConjugateData": true
+      },
+      "G2": {
+        "symmetricOffShell": true,
+        "swapSymmetricOffShell": true
+      }
+    },
+    "EMT_conservationOnShell": {
+      "G1p1": {
+        "symmetricOffShell": true,
+        "swapSymmetricOffShell": true,
+        "divergenceNonzeroOffShell": true,
+        "currentDivergenceNonzeroOffShell": true,
+        "onShellJetsSolved": true,
+        "conservationOnShell": true,
+        "traceOnShell": true,
+        "traceOnShellValue": "34246073/232848",
+        "onShellLagrangianIsSUprimeMinusU": true,
+        "currentConservedOnShell": true,
+        "realForConjugateData": true,
+        "currentjImaginary": true,
+        "gaussianNormal": false
+      },
+      "G1p2": {
+        "symmetricOffShell": true,
+        "swapSymmetricOffShell": true,
+        "divergenceNonzeroOffShell": true,
+        "currentDivergenceNonzeroOffShell": true,
+        "onShellJetsSolved": true,
+        "conservationOnShell": true,
+        "traceOnShell": true,
+        "traceOnShellValue": "7919153/49140",
+        "onShellLagrangianIsSUprimeMinusU": true,
+        "currentConservedOnShell": true,
+        "realForConjugateData": true,
+        "currentjImaginary": true,
+        "gaussianNormal": false
+      },
+      "G1p3": {
+        "symmetricOffShell": true,
+        "swapSymmetricOffShell": true,
+        "divergenceNonzeroOffShell": true,
+        "currentDivergenceNonzeroOffShell": true,
+        "onShellJetsSolved": true,
+        "conservationOnShell": true,
+        "traceOnShell": true,
+        "traceOnShellValue": "-66869268761/50803200",
+        "onShellLagrangianIsSUprimeMinusU": true,
+        "currentConservedOnShell": true,
+        "realForConjugateData": true,
+        "currentjImaginary": true,
+        "gaussianNormal": false
+      },
+      "G2": {
+        "symmetricOffShell": true,
+        "swapSymmetricOffShell": true,
+        "divergenceNonzeroOffShell": true,
+        "currentDivergenceNonzeroOffShell": true,
+        "onShellJetsSolved": true,
+        "conservationOnShell": true,
+        "traceOnShell": true,
+        "traceOnShellValue": "903664049165/730211328",
+        "onShellLagrangianIsSUprimeMinusU": true,
+        "currentConservedOnShell": true,
+        "gaussianNormal": true,
+        "rhoEqualsKEHplusPEH_offShell": true,
+        "rhoEqualsK4minusLs_offShell": true
+      }
+    },
+    "EMT_traceOnShell": {
+      "G1p1": "34246073/232848",
+      "G1p2": "7919153/49140",
+      "G1p3": "-66869268761/50803200",
+      "G2": "903664049165/730211328"
+    },
+    "current_conservationAndReality": {
+      "G1p1": {
+        "currentConservedOnShell": true,
+        "currentDivergenceNonzeroOffShell": true,
+        "currentjImaginary": true
+      },
+      "G1p2": {
+        "currentConservedOnShell": true,
+        "currentDivergenceNonzeroOffShell": true,
+        "currentjImaginary": true
+      },
+      "G1p3": {
+        "currentConservedOnShell": true,
+        "currentDivergenceNonzeroOffShell": true,
+        "currentjImaginary": true
+      },
+      "G2": {
+        "currentConservedOnShell": true,
+        "currentDivergenceNonzeroOffShell": true
+      }
+    },
+    "EMT_observerSplitGaussianNormal": {
+      "G1p1": {
+        "gaussianNormal": false
+      },
+      "G1p2": {
+        "gaussianNormal": false
+      },
+      "G1p3": {
+        "gaussianNormal": false
+      },
+      "G2": {
+        "gaussianNormal": true,
+        "rhoEqualsKEHplusPEH_offShell": true,
+        "rhoEqualsK4minusLs_offShell": true
+      }
+    },
+    "EMT_generalSmoothU": {
+      "G1p1": {
+        "onShellSolved": true,
+        "conservation": true,
+        "trace": true,
+        "currentConserved": true,
+        "solverMatchesStage1ForQuartic": true
+      },
+      "G2": {
+        "onShellSolved": true,
+        "conservation": true,
+        "trace": true,
+        "currentConserved": true,
+        "solverMatchesStage1ForQuartic": true
+      }
+    },
+    "EMT_homogeneousEquationsOfState": {
+      "G3q1": {
+        "quartic": {
+          "solved": true,
+          "rho": true,
+          "pressuresIsotropic": true,
+          "KE_L": true,
+          "PE_L": true,
+          "KE_H": true,
+          "PE_H": true,
+          "rhoPlusP": true,
+          "pMinus": true,
+          "Tij": true,
+          "T4iZeroOnShell": true,
+          "TijNonzero": true,
+          "rhoExact": "187781927/7072758",
+          "pExact": "157753445/7072758",
+          "KE_LExact": "12340549/505197",
+          "PE_LExact": "5617/2646",
+          "wExact": "28085/33431",
+          "SExact": "5617/567"
+        },
+        "generalU": {
+          "solved": true,
+          "rho": true,
+          "pressuresIsotropic": true,
+          "KE_L": true,
+          "PE_L": true,
+          "KE_H": true,
+          "PE_H": true,
+          "rhoPlusP": true,
+          "pMinus": true,
+          "Tij": true,
+          "T4iZeroOnShell": true,
+          "TijNonzero": true
+        },
+        "x4": "1/3",
+        "m": "3/7",
+        "lambda": "5/11",
+        "dataSeed": 63100
+      },
+      "G3q2": {
+        "quartic": {
+          "solved": true,
+          "rho": true,
+          "pressuresIsotropic": true,
+          "KE_L": true,
+          "PE_L": true,
+          "KE_H": true,
+          "PE_H": true,
+          "rhoPlusP": true,
+          "pMinus": true,
+          "Tij": true,
+          "T4iZeroOnShell": true,
+          "TijNonzero": true,
+          "rhoExact": "47332998649/21228480000",
+          "pExact": "28403372089/21228480000",
+          "KE_LExact": "5409740767/3032640000",
+          "PE_LExact": "168533/378000",
+          "wExact": "168533/280853",
+          "SExact": "-168533/75600"
+        },
+        "generalU": {
+          "solved": true,
+          "rho": true,
+          "pressuresIsotropic": true,
+          "KE_L": true,
+          "PE_L": true,
+          "KE_H": true,
+          "PE_H": true,
+          "rhoPlusP": true,
+          "pMinus": true,
+          "Tij": true,
+          "T4iZeroOnShell": true,
+          "TijNonzero": true
+        },
+        "x4": "-2/5",
+        "m": "-2/5",
+        "lambda": "7/13",
+        "dataSeed": 63200
+      },
+      "G3q3": {
+        "quartic": {
+          "solved": true,
+          "rho": true,
+          "pressuresIsotropic": true,
+          "KE_L": true,
+          "PE_L": true,
+          "KE_H": true,
+          "PE_H": true,
+          "rhoPlusP": true,
+          "pMinus": true,
+          "Tij": true,
+          "T4iZeroOnShell": true,
+          "TijNonzero": true,
+          "rhoExact": "-95201/10800",
+          "pExact": "-6889/1200",
+          "KE_LExact": "-78601/10800",
+          "PE_LExact": "-83/54",
+          "wExact": "747/1147",
+          "SExact": "-83/15"
+        },
+        "generalU": {
+          "solved": true,
+          "rho": true,
+          "pressuresIsotropic": true,
+          "KE_L": true,
+          "PE_L": true,
+          "KE_H": true,
+          "PE_H": true,
+          "rhoPlusP": true,
+          "pMinus": true,
+          "Tij": true,
+          "T4iZeroOnShell": true,
+          "TijNonzero": true
+        },
+        "x4": "3/7",
+        "m": "5/9",
+        "lambda": "-3/8",
+        "dataSeed": 63300
+      }
+    },
+    "EMT_vielbeinVariation": {
+      "G1p1": {
+        "leanLagrangianEqualsStage1": true,
+        "dLdeMatchesLinearisation64": true,
+        "PMatchesAffineDifferences": true,
+        "affineDirectionsChecked": 512,
+        "PjetValueMatchesClosedForm": true,
+        "symmetricPartEqualsSqrtgTupper_offShell": true,
+        "antisymmetricPartNonzero_offShell": true,
+        "symmetricPartEqualsSqrtgTupper_onShell": true,
+        "antisymmetricPartZero_onShell": true,
+        "offShellS": "-4303/672",
+        "seeds": [
+          61100,
+          61150
+        ]
+      },
+      "G4p1": {
+        "leanLagrangianEqualsStage1": true,
+        "dLdeMatchesLinearisation64": true,
+        "PMatchesAffineDifferences": true,
+        "affineDirectionsChecked": 512,
+        "PjetValueMatchesClosedForm": true,
+        "symmetricPartEqualsSqrtgTupper_offShell": true,
+        "antisymmetricPartNonzero_offShell": true,
+        "symmetricPartEqualsSqrtgTupper_onShell": true,
+        "antisymmetricPartZero_onShell": true,
+        "offShellS": "-26287/12096",
+        "seeds": [
+          61200,
+          61250
+        ]
+      },
+      "G3q1": {
+        "leanLagrangianEqualsStage1": true,
+        "dLdeMatchesLinearisation64": true,
+        "PMatchesAffineDifferences": true,
+        "affineDirectionsChecked": 512,
+        "PjetValueMatchesClosedForm": true,
+        "symmetricPartEqualsSqrtgTupper_offShell": true,
+        "antisymmetricPartNonzero_offShell": true,
+        "symmetricPartEqualsSqrtgTupper_onShell": true,
+        "antisymmetricPartZero_onShell": true,
+        "offShellS": "949/168",
+        "seeds": [
+          61300,
+          61350
+        ]
+      }
+    },
+    "geometry_G4Generic": {
+      "detE0": "1",
+      "detG": "1",
+      "inverseMetricInteger": true,
+      "nonzeroOffDiagonalOfE0": 35,
+      "signature": [
+        4,
+        4,
+        0
+      ],
+      "gUpper44": "-49",
+      "scalarCurvature": "82754"
+    },
+    "charge_indefinite": {
+      "dimBplus": 8,
+      "dimBminus": 8,
+      "J4Plus": "2",
+      "normPlus": "2",
+      "J4Minus": "-2",
+      "normMinus": "2",
+      "J4PlusEqualsNorm": true,
+      "J4MinusEqualsMinusNorm": true,
+      "PsiPlus": [
+        [
+          "0",
+          "1"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ]
+      ],
+      "PsiMinus": [
+        [
+          "0",
+          "1"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "-1",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ]
+      ],
+      "j4IsIJ4": true,
+      "candidateChargeDensityTraceless": true,
+      "candidateChargeDensitySquareIsK2": true,
+      "hermitianFormsAreInvariantSpace": true,
+      "statement": "C gamma^4 = i B, so j^4 = Psibar gamma^4 Psi = i Psi^dagger B Psi and the real conserved charge density is J^4 = -i j^4 = Psi^dagger B Psi (Gaussian normal gauge). B is Hermitian with eigenvalues +1 and -1 eight times each, so J^4 = +|Psi|^2 or -|Psi|^2 on the B-eigenvectors: INDEFINITE. Every Spin(4,4)-invariant Hermitian form gives a candidate density Herm(c H gamma^4) with eigenvalues +-|k| (eight each): no positive-definite conserved charge density exists; the probability interpretation of Dirac's wave function fails for the classical field dirac16complex00 in (4,4)."
+    },
+    "energy_unboundedBelow": {
+      "hCommutesWithB": true,
+      "freePlaneWaves": [
+        {
+          "omega": "4",
+          "kreinSign": 1,
+          "dimEigenspace": 8,
+          "dimJoint": 4,
+          "solves": true,
+          "rho": "32",
+          "rhoImaginary": "0",
+          "J4": "8",
+          "norm": "8",
+          "rhoIsOmegaJ4": true,
+          "rhoScalesAbsC2": true,
+          "u": [
+            [
+              "0",
+              "-1/2"
+            ],
+            [
+              "0",
+              "-1/2"
+            ],
+            [
+              "0",
+              "-3/2"
+            ],
+            [
+              "0",
+              "-1/2"
+            ],
+            [
+              "0",
+              "1"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "1/2",
+              "0"
+            ],
+            [
+              "-1/2",
+              "0"
+            ],
+            [
+              "-1/2",
+              "0"
+            ],
+            [
+              "3/2",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "-1",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ]
+          ],
+          "signAsExpected": true
+        },
+        {
+          "omega": "4",
+          "kreinSign": -1,
+          "dimEigenspace": 8,
+          "dimJoint": 4,
+          "solves": true,
+          "rho": "-32",
+          "rhoImaginary": "0",
+          "J4": "-8",
+          "norm": "8",
+          "rhoIsOmegaJ4": true,
+          "rhoScalesAbsC2": true,
+          "u": [
+            [
+              "0",
+              "1/2"
+            ],
+            [
+              "0",
+              "-1/2"
+            ],
+            [
+              "0",
+              "-1/2"
+            ],
+            [
+              "0",
+              "3/2"
+            ],
+            [
+              "0",
+              "1"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "-1/2",
+              "0"
+            ],
+            [
+              "-1/2",
+              "0"
+            ],
+            [
+              "-3/2",
+              "0"
+            ],
+            [
+              "-1/2",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ]
+          ],
+          "signAsExpected": true
+        },
+        {
+          "omega": "-4",
+          "kreinSign": 1,
+          "dimEigenspace": 8,
+          "dimJoint": 4,
+          "solves": true,
+          "rho": "-224",
+          "rhoImaginary": "0",
+          "J4": "56",
+          "norm": "56",
+          "rhoIsOmegaJ4": true,
+          "rhoScalesAbsC2": true,
+          "u": [
+            [
+              "0",
+              "7/2"
+            ],
+            [
+              "0",
+              "7/2"
+            ],
+            [
+              "0",
+              "-3/2"
+            ],
+            [
+              "0",
+              "-1/2"
+            ],
+            [
+              "0",
+              "1"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "-7/2",
+              "0"
+            ],
+            [
+              "7/2",
+              "0"
+            ],
+            [
+              "-1/2",
+              "0"
+            ],
+            [
+              "3/2",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "-1",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ]
+          ],
+          "signAsExpected": true
+        },
+        {
+          "omega": "-4",
+          "kreinSign": -1,
+          "dimEigenspace": 8,
+          "dimJoint": 4,
+          "solves": true,
+          "rho": "224",
+          "rhoImaginary": "0",
+          "J4": "-56",
+          "norm": "56",
+          "rhoIsOmegaJ4": true,
+          "rhoScalesAbsC2": true,
+          "u": [
+            [
+              "0",
+              "-7/2"
+            ],
+            [
+              "0",
+              "7/2"
+            ],
+            [
+              "0",
+              "-1/2"
+            ],
+            [
+              "0",
+              "3/2"
+            ],
+            [
+              "0",
+              "1"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "7/2",
+              "0"
+            ],
+            [
+              "7/2",
+              "0"
+            ],
+            [
+              "-3/2",
+              "0"
+            ],
+            [
+              "-1/2",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "1",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ],
+            [
+              "0",
+              "0"
+            ]
+          ],
+          "signAsExpected": true
+        }
+      ],
+      "gordonIdentity": true,
+      "homogeneousNegativeLambda": [
+        {
+          "S": "1",
+          "lambda": "-1",
+          "solves": true,
+          "rho": "1/2",
+          "rhoFormula": true
+        },
+        {
+          "S": "10",
+          "lambda": "-1",
+          "solves": true,
+          "rho": "-40",
+          "rhoFormula": true
+        },
+        {
+          "S": "100",
+          "lambda": "-1",
+          "solves": true,
+          "rho": "-4900",
+          "rhoFormula": true
+        }
+      ],
+      "selfConsistentPlaneWavesPositiveLambda": [
+        {
+          "M": "3/5",
+          "k": "4/5",
+          "S": "-2/5",
+          "amplitudeSquaredPositive": true,
+          "solves": true,
+          "rho": "-56/75",
+          "rhoFormula": true
+        },
+        {
+          "M": "5/13",
+          "k": "12/13",
+          "S": "-8/13",
+          "amplitudeSquaredPositive": true,
+          "solves": true,
+          "rho": "-1512/845",
+          "rhoFormula": true
+        },
+        {
+          "M": "7/25",
+          "k": "24/25",
+          "S": "-18/25",
+          "amplitudeSquaredPositive": true,
+          "solves": true,
+          "rho": "-12384/4375",
+          "rhoFormula": true
+        },
+        {
+          "M": "9/41",
+          "k": "40/41",
+          "S": "-32/41",
+          "amplitudeSquaredPositive": true,
+          "solves": true,
+          "rho": "-58400/15129",
+          "rhoFormula": true
+        },
+        {
+          "M": "11/61",
+          "k": "60/61",
+          "S": "-50/61",
+          "amplitudeSquaredPositive": true,
+          "solves": true,
+          "rho": "-199800/40931",
+          "rhoFormula": true
+        }
+      ],
+      "limitMto0": "-oo",
+      "drhodM": "-(M**3 - M**2 - 1)/M**2",
+      "drhodMPositiveOn01": true,
+      "homogeneousPositiveLambdaMinimum": "-m**2/(2*lambda)",
+      "homogeneousPositiveLambdaNote": "for lambda > 0 the homogeneous (k = 0) states alone are bounded below by -m^2/(2 lambda); unboundedness for lambda > 0 needs k != 0 (the self-consistent plane-wave family)"
+    },
+    "primordial_geometryMatchesStage2": {
+      "sqrtgIsCosZ": true,
+      "gammaOmegaIs3Hgamma0": true,
+      "ricciScalar": true,
+      "einsteinClosedForms": true,
+      "einsteinMixed": [
+        "-3*H**2*(A1**2 - 5)",
+        "-H**2*(3*A1**2 - A2 - 15)",
+        "-H**2*(3*A1**2 - A2 - 15)",
+        "-H**2*(3*A1**2 - A2 - 15)",
+        "3*H**2*(A1**2 + 7)",
+        "-H**2*(3*A1**2 + A2 - 15)",
+        "-H**2*(3*A1**2 + A2 - 15)",
+        "-H**2*(3*A1**2 + A2 - 15)"
+      ],
+      "staticMemberEinstein": [
+        "15",
+        "15",
+        "15",
+        "15",
+        "21",
+        "15",
+        "15",
+        "15"
+      ],
+      "staticMemberEinsteinIs15_21": true,
+      "staticMemberRicciScalar": "-42",
+      "requiredSourceStatic": {
+        "rho_req": "-21 H^2/kappa",
+        "p_req": "+15 H^2/kappa (all seven transverse directions)",
+        "w_req": "-5/7"
+      }
+    },
+    "primordial_ELcommuting": {
+      "componentForm": true,
+      "curvedGammas": true
+    },
+    "primordial_homogeneousState": {
+      "quartic": {
+        "solvesAtSecondOrder": true,
+        "homogeneous": true,
+        "d4PsiIsMinusGamma4MeffMinusSlashOmega": true,
+        "d4SZero": true,
+        "rho": true,
+        "pressures": true,
+        "KE_L": true,
+        "PE_L": true,
+        "KE_H": true,
+        "rhoEqualsKEHplusPEH": true
+      },
+      "generalU": {
+        "solvesAtSecondOrder": true,
+        "homogeneous": true,
+        "d4PsiIsMinusGamma4MeffMinusSlashOmega": true,
+        "d4SZero": true,
+        "rho": true,
+        "pressures": true,
+        "KE_L": true,
+        "PE_L": true,
+        "KE_H": true,
+        "rhoEqualsKEHplusPEH": true
+      },
+      "NdaggerCplusCNZero": true,
+      "statement": "x0-independent commuting state Psi = u(x4) in the Stage-2 primordial field with arbitrary a4(t): d_4 u = -gamma^4 (M_eff - 3 H gamma^0) u, and N^dagger C + C N = 0 makes S = u^dagger C u exactly constant, so this is an exact classical solution for every U; rho = -T^4_4 = m S + U, p_(i) = T^i_i = S U' - U (seven directions), KE_L = S (m + U')/2, PE_L = (m S + 2U - S U')/2, KE_H = 0, PE_H = rho."
+    },
+    "primordial_staticFieldSourcedExactly": {
+      "Meff": "-5",
+      "omega": "4",
+      "omegaSquaredIsMeff2Minus9": true,
+      "vDaggerCv": "32",
+      "amplitudeSquared": "3/80",
+      "fieldEquationExact": true,
+      "S": "6/5",
+      "imaginaryPartZero": true,
+      "einsteinEqualsKappaT64": true,
+      "rho": "-21",
+      "p": "15",
+      "w": "-5/7",
+      "KE_L": "-3",
+      "PE_L": "-18",
+      "pressuresIsotropic": true,
+      "vector": [
+        [
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "3"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "-3"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "-3",
+          "0"
+        ],
+        [
+          "0",
+          "-1"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "-3",
+          "0"
+        ],
+        [
+          "0",
+          "1"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ]
+      ],
+      "parameters": {
+        "m": "-30",
+        "lambda": "125/6",
+        "S": "6/5",
+        "H": "1"
+      }
+    },
+    "static_geometryAndReducedEquation": {
+      "R": "-42*H**2",
+      "Gmixed": [
+        "15*H**2",
+        "15*H**2",
+        "15*H**2",
+        "15*H**2",
+        "21*H**2",
+        "15*H**2",
+        "15*H**2",
+        "15*H**2"
+      ],
+      "sqrtg": "exp(6*H*y)",
+      "gammaOmegaIs3Hgamma0": true,
+      "geometry": true,
+      "reducedEquation": true,
+      "withoutW3the3HTermSurvives": true,
+      "form": "gamma^0 chi' + i kappa(y) k gamma^1 chi - i eps gamma^4 chi = M_eff chi, kappa = e^{-Hy-a4}"
+    },
+    "static_blocksFromStage4Theory": {
+      "labels": [
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          -1
+        ],
+        [
+          1,
+          -1,
+          1
+        ],
+        [
+          1,
+          -1,
+          -1
+        ],
+        [
+          -1,
+          1,
+          1
+        ],
+        [
+          -1,
+          1,
+          -1
+        ],
+        [
+          -1,
+          -1,
+          1
+        ],
+        [
+          -1,
+          -1,
+          -1
+        ]
+      ],
+      "seedColumns": [
+        4,
+        0,
+        0,
+        4,
+        0,
+        4,
+        4,
+        0
+      ],
+      "unitary": true,
+      "formsMatchStage4Table": true,
+      "BonBlockIsKreinSign": true,
+      "kreinSigns": [
+        1,
+        1,
+        -1,
+        -1,
+        -1,
+        -1,
+        1,
+        1
+      ],
+      "blockODE": true,
+      "basisEqualsKohnShamTheoryJson": true,
+      "blocksEqualKohnShamTheoryJson": true
+    },
+    "static_classicalModeIsKreinWeightedKS": {
+      "blocks": [
+        {
+          "block": 0,
+          "j": 1,
+          "s2": 1,
+          "s3": 1,
+          "kreinSign": 1,
+          "classicalEqualsKreinSignTimesKS36": true,
+          "KSnonzero": true,
+          "K4_KS_equals_eps_n": true,
+          "K4_classical_equals_kreinSign_eps_n": true
+        },
+        {
+          "block": 1,
+          "j": 1,
+          "s2": 1,
+          "s3": -1,
+          "kreinSign": 1,
+          "classicalEqualsKreinSignTimesKS36": true,
+          "KSnonzero": true,
+          "K4_KS_equals_eps_n": true,
+          "K4_classical_equals_kreinSign_eps_n": true
+        },
+        {
+          "block": 2,
+          "j": 1,
+          "s2": -1,
+          "s3": 1,
+          "kreinSign": -1,
+          "classicalEqualsKreinSignTimesKS36": true,
+          "KSnonzero": true,
+          "K4_KS_equals_eps_n": true,
+          "K4_classical_equals_kreinSign_eps_n": true
+        },
+        {
+          "block": 3,
+          "j": 1,
+          "s2": -1,
+          "s3": -1,
+          "kreinSign": -1,
+          "classicalEqualsKreinSignTimesKS36": true,
+          "KSnonzero": true,
+          "K4_KS_equals_eps_n": true,
+          "K4_classical_equals_kreinSign_eps_n": true
+        },
+        {
+          "block": 4,
+          "j": -1,
+          "s2": 1,
+          "s3": 1,
+          "kreinSign": -1,
+          "classicalEqualsKreinSignTimesKS36": true,
+          "KSnonzero": true,
+          "K4_KS_equals_eps_n": true,
+          "K4_classical_equals_kreinSign_eps_n": true
+        },
+        {
+          "block": 5,
+          "j": -1,
+          "s2": 1,
+          "s3": -1,
+          "kreinSign": -1,
+          "classicalEqualsKreinSignTimesKS36": true,
+          "KSnonzero": true,
+          "K4_KS_equals_eps_n": true,
+          "K4_classical_equals_kreinSign_eps_n": true
+        },
+        {
+          "block": 6,
+          "j": -1,
+          "s2": -1,
+          "s3": 1,
+          "kreinSign": 1,
+          "classicalEqualsKreinSignTimesKS36": true,
+          "KSnonzero": true,
+          "K4_KS_equals_eps_n": true,
+          "K4_classical_equals_kreinSign_eps_n": true
+        },
+        {
+          "block": 7,
+          "j": -1,
+          "s2": -1,
+          "s3": -1,
+          "kreinSign": 1,
+          "classicalEqualsKreinSignTimesKS36": true,
+          "KSnonzero": true,
+          "K4_KS_equals_eps_n": true,
+          "K4_classical_equals_kreinSign_eps_n": true
+        }
+      ]
+    },
+    "static_classicalEnergyKreinSigned": {
+      "boxModes": [
+        {
+          "block": 0,
+          "kreinSign": 1,
+          "odeAndBoundary": true,
+          "rhoTimesW6": "-8*(-12*sin(8*y) + 9*cos(8*y) - 25)/5",
+          "rhoTimesW6Coefficients": [
+            "40",
+            "-72/5",
+            "96/5"
+          ],
+          "canonicalFormExact": true,
+          "rhoEqualsKreinSignTimesEpsN": true,
+          "sign": 1
+        },
+        {
+          "block": 2,
+          "kreinSign": -1,
+          "odeAndBoundary": true,
+          "rhoTimesW6": "8*(-12*sin(8*y) + 9*cos(8*y) - 25)/5",
+          "rhoTimesW6Coefficients": [
+            "-40",
+            "72/5",
+            "-96/5"
+          ],
+          "canonicalFormExact": true,
+          "rhoEqualsKreinSignTimesEpsN": true,
+          "sign": -1
+        }
+      ]
+    },
+    "static_KSorbitalEnergySplit": {
+      "statement": "Kohn-Sham rule Psi^dagger -> u^dagger B: rho = T_44 = -K_perp + m s off shell (16 arbitrary component functions)"
+    },
+    "static_meanFieldOneBodyEMT": {
+      "blocks": [
+        {
+          "rho": true,
+          "p_y": true,
+          "p_1": true,
+          "p_2": true,
+          "p_3": true,
+          "p_5": true,
+          "p_6": true,
+          "p_7": true,
+          "Ls": true,
+          "block": 0,
+          "j": 1
+        },
+        {
+          "rho": true,
+          "p_y": true,
+          "p_1": true,
+          "p_2": true,
+          "p_3": true,
+          "p_5": true,
+          "p_6": true,
+          "p_7": true,
+          "Ls": true,
+          "block": 1,
+          "j": 1
+        },
+        {
+          "rho": true,
+          "p_y": true,
+          "p_1": true,
+          "p_2": true,
+          "p_3": true,
+          "p_5": true,
+          "p_6": true,
+          "p_7": true,
+          "Ls": true,
+          "block": 2,
+          "j": 1
+        },
+        {
+          "rho": true,
+          "p_y": true,
+          "p_1": true,
+          "p_2": true,
+          "p_3": true,
+          "p_5": true,
+          "p_6": true,
+          "p_7": true,
+          "Ls": true,
+          "block": 3,
+          "j": 1
+        },
+        {
+          "rho": true,
+          "p_y": true,
+          "p_1": true,
+          "p_2": true,
+          "p_3": true,
+          "p_5": true,
+          "p_6": true,
+          "p_7": true,
+          "Ls": true,
+          "block": 4,
+          "j": -1
+        },
+        {
+          "rho": true,
+          "p_y": true,
+          "p_1": true,
+          "p_2": true,
+          "p_3": true,
+          "p_5": true,
+          "p_6": true,
+          "p_7": true,
+          "Ls": true,
+          "block": 5,
+          "j": -1
+        },
+        {
+          "rho": true,
+          "p_y": true,
+          "p_1": true,
+          "p_2": true,
+          "p_3": true,
+          "p_5": true,
+          "p_6": true,
+          "p_7": true,
+          "Ls": true,
+          "block": 6,
+          "j": -1
+        },
+        {
+          "rho": true,
+          "p_y": true,
+          "p_1": true,
+          "p_2": true,
+          "p_3": true,
+          "p_5": true,
+          "p_6": true,
+          "p_7": true,
+          "Ls": true,
+          "block": 7,
+          "j": -1
+        }
+      ]
+    },
+    "static_sourceProperChart": {
+      "fieldEquation": true,
+      "einsteinEqualsKappaT64": true,
+      "rho": "-21",
+      "p": "15",
+      "S": "6/5"
+    },
+    "citation_pythonStage1to4ReportsMatchSources": {
+      "artifacts/dirac16complex/arbitrary-field/python-geometry-report.json": {
+        "exists": true,
+        "citedChecks": {
+          "LAG_eulerLagrangePsibar_G1": true,
+          "LAG_eulerLagrangePsibar_G2": true,
+          "LAG_eulerLagrangePsi_G1": true,
+          "LAG_eulerLagrangePsi_G2": true,
+          "EMT_conservation_G1": true,
+          "EMT_conservation_G2": true,
+          "EMT_trace_G1": true,
+          "EMT_trace_G2": true,
+          "EMT_variation": true,
+          "GEO_lichnerowicz_G1": true,
+          "GEO_lichnerowicz_G2": true,
+          "EMT_homogeneousReduction": true
+        },
+        "sourceHashesCurrent": {
+          "scripts/check_dirac16complex_geometry.py": true,
+          "scripts/d16c_geometry_sympy.py": true
+        },
+        "producer": "scripts/check_dirac16complex_geometry.py (python 3.14.5, sympy 1.14.0, numpy 2.4.6)",
+        "ok": true
+      },
+      "artifacts/dirac16complex/arbitrary-field/grassmann-demo-report.json": {
+        "exists": true,
+        "citedChecks": {
+          "GR_notebookLgELTrivial": true,
+          "GR_notebookLgPureDivergence": true,
+          "GR_complexLagrangianNonTrivial": true,
+          "GR_complexQuarticEL": true,
+          "GR_complexPsiEquation": true,
+          "GR_lagrangianHermitian": true,
+          "GR_emtHermitian": true,
+          "GR_quarticTermPolynomial": true,
+          "GR_unsymmetrizedKineticNotHermitian": true,
+          "GR_massTermVanishesReal": true
+        },
+        "sourceHashesCurrent": {
+          "scripts/d16c_geometry_sympy.py": true,
+          "scripts/demo_grassmann_lagrangians.py": true,
+          "scripts/grassmann_algebra.py": true
+        },
+        "producer": "scripts/demo_grassmann_lagrangians.py (python 3.14.5, sympy 1.14.0, numpy 2.4.6)",
+        "ok": true
+      },
+      "artifacts/dirac16complex/arbitrary-field/python-algebra-report.json": {
+        "exists": true,
+        "citedChecks": {
+          "QNT_kreinSignature": true,
+          "QNT_flatModeHamiltonian": true,
+          "ALG_gamma8Map": true,
+          "ALG_pinLiftCharacter": true,
+          "ALG_invariantForms": true
+        },
+        "sourceHashesCurrent": {
+          "scripts/build_dirac16complex_fixture.py": true,
+          "scripts/check_dirac16complex_algebra.py": true,
+          "scripts/d16c_exact.py": true
+        },
+        "producer": "scripts/check_dirac16complex_algebra.py",
+        "ok": true
+      },
+      "artifacts/dirac16complex/primordial-field/python-primordial-report.json": {
+        "exists": true,
+        "citedChecks": {
+          "P_EL": true,
+          "P_EMT": true,
+          "P_einstein": true,
+          "P_source": true,
+          "P_quant": true
+        },
+        "sourceHashesCurrent": {
+          "scripts/check_dirac16complex_primordial.py": true
+        },
+        "producer": "scripts/check_dirac16complex_primordial.py",
+        "ok": true
+      },
+      "artifacts/dirac16complex/kohn-sham/python-theory-report.json": {
+        "exists": true,
+        "citedChecks": {
+          "KS_reduction_blocksBC": true,
+          "KS_reduction_blockODEMatrix": true,
+          "KS_reduction_ansatzRemoves3H": true,
+          "KS_geometry_einsteinMixedDiag": true
+        },
+        "sourceHashesCurrent": {
+          "scripts/check_dirac16complex_kohn_sham_theory.py": true
+        },
+        "producer": "scripts/check_dirac16complex_kohn_sham_theory.py",
+        "ok": true
+      },
+      "statement": "Grassmann-side statements not recomputed here at every curved point (curved EL at the Stage-1 points G1/G2, local spin invariance, the canonical momentum, Krein signatures, the Stage-2 and Stage-4 reductions) are cited from the committed Python reports; each cited check is true and every source file recorded in the report still has the recorded SHA-256. The positivity of the normal-ordered Grassmann Hamiltonian (Stage 1 section 10.7) is a derivation, not a machine check."
+    },
+    "agreesWithWolfram": {
+      "items": {
+        "theory.B": true,
+        "theory.C": true,
+        "theory.gamma8": true,
+        "theory.Cgamma4EqualsIB": true,
+        "theory.chargeIndefinite.Plus": true,
+        "theory.chargeIndefinite.Minus": true,
+        "theory.freePlaneWave0": true,
+        "theory.freePlaneWave1": true,
+        "theory.freePlaneWave2": true,
+        "theory.freePlaneWave3": true,
+        "theory.gordonIdentity": true,
+        "theory.homogeneousNegativeLambda.S1": true,
+        "theory.homogeneousNegativeLambda.S10": true,
+        "theory.homogeneousNegativeLambda.S100": true,
+        "theory.selfConsistentPlaneWave.M3/5": true,
+        "theory.selfConsistentPlaneWave.M5/13": true,
+        "theory.selfConsistentPlaneWave.M7/25": true,
+        "theory.selfConsistentPlaneWave.M9/41": true,
+        "theory.selfConsistentPlaneWave.M11/61": true,
+        "theory.staticSource.parameters": true,
+        "theory.staticSource.values": true,
+        "theory.staticSource.einstein": true,
+        "theory.blockKreinSigns": true,
+        "theory.boxMode.block0": true,
+        "theory.boxMode.block2": true,
+        "theory.G4.E0": true,
+        "theory.G4.nonzeroOffDiagonal": true,
+        "theory.G4.gUpper44": true,
+        "theory.G4.scalarCurvature": true,
+        "theory.vielbeinVariationG1p1.T": true,
+        "theory.vielbeinVariationG1p1.S": true,
+        "theory.homogeneousG3.t1": true,
+        "theory.homogeneousG3.t2": true,
+        "theory.homogeneousG3.t3": true,
+        "formula.trace": true,
+        "formula.homogeneous.rho": true,
+        "formula.homogeneous.p": true,
+        "formula.homogeneous.KE_L": true,
+        "formula.homogeneous.PE_L": true,
+        "formula.homogeneous.w": true,
+        "formula.defaultW": true,
+        "formula.dispersion": true,
+        "formula.massTermValues": true,
+        "formula.blockODE": true,
+        "formula.realRestrictionCommuting": true,
+        "formula.emtDefinition": true,
+        "statement.fieldEquationsEL": true,
+        "statement.primordialComponents": true,
+        "statement.current": true,
+        "statement.conservation": true,
+        "statement.observerIdentity": true,
+        "statement.relationToL1": true,
+        "statement.grassmannRealRestriction": true,
+        "statement.classicalVersusKohnSham": true,
+        "statement.meanFieldEMT": true,
+        "statement.stage2Homogeneous": true,
+        "statement.reality": true,
+        "statement.vielbeinVariation": true,
+        "definitions.randomFieldDataReproduced": true,
+        "report.connection.G1p1": true,
+        "report.connection.G1p2": true,
+        "report.connection.G1p3": true,
+        "report.connection.G2p1.scalarCurvature": true,
+        "report.connection.G2p2.scalarCurvature": true,
+        "report.connection.G2p3.scalarCurvature": true,
+        "report.connection.G4p1.scalarCurvature": true,
+        "report.EL.LTerms.G1p1": true,
+        "report.EL.LTerms.G2": true,
+        "report.EL.LTerms.G1p2": true,
+        "report.EL.LTerms.G1p3": true,
+        "report.grassmannCurved.LgMonomials": true,
+        "report.massTerm.grassmann": true,
+        "report.EMT.traceOnShellValue.G1p1": true,
+        "report.EMT.traceOnShellValue.G1p2": true,
+        "report.EMT.traceOnShellValue.G1p3": true,
+        "report.EMT.traceOnShellValue.G2p1": true,
+        "report.EMT.traceOnShellValue.G2p2": true,
+        "report.EMT.traceOnShellValue.G2p3": true,
+        "report.fixture": true,
+        "report.static.block0": true,
+        "report.static.block1": true,
+        "report.static.block2": true,
+        "report.static.block3": true,
+        "report.static.block4": true,
+        "report.static.block5": true,
+        "report.static.block6": true,
+        "report.static.block7": true,
+        "report.allWolframChecksTrue": true,
+        "report.verdictsAgreeWherePaired": true
+      },
+      "itemCount": 89,
+      "failedItems": [],
+      "notComparable": {
+        "theory.conventions/fields/difference/operatorVersion/energyStatement": "prose without numbers (read against the binding conventions; no exact comparison possible)",
+        "report.unpairedWolframChecks": [
+          "C00_citation_stage1to4ReportsMatchSources",
+          "C00_fixture_matchesStage1Construction",
+          "C00_verifier_expectedCheckCount"
+        ]
+      },
+      "pairedVerdicts": 43
+    },
+    "wolframAgreement": "compared",
+    "families": [
+      "algebra",
+      "lagrangian",
+      "realRestriction",
+      "connection",
+      "EL",
+      "EMT",
+      "specifics",
+      "primordial",
+      "static",
+      "citations"
+    ],
+    "quick": false,
+    "timingsNote": "timings are printed, not stored (deterministic report)",
+    "conventions": {
+      "indices": "zero-based: x = {x0..x7}, x4 = time, frame indices a = 0..7, spinor indices 0..15",
+      "metric": "eta = diag(+1,+1,+1,+1,-1,-1,-1,-1)",
+      "gammas": "gamma^a = notebook T16^A[a] rebuilt from CONTRACT section 1 (d16c_exact), compared with algebra-fixture.json",
+      "adjoint": "C = sigma16 = gamma^0 gamma^1 gamma^2 gamma^3, Psibar = Psi^dagger C, B = -i C gamma^4, gamma^8 = diag(-I8, +I8)",
+      "connection": "Omega_mu = (1/2) omega_{mu ab} S^{ab}, omega_{mu ab} = eta_ac omega_mu^c_b, D_mu Psi = d_mu Psi + Omega_mu Psi, D_mu Psibar = d_mu Psibar - Psibar Omega_mu",
+      "lagrangian": "L = sqrt|g| [(1/2)(Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi) - m Psibar Psi - U(Psibar Psi)], default U = (lambda/2) S^2, S = Psibar Psi",
+      "emt": "T_{mu nu} = -(2/sqrt|g|) delta S/delta g^{mu nu} = -(1/4)[Psibar gamma_mu D_nu Psi + Psibar gamma_nu D_mu Psi - (D_mu Psibar) gamma_nu Psi - (D_nu Psibar) gamma_mu Psi] + g_{mu nu} L_s (all indices down); rho = T_44 in Gaussian normal time (g_44 = -1), p_(i) = T^i_i (no sum), T^4_4 = -rho (Stage-1 convention, kept)",
+      "splits": "KE_L = (1/2) K_4, K_4 = (1/2)(Psibar gamma^{x4} D_4 Psi - (D_4 Psibar) gamma^{x4} Psi), PE_L = rho - KE_L; KE_H = -K_perp (sum over mu != 4), PE_H = m S + U",
+      "commutingProxy": "for polynomial identities Psi and Psi^* are independent commuting jet variables (chi = Psi^*); reality is decided by the swap symmetry of the real-coefficient polynomial L(chi, psi) and by exact Gaussian-rational data with Psi^dagger = conj(Psi)"
+    }
+  },
+  "sourceSha256": {
+    "scripts/check_dirac16complex00.py": "15ecee2829848ef44a62b981084fb70af29b96b1a8c557da607720fb43a926fb",
+    "scripts/d16c_exact.py": "eb2fcbe498b6ae927df61f73abcee4e58c319984fb8f6e1b28defcd0ca13a3f5",
+    "scripts/d16c_geometry_sympy.py": "4f7eca4cf247354650ed9beb0b9c46530d14c9965f095979ea5ee24651af9f25",
+    "scripts/grassmann_algebra.py": "dfce851d3dc7ab82202a62d414cc259644a64a101f08e9ba80ed747faa8bc24c"
+  },
+  "inputSha256": {
+    "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json": "8b4f15462ca4d61ef6ec0e72f04c8a77d23ce8bcabc9b6ce19f921c90e02653b",
+    "artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json": "5b150b36e13b903c32b86e8debbaeda48798e0beb0bc6a216e416d2671f4e01a",
+    "artifacts/dirac16complex/pair-creation/dirac16complex00-theory.json": "c0b1a3a90481426f9e69e40cc43ca76b7bc259bd9b711757f5ee840223d81b5d",
+    "artifacts/dirac16complex/pair-creation/wolfram-dirac16complex00-report.json": "56022869fa7f08338ba9f72cac239ecbc3f822a4e6ee536866c70958d944dc16"
+  }
+}

@@ -1,14 +1,19 @@
 //! dirac16complex_kohn_sham command-line entry.
 //!
 //! ```text
-//! dirac16complex_kohn_sham <print-config|spectrum|scf|excited|thermo|emt|all>
-//!     [--output DIR]   output root (default artifacts/dirac16complex/kohn-sham/rust);
+//! dirac16complex_kohn_sham <print-config|spectrum|scf|excited|thermo|emt|all|pairs>
+//!     [--output DIR]   output root (default artifacts/dirac16complex/kohn-sham/rust;
+//!                      for pairs: artifacts/dirac16complex/pair-creation/rust);
 //!                      subcommand X writes into DIR/X/
 //!     [--rtol X]       replace the default relative tolerance of the shooting
 //!     [--atol X]       replace the default absolute tolerance
 //!     [--refined]      rtol/10, atol/10, max_step/2 (convergence runs)
 //!     [--quick]        reduced parameter matrix (smoke test, not canonical)
 //! ```
+//!
+//! `pairs` (Stage 5, pairs.rs) is not part of `all` (which stays the
+//! Stage-4 set) and does not appear in `print-config` (whose output is
+//! unchanged).
 //!
 //! Contract (planet_Mercury style, as in the Stage-3 crate): every check
 //! prints `PASS - name: detail` or `FAIL - name: detail`; the LAST stdout
@@ -21,12 +26,12 @@ use std::path::PathBuf;
 
 use dirac16complex_kohn_sham::output::fmt17;
 use dirac16complex_kohn_sham::{
-    runs, ExperimentSummary, RunContext, DEFAULT_OUTPUT_ROOT, ENGINE, FIXTURE_PATH, FIXTURE_SHA256,
-    FIXTURE_SOURCE, STUDY,
+    pairs, runs, ExperimentSummary, RunContext, DEFAULT_OUTPUT_ROOT, ENGINE, FIXTURE_PATH,
+    FIXTURE_SHA256, FIXTURE_SOURCE, STUDY,
 };
 
 const USAGE: &str =
-    "usage: dirac16complex_kohn_sham <print-config|spectrum|scf|excited|thermo|emt|all> \
+    "usage: dirac16complex_kohn_sham <print-config|spectrum|scf|excited|thermo|emt|all|pairs> \
 [--output DIR] [--rtol X] [--atol X] [--refined] [--quick]";
 
 type Runner = fn(&RunContext) -> Result<ExperimentSummary, String>;
@@ -56,11 +61,17 @@ fn parse(arguments: &[String]) -> Result<(String, RunContext), String> {
         .clone();
     let known = command == "print-config"
         || command == "all"
+        || command == "pairs"
         || SUBCOMMANDS.iter().any(|(name, _)| *name == command);
     if !known {
         return Err(format!("unknown subcommand {command}\n{USAGE}"));
     }
-    let mut ctx = RunContext::new(PathBuf::from(DEFAULT_OUTPUT_ROOT));
+    let default_root = if command == "pairs" {
+        pairs::PAIRS_OUTPUT_ROOT
+    } else {
+        DEFAULT_OUTPUT_ROOT
+    };
+    let mut ctx = RunContext::new(PathBuf::from(default_root));
     let mut index = 1;
     while index < arguments.len() {
         let flag = arguments[index].as_str();
@@ -160,6 +171,7 @@ fn main() {
                 }
                 all
             }
+            "pairs" => run_one("pairs", pairs::run_pairs, &ctx),
             name => match SUBCOMMANDS.iter().find(|(n, _)| *n == name) {
                 Some((n, runner)) => run_one(n, *runner, &ctx),
                 None => false,
