@@ -1,0 +1,62 @@
+[
+ {
+  "from": "00-how-to-read.md",
+  "item": "F30, Chapter 1 part: converting the two Chapter-1 occurrences (01:533 and 01:692, 'Stage-N document, Section N.M') to § was not done, because the task limits edits to 00-how-to-read.md. Until the Chapter-1 fixer changes them, Chapter 1 does not follow the §0.7 rule."
+ },
+ {
+  "from": "00-how-to-read.md",
+  "item": "F29, optional part: renaming the dummy index λ to α in the Chapter 13 §13.14 conservation formula was not done, because it is outside 00-how-to-read.md (and the skeptic called it optional)."
+ },
+ {
+  "from": "04-curved-space.md",
+  "item": "F16, the Chapter 5 part (changing 'that Chapter 9 traces to' in 05 §5.14 to 'that Chapter 9 reconstructs (ledger row L20, a hypothesis) from'): not applied because this fixer may edit only provenance/textbook/chapters/04-curved-space.md; the chapter-5 fixer must apply it."
+ },
+ {
+  "from": "04-curved-space.md",
+  "item": "F17, the Chapters 11, 12 and 13 part (switching to 'Exercise N.M' labels and fixing refs such as 'Exercise 11', 'Exercise 13', 'Exercise 13.9', 'Exercise 12.9'): not applied because it lies outside chapter 4; those chapters' fixers must do it."
+ },
+ {
+  "from": "05-classical-field-theory.md",
+  "item": "F15, Chapter 2 §2.4 and Chapter 9 §9.1/§9.2 parts: not applied, because the task restricts edits to 05-classical-field-theory.md. Those chapters still use ∂/∂x_μ and dx_μ dx_ν and need their own fix."
+ },
+ {
+  "from": "09-primordial-field.md",
+  "item": "None. Every finding was applied, including the duplicates (14 = 11, 15 = 10). Two variants the findings offered as options were deliberately not taken. c_k was not renamed to α_k, because that would clash with the dummy indices α_1,... of 9.9 and of Exercise and Answer 9.6. The Stage-4/5 status sentences, which wave B refreshes, were not touched."
+ },
+ {
+  "from": "10-numerical-ode.md",
+  "item": "F13, the Chapter 11 part only: the finding also asks for the same caption change in Chapter 11 (line 794). Not done because this task allows edits to 10-numerical-ode.md only. The Chapter 11 fixer should apply it."
+ },
+ {
+  "from": "10-numerical-ode.md",
+  "item": "F7, the reference to t* is resolved by defining t* in words in Chapter 10 with a forward reference to Chapter 11. No Stage-4/5 status sentences were touched (as instructed)."
+ },
+ {
+  "from": "13-kohn-sham-primordial.md",
+  "item": "F19, chapter-9 part (section 9.16 'mirror copy that carries gamma^8 Psi'): not applied because the task allows edits to chapter 13 only"
+ },
+ {
+  "from": "13-kohn-sham-primordial.md",
+  "item": "F20, parts in other chapters (Ch 4 sections 4.1, 4.10, 4.12 and Exercise 8 numeric sigmas; the Ch 2 note on numeric names; the Ch 1 X/Z/Y vs Ch 2 P/G/N clash): not applied because they are outside chapter 13. Chapter 13 now follows Chapter 2's letter names, so no Ch 2 note is needed for it"
+ },
+ {
+  "from": "13-kohn-sham-primordial.md",
+  "item": "F21, chapter-8 part (writing varkappa for sqrt(Q^2-m^2) in sections 8.9 and 8.13): not applied because it is outside chapter 13"
+ },
+ {
+  "from": "13-kohn-sham-primordial.md",
+  "item": "F22, chapter-0 part (appending the chapter-13 exception to section 0.6): not applied because it is outside chapter 13; chapter 13 states the exception itself"
+ },
+ {
+  "from": "13-kohn-sham-primordial.md",
+  "item": "F23, chapter-9 parts (renaming the base coordinates of Lemma 9.1, the section 9.1 wording): not applied because they are outside chapter 13"
+ },
+ {
+  "from": "13-kohn-sham-primordial.md",
+  "item": "F24/F26 side remarks (report the theory.rs label-lookup defect and the stale '327 files' in studies/dirac16complex_kohn_sham/README.md line 269 to the Stage-4 lead): no file change is allowed, so these are passed on here in the summary instead"
+ },
+ {
+  "from": "final",
+  "item": "Wave-A problems left: none in numbering, cross-references or builds. The only non-resolved wave-A references are the two expected pending 'Chapter 20' references (00:84, 00:129). | Wave-B problems, found by build_textbook.py --check and outside my edit scope. (a) 19-reproducing-everything.md has CRLF line endings, so check_chapterEncoding fails and the assembler reads Chapter 19 as 0 sections. As a result 'Section 19.10' is unresolved at 15:701, 17:757 and 17:773. On a copy converted to LF (build/textbook_review/final_check/chapters_lf) Chapter 19 has 16 sections and all three resolve. (b) 15-pairing-theorems.md:32 has 'its Section 7' for the matter–antimatter document; it must be '§7'. This is the one remaining failure after the LF fix. (c) These project-document references use 'Section' instead of '§', against §0.7: 16:13 and 16:55 ('Stage-1 document, Section 1.3'), 16:55 'Section 16', 16:305 'Section 7.2', 16:388 'Section 4.1', 16:407 'Section 7.3', and 18:401 'Sections 4 and 5'. (d) Chapter 20 (glossary) is missing. | Wave-A links to wave B were not reviewed. Reviewers were told that references to Chapters 6, 7 and 14-20 are not findings, so about 57 wave-A references to Chapters 6 and 7 were never checked against the chapters now written. I spot-checked the central ones, and all agree with Chapters 6 and 7: Ψ̄=Ψ†C (B3), D_μΨ̄=∂_μΨ̄−Ψ̄Ω_μ (B5), U(S)=λ/2 S^2, J^μ=−iΨ̄γ^μΨ (§7.5), T_{μν}=−(2/√|g|)δS/δg^{μν} (§7.6), the on-shell L_s=SU'−U, ρ=mS+U and p=SU'−U, and the field equation γ^μD_μΨ=(m+U'(S))Ψ. The rest were not checked. | Whole-book lenses have not run. The four lenses of TEXTBOOK_SPEC §4 (correctness, honesty, pedagogy, reproducibility) on the assembled book are still pending (wf_textbook_final.js). In particular, nobody has checked across the full order 0-20 that every notion is defined before it is used. | Long runs were not re-run. Reviewers ran only commands that finish in about 5 minutes. The stage gates (verify_stage1..4 .ps1/.sh), the Wolfram verifiers, the Rust solver runs and a fresh-clone check were not re-run in this workflow, so Wolfram-only claims rest on the committed reports alone. Examples are the cl44-seed.json comparison in Chapter 3 and P_notebookCompare in Chapter 9. I re-ran only the Chapter-4 sympy program (it prints 37 and R = 6*H**2*(A1**2 - 7), as the book says) and the Chapter-0 §0.8 Python snippets ((153, 153) and True, as printed). | Stage-4 reports not cited. Three committed Stage-4 cross-check reports are cited nowhere in wave A: kohn-sham/python-check-report.json (commit 2091686: 62 of 63 checks true, canonical_eigenvalues false), kohn-sham/rust/generator-report.json (30/30) and kohn-sham/reference/reference-summary.json. Chapter 13 §13.1/§13.15 and ledger rows L33-L35 still quote the quick log's 65 of 69. That number is correct for the log it cites, but the wave-B/final refresh must use the committed report, including the false canonical_eigenvalues. Also still pending: the Stage-5 matter–antimatter and pairing reports are cited only through Chapter 0 (M5.kreinLevelCaveat), tests/test_d16c_textbook_publication.py does not exist, and the textbook is not yet registered in provenance/pdf-specifications.json. All three belong to the final stage. | Fixer outcomes only partly visible. The fix-results JSON I was given is cut off in Chapter 3 (finding F4). I did not see the per-finding outcomes for the rest of Chapter 3, or for Chapters 04, 05 and 08-13. For those I checked the results mechanically, not finding by finding: every cited check name exists in a committed report and is true, the 29 figures are tracked and unchanged, every exercise has an answer, the cross-references resolve, and the builds are warning-free. | Exercise labels are inconsistent. Chapters 11, 12 and 13 number their exercises as a plain list ('1.', '2.', ...), while Chapters 00-10 and wave B use labels 'Exercise N.k' / 'Answer N.k'. References such as 'Exercise 13.9' or 'Exercise 12.9' do point to the right item (I checked 13.2, 13.9, 13.12 and 12.9), but those labels never appear in the text. This belongs to the whole-book pedagogy lens. | Optional rename not done. Chapter-0 finding F29 suggested renaming the dummy index in Γ^λ_{μy}T^μ_λ of Chapter 13 §13.14, where λ is also the coupling. Chapter 0 §0.6 now warns that λ is used both ways. It is not a numbering, cross-reference or build problem, so I left it."
+ }
+]

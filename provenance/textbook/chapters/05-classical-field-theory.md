@@ -4,7 +4,7 @@
 
 Physics describes how things change. For a single particle the thing that changes is its position; for a field, such as the electromagnetic field or the dirac16complex field of this book, it is a list of numbers attached to every point of spacetime. In both cases the most economical way to write down the laws of change is to write down one function, the **Lagrangian**, and to demand that a certain integral of it, the **action**, does not change to first order when the motion is changed slightly. This one demand produces the equations of motion, called the **Euler–Lagrange equations**. The same Lagrangian also tells us which quantities are conserved (energy, momentum, charge), through a theorem of Emmy Noether, and it gives the **energy–momentum tensor**, the object that tells gravity where the energy is.
 
-This chapter builds that machinery from zero. It then introduces **Grassmann numbers**, the anticommuting numbers ($\theta_1\theta_2=-\theta_2\theta_1$) that are needed to describe fermions such as electrons, and it ends with one of the first results of the dirac16complex project: the Lagrangian $\mathrm{Lg}[\,]$ that the author wrote in the notebook (cell 1064) contains no dynamics at all when its field is taken to be a real Grassmann field, as a fermion field must be. Its Euler–Lagrange equations read $0=0$. This is why the project had to replace $\mathrm{Lg}[\,]$ by a new Lagrangian (Chapter 6).
+This chapter builds that machinery from zero. It then introduces **Grassmann numbers**, the anticommuting numbers ($\theta_1\theta_2=-\theta_2\theta_1$) that are needed to describe fermions such as electrons, and it ends with one of the first results of the dirac16complex project: the Lagrangian $\mathrm{Lg}[\,]$ that the author wrote in the notebook (cell 1064) contains no dynamics at all when its real field (the notebook's Ψ16) is taken to be anticommuting (Grassmann), as this book assumes a fermion field must be (Section 5.16). With the correct (canonical) spin connection its Euler–Lagrange equations read $0=0$. With the notebook's own contraction they are the algebraic equations $X\Psi=0$, which force $\Psi=0$ wherever the matrix $X$ is invertible, as it is at all six points where the repository computed it (Sections 5.13 and 5.14). Either way there is no wave equation. This is why the project had to replace $\mathrm{Lg}[\,]$ by a new Lagrangian (Chapter 6).
 
 We use the conventions of the whole book (Chapter 1): everything is counted from 0; there are eight coordinates $x=(x_0,x_1,\dots,x_7)$; $x_4$ is the time; the flat metric is
 
@@ -12,7 +12,7 @@ $$
 \eta=\mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1),
 $$
 
-so directions 0 to 3 are space-like and directions 4 to 7 are time-like, and $x_5,x_6,x_7$ are called the three extra times. We write coordinates with a lower index, as the notebook does, and $\partial_\mu=\partial/\partial x_\mu$. A repeated index, one up and one down, is summed from 0 to 7 (the sum convention of Chapter 1).
+so directions 0 to 3 are space-like and directions 4 to 7 are time-like, and $x_5,x_6,x_7$ are called the three extra times. In words we name the coordinates $x_0,\dots,x_7$ as the notebook does; in index formulas we write $x^\mu$ and $\partial_\mu=\partial/\partial x^\mu$ (Section 1.8). The names $x_4$ and $x^4$ denote the same coordinate; no metric is used to lower the index of a coordinate. A repeated index, one up and one down, is summed from 0 to 7 (the sum convention of Chapter 1).
 
 The sources of this chapter are the Stage-1 document `provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.md` (its §6 “Why the notebook Lagrangian Lg[] is empty for a Grassmann field” and §3 on the matrices), the contract `handoff/specs/CONTRACT.md` (its §3), the exact Grassmann-algebra code `scripts/grassmann_algebra.py` and `scripts/demo_grassmann_lagrangians.py`, and the report `artifacts/dirac16complex/arbitrary-field/grassmann-demo-report.json`.
 
@@ -108,7 +108,7 @@ $$
 E^A=\frac{\partial\mathcal L}{\partial\phi_A}-\partial_\mu\frac{\partial\mathcal L}{\partial(\partial_\mu\phi_A)}=0\qquad\text{for every component }A .
 $$
 
-In $\partial_\mu(\dots)$ the derivative is the **total** derivative with respect to $x_\mu$: it acts on the explicit $x$-dependence of $\mathcal L$ and, through the chain rule, on the fields inside it. The expression $E^A$ is called the **Euler–Lagrange expression** of the component $A$.
+In $\partial_\mu(\dots)$ the derivative is the **total** derivative with respect to $x^\mu$: it acts on the explicit $x$-dependence of $\mathcal L$ and, through the chain rule, on the fields inside it. The expression $E^A$ is called the **Euler–Lagrange expression** of the component $A$.
 
 ### 5.4 Total derivatives change nothing
 
@@ -146,7 +146,7 @@ $$
 
 With one time (signature (7,1)) this would be the ordinary Klein–Gordon wave equation. With four time-like directions it is called **ultrahyperbolic**.
 
-**Plane waves.** Try $\phi=\cos\bigl(\sum_{j\ne4}k_jx_j-\omega x_4\bigr)$ with constant real $k_j$ and $\omega$. Each $\partial_j^2$ produces $-k_j^2\phi$ and $\partial_4^2$ produces $-\omega^2\phi$, so the field equation becomes $-\sum_{i=0}^{3}k_i^2+\omega^2+\sum_{j=5}^{7}k_j^2=m^2$, that is
+**Plane waves.** Try $\phi=\cos\bigl(\sum_{j\ne4}k_jx^j-\omega x^4\bigr)$ with constant real $k_j$ and $\omega$. Each $\partial_j^2$ produces $-k_j^2\phi$ and $\partial_4^2$ produces $-\omega^2\phi$, so the field equation becomes $-\sum_{i=0}^{3}k_i^2+\omega^2+\sum_{j=5}^{7}k_j^2=m^2$, that is
 
 $$
 \omega^2=m^2+k_0^2+k_1^2+k_2^2+k_3^2-k_5^2-k_6^2-k_7^2 .
@@ -180,11 +180,11 @@ $$
 i\dot\psi=\omega\psi,\qquad\psi(t)=e^{-i\omega t}\psi(0).
 $$
 
-This is a Schrödinger equation with the “Hamiltonian” $\omega$. Varying $\psi$ gives the complex conjugate equation $-i\dot\psi^\ast=\omega\psi^\ast$. The dirac16complex Lagrangian of Chapter 6 has exactly this structure, with $\psi$ replaced by a column of 16 anticommuting components and $\omega$ by a $16\times16$ matrix operator (Chapter 8).
+This has the form of the Schrödinger equation $i\,df/dt=Hf$ of quantum mechanics (Chapter 8), with the number $\omega$ in the role of the Hamiltonian $H$. Varying $\psi$ gives the complex conjugate equation $-i\dot\psi^\ast=\omega\psi^\ast$. The dirac16complex Lagrangian of Chapter 6 has exactly this structure, with $\psi$ replaced by a column of 16 anticommuting components and $\omega$ by a $16\times16$ matrix operator (Chapter 8).
 
 ### 5.7 Symmetries and Noether's theorem
 
-**Definition.** A **continuous symmetry** of a Lagrangian density is a family of changes of the fields, $\phi_A\to\phi_A+\epsilon\,\Delta\phi_A+O(\epsilon^2)$, under which $\mathcal L$ changes, to first order in $\epsilon$, only by a total divergence: $\mathcal L\to\mathcal L+\epsilon\,\partial_\mu K^\mu$ for every field configuration (not only for solutions). By Section 5.4 such a change does not alter the field equations.
+**Definition.** A **continuous symmetry** of a Lagrangian density is a family of changes of the fields, $\phi_A\to\phi_A+\epsilon\,\Delta\phi_A+O(\epsilon^2)$ (with $O(\epsilon^2)$ as in Section 4.5), under which $\mathcal L$ changes, to first order in $\epsilon$, only by a total divergence: $\mathcal L\to\mathcal L+\epsilon\,\partial_\mu K^\mu$ for every field configuration (not only for solutions). By Section 5.4 such a change does not alter the field equations.
 
 **Theorem 5.2 (Noether).** For a continuous symmetry the **current**
 
@@ -198,7 +198,7 @@ satisfies $\partial_\mu j^\mu=0$ for every solution of the field equations.
 
 **Conserved charge.** Integrate $j^4$ over a slice $x_4=\text{const}$, whose seven coordinates are $x_0,x_1,x_2,x_3,x_5,x_6,x_7$: $Q(x_4)=\int j^4\,d^7x$. Then $dQ/dx_4=\int\partial_4j^4\,d^7x=-\sum_{j\ne4}\int\partial_jj^j\,d^7x=0$ when the fields vanish far away, by the divergence theorem of Section 5.3 on the slice. So $Q$ does not change in time. (The overall sign of a current is a convention.)
 
-**Example 1 (phase symmetry).** In Example B of Section 5.6 the change $\psi\to e^{i\alpha}\psi$, $\psi^\ast\to e^{-i\alpha}\psi^\ast$ leaves $L$ unchanged ($K=0$). To first order $\Delta\psi=i\psi$ and $\Delta\psi^\ast=-i\psi^\ast$. The “current” has only a time component, $j=\frac{\partial L}{\partial\dot\psi}\,i\psi+\frac{\partial L}{\partial\dot\psi^\ast}(-i\psi^\ast)=\tfrac i2\psi^\ast\,i\psi-\tfrac i2\psi\,(-i\psi^\ast)=-\psi^\ast\psi$. Its conservation says $\psi^\ast\psi$ is constant, which the solution $e^{-i\omega t}\psi(0)$ confirms. For the dirac16complex field the same symmetry gives the conserved current $J^\mu=-i\bar\Psi\gamma^\mu\Psi$ (Chapter 7) and the charge of Chapter 8.
+**Example 1 (phase symmetry).** In Example B of Section 5.6 the change $\psi\to e^{i\alpha}\psi$, $\psi^\ast\to e^{-i\alpha}\psi^\ast$ leaves $L$ unchanged ($K=0$). To first order $\Delta\psi=i\psi$ and $\Delta\psi^\ast=-i\psi^\ast$. The “current” has only a time component, $j=\frac{\partial L}{\partial\dot\psi}\,i\psi+\frac{\partial L}{\partial\dot\psi^\ast}(-i\psi^\ast)=\tfrac i2\psi^\ast\,i\psi-\tfrac i2\psi\,(-i\psi^\ast)=-\psi^\ast\psi$. Its conservation says $\psi^\ast\psi$ is constant, which the solution $e^{-i\omega t}\psi(0)$ confirms. For the dirac16complex field (Chapter 6; its Dirac adjoint $\bar\Psi=\Psi^\dagger C$ is introduced in Section 5.14), Theorem 5.2 applied to the same symmetry, $\Delta\Psi=i\Psi$ and $\Delta\bar\Psi=-i\bar\Psi$, gives the current $+i\bar\Psi\gamma^\mu\Psi$. (In flat space, for the Lagrangian $\mathcal L$ of Section 5.14 with commuting components, $\partial\mathcal L/\partial(\partial_\mu\Psi)=\tfrac12\bar\Psi\gamma^\mu$, $\partial\mathcal L/\partial(\partial_\mu\bar\Psi)=-\tfrac12\gamma^\mu\Psi$ and $K^\mu=0$, so $j^\mu=\tfrac12\bar\Psi\gamma^\mu(i\Psi)+(-i\bar\Psi)(-\tfrac12\gamma^\mu\Psi)=i\bar\Psi\gamma^\mu\Psi$; with Grassmann components, left derivatives and the variation written on the left, as in Section 5.10, the same current comes out.) The project reverses this overall sign, which is allowed because the overall sign of a current is a convention, and uses the conserved current $J^\mu=-i\bar\Psi\gamma^\mu\Psi$. Its time component in flat space is $J^4=-i\Psi^\dagger C\gamma^4\Psi=\Psi^\dagger B\Psi$, with the matrix $B=-iC\gamma^4$ of Chapter 2, and with this sign the particles of Chapter 8 have charge $+1$ (Chapters 7 and 8). For the oscillator the same choice of sign would give $+\psi^\ast\psi$ instead of $-\psi^\ast\psi$.
 
 **Example 2 (translations and the canonical energy–momentum tensor).** If $\mathcal L$ does not depend explicitly on $x$, shifting the field, $\phi_A(x)\to\phi_A(x+\epsilon e_\nu)$ with $e_\nu$ the unit step in direction $\nu$, is a symmetry: $\Delta\phi_A=\partial_\nu\phi_A$, and $\mathcal L$ changes by $\epsilon\,\partial_\nu\mathcal L=\epsilon\,\partial_\mu(\delta^\mu{}_\nu\mathcal L)$, so $K^\mu=\delta^\mu{}_\nu\mathcal L$ ($\delta^\mu{}_\nu$ is 1 for $\mu=\nu$ and 0 otherwise). Noether's theorem gives eight conserved currents, one for each $\nu$, collected in the **canonical energy–momentum tensor**
 
@@ -214,7 +214,37 @@ $$
 \rho=\Theta^4{}_4=\tfrac12(\partial_4\phi)^2+\tfrac12\sum_{i=0}^{3}(\partial_i\phi)^2-\tfrac12\sum_{j=5}^{7}(\partial_j\phi)^2+V(\phi).
 $$
 
-(Derivation: $\Theta^4{}_4=(\partial_4\phi)^2-\mathcal L$ and $-\mathcal L=\tfrac12\sum_{i\le3}(\partial_i\phi)^2-\tfrac12(\partial_4\phi)^2-\tfrac12\sum_{j\ge5}(\partial_j\phi)^2+V$.) The gradients along the extra times enter with a **minus** sign. For example, at $x_4=0$ take $\partial_4\phi=0$ and $\phi=\epsilon\sin(kx_5)$ with $m=1$: then $\rho=\tfrac12\epsilon^2\bigl(\sin^2(kx_5)-k^2\cos^2(kx_5)\bigr)$, whose average over $x_5$ is $\tfrac14\epsilon^2(1-k^2)$, negative for $k>1$ and as negative as we like for large $k$. The energy of a scalar field in 4+4 dimensions is not bounded below; this is the classical face of the extra-time instability of Chapter 8. This observation is derived here; it is not a check of the repository.
+(Derivation: $\Theta^4{}_4=(\partial_4\phi)^2-\mathcal L$ and $-\mathcal L=\tfrac12\sum_{i\le3}(\partial_i\phi)^2-\tfrac12(\partial_4\phi)^2-\tfrac12\sum_{j\ge5}(\partial_j\phi)^2+V$.) The gradients along the extra times enter with a **minus** sign, and this makes the energy unbounded below. To see it, take $m=1$ and, at the moment $x_4=0$, a field with $\partial_4\phi=0$ and
+
+$$
+\phi=\epsilon\,f\,\sin(kx_5),
+$$
+
+where $\epsilon$ and $k>0$ are numbers and $f$ is a fixed smooth bump on the slice: a function of the seven coordinates $x_0,x_1,x_2,x_3,x_5,x_6,x_7$ that vanishes outside a bounded region and is not zero everywhere, so that $I:=\int f^2\,d^7x>0$. This field vanishes far away, so its energy $E=\int\rho\,d^7x$ is a finite number. We show that $E$ becomes as negative as we like when $k$ is made large. Write $s=\sin(kx_5)$ and $c=\cos(kx_5)$.
+
+*The terms without $\partial_5\phi$.* With $\partial_4\phi=0$ and $m=1$, $\rho=\tfrac12\sum_{i=0}^{3}(\partial_i\phi)^2-\tfrac12\sum_{j=5}^{7}(\partial_j\phi)^2+\tfrac12\phi^2$. For $i\le3$ and for $j=6,7$ the derivative does not act on $s$, so $\partial_i\phi=\epsilon s\,\partial_if$ and $\partial_j\phi=\epsilon s\,\partial_jf$. The terms $-\tfrac12(\partial_6\phi)^2$ and $-\tfrac12(\partial_7\phi)^2$ are $\le0$, and since $s^2\le1$ the others satisfy $\tfrac12\sum_{i\le3}(\partial_i\phi)^2+\tfrac12\phi^2\le\tfrac12\epsilon^2\bigl(\sum_{i\le3}(\partial_if)^2+f^2\bigr)$. So these terms contribute at most the number $K:=\tfrac12\epsilon^2\int\bigl(\sum_{i\le3}(\partial_if)^2+f^2\bigr)d^7x$, which does not depend on $k$.
+
+*The term $-\tfrac12(\partial_5\phi)^2$.* Here $\partial_5\phi=\epsilon(s\,\partial_5f+kcf)$, so, using $2f\,\partial_5f=\partial_5(f^2)$,
+
+$$
+-\tfrac12(\partial_5\phi)^2=-\tfrac12\epsilon^2\bigl(s^2(\partial_5f)^2+k\,sc\,\partial_5(f^2)+k^2c^2f^2\bigr).
+$$
+
+The first term is $\le0$. For the other two use $sc=\tfrac12\sin(2kx_5)$ and $c^2=\tfrac12\bigl(1+\cos(2kx_5)\bigr)$, and write $J_k:=\int\cos(2kx_5)\,f^2\,d^7x$. Integrating by parts in $x_5$ (the boundary terms vanish because $f$ does), $\int\sin(2kx_5)\,\partial_5(f^2)\,d^7x=-2k\,J_k$. Hence the integral of the last two terms is $-\tfrac14\epsilon^2k\,(-2kJ_k)-\tfrac14\epsilon^2k^2(I+J_k)=-\tfrac14\epsilon^2k^2I+\tfrac14\epsilon^2k^2J_k$.
+
+*The oscillating remainder stays bounded.* Two more integrations by parts in $x_5$ give
+
+$$
+J_k=-\frac1{2k}\int\sin(2kx_5)\,\partial_5(f^2)\,d^7x=-\frac1{4k^2}\int\cos(2kx_5)\,\partial_5^2(f^2)\,d^7x ,
+$$
+
+so, because $|\cos|\le1$, the term $\tfrac14\epsilon^2k^2J_k$ is at most $L:=\tfrac1{16}\epsilon^2\int|\partial_5^2(f^2)|\,d^7x$, again a number that does not depend on $k$. Adding up,
+
+$$
+E=\int\rho\,d^7x\le K+L-\tfrac14\epsilon^2k^2I ,
+$$
+
+which is negative for large $k$ and tends to $-\infty$ as $k\to\infty$. The energy of a scalar field in 4+4 dimensions is not bounded below, even for fields that vanish far away; this is the classical face of the extra-time instability of Chapter 8. (For the plane wave $\epsilon\sin(kx_5)$ alone, without the bump, $\rho=\tfrac12\epsilon^2\bigl(\sin^2(kx_5)-k^2\cos^2(kx_5)\bigr)$, whose average over $x_5$ is $\tfrac14\epsilon^2(1-k^2)$; but that field does not vanish far away, and the integral of its energy density over the whole slice does not exist.) This observation is derived here; it is not a check of the repository.
 
 ### 5.8 The energy–momentum tensor
 
@@ -272,7 +302,7 @@ $$
 w=\frac p\rho=\frac{\tfrac12\dot\phi^2-V}{\tfrac12\dot\phi^2+V}.
 $$
 
-These are the formulas $\rho_\phi=\tfrac12\dot\phi^2+V$ and $P_\phi=\tfrac12\dot\phi^2-V$ of the task's scalar-field reference. With small numbers: $\dot\phi=2$ and $V=1$ give $\rho=3$, $p=1$, $w=1/3$; $\dot\phi=0$ gives $w=-1$, the behaviour of a cosmological constant; $V=0$ gives $w=+1$. Chapter 7 derives the corresponding formulas for dirac16complex, and Chapter 11 uses them in the dark-sector experiments.
+These are the standard formulas $\rho_\phi=\tfrac12\dot\phi^2+V$ and $P_\phi=\tfrac12\dot\phi^2-V$ of a homogeneous scalar field (the same as in the scalar-field reference of Section 5.5, which the Stage-1 document quotes in its §2.3). With small numbers: $\dot\phi=2$ and $V=1$ give $\rho=3$, $p=1$, $w=1/3$; $\dot\phi=0$ gives $w=-1$, the behaviour of a cosmological constant; $V=0$ gives $w=+1$. Chapter 7 derives the corresponding formulas for dirac16complex, and Chapter 11 uses them in the dark-sector experiments.
 
 ### 5.9 Grassmann numbers from zero
 
@@ -316,7 +346,7 @@ $$
 S^k=k!\sum_{a_1<a_2<\dots<a_k}P_{a_1}P_{a_2}\cdots P_{a_k}.
 $$
 
-So $S^k$ has $\binom{16}{k}$ monomials with coefficients $\pm k!$, $S^{16}=16!\,P_0P_1\cdots P_{15}$ is a single monomial, and $S^{17}=0$. With two pairs only: $S=P_0+P_1$, $S^2=P_0P_1+P_1P_0=2P_0P_1$ and $S^3=0$. This is exactly the structure of the scalar density $S=\bar\Psi\Psi$ of dirac16complex at one point (Chapter 6): there the pairs are $\Psi_a^\ast\Psi_b$, and the repository computed all powers in an explicit Grassmann algebra with 32 generators, finding 16, 120, 560, 1820, 4368, 8008, 11440, 12870, 11440, 8008, 4368, 1820, 560, 120, 16 and 1 monomials for $k=1,\dots,16$, coefficients of absolute value $k!$, and $S^{17}=0$ (check `GR_quarticTermPolynomial` in `artifacts/dirac16complex/arbitrary-field/grassmann-demo-report.json`; Stage-1 document, Result 7.2). A consequence: a function of $S$ can only be a polynomial of degree at most 16, which is why the self-interaction of dirac16complex is the polynomial $U(S)=\tfrac\lambda2S^2$ (Chapter 6).
+So $S^k$ has $\binom{16}{k}$ monomials with coefficients $\pm k!$, $S^{16}=16!\,P_0P_1\cdots P_{15}$ is a single monomial, and $S^{17}=0$. With two pairs only: $S=P_0+P_1$, $S^2=P_0P_1+P_1P_0=2P_0P_1$ and $S^3=0$. This is exactly the structure of the scalar density $S=\bar\Psi\Psi$ of dirac16complex at one point (Chapter 6): there the pairs are $\Psi_a^\ast\Psi_b$, and the repository computed all powers in an explicit Grassmann algebra with 32 generators, finding 16, 120, 560, 1820, 4368, 8008, 11440, 12870, 11440, 8008, 4368, 1820, 560, 120, 16 and 1 monomials for $k=1,\dots,16$, coefficients of absolute value $k!$, and $S^{17}=0$ (check `GR_quarticTermPolynomial` in `artifacts/dirac16complex/arbitrary-field/grassmann-demo-report.json`; Stage-1 document, Result 7.2). A consequence: every function of $S$ is a polynomial of degree at most 16 (a power series in $S$ stops after the term $S^{16}$). The project requires $U(0)=U'(0)=0$ (no constant and no second mass term) and chooses the simplest such polynomial, $U(S)=\tfrac\lambda2S^2$; this is a convention, not a consequence (Stage-1 document, §1.2 and §7.6; Chapter 6).
 
 **Complex conjugation.** A **conjugation** on the algebra is a rule $F\mapsto F^\ast$ with $(F+G)^\ast=F^\ast+G^\ast$, $(cF)^\ast=c^\ast F^\ast$ for numbers $c$, $(F^\ast)^\ast=F$, and the **order-reversing** product rule
 
@@ -330,7 +360,7 @@ $$
 \bigl(\Psi^\dagger M\Psi\bigr)^\ast=\sum_{a,b}M_{ab}^\ast\,\Psi_b^\ast\Psi_a=\Psi^\dagger M^\dagger\Psi,
 $$
 
-so a **bilinear** $\Psi^\dagger M\Psi$ is real (the book says Hermitian) exactly when the matrix $M$ is Hermitian, $M^\dagger=M$, just as for ordinary numbers. These rules, including the order reversal, were checked in an explicit Grassmann algebra (check `GR_conjugationRules`, `grassmann-demo-report.json`).
+so a **bilinear** $\Psi^\dagger M\Psi$ is real, that is, equal to its own conjugate (this book also calls such an element **Hermitian**, as the Stage-1 document does in its §7.4), exactly when the matrix $M$ is Hermitian, $M^\dagger=M$, just as for ordinary numbers. These rules, including the order reversal, were checked in an explicit Grassmann algebra (check `GR_conjugationRules`, `grassmann-demo-report.json`).
 
 ### 5.10 Calculus with Grassmann numbers
 
@@ -410,7 +440,7 @@ The two lemmas side by side:
 
 ### 5.12 The author's Lagrangian Lg[] and the matrices it uses
 
-**The matrices.** Chapter 2 constructs the eight real $16\times16$ integer matrices $\gamma^0,\dots,\gamma^7$ of the notebook (its T16^A) and proves their properties. We need the following definitions and facts, all facts verified exactly by the repository (Stage-1 document, Results 3.1, 3.3 and 3.5; checks `ALG_clifford`, `ALG_gammaTransposeSymmetry`, `ALG_chargeMatrix`, `ALG_expression1` and `ALG_spinTransposeProperties` in `wolfram-algebra-report.json` and `python-algebra-report.json`):
+**The matrices.** Chapter 2 constructs the eight real $16\times16$ integer matrices $\gamma^0,\dots,\gamma^7$ of the notebook (its T16^A) and proves their properties. We need the following definitions and facts, all facts verified exactly by the repository (Stage-1 document, Results 3.1, 3.3, 3.4 and 3.5; checks `ALG_clifford`, `ALG_gammaTransposeSymmetry`, `ALG_chargeMatrix`, `ALG_expression1` and `ALG_spinTransposeProperties` in `wolfram-algebra-report.json` and `python-algebra-report.json`; all Stage-1 reports are in `artifacts/dirac16complex/arbitrary-field/`):
 
 - the Clifford relation $\gamma^a\gamma^b+\gamma^b\gamma^a=2\eta^{ab}I_{16}$, so different gammas anticommute, $(\gamma^a)^2=+1$ for $a\le3$ and $(\gamma^a)^2=-1$ for $a\ge4$;
 - $\gamma^a$ is symmetric for $a\le3$ and antisymmetric for $a\ge4$;
@@ -434,7 +464,7 @@ $$
 \Psi^TC\gamma^0\Psi=-2\bigl(\Psi_0\Psi_{12}+\Psi_1\Psi_{13}+\Psi_2\Psi_{14}+\Psi_3\Psi_{15}+\Psi_4\Psi_8+\Psi_5\Psi_9+\Psi_6\Psi_{10}+\Psi_7\Psi_{11}\bigr).
 $$
 
-The repository's Grassmann algebra finds exactly this pattern: $\Psi^TC\Psi$ has 0 monomials, and each of the eight $\Psi^TC\gamma^a\Psi$ has 8 monomials with coefficients $\pm2$ (the two measurements of `grassmann-demo-report.json` whose names begin with `GR_massTermVanishesReal_`).
+The repository's Grassmann algebra finds exactly this pattern: $\Psi^TC\Psi$ has 0 monomials, and each of the eight $\Psi^TC\gamma^a\Psi$ has 8 monomials with coefficients $\pm2$ (the three measurements of `grassmann-demo-report.json` whose names begin with `GR_massTermVanishesReal_`).
 
 **Geometry.** From Chapter 4 we need: the vielbein $e_\mu{}^a(x)$ and its inverse $e_a{}^\mu$, the metric $g_{\mu\nu}=e_\mu{}^a\eta_{ab}e_\nu{}^b$, the curved gammas $\gamma^\mu=e_a{}^\mu\gamma^a$ (ordinary functions times constant matrices), the canonical spin connection $\omega_{\mu ab}=-\omega_{\mu ba}$ fixed by the vielbein postulate, the spinor connection $\Omega_\mu=\tfrac12\omega_{\mu ab}S^{ab}$, and the covariant constancy of the gammas,
 
@@ -462,6 +492,17 @@ b]].\[CapitalPsi]16,{a,1,8},{b,1,8}]),{\[Alpha]1,1,Length[X]}]+
 (H*M)*Transpose[\[CapitalPsi]16].\[Sigma]16.\[CapitalPsi]16)//Simplify[#,
 constraintVars]&
 ```
+
+**Reading the code.** In the code, `\[CapitalPsi]`, `\[Sigma]`, `\[Alpha]` and `\[Omega]` are Mathematica's names for the Greek letters Ψ, σ, α and ω. Mathematica lists count from 1, so the summation index α1 $=1,\dots,8$ stands for the coordinate index $\mu=\alpha1-1=0,\dots,7$, and the indices a, b $=1,\dots,8$ of `ωmat` and `SAB` stand for the frame indices $0,\dots,7$. The pieces of the cell mean (Stage-1 document, §2.2 and §6.1):
+
+- `Sqrt[detgg]` is $\sqrt{|g|}$. Here `detgg` is `Det[g4488 /. sg]` (cell 275), the determinant of the notebook's metric `g4488` (cell 147). It is positive, because in signature (4,4) $\det g=(\det e)^2\det\eta=(\det e)^2$ (Section 4.10).
+- `sg` is the notebook's list of rules that turns the metric symbols into the diagonal functions of $(x_0,x_4)$ of its field (cell 269), and `/.sg` applies these rules.
+- `Transpose[Ψ16]` is the row $\Psi^T$, `σ16` is $C$, and the dot `.` is the matrix product.
+- `(T16^α)[α1-1]` is the curved gamma $\gamma^\mu$ with $\mu=\alpha1-1$ (cell 475, built from the notebook's diagonal vielbein; Section 4.10).
+- `X` is the list of the eight coordinates (cell 61), so `D[Ψ16, X[[α1]]]` is $\partial_\mu\Psi$, and the outer `Sum[..., {α1, 1, Length[X]}]` is the sum over the eight values of $\mu$.
+- `ωmat[[α1,a,b]]` is the mixed spin connection $\omega_\mu{}^{a-1}{}_{b-1}$ (cells 529 to 532) and `SAB[[a,b]]` is $S^{a-1\,b-1}$, so `(Q1/2)*Sum[...]` is Q1 times $\tfrac12\,\omega_\mu{}^a{}_b\,S^{ab}\Psi$, with the indices counted from 0.
+- `Q1` is the notebook's book-keeping switch for the spin connection (1 switches it on), and `H` and `M` are the notebook's inverse length and mass.
+- `FullSimplify[..., constraintVars]` and `Simplify[#, constraintVars]&` only simplify the expression, with the positivity assumptions listed in `constraintVars` (cell 73); they do not change its value.
 
 In the notation of this book, with the switch Q1 = 1 and the mass $m:=-HM$ (so that $+HM\,\Psi^TC\Psi=-m\,\Psi^TC\Psi$),
 
@@ -527,7 +568,7 @@ $$
 
 At every point where the $16\times16$ matrix $X$ is invertible (rank 16) they force $\Psi=0$. The repository computed $X$ exactly at six points, three points of a generic non-diagonal test vielbein called G1 and three points of the notebook's primordial field called G2 (Chapter 9): $X$ has rank 16 at all six, with largest entries of absolute value about 9.927, 12.36 and 10.72 at the G1 points and $3\sqrt{455}/32\approx1.99976$, about 0.5977 and about 2.530 at the G2 points (measurements `G1.p1.notebookLgResidualXRank`, `G1.p1.notebookLgResidualXMaxAbsDecimal` and their analogues for the other five points in `artifacts/dirac16complex/arbitrary-field/wolfram-geometry-report.json`). Either way, $\mathrm{Lg}[\,]$ gives no wave equation for a Grassmann field. That the rank is 16 is a computed fact at these six points, not a theorem for every field.
 
-**With commuting fields (the notebook's actual use).** For ordinary commuting components the roles of the symmetric and antisymmetric parts are exchanged (Lemma 5.4 and the remark after it). Then the mass term $\Psi^TC\Psi$ survives, the derivative term $\Psi^TC\gamma^\mu\partial_\mu\Psi$ is a genuine first-order kinetic term (as in Example A of Section 5.6), and from the connection term only the symmetric part $\tfrac12C\{\gamma^\mu,\Omega_\mu\}$ survives. That part is small in a precise sense. For distinct $c,a,b$ one has $\gamma^cS^{ab}=\tfrac12\gamma^c\gamma^a\gamma^b=S^{ab}\gamma^c$ (moving $\gamma^c$ through two anticommuting factors), so $\{\gamma^c,S^{ab}\}=\gamma^c\gamma^a\gamma^b$; for $c=a\ne b$ one has $\gamma^aS^{ab}=\tfrac12\eta^{aa}\gamma^b=-S^{ab}\gamma^a$, so $\{\gamma^a,S^{ab}\}=0$. Hence $\{\gamma^\mu,\Omega_\mu\}$ contains only the components $\omega_{cab}$ with three different indices, and only their totally antisymmetric combination. For a diagonal vielbein, such as the notebook's field, these vanish (Stage-1 document, §6.5; check `GEO_anticommutatorGammaOmegaVanishesDiagonal_G2`). So for commuting fields in the notebook's diagonal field the spin connection drops out of $\mathrm{Lg}[\,]$ altogether, for either contraction, and the gravitational term of the field equations comes from $\partial_\mu(\sqrt{|g|}\gamma^\mu)$. The notebook's stored equations contain an additional term that Chapter 9 traces to a substitution rule in cell 1058. The commuting 16-component field, taken seriously as a classical field, is the second field of this book, dirac16complex00 (Chapter 6).
+**With commuting fields (the notebook's actual use).** For ordinary commuting components the roles of the symmetric and antisymmetric parts are exchanged (Lemma 5.4 and the remark after it). Then the mass term $\Psi^TC\Psi$ survives, the derivative term $\Psi^TC\gamma^\mu\partial_\mu\Psi$ is a genuine first-order kinetic term (as in Example A of Section 5.6), and from the connection term only the symmetric part $\tfrac12C\{\gamma^\mu,\Omega_\mu\}$ survives. That part is small in a precise sense. Write $\omega_{cab}:=e_c{}^\mu\,\omega_{\mu ab}$ for the components of the connection whose first (coordinate) index has also been turned into a frame index with the inverse vielbein. Since $\gamma^\mu=e_c{}^\mu\gamma^c$, we get $\gamma^\mu\Omega_\mu=\tfrac12\,\omega_{cab}\,\gamma^cS^{ab}$ and $\{\gamma^\mu,\Omega_\mu\}=\tfrac12\,\omega_{cab}\,\{\gamma^c,S^{ab}\}$ (summed over $c,a,b$). For distinct $c,a,b$ one has $\gamma^cS^{ab}=\tfrac12\gamma^c\gamma^a\gamma^b=S^{ab}\gamma^c$ (moving $\gamma^c$ through two anticommuting factors), so $\{\gamma^c,S^{ab}\}=\gamma^c\gamma^a\gamma^b$; for $c=a\ne b$ one has $\gamma^aS^{ab}=\tfrac12\eta^{aa}\gamma^b=-S^{ab}\gamma^a$, so $\{\gamma^a,S^{ab}\}=0$, and the same holds for $c=b\ne a$ because $S^{ab}=-S^{ba}$; finally $S^{aa}=0$. Hence $\{\gamma^\mu,\Omega_\mu\}$ contains only the components $\omega_{cab}$ with three different indices, and, because $\gamma^c\gamma^a\gamma^b$ changes sign when two of its three different indices are exchanged, only their totally antisymmetric combination. For a diagonal vielbein $e_\mu{}^a=h_\mu\,\delta_\mu{}^a$ (no sum), such as the notebook's field, these components vanish. Because the vielbein is diagonal, frame and coordinate indices can be identified: $e_c{}^\mu$ is $1/h_c$ for $\mu=c$ and 0 otherwise, so $\omega_{cab}=\omega_{\mu ab}/h_c$ with $\mu=c$. Section 4.11 showed that for a diagonal vielbein $\omega_{\mu ab}$ is nonzero only when $\mu=a$ or $\mu=b$; so $\omega_{cab}=0$ whenever $c,a,b$ are all different. The notebook's contraction uses the mixed components $\omega_\mu{}^a{}_b=\eta_{aa}\,\omega_{\mu ab}$ (no sum) in place of $\omega_{\mu ab}$; they vanish in the same cases, so the argument holds for both contractions (Stage-1 document, §6.5). The repository checks the result, $\sum_\mu\{\gamma^\mu,\Omega_\mu\}=0$ for both contractions, in the notebook's field G2 (check `GEO_anticommutatorGammaOmegaVanishesDiagonal_G2` in `python-geometry-report.json`). So for commuting fields in the notebook's diagonal field the spin connection drops out of $\mathrm{Lg}[\,]$ altogether, for either contraction, and the gravitational term of the field equations comes from $\partial_\mu(\sqrt{|g|}\gamma^\mu)$. The notebook's stored equations contain an additional term that Chapter 9 traces to a substitution rule in cell 1058. The commuting 16-component field, taken seriously as a classical field, is the second field of this book, dirac16complex00 (Chapter 6).
 
 **The way out: a complex Grassmann field.** For a **complex** Grassmann field the Dirac adjoint $\bar\Psi:=\Psi^\dagger C$ pairs the conjugate components $\Psi_a^\ast$ with the components $\Psi_b$. These are independent generators, so Lemma 5.4 does not apply: $\bar\Psi\Psi=\sum_{a,b}\Psi_a^\ast C_{ab}\Psi_b$ has 16 nonzero monomials, one for each nonzero entry of $C$ (Stage-1 document, Results 7.1 and 7.2; checks `GR_scalarBilinearHermitian` and `GR_quarticTermPolynomial`), whereas the real $\Psi^TC\Psi$ has none. Chapter 6 builds the Lagrangian of dirac16complex from $\bar\Psi$:
 
@@ -539,7 +580,7 @@ Its field equation $\gamma^\mu D_\mu\Psi=(m+U'(\bar\Psi\Psi))\Psi$ is derived in
 
 ### 5.15 How the repository checks all of this
 
-Everything in Sections 5.12 to 5.14 was checked by two independent exact programs, in genuine Grassmann algebras (Stage-1 document, §6.4 and §11):
+The statements of Sections 5.12 to 5.14 were checked by exact programs (Stage-1 document, §3.4, §6.4, §6.5 and §11). The matrix identities were checked by the Wolfram and the Python algebra checkers; the split of $C\gamma^cS^{ab}$ was also checked by the Python geometry checker. The covariant constancy of the gammas and the divergence identity were checked by both geometry verifiers. Theorem 5.6 and the form $X\Psi$ of the notebook-contraction equations were checked in genuine Grassmann algebras by two independent programs, the Python demonstration and the Wolfram geometry verifier. Some items come from one program only. The rank and the largest entries of $X$ come from the Wolfram geometry verifier. The monomial counts of $\Psi^TC\gamma^a\Psi$ and of the complex Lagrangian come from the Python demonstration. The vanishing of $\{\gamma^\mu,\Omega_\mu\}$ in the diagonal field G2 comes from the Python geometry checker. The remark about the notebook's stored equations is derived, not machine-checked. The main checks:
 
 | statement | check (report) |
 | --- | --- |
@@ -551,9 +592,11 @@ Everything in Sections 5.12 to 5.14 was checked by two independent exact program
 | the split of $C\gamma^cS^{ab}$ of Section 5.12 | `ALG_spinTransposeProperties` (both algebra reports) |
 | Theorem 5.6 at G1 p1 and in the symbolic G2 | `GR_notebookLgELTrivial`, `GR_notebookLgPureDivergence` (grassmann-demo) |
 | Theorem 5.6 and $X\Psi$ at all six G1 and G2 points | `LAG_notebookLgGrassmannTrivial_G1`, `_G2` (wolfram-geometry) |
+| the covariant constancy of the gammas | `GEO_gammaCovariantConstancy_G1`, `_G2` (wolfram-geometry, python-geometry) |
 | the divergence identity | `GEO_divergenceIdentity_G1`, `_G2` (wolfram-geometry, python-geometry) |
+| $\sum_\mu\{\gamma^\mu,\Omega_\mu\}=0$ in G2, for both contractions | `GEO_anticommutatorGammaOmegaVanishesDiagonal_G2` (python-geometry) |
 
-The Python demonstration works with 720 generators for the real field and 1440 for the complex one. With the canonical connection 0 of the 16 Euler–Lagrange components of $\mathrm{Lg}$ are nonzero, and $\mathrm{Lg}$ (544 monomials at G1 p1, 136 in G2) equals $\partial_\mu V^\mu$ exactly; with the notebook contraction all 16 components are nonzero, contain no derivative, and equal $X\Psi$ (measurements `GR_notebookLgEL_*` in `grassmann-demo-report.json`; the Wolfram report counts the same 544 and 136 monomials). All 16 checks of `grassmann-demo-report.json` are true. To rerun the Python demonstration from the repository root (it rewrites that report, so run it in a scratch clone if you want to keep the committed file untouched), in PowerShell
+The Python demonstration works with 720 generators for the real field and 1440 for the complex one. With the canonical connection 0 of the 16 Euler–Lagrange components of $\mathrm{Lg}$ are nonzero, and $\mathrm{Lg}$ (544 monomials at G1 p1, 136 in G2) equals $\partial_\mu V^\mu$ exactly; with the notebook contraction all 16 components are nonzero, contain no derivative, and equal $X\Psi$ (measurements `GR_notebookLgEL_*` and `GR_notebookLg_lagrangianTerms_canonical_G1_p1`, `_G2` in `grassmann-demo-report.json`; the Wolfram report counts the same 544 and 136 monomials, `G1.p1.notebookLgMonomials` and `G2.p1.notebookLgMonomials`, and the same counts at the other four points). All 16 checks of `grassmann-demo-report.json` are true. To rerun the Python demonstration from the repository root (it rewrites that report, so run it in a scratch clone if you want to keep the committed file untouched), in PowerShell
 
 ```
 $env:PYTHONUTF8 = "1"
@@ -567,13 +610,13 @@ export PYTHONUTF8=1
 python scripts/demo_grassmann_lagrangians.py
 ```
 
-The last two lines it prints are `check_count=16` and `failed_check_count=0`. The whole Stage-1 gate, which runs this step and all others, is described in Chapter 19.
+The last two lines it writes to standard output are `check_count=16` and `failed_check_count=0`; a timing line ending in `done` follows on standard error. The run takes under two minutes on a desktop computer and needs the Python packages numpy and sympy (Chapter 19). The whole Stage-1 gate, which runs this step and all others, is described in Chapter 19.
 
 ### 5.16 What we proved and what we assumed
 
-**What we proved.** With complete arguments in this chapter: the Euler–Lagrange equations of a particle and of a field follow from the principle of stationary action (Sections 5.2 and 5.3); a Lagrangian that is a total divergence has identically vanishing Euler–Lagrange expressions (Proposition 5.1), for ordinary and for Grassmann fields; Noether's theorem (Theorem 5.2) and the canonical energy–momentum tensor; the metric energy–momentum tensor of a scalar field and its agreement with the Noether one; $\rho=\tfrac12\dot\phi^2+V$, $p=\tfrac12\dot\phi^2-V$ for a homogeneous scalar field; the classical energy of a scalar field in 4+4 dimensions is not bounded below; the rules of Grassmann algebra, of conjugation and of left and right derivatives (Proposition 5.3); the two bilinear lemmas (Lemmas 5.4 and 5.5); the matrix identities $C^T=C$, $C^2=1$, $(C\gamma^a)^T=-C\gamma^a$ and the symmetric/antisymmetric split of $C\gamma^cS^{ab}$ from the Clifford relations and the transposition pattern of the gammas; the divergence identity from the covariant constancy of the gammas; and Theorem 5.6: in every gravitational field, with the canonical spin connection, the notebook's $\mathrm{Lg}[\,]$ is the total divergence $\partial_\mu(\tfrac12\sqrt{|g|}\,\Psi^TC\gamma^\mu\Psi)$ for a real Grassmann field, with the field equations $0=0$. With the notebook's own contraction the field equations are the algebraic $X\Psi=0$.
+**What we proved.** With complete arguments in this chapter: the Euler–Lagrange equations of a particle and of a field follow from the principle of stationary action (Sections 5.2 and 5.3); a Lagrangian that is a total divergence has identically vanishing Euler–Lagrange expressions (Proposition 5.1), for ordinary and for Grassmann fields; Noether's theorem (Theorem 5.2) and the canonical energy–momentum tensor; the metric energy–momentum tensor of a scalar field and its agreement with the Noether one; $\rho=\tfrac12\dot\phi^2+V$, $p=\tfrac12\dot\phi^2-V$ for a homogeneous scalar field; the classical energy of a scalar field in 4+4 dimensions is not bounded below, even for fields that vanish far away (Section 5.7); the rules of Grassmann algebra, of conjugation and of left and right derivatives (Proposition 5.3); the two bilinear lemmas (Lemmas 5.4 and 5.5); the matrix identities $C^T=C$, $C^2=1$, $(C\gamma^a)^T=-C\gamma^a$ and the symmetric/antisymmetric split of $C\gamma^cS^{ab}$ from the Clifford relations and the transposition pattern of the gammas; the divergence identity from the covariant constancy of the gammas; and Theorem 5.6: in every gravitational field, with the canonical spin connection, the notebook's $\mathrm{Lg}[\,]$ is the total divergence $\partial_\mu(\tfrac12\sqrt{|g|}\,\Psi^TC\gamma^\mu\Psi)$ for a real Grassmann field, with the field equations $0=0$. With the notebook's own contraction the field equations are the algebraic $X\Psi=0$. For commuting fields in a diagonal vielbein the spin connection drops out of $\mathrm{Lg}[\,]$ for either contraction (Section 5.14).
 
-**What we assumed or took from elsewhere.** The Clifford relations, the symmetry pattern of the gammas and $C=\gamma^0\gamma^1\gamma^2\gamma^3$ are properties of the notebook's matrices, proved in Chapter 2 and verified exactly by the repository. The canonical spin connection and the covariant constancy $D_\mu\gamma^\nu=0$ come from Chapter 4 (they are equivalent to the vielbein postulate; the repository verifies them exactly at test points). The reading of cell 1064 as the formula of Section 5.12 is the transcription of the Stage-1 document. That a fermion field must have anticommuting (Grassmann) components is the physical premise of the whole construction, the classical counterpart of the anticommutators of Chapter 8; no spin–statistics theorem is proved for signature (4,4) in this book. That the matrix $X$ of the notebook contraction has rank 16 is a computed fact at six test points, not a theorem for every field. Fields are assumed smooth and to vanish near the boundary of the region of integration whenever we integrate by parts.
+**What we assumed or took from elsewhere.** The Clifford relations, the symmetry pattern of the gammas and $C=\gamma^0\gamma^1\gamma^2\gamma^3$ are properties of the notebook's matrices, proved in Chapter 2 and verified exactly by the repository. The canonical spin connection and the covariant constancy $D_\mu\gamma^\nu=0$ come from Chapter 4 (they are equivalent to the vielbein postulate; the repository verifies them exactly at test points). The reading of cell 1064 as the formula of Section 5.12, and the meaning of the notebook's names in it, are taken from the Stage-1 document (§2.2 and §6.1). Two choices of the project are conventions, not results: the potential $U(S)=\tfrac\lambda2S^2$ named in Sections 5.9 and 5.14 (Stage-1 document, §1.2), and the overall sign of the current $J^\mu=-i\bar\Psi\gamma^\mu\Psi$, which is opposite to the sign that Theorem 5.2 gives (Section 5.7). That a fermion field must have anticommuting (Grassmann) components is the physical premise of the whole construction, the classical counterpart of the anticommutators of Chapter 8; no spin–statistics theorem is proved for signature (4,4) in this book. That the matrix $X$ of the notebook contraction has rank 16 is a computed fact at six test points, not a theorem for every field. Fields are assumed smooth and to vanish near the boundary of the region of integration whenever we integrate by parts.
 
 ### 5.17 Exercises
 

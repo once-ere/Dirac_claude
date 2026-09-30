@@ -266,7 +266,7 @@ trees themselves are not committed).
 
 All five subcommands SUCCESS (spectrum 33 checks, scf 137, excited 65,
 thermo 102, emt 60); `determinism-report.json`: a second run is
-byte-identical (327 files) and a `--refined` run (rtol, atol / 10,
+byte-identical (330 files) and a `--refined` run (rtol, atol / 10,
 max_step / 2) agrees to 6.0e-8 relative in E and F (65 runs) and 2.8e-8
 absolute in 364829 eigenvalues.
 

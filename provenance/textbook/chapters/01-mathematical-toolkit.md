@@ -62,13 +62,13 @@ $$
 (v+w)_k=v_k+w_k,\qquad (cv)_k=c\,v_k,\qquad k=0,\dots,n-1 .
 $$
 
-The **zero vector** $0$ has all components 0. The set of all vectors with $n$ real components is written $\mathbb R^n$; with complex components (Section 1.5) it is written $\mathbb C^n$. The field of this book has sixteen complex components at every point, so at each point it is a vector in $\mathbb C^{16}$, written $\Psi=(\Psi_0,\dots,\Psi_{15})^T$ (the $T$ is explained in Section 1.3).
+The **zero vector** $0$ has all components 0. The set of all vectors with $n$ real components is written $\mathbb R^n$; with complex components (Section 1.5) it is written $\mathbb C^n$. The fields of this book have sixteen components at every point, written $\Psi=(\Psi_0,\dots,\Psi_{15})^T$ (the $T$ is explained in Section 1.3). For the commuting field dirac16complex00 the components are complex numbers, so at each point $\Psi$ is a vector in $\mathbb C^{16}$. For dirac16complex they are complex anticommuting (Grassmann) quantities, introduced in Chapter 5. Matrices act on them by the same rule $(A\Psi)_i=\sum_jA_{ij}\Psi_j$ (Section 1.3), but a product of two components changes sign when the two factors are exchanged (Section 1.8 and Chapter 5).
 
 **Example.** In $\mathbb R^3$, with $v=(1,2,0)^T$ and $w=(0,1,1)^T$: $v+w=(1,3,1)^T$ and $3v=(3,6,0)^T$.
 
-**Linear combinations and bases.** A **linear combination** of vectors $u_0,\dots,u_{m-1}$ is a vector $c_0u_0+\dots+c_{m-1}u_{m-1}$ with numbers $c_k$. The vectors are **linearly independent** when the only linear combination that gives the zero vector is the one with all $c_k=0$; otherwise they are **linearly dependent**, and then one of them is a linear combination of the others. The **standard basis** of $\mathbb R^n$ consists of the $n$ vectors $e_0,\dots,e_{n-1}$, where $e_k$ has the component 1 in place $k$ and 0 elsewhere. Every vector is a linear combination of them, $v=\sum_{k=0}^{n-1}v_ke_k$, because component $j$ of the right-hand side is $\sum_kv_k(e_k)_j=v_j$ (only the term $k=j$ contributes). The standard basis vectors are linearly independent: $\sum_kc_ke_k$ is the vector with components $c_k$, and it is zero only if every $c_k$ is zero.
+**Linear combinations and bases.** A **linear combination** of vectors $u_0,\dots,u_{m-1}$ is a vector $c_0u_0+\dots+c_{m-1}u_{m-1}$ with numbers $c_k$. The vectors are **linearly independent** when the only linear combination that gives the zero vector is the one with all $c_k=0$; otherwise they are **linearly dependent**, and then one of them is a linear combination of the others (if $\sum_kc_ku_k=0$ with some $c_j\ne0$, then $u_j=-\sum_{k\ne j}(c_k/c_j)\,u_k$). The **standard basis** of $\mathbb R^n$ consists of the $n$ vectors $e_0,\dots,e_{n-1}$, where $e_k$ has the component 1 in place $k$ and 0 elsewhere. Every vector is a linear combination of them, $v=\sum_{k=0}^{n-1}v_ke_k$, because component $j$ of the right-hand side is $\sum_kv_k(e_k)_j=v_j$ (only the term $k=j$ contributes). The standard basis vectors are linearly independent: $\sum_kc_ke_k$ is the vector with components $c_k$, and it is zero only if every $c_k$ is zero.
 
-A **basis** is a list of linearly independent vectors of which every vector is a linear combination; the expansion coefficients are then unique. All bases of $\mathbb R^n$ (or $\mathbb C^n$) have exactly $n$ vectors; this number is the **dimension**. (This last fact is standard linear algebra and is used without proof.) The dimension counts basis vectors, not vectors: $\mathbb R^2$ contains infinitely many vectors but has dimension 2.
+A **basis** is a list of linearly independent vectors of which every vector is a linear combination; the expansion coefficients are then unique (if $v=\sum_kc_ku_k=\sum_kc'_ku_k$, then $\sum_k(c_k-c'_k)u_k=0$, so $c_k=c'_k$ for every $k$ by independence). All bases of $\mathbb R^n$ (or $\mathbb C^n$) have exactly $n$ vectors; this number is the **dimension**. (This last fact is standard linear algebra and is used without proof.) The dimension counts basis vectors, not vectors: $\mathbb R^2$ contains infinitely many vectors but has dimension 2.
 
 **Example.** In $\mathbb R^2$ the vectors $(1,1)^T$ and $(1,-1)^T$ are linearly independent: $c_0(1,1)^T+c_1(1,-1)^T=(c_0+c_1,\,c_0-c_1)^T$ is zero only if $c_0+c_1=0$ and $c_0-c_1=0$, that is $c_0=c_1=0$. The vectors $(1,2)^T$ and $(2,4)^T$ are linearly dependent, since $2(1,2)^T-(2,4)^T=0$.
 
@@ -147,18 +147,18 @@ $$
 Proof: an entry of the product in, say, the upper-left block is a sum over the column index of the first factor; splitting that sum into the columns belonging to the first block column and those belonging to the second gives exactly the entry of $AE$ plus the entry of $BG$. A case that occurs throughout the book is the off-diagonal block matrix
 
 $$
-\Gamma=\begin{pmatrix}0&X\\ Y&0\end{pmatrix},\qquad \Gamma^2=\begin{pmatrix}0\cdot0+XY&0\cdot X+X\cdot0\\ Y\cdot0+0\cdot Y&YX+0\cdot0\end{pmatrix}=\begin{pmatrix}XY&0\\ 0&YX\end{pmatrix}.
+M=\begin{pmatrix}0&X\\ Y&0\end{pmatrix},\qquad M^2=\begin{pmatrix}0\cdot0+XY&0\cdot X+X\cdot0\\ Y\cdot0+0\cdot Y&YX+0\cdot0\end{pmatrix}=\begin{pmatrix}XY&0\\ 0&YX\end{pmatrix}.
 $$
 
-The notebook builds its $16\times16$ gamma matrices in exactly this form, with $8\times8$ blocks (Chapters 2 and 3).
+The notebook builds its $16\times16$ gamma matrices in exactly this form, with $8\times8$ blocks (Chapters 2 and 3). For square matrices $D_0,\dots,D_{k-1}$, $\mathrm{diag}(D_0,\dots,D_{k-1})$ denotes the block matrix with these blocks on the diagonal and zero blocks elsewhere; for example $M^2=\mathrm{diag}(XY,YX)$ above, and $\mathrm{diag}(-I_8,I_8)$ is the $16\times16$ diagonal matrix with eight entries $-1$ followed by eight entries $+1$.
 
-**Tensor (Kronecker) product.** For an $m\times m$ matrix $A$ and an $n\times n$ matrix $B$, the **tensor product** $A\otimes B$ is the $mn\times mn$ matrix made of $m\times m$ blocks, block $(i,j)$ being $A_{ij}B$. For $2\times2$ matrices:
+**Tensor (Kronecker) product.** For an $m\times m$ matrix $A$ and an $n\times n$ matrix $B$, the **tensor product** $A\otimes B$ is the $mn\times mn$ matrix made of an $m\times m$ arrangement of $n\times n$ blocks, block $(i,j)$ being $A_{ij}B$. For $2\times2$ matrices:
 
 $$
 A\otimes B=\begin{pmatrix}A_{00}B&A_{01}B\\ A_{10}B&A_{11}B\end{pmatrix},\qquad \text{for example}\qquad \begin{pmatrix}1&0\\ 0&-1\end{pmatrix}\otimes\begin{pmatrix}0&1\\ 1&0\end{pmatrix}=\begin{pmatrix}0&1&0&0\\ 1&0&0&0\\ 0&0&0&-1\\ 0&0&-1&0\end{pmatrix}.
 $$
 
-It obeys the **mixed-product rule** $(A\otimes B)(C\otimes D)=(AC)\otimes(BD)$. Proof: by the block rule, block $(i,k)$ of the product is $\sum_j(A_{ij}B)(C_{jk}D)=\bigl(\sum_jA_{ij}C_{jk}\bigr)BD=(AC)_{ik}\,BD$, which is block $(i,k)$ of $(AC)\otimes(BD)$. Four-fold tensor products of $2\times2$ matrices give $16\times16$ matrices; this is the second standard way of writing the gamma matrices of Pin(4,4) (Chapter 3).
+It obeys the **mixed-product rule** $(A\otimes B)(C\otimes D)=(AC)\otimes(BD)$. Proof: by the block rule, block $(i,k)$ of the product is $\sum_j(A_{ij}B)(C_{jk}D)=\bigl(\sum_jA_{ij}C_{jk}\bigr)BD=(AC)_{ik}\,BD$, which is block $(i,k)$ of $(AC)\otimes(BD)$. Four-fold tensor products of $2\times2$ matrices give $16\times16$ matrices; this is the second standard way of writing the gamma matrices of this book (the tensor-product picture of Section 2.7; Section 3.11 relates it to the notebook's matrices).
 
 ### 1.4 Determinants
 
@@ -168,7 +168,7 @@ $$
 \det\begin{pmatrix}a&b\\ c&d\end{pmatrix}=ad-bc .
 $$
 
-It is the factor by which the matrix changes areas (up to sign): the square with corners $0$, $e_0$, $e_1$, $e_0+e_1$ is mapped to the parallelogram spanned by the two columns of the matrix, whose area is $|ad-bc|$ (a fact of plane geometry that the book does not need later).
+It is the factor by which the matrix changes areas (up to sign): the square with corners $0$, $e_0$, $e_1$, $e_0+e_1$ is mapped to the parallelogram spanned by the two columns of the matrix, whose area is $|ad-bc|$ (a fact of plane geometry, used here without proof and not needed later in the book).
 
 The determinant of a product is the product of the determinants. For $2\times2$ matrices this is a direct computation: with $A=\begin{pmatrix}a&b\\ c&d\end{pmatrix}$ and $B=\begin{pmatrix}e&f\\ g&h\end{pmatrix}$,
 
@@ -186,12 +186,12 @@ where in the second line the terms $aecf$ and $afce$ cancel, and so do $bgdh$ an
 
 | permutation | inversions | sign |
 | --- | --- | --- |
-| (0,1,2) | none | +1 |
-| (1,2,0) | (1,0), (2,0) | +1 |
-| (2,0,1) | (2,0), (2,1) | +1 |
-| (1,0,2) | (1,0) | -1 |
-| (0,2,1) | (2,1) | -1 |
-| (2,1,0) | (2,1), (2,0), (1,0) | -1 |
+| (0,1,2) | none | $+1$ |
+| (1,2,0) | (1,0), (2,0) | $+1$ |
+| (2,0,1) | (2,0), (2,1) | $+1$ |
+| (1,0,2) | (1,0) | $-1$ |
+| (0,2,1) | (2,1) | $-1$ |
+| (2,1,0) | (2,1), (2,0), (1,0) | $-1$ |
 
 (an inversion is listed by the two entries that stand in the wrong order). Exchanging two entries of a permutation always changes its sign; this is a standard fact that we use without proof.
 
@@ -215,7 +215,11 @@ $$
 
 This formula is used in Section 1.11 to compute the determinant of the metric of the primordial field.
 
-Three further facts hold for every $n$ and are used without proof: $\det(AB)=\det A\det B$ (proved above for $n=2$); $\det A^T=\det A$; and a square matrix $M$ is invertible exactly when $\det M\ne0$, which is the same as saying that $Mv=0$ has a solution $v\ne0$ exactly when $\det M=0$.
+Four further facts hold for every $n$ and are used without proof: $\det(AB)=\det A\det B$ (proved above for $n=2$); $\det A^T=\det A$; a square matrix $M$ is invertible exactly when $\det M\ne0$ (proved above for $n=2$); and a square matrix $M$ is invertible exactly when $Mv=0$ has only the solution $v=0$. (One direction of the last fact is immediate: if $M$ is invertible and $Mv=0$, then $v=M^{-1}Mv=M^{-1}0=0$. The other direction, that $M$ is invertible whenever $Mv=0$ forces $v=0$, is the part used without proof.) Together the last two facts say:
+
+$$
+Mv=0\ \text{has a solution}\ v\ne0\quad\text{exactly when}\quad \det M=0 .
+$$
 
 **Example.** For the matrix with rows $(1,2,0)$, $(0,1,1)$, $(1,3,1)$ the $3\times3$ formula gives $1\cdot1\cdot1+2\cdot1\cdot1+0-2\cdot0\cdot1-1\cdot1\cdot3-0=1+2-3=0$. The determinant vanishes because the third row is the sum of the first two, so the rows are linearly dependent.
 
@@ -249,13 +253,24 @@ $$
 e^{i\alpha}e^{i\beta}=(\cos\alpha\cos\beta-\sin\alpha\sin\beta)+i(\sin\alpha\cos\beta+\cos\alpha\sin\beta)=\cos(\alpha+\beta)+i\sin(\alpha+\beta)=e^{i(\alpha+\beta)},
 $$
 
-by the addition theorems of Section 1.1. Moreover $|e^{i\theta}|^2=\cos^2\theta+\sin^2\theta=1$, $(e^{i\theta})^\ast=\cos\theta-i\sin\theta=e^{-i\theta}$, and the derivative with respect to $\theta$ is
+by the addition theorems of Section 1.1. Moreover $|e^{i\theta}|^2=\cos^2\theta+\sin^2\theta=1$ and $(e^{i\theta})^\ast=\cos\theta-i\sin\theta=e^{-i\theta}$.
+
+**Derivatives of complex-valued functions.** A complex-valued function $f(\theta)=a(\theta)+i\,b(\theta)$ of a real variable, with real functions $a$ and $b$, is differentiated part by part: $f'=a'+i\,b'$. The sum rule $(f+g)'=f'+g'$ follows at once. The product rule $(fg)'=f'g+fg'$ also holds. Proof: with $g=c+id$ ($c$, $d$ real), the multiplication rule above gives $fg=(ac-bd)+i(ad+bc)$. Applying the real product rule to each of the four products and regrouping,
+
+$$
+\begin{aligned}
+(fg)'&=(a'c+ac'-b'd-bd')+i(a'd+ad'+b'c+bc')\\
+&=\bigl[(a'c-b'd)+i(a'd+b'c)\bigr]+\bigl[(ac'-bd')+i(ad'+bc')\bigr]=f'g+fg' ,
+\end{aligned}
+$$
+
+because the first bracket is $(a'+ib')(c+id)$ and the second is $(a+ib)(c'+id')$. The same part-by-part rule is used for matrices with complex entries in Section 1.9. With it, the derivative of $e^{i\theta}=\cos\theta+i\sin\theta$ with respect to $\theta$ is
 
 $$
 \frac{d}{d\theta}e^{i\theta}=-\sin\theta+i\cos\theta=i(\cos\theta+i\sin\theta)=i\,e^{i\theta},
 $$
 
-the same rule as for the real exponential with the constant $i$ in place of a real constant. For a general complex number $z=x+iy$ we define $e^z=e^xe^{iy}$; then $e^ze^w=e^{z+w}$ for all complex $z,w$, by the two laws of exponents. Every complex number can be written in **polar form** $z=r\,e^{i\theta}$ with $r=|z|$ and a real angle $\theta$: for $z=a+ib\ne0$ the point $(a/r,b/r)$ of the plane has distance 1 from the origin, so it is $(\cos\theta,\sin\theta)$ for some angle $\theta$, and then $z=r(\cos\theta+i\sin\theta)$. Multiplying by $e^{i\alpha}$ rotates $z$ by the angle $\alpha$ without changing its modulus, since $re^{i\theta}e^{i\alpha}=re^{i(\theta+\alpha)}$. A factor $e^{i\alpha}$ is called a **phase**.
+the same rule as for the real exponential with the constant $i$ in place of a real constant. For a general complex number $z=x+iy$ we define $e^z=e^xe^{iy}$; then $e^ze^w=e^{z+w}$ for all complex $z,w$, by the two laws of exponents. Every complex number can be written in **polar form** $z=r\,e^{i\theta}$ with $r=|z|$ and a real angle $\theta$: for $z=a+ib\ne0$ the point $(a/r,b/r)$ of the plane has distance 1 from the origin, so it is $(\cos\theta,\sin\theta)$ for some angle $\theta$ (a fact of school trigonometry, used without proof), and then $z=r(\cos\theta+i\sin\theta)$. Multiplying by $e^{i\alpha}$ rotates $z$ by the angle $\alpha$ without changing its modulus, since $re^{i\theta}e^{i\alpha}=re^{i(\theta+\alpha)}$. A factor $e^{i\alpha}$ is called a **phase**.
 
 A wave that oscillates in time, such as $e^{-i\varepsilon x_4}$ with a real $\varepsilon$, has modulus 1 at every time. If $\varepsilon$ is imaginary, $\varepsilon=i\gamma$ with real $\gamma>0$, the same expression is $e^{\gamma x_4}$, which grows without bound; this is how "imaginary frequencies" signal an instability in Chapter 8.
 
@@ -271,7 +286,7 @@ $$
 v^\dagger w=\sum_kv_k^\ast w_k
 $$
 
-is the **scalar product** of two complex vectors, and $v^\dagger v=\sum_k|v_k|^2$ is real, not negative, and zero only for $v=0$. It is the squared length of $v$.
+is the **scalar product** of two complex vectors, and $v^\dagger v=\sum_k|v_k|^2$ is real, not negative, and zero only for $v=0$. It is the squared length of $v$. Two vectors are **orthogonal** if their scalar product is zero, $v^\dagger w=0$; the order does not matter, because $(v^\dagger w)^\ast=\sum_kv_kw_k^\ast=w^\dagger v$, so $v^\dagger w=0$ exactly when $w^\dagger v=0$. A vector has **length 1** if $v^\dagger v=1$. For real vectors $v^\dagger w=\sum_kv_kw_k$, which is the dot product of Section 1.11.
 
 A square matrix is **Hermitian** if $A^\dagger=A$, **anti-Hermitian** if $A^\dagger=-A$, and **unitary** if $U^\dagger U=I$. A unitary matrix preserves scalar products: $(Uv)^\dagger(Uw)=v^\dagger U^\dagger Uw=v^\dagger w$. Four facts are used repeatedly:
 
@@ -352,13 +367,15 @@ $$
 XZ=\begin{pmatrix}0&-1\\ 1&0\end{pmatrix}=Y,\qquad ZX=\begin{pmatrix}0&1\\ -1&0\end{pmatrix}=-Y,\qquad X^2=Z^2=I,\qquad Y^2=-I .
 $$
 
-Hence $\{X,Z\}=0$ and $[X,Z]=2Y$. Further, $XY=X(XZ)=X^2Z=Z$ and $YX=XZX=X(ZX)=-X(XZ)=-Z$, so $\{X,Y\}=0$; and $ZY=Z(XZ)=(ZX)Z=-XZ^2=-X$ and $YZ=XZ^2=X$, so $\{Z,Y\}=0$. With the names $\Gamma^0=X$, $\Gamma^1=Z$, $\Gamma^2=Y$ and the diagonal matrix $\hat\eta=\mathrm{diag}(+1,+1,-1)$, all nine relations fit into one formula:
+Hence $\{X,Z\}=0$ and $[X,Z]=2Y$. Further, $XY=X(XZ)=X^2Z=Z$ and $YX=XZX=X(ZX)=-X(XZ)=-Z$, so $\{X,Y\}=0$; and $ZY=Z(XZ)=(ZX)Z=-XZ^2=-X$ and $YZ=XZ^2=X$, so $\{Z,Y\}=0$.
+
+A word on notation before the relations are collected (Section 1.8 explains it in full). We now number the three matrices with a raised index. On the letters $\Gamma$ and $\gamma$ a raised index is a label that numbers the matrices of a list, not a power: $\Gamma^2$ below is the third matrix of the list, not $\Gamma\cdot\Gamma$, and its square is written $(\Gamma^2)^2=Y^2=-I$. Likewise the two raised indices of $\hat\eta^{ab}$ and $\eta^{ab}$ are labels: $\hat\eta^{ab}$ is the entry in row $a$ and column $b$ of $\hat\eta$ (Section 1.11 explains why such entries are written with raised indices; for the diagonal matrices with entries $\pm1$ used here it makes no difference). A raised number on a matrix that carries no label keeps its usual meaning, a power, as in $X^2=I$ above. With the names $\Gamma^0=X$, $\Gamma^1=Z$, $\Gamma^2=Y$ and the diagonal matrix $\hat\eta=\mathrm{diag}(+1,+1,-1)$, all nine relations fit into one formula:
 
 $$
 \{\Gamma^a,\Gamma^b\}=2\hat\eta^{ab}I\qquad(a,b=0,1,2).
 $$
 
-Matrices obeying such a relation generate a **Clifford algebra**; Chapter 2 builds the eight $16\times16$ matrices $\gamma^0,\dots,\gamma^7$ with $\{\gamma^a,\gamma^b\}=2\eta^{ab}I_{16}$ for the $\eta$ of this book. Notice also that $X$ and $Z$, which square to $+I$, are symmetric, while $Y$, which squares to $-I$, is antisymmetric. That is no accident: a real symmetric matrix is Hermitian, so its eigenvalues are real (Section 1.6), while a matrix with square $-I$ has only the eigenvalues $\pm i$; since every square matrix has at least one complex eigenvalue (the fundamental theorem of algebra, used without proof), a real symmetric matrix can never square to $-I$. The gamma matrices of the notebook show the same pattern: symmetric for the space-like directions 0 to 3 and antisymmetric for the time-like directions 4 to 7 (Chapter 2).
+Matrices obeying such a relation generate a **Clifford algebra**; Chapter 2 builds the eight $16\times16$ matrices $\gamma^0,\dots,\gamma^7$ with $\{\gamma^a,\gamma^b\}=2\eta^{ab}I_{16}$ for the $\eta$ of this book. Notice also that $X$ and $Z$, which square to $+I$, are symmetric, while $Y$, which squares to $-I$, is antisymmetric. Part of this is forced: a real symmetric matrix is Hermitian, so its eigenvalues are real (Section 1.6), while a matrix with square $-I$ has only the eigenvalues $\pm i$; since every square matrix has at least one complex eigenvalue (the fundamental theorem of algebra, used without proof), a real symmetric matrix can never square to $-I$. The square alone does not force the rest of the pattern: $\begin{pmatrix}1&-2\\ 1&-1\end{pmatrix}$ has square $-I$ and is not antisymmetric, and $\begin{pmatrix}1&1\\ 0&-1\end{pmatrix}$ has square $+I$ and is not symmetric (multiply out to check). The full pattern holds for the real matrices with $M^TM=I$, called **orthogonal** matrices. $X$, $Z$ and $Y$ are orthogonal: $X^TX=X^2=I$, $Z^TZ=Z^2=I$ and $Y^TY=(-Y)Y=-Y^2=I$. For an orthogonal $M$, $M^T=M^{-1}$; and $M^2=\pm I$ says that $M(\pm M)=I$, that is $M^{-1}=\pm M$. Together, $M^T=\pm M$: an orthogonal matrix with square $+I$ is symmetric, and one with square $-I$ is antisymmetric. The notebook's gamma matrices are of this kind: each is a signed permutation matrix (every row and every column contains exactly one nonzero entry, $+1$ or $-1$), hence orthogonal (Section 2.2 proves this), which is why they are symmetric for the space-like directions 0 to 3 and antisymmetric for the time-like directions 4 to 7 (Chapter 2, Section 2.8, facts (N2) and (N3)).
 
 ### 1.8 Indices and the summation convention
 
@@ -372,9 +389,9 @@ $$
 v^\mu w_\mu=\sum_{\mu=0}^{7}v^\mu w_\mu,\qquad g_{\mu\nu}v^\mu w^\nu=\sum_{\mu=0}^7\sum_{\nu=0}^7g_{\mu\nu}v^\mu w^\nu,\qquad \partial_\mu V^\mu=\sum_{\mu=0}^7\frac{\partial V^\mu}{\partial x^\mu}.
 $$
 
-This is the **Einstein summation convention**. In this book the curved indices $\mu,\nu,\rho,\sigma,\lambda$ and the frame indices $a,b,c$ run over $0,\dots,7$. An index that appears twice in the same position (both lower or both upper) is not summed automatically; where such a sum is meant, as for matrix entries $A_{ij}$, the symbol $\sum$ is written.
+This is the **Einstein summation convention**. In this book the indices $\mu,\nu,\rho,\sigma,\lambda$ of the coordinates (coordinate indices, also called curved indices; Chapter 4) and the indices $a,b,c$ that are raised and lowered with the flat metric $\eta$ of Section 1.11 (frame indices, Section 4.10) run over $0,\dots,7$. An index that appears twice in the same position (both lower or both upper) is not summed automatically; where such a sum is meant, as for matrix entries $A_{ij}$, the symbol $\sum$ is written.
 
-**Coordinates and their names.** In index formulas the coordinates are written $x^\mu$ with an upper index. In words, and in the project documents, they are named $x_0,x_1,\dots,x_7$. The two notations denote the same numbers: $x^4$ in a formula is the coordinate named $x_4$, the time. The index of a coordinate is never lowered with a metric in this book.
+**Coordinates and their names.** In the index formulas of this chapter and of Chapter 4 the coordinates are written $x^\mu$ with an upper index. Other chapters (for example Chapters 2, 5 and 9), the notebook and the project documents write the same coordinates as $x_0,x_1,\dots,x_7$, also inside formulas such as $\partial_\mu=\partial/\partial x_\mu$; this chapter does the same in words and in examples such as $e^{-i\varepsilon x_4}$. There the lower index is only part of the name, and $\partial/\partial x_\mu$ is the same derivative as $\partial/\partial x^\mu$. The two notations denote the same numbers: $x^4$ in a formula is the coordinate named $x_4$, the time. The index of a coordinate is never lowered with a metric in this book.
 
 **The Kronecker delta.** With one upper and one lower index, $\delta^\mu{}_\nu$ is 1 for $\mu=\nu$ and 0 otherwise. Contracting with it renames an index:
 
@@ -398,7 +415,7 @@ $$
 v^TMv=v^TM_Sv,\qquad\text{in particular}\qquad v^TAv=0\ \text{for antisymmetric }A .
 $$
 
-Chapter 5 meets the opposite case: for anticommuting quantities $\theta_j\theta_k=-\theta_k\theta_j$ the products are antisymmetric, and then the symmetric part drops out, $\theta^TM\theta=\theta^TM_A\theta$. This one difference decides whether the notebook's Lagrangian is trivial (Stage-1 document, Section 6).
+Chapter 5 meets the opposite case: for anticommuting quantities $\theta_j\theta_k=-\theta_k\theta_j$ the products are antisymmetric, and then the symmetric part drops out, $\theta^TM\theta=\theta^TM_A\theta$. This one difference decides whether the notebook's Lagrangian is trivial (Stage-1 document, §6).
 
 **Sums over ordered pairs.** If $A_{ab}$ and $B^{ab}$ are both antisymmetric, the product $A_{ab}B^{ab}$ (no sum) is symmetric under exchanging $a$ and $b$, and it vanishes for $a=b$. Hence the sum over all ordered pairs is twice the sum over the pairs with $a<b$:
 
@@ -406,7 +423,7 @@ $$
 \tfrac12A_{ab}B^{ab}=\sum_{a<b}A_{ab}B^{ab}.
 $$
 
-This is why the spin connection of Chapter 4 can be written either as $\tfrac12\omega_{\mu ab}S^{ab}$ with the summation convention or as a sum over $a<b$ without the factor $\tfrac12$.
+This is why the spinor connection $\Omega_\mu$ of Chapter 4 can be written either as $\tfrac12\omega_{\mu ab}S^{ab}$ with the summation convention or as $\sum_{a<b}\omega_{\mu ab}S^{ab}$ without the factor $\tfrac12$ (there $\omega_{\mu ab}$, the spin connection, and $S^{ab}$ are both antisymmetric in $a$ and $b$).
 
 **The Levi-Civita symbol.** For $n$ indices, each taking the values $0,\dots,n-1$, the symbol $\varepsilon_{j_0j_1\dots j_{n-1}}$ is the sign of the permutation $(j_0,\dots,j_{n-1})$ when the indices are all different, and 0 when two of them are equal. For three indices: $\varepsilon_{012}=\varepsilon_{120}=\varepsilon_{201}=+1$, $\varepsilon_{102}=\varepsilon_{021}=\varepsilon_{210}=-1$, and for example $\varepsilon_{011}=0$. With it the determinant formula of Section 1.4 reads $\det A=\sum_{j_0,j_1,j_2}\varepsilon_{j_0j_1j_2}A_{0j_0}A_{1j_1}A_{2j_2}$ for $n=3$ (and similarly for every $n$). The notebook uses a four-index symbol with the 1-based indices $1,\dots,4$ of Mathematica to build its gamma matrices (Chapter 3); this is one of the labelled exceptions to counting from 0.
 
@@ -482,7 +499,18 @@ $$
 \det g\;\mathrm{tr}(g^{-1}\partial g)=\mathrm{tr}\left[\begin{pmatrix}d&-b\\ -c&a\end{pmatrix}\begin{pmatrix}\partial a&\partial b\\ \partial c&\partial d\end{pmatrix}\right]=d\,\partial a-b\,\partial c-c\,\partial b+a\,\partial d ,
 $$
 
-the same expression. Since $|\det g|$ is $\det g$ or $-\det g$ (with a fixed sign where $\det g\ne0$ and $g$ is continuous), it follows that
+the same expression.
+
+**The derivative of the volume factor.** The determinant $\det g$ is a sum of products of entries of $g$ (Section 1.4), so it is continuous when the entries are. Near a point where $\det g\ne0$ it therefore has a fixed sign, because a continuous function that is not zero at a point keeps its sign near that point (a standard fact, used without proof). Write $\det g=\epsilon\,|\det g|$ with this fixed sign $\epsilon=\pm1$; then also $|\det g|=\epsilon\det g$, since $\epsilon^2=1$, and $\partial_\mu|\det g|=\epsilon\,\partial_\mu\det g$, since $\epsilon$ is constant near the point. By the chain rule for $\sqrt u$, whose derivative is $1/(2\sqrt u)$, and by Jacobi's formula,
+
+$$
+\begin{aligned}
+\partial_\mu\sqrt{|\det g|}&=\frac{\partial_\mu|\det g|}{2\sqrt{|\det g|}}=\frac{\epsilon\,\partial_\mu\det g}{2\sqrt{|\det g|}}\\
+&=\frac{\epsilon\det g\;\mathrm{tr}\bigl(g^{-1}\partial_\mu g\bigr)}{2\sqrt{|\det g|}}=\frac{|\det g|\;\mathrm{tr}\bigl(g^{-1}\partial_\mu g\bigr)}{2\sqrt{|\det g|}},
+\end{aligned}
+$$
+
+and $|\det g|/\sqrt{|\det g|}=\sqrt{|\det g|}$ gives
 
 $$
 \partial_\mu\sqrt{|\det g|}=\tfrac12\sqrt{|\det g|}\;\mathrm{tr}\bigl(g^{-1}\partial_\mu g\bigr).
@@ -530,7 +558,7 @@ $$
 
 which is symmetric in $u$ and $v$ because $g$ is symmetric. The number $g(v,v)$ is the squared length of $v$. For $g=I$ it is the dot product. But a metric may have negative diagonal entries, and then $g(v,v)$ can be negative or zero for a vector $v\ne0$.
 
-**Space-like, time-like and null.** In the convention of this book a vector is **space-like** if $g(v,v)>0$, **time-like** if $g(v,v)<0$, and **null** (or light-like) if $g(v,v)=0$ and $v\ne0$. The special relativity of the observed world has one time-like and three space-like directions; with time first and this sign convention its metric is $\mathrm{diag}(-1,+1,+1,+1)$. Many books of particle physics, and the scalar-field reference of the project, use the opposite overall sign, $\mathrm{diag}(+1,-1,-1,-1)$; the two conventions describe the same geometry, since one metric is the negative of the other (the Stage-1 document, Section 2.3, compares them for a scalar field). The flat metric of this book is
+**Space-like, time-like and null.** In the convention of this book a vector is **space-like** if $g(v,v)>0$, **time-like** if $g(v,v)<0$, and **null** (or light-like) if $g(v,v)=0$ and $v\ne0$. The special relativity of the observed world has one time-like and three space-like directions; with time first and this sign convention its metric is $\mathrm{diag}(-1,+1,+1,+1)$. Many books of particle physics, and the scalar-field reference of the project, use the opposite overall sign, $\mathrm{diag}(+1,-1,-1,-1)$; the two conventions describe the same geometry, since one metric is the negative of the other (the Stage-1 document, §2.3, compares them for a scalar field). The flat metric of this book is
 
 $$
 \begin{aligned}
@@ -617,9 +645,9 @@ The observed world has one time and three space directions, signature (3,1) in t
 
 ### 1.13 What we proved and what we assumed
 
-We **proved**, from the definitions: the rules for sums, products, transposes and inverses of matrices, including $(AB)^T=B^TA^T$, $\mathrm{tr}(AB)=\mathrm{tr}(BA)$ and $(AB)^{-1}=B^{-1}A^{-1}$; the unique split of a square matrix into symmetric and antisymmetric parts; the block product and the mixed-product rule of tensor products; the product rule of $2\times2$ determinants and the determinant of a diagonal matrix; the arithmetic of complex numbers, the law of exponents for $e^{i\theta}$ and its derivative; the four facts about Hermitian and anti-Hermitian matrices of Section 1.5; that Hermitian matrices have real eigenvalues and orthogonal eigenvectors for different eigenvalues; that $A^2=\pm I$ forces the eigenvalues $\pm1$ or $\pm i$ and gives the projectors $\tfrac12(I\pm A)$; the Clifford relations of the three $2\times2$ matrices $X$, $Z$, $Y$; that a symmetric array contracted with an antisymmetric one gives zero, and its consequence for quadratic expressions; the product rule for matrix derivatives and the derivative of the inverse; the chain rule (from the mean value theorem); Jacobi's formula for diagonal and for $2\times2$ matrices; integration by parts; the vanishing of integrals of derivatives with vanishing boundary values on a box; the polar-coordinate metric and the transformation law of the metric; the invariance of the volume element (from the change-of-variables formula); and $\det g=+\cos^2z$, $\sqrt{|g|}=\cos z$ and signature (4,4) for the metric of the primordial field.
+We **proved**, from the definitions: the uniqueness of the expansion coefficients in a basis; the rules for sums, products, transposes and inverses of matrices, including $(AB)^T=B^TA^T$, $\mathrm{tr}(AB)=\mathrm{tr}(BA)$ and $(AB)^{-1}=B^{-1}A^{-1}$; the unique split of a square matrix into symmetric and antisymmetric parts; the block product and the mixed-product rule of tensor products; the product rule of $2\times2$ determinants and the determinant of a diagonal matrix; the arithmetic of complex numbers, the product rule for complex-valued functions of a real variable, the law of exponents for $e^{i\theta}$ and its derivative; the four facts about Hermitian and anti-Hermitian matrices of Section 1.5; that Hermitian matrices have real eigenvalues and orthogonal eigenvectors for different eigenvalues; that $A^2=\pm I$ forces the eigenvalues $\pm1$ or $\pm i$ and gives the projectors $\tfrac12(I\pm A)$; the Clifford relations of the three $2\times2$ matrices $X$, $Z$, $Y$; that a real symmetric matrix cannot square to $-I$, and that an orthogonal matrix with square $+I$ is symmetric and one with square $-I$ antisymmetric; that a symmetric array contracted with an antisymmetric one gives zero, and its consequence for quadratic expressions; the product rule for matrix derivatives and the derivative of the inverse; the chain rule (from the mean value theorem); Jacobi's formula for diagonal and for $2\times2$ matrices, and from it the derivative of $\sqrt{|\det g|}$; integration by parts; the vanishing of integrals of derivatives with vanishing boundary values on a box; the polar-coordinate metric and the transformation law of the metric; the invariance of the volume element (from the change-of-variables formula); and $\det g=+\cos^2z$, $\sqrt{|g|}=\cos z$ and signature (4,4) for the metric of the primordial field.
 
-We **assumed** (standard mathematics used without proof): the rules for powers and the addition theorems of trigonometry; that all bases of $\mathbb R^n$ have $n$ vectors; for general $n$, that $\det(AB)=\det A\det B$, that $\det A^T=\det A$, that $A$ is invertible exactly when $\det A\ne0$, and that exchanging two entries of a permutation changes its sign; that the trace and the determinant are the sum and the product of all eigenvalues; the fundamental theorem of algebra; that multiplicities of eigenvalues of Hermitian matrices count independent eigenvectors, and the spectral theorem; Schwarz's theorem on mixed partial derivatives; the mean value theorems of differential and integral calculus; Taylor's theorem; Jacobi's formula for general matrices; the fundamental theorem of calculus; Fubini's theorem; the change-of-variables formula for multiple integrals; and Sylvester's law of inertia. We also used the **conventions** of the book (ASSUMED choices): counting from 0, the summation convention for one upper and one lower index, the metric $\eta=\mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$, and the sign convention in which space-like vectors have positive squared length.
+We **assumed** (standard mathematics used without proof): the rules for powers, the addition theorems of trigonometry, and that every point at distance 1 from the origin of the plane is $(\cos\theta,\sin\theta)$ for some angle $\theta$; that all bases of $\mathbb R^n$ have $n$ vectors; the area formula $|ad-bc|$ for a parallelogram (not used later); for general $n$, that $\det(AB)=\det A\det B$, that $\det A^T=\det A$, that $A$ is invertible exactly when $\det A\ne0$, that a square matrix $M$ is invertible exactly when $Mv=0$ forces $v=0$ (only the direction from "forces $v=0$" to "invertible" is assumed), and that exchanging two entries of a permutation changes its sign; that the trace and the determinant are the sum and the product of all eigenvalues; the fundamental theorem of algebra; that multiplicities of eigenvalues of Hermitian matrices count independent eigenvectors, and the spectral theorem; Schwarz's theorem on mixed partial derivatives; that a continuous function which is not zero at a point keeps its sign near that point; the mean value theorems of differential and integral calculus; Taylor's theorem; Jacobi's formula for general matrices; the fundamental theorem of calculus; Fubini's theorem; the change-of-variables formula for multiple integrals; and Sylvester's law of inertia. We also used the **conventions** of the book (ASSUMED choices): counting from 0, the summation convention for one upper and one lower index, the metric $\eta=\mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$, and the sign convention in which space-like vectors have positive squared length.
 
 ### 1.14 Exercises
 
@@ -631,7 +659,7 @@ Exercise 1.3. (A substitution rule of the notebook.) Let $0<z<\pi/2$ and let $a$
 
 Exercise 1.4. For $A=\begin{pmatrix}1&2\\ 0&1\end{pmatrix}$ and $B=\begin{pmatrix}0&1\\ 1&0\end{pmatrix}$ compute $AB$, $BA$, $[A,B]$, $\{A,B\}$, $\mathrm{tr}(AB)$, $\mathrm{tr}(BA)$, $\det A$, $\det B$ and $\det(AB)$.
 
-Exercise 1.5. Let $X$ and $Y$ be $n\times n$ matrices and $\Gamma=\begin{pmatrix}0&X\\ Y&0\end{pmatrix}$. (a) Show that $\Gamma^T=\begin{pmatrix}0&Y^T\\ X^T&0\end{pmatrix}$, so that $\Gamma$ is symmetric exactly when $Y=X^T$ and antisymmetric exactly when $Y=-X^T$. (b) For $n=1$, $X=1$, $Y=-1$ write down $\Gamma$ and $\Gamma^2$. (c) For $n=2$ and $X=Y=\begin{pmatrix}0&1\\ 1&0\end{pmatrix}$ compute $\Gamma^2$.
+Exercise 1.5. Let $X$ and $Y$ be $n\times n$ matrices and $M=\begin{pmatrix}0&X\\ Y&0\end{pmatrix}$. (a) Show that $M^T=\begin{pmatrix}0&Y^T\\ X^T&0\end{pmatrix}$, so that $M$ is symmetric exactly when $Y=X^T$ and antisymmetric exactly when $Y=-X^T$. (b) For $n=1$, $X=1$, $Y=-1$ write down $M$ and $M^2$. (c) For $n=2$ and $X=Y=\begin{pmatrix}0&1\\ 1&0\end{pmatrix}$ compute $M^2$.
 
 Exercise 1.6. (a) Compute $(2+i)(1-3i)$. (b) Write $1/(3+4i)$ in the form $a+ib$. (c) Compute $|3+4i|$. (d) Show that $(e^{i\theta})^\ast=e^{-i\theta}$ and $e^{i\pi}=-1$. (e) Show that $|e^{-i\varepsilon t}|=1$ for real $\varepsilon$ and $t$, and compute $|e^{-i\varepsilon t}|$ for $\varepsilon=i\gamma$ with real $\gamma$.
 
@@ -667,7 +695,7 @@ Answer 1.3. (a) By the power rules of Section 1.1, $1/\sqrt{\sin^{1/3}z/e^{2a}}=
 
 Answer 1.4. $AB=\begin{pmatrix}2&1\\ 1&0\end{pmatrix}$ and $BA=\begin{pmatrix}0&1\\ 1&2\end{pmatrix}$ (Section 1.3), so $[A,B]=\begin{pmatrix}2&0\\ 0&-2\end{pmatrix}$ and $\{A,B\}=\begin{pmatrix}2&2\\ 2&2\end{pmatrix}$. Both traces are 2. $\det A=1\cdot1-2\cdot0=1$, $\det B=0-1=-1$, and $\det(AB)=2\cdot0-1\cdot1=-1=\det A\det B$.
 
-Answer 1.5. (a) Transposing a block matrix transposes the arrangement of the blocks and each block: block $(i,j)$ of $\Gamma^T$ is the transpose of block $(j,i)$ of $\Gamma$. This gives $\Gamma^T=\begin{pmatrix}0&Y^T\\ X^T&0\end{pmatrix}$. Comparing with $\Gamma$ and $-\Gamma$ block by block: $\Gamma^T=\Gamma$ exactly when $Y^T=X$ (equivalently $Y=X^T$), and $\Gamma^T=-\Gamma$ exactly when $Y=-X^T$. (b) $\Gamma=\begin{pmatrix}0&1\\ -1&0\end{pmatrix}$ and $\Gamma^2=\mathrm{diag}(XY,YX)=\mathrm{diag}(-1,-1)=-I$; $\Gamma$ is antisymmetric (it is $-Y$ in the notation of Section 1.7). (c) $XY=YX=X^2=I_2$, so $\Gamma^2=I_4$.
+Answer 1.5. (a) Transposing a block matrix transposes the arrangement of the blocks and each block: block $(i,j)$ of $M^T$ is the transpose of block $(j,i)$ of $M$. This gives $M^T=\begin{pmatrix}0&Y^T\\ X^T&0\end{pmatrix}$. Comparing with $M$ and $-M$ block by block: $M^T=M$ exactly when $Y^T=X$ (equivalently $Y=X^T$), and $M^T=-M$ exactly when $Y=-X^T$. (b) $M=\begin{pmatrix}0&1\\ -1&0\end{pmatrix}$ and $M^2=\mathrm{diag}(XY,YX)=\mathrm{diag}(-1,-1)=-I$; $M$ is antisymmetric (it is $-Y$ in the notation of Section 1.7). (c) $XY=YX=X^2=I_2$, so $M^2=I_4$.
 
 Answer 1.6. (a) $(2+i)(1-3i)=2-6i+i-3i^2=5-5i$. (b) $\dfrac1{3+4i}=\dfrac{3-4i}{(3+4i)(3-4i)}=\dfrac{3-4i}{25}=\dfrac3{25}-\dfrac4{25}i$. (c) $\sqrt{9+16}=5$. (d) $(e^{i\theta})^\ast=\cos\theta-i\sin\theta=\cos(-\theta)+i\sin(-\theta)=e^{-i\theta}$, since $\cos$ is even and $\sin$ is odd; $e^{i\pi}=\cos\pi+i\sin\pi=-1$. (e) For real $\varepsilon t$ the modulus of $e^{-i\varepsilon t}$ is 1 by Section 1.5. For $\varepsilon=i\gamma$, $e^{-i\varepsilon t}=e^{-i\cdot i\gamma t}=e^{\gamma t}$, whose modulus $e^{\gamma t}$ grows without bound for $\gamma>0$.
 
@@ -689,6 +717,6 @@ Answer 1.14. (a) $g$ is the matrix $X$ of Section 1.6, with eigenvalues $+1$ and
 
 Answer 1.15. (a) $\eta(v,v)=1-1=0$: $v$ is null; $v_\mu=(1,0,0,0,-1,0,0,0)$. (b) $\eta(w,w)=-1-1=-2$: time-like. (c) $\eta(u,u)=1+1+1+1-1-1=2$: space-like.
 
-Answer 1.16. (a) By the chain rule, $\dfrac{d\zeta}{dx^0}=\dfrac1{6H}\,\dfrac{\cos z}{\sin z}\,\dfrac{dz}{dx^0}=\dfrac1{6H}\cot z\cdot6H=\cot z$, so $d\zeta=\cot z\,dx^0$ and $d\zeta^2=\cot^2z\,(dx^0)^2$. (b) $e^{6H\zeta}=\sin z$, so $\sin^{1/3}z=(e^{6H\zeta})^{1/3}=e^{2H\zeta}$. (c) For $0<z<\pi/2$, $0<\sin z<1$, so $\ln\sin z<0$ and $\zeta$ takes all values in $(-\infty,0)$. This is the warped form of the metric used in Chapter 9 (Stage-2 document, Section 4.4).
+Answer 1.16. (a) By the chain rule, $\dfrac{d\zeta}{dx^0}=\dfrac1{6H}\,\dfrac{\cos z}{\sin z}\,\dfrac{dz}{dx^0}=\dfrac1{6H}\cot z\cdot6H=\cot z$, so $d\zeta=\cot z\,dx^0$ and $d\zeta^2=\cot^2z\,(dx^0)^2$. (b) $e^{6H\zeta}=\sin z$, so $\sin^{1/3}z=(e^{6H\zeta})^{1/3}=e^{2H\zeta}$. (c) For $0<z<\pi/2$, $0<\sin z<1$, so $\ln\sin z<0$ and $\zeta$ takes all values in $(-\infty,0)$. This is the warped form of the metric used in Chapter 9 (Stage-2 document, §4.4).
 
 Answer 1.17. (a) $\det g=-1-x^2$ and $d(\det g)/dx=-2x$. (b) By the $2\times2$ formula, $g^{-1}=\dfrac1{-1-x^2}\begin{pmatrix}-1&-x\\ -x&1\end{pmatrix}=\dfrac1{1+x^2}\begin{pmatrix}1&x\\ x&-1\end{pmatrix}$. With $dg/dx=\begin{pmatrix}0&1\\ 1&0\end{pmatrix}$, $g^{-1}\,dg/dx=\dfrac1{1+x^2}\begin{pmatrix}x&1\\ -1&x\end{pmatrix}$, whose trace is $2x/(1+x^2)$. Jacobi's formula: $\det g\cdot\mathrm{tr}(g^{-1}dg/dx)=(-1-x^2)\cdot2x/(1+x^2)=-2x$, which is the derivative computed in (a). (c) The determinant, the product of the two eigenvalues, is negative for every $x$, so one eigenvalue is positive and one negative: the signature is (1,1) for every $x$.

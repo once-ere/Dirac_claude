@@ -30,6 +30,8 @@ A state with $h\psi=\varepsilon\psi$ is a **stationary state** (an eigenstate) w
 
 **Two facts about Hermitian operators.** (i) The eigenvalues are real: if $A\psi=a\psi$ with $\psi\ne0$, then $a\langle\psi|\psi\rangle=\langle\psi|A\psi\rangle=\langle A\psi|\psi\rangle=a^*\langle\psi|\psi\rangle$, so $a=a^*$. (ii) Eigenvectors with different eigenvalues are orthogonal: if $A\psi=a\psi$ and $A\varphi=b\varphi$ with $a\ne b$, then $b\langle\psi|\varphi\rangle=\langle\psi|A\varphi\rangle=\langle A\psi|\varphi\rangle=a\langle\psi|\varphi\rangle$, so $\langle\psi|\varphi\rangle=0$. For a Hermitian matrix one can always choose an orthonormal basis of eigenvectors (the spectral theorem of linear algebra, Chapter 1).
 
+**Outer products and functions of an operator.** We also write $|\psi\rangle$ for the state $\psi$ (a **ket**). For two states $\varphi,\chi$ the symbol $|\varphi\rangle\langle\chi|$ is the operator $\psi\mapsto\varphi\,\langle\chi|\psi\rangle$; on a grid it is the matrix $\varphi\chi^\dagger$ (a column times a row), and its trace is $\mathrm{Tr}\,|\varphi\rangle\langle\chi|=\chi^\dagger\varphi=\langle\chi|\varphi\rangle$ (we write $\mathrm{Tr}$ for the trace $\mathrm{tr}$ of Chapter 1). A Hermitian $A$ with orthonormal eigenvectors $|i\rangle$ and eigenvalues $a_i$ is $A=\sum_ia_i|i\rangle\langle i|$: both sides give $a_j|j\rangle$ on every eigenvector $|j\rangle$, and the eigenvectors form a basis. A function of $A$ is defined in the same way, $f(A)=\sum_if(a_i)|i\rangle\langle i|$. For $f=\exp$ this agrees with the power series of Chapters 8 and 10, because $A^k=\sum_ia_i^k|i\rangle\langle i|$. For a Hermitian $B$ with eigenvalues $b_i>0$ the logarithm is $\ln B=\sum_i\ln b_i\,|i\rangle\langle i|$; if some $b_i=0$, only the product $B\ln B=\sum_ib_i\ln b_i\,|i\rangle\langle i|$ is used, with the convention $0\ln0=0$ (the limit of $b\ln b$ as $b\to0$), so that $\mathrm{Tr}(B\ln B)=\sum_ib_i\ln b_i$. The same definitions apply to operators on many-particle states (Section 12.14).
+
 **Worked example.** Two grid points (“two sites”) with the hopping matrix
 
 $$
@@ -137,7 +139,7 @@ $$
 \{a_p,a_q^\dagger\}=a_pa_q^\dagger+a_q^\dagger a_p=\delta_{pq},\qquad \{a_p,a_q\}=\{a_p^\dagger,a_q^\dagger\}=0 .
 $$
 
-Proof for $p=q$: on a state with $n_p=0$, $a_pa_p^\dagger$ gives the state back (the two signs are equal and multiply to $+1$) and $a_p^\dagger a_p$ gives 0; with $n_p=1$ it is the other way round; in both cases the sum is 1. For $p<q$: $a_p$ or $a_p^\dagger$ changes $n_p$, which changes the sign factor $(-1)^{\nu_q}$ of the other operator, so the two orders differ exactly by a sign and the anticommutator vanishes. The same argument gives $\{a_p,a_q\}=0$; in particular $a_p^\dagger a_p^\dagger=0$, the Pauli principle again. These are the same rules as for Grassmann numbers (Chapter 5), which is why an anticommuting field describes fermions.
+Proof for $p=q$: on a state with $n_p=0$, $a_pa_p^\dagger$ gives the state back (the two signs are equal and multiply to $+1$) and $a_p^\dagger a_p$ gives 0; with $n_p=1$ it is the other way round; in both cases the sum is 1. For $p<q$: $a_p$ or $a_p^\dagger$ changes $n_p$, which changes the sign factor $(-1)^{\nu_q}$ of the other operator, so the two orders differ exactly by a sign and the anticommutator vanishes. The same argument gives $\{a_p,a_q\}=0$; in particular $a_p^\dagger a_p^\dagger=0$, the Pauli principle again. The relations $\{a_p,a_q\}=\{a_p^\dagger,a_q^\dagger\}=0$ (in particular $(a_p^\dagger)^2=0$) are the rule of Grassmann numbers (Chapter 5); the remaining relation $\{a_p,a_q^\dagger\}=\delta_{pq}$ has no Grassmann analogue: it is what canonical quantization of an anticommuting field produces (Chapter 8). This is why an anticommuting field describes fermions.
 
 The **number operator** $\hat n_p=a_p^\dagger a_p$ gives $n_p$ on $|\cdots n_p\cdots\rangle$, and $\hat N=\sum_p\hat n_p$ counts all particles. A determinant with the occupied set $O=\{p_0<p_1<\dots<p_{N-1}\}$ is $|\Phi\rangle=a_{p_0}^\dagger a_{p_1}^\dagger\cdots a_{p_{N-1}}^\dagger|0\rangle$.
 
@@ -147,7 +149,7 @@ $$
 \hat A=\sum_{p,q}A_{pq}\,a_p^\dagger a_q,\qquad A_{pq}=\langle\varphi_p|A\varphi_q\rangle .
 $$
 
-Reason: applied to a determinant, $\sum_iA(i)$ replaces one occupied orbital $\varphi_q$ at a time by $A\varphi_q=\sum_p\varphi_pA_{pq}$ and adds the results; “remove $q$, put $p$, with weight $A_{pq}$” is exactly what $A_{pq}a_p^\dagger a_q$ does, including the sign. In the same way the pair interaction $\sum_{i<j}w(i,j)$ becomes
+Reason: applied to a determinant, $\sum_iA(i)$ replaces one occupied orbital $\varphi_q$ at a time by $A\varphi_q=\sum_p\varphi_pA_{pq}$ and adds the results; “remove $q$, put $p$, with weight $A_{pq}$” is exactly what $A_{pq}a_p^\dagger a_q$ does, including the sign. The pair interaction $\sum_{i<j}w(i,j)$ is represented by
 
 $$
 \begin{aligned}
@@ -156,7 +158,7 @@ $$
 \end{aligned}
 $$
 
-the operator removes an occupied pair $(r,s)$ and puts $(p,q)$ in its place; the factor $\tfrac12$ compensates for counting each unordered pair twice, and the order $a_sa_r$ (with $s$ and $r$ reversed) makes the direct term come with a plus sign, as we now check.
+the operator removes an occupied pair $(r,s)$ and puts $(p,q)$ in its place; the factor $\tfrac12$ compensates for counting each unordered pair twice, and the order $a_sa_r$ (with $s$ and $r$ reversed) makes the direct term come with a plus sign: $a_sa_r$ removes $r$ first and then $s$, and $a_p^\dagger a_q^\dagger$ puts back $q$ first and then $p$, the mirror order, so for $p=r$, $q=s$ the two sign factors cancel. This is a sketch; what we actually use is that $\hat W$ gives the correct energy in every determinant, which Section 12.6 derives directly from the permutation sum and checks against the expectation values below.
 
 **Expectation values in a determinant.** Let $|\Phi\rangle$ be the determinant with occupied set $O$ in the orbital basis. Then
 
@@ -174,16 +176,27 @@ $$
 \langle a_p^\dagger a_q^\dagger a_sa_r\rangle=\rho_{rp}\,\rho_{sq}-\rho_{sp}\,\rho_{rq}.
 $$
 
-Both sides of these identities change in the same way under a unitary change of the orbital basis, so they hold in every orthonormal basis, not only in the one in which $\Phi$ is a single determinant. This is **Wick's theorem** for a Slater determinant: every expectation value is a sum of products of the density matrix. The same statement holds for a thermal ensemble of non-interacting fermions, with $\rho=\sum_af_a|\varphi_a\rangle\langle\varphi_a|$ and occupation probabilities $0\le f_a\le1$ (Section 12.14): the occupations of different orbitals are then independent, so $\langle\hat n_p\hat n_q\rangle=f_pf_q$ for $p\ne q$, and the same two-line proof applies. In real space $\rho(x,x')=\sum_af_a\varphi_a(x)\varphi_a^*(x')$, and its diagonal $\rho(x,x)$ is the density $n(x)$.
+Both sides of these identities change in the same way under a unitary change of the orbital basis, so they hold in every orthonormal basis, not only in the one in which $\Phi$ is a single determinant. This is **Wick's theorem** for a Slater determinant: every expectation value is a sum of products of the density matrix. The same statement holds for a thermal ensemble of non-interacting fermions, with $\rho=\sum_af_a|\varphi_a\rangle\langle\varphi_a|$ and occupation probabilities $0\le f_a\le1$: in such an ensemble the occupations of different orbitals are independent (Section 12.14 derives this), so $\langle\hat n_p\hat n_q\rangle=f_pf_q$ for $p\ne q$, and the same two-line proof applies. In real space $\rho(x,x')=\sum_af_a\varphi_a(x)\varphi_a^*(x')$, and its diagonal $\rho(x,x)$ is the density $n(x)$.
 
 ### 12.6 The energy of a Slater determinant: direct and exchange terms
 
-With Wick's theorem the energy of a determinant follows in two lines:
+**The energy from the permutation sum.** We compute the energy of a determinant directly from its definition, as we computed its density in Section 12.4. For the pair interaction,
+
+$$
+\begin{aligned}
+&\Bigl\langle\Phi\Bigm|\sum_{i<j}w(x_i,x_j)\Bigm|\Phi\Bigr\rangle\\
+&\quad=\frac1{N!}\sum_{P,P'}\mathrm{sgn}(P)\,\mathrm{sgn}(P')\sum_{i<j}\int\prod_k\varphi^*_{P'(k)}(x_k)\;w(x_i,x_j)\prod_k\varphi_{P(k)}(x_k)\;dx_0\cdots dx_{N-1}.
+\end{aligned}
+$$
+
+In the term $(i,j)$ the integral over each $x_k$ with $k\ne i,j$ is $\langle\varphi_{P'(k)}|\varphi_{P(k)}\rangle$, which vanishes unless $P'(k)=P(k)$. Then $P'$ and $P$ agree on every number except $i$ and $j$, so either $P'=P$, or $P'=P\circ(ij)$, the permutation with $P'(i)=P(j)$ and $P'(j)=P(i)$, whose sign is $\mathrm{sgn}(P')=-\mathrm{sgn}(P)$. With $a=P(i)$ and $b=P(j)$ the first case gives $w_{abab}$ and the second gives $-w_{baab}$; renaming $x\leftrightarrow x'$ in the integral and using $w(x,x')=w(x',x)$ shows $w_{baab}=w_{abba}$. Each ordered pair $(a,b)$ of different occupied orbitals arises from the $N(N-1)/2$ pairs $i<j$, each with the $(N-2)!$ permutations that have $P(i)=a$ and $P(j)=b$, and $\frac1{N!}\cdot\frac{N(N-1)}2\cdot(N-2)!=\tfrac12$. Terms with $a=b$ would contribute $w_{aaaa}-w_{aaaa}=0$, so they may be included. The one-body part is simpler: in the term $i$ the integrals over all $x_k$ with $k\ne i$ force $P'=P$, and each orbital $a$ appears as $P(i)$ in $(N-1)!$ permutations for each of the $N$ values of $i$, with $N\cdot(N-1)!/N!=1$. Together,
 
 $$
 \langle\Phi|\hat H|\Phi\rangle=\sum_{a\in O}\langle\varphi_a|h\varphi_a\rangle
 +\tfrac12\sum_{a,b\in O}\bigl(w_{abab}-w_{abba}\bigr),\qquad h=-\tfrac12\nabla^2+v .
 $$
+
+**The same result from second quantization.** Wick's theorem of Section 12.5 gives it in two lines: $\langle\Phi|\hat A|\Phi\rangle=\sum_{p,q}A_{pq}\,\delta_{pq}[p\in O]=\sum_{a\in O}A_{aa}$, and $\langle\Phi|\hat W|\Phi\rangle=\tfrac12\sum_{p,q,r,s}w_{pqrs}[p\in O][q\in O](\delta_{pr}\delta_{qs}-\delta_{ps}\delta_{qr})=\tfrac12\sum_{a,b\in O}(w_{abab}-w_{abba})$. This is the check announced in Section 12.5: in every determinant the operators $\hat A$ and $\hat W$ give the energies of $\sum_iA(i)$ and $\sum_{i<j}w(i,j)$.
 
 The first sum is the kinetic plus external energy of independent particles. The second sum has two parts. Writing out the integrals and using $\sum_a\varphi_a(x)\varphi_a^*(x')=\rho(x,x')$,
 
@@ -218,6 +231,30 @@ For electrons ($g=2$) this says $E_H+E_x=g_c\int n_\uparrow n_\downarrow\,d^3r$:
 
 The **Hartree–Fock approximation** takes the best single determinant: it minimizes $\langle\Phi|\hat H|\Phi\rangle$ over all choices of $N$ orthonormal orbitals. By the variational principle (Section 12.2) the result $E_{HF}$ is an upper bound on the true ground-state energy $E_0$.
 
+**Minimizing under a side condition: Lagrange multipliers.** The orbitals are not free: they must stay orthonormal. The standard tool for such problems, used again in Sections 12.10, 12.11 and 12.14, is the method of **Lagrange multipliers**. Take a real function $f(y_0,\dots,y_{m-1})$ of $m$ real variables and one side condition (a **constraint**) $c(y)=c_0$, and let $y^\ast$ be a minimum of $f$ among the points that satisfy it. To first order (Section 1.9) a small step $dy$ changes $f$ by $df=\sum_i(\partial f/\partial y_i)\,dy_i$ and $c$ by $dc=\sum_i(\partial c/\partial y_i)\,dy_i$. An allowed small step keeps $c=c_0$, so it satisfies $\sum_i(\partial c/\partial y_i)\,dy_i=0$ (this describes the allowed steps correctly where the gradient of $c$, the list of the $\partial c/\partial y_i$, is not zero; with several constraints, where their gradients are linearly independent; that such first-order steps can be completed to steps that keep the constraint exactly is the implicit function theorem of analysis, used without proof). At the minimum $df=0$ for every allowed step, since otherwise the step or the opposite step would lower $f$. Now define
+
+$$
+\lambda=\frac{\sum_i(\partial f/\partial y_i)(\partial c/\partial y_i)}{\sum_i(\partial c/\partial y_i)^2},\qquad r_i=\frac{\partial f}{\partial y_i}-\lambda\,\frac{\partial c}{\partial y_i} .
+$$
+
+Then $\sum_ir_i\,\partial c/\partial y_i=0$, so $dy_i=\epsilon r_i$ is an allowed step, and $0=df=\epsilon\sum_i(\partial f/\partial y_i)\,r_i=\epsilon\sum_i(r_i+\lambda\,\partial c/\partial y_i)\,r_i=\epsilon\sum_ir_i^2$ forces every $r_i=0$. Hence
+
+$$
+\frac{\partial f}{\partial y_i}=\lambda\,\frac{\partial c}{\partial y_i}\quad(\text{all }i),\qquad c(y)=c_0 .
+$$
+
+These are exactly the conditions that the **Lagrangian** $\mathcal L(y,\lambda)=f(y)-\lambda\,\bigl(c(y)-c_0\bigr)$ be stationary with respect to every $y_i$ and to $\lambda$: the constrained problem has become an unconstrained one with one more unknown, the **multiplier** $\lambda$. With several constraints $c_k(y)=c_{k,0}$ one takes one multiplier for each, $\mathcal L=f-\sum_k\lambda_k(c_k-c_{k,0})$, and the same argument, with $r$ the part of the gradient of $f$ that is orthogonal to all the gradients of the $c_k$, gives $\partial f/\partial y_i=\sum_k\lambda_k\,\partial c_k/\partial y_i$. A complex variable counts as two real ones (next paragraph), and a function of the values on a grid becomes a functional in the limit of a fine grid (Section 12.10).
+
+*Example.* Minimize $f=y_0+y_1$ on the circle $y_0^2+y_1^2=1$. The conditions are $1=2\lambda y_0$ and $1=2\lambda y_1$, so $y_0=y_1=1/(2\lambda)$, and the constraint gives $2/(4\lambda^2)=1$, $\lambda=\pm1/\sqrt2$. The two stationary points $y_0=y_1=\pm1/\sqrt2$ are the maximum $f=\sqrt2$ and the minimum $f=-\sqrt2$ (with $\lambda=-1/\sqrt2$): the method finds all stationary points, and comparing their values picks the minimum.
+
+*What the multiplier means.* Let $f^\ast(c_0)$ be the minimum for the constraint value $c_0$, attained at $y^\ast(c_0)$ with the multiplier $\lambda(c_0)$, and suppose that $y^\ast$ depends differentiably on $c_0$. By the chain rule and the conditions above,
+
+$$
+\frac{df^\ast}{dc_0}=\sum_i\frac{\partial f}{\partial y_i}\,\frac{dy^\ast_i}{dc_0}=\lambda\sum_i\frac{\partial c}{\partial y_i}\,\frac{dy^\ast_i}{dc_0}=\lambda\,\frac{d}{dc_0}\,c\bigl(y^\ast(c_0)\bigr)=\lambda ,
+$$
+
+because $c(y^\ast(c_0))=c_0$ for every $c_0$. The multiplier is the rate at which the constrained minimum changes with the constraint value. In the example the minimum on the circle $y_0^2+y_1^2=c_0$ is $f^\ast=-\sqrt{2c_0}$, whose derivative at $c_0=1$ is $-1/\sqrt2=\lambda$.
+
 **How to vary a complex function.** A complex function $\varphi=u+iv$ has two real parts. Instead of varying $u$ and $v$ we may vary $\varphi$ and $\varphi^*$ as if they were independent, because $u=(\varphi+\varphi^*)/2$ and $v=(\varphi-\varphi^*)/(2i)$ are recovered from them; setting the derivative with respect to $\varphi^*$ to zero is equivalent to setting both real derivatives to zero (for a real-valued function of $\varphi$, the derivative with respect to $\varphi$ is the complex conjugate of the one with respect to $\varphi^*$). The precise definition of the derivative of a functional with respect to a function is given in Section 12.10; here we only need the rule “differentiate the integrand”.
 
 **The Lagrangian.** The orbitals must stay orthonormal, so we add Lagrange multipliers $\Lambda_{ba}$ for the constraints $\langle\varphi_a|\varphi_b\rangle=\delta_{ab}$:
@@ -233,7 +270,7 @@ $$
 (\hat F\varphi)(x)=h\varphi(x)+v_H(x)\,\varphi(x)-\int\rho(x,x')\,w(x,x')\,\varphi(x')\,dx',
 $$
 
-with the **Hartree potential** $v_H(x)=\int w(x,x')\,n(x')\,dx'$. $\hat F$ is the **Fock operator**. It depends on the occupied orbitals only through $\rho$, and $\rho$ does not change if the occupied orbitals are mixed among themselves by a unitary matrix $U$ ($\varphi'_a=\sum_bU_{ba}\varphi_b$), while the determinant only picks up the phase $\det U$. The matrix $\Lambda_{ba}=\langle\varphi_b|\hat F\varphi_a\rangle$ is Hermitian, so we can choose $U$ to diagonalize it. This gives the **canonical Hartree–Fock equations**
+with the **Hartree potential** $v_H(x)=\int w(x,x')\,n(x')\,dx'$. $\hat F$ is the **Fock operator**. It depends on the occupied orbitals only through $\rho$, and $\rho$ does not change if the occupied orbitals are mixed among themselves by a unitary matrix $Q$ ($\varphi'_a=\sum_bQ_{ba}\varphi_b$), while the determinant only picks up the phase $\det Q$. The matrix $\Lambda_{ba}=\langle\varphi_b|\hat F\varphi_a\rangle$ is Hermitian, so we can choose $Q$ to diagonalize it. This gives the **canonical Hartree–Fock equations**
 
 $$
 \hat F\varphi_a=\varepsilon_a\varphi_a,\qquad a=0,\dots,N-1 .
@@ -253,7 +290,7 @@ $$
 
 The smallest system in which interaction matters is a two-site model: two sites L and R, one orbital on each, hopping $t$ between them (the matrix of Section 12.2), and a repulsion $U>0$ when two electrons sit on the same site. We put in two electrons with opposite spins.
 
-**Exact solution.** The ground state has total spin 0: its spin part is the antisymmetric combination $(\uparrow\downarrow-\downarrow\uparrow)/\sqrt2$, so its spatial part must be symmetric in the two electrons (the product is then antisymmetric, as Section 12.3 requires). The symmetric spatial states are spanned by LL (both on L), RR, and $S=(\mathrm{LR}+\mathrm{RL})/\sqrt2$. The hopping of either electron turns LL into LR or RL, so $(h_0+h_1)\,\mathrm{LL}=-t(\mathrm{RL}+\mathrm{LR})=-\sqrt2\,t\,S$, and likewise for RR, while $(h_0+h_1)\,S=-\sqrt2\,t(\mathrm{LL}+\mathrm{RR})$. The repulsion gives $U$ on LL and RR and 0 on $S$. In the basis (LL, RR, $S$)
+**Exact solution.** With opposite spins the two-electron states split into spin-antisymmetric states $(\uparrow\downarrow-\downarrow\uparrow)/\sqrt2$ with a symmetric spatial part, and spin-symmetric states $(\uparrow\downarrow+\downarrow\uparrow)/\sqrt2$ with an antisymmetric spatial part (in both cases the product is antisymmetric, as Section 12.3 requires). The Hamiltonian does not act on the spins and treats the two electrons alike, so it maps symmetric spatial states to symmetric ones and antisymmetric to antisymmetric ones, and the two kinds can be treated separately. The only antisymmetric spatial state of two sites is $(\mathrm{LR}-\mathrm{RL})/\sqrt2$, where LR means electron 0 on L and electron 1 on R. The hopping maps LR and RL to the same state, $(h_0+h_1)\,\mathrm{LR}=-t(\mathrm{RR}+\mathrm{LL})=(h_0+h_1)\,\mathrm{RL}$, so it gives 0 on $(\mathrm{LR}-\mathrm{RL})/\sqrt2$, and the repulsion gives 0 too (the electrons are on different sites): its energy is 0. The ground state is found among the symmetric spatial states, which are spanned by LL (both on L), RR, and $S=(\mathrm{LR}+\mathrm{RL})/\sqrt2$. The hopping of either electron turns LL into LR or RL, so $(h_0+h_1)\,\mathrm{LL}=-t(\mathrm{RL}+\mathrm{LR})=-\sqrt2\,t\,S$, and likewise for RR, while $(h_0+h_1)\,S=-\sqrt2\,t(\mathrm{LL}+\mathrm{RR})$. The repulsion gives $U$ on LL and RR and 0 on $S$. In the basis (LL, RR, $S$)
 
 $$
 \hat H=\begin{pmatrix}U&0&-\sqrt2\,t\\0&U&-\sqrt2\,t\\-\sqrt2\,t&-\sqrt2\,t&0\end{pmatrix}.
@@ -262,16 +299,32 @@ $$
 The combination $(\mathrm{LL}-\mathrm{RR})/\sqrt2$ decouples with energy $U$; the combination $D=(\mathrm{LL}+\mathrm{RR})/\sqrt2$ couples to $S$ with the matrix element $-2t$, which leaves the $2\times2$ problem with the matrix $\begin{pmatrix}U&-2t\\-2t&0\end{pmatrix}$ and the eigenvalues $\tfrac12\bigl(U\pm\sqrt{U^2+16t^2}\bigr)$. The ground-state energy is
 
 $$
-E_0=\tfrac12\Bigl(U-\sqrt{U^2+16t^2}\Bigr).
+E_0=\tfrac12\Bigl(U-\sqrt{U^2+16t^2}\Bigr),
 $$
 
-**Hartree–Fock.** The best single determinant puts both electrons into the bonding orbital $\varphi_b=(\mathrm L+\mathrm R)/\sqrt2$ of Section 12.2, with opposite spins. Its spatial part is $\varphi_b(0)\varphi_b(1)=(\mathrm{LL}+\mathrm{LR}+\mathrm{RL}+\mathrm{RR})/2=(D+S)/\sqrt2$. With the $2\times2$ matrix above, the energy is $\tfrac12U+\tfrac12\cdot0+2\cdot\tfrac1{\sqrt2}\cdot\tfrac1{\sqrt2}\cdot(-2t)$, that is
+which is below 0 (because $\sqrt{U^2+16t^2}>U$), so it is the ground state.
+
+**Hartree–Fock.** A determinant for two electrons of opposite spins is built from one spin-up orbital and one spin-down orbital. The simplest one, called **restricted Hartree–Fock**, puts both electrons into the bonding orbital $\varphi_b=(\mathrm L+\mathrm R)/\sqrt2$ of Section 12.2, with opposite spins. Its spatial part is $\varphi_b(0)\varphi_b(1)=(\mathrm{LL}+\mathrm{LR}+\mathrm{RL}+\mathrm{RR})/2=(D+S)/\sqrt2$. With the $2\times2$ matrix above, the energy is $\tfrac12U+\tfrac12\cdot0+2\cdot\tfrac1{\sqrt2}\cdot\tfrac1{\sqrt2}\cdot(-2t)$, that is
 
 $$
-E_{HF}=-2t+\tfrac12U .
+E_{\text{RHF}}=-2t+\tfrac12U .
 $$
 
-**Numbers.** For $t=1$ and $U=2$: $E_0=\tfrac12(2-\sqrt{20})=-1.236068$ and $E_{HF}=-1$. The difference $E_c=E_0-E_{HF}=-0.236068$ is the **correlation energy**: the energy that no single determinant can capture. Its physical meaning is visible in the probability of double occupancy (both electrons on one site). In the Hartree–Fock state it is $|\langle D|\Phi\rangle|^2=\tfrac12$, independent of $U$; in the exact ground state it is $0.276393$ (the squared $D$-component of the lowest eigenvector). The exact electrons **avoid each other**; a single determinant cannot express that. Yet the density is the same in both states, one electron on each site, $n_\mathrm L=n_\mathrm R=1$, by the left–right symmetry. A theory that works with the density alone must therefore contain, somewhere, the information that turns $n=(1,1)$ into $-1.236068$ rather than $-1$. In density functional theory that information is the exchange–correlation functional.
+**Is it the best determinant?** Take any spin-up orbital with moduli $(\cos\alpha,\sin\alpha)$ on (L, R) and any spin-down orbital with moduli $(\cos\beta,\sin\beta)$, $0\le\alpha,\beta\le\pi/2$. Exchange acts only between equal spins (Section 12.6), so for this contact repulsion the Hartree and exchange energies add up to $U(n_{\mathrm L\uparrow}n_{\mathrm L\downarrow}+n_{\mathrm R\uparrow}n_{\mathrm R\downarrow})$, the rule $E_H+E_x=g_c\int n_\uparrow n_\downarrow$ of Section 12.6 with the integral replaced by the sum over the two sites; here $n_{\mathrm L\uparrow}=\cos^2\alpha$ is the spin-up density on L, and so on. The energy is this term plus the hopping energies of the two orbitals. The hopping energy of an orbital with the values $(\varphi_\mathrm L,\varphi_\mathrm R)$ on the two sites is $\varphi^\dagger h\varphi=-2t\,\mathrm{Re}(\varphi_\mathrm L^*\varphi_\mathrm R)\ge-2t\,|\varphi_\mathrm L|\,|\varphi_\mathrm R|$, with equality when $\varphi_\mathrm L^*\varphi_\mathrm R$ is real and nonnegative; the repulsion does not depend on the phases, so we choose the phases that make the hopping term most negative, $-2t\cos\alpha\sin\alpha=-t\sin2\alpha$ for spin up. With $s_\alpha=\sin2\alpha$, $c_\alpha=\cos2\alpha$ (the same for $\beta$), and $\cos^2\alpha=\tfrac12(1+c_\alpha)$, $\sin^2\alpha=\tfrac12(1-c_\alpha)$,
+
+$$
+E=-t\,(s_\alpha+s_\beta)+\tfrac U2\bigl(1+c_\alpha c_\beta\bigr).
+$$
+
+Since $c_\alpha c_\beta\ge-\tfrac12(c_\alpha^2+c_\beta^2)$ (this is $(c_\alpha+c_\beta)^2\ge0$) and $1-c^2=s^2$,
+
+$$
+E\ \ge\ \sum_{x=\alpha,\beta}\Bigl(-t\,s_x+\tfrac U4\,s_x^2\Bigr).
+$$
+
+Each term, a parabola in $s_x\in[0,1]$, is smallest at $s_x=\min(1,2t/U)$, and equality holds throughout for $\beta=\pi/2-\alpha$ (then $c_\beta=-c_\alpha$ and $s_\beta=s_\alpha$). Hence $E_{HF}=-2t+\tfrac12U$ for $U\le2t$, attained by the restricted state ($\alpha=\beta=\pi/4$). For $U>2t$, $E_{HF}=-2t^2/U$, attained at $\sin2\alpha=2t/U$ by the **unrestricted** determinant with spin-up orbital $(\cos\alpha,\sin\alpha)$ and spin-down orbital $(\sin\alpha,\cos\alpha)$. That determinant breaks the left–right symmetry of each spin but keeps $n=(1,1)$. For $t=1$, $U=2$ the two coincide: $U=2t$ is exactly the threshold.
+
+**Numbers.** For $t=1$ and $U=2$: $E_0=\tfrac12(2-\sqrt{20})=-1.236068$ and $E_{HF}=-1$. The difference $E_c=E_0-E_{HF}=-0.236068$ is the **correlation energy**: the energy that no single determinant can capture. Its physical meaning is visible in the probability of double occupancy (both electrons on one site). In the restricted state it is $|\langle D|\Phi\rangle|^2=\tfrac12$, independent of $U$; for $U\le2t$, so also here at $U=2t$, this is the Hartree–Fock state. In the exact ground state it is $0.276393$ (the squared $D$-component of the lowest eigenvector). The exact electrons **avoid each other** and keep the left–right symmetry of each spin; a single determinant cannot do both. Its double occupancy is $n_{\mathrm L\uparrow}n_{\mathrm L\downarrow}+n_{\mathrm R\uparrow}n_{\mathrm R\downarrow}=\tfrac12(1+c_\alpha c_\beta)$, which equals $\tfrac12$ whenever each spin is shared equally ($c_\alpha=c_\beta=0$); for $U>2t$ the unrestricted determinant lowers it, but only by breaking that symmetry (Exercise 4). Yet the density is the same in the exact and in the Hartree–Fock state, one electron on each site, $n_\mathrm L=n_\mathrm R=1$, by the left–right symmetry. A theory that works with the density alone must therefore contain, somewhere, the information that turns $n=(1,1)$ into $-1.236068$ rather than $-1$. In density functional theory that information is the exchange–correlation functional.
 
 ### 12.9 The density decides everything: the Hohenberg–Kohn theorems
 
@@ -323,7 +376,7 @@ for every $\eta$, the function $\delta F/\delta n(\mathbf r)$ is the **functiona
 
 **Worked example on a grid.** Take three points with $\Delta V=1$ and $A=\sum_kn_k^2$. At $n=(1,\tfrac12,\tfrac12)$ (the density of Section 12.4) the gradient is $(2,1,1)$, which is $2n$ as example (i) says. Moving the density by $\epsilon\eta$ with $\eta=(1,-1,0)$ (a particle-conserving change) changes $A$ by $\epsilon(2-1)+O(\epsilon^2)=\epsilon+O(\epsilon^2)$; directly, $A(1+\epsilon,\tfrac12-\epsilon,\tfrac12)-A(1,\tfrac12,\tfrac12)=\epsilon+2\epsilon^2$.
 
-**Minimizing with a constraint.** To minimize $E[n]$ over densities with $\int n=N$, introduce a Lagrange multiplier $\mu$ and require $\delta E/\delta n(\mathbf r)=\mu$ at every point. The multiplier $\mu$ is the **chemical potential**: the change of the minimal energy per added particle, $\mu=dE_0/dN$ (if $N$ changes by $dN$, the constraint term changes the minimum by $\mu\,dN$, the standard meaning of a Lagrange multiplier).
+**Minimizing with a constraint.** To minimize $E[n]$ over densities with $\int n=N$, introduce a Lagrange multiplier $\mu$ (Section 12.7), that is, make $\mathcal L=E[n]-\mu\bigl(\int n-N\bigr)$ stationary, and require $\delta E/\delta n(\mathbf r)=\mu$ at every point. (On a grid the constraint is $c=\sum_kn_k\,\Delta V=N$, with $\partial c/\partial n_k=\Delta V$, so the condition $\partial E/\partial n_k=\mu\,\Delta V$ of Section 12.7 is $\delta E/\delta n(\mathbf r_k)=\mu$ by the definition above.) The multiplier $\mu$ is the **chemical potential**: the change of the minimal energy per added particle, $\mu=dE_0/dN$. This is the meaning of a multiplier derived in Section 12.7, $df^\ast/dc_0=\lambda$, with $f=E$, $c=\int n$ and $c_0=N$, and it holds where the minimum depends differentiably on $N$.
 
 ### 12.11 The Kohn–Sham equations
 
@@ -380,6 +433,20 @@ the Kohn–Sham analogue of the double-counting formula of Section 12.7.
 
 To use the Kohn–Sham equations we need an approximation for $E_{xc}[n]$. The oldest and simplest one borrows it from the only many-body system whose properties are known accurately: the **uniform gas**, infinitely many particles spread with constant density over all space.
 
+**Spherical coordinates.** The integrals of this section are done in spherical coordinates: $x=r\sin\theta\cos\phi$, $y=r\sin\theta\sin\phi$, $z=r\cos\theta$ with $r\ge0$, $0\le\theta\le\pi$ and $0\le\phi<2\pi$. The flat metric in these coordinates follows from the polar-coordinate result of Chapter 1 used twice. With $\varrho=r\sin\theta$, the pair $(x,y)=(\varrho\cos\phi,\varrho\sin\phi)$ gives $dx^2+dy^2=d\varrho^2+\varrho^2d\phi^2$, and the pair $(z,\varrho)=(r\cos\theta,r\sin\theta)$ gives $dz^2+d\varrho^2=dr^2+r^2d\theta^2$. Hence
+
+$$
+dx^2+dy^2+dz^2=dr^2+r^2d\theta^2+r^2\sin^2\theta\,d\phi^2 ,
+$$
+
+the metric is $\mathrm{diag}(1,r^2,r^2\sin^2\theta)$, $\sqrt{|g|}=r^2\sin\theta$ (Chapter 1: $\sqrt{|g|}$ is the volume factor) and $d^3r=r^2\sin\theta\,dr\,d\theta\,d\phi$. With $u=\cos\theta$ ($du=-\sin\theta\,d\theta$, and $\theta$ from 0 to $\pi$ means $u$ from 1 to $-1$):
+
+$$
+\int d^3r\,f=\int_0^\infty r^2\,dr\int_{-1}^{1}du\int_0^{2\pi}d\phi\ f .
+$$
+
+For $f$ depending only on $r$ this is $4\pi\int_0^\infty r^2f\,dr$. For $f$ depending only on $r$ and $u$ it is $2\pi\int_0^\infty r^2\,dr\int_{-1}^1du\,f$. The same formulas hold for integrals over a momentum $\mathbf k$, with $k=|\mathbf k|$ in place of $r$, and the axis $\theta=0$ may be chosen in any direction.
+
 **Plane waves in a box.** Put the particles in a cube of side $\ell$ and volume $V=\ell^3$ and require the wave functions to repeat themselves from one face to the opposite one (**periodic boundary conditions**, a torus). The orbitals are plane waves $\varphi_{\mathbf k}(\mathbf r)=e^{i\mathbf k\cdot\mathbf r}/\sqrt V$, eigenfunctions of $-\tfrac12\nabla^2$ with energy $\tfrac12k^2$, and periodicity allows only $\mathbf k=(2\pi/\ell)(n_1,n_2,n_3)$ with integers $n_1,n_2,n_3$. Each allowed $\mathbf k$ occupies a cube of volume $(2\pi/\ell)^3=(2\pi)^3/V$ in $\mathbf k$-space, so for a large box a sum over allowed momenta becomes an integral:
 
 $$
@@ -394,7 +461,7 @@ $$
 N=g\,V\,\frac{\tfrac43\pi k_F^3}{(2\pi)^3}\quad\Longrightarrow\quad n=\frac{g\,k_F^3}{6\pi^2}.
 $$
 
-The kinetic energy per volume is $t=g\int_{k<k_F}\frac{d^3k}{(2\pi)^3}\frac{k^2}2=\frac{g}{2\pi^2}\cdot\frac{k_F^5}{10}$ (spherical coordinates: $d^3k=4\pi k^2dk$). For electrons ($g=2$): $n=k_F^3/(3\pi^2)$, $t=k_F^5/(10\pi^2)$, and eliminating $k_F=(3\pi^2n)^{1/3}$,
+The kinetic energy per volume is $t=g\int_{k<k_F}\frac{d^3k}{(2\pi)^3}\frac{k^2}2=\frac{g}{2\pi^2}\cdot\frac{k_F^5}{10}$ (spherical coordinates, as above: $d^3k\to4\pi k^2dk$ for an integrand that depends only on $k$). For electrons ($g=2$): $n=k_F^3/(3\pi^2)$, $t=k_F^5/(10\pi^2)$, and eliminating $k_F=(3\pi^2n)^{1/3}$,
 
 $$
 t(n)=C_F\,n^{5/3},\qquad C_F=\tfrac3{10}\bigl(3\pi^2\bigr)^{2/3}=2.871234 .
@@ -413,18 +480,18 @@ $$
 =-\int_{k<k_F}\!\!\frac{d^3k}{(2\pi)^3}\int_{k'<k_F}\!\!\frac{d^3k'}{(2\pi)^3}\int d^3R\,\frac{e^{i(\mathbf k-\mathbf k')\cdot\mathbf R}}{R}.
 $$
 
-*Step 3: the Coulomb integral.* For $\mathbf q\ne0$ compute $\int d^3R\,e^{i\mathbf q\cdot\mathbf R}e^{-\mu R}/R$ with a small $\mu>0$ that makes it converge, using spherical coordinates around $\mathbf q$ ($u$ is the cosine of the angle between $\mathbf R$ and $\mathbf q$):
+*Step 3: the Coulomb integral.* For $\mathbf q\ne0$ compute $\int d^3R\,e^{i\mathbf q\cdot\mathbf R}e^{-\kappa R}/R$ with a small number $\kappa>0$ that makes it converge (a **regulator**; the letter $\mu$ is kept for the chemical potential), using spherical coordinates around $\mathbf q$ ($u$ is the cosine of the angle between $\mathbf R$ and $\mathbf q$):
 
 $$
 \begin{aligned}
-\int d^3R\,\frac{e^{i\mathbf q\cdot\mathbf R}e^{-\mu R}}R
-&=2\pi\int_0^\infty R\,e^{-\mu R}\,dR\int_{-1}^1e^{iqRu}\,du
-=\frac{2\pi}{iq}\int_0^\infty\bigl(e^{(iq-\mu)R}-e^{(-iq-\mu)R}\bigr)\,dR\\
-&=\frac{2\pi}{iq}\Bigl(\frac1{\mu-iq}-\frac1{\mu+iq}\Bigr)=\frac{4\pi}{q^2+\mu^2}.
+\int d^3R\,\frac{e^{i\mathbf q\cdot\mathbf R}e^{-\kappa R}}R
+&=2\pi\int_0^\infty R\,e^{-\kappa R}\,dR\int_{-1}^1e^{iqRu}\,du
+=\frac{2\pi}{iq}\int_0^\infty\bigl(e^{(iq-\kappa)R}-e^{(-iq-\kappa)R}\bigr)\,dR\\
+&=\frac{2\pi}{iq}\Bigl(\frac1{\kappa-iq}-\frac1{\kappa+iq}\Bigr)=\frac{4\pi}{q^2+\kappa^2}.
 \end{aligned}
 $$
 
-Letting $\mu\to0$ gives $4\pi/q^2$. Hence
+Letting $\kappa\to0$ gives $4\pi/q^2$. Hence
 
 $$
 \frac{E_x}V=-\frac1{(2\pi)^6}\int_{k<k_F}d^3k\ I(k),\qquad I(k)=\int_{k'<k_F}d^3k'\,\frac{4\pi}{|\mathbf k-\mathbf k'|^2}.
@@ -433,10 +500,10 @@ $$
 *Step 4: the inner integral.* Spherical coordinates around $\mathbf k$ give $\int_{-1}^1\frac{du}{k^2+k'^2-2kk'u}=\frac1{kk'}\ln\Bigl|\frac{k+k'}{k-k'}\Bigr|$, so $I(k)=\frac{8\pi^2}k\int_0^{k_F}k'\ln\bigl|\frac{k+k'}{k-k'}\bigr|\,dk'$. The last integral equals $kk_F+\tfrac12(k_F^2-k^2)\ln\bigl|\frac{k+k_F}{k-k_F}\bigr|$ (both sides vanish at $k_F=0$, and their derivatives with respect to $k_F$ agree, as one checks with $\frac{d}{dk_F}\ln\bigl|\frac{k+k_F}{k-k_F}\bigr|=\frac{2k}{k^2-k_F^2}$). With $x=k/k_F$,
 
 $$
-I(k)=16\pi^2k_F\,F(x),\qquad F(x)=\frac12+\frac{1-x^2}{4x}\ln\Bigl|\frac{1+x}{1-x}\Bigr| .
+I(k)=16\pi^2k_F\,L(x),\qquad L(x)=\frac12+\frac{1-x^2}{4x}\ln\Bigl|\frac{1+x}{1-x}\Bigr| .
 $$
 
-*Step 5: the outer integral.* $\int_{k<k_F}d^3k\,I(k)=16\pi^2k_F\cdot4\pi k_F^3\int_0^1x^2F(x)\,dx$. Expand $\ln\frac{1+x}{1-x}=2\sum_{m\ge0}\frac{x^{2m+1}}{2m+1}$ for $0\le x<1$; then $\int_0^1x(1-x^2)\ln\frac{1+x}{1-x}\,dx=2\sum_m\frac1{2m+1}\bigl(\frac1{2m+3}-\frac1{2m+5}\bigr)$. The partial fractions $\frac1{(2m+1)(2m+3)}=\frac12\bigl(\frac1{2m+1}-\frac1{2m+3}\bigr)$ and $\frac1{(2m+1)(2m+5)}=\frac14\bigl(\frac1{2m+1}-\frac1{2m+5}\bigr)$ make both sums telescope, to $\tfrac12$ and $\tfrac14(1+\tfrac13)=\tfrac13$, so the integral is $2(\tfrac12-\tfrac13)=\tfrac13$ and $\int_0^1x^2F\,dx=\tfrac16+\tfrac14\cdot\tfrac13=\tfrac14$. Therefore $E_x/V=-64\pi^3k_F^4/(4\cdot64\pi^6)=-k_F^4/(4\pi^3)$, and with $k_F=(3\pi^2n)^{1/3}$:
+*Step 5: the outer integral.* $\int_{k<k_F}d^3k\,I(k)=16\pi^2k_F\cdot4\pi k_F^3\int_0^1x^2L(x)\,dx$. Expand $\ln\frac{1+x}{1-x}=2\sum_{m\ge0}\frac{x^{2m+1}}{2m+1}$ for $0\le x<1$; then $\int_0^1x(1-x^2)\ln\frac{1+x}{1-x}\,dx=2\sum_m\frac1{2m+1}\bigl(\frac1{2m+3}-\frac1{2m+5}\bigr)$. The partial fractions $\frac1{(2m+1)(2m+3)}=\frac12\bigl(\frac1{2m+1}-\frac1{2m+3}\bigr)$ and $\frac1{(2m+1)(2m+5)}=\frac14\bigl(\frac1{2m+1}-\frac1{2m+5}\bigr)$ make both sums telescope, to $\tfrac12$ and $\tfrac14(1+\tfrac13)=\tfrac13$, so the integral is $2(\tfrac12-\tfrac13)=\tfrac13$ and $\int_0^1x^2L\,dx=\tfrac16+\tfrac14\cdot\tfrac13=\tfrac14$. Therefore $E_x/V=-64\pi^3k_F^4/(4\cdot64\pi^6)=-k_F^4/(4\pi^3)$, and with $k_F=(3\pi^2n)^{1/3}$:
 
 $$
 e_x(n)=\frac{E_x}V=-\frac34\Bigl(\frac3\pi\Bigr)^{1/3}n^{4/3}=-0.738559\,n^{4/3},\qquad \frac{E_x}N=-\frac{3k_F}{4\pi}.
@@ -452,7 +519,13 @@ $$
 
 (example (ii) of Section 12.10). Its exchange part is Dirac's formula, $v_x=-(3/\pi)^{1/3}n^{1/3}$. The correlation part of the uniform electron gas is not known in closed form; it is taken from numerical (quantum Monte Carlo) simulations of the uniform gas, which we quote as a fact of the literature and do not use in this book. The LDA is exact for a uniform density and is an approximation for every other one; its accuracy must be judged case by case.
 
-**The contact interaction is special.** For the contact interaction of Section 12.6 the exchange energy is exactly local for every state that is a single determinant (or a non-interacting ensemble): $E_x=-\tfrac{g_c}2\int\sum_\sigma n_\sigma^2$. The uniform-gas formula evaluated with the local densities is therefore not an approximation for the exchange part; the approximation lies entirely in the omitted correlation. An “exchange-only LDA” with a contact interaction is the Hartree–Fock energy written as a density functional. Chapter 13 is in this situation, with two local densities (a number density and a scalar density) instead of the $n_\sigma$ and with a relativistic gas of particles and antiparticles.
+**The contact interaction is special.** For the contact interaction of Section 12.6 the exchange energy of every determinant (or non-interacting ensemble) is exactly local:
+
+$$
+E_x=-\frac{g_c}2\int\sum_{\sigma,\sigma'}\bigl|\rho(\mathbf r\sigma,\mathbf r\sigma')\bigr|^2\,d^3r ,
+$$
+
+which for orbitals of definite label is $-\tfrac{g_c}2\int\sum_\sigma n_\sigma^2\,d^3r$ (put $w=g_c\,\delta(\mathbf r-\mathbf r')$ into the exchange integral of Section 12.6). The uniform-gas formula $e_x=-\tfrac{g_c}2\sum_\sigma n_\sigma^2$ (the plane waves of the uniform gas have definite labels), evaluated with all the local label densities $n_\sigma$, is then not an approximation for the exchange part; evaluated with the total density alone, as $-\tfrac{g_c}{2g}n^2$, it is one, unless all $n_\sigma$ are equal. An “exchange-only LDA” of this kind is the Hartree–Fock energy (over determinants of orbitals of definite label) written as a density functional. Chapter 13 is close to this situation but not in it. There the exact Fock term is local but depends on the $2\times2$ density matrices of eight blocks, while the solver uses the uniform-gas closed form in only two local densities, a number density and a scalar density, of a relativistic gas of particles and antiparticles. That closed form equals the exact term only for equally occupied blocks without momentum current, so the choice is the approximation of the exchange part there (Section 13.8). There is also no correlation term (Section 13.8).
 
 ### 12.13 Solving the Kohn–Sham equations: iteration and mixing
 
@@ -464,10 +537,10 @@ $$
 h[n]=\begin{pmatrix}-\tfrac\Delta2+\tfrac U2n_\mathrm L&-t\\-t&\tfrac\Delta2+\tfrac U2n_\mathrm R\end{pmatrix},\qquad n_\mathrm R=2-n_\mathrm L,\qquad n_\mathrm L^{\text{out}}=2\,|c_\mathrm L|^2,
 $$
 
-where $(c_\mathrm L,c_\mathrm R)$ is the normalized lowest eigenvector of $h[n]$. For a real symmetric matrix $\begin{pmatrix}a&-t\\-t&b\end{pmatrix}$ the lowest eigenvector has $|c_\mathrm L|^2=\tfrac12\bigl(1+(b-a)/\sqrt{(b-a)^2+4t^2}\bigr)$. Here $b-a=\Delta+U(1-n_\mathrm L)$. With $x=n_\mathrm L-1$ (the excess on L) the whole loop becomes one function:
+where $(c_\mathrm L,c_\mathrm R)$ is the normalized lowest eigenvector of $h[n]$. For a real symmetric matrix $\begin{pmatrix}a&-t\\-t&b\end{pmatrix}$ the lowest eigenvector has $|c_\mathrm L|^2=\tfrac12\bigl(1+(b-a)/\sqrt{(b-a)^2+4t^2}\bigr)$. Here $b-a=\Delta+U(1-n_\mathrm L)$. With $x=n_\mathrm L-1$ (the excess on L) the whole loop becomes one function of one number, the map $G$ of the beginning of this section in reduced form:
 
 $$
-x_{\text{out}}=g(x)=\frac{\Delta-Ux}{\sqrt{(\Delta-Ux)^2+4t^2}} .
+x_{\text{out}}=G(x)=\frac{\Delta-Ux}{\sqrt{(\Delta-Ux)^2+4t^2}} .
 $$
 
 **Numbers.** Take $\Delta=2$, $t=1$, $U=4$ and the start $n_\mathrm L=2$ (both electrons on the low site). Plain iteration ($n_\mathrm L\leftarrow n_\mathrm L^{\text{out}}$) gives
@@ -486,13 +559,13 @@ and continues to jump between about $0.3607$ and $1.9157$ forever: when the elec
 
 The iteration converges to the self-consistent value $n_\mathrm L=1.326993$; the input and output agree to $10^{-6}$ after 13 steps.
 
-**Why.** Near the fixed point $x_\ast=0.326993$ write $x=x_\ast+e$. To first order $g(x)=x_\ast+g'(x_\ast)\,e$, so the mixed iteration multiplies the error by $1-\beta\,(1-g'(x_\ast))$ at each step. Differentiating, $g'(x)=-4Ut^2/\bigl((\Delta-Ux)^2+4t^2\bigr)^{3/2}$, which gives $g'(x_\ast)=-1.687961$. The iteration converges exactly when $|1-\beta(1-g')|<1$, that is
+**Why.** Near the fixed point $x_\ast=0.326993$ write $x=x_\ast+e$. To first order $G(x)=x_\ast+G'(x_\ast)\,e$, so the mixed iteration multiplies the error by $1-\beta\,(1-G'(x_\ast))$ at each step. Differentiating, $G'(x)=-4Ut^2/\bigl((\Delta-Ux)^2+4t^2\bigr)^{3/2}$, which gives $G'(x_\ast)=-1.687961$. The iteration converges exactly when $|1-\beta(1-G')|<1$, that is
 
 $$
-0<\beta<\frac2{1-g'(x_\ast)}=0.744058 .
+0<\beta<\frac2{1-G'(x_\ast)}=0.744058 .
 $$
 
-Plain iteration ($\beta=1$) multiplies the error by $-1.688$: it grows and alternates in sign, which is the sloshing. For $\beta=\tfrac12$ the factor is $-0.344$, and the error shrinks by about a factor 3 per step, as the table shows. The choice $\beta=1/(1-g')=0.372$ would give the factor 0.
+Plain iteration ($\beta=1$) multiplies the error by $-1.688$: it grows and alternates in sign, which is the sloshing. For $\beta=\tfrac12$ the factor is $-0.344$, and the error shrinks by about a factor 3 per step, as the table shows. The choice $\beta=1/(1-G')=0.372$ would give the factor 0.
 
 **Anderson (Pulay) mixing.** For densities with many components the best $\beta$ differs from direction to direction. **Anderson mixing** keeps the last few input densities $n^{(i)}$ and their residuals $R^{(i)}=G[n^{(i)}]-n^{(i)}$, finds the numbers $c_i$ with $\sum_ic_i=1$ that make $\bigl\|\sum_ic_iR^{(i)}\bigr\|$ smallest, and takes as the next input $\sum_ic_i\bigl(n^{(i)}+\beta R^{(i)}\bigr)$. It estimates the derivative of $G$ from the history, a cheap substitute for Newton's method. The Rust solver of Chapter 13 uses it, with the stopping rule that the largest change of the densities, divided by their largest value, is below $10^{-10}$.
 
@@ -502,13 +575,13 @@ Plain iteration ($\beta=1$) multiplies the error by $-1.688$: it grows and alter
 
 So far the system was in its ground state. At a temperature $T>0$ it is in a statistical mixture of states. We set Boltzmann's constant to 1, so a temperature is an energy.
 
-**Ensembles.** A mixture in which the state $\Psi_k$ occurs with probability $w_k\ge0$ ($\sum_kw_k=1$) is described by the **density operator** $\hat\rho=\sum_kw_k|\Psi_k\rangle\langle\Psi_k|$, a Hermitian operator with nonnegative eigenvalues and trace 1. The expectation value of an observable is $\mathrm{Tr}(\hat\rho\hat A)=\sum_kw_k\langle\Psi_k|\hat A\Psi_k\rangle$, and the **entropy** is $S=-\mathrm{Tr}(\hat\rho\ln\hat\rho)=-\sum_kw_k\ln w_k\ge0$. When the particle number may vary (it is fixed on average by a chemical potential $\mu$), the equilibrium state at temperature $T$ minimizes the **grand potential**
+**Ensembles.** A mixture in which the state $\Psi_k$ occurs with probability $w_k\ge0$ ($\sum_kw_k=1$) is described by the **density operator** $\hat\rho=\sum_kw_k|\Psi_k\rangle\langle\Psi_k|$ (outer products, Section 12.2), a Hermitian operator with nonnegative eigenvalues and trace 1: $\langle\varphi|\hat\rho\varphi\rangle=\sum_kw_k|\langle\Psi_k|\varphi\rangle|^2\ge0$ for every state $\varphi$, and $\mathrm{Tr}\,\hat\rho=\sum_kw_k\langle\Psi_k|\Psi_k\rangle=1$ for normalized $\Psi_k$. Its eigenvalues $p_i$ therefore lie between 0 and 1 and add up to 1. The expectation value of an observable is $\mathrm{Tr}(\hat\rho\hat A)=\sum_kw_k\langle\Psi_k|\hat A\Psi_k\rangle$, and the **entropy** is $S=-\mathrm{Tr}(\hat\rho\ln\hat\rho)=-\sum_ip_i\ln p_i\ge0$, where the $p_i$ are the eigenvalues of $\hat\rho$ (the logarithm of an operator is taken in its eigenbasis, Section 12.2, and every term is $\ge0$ because $\ln p_i\le0$). If the $\Psi_k$ are orthonormal, the $p_i$ are the $w_k$ and $S=-\sum_kw_k\ln w_k$. When the particle number may vary (it is fixed on average by a chemical potential $\mu$), the equilibrium state at temperature $T$ minimizes the **grand potential**
 
 $$
 \Omega[\hat\rho]=\mathrm{Tr}\bigl[\hat\rho\,(\hat H-\mu\hat N)\bigr]+T\,\mathrm{Tr}\bigl[\hat\rho\ln\hat\rho\bigr].
 $$
 
-**Theorem 12.3 (Gibbs principle).** In a finite-dimensional state space, $\Omega$ is minimized exactly by the Gibbs state $\hat\rho_0=e^{-(\hat H-\mu\hat N)/T}/Z$, $Z=\mathrm{Tr}\,e^{-(\hat H-\mu\hat N)/T}$, and $\Omega[\hat\rho_0]=-T\ln Z$.
+**Theorem 12.3 (Gibbs principle).** In a finite-dimensional state space, $\Omega$ has exactly one minimizer, the Gibbs state $\hat\rho_0=e^{-(\hat H-\mu\hat N)/T}/Z$, $Z=\mathrm{Tr}\,e^{-(\hat H-\mu\hat N)/T}$, and $\Omega[\hat\rho_0]=-T\ln Z$.
 
 **Proof.** Since $\ln\hat\rho_0=-(\hat H-\mu\hat N)/T-\ln Z$, we have $\hat H-\mu\hat N=-T\ln\hat\rho_0-T\ln Z$, and therefore $\Omega[\hat\rho]=-T\ln Z+T\,\mathrm{Tr}\bigl[\hat\rho(\ln\hat\rho-\ln\hat\rho_0)\bigr]$. It remains to show **Klein's inequality** $D=\mathrm{Tr}[\hat\rho(\ln\hat\rho-\ln\hat\sigma)]\ge0$ for density operators $\hat\rho$ and $\hat\sigma$ with $\hat\sigma$ having positive eigenvalues. Write $\hat\rho=\sum_ip_i|i\rangle\langle i|$ and $\hat\sigma=\sum_jq_j|j\rangle\langle j|$ with orthonormal eigenbases. Then, using $\sum_j|\langle i|j\rangle|^2=1$ for every $i$ and $\sum_i|\langle i|j\rangle|^2=1$ for every $j$ (completeness of the two bases),
 
@@ -520,16 +593,32 @@ D&=\sum_ip_i\ln p_i-\sum_{i,j}p_i\,|\langle i|j\rangle|^2\ln q_j
 \end{aligned}
 $$
 
-The inequality used, $a\ln a-a\ln b\ge a-b$ for $a\ge0$ and $b>0$, is $\ln y\le y-1$ with $y=b/a$, multiplied by $-a$ (and trivial for $a=0$). $\square$
+The inequality used, $a\ln a-a\ln b\ge a-b$ for $a\ge0$ and $b>0$, is $\ln y\le y-1$ with $y=b/a$, multiplied by $-a$ (for $a=0$ it reads $0\ge-b$). Moreover $\ln y\le y-1$ holds with equality only at $y=1$: the function $y-1-\ln y$ has the derivative $1-1/y$, negative for $y<1$ and positive for $y>1$, so its smallest value is the value 0 at $y=1$.
 
-**Mermin's theorem (1965).** Replace the variational principle of Section 12.9 by the Gibbs principle: the proofs of Theorems 12.1 and 12.2 then go through word for word, with the strict inequality $\Omega[\hat\rho_0']>\Omega[\hat\rho_0]$ for two different Gibbs states taking the place of $\langle\Psi'|\hat H\Psi'\rangle>E_0$. At fixed $T$ and $\mu$ the equilibrium density determines the external potential, and there is a universal functional
+*Equality.* Subtracting the sum $\sum_{i,j}|\langle i|j\rangle|^2(p_i-q_j)=0$ writes $D=\sum_{i,j}|\langle i|j\rangle|^2\,d(p_i,q_j)$ with the nonnegative numbers $d(a,b)=a\ln a-a\ln b-a+b$. So $D=0$ forces $d(p_i,q_j)=0$ whenever $\langle i|j\rangle\ne0$. For $a>0$, $d(a,b)=a\,(y-1-\ln y)$ with $y=b/a$ vanishes only for $b=a$; for $a=0$, $d(0,b)=b>0$ never vanishes. Hence $p_i=q_j$ whenever $\langle i|j\rangle\ne0$, and then for every $j$
+
+$$
+\hat\rho\,|j\rangle=\sum_ip_i\,|i\rangle\langle i|j\rangle=q_j\sum_i|i\rangle\langle i|j\rangle=q_j\,|j\rangle=\hat\sigma\,|j\rangle ,
+$$
+
+so $\hat\rho=\hat\sigma$. With $\hat\sigma=\hat\rho_0$, whose eigenvalues are the positive numbers $e^{-\epsilon_k/T}/Z$, $\epsilon_k$ running over the eigenvalues of $\hat H-\mu\hat N$ (a function of an operator, Section 12.2), this gives $\Omega[\hat\rho]=-T\ln Z+T\,D>\Omega[\hat\rho_0]$ for every $\hat\rho\ne\hat\rho_0$: the Gibbs state is the only minimizer. $\square$
+
+**Mermin's theorem (1965).** Replace the variational principle of Section 12.9 by the Gibbs principle: the proofs of Theorems 12.1 and 12.2 then go through word for word (the first step becomes: if $\hat\rho_0=\hat\rho_0'$ then $\ln\hat\rho_0=\ln\hat\rho_0'$, so $\hat V-\hat V'$ is a multiple of the identity; on the vacuum it is 0, so the multiple is 0, and on one particle $v=v'$; at fixed $\mu$ even a constant difference of the potentials changes the Gibbs state), with the strict inequality $\Omega[\hat\rho_0']>\Omega[\hat\rho_0]$ for two different Gibbs states taking the place of $\langle\Psi'|\hat H\Psi'\rangle>E_0$. At fixed $T$ and $\mu$ the equilibrium density determines the external potential, and there is a universal functional
 
 $$
 F_T[n]=\min_{\hat\rho\to n}\mathrm{Tr}\bigl[\hat\rho\,(\hat T+\hat W+T\ln\hat\rho)\bigr],\qquad
 \Omega=\min_n\Bigl(F_T[n]+\int(v-\mu)\,n\,d^3r\Bigr).
 $$
 
-**The Kohn–Sham form at finite temperature.** The non-interacting reference system is now an ensemble: orbitals $\varphi_a$ with **occupation probabilities** $f_a\in[0,1]$, density $n=\sum_af_a|\varphi_a|^2$. Its entropy follows from independence. In the Gibbs state of non-interacting fermions each orbital is a two-state system, empty with probability $1-f_a$ or occupied with probability $f_a$, independently of the others, so the entropies add:
+(Here $\hat T$ is the kinetic-energy operator and $T$ the temperature.)
+
+**The Kohn–Sham form at finite temperature.** The non-interacting reference system is now an ensemble: orbitals $\varphi_a$ with **occupation probabilities** $f_a\in[0,1]$, density $n=\sum_af_a|\varphi_a|^2$. Its entropy follows from the independence of the occupations, which we now derive. For non-interacting fermions with orbital energies $\varepsilon_a$, $\hat H-\mu\hat N=\sum_a(\varepsilon_a-\mu)\,\hat n_a$ in the basis of these orbitals, and the $\hat n_a$ commute with one another. Every determinant $|n_0n_1\cdots\rangle$ is therefore an eigenstate of $\hat H-\mu\hat N$ with the eigenvalue $\sum_a(\varepsilon_a-\mu)n_a$, and in the Gibbs state it has the weight
+
+$$
+\frac{e^{-\sum_a(\varepsilon_a-\mu)n_a/T}}Z=\prod_a\frac{e^{-(\varepsilon_a-\mu)n_a/T}}{1+e^{-(\varepsilon_a-\mu)/T}},\qquad Z=\prod_a\bigl(1+e^{-(\varepsilon_a-\mu)/T}\bigr),
+$$
+
+because the sum of $e^{-\sum_a(\varepsilon_a-\mu)n_a/T}$ over all choices $n_a\in\{0,1\}$ factorizes into one factor per orbital. The probability of the configuration $\{n_a\}$ is thus a product $\prod_ap_a(n_a)$ with $p_a(1)=e^{-(\varepsilon_a-\mu)/T}/(1+e^{-(\varepsilon_a-\mu)/T})=f_a$ and $p_a(0)=1-f_a$: each orbital is an independent two-state system, and $f_a=1/(e^{(\varepsilon_a-\mu)/T}+1)$ is the Fermi–Dirac function met again below. For a product of independent probabilities the entropies add, since the logarithm of a product is the sum of the logarithms and the probabilities of each factor add up to 1. The reference ensemble with arbitrary occupations $f_a$ is taken of the same product form, so its entropy is
 
 $$
 S_s=-\sum_a\bigl[f_a\ln f_a+(1-f_a)\ln(1-f_a)\bigr].
@@ -593,9 +682,9 @@ At $\tau=0$ the integrand is $\Delta_{KS}$; the difference $\Delta_{\text{SCF}}-
 
 ### 12.16 What we proved and what we assumed
 
-We proved, from the definitions: that Hermitian operators have real eigenvalues and orthogonal eigenvectors, and the variational principle; that Slater determinants are antisymmetric, normalized and obey the Pauli principle, with density $\sum_a|\varphi_a|^2$; the anticommutation relations of creation and annihilation operators; Wick's theorem for a determinant and for a non-interacting thermal ensemble; the direct and exchange energies, the cancellation of the self-interaction, and the exact locality of exchange for a contact interaction with the ratio $E_x=-E_H/g$ for equally occupied labels; the Hartree–Fock equations, the double-counting formula and Koopmans' theorem; the exact and Hartree–Fock energies of the two-site model; the Hohenberg–Kohn theorem, the constrained-search variational principle for the density, the Kohn–Sham equations and their total-energy formula; the kinetic and exchange energies of the uniform gas (Thomas–Fermi constant and Dirac exchange); the convergence condition of linear mixing in the two-site model; the Gibbs principle via Klein's inequality, the Fermi–Dirac occupations of the Mermin–Kohn–Sham functional and the relations $dF/dT=-S_s$, $C_V=T\,dS_s/dT$; Janak's theorem and the integral formula for Delta-SCF.
+We proved, from the definitions: that Hermitian operators have real eigenvalues and orthogonal eigenvectors, and the variational principle; that Slater determinants are antisymmetric, normalized and obey the Pauli principle, with density $\sum_a|\varphi_a|^2$; the anticommutation relations of creation and annihilation operators; Wick's theorem for a determinant and for a non-interacting thermal ensemble; the energy of a determinant from the permutation sum, with its direct and exchange terms, and its agreement with the second-quantized operators; the cancellation of the self-interaction, and the exact locality of exchange for a contact interaction with the ratio $E_x=-E_H/g$ for equally occupied labels; the method of Lagrange multipliers and the meaning of a multiplier as the derivative of the constrained minimum; the Hartree–Fock equations, the double-counting formula and Koopmans' theorem; the exact energy of the two-site model and its Hartree–Fock energy (restricted for $U\le2t$, unrestricted for $U>2t$); the Hohenberg–Kohn theorem, the constrained-search variational principle for the density, the Kohn–Sham equations and their total-energy formula; the volume element of spherical coordinates, and the kinetic and exchange energies of the uniform gas (Thomas–Fermi constant and Dirac exchange); the convergence condition of linear mixing in the two-site model; the Gibbs principle via Klein's inequality, including the uniqueness of the minimizer, and Mermin's theorem (by the same argument); the independence of the orbital occupations in the non-interacting Gibbs state, the Fermi–Dirac occupations of the Mermin–Kohn–Sham functional and the relations $dF/dT=-S_s$, $C_V=T\,dS_s/dT$; Janak's theorem and the integral formula for Delta-SCF.
 
-We assumed: that the particles are fermions (for dirac16complex this is the choice of Grassmann components, Chapters 5 and 8); a non-degenerate ground state and a wave function that does not vanish on a region of positive volume (Theorem 12.1); that the constrained minima exist and that the densities of interest are non-interacting $v$-representable (the Kohn–Sham scheme); a finite-dimensional state space in the proof of the Gibbs principle; and that a Delta-SCF state approximates a true excited state. We quoted without derivation, and do not use later: the correlation energy of the uniform electron gas from quantum Monte Carlo, and the statement that the exact Kohn–Sham gap differs from the fundamental gap. The **approximation** that makes DFT practical is the choice of $E_{xc}$; in the local density approximation it is the uniform-gas value at the local density. For a contact interaction the exchange part of that choice is exact for determinants and non-interacting ensembles, and what remains approximate is the omission of correlation. Chapter 13 applies exactly this exchange-only local scheme, with Mermin's finite-temperature functional, to dirac16complex; the Rust implementation is `studies/dirac16complex_kohn_sham` (self-consistency and mixing in `src/scf.rs`, the exchange functional in `src/exchange.rs`).
+We assumed: that the particles are fermions (for dirac16complex this is the choice of Grassmann components, Chapters 5 and 8); a non-degenerate ground state and a wave function that does not vanish on a region of positive volume (Theorem 12.1); that the constrained minima exist and that the densities of interest are non-interacting $v$-representable (the Kohn–Sham scheme); a finite-dimensional state space in the proof of the Gibbs principle; the implicit function theorem (in the method of Lagrange multipliers) and, for $\mu=dE_0/dN$, a minimum that depends differentiably on $N$; and that a Delta-SCF state approximates a true excited state. We quoted without derivation, and do not use later: the correlation energy of the uniform electron gas from quantum Monte Carlo, and the statement that the exact Kohn–Sham gap differs from the fundamental gap. The **approximation** that makes DFT practical is the choice of $E_{xc}$; in the local density approximation it is the uniform-gas value at the local density. For a contact interaction with scalar labels (a vertex that does not depend on the label, as in Section 12.6) the exchange part of that choice is exact for determinants and non-interacting ensembles when it is evaluated with all label densities, and what remains approximate is the omission of correlation. Chapter 13 applies to dirac16complex, with Mermin's finite-temperature functional, an exchange-only local scheme built on the uniform-gas closed form in two densities, which approximates the exact local Fock term, with no correlation term (Section 13.8); the Rust implementation is `studies/dirac16complex_kohn_sham` (self-consistency and mixing in `src/scf.rs`, the exchange functional in `src/exchange.rs`).
 
 ### 12.17 Exercises
 
@@ -616,10 +705,10 @@ We assumed: that the particles are fermions (for dirac16complex this is the choi
 1. $\Phi(2,1)=\tfrac1{\sqrt2}[\varphi_0(2)\varphi_1(1)-\varphi_1(2)\varphi_0(1)]=\tfrac1{\sqrt2}[0\cdot\tfrac1{\sqrt2}-\tfrac1{\sqrt2}\cdot0]=0$, and $\Phi(1,1)=\tfrac1{\sqrt2}[\varphi_0(1)\varphi_1(1)-\varphi_1(1)\varphi_0(1)]=0$. If $\varphi_a=\varphi_b=\varphi$, then $\Phi(x_0,x_1)=\tfrac1{\sqrt2}[\varphi(x_0)\varphi(x_1)-\varphi(x_0)\varphi(x_1)]=0$ for all arguments.
 2. $\hat n_p^2=a_p^\dagger a_pa_p^\dagger a_p=a_p^\dagger(1-a_p^\dagger a_p)a_p=\hat n_p-a_p^\dagger a_p^\dagger a_pa_p$. From $\{a_p^\dagger,a_p^\dagger\}=0$ we get $2a_p^\dagger a_p^\dagger=0$, so the last term vanishes and $\hat n_p^2=\hat n_p$. An eigenvalue $\nu$ of $\hat n_p$ satisfies $\nu^2=\nu$, so $\nu\in\{0,1\}$.
 3. $\rho=\varphi_0\varphi_0^\dagger+\varphi_1\varphi_1^\dagger=\begin{pmatrix}1&0&0\\0&\tfrac12&\tfrac12\\0&\tfrac12&\tfrac12\end{pmatrix}$. Squaring, the lower $2\times2$ block gives $\begin{pmatrix}\tfrac12&\tfrac12\\ \tfrac12&\tfrac12\end{pmatrix}^2=\begin{pmatrix}\tfrac12&\tfrac12\\ \tfrac12&\tfrac12\end{pmatrix}$ and the corner gives $1$, so $\rho^2=\rho$; the trace is $1+\tfrac12+\tfrac12=2$, the particle number. The diagonal $(1,\tfrac12,\tfrac12)$ is the density found in Section 12.4.
-4. $E_0=\tfrac12(4-\sqrt{32})=2-2\sqrt2=-0.828427$; $E_{HF}=-2+2=0$; $E_c=-0.828427$. The lowest eigenvector of $\begin{pmatrix}4&-2\\-2&0\end{pmatrix}$ has components $(D,S)\propto(1,1+\sqrt2)$ (from $(4-E_0)D=2S$), so the double occupancy is $D^2=1/\bigl(1+(1+\sqrt2)^2\bigr)=1/(4+2\sqrt2)=(2-\sqrt2)/4=0.146447$, much smaller than the Hartree–Fock value $\tfrac12$: the stronger the repulsion, the more the electrons avoid each other.
+4. $E_0=\tfrac12(4-\sqrt{32})=2-2\sqrt2=-0.828427$. The restricted determinant gives $-2+2=0$. Since $U=4>2t$, the best determinant is the unrestricted one of Section 12.8 with $\sin2\alpha=2t/U=\tfrac12$: $E_{HF}=-2t^2/U=-0.5$ (check: $-t\cdot2\cdot\tfrac12+\tfrac U2\bigl(1-\cos^22\alpha\bigr)=-1+2\cdot\tfrac14=-0.5$), so $E_c=E_0-E_{HF}=-0.328427$. The lowest eigenvector of $\begin{pmatrix}4&-2\\-2&0\end{pmatrix}$ has components $(D,S)\propto(1,1+\sqrt2)$ (from $(4-E_0)D=2S$), so the exact double occupancy is $D^2=1/\bigl(1+(1+\sqrt2)^2\bigr)=1/(4+2\sqrt2)=(2-\sqrt2)/4=0.146447$, much smaller than the restricted value $\tfrac12$: the stronger the repulsion, the more the electrons avoid each other. The unrestricted value is $n_{\mathrm L\uparrow}n_{\mathrm L\downarrow}+n_{\mathrm R\uparrow}n_{\mathrm R\downarrow}=\tfrac12\sin^22\alpha=0.125$, below the exact value: by breaking the left–right symmetry of each spin, the determinant over-separates the electrons.
 5. (a) $\tfrac53n^{2/3}$, and $de_x/dn=-\tfrac43\cdot\tfrac34(3/\pi)^{1/3}n^{1/3}=-(3/\pi)^{1/3}n^{1/3}$. (b) With a multiplier $\mu$: $\tfrac53C_Fn^{2/3}+v+v_H=\mu$ wherever $n>0$, that is $n=\bigl[\tfrac3{5C_F}(\mu-v-v_H)\bigr]^{3/2}$, an equation for $n$ because $v_H$ depends on $n$ (the Thomas–Fermi equation).
 6. $t/n=\dfrac{g\,k_F^5/(20\pi^2)}{g\,k_F^3/(6\pi^2)}=\dfrac{6}{20}k_F^2=\dfrac3{10}k_F^2$; the factor $g$ cancels. (It is $\tfrac35$ of the largest kinetic energy $\tfrac12k_F^2$, the average of $k^2/2$ over a full sphere.)
-7. The fixed point of $g(x)=(2-2x)/\sqrt{(2-2x)^2+4}$ is $x_\ast=0.468990$ ($n_\mathrm L=1.468990$), where $g'(x_\ast)=-4Ut^2/\bigl((\Delta-Ux_\ast)^2+4t^2\bigr)^{3/2}=-0.688942$. Linear mixing converges for $0<\beta<2/(1-g')=1.184174$. Plain iteration, $\beta=1$, multiplies the error by $-0.689$ per step and converges (slowly, alternating). A weaker repulsion makes the feedback weaker.
+7. The fixed point of $G(x)=(2-2x)/\sqrt{(2-2x)^2+4}$ is $x_\ast=0.468990$ ($n_\mathrm L=1.468990$), where $G'(x_\ast)=-4Ut^2/\bigl((\Delta-Ux_\ast)^2+4t^2\bigr)^{3/2}=-0.688942$. Linear mixing converges for $0<\beta<2/(1-G')=1.184174$. Plain iteration, $\beta=1$, multiplies the error by $-0.689$ per step and converges (slowly, alternating). A weaker repulsion makes the feedback weaker.
 8. As $T\to0$: $f_0\to1$, $E\to0$, $S_s\to0$ (a pure state). As $T\to\infty$: $f_0,f_1\to\tfrac12$, $E\to\tfrac12$, and each level contributes $-2\cdot\tfrac12\ln\tfrac12=\ln2$, so $S_s\to2\ln2=\ln4$: the four configurations (both empty, one or the other occupied, both occupied) become equally likely, and their average particle number is still 1.
 9. With a fixed spectrum $E=\sum_af_a\varepsilon_a$ and $\sum_af_a=N$, so $\sum_a\partial_Tf_a=0$ and $C_V=\sum_a\varepsilon_a\,\partial_Tf_a=\sum_a(\varepsilon_a-\mu)\,\partial_Tf_a$. Differentiating the Fermi function, $\partial_Tf_a=w_a\bigl[(\varepsilon_a-\mu)/T^2+\mu'/T\bigr]$ with $\mu'=d\mu/dT$ and $w_a=f_a(1-f_a)$. The condition $\sum_a\partial_Tf_a=0$ gives $\mu'=-\sum_aw_a(\varepsilon_a-\mu)/\bigl(T\sum_aw_a\bigr)$. Inserting, $C_V$ equals the stated expression. The bracket is $\sum_aw_a$ times the variance of $\varepsilon_a-\mu$ with the weights $w_a/\sum_bw_b$, which is never negative.
 10. Janak gives $\varepsilon_a=\varepsilon_a^0+Uf_a$. Ground state $(1,0)$: $\Delta_{KS}=\varepsilon_L^0-(\varepsilon_H^0+U)$. Energies: $E_0=\varepsilon_H^0+\tfrac U2$ and $E_1=\varepsilon_L^0+\tfrac U2$, so $\Delta_{\text{SCF}}=\varepsilon_L^0-\varepsilon_H^0$ and $\Delta_{\text{SCF}}-\Delta_{KS}=U$.
