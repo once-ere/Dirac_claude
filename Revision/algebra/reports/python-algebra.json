@@ -1,0 +1,190 @@
+{
+  "report": "Revision/algebra/reports/python-algebra.json",
+  "producer": "Revision/algebra/python/check_algebra.py (exact: int, fractions.Fraction, sympy)",
+  "spec": "Revision/SPEC.md section 2",
+  "construction": "author's formulas: Qa, Qb, s4by4, t4by4, tau, taubar = sigma tau^T sigma, T16 = {{0, taubar}, {tau, 0}}; coordinate map gamma^(x8) = T16[0], gamma^(x1..x7) = T16[1..7]",
+  "fixture_comparison": "pass",
+  "summary": {
+    "checks": 35,
+    "pass": 35,
+    "fail": 0,
+    "pending": 0
+  },
+  "checks": [
+    {
+      "name": "notebook_blocks_s4_t4",
+      "verdict": "pass",
+      "detail": "s4by4[h], t4by4[h] (h = 1..3) rebuilt from Qa = Signature[{h,p,q,4}] and Qb (In[294], In[300], In[301]) equal the six matrices displayed in the notebook's Out[304]"
+    },
+    {
+      "name": "blocks_antisymmetric_square_minus_one_commute",
+      "verdict": "pass",
+      "detail": "every s4by4[h] and t4by4[h] is antisymmetric with square -I4, and every s4by4[h] commutes with every t4by4[k] (self-dual and anti-self-dual parts)"
+    },
+    {
+      "name": "notebook_sigma_eq_tau1tau2tau3",
+      "verdict": "pass",
+      "detail": "sigma == tau[1].tau[2].tau[3] (notebook assertion)"
+    },
+    {
+      "name": "notebook_tau_clifford",
+      "verdict": "pass",
+      "detail": "tau[A].tau[B] + tau[B].tau[A] == -2 eta4488[[A+1,B+1]] ID8 for A, B = 1..7 (49 pairs)"
+    },
+    {
+      "name": "tau7_and_product",
+      "verdict": "pass",
+      "detail": "tau[7] = diag(-I4, I4) and tau[1]...tau[7] = ID8"
+    },
+    {
+      "name": "taubar_relations",
+      "verdict": "pass",
+      "detail": "sigma.taubar[A] == Transpose[sigma.tau[A]] for A = 0..7 (notebook assertion) and taubar[A] = -tau[A] for A = 1..7"
+    },
+    {
+      "name": "notebook_tau_taubar_clifford",
+      "verdict": "pass",
+      "detail": "tau[A].taubar[B] + tau[B].taubar[A] == 2 eta4488[[A+1,B+1]] ID8 for A, B = 0..7 (64 pairs)"
+    },
+    {
+      "name": "coordinate_map",
+      "verdict": "pass",
+      "detail": "gamma^(x1..x3) = T16[1..3], gamma^(x4) = T16[4], gamma^(x5..x7) = T16[5..7], gamma^(x8) = T16[0] (SPEC section 2); eta = diag(+1,+1,+1,-1,-1,-1,-1,+1) in x1..x8 is eta4488 with its index 0 moved last: True"
+    },
+    {
+      "name": "clifford_relation",
+      "verdict": "pass",
+      "detail": "{gamma^a, gamma^b} = 2 eta^ab I16 for all 64 ordered pairs a, b in x1..x8, eta = diag(+,+,+,-,-,-,-,+)"
+    },
+    {
+      "name": "clifford_relation_sympy",
+      "verdict": "pass",
+      "detail": "the same 36 unordered relations re-evaluated with sympy.Matrix (second engine)"
+    },
+    {
+      "name": "reality_signed_permutations",
+      "verdict": "pass",
+      "detail": "every gamma^a is real with integer entries [-1, 0, 1]; each is a signed permutation matrix (one nonzero entry per row)"
+    },
+    {
+      "name": "symmetry_pattern",
+      "verdict": "pass",
+      "detail": "symmetric: ['x1', 'x2', 'x3', 'x8'] (the space-like directions); antisymmetric: ['x4', 'x5', 'x6', 'x7'] (the time-like directions); hence gamma^a T = eta_aa gamma^a"
+    },
+    {
+      "name": "C_equals_notebook_sigma16",
+      "verdict": "pass",
+      "detail": "C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3) equals the notebook's sigma16 = T16A[0..3] product (In[370]) and equals diag(-sigma, sigma) (notebook assertion)"
+    },
+    {
+      "name": "C_real_symmetric_involution",
+      "verdict": "pass",
+      "detail": "C is real (integer entries), C^T = C and C^2 = I16"
+    },
+    {
+      "name": "C_gamma_antisymmetric",
+      "verdict": "pass",
+      "detail": "C gamma^a is real antisymmetric for every a in x1..x8"
+    },
+    {
+      "name": "C_conjugation",
+      "verdict": "pass",
+      "detail": "C gamma^a C^-1 = -(gamma^a)^T for all a (equivalent to C gamma^a antisymmetric with C symmetric); this makes Psibar Psi = Psi^dagger C Psi Pin(4,4)-invariant"
+    },
+    {
+      "name": "chirality_diag",
+      "verdict": "pass",
+      "detail": "Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) (the notebook's product order T16A[0]...T16A[7], In[372]) = diag(-I8, I8)"
+    },
+    {
+      "name": "chirality_anticommutes",
+      "verdict": "pass",
+      "detail": "Gamma^2 = I16 and Gamma anticommutes with every gamma^a"
+    },
+    {
+      "name": "chirality_eq_C_times_time_gammas",
+      "verdict": "pass",
+      "detail": "Gamma = C gamma^(x4) gamma^(x5) gamma^(x6) gamma^(x7) (notebook assertion T16A[8] == sigma16.T16A[4..7])"
+    },
+    {
+      "name": "chirality_C_relation",
+      "verdict": "pass",
+      "detail": "C Gamma = Gamma C (C is a product of four gammas), Gamma^T = Gamma, Gamma^T C Gamma = C and Gamma^T C gamma^a Gamma = -C gamma^a for every a: under Psi -> Gamma Psi the bilinear Psibar Psi is unchanged and every Psibar gamma^a E Psi with E an even product of gammas changes sign (input for the pairing theorem T1)"
+    },
+    {
+      "name": "B_hermitian_involution_signature",
+      "verdict": "pass",
+      "detail": "B = -i C gamma^(x4) is purely imaginary, Hermitian (True, sympy True), B^2 = I16 (True, sympy True), tr B = 0; hence the eigenvalues are +1 and -1 with multiplicities 8 and 8: signature (8,8); sympy characteristic polynomial = (lam - 1)**8*(lam + 1)**8"
+    },
+    {
+      "name": "B_gamma_relations",
+      "verdict": "pass",
+      "detail": "B commutes with gamma^a for a in ['x1', 'x2', 'x3', 'x4', 'x8'] and anticommutes for a in ['x5', 'x6', 'x7']; equivalently B gamma^a is Hermitian for a in ['x1', 'x2', 'x3', 'x5', 'x6', 'x7', 'x8'] and anti-Hermitian for a in ['x4'] (B gamma^(x4) = -i C is anti-Hermitian). Measured facts recorded for the quantisation work (SPEC section 6); no interpretation is attached here"
+    },
+    {
+      "name": "S_definition",
+      "verdict": "pass",
+      "detail": "S^ab = (1/4)[gamma^a, gamma^b] is antisymmetric in a, b and equals (1/2) gamma^a gamma^b for a != b; 28 independent real matrices, entries in ['-1/2', '0', '1/2']"
+    },
+    {
+      "name": "S_lorentz_algebra",
+      "verdict": "pass",
+      "detail": "[S^ab, S^cd] = eta^bc S^ad - eta^ac S^bd - eta^bd S^ac + eta^ad S^bc for all 28 x 28 pairs: the Lie algebra so(4,4); failures 0"
+    },
+    {
+      "name": "S_vector_action",
+      "verdict": "pass",
+      "detail": "[S^ab, gamma^c] = gamma^a eta^bc - gamma^b eta^ac for all 512 triples (gamma^c is a vector); failures 0"
+    },
+    {
+      "name": "S_preserves_C_and_commutes_with_Gamma",
+      "verdict": "pass",
+      "detail": "(S^ab)^T C + C S^ab = 0 for all a, b (Psibar Psi is Spin(4,4)-invariant) and [Gamma, S^ab] = 0 (the chiral halves are Spin(4,4)-invariant)"
+    },
+    {
+      "name": "S_block_diagonal",
+      "verdict": "pass",
+      "detail": "every S^ab is block diagonal diag(S_-^ab, S_+^ab) in the chiral basis"
+    },
+    {
+      "name": "clifford_products_span_M16",
+      "verdict": "pass",
+      "detail": "the 256 ordered products gamma^(a1)...gamma^(ak) (a1 < ... < ak) are linearly independent: rank 256 (Fraction elimination), 256 (sympy DomainMatrix over QQ); so the algebra generated by the gamma^a is all of M16(R) (Cl(4,4) = M16(R)), and by Burnside the 16-dimensional representation is irreducible over R and over C"
+    },
+    {
+      "name": "pin_commutant_dimension_1",
+      "verdict": "pass",
+      "detail": "dimension of {X in M16 : X gamma^a = gamma^a X for all a} = 1 (Fraction), 1 (sympy): only multiples of I16 (rational system, so the same dimension over R and C). Pin(4,4) is generated by the unit vectors gamma(v), eta(v,v) = +-1, whose span contains every gamma^a; hence the 16-dimensional representation of Pin(4,4) is irreducible (Schur)"
+    },
+    {
+      "name": "even_products_span_M8_plus_M8",
+      "verdict": "pass",
+      "detail": "the 128 even products are block diagonal (True) and linearly independent: rank 128 (Fraction), 128 (sympy) = 64 + 64; the even subalgebra (the linear span of Spin(4,4) and the associative algebra generated by the S^ab) is all of M8(R) + M8(R) acting on the two chiral halves. Hence each half is irreducible and the two halves are inequivalent (if equivalent, the image would have dimension 64)"
+    },
+    {
+      "name": "spin_commutant_dimension_2",
+      "verdict": "pass",
+      "detail": "dimension of {X in M16 : [X, S^ab] = 0 for all 28 S^ab} = 2 (Fraction), 2 (sympy); it is spanned by the chiral projectors (1 - Gamma)/2 = diag(I8, 0) and (1 + Gamma)/2 = diag(0, I8), which commute with every S^ab (True)"
+    },
+    {
+      "name": "spin_halves_irreducible",
+      "verdict": "pass",
+      "detail": "commutant of the S^ab restricted to the Gamma = -1 half: dimension 1 (sympy 1); to the Gamma = +1 half: 1 (sympy 1); each 8-dimensional half is an irreducible representation of Spin(4,4) (connected group: invariance under Spin(4,4) = invariance under its Lie algebra spanned by the S^ab)"
+    },
+    {
+      "name": "spin_halves_inequivalent",
+      "verdict": "pass",
+      "detail": "intertwiners S_-^ab X = X S_+^ab: dimension 0 (sympy 0); S_+^ab X = X S_-^ab: dimension 0 (sympy 0); the two 8-dimensional irreducible representations of Spin(4,4) are inequivalent"
+    },
+    {
+      "name": "reflections_exchange_halves",
+      "verdict": "pass",
+      "detail": "gamma^a P_- = P_+ gamma^a for every a: each reflection (an element of Pin(4,4) of determinant -1 in O(4,4)) maps one chiral half onto the other; so the irreducible 16 of Pin(4,4) restricts to Spin(4,4) as the direct sum 8_- + 8_+ of two inequivalent irreducible 8-dimensional representations"
+    },
+    {
+      "name": "fixture_comparison_gammas_json",
+      "verdict": "pass",
+      "detail": "entry-by-entry comparison with Revision/algebra/gammas.json (the Wolfram fixture): coordinates: equal (['x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8']); eta: equal ([1, 1, 1, -1, -1, -1, -1, 1]); gamma: equal (8 matrices x 256 entries, differing entries per x1..x8: [0, 0, 0, 0, 0, 0, 0, 0]); C: equal (256 entries, 0 differ); Gamma: equal (256 entries, 0 differ); B: equal (re and im parts, 512 entries, 0 differ); S: equal (64 matrices S^ab (a, b = x1..x8) x 256 entries, 0 differ)"
+    }
+  ]
+}
