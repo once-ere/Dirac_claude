@@ -64,6 +64,17 @@ take shortcuts or weaken a check.
 4. When the user writes "pause" or "STOP": halt at once (create `.claude/ALLOW_STOP` in
    the same first action so the Stop hook allows the stop), push, report in a few lines.
 
+### 0.4c CURRENT TASK (user, 2026-10-01, later): `Revision/` - a new, separate record
+
+The author asked for a completely new record, in the new folder `Revision/`, of new calculations for the
+author's primordial metric (x8 hidden, x4 time, x5..x7 deflating extra times): both Lagrangians with the
+canonical spin connection, non-triviality tests [1] and [2], field equations, EMT operator, KE, PE,
+pressure, energy density, EoS, canonical quantisation in 4+4, the field equations for a4[x4]
+(Einstein-Lovelock with the GKD Lovelock tensors), Kohn-Sham ground and first excited states, the two
+dark-sector hypotheses against the Unite values of the private PDF, the pairing proofs, md/tex/pdf.
+Binding: `Revision/SPEC.md`; task verbatim in `Revision/README.md`.  NOTHING from the old stages is
+mixed in.  The GKD work was moved into `Revision/gkd_lovelock/` (git mv).
+
 ### 0.4b CURRENT TASK (user, 2026-10-01): GKD and the Lovelock tensors (the user's test)
 
 The user found the Lovelock treatment deficient and set a test: refactor the author's kδ

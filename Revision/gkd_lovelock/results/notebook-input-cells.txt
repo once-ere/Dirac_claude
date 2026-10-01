@@ -1,8 +1,8 @@
-Input cells of 'Generalized _Kronecker_Delta_4+4.nb' as read by scripts/lovelock_extract_nb_inputs.wls
+Input cells of 'Generalized _Kronecker_Delta_4+4.nb' as read by Revision/gkd_lovelock/notebook_reading/lovelock_extract_nb_inputs.wls
 (label stored in the file, size of the InputForm text in characters, first 160 characters).
 Only INPUT cells were extracted; no output cell was read. The cell labelled In[101] in the file is the
-image of Lovelock's equation (4.38) (the author's In[68]); it was rendered by scripts/lovelock_export_nb_image.wls
-to artifacts/lovelock-gkd/notebook-in68-image.png. The cell labelled In[87] in the file is the author's
+image of Lovelock's equation (4.38) (the author's In[68]); it was rendered by Revision/gkd_lovelock/notebook_reading/lovelock_export_nb_image.wls
+to Revision/gkd_lovelock/results/notebook-in68-image.png. The cell labelled In[87] in the file is the author's
 In[54], the definition of kδ.
 
 (no label)           225  'HoldForm[DefChart[chartM8, M8, {0, 1, 2, 3, 4, 5, 6, 7}, {x0[], x1[], x2[], x3[], x4[], x5[], x6[], x7[]}, ExtendedCoordinateDerivatives -> True, FormatBasis ->'
