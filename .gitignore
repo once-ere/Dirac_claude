@@ -287,3 +287,8 @@ target/
 # editor swap files (never commit)
 *.kate-swp
 .prompt_Dirac_claude*
+
+# The author's private Generalized Kronecker Delta files (the notebook
+# "Generalized _Kronecker_Delta_4+4.nb" IS tracked, at the author's request)
+Generalized_Kronecker_Delta.txt
+Generalized_Kronecker_Delta.*

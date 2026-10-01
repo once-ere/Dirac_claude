@@ -1,0 +1,16 @@
+[package]
+name = "lovelock_gkd"
+version = "0.1.0"
+edition = "2021"
+description = "Exact Lovelock tensors of the dirac16complex primordial metric through GKD, a pure-Rust generalized Kronecker delta (no dependencies)"
+license = "MIT"
+publish = false
+
+# Own, empty workspace: this crate is built on its own from its directory.
+[workspace]
+
+[dependencies]
+
+[profile.release]
+opt-level = 3
+debug = false

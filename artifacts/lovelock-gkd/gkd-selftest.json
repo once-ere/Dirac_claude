@@ -1,0 +1,16 @@
+{
+  "program": "lovelock_gkd gkd-selftest",
+  "definition": "kδ[lower_, upper_] /; Length[lower] == Length[upper] := Det[Outer[delta, lower, upper]]",
+  "results": [
+    {"p": 1, "mode": "exhaustive", "pairs": 64, "mismatches": 0},
+    {"p": 2, "mode": "exhaustive", "pairs": 4096, "mismatches": 0},
+    {"p": 3, "mode": "exhaustive", "pairs": 262144, "mismatches": 0},
+    {"p": 4, "mode": "exhaustive", "pairs": 16777216, "mismatches": 0},
+    {"p": 5, "mode": "random", "pairs": 200000, "nonzero": 20538, "mismatches": 0},
+    {"p": 6, "mode": "random", "pairs": 200000, "nonzero": 7812, "mismatches": 0},
+    {"p": 7, "mode": "random", "pairs": 200000, "nonzero": 1949, "mismatches": 0},
+    {"p": 8, "mode": "random", "pairs": 200000, "nonzero": 244, "mismatches": 0},
+    {"p": 9, "mode": "random", "pairs": 200000, "nonzero": 0, "mismatches": 0}
+  ],
+  "verdict": "SUCCESS"
+}
