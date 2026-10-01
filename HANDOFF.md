@@ -74,6 +74,14 @@ A. Textbook (`handoff/specs/TEXTBOOK_SPEC.md`; chapters in `provenance/textbook/
      items the per-chapter fixers could not apply: `handoff/reviews/textbook_wave_a_carryover.json`.
    * Chapters 06, 07, 14, 15, 16, 17, 18: written, reviewed and fixed
      (`handoff/workflows/wf_textbook_wave_b_chapters.js`).
+   * 18:28 (pause): `wf_textbook_final.js` phases Carry-over, Ledger and Assembly DONE: the book
+     `provenance/DIRAC16COMPLEX_TEXTBOOK.{md,tex,pdf}` is assembled (21 chapters, 350 sections, 3610
+     references resolved), the PDF is 671 pages, warning-free, byte-identical in two builds, numbered
+     from 0, registered (`provenance/pdf-specifications.json` entry dirac16complex-textbook), pinned by
+     `tests/test_d16c_textbook_publication.py`.  RUNNING at the pause: the nine whole-book review
+     lenses; then skeptics, per-chapter fixers and the rebuild.  After a restart: rerun
+     `wf_textbook_final.js` from its Review phase (comment out the Carry-over, Ledger and Assembly
+     agents, or let them re-check: they only fix what they find), then push.
    * 15:55: chapters 19 and 20 written, reviewed and fixed; the whole book (21 chapters) passes
      `python scripts/build_textbook.py --check` (12/12); `wf_textbook_final.js` launched (run
      wf_0b6d5db2-c76).  If a restart finds it unfinished: rerun `wf_textbook_final.js` (its agents

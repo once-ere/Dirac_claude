@@ -43,7 +43,7 @@ so directions 0 to 3 are space-like and 4 to 7 are time-like: the signature is (
 - (F2) the 256 ordered products $\gamma^{a_1}\cdots\gamma^{a_k}$ with $a_1<\dots<a_k$ (including the identity, $k=0$) are linearly independent; in particular the eight $\gamma^a$ are linearly independent, and so are the 28 matrices $S^{ab}=\tfrac12\gamma^a\gamma^b$ with $a<b$ (Stage 1, Result 3.2; check `ALG_faithful`);
 - (F3) $(S^{ab})^TC=-CS^{ab}$ for all $a,b$ (Stage 1, Result 3.5; check `ALG_spinTransposeProperties`).
 
-For the two-dimensional spinor examples we use the Pauli matrices
+For the two-dimensional spinor examples we use the Pauli matrices $\sigma_x,\sigma_y,\sigma_z$ of Section 2.3 under their numbered names, defined there, $\sigma_1=\sigma_x$, $\sigma_2=\sigma_y$, $\sigma_3=\sigma_z$:
 
 $$
 \sigma_1=\begin{pmatrix}0&1\\ 1&0\end{pmatrix},\qquad \sigma_2=\begin{pmatrix}0&-i\\ i&0\end{pmatrix},\qquad \sigma_3=\begin{pmatrix}1&0\\ 0&-1\end{pmatrix},

@@ -164,7 +164,7 @@ $$
 \sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix},\qquad\sigma_y=\begin{pmatrix}0&-i\\ i&0\end{pmatrix},\qquad\sigma_z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}.
 $$
 
-They are named by letters, not numbers, to keep them apart from the gammas; they are Hermitian and traceless, each squares to $I$, and any two anticommute. For instance
+They are named by letters, not numbers, to keep them apart from the gammas. Many books, and the two-dimensional examples of Chapters 4 and 6, number them instead: $\sigma_1=\sigma_x$, $\sigma_2=\sigma_y$, $\sigma_3=\sigma_z$; the numbered names always mean exactly these three matrices. (The real matrices $X$, $Z$ and $Y$ of Section 1.7 are $X=\sigma_x$, $Z=\sigma_z$ and $Y=-i\sigma_y=-N$; from Section 2.5 on, $\sigma_x$ and $\sigma_z$ are also called $P$ and $G$.) The Pauli matrices are Hermitian and traceless, each squares to $I$, and any two anticommute. For instance
 
 $$
 \sigma_x\sigma_y=\begin{pmatrix}0&1\\1&0\end{pmatrix}\begin{pmatrix}0&-i\\ i&0\end{pmatrix}=\begin{pmatrix}i&0\\0&-i\end{pmatrix}=i\sigma_z,\qquad\sigma_y\sigma_x=\begin{pmatrix}-i&0\\0&i\end{pmatrix}=-i\sigma_z,
@@ -198,7 +198,7 @@ So $\{\gamma_{\mathrm D}^\mu,\gamma_{\mathrm D}^\nu\}=2\,\mathrm{diag}(+1,-1,-1,
 
 **Changing the sign convention.** This book counts space-like directions with $+1$ and time-like ones with $-1$. If matrices $\gamma^a$ satisfy the Clifford relation with a metric $\eta$, then the matrices $i\gamma^a$ satisfy it with $-\eta$, because $\{i\gamma^a,i\gamma^b\}=i^2\{\gamma^a,\gamma^b\}=-2\eta^{ab}I$. So $i\gamma_{\mathrm D}^\mu$ are Dirac matrices for the metric $(-1,+1,+1,+1)$ with time first. Neither set is real: $\gamma_{\mathrm D}^y$ contains the imaginary $\sigma_y$, and the factor $i$ makes $i\gamma_{\mathrm D}^0$, $i\gamma_{\mathrm D}^x$ and $i\gamma_{\mathrm D}^z$ imaginary (only $i\gamma_{\mathrm D}^y$ is real, because $i\sigma_y=N$). Real 4 by 4 matrices for $(-1,+1,+1,+1)$ nevertheless exist, for example $N\otimes I_2$, $\sigma_x\otimes I_2$, $\sigma_z\otimes\sigma_x$, $\sigma_z\otimes\sigma_z$ with the $N$ of Section 2.3 (check with the mixed-product rule of Section 2.2, using that any two of $N$, $\sigma_x$ and $\sigma_z$ anticommute, Section 2.3 and Section 2.5). For signature (4,4), Section 2.7 constructs real 16 by 16 matrices.
 
-**What the gammas do in a field equation.** Take any matrices with the Clifford relation for the metric of this book, $\eta=\mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$, and consider the flat-space equation $\sum_\mu\gamma^\mu\partial_\mu\Psi=m\Psi$ for a column $\Psi$ of functions ($\partial_\mu=\partial/\partial x_\mu$). Applying the operator $\sum_\nu\gamma^\nu\partial_\nu$ once more and using $\partial_\mu\partial_\nu=\partial_\nu\partial_\mu$ and the pairing argument of Section 2.3,
+**What the gammas do in a field equation.** Take any matrices with the Clifford relation for the metric of this book, $\eta=\mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$, and consider the flat-space equation $\sum_\mu\gamma^\mu\partial_\mu\Psi=m\Psi$ for a column $\Psi$ of functions ($\partial_\mu=\partial/\partial x^\mu$, with the coordinates written with an upper index in index formulas, as Section 1.8 explains; in words they keep the names $x_0,\dots,x_7$). Applying the operator $\sum_\nu\gamma^\nu\partial_\nu$ once more and using $\partial_\mu\partial_\nu=\partial_\nu\partial_\mu$ and the pairing argument of Section 2.3,
 
 $$
 m^2\Psi=\sum_{\mu,\nu}\gamma^\mu\gamma^\nu\partial_\mu\partial_\nu\Psi=\sum_\mu\eta^{\mu\mu}\partial_\mu^2\Psi .

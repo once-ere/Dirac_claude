@@ -8,7 +8,7 @@ This chapter studies that field from zero. It is a **prescribed background**: we
 
 The chapter uses the tools of Chapter 4 (metric, Christoffel symbols, curvature, vielbein, spin connection) and the field equations and energy–momentum tensor of Chapter 7. Every formula that the repository verifies is derived here step by step, and the name of the machine check is given in typewriter type, for example `P_metric_detG_equals_plus_cos2z`. Checks whose names begin with `P_` belong to Stage 2; they are listed in `artifacts/dirac16complex/primordial-field/wolfram-primordial-report.json` (WolframScript, 126 of 126 checks true). Except for the checks named in the next sentence, they are repeated by the independent Python checker `scripts/check_dirac16complex_primordial.py` (report `python-primordial-report.json` in the same folder, 16 of 16 check groups true). Among the checks cited in this chapter, WolframScript alone performs all checks of the group `P_notebookCompare_*` (the comparison with the notebook's stored cells and the algebra of the reconstruction behind it), `P_metric_notebookCell1060Det` and `P_spinconn_notebookCell501OmegaMuIJEqualsMixedOmega`. The Python checker has no notebook reader. It compares with the notebook only through transcriptions typed into the checker: the stored outputs of cells 583, 584 and 1137 (Stage-2 document §18.2) and the four coupling sets of cell 1089. Its cell-1137 comparison finds the same $\pm q$ differences as Section 9.14, but it is recorded as a measurement, not a check. The reconstruction of the $q$ term in Section 9.14 therefore rests on the WolframScript verifier alone. Checks whose names begin with `KS_` belong to the exact theory of Stage 4, recorded in `artifacts/dirac16complex/kohn-sham/wolfram-kohn-sham-report.json` (125 of 125 true) and `artifacts/dirac16complex/kohn-sham/python-theory-report.json` (157 of 157 true). The main text sources are `provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD.md` (the Stage-2 document; we cite its sections as §N) and `handoff/specs/STAGE4_SPEC.md` (its §1 and the errata §7 to §9).
 
-Conventions are those of the whole book. Everything is counted from 0. The eight coordinates are $x_0,\dots,x_7$, written with a lower index as in the notebook, and $\partial_\mu=\partial/\partial x_\mu$. The coordinate $x_0$ is the **hidden space**, $x_1,x_2,x_3$ are ordinary **3-space**, $x_4$ is the **time** in which everything evolves, and $x_5,x_6,x_7$ are the three **extra times** (the notebook calls them "superluminal deflating time"). The flat (tangent) metric is $\eta=\mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$. A repeated index, one up and one down, is summed from 0 to 7 unless we say "no sum". The letter $i$ always runs over $\{1,2,3\}$ and the letter $j$ over $\{5,6,7\}$.
+Conventions are those of the whole book. Everything is counted from 0. The eight coordinates are $x_0,\dots,x_7$. Because this chapter follows the notebook closely, it keeps the notebook's lower-index names also inside formulas, for example $\partial_\mu=\partial/\partial x_\mu$ and $dx_\mu$, instead of the upper-index coordinates $x^\mu$ of Section 1.8. Section 1.8 allows this exception, and it changes nothing: the lower index is only part of the name and is never lowered with a metric, $\partial/\partial x_\mu$ is the same derivative as $\partial/\partial x^\mu$, and a sum over two coordinate indices that are both written low is always written out with $\sum$. The coordinate $x_0$ is the **hidden space**, $x_1,x_2,x_3$ are ordinary **3-space**, $x_4$ is the **time** in which everything evolves, and $x_5,x_6,x_7$ are the three **extra times** (the notebook calls them "superluminal deflating time"). The flat (tangent) metric is $\eta=\mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$. A repeated index, one up and one down, is summed from 0 to 7 unless we say "no sum". The letter $i$ always runs over $\{1,2,3\}$ and the letter $j$ over $\{5,6,7\}$.
 
 ### 9.2 The metric MatrixMetric44
 
@@ -206,13 +206,13 @@ $$
 
 With this convention a round sphere has positive $R$.
 
-**Lemma 9.1 (Ricci tensor of a metric warped over a flat plane).** Split the eight coordinates into two **base** coordinates $y_A$, $A\in\{0,4\}$, and six **fibre** coordinates $x_p$, $p\in F=\{1,2,3,5,6,7\}$. Let
+**Lemma 9.1 (Ricci tensor of a metric warped over a flat plane).** Split the eight coordinates into two **base** coordinates $x_A$, $A\in\{0,4\}$, and six **fibre** coordinates $x_p$, $p\in F=\{1,2,3,5,6,7\}$. Let
 
 $$
-ds^2=\epsilon_0\,dy_0^2+\epsilon_4\,dy_4^2+\sum_{p\in F}\epsilon_p\,e^{2f_p(y_0,y_4)}\,dx_p^2,
+ds^2=\epsilon_0\,dx_0^2+\epsilon_4\,dx_4^2+\sum_{p\in F}\epsilon_p\,e^{2f_p(x_0,x_4)}\,dx_p^2,
 $$
 
-where every $\epsilon$ is a constant sign $\pm1$ and the six functions $f_p$ depend on the base coordinates only. Write $\Theta_A=\sum_{p\in F}\partial_Af_p$. Then the only nonzero components of the Ricci tensor are
+where every $\epsilon$ is a constant sign $\pm1$ and the six functions $f_p$ depend on the base coordinates only, and $\partial_A=\partial/\partial x_A$. (Only the form of the metric matters, not the names: below the warped coordinate $\zeta$ of Section 9.5, or the proper coordinate $y$ of Section 9.15, takes the place of $x_0$.) Write $\Theta_A=\sum_{p\in F}\partial_Af_p$. Then the only nonzero components of the Ricci tensor are
 
 $$
 R_{AB}=-\sum_{p\in F}\bigl(\partial_A\partial_Bf_p+\partial_Af_p\,\partial_Bf_p\bigr),\qquad R^p{}_p=-\sum_{A\in\{0,4\}}\epsilon_A\bigl(\partial_A^2f_p+\Theta_A\,\partial_Af_p\bigr)\quad(\text{no sum over }p),
@@ -242,7 +242,7 @@ Raising one index with $g^{pp}=\epsilon_pe^{-2f_p}$ (and $\epsilon_p^2=1$) gives
 
 ### 9.8 The Ricci scalar and the Einstein tensor of the primordial field
 
-**Applying the lemma.** The warped form of Section 9.5 is of the lemma's type, with base coordinates $y_0=\zeta$ ($\epsilon_0=+1$) and $y_4=x_4$ ($\epsilon_4=-1$), fibre signs $\epsilon_p=+1$ for $p=1,2,3$ and $-1$ for $p=5,6,7$, and
+**Applying the lemma.** The warped form of Section 9.5 is of the lemma's type, with the base coordinates $\zeta$ in the place of $x_0$ ($\epsilon_0=+1$) and $x_4$ ($\epsilon_4=-1$), fibre signs $\epsilon_p=+1$ for $p=1,2,3$ and $-1$ for $p=5,6,7$, and
 
 $$
 f_p=H\zeta+\sigma_p\,a_4(Hx_4),\qquad \sigma_p=+1\ (p=1,2,3),\quad \sigma_p=-1\ (p=5,6,7).

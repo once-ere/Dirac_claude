@@ -23,5 +23,10 @@
     "path": "provenance/DIRAC16COMPLEX_STUDENT_GUIDE.pdf",
     "pages": 55,
     "sha256": "272d3aed9c8fda5248d6a4c2af3a8aa81f32743974381071e04e912ee873300d"
+  },
+  "dirac16complex-textbook": {
+    "path": "provenance/DIRAC16COMPLEX_TEXTBOOK.pdf",
+    "pages": 671,
+    "sha256": "7f68048f7997bc4da19fbbcf94cdd4cb074a0c55a0608e4e200e8bb6c07d5159"
   }
 }

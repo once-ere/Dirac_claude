@@ -407,12 +407,12 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **pairing theorems T1, T2, T3** (Chapter 0; proved in Chapter 15). T1: the chirality map turns every configuration with $(m,\lambda)$ into one with $(-m,-\lambda)$ and reverses energy–momentum and charge; T2: the mirror map turns $(m,\lambda)$ into $(-m,\lambda)$ and keeps them; T3: the Kohn–Sham form of the pairing, a swap of the two components of every $2\times2$ block with transformed boundary conditions.
 - **parity** (Chapters 2, 13 and 17). Of an element of Pin(4,4), whether it is a product of an even or an odd number of unit gammas; of a Kohn–Sham orbital, its behaviour under the brane reflection $y\to-y$ (the two parity sectors are the two boundary conditions at $y=0$); in particle physics (P), the reflection of space $\mathbf x\to-\mathbf x$.
 - **part connected to 1** (Chapter 8). The part of a group that products of exponentials $\exp(\theta S^{ab})$ reach; for Spin(4,4) it is smaller than the whole group.
-- **partial derivative** (Chapter 1). The derivative with respect to one variable while the others are kept fixed, $\partial_\mu=\partial/\partial x_\mu$.
+- **partial derivative** (Chapter 1). The derivative with respect to one variable while the others are kept fixed, $\partial_\mu=\partial/\partial x^\mu$ (written $\partial/\partial x_\mu$ in Chapter 9, which keeps the notebook's lower-index names; Section 1.8).
 - **particle, hole, particle–hole spectrum** (Chapter 12). An excitation moves a particle from an occupied level (leaving a hole) to an empty one; the list of the differences $\varepsilon_a-\varepsilon_i$ is the particle–hole spectrum, and in Chapter 13 the file `particle-hole.csv` of each run.
 - **particle level, sea level** (Chapter 13). The classification of the Kohn–Sham levels of Chapter 13 by continuity from the free problem: a level whose free partner has $\varepsilon_{\mathrm{free}}\ge0$ is a particle level, otherwise a sea level; the exact zero modes count as particle levels by convention.
 - **partner of mass $-M$** (Chapter 15). For a universe of mass $+M$, a configuration or Kohn–Sham state with the mass parameter $m=-M$.
 - **path** (Chapter 5). A function $q(t)$ on a time interval; the action assigns a number to every path.
-- **Pauli matrices** (Chapter 2). The Hermitian, traceless $2\times2$ matrices $\sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix}$, $\sigma_y=\begin{pmatrix}0&-i\\i&0\end{pmatrix}$, $\sigma_z=\mathrm{diag}(1,-1)$.
+- **Pauli matrices** (Chapter 2). The Hermitian, traceless $2\times2$ matrices $\sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix}$, $\sigma_y=\begin{pmatrix}0&-i\\i&0\end{pmatrix}$, $\sigma_z=\mathrm{diag}(1,-1)$; Chapters 4 and 6 use the numbered names $\sigma_1=\sigma_x$, $\sigma_2=\sigma_y$, $\sigma_3=\sigma_z$ (Section 2.3).
 - **periodic boundary conditions** (Chapter 12). The requirement that wave functions repeat from one face of a box to the opposite one (a torus); the allowed momenta are then $2\pi/\ell$ times integers.
 - **permanent** (Chapter 14). The determinant without signs, $g_{00}g_{11}+g_{01}g_{10}$ for a $2\times2$ matrix; Gaussian averages are permanents, fermion averages determinants.
 - **permutation** (Chapter 1). A rearrangement of $0,\dots,n-1$; its sign is $(-1)^{\text{number of inversions}}$.
@@ -627,6 +627,7 @@ The table lists the symbols that are used in more than one chapter, with the cha
 | $\zeta$, $y$ | the proper hidden coordinate of the static primordial field (called $y$ from Chapter 13 on) | 9, 13 |
 | $L$, $\theta$ | the tip cutoff $y=-L$ and the bag angle of the tip condition | 13 |
 | $h_k$, $E$ | the mode Hamiltonian of a plane wave and its energy, $h_k^2=E^2$ | 8 |
+| $\varkappa$ | a growth rate (not the coupling $\kappa$): $\varkappa=\sqrt{-E^2}$ for a growing extra-time mode, $\varkappa=\sqrt{Q^2-m^2}$ in EXP-5 | 8, 11 |
 | $j=\pm1$, $\beta=\pm1$ | the block type of a Kohn–Sham block and its Krein sign | 13, 14 |
 | $N$, $T$, $\mu$, $f$ | the particle number, the temperature, the chemical potential and the Fermi–Dirac occupation | 12 |
 | $n_p$, $S_p$; $n_c$, $S_c$ | the proper and the coordinate number and scalar densities | 13 |
