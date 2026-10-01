@@ -1,0 +1,81 @@
+{
+  "A": 1.000000000000000e0,
+  "slices": [0.000000000000000e0, 5.000000000000000e-1, 1.000000000000000e0, 1.500000000000000e0, 2.000000000000000e0],
+  "series": [
+    {
+      "N": 8,
+      "lambdaTag": "lam0",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 8,
+      "lambdaTag": "lamm1",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 8,
+      "lambdaTag": "lamm2",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 8,
+      "lambdaTag": "lamp1",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 8,
+      "lambdaTag": "lamp2",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 136,
+      "lambdaTag": "lam0",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 136,
+      "lambdaTag": "lamm1",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 136,
+      "lambdaTag": "lamm2",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 136,
+      "lambdaTag": "lamp1",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 136,
+      "lambdaTag": "lamp2",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 688,
+      "lambdaTag": "lam0",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 688,
+      "lambdaTag": "lamm1",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 688,
+      "lambdaTag": "lamm2",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 688,
+      "lambdaTag": "lamp1",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 688,
+      "lambdaTag": "lamp2",
+      "fermiLevelCrossings": []
+    }
+  ]
+}

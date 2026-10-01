@@ -1,0 +1,16 @@
+[package]
+name = "revision_ks_solver"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Revision Kohn-Sham solver for dirac16complex in the author's primordial field (Revision/SPEC.md section 7): instantaneous states along the deflating history, shooting in the hidden coordinate."
+
+# Own, empty workspace: a stray Cargo.toml sits above the repository; this
+# crate is built on its own from its directory.  No external crates.
+[workspace]
+
+[dependencies]
+
+[profile.release]
+opt-level = 3
+debug = false

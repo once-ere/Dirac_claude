@@ -1,0 +1,92 @@
+{
+  "description": "Revision Kohn-Sham solver (Revision/kohn_sham/solver): instantaneous Kohn-Sham states of dirac16complex in the author's primordial field along the deflating history (SPEC section 7, Revision/kohn_sham/ks-theory.json). x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} sin^{1/6} z), x8 = hidden direction (y = ln(sin z)/(6H)).",
+  "theoryInputs": {
+    "ksTheorySha256": "41c16878199cfcea04bbe0b52346bd92d607ecd361ba60494cbdbb765f04ab1a",
+    "gammasSha256": "95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01",
+    "MeffCoefficientOfLambdaS": 9.375000000000000e-1,
+    "vvCoefficientOfLambdaN": -6.250000000000000e-2,
+    "exchangeCoefficientN2": -3.125000000000000e-2,
+    "exchangeCoefficientS2": -3.125000000000000e-2,
+    "braneBandSlopeTheory_M1_H1_L3": 1.905148253644867e0
+  },
+  "units": "H = 1, m = 1: energies, momenta, temperatures in units of m = H; lambda in units of m^-6 with Vol_7 in units of H^-7",
+  "physics": {
+    "H": 1.000000000000000e0,
+    "m": 1.000000000000000e0,
+    "L_tipCutoff": 3.000000000000000e0,
+    "dk": 2.500000000000000e-1,
+    "ell": 2.513274122871834e1,
+    "v_t": 1.000000000000000e0,
+    "Vol7": 1.587521366031351e4,
+    "tipTheta": 0.000000000000000e0,
+    "historyA": 1.000000000000000e0,
+    "slicesA4": [0.000000000000000e0, 5.000000000000000e-1, 1.000000000000000e0, 1.500000000000000e0, 2.000000000000000e0],
+    "temperatures": [1.000000000000000e-2, 2.000000000000000e-2, 5.000000000000000e-2]
+  },
+  "numerics": {
+    "tag": "canonical",
+    "rk4Steps": 900,
+    "rootTolerance": 1.000000000000000e-13,
+    "scfTolerance": 9.999999999999999e-12,
+    "scfMaxIterations": 400,
+    "andersonDepth": 6,
+    "andersonBeta": 4.000000000000000e-1,
+    "thermalOccupationCut": 1.000000000000000e-12,
+    "a4FiniteDifferenceStep": 2.000000000000000e-3,
+    "temperatureFiniteDifferenceRelative": 1.000000000000000e-2,
+    "degeneracyTolerance": 1.000000000000000e-9
+  },
+  "particleNumbers": {
+    "values": [8.000000000000000e0, 1.360000000000000e2, 6.880000000000000e2],
+    "rule": "N = 8 (the k = 0 brane zero modes, both block types); N_large = the largest closed shell of the free a4,0 = 0 aufbau whose last filled level lies below the bulk edge (the lowest level not on the even j = +1 brane band: min of the odd l = 0 and even l = 1 levels at k = 0); N_mid = the closed shell (>= 8, below the bulk edge) nearest N_large / 4",
+    "bulkEdge": 1.292292828068783e0,
+    "N_mid": 1.360000000000000e2,
+    "N_large": 6.880000000000000e2
+  },
+  "couplingCalibration": {
+    "rule": "per N, from the free ground states of that N at every slice a4,0 of the history: strength = max over the slices and over y of max((15/16)|S(y)|, |n(y)|/16) (proper densities), the first-order mean-field potential per unit lambda; lambda_1 = 0.1/strength and lambda_2 = 0.3/strength rounded to 4 significant digits, so that the first-order mean-field potential stays below 0.1 m and 0.3 m along the whole history (for N > 8 it is largest at the last slice: the redshifted brane-band orbitals spread towards the tip, where the proper 7-volume e^{6Hy} is small); lambda is a constant of the theory, the same at every slice",
+    "values": [
+      {
+        "N": 8.000000000000000e0,
+        "strengthPerLambda": 5.138803993110601e0,
+        "strengthPerLambdaAtSlices": [5.138803993110601e0, 5.138803993110601e0, 5.138803993110601e0, 5.138803993110601e0, 5.138803993110601e0],
+        "lambda1": 1.946000000000000e-2,
+        "lambda2": 5.838000000000000e-2,
+        "firstOrderPotential1": 1.000011257059323e-1,
+        "firstOrderPotential2": 3.000033771177969e-1,
+        "lambda1OverVol7": 1.225810273574340e-6,
+        "lambda2OverVol7": 3.677430820723020e-6
+      },
+      {
+        "N": 1.360000000000000e2,
+        "strengthPerLambda": 1.075482986362065e2,
+        "strengthPerLambdaAtSlices": [5.225903546424021e0, 1.732566877688500e1, 6.129365479427760e1, 1.060142935639916e2, 1.075482986362065e2],
+        "lambda1": 9.298000000000000e-4,
+        "lambda2": 2.789000000000000e-3,
+        "firstOrderPotential1": 9.999840807194481e-2,
+        "firstOrderPotential2": 2.999522048963799e-1,
+        "lambda1OverVol7": 5.856929046091580e-8,
+        "lambda2OverVol7": 1.756826748714714e-7
+      },
+      {
+        "N": 6.880000000000000e2,
+        "strengthPerLambda": 5.417125578714232e2,
+        "strengthPerLambdaAtSlices": [5.225917625089333e0, 1.952548084830727e1, 9.438078876277849e1, 3.022760571164687e2, 5.417125578714232e2],
+        "lambda1": 1.846000000000000e-4,
+        "lambda2": 5.538000000000000e-4,
+        "firstOrderPotential1": 1.000001381830647e-1,
+        "firstOrderPotential2": 3.000004145491942e-1,
+        "lambda1OverVol7": 1.162818995384497e-8,
+        "lambda2OverVol7": 3.488456986153492e-8
+      }
+    ]
+  },
+  "conventions": {
+    "particleNumber": "N = sum g f over both brane parities = particle number of the doubled (universe + Z2 image) system; the patch holds N/2 (ks-theory.json densities.total). The thermodynamics line 'mu fixed by sum w_Z2 g f = N' of ks-theory.json is inconsistent with this and with its own Omega = -T sum g ln(...) + ..., F = Omega + mu N; the solver uses sum g f = N (noted as a discrepancy of the theory file)",
+    "filling": "particles occupy the positive branch (labels whose lambda = 0 level at the same slice is positive) and the k = 0 brane zero modes (CONVENTION of ks-theory.json, justification OPEN); the negative branch is the normal-ordered sea and is not populated thermally (the excluded thermal sea holes are reported as a diagnostic)",
+    "brane": "Z2 mirror at y = 0: ASSUMED (b(0) = 0 even, a(0) = 0 odd); tip: regular, theta = 0 (b(-L) = 0)",
+    "instantaneous": "states at fixed a4,0 = a4(x4) are instantaneous (adiabatic) Kohn-Sham states; the non-adiabatic (time-dependent) problem is OPEN",
+    "deltaScf": "first excited state: one particle moved from the highest occupied degenerate group to the lowest empty group, spread uniformly over each group (ensemble Delta-SCF, keeps the block and direction symmetry of the reduction)",
+    "exactExchange": "canonical functional = Hartree + exact local exchange of the uniform 8-fold gas (exact at every temperature for p -> -p symmetric occupations); the exact Fock exchange of the closed-shell slab determinant differs by +lambda Q^2/32 (reported as deltaE_x and solved as a variant)"
+  }
+}

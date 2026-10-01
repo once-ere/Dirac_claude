@@ -1,0 +1,298 @@
+{
+  "report": "Revision Kohn-Sham theory (SPEC sections 1, 7): independent exact sympy derivation and checks",
+  "producer": "Revision/kohn_sham/theory/check_ks_theory.py",
+  "coordinates": "x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times; x8 = the hidden direction (proper coordinate y = ln(sin 6Hx8)/(6H) <= 0)",
+  "summary": {
+    "passed": 57,
+    "failed": 0,
+    "other": 0,
+    "total": 57
+  },
+  "checks": [
+    {
+      "name": "fixture_input",
+      "verdict": "PASS",
+      "detail": "gammas read from Revision/algebra/reports/python-gammas.json (sha256 b6241910ade6cc282e0aaab75d90fc697247a0d68504618787f547447e2e458b)"
+    },
+    {
+      "name": "fixture_python_equals_wolfram",
+      "verdict": "PASS",
+      "detail": "the Python-built and the Wolfram-built T16 (Revision/algebra) agree entry by entry"
+    },
+    {
+      "name": "clifford_relation",
+      "verdict": "PASS",
+      "detail": "{gamma^a, gamma^b} = 2 eta^ab, eta = diag(+1,+1,+1,-1,-1,-1,-1,+1) in x1..x8"
+    },
+    {
+      "name": "C_B_Gamma",
+      "verdict": "PASS",
+      "detail": "C = g8 g1 g2 g3 real symmetric, C^2 = 1; B = -i C g4 Hermitian, B^2 = 1; Gamma = g8 g1..g7 = diag(-I8, I8)"
+    },
+    {
+      "name": "BC_and_Cg4",
+      "verdict": "PASS",
+      "detail": "BC = -i gamma^(x4), C gamma^(x4) = i B, C B C = B (used in the exchange and the EMT)"
+    },
+    {
+      "name": "geometry_hidden_coordinate",
+      "verdict": "PASS",
+      "detail": "y = ln(sin z)/(6H), sin z = e^{6Hy}: dy = cot z dx8, cot^2 z dx8^2 = dy^2, sin^{1/3} z = e^{2Hy}; z in (0, pi/2) <-> y in (-inf, 0); the patch end z = pi/2 is y = 0"
+    },
+    {
+      "name": "geometry_sqrt_det",
+      "verdict": "PASS",
+      "detail": "|det g| = sin^2 z cot^2 z = cos^2 z in the author's x8 chart (independent of a4); in the y chart sqrt|g| = W^6 = e^{6Hy}, W = e^{Hy} (the 7-volume is a4-independent: e^{3a4} e^{-3a4} = 1)"
+    },
+    {
+      "name": "geometry_warped_form",
+      "verdict": "PASS",
+      "detail": "ds^2 = e^{2Hy}[e^{2a4(x4)} dx_{1..3}^2 - e^{-2a4(x4)} dx_{5..7}^2] - dx4^2 + dy^2 (the author's metric with sin^{1/3} z = e^{2Hy} and cot^2 z dx8^2 = dy^2), vielbein h = (e^{a4}W x3, 1, e^{-a4}W x3, 1)"
+    },
+    {
+      "name": "spin_connection_compatibility",
+      "verdict": "PASS",
+      "detail": "canonical omega_mu^a_b = e^a_nu nabla_mu e_b^nu, Omega_mu = (1/2) omega_mu ab S^ab: d_mu gamma^nu + Gamma^nu_{mu lam} gamma^lam + [Omega_mu, gamma^nu] = 0 for all 64 (mu, nu), a4 = a4(x4)"
+    },
+    {
+      "name": "spin_connection_slash_3H",
+      "verdict": "PASS",
+      "detail": "gamma^mu Omega_mu = 3H gamma^(x8) exactly for a4 = a4(x4): no a4' term survives"
+    },
+    {
+      "name": "spin_connection_time_terms_cancel",
+      "verdict": "PASS",
+      "detail": "the a4' pieces of the 3 inflating directions (nonzero, see spin_connection_time_term_value) cancel those of the 3 deflating directions exactly; Omega_x4 = Omega_y = 0"
+    },
+    {
+      "name": "spin_connection_time_term_value",
+      "verdict": "PASS",
+      "detail": "sum over x1..x3 of gamma^i Omega_i at H = 0 equals (3*Derivative(a4(x4), x4)/2) gamma^(x4); the x5..x7 sum is its negative"
+    },
+    {
+      "name": "spin_connection_slash_3H_x8_chart",
+      "verdict": "PASS",
+      "detail": "in the author's x8 chart (frame vector e_(x8) = tan z d_x8 = d_y): gamma^mu Omega_mu = 3H gamma^(x8) too"
+    },
+    {
+      "name": "ansatz_removes_spin_connection",
+      "verdict": "PASS",
+      "detail": "gamma^mu D_mu (e^{ik.x} W^{-3} chi(y, x4)) = e^{ik.x} W^{-3} [g8 d_y chi + g4 d_x4 chi + i kappa k_j g^j chi], kappa(y, x4) = e^{-Hy - a4(x4)}: exact, for time-dependent a4, good sector (no x5..x7 dependence)"
+    },
+    {
+      "name": "ansatz_without_W3_term_survives",
+      "verdict": "PASS",
+      "detail": "without the factor W^{-3} the term 3H gamma^(x8) chi survives"
+    },
+    {
+      "name": "hamiltonian_16_hermitian",
+      "verdict": "PASS",
+      "detail": "i d_x4 chi = h chi, h = i g4 g8 d_y (g4 g8 real symmetric, so i g4 g8 d_y is Hermitian) - kappa k_j g4 g^j + M (-i g4) + v: i g4 g8, g4 g^j, -i g4 are Hermitian, (-i g4)^2 = 1; the KS covariant equation is gamma^mu D_mu Psi = (M_eff - i v_v g4) Psi; the Hilbert norm int chi^dagger chi dy (= int sqrt|g| Psi^dagger Psi over the hidden direction) is a4-independent and conserved when the boundary terms vanish"
+    },
+    {
+      "name": "blocks_commuting_set",
+      "verdict": "PASS",
+      "detail": "J = g8 g1 g4 (J^2 = 1), K1 = g2 g3, K2 = g5 g6 (K^2 = -1) commute with each other and with gamma^(x8), gamma^(x8)gamma^(x1), gamma^(x8)gamma^(x4), B, C"
+    },
+    {
+      "name": "blocks_projectors",
+      "verdict": "PASS",
+      "detail": "P(j,s2,s3) = (1+jJ)/2 (1-i s2 K1)/2 (1-i s3 K2)/2: eight rank-2 orthogonal projectors summing to 1"
+    },
+    {
+      "name": "blocks_basis_unitary",
+      "verdict": "PASS",
+      "detail": "v+ = 8 P(j,s2,s3)(1+g8)/2 e_c, v- = g8 g1 v+, V = [v+ v- ...]/(2 sqrt 2) unitary; seeds c = [4, 0, 0, 4, 0, 4, 4, 0]; entries of 2 sqrt2 V in {0, +-1, +-i}; block index beta = 0..7 for (j,s2,s3) = (1, 1, 1), (1, 1, -1), (1, -1, 1), (1, -1, -1), (-1, 1, 1), (-1, 1, -1), (-1, -1, 1), (-1, -1, -1)"
+    },
+    {
+      "name": "blocks_forms",
+      "verdict": "PASS",
+      "detail": "in block (j,s2,s3): g8 = s3(Pauli), g8g1 = -i sigma2, g8g4 = j sigma1, B = j s2, C = s2 sigma2, BC = j sigma2, g4g1 = -j sigma3, B g8 = j s2 sigma3, J = j, K1 = i s2, K2 = i s3 (all block diagonal)"
+    },
+    {
+      "name": "blocks_not_everything_block_diagonal",
+      "verdict": "PASS",
+      "detail": "gamma^(x2), gamma^(x5), gamma^(x8)gamma^(x2) are not block diagonal (they anticommute with J), gamma^(x1) is; the reduction uses k along x1 (rotational invariance, check rotation_invariance)"
+    },
+    {
+      "name": "blocks_relation_to_Gamma",
+      "verdict": "PASS",
+      "detail": "Gamma anticommutes with J and commutes with K1, K2: it maps block (j,s2,s3) onto (-j,s2,s3); in the basis V its 2x2 entries between paired blocks are s2 sigma2: Gamma V_beta = s2 V_{beta'} sigma2"
+    },
+    {
+      "name": "block_hamiltonian",
+      "verdict": "PASS",
+      "detail": "h_16 restricted to block (j,s2,s3), k = (k,0,0): h_j = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v; equivalently chi' = N chi, N = M sigma3 - kappa k sigma2 + i j (epsilon - v) sigma1"
+    },
+    {
+      "name": "block_ode_equivalent",
+      "verdict": "PASS",
+      "detail": "h_j chi = epsilon chi is equivalent to chi' = N chi for j = +-1"
+    },
+    {
+      "name": "block_type_relation",
+      "verdict": "PASS",
+      "detail": "h_{-1} - v = -(h_{+1} - v) (spectra mirrored); sigma3 h_j(k) sigma3 = h_{-j}(-k): the (j,k) and (-j,-k) orbitals are degenerate, chi_{-j,-k} = sigma3 chi_{j,k}"
+    },
+    {
+      "name": "block_Gamma_map",
+      "verdict": "PASS",
+      "detail": "sigma2 h_j(M, k) sigma2 = h_{-j}(-M, k) (the block form of Gamma): Gamma maps a solution of block type j with mass M onto block type -j with mass -M at the same k and epsilon (v fixed); it exchanges chi2(0) = 0 and chi1(0) = 0 (the two brane parities)"
+    },
+    {
+      "name": "rotation_invariance",
+      "verdict": "PASS",
+      "detail": "the spinor rotation cos(th/2) + sin(th/2) g1 g2 commutes with g8, g4, B, C and rotates k.gamma: the spectrum depends on |k| only; every computation may take k = (k, 0, 0)"
+    },
+    {
+      "name": "gas_mode_projector",
+      "verdict": "PASS",
+      "detail": "flat good-sector plane waves e^{-i eps x4 + i p.x} (p in the four space-like directions x1,x2,x3,x8): h_p = M(-i g4) - p_a g4 g^a, h_p^2 = (M^2 + p^2) 1: eps = +-E, each 8-fold (the 8-fold gas); G_p = (1 + h_p/E)/2 is the Hermitian rank-8 projector on the positive-energy modes"
+    },
+    {
+      "name": "gas_angular_average",
+      "verdict": "PASS",
+      "detail": "the angular average over S^2 of the one-body matrix G_p B of the 8 modes at momentum p is (B + (M/E) C)/2; the terms linear in p vanish (also for a y-momentum averaged over +-p8); only p -> -p symmetry is needed"
+    },
+    {
+      "name": "gas_negative_energy_modes",
+      "verdict": "PASS",
+      "detail": "occupied negative-energy modes give (B - (M/E) C)/2: the local one-body matrix of ANY p -> -p symmetric occupation (any temperature, Mermin) has the form rho = (n B + S C)/16"
+    },
+    {
+      "name": "gas_densities",
+      "verdict": "PASS",
+      "detail": "with <Psi^dagger M Psi> = Tr(M rho), rho = sum_occ f u u^dagger B (the expectation-value rule u^dagger B M u): number density n = <Psi^dagger B Psi> = Tr(B rho), scalar density S = <Psibar Psi> = Tr(C rho)"
+    },
+    {
+      "name": "hf_wick_contraction",
+      "verdict": "PASS",
+      "detail": "quasi-free state with one-body function f_AB = <Psi_A^dag Psi_B> = rho_BA: <:S^2:> = sum C_AB C_CD (f_AB f_CD - f_AD f_CB) = (Tr C rho)^2 - Tr(C rho C rho) (verified by brute force on an explicit two-mode state)"
+    },
+    {
+      "name": "exchange_uniform_gas",
+      "verdict": "PASS",
+      "detail": "e_x = -(lambda/2) Tr(C rho C rho) = -lambda*(S**2 + n**2)/32 for rho = (nB + SC)/16 (C B C = B, Tr BC = 0): exactly local in (n, S) at every temperature; Hartree e_H = (lambda/2) S^2"
+    },
+    {
+      "name": "ks_potentials",
+      "verdict": "PASS",
+      "detail": "e_int = e_H + e_x = (15/32) lambda S^2 - (1/32) lambda n^2; M_eff = m + d e_int/dS = m + (15/16) lambda S, v_v = d e_int/dn = -lambda n/16 (enters h as + v_v 1, the covariant equation as -i v_v gamma^(x4))"
+    },
+    {
+      "name": "ks_onshell_lagrangian",
+      "verdict": "PASS",
+      "detail": "on shell <L>/sqrt|g| = M_eff S + v_v n - m S - e_int = e_int (e_int homogeneous of degree 2), i.e. the operator identity <L> = <U> on shell evaluated in Hartree-Fock"
+    },
+    {
+      "name": "filled_shell_ratio",
+      "verdict": "PASS",
+      "detail": "one filled 8-fold level at rest (n = S = 8 per unit volume): E_x/E_H = -1/8"
+    },
+    {
+      "name": "exchange_slab_exact_fock",
+      "verdict": "PASS",
+      "detail": "a level with 2x2 density D = (d0 + d1 s1 + d2 s2 + d3 s3)/2 in each of the 4 blocks of type j = +1 and sigma3 D sigma3 in the 4 blocks of type -1 (the degenerate (-j,-k) partners), averaged over a k -> -k closed shell (= the projection onto the 64-dim commutant of the 3-space rotations; End(16) carries only spin 0 and 1): n = 8 d0, S = 8 d2, Q = <Psi^dag B g8 Psi> = 8 d3; exact local Fock exchange -(lambda/32)(n^2 + S^2 - Q^2 - Y^2), Y = 8 d1 the y-current (zero for eigen-orbitals). The uniform-gas e_x omits +(lambda/32) Q^2."
+    },
+    {
+      "name": "bc_mirror_map_PA",
+      "verdict": "PASS",
+      "detail": "the reflection P_A: chi(y) -> sigma3 chi(-y) = gamma^(x8) chi(-y) maps a solution with (M(y), v(y), kappa(y)) onto one with (-M(-y), v(-y), kappa(-y)); with the Z2 mirror warp W = e^{-H|y|}, kappa(-y) is the mirror's kappa: P_A is a symmetry of the doubled problem iff M_eff is odd across y = 0"
+    },
+    {
+      "name": "bc_mirror_parities_of_densities",
+      "verdict": "PASS",
+      "detail": "under P_A: n and Q even, S and the y-current odd; hence M_eff = m + (15/16) lambda S odd requires the mirror copy to carry (-m, +lambda) (v_v = -lambda n/16 even, same lambda): the (+m, -m) mirror pair (SPEC T3)"
+    },
+    {
+      "name": "bc_brane_parity_conditions",
+      "verdict": "PASS",
+      "detail": "ASSUMED Z2 mirror (orbifold under P_A): continuity of Psi(-y) = +-gamma^(x8) Psi(y) at y = 0 gives (1 -+ gamma^(x8)) chi(0) = 0, in every block chi2(0) = 0 (even) or chi1(0) = 0 (odd); both kill the y-current chi^dag sigma1 chi; real form chi = (a, i b): b(0) = 0 or a(0) = 0"
+    },
+    {
+      "name": "bc_self_adjoint_boundary_term",
+      "verdict": "PASS",
+      "detail": "phi^dag h_j chi - (h_j phi)^dag chi = d/dy[-i j phi^dag sigma1 chi] pointwise: with current-killing conditions at both ends h_j is self-adjoint in the flat measure int dy (levels real, orbitals orthogonal)"
+    },
+    {
+      "name": "bc_tip_family",
+      "verdict": "PASS",
+      "detail": "tip family (1 - Q(theta)) chi(-L) = 0, Q = cos(theta) sigma3 + sin(theta) sigma2 (16-component: cos(theta) gamma^(x8) + i sin(theta) gamma^(x8) gamma^(x1)): Q^dag = Q, Q^2 = 1, {Q, sigma1} = 0, so the current vanishes; canonical theta = 0: chi2(-L) = 0 (b(-L) = 0)"
+    },
+    {
+      "name": "bc_current_conserved_along_y",
+      "verdict": "PASS",
+      "detail": "N^dag sigma1 + sigma1 N = 0 for real (epsilon, M, v, kappa k): chi^dag sigma1 chi is constant in y on every solution (so zero everywhere for an eigen-orbital); N + N^dag = 2M sigma3 - 2 kappa k sigma2 != 0: the Hilbert density chi^dag chi is not"
+    },
+    {
+      "name": "bc_exact_k0_spectra",
+      "verdict": "PASS",
+      "detail": "k = 0, constant M > 0, v = 0, tip theta = 0: even parity: chiral zero mode epsilon = 0, chi = (e^{My}, 0) (brane-localised, every L) and epsilon = +-sqrt(M^2 + (n pi/L)^2), chi2 ~ sin(n pi y/L); odd parity: epsilon^2 = M^2 + p^2 with M sin(pL) + p cos(pL) = 0, i.e. tan(pL) = -p/M; each level 4-fold per j"
+    },
+    {
+      "name": "bc_tip_asymptotics",
+      "verdict": "PASS",
+      "detail": "as y -> -inf, kappa(y) = e^{-Hy-a4} -> inf and N -> -kappa k sigma2: the branches are chi ~ exp(+- k kappa/H) times the sigma2 = -+1 eigenvectors; the regular (decaying toward the tip, k > 0) branch is sigma2 chi = -chi. An orbital with k != 0 is suppressed at the tip like exp(-|k|(kappa(-L) - kappa(y))/H), so for k != 0 any current-killing tip condition gives the same levels up to that factor; the tip condition matters for k = 0, where theta = 0 selects the regular brane-localised zero mode e^{My} and admits no tip-localised mode for M > 0"
+    },
+    {
+      "name": "rescaling_identity",
+      "verdict": "PASS",
+      "detail": "a4,0 enters h only through kappa k = e^{-Hy}(k e^{-a4,0}); the lattice k = Delta k n at slice a4,0 is the lattice Delta k e^{-a4,0} at slice 0. The proper density factor e^{-6Hy}/(ell^3 v_t) is invariant under (ell, v_t) -> (ell e^{a}, v_t e^{-3a}) (same proper boxes). Hence EXACTLY (Hartree, exchange, any T): KS(a4,0; Delta k, v_t, lambda) = KS(0; Delta k e^{-a4,0}, v_t e^{-3 a4,0}, lambda), all levels, orbitals, densities and EMT profiles equal; equivalently KS(0; Delta k e^{-a4,0}, v_t, lambda e^{3 a4,0}) with every proper density multiplied by e^{-3 a4,0} and the same levels"
+    },
+    {
+      "name": "emt_orbital_components",
+      "verdict": "PASS",
+      "detail": "K^mu_mu(no sum) = (1/2)[Psibar g^mu D_mu Psi - (D_mu Psibar) g^mu Psi] in the expectation rule, for Psi = e^{-i eps x4 + i k x1} W^{-3} V_beta chi /sqrt(ell^3 v_t), a4 = a4(x4) general (the spin connection, including its a4' pieces, drops out of every diagonal component): -K^x1_x1 = P kappa k chi^dag j s3 chi, K^x4_x4 = P eps chi^dag chi, K^x2_x2 = K^x5_x5 = 0, -K^y_y = P[(eps - v) chi^dag chi - M chi^dag j s2 chi - kappa k chi^dag j s3 chi] (on shell), P = e^{-6Hy}/(ell^3 v_t); K_x4y = P (eps - v/2) chi^dag j s1 chi (zero for eigen-orbitals). block 0 (1, 1, 1): K11 True, K44 True, K22=K55=0 True, Kyy True, K_x4y = P (eps - v/2) c True; block 5 (-1, 1, -1): K11 True, K44 True, K22=K55=0 True, Kyy True, K_x4y = P (eps - v/2) c True"
+    },
+    {
+      "name": "emt_trace_identity",
+      "verdict": "PASS",
+      "detail": "sum_mu K^mu_mu = M_eff s + v_v n per orbital (K^1+K^4+K^y), the on-shell trace; with <L> = e_int: T^mu_nu = -<K^mu_nu> + delta^mu_nu e_int (SPEC sign: rho = -T^x4_x4, p_mu = T^mu_mu; homogeneous classical limit rho = mS + U, p = S U' - U)"
+    },
+    {
+      "name": "emt_y_conservation_orbital",
+      "verdict": "PASS",
+      "detail": "for one orbital in external M(y), v(y) (coordinate densities, P without e^{-6Hy}): d/dy[(eps - v) n_c - M s_c - kappa k t_c] = H kappa k t_c - v' n_c - M' s_c"
+    },
+    {
+      "name": "emt_y_conservation_selfconsistent",
+      "verdict": "PASS",
+      "detail": "nabla_mu T^mu_y = p8' + 6H p8 - 3H (p3 + p_t) for diagonal T(y); summing the orbital identity over a closed shell (3 p3_kin = kappa |k| t) and adding e_int, the force terms -M' S - v' n + e_int' cancel exactly for the self-consistent M_eff, v_v: every self-consistent KS state with these potentials satisfies nabla_mu T^mu_y = 0"
+    },
+    {
+      "name": "emt_x4_component",
+      "verdict": "PASS",
+      "detail": "with a4 = a4(x4): nabla_mu T^mu_x4 = -d_x4 rho - 3 a4' (p3 - p_t) (+ the y-flux divergence, zero for the instantaneous states): the energy of the 7-volume changes as dE/dx4 = -3 a4' int sqrt|g| (p3 - p_t)"
+    },
+    {
+      "name": "adiabatic_hellmann_feynman",
+      "verdict": "PASS",
+      "detail": "d_a h_j = -j kappa k sigma3 = -k d_k h_j; for the free (frozen-potential) problem eps(k, a) = eps(k e^{-a}, 0) so d eps/da = -k d eps/dk = -k <j kappa sigma3>; summed with occupations: dE/da = -3 ell^3 v_t int e^{6Hy} (p3 - p_t) dy (Hellmann-Feynman, fixed occupations)"
+    },
+    {
+      "name": "adiabatic_offdiagonal_identity",
+      "verdict": "PASS",
+      "detail": "<n| d_a h |m> = (eps_m - eps_n) <n| d_a m> (differentiated eigen-equation; verified on an explicit family); measure along a4 = A H x4: Q_nm = A H |<n| d_a h_KS |m>| / (eps_n - eps_m)^2 for n occupied, m empty, same (k, block, parity); leading-order transition probability ~ Q_nm^2"
+    },
+    {
+      "name": "brane_band_slope",
+      "verdict": "PASS",
+      "detail": "first-order Hellmann-Feynman at k = 0 (zero mode e^{My}, theta = 0): d eps/dk = j c, c = e^{-a4,0} (2M/(2M-H)) (1 - e^{-(2M-H)L})/(1 - e^{-2ML}); M = H = 1, L = 3: c = 2/(1+e^{-3}) = 1.9051482536; independent RK4 shooting (6000 steps, k = +-1e-3 and +-2e-3 with Richardson extrapolation, j = +1): slope 1.9051482525 at a4,0 = 0 and 1.1555308270 at a4,0 = 0.5 (exact 1.1555308271), the e^{-a4,0} rescaling"
+    },
+    {
+      "name": "ks_theory_json_basis",
+      "verdict": "PASS",
+      "detail": "the exported basis 2 sqrt2 V of ks-theory.json equals this file's construction entry by entry"
+    },
+    {
+      "name": "ks_theory_json_exchange",
+      "verdict": "PASS",
+      "detail": "exchange coefficients -1/32, -1/32 and potentials 15/16, -1/16 agree"
+    },
+    {
+      "name": "ks_theory_json_slope",
+      "verdict": "PASS",
+      "detail": "the exported brane-band slope agrees with this file to 1e-12"
+    }
+  ]
+}

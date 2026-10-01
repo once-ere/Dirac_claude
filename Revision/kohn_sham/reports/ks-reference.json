@@ -1,0 +1,184 @@
+{
+ "report": "Revision Kohn-Sham reference solver (independent Python, staggered finite differences + Richardson): self-checks",
+ "producer": "Revision/kohn_sham/reference/run_reference.py",
+ "subset": {
+  "ground": [
+   "N8_lam0_a00",
+   "N8_lamp1_a10",
+   "N8_lamp2_a00",
+   "N8_lamm2_a20",
+   "N136_lam0_a00",
+   "N136_lam0_a20",
+   "N136_lamp1_a05",
+   "N136_lamm1_a15",
+   "N136_lamp2_a10",
+   "N136_lamp2_a20",
+   "N136_lamm2_a20",
+   "N688_lam0_a00",
+   "N688_lam0_a20",
+   "N688_lamp1_a15",
+   "N688_lamm1_a05",
+   "N688_lamp2_a00",
+   "N688_lamp2_a20",
+   "N688_lamm2_a10"
+  ],
+  "thermal": [
+   "N8_lam0_a20_T50",
+   "N8_lamp1_a10_T20",
+   "N8_lamm1_a00_T10",
+   "N136_lam0_a15_T50",
+   "N136_lamp1_a20_T20",
+   "N136_lamm1_a05_T10",
+   "N688_lam0_a10_T20",
+   "N688_lamp1_a20_T50"
+  ],
+  "validation": "N136_lamp2_a20"
+ },
+ "summary": {
+  "checks": 28,
+  "pass": 28,
+  "fail": 0
+ },
+ "checks": [
+  {
+   "name": "theory_input_coefficients",
+   "verdict": "PASS",
+   "detail": "ks-theory.json (sha256 41c16878199cfcea): M_eff = m + 15/16 lambda S, v_v = -1/16 lambda n, e_int = lambda[15/32 S^2 + -1/32 n^2] (Hartree 1/2 plus the uniform-gas exchange -1/32, -1/32); consistent: M_eff - m = d e_int/dS (15/16 = 15/16), v_v = d e_int/dn (-1/16 = -1/16): True"
+  },
+  {
+   "name": "free_k0_analytic_spectra",
+   "verdict": "PASS",
+   "detail": "k = 0, constant M, v = 0, theta_tip = 0 (ks-theory.json boundaryConditions.exactK0Spectra), (m, L) = (1, 3), (1, 2), (2, 3), ranks -3..5 of both parities and both block types: Richardson (G = 300, 600, 1200) max |error| 2.842e-14 (tolerance 1e-11; max stated U 7.83e-10); single grids: G = 150: 3.733e-03, G = 300: 9.332e-04, G = 600: 2.333e-04, G = 1200: 5.833e-05, G = 2400: 1.458e-05"
+  },
+  {
+   "name": "free_convergence_order_two",
+   "verdict": "PASS",
+   "detail": "error ratios (x(300) - x(600))/(x(600) - x(1200)) of the analytic spectra: median 3.99995, min 3.99977, max 4.00019 (second order: 4; required within [3.99, 4.01])"
+  },
+  {
+   "name": "free_k0_block_type_symmetry",
+   "verdict": "PASS",
+   "detail": "k = 0: the spectra of j = +1 and j = -1 agree to 0.0e+00 and the zero-mode profiles to 0.0e+00 (exact discrete symmetry w -> -w of the staggered scheme; tolerance 1e-13)"
+  },
+  {
+   "name": "free_zero_mode",
+   "verdict": "PASS",
+   "detail": "k = 0 brane zero mode (M = H = 1, L = 3, both j): |eps| <= 1.3e-39 (tolerance 1e-13), max |w| / max |u| = 6.4e-25 (b = 0 identically; tolerance 1e-12), Richardson profile vs sqrt(2M/(1 - e^(-2ML))) e^(My) at the 151 report points: max error 4.00e-15 (tolerance 1e-9)"
+  },
+  {
+   "name": "free_brane_band_slope",
+   "verdict": "PASS",
+   "detail": "d eps/dk at k = 0 of the even j = +1 brane band (discrete Hellmann-Feynman, Richardson) equals ks-theory.json c e^(-a4,0) at a4,0 = [0.0, 0.5, 1.0, 1.5, 2.0] to 2.56e-15 relative (tolerance 1e-11); the formula reproduces checksNumeric.braneBandSlope_M1_H1_L3_a0 to 0.0e+00"
+  },
+  {
+   "name": "free_particle_branch",
+   "verdict": "PASS",
+   "detail": "shells n2 <= 30 at every slice (G = 300): the lowest particle index (count of free levels below -1e-9) has eps > 0 (the k = 0 even zero mode: eps = 0), the index below has eps < 0; violations 0; closest level to zero away from the zero modes 0.0642 m (required > 1e-3)"
+  },
+  {
+   "name": "parameters_closed_shells",
+   "verdict": "PASS",
+   "detail": "free a4,0 = 0 aufbau: bulk edge 1.292292828069 m (U 3.5e-12); closed shells below it [8, 32, 80, 112, 136, 232, 328, 376, 496, 592, 688] (same on every grid: True); N_large = 688, N_mid = 136 (nearest to N_large/4 = 172.0)"
+  },
+  {
+   "name": "parameters_calibration",
+   "verdict": "PASS",
+   "detail": "couplings re-derived (strength = max over slices and y of max((15/16)|S|, |n|/16), free ground states): N = 8: strength 5.138803993 (U 2.0e-11), lambda_1 = 0.01946, lambda_2 = 0.05838; N = 136: strength 107.5483018 (U 5.4e-08), lambda_1 = 0.0009298, lambda_2 = 0.002789; N = 688: strength 541.7158538 (U 3.7e-08), lambda_1 = 0.0001846, lambda_2 = 0.0005538; the unrounded couplings lie farther from a 4-digit rounding boundary than 50 x their relative uncertainty: True"
+  },
+  {
+   "name": "ground_scf_converged",
+   "verdict": "PASS",
+   "detail": "SCF converged (max |potential residual|, units of m) for the ground state, the Delta-SCF state and the four a4 neighbours on every grid; 18 cases; worst value 9.991e-13 (N136_lamp1_a05); tolerance 1.0e-12; failures: none"
+  },
+  {
+   "name": "ground_grid_consistency",
+   "verdict": "PASS",
+   "detail": "the same occupations and the same HOMO/LUMO groups on every grid (value 1 = differ); 18 cases; worst value 0.000e+00 (N8_lam0_a00); tolerance 0.0e+00; failures: none"
+  },
+  {
+   "name": "ground_closed_shell",
+   "verdict": "PASS",
+   "detail": "closed-shell aufbau on every grid (value 1 = open); 18 cases; worst value 0.000e+00 (N8_lam0_a00); tolerance 0.0e+00; failures: none"
+  },
+  {
+   "name": "ground_window_complete",
+   "verdict": "PASS",
+   "detail": "label set complete on every grid: LUMO - lowest excluded level (must be < 0); 18 cases; worst value -2.547e-01 (N688_lam0_a00); tolerance 0.0e+00; failures: none"
+  },
+  {
+   "name": "ground_N_conservation",
+   "verdict": "PASS",
+   "detail": "particle number: |sum g f - N| <= 1e-9 on every grid and |2 Vol_7 int e^{6Hy} n dy - N| (Richardson) <= 3U + 1e-10 N; value = the larger of the two ratios |difference| / allowance; 18 cases; worst value 7.883e-06 (N136_lamm2_a20); tolerance 1.0e+00; failures: none"
+  },
+  {
+   "name": "ground_energy_two_forms",
+   "verdict": "PASS",
+   "detail": "E_KS = sum g f eps - E_int equals the variational form on every grid: relative difference; 18 cases; worst value 7.991e-15 (N136_lamp2_a20); tolerance 1.0e-09; failures: none"
+  },
+  {
+   "name": "emt_energy_integral",
+   "verdict": "PASS",
+   "detail": "2 Vol_7 int e^{6Hy} rho dy = E_KS (Richardson values): |difference| / (3 (U1 + U2) + 1e-12 max(1, |E|)); 18 cases; worst value 3.931e-05 (N136_lamp2_a10); tolerance 1.0e+00; failures: none"
+  },
+  {
+   "name": "emt_y_conservation_integrated",
+   "verdict": "PASS",
+   "detail": "[e^{6Hy} p8]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy (Richardson values): |difference| / (3 (U1 + U2) + 1e-8 scale), scale = max(|jump|, |integral|, |e^{6Hy} p8| at both ends); 18 cases; worst value 2.295e-04 (N688_lamp2_a20); tolerance 1.0e+00; failures: none"
+  },
+  {
+   "name": "emt_energy_change_dE_da4",
+   "verdict": "PASS",
+   "detail": "dE/da4 at fixed occupations (a4 +- delta, +- 2 delta, Richardson) = -6 Vol_7 int e^{6Hy}(p3 - p_t) dy (Richardson in h): |difference| / (3 (U1 + U2) + 1e-10 max(1, |dE/da4|)); 18 cases; worst value 8.849e-03 (N688_lamp1_a15); tolerance 1.0e+00; failures: none"
+  },
+  {
+   "name": "adiabatic_hellmann_feynman_discrete",
+   "verdict": "PASS",
+   "detail": "d eps_n/da4 (differences of the self-consistent levels) = z_n^T (dT/da4) z_n on every grid: max |deviation| (units of m); 18 cases; worst value 5.530e-11 (N688_lamm1_a05); tolerance 1.0e-08; failures: none"
+  },
+  {
+   "name": "excited_delta_scf_free_equals_gap",
+   "verdict": "PASS",
+   "detail": "lambda = 0: Delta-SCF excitation energy equals the KS gap on every grid (|difference|, m); 5 cases; worst value 8.904e-14 (N688_lam0_a00); tolerance 1.0e-11; failures: none"
+  },
+  {
+   "name": "richardson_asymptotic_ratio",
+   "verdict": "PASS",
+   "detail": "asymptotic regime: |median ratio (x(300)-x(600))/(x(600)-x(1200)) of the eigenvalues - 4|; 18 cases; worst value 7.387e-05 (N688_lamp2_a00); tolerance 5.0e-02; failures: none"
+  },
+  {
+   "name": "thermo_scf_converged",
+   "verdict": "PASS",
+   "detail": "Mermin SCF converged at T, T +- dT, T +- 2 dT on every grid: max residual (m); 8 cases; worst value 7.732e-13 (N8_lamp1_a10_T20); tolerance 1.0e-12; failures: none"
+  },
+  {
+   "name": "thermo_N_conservation",
+   "verdict": "PASS",
+   "detail": "|sum g f - N| / N on every grid; 8 cases; worst value 6.610e-16 (N688_lam0_a10_T20); tolerance 1.0e-12; failures: none"
+  },
+  {
+   "name": "thermo_grand_potential_two_forms",
+   "verdict": "PASS",
+   "detail": "Omega = -T sum g ln(1 + e^{-(eps-mu)/T}) - E_int equals F - mu N (every grid): relative difference; 8 cases; worst value 2.622e-15 (N688_lam0_a10_T20); tolerance 1.0e-11; failures: none"
+  },
+  {
+   "name": "thermo_CV_identity",
+   "verdict": "PASS",
+   "detail": "C_V = T dS/dT equals dE/dT (Richardson in T and in h): |difference| / (3 (U1 + U2) + eta + 1e-4 |C_V|), eta = N x 1e-12 / dT the noise floor of a difference quotient of energies at the SCF tolerance; 8 cases; worst value 3.513e-04 (N8_lamm1_a00_T10); tolerance 1.0e+00; failures: none"
+  },
+  {
+   "name": "thermo_entropy_identity",
+   "verdict": "PASS",
+   "detail": "-dF/dT = S (Richardson in T and in h): |difference| / (3 (U1 + U2) + eta + 1e-4 S), eta as for thermo_CV_identity; 8 cases; worst value 1.571e-04 (N8_lamm1_a00_T10); tolerance 1.0e+00; failures: none"
+  },
+  {
+   "name": "thermo_window_cut",
+   "verdict": "PASS",
+   "detail": "occupation at the window cut and at the lowest excluded level (every grid); 8 cases; worst value 6.712e-16 (N8_lam0_a20_T50); tolerance 2.0e-13; failures: none"
+  },
+  {
+   "name": "richardson_uncertainty_validated",
+   "verdict": "PASS",
+   "detail": "N136_lamp2_a20 solved also on G = 2400: the three-grid value of (600, 1200, 2400) differs from that of (300, 600, 1200) by at most the stated U of the latter for every element of 19 quantity classes (scalars, all levels, profiles); largest |R123 - R234| / U123 = 0.787 (p8_tip); classes exceeding: none"
+  }
+ ]
+}

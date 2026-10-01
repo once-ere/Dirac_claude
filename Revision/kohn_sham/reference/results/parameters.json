@@ -1,0 +1,431 @@
+{
+ "description": "Revision Kohn-Sham REFERENCE solver (Revision/kohn_sham/reference): independent Python solver, staggered finite differences in y with Richardson extrapolation over G = 300, 600, 1200 (SPEC section 7, Revision/kohn_sham/ks-theory.json). x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} sin^{1/6} z), x8 = hidden direction (y = ln(sin z)/(6H)).",
+ "theoryInputs": {
+  "ksTheorySha256": "41c16878199cfcea04bbe0b52346bd92d607ecd361ba60494cbdbb765f04ab1a",
+  "MeffCoefficientOfLambdaS": "15/16",
+  "vvCoefficientOfLambdaN": "-1/16",
+  "eintCoefficientS2": "15/32",
+  "eintCoefficientN2": "-1/32"
+ },
+ "physics": {
+  "H": 1.0,
+  "m": 1.0,
+  "L": 3.0,
+  "dk": 0.25,
+  "vt": 1.0,
+  "tipTheta": 0.0,
+  "historyA": 1.0,
+  "slicesA4": [
+   0.0,
+   0.5,
+   1.0,
+   1.5,
+   2.0
+  ],
+  "temperatures": [
+   0.01,
+   0.02,
+   0.05
+  ],
+  "sigmas": {
+   "lam0": 0.0,
+   "lamp1": 0.1,
+   "lamm1": 0.1,
+   "lamp2": 0.3,
+   "lamm2": 0.3
+  }
+ },
+ "numerics": {
+  "grids": [
+   300,
+   600,
+   1200
+  ],
+  "validationGrids": [
+   300,
+   600,
+   1200,
+   2400
+  ],
+  "richardson": "R = (64 x(4G) - 20 x(2G) + x(G))/45; U = |R - (4 x(4G) - x(2G))/3| + 2e-12 max(1, |R|)",
+  "scfTolerance": 1e-12,
+  "degeneracyTolerance": 1e-09,
+  "zeroModeThreshold": 1e-09,
+  "a4Step": 0.002,
+  "temperatureStepRelative": 0.01,
+  "endExtrapolation": "quintic from the six nearest half nodes",
+  "windowT0": "free particle levels below max(E_F, LUMO) + 0.25 + 2 sigma, plus ranks 0..2 of every sector of an occupied shell",
+  "windowThermal": "free particle levels below mu + T ln(1e13) + 0.2 + 2 sigma"
+ },
+ "derived": {
+  "bulk_edge": {
+   "value": 1.2922928280685828,
+   "U": 3.5080691680203707e-12
+  },
+  "closed_shells_a0": [
+   {
+    "N": 8.0,
+    "eps_last": 1.6387534092192654e-39,
+    "U_last": 2e-12,
+    "eps_next": 0.4307336786379083,
+    "U_next": 2.6473710456589287e-12,
+    "group": "0:-1:even:0;0:+1:even:0"
+   },
+   {
+    "N": 32.0,
+    "eps_last": 0.4307336786379083,
+    "U_last": 2.6473710456589287e-12,
+    "eps_next": 0.5879568527515173,
+    "U_next": 3.025513007846257e-12,
+    "group": "1:+1:even:0"
+   },
+   {
+    "N": 80.0,
+    "eps_last": 0.5879568527515173,
+    "U_last": 3.025513007846257e-12,
+    "eps_next": 0.7040995646094984,
+    "U_next": 3.3832268663804825e-12,
+    "group": "2:+1:even:0"
+   },
+   {
+    "N": 112.0,
+    "eps_last": 0.7040995646094984,
+    "U_last": 3.3832268663804825e-12,
+    "eps_next": 0.7996457668344849,
+    "U_next": 3.731170762298006e-12,
+    "group": "3:+1:even:0"
+   },
+   {
+    "N": 136.0,
+    "eps_last": 0.7996457668344849,
+    "U_last": 3.731170762298006e-12,
+    "eps_next": 0.8823195405311395,
+    "U_next": 4.075783989141655e-12,
+    "group": "4:+1:even:0"
+   },
+   {
+    "N": 232.0,
+    "eps_last": 0.8823195405311395,
+    "U_last": 4.075783989141655e-12,
+    "eps_next": 0.95600692983774,
+    "U_next": 4.420730282892691e-12,
+    "group": "5:+1:even:0"
+   },
+   {
+    "N": 328.0,
+    "eps_last": 0.95600692983774,
+    "U_last": 4.420730282892691e-12,
+    "eps_next": 1.0847048581095546,
+    "U_next": 5.287582103181324e-12,
+    "group": "6:+1:even:0"
+   },
+   {
+    "N": 376.0,
+    "eps_last": 1.0847048581095546,
+    "U_last": 5.287582103181324e-12,
+    "eps_next": 1.142182148603603,
+    "U_next": 5.756697829024845e-12,
+    "group": "8:+1:even:0"
+   },
+   {
+    "N": 496.0,
+    "eps_last": 1.142182148603603,
+    "U_last": 5.756697829024845e-12,
+    "eps_next": 1.1961373834729934,
+    "U_next": 6.223210335717551e-12,
+    "group": "9:+1:even:0"
+   },
+   {
+    "N": 592.0,
+    "eps_last": 1.1961373834729934,
+    "U_last": 6.223210335717551e-12,
+    "eps_next": 1.2471125406260077,
+    "U_next": 6.688203579076007e-12,
+    "group": "10:+1:even:0"
+   },
+   {
+    "N": 688.0,
+    "eps_last": 1.2471125406260077,
+    "U_last": 6.688203579076007e-12,
+    "eps_next": 1.2922928280685828,
+    "U_next": 3.5080691680203707e-12,
+    "group": "11:+1:even:0"
+   }
+  ],
+  "closed_shells_same_on_all_grids": true,
+  "N_large": 688.0,
+  "N_mid": 136.0,
+  "N_mid_distance_rule": [
+   [
+    136.0,
+    36.0
+   ],
+   [
+    112.0,
+    60.0
+   ],
+   [
+    232.0,
+    60.0
+   ],
+   [
+    80.0,
+    92.0
+   ]
+  ],
+  "calibration": [
+   {
+    "N": 8.0,
+    "per_slice": [
+     {
+      "a4": 0.0,
+      "strength": 5.138803993085487,
+      "U": 2.0011155287664645e-11,
+      "argmax_y": [
+       -3.0,
+       -3.0,
+       -3.0
+      ],
+      "peak_interior": false,
+      "curvature_at_peak": 0.0
+     },
+     {
+      "a4": 0.5,
+      "strength": 5.138803993085487,
+      "U": 2.0011155287664645e-11,
+      "argmax_y": [
+       -3.0,
+       -3.0,
+       -3.0
+      ],
+      "peak_interior": false,
+      "curvature_at_peak": 0.0
+     },
+     {
+      "a4": 1.0,
+      "strength": 5.138803993085487,
+      "U": 2.0011155287664645e-11,
+      "argmax_y": [
+       -3.0,
+       -3.0,
+       -3.0
+      ],
+      "peak_interior": false,
+      "curvature_at_peak": 0.0
+     },
+     {
+      "a4": 1.5,
+      "strength": 5.138803993085487,
+      "U": 2.0011155287664645e-11,
+      "argmax_y": [
+       -3.0,
+       -3.0,
+       -3.0
+      ],
+      "peak_interior": false,
+      "curvature_at_peak": 0.0
+     },
+     {
+      "a4": 2.0,
+      "strength": 5.138803993085487,
+      "U": 2.0011155287664645e-11,
+      "argmax_y": [
+       -3.0,
+       -3.0,
+       -3.0
+      ],
+      "peak_interior": false,
+      "curvature_at_peak": 0.0
+     }
+    ],
+    "strength": 5.138803993085487,
+    "U": 2.0011155287664645e-11,
+    "lambda1_unrounded": 0.01945978094018665,
+    "lambda2_unrounded": 0.05837934282055994,
+    "lambda1": 0.01946,
+    "lambda2": 0.05838,
+    "rounding_margin_rel": 7.438967878210907e-05,
+    "strength_rel_U": 3.8941269825801175e-12
+   },
+   {
+    "N": 136.0,
+    "per_slice": [
+     {
+      "a4": 0.0,
+      "strength": 5.225903546192414,
+      "U": 3.3490267120986375e-11,
+      "argmax_y": [
+       -3.0,
+       -3.0,
+       -3.0
+      ],
+      "peak_interior": false,
+      "curvature_at_peak": 0.0
+     },
+     {
+      "a4": 0.5,
+      "strength": 17.325669377422663,
+      "U": 1.6784848525084795e-09,
+      "argmax_y": [
+       -2.6551104242163803,
+       -2.6551024410970343,
+       -2.6551004419164093
+      ],
+      "peak_interior": true,
+      "curvature_at_peak": -121.28735652019336
+     },
+     {
+      "a4": 1.0,
+      "strength": 61.293931160830915,
+      "U": 2.318974934539138e-09,
+      "argmax_y": [
+       -2.770737750702801,
+       -2.7707370510878273,
+       -2.770736921248311
+      ],
+      "peak_interior": true,
+      "curvature_at_peak": -1020.1737079845033
+     },
+     {
+      "a4": 1.5,
+      "strength": 106.01489657403148,
+      "U": 2.3896607647658345e-08,
+      "argmax_y": [
+       -2.802352481215642,
+       -2.8023526118217323,
+       -2.8023526916519432
+      ],
+      "peak_interior": true,
+      "curvature_at_peak": -2568.430275355012
+     },
+     {
+      "a4": 2.0,
+      "strength": 107.54830180889486,
+      "U": 5.395242052761467e-08,
+      "argmax_y": [
+       -2.8133782989772866,
+       -2.8133784877197963,
+       -2.813378558793259
+      ],
+      "peak_interior": true,
+      "curvature_at_peak": -3022.484359777377
+     }
+    ],
+    "strength": 107.54830180889486,
+    "U": 5.395242052761467e-08,
+    "lambda1_unrounded": 0.0009298147745530411,
+    "lambda2_unrounded": 0.0027894443236591232,
+    "lambda1": 0.0009298,
+    "lambda2": 0.002789,
+    "rounding_margin_rel": 1.99596530407565e-05,
+    "strength_rel_U": 5.01657577294749e-10
+   },
+   {
+    "N": 688.0,
+    "per_slice": [
+     {
+      "a4": 0.0,
+      "strength": 5.225917624856424,
+      "U": 3.34787489588583e-11,
+      "argmax_y": [
+       -3.0,
+       -3.0,
+       -3.0
+      ],
+      "peak_interior": false,
+      "curvature_at_peak": 0.0
+     },
+     {
+      "a4": 0.5,
+      "strength": 19.525481150232853,
+      "U": 5.935869349970783e-10,
+      "argmax_y": [
+       -2.554914396186425,
+       -2.554906234906705,
+       -2.554904192598512
+      ],
+      "peak_interior": true,
+      "curvature_at_peak": -65.82032758511266
+     },
+     {
+      "a4": 1.0,
+      "strength": 94.38083908451621,
+      "U": 1.283708033975347e-09,
+      "argmax_y": [
+       -2.702030096334589,
+       -2.7020258573620595,
+       -2.702024833721509
+      ],
+      "peak_interior": true,
+      "curvature_at_peak": -786.8765596176809
+     },
+     {
+      "a4": 1.5,
+      "strength": 302.27760551447784,
+      "U": 2.292042880449927e-08,
+      "argmax_y": [
+       -2.769128876287578,
+       -2.7691279880602298,
+       -2.769127811893593
+      ],
+      "peak_interior": true,
+      "curvature_at_peak": -4918.561804253577
+     },
+     {
+      "a4": 2.0,
+      "strength": 541.7158538250736,
+      "U": 3.696834097396508e-08,
+      "argmax_y": [
+       -2.8007170196765276,
+       -2.800717088930677,
+       -2.8007171518323988
+      ],
+      "peak_interior": true,
+      "curvature_at_peak": -12847.657125723
+     }
+    ],
+    "strength": 541.7158538250736,
+    "U": 3.696834097396508e-08,
+    "lambda1_unrounded": 0.00018459862175695374,
+    "lambda2_unrounded": 0.0005537958652708612,
+    "lambda1": 0.0001846,
+    "lambda2": 0.0005538,
+    "rounding_margin_rel": 8.281981455166847e-05,
+    "strength_rel_U": 6.824304792435074e-11
+   }
+  ]
+ },
+ "subset": {
+  "ground": [
+   "N8_lam0_a00",
+   "N8_lamp1_a10",
+   "N8_lamp2_a00",
+   "N8_lamm2_a20",
+   "N136_lam0_a00",
+   "N136_lam0_a20",
+   "N136_lamp1_a05",
+   "N136_lamm1_a15",
+   "N136_lamp2_a10",
+   "N136_lamp2_a20",
+   "N136_lamm2_a20",
+   "N688_lam0_a00",
+   "N688_lam0_a20",
+   "N688_lamp1_a15",
+   "N688_lamm1_a05",
+   "N688_lamp2_a00",
+   "N688_lamp2_a20",
+   "N688_lamm2_a10"
+  ],
+  "thermal": [
+   "N8_lam0_a20_T50",
+   "N8_lamp1_a10_T20",
+   "N8_lamm1_a00_T10",
+   "N136_lam0_a15_T50",
+   "N136_lamp1_a20_T20",
+   "N136_lamm1_a05_T10",
+   "N688_lam0_a10_T20",
+   "N688_lamp1_a20_T50"
+  ],
+  "validation": "N136_lamp2_a20"
+ }
+}
