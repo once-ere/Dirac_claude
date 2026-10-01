@@ -170,3 +170,22 @@ independently quantised universes); and an exact statement of what these theorem
   4. `Revision/docs/KOHN_SHAM_DEFLATING_FIELD`, 5. `Revision/docs/DARK_SECTOR_HYPOTHESES`,
   6. `Revision/docs/LOVELOCK_GKD`.
 * A gate `Revision/verify_revision.{ps1,sh}` that re-runs every verifier and compares outputs.
+
+## 11. Lead's analysis for section 8 (to be CHECKED by the dark-sector work, not results)
+
+* The 7-volume of the metric is constant (the inflation e^{3 a4} of 3-space is compensated by the
+  deflation e^{-3 a4} of the extra times). A 3-space observer integrates over the hidden direction and
+  the extra times, so the effective 4-dimensional density is rho_4 ~ rho_8 c^3 with c = e^{-a4} ~ 1/a,
+  where a = e^{a4} is the 3-space scale factor.
+* Non-relativistic quanta (conserved number in a constant 7-volume): rho_8 constant, rho_4 ~ a^-3 (dust).
+  Relativistic quanta (energy ~ e^{-a4} k): rho_8 ~ a^-1, rho_4 ~ a^-4 (radiation). A Kohn-Sham gas whose
+  3-momenta redshift as 3-space inflates therefore has a time-varying equation of state from 1/3 towards
+  0: a candidate time-varying DARK-MATTER equation of state - to be computed, with the hidden-direction
+  pressure and the extra-time pressure, which a 3-space observer does not see as pressure.
+* A homogeneous condensate: S per proper 7-volume constant, rho_8 = m S + U and p = S U' - U constant, so
+  w = p/rho is constant in time while rho_4 ~ a^-3: the ratio w and the dilution-inferred
+  w_eff = -1 - (1/3) d ln rho_4 / d ln a = 0 disagree; 4-dimensional energy is exchanged with the extra
+  dimensions. Whether any state of either field gives a time-varying DARK-ENERGY equation of state near the
+  Unite values must be computed, not assumed; crossing w = -1 needs negative kinetic energy, which the
+  indefinite (Krein) energy of the extra-time sector and the commuting field dirac16complex00 may supply -
+  to be examined explicitly and labelled.
