@@ -9,7 +9,7 @@ in this repository; nothing depends on the old session's scratch directory.
 ### 0.1 Resume the same conversation (preferred: keeps all context)
 
 ```powershell
-cd C:\Users\nsh\Developer\github\Dirac_claude
+cd D:\Developer\github\Dirac_claude
 claude --continue
 ```
 
@@ -28,7 +28,7 @@ re-launch them (section 0.3); finished files are on disk and are reused.
 ### 0.2 Start a new session (if the old one cannot be resumed)
 
 ```powershell
-cd C:\Users\nsh\Developer\github\Dirac_claude
+cd D:\Developer\github\Dirac_claude
 claude
 ```
 
