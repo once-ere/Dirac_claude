@@ -71,7 +71,15 @@ scripts in `Revision/workflows/` still carry the old `ROOT`/`SP`; a session must
 scratchpad and set `ROOT = 'D:/Developer/github/Dirac_claude'` and its own `SP` before launching.
 Revision wave 1 (`Revision/workflows/revision_wave_1.js`) was RELAUNCHED in this session (run
 wf_6f22a73c-e62) with a restart note telling the agents to inspect and finish the partial
-`Revision/algebra/wolfram/RevisionAlgebra.wl`.  NEXT: when wave 1 finishes, commit and push, then
+`Revision/algebra/wolfram/RevisionAlgebra.wl`.  Progress at the checkpoint of 2026-10-01 15:45 (commit
+2c61fb0, pushed): Algebra, Theory (Wolfram 84 exact checks and the independent sympy check), a4 equations,
+pairing (Wolfram 99 checks and sympy), GKD verification, Kohn-Sham exact theory and the Rust solver
+all reported every check passing; the three documents (DIRAC16COMPLEX_FIELD_THEORY 25 pp,
+DIRAC16COMPLEX00_FIELD_THEORY 32 pp, PAIR_CREATION_PROOFS 26 pp) are built and registered.  STILL
+RUNNING: the Kohn-Sham reference solver/cross-checker (ks-reference) and the four review lenses, then
+the fixer.  These files are committed as a snapshot and are NOT yet reviewed.  If a restart finds the
+run gone: relaunch the retargeted `revision_wave_1.js` (its agents inspect and finish existing files),
+or hand-author a script with only ks-reference, the four reviews and the fixer.  NEXT: when wave 1 finishes, commit and push, then
 launch `revision_wave_2.js` (dark-sector hypotheses vs Unite, a4 with the Kohn-Sham source, T3,
 documents, notebooks, gate, reviews).
 
