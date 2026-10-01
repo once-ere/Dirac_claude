@@ -72,8 +72,13 @@ Binding: `handoff/specs/DEFLATION_SPEC.md` (a4 = A t for all t, A = 1, 2; EXP-1 
 window, EXP-2 from the notebook's deflation, EXP-3/EXP-4 with exponentially deflating extra
 times, Stages 4/5 as instantaneous (adiabatic) Kohn-Sham states along a4 = A H x4 with an
 adiabaticity analysis, TDDFT OPEN; every document and the textbook updated).  State: the spec is
-written (commit 2e02e5e) and under adversarial review (physics, faithfulness, feasibility);
-then the implementation workflows of DEFLATION_SPEC D14.  The textbook built before this
+written (commit 2e02e5e) and under adversarial review (physics, faithfulness, feasibility;
+`handoff/workflows/wf_deflation_spec_review.js`, read-only reviewers; it was still running at the
+pause of 2026-10-01 ~00:00 - after a restart rerun it, amend the spec with the confirmed findings,
+commit); then write and run the implementation workflows of DEFLATION_SPEC D14.  Feasibility
+checked by the lead: the Kohn-Sham crate (geometry.rs, shooting.rs, runs.rs) and the reference
+solver already take a4_0 != 0 and check the E4.10 rescaling identity, so the slice series of D8
+reuses them via a new `deflating` subcommand.  The textbook built before this
 correction (671 pages, commit 4ede502) describes the static/frozen/window models and must be
 updated by D12.  Sections 0.4 A-E below describe the state before the correction and remain
 the to-do list for the parts the correction does not replace.
