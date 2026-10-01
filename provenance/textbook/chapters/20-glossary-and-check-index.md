@@ -4,7 +4,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 
 ### 20.1 How to use this chapter
 
-**The glossary.** Each entry has the form "**term** (Chapter N)", followed by one or two sentences. The chapter is the one in which the term is first defined or first explained; where two chapters are named, the first gives a short definition and the second the full treatment, or the term has two uses. A term that returns later is not listed again under the later chapters. The definitions are short reminders, not replacements for the chapters: the full definition, the worked examples and the proofs are in the chapter named. Terms that consist of several words are sorted by their first word (for example "spin connection" under S), and a term that is usually abbreviated is listed under its abbreviation with a cross-reference ("BDF: see backward differentiation formula"). Upper and lower case, hyphens, mathematical symbols and accents are ignored in the ordering, and a term that begins with a digit is sorted as if the digit were written as a word ("3-space" under T). Where a term has a special meaning in this project that differs from its everyday meaning (for example "gate", "check", "good sector"), the entry gives the project's meaning.
+**The glossary.** Each entry has the form "**term** (Chapter N)", followed by one or two sentences. The chapter is the one in which the term is first defined or first explained; where two chapters are named, the first gives a short definition and the second the full treatment, or the term has two uses. A term that returns later is not listed again under the later chapters. The definitions are short reminders, not replacements for the chapters: the full definition, the worked examples and the proofs are in the chapter named. The entries are sorted letter by letter, as if each term were written as one word: spaces, hyphens, dashes, apostrophes, brackets, upper and lower case, accents and the markup of mathematical symbols are ignored (so "line element" comes after "linearly independent", and "$q$ vector" is sorted as "qvector"). Digits come before letters ("dirac16complex" before "Dirac adjoint", "Q1" before "$q$ vector"), except that a term beginning with a digit is sorted as if that digit were written as a word ("3-space" under T). An entry that names several terms is sorted by the first of them, the part before the first comma (so "double, double precision" comes before "double cover"). A term that is usually abbreviated is listed under its abbreviation with a cross-reference ("BDF: see backward differentiation formula"). Where a term has a special meaning in this project that differs from its everyday meaning (for example "gate", "check", "good sector"), the entry gives the project's meaning.
 
 **The index of checks.** A check is a named statement that a verifier has decided to be true or false and recorded in a report (Section 0.8). Section 20.9 explains how the index was made and verified.
 
@@ -21,9 +21,9 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **amplification factor** (Chapter 10). The number $R(z)$, $z=h\lambda$, by which a one-step method multiplies the solution of $y'=\lambda y$ in each step; its modulus decides stability.
 - **Anderson mixing, Pulay mixing** (Chapter 12). A way to find the self-consistent density that combines several previous inputs and their residuals so as to make the residual smallest; the Rust Kohn–Sham solver uses it.
 - **annihilate, annihilation operator** (Chapter 8). The operator $b$ (or $a_p$) that removes one fermion from a mode and gives zero on an empty mode; in particle physics a particle and its antiparticle also annihilate each other (Chapter 17).
-- **anti-Hermitian** (Chapter 1). A square matrix with $A^\dagger=-A$; a real antisymmetric matrix is anti-Hermitian, and $i$ times an anti-Hermitian matrix is Hermitian.
 - **anticommutation relations** (Chapter 12). The rules $\{a_p,a_q^\dagger\}=\delta_{pq}$ and $\{a_p,a_q\}=\{a_p^\dagger,a_q^\dagger\}=0$ of fermion creation and annihilation operators.
 - **anticommutator** (Chapter 1). $\{A,B\}=AB+BA$; two matrices anticommute when it is zero.
+- **anti-Hermitian** (Chapter 1). A square matrix with $A^\dagger=-A$; a real antisymmetric matrix is anti-Hermitian, and $i$ times an anti-Hermitian matrix is Hermitian.
 - **antilinear** (Chapter 17). A map $A$ with $A(cv)=c^\ast A(v)$ for complex numbers $c$, such as complex conjugation; an antiunitary map is an antilinear map that preserves the modulus of inner products.
 - **antiparticle** (Chapter 8). In the good-sector Fock space, a hole in the filled Dirac sea: it has positive energy and the opposite U(1) charge of a particle.
 - **antisymmetric matrix** (Chapter 1). A square matrix with $A^T=-A$; its diagonal is zero.
@@ -40,6 +40,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **baryogenesis** (Chapter 17). Any process in the early universe that creates the observed excess of baryons over antibaryons; it needs the three conditions of Sakharov.
 - **baryon, baryon number** (Chapter 17). Baryons are particles made of three quarks, such as protons and neutrons; the baryon number counts baryons minus antibaryons and is conserved by every process observed so far.
 - **baryon-to-photon ratio** (Chapter 17). $\eta$, the number of baryons per photon of the cosmic microwave background, $\eta=6.12\times10^{-10}$ from the quoted measurements; the measured size of the matter–antimatter asymmetry, which this theory does not predict.
+- **Bash**: see command shell.
 - **basis** (Chapter 1). A list of linearly independent vectors of which every vector is a combination; all bases of $\mathbb R^n$ have $n$ vectors.
 - **BDF**: see backward differentiation formula.
 - **Bianchi identities** (Chapter 4). The first, $R^\rho{}_{\sigma\mu\nu}+R^\rho{}_{\mu\nu\sigma}+R^\rho{}_{\nu\sigma\mu}=0$, and the second, the vanishing cyclic sum of covariant derivatives of the Riemann tensor; the contracted form gives $\nabla_\mu G^\mu{}_\nu=0$.
@@ -81,15 +82,18 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **Clifford picture, tensor-product picture** (Chapter 2). The construction of real $16\times16$ gammas as Kronecker products of $2\times2$ matrices, the "Clifford picture" of the reference implementation dirac-main.
 - **Clifford relation** (Chapter 2). $\gamma^a\gamma^b+\gamma^b\gamma^a=2\eta^{ab}I$.
 - **Clifford vector** (Chapter 2). A combination $v=\sum_cv_c\gamma^c$ of the gamma matrices.
+- **clone, fresh clone** (Chapter 19). A complete copy of a repository, with its whole history, made by the command `git clone`; a fresh clone is one made just before a test, so that no file of an earlier run and no local change can enter the test.
 - **closed shell** (Chapter 13). A particle number that fills complete Kohn–Sham levels (for example $N=8$, 112, 1016); for it the Kohn–Sham gap is well defined.
 - **collisionless** (Chapter 11). A gas whose particles do not interact after the start, so that each momentum mode keeps its occupation.
+- **command shell, PowerShell, Bash** (Chapter 19). A program in which commands are typed, one per line, and run in a current folder; the book gives every command for PowerShell (the shell of Windows) and for Bash (the shell of Git Bash on Windows, of macOS and of Linux). Not to be confused with the shells of Kohn–Sham levels (Chapter 13).
+- **commit** (Chapter 19). A recorded state of all the files of a repository, with a message, named by a 40-digit hexadecimal fingerprint of its content; a short beginning of the name, such as `1f2dd69`, is enough to name it. The command `git checkout` followed by the name restores the files of that state.
 - **commutant** (Chapter 2). The set of matrices that commute with every matrix of a representation; its dimension decides irreducibility and equivalence.
 - **commutator** (Chapter 1). $[A,B]=AB-BA$; two matrices commute when it is zero.
 - **comoving** (Chapter 11). Measured in coordinates that expand with the universe; a comoving momentum $k$ corresponds to the physical momentum $k/a$.
 - **completeness relation** (Chapter 8). $\sum_s(u_s)_a(u_s)_b^\ast+\sum_s(v_s)_a(v_s)_b^\ast=\delta_{ab}$ for an orthonormal basis of positive- and negative-energy columns; it expresses that the basis spans all of $\mathbb C^{16}$.
 - **complex conjugate** (Chapter 1). $z^\ast=a-ib$ for $z=a+ib$; for a matrix, conjugation of every entry.
-- **complex number** (Chapter 1). A number $a+ib$ with real $a,b$ and $i^2=-1$.
 - **complexification** (Chapter 6). The Lagrangian of dirac16complex00 viewed as two copies of the notebook's real Lagrangian, one for the real and one for the imaginary part of the field, coupled only through the interaction $U$.
+- **complex number** (Chapter 1). A number $a+ib$ with real $a,b$ and $i^2=-1$.
 - **components** (Chapter 1). The numbers $v_0,\dots,v_{n-1}$ of a vector (counted from 0); in Chapter 4 the numbers of a tensor in a chosen chart or frame.
 - **composition algebra** (Chapter 3). An algebra with unit and a nondegenerate quadratic norm with $N(xy)=N(x)N(y)$.
 - **COMPUTED** (Chapter 0). The status of a numerical result of a program, reproducible and checked but not a proof.
@@ -142,23 +146,25 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **diagonal matrix** (Chapter 1). A square matrix whose entries off the main diagonal are zero.
 - **difference quotient** (Chapter 10). An approximate derivative $(f(x+h)-f(x))/h$; CVODE uses difference quotients to build the Jacobian matrix.
 - **dimension** (Chapter 1). The number of vectors in a basis of a vector space.
-- **Dirac adjoint** (Chapter 2). The row $\bar\Psi=\Psi^\dagger C$ built with the charge matrix $C$; the bilinears $\bar\Psi M\Psi$ with suitable $M$ do not change under spin transformations.
+- **dirac16complex** (Chapter 0). The field theory of this book: a 16-component complex spinor field with anticommuting (Grassmann) components in eight dimensions of signature (4,4), with a mass term, a scalar interaction and the canonical spin connection.
+- **dirac16complex00** (Chapter 0). The same Lagrangian for a field with ordinary commuting complex components (a classical field); its real restriction is the notebook's Lagrangian (Chapter 6).
+- **Dirac adjoint** (Chapters 2 and 6). The row $\bar\Psi=\Psi^\dagger C$ built with the charge matrix $C$; the bilinears $\bar\Psi M\Psi$ with suitable $M$ do not change under spin transformations.
 - **Dirac bracket** (Chapter 8). The bracket of Hamiltonian mechanics with second-class constraints, built from the inverse of the matrix of the constraint brackets; its quantized form gives the canonical anticommutator.
 - **dirac-main** (Chapter 2). The reference implementation of the gamma matrices and the split octonions with which Stage 1 compares (its tensor matrices are the Clifford picture); its files are kept in the git-ignored folder `dirac-main/`, so that a public clone runs the gates without those comparisons (Section 19.6).
 - **Dirac operator** (Chapter 4). The operator $\gamma^\mu D_\mu$ of the field equation in a curved space; its square is given by the Lichnerowicz formula.
-- **Dirac's exchange energy** (Chapter 12). The exchange energy per volume of the uniform electron gas, $-\tfrac34(3/\pi)^{1/3}n^{4/3}$ in atomic units; the local exchange of the LDA.
 - **Dirac sea** (Chapter 8). The state in which every negative-energy mode is filled; the vacuum of the good sector, in which a hole is an antiparticle with positive energy.
-- **dirac16complex** (Chapter 0). The field theory of this book: a 16-component complex spinor field with anticommuting (Grassmann) components in eight dimensions of signature (4,4), with a mass term, a scalar interaction and the canonical spin connection.
-- **dirac16complex00** (Chapter 0). The same Lagrangian for a field with ordinary commuting complex components (a classical field); its real restriction is the notebook's Lagrangian (Chapter 6).
+- **Dirac's exchange energy** (Chapter 12). The exchange energy per volume of the uniform electron gas, $-\tfrac34(3/\pi)^{1/3}n^{4/3}$ in atomic units; the local exchange of the LDA.
 - **direct and exchange terms** (Chapter 14). The two ways of pairing the four amplitudes of an average $\langle c_n^\ast c_q^\ast c_rc_p\rangle$; the exchange term has the sign $+$ for Gaussian waves and $-$ for fermions.
 - **distance modulus** (Chapter 11). $\mu=5\log_{10}(d_L/10\,\mathrm{pc})$, the logarithm of the luminosity distance used in supernova tables.
 - **dominant energy condition, DEC** (Chapter 9). The weak energy condition together with the requirement that energy does not flow faster than light; it needs $\rho\ge0$ in particular.
 - **dot product, cross product** (Chapter 3). For vectors of three components $u\cdot r=u_1r_1+u_2r_2+u_3r_3$ (a symmetric number) and $u\times r$ (an antisymmetric vector); the quaternion product contains both.
-- **double cover** (Chapter 2). A map from a group onto another that sends exactly two elements (here $R$ and $-R$) to each image; Pin(4,4) and Spin(4,4) are double covers of O(4,4) and SO(4,4).
 - **double, double precision** (Chapter 10). The standard 64-bit floating-point number, with about 16 significant decimal digits.
+- **double cover** (Chapter 2). A map from a group onto another that sends exactly two elements (here $R$ and $-R$) to each image; Pin(4,4) and Spin(4,4) are double covers of O(4,4) and SO(4,4).
+- **dry run, partial run** (Chapter 19). Two modes of the Stage-4 gate: a dry run lists every step with its command and its expected time and runs nothing; a partial run runs only the listed steps and ends with `PARTIAL`, never with OK.
 - **dual (of an antisymmetric $4\times4$ matrix)** (Chapter 3). $({\ast}A)_{pq}=\tfrac12\sum_{r,s}\epsilon_{pqrs}A_{rs}$; the matrix is self-dual if ${\ast}A=A$ and anti-self-dual if ${\ast}A=-A$.
 - **dummy index** (Chapter 1). An index that is summed over; its name can be changed without changing the expression.
 - **dynamics** (Chapter 16). The equations that say how a state changes in time and how often a transition happens; conservation laws alone do not decide this.
+- **edition, registered edition, verify mode** (Chapter 19). The page count and the sha256 of a document's PDF as recorded in `provenance/pdf-specifications.json`. In its verify mode, the default, the PDF builder requires a rebuilt PDF to reproduce the registered edition byte for byte; with the option `--register` it records a new edition instead.
 - **eigenvalue, eigenvector, eigenspace** (Chapters 1 and 2). A number $\lambda$ and a nonzero vector $v$ with $Av=\lambda v$; the eigenspace of $\lambda$ is the subspace of all such $v$ together with 0.
 - **eigenvalue problem** (Chapter 10). The task of finding the values of a parameter (for example the Kohn–Sham level $\varepsilon$) for which a differential equation with boundary conditions has a nonzero solution.
 - **Einstein equations** (Chapter 4). $G^\mu{}_\nu=\kappa T^\mu{}_\nu$ (in this book with $\kappa$ of eight dimensions), relating the curvature of spacetime to its energy–momentum source.
@@ -174,6 +180,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **ensemble** (Chapter 12). A statistical mixture of many-body states with probabilities; at a temperature $T$ the grand-canonical ensemble.
 - **entropy** (Chapter 12). $S=-\mathrm{tr}(\hat\rho\ln\hat\rho)$, for independent fermions $-\sum_n[f_n\ln f_n+(1-f_n)\ln(1-f_n)]$.
 - **envelope theorem** (Chapter 12). The derivative of the minimum of a function with respect to a parameter equals the partial derivative at the minimizer; it underlies the Hellmann–Feynman relations.
+- **environment variable** (Chapter 19). A named setting of the command shell that the programs started from it can read, such as `PYTHONUTF8=1`.
 - **equation of state, equation-of-state parameter** (Chapter 5). A relation between pressure and energy density; the parameter is $w=p/\rho$ ($w=0$ for dust, $\tfrac13$ for radiation, $-1$ for a cosmological constant).
 - **equivalent representations** (Chapter 2). Two representations $\rho,\rho'$ with an invertible intertwiner, $\rho'(g)=X\rho(g)X^{-1}$.
 - **erratum** (Chapter 18). A recorded correction of a specification or of the notebook, with its evidence, such as the errata E4.1 to E4.13 of the Stage-4 specification; errata are cited from Chapter 3 on.
@@ -187,6 +194,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **exchange energy** (Chapter 12). The Fock term $E_x=-\tfrac12\int\!\int|\rho(x,x')|^2w(x,x')\,dx\,dx'$ of the energy of a Slater determinant; it has no classical analogue, comes from the antisymmetry of the wave function and lowers the energy for a repulsive interaction.
 - **exchange-only** (Chapter 13). A Kohn–Sham calculation that keeps the exact exchange of the interaction and no correlation energy; Chapter 13 is of this kind.
 - **exchange potentials** (Chapter 13). The derivatives $v_v=\partial e_x/\partial n=-\tfrac\lambda{16}n$ and $v_s=\partial e_x/\partial S=-\tfrac\lambda{16}S$ of the local exchange energy density; $v_v$ shifts the energy, $v_s$ adds to the mass.
+- **exit code** (Chapter 19). The whole number with which a program ends: 0 for success, any other number for failure.
 - **EXP-1 to EXP-5** (Chapter 11). The five numerical experiments of Stage 3: the field in the primordial field of the notebook (EXP-1), a homogeneous self-gravitating universe in eight dimensions (EXP-2), a condensate as the dark energy of the late universe (EXP-3), the quanta of an expanding 3-space as dark matter and their creation (EXP-4), and the deflating extra times (EXP-5).
 - **expectation value** (Chapter 8). $\langle f,Of\rangle$ for a normalized state $f$, the average of many measurements of $O$.
 - **expectation-value rule** (Chapter 11). The rule that replaces a bilinear of the quantum field by its average in the state (normal ordered against the sea); it defines the mean-field sources.
@@ -211,8 +219,8 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **FMA** (Chapter 10). Fused multiply-add, a processor instruction that computes $ab+c$ with a single rounding; the committed numerical files are byte-identical only when the program is built with it.
 - **Fock operator** (Chapter 12). The one-particle operator of the Hartree–Fock equations, kinetic plus external plus Hartree plus exchange operator.
 - **Fock space** (Chapter 8). The space of states with any number of particles and antiparticles, built from the vacuum by creation operators; positive in the good sector.
-- **frame form** (Chapter 17). The way a reflection is applied in a gravitational field: the points are not moved, $\Psi'(x)=M\Psi(x)$, and the frame directions are multiplied by the signs $r_a$, which leaves the metric unchanged.
 - **frame, vielbein** (Chapter 4). At every point a set of eight orthonormal directions, given by $e_\mu{}^a$ with $g_{\mu\nu}=e_\mu{}^a\eta_{ab}e_\nu{}^b$; spinor components are measured in it.
+- **frame form** (Chapter 17). The way a reflection is applied in a gravitational field: the points are not moved, $\Psi'(x)=M\Psi(x)$, and the frame directions are multiplied by the signs $r_a$, which leaves the metric unchanged.
 - **Friedmann equations** (Chapter 11). The Einstein equations of a homogeneous and isotropic four-dimensional universe, relating the Hubble rate and its derivative to the energy density and the pressure.
 - **functional** (Chapter 5). A rule that assigns a number to a whole function, such as the action to a path or the energy to a density.
 - **functional derivative** (Chapter 12). $\delta F/\delta n(\mathbf r)$, defined by $\delta F=\int\frac{\delta F}{\delta n}\,\delta n\,d^3r$ to first order.
@@ -225,12 +233,13 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **gamma matrices** (Chapter 2). Sixteen-by-sixteen matrices $\gamma^0,\dots,\gamma^7$ with $\gamma^a\gamma^b+\gamma^b\gamma^a=2\eta^{ab}$; the book uses the real matrices of the notebook.
 - **gate** (Chapter 0). A script that runs every program of a stage in a fixed order, stops at the first failure, compares the outputs with the committed files and ends with one line `..._verification=OK` or `FAILED`; each exists as a PowerShell and a Bash twin (Chapter 19).
 - **Gauss–Bonnet combination** (Chapter 9). The Lovelock Lagrangian of order 2, $R^2-4R_{\mu\nu}R^{\mu\nu}+R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}$; in eight dimensions it would add a term to the Einstein equations that neither the notebook nor the project computes.
-- **Gauss-Legendre quadrature** (Chapter 11). A rule $\sum_nw_nF(k_n)$ with nodes and weights chosen so that it integrates every polynomial up to degree $2n-1$ exactly; EXP-4 uses 48 nodes.
 - **Gaussian amplitudes** (Chapter 14). Random complex amplitudes with the density $e^{-|c|^2/f}/(\pi f)$, the amplitudes of thermal (chaotic) waves; for them the exchange term of an average has the sign $+$.
 - **Gaussian normal** (Chapter 7). A time coordinate with $g_{44}=-1$ and $g_{4i}=0$ for $i\ne4$, with the frame's time direction along $x_4$; the observer of the energy density and the pressures.
+- **Gauss-Legendre quadrature** (Chapter 11). A rule $\sum_nw_nF(k_n)$ with nodes and weights chosen so that it integrates every polynomial up to degree $2n-1$ exactly; EXP-4 uses 48 nodes.
 - **generalized Kronecker delta** (Chapter 4). $\delta^{\mu_1\cdots\mu_k}_{\nu_1\cdots\nu_k}$, the determinant of the $k\times k$ matrix of ordinary Kronecker deltas; the Lovelock tensors are built with it.
 - **generators** (Chapter 2). Elements whose products and combinations give a whole algebra or group: the $\gamma^a$ generate the Clifford algebra, and the $S^{ab}$ generate the part of Spin(4,4) connected to 1.
 - **geodesic** (Chapter 4). A curve that is as straight as the geometry allows: its velocity is parallel transported along itself; freely falling particles move on geodesics.
+- **Git** (Chapter 19). The program that records the history of a folder of files as a sequence of commits and copies it between computers; the repository of this book is kept with it.
 - **global error** (Chapter 10). The difference between the computed and the exact solution after many steps; for a method of order $p$ it is proportional to $h^p$.
 - **good sector** (Chapter 8). The modes of the field that do not depend on the three extra times $x_5,x_6,x_7$; in it the Fock space is positive and the Hamiltonian not negative. The numerical chapters are restricted to it, by assumption.
 - **grand potential** (Chapter 12). $\Omega=\mathrm{Tr}[\hat\rho(\hat H-\mu\hat N)]+T\,\mathrm{Tr}[\hat\rho\ln\hat\rho]$; the equilibrium state at temperature $T$ minimizes it.
@@ -238,8 +247,8 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **gravitational pair creation** (Chapter 11). The appearance of particle–antiparticle pairs out of the vacuum through the expansion of space alone; EXP-4 computes it for an inflation followed by radiation.
 - **ground state** (Chapter 12). The state of lowest energy; its energy is the minimum of the energy expectation value over all normalized states.
 - **group** (Chapter 2). A set with an associative product, a unit and inverses; a subgroup is a subset that is itself a group.
-- **Hamilton's equations** (Chapter 8). $\dot q=\partial H/\partial p$ and $\dot p=-\partial H/\partial q$, the first-order form of the equations of motion.
 - **Hamiltonian** (Chapter 5). The energy as a function of coordinates and momenta, $H=p\dot q-L$; it generates the time evolution through Hamilton's equations (Chapter 8) and, as an operator, the Schrödinger equation.
+- **Hamilton's equations** (Chapter 8). $\dot q=\partial H/\partial p$ and $\dot p=-\partial H/\partial q$, the first-order form of the equations of motion.
 - **Hartree approximation** (Chapter 12). The mean-field approximation that keeps the Hartree potential and drops the exchange; it keeps the self-interaction of each particle.
 - **Hartree energy, Hartree potential** (Chapter 12). $E_H=\tfrac12\int\!\int n(x)w(x,x')n(x')$, the classical interaction energy of the density with itself, and its functional derivative $v_H=\int w\,n$.
 - **Hartree–Fock approximation** (Chapter 12). The best single Slater determinant, found by minimizing the energy over all choices of orthonormal orbitals; restricted if both spins share one spatial orbital, unrestricted otherwise.
@@ -250,6 +259,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **Hermitian** (Chapter 1). A square matrix with $A^\dagger=A$; its eigenvalues are real and it has an orthonormal basis of eigenvectors.
 - **Hermitian conjugate, conjugate transpose** (Chapter 1). $A^\dagger=(A^\ast)^T$, the conjugate transpose.
 - **Hermitian form** (Chapter 8). A rule $[f,h]=f^\dagger Gh$ with a Hermitian matrix $G$; it is non-degenerate if $Gf=0$ only for $f=0$ and indefinite if some $[f,f]$ are negative.
+- **hexadecimal** (Chapter 19). Writing whole numbers in base 16 with the sixteen digits 0 to 9 and a to f (a stands for 10, b for 11, and so on up to f for 15); the upper-case letters A to F denote the same digits. The names of commits and the sha256 fingerprints are written in hexadecimal.
 - **hidden space** (Chapter 9). The coordinate $x_0$, space-like like $x_1,x_2,x_3$; in the static member of the primordial field the warp factor depends on it.
 - **Hilbert adjoint, Hilbert norm** (Chapters 8 and 11). The adjoint and the norm $u^\dagger u$ with respect to the positive inner product, as opposed to the Krein adjoint and the Krein norm $u^\dagger Bu$.
 - **Hilbert space** (Chapter 8). A complex vector space with a positive inner product; it gives probabilities.
@@ -264,7 +274,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **HYPOTHESIS** (Chapter 0). The status of a statement that is proposed but neither proved nor computed, such as the notebook's claim that universes are created in pairs.
 - **identity matrix** (Chapter 1). The matrix $I$ with ones on the diagonal and zeros elsewhere, $IA=AI=A$.
 - **Illinois variant** (Chapter 10). The regula falsi with the improvement that, when the same end is replaced twice in a row, the function value at the other end is halved; the level finder of the Stage-4 solver.
-- **image field** (Chapter 15). $\Psi_-=\gamma^8\Psi_+$ regarded on the same state space as $\Psi_+$; it carries the reversed Krein metric $-B$, so its cancelling energy and charge are operator identities, not a second independent universe.
+- **image field** (Chapter 15). The quantum field $\Psi_-=\gamma^8\Psi_+$, built from the same operators as $\Psi_+$ and acting on the same states; its anticommutator is the reversed Krein metric $-B$. It is the same quantum system as $\Psi_+$: its own generator of the evolution in $x_4$, its own charge and its own source of gravity are $+H_+$, $+Q_+$ and $+T_{\mu\nu}[\Psi_+]$. The identities $H_++H[\Psi_-;-m]=0$ and $Q_++Q[\Psi_-]=0$, in which $H[\Psi_-;-m]$ and $Q[\Psi_-]$ are the formulas of $\mathcal L_{-m,-\lambda}$ evaluated on the image, have the form $X+(-X)=0$; they are not a cancellation by a second universe (matter–antimatter document, §7.3).
 - **image (of a matrix)** (Chapter 2). The set of all columns $Mu$, a subspace; its dimension is the rank.
 - **indefinite** (Chapter 8). A form or inner product that takes both positive and negative values, such as $f^\dagger Bf$.
 - **initial-value problem** (Chapter 10). A differential equation together with the value of the solution at a starting time.
@@ -281,10 +291,11 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **irreducible** (Chapter 2). A representation with no invariant subspace other than zero and the whole space; by Schur's lemma its commutant consists of multiples of the identity.
 - **isometry** (Chapter 16). A map of spacetime to itself that leaves the metric unchanged, such as the reflection $y\to-y$ of the Z2 geometry.
 - **Israel junction condition** (Chapter 9). The relation between the jump of the extrinsic curvature across a surface and the energy–momentum on the surface; it fixes the source that the brane must carry.
-- **Jacobi's formula** (Chapter 1). $\partial\det A=\det A\,\mathrm{tr}(A^{-1}\partial A)$.
 - **Jacobian matrix** (Chapter 10). The matrix of partial derivatives $\partial f_i/\partial y_j$ of the right-hand side; implicit methods need it for Newton's method. (Chapter 4 uses the Jacobian matrix $\partial x'/\partial x$ of a change of coordinates.)
+- **Jacobi's formula** (Chapter 1). $\partial\det A=\det A\,\mathrm{tr}(A^{-1}\partial A)$.
 - **Janak's theorem** (Chapter 12). The derivative of the Kohn–Sham energy with respect to the occupation of a level equals the level's energy, $\partial E/\partial f_b=\varepsilon_b$.
 - **jets** (Chapter 5). The field, its first derivatives and higher derivatives treated as independent variables at a point; the Euler–Lagrange expression is a function of them.
+- **JSON** (Chapter 0). A plain-text format for lists and tables (JavaScript Object Notation) that Python reads directly; every report of the repository is a JSON file.
 - **Kasner exponents** (Chapter 11). The powers $p^{\mathrm K}_i$ in $h_i\propto(t-t_s)^{p^{\mathrm K}_i}$ near a singular time of a homogeneous metric (EXP-2).
 - **kernel** (Chapter 2). The elements a homomorphism sends to the unit; in Chapter 13 the exchange kernel of the contact interaction.
 - **ket** (Chapter 12). Dirac's notation $|\Psi\rangle$ for a state vector; the bra $\langle\Psi|$ is its adjoint.
@@ -298,8 +309,8 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **Kohn–Sham potential** (Chapter 12). The local potential $v_s$ of the Kohn–Sham equations.
 - **Koopmans' theorem** (Chapter 12). In Hartree–Fock theory the energy to remove a particle from an orbital, with all other orbitals frozen, is minus the orbital energy.
 - **Krein adjoint** (Chapter 8). The adjoint with respect to the indefinite form $f^\dagger Bh$; the canonical $\Psi^\dagger=\chi B$ is the Krein adjoint of $\Psi$, while $\chi$ is its Hilbert adjoint.
-- **Krein image pair** (Chapters 15 and 16). A $+M$ state together with its T1 image with $-\lambda$ and the reversed metric $-B$, formed as $(+M)-(-M)$ for every one-body density; its total energy, charge and energy–momentum tensor vanish at every point.
-- **Krein norm** (Chapter 11). $u^\dagger Bu$, which can be positive, negative or zero and is conserved for every mode, in and out of the good sector.
+- **Krein image pair** (Chapters 15 and 16). A formal construction at the Kohn–Sham level: a $+M$ state together with its T1 image with $-\lambda$ and the reversed metric $-B$, formed as $(+M)-(-M)$ for every one-body density and energy, where $-M$ is the ordinary $-M$ state of T3 (check `PAIR_totals_ksKreinImagePair`). Its total energy, charge and energy–momentum tensor are zero at every point, but the zero is of the kind $X+(-X)=0$: the image is the $+M$ state measured with the formulas of the partner theory, so the zero restates the equality $E(+M)=E(-M)$ of T3. It is not a pair of two universes whose energies and charges cancel.
+- **Krein norm** (Chapter 8). $u^\dagger Bu$, which can be positive, negative or zero and is conserved for every mode, in and out of the good sector; Chapter 11 uses it in EXP-5.
 - **Krein sign** (Chapters 7 and 14). The value $\beta=js_2=\pm1$ by which the matrix $B$ acts on one of the eight $2\times2$ blocks of the Kohn–Sham problem, the sign of the form $u^\dagger Bu$ on that block; four blocks have $+1$ and four $-1$.
 - **Krein space** (Chapter 8). A complex vector space with a non-degenerate indefinite Hermitian form and a fundamental symmetry; the natural space of one-particle states of dirac16complex.
 - **Krein-unitary** (Chapter 8). A matrix $R$ with $R^\dagger BR=B$; it preserves the canonical anticommutator.
@@ -319,15 +330,17 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **Levy–Lieb constrained search** (Chapter 12). The definition of the universal functional as a minimum over all wave functions with a given density.
 - **Lichnerowicz formula** (Chapter 4). $(\gamma^\mu D_\mu)^2\Psi=g^{\mu\nu}(D_\mu D_\nu\Psi-\Gamma^\lambda{}_{\mu\nu}D_\lambda\Psi)-\tfrac14R\Psi$, the square of the Dirac operator in a curved space.
 - **light-cone basis, light-cone coordinates** (Chapter 3). Coordinates such as $x_0\pm x_7$, sums and differences of a space-like and a time-like coordinate, in which the norm of signature (4,4) becomes $y_0y_4+y_1y_5+y_2y_6+y_3y_7$; the notebook's $\tau_a$ are octonion multiplications written in such a basis.
-- **line element** (Chapter 1). $ds^2=g_{\mu\nu}dx^\mu dx^\nu$, the squared length of a small displacement.
 - **linear** (Chapter 1). A map with $f(ax+by)=af(x)+bf(y)$; matrices are the linear maps of $\mathbb R^n$ or $\mathbb C^n$.
 - **linear combination** (Chapter 1). A sum $\sum_ic_iv_i$ of vectors multiplied by numbers.
+- **linearly independent, dependent** (Chapter 1). Vectors are independent if no nontrivial combination of them is zero, dependent otherwise.
 - **linear mixing** (Chapter 12). The self-consistency update $n_{\mathrm{in}}\leftarrow(1-\beta)n_{\mathrm{in}}+\beta n_{\mathrm{out}}$ with a fraction $0<\beta<1$; it cures charge sloshing in simple cases.
 - **linear multistep method** (Chapter 10). A method that computes the next value from several previous values and right-hand sides; Adams methods and BDF are of this kind.
-- **linearly independent, dependent** (Chapter 1). Vectors are independent if no nontrivial combination of them is zero, dependent otherwise.
+- **line element** (Chapter 1). $ds^2=g_{\mu\nu}dx^\mu dx^\nu$, the squared length of a small displacement.
 - **local density approximation, LDA** (Chapter 12). The approximation that treats each small volume as a piece of uniform gas with the local density, $E_{xc}\approx\int e_{xc}(n(\mathbf r))\,d^3r$; Chapter 13 uses its analogue for the exchange of the contact interaction.
 - **local error** (Chapter 10). The error made in one step that starts from the exact solution; for Euler's method $\tfrac12h^2y''$, proportional to $h^2$, while the global error is proportional to $h$.
 - **localized at the brane** (Chapter 13). A Kohn–Sham orbital whose weight grows toward $y=0$, such as the zero mode $\chi=(e^{My},0)^T$.
+- **log file** (Chapter 19). The file in `build/logs/` into which a gate writes the complete output of one step, beginning with the start time and the command and ending with the finish time and the exit code.
+- **Lorentz transformation, Lorentz boost, Lorentz invariance** (Chapters 2 and 4). In this book a Lorentz transformation is a change of the frame directions that preserves the metric $\eta$, an element of O(4,4); a boost mixes one space-like and one time-like direction hyperbolically (Chapter 2). A local Lorentz transformation turns the frame differently at every point (Chapter 4), and a term of the Lagrangian is Lorentz-invariant if it does not change under the spin transformations that accompany such a turning (local spin invariance, Section 4.12).
 - **Lovelock gravity, Lovelock orders** (Chapter 4). The family of gravitational equations with at most second derivatives of the metric, built from powers of the curvature: order 1 is Einstein's, order 2 the Gauss–Bonnet term; in eight dimensions orders up to 3 exist (Lovelock's theorem, quoted).
 - **lowering, raising an index** (Chapter 1). Contracting with $g_{\mu\nu}$ or $g^{\mu\nu}$ (or $\eta$ for frame indices) to turn an upper into a lower index or back.
 - **machine epsilon** (Chapter 10). The spacing of double-precision numbers near 1, $2^{-52}\approx2.2\times10^{-16}$; the limit of every relative accuracy.
@@ -337,9 +350,10 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **mass dimension** (Chapter 13). The power of a mass unit that a quantity carries in units with $\hbar=c=1$ (a length has mass dimension $-1$); it measures the size of the coupling $\lambda$.
 - **mass term** (Chapter 6). The part $-m\sqrt{|g|}\,\bar\Psi\Psi$ of the Lagrangian, linear in the mass and quadratic in the components.
 - **matrix** (Chapter 1). A rectangular array of numbers; matrix multiplication is associative and distributive but not commutative.
-- **matter–antimatter problem** (Chapter 17). The question why the universe contains baryons but essentially no antibaryons. Chapter 17 shows that the theory of this book, as built, does not solve it: its U(1) charge is exactly conserved (Theorem M1).
+- **matter–antimatter problem** (Chapter 17). The question why the universe contains baryons but essentially no antibaryons. Chapter 17 shows that the theory of this book, as built, does not solve it. It contains no baryons and no baryon-number-violating interaction; its U(1) charge is exactly conserved (Theorem M1), so Sakharov's first condition fails; each field has an exact symmetry that reverses the charge (C for dirac16complex00, CP for dirac16complex; Theorem M2), so the second fails for the Lagrangian; and no departure from equilibrium is computed.
 - **max_step** (Chapter 10). The largest step size allowed to CVODE in an experiment.
 - **mean field** (Chapter 11). The approximation in which each quantum moves in the average field of all the others, with a bilinear such as $S$ replaced by its expectation value; the Hartree idea (Chapter 12).
+- **measurement** (Chapters 0 and 19). A value that a verifier records in its report next to the checks, such as a count, a number, a list or a matrix (entry `measurements`; printed as a line `measurement_<name>=`); unlike a check it is neither true nor false.
 - **Mermin's functional, Mermin's Kohn–Sham functional** (Chapter 12). The free energy functional of the Kohn–Sham ensemble at temperature $T$, $F=\sum_af_a\langle\varphi_a|-\tfrac12\nabla^2|\varphi_a\rangle-TS_s+\int vn+E_H+F_{xc}$; its stationary point has Fermi–Dirac occupations.
 - **Mermin's theorem** (Chapter 12). The finite-temperature analogue of the Hohenberg–Kohn theorems (1965): the equilibrium density determines the potential, and the grand potential is minimal at it.
 - **metric** (Chapter 1). A symmetric matrix $g_{\mu\nu}$ (in Chapter 4 a field of such matrices) that defines lengths and angles through the line element; of signature (4,4) in this book.
@@ -353,19 +367,21 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **modulus** (Chapter 1). $|z|=\sqrt{a^2+b^2}$ for $z=a+ib$.
 - **momentum** (Chapter 5). $p=\partial L/\partial\dot q$, the canonical momentum; for a first-order Lagrangian it is a function of the coordinates (a constraint).
 - **monomial, degree** (Chapters 2 and 5). A product of generators, such as $\gamma_A=\gamma^{a_1}\cdots\gamma^{a_k}$ with increasing indices (there are 256 for eight gammas) or a product of distinct Grassmann generators; the number $k$ of factors is its degree, and it is even or odd with $k$.
-- **N-representable** (Chapter 12). A density that comes from some antisymmetric $N$-particle wave function.
 - **natural cubic spline** (Chapter 13). Piecewise cubic interpolation with continuous first and second derivatives and zero second derivatives at the ends; the Stage-4 solver interpolates its potentials this way.
 - **NEC**: see null energy condition.
 - **negative control** (Chapter 17). A computation that must fail, run to show that a check can detect the failure; for example the notebook's contraction of the spin connection, for which a divergence identity must fail.
 - **Newton's constant** (Chapter 11). The coupling $G$ of gravity; in Chapter 11 a bound on its variation in time rules out one variant of the model.
 - **Newton's method** (Chapter 10). Solving $g(x)=0$ by the iteration $x\leftarrow x-g(x)/g'(x)$, the zero of the tangent line; CVODE uses it (with the Jacobian matrix) for the implicit equations of BDF.
 - **nilpotent** (Chapter 8). A matrix with a vanishing power, such as $h_k^2=0$; its exponential is a polynomial, and a mode with such a Hamiltonian grows linearly.
+- **Noether's theorem, Noether current** (Chapter 5). Theorem 5.2: every continuous symmetry of a Lagrangian gives a current, its Noether current, that is conserved on the solutions of the field equations. The phase symmetry gives the U(1) current and its charge (Chapter 7; Theorem M1 of Chapter 17), the translations the canonical energy–momentum tensor.
 - **non-degenerate** (Chapter 8). A Hermitian form $f^\dagger Gh$ with $Gf=0$ only for $f=0$.
 - **non-interacting $v$-representable** (Chapter 12). A density that is the ground-state density of some non-interacting system in some potential; the Kohn–Sham scheme assumes it.
 - **nonlinear** (Chapter 12). Equations whose operator depends on the unknowns, like the Hartree–Fock and Kohn–Sham equations; they are solved by iteration.
 - **norm** (Chapters 2 and 3). For a vector $u$ of $\mathbb R^{4,4}$ the number $n(u)=\eta(u,u)$, which can be negative ($u$ is a unit vector if $n(u)=\pm1$); for a split octonion the norm $N(x)=x\bar x$ of signature (4,4).
-- **normal ordering** (Chapters 7 and 8). Writing products of creation and annihilation operators with the annihilation operators on the right (with the sign of each fermion exchange), which removes the constant contribution of the filled Dirac sea.
 - **normalized** (Chapter 12). A state with $\langle\Psi|\Psi\rangle=1$.
+- **normal ordering** (Chapters 7 and 8). Writing products of creation and annihilation operators with the annihilation operators on the right (with the sign of each fermion exchange), which removes the constant contribution of the filled Dirac sea.
+- **notebook, the** (Chapter 0). The Mathematica notebook `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb` by Patrick L. Nash in the repository root, the starting point of the project.
+- **N-representable** (Chapter 12). A density that comes from some antisymmetric $N$-particle wave function.
 - **null** (Chapter 1). A nonzero vector of zero length, $g(v,v)=0$.
 - **null energy condition, NEC** (Chapter 9). $T(k,k)\ge0$ for every null vector $k$; for $k=e_4+e_0$ it reads $\rho+p_{(0)}\ge0$. In four dimensions it is $\rho+p\ge0$, which a phantom fluid violates (Chapter 11).
 - **number operator** (Chapter 8). $N=b^\dagger b$, whose eigenvalues 0 and 1 count the fermions in a mode.
@@ -384,7 +400,6 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **ordinary differential equation** (Chapter 10). An equation for an unknown function of one variable and its derivatives.
 - **orthogonal** (Chapters 1 and 2). Two vectors are orthogonal if their scalar product is zero; a real matrix $O$ is orthogonal if $O^TO=I$.
 - **out of equilibrium** (Chapter 17). A system whose state is not the thermal equilibrium state; Sakharov's third condition, since in equilibrium the average baryon number vanishes.
-- **the notebook** (Chapter 0). The Mathematica notebook `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb` by Patrick L. Nash in the repository root, the starting point of the project.
 
 ### 20.6 Glossary: P to R
 
@@ -408,6 +423,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **plasma of thermal pairs** (Chapter 13). The Kohn–Sham gas at $T=m$, dominated by thermal particle–antiparticle pairs: the energy window of the solver then contains about 75000 levels, and the few added particles hardly change the energy and the entropy.
 - **Poisson bracket** (Chapter 8). $\{F,G\}=\frac{\partial F}{\partial q}\frac{\partial G}{\partial p}-\frac{\partial F}{\partial p}\frac{\partial G}{\partial q}$; with it $\dot F=\{F,H\}$.
 - **polar form** (Chapter 1). $z=|z|e^{i\varphi}$.
+- **PowerShell**: see command shell.
 - **prescribed background** (Chapter 9). A metric that is taken as given rather than solved for; the primordial field is used this way.
 - **pressure** (Chapter 5). The force per area exerted by a fluid, the spatial diagonal components $T^i{}_i$ of the energy–momentum tensor for an observer at rest; in eight dimensions there are seven principal pressures $p_{(i)}$.
 - **primary constraints** (Chapter 8). The relations between momenta and fields that follow directly from a first-order Lagrangian, such as $\Pi_a-\sqrt{|g|}(\Psi^\dagger C\gamma^{x_4})_a\approx0$.
@@ -421,12 +437,12 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **PROVED** (Chapter 0). The status of a statement derived in the book from stated assumptions, usually with an exact machine check.
 - **Prüfer angle, Prüfer index** (Chapters 10 and 13). The angle $\theta$ in $a=r\cos\theta$, $b=-r\sin\theta$ of the two real components of an orbital; its end value increases with the energy, and the integer $n$ in the condition it must meet at $y=0$ numbers the levels (the Prüfer index), so that none is missed.
 - **Pulay mixing**: see Anderson mixing.
-- **$q$ vector** (Chapter 9). The Stage-2 document's name for the difference between the notebook's stored expressions and their Clifford-consistent rebuild (check `P_notebookCompare_qTermFromNonCliffordExtraTimeGammas`).
 - **Q1, Q2, Q3** (Chapter 16). The three questions into which Chapter 16 splits the hypothesis of pair creation: is it allowed by the conservation laws, does it happen in a classical solution, and how likely is it.
 - **quantization** (Chapter 8). The passage from classical fields to operators on a space of states; in this book canonical and formal (no regularization or renormalization).
 - **quantum dynamics** (Chapter 16). The quantum theory that gives amplitudes and rates of transitions; it would be needed to say how likely the creation of a pair of universes is, and it is not computed.
 - **quantum field** (Chapter 6). A field whose components are operators that create and annihilate particles and anticommute (for fermions).
 - **quaternions** (Chapter 3). The four-dimensional associative but non-commutative algebra with $i^2=j^2=k^2=ijk=-1$.
+- **$q$ vector** (Chapter 9). The Stage-2 document's name for the difference between the notebook's stored expressions and their Clifford-consistent rebuild (check `P_notebookCompare_qTermFromNonCliffordExtraTimeGammas`).
 - **random phase** (Chapter 14). A random complex amplitude whose distribution depends only on its modulus, so that all phases are equally likely.
 - **rank** (Chapter 2). The largest number of independent elements in a list of matrices or rows, the dimension of their span.
 - **real restriction** (Chapter 6). Setting the imaginary part of the commuting field of dirac16complex00 to zero; it gives the notebook's real Lagrangian $\mathrm{Lg}[\,]$ with the canonical connection.
@@ -440,6 +456,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **relative tolerance, rtol** (Chapter 10). The relative error per step that CVODE accepts; with the absolute tolerance it defines the weights of the error norm.
 - **repeat-run byte identity** (Chapter 11). A checker test that reruns a program into a fresh folder and requires every file to be byte-identical; the check `repeatByteIdentity`.
 - **report** (Chapter 0). A JSON file written by a verifier, with the named checks and their values `true` or `false`, the measurements and the hashes of the inputs.
+- **repository** (Chapter 19). A folder of files together with its complete recorded history, the sequence of its commits; the repository of this book is https://github.com/once-ere/Dirac_claude.
 - **representation** (Chapter 2). A homomorphism $\rho$ from a group to invertible matrices, $\rho(gh)=\rho(g)\rho(h)$; the group then acts on the columns.
 - **representation theorem** (Chapter 2). Under Pin(4,4) the 16 components of a spinor form one irreducible block; under Spin(4,4) they split into two inequivalent irreducible halves of 8.
 - **restricted, unrestricted Hartree–Fock**: see Hartree–Fock approximation.
@@ -455,7 +472,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 
 ### 20.7 Glossary: S to Z
 
-- **Sakharov's conditions** (Chapter 17). The three conditions for creating a baryon excess from a symmetric start: a process that violates baryon number, violation of C and of CP, and a departure from thermal equilibrium. The theory of this book fails the first, because its charge is exactly conserved (Chapter 17).
+- **Sakharov's conditions** (Chapter 17). The three conditions for creating a baryon excess from a symmetric start: a process that violates baryon number, violation of C and of CP, and a departure from thermal equilibrium. The theory of this book, which contains no baryons and no baryon-number-violating interaction, fails the first, because its U(1) charge is exactly conserved (Theorem M1); it fails the second for its Lagrangian, because each field has an exact symmetry that reverses the charge: C for dirac16complex00, in every gravitational field, and CP for dirac16complex, in flat space and in gravitational fields with the corresponding reflection isometry (Theorem M2); and no computation addresses the third (the scorecard M6 of Chapter 17).
 - **scalar** (Chapter 1). A single number, as opposed to a vector or matrix; in geometry a quantity that does not change under changes of coordinates or frames.
 - **scalar density, $S$** (Chapter 6). $S=\bar\Psi\Psi=\Psi^\dagger C\Psi$, the frame-independent bilinear on which the mass term and the interaction depend.
 - **scalar field** (Chapter 5). A field with one component that does not change under changes of frame, such as $\phi(x)$ with the Klein–Gordon Lagrangian.
@@ -469,6 +486,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **second quantization** (Chapter 6). Turning a classical field into operators that create and annihilate particles; in Chapter 12 the occupation-number description of many fermions.
 - **self-consistency** (Chapter 12). The condition that the orbitals computed in a potential give back the density or density matrix from which the potential was built; reached by iteration.
 - **set, subset, empty set** (Chapter 2). A set is a collection of distinct elements; a subset contains only elements of the set; the empty set has none. The subsets $A$ of $\{0,\dots,7\}$ label the 256 gamma monomials $\gamma_A$.
+- **sha256** (Chapter 19). A 64-digit hexadecimal fingerprint computed from the bytes of a file; two files have the same sha256 exactly when they are byte-identical, for every practical purpose.
 - **shells** (Chapter 13). The groups of lattice momenta with the same $|\mathbf k|^2=\Delta k^2\,\nu$, $\nu=n_1^2+n_2^2+n_3^2$, whose Kohn–Sham levels coincide.
 - **shift bound, window floor** (Chapter 15). The Stage-4 solver searches for levels above a fixed negative energy, the window floor ($-4.594$ for $m=1$); the shift bound $\max|M_{\mathrm{eff}}-m|+\max|v_x|$ limits how far the interaction can move a level, and the solver requires it to be at most the absolute value of the floor (its window premise).
 - **shooting method** (Chapter 10). Solving a boundary-value or eigenvalue problem by integrating from one end with trial values and adjusting them until the condition at the other end holds.
@@ -480,7 +498,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **smearing** (Chapter 12). Replacing integer occupations by Fermi–Dirac occupations of a small width to make a self-consistency loop converge; the result is an ensemble. One run of Chapter 13 (smeared $N=1016$) needs it.
 - **smooth** (Chapter 1). Having continuous derivatives of every order.
 - **sound speed** (Chapter 11). $c_s^2=dp/d\rho$; a negative $c_s^2$ makes small perturbations grow instead of oscillate.
-- **source-free** (Chapter 15). Gravitational field equations with zero right-hand side; the chirality pair $\Psi_+,\gamma^8\Psi_+$ has zero total energy–momentum, so as the only source it leaves the source-free equations.
+- **source-free** (Chapter 15). Gravitational field equations with zero right-hand side. A chirality pair of two independent classical fields in the correlated configuration $\Psi_+$, $\Psi_-=\gamma^8\Psi_+$ (the second with the Lagrangian $\mathcal L_{-m,-\lambda}$) has zero total energy–momentum, so as the only source it leaves the source-free equations. This holds for classical fields only: for the quantized field no reading of the pair examined in the repository gives two universes whose energy–momentum cancels (Chapter 15).
 - **space-like, time-like** (Chapter 1). A vector with positive, respectively negative, squared length; in signature (4,4) the frame directions 0 to 3 are space-like and 4 to 7 time-like.
 - **span** (Chapter 2). The set of all linear combinations of a list of vectors or matrices.
 - **spectral theorem** (Chapter 1). A Hermitian matrix has real eigenvalues and an orthonormal basis of eigenvectors.
@@ -520,7 +538,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **tangent CPL parameters** (Chapter 11). The values $w_0=w(1)$ and $w_a=-dw/da$ at $a=1$ of a model's equation of state, compared with the CPL fits of supernova data.
 - **tensor** (Chapter 4). An object with upper and lower indices whose components transform with one factor $\partial x'/\partial x$ or $\partial x/\partial x'$ per index.
 - **tensor product, Kronecker product** (Chapter 1). $A\otimes B$, the block matrix with blocks $a_{ij}B$.
-- **Theorems M1 to M6** (Chapter 17). The results of the matter–antimatter analysis: M1 exact U(1) symmetry and charge conservation for both fields; M2 the classification of C, P, CP and their combinations; M3 the charge-violating terms that the symmetry allows (no Majorana mass term for the anticommuting field); M4 the chirality pair of universes with zero total charge and energy–momentum; M5 a conditional scenario stated as a hypothesis, which predicts no value of the asymmetry; M6 the Sakharov scorecard.
+- **Theorems M1 to M6** (Chapter 17). The results of the matter–antimatter analysis: M1 exact U(1) symmetry and charge conservation for both fields; M2 the classification of C, P, CP and their combinations; M3 the charge-violating terms that the symmetry allows (no Majorana mass term for the anticommuting field); M4 the chirality pair, for two independent classical fields in the correlated configuration $\Psi_-=\gamma^8\Psi_+$, with zero total charge and energy–momentum (for classical fields only: at the quantum level no reading gives a cancellation between two independent universes); M5 a conditional scenario stated as a hypothesis, which predicts no value of the asymmetry; M6 the Sakharov scorecard (the first and the second condition fail, the third is not addressed).
 - **thermal particle–antiparticle pairs** (Chapter 13). At $T>0$ particle and sea levels have fractional weights; the gas contains pairs that do not change $N$.
 - **Thomas–Fermi model** (Chapter 12). The 1927 approximation of the kinetic energy by that of a uniform gas, $\int C_Fn^{5/3}$; too crude, which is why Kohn–Sham keeps the kinetic energy exact.
 - **3-space, time, extra times, hidden space** (Chapter 9). The coordinates $x_1,x_2,x_3$ (ordinary space), $x_4$ (the time of evolution), $x_5,x_6,x_7$ (the extra times) and $x_0$ (the hidden space).
@@ -544,16 +562,18 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **ultrastatic** (Chapter 18). A diagonal metric with $g_{44}=-1$ none of whose entries depends on $x_4$; the static member of the primordial field is one.
 - **uniform gas** (Chapter 12). Infinitely many particles at constant density; its exchange and correlation energies give the local density approximation.
 - **unit** (Chapter 3). An element $1$ with $1x=x1=x$ for every $x$ of an algebra.
-- **unit normal** (Chapter 9). The unit vector $n=\partial_y$ orthogonal to a surface $y=\mathrm{const}$.
-- **unit vector** (Chapter 2). A vector $u$ with $\eta(u,u)=\pm1$; its gamma $\gamma(u)$ is invertible.
 - **unitary** (Chapter 1). A complex matrix with $U^\dagger U=I$; it preserves scalar products. An antiunitary operator does so up to complex conjugation (Chapter 17).
 - **unitary type, antiunitary type** (Chapter 17). A map of the field is of unitary type if it preserves the canonical anticommutation relations linearly and of antiunitary type if it does so antilinearly; passing the test is necessary, not sufficient, for an operator that implements the map.
+- **unit normal** (Chapter 9). The unit vector $n=\partial_y$ orthogonal to a surface $y=\mathrm{const}$.
+- **unit test** (Chapter 19). A small program in the folder `tests/` that tests one tool of the repository or pins one piece of committed evidence, for example a check count quoted in a document; Python's module `unittest` finds and runs them.
+- **unit vector** (Chapter 2). A vector $u$ with $\eta(u,u)=\pm1$; its gamma $\gamma(u)$ is invertible.
 - **universal functional** (Chapter 12). $F[n]=\min_{\Psi\to n}\langle\Psi|\hat T+\hat W|\Psi\rangle$, the same for every external potential.
 - **universe of mass $+M$** (Chapter 15). A configuration, solution or Kohn–Sham state with the mass parameter $m=+M$; its partner of mass $-M$ has $m=-M$.
 - **untransformed control** (Chapter 15). The $-M$ universe computed with the Stage-4 bag condition $\theta=0$ instead of the transformed one; it shows that the transformation of the boundary condition matters.
 - **vacuum** (Chapter 8). The state annihilated by all annihilation operators; in the good sector the filled Dirac sea with no particles or antiparticles.
 - **variation** (Chapter 5). A small change $\epsilon\xi(t)$ of a path (or of a field) that vanishes at the end points.
 - **vector** (Chapter 1). A column of numbers, or an element of a vector space; in geometry an object with an upper index.
+- **verifier** (Chapters 0 and 19). In this book an exact program in the Wolfram Language (`scripts/verify_*.wls`) that recomputes statements and writes a report; the independent Python programs that do the same are called checkers.
 - **vielbein**: see frame.
 - **vielbein postulate** (Chapter 4). The condition that the frame is covariantly constant, $\partial_\mu e_\nu{}^a-\Gamma^\lambda{}_{\mu\nu}e_\lambda{}^a+\omega_\mu{}^a{}_be_\nu{}^b=0$; it determines the canonical spin connection.
 - **volume element** (Chapter 1). $\sqrt{|g|}\,d^8x$, the proper volume of a small coordinate box.
@@ -568,6 +588,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **win11** (Chapter 10). The platform name with which `scripts/setup_solver` installs the pinned engine; the byte identity of the committed numerical files is established with it on Windows 11 and on Ubuntu 24.04.
 - **window** (Chapter 8). The interval of times, away from the turning point, over which EXP-5 compares the growth of a mode with the WKB estimate.
 - **WKB approximation** (Chapter 8). The approximation (after Wentzel, Kramers and Brillouin) that treats a slowly changing coefficient as constant over the local growth or oscillation time; it estimates the growth of the extra-time modes of EXP-5.
+- **working tree** (Chapter 19). The files of a repository as they are on the disk. The command `git status --short` lists every file of the working tree that is changed or new compared with the last commit (files in ignored folders such as `build/` excepted), and prints nothing when there is none.
 - **Z2 brane** (Chapter 9). The surface $y=0$ at which two mirror copies of the static primordial patch are glued; a choice of model, not a derived result, with a kink in the warp factor that requires a source on the brane.
 - **Z2-symmetric** (Chapter 15). A configuration with $\Psi(y)=\pm\gamma^0\Psi(-y)$; it solves the field equations on both sides of the brane with one mass function exactly when the mass function is odd, $m(-y)=-m(y)$, where $\Psi\ne0$.
 - **zero mode** (Chapters 8 and 13). In Chapter 8, the part of the field that does not depend on $x_5,x_6,x_7$; in Chapter 13, the Kohn–Sham level $\varepsilon=0$ with $\chi=(e^{My},0)^T$ at zero momentum, localized at the brane.
@@ -587,7 +608,7 @@ The table lists the symbols that are used in more than one chapter, with the cha
 | $C=\gamma^0\gamma^1\gamma^2\gamma^3$ | the charge matrix, the notebook's $\sigma_{16}$; real, symmetric, $C^2=1$ | 2 |
 | $B=-iC\gamma^4$ | Hermitian, $B^2=1$, signature (8,8); the matrix of the canonical anticommutator and of the Krein form | 2, 8 |
 | $S^{ab}=\tfrac14[\gamma^a,\gamma^b]$ | the spin generators | 2 |
-| $\Psi$, $\bar\Psi=\Psi^\dagger C$ | the 16-component field and its Dirac adjoint | 6 |
+| $\Psi$, $\bar\Psi=\Psi^\dagger C$ | the 16-component field and its Dirac adjoint | 2, 6 |
 | $s=\pm1$ | the statistics sign: $+1$ for commuting (dirac16complex00), $-1$ for Grassmann (dirac16complex) components | 6 |
 | $S=\bar\Psi\Psi$ | the scalar density | 6 |
 | $m$, $M$ | the mass of the Lagrangian and the notebook's mass number, $m=-HM$ | 5 |
@@ -600,7 +621,8 @@ The table lists the symbols that are used in more than one chapter, with the cha
 | $\kappa$ | the gravitational coupling of the eight-dimensional Einstein equations $G^\mu{}_\nu=\kappa T^\mu{}_\nu$ ($\kappa_4$ in four dimensions, Chapter 11) | 4 |
 | $\Theta^\mu{}_\nu$, $T^\mu{}_\nu$ | the canonical and the metric energy–momentum tensors | 5, 7 |
 | $\rho$, $p_{(i)}$, $w$ | the energy density, the pressures and the equation-of-state parameter | 5 |
-| $j^\mu$, $Q$ | the conserved current and the charge | 5, 7 |
+| $j^\mu$, $Q$ | a conserved current and its charge | 5, 7 |
+| $J^\mu=-i\bar\Psi\gamma^\mu\Psi$, $J^4=\Psi^\dagger B\Psi$ | the Hermitian U(1) current of the book's fields and its charge density; $Q=\int\sqrt{\lvert g\rvert}\,J^4\,d^7x$ | 7 |
 | $H$, $z=6Hx_0$, $t=Hx_4$, $a_4(t)$ | the notebook's inverse length, its hidden angle and dimensionless time, and the free function of the primordial field | 9 |
 | $\zeta$, $y$ | the proper hidden coordinate of the static primordial field (called $y$ from Chapter 13 on) | 9, 13 |
 | $L$, $\theta$ | the tip cutoff $y=-L$ and the bag angle of the tip condition | 13 |
@@ -613,19 +635,27 @@ The table lists the symbols that are used in more than one chapter, with the cha
 | $a$, $z$, $H_0$, $w_0$, $w_a$ | in cosmology: the scale factor, the redshift, today's Hubble rate and the CPL parameters (the redshift $z$ is not the angle $z$ of Chapter 9) | 11 |
 | T1, T2, T3 | the three pairing theorems | 15 |
 | M1 to M6, H1 to H3 | the results of the matter–antimatter analysis and the three hypotheses of the conditional scenario M5 | 17 |
-| $\eta$ (in Chapter 17) | the baryon-to-photon ratio, not the flat metric | 17 |
+| $\eta$ (in Chapters 17 and 18) | the baryon-to-photon ratio, not the flat metric | 17 |
 
 ### 20.9 How the index of checks was made, and how to look up a check yourself
 
-**What is indexed.** A verifier writes its report as a JSON file with an entry `checks`, which maps every check name to `true` or `false` (Section 0.8); the Rust programs write the same kind of entry into the `summary.json` of each run folder. Sections 20.10 to 20.14 list every check name that Chapters 0 to 19 cite, in running text, in code or in a listing, together with the committed file or files whose entry `checks` contains it, its value there, and the chapters that cite it. Three kinds of name are indexed:
+**What is indexed.** A verifier writes its report as a JSON file with an entry `checks`, which maps every check name to `true` or `false` (Section 0.8); the Rust programs write the same kind of entry into the `summary.json` of each run folder, and two Rust files of Stage 4, `rust/spectrum/exchange-table-check.json` and `rust/spectrum/theory-agreement.json`, store for each check a small record whose entry `passed` is `true` or `false`, next to a text `detail`. Sections 20.10 to 20.14 list every check name that Chapters 0 to 19 cite, in running text, in code or in a listing, together with the committed files that record it (the rule follows), its value there, and the chapters that cite it. Three kinds of name are indexed:
 
 - a single check, such as `ALG_clifford`;
-- a family written with a final `*`: `PAIR_T1krein_*` means every check whose name begins with `PAIR_T1krein_`, and `*_energy_from_rho` every Rust self-check whose name ends with `_energy_from_rho` (one per run); the column "Value" then gives the number of checks in the family and whether all of them are true;
-- a name whose ending the text writes separately, such as `GEO_vielbeinPostulate_G1` and `_G2`, is indexed under its full names.
+- a family written with a final `*` or with placeholders in angle brackets: `PAIR_T1krein_*` means every check whose name begins with `PAIR_T1krein_`, `MA_M1_noetherIdentity_<X>_<G>` (Chapter 17) every check whose name begins with `MA_M1_noetherIdentity_`, and `*_energy_from_rho` every Rust self-check whose name ends with `_energy_from_rho` (one per run); the column "Value" then gives the number of checks in the family and whether all of them are true;
+- a name whose ending the text writes separately, such as `GEO_vielbeinPostulate_G1` and `_G2`, or `hellmannFeynmanMass` after the family name `KS_functional` (Chapter 13), is indexed under its full names.
 
 Names of **measurements** (numbers and tables that a report records next to its checks, such as `ALG_tauEqualsLeftMultiplicationPerIndex` in Chapter 3 or `canonical_eigenvalues_detail` in Chapter 19) are not checks and are not indexed; nor are the names of keys of theory files, such as `fieldEquations`. A name that the text uses only as a prefix of a whole stage, such as `S5_` in "the `S5_` twins", is not indexed either; the prefixes are explained at the head of each section.
 
-**How it was verified.** The index was produced by a short program that reads every committed JSON file under `artifacts/`, collects the names in their entries `checks`, and then searches the chapter files for these names. Every row of Sections 20.10 to 20.14 therefore names a check that exists, with the value shown, in the committed file shown. The program also listed the names in the chapters that look like check names but occur in no entry `checks`; each of them was read in its sentence and found to be a measurement, a comparison recorded inside a report or a name inside a program, and none of them is called a check by the text. The reports were those of the commit named in Section 20.15.
+**Which files the column "Files" names.** Three kinds of committed file, and no others:
+
+1. every committed JSON file under `artifacts/` whose **top-level** entry `checks` contains the name: the report of the program that decided the check (for the two Rust files with records, the value shown is the entry `passed` of the record);
+2. the EXP-3 fit analysis `numerics/exp3/fits.json`, which has no top-level entry `checks` and stores its own checks one level down, in its entry `validation`;
+3. the Wolfram reports W00 and WMA (keys below), where they **cite** a check of Stage 1, 2 or 4: each records the name and the value of every check it cites in an entry `checks` inside its measurements (`citations` in W00, `M1_stage1ChecksCited` in WMA). All these recorded values are true, as in the cited reports.
+
+Other entries named `checks` that lie deeper inside a file are copies or records, not checks decided by the program that wrote the file, and are not indexed: the collected summary `numerics/numerics-summary.json` repeats the checks of the five experiments; the theory files `pair-creation/pairing-theory.json` and `matter-antimatter/matter-antimatter-theory.json` list, next to each theorem, the checks that verify it; and the entries `engine.checks` of the two Mathematica reports and `M1_chargeDensity.checks` of WMA record sub-steps that no chapter cites. The collected Stage-1 summary `arbitrary-field/stage1-summary.json` has a top-level entry `checks`, but it writes the name of the report in front of every check (such as `wolfram-algebra:ALG_clifford`), so no cited name occurs in it.
+
+**How it was verified.** The index was produced by a short program that reads every committed JSON file under `artifacts/` of the commit named in Section 20.15, collects the names by the rule just stated, and then searches the chapter files for these names; a second, separately written program read the finished tables back and compared every row, file, value and citation with the committed files and the chapters. Every row of Sections 20.10 to 20.14 therefore names a check that exists, with the value shown, in the committed files shown. The first program also listed the names in the chapters that look like check names but occur in no indexed entry `checks`; each of them was read in its sentence and found to be a measurement, a comparison recorded inside a report or a name inside a program, and none of them is called a check by the text.
 
 **The keys of the files.** To keep the tables of Sections 20.10 to 20.14 short, their column "Files" names each committed file by a key:
 
@@ -644,7 +674,7 @@ Names of **measurements** (numbers and tables that a report records next to its 
 | E2C | `numerics/exp2/python-check-report.json` | EXP-2, independent checker |
 | E3S | `numerics/exp3/summary.json` | EXP-3, self-checks of the Rust program |
 | E3C | `numerics/exp3/python-check-report.json` | EXP-3, independent checker |
-| E3F | `numerics/exp3/fits.json` | EXP-3, fit analysis (checks nested in the fits) |
+| E3F | `numerics/exp3/fits.json` | EXP-3, fit analysis (checks in its entry `validation`) |
 | E4S | `numerics/exp4/summary.json` | EXP-4, self-checks of the Rust program |
 | E4C | `numerics/exp4/python-check-report.json` | EXP-4, independent checker |
 | E5S | `numerics/exp5/summary.json` | EXP-5, self-checks of the Rust program |
@@ -654,16 +684,17 @@ Names of **measurements** (numbers and tables that a report records next to its 
 | PC | `kohn-sham/python-check-report.json` | Stage 4, cross-checker (Rust against reference) |
 | NB | `kohn-sham/notebook-report.json` | Stage 4, Jupyter notebook |
 | RSP | `kohn-sham/rust/spectrum/summary.json` | Stage 4, Rust subcommand spectrum |
-| RXT | `kohn-sham/rust/spectrum/exchange-table-check.json` | Stage 4, Rust check of the exchange table |
+| RXT | `kohn-sham/rust/spectrum/exchange-table-check.json` | Stage 4, Rust check of the exchange table (records with `passed`) |
+| RTA | `kohn-sham/rust/spectrum/theory-agreement.json` | Stage 4, Rust agreement with the exact theory (records with `passed`) |
 | RSC | `kohn-sham/rust/scf/summary.json` | Stage 4, Rust subcommand scf |
 | REX | `kohn-sham/rust/excited/summary.json` | Stage 4, Rust subcommand excited |
 | RTH | `kohn-sham/rust/thermo/summary.json` | Stage 4, Rust subcommand thermo |
 | REM | `kohn-sham/rust/emt/summary.json` | Stage 4, Rust subcommand emt |
-| W00 | `pair-creation/wolfram-dirac16complex00-report.json` | Stage 5, Wolfram, dirac16complex00 |
+| W00 | `pair-creation/wolfram-dirac16complex00-report.json` | Stage 5, Wolfram, dirac16complex00 (with its citation records) |
 | P00 | `pair-creation/python-dirac16complex00-report.json` | Stage 5, sympy, dirac16complex00 |
 | WPR | `pair-creation/wolfram-pairing-report.json` | Stage 5, Wolfram, pairing theorems |
 | PPR | `pair-creation/python-pairing-report.json` | Stage 5, sympy, pairing theorems |
-| WMA | `matter-antimatter/wolfram-matter-antimatter-report.json` | matter and antimatter, Wolfram |
+| WMA | `matter-antimatter/wolfram-matter-antimatter-report.json` | matter and antimatter, Wolfram (with its citation records) |
 | PMA | `matter-antimatter/python-matter-antimatter-report.json` | matter and antimatter, sympy |
 
 **Looking up a check yourself.** The following command prints every committed file whose entry `checks` contains a given name, with its value. In PowerShell and in Bash alike (only the quoting of Section 19.3 matters, and the lines between the double quotes are the same):
@@ -679,18 +710,18 @@ for p in sorted(pathlib.Path('artifacts').rglob('*.json')):
 " ALG_clifford
 ```
 
-Run from the root of the repository, it printed
+Run from the root of a fresh clone of commit `1f2dd69` (Section 19.4), it printed
 
 ```
 artifacts/dirac16complex/arbitrary-field/python-algebra-report.json True
 artifacts/dirac16complex/arbitrary-field/wolfram-algebra-report.json True
 ```
 
-in both shells within two seconds; with `canonical_eigenvalues` instead of `ALG_clifford` it printed the one line `artifacts/dirac16complex/kohn-sham/python-check-report.json False`. Nested entries `checks` inside a report (the fits of `numerics/exp3/fits.json`) are not found by this short command; the index includes them.
+in both shells within a second. With `canonical_eigenvalues` instead of `ALG_clifford` it printed the one line `artifacts/dirac16complex/kohn-sham/python-check-report.json False`. With `theory_zero_mode_splitting` it printed two lines: `artifacts/dirac16complex/kohn-sham/rust/spectrum/summary.json True`, and for `rust/spectrum/theory-agreement.json` the whole record, `{'passed': True, 'detail': ...}` with a long text in place of the dots, whose entry `passed` is the value. The short command looks only at top-level entries `checks`, so it does not find the checks of `numerics/exp3/fits.json` (item 2 above) or the citation records of W00 and WMA (item 3); the index includes them.
 
 ### 20.10 Index of checks: Stage 1, the field in an arbitrary gravitational field
 
-The prefixes are `ALG_` (algebra), `GEO_` (geometry), `LAG_` (Lagrangian), `EMT_` (energy–momentum tensor), `QNT_` (quantization), `GR_` (Grassmann demonstration) and `NEG_` (negative controls); the endings `_G1` and `_G2` name the two test geometries (Chapter 4). Some checks of these names are repeated, with the same name, in the reports of Stage 5 and of the matter–antimatter analysis; the column "Files" then lists those too. The table has 90 rows; the keys in the column "Files" are those of Section 20.9.
+The prefixes are `ALG_` (algebra), `GEO_` (geometry), `LAG_` (Lagrangian), `EMT_` (energy–momentum tensor), `QNT_` (quantization), `GR_` (Grassmann demonstration) and `NEG_` (negative controls); the endings `_G1` and `_G2` name the two test geometries (Chapter 4). The Wolfram reports of Stage 5 (W00) and of the matter–antimatter analysis (WMA) record some of these checks, under the same names, in their citation records (Section 20.9, item 3); the column "Files" then lists those reports too. The table has 90 rows; the keys in the column "Files" are those of Section 20.9.
 
 | Check | Files | Value | Cited in chapters |
 | --- | --- | --- | --- |
@@ -787,11 +818,11 @@ The prefixes are `ALG_` (algebra), `GEO_` (geometry), `LAG_` (Lagrangian), `EMT_
 
 ### 20.11 Index of checks: Stage 2, the primordial field
 
-Every name begins with `P_`. The table has 70 rows; the keys in the column "Files" are those of Section 20.9.
+Every name begins with `P_`. Where the column "Files" names W00, the Stage-5 report records the check in its citation records (Section 20.9, item 3). The table has 70 rows; the keys in the column "Files" are those of Section 20.9.
 
 | Check | Files | Value | Cited in chapters |
 | --- | --- | --- | --- |
-| `P_a4linear` | PP | true | 4, 19 |
+| `P_a4linear` | PP | true | 4 |
 | `P_a4linear_cell150AlternativesRhoNegative` | WP | true | 9 |
 | `P_a4linear_values` | WP | true | 9 |
 | `P_blocks_fourBlocksOfFour` | WP | true | 9 |
@@ -923,7 +954,7 @@ Names with underscores between lower-case words (such as `seven_volume_constant`
 
 ### 20.13 Index of checks: Stage 4, the Kohn–Sham states
 
-Names beginning with `KS_` are exact checks of the Wolfram verifier and of the sympy checker; names in lower case with underscores are self-checks of the Rust solver or checks of the cross-checker. A Rust self-check that is made for every run carries the name of the run in front, such as `m1_L3_N112_lam0_T0_energy_from_rho`, and is indexed as a family, here `*_energy_from_rho`. The table has 102 rows; the keys in the column "Files" are those of Section 20.9.
+Names beginning with `KS_` are exact checks of the Wolfram verifier and of the sympy checker; names in lower case with underscores are self-checks of the Rust solver or checks of the cross-checker. A Rust self-check that is made for every run carries the name of the run in front, such as `m1_L3_N112_lam0_T0_energy_from_rho`, and is indexed as a family, here `*_energy_from_rho`. Where the column "Files" names W00, the Stage-5 report records the check in its citation records (Section 20.9, item 3). The table has 102 rows; the keys in the column "Files" are those of Section 20.9.
 
 | Check | Files | Value | Cited in chapters |
 | --- | --- | --- | --- |
@@ -1028,7 +1059,7 @@ Names beginning with `KS_` are exact checks of the Wolfram verifier and of the s
 | `m1_L3_N112_lam0_T0_hellmann_feynman_dE_dm` | RSC | true | 13 |
 | `m1_L3_N112_lamp1_T0_hellmann_feynman_dE_dm` | RSC | true | 13 |
 | `r07_*` | NB | 0 of 2 true | 19 |
-| `theory_zero_mode_splitting` | RSP | true | 13 |
+| `theory_zero_mode_splitting` | RSP, RTA | true | 13 |
 
 ### 20.14 Index of checks: Stage 5 and the matter–antimatter analysis
 
@@ -1081,7 +1112,7 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `MA_M1_*` | WMA, PMA | all 46 true | 16 |
 | `MA_M1_chargeDensityMatrix` | WMA | true | 17 |
 | `MA_M1_divergenceIdentityAllFirstJets` | PMA | true | 17 |
-| `MA_M1_ksFixedNetNumberRecorded` | WMA | true | 17 |
+| `MA_M1_ksFixedNetNumberRecorded` | WMA | true | 17, 19 |
 | `MA_M1_negativeControlNotebookConnection` | WMA | true | 7, 17 |
 | `MA_M1_noetherCurrentLocalPhase_grassmann_G1` | WMA | true | 17 |
 | `MA_M1_noetherIdentity_*` | WMA, PMA | all 6 true | 17 |
@@ -1183,7 +1214,7 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `PAIR_T1jets_pairEMTAndCurrentVanish` | WPR | true | 15, 16 |
 | `PAIR_T1jets_vielbeinSignFlipGeometry` | WPR | true | 6, 15 |
 | `PAIR_T1jets_vielbeinSignFlipIsT1` | WPR | true | 6, 15, 16 |
-| `PAIR_T1krein_*` | WPR | all 12 true | 16, 17, 18 |
+| `PAIR_T1krein_*` | WPR | all 12 true | 16, 17, 18, 19 |
 | `PAIR_T1krein_imageAnticommutatorMinusB` | WPR | true | 15, 16, 17 |
 | `PAIR_T1krein_imageExpectationValues` | WPR | true | 15, 16, 17 |
 | `PAIR_T1krein_imageOperatorIdentities` | WPR | true | 15, 16, 17 |
@@ -1296,7 +1327,7 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `S5_T1generic_lagrangian` | PPR | true | 6 |
 | `S5_T1grassmann` | PPR | true | 15, 16 |
 | `S5_T1jets` | PPR | true | 16 |
-| `S5_T1krein_*` | PPR | all 13 true | 15, 18 |
+| `S5_T1krein_*` | PPR | all 13 true | 15, 18, 19 |
 | `S5_T1krein_imageOperatorIdentities` | PPR | true | 15 |
 | `S5_T1primordial` | PPR | true | 16 |
 | `S5_T2frame` | PPR | true | 16 |
@@ -1319,13 +1350,13 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `registeredSha256` | `scripts/build_provenance_pdf.py` | the PDF has the registered sha256 | 19 |
 | `provenancePdfCopy` | `scripts/build_provenance_pdf.py` | the verified PDF was copied to its final place | 19 |
 
-**The commit of the index.** The index of Sections 20.10 to 20.14 was made from the chapter files of this edition and the committed reports of commit `8a5f182` (2026-09-30). The reports are the same as in commit `4cd47fe`, which Chapter 19 tested, except that further Rust runs of the subcommand `pairs` were added and that the sympy report of the matter–antimatter analysis, `matter-antimatter/python-matter-antimatter-report.json`, was regenerated in commit `27794e8`; it has 77 checks instead of 75 (Section 19.10). The two checks it gained, `MA_M2_cpScopeInCurvedFields` and `MA_M4_imageFieldFockModel`, are cited in Chapters 17 and 19; in commit `4cd47fe` they exist in the checker `scripts/check_dirac16complex_matter_antimatter.py` but not yet in the committed report.
+**The commit of the index.** The index of Sections 20.10 to 20.14 was made from the committed reports of commit `1f2dd69` (2026-09-30), the commit from which Chapter 19 ran its commands, and from the chapter files of this edition. Two later changes of the reports are known in advance. The Rust runs of the subcommand `pairs` of Stage 5 are still being added; their files contain no entry `checks` and do not enter the index. And the physical reading of the Stage-5 Fock-level result `T1krein` is to be corrected in the Stage-5 programs (`HANDOFF.md`, section 0.4, item C; Section 19.10), which can change the names and the number of the checks `PAIR_T1krein_*` and `S5_T1krein_*` and of the matter–antimatter checks that cite them.
 
 **Counting.** The five tables list 583 rows: 558 single checks and 25 families. Every single check listed is true in every committed file shown, except `canonical_eigenvalues` (Section 19.9); every family is entirely true, except the two families `gauntlet_*` and `r07_*` of the Jupyter notebook's Stage-4 report, whose six false checks Section 19.9 explains.
 
 ### 20.16 What we proved and what we assumed
 
-This chapter proves nothing new. The glossary repeats, in one or two sentences each, definitions made in Chapters 0 to 18; where an entry and a chapter seem to differ, the chapter is authoritative, and the entry names it. The index of checks is a **computed** list: every row was produced by a program from the committed reports and the chapter files of this edition, and the value shown is the value in the committed file shown. It assumes that the chapter files and the reports named in Section 20.15 are the ones of the edition you read; a later commit can add checks, add citations or change a value, and then the lookup command of Section 20.9 gives the current answer. That a check is listed as true says only that the program that wrote the report found it true; what the check establishes, and under which assumptions, is stated in the chapter that cites it.
+This chapter proves nothing new. The glossary repeats, in one or two sentences each, definitions made in Chapters 0 to 19; where an entry and a chapter seem to differ, the chapter is authoritative, and the entry names it. In particular the entries on the pairs of universes (image field, Krein image pair, source-free, Theorems M1 to M6) repeat the precise statements of Chapters 15 to 17: the cancellation of energy, momentum and charge in a chirality pair is proved for two classical fields only, and every zero at the quantum or Kohn–Sham level is of the kind $X+(-X)=0$. The index of checks is a **computed** list: every row was produced by a program from the committed reports and the chapter files of this edition, by the rule of Section 20.9, and checked by a second program; the value shown is the value in the committed files shown. It assumes that the chapter files and the reports named in Section 20.15 are the ones of the edition you read; a later commit can add checks, add citations or change a value, and then the lookup command of Section 20.9 gives the current answer. That a check is listed as true says only that the program that wrote the report found it true; what the check establishes, and under which assumptions, is stated in the chapter that cites it.
 
 ### 20.17 Exercises
 
@@ -1347,11 +1378,11 @@ This chapter proves nothing new. The glossary repeats, in one or two sentences e
 
 ### 20.18 Answers to the exercises
 
-**Answer 20.1.** The Hilbert norm is $u^\dagger u$, the norm of the positive inner product; the Krein norm is $u^\dagger Bu$ with the indefinite matrix $B=-iC\gamma^4$ (Chapter 11). For every mode $h^\dagger B=Bh$, so the Krein norm is conserved always; the Hilbert norm is conserved only when the mode Hamiltonian is Hermitian, which holds in the good sector. A mode with enough momentum along an extra time has $E^2<0$ and grows exponentially (Chapter 8): in the committed EXP-5 run quoted there its Hilbert norm grows to $1.258\times10^{16}$, while its Krein norm keeps its initial value, up to a drift below $10^{-8}$ times the Hilbert norm, that is up to rounding (check `kreinConservedNormalized` of the EXP-5 checker). A conserved quantity that can be negative does not bound the size of the solution, because large positive and negative contributions can cancel in it; so its conservation does not make the mode harmless.
+**Answer 20.1.** The Hilbert norm is $u^\dagger u$, the norm of the positive inner product; the Krein norm is $u^\dagger Bu$ with the indefinite matrix $B=-iC\gamma^4$ (Chapter 8; Chapter 11 uses it for EXP-5). For every mode $h^\dagger B=Bh$, so the Krein norm is conserved always; the Hilbert norm is conserved only when the mode Hamiltonian is Hermitian, which holds in the good sector. A mode with enough momentum along an extra time has $E^2<0$ and grows exponentially (Chapter 8): in the committed EXP-5 run quoted there its Hilbert norm grows to $1.258\times10^{16}$, while its Krein norm keeps its initial value, up to a drift below $10^{-8}$ times the Hilbert norm, that is up to rounding (check `kreinConservedNormalized` of the EXP-5 checker). A conserved quantity that can be negative does not bound the size of the solution, because large positive and negative contributions can cancel in it; so its conservation does not make the mode harmless.
 
-**Answer 20.2.** (a) PROVED (Theorem T1, Chapter 15, with exact checks). (b) COMPUTED (Chapter 13; a number of the Rust solver with its own checks and the cross-check status of Section 19.9). (c) ASSUMED: the restriction is imposed, not derived (Chapter 8). (d) HYPOTHESIS: the notebook's claim, which Chapter 16 shows to be consistent with the conservation laws for the classical fields but not derived; no creation process is computed. (e) OPEN (Chapter 18).
+**Answer 20.2.** (a) PROVED (Theorem T1, Chapter 15, with exact checks). (b) COMPUTED (Chapter 13; a number of the Rust solver with its own checks and the cross-check status of Section 19.9). (c) ASSUMED: the restriction is imposed, not derived (Chapter 8). (d) HYPOTHESIS: the notebook's claim, which is not derived, and no creation process is computed. Chapter 16 shows what the conservation laws say about it (Proposition 16.5, for classical fields): a T1 pair has the totals of the empty state, so the total energy–momentum, the total charge and the gravitational constraints allow it; but each member's charge is conserved separately, so in the theory as built the pair cannot appear from the empty state unless $Q_+=0$. (e) OPEN (Chapter 18).
 
-**Answer 20.3.** $\eta$ is the flat metric $\mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$ everywhere except in Chapter 17, where $\eta$ also denotes the baryon-to-photon ratio $6.12\times10^{-10}$; the metric always carries indices ($\eta_{ab}$, $\eta^{ab}$) or appears as the matrix $\eta$, the ratio is a single number. $z=6Hx_0$ is the hidden angle of the primordial field in Chapter 9, and in Chapter 11 $z$ is the redshift, $1+z=1/a$; the chapter and the context (geometry of the notebook, or cosmology of the late universe) decide.
+**Answer 20.3.** $\eta$ is the flat metric $\mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$ everywhere except in Chapters 17 and 18, where $\eta$ also denotes the baryon-to-photon ratio ($6.12\times10^{-10}$ in Chapter 17, $\eta\approx6\times10^{-10}$ in Chapter 18); the metric always carries indices ($\eta_{ab}$, $\eta^{ab}$) or appears as the matrix $\eta$, the ratio is a single number. $z=6Hx_0$ is the hidden angle of the primordial field in Chapter 9, and in Chapter 11 $z$ is the redshift, $1+z=1/a$; the chapter and the context (geometry of the notebook, or cosmology of the late universe) decide.
 
 **Answer 20.4.** `canonical_eigenvalues` in `kohn-sham/python-check-report.json` is false (Section 20.13). It compares the Kohn–Sham levels of the Rust solver with those of the independent Python reference solver; one deep level of the smeared $N=1016$ ensemble differs by more than the tolerance (Section 19.9). The index lists Chapters 14, 16, 18 and 19 as citing it.
 
@@ -1382,4 +1413,9 @@ that is twelve checks, all true, in one file, as the index says and as Chapter 1
 
 **Answer 20.7.** Complex conjugation $C_0:\Psi\to\Psi^\ast$ has to move a conjugated factor past an unconjugated one, and the statistics sign $s$ records the sign of that reordering: $+1$ for commuting components, $-1$ for Grassmann components. Theorem 6.10 shows that $C_0$ sends the kinetic term $K\to sK$ and the scalar density $S\to sS$. For the commuting field ($s=+1$) the Lagrangian is unchanged, so $C_0$ is an exact symmetry that reverses the charge: the charge conjugation of dirac16complex00. For the Grassmann field ($s=-1$) it reverses the sign of the Lagrangian and of $\lambda$, and no constant charge conjugation is a symmetry when $m\ne0$ (Chapter 6; the classification is Theorem M2 of Chapter 17).
 
-**Answer 20.8.** The twelve checks `PAIR_T1krein_*` verify, in an exact Fock-space model with four rest modes, both readings of the $-M$ universe (Chapters 15 and 16): for the image field $\Psi_-=\gamma^8\Psi_+$ on the same state space, its anticommutator with the reversed Krein metric $-B$, the operator identities and the expectation values; and for the $-M$ theory quantized independently, its anticommutator with $+B$ and its expectation values. What they establish is that the cancelling energy and charge hold for the image, as operator identities of the form $X+(-X)=0$ on one state space, that is for the Krein image pair, which is one quantum system written in two sets of variables; and that the independently quantized $-M$ universe has positive kinetic and mass energies, which add to those of the $+M$ universe instead of cancelling (the entry `kreinLevelCaveat` quoted in Chapter 17). They do not show that two independent universes of zero total energy exist or are created: whether a physical pair with this property exists is OPEN, and no creation process is computed anywhere in the repository.
+**Answer 20.8.** The twelve checks `PAIR_T1krein_*`, all true in `pair-creation/wolfram-pairing-report.json`, verify in an exact Fock-space model with four rest modes of mass $m=1$ both readings of the $-M$ universe (Section 15.4). For the image field $\Psi_-=\gamma^8\Psi_+$ on the same state space they verify its anticommutator $-B$ (the reversed Krein metric), the operator identities $H[\Psi_-;-m]=-H[\Psi;m]$, $Q[\Psi_-]=-Q[\Psi]$ and $S[\Psi_-]=S[\Psi]$, and the expectation values of the formulas of $\mathcal L_{-m,-\lambda}$, which are $-|\varepsilon|$ for the energy and $-1$ for the charge of each quantum. For the $-M$ theory quantized independently they verify its anticommutator $+B$ and its expectation values. The classmate's conclusion does not follow, for four reasons.
+
+1. *The image field is the same quantum system as $\Psi_+$.* Measured with its own canonical structure, its energy and its charge are $+H_+$ and $+Q_+$, not $-H_+$ and $-Q_+$, because $H[\Psi_-;-m]$ generates the evolution in $x_4$ backwards and $Q[\Psi_-]$ the inverse phase rotation (Section 15.4). This is proved in an independent exact Fock model by the check `MA_M4_imageFieldFockModel` of `matter-antimatter/python-matter-antimatter-report.json`. The zero sums $H_++H[\Psi_-;-m]=0$ and $Q_++Q[\Psi_-]=0$ have the form $X+(-X)=0$ and hold in every state; they do not describe two universes of zero total energy.
+2. *The independently quantized $-M$ universe does not cancel.* Its kinetic and mass energies are positive and add to those of the $+M$ universe, and its charge cancels that of the $+M$ universe only under an additional assumption on its state (the entry `kreinLevelCaveat` quoted in Chapters 15 and 17).
+3. *The Krein image pair of the glossary is a different object.* It is the Kohn–Sham construction $(+M)-(-M)$ of Section 15.8 (check `PAIR_totals_ksKreinImagePair`), not the Fock model of `PAIR_T1krein_*`, and its zero energy is again of the kind $X+(-X)=0$. Neither object is a quantum description of two independent universes whose energies and charges cancel; whether one exists is OPEN (Section 16.6), and no creation process is computed anywhere in the repository.
+4. *The Stage-5 citation is provisional.* The matter–antimatter analysis cites the Fock-level result of Stage 5 as PROVISIONAL until the Stage-5 gate has passed (measurement `M4_kreinLevelStatus` of `wolfram-matter-antimatter-report.json`), and the physical reading written into the Stage-5 files, the entry `imageField` of the key `T1krein` of `pairing-theory.json`, which calls $-|\varepsilon|$ and $-1$ the energy and charge of an "image universe", is to be corrected (`HANDOFF.md`, section 0.4, item C). An all-true family of checks confirms identities; it does not confirm a reading attached to them.

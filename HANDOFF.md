@@ -95,6 +95,8 @@ C. Stage 5: exact theory COMPLETE (Wolfram 00 46/46, pairing 141/141; sympy 00 4
    `rust/pairs/` has run folders but no `summary.json`; `scripts/ks_reference_pairs.py
    --workers 10 --resume` was stopped at 12:12 (partial `reference/`).  After the textbook:
    rerun the `rust-pairs` and `reference-pairs` agents of `wf_stage5_theory_numerics.js`
+   (the pairs checker scripts/check_dirac16complex_pairs.py on the partial outputs gave 71 checks,
+   8 failed, at 15:10 - expected while the runs are incomplete)
    (and its checker), then `handoff/workflows/wf_stage5_docs_review.js` (documents
    DIRAC16COMPLEX00_FIELD_THEORY and DIRAC16COMPLEX_PAIR_CREATION, the gate
    `scripts/verify_stage5_pair_creation.*`, four review lenses, fixer), then the gate from a

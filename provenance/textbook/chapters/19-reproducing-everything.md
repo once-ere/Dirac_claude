@@ -1,32 +1,36 @@
 ## 19. Reproducing everything
 
-Every proof of this book is paired with an exact machine check, and every number is copied from a committed file of the repository. This appendix shows how to regenerate those files and checks on your own computer, starting from nothing but an internet connection. It gives every command twice, once for PowerShell (the command shell of Windows) and once for Bash (the shell of Git Bash on Windows, of macOS and of Linux), it says what each command prints when it succeeds and how long it took on the computer that produced the committed files, and it states plainly which stages can be checked completely today and which cannot yet.
+This appendix shows how to rerun the programs of this book on your own computer, starting from nothing but an internet connection. Every machine check that the book names, and every number that it takes from a program, comes from a committed file of the repository, and the text names the file; derivations marked "derived here" or "not machine-checked" (in Chapters 11, 17 and 18, for example) have no machine check at all. This appendix regenerates the committed files and checks. It gives every command twice, once for PowerShell (the command shell of Windows) and once for Bash (the shell of Git Bash on Windows, of macOS and of Linux), it says what each command prints when it succeeds and how long it took on the test computer, and it states plainly which stages can be checked completely today and which cannot yet.
 
-The commands of this appendix were run for this edition from a fresh clone of the public repository at commit `4cd47fe` (2026-09-30), on the computer described in Section 19.2, unless a paragraph says otherwise. Where a run takes hours, the appendix does not repeat it; it quotes the wall time recorded in the committed gate logs, in the headers of the gate scripts, in `README.md` or in `HANDOFF.md`, and names the source.
+**Which commit, and what was measured.** The commands of this appendix were run for this edition from fresh clones of the public repository at commit `1f2dd69` (2026-09-30), the newest commit when the appendix was revised, on the computer described in Section 19.2, unless a paragraph says otherwise. That commit contains drafts of the chapters of this book, not their final text; the final files of the book are added by a later commit. To work with exactly the files that were measured, check that commit out after cloning (`git checkout 1f2dd69`, Section 19.4); at a later commit, `git diff --stat 1f2dd69 HEAD` lists every file that has changed since. The wall times, the numbers of unit tests and the printed lines quoted in this appendix are measurements of these runs. Their logs are not committed, so, unlike the other numbers of the book, they cannot be looked up in the repository: a reader checks them by running the same commands. Where a run takes hours, the appendix does not repeat it; it quotes the wall time recorded in the committed gate logs, in the headers of the gate scripts, in `README.md` or in `HANDOFF.md`, and names the source.
 
 ### 19.1 What reproducing means, and the state of each stage
 
 **Three levels.** Section 0.8 described three levels of checking a statement: following the derivation, reading the committed report of the machine check, and running the programs again. This appendix is about the third level. Running a program again means: the program recomputes a result from its inputs, writes a new report, and the new report is compared with the committed one. Two kinds of agreement are used. For exact computations (integers, fractions, symbols) and for the numerical outputs of a fixed program on a fixed engine, the new file must be **byte-identical** to the committed one: the two files are the same sequence of bytes. For numerical results computed in another way (a finer grid, tighter tolerances, a different solver) the new numbers must agree with the old ones within a stated tolerance.
 
+**Fingerprints.** Byte identity is tested with a fingerprint of the file. The **sha256** of a file is a number computed from all of its bytes and written with 64 **hexadecimal** digits. Hexadecimal digits are the digits of base 16: the ten digits 0 to 9, followed by the letters a, b, c, d, e and f, which stand for the values 10 to 15 (the upper-case letters A to F denote the same digits). For example, the hexadecimal number `1f` is $1\cdot16+15=31$. Two files have the same sha256 exactly when they are byte-identical, for every practical purpose: changing a single byte changes the fingerprint completely. The names of the commits of the repository (Section 19.4) are hexadecimal numbers of the same kind.
+
 **Gates.** For each finished stage the repository contains a **gate**: a script that runs every program of the stage in a fixed order, stops at the first failure, compares every output with the committed file, and ends with one line that says `OK` or `FAILED`. Each gate exists twice, as a PowerShell script (`.ps1`) and as a Bash script (`.sh`); the two are called twins, run the same steps and print the same final line.
 
-**The state on 2026-09-30.** The table lists what can be checked. The column "gate" names the scripts in the folder `scripts/`.
+**The state at commit `1f2dd69`.** The table lists what can be checked. The column "Gate" names the scripts in the folder `scripts/`.
 
-| Stage | Gate | Final line of a successful run | State on 2026-09-30 |
+| Stage | Gate | Final line of a successful run | State at commit `1f2dd69` |
 | --- | --- | --- | --- |
-| 1: the field in an arbitrary gravitational field | `verify_stage1_arbitrary_field` | `stage1_arbitrary_field_verification=OK` | complete; both twins passed from fresh public clones |
-| 2: the primordial field | `verify_stage2_primordial_field` | `stage2_primordial_field_verification=OK` | complete; both twins passed from fresh public clones |
-| 3: dark-sector numerics | `verify_stage3_dark_sector` | `stage3_dark_sector_verification=OK` | complete; both twins passed from fresh public clones of earlier commits; at `4cd47fe` its last-but-one step, all unit tests, fails for reasons outside Stage 3 (Sections 19.8 and 19.11) |
+| 1: the field in an arbitrary gravitational field | `verify_stage1_arbitrary_field` | `stage1_arbitrary_field_verification=OK` | complete; both twins passed from fresh public clones, and the Bash twin passed again for this edition (Section 19.6) |
+| 2: the primordial field | `verify_stage2_primordial_field` | `stage2_primordial_field_verification=OK` | complete; both twins passed from fresh public clones, and the Bash twin passed again for this edition (Section 19.7) |
+| 3: dark-sector numerics | `verify_stage3_dark_sector` | `stage3_dark_sector_verification=OK` | complete; both twins passed from fresh public clones of earlier commits; at `1f2dd69` the Bash twin passes steps 00 to 30 and stops in step 31, all unit tests, because four tests of Stage 4 fail (Sections 19.8 and 19.11) |
 | 4: Kohn–Sham states | `verify_stage4_kohn_sham` | `stage4_kohn_sham_verification=OK` | not finished: the gate has never been run to the end and cannot pass yet (Section 19.9) |
-| 5: dirac16complex00 and the pairing theorems | none yet | none | exact theory committed and checked; Kohn–Sham pair numerics partial; documents and gate not written (Section 19.10) |
-| matter and antimatter | none | none | exact theory committed and checked; document built and registered (Section 19.10); at `4cd47fe` six of its publication tests fail, because the document quotes the sha256 values of earlier files (Section 19.11) |
+| 5: dirac16complex00 and the pairing theorems | none yet | none | exact theory committed, every check of its four reports true, one of its results cited as provisional (below); Kohn–Sham pair numerics partial; documents and gate not written (Section 19.10) |
+| matter and antimatter | none | none | exact theory committed and checked; document built and registered (36 pages); all 49 tests of its two test files pass (Sections 19.10 and 19.11) |
 | this textbook | the assembler and the PDF builder | `textbook_assembly=OK`, `provenance_pdf=OK` | Section 19.12 |
 
-The sources of this table are `README.md` (section "Stages and documents"), `HANDOFF.md` (section 2), the committed gate logs in `handoff/reviews/`, and the committed reports named in Sections 19.6 to 19.12. The rest of this appendix goes through the stages one by one.
+One Stage-5 result needs a warning. The exact Fock-level checks `PAIR_T1krein_*` and `S5_T1krein_*` are all true, but the text that the Stage-5 files attach to them, which calls $-|\varepsilon|$ and $-1$ the energy and the charge of an "image universe", is to be corrected (Section 15.4 explains why these are not the image field's own energy and charge; `HANDOFF.md`, section 0.4, item C, records the correction to be made in `wolfram/Dirac16ComplexPairing.wl` and `scripts/check_dirac16complex_pairing.py`). Until the Stage-5 gate has passed, the matter–antimatter reports cite this result as PROVISIONAL, and the correction may change the names and the number of the checks of the Stage-5 pairing reports.
+
+The sources of the table are `README.md` (section "Stages and documents"), `HANDOFF.md` (sections 0.4 and 2), the committed gate logs in `handoff/reviews/`, the committed reports named in Sections 19.6 to 19.12 and the runs of this edition. The rest of this appendix goes through the stages one by one.
 
 ### 19.2 The computer and the tools
 
-**The test computer.** The committed outputs and every timing of this appendix come from one computer: an Intel Core Ultra 9 275HX processor with 24 logical processors, running Windows 11 Pro for Workstations (build 10.0.26200). While the commands of this edition were timed, other jobs of the project were running on the same computer and kept its processor busy (Windows reported a load near 100 percent); the timings are therefore upper values, and an otherwise idle computer is faster. The Stage-3 programs were also tested on Ubuntu 24.04 running inside Windows (student guide `provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md`, §2).
+**The test computer.** The committed outputs and every timing of this appendix come from one computer: an Intel Core Ultra 9 275HX processor with 24 logical processors, running Windows 11 Pro for Workstations (build 10.0.26200). While the commands of this edition were timed, other jobs of the project were running on the same computer and kept its processor busy (Windows reported a load of 100 percent), and three groups of the runs of this appendix ran at the same time, each in its own fresh clone: the six exact programs of Section 19.10; the Stage-3 gate of Section 19.8, whose step 31 is the unit-test run of Section 19.11; and the remaining commands of Sections 19.3 to 19.12. Two short runs were made afterwards in these clones, as Sections 19.10 and 19.11 say. The timings are therefore upper values, and an otherwise idle computer is faster. The Stage-3 programs were also tested on Ubuntu 24.04 running inside Windows (student guide `provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md`, §2).
 
 **The tools.** Six programs are needed. The versions are the ones that produced the committed files.
 
@@ -61,7 +65,7 @@ pdflatex --version
 cargo --version
 ```
 
-On the test computer these printed, in order, `git version 2.51.2.windows.1`, `Python 3.14.5`, `2.4.6 1.14.0`, `WolframScript 1.14.0 for Microsoft Windows (64-bit)`, a first line containing `MiKTeX-pdfTeX 4.27 (MiKTeX 26.5)` and `cargo 1.91.1 (ea2d97820 2025-10-10)`. In PowerShell, `$PSVersionTable.PSVersion` shows the version of PowerShell itself (here 7.6.6).
+On the test computer these printed, in order, `git version 2.51.2.windows.1`, `Python 3.14.5`, `2.4.6 1.14.0`, `WolframScript 1.14.0 for Microsoft Windows (64-bit)`, a first line containing `MiKTeX-pdfTeX 4.27 (MiKTeX 26.5)` and `cargo 1.91.1 (ea2d97820 2025-10-10)`. Before its version, MiKTeX may print a reminder that you have not checked for updates; it does not affect anything in this appendix. In PowerShell, `$PSVersionTable.PSVersion` shows the version of PowerShell itself (here 7.6.6).
 
 ### 19.3 Two shells: PowerShell and Bash
 
@@ -93,11 +97,13 @@ The lines from `python -c "` to the closing `"` and the path after it form one c
 export PYTHONUTF8=1
 ```
 
-Both shells print `141 141`: all 141 checks of the Stage-5 pairing report are true. This is the method of Section 0.8 written as one command; replace the path to count the checks of any other report.
+Both shells print the one line `141 141`: all 141 checks of the Stage-5 pairing report are true. This is the method of Section 0.8 written as one command. Replace the path to count the checks of any other report whose checks are stored in a top-level entry `checks`. The EXP-3 fit analysis `artifacts/dirac16complex/numerics/exp3/fits.json` is an exception: it stores its checks one level down, in its entry `validation`, and for it the command stops with the error message `KeyError: 'checks'`.
 
 ### 19.4 A fresh clone and the numerical engine
 
-**Cloning.** A **clone** is a complete copy of the repository, with its whole history, made by Git. Choose a folder for it and type, in either shell:
+**Git, repositories and commits.** **Git** is a program that records the history of a folder of files. The folder together with its whole recorded history is a **repository**. The history is a sequence of **commits**: a commit is a recorded state of all the files of the repository, together with a short message, and it is named by a 40-digit hexadecimal fingerprint of its content; the first seven digits, such as `1f2dd69`, are enough to name a commit of this repository. The files as they lie on your disk are the **working tree**; the command `git status --short` lists every file of the working tree that is changed or new compared with the last commit (files in folders that Git is told to ignore excepted), and prints nothing when there is none. A **clone** is a complete copy of a repository, with its whole history, made by Git; a **fresh** clone is one made just before a test, so that no file of an earlier run and no local change can enter the test.
+
+**Cloning.** Choose a folder for the clone. On Windows, choose a folder with a short path, such as `C:\work`: by default a Windows program cannot open a file whose full path is longer than 260 characters, and some files of the repository lie more than 100 characters deep inside the clone. For this appendix the first clones were made 168 characters deep, and they failed in two ways: the Rust linker stopped with the error `LNK1104` (cannot open file), and WolframScript did not see two Stage-4 run files whose paths then had 271 and 272 characters, so that one report counted them wrong (Section 19.10). Then type, in either shell:
 
 ```
 git clone https://github.com/once-ere/Dirac_claude.git
@@ -105,7 +111,13 @@ cd Dirac_claude
 git log --oneline -1
 ```
 
-The first command downloads the repository into the new folder `Dirac_claude` (about 410 megabytes; 31 seconds on the test computer), the second makes that folder the current folder, and the third prints the commit you have, a short hexadecimal name followed by its message. All later commands are typed in this folder. Some folders are deliberately missing from a clone: `build/` (scratch output), `vendor/` (the numerical engine, fetched below) and the private reference folder `dirac-main/` of Stage 1 (Section 19.6). The file `.gitignore` lists them, and Git never records their contents.
+The first command downloads the repository into the new folder `Dirac_claude` (about 440 megabytes; 11 seconds on the test computer), the second makes that folder the current folder, and the third prints the commit you have, its short hexadecimal name followed by its message. All later commands are typed in this folder. To work with the files of the commit at which this appendix was measured, type
+
+```
+git checkout 1f2dd69
+```
+
+Git then reports that you are in "detached HEAD" state, which only means that the working tree shows an older commit than the newest one (`HEAD` is Git's name for the commit you have); `git checkout main` returns to the newest commit. Some folders are deliberately missing from a clone: `build/` (scratch output), `vendor/` (the numerical engine, fetched below) and the private reference folder `dirac-main/` of Stage 1 (Section 19.6). The file `.gitignore` lists them, and Git never records their contents.
 
 **The numerical engine.** The Rust programs of Stages 3, 4 and 5 use CVODE, the solver of the pure-Rust translation of SUNDIALS 7.8.0 (Chapter 10). It is not stored in this repository; a setup script downloads it at a fixed commit (a **pin**) into `vendor/rustSolveIt`. PowerShell:
 
@@ -146,9 +158,9 @@ check_count=20
 failed_check_count=0
 ```
 
-(This is the Python algebra checker of Stage 1; `...` marks omitted lines in every output box of this appendix.) A check is a statement that is either true or false; a measurement is a recorded value, such as a count or a matrix; here 64 ordered pairs of gamma matrices were tested and the charge matrix has 8 positive, 8 negative and 0 zero eigenvalues. The program exits with code 0 when every check is true and with a nonzero code otherwise (some verifiers also refuse, with a nonzero code, when the number of checks differs from the number they expect). The same checks and measurements are written into the report, a JSON file whose entry `checks` holds the true or false values (Section 0.8).
+(This is the Python algebra checker of Stage 1; `...` marks omitted lines in every output box of this appendix.) A check is a statement that is either true or false; a **measurement** is a recorded value, such as a count or a matrix; here 64 ordered pairs of gamma matrices were tested and the charge matrix has 8 positive, 8 negative and 0 zero eigenvalues. The program exits with code 0 when every check is true and with a nonzero code otherwise (some verifiers also refuse, with a nonzero code, when the number of checks differs from the number they expect). The same checks and measurements are written into the report, a JSON file whose entry `checks` holds the true or false values (Section 0.8).
 
-**What a gate prints.** A gate prints the tools it found (lines `stageN_tool_...=`), then for each step a line `stageN_step=<name>` when the step starts and `stageN_step_ok=<name>` when it has succeeded, with the full output of the step in between. After the steps it audits the reports and prints their check counts and the sha256 of every output file (the **sha256** is a 64-digit hexadecimal fingerprint of a file's bytes: two files have the same sha256 exactly when they are byte-identical, for every practical purpose). The last line is the verdict. When a step fails, the gate stops and prints instead, for example in Stage 2,
+**What a gate prints.** A gate prints the tools it found (lines `stageN_tool_...=`), then for each step a line `stageN_step=<name>` when the step starts and `stageN_step_ok=<name>` when it has succeeded, with the full output of the step in between. After the steps it audits the reports and prints their check counts and the sha256 of every output file (Section 19.1). The last line is the verdict. When a step fails, the gate stops and prints instead, for example in Stage 2,
 
 ```
 stage2_failed_step=stage2-02-check-primordial
@@ -163,7 +175,7 @@ and exits with a nonzero code; the other gates print the same three lines with t
 1. The Wolfram verifiers take the report path as a plain argument after the script name, never after a separator `--`: with WolframScript 1.14, `wolframscript -file s.wls -- r.json` loses the path, while `wolframscript -file s.wls r.json` passes it (the headers of all gates record this test). Some Wolfram verifiers also write a theory file next to the report; with a report path in `build/` that file goes to `build/` as well.
 2. The Python checkers take the report path from an option, `--output` for most of them. Two Stage-1 programs write to a fixed path; for them the helper `scripts/run_with_report_path.py` redirects the report (Section 19.6).
 
-After any rerun, `git status --short` lists every committed file that has changed; it prints nothing when all committed files are unchanged. To put the committed version of the artifacts back, type `git restore artifacts`.
+After any rerun, `git status --short` lists every committed file that has changed (Section 19.4); it prints nothing when all committed files are unchanged. To put the committed version of the artifacts back, type `git restore artifacts`.
 
 **Worked example: one Stage-1 checker.** PowerShell:
 
@@ -181,31 +193,31 @@ python scripts/check_dirac16complex_algebra.py --wolfram-report= \
     --output build/textbook/python-algebra-report.json
 ```
 
-Both print 20 check lines and end with `check_count=20`, `failed_check_count=0` and the line `report=build/textbook/python-algebra-report.json`; the committed report has 21 checks, because the empty option `--wolfram-report=` switches off the comparison with the Wolfram report (Section 2.16). On the test computer the run took 2 seconds, and `git status --short` printed nothing afterwards.
+Both print 20 check lines and end with `check_count=20`, `failed_check_count=0` and the line `report=build/textbook/python-algebra-report.json`; the committed report has 21 checks, because the empty option `--wolfram-report=` switches off the comparison with the Wolfram report (Section 2.16). On the test computer the run took 4 seconds in Bash and 1 second in PowerShell, and `git status --short` printed nothing afterwards.
 
 ### 19.6 Stage 1: the field in an arbitrary gravitational field
 
-**What the gate does.** The Stage-1 gate runs thirteen steps (header of `scripts/verify_stage1_arbitrary_field.sh`); each writes its log into `build/logs/`:
+**What the gate does.** The Stage-1 gate runs thirteen steps (header of `scripts/verify_stage1_arbitrary_field.sh`); each writes its log into `build/logs/`. The times in the table are those of the run described below, read from the start and finish times in the logs:
 
 | Step | Command (from the log of the run described below) | Time |
 | --- | --- | --- |
-| `stage1-01-build-fixture` | `python scripts/build_dirac16complex_fixture.py --output build/stage1/algebra-fixture.json` | 3 s |
-| `stage1-02-check-algebra` | `python scripts/check_dirac16complex_algebra.py --wolfram-report= --output build/stage1/python-algebra-report.json` | 7 s |
-| `stage1-03-wolfram-algebra` | `wolframscript -file scripts/verify_dirac16complex_algebra.wls build/stage1/wolfram-algebra-report.json` | 49 s |
-| `stage1-04-wolfram-geometry` | `wolframscript -file scripts/verify_dirac16complex_geometry.wls build/stage1/wolfram-geometry-report.json` | 535 s |
-| `stage1-05-check-geometry` | `python scripts/run_with_report_path.py build/stage1/python-geometry-report.json scripts/check_dirac16complex_geometry.py --wolfram-report build/stage1/wolfram-geometry-report.json` | 337 s |
-| `stage1-06-grassmann-demo` | `python scripts/run_with_report_path.py build/stage1/grassmann-demo-report.json scripts/demo_grassmann_lagrangians.py` | 43 s |
-| `stage1-07-check-algebra-crosscheck` | `python scripts/check_dirac16complex_algebra.py --wolfram-report build/stage1/wolfram-algebra-report.json --output build/stage1/python-algebra-report.json` | 1 s |
-| `stage1-08-python-tests` | `python -m unittest discover -s tests -p "test_d16c_[ag]*.py" -v` (99 tests) | 51 s |
-| `stage1-09-publication-tests` | `python -m unittest discover -s tests -p test_publication_tooling.py -v` (68 tests) | 55 s |
+| `stage1-01-build-fixture` | `python scripts/build_dirac16complex_fixture.py --output build/stage1/algebra-fixture.json` | under 1 s |
+| `stage1-02-check-algebra` | `python scripts/check_dirac16complex_algebra.py --wolfram-report= --output build/stage1/python-algebra-report.json` | 3 s |
+| `stage1-03-wolfram-algebra` | `wolframscript -file scripts/verify_dirac16complex_algebra.wls build/stage1/wolfram-algebra-report.json` | 23 s |
+| `stage1-04-wolfram-geometry` | `wolframscript -file scripts/verify_dirac16complex_geometry.wls build/stage1/wolfram-geometry-report.json` | 409 s |
+| `stage1-05-check-geometry` | `python scripts/run_with_report_path.py build/stage1/python-geometry-report.json scripts/check_dirac16complex_geometry.py --wolfram-report build/stage1/wolfram-geometry-report.json` | 405 s |
+| `stage1-06-grassmann-demo` | `python scripts/run_with_report_path.py build/stage1/grassmann-demo-report.json scripts/demo_grassmann_lagrangians.py` | 57 s |
+| `stage1-07-check-algebra-crosscheck` | `python scripts/check_dirac16complex_algebra.py --wolfram-report build/stage1/wolfram-algebra-report.json --output build/stage1/python-algebra-report.json` | 2 s |
+| `stage1-08-python-tests` | `python -m unittest discover -s tests -p "test_d16c_[ag]*.py" -v` (99 tests) | 54 s |
+| `stage1-09-publication-tests` | `python -m unittest discover -s tests -p test_publication_tooling.py -v` (68 tests) | 94 s |
 | `stage1-10-summary` | `python scripts/build_stage1_summary.py --output build/stage1/stage1-summary.json --reports-directory build/stage1` | under 1 s |
-| `stage1-11-provenance-pdf` | `python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.md` | 10 s |
-| `stage1-12-publication-recheck` | `python -m unittest discover -s tests -p test_d16c_arbitrary_field_publication.py -v` (27 tests) | under 1 s |
-| `stage1-13-public-clone-audit` | `python scripts/verify_stage1_public_clone_audit.py --committed artifacts/dirac16complex/arbitrary-field --regenerated build/stage1` | under 1 s |
+| `stage1-11-provenance-pdf` | `python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_ARBITRARY_FIELD.md` | 16 s |
+| `stage1-12-publication-recheck` | `python -m unittest discover -s tests -p test_d16c_arbitrary_field_publication.py -v` (27 tests) | 1 s |
+| `stage1-13-public-clone-audit` | `python scripts/verify_stage1_public_clone_audit.py --committed artifacts/dirac16complex/arbitrary-field --regenerated build/stage1` | 1 s |
 
-Steps 02 and 07 run the same Python checker twice: first alone, then again with the comparison against the Wolfram algebra report that step 03 has just written (check `ALG_wolframAgreement`). Step 05 compares the Python geometry with the Wolfram geometry of step 04 (check `GEO_wolframAgreement`). The helper `scripts/run_with_report_path.py` is needed because the geometry checker and the Grassmann demonstration write their reports to a fixed path and have no output option; the helper runs the committed code unchanged and only redirects the report (its header explains why no option was added: the sha256 of the two scripts is recorded in the committed reports).
+Steps 02 and 07 run the same Python checker twice: first alone, then again with the comparison against the Wolfram algebra report that step 03 has just written (check `ALG_wolframAgreement`). Step 05 compares the Python geometry with the Wolfram geometry of step 04 (check `GEO_wolframAgreement`). The helper `scripts/run_with_report_path.py` is needed because the geometry checker and the Grassmann demonstration write their reports to a fixed path and have no output option; the helper runs the committed code unchanged and only redirects the report (its header explains why no option was added: the sha256 of the two scripts is recorded in the committed reports). Steps 08 and 09 each report one skipped test, the two tests that need the folder `dirac-main/` described next.
 
-**Two modes: with and without dirac-main.** Three exact data files of the separately published reference implementation dirac-main (https://github.com/once-ere/dirac) are compared with the Stage-1 matrices (Chapter 3). The folder `dirac-main/` that would hold them is not part of this repository, so a fresh clone lacks it. The gate first prints `stage1_dirac_main=present` or `stage1_dirac_main=absent`. With `absent` it runs in the **public-clone mode**: every regenerated file goes into `build/stage1/` and the committed reports stay untouched; the verifiers record the dirac-main comparisons as "not-run"; and the extra step 13 requires every regenerated file to equal the committed one, byte for byte or value for value, except for exactly the entries that the missing folder changes (its log lists each allowed difference in a line `stage1_audit_allowed=`). With `present` the gate rewrites the committed reports in place, runs the dirac-main comparisons as well, and needs no step 13. Both modes were run from fresh public clones on 2026-09-30 and ended with the OK line: the Bash and PowerShell twins without dirac-main, and the Bash twin with a copy of the folder (`handoff/reviews/stage1_gate_2026-09-30_public_sh.log`, `..._public_ps1.log` and `..._private_sh.log`).
+**Two modes: with and without dirac-main.** Three exact data files of the separately published reference implementation dirac-main (https://github.com/once-ere/dirac) are compared with the Stage-1 matrices (Chapter 3). The folder `dirac-main/` that would hold them is not part of this repository, so a fresh clone lacks it. The gate first prints `stage1_dirac_main=present` or `stage1_dirac_main=absent`. With `absent` it runs in the **public-clone mode**: every regenerated file goes into `build/stage1/` and the committed reports stay untouched; the verifiers record the dirac-main comparisons as "not-run"; and the extra step 13 requires every regenerated file to equal the committed one, byte for byte or value for value, except for exactly the entries that the missing folder changes (its log lists each allowed difference in a line `stage1_audit_allowed=`). With `present` the gate rewrites the committed reports in place, runs the dirac-main comparisons as well, and needs no step 13. Both modes were run from fresh public clones earlier on 2026-09-30 and printed the OK line: the Bash and PowerShell twins without dirac-main, and the Bash twin with a copy of the folder (`handoff/reviews/stage1_gate_2026-09-30_public_sh.log`, `..._public_ps1.log` and `..._private_sh.log`).
 
 **Running it.** PowerShell:
 
@@ -234,9 +246,9 @@ stage1_skipped=dirac-main cross-checks (dirac-main/ is a git-ignored reference .
 stage1_arbitrary_field_verification=OK
 ```
 
-The eight sha256 lines cover the five reports, `stage1-summary.json` and the `.tex` and `.pdf` of the Stage-1 document; the `stage1_skipped` line is longer on the screen and names the log in which the audit lists the comparisons that were not run. The five reports hold $21+43+21+52+16=153$ checks, the 153 of 153 of Chapter 0. The first sha256 differs from that of the committed Wolfram algebra report, and that is expected: the report records the dirac-main comparisons as "not-run", which is one of the allowed differences. The PDF line shows the sha256 of the registered edition, because the PDF is rebuilt byte for byte.
+The eight sha256 lines cover the five reports, `stage1-summary.json` and the `.tex` and `.pdf` of the Stage-1 document; the `stage1_skipped` line is longer on the screen and names the log in which the audit lists the comparisons that were not run. The five reports hold $21+43+21+52+16=153$ checks, the 153 of 153 of Chapter 0. Five of the eight fingerprints equal those of the committed files: the Wolfram geometry report, the Python geometry report, the Grassmann report, and the `.tex` and the `.pdf` of the document, which the gate rebuilds byte for byte. Three differ, and that is expected: the Wolfram algebra report (`39cc390b...` against the committed `d43adeeb...`) and the Python algebra report (`2be5b910...` against `3275b2af...`) record the dirac-main comparisons as "not-run", and `stage1-summary.json` (`03165f0f...` against `a65972b5...`) collects their entries. These are exactly the differences that step 13 allows (its log lists them).
 
-**Wall time.** The Bash twin, run for this edition from the fresh clone of Section 19.4 (public-clone mode), took 1133 seconds, about 19 minutes; the table above gives the time of each step. The two exact geometry programs dominate. In the committed runs of 2026-09-30 the Python geometry checker took 190 seconds (Bash) and 227 seconds (PowerShell) without dirac-main and 621 seconds with it (the line `runtime_seconds=` of each log), so the whole gate needs roughly 10 to 20 minutes, depending on the load of the computer.
+**Wall time.** The Bash twin, run for this edition from a fresh clone (public-clone mode), took 1095 seconds, about 18 minutes; the table above gives the time of each step. The two exact geometry programs dominate. In the committed runs of 2026-09-30 the Python geometry checker took 190 seconds (Bash) and 227 seconds (PowerShell) without dirac-main and 621 seconds with it (the line `runtime_seconds=` of each log), so the whole gate needs roughly 10 to 20 minutes, depending on the load of the computer.
 
 **Single programs.** Each row of the table is an ordinary command and can be typed on its own, in either shell (after setting `PYTHONUTF8` as in Section 19.3); the gate's folder `build/stage1/` can be replaced by any folder below `build/`. The Wolfram verifiers print progress lines, their checks and measurements, and end with `check_count=21` (algebra) and `check_count=43` (geometry); the Python geometry checker ends with `check_count=52`, the Grassmann demonstration with `check_count=16`, all with `failed_check_count=0`. Run step 04 before step 05 and step 03 before step 07, because the later steps read the reports of the earlier ones.
 
@@ -281,7 +293,7 @@ stage2_primordial_field_verification=OK
 
 (the sha256 values are cut after 16 digits here; the gate prints all 64).
 
-**Wall time.** The Bash twin, run for this edition from the fresh clone of Section 19.4, took 320 seconds: 142 for the Wolfram verifier, 9 for the Python checker, 74 for the 53 unit tests and 41 for the PDF, the rest for the audits. The committed logs of the earlier fresh-clone runs (`handoff/reviews/stage2_gate_2026-09-30_fresh_clone_OK.log` for Bash and `stage2_gate_ps1_2026-09-30_fresh_clone_OK.log` for PowerShell, both ending with the OK line) record 88 and 121 seconds for the Wolfram step and 32 seconds for the unit tests.
+**Wall time.** The Bash twin, run for this edition from a fresh clone, took 165 seconds: 93 for the Wolfram verifier, 16 for the Python checker, 31 for the 53 unit tests and 13 for the PDF, the rest for the audits. The committed logs of the earlier fresh-clone runs (`handoff/reviews/stage2_gate_2026-09-30_fresh_clone_OK.log` for Bash and `stage2_gate_ps1_2026-09-30_fresh_clone_OK.log` for PowerShell, both containing the OK line) record 88 and 121 seconds for the Wolfram step and 32 seconds for the unit tests.
 
 **Single programs.** To rerun the two verifiers into the scratch folder `build/textbook/stage2/`, in PowerShell:
 
@@ -307,7 +319,7 @@ python scripts/check_dirac16complex_primordial.py \
     --wolfram-components "$s/primordial-components.json"
 ```
 
-The variable `s` only abbreviates the folder. The Wolfram verifier prints one progress line per group of checks (from `zero-test sanity` to `P_a4linear`), then its checks and measurements, and ends with `check_count=126`, `failed_check_count=0` and `elapsed_seconds=`; it writes the report and, next to it, `primordial-components.json`. It took 79 seconds in Bash and 73 seconds in PowerShell. The Python checker ends with `check_count=16` and `failed_check_count=0` after 10 and 14 seconds. The two Wolfram files it wrote were byte-identical to the committed ones.
+The variable `s` only abbreviates the folder. The Wolfram verifier first prints one progress line with the clock time for each group of checks, from `zero-test sanity` to a line `done in ... s`; then its checks and measurements; then `check_count=126`, `failed_check_count=0` and `elapsed_seconds=`; and last two lines `report=` and `components=` with the full paths of the report and of `primordial-components.json`, which it writes next to the report. It took 82 seconds in Bash and 46 seconds in PowerShell. The Python checker ends with `check_count=16`, `failed_check_count=0`, sixteen lines `timing_...=` and the line `report=`, after 6 and 4 seconds. The two Wolfram files were byte-identical to the committed ones. The Python report differs from the committed one in a single entry, as it should: its entry `inputSha256` records the sha256 of the components file it compared with under that file's path, here `build/textbook/stage2/primordial-components.json` instead of the committed path; the recorded sha256 itself is the same.
 
 ### 19.8 Stage 3: the dark-sector experiments
 
@@ -350,19 +362,46 @@ stage3_dark_sector_verification=OK
 
 Without WolframScript, two more lines appear: `stage3_skipped_step=stage3-26-mathematica-notebook,...` where step 26 would run, and `stage3_mathematica=SKIPPED (...)` just before the final line, which then still reads OK, because every other step passed.
 
-**Wall time, and the state at this edition's commit.** The Bash twin took 28 minutes from a fresh clone of commit `1fb83c3` on 2026-09-30, from 06:09 to 06:37, including 316 seconds for the 323 unit tests of that commit (`handoff/reviews/stage3_gate_2026-09-30_fresh_clone_OK.log`, which ends with the OK line). The PowerShell twin also ended with OK, from a fresh clone of commit `348c2e1` (`handoff/reviews/stage3_gate_ps1_2026-09-30_fresh_clone_OK.log`; that run was suspended for about 40 minutes at the user's request, so its duration is not a measurement). The two complete runs of the experiments (steps 07 and 08) and the notebook executions take most of the time; `README.md` summarizes it as "tens of minutes".
+**The committed OK runs.** The Bash twin took 28 minutes from a fresh clone of commit `1fb83c3` on 2026-09-30, from 06:09 to 06:37, including 316 seconds for the 323 unit tests of that commit (`handoff/reviews/stage3_gate_2026-09-30_fresh_clone_OK.log`, which contains the OK line). The PowerShell twin also printed OK, from a fresh clone of commit `348c2e1` (`handoff/reviews/stage3_gate_ps1_2026-09-30_fresh_clone_OK.log`; that run was suspended for about 40 minutes at the user's request, so its duration is not a measurement). To repeat one of these runs exactly, check out its commit after cloning (`git checkout 1fb83c3`, Section 19.4). The two complete runs of the experiments (steps 07 and 08) and the notebook executions take most of the time; `README.md` summarizes it as "tens of minutes".
 
-The gate was not repeated for this edition, and at commit `4cd47fe` it would not end with OK: its step 31 runs every unit test of the repository, and ten of the 578 tests of that commit fail. The failing tests belong to Stage 4 and to the matter–antimatter analysis, not to Stage 3 (Section 19.11). The programs, outputs, checkers and gates of Stage 3 did not change between the commit of the OK run and this edition's commit; the following command, in either shell, prints nothing:
+**The run at this edition's commit.** For this edition the Bash twin was run from a fresh clone of commit `1f2dd69`. It passed steps 00 to 30: among them the two complete runs of the five experiments, the byte comparison of their 62 files, the five checkers with their repeat and refined runs, both executions of the Jupyter notebook, the Mathematica notebook (WolframScript was installed, so no step was skipped) and the two PDFs. It then stopped in step 31, after 2302 seconds (38 minutes), with
 
 ```
-git log --oneline 1fb83c3..4cd47fe -- studies/dirac16complex_cosmology \
+stage3_failed_step=stage3-31-unit-tests
+stage3_failed_log=build/logs/stage3-31-unit-tests-bash.log
+stage3_dark_sector_verification=FAILED
+```
+
+Step 31 runs every unit test of the repository, and four of the 579 tests of this commit fail. They test the committed report of the Stage-4 Jupyter notebook, not Stage 3 (Section 19.11); every step that concerns Stage 3 passed.
+
+**What changed for Stage 3 since the OK runs.** The following command, in either shell, lists every change between the commit of the Bash OK run and commit `1f2dd69` in the files that the Stage-3 gate uses: the crate and its outputs, the gate, its audit program and its helpers, the engine setup, the EXP-3 analysis and the five checkers, the two notebooks with their runner and auditor, the Mathematica verifier, the PDF builder and its converter, the two Stage-3 documents, the build settings and the package pins:
+
+```
+git diff --stat 1fb83c3 1f2dd69 -- studies/dirac16complex_cosmology \
     artifacts/dirac16complex/numerics scripts/verify_stage3_dark_sector.sh \
-    scripts/verify_stage3_dark_sector.ps1 notebooks/dirac16complex_dark_sector.ipynb
+    scripts/verify_stage3_dark_sector.ps1 scripts/verify_stage3_dark_sector_audit.py \
+    scripts/run_logged.sh scripts/run_logged.ps1 scripts/setup_solver.sh \
+    scripts/setup_solver.ps1 scripts/analyze_dirac16complex_exp3.py \
+    "scripts/check_dirac16complex_exp*.py" notebooks/dirac16complex_dark_sector.ipynb \
+    notebooks/Dirac16ComplexDarkSector.nb notebooks/run_notebook.py \
+    notebooks/check_notebook.py scripts/verify_dirac16complex_mathematica_notebook.wls \
+    scripts/build_provenance_pdf.py scripts/build_dissertation_tex.py \
+    "provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.*" \
+    "provenance/DIRAC16COMPLEX_STUDENT_GUIDE.*" .cargo/config.toml \
+    requirements-stage3.txt
 ```
 
-(In PowerShell, end the continued lines with a backtick instead of the backslash.) The single programs below, run for this edition, reproduce every Stage-3 output file byte for byte.
+(In PowerShell, end the continued lines with a backtick instead of the backslash.) It prints
 
-**Single programs.** The student guide (`provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md`) explains the Stage-3 programs step by step and was itself tested by replaying all of its command boxes; here are the essential commands, run for this edition from the fresh clone after Section 19.4. Build the program (in either shell):
+```
+ scripts/build_dissertation_tex.py | 14 ++++++++++++++
+ scripts/build_provenance_pdf.py   |  7 +++++++
+ 2 files changed, 21 insertions(+)
+```
+
+so only the two PDF tools changed: they gained the option `--number-sections-from-zero` for this book (Section 19.12), which the Stage-3 PDFs do not use. The run at `1f2dd69` described above rebuilt both Stage-3 PDFs byte for byte (steps 28 and 29), and every committed Stage-3 file was unchanged at its end (step 30).
+
+**Single programs.** The student guide (`provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md`) explains the Stage-3 programs step by step and was itself tested by replaying all of its command boxes; here are the essential commands, run for this edition from a fresh clone after Section 19.4. Build the program (in either shell):
 
 ```
 cd studies/dirac16complex_cosmology
@@ -370,7 +409,7 @@ cargo build --release
 cd ../..
 ```
 
-(20 seconds on the test computer; the last line of the output begins with `Finished`, and any compiler warning would stop the build, because the crate forbids warnings). Then run EXP-1 and EXP-5 into a scratch folder and check them, in PowerShell:
+(32 seconds on the test computer; the last line of the output begins with `Finished`, and any compiler warning would stop the build, because the crate forbids warnings). Then run EXP-1 and EXP-5 into a scratch folder and check them, in PowerShell:
 
 ```
 $env:PYTHONUTF8 = "1"
@@ -392,24 +431,24 @@ python scripts/check_dirac16complex_exp1.py --output build/textbook
 python scripts/check_dirac16complex_exp5.py --output build/textbook
 ```
 
-The program prints one line `PASS - name: detail` per self-check and ends with
+The program prints one line `PASS - name: detail` per self-check (10 for EXP-1) and ends with
 
 ```
 exp1: solver_steps=33866 rhs_evaluations=34950 files=29 verdict=SUCCESS
 SUCCESS
 ```
 
-for EXP-1 (1 second) and with `exp5: solver_steps=2548 rhs_evaluations=4800 files=5 verdict=SUCCESS` and `SUCCESS` for EXP-5 (under 1 second). The 29 and 5 files it wrote into `build/textbook/exp1/` and `build/textbook/exp5/` were byte-identical to the committed ones. The checkers end with `check_count=23` (EXP-1, 2 seconds) and `check_count=19` (EXP-5, 5 seconds), each with `failed_check_count=0`. The committed checker reports have 25 and 21 checks: the two missing checks, `repeatByteIdentity` and `refinedConvergence`, need a repeat run and a run with tightened tolerances, which the checker performs itself when it is given the options `--repeat` and `--refined`, each followed by a scratch folder (student guide, §9). All five experiments at once:
+for EXP-1 (1 second) and with `exp5: solver_steps=2548 rhs_evaluations=4800 files=5 verdict=SUCCESS` and `SUCCESS` for EXP-5 (under 1 second). The 29 and 5 files it wrote into `build/textbook/exp1/` and `build/textbook/exp5/` were byte-identical to the committed ones. The checkers end with `check_count=23` (EXP-1, 2 seconds) and `check_count=19` (EXP-5, 4 seconds), each with `failed_check_count=0`. The committed checker reports have 25 and 21 checks: the two missing checks, `repeatByteIdentity` and `refinedConvergence`, need a repeat run and a run with tightened tolerances, which the checker performs itself when it is given the options `--repeat` and `--refined`, each followed by a scratch folder (student guide, §9). All five experiments at once:
 
 ```
 $bin all --output build/textbook/all
 ```
 
-(in PowerShell `& $bin all --output build/textbook/all`) ran 99 seconds on the busy test computer and wrote the 62 output files of the five experiments, every one byte-identical to the committed file of the same name; the student guide measured 80 to 90 seconds for the same run (its §7.4).
+(in PowerShell `& $bin all --output build/textbook/all`) ran 167 seconds on the busy test computer and wrote the 62 output files of the five experiments, every one byte-identical to the committed file of the same name; the student guide measured 80 to 90 seconds for the same run (its §7.4).
 
 ### 19.9 Stage 4: the Kohn–Sham states, and why its gate cannot pass yet
 
-**What exists and what it gives.** Stage 4 (Chapter 13) has five layers. The state of each on 2026-09-30, read from the committed files:
+**What exists and what it gives.** Stage 4 (Chapter 13) has five layers. The state of each at commit `1f2dd69`, read from the committed files:
 
 | Layer | Program | Committed result |
 | --- | --- | --- |
@@ -425,8 +464,8 @@ Two more Stage-4 reports belong to the notebooks: the Mathematica notebook's `ma
 
 **Why the gate cannot pass yet.** The gate `scripts/verify_stage4_kohn_sham.{ps1,sh}` exists and was tested in parts, but it has never been run to the end. It cannot end with OK at present, for four reasons that the gate itself detects:
 
-- Documents are missing. Step 00 copies every committed Stage-4 file that the gate must leave unchanged, among them `provenance/DIRAC16COMPLEX_KOHN_SHAM_PRIMORDIAL.tex` and `.pdf` and the three files of the Stage-4 student guide `provenance/DIRAC16COMPLEX_KOHN_SHAM_STUDENT_GUIDE`, and fails because these do not exist yet (the partial run below); steps 32 and 33 build the two PDFs and compare them with registered editions, and no Stage-4 edition is registered in `provenance/pdf-specifications.json`.
-- The collected summary `artifacts/dirac16complex/kohn-sham/kohn-sham-summary.json`, with which step 23 compares its fresh summary, does not exist yet (its dry run below prints `missing now:` for it).
+- Documents are missing. Step 00 copies every committed Stage-4 file that the gate must leave unchanged, among them `provenance/DIRAC16COMPLEX_KOHN_SHAM_PRIMORDIAL.tex` and `.pdf` and the three files of the Stage-4 student guide `provenance/DIRAC16COMPLEX_KOHN_SHAM_STUDENT_GUIDE`, and fails because these do not exist yet (only `provenance/DIRAC16COMPLEX_KOHN_SHAM_PRIMORDIAL.md` is committed; the partial run below); steps 32 and 33 build the two PDFs and compare them with registered editions, and no Stage-4 edition is registered in `provenance/pdf-specifications.json`.
+- The collected summary `artifacts/dirac16complex/kohn-sham/kohn-sham-summary.json`, with which step 23 compares its fresh summary, does not exist yet.
 - Step 21 requires every check of the fresh cross-check report to be true, and `canonical_eigenvalues` is false.
 - Step 35 runs the unit tests of Stage 4, and four of them, which test the committed report of the Jupyter notebook, fail (Section 19.11).
 
@@ -442,7 +481,7 @@ pwsh -NoProfile -File scripts/verify_stage4_kohn_sham.ps1 -DryRun
 bash scripts/verify_stage4_kohn_sham.sh --dry-run
 ```
 
-It lists 37 steps, `stage4-00-snapshot` to `stage4-36-fresh-outputs`, and took 2 seconds. The header of the PowerShell twin explains each step and records the measured time of each part (its paragraph TIMING): about 4 hours in total, most of it in step 14, which recomputes the complete canonical Rust tree (about 3 hours, dominated by the `thermo` subcommand; an estimate, since this step has not yet been run as a whole).
+It lists 37 steps, `stage4-00-snapshot` to `stage4-36-fresh-outputs`, and took 4 seconds in Bash and under a second in PowerShell. The header of the PowerShell twin explains each step and records the measured time of each part (its paragraph TIMING): about 4 hours in total, most of it in step 14, which recomputes the complete canonical Rust tree (about 3 hours, dominated by the `thermo` subcommand; an estimate, since this step has not yet been run as a whole).
 
 **A partial run.** The option `-Steps` (PowerShell) or `--steps` (Bash) runs only the listed steps and then ends with `stage4_kohn_sham_verification=PARTIAL` and the exit code 3, never with OK. Steps 01 to 13 (engine, exact theory, generated constants, the four cargo steps and the configuration check) need no long Rust run:
 
@@ -456,16 +495,16 @@ bash scripts/verify_stage4_kohn_sham.sh \
     --steps 01,02,03,04,05,06,07,08,09,10,11,12,13
 ```
 
-For this edition the Bash command was run from the fresh clone. All thirteen selected steps passed in 804 seconds, and the run ended with
+For this edition the Bash command was run from a fresh clone. All thirteen selected steps passed in 151 seconds, and the run ended with
 
 ```
 stage4_selected_steps=01,02,03,04,05,06,07,08,09,10,11,12,13
 stage4_kohn_sham_verification=PARTIAL
 ```
 
-and the exit code 3. The exact Wolfram theory (step 03) took 20 seconds and the sympy theory (step 04) 199 seconds; step 05 found their four output files byte-identical to the committed ones; steps 06 to 08 regenerated the Rust file of exact constants, `studies/dirac16complex_kohn_sham/src/generated.rs`, and its report byte for byte; and step 11 ran the 49 Rust tests of the solver (47 passed, and the 2 timing probes that are marked to be skipped in a normal run were skipped). Step 11 took 522 seconds instead of the 35 to 79 seconds recorded in the header, because the computer was busy (Section 19.2). The PowerShell command, run afterwards in the same clone, also passed all thirteen steps and ended with the same two lines, after 430 seconds (step 11: 151 seconds). In both runs the log of step 11 contains one line that begins with `[ERROR]` and ends with `the right-hand side routine failed in an unrecoverable manner`. The engine prints such a line whenever one integration stops with an error; the solver is written to handle such errors (for example, the function `profile` in `studies/dirac16complex_kohn_sham/src/shooting.rs` repeats a failed integration with other settings), and the line `test result: ok. 47 passed; 0 failed; 2 ignored` shows that no test failed.
+and the exit code 3. The exact Wolfram theory (step 03) took 19 seconds and the sympy theory (step 04) 54 seconds; step 05 found their four output files byte-identical to the committed ones; steps 06 to 08 regenerated the Rust file of exact constants, `studies/dirac16complex_kohn_sham/src/generated.rs`, and its report `rust/generator-report.json` byte for byte; and step 11 ran the 49 Rust tests of the solver in 65 seconds (47 passed, and the 2 timing probes that are marked to be skipped in a normal run were skipped). The PowerShell command, run afterwards in the same clone, also passed all thirteen steps and ended with the same two lines, after 121 seconds (step 11: 55 seconds). In both runs the log of step 11 contains one line that begins with `[ERROR]` and ends with `the right-hand side routine failed in an unrecoverable manner`. The engine prints such a line whenever one integration stops with an error; the solver is written to handle such errors (for example, the function `profile` in `studies/dirac16complex_kohn_sham/src/shooting.rs` repeats a failed integration with other settings), and the line `test result: ok. 47 passed; 0 failed; 2 ignored` shows that no test failed.
 
-Step 00 is left out of the list because at this commit it fails. With the list `00,01,...,13` the same run stopped after 3 seconds. It first named the missing file, in the line `stage4_audit_problem=cannot snapshot missing file` followed by the path `provenance/DIRAC16COMPLEX_KOHN_SHAM_PRIMORDIAL.tex`, and then printed
+Step 00 is left out of the list because at this commit it fails. With the list `00,01,...,13` the same run stopped after 1 second. It first named the missing file, in the line `stage4_audit_problem=cannot snapshot missing file` followed by the path `provenance/DIRAC16COMPLEX_KOHN_SHAM_PRIMORDIAL.tex`, and then printed
 
 ```
 stage4_audit_snapshot=FAILED
@@ -498,7 +537,7 @@ python scripts/check_dirac16complex_kohn_sham_theory.py \
     --output "$k/python-theory-report.json" --table "$k/exchange-table.json"
 ```
 
-These are the programs of steps 03 and 04 of the gate, with a scratch folder instead of `build/stage4/theory`. In the partial run above they printed `check_count=125` (Wolfram, 20 seconds) and `check_count=157` (sympy, 199 seconds), each with `failed_check_count=0`. The Wolfram verifier writes the theory file `kohn-sham-theory.json` next to its report, and the sympy checker writes the exchange table given after `--table`; all four files were byte-identical to the committed ones in `artifacts/dirac16complex/kohn-sham/`.
+These are the programs of steps 03 and 04 of the gate, with a scratch folder instead of `build/stage4/theory`. In the partial run above they printed `check_count=125` (Wolfram, 19 seconds) and `check_count=157` (sympy, 54 seconds), each with `failed_check_count=0`. The Wolfram verifier writes the theory file `kohn-sham-theory.json` next to its report, and the sympy checker writes the exchange table given after `--table`; all four files were byte-identical to the committed ones in `artifacts/dirac16complex/kohn-sham/`.
 
 The Rust solver is built and run like the Stage-3 program (in either shell; in PowerShell call the program as `& $ks` with the path ending in `.exe`):
 
@@ -509,7 +548,7 @@ $ks print-config
 $ks spectrum --output build/textbook/ks
 ```
 
-The line `ks=...` is Bash; in PowerShell write `$ks = ".\studies\dirac16complex_kohn_sham\target\release\dirac16complex_kohn_sham.exe"`. For this edition the build, which compiles the engine and the solver, took 6 seconds, `print-config` ended with `SUCCESS`, and `spectrum` ran 37 seconds and ended with
+The line `ks=...` is Bash; in PowerShell write `$ks = ".\studies\dirac16complex_kohn_sham\target\release\dirac16complex_kohn_sham.exe"`. For this edition the build took 1 second, because step 12 of the partial run above had already compiled the engine and the solver; `print-config` ended with `SUCCESS`, and `spectrum` ran 37 seconds and ended with
 
 ```
 spectrum: solver_steps=39152872 rhs_evaluations=47587645 files=15 verdict=SUCCESS
@@ -529,13 +568,15 @@ Its 15 files in `build/textbook/ks/spectrum/` were byte-identical to the committ
 | pairing theorems, Wolfram | `scripts/verify_dirac16complex_pairing.wls` with `wolfram/Dirac16ComplexPairing.wl` | `wolfram-pairing-report.json` (141 of 141) and `pairing-theory.json` |
 | pairing theorems, sympy | `scripts/check_dirac16complex_pairing.py` | `python-pairing-report.json` (172 of 172) |
 | matter and antimatter, Wolfram | `scripts/verify_dirac16complex_matter_antimatter.wls` with `wolfram/Dirac16ComplexMatterAntimatter.wl` | `wolfram-matter-antimatter-report.json` (44 of 44) and `matter-antimatter-theory.json` |
-| matter and antimatter, sympy | `scripts/check_dirac16complex_matter_antimatter.py` | `python-matter-antimatter-report.json` (75 of 75 at commit `4cd47fe`; 77 of 77 from commit `27794e8` on) |
+| matter and antimatter, sympy | `scripts/check_dirac16complex_matter_antimatter.py` | `python-matter-antimatter-report.json` (77 of 77) |
 
-The Stage-5 reports lie in `artifacts/dirac16complex/pair-creation/`, the matter–antimatter reports in `artifacts/dirac16complex/matter-antimatter/`. The matter–antimatter document `provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md` is written, and its PDF is registered in `provenance/pdf-specifications.json` (edition `dirac16complex-matter-antimatter`, 32 pages at commit `4cd47fe`; the document is still being revised, and each revision registers a new edition).
+The Stage-5 reports lie in `artifacts/dirac16complex/pair-creation/`, the matter–antimatter reports in `artifacts/dirac16complex/matter-antimatter/`. The matter–antimatter document `provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md` is written, and its PDF is registered in `provenance/pdf-specifications.json` (edition `dirac16complex-matter-antimatter`, 36 pages at commit `1f2dd69`; the document records in its §1 and §11.4 what it proves and what it cites).
+
+**A Stage-5 result cited as provisional.** All twelve Wolfram checks `PAIR_T1krein_*` and all thirteen sympy checks `S5_T1krein_*` of the exact Fock-level model are true. Their physical reading in the Stage-5 files is not: the entry `imageField` of the key `T1krein` of `pairing-theory.json` calls the values $-|\varepsilon|$ and $-1$ per quantum the energy and the charge of an "image universe", while they are the values of the formulas of $\mathcal L_{-m,-\lambda}$ evaluated on the image field, whose own energy and charge are $+H_+$ and $+Q_+$ (Section 15.4; matter–antimatter document, §7.3; check `MA_M4_imageFieldFockModel`). `HANDOFF.md` (section 0.4, item C) records the correction to be made in `wolfram/Dirac16ComplexPairing.wl` and `scripts/check_dirac16complex_pairing.py` before the Stage-5 documents are written, and both matter–antimatter reports cite the Stage-5 result as PROVISIONAL until the Stage-5 gate has passed (measurement `M4_kreinLevelStatus` of the Wolfram report). The correction may change the names and the number of the checks of the two pairing reports, and with them the counts of this section and the rows of Section 20.14.
 
 **What does not exist yet.** The two Stage-5 documents `provenance/DIRAC16COMPLEX00_FIELD_THEORY` and `provenance/DIRAC16COMPLEX_PAIR_CREATION` and the gate `scripts/verify_stage5_pair_creation.{ps1,sh}` planned in `handoff/specs/STAGE5_SPEC.md` (its §6) are not written. The Kohn–Sham demonstration of the pairing (Chapter 15) is **partial**:
 
-- The Rust solver has the new subcommand `pairs` (file `studies/dirac16complex_kohn_sham/src/pairs.rs`). At commit `4cd47fe` its committed outputs, in `artifacts/dirac16complex/pair-creation/rust/pairs/`, cover 18 parameter sets of dirac16complex (later commits add further runs as they finish), each with the three universes $+M$, $-M$ and the $-M$ control and a file `pairing.json`: mass $m=1$ with $N=8$ at the five couplings $0,\pm\hat\lambda_1,\pm\hat\lambda_2$ ($T=0$) and $N=112$ at the same five couplings at $T=0$ and $T=0.1\,m$, and mass $m=3$ with $N=8$ at the couplings $0$ and $\pm\hat\lambda_1$. At that commit there were no committed Rust runs of dirac16complex00 and none with $m=3$, $N=112$.
+- The Rust solver has the new subcommand `pairs` (file `studies/dirac16complex_kohn_sham/src/pairs.rs`). At commit `1f2dd69` its committed outputs, in `artifacts/dirac16complex/pair-creation/rust/pairs/`, cover 25 parameter sets of dirac16complex, each with the three universes $+M$, $-M$ and the $-M$ control and a file `pairing.json`: mass $m=1$ with $N=8$ at the five couplings $0,\pm\hat\lambda_1,\pm\hat\lambda_2$ ($T=0$) and with $N=112$ at the same five couplings at $T=0$ and at $T=0.1\,m$ (15 sets); mass $m=3$ with $N=8$ at the same five couplings at $T=0$ (5 sets); and mass $m=3$ with $N=112$ at the coupling 0 and at $+\hat\lambda_1$, each at $T=0$ and $T=0.1\,m$, and at $-\hat\lambda_1$ at $T=0$ (5 sets). The folder has no collected summary, and there are no committed Rust runs of dirac16complex00. (Chapters 15 and 16 describe the 18 sets that were committed when they were written, that is all of these except the five sets with $m=3$, $N=112$ and the two with $m=3$, $N=8$ at $\pm\hat\lambda_2$; further runs are added as they finish, so a later commit can have more.)
 - The reference runs of the independent solver (`scripts/ks_reference_pairs.py`, outputs in `artifacts/dirac16complex/pair-creation/reference/`) are marked incomplete in their summary `reference-pairs-summary.json` (entry `complete` is false): of the 49 runs recorded there, 17 converged (10 of dirac16complex, 7 of dirac16complex00), 2 did not converge, 6 failed and 24 were not attempted, and 131 runs of the planned matrix are listed as pending.
 - The checker `scripts/check_dirac16complex_pairs.py` (Rust against reference, pairing identities, pair totals) exists, but no report of it is committed.
 - One Stage-5 numerical report is complete: `artifacts/dirac16complex/pair-creation/rust/stage4-identity-report.json`, 9 of 9 checks true, which shows that adding the subcommand `pairs` left the Stage-4 outputs byte-identical (a fresh `spectrum` run and quick `scf` and `excited` runs).
@@ -576,18 +617,18 @@ wolframscript -file scripts/verify_dirac16complex_matter_antimatter.wls \
     "$o/wolfram-matter-antimatter-report.json"
 ```
 
-The three Python checkers compare their own results with the committed Wolfram theory files (they never use them as truth, only in their agreement checks), so they can run first. Each Wolfram verifier writes its theory file next to its report, here into `build/textbook/s5/`. For this edition these six commands were run from the fresh clone, one after the other:
+The three Python checkers compare their own results with the committed Wolfram theory files (they never use them as truth, only in their agreement checks), so they can run first. Each Wolfram verifier writes its theory file next to its report, here into `build/textbook/s5/`. For this edition the six Bash commands were run from a fresh clone, one after the other:
 
 | Command | Wall time | Final lines | New files against the committed ones |
 | --- | --- | --- | --- |
-| `check_dirac16complex00.py` | 289 s | `check_count=49`, `failed_check_count=0` | report byte-identical |
-| `check_dirac16complex_pairing.py` | 122 s | `check_count=172`, `failed_check_count=0` | report byte-identical |
-| `check_dirac16complex_matter_antimatter.py` | 53 s | `check_count=77`, `failed_check_count=0` | report differs: two more checks (below) |
-| `verify_dirac16complex00.wls` | 541 s | `check_count=46`, `failed_check_count=0` | report and theory file byte-identical |
-| `verify_dirac16complex_pairing.wls` | 507 s | `check_count=141`, `failed_check_count=0` | report and theory file byte-identical |
-| `verify_dirac16complex_matter_antimatter.wls` | 681 s | `check_count=44`, `failed_check_count=0` | report and theory file byte-identical |
+| `check_dirac16complex00.py` | 372 s | `check_count=49`, `failed_check_count=0` | report byte-identical |
+| `check_dirac16complex_pairing.py` | 144 s | `check_count=172`, `failed_check_count=0` | report byte-identical |
+| `check_dirac16complex_matter_antimatter.py` | 44 s | `check_count=77`, `failed_check_count=0` | report byte-identical |
+| `verify_dirac16complex00.wls` | 369 s | `check_count=46`, `failed_check_count=0` | report and theory file byte-identical |
+| `verify_dirac16complex_pairing.wls` | 338 s | `check_count=141`, `failed_check_count=0` | report and theory file byte-identical |
+| `verify_dirac16complex_matter_antimatter.wls` | 453 s; 326 s from a clone with a short path | `check_count=44`, `failed_check_count=0` | theory file byte-identical; report byte-identical from a clone with a short path (below) |
 
-Together they took 37 minutes on the busy test computer. Every check of every report was true, and eleven of the twelve new files were byte-identical to the committed files of the same name. The twelfth, the sympy report of the matter–antimatter analysis, has 77 checks instead of the committed 75: the checker of this commit contains two checks, `MA_M2_cpScopeInCurvedFields` and `MA_M4_imageFieldFockModel`, that the committed report does not have, and the 75 checks of the committed report are all present and true in the new one. The committed report was written by an earlier version of the checker: it records for its checker the sha256 `20914546...`, while the checker file of this commit has the sha256 `ef1a00dc...`. Later on the same day the committed report was replaced by a regenerated one (commit `27794e8`), and that file is byte-identical to the one this rerun wrote.
+Together they took 29 minutes on the busy test computer, and every check of every report was true. This clone, however, lay 168 characters deep (Section 19.4), and there the Wolfram matter–antimatter report differed from the committed one in three counts of its measurement `M1_ksFixedNetNumber`: 55 instead of 56 reference run files, 165 instead of 168 reference levels and 32 instead of 33 Rust run files. The verifier finds these files of Stage 4 by listing folders, and WolframScript did not list the two files `m1_L3_N112_lamp1rescaled_T0_dk0p15163266492815836/run.json` (one in `kohn-sham/reference/`, one in `kohn-sham/rust/scf/`), whose full paths there had 272 and 271 characters, more than the 260 that Windows allows by default. The check `MA_M1_ksFixedNetNumberRecorded` stayed true, because every file that was read passed. Run again from the clone of Sections 19.3 to 19.9, which lay 83 characters deep, the same command wrote a report and a theory file byte-identical to the committed ones. So all twelve new files reproduce the committed files byte for byte when the clone has a short path.
 
 **The matter–antimatter PDF.** In either shell:
 
@@ -595,46 +636,50 @@ Together they took 37 minutes on the busy test computer. Every check of every re
 python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md
 ```
 
-The builder converts the Markdown twice, runs pdflatex three times on each copy, requires both logs to be free of warnings and the two PDFs to be byte-identical, and compares the result with the registered edition (Section 19.12 describes it in detail). It ran 8 seconds and ended with
+The builder converts the Markdown twice, runs pdflatex three times on each copy, requires both logs to be free of warnings and the two PDFs to be byte-identical, and compares the result with the registered edition (Section 19.12 describes it in detail). It ran 5 seconds and ended with
 
 ```
-measurement_pageCount=32
+measurement_pageCount=36
 ...
 check_count=14
 failed_check_count=0
 provenance_pdf=OK
 ```
 
-and the rebuilt PDF was byte-identical to the one committed at `4cd47fe` (sha256 `0b064200babdb2be...`).
+and the rebuilt PDF was byte-identical to the one committed at `1f2dd69` (sha256 `f4d6cb5102849614...`).
 
 ### 19.11 The unit tests
 
-**What they test.** Besides the verifiers, the repository contains unit tests in the folder `tests/`: small programs that test the tools (the Markdown converter, the PDF builder, the textbook assembler, the gates) and pin the committed evidence (for example, that the check counts, numbers and sha256 values quoted in a document agree with the reports). Python's module `unittest` finds and runs them. One file of tests, in either shell:
+**What they test.** Besides the verifiers, the repository contains **unit tests** in the folder `tests/`: small programs that test the tools (the Markdown converter, the PDF builder, the textbook assembler, the gates) and pin the committed evidence (for example, that the check counts, numbers and sha256 values quoted in a document agree with the reports). Python's module `unittest` finds and runs them. One file of tests, in either shell:
 
 ```
 python -m unittest discover -s tests -p "test_d16c_textbook_assembler.py" -v
 ```
 
-This runs the 34 tests of the textbook assembler (4 seconds) and ends with `OK`. The pattern after `-p` chooses the files; the gates use their own patterns (Sections 19.6 to 19.8). All tests of the repository:
+This runs the 34 tests of the textbook assembler (1 second) and ends with `OK`. The pattern after `-p` chooses the files; the gates use their own patterns (Sections 19.6 to 19.8). All tests of the repository:
 
 ```
 python -m unittest discover -s tests -v
 ```
 
-For this edition this command ran 578 tests in 1280 seconds (21 minutes) from the fresh clone of commit `4cd47fe` and ended with
+Step 31 of the Stage-3 gate runs exactly this command. In the run of Section 19.8, from a fresh clone of commit `1f2dd69`, it ran 579 tests in 505 seconds and ended with
 
 ```
-Ran 578 tests in 1280.371s
+Ran 579 tests in 505.024s
 
-FAILED (failures=10, skipped=2)
+FAILED (failures=4, skipped=2)
 ```
 
-The two skipped tests need the folder `dirac-main/` (Section 19.6). The ten failures lie in two files, and all of them concern committed records of unfinished work, not the tools or the results of Stages 1 to 3:
+The two skipped tests need the folder `dirac-main/` (Section 19.6). The four failures are tests of the file `tests/test_d16c_kohn_sham_notebook.py`, which has 30 tests. All four test the committed report of the Stage-4 Jupyter notebook, a committed record of unfinished work, not a tool or a result of Stages 1 to 3:
 
-- Four tests of `tests/test_d16c_kohn_sham_notebook.py` test the committed report of the Stage-4 Jupyter notebook. Its verdict is FAILURE (Section 19.9); the file `artifacts/dirac16complex/kohn-sham/reference/reference-summary.json`, on which it depends, has changed since the report was written; and the report names an older way of executing the notebook. The notebook has to be executed again once the cross-check is settled.
-- Six tests of `tests/test_d16c_matter_antimatter_publication.py` compare the matter–antimatter document with the files it cites. The sha256 values that the document records for its sympy checker, its Wolfram package, its Wolfram report and its theory file are those of earlier versions of these files (compare Section 19.10), and one status sentence of the Wolfram report now calls the cited Stage-5 values provisional until the Stage-5 gate passes, which the test does not yet expect. The document has to be updated to the current files; the matter–antimatter workflow was doing this when this edition was written.
+- `test_verdict_success`: the report's verdict is FAILURE, with the six false checks of Section 19.9;
+- `test_report_is_current`: the summary `reference-summary.json` of the Stage-4 reference runs (Section 19.9), on which the report depends, has changed since the report was written, so the sha256 that the report records for it is out of date;
+- `test_reaudit_of_the_committed_notebook_reproduces_the_first_execution`: for the same reason, a new audit of the committed notebook records other hashes than the report;
+- `test_two_executions_with_identical_results`: the report names an older way of executing the notebook (through a Jupyter kernel) than the one the test expects (`notebooks/run_notebook.py`).
 
-Every test that the gates of Stages 1 and 2 run passed (Sections 19.6 and 19.7). The Stage-3 gate, however, runs all 578 tests in its step 31 and therefore cannot end with OK at this commit (Section 19.8), and the Stage-4 gate runs the four failing notebook tests in its step 35.
+The notebook has to be executed again once the cross-check is settled. The 49 tests of the two files `tests/test_d16c_matter_antimatter.py` and `tests/test_d16c_matter_antimatter_publication.py`, run on their own with the pattern `"test_d16c_matter_antimatter*.py"` in the same clone after the gate had finished, all passed (35 seconds).
+
+Every test that the gates of Stages 1 and 2 run passed (Sections 19.6 and 19.7). The Stage-3 gate, however, runs all 579 tests in its step 31 and therefore cannot end with OK at this commit (Section 19.8), and the Stage-4 gate runs the four failing notebook tests in its step 35.
 
 ### 19.12 Building this textbook
 
@@ -665,19 +710,19 @@ python scripts/build_provenance_pdf.py provenance/DIRAC16COMPLEX_TEXTBOOK.md \
 
 The option `--developer-layout` chooses the layout of the student guides (smaller tables with ragged right margins, code that may break inside long names), and `--number-sections-from-zero` makes LaTeX number the chapters from 0, as the book does; without it every chapter would be printed with a number one too high (the header of `scripts/build_dissertation_tex.py`).
 
-**What the assembler checks.** Before it writes anything, the assembler runs up to fourteen checks and prints each as `check_<name>=true|false`: the chapter file names and numbers (00 to 20, no gaps, no duplicates), UTF-8 text with line feeds only, exactly one heading `## N. Title` per chapter and headings `### N.M Title` numbered 1, 2, 3, ... in order, no section number twice, every internal reference of the form "Chapter N" or "Section N.M" pointing to an existing chapter or section, and the Markdown convertible by the LaTeX converter (tables with equal numbers of cells, code lines of at most 89 characters, figures that exist). Only when all of them pass does it write the output; it then prints the output path, its size and its sha256, and ends with `textbook_assembly=OK`. The output depends only on the chapter files and on the assembler, so two runs give the same bytes. Three options change what it does:
+**What the assembler checks.** Before it writes anything, the assembler runs the checks listed in its header and prints each as `check_<name>=true|false`: the chapter file names and numbers (00 to 20, no gaps, no duplicates), UTF-8 text with line feeds only, exactly one heading `## N. Title` per chapter and headings `### N.M Title` numbered 1, 2, 3, ... in order, no section number twice, every internal reference of the form "Chapter N" or "Section N.M" pointing to an existing chapter or section, and the Markdown convertible by the LaTeX converter (tables with equal numbers of cells, code lines of at most 89 characters, figures that exist). The header lists fourteen checks; a run makes twelve of them with `--check`, thirteen when it also writes the output or compares it, and ten with `--check --allow-missing`. Only when all of them pass does it write the output; it then prints the output path, its size and its sha256, and ends with `textbook_assembly=OK`. The output depends only on the chapter files and on the assembler, so two runs give the same bytes. Three options change what it does:
 
 - `--check` runs the checks and writes nothing;
 - `--check --allow-missing` accepts a book whose planned chapters are not all written yet: it reports each missing chapter, reports the references into missing chapters as "pending" instead of failing, and (without `--check`) writes a draft into `build/textbook/` instead of `provenance/`;
 - `--check --verify-output` also requires the existing `provenance/DIRAC16COMPLEX_TEXTBOOK.md` to equal the assembly byte for byte.
 
-For this edition the assembler ran from the fresh clone of Section 19.4 with `--check --allow-missing` in less than a second; the clone contained the twelve chapters then committed, and the run ended with `check_count=10`, `failed_check_count=0` and `textbook_assembly=OK`, after listing the chapters and references that were still missing.
+For this edition the assembler ran from the fresh clone of commit `1f2dd69`, which contains the 21 chapter files in their draft form, with `--check` in about a second; the run ended with `check_count=12`, `failed_check_count=0` and `textbook_assembly=OK`. Without `--check` it wrote `provenance/DIRAC16COMPLEX_TEXTBOOK.md` (2101864 bytes; 13 checks, all true).
 
 **What the PDF builder checks.** For a Markdown file `D/X.md` the builder (its header lists the steps) converts the file twice, into `D/X.tex` and a second copy, with two different settings of Python's hash seed, and requires the two to be byte-identical; runs pdflatex three times on each copy, in two fresh folders below `build/X/`; searches both final logs for warnings (lines containing `LaTeX Warning`, a package warning, `Overfull`, `Underfull` or `Undefined control sequence`, or beginning with the error mark `!`) and fails on any; requires the two PDFs to be byte-identical and to have US-letter pages; and, in its default **verify mode**, compares the page count and the sha256 of the PDF with the edition registered for this file in `provenance/pdf-specifications.json`. Only then does it copy the PDF to `D/X.pdf` and print `provenance_pdf=OK`. The PDF is reproducible because the LaTeX preamble written by the converter switches off everything that would make two runs differ: the date, the random file identifier and the compression of the PDF objects.
 
 **Registering an edition.** After an edit of the book the maintainers rebuild it with the option `--register`, which writes the new page count and sha256 into the registry instead of comparing with it, and then update the sha256 pins of the book's publication test (`tests/test_d16c_textbook_publication.py`, planned by `handoff/specs/TEXTBOOK_SPEC.md`, §2). A reader never needs `--register`: in verify mode a rebuilt book must reproduce the registered edition byte for byte, and that is the check. Until the textbook edition is registered, the verify mode reports its registry checks as failed while all other checks can pass.
 
-For this edition the same command was run on the draft of the twelve chapters committed at that time, assembled with `--allow-missing` into `build/textbook/DIRAC16COMPLEX_TEXTBOOK.md` (in Bash: `python scripts/build_textbook.py --allow-missing`, then the builder with that path). It took 49 seconds and produced a PDF of 311 pages; both pdflatex logs were free of warnings and the two PDFs were byte-identical. As expected for a file without a registered edition, it ended with
+For this edition the same command was run in that clone on the draft just assembled. It took 32 seconds and produced a PDF of 656 pages; both pdflatex logs were free of warnings and the two PDFs were byte-identical. As expected for a file without a registered edition (commit `1f2dd69` registers none for the book), it ended with
 
 ```
 check_count=14
@@ -685,11 +730,11 @@ failed_check_count=5
 failed_checks=editionRegistered,registeredPath,registeredPageCount,registeredSha256,...
 ```
 
-(the fifth failed check, `provenancePdfCopy`, means that the PDF is not copied to its final place when a check fails), and with the exit code 1.
+(the fifth failed check, `provenancePdfCopy`, means that the PDF is not copied to its final place when a check fails), and with the exit code 1. The page count and the sha256 of the book you read are those of its registered edition, not of this draft.
 
 ### 19.13 A complete session from a fresh clone
 
-The commands below collect, in order, the gates and checks of this appendix. They assume the tools of Section 19.2. PowerShell:
+The commands below collect, in order, the gates and checks of this appendix. They assume the tools of Section 19.2 and a short folder path (Section 19.4); to reproduce exactly the results stated below, add `git checkout 1f2dd69` after the second line. PowerShell:
 
 ```
 git clone https://github.com/once-ere/Dirac_claude.git
@@ -721,13 +766,13 @@ python scripts/build_textbook.py --check
 git status --short
 ```
 
-Then run the partial Stage-4 gate and the single programs of Sections 19.9 and 19.10 for Stages 4 and 5 and the matter–antimatter analysis. Expected results at commit `4cd47fe`: the Stage-1 and Stage-2 gates end with their OK lines after about 20 and 5 minutes; the Stage-3 gate runs for about half an hour and stops in its step 31 with `stage3_dark_sector_verification=FAILED`, because of the ten failing unit tests of Section 19.11 (at a commit where they pass, it ends with OK, as it did at the commits of its committed logs); the Stage-4 dry run ends with `DRY-RUN`; the assembler ends with `textbook_assembly=OK` once all 21 chapters are committed (before that, add `--allow-missing`); and the last command prints nothing, because the gates write their work into the git-ignored folder `build/`, and every committed file that a gate rewrites in place (the Stage-2 gate rewrites its reports and its PDF) is rewritten with the same bytes. The full Stage-4 gate, which would take about 4 hours, cannot pass yet (Section 19.9), and Stage 5 has no gate yet (Section 19.10).
+Then run the partial Stage-4 gate and the single programs of Sections 19.9 and 19.10 for Stages 4 and 5 and the matter–antimatter analysis. Expected results at commit `1f2dd69`: the Stage-1 and Stage-2 gates end with their OK lines after about 18 and 3 minutes; the Stage-3 gate runs for about 40 minutes and stops in its step 31 with `stage3_dark_sector_verification=FAILED`, because of the four failing unit tests of Section 19.11 (at the commits of its committed logs it ended with OK); the Stage-4 dry run ends with `DRY-RUN`; the assembler ends with `textbook_assembly=OK`; and the last command prints nothing, because the gates write their work into the git-ignored folder `build/`, and every committed file that a gate rewrites in place (the Stage-2 gate rewrites its reports and its PDF) is rewritten with the same bytes. The full Stage-4 gate, which would take about 4 hours, cannot pass yet (Section 19.9), and Stage 5 has no gate yet (Section 19.10). At a later commit, `git diff --stat 1f2dd69 HEAD` lists every file that has changed since, so that you can see which of these results may differ.
 
 ### 19.14 What we proved and what we assumed
 
-This appendix proves no theorem. It records **measurements of reproducibility**, each made for this edition from a fresh public clone of commit `4cd47fe` on the test computer of Section 19.2, or quoted from a committed log or script header that is named where it is used: the Stage-1 and Stage-2 gates ended with their OK lines (after 1133 and 320 seconds); the Stage-2 verifiers, the Stage-3 programs and checkers, steps 01 to 13 of the Stage-4 gate and its `spectrum` subcommand, the six exact programs of Stage 5 and the matter–antimatter analysis, and two PDFs were rerun, and every file that should be byte-identical was byte-identical, except the one sympy report of the matter–antimatter analysis explained in Section 19.10; and the complete unit-test suite ran 578 tests, of which 10 failed and 2 were skipped (Section 19.11). It also records, from the committed files and these runs, the **state of the stages**: Stages 1 and 2 are complete, and the Bash twins of their gates passed at this commit; Stage 3 is complete and its gate passed at earlier commits, but at this commit its unit-test step fails for reasons outside Stage 3; the Stage-4 gate cannot pass yet, for the four reasons of Section 19.9, among them one false check of the cross-checker; Stage 5 has its exact theory but only part of its Kohn–Sham numerics, no documents and no gate; and at commit `4cd47fe` the committed records of the matter–antimatter analysis (its sympy report and the hashes quoted in its document) lagged behind its current files; the report was regenerated later the same day.
+This appendix proves no theorem. It records **measurements of reproducibility**, made for this edition from fresh public clones of commit `1f2dd69` on the test computer of Section 19.2, or quoted from a committed log or script header that is named where it is used. The measurements of this edition's own runs (the wall times, the test counts and the printed lines) come from runs whose logs are not committed; a reader checks them by repeating the commands. The measurements are: the Bash twins of the Stage-1 and Stage-2 gates ended with their OK lines (after 1095 and 165 seconds); the Bash twin of the Stage-3 gate passed its steps 00 to 30 and failed in its step 31, the unit tests; the Stage-2 verifiers, the Stage-3 programs and checkers, steps 01 to 13 of the Stage-4 gate in both shells and its `spectrum` subcommand, the six exact programs of Stage 5 and the matter–antimatter analysis, and the two PDFs of Sections 19.10 and 19.12 were rerun, and every file that should be byte-identical was byte-identical once the clone had a short path, while the files that differ (the three Stage-1 files of the public-clone mode and the Stage-2 Python report written into a scratch folder) differ only in the entries explained in Sections 19.6 and 19.7; and the complete unit-test suite ran 579 tests, of which 4 failed and 2 were skipped (Section 19.11). It also records, from the committed files and these runs, the **state of the stages**: Stages 1 and 2 are complete, and the Bash twins of their gates passed at this commit; Stage 3 is complete and its gate passed at earlier commits, but at this commit its unit-test step fails because of four tests of Stage 4; the Stage-4 gate cannot pass yet, for the four reasons of Section 19.9, among them one false check of the cross-checker; Stage 5 has its exact theory, with its Fock-level result cited as provisional until a correction of its reading and the Stage-5 gate (Section 19.10), but only part of its Kohn–Sham numerics, no documents and no gate; and the matter–antimatter analysis has its two reports, its registered document and 49 passing tests.
 
-It **assumes**: that the tools behave as their versions say (a different version of Python's packages, of pdflatex or of the Rust compiler can change the last digits or bytes of some files without changing any check, as Sections 19.2 and 19.4 explain); that the `win11` engine is used for every byte comparison; that the reader's computer has the processor feature FMA (Section 10.10); and that the wall times, measured on a busy computer, are upper values for that computer and only indications for another. A byte-identical rerun shows that a program reproduces its committed output; it does not show that the output is correct. Correctness rests on the derivations of the chapters and on the independent checks named there.
+It **assumes**: that the tools behave as their versions say (a different version of Python's packages, of pdflatex or of the Rust compiler can change the last digits or bytes of some files without changing any check, as Sections 19.2 and 19.4 explain); that the `win11` engine is used for every byte comparison; that the reader's computer has the processor feature FMA (Section 10.10); that on Windows the clone lies in a folder with a short path (Section 19.4); and that the wall times, measured on a busy computer with several of these runs at the same time, are upper values for that computer and only indications for another. A byte-identical rerun shows that a program reproduces its committed output; it does not show that the output is correct. Correctness rests on the derivations of the chapters and on the independent checks named there.
 
 ### 19.15 Exercises
 
@@ -757,13 +802,15 @@ What did the failed step compare, what is the most likely cause when every earli
 
 **Exercise 19.6.** Compute the sha256 of `provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.pdf` in both shells and compare it with the value registered for the edition `dirac16complex-matter-antimatter` in `provenance/pdf-specifications.json` of the same clone.
 
-**Exercise 19.7.** Add the step times of the Stage-1 run in the table of Section 19.6, counting the steps that took under a second as 0, and compare the sum with the total of 1133 seconds. Where did the rest of the time go?
+**Exercise 19.7.** Add the step times of the Stage-1 run in the table of Section 19.6, counting the steps that took under a second as 0, and compare the sum with the total of 1095 seconds. Where did the rest of the time go?
 
 **Exercise 19.8.** (a) The false Stage-4 check `canonical_eigenvalues` compares a difference of $2.195\times10^{-6}\,m$ with a tolerance of $1.054\times10^{-6}\,m$. Compute the ratio. (b) List the four reasons why the Stage-4 gate cannot end with OK today, and for each say what would have to be done.
 
 **Exercise 19.9.** You changed one sentence of Chapter 7 and want to know, within a second and without building a PDF, whether every "Section N.M" reference of the book still resolves. Which command do you run, and which line of its output answers the question?
 
-**Exercise 19.10.** A friend reruns the matter–antimatter checker from a fresh clone of commit `4cd47fe` and reports: "77 checks, all true, but the committed report has 75: the repository is broken." Explain what the two numbers mean and whether the friend's conclusion is right.
+**Exercise 19.10.** A friend clones the repository, checks out the older commit `4cd47fe` (`git checkout 4cd47fe`, Section 19.4), reruns the matter–antimatter checker into a scratch folder as in Section 19.10 and reports: "77 checks, all true, but the committed report has 75: the repository is broken." Explain what the two numbers mean and whether the friend's conclusion is right. What does the same rerun give at commit `1f2dd69`?
+
+**Exercise 19.11.** (a) The hexadecimal number `ff` is the largest number with two hexadecimal digits. Which decimal number is it? (b) How many different values can a sha256 have? Write the answer as a power of 2, using that one hexadecimal digit carries exactly as much information as four binary digits.
 
 ### 19.16 Answers to the exercises
 
@@ -779,28 +826,48 @@ python scripts/check_dirac16complex_exp3.py `
 
 **Answer 19.2.** Step 09 compares the 62 output files of the five experiments, from the two complete runs of steps 07 and 08, with each other and with the committed files, byte for byte; its log names every file that differs. Steps 01 and 02 have already made sure that the pinned `win11` engine is installed and unmodified, and steps 07 and 08 ended with `SUCCESS`, so the program passed all its self-checks. The pinned engine is known to reproduce the committed files byte for byte on Windows 11 and on Ubuntu 24.04 (Section 10.10). A difference therefore points to one of three things: a system on which byte identity has not been established (for example macOS), a build that did not use the FMA setting of `.cargo/config.toml` (Section 10.10), or a committed file that was changed in the working tree (`git status --short` shows it). No number of Chapter 11 becomes wrong through such a difference: the self-checks and the independent checkers test the results against exact solutions and conservation laws, not against bytes, and a difference in the last digits is far below every tolerance. The byte comparison tests reproducibility, not correctness.
 
-**Answer 19.3.** For the five reports in the folder `artifacts/dirac16complex/arbitrary-field/` the counter prints:
+**Answer 19.3.** The counter prints one line per run. For the five reports in the folder `artifacts/dirac16complex/arbitrary-field/` it printed:
 
-```
-wolfram-algebra-report.json     21 21
-wolfram-geometry-report.json    43 43
-python-algebra-report.json      21 21
-python-geometry-report.json     52 52
-grassmann-demo-report.json      16 16
-```
+| Report given to the counter | Printed line |
+| --- | --- |
+| `wolfram-algebra-report.json` | `21 21` |
+| `wolfram-geometry-report.json` | `43 43` |
+| `python-algebra-report.json` | `21 21` |
+| `python-geometry-report.json` | `52 52` |
+| `grassmann-demo-report.json` | `16 16` |
 
 The sum is $21+43+21+52+16=153$: the 153 of 153 exact Stage-1 checks of the table in Section 0.5.
 
 **Answer 19.4.** Without `dirac-main/` the verifiers cannot run the comparisons with the three dirac-main files and record them as "not-run". Their reports therefore differ from the committed ones in those entries and in the hashes that depend on them. Writing them over the committed reports would change committed evidence; writing them into `build/stage1/` keeps the committed files unchanged, and step 13 then proves that the regenerated reports agree with the committed ones everywhere except in exactly the entries that the missing folder explains.
 
-**Answer 19.5.** The algebra checker lacks `ALG_wolframAgreement`, its comparison with the Wolfram algebra report; the empty option `--wolfram-report=` switches it off, and the option `--wolfram-report` followed by the path of a Wolfram report switches it on (step 07 of the Stage-1 gate). The EXP-5 checker lacks `repeatByteIdentity` and `refinedConvergence`. With the option `--repeat` followed by a folder below `build/`, the checker runs the program once more into that folder and requires every file to be byte-identical; with `--refined` followed by another folder, it runs the program with ten times tighter tolerances and requires the errors to shrink (student guide, §9.1). For example `python scripts/check_dirac16complex_exp5.py --output build/textbook --repeat build/repeat --refined build/refined`, written with a line continuation in either shell, printed `check_repeatByteIdentity=true`, `check_refinedConvergence=true` and `check_count=21` after 17 seconds for this edition.
+**Answer 19.5.** The algebra checker lacks `ALG_wolframAgreement`, its comparison with the Wolfram algebra report; the empty option `--wolfram-report=` switches it off, and the option `--wolfram-report` followed by the path of a Wolfram report switches it on (step 07 of the Stage-1 gate). The EXP-5 checker lacks `repeatByteIdentity` and `refinedConvergence`. With the option `--repeat` followed by a folder below `build/`, the checker runs the program once more into that folder and requires every file to be byte-identical; with `--refined` followed by another folder, it runs the program with ten times tighter tolerances and requires the errors to shrink (student guide, §9.1). For example `python scripts/check_dirac16complex_exp5.py --output build/textbook --repeat build/repeat --refined build/refined`, written with a line continuation in either shell, printed `check_repeatByteIdentity=true`, `check_refinedConvergence=true` and `check_count=21` after 8 seconds for this edition.
 
-**Answer 19.6.** PowerShell: `Get-FileHash -Algorithm SHA256 provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.pdf` prints, in upper-case letters, `0B064200BABDB2BEE194E73CD0E0CAA4266D722D19E0CCE59CC8C543FC6BA6C3`. Bash: `sha256sum provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.pdf` prints the same 64 digits in lower case, followed by the file name (macOS: `shasum -a 256` instead of `sha256sum`). The registry entry holds `0b064200babdb2bee194e73cd0e0caa4266d722d19e0cce59cc8c543fc6ba6c3` and 32 pages: the same number, since upper and lower case denote the same hexadecimal digits. (These are the values at commit `4cd47fe`; a later edition of the document has another sha256, and the registry of the same clone always holds the one that the PDF of that clone must have.)
+**Answer 19.6.** In PowerShell the command
 
-**Answer 19.7.** $3+7+49+535+337+43+1+51+55+0+10+0+0=1091$ seconds. The remaining 42 seconds lie between the steps: the gate looks up the tools (on Windows through PowerShell), removes and creates `build/stage1/`, starts a new process for every step, audits the five reports with short Python programs and computes the eight sha256 values.
+```
+(Get-FileHash -Algorithm SHA256 provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.pdf).Hash
+```
+
+prints the fingerprint in upper-case letters (without `(...).Hash`, `Get-FileHash` prints a small table with the same value in its column `Hash`):
+
+```
+F4D6CB5102849614D7E643D868963F958713C99AE8A890CEE55715AEFB4AAD6C
+```
+
+In Bash, `sha256sum provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.pdf` prints the same 64 digits in lower case, followed by the file name (Git Bash puts a `*` in front of the name; on macOS use `shasum -a 256` instead of `sha256sum`):
+
+```
+f4d6cb5102849614d7e643d868963f958713c99ae8a890cee55715aefb4aad6c
+```
+
+The registry entry holds this lower-case value and 36 pages: the same number, since upper-case and lower-case letters denote the same hexadecimal digits (Section 19.1). These are the values at commit `1f2dd69`; a later edition of the document has another sha256, and the registry of the same clone always holds the one that the PDF of that clone must have.
+
+**Answer 19.7.** $0+3+23+409+405+57+2+54+94+0+16+1+1=1065$ seconds. The remaining 30 seconds lie between the steps: the gate looks up the tools, removes and creates `build/stage1/`, starts a new process for every step, audits the five reports with short Python programs and computes the eight sha256 values.
 
 **Answer 19.8.** (a) $2.195/1.054=2.08$, the ratio recorded in the measurement `canonical_eigenvalues_detail`. (b) First, the Stage-4 document has no LaTeX file, no PDF and no registered edition, and the Stage-4 student guide does not exist (steps 00, 32 and 33): both documents have to be finished, built and registered. Second, `kohn-sham-summary.json` does not exist (step 23): it has to be generated from the final results and committed. Third, the fresh cross-check report must have all checks true (step 21), and `canonical_eigenvalues` is false for one level of the smeared $N=1016$ ensemble: the disagreement between the two solvers has to be resolved, by a finer computation that brings them together or by a justified tolerance for this case. Fourth, the Jupyter notebook has to be executed again, so that its committed report is current and all its checks are true, which the unit tests of step 35 require. Only after that can the gate run through step 14, the reproduction of the complete Rust tree (about 3 hours), to the OK line.
 
 **Answer 19.9.** `python scripts/build_textbook.py --check` (add `--allow-missing` while chapters are missing). The line `check_crossReferencesResolve=true` answers it; any unresolved reference is printed before it as a line beginning with `problem=`. The option `--list-references` prints every reference with its classification.
 
-**Answer 19.10.** The committed report was written by an earlier version of the checker, which had 75 checks; the checker in the same commit has two more, `MA_M2_cpScopeInCurvedFields` and `MA_M4_imageFieldFockModel`, and all 77 are true (Section 19.10). Nothing is broken in the sense of a false check: every committed check is reproduced as true, and two more checks pass. What the friend has found is that the committed report was not the newest one; regenerating it changes its check count and its recorded hashes, not any conclusion. The report committed later that day (commit `27794e8`) is byte-identical to the friend's file.
+**Answer 19.10.** At commit `4cd47fe` the committed report had been written by an earlier version of the checker, with 75 checks: the report records for its checker the sha256 `20914546...`, while the checker file of that commit has the sha256 `ef1a00dc...`. The checker of that commit has two more checks, `MA_M2_cpScopeInCurvedFields` and `MA_M4_imageFieldFockModel`, and all 77 are true. Nothing is broken in the sense of a false check: every committed check is reproduced as true, and two more checks pass. What the friend has found is that the committed report of that commit was not the newest one; regenerating it changes its check count and its recorded hashes, not any conclusion. The report was regenerated in commit `27794e8` and has not changed since: at commit `1f2dd69` the committed report has 77 checks, and the rerun of Section 19.10 wrote a byte-identical file.
+
+**Answer 19.11.** (a) $\mathtt{ff}=15\cdot16+15=255$. (b) Each hexadecimal digit takes one of $16=2^4$ values, so 64 digits take $16^{64}=(2^4)^{64}=2^{256}$ values, which is where the name sha256 comes from. Two different files therefore have the same sha256 only by an accident whose probability is far below anything that could matter in practice.
