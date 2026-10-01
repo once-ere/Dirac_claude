@@ -67,8 +67,8 @@ KOHN_SHAM_CHECK_REPORT = ARTIFACTS / "kohn-sham" / "python-check-report.json"
 PAIR_CREATION = ARTIFACTS / "pair-creation"
 STAGE1_DOCUMENT = PROVENANCE / "DIRAC16COMPLEX_ARBITRARY_FIELD.md"
 
-MARKDOWN_SHA256 = "5b0183cbeb2e087ea879d3096b0e9fc6b655a61d6f1f5219ddbde50096eee77a"
-TEX_SHA256 = "b575f484f3eee3495fbb50432a2edfc61b9571ea2e7fef996d07b9f674c9823c"
+MARKDOWN_SHA256 = "2b0073d1d4ce453d36112949f0b884f5e8a66ab331943f9584a5a05e0ba13610"
+TEX_SHA256 = "6ac598cc6071e00888c8b5b9125fcd6c0c884ac5ebe770d3264474b11e7c98bd"
 
 CHAPTER_HEADINGS = (
     "0. How to read this book",
@@ -113,7 +113,10 @@ SECTION_0_2_STATEMENTS = (
     "with MASSES ± M is created\".",
     "Cell 17 records the task: \"TODO: prove Universe(s) of masses ±M are created in pairs!\"",
     "Their consequences are strong but limited.",
-    "It is not a cancellation between two independent universes",
+    "For the quantized field the cancellation is not one between two separate universes.",
+    "There the image $\\gamma^8\\Psi$ is not a second universe",
+    "Whether any quantum description of two independent universes gives a cancellation is "
+    "open (row L37).",
     "And no creation process, no rate and no probability amplitude is derived, and no "
     "dynamical big bang is computed.",
     STAGE1_SENTENCE,
@@ -170,7 +173,9 @@ CHAPTER_17_STATEMENTS = {
     "17.1": (
         "**The honest answer.** The theory as built does not solve the matter–antimatter "
         "problem, and within the theory the central step of such a solution is impossible.",
-        "so no process of the theory can create a net charge inside one universe.",
+        "so no process of the theory can create a net charge inside one universe; for the "
+        "quantized field this holds at a formal level, because no regularization of the "
+        "quantum theory is constructed and no anomaly is computed (Section 17.9).",
         "Nothing in the repository computes a departure from thermal equilibrium.",
         "no cancellation between two independently quantised universes follows",
         "Under three hypotheses that nothing in the repository derives",

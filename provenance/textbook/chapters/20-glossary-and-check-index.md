@@ -54,7 +54,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **bonding orbital** (Chapter 12). The lower orbital $\varphi_b=(\mathrm L+\mathrm R)/\sqrt2$ of the two-site model, the symmetric combination of the two site orbitals.
 - **boost** (Chapter 2). A spin transformation $\exp(\theta S^{ab})$ with one space-like and one time-like index; it mixes the two directions hyperbolically. A boost pair of frame indices is such a pair (Chapter 4).
 - **bosons** (Chapter 12). Particles whose many-body wave function is unchanged when two of them are exchanged.
-- **bounce** (Chapter 11). The point of an EXP-3 run where the expansion rate reaches zero ($E^2=0$); it lies where the mean field is no longer valid.
+- **bounce** (Chapter 11). The point of an EXP-3 run where the expansion rate reaches zero ($H=0$); it lies where the mean field is no longer valid.
 - **bracket (of a root)** (Chapter 10). An interval at whose ends a function has opposite signs, so that it contains a zero; the Stage-4 solver first brackets each level and then refines it.
 - **brane** (Chapter 9). A surface that carries energy and momentum of its own; here the surface $y=0$ where two mirror copies of the static primordial field are glued.
 - **brane band** (Chapter 13). The Kohn–Sham levels $\varepsilon=\pm ck$ (to first order in the momentum $k$) into which the eight brane zero modes split at nonzero momentum; for $N=112$ and $N=1016$ the particles fill it up to a closed shell.
@@ -131,7 +131,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **dark energy** (Chapter 11). Whatever makes the expansion of the observed universe speed up today; it needs a large negative pressure, and in the standard model of cosmology it is a cosmological constant. EXP-3 tests whether a condensate of dirac16complex can supply it (the answer of Chapter 11 is no).
 - **dark matter** (Chapter 11). Gravitating matter that cannot be seen; it clusters like ordinary matter and has almost no pressure. EXP-4 tests whether the quanta of dirac16complex behave like it (the answer of Chapter 11 is a qualified yes).
 - **DEC**: see dominant energy condition.
-- **deceleration parameter** (Chapter 11). $q=-\ddot aa/\dot a^2$, positive when the expansion slows down and negative when it speeds up.
+- **deceleration parameter** (Chapter 11). $q_{\mathrm{dec}}=-a\ddot a/\dot a^2$, positive when the expansion slows down and negative when it speeds up.
 - **delta function, Dirac delta** (Chapters 8 and 9). The generalized function $\delta(x)$ with $\int\delta(x)f(x)\,dx=f(0)$; it describes a source concentrated on a point or, in Chapter 9, on the brane.
 - **Delta-SCF** (Chapter 12). An excitation energy obtained as the difference of two self-consistent energies, of the excited and of the ground state, $E_1-E_0$; unlike the Kohn–Sham gap it includes the relaxation of the orbitals.
 - **dense direct solver** (Chapter 10). The solution of a linear system by Gaussian elimination on the full matrix; used by CVODE's Newton iteration in EXP-1.
@@ -155,7 +155,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **Dirac sea** (Chapter 8). The state in which every negative-energy mode is filled; the vacuum of the good sector, in which a hole is an antiparticle with positive energy.
 - **Dirac's exchange energy** (Chapter 12). The exchange energy per volume of the uniform electron gas, $-\tfrac34(3/\pi)^{1/3}n^{4/3}$ in atomic units; the local exchange of the LDA.
 - **direct and exchange terms** (Chapter 14). The two ways of pairing the four amplitudes of an average $\langle c_n^\ast c_q^\ast c_rc_p\rangle$; the exchange term has the sign $+$ for Gaussian waves and $-$ for fermions.
-- **distance modulus** (Chapter 11). $\mu=5\log_{10}(d_L/10\,\mathrm{pc})$, the logarithm of the luminosity distance used in supernova tables.
+- **distance modulus** (Chapter 11). $\mathrm{DM}=5\log_{10}(d_L/10\,\mathrm{pc})$, the logarithm of the luminosity distance used in supernova tables.
 - **dominant energy condition, DEC** (Chapter 9). The weak energy condition together with the requirement that energy does not flow faster than light; it needs $\rho\ge0$ in particular.
 - **dot product, cross product** (Chapter 3). For vectors of three components $u\cdot r=u_1r_1+u_2r_2+u_3r_3$ (a symmetric number) and $u\times r$ (an antisymmetric vector); the quaternion product contains both.
 - **double, double precision** (Chapter 10). The standard 64-bit floating-point number, with about 16 significant decimal digits.
@@ -176,7 +176,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **energy condition** (Chapter 9). An inequality for the energy density and the pressures of a source, such as the weak, null, strong and dominant conditions; the primordial field violates some of them.
 - **energy density** (Chapter 5). The energy per volume: for the canonical tensor of Chapter 5 the component $\Theta^4{}_4$; for the metric energy–momentum tensor and an observer moving along $x_4$ with $g_{44}=-1$, $\rho=T_{44}=-T^4{}_4$ (Chapters 7 and 9).
 - **energy–momentum tensor** (Chapter 5). The tensor $T^\mu{}_\nu$ that contains energy density, momentum density, pressures and stresses; in Chapter 7 the metric (Hilbert) energy–momentum tensor from the variation of the action with respect to the metric, the source of the Einstein equations.
-- **energy projectors** (Chapter 8). $\Lambda_\pm=\tfrac12(1\pm h_k/E)$, which split the modes of a momentum into those with energy $+E$ and $-E$.
+- **energy projectors** (Chapter 8). $\Lambda_\pm=\tfrac12(1\pm h_k/E)$, which split the modes of a momentum into those with energy $+E$ and $-E$. Chapters 11, 13 and 14 write them $P_\pm$ (in Chapters 13 and 14 $P_\pm(\mathbf p)$, and $P_+=\tfrac12(1+BC)$ is the projector on the positive-energy states at rest); they are not the chirality projectors $P_\mp=\tfrac12(1\mp\gamma^8)$.
 - **ensemble** (Chapter 12). A statistical mixture of many-body states with probabilities; at a temperature $T$ the grand-canonical ensemble.
 - **entropy** (Chapter 12). $S=-\mathrm{tr}(\hat\rho\ln\hat\rho)$, for independent fermions $-\sum_n[f_n\ln f_n+(1-f_n)\ln(1-f_n)]$.
 - **envelope theorem** (Chapter 12). The derivative of the minimum of a function with respect to a parameter equals the partial derivative at the minimizer; it underlies the Hellmann–Feynman relations.
@@ -197,7 +197,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **exit code** (Chapter 19). The whole number with which a program ends: 0 for success, any other number for failure.
 - **EXP-1 to EXP-5** (Chapter 11). The five numerical experiments of Stage 3: the field in the primordial field of the notebook (EXP-1), a homogeneous self-gravitating universe in eight dimensions (EXP-2), a condensate as the dark energy of the late universe (EXP-3), the quanta of an expanding 3-space as dark matter and their creation (EXP-4), and the deflating extra times (EXP-5).
 - **expectation value** (Chapter 8). $\langle f,Of\rangle$ for a normalized state $f$, the average of many measurements of $O$.
-- **expectation-value rule** (Chapter 11). The rule that replaces a bilinear of the quantum field by its average in the state (normal ordered against the sea); it defines the mean-field sources.
+- **expectation-value rule** (Chapters 8 and 11). The normal-ordered average of a bilinear of the quantum field in a one-particle state with the normalized positive-energy wave function $u$, $\langle\Psi^\dagger M\Psi\rangle=u^\dagger BMu$, derived in Section 8.12; Section 11.4 uses it to replace the bilinears by their averages, which define the mean-field sources.
 - **explicit, implicit method** (Chapter 10). An explicit method computes the new value from known values; an implicit one solves an equation that contains the new value, and is needed for stiff problems.
 - **exponential wall** (Chapter 12). The growth of the size of the many-body wave function exponentially with the number of particles, which makes a direct computation impossible.
 - **extra times** (Chapter 9). The three coordinates $x_5,x_6,x_7$, time-like like $x_4$; in the primordial field they deflate.
@@ -519,7 +519,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 - **static member** (Chapter 13). The member of the primordial family with constant $a_4=a_{4,0}$, a metric that does not change in time; the background of the Kohn–Sham states.
 - **stationary** (Chapter 5). An action is stationary on a path if it does not change to first order under every variation with fixed end points.
 - **stationary state** (Chapter 12). An eigenstate of the Hamiltonian; its time dependence is only a phase.
-- **statistics sign, $s$** (Chapter 6). $s=+1$ for commuting and $s=-1$ for Grassmann components, produced by reordering factors, as in $\Psi^TY\Phi^\ast=s\,\Phi^\dagger Y^T\Psi$; it decides the sign of exchange (Chapter 14) and which charge conjugations are symmetries (Chapter 17).
+- **statistics sign, $s$** (Chapter 6). $s=+1$ for commuting and $s=-1$ for Grassmann components, produced by reordering factors, as in $\Psi^TY\Phi^\ast=s\,\Phi^\dagger Y^T\Psi$; it decides the sign of exchange (Chapter 14) and which charge conjugations are symmetries (Chapter 17). Chapters 14 and 15 write it $\mathrm{sg}$, the name that the reports use.
 - **step size** (Chapter 10). The distance $h$ between two consecutive points of a numerical solution; CVODE chooses it adaptively.
 - **stiff** (Chapter 10). A problem with components that decay much faster than the solution of interest changes; explicit methods then need steps as small as the fastest decay time.
 - **stop time** (Chapter 10). A time beyond which CVODE must not integrate; every integration of the project sets it to its last output time.
@@ -596,7 +596,7 @@ This last chapter has two parts. The glossary (Sections 20.2 to 20.8) lists the 
 
 ### 20.8 Symbols and notation
 
-The table lists the symbols that are used in more than one chapter, with the chapter that introduces them. Indices are counted from 0 throughout the book (Chapter 0): coordinates $x_0,\dots,x_7$, frame directions $a,b=0,\dots,7$, spinor components $0,\dots,15$.
+The table lists the symbols that are used in more than one chapter, with the chapter that introduces them. Its last five rows collect the other meanings of the capital letters $B$, $C$, $E$, $K$ and $N$, with the chapters in which they occur; where a letter has several meanings, the section and the context decide which one is meant, and the chapters themselves list their own collisions (for example Sections 11.3, 13.1 and 17.1). Indices are counted from 0 throughout the book (Chapter 0): coordinates $x_0,\dots,x_7$, frame directions $a,b=0,\dots,7$, spinor components $0,\dots,15$.
 
 | Symbol | Meaning | Chapter |
 | --- | --- | --- |
@@ -604,12 +604,12 @@ The table lists the symbols that are used in more than one chapter, with the cha
 | $x_0$; $x_1,x_2,x_3$; $x_4$; $x_5,x_6,x_7$ | the hidden space; ordinary 3-space; the time of evolution; the three extra times | 9 |
 | $\gamma^a$, $a=0,\dots,7$ | the primary gamma matrices, real $16\times16$, $\{\gamma^a,\gamma^b\}=2\eta^{ab}$ | 2 |
 | $\gamma^8=\gamma^0\gamma^1\cdots\gamma^7$ | the chirality, $\mathrm{diag}(-I_8,I_8)$ in the notebook basis | 2 |
-| $P_\mp=\tfrac12(1\mp\gamma^8)$ | the projectors on the two halves of chirality $\mp1$ | 2 |
+| $P_\mp=\tfrac12(1\mp\gamma^8)$ | the projectors on the two halves of chirality $\mp1$; in Chapters 11, 13 and 14 $P_\pm$ are instead the energy projectors $\tfrac12(1\pm h/E)$, with $P_+=\tfrac12(1+BC)$ for the positive-energy states at rest (glossary: energy projectors) | 2 |
 | $C=\gamma^0\gamma^1\gamma^2\gamma^3$ | the charge matrix, the notebook's $\sigma_{16}$; real, symmetric, $C^2=1$ | 2 |
 | $B=-iC\gamma^4$ | Hermitian, $B^2=1$, signature (8,8); the matrix of the canonical anticommutator and of the Krein form | 2, 8 |
 | $S^{ab}=\tfrac14[\gamma^a,\gamma^b]$ | the spin generators | 2 |
 | $\Psi$, $\bar\Psi=\Psi^\dagger C$ | the 16-component field and its Dirac adjoint | 2, 6 |
-| $s=\pm1$ | the statistics sign: $+1$ for commuting (dirac16complex00), $-1$ for Grassmann (dirac16complex) components | 6 |
+| $s=\pm1$ | the statistics sign: $+1$ for commuting (dirac16complex00), $-1$ for Grassmann (dirac16complex) components; written $\mathrm{sg}$ in Chapters 14 and 15 | 6 |
 | $S=\bar\Psi\Psi$ | the scalar density | 6 |
 | $m$, $M$ | the mass of the Lagrangian and the notebook's mass number, $m=-HM$ | 5 |
 | $\lambda$, $U(S)=\tfrac\lambda2S^2$ | the coupling and the contact interaction | 6, 13 |
@@ -618,7 +618,7 @@ The table lists the symbols that are used in more than one chapter, with the cha
 | $e_\mu{}^a$, $g_{\mu\nu}$, $\sqrt{\lvert g\rvert}$ | the vielbein, the metric $g_{\mu\nu}=e_\mu{}^a\eta_{ab}e_\nu{}^b$ and the volume factor | 4 |
 | $\Gamma^\rho{}_{\mu\nu}$, $\omega_{\mu ab}$, $\Omega_\mu$, $D_\mu$ | the Christoffel symbols, the spin connection, the spinor connection and the spinor covariant derivative $D_\mu=\partial_\mu+\Omega_\mu$ | 4 |
 | $R^\rho{}_{\sigma\mu\nu}$, $R_{\mu\nu}$, $R$, $G_{\mu\nu}$ | the Riemann tensor, the Ricci tensor, the Ricci scalar and the Einstein tensor | 4 |
-| $\kappa$ | the gravitational coupling of the eight-dimensional Einstein equations $G^\mu{}_\nu=\kappa T^\mu{}_\nu$ ($\kappa_4$ in four dimensions, Chapter 11) | 4 |
+| $\kappa$ | the gravitational coupling of the eight-dimensional Einstein equations $G^\mu{}_\nu=\kappa T^\mu{}_\nu$ ($\kappa_4$ in four dimensions, Chapter 11); only in Section 12.12 a small positive number $\kappa$ that makes a Fourier integral converge | 4 |
 | $\Theta^\mu{}_\nu$, $T^\mu{}_\nu$ | the canonical and the metric energy–momentum tensors | 5, 7 |
 | $\rho$, $p_{(i)}$, $w$ | the energy density, the pressures and the equation-of-state parameter | 5 |
 | $j^\mu$, $Q$ | a conserved current and its charge | 5, 7 |
@@ -633,10 +633,15 @@ The table lists the symbols that are used in more than one chapter, with the cha
 | $n_p$, $S_p$; $n_c$, $S_c$ | the proper and the coordinate number and scalar densities | 13 |
 | $E_H$, $E_x$, $\Delta_{KS}$ | the Hartree energy, the exchange energy and the Kohn–Sham gap | 12 |
 | $h$, rtol, atol | the step size and the relative and absolute tolerances of a numerical integration | 10 |
-| $a$, $z$, $H_0$, $w_0$, $w_a$ | in cosmology: the scale factor, the redshift, today's Hubble rate and the CPL parameters (the redshift $z$ is not the angle $z$ of Chapter 9) | 11 |
+| $a$, $z$, $H_0$, $w_0$, $w_a$ | in cosmology: the scale factor, the redshift, today's Hubble rate and the CPL parameters (the redshift $z$ is not the angle $z=6Hx_0$ of Chapter 9; Chapter 11 writes the primordial field with $\zeta$ and uses $z$ only for the redshift) | 11 |
 | T1, T2, T3 | the three pairing theorems | 15 |
 | M1 to M6, H1 to H3 | the results of the matter–antimatter analysis and the three hypotheses of the conditional scenario M5 | 17 |
 | $\eta$ (in Chapters 17 and 18) | the baryon-to-photon ratio, not the flat metric | 17 |
+| $B$ (other meanings) | besides the matrix $B=-iC\gamma^4$: a general matrix in Chapters 1 and 2, and the bilinear form $B(x,y)=x^Tg\,y$ of a composition algebra (Chapter 3); the baryon number is written $\mathcal B$ (Chapter 17) | 1, 3, 17 |
+| $C$ (other meanings) | besides the charge matrix $C$: a general matrix in Chapter 1; the roman letter C for the operation of charge conjugation, with the maps $C_0$ and $C_8$ (Chapters 6 and 17); the Thomas–Fermi constant $C_F$ and the heat capacity $C_V$ (Chapter 12) | 1, 6, 12 |
+| $E$ (several meanings) | an energy: of a particle or a mode ($h_k^2=E^2$; Chapters 2, 8, 10, 11 and 18), of a many-body state ($E_0$, $E_n$; Chapter 12) or of a whole Kohn–Sham state (Chapters 13 and 14); the Euler–Lagrange expression $E^A$ (Chapter 5) and the column $E=\gamma^\mu D_\mu\Psi-M_{\mathrm{eff}}\Psi$ of the field equation (Chapters 7, 15 and 17); the Lovelock tensors $E^{(k)}$ (Chapters 4, 9 and 18); the elementary matrices $E_{ij}$ (Chapters 2 and 3). The expansion rate relative to today, $H/H_0$, is written $\mathcal E$ (Chapter 11) | 2, 4, 5, 7, 8, 11, 12, 13 |
+| $K$ (several meanings) | the kinetic term of the Lagrangian (Chapters 6, 7 and 15 to 17; written $\mathcal K$ in Chapter 11); the intertwiners $K_{\mathrm{clifford}}$, $K_{\mathrm{octonion}}$ and $K_X$ (Chapter 3); the vector $K^\mu$ of a symmetry, $\mathcal L\to\mathcal L+\epsilon\,\partial_\mu K^\mu$ (Chapter 5); the matrix $K=\sqrt{\lvert g\rvert}\,C\gamma^{x_4}$ in front of $\partial_4\Psi$ in the first-order Lagrangian (Section 8.5; written $\mathcal K$ in Chapter 15); a wave number or momentum (Chapters 9, 10, 11 and 18); the extrinsic curvature $K_{ab}$ (Chapters 9 and 13); the block matrices $K_1$, $K_2$ (Chapters 13 and 18); the covariance (Chapter 14); a constant curvature (Section 18.5). The exchange kernel is written $\mathbb K_{ab}$ (Chapter 13) | 3, 5, 6, 8, 9, 11, 13, 14, 18 |
+| $N$ (several meanings) | the particle number (Chapters 12 to 19); the number operator $b^\dagger b$ (Chapters 8 and 14); the spinor norm $N(g)$ (Chapters 2, 4, 6 and 8) and the norm $N(x)$ of a composition algebra (Chapter 3); a real $2\times2$ matrix with $N^2=-I$ (Section 2.3) and other matrices in Sections 6.6, 7.12, 9.14 and 15.7; a number of steps (Chapter 10); the number of e-folds $N=\ln a$ (Chapter 11); the Noether current $N^\mu$ of the phase symmetry (Section 17.9). The matrix of the Kohn–Sham block equation is written $\mathcal N$ (Chapter 13) | 2, 3, 8, 10, 11, 12, 13, 17 |
 
 ### 20.9 How the index of checks was made, and how to look up a check yourself
 
@@ -644,7 +649,8 @@ The table lists the symbols that are used in more than one chapter, with the cha
 
 - a single check, such as `ALG_clifford`;
 - a family written with a final `*` or with placeholders in angle brackets: `PAIR_T1krein_*` means every check whose name begins with `PAIR_T1krein_`, `MA_M1_noetherIdentity_<X>_<G>` (Chapter 17) every check whose name begins with `MA_M1_noetherIdentity_`, and `*_energy_from_rho` every Rust self-check whose name ends with `_energy_from_rho` (one per run); the column "Value" then gives the number of checks in the family and whether all of them are true;
-- a name whose ending the text writes separately, such as `GEO_vielbeinPostulate_G1` and `_G2`, or `hellmannFeynmanMass` after the family name `KS_functional` (Chapter 13), is indexed under its full names.
+- a name whose ending the text writes separately, such as `GEO_vielbeinPostulate_G1` and `_G2`, or `hellmannFeynmanMass` after the family name `KS_functional` (Chapter 13), is indexed under its full names;
+- a name that is a single check and also the beginning of a family, such as `S5_T1krein` (a check of its own, and the beginning of the thirteen checks `S5_T1krein_*`; Chapter 17 counts "the fourteen `S5_T1krein` checks"), is indexed as the single check and, where the text writes it in code, also as the family.
 
 Names of **measurements** (numbers and tables that a report records next to its checks, such as `ALG_tauEqualsLeftMultiplicationPerIndex` in Chapter 3 or `canonical_eigenvalues_detail` in Chapter 19) are not checks and are not indexed; nor are the names of keys of theory files, such as `fieldEquations`. A name that the text uses only as a prefix of a whole stage, such as `S5_` in "the `S5_` twins", is not indexed either; the prefixes are explained at the head of each section.
 
@@ -656,7 +662,7 @@ Names of **measurements** (numbers and tables that a report records next to its 
 
 Other entries named `checks` that lie deeper inside a file are copies or records, not checks decided by the program that wrote the file, and are not indexed: the collected summary `numerics/numerics-summary.json` repeats the checks of the five experiments; the theory files `pair-creation/pairing-theory.json` and `matter-antimatter/matter-antimatter-theory.json` list, next to each theorem, the checks that verify it; and the entries `engine.checks` of the two Mathematica reports and `M1_chargeDensity.checks` of WMA record sub-steps that no chapter cites. The collected Stage-1 summary `arbitrary-field/stage1-summary.json` has a top-level entry `checks`, but it writes the name of the report in front of every check (such as `wolfram-algebra:ALG_clifford`), so no cited name occurs in it.
 
-**How it was verified.** The index was produced by a short program that reads every committed JSON file under `artifacts/` of the commit named in Section 20.15, collects the names by the rule just stated, and then searches the chapter files for these names; a second, separately written program read the finished tables back and compared every row, file, value and citation with the committed files and the chapters. Every row of Sections 20.10 to 20.14 therefore names a check that exists, with the value shown, in the committed files shown. The first program also listed the names in the chapters that look like check names but occur in no indexed entry `checks`; each of them was read in its sentence and found to be a measurement, a comparison recorded inside a report or a name inside a program, and none of them is called a check by the text.
+**How it was verified.** The index was produced by a short program that reads every committed JSON file under `artifacts/` of the commit named in Section 20.15, collects the names by the rule just stated, and then searches the chapter files of Chapters 0 to 19 for these names. A second, separately written program then read the finished tables back from this chapter and compared every row, file, value and citation with the committed files and with the same chapter files, and it searched those chapter files for every whole word that is the name of a check collected by the same rule, to make sure that each such name has a row. Both programs were last run, with no disagreement, on the chapter files of this edition (Section 20.15). Every row of Sections 20.10 to 20.14 therefore names a check that exists, with the value shown, in the committed files shown, and every check name that Chapters 0 to 19 write has a row. The first program also listed the names in the chapters that look like check names but occur in no indexed entry `checks`; each of them was read in its sentence and found to be a measurement, a comparison recorded inside a report or a name inside a program, and none of them is called a check by the text.
 
 **The keys of the files.** To keep the tables of Sections 20.10 to 20.14 short, their column "Files" names each committed file by a key:
 
@@ -896,7 +902,7 @@ Every name begins with `P_`. Where the column "Files" names W00, the Stage-5 rep
 
 ### 20.12 Index of checks: Stage 3, the dark-sector experiments
 
-Names with underscores between lower-case words (such as `seven_volume_constant`) are self-checks of the Rust program, stored in the `summary.json` of each experiment; names in camel case (such as `eigenmodeLaws`) are checks of the independent Python checkers. The table has 52 rows; the keys in the column "Files" are those of Section 20.9.
+Names with underscores between lower-case words (such as `seven_volume_constant`) are self-checks of the Rust program, stored in the `summary.json` of each experiment; names in camel case (such as `eigenmodeLaws`) are checks of the independent Python checkers. The table has 54 rows; the keys in the column "Files" are those of Section 20.9.
 
 | Check | Files | Value | Cited in chapters |
 | --- | --- | --- | --- |
@@ -905,8 +911,8 @@ Names with underscores between lower-case words (such as `seven_volume_constant`
 | `bounceAndStop` | E3C | true | 11 |
 | `boundNonnegative` | E2C | true | 11 |
 | `closedFormVerified` | E2C | true | 11 |
-| `constraintPreserved` | E2C | true | 11 |
 | `constraint_preserved` | E2S | true | 11 |
+| `constraintPreserved` | E2C | true | 11 |
 | `decelerationRoots` | E3C | true | 11 |
 | `diracEquationFd` | E2C | true | 11 |
 | `eigenmodeLaws` | E1C | true | 11 |
@@ -931,8 +937,8 @@ Names with underscores between lower-case words (such as `seven_volume_constant`
 | `pairPauli` | E4C | true | 11 |
 | `pairSmoothTransitionReference` | E4C | true | 11 |
 | `pairSuddenSpectrumMagnusReference` | E4C | true | 11 |
-| `pairTailMatchesKinkTheory` | E4C | true | 11 |
 | `pair_tail_matches_kink_theory` | E4S | true | 11 |
+| `pairTailMatchesKinkTheory` | E4C | true | 11 |
 | `phantomCrossing` | E3C | true | 11 |
 | `phantom_crossing_at_cube_root_2abs_x0` | E3S | true | 11 |
 | `phantom_iff_negative_kinetic_energy` | E2S | true | 11 |
@@ -949,19 +955,23 @@ Names with underscores between lower-case words (such as `seven_volume_constant`
 | `spinorPhaseWithinTimeRounding` | E2C | true | 11 |
 | `S_times_V_constant` | E2S | true | 11 |
 | `tangentCPL` | E3C | true | 11 |
+| `thermalBetaPerModeIsSuddenStartWave` | E4C | true | 11 |
+| `thermalPressureMatchesKineticTheoryPlusFreeWave` | E4C | true | 11 |
 | `wkbFirstOrder` | E5C | true | 8, 11 |
 | `wkbLateRate` | E5C | true | 8, 11 |
 | `wkbLeading` | E5C | true | 8, 11 |
 
 ### 20.13 Index of checks: Stage 4, the Kohn–Sham states
 
-Names beginning with `KS_` are exact checks of the Wolfram verifier and of the sympy checker; names in lower case with underscores are self-checks of the Rust solver or checks of the cross-checker. A Rust self-check that is made for every run carries the name of the run in front, such as `m1_L3_N112_lam0_T0_energy_from_rho`, and is indexed as a family, here `*_energy_from_rho`. Where the column "Files" names W00, the Stage-5 report records the check in its citation records (Section 20.9, item 3). The table has 102 rows; the keys in the column "Files" are those of Section 20.9.
+Names beginning with `KS_` are exact checks of the Wolfram verifier and of the sympy checker; names in lower case with underscores are self-checks of the Rust solver or checks of the cross-checker. A Rust self-check that is made for every run carries the name of the run in front, such as `m1_L3_N112_lam0_T0_energy_from_rho`, and is indexed as a family, here `*_energy_from_rho`. Where the column "Files" names W00, the Stage-5 report records the check in its citation records (Section 20.9, item 3). The table has 111 rows; the keys in the column "Files" are those of Section 20.9.
 
 | Check | Files | Value | Cited in chapters |
 | --- | --- | --- | --- |
 | `a4_rescaling_pair_exact` | RSC | true | 13 |
-| `canonical_deltaSCF` | PC | true | 14, 19 |
-| `canonical_eigenvalues` | PC | false | 14, 16, 18, 19 |
+| `canonical_deltaSCF` | PC | true | 13, 14, 19 |
+| `canonical_eigenvalues` | PC | false | 0, 13, 14, 16, 18, 19 |
+| `canonical_sourcingConditions` | PC | true | 0 |
+| `*_converged` | RSC, REX, RTH, REM | all 97 true | 13 |
 | `*_cv_finite_difference_vs_exact` | RTH | all 4 true | 13 |
 | `*_emt_conservation` | RSC, REM | all 43 true | 13 |
 | `*_energy_from_rho` | RSC, REM | all 43 true | 13 |
@@ -998,10 +1008,14 @@ Names beginning with `KS_` are exact checks of the Wolfram verifier and of the s
 | `KS_exchange_blockFormOfFockTerm` | WK, PT | true | 0, 13 |
 | `KS_exchange_couplingDimension` | WK, PT | true | 13, 18 |
 | `KS_exchange_filledShellOneEighth` | WK, PT | true | 13 |
+| `KS_exchange_filledShellProjector` | PT | true | 13 |
 | `KS_exchange_filledShellScalarDensity` | WK, PT | true | 13 |
+| `KS_exchange_kernelClosedForm` | PT | true | 13 |
 | `KS_exchange_kernelPlusMinus` | WK | true | 13 |
 | `KS_exchange_kernelPlusPlus` | WK | true | 13 |
+| `KS_exchange_kernelTraceTable` | PT | true | 13 |
 | `KS_exchange_ldaPotentials` | PT | true | 13 |
+| `KS_exchange_projectorRank8` | WK | true | 13 |
 | `KS_exchange_restGasLimit` | WK, PT | true | 13 |
 | `KS_exchange_uniformGasClosedForm` | WK, PT | true | 0, 13, 18 |
 | `KS_exchange_wickTheoremHF` | WK, PT | true | 13, 18 |
@@ -1059,26 +1073,31 @@ Names beginning with `KS_` are exact checks of the Wolfram verifier and of the s
 | `KS_reduction_zeroModeSplitting` | WK, PT | true | 13 |
 | `m1_L3_N112_lam0_T0_hellmann_feynman_dE_dm` | RSC | true | 13 |
 | `m1_L3_N112_lamp1_T0_hellmann_feynman_dE_dm` | RSC | true | 13 |
+| `*_particle_number` | RSC, RTH, REM | all 65 true | 13 |
 | `r07_*` | NB | 0 of 2 true | 19 |
+| `rust_refined_convergence` | PC | true | 13 |
+| `rust_repeat_byte_identity` | PC | true | 13 |
 | `theory_zero_mode_splitting` | RSP, RTA | true | 13 |
 
 ### 20.14 Index of checks: Stage 5 and the matter–antimatter analysis
 
-The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checkers of Stage 5), `PAIR_` (pairing theorems, Wolfram) and `MA_` (matter and antimatter, both programs). The table has 269 rows; the keys in the column "Files" are those of Section 20.9.
+The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checkers of Stage 5), `PAIR_` (pairing theorems, Wolfram) and `MA_` (matter and antimatter, both programs). The table has 279 rows; the keys in the column "Files" are those of Section 20.9.
 
 | Check | Files | Value | Cited in chapters |
 | --- | --- | --- | --- |
 | `C00_algebra_anticommutatorTotallyAntisymmetric` | W00 | true | 6 |
 | `C00_algebra_leadFacts` | W00 | true | 6 |
 | `C00_algebra_pinModuleAndSpinInvariance` | W00 | true | 6 |
-| `C00_charge_indefinite` | W00 | true | 7, 14, 15 |
-| `C00_connection_nonTrivialCoupling` | W00 | true | 6, 7 |
+| `C00_charge_indefinite` | W00 | true | 0, 7, 14, 15 |
+| `C00_connection_nonTrivialCoupling` | W00 | true | 0, 6, 7 |
 | `C00_connection_OmegaTermInFieldEquation` | W00 | true | 6 |
 | `C00_current_conservationAndReality` | W00 | true | 7, 14 |
+| `C00_EL_*` | W00 | all 4 true | 0 |
 | `C00_EL_commutingCurved` | W00 | true | 7, 14 |
 | `C00_EL_commutingFlat` | W00 | true | 7 |
 | `C00_EL_commutingGeneralSmoothU` | W00 | true | 6, 7 |
 | `C00_EL_identicalFormBothStatistics` | W00 | true | 7, 14 |
+| `C00_EMT_*` | W00 | all 7 true | 0 |
 | `C00_EMT_conservationOnShell` | W00 | true | 7 |
 | `C00_EMT_generalSmoothU` | W00 | true | 6, 7 |
 | `C00_EMT_homogeneousEquationsOfState` | W00 | true | 7 |
@@ -1086,17 +1105,18 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `C00_EMT_symmetricAndReal` | W00 | true | 7 |
 | `C00_EMT_traceOnShell` | W00 | true | 7 |
 | `C00_EMT_vielbeinVariation` | W00 | true | 7 |
-| `C00_energy_unboundedBelow` | W00 | true | 7, 14, 15, 18 |
+| `C00_energy_unboundedBelow` | W00 | true | 0, 7, 14, 15, 18 |
 | `C00_lagrangian_coefficientHermiticity` | W00 | true | 6 |
 | `C00_lagrangian_grassmannFlatHermitianAndEL` | W00 | true | 6 |
 | `C00_lagrangian_realCommuting` | W00 | true | 6 |
+| `C00_massTerm_*` | W00 | all 3 true | 0 |
 | `C00_massTerm_commutingExplicitSpinors` | W00 | true | 6 |
 | `C00_massTerm_dispersionFlat` | W00 | true | 6 |
 | `C00_massTerm_grassmannNonzero` | W00 | true | 6 |
 | `C00_primordial_ELcommuting` | W00 | true | 7 |
 | `C00_primordial_geometryMatchesStage2` | W00 | true | 7 |
 | `C00_primordial_homogeneousState` | W00 | true | 7 |
-| `C00_primordial_staticFieldSourcedExactly` | W00 | true | 7, 18 |
+| `C00_primordial_staticFieldSourcedExactly` | W00 | true | 0, 7, 18 |
 | `C00_realRestriction_commutingFlatDecomposition` | W00 | true | 6 |
 | `C00_realRestriction_commutingNonTrivial` | W00 | true | 6 |
 | `C00_realRestriction_commutingNotebookContraction` | W00 | true | 6 |
@@ -1116,62 +1136,64 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `MA_M1_ksFixedNetNumberRecorded` | WMA | true | 17, 19 |
 | `MA_M1_negativeControlNotebookConnection` | WMA | true | 7, 17 |
 | `MA_M1_noetherCurrentLocalPhase_grassmann_G1` | WMA | true | 17 |
-| `MA_M1_noetherIdentity_*` | WMA, PMA | all 6 true | 17 |
-| `MA_M1_noetherIdentity_commuting_G1` | WMA | true | 7, 16, 17 |
-| `MA_M1_noetherIdentity_grassmann_G1` | WMA | true | 7, 16, 17 |
+| `MA_M1_noetherIdentity_*` | WMA, PMA | all 6 true | 0, 17 |
+| `MA_M1_noetherIdentity_commuting_G1` | WMA | true | 0, 7, 16, 17 |
+| `MA_M1_noetherIdentity_grassmann_G1` | WMA | true | 0, 7, 16, 17 |
 | `MA_M1_onShellConservation_G1` | WMA | true | 16, 17 |
 | `MA_M1_stage1ChecksCited` | WMA | true | 17 |
 | `MA_M1_u1InvarianceCommutingGenericU_flat` | WMA | true | 17 |
 | `MA_M1_u1InvarianceCommutingGenericU_G1` | WMA | true | 6 |
-| `MA_M1_u1InvarianceGrassmann_G1` | WMA | true | 6, 17 |
+| `MA_M1_u1InvarianceGrassmann_G1` | WMA | true | 0, 6, 17 |
 | `MA_M2` | PMA | true | 17 |
 | `MA_M2_*` | WMA, PMA | all 26 true | 6 |
-| `MA_M2_C_and_CP_status` | PMA | true | 6, 17 |
+| `MA_M2_C_and_CP_status` | PMA | true | 0, 6, 17 |
 | `MA_M2_canonicalStructure` | WMA | true | 17 |
 | `MA_M2_canonicalStructureOfExactGrassmannSymmetries` | PMA | true | 17 |
 | `MA_M2_chargeConjugationSolutionSpaces` | PMA | true | 17 |
 | `MA_M2_conjugationIntertwiners` | WMA | true | 17 |
-| `MA_M2_cpScopeInCurvedFields` | PMA | true | 17, 19 |
-| `MA_M2_discreteGroupCharacterTable` | PMA | true | 17 |
+| `MA_M2_cpScopeInCurvedFields` | PMA | true | 0, 6, 15, 17, 19 |
+| `MA_M2_discreteGroupCharacterTable` | PMA | true | 0, 17 |
 | `MA_M2_frameLevelG1_commuting` | WMA | true | 17 |
 | `MA_M2_frameLevelG1_grassmann` | WMA | true | 17 |
 | `MA_M2_internalMapsCurvedJets` | PMA | true | 6 |
 | `MA_M2_lagrangianFlatCommuting_all` | WMA | true | 6, 17 |
 | `MA_M2_lagrangianFlatGrassmann_all` | WMA | true | 6, 17 |
 | `MA_M2_namedReflectionsFlatJets` | PMA | true | 6 |
-| `MA_M2_signPatternClassification` | WMA | true | 17 |
+| `MA_M2_namedTransformations` | WMA | true | 0 |
+| `MA_M2_signPatternClassification` | WMA | true | 0, 17 |
 | `MA_M2_spin0ContainsChargeReversingTimeRotation` | PMA | true | 17 |
 | `MA_M2_statisticsSign` | WMA | true | 17 |
-| `MA_M2_symmetrySummaryAndChargeReversal` | WMA | true | 17 |
+| `MA_M2_symmetrySummaryAndChargeReversal` | WMA | true | 0, 17 |
 | `MA_M3` | PMA | true | 17 |
 | `MA_M3_*` | WMA, PMA | all 17 true | 18 |
-| `MA_M3_allInvariantFormsSymmetric` | PMA | true | 17 |
-| `MA_M3_commutingSurvival` | WMA | true | 17 |
+| `MA_M3_allInvariantFormsSymmetric` | PMA | true | 0, 17 |
+| `MA_M3_commutingSurvival` | WMA | true | 0, 17 |
 | `MA_M3_derivativeTypeSurvivalCurved` | PMA | true | 17 |
 | `MA_M3_extraGrassmannQuarticCharge4` | WMA | true | 17 |
-| `MA_M3_grassmannSurvival` | WMA | true | 17 |
-| `MA_M3_invariantFormsSpan_C_Cgamma8` | PMA | true | 17 |
+| `MA_M3_grassmannSurvival` | WMA | true | 0, 17 |
+| `MA_M3_invariantFormsSpan_C_Cgamma8` | PMA | true | 0, 17 |
 | `MA_M3_kineticInvariantForms` | WMA | true | 17 |
-| `MA_M3_massTypeSurvivalAndCharge` | PMA | true | 17 |
+| `MA_M3_massTypeSurvivalAndCharge` | PMA | true | 0, 17 |
 | `MA_M3_notebookLgIsMajoranaType` | WMA | true | 17 |
 | `MA_M3_pinCharacterForms` | WMA | true | 17 |
 | `MA_M3_pinCharactersMajoranaTerms` | WMA | true | 17 |
 | `MA_M3_quarticChargeViolatingExamplesGrassmann` | PMA | true | 17 |
-| `MA_M3_spinInvariantForms` | WMA | true | 17 |
-| `MA_M3_u1Charge` | WMA | true | 17 |
+| `MA_M3_spinInvariantForms` | WMA | true | 0, 17 |
+| `MA_M3_u1Charge` | WMA | true | 0, 17 |
 | `MA_M4` | PMA | true | 17 |
+| `MA_M4_*` | WMA, PMA | all 11 true | 0 |
 | `MA_M4_currentFlipG1_grassmann` | WMA | true | 17 |
 | `MA_M4_currentFlipMatrix` | WMA | true | 17 |
 | `MA_M4_gamma8ChargeFlipCurved` | PMA | true | 17 |
 | `MA_M4_gamma8EMTPairing` | PMA | true | 17 |
 | `MA_M4_gamma8EulerLagrangePairing` | PMA | true | 17 |
 | `MA_M4_gamma8MatrixFacts` | PMA | true | 17 |
-| `MA_M4_imageFieldFockModel` | PMA | true | 17, 19 |
+| `MA_M4_imageFieldFockModel` | PMA | true | 0, 17, 19 |
 | `MA_M4_kreinModeFacts` | PMA | true | 15, 17 |
-| `MA_M4_kreinOneParticle` | WMA | true | 15, 16, 17 |
+| `MA_M4_kreinOneParticle` | WMA | true | 0, 15, 16, 17 |
 | `MA_M4_pairEMTAndCurrentG1_commuting` | WMA | true | 15, 16, 17 |
 | `MA_M4_pairEMTG1_grassmann` | WMA | true | 15, 16, 17 |
-| `MA_M5_implication` | WMA | true | 16, 17 |
+| `MA_M5_implication` | WMA | true | 0, 16, 17 |
 | `PAIR_algebra_bilinearParities` | WPR | true | 15 |
 | `PAIR_algebra_BProperties` | WPR | true | 15 |
 | `PAIR_algebra_chiralBlockStructure` | WPR | true | 15 |
@@ -1179,7 +1201,7 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `PAIR_algebra_gamma8InIdentityComponent` | WPR | true | 6, 15 |
 | `PAIR_algebra_gamma8Properties` | WPR | true | 6, 15 |
 | `PAIR_algebra_kreinUnderBasicReflections` | WPR | true | 15 |
-| `PAIR_stat_*` | WPR | all 13 true | 14 |
+| `PAIR_stat_*` | WPR | all 13 true | 0, 14 |
 | `PAIR_stat_bosonThermalWickPlus` | WPR | true | 14 |
 | `PAIR_stat_classicalGaussianWickPlus` | WPR | true | 14, 18 |
 | `PAIR_stat_expectationRuleCovarianceIndefinite` | WPR | true | 14, 15 |
@@ -1191,20 +1213,20 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `PAIR_stat_singleModeMoments` | WPR | true | 14 |
 | `PAIR_stat_T0TotalDerivative` | WPR | true | 14 |
 | `PAIR_stat_uniformGasExchange` | WPR | true | 14, 15 |
-| `PAIR_T1generic_*` | WPR | all 9 true | 7, 16 |
+| `PAIR_T1generic_*` | WPR | all 9 true | 0, 7, 16 |
 | `PAIR_T1generic_conjugateFieldEquation` | WPR | true | 7, 15, 16 |
 | `PAIR_T1generic_current` | WPR | true | 7, 15, 16 |
 | `PAIR_T1generic_emtAll36` | WPR | true | 7, 15, 16 |
 | `PAIR_T1generic_fieldEquation` | WPR | true | 7, 15, 16 |
 | `PAIR_T1generic_lagrangian` | WPR | true | 6, 15, 16 |
 | `PAIR_T1generic_naiveFixedLambdaFails` | WPR | true | 6, 15, 16 |
-| `PAIR_T1grassmann_*` | WPR | all 7 true | 7, 16 |
+| `PAIR_T1grassmann_*` | WPR | all 7 true | 0, 7, 16 |
 | `PAIR_T1grassmann_current` | WPR | true | 7, 15, 16 |
 | `PAIR_T1grassmann_diracOperator` | WPR | true | 7, 15, 16 |
 | `PAIR_T1grassmann_emt` | WPR | true | 7, 15, 16 |
 | `PAIR_T1grassmann_lagrangian` | WPR | true | 6, 15, 16 |
 | `PAIR_T1grassmann_naiveFixedLambdaFails` | WPR | true | 15 |
-| `PAIR_T1jets_*` | WPR | all 13 true | 7, 15, 16 |
+| `PAIR_T1jets_*` | WPR | all 13 true | 0, 7, 15, 16 |
 | `PAIR_T1jets_conservationBoth` | WPR | true | 7 |
 | `PAIR_T1jets_emt` | WPR | true | 7, 16 |
 | `PAIR_T1jets_fieldEquations` | WPR | true | 7, 16 |
@@ -1215,19 +1237,19 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `PAIR_T1jets_pairEMTAndCurrentVanish` | WPR | true | 15, 16 |
 | `PAIR_T1jets_vielbeinSignFlipGeometry` | WPR | true | 6, 15 |
 | `PAIR_T1jets_vielbeinSignFlipIsT1` | WPR | true | 6, 15, 16 |
-| `PAIR_T1krein_*` | WPR | all 12 true | 16, 17, 18, 19 |
+| `PAIR_T1krein_*` | WPR | all 12 true | 0, 16, 17, 18, 19 |
 | `PAIR_T1krein_imageAnticommutatorMinusB` | WPR | true | 15, 16, 17 |
 | `PAIR_T1krein_imageExpectationValues` | WPR | true | 15, 16, 17 |
 | `PAIR_T1krein_imageOperatorIdentities` | WPR | true | 15, 16, 17 |
 | `PAIR_T1krein_independentCARPlusB` | WPR | true | 15, 16, 17 |
 | `PAIR_T1krein_independentExpectationValues` | WPR | true | 15, 16, 17 |
 | `PAIR_T1krein_minusMModes` | WPR | true | 15 |
-| `PAIR_T1primordial_*` | WPR | all 6 true | 15, 16 |
+| `PAIR_T1primordial_*` | WPR | all 6 true | 0, 15, 16 |
 | `PAIR_T1primordial_current` | WPR | true | 16 |
 | `PAIR_T1primordial_diracOperator` | WPR | true | 16 |
 | `PAIR_T1primordial_emt64` | WPR | true | 7, 16 |
 | `PAIR_T1primordial_lagrangian` | WPR | true | 6, 16 |
-| `PAIR_T2frame_*` | WPR | all 12 true | 6, 16 |
+| `PAIR_T2frame_*` | WPR | all 12 true | 0, 6, 16 |
 | `PAIR_T2frame_characterIsMinusNorm` | WPR | true | 15, 16 |
 | `PAIR_T2frame_frameReflectionsGeometry` | WPR | true | 15 |
 | `PAIR_T2frame_gamma8TimesUntwistedSpacelike` | WPR | true | 15 |
@@ -1236,7 +1258,7 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `PAIR_T2frame_twistedSpacelikeMapsToMinusMSameLambda` | WPR | true | 6, 15, 16 |
 | `PAIR_T2frame_twistedTimelike` | WPR | true | 6, 15 |
 | `PAIR_T2frame_untwistedSpacelikeContractE3` | WPR | true | 6, 15 |
-| `PAIR_T2z2_*` | WPR | all 11 true | 16, 18 |
+| `PAIR_T2z2_*` | WPR | all 11 true | 0, 16, 18 |
 | `PAIR_T2z2_currentPullback` | WPR | true | 15, 16 |
 | `PAIR_T2z2_diracOperator` | WPR | true | 15, 16 |
 | `PAIR_T2z2_emtPullback` | WPR | true | 15, 16 |
@@ -1248,7 +1270,7 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `PAIR_T2z2_sameMassFails` | WPR | true | 15 |
 | `PAIR_T2z2_scalarOdd` | WPR | true | 15 |
 | `PAIR_T2z2_symmetricIffOddMass` | WPR | true | 15, 16 |
-| `PAIR_T3block_*` | WPR | all 18 true | 16 |
+| `PAIR_T3block_*` | WPR | all 18 true | 0, 16 |
 | `PAIR_T3block_bagAngleMap` | WPR | true | 15 |
 | `PAIR_T3block_densityAndCurrentMaps` | WPR | true | 15 |
 | `PAIR_T3block_gamma1IsSigma1InEveryBlock` | WPR | true | 15 |
@@ -1260,10 +1282,11 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `PAIR_T3block_sigma2IsRustSwap` | WPR | true | 15 |
 | `PAIR_T3block_sigma2MapsBlockODE` | WPR | true | 15 |
 | `PAIR_T3block_statisticsCoefficients` | WPR | true | 14 |
+| `PAIR_T3emt_*` | WPR | all 6 true | 0 |
 | `PAIR_T3emt_imageRuleMinusT` | WPR | true | 15 |
 | `PAIR_T3emt_stage4CrossCheck` | WPR | true | 15 |
 | `PAIR_T3emt_standardRulePlusT` | WPR | true | 15 |
-| `PAIR_T3ks_*` | WPR | all 19 true | 16 |
+| `PAIR_T3ks_*` | WPR | all 19 true | 0, 16 |
 | `PAIR_T3ks_controlDiffersFromPairedProblem` | WPR | true | 15 |
 | `PAIR_T3ks_controlMixedSectorLevelsDisjoint` | WPR | true | 15 |
 | `PAIR_T3ks_controlSplittingClosedForm` | WPR | true | 15, 16 |
@@ -1280,7 +1303,7 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `PAIR_T3ks_zeroModeImage` | WPR | true | 15 |
 | `PAIR_T3ks_zeroModeSplittingMapsExactly` | WPR | true | 15 |
 | `PAIR_T3ks_zeroModeUntransformedControl` | WPR | true | 15, 16 |
-| `PAIR_totals_fieldLevelChiralPair` | WPR | true | 15, 16, 18 |
+| `PAIR_totals_fieldLevelChiralPair` | WPR | true | 0, 15, 16, 18 |
 | `PAIR_totals_fieldLevelMirrorPair` | WPR | true | 15, 18 |
 | `PAIR_totals_ksKreinImagePair` | WPR | true | 15, 16, 18 |
 | `PAIR_totals_ksMirrorPair` | WPR | true | 15, 16 |
@@ -1309,7 +1332,7 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `S5_realRestriction_commutingNotebookContraction` | P00 | true | 6 |
 | `S5_realRestriction_grassmannComplexDecomposition` | P00 | true | 6 |
 | `S5_stat` | PPR | true | 14 |
-| `S5_stat_*` | PPR | all 15 true | 14 |
+| `S5_stat_*` | PPR | all 15 true | 0, 14 |
 | `S5_stat_bosonThermalWickPlus` | PPR | true | 14 |
 | `S5_stat_classicalGaussianWickPlus` | PPR | true | 14 |
 | `S5_stat_expectationRuleKreinFock` | PPR | true | 14 |
@@ -1328,7 +1351,8 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `S5_T1generic_lagrangian` | PPR | true | 6 |
 | `S5_T1grassmann` | PPR | true | 15, 16 |
 | `S5_T1jets` | PPR | true | 16 |
-| `S5_T1krein_*` | PPR | all 13 true | 15, 18, 19 |
+| `S5_T1krein` | PPR | true | 17 |
+| `S5_T1krein_*` | PPR | all 13 true | 15, 17, 18, 19 |
 | `S5_T1krein_imageOperatorIdentities` | PPR | true | 15 |
 | `S5_T1primordial` | PPR | true | 16 |
 | `S5_T2frame` | PPR | true | 16 |
@@ -1336,7 +1360,10 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `S5_T2z2_kineticEven` | PPR | true | 15 |
 | `S5_T2z2_PBRuleMatrixEvenCOdd` | PPR | true | 15 |
 | `S5_T3block` | PPR | true | 16 |
+| `S5_T3block_*` | PPR | all 14 true | 0, 16 |
+| `S5_T3emt_*` | PPR | all 6 true | 0 |
 | `S5_T3ks` | PPR | true | 16 |
+| `S5_T3ks_*` | PPR | all 17 true | 0, 16 |
 
 ### 20.15 Checks of the tools, and the state of the index
 
@@ -1351,9 +1378,9 @@ The prefixes are `C00_` (dirac16complex00, Wolfram), `S5_` (the two sympy checke
 | `registeredSha256` | `scripts/build_provenance_pdf.py` | the PDF has the registered sha256 | 19 |
 | `provenancePdfCopy` | `scripts/build_provenance_pdf.py` | the verified PDF was copied to its final place | 19 |
 
-**The commit of the index.** The index of Sections 20.10 to 20.14 was made from the committed reports of commit `1f2dd69` (2026-09-30), the commit from which Chapter 19 ran its commands, and from the chapter files of this edition. Two later changes of the reports are known in advance. The Rust runs of the subcommand `pairs` of Stage 5 are still being added; their files contain no entry `checks` and do not enter the index. And the physical reading of the Stage-5 Fock-level result `T1krein` is to be corrected in the Stage-5 programs (`HANDOFF.md`, section 0.4, item C; Section 19.10), which can change the names and the number of the checks `PAIR_T1krein_*` and `S5_T1krein_*` and of the matter–antimatter checks that cite them.
+**The commit of the index.** The index of Sections 20.10 to 20.14 was made from the committed reports of commit `1f2dd69` (2026-09-30), the commit from which Chapter 19 ran its commands (no file under `artifacts/` differs between it and the later commit `98347d7`), and from the final chapter files of this edition, on which both programs of Section 20.9 were run last. Two later changes of the reports are known in advance. The Rust runs of the subcommand `pairs` of Stage 5 are still being added; their files contain no entry `checks` and do not enter the index. And the physical reading of the Stage-5 Fock-level result `T1krein` is to be corrected in the Stage-5 programs (`HANDOFF.md`, section 0.4, item C; Section 19.10), which can change the names and the number of the checks `PAIR_T1krein_*` and `S5_T1krein_*` and of the matter–antimatter checks that cite them.
 
-**Counting.** The five tables list 583 rows: 558 single checks and 25 families. Every single check listed is true in every committed file shown, except `canonical_eigenvalues` (Section 19.9); every family is entirely true, except the two families `gauntlet_*` and `r07_*` of the Jupyter notebook's Stage-4 report, whose six false checks Section 19.9 explains.
+**Counting.** The five tables list 604 rows: 569 single checks and 35 families. Every single check listed is true in every committed file shown, except `canonical_eigenvalues` (Section 19.9); every family is entirely true, except the two families `gauntlet_*` and `r07_*` of the Jupyter notebook's Stage-4 report, whose six false checks Section 19.9 explains.
 
 ### 20.16 What we proved and what we assumed
 
@@ -1365,7 +1392,7 @@ This chapter proves nothing new. The glossary repeats, in one or two sentences e
 
 **Exercise 20.2.** Give the status word of Chapter 0 (PROVED, COMPUTED, ASSUMED, HYPOTHESIS or OPEN) for each statement: (a) the chirality map turns every solution with $(m,\lambda)$ into one with $(-m,-\lambda)$; (b) the Kohn–Sham gap of the free ground state with $N=8$; (c) the restriction of the numerical chapters to the good sector; (d) universes of masses $+M$ and $-M$ are created in pairs at $x_4=0$; (e) there is a consistent interacting quantum theory of dirac16complex.
 
-**Exercise 20.3.** The symbols $\eta$ and $z$ each have two meanings in this book. Name them and say how the reader can tell them apart.
+**Exercise 20.3.** The symbol table of Section 20.8 gives two meanings each for $\eta$ and for $z$. Name them and say how the reader can tell them apart.
 
 **Exercise 20.4.** Find in the index the one single check that is false in its committed report. Which programs are compared in it, and in which chapters is it discussed?
 
@@ -1383,9 +1410,9 @@ This chapter proves nothing new. The glossary repeats, in one or two sentences e
 
 **Answer 20.2.** (a) PROVED (Theorem T1, Chapter 15, with exact checks). (b) COMPUTED (Chapter 13; a number of the Rust solver with its own checks and the cross-check status of Section 19.9). (c) ASSUMED: the restriction is imposed, not derived (Chapter 8). (d) HYPOTHESIS: the notebook's claim, which is not derived, and no creation process is computed. Chapter 16 shows what the conservation laws say about it (Proposition 16.5, for classical fields): a T1 pair has the totals of the empty state, so the total energy–momentum, the total charge and the gravitational constraints allow it; but each member's charge is conserved separately, so in the theory as built the pair cannot appear from the empty state unless $Q_+=0$. (e) OPEN (Chapter 18).
 
-**Answer 20.3.** $\eta$ is the flat metric $\mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$ everywhere except in Chapters 17 and 18, where $\eta$ also denotes the baryon-to-photon ratio ($6.12\times10^{-10}$ in Chapter 17, $\eta\approx6\times10^{-10}$ in Chapter 18); the metric always carries indices ($\eta_{ab}$, $\eta^{ab}$) or appears as the matrix $\eta$, the ratio is a single number. $z=6Hx_0$ is the hidden angle of the primordial field in Chapter 9, and in Chapter 11 $z$ is the redshift, $1+z=1/a$; the chapter and the context (geometry of the notebook, or cosmology of the late universe) decide.
+**Answer 20.3.** $\eta$ is the flat metric $\mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$ everywhere except in Chapters 17 and 18, where $\eta$ also denotes the baryon-to-photon ratio ($6.12\times10^{-10}$ in Chapter 17, $\eta\approx6\times10^{-10}$ in Chapter 18); the metric always carries indices ($\eta_{ab}$, $\eta^{ab}$) or appears as the matrix $\eta$, the ratio is a single number. $z=6Hx_0$ is the hidden angle of the primordial field, introduced in Chapter 9 and used wherever that field is written in the notebook's coordinates (for example Chapters 4, 7, 9 and 13); in Chapter 11 $z$ is the redshift, $1+z=1/a$, and Chapter 11 writes the primordial field with the proper hidden coordinate $\zeta$ instead of the angle, so that there $z$ always means the redshift (its note on letters, Section 11.3). The section and the context (geometry of the notebook, or cosmology of the late universe) decide. The same letter also names other numbers where a section says so, such as a complex number $z=a+ib$ (Chapter 1) and the number $z=h\lambda$ of the stability analysis (Chapter 10).
 
-**Answer 20.4.** `canonical_eigenvalues` in `kohn-sham/python-check-report.json` is false (Section 20.13). It compares the Kohn–Sham levels of the Rust solver with those of the independent Python reference solver; one deep level of the smeared $N=1016$ ensemble differs by more than the tolerance (Section 19.9). The index lists Chapters 14, 16, 18 and 19 as citing it.
+**Answer 20.4.** `canonical_eigenvalues` in `kohn-sham/python-check-report.json` is false (Section 20.13). In it the cross-checker `scripts/check_dirac16complex_kohn_sham.py` compares the Kohn–Sham levels of the Rust solver with those of the independent Python reference solver: in 58412 comparisons of levels, the two deep levels of the Dirac sea at $k=0$ of the 301-point smeared ensemble $N=1016$ at $-\hat\lambda_2$ (run `m1_L3_N1016_lamm2_T0`) differ by up to $2.195\times10^{-6}\,m$, about twice the tolerance $1.054\times10^{-6}\,m$. The index lists Chapters 0, 13, 14, 16, 18 and 19 as citing it. It is explained in Section 13.15, treated as an open problem in Section 18.7, and its consequence for the Stage-4 gate is given in Section 19.9.
 
 **Answer 20.5.** The Rust solver writes one self-check `<run>_energy_from_rho` for every run of the subcommand `scf` (33 runs) and of the subcommand `emt` (10 runs), in `rust/scf/summary.json` and `rust/emt/summary.json`: $33+10=43$. The check requires that the integral of the energy density equals the total energy of the run (Chapter 13). Since the names begin with the name of the run, the lookup command of Section 20.9 must be given a full name, such as `m1_L3_N112_lamp1_T0_energy_from_rho`; it then prints both files, because this run appears in both.
 

@@ -59,7 +59,7 @@ $$
 **Block matrices.** A 16 by 16 matrix can be cut into four 8 by 8 blocks, and block matrices multiply like 2 by 2 matrices whose entries are matrices, keeping the order of the factors:
 
 $$
-\begin{pmatrix}A&B\\ C&D\end{pmatrix}\begin{pmatrix}E&F\\ G&H\end{pmatrix}=\begin{pmatrix}AE+BG&AF+BH\\ CE+DG&CF+DH\end{pmatrix}.
+\begin{pmatrix}A&B\\ C&D\end{pmatrix}\begin{pmatrix}E&F\\ K&L\end{pmatrix}=\begin{pmatrix}AE+BK&AF+BL\\ CE+DK&CF+DL\end{pmatrix}.
 $$
 
 (Write out the sum $\sum_k$ in the product and split it into $k<8$ and $k\ge8$.) The transpose of a block matrix transposes the pattern and every block: $\begin{pmatrix}A&B\\ C&D\end{pmatrix}^T=\begin{pmatrix}A^T&C^T\\ B^T&D^T\end{pmatrix}$.
@@ -164,7 +164,7 @@ $$
 \sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix},\qquad\sigma_y=\begin{pmatrix}0&-i\\ i&0\end{pmatrix},\qquad\sigma_z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}.
 $$
 
-They are named by letters, not numbers, to keep them apart from the gammas. Many books, and the two-dimensional examples of Chapters 4 and 6, number them instead: $\sigma_1=\sigma_x$, $\sigma_2=\sigma_y$, $\sigma_3=\sigma_z$; the numbered names always mean exactly these three matrices. (The real matrices $X$, $Z$ and $Y$ of Section 1.7 are $X=\sigma_x$, $Z=\sigma_z$ and $Y=-i\sigma_y=-N$; from Section 2.5 on, $\sigma_x$ and $\sigma_z$ are also called $P$ and $G$.) The Pauli matrices are Hermitian and traceless, each squares to $I$, and any two anticommute. For instance
+They are named by letters, not numbers, to keep them apart from the gammas. Many books, and the two-dimensional examples of Chapters 4 and 6, number them instead: $\sigma_1=\sigma_x$, $\sigma_2=\sigma_y$, $\sigma_3=\sigma_z$; the numbered names always mean exactly these three matrices. (The real matrices $X$, $Z$ and $Y$ of Section 1.7 are $X=\sigma_x$, $Z=\sigma_z$ and $Y=-i\sigma_y=-N$; from Section 2.5 on, $\sigma_x$ and $\sigma_z$ are also called $P$ and $G$, the names that the Stage-1 document and dirac-main use; the warning at the end of Section 2.5 keeps them apart from the projectors $P_\pm$ of Section 2.2 and from other objects written with the same letters.) The Pauli matrices are Hermitian and traceless, each squares to $I$, and any two anticommute. For instance
 
 $$
 \sigma_x\sigma_y=\begin{pmatrix}0&1\\1&0\end{pmatrix}\begin{pmatrix}0&-i\\ i&0\end{pmatrix}=\begin{pmatrix}i&0\\0&-i\end{pmatrix}=i\sigma_z,\qquad\sigma_y\sigma_x=\begin{pmatrix}-i&0\\0&i\end{pmatrix}=-i\sigma_z,
@@ -278,6 +278,8 @@ $$
 
 (Each product is a 2 by 2 multiplication; for example $PG=\begin{pmatrix}0&1\\1&0\end{pmatrix}\begin{pmatrix}1&0\\0&-1\end{pmatrix}=\begin{pmatrix}0&-1\\1&0\end{pmatrix}=-N$.)
 
+**A warning about the letters $P$, $N$ and $G$.** These are the names that the Stage-1 document (§3.3) and the reference implementation dirac-main give to these three 2 by 2 matrices. We keep them so that the tensor-product construction of Section 2.7, which Chapter 3 compares with the notebook's gammas, can be matched symbol by symbol with the Stage-1 formulas (§3.3 and Result 3.7). In this chapter the letter $P$ without an index always means $\sigma_x$, the letter $N$ without an argument always means the matrix $N=\begin{pmatrix}0&1\\-1&0\end{pmatrix}$, and the letter $G$ always means $\sigma_z$, except in Section 2.13, where it names a group. Three other objects of this chapter are written with the same letters and are unrelated to these matrices. The projectors $P_\pm$ of Section 2.2 and the chiral projectors $P_-$, $P_+$ of Section 2.10 always carry an index: they are built from another matrix ($d$ by $d$ in Section 2.2, 16 by 16 for the chirality) and have nothing to do with $P=\sigma_x$. A group, called $G$ in Section 2.13, is a set of elements, not the matrix $\sigma_z$. The spinor norm $N(g)$ of Section 2.14 always carries an argument $g$, an element of a group, and is a number, $+1$ or $-1$, not the matrix $N$.
+
 ### 2.6 How big must the matrices be? The trace lemma
 
 Suppose $\gamma^0,\dots,\gamma^{n-1}$ are $d$ by $d$ matrices (real or complex) that satisfy the Clifford relation for some signature $(p,q)$, and suppose $n=p+q$ is **even**. This section proves that the $2^n$ monomials are linearly independent. Since at most $d^2$ matrices of size $d$ can be independent, this forces $d^2\ge2^n$.
@@ -324,7 +326,7 @@ In the language of Section 2.13, the **commutant** of the gammas consists of the
 
 ### 2.7 A 16 by 16 construction: the tensor-product picture
 
-We now show that real 16 by 16 gammas for signature (4,4) exist, by an explicit recipe that uses only the matrices $P$, $N$ and $G$ of Section 2.5. It is the "Clifford picture" of the reference implementation dirac-main (Stage 1, §3.3). For $k=1,2,3,4$ (a 1-based slot label, one of the labelled exceptions to counting from 0) define
+We now show that real 16 by 16 gammas for signature (4,4) exist, by an explicit recipe that uses only the 2 by 2 matrices $P=\sigma_x$, $N$ and $G=\sigma_z$ of Section 2.5. It is the "Clifford picture" of the reference implementation dirac-main (Stage 1, §3.3). For $k=1,2,3,4$ (a 1-based slot label, one of the labelled exceptions to counting from 0) define
 
 $$
 \hat\gamma_k^+:=\underbrace{G\otimes\dots\otimes G}_{k-1}\otimes P\otimes\underbrace{I_2\otimes\dots\otimes I_2}_{4-k},\qquad\hat\gamma_k^-:=\underbrace{G\otimes\dots\otimes G}_{k-1}\otimes N\otimes\underbrace{I_2\otimes\dots\otimes I_2}_{4-k},
@@ -346,7 +348,7 @@ For example $\hat\gamma^0=P\otimes I_2\otimes I_2\otimes I_2$, $\hat\gamma^1=G\o
 
 *Same slot, $\hat\gamma_k^+$ and $\hat\gamma_k^-$.* The two products $\hat\gamma_k^+\hat\gamma_k^-$ and $\hat\gamma_k^-\hat\gamma_k^+$ agree in every slot except slot $k$, which is $PN$ in the first and $NP=-PN$ in the second. So they anticommute.
 
-*Different slots $k<l$.* Take one matrix from slot $k$ (with $X=P$ or $N$ in slot $k$) and one from slot $l$ (with $Y=P$ or $N$ in slot $l$). Compare the two orders of multiplication slot by slot: in the slots before $k$ both matrices have $G$, and $GG=GG$; in slot $k$ the first has $X$ and the second $G$, and $XG=-GX$; in the slots strictly between $k$ and $l$ the first has $I_2$ and the second $G$, which commute; in slot $l$ the first has $I_2$ and the second $Y$, which commute; in the slots after $l$ both have $I_2$. Exactly one slot contributes a minus sign, so the two matrices anticommute. $\square$
+*Different slots $k<l$.* Take one matrix from slot $k$ (with $M$ in slot $k$, where $M$ is $P$ or $N$) and one from slot $l$ (with $M'$ in slot $l$, where $M'$ is $P$ or $N$). Compare the two orders of multiplication slot by slot: in the slots before $k$ both matrices have $G$, and $GG=GG$; in slot $k$ the first has $M$ and the second $G$, and $MG=-GM$; in the slots strictly between $k$ and $l$ the first has $I_2$ and the second $G$, which commute; in slot $l$ the first has $I_2$ and the second $M'$, which commute; in the slots after $l$ both have $I_2$. Exactly one slot contributes a minus sign, so the two matrices anticommute. $\square$
 
 **The chirality of this picture.** Define $\hat\gamma^8:=\hat\gamma^0\hat\gamma^1\cdots\hat\gamma^7$. Move $\hat\gamma^4=\hat\gamma_1^-$ to the right of $\hat\gamma^0=\hat\gamma_1^+$ (past three different factors, sign $(-1)^3$), then $\hat\gamma_2^-$ to the right of $\hat\gamma_2^+$ (two factors, $(-1)^2$), then $\hat\gamma_3^-$ to the right of $\hat\gamma_3^+$ (one factor, $-1$). The total sign is $(-1)^6=+1$, and
 
@@ -515,7 +517,7 @@ $$
 \gamma^8=\begin{pmatrix}-I_8&0\\0&I_8\end{pmatrix}.
 $$
 
-(Stage 1, Result 3.6; check `ALG_chirality`; Chapter 3 derives it by hand.) In the tensor picture the chirality is $G\otimes G\otimes G\otimes G$ (Section 2.7), also diagonal but with a different pattern of signs; the two are related by the change of basis of Chapter 3.
+(Stage 1, Result 3.6; check `ALG_chirality`; Chapter 3 derives it by hand.) In the tensor picture of Section 2.7 the chirality is $G\otimes G\otimes G\otimes G$ (with the 2 by 2 matrix $G=\sigma_z$ of Section 2.5), also diagonal but with a different pattern of signs; the two are related by the change of basis of Chapter 3.
 
 **Chiral projectors and the two halves.** By Section 2.2 the matrices
 
@@ -738,7 +740,7 @@ $$
 
 *Proof.* First, $C\gamma(u)^TC^{-1}=-\gamma(u)$ for every vector: by (N3) and (C1), $C(\gamma^a)^TC^{-1}=\eta^{aa}C\gamma^aC^{-1}=\eta^{aa}(-\eta^{aa}\gamma^a)=-\gamma^a$, and the rest is linearity. Hence $Cg^TC^{-1}=(C\gamma(u_k)^TC^{-1})\cdots(C\gamma(u_1)^TC^{-1})=(-1)^k\gamma(u_k)\cdots\gamma(u_1)$, and, since $C^{-1}=C$, $g^TC=(-1)^kC\,\gamma(u_k)\cdots\gamma(u_1)$. Multiplying by $g$ on the right, the product $\gamma(u_k)\cdots\gamma(u_1)\gamma(u_1)\cdots\gamma(u_k)$ collapses from the middle, $\gamma(u_1)^2=n(u_1)$, then $\gamma(u_2)^2=n(u_2)$, and so on. $\square$
 
-The number $N(g)$ is the **spinor norm**. The formula shows that it depends only on $g$, not on how $g$ is written as a product, and that $N(gh)=N(g)N(h)$. Examples: $N(\gamma^0)=+1$, $N(\gamma^4)=-1$, $N(\gamma^0\gamma^4)=-1$, and $N(\exp(\theta S^{ab}))=+1$ (it is a product of two unit vectors of equal norm). For a spinor, $\Psi\mapsto g\Psi$ multiplies the bilinear $\Psi^\dagger C\Psi$ by $(-1)^kN(g)$, because $(g\Psi)^\dagger C(g\Psi)=\Psi^\dagger g^TCg\Psi$ for a real $g$; for a single unit vector the factor is $-n(u)$. This is the "Pin character" of Stage 1 (§7.7; check `ALG_pinLiftCharacter`), which Chapter 6 uses.
+The number $N(g)$ is the **spinor norm**. It is a number, $+1$ or $-1$, attached to the group element $g$, and in this chapter it is always written with its argument $g$ (or with a specific element in its place); it has nothing to do with the 2 by 2 matrix $N$ of Section 2.3 and Section 2.5 (see the warning about letters there). The formula shows that it depends only on $g$, not on how $g$ is written as a product, and that $N(gh)=N(g)N(h)$. Examples: $N(\gamma^0)=+1$, $N(\gamma^4)=-1$, $N(\gamma^0\gamma^4)=-1$, and $N(\exp(\theta S^{ab}))=+1$ (it is a product of two unit vectors of equal norm). For a spinor, $\Psi\mapsto g\Psi$ multiplies the bilinear $\Psi^\dagger C\Psi$ by $(-1)^kN(g)$, because $(g\Psi)^\dagger C(g\Psi)=\Psi^\dagger g^TCg\Psi$ for a real $g$; for a single unit vector the factor is $-n(u)$. This is the "Pin character" of Stage 1 (§7.7; check `ALG_pinLiftCharacter`), which Chapter 6 uses.
 
 **Theorem 2.9 (how spinor transformations move vectors).** For every $g\in\mathrm{Pin}(4,4)$ there are matrices $\Lambda_{\mathrm t}(g)$ and $\Lambda_{\mathrm u}(g)$ in $\mathrm O(4,4)$ with
 
@@ -771,7 +773,7 @@ For $\Lambda_{\mathrm u}$ the even case is identical, and in the odd case $g$ wo
 
 **"Determinant 1" refers to the vector image.** As 16 by 16 matrices, all elements of $\mathrm{Pin}(4,4)$ have determinant $+1$. *Proof.* For a unit vector $u$, $\gamma(u)$ is traceless (a combination of traceless monomials). If $n(u)=+1$, $\gamma(u)^2=1$ and Section 2.2 gives eight eigenvalues $+1$ and eight $-1$, so $\det\gamma(u)=(+1)^8(-1)^8=1$. If $n(u)=-1$, $\gamma(u)^2=-1$ and Section 2.2 gives $\det\gamma(u)=1$ as well. A product of determinant-1 matrices has determinant 1. $\square$ So the spinor determinant does not distinguish $\mathrm{Spin}(4,4)$ from $\mathrm{Pin}(4,4)$; "determinant 1" always means $\det\Lambda(g)=1$ (Stage 1, §4.2).
 
-**The part connected to 1.** The products of exponentials $\exp(\theta S^{ab})$ form a subgroup of $\mathrm{Spin}(4,4)$, called $\mathrm{Spin}_0(4,4)$; Stage 1 calls it the identity component (the elements that can be reached from 1 by a continuous path, a topological description that we do not need). Every element of it has spinor norm $N=+1$, because $N$ is multiplicative and $N(\exp(\theta S^{ab}))=+1$. Since $N(\gamma^0\gamma^4)=-1$, the element $\gamma^0\gamma^4$ of $\mathrm{Spin}(4,4)$ is *not* a product of exponentials: $\mathrm{Spin}(4,4)$ contains more than its part connected to 1. By Theorem 2.8, elements of $\mathrm{Spin}(4,4)$ with $N=-1$ reverse the sign of $\Psi^\dagger C\Psi$; Chapter 6 uses this to decide which transformations are symmetries of the Lagrangian.
+**The part connected to 1.** The products of exponentials $\exp(\theta S^{ab})$ form a subgroup of $\mathrm{Spin}(4,4)$, called $\mathrm{Spin}_0(4,4)$; Stage 1 calls it the identity component (the elements that can be reached from 1 by a continuous path, a topological description that we do not need). Every element $g$ of it has spinor norm $N(g)=+1$, because the spinor norm is multiplicative and $N(\exp(\theta S^{ab}))=+1$. Since $N(\gamma^0\gamma^4)=-1$, the element $\gamma^0\gamma^4$ of $\mathrm{Spin}(4,4)$ is *not* a product of exponentials: $\mathrm{Spin}(4,4)$ contains more than its part connected to 1. By Theorem 2.8, elements $g$ of $\mathrm{Spin}(4,4)$ with $N(g)=-1$ reverse the sign of $\Psi^\dagger C\Psi$; Chapter 6 uses this to decide which transformations are symmetries of the Lagrangian.
 
 ### 2.15 The representation theorem
 
