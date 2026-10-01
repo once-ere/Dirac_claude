@@ -64,6 +64,24 @@ take shortcuts or weaken a check.
 4. When the user writes "pause" or "STOP": halt at once (create `.claude/ALLOW_STOP` in
    the same first action so the Stop hook allows the stop), push, report in a few lines.
 
+### 0.4b CURRENT TASK (user, 2026-10-01): GKD and the Lovelock tensors (the user's test)
+
+The user found the Lovelock treatment deficient and set a test: refactor the author's kδ
+(`kδ[lower_, upper_] /; Length[lower] == Length[upper] := Det[Outer[delta, lower, upper]]`, notebook
+`Generalized _Kronecker_Delta_4+4.nb`, now tracked at the user's request; `Generalized_Kronecker_Delta.*`
+is ignored) into a pure-Rust `GKD`, use it to compute, with provenance, the three non-zero Lovelock
+tensors of Lovelock's (4.38) (the user's In[68], an image cell) for the user's 8x8 test metric (x8 hidden,
+x4 time, x5..x7 deflating extra times), write every component, PROVE the work was done here without
+reading the user's answers, with student instructions, Jupyter notebooks (rustSolveIt style), md/tex/pdf.
+DONE by the lead: `studies/lovelock_gkd` (GKD with proof, exact Laurent-polynomial engine, curvature,
+Lovelock sums), outputs `artifacts/lovelock-gkd/` (19/19 checks; GKD = literal determinant on all
+16,777,216 length-4 pairs; two runs byte-identical), committed BEFORE any comparison (commit 3e81eeb,
+2026-10-01 07:15) with `PROVENANCE_OF_THE_COMPUTATION.md`.  RUNNING: `handoff/workflows/wf_lovelock_gkd.js`
+(independent sympy checker, Wolfram GKD = kδ check, Jupyter notebook, provenance/LOVELOCK_GKD.*, reviews,
+fixer).  NEXT: commit; THEN, in a separate commit, compare with the author's answers (convention-aware)
+and add that section; then integrate the Lovelock tensors into Stage 2 / the textbook (ledger L25) and
+resume 0.4a.
+
 ### 0.4a NEW TOP PRIORITY (user, 2026-09-30 ~18:40): the deflating extra times
 
 The user: "x5, x6, x7 are the three extra times that exponentially deflate. Fix this everywhere
