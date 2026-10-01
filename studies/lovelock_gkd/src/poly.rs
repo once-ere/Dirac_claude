@@ -272,6 +272,15 @@ pub struct Point {
     pub x8: f64,
 }
 
+/// The exponent k/3 of Sin[6 H x8] for S^k, as a reduced fraction (numerator, denominator).
+fn third_exponent(k: i32) -> (i32, i32) {
+    if k % 3 == 0 {
+        (k / 3, 1)
+    } else {
+        (k, 3)
+    }
+}
+
 fn mathematica_factors(m: &Monomial) -> Vec<String> {
     let mut f = Vec::new();
     let pw = |base: &str, e: i32| if e == 1 { base.to_string() } else { format!("{}^{}", base, if e < 0 { format!("({})", e) } else { e.to_string() }) };
@@ -287,7 +296,11 @@ fn mathematica_factors(m: &Monomial) -> Vec<String> {
         f.push(format!("E^({}*a4[x4])", m[EV]));
     }
     if m[SV] != 0 {
-        f.push(format!("Sin[6*H*x8]^({}/3)", m[SV]));
+        f.push(match third_exponent(m[SV]) {
+            (1, 1) => "Sin[6*H*x8]".to_string(),
+            (n, 1) => format!("Sin[6*H*x8]^{}", if n < 0 { format!("({})", n) } else { n.to_string() }),
+            (n, d) => format!("Sin[6*H*x8]^({}/{})", n, d),
+        });
     }
     if m[CV] != 0 {
         f.push(pw("Cot[6*H*x8]", m[CV]));
@@ -314,7 +327,11 @@ fn latex_factors(m: &Monomial) -> String {
         write!(f, "\\,e^{{{} a_4}}", m[EV]).unwrap();
     }
     if m[SV] != 0 {
-        write!(f, "\\,\\sin^{{{}/3}}(6Hx_8)", m[SV]).unwrap();
+        match third_exponent(m[SV]) {
+            (1, 1) => f.push_str("\\,\\sin(6Hx_8)"),
+            (n, 1) => write!(f, "\\,\\sin^{{{}}}(6Hx_8)", n).unwrap(),
+            (n, d) => write!(f, "\\,\\sin^{{{}/{}}}(6Hx_8)", n, d).unwrap(),
+        }
     }
     if m[CV] != 0 {
         if m[CV] == 1 {

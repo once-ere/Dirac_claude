@@ -170,7 +170,8 @@ fn run_lovelock(out: &PathBuf, brute_k2: bool) -> i32 {
         let sf = p.iter().flatten().all(|x| !x.contains(SV));
         add(&format!("k{}_free_of_sin_third", k), sf, format!("every P_({})^h_j is free of Sin[6 H x8]^(1/3)", k));
     }
-    add("k4_vanishes", ps[3].iter().flatten().all(|x| x.is_zero()) && ls[3].is_zero(), "P_(4) = 0 and L_(4) = 0: GKD of 9 indices in 8 dimensions is 0 (pigeonhole), so (4.38) stops at k = m - 1 = 3".to_string());
+    add("k4_tensor_vanishes", ps[3].iter().flatten().all(|x| x.is_zero()), "P_(4) = 0 identically: GKD of 9 indices in 8 dimensions is 0 (pigeonhole), so (4.38) stops at k = m - 1 = 3".to_string());
+    println!("info - L_(4) (8 indices, the 8-dimensional Euler density, not zero in general; its field equations P_(4) vanish identically): {}", ls[3].to_mathematica());
 
     // brute force (no pruning) at a numerical point
     let q = Point { h: 0.23, a4: 0.17, a1: 0.61, a2: -0.37, a3: 0.29, a4d4: 0.0, x8: 0.41 };
@@ -184,7 +185,8 @@ fn run_lovelock(out: &PathBuf, brute_k2: bool) -> i32 {
                 worst = worst.max((exact - bf[h][j]).abs() / exact.abs().max(1.0));
             }
         }
-        add(&format!("k{}_brute_force_numeric", k), worst < 1e-10, format!("literal sum over all {} index lists with GKD weights (no pruning) at H = 0.23, a4 = 0.17, a4' = 0.61, a4'' = -0.37, x8 = 0.41: max relative deviation from the exact P_({}) = {:.2e} ({:.1} s)", calls, k, worst, tb.elapsed().as_secs_f64()));
+        add(&format!("k{}_brute_force_numeric", k), worst < 1e-10, format!("literal sum over all {} index lists with GKD weights (no pruning) at H = 0.23, a4 = 0.17, a4' = 0.61, a4'' = -0.37, x8 = 0.41: max relative deviation from the exact P_({}) = {:.2e}", calls, k, worst));
+        println!("info - brute force k = {} took {:.1} s", k, tb.elapsed().as_secs_f64());
     }
 
     // --- write the outputs ---

@@ -33,17 +33,29 @@ pub fn tensor_json(t: &[Vec<Poly>], indent: &str) -> String {
             first = false;
             write!(
                 o,
-                "{indent}  {}: {{\"mathematica\": {}, \"latex\": {}, \"terms\": {}}}",
+                "{indent}  {}: {{\"mathematica\": {}, \"latex\": {}, \"monomials\": {}}}",
                 json_str(&format!("{},{}", COORD[r], COORD[c])),
                 json_str(&t[r][c].to_mathematica()),
                 json_str(&t[r][c].to_latex()),
-                t[r][c].len()
+                monomials_json(&t[r][c])
             )
             .unwrap();
         }
     }
     write!(o, "\n{indent}}}").unwrap();
     o
+}
+
+/// Exact machine-readable form: [[numerator, denominator, [e_H, e_a4', e_a4'', e_a4''',
+/// e_a4'''', e_E, e_S, e_C]], ...] (symbols as in poly.rs), so that an independent
+/// program can rebuild every term without parsing text.
+pub fn monomials_json(p: &Poly) -> String {
+    let items: Vec<String> = p
+        .terms()
+        .iter()
+        .map(|(m, c)| format!("[{}, {}, [{}]]", c.num(), c.den(), m.iter().map(|e| e.to_string()).collect::<Vec<_>>().join(", ")))
+        .collect();
+    format!("[{}]", items.join(", "))
 }
 
 /// A Markdown list of all 64 components (zeros written out).
