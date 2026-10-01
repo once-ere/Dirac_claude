@@ -74,6 +74,10 @@ A. Textbook (`handoff/specs/TEXTBOOK_SPEC.md`; chapters in `provenance/textbook/
      items the per-chapter fixers could not apply: `handoff/reviews/textbook_wave_a_carryover.json`.
    * Chapters 06, 07, 14, 15, 16, 17, 18: written, reviewed and fixed
      (`handoff/workflows/wf_textbook_wave_b_chapters.js`).
+   * 15:55: chapters 19 and 20 written, reviewed and fixed; the whole book (21 chapters) passes
+     `python scripts/build_textbook.py --check` (12/12); `wf_textbook_final.js` launched (run
+     wf_0b6d5db2-c76).  If a restart finds it unfinished: rerun `wf_textbook_final.js` (its agents
+     inspect and finish partial work).  The notes below are kept for reference.
    * Chapters 19 and 20: the writer was still running at the pause.  After a restart:
      if `20-glossary-and-check-index.md` is missing or incomplete, run
      `wf_textbook_wave_b_chapters.js` with `TASKS` reduced to the `back` entry (writer,
