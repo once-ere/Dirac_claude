@@ -67,8 +67,11 @@ take shortcuts or weaken a check.
 ### 0.4d STATE 2026-10-01 (resumed session)
 
 The repository now lives at `D:\Developer\github\Dirac_claude` (drive C: was nearly full).  The workflow
-scripts in `Revision/workflows/` still carry the old `ROOT`/`SP`; a session must copy them to its
-scratchpad and set `ROOT = 'D:/Developer/github/Dirac_claude'` and its own `SP` before launching.
+scripts in `Revision/workflows/` carry `ROOT = 'D:/Developer/github/Dirac_claude'` and the `SP` of the
+session of 2026-10-01 afternoon; a new session copies them to its scratchpad and sets its own `SP`.
+`revision_wave_2.js` now reviews with five lenses (correctness, honesty, physics, reproducibility,
+completeness), two skeptics per finding, per-area fixers (science, then documents, then notebooks/gate),
+a fix verifier and a second fix round.
 Revision wave 1 (`Revision/workflows/revision_wave_1.js`) was RELAUNCHED in this session (run
 wf_6f22a73c-e62) with a restart note telling the agents to inspect and finish the partial
 `Revision/algebra/wolfram/RevisionAlgebra.wl`.  Progress at the checkpoint of 2026-10-01 15:45 (commit

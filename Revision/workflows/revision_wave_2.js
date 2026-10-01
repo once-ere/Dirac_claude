@@ -5,13 +5,13 @@ export const meta = {
     { title: 'Science', detail: 'dark sector (both fields), a4 with the KS source, KS pairing T3' },
     { title: 'Documents', detail: 'Kohn-Sham, dark sector, Lovelock/GKD; update the three wave-1 documents' },
     { title: 'Notebooks and gate', detail: 'Jupyter notebooks (rustSolveIt style), verify_revision.{ps1,sh}' },
-    { title: 'Review', detail: 'four lenses' },
-    { title: 'Fix', detail: 'apply confirmed findings' },
+    { title: 'Review', detail: 'five lenses, two skeptics per finding' },
+    { title: 'Fix', detail: 'per-area fixers, fix verifier, second round' },
   ],
 }
 
-const ROOT = 'C:/Users/nsh/Developer/github/Dirac_claude'
-const SP = 'C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad'
+const ROOT = 'D:/Developer/github/Dirac_claude'
+const SP = 'C:/Users/nsh/AppData/Local/Temp/claude/D--Developer-github-Dirac-claude/db1fcb32-bb14-4b52-b62c-37fb53990650/scratchpad'
 const R = 'Revision'
 
 const COMMON = `
@@ -43,15 +43,50 @@ const nbgate = await parallel([
   () => run('gate', 'Notebooks and gate', `Own ${R}/verify_revision.ps1 and ${R}/verify_revision.sh (twins) and ${R}/tests/test_revision_gate.py. Following the pattern of the repository's stage gates (read one, e.g. scripts/verify_stage3_dark_sector.sh, for the structure only), re-run every Revision verifier, checker, solver run and figure/PDF build into build/revision/, compare with the committed outputs byte for byte, run python -m unittest discover -s Revision/tests, and print revision_verification=OK at the end; a --dry-run and a --steps option; document the expected wall time per step; test the fast steps.`),
 ])
 
+// ---------------- Review: lenses -> adversarial skeptics per finding (pipeline, no barrier) ----------------
 phase('Review')
+const VERDICT = { type: 'object', properties: { refuted: { type: 'boolean' }, reason: { type: 'string' }, evidence: { type: 'string' } }, required: ['refuted', 'reason', 'evidence'] }
 const lenses = [
-  ['correctness', 'Check every derivation, formula and number of all Revision documents against the reports; re-derive the key steps of the dark-sector effective formulas and of T3 yourself.'],
-  ['honesty', 'Hunt for overclaims (the hypotheses, the pair creation, the Kohn-Sham approximation, the a4 dynamics) and for any mixing with the old stages.'],
-  ['physics', 'Judge the physics of the dark-sector investigation (rho_4, the 3-space observer, the extra-time and hidden pressures, the Unite comparison), of the a4 equations with the Kohn-Sham source and of the deflation.'],
-  ['reproducibility', 'From a fresh copy of the working tree in scratch, run the Revision gate fast steps, every checker, the notebooks and the PDF builds in verify mode; compare byte for byte.'],
+  ['correctness', 'Check every derivation, formula and number of all Revision documents against the reports; re-derive the key steps of the dark-sector effective formulas (rho_4, w_eff, w = p3/rho, the CPL tangent) and of T3 yourself.'],
+  ['honesty', 'Hunt for overclaims (the hypotheses, the pair creation, the Kohn-Sham approximation, the a4 dynamics, the Unite comparison) and for any mixing with the old stages.'],
+  ['physics', 'Judge the physics of the dark-sector investigation (rho_4, the 3-space observer, the extra-time and hidden pressures, the Krein-signed energies, phantom crossing, the Unite comparison), of the a4 equations with the Kohn-Sham source and of the deflation.'],
+  ['reproducibility', 'From a fresh git clone of the committed state plus a copy of the uncommitted Revision files in scratch, run the Revision gate fast steps, every checker, the notebooks and the PDF builds in verify mode; compare byte for byte; look for absolute paths, nondeterminism, missing files.'],
+  ['completeness', 'Compare Revision/README.md (the task verbatim) and SPEC sections 0-11 item by item with what Revision/ now contains; list every requested item that is missing, partial or only asserted.'],
 ]
-const reviews = await parallel(lenses.map(([k, t]) => () => agent(`${COMMON}\nTASK (adversarial reviewer, lens ${k}; do not edit files): ${t} Report only real problems with concrete evidence.`, { label: 'review:' + k, phase: 'Review', schema: FINDINGS })))
-const findings = reviews.filter(Boolean).flatMap(r => r.findings || [])
+const judged = await pipeline(
+  lenses,
+  ([k, t]) => agent(`${COMMON}\nTASK (adversarial reviewer, lens ${k}; do not edit files): ${t} Report only real problems with concrete evidence.`, { label: 'review:' + k, phase: 'Review', schema: FINDINGS }),
+  (rev, [k]) => parallel(((rev && rev.findings) || []).map((f, i) => () =>
+    parallel(['re-derive it independently', 'check the cited evidence in the files'].map((how, j) => () =>
+      agent(`${COMMON}\nTASK (skeptic ${j + 1}, do not edit files): try to REFUTE this ${k} finding by trying to ${how}. Finding: ${JSON.stringify(f)}. Set refuted=true only if the finding is wrong or not a real problem; give concrete evidence either way.`, { label: `skeptic:${k}:${i}:${j}`, phase: 'Review', schema: VERDICT })))
+      .then(vs => ({ ...f, lens: k, votes: vs.filter(Boolean), confirmed: vs.filter(Boolean).filter(v => !v.refuted).length >= 1 })))),
+)
+const allFindings = judged.filter(Boolean).flat().filter(Boolean)
+const confirmed = allFindings.filter(f => f.confirmed)
+log(`review: ${allFindings.length} findings, ${confirmed.length} survived the skeptics, ${allFindings.length - confirmed.length} refuted by both`)
+
+// ---------------- Fix: per area, science before documents before notebooks/gate; then verify the fixes ----------------
 phase('Fix')
-const fix = findings.length ? await run('fix', 'Fix', `Findings (JSON): ${JSON.stringify(findings).slice(0, 80000)}\nRe-verify each; fix confirmed ones at their root inside ${R}/; reject unconfirmed ones with evidence. One line per finding in key_results: FIXED / REJECTED (reason).`) : null
-return { science, docs, nbgate, findings, fix }
+const area = f => /(^|\/)docs\//.test(f.file || '') ? 'docs' : /(notebooks\/|verify_revision|(^|\/)tests\/)/.test(f.file || '') ? 'other' : 'science'
+const fixRound = async (items, round) => {
+  const out = []
+  for (const a of ['science', 'docs', 'other']) {
+    const mine = items.filter(f => area(f) === a)
+    if (!mine.length) continue
+    const payload = JSON.stringify(mine)
+    if (payload.length > 90000) log(`fix ${a} round ${round}: findings JSON ${payload.length} chars, split into chunks`)
+    for (let c = 0; c * 90000 < payload.length; c++) {
+      const chunk = mine.slice(Math.floor(c * mine.length / Math.ceil(payload.length / 90000)), Math.floor((c + 1) * mine.length / Math.ceil(payload.length / 90000)))
+      out.push(await run(`fix:${a}:${round}:${c}`, 'Fix', `Confirmed findings with skeptic votes (JSON): ${JSON.stringify(chunk)}\nRe-verify each; fix confirmed ones at their ROOT inside ${R}/ (regenerate reports deterministically, rebuild and re-register PDFs, rerun the affected tests and notebooks; a science fix must propagate to every document and notebook that quotes the changed number); reject only with evidence. One line per finding in key_results: FIXED / REJECTED (reason).`))
+    }
+  }
+  return out
+}
+let fixes = confirmed.length ? await fixRound(confirmed, 1) : []
+let fixCheck = null
+if (confirmed.length) {
+  fixCheck = await agent(`${COMMON}\nTASK (fix verifier, do not edit files): The fixers report (JSON): ${JSON.stringify(fixes).slice(0, 60000)}\nFor every finding marked FIXED, check in the files that it is really fixed at the root and that the fix introduced no inconsistency (numbers in documents, notebooks, tests and reports agree; tests pass: python -m unittest discover -s ${R}/tests). For every REJECTED one, judge the rejection. Report remaining problems as findings.`, { label: 'fix-verifier', phase: 'Fix', schema: FINDINGS })
+  const rest = (fixCheck && fixCheck.findings) || []
+  if (rest.length) fixes = fixes.concat(await fixRound(rest.map(f => ({ ...f, lens: 'fix-verifier' })), 2))
+}
+return { science, docs, nbgate, findings: allFindings, confirmed: confirmed.length, fixes, fixCheck }
