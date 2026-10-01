@@ -64,6 +64,17 @@ take shortcuts or weaken a check.
 4. When the user writes "pause" or "STOP": halt at once (create `.claude/ALLOW_STOP` in
    the same first action so the Stop hook allows the stop), push, report in a few lines.
 
+### 0.4d STATE 2026-10-01 (resumed session)
+
+The repository now lives at `D:\Developer\github\Dirac_claude` (drive C: was nearly full).  The workflow
+scripts in `Revision/workflows/` still carry the old `ROOT`/`SP`; a session must copy them to its
+scratchpad and set `ROOT = 'D:/Developer/github/Dirac_claude'` and its own `SP` before launching.
+Revision wave 1 (`Revision/workflows/revision_wave_1.js`) was RELAUNCHED in this session (run
+wf_6f22a73c-e62) with a restart note telling the agents to inspect and finish the partial
+`Revision/algebra/wolfram/RevisionAlgebra.wl`.  NEXT: when wave 1 finishes, commit and push, then
+launch `revision_wave_2.js` (dark-sector hypotheses vs Unite, a4 with the Kohn-Sham source, T3,
+documents, notebooks, gate, reviews).
+
 ### 0.4c CURRENT TASK (user, 2026-10-01, later): `Revision/` - a new, separate record
 
 The author asked for a completely new record, in the new folder `Revision/`, of new calculations for the
