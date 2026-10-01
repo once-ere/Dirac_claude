@@ -64,6 +64,20 @@ take shortcuts or weaken a check.
 4. When the user writes "pause" or "STOP": halt at once (create `.claude/ALLOW_STOP` in
    the same first action so the Stop hook allows the stop), push, report in a few lines.
 
+### 0.4a NEW TOP PRIORITY (user, 2026-09-30 ~18:40): the deflating extra times
+
+The user: "x5, x6, x7 are the three extra times that exponentially deflate. Fix this everywhere
+they appear, and fix your docs and provenances"; asked, the user chose "Redo the physics".
+Binding: `handoff/specs/DEFLATION_SPEC.md` (a4 = A t for all t, A = 1, 2; EXP-1 without the
+window, EXP-2 from the notebook's deflation, EXP-3/EXP-4 with exponentially deflating extra
+times, Stages 4/5 as instantaneous (adiabatic) Kohn-Sham states along a4 = A H x4 with an
+adiabaticity analysis, TDDFT OPEN; every document and the textbook updated).  State: the spec is
+written (commit 2e02e5e) and under adversarial review (physics, faithfulness, feasibility);
+then the implementation workflows of DEFLATION_SPEC D14.  The textbook built before this
+correction (671 pages, commit 4ede502) describes the static/frozen/window models and must be
+updated by D12.  Sections 0.4 A-E below describe the state before the correction and remain
+the to-do list for the parts the correction does not replace.
+
 ### 0.4 State at the pause of 2026-09-30 15:05 and the exact order of work
 
 The user's priority (2026-09-30 12:10): the TEXTBOOK first, then the other stages.
