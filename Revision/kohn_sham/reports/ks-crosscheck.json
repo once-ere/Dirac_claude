@@ -45,8 +45,8 @@
   ]
  },
  "summary": {
-  "checks": 21,
-  "pass": 20,
+  "checks": 23,
+  "pass": 22,
   "fail": 1
  },
  "checks": [
@@ -133,12 +133,23 @@
   {
    "name": "thermo_state_functions",
    "verdict": "FAIL",
-   "detail": "mu, E, entropy S, F = E - T S, Omega (both forms); U_Rust per state measured for mu, E, S (single canonical vs refined), U_Rust(F) = U(E) + T U(S), U_Rust(Omega) = U(F) + N U(mu); 48 comparisons; worst |diff|/tolerance 3.499 (N8_lamm1_a00_T10 Omega_direct: Rust -1.67909674876244, reference -1.67909674619395, |diff| 2.568e-09, tolerance 7.341e-10); failures: N8_lamm1_a00_T10 mu (|diff| 3.211e-10 > tolerance 9.729e-11; U_ref 3.209e-11, U_Rust 6.513e-16); N8_lamm1_a00_T10 Omega_direct (|diff| 2.568e-09 > tolerance 7.341e-10; U_ref 2.441e-10, U_Rust 1.379e-14); N8_lamm1_a00_T10 Omega_F_minus_muN (|diff| 2.568e-09 > tolerance 7.341e-10; U_ref 2.441e-10, U_Rust 1.379e-14)"
+   "detail": "mu, E, entropy S, F = E - T S, Omega (both forms); U_Rust per state measured for mu, E, S (single canonical vs refined), U_Rust(F) = U(E) + T U(S), U_Rust(Omega) = U(F) + N U(mu); 48 comparisons; worst |diff|/tolerance 338.699 (N8_lamm1_a00_T10 Omega_direct: Rust -1.67909674876244, reference -1.67909675537956, |diff| 6.617e-09, tolerance 1.954e-11); failures: N8_lamm1_a00_T10 mu (|diff| 8.271e-10 > tolerance 7.974e-12; U_ref 2.324e-12, U_Rust 6.513e-16); N8_lamm1_a00_T10 Omega_direct (|diff| 6.617e-09 > tolerance 1.954e-11; U_ref 5.939e-12, U_Rust 1.379e-14); N8_lamm1_a00_T10 Omega_F_minus_muN (|diff| 6.617e-09 > tolerance 1.954e-11; U_ref 5.939e-12, U_Rust 1.379e-14)",
+   "diagnosis": "N8_lamm1_a00_T10: the 40-digit roots of the Mermin condition on the Rust levels and on the reference levels agree to 4.018e-13 (thermo_mu_high_precision), but the Rust floating-point mu differs from the root on its own levels by -8.267e-10, within the floating-point conditioning bound 1.001e-08 (dN/dmu = 1.242e-06: activated regime) and far above the measured canonical - refined difference U_Rust(mu) = 6.513e-16, because the canonical and the refined runs carry nearly the same rounding error; the reference mu (well-conditioned residual) differs from its 40-digit root by 0.000e+00. Omega = F - mu N inherits N times the mu error. E, S, F and C_V are not affected."
   },
   {
    "name": "thermo_derivatives",
    "verdict": "PASS",
    "detail": "C_V = T dS/dT, dE/dT and -dF/dT (Richardson differences in T); U_Rust = matrix-wide relative maximum (16/15) x 5.689e-09 of max(|x|, 1e-6) (refined_heat_capacity); dE/dT and -dF/dT are difference quotients of energies, so each solver's stated noise floor is added: eta_Rust = N x rootTolerance / dT (Rust rootTolerance from its parameters.json, as in its thermo_CV_identity check), eta_ref = N x 1e-12 / dT (the reference SCF tolerance, as in its own thermo_CV_identity check), dT = 0.01 T; 24 comparisons; worst |diff|/tolerance 0.218 (N8_lam0_a20_T50 C_V: Rust 30.2621769061952, reference 30.2621770262547, |diff| 1.201e-07, tolerance 5.511e-07); failures: none"
+  },
+  {
+   "name": "thermo_mu_high_precision",
+   "verdict": "PASS",
+   "detail": "mu recomputed in 40-digit arithmetic from each solver's final levels (the Mermin condition sum g f = N), and Omega = F - mu N with it; U from the level uncertainties (mu is a weighted mean of the levels); 16 comparisons; worst |diff|/tolerance 0.038 (N136_lamm1_a05_T10 mu_high_precision: Rust 0.531962420353019, reference 0.531962420353987, |diff| 9.681e-13, tolerance 2.528e-11); failures: none"
+  },
+  {
+   "name": "thermo_mu_rounding_diagnostic",
+   "verdict": "PASS",
+   "detail": "DIAGNOSTIC (not a replacement of thermo_state_functions): each solver's floating-point mu minus the 40-digit root on its own levels, against the floating-point conditioning bound B eps_mach N / (dN/dmu), dN/dmu = sum g f (1 - f)/T, B = number of levels (plus 3 U(mu) for the reference, whose mu is a Richardson combination); 16 comparisons; N136_lam0_a15_T50: Rust 1.665e-16 (bound 9.399e-15), reference 5.551e-17 (bound 6.861e-12); N136_lamm1_a05_T10: Rust 0.000e+00 (bound 1.523e-15), reference 1.110e-16 (bound 8.693e-12); N136_lamp1_a20_T20: Rust 2.776e-17 (bound 3.693e-15), reference 0.000e+00 (bound 6.642e-12); N688_lam0_a10_T20: Rust -1.110e-16 (bound 3.196e-15), reference -1.110e-16 (bound 8.634e-12); N688_lamp1_a20_T50: Rust -5.551e-17 (bound 3.528e-14), reference -5.551e-17 (bound 7.015e-12); N8_lam0_a20_T50: Rust 1.388e-17 (bound 1.137e-14), reference 0.000e+00 (bound 6.315e-12); N8_lamm1_a00_T10: Rust -8.267e-10 (bound 1.001e-08), reference 0.000e+00 (bound 1.145e-08); N8_lamp1_a10_T20: Rust -1.388e-16 (bound 4.701e-15), reference -1.388e-17 (bound 6.307e-12); failures: none"
   },
   {
    "name": "reference_outputs_lf_only",

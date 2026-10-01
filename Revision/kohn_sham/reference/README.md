@@ -54,6 +54,11 @@ outputs are deterministic (LF, no timings or paths). The cross-check against Rus
   the adiabaticity measure Q_nm = A H |<n| d_a h |m>| / (eps_n - eps_m)^2 (n occupied, m empty, same sector,
   rank <= 2). Thermal states use the Mermin occupations at T and four neighbours at T(1 +- 0.01),
   T(1 +- 0.02) for C_V = T dS/dT, dE/dT and -dF/dT.
+* **Chemical potential.** mu is the root of sum g f = N. It is found by bisection on a well-conditioned
+  form of the residual: (exact integer count of the states below mu - N) minus the holes below mu plus the
+  particles above mu. The direct form sum g f - N loses about eps_mach N of absolute precision, which fixes mu
+  only to eps_mach N / (dN/dmu). Deep in the activated regime (gap >> T) that error reaches ~1e-9 m; see
+  History below.
 * **Label sets.** The label set comes from the free (lambda = 0) problem at the same slice on the coarsest
   grid. At T = 0 it holds every particle level below max(E_F, LUMO) + 0.25 + 2 sigma, plus ranks 0..2 of every
   sector of an occupied shell. At T > 0 it holds every particle level below mu + T ln(1e13) + 0.2 + 2 sigma.
@@ -70,3 +75,78 @@ outputs are deterministic (LF, no timings or paths). The cross-check against Rus
   to 4 significant digits. The strength is max over slices and y of max((15/16)|S|, |n|/16) of the free
   ground states. The reference takes the continuous maximum (quartic interpolation over the nodes), whereas
   the Rust value is a maximum over grid samples; the checker accounts for the difference.
+
+## The representative subset (from the canonical matrix of 75 ground and 135 thermal states)
+
+The subset covers all three particle numbers N = 8, 136, 688, all five coupling tags (0, +-lambda_1,
++-lambda_2), all five slices a4,0 = 0 ... 2 and all three temperatures.
+
+* **Ground states (18):** N8_lam0_a00, N8_lamp1_a10, N8_lamp2_a00, N8_lamm2_a20, N136_lam0_a00, N136_lam0_a20,
+  N136_lamp1_a05, N136_lamm1_a15, N136_lamp2_a10, N136_lamp2_a20, N136_lamm2_a20, N688_lam0_a00,
+  N688_lam0_a20, N688_lamp1_a15, N688_lamm1_a05, N688_lamp2_a00, N688_lamp2_a20, N688_lamm2_a10. Each comes
+  with its Delta-SCF state, four a4 neighbours and the adiabaticity pairs.
+* **Thermal states (8):** N8_lam0_a20_T50, N8_lamp1_a10_T20, N8_lamm1_a00_T10, N136_lam0_a15_T50,
+  N136_lamp1_a20_T20, N136_lamm1_a05_T10, N688_lam0_a10_T20, N688_lamp1_a20_T50. Each comes with four
+  temperature neighbours.
+* **Fourth-grid validation:** N136_lamp2_a20, the strongest coupling with the largest tip densities, solved
+  on G = 300, 600, 1200, 2400.
+
+## Outputs (`results/`, deterministic: LF, Python float repr, no timings or paths)
+
+| file | content |
+| --- | --- |
+| `parameters.json` | problem definition, numerics, re-derived N_mid, N_large, couplings (strength per slice, peak position and curvature), subset |
+| `free-checks.json` | analytic k = 0 spectra on five grids, zero mode, brane-band slope, particle branch |
+| `ground/<id>.json` | per-grid raw scalars and iteration counts; Richardson values with U of the energies, HOMO/LUMO/gap, Delta-SCF, EMT integrals, brane/tip values, dE/da4 (EMT and finite differences), Delta E_x; every level with key (n2, j, parity, rank), eps, U, f; the ten profiles at y = -3 + 0.02 i with U; the 10 largest adiabaticity pairs |
+| `thermo/<id>.json` | mu, E, S, F, Omega (two forms), C_V, dE/dT, -dF/dT with U; levels with occupations |
+| `validation/N136_lamp2_a20.json` | three-grid values of (300, 600, 1200) vs (600, 1200, 2400) per quantity class |
+| `ground-summary.csv`, `thermo-summary.csv` | the main values with their U |
+| `manifest.json` | SHA-256 of every file |
+
+## Results (`reports/ks-reference.json`: 28 checks, all PASS)
+
+* **Discretisation.** The analytic k = 0 spectra are reproduced to 2.8e-14 by the three-grid values. Single
+  grids give 9.3e-4 (G = 300) down to 1.5e-5 (G = 2400). The error ratio is 4.000 (between 3.99977 and
+  4.00019): clean second order. The k = 0 j = +-1 spectra agree exactly. The zero mode is exact (|eps| <=
+  1.3e-39, b = 0). The brane-band slope equals ks-theory.json c e^{-a4,0} to 2.6e-15.
+* **Re-derived inputs.** The closed shells below the bulk edge 1.292292828069 m are 8, 32, 80, 112, 136, 232,
+  328, 376, 496, 592, 688, so N_large = 688 and N_mid = 136. The strengths are 5.138803993 (N = 8, at the
+  tip), 107.5483018 (N = 136) and 541.7158538 (N = 688), which give lambda_1 = 0.01946, 0.0009298, 0.0001846
+  and lambda_2 = 0.05838, 0.002789, 0.0005538.
+* **Per state.** Every check passes: SCF converged on every grid; occupations and HOMO/LUMO groups identical
+  on all grids; closed shells; complete label sets; N conserved; the two energy forms agree;
+  2 Vol_7 int e^{6Hy} rho = E_KS; y-conservation; dE/da4 (finite differences) equals the EMT form; the
+  discrete Hellmann-Feynman identity holds to 5.5e-11 m; Delta-SCF equals the gap at lambda = 0; the
+  asymptotic ratio is within 7.4e-5 of 4. The thermal identities also hold (Omega in two forms,
+  C_V = dE/dT, -dF/dT = S).
+* **Uncertainty validated.** On G = 2400 the three-grid value moves by at most 0.79 of the stated U, in
+  every element of 19 quantity classes. The largest U are at the tip (p8 there: U = 1.0e-7, against
+  |p8| ~ 1e3). Energies and levels carry U of 1e-12 to 3e-9 absolute.
+* **Examples (Richardson value, U).** E_KS(N136_lamp2_a20) = 12.44899948125322 (4.6e-11);
+  E_KS(N688_lam0_a00) = 680.4412465815219 (3.3e-9); Delta-SCF(N8_lamp2_a00) = 0.4312928642917516 (2.6e-12);
+  Q_max(N688_lam0_a00) = 0.09345059173142507.
+
+## Timings (this machine, 20 processes)
+
+The run takes 226.8 s in total; the repeat takes 223.6 s and is byte-identical in all 32 files and in the
+report.
+
+* The parameter derivation takes 18.8 s.
+* Ground states take 2.6 s (N8_lam0_a00) to 62.9 s (N688_lamp2_a20).
+* Thermal states take 7.0 s to 198.2 s (N688_lamp1_a20_T50, 2000 levels).
+* The four-grid validation takes 29.3 s.
+
+## History
+
+The first complete run computed mu by bisection on the direct sum g f - N. The cross-check
+(`../checker`) then found that in N8_lamm1_a00_T10 this mu differed by 1.15e-9 from the 40-digit root on
+its own levels. That error was far above its stated U (3.2e-11): the direct sum fixes mu only to
+eps_mach N / (dN/dmu), and here dN/dmu = 1.2e-6 (gap/T = 43). The reference now uses the well-conditioned
+residual above. Its mu agrees with the 40-digit root to 0 (that state) or at most 1.1e-16 (the others).
+
+## What this does not establish
+
+The reference tests the Rust solver's numerics, not the physics model. Both solvers implement the same
+ks-theory.json functional, the same ASSUMED Z2 brane, the same tip cutoff L = 3 and the same filling
+CONVENTION. An error in those inputs would be common to both and could not be detected here. The states are
+instantaneous (adiabatic) Kohn-Sham states; the non-adiabatic problem is OPEN.

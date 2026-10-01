@@ -148,7 +148,7 @@
   {
    "name": "thermo_scf_converged",
    "verdict": "PASS",
-   "detail": "Mermin SCF converged at T, T +- dT, T +- 2 dT on every grid: max residual (m); 8 cases; worst value 7.732e-13 (N8_lamp1_a10_T20); tolerance 1.0e-12; failures: none"
+   "detail": "Mermin SCF converged at T, T +- dT, T +- 2 dT on every grid: max residual (m); 8 cases; worst value 7.159e-13 (N8_lamp1_a10_T20); tolerance 1.0e-12; failures: none"
   },
   {
    "name": "thermo_N_conservation",
@@ -163,12 +163,12 @@
   {
    "name": "thermo_CV_identity",
    "verdict": "PASS",
-   "detail": "C_V = T dS/dT equals dE/dT (Richardson in T and in h): |difference| / (3 (U1 + U2) + eta + 1e-4 |C_V|), eta = N x 1e-12 / dT the noise floor of a difference quotient of energies at the SCF tolerance; 8 cases; worst value 3.513e-04 (N8_lamm1_a00_T10); tolerance 1.0e+00; failures: none"
+   "detail": "C_V = T dS/dT equals dE/dT (Richardson in T and in h): |difference| / (3 (U1 + U2) + eta + 1e-4 |C_V|), eta = N x 1e-12 / dT the noise floor of a difference quotient of energies at the SCF tolerance; 8 cases; worst value 3.310e-04 (N8_lamm1_a00_T10); tolerance 1.0e+00; failures: none"
   },
   {
    "name": "thermo_entropy_identity",
    "verdict": "PASS",
-   "detail": "-dF/dT = S (Richardson in T and in h): |difference| / (3 (U1 + U2) + eta + 1e-4 S), eta as for thermo_CV_identity; 8 cases; worst value 1.571e-04 (N8_lamm1_a00_T10); tolerance 1.0e+00; failures: none"
+   "detail": "-dF/dT = S (Richardson in T and in h): |difference| / (3 (U1 + U2) + eta + 1e-4 S), eta as for thermo_CV_identity; 8 cases; worst value 1.775e-04 (N8_lamm1_a00_T10); tolerance 1.0e+00; failures: none"
   },
   {
    "name": "thermo_window_cut",

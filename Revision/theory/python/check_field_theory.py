@@ -1029,7 +1029,9 @@ def main():
         fh.write("\n")
     print(f"wrote {out}: {npass}/{len(CHECKS)} pass; comparison: {comp.get('status')}; "
           f"{time.time() - T0:.1f}s")
-    return 0 if npass == len(CHECKS) else 1
+    # exit 0 only if every check passes AND the comparison with the current Wolfram record agrees entirely
+    # (a stale or disagreeing comparison must fail the verifier, not only a later test)
+    return 0 if npass == len(CHECKS) and comp.get("status") == "agree" else 1
 
 
 if __name__ == "__main__":

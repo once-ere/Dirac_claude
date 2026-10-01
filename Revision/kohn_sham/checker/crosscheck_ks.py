@@ -34,6 +34,8 @@ import re
 import sys
 from pathlib import Path
 
+import mpmath as mp
+
 HERE = Path(__file__).resolve().parent
 KS = HERE.parent
 K_SIGMA = 3.0
@@ -127,6 +129,37 @@ def parse_determinism(rep):
             raise SystemExit(f"determinism report: cannot read the value of {name}")
         out[name] = float(m.group(1).rstrip("."))
     return out
+
+
+def r3(n2):
+    """Number of lattice points of Z^3 with |n|^2 = n2."""
+    R = math.isqrt(n2) + 1
+    return sum(1 for x in range(-R, R + 1) for y in range(-R, R + 1) for z in range(-R, R + 1) if x * x + y * y + z * z == n2)
+
+
+def mu_high_precision(eps, deg, N, T, mu0):
+    """Root of sum g f(eps; mu, T) = N in 40-digit arithmetic (Newton from mu0); returns (mu, dN/dmu)."""
+    mp.mp.dps = 40
+    E = [mp.mpf(e) for e in eps]
+    Gd = [mp.mpf(g) for g in deg]
+    Tm, Nm, mu = mp.mpf(T), mp.mpf(N), mp.mpf(mu0)
+    ds = mp.mpf(0)
+    for _ in range(100):
+        s, ds = mp.mpf(0), mp.mpf(0)
+        for e, g in zip(E, Gd):
+            x = (e - mu) / Tm
+            if x > 2000:
+                continue
+            f = 1 / (1 + mp.exp(x))
+            s += g * f
+            ds += g * f * (1 - f) / Tm
+        step = (s - Nm) / ds
+        mu -= step
+        if abs(step) < mp.mpf(10) ** -32:
+            break
+    else:
+        raise RuntimeError("mu_high_precision: no convergence")
+    return float(mu), float(ds)
 
 
 def key_from_label(s, lmin):
@@ -388,6 +421,60 @@ def main():
             cd.cmp(f"{sid} {k}", xr, x[k]["value"], u_ref, u_rust, table=table)
     for name, ch in T.items():
         emit(name, ch.ok(), ch.detail())
+
+    # ---------------------------------------------------------------- mu recomputed in high precision from each solver's levels
+    # mu is the root of sum g f(eps; mu, T) = N.  In floating point the count is known to ~eps_mach N, which fixes mu only to
+    # ~eps_mach N / (dN/dmu); deep in the activated regime dN/dmu ~ e^{-gap/2T}/T is tiny.  Here mu is recomputed with 40 digits
+    # from each solver's own final levels.  mu is a weighted mean of the levels (dmu/deps_i >= 0, sum 1), so its uncertainty is
+    # bounded by the largest level uncertainty: U_Rust = (16/15) max |canonical - refined| of the levels, U_ref = max level U.
+    hp = Check("mu recomputed in 40-digit arithmetic from each solver's final levels (the Mermin condition sum g f = N), and "
+               "Omega = F - mu N with it; U from the level uncertainties (mu is a weighted mean of the levels)")
+    diag = Check("DIAGNOSTIC (not a replacement of thermo_state_functions): each solver's floating-point mu minus the 40-digit root on "
+                 "its own levels, against the floating-point conditioning bound B eps_mach N / (dN/dmu), dN/dmu = sum g f (1 - f)/T, "
+                 "B = number of levels (plus 3 U(mu) for the reference, whose mu is a Richardson combination)")
+    diag_rows = {}
+    for sid in tids:
+        d = load(ref / "thermo" / f"{sid}.json")
+        r = th[sid]
+        m = rf[sid]
+        Tt, N = d["T"], d["N"]
+        lr = m["canonical_levels_eps_deg"]
+        mu_r, dn_r = mu_high_precision([x[0] for x in lr], [x[1] for x in lr], N, Tt, float(r["mu"]))
+        deg_f = [4.0 * r3(k[0]) for k in d["levels"]["keys"]]
+        mu_f, dn_f = mu_high_precision(d["levels"]["eps"], deg_f, N, Tt, d["thermo"]["mu"]["value"])
+        u_r = RK4_FACTOR * m["levels"]["max_abs_diff"]
+        u_f = max(d["levels"]["U"])
+        hp.cmp(f"{sid} mu_high_precision", mu_r, mu_f, u_f, u_r, table=table)
+        uF_r = RK4_FACTOR * (m["scalars"]["E_KS"]["abs_diff"] + Tt * m["scalars"]["entropy"]["abs_diff"])
+        hp.cmp(f"{sid} Omega_with_mu_high_precision", float(r["F"]) - mu_r * N, d["thermo"]["F"]["value"] - mu_f * N,
+               d["thermo"]["F"]["U"] + N * u_f, uF_r + N * u_r, table=table)
+        dev_r = float(r["mu"]) - mu_r
+        dev_f = d["thermo"]["mu"]["value"] - mu_f
+        b_r = len(lr) * 2.220446049250313e-16 * N / dn_r
+        b_f = len(deg_f) * 2.220446049250313e-16 * N / dn_f + 3 * d["thermo"]["mu"]["U"]
+        diag.flag(f"{sid} Rust", abs(dev_r) <= b_r, f"|mu_float - mu_hp| = {fe(abs(dev_r))} > bound {fe(b_r)}")
+        diag.flag(f"{sid} reference", abs(dev_f) <= b_f, f"|mu_float - mu_hp| = {fe(abs(dev_f))} > bound {fe(b_f)}")
+        diag_rows[sid] = {"rust_mu_minus_hp": dev_r, "rust_bound": b_r, "rust_U_mu_measured": RK4_FACTOR * m["scalars"]["mu"]["abs_diff"],
+                          "ref_mu_minus_hp": dev_f, "ref_bound": b_f, "ref_U_mu": d["thermo"]["mu"]["U"],
+                          "hp_rust_minus_hp_ref": mu_r - mu_f, "dN_dmu": dn_f}
+        diag.extra.append(f"{sid}: Rust {fe(dev_r)} (bound {fe(b_r)}), reference {fe(dev_f)} (bound {fe(b_f)})")
+    emit("thermo_mu_high_precision", hp.ok(), hp.detail())
+    emit("thermo_mu_rounding_diagnostic", diag.ok(), diag.detail())
+    # data-driven diagnosis of failing mu / Omega comparisons
+    for c in checks:
+        if c["name"] == "thermo_state_functions" and c["verdict"] == "FAIL":
+            notes = []
+            failed = c["detail"][c["detail"].find("failures:"):]
+            for sid, v in diag_rows.items():
+                if f"{sid} mu " in failed or f"{sid} Omega" in failed:
+                    notes.append(f"{sid}: the 40-digit roots of the Mermin condition on the Rust levels and on the reference levels agree to "
+                                 f"{fe(abs(v['hp_rust_minus_hp_ref']))} (thermo_mu_high_precision), but the Rust floating-point mu differs from "
+                                 f"the root on its own levels by {fe(v['rust_mu_minus_hp'])}, within the floating-point conditioning bound "
+                                 f"{fe(v['rust_bound'])} (dN/dmu = {fe(v['dN_dmu'])}: activated regime) and far above the measured canonical - "
+                                 f"refined difference U_Rust(mu) = {fe(v['rust_U_mu_measured'])}, because the canonical and the refined runs carry "
+                                 f"nearly the same rounding error; the reference mu (well-conditioned residual) differs from its 40-digit root by "
+                                 f"{fe(v['ref_mu_minus_hp'])}. Omega = F - mu N inherits N times the mu error. E, S, F and C_V are not affected.")
+            c["diagnosis"] = " ".join(notes) if notes else "no diagnosis available"
 
     # ---------------------------------------------------------------- determinism of the reference outputs
     files = sorted(p for p in ref.rglob("*") if p.is_file())

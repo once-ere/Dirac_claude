@@ -109,8 +109,8 @@ CHECK_MAP = [
     ("commuting_emt_symmetric", ["T_symmetric_part_Belinfante_C"]),
     ("grassmann_emt_conservation_on_shell", ["Noether_identity_diffeomorphisms_G", "conservation_on_shell_general"]),
     ("commuting_emt_conservation_on_shell", ["Noether_identity_diffeomorphisms_C", "conservation_on_shell_general"]),
-    ("grassmann_trace_on_shell", ["kinetic_sum_on_shell_G"]),
-    ("commuting_trace_on_shell", ["kinetic_sum_on_shell_C"]),
+    ("grassmann_trace_on_shell", ["kinetic_sum_on_shell_G", "EMT_trace_G"]),
+    ("commuting_trace_on_shell", ["kinetic_sum_on_shell_C", "EMT_trace_C"]),
     ("grassmann_homogeneous_on_shell_rho_p", ["T_diagonal_components_G", "kinetic_sum_on_shell_G"]),
     ("commuting_homogeneous_on_shell_rho_p", ["T_diagonal_components_C", "kinetic_sum_on_shell_C",
                                               "exact_solution_nonlinear_homogeneous_C"]),
@@ -380,15 +380,106 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     rec(out, "EMT_offdiagonal_x4_x8", okx, "T^x4_x8 = -(1/4)(B48 - Cot[z] B84) and T^x8_x4 = -Tan[z]^2 T^x4_x8 equal "
         "the sympy components off shell, both statistics; on homogeneous on-shell states both sides give 0 "
         "(sympy check *_T_x4x8_homogeneous)")
+    # energy exchange: nabla_mu T^mu_x4 for T = diag(p3, p3, p3, -rho, pt, pt, pt, p8)(x4), recomputed here from the
+    # sympy Christoffel symbols and compared with BOTH forms the Wolfram record may use: an InputForm equation
+    # (... == rhs]) or the prose form "nabla_mu T^mu_x4 = <lhs> = 0, i.e. d rho/d x4 = <rhs>"
     ew = F["energy_exchange"]
-    rho, p3, pt = sp.symbols("rho p3 pt")
-    m_ = re.search(r"==\s*(.*)\]$", ew)
-    okE = False
-    if m_:
-        rhs = wl_parse(m_.group(1).replace("pt", "pt"))
-        okE = sp.expand(rhs - (-3 * A1 * (sp.Symbol("p3") - sp.Symbol("pt")))) == 0
-    rec(out, "energy_exchange", okE, "d rho/d x4 = -3 a4' (p3 - p_t) on both sides (sympy check "
-        "energy_exchange_equation; the sympy side adds nabla_mu T^mu_x8 = 3 H cot z (2 p8 - p3 - p_t))")
+    rho_, rhod, p3_, pt_, p8_ = sp.symbols("rho rhod p3 pt p8")
+    Td = [p3_] * 3 + [-rho_] + [pt_] * 3 + [p8_]
+    div4 = -rhod + sum(geo.Gam[mu][mu][X4] for mu in range(8)) * Td[X4] \
+        - sum(geo.Gam[mu][mu][X4] * Td[mu] for mu in range(8))
+    div4 = sp.expand(div4)
+    okE, how = False, "no parsable form"
+    m_old = re.search(r"==\s*(.*)\]$", ew)
+    m_rhs = re.search(r"d rho/d x4\s*=\s*(.+)$", ew)
+    m_lhs = re.search(r"nabla_mu T\^mu_x4\s*=\s*(.+?)\s*=\s*0\b", ew)
+
+    def prose(t):
+        t = t.replace("a4'[x4]", "A1").replace("rho'[x4]", "rhod").replace("p_t", "pt")
+        t = re.sub(r"(\w|\))\s+\(", r"\1*(", t)          # implicit products "3 A1 (p3 - pt)"
+        t = re.sub(r"(\d)\s+([A-Za-z])", r"\1*\2", t)
+        return sp.sympify(t, locals={"A1": A1, "rhod": rhod, "p3": p3_, "pt": pt_})
+
+    if m_old:
+        rhs = wl_parse(m_old.group(1))
+        okE = sp.expand(rhs - (-3 * A1 * (p3_ - pt_))) == 0 and sp.expand(div4.subs(rhod, rhs)) == 0
+        how = "InputForm equation"
+    elif m_rhs and m_lhs:
+        rhs, lhs = prose(m_rhs.group(1)), prose(m_lhs.group(1))
+        okE = sp.expand(lhs - div4) == 0 and sp.expand(div4.subs(rhod, rhs)) == 0
+        how = f"prose form: lhs {sp.sstr(lhs)}, rhs {sp.sstr(rhs)}"
+    rec(out, "energy_exchange", okE, "nabla_mu T^mu_x4 = " + sp.sstr(div4) + " recomputed here from the sympy "
+        "Christoffel symbols for T = diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8)(x4) (rhod = d rho/d x4) equals the "
+        "Wolfram left-hand side, and the Wolfram d rho/d x4 = -3 a4' (p3 - p_t) makes it vanish (" + how + "; "
+        "sympy check energy_exchange_equation adds nabla_mu T^mu_x8 = 3 H cot z (2 p8 - p3 - p_t))")
+    # ---- the five prose records (statements of checks), each re-derived here where it is a formula
+    passed = {x["name"] for x in checks if x["verdict"] == "pass"}
+    nt = F["nontriviality"]
+    tot_nt = sp.zeros(16, 16)
+    for mu in range(8):
+        tot_nt += geo.gam[mu] * geo.Om[mu]
+    r88 = sp.expand(geo.ginv[X8] * geo.ricci[X8][X8])
+    ok_nt = all(x in nt for x in ("= 3 H gamma^(x8) Psi", "(a4'/2) gamma^(x4) + (H/2) gamma^(x8)",
+                                  "-(a4'/2) gamma^(x4) + (H/2) gamma^(x8)", "iff a4' = 0 and H = 0",
+                                  "R^x8_x8 = -6 H^2"))
+    ok_nt = ok_nt and all(zero_author(x) for x in (tot_nt - 3 * H * G[7])) and zero_author(r88 + 6 * H**2)
+    ok_nt = ok_nt and {"gamma_mu_Omega_mu_equals_3H_gamma_x8", "time_terms_cancel_hidden_term_survives",
+                       "nontriviality_Omega_zero_iff_flat", "spinor_curvature_equals_riemann"} <= passed
+    rec(out, "nontriviality", ok_nt, "the stated values gamma^mu Omega_mu = 3 H gamma^(x8) and R^x8_x8 = -6 H^2 are "
+        "recomputed here (sympy matrices and Ricci tensor); the per-direction and iff statements are those of the "
+        "passing sympy checks gamma_mu_Omega_mu_equals_3H_gamma_x8, time_terms_cancel_hidden_term_survives, "
+        "nontriviality_Omega_zero_iff_flat, spinor_curvature_equals_riemann. Scope: the values belong to the "
+        "diagonal vielbein (frame dependence: Revision/theory/reports/python-scope.json)")
+    mj = F["majorana_negative_control"]
+    ok_mj = all(x in mj for x in ("a total derivative", "no field equation", "Psi^T C Psi = 0",
+                                  "2 sqrt g C gamma^mu D_mu Phi")) and \
+        {"negative_control_majorana_grassmann_total_derivative", "negative_control_majorana_commuting_contrast"} <= passed
+    rec(out, "majorana_negative_control", ok_mj, "the statement (total derivative and no field equation for "
+        "anticommuting real components; Euler-Lagrange expression 2 sqrt g C gamma^mu D_mu Phi for commuting ones) is "
+        "the content of the passing sympy checks negative_control_majorana_grassmann_total_derivative and "
+        "negative_control_majorana_commuting_contrast")
+    ex = F["exact_solutions"]
+    al, S0 = sp.symbols("alpha S0", real=True)
+    M1 = -m * G[3] + 3 * H * (2 * al + 1) * G[3] * G[7]
+    M2 = -(m + lam * S0) * G[3] + 3 * H * G[3] * G[7]
+    I16 = sp.eye(16)
+    ok_ex = (M1 * M1 - (9 * H**2 * (2 * al + 1)**2 - m**2) * I16).applyfunc(sp.expand) == sp.zeros(16, 16)
+    ok_ex = ok_ex and (M2 * M2 - (9 * H**2 - (m + lam * S0)**2) * I16).applyfunc(sp.expand) == sp.zeros(16, 16)
+    ok_ex = ok_ex and (Cm * M1 + M1.T * Cm).applyfunc(sp.expand) == sp.zeros(16, 16)
+    ok_ex = ok_ex and (Cm * M2 + M2.T * Cm).applyfunc(sp.expand) == sp.zeros(16, 16)
+    Sx = sp.Symbol("S")
+    Ux = lam * Sx**2 / 2
+    ok_ex = ok_ex and sp.expand((m * Sx + Ux).subs(Sx, S0) - (m * S0 + lam * S0**2 / 2)) == 0 and \
+        sp.expand((Sx * sp.diff(Ux, Sx) - Ux).subs(Sx, S0) - lam * S0**2 / 2) == 0
+    ok_ex = ok_ex and all(x in ex for x in ("M = -m g[x4] + 3 H (2 al + 1) g[x4].g[x8]",
+                                            "k^2 = 9 H^2 (2 al + 1)^2 - m^2",
+                                            "M = -(m + lam S0) g[x4] + 3 H g[x4].g[x8]",
+                                            "k^2 = 9 H^2 - (m + lam S0)^2", "rho = m S0 + lam S0^2/2",
+                                            "p3 = p_t = p8 = lam S0^2/2"))
+    ok_ex = ok_ex and {"exact_solution_family_x4_x8", "exact_nonlinear_homogeneous_solution"} <= passed
+    rec(out, "exact_solutions", ok_ex, "with the sympy gammas: M^2 = (9 H^2 (2 alpha + 1)^2 - m^2) I16 and "
+        "M^2 = (9 H^2 - (m + lambda S0)^2) I16 for the two stated M, C M + M^T C = 0 for both (S constant), and "
+        "rho = m S0 + lambda S0^2/2, p = S U' - U = lambda S0^2/2 for U = lambda S^2/2; the solutions themselves are "
+        "the passing sympy checks exact_solution_family_x4_x8 and exact_nonlinear_homogeneous_solution")
+    eo = F["equation_of_state_definitions"]
+    wq = sp.simplify((Sx * sp.diff(Ux, Sx) - Ux) / (m * Sx + Ux) - lam * Sx / (2 * m + lam * Sx))
+    ok_eo = all(x in eo for x in ("rho = -T^x4_x4", "p3 = T^x1_x1", "p_t = T^x5_x5", "p8 = T^x8_x8",
+                                  "w3 = p3/rho", "(S U' - U)/(m S + U)")) and wq == 0 and \
+        {"grassmann_homogeneous_on_shell_rho_p", "commuting_homogeneous_on_shell_rho_p"} <= passed
+    rec(out, "equation_of_state_definitions", ok_eo, "same definitions as SPEC section 4 and the sympy record; "
+        "(S U' - U)/(m S + U) = lambda S/(2 m + lambda S) for U = lambda S^2/2 recomputed here; homogeneous values "
+        "from the passing sympy checks *_homogeneous_on_shell_rho_p")
+    hh = F["hidden_direction_hermiticity"]
+    pf, qf = sp.Function("p")(x8s), sp.Function("q")(x8s)
+    op = lambda f, k3: sp.tan(Z) * sp.diff(f, x8s) + k3 * f
+    lhs3 = sp.cos(Z) * (pf * op(qf, 3 * H) + op(pf, 3 * H) * qf) - sp.diff(sp.sin(Z) * pf * qf, x8s)
+    lhs0 = sp.cos(Z) * (pf * op(qf, 0) + op(pf, 0) * qf) - sp.diff(sp.sin(Z) * pf * qf, x8s)
+    ok_hh = sp.simplify(lhs3) == 0 and sp.simplify(lhs0 + 6 * H * sp.cos(Z) * pf * qf) == 0 and \
+        "Cos[z] [p (Tan[z] d8 + 3 H) q + ((Tan[z] d8 + 3 H) p) q] = d8 (Sin[z] p q)" in hh
+    rec(out, "hidden_direction_hermiticity", ok_hh, "recomputed here: cos z [p (tan z d8 + 3H) q + ((tan z d8 + 3H) "
+        "p) q] = d8(sin z p q) identically, and without the 3H term the same combination is d8(sin z p q) - 6 H cos z "
+        "p q. Scope: this is antisymmetry for the measure cos z dx8 in the field variables Psi, up to the boundary "
+        "term sin z p q, which does not vanish at z = pi/2 (Revision/theory/reports/python-scope.json)")
     q = F["quantisation"]
     items = [("pi_A = (i/2) Cos[z] (Psi^dagger B)_A", "canonical_momentum"),
              ("{Psi_A(x), Psi^dagger_C(y)}_(x4 = y4) = B_AC delta^7(x - y)/Cos[z]", "canonical_anticommutator_B"),

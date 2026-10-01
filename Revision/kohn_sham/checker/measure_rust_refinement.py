@@ -111,6 +111,9 @@ def compare(spec, c, r, rust_rows):
         # Mermin: every level of the thermal window is occupied; the window edge may differ between the two runs
         rec["levels"]["same_label_set"] = sorted(lc) == sorted(lr)
         rec["levels"]["labels_canonical_refined"] = [len(lc), len(lr)]
+        # the final canonical levels (eps, degeneracy): the checker recomputes mu from them in high precision
+        rec["canonical_levels_eps_deg"] = [[l[4], l[5]] for l in cj["levels_n2_j_parity_label_eps_deg_f"]]
+        rec["canonical_T_N"] = [cj["parameters"]["T"], cj["parameters"]["N"]]
     # the canonical single run must reproduce the committed canonical matrix
     cm = {}
     if spec["kind"] == "ground":

@@ -405,16 +405,26 @@ def fermi(x):
     return np.where(x > 0, ex / (1.0 + ex), 1.0 / (1.0 + ex))
 
 
+def mermin_residual(eps, deg, N, T, mu):
+    """sum g f - N in a well-conditioned form: (exact integer count of the states below mu - N) minus the
+    holes below mu plus the particles above mu.  The direct sum g f - N loses ~eps_mach N absolute
+    precision, which fixes mu only to eps_mach N / (dN/dmu); deep in the activated regime (gap >> T,
+    dN/dmu ~ e^{-gap/2T}/T) that is ~1e-9 m.  Here every term is small and carried to relative precision."""
+    x = (eps - mu) / T
+    below = x < 0.0
+    return (float(np.sum(deg[below])) - N) - float(np.sum(deg[below] * fermi(-x[below]))) + float(np.sum(deg[~below] * fermi(x[~below])))
+
+
 def mermin(eps, deg, N, T):
     lo = float(eps.min()) - 60.0 * T - 1.0
     hi = float(eps.max()) + 60.0 * T + 1.0
     if float(np.sum(deg)) <= N:
         raise RuntimeError("mermin: window too small")
-    for _ in range(300):
+    for _ in range(400):
         mid = 0.5 * (lo + hi)
         if mid <= lo or mid >= hi:
             break
-        if float(np.sum(deg * fermi((eps - mid) / T))) < N:
+        if mermin_residual(eps, deg, N, T, mid) < 0.0:
             lo = mid
         else:
             hi = mid
