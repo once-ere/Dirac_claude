@@ -28,6 +28,8 @@ Checks:
     matrix of the bilinear: calC_+ keeps m and S and reverses J for commuting components (J^c = -J), while for
     Grassmann components S^c = -S and J^c = +J classically (normal ordering in the quantum theory supplies one more
     sign for each, giving the standard S^c = S, J^c = -J); calC_- reverses the mass term (s = -1).
+ 4b. the QUANTISED Grassmann field: Psi -> M Psi^{dagger T} preserves {Psi, Psi^dagger} = B delta iff
+    M B^T M^dagger = B: true for M = Gamma, false (= -B) for M = 1.
  5. REAL fields: for real commuting components J^a = 0 identically (C gamma^a is antisymmetric) and calC_+ acts
     as the identity (a real field is its own charge conjugate: no U(1) charge); the nontrivial REAL matrix map is
     Psi -> Gamma Psi (= calC_- C Psi for real Psi), which maps (m, lambda) to (-m, -lambda) and reverses J and the
@@ -165,6 +167,16 @@ check('bilinears_under_charge_conjugation', ok4,
       'S -> sS S, J^a -> sJ J^a under Psi -> M Psi*: calC_+ commuting (S, J) -> (S, -J); calC_+ Grassmann (S, J) -> (-S, +J) '
       'classically (in the quantum theory normal ordering supplies one more sign for each bilinear, giving the standard (S, J) -> (S, -J)); calC_- commuting (S, J) -> (S, +J); '
       'calC_- Grassmann (S, J) -> (-S, -J); measured: ' + json.dumps({f'{k[0]},eps={k[1]}': v for k, v in res.items()}))
+
+# ---- 4b. the quantised Grassmann field: which conjugation preserves the canonical anticommutator ----
+# {Psi_A(x), Psi^dagger_C(y)} = B_AC delta (Revision/theory/field-theory.json, key quantisation).  A linear map
+# Psi -> M Psi^{dagger T} preserves it iff M B^T M^dagger = B.
+q_plus = I16 * B.T * I16.H
+q_minus = Gam * B.T * Gam.H
+check('quantum_charge_conjugation_unitary_type', q_minus == B and q_plus == -B,
+      'M B^T M^dagger = B for M = Gamma (calC_- type) and = -B for M = 1 (calC_+ type): for the QUANTISED Grassmann field the '
+      'conjugation that preserves the canonical anticommutator {Psi, Psi^dagger} = B delta is Psi -> Gamma Psi^{dagger T}, '
+      'which reverses the mass (m -> -m); the calC_+ map would turn B into -B (an anti-automorphism of the Krein structure)')
 
 # ---- 5. real fields ----
 ok5 = all((C * gam[a]).T == -(C * gam[a]) for a in range(N))

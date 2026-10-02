@@ -1,8 +1,8 @@
 {
  "producer": "Revision/lead_checks/charge_conjugation_and_u1.py (lead, independent; no Revision code imported)",
  "summary": {
-  "passed": 11,
-  "total": 11
+  "passed": 12,
+  "total": 12
  },
  "checks": [
   {
@@ -44,6 +44,11 @@
    "name": "bilinears_under_charge_conjugation",
    "verdict": "PASS",
    "detail": "S -> sS S, J^a -> sJ J^a under Psi -> M Psi*: calC_+ commuting (S, J) -> (S, -J); calC_+ Grassmann (S, J) -> (-S, +J) classically (in the quantum theory normal ordering supplies one more sign for each bilinear, giving the standard (S, J) -> (S, -J)); calC_- commuting (S, J) -> (S, +J); calC_- Grassmann (S, J) -> (-S, -J); measured: {\"plus,eps=1\": [1, [-1, -1, -1, -1, -1, -1, -1, -1]], \"plus,eps=-1\": [-1, [1, 1, 1, 1, 1, 1, 1, 1]], \"minus,eps=1\": [1, [1, 1, 1, 1, 1, 1, 1, 1]], \"minus,eps=-1\": [-1, [-1, -1, -1, -1, -1, -1, -1, -1]]}"
+  },
+  {
+   "name": "quantum_charge_conjugation_unitary_type",
+   "verdict": "PASS",
+   "detail": "M B^T M^dagger = B for M = Gamma (calC_- type) and = -B for M = 1 (calC_+ type): for the QUANTISED Grassmann field the conjugation that preserves the canonical anticommutator {Psi, Psi^dagger} = B delta is Psi -> Gamma Psi^{dagger T}, which reverses the mass (m -> -m); the calC_+ map would turn B into -B (an anti-automorphism of the Krein structure)"
   },
   {
    "name": "real_fields_charge_conjugation",
