@@ -84,6 +84,9 @@ session of 2026-10-01 afternoon; a new session copies them to its scratchpad and
   in N8_lamm1_a00_T10), prescribed-background label in ks-theory.json, theory comparison verification,
   wave-1 fix verification, FULL-matrix Kohn-Sham cross-check, fresh-clone reproduction gate, two skeptics per
   item, per-area fixers, fix verifier.  It reads `<SP>/w1_args.json` (= the committed record above).
+  Checkpoint 2026-10-01 (second pause request): snapshot a9a1b70 adds the full-matrix reference results
+  (Revision/kohn_sham/reference/results, 338 files, 24 MB) and the repaired Rust outputs, still under review.
+  Lead check 2: `Revision/lead_checks/einstein_gauss_bonnet_a4.py` (15/15).
   Checkpoint 2026-10-01 (pause request): snapshot commit daeb5ba holds its partial work (new
   `solver/src/mermin.rs`, the prescribed-background label in ks-theory.json, the theory comparison edits),
   NOT yet reviewed.  If a restart finds the run gone: relaunch `revision_wave_1b.js` (copy
