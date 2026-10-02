@@ -634,21 +634,27 @@ p_t &= \sum_{\mu \ne x_5} K_\mu - mS - U(S), \qquad p_8 = \sum_{\mu \ne x_8} K_\
 \end{aligned}
 \]
 
-it vanishes on homogeneous on-shell states.
+On homogeneous on-shell states both $T^{x_4}{}_{x_8}$ and $T^{x_8}{}_{x_4}$ vanish identically, so these states do not source the $x_4$-$x_8$ component of the $a_4$ equations; this is not claimed for the other off-diagonal components (42 of the remaining 54 are nonzero bilinears in general), whose vanishing is a separate condition on the state (section 12).
 
-\textbf{Trace.} Off shell $T^\mu{}_\mu = 8L_0 - \sum_\mu K_\mu = 7\sum_\mu K_\mu - 8(mS + U)$. Exactly, $\sum_\mu K_\mu = (m + U')S + \tfrac12(\bar\Phi E - \bar E\Phi)$, so on shell $\sum_\mu K_\mu = (m + U'(S))S$, $L_0 = S\,U'(S) - U(S)$ and
+\textbf{Trace.} Off shell (an exact identity in both engines) $T^\mu{}_\mu = 8L_0 - \sum_\mu K_\mu = 7\sum_\mu K_\mu - 8(mS + U)$. Exactly, $\sum_\mu K_\mu = (m + U')S + \tfrac12(\bar\Phi E - \bar E\Phi)$, so on shell $\sum_\mu K_\mu = (m + U'(S))S$, $L_0 = S\,U'(S) - U(S)$ and
 
 \[
 T^\mu{}_\mu = -mS + 7S\,U'(S) - 8U(S) = -mS + 3\lambda S^2 \quad (U = \tfrac{\lambda}{2}S^2) .
 \]
 
-\textbf{Conservation and energy exchange.} For a diagonal homogeneous tensor
+\textbf{Conservation and energy exchange.} For a diagonal tensor
 
 \[
-T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)(x_4)
+T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)(x_4, x_8)
 \]
 
-one has $\nabla_\mu T^\mu{}_{x_4} = -\rho' - 3a_4'(p_3 - p_t)$ and $\nabla_\mu T^\mu{}_{x_8} = 3H\cot z\,(2p_8 - p_3 - p_t)$, so conservation gives
+whose entries are functions of $x_4$ and $x_8$, all eight components of the divergence are
+
+\[
+\nabla_\mu T^\mu{}_{x_4} = -\partial_4\rho - 3a_4'(p_3 - p_t), \qquad \nabla_\mu T^\mu{}_{x_8} = \partial_8 p_8 + 3H\cot z\,(2p_8 - p_3 - p_t),
+\]
+
+and $\nabla_\mu T^\mu{}_\nu = 0$ identically for $\nu = x_1, x_2, x_3, x_5, x_6, x_7$. Conservation is therefore exactly $\partial_4\rho = -3a_4'(p_3 - p_t)$ and $\partial_8 p_8 = -3H\cot z\,(2p_8 - p_3 - p_t)$; for a homogeneous tensor (entries functions of $x_4$ only) it gives
 
 \[
 \frac{d\rho}{dx_4} = -3\,a_4'\,(p_3 - p_t), \qquad p_3 + p_t = 2p_8 :

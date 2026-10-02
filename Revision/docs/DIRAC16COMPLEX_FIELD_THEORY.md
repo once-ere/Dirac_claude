@@ -22,7 +22,7 @@ The binding plan is `Revision/SPEC.md`; the author's task is quoted in `Revision
 
 Each part has two verifiers that share no code: a WolframScript verifier (exact symbolic arithmetic) and a sympy verifier (an independent re-derivation; the gamma matrices are rebuilt from the author's formulas on both sides and compared entry by entry). Where only one engine verifies a statement, only that engine's check is cited. A check is cited in typewriter type, for example `nontriviality_1_dirac16complex` (Wolfram) or `gamma_mu_Omega_mu_equals_3H_gamma_x8` (sympy); in the field-theory reports the Wolfram names end in `_G` for dirac16complex (explicit Grassmann algebra) and the sympy names begin with `grassmann_`. The proofs are exact identities in the stated generality (symbolic $H$, $a_4(x_4)$, $m$, $\lambda$, and a general field configuration on its jet space); exact numerical examples are labelled as examples.
 
-**Status of the comparison record of the field-theory branch.** The sympy report contains a comparison with the current Wolfram side (`comparison_with_wolfram`): 32 of 32 formula records and 63 of 63 check pairs agree, against a Wolfram run of 84 checks. Every formula record of `Revision/theory/field-theory.json` is compared (the prose records `energy_exchange`, `nontriviality`, `majorana_negative_control`, `exact_solutions`, `equation_of_state_definitions` and `hidden_direction_hermiticity` by re-deriving their formulas in sympy), and every Wolfram check is paired with a sympy check except `exact_solution_nonlinear_homogeneous_G` (the Grassmann form of the nonlinear homogeneous solution; its commuting form is paired). The sympy verifier exits with an error unless the comparison agrees entirely, so a stale comparison cannot pass unnoticed. This document still cites each formula by the checks of each engine separately.
+**Status of the comparison record of the field-theory branch.** The sympy report contains a comparison with the current Wolfram side (`comparison_with_wolfram`): 32 of 32 formula records and 63 of 63 check pairs agree, against a Wolfram run of 84 checks. Every formula record of `Revision/theory/field-theory.json` is compared (the record `energy_exchange`, three Wolfram expressions, component by component against the divergence recomputed from the sympy Christoffel symbols; the prose records `nontriviality`, `majorana_negative_control`, `exact_solutions`, `equation_of_state_definitions` and `hidden_direction_hermiticity` by re-deriving their formulas in sympy), and every Wolfram check is paired with a sympy check except `exact_solution_nonlinear_homogeneous_G` (the Grassmann form of the nonlinear homogeneous solution; its commuting form is paired). The sympy verifier exits with an error unless the comparison agrees entirely, so a stale comparison cannot pass unnoticed. This document still cites each formula by the checks of each engine separately.
 
 Conventions (SPEC sections 1 and 2): coordinates $x_1, \dots, x_8$ as the author names them; $x_1, x_2, x_3$ are ordinary 3-space, $x_4$ is the time, $x_5, x_6, x_7$ are the three extra times (time-like, deflating exponentially as $a_4$ increases), $x_8$ is the hidden space direction; $z = 6Hx_8 \in (0, \pi/2)$, $H > 0$; $a_4 = a_4(x_4)$, $a_4' = da_4/dx_4$; $\partial_a = \partial/\partial x_a$. Frame indices are aligned with the coordinates and written in parentheses: $\gamma^{(a)}$ is the frame gamma matrix of direction $x_a$. Throughout, $i \in \{1, 2, 3\}$ labels the 3-space directions and $t \in \{5, 6, 7\}$ the extra times.
 
@@ -338,19 +338,25 @@ $$
 T^{x_4}{}_{x_8} = -\tfrac14\big(B_{48} - \cot z\,B_{84}\big),\qquad T^{x_8}{}_{x_4} = -\tan^2 z\;T^{x_4}{}_{x_8},
 $$
 
-with $B_{48} = \bar\Psi\gamma^{(4)}\partial_8\Psi - \partial_8\bar\Psi\gamma^{(4)}\Psi$ and $B_{84} = \bar\Psi\gamma^{(8)}\partial_4\Psi - \partial_4\bar\Psi\gamma^{(8)}\Psi$; it vanishes for homogeneous on-shell configurations (`grassmann_T_x4x8_homogeneous`). The trace and the on-shell kinetic sum are (`EMT_trace_G`, `grassmann_trace_on_shell`, `kinetic_sum_on_shell_G`)
+with $B_{48} = \bar\Psi\gamma^{(4)}\partial_8\Psi - \partial_8\bar\Psi\gamma^{(4)}\Psi$ and $B_{84} = \bar\Psi\gamma^{(8)}\partial_4\Psi - \partial_4\bar\Psi\gamma^{(8)}\Psi$. For homogeneous on-shell configurations both $T^{x_4}{}_{x_8}$ and $T^{x_8}{}_{x_4}$ vanish identically (`grassmann_T_x4x8_homogeneous`), so these configurations do not source the $x_4$-$x_8$ component of the $a_4$ equations; this is not claimed for the other off-diagonal components (42 of the remaining 54 are nonzero bilinears in general), whose vanishing is a separate condition on the state (section 13). The trace (off shell, an exact identity in both engines) and the on-shell kinetic sum are (`EMT_trace_G`, `grassmann_trace_on_shell`, `kinetic_sum_on_shell_G`)
 
 $$
 T^\mu{}_\mu = 7\sum_\mu K_\mu - 8\big(mS + U\big),\qquad \sum_\mu K_\mu = \big(m + U'(S)\big)S + \tfrac12\big(\bar\Psi E - \bar E\Psi\big),
 $$
 
-so on shell $\mathcal{L}_0 = SU' - U$ and $T^\mu{}_\mu = -mS + 7SU' - 8U = -mS + 3\lambda S^2$. For a diagonal tensor $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$ depending on $x_4$ only, conservation reads (`energy_exchange_equation` in both field-theory reports)
+so on shell $\mathcal{L}_0 = SU' - U$ and $T^\mu{}_\mu = -mS + 7SU' - 8U = -mS + 3\lambda S^2$. For a diagonal tensor $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$ whose entries are functions of $x_4$ and $x_8$, the covariant divergence is, in all eight components (`energy_exchange_equation` in both field-theory reports; formula key `energy_exchange`),
 
 $$
-\nabla_\mu T^\mu{}_{x_4} = -\frac{d\rho}{dx_4} - 3a_4'\,(p_3 - p_t) = 0,\qquad \nabla_\mu T^\mu{}_{x_8} = 3H\cot z\,(2p_8 - p_3 - p_t),
+\nabla_\mu T^\mu{}_{x_4} = -\partial_4\rho - 3a_4'\,(p_3 - p_t),\qquad \nabla_\mu T^\mu{}_{x_8} = \partial_8 p_8 + 3H\cot z\,(2p_8 - p_3 - p_t),
 $$
 
-so energy flows between 3-space and the extra times unless $p_3 = p_t$ (the volume $\sqrt{|g|} = \cos z$ does not depend on $x_4$), and a conserved $x_8$-independent diagonal tensor needs $p_8 = (p_3 + p_t)/2$.
+and $\nabla_\mu T^\mu{}_\nu = 0$ identically for $\nu = x_1, x_2, x_3, x_5, x_6, x_7$. Conservation is therefore exactly
+
+$$
+\partial_4\rho = -3a_4'\,(p_3 - p_t),\qquad \partial_8 p_8 = -3H\cot z\,(2p_8 - p_3 - p_t) :
+$$
+
+energy flows between 3-space and the extra times unless $p_3 = p_t$ (the volume $\sqrt{|g|} = \cos z$ does not depend on $x_4$); the $x_4$ component contains no $x_8$ derivative and no $H$, the $x_8$ component no $x_4$ derivative and no $a_4'$. For entries independent of $x_8$ the two conditions become $d\rho/dx_4 = -3a_4'(p_3 - p_t)$ and $p_8 = (p_3 + p_t)/2$.
 
 For dirac16complex these expressions are even elements of the Grassmann algebra; they are the classical counterpart of the energy-momentum tensor operator of section 12, from which all numbers come.
 

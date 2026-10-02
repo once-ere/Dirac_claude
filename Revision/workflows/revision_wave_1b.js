@@ -11,7 +11,10 @@ export const meta = {
 }
 
 const ROOT = 'D:/Developer/github/Dirac_claude'
-const SP = 'C:/Users/nsh/AppData/Local/Temp/claude/D--Developer-github-Dirac-claude/db1fcb32-bb14-4b52-b62c-37fb53990650/scratchpad'
+// ROOT: the repository on the machine where these waves ran; SP: the scratchpad directory of the session that
+// runs the script (set it in the session's own copy before launching; see Revision/README.md, workflows/).
+const SP = '<SCRATCHPAD OF THE RUNNING SESSION>'
+if (SP.startsWith('<')) throw new Error('set SP to the scratchpad directory of the running session')
 const R = 'Revision'
 const COMMON = `
 WAVE 1B NOTE: wave 1 (algebra, theory, a4 equations, pairing, GKD verification, Kohn-Sham solver, reference, three documents) is finished and was reviewed once; you repair and verify it. Inspect the current files and git diff before changing anything.

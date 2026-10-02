@@ -490,7 +490,7 @@ Every check has a name, a verdict and a detail. Counts at the time of writing (t
 | `Revision/field_equations_a4/reports/python-a4-report.json` | 61 | 61 | 0 |
 | `Revision/kohn_sham/reports/ks-theory-wolfram.json` | 46 | 46 | 0 |
 | `Revision/kohn_sham/reports/ks-theory-python.json` | 57 | 57 | 0 |
-| `Revision/kohn_sham/reports/ks-rust-solver.json` | 40 | 40 | 0 |
+| `Revision/kohn_sham/reports/ks-rust-solver.json` | 42 | 42 | 0 |
 
 The pairing theorems are verified in four gravitational fields: the author's metric on the patch $z \in (0,\pi/2)$ (primordial); the same metric on the mirror patch; a general diagonal (4,4) field $e^a{}_\mu = h_a(x_1,\dots,x_8)\delta^a_\mu$ with eight arbitrary functions of all eight coordinates (diagonal8); and a general non-diagonal field at one point (pointwise), with exact rational $e^a{}_\mu$ and $\partial_\rho e^a{}_\mu$, $\det e = 1411/6561$, a non-diagonal metric and 448 of the 512 connection components nonzero; plus the linearity (kernel) argument that covers every field. The canonical connection of each test field satisfies the vielbein postulate exactly. The Wolfram side and the sympy side share no code; the sympy side re-builds the gammas from the author's tau formulas and compares them entry by entry with `Revision/algebra/gammas.json`.
 
