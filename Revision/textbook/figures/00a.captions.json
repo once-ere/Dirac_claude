@@ -1,0 +1,4 @@
+{
+ "00a_1_parabola_tangent.png": "The parabola $y = x^2$ (solid line), its tangent line $y = 2x - 1$ at the point $(1, 1)$ (dashed line) and the point itself (black dot), for $x$ from $-1$ to $3$; horizontal axis $x$, vertical axis $y$ (pure numbers, no units). The line touches the parabola only at $(1, 1)$ and lies below it everywhere else; its slope $2$ is the derivative $2x$ of $x^2$ at $x = 1$.",
+ "00a_2_growth_and_decay.png": "The growing exponential $e^{t}$ (solid line), the shrinking exponential $e^{-t}$ (dashed line) and their product (dotted line) for $t$ from $-2$ to $2$; horizontal axis $t$, vertical axis the value (pure numbers, no units). Each of the two curves is the mirror image of the other in the vertical axis $t = 0$, and their product is exactly $1$ at every $t$: what one factor gains, the other loses."
+}

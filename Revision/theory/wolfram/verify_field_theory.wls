@@ -703,7 +703,7 @@ addFormula["eta", "frame metric eta_ab, order x1..x8", Diagonal[eta]];
 section["writing outputs"];
 jstr[s_String] := "\"" <> StringReplace[s, {"\\" -> "\\\\", "\"" -> "\\\"", "\n" -> "\\n"}] <> "\"";
 writeLF[path_, text_String] := Module[{s = OpenWrite[path, BinaryFormat -> True, CharacterEncoding -> "UTF-8"]},
-  BinaryWrite[s, ToCharacterCode[text, "UTF-8"]]; Close[s]];
+  If[s === $Failed, Print["cannot write ", path]; Exit[2]]; BinaryWrite[s, ToCharacterCode[text, "UTF-8"]]; Close[s]];
 nPass = Count[checks, c_ /; c["verdict"] == "PASS"]; nTot = Length[checks];
 report = StringJoin[
   "{\n",

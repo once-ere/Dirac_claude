@@ -12,13 +12,17 @@
      Revision/kohn_sham/ks-theory.json                   the formulas the Rust solver must implement
    Usage:  wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls
    The independent second engine is Revision/kohn_sham/theory/check_ks_theory.py (sympy).
-   Exit code 0 if every check passes, 1 otherwise.
+   Exit code 0 if every check passes and both files are written, 1 otherwise.  A missing input file
+   (the package or gammas.json) or an output file that cannot be written stops the run at once with a
+   line "ERROR  ..." and exit code 1 (writeLF creates a missing output folder).
 *)
 
 $here = DirectoryName[$InputFileName];
 $ks = FileNameJoin[{$here, ".."}];
 $rev = FileNameJoin[{$ks, ".."}];
-Get[FileNameJoin[{$here, "KohnShamTheory.wl"}]];
+$pkg = FileNameJoin[{$here, "KohnShamTheory.wl"}];
+If[! FileExistsQ[$pkg], Print["ERROR  input file not found: ", $pkg]; Exit[1]];
+Get[$pkg];
 t0 = AbsoluteTime[];
 
 checks = {};
@@ -30,6 +34,7 @@ num[x_, d_: 16] := ToString[NumberForm[N[x, 40], d, NumberFormat -> (If[#3 == ""
 
 (* ---------------- A. gammas ---------------- *)
 gpath = FileNameJoin[{$rev, "algebra", "gammas.json"}];
+If[! FileExistsQ[gpath], Print["ERROR  input file not found: ", gpath]; Exit[1]];
 {g, etaM} = KSLoadGammas[gpath];
 eta = Diagonal[etaM];
 id16 = IdentityMatrix[16]; id2 = IdentityMatrix[2]; z16 = ConstantArray[0, {16, 16}];
@@ -425,7 +430,10 @@ jsonTheory = <|
 
 ksJson = ExportString[jsonTheory, "RawJSON"];
 ksJson2 = ExportString[jsonTheory, "RawJSON"];
-writeLF[path_, text_String] := Module[{s = OpenWrite[path, BinaryFormat -> True, CharacterEncoding -> "UTF-8"]},
+writeLF[path_, text_String] := Module[{dir = DirectoryName[path], s},
+  If[! DirectoryQ[dir], CreateDirectory[dir, CreateIntermediateDirectories -> True]];
+  s = OpenWrite[path, BinaryFormat -> True, CharacterEncoding -> "UTF-8"];
+  If[Head[s] =!= OutputStream, Print["ERROR  cannot write ", path]; Exit[1]];
   BinaryWrite[s, ToCharacterCode[StringReplace[text, "\r\n" -> "\n"], "UTF-8"]]; Close[s]];
 writeLF[FileNameJoin[{$ks, "ks-theory.json"}], If[StringEndsQ[ksJson, "\n"], ksJson, ksJson <> "\n"]];
 back = Import[FileNameJoin[{$ks, "ks-theory.json"}], "RawJSON"];

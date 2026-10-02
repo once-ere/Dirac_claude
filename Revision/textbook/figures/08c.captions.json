@@ -1,0 +1,3 @@
+{
+ "08c_1_cancel_and_survive.png": "The term $\\gamma^\\mu\\Omega_\\mu$ of the field equation in the diagonal frame, direction by direction (no sum) and summed (black). Left: the coefficient of $\\gamma^{(4)}$ in units of $a_4'$; the three inflating directions $x_1, x_2, x_3$ (blue) give $+1/2$ each, the three deflating extra times $x_5, x_6, x_7$ (red) give $-1/2$ each, $x_4$ and $x_8$ (gray) give 0, and the sum is 0. Right: the coefficient of $\\gamma^{(8)}$ in units of $H$; the same six directions give $+1/2$ each and the sum is $3$. Exact values from sympy, valid for every history $a_4$ and every $H > 0$."
+}

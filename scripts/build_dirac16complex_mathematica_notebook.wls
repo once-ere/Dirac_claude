@@ -1027,18 +1027,29 @@ notebook = Notebook[
   |>
 ];
 
+(* Every write step is checked and a failure ends the script with exit code 1.
+   Without these checks an output file that cannot be written (read-only, locked,
+   or in a directory that cannot be created) gave Put::noopen and OpenWrite::noopen
+   messages, but the script still printed output= and exited with code 0
+   (found by the execution-provenance run of 2026-10-02).  The checks do not
+   change the bytes of the notebook that is written. *)
+failWrite[step_String] := (Print["ERROR: could not write the notebook (", step, "): ", outputPath]; Exit[1]);
 If[!DirectoryQ[DirectoryName[outputPath]],
   CreateDirectory[DirectoryName[outputPath], CreateIntermediateDirectories -> True]
 ];
-Put[notebook, outputPath];
+If[Put[notebook, outputPath] === $Failed, failWrite["Put"]];
 serializedNotebook = Import[outputPath, "Text"];
+If[!StringQ[serializedNotebook], failWrite["Import"]];
 normalizedNotebook = StringReplace[
   StringReplace[serializedNotebook, "\r\n" -> "\n"],
   RegularExpression["[ \\t]+(?=\\n)"] -> ""
 ];
+outputBytes = ToCharacterCode[normalizedNotebook, "UTF-8"];
 outputStream = OpenWrite[outputPath, BinaryFormat -> True];
-BinaryWrite[outputStream, ToCharacterCode[normalizedNotebook, "UTF-8"]];
+If[Head[outputStream] =!= OutputStream, failWrite["OpenWrite"]];
+BinaryWrite[outputStream, outputBytes];
 Close[outputStream];
+If[FileByteCount[outputPath] =!= Length[outputBytes], failWrite["size check"]];
 Print["cell_count=", Length[cells]];
 Print["input_cell_count=", Count[cells, Cell[_, "Input", ___]]];
 Print["output=", outputPath];

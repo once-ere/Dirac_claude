@@ -3,7 +3,7 @@
 	"producer":"scripts/verify_dirac16complex00.wls (wolfram/Dirac16Complex00.wl), Wolfram Language 15.0.1",
 	"description":"Exact Stage-5 theory of dirac16complex00 (commuting components) side by side with dirac16complex (Grassmann components): the Lagrangian (L1) with the explicit mass term, the real restriction, the coupling to the spin connection and gravity, the field equations, the energy-momentum tensor from the vielbein variation, current, energy splits and equations of state in an arbitrary field, the indefinite charge and unbounded energy of the commuting field, the primordial field (Stage-2 chart) and the static warped form with the Stage-4 2x2 blocks.",
 	"sourceSha256":{
-		"wolfram/Dirac16Complex00.wl":"91d2e47a80f18b953cfea262f6f85205eccbc7caf4dbc2bdf7ea840e6045015c",
+		"wolfram/Dirac16Complex00.wl":"62b6e269367dbb0554ab0a4a4a4b9a29a35e0ca210a98a7ba7b86bd3735ab880",
 		"scripts/verify_dirac16complex00.wls":"3b143538660106ea25f7908640ff79fc11cf74e99d70405cd6083546da33a4e2",
 		"wolfram/Dirac16ComplexGeometry.wl":"f5b674665eee4000750161e6ab6312c38bfac9da7a17450a2b3bdd88ef292af2",
 		"wolfram/Dirac16ComplexPrimordial.wl":"0b95682601ace6343a89ad8eaf0f4896d071015041f15cccbeb3beac193d81a1",

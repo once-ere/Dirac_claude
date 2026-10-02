@@ -9,7 +9,8 @@
      Revision/algebra/reports/wolfram-algebra.json   every check with name, verdict, detail
    Usage:  wolframscript -file Revision/algebra/wolfram/verify_algebra.wls
    Every check is exact (integer / Gaussian-rational arithmetic, NullSpace and MatrixRank over the
-   rationals); nothing is floating point.  Exit code 0 if every check passes, 1 otherwise.
+   rationals); nothing is floating point.  Exit code 0 if every check passes, 1 otherwise; if an output
+   file cannot be written, the run stops at once with an ERROR line and exit code 1.
 *)
 
 $here = DirectoryName[$InputFileName];
@@ -238,8 +239,13 @@ addCheck["Spin_Pin_reflection_swaps_halves",
 fixture = RAFixtureString[];
 fixture2 = RAFixtureString[];
 fixturePath = FileNameJoin[{$algebraDir, "gammas.json"}];
-writeLF[path_, text_String] := Module[{s = OpenWrite[path, BinaryFormat -> True, CharacterEncoding -> "UTF-8"]},
-  BinaryWrite[s, ToCharacterCode[text, "UTF-8"]]; Close[s]];
+(* an output that cannot be written must never be reported as verified: stop at once with exit code 1 *)
+writeLF[path_, text_String] := Module[{s = OpenWrite[path, BinaryFormat -> True, CharacterEncoding -> "UTF-8"], ok},
+  ok = Head[s] === OutputStream && BinaryWrite[s, ToCharacterCode[text, "UTF-8"]] =!= $Failed;
+  If[Head[s] === OutputStream, Close[s]];
+  If[!ok,
+    Print["ERROR  cannot write ", path, "; the run is aborted with exit code 1 (no verdict is printed)"];
+    Exit[1]]];
 writeLF[fixturePath, fixture];
 decoded = RADecodeFixture[Import[fixturePath, "RawJSON"]];
 addCheck["fixture_written_deterministically",

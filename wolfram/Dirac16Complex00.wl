@@ -282,8 +282,13 @@ checkCommutingFlat[] := Module[{X, Y, dX, dY, psi, psb, dpsi, dpsb, S, SR, SI, k
   addMeas["EL.commutingFlat", "flat, constant-coefficient derivation with commuting symbols (Psi, Psi^* independent; dL/d(d_mu Psi^*_a) = -(1/2)(C gamma^mu Psi)_a verified): dL/dPsi^*_a - d_mu(dL/d(d_mu Psi^*_a)) = (C(gamma^mu d_mu Psi - (m + lambda S)Psi))_a, the same expression as the Grassmann left derivative of C00_lagrangian_grassmannFlatHermitianAndEL."];
 ];
 
-(* explicit commuting spinors for the mass term; flat dispersion *)
-checkMassTermCommuting[] := Module[{e, pm, pp, p0, sM, sP, s0, cp, x, kk, gk, disp, onK, ns, m0},
+(* explicit commuting spinors for the mass term; flat dispersion.
+   The variable x of the characteristic polynomial is deliberately NOT a Module local: the kernel
+   renames a Module local x to x$NNNN with NNNN = $ModuleNumber, a counter whose value depends on
+   the kernel's start-up history (from the same files, runs printed x$5557, x$5558 and, on
+   2026-10-02, x$5562), and the printed polynomial is written into the report as charPolyC.  The
+   package's private symbol x, which is never assigned, prints as plain x in every run. *)
+checkMassTermCommuting[] := Module[{e, pm, pp, p0, sM, sP, s0, cp, kk, gk, disp, onK, ns, m0},
   e[i_] := UnitVector[16, i + 1];
   pm = e[0] + e[4]; pp = e[8] + e[12]; p0 = e[0] + I e[4];
   sM = Conjugate[pm].Cm.pm; sP = Conjugate[pp].Cm.pp; s0 = Conjugate[p0].Cm.p0;
