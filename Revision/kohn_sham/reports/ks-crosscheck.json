@@ -1,7 +1,7 @@
 {
- "report": "Revision Kohn-Sham cross-check: Rust solver vs the independent Python reference (different discretisation) on the reference subset",
+ "report": "Revision Kohn-Sham cross-check: Rust solver vs the independent Python reference (different discretisation) on the FULL canonical matrix",
  "producer": "Revision/kohn_sham/checker/crosscheck_ks.py",
- "tolerance_rule": "|x_Rust - x_ref| <= 3 (U_ref + U_Rust) + 1e-12 scale; U_ref = the reference's three-grid Richardson uncertainty (validated on a fourth grid); U_Rust = (16/15) |canonical - refined| measured per state (checker/rust-refinement.json) or, where `single` does not report the quantity, the matrix-wide maximum of ks-rust-determinism.json; scale = max(1, |x|) for scalars, the profile maximum for profiles. Fixed before the comparison.",
+ "tolerance_rule": "|x_Rust - x_ref| <= 3 (U_ref + U_Rust) + 1e-12 scale; U_ref = the reference's three-grid Richardson uncertainty (validated on a fourth grid); U_Rust = (16/15) |canonical - refined| measured per state (checker/rust-refinement.json) or, where `single` does not report the quantity, the matrix-wide maximum of ks-rust-determinism.json or a stated propagation of measured uncertainties; |single - matrix| is added where the two take different SCF paths (exact-Fock variant); scale = max(1, |x|) for scalars, the profile maximum for profiles. Fixed before the comparison.",
  "rust_matrix_wide_uncertainties": {
   "refined_ground_energies": 1.901e-12,
   "refined_ground_homo_lumo_gap": 1.3e-12,
@@ -12,63 +12,45 @@
   "refined_thermodynamics": 2.489e-10,
   "refined_heat_capacity": 5.689e-09
  },
- "subset": {
-  "ground": [
-   "N136_lam0_a00",
-   "N136_lam0_a20",
-   "N136_lamm1_a15",
-   "N136_lamm2_a20",
-   "N136_lamp1_a05",
-   "N136_lamp2_a10",
-   "N136_lamp2_a20",
-   "N688_lam0_a00",
-   "N688_lam0_a20",
-   "N688_lamm1_a05",
-   "N688_lamm2_a10",
-   "N688_lamp1_a15",
-   "N688_lamp2_a00",
-   "N688_lamp2_a20",
-   "N8_lam0_a00",
-   "N8_lamm2_a20",
-   "N8_lamp1_a10",
-   "N8_lamp2_a00"
-  ],
-  "thermal": [
-   "N136_lam0_a15_T50",
-   "N136_lamm1_a05_T10",
-   "N136_lamp1_a20_T20",
-   "N688_lam0_a10_T20",
-   "N688_lamp1_a20_T50",
-   "N8_lam0_a20_T50",
-   "N8_lamm1_a00_T10",
-   "N8_lamp1_a10_T20"
-  ]
+ "matrix": {
+  "ground": 75,
+  "thermal": 135,
+  "exact_fock_variant": 60,
+  "rescaling_partners": 60,
+  "particle_hole_lists": 75,
+  "crossing_demo_slices": 5
  },
+ "comparisons": 128313,
  "summary": {
-  "checks": 23,
-  "pass": 22,
-  "fail": 1
+  "checks": 29,
+  "pass": 29,
+  "fail": 0
  },
  "checks": [
   {
    "name": "inputs_all_pass",
    "verdict": "PASS",
-   "detail": "reference report 28/28 PASS, Rust solver report 40/40 PASS, Rust determinism report 13/13 PASS; failing checks: {'ks-reference.json': [], 'ks-rust-solver.json': [], 'ks-rust-determinism.json': []}; Rust refinement runs (single canonical and refined) failed: none"
+   "detail": "reference report 37/37 PASS, Rust solver report 42/42 PASS, Rust determinism report 14/14 PASS; failing checks: {'ks-reference.json': [], 'ks-rust-solver.json': [], 'ks-rust-determinism.json': []}; Rust refinement runs (single canonical and refined) failed: none; the refinement covers every state of the Rust matrix: True (states per kind: Rust {'ground': 75, 'thermo': 135, 'exx': 60, 'crossing': 5}, measured {'ground': 75, 'thermo': 135, 'exx': 60, 'crossing': 5})"
   },
   {
    "name": "rust_refinement_applies_to_matrix",
    "verdict": "PASS",
-   "detail": "the canonical `single` runs of checker/rust-refinement.json reproduce the committed canonical matrix (tolerance 1e-12 for every class): E_KS_rel 0.000e+00, E_rel 0.000e+00, emt_integrals_rel 0.000e+00, entropy_rel 0.000e+00, levels_max_abs 0.000e+00, mu_abs 0.000e+00, profiles_max_rel 0.000e+00; hence |canonical - refined| of these runs measures the error of the committed Rust results"
+   "detail": "the canonical `single` runs of checker/rust-refinement.json reproduce the committed canonical matrix (tolerance 1e-12 for every class; crossing demonstration relative to max(1, |E|)): E_KS_rel 0.000e+00, E_aufbau_abs_rel 0.000e+00, E_continued_abs_rel 1.109e-13, E_rel 0.000e+00, emt_integrals_rel 0.000e+00, entropy_rel 0.000e+00, levels_max_abs 0.000e+00, mu_abs 0.000e+00, profiles_max_rel 0.000e+00; hence |canonical - refined| of these runs measures the error of the committed Rust results"
+  },
+  {
+   "name": "rust_refinement_applies_to_matrix_exx",
+   "verdict": "PASS",
+   "detail": "exact-Fock variant: the matrix starts the SCF from the converged uniform-gas state, `single --exx` from zero potentials; both stop at max |residual| <= scfTolerance = 1e-11, so they agree only to the SCF stopping effect: |E_single - E_matrix| <= N x scfTolerance and |gap_single - gap_matrix| <= 6 scfTolerance (two levels, three potentials) are required; worst ratios: E 0.017 (N688_lamp1_a00 |dE| 1.203e-10), gap 0.020 (N688_lamm1_a00 |dgap| 1.178e-12); the measured |single - matrix| is added to U_Rust of the exact-Fock comparisons"
   },
   {
    "name": "problem_definition_identical",
    "verdict": "PASS",
-   "detail": "H, m, L, dk, v_t, tip angle, history A, slices and temperatures identical: True (no differences); both read the same ks-theory.json (sha256 41c16878199cfcea): True"
+   "detail": "H, m, L, dk, v_t, tip angle, history A, slices and temperatures identical: True (no differences); both read the same ks-theory.json (sha256 1bf41d79318a24a4): True"
   },
   {
    "name": "parameters_particle_numbers",
    "verdict": "PASS",
-   "detail": "particle numbers re-derived by the reference from the stated rules (free a4,0 = 0 aufbau, bulk edge, closed shells); 4 comparisons; worst |diff|/tolerance 0.000 (bulk edge: Rust 1.29229282806878, reference 1.29229282806858, |diff| 2.003e-13, tolerance 6.844e-09); N_large = 688, N_mid = 136 (U_Rust of the bulk edge: matrix-wide eigenvalue maximum 2.277e-09); failures: none"
+   "detail": "particle numbers re-derived by the reference from the stated rules (free a4,0 = 0 aufbau, bulk edge, closed shells); 5 comparisons; worst |diff|/tolerance 0.000 (bulk edge: Rust 1.29229282806878, reference 1.29229282806858, |diff| 2.003e-13, tolerance 6.844e-09); N_large = 688, N_mid = 136, N of the crossing demonstration = 696 (U_Rust of the bulk edge: matrix-wide eigenvalue maximum 2.277e-09); failures: none"
   },
   {
    "name": "parameters_couplings",
@@ -78,93 +60,117 @@
   {
    "name": "ground_occupations_and_groups",
    "verdict": "PASS",
-   "detail": "the same occupied levels (Rust label - label_min = reference rank), occupations, HOMO group and LUMO group; 72 comparisons; failures: none"
+   "detail": "the same occupied levels (Rust label - label_min = reference rank), occupations, HOMO group and LUMO group; 300 comparisons; failures: none"
   },
   {
    "name": "ground_energies",
    "verdict": "PASS",
-   "detail": "E_KS, E_band, E_int; U_Rust per state measured (single canonical vs refined); 54 comparisons; worst |diff|/tolerance 0.148 (N136_lamm2_a20 E_band: Rust 12.4303263457143, reference 12.4303263457401, |diff| 2.579e-11, tolerance 1.743e-10); failures: none"
+   "detail": "E_KS, E_band, E_int; U_Rust per state measured (single canonical vs refined); 225 comparisons; worst |diff|/tolerance 0.148 (N136_lamm2_a20 E_band: Rust 12.4303263457143, reference 12.4303263457401, |diff| 2.579e-11, tolerance 1.743e-10); failures: none"
   },
   {
    "name": "ground_homo_lumo_gap",
    "verdict": "PASS",
-   "detail": "HOMO, LUMO, KS gap; U_Rust = (16/15) x the largest |canonical - refined| over all levels of the state; 54 comparisons; worst |diff|/tolerance 0.001 (N688_lamp1_a15 LUMO: Rust 0.340929228961202, reference 0.34092922896192, |diff| 7.176e-13, tolerance 9.641e-10); failures: none"
+   "detail": "HOMO, LUMO, KS gap; U_Rust = (16/15) x the largest |canonical - refined| over all levels of the state; 225 comparisons; worst |diff|/tolerance 0.001 (N688_lamp1_a15 LUMO: Rust 0.340929228961202, reference 0.34092922896192, |diff| 7.176e-13, tolerance 9.641e-10); failures: none"
   },
   {
    "name": "ground_eigenvalues",
    "verdict": "PASS",
-   "detail": "every level present in both label sets, label by label; U_Rust = (16/15) x the largest |canonical - refined| over all levels of the state; 2987 comparisons; worst |diff|/tolerance 0.324 (N136_lamp2_a20 level 1:-1:even:2: Rust 3.24057913572591, reference 3.24057913543681, |diff| 2.891e-10, tolerance 8.912e-10); N136_lam0_a00: 63 common levels (Rust 84, reference 63); N136_lam0_a20: 95 common levels (Rust 208, reference 121); N136_lamm1_a15: 103 common levels (Rust 244, reference 103); N136_lamm2_a20: 354 common levels (Rust 1248, reference 354); N136_lamp1_a05: 72 common levels (Rust 120, reference 72); N136_lamp2_a10: 120 common levels (Rust 312, reference 120); N136_lamp2_a20: 354 common levels (Rust 1248, reference 354); N688_lam0_a00: 137 common levels (Rust 164, reference 137); N688_lam0_a20: 177 common levels (Rust 320, reference 187); N688_lamm1_a05: 149 common levels (Rust 212, reference 149); N688_lamm2_a10: 209 common levels (Rust 452, reference 209); N688_lamp1_a15: 189 common levels (Rust 372, reference 189); N688_lamp2_a00: 154 common levels (Rust 232, reference 154); N688_lamp2_a20: 472 common levels (Rust 1504, reference 472); N8_lam0_a00: 14 common levels (Rust 32, reference 14); N8_lamm2_a20: 259 common levels (Rust 1012, reference 259); N8_lamp1_a10: 26 common levels (Rust 80, reference 26); N8_lamp2_a00: 22 common levels (Rust 64, reference 22); failures: none"
+   "detail": "every level present in both label sets, label by label; U_Rust = (16/15) x the largest |canonical - refined| over all levels of the state; 9616 comparisons; worst |diff|/tolerance 0.324 (N136_lamp2_a20 level 1:-1:even:2: Rust 3.24057913572591, reference 3.24057913543681, |diff| 2.891e-10, tolerance 8.912e-10); 75 ground states; reference files missing: none; failures: none"
   },
   {
    "name": "excited_delta_scf",
    "verdict": "PASS",
-   "detail": "Delta-SCF excitation energy and E_excited; U_Rust(Delta-SCF) = matrix-wide maximum (16/15) x 5.815e-11 m; 36 comparisons; worst |diff|/tolerance 0.106 (N688_lam0_a20 E_excited: Rust 110.395277196876, reference 110.395277197086, |diff| 2.095e-10, tolerance 1.970e-09); failures: none"
+   "detail": "Delta-SCF excitation energy and E_excited; U_Rust(Delta-SCF) = matrix-wide maximum (16/15) x 5.815e-11 m; 150 comparisons; worst |diff|/tolerance 0.296 (N688_lamp2_a10 delta_SCF: Rust 0.0204753708676435, reference 0.0204753708103655, |diff| 5.728e-11, tolerance 1.933e-10); failures: none"
+  },
+  {
+   "name": "excited_particle_hole_lists",
+   "verdict": "PASS",
+   "detail": "the 24 lowest particle-hole excitations (excited/particle-hole/<id>.csv) against the reference list (48 rows): the same hole and particle groups (Rust labels converted to ranks), the same multiplicity and same-sector flag, delta_eps within the rule (U_Rust = 2 x (16/15) x the largest |canonical - refined| over the levels of the state); compared where the particle lies below both solvers' lowest excluded level; and no reference excitation below the Rust 24th (minus its tolerance) is missing from the Rust list; 4842 comparisons; worst |diff|/tolerance 0.001 (N8_lamp2_a05 particle-hole rank 14 delta_eps: Rust 0.948649915039208, reference 0.948649915040583, |diff| 1.375e-12, tolerance 1.824e-09); N136_lam0_a00: 5 Rust rows with the particle at or above the common cut 1.142182145, 0 beyond the last kept reference row (not compared); N136_lamm1_a00: 1 Rust rows with the particle at or above the common cut 1.34169823, 0 beyond the last kept reference row (not compared); N136_lamp1_a00: 1 Rust rows with the particle at or above the common cut 1.341713146, 0 beyond the last kept reference row (not compared); N688_lam0_a00: 1 Rust rows with the particle at or above the common cut 1.546951158, 0 beyond the last kept reference row (not compared); N8_lam0_a00: 1 Rust rows with the particle at or above the common cut 0.7040995635, 0 beyond the last kept reference row (not compared); N8_lam0_a05: 1 Rust rows with the particle at or above the common cut 0.5663925889, 0 beyond the last kept reference row (not compared); N8_lamm1_a00: 1 Rust rows with the particle at or above the common cut 0.8823279525, 0 beyond the last kept reference row (not compared); N8_lamm1_a05: 1 Rust rows with the particle at or above the common cut 0.7355435622, 0 beyond the last kept reference row (not compared); N8_lamm1_a10: 1 Rust rows with the particle at or above the common cut 0.6258313992, 0 beyond the last kept reference row (not compared); N8_lamm2_a00: 2 Rust rows with the particle at or above the common cut 1.295539481, 0 beyond the last kept reference row (not compared); N8_lamm2_a05: 1 Rust rows with the particle at or above the common cut 1.132643277, 0 beyond the last kept reference row (not compared); N8_lamp1_a00: 1 Rust rows with the particle at or above the common cut 0.8823104989, 0 beyond the last kept reference row (not compared); N8_lamp1_a05: 1 Rust rows with the particle at or above the common cut 0.7355199478, 0 beyond the last kept reference row (not compared); N8_lamp1_a10: 1 Rust rows with the particle at or above the common cut 0.6258000364, 0 beyond the last kept reference row (not compared); N8_lamp2_a00: 1 Rust rows with the particle at or above the common cut 1.29550987, 0 beyond the last kept reference row (not compared); N8_lamp2_a05: 1 Rust rows with the particle at or above the common cut 1.132607524, 0 beyond the last kept reference row (not compared); 1589 Rust rows matched to reference rows; failures: none"
   },
   {
    "name": "emt_integrals",
    "verdict": "PASS",
-   "detail": "2 Vol_7 int e^{6Hy} (rho, p3, p_t, p8, n) dy; U_Rust per state measured; 90 comparisons; worst |diff|/tolerance 0.225 (N688_lamp1_a15 int_p8: Rust 104.814398148874, reference 104.814398149719, |diff| 8.452e-10, tolerance 3.758e-09); failures: none"
+   "detail": "2 Vol_7 int e^{6Hy} (rho, p3, p_t, p8, n) dy; U_Rust per state measured; 375 comparisons; worst |diff|/tolerance 0.225 (N688_lamp1_a15 int_p8: Rust 104.814398148874, reference 104.814398149719, |diff| 8.452e-10, tolerance 3.758e-09); failures: none"
   },
   {
    "name": "emt_brane_tip_values",
    "verdict": "PASS",
-   "detail": "rho, p3, p_t, p8 at the brane y = 0 and at the tip y = -L; U_Rust per state measured (profile end points); 144 comparisons; worst |diff|/tolerance 0.495 (N8_lamm2_a20 rho_tip: Rust -10.1822650611886, reference -10.182265056614, |diff| 4.575e-09, tolerance 9.238e-09); failures: none"
+   "detail": "rho, p3, p_t, p8 at the brane y = 0 and at the tip y = -L; U_Rust per state measured (profile end points); 600 comparisons; worst |diff|/tolerance 0.495 (N8_lamm2_a00 rho_tip: Rust -10.1822650611886, reference -10.182265056614, |diff| 4.575e-09, tolerance 9.238e-09); failures: none"
   },
   {
    "name": "ground_profiles",
    "verdict": "PASS",
-   "detail": "proper profiles n, S, Q, M_eff, v_v, e_int, rho, p3, p_t, p8 at the 151 points y = -3 + 0.02 i, in units of the profile maximum; U_Rust = (16/15) x the largest |canonical - refined| of that profile of the state; 27180 comparisons; worst |diff|/tolerance 0.495 (N8_lamm2_a20 rho(y = -3.00): Rust -10.1822650611886, reference -10.182265056614, |diff| 4.575e-09, tolerance 9.238e-09); failures: none"
+   "detail": "proper profiles n, S, Q, M_eff, v_v, e_int, rho, p3, p_t, p8 at the 151 points y = -3 + 0.02 i, in units of the profile maximum; U_Rust = (16/15) x the largest |canonical - refined| of that profile of the state; 113250 comparisons; worst |diff|/tolerance 0.495 (N8_lamm2_a00 rho(y = -3.00): Rust -10.1822650611886, reference -10.182265056614, |diff| 4.575e-09, tolerance 9.238e-09); failures: none"
   },
   {
    "name": "exchange_delta_E_x",
    "verdict": "PASS",
-   "detail": "Delta E_x = (lambda/32) 2 Vol_7 int e^{6Hy} Q^2 dy (exact-Fock minus uniform-gas exchange); U_Rust = (16/15) x 2 x (largest |canonical - refined| of Q / max |Q|) x |Delta E_x| (derived from the measured Q profile); 18 comparisons; worst |diff|/tolerance 0.022 (N688_lamp1_a15 deltaE_x: Rust 0.00794122268910095, reference 0.0079412226888662, |diff| 2.348e-13, tolerance 1.083e-11); failures: none"
+   "detail": "Delta E_x = (lambda/32) 2 Vol_7 int e^{6Hy} Q^2 dy (exact-Fock minus uniform-gas exchange, first order); U_Rust = (16/15) x 2 x (largest |canonical - refined| of Q / max |Q|) x |Delta E_x| (derived from the measured Q profile); 75 comparisons; worst |diff|/tolerance 0.044 (N688_lamp2_a15 deltaE_x: Rust 0.0244456216823656, reference 0.0244456216816623, |diff| 7.033e-13, tolerance 1.616e-11); failures: none"
   },
   {
    "name": "adiabatic_dE_da4",
    "verdict": "PASS",
-   "detail": "dE/da4 = -6 Vol_7 int e^{6Hy}(p3 - p_t) dy (EMT form; U_Rust = 3 (U_Rust(int p3) + U_Rust(int p_t)) measured) and the fixed-occupation finite difference (U_Rust = matrix-wide relative maximum (16/15) x 9.024e-10); 36 comparisons; worst |diff|/tolerance 0.122 (N688_lam0_a00 dE_da4_emt: Rust -597.915701280656, reference -597.91570127831, |diff| 2.346e-09, tolerance 1.929e-08); failures: none"
+   "detail": "dE/da4 = -6 Vol_7 int e^{6Hy}(p3 - p_t) dy (EMT form; U_Rust = 3 (U_Rust(int p3) + U_Rust(int p_t)) measured) and the fixed-occupation finite difference (U_Rust = matrix-wide relative maximum (16/15) x 9.024e-10); 150 comparisons; worst |diff|/tolerance 0.122 (N688_lamm1_a00 dE_da4_emt: Rust -597.921667958003, reference -597.921667955652, |diff| 2.351e-09, tolerance 1.931e-08); failures: none"
   },
   {
    "name": "adiabatic_Q_max",
    "verdict": "PASS",
-   "detail": "adiabaticity Q_max = A H |<n| d_a h |m>| / (eps_n - eps_m)^2 over the same pairs (n occupied, m empty, same sector, rank <= 2) and the same maximising pair; U_Rust = matrix-wide relative maximum (16/15) x 9.024e-10; 60 comparisons; worst |diff|/tolerance 0.314 (N136_lamp2_a20 Q_max matrix element: Rust 0.0932934832499011, reference 0.0932934831618255, |diff| 8.808e-11, tolerance 2.803e-10); N8_lam0_a00: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamm2_a20: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamp1_a10: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamp2_a00: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; failures: none"
+   "detail": "adiabaticity Q_max = A H |<n| d_a h |m>| / (eps_n - eps_m)^2 over the same pairs (n occupied, m empty, same sector, rank <= 2) and the same maximising pair; U_Rust = matrix-wide relative maximum (16/15) x 9.024e-10; 225 comparisons; worst |diff|/tolerance 0.314 (N136_lamp2_a20 Q_max matrix element: Rust 0.0932934832499011, reference 0.0932934831618255, |diff| 8.808e-11, tolerance 2.803e-10); N8_lam0_a00: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lam0_a05: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lam0_a10: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lam0_a15: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lam0_a20: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamm1_a00: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamm1_a05: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamm1_a10: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamm1_a15: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamm1_a20: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamm2_a00: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamm2_a05: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamm2_a10: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamm2_a15: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamm2_a20: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamp1_a00: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamp1_a05: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamp1_a10: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamp1_a15: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamp1_a20: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamp2_a00: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamp2_a05: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamp2_a10: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamp2_a15: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; N8_lamp2_a20: Rust Q_max = 0 (all matrix elements vanish), reference 0.000e+00; failures: none"
+  },
+  {
+   "name": "exx_variant_scf",
+   "verdict": "PASS",
+   "detail": "exact-Fock-exchange VARIANT (w_Q = lambda Q/16 sigma3, e_int + lambda Q^2/32), self-consistent in both solvers: E_exact_fock_scf, gap_exact_fock and E_exx - (E_uniform_gas + Delta E_x); U_Rust(E) = (16/15)|canonical - refined| of `single --exx` + |single - matrix| (different SCF start), likewise for the gap (from the `single` levels); U_Rust(E_exx - first order) = U_Rust(E_exx) + U_Rust(E_KS uniform gas) + U_Rust(Delta E_x as in exchange_delta_E_x); 240 comparisons; worst |diff|/tolerance 0.128 (N136_lamm2_a20 E_exact_fock_scf: Rust 12.4166908463525, reference 12.4166908463757, |diff| 2.320e-11, tolerance 1.813e-10); failures: none"
+  },
+  {
+   "name": "rescaling_partners",
+   "verdict": "PASS",
+   "detail": "rescaling partners KS(0; dk e^{-a4,0}, v_t e^{-3 a4,0}, lambda), solved independently by each solver: partner_E_KS (Rust rescaling.csv) against the reference partner; partner dk and v_t identical (relative 1e-15); Rust same_label_set and same_occupations true; U_Rust = U_Rust(E_KS of the slice state, measured) + |partner_E_KS - E_KS(slice)| of Rust (the partner problem has the same coefficient functions up to rounding, so it carries the same discretisation error); 180 comparisons; worst |diff|/tolerance 0.137 (N136_lamm2_a20 partner_E_KS: Rust 12.4378271791473, reference 12.4378271791724, |diff| 2.509e-11, tolerance 1.836e-10); failures: none"
+  },
+  {
+   "name": "crossing_demonstration",
+   "verdict": "PASS",
+   "detail": "crossing demonstration (lambda = 0, N = N_demo): per slice the same flag occupied_set_equal_to_a4_0, the same open-shell flag, the same labels left and entered (Rust labels converted to ranks with the label_min of the Rust levels files at that slice), E_aufbau, E_adiabatically_continued and their difference; U_Rust = (16/15)|canonical - refined| of `single` (E_aufbau) and of the continued occupation summed over the `single` levels, plus |single - matrix| (summation order); 31 comparisons; worst |diff|/tolerance 0.111 (crossing a4 = 2.0 E_adiabatically_continued: Rust 120.725009593621, reference 120.725009593829, |diff| 2.079e-10, tolerance 1.866e-09); failures: none"
   },
   {
    "name": "thermo_state_functions",
-   "verdict": "FAIL",
-   "detail": "mu, E, entropy S, F = E - T S, Omega (both forms); U_Rust per state measured for mu, E, S (single canonical vs refined), U_Rust(F) = U(E) + T U(S), U_Rust(Omega) = U(F) + N U(mu); 48 comparisons; worst |diff|/tolerance 338.699 (N8_lamm1_a00_T10 Omega_direct: Rust -1.67909674876244, reference -1.67909675537956, |diff| 6.617e-09, tolerance 1.954e-11); failures: N8_lamm1_a00_T10 mu (|diff| 8.271e-10 > tolerance 7.974e-12; U_ref 2.324e-12, U_Rust 6.513e-16); N8_lamm1_a00_T10 Omega_direct (|diff| 6.617e-09 > tolerance 1.954e-11; U_ref 5.939e-12, U_Rust 1.379e-14); N8_lamm1_a00_T10 Omega_F_minus_muN (|diff| 6.617e-09 > tolerance 1.954e-11; U_ref 5.939e-12, U_Rust 1.379e-14)",
-   "diagnosis": "N8_lamm1_a00_T10: the 40-digit roots of the Mermin condition on the Rust levels and on the reference levels agree to 4.018e-13 (thermo_mu_high_precision), but the Rust floating-point mu differs from the root on its own levels by -8.267e-10, within the floating-point conditioning bound 1.001e-08 (dN/dmu = 1.242e-06: activated regime) and far above the measured canonical - refined difference U_Rust(mu) = 6.513e-16, because the canonical and the refined runs carry nearly the same rounding error; the reference mu (well-conditioned residual) differs from its 40-digit root by 0.000e+00. Omega = F - mu N inherits N times the mu error. E, S, F and C_V are not affected."
+   "verdict": "PASS",
+   "detail": "mu, E, entropy S, F = E - T S, Omega (both forms); U_Rust per state measured for mu, E, S (single canonical vs refined), U_Rust(F) = U(E) + T U(S), U_Rust(Omega) = U(F) + N U(mu); 810 comparisons; worst |diff|/tolerance 0.284 (N8_lam0_a15_T50 E: Rust 0.950242831750435, reference 0.950242831973405, |diff| 2.230e-10, tolerance 7.842e-10); failures: none"
   },
   {
    "name": "thermo_derivatives",
    "verdict": "PASS",
-   "detail": "C_V = T dS/dT, dE/dT and -dF/dT (Richardson differences in T); U_Rust = matrix-wide relative maximum (16/15) x 5.689e-09 of max(|x|, 1e-6) (refined_heat_capacity); dE/dT and -dF/dT are difference quotients of energies, so each solver's stated noise floor is added: eta_Rust = N x rootTolerance / dT (Rust rootTolerance from its parameters.json, as in its thermo_CV_identity check), eta_ref = N x 1e-12 / dT (the reference SCF tolerance, as in its own thermo_CV_identity check), dT = 0.01 T; 24 comparisons; worst |diff|/tolerance 0.218 (N8_lam0_a20_T50 C_V: Rust 30.2621769061952, reference 30.2621770262547, |diff| 1.201e-07, tolerance 5.511e-07); failures: none"
+   "detail": "C_V = T dS/dT, dE/dT and -dF/dT (Richardson differences in T); U_Rust = matrix-wide relative maximum (16/15) x 5.689e-09 of max(|x|, 1e-6) (refined_heat_capacity); dE/dT and -dF/dT are difference quotients of energies, so each solver's stated noise floor is added: eta_Rust = N x rootTolerance / dT (Rust rootTolerance from its parameters.json, as in its thermo_CV_identity check), eta_ref = N x 1e-12 / dT (the reference SCF tolerance, as in its own thermo_CV_identity check), dT = 0.01 T; 405 comparisons; worst |diff|/tolerance 0.226 (N8_lam0_a15_T50 C_V: Rust 32.3797795771333, reference 32.379779710249, |diff| 1.331e-07, tolerance 5.897e-07); failures: none"
+  },
+  {
+   "name": "thermo_sea_hole_diagnostic",
+   "verdict": "PASS",
+   "detail": "sea-hole diagnostic of the filling CONVENTION: sea_holes_excluded = sum over the shells n2 >= 1 of the Rust thermal label set (the first `shells` shells) of 4 r3 f((mu - eps_sea)/T), eps_sea the highest sea level of the j = -1 even sector (Rust label 0 = rank -1), against the reference sum over the same shells; U_Rust = holes x (U_Rust(mu) + U_Rust(levels))/T (|d f| <= f (|d mu| + |d eps|)/T); and the same verdict on the 1% criterion sea_holes/N <= 0.01 where the reference value is decided (|holes/N - 0.01| > tolerance/N); 270 comparisons; worst |diff|/tolerance 0.048 (N8_lamm1_a20_T20 sea_holes_excluded: Rust 1.06599991831901, reference 1.06599991830601, |diff| 1.300e-11, tolerance 2.732e-10); Rust states with sea holes > 1% of N: 15 of 135 (largest N8_lamm1_a20_T50: 30.98 N); failures: none"
   },
   {
    "name": "thermo_mu_high_precision",
    "verdict": "PASS",
-   "detail": "mu recomputed in 40-digit arithmetic from each solver's final levels (the Mermin condition sum g f = N), and Omega = F - mu N with it; U from the level uncertainties (mu is a weighted mean of the levels); 16 comparisons; worst |diff|/tolerance 0.038 (N136_lamm1_a05_T10 mu_high_precision: Rust 0.531962420353019, reference 0.531962420353987, |diff| 9.681e-13, tolerance 2.528e-11); failures: none"
+   "detail": "mu recomputed in 40-digit arithmetic from each solver's final levels (the Mermin condition sum g f = N), and Omega = F - mu N with it; U from the level uncertainties (mu is a weighted mean of the levels); 270 comparisons; worst |diff|/tolerance 0.050 (N136_lam0_a05_T10 mu_high_precision: Rust 0.532004795416968, reference 0.532004795417986, |diff| 1.018e-12, tolerance 2.054e-11); failures: none"
   },
   {
    "name": "thermo_mu_rounding_diagnostic",
    "verdict": "PASS",
-   "detail": "DIAGNOSTIC (not a replacement of thermo_state_functions): each solver's floating-point mu minus the 40-digit root on its own levels, against the floating-point conditioning bound B eps_mach N / (dN/dmu), dN/dmu = sum g f (1 - f)/T, B = number of levels (plus 3 U(mu) for the reference, whose mu is a Richardson combination); 16 comparisons; N136_lam0_a15_T50: Rust 1.665e-16 (bound 9.399e-15), reference 5.551e-17 (bound 6.861e-12); N136_lamm1_a05_T10: Rust 0.000e+00 (bound 1.523e-15), reference 1.110e-16 (bound 8.693e-12); N136_lamp1_a20_T20: Rust 2.776e-17 (bound 3.693e-15), reference 0.000e+00 (bound 6.642e-12); N688_lam0_a10_T20: Rust -1.110e-16 (bound 3.196e-15), reference -1.110e-16 (bound 8.634e-12); N688_lamp1_a20_T50: Rust -5.551e-17 (bound 3.528e-14), reference -5.551e-17 (bound 7.015e-12); N8_lam0_a20_T50: Rust 1.388e-17 (bound 1.137e-14), reference 0.000e+00 (bound 6.315e-12); N8_lamm1_a00_T10: Rust -8.267e-10 (bound 1.001e-08), reference 0.000e+00 (bound 1.145e-08); N8_lamp1_a10_T20: Rust -1.388e-16 (bound 4.701e-15), reference -1.388e-17 (bound 6.307e-12); failures: none"
+   "detail": "DIAGNOSTIC (not a replacement of thermo_state_functions): each solver's floating-point mu minus the 40-digit root on its own levels, against the floating-point conditioning bound B eps_mach N / (dN/dmu), dN/dmu = sum g f (1 - f)/T, B = number of levels (plus 3 U(mu) for the reference, whose mu is a Richardson combination); 270 comparisons; largest |Rust mu - 40-digit root on its levels|: N688_lam0_a00_T50 -6.661e-16 (bound 1.128e-14), N688_lamm1_a00_T10 -4.441e-16 (bound 6.856e-15), N688_lamp1_a00_T10 -4.441e-16 (bound 6.865e-15); largest |reference mu - 40-digit root on its levels|: N688_lamm1_a00_T10 -1.332e-15 (bound 4.043e-11), N688_lam0_a00_T10 -6.661e-16 (bound 3.604e-11), N688_lamp1_a00_T10 -6.661e-16 (bound 3.233e-11); failures: none"
   },
   {
    "name": "reference_outputs_lf_only",
    "verdict": "PASS",
-   "detail": "32 reference result files; files with CRLF: none"
-  },
-  {
-   "name": "reference_repeat_byte_identical",
-   "verdict": "PASS",
-   "detail": "second reference run: 32 files, same file set: True, differing files: none"
+   "detail": "340 reference result files; files with CRLF: none"
   },
   {
    "name": "reference_manifest",
    "verdict": "PASS",
-   "detail": "manifest.json lists 31 files with SHA-256; mismatches: none"
+   "detail": "manifest.json lists 339 files with SHA-256 (339 result files besides it); mismatches: none"
+  },
+  {
+   "name": "reference_repeat_byte_identical",
+   "verdict": "PASS",
+   "detail": "this checker ran run_reference.py again into a fresh directory (<work>/reference-repeat; exit SUCCESS: True): 340 result files, same file set: True, differing files: none; report ks-reference.json byte-identical: True"
   }
  ]
 }

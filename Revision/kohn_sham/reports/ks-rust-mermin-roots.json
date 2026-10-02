@@ -4,8 +4,8 @@
   "method": "mpmath 40 significant digits (bracketed Newton from the solver's mu; self-check at 50 digits) on the exact doubles of `single --mermin-levels`; bounds as in solver/src/mermin.rs with the split S = {eps < root}",
   "summary": {
     "checks": 5,
-    "pass": 4,
-    "fail": 1
+    "pass": 5,
+    "fail": 0
   },
   "checks": [
     {
@@ -25,8 +25,8 @@
     },
     {
       "name": "single_reproduces_committed_matrix",
-      "verdict": "FAIL",
-      "detail": "the mu of every `single` run equals the mu of the committed results/thermo/thermodynamics.csv (16 significant digits) in 37 of 135 states (135 rows); differing: ['N136_lam0_a00_T10', 'N136_lam0_a00_T20', 'N136_lam0_a05_T20', 'N136_lam0_a15_T20', 'N136_lam0_a15_T50', 'N136_lam0_a20_T20', 'N136_lam0_a20_T50', 'N136_lamm1_a00_T10', 'N136_lamm1_a00_T20', 'N136_lamm1_a00_T50', 'N136_lamm1_a05_T10', 'N136_lamm1_a05_T20', 'N136_lamm1_a05_T50', 'N136_lamm1_a10_T10', 'N136_lamm1_a10_T20', 'N136_lamm1_a10_T50', 'N136_lamm1_a15_T20', 'N136_lamm1_a15_T50', 'N136_lamm1_a20_T10', 'N136_lamm1_a20_T50', 'N136_lamp1_a00_T10', 'N136_lamp1_a00_T20', 'N136_lamp1_a00_T50', 'N136_lamp1_a05_T10', 'N136_lamp1_a05_T20', 'N136_lamp1_a05_T50', 'N136_lamp1_a10_T10', 'N136_lamp1_a10_T20', 'N136_lamp1_a10_T50', 'N136_lamp1_a15_T10', 'N136_lamp1_a20_T50', 'N688_lam0_a00_T20', 'N688_lam0_a00_T50', 'N688_lam0_a05_T10', 'N688_lam0_a05_T20', 'N688_lam0_a05_T50', 'N688_lam0_a10_T20', 'N688_lam0_a15_T20', 'N688_lam0_a20_T20', 'N688_lamm1_a00_T20', 'N688_lamm1_a05_T20', 'N688_lamm1_a05_T50', 'N688_lamm1_a10_T50', 'N688_lamm1_a15_T10', 'N688_lamm1_a15_T20', 'N688_lamm1_a15_T50', 'N688_lamm1_a20_T10', 'N688_lamm1_a20_T50', 'N688_lamp1_a00_T10', 'N688_lamp1_a00_T20', 'N688_lamp1_a00_T50', 'N688_lamp1_a05_T50', 'N688_lamp1_a10_T20', 'N688_lamp1_a10_T50', 'N688_lamp1_a15_T10', 'N688_lamp1_a15_T50', 'N688_lamp1_a20_T50', 'N8_lam0_a00_T10', 'N8_lam0_a00_T20', 'N8_lam0_a00_T50', 'N8_lam0_a05_T10', 'N8_lam0_a05_T20', 'N8_lam0_a10_T10', 'N8_lam0_a10_T20', 'N8_lam0_a10_T50', 'N8_lam0_a15_T10', 'N8_lam0_a15_T20', 'N8_lam0_a15_T50', 'N8_lam0_a20_T10', 'N8_lam0_a20_T20', 'N8_lam0_a20_T50', 'N8_lamm1_a00_T10', 'N8_lamm1_a00_T20', 'N8_lamm1_a00_T50', 'N8_lamm1_a05_T10', 'N8_lamm1_a05_T50', 'N8_lamm1_a10_T10', 'N8_lamm1_a10_T20', 'N8_lamm1_a10_T50', 'N8_lamm1_a15_T10', 'N8_lamm1_a15_T50', 'N8_lamm1_a20_T10', 'N8_lamm1_a20_T20', 'N8_lamm1_a20_T50', 'N8_lamp1_a00_T10', 'N8_lamp1_a00_T20', 'N8_lamp1_a05_T10', 'N8_lamp1_a05_T20', 'N8_lamp1_a05_T50', 'N8_lamp1_a10_T10', 'N8_lamp1_a10_T20', 'N8_lamp1_a10_T50', 'N8_lamp1_a15_T10', 'N8_lamp1_a15_T20', 'N8_lamp1_a15_T50', 'N8_lamp1_a20_T10', 'N8_lamp1_a20_T20', 'N8_lamp1_a20_T50']: the comparison above applies to the committed matrix"
+      "verdict": "PASS",
+      "detail": "the mu of every `single` run equals the mu of the committed results/thermo/thermodynamics.csv (16 significant digits) in 135 of 135 states (135 rows); differing: none: the comparison above applies to the committed matrix"
     },
     {
       "name": "fixture_written",

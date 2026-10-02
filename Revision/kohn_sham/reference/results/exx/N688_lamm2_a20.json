@@ -1,0 +1,158 @@
+{
+ "id": "N688_lamm2_a20",
+ "N": 688.0,
+ "lambda_tag": "lamm2",
+ "lambda": -0.0005538,
+ "a4": 2.0,
+ "grids": [
+  300,
+  600,
+  1200
+ ],
+ "per_grid": [
+  {
+   "G": 300,
+   "iterations": 10,
+   "residual": 5.459521723594207e-13,
+   "uniform_gas_residual": 1.8457457784393227e-15,
+   "same_occupations_as_uniform_gas": true,
+   "open_shell": false,
+   "scalars": {
+    "E_exact_fock_scf": 110.1771537302333,
+    "E_uniform_gas": 110.23255815399983,
+    "deltaE_x_exact_fock": -0.054807322578994934,
+    "E_uniform_gas_plus_deltaE_x": 110.17775083142084,
+    "E_exx_minus_first_order": -0.0005971011875373841,
+    "HOMO_exact_fock": 0.20516384453419287,
+    "LUMO_exact_fock": 0.21378490661684355,
+    "gap_exact_fock": 0.008621062082650677,
+    "int_rho": 110.17713421860672,
+    "E_variational": 110.1771537302329,
+    "ycons_jump": 0.003283821948924576,
+    "ycons_integral": 0.0032837188750928373,
+    "p8_tip": -3321.0195485802706,
+    "p8_brane": 0.003233242888467904,
+    "N_sum": 688.0,
+    "max_abs_wQ": 0.08003723357570426
+   }
+  },
+  {
+   "G": 600,
+   "iterations": 10,
+   "residual": 5.541817005294547e-13,
+   "uniform_gas_residual": 3.247402347028583e-15,
+   "same_occupations_as_uniform_gas": true,
+   "open_shell": false,
+   "scalars": {
+    "E_exact_fock_scf": 110.17656300257859,
+    "E_uniform_gas": 110.23196886932313,
+    "deltaE_x_exact_fock": -0.05480838272377521,
+    "E_uniform_gas_plus_deltaE_x": 110.17716048659935,
+    "E_exx_minus_first_order": -0.0005974840207608606,
+    "HOMO_exact_fock": 0.20516271395995586,
+    "LUMO_exact_fock": 0.21378372368513243,
+    "gap_exact_fock": 0.00862100972517657,
+    "int_rho": 110.17655812465055,
+    "E_variational": 110.17656300257818,
+    "ycons_jump": 0.00328372296851478,
+    "ycons_integral": 0.0032836972004733713,
+    "p8_tip": -3321.0096333106962,
+    "p8_brane": 0.0032331440590674626,
+    "N_sum": 688.0,
+    "max_abs_wQ": 0.08083566746215705
+   }
+  },
+  {
+   "G": 1200,
+   "iterations": 10,
+   "residual": 5.567490912739004e-13,
+   "uniform_gas_residual": 5.551115123125783e-15,
+   "same_occupations_as_uniform_gas": true,
+   "open_shell": false,
+   "scalars": {
+    "E_exact_fock_scf": 110.1764153218434,
+    "E_uniform_gas": 110.23182154935931,
+    "deltaE_x_exact_fock": -0.054808647760890214,
+    "E_uniform_gas_plus_deltaE_x": 110.17701290159842,
+    "E_exx_minus_first_order": -0.0005975797550266254,
+    "HOMO_exact_fock": 0.20516243131868636,
+    "LUMO_exact_fock": 0.2137834279546861,
+    "gap_exact_fock": 0.008620996635999745,
+    "int_rho": 110.17641410236004,
+    "E_variational": 110.17641532184297,
+    "ycons_jump": 0.0032836982238137963,
+    "ycons_integral": 0.0032836917818388003,
+    "p8_tip": -3321.0071385735287,
+    "p8_brane": 0.0032331193523612756,
+    "N_sum": 688.0,
+    "max_abs_wQ": 0.08123933531720805
+   }
+  }
+ ],
+ "scalars": {
+  "E_exact_fock_scf": {
+   "value": 110.17636609503643,
+   "U": 3.2511515315054206e-10
+  },
+  "E_uniform_gas": {
+   "value": 110.23177244281186,
+   "U": 3.2761338943824683e-10
+  },
+  "deltaE_x_exact_fock": {
+   "value": -0.054808736106677,
+   "U": 2.0817748646575466e-12
+  },
+  "E_uniform_gas_plus_deltaE_x": {
+   "value": 110.17696370670517,
+   "U": 3.2741850683774226e-10
+  },
+  "E_exx_minus_first_order": {
+   "value": -0.0005976116687560933,
+   "U": 4.307546298138674e-12
+  },
+  "HOMO_exact_fock": {
+   "value": 0.20516233710513337,
+   "U": 2.2035316359894068e-12
+  },
+  "LUMO_exact_fock": {
+   "value": 0.21378332937809125,
+   "U": 2.220573559417403e-12
+  },
+  "gap_exact_fock": {
+   "value": 0.008620992272957843,
+   "U": 2.01704018870452e-12
+  },
+  "int_rho": {
+   "value": 110.1763660950364,
+   "U": 3.268915099899422e-10
+  },
+  "E_variational": {
+   "value": 110.17636609503597,
+   "U": 3.2510094229582593e-10
+  },
+  "ycons_jump": {
+   "value": 0.003283689975615821,
+   "U": 2.035685863986057e-12
+  },
+  "ycons_integral": {
+   "value": 0.003283689975629081,
+   "U": 2.001804112415016e-12
+  },
+  "p8_tip": {
+   "value": -3321.006305579382,
+   "U": 1.4217330045519738e-06
+  },
+  "p8_brane": {
+   "value": 0.003233111116849784,
+   "U": 2.0572376347707237e-12
+  },
+  "N_sum": {
+   "value": 688.0,
+   "U": 1.376e-09
+  },
+  "max_abs_wQ": {
+   "value": 0.08139202988075286,
+   "U": 1.8138613861145958e-05
+  }
+ }
+}

@@ -233,7 +233,7 @@
    "name": "grassmann_trace_on_shell",
    "section": "E. energy-momentum tensor - dirac16complex (anticommuting, Grassmann)",
    "verdict": "pass",
-   "detail": "dirac16complex (anticommuting, Grassmann): T^mu_mu = 7K - 8V off shell; on shell T^mu_mu = -m S + 7 S U' - 8 U = -m S + 3 lambda S^2"
+   "detail": "dirac16complex (anticommuting, Grassmann): off shell T^mu_mu = 7 sum_mu K_mu - 8 (m S + U) exactly, K_mu = (1/(2 f_mu))(Psibar gamma^(mu) d_mu Psi - d_mu Psibar gamma^(mu) Psi) (no sum; sum_mu K_mu equals the kinetic term K of L, the spin connection drops out), U = (lambda/2) S^2; on shell (prolonged substitution) T^mu_mu = -m S + 7 S U' - 8 U = -m S + 3 lambda S^2"
   },
   {
    "name": "grassmann_homogeneous_on_shell_rho_p",
@@ -245,7 +245,7 @@
    "name": "grassmann_T_x4x8_homogeneous",
    "section": "E. energy-momentum tensor - dirac16complex (anticommuting, Grassmann)",
    "verdict": "pass",
-   "detail": "dirac16complex (anticommuting, Grassmann): T^x4_x8 on homogeneous on-shell states has 0 bilinear monomials (zero)"
+   "detail": "dirac16complex (anticommuting, Grassmann): on homogeneous on-shell states (x4 dependence only, prolonged on-shell substitution) T^x4_x8 has 0 and T^x8_x4 has 0 bilinear monomials: both vanish identically, so these states do not source the off-diagonal x4-x8 component of the a4 field equations (the verdict requires both to vanish). Not claimed for the other off-diagonal components: 42 of the remaining 54 are nonzero bilinears in general (T^x1_x4, T^x1_x5, T^x1_x6, T^x1_x7, T^x1_x8, T^x2_x4, ...); their vanishing is a separate condition on the state (Revision/field_equations_a4: offDiagonalConditions)"
   },
   {
    "name": "grassmann_emt_equals_general_vielbein_variation_on_shell",
@@ -323,7 +323,7 @@
    "name": "commuting_trace_on_shell",
    "section": "E. energy-momentum tensor - dirac16complex00 (commuting)",
    "verdict": "pass",
-   "detail": "dirac16complex00 (commuting): T^mu_mu = 7K - 8V off shell; on shell T^mu_mu = -m S + 7 S U' - 8 U = -m S + 3 lambda S^2"
+   "detail": "dirac16complex00 (commuting): off shell T^mu_mu = 7 sum_mu K_mu - 8 (m S + U) exactly, K_mu = (1/(2 f_mu))(Psibar gamma^(mu) d_mu Psi - d_mu Psibar gamma^(mu) Psi) (no sum; sum_mu K_mu equals the kinetic term K of L, the spin connection drops out), U = (lambda/2) S^2; on shell (prolonged substitution) T^mu_mu = -m S + 7 S U' - 8 U = -m S + 3 lambda S^2"
   },
   {
    "name": "commuting_homogeneous_on_shell_rho_p",
@@ -335,7 +335,7 @@
    "name": "commuting_T_x4x8_homogeneous",
    "section": "E. energy-momentum tensor - dirac16complex00 (commuting)",
    "verdict": "pass",
-   "detail": "dirac16complex00 (commuting): T^x4_x8 on homogeneous on-shell states has 0 bilinear monomials (zero)"
+   "detail": "dirac16complex00 (commuting): on homogeneous on-shell states (x4 dependence only, prolonged on-shell substitution) T^x4_x8 has 0 and T^x8_x4 has 0 bilinear monomials: both vanish identically, so these states do not source the off-diagonal x4-x8 component of the a4 field equations (the verdict requires both to vanish). Not claimed for the other off-diagonal components: 42 of the remaining 54 are nonzero bilinears in general (T^x1_x4, T^x1_x5, T^x1_x6, T^x1_x7, T^x1_x8, T^x2_x4, ...); their vanishing is a separate condition on the state (Revision/field_equations_a4: offDiagonalConditions)"
   },
   {
    "name": "commuting_emt_equals_general_vielbein_variation_on_shell",
@@ -419,7 +419,7 @@
    "name": "energy_exchange_equation",
    "section": "I. Hamiltonian form, energy exchange, exact solutions",
    "verdict": "pass",
-   "detail": "for a diagonal T^mu_nu = diag(p3,p3,p3,-rho,p_t,p_t,p_t,p8)(x4): nabla_mu T^mu_x4 = -3*A1*p3 + 3*A1*pt - rho_1 (rho_1 = d rho/dx4), so conservation gives d rho/dx4 = -3 a4' (p3 - p_t): energy flows between 3-space and the extra times unless p3 = p_t; nabla_mu T^mu_x8 = 3*H*cot(6*H*x8)*(2*p8 - p3 - p_t) exactly, so a conserved x8-independent diagonal T needs p8 = (p3 + p_t)/2; the other components vanish identically"
+   "detail": "for a diagonal T^mu_nu = diag(p3,p3,p3,-rho,p_t,p_t,p_t,p8) whose entries are functions of x4 and x8, all eight components: nabla_mu T^mu_x4 = -3*A1*(p3 - pt) - rho_4, nabla_mu T^mu_x8 = 3*H*c*(-p3 + 2*p8 - pt)/s**6 + p8_8 (each equal to the component computed from the Christoffel symbols, exact zero test of the difference; ring: c/s^6 = cot z; rho_4 = d rho/d x4, p8_8 = d p8/d x8), i.e. -d4 rho - 3 a4' (p3 - p_t) and d8 p8 + 3 H cot z (2 p8 - p3 - p_t); the components nu = x1, x2, x3, x5, x6, x7 vanish identically. Conservation is therefore exactly d rho/d x4 = -3 a4' (p3 - p_t) (energy flows between 3-space and the extra times unless p3 = p_t) and d p8/d x8 = -3 H cot z (2 p8 - p3 - p_t); the two components are independent (the x4 one contains no x8 derivative and no H, the x8 one no x4 derivative and no a4'). For x8-independent entries the x8 component is 3 H cot z (2 p8 - p3 - p_t) with cot z > 0, so conservation needs p8 = (p3 + p_t)/2. Controls: a wrong sign of the a4' term and a wrong factor of the cot z term are detected"
   },
   {
    "name": "exact_solution_family_x4_x8",
@@ -545,9 +545,25 @@
    "emt_operator": "T^mu_nu = :-Theta^mu_nu + delta^mu_nu (K - V):, normal ordered with respect to the modes; one-particle expectation = eps_n times the classical bilinear evaluated on u_n"
   },
   "energy_exchange": {
-   "nabla_mu T^mu_x4": "-rho' - 3*a4'*(p3 - p_t)",
-   "nabla_mu T^mu_x8": "3*H*cot(6*H*x8)*(2*p8 - p3 - p_t)",
-   "T": "diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8), functions of x4 only"
+   "T": "diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8), entries functions of x4 and x8",
+   "nabla_mu T^mu_nu": {
+    "x1": "0",
+    "x2": "0",
+    "x3": "0",
+    "x4": "-d4 rho - 3*a4'*(p3 - p_t)",
+    "x5": "0",
+    "x6": "0",
+    "x7": "0",
+    "x8": "d8 p8 + 3*H*cot(6*H*x8)*(2*p8 - p3 - p_t)"
+   },
+   "conservation": [
+    "d4 rho = -3*a4'*(p3 - p_t)",
+    "d8 p8 = -3*H*cot(6*H*x8)*(2*p8 - p3 - p_t)"
+   ],
+   "x8_independent_entries": [
+    "d rho/d x4 = -3*a4'*(p3 - p_t)",
+    "p8 = (p3 + p_t)/2"
+   ]
   },
   "lagrangian": "L = sqrt|g| [ (1/2)(Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi) - m Psibar Psi - (lambda/2) (Psibar Psi)^2 ], Psibar = Psi^dagger C, gamma^mu = e^mu_a gamma^a, D_mu Psi = d_mu Psi + Omega_mu Psi",
   "euler_lagrange": "gamma^mu D_mu Psi = (m + lambda S) Psi;  D_mu Psibar gamma^mu = -(m + lambda S) Psibar; in this metric: e^{-a4} sin(z)^(-1/6) gamma^(xi) d_i Psi (i=1,2,3) + gamma^(x4) d_4 Psi + e^{a4} sin(z)^(-1/6) gamma^(xj) d_j Psi (j=5,6,7) + tan(z) gamma^(x8) d_8 Psi + 3 H gamma^(x8) Psi = (m + lambda S) Psi, z = 6 H x8",
@@ -691,17 +707,17 @@
     {
      "name": "EMT_homogeneous_on_shell",
      "verdict": "agree",
-     "detail": "rho = m S + U, p3 = p_t = p8 = S U' - U, w = lambda S/(2 m + lambda S): the same statements as the sympy checks *_homogeneous_on_shell_rho_p (verified there by on-shell substitution)"
+     "detail": "rho = m S + U, p3 = p_t = p8 = S U' - U, w = lambda S/(2 m + lambda S): the same statements as the passing sympy checks grassmann_homogeneous_on_shell_rho_p and commuting_homogeneous_on_shell_rho_p (verified there by on-shell substitution)"
     },
     {
      "name": "EMT_offdiagonal_x4_x8",
      "verdict": "agree",
-     "detail": "T^x4_x8 = -(1/4)(B48 - Cot[z] B84) and T^x8_x4 = -Tan[z]^2 T^x4_x8 equal the sympy components off shell, both statistics; on homogeneous on-shell states both sides give 0 (sympy check *_T_x4x8_homogeneous)"
+     "detail": "T^x4_x8 = -(1/4)(B48 - Cot[z] B84) and T^x8_x4 = -Tan[z]^2 T^x4_x8 equal the sympy components off shell, both statistics; on homogeneous on-shell states the sympy side finds T^x4_x8 = T^x8_x4 = 0 (passing checks grassmann_T_x4x8_homogeneous, commuting_T_x4x8_homogeneous); the Wolfram side states T^x4_x8 = 0 at its exact solutions (exact_solution_x4_x8_*)"
     },
     {
      "name": "energy_exchange",
      "verdict": "agree",
-     "detail": "nabla_mu T^mu_x4 = -3*A1*p3 + 3*A1*pt - rhod recomputed here from the sympy Christoffel symbols for T = diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8)(x4) (rhod = d rho/d x4) equals the Wolfram left-hand side, and the Wolfram d rho/d x4 = -3 a4' (p3 - p_t) makes it vanish (prose form: lhs -3*A1*(p3 - pt) - rhod, rhs -3*A1*(p3 - pt); sympy check energy_exchange_equation adds nabla_mu T^mu_x8 = 3 H cot z (2 p8 - p3 - p_t))"
+     "detail": "the complete identity nabla_mu T^mu_nu, nu = x1..x8, for T = diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8) with entries functions of x4 and x8, recomputed here from the sympy Christoffel symbols with the general mixed-tensor formula (f_4 = d f/d x4, f_8 = d f/d x8; ring c/s^6 = cot z): x1: 0; x2: 0; x3: 0; x4: -3*A1*p3 + 3*A1*pt - rho_4; x5: 0; x6: 0; x7: 0; x8: -3*H*c*p3/s**6 + 6*H*c*p8/s**6 - 3*H*c*pt/s**6 + p8_8. Wolfram entry 1 (the eight components) equals it component by component; entry 2 (d rho/d x4 = -3 a4' (p3 - p_t), d p8/d x8 = -3 H cot z (2 p8 - p3 - p_t)) is equivalent to its vanishing; entry 3 (x8-independent entries: d rho/d x4 = -3 a4' (p3 - p_t), p8 = (p3 + p_t)/2) is equivalent to its vanishing (coefficient of p8 in the x8 component 6 H cot z > 0). Same statement as the sympy check energy_exchange_equation"
     },
     {
      "name": "nontriviality",

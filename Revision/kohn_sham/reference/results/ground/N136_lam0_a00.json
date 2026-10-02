@@ -4267,5 +4267,161 @@
  ],
  "lumo_group": [
   "5:+1:even:0"
- ]
+ ],
+ "particle_hole": {
+  "rows_kept": 48,
+  "cut_lowest_excluded": 1.142182148603603,
+  "list": [
+   {
+    "hole": "4:+1:even:0",
+    "particle": "5:+1:even:0",
+    "eps_hole": 0.7996457668344849,
+    "eps_particle": 0.8823195405311395,
+    "delta_eps": 0.08267377369665463,
+    "U_delta_eps": 7.806954751439661e-12,
+    "multiplicity": 2304.0,
+    "same_sector": false
+   },
+   {
+    "hole": "4:+1:even:0",
+    "particle": "6:+1:even:0",
+    "eps_hole": 0.7996457668344849,
+    "eps_particle": 0.95600692983774,
+    "delta_eps": 0.1563611630032552,
+    "U_delta_eps": 8.151901045190697e-12,
+    "multiplicity": 2304.0,
+    "same_sector": false
+   },
+   {
+    "hole": "3:+1:even:0",
+    "particle": "5:+1:even:0",
+    "eps_hole": 0.7040995646094984,
+    "eps_particle": 0.8823195405311395,
+    "delta_eps": 0.17821997592164107,
+    "U_delta_eps": 7.459010855522137e-12,
+    "multiplicity": 3072.0,
+    "same_sector": false
+   },
+   {
+    "hole": "3:+1:even:0",
+    "particle": "6:+1:even:0",
+    "eps_hole": 0.7040995646094984,
+    "eps_particle": 0.95600692983774,
+    "delta_eps": 0.25190736522824164,
+    "U_delta_eps": 7.803957149273173e-12,
+    "multiplicity": 3072.0,
+    "same_sector": false
+   },
+   {
+    "hole": "4:+1:even:0",
+    "particle": "8:+1:even:0",
+    "eps_hole": 0.7996457668344849,
+    "eps_particle": 1.0847048581095546,
+    "delta_eps": 0.2850590912750698,
+    "U_delta_eps": 9.01875286547933e-12,
+    "multiplicity": 1152.0,
+    "same_sector": false
+   },
+   {
+    "hole": "2:+1:even:0",
+    "particle": "5:+1:even:0",
+    "eps_hole": 0.5879568527515173,
+    "eps_particle": 0.8823195405311395,
+    "delta_eps": 0.29436268777962216,
+    "U_delta_eps": 7.101296996987911e-12,
+    "multiplicity": 4608.0,
+    "same_sector": false
+   },
+   {
+    "hole": "2:+1:even:0",
+    "particle": "6:+1:even:0",
+    "eps_hole": 0.5879568527515173,
+    "eps_particle": 0.95600692983774,
+    "delta_eps": 0.3680500770862227,
+    "U_delta_eps": 7.446243290738948e-12,
+    "multiplicity": 4608.0,
+    "same_sector": false
+   },
+   {
+    "hole": "3:+1:even:0",
+    "particle": "8:+1:even:0",
+    "eps_hole": 0.7040995646094984,
+    "eps_particle": 1.0847048581095546,
+    "delta_eps": 0.38060529350005623,
+    "U_delta_eps": 8.670808969561806e-12,
+    "multiplicity": 1536.0,
+    "same_sector": false
+   },
+   {
+    "hole": "1:+1:even:0",
+    "particle": "5:+1:even:0",
+    "eps_hole": 0.4307336786379083,
+    "eps_particle": 0.8823195405311395,
+    "delta_eps": 0.4515858618932312,
+    "U_delta_eps": 6.723155034800583e-12,
+    "multiplicity": 2304.0,
+    "same_sector": false
+   },
+   {
+    "hole": "2:+1:even:0",
+    "particle": "8:+1:even:0",
+    "eps_hole": 0.5879568527515173,
+    "eps_particle": 1.0847048581095546,
+    "delta_eps": 0.4967480053580373,
+    "U_delta_eps": 8.31309511102758e-12,
+    "multiplicity": 2304.0,
+    "same_sector": false
+   },
+   {
+    "hole": "1:+1:even:0",
+    "particle": "6:+1:even:0",
+    "eps_hole": 0.4307336786379083,
+    "eps_particle": 0.95600692983774,
+    "delta_eps": 0.5252732511998317,
+    "U_delta_eps": 7.068101328551619e-12,
+    "multiplicity": 2304.0,
+    "same_sector": false
+   },
+   {
+    "hole": "1:+1:even:0",
+    "particle": "8:+1:even:0",
+    "eps_hole": 0.4307336786379083,
+    "eps_particle": 1.0847048581095546,
+    "delta_eps": 0.6539711794716463,
+    "U_delta_eps": 7.934953148840252e-12,
+    "multiplicity": 1152.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "5:+1:even:0",
+    "eps_hole": 1.6387534092192654e-39,
+    "eps_particle": 0.8823195405311395,
+    "delta_eps": 0.8823195405311395,
+    "U_delta_eps": 6.075783989141654e-12,
+    "multiplicity": 768.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "6:+1:even:0",
+    "eps_hole": 1.6387534092192654e-39,
+    "eps_particle": 0.95600692983774,
+    "delta_eps": 0.95600692983774,
+    "U_delta_eps": 6.4207302828926904e-12,
+    "multiplicity": 768.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "8:+1:even:0",
+    "eps_hole": 1.6387534092192654e-39,
+    "eps_particle": 1.0847048581095546,
+    "delta_eps": 1.0847048581095546,
+    "U_delta_eps": 7.287582103181324e-12,
+    "multiplicity": 384.0,
+    "same_sector": false
+   }
+  ]
+ }
 }

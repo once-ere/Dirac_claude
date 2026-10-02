@@ -69,16 +69,19 @@ class Phys:
     """Physical parameters (units H = 1, m = 1 canonical)."""
 
     def __init__(self, H=1.0, m=1.0, L=3.0, dk=0.25, vt=1.0, a4=0.0, lam=0.0, N=8.0, T=0.0,
-                 cM=15.0 / 16.0, cV=-1.0 / 16.0, cS2=15.0 / 32.0, cN2=-1.0 / 32.0):
+                 cM=15.0 / 16.0, cV=-1.0 / 16.0, cS2=15.0 / 32.0, cN2=-1.0 / 32.0, exx=False, cQ2=1.0 / 32.0):
         self.H, self.m, self.L, self.dk, self.vt = H, m, L, dk, vt
         self.a4, self.lam, self.N, self.T = a4, lam, N, T
         # functional coefficients (ks-theory.json exchange.kohnShamPotentials): M_eff = m + cM lam S,
         # v_v = cV lam n, e_int = lam (cS2 S^2 + cN2 n^2)
         self.cM, self.cV, self.cS2, self.cN2 = cM, cV, cS2, cN2
+        # exact-Fock VARIANT (ks-theory.json exchange.exactFockSlab): e_int += lam cQ2 Q^2 and
+        # h += w_Q sigma3 (both block types), w_Q = 2 cQ2 lam Q = lam Q/16
+        self.exx, self.cQ2 = exx, cQ2
 
     def copy(self, **kw):
         p = Phys(self.H, self.m, self.L, self.dk, self.vt, self.a4, self.lam, self.N, self.T,
-                 self.cM, self.cV, self.cS2, self.cN2)
+                 self.cM, self.cV, self.cS2, self.cN2, self.exx, self.cQ2)
         for k, v in kw.items():
             setattr(p, k, v)
         return p
@@ -174,13 +177,16 @@ def shell_sectors(shell_list):
     return Sectors([(n2, r3, j, odd) for (n2, r3) in shell_list for (j, odd) in SECTOR_ORDER])
 
 
-def sector_arrays(grid: Grid, phys: Phys, sec: Sectors, M, v, a4=None):
+def sector_arrays(grid: Grid, phys: Phys, sec: Sectors, M, v, a4=None, wq=None):
     """Diagonal alpha (n, S) and off-diagonal beta (n-1, S) of every sector matrix.
-    M, v: potentials at the n interior positions."""
+    M, v: potentials at the n interior positions; wq (exact-Fock variant only): w_Q at the same positions,
+    entering as w_Q sigma3 for both block types, i.e. K -> K + j w_Q in j[... + K sigma3]."""
     a4 = phys.a4 if a4 is None else a4
     kap = np.exp(-phys.H * grid.y - a4)
     K = kap[:, None] * sec.kmag(phys.dk)[None, :]
     j = sec.j[None, :]
+    if wq is not None:
+        K = K + j * wq[:, None]
     phi = np.where(sec.odd[None, :], j * grid.phi0[:, None], 0.0)
     c2 = np.where(sec.odd[None, :], np.cos(2.0 * phi), 1.0)
     s2 = np.where(sec.odd[None, :], np.sin(2.0 * phi), 0.0)
@@ -498,7 +504,14 @@ def solve_state(grid: Grid, phys: Phys, ls: LevelSet, mode="aufbau", fixed=None,
     per level, e.g. Delta-SCF or a4 +- delta), 'mermin' (T > 0).  Potentials (dM, v) at the n interior
     positions are mixed (Anderson); converged when max |output - input| <= tol (units of m)."""
     n = grid.n
-    x = np.zeros(2 * n) if (start is None or phys.lam == 0.0) else np.concatenate([start[0], start[1]])
+    ncomp = 3 if phys.exx else 2                     # (dM, v) or, in the exact-Fock variant, (dM, v, w_Q)
+    if start is None or phys.lam == 0.0:
+        x = np.zeros(ncomp * n)
+    else:
+        parts = [start[0], start[1]]
+        if phys.exx:
+            parts.append(start[2] if len(start) > 2 else np.zeros(n))
+        x = np.concatenate(parts)
     mix = Anderson()
     lev_j, lev_odd, deg = ls.j, ls.odd, ls.deg
     kmag_l = ls.sec.kmag(phys.dk)[ls.lev_sec]
@@ -509,8 +522,9 @@ def solve_state(grid: Grid, phys: Phys, ls: LevelSet, mode="aufbau", fixed=None,
     hist = []
     eps_prev = guess
     for it in range(1, maxit + 1):
-        dM, v = x[:n], x[n:]
-        alpha, beta = sector_arrays(grid, phys, sec_u, phys.m + dM, v)
+        dM, v = x[:n], x[n:2 * n]
+        wq = x[2 * n:] if phys.exx else None
+        alpha, beta = sector_arrays(grid, phys, sec_u, phys.m + dM, v, wq=wq)
         aT = alpha[:, inv]
         bT = beta[:, inv]
         del alpha, beta
@@ -530,7 +544,10 @@ def solve_state(grid: Grid, phys: Phys, ls: LevelSet, mode="aufbau", fixed=None,
         occ = wgf > 0.0
         a, b = orbitals_ext(grid, Z[:, occ], lev_j[occ], lev_odd[occ])
         dens = Dens(grid, phys, a, b, wgf[occ], lev_j[occ], kmag_l[occ], eps[occ])
-        xo = np.concatenate([phys.lam * phys.cM * dens.S[1:n + 1], phys.lam * phys.cV * dens.n[1:n + 1]])
+        outs = [phys.lam * phys.cM * dens.S[1:n + 1], phys.lam * phys.cV * dens.n[1:n + 1]]
+        if phys.exx:
+            outs.append(2.0 * phys.cQ2 * phys.lam * dens.Q[1:n + 1])
+        xo = np.concatenate(outs)
         r = xo - x
         res = float(np.max(np.abs(r))) if phys.lam != 0.0 else 0.0
         hist.append(res)
@@ -539,6 +556,7 @@ def solve_state(grid: Grid, phys: Phys, ls: LevelSet, mode="aufbau", fixed=None,
             st.grid, st.phys, st.ls = grid, phys, ls
             st.eps, st.Z, st.f, st.mu, st.open_shell = eps, Z, f, mu, open_shell
             st.dM, st.v = dM.copy(), v.copy()
+            st.wq = wq.copy() if wq is not None else np.zeros(n)
             st.dens, st.a, st.b, st.occ = dens, a, b, occ
             st.iters, st.res, st.hist = it, res, hist
             st.kmag_l = kmag_l
@@ -560,11 +578,15 @@ def observables(st: State):
     eint = lam * (ph.cS2 * d.S ** 2 + ph.cN2 * d.n ** 2)
     Mx = ph.m + ph.cM * lam * d.S          # M_eff from the output densities (ext grid incl. the ends)
     vx = ph.cV * lam * d.n
-    # p8 bracket: sum w g f [(eps - v) n_o - M s_o - kappa |k| t_o] = k4 - v n - M S - tk
+    wx = 2.0 * ph.cQ2 * lam * d.Q if ph.exx else np.zeros_like(d.Q)   # w_Q (exact-Fock variant only)
+    if ph.exx:
+        eint = eint + ph.cQ2 * lam * d.Q ** 2
+    # p8 bracket: sum w g f [(eps - v) n_o - M s_o - kappa |k| t_o - w_Q q_o] = k4 - v n - M S - tk - w_Q Q
+    # (the w_Q term only in the exact-Fock variant: the orbital identity holds with kappa k -> kappa k + j w_Q)
     rho = d.k4 - eint
     p3 = d.tk / 3.0 + eint
     pt = eint.copy()
-    p8 = d.k4 - vx * d.n - Mx * d.S - d.tk + eint
+    p8 = d.k4 - vx * d.n - Mx * d.S - d.tk - wx * d.Q + eint
     vol2 = 2.0 * ph.vol7
     e6 = g.e6ext
     I = lambda f: vol2 * g.midpoint(e6 * f)
@@ -572,7 +594,10 @@ def observables(st: State):
     o["E_band"] = float(np.sum(st.ls.deg * st.f * st.eps))
     o["E_int"] = I(eint)
     o["E_KS"] = o["E_band"] - o["E_int"]
-    o["E_variational"] = o["E_band"] - vol2 * g.midpoint(e6 * (st_pot_ext(st, "dM") * d.S + st_pot_ext(st, "v") * d.n)) + o["E_int"]
+    pe = st_pot_ext(st, "dM") * d.S + st_pot_ext(st, "v") * d.n
+    if ph.exx:
+        pe = pe + st_pot_ext(st, "wq") * d.Q
+    o["E_variational"] = o["E_band"] - vol2 * g.midpoint(e6 * pe) + o["E_int"]
     o["int_rho"] = I(rho)
     o["int_p3"] = I(p3)
     o["int_p_t"] = I(pt)
@@ -595,7 +620,7 @@ def observables(st: State):
 def st_pot_ext(st: State, which):
     """Input potentials of the last iteration on the ext grid (ends: nearest interior value; they enter
     only the variational energy form through the midpoint rule, which never uses the ends)."""
-    x = st.dM if which == "dM" else st.v
+    x = {"dM": st.dM, "v": st.v, "wq": st.wq}[which]
     return np.concatenate([[x[0]], x, [x[-1]]])
 
 
@@ -759,6 +784,21 @@ def relabel(grid: Grid, phys: Phys, ls0: LevelSet):
     """The same label set (sectors and ranks) on another grid: recompute the particle offsets."""
     imin = particle_offsets_chunked(grid, phys.copy(lam=0.0), ls0.sec)
     return LevelSet(ls0.sec, ls0.lev_sec, imin[ls0.lev_sec] + ls0.lev_rank, ls0.lev_rank, imin)
+
+
+def sea_brane_levels(grid: Grid, phys: Phys, shell_list, dM, v, chunk=256):
+    """The highest SEA level of the j = -1 even sector of every shell (n2, r3) with n2 >= 1, in the given
+    potentials: Sturm index imin - 1, i.e. rank -1 below the lowest particle level (the sea brane band,
+    eps ~ -c kappa |k|; the normal-ordered sea is not populated by the filling CONVENTION).  Returns eps."""
+    sec = Sectors([(n2, r3, -1, False) for (n2, r3) in shell_list])
+    out = []
+    for c0 in range(0, len(sec), chunk):
+        sub = sec.subset(range(c0, min(c0 + chunk, len(sec))))
+        imin, _, _ = particle_offsets(grid, phys.copy(lam=0.0, exx=False), sub)
+        al, be = sector_arrays(grid, phys, sub, phys.m + dM, v)
+        eps, _ = eigen(al, be, imin - 1)
+        out.append(eps)
+    return np.concatenate(out) if out else np.zeros(0)
 
 
 def lowest_excluded(grid: Grid, phys: Phys, ls: LevelSet, dM, v, nbeyond=5, chunk=256):

@@ -3,15 +3,15 @@
   "producer": "Revision/kohn_sham/solver (cargo run --release -- all)",
   "numerics": "canonical",
   "summary": {
-    "checks": 40,
-    "pass": 40,
+    "checks": 42,
+    "pass": 42,
     "fail": 0
   },
   "checks": [
     {
       "name": "theory_input_coefficients",
       "verdict": "PASS",
-      "detail": "ks-theory.json (sha256 41c16878199cfcea): M_eff = m + 0.9375 lambda S, v_v = -0.0625 lambda n, e_x = (-0.03125 n^2 + -0.03125 S^2) lambda; consistent: M_eff - m = d e_int/dS with e_int = (1/2 + -0.03125) lambda S^2 + -0.03125 lambda n^2, v_v = d e_int/dn"
+      "detail": "ks-theory.json (sha256 1bf41d79318a24a4): M_eff = m + 0.9375 lambda S, v_v = -0.0625 lambda n, e_x = (-0.03125 n^2 + -0.03125 S^2) lambda; consistent: M_eff - m = d e_int/dS with e_int = (1/2 + -0.03125) lambda S^2 + -0.03125 lambda n^2, v_v = d e_int/dn"
     },
     {
       "name": "gamma_fixture_numeric",
@@ -67,6 +67,16 @@
       "name": "thermo_sea_hole_diagnostic_computed",
       "verdict": "PASS",
       "detail": "DIAGNOSTIC of the filling CONVENTION (not a validation): for every thermal state the number of thermal holes the excluded sea brane band (j = -1, even, l = 0, eps < 0) would carry at the same mu and T was computed; it exceeds 1% of N in 15 of 135 states (largest 30.976 N): there the particle-only Mermin ensemble is outside its range of validity and a thermal treatment of the sea (pairs) would be required; listed: N8_lam0_a10_T50 (0.097), N8_lam0_a15_T50 (2.054), N8_lam0_a20_T20 (0.133), N8_lam0_a20_T50 (30.804), N8_lamp1_a10_T50 (0.097), N8_lamp1_a15_T50 (2.044), N8_lamp1_a20_T20 (0.132), N8_lamp1_a20_T50 (30.623), N8_lamm1_a10_T50 (0.098), N8_lamm1_a15_T50 (2.064), N8_lamm1_a20_T20 (0.133), N8_lamm1_a20_T50 (30.976), N136_lam0_a20_T50 (0.112), N136_lamp1_a20_T50 (0.111), N136_lamm1_a20_T50 (0.113)"
+    },
+    {
+      "name": "thermo_mu_well_conditioned_root",
+      "verdict": "PASS",
+      "detail": "every thermal state (135 of 135): mu is the root of sum g f = N in the well-conditioned form LogBalance of solver/src/mermin.rs (thermal particles above and holes below a split of the levels, complementary factors f(-x), never 1 - f) on its final levels, bit for bit: true; the two exactly equivalent forms LogBalance and LinearDeviation (different rounding paths; the refined run uses LinearDeviation) agree within the rounding bound (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + 2 eps_mach |mu|: max |difference| 2.429e-16 (N136_lamp1_a20_T50), max ratio to the bound 0.360 (N136_lamm1_a05_T10), largest bound 4.74e-14; split passes at most 2. DIAGNOSTIC of the error class removed: the former direct count sum g f - N (bisection) deviates from the LogBalance root by more than 1e-12 m in 3 states, each within its conditioning bound (n + 2) eps_mach N/(dN/dmu): true; largest: N8_lamm1_a00_T10 -8.267e-10 (dN/dmu 1.242e-6, its bound 1.29e-8); N8_lam0_a00_T10 2.722e-10 (dN/dmu 1.229e-6, its bound 1.01e-8); N8_lamp1_a00_T10 6.959e-11 (dN/dmu 1.216e-6, its bound 1.31e-8); N8_lamp1_a05_T10 -4.000e-13 (dN/dmu 3.302e-3, its bound 8.07e-12); N8_lam0_a05_T10 -1.716e-13 (dN/dmu 3.329e-3, its bound 5.34e-12)"
+    },
+    {
+      "name": "thermo_mu_vs_40digit_roots",
+      "verdict": "PASS",
+      "detail": "the root finder on fixed inputs: tools/mermin-roots-40digit.json (sha256 fd727e7a576e1324) holds the exact final levels (shortest round-trip decimals of `single --mermin-levels`) of the 8 thermal states with the largest conditioning bound of the direct count and the roots of sum g f = N computed by tools/mermin_roots_mp.py with mpmath at 40 digits; |mu - root| of both forms within their rounding bounds: true (largest ratio 0.303, largest bound 1.5e-16); LogBalance reproduces the recorded canonical mu bit for bit: true; negative control: the former direct count misses the root by up to 8.267e-10 (N8_lamm1_a00_T10), 5.6e6 times the largest new bound. Per state: N8_lamp1_a00_T10 (7 levels, dN/dmu 1.216e-6): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 1.1e-16, 1.1e-16); former direct count 6.959e-11 (its bound 1.3e-8); N8_lamm1_a00_T10 (7 levels, dN/dmu 1.242e-6): LogBalance -2.8e-17, LinearDeviation 0.0e0 (bounds 1.1e-16, 1.1e-16); former direct count -8.267e-10 (its bound 1.3e-8); N8_lam0_a00_T10 (5 levels, dN/dmu 1.229e-6): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 1.1e-16, 1.1e-16); former direct count 2.722e-10 (its bound 1.0e-8); N8_lamp1_a05_T10 (13 levels, dN/dmu 3.302e-3): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 9.1e-17, 9.1e-17); former direct count -4.000e-13 (its bound 8.1e-12); N8_lamm1_a05_T10 (13 levels, dN/dmu 3.359e-3): LogBalance 0.0e0, LinearDeviation -2.8e-17 (bounds 9.1e-17, 9.1e-17); former direct count -1.527e-15 (its bound 7.9e-12); N8_lam0_a05_T10 (8 levels, dN/dmu 3.329e-3): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 8.0e-17, 8.0e-17); former direct count -1.716e-13 (its bound 5.3e-12); N8_lamp1_a00_T20 (11 levels, dN/dmu 2.903e-2): LogBalance 0.0e0, LinearDeviation -2.8e-17 (bounds 1.5e-16, 1.5e-16); former direct count -2.803e-15 (its bound 8.0e-13); N8_lamm1_a00_T20 (11 levels, dN/dmu 2.934e-2): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 1.5e-16, 1.5e-16); former direct count -6.406e-14 (its bound 7.9e-13)"
     },
     {
       "name": "t3_block_map_solver_selftest",
@@ -171,22 +181,22 @@
     {
       "name": "thermo_CV_identity",
       "verdict": "PASS",
-      "detail": "C_V = T dS/dT (reported; S is computed from the occupations and is well conditioned) equals dE/dT at fixed N (self-consistent Mermin states at T +- dT, T +- 2 dT, dT = 0.01 T, Richardson): |difference| / (1e-4 max(|dE/dT|, |T dS/dT|) + eta), eta = N x root tolerance / dT the noise floor of a difference quotient of energies (it dominates only where the thermal change of E over dT is below ~1e-11, i.e. deep in the activated regime); 135 cases; worst value 1.201e-1 (N8_lamm1_a00_T10); tolerance 1.0e0; failures: none"
+      "detail": "C_V = T dS/dT (reported; S is computed from the occupations and is well conditioned) equals dE/dT at fixed N (self-consistent Mermin states at T +- dT, T +- 2 dT, dT = 0.01 T, Richardson): |difference| / (1e-4 max(|dE/dT|, |T dS/dT|) + eta), eta = N x root tolerance / dT the noise floor of a difference quotient of energies (it dominates only where the thermal change of E over dT is below ~1e-11, i.e. deep in the activated regime); 135 cases; worst value 1.202e-1 (N8_lamm1_a00_T10); tolerance 1.0e0; failures: none"
     },
     {
       "name": "thermo_N_conservation",
       "verdict": "PASS",
-      "detail": "Mermin: |sum g f - N| at the converged mu; 135 cases; worst value 5.684e-13 (N688_lam0_a00_T50); tolerance 1.0e-9; failures: none"
+      "detail": "Mermin: |sum g f - N| at the converged mu; 135 cases; worst value 3.070e-12 (N688_lamm1_a20_T50); tolerance 1.0e-9; failures: none"
     },
     {
       "name": "thermo_entropy_identity",
       "verdict": "PASS",
-      "detail": "-dF/dT = S (Richardson differences): |difference| / (1e-4 S + eta), eta as for thermo_CV_identity; 135 cases; worst value 1.334e-1 (N8_lamm1_a00_T10); tolerance 1.0e0; failures: none"
+      "detail": "-dF/dT = S (Richardson differences): |difference| / (1e-4 S + eta), eta as for thermo_CV_identity; 135 cases; worst value 1.335e-1 (N8_lamm1_a00_T10); tolerance 1.0e0; failures: none"
     },
     {
       "name": "thermo_grand_potential_two_forms",
       "verdict": "PASS",
-      "detail": "Omega = -T sum g ln(1 + e^{-(eps-mu)/T}) - 2 Vol_7 int e^{6Hy} e_int equals F - mu N = E - T S - mu N: relative difference; 135 cases; worst value 1.781e-14 (N8_lamm1_a20_T50); tolerance 1.0e-10; failures: none"
+      "detail": "Omega = -T sum g ln(1 + e^{-(eps-mu)/T}) - 2 Vol_7 int e^{6Hy} e_int equals F - mu N = E - T S - mu N: relative difference; 135 cases; worst value 1.748e-14 (N688_lamm1_a20_T50); tolerance 1.0e-10; failures: none"
     },
     {
       "name": "thermo_runs_completed",
@@ -196,7 +206,7 @@
     {
       "name": "thermo_scf_converged",
       "verdict": "PASS",
-      "detail": "Mermin SCF converged at T, T +- dT, T +- 2 dT (dT = 0.01 T): max final residual; 135 cases; worst value 9.989e-12 (N136_lamp1_a20_T20); tolerance 1.0e-11; failures: none"
+      "detail": "Mermin SCF converged at T, T +- dT, T +- 2 dT (dT = 0.01 T): max final residual; 135 cases; worst value 9.992e-12 (N136_lamp1_a20_T20); tolerance 1.0e-11; failures: none"
     },
     {
       "name": "thermo_window_cut",

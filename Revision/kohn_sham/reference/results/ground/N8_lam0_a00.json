@@ -3768,5 +3768,31 @@
  ],
  "lumo_group": [
   "1:+1:even:0"
- ]
+ ],
+ "particle_hole": {
+  "rows_kept": 48,
+  "cut_lowest_excluded": 0.7040995646094984,
+  "list": [
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "1:+1:even:0",
+    "eps_hole": 1.6387534092192654e-39,
+    "eps_particle": 0.4307336786379083,
+    "delta_eps": 0.4307336786379083,
+    "U_delta_eps": 4.647371045658929e-12,
+    "multiplicity": 192.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "2:+1:even:0",
+    "eps_hole": 1.6387534092192654e-39,
+    "eps_particle": 0.5879568527515173,
+    "delta_eps": 0.5879568527515173,
+    "U_delta_eps": 5.025513007846257e-12,
+    "multiplicity": 384.0,
+    "same_sector": false
+   }
+  ]
+ }
 }

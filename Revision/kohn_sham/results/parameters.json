@@ -1,13 +1,14 @@
 {
   "description": "Revision Kohn-Sham solver (Revision/kohn_sham/solver): instantaneous Kohn-Sham states of dirac16complex in the author's primordial field along the deflating history (SPEC section 7, Revision/kohn_sham/ks-theory.json). x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} sin^{1/6} z), x8 = hidden direction (y = ln(sin z)/(6H)).",
   "theoryInputs": {
-    "ksTheorySha256": "41c16878199cfcea04bbe0b52346bd92d607ecd361ba60494cbdbb765f04ab1a",
+    "ksTheorySha256": "1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3",
     "gammasSha256": "95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01",
     "MeffCoefficientOfLambdaS": 9.375000000000000e-1,
     "vvCoefficientOfLambdaN": -6.250000000000000e-2,
     "exchangeCoefficientN2": -3.125000000000000e-2,
     "exchangeCoefficientS2": -3.125000000000000e-2,
-    "braneBandSlopeTheory_M1_H1_L3": 1.905148253644867e0
+    "braneBandSlopeTheory_M1_H1_L3": 1.905148253644867e0,
+    "adiabaticityHistory": "a4 = A H x4 (A = 1 canonical), a4' = A H; slices a4,0 = a4(x4); PRESCRIBED BACKGROUND (see historyStatus)"
   },
   "units": "H = 1, m = 1: energies, momenta, temperatures in units of m = H; lambda in units of m^-6 with Vol_7 in units of H^-7",
   "physics": {
@@ -34,7 +35,8 @@
     "thermalOccupationCut": 1.000000000000000e-12,
     "a4FiniteDifferenceStep": 2.000000000000000e-3,
     "temperatureFiniteDifferenceRelative": 1.000000000000000e-2,
-    "degeneracyTolerance": 1.000000000000000e-9
+    "degeneracyTolerance": 1.000000000000000e-9,
+    "merminRoot": "LogBalance"
   },
   "particleNumbers": {
     "values": [8.000000000000000e0, 1.360000000000000e2, 6.880000000000000e2],
@@ -86,6 +88,8 @@
     "filling": "particles occupy the positive branch (labels whose lambda = 0 level at the same slice is positive) and the k = 0 brane zero modes (CONVENTION of ks-theory.json, justification OPEN); the negative branch is the normal-ordered sea and is not populated thermally (the excluded thermal sea holes are reported as a diagnostic)",
     "brane": "Z2 mirror at y = 0: ASSUMED (b(0) = 0 even, a(0) = 0 odd); tip: regular, theta = 0 (b(-L) = 0)",
     "instantaneous": "states at fixed a4,0 = a4(x4) are instantaneous (adiabatic) Kohn-Sham states; the non-adiabatic (time-dependent) problem is OPEN",
+    "history": "PRESCRIBED BACKGROUND: the history a4 = A H x4 is prescribed, not solved for. The a4 equations of SPEC section 5 allow this linear member only with p3 = p_t = p8 and constant rho; the Kohn-Sham states along it violate these source conditions (p3 != p_t, rho changes with a4,0, the sources depend on x8: Revision/field_equations_a4/reports/ks-source-conditions.json). The Kohn-Sham gas is therefore a test field on a prescribed background without back-reaction, and quantities derived along this history (energies, pressures, equations of state) are not consequences of the coupled field equations. (ks-theory.json adiabaticity.historyStatus)",
+    "merminRoot": "mu from sum g f = N with the well-conditioned residual of solver/src/mermin.rs: thermal particles above and holes below a split of the levels (complementary Fermi factors f(-x), never 1 - f), canonical form LogBalance (log-sum-exp balance, Newton + bisection), refined run LinearDeviation (an exactly equivalent form with a different rounding path); the former direct count sum g f - N fixed mu only to eps_mach N/(dN/dmu) (8.3e-10 m in N8_lamm1_a00_T10)",
     "deltaScf": "first excited state: one particle moved from the highest occupied degenerate group to the lowest empty group, spread uniformly over each group (ensemble Delta-SCF, keeps the block and direction symmetry of the reduction)",
     "exactExchange": "canonical functional = Hartree + exact local exchange of the uniform 8-fold gas (exact at every temperature for p -> -p symmetric occupations); the exact Fock exchange of the closed-shell slab determinant differs by +lambda Q^2/32 (reported as deltaE_x and solved as a variant)"
   }

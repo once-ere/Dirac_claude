@@ -3878,5 +3878,151 @@
  ],
  "lumo_group": [
   "1:+1:even:0"
- ]
+ ],
+ "particle_hole": {
+  "rows_kept": 48,
+  "cut_lowest_excluded": 0.6258000372540844,
+  "list": [
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "1:+1:even:0",
+    "eps_hole": -0.00024556270774436816,
+    "eps_particle": 0.17019359008089,
+    "delta_eps": 0.17043915278863436,
+    "U_delta_eps": 4.204057690883497e-12,
+    "multiplicity": 192.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "2:+1:even:0",
+    "eps_hole": -0.00024556270774436816,
+    "eps_particle": 0.2362571037750906,
+    "delta_eps": 0.23650266648283497,
+    "U_delta_eps": 4.314302837228775e-12,
+    "multiplicity": 384.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "3:+1:even:0",
+    "eps_hole": -0.00024556270774436816,
+    "eps_particle": 0.28529331778969613,
+    "delta_eps": 0.28553888049744053,
+    "U_delta_eps": 4.3934617388845484e-12,
+    "multiplicity": 256.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "4:+1:even:0",
+    "eps_hole": -0.00024556270774436816,
+    "eps_particle": 0.32570612389591924,
+    "delta_eps": 0.32595168660366364,
+    "U_delta_eps": 4.458465296976351e-12,
+    "multiplicity": 192.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "5:+1:even:0",
+    "eps_hole": -0.00024556270774436816,
+    "eps_particle": 0.3607061052730735,
+    "delta_eps": 0.3609516679808179,
+    "U_delta_eps": 4.5170850726765596e-12,
+    "multiplicity": 768.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "6:+1:even:0",
+    "eps_hole": -0.00024556270774436816,
+    "eps_particle": 0.3919160621693073,
+    "delta_eps": 0.3921616248770517,
+    "U_delta_eps": 4.572762757361511e-12,
+    "multiplicity": 768.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "8:+1:even:0",
+    "eps_hole": -0.00024556270774436816,
+    "eps_particle": 0.4464347535015254,
+    "delta_eps": 0.4466803162092698,
+    "U_delta_eps": 4.680121323842764e-12,
+    "multiplicity": 384.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "9:+1:even:0",
+    "eps_hole": -0.00024556270774436816,
+    "eps_particle": 0.47077917316188145,
+    "delta_eps": 0.47102473586962584,
+    "U_delta_eps": 4.732690384058765e-12,
+    "multiplicity": 960.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "10:+1:even:0",
+    "eps_hole": -0.00024556270774436816,
+    "eps_particle": 0.49362602562732744,
+    "delta_eps": 0.49387158833507183,
+    "U_delta_eps": 4.784759843913685e-12,
+    "multiplicity": 768.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "11:+1:even:0",
+    "eps_hole": -0.00024556270774436816,
+    "eps_particle": 0.5152039448186757,
+    "delta_eps": 0.51544950752642,
+    "U_delta_eps": 4.8361631699538296e-12,
+    "multiplicity": 768.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "12:+1:even:0",
+    "eps_hole": -0.00024556270774436816,
+    "eps_particle": 0.53568945415258,
+    "delta_eps": 0.5359350168603243,
+    "U_delta_eps": 4.887122406784124e-12,
+    "multiplicity": 256.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "13:+1:even:0",
+    "eps_hole": -0.00024556270774436816,
+    "eps_particle": 0.5552221443918508,
+    "delta_eps": 0.5554677070995951,
+    "U_delta_eps": 4.937637554404569e-12,
+    "multiplicity": 768.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "14:+1:even:0",
+    "eps_hole": -0.00024556270774436816,
+    "eps_particle": 0.5739146120728186,
+    "delta_eps": 0.5741601747805629,
+    "U_delta_eps": 4.987819635117626e-12,
+    "multiplicity": 1536.0,
+    "same_sector": false
+   },
+   {
+    "hole": "0:+1:even:0;0:-1:even:0",
+    "particle": "16:+1:even:0",
+    "eps_hole": -0.00024556270774436816,
+    "eps_particle": 0.6091327773770203,
+    "delta_eps": 0.6093783400847647,
+    "U_delta_eps": 5.086629484309265e-12,
+    "multiplicity": 192.0,
+    "same_sector": false
+   }
+  ]
+ }
 }

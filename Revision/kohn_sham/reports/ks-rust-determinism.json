@@ -9,15 +9,15 @@
     "derived": 1e-06
   },
   "summary": {
-    "checks": 13,
-    "pass": 13,
+    "checks": 14,
+    "pass": 14,
     "fail": 0
   },
   "checks": [
     {
       "name": "repeat_byte_identical",
       "verdict": "PASS",
-      "detail": "second run with the canonical options: 244 files (5847189 bytes) compared, same file set: True, differing files: none"
+      "detail": "second run with the canonical options: 244 files (5854813 bytes) compared, same file set: True, differing files: none"
     },
     {
       "name": "repeat_report_byte_identical",
@@ -72,7 +72,12 @@
     {
       "name": "refined_thermodynamics",
       "verdict": "PASS",
-      "detail": "135 thermal states, same set: True; mu, E, F (relative to max(|x|, 1)) and S (relative to max(|S|, 1e-6)): max 2.489e-10 (N8_lam0_a20_T50 E); tolerance 1e-08"
+      "detail": "135 thermal states, same set: True; mu, E, F, Omega (both forms; relative to max(|x|, 1)) and S (relative to max(|S|, 1e-6)): max 2.489e-10 (N8_lam0_a20_T50 E); tolerance 1e-08"
+    },
+    {
+      "name": "refined_mermin_root_path",
+      "verdict": "PASS",
+      "detail": "the canonical run solves sum g f = N with the form LogBalance, the refined run with LinearDeviation (exactly equivalent well-conditioned residuals of solver/src/mermin.rs with different rounding paths), so |canonical - refined| of mu and Omega contains the rounding error of the root instead of sharing it (the former direct count, the same in both runs, hid an error of 8.3e-10 m in N8_lamm1_a00_T10); max |mu_c - mu_r| 1.254e-12 m (N136_lamm1_a00_T20), max |Omega_c - Omega_r| 2.738e-10 (N688_lamm1_a00_T20); largest canonical rounding bound of mu (thermodynamics.csv mu_rounding_bound) 4.736e-14 (N688_lamm1_a20_T50)"
     },
     {
       "name": "refined_heat_capacity",
