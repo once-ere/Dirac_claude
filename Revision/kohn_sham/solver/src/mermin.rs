@@ -70,6 +70,7 @@ pub struct Root {
     pub mu: f64,
     /// dN/dmu = sum g f (1 - f)/T at mu
     pub dn_dmu: f64,
+    #[allow(dead_code)]
     /// P + Hl + |d| for the split of the final pass (= {eps < mu} unless three passes did not settle):
     /// the size of the terms of the well-conditioned residual
     pub magnitude: f64,
@@ -79,6 +80,7 @@ pub struct Root {
     pub bound_direct: f64,
     /// split passes used (1 if the T = 0 filling already brackets the root)
     pub passes: usize,
+    #[allow(dead_code)]
     /// residual evaluations
     pub evals: usize,
 }
