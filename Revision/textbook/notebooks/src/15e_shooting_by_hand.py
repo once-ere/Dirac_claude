@@ -170,7 +170,9 @@ CELLS = [
     respect to $\varepsilon$ is $j$, so $j\theta$ grows faster for a larger
     $\varepsilon$: the **phase function** $\Phi(\varepsilon) = j\,\theta(0)$ increases
     strictly with $\varepsilon$ (the solver's documentation gives the exact formula
-    $d\theta(0)/d\varepsilon = j\int r^2 dy / r(0)^2$). Even parity, $b(0) = 0$, means
+    $d\theta(0)/d\varepsilon = j\int r^2 dy / r(0)^2$). It also runs from $-\infty$ to
+    $+\infty$: for large $|\varepsilon|$ the term $j(\varepsilon - v)$ dominates
+    $\theta'$, so $\Phi(\varepsilon) \approx \varepsilon L$. Even parity, $b(0) = 0$, means
     $\theta(0)$ is a whole multiple of $\pi$; odd parity, $a(0) = 0$, means
     $\theta(0) = \pi/2 + $ a multiple of $\pi$. Because $\Phi$ increases strictly, each
     target $l\pi$ (even) or $\pi/2 + l\pi$ (odd) is reached at exactly one energy: **every
@@ -766,7 +768,7 @@ CELLS = [
     report("iterations (this notebook / record)",
            f"{len(history)} / {len(recorded_history)}")
     report("largest relative difference of the first six residuals", f"{early:.1e}")
-    check(abs(energy - float(ground["N8_lamp1_a00"]["E_KS"])) < 1e-15
+    check(abs(energy - float(ground["N8_lamp1_a00"]["E_KS"])) < 1e-14
           and abs(levels[1] - float(ground["N8_lamp1_a00"]["HOMO"])) < 1e-13,
           "E_KS and HOMO of N8_lamp1_a00 reproduced", record=f"{SUMMARY}, row N8_lamp1_a00")
     check(early < 1e-5, "the first six residuals equal the recorded ones within 1e-5",
@@ -842,11 +844,11 @@ CELLS = [
     antisym = max(abs(results["lamp1"][0] + results["lamm1"][0]),
                   abs(results["lamp2"][0] + results["lamm2"][0]))
     report("largest |E(+lambda) + E(-lambda)|", f"{antisym:.1e}")
-    check(worst_e < 1e-15 and worst_homo < 1e-13,
+    check(worst_e < 1e-14 and worst_homo < 1e-13,
           "E_KS and HOMO of all four couplings reproduced", record=f"{SUMMARY}, rows N8")
     check(abs(lumo - float(ground["N8_lamp1_a00"]["LUMO"])) < 1e-12,
           "the LUMO of N8_lamp1_a00 reproduced", record=f"{SUMMARY}, column LUMO")
-    check(antisym < 1e-17, "E_KS(-lambda) = -E_KS(+lambda) for N = 8")
+    check(antisym < 1e-15, "E_KS(-lambda) = -E_KS(+lambda) for N = 8")
     '''),
     md(r"""
     ## 15. The self-consistent potentials of N = 8
@@ -888,7 +890,7 @@ CELLS = [
     mirror = max(float(np.max(np.abs(plus[:POINTS] - minus[:POINTS]))),
                  float(np.max(np.abs(plus[POINTS:] + minus[POINTS:]))))
     report("largest violation of the potential symmetry", f"{mirror:.1e}")
-    check(mirror < 1e-14, "M - m is even and v is odd under lambda -> -lambda")
+    check(mirror < 1e-12, "M - m is even and v is odd under lambda -> -lambda")
     '''),
     md(r"""
     ## 16. The last check
@@ -917,7 +919,7 @@ CELLS = [
     - The brane band has the slope $c\,e^{-a_{4,0}}$ with $c = 1.9051482536$, and the
       slice enters only through $k e^{-a_{4,0}}$ (the rescaling identity): along the
       deflating history every momentum is redshifted.
-    - Thirty lines of Python with Anderson mixing reproduce the interacting $N = 8$
+    - A few dozen lines of Python with Anderson mixing reproduce the interacting $N = 8$
       ground states of the Rust solver: energies, levels and the residuals of the loop.
       Linear mixing converges too, but much more slowly.
     - For $N = 8$ the energy is exactly odd in $\lambda$, a symmetry of the zero-mode

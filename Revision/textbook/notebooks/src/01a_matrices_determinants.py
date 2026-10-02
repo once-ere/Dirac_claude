@@ -125,7 +125,10 @@ CELLS = [
     - **Summation convention**: an index that appears twice in one product is summed
       over all its values without writing $\sum$; so $A_{ij} B_{jk}$ means
       $\sum_j A_{ij} B_{jk}$. A summed index is a **dummy** index (its name does not
-      matter); an index that is not summed is a **free** index.
+      matter); an index that is not summed is a **free** index. In the physics of the
+      course one of the two equal indices is written up and one down, as in
+      $v^\mu w_\mu = \sum_\mu v^\mu w_\mu$; for the entries of plain tables of
+      numbers, as in this notebook, both are written down.
     - **einsum**: numpy's function that evaluates a product written with the
       summation convention, for example `np.einsum("ij,jk->ik", A, B)`.
     - **Identity matrix** $I$: the square matrix with 1 on the diagonal and 0
@@ -151,9 +154,11 @@ CELLS = [
     - **Floating-point number**: the way a computer stores a real number, with about
       16 significant digits, so results can be off in the last digits. **Exact**
       arithmetic (sympy) keeps whole numbers, fractions and symbols without rounding.
-    - **Metric** $g$: the table of numbers that turns small coordinate steps into
-      lengths; in this book it is a diagonal $8 \times 8$ matrix (only the diagonal
-      entries $g_{11}, \dots, g_{88}$ are not zero).
+    - **Metric** $g$: the table of numbers that turns small coordinate steps
+      $dx_1, \dots, dx_8$ into a squared length,
+      $ds^2 = g_{11} dx_1^2 + \dots + g_{88} dx_8^2$ for a diagonal metric; here it is
+      a diagonal $8 \times 8$ matrix (only the diagonal entries $g_{11}, \dots,
+      g_{88}$ are not zero), and a negative entry marks a time-like direction.
     - **Revision record**: the files of the folder Revision of the repository, in
       which every result of the author's theory is computed and checked.
     """),
@@ -475,7 +480,8 @@ CELLS = [
       rounding);
     - sympy's `Matrix.det()` (exact, by another method, elimination);
     - numpy's `np.linalg.det` (floating point, by elimination; it may be off in the
-      last digits, so it is compared after rounding to the nearest whole number).
+      last digits, so it only has to agree to one millionth of the size of the
+      exact result).
     """),
     code(r'''
     generator = np.random.default_rng(12345)  # random numbers with a fixed seed
@@ -498,15 +504,19 @@ CELLS = [
 
     1. $\det(MN) = \det M \cdot \det N$ (the determinant of a product);
     2. $\det(M^T) = \det M$;
-    3. exchanging two rows changes the sign of the determinant (because every term of
-       the Leibniz formula meets a permutation of the opposite sign);
+    3. exchanging two rows changes the sign of the determinant: after the exchange,
+       the term of a permutation $\sigma$ has the same product of entries as the term
+       of the permutation with the entries $\sigma(r)$ and $\sigma(s)$ of the two
+       rows $r, s$ exchanged, whose sign is opposite (section 7); so all products
+       come back with opposite signs;
     4. a matrix with two equal rows has determinant 0 (exchanging the two equal rows
        changes nothing, yet by rule 3 changes the sign: $D = -D$, so $D = 0$);
     5. multiplying one row by a number $c$ multiplies the determinant by $c$ (every
        term contains exactly one entry of that row);
-    6. adding a multiple of one row to another row does not change the determinant
-       (by rule 5 and 4 the extra part is $c$ times a determinant with two equal
-       rows).
+    6. adding $c$ times row $s$ to row $r$ does not change the determinant: every
+       term contains exactly one entry of row $r$, so the determinant splits into
+       $\det M$ plus $c$ times the determinant of $M$ with row $r$ replaced by row
+       $s$, which has two equal rows and is 0 by rule 4.
 
     It also checks that the determinant of a diagonal matrix is the product of its
     diagonal entries.
@@ -642,9 +652,10 @@ CELLS = [
 
     The file Revision/algebra/gammas.json of the Revision record holds the eight real
     $16 \times 16$ gamma matrices $\gamma^{(x_1)}, \dots, \gamma^{(x_8)}$ of the
-    author's theory (one for each coordinate) and the diagonal of the frame metric
-    $\eta$. The next cell reads the file (a JSON file: text that holds lists and
-    numbers) and checks what the record states in its check
+    author's theory (one for each coordinate, rebuilt in the Revision record from the
+    author's formulas) and the diagonal of the frame metric $\eta$. The next cell
+    reads the file (a JSON file: text that holds lists and numbers) and checks what
+    the record states in its check
     `reality_signed_permutations`: every entry is $-1$, $0$ or $1$, and every row and
     every column has exactly one entry that is not zero. Such a *signed permutation
     matrix* is a permutation matrix with some 1s replaced by $-1$.

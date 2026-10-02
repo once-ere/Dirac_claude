@@ -170,7 +170,7 @@ cd Revision/textbook/notebooks
 jupyter lab 14a_block_reduction.ipynb
 ```
 
-JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 40 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
+JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 30 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
 
 **Step 6. Or run the notebook without a browser (headless).**
 
@@ -187,7 +187,16 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/14a.captions.json`, `Revision/textbook/figures/14a_1_hidden_coordinate.png`, `Revision/textbook/figures/14a_2_inflation_deflation.png`, `Revision/textbook/figures/14a_3_spin_connection_terms.png`, `Revision/textbook/figures/14a_4_block_structure.png` and `Revision/textbook/figures/14a_5_rescaling.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/14a.captions.json`
+- `Revision/textbook/figures/14a_1_hidden_coordinate.png`
+- `Revision/textbook/figures/14a_2_inflation_deflation.png`
+- `Revision/textbook/figures/14a_3_spin_connection_terms.png`
+- `Revision/textbook/figures/14a_4_block_structure.png`
+- `Revision/textbook/figures/14a_5_rescaling.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -253,7 +262,7 @@ In [7]  PASS gamma^mu Omega_mu = 3H gamma^(x8) exactly, for every history a4(x4)
 In [7]       reproduces Revision/kohn_sham/reports/ks-theory-python.json, check
 In [7]      spin_connection_slash_3H
 In [8]  PASS every contribution is c4 gamma^(x4) + c8 gamma^(x8)
-In [8]  PASS the a4' pieces +3/2 and -3/2 cancel; Omega_x4 = Omega_y = 0
+In [8]  PASS the da4/dx4 pieces +3/2 and -3/2 cancel; Omega_x4 = Omega_y = 0
 In [8]       reproduces Revision/kohn_sham/reports/ks-theory-python.json, checks
 In [8]      spin_connection_time_terms_cancel and spin_connection_time_term_value
 In [10]  PASS with W^(-3): the reduced operator g8 d_y + g4 d_x4 + i kappa k.g, exactly
@@ -283,7 +292,7 @@ In [14]       reproduces Revision/kohn_sham/reports/ks-theory-python.json, check
 In [14]      blocks_not_everything_block_diagonal
 In [16]  PASS h_j = j[-i sigma1 d/dy + M sigma2 + kappa k sigma3] + v in all 8 blocks
 In [16]       reproduces Revision/kohn_sham/reports/ks-theory-python.json, check block_hamiltonian
-In [16]  PASS h_j chi = eps chi is the same as chi' = N chi
+In [16]  PASS h_j chi = eps chi is the same as d chi/dy = N chi
 In [16]       reproduces Revision/kohn_sham/reports/ks-theory-python.json, check
 In [16]      block_ode_equivalent
 In [16]  PASS h_(-1) - v = -(h_(+1) - v) and sigma3 h_j(k) sigma3 = h_(-j)(-k)
@@ -325,8 +334,8 @@ The notebook shows 5 figures, each below the cell that draws it, and saves each 
 
 - `Revision/textbook/figures/14a_1_hidden_coordinate.png` (1287 x 588 pixels): Left: the hidden coordinate $y = \ln(\sin z)/(6H)$ against $z = 6Hx_8$ (radians) for $H = 1$; $y$ tends to minus infinity at the tip $z \to 0$ and is $0$ at the brane $z = \pi/2$. Right: the warp factor $W = e^{Hy}$ (solid), the metric factor $\sin^{1/3} z = W^2$ (dashed) and the volume factor $\sqrt{|g|} = W^6$ (dotted) against $y$ from $-3$ to $0$ in units of $1/H$, on a logarithmic vertical axis; the three straight lines have the slopes 1, 2 and 6, and the proper 7-volume near the tip is smaller than at the brane by the factor $e^{-18}$.
 - `Revision/textbook/figures/14a_2_inflation_deflation.png` (1249 x 588 pixels): Left: along the prescribed history $a_4 = A H x_4$ with $A = H = 1$, the 3-space scale factor $e^{a_4}$ (solid) grows, the scale factor $e^{-a_4}$ of the three extra times (dashed) deflates exponentially, and the 7-volume factor $e^{3a_4}e^{-3a_4} = 1$ (dotted) stays constant; horizontal axis $a_4$, vertical axis the scale factor at the brane $y = 0$. Right: the momentum weight $\kappa = e^{-Hy - a_{4,0}}$ against $y$ (units of $1/H$) at the five slices $a_{4,0} = 0$ to $2$, logarithmic vertical axis: the weight grows toward the tip and every later slice lies lower by the factor $e^{-0.5}$, the redshift of the 3-momenta.
-- `Revision/textbook/figures/14a_3_spin_connection_terms.png` (1054 x 599 pixels): The contribution of each direction $\mu$ to $\gamma^\mu\Omega_\mu$, written as $c_4\gamma^{(x_4)} + c_8\gamma^{(x_8)}$: the bars show $c_4$ per unit $a_4'$ (left bar of each pair) and $c_8$ per unit $H$ (right bar). The inflating directions $x_1, x_2, x_3$ give $+a_4'/2$ each and the deflating extra times $x_5, x_6, x_7$ give $-a_4'/2$ each, so the time-direction pieces cancel; each of the six warped directions gives $H/2$ to the coefficient of $\gamma^{(x_8)}$, in total $3H$; the time $x_4$ and the hidden direction give nothing.
-- `Revision/textbook/figures/14a_4_block_structure.png` (1386 x 426 pixels): Absolute values of the matrix entries (row and column 0 to 15, darker is larger) of the first-order matrix $N_{16}$ of the stationary equation at $M = 1$, $\varepsilon = 0.5$, $v = 0$, $\kappa k = 0.7$: left in the original spinor basis, where the entries are spread over the matrix; middle in the block basis $V$, where only the eight $2\times2$ blocks on the diagonal are nonzero (thin lines mark the blocks); right the chirality matrix $\Gamma$ in the block basis, which connects each block $(j, s_2, s_3)$ with the block $(-j, s_2, s_3)$ four positions away.
+- `Revision/textbook/figures/14a_3_spin_connection_terms.png` (1054 x 599 pixels): The contribution of each direction $\mu$ to $\gamma^\mu\Omega_\mu$, written as $c_4\gamma^{(x_4)} + c_8\gamma^{(x_8)}$: the bars show $c_4$ per unit $da_4/dx_4$ (left bar of each pair) and $c_8$ per unit $H$ (right bar). The inflating directions $x_1, x_2, x_3$ give $+(da_4/dx_4)/2$ each and the deflating extra times $x_5, x_6, x_7$ give $-(da_4/dx_4)/2$ each, so the time-direction pieces cancel; each of the six warped directions gives $H/2$ to the coefficient of $\gamma^{(x_8)}$, in total $3H$; the time $x_4$ and the hidden direction give nothing.
+- `Revision/textbook/figures/14a_4_block_structure.png` (1449 x 408 pixels): Absolute values of the matrix entries (row and column 0 to 15, darker is larger) of the first-order matrix $N_{16}$ of the stationary equation at $M = 1$, $\varepsilon = 0.5$, $v = 0$, $\kappa k = 0.7$: left in the original spinor basis, where the entries are spread over the matrix; middle in the block basis $V$, where only the eight $2\times2$ blocks on the diagonal are nonzero (thin lines mark the blocks); right the chirality matrix $\Gamma$ in the block basis, which connects each block $(j, s_2, s_3)$ with the block $(-j, s_2, s_3)$ four positions away.
 - `Revision/textbook/figures/14a_5_rescaling.png` (1364 x 588 pixels): The exact rescaling identity. Left: the momenta of the first six lattice shells, $|\mathbf{k}| e^{-a_{4,0}}$ with $|\mathbf{k}| = 0.25\sqrt{n^2}$ (units of $H$), against the slice $a_{4,0}$ from 0 to 2 on a logarithmic vertical axis: parallel straight lines, every 3-momentum is redshifted by the same factor $e^{-a_{4,0}}$. Right: the proper volume of the 3-space box $(\ell e^{a_{4,0}})^3$ with $\ell = 2\pi/0.25$ (solid, growing), of the extra-time box $v_t e^{-3a_{4,0}}$ with $v_t = 1$ (dashed, deflating) and their product $\ell^3 v_t$ (dotted, constant), all at the brane $y = 0$; a slice $a_{4,0}$ is therefore the slice 0 with the lattice spacing $0.25 e^{-a_{4,0}}$ and the same proper 7-volume.
 
 ## 4. Side effects
@@ -337,11 +346,11 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/14a.captions.json` | 3181 | `b060c2adff4e10a757fc3f5a21b86ba083279d88f98e6559d79cbe013ea03e49` |
+| `Revision/textbook/figures/14a.captions.json` | 3200 | `31755f160335e620c674ac81e656f66635825e90201de7e3278d769206db2a8d` |
 | `Revision/textbook/figures/14a_1_hidden_coordinate.png` | 87161 | `38d17de0780086fb6fd2143bf43ccc0c8d95593a48d5467c9c92db7b9eeeccca` |
 | `Revision/textbook/figures/14a_2_inflation_deflation.png` | 121668 | `788446f41e464924dfccba64111f614f85527dab3103232039afcfbff8285d79` |
-| `Revision/textbook/figures/14a_3_spin_connection_terms.png` | 36778 | `27c32665c8fc0d9f8b9e9bc2c90a4e915493bb8d9afd061d8c3f0b29474c872d` |
-| `Revision/textbook/figures/14a_4_block_structure.png` | 47425 | `2b9650e05228ec49f6f945791b13ae5d1afadff41357fde7a641a7393be52803` |
+| `Revision/textbook/figures/14a_3_spin_connection_terms.png` | 38423 | `1e82754ea9ca4f10a8593592c76bcf8afcf07b646fbb20ae94f2e3eae863bd77` |
+| `Revision/textbook/figures/14a_4_block_structure.png` | 46526 | `d0603cea89c3a3b8232cb55c71a23edc140554a33b65d438b03e33cc1190564c` |
 | `Revision/textbook/figures/14a_5_rescaling.png` | 138764 | `7bc53018039b25ca398e83b5b33901bb78dc23f11a93c2cbcade81b3c33b045a` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/14a_block_reduction.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
@@ -363,10 +372,10 @@ The notebook does not use the network while it runs. The installation (git clone
 
 ### 4.5 Run time and memory
 
-Expected run time: about 40 seconds (FACTS: 40 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
+Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 20.3 s, peak memory of the kernel process 197 MiB;
-- the check run: 15.4 s, peak memory of the kernel process 198 MiB.
+- the build run: 23.4 s, peak memory of the kernel process 198 MiB;
+- the check run: 25.5 s, peak memory of the kernel process 197 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -378,13 +387,13 @@ Expected run time: about 40 seconds (FACTS: 40 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/14a_block_reduction.ipynb`: `1997223e7fc71f6bb95c9a9588c1e0157ca50a4119632f2e765a6b0fa51e0276`
-- `Revision/textbook/notebooks/src/14a_block_reduction.py`: `8e2fb59bd951630e7cc8fdb84a9b64e25d02a1129e4ffa4d8fed7f5d0db7c893`
-- `Revision/textbook/figures/14a.captions.json`: `b060c2adff4e10a757fc3f5a21b86ba083279d88f98e6559d79cbe013ea03e49`
+- `Revision/textbook/notebooks/14a_block_reduction.ipynb`: `bbe9268ba6c78edec23cdf49dc999216945d360a4e73d40a4c4abd39585eb271`
+- `Revision/textbook/notebooks/src/14a_block_reduction.py`: `baef9c2d20d7029bbd0f8f5cfd1590379c76a0e6f2cd9a246580f3fd87e8f9ba`
+- `Revision/textbook/figures/14a.captions.json`: `31755f160335e620c674ac81e656f66635825e90201de7e3278d769206db2a8d`
 - `Revision/textbook/figures/14a_1_hidden_coordinate.png`: `38d17de0780086fb6fd2143bf43ccc0c8d95593a48d5467c9c92db7b9eeeccca`
 - `Revision/textbook/figures/14a_2_inflation_deflation.png`: `788446f41e464924dfccba64111f614f85527dab3103232039afcfbff8285d79`
-- `Revision/textbook/figures/14a_3_spin_connection_terms.png`: `27c32665c8fc0d9f8b9e9bc2c90a4e915493bb8d9afd061d8c3f0b29474c872d`
-- `Revision/textbook/figures/14a_4_block_structure.png`: `2b9650e05228ec49f6f945791b13ae5d1afadff41357fde7a641a7393be52803`
+- `Revision/textbook/figures/14a_3_spin_connection_terms.png`: `1e82754ea9ca4f10a8593592c76bcf8afcf07b646fbb20ae94f2e3eae863bd77`
+- `Revision/textbook/figures/14a_4_block_structure.png`: `d0603cea89c3a3b8232cb55c71a23edc140554a33b65d438b03e33cc1190564c`
 - `Revision/textbook/figures/14a_5_rescaling.png`: `7bc53018039b25ca398e83b5b33901bb78dc23f11a93c2cbcade81b3c33b045a`
 
 ## 7. Verification
@@ -393,4 +402,4 @@ Expected run time: about 40 seconds (FACTS: 40 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 6 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":197.0,"seconds":20.3},"check":{"date":"2026-10-02","files":6,"peak_mb":198.0,"result":"passed","seconds":15.4},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":198.0,"seconds":23.4},"check":{"date":"2026-10-02","files":6,"peak_mb":197.0,"result":"passed","seconds":25.5},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

@@ -38,7 +38,7 @@ FIGURES = [
 FACTS = {
     "id": "02c",
     "name": "02c_partial_derivatives",
-    "title": "Functions of several variables: partial derivatives and the chain rule",
+    "title": "Partial derivatives, finite differences and the chain rule",
     "purpose": (
         "It computes partial derivatives of a function of two variables with sympy "
         "and by finite differences (forward and central differences, their orders 1 "

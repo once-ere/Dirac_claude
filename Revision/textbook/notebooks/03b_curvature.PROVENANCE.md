@@ -185,7 +185,18 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/03b.captions.json`, `Revision/textbook/figures/03b_1_christoffel_heat_maps.png`, `Revision/textbook/figures/03b_2_christoffel_versus_z.png`, `Revision/textbook/figures/03b_3_finite_differences.png`, `Revision/textbook/figures/03b_4_plane_curvatures.png`, `Revision/textbook/figures/03b_5_riemann_and_kretschmann_z.png`, `Revision/textbook/figures/03b_6_scalars_versus_a.png` and `Revision/textbook/figures/03b_7_einstein_tensor.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/03b.captions.json`
+- `Revision/textbook/figures/03b_1_christoffel_heat_maps.png`
+- `Revision/textbook/figures/03b_2_christoffel_versus_z.png`
+- `Revision/textbook/figures/03b_3_finite_differences.png`
+- `Revision/textbook/figures/03b_4_plane_curvatures.png`
+- `Revision/textbook/figures/03b_5_riemann_and_kretschmann_z.png`
+- `Revision/textbook/figures/03b_6_scalars_versus_a.png`
+- `Revision/textbook/figures/03b_7_einstein_tensor.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -265,7 +276,8 @@ In [13]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, che
 In [13]      riemann_first_bianchi
 In [13]  PASS no R^ab_cd contains sin(z)^(1/3) or e^(a4): the warp cancels
 In [13]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
-In [13]      mixed_riemann_free_of_sin_third
+In [13]      mixed_riemann_free_of_sin_third, and python-lovelock-report.json, check
+In [13]      mixed_riemann_free_of_warp_and_exponential
 In [14]  PASS the same 156 non-zero components R^ab_cd as the record
 In [14]  PASS every component R^ab_cd equals the record exactly
 In [14]       reproduces Revision/gkd_lovelock/results/curvature.json, riemannMixedNonzero (and
@@ -312,7 +324,7 @@ In [20]  PASS K/12 = 7 (a4p^2 - H^2/7)^2 + 48 H^4/7 + 2 a4pp^2, so K > 0 for H >
 In [21]  PASS summed numerically, K is the same at all 300 values of z and equals the formula
 In [22]  PASS the curvature scalars are even in A
 In [22]  PASS at A = 1: R = -36 H^2 and K = 144 H^4
-In [23]  PASS at A = 1 the diagonal of G is (12, 12, 12, 24, 12, 12, 12, 12) H^2
+In [23]  PASS diagonal of G: 15 (21 for x4) at A = 0 and 12 (24 for x4) at A = 1, unit H^2
 In [24]  PASS negative control: with inflating extra times G^x4_x8 and G^x8_x4 are not zero and
 In [24]      depend on z
 In [25]  PASS all seven figure files exist
@@ -366,7 +378,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | file | bytes | sha256 |
 | --- | --- | --- |
 | `Revision/textbook/figures/03b.captions.json` | 4876 | `4ce277e0f56ead5438c9dbfff7c8dc37520cdee7696766882e2c54301c426322` |
-| `Revision/textbook/figures/03b_1_christoffel_heat_maps.png` | 76637 | `26a507985e62da987e496f5f6f3e8bc6dbeb7b3d87e952dcc81b8138eeb7d1da` |
+| `Revision/textbook/figures/03b_1_christoffel_heat_maps.png` | 80107 | `47f371d7865943a6631f14c2488a021fab2cd3f9179c46a7a6c1f63103fbd016` |
 | `Revision/textbook/figures/03b_2_christoffel_versus_z.png` | 83295 | `fdd959c0dadbd0dd8fd7d307decb9625d0604fb193a4ccdb6ffca7da84e44343` |
 | `Revision/textbook/figures/03b_3_finite_differences.png` | 63551 | `45397faecbeb399756301bed3327693b11efe13e90fb13b35f16a4364f79caf3` |
 | `Revision/textbook/figures/03b_4_plane_curvatures.png` | 70668 | `3515086c6085d03c8b3e3c0d90c20e0dd50e21b42ef9f5e12682beaee163dd98` |
@@ -395,8 +407,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 1 minute (FACTS: 60 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 26.6 s, peak memory of the kernel process 207 MiB;
-- the check run: 27.9 s, peak memory of the kernel process 212 MiB.
+- the build run: 28.3 s, peak memory of the kernel process 208 MiB;
+- the check run: 31.2 s, peak memory of the kernel process 212 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -408,10 +420,10 @@ Expected run time: about 1 minute (FACTS: 60 s); nbkit stops a cell after 600 s.
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/03b_curvature.ipynb`: `ca54df5dc1e08de9eba483c9f2365ba33a5c7b54a4c2a13be65650784382547a`
-- `Revision/textbook/notebooks/src/03b_curvature.py`: `438c00786298c080327f0c87be3f4583dc347a6792e052ef220177d1cd5e81b8`
+- `Revision/textbook/notebooks/03b_curvature.ipynb`: `d5fd78c4d352a112060ca15cfdcbfd3e854bea1f77253eaea1ffe5d1fc61282d`
+- `Revision/textbook/notebooks/src/03b_curvature.py`: `f725f0a073b47d00de692b0217f92894402606a6b5f3fe13ce7975a8024c3a41`
 - `Revision/textbook/figures/03b.captions.json`: `4ce277e0f56ead5438c9dbfff7c8dc37520cdee7696766882e2c54301c426322`
-- `Revision/textbook/figures/03b_1_christoffel_heat_maps.png`: `26a507985e62da987e496f5f6f3e8bc6dbeb7b3d87e952dcc81b8138eeb7d1da`
+- `Revision/textbook/figures/03b_1_christoffel_heat_maps.png`: `47f371d7865943a6631f14c2488a021fab2cd3f9179c46a7a6c1f63103fbd016`
 - `Revision/textbook/figures/03b_2_christoffel_versus_z.png`: `fdd959c0dadbd0dd8fd7d307decb9625d0604fb193a4ccdb6ffca7da84e44343`
 - `Revision/textbook/figures/03b_3_finite_differences.png`: `45397faecbeb399756301bed3327693b11efe13e90fb13b35f16a4364f79caf3`
 - `Revision/textbook/figures/03b_4_plane_curvatures.png`: `3515086c6085d03c8b3e3c0d90c20e0dd50e21b42ef9f5e12682beaee163dd98`
@@ -425,4 +437,4 @@ Expected run time: about 1 minute (FACTS: 60 s); nbkit stops a cell after 600 s.
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 8 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":207.0,"seconds":26.6},"check":{"date":"2026-10-02","files":8,"peak_mb":212.0,"result":"passed","seconds":27.9},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":208.0,"seconds":28.3},"check":{"date":"2026-10-02","files":8,"peak_mb":212.0,"result":"passed","seconds":31.2},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

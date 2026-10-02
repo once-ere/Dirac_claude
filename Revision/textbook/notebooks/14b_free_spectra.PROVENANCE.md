@@ -184,7 +184,17 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/14b.captions.json`, `Revision/textbook/figures/14b_1_odd_condition.png`, `Revision/textbook/figures/14b_2_shooting_function.png`, `Revision/textbook/figures/14b_3_spectrum_ladder.png`, `Revision/textbook/figures/14b_4_rk4_convergence.png`, `Revision/textbook/figures/14b_5_orbitals.png` and `Revision/textbook/figures/14b_6_pruefer_angle.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/14b.captions.json`
+- `Revision/textbook/figures/14b_1_odd_condition.png`
+- `Revision/textbook/figures/14b_2_shooting_function.png`
+- `Revision/textbook/figures/14b_3_spectrum_ladder.png`
+- `Revision/textbook/figures/14b_4_rk4_convergence.png`
+- `Revision/textbook/figures/14b_5_orbitals.png`
+- `Revision/textbook/figures/14b_6_pruefer_angle.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -303,7 +313,7 @@ The notebook shows 6 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/14b_1_odd_condition.png` (1034 x 588 pixels): The odd-parity level condition for $M = 1$ and $L = 3$: the function $f(p) = M\sin(pL) + p\cos(pL)$ against the wave number $p$ along $y$ (units of $H$); its zeros (red dots) are the solutions of $\tan(pL) = -p/M$, one in each shaded interval from $(n + 1/2)\pi/L$ to $(n + 1)\pi/L$, and each gives the pair of levels $\pm\sqrt{M^2 + p^2}$; the first root $p_0 = 0.8185$ gives the lowest odd level $1.2923\,m$.
 - `Revision/textbook/figures/14b_2_shooting_function.png` (1034 x 657 pixels): The shooting function $\Phi(\varepsilon) = j\,\theta(0)$ (the Pruefer angle at the brane, in units of $\pi$) against the trial energy $\varepsilon$ (units of $m$) for $k = 0$, $j = +1$, $m = 1$, $L = 3$. The solid horizontal lines are the even targets $l\pi$, the dashed ones the odd targets $\pi/2 + l\pi$; the curve rises steadily, so it crosses every target exactly once, and the crossings are the exact levels (circles even, squares odd), including the zero mode at $\varepsilon = 0$, $\Phi = 0$; between $-1$ and $1$ the curve rises only a little, because no level lies there except the zero mode.
 - `Revision/textbook/figures/14b_3_spectrum_ladder.png` (1034 x 674 pixels): The free $k = 0$ spectra for the three cases $(m, L) = (1, 3)$, $(1, 2)$ and $(2, 3)$, labels $-3$ to $5$: exact levels as short horizontal lines, numerical RK4 levels as markers on them (even parity left, odd parity right of each ladder); vertical axis the level in units of $H = 1$. The shaded band from $-m$ to $m$ contains only the even zero mode at $0$; a larger mass widens the gap and a shorter interval $L$ spreads the levels; on this scale the numerical and the exact levels cannot be told apart.
-- `Revision/textbook/figures/14b_4_rk4_convergence.png` (953 x 661 pixels): The error of four numerical levels ($m = 1$, $L = 3$; even labels 1 and 3, odd labels 0 and 3) against the RK4 step $h = L/G$ for $G = 150, 300, 600, 900, 1800$, on logarithmic axes (both in units of $m = H = 1$). The points fall on lines parallel to the dotted line of slope 4: halving the step divides the error by 16, the order of the classical Runge-Kutta method; higher levels have larger errors because their orbitals oscillate faster.
+- `Revision/textbook/figures/14b_4_rk4_convergence.png` (946 x 653 pixels): The error of four numerical levels ($m = 1$, $L = 3$; even labels 1 and 3, odd labels 0 and 3) against the RK4 step $h = L/G$ for $G = 150, 300, 600, 900, 1800$, on logarithmic axes (both in units of $m = H = 1$). The points fall on lines parallel to the dotted line of slope 4: halving the step divides the error by 16, the order of the classical Runge-Kutta method; higher levels have larger errors because their orbitals oscillate faster.
 - `Revision/textbook/figures/14b_5_orbitals.png` (1416 x 561 pixels): The normalised orbitals $\chi = (a, ib)$ of three free $k = 0$ levels for $m = 1$, $L = 3$ against $y$ from the tip $-3$ to the brane $0$ (units of $1/H$): left the brane zero mode $a = \sqrt{2/(1 - e^{-6})}\,e^{y}$, $b = 0$, concentrated at the brane; middle the even level 1 with $b(0) = b(-3) = 0$; right the odd level 0 with $a(0) = 0$ and $b(-3) = 0$. Solid lines $a$, dashed lines $b$ from the RK4 shooting, black dots the exact solutions.
 - `Revision/textbook/figures/14b_6_pruefer_angle.png` (1036 x 657 pixels): The Pruefer angle $\theta(y) = \mathrm{atan2}(b, a)$ in units of $\pi$ along the hidden coordinate $y$ (units of $1/H$) for the even levels with labels 0 to 3 (solid) and the odd levels with labels 0 to 2 (dashed), $m = 1$, $L = 3$, $k = 0$, $j = +1$. Every curve starts at $0$ at the tip (the condition $b(-3) = 0$) and ends exactly at its target at the brane, $l$ for even and $l + 1/2$ for odd parity; the zero mode stays at $0$ all the way.
 
@@ -318,8 +328,8 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | `Revision/textbook/figures/14b.captions.json` | 3070 | `27d66f31a8f9b0701453354c0731d7739e8e27559333ed1eec837746bebf90a8` |
 | `Revision/textbook/figures/14b_1_odd_condition.png` | 63845 | `b8182ccde91ebe8632df4ee3b28a61914b888eca8b6f1acaa62be837eb946e8c` |
 | `Revision/textbook/figures/14b_2_shooting_function.png` | 61433 | `52d2395cea39725ee81eec44f970c324fdc1d8fceebbbba73759b433e0e660a4` |
-| `Revision/textbook/figures/14b_3_spectrum_ladder.png` | 40542 | `4540dc2bb9c078f6c4b28e57e15d65bd89f8869b6854d3762f1275a4d14ea35b` |
-| `Revision/textbook/figures/14b_4_rk4_convergence.png` | 97450 | `0cb828d9a6b8c9ee70af5c2593d9e24105bb90ebbb9fa85186388829a70239b0` |
+| `Revision/textbook/figures/14b_3_spectrum_ladder.png` | 41156 | `86674f035228c9d8b0adaa28348b20668b4c4b9bd7c0f6346917e167b42d9ad5` |
+| `Revision/textbook/figures/14b_4_rk4_convergence.png` | 94683 | `d4c97adb963e7e4ea1d8b7ab48e1c521feb09ebb143a62357a917d6bc15687aa` |
 | `Revision/textbook/figures/14b_5_orbitals.png` | 75672 | `913ca8065d5a8c86b1d8727ade1a4c3262007485a9f344ea995f0b873f4a6612` |
 | `Revision/textbook/figures/14b_6_pruefer_angle.png` | 97617 | `1910d37f1bb99b915db1370fd3ac5d5aab7f1d1f4591ae83e5d94d53253de276` |
 
@@ -344,8 +354,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 1 minute (FACTS: 60 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 25.7 s, peak memory of the kernel process 198 MiB;
-- the check run: 24.4 s, peak memory of the kernel process 198 MiB.
+- the build run: 25.7 s, peak memory of the kernel process 201 MiB;
+- the check run: 25.6 s, peak memory of the kernel process 201 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -357,13 +367,13 @@ Expected run time: about 1 minute (FACTS: 60 s); nbkit stops a cell after 600 s.
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/14b_free_spectra.ipynb`: `6af060d260cb2ab6a0eae89c2f9817c12aa02ff11d6879457c64e417441db38e`
-- `Revision/textbook/notebooks/src/14b_free_spectra.py`: `03ad21001904c17e93fd69bf6b84d4208d331da614b8fc5aa94320aaf4057fd1`
+- `Revision/textbook/notebooks/14b_free_spectra.ipynb`: `e8dad2223258d0242ebd19787915779aa55d9321aabfbfbba2fbaced1634b31e`
+- `Revision/textbook/notebooks/src/14b_free_spectra.py`: `a04ae02f67cd8317eec1a9071f99a280f0a14ef0d27f736ab465b3838e346b57`
 - `Revision/textbook/figures/14b.captions.json`: `27d66f31a8f9b0701453354c0731d7739e8e27559333ed1eec837746bebf90a8`
 - `Revision/textbook/figures/14b_1_odd_condition.png`: `b8182ccde91ebe8632df4ee3b28a61914b888eca8b6f1acaa62be837eb946e8c`
 - `Revision/textbook/figures/14b_2_shooting_function.png`: `52d2395cea39725ee81eec44f970c324fdc1d8fceebbbba73759b433e0e660a4`
-- `Revision/textbook/figures/14b_3_spectrum_ladder.png`: `4540dc2bb9c078f6c4b28e57e15d65bd89f8869b6854d3762f1275a4d14ea35b`
-- `Revision/textbook/figures/14b_4_rk4_convergence.png`: `0cb828d9a6b8c9ee70af5c2593d9e24105bb90ebbb9fa85186388829a70239b0`
+- `Revision/textbook/figures/14b_3_spectrum_ladder.png`: `86674f035228c9d8b0adaa28348b20668b4c4b9bd7c0f6346917e167b42d9ad5`
+- `Revision/textbook/figures/14b_4_rk4_convergence.png`: `d4c97adb963e7e4ea1d8b7ab48e1c521feb09ebb143a62357a917d6bc15687aa`
 - `Revision/textbook/figures/14b_5_orbitals.png`: `913ca8065d5a8c86b1d8727ade1a4c3262007485a9f344ea995f0b873f4a6612`
 - `Revision/textbook/figures/14b_6_pruefer_angle.png`: `1910d37f1bb99b915db1370fd3ac5d5aab7f1d1f4591ae83e5d94d53253de276`
 
@@ -373,4 +383,4 @@ Expected run time: about 1 minute (FACTS: 60 s); nbkit stops a cell after 600 s.
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":198.0,"seconds":25.7},"check":{"date":"2026-10-02","files":7,"peak_mb":198.0,"result":"passed","seconds":24.4},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":201.0,"seconds":25.7},"check":{"date":"2026-10-02","files":7,"peak_mb":201.0,"result":"passed","seconds":25.6},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

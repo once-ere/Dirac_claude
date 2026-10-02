@@ -18,7 +18,7 @@ It reads or reproduces these Revision records:
 - `Revision/gkd_lovelock/results/lovelock-report.json`: the 19 checks and the counters of the GKD sums; reproduced byte for byte and the counters recomputed
 - `Revision/gkd_lovelock/results/python-lovelock-report.json`: the independent sympy verification (49 checks); its checks on the Riemann tensor, on the Rust components and on the Einstein, Gauss-Bonnet and cubic identities are reproduced
 
-The notebook has 42 cells (23 markdown cells and 19 code cells) in these sections:
+The notebook has 46 cells (25 markdown cells and 21 code cells) in these sections:
 
 - 1. What this notebook computes
 - 2. How to run this notebook
@@ -31,7 +31,7 @@ The notebook has 42 cells (23 markdown cells and 19 code cells) in these section
 - 9. Three classical identities, and the traces
 - 10. What this notebook showed
 
-It prints 28 PASS lines (one per check), 7 RESULT lines (key numbers) and draws 4 figures.
+It prints 29 PASS lines (one per check), 12 RESULT lines (key numbers) and draws 4 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -209,7 +209,15 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 8. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/11b.captions.json`, `Revision/textbook/figures/11b_1_work_of_the_sums.png`, `Revision/textbook/figures/11b_2_curvature_of_planes.png`, `Revision/textbook/figures/11b_3_riemann_matrix.png` and `Revision/textbook/figures/11b_4_mixing_terms_cancel.png`. It changes no other file of the repository except the Rust build folder `target` next to each `Cargo.toml` it builds; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/11b.captions.json`
+- `Revision/textbook/figures/11b_1_work_of_the_sums.png`
+- `Revision/textbook/figures/11b_2_curvature_of_planes.png`
+- `Revision/textbook/figures/11b_3_riemann_matrix.png`
+- `Revision/textbook/figures/11b_4_mixing_terms_cancel.png`
+
+It changes no other file of the repository except the Rust build folder `target` next to each `Cargo.toml` it builds; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -221,7 +229,7 @@ Every check of the notebook prints a line that starts with PASS. At the end of t
 
 ```text
 PASS all four figure files of the notebook exist
-ALL 28 CHECKS PASSED (notebook 11b)
+ALL 29 CHECKS PASSED (notebook 11b)
 ```
 
 and the notebook must show 4 figures below the cells that draw them.
@@ -277,57 +285,58 @@ In [4]  PASS the program wrote lovelock-report.json equal to the Revision record
 In [4]       reproduces Revision/gkd_lovelock/results/lovelock-report.json (the whole file)
 In [5]  PASS the counters of the Rust sums are 5616, 176640, 1128960, 0 leaves and 696, 32640,
 In [5]      495360, 0 GKD calls
-In [6]  PASS every R^ab_cd is a polynomial in H, a4', a4'' and cot z and its inverse, free of
-In [6]      sin(z)^(1/3) and e^a4
-In [6]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
-In [6]      mixed_riemann_free_of_sin_third
-In [7]  PASS sympy and Rust give the same 156 nonzero R^ab_cd exactly
-In [7]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, check
-In [7]      rust_riemann_agrees
-In [7]  PASS R^ab_cd = -R^ba_cd = -R^ab_dc for all components
+In [6]  PASS Gamma^a_bc = Gamma^a_cb (symmetric in the lower labels)
+In [7]  PASS every R^ab_cd is a polynomial in H, a4', a4'' and cot z and its inverse, free of
+In [7]      sin(z)^(1/3) and e^a4
 In [7]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
-In [7]      riemann_antisymmetry
-In [7]  PASS 25 nonzero Christoffel symbols with b <= c, as in the record
-In [7]  PASS the Ricci scalar is R = 6 a4'^2 - 42 H^2, as in the record
-In [7]       reproduces Revision/gkd_lovelock/results/curvature.json, ricciScalar
-In [8]  PASS plane curvatures at a4' = 2H: 3, -5, -1; with x4: 4 + a4'' and 4 - a4''; x4 with x8:
-In [8]      0
-In [9]  PASS 156 of the 4096 components are not zero at this point
-In [10]  PASS the seven terms of R^x4_x8 are +H a4' cot z (three times), -H a4' cot z (three
-In [10]      times) and 0, and cancel exactly
-In [11]  PASS gkd: a cycle of three labels is even (+1), an exchange of two odd (-1)
-In [11]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, gkdSelfCheck
-In [13]  PASS the Python sums reproduce the counters of the Rust sums
-In [13]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, counters k = 1, 2, 3
-In [14]  PASS all 3 x 64 components of P(1), P(2), P(3) equal the Rust components exactly
-In [14]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, checks
-In [14]      rust_k1/k2/k3_mixed_components_agree
-In [14]  PASS the scalars L(1), L(2), L(3) equal the Rust scalars exactly
-In [14]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, checks
-In [14]      rust_L1/L2/L3_agrees
-In [14]  PASS only the 8 diagonal components are nonzero, for k = 1, 2, 3
-In [15]  PASS every leaf of order 3 uses 7 labels, so P(4) has no term: P(4) = 0
-In [15]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
-In [15]      k4_tensor_vanishes
-In [16]  PASS P(1) = -4 G for all 64 components and L(1) = 2 R
-In [16]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, checks
-In [16]      k1_equals_minus_4_einstein and L1_equals_2R
-In [16]  PASS P(2) = -8 times the Gauss-Bonnet tensor for all 64 components and L(2) = 4 GB
-In [16]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, checks
-In [16]      k2_equals_minus_8_gauss_bonnet and L2_equals_4_gauss_bonnet
-In [17]  PASS L(3) = 8 (2 T1 + 8 T2 + 24 T3 + 3 T4 + 24 T5 + 16 T6 - 12 T7 + T8)
-In [17]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, check
-In [17]      L3_equals_8_cubic_lovelock_density
-In [18]  PASS the trace of P(1) is (8 - 2) L(1)
-In [18]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
-In [18]      k1_trace_identity
-In [18]  PASS the trace of P(2) is (8 - 4) L(2)
-In [18]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
-In [18]      k2_trace_identity
-In [18]  PASS the trace of P(3) is (8 - 6) L(3)
-In [18]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
-In [18]      k3_trace_identity
-In [19]  PASS all four figure files of the notebook exist
+In [7]      mixed_riemann_free_of_sin_third
+In [8]  PASS sympy and Rust give the same 156 nonzero R^ab_cd exactly
+In [8]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, check
+In [8]      rust_riemann_agrees
+In [8]  PASS R^ab_cd = -R^ba_cd = -R^ab_dc for all components
+In [8]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
+In [8]      riemann_antisymmetry
+In [8]  PASS 25 nonzero Christoffel symbols with b <= c, as in the record
+In [8]  PASS the Ricci scalar is R = 6 a4'^2 - 42 H^2, as in the record
+In [8]       reproduces Revision/gkd_lovelock/results/curvature.json, ricciScalar
+In [9]  PASS plane curvatures at a4' = 2H: 3, -5, -1; with x4: 4 + a4'' and 4 - a4''; x4 with x8:
+In [9]      0
+In [10]  PASS 156 of the 4096 components are not zero at this point
+In [11]  PASS the seven terms of R^x4_x8 are +H a4' cot z (three times), -H a4' cot z (three
+In [11]      times) and 0, and cancel exactly
+In [12]  PASS gkd: a cycle of three labels is even (+1), an exchange of two odd (-1)
+In [12]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, gkdSelfCheck
+In [14]  PASS the Python sums reproduce the counters of the Rust sums
+In [14]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, counters k = 1, 2, 3
+In [15]  PASS all 3 x 64 components of P(1), P(2), P(3) equal the Rust components exactly
+In [15]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, checks
+In [15]      rust_k1/k2/k3_mixed_components_agree
+In [15]  PASS the scalars L(1), L(2), L(3) equal the Rust scalars exactly
+In [15]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, checks
+In [15]      rust_L1/L2/L3_agrees
+In [15]  PASS only the 8 diagonal components are nonzero, for k = 1, 2, 3
+In [16]  PASS every leaf of order 3 uses 7 labels, so P(4) has no term: P(4) = 0
+In [16]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
+In [16]      k4_tensor_vanishes
+In [17]  PASS P(1) = -4 G for all 64 components and L(1) = 2 R
+In [17]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, checks
+In [17]      k1_equals_minus_4_einstein and L1_equals_2R
+In [18]  PASS P(2) = -8 times the Gauss-Bonnet tensor for all 64 components and L(2) = 4 GB
+In [18]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, checks
+In [18]      k2_equals_minus_8_gauss_bonnet and L2_equals_4_gauss_bonnet
+In [19]  PASS L(3) = 8 (2 T1 + 8 T2 + 24 T3 + 3 T4 + 24 T5 + 16 T6 - 12 T7 + T8)
+In [19]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, check
+In [19]      L3_equals_8_cubic_lovelock_density
+In [20]  PASS the trace of P(1) is (8 - 2) L(1)
+In [20]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
+In [20]      k1_trace_identity
+In [20]  PASS the trace of P(2) is (8 - 4) L(2)
+In [20]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
+In [20]      k2_trace_identity
+In [20]  PASS the trace of P(3) is (8 - 6) L(3)
+In [20]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
+In [20]      k3_trace_identity
+In [21]  PASS all four figure files of the notebook exist
 ```
 
 ### 3.2 Key numbers
@@ -335,13 +344,20 @@ In [19]  PASS all four figure files of the notebook exist
 The key numbers are printed as RESULT lines:
 
 ```text
+In [3]  RESULT eighth-order scalar printed by the program, L(4) = -663552 H^2 a4'^6 - 442368 H^4
+In [3]      a4'^4 - 663552 H^6 a4'^2
 In [4]  RESULT size of curvature.json = 28162 bytes
 In [4]  RESULT size of lovelock-tensors.json = 55056 bytes
 In [4]  RESULT size of lovelock-components.md = 19604 bytes
 In [4]  RESULT size of lovelock-report.json = 3154 bytes
-In [6]  RESULT nonzero Christoffel symbols with b <= c = 25
-In [6]  RESULT nonzero components R^ab_cd = 156
-In [11]  RESULT nonzero curvature entries in the sums = 156
+In [6]  RESULT nonzero Christoffel symbols Gamma^a_bc with b <= c = 25
+In [7]  RESULT nonzero components R^ab_cd = 156
+In [8]  RESULT Ricci scalar R = 6*A1**2 - 42*H**2
+In [12]  RESULT nonzero curvature entries in the sums = 156
+In [20]  RESULT Lovelock scalar L(1) = 12*A1**2 - 84*H**2
+In [20]  RESULT Lovelock scalar L(2) = -96*A1**4 - 2112*A1**2*H**2 + 3360*H**4
+In [20]  RESULT Lovelock scalar L(3) = 1152*A1**6 + 31104*A1**4*H**2 + 100224*A1**2*H**4 -
+In [20]      40320*H**6
 ```
 
 ### 3.3 The last lines
@@ -350,7 +366,7 @@ The last code cell ends with exactly these lines:
 
 ```text
 PASS all four figure files of the notebook exist
-ALL 28 CHECKS PASSED (notebook 11b)
+ALL 29 CHECKS PASSED (notebook 11b)
 ```
 
 ### 3.4 Figures
@@ -397,8 +413,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 1 minute (FACTS: 60 s); nbkit stops a cell after 900 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 24.6 s, peak memory of the kernel process 220 MiB;
-- the check run: 27.1 s, peak memory of the kernel process 220 MiB.
+- the build run: 39.6 s, peak memory of the kernel process 220 MiB;
+- the check run: 34.2 s, peak memory of the kernel process 220 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -410,8 +426,8 @@ Expected run time: about 1 minute (FACTS: 60 s); nbkit stops a cell after 900 s.
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/11b_lovelock_tensors.ipynb`: `56c5f94d6e984e341a56f439dddc12393a38e1cc612f9a39ab6cec6d000ff2a8`
-- `Revision/textbook/notebooks/src/11b_lovelock_tensors.py`: `ff01049173836ee9524914ffc6c88daba62f81a31476b35c03d8881ec4475772`
+- `Revision/textbook/notebooks/11b_lovelock_tensors.ipynb`: `52f184c6954b2068c8b7677d770bdb493f2efd656031e4d18fad90cd8c9c9556`
+- `Revision/textbook/notebooks/src/11b_lovelock_tensors.py`: `a65676dde16aebd3e306d3a08a31a219df5714fea4e1aa497856f9dd8fe5d7da`
 - `Revision/textbook/figures/11b.captions.json`: `931a2002f807b4fedc685cd6225285e81df9ebe3b40629c1bf91c64584d010b2`
 - `Revision/textbook/figures/11b_1_work_of_the_sums.png`: `025258e33f677caa2c050d355282d05c67acb6be69eec694b11541702de9aead`
 - `Revision/textbook/figures/11b_2_curvature_of_planes.png`: `0203fcb635d1794645a9dbb3246177fe2ef0514e21c8f21fa25f5e211878abf5`
@@ -424,4 +440,4 @@ Expected run time: about 1 minute (FACTS: 60 s); nbkit stops a cell after 900 s.
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 5 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":220.0,"seconds":24.6},"check":{"date":"2026-10-02","files":5,"peak_mb":220.0,"result":"passed","seconds":27.1},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":220.0,"seconds":39.6},"check":{"date":"2026-10-02","files":5,"peak_mb":220.0,"result":"passed","seconds":34.2},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

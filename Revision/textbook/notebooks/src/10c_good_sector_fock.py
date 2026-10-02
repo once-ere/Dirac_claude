@@ -725,7 +725,7 @@ CELLS = [
                 "positive-frequency plane waves $\\Phi = u\\,e^{i(k\\cdot x - 5x_4)}$ of "
                 "the classical commuting field dirac16complex00 with $m = 2$, $k = (1, "
                 "2, 0, 4)$ and $u^\\dagger u = 1$ (vertical axis: number of waves per "
-                "bin). Half of the waves have negative energy density; multiplying a "
+                "bin). About half of the waves have negative energy density; multiplying a "
                 "wave by a large number makes its energy as negative as one likes: the "
                 "classical energy is unbounded below.")
     '''),

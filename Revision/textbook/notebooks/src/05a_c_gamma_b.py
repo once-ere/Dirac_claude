@@ -26,14 +26,13 @@ FACTS = {
     "name": "05a_c_gamma_b",
     "title": "The matrices C, Gamma and B built from the author's gammas",
     "purpose": (
-        "It reads the eight real 16 by 16 gamma matrices of the Revision record, checks "
-        "the Clifford relation, builds the charge matrix C (the product of the four "
-        "space-like gammas), the chirality Gamma (the product of all eight gammas) and "
-        "the matrix B = -i C gamma^(x4), proves numerically every property that the "
-        "Revision record states about them (symmetry, squares, commutation signs, "
-        "eigenvalues and signature), and draws six teaching plots: heat maps of the "
-        "matrices, an indefinite quadratic form, the spectra and a table of commutation "
-        "signs."
+        "It reads the eight real 16 by 16 gamma matrices of the Revision record, checks the "
+        "Clifford relation, builds the charge matrix C (the product of the four space-like "
+        "gammas), the chirality Gamma (the product of all eight gammas) and the matrix B = "
+        "-i C gamma^(x4), proves numerically every property that the Revision record states "
+        "about them (symmetry, squares, commutation signs, eigenvalues and signature), and "
+        "draws six teaching plots: heat maps of the matrices, an indefinite quadratic form, "
+        "the spectra and a table of commutation signs."
     ),
     "records": [
         ["Revision/algebra/gammas.json",
@@ -64,10 +63,10 @@ FACTS = {
         "ALL 26 CHECKS PASSED (notebook 05a)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" naming Revision/algebra/gammas.json",
+        ["\"FileNotFoundError\" naming `Revision/algebra/gammas.json`",
          "the notebook was opened outside the repository, or the repository is "
          "incomplete; clone the repository again and open the notebook from its folder "
-         "Revision/textbook/notebooks."],
+         "`Revision/textbook/notebooks`."],
     ],
 }
 
@@ -614,8 +613,7 @@ CELLS = [
           and np.array_equal(P_plus @ P_plus, P_plus)
           and not np.any(P_minus @ P_plus) and np.array_equal(P_minus + P_plus, I16)
           and np.trace(P_minus) == 8 and np.trace(P_plus) == 8,
-          "P_- = diag(1_8, 0) and P_+ = diag(0, 1_8) are complementary projectors of "
-          "rank 8")
+          "P_- = diag(1_8, 0) and P_+ = diag(0, 1_8) are complementary projectors of rank 8")
     check_reproduces(all(np.array_equal(gamma[x] @ P_minus, P_plus @ gamma[x])
                          for x in COORDS)
                      and all(not np.any(gamma[x][:8, :8]) and not np.any(gamma[x][8:, 8:])
@@ -714,8 +712,7 @@ CELLS = [
                      and anticommute == ["x5", "x6", "x7"]
                      and recorded("python", "B_gamma_relations"),
                      "B commutes with gamma^a for a = x1, x2, x3, x4, x8 and anticommutes "
-                     "for "
-                     "x5, x6, x7",
+                     "for x5, x6, x7",
                      record=record_of("python", "B_gamma_relations"))
     '''),
     md(r"""

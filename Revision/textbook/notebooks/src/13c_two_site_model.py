@@ -124,10 +124,12 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    **Determinants.** For two fermions in orthonormal orbitals $\phi_a$, $\phi_b$,
-    $\Phi(x_0, x_1) = [\phi_a(x_0)\phi_b(x_1) - \phi_b(x_0)\phi_a(x_1)]/\sqrt2$. It is
-    antisymmetric, vanishes when $x_0 = x_1$, is normalised, and its density is
-    $|\phi_a|^2 + |\phi_b|^2$.
+    **Determinants.** For fermion 1 at the position $r_1$ and fermion 2 at $r_2$, in
+    the orthonormal orbitals $\phi_a$, $\phi_b$,
+    $\Phi(r_1, r_2) = [\phi_a(r_1)\phi_b(r_2) - \phi_b(r_1)\phi_a(r_2)]/\sqrt2$. It is
+    antisymmetric, vanishes when $r_1 = r_2$, is normalised, and its density is
+    $|\phi_a|^2 + |\phi_b|^2$. (The letters $r_1$, $r_2$ name the positions of the two
+    particles; they are not coordinates of spacetime.)
 
     **Operators.** With four orbitals the occupation-number states are the 16 numbers
     $0, \dots, 15$ written in binary: bit $p$ of the number is $n_p$. The matrix of
@@ -163,11 +165,11 @@ CELLS = [
     md(r"""
     ## 5. A Slater determinant on three points
 
-    Space is three points $x = 0, 1, 2$; the orbitals are $\phi_0 = (1, 0, 0)$ and
+    Space is three points $r = 0, 1, 2$; the orbitals are $\phi_0 = (1, 0, 0)$ and
     $\phi_1 = (0, 1, 1)/\sqrt2$. The next cell builds the $3 \times 3$ table of
-    $\Phi(x_0, x_1)$, checks its values, its antisymmetry, its normalisation
-    $\sum |\Phi|^2 = 1$ and its density $n(x) = 2\sum_{x_1}|\Phi(x, x_1)|^2 =
-    (1, \tfrac12, \tfrac12)$.
+    $\Phi(r_1, r_2)$ (row $r_1$, column $r_2$), checks its values, its antisymmetry, its
+    normalisation $\sum |\Phi|^2 = 1$ and its density
+    $n(r) = 2\sum_{r_2}|\Phi(r, r_2)|^2 = (1, \tfrac12, \tfrac12)$.
     """),
     code(r'''
     import itertools  # loops over all combinations of indices
@@ -176,12 +178,12 @@ CELLS = [
 
     phi0 = np.array([1.0, 0.0, 0.0])
     phi1 = np.array([0.0, 1.0, 1.0]) / np.sqrt(2.0)
-    # Phi[x0, x1] = (phi0(x0) phi1(x1) - phi1(x0) phi0(x1)) / sqrt(2)
+    # Phi[r1, r2] = (phi0(r1) phi1(r2) - phi1(r1) phi0(r2)) / sqrt(2)
     Phi = (np.outer(phi0, phi1) - np.outer(phi1, phi0)) / np.sqrt(2.0)
-    for x0 in range(3):
-        say("Phi(%d, x1) for x1 = 0, 1, 2: %s" % (x0, np.array2string(
-            Phi[x0], precision=6, floatmode="fixed", suppress_small=True)))
-    density_3 = 2.0 * np.sum(Phi ** 2, axis=1)  # n(x) = N sum_x1 |Phi(x, x1)|^2
+    for r1 in range(3):
+        say("Phi(%d, r2) for r2 = 0, 1, 2: %s" % (r1, np.array2string(
+            Phi[r1], precision=6, floatmode="fixed", suppress_small=True)))
+    density_3 = 2.0 * np.sum(Phi ** 2, axis=1)  # n(r) = N sum_r2 |Phi(r, r2)|^2
     check(abs(Phi[0, 1] - 0.5) < 1e-15 and abs(Phi[1, 2]) < 1e-15,
           "Phi(0,1) = 1/2 and Phi(1,2) = 0")
     check(np.allclose(Phi, -Phi.T, atol=1e-15) and np.allclose(np.diag(Phi), 0.0),
@@ -194,7 +196,7 @@ CELLS = [
     md(r"""
     The next cell draws this table and, next to it, the determinant of the two lowest
     orbitals $\sqrt2\sin(\pi x)$ and $\sqrt2\sin(2\pi x)$ of a particle in the box
-    $0 < x < 1$ as a heat map over the positions $(x_0, x_1)$ of the two fermions.
+    $0 < x < 1$ as a heat map over the positions $(r_1, r_2)$ of the two fermions.
     """),
     code(r'''
     x_box = np.linspace(0.0, 1.0, 101)
@@ -203,29 +205,29 @@ CELLS = [
     Phi_box = (np.outer(chi1, chi2) - np.outer(chi2, chi1)) / np.sqrt(2.0)
     fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.2))
     image = left.imshow(Phi, origin="lower", cmap="coolwarm", vmin=-0.6, vmax=0.6)
-    for x0, x1 in itertools.product(range(3), repeat=2):
-        left.text(x1, x0, f"{Phi[x0, x1]:+.2f}", ha="center", va="center")
+    for r1, r2 in itertools.product(range(3), repeat=2):  # write every value in
+        left.text(r2, r1, f"{Phi[r1, r2]:+.2f}", ha="center", va="center")
     left.set_xticks([0, 1, 2])
     left.set_yticks([0, 1, 2])
-    left.set_xlabel("position $x_1$ of fermion 1")
-    left.set_ylabel("position $x_0$ of fermion 0")
+    left.set_xlabel("position $r_2$ of fermion 2")
+    left.set_ylabel("position $r_1$ of fermion 1")
     left.set_title("three points")
     image = right.imshow(Phi_box, origin="lower", extent=(0, 1, 0, 1),
                          cmap="coolwarm")
     right.plot([0, 1], [0, 1], "k--", lw=0.8)
-    right.set_xlabel("$x_1$")
-    right.set_ylabel("$x_0$")
+    right.set_xlabel("position $r_2$ of fermion 2")
+    right.set_ylabel("position $r_1$ of fermion 1")
     right.set_title("two fermions in a box")
     fig.colorbar(image, ax=right, shrink=0.85)
     save_figure(fig, "slater_determinants",
                 "Two Slater determinants of two fermions as heat maps (red positive, "
-                "blue negative): left, $\\Phi(x_0, x_1)$ on three points for the "
+                "blue negative): left, $\\Phi(r_1, r_2)$ on three points for the "
                 "orbitals $(1,0,0)$ and $(0,1,1)/\\sqrt2$ with its values written in; "
                 "right, the determinant of the two lowest orbitals of a box "
-                "$0 < x < 1$, against the positions $x_0$ (vertical) and $x_1$ "
-                "(horizontal). Both change sign under the exchange $x_0$ and $x_1$ "
-                "(mirror in the dashed diagonal) and vanish on the diagonal: two "
-                "identical fermions are never at the same place.")
+                "$0 < x < 1$, against the positions $r_1$ (vertical) and $r_2$ "
+                "(horizontal) of the two fermions. Both change sign when $r_1$ and "
+                "$r_2$ are exchanged (mirror in the dashed diagonal) and vanish on the "
+                "diagonal: two identical fermions are never at the same place.")
     check(np.allclose(Phi_box, -Phi_box.T, atol=1e-14), "the box determinant is "
           "antisymmetric")
     '''),

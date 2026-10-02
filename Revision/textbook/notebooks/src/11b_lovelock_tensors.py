@@ -277,7 +277,7 @@ CELLS = [
         say(f"  {number:2d} {name:34s} {verdict}")
     readable = (l4_text.replace("Derivative[1][a4][x4]", "a4'").replace("*", " ")
                 .replace("(", "").replace(")", ""))
-    say(f"The eighth-order scalar printed by the program: L(4) = {readable}")
+    report("eighth-order scalar printed by the program, L(4)", readable)
     check(completed.returncode == 0 and "lovelock: SUCCESS" in completed.stdout,
           "the Rust program lovelock_gkd lovelock ended with SUCCESS")
     check(len(rust_checks) == 19 and all(v == "PASS" for _, v in rust_checks),
@@ -492,7 +492,7 @@ CELLS = [
           "25 nonzero Christoffel symbols with b <= c, as in the record")
     ricci_scalar = sp.expand(sum(RIEMANN.get((a, b, a, b), 0) for a in range(8)
                                  for b in range(8)))
-    say(f"Ricci scalar R = {ricci_scalar}")
+    report("Ricci scalar R", ricci_scalar)
     check(sp.expand(ricci_scalar - from_mathematica(curvature["ricciScalar"])) == 0,
           "the Ricci scalar is R = 6 a4'^2 - 42 H^2, as in the record",
           record=f"{RESULTS}/curvature.json, ricciScalar")
@@ -1030,7 +1030,7 @@ CELLS = [
 
     for k in (1, 2, 3):
         trace = poly_sum(P[k].get((h, h), {}) for h in range(8))
-        say(f"L({k}) = {show(L[k])}")
+        report(f"Lovelock scalar L({k})", show(L[k]))
         check(trace == poly_add({}, L[k], 8 - 2 * k),
               f"the trace of P({k}) is (8 - {2 * k}) L({k})",
               record=f"{RESULTS}/lovelock-report.json, check k{k}_trace_identity")

@@ -29,7 +29,7 @@ The notebook has 34 cells (19 markdown cells and 15 code cells) in these section
 - 14. The last check
 - 15. What this notebook showed
 
-It prints 33 PASS lines (one per check), 0 RESULT lines (key numbers) and draws 6 figures.
+It prints 34 PASS lines (one per check), 1 RESULT line (key numbers) and draws 6 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -179,7 +179,17 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/01b.captions.json`, `Revision/textbook/figures/01b_1_complex_plane.png`, `Revision/textbook/figures/01b_2_euler_series.png`, `Revision/textbook/figures/01b_3_rotation_by_multiplication.png`, `Revision/textbook/figures/01b_4_roots_of_unity.png`, `Revision/textbook/figures/01b_5_rotations_and_boosts.png` and `Revision/textbook/figures/01b_6_oscillation_and_growth.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/01b.captions.json`
+- `Revision/textbook/figures/01b_1_complex_plane.png`
+- `Revision/textbook/figures/01b_2_euler_series.png`
+- `Revision/textbook/figures/01b_3_rotation_by_multiplication.png`
+- `Revision/textbook/figures/01b_4_roots_of_unity.png`
+- `Revision/textbook/figures/01b_5_rotations_and_boosts.png`
+- `Revision/textbook/figures/01b_6_oscillation_and_growth.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -191,7 +201,7 @@ Every check of the notebook prints a line that starts with PASS. At the end of t
 
 ```text
 PASS all 6 figure files of this notebook exist
-ALL 33 CHECKS PASSED (notebook 01b)
+ALL 34 CHECKS PASSED (notebook 01b)
 ```
 
 and the notebook must show 6 figures below the cells that draw them.
@@ -235,6 +245,7 @@ In [3]  PASS |z w|^2 = |z|^2 |w|^2 for all complex z and w
 In [4]  PASS multiplying by i keeps the length and turns by pi/2
 In [5]  PASS the error of every partial sum is below e^theta theta^(N+1)/(N+1)!
 In [5]  PASS 21 terms of the series give cos 2 + i sin 2 to 1e-12
+In [6]  PASS from N to N + 1 the error is multiplied by about theta/(N + 2) (N = 10 to 19)
 In [7]  PASS mpmath, 50 digits: e^(2i) = cos 2 + i sin 2 and e^(i pi) = -1
 In [7]  PASS sympy: e^(i alpha) e^(i beta) = e^(i (alpha + beta)) for all real angles
 In [8]  PASS multiplying by e^(i alpha) keeps lengths and adds alpha to every angle
@@ -263,7 +274,11 @@ In [15]  PASS all 6 figure files of this notebook exist
 
 ### 3.2 Key numbers
 
-The notebook prints no RESULT line; its numbers are the versions and values printed in its cells.
+The key numbers are printed as RESULT lines:
+
+```text
+In [5]  RESULT error of the series for e^(2i) after 21 terms = 4.1e-14
+```
 
 ### 3.3 The last lines
 
@@ -271,7 +286,7 @@ The last code cell ends with exactly these lines:
 
 ```text
 PASS all 6 figure files of this notebook exist
-ALL 33 CHECKS PASSED (notebook 01b)
+ALL 34 CHECKS PASSED (notebook 01b)
 ```
 
 ### 3.4 Figures
@@ -279,7 +294,7 @@ ALL 33 CHECKS PASSED (notebook 01b)
 The notebook shows 6 figures, each below the cell that draws it, and saves each as a PNG file (150 dots per inch, no metadata):
 
 - `Revision/textbook/figures/01b_1_complex_plane.png` (892 x 726 pixels): Complex numbers as arrows in the complex plane; horizontal axis the real part, vertical axis the imaginary part (pure numbers). Blue $z = 1 + 2i$, red $w = 3 - i$ (dashed: the same arrow moved to the tip of $z$), black their sum $z + w = 4 + i$, green the conjugate $z^{\ast} = 1 - 2i$ (the mirror image of $z$ in the real axis) and purple $iz = -2 + i$, which is $z$ turned counterclockwise by a right angle.
-- `Revision/textbook/figures/01b_2_euler_series.png` (1517 x 674 pixels): Left: the partial sums $S_N = \sum_{k=0}^{N} (2i)^k/k!$ for $N = 0$ to 10 in the complex plane (blue points joined in order, the first five labelled), the unit circle (grey) and the point $e^{2i} = \cos 2 + i \sin 2$ (red star); axes real and imaginary part. The partial sums turn around the origin and close in on the star. Right: the error $|S_N - e^{2i}|$ against $N$ on a logarithmic scale (circles) and the bound $e^2 2^{N+1}/(N+1)!$ (dashed); the error falls faster than any power of 10 per step once $N$ exceeds about 4.
+- `Revision/textbook/figures/01b_2_euler_series.png` (1517 x 674 pixels): Left: the partial sums $S_N = \sum_{k=0}^{N} (2i)^k/k!$ for $N = 0$ to 10 in the complex plane (blue points joined in order, the first five labelled), the unit circle (grey) and the point $e^{2i} = \cos 2 + i \sin 2$ (red star); axes real and imaginary part. The partial sums turn around the origin and close in on the star. Right: the error $|S_N - e^{2i}|$ against $N$ on a logarithmic scale (circles) and the bound $e^2 2^{N+1}/(N+1)!$ (dashed); the error shrinks faster and faster, each new term multiplying it by about $2/(N+2)$.
 - `Revision/textbook/figures/01b_3_rotation_by_multiplication.png` (985 x 819 pixels): The letter F (black) and its images after multiplying every corner by $e^{i\pi/3}$ (blue, a turn by 60 degrees), by $e^{5i\pi/6}$ (red, a turn by 150 degrees) and by $0.6\,e^{-i\pi/2}$ (green, a quarter turn clockwise and a shrinking to 0.6); horizontal axis the real part, vertical axis the imaginary part, the cross marks the origin. The letter is turned about the origin and never mirrored.
 - `Revision/textbook/figures/01b_4_roots_of_unity.png` (1484 x 709 pixels): The roots of unity $z_k = e^{2\pi i k/n}$ for $n = 3$ (left) and $n = 8$ (right) as arrows from the origin to the unit circle (grey); axes real and imaginary part. They are the corners of a regular triangle and a regular octagon; the arrows of each picture add up to zero.
 - `Revision/textbook/figures/01b_5_rotations_and_boosts.png` (1580 x 735 pixels): Left: the point $(1, 0)$ rotated by all angles from 0 to $2\pi$ (blue circle $x^2 + y^2 = 1$; the dots are the angles $-1$ to $1$ in steps of 0.5); axes $x$ and $y$. Right: the event $(t, x) = (1, 0)$ boosted with rapidities from $-2$ to $2$ (red hyperbola $t^2 - x^2 = 1$; the dots are the rapidities $-1$ to $1$ in steps of 0.5) and the light-like lines $t = \pm x$ (dashed); horizontal axis the space-like $x$, vertical axis the time-like $t$ (pure numbers). A rotation keeps a circle, a boost keeps a hyperbola.
@@ -293,7 +308,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/01b.captions.json` | 2884 | `4718a8d27afb86286bfe8205acd606f5f0da96281464431fae188650aeba5a7a` |
+| `Revision/textbook/figures/01b.captions.json` | 2891 | `f159119881dfdefd9f4ef1089db4cf3324a7629a4472c5c16558ff6932b02960` |
 | `Revision/textbook/figures/01b_1_complex_plane.png` | 34552 | `506705ab0d680d993ab6646ec5f66571892f637188c00153d750b59c93b338b6` |
 | `Revision/textbook/figures/01b_2_euler_series.png` | 109050 | `8a56969d4f72dd68207d4bdf58103f8b6f24ed985c1bbad4e1ea01aa64a46e92` |
 | `Revision/textbook/figures/01b_3_rotation_by_multiplication.png` | 68769 | `c35fc7b94c10983243057f783bc05f5b924434a182f626733271f6a6a2ef531a` |
@@ -322,8 +337,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 4.2 s, peak memory of the kernel process 224 MiB;
-- the check run: 4.0 s, peak memory of the kernel process 223 MiB.
+- the build run: 11.9 s, peak memory of the kernel process 219 MiB;
+- the check run: 8.3 s, peak memory of the kernel process 219 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -335,9 +350,9 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/01b_complex_rotations.ipynb`: `d1263d7e46c03add174af431a2c79594e4757b6cb9a787af57aced0f3306517b`
-- `Revision/textbook/notebooks/src/01b_complex_rotations.py`: `5d1ae7accb97d7be4dd33d5381d25a14c074594fe83868b65bccc810f8027c03`
-- `Revision/textbook/figures/01b.captions.json`: `4718a8d27afb86286bfe8205acd606f5f0da96281464431fae188650aeba5a7a`
+- `Revision/textbook/notebooks/01b_complex_rotations.ipynb`: `9339dd593b87112f17c7a31a3c6081ff93333e6d1466973e6b376d1bf2a60c4f`
+- `Revision/textbook/notebooks/src/01b_complex_rotations.py`: `ac5e56268c83705e401118e5f14a8744444cbc45a65728361494e2615d600403`
+- `Revision/textbook/figures/01b.captions.json`: `f159119881dfdefd9f4ef1089db4cf3324a7629a4472c5c16558ff6932b02960`
 - `Revision/textbook/figures/01b_1_complex_plane.png`: `506705ab0d680d993ab6646ec5f66571892f637188c00153d750b59c93b338b6`
 - `Revision/textbook/figures/01b_2_euler_series.png`: `8a56969d4f72dd68207d4bdf58103f8b6f24ed985c1bbad4e1ea01aa64a46e92`
 - `Revision/textbook/figures/01b_3_rotation_by_multiplication.png`: `c35fc7b94c10983243057f783bc05f5b924434a182f626733271f6a6a2ef531a`
@@ -351,4 +366,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":224.0,"seconds":4.2},"check":{"date":"2026-10-02","files":7,"peak_mb":223.0,"result":"passed","seconds":4.0},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":219.0,"seconds":11.9},"check":{"date":"2026-10-02","files":7,"peak_mb":219.0,"result":"passed","seconds":8.3},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

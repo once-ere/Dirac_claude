@@ -52,7 +52,7 @@ FACTS = {
     ],
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 25,
+    "expected_seconds": 15,
     "timeout_seconds": 300,
     "files_written": ["Revision/textbook/figures/13a.captions.json"] + [
         f"Revision/textbook/figures/13a_{k}_{name}.png"
@@ -63,11 +63,11 @@ FACTS = {
         "ALL 30 CHECKS PASSED (notebook 13a)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" for parameters.json",
-         "the notebook reads the file Revision/kohn_sham/results/parameters.json of "
+        ["\"FileNotFoundError\" for `parameters.json`",
+         "the notebook reads the file `Revision/kohn_sham/results/parameters.json` of "
          "the repository; it must be opened inside the folder "
-         "Revision/textbook/notebooks of a complete clone of the repository, not as a "
-         "single downloaded file."],
+         "`Revision/textbook/notebooks` of a complete clone of the repository, not as "
+         "a single downloaded file."],
     ],
 }
 
@@ -214,7 +214,7 @@ CELLS = [
     L_HALF = 6.0  # the grid covers -6 < x < 6
     M = 200  # the number of interior grid points
     h = 2.0 * L_HALF / (M + 1)  # the grid spacing 12/201
-    x = -L_HALF + h * np.arange(1, M + 1)  # the points x_1, ..., x_200
+    x = -L_HALF + h * np.arange(1, M + 1)  # the grid points x_k, k = 1, ..., 200
     v = 0.5 * x ** 2  # the harmonic trap v(x) = x^2/2 at every point
 
     # The kinetic-energy matrix: 1/h^2 on the diagonal, -1/(2 h^2) beside it.

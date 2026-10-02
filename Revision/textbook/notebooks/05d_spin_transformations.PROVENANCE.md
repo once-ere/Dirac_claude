@@ -183,7 +183,17 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/05d.captions.json`, `Revision/textbook/figures/05d_1_plane_types.png`, `Revision/textbook/figures/05d_2_half_angles.png`, `Revision/textbook/figures/05d_3_rotation_matrices.png`, `Revision/textbook/figures/05d_4_orbits.png`, `Revision/textbook/figures/05d_5_invariant_forms.png` and `Revision/textbook/figures/05d_6_vector_matrices.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/05d.captions.json`
+- `Revision/textbook/figures/05d_1_plane_types.png`
+- `Revision/textbook/figures/05d_2_half_angles.png`
+- `Revision/textbook/figures/05d_3_rotation_matrices.png`
+- `Revision/textbook/figures/05d_4_orbits.png`
+- `Revision/textbook/figures/05d_5_invariant_forms.png`
+- `Revision/textbook/figures/05d_6_vector_matrices.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -216,7 +226,7 @@ python -m ipykernel install --user --name python3
 - Windows: the headless run prints a RuntimeWarning that mentions the "Proactor event loop" and zmq: this is a message of the package pyzmq, not an error; the run continues normally.
 - A red box with "Matplotlib is building the font cache; this may take a moment." in the first run after the installation: this is a message, not an error; the run continues and the message does not come again.
 - An AssertionError names a check that failed: choose the menu Kernel > Restart Kernel and Run All Cells; if it fails again, install the packages again with the pip commands of Step 3, because a different package version can change the last digits of a result.
-- "FileNotFoundError" naming Revision/algebra/gammas.json: the notebook was opened outside the repository, or the repository is incomplete; clone the repository again and open the notebook from its folder Revision/textbook/notebooks.
+- "FileNotFoundError" naming `Revision/algebra/gammas.json`: the notebook was opened outside the repository, or the repository is incomplete; clone the repository again and open the notebook from its folder `Revision/textbook/notebooks`.
 
 To repeat the verification of the book's maintainers (a second, independent execution whose notebook and files are compared byte for byte with the stored ones; it writes only into a scratch folder), run in the repository folder:
 
@@ -328,8 +338,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 4.9 s, peak memory of the kernel process 216 MiB;
-- the check run: 5.2 s, peak memory of the kernel process 216 MiB.
+- the build run: 5.1 s, peak memory of the kernel process 212 MiB;
+- the check run: 6.9 s, peak memory of the kernel process 212 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -341,8 +351,8 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/05d_spin_transformations.ipynb`: `d4d3f085d3dbb97de1bfb6256383015459043ec93c5a4df1c899d8b835b36669`
-- `Revision/textbook/notebooks/src/05d_spin_transformations.py`: `88e41db69069ef072d28267718d3ea6dbddc5e342793dcf64600b6e5f2029296`
+- `Revision/textbook/notebooks/05d_spin_transformations.ipynb`: `08f81af2cb5f39221455be7b5b0ea60c86fe91e828daef4af387a25738f70523`
+- `Revision/textbook/notebooks/src/05d_spin_transformations.py`: `10af0a1ed23b7b77b4cf6b6648c47f87a96326f5f8ae3584752faadbaf59f90a`
 - `Revision/textbook/figures/05d.captions.json`: `68d25f6fe769cc16fb3077b1a625d6b929bf9531fae6454242a6058c762aa5db`
 - `Revision/textbook/figures/05d_1_plane_types.png`: `90eda1c4f1069df2bbaf448ba1d533f7a33d1bab67938e9deb311f9d07fb4b20`
 - `Revision/textbook/figures/05d_2_half_angles.png`: `49e5fb8954f9e9a2f03de8380e9310d2c4de1785a1675b39cea412b0a991cdba`
@@ -357,4 +367,4 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":216.0,"seconds":4.9},"check":{"date":"2026-10-02","files":7,"peak_mb":216.0,"result":"passed","seconds":5.2},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":212.0,"seconds":5.1},"check":{"date":"2026-10-02","files":7,"peak_mb":212.0,"result":"passed","seconds":6.9},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

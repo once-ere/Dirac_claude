@@ -182,7 +182,16 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/10c.captions.json`, `Revision/textbook/figures/10c_1_expectation_rule.png`, `Revision/textbook/figures/10c_2_dirac_sea.png`, `Revision/textbook/figures/10c_3_fock_spectrum.png`, `Revision/textbook/figures/10c_4_commuting_energy.png` and `Revision/textbook/figures/10c_5_energy_density_spread.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/10c.captions.json`
+- `Revision/textbook/figures/10c_1_expectation_rule.png`
+- `Revision/textbook/figures/10c_2_dirac_sea.png`
+- `Revision/textbook/figures/10c_3_fock_spectrum.png`
+- `Revision/textbook/figures/10c_4_commuting_energy.png`
+- `Revision/textbook/figures/10c_5_energy_density_spread.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -285,9 +294,9 @@ The notebook shows 5 figures, each below the cell that draws it, and saves each 
 
 - `Revision/textbook/figures/10c_1_expectation_rule.png` (802 x 703 pixels): For 100 random complex $16 \times 16$ matrices $M$: the normal-ordered expectation value of the bilinear $\Psi^\dagger M\Psi$ computed on the positive Fock space of the good-sector momentum $m = 2$, $k = (1, 2, 0, 4)$ (vertical axis), against the formula $u^\dagger BMu$ in a particle state (blue dots) and $-v^\dagger BMv$ in an antiparticle state (orange squares); horizontal axis: the formula; real parts, pure numbers. All points lie on the diagonal: the rule of the Revision record holds.
 - `Revision/textbook/figures/10c_2_dirac_sea.png` (1383 x 611 pixels): Left: the eigenvalues $\pm E = \pm\sqrt{m^2 + |k|^2}$ of the good-sector mode Hamiltonian for $m = 2$ against the size of the momentum $|k|$ (horizontal axis, same units as $m$); in the vacuum every negative level is filled (shaded: the Dirac sea), with energy $-8E$ per momentum. Right: after normal ordering, a particle (blue) and an antiparticle (orange dashed, on top of the blue curve) both have the positive energy $+E$; vertical axes in the units of $m$. The good sector has a positive energy for every quantum.
-- `Revision/textbook/figures/10c_3_fock_spectrum.png` (897 x 703 pixels): All $2^{16} = 65536$ quantum states of one good-sector momentum ($m = 2$, $k = (1, 2, 0, 4)$, $E = 5$), sorted by their normal-ordered charge $N_b - N_d$ (horizontal axis) and their number of quanta $N_b + N_d$ (vertical axis; the energy is $5(N_b + N_d)$). The colour is the base-10 logarithm of the number of states in each square; white squares are empty. The vacuum is the single state at the bottom; there are 16 states with one quantum, and the largest number, 4900, has 8 quanta and charge 0. No state has negative energy.
+- `Revision/textbook/figures/10c_3_fock_spectrum.png` (897 x 703 pixels): All $2^{16} = 65536$ quantum states of one good-sector momentum ($m = 2$, $k = (1, 2, 0, 4)$, $E = 5$), sorted by their normal-ordered charge $N_b - N_d$ (horizontal axis) and their number of quanta $N_b + N_d$ (vertical axis; the energy is $5(N_b + N_d)$). The colour is the base-10 logarithm of the number of states in each square (lightest blue: one state); white squares are empty. The vacuum is the single state at the bottom; there are 16 states with one quantum, and the largest number, 4900, has 8 quanta and charge 0. No state has negative energy.
 - `Revision/textbook/figures/10c_4_commuting_energy.png` (1383 x 588 pixels): The same momentum $m = 2$, $k = (1, 2, 0, 4)$, $E = 5$ in the two fields of the theory; vertical axes: energy in units of $m$. Left: the classical COMMUTING field dirac16complex00, energy density of the 8 positive-frequency waves $\Phi = u\,e^{i(k\cdot x - 5x_4)}$ of a basis with $Bu = \pm u$ ($|c| = 1$): four have $+5$ (blue), four have $-5$ (orange). Right: the quantised fermion field dirac16complex, normal-ordered energy of its 16 one-quantum states: $+5$ for each of the 8 particles (blue) and the 8 antiparticles (green). Quantisation with anticommutators and normal ordering makes the good-sector energy positive; the classical commuting field has no such mechanism.
-- `Revision/textbook/figures/10c_5_energy_density_spread.png` (926 x 615 pixels): Histogram of the energy density $\rho = E\,u^\dagger Bu$ (horizontal axis, units of $m$, between $-5$ and $5$) of 4000 random positive-frequency plane waves $\Phi = u\,e^{i(k\cdot x - 5x_4)}$ of the classical commuting field dirac16complex00 with $m = 2$, $k = (1, 2, 0, 4)$ and $u^\dagger u = 1$ (vertical axis: number of waves per bin). Half of the waves have negative energy density; multiplying a wave by a large number makes its energy as negative as one likes: the classical energy is unbounded below.
+- `Revision/textbook/figures/10c_5_energy_density_spread.png` (926 x 615 pixels): Histogram of the energy density $\rho = E\,u^\dagger Bu$ (horizontal axis, units of $m$, between $-5$ and $5$) of 4000 random positive-frequency plane waves $\Phi = u\,e^{i(k\cdot x - 5x_4)}$ of the classical commuting field dirac16complex00 with $m = 2$, $k = (1, 2, 0, 4)$ and $u^\dagger u = 1$ (vertical axis: number of waves per bin). About half of the waves have negative energy density; multiplying a wave by a large number makes its energy as negative as one likes: the classical energy is unbounded below.
 
 ## 4. Side effects
 
@@ -297,10 +306,10 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/10c.captions.json` | 2916 | `15dc740b77dd9183a05fb6da7cd62b308bc79fe84f9c890fe049d46c2aa32eaf` |
+| `Revision/textbook/figures/10c.captions.json` | 2949 | `d832d4a1f018ef64fe51aef3d23d7d7e04562e29a6ffcfcc98943f8357771a3c` |
 | `Revision/textbook/figures/10c_1_expectation_rule.png` | 55696 | `1d96d4485cf08a9b07349a81fcee20fba43d1017d0804623b25333d6d8f36821` |
 | `Revision/textbook/figures/10c_2_dirac_sea.png` | 89834 | `c3417fca48ffa53716b2b0055b9a2c881081068bc2b6f24a281a57d9e33914a6` |
-| `Revision/textbook/figures/10c_3_fock_spectrum.png` | 49491 | `cd1f016681d67ff461bcb27070771fc4586d902e21fc6a829545cbb81d8e87a4` |
+| `Revision/textbook/figures/10c_3_fock_spectrum.png` | 53825 | `5c5410be8fd86c496dcd880b78bd697e747d54824b9957ebf1829a71a4897efb` |
 | `Revision/textbook/figures/10c_4_commuting_energy.png` | 41643 | `9bf002c327130b5de75dfeed890fe4b057d093df979ce77529396691a6226176` |
 | `Revision/textbook/figures/10c_5_energy_density_spread.png` | 35474 | `60eca74f57877a7ba9550e7dbb05857e95963d82c5e73eafe029fa99e30ec516` |
 
@@ -325,8 +334,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 4.5 s, peak memory of the kernel process 159 MiB;
-- the check run: 3.7 s, peak memory of the kernel process 158 MiB.
+- the build run: 4.3 s, peak memory of the kernel process 158 MiB;
+- the check run: 3.7 s, peak memory of the kernel process 159 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -338,12 +347,12 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/10c_good_sector_fock.ipynb`: `8fea6ea1bebc70bac3fce5f33ee9452a8a039b2de91e753f19d844deb96065b2`
-- `Revision/textbook/notebooks/src/10c_good_sector_fock.py`: `432dbd45b0194f580e0385fafa598ec1e61a0b2eb4fb0c3c185352b59c59fb02`
-- `Revision/textbook/figures/10c.captions.json`: `15dc740b77dd9183a05fb6da7cd62b308bc79fe84f9c890fe049d46c2aa32eaf`
+- `Revision/textbook/notebooks/10c_good_sector_fock.ipynb`: `ebb1dd72b90cdf96a85370bc1ef65ed4455d3e0ff4f01ed0c301200f8e9ee7a0`
+- `Revision/textbook/notebooks/src/10c_good_sector_fock.py`: `cd53e0136cde742f26b7706c47d6090939d8ffb5aa427bb5e0de0361654163bb`
+- `Revision/textbook/figures/10c.captions.json`: `d832d4a1f018ef64fe51aef3d23d7d7e04562e29a6ffcfcc98943f8357771a3c`
 - `Revision/textbook/figures/10c_1_expectation_rule.png`: `1d96d4485cf08a9b07349a81fcee20fba43d1017d0804623b25333d6d8f36821`
 - `Revision/textbook/figures/10c_2_dirac_sea.png`: `c3417fca48ffa53716b2b0055b9a2c881081068bc2b6f24a281a57d9e33914a6`
-- `Revision/textbook/figures/10c_3_fock_spectrum.png`: `cd1f016681d67ff461bcb27070771fc4586d902e21fc6a829545cbb81d8e87a4`
+- `Revision/textbook/figures/10c_3_fock_spectrum.png`: `5c5410be8fd86c496dcd880b78bd697e747d54824b9957ebf1829a71a4897efb`
 - `Revision/textbook/figures/10c_4_commuting_energy.png`: `9bf002c327130b5de75dfeed890fe4b057d093df979ce77529396691a6226176`
 - `Revision/textbook/figures/10c_5_energy_density_spread.png`: `60eca74f57877a7ba9550e7dbb05857e95963d82c5e73eafe029fa99e30ec516`
 
@@ -353,4 +362,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 6 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":159.0,"seconds":4.5},"check":{"date":"2026-10-02","files":6,"peak_mb":158.0,"result":"passed","seconds":3.7},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":158.0,"seconds":4.3},"check":{"date":"2026-10-02","files":6,"peak_mb":159.0,"result":"passed","seconds":3.7},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

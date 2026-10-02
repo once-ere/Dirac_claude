@@ -168,7 +168,7 @@ cd Revision/textbook/notebooks
 jupyter lab 15c_adiabaticity.ipynb
 ```
 
-JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 30 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
+JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 15 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
 
 **Step 6. Or run the notebook without a browser (headless).**
 
@@ -185,7 +185,17 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/15c.captions.json`, `Revision/textbook/figures/15c_1_transition_orbitals.png`, `Revision/textbook/figures/15c_2_q_by_pair.png`, `Revision/textbook/figures/15c_3_q_history.png`, `Revision/textbook/figures/15c_4_hellmann_feynman.png`, `Revision/textbook/figures/15c_5_fermi_crossing.png` and `Revision/textbook/figures/15c_6_q_map.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/15c.captions.json`
+- `Revision/textbook/figures/15c_1_transition_orbitals.png`
+- `Revision/textbook/figures/15c_2_q_by_pair.png`
+- `Revision/textbook/figures/15c_3_q_history.png`
+- `Revision/textbook/figures/15c_4_hellmann_feynman.png`
+- `Revision/textbook/figures/15c_5_fermi_crossing.png`
+- `Revision/textbook/figures/15c_6_q_map.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -336,10 +346,10 @@ The notebook does not use the network while it runs. The installation (git clone
 
 ### 4.5 Run time and memory
 
-Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
+Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 6.1 s, peak memory of the kernel process 197 MiB;
-- the check run: 5.6 s, peak memory of the kernel process 196 MiB.
+- the build run: 6.3 s, peak memory of the kernel process 199 MiB;
+- the check run: 5.9 s, peak memory of the kernel process 199 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -351,8 +361,8 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/15c_adiabaticity.ipynb`: `2bccc5de8c1ebea7ed1176f547559157a67172790000253718817c470775b495`
-- `Revision/textbook/notebooks/src/15c_adiabaticity.py`: `9f9a1e30cbb860edc2c0de7b89f691aad63aad63dcba6d85bbea97c13934d461`
+- `Revision/textbook/notebooks/15c_adiabaticity.ipynb`: `2eec9952ae4c6a640595b9d505d50ec207480f33557365d2abafa3adc27ab0fd`
+- `Revision/textbook/notebooks/src/15c_adiabaticity.py`: `1268a9011d77a6944997ccc3af34b399d0cf2002e6d767ddbac7499f20a2463e`
 - `Revision/textbook/figures/15c.captions.json`: `dc1ac4baf49214b518a80910b25ad4694b4a8ee41647148f0e5c171cba0e01fc`
 - `Revision/textbook/figures/15c_1_transition_orbitals.png`: `07789e946cfe56a7775c665413e24373f015b3a4bf21bce348a9b69d9d276f7c`
 - `Revision/textbook/figures/15c_2_q_by_pair.png`: `5e3df5672bff71cec2411d1a5024c2fc01f33daa670c6c7b906e6b70b57133ea`
@@ -367,4 +377,4 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":197.0,"seconds":6.1},"check":{"date":"2026-10-02","files":7,"peak_mb":196.0,"result":"passed","seconds":5.6},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":199.0,"seconds":6.3},"check":{"date":"2026-10-02","files":7,"peak_mb":199.0,"result":"passed","seconds":5.9},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

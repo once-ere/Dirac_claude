@@ -46,7 +46,7 @@ FACTS = {
     "records": [],
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 10,
+    "expected_seconds": 5,
     "timeout_seconds": 300,
     "files_written": ["Revision/textbook/figures/13e.captions.json"] + [
         f"Revision/textbook/figures/13e_{k}_{name}.png"

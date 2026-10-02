@@ -73,9 +73,9 @@ FACTS = {
         "ALL 34 CHECKS PASSED (notebook 13b)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" for gammas.json or ks-theory.json",
+        ["\"FileNotFoundError\" for `gammas.json` or `ks-theory.json`",
          "the notebook reads Revision records of the repository; it must be opened "
-         "inside the folder Revision/textbook/notebooks of a complete clone of the "
+         "inside the folder `Revision/textbook/notebooks` of a complete clone of the "
          "repository, not as a single downloaded file."],
     ],
 }

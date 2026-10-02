@@ -40,7 +40,7 @@ FIGURES = [
 FACTS = {
     "id": "06a",
     "name": "06a_spin_connection",
-    "title": "The vielbein, the spin connection and gamma^mu Omega_mu = 3 H gamma^(x8)",
+    "title": "Vielbein, spin connection and the term 3 H gamma^(x8) of the field equation",
     "purpose": (
         "Starting from the author's metric and the author's real 16 x 16 gamma matrices, "
         "it computes exactly, with sympy, the diagonal vielbein, the Christoffel symbols, "

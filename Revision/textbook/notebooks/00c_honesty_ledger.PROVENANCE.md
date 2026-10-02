@@ -212,7 +212,15 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/00c.captions.json`, `Revision/textbook/figures/00c_1_checks_by_report.png`, `Revision/textbook/figures/00c_2_two_verifiers.png`, `Revision/textbook/figures/00c_3_ledger.png` and `Revision/textbook/figures/00c_4_fingerprints.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/00c.captions.json`
+- `Revision/textbook/figures/00c_1_checks_by_report.png`
+- `Revision/textbook/figures/00c_2_two_verifiers.png`
+- `Revision/textbook/figures/00c_3_ledger.png`
+- `Revision/textbook/figures/00c_4_fingerprints.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -373,7 +381,7 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/00c_honesty_ledger.ipynb`: `64e08090b1cbdb5214d7995a5871d7fecc5d6e4346c1a237b5d1ead28c7ca252`
+- `Revision/textbook/notebooks/00c_honesty_ledger.ipynb`: `947c60ed1a932df3acce645542997dbfb0ced69daf89dfc637aa7b1f3cb54025`
 - `Revision/textbook/notebooks/src/00c_honesty_ledger.py`: `e6e16d3bc1d5839859ffcd277066b38e5138c26dd3d7850d1b0b5c6396836919`
 - `Revision/textbook/figures/00c.captions.json`: `c9410657ed6e69954123304854e7262047c3663ecb35af3ce29f2890782ab852`
 - `Revision/textbook/figures/00c_1_checks_by_report.png`: `b9a9e82de05dbc56cfb42535d23da4f85c7ea1193a2523369193b690cea05c49`

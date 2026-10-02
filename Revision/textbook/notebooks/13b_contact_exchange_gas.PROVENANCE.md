@@ -183,7 +183,20 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/13b.captions.json`, `Revision/textbook/figures/13b_1_density_matrix.png`, `Revision/textbook/figures/13b_2_exchange_hole.png`, `Revision/textbook/figures/13b_3_contact_energies.png`, `Revision/textbook/figures/13b_4_finite_range.png`, `Revision/textbook/figures/13b_5_contact_vs_coulomb.png`, `Revision/textbook/figures/13b_6_local_exchange.png`, `Revision/textbook/figures/13b_7_polarization.png`, `Revision/textbook/figures/13b_8_dirac_matrices.png` and `Revision/textbook/figures/13b_9_dirac_exchange.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/13b.captions.json`
+- `Revision/textbook/figures/13b_1_density_matrix.png`
+- `Revision/textbook/figures/13b_2_exchange_hole.png`
+- `Revision/textbook/figures/13b_3_contact_energies.png`
+- `Revision/textbook/figures/13b_4_finite_range.png`
+- `Revision/textbook/figures/13b_5_contact_vs_coulomb.png`
+- `Revision/textbook/figures/13b_6_local_exchange.png`
+- `Revision/textbook/figures/13b_7_polarization.png`
+- `Revision/textbook/figures/13b_8_dirac_matrices.png`
+- `Revision/textbook/figures/13b_9_dirac_exchange.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -216,7 +229,7 @@ python -m ipykernel install --user --name python3
 - Windows: the headless run prints a RuntimeWarning that mentions the "Proactor event loop" and zmq: this is a message of the package pyzmq, not an error; the run continues normally.
 - A red box with "Matplotlib is building the font cache; this may take a moment." in the first run after the installation: this is a message, not an error; the run continues and the message does not come again.
 - An AssertionError names a check that failed: choose the menu Kernel > Restart Kernel and Run All Cells; if it fails again, install the packages again with the pip commands of Step 3, because a different package version can change the last digits of a result.
-- "FileNotFoundError" for gammas.json or ks-theory.json: the notebook reads Revision records of the repository; it must be opened inside the folder Revision/textbook/notebooks of a complete clone of the repository, not as a single downloaded file.
+- "FileNotFoundError" for `gammas.json` or `ks-theory.json`: the notebook reads Revision records of the repository; it must be opened inside the folder `Revision/textbook/notebooks` of a complete clone of the repository, not as a single downloaded file.
 
 To repeat the verification of the book's maintainers (a second, independent execution whose notebook and files are compared byte for byte with the stored ones; it writes only into a scratch folder), run in the repository folder:
 
@@ -348,8 +361,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 5.5 s, peak memory of the kernel process 340 MiB;
-- the check run: 5.6 s, peak memory of the kernel process 339 MiB.
+- the build run: 5.9 s, peak memory of the kernel process 339 MiB;
+- the check run: 6.0 s, peak memory of the kernel process 340 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -361,8 +374,8 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/13b_contact_exchange_gas.ipynb`: `4379ae35d9d72d572c0dcdf602f0ef7299019f6d6ad5e2fcd8d8d63b32e52437`
-- `Revision/textbook/notebooks/src/13b_contact_exchange_gas.py`: `bc292bb51f83e890411c339b4e2bd46e024fa69b9d58499c0510386e9bb58114`
+- `Revision/textbook/notebooks/13b_contact_exchange_gas.ipynb`: `f4a66adf382168bcb74a6e4b6ca64d00605be1b7556c66110b9f325b1aa1073f`
+- `Revision/textbook/notebooks/src/13b_contact_exchange_gas.py`: `f3e2fd04e6b505cf48b51a468f61f2becf8711a3b23f5f446c75c68942406137`
 - `Revision/textbook/figures/13b.captions.json`: `03b4f45d115972e011c8a283ba491df38faf7ff8d9d03ccd154d37a84e2ba21b`
 - `Revision/textbook/figures/13b_1_density_matrix.png`: `057d4c550681fe9d000b7115f5d28d4acaea653cbb880ccf0568b1875c52f248`
 - `Revision/textbook/figures/13b_2_exchange_hole.png`: `3177e3e9140f405bc76d72118723fa31c0850963dcf27e2b0a894a2cd2f78e20`
@@ -380,4 +393,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 10 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":340.0,"seconds":5.5},"check":{"date":"2026-10-02","files":10,"peak_mb":339.0,"result":"passed","seconds":5.6},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":339.0,"seconds":5.9},"check":{"date":"2026-10-02","files":10,"peak_mb":340.0,"result":"passed","seconds":6.0},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

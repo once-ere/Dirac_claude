@@ -123,10 +123,11 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    The fields of the author's theory, dirac16complex and dirac16complex00, have 16
-    *complex* components at every point of spacetime, and the waves that solve their
-    equations depend on the time $x_4$ through factors like $e^{-i\varepsilon x_4}$.
-    The author's gamma matrices, on the other hand, are *real*. This notebook shows
+    The fields of the author's theory have 16 *complex* components at every point of
+    spacetime (for the field dirac16complex they are complex anticommuting quantities,
+    for dirac16complex00 ordinary complex numbers), and a wave that oscillates in the
+    time $x_4$ is written with factors like $e^{-i\varepsilon x_4}$. The author's
+    gamma matrices, on the other hand, are *real*. This notebook shows
     how the two fit together: a real $2 \times 2$ matrix $J$ with $J^2 = -I$ behaves
     exactly like the number $i$, and multiplying by a complex number of modulus 1 is
     the same as rotating with a real matrix.
@@ -143,9 +144,10 @@ CELLS = [
     space-like direction is a boost, which keeps $x^2 - t^2$ and is built from
     $\cosh$ and $\sinh$ instead of $\cos$ and $\sin$. A boost stretches one light-like
     direction ($x = t$) by $e^{\varphi}$ and shrinks the other ($x = -t$) by
-    $e^{-\varphi}$: a growing and a shrinking exponential whose product is 1, the
-    same pattern as the factors $e^{a_4}$ of space and $e^{-a_4}$ of the extra times
-    in the author's metric.
+    $e^{-\varphi}$: a growing and a shrinking exponential whose product is 1. The
+    lengths of space and of the extra times in the author's metric carry the factors
+    $e^{a_4}$ and $e^{-a_4}$, a pattern of the same form (only the form is the
+    same: $a_4$ is a function of the time, not a rapidity).
 
     Finally, the frequency $\varepsilon$ of a wave decides its fate: if $\varepsilon$
     is real, $|e^{-i\varepsilon t}| = 1$ for all times; if $\varepsilon = i\gamma$ is
@@ -266,8 +268,9 @@ CELLS = [
     adds the terms for $\theta = 2$ one by one and keeps the partial sums
     $S_0, S_1, \dots, S_{20}$ and their errors $|S_N - (\cos 2 + i \sin 2)|$.
 
-    How big can the error be? The terms left out after $S_N$ have the sizes
-    $\theta^k/k!$ for $k \geq N + 1$, and
+    How big can the error be? The error is the sum of the terms left out after $S_N$,
+    and the size of a sum is at most the sum of the sizes of its terms. These terms
+    have the sizes $\theta^k/k!$ for $k \geq N + 1$, and
     $\frac{\theta^{N+1+m}}{(N+1+m)!} \leq \frac{\theta^{N+1}}{(N+1)!} \cdot
     \frac{\theta^m}{m!}$ (because $(N+1+m)!$ is at least $(N+1)! \, m!$); adding over
     $m = 0, 1, 2, \dots$ and using $\sum_m \theta^m/m! = e^\theta$ gives the bound
@@ -294,6 +297,7 @@ CELLS = [
     say(f"cos 2 + i sin 2 = {target.real:+.12f} {target.imag:+.12f} i")
     check(all(e <= b + 1e-15 for e, b in zip(errors, bounds)),
           "the error of every partial sum is below e^theta theta^(N+1)/(N+1)!")
+    report("error of the series for e^(2i) after 21 terms", f"{errors[20]:.1e}")
     check(errors[20] < 1e-12, "21 terms of the series give cos 2 + i sin 2 to 1e-12")
     '''),
     md(r"""

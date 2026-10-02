@@ -71,7 +71,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 90,
+    "expected_seconds": 75,
     "timeout_seconds": 900,
     "files_written": ["Revision/textbook/figures/08c.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
@@ -148,9 +148,11 @@ CELLS = [
       with $\cosh b$ and $\sinh b$ ($b$ is the *rapidity*); because $\cosh^2 b -
       \sinh^2 b = 1$ the new vectors are again orthonormal, so the new frame describes
       the SAME metric.
-    - **Riemann tensor** $R^\rho{}_{\sigma\mu\nu}$ (curvature) and its traces, the Ricci
-      tensor $R^\mu{}_\nu = \sum_\rho R^\rho{}_{\mu\rho\nu}$ (with the metric) and the
-      Ricci scalar $R$. A space is flat exactly when the Riemann tensor vanishes.
+    - **Riemann tensor** $R^\rho{}_{\sigma\mu\nu}$ (curvature) and its traces: the Ricci
+      tensor $R_{\sigma\nu} = \sum_\rho R^\rho{}_{\sigma\rho\nu}$, its mixed form
+      $R^\mu{}_\nu$ (for a diagonal metric $R^a{}_a = R_{aa}/g_{aa}$) and the Ricci
+      scalar $R = \sum_a R^a{}_a$. A space is flat exactly when the Riemann tensor
+      vanishes.
     - **Spinor curvature** $F_{\mu\nu} = \partial_\mu\Omega_\nu - \partial_\nu\Omega_\mu
       + [\Omega_\mu, \Omega_\nu]$, where $[A, B] = AB - BA$ (the *commutator*); the
       record proves $F_{\mu\nu} = \frac14\sum R_{\rho\sigma\mu\nu}\gamma^\rho

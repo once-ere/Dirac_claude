@@ -33,7 +33,7 @@ The notebook has 32 cells (18 markdown cells and 14 code cells) in these section
 - 13. The last check
 - 14. What this notebook showed
 
-It prints 19 PASS lines (one per check), 0 RESULT lines (key numbers) and draws 6 figures.
+It prints 19 PASS lines (one per check), 3 RESULT lines (key numbers) and draws 6 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -183,7 +183,17 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/01d.captions.json`, `Revision/textbook/figures/01d_1_binary_counting.png`, `Revision/textbook/figures/01d_2_generator_step.png`, `Revision/textbook/figures/01d_3_generator_bits.png`, `Revision/textbook/figures/01d_4_label_histogram.png`, `Revision/textbook/figures/01d_5_record_counts.png` and `Revision/textbook/figures/01d_6_birthday_problem.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/01d.captions.json`
+- `Revision/textbook/figures/01d_1_binary_counting.png`
+- `Revision/textbook/figures/01d_2_generator_step.png`
+- `Revision/textbook/figures/01d_3_generator_bits.png`
+- `Revision/textbook/figures/01d_4_label_histogram.png`
+- `Revision/textbook/figures/01d_5_record_counts.png`
+- `Revision/textbook/figures/01d_6_birthday_problem.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -268,7 +278,13 @@ In [14]  PASS all 6 figure files of this notebook exist
 
 ### 3.2 Key numbers
 
-The notebook prints no RESULT line; its numbers are the versions and values printed in its cells.
+The key numbers are printed as RESULT lines:
+
+```text
+In [8]  RESULT regenerated GKD values (bytes) = 3161984
+In [8]  RESULT their sha256, first 16 digits = 3ddccfa744b3708b
+In [11]  RESULT nonzero values of the self-test, p = 5 to 9 = 20538, 7812, 1949, 244, 0
+```
 
 ### 3.3 The last lines
 
@@ -327,8 +343,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 13.1 s, peak memory of the kernel process 304 MiB;
-- the check run: 12.0 s, peak memory of the kernel process 305 MiB.
+- the build run: 13.7 s, peak memory of the kernel process 305 MiB;
+- the check run: 13.1 s, peak memory of the kernel process 305 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -340,8 +356,8 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/01d_gkd_record_selftests.ipynb`: `0644174ba713243ebb806fed5e01735e0ccff734d5ae0988673eb17bc4481121`
-- `Revision/textbook/notebooks/src/01d_gkd_record_selftests.py`: `ea08d508ac5438db0cf1079ebc429ec3341fed7e5cf75f85de7c7f198811278f`
+- `Revision/textbook/notebooks/01d_gkd_record_selftests.ipynb`: `ab600131abd6b4923e17af995df3251ed023c6e6c1e555b2d7d328ddfa51909f`
+- `Revision/textbook/notebooks/src/01d_gkd_record_selftests.py`: `decb9ea72d55d9f53039170c3f2acf864e88ccde6251c1e1384335a202c13bdc`
 - `Revision/textbook/figures/01d.captions.json`: `b083a858ce29d9dc1326006bfedeec992fa90eb8c1b804838c5a3da0fb25a2e5`
 - `Revision/textbook/figures/01d_1_binary_counting.png`: `bc9eb863eaa9ca071ad5884c3aaf811f72ea5e767f3ede72fdb4f2b711b7c058`
 - `Revision/textbook/figures/01d_2_generator_step.png`: `d66413529d811c8c4c605186c444acd909bde618448ed8e8a498d6218d51f0bf`
@@ -356,4 +372,4 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":304.0,"seconds":13.1},"check":{"date":"2026-10-02","files":7,"peak_mb":305.0,"result":"passed","seconds":12.0},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":305.0,"seconds":13.7},"check":{"date":"2026-10-02","files":7,"peak_mb":305.0,"result":"passed","seconds":13.1},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

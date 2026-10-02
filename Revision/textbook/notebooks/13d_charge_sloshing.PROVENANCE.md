@@ -159,7 +159,7 @@ cd Revision/textbook/notebooks
 jupyter lab 13d_charge_sloshing.ipynb
 ```
 
-JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 10 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
+JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 5 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
 
 **Step 6. Or run the notebook without a browser (headless).**
 
@@ -176,7 +176,17 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/13d.captions.json`, `Revision/textbook/figures/13d_1_reduced_map.png`, `Revision/textbook/figures/13d_2_cobwebs.png`, `Revision/textbook/figures/13d_3_error_histories.png`, `Revision/textbook/figures/13d_4_convergence_factor.png`, `Revision/textbook/figures/13d_5_long_run_diagram.png` and `Revision/textbook/figures/13d_6_threshold_versus_u.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/13d.captions.json`
+- `Revision/textbook/figures/13d_1_reduced_map.png`
+- `Revision/textbook/figures/13d_2_cobwebs.png`
+- `Revision/textbook/figures/13d_3_error_histories.png`
+- `Revision/textbook/figures/13d_4_convergence_factor.png`
+- `Revision/textbook/figures/13d_5_long_run_diagram.png`
+- `Revision/textbook/figures/13d_6_threshold_versus_u.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -314,10 +324,10 @@ The notebook does not use the network while it runs. The installation (git clone
 
 ### 4.5 Run time and memory
 
-Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
+Expected run time: about 5 seconds (FACTS: 5 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 3.6 s, peak memory of the kernel process 161 MiB;
-- the check run: 3.5 s, peak memory of the kernel process 159 MiB.
+- the build run: 4.1 s, peak memory of the kernel process 162 MiB;
+- the check run: 3.8 s, peak memory of the kernel process 161 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -329,8 +339,8 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/13d_charge_sloshing.ipynb`: `503fe2e12640ad4aa71ceb9da8e4e692440b2696f79b3ba5e66665c0c838baed`
-- `Revision/textbook/notebooks/src/13d_charge_sloshing.py`: `2ceb9dd516e5c935d2ccada7dff4f60dd40a519a4525fc520f00b592cbee5db4`
+- `Revision/textbook/notebooks/13d_charge_sloshing.ipynb`: `eebb639cfad704178cc16c4801b98be0fb5486adaf294dbc864f0f19cc64b16d`
+- `Revision/textbook/notebooks/src/13d_charge_sloshing.py`: `6716b1b1f4af8c6aa67eaf04ba31fe9f3273b47d4dea5f974baee159901e7914`
 - `Revision/textbook/figures/13d.captions.json`: `74f903f7adc4f2d15f992a085bb317c010d78be4eb8aed5b4c079b7774343ba7`
 - `Revision/textbook/figures/13d_1_reduced_map.png`: `bea85e1d36453e85537c3b33ffd29d2237c36bdc9b14f442fe7f5b4144da1166`
 - `Revision/textbook/figures/13d_2_cobwebs.png`: `9cc0b33ed2dafd647ca025ad0ca22abb55047e9de7c5a7fc8eb28eed4ec63f0e`
@@ -345,4 +355,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":161.0,"seconds":3.6},"check":{"date":"2026-10-02","files":7,"peak_mb":159.0,"result":"passed","seconds":3.5},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":162.0,"seconds":4.1},"check":{"date":"2026-10-02","files":7,"peak_mb":161.0,"result":"passed","seconds":3.8},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

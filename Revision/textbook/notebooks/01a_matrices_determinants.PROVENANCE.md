@@ -184,7 +184,17 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/01a.captions.json`, `Revision/textbook/figures/01a_1_matrix_product.png`, `Revision/textbook/figures/01a_2_permutation_matrices.png`, `Revision/textbook/figures/01a_3_area_and_determinant.png`, `Revision/textbook/figures/01a_4_determinant_cost.png`, `Revision/textbook/figures/01a_5_gamma_matrices.png` and `Revision/textbook/figures/01a_6_metric_and_determinant.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/01a.captions.json`
+- `Revision/textbook/figures/01a_1_matrix_product.png`
+- `Revision/textbook/figures/01a_2_permutation_matrices.png`
+- `Revision/textbook/figures/01a_3_area_and_determinant.png`
+- `Revision/textbook/figures/01a_4_determinant_cost.png`
+- `Revision/textbook/figures/01a_5_gamma_matrices.png`
+- `Revision/textbook/figures/01a_6_metric_and_determinant.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -299,7 +309,7 @@ The notebook shows 6 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/01a_1_matrix_product.png` (1634 x 453 pixels): Heat maps of the $3 \times 3$ matrices $A$, $B$ and of their products $AB$ and $BA$; rows are numbered down and columns across from 1 to 3, and every square shows its entry, red for positive and white for zero entries. The two products have different entries, for example 4 and 1 in row 1, column 3: the order of the factors of a matrix product matters.
 - `Revision/textbook/figures/01a_2_permutation_matrices.png` (1485 x 1087 pixels): The 24 permutation matrices of 4 objects; each small picture is a $4 \times 4$ matrix whose dark squares are the entries 1 (all other entries are 0), and the title gives the permutation, listing for rows 1 to 4 the column of the 1 counted from 0, followed by its sign. Twelve signs are $+1$ and twelve are $-1$; the first picture is the identity matrix.
 - `Revision/textbook/figures/01a_3_area_and_determinant.png` (1635 x 509 pixels): The unit square (grey) and its image (orange) under three $2 \times 2$ matrices $M$; horizontal axis $x$, vertical axis $y$ (pure numbers). The blue and red arrows are the columns $M e_1$ and $M e_2$. Left: $\det M = 2$, the area doubles. Middle: $\det M = -1.5$, the area is 1.5 and the arrows have exchanged their order (the picture is mirrored). Right: $\det M = 0$, the square is flattened onto a line and the matrix cannot be undone.
-- `Revision/textbook/figures/01a_4_determinant_cost.png` (933 x 611 pixels): The number of terms $n!$ of the Leibniz formula (circles) and the number of steps $n^3/3$ of elimination (squares) for an $n \times n$ matrix, $n = 1$ to $16$; horizontal axis $n$, vertical axis the count on a logarithmic scale. Up to $n = 4$ the two are similar; for $n = 16$ the Leibniz formula has about $2 \times 10^{13}$ terms against about 1400 steps of elimination.
+- `Revision/textbook/figures/01a_4_determinant_cost.png` (933 x 611 pixels): The number of terms $n!$ of the Leibniz formula (circles) and the number of steps $n^3/3$ of elimination (squares) for an $n \times n$ matrix, $n = 1$ to $16$; horizontal axis $n$, vertical axis the count on a logarithmic scale. Up to $n = 4$ the two are similar; for $n = 16$ the Leibniz formula has about $2.1 \times 10^{13}$ terms against about 1365 steps of elimination.
 - `Revision/textbook/figures/01a_5_gamma_matrices.png` (1239 x 403 pixels): Heat maps of two of the eight real $16 \times 16$ gamma matrices of the Revision record, $\gamma^{(x_1)}$ (left) and $\gamma^{(x_4)}$ (middle), and of the product $\gamma^{(x_4)}\gamma^{(x_4)}$ (right); rows down and columns across numbered 1 to 16, red $+1$, blue $-1$, white 0. Every row and column of a gamma matrix has exactly one coloured square, and the square of the time-like $\gamma^{(x_4)}$ is minus the identity matrix.
 - `Revision/textbook/figures/01a_6_metric_and_determinant.png` (1550 x 673 pixels): Left: heat map of the author's $8 \times 8$ metric at $a_4 = 0.5$ and $z = 6 H x_8 = 0.9$, rows and columns labelled by the coordinates $x_1$ to $x_8$; only the diagonal is not zero (the plain white squares are zeros), positive for $x_1, x_2, x_3, x_8$ and negative for $x_4$ to $x_7$. Right: the determinant of the metric computed numerically for $a_4 = -1$, 0 and 1 (three line styles) against $z$ from 0 to $\pi/2$, and $\cos^2 z$ (thin black line); horizontal axis $z$, vertical axis $\det g$ (pure numbers). All curves coincide: the inflation of space and the deflation of the extra times cancel in the determinant.
 
@@ -311,7 +321,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/01a.captions.json` | 2807 | `00e14c0fab9fd19fcd1d15d5948115297b949c41fd44deca253a357c517c4bbb` |
+| `Revision/textbook/figures/01a.captions.json` | 2809 | `dacc9a0fc8609426bc41c0b16af113c7e35cdf01549e122a3b0287c85146d584` |
 | `Revision/textbook/figures/01a_1_matrix_product.png` | 26537 | `574b322f2e7e4cc406f01ded010f057f85b338a16daeee3a1e7f0b0d1717a956` |
 | `Revision/textbook/figures/01a_2_permutation_matrices.png` | 33181 | `7dd3f7a176fcfe36114966be0198f60bddc46bfcc41650679f934bae25e0e934` |
 | `Revision/textbook/figures/01a_3_area_and_determinant.png` | 51566 | `550382000b043d4dd10e6f90212726bd3fe3a229a95134d94e6380b488255af5` |
@@ -340,8 +350,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 6.0 s, peak memory of the kernel process 228 MiB;
-- the check run: 5.2 s, peak memory of the kernel process 228 MiB.
+- the build run: 6.1 s, peak memory of the kernel process 228 MiB;
+- the check run: 6.0 s, peak memory of the kernel process 228 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -353,9 +363,9 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/01a_matrices_determinants.ipynb`: `e5615f4ce40358f1e744bf4984f2162fe4c28a894c8019c76c358e2e3db65363`
-- `Revision/textbook/notebooks/src/01a_matrices_determinants.py`: `6a57a9b6eaf0b1ee4503c23b0a9328a340ecaf853fce53abccb792482eae3630`
-- `Revision/textbook/figures/01a.captions.json`: `00e14c0fab9fd19fcd1d15d5948115297b949c41fd44deca253a357c517c4bbb`
+- `Revision/textbook/notebooks/01a_matrices_determinants.ipynb`: `ed555fe73ae22c41ee7f4c936472ed57f1299599c5ebe4cd3d734e4b9674b18f`
+- `Revision/textbook/notebooks/src/01a_matrices_determinants.py`: `0fe99552cbb1f37911cdeb74d7ee0dc648294d68ba37daf9e4c5f5ed8b8fc140`
+- `Revision/textbook/figures/01a.captions.json`: `dacc9a0fc8609426bc41c0b16af113c7e35cdf01549e122a3b0287c85146d584`
 - `Revision/textbook/figures/01a_1_matrix_product.png`: `574b322f2e7e4cc406f01ded010f057f85b338a16daeee3a1e7f0b0d1717a956`
 - `Revision/textbook/figures/01a_2_permutation_matrices.png`: `7dd3f7a176fcfe36114966be0198f60bddc46bfcc41650679f934bae25e0e934`
 - `Revision/textbook/figures/01a_3_area_and_determinant.png`: `550382000b043d4dd10e6f90212726bd3fe3a229a95134d94e6380b488255af5`
@@ -369,4 +379,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":228.0,"seconds":6.0},"check":{"date":"2026-10-02","files":7,"peak_mb":228.0,"result":"passed","seconds":5.2},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":228.0,"seconds":6.1},"check":{"date":"2026-10-02","files":7,"peak_mb":228.0,"result":"passed","seconds":6.0},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

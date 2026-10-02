@@ -63,7 +63,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 70,
+    "expected_seconds": 90,
     "timeout_seconds": 600,
     "files_written": [
         "Revision/textbook/figures/14c.captions.json",
@@ -359,7 +359,7 @@ CELLS = [
                 "$H$) at the slice $a_{4,0} = 0$ for $m = 1$, $L = 3$; vertical axis "
                 "the level in units of $m$. The brane band (thick) starts at the zero "
                 "mode and rises with the slope $c = 1.9051$ (dotted line) and then "
-                "more slowly; the bulk levels start above the bulk edge "
+                "more slowly; the other levels start at or above the bulk edge "
                 "$1.2923\\,m$ (dash-dotted); the dashed curve is the brane band of "
                 "the blocks $j = -1$, the mirror image $-\\varepsilon$, which belongs "
                 "to the sea.")
@@ -875,10 +875,10 @@ CELLS = [
                 "(units of $m$), at the slices $a_{4,0} = 0$ (solid) and $0.5$ "
                 "(dashed), for $m = 1$, $L = 3$, $\\Delta k = 0.25$. Each step is one "
                 "group of degenerate levels; the red dots mark the particle numbers "
-                "$N = 8$ (the zero modes), $136$ and $688$ of the Revision runs, the "
-                "last closed shells below the bulk edge $1.2923\\,m$ (dash-dotted) "
-                "being $688$; at the later slice the redshifted brane band holds "
-                "many more particles below the same energy.")
+                "$N = 8$ (the zero modes), $136$ and $688$ of the Revision runs; $688$ "
+                "is the last closed shell below the bulk edge $1.2923\\,m$ "
+                "(dash-dotted line); at the later slice the redshifted brane band "
+                "holds many more particles below the same energy.")
     '''),
     md(r"""
     ## 12. The last check

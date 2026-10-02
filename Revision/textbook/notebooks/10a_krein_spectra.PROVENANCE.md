@@ -185,7 +185,17 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/10a.captions.json`, `Revision/textbook/figures/10a_1_gamma4_c_and_b.png`, `Revision/textbook/figures/10a_2_frequency_squared.png`, `Revision/textbook/figures/10a_3_eigenvalue_flow.png`, `Revision/textbook/figures/10a_4_krein_inertia_scan.png`, `Revision/textbook/figures/10a_5_krein_gram_matrices.png` and `Revision/textbook/figures/10a_6_plus_minus_mass_spectra.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/10a.captions.json`
+- `Revision/textbook/figures/10a_1_gamma4_c_and_b.png`
+- `Revision/textbook/figures/10a_2_frequency_squared.png`
+- `Revision/textbook/figures/10a_3_eigenvalue_flow.png`
+- `Revision/textbook/figures/10a_4_krein_inertia_scan.png`
+- `Revision/textbook/figures/10a_5_krein_gram_matrices.png`
+- `Revision/textbook/figures/10a_6_plus_minus_mass_spectra.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -331,7 +341,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | `Revision/textbook/figures/10a_1_gamma4_c_and_b.png` | 39848 | `389616cb2656561c220ef531fc0cca6e1ec0709d628d15db334c353ef20e26e7` |
 | `Revision/textbook/figures/10a_2_frequency_squared.png` | 87051 | `1c801af3e70e3fa792244b8a5dff49c86546d7be597701fb1a2647ce02bc6ab7` |
 | `Revision/textbook/figures/10a_3_eigenvalue_flow.png` | 85034 | `4dc6d4b2df23cca2e901ff2d5ae82052c3ebf77d6250972ecaf877948919292a` |
-| `Revision/textbook/figures/10a_4_krein_inertia_scan.png` | 47584 | `d0fe97e9d4adfce09e04eb9363b29e9ecaed076750740a4563bc4e8d05fd232d` |
+| `Revision/textbook/figures/10a_4_krein_inertia_scan.png` | 46618 | `6077a4ebebefa56daf85ef909b60ff98f241e4ffda58ea38dfc55965d260f3d4` |
 | `Revision/textbook/figures/10a_5_krein_gram_matrices.png` | 38818 | `a97f14869912829c67b4f90936d48b2e86200c7b2ba55f5695cf78eaf63be2b8` |
 | `Revision/textbook/figures/10a_6_plus_minus_mass_spectra.png` | 87845 | `6909be27c6e50ddf7e0e1a08e714aee0ab97612a4e916f5cb4e5c615cdab510b` |
 
@@ -356,8 +366,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 5.5 s, peak memory of the kernel process 208 MiB;
-- the check run: 4.9 s, peak memory of the kernel process 209 MiB.
+- the build run: 5.4 s, peak memory of the kernel process 208 MiB;
+- the check run: 5.6 s, peak memory of the kernel process 208 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -369,13 +379,13 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/10a_krein_spectra.ipynb`: `ea2e1885d2112cc439e26fbf4ea1f11c4ad8e374abd607f305a4dc51154edacd`
-- `Revision/textbook/notebooks/src/10a_krein_spectra.py`: `735d8c385da1864653de0ca434195b6c530b85aa7e63b15120151400e44eb271`
+- `Revision/textbook/notebooks/10a_krein_spectra.ipynb`: `d40eb3ad188e9307fcc8a9bc4b7dfe2e3f7ec7acc74b3de0ca4e9479db71b84d`
+- `Revision/textbook/notebooks/src/10a_krein_spectra.py`: `c4d21e0ba2d13b919eac8a95b1b66bbfe9f783c10f6f5998d9f7ef4b6a773c12`
 - `Revision/textbook/figures/10a.captions.json`: `93a1e51c75e46d5bae89cdbe56a5115e7da8477a90f7a3add3e6388cd278ba5b`
 - `Revision/textbook/figures/10a_1_gamma4_c_and_b.png`: `389616cb2656561c220ef531fc0cca6e1ec0709d628d15db334c353ef20e26e7`
 - `Revision/textbook/figures/10a_2_frequency_squared.png`: `1c801af3e70e3fa792244b8a5dff49c86546d7be597701fb1a2647ce02bc6ab7`
 - `Revision/textbook/figures/10a_3_eigenvalue_flow.png`: `4dc6d4b2df23cca2e901ff2d5ae82052c3ebf77d6250972ecaf877948919292a`
-- `Revision/textbook/figures/10a_4_krein_inertia_scan.png`: `d0fe97e9d4adfce09e04eb9363b29e9ecaed076750740a4563bc4e8d05fd232d`
+- `Revision/textbook/figures/10a_4_krein_inertia_scan.png`: `6077a4ebebefa56daf85ef909b60ff98f241e4ffda58ea38dfc55965d260f3d4`
 - `Revision/textbook/figures/10a_5_krein_gram_matrices.png`: `a97f14869912829c67b4f90936d48b2e86200c7b2ba55f5695cf78eaf63be2b8`
 - `Revision/textbook/figures/10a_6_plus_minus_mass_spectra.png`: `6909be27c6e50ddf7e0e1a08e714aee0ab97612a4e916f5cb4e5c615cdab510b`
 
@@ -385,4 +395,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":208.0,"seconds":5.5},"check":{"date":"2026-10-02","files":7,"peak_mb":209.0,"result":"passed","seconds":4.9},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":208.0,"seconds":5.4},"check":{"date":"2026-10-02","files":7,"peak_mb":208.0,"result":"passed","seconds":5.6},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

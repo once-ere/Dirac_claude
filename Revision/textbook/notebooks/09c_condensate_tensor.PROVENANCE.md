@@ -181,7 +181,16 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/09c.captions.json`, `Revision/textbook/figures/09c_1_generic_condensate.png`, `Revision/textbook/figures/09c_2_offdiagonal_entries.png`, `Revision/textbook/figures/09c_3_witness_condensate.png`, `Revision/textbook/figures/09c_4_conservation_convergence.png` and `Revision/textbook/figures/09c_5_divergence_components.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/09c.captions.json`
+- `Revision/textbook/figures/09c_1_generic_condensate.png`
+- `Revision/textbook/figures/09c_2_offdiagonal_entries.png`
+- `Revision/textbook/figures/09c_3_witness_condensate.png`
+- `Revision/textbook/figures/09c_4_conservation_convergence.png`
+- `Revision/textbook/figures/09c_5_divergence_components.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -214,6 +223,7 @@ python -m ipykernel install --user --name python3
 - Windows: the headless run prints a RuntimeWarning that mentions the "Proactor event loop" and zmq: this is a message of the package pyzmq, not an error; the run continues normally.
 - A red box with "Matplotlib is building the font cache; this may take a moment." in the first run after the installation: this is a message, not an error; the run continues and the message does not come again.
 - An AssertionError names a check that failed: choose the menu Kernel > Restart Kernel and Run All Cells; if it fails again, install the packages again with the pip commands of Step 3, because a different package version can change the last digits of a result.
+- "KeyError" with the words "has no check": the notebook asks a Revision report for the verdict of one of its checks, and the report in your copy of the repository does not contain that check: your copy is older or newer than the notebook. Run `git pull` in the repository folder, then run the notebook again.
 
 To repeat the verification of the book's maintainers (a second, independent execution whose notebook and files are compared byte for byte with the stored ones; it writes only into a scratch folder), run in the repository folder:
 
@@ -297,7 +307,7 @@ The notebook shows 5 figures, each below the cell that draws it, and saves each 
 
 - `Revision/textbook/figures/09c_1_generic_condensate.png` (876 x 741 pixels): Heat map of the 64 entries $T^\nu{}_\mu$ (row $\nu$, column $\mu$, both running over $x_1, \dots, x_8$) of a generic exact condensate of dirac16complex00 with effective mass $V = 5$, $\lambda = 0$, $H = 1$, a random unit column $\chi$, at the point $a_4 = 0.5$, $a_4' = 0.25$, $z = \pi/4$; colour scale from $-2$ to $2$ (entries beyond it are shown in the darkest colour and printed), in units of energy per unit volume. The diagonal holds only $-VS$ at $x_4$; 42 off-diagonal squares are nonzero, all of them produced by the spin connection. The squares $(x_4, x_8)$ and $(x_8, x_4)$ are zero.
 - `Revision/textbook/figures/09c_2_offdiagonal_entries.png` (1222 x 582 pixels): Three off-diagonal entries of the generic condensate of the previous figure ($V = 5$, $H = 1$, $a_4 = 0.5$, $z = \pi/4$) against the deflation rate $a_4'$ from $-1$ to $1$, in units of energy per unit volume. Left: the momentum flow $T^{x_4}{}_{x_1}$ comes from the $H$ part of the spin connection and does not depend on $a_4'$. Right: $T^{x_1}{}_{x_5}$ (solid) and $T^{x_1}{}_{x_8}$ (dashed) are proportional to $a_4'$; at $a_4' = 0$ they vanish, and only the 12 momentum flows remain.
-- `Revision/textbook/figures/09c_3_witness_condensate.png` (876 x 741 pixels): Heat map of the 64 entries $T^\nu{}_\mu$ of the exact witness condensate $\Phi = e^{-4ix_4}\Phi_0$ of the Revision record with $V = 5$, $H = 1$, $\lambda = 0$, at the same point ($a_4 = 0.5$, $a_4' = 0.25$, $z = \pi/4$) and with the same colour scale as the generic condensate, in units of energy per unit volume. All 15 three-gamma bilinears of $\Phi_0$ vanish, so every off-diagonal entry is zero (it is zero at every point of every history): this condensate is a perfect fluid at rest, with $T^{x_4}{}_{x_4} = -VS$ and zero pressure.
+- `Revision/textbook/figures/09c_3_witness_condensate.png` (876 x 741 pixels): Heat map of the 64 entries $T^\nu{}_\mu$ of the exact witness condensate $\Phi = e^{-4ix_4}\Phi_0$ of the Revision record with $V = 5$, $H = 1$, $\lambda = 0$, at the same point ($a_4 = 0.5$, $a_4' = 0.25$, $z = \pi/4$) and with the same colour scale as the generic condensate, in units of energy per unit volume. All 15 three-gamma bilinears of $\Phi_0$ vanish, so every off-diagonal entry is zero (by the record, at every point of every history): this condensate is a perfect fluid at rest, with $T^{x_4}{}_{x_4} = -VS$ and zero pressure.
 - `Revision/textbook/figures/09c_4_conservation_convergence.png` (939 x 615 pixels): The largest of the eight components of the covariant divergence $\nabla_\mu T^\mu{}_\nu$ of the full tensor of a condensate ($m = 1$, $\lambda = 0.5$, $H = 0.25$, history $a_4 = 0.3x_4 + 0.05x_4^2$, point $x_4 = 1$, $z = 0.5$), computed with central finite differences of step $h$, against $h$ from $0.2$ to $0.0002$; both axes logarithmic, the divergence in units of energy per unit volume per unit length. For the true condensate (circles) it falls like $h^2$ (dotted line): the exact divergence is zero. For the control (squares), which leaves out the term $3H\gamma^{(8)}$ of the field equation, it stays near $0.07$: its tensor is not conserved.
 - `Revision/textbook/figures/09c_5_divergence_components.png` (949 x 577 pixels): The eight components $|\nabla_\mu T^\mu{}_\nu|$, $\nu = x_1, \dots, x_8$, of the divergence of the full tensor of the condensate of the previous figure, with finite differences of step $h = 0.001$, on a logarithmic axis (components that vanish exactly are drawn at $10^{-16}$). The true condensate (left bars) has every component at the level of the finite-difference error, below $10^{-6}$. The control (right bars) has its six momentum components $\nu = x_1, x_2, x_3, x_5, x_6, x_7$ between about $0.01$ and $0.07$, while its components $\nu = x_4$ and $x_8$ vanish like those of the true condensate: the control keeps the energy balance but breaks the momentum balance along 3-space and the extra times.
 
@@ -309,7 +319,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/09c.captions.json` | 3201 | `46ffb69b2dfd86777a3f0a81d0d6c0af7891014ca55e95fa2de7b449fe09dfe4` |
+| `Revision/textbook/figures/09c.captions.json` | 3205 | `55a789187c8e0d85316baf5671e86f28d909d79d690e510a970bccd486ee7e34` |
 | `Revision/textbook/figures/09c_1_generic_condensate.png` | 68976 | `c5ca9bf64ac878a0cc85ecc29450117777efaaed42f3c50b5081f2789cf667d8` |
 | `Revision/textbook/figures/09c_2_offdiagonal_entries.png` | 60357 | `8295510489efae6be291c07a0372e63412402b277702287aacba445e0df3b881` |
 | `Revision/textbook/figures/09c_3_witness_condensate.png` | 61533 | `0d91a2d9e903e397f6d5f00f927b0ac293db5b57e723785979820cbfebb9ae05` |
@@ -337,8 +347,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 5.2 s, peak memory of the kernel process 202 MiB;
-- the check run: 4.7 s, peak memory of the kernel process 202 MiB.
+- the build run: 6.3 s, peak memory of the kernel process 201 MiB;
+- the check run: 6.3 s, peak memory of the kernel process 202 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -350,9 +360,9 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/09c_condensate_tensor.ipynb`: `629217a695ae99b9648362f02d90aa73e9ea8e8a93487152d01db4c271dc17b7`
-- `Revision/textbook/notebooks/src/09c_condensate_tensor.py`: `323f7fc6097d875f4f19f3e9449bab225124dfa2a35fd4a9cf5d8ebfa41981df`
-- `Revision/textbook/figures/09c.captions.json`: `46ffb69b2dfd86777a3f0a81d0d6c0af7891014ca55e95fa2de7b449fe09dfe4`
+- `Revision/textbook/notebooks/09c_condensate_tensor.ipynb`: `5202a382cb0f93e3418252d0ee94bda48527c117de8821d63cab65a28248c3d3`
+- `Revision/textbook/notebooks/src/09c_condensate_tensor.py`: `ba7d40d91f281f8842b86ddfcaee9261f31fa3b418c91e4d3762d527345e1966`
+- `Revision/textbook/figures/09c.captions.json`: `55a789187c8e0d85316baf5671e86f28d909d79d690e510a970bccd486ee7e34`
 - `Revision/textbook/figures/09c_1_generic_condensate.png`: `c5ca9bf64ac878a0cc85ecc29450117777efaaed42f3c50b5081f2789cf667d8`
 - `Revision/textbook/figures/09c_2_offdiagonal_entries.png`: `8295510489efae6be291c07a0372e63412402b277702287aacba445e0df3b881`
 - `Revision/textbook/figures/09c_3_witness_condensate.png`: `0d91a2d9e903e397f6d5f00f927b0ac293db5b57e723785979820cbfebb9ae05`
@@ -365,4 +375,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 6 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":202.0,"seconds":5.2},"check":{"date":"2026-10-02","files":6,"peak_mb":202.0,"result":"passed","seconds":4.7},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":201.0,"seconds":6.3},"check":{"date":"2026-10-02","files":6,"peak_mb":202.0,"result":"passed","seconds":6.3},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

@@ -59,7 +59,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 15,
+    "expected_seconds": 10,
     "timeout_seconds": 300,
     "files_written": ["Revision/textbook/figures/08b.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
@@ -169,8 +169,10 @@ CELLS = [
     THE MODEL (labelled). The field also depends on $y$, and the factor $e^{-Hy}$ in
     the frame momenta makes the exact equation couple neighbouring values of $y$. The
     *local-frame model* holds the hidden position fixed (it freezes the coefficients
-    in $y$, the WKB statement of the Revision record) and keeps the exact time
-    dependence of the frame momenta: $i\,du/dx_4 = h(x_4)u$ with
+    in $y$, the WKB statement of the Revision record), works in the variables
+    $\chi = \sin^{1/2}z\,\Psi$ (in which the term $3H\gamma^{(8)}$ of the diagonal
+    frame is absent exactly), takes no momentum along the hidden direction, and keeps
+    the exact time dependence of the frame momenta: $i\,du/dx_4 = h(x_4)u$ with
     $h(x_4) = -im\gamma^{(4)} - \gamma^{(4)}\big(k_{(1)}(x_4)\gamma^{(1)} +
     k_{(5)}(x_4)\gamma^{(5)}\big)$. Its solutions are not exact solutions of the field
     equation; they show how a wave behaves near one hidden position. The position

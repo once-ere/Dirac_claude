@@ -160,7 +160,7 @@ cd Revision/textbook/notebooks
 jupyter lab 13e_mermin_delta_scf.ipynb
 ```
 
-JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 10 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
+JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 5 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
 
 **Step 6. Or run the notebook without a browser (headless).**
 
@@ -177,7 +177,18 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/13e.captions.json`, `Revision/textbook/figures/13e_1_gibbs_principle.png`, `Revision/textbook/figures/13e_2_fermi_dirac.png`, `Revision/textbook/figures/13e_3_bisection.png`, `Revision/textbook/figures/13e_4_two_level_thermo.png`, `Revision/textbook/figures/13e_5_ladder_occupations.png`, `Revision/textbook/figures/13e_6_ladder_thermo.png` and `Revision/textbook/figures/13e_7_janak_delta_scf.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/13e.captions.json`
+- `Revision/textbook/figures/13e_1_gibbs_principle.png`
+- `Revision/textbook/figures/13e_2_fermi_dirac.png`
+- `Revision/textbook/figures/13e_3_bisection.png`
+- `Revision/textbook/figures/13e_4_two_level_thermo.png`
+- `Revision/textbook/figures/13e_5_ladder_occupations.png`
+- `Revision/textbook/figures/13e_6_ladder_thermo.png`
+- `Revision/textbook/figures/13e_7_janak_delta_scf.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -325,10 +336,10 @@ The notebook does not use the network while it runs. The installation (git clone
 
 ### 4.5 Run time and memory
 
-Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
+Expected run time: about 5 seconds (FACTS: 5 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 4.2 s, peak memory of the kernel process 164 MiB;
-- the check run: 4.2 s, peak memory of the kernel process 163 MiB.
+- the build run: 4.8 s, peak memory of the kernel process 163 MiB;
+- the check run: 5.4 s, peak memory of the kernel process 163 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -340,8 +351,8 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/13e_mermin_delta_scf.ipynb`: `3ca4850d0276f5570444b732003ff60fcf25cbdc05046d487710fb1c5ea45255`
-- `Revision/textbook/notebooks/src/13e_mermin_delta_scf.py`: `6b5f2d525643c7abe3ce861d84df2932f779c090f0475db753b6a94761c06c63`
+- `Revision/textbook/notebooks/13e_mermin_delta_scf.ipynb`: `c055e7559738fe1f528f94efc7b2d3ef4b237156c3b2ac01eec53023e045cd3c`
+- `Revision/textbook/notebooks/src/13e_mermin_delta_scf.py`: `2b61ffd244e80f855db348700e0f5fa95c617d4bebe07c864f77d0d2bbc06d82`
 - `Revision/textbook/figures/13e.captions.json`: `ffecfbf26d69275a21fa9d2ac10edd518832e29cc7cef64156369a6aab0c693a`
 - `Revision/textbook/figures/13e_1_gibbs_principle.png`: `5258f6a5143be82479184478d6dfa7949b0554aea9012704738a3cceea334a00`
 - `Revision/textbook/figures/13e_2_fermi_dirac.png`: `7a9a9b9f3349602ccd856958248cf95f4db75bf8485519b09f0dbbbd5ba79f17`
@@ -357,4 +368,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 8 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":164.0,"seconds":4.2},"check":{"date":"2026-10-02","files":8,"peak_mb":163.0,"result":"passed","seconds":4.2},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":163.0,"seconds":4.8},"check":{"date":"2026-10-02","files":8,"peak_mb":163.0,"result":"passed","seconds":5.4},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

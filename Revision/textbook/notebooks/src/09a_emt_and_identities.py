@@ -79,6 +79,11 @@ FACTS = {
         "ALL 27 CHECKS PASSED (notebook 09a)",
     ],
     "troubleshooting": [
+        ["\"KeyError\" with the words \"has no check\"",
+         "the notebook asks a Revision report for the verdict of one of its checks, and "
+         "the report in your copy of the repository does not contain that check: your "
+         "copy is older or newer than the notebook. Run `git pull` in the repository "
+         "folder, then run the notebook again."],
         ["The cell of the Christoffel symbols runs for more than a minute",
          "sympy simplifies 288 expressions there; on a slow computer this takes longer; "
          "wait until the cell has finished (its number appears in the margin) before "
@@ -468,7 +473,10 @@ CELLS = [
     picture = ax.imshow(T, cmap="RdBu_r", vmin=-largest, vmax=largest)
     for nu in range(8):
         for mu in range(8):
-            ax.text(mu, nu, f"{T[nu, mu]:.1f}", ha="center", va="center", fontsize=7)
+            # white digits on dark squares, black digits on light ones
+            colour = "white" if abs(T[nu, mu]) > 0.6 * largest else "black"
+            ax.text(mu, nu, f"{T[nu, mu]:.1f}", ha="center", va="center", fontsize=7,
+                    color=colour)
     ax.set_xticks(range(8), [f"${n[0]}_{n[1]}$" for n in NAMES])
     ax.set_yticks(range(8), [f"${n[0]}_{n[1]}$" for n in NAMES])
     ax.set_xlabel("lower index $\\mu$ (column)")

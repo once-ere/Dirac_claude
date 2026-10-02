@@ -7,7 +7,7 @@ This file is the provenance record of the notebook `Revision/textbook/notebooks/
 
 ## 1. What the notebook computes
 
-It runs the Rust Kohn-Sham solver for chosen states of the Kohn-Sham gas of dirac16complex, reads the profiles of the energy density and of the three pressures along the hidden coordinate, checks them against the committed Revision record, verifies the conservation law of the energy-momentum tensor along the hidden direction point by point and integrated, integrates the profiles to the total energy, and checks the energy-change identity dE/da4 = minus three times the integrated difference of the 3-space and extra-time pressures along the deflating history.
+It runs the Rust Kohn-Sham solver for chosen states of the Kohn-Sham gas of dirac16complex, reads the profiles of the energy density and of the three pressures along the hidden coordinate, checks them against the committed Revision record, verifies the conservation law of the energy-momentum tensor along the hidden direction point by point and integrated, integrates the profiles to the total energy, and checks the energy-change identity dE/da4 = minus three times the integrated difference of the 3-space and extra-time pressures along the deflating history. The solver writes its output files (about 1 MB) into the folder `Revision/kohn_sham/solver/target/textbook_15b`, which git ignores.
 
 It reads or reproduces these Revision records:
 
@@ -45,7 +45,7 @@ These are the same instructions that the book prints just before the text of the
 
 **Step 1. What this notebook does and what it needs.**
 
-Notebook 15b (Energy-momentum profiles and the conservation law along the hidden direction) is the file `Revision/textbook/notebooks/15b_emt_profiles.ipynb` of the repository Dirac_claude. It runs the Rust Kohn-Sham solver for chosen states of the Kohn-Sham gas of dirac16complex, reads the profiles of the energy density and of the three pressures along the hidden coordinate, checks them against the committed Revision record, verifies the conservation law of the energy-momentum tensor along the hidden direction point by point and integrated, integrates the profiles to the total energy, and checks the energy-change identity dE/da4 = minus three times the integrated difference of the 3-space and extra-time pressures along the deflating history. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It also needs Rust (the program cargo, version 1.91.1 or newer), because it runs the Rust program revision_ks_solver, which is part of the repository and is built on your computer.
+Notebook 15b (Energy-momentum profiles and the conservation law along the hidden direction) is the file `Revision/textbook/notebooks/15b_emt_profiles.ipynb` of the repository Dirac_claude. It runs the Rust Kohn-Sham solver for chosen states of the Kohn-Sham gas of dirac16complex, reads the profiles of the energy density and of the three pressures along the hidden coordinate, checks them against the committed Revision record, verifies the conservation law of the energy-momentum tensor along the hidden direction point by point and integrated, integrates the profiles to the total energy, and checks the energy-change identity dE/da4 = minus three times the integrated difference of the 3-space and extra-time pressures along the deflating history. The solver writes its output files (about 1 MB) into the folder `Revision/kohn_sham/solver/target/textbook_15b`, which git ignores. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It also needs Rust (the program cargo, version 1.91.1 or newer), because it runs the Rust program revision_ks_solver, which is part of the repository and is built on your computer.
 
 **Step 2. Install Git and Python (once per computer).**
 
@@ -215,7 +215,18 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 8. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/15b.captions.json`, `Revision/textbook/figures/15b_1_proper_emt.png`, `Revision/textbook/figures/15b_2_coordinate_emt.png`, `Revision/textbook/figures/15b_3_y_conservation.png`, `Revision/textbook/figures/15b_4_energy_slopes.png`, `Revision/textbook/figures/15b_5_integrated_ratios.png`, `Revision/textbook/figures/15b_6_energy_spreading.png` and `Revision/textbook/figures/15b_7_interaction_terms.png`. It changes no other file of the repository except the Rust build folder `target` next to each `Cargo.toml` it builds; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/15b.captions.json`
+- `Revision/textbook/figures/15b_1_proper_emt.png`
+- `Revision/textbook/figures/15b_2_coordinate_emt.png`
+- `Revision/textbook/figures/15b_3_y_conservation.png`
+- `Revision/textbook/figures/15b_4_energy_slopes.png`
+- `Revision/textbook/figures/15b_5_integrated_ratios.png`
+- `Revision/textbook/figures/15b_6_energy_spreading.png`
+- `Revision/textbook/figures/15b_7_interaction_terms.png`
+
+It changes no other file of the repository except the Rust build folder `target` next to each `Cargo.toml` it builds; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -377,8 +388,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 25 seconds (FACTS: 25 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 11.7 s, peak memory of the kernel process 165 MiB;
-- the check run: 11.1 s, peak memory of the kernel process 165 MiB.
+- the build run: 13.0 s, peak memory of the kernel process 165 MiB;
+- the check run: 13.4 s, peak memory of the kernel process 165 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -390,8 +401,8 @@ Expected run time: about 25 seconds (FACTS: 25 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/15b_emt_profiles.ipynb`: `4de3be9bcbd870c623396786e71fe6a2ac9957ed820414f719791d520327e248`
-- `Revision/textbook/notebooks/src/15b_emt_profiles.py`: `fdc0f34c29f3991af5276590302fd068b03d3e5bff43930c6ed3984c57e46467`
+- `Revision/textbook/notebooks/15b_emt_profiles.ipynb`: `275551e850d78bbe610696a82ed79f1da39ee8ca01fae6f7c0f7be848aeab662`
+- `Revision/textbook/notebooks/src/15b_emt_profiles.py`: `7b74790a5778489506cc290abf4fceddac4952c2025b13e0d33acca9ef178cae`
 - `Revision/textbook/figures/15b.captions.json`: `16fdfe3cfa1911ce8023a2330e5713c32cd0633615d67dd1a1b5da91a8520fc3`
 - `Revision/textbook/figures/15b_1_proper_emt.png`: `2dcc8fb15bc93798feeedc22746968c0e427e2d425190b36a1bb28fa6c7c1039`
 - `Revision/textbook/figures/15b_2_coordinate_emt.png`: `60f53db227e0173590260401109d0537fe3dca00c2cd11fd8b43e2e313f0560b`
@@ -407,4 +418,4 @@ Expected run time: about 25 seconds (FACTS: 25 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 8 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":165.0,"seconds":11.7},"check":{"date":"2026-10-02","files":8,"peak_mb":165.0,"result":"passed","seconds":11.1},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":165.0,"seconds":13.0},"check":{"date":"2026-10-02","files":8,"peak_mb":165.0,"result":"passed","seconds":13.4},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

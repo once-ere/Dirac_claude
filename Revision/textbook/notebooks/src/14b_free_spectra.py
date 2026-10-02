@@ -60,7 +60,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 60,
+    "expected_seconds": 40,
     "timeout_seconds": 600,
     "files_written": [
         "Revision/textbook/figures/14b.captions.json",

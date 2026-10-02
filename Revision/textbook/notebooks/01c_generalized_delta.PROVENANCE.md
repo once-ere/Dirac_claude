@@ -40,7 +40,7 @@ The notebook has 42 cells (23 markdown cells and 19 code cells) in these section
 - 16. The last check
 - 17. What this notebook showed
 
-It prints 27 PASS lines (one per check), 1 RESULT line (key numbers) and draws 6 figures.
+It prints 27 PASS lines (one per check), 3 RESULT lines (key numbers) and draws 6 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -190,7 +190,17 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/01c.captions.json`, `Revision/textbook/figures/01c_1_outer_matrices.png`, `Revision/textbook/figures/01c_2_two_index_table.png`, `Revision/textbook/figures/01c_3_value_counts.png`, `Revision/textbook/figures/01c_4_nonzero_fraction.png`, `Revision/textbook/figures/01c_5_contraction_factor.png` and `Revision/textbook/figures/01c_6_levi_civita.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/01c.captions.json`
+- `Revision/textbook/figures/01c_1_outer_matrices.png`
+- `Revision/textbook/figures/01c_2_two_index_table.png`
+- `Revision/textbook/figures/01c_3_value_counts.png`
+- `Revision/textbook/figures/01c_4_nonzero_fraction.png`
+- `Revision/textbook/figures/01c_5_contraction_factor.png`
+- `Revision/textbook/figures/01c_6_levi_civita.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -300,6 +310,8 @@ The key numbers are printed as RESULT lines:
 
 ```text
 In [8]  RESULT pairs of length 1, 2, 3 compared = 266304
+In [10]  RESULT length 4, counts of the values +1, -1, 0 = 20160, 20160, 16736896
+In [14]  RESULT contraction factors for 8 labels, p = 1 to 8 = 8, 7, 6, 5, 4, 3, 2, 1
 ```
 
 ### 3.3 The last lines
@@ -318,7 +330,7 @@ The notebook shows 6 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/01c_1_outer_matrices.png` (1784 x 411 pixels): The matrix Outer of ordinary Kronecker deltas for five pairs of index lists of length 3: rows are the lower list, columns the upper list, a dark square is an entry 1 and a white square an entry 0; the title gives the determinant, which is the generalized Kronecker delta. From left to right: equal lists (identity matrix, $+1$), a cyclic turn ($+1$), one exchange ($-1$), a repeated lower label (two equal rows, 0) and a lower label missing from the upper list (a row of zeros, 0).
 - `Revision/textbook/figures/01c_2_two_index_table.png` (850 x 769 pixels): All 4096 values of the generalized delta with two indices over the eight labels $x_1$ to $x_8$: row $(l_1, l_2)$, column $(u_1, u_2)$, both running through $(x_1, x_1), (x_1, x_2), \dots, (x_8, x_8)$ (the tick marks the first pair of each block of 8); red $+1$, blue $-1$, white 0. The 56 red dots lie on the diagonal (equal lists of two different labels), the 56 blue dots where the upper list is the lower list reversed; the 8 lists with two equal labels give white gaps on the diagonal.
 - `Revision/textbook/figures/01c_3_value_counts.png` (982 x 634 pixels): The number of pairs of index lists of length $p = 1$ to 4 over the eight labels $x_1$ to $x_8$ for which the generalized delta is $+1$ (red), $-1$ (blue) and 0 (grey), counted over all $8^{2p}$ pairs; horizontal axis $p$, vertical axis the number of pairs on a logarithmic scale, with the exact counts written above the bars (a count 0 is drawn as a short stub). The counts for $p = 1$ to 3 equal those of the Revision record.
-- `Revision/textbook/figures/01c_4_nonzero_fraction.png` (1634 x 629 pixels): Left: the number of all pairs of index lists of length $p$ over 8 labels, $8^{2p}$ (squares), and of the pairs whose generalized delta is not zero, $8!/(8-p)! \cdot p!$ (circles), for $p = 1$ to 8, on a logarithmic scale; for $p = 9$ the second number is 0. Right: their ratio, the fraction of nonzero values, which falls from $1/8$ at $p = 1$ to about $2.3 \times 10^{-10}$ at $p = 8$; horizontal axes the length $p$.
+- `Revision/textbook/figures/01c_4_nonzero_fraction.png` (1634 x 629 pixels): Left: the number of all pairs of index lists of length $p$ over 8 labels, $8^{2p}$ (squares), and of the pairs whose generalized delta is not zero, $8!/(8-p)! \cdot p!$ (circles), for $p = 1$ to 8, on a logarithmic scale; for $p = 9$ the second number is 0. Right: their ratio, the fraction of nonzero values, which falls from $1/8$ at $p = 1$ to about $5.8 \times 10^{-6}$ at $p = 8$; horizontal axes the length $p$.
 - `Revision/textbook/figures/01c_5_contraction_factor.png` (960 x 634 pixels): The factor by which contracting one upper with one lower index multiplies the generalized delta with $p$ indices, found by the checks of this notebook (open circles for $n = 8$ labels, open squares for $n = 4$), and the lines $n - p + 1$; horizontal axis $p$, vertical axis the factor. The arrows mark $p = 2k + 1 = 3, 5, 7$ in eight dimensions, where the factors $8 - 2k = 6, 4, 2$ are those of the Lovelock trace identities of the Revision record.
 - `Revision/textbook/figures/01c_6_levi_civita.png` (1735 x 510 pixels): Left three panels: the Levi-Civita symbol $\varepsilon_{ijk}$ of the three labels $x_1, x_2, x_3$, one panel for each first index $i$ (rows $j$, columns $k$; red $+1$, blue $-1$, white 0); its six nonzero entries are the signs of the six orderings. Right: the author's second route in eight dimensions, the sum over $c_2$ to $c_8$ of $\varepsilon_{a c_2 \dots c_8} \varepsilon_{b c_2 \dots c_8}$ divided by $7!$, for all 64 pairs of labels $a$ (rows) and $b$ (columns): exactly the identity matrix, the ordinary Kronecker delta.
 
@@ -330,7 +342,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/01c.captions.json` | 3002 | `cc90e12263da362a18153858f6ab6bd33afcea3cc14a8687d7f427d6aaabb935` |
+| `Revision/textbook/figures/01c.captions.json` | 3001 | `58ad8dddb1a66a3a842caad03971ff262ba95c40198730884c01677855a69d91` |
 | `Revision/textbook/figures/01c_1_outer_matrices.png` | 38435 | `ed4b7537ea80d29fbea11c2af88284142e47f557c3306569cd0d70de9c707792` |
 | `Revision/textbook/figures/01c_2_two_index_table.png` | 38252 | `5f6accf57dc88150bec6d814091cd93cec07a518dfa9d872c2f86c32d25e7eee` |
 | `Revision/textbook/figures/01c_3_value_counts.png` | 43375 | `f98045033db68b83d1f254f876fb0cc4bea7fa391eed9b11a19e49ccaa53bffc` |
@@ -359,8 +371,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 12.1 s, peak memory of the kernel process 234 MiB;
-- the check run: 12.1 s, peak memory of the kernel process 233 MiB.
+- the build run: 15.1 s, peak memory of the kernel process 234 MiB;
+- the check run: 15.1 s, peak memory of the kernel process 234 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -372,9 +384,9 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/01c_generalized_delta.ipynb`: `5d6358bcaf92b1ed05dba1d0b22c84a84257f403c4892435ac12a6443618935f`
-- `Revision/textbook/notebooks/src/01c_generalized_delta.py`: `653ffaaa8ba8c7acb8eadbcfe15d2187d00dbd036806e3085cefdc5b3725290a`
-- `Revision/textbook/figures/01c.captions.json`: `cc90e12263da362a18153858f6ab6bd33afcea3cc14a8687d7f427d6aaabb935`
+- `Revision/textbook/notebooks/01c_generalized_delta.ipynb`: `9a0cec961dd021ffb1755ef17311d12062df7dc893b7862b4c5a623a4c2a4c29`
+- `Revision/textbook/notebooks/src/01c_generalized_delta.py`: `febd76fb6567784cf6e56faad1a1ab3ae4799462da149e48a6ee81bfcd7b0d0e`
+- `Revision/textbook/figures/01c.captions.json`: `58ad8dddb1a66a3a842caad03971ff262ba95c40198730884c01677855a69d91`
 - `Revision/textbook/figures/01c_1_outer_matrices.png`: `ed4b7537ea80d29fbea11c2af88284142e47f557c3306569cd0d70de9c707792`
 - `Revision/textbook/figures/01c_2_two_index_table.png`: `5f6accf57dc88150bec6d814091cd93cec07a518dfa9d872c2f86c32d25e7eee`
 - `Revision/textbook/figures/01c_3_value_counts.png`: `f98045033db68b83d1f254f876fb0cc4bea7fa391eed9b11a19e49ccaa53bffc`
@@ -388,4 +400,4 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":234.0,"seconds":12.1},"check":{"date":"2026-10-02","files":7,"peak_mb":233.0,"result":"passed","seconds":12.1},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":234.0,"seconds":15.1},"check":{"date":"2026-10-02","files":7,"peak_mb":234.0,"result":"passed","seconds":15.1},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

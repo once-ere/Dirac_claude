@@ -31,17 +31,16 @@ FACTS = {
     "title": "Spin(4,4) transformations: rotations, boosts, reflections and the double "
              "cover",
     "purpose": (
-        "It builds the 28 generators S^ab = (1/4)(gamma^a gamma^b - gamma^b gamma^a) "
-        "from the Revision gammas, checks the recorded commutation relations (the Lie "
-        "algebra so(4,4), "
-        "the action on the gammas, the invariance of the charge matrix C and of the "
-        "chirality), sorts the 28 planes into 12 rotations and 16 boosts, computes the "
+        "It builds the 28 generators S^ab = (1/4)(gamma^a gamma^b - gamma^b gamma^a) from "
+        "the Revision gammas, checks the recorded commutation relations (the Lie algebra "
+        "so(4,4), the action on the gammas, the invariance of the charge matrix C and of "
+        "the chirality), sorts the 28 planes into 12 rotations and 16 boosts, computes the "
         "finite transformations exp(theta S^ab) by their power series and by the closed "
-        "formulas with half angles, shows that a rotation by 2 pi multiplies every "
-        "spinor by -1 while it returns every vector to itself (the double cover), "
-        "computes the 8 by 8 matrices by which spinor transformations move vectors, "
-        "checks which transformations keep the forms of C and of B, and checks "
-        "reflections, the spinor norm and the determinants. Six teaching plots."
+        "formulas with half angles, shows that a rotation by 2 pi multiplies every spinor "
+        "by -1 while it returns every vector to itself (the double cover), computes the 8 "
+        "by 8 matrices by which spinor transformations move vectors, checks which "
+        "transformations keep the forms of C and of B, and checks reflections, the spinor "
+        "norm and the determinants. Six teaching plots."
     ),
     "records": [
         ["Revision/algebra/gammas.json",
@@ -71,10 +70,10 @@ FACTS = {
         "ALL 20 CHECKS PASSED (notebook 05d)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" naming Revision/algebra/gammas.json",
+        ["\"FileNotFoundError\" naming `Revision/algebra/gammas.json`",
          "the notebook was opened outside the repository, or the repository is "
          "incomplete; clone the repository again and open the notebook from its folder "
-         "Revision/textbook/notebooks."],
+         "`Revision/textbook/notebooks`."],
     ],
 }
 
@@ -86,8 +85,8 @@ CELLS = [
     components of the spinor field, $\Psi \to R\Psi$, and at the same time turns the
     eight coordinate directions into each other. The transformations that can be reached
     continuously from the identity are built from the 28 **generators**
-    $S^{ab} = \tfrac14[\gamma^a, \gamma^b]$ as exponentials $R = \exp(\theta S^{ab})$.
-    This notebook
+    $S^{ab} = \tfrac14[\gamma^a, \gamma^b]$ as exponentials $R = \exp(\theta S^{ab})$
+    and products of such exponentials. This notebook
 
     1. builds the 28 generators from the Revision gammas and repeats the recorded
        checks: they obey the commutation rules of the Lie algebra so(4,4), they turn
@@ -382,15 +381,14 @@ CELLS = [
     ax.set_title("The 28 planes: rotations (red) and boosts (blue)")
     ax.grid(False)
     save_figure(fig, "plane_types",
-                "The kind of the transformation $\\exp(\\theta S^{ab})$ in each "
-                "coordinate plane $(a, b)$: row $a$ and column $b$ name the two "
-                "directions; red rot means a rotation ($\\eta_{aa}\\eta_{bb} = +1$, "
-                "$(\\gamma^a\\gamma^b)^2 = -1$), blue boost a boost "
-                "($\\eta_{aa}\\eta_{bb} = -1$, $(\\gamma^a\\gamma^b)^2 = +1$); the "
-                "diagonal is empty. The 6 planes inside 3-space plus the hidden "
-                "direction and the 6 planes inside the four times are rotations; the "
-                "16 planes that mix a space-like with a time-like direction are "
-                "boosts.")
+                "The kind of the transformation $\\exp(\\theta S^{ab})$ in each coordinate "
+                "plane $(a, b)$: row $a$ and column $b$ name the two directions; red rot "
+                "means a rotation ($\\eta_{aa}\\eta_{bb} = +1$, $(\\gamma^a\\gamma^b)^2 = "
+                "-1$), blue boost a boost ($\\eta_{aa}\\eta_{bb} = -1$, "
+                "$(\\gamma^a\\gamma^b)^2 = +1$); the diagonal is empty. The 6 planes inside "
+                "3-space plus the hidden direction and the 6 planes inside the four times "
+                "are rotations; the 16 planes that mix a space-like with a time-like "
+                "direction are boosts.")
     '''),
     md(r"""
     ## 8. The exponential: power series and closed formula
@@ -495,8 +493,8 @@ CELLS = [
     check(np.allclose(R_2pi, -np.eye(16), atol=1e-12)
           and np.allclose(R_4pi, np.eye(16), atol=1e-12)
           and np.allclose(vector_matrix(R_2pi), np.eye(8), atol=1e-12),
-          "a rotation by 2 pi gives R = -1 on spinors but Lambda = 1 on vectors; by "
-          "4 pi, R = +1")
+          "a rotation by 2 pi gives R = -1 on spinors but Lambda = 1 on vectors; by 4 pi, R "
+          "= +1")
     '''),
     md(r"""
     The next cell draws the half angles. Left: for the rotation in the plane
@@ -539,15 +537,15 @@ CELLS = [
     axes[1].set_title("A boost: never periodic;\nthe spinor grows half as fast")
     axes[1].legend(loc="upper center", bbox_to_anchor=(0.5, -0.17))
     save_figure(fig, "half_angles",
-                "Vectors and spinors under a rotation and a boost. Left: for the "
-                "rotation $\\exp(\\theta S^{ab})$ in the plane $(x1, x2)$, the vector "
-                "entry $\\cos\\theta$ (solid) and the spinor quantity $\\mathrm{tr}\\,R/16 "
-                "= \\cos(\\theta/2)$ (dashed) against the angle $\\theta$ from $0$ to "
+                "Vectors and spinors under a rotation and a boost. Left: for the rotation "
+                "$\\exp(\\theta S^{ab})$ in the plane $(x1, x2)$, the vector entry "
+                "$\\cos\\theta$ (solid) and the spinor quantity $\\mathrm{tr}\\,R/16 = "
+                "\\cos(\\theta/2)$ (dashed) against the angle $\\theta$ from $0$ to "
                 "$4\\pi$; at $2\\pi$ the vector is back at 1 while the spinor matrix is "
                 "$-1$ (dots), and only at $4\\pi$ both are back. Right: for the boost in "
-                "the plane $(x1, x4)$, $\\cosh\\theta$ and $\\cosh(\\theta/2)$ against "
-                "the rapidity from $-3$ to $3$; a boost never returns. Vertical axes: "
-                "pure numbers.")
+                "the plane $(x1, x4)$, $\\cosh\\theta$ and $\\cosh(\\theta/2)$ against the "
+                "rapidity from $-3$ to $3$; a boost never returns. Vertical axes: pure "
+                "numbers.")
     '''),
     md(r"""
     The next cell draws $R(\theta) = \exp(\theta S^{(x1\,x2)})$ as heat maps at

@@ -97,11 +97,11 @@ CELLS = [
 
     The Revision record checked its program GKD (the generalized Kronecker delta of
     notebook 01c) twice: a Rust self-test compared GKD with the author's determinant
-    on millions of index lists, and a Wolfram check received the values of GKD for
-    346,304 index lists from a small Rust *exporter* program and compared them with
-    the author's own definition. Many of these lists were drawn by a *pseudo-random*
-    generator. Because such a generator is a fixed formula, the lists can be made
-    again, exactly. This notebook
+    on millions of pairs of index lists, and a Wolfram check received the values of
+    GKD for 346,304 pairs of index lists from a small Rust *exporter* program and
+    compared them with the author's own definition. Many of these lists were drawn
+    by a *pseudo-random* generator. Because such a generator is a fixed formula, the
+    lists can be made again, exactly. This notebook
 
     - explains whole numbers in binary, how a byte stores $-1$, and the three bit
       operations (shift, exclusive or, keeping 64 bits) of the generator
@@ -526,6 +526,8 @@ CELLS = [
     record_bytes, record_sha256 = source["valuesFileBytes"], source["valuesFileSha256"]
     say(f"bytes regenerated {len(values_bytes)}, in the record {record_bytes}")
     say(f"sha256 regenerated:   {fingerprint}")
+    report("regenerated GKD values (bytes)", len(values_bytes))
+    report("their sha256, first 16 digits", fingerprint[:16])
     say(f"sha256 in the record: {record_sha256}")
     check(len(values_bytes) == source["valuesFileBytes"] and
           fingerprint == source["valuesFileSha256"],
@@ -717,6 +719,8 @@ CELLS = [
             .format(p=p, **selftest_rows[p]))
         say("       the record: nonzero {nonzero:5d}, mismatches {mismatches}"
             .format(**recorded_random[p]))
+    report("nonzero values of the self-test, p = 5 to 9",
+           ", ".join(str(selftest_rows[p]["nonzero"]) for p in (5, 6, 7, 8, 9)))
     check(whole_numbers, "every numpy determinant is a whole number up to 1e-6")
     check(all(selftest_rows[p][key] == recorded_random[p][key]
               for p in (5, 6, 7, 8, 9) for key in ("pairs", "nonzero", "mismatches")),

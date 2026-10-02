@@ -180,7 +180,16 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/10d.captions.json`, `Revision/textbook/figures/10d_1_volume_and_flux.png`, `Revision/textbook/figures/10d_2_symmetry_defect.png`, `Revision/textbook/figures/10d_3_frequency_paths.png`, `Revision/textbook/figures/10d_4_growth_rate.png` and `Revision/textbook/figures/10d_5_krein_leak.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/10d.captions.json`
+- `Revision/textbook/figures/10d_1_volume_and_flux.png`
+- `Revision/textbook/figures/10d_2_symmetry_defect.png`
+- `Revision/textbook/figures/10d_3_frequency_paths.png`
+- `Revision/textbook/figures/10d_4_growth_rate.png`
+- `Revision/textbook/figures/10d_5_krein_leak.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -228,7 +237,7 @@ python Revision/textbook/tools/nbkit.py check Revision/textbook/notebooks/src/10
 Every check prints a PASS line (a check that fails stops the notebook with an AssertionError instead). The notebook prints these lines, in this order; the label In [k] is the number of the code cell that prints the line:
 
 ```text
-In [2]  PASS exact: the three matrix identities of the hidden direction
+In [2]  PASS exact: the four matrix identities of the hidden direction
 In [3]  PASS exact: cos z (u^dagger h v - (h u)^dagger v) = d8(sin z u^dagger M8 v)
 In [3]       reproduces Revision/theory/reports/python-scope.json, check
 In [3]      good_sector_hermiticity_up_to_the_brane_flux
@@ -288,9 +297,9 @@ The notebook shows 5 figures, each below the cell that draws it, and saves each 
 
 - `Revision/textbook/figures/10d_1_volume_and_flux.png` (920 x 611 pixels): Along the hidden direction, $z = 6Hx_8$ from the tip $z = 0$ to the patch end $z = \pi/2$ (horizontal axis): the volume factor $\sqrt{|g|} = \cos z$ of the author's metric (blue) and the factor $\sin z$ of the boundary bracket $\sin z\,u^\dagger M_8 v$ (orange); vertical axis: pure numbers. The volume vanishes at the patch end, but the bracket there is $u^\dagger M_8 v$, for example $2i$ for the recorded column: the mode operator is symmetric, and the Krein charge conserved, only if a boundary condition removes this flux at $z = \pi/2$.
 - `Revision/textbook/figures/10d_2_symmetry_defect.png` (932 x 611 pixels): For one concrete wave function $u(x_8)$ (16 entries of the form $a + b\sin z + c\cos z$) and $m = H = 1$: the imaginary parts of the symmetry defect $\cos z\,(u^\dagger(hu) - (hu)^\dagger u)$ of the curved good-sector mode operator (blue), of the derivative $\partial_8(\sin z\,u^\dagger M_8u)$ (green dashed, on top of the blue curve), and of the defect of the operator without the spin-connection term $3H$ (orange), against $z$ (horizontal axis). With the term the defect is exactly a derivative, whose integral is the flux at the ends; without it a remainder $-6H\cos z\,u^\dagger M_8u$ survives.
-- `Revision/textbook/figures/10d_3_frequency_paths.png` (806 x 649 pixels): The 16 eigenvalues of the matrix $A = -im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_8)}$, which governs the good-sector waves that do not depend on $x_8$, in the complex plane (horizontal axis: real part, vertical axis: imaginary part, units of $H$) for $H = 1$ and the mass $m$ from 0 to 5. For $m < 3H$ (orange) they are $\pm i\sqrt{9H^2 - m^2}$ on the imaginary axis: these finite-norm waves grow. For $m > 3H$ (blue) they are real. Green circles: the recorded values $\pm 2\sqrt{2}\,i$ at $m = H = 1$.
+- `Revision/textbook/figures/10d_3_frequency_paths.png` (1182 x 649 pixels): The 16 eigenvalues of the matrix $A = -im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_8)}$, which governs the good-sector waves that do not depend on $x_8$, in the complex plane (horizontal axis: real part, vertical axis: imaginary part, units of $H$) for $H = 1$ and the mass $m$ from 0 to 5. For $m < 3H$ (orange) they are $\pm i\sqrt{9H^2 - m^2}$ on the imaginary axis: these finite-norm waves grow. For $m > 3H$ (blue) they are real. Green circles: the recorded values $\pm 2\sqrt{2}\,i$ at $m = H = 1$.
 - `Revision/textbook/figures/10d_4_growth_rate.png` (920 x 611 pixels): The growth rate $\kappa = \sqrt{9H^2 - m^2}$ (vertical axis, units of $H$) of the good-sector waves that do not depend on $x_8$ in the author's metric, against the mass $m$ (horizontal axis, units of $H$). It is positive for $m < 3H$ (left of the dotted line) and zero for $m \geq 3H$; the green dot is the recorded value $2\sqrt{2}$ at $m = H = 1$. These waves have a finite norm, so without a boundary condition at $z = \pi/2$ the curved good sector contains growing waves.
-- `Revision/textbook/figures/10d_5_krein_leak.png` (1365 x 611 pixels): The exact good-sector solution $\Psi(x_4) = (\cosh kx_4 + \sinh(kx_4)/k\,M)\chi$, independent of $x_8$, for $m = H = 1$ ($k = 2\sqrt{2}$) and a column $\chi$ with $B\chi = \chi$; horizontal axes: the time $x_4$ in units of $1/H$. Left: the logarithm of its ordinary length grows with the slope $2k$ (grey dashed line). Right: its Krein charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,dx_8$ (orange) is not constant; it equals its starting value plus the flux through the patch end $z = \pi/2$ added up over time (green dashed). Without a boundary condition at $z = \pi/2$ the charge leaks out there.
+- `Revision/textbook/figures/10d_5_krein_leak.png` (1365 x 611 pixels): The exact good-sector solution $\Psi(x_4) = (\cosh kx_4 + \sinh(kx_4)/k\,M)\chi$, independent of $x_8$, for $m = H = 1$ ($k = 2\sqrt{2}$) and a column $\chi$ with $B\chi = \chi$; horizontal axes: the time $x_4$ in units of $1/H$. Left: the logarithm of its ordinary length grows with the slope $2k$ (grey dashed line). Right: its Krein charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,dx_8$ (orange) is not constant; it equals its starting value plus the flux through the patch end $z = \pi/2$ added up over time (green dashed). Without a boundary condition at $z = \pi/2$ the Krein charge is not conserved: it changes by exactly what passes through the patch end.
 
 ## 4. Side effects
 
@@ -300,12 +309,12 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/10d.captions.json` | 2936 | `fbb1e604f042a4897e984e8a1b5426c712667009c62c661d4494f4f686701037` |
+| `Revision/textbook/figures/10d.captions.json` | 3000 | `412bdea98ff14f85e90525a7bc9ade75ff06ff1d10fd473385f90c761a2c9232` |
 | `Revision/textbook/figures/10d_1_volume_and_flux.png` | 75051 | `eb258b89fb60b16c42205ac6d2bebe875d195802a28d0613e117fcf050d7eb76` |
 | `Revision/textbook/figures/10d_2_symmetry_defect.png` | 76787 | `630acef56b1404a85cf7d103db862e23cc3e918fcd3fbfc3302ae65969715e73` |
-| `Revision/textbook/figures/10d_3_frequency_paths.png` | 50301 | `7c81db6d8830a763e9a0e9c1d1f322f524a0ff641a124d71e8461473ebf3035d` |
+| `Revision/textbook/figures/10d_3_frequency_paths.png` | 53049 | `223184bc84013bbd13ce828b31df9d3cead75f2d7172e10d94dec40846f34119` |
 | `Revision/textbook/figures/10d_4_growth_rate.png` | 55462 | `1ed5b962c988005bf43e8ad6119e361c66f6f241f5717ba4dc761ff01c8a3741` |
-| `Revision/textbook/figures/10d_5_krein_leak.png` | 89872 | `415b822478e51073172a241c5abaf58d5cd747655470c04104c8f1a7ecd38ffd` |
+| `Revision/textbook/figures/10d_5_krein_leak.png` | 89656 | `0642adc6e056f773a75587057030ead4521a1f6743267d484d05e4f1a695a091` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/10d_curved_good_sector.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
 
@@ -328,8 +337,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 7.0 s, peak memory of the kernel process 197 MiB;
-- the check run: 7.1 s, peak memory of the kernel process 197 MiB.
+- the build run: 11.5 s, peak memory of the kernel process 201 MiB;
+- the check run: 7.8 s, peak memory of the kernel process 201 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -341,14 +350,14 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/10d_curved_good_sector.ipynb`: `45de8746d2c5514e44f0e9615a54e7a570691fa95919d8ba6af3e2605f7ebac2`
-- `Revision/textbook/notebooks/src/10d_curved_good_sector.py`: `34031ddd884a5f474130e814266912e5d00dfe082807aa344d5684434cb96b48`
-- `Revision/textbook/figures/10d.captions.json`: `fbb1e604f042a4897e984e8a1b5426c712667009c62c661d4494f4f686701037`
+- `Revision/textbook/notebooks/10d_curved_good_sector.ipynb`: `aced5854d67d9d6103460460fd35f48726cacbc6d496f1426cb839718ce45633`
+- `Revision/textbook/notebooks/src/10d_curved_good_sector.py`: `a4f0a516278c636e736b2dc5d3312bcfd64984b6156e50b281787189a102d8e7`
+- `Revision/textbook/figures/10d.captions.json`: `412bdea98ff14f85e90525a7bc9ade75ff06ff1d10fd473385f90c761a2c9232`
 - `Revision/textbook/figures/10d_1_volume_and_flux.png`: `eb258b89fb60b16c42205ac6d2bebe875d195802a28d0613e117fcf050d7eb76`
 - `Revision/textbook/figures/10d_2_symmetry_defect.png`: `630acef56b1404a85cf7d103db862e23cc3e918fcd3fbfc3302ae65969715e73`
-- `Revision/textbook/figures/10d_3_frequency_paths.png`: `7c81db6d8830a763e9a0e9c1d1f322f524a0ff641a124d71e8461473ebf3035d`
+- `Revision/textbook/figures/10d_3_frequency_paths.png`: `223184bc84013bbd13ce828b31df9d3cead75f2d7172e10d94dec40846f34119`
 - `Revision/textbook/figures/10d_4_growth_rate.png`: `1ed5b962c988005bf43e8ad6119e361c66f6f241f5717ba4dc761ff01c8a3741`
-- `Revision/textbook/figures/10d_5_krein_leak.png`: `415b822478e51073172a241c5abaf58d5cd747655470c04104c8f1a7ecd38ffd`
+- `Revision/textbook/figures/10d_5_krein_leak.png`: `0642adc6e056f773a75587057030ead4521a1f6743267d484d05e4f1a695a091`
 
 ## 7. Verification
 
@@ -356,4 +365,4 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 6 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":197.0,"seconds":7.0},"check":{"date":"2026-10-02","files":6,"peak_mb":197.0,"result":"passed","seconds":7.1},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":201.0,"seconds":11.5},"check":{"date":"2026-10-02","files":6,"peak_mb":201.0,"result":"passed","seconds":7.8},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

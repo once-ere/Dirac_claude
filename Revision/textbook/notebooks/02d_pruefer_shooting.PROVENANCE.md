@@ -183,7 +183,17 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/02d.captions.json`, `Revision/textbook/figures/02d_1_pruefer_staircase.png`, `Revision/textbook/figures/02d_2_angle_along_y.png`, `Revision/textbook/figures/02d_3_odd_level_equation.png`, `Revision/textbook/figures/02d_4_orbitals.png`, `Revision/textbook/figures/02d_5_level_convergence.png` and `Revision/textbook/figures/02d_6_record_differences.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/02d.captions.json`
+- `Revision/textbook/figures/02d_1_pruefer_staircase.png`
+- `Revision/textbook/figures/02d_2_angle_along_y.png`
+- `Revision/textbook/figures/02d_3_odd_level_equation.png`
+- `Revision/textbook/figures/02d_4_orbitals.png`
+- `Revision/textbook/figures/02d_5_level_convergence.png`
+- `Revision/textbook/figures/02d_6_record_differences.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -334,8 +344,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 400 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 6.5 s, peak memory of the kernel process 203 MiB;
-- the check run: 6.3 s, peak memory of the kernel process 202 MiB.
+- the build run: 8.0 s, peak memory of the kernel process 203 MiB;
+- the check run: 7.0 s, peak memory of the kernel process 203 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -347,7 +357,7 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 400 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/02d_pruefer_shooting.ipynb`: `b5a9fb771a4d70328f56333e622265a7c02ce7882794994200754ddb82cfbb50`
+- `Revision/textbook/notebooks/02d_pruefer_shooting.ipynb`: `026571efea1d141ee34ad433c652041a23e0f028207aafb0d1427a4fde330e9a`
 - `Revision/textbook/notebooks/src/02d_pruefer_shooting.py`: `ee860bfebc5572b5d7d4fd6f623a983644d563b1b434ebc8b125453f85c5ecc1`
 - `Revision/textbook/figures/02d.captions.json`: `ec736dd07a18ccfd03e3f46c0aa9968de9478bf049c55c3477b09344727ffb11`
 - `Revision/textbook/figures/02d_1_pruefer_staircase.png`: `1fb8fa68bb0ae7c5b0c7538191fa2ede1765b5d20d09755ad37c58a0014b58e9`
@@ -363,4 +373,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 400 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":203.0,"seconds":6.5},"check":{"date":"2026-10-02","files":7,"peak_mb":202.0,"result":"passed","seconds":6.3},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":203.0,"seconds":8.0},"check":{"date":"2026-10-02","files":7,"peak_mb":203.0,"result":"passed","seconds":7.0},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

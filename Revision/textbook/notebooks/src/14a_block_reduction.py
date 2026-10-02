@@ -58,7 +58,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 40,
+    "expected_seconds": 30,
     "timeout_seconds": 600,
     "files_written": [
         "Revision/textbook/figures/14a.captions.json",
@@ -172,8 +172,10 @@ CELLS = [
     where $M_{\rm eff}(y)$ is the effective mass and $v_v(y)$ the vector potential
     made by all the other quanta (their formulas are not needed here). We use the
     GOOD SECTOR: $\Psi$ does not depend on the extra times $x_5, x_6, x_7$. This is
-    an ASSUMPTION of the Revision theory (modes that move along the extra times grow
-    without bound). We look for orbitals of the form
+    an ASSUMPTION of the Revision theory: only without extra-time dependence does the
+    quantised field have a space of states with a positive norm, and modes with
+    enough momentum along the extra times grow without bound. We look for orbitals of
+    the form
 
     $$\Psi = e^{i \mathbf{k}\cdot\mathbf{x}}\, W(y)^{-3}\, \chi(y, x_4),$$
 
@@ -671,10 +673,11 @@ CELLS = [
     ## 10. Three matrices that commute with everything: J, K1, K2
 
     Rotations of 3-space do not change the levels (section 14), so we may take
-    $\mathbf k = (k, 0, 0)$ along $x_1$. Then $h$ contains only the three matrices
+    $\mathbf k = (k, 0, 0)$ along $x_1$. Then $h$ is built from the three gammas
+    $\gamma^{(x_8)}$, $\gamma^{(x_1)}$, $\gamma^{(x_4)}$ only; the first-order form
+    $\chi' = N_{16}\chi$ of the equation (section 12) uses the three products
     $A_0 = \gamma^{(x_8)}$, $A_1 = \gamma^{(x_8)}\gamma^{(x_1)}$,
-    $A_4 = \gamma^{(x_8)}\gamma^{(x_4)}$ (multiply $h$ by $\gamma^{(x_8)}$ to see
-    it), and the densities contain $B$ and $C$.
+    $A_4 = \gamma^{(x_8)}\gamma^{(x_4)}$, and the densities contain $B$ and $C$.
 
     A rule for products of different gammas: moving $\gamma^c$ through a product of
     $p$ different gammas gives the sign $(-1)^{p-1}$ if $\gamma^c$ is one of the

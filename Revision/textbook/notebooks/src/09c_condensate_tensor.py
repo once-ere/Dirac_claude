@@ -71,7 +71,13 @@ FACTS = {
         "PASS the five figures of this notebook are saved and captioned",
         "ALL 20 CHECKS PASSED (notebook 09c)",
     ],
-    "troubleshooting": [],
+    "troubleshooting": [
+        ["\"KeyError\" with the words \"has no check\"",
+         "the notebook asks a Revision report for the verdict of one of its checks, and "
+         "the report in your copy of the repository does not contain that check: your "
+         "copy is older or newer than the notebook. Run `git pull` in the repository "
+         "folder, then run the notebook again."],
+    ],
 }
 
 CELLS = [

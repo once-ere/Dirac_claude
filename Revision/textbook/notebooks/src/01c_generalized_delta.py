@@ -647,6 +647,8 @@ CELLS = [
     pairs4 = sum(tally4.values())
     say(f"length 4: {pairs4} pairs; +1: {tally4[1]}, -1: {tally4[-1]}, 0: {tally4[0]}; "
         f"mismatches {mismatches4}")
+    report("length 4, counts of the values +1, -1, 0",
+           f"{tally4[1]}, {tally4[-1]}, {tally4[0]}")
     for p in (1, 2, 3, 4):
         mode, pairs_p, wrong = (recorded_selftest[p]["mode"], recorded_selftest[p]["pairs"],
                                 recorded_selftest[p]["mismatches"])
@@ -871,6 +873,8 @@ CELLS = [
         + ", ".join(str(factors[(8, p)]) for p in range(1, 9)))
     say("factors found for n = 4, p = 1 ... 4: "
         + ", ".join(str(factors[(4, p)]) for p in range(1, 5)))
+    report("contraction factors for 8 labels, p = 1 to 8",
+           ", ".join(str(factors[(8, p)]) for p in range(1, 9)))
     check(all(factors[(n, p)] == n - p + 1 for n in (4, 8) for p in range(1, n + 1)),
           "contracting one index multiplies by n - p + 1 (n = 4 and 8, every p)")
     '''),
@@ -955,7 +959,9 @@ CELLS = [
     with the metric; raising all $n$ indices of $\varepsilon$ multiplies it by the
     product of the diagonal entries of $\eta^{-1}$, which is $\det \eta = +1$ for the
     four $+1$ and four $-1$ of $\eta$ (in four-dimensional spacetime, with one $-1$,
-    the same step gives a factor $-1$). The next cell reads $\eta$ from the Revision
+    the same step gives a factor $-1$). The author's notebook raises the indices with
+    the metric $g$ itself; the factor is then the sign of $\det g = \cos^2 z$, again
+    $+1$. The next cell reads $\eta$ from the Revision
     record and checks $\det\eta = +1$; checks the formula for $n = 4$ and every
     $p = 0$ to 4 over all lists; and repeats the author's In[32] for $n = 8$ and
     $p = 1$: for all 64 pairs $(a, b)$ it adds the products over all lists

@@ -186,7 +186,17 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/08a.captions.json`, `Revision/textbook/figures/08a_1_growth_rate_vs_momentum.png`, `Revision/textbook/figures/08a_2_growth_map.png`, `Revision/textbook/figures/08a_3_norm_in_time.png`, `Revision/textbook/figures/08a_4_hadamard_ratio.png`, `Revision/textbook/figures/08a_5_krein_norm.png` and `Revision/textbook/figures/08a_6_eigenvalue_paths.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/08a.captions.json`
+- `Revision/textbook/figures/08a_1_growth_rate_vs_momentum.png`
+- `Revision/textbook/figures/08a_2_growth_map.png`
+- `Revision/textbook/figures/08a_3_norm_in_time.png`
+- `Revision/textbook/figures/08a_4_hadamard_ratio.png`
+- `Revision/textbook/figures/08a_5_krein_norm.png`
+- `Revision/textbook/figures/08a_6_eigenvalue_paths.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -352,7 +362,7 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 8.6 s, peak memory of the kernel process 206 MiB;
+- the build run: 7.6 s, peak memory of the kernel process 205 MiB;
 - the check run: not measured.
 
 ## 5. Environment of the verified execution
@@ -365,7 +375,7 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/08a_growth_rates.ipynb`: `b0db59a2424c3662b6beeed0f2d79a315a985e9aa0f335bd9734af4a37d64eb4`
+- `Revision/textbook/notebooks/08a_growth_rates.ipynb`: `1176a2d8e0d412df8344eb2406875d18b8aef0bad274b6ea62d5fcaa98a5b52d`
 - `Revision/textbook/notebooks/src/08a_growth_rates.py`: `d88cb5605fa840b2e19f18d21d408ca17c1e984b7e07a28d4aa858a043711236`
 - `Revision/textbook/figures/08a.captions.json`: `0fc74a0fe15f93b317aca4bd72b6f7051ec57035f2781886dee076b014be69b7`
 - `Revision/textbook/figures/08a_1_growth_rate_vs_momentum.png`: `3df6fbb82c36ae84a6b61a478c817db4ee2da5b70f4e847d6002f99a91bf511c`
@@ -381,4 +391,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: not run yet.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":206.0,"seconds":8.6},"check":null,"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":205.0,"seconds":7.6},"check":null,"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

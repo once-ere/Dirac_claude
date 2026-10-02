@@ -179,7 +179,19 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/13c.captions.json`, `Revision/textbook/figures/13c_1_slater_determinants.png`, `Revision/textbook/figures/13c_2_operator_matrices.png`, `Revision/textbook/figures/13c_3_density_matrices.png`, `Revision/textbook/figures/13c_4_two_site_energies.png`, `Revision/textbook/figures/13c_5_double_occupancy.png`, `Revision/textbook/figures/13c_6_hf_landscape.png`, `Revision/textbook/figures/13c_7_density_map.png` and `Revision/textbook/figures/13c_8_ks_inversion.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/13c.captions.json`
+- `Revision/textbook/figures/13c_1_slater_determinants.png`
+- `Revision/textbook/figures/13c_2_operator_matrices.png`
+- `Revision/textbook/figures/13c_3_density_matrices.png`
+- `Revision/textbook/figures/13c_4_two_site_energies.png`
+- `Revision/textbook/figures/13c_5_double_occupancy.png`
+- `Revision/textbook/figures/13c_6_hf_landscape.png`
+- `Revision/textbook/figures/13c_7_density_map.png`
+- `Revision/textbook/figures/13c_8_ks_inversion.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -288,7 +300,7 @@ ALL 30 CHECKS PASSED (notebook 13c)
 
 The notebook shows 8 figures, each below the cell that draws it, and saves each as a PNG file (150 dots per inch, no metadata):
 
-- `Revision/textbook/figures/13c_1_slater_determinants.png` (1234 x 611 pixels): Two Slater determinants of two fermions as heat maps (red positive, blue negative): left, $\Phi(x_0, x_1)$ on three points for the orbitals $(1,0,0)$ and $(0,1,1)/\sqrt2$ with its values written in; right, the determinant of the two lowest orbitals of a box $0 < x < 1$, against the positions $x_0$ (vertical) and $x_1$ (horizontal). Both change sign under the exchange $x_0$ and $x_1$ (mirror in the dashed diagonal) and vanish on the diagonal: two identical fermions are never at the same place.
+- `Revision/textbook/figures/13c_1_slater_determinants.png` (1234 x 611 pixels): Two Slater determinants of two fermions as heat maps (red positive, blue negative): left, $\Phi(r_1, r_2)$ on three points for the orbitals $(1,0,0)$ and $(0,1,1)/\sqrt2$ with its values written in; right, the determinant of the two lowest orbitals of a box $0 < x < 1$, against the positions $r_1$ (vertical) and $r_2$ (horizontal) of the two fermions. Both change sign when $r_1$ and $r_2$ are exchanged (mirror in the dashed diagonal) and vanish on the diagonal: two identical fermions are never at the same place.
 - `Revision/textbook/figures/13c_2_operator_matrices.png` (1087 x 513 pixels): The creation operators $a_1^\dagger$ (left) and $a_3^\dagger$ (right) of four orbitals as $16 \times 16$ matrices on the occupation-number states $0, \dots, 15$ (bit $p$ of the state number is $n_p$); red $+1$, blue $-1$, grey 0. A column has one entry when orbital $p$ is empty in that state and none when it is occupied (Pauli); the sign is $(-1)^{\nu_p}$, the parity of the number of occupied orbitals before $p$.
 - `Revision/textbook/figures/13c_3_density_matrices.png` (1249 x 569 pixels): Left: the absolute values of the density matrix $\rho_{qp} = \langle a_p^\dagger a_q \rangle$ of a determinant of two fermions in four randomly mixed orbitals (heat map; $p$ and $q$ label the four basis orbitals). Right: the eigenvalues of the density matrices of this determinant (exactly 1, 1, 0, 0) and of a thermal ensemble of non-interacting fermions at $T = 0.5$ (the Fermi-Dirac occupations, between 0 and 1); in both cases Wick's theorem holds.
 - `Revision/textbook/figures/13c_4_two_site_energies.png` (1287 x 616 pixels): Left: the ground-state energy of two electrons on two sites against the repulsion $U/t$: exact (black), restricted Hartree-Fock $-2t + U/2$ (dashed) and the best determinant, unrestricted for $U > 2t$ (dash-dotted; the grey line marks $U = 2t$); energies in units of the hopping $t$. Right: the correlation energy, exact minus best Hartree-Fock energy, which no single determinant can capture; its size grows from zero, is largest at about $U = 3.3t$ (beyond the point $U = 2t$ where restricted and unrestricted Hartree-Fock separate) and then falls slowly.
@@ -305,8 +317,8 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/13c.captions.json` | 4060 | `9689a89e22374be622fcbae1677548fd89b62154982467c2f61cfe7ffe890ec1` |
-| `Revision/textbook/figures/13c_1_slater_determinants.png` | 77779 | `0e1d58a1530f6f4e8820ef43c202834d7ea444543f0b4b17c8837cbb02fc7bc0` |
+| `Revision/textbook/figures/13c.captions.json` | 4080 | `024aa260702e80d05b4ac45c10f6bb1bf61b10efff6643d5f969d64b5cbe4218` |
+| `Revision/textbook/figures/13c_1_slater_determinants.png` | 83865 | `da6d4f8a1fc506a8e6071e716874f83da47ce5d05305c201afc12c74b30ed57b` |
 | `Revision/textbook/figures/13c_2_operator_matrices.png` | 49142 | `383e9b9d2322ec624aa2eef17f9dc07a61fcffbfc28403e74210f017de4b277f` |
 | `Revision/textbook/figures/13c_3_density_matrices.png` | 43787 | `d4f458fc4da7c7ec2f5a129711d133251b823aae6931ad425bc2c18e7be22a1e` |
 | `Revision/textbook/figures/13c_4_two_site_energies.png` | 81983 | `c18769475a4a206dd4b14aa6cac50bd6de7191944e239dffb97ae998abc0974a` |
@@ -336,8 +348,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 8.0 s, peak memory of the kernel process 202 MiB;
-- the check run: 10.2 s, peak memory of the kernel process 202 MiB.
+- the build run: 6.5 s, peak memory of the kernel process 202 MiB;
+- the check run: 6.4 s, peak memory of the kernel process 201 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -349,10 +361,10 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/13c_two_site_model.ipynb`: `a2f3ef333336589a0df4aa2b1fedb5a1f48dade597c8da06c7541b855e5d722f`
-- `Revision/textbook/notebooks/src/13c_two_site_model.py`: `8bf95e26dc3b1deb60e56cec3cbcf943c6221a290d5389034c3e1809433a5fe5`
-- `Revision/textbook/figures/13c.captions.json`: `9689a89e22374be622fcbae1677548fd89b62154982467c2f61cfe7ffe890ec1`
-- `Revision/textbook/figures/13c_1_slater_determinants.png`: `0e1d58a1530f6f4e8820ef43c202834d7ea444543f0b4b17c8837cbb02fc7bc0`
+- `Revision/textbook/notebooks/13c_two_site_model.ipynb`: `c58008d4a4623f48b4f0963a469d471f3f2d7b55f0ecc297d7e84eaa3e374e87`
+- `Revision/textbook/notebooks/src/13c_two_site_model.py`: `5997a60d517af8d582bc975bdf9044d610f75a369c3bfc14b5c85f65fa0351ca`
+- `Revision/textbook/figures/13c.captions.json`: `024aa260702e80d05b4ac45c10f6bb1bf61b10efff6643d5f969d64b5cbe4218`
+- `Revision/textbook/figures/13c_1_slater_determinants.png`: `da6d4f8a1fc506a8e6071e716874f83da47ce5d05305c201afc12c74b30ed57b`
 - `Revision/textbook/figures/13c_2_operator_matrices.png`: `383e9b9d2322ec624aa2eef17f9dc07a61fcffbfc28403e74210f017de4b277f`
 - `Revision/textbook/figures/13c_3_density_matrices.png`: `d4f458fc4da7c7ec2f5a129711d133251b823aae6931ad425bc2c18e7be22a1e`
 - `Revision/textbook/figures/13c_4_two_site_energies.png`: `c18769475a4a206dd4b14aa6cac50bd6de7191944e239dffb97ae998abc0974a`
@@ -367,4 +379,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 9 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":202.0,"seconds":8.0},"check":{"date":"2026-10-02","files":9,"peak_mb":202.0,"result":"passed","seconds":10.2},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":202.0,"seconds":6.5},"check":{"date":"2026-10-02","files":9,"peak_mb":201.0,"result":"passed","seconds":6.4},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

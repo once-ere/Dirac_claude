@@ -183,7 +183,16 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/10b.captions.json`, `Revision/textbook/figures/10b_1_positivity.png`, `Revision/textbook/figures/10b_2_krein_norms_random.png`, `Revision/textbook/figures/10b_3_krein_plane.png`, `Revision/textbook/figures/10b_4_expectation_rule.png` and `Revision/textbook/figures/10b_5_krein_signs.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/10b.captions.json`
+- `Revision/textbook/figures/10b_1_positivity.png`
+- `Revision/textbook/figures/10b_2_krein_norms_random.png`
+- `Revision/textbook/figures/10b_3_krein_plane.png`
+- `Revision/textbook/figures/10b_4_expectation_rule.png`
+- `Revision/textbook/figures/10b_5_krein_signs.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -240,7 +249,7 @@ In [3]  PASS the Fock operators obey {f_p, f_q^*} = delta_pq, {f_p, f_q} = 0
 In [4]  PASS on the Fock space {Psi_A, Psi^dagger_C} = B_AC (256 pairs)
 In [4]       reproduces Revision/theory/reports/python-field-theory.json, check
 In [4]      canonical_anticommutator_B
-In [4]  PASS B h' equals the mode Hamiltonian h
+In [4]  PASS B (m C - i sum_a k_a C gamma^a) equals the mode Hamiltonian h
 In [4]  PASS Heisenberg: i d4 Psi = h Psi, the classical wave equation
 In [4]       reproduces Revision/theory/reports/wolfram-field-theory.json, check
 In [4]      Heisenberg_equation_reproduces_field_equation
@@ -318,10 +327,10 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | --- | --- | --- |
 | `Revision/textbook/figures/10b.captions.json` | 3042 | `e213e23ed2ef9ecba4678fba13b8497cef490667280417ef5b7926eb2bce0a13` |
 | `Revision/textbook/figures/10b_1_positivity.png` | 53546 | `77bb3760e8d58ee76d224be414da1db83af34e31d547725b5220ea7a35342b21` |
-| `Revision/textbook/figures/10b_2_krein_norms_random.png` | 38820 | `37d01351c3ded7aafa4a61f24aa4537d23a9025d54fb0a061fe17dfe221a542c` |
+| `Revision/textbook/figures/10b_2_krein_norms_random.png` | 38128 | `b84f5d4afddb3cacf356d7722c0d7ba91c19d1f9825e78e32635c51d0193b7c9` |
 | `Revision/textbook/figures/10b_3_krein_plane.png` | 97938 | `42e07e70fa74bd29e8a031b0b79b1b248ced51274398932af5039ad29551175e` |
 | `Revision/textbook/figures/10b_4_expectation_rule.png` | 61098 | `062494cc2c27714bc29586719df8ee8898b06c6c3558560567c4bff7aba384b9` |
-| `Revision/textbook/figures/10b_5_krein_signs.png` | 27395 | `3e59cb25eed01e9a6cca98c0aca0c6fa1b90f5fb51ebc8f3b55353fe87a66efe` |
+| `Revision/textbook/figures/10b_5_krein_signs.png` | 27300 | `1740310f3ee4c4ffd6cd0c56270c9c2831d4b34a00c068e5ae7cb9264ec93cbf` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/10b_canonical_krein.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
 
@@ -344,8 +353,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 7.9 s, peak memory of the kernel process 189 MiB;
-- the check run: 5.9 s, peak memory of the kernel process 190 MiB.
+- the build run: 5.8 s, peak memory of the kernel process 187 MiB;
+- the check run: 5.6 s, peak memory of the kernel process 187 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -357,14 +366,14 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/10b_canonical_krein.ipynb`: `ed6cf6e02ffa6d5a53c1daaed592c10b2713e3168a31590bf592b7940375c6b2`
-- `Revision/textbook/notebooks/src/10b_canonical_krein.py`: `58cca7c19014f625bb943455a5a05113e6dbabbd352a086b66db774956aec95e`
+- `Revision/textbook/notebooks/10b_canonical_krein.ipynb`: `0f344de77d34d11cdc636f21b2d4597716cd60b6ac10e9894a0a909b0fb2eba7`
+- `Revision/textbook/notebooks/src/10b_canonical_krein.py`: `01481020518a813ad57f3d64f244689801fd88095a05709cc070b580e8fdc3ab`
 - `Revision/textbook/figures/10b.captions.json`: `e213e23ed2ef9ecba4678fba13b8497cef490667280417ef5b7926eb2bce0a13`
 - `Revision/textbook/figures/10b_1_positivity.png`: `77bb3760e8d58ee76d224be414da1db83af34e31d547725b5220ea7a35342b21`
-- `Revision/textbook/figures/10b_2_krein_norms_random.png`: `37d01351c3ded7aafa4a61f24aa4537d23a9025d54fb0a061fe17dfe221a542c`
+- `Revision/textbook/figures/10b_2_krein_norms_random.png`: `b84f5d4afddb3cacf356d7722c0d7ba91c19d1f9825e78e32635c51d0193b7c9`
 - `Revision/textbook/figures/10b_3_krein_plane.png`: `42e07e70fa74bd29e8a031b0b79b1b248ced51274398932af5039ad29551175e`
 - `Revision/textbook/figures/10b_4_expectation_rule.png`: `062494cc2c27714bc29586719df8ee8898b06c6c3558560567c4bff7aba384b9`
-- `Revision/textbook/figures/10b_5_krein_signs.png`: `3e59cb25eed01e9a6cca98c0aca0c6fa1b90f5fb51ebc8f3b55353fe87a66efe`
+- `Revision/textbook/figures/10b_5_krein_signs.png`: `1740310f3ee4c4ffd6cd0c56270c9c2831d4b34a00c068e5ae7cb9264ec93cbf`
 
 ## 7. Verification
 
@@ -372,4 +381,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 6 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":189.0,"seconds":7.9},"check":{"date":"2026-10-02","files":6,"peak_mb":190.0,"result":"passed","seconds":5.9},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":187.0,"seconds":5.8},"check":{"date":"2026-10-02","files":6,"peak_mb":187.0,"result":"passed","seconds":5.6},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

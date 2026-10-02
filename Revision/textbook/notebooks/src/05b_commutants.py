@@ -69,11 +69,11 @@ FACTS = {
         "ALL 16 CHECKS PASSED (notebook 05b)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" naming Revision/algebra/gammas.json",
+        ["\"FileNotFoundError\" naming `Revision/algebra/gammas.json`",
          "the notebook was opened outside the repository, or the repository is "
          "incomplete; clone the repository again and open the notebook from its folder "
-         "Revision/textbook/notebooks."],
-        ["the cells of sections 9 and 11 take much longer than a few seconds",
+         "`Revision/textbook/notebooks`."],
+        ["the cells of sections 10 and 11 take much longer than a few seconds",
          "they solve 7168 linear equations exactly; on a slow computer they may take "
          "a minute. Wait until the star in the brackets left of the cell turns into a "
          "number."],
@@ -149,7 +149,8 @@ CELLS = [
       representations is zero or invertible.
     - **Generators** $S^{ab} = \tfrac14[\gamma^a, \gamma^b] = \tfrac14(\gamma^a\gamma^b
       - \gamma^b\gamma^a)$: the 28 matrices ($a < b$) from which every element of the
-      part of Spin(4,4) connected to 1 is built by exponentials.
+      part of Spin(4,4) connected to 1 is built as a product of exponentials
+      $\exp(\theta S^{ab})$.
     - **Chiral halves**: the components 1 to 8 (chirality $\Gamma = -1$) and 9 to 16
       ($\Gamma = +1$); $P_- = \mathrm{diag}(1_8, 0)$ and $P_+ = \mathrm{diag}(0, 1_8)$.
     - **Kronecker product** `np.kron(L, R)`: the big matrix whose block in block row
@@ -405,8 +406,7 @@ CELLS = [
                      and recorded("python", "even_products_span_M8_plus_M8")
                      and recorded("wolfram", "even_subalgebra_dimension"),
                      "the 128 even products are block diagonal and independent (64 + 64); "
-                     "the odd "
-                     "ones are block off-diagonal",
+                     "the odd ones are block off-diagonal",
                      record=record_of("python", "even_products_span_M8_plus_M8"))
     '''),
     md(r"""
@@ -561,8 +561,7 @@ CELLS = [
                              for a, b in pairs)
                      and recorded("python", "S_definition"),
                      "S^ab = (1/4)[gamma^a, gamma^b] = (1/2) gamma^a gamma^b: 28 matrices "
-                     "with "
-                     "entries 0, +1/2, -1/2",
+                     "with entries 0, +1/2, -1/2",
                      record=record_of("python", "S_definition"))
     check_reproduces(all(not s[:8, 8:].any() and not s[8:, :8].any() for s in S.values())
                      and recorded("python", "S_block_diagonal"),
@@ -648,12 +647,11 @@ CELLS = [
     ax.set_title("Each further gamma halves the commutant")
     save_figure(fig, "commutant_halving",
                 "The dimension of the space of 16 by 16 matrices that commute with the "
-                "gammas imposed so far (vertical axis, logarithmic with base 2), when "
-                "the gammas are imposed one at a time in the order $x1$ to $x8$ "
-                "(horizontal axis: the last gamma added). Without a condition all 256 "
-                "entries are free; every further gamma halves the dimension, and with "
-                "all eight only the multiples of the identity remain (dimension 1), "
-                "computed exactly.")
+                "gammas imposed so far (vertical axis, logarithmic with base 2), when the "
+                "gammas are imposed one at a time in the order $x1$ to $x8$ (horizontal "
+                "axis: the last gamma added). Without a condition all 256 entries are free; "
+                "every further gamma halves the dimension, and with all eight only the "
+                "multiples of the identity remain (dimension 1), computed exactly.")
     '''),
     md(r"""
     The next cell draws the two basis matrices of the Spin(4,4) commutant as sympy
@@ -684,15 +682,13 @@ CELLS = [
         ax.grid(False)
     fig.colorbar(image, ax=axes, ticks=[-1, 0, 1], shrink=0.8, label="matrix entry")
     save_figure(fig, "spin_commutant",
-                "Heat maps of the two basis matrices of the commutant of the 28 "
-                "generators $S^{ab}$ found by the exact solver (left two) and of the "
-                "chiral projectors $P_-$ and $P_+$ (right two); horizontal axis the "
-                "column, vertical axis the row (1 to 16); grey $0$, red $+1$ (no "
-                "entry is negative). All four are diagonal and constant on each half "
-                "(rows 1 to 8 and 9 to 16, separated by the black lines): every matrix "
-                "that "
-                "commutes with Spin(4,4) is a number times $P_-$ plus a number times "
-                "$P_+$.")
+                "Heat maps of the two basis matrices of the commutant of the 28 generators "
+                "$S^{ab}$ found by the exact solver (left two) and of the chiral projectors "
+                "$P_-$ and $P_+$ (right two); horizontal axis the column, vertical axis the "
+                "row (1 to 16); grey $0$, red $+1$ (no entry is negative). All four are "
+                "diagonal and constant on each half (rows 1 to 8 and 9 to 16, separated by "
+                "the black lines): every matrix that commutes with Spin(4,4) is a number "
+                "times $P_-$ plus a number times $P_+$.")
     '''),
     md(r"""
     ## 11. The two halves: irreducible and inequivalent
@@ -773,14 +769,13 @@ CELLS = [
                       Patch(color="#eb6834", label="negative control (artificial)")]
     ax.legend(handles=legend_squares, loc="upper right")
     save_figure(fig, "dimensions",
-                "The dimensions computed exactly in this notebook (horizontal axis): "
-                "the commutant of Pin(4,4) on the 16 components is 1 (irreducible); "
-                "the commutant of Spin(4,4) is 2 (two invariant halves); the "
-                "commutant on each half is 1 (each half irreducible); the intertwiners "
-                "between the halves are 0 in both directions (inequivalent halves). "
-                "The orange bar is the negative control with two copies of the same "
-                "half: equivalent halves give 4, so the value 2 above proves "
-                "inequivalence.")
+                "The dimensions computed exactly in this notebook (horizontal axis): the "
+                "commutant of Pin(4,4) on the 16 components is 1 (irreducible); the "
+                "commutant of Spin(4,4) is 2 (two invariant halves); the commutant on each "
+                "half is 1 (each half irreducible); the intertwiners between the halves are "
+                "0 in both directions (inequivalent halves). The orange bar is the negative "
+                "control with two copies of the same half: equivalent halves give 4, so the "
+                "value 2 above proves inequivalence.")
     '''),
     md(r"""
     ## 12. The last check

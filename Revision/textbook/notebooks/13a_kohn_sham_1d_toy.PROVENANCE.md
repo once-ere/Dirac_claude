@@ -165,7 +165,7 @@ cd Revision/textbook/notebooks
 jupyter lab 13a_kohn_sham_1d_toy.ipynb
 ```
 
-JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 25 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
+JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 15 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
 
 **Step 6. Or run the notebook without a browser (headless).**
 
@@ -182,7 +182,20 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/13a.captions.json`, `Revision/textbook/figures/13a_1_trap_orbitals.png`, `Revision/textbook/figures/13a_2_scf_convergence.png`, `Revision/textbook/figures/13a_3_first_iterations.png`, `Revision/textbook/figures/13a_4_ks_potentials.png`, `Revision/textbook/figures/13a_5_density_orbitals.png`, `Revision/textbook/figures/13a_6_variational_scan.png`, `Revision/textbook/figures/13a_7_approximations.png`, `Revision/textbook/figures/13a_8_coupling_scan.png` and `Revision/textbook/figures/13a_9_delta_scf.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/13a.captions.json`
+- `Revision/textbook/figures/13a_1_trap_orbitals.png`
+- `Revision/textbook/figures/13a_2_scf_convergence.png`
+- `Revision/textbook/figures/13a_3_first_iterations.png`
+- `Revision/textbook/figures/13a_4_ks_potentials.png`
+- `Revision/textbook/figures/13a_5_density_orbitals.png`
+- `Revision/textbook/figures/13a_6_variational_scan.png`
+- `Revision/textbook/figures/13a_7_approximations.png`
+- `Revision/textbook/figures/13a_8_coupling_scan.png`
+- `Revision/textbook/figures/13a_9_delta_scf.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -215,7 +228,7 @@ python -m ipykernel install --user --name python3
 - Windows: the headless run prints a RuntimeWarning that mentions the "Proactor event loop" and zmq: this is a message of the package pyzmq, not an error; the run continues normally.
 - A red box with "Matplotlib is building the font cache; this may take a moment." in the first run after the installation: this is a message, not an error; the run continues and the message does not come again.
 - An AssertionError names a check that failed: choose the menu Kernel > Restart Kernel and Run All Cells; if it fails again, install the packages again with the pip commands of Step 3, because a different package version can change the last digits of a result.
-- "FileNotFoundError" for parameters.json: the notebook reads the file Revision/kohn_sham/results/parameters.json of the repository; it must be opened inside the folder Revision/textbook/notebooks of a complete clone of the repository, not as a single downloaded file.
+- "FileNotFoundError" for `parameters.json`: the notebook reads the file `Revision/kohn_sham/results/parameters.json` of the repository; it must be opened inside the folder `Revision/textbook/notebooks` of a complete clone of the repository, not as a single downloaded file.
 
 To repeat the verification of the book's maintainers (a second, independent execution whose notebook and files are compared byte for byte with the stored ones; it writes only into a scratch folder), run in the repository folder:
 
@@ -344,10 +357,10 @@ The notebook does not use the network while it runs. The installation (git clone
 
 ### 4.5 Run time and memory
 
-Expected run time: about 25 seconds (FACTS: 25 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
+Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 10.8 s, peak memory of the kernel process 161 MiB;
-- the check run: 11.1 s, peak memory of the kernel process 160 MiB.
+- the build run: 17.3 s, peak memory of the kernel process 160 MiB;
+- the check run: 11.0 s, peak memory of the kernel process 161 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -359,8 +372,8 @@ Expected run time: about 25 seconds (FACTS: 25 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/13a_kohn_sham_1d_toy.ipynb`: `955dc114e00ffc874c437f65c91a2386e75bd94e59a00d8272f710b172c9fddb`
-- `Revision/textbook/notebooks/src/13a_kohn_sham_1d_toy.py`: `b1cee1a4bc38cc5a76e74ed988e367d2e8770d7c6859368957e9b5e68376255c`
+- `Revision/textbook/notebooks/13a_kohn_sham_1d_toy.ipynb`: `fb1ab79fb7551c19a969dd406435ca872dcd707980bd62c355967ae1b3ef44d0`
+- `Revision/textbook/notebooks/src/13a_kohn_sham_1d_toy.py`: `ea6392602b792a95a2caf55ac280a396817e22bb29f9b47cbc83cdae50182797`
 - `Revision/textbook/figures/13a.captions.json`: `1b6b40d5d25acac64070637d6ba2ee7c1a2c4609d40a7bed53b650ccf043e018`
 - `Revision/textbook/figures/13a_1_trap_orbitals.png`: `42a20b39974b16079b64f40ed2d66b68aba7a716992333b81ebafea03c90eff7`
 - `Revision/textbook/figures/13a_2_scf_convergence.png`: `a56934d01eaa60948720eb3a2a5dc7f692585f9fafaa07c75deced97d2cd0f29`
@@ -378,4 +391,4 @@ Expected run time: about 25 seconds (FACTS: 25 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 10 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":161.0,"seconds":10.8},"check":{"date":"2026-10-02","files":10,"peak_mb":160.0,"result":"passed","seconds":11.1},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":160.0,"seconds":17.3},"check":{"date":"2026-10-02","files":10,"peak_mb":161.0,"result":"passed","seconds":11.0},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

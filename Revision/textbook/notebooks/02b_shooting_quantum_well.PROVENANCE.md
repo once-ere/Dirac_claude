@@ -178,7 +178,19 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/02b.captions.json`, `Revision/textbook/figures/02b_1_trial_solutions_string.png`, `Revision/textbook/figures/02b_2_shooting_function_string.png`, `Revision/textbook/figures/02b_3_bisection_vs_secant.png`, `Revision/textbook/figures/02b_4_graphical_solution.png`, `Revision/textbook/figures/02b_5_shooting_functions_well.png`, `Revision/textbook/figures/02b_6_trial_solutions_well.png`, `Revision/textbook/figures/02b_7_eigenfunctions.png` and `Revision/textbook/figures/02b_8_eigenvalue_convergence.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/02b.captions.json`
+- `Revision/textbook/figures/02b_1_trial_solutions_string.png`
+- `Revision/textbook/figures/02b_2_shooting_function_string.png`
+- `Revision/textbook/figures/02b_3_bisection_vs_secant.png`
+- `Revision/textbook/figures/02b_4_graphical_solution.png`
+- `Revision/textbook/figures/02b_5_shooting_functions_well.png`
+- `Revision/textbook/figures/02b_6_trial_solutions_well.png`
+- `Revision/textbook/figures/02b_7_eigenfunctions.png`
+- `Revision/textbook/figures/02b_8_eigenvalue_convergence.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -317,8 +329,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 4.6 s, peak memory of the kernel process 175 MiB;
-- the check run: 5.0 s, peak memory of the kernel process 175 MiB.
+- the build run: 5.3 s, peak memory of the kernel process 176 MiB;
+- the check run: 5.6 s, peak memory of the kernel process 175 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -330,8 +342,8 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/02b_shooting_quantum_well.ipynb`: `ee3185b0a2ab6b48d311593c2089ab5b28ca0e400f28542bae0f44bb996ab019`
-- `Revision/textbook/notebooks/src/02b_shooting_quantum_well.py`: `4461b288ba23730775af105719704d9ee15ddeac24afc140e00cdbe168384815`
+- `Revision/textbook/notebooks/02b_shooting_quantum_well.ipynb`: `1d020710ec2337afe74249a190aa663b64b2d945af535788892bb2f5edc34f06`
+- `Revision/textbook/notebooks/src/02b_shooting_quantum_well.py`: `61654694db8f827563bffacfa467ca3b3b034cf20cd03506503ab47d471fb8f1`
 - `Revision/textbook/figures/02b.captions.json`: `e560469861fa2b57c208f58476cf52eb64a6872b8d55af4ebc660e91d354f34c`
 - `Revision/textbook/figures/02b_1_trial_solutions_string.png`: `243dd1c2cae301e38fe1b47730d6ed25b66cbaafe149567d19ee58633e10b019`
 - `Revision/textbook/figures/02b_2_shooting_function_string.png`: `6ede05cf2b77704011d39cea97825608d02a07e1396a8a5697d340bc65699e6d`
@@ -348,4 +360,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 9 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":175.0,"seconds":4.6},"check":{"date":"2026-10-02","files":9,"peak_mb":175.0,"result":"passed","seconds":5.0},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":176.0,"seconds":5.3},"check":{"date":"2026-10-02","files":9,"peak_mb":175.0,"result":"passed","seconds":5.6},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

@@ -139,10 +139,12 @@ CELLS = [
     and lengths along 3-space $x_1, x_2, x_3$ the factor $e^{a_4}\sin^{1/6}z$, where
     $a_4(x_4)$ depends on the time $x_4$ and $z = 6 H x_8$ on the hidden coordinate.
     Along the linear history $a_4 = A H x_4$, which the book uses as a prescribed
-    background (here $A = 1$ and $H = 1$, and $z$ is held fixed), the extra-time
-    factor $b = e^{-x_4}$ obeys $db/dx_4 = -b$ (problem A with $t = x_4$: the extra
-    times DEFLATE) and the 3-space factor $a = e^{x_4}$ obeys $da/dx_4 = +a$ (3-space
-    inflates). Their product $a b = e^{x_4} e^{-x_4} = 1$ never changes.
+    background (here $A = 1$ and $H = 1$), at a fixed hidden position the factor
+    $\sin^{1/6}z$ does not change with $x_4$, so we leave it out and follow
+    $b = e^{-x_4}$ and $a = e^{x_4}$. The extra-time factor obeys $db/dx_4 = -b$
+    (problem A with $t = x_4$: the extra times DEFLATE) and the 3-space factor obeys
+    $da/dx_4 = +a$ (3-space inflates). Their product $a b = e^{x_4} e^{-x_4} = 1$
+    never changes.
 
     *Problem B (oscillation).* $d^2x/dt^2 = -x$ with $x(0) = 1$, $x'(0) = 0$. With the
     velocity $v = x'$ it becomes a system of two first-order equations, $x' = v$ and
@@ -261,7 +263,7 @@ CELLS = [
     one_step = {name: step(decay, 0, Fraction(1), h) for name, step in METHODS.items()}
     for name, value in one_step.items():
         say(f"{LABELS[name]:9} after one step: {str(value):8} = {float(value):.10f}")
-    say(f"exact     e^(-1/2)              = {math.exp(-0.5):.10f}")
+    say(f"exact     e^(-1/2)                 = {math.exp(-0.5):.10f}")
     check(one_step["euler"] == Fraction(1, 2), "one Euler step of y' = -y gives 1/2")
     check(one_step["midpoint"] == Fraction(5, 8), "one midpoint step gives 5/8")
     check(one_step["rk4"] == Fraction(233, 384), "one RK4 step gives 233/384")
@@ -446,8 +448,10 @@ CELLS = [
     errors = {name: np.abs(np.array(values) - EXACT_A) for name, values in ends.items()}
     say("     N        h     Euler y_N   error Euler  error midpoint     error RK4")
     for i, n in enumerate(N_LIST):
-        say(f"{n:6d} {1 / n:8.6f}  {ends['euler'][i]:12.6f}  {errors['euler'][i]:11.3e}"
-            f"  {errors['midpoint'][i]:14.3e}  {errors['rk4'][i]:12.3e}")
+        y_euler = ends["euler"][i]  # the Euler value y_N
+        e_euler, e_mid, e_rk4 = (errors[name][i] for name in METHODS)  # three errors
+        say(f"{n:6d} {1 / n:8.6f}  {y_euler:12.6f}  {e_euler:11.3e}  {e_mid:14.3e}  "
+            f"{e_rk4:12.3e}")
 
     h_array = 1.0 / np.array(N_LIST, dtype=float)
     FIT = {"euler": slice(5, 12), "midpoint": slice(5, 12), "rk4": slice(1, 8)}
@@ -532,9 +536,9 @@ CELLS = [
                 "(triangles) and 16 for RK4 (circles), the values $2^p$ for the "
                 "orders $p = 1, 2, 4$ (dashed grey lines). RK4 is drawn only up to "
                 "$N = 512$; beyond, its error is rounding noise.")
-    report("ratio Euler at N = 4096", f"{ratios['euler'][-1]:.5f}")
-    report("ratio midpoint at N = 4096", f"{ratios['midpoint'][-1]:.5f}")
-    report("ratio RK4 at N = 128", f"{ratios['rk4'][5]:.4f}")
+    report("ratio Euler at N = 4096", f"{ratios["euler"][-1]:.5f}")
+    report("ratio midpoint at N = 4096", f"{ratios["midpoint"][-1]:.5f}")
+    report("ratio RK4 at N = 128", f"{ratios["rk4"][5]:.4f}")
     check(abs(ratios["euler"][-1] - 2) < 0.001
           and abs(ratios["midpoint"][-1] - 4) < 0.001
           and abs(ratios["rk4"][5] - 16) < 0.2,
@@ -671,8 +675,7 @@ CELLS = [
                 "10^{-7}$ per step, a relative error below $5 \\times 10^{-4}$ at "
                 "the end.")
     report("energy errors at t = 100 (Euler, midpoint, RK4)",
-           f"{drift['euler'][-1]:.3e}, {drift['midpoint'][-1]:.3e}, "
-           f"{drift['rk4'][-1]:.3e}")
+           ", ".join(f"{drift[name][-1]:.3e}" for name in METHODS))
     check(drift["euler"][-1] > 1e8 and 0.1 < drift["midpoint"][-1] < 0.3
           and drift["rk4"][-1] < 5e-4,
           "after 500 steps: Euler energy off by > 1e8, midpoint by 10-30 %, RK4 < 5e-4")

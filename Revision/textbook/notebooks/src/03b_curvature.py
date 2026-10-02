@@ -414,7 +414,7 @@ CELLS = [
         for b, c in itertools.product(range(8), repeat=2):
             if tables[a, b, c] != 0:
                 ax.text(c, b, f"{tables[a, b, c]:.2f}", ha="center", va="center",
-                        fontsize=5.5)
+                        fontsize=6.0)
         ax.set_title(f"$\\Gamma^{{x_{a + 1}}}{{}}_{{bc}}$", fontsize=10)
         ax.set_xticks(range(8), [str(k) for k in range(1, 9)], fontsize=7)
         ax.set_yticks(range(8), [str(k) for k in range(1, 9)], fontsize=7)
@@ -697,7 +697,8 @@ CELLS = [
         for p in sp.preorder_traversal(symbolic(v))) for v in R_mixed.values())
     check(warp_free, "no R^ab_cd contains sin(z)^(1/3) or e^(a4): the warp cancels",
           record="Revision/gkd_lovelock/results/lovelock-report.json, check "
-                 "mixed_riemann_free_of_sin_third")
+                 "mixed_riemann_free_of_sin_third, and python-lovelock-report.json, "
+                 "check mixed_riemann_free_of_warp_and_exponential")
     '''),
     md(r"""
     The next cell compares all 156 components with the list `riemannMixedNonzero` of the
@@ -1135,8 +1136,9 @@ CELLS = [
                 "$3H^2(5 - A^2)$ (solid) and the time component $3H^2(7 + A^2)$ "
                 "(dashed) as functions of the slope $A$; the shaded gap "
                 "$6H^2(A^2 + 1)$ between them never closes.")
-    check(bars[1] == [12.0, 12.0, 12.0, 24.0, 12.0, 12.0, 12.0, 12.0],
-          "at A = 1 the diagonal of G is (12, 12, 12, 24, 12, 12, 12, 12) H^2")
+    check(bars[0] == [15.0, 15.0, 15.0, 21.0, 15.0, 15.0, 15.0, 15.0]
+          and bars[1] == [12.0, 12.0, 12.0, 24.0, 12.0, 12.0, 12.0, 12.0],
+          "diagonal of G: 15 (21 for x4) at A = 0 and 12 (24 for x4) at A = 1, unit H^2")
     '''),
     md(r"""
     ## 14. A negative control: what if the extra times inflated?
@@ -1188,7 +1190,9 @@ CELLS = [
       $R^{ab}{}_{cd}$ with 14 different values, the Ricci tensor, the Ricci scalar
       $R = 6a_4'^2 - 42H^2$ and the Einstein tensor; every component agrees exactly
       with the Revision record of the Rust program `lovelock_gkd` (PROVED by exact
-      algebra, here and in the record).
+      algebra, here and in the record); at the five test points of the independent
+      Revision verification all 310 recorded components agree with ours to more than 25
+      significant digits.
     - The Christoffel symbols were confirmed a second way, by finite differences, with
       an error that falls like $h^2$.
     - The lines along $x_4$ are geodesics: observers at rest fall freely and $x_4$ is
@@ -1204,7 +1208,8 @@ CELLS = [
       $G = \mathrm{diag}(12, 12, 12, 24, 12, 12, 12, 12)$ (units $H^2$ and $H^4$).
     - Negative control: if the extra times inflated instead of deflating, the Einstein
       tensor would acquire the off-diagonal components $G^{x_4}{}_{x_8}$ and
-      $G^{x_8}{}_{x_4}$; the deflation of the extra times is what makes it diagonal.
+      $G^{x_8}{}_{x_4}$: comparing the two metrics, it is the deflation of the extra
+      times that makes the Einstein tensor of the author's metric diagonal.
     - ASSUMED for the plots only: the history $a_4 = AHx_4$ (a prescribed background).
     """),
 ]

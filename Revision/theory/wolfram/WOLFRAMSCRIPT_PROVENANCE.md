@@ -104,9 +104,15 @@ the number of newline characters.
 
 | file | role | lines | bytes | sha256 |
 | --- | --- | --- | --- | --- |
-| `Revision/theory/wolfram/verify_field_theory.wls` | script: 84 checks; writes the field-theory report and the formula file | 734 | 73873 | `dafe62233cf76106e1dc7bca51ad3aafcf62762eaf37c3af9969f0c955014c9d` |
+| `Revision/theory/wolfram/verify_field_theory.wls` | script: 84 checks; writes the field-theory report and the formula file | 734 | 73931 | `54064dfb85342e3defcbd28eb36a092b48890b6157d3120bc8160d2001161ac1` |
 | `Revision/theory/wolfram/RevisionFieldTheory.wl` | package loaded by `verify_field_theory.wls` (geometry, Grassmann algebra, Lagrangian, Euler-Lagrange derivative, vielbein variation) | 292 | 18269 | `31528570831302199c15a5d6f95e8b95a3ed6532a1c3360c4fc526e8f9dad71d` |
 | `Revision/theory/wolfram/verify_scope.wls` | script: 15 checks; writes the scope report | 205 | 17177 | `41b9e4a52dcbffe60e6decf62835ece0aef9f5c3388aac7d22236b7f20d6e499` |
+
+The values for `verify_field_theory.wls` are those of the version with the output-writing fix of section
+6.6 (line 706 now stops the script with exit code 2 when an output file cannot be written). The version of
+commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` and earlier has 734 lines, 73873 bytes and sha256
+`dafe62233cf76106e1dc7bca51ad3aafcf62762eaf37c3af9969f0c955014c9d`; it computes and prints exactly the same
+and writes exactly the same files, and differs only when an output cannot be written (section 3.7).
 
 Both scripts find their other files relative to their own location (`$InputFileName`), so they work from
 any current folder; the usage line in their headers runs them from the repository root.
@@ -240,16 +246,27 @@ every file byte for byte (its file `.gitattributes` contains `* -text`), so the 
 every system, whatever your Git line-ending setting is.
 
 Optional: confirm that you have the verified versions of the three files of section 2.1. Windows
-PowerShell (it prints the hashes in capital letters):
+PowerShell (type the whole command on one line, including the ending `| Format-List Hash, Path`):
 
 ```powershell
-Get-FileHash Revision/theory/wolfram/verify_field_theory.wls, Revision/theory/wolfram/RevisionFieldTheory.wl, Revision/theory/wolfram/verify_scope.wls
+Get-FileHash Revision/theory/wolfram/verify_field_theory.wls, Revision/theory/wolfram/RevisionFieldTheory.wl, Revision/theory/wolfram/verify_scope.wls | Format-List Hash, Path
 ```
 
+For each file it prints two lines, `Hash : <64 hexadecimal digits, in capital letters>` and
+`Path : <the full path of the file>` (a long path continues on the next line), for example
+`Path : C:\Users\<your name>\Dirac_claude\Revision\theory\wolfram\verify_field_theory.wls`. Do not leave
+out the ending `| Format-List Hash, Path`: without it PowerShell prints a table whose `Path` column is cut
+off after about 30 characters (it ends in `…` or `...`), so you cannot see which file a hash belongs to;
+the rows of that table are in the order of the files in the command.
+
 macOS: `shasum -a 256 Revision/theory/wolfram/verify_field_theory.wls Revision/theory/wolfram/RevisionFieldTheory.wl Revision/theory/wolfram/verify_scope.wls`;
-Linux: the same with `sha256sum` instead of `shasum -a 256`. Compare with the table of section 2.1. If
-they differ, the set was changed after this record was written; the instructions still apply, but the
-expected output of section 4 may differ.
+Linux: the same with `sha256sum` instead of `shasum -a 256` (each line is the hash, two spaces, and the
+file name). Compare with the table of section 2.1. If they differ, your copy is not the verified version:
+if only `verify_field_theory.wls` differs and its hash is
+`dafe62233cf76106e1dc7bca51ad3aafcf62762eaf37c3af9969f0c955014c9d`, you have the version before the
+output-writing fix (section 2.1; read the `OpenWrite::noopen` entry of section 3.7); otherwise the set was
+changed after this record was written. The instructions still apply, but the expected output of section 4
+may differ.
 
 ### 3.5 Run the scripts
 
@@ -290,8 +307,16 @@ shown, then `TotalSeconds`; `$LASTEXITCODE` afterwards still gives the exit code
 ### 3.6 Check the result
 
 1. The last printed line of `verify_scope.wls` must begin with `15/15 checks passed`, the last line of
-   `verify_field_theory.wls` with `84/84 checks passed`, no line may begin with `FAIL`, and both exit
-   codes must be `0`.
+   `verify_field_theory.wls` with `84/84 checks passed`, and both exit codes must be `0`. Every other
+   printed line must be one of the lines listed in section 4.1 (for `verify_scope.wls`) or section 4.2
+   (for `verify_field_theory.wls`); only the numbers of seconds may differ. Compare line by line. In
+   particular no line may begin with `FAIL` or with `cannot write`, and no Wolfram message may appear: a
+   Wolfram message is a line of the form `Name::tag: text`, usually after an empty line, for example
+   `OpenWrite::noopen: Cannot open ...`, `BinaryWrite::stream: ...`, `Close::stream: ...`,
+   `Import::nffil: ...` or `Get::noopen: ...`. If any such line appears, the run is not valid even if the
+   last line and the exit code look correct; read section 3.7. (The one exception is a message of
+   WolframScript itself printed AFTER the verdict line, `The product exited because an error occurred.
+   ...`; section 3.7 says what to do then.)
 2. The summary lines of the two reports. Windows PowerShell:
 
    ```powershell
@@ -316,15 +341,18 @@ shown, then `TotalSeconds`; `$LASTEXITCODE` afterwards still gives the exit code
 3. The three outputs are byte-identical to the committed files. Windows PowerShell:
 
    ```powershell
-   Get-FileHash Revision/theory/reports/wolfram-field-theory.json, Revision/theory/field-theory.json, Revision/theory/reports/wolfram-scope.json
+   Get-FileHash Revision/theory/reports/wolfram-field-theory.json, Revision/theory/field-theory.json, Revision/theory/reports/wolfram-scope.json | Format-List Hash, Path
    git status --porcelain Revision/theory
    ```
 
    macOS: `shasum -a 256 Revision/theory/reports/wolfram-field-theory.json Revision/theory/field-theory.json Revision/theory/reports/wolfram-scope.json`,
    Linux: the same with `sha256sum`, and on both `git status --porcelain Revision/theory`. The hashes
-   must be those of the table in section 2.3 (PowerShell prints them in capital letters), and
-   `git status --porcelain Revision/theory` must print nothing at all (an empty answer means that no file
-   under `Revision/theory` differs from the committed version).
+   must be those of the table in section 2.3. PowerShell prints them in capital letters, as pairs of lines
+   `Hash : ...` and `Path : ...` (a long path continues on the next line); keep the ending
+   `| Format-List Hash, Path`, because without it the `Path` column is cut off after about 30 characters
+   and only the order of the rows (the order of the files in the command) tells which hash belongs to
+   which file. `git status --porcelain Revision/theory` must print nothing at all (an empty answer means
+   that no file under `Revision/theory` differs from the committed version).
 
 ### 3.7 What to do if it fails
 
@@ -338,8 +366,10 @@ shown, then `TotalSeconds`; `$LASTEXITCODE` afterwards still gives the exit code
   that the product is unregistered.` printed AFTER the normal output (for example after the result `2` of
   `wolframscript -code '1+1'`), with exit code 1: this was observed intermittently on the verification
   machine while 10 to 20 other Wolfram kernels were running (2 of 11 short `-code` tests; none of the 8
-  complete `-file` runs of this set with its input present). If the last line still says `84/84 checks passed` or
-  `15/15 checks passed` and the checks of section 3.6 succeed, the run is valid; otherwise run the script
+  complete `-file` runs of this set with its input present). The script itself had finished: if the line
+  just BEFORE this message is the verdict line `84/84 checks passed; ...` (or `15/15 checks passed; ...`),
+  all other lines are as in section 4, and steps 2 and 3 of section 3.6 succeed, then the outputs are
+  correct and the exit code 1 came from WolframScript after the script had ended; otherwise run the script
   again.
 * The only output is `Failed to open file at path: Revision/theory/wolfram/verify_scope.wls` (or the same
   for `verify_field_theory.wls`): you are not in the repository root. CAUTION: WolframScript still returns
@@ -355,16 +385,42 @@ shown, then `TotalSeconds`; `$LASTEXITCODE` afterwards still gives the exit code
   does not react, close it). Restore the input and the outputs with
   `git checkout -- Revision/algebra/gammas.json Revision/theory/reports/wolfram-scope.json Revision/theory/reports/wolfram-field-theory.json Revision/theory/field-theory.json`
   and run again.
-* `Get::noopen` mentioning `RevisionFieldTheory.wl`: the package file is missing or renamed. Restore it
-  with `git checkout -- Revision/theory/wolfram/RevisionFieldTheory.wl`.
-* `OpenWrite::noopen`, `cannot write ...` or "permission denied": the outputs cannot be written. Close any
-  program that has one of the output files open, make sure the folder is not read-only (clone into your
-  home folder, not into a protected or synchronised folder), and run again.
+* `Get::noopen: Cannot open ...RevisionFieldTheory.wl.` as the first message of `verify_field_theory.wls`
+  (instead of the line `RevisionFieldTheory.wl loaded`): the package file
+  `Revision/theory/wolfram/RevisionFieldTheory.wl` is missing or renamed. The script does NOT stop: it
+  prints many further messages (for example `Part::partd: ...`) and `FAIL` lines, ends after a few seconds
+  with the last line `3/84 checks passed; total time <seconds> s` (3 PASS, 81 FAIL) and exit code 1, and
+  it OVERWRITES its two committed outputs `Revision/theory/reports/wolfram-field-theory.json` and
+  `Revision/theory/field-theory.json` with these failing results (observed during the verification: 5.5
+  and 6.8 s of wall time, section 6.4). Restoring only the package is therefore not enough. Restore the
+  package AND the two outputs with
+  `git checkout -- Revision/theory/wolfram/RevisionFieldTheory.wl Revision/theory/reports/wolfram-field-theory.json Revision/theory/field-theory.json`,
+  check that `git status --porcelain Revision/theory` prints nothing, and run the script again.
+* `OpenWrite::noopen: Cannot open <path>.` followed by the line `cannot write <path>`, with NO verdict line
+  (`N/84 checks passed` or `N/15 checks passed`) and exit code `2`: the script could not write the output
+  file named in the message (it is read-only, open in another program, or in a folder you may not write
+  to). Both scripts behave this way (observed during the verification for both, section 6.4). The `PASS`
+  lines before the message may all be there, but the run is NOT complete: the script stops at the first
+  output it cannot write, so that file keeps its previous content (and when
+  `Revision/theory/reports/wolfram-field-theory.json` cannot be written, `Revision/theory/field-theory.json`
+  is not written either). Close any program that has the file open; make sure the file is not read-only
+  (Windows PowerShell: `attrib -R <file>`; macOS and Linux: `chmod u+w <file>`) and that the folder is not
+  read-only (clone into your home folder, not into a protected or synchronised folder); then run the
+  script again. CAUTION for the older version of `verify_field_theory.wls` (sha256
+  `dafe62233cf76106e1dc7bca51ad3aafcf62762eaf37c3af9969f0c955014c9d`, commit `c2b33cc` and earlier; section
+  2.1): it does not check the writing. It prints `OpenWrite::noopen: Cannot open <path>.`,
+  `BinaryWrite::stream: $Failed is not a string, SocketObject, InputStream[ ] or OutputStream[ ].` and
+  `Close::stream: ...` (once per output file) and then STILL prints `84/84 checks passed; total time ...`
+  and returns exit code 0, although it has NOT rewritten its outputs (observed during the verification,
+  section 6.4). With that version, any of these messages means that the outputs were not written,
+  whatever the last line and the exit code say.
 * A message that no licence or no more kernels are available: another Wolfram program is using the
   allowed kernels. Close other Mathematica windows and other `wolframscript` commands and run again.
 * The run was interrupted (Ctrl+C, window closed, computer asleep or switched off): the outputs are written
   only in the very last step (`writing outputs`), so an interrupted run changes no file of the repository
-  (observed for three interrupted runs). Start the script again from the beginning.
+  (observed for four interrupted runs, sections 6.4 and 6.5). It leaves two WolframScript temporary files
+  behind, outside the repository (section 5.2); they are harmless. Start the script again from the
+  beginning.
 * A line beginning with `FAIL`, a last line `N/84 checks passed` (or `N/15`) with N below the total, and
   exit code 1, although `gammas.json` is present: do not edit anything. Run `git status` and
   `git diff --stat` to see whether a file of the set or its input was changed; if so, restore them with
@@ -568,8 +624,10 @@ other sections together.
   committed bytes, so Git sees no change.
 * If the folder `Revision/theory/reports/` is missing, the scripts create it (tested for
   `verify_scope.wls`: with the folder deleted it was recreated and the report was byte-identical).
-* A run that fails (for example with a missing input, section 3.7) still overwrites its outputs with the
-  failing verdicts. An interrupted run writes nothing.
+* A run in which checks fail (for example with a missing input or a missing package, section 3.7) still
+  overwrites its outputs with the failing verdicts. An interrupted run writes nothing. A run that cannot
+  write an output file stops there with exit code 2 and leaves that file (and every output after it)
+  unchanged (section 3.7).
 * Nothing else is created, changed or deleted in the repository: after both scripts had run in each of the
   two fresh clones, `git status --porcelain --ignored` printed nothing (no modified, untracked or ignored
   file).
@@ -578,12 +636,17 @@ other sections together.
 
 * Processes: each `wolframscript` command starts one Wolfram kernel (on Windows the process `wolfram.exe`,
   a child of `wolframscript.exe`), which ends when the script ends. It uses one kernel of your licence.
-* Temporary file: while a script runs, WolframScript keeps its printed output in a temporary file
-  `tmp_<10 letters and digits>` in its own folder (on Windows
+* Temporary files: every `wolframscript -file ...` command creates TWO temporary files, each named
+  `tmp_<10 letters and digits>`, in WolframScript's own folder (on Windows
   `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary\`; on macOS and Linux the location was not
-  examined). Observed on the verification machine: the file appeared 0.1 s after the start and was
-  deleted when the script ended normally; after an interrupted run it stays behind (it contains the lines
-  printed so far; it is harmless and can be deleted).
+  examined). Observed on the verification machine (section 6.4): the first file is EMPTY (0 bytes) and is
+  created immediately, 15 to 26 ms after the `wolframscript` process starts; the second file is created a
+  few seconds later, when the Wolfram kernel has started (2.0 to 4.7 s after the start in the observed
+  runs), and receives every line the script prints (at the end its content was byte-identical to the
+  printed output). When the script ends normally, WolframScript deletes BOTH files. After an interrupted
+  run (Ctrl+C, closed window, killed process) BOTH stay behind: the empty one and the one with the lines
+  printed so far. They are harmless and can be deleted; delete them only while no `wolframscript` command
+  is running, because a running command keeps its own two files in the same folder.
 * Nothing was written to the system temporary folder (`%TEMP%`) by these runs: a listing before and after
   showed no new or changed entry belonging to Wolfram (the changes there belonged to other programs).
 * WolframScript rewrites its own settings file `%APPDATA%\Wolfram\WolframScript\WolframScript.conf` when
@@ -665,12 +728,15 @@ Each output was compared byte for byte (`cmp`) with the committed blob (`git sho
 the two runs: all identical. `git status --porcelain --ignored` printed nothing in either clone after the
 field-theory script and again after the scope script.
 
-### 6.4 Further experiments (third fresh clone, same commit)
+### 6.4 Further experiments
+
+In the third fresh clone of the first verification (commit `c2b33cc`, nothing changed):
 
 * `verify_scope.wls` started from the folder `Revision/theory/wolfram` as `wolframscript -file
   verify_scope.wls`: 15/15, exit code 0, output byte-identical (the scripts locate their files relative to
-  themselves). WolframScript's temporary file was created at the start and deleted at the end (section
-  5.2).
+  themselves). WolframScript's temporary file with the printed lines was seen to be created at the start
+  and deleted at the end. (The empty first temporary file of section 5.2 was not noticed in this
+  experiment; it was measured in clone E, below.)
 * The folder `Revision/theory/reports` deleted, then `verify_scope.wls` run from the root: the folder was
   recreated, 15/15, exit code 0, `wolfram-scope.json` byte-identical; restored with `git checkout`.
 * `Revision/algebra/gammas.json` hidden: `verify_scope.wls` printed `Import::nffil` and ended with
@@ -687,12 +753,59 @@ field-theory script and again after the scope script.
   root printed `Failed to open file at path: Revision/theory/wolfram/verify_scope.wls` with exit code 0
   (section 3.7).
 
+In a further fresh clone, E, made for the re-verification after the review (section 6.6). Each command
+was started from PowerShell with `Start-Process` (clone E as working folder) while a watcher listed
+WolframScript's temporary folder `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary` every 5 ms
+and recorded the creation time (from the file system), the size and the disappearance of every new
+`tmp_*` file, relative to the start time of the `wolframscript` process:
+
+* Normal run of `verify_scope.wls` (unchanged script): `15/15 checks passed; time 18.900000000000002 s`,
+  exit code 0, 21.9 s of wall time. Temporary files: `tmp_DLMyVO9NBc`, 0 bytes, created 0.023 s after the
+  start; `tmp_eQ7tVjfpJl`, created 2.547 s after the start, 925 bytes at the end (the size of the printed
+  output); both deleted when the run ended (21.87 s).
+* Run of `verify_scope.wls` killed after 10.0 s (`taskkill /T /F`, the whole process tree; no kernel was
+  left running): it had printed 4 `PASS` lines; exit code 1; no file of the repository changed (`git
+  status --porcelain --ignored` printed nothing). It left BOTH temporary files: `tmp_LugLXhRPB1`, 0 bytes,
+  created 0.015 s after the start, and `tmp_Blin0vqqCX`, created 4.702 s after the start, 179 bytes, whose
+  sha256 (`0ab1492f...`) equals that of the run's captured printed output. Both were deleted by hand
+  afterwards.
+* The four long runs of section 6.2 (runs 3 and 4 and the two read-only runs below) each created the same
+  pair of temporary files: one 0-byte file at its start and one file with the printed lines 2.0 to 2.6 s
+  later.
+* `Revision/theory/wolfram/RevisionFieldTheory.wl` moved away, then `verify_field_theory.wls` run from the
+  root, once with the script of commit `c2b33cc` and once with the fixed script (section 6.6): both
+  printed first `Get::noopen: Cannot open ...RevisionFieldTheory.wl.`, then `FAIL  zero_test_sanity` and
+  many further messages (for example `Part::partd: ...`), 166 lines in all (3 `PASS`, 81 `FAIL`), and
+  ended with `3/84 checks passed; total time 3.7 s` (respectively `2.9000000000000004 s`), exit code 1,
+  6.8 s (respectively 5.5 s) of wall time; apart from the time values the printed lines of the two
+  versions were identical. The 3 passing checks were `degenerate_at_H_0`, `EL_Psibar_G`, `EL_Psi_G`.
+  Both runs OVERWROTE `Revision/theory/reports/wolfram-field-theory.json` (its summary line became
+  `"summary": {"passed": 3, "failed": 81, "total": 84},`) and `Revision/theory/field-theory.json`: `git
+  status --porcelain --ignored` showed ` M Revision/theory/field-theory.json`,
+  ` M Revision/theory/reports/wolfram-field-theory.json` and ` D Revision/theory/wolfram/RevisionFieldTheory.wl`.
+  The command `git checkout -- Revision/theory/wolfram/RevisionFieldTheory.wl Revision/theory/reports/wolfram-field-theory.json Revision/theory/field-theory.json`
+  of section 3.7 restored everything (empty status apart from the copied fixed script).
+* `Revision/theory/reports/wolfram-scope.json` made read-only (`attrib +R`), then `verify_scope.wls` run:
+  15 `PASS` lines, then an empty line, `OpenWrite::noopen: Cannot open
+  ...\Revision\theory\wolfram\..\..\theory\reports\wolfram-scope.json.` and `cannot write
+  ...\wolfram-scope.json`, NO verdict line, exit code 2, 25.1 s; the file kept its committed bytes.
+* PowerShell 7.6.6 and Windows PowerShell 5.1.26100: `Get-FileHash <three files>` without
+  `| Format-List Hash, Path`, formatted at a width of 120 characters, cut every path to 33 characters
+  (`C:\Users\nsh\AppData\Local\Temp\…` in 7.6.6, `C:\Users\nsh\AppData\Local\Tem...` in 5.1), so that only
+  the order of the rows identified the files; with `| Format-List Hash, Path` the full paths were printed,
+  wrapped onto a second line where they were long (sections 3.4 and 3.6).
+
 ### 6.5 Interrupted runs
 
 A first pair of runs of `verify_field_theory.wls` was stopped after less than 3 minutes (it had been
 started under a tool time limit shorter than the run time) and restarted as runs 1 and 2 in the same
-clones, which were still unmodified (`git status --porcelain --ignored` printed nothing before the restart). Those interrupted runs and the interrupted missing-input run of section 6.4 wrote no
-output file; each left one WolframScript temporary file (section 5.2), which was deleted afterwards.
+clones, which were still unmodified (`git status --porcelain --ignored` printed nothing before the
+restart). Those interrupted runs and the interrupted missing-input run of the third clone (section 6.4)
+wrote no output file. At the time, one WolframScript temporary file per interrupted run (the one with the
+printed lines) was noticed and deleted; the empty companion file that every run also creates (section 5.2)
+was not noticed then and was not identified afterwards (the temporary folder is shared with other Wolfram
+jobs of the same user). The killed run of clone E (section 6.4) confirms that an interrupted run leaves
+both files.
 
 ### 6.6 Fixes and open discrepancies
 

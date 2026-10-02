@@ -689,8 +689,9 @@ CELLS = [
     for n, (x_all, u_all, kappa, inside, h) in enumerate(STATES):
         E_n = LEVELS[n]
         ax.axhline(E_n, ls=":", color=GREY, lw=0.8)
+        parity = "even" if EVEN[n] else "odd"
         ax.plot(x_all, E_n + 1.8 * u_all, color=LEVEL_COLORS[n], lw=1.6,
-                label=f"$E_{n} = {E_n:.4f}$ ({'even' if EVEN[n] else 'odd'})")
+                label=f"$E_{n} = {E_n:.4f}$ ({parity})")
         big = u_all[np.abs(u_all) > 1e-8 * np.max(np.abs(u_all))]  # drop tiny values
         nodes.append(int(np.sum(np.sign(big[:-1]) != np.sign(big[1:]))))
     ax.set_xlabel("position $x$ (units $a$)")

@@ -61,7 +61,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 20,
+    "expected_seconds": 30,
     "timeout_seconds": 300,
     "files_written": [
         "Revision/textbook/figures/14d.captions.json",
@@ -72,7 +72,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all four figure files of this notebook exist",
-        "ALL 20 CHECKS PASSED (notebook 14d)",
+        "ALL 16 CHECKS PASSED (notebook 14d)",
     ],
     "troubleshooting": [],
 }
@@ -103,7 +103,7 @@ CELLS = [
       $N = 8$), which reproduce the Revision calibration of the coupling, and why the
       exact Fock exchange of that state is exactly zero (figure 4).
 
-    It prints a PASS line for every check (20 in all) and saves four figures.
+    It prints a PASS line for every check (16 in all) and saves four figures.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -344,24 +344,30 @@ CELLS = [
     first sum is $(\mathrm{Tr}\,C\rho)^2$ and the second is $\mathrm{Tr}(C\rho C
     \rho)$. The next cell checks this bookkeeping term by term, as the Revision
     record did, for the explicit two-mode state with the mode vectors $u_1, u_2$ of
-    the record: it adds up the $16^4$ terms of the sum (only those with nonzero $C$
-    entries) and compares with the two traces.
+    the record, and for a second two-mode state $v_1, v_2$ with less symmetry: it
+    adds up the $16^4$ terms of the sum (only those with nonzero $C$ entries are
+    kept, 256 of them) and compares with the two traces.
     """),
     code(r'''
     half, i_half = sp.Rational(1, 2), sp.I / 2
     u1 = sp.Matrix([half, i_half, 0, 0, 0, 0, 0, 0, half, 0, 0, 0, 0, 0, -i_half, 0])
     u2 = sp.Matrix([0, 0, half, 0, -half, 0, 0, 0, 0, 0, i_half, 0, 0, 0, 0, i_half])
-    rho_2 = (u1 * u1.H + u2 * u2.H) * B  # the one-body matrix of the two modes
-    f = rho_2.T  # f_AB = rho_BA
+    v1 = sp.Matrix([1, 2, 0, -1, sp.I, 0, 3, 1, 0, 1, -2, sp.I, 0, 1, 1, 0]) / 4
+    v2 = sp.Matrix([0, 1, sp.I, 2, 1, -1, 0, 0, 1, 0, sp.I, 1, 2, 0, -1, 1]) / 4
     nonzero = [(A_, B_) for A_ in range(16) for B_ in range(16) if C[A_, B_] != 0]
-    brute = sum(C[A_, B_] * C[C_, D_] * (f[A_, B_] * f[C_, D_] - f[A_, D_] * f[C_, B_])
-                for A_, B_ in nonzero for C_, D_ in nonzero)
-    direct = (C * rho_2).trace() ** 2
-    exchange = (C * rho_2 * C * rho_2).trace()
-    say(f"term by term: {sp.simplify(brute)}; (Tr C rho)^2 - Tr(C rho C rho): "
-        f"{sp.simplify(direct - exchange)}")
-    check(sp.simplify(brute - (direct - exchange)) == 0
-          and record_check("hf_wick_contraction"),
+    wick_ok = True
+    for name, modes in (("u1, u2 (record)", (u1, u2)), ("v1, v2", (v1, v2))):
+        rho_2 = (modes[0] * modes[0].H + modes[1] * modes[1].H) * B  # one-body matrix
+        f = rho_2.T  # f_AB = rho_BA
+        brute = sp.simplify(sum(
+            C[A_, B_] * C[C_, D_] * (f[A_, B_] * f[C_, D_] - f[A_, D_] * f[C_, B_])
+            for A_, B_ in nonzero for C_, D_ in nonzero))
+        direct = sp.simplify((C * rho_2).trace() ** 2)
+        exchange = sp.simplify((C * rho_2 * C * rho_2).trace())
+        say(f"state {name}: (Tr C rho)^2 = {direct}, Tr(C rho C rho) = {exchange}, "
+            f"term-by-term sum = {brute}")
+        wick_ok &= sp.simplify(brute - (direct - exchange)) == 0
+    check(len(nonzero) == 16 and wick_ok and record_check("hf_wick_contraction"),
           "<:S^2:> = (Tr C rho)^2 - Tr(C rho C rho), checked term by term",
           record=f"{PY_REPORT}, check hf_wick_contraction")
     '''),
@@ -465,7 +471,8 @@ CELLS = [
     ax.plot(s_over_n, hartree + exchange_curve, ":", color="black",
             label="$e_{\\rm int} = e_H + e_x$")
     ax.plot([1.0], [-1.0 / 16.0], "o", color="C3")
-    ax.annotate("$S = n$: $e_x = -e_H/8$", (0.45, -0.12), fontsize=8, color="C3")
+    ax.annotate("$S = n$: $e_x = -e_H/8$", xy=(1.0, -1.0 / 16.0), xytext=(-0.05, 0.3),
+                fontsize=8, color="C3", arrowprops={"arrowstyle": "->", "color": "C3"})
     ax.axhline(0.0, color="gray", linewidth=0.6)
     ax.set_xlabel("ratio of the scalar to the number density $S/n$")
     ax.set_ylabel("energy density per $\\lambda n^2$")
@@ -566,8 +573,7 @@ CELLS = [
                          cmap="Blues")
     ax.contour(S_grid, Q_grid, ratio_grid, levels=[0.5], colors="gray", linewidths=0.8)
     fig.colorbar(filled, ax=ax, label="$e_x^{\\rm exact} / e_x^{\\rm gas}$")
-    for point, text in (((0.0, 1.0), "zero modes ($N = 8$)"), ((0.0, -1.0), "")):
-        ax.plot([point[0]], [point[1]], "o", color="C3")
+    ax.plot([0.0, 0.0], [1.0, -1.0], "o", color="C3")  # S = 0, Q = +n and -n
     ax.annotate("zero modes ($N = 8$): ratio 0", (0.05, 0.9), fontsize=8, color="C3")
     ax.annotate("$Q = 0$: ratio 1", (-0.95, 0.04), fontsize=8)
     ax.set_xlabel("$S/n$")
@@ -689,7 +695,8 @@ CELLS = [
     $v_v + w_Q = \frac{\lambda}{16}(Q - n) = 0$.
     """),
     code(r'''
-    fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
+    fig, (left, right) = plt.subplots(1, 2, figsize=(10.5, 4.0))
+    fig.subplots_adjust(wspace=0.32)  # room for the label of the right panel
     left.semilogy(y, n_y, label="proper density $n(y) = 4Pa^2$")
     left.semilogy(y, np.exp(6.0 * y) * n_y, "--",
                   label="coordinate density $e^{6Hy} n(y)$")

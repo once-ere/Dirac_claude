@@ -44,12 +44,14 @@ FACTS = {
         "of dirac16complex along the deflating history), checks that the new results "
         "agree with the committed Revision record within tolerances fixed in advance, "
         "and draws the Kohn-Sham levels, the gaps, the energies, the densities, the "
-        "self-consistent potentials and the convergence of the self-consistent loop."
+        "self-consistent potentials and the convergence of the self-consistent loop. "
+        "The solver writes its raw output (about 6 MB) into the folder "
+        "`Revision/kohn_sham/solver/target/textbook_15a`, which git ignores."
     ),
     "records": [
         ["Revision/kohn_sham/results",
-         "the committed canonical matrix (244 files with their sha256 manifest) that the "
-         "new run must reproduce"],
+         "the committed canonical matrix (243 result files and the manifest of their "
+         "sha256 fingerprints) that the new run must reproduce"],
         ["Revision/kohn_sham/reports/ks-rust-solver.json",
          "the 42 checks of the solver, all PASS"],
         ["Revision/kohn_sham/reports/ks-rust-determinism.json",
@@ -60,7 +62,7 @@ FACTS = {
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [{"manifest": "Revision/kohn_sham/solver/Cargo.toml",
                     "binaries": ["revision_ks_solver"], "build_minutes": 1}],
-    "expected_seconds": 160,
+    "expected_seconds": 240,
     "timeout_seconds": 1800,
     "files_written": ["Revision/textbook/figures/15a.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
@@ -80,6 +82,10 @@ FACTS = {
          "difference means that the solver or its input files were changed. Get the "
          "stored versions back and run the notebook again.",
          ["git checkout -- Revision/kohn_sham"]],
+        ["You want the disk space of the solver output back",
+         "the folder `Revision/kohn_sham/solver/target/textbook_15a` holds only the raw "
+         "output of the last run (ignored by git); delete it at any time, the notebook "
+         "writes it again."],
     ],
 }
 
@@ -461,10 +467,12 @@ CELLS = [
 
     The next cell draws the Kohn-Sham gap of $N = 8$, $136$ and $688$ (without
     interaction) against the slice on a logarithmic vertical axis, together with dashed
-    lines proportional to $e^{-a_{4,0}}$ through the first point of each curve. The gap
-    shrinks along the history, a little more slowly than $e^{-a_{4,0}}$ at first and
-    then at that rate, because the brane band is linear in $k$ only for small
-    $k e^{-a_{4,0}}$. Without interaction the levels do not change when one particle is
+    lines proportional to $e^{-a_{4,0}}$ through the first point of each curve. Every gap
+    shrinks along the history, somewhat more slowly than $e^{-a_{4,0}}$: the gap is the
+    distance between two brane-band levels (for $N = 688$ at $a_{4,0} = 0$ between a band
+    level and the bulk level at $k = 0$), and the band levels approach the straight line
+    $c\,k\,e^{-a_{4,0}}$ only when the redshifted momenta $k e^{-a_{4,0}}$ are small.
+    Without interaction the levels do not change when one particle is
     moved, so the Delta-SCF energy must equal the gap exactly; the solver recorded this
     as its check `excited_delta_scf_free_equals_gap`.
     """),
@@ -484,8 +492,10 @@ CELLS = [
                 "of the states $N = 8$, $136$ and $688$ without interaction at the five "
                 "slices $a_{4,0}$ (horizontal axis). Dashed lines fall like "
                 "$e^{-a_{4,0}}$ from the first point of each curve: every gap shrinks "
-                "along the history at nearly this rate, because the gap is the distance "
-                "between brane-band levels, whose momenta redshift like $k e^{-a_{4,0}}$.")
+                "along the history, somewhat more slowly than this, because the levels "
+                "that bound it belong to the brane band, whose momenta redshift like "
+                "$k e^{-a_{4,0}}$ but whose energy is linear in the momentum only for "
+                "small momenta.")
     free_dscf = max(abs(float(excited[state_id(n, "lam0", a)]["delta_SCF_minus_gap"]))
                     for n in (8, 136, 688) for a in SLICES)
     report("largest |Delta-SCF - gap| without interaction", f"{free_dscf:.1e}")
@@ -569,8 +579,8 @@ CELLS = [
                 "slices; it falls along the history as the brane band redshifts. Right: "
                 "the energy shift caused by the couplings $\\pm\\lambda_1$ and "
                 "$\\pm\\lambda_2$ for $N = 136$ (vertical axis, units of $m$): repulsion "
-                "raises and attraction lowers the energy, by less than $0.03\\,m$ out of "
-                "about $10$ to $80\\,m$.")
+                "raises and attraction lowers the energy, by at most $0.032\\,m$ out of "
+                "$12$ to $80\\,m$.")
     ordered = all(
         float(ground[state_id(n, "lamp2", a)]["E_KS"])
         > float(ground[state_id(n, "lamp1", a)]["E_KS"])

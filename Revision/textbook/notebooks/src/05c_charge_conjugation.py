@@ -74,11 +74,11 @@ FACTS = {
         "ALL 19 CHECKS PASSED (notebook 05c)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" naming Revision/algebra/gammas.json or "
-         "Revision/lead_checks/reports/charge-conjugation-and-u1.json",
+        ["\"FileNotFoundError\" naming `Revision/algebra/gammas.json` or "
+         "`Revision/lead_checks/reports/charge-conjugation-and-u1.json`",
          "the notebook was opened outside the repository, or the repository is "
          "incomplete; clone the repository again and open the notebook from its folder "
-         "Revision/textbook/notebooks."],
+         "`Revision/textbook/notebooks`."],
     ],
 }
 
@@ -173,6 +173,11 @@ CELLS = [
        $$\gamma^\mu D_\mu(M\Psi^*) = sV\,(M\Psi^*) .$$
        The new field $M\Psi^*$ solves the equation with $V$ when $s = +1$ and with $-V$
        when $s = -1$.
+    5. $V = m + U'(S)$ depends on the field through $S$. For commuting components and
+       the two matrices found below, the new field has the same $S$ as $\Psi$ (section
+       10 computes this). With $U = \tfrac\lambda2 S^2$, $V = m + \lambda S$, so the new
+       field solves the field equation with the parameters $(m, \lambda)$ when $s = +1$
+       and $(-m, -\lambda)$ when $s = -1$.
 
     Because the gammas are real, $(\gamma^a)^* = \gamma^a$, and the condition reads
     $M(\gamma^a)^* = s\,\gamma^a M$: $M$ commutes ($s = +1$) or anticommutes
@@ -422,7 +427,7 @@ CELLS = [
     $\zeta = +1$ those of $\Gamma C$.
     """),
     code(r'''
-    calC_plus = M_same[0] / M_same[0][0, 0] @ C  # M = 1, so calC_+ = C
+    calC_plus = (M_same[0] / M_same[0][0, 0]) @ C  # M = 1 (scaled), so calC_+ = C
     calC_minus = Gamma @ C  # M = Gamma, so calC_- = Gamma C
     inverse_plus = np.linalg.inv(calC_plus)
     inverse_minus = np.linalg.inv(calC_minus)
@@ -629,15 +634,15 @@ CELLS = [
               loc="upper center", bbox_to_anchor=(0.5, -0.14), ncol=2)
     ax.grid(False)
     save_figure(fig, "which_mass",
-                "Which mass each field solves the free equation with: rows the "
-                "solution $\\Psi$ and its two charge conjugates $\\Psi^{\\ast}$ and "
-                "$\\Gamma\\Psi^{\\ast}$, columns the masses $+m$ and $-m$; "
-                "each square gives "
-                "the largest size of the residual $\\gamma^{(x4)} d\\Phi/dx4 \\mp "
-                "m\\Phi$ on 801 points with $m = 1$ (blue: zero up to rounding, the "
-                "field solves; grey: the residual, the field does not solve). "
-                "$\\mathcal{C}_+$ keeps the mass, $\\mathcal{C}_-$ reverses it, as "
-                "the exact computation proves.")
+                "Which mass each field solves the free equation with: rows the solution "
+                "$\\Psi$ and its two charge conjugates $\\mathcal{C}_+\\bar\\Psi^T = "
+                "\\Psi^{\\ast}$ and $\\mathcal{C}_-\\bar\\Psi^T = \\Gamma\\Psi^{\\ast}$, "
+                "columns the masses $+m$ and $-m$; each square "
+                "gives the largest size of the residual $\\gamma^{(x4)} d\\Phi/dx4 \\mp "
+                "m\\Phi$ on 801 points with $m = 1$ (blue: zero up to rounding, the field "
+                "solves; grey: the residual, the field does not solve). $\\mathcal{C}_+$ "
+                "keeps the mass, $\\mathcal{C}_-$ reverses it, as the exact computation "
+                "proves.")
     '''),
     md(r"""
     ## 10. The scalar S and the charge density J for commuting components
@@ -695,7 +700,8 @@ CELLS = [
     save_figure(fig, "bilinears",
                 "The scalar $S$ (left group) and the charge density $J^{(x4)}$ (right "
                 "group) of the solution $\\Psi$ (blue) and of its charge conjugates "
-                "$\\Psi^{\\ast}$ (orange) and $\\Gamma\\Psi^{\\ast}$ (aqua), for commuting "
+                "$\\mathcal{C}_+\\bar\\Psi^T = \\Psi^{\\ast}$ (orange) and "
+                "$\\mathcal{C}_-\\bar\\Psi^T = \\Gamma\\Psi^{\\ast}$ (aqua), for commuting "
                 "components; vertical axis the value, which is the same at every time "
                 "$x4$. All three have the same $S = -2$; $\\Psi^{\\ast}$ has the opposite "
                 "charge density $+6$, $\\Gamma\\Psi^{\\ast}$ the same $-6$: for commuting "
@@ -749,8 +755,7 @@ CELLS = [
     check_reproduces(measured == recorded_table
                      and recorded("bilinears_under_charge_conjugation"),
                      "the signs of S and J under calC_+ and calC_-, commuting and "
-                     "anticommuting, "
-                     "equal the recorded table",
+                     "anticommuting, equal the recorded table",
                      record=f"{RECORD}, check bilinears_under_charge_conjugation")
     '''),
     md(r"""
@@ -791,11 +796,13 @@ CELLS = [
     md(r"""
     ## 12. The reality (Majorana) conditions
 
-    A field equal to its own conjugate, $\Psi = M\Psi^*$, is possible without forcing
-    $\Psi = 0$ only if applying the condition twice gives back $\Psi$: $\Psi = M(M
-    \Psi^*)^* = MM^*\Psi$, so $MM^* = 1$ is needed. The next cell checks $MM^* = 1$ for
-    $M = 1$ (the condition $\Psi = \Psi^*$: a real field) and for $M = \Gamma$ (the
-    condition $\Psi = \Gamma\Psi^*$: the first half imaginary, the second half real).
+    A field equal to its own conjugate obeys $\Psi = M\Psi^*$. Taking the complex
+    conjugate of this condition gives $\Psi^* = M^*\Psi$, and putting it back gives
+    $\Psi = MM^*\Psi$. So the condition agrees with itself for every column that obeys
+    it (it is *consistent*) when $MM^* = 1$; otherwise it would force further
+    conditions, possibly $\Psi = 0$. The next cell checks $MM^* = 1$ for $M = 1$ (the
+    condition $\Psi = \Psi^*$: a real field) and for $M = \Gamma$ (the condition
+    $\Psi = \Gamma\Psi^*$: the first half imaginary, the second half real).
     """),
     code(r'''
     check_reproduces(np.array_equal(I16 @ np.conj(I16), I16)
@@ -873,16 +880,14 @@ CELLS = [
     ax.set_title("Which reality condition survives the time evolution")
     ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=2)
     save_figure(fig, "reality_in_time",
-                "How far the free solution moves away from the two reality "
-                "conditions, for starting columns of size 1 that obey them: the size "
-                "of $\\Psi - \\Gamma\\Psi^{\\ast}$ for the masses $m = 1$ (solid), "
-                "$m = 0.5$ (dashed) and $m = 0$ (dash-dotted, zero), and the size of "
-                "$\\Psi - \\Psi^{\\ast}$ for a real start (dotted, zero); horizontal "
-                "axis the time $x4$, vertical axis the size (a pure number). "
-                "The real field "
-                "stays real; the condition $\\Psi = \\Gamma\\Psi^{\\ast}$ of the "
-                "mass-reversing conjugation is violated by $2|\\sin(m x4)|$ unless "
-                "$m = 0$.")
+                "How far the free solution moves away from the two reality conditions, for "
+                "starting columns of size 1 that obey them: the size of $\\Psi - "
+                "\\Gamma\\Psi^{\\ast}$ for the masses $m = 1$ (solid), $m = 0.5$ (dashed) "
+                "and $m = 0$ (dash-dotted, zero), and the size of $\\Psi - \\Psi^{\\ast}$ "
+                "for a real start (dotted, zero); horizontal axis the time $x4$, vertical "
+                "axis the size (a pure number). The real field stays real; the condition "
+                "$\\Psi = \\Gamma\\Psi^{\\ast}$ of the mass-reversing conjugation is "
+                "violated by $2|\\sin(m x4)|$ unless $m = 0$.")
     '''),
     md(r"""
     ## 13. Real fields
@@ -923,8 +928,7 @@ CELLS = [
                      and psi_real.conjugate() == psi_real and image_solves_minus
                      and recorded("real_fields_charge_conjugation"),
                      "real fields: J = 0, calC_+ is the identity, Gamma keeps S, reverses "
-                     "the "
-                     "kinetic matrices and maps a solution with m to one with -m",
+                     "the kinetic matrices and maps a solution with m to one with -m",
                      record=f"{RECORD}, check real_fields_charge_conjugation")
     '''),
     md(r"""
@@ -954,15 +958,14 @@ CELLS = [
                  bbox={"facecolor": "white", "edgecolor": "#52514e"})
     axes[1].legend(loc="upper center", bbox_to_anchor=(-0.05, -0.17), ncol=3)
     save_figure(fig, "real_field",
-                "A real solution of the free equation (solid), its same-mass "
-                "conjugate $\\Psi^{\\ast} = \\mathcal{C}_+\\bar\\Psi^T$ (dashed, lying "
-                "exactly on the solid line) and its image $\\Gamma\\Psi$ under the real "
-                "chirality matrix (dotted), for component 1 (left, first half) and "
-                "component 9 (right, second half); horizontal axis the time $x4$ in "
-                "units of $1/m$, vertical axis the value. For a real field the "
-                "same-mass conjugation does nothing; the nontrivial real map is "
-                "$\\Gamma$, which flips the first half and solves the equation with the "
-                "mass reversed.")
+                "A real solution of the free equation (solid), its same-mass conjugate "
+                "$\\Psi^{\\ast} = \\mathcal{C}_+\\bar\\Psi^T$ (dashed, lying exactly on the "
+                "solid line) and its image $\\Gamma\\Psi$ under the real chirality matrix "
+                "(dotted), for component 1 (left, first half) and component 9 (right, "
+                "second half); horizontal axis the time $x4$ in units of $1/m$, vertical "
+                "axis the value. For a real field the same-mass conjugation does nothing; "
+                "the nontrivial real map is $\\Gamma$, which flips the first half and "
+                "solves the equation with the mass reversed.")
     '''),
     md(r"""
     ## 14. The quantised field
@@ -986,9 +989,8 @@ CELLS = [
     check_reproduces(np.array_equal(q_minus, B) and np.array_equal(q_plus, -B)
                      and recorded("quantum_charge_conjugation_unitary_type"),
                      "M B^T M^dagger = B for M = Gamma and = -B for M = 1: the conjugation "
-                     "of the "
-                     "quantised field is Psi -> Gamma Psi^(dagger T), which reverses the "
-                     "mass",
+                     "of the quantised field is Psi -> Gamma Psi^(dagger T), which reverses "
+                     "the mass",
                      record=f"{RECORD}, check quantum_charge_conjugation_unitary_type")
     fig, axes = plt.subplots(1, 3, figsize=(11.0, 4.0))
     heat_map(axes[0], B.imag, "imaginary part of $B$")

@@ -46,7 +46,9 @@ FACTS = {
         "along the hidden direction point by point and integrated, integrates the "
         "profiles to the total energy, and checks the energy-change identity dE/da4 = "
         "minus three times the integrated difference of the 3-space and extra-time "
-        "pressures along the deflating history."
+        "pressures along the deflating history. The solver writes its output files "
+        "(about 1 MB) into the folder `Revision/kohn_sham/solver/target/textbook_15b`, "
+        "which git ignores."
     ),
     "records": [
         ["Revision/kohn_sham/results/ground/profiles",

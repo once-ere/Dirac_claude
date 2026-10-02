@@ -481,7 +481,7 @@ CELLS = [
     ax.set_ylabel("imaginary part (units of $H$)")
     ax.set_aspect("equal")
     ax.set_title("Frequencies of the $x_8$-independent waves, $m$ from 0 to 5")
-    ax.legend(loc="lower right", fontsize=8)
+    ax.legend(loc="upper left", bbox_to_anchor=(1.02, 1.0), fontsize=8)  # outside
     save_figure(fig, "frequency_paths",
                 "The 16 eigenvalues of the matrix $A = -im\\gamma^{(x_4)} + "
                 "3iH\\gamma^{(x_4)}\\gamma^{(x_8)}$, which governs the good-sector waves "
