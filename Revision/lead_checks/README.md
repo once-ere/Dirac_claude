@@ -20,3 +20,18 @@ python Revision/lead_checks/emt_divergence_and_spin_connection.py
 ```
 
 writes `reports/emt-divergence-and-spin-connection.json` (deterministic, LF; about 6 s).
+
+## The a4 field equations (Einstein and Gauss-Bonnet)
+
+`einstein_gauss_bonnet_a4.py` (about 15 s) recomputes, with its own curvature code, the Einstein tensor of the
+author's metric for a general a4(x4) and compares it with `Revision/field_equations_a4/a4-equations.json`
+(15 checks): G^mu_nu is diagonal, isotropic in 3-space and in the extra times, and independent of x8; the
+constraint, space, extra-time, hidden and evolution equations agree with the record (ratio exactly 1);
+kappa (rho + p8) = -6 (a4'^2 + H^2) < 0 (the null energy condition fails along x8); a zero source has no
+real solution for H > 0 and any Lambda (the vacuum system's only solutions are a4' = +-i H, Lambda = -18 H^2);
+for the linear member a4 = A H x4 the Gauss-Bonnet tensor from the CLASSICAL Lanczos formula (independent of
+the GKD route) reproduces the alpha_2 terms of the record's rho and p exactly, and G the alpha_1 terms.
+
+```
+python Revision/lead_checks/einstein_gauss_bonnet_a4.py
+```

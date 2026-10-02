@@ -1,0 +1,84 @@
+{
+ "producer": "Revision/lead_checks/einstein_gauss_bonnet_a4.py (lead, independent; no Revision code imported; reads the record Revision/field_equations_a4/a4-equations.json to compare)",
+ "summary": {
+  "passed": 15,
+  "total": 15
+ },
+ "checks": [
+  {
+   "name": "einstein_x8_independent",
+   "verdict": "PASS",
+   "detail": "every component of G^mu_nu is independent of x8 (z)"
+  },
+  {
+   "name": "einstein_off_diagonal_zero",
+   "verdict": "PASS",
+   "detail": "G^mu_nu is diagonal (in particular G^x4_x8 = G^x8_x4 = 0)"
+  },
+  {
+   "name": "einstein_isotropy",
+   "verdict": "PASS",
+   "detail": "G^x1_x1 = G^x2_x2 = G^x3_x3 and G^x5_x5 = G^x6_x6 = G^x7_x7"
+  },
+  {
+   "name": "einstein_constraint_x4",
+   "verdict": "PASS",
+   "detail": "G^4_4 + Lambda = kappa T: mine = 21*H**2 + Lam + 3*ad1**2 + kappa*rho; record: 3*ad1^2 + 21*H^2 + Lam == -(kappa*rho); ratio 1"
+  },
+  {
+   "name": "einstein_space_x1",
+   "verdict": "PASS",
+   "detail": "G^1_1 + Lambda = kappa T: mine = 15*H**2 + Lam - 3*ad1**2 + ad2 - kappa*p3; record: -3*ad1^2 + ad2 + 15*H^2 + Lam == kappa*p3; ratio 1"
+  },
+  {
+   "name": "einstein_extraTime_x5",
+   "verdict": "PASS",
+   "detail": "G^5_5 + Lambda = kappa T: mine = 15*H**2 + Lam - 3*ad1**2 - ad2 - kappa*pt; record: -3*ad1^2 - ad2 + 15*H^2 + Lam == kappa*pt; ratio 1"
+  },
+  {
+   "name": "einstein_hidden_x8",
+   "verdict": "PASS",
+   "detail": "G^8_8 + Lambda = kappa T: mine = 15*H**2 + Lam - 3*ad1**2 - kappa*p8; record: -3*ad1^2 + 15*H^2 + Lam == kappa*p8; ratio 1"
+  },
+  {
+   "name": "einstein_evolution",
+   "verdict": "PASS",
+   "detail": "space minus extra-time component: 2*ad2 - kappa*p3 + kappa*pt = 0; record 2*ad2 == kappa*(p3 - pt)"
+  },
+  {
+   "name": "einstein_null_energy",
+   "verdict": "PASS",
+   "detail": "kappa (rho + p8) = -6*H**2 - 6*ad1**2 (< 0 for H > 0): the null energy condition fails along x8"
+  },
+  {
+   "name": "no_vacuum_for_H_positive",
+   "verdict": "PASS",
+   "detail": "G^x4_x4 - G^x8_x8 = 6 a4'^2 + 6 H^2 > 0 for H > 0, so T = 0 (G + Lambda = 0) is impossible for every Lambda; solutions of the vacuum system: [{Lam: -18*H**2, ad1: -I*H, ad2: 0}, {Lam: -18*H**2, ad1: I*H, ad2: 0}]"
+  },
+  {
+   "name": "gauss_bonnet_constant",
+   "verdict": "PASS",
+   "detail": "for a4 = A H x4 the Gauss-Bonnet tensor H^mu_nu is constant: [H**4*(12*A**4 + 168*A**2 - 180), H**4*(-36*A**4 - 120*A**2 - 420), H**4*(12*A**4 + 168*A**2 - 180), 12*H**4*(A**4 + 14*A**2 - 15)]"
+  },
+  {
+   "name": "gauss_bonnet_isotropic_pressure",
+   "verdict": "PASS",
+   "detail": "H^x1_x1 = H^x5_x5 = H^x8_x8 for the linear member (so p3 = p_t = p8 = p)"
+  },
+  {
+   "name": "gauss_bonnet_rho_alpha2",
+   "verdict": "PASS",
+   "detail": "alpha_2 part of kappa rho: record H**4*(36*A**4 + 120*A**2 + 420), classical Gauss-Bonnet -H^x4_x4 = H**4*(36*A**4 + 120*A**2 + 420)"
+  },
+  {
+   "name": "gauss_bonnet_p_alpha2",
+   "verdict": "PASS",
+   "detail": "alpha_2 part of kappa p: record 12*H**4*(A**4 + 14*A**2 - 15), classical Gauss-Bonnet H^x1_x1 = 12*H**4*(A**4 + 14*A**2 - 15)"
+  },
+  {
+   "name": "einstein_linear_rho_alpha1",
+   "verdict": "PASS",
+   "detail": "alpha_1 part of kappa rho: record 3*H**2*(-A**2 - 7), -G^x4_x4 = 3*H**2*(-A**2 - 7)"
+  }
+ ]
+}
