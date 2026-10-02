@@ -64,6 +64,27 @@ take shortcuts or weaken a check.
 4. When the user writes "pause" or "STOP": halt at once (create `.claude/ALLOW_STOP` in
    the same first action so the Stop hook allows the stop), push, report in a few lines.
 
+### 0.4e CURRENT TASK (user, 2026-10-02): the NEW deep-dive textbook "Universes in Pairs"
+
+The user stopped all stages and ordered, first: preserve the original textbook
+(`provenance/DIRAC16COMPLEX_TEXTBOOK.*`, never modified) and create an updated, correct, complete,
+RE-NAMED teaching textbook (.md/.tex/.pdf) with a complete executed Jupyter notebook for EVERY
+example, complete self-contained run instructions just before each notebook's text (and as comments
+in the notebook), the deep-dive technique, and many more plots.  Binding spec:
+`Revision/textbook/TEXTBOOK_SPEC.md` (honesty rule R3: the pairing theorems are proved; creation and a
+solution of the matter-antimatter problem are not - the user was told this on 2026-10-02).
+Workflow `Revision/workflows/textbook_universes_in_pairs.js` RUNNING (run wf_4b3dba39-2d8): infra
+(nbkit, run instructions, renderer, assembler, pilot) -> 23 chapters pipelined (notebooks -> writer ->
+adversarial reviewer -> fixer) -> assembly (chapter 23, ledger, PDF, registration, test) -> six
+whole-book review lenses with two skeptics per finding -> fixers -> rebuild -> fix verifier.
+Outputs: `Revision/textbook/` (chapters/, notebooks/, notebooks/src/, figures/, tools/,
+UNIVERSES_IN_PAIRS_TEXTBOOK.{md,tex,pdf}), test `Revision/tests/test_universes_in_pairs_textbook.py`.
+If a restart finds the run gone: copy the script to the new scratchpad, set SP, relaunch; agents
+inspect and finish existing files.
+STOPPED for it (resume afterwards, "continue with all stages"): Revision wave 1b (run wf_39a30fcf-75b,
+stopped in its Fix phase; commit 667f153 holds the unverified partial edits of fix:science:0; resume
+with resumeFromRunId in the same session, otherwise relaunch `revision_wave_1b.js`), then wave 2.
+
 ### 0.4d STATE 2026-10-01 (resumed session)
 
 The repository now lives at `D:\Developer\github\Dirac_claude` (drive C: was nearly full).  The workflow
