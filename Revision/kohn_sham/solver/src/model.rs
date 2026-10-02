@@ -70,6 +70,9 @@ pub struct Numerics {
     pub fd_delta: f64,
     pub dt_rel: f64,
     pub deg_tol: f64,
+    /// residual form of the Mermin root (mermin.rs): LogBalance (canonical) or LinearDeviation (refined
+    /// run, an exactly equivalent form with a different rounding path)
+    pub mermin_form: crate::mermin::MerminForm,
     pub tag: &'static str,
 }
 
@@ -86,11 +89,12 @@ impl Numerics {
             fd_delta: 2e-3,
             dt_rel: 0.01,
             deg_tol: 1e-9,
+            mermin_form: crate::mermin::MerminForm::LogBalance,
             tag: "canonical",
         }
     }
     pub fn refined() -> Numerics {
-        Numerics { g: 1800, root_tol: 1e-14, scf_tol: 1e-12, f_cut: 1e-14, tag: "refined", ..Numerics::canonical() }
+        Numerics { g: 1800, root_tol: 1e-14, scf_tol: 1e-12, f_cut: 1e-14, mermin_form: crate::mermin::MerminForm::LinearDeviation, tag: "refined", ..Numerics::canonical() }
     }
 }
 

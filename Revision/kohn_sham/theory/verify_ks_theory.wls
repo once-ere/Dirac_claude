@@ -294,7 +294,7 @@ Module[{Hx = 2 {{Cos[al], Sin[al]}, {Sin[al], -Cos[al]}} + id2, va, vb},
   va = {Cos[al/2], Sin[al/2]}; vb = {-Sin[al/2], Cos[al/2]};
   addCheck["adiabatic_offdiagonal_identity",
     Simplify[Hx.va == 3 va] && Simplify[Hx.vb == -vb] && Simplify[va.D[Hx, al].vb == (-1 - 3) va.D[vb, al]],
-    "<n| d_a h |m> = (eps_m - eps_n) <n| d_a m> (explicit family); Q_nm = A H |<n| d_a h_KS |m>|/(eps_n - eps_m)^2"]];
+    "<n| d_a h |m> = (eps_m - eps_n) <n| d_a m> (explicit family); Q_nm = A H |<n| d_a h_KS |m>|/(eps_n - eps_m)^2 along the history a4 = A H x4, a PRESCRIBED BACKGROUND (test field without back-reaction, not a solution of the a4 equations with the Kohn-Sham source)"]];
 
 (* brane-band slope: exact formula and NDSolve shooting *)
 cExact = Exp[-aa] (2 M/(2 M - H)) (1 - Exp[-(2 M - H) L])/(1 - Exp[-2 M L]);
@@ -401,7 +401,8 @@ jsonTheory = <|
     "energyChange" -> "nabla_mu T^mu_x4 = -d_x4 rho - 3 a4' (p3 - p_t): dE/da4 = -3 (2 Vol_7) int_{-L}^{0} e^{6Hy} (p3 - p_t) dy; Hellmann-Feynman with fixed occupations gives the same (solver check)",
     "integrated" -> "2 Vol_7 int_{-L}^{0} e^{6Hy} rho dy = E_KS; 2 Vol_7 int_{-L}^{0} e^{6Hy} 3 (p3 - e_int) dy = sum g f |k| d eps/d|k| (doubled system, w = 1/2 in the densities)"|>,
   "adiabaticity" -> <|
-    "history" -> "a4 = A H x4 (A = 1 canonical), a4' = A H; slices a4,0 = a4(x4)",
+    "history" -> "a4 = A H x4 (A = 1 canonical), a4' = A H; slices a4,0 = a4(x4); PRESCRIBED BACKGROUND (see historyStatus)",
+    "historyStatus" -> "PRESCRIBED BACKGROUND: the history a4 = A H x4 is prescribed, not solved for. The a4 equations of SPEC section 5 allow this linear member only with p3 = p_t = p8 and constant rho; the Kohn-Sham states along it violate these source conditions (p3 != p_t, rho changes with a4,0, the sources depend on x8: Revision/field_equations_a4/reports/ks-source-conditions.json). The Kohn-Sham gas is therefore a test field on a prescribed background without back-reaction, and quantities derived along this history (energies, pressures, equations of state) are not consequences of the coupled field equations.",
     "exactEvolution" -> "i d_x4 chi = h(a4(x4)) chi (mean field); k, the block and the brane parity are conserved; transitions only between levels of the same (k, j, block, parity)",
     "derivative" -> "d_a h_j = -j kappa k sigma3 (frozen potentials) + j (d_a M_eff) sigma2 + d_a v_v (self-consistent part, by finite differences between slices)",
     "measure" -> "Q_nm = A H |<n| d_a h |m>| / (eps_n - eps_m)^2 = A H |<n| d_a m>| / |eps_n - eps_m| for n occupied, m empty in the same sector; adiabatic iff max Q_nm << 1; leading-order transition probability ~ Q_nm^2",
@@ -430,8 +431,10 @@ writeLF[FileNameJoin[{$ks, "ks-theory.json"}], If[StringEndsQ[ksJson, "\n"], ksJ
 back = Import[FileNameJoin[{$ks, "ks-theory.json"}], "RawJSON"];
 addCheck["ks_theory_json_written",
   ksJson === ksJson2 && back["blockBasis"]["unnormalisedColumns2Sqrt2V"] == Map[ToString, U, {2}] &&
-  ToExpression[back["exchange"]["uniformGas"]["coefficient_n2"]] == -1/32,
-  "ks-theory.json written deterministically (two exports identical, LF) and re-imported: basis and coefficients round-trip"];
+  ToExpression[back["exchange"]["uniformGas"]["coefficient_n2"]] == -1/32 &&
+  StringStartsQ[back["adiabaticity"]["historyStatus"], "PRESCRIBED BACKGROUND"] &&
+  StringContainsQ[back["adiabaticity"]["history"], "PRESCRIBED BACKGROUND"],
+  "ks-theory.json written deterministically (two exports identical, LF) and re-imported: basis, coefficients and the label of the history a4 = A H x4 as a PRESCRIBED BACKGROUND (adiabaticity.history, adiabaticity.historyStatus) round-trip"];
 
 (* ---------------- report ---------------- *)
 jstr[s_String] := "\"" <> StringReplace[s, {"\\" -> "\\\\", "\"" -> "\\\""}] <> "\"";

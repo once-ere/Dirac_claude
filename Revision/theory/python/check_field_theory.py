@@ -493,9 +493,24 @@ def section_emt(gm, geo, stat, sps):
     for mu in range(8):
         tr = tr + T[mu][mu]
     Sx = sps.S()
+    # off shell: T^mu_mu = 7 sum_mu K_mu - 8 (m S + U), with the per-direction kinetic terms (no spin connection)
+    # K_mu = (1/(2 f_mu)) (Psibar gamma^(mu) d_mu Psi - d_mu Psibar gamma^(mu) Psi); their sum is the kinetic term K of L
+    G = gm["gamma"]
+    pb, ps = sps.psibar(), sps.psi()
+    Ksum = sps.zero()
+    for a in range(8):
+        Ksum = Ksum + (sps.dot(pb, sps.matvec(G[a], sps.psi((a,)))) -
+                       sps.dot(sps.vecmat(sps.psibar((a,)), G[a]), ps)).scale(1 / (2 * geo.f[a]))
+    Vx = Sx.scale(m) + (Sx * Sx).scale(lam / 2)
+    ok_off = alg_zero((tr - Ksum.scale(7) + Vx.scale(8)).expand()) and alg_zero((Ksum - K).expand()) and \
+        alg_zero((V - Vx).expand())
     target = Sx.scale(-m) + (Sx * Sx).scale(3 * lam)
-    check(f"{pre}_trace_on_shell", alg_zero((red(tr) - target).expand()),
-          f"{name}: T^mu_mu = 7K - 8V off shell; on shell T^mu_mu = -m S + 7 S U' - 8 U = -m S + 3 lambda S^2", sec)
+    ok_on = alg_zero((red(tr) - target).expand())
+    check(f"{pre}_trace_on_shell", ok_off and ok_on,
+          f"{name}: off shell T^mu_mu = 7 sum_mu K_mu - 8 (m S + U) exactly, K_mu = (1/(2 f_mu))(Psibar gamma^(mu) d_mu "
+          "Psi - d_mu Psibar gamma^(mu) Psi) (no sum; sum_mu K_mu equals the kinetic term K of L, the spin connection "
+          "drops out), U = (lambda/2) S^2; on shell (prolonged substitution) T^mu_mu = -m S + 7 S U' - 8 U = -m S + 3 "
+          "lambda S^2", sec)
     # homogeneous on-shell states (only x4 dependence)
     hred = onshell_rule(sps, geo, stat, lam, homogeneous=True)
     rho = hred(-T[X4][X4])
@@ -516,9 +531,17 @@ def section_emt(gm, geo, stat, sps):
             "statement": "T^x4_x8 for states depending on x4 only, on shell (bilinear coefficients by monomial)",
             "monomials": {",".join(f"{'psi' if k[0] == PSI else 'chi'}{k[1]+1}" for k in key): phys(v)
                           for key, v in sorted(off.t.items())}}
-    check(f"{pre}_T_x4x8_homogeneous", True,
-          f"{name}: T^x4_x8 on homogeneous on-shell states has {len(off)} bilinear monomials "
-          f"({'zero' if len(off) == 0 else 'nonzero: a source of the off-diagonal x4-x8 field equation'})", sec)
+    off84 = hred(T[X8][X4])
+    others = [(mu, nu) for mu in range(8) for nu in range(8)
+              if mu != nu and {mu, nu} != {X4, X8} and len(hred(T[mu][nu]))]
+    check(f"{pre}_T_x4x8_homogeneous", len(off) == 0 and len(off84) == 0,
+          f"{name}: on homogeneous on-shell states (x4 dependence only, prolonged on-shell substitution) T^x4_x8 has "
+          f"{len(off)} and T^x8_x4 has {len(off84)} bilinear monomials: both vanish identically, so these states do not "
+          "source the off-diagonal x4-x8 component of the a4 field equations (the verdict requires both to vanish). "
+          f"Not claimed for the other off-diagonal components: {len(others)} of the remaining 54 are nonzero bilinears "
+          "in general" + (" (" + ", ".join(f"T^{COORD[mu]}_{COORD[nu]}" for mu, nu in others[:6]) + ", ...)"
+                          if others else "") + "; their vanishing is a separate condition on the state "
+          "(Revision/field_equations_a4: offDiagonalConditions)", sec)
     return T
 
 
@@ -851,17 +874,23 @@ def section_further(gm, geo):
           "dHd/dPsi^dagger_C (the Heisenberg equation for {Psi, Psi^dagger} = B/sqrt|g|) equals the field equation "
           "solved for d4 Psi, -gamma^(x4)[(m + lambda S) Psi - sum_(mu != x4) gamma^mu D_mu Psi], exactly (lambda "
           "general; operator ordering of the classical expression)", sec)
-    # energy exchange for a diagonal homogeneous T
-    r0, r1, p30, p31, pt0, pt1, p80, p81 = sp.symbols("rho rho_1 p3 p3_1 pt pt_1 p8 p8_1", real=True)
-    chain = [(r0, r1), (p30, p31), (pt0, pt1), (p80, p81)]
+    # energy exchange: ALL EIGHT components of nabla_mu T^mu_nu for a diagonal T whose entries are functions of x4
+    # AND x8 (jet symbols: rho_4 = d rho/d x4, rho_8 = d rho/d x8, likewise p3, pt, p8)
+    names = ("rho", "p3", "pt", "p8")
+    val = {n: sp.Symbol(n, real=True) for n in names}
+    j4 = {n: sp.Symbol(f"{n}_4", real=True) for n in names}
+    j8 = {n: sp.Symbol(f"{n}_8", real=True) for n in names}
 
     def cdx(e, mu):
         r = cd_author(e, mu)
-        if mu == X4:
-            for a, b in chain:
-                r += sp.diff(e, a) * b
+        if mu in (X4, X8):
+            jet = j4 if mu == X4 else j8
+            for n in names:
+                r += sp.diff(e, val[n]) * jet[n]
         return r
 
+    r0, p30, pt0, p80 = (val[n] for n in names)
+    cot = c / s**6
     Td = [p30] * 3 + [-r0] + [pt0] * 3 + [p80]
     div = []
     for nu in range(8):
@@ -871,18 +900,43 @@ def section_further(gm, geo):
             if geo.Gam[mu][mu][nu] != 0:
                 v -= geo.Gam[mu][mu][nu] * Td[mu]
         div.append(sp.factor(canon_author(v)))
-    ok = sp.expand(div[X4] - (-r1 - 3 * A1 * (p30 - pt0))) == 0
-    ok = ok and all(div[i] == 0 for i in range(8) if i not in (X4, X8))
-    d8 = div[X8]
-    ok = ok and zero_author(d8 - 3 * H * (c / s**6) * (2 * p80 - p30 - pt0))
-    d8s = "3*H*cot(6*H*x8)*(2*p8 - p3 - p_t)"
-    FORMULAS["energy_exchange"] = {"nabla_mu T^mu_x4": "-rho' - 3*a4'*(p3 - p_t)", "nabla_mu T^mu_x8": d8s,
-                                   "T": "diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8), functions of x4 only"}
+    exp4 = -j4["rho"] - 3 * A1 * (p30 - pt0)
+    exp8 = j8["p8"] + 3 * H * cot * (2 * p80 - p30 - pt0)
+    ok_div = sp.expand(div[X4] - exp4) == 0 and zero_author(div[X8] - exp8)
+    ok_div = ok_div and all(div[i] == 0 for i in range(8) if i not in (X4, X8))
+    # the two components are independent: x4 has no x8 jet and no H, x8 has no x4 jet and no a4'
+    fs4, fs8 = div[X4].free_symbols, sp.sympify(div[X8]).free_symbols
+    ok_ind = not (fs4 & (set(j8.values()) | {H, s, c})) and not (fs8 & (set(j4.values()) | {A1, E}))
+    # conservation <=> rho_4 = -3 a4' (p3 - p_t) and p8_8 = -3 H cot z (2 p8 - p3 - p_t) (coefficients -1, +1)
+    ok_cons = sp.expand(sp.diff(div[X4], j4["rho"]) + 1) == 0 and zero_author(sp.diff(div[X8], j8["p8"]) - 1)
+    ok_cons = ok_cons and sp.expand(div[X4].subs(j4["rho"], -3 * A1 * (p30 - pt0))) == 0
+    ok_cons = ok_cons and zero_author(div[X8].subs(j8["p8"], -3 * H * cot * (2 * p80 - p30 - pt0)))
+    # x8-independent entries: the x8 component is 3 H cot z (2 p8 - p3 - p_t) with cot z = c/s^6 > 0 (c, s > 0)
+    free8 = {j8[n]: 0 for n in names}
+    ok_free = zero_author(div[X8].subs(free8) - 3 * H * cot * (2 * p80 - p30 - pt0))
+    ok_free = ok_free and zero_author(div[X8].subs(free8).subs(p80, (p30 + pt0) / 2))
+    # controls: a wrong sign of the a4' term and a wrong factor of the cot z term are detected
+    ctrl = sp.expand(div[X4] - (-j4["rho"] + 3 * A1 * (p30 - pt0))) != 0 and \
+        not zero_author(div[X8] - (j8["p8"] + 2 * H * cot * (2 * p80 - p30 - pt0)))
+    ok = ok_div and ok_ind and ok_cons and ok_free and ctrl
+    FORMULAS["energy_exchange"] = {
+        "T": "diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8), entries functions of x4 and x8",
+        "nabla_mu T^mu_nu": {COORD[nu]: ("-d4 rho - 3*a4'*(p3 - p_t)" if nu == X4 else
+                                         "d8 p8 + 3*H*cot(6*H*x8)*(2*p8 - p3 - p_t)" if nu == X8 else "0")
+                             for nu in range(8)},
+        "conservation": ["d4 rho = -3*a4'*(p3 - p_t)", "d8 p8 = -3*H*cot(6*H*x8)*(2*p8 - p3 - p_t)"],
+        "x8_independent_entries": ["d rho/d x4 = -3*a4'*(p3 - p_t)", "p8 = (p3 + p_t)/2"]}
     check("energy_exchange_equation", ok,
-          f"for a diagonal T^mu_nu = diag(p3,p3,p3,-rho,p_t,p_t,p_t,p8)(x4): nabla_mu T^mu_x4 = {sp.sstr(div[X4])} "
-          "(rho_1 = d rho/dx4), so conservation gives d rho/dx4 = -3 a4' (p3 - p_t): energy flows between "
-          "3-space and the extra times unless p3 = p_t; nabla_mu T^mu_x8 = " + d8s + " exactly, so a conserved "
-          "x8-independent diagonal T needs p8 = (p3 + p_t)/2; the other components vanish identically", sec)
+          "for a diagonal T^mu_nu = diag(p3,p3,p3,-rho,p_t,p_t,p_t,p8) whose entries are functions of x4 and x8, all "
+          f"eight components: nabla_mu T^mu_x4 = {sp.sstr(exp4)}, nabla_mu T^mu_x8 = {sp.sstr(exp8)} (each equal to the "
+          "component computed from the Christoffel symbols, exact zero test of the difference; ring: c/s^6 = cot z; "
+          "rho_4 = d rho/d x4, p8_8 = d p8/d x8), i.e. -d4 rho - 3 a4' (p3 - p_t) and d8 p8 + 3 H cot z (2 p8 - p3 - "
+          "p_t); the components nu = x1, x2, x3, x5, x6, x7 vanish identically. Conservation is "
+          "therefore exactly d rho/d x4 = -3 a4' (p3 - p_t) (energy flows between 3-space and the extra times unless "
+          "p3 = p_t) and d p8/d x8 = -3 H cot z (2 p8 - p3 - p_t); the two components are independent (the x4 one "
+          "contains no x8 derivative and no H, the x8 one no x4 derivative and no a4'). For x8-independent entries the "
+          "x8 component is 3 H cot z (2 p8 - p3 - p_t) with cot z > 0, so conservation needs p8 = (p3 + p_t)/2. "
+          "Controls: a wrong sign of the a4' term and a wrong factor of the cot z term are detected", sec)
     # exact solutions (commuting form; linear in chi, so equally a check of the Grassmann field equation at U = 0)
     x4, x8, al, kk = sp.symbols("x4 x8 alpha k", real=True)
     a4 = sp.Function("a4")(x4)

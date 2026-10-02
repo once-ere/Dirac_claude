@@ -197,7 +197,9 @@ report = StringJoin[
   StringRiffle[("    {\"name\": " <> jstr[#["name"]] <> ", \"verdict\": " <> jstr[#["verdict"]] <> ", \"detail\": " <> jstr[#["detail"]] <> "}") & /@ checks, ",\n"],
   "\n  ]\n}\n"];
 outPath = FileNameJoin[{$revDir, "theory", "reports", "wolfram-scope.json"}];
+If[!DirectoryQ[DirectoryName[outPath]], CreateDirectory[DirectoryName[outPath]]];
 strm = OpenWrite[outPath, BinaryFormat -> True];
+If[strm === $Failed, Print["cannot write ", outPath]; Exit[2]];
 BinaryWrite[strm, ToCharacterCode[report, "UTF-8"]]; Close[strm];
 Print[nPass, "/", nTot, " checks passed; time ", Round[AbsoluteTime[] - t0, 0.1], " s"];
 Exit[If[nPass == nTot, 0, 1]];

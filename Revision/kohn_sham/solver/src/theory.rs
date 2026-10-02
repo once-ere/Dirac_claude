@@ -208,6 +208,9 @@ pub struct TheoryInputs {
     pub slope_m1h1l3: f64,   // brane-band slope c at M = H = 1, L = 3, a4 = 0
     pub sha_theory: String,
     pub sha_gammas: String,
+    /// ks-theory.json adiabaticity.history and its status label (PRESCRIBED BACKGROUND)
+    pub history: String,
+    pub history_status: String,
 }
 
 pub fn read_and_check(root: &std::path::Path, rep: &mut Report) -> Result<TheoryInputs, String> {
@@ -233,6 +236,16 @@ pub fn read_and_check(root: &std::path::Path, rep: &mut Report) -> Result<Theory
         .ok_or("slope missing")?
         .parse()
         .map_err(|_| "slope parse")?;
+    // the history a4 = A H x4 and its label: a PRESCRIBED BACKGROUND, not a solution of the a4 equations
+    let history = th.path(&["adiabaticity", "history"]).and_then(|x| x.as_str()).ok_or("adiabaticity.history missing")?.to_string();
+    let history_status = th
+        .path(&["adiabaticity", "historyStatus"])
+        .and_then(|x| x.as_str())
+        .ok_or("adiabaticity.historyStatus missing (the PRESCRIBED BACKGROUND label of the history)")?
+        .to_string();
+    if !history_status.starts_with("PRESCRIBED BACKGROUND") || !history.contains("PRESCRIBED BACKGROUND") {
+        return Err("ks-theory.json: the history a4 = A H x4 is not labelled as a PRESCRIBED BACKGROUND".into());
+    }
     // e_int = e_H + e_x = (1/2) S^2 + ex_s2 S^2 + ex_n2 n^2 (per lambda); M_eff - m = d e/dS, v = d e/dn
     let ok_coeff = (meff - 15.0 / 16.0).abs() < 1e-15
         && (vv + 1.0 / 16.0).abs() < 1e-15
@@ -371,6 +384,8 @@ pub fn read_and_check(root: &std::path::Path, rep: &mut Report) -> Result<Theory
         slope_m1h1l3: slope,
         sha_theory: sha_t,
         sha_gammas: sha_g,
+        history,
+        history_status,
     })
 }
 
@@ -383,5 +398,6 @@ pub fn inputs_json(t: &TheoryInputs) -> Json {
         ("exchangeCoefficientN2", t.ex_n2.into()),
         ("exchangeCoefficientS2", t.ex_s2.into()),
         ("braneBandSlopeTheory_M1_H1_L3", t.slope_m1h1l3.into()),
+        ("adiabaticityHistory", t.history.clone().into()),
     ])
 }

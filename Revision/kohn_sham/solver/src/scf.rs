@@ -21,6 +21,7 @@
 //! (universe + Z2 image) system; the patch holds N/2.
 //! E_KS = sum g f eps - 2 Vol_7 int e^{6Hy} e_int dy (doubled system).
 
+pub use crate::mermin::MerminForm;
 use crate::model::*;
 use crate::shoot::*;
 use std::collections::BTreeMap;
@@ -216,30 +217,15 @@ pub fn fermi(x: f64) -> f64 {
     }
 }
 
-/// Mermin occupations: mu by bisection on sum g f = N.
-pub fn mermin(levels: &[Level], n: f64, temp: f64) -> Result<(Vec<f64>, f64), String> {
-    let total: f64 = levels.iter().map(|l| l.deg).sum();
-    if total <= n {
-        return Err(format!("thermal window holds {} states for N = {}", total, n));
-    }
-    let count = |mu: f64| -> f64 { levels.iter().map(|l| l.deg * fermi((l.eps - mu) / temp)).sum() };
-    let emin = levels.iter().fold(f64::INFINITY, |m, l| m.min(l.eps));
-    let emax = levels.iter().fold(f64::NEG_INFINITY, |m, l| m.max(l.eps));
-    let mut lo = emin - 60.0 * temp - 1.0;
-    let mut hi = emax + 60.0 * temp + 1.0;
-    for _ in 0..400 {
-        let mid = 0.5 * (lo + hi);
-        if mid <= lo || mid >= hi {
-            break;
-        }
-        if count(mid) < n {
-            lo = mid;
-        } else {
-            hi = mid;
-        }
-    }
-    let mu = 0.5 * (lo + hi);
-    Ok((levels.iter().map(|l| fermi((l.eps - mu) / temp)).collect(), mu))
+/// Mermin occupations: mu from sum g f = N with the well-conditioned residual of
+/// mermin.rs (form `form`: LogBalance in the canonical numerics, LinearDeviation
+/// in the refined run).  The former direct bisection on sum g f - N fixed mu only
+/// to eps_mach N/(dN/dmu) (~1e-9 m in deeply activated states).
+pub fn mermin(levels: &[Level], n: f64, temp: f64, form: MerminForm) -> Result<(Vec<f64>, f64), String> {
+    let eps: Vec<f64> = levels.iter().map(|l| l.eps).collect();
+    let deg: Vec<f64> = levels.iter().map(|l| l.deg).collect();
+    let r = crate::mermin::solve(&eps, &deg, n, temp, form)?;
+    Ok((levels.iter().map(|l| fermi((l.eps - r.mu) / temp)).collect(), r.mu))
 }
 
 pub fn densities(grid: &Grid, phys: &Physics, levels: &[Level], occ: &[f64], pots: &Pots) -> Dens {
@@ -495,7 +481,7 @@ pub fn run_scf(grid: &Grid, inp: &RunInput) -> Result<State, String> {
                 (o, false, f64::NAN)
             }
             Occ::Mermin => {
-                let (o, mu) = mermin(&levels, phys.n, phys.temp)?;
+                let (o, mu) = mermin(&levels, phys.n, phys.temp, num.mermin_form)?;
                 (o, false, mu)
             }
         };

@@ -679,7 +679,10 @@ rhs_ad = sp.simplify((e_b - e_a) * (va.H * vb.diff(aS))[0])
 check("adiabatic_offdiagonal_identity", sp.simplify(lhs_ad - rhs_ad) == 0,
       "<n| d_a h |m> = (eps_m - eps_n) <n| d_a m> (differentiated eigen-equation; verified on an explicit family); "
       "measure along a4 = A H x4: Q_nm = A H |<n| d_a h_KS |m>| / (eps_n - eps_m)^2 for n occupied, m empty, "
-      "same (k, block, parity); leading-order transition probability ~ Q_nm^2")
+      "same (k, block, parity); leading-order transition probability ~ Q_nm^2. The history a4 = A H x4 is a "
+      "PRESCRIBED BACKGROUND (test field without back-reaction): the a4 equations allow this linear member only with "
+      "p3 = p_t = p8 and constant rho, which the Kohn-Sham states violate "
+      "(Revision/field_equations_a4/reports/ks-source-conditions.json)")
 
 # brane-band slope c: exact formula and an independent numerical shooting check
 Mn, Hn, Ln = 1.0, 1.0, 3.0

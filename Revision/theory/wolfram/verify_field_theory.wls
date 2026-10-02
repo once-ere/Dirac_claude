@@ -439,16 +439,39 @@ Do[Module[{Tsym = Tdata[st]["Tsym"], P = fld[st]["Psi"], Pc = fld[st]["Psic"], B
        sZeroQ[st, sAdd[st, {Tsym[[8, 4]], sScal[st, Tan[rftZ]^2, Tsym[[4, 8]]]}]];
   addCheck["T_x4_x8_component_" <> st, ok,
     "T^x4_x8 = -(1/4)(B48 - Cot[z] B84), B48 = Psibar gamma^(x4) d8 Psi - d8 Psibar gamma^(x4) Psi, B84 = Psibar gamma^(x8) d4 Psi - d4 Psibar gamma^(x8) Psi, and T^x8_x4 = g^88 g_44 T^x4_x8 = -Tan[z]^2 T^x4_x8 (" <> statName[st] <> ")"]], {st, stats}];
-(* energy exchange: nabla_mu T^mu_x4 for a diagonal T depending on x4 only *)
-Module[{rhoF, p3F, ptF, p8F, Tdiag, div4},
-  Tdiag = DiagonalMatrix[{p3F[x4], p3F[x4], p3F[x4], -rhoF[x4], ptF[x4], ptF[x4], ptF[x4], p8F[x4]}];
-  div4 = Sum[D[sg Tdiag[[mu, 4]], X[[mu]]], {mu, 8}]/sg - Sum[Gm[[r, mu, 4]] Tdiag[[mu, r]], {mu, 8}, {r, 8}];
-  addCheck["energy_exchange_equation",
-    rftZeroQ[div4 - (-rhoF'[x4] - 3 a4p (p3F[x4] - ptF[x4]))],
-    "for a diagonal homogeneous T^mu_nu = diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8) depending on x4 only: nabla_mu T^mu_x4 = -rho' - 3 a4' (p3 - p_t); " <>
-    "conservation gives d rho/d x4 = -3 a4' (p3 - p_t): energy flows between 3-space and the extra times unless p3 = p_t (sqrt g does not depend on x4)"];
-  addFormulaText["energy_exchange", "conservation for a homogeneous diagonal T = diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8)(x4)",
-    "nabla_mu T^mu_x4 = -rho'[x4] - 3 a4'[x4] (p3 - p_t) = 0, i.e. d rho/d x4 = -3 a4'[x4] (p3 - p_t)"]];
+(* energy exchange: ALL EIGHT components nabla_mu T^mu_nu for a diagonal T whose entries rho, p3, pt, p8 are functions
+   of x4 AND x8 (homogeneous in x1, x2, x3, x5, x6, x7).  The global symbols rho, p3, pt, p8 are used only here; they
+   appear by name in field-theory.json (formula energy_exchange). *)
+Module[{Tdiag, divAll, expected, d4rho, d8p8, eqs, okDiv, okEqs, okFree, ctrl, T0, div0, rho0, p30, pt0, p80},
+  Tdiag = DiagonalMatrix[{p3[x4, x8], p3[x4, x8], p3[x4, x8], -rho[x4, x8], pt[x4, x8], pt[x4, x8], pt[x4, x8], p8[x4, x8]}];
+  (* nabla_mu T^mu_nu = (1/sqrt g) d_mu (sqrt g T^mu_nu) - Gamma^r_(mu nu) T^mu_r *)
+  divAll = Table[Sum[D[sg Tdiag[[mu, nu]], X[[mu]]], {mu, 8}]/sg - Sum[Gm[[r, mu, nu]] Tdiag[[mu, r]], {mu, 8}, {r, 8}], {nu, 8}];
+  d4rho = Derivative[1, 0][rho][x4, x8]; d8p8 = Derivative[0, 1][p8][x4, x8];
+  expected = {0, 0, 0, -d4rho - 3 a4p (p3[x4, x8] - pt[x4, x8]), 0, 0, 0,
+    d8p8 + 3 H Cot[6 H x8] (2 p8[x4, x8] - p3[x4, x8] - pt[x4, x8])};
+  okDiv = rftZeroQ[divAll - expected];
+  (* conservation nabla_mu T^mu_nu = 0 <=> the two equations eqs: each component is linear in the solved derivative with coefficient -1 resp. +1 *)
+  eqs = {d4rho == -3 a4p (p3[x4, x8] - pt[x4, x8]), d8p8 == -3 H Cot[6 H x8] (2 p8[x4, x8] - p3[x4, x8] - pt[x4, x8])};
+  okEqs = Coefficient[expected[[4]], d4rho] === -1 && Coefficient[expected[[8]], d8p8] === 1 &&
+    rftZeroQ[expected[[4]] /. d4rho -> eqs[[1, 2]]] && rftZeroQ[expected[[8]] /. d8p8 -> eqs[[2, 2]]];
+  (* x8-independent entries: the x8 component is 3 H Cot[z] (2 p8 - p3 - p_t) with Cot[z] > 0, so p8 = (p3 + p_t)/2 *)
+  T0 = DiagonalMatrix[{p30[x4], p30[x4], p30[x4], -rho0[x4], pt0[x4], pt0[x4], pt0[x4], p80[x4]}];
+  div0 = Table[Sum[D[sg T0[[mu, nu]], X[[mu]]], {mu, 8}]/sg - Sum[Gm[[r, mu, nu]] T0[[mu, r]], {mu, 8}, {r, 8}], {nu, 8}];
+  okFree = rftZeroQ[div0 - (expected /. {rho -> (rho0[#1] &), p3 -> (p30[#1] &), pt -> (pt0[#1] &), p8 -> (p80[#1] &)})] &&
+    rftZeroQ[div0[[8]] /. p80[x4] -> (p30[x4] + pt0[x4])/2] && Simplify[Cot[6 H x8] > 0, rftAssumptions];
+  (* controls: a wrong coefficient in either component is detected *)
+  ctrl = !rftZeroQ[divAll[[4]] - (-d4rho + 3 a4p (p3[x4, x8] - pt[x4, x8]))] && !rftZeroQ[divAll[[8]] - (d8p8 + 2 H Cot[6 H x8] (2 p8[x4, x8] - p3[x4, x8] - pt[x4, x8]))];
+  addCheck["energy_exchange_equation", okDiv && okEqs && okFree && ctrl,
+    "for a diagonal T^mu_nu = diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8) whose entries are functions of x4 and x8, all eight components: nabla_mu T^mu_x4 = -d rho/d x4 - 3 a4' (p3 - p_t), " <>
+    "nabla_mu T^mu_x8 = d p8/d x8 + 3 H Cot[z] (2 p8 - p3 - p_t), and nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7. Conservation is therefore exactly d rho/d x4 = -3 a4' (p3 - p_t) " <>
+    "(energy flows between 3-space and the extra times unless p3 = p_t; sqrt g = Cos[z] does not depend on x4) and d p8/d x8 = -3 H Cot[z] (2 p8 - p3 - p_t) (hidden-direction balance); the two components are independent " <>
+    "(the x4 component contains no x8 derivative and no H, the x8 component no x4 derivative and no a4'). For x8-independent entries the x8 component is 3 H Cot[z] (2 p8 - p3 - p_t) with Cot[z] > 0 on 0 < z < Pi/2, " <>
+    "so conservation needs p8 = (p3 + p_t)/2 (the condition p3 + p_t = 2 p8 that the a4 field equations impose, Revision/field_equations_a4). Controls: a wrong sign of the a4' term and a wrong factor of the Cot[z] term are detected"];
+  AppendTo[formulas, <|"key" -> "energy_exchange",
+    "description" -> "conservation of a diagonal T = diag(p3, p3, p3, -rho, pt, pt, pt, p8) whose entries are functions of x4 and x8 (check energy_exchange_equation); " <>
+      "entry 1: {nabla_mu T^mu_nu, nu = x1..x8} (complete identity); entry 2: the equations equivalent to nabla_mu T^mu_nu = 0; entry 3: the same for x8-independent entries (rho, p3, pt, p8 functions of x4 only)",
+    "wl" -> {wl[expected], wl[eqs],
+      wl[{Derivative[1][rho][x4] == -3 a4p (p3[x4] - pt[x4]), p8[x4] == (p3[x4] + pt[x4])/2}]}|>]];
 
 (* ================================================================== 9. exact solutions *)
 section["exact solutions and conservation"];

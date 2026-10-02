@@ -9,6 +9,7 @@
 
 mod analysis;
 mod json;
+mod mermin;
 mod model;
 mod report;
 mod runs;
@@ -28,7 +29,7 @@ fn main() {
     }
     if args.len() < 2 || args[1] != "all" {
         eprintln!("usage: revision_ks_solver all [--root DIR] [--out DIR] [--report FILE] [--refined] [--threads N] [--timing FILE] [--quick]");
-        eprintln!("       revision_ks_solver single --m M --lambda L --a4 A --N N --out FILE.json [--tip-theta TH] [--T T] [--exx] [--margin W] [--profiles FILE.csv] [--refined] [--root DIR]");
+        eprintln!("       revision_ks_solver single --m M --lambda L --a4 A --N N --out FILE.json [--tip-theta TH] [--T T] [--exx] [--margin W] [--profiles FILE.csv] [--mermin-levels FILE.json] [--refined] [--root DIR]");
         std::process::exit(2);
     }
     let mut root = PathBuf::from(".");
@@ -73,7 +74,7 @@ fn main() {
     let out = out.unwrap_or_else(|| root.join("Revision/kohn_sham/results"));
     let report = report.unwrap_or_else(|| out.join("solver-report.json"));
     let num = if refined { model::Numerics::refined() } else { model::Numerics::canonical() };
-    let cfg = runs::Cfg { out, report, num, threads, quick, timing };
+    let cfg = runs::Cfg { root: root.clone(), out, report, num, threads, quick, timing };
     let mut rep = report::Report::default();
     let th = match theory::read_and_check(&root, &mut rep) {
         Ok(t) => t,
@@ -99,7 +100,7 @@ fn main() {
 
 fn single(args: &[String]) {
     let mut root = PathBuf::from(".");
-    let mut o = runs::SingleOpts { m: 1.0, lambda: 0.0, a4: 0.0, n: 8.0, tip_theta: 0.0, temp: 0.0, exx: false, margin: 0.85, out: PathBuf::from("single.json"), profiles: None };
+    let mut o = runs::SingleOpts { m: 1.0, lambda: 0.0, a4: 0.0, n: 8.0, tip_theta: 0.0, temp: 0.0, exx: false, margin: 0.85, out: PathBuf::from("single.json"), profiles: None, mermin_levels: None };
     let mut refined = false;
     let mut i = 2;
     let val = |i: usize| -> f64 { args.get(i + 1).and_then(|s| s.parse().ok()).unwrap_or_else(|| panic!("{} needs a number", args[i])) };
@@ -116,6 +117,7 @@ fn single(args: &[String]) {
             "--refined" => refined = true,
             "--out" => { o.out = PathBuf::from(&args[i + 1]); i += 1; }
             "--profiles" => { o.profiles = Some(PathBuf::from(&args[i + 1])); i += 1; }
+            "--mermin-levels" => { o.mermin_levels = Some(PathBuf::from(&args[i + 1])); i += 1; }
             "--root" => { root = PathBuf::from(&args[i + 1]); i += 1; }
             a => { eprintln!("unknown argument {}", a); std::process::exit(2); }
         }

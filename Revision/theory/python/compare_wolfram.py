@@ -55,6 +55,96 @@ def wl_parse(src):
     return expr
 
 
+FIELD_NAMES = ("rho", "p3", "pt", "p8")  # the entries of the diagonal T of the formula energy_exchange
+
+
+def wl_top_split(src):
+    """Top-level entries of a Wolfram InputForm list '{a, b, ...}' (commas inside brackets are kept)."""
+    t = src.strip()
+    if not (t.startswith("{") and t.endswith("}")):
+        raise ValueError(f"not a Wolfram list: {src[:60]}")
+    out, depth, cur = [], 0, []
+    for ch in t[1:-1]:
+        if ch in "[({":
+            depth += 1
+        elif ch in "])}":
+            depth -= 1
+        if ch == "," and depth == 0:
+            out.append("".join(cur).strip())
+            cur = []
+        else:
+            cur.append(ch)
+    out.append("".join(cur).strip())
+    return out
+
+
+def wl_parse_fields(src):
+    """wl_parse for expressions in the functions rho, p3, pt, p8 of (x4, x8) or of x4 alone:
+    Derivative[1, 0][f][x4, x8] and Derivative[1][f][x4] -> f_4, Derivative[0, 1][f][x4, x8] -> f_8, f[..] -> f."""
+    t = re.sub(r"Derivative\[1, 0\]\[(rho|p3|pt|p8)\]\[x4, x8\]", r"\1_4", src)
+    t = re.sub(r"Derivative\[0, 1\]\[(rho|p3|pt|p8)\]\[x4, x8\]", r"\1_8", t)
+    t = re.sub(r"Derivative\[1\]\[(rho|p3|pt|p8)\]\[x4\]", r"\1_4", t)
+    t = re.sub(r"\b(rho|p3|pt|p8)\[x4(?:, x8)?\]", r"\1", t)
+    return wl_parse(t)
+
+
+def energy_exchange_compare(ew, geo):
+    """Recompute nabla_mu T^mu_nu (all eight nu) for T = diag(p3, p3, p3, -rho, pt, pt, pt, p8), entries functions of
+    x4 and x8, from the sympy Christoffel symbols with the general mixed-tensor formula
+    d_mu T^mu_nu + Gamma^mu_(mu l) T^l_nu - Gamma^l_(mu nu) T^mu_l, and compare it with the Wolfram record
+    [complete identity, conservation equations, x8-independent case] (three InputForm strings)."""
+    f = {n: sp.Symbol(n) for n in FIELD_NAMES}
+    f4 = {n: sp.Symbol(f"{n}_4") for n in FIELD_NAMES}
+    f8 = {n: sp.Symbol(f"{n}_8") for n in FIELD_NAMES}
+    T = sp.diag(f["p3"], f["p3"], f["p3"], -f["rho"], f["pt"], f["pt"], f["pt"], f["p8"])
+
+    def d(e, mu):  # coordinate derivative: the metric ring plus the jets of the four entries
+        r = cd_author(e, mu)
+        if mu in (X4, X8):
+            jet = f4 if mu == X4 else f8
+            r += sum(sp.diff(e, f[n]) * jet[n] for n in FIELD_NAMES)
+        return r
+
+    mine = []
+    for nu in range(8):
+        v = sum(d(T[mu, nu], mu) for mu in range(8))
+        v += sum(geo.Gam[mu][mu][l] * T[l, nu] for mu in range(8) for l in range(8))
+        v -= sum(geo.Gam[l][mu][nu] * T[mu, l] for mu in range(8) for l in range(8))
+        mine.append(sp.factor(canon_author(v)))
+    cot = c / s**6
+    shown = "; ".join(f"{COORD[nu]}: {sp.sstr(sp.expand(mine[nu]))}" for nu in range(8))
+    if not isinstance(ew, list) or len(ew) != 3:
+        return False, ("the Wolfram record energy_exchange is not the three-entry InputForm list [complete identity, "
+                       "conservation equations, x8-independent case]; sympy recomputation: " + shown)
+    # entry 1: the complete identity, component by component
+    theirs = wl_parse_fields(ew[0])
+    ok1 = len(theirs) == 8 and all(same(theirs[nu], to_wl_vars(mine[nu])) for nu in range(8))
+    ok1 = ok1 and all(mine[nu] == 0 for nu in range(8) if nu not in (X4, X8))
+    # entry 2: conservation <=> the two solved equations (each component linear in the solved derivative, -1 / +1)
+    eqs = [tuple(wl_parse_fields(side) for side in e.split("==")) for e in wl_top_split(ew[1])]
+    ok2 = len(eqs) == 2 and all(len(e) == 2 for e in eqs)
+    ok2 = ok2 and eqs[0][0] == f4["rho"] and eqs[1][0] == f8["p8"]
+    ok2 = ok2 and sp.expand(sp.diff(mine[X4], f4["rho"]) + 1) == 0 and zero_author(sp.diff(mine[X8], f8["p8"]) - 1)
+    ok2 = ok2 and same(to_wl_vars(mine[X4]).subs(f4["rho"], eqs[0][1]), 0) and \
+        same(to_wl_vars(mine[X8]).subs(f8["p8"], eqs[1][1]), 0)
+    # entry 3: x8-independent entries; the x8 component is linear in p8 with coefficient 6 H cot z > 0
+    eq3 = [tuple(wl_parse_fields(side) for side in e.split("==")) for e in wl_top_split(ew[2])]
+    m8 = mine[X8].subs({f8[n]: 0 for n in FIELD_NAMES})
+    ok3 = len(eq3) == 2 and all(len(e) == 2 for e in eq3) and eq3[0][0] == f4["rho"] and eq3[1][0] == f["p8"]
+    ok3 = ok3 and same(to_wl_vars(mine[X4]).subs(f4["rho"], eq3[0][1]), 0) and \
+        same(to_wl_vars(m8).subs(f["p8"], eq3[1][1]), 0) and zero_author(sp.diff(m8, f["p8"]) - 6 * H * cot)
+    detail = ("the complete identity nabla_mu T^mu_nu, nu = x1..x8, for T = diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8) "
+              "with entries functions of x4 and x8, recomputed here from the sympy Christoffel symbols with the general "
+              "mixed-tensor formula (f_4 = d f/d x4, f_8 = d f/d x8; ring c/s^6 = cot z): " + shown + ". Wolfram entry 1 "
+              f"(the eight components) {'equals' if ok1 else 'DIFFERS from'} it component by component; entry 2 "
+              f"(d rho/d x4 = -3 a4' (p3 - p_t), d p8/d x8 = -3 H cot z (2 p8 - p3 - p_t)) "
+              f"{'is' if ok2 else 'is NOT'} equivalent to its vanishing; entry 3 (x8-independent entries: d rho/d x4 = "
+              f"-3 a4' (p3 - p_t), p8 = (p3 + p_t)/2) {'is' if ok3 else 'is NOT'} equivalent to its vanishing "
+              "(coefficient of p8 in the x8 component 6 H cot z > 0). Same statement as the sympy check "
+              "energy_exchange_equation")
+    return ok1 and ok2 and ok3, detail
+
+
 def same(a, b):
     d = sp.simplify(sp.expand(a - b))
     if d == 0:
@@ -154,6 +244,7 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     gm, geo = ctx["gm"], ctx["geo"]
     G, Cm, Smat = gm["gamma"], gm["C"], gm["S"]
     out = []
+    passed = {x["name"] for x in checks if x["verdict"] == "pass"}
 
     # ---- metric, vielbein, sqrt g, eta
     gw = wl_parse(F["metric"])
@@ -374,46 +465,23 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
         "T^mu_mu = 7 sum K - 8 (m S + U) off shell (sympy algebra) and the same on-shell value -m S + 7 S U' - 8 U")
     hw = F["EMT_homogeneous_on_shell"]
     rec(out, "EMT_homogeneous_on_shell", all(x in hw for x in ("rho = m S + U(S)", "p3 = p_t = p8 = S U'(S) - U(S)",
-                                                                "w = lam S/(2 m + lam S)")),
-        "rho = m S + U, p3 = p_t = p8 = S U' - U, w = lambda S/(2 m + lambda S): the same statements as the sympy "
-        "checks *_homogeneous_on_shell_rho_p (verified there by on-shell substitution)")
-    rec(out, "EMT_offdiagonal_x4_x8", okx, "T^x4_x8 = -(1/4)(B48 - Cot[z] B84) and T^x8_x4 = -Tan[z]^2 T^x4_x8 equal "
-        "the sympy components off shell, both statistics; on homogeneous on-shell states both sides give 0 "
-        "(sympy check *_T_x4x8_homogeneous)")
-    # energy exchange: nabla_mu T^mu_x4 for T = diag(p3, p3, p3, -rho, pt, pt, pt, p8)(x4), recomputed here from the
-    # sympy Christoffel symbols and compared with BOTH forms the Wolfram record may use: an InputForm equation
-    # (... == rhs]) or the prose form "nabla_mu T^mu_x4 = <lhs> = 0, i.e. d rho/d x4 = <rhs>"
-    ew = F["energy_exchange"]
-    rho_, rhod, p3_, pt_, p8_ = sp.symbols("rho rhod p3 pt p8")
-    Td = [p3_] * 3 + [-rho_] + [pt_] * 3 + [p8_]
-    div4 = -rhod + sum(geo.Gam[mu][mu][X4] for mu in range(8)) * Td[X4] \
-        - sum(geo.Gam[mu][mu][X4] * Td[mu] for mu in range(8))
-    div4 = sp.expand(div4)
-    okE, how = False, "no parsable form"
-    m_old = re.search(r"==\s*(.*)\]$", ew)
-    m_rhs = re.search(r"d rho/d x4\s*=\s*(.+)$", ew)
-    m_lhs = re.search(r"nabla_mu T\^mu_x4\s*=\s*(.+?)\s*=\s*0\b", ew)
-
-    def prose(t):
-        t = t.replace("a4'[x4]", "A1").replace("rho'[x4]", "rhod").replace("p_t", "pt")
-        t = re.sub(r"(\w|\))\s+\(", r"\1*(", t)          # implicit products "3 A1 (p3 - pt)"
-        t = re.sub(r"(\d)\s+([A-Za-z])", r"\1*\2", t)
-        return sp.sympify(t, locals={"A1": A1, "rhod": rhod, "p3": p3_, "pt": pt_})
-
-    if m_old:
-        rhs = wl_parse(m_old.group(1))
-        okE = sp.expand(rhs - (-3 * A1 * (p3_ - pt_))) == 0 and sp.expand(div4.subs(rhod, rhs)) == 0
-        how = "InputForm equation"
-    elif m_rhs and m_lhs:
-        rhs, lhs = prose(m_rhs.group(1)), prose(m_lhs.group(1))
-        okE = sp.expand(lhs - div4) == 0 and sp.expand(div4.subs(rhod, rhs)) == 0
-        how = f"prose form: lhs {sp.sstr(lhs)}, rhs {sp.sstr(rhs)}"
-    rec(out, "energy_exchange", okE, "nabla_mu T^mu_x4 = " + sp.sstr(div4) + " recomputed here from the sympy "
-        "Christoffel symbols for T = diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8)(x4) (rhod = d rho/d x4) equals the "
-        "Wolfram left-hand side, and the Wolfram d rho/d x4 = -3 a4' (p3 - p_t) makes it vanish (" + how + "; "
-        "sympy check energy_exchange_equation adds nabla_mu T^mu_x8 = 3 H cot z (2 p8 - p3 - p_t))")
+                                                                "w = lam S/(2 m + lam S)")) and
+        {"grassmann_homogeneous_on_shell_rho_p", "commuting_homogeneous_on_shell_rho_p"} <= passed,
+        "rho = m S + U, p3 = p_t = p8 = S U' - U, w = lambda S/(2 m + lambda S): the same statements as the passing "
+        "sympy checks grassmann_homogeneous_on_shell_rho_p and commuting_homogeneous_on_shell_rho_p (verified there by "
+        "on-shell substitution)")
+    rec(out, "EMT_offdiagonal_x4_x8", okx and {"grassmann_T_x4x8_homogeneous", "commuting_T_x4x8_homogeneous"} <= passed,
+        "T^x4_x8 = -(1/4)(B48 - Cot[z] B84) and T^x8_x4 = -Tan[z]^2 T^x4_x8 equal the sympy components off shell, both "
+        "statistics; on homogeneous on-shell states the sympy side finds T^x4_x8 = T^x8_x4 = 0 (passing checks "
+        "grassmann_T_x4x8_homogeneous, commuting_T_x4x8_homogeneous); the Wolfram side states T^x4_x8 = 0 at its "
+        "exact solutions (exact_solution_x4_x8_*)")
+    # ---- energy exchange: the complete identity nabla_mu T^mu_nu (all eight nu) for T = diag(p3, p3, p3, -rho, pt,
+    # pt, pt, p8) with entries functions of x4 and x8, recomputed HERE from the sympy Christoffel symbols with the
+    # general mixed-tensor formula d_mu T^mu_nu + Gamma^mu_(mu l) T^l_nu - Gamma^l_(mu nu) T^mu_l (the sympy check
+    # uses the sqrt g form), and compared with the three InputForm entries of the Wolfram record
+    okE, detE = energy_exchange_compare(F["energy_exchange"], geo)
+    rec(out, "energy_exchange", okE and "energy_exchange_equation" in passed, detE)
     # ---- the five prose records (statements of checks), each re-derived here where it is a formula
-    passed = {x["name"] for x in checks if x["verdict"] == "pass"}
     nt = F["nontriviality"]
     tot_nt = sp.zeros(16, 16)
     for mu in range(8):

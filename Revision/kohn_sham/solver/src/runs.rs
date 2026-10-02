@@ -12,6 +12,7 @@ use crate::scf::*;
 use crate::shoot::*;
 use crate::spectrum::{closed_shells, f, free_checks, Csv};
 use crate::theory::{inputs_json, TheoryInputs};
+use crate::mermin::MerminForm;
 use std::collections::BTreeMap;
 use std::path::PathBuf;
 use std::sync::atomic::{AtomicUsize, Ordering};
@@ -23,6 +24,8 @@ pub const SIGMAS: [f64; 2] = [0.1, 0.3];
 pub const TEMPS: [f64; 3] = [0.01, 0.02, 0.05];
 
 pub struct Cfg {
+    /// repository root (inputs: ks-theory.json, gammas.json, the 40-digit Mermin fixture)
+    pub root: PathBuf,
     pub out: PathBuf,
     pub report: PathBuf,
     pub num: Numerics,
@@ -520,6 +523,22 @@ pub struct ThermOut {
     pub items: Vec<Item>,
     pub id: String,
     pub holes_over_n: f64,
+    pub mu: Option<MuDiag>,
+}
+
+/// The Mermin root of a thermal state re-solved on its final levels in the three forms of mermin.rs.
+#[derive(Clone, Debug)]
+pub struct MuDiag {
+    /// the run's mu equals the root of its own form (bit for bit)
+    pub own_equal: bool,
+    /// |mu_LogBalance - mu_LinearDeviation| and the larger of their rounding bounds
+    pub dev_ab: f64,
+    pub bound_ab: f64,
+    /// mu_DirectCount - mu_LogBalance (the former method) and its conditioning bound
+    pub dev_direct: f64,
+    pub bound_direct: f64,
+    pub dn_dmu: f64,
+    pub passes: usize,
 }
 
 pub fn thermal_task(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, temp: f64) -> ThermOut {
@@ -528,13 +547,13 @@ pub fn thermal_task(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, temp: f64
         Ok(o) => o,
         Err(e) => {
             eprintln!("ERROR {}: {}", id, e);
-            ThermOut { row: vec![], items: vec![Item { name: "thermo_runs_completed", desc: "every thermal run (T, T(1 +- dt)) completed", tol: 0.0, value: 1.0, pass: Some(false) }], id, holes_over_n: f64::NAN }
+            ThermOut { row: vec![], items: vec![Item { name: "thermo_runs_completed", desc: "every thermal run (T, T(1 +- dt)) completed", tol: 0.0, value: 1.0, pass: Some(false) }], id, holes_over_n: f64::NAN, mu: None }
         }
     }
 }
 
-pub const THERMO_HEADER: [&str; 28] = [
-    "id", "N", "lambda_tag", "lambda", "a4", "T", "mu", "E", "entropy", "F", "Omega_direct", "Omega_F_minus_muN", "C_V", "C_V_from_dEdT", "minus_dFdT", "levels", "shells", "window_cut", "f_at_window_cut", "sea_holes_excluded", "iterations", "residual", "E_T0", "max_abs_Meff_minus_m", "max_abs_v_v", "N_check", "sea_holes_over_N", "particle_only_convention_within_1pc",
+pub const THERMO_HEADER: [&str; 30] = [
+    "id", "N", "lambda_tag", "lambda", "a4", "T", "mu", "E", "entropy", "F", "Omega_direct", "Omega_F_minus_muN", "C_V", "C_V_from_dEdT", "minus_dFdT", "levels", "shells", "window_cut", "f_at_window_cut", "sea_holes_excluded", "iterations", "residual", "E_T0", "max_abs_Meff_minus_m", "max_abs_v_v", "N_check", "sea_holes_over_N", "particle_only_convention_within_1pc", "dN_dmu", "mu_rounding_bound",
 ];
 
 fn thermal_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, temp: f64, id: &str) -> Result<ThermOut, String> {
@@ -610,6 +629,22 @@ fn thermal_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, temp: f64, i
         let (es, _) = find_level(&ctx, sec, 0.0, -0.5 * kmag(&phys, shl) * (-a4).exp(), None, num.root_tol)?;
         holes += 4.0 * shl.r3 as f64 * fermi((st.mu - es) / temp);
     }
+    // the Mermin root re-solved on the final levels in the three forms of mermin.rs
+    let eps_v: Vec<f64> = st.levels.iter().map(|l| l.eps).collect();
+    let deg_v: Vec<f64> = st.levels.iter().map(|l| l.deg).collect();
+    let ra = crate::mermin::solve(&eps_v, &deg_v, n, temp, MerminForm::LogBalance)?;
+    let rb = crate::mermin::solve(&eps_v, &deg_v, n, temp, MerminForm::LinearDeviation)?;
+    let rd = crate::mermin::solve(&eps_v, &deg_v, n, temp, MerminForm::DirectCount)?;
+    let own = if num.mermin_form == MerminForm::LogBalance { ra } else { rb };
+    let mu_diag = MuDiag {
+        own_equal: own.mu.to_bits() == st.mu.to_bits(),
+        dev_ab: (ra.mu - rb.mu).abs(),
+        bound_ab: ra.bound.max(rb.bound),
+        dev_direct: rd.mu - ra.mu,
+        bound_direct: rd.bound_direct,
+        dn_dmu: ra.dn_dmu,
+        passes: own.passes,
+    };
     let rel = |a: f64, b: f64| (a - b).abs() / a.abs().max(b.abs()).max(1e-300);
     let eta = n * num.root_tol / dt;
     let mut items = vec![
@@ -654,8 +689,121 @@ fn thermal_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, temp: f64, i
         f(ntot),
         f(holes / n),
         (holes / n <= 0.01).to_string(),
+        f(own.dn_dmu),
+        f(own.bound),
     ];
-    Ok(ThermOut { row, items, id: id.to_string(), holes_over_n: holes / n })
+    Ok(ThermOut { row, items, id: id.to_string(), holes_over_n: holes / n, mu: Some(mu_diag) })
+}
+
+/// Check: the mu of every thermal state is the root of the well-conditioned residual on its final levels.
+fn thermo_mu_check(touts: &[ThermOut], num: &Numerics, rep: &mut Report) {
+    let ds: Vec<(&str, &MuDiag)> = touts.iter().filter_map(|o| o.mu.as_ref().map(|m| (o.id.as_str(), m))).collect();
+    let all_own = ds.iter().all(|(_, m)| m.own_equal);
+    let not_own: Vec<&str> = ds.iter().filter(|(_, m)| !m.own_equal).map(|(id, _)| *id).collect();
+    let (mut rmax, mut rid, mut dmax, mut did, mut bmax) = (0.0f64, "", 0.0f64, "", 0.0f64);
+    for (id, m) in &ds {
+        let r = m.dev_ab / m.bound_ab;
+        if r > rmax || rid.is_empty() {
+            rmax = r;
+            rid = id;
+        }
+        if m.dev_ab > dmax || did.is_empty() {
+            dmax = m.dev_ab;
+            did = id;
+        }
+        bmax = bmax.max(m.bound_ab);
+    }
+    let mut dir: Vec<(&str, &MuDiag)> = ds.clone();
+    dir.sort_by(|a, b| b.1.dev_direct.abs().partial_cmp(&a.1.dev_direct.abs()).unwrap().then(a.0.cmp(b.0)));
+    let n_dir = dir.iter().filter(|(_, m)| m.dev_direct.abs() > 1e-12).count();
+    let dir_within = dir.iter().all(|(_, m)| m.dev_direct.abs() <= m.bound_direct);
+    let top: Vec<String> = dir.iter().take(5).map(|(id, m)| format!("{} {:.3e} (dN/dmu {:.3e}, its bound {:.2e})", id, m.dev_direct, m.dn_dmu, m.bound_direct)).collect();
+    let max_pass = ds.iter().map(|(_, m)| m.passes).max().unwrap_or(0);
+    let ok = ds.len() == touts.len() && !ds.is_empty() && all_own && rmax <= 1.0;
+    rep.check(
+        "thermo_mu_well_conditioned_root",
+        ok,
+        format!(
+            "every thermal state ({} of {}): mu is the root of sum g f = N in the well-conditioned form {} of solver/src/mermin.rs (thermal particles above and holes below a split of the levels, complementary factors f(-x), never 1 - f) on its final levels, bit for bit: {}{}; the two exactly equivalent forms LogBalance and LinearDeviation (different rounding paths; the refined run uses LinearDeviation) agree within the rounding bound (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + 2 eps_mach |mu|: max |difference| {:.3e} ({}), max ratio to the bound {:.3} ({}), largest bound {:.2e}; split passes at most {}. DIAGNOSTIC of the error class removed: the former direct count sum g f - N (bisection) deviates from the LogBalance root by more than 1e-12 m in {} states, each within its conditioning bound (n + 2) eps_mach N/(dN/dmu): {}; largest: {}",
+            ds.len(),
+            touts.len(),
+            num.mermin_form.tag(),
+            all_own,
+            if not_own.is_empty() { String::new() } else { format!(" (not: {})", not_own.join(", ")) },
+            dmax,
+            did,
+            rmax,
+            rid,
+            bmax,
+            max_pass,
+            n_dir,
+            dir_within,
+            top.join("; ")
+        ),
+    );
+}
+
+/// Check: the Mermin root finder against the 40-digit mpmath roots of tools/mermin_roots_mp.py.
+fn mermin_fixture_check(root: &std::path::Path, rep: &mut Report) {
+    let path = root.join("Revision/kohn_sham/solver/tools/mermin-roots-40digit.json");
+    let res = (|| -> Result<(bool, String), String> {
+        let bytes = std::fs::read(&path).map_err(|e| format!("{}: {}", path.display(), e))?;
+        let sha = crate::sha256::hex(&bytes);
+        let fx = crate::json::parse(std::str::from_utf8(&bytes).map_err(|e| e.to_string())?)?;
+        let states = fx.get("fixture").and_then(|x| x.as_arr()).ok_or("fixture missing")?;
+        let mut ok = !states.is_empty();
+        let mut same_run = true;
+        let (mut wr, mut wd, mut wdid, mut wb) = (0.0f64, 0.0f64, String::new(), 0.0f64);
+        let mut lines = Vec::new();
+        for s in states {
+            let sv = |k: &str| -> Result<f64, String> { s.get(k).and_then(|x| x.as_str()).ok_or(format!("{} missing", k))?.parse::<f64>().map_err(|e| format!("{}: {}", k, e)) };
+            let id = s.get("id").and_then(|x| x.as_str()).unwrap_or("?").to_string();
+            let (n, t, root40, mu_run) = (sv("N")?, sv("T")?, sv("root40")?, sv("muRun")?);
+            let lv = s.get("levels").and_then(|x| x.as_arr()).ok_or("levels missing")?;
+            let mut eps = Vec::with_capacity(lv.len());
+            let mut deg = Vec::with_capacity(lv.len());
+            for l in lv {
+                let a = l.as_arr().ok_or("level entry")?;
+                let g = |i: usize| -> Result<f64, String> { a.get(i).and_then(|x| x.as_str()).ok_or("level field")?.parse::<f64>().map_err(|e| e.to_string()) };
+                eps.push(g(0)?);
+                deg.push(g(1)?);
+            }
+            let ra = crate::mermin::solve(&eps, &deg, n, t, MerminForm::LogBalance)?;
+            let rb = crate::mermin::solve(&eps, &deg, n, t, MerminForm::LinearDeviation)?;
+            let rd = crate::mermin::solve(&eps, &deg, n, t, MerminForm::DirectCount)?;
+            let (ea, eb, ed) = ((ra.mu - root40).abs(), (rb.mu - root40).abs(), rd.mu - root40);
+            ok &= ea <= ra.bound && eb <= rb.bound;
+            same_run &= ra.mu.to_bits() == mu_run.to_bits();
+            wr = wr.max(ea / ra.bound).max(eb / rb.bound);
+            wb = wb.max(ra.bound).max(rb.bound);
+            if ed.abs() > wd || wdid.is_empty() {
+                wd = ed.abs();
+                wdid = id.clone();
+            }
+            lines.push(format!("{} ({} levels, dN/dmu {:.3e}): LogBalance {:.1e}, LinearDeviation {:.1e} (bounds {:.1e}, {:.1e}); former direct count {:.3e} (its bound {:.1e})", id, eps.len(), ra.dn_dmu, ra.mu - root40, rb.mu - root40, ra.bound, rb.bound, ed, rd.bound_direct));
+        }
+        ok &= same_run;
+        Ok((
+            ok,
+            format!(
+                "the root finder on fixed inputs: tools/mermin-roots-40digit.json (sha256 {}) holds the exact final levels (shortest round-trip decimals of `single --mermin-levels`) of the {} thermal states with the largest conditioning bound of the direct count and the roots of sum g f = N computed by tools/mermin_roots_mp.py with mpmath at 40 digits; |mu - root| of both forms within their rounding bounds: {} (largest ratio {:.3}, largest bound {:.1e}); LogBalance reproduces the recorded canonical mu bit for bit: {}; negative control: the former direct count misses the root by up to {:.3e} ({}), {:.1e} times the largest new bound. Per state: {}",
+                &sha[..16],
+                states.len(),
+                ok,
+                wr,
+                wb,
+                same_run,
+                wd,
+                wdid,
+                wd / wb,
+                lines.join("; ")
+            ),
+        ))
+    })();
+    match res {
+        Ok((ok, d)) => rep.check("thermo_mu_vs_40digit_roots", ok, d),
+        Err(e) => rep.check("thermo_mu_vs_40digit_roots", false, format!("fixture not usable: {}", e)),
+    }
 }
 
 pub fn write_files(out: &std::path::Path, files: &BTreeMap<String, String>) -> Result<(), String> {
@@ -897,7 +1045,7 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
     files.insert("adiabatic/crossing-demo.csv".into(), demo_csv.text());
     files.insert("adiabatic/fermi-level-crossings.csv".into(), hist_csv.text());
     files.insert("adiabatic/continued-states.csv".into(), cont_csv.text());
-    files.insert("adiabatic/history.json".into(), to_pretty(&obj(vec![("A", A_HIST.into()), ("slices", SLICES.to_vec().into()), ("series", Json::Arr(hist_json))])));
+    files.insert("adiabatic/history.json".into(), to_pretty(&obj(vec![("A", A_HIST.into()), ("status", th.history_status.clone().into()), ("slices", SLICES.to_vec().into()), ("series", Json::Arr(hist_json))])));
     for o in gouts.iter_mut() {
         o.state = None;
     }
@@ -949,6 +1097,8 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
             ),
         );
     }
+    thermo_mu_check(&touts, num, &mut rep);
+    mermin_fixture_check(&cfg.root, &mut rep);
     timing.push(("thermodynamics".into(), t0.elapsed().as_secs_f64()));
     // T3 solver self-test: the block form of Gamma maps (j, M) -> (-j, -M) and swaps the brane
     // parities and the tip condition b(-L) = 0 -> a(-L) = 0 (tip theta = pi): the instantaneous
@@ -1016,7 +1166,7 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
         ("theoryInputs", inputs_json(th)),
         ("units", "H = 1, m = 1: energies, momenta, temperatures in units of m = H; lambda in units of m^-6 with Vol_7 in units of H^-7".into()),
         ("physics", obj(vec![("H", base.hh.into()), ("m", base.m.into()), ("L_tipCutoff", base.l.into()), ("dk", base.dk.into()), ("ell", base.ell().into()), ("v_t", base.vt.into()), ("Vol7", base.vol7().into()), ("tipTheta", base.tip_theta.into()), ("historyA", A_HIST.into()), ("slicesA4", SLICES.to_vec().into()), ("temperatures", TEMPS.to_vec().into())])),
-        ("numerics", obj(vec![("tag", num.tag.into()), ("rk4Steps", num.g.into()), ("rootTolerance", num.root_tol.into()), ("scfTolerance", num.scf_tol.into()), ("scfMaxIterations", num.scf_max_iter.into()), ("andersonDepth", num.anderson_depth.into()), ("andersonBeta", num.anderson_beta.into()), ("thermalOccupationCut", num.f_cut.into()), ("a4FiniteDifferenceStep", num.fd_delta.into()), ("temperatureFiniteDifferenceRelative", num.dt_rel.into()), ("degeneracyTolerance", num.deg_tol.into())])),
+        ("numerics", obj(vec![("tag", num.tag.into()), ("rk4Steps", num.g.into()), ("rootTolerance", num.root_tol.into()), ("scfTolerance", num.scf_tol.into()), ("scfMaxIterations", num.scf_max_iter.into()), ("andersonDepth", num.anderson_depth.into()), ("andersonBeta", num.anderson_beta.into()), ("thermalOccupationCut", num.f_cut.into()), ("a4FiniteDifferenceStep", num.fd_delta.into()), ("temperatureFiniteDifferenceRelative", num.dt_rel.into()), ("degeneracyTolerance", num.deg_tol.into()), ("merminRoot", num.mermin_form.tag().into())])),
         ("particleNumbers", obj(vec![("values", ns.clone().into()), ("rule", "N = 8 (the k = 0 brane zero modes, both block types); N_large = the largest closed shell of the free a4,0 = 0 aufbau whose last filled level lies below the bulk edge (the lowest level not on the even j = +1 brane band: min of the odd l = 0 and even l = 1 levels at k = 0); N_mid = the closed shell (>= 8, below the bulk edge) nearest N_large / 4".into()), ("bulkEdge", bulk_edge.into()), ("N_mid", n_mid.into()), ("N_large", n_large.into())])),
         ("couplingCalibration", obj(vec![("rule", "per N, from the free ground states of that N at every slice a4,0 of the history: strength = max over the slices and over y of max((15/16)|S(y)|, |n(y)|/16) (proper densities), the first-order mean-field potential per unit lambda; lambda_1 = 0.1/strength and lambda_2 = 0.3/strength rounded to 4 significant digits, so that the first-order mean-field potential stays below 0.1 m and 0.3 m along the whole history (for N > 8 it is largest at the last slice: the redshifted brane-band orbitals spread towards the tip, where the proper 7-volume e^{6Hy} is small); lambda is a constant of the theory, the same at every slice".into()), ("values", Json::Arr(calib))])),
         ("conventions", obj(vec![
@@ -1024,6 +1174,8 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
             ("filling", "particles occupy the positive branch (labels whose lambda = 0 level at the same slice is positive) and the k = 0 brane zero modes (CONVENTION of ks-theory.json, justification OPEN); the negative branch is the normal-ordered sea and is not populated thermally (the excluded thermal sea holes are reported as a diagnostic)".into()),
             ("brane", "Z2 mirror at y = 0: ASSUMED (b(0) = 0 even, a(0) = 0 odd); tip: regular, theta = 0 (b(-L) = 0)".into()),
             ("instantaneous", "states at fixed a4,0 = a4(x4) are instantaneous (adiabatic) Kohn-Sham states; the non-adiabatic (time-dependent) problem is OPEN".into()),
+            ("history", format!("{} (ks-theory.json adiabaticity.historyStatus)", th.history_status).into()),
+            ("merminRoot", "mu from sum g f = N with the well-conditioned residual of solver/src/mermin.rs: thermal particles above and holes below a split of the levels (complementary Fermi factors f(-x), never 1 - f), canonical form LogBalance (log-sum-exp balance, Newton + bisection), refined run LinearDeviation (an exactly equivalent form with a different rounding path); the former direct count sum g f - N fixed mu only to eps_mach N/(dN/dmu) (8.3e-10 m in N8_lamm1_a00_T10)".into()),
             ("deltaScf", "first excited state: one particle moved from the highest occupied degenerate group to the lowest empty group, spread uniformly over each group (ensemble Delta-SCF, keeps the block and direction symmetry of the reduction)".into()),
             ("exactExchange", "canonical functional = Hartree + exact local exchange of the uniform 8-fold gas (exact at every temperature for p -> -p symmetric occupations); the exact Fock exchange of the closed-shell slab determinant differs by +lambda Q^2/32 (reported as deltaE_x and solved as a variant)".into()),
         ])),
@@ -1079,6 +1231,8 @@ pub struct SingleOpts {
     pub margin: f64,
     pub out: PathBuf,
     pub profiles: Option<PathBuf>,
+    /// exact final levels and mu (shortest round-trip decimals) for tools/mermin_roots_mp.py
+    pub mermin_levels: Option<PathBuf>,
 }
 
 /// One instantaneous Kohn-Sham state with user-chosen parameters (e.g. for the
@@ -1157,6 +1311,20 @@ pub fn run_single(num: &Numerics, th: &TheoryInputs, o: &SingleOpts) -> Result<b
     std::fs::write(&o.out, to_pretty(&rec)).map_err(|e| e.to_string())?;
     if let Some(p) = &o.profiles {
         std::fs::write(p, profile_csv(&grid, &st, &e)).map_err(|e| e.to_string())?;
+    }
+    if let Some(p) = &o.mermin_levels {
+        // shortest round-trip decimals: parsing them gives back the solver's doubles exactly
+        let lv: Vec<Json> = st.levels.iter().map(|l| Json::Arr(vec![format!("{:e}", l.eps).into(), format!("{}", l.deg).into()])).collect();
+        let j = obj(vec![
+            ("producer", "Revision/kohn_sham/solver single --mermin-levels".into()),
+            ("numerics", num.tag.into()),
+            ("merminRoot", num.mermin_form.tag().into()),
+            ("N", format!("{:e}", phys.n).into()),
+            ("T", format!("{:e}", phys.temp).into()),
+            ("mu", format!("{:e}", st.mu).into()),
+            ("levels_eps_deg", Json::Arr(lv)),
+        ]);
+        std::fs::write(p, to_pretty(&j)).map_err(|e| e.to_string())?;
     }
     Ok(st.resid <= num.scf_tol || o.lambda == 0.0)
 }

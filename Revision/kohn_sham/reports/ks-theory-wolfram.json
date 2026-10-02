@@ -49,8 +49,8 @@
     {"name": "emt_y_conservation_selfconsistent", "verdict": "PASS", "detail": "nabla_mu T^mu_y = p8' + 6H p8 - 3H(p3 + p_t); the force terms of the orbital identity cancel against e_int' for the self-consistent M_eff, v_v"},
     {"name": "emt_x4_component", "verdict": "PASS", "detail": "nabla_mu T^mu_x4 = -d_x4 rho - 3 a4' (p3 - p_t) for diagonal T: dE/dx4 = -3 a4' Integral sqrt|g| (p3 - p_t)"},
     {"name": "adiabatic_hellmann_feynman", "verdict": "PASS", "detail": "d_a h_j = -j kappa k sigma3 = -k d_k h_j; eps(k, a) = eps(k E^(-a), 0): d eps/da = -k d eps/dk (frozen potentials)"},
-    {"name": "adiabatic_offdiagonal_identity", "verdict": "PASS", "detail": "<n| d_a h |m> = (eps_m - eps_n) <n| d_a m> (explicit family); Q_nm = A H |<n| d_a h_KS |m>|/(eps_n - eps_m)^2"},
+    {"name": "adiabatic_offdiagonal_identity", "verdict": "PASS", "detail": "<n| d_a h |m> = (eps_m - eps_n) <n| d_a m> (explicit family); Q_nm = A H |<n| d_a h_KS |m>|/(eps_n - eps_m)^2 along the history a4 = A H x4, a PRESCRIBED BACKGROUND (test field without back-reaction, not a solution of the a4 equations with the Kohn-Sham source)"},
     {"name": "brane_band_slope", "verdict": "PASS", "detail": "d eps/dk at k = 0 = j c, c = E^(-a4,0) (2M/(2M-H)) (1 - E^(-(2M-H)L))/(1 - E^(-2ML)); M = H = 1, L = 3: c = 2/(1+E^-3) = 1.905148253644866; NDSolve shooting (WorkingPrecision 25, k = +-1e-3, +-2e-3, Richardson): 1.90514825252 (a4,0 = 0), 1.15553082704 (a4,0 = 1/2; exact 1.15553082713)"},
-    {"name": "ks_theory_json_written", "verdict": "PASS", "detail": "ks-theory.json written deterministically (two exports identical, LF) and re-imported: basis and coefficients round-trip"}
+    {"name": "ks_theory_json_written", "verdict": "PASS", "detail": "ks-theory.json written deterministically (two exports identical, LF) and re-imported: basis, coefficients and the label of the history a4 = A H x4 as a PRESCRIBED BACKGROUND (adiabaticity.history, adiabaticity.historyStatus) round-trip"}
   ]
 }
