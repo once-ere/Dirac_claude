@@ -663,14 +663,15 @@ def blocks(facts: dict) -> list[tuple]:
     files = list(facts["files_written"])
     figures = [path for path in files if path.endswith(".png")]
     if files:
-        written = ("The notebook writes (or overwrites) these files: "
-                   + _join([f"`{path}`" for path in files]) + ".")
+        # One file per list item: a justified paragraph of long unbreakable file names
+        # gives Underfull \hbox warnings in the PDF build (found by the chapter-12 agent).
+        out.append(("p", "The notebook writes (or overwrites) these files:"))
+        out.append(("list", [f"`{path}`" for path in files]))
     else:
-        written = "The notebook writes no file."
+        out.append(("p", "The notebook writes no file."))
     network = facts.get("network", "")
     out.append(("p",
-        written
-        + " It changes no other file of the repository"
+        "It changes no other file of the repository"
         + (" except the Rust build folder `target` next to each `Cargo.toml` it "
            "builds" if rust else "")
         + "; running it headless or saving it in JupyterLab also rewrites the notebook "
