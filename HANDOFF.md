@@ -73,7 +73,8 @@ example, complete self-contained run instructions just before each notebook's te
 in the notebook), the deep-dive technique, and many more plots.  Binding spec:
 `Revision/textbook/TEXTBOOK_SPEC.md` (honesty rule R3: the pairing theorems are proved; creation and a
 solution of the matter-antimatter problem are not - the user was told this on 2026-10-02).
-Workflow `Revision/workflows/textbook_universes_in_pairs.js` RUNNING (run wf_4b3dba39-2d8): infra
+Workflow `Revision/workflows/textbook_universes_in_pairs.js` RUNNING (relaunched 2026-10-02 as run wf_4139c503-a3e after the
+user's STOP and error report; spec rules R5 charge conjugation as a MATRIX and R6 a provenance file per notebook added): infra
 (nbkit, run instructions, renderer, assembler, pilot) -> 23 chapters pipelined (notebooks -> writer ->
 adversarial reviewer -> fixer) -> assembly (chapter 23, ledger, PDF, registration, test) -> six
 whole-book review lenses with two skeptics per finding -> fixers -> rebuild -> fix verifier.
@@ -81,6 +82,17 @@ Outputs: `Revision/textbook/` (chapters/, notebooks/, notebooks/src/, figures/, 
 UNIVERSES_IN_PAIRS_TEXTBOOK.{md,tex,pdf}), test `Revision/tests/test_universes_in_pairs_textbook.py`.
 If a restart finds the run gone: copy the script to the new scratchpad, set SP, relaunch; agents
 inspect and finish existing files.
+ERROR REPORT (user, 2026-10-02): "complex conjugation Psi -> Psi*" is not charge conjugation for real fields - a
+MATRIX operator is needed.  Fixed: Revision/lead_checks/charge_conjugation_and_u1.py (12/12): calC_+ = C (sigma16),
+calC_- = Gamma C; for real fields the nontrivial real map is Gamma with m -> -m; the quantised field's conjugation
+preserving {Psi, Psi^dagger} = B delta is Gamma (mass reversed).  Spec rule R5.
+SECOND NEW TASK (same message): test and verify every wolframscript set and every Jupyter notebook and write a
+provenance file for each (student instructions, expected output, side effects).  Workflow
+`Revision/workflows/execution_provenance.js` RUNNING (run wf_6845510e-6a4): 22 items (8 Revision Wolfram sets,
+11 old scripts/*.wls sets, the handoff probes, the 2 notebooks/*.ipynb), each run twice in a fresh clone, documented,
+then verified by an independent agent following the provenance file literally, fixed; index
+provenance/EXECUTION_PROVENANCE_INDEX.md and tests/test_execution_provenance.py.  The textbook notebooks get their
+provenance files from nbkit (R6).
 STOPPED for it (resume afterwards, "continue with all stages"): Revision wave 1b (run wf_39a30fcf-75b,
 stopped in its Fix phase; commit 667f153 holds the unverified partial edits of fix:science:0; resume
 with resumeFromRunId in the same session, otherwise relaunch `revision_wave_1b.js`), then wave 2.
