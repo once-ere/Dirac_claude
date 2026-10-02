@@ -84,6 +84,13 @@ session of 2026-10-01 afternoon; a new session copies them to its scratchpad and
   in N8_lamm1_a00_T10), prescribed-background label in ks-theory.json, theory comparison verification,
   wave-1 fix verification, FULL-matrix Kohn-Sham cross-check, fresh-clone reproduction gate, two skeptics per
   item, per-area fixers, fix verifier.  It reads `<SP>/w1_args.json` (= the committed record above).
+  Checkpoint 2026-10-01 (pause request): snapshot commit daeb5ba holds its partial work (new
+  `solver/src/mermin.rs`, the prescribed-background label in ks-theory.json, the theory comparison edits),
+  NOT yet reviewed.  If a restart finds the run gone: relaunch `revision_wave_1b.js` (copy
+  `Revision/workflows/wave1_review_and_fix.json` to `<SP>/w1_args.json` first); its agents inspect and
+  finish the existing files.
+* Lead's independent checks: `Revision/lead_checks/` (10/10; conservation identities, gamma^mu Omega_mu =
+  3 H gamma^(x8), negative control with inflating extra times), test `Revision/tests/test_lead_checks.py`.
 * NEXT: commit and push wave 1b; then `revision_wave_2.js` (dark sector with stated observer assumptions
   for the time-like extra times, a4 with the Kohn-Sham source starting from the source-condition
   violation, T3 verification and numerics, documents, notebooks, gate, five-lens review with skeptics).
