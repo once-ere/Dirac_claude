@@ -1,0 +1,713 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,longtable,array}
+\usepackage{fancyvrb}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\pdfobjcompresslevel=0
+\pdfinfoomitdate=1
+\pdftrailerid{}
+\pdfsuppressptexinfo=15
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.65em}
+\setlength{\emergencystretch}{3em}
+\title{dirac16complex in the author's primordial gravitational field\\[0.5em]\large Lagrangian, covariant field equations, non-triviality [1], energy-momentum tensor operator, equations of state and the field equations for a4[x4] (Revision record)}
+\author{dirac16complex project (with Claude Opus 5.5)}
+\date{September 2026}
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\begin{abstract}
+This document records, for the fermion field dirac16complex coupled to the author's primordial gravitational field, the Lagrangian, its coupling through the canonical spin connection, the exact covariant field equations (Euler-Lagrange) written out component by component, the non-triviality test [1] with its proof, the self-consistency of the field equations, the energy-momentum tensor (as a Grassmann-algebra expression and as a normal-ordered operator after canonical quantisation in 4 + 4 dimensions, with the Krein structure that this quantisation forces), the kinetic and potential energy, the energy density, the pressures and the equations of state, and the Einstein-Lovelock field equations for a4[x4] with dirac16complex as the source. Every formula is an output of Revision code (a WolframScript verifier and, for most statements, an independent sympy verifier) and is listed with the names of the checks that verify it. The main exact results are: in the diagonal vielbein the spin-connection term of the field equation is $\gamma^\mu\Omega_\mu = 3H\gamma^{(8)}$ for every $a_4$ (the time-direction terms of the three inflating and the three deflating directions cancel, the hidden-direction terms add); this value belongs to the diagonal frame and to the field variables $\Psi$ (it vanishes identically in a frame boosted in the $(x_4, x_8)$ plane, and the rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes it), while the frame-independent content of non-triviality [1] is that $\Omega_\mu$ vanishes in no frame (the metric is never flat for $H > 0$) and that the vielbein factors enter every derivative term; when $\Psi^\dagger$ is realised as the Hilbert adjoint, the canonical anticommutator $\{\Psi, \Psi^\dagger\} = B\,\delta^7/\sqrt{|g|}$ with $B$ of signature (8,8) forces an indefinite (Krein) inner product (in the good sector a positive Fock realisation with $\Psi^\dagger = \chi B$ exists); homogeneous on-shell configurations have $\rho = mS + U$ and $p = SU' - U$ in every direction; the field equations for $a_4$ reduce to a constraint, an evolution equation $a_4''F(a_4') = \kappa(p_3 - p_t)$, a hidden-direction equation and the condition $p_3 + p_t = 2p_8$. Section 15 states what is not claimed, including the frame dependence of $3H\gamma^{(8)}$, the boundary terms at the patch end $z = \pi/2$ and the ill-posedness of the Cauchy problem for data that depend on the extra times.
+
+\end{abstract}
+
+\section{Scope, sources and status of the record}
+
+The binding plan is \texttt{Revision\allowbreak{}/SPEC.md}; the author's task is quoted in \texttt{Revision\allowbreak{}/README.\allowbreak{}md}. This document belongs to the new record under \texttt{Revision\allowbreak{}/} and uses nothing from the earlier stages of the repository: every statement below is an output of Revision code and is cited by the name of the check that verifies it. Numbers and formulas are taken only from the following files (verdicts as recorded in them when this document was written):
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}>{\raggedright\arraybackslash}p{0.267\linewidth}@{}}
+\toprule
+\textbf{part} & \textbf{files} & \textbf{checks} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{part} & \textbf{files} & \textbf{checks} \\
+\midrule
+\endhead
+algebra (SPEC section 2) & \texttt{Revision\allowbreak{}/algebra\allowbreak{}/reports\allowbreak{}/wolfram\allowbreak{}-algebra\allowbreak{}.json}, \texttt{Revision\allowbreak{}/algebra\allowbreak{}/reports\allowbreak{}/python-\allowbreak{}algebra.\allowbreak{}json} & Wolfram: 45 of 45 checks pass; sympy: 35 of 35 checks pass \\
+field theory (SPEC sections 3, 4, 6) & \texttt{Revision\allowbreak{}/theory/\allowbreak{}field-th\allowbreak{}eory.jso\allowbreak{}n}, \texttt{Revision\allowbreak{}/theory/\allowbreak{}reports/\allowbreak{}wolfram-\allowbreak{}field-th\allowbreak{}eory.jso\allowbreak{}n}, \texttt{Revision\allowbreak{}/theory/\allowbreak{}reports/\allowbreak{}python-f\allowbreak{}ield-the\allowbreak{}ory.json} & Wolfram: 84 of 84 checks pass; sympy: 70 of 70 checks pass \\
+field equations for a4 (SPEC section 5) & \texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/a4-e\allowbreak{}quations\allowbreak{}.json}, \texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/wolf\allowbreak{}ram-a4-r\allowbreak{}eport.js\allowbreak{}on}, \texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/pyth\allowbreak{}on-a4-re\allowbreak{}port.jso\allowbreak{}n} & Wolfram: 47 of 47 checks pass; sympy: 61 of 61 checks pass \\
+pairing (SPEC section 9) & \texttt{Revision\allowbreak{}/pairing\allowbreak{}/pairing\allowbreak{}-theory.\allowbreak{}json}, \texttt{Revision\allowbreak{}/pairing\allowbreak{}/reports\allowbreak{}/wolfram\allowbreak{}-pairing\allowbreak{}.json}, \texttt{Revision\allowbreak{}/pairing\allowbreak{}/reports\allowbreak{}/python-\allowbreak{}pairing.\allowbreak{}json} & Wolfram: 101 of 101 checks pass; sympy: 66 of 66 checks pass \\
+scope of the statements (frame dependence, boundary terms, growth, sign of the energy) & \texttt{Revision\allowbreak{}/theory/\allowbreak{}reports/\allowbreak{}wolfram-\allowbreak{}scope.js\allowbreak{}on}, \texttt{Revision\allowbreak{}/theory/\allowbreak{}reports/\allowbreak{}python-s\allowbreak{}cope.jso\allowbreak{}n} & Wolfram: 15 of 15 checks pass; sympy: 14 of 14 checks pass \\
+Kohn-Sham pairing T3 (SPEC section 9) & \texttt{Revision\allowbreak{}/pairing\allowbreak{}/kohn\_sh\allowbreak{}am/t3-th\allowbreak{}eory.jso\allowbreak{}n}, \texttt{Revision\allowbreak{}/pairing\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/wolfr\allowbreak{}am-t3.js\allowbreak{}on}, \texttt{Revision\allowbreak{}/pairing\allowbreak{}/kohn\_sh\allowbreak{}am/repor\allowbreak{}ts/pytho\allowbreak{}n-t3.jso\allowbreak{}n} & Wolfram: 10 of 10 checks pass; sympy: 13 of 13 checks pass \\
+the Kohn-Sham states as a source of the $a_4$ equations & \texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/repo\allowbreak{}rts/ks-s\allowbreak{}ource-co\allowbreak{}nditions\allowbreak{}.json} & Python: 5 of 5 checks pass \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+Each part has two verifiers that share no code: a WolframScript verifier (exact symbolic arithmetic) and a sympy verifier (an independent re-derivation; the gamma matrices are rebuilt from the author's formulas on both sides and compared entry by entry). Where only one engine verifies a statement, only that engine's check is cited. A check is cited in typewriter type, for example \texttt{nontrivi\allowbreak{}ality\_1\_\allowbreak{}dirac16c\allowbreak{}omplex} (Wolfram) or \texttt{gamma\_mu\allowbreak{}\_Omega\_m\allowbreak{}u\_equals\allowbreak{}\_3H\_gamm\allowbreak{}a\_x8} (sympy); in the field-theory reports the Wolfram names end in \texttt{\detokenize{_G}} for dirac16complex (explicit Grassmann algebra) and the sympy names begin with \texttt{grassman\allowbreak{}n\_}. The proofs are exact identities in the stated generality (symbolic $H$, $a_4(x_4)$, $m$, $\lambda$, and a general field configuration on its jet space); exact numerical examples are labelled as examples.
+
+\textbf{Status of the comparison record of the field-theory branch.} The sympy report contains a comparison with the current Wolfram side (\texttt{comparis\allowbreak{}on\_with\_\allowbreak{}wolfram}): 32 of 32 formula records and 63 of 63 check pairs agree, against a Wolfram run of 84 checks. Every formula record of \texttt{Revision\allowbreak{}/theory/\allowbreak{}field-th\allowbreak{}eory.jso\allowbreak{}n} is compared (the record \texttt{energy\_e\allowbreak{}xchange}, three Wolfram expressions, component by component against the divergence recomputed from the sympy Christoffel symbols; the prose records \texttt{nontrivi\allowbreak{}ality}, \texttt{majorana\allowbreak{}\_negativ\allowbreak{}e\_contro\allowbreak{}l}, \texttt{exact\_so\allowbreak{}lutions}, \texttt{equation\allowbreak{}\_of\_stat\allowbreak{}e\_defini\allowbreak{}tions} and \texttt{hidden\_d\allowbreak{}irection\allowbreak{}\_hermiti\allowbreak{}city} by re-deriving their formulas in sympy), and every Wolfram check is paired with a sympy check except \texttt{exact\_so\allowbreak{}lution\_n\allowbreak{}onlinear\allowbreak{}\_homogen\allowbreak{}eous\_G} (the Grassmann form of the nonlinear homogeneous solution; its commuting form is paired). The sympy verifier exits with an error unless the comparison agrees entirely, so a stale comparison cannot pass unnoticed. This document still cites each formula by the checks of each engine separately.
+
+Conventions (SPEC sections 1 and 2): coordinates $x_1, \dots, x_8$ as the author names them; $x_1, x_2, x_3$ are ordinary 3-space, $x_4$ is the time, $x_5, x_6, x_7$ are the three extra times (time-like, deflating exponentially as $a_4$ increases), $x_8$ is the hidden space direction; $z = 6Hx_8 \in (0, \pi/2)$, $H > 0$; $a_4 = a_4(x_4)$, $a_4' = da_4/dx_4$; $\partial_a = \partial/\partial x_a$. Frame indices are aligned with the coordinates and written in parentheses: $\gamma^{(a)}$ is the frame gamma matrix of direction $x_a$. Throughout, $i \in \{1, 2, 3\}$ labels the 3-space directions and $t \in \{5, 6, 7\}$ the extra times.
+
+\section{The primordial gravitational field}
+
+The author's metric (SPEC section 1), with signature (4,4) (space-like $x_1, x_2, x_3, x_8$; time-like $x_4, \dots, x_7$):
+
+\[
+\begin{aligned}
+ds^2 &= e^{2a_4}\sin^{1/3}z\,(dx_1^2 + dx_2^2 + dx_3^2) - dx_4^2 \\
+&\quad - e^{-2a_4}\sin^{1/3}z\,(dx_5^2 + dx_6^2 + dx_7^2) + \cot^2 z\,dx_8^2, \qquad z = 6Hx_8 \in (0, \pi/2).
+\end{aligned}
+\]
+
+The scale factor of 3-space is $e^{a_4}\sin^{1/6}z$ (inflating as $a_4$ increases), that of the extra times $e^{-a_4}\sin^{1/6}z$ (exponentially deflating). The diagonal vielbein $e^a{}_\mu = f_a\,\delta^a_\mu$ with frame metric $\eta_{ab} = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ has
+
+\[
+f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z,\quad f_4 = 1,\quad f_5 = f_6 = f_7 = e^{-a_4}\sin^{1/6}z,\quad f_8 = \cot z
+\]
+
+and reproduces the metric entry by entry (\texttt{metric\_i\allowbreak{}s\_the\_au\allowbreak{}thors}, \texttt{vielbein\allowbreak{}\_inverse}; sympy \texttt{metric\_f\allowbreak{}rom\_viel\allowbreak{}bein\_equ\allowbreak{}als\_SPEC}). The volume element is
+
+\[
+\sqrt{|g|} = f_1 f_2\cdots f_8 = \sin z\cot z = \cos z,
+\]
+
+independent of $x_4$: the inflation $e^{3a_4}$ of 3-space and the deflation $e^{-3a_4}$ of the extra times compensate (\texttt{sqrt\_det\allowbreak{}\_g\_is\_co\allowbreak{}s\_z}, \texttt{sqrt\_det\allowbreak{}\_g\_equal\allowbreak{}s\_cos\_z}). $H = 0$ is not a member of the family but a degenerate limit ($g_{11} \to 0$, $g_{88} \to \infty$ at fixed $x_8$; \texttt{degenera\allowbreak{}te\_at\_H\_\allowbreak{}0}); every statement below assumes $H > 0$ and $0 < z < \pi/2$.
+
+The Levi-Civita connection has 25 independent nonzero symbols (\texttt{christof\allowbreak{}fel\_coun\allowbreak{}t}, \texttt{christof\allowbreak{}fel\_symm\allowbreak{}etric\_me\allowbreak{}tric\_com\allowbreak{}patible}; formula key \texttt{christof\allowbreak{}fel\_nonz\allowbreak{}ero}):
+
+\[
+\begin{aligned}
+\Gamma^{x_i}{}_{x_i x_4} &= a_4', & \Gamma^{x_i}{}_{x_i x_8} &= H\cot z, \\
+\Gamma^{x_t}{}_{x_4 x_t} &= -a_4', & \Gamma^{x_t}{}_{x_t x_8} &= H\cot z, \\
+\Gamma^{x_4}{}_{x_i x_i} &= e^{2a_4}\sin^{1/3}z\,a_4', & \Gamma^{x_4}{}_{x_t x_t} &= e^{-2a_4}\sin^{1/3}z\,a_4', \\
+\Gamma^{x_8}{}_{x_i x_i} &= -e^{2a_4}H\,\frac{\sin^{4/3}z}{\cos z}, & \Gamma^{x_8}{}_{x_t x_t} &= e^{-2a_4}H\,\frac{\sin^{4/3}z}{\cos z}, \\
+\Gamma^{x_8}{}_{x_8 x_8} &= -\frac{6H}{\sin z\cos z}.
+\end{aligned}
+\]
+
+The mixed Ricci tensor is diagonal (\texttt{ricci\_mi\allowbreak{}xed\_comp\allowbreak{}onents}, \texttt{ricci\_sc\allowbreak{}alar}, \texttt{curvatur\allowbreak{}e\_nonzer\allowbreak{}o\_flat\_o\allowbreak{}nly\_form\allowbreak{}ally}):
+
+\[
+R^{x_i}{}_{x_i} = a_4'' - 6H^2,\quad R^{x_4}{}_{x_4} = 6(a_4')^2,\quad R^{x_t}{}_{x_t} = -a_4'' - 6H^2,\quad R^{x_8}{}_{x_8} = -6H^2,
+\]
+
+\[
+R = 6\big((a_4')^2 - 7H^2\big).
+\]
+
+Since $R^{x_8}{}_{x_8} = -6H^2 < 0$ for every $H > 0$ and every function $a_4$ (a constant $a_4$ included), the metric is never flat for $H > 0$ (\texttt{never\_fl\allowbreak{}at\_for\_H\allowbreak{}\_positiv\allowbreak{}e}).
+
+\section{The field dirac16complex: Clifford algebra, Pin(4,4) and Spin(4,4)}
+
+dirac16complex is a field $\Psi$ with 16 complex anticommuting components $\Psi_A(x)$, $A = 1, \dots, 16$ (elements of a Grassmann algebra; after quantisation, operators with canonical anticommutators, section 11). It transforms under a 16-dimensional irreducible representation of Pin(4,4), the double cover of O(4,4); for the transformations of determinant 1 it transforms under the direct sum of two inequivalent irreducible 8-dimensional representations of Spin(4,4), the double cover of SO(4,4). These representation facts are proved exactly below for the author's gamma matrices.
+
+The gamma matrices are the author's real $16\times16$ matrices T16, rebuilt by Revision code from the author's formulas (the tau matrices of the notebook) in WolframScript and, independently, in Python, with the notebook's frame order mapped to the author's coordinates (SPEC section 2): $\gamma^{(8)} = $ T16[0], $\gamma^{(1,2,3)} = $ T16[1..3], $\gamma^{(4)} = $ T16[4], $\gamma^{(5,6,7)} = $ T16[5..7] (\texttt{T16\_bloc\allowbreak{}k\_form}, \texttt{coordina\allowbreak{}te\_map}; the two constructions agree entry by entry, \texttt{fixture\_\allowbreak{}comparis\allowbreak{}on\_gamma\allowbreak{}s\_json}). Exact properties:
+
+\begin{itemize}
+\item Clifford relation $\{\gamma^{(a)}, \gamma^{(b)}\} = 2\eta^{ab}\,I_{16}$ for all 64 pairs; the squares are $+1$ for $x_1, x_2, x_3, x_8$ and $-1$ for $x_4, \dots, x_7$ (\texttt{Clifford\allowbreak{}\_relatio\allowbreak{}n}, \texttt{clifford\allowbreak{}\_relatio\allowbreak{}n}, \texttt{clifford\allowbreak{}\_relatio\allowbreak{}n\_sympy}). Every $\gamma^{(a)}$ is a real signed permutation matrix, symmetric for the space-like and antisymmetric for the time-like directions, $(\gamma^{(a)})^T = \eta_{aa}\gamma^{(a)}$ (\texttt{\detokenize{reality}}, \texttt{signed\_p\allowbreak{}ermutati\allowbreak{}on\_matri\allowbreak{}ces}, \texttt{symmetry\allowbreak{}\_pattern}).
+\item $C = \gamma^{(8)}\gamma^{(1)}\gamma^{(2)}\gamma^{(3)}$ (the notebook's sigma16) is real symmetric with $C^2 = 1$, and every $C\gamma^{(a)}$ is real antisymmetric, equivalently $C\gamma^{(a)}C^{-1} = -(\gamma^{(a)})^T$ (\texttt{C\_real\_s\allowbreak{}ymmetric}, \texttt{C\_square\allowbreak{}d\_identi\allowbreak{}ty}, \texttt{C\_gamma\_\allowbreak{}real\_ant\allowbreak{}isymmetr\allowbreak{}ic}; sympy \texttt{C\_conjug\allowbreak{}ation}). The Dirac adjoint is $\bar\Psi = \Psi^\dagger C$ and $S = \bar\Psi\Psi$.
+\item The chirality $\Gamma = \gamma^{(8)}\gamma^{(1)}\cdots\gamma^{(7)} = \mathrm{diag}(-I_8, I_8)$ anticommutes with every $\gamma^{(a)}$, $\Gamma^2 = 1$, $[\Gamma, C] = 0$ (\texttt{Gamma\_de\allowbreak{}finition}, \texttt{Gamma\_di\allowbreak{}ag}, \texttt{Gamma\_an\allowbreak{}ticommut\allowbreak{}es\_with\_\allowbreak{}gammas}, \texttt{Gamma\_co\allowbreak{}mmutes\_w\allowbreak{}ith\_C}; sympy \texttt{chiralit\allowbreak{}y\_diag}).
+\item $B = -iC\gamma^{(4)}$ is Hermitian with $B^2 = 1$ and eigenvalues $+1$ and $-1$, eight each: signature (8,8) (\texttt{B\_defini\allowbreak{}tion}, \texttt{B\_Hermit\allowbreak{}ian}, \texttt{B\_square\allowbreak{}d\_identi\allowbreak{}ty}, \texttt{B\_signat\allowbreak{}ure\_8\_8}; sympy \texttt{B\_hermit\allowbreak{}ian\_invo\allowbreak{}lution\_s\allowbreak{}ignature}). $B$ commutes with $\gamma^{(1)}, \gamma^{(2)}, \gamma^{(3)}, \gamma^{(4)}, \gamma^{(8)}$ and anticommutes with $\gamma^{(5)}, \gamma^{(6)}, \gamma^{(7)}$ (\texttt{B\_gamma\_\allowbreak{}relation\allowbreak{}s}).
+\item The 28 generators $S^{ab} = \frac14[\gamma^{(a)}, \gamma^{(b)}]$ satisfy the relations of so(4,4) (\texttt{S\_Lorent\allowbreak{}z\_algebr\allowbreak{}a}, \texttt{S\_lorent\allowbreak{}z\_algebr\allowbreak{}a}), rotate the gammas as a vector (\texttt{S\_gamma\_\allowbreak{}commutat\allowbreak{}or}, \texttt{S\_vector\allowbreak{}\_action}), satisfy $(S^{ab})^T C + CS^{ab} = 0$ so that $\bar\Psi\Psi$ is Spin(4,4)-invariant (\texttt{S\_preser\allowbreak{}ves\_C}), and commute with $\Gamma$ (\texttt{S\_commut\allowbreak{}es\_with\_\allowbreak{}Gamma}). The Hermitian form $\Psi^\dagger B\Psi$ is invariant only under the Spin(4,3) that fixes $x_4$ (\texttt{S\_preser\allowbreak{}ves\_B\_on\allowbreak{}ly\_off\_x\allowbreak{}4}).
+\end{itemize}
+
+\textbf{Representation theorem (exact).} The 256 ordered products of gammas are linearly independent and span the full matrix algebra $\mathrm{Mat}(16)$ (\texttt{Clifford\allowbreak{}\_basis\_s\allowbreak{}pans\_ful\allowbreak{}l\_matrix\allowbreak{}\_algebra}, \texttt{clifford\allowbreak{}\_product\allowbreak{}s\_span\_M\allowbreak{}16}), and the commutant of the gammas is one-dimensional (\texttt{Pin44\_ir\allowbreak{}reducibl\allowbreak{}e\_commut\allowbreak{}ant\_dim\_\allowbreak{}1}, \texttt{pin\_comm\allowbreak{}utant\_di\allowbreak{}mension\_\allowbreak{}1}): the 16-dimensional representation is irreducible under Pin(4,4). The commutant of the 28 generators $S^{ab}$ is two-dimensional, spanned by the chiral projectors $(1 \mp \Gamma)/2$ (\texttt{Spin44\_c\allowbreak{}ommutant\allowbreak{}\_dim\_2\_c\allowbreak{}hiral\_pr\allowbreak{}ojectors}, \texttt{spin\_com\allowbreak{}mutant\_d\allowbreak{}imension\allowbreak{}\_2}); each chiral half (rows 1 to 8 with $\Gamma = -1$, rows 9 to 16 with $\Gamma = +1$) is irreducible (\texttt{chiral\_h\allowbreak{}alves\_ir\allowbreak{}reducibl\allowbreak{}e}, \texttt{spin\_hal\allowbreak{}ves\_irre\allowbreak{}ducible}); the spaces of intertwiners between the halves are zero (\texttt{chiral\_h\allowbreak{}alves\_in\allowbreak{}equivale\allowbreak{}nt\_inter\allowbreak{}twiners\_\allowbreak{}0}, \texttt{spin\_hal\allowbreak{}ves\_ineq\allowbreak{}uivalent}); the even subalgebra is $\mathrm{Mat}(8) \oplus \mathrm{Mat}(8)$ (\texttt{even\_sub\allowbreak{}algebra\_\allowbreak{}dimensio\allowbreak{}n}, \texttt{even\_pro\allowbreak{}ducts\_sp\allowbreak{}an\_M8\_pl\allowbreak{}us\_M8}). Every $\gamma^{(a)}$, the lift of a reflection (an element of Pin(4,4) of determinant $-1$ in O(4,4)), exchanges the two halves (\texttt{Spin\_Pin\allowbreak{}\_reflect\allowbreak{}ion\_swap\allowbreak{}s\_halves}, \texttt{reflecti\allowbreak{}ons\_exch\allowbreak{}ange\_hal\allowbreak{}ves}). Hence under Spin(4,4) the 16 splits into $8_- \oplus 8_+$, two inequivalent irreducible 8-dimensional representations, which the reflections combine into the one irreducible representation of Pin(4,4).
+
+\section{Coupling through the canonical spin connection}
+
+The coupling to gravity uses the vielbein and the canonical spin connection (SPEC section 3): $\omega_\mu{}^a{}_b$ is defined by the vielbein postulate $\partial_\mu e^a{}_\nu - \Gamma^\lambda{}_{\mu\nu}e^a{}_\lambda + \omega_\mu{}^a{}_b\,e^b{}_\nu = 0$, $\omega_{\mu ab} = \eta_{ac}\omega_\mu{}^c{}_b$ is antisymmetric in $a, b$, and
+
+\[
+\begin{aligned}
+\Omega_\mu &= \tfrac12\,\omega_{\mu ab}S^{ab}, & D_\mu\Psi &= \partial_\mu\Psi + \Omega_\mu\Psi, \\
+\gamma^\mu &= e_a{}^\mu\gamma^{(a)} = \gamma^{(\mu)}/f_\mu, & D_\mu\bar\Psi &= \partial_\mu\bar\Psi - \bar\Psi\Omega_\mu.
+\end{aligned}
+\]
+
+(This is the canonical connection with the frame metric; the notebook's contraction of the mixed $\omega_\mu{}^a{}_b$, which lacks a metric factor, is not used.) The postulate holds for all 512 components and $\omega_{\mu ab} = -\omega_{\mu ba}$ (\texttt{vielbein\allowbreak{}\_postula\allowbreak{}te} in both field-theory reports, \texttt{omega\_an\allowbreak{}tisymmet\allowbreak{}ric}, \texttt{spin\_con\allowbreak{}nection\_\allowbreak{}antisymm\allowbreak{}etric}). Exactly 12 components with $a < b$ are nonzero (\texttt{omega\_co\allowbreak{}mponents}; formula key \texttt{omega\_no\allowbreak{}nzero}):
+
+\[
+\begin{aligned}
+\omega_{x_i\,(i)(4)} &= a_4'\,e^{a_4}\sin^{1/6}z, & \omega_{x_i\,(i)(8)} &= H\,e^{a_4}\sin^{1/6}z, \\
+\omega_{x_t\,(4)(t)} &= -a_4'\,e^{-a_4}\sin^{1/6}z, & \omega_{x_t\,(t)(8)} &= -H\,e^{-a_4}\sin^{1/6}z,
+\end{aligned}
+\]
+
+and $\omega_{x_4} = \omega_{x_8} = 0$. The spinor connection is (\texttt{Omega\_co\allowbreak{}mponents}; sympy \texttt{Omega\_x4\allowbreak{}\_and\_Ome\allowbreak{}ga\_x8\_va\allowbreak{}nish})
+
+\[
+\begin{aligned}
+\Omega_{x_i} &= \tfrac12\,e^{a_4}\sin^{1/6}z\,\big(a_4'\,\gamma^{(i)}\gamma^{(4)} + H\,\gamma^{(i)}\gamma^{(8)}\big) \qquad (i = 1, 2, 3), \\
+\Omega_{x_t} &= -\tfrac12\,e^{-a_4}\sin^{1/6}z\,\big(a_4'\,\gamma^{(4)}\gamma^{(t)} + H\,\gamma^{(t)}\gamma^{(8)}\big) \qquad (t = 5, 6, 7), \\
+\Omega_{x_4} &= \Omega_{x_8} = 0.
+\end{aligned}
+\]
+
+It makes the gammas covariantly constant, $D_\mu\gamma^\nu = \partial_\mu\gamma^\nu + \Gamma^\nu{}_{\mu\lambda}\gamma^\lambda + [\Omega_\mu, \gamma^\nu] = 0$ for all 64 pairs (\texttt{gamma\_co\allowbreak{}variantl\allowbreak{}y\_consta\allowbreak{}nt}, \texttt{covarian\allowbreak{}t\_consta\allowbreak{}ncy\_D\_mu\allowbreak{}\_gamma\_n\allowbreak{}u}), and its curvature is the Riemann tensor, $[D_\mu, D_\nu]\Psi = \frac12 R_{ab\mu\nu}S^{ab}\Psi$ (\texttt{spin\_cur\allowbreak{}vature\_e\allowbreak{}quals\_Ri\allowbreak{}emann}, \texttt{spinor\_c\allowbreak{}urvature\allowbreak{}\_equals\_\allowbreak{}riemann}).
+
+The contraction that enters the field equation, per direction (no sum; formula key \texttt{gammaOme\allowbreak{}ga\_per\_d\allowbreak{}irection}):
+
+\[
+\begin{aligned}
+\gamma^{x_i}\Omega_{x_i} &= \tfrac12 a_4'\,\gamma^{(4)} + \tfrac12 H\,\gamma^{(8)} \qquad (i = 1, 2, 3), \\
+\gamma^{x_t}\Omega_{x_t} &= -\tfrac12 a_4'\,\gamma^{(4)} + \tfrac12 H\,\gamma^{(8)} \qquad (t = 5, 6, 7), \\
+\gamma^{x_4}\Omega_{x_4} &= \gamma^{x_8}\Omega_{x_8} = 0,
+\end{aligned}
+\]
+
+and summed:
+
+\[
+\gamma^\mu\Omega_\mu = 3H\gamma^{(8)} = \frac{1}{2\sqrt{|g|}}\,\partial_\mu\big(\sqrt{|g|}\,\gamma^\mu\big)
+\]
+
+(\texttt{gammaOme\allowbreak{}ga\_equal\allowbreak{}s\_3H\_gam\allowbreak{}ma\_x8}, \texttt{gammaOme\allowbreak{}ga\_x4\_te\allowbreak{}rms\_canc\allowbreak{}el}, \texttt{gammaOme\allowbreak{}ga\_diver\allowbreak{}gence\_fo\allowbreak{}rm}). The sympy verifier confirms each of these statements independently (\texttt{gamma\_mu\allowbreak{}\_Omega\_m\allowbreak{}u\_equals\allowbreak{}\_3H\_gamm\allowbreak{}a\_x8}, \texttt{time\_ter\allowbreak{}ms\_cance\allowbreak{}l\_hidden\allowbreak{}\_term\_su\allowbreak{}rvives} and \texttt{divergen\allowbreak{}ce\_of\_sq\allowbreak{}rtg\_gamm\allowbreak{}a}). The field-equations branch verifies the same value again, in a Clifford representation of its own and with T16 (\texttt{ownrep\_g\allowbreak{}ravity\_t\allowbreak{}erm}, \texttt{authorT1\allowbreak{}6\_gravit\allowbreak{}y\_term}). For each direction separately $\{\gamma^\mu, \Omega_\mu\} = 0$ (no sum), because $\Omega_\mu$ contains only generators $S^{(\mu)b}$ (\texttt{gamma\_mu\allowbreak{}\_anticom\allowbreak{}mutes\_wi\allowbreak{}th\_Omega\allowbreak{}\_mu\_no\_s\allowbreak{}um}, \texttt{anticomm\allowbreak{}utator\_g\allowbreak{}amma\_Ome\allowbreak{}ga\_vanis\allowbreak{}hes}).
+
+\textbf{The value $3H\gamma^{(8)}$ belongs to the diagonal vielbein.} The canonical spin connection depends on the choice of the local frame, and so does the contraction $\gamma^\mu\Omega_\mu$. Boost the frame in the $(x_4, x_8)$ plane, $e'^{(4)} = \cosh b\,e^{(4)} + \sinh b\,e^{(8)}$, $e'^{(8)} = \sinh b\,e^{(4)} + \cosh b\,e^{(8)}$, the other $e'^{(a)} = e^{(a)}$, with rapidity $b = \beta x_4 + b_0$: the frame reproduces the author's metric, its canonical connection satisfies the vielbein postulate, and exactly, for every $a_4$ and $H$,
+
+\[
+\gamma'^\mu\Omega'_\mu = \frac{6H - \beta}{2}\,\big(\cosh b\,\gamma^{(8)} - \sinh b\,\gamma^{(4)}\big),
+\]
+
+which is $3H\gamma^{(8)}$ for the unboosted frame and vanishes identically for $\beta = 6H$. Both engines verify the frame and its connection (\texttt{boosted\_\allowbreak{}frame\_re\allowbreak{}produces\allowbreak{}\_metric} and \texttt{boosted\_\allowbreak{}frame\_ca\allowbreak{}nonical\_\allowbreak{}connecti\allowbreak{}on}) and the contraction (\texttt{boosted\_\allowbreak{}frame\_ga\allowbreak{}mmaOmega\allowbreak{}\_formula} and \texttt{boosted\_\allowbreak{}frame\_ga\allowbreak{}mmaOmega\allowbreak{}\_vanishe\allowbreak{}s}). In that frame $\Omega'_\mu$ is nonzero for $\mu = x_1, \dots, x_7$ and its curvature is nonzero (\texttt{boosted\_\allowbreak{}frame\_cu\allowbreak{}rvature\_\allowbreak{}nonzero}): what no frame removes is $\Omega_\mu$ itself, whose curvature is the Riemann tensor, not the contraction $\gamma^\mu\Omega_\mu$.
+
+\section{The Lagrangian}
+
+The Lagrangian density (SPEC section 3), with an explicit mass term linear in $m$ and quadratic in the spinor:
+
+\[
+\begin{aligned}
+\mathcal{L} &= \sqrt{|g|}\,\Big[\tfrac12\big(\bar\Psi\gamma^\mu D_\mu\Psi - (D_\mu\bar\Psi)\gamma^\mu\Psi\big) - m\,\bar\Psi\Psi - U(\bar\Psi\Psi)\Big], \\
+\bar\Psi &= \Psi^\dagger C,\qquad S = \bar\Psi\Psi,\qquad U(S) = \tfrac{\lambda}{2}S^2 \quad\text{(general $U$ where stated)}.
+\end{aligned}
+\]
+
+Properties, proved exactly for an explicit Grassmann algebra (Wolfram: generators $\theta_1, \theta_2$ and their conjugates, $\Psi_A = \sum_k \phi_{A,k}(x)\theta_k$; sympy: an own jet super-algebra; \texttt{grassman\allowbreak{}n\_algebr\allowbreak{}a\_struct\allowbreak{}ure}, \texttt{superalg\allowbreak{}ebra\_axi\allowbreak{}oms}):
+
+\begin{itemize}
+\item $\mathcal{L}$ is real: $\mathcal{L}^* = \mathcal{L}$, where conjugation reverses the order of Grassmann factors and $m$, $\lambda$ are real (\texttt{\detokenize{L_real_G}}, \texttt{grassman\allowbreak{}n\_lagran\allowbreak{}gian\_rea\allowbreak{}l}; the control \texttt{grassman\allowbreak{}n\_contro\allowbreak{}ls\_not\_v\allowbreak{}acuous} shows that the unsymmetrised form is not real off shell).
+\item It differs from the unsymmetrised form by a total divergence (\texttt{L\_total\_\allowbreak{}divergen\allowbreak{}ce\_to\_un\allowbreak{}symmetri\allowbreak{}sed\_G}, \texttt{grassman\allowbreak{}n\_total\_\allowbreak{}divergen\allowbreak{}ce\_relat\allowbreak{}ion}):
+\end{itemize}
+
+\[
+\mathcal{L} = \sqrt{|g|}\,\big[\bar\Psi\gamma^\mu D_\mu\Psi - mS - U(S)\big] - \tfrac12\,\partial_\mu\big(\sqrt{|g|}\,\bar\Psi\gamma^\mu\Psi\big).
+\]
+
+\begin{itemize}
+\item In this metric the spin connection drops out of $\mathcal{L}$ itself, because $\bar\Psi\{\gamma^\mu, \Omega_\mu\}\Psi = 0$ term by term (\texttt{L\_spin\_c\allowbreak{}onnectio\allowbreak{}n\_drops\_\allowbreak{}out\_G}):
+\end{itemize}
+
+\[
+\mathcal{L} = \cos z\,\Big[\tfrac12\sum_{a=1}^{8}\frac{1}{f_a}\big(\bar\Psi\gamma^{(a)}\partial_a\Psi - \partial_a\bar\Psi\gamma^{(a)}\Psi\big) - mS - U(S)\Big].
+\]
+
+It reaches the field equations only through this identity: varying the symmetrised kinetic term produces $\partial_\mu(\sqrt{|g|}\gamma^\mu) = 2\sqrt{|g|}\,\gamma^\mu\Omega_\mu$ (section 7). Hence the Euler-Lagrange equations of $\mathcal{L}$ are those of the connection-free symmetric Lagrangian (the display above), and the term $3H\gamma^{(8)}$ is its half-density (volume and vielbein divergence) term (\texttt{connecti\allowbreak{}on\_free\_\allowbreak{}lagrangi\allowbreak{}an\_same\_\allowbreak{}equation\allowbreak{}s}, both engines).
+
+\begin{itemize}
+\item $S$ is an even element of the Grassmann algebra and $U$ is a polynomial in $S$; in the two-generator test algebra $S^3 = 0$, so $U = u_1 S + \frac{\lambda}{2}S^2$ is the most general potential there (\texttt{grassman\allowbreak{}n\_algebr\allowbreak{}a\_struct\allowbreak{}ure}).
+\end{itemize}
+
+Negative control: the notebook's real Majorana-type Lagrangian $L_g = \sqrt{|g|}\,\Theta^T C\gamma^\mu D_\mu\Theta$ with 16 real anticommuting components is a total derivative, $L_g = \frac12\partial_\mu(\sqrt{|g|}\,\Theta^T C\gamma^\mu\Theta)$: all its Euler-Lagrange expressions vanish identically and it has no field equations; moreover $\Theta^T C\Theta = 0$ (\texttt{Majorana\allowbreak{}\_Lg\_tota\allowbreak{}l\_deriva\allowbreak{}tive\_gra\allowbreak{}ssmann}, \texttt{negative\allowbreak{}\_control\allowbreak{}\_majoran\allowbreak{}a\_grassm\allowbreak{}ann\_tota\allowbreak{}l\_deriva\allowbreak{}tive}). For real commuting components the same expression is not a total derivative (\texttt{Majorana\allowbreak{}\_Lg\_comm\allowbreak{}uting\_co\allowbreak{}ntrol}, \texttt{negative\allowbreak{}\_control\allowbreak{}\_majoran\allowbreak{}a\_commut\allowbreak{}ing\_cont\allowbreak{}rast}). This is why the Dirac-type Lagrangian with $\bar\Psi = \Psi^\dagger C$ is used.
+
+\section{The exact covariant field equations (Euler-Lagrange)}
+
+\textbf{Theorem (Euler-Lagrange equations).} For the Lagrangian of section 5 with an arbitrary potential $U$, the variation with respect to $\Psi^\dagger$ (left derivatives) gives $\sqrt{|g|}\,C\,[\gamma^\mu D_\mu\Psi - (m + U'(S))\Psi]$ and the variation with respect to $\Psi$ (right derivatives) gives the adjoint expression, for every component and every Grassmann generator. The field equations are
+
+\[
+\gamma^\mu D_\mu\Psi = \big(m + U'(S)\big)\Psi,\qquad (D_\mu\bar\Psi)\gamma^\mu = -\big(m + U'(S)\big)\bar\Psi,
+\]
+
+with $U'(S) = \lambda S$ for the quadratic potential (\texttt{EL\_Psiba\allowbreak{}r\_G}, \texttt{\detokenize{EL_Psi_G}}, \texttt{grassman\allowbreak{}n\_euler\_\allowbreak{}lagrange\allowbreak{}\_psibar\_\allowbreak{}variatio\allowbreak{}n} with the control that $m \to -m$ fails, \texttt{grassman\allowbreak{}n\_euler\_\allowbreak{}lagrange\allowbreak{}\_psi\_var\allowbreak{}iation}). The adjoint equation is the Dirac conjugate of the field equation, so the two form one system (\texttt{adjoint\_\allowbreak{}equation\allowbreak{}\_is\_Dira\allowbreak{}c\_conjug\allowbreak{}ate\_G}, \texttt{grassman\allowbreak{}n\_adjoin\allowbreak{}t\_equati\allowbreak{}on\_is\_co\allowbreak{}njugate}).
+
+Written out in the primordial field (\texttt{Dirac\_op\allowbreak{}erator\_e\allowbreak{}xplicit\_\allowbreak{}G}; formula key \texttt{field\_eq\allowbreak{}uation}):
+
+\[
+\begin{aligned}
+&e^{-a_4}\sin^{-1/6}z\,\big(\gamma^{(1)}\partial_1 + \gamma^{(2)}\partial_2 + \gamma^{(3)}\partial_3\big)\Psi + \gamma^{(4)}\partial_4\Psi \\
+&\quad + e^{a_4}\sin^{-1/6}z\,\big(\gamma^{(5)}\partial_5 + \gamma^{(6)}\partial_6 + \gamma^{(7)}\partial_7\big)\Psi \\
+&\quad + \tan z\,\gamma^{(8)}\partial_8\Psi + 3H\gamma^{(8)}\Psi = \big(m + U'(S)\big)\Psi,
+\end{aligned}
+\]
+
+and the adjoint equation (formula key \texttt{adjoint\_\allowbreak{}equation}):
+
+\[
+\begin{aligned}
+&e^{-a_4}\sin^{-1/6}z\,\big(\partial_1\bar\Psi\gamma^{(1)} + \partial_2\bar\Psi\gamma^{(2)} + \partial_3\bar\Psi\gamma^{(3)}\big) + \partial_4\bar\Psi\gamma^{(4)} \\
+&\quad + e^{a_4}\sin^{-1/6}z\,\big(\partial_5\bar\Psi\gamma^{(5)} + \partial_6\bar\Psi\gamma^{(6)} + \partial_7\bar\Psi\gamma^{(7)}\big) \\
+&\quad + \tan z\,\partial_8\bar\Psi\gamma^{(8)} + 3H\bar\Psi\gamma^{(8)} = -\big(m + U'(S)\big)\bar\Psi.
+\end{aligned}
+\]
+
+Since $(\gamma^{(4)})^2 = -1$, the field equation is equivalent to the first-order evolution equation (\texttt{evolutio\allowbreak{}n\_form\_G})
+
+\[
+\partial_4\Psi = -\gamma^{(4)}\Big[\big(m + U'(S)\big)\Psi - \sum_{a \neq 4}\frac{1}{f_a}\gamma^{(a)}\partial_a\Psi - 3H\gamma^{(8)}\Psi\Big],
+\]
+
+so the slices $x_4 = $ const are non-characteristic ($g^{44} = -1$). In the chiral split $\Psi = (\psi_-, \psi_+)$ (rows 1 to 8 with $\Gamma = -1$, rows 9 to 16 with $\Gamma = +1$) every gamma is block off-diagonal, $\gamma^{(a)} = \begin{pmatrix} 0 & \bar\tau_a \\ \tau_a & 0\end{pmatrix}$ with $\bar\tau_8 = \tau_8 = I_8$, and the field equation is the pair (\texttt{block\_fo\allowbreak{}rm}; formula key \texttt{field\_eq\allowbreak{}uation\_b\allowbreak{}locks})
+
+\[
+\sum_{a}\frac{1}{f_a}\bar\tau_a\partial_a\psi_+ + 3H\psi_+ = V\psi_-,\qquad
+\sum_{a}\frac{1}{f_a}\tau_a\partial_a\psi_- + 3H\psi_- = V\psi_+,\qquad V = m + U'(S).
+\]
+
+The 16 component equations, $(\gamma^\mu D_\mu\Psi)_A = V\Psi_A$ with $\psi_A = \Psi_A$ the components in the basis of the fixture gammas, $\epsilon_s = e^{-a_4}\sin^{-1/6}z = 1/f_{1}$ and $\epsilon_t = e^{a_4}\sin^{-1/6}z = 1/f_{5}$ (formula key \texttt{field\_eq\allowbreak{}uation\_c\allowbreak{}omponent\allowbreak{}s}; \texttt{Dirac\_op\allowbreak{}erator\_e\allowbreak{}xplicit\_\allowbreak{}G}, \texttt{EL\_Psiba\allowbreak{}r\_G}; the publication test of this document re-derives them from the formula file and compares them with the independent sympy expressions \texttt{dirac\_eq\allowbreak{}uation\_c\allowbreak{}omponent\allowbreak{}s} of the sympy report): the eight equations of the $\Gamma = -1$ rows,
+
+\[
+\begin{aligned}
+\epsilon_s(-\partial_1\psi_{16} + \partial_2\psi_{15} - \partial_3\psi_{14}) - \partial_4\psi_{14} + \epsilon_t(\partial_5\psi_{15} + \partial_6\psi_{16} + \partial_7\psi_{9}) + (\tan z\,\partial_8 + 3H)\psi_{9} &= V\psi_{1} \\
+\epsilon_s(-\partial_1\psi_{15} - \partial_2\psi_{16} + \partial_3\psi_{13}) + \partial_4\psi_{13} + \epsilon_t(\partial_5\psi_{16} - \partial_6\psi_{15} + \partial_7\psi_{10}) + (\tan z\,\partial_8 + 3H)\psi_{10} &= V\psi_{2} \\
+\epsilon_s(\partial_1\psi_{14} - \partial_2\psi_{13} - \partial_3\psi_{16}) + \partial_4\psi_{16} + \epsilon_t(-\partial_5\psi_{13} + \partial_6\psi_{14} + \partial_7\psi_{11}) + (\tan z\,\partial_8 + 3H)\psi_{11} &= V\psi_{3} \\
+\epsilon_s(\partial_1\psi_{13} + \partial_2\psi_{14} + \partial_3\psi_{15}) - \partial_4\psi_{15} + \epsilon_t(-\partial_5\psi_{14} - \partial_6\psi_{13} + \partial_7\psi_{12}) + (\tan z\,\partial_8 + 3H)\psi_{12} &= V\psi_{4} \\
+\epsilon_s(-\partial_1\psi_{12} + \partial_2\psi_{11} - \partial_3\psi_{10}) + \partial_4\psi_{10} + \epsilon_t(-\partial_5\psi_{11} - \partial_6\psi_{12} - \partial_7\psi_{13}) + (\tan z\,\partial_8 + 3H)\psi_{13} &= V\psi_{5} \\
+\epsilon_s(-\partial_1\psi_{11} - \partial_2\psi_{12} + \partial_3\psi_{9}) - \partial_4\psi_{9} + \epsilon_t(-\partial_5\psi_{12} + \partial_6\psi_{11} - \partial_7\psi_{14}) + (\tan z\,\partial_8 + 3H)\psi_{14} &= V\psi_{6} \\
+\epsilon_s(\partial_1\psi_{10} - \partial_2\psi_{9} - \partial_3\psi_{12}) - \partial_4\psi_{12} + \epsilon_t(\partial_5\psi_{9} - \partial_6\psi_{10} - \partial_7\psi_{15}) + (\tan z\,\partial_8 + 3H)\psi_{15} &= V\psi_{7} \\
+\epsilon_s(\partial_1\psi_{9} + \partial_2\psi_{10} + \partial_3\psi_{11}) + \partial_4\psi_{11} + \epsilon_t(\partial_5\psi_{10} + \partial_6\psi_{9} - \partial_7\psi_{16}) + (\tan z\,\partial_8 + 3H)\psi_{16} &= V\psi_{8}
+\end{aligned}
+\]
+
+and the eight equations of the $\Gamma = +1$ rows,
+
+\[
+\begin{aligned}
+\epsilon_s(\partial_1\psi_{8} - \partial_2\psi_{7} + \partial_3\psi_{6}) + \partial_4\psi_{6} + \epsilon_t(-\partial_5\psi_{7} - \partial_6\psi_{8} - \partial_7\psi_{1}) + (\tan z\,\partial_8 + 3H)\psi_{1} &= V\psi_{9} \\
+\epsilon_s(\partial_1\psi_{7} + \partial_2\psi_{8} - \partial_3\psi_{5}) - \partial_4\psi_{5} + \epsilon_t(-\partial_5\psi_{8} + \partial_6\psi_{7} - \partial_7\psi_{2}) + (\tan z\,\partial_8 + 3H)\psi_{2} &= V\psi_{10} \\
+\epsilon_s(-\partial_1\psi_{6} + \partial_2\psi_{5} + \partial_3\psi_{8}) - \partial_4\psi_{8} + \epsilon_t(\partial_5\psi_{5} - \partial_6\psi_{6} - \partial_7\psi_{3}) + (\tan z\,\partial_8 + 3H)\psi_{3} &= V\psi_{11} \\
+\epsilon_s(-\partial_1\psi_{5} - \partial_2\psi_{6} - \partial_3\psi_{7}) + \partial_4\psi_{7} + \epsilon_t(\partial_5\psi_{6} + \partial_6\psi_{5} - \partial_7\psi_{4}) + (\tan z\,\partial_8 + 3H)\psi_{4} &= V\psi_{12} \\
+\epsilon_s(\partial_1\psi_{4} - \partial_2\psi_{3} + \partial_3\psi_{2}) - \partial_4\psi_{2} + \epsilon_t(\partial_5\psi_{3} + \partial_6\psi_{4} + \partial_7\psi_{5}) + (\tan z\,\partial_8 + 3H)\psi_{5} &= V\psi_{13} \\
+\epsilon_s(\partial_1\psi_{3} + \partial_2\psi_{4} - \partial_3\psi_{1}) + \partial_4\psi_{1} + \epsilon_t(\partial_5\psi_{4} - \partial_6\psi_{3} + \partial_7\psi_{6}) + (\tan z\,\partial_8 + 3H)\psi_{6} &= V\psi_{14} \\
+\epsilon_s(-\partial_1\psi_{2} + \partial_2\psi_{1} + \partial_3\psi_{4}) + \partial_4\psi_{4} + \epsilon_t(-\partial_5\psi_{1} + \partial_6\psi_{2} + \partial_7\psi_{7}) + (\tan z\,\partial_8 + 3H)\psi_{7} &= V\psi_{15} \\
+\epsilon_s(-\partial_1\psi_{1} - \partial_2\psi_{2} - \partial_3\psi_{3}) - \partial_4\psi_{3} + \epsilon_t(-\partial_5\psi_{2} - \partial_6\psi_{1} + \partial_7\psi_{8}) + (\tan z\,\partial_8 + 3H)\psi_{8} &= V\psi_{16}
+\end{aligned}
+\]
+
+For the quadratic potential $V = m + \lambda S$ with $S = \Psi^\dagger C\Psi$, an even (bilinear) element; the equations hold in the Grassmann algebra, and after quantisation as operator equations (section 11).
+
+\section{Non-triviality [1]}
+
+\textbf{Theorem 1 (non-triviality [1]).} Hypotheses: the metric of section 2 with $H > 0$ and $0 < z < \pi/2$; $a_4$ any twice differentiable function of $x_4$ (a constant $a_4$ included); real $m$ and $\lambda$ (or any real potential $U$); the canonical spin connection of the diagonal vielbein; $\Psi$ any dirac16complex configuration (Grassmann-valued components) that is not identically zero. Then:
+
+\begin{enumerate}
+\item in the diagonal vielbein the Euler-Lagrange operator contains the gravitational term $\gamma^\mu D_\mu\Psi - \gamma^\mu\partial_\mu\Psi = \gamma^\mu\Omega_\mu\Psi = 3H\gamma^{(8)}\Psi$, and $3H\gamma^{(8)}\Psi \neq 0$ (this value depends on the frame and on the field variables, see the Remarks);
+\item per direction, the time-direction terms of the three inflating and the three deflating directions cancel ($\frac32 a_4' - \frac32 a_4' = 0$), while the hidden-direction terms of all six directions add ($6 \cdot \frac{H}{2} = 3H$);
+\item in addition the vielbein enters every derivative term, $\gamma^\mu\partial_\mu = \epsilon_s\gamma^{(i)}\partial_i + \gamma^{(4)}\partial_4 + \epsilon_t\gamma^{(t)}\partial_t + \tan z\,\gamma^{(8)}\partial_8$, none of whose factors is identically 1; because of the cancellation in 2, $a_4$ enters the field equations through these factors $e^{\mp a_4}$;
+\item all gravitational terms vanish together only in flat 4+4 space: $\Omega_\mu = 0$ for every $\mu$ if and only if $a_4' = 0$ and $H = 0$, and $H = 0$ lies outside the family (a degenerate limit); no choice of local frame removes $\Omega_\mu$, because its curvature is the Riemann tensor and $R^{x_8}{}_{x_8} = -6H^2 \neq 0$: the metric is never flat for $H > 0$.
+\end{enumerate}
+
+\emph{Proof.} (a) The connection components of section 4 are each $a_4'$ or $H$ times a factor $\pm e^{\pm a_4}\sin^{1/6}z$ that does not vanish on $0 < z < \pi/2$; since the $S^{ab}$ are linearly independent, the $a_4'$-part of $\Omega_\mu$ vanishes if and only if $a_4$ is constant and its $H$-part if and only if $H = 0$ (\texttt{Omega\_va\allowbreak{}nishes\_i\allowbreak{}ff\_a4pri\allowbreak{}me\_and\_H\allowbreak{}\_vanish}, \texttt{nontrivi\allowbreak{}ality\_Om\allowbreak{}ega\_zero\allowbreak{}\_iff\_fla\allowbreak{}t}). (b) Contracting with $\gamma^\mu = \gamma^{(\mu)}/f_\mu$ and using $(\gamma^{(i)})^2 = 1$, $(\gamma^{(t)})^2 = -1$ gives the per-direction values of section 4: the $\gamma^{(4)}$ coefficients are $+\frac12 a_4'$ for each of the three inflating and $-\frac12 a_4'$ for each of the three deflating directions and cancel, the $\gamma^{(8)}$ coefficients are $\frac12 H$ for all six and add to $3H$; hence $\gamma^\mu\Omega_\mu = 3H\gamma^{(8)}$, a constant matrix independent of $a_4$, $x_4$ and $x_8$ (\texttt{gammaOme\allowbreak{}ga\_x4\_te\allowbreak{}rms\_canc\allowbreak{}el}, \texttt{gammaOme\allowbreak{}ga\_equal\allowbreak{}s\_3H\_gam\allowbreak{}ma\_x8}, \texttt{time\_ter\allowbreak{}ms\_cance\allowbreak{}l\_hidden\allowbreak{}\_term\_su\allowbreak{}rvives}, \texttt{gamma\_mu\allowbreak{}\_Omega\_m\allowbreak{}u\_equals\allowbreak{}\_3H\_gamm\allowbreak{}a\_x8}). The same value follows from the divergence form $\frac{1}{2\cos z}\partial_8(\cos z\tan z)\gamma^{(8)} = \frac{6H\cos z}{2\cos z}\gamma^{(8)} = 3H\gamma^{(8)}$ (\texttt{gammaOme\allowbreak{}ga\_diver\allowbreak{}gence\_fo\allowbreak{}rm}, \texttt{divergen\allowbreak{}ce\_of\_sq\allowbreak{}rtg\_gamm\allowbreak{}a}). (c) $(\gamma^{(8)})^2 = I_{16}$ and $\gamma^{(8)}$ is a signed permutation matrix, so each component of $\gamma^{(8)}\Psi$ is $\pm$ a component of $\Psi$; therefore $3H\gamma^{(8)}\Psi = 0$ implies $\Psi = 0$ for $H > 0$ (\texttt{nontrivi\allowbreak{}ality\_1\_\allowbreak{}dirac16c\allowbreak{}omplex}). (d) The term is part of the Euler-Lagrange equation although the connection drops out of $\mathcal{L}$ in this metric: the variation of the symmetrised kinetic term produces $\partial_\mu(\sqrt{|g|}\gamma^\mu) = 2\sqrt{|g|}\gamma^\mu\Omega_\mu$, and the Euler-Lagrange expressions equal $\sqrt{|g|}\,C\,(\gamma^\mu D_\mu\Psi - V\Psi)$ with the full covariant derivative (\texttt{L\_spin\_c\allowbreak{}onnectio\allowbreak{}n\_drops\_\allowbreak{}out\_G}, \texttt{EL\_Psiba\allowbreak{}r\_G}). (e) The curvature of $\Omega_\mu$ is $\frac12 R_{ab\mu\nu}S^{ab}$ (\texttt{spin\_cur\allowbreak{}vature\_e\allowbreak{}quals\_Ri\allowbreak{}emann}) and $R^{x_8}{}_{x_8} = -6H^2$ (\texttt{never\_fl\allowbreak{}at\_for\_H\allowbreak{}\_positiv\allowbreak{}e}); if $\Omega_\mu$ vanished in some frame, the Riemann tensor would vanish. $H = 0$ is a degenerate limit of the metric (\texttt{degenera\allowbreak{}te\_at\_H\_\allowbreak{}0}). This completes the proof.
+
+Remarks (the exact scope of Theorem 1). In the formal flat limit ($a_4' = 0$ and $H = 0$ with the factors frozen) all gravitational terms vanish and the equation becomes the flat 4+4 Dirac-type equation, as the test [1] requires ("unless we are in flat 4+4 spacetime"). Items 1 and 2 are statements about the diagonal vielbein and the field variables $\Psi$; read without these hypotheses they would overstate [1]:
+
+\begin{itemize}
+\item The canonical connection drops out of $\mathcal{L}$, so the Euler-Lagrange equations are those of the connection-free symmetric Lagrangian; $3H\gamma^{(8)} = \frac{1}{2\sqrt{|g|}}\partial_\mu(\sqrt{|g|}\gamma^\mu)$ is its half-density term (\texttt{connecti\allowbreak{}on\_free\_\allowbreak{}lagrangi\allowbreak{}an\_same\_\allowbreak{}equation\allowbreak{}s}).
+\item In the frame boosted in the $(x_4, x_8)$ plane with rapidity $6Hx_4 + b_0$ the term $\gamma'^\mu\Omega'_\mu$ is identically zero (section 4; \texttt{boosted\_\allowbreak{}frame\_ga\allowbreak{}mmaOmega\allowbreak{}\_vanishe\allowbreak{}s}); gravity then enters the Euler-Lagrange operator only through the frame vectors $e'_a{}^\mu$.
+\item In the diagonal frame the rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes it: $\gamma^\mu D_\mu\Psi = \sin^{-1/2}z\,\gamma^\mu\partial_\mu\chi$ exactly, so $\gamma^\mu\partial_\mu\chi = (m + U')\chi$; for $U = \frac{\lambda}{2}S^2$ the term turns into the $x_8$-dependent coupling $\lambda S[\chi]/\sin z$. The checks are \texttt{rescalin\allowbreak{}g\_remove\allowbreak{}s\_the\_co\allowbreak{}nnection\allowbreak{}\_term} and \texttt{rescaled\allowbreak{}\_equatio\allowbreak{}n\_quadra\allowbreak{}tic\_pote\allowbreak{}ntial}. The exact $U = 0$ family of section 8 at $\alpha = -\frac12$ is this statement ($M = -m\gamma^{(4)}$, no $H$).
+\item The deflation of the extra times contributes nothing to $\gamma^\mu\Omega_\mu$, although $R^{x_4}{}_{x_4} = 6(a_4')^2 \neq 0$: $a_4$ enters only through the factors $e^{\mp a_4}$ of the derivative terms (\texttt{gammaOme\allowbreak{}ga\_blind\allowbreak{}\_to\_the\_\allowbreak{}deflatio\allowbreak{}n}).
+\item The frame-independent content of [1] is item 4 with item 3: $\Omega_\mu$ vanishes in no frame (its curvature is the Riemann tensor and $R^{x_8}{}_{x_8} = -6H^2$), the vielbein factors $e^{\mp a_4}\sin^{-1/6}z$ and $\tan z$ enter every derivative term, and the metric is curved for every $H > 0$. In the diagonal frame the connection also enters the energy-momentum tensor, for example the off-diagonal $K^{x_4}{}_{x_1}$ of a homogeneous configuration (\texttt{spin\_con\allowbreak{}nection\_\allowbreak{}in\_the\_e\allowbreak{}nergy\_mo\allowbreak{}mentum\_t\allowbreak{}ensor}).
+\item Interpretation (labelled): the hidden-direction operator $\tan z\,\partial_8 + 3H$ is antisymmetric for the measure $\cos z\,dx_8$ in the variables $\Psi$ up to a boundary term, $\cos z\,[p(\tan z\,\partial_8 + 3H)q + ((\tan z\,\partial_8 + 3H)p)q] = \partial_8(\sin z\,pq)$ (\texttt{good\_sec\allowbreak{}tor\_herm\allowbreak{}iticity\_\allowbreak{}curved}; formula key \texttt{hidden\_d\allowbreak{}irection\allowbreak{}\_hermiti\allowbreak{}city}); in the variables $\chi$ with the measure $dy = \cot z\,dx_8$ the operator $\partial_y$ has the same property without any $H$ term. This role of $3H$ therefore depends on the variables and the measure, and the boundary term does not vanish at $z = \pi/2$ (section 11).
+\end{itemize}
+
+Non-triviality [2], for the commuting field dirac16complex00, has the same algebraic content and the same scope (\texttt{nontrivi\allowbreak{}ality\_2\_\allowbreak{}dirac16c\allowbreak{}omplex00}) and is the subject of the companion document \texttt{Revision\allowbreak{}/docs/DI\allowbreak{}RAC16COM\allowbreak{}PLEX00\_F\allowbreak{}IELD\_THE\allowbreak{}ORY.md}.
+
+\section{Self-consistency}
+
+The field equations of section 6 are self-consistent in the following exact senses.
+
+\begin{itemize}
+\item One system. The adjoint equation is the Dirac conjugate of the field equation: with $E = \gamma^\mu D_\mu\Psi - (m + U')\Psi$ and $\bar E = (D_\mu\bar\Psi)\gamma^\mu + (m + U')\bar\Psi$, $E^\dagger C = -\bar E$ exactly (\texttt{adjoint\_\allowbreak{}equation\allowbreak{}\_is\_Dira\allowbreak{}c\_conjug\allowbreak{}ate\_G}, \texttt{grassman\allowbreak{}n\_adjoin\allowbreak{}t\_equati\allowbreak{}on\_is\_co\allowbreak{}njugate}).
+\item Evolution form, not a well-posed Cauchy problem. The evolution form of section 6 holds exactly (\texttt{evolutio\allowbreak{}n\_form\_G}), and the Heisenberg equation of the quantised field reproduces it: see the Wolfram check \texttt{Heisenbe\allowbreak{}rg\_equat\allowbreak{}ion\_repr\allowbreak{}oduces\_f\allowbreak{}ield\_equ\allowbreak{}ation} and the sympy check \texttt{hamilton\allowbreak{}ian\_form\allowbreak{}\_and\_hei\allowbreak{}senberg\_\allowbreak{}equation}. The slices $x_4 = $ const are non-characteristic, but the Cauchy problem is not well posed in Hadamard's sense for data that depend on $x_5, x_6, x_7$: with frozen coefficients an extra-time momentum $k_5 = K$ gives the growth rate $\sqrt{K^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$, unbounded as $K$ grows (\texttt{extra\_ti\allowbreak{}me\_growt\allowbreak{}h\_rates\_\allowbreak{}unbounde\allowbreak{}d}), and in the metric the frame momentum $e^{a_4}\sin^{-1/6}z\,k_{x_5}$ grows as the extra times deflate. A well-posed evolution is available at most in the good sector (no extra-time dependence) and only with a boundary condition at $z = \pi/2$ (section 11).
+\item Integrability. The gammas are covariantly constant and the spinor curvature is the Riemann tensor (section 4). The square of the Dirac operator obeys the Lichnerowicz identity (\texttt{Lichnero\allowbreak{}wicz\_ide\allowbreak{}ntity\_G}, \texttt{lichnero\allowbreak{}wicz\_ide\allowbreak{}ntity\_on\allowbreak{}\_fields}, \texttt{lichnero\allowbreak{}wicz\_con\allowbreak{}traction}):
+\end{itemize}
+
+\[
+(\gamma^\mu D_\mu)^2\Psi = g^{\mu\nu}\big(D_\mu D_\nu\Psi - \Gamma^\lambda{}_{\mu\nu}D_\lambda\Psi\big) - \frac{R}{4}\Psi,\qquad R = 6\big((a_4')^2 - 7H^2\big),
+\]
+
+so the second-order consequence of the field equations is consistent with the curvature.
+
+\begin{itemize}
+\item Conserved current. $J^\mu = -i\bar\Psi\gamma^\mu\Psi$ is real, and off shell $\partial_\mu(\sqrt{|g|}J^\mu) = -i\sqrt{|g|}\,(\bar E\Psi + \bar\Psi E)$, so $\nabla_\mu J^\mu = 0$ on shell (\texttt{current\_\allowbreak{}real\_G}, \texttt{current\_\allowbreak{}conserva\allowbreak{}tion\_ide\allowbreak{}ntity\_G}, \texttt{grassman\allowbreak{}n\_curren\allowbreak{}t\_conser\allowbreak{}vation}). The charge density is $J^{x_4} = \Psi^\dagger B\Psi$, so the conserved charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ is an indefinite form (\texttt{charge\_d\allowbreak{}ensity\_i\allowbreak{}s\_Krein\_\allowbreak{}form\_G}).
+\item Bianchi-type identity of the energy-momentum tensor. For the tensor $T^\mu{}_\nu$ of section 9 the invariance of the action under coordinate changes gives, off shell and for each $\lambda$, $\partial_\mu(\sqrt{|g|}T^\mu{}_\lambda) - \sqrt{|g|}\,T^\mu{}_a\,\partial_\lambda e^a{}_\mu = \sum_\phi \mathrm{EL}_\phi\,\partial_\lambda\phi$ (\texttt{Noether\_\allowbreak{}identity\allowbreak{}\_diffeom\allowbreak{}orphisms\allowbreak{}\_G}), and the invariance under the 28 local frame rotations makes the antisymmetric part of $T$ a combination of Euler-Lagrange expressions (\texttt{Noether\_\allowbreak{}identity\allowbreak{}\_local\_L\allowbreak{}orentz\_G}). On shell, therefore, $T$ is symmetric and $\nabla_\mu T^\mu{}_\nu = 0$ for general solutions (\texttt{conserva\allowbreak{}tion\_on\_\allowbreak{}shell\_ge\allowbreak{}neral}); the sympy side verifies $\nabla_\mu T^\mu{}_\nu = 0$ for all eight $\nu$ after the on-shell substitution, with a negative control (\texttt{grassman\allowbreak{}n\_emt\_co\allowbreak{}nservati\allowbreak{}on\_on\_sh\allowbreak{}ell}, \texttt{grassman\allowbreak{}n\_emt\_co\allowbreak{}nservati\allowbreak{}on\_negat\allowbreak{}ive\_cont\allowbreak{}rol}). The gravitational side satisfies the matching identities $\nabla_\mu E_{(k)}{}^\mu{}_\nu = 0$ (section 13).
+\item Exact solutions as test points. For $U = 0$ and every $a_4$, $\Psi = \sin^\alpha z\,\big(\cosh(kx_4) + \frac{\sinh(kx_4)}{k}M\big)\chi$ with constant $\chi$, $M = -m\gamma^{(4)} + 3H(2\alpha + 1)\gamma^{(4)}\gamma^{(8)}$, $k^2 = 9H^2(2\alpha + 1)^2 - m^2$, solves the field equation, and conservation of $T$ and $J$ holds exactly there (\texttt{solution\allowbreak{}\_matrix\_\allowbreak{}square}, \texttt{exact\_so\allowbreak{}lution\_x\allowbreak{}4\_x8\_G}, \texttt{exact\_so\allowbreak{}lution\_f\allowbreak{}amily\_x4\allowbreak{}\_x8}); the scope of this test is stated in the report: at these solutions the pressures and the momentum density vanish and $\rho = mS$ is constant, so the general proof is the pair of Noether identities. An exact nonlinear homogeneous solution with $U = \frac{\lambda}{2}S^2$ exists in the explicit Grassmann algebra, $\Psi = \sum_k\big[e^{M_m x_4} + \lambda S_0\,\partial_m e^{M_m x_4}\big]\chi_k\theta_k$ with $M_m = -m\gamma^{(4)} + 3H\gamma^{(4)}\gamma^{(8)}$ (\texttt{exact\_so\allowbreak{}lution\_n\allowbreak{}onlinear\allowbreak{}\_homogen\allowbreak{}eous\_G}; formula key \texttt{exact\_so\allowbreak{}lutions}).
+\end{itemize}
+
+\section{The energy-momentum tensor}
+
+The energy-momentum tensor is defined by the vielbein variation of the action and has the closed form (\texttt{T\_vielbe\allowbreak{}in\_varia\allowbreak{}tion\_clo\allowbreak{}sed\_form\allowbreak{}\_G}; formula key \texttt{T\_variat\allowbreak{}ion}; sympy \texttt{grassman\allowbreak{}n\_emt\_eq\allowbreak{}uals\_gen\allowbreak{}eral\_vie\allowbreak{}lbein\_va\allowbreak{}riation\_\allowbreak{}on\_shell} with all 64 components of a general first-order vielbein variation)
+
+\[
+\begin{aligned}
+T^\nu{}_\mu &= e^b{}_\mu\,\frac{1}{\sqrt{|g|}}\,\frac{\delta S}{\delta e^b{}_\nu}
+= \delta^\nu_\mu\,\mathcal{L}_0 - \tfrac12\big(\bar\Psi\gamma^\nu D_\mu\Psi - D_\mu\bar\Psi\gamma^\nu\Psi\big) \\
+&\quad - \tfrac14\,g_{\mu\rho}\nabla_\lambda\big(\bar\Psi\{\gamma^\lambda, \Sigma^{\nu\rho}\}\Psi\big),
+\qquad \Sigma^{\nu\rho} = \tfrac14[\gamma^\nu, \gamma^\rho],\qquad \mathcal{L}_0 = \mathcal{L}/\sqrt{|g|},
+\end{aligned}
+\]
+
+where the last term (the totally antisymmetric spin density) comes from the variation of the spin connection. Its symmetric part is the Belinfante tensor (\texttt{T\_symmet\allowbreak{}ric\_part\allowbreak{}\_Belinfa\allowbreak{}nte\_G}, \texttt{grassman\allowbreak{}n\_emt\_sy\allowbreak{}mmetric}; formula key \texttt{T\_symmet\allowbreak{}ric}),
+
+\[
+T^{\nu\rho} = g^{\nu\rho}\mathcal{L}_0 - \tfrac14\big(\bar\Psi\gamma^\nu D^\rho\Psi + \bar\Psi\gamma^\rho D^\nu\Psi - D^\rho\bar\Psi\gamma^\nu\Psi - D^\nu\bar\Psi\gamma^\rho\Psi\big),
+\]
+
+which equals the variation tensor on shell (section 8). Sign convention (SPEC section 4): the energy density is $\rho = -T^{x_4}{}_{x_4}$ and the pressures are $p_\mu = T^\mu{}_\mu$ (no sum) for $\mu \neq x_4$; with this convention $\rho = mS + U$ for homogeneous on-shell configurations (section 10).
+
+Kinetic and potential parts (formula key \texttt{EMT\_kine\allowbreak{}tic\_pote\allowbreak{}ntial}): $T^\nu{}_\mu = T_{\rm kin}{}^\nu{}_\mu + T_{\rm pot}{}^\nu{}_\mu$ with
+
+\[
+\begin{aligned}
+T_{\rm pot}{}^\nu{}_\mu &= -\delta^\nu_\mu\,\big(mS + U(S)\big), \\
+T_{\rm kin}{}^\nu{}_\mu &= \delta^\nu_\mu\sum_\lambda K_\lambda - \tfrac14\big(\bar\Psi\gamma^\nu D_\mu\Psi - D_\mu\bar\Psi\gamma^\nu\Psi + \bar\Psi\gamma_\mu D^\nu\Psi - D^\nu\bar\Psi\gamma_\mu\Psi\big).
+\end{aligned}
+\]
+
+Diagonal components in the primordial field (no sum; \texttt{T\_diagon\allowbreak{}al\_compo\allowbreak{}nents\_G}, \texttt{grassman\allowbreak{}n\_emt\_eq\allowbreak{}uals\_vie\allowbreak{}lbein\_va\allowbreak{}riation\_\allowbreak{}diagonal}; formula key \texttt{EMT\_diag\allowbreak{}onal}): with the directional kinetic terms
+
+\[
+K_\mu = \frac{1}{2f_\mu}\big(\bar\Psi\gamma^{(\mu)}\partial_\mu\Psi - \partial_\mu\bar\Psi\gamma^{(\mu)}\Psi\big),\qquad \mathcal{L}_0 = \sum_\mu K_\mu - mS - U(S),
+\]
+
+\[
+T^\mu{}_\mu = \mathcal{L}_0 - K_\mu .
+\]
+
+No spin-connection term survives in the diagonal components, because $\{\gamma^\mu, \Omega_\mu\} = 0$ for each $\mu$. The off-diagonal component $x_4$-$x_8$, which SPEC section 5 lists among the components of the field equations for $a_4$, is (\texttt{T\_x4\_x8\_\allowbreak{}componen\allowbreak{}t\_G}; formula key \texttt{EMT\_offd\allowbreak{}iagonal\_\allowbreak{}x4\_x8})
+
+\[
+T^{x_4}{}_{x_8} = -\tfrac14\big(B_{48} - \cot z\,B_{84}\big),\qquad T^{x_8}{}_{x_4} = -\tan^2 z\;T^{x_4}{}_{x_8},
+\]
+
+with $B_{48} = \bar\Psi\gamma^{(4)}\partial_8\Psi - \partial_8\bar\Psi\gamma^{(4)}\Psi$ and $B_{84} = \bar\Psi\gamma^{(8)}\partial_4\Psi - \partial_4\bar\Psi\gamma^{(8)}\Psi$. For homogeneous on-shell configurations both $T^{x_4}{}_{x_8}$ and $T^{x_8}{}_{x_4}$ vanish identically (\texttt{grassman\allowbreak{}n\_T\_x4x8\allowbreak{}\_homogen\allowbreak{}eous}), so these configurations do not source the $x_4$-$x_8$ component of the $a_4$ equations; this is not claimed for the other off-diagonal components (42 of the remaining 54 are nonzero bilinears in general), whose vanishing is a separate condition on the state (section 13). The trace (off shell, an exact identity in both engines) and the on-shell kinetic sum are (\texttt{EMT\_trac\allowbreak{}e\_G}, \texttt{grassman\allowbreak{}n\_trace\_\allowbreak{}on\_shell}, \texttt{kinetic\_\allowbreak{}sum\_on\_s\allowbreak{}hell\_G})
+
+\[
+T^\mu{}_\mu = 7\sum_\mu K_\mu - 8\big(mS + U\big),\qquad \sum_\mu K_\mu = \big(m + U'(S)\big)S + \tfrac12\big(\bar\Psi E - \bar E\Psi\big),
+\]
+
+so on shell $\mathcal{L}_0 = SU' - U$ and $T^\mu{}_\mu = -mS + 7SU' - 8U = -mS + 3\lambda S^2$. For a diagonal tensor $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$ whose entries are functions of $x_4$ and $x_8$, the covariant divergence is, in all eight components (\texttt{energy\_e\allowbreak{}xchange\_\allowbreak{}equation} in both field-theory reports; formula key \texttt{energy\_e\allowbreak{}xchange}),
+
+\[
+\nabla_\mu T^\mu{}_{x_4} = -\partial_4\rho - 3a_4'\,(p_3 - p_t),\qquad \nabla_\mu T^\mu{}_{x_8} = \partial_8 p_8 + 3H\cot z\,(2p_8 - p_3 - p_t),
+\]
+
+and $\nabla_\mu T^\mu{}_\nu = 0$ identically for $\nu = x_1, x_2, x_3, x_5, x_6, x_7$. Conservation is therefore exactly
+
+\[
+\partial_4\rho = -3a_4'\,(p_3 - p_t),\qquad \partial_8 p_8 = -3H\cot z\,(2p_8 - p_3 - p_t) :
+\]
+
+energy flows between 3-space and the extra times unless $p_3 = p_t$ (the volume $\sqrt{|g|} = \cos z$ does not depend on $x_4$); the $x_4$ component contains no $x_8$ derivative and no $H$, the $x_8$ component no $x_4$ derivative and no $a_4'$. For entries independent of $x_8$ the two conditions become $d\rho/dx_4 = -3a_4'(p_3 - p_t)$ and $p_8 = (p_3 + p_t)/2$.
+
+For dirac16complex these expressions are even elements of the Grassmann algebra; they are the classical counterpart of the energy-momentum tensor operator of section 12, from which all numbers come.
+
+\section{Kinetic energy, potential energy, energy density, pressures and equations of state}
+
+From the diagonal components of section 9 (formula keys \texttt{EMT\_diag\allowbreak{}onal}, \texttt{EMT\_kine\allowbreak{}tic\_pote\allowbreak{}ntial}, \texttt{equation\allowbreak{}\_of\_stat\allowbreak{}e\_defini\allowbreak{}tions}):
+
+\[
+\begin{aligned}
+\rho &= -T^{x_4}{}_{x_4} = \rho_{\rm kin} + \rho_{\rm pot},\qquad \rho_{\rm kin} = -\sum_{\mu\neq x_4}K_\mu,\qquad \rho_{\rm pot} = mS + U(S), \\
+p_3 &= T^{x_1}{}_{x_1} = \sum_{\mu\neq x_1}K_\mu - mS - U(S), \\
+p_t &= T^{x_5}{}_{x_5} = \sum_{\mu\neq x_5}K_\mu - mS - U(S), \\
+p_8 &= T^{x_8}{}_{x_8} = \sum_{\mu\neq x_8}K_\mu - mS - U(S),
+\end{aligned}
+\]
+
+with $p_3 = T^{x_1}{}_{x_1} = T^{x_2}{}_{x_2} = T^{x_3}{}_{x_3}$ for configurations isotropic in 3-space and $p_t = T^{x_5}{}_{x_5} = T^{x_6}{}_{x_6} = T^{x_7}{}_{x_7}$ for configurations isotropic in the extra times. The kinetic energy density is $\rho_{\rm kin}$, the potential energy density $\rho_{\rm pot} = mS + U$; the kinetic pressure in direction $\mu$ is $\sum_{\nu\neq\mu}K_\nu$ and the potential pressure is $-(mS + U)$ in every direction. The equations of state are
+
+\[
+w_3 = \frac{p_3}{\rho},\qquad w_t = \frac{p_t}{\rho},\qquad w_8 = \frac{p_8}{\rho}.
+\]
+
+Homogeneous on-shell configurations (depending on $x_4$ only): $K_\mu = 0$ for $\mu \neq x_4$ and $K_{x_4} = (m + U')S$, hence (\texttt{grassman\allowbreak{}n\_homoge\allowbreak{}neous\_on\allowbreak{}\_shell\_r\allowbreak{}ho\_p}, \texttt{exact\_so\allowbreak{}lution\_n\allowbreak{}onlinear\allowbreak{}\_homogen\allowbreak{}eous\_G}; formula key \texttt{EMT\_homo\allowbreak{}geneous\_\allowbreak{}on\_shell})
+
+\[
+\rho = mS + U,\qquad p_3 = p_t = p_8 = SU' - U,\qquad \rho_{\rm kin} = 0,\qquad p_{\rm kin} = (m + U')S,
+\]
+
+\[
+w_3 = w_t = w_8 = \frac{SU' - U}{mS + U},
+\]
+
+and for $U = \frac{\lambda}{2}S^2$
+
+\[
+\rho = mS + \tfrac{\lambda}{2}S^2,\qquad p = \tfrac{\lambda}{2}S^2,\qquad w_3 = w_t = w_8 = \frac{\lambda S}{2m + \lambda S} .
+\]
+
+For the exact homogeneous solutions $S = S_0$ is constant along $x_4$ (\texttt{exact\_so\allowbreak{}lution\_n\allowbreak{}onlinear\allowbreak{}\_homogen\allowbreak{}eous\_G}), so $\rho$, $p$ and $w$ are constant in $x_4$, in agreement with the energy-exchange equation ($p_3 = p_t$ gives $d\rho/dx_4 = 0$). For dirac16complex all these quantities are Grassmann-algebra elements until they are evaluated as expectation values of the normal-ordered operators of section 12. The equation of state seen by a 3-space observer and its time dependence (the dark-sector hypotheses of SPEC section 8) are not computed in this document; they belong to the dark-sector record of SPEC section 8, which is planned and not yet written.
+
+\section{Canonical quantisation in 4 + 4 dimensions and the Krein structure}
+
+The evolution time is $x_4$. The momentum conjugate to $\Psi_A$ (right derivative) is $\pi_A = \frac{i}{2}\cos z\,(\Psi^\dagger B)_A$ for the symmetric Lagrangian and $i\cos z\,(\Psi^\dagger B)_A$ for the first-order form; it depends on $\Psi^\dagger$ only, a second-class constraint as for Dirac's field (\texttt{canonica\allowbreak{}l\_moment\allowbreak{}um} in both reports). Up to a total divergence $\mathcal{L} = \Psi^\dagger K\,\partial_4\Psi - (\text{terms without }\partial_4)$ with $K = \cos z\,C\gamma^{(4)} = i\cos z\,B$, and the canonical (Dirac-bracket) anticommutator on a slice $x_4 = $ const is (\texttt{first\_or\allowbreak{}der\_form\allowbreak{}\_and\_ant\allowbreak{}icommuta\allowbreak{}tor}, \texttt{canonica\allowbreak{}l\_antico\allowbreak{}mmutator\allowbreak{}\_B})
+
+\[
+\{\Psi_A(x), \Psi^\dagger_C(y)\}_{x_4 = y_4} = B_{AC}\,\frac{\delta^7(x - y)}{\sqrt{|g|}} = B_{AC}\,\frac{\delta^7(x - y)}{\cos z} .
+\]
+
+With the Hamiltonian density $\mathcal{H} = \cos z\,\big[\Psi^\dagger\big(mC - \sum_{\mu\neq x_4}C\gamma^\mu D_\mu\big)\Psi + U(S)\big]$ (the unsymmetrised $\mathcal{L} = \Psi^\dagger K\partial_4\Psi - \mathcal{H}$ exactly), the Heisenberg equation $\partial_4\Psi = i[H, \Psi]$ equals the field equation solved for $\partial_4\Psi$, with the operator ordering of the classical expression (\texttt{Heisenbe\allowbreak{}rg\_equat\allowbreak{}ion\_repr\allowbreak{}oduces\_f\allowbreak{}ield\_equ\allowbreak{}ation}, \texttt{hamilton\allowbreak{}ian\_form\allowbreak{}\_and\_hei\allowbreak{}senberg\_\allowbreak{}equation}).
+
+\textbf{Theorem 2 (the canonical anticommutator forces a Krein structure).} Hypotheses: the canonical anticommutator above, and $\Psi^\dagger$ realised as the adjoint of $\Psi$ in a space with a positive-definite inner product. These are incompatible: there is no positive inner product with $\Psi^\dagger$ as the adjoint. \emph{Proof.} $B$ has the eigenvalue $-1$ with multiplicity 8; for the exact unit vector $u$ with components $u_7 = -i/\sqrt2$, $u_{16} = 1/\sqrt2$ and all others zero, $Bu = -u$, and the smeared operator $X = \sum_A u_A^*\Psi_A(f)$ has $\{X, X^\dagger\} = (u^\dagger Bu)\,\lVert f\rVert^2 = -\lVert f\rVert^2 < 0$, whereas in a space with positive inner product $\{X, X^\dagger\} = XX^\dagger + X^\dagger X$ is a positive operator (\texttt{no\_posit\allowbreak{}ive\_inne\allowbreak{}r\_produc\allowbreak{}t} in both reports). Hence the state space carries an indefinite (Krein) inner product with fundamental symmetry $B$ ($B = B^\dagger$, $B^2 = 1$, signature (8,8)); equivalently, in a positive Hilbert space the canonical conjugate $\Psi^\dagger$ is not the Hilbert adjoint $\chi$ but $\Psi^\dagger = \chi B$, with $\{\Psi_A, \chi_C\} = \delta_{AC}$.
+
+The one-particle Krein structure. The curved mode operator $h$ ($i\partial_4\Psi = h\Psi$ for $U = 0$) is formally self-adjoint for the Krein form $\int\cos z\,u^\dagger Bv\,d^7x$, that is up to boundary terms (\texttt{Krein\_fo\allowbreak{}rm\_conse\allowbreak{}rved\_cur\allowbreak{}ved}). The boundary term of the hidden direction does not vanish at the patch end: $\cos z\,[u^\dagger(hv) - (hu)^\dagger v] = \partial_8(\sin z\,u^\dagger M_8 v)$ with $M_8 = i\gamma^{(4)}\gamma^{(8)}$ in the good sector at $k = 0$, which vanishes at the tip but not at $z = \pi/2$, a surface at finite proper distance where $\sin z = 1$ (\texttt{good\_sec\allowbreak{}tor\_herm\allowbreak{}iticity\_\allowbreak{}up\_to\_th\allowbreak{}e\_brane\_\allowbreak{}flux}, both engines). The Krein form is therefore conserved, and $h$ self-adjoint, only with a boundary condition at $z = \pi/2$ (for example the ASSUMED brane condition of the Kohn-Sham record); this record imposes none. For frozen coefficients (frame momenta $k_a$), plane waves $u\,e^{i(k\cdot x - Ex_4)}$ obey $Eu = h_k u$ with $h_k = m\beta + \sum_a k_a\alpha^a$, $\beta = -i\gamma^{(4)}$, $\alpha^a = -\gamma^{(4)}\gamma^{(a)}$; $\beta$ and $\alpha^{1,2,3,8}$ are Hermitian, $\alpha^{5,6,7}$ anti-Hermitian, $Bh_k = h_k^\dagger B$ (Krein self-adjoint), and (\texttt{mode\_ham\allowbreak{}iltonian\allowbreak{}\_good\_se\allowbreak{}ctor}, \texttt{mode\_ham\allowbreak{}iltonian\allowbreak{}\_Krein\_s\allowbreak{}elfadjoi\allowbreak{}nt}, \texttt{mode\_ham\allowbreak{}iltonian\allowbreak{}\_B\_selfa\allowbreak{}djoint\_d\allowbreak{}ispersio\allowbreak{}n})
+
+\[
+h_k^2 = \big(m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2\big)\,I_{16} .
+\]
+
+Good sector (no dependence on the extra times, $k_5 = k_6 = k_7 = 0$): $h_k$ is Hermitian with eigenvalues $\pm E$, eight each, and commutes with $B$; $B$ also commutes with the curved term $3iH\gamma^{(4)}\gamma^{(8)}$ (\texttt{good\_sec\allowbreak{}tor\_spec\allowbreak{}trum\_and\allowbreak{}\_B\_secto\allowbreak{}rs}). The curved mode operator is symmetric for the measure $\cos z\,d^7x$ in this sector only up to the boundary term at $z = \pi/2$ (\texttt{good\_sec\allowbreak{}tor\_herm\allowbreak{}iticity\_\allowbreak{}curved}, \texttt{good\_sec\allowbreak{}tor\_herm\allowbreak{}iticity\_\allowbreak{}up\_to\_th\allowbreak{}e\_brane\_\allowbreak{}flux}): on the good-sector functions that do not depend on $x_8$ (finite norm, $\int_0^{\pi/(12H)}\cos(6Hx_8)\,dx_8 = 1/(6H)$) it acts as the matrix $-im\gamma^{(4)} + 3iH\gamma^{(4)}\gamma^{(8)}$, which is not Hermitian and has the square $(m^2 - 9H^2)I_{16}$; at $m = H = 1$ its eigenvalues are $\pm 2\sqrt2\,i$ (\texttt{good\_sec\allowbreak{}tor\_x8\_i\allowbreak{}ndepende\allowbreak{}nt\_modes\allowbreak{}\_without\allowbreak{}\_boundar\allowbreak{}y\_condit\allowbreak{}ion}). Without a boundary condition at $z = \pi/2$ the good sector of the author's metric therefore contains growing modes, for $U = 0$ whenever $m^2 < 9H^2$; the exact solutions of section 8 with $\alpha = 0$ ($k^2 = 9H^2 - m^2$) are such modes. Positive Fock realisation: $\Psi = \sum_s(b_s u_s + d_s^* v_s)$ with orthonormal eigenvectors $u_s$ (energy $+E$) and $v_s$ (energy $-E$), $\{b, b^*\} = \{d, d^*\} = 1$ on a positive Fock space, and $\Psi^\dagger = \chi B$, so that $\{\Psi_A, \Psi^\dagger_C\} = B_{AC}$. Exact examples (one momentum each): Wolfram, $m = 3$, $k = (4, 0, 0, 0)$ along $x_1$, $E = 5$, on the explicit fermionic Fock space of $2^{16}$ occupation states; sympy, $m = 2$, $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$, $E = 5$. The Hamiltonian $\chi h_k\Psi$ has the vacuum value $-8E$ (the filled sea; $-40$ in the sympy example), and after normal ordering the energy is $+E$ for the particle $b_0^*|0\rangle$ and $+E$ for the antiparticle $d_0^*|0\rangle$; the charge $\Psi^\dagger B\Psi = \chi\Psi$ is $+1$ and $-1$ (\texttt{Fock\_spa\allowbreak{}ce\_good\_\allowbreak{}sector\_e\allowbreak{}xample}, \texttt{good\_sec\allowbreak{}tor\_posi\allowbreak{}tive\_foc\allowbreak{}k\_realis\allowbreak{}ation}).
+
+Expectation-value rule. In the positive realisation, $\langle u|{:}\Psi^\dagger M\Psi{:}|u\rangle = u^\dagger BMu$ for a particle and $-v^\dagger BMv$ for an antiparticle (verified for $M = C$, $-iC\gamma^{(4)}$, $-iC\gamma^{(1)}$, $C\gamma^{(2)}\gamma^{(3)}$, a dense integer matrix and a generic symbolic matrix). In the Krein-Fock realisation ($\Psi^\dagger$ the Krein adjoint, modes with $u_n^\dagger Bu_n = \epsilon_n$) the normalised expectation of ${:}\Psi^\dagger M\Psi{:}$ is $\epsilon_n u_n^\dagger Mu_n$, which equals $u_n^\dagger BMu_n$ when $Bu_n = \epsilon_n u_n$ and not for a Krein-boosted mode (\texttt{Fock\_spa\allowbreak{}ce\_good\_\allowbreak{}sector\_e\allowbreak{}xample}, \texttt{good\_sec\allowbreak{}tor\_posi\allowbreak{}tive\_foc\allowbreak{}k\_realis\allowbreak{}ation}, \texttt{expectat\allowbreak{}ion\_valu\allowbreak{}e\_rule}).
+
+Extra-time modes. With extra-time momentum, $E^2 = m^2 + k_s^2 - k_t^2$ is negative when $k_t^2 > m^2 + k_s^2$; exact example $m = 1$, $k_5 = 2$: $E = \pm i\sqrt3$, modes growing like $e^{\sqrt3\,x_4}$. The growth rate has no upper bound as the extra-time momentum grows (\texttt{extra\_ti\allowbreak{}me\_growt\allowbreak{}h\_rates\_\allowbreak{}unbounde\allowbreak{}d}). In the metric the frame momentum $k_{(5)} = e^{a_4}\sin^{-1/6}z\,k_{x_5}$ grows as the extra times deflate ($a_4$ increasing), so every extra-time mode eventually enters the growing regime (a local-frame statement); extra-time momenta mix the $B = \pm1$ sectors (\texttt{extra\_ti\allowbreak{}me\_modes\allowbreak{}\_grow}, \texttt{mode\_ham\allowbreak{}iltonian\allowbreak{}\_good\_se\allowbreak{}ctor}, \texttt{good\_sec\allowbreak{}tor\_spec\allowbreak{}trum\_and\allowbreak{}\_B\_secto\allowbreak{}rs}). Krein structure of the one-particle eigenspaces in flat 4+4 space (pairing record): every eigenspace of REAL frequency, $E^2 > 0$, with or without extra-time momentum, has Krein inertia (4,4) (proved for every real frequency: \texttt{Q\_one\_pa\allowbreak{}rticle\_K\allowbreak{}rein\_ine\allowbreak{}rtia\_rea\allowbreak{}l\_freque\allowbreak{}ncies}, \texttt{Q.one\_pa\allowbreak{}rticle\_K\allowbreak{}rein\_ine\allowbreak{}rtia\_pro\allowbreak{}of}), while the eigenspaces of imaginary or zero frequency, those of the growing modes, are Krein-neutral, $B$ vanishes on them identically (\texttt{Q\_one\_pa\allowbreak{}rticle\_c\allowbreak{}omplex\_a\allowbreak{}nd\_zero\_\allowbreak{}frequenc\allowbreak{}ies\_Krei\allowbreak{}n\_neutra\allowbreak{}l}, \texttt{Q.one\_pa\allowbreak{}rticle\_c\allowbreak{}omplex\_f\allowbreak{}requency\allowbreak{}\_Krein\_n\allowbreak{}eutral}; for $m = 1$, $k_5 = 2$ both 8-dimensional eigenspaces of $\pm i\sqrt3$).
+
+Scope: the positive Fock realisation is constructed and checked for single good-sector momenta with frozen coefficients; together with the formal (up to the boundary term at $z = \pi/2$) Hermiticity of the curved good-sector mode operator and the formal conservation of the Krein form this is the quantisation recorded here. A complete construction for the interacting field ($\lambda \neq 0$), for the extra-time sector with its growing modes, and of the field algebra on a whole slice is not part of this record (section 15).
+
+\section{The energy-momentum tensor operator}
+
+The energy-momentum tensor operator of dirac16complex is the tensor of section 9 with the field replaced by the quantised field and normal ordered with respect to the good-sector modes (formula key \texttt{quantisa\allowbreak{}tion}):
+
+\[
+\hat T^\nu{}_\mu(x) = {:}\,T^\nu{}_\mu\big[\hat\Psi, \hat{\bar\Psi}\big]\,{:}\,,\qquad \hat{\bar\Psi} = \hat\Psi^\dagger C,\qquad \hat\Psi^\dagger = \hat\chi B \quad\text{(positive realisation)} .
+\]
+
+Explicitly, with $\hat S = \hat\Psi^\dagger C\hat\Psi$ and $\hat K_\mu = \frac{1}{2f_\mu}\big(\hat{\bar\Psi}\gamma^{(\mu)}\partial_\mu\hat\Psi - \partial_\mu\hat{\bar\Psi}\gamma^{(\mu)}\hat\Psi\big)$:
+
+\[
+\begin{aligned}
+\hat\rho &= -\hat T^{x_4}{}_{x_4} = {:}\Big(-\sum_{\mu\neq x_4}\hat K_\mu + m\hat S + U(\hat S)\Big){:}, \\
+\hat p_\mu &= \hat T^\mu{}_\mu = {:}\Big(\sum_{\nu\neq\mu}\hat K_\nu - m\hat S - U(\hat S)\Big){:} \qquad (\mu \neq x_4), \\
+\hat T^{\nu\rho} &= {:}\Big(g^{\nu\rho}\hat{\mathcal{L}}_0 - \tfrac14\big(\hat{\bar\Psi}\gamma^\nu D^\rho\hat\Psi + \hat{\bar\Psi}\gamma^\rho D^\nu\hat\Psi - D^\rho\hat{\bar\Psi}\gamma^\nu\hat\Psi - D^\nu\hat{\bar\Psi}\gamma^\rho\hat\Psi\big)\Big){:},
+\end{aligned}
+\]
+
+with the kinetic part ${:}\big(-\sum_{\mu\neq x_4}\hat K_\mu\big){:}$ and the potential part ${:}\big(m\hat S + U(\hat S)\big){:}$ of the energy density. Properties and status:
+
+\begin{itemize}
+\item Normal ordering removes the vacuum value of the filled sea ($-8E$ per good-sector momentum in the exact examples of section 11) and gives positive energy $+E$ to particles and antiparticles (\texttt{Fock\_spa\allowbreak{}ce\_good\_\allowbreak{}sector\_e\allowbreak{}xample}, \texttt{good\_sec\allowbreak{}tor\_posi\allowbreak{}tive\_foc\allowbreak{}k\_realis\allowbreak{}ation}).
+\item For $\lambda = 0$ every component of $\hat T$ is a normal-ordered bilinear $\hat\Psi^\dagger M\hat\Psi$ (with $M$ containing the derivatives, which act on the mode functions), and its one-particle expectation values follow the expectation-value rule of section 11; in the sympy formulation the one-particle expectation of $\hat T$ is $\epsilon_n$ times the classical bilinear evaluated on the mode $u_n$ (formula key \texttt{quantisa\allowbreak{}tion} of the sympy report).
+\item For $\lambda \neq 0$ the potential term is quartic. The field-equations record states the rule used there: every bilinear is replaced by the expectation value of its normal-ordered operator in the state, with $\langle{:}U(S){:}\rangle \neq U(\langle{:}S{:}\rangle)$ in general, and it records the operator form of the on-shell identity $\sum_\mu\langle{:}K_\mu{:}\rangle = \langle{:}(m + U')S{:}\rangle$ as an assumption to be confirmed by the theory branch (key \texttt{dirac16c\allowbreak{}omplex} of \texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/a4-e\allowbreak{}quations\allowbreak{}.json}). The identity is verified exactly for the Grassmann-algebra field (\texttt{kinetic\_\allowbreak{}sum\_on\_s\allowbreak{}hell\_G}); its normal-ordered operator form for $\lambda \neq 0$ is not verified by a Revision check. Numerical expectation values of $\hat T$ for many-fermion states are computed only in the Kohn-Sham approximation (\texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/}; its document is planned and not yet written) and are not quoted here.
+\item The Grassmann-algebra tensor of sections 9 and 10 obeys the identities of section 8 (symmetry and conservation on shell); the operator inherits them for the bilinear ($\lambda = 0$) part, where they are linear in the field equations; for the quartic part this is part of the open operator question just stated.
+\end{itemize}
+
+\section{The field equations for a4[x4] with dirac16complex as the source}
+
+Einstein-Lovelock gravity (SPEC section 5), with the Lovelock tensors computed with the generalised Kronecker delta in \texttt{Revision\allowbreak{}/gkd\_lov\allowbreak{}elock} and recomputed in both verifiers of the field-equations branch (for example \texttt{P3\_direc\allowbreak{}t\_equals\allowbreak{}\_gkd\_bra\allowbreak{}nch\_mono\allowbreak{}mials}, \texttt{P1\_direc\allowbreak{}t\_equals\allowbreak{}\_minus\_4\allowbreak{}\_Einstei\allowbreak{}n} and \texttt{P4\_vanis\allowbreak{}hes\_pige\allowbreak{}onhole}; sympy \texttt{P3\_equal\allowbreak{}s\_gkd\_br\allowbreak{}anch\_mon\allowbreak{}omials}):
+
+\[
+\sum_{k=1}^{3}\alpha_k\,E_{(k)}{}^\mu{}_\nu + \Lambda\,\delta^\mu_\nu = \kappa\,T^\mu{}_\nu,\qquad E_{(k)} = -\frac{P_{(k)}}{2^{k+1}},\qquad E_{(1)} = G,
+\]
+
+with $\alpha_1 = 1$ for Einstein gravity and the source $T^\mu{}_\nu = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8) + q_{48} + q_{84}$ ($q_{48}$ at $\mu = x_4$, $\nu = x_8$; $q_{84}$ at $\mu = x_8$, $\nu = x_4$). The left-hand sides are divergence-free (\texttt{E1\_diver\allowbreak{}gence\_fr\allowbreak{}ee}, \texttt{E2\_diver\allowbreak{}gence\_fr\allowbreak{}ee}, \texttt{E3\_diver\allowbreak{}gence\_fr\allowbreak{}ee} in both reports). Their nonzero components are diagonal, with $x_1 = x_2 = x_3$ and $x_5 = x_6 = x_7$, free of $x_8$ and of $a_4$ itself; every off-diagonal left-hand side, including $x_4$-$x_8$, is zero (\texttt{independ\allowbreak{}ent\_comp\allowbreak{}onents}, \texttt{P1\_struc\allowbreak{}ture}, \texttt{P2\_struc\allowbreak{}ture}, \texttt{P3\_struc\allowbreak{}ture}; sympy \texttt{other\_co\allowbreak{}mponents\allowbreak{}\_vanish}). The diagonal components (formula key \texttt{lovelock\allowbreak{}Tensors}; \texttt{json\_lov\allowbreak{}elock\_co\allowbreak{}mponents}):
+
+\[
+\begin{aligned}
+E_{(1)}{}^{x_1}{}_{x_1} &= -3 (a_4')^{2} + a_4'' + 15 H^{2} \\
+E_{(1)}{}^{x_4}{}_{x_4} &= 3 (a_4')^{2} + 21 H^{2} \\
+E_{(1)}{}^{x_5}{}_{x_5} &= -3 (a_4')^{2} - a_4'' + 15 H^{2} \\
+E_{(1)}{}^{x_8}{}_{x_8} &= -3 (a_4')^{2} + 15 H^{2} \\
+E_{(2)}{}^{x_1}{}_{x_1} &= 12 (a_4')^{4} - 24 (a_4')^{2} a_4'' + 168 (a_4')^{2} H^{2} - 40 a_4'' H^{2} - 180 H^{4} \\
+E_{(2)}{}^{x_4}{}_{x_4} &= -36 (a_4')^{4} - 120 (a_4')^{2} H^{2} - 420 H^{4} \\
+E_{(2)}{}^{x_5}{}_{x_5} &= 12 (a_4')^{4} + 24 (a_4')^{2} a_4'' + 168 (a_4')^{2} H^{2} + 40 a_4'' H^{2} - 180 H^{4} \\
+E_{(2)}{}^{x_8}{}_{x_8} &= 12 (a_4')^{4} + 168 (a_4')^{2} H^{2} - 180 H^{4} \\
+E_{(3)}{}^{x_1}{}_{x_1} &= -72 (a_4')^{6} + 360 (a_4')^{4} a_4'' - 648 (a_4')^{4} H^{2} + 432 (a_4')^{2} a_4'' H^{2} \\
+&\quad - 1944 (a_4')^{2} H^{4} + 360 a_4'' H^{4} + 360 H^{6} \\
+E_{(3)}{}^{x_4}{}_{x_4} &= 360 (a_4')^{6} + 648 (a_4')^{4} H^{2} + 1080 (a_4')^{2} H^{4} + 2520 H^{6} \\
+E_{(3)}{}^{x_5}{}_{x_5} &= -72 (a_4')^{6} - 360 (a_4')^{4} a_4'' - 648 (a_4')^{4} H^{2} - 432 (a_4')^{2} a_4'' H^{2} \\
+&\quad - 1944 (a_4')^{2} H^{4} - 360 a_4'' H^{4} + 360 H^{6} \\
+E_{(3)}{}^{x_8}{}_{x_8} &= -72 (a_4')^{6} - 648 (a_4')^{4} H^{2} - 1944 (a_4')^{2} H^{4} + 360 H^{6}
+\end{aligned}
+\]
+
+The independent field equations (formula key \texttt{generalS\allowbreak{}ource}):
+
+\begin{itemize}
+\item constraint ($x_4$): $\sum_k\alpha_k E_{(k)}{}^{x_4}{}_{x_4} + \Lambda = -\kappa\rho$;
+\item 3-space ($x_1 = x_2 = x_3$): $\sum_k\alpha_k E_{(k)}{}^{x_1}{}_{x_1} + \Lambda = \kappa p_3$;
+\item extra times ($x_5 = x_6 = x_7$): $\sum_k\alpha_k E_{(k)}{}^{x_5}{}_{x_5} + \Lambda = \kappa p_t$;
+\item hidden direction ($x_8$): $\sum_k\alpha_k E_{(k)}{}^{x_8}{}_{x_8} + \Lambda = \kappa p_8$;
+\item off-diagonal: $0 = \kappa T^\mu{}_\nu$ for $\mu \neq \nu$, in particular $q_{48} = q_{84} = 0$.
+\end{itemize}
+
+The evolution equation is the 3-space minus extra-time combination; it contains $a_4''$ and factorises (\texttt{evolutio\allowbreak{}n\_factor\allowbreak{}ises\_a4p\allowbreak{}p\_times\_\allowbreak{}F}, \texttt{evolutio\allowbreak{}n\_factor\allowbreak{}ises}; formula key \texttt{evolutio\allowbreak{}n\_F}):
+
+\[
+a_4''\,F(a_4') = \kappa\,(p_3 - p_t),
+\]
+
+\[
+F(a_4') = 2\,\alpha_1 + \alpha_2\,(-48 (a_4')^{2} - 80 H^{2}) + \alpha_3\,(720 (a_4')^{4} + 864 (a_4')^{2} H^{2} + 720 H^{4})
+\]
+
+and $F$ vanishes identically only for $\alpha_1 = \alpha_2 = \alpha_3 = 0$ (\texttt{evolutio\allowbreak{}n\_F\_not\_\allowbreak{}identica\allowbreak{}lly\_zero} in both reports). The constraint and the $x_8$ equation are first order (\texttt{x8\_compo\allowbreak{}nent\_con\allowbreak{}tains\_no\allowbreak{}\_a4pp}, \texttt{constrai\allowbreak{}nt\_and\_x\allowbreak{}8\_first\_\allowbreak{}order}). The remaining consistency conditions:
+
+\begin{itemize}
+\item algebraic condition: $\sum_k\alpha_k(E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} - 2E^{x_8}{}_{x_8}) = 0$ identically, so the source must satisfy $p_3 + p_t = 2p_8$ (\texttt{algebrai\allowbreak{}c\_identi\allowbreak{}ty\_x1\_pl\allowbreak{}us\_x5\_mi\allowbreak{}nus\_2x8}, \texttt{algebrai\allowbreak{}c\_identi\allowbreak{}ty});
+\item $x_8$-dependence: since the left-hand sides do not depend on $x_8$, every component of $T^\mu{}_\nu$ must be independent of $x_8$, and $q_{48} = q_{84} = 0$ (key \texttt{x8\_depen\allowbreak{}dence});
+\item constraint propagation (Bianchi identity): $\frac{d}{dx_4}\sum_k\alpha_k E_{(k)}{}^{x_4}{}_{x_4} = 3a_4'\sum_k\alpha_k\big(E^{x_1}{}_{x_1} - E^{x_5}{}_{x_5}\big)$ identically (\texttt{constrai\allowbreak{}nt\_propa\allowbreak{}gation\_b\allowbreak{}ianchi}, \texttt{bianchi\_\allowbreak{}x4}); with the conservation law $\rho' = -3a_4'(p_3 - p_t)$ the evolution equation follows from the constraint wherever $a_4' \neq 0$. The conservation components of a general source are $\nabla_\mu T^\mu{}_{x_4} = -\partial_4\rho - 3a_4'(p_3 - p_t) + \partial_8 q_{84} - 6H\tan z\,q_{84}$ and $\nabla_\mu T^\mu{}_{x_8} = \partial_8 p_8 + 3H\cot z\,(2p_8 - p_3 - p_t) + \partial_4 q_{48}$ (\texttt{conserva\allowbreak{}tion\_com\allowbreak{}ponents} in both reports).
+\end{itemize}
+
+Einstein gravity ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$; \texttt{einstein\allowbreak{}\_compone\allowbreak{}nts}; formula key \texttt{\detokenize{einstein}}):
+
+\[
+\begin{aligned}
+3 (a_4')^{2} + 21 H^{2} + \Lambda &= -\kappa\rho \\
+-3 (a_4')^{2} + a_4'' + 15 H^{2} + \Lambda &= \kappa p_3 \\
+-3 (a_4')^{2} - a_4'' + 15 H^{2} + \Lambda &= \kappa p_t \\
+-3 (a_4')^{2} + 15 H^{2} + \Lambda &= \kappa p_8
+\end{aligned}
+\]
+
+so $2a_4'' = \kappa(p_3 - p_t)$ and $\kappa(\rho + p_8) = -6\big((a_4')^2 + H^2\big) < 0$ for every $a_4$ and every $\Lambda$: the source must violate the null energy condition along the null direction $x_4 + x_8$ (\texttt{einstein\allowbreak{}\_null\_en\allowbreak{}ergy\_x8}), and there is no vacuum solution for $H > 0$ (\texttt{einstein\allowbreak{}\_no\_vacu\allowbreak{}um\_solut\allowbreak{}ion}, \texttt{einstein\allowbreak{}\_no\_vacu\allowbreak{}um}). Every twice differentiable $a_4$ is allowed if the source is the one these equations require (key \texttt{sourceRe\allowbreak{}quiredBy\allowbreak{}GivenA4}); $\kappa\rho > 0$ needs $\Lambda < -(3(a_4')^2 + 21H^2)$.
+
+The linear member $a_4 = AHx_4 + a_0$ (3-space scale factor $e^{AHx_4}$, extra-time scale factor $e^{-AHx_4}$: exponential deflation for $A > 0$). The field equations then require $p_3 = p_t = p_8 = p$, with $\rho$ and $p$ constant, for any $\alpha_k$ (\texttt{linear\_m\allowbreak{}ember\_eq\allowbreak{}ual\_pres\allowbreak{}sures}; key \texttt{linearMe\allowbreak{}mber}):
+
+\[
+\begin{aligned}
+\kappa\rho &= \alpha_1\,(-3 A^{2} H^{2} - 21 H^{2}) + \alpha_2\,(36 A^{4} H^{4} + 120 A^{2} H^{4} + 420 H^{4}) \\
+&\quad + \alpha_3\,(-360 A^{6} H^{6} - 648 A^{4} H^{6} - 1080 A^{2} H^{6} - 2520 H^{6}) - \Lambda \\
+\kappa p &= \alpha_1\,(-3 A^{2} H^{2} + 15 H^{2}) + \alpha_2\,(12 A^{4} H^{4} + 168 A^{2} H^{4} - 180 H^{4}) \\
+&\quad + \alpha_3\,(-72 A^{6} H^{6} - 648 A^{4} H^{6} - 1944 A^{2} H^{6} + 360 H^{6}) + \Lambda \\
+\mathcal{V}(A) &= \alpha_1 + \alpha_2\,(-8 A^{2} H^{2} - 40 H^{2}) + \alpha_3\,(72 A^{4} H^{4} + 144 A^{2} H^{4} + 360 H^{4})
+\end{aligned}
+\]
+
+A vacuum ($\rho = p = 0$) needs $\mathcal{V}(A) = 0$ (\texttt{linear\_m\allowbreak{}ember\_va\allowbreak{}cuum\_fac\allowbreak{}tor}); in Einstein-Gauss-Bonnet gravity ($\alpha_3 = 0$) this gives $A^2 = (1 - 40\alpha_2H^2)/(8\alpha_2H^2)$, real for $0 < \alpha_2H^2 \le 1/40$ (\texttt{einstein\allowbreak{}\_gauss\_b\allowbreak{}onnet\_va\allowbreak{}cuum\_lin\allowbreak{}ear}). For Einstein gravity $\kappa\rho = -(3A^2 + 21)H^2 - \Lambda$, $\kappa p = (15 - 3A^2)H^2 + \Lambda$ and $\kappa(\rho + p) = -6(A^2 + 1)H^2$.
+
+Specialisation to dirac16complex. The source is the energy-momentum tensor of section 9 with the declared sign $\sigma_T = +1$ (key \texttt{emtConve\allowbreak{}ntion}: $T^\mu{}_\nu = \sigma_T(-K^{(\mu}{}_{\nu)} + \delta^\mu_\nu\mathcal{L}_0)$, the convention $\rho = -T^{x_4}{}_{x_4}$ of SPEC section 4; the relative sign of the gravitational and matter actions is carried as the parameter $\sigma_T$ in the field-equations record and is not fixed by a Revision check). For the quantised field every bilinear is replaced by the expectation value of its normal-ordered operator in the state (section 12), with $k_\mu = K_\mu$:
+
+\[
+\begin{aligned}
+\rho &= \langle{:}k_4{:}\rangle - \langle{:}\mathcal{L}_0{:}\rangle, & p_3 &= \langle{:}\mathcal{L}_0{:}\rangle - \langle{:}k_1{:}\rangle, \\
+p_t &= \langle{:}\mathcal{L}_0{:}\rangle - \langle{:}k_5{:}\rangle, & p_8 &= \langle{:}\mathcal{L}_0{:}\rangle - \langle{:}k_8{:}\rangle,
+\end{aligned}
+\]
+
+and the equations become (key \texttt{dirac16c\allowbreak{}omplex} of the field-equations record):
+
+\begin{itemize}
+\item constraint: $\sum_k\alpha_k E_{(k)}{}^{x_4}{}_{x_4} + \Lambda = -\kappa\big(\langle{:}k_4{:}\rangle - \langle{:}\mathcal{L}_0{:}\rangle\big)$;
+\item evolution: $a_4''F(a_4') = \kappa\big(\langle{:}k_5{:}\rangle - \langle{:}k_1{:}\rangle\big)$: a state with $\langle{:}k_1{:}\rangle \neq \langle{:}k_5{:}\rangle$ would drive $a_4''$ if it also satisfied the conditions below ($p_3 + p_t = 2p_8$, every expectation value independent of $x_8$, vanishing off-diagonal components); no such state is constructed in Revision;
+\item hidden direction: $\sum_k\alpha_k E_{(k)}{}^{x_8}{}_{x_8} + \Lambda = \kappa\big(\langle{:}\mathcal{L}_0{:}\rangle - \langle{:}k_8{:}\rangle\big)$, and the algebraic condition $2\langle{:}k_8{:}\rangle = \langle{:}k_1{:}\rangle + \langle{:}k_5{:}\rangle$;
+\item every off-diagonal expectation value $\langle{:}T^\mu{}_\nu{:}\rangle$, $\mu \neq \nu$, must vanish, and every expectation value must be independent of $x_8$. For a homogeneous configuration the off-diagonal components are multiples of the 15 three-gamma bilinears $\bar\Psi\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}\Psi$ with $\{a, b, c\} = \{i, 4, 8\}$ ($i = 1, 2, 3, 5, 6, 7$) and $\{i, 4, j\}$ ($i = 1, 2, 3$, $j = 5, 6, 7$), derived for the classical homogeneous condensate (\texttt{condensa\allowbreak{}te\_offdi\allowbreak{}agonal\_a\allowbreak{}re\_three\allowbreak{}\_gamma\_b\allowbreak{}ilinears}, \texttt{authorT1\allowbreak{}6\_conden\allowbreak{}sate\_off\allowbreak{}diagonal\allowbreak{}\_three\_g\allowbreak{}amma}; key \texttt{offDiago\allowbreak{}nalCondi\allowbreak{}tions}); for dirac16complex their expectation values must vanish.
+\end{itemize}
+
+\textbf{Statement (states with equal 3-space and extra-time kinetic terms; key \texttt{homogene\allowbreak{}ousSingl\allowbreak{}eMode}).} Hypotheses: a state whose normal-ordered expectation values depend on $x_4$ only, satisfy the off-diagonal conditions and have $\langle{:}k_1{:}\rangle = \langle{:}k_5{:}\rangle$ for every $x_4$ (for example all quanta at zero 3-momentum and zero extra-time momentum); $a_4$ twice continuously differentiable; $(\alpha_1, \alpha_2, \alpha_3) \neq (0, 0, 0)$. Then $a_4''F(a_4') = 0$; $F$ is a nonzero polynomial in $a_4'$ with finitely many roots (\texttt{evolutio\allowbreak{}n\_F\_not\_\allowbreak{}identica\allowbreak{}lly\_zero}) and $a_4'$ is continuous, so $a_4'' = 0$ on every interval and $a_4 = AHx_4 + a_0$ with real $A$: only the linear member is allowed (the same argument as the theorem for the classical condensate, key \texttt{theoremL\allowbreak{}inear}, with \texttt{linear\_m\allowbreak{}ember\_eq\allowbreak{}ual\_pres\allowbreak{}sures}). The equations contain $A$ only through $A^2$, so they are invariant under $A \to -A$: the extra times deflate for $A > 0$, which is a choice of sign (an initial condition) and is not selected by the equations; $A < 0$ is allowed on the same footing, and $A = 0$ is the static case. If in addition $\langle{:}k_\mu{:}\rangle = 0$ for every $\mu \neq x_4$, then $\rho = \langle{:}mS + U{:}\rangle$ exactly and $p = \langle{:}k_4{:}\rangle - \langle{:}mS + U{:}\rangle$, which equals $\langle{:}SU' - U{:}\rangle$ under the operator form of the on-shell identity of section 12 (an assumption for $\lambda \neq 0$). With it, Einstein gravity requires $\kappa\langle{:}mS + U{:}\rangle = -(3A^2 + 21)H^2 - \Lambda$ and $\kappa\langle{:}SU' - U{:}\rangle = (15 - 3A^2)H^2 + \Lambda$, hence $\kappa\langle{:}(m + U')S{:}\rangle = -6(A^2 + 1)H^2 < 0$ (key \texttt{einstein\allowbreak{}Conditio\allowbreak{}ns}; for the classical quadratic case \texttt{condensa\allowbreak{}te\_einst\allowbreak{}ein\_quad\allowbreak{}ratic\_U} in both reports).
+
+What $a_4$ the equations allow, in summary: for a prescribed $a_4$ the equations fix the required source ($\rho$, $p_3$, $p_t$, $p_8$ above, with $p_3 + p_t = 2p_8$ and all components independent of $x_8$), and whether a state of dirac16complex supplies it is a separate question; states with $\langle{:}k_1{:}\rangle = \langle{:}k_5{:}\rangle$ allow only the linear member $a_4 = AHx_4 + a_0$ with constant $\rho$ and $p$ (the sign of $A$, and with it deflation or inflation of the extra times, is not selected); a non-linear $a_4$ needs $p_3 \neq p_t$, that is $\langle{:}k_1{:}\rangle \neq \langle{:}k_5{:}\rangle$, together with all the other conditions. The Kohn-Sham states computed in \texttt{Revision\allowbreak{}/kohn\_sh\allowbreak{}am/} (key \texttt{\detokenize{kohnSham}} of the field-equations record) are not such a source: every recorded state with a nonzero energy-momentum tensor depends on $x_8$ and violates $p_3 + p_t = 2p_8$ pointwise and also after integration over $x_8$ (for $N = 136$, $\lambda = 0$ the ratio $(\int p_3 + \int p_t)/(2\int p_8)$ is 0.339767, 0.25969 and 0.239714 at $a_{4,0} = 0$, 1, 2, where the equations require 1), so the author's metric is not a solution with them (\texttt{ks\_profi\allowbreak{}les\_depe\allowbreak{}nd\_on\_x8}, \texttt{ks\_profi\allowbreak{}les\_viol\allowbreak{}ate\_alge\allowbreak{}braic\_co\allowbreak{}ndition}, \texttt{ks\_integ\allowbreak{}rals\_vio\allowbreak{}late\_alg\allowbreak{}ebraic\_c\allowbreak{}ondition}). The Kohn-Sham history $a_4 = AHx_4$ is a prescribed test-field background without back-reaction: the linear member needs $p_3 = p_t = p_8$ and constant $\rho$, which the Kohn-Sham gas along it does not have (\texttt{ks\_histo\allowbreak{}ry\_is\_a\_\allowbreak{}prescrib\allowbreak{}ed\_backg\allowbreak{}round}).
+
+\section{Relation to the pairing theorems}
+
+The pairing theorems of SPEC section 9 use the Lagrangian, the field equations and the energy-momentum tensor of this document; their full statements, hypotheses and limits are in \texttt{Revision\allowbreak{}/docs/PA\allowbreak{}IR\_CREAT\allowbreak{}ION\_PROO\allowbreak{}FS.md}. For dirac16complex, in brief:
+
+\begin{itemize}
+\item T1 (chirality): $\mathcal{L}_{m,\lambda}[\Gamma\Psi] = -\mathcal{L}_{-m,-\lambda}[\Psi]$, solutions of the $(m, \lambda)$ equations are mapped to solutions of the $(-m, -\lambda)$ equations, $T \to -T$ and $J \to -J$, in every gravitational field; the total energy-momentum and the total current of the pair vanish identically (Wolfram \texttt{T1\_Lagra\allowbreak{}ngian\_pr\allowbreak{}imordial\allowbreak{}\_grassma\allowbreak{}nn} and \texttt{T1\_energ\allowbreak{}y\_moment\allowbreak{}um\_primo\allowbreak{}rdial\_gr\allowbreak{}assmann}, sympy \texttt{T1.metri\allowbreak{}c.grassm\allowbreak{}ann.pair\allowbreak{}\_total\_e\allowbreak{}mt\_zero}).
+\item T2 (chirality combined with a Pin(4,4) reflection of character $-1$, the mirror $z \to \pi - z$ across the assumed Z2 brane): $(m, \lambda) \to (-m, \lambda)$, $\mathcal{L} \to +\mathcal{L}$, with equal, not opposite, energy-momentum (\texttt{T2\_mirro\allowbreak{}r\_Lagran\allowbreak{}gian\_gra\allowbreak{}ssmann}, \texttt{T2\_mirro\allowbreak{}r\_energy\allowbreak{}\_momentu\allowbreak{}m\_and\_cu\allowbreak{}rrent\_gr\allowbreak{}assmann}; sympy \texttt{T2.metri\allowbreak{}c.grassm\allowbreak{}ann.emt}).
+\item Quantum reading: the chirality image $\Gamma\Psi$ carries the Krein metric $-B$; there is no cancellation between two independently quantised universes (\texttt{Q\_Krein\_\allowbreak{}metric\_o\allowbreak{}f\_images}, \texttt{Q\_no\_ide\allowbreak{}ntificat\allowbreak{}ion\_of\_i\allowbreak{}ndepende\allowbreak{}nt\_unive\allowbreak{}rses}; sympy \texttt{Q.no\_can\allowbreak{}cellatio\allowbreak{}n\_indepe\allowbreak{}ndent\_un\allowbreak{}iverses}).
+\item T3 (the Kohn-Sham level): the block map of $\Gamma$ with the brane parities exchanged and the tip angle $\theta \to \pi - \theta$ maps every self-consistent instantaneous Kohn-Sham state with $(m, \lambda, \theta)$ onto one with $(-m, +\lambda, \pi - \theta)$, with equal levels, occupations, Kohn-Sham energies and energy-momentum profiles, and $S \to -S$; the Z2 brane is ASSUMED (\texttt{T3\_energ\allowbreak{}ies\_and\_\allowbreak{}emt\_prof\allowbreak{}iles\_equ\allowbreak{}al}, \texttt{T3\_exact\allowbreak{}\_k0\_spec\allowbreak{}tra}; sympy \texttt{T3.energ\allowbreak{}ies\_and\_\allowbreak{}emt\_prof\allowbreak{}iles\_equ\allowbreak{}al}).
+\end{itemize}
+
+These are correspondences between solutions; no creation process, rate or amplitude follows from them (\texttt{not\_esta\allowbreak{}blished} in the sympy pairing report and in the T3 record).
+
+\section{What this document does not claim}
+
+\begin{itemize}
+\item It derives no creation process, rate or amplitude for universes, and no statement that universes of masses $+m$ and $-m$ are created in pairs; the pairing theorems (section 14) map solutions to solutions.
+\item Non-triviality [1] is a statement about the Euler-Lagrange equations in the author's metric with $H > 0$; it is not a statement about observable effects of the gravitational term. The value $\gamma^\mu\Omega_\mu = 3H\gamma^{(8)}$ belongs to the diagonal vielbein and to the field variables $\Psi$: it vanishes identically in the frame boosted in the $(x_4, x_8)$ plane with rapidity $6Hx_4 + b_0$, and the rescaling $\Psi = \sin^{-1/2}z\,\chi$ removes it; the canonical connection drops out of $\mathcal{L}$, and the deflation $a_4$ makes no contribution to $\gamma^\mu\Omega_\mu$. What is frame-independent is that $\Omega_\mu$ vanishes in no frame (curvature $R^{x_8}{}_{x_8} = -6H^2$), together with the vielbein factors of the derivative terms (section 7, Remarks). That the term is "not cosmetic" is not claimed; its role for the Hermiticity of the mode operator depends on the measure and the variables (an interpretation).
+\item The quantisation recorded here is: the canonical anticommutator, the theorem that it forces a Krein structure when $\Psi^\dagger$ is realised as the Hilbert adjoint, the formal Krein self-adjointness of the evolution (up to the boundary term at $z = \pi/2$), and positive Fock realisations checked for single good-sector momenta with frozen coefficients. A positive-norm Hilbert space for the full field, a stable vacuum in the presence of the growing extra-time modes, and the interacting ($\lambda \neq 0$) operator theory are not constructed. In flat 4+4 space every eigenspace of REAL frequency of the one-particle generator has Krein inertia (4,4) (\texttt{Q\_one\_pa\allowbreak{}rticle\_K\allowbreak{}rein\_sig\allowbreak{}natures}, \texttt{Q.one\_pa\allowbreak{}rticle\_K\allowbreak{}rein\_ine\allowbreak{}rtia}, proved for every real frequency in \texttt{Q\_one\_pa\allowbreak{}rticle\_K\allowbreak{}rein\_ine\allowbreak{}rtia\_rea\allowbreak{}l\_freque\allowbreak{}ncies} and \texttt{Q.one\_pa\allowbreak{}rticle\_K\allowbreak{}rein\_ine\allowbreak{}rtia\_pro\allowbreak{}of}), and every eigenspace of imaginary or zero frequency is Krein-neutral (\texttt{Q\_one\_pa\allowbreak{}rticle\_c\allowbreak{}omplex\_a\allowbreak{}nd\_zero\_\allowbreak{}frequenc\allowbreak{}ies\_Krei\allowbreak{}n\_neutra\allowbreak{}l}). In flat space the good-sector restriction removes the complex frequencies, not the indefiniteness of the real-frequency eigenspaces; in the curved good sector without a boundary condition at $z = \pi/2$ complex frequencies remain (section 11).
+\item Boundary conditions: none is imposed at $z = \pi/2$ in this record. The Hermiticity of the curved good-sector mode operator and the conservation of the Krein form hold up to the boundary term there; with no boundary condition the good sector contains growing $x_8$-independent modes (for $U = 0$ whenever $m^2 < 9H^2$).
+\item No well-posed Cauchy problem is claimed: the slices $x_4 = $ const are non-characteristic, but for data that depend on the extra times the growth rates are unbounded (Hadamard ill-posedness).
+\item The normal-ordered operator form of the on-shell trace identity for $\lambda \neq 0$ is an assumption of the field-equations record, not a verified result; no numerical expectation value of the energy-momentum tensor operator is quoted in this document.
+\item The relative sign $\sigma_T$ between the gravitational and the matter side of the $a_4$ equations is a declared convention ($\sigma_T = +1$), not derived.
+\item No solution $a_4(x_4)$ with a dirac16complex source is computed here beyond the statements of section 13; it is not claimed that any state of dirac16complex supplies a source that satisfies all the conditions of section 13 (in Einstein gravity such a source must violate the null energy condition along $x_4 + x_8$). The recorded Kohn-Sham states fail the conditions (section 13), and the Kohn-Sham history is a prescribed background without back-reaction; the equations do not select deflation ($A > 0$) over inflation of the extra times.
+\item The equation of state seen by a 3-space observer, its time dependence and the dark-sector hypotheses are not treated here.
+\item $H = 0$ is a degenerate limit, not a member of the family; the surface $z = \pi/2$ is degenerate ($g_{88} = 0$, $\sqrt{|g|} = 0$); nothing is claimed there.
+\item The comparison record of the field-theory branch agrees entirely (section 1); every formula is nevertheless cited by the separate checks of the two engines.
+\end{itemize}
+
+\section{Reproduction}
+
+From the repository root (each verifier writes its outputs to the paths listed in section 1; the Wolfram verifier of each part runs first because the sympy verifier compares with its output at the end):
+
+\begin{Verbatim}[fontsize=\small]
+wolframscript -file Revision/algebra/wolfram/verify_algebra.wls
+python Revision/algebra/python/check_algebra.py
+wolframscript -file Revision/theory/wolfram/verify_field_theory.wls
+python Revision/theory/python/check_field_theory.py
+wolframscript -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls
+python Revision/field_equations_a4/python/check_field_equations_a4.py
+wolframscript -file Revision/pairing/wolfram/verify_pairing.wls
+python Revision/pairing/python/check_pairing.py
+wolframscript -file Revision/theory/wolfram/verify_scope.wls
+python Revision/theory/python/check_scope.py
+wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3.wls
+python Revision/pairing/kohn_sham/python/check_t3.py
+python Revision/field_equations_a4/python/check_ks_source_conditions.py
+\end{Verbatim}
+
+The sympy field-theory checker exits with an error if its comparison with the Wolfram record does not agree entirely. It can write its report to another path, which leaves the recorded report untouched; it ran in about two minutes in this session (the scope checkers in about 17 s and 1 s, the T3 verifiers in about 3 s and 1 s):
+
+\begin{Verbatim}[fontsize=\small]
+python Revision/theory/python/check_field_theory.py --out <path>
+\end{Verbatim}
+
+This document (md, tex, pdf) is built and verified with the first command below (one command line); with the optional last argument it records the edition dirac16complex-field-theory in \texttt{Revision\allowbreak{}/pdf-spe\allowbreak{}cificati\allowbreak{}ons.json}. The second command runs the publication test, the third prints the blocks that the test generates:
+
+\begin{Verbatim}[fontsize=\small]
+python scripts/build_provenance_pdf.py Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md
+    --developer-layout --specifications Revision/pdf-specifications.json [--register]
+python -m unittest Revision/tests/test_dirac16complex_field_theory_publication.py -v
+python Revision/tests/test_dirac16complex_field_theory_publication.py --emit
+\end{Verbatim}
+
+The test checks that the .tex is the builder output of the .md, that the registered PDF is the PDF file next to it, that every cited check exists and passes in the reports, that the quoted check counts are those of the reports, and that the component field equations and the $a_4$ equations above are the output of its renderers applied to \texttt{Revision\allowbreak{}/theory/\allowbreak{}field-th\allowbreak{}eory.jso\allowbreak{}n} and \texttt{Revision\allowbreak{}/field\_e\allowbreak{}quations\allowbreak{}\_a4/a4-e\allowbreak{}quations\allowbreak{}.json}.
+
+\section{Index of formulas and checks}
+
+\begingroup
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedright\arraybackslash}p{0.200\linewidth}@{}}
+\toprule
+\textbf{formula} & \textbf{section} & \textbf{Wolfram checks} & \textbf{sympy checks} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{formula} & \textbf{section} & \textbf{Wolfram checks} & \textbf{sympy checks} \\
+\midrule
+\endhead
+metric, vielbein, volume element & 2 & \texttt{metric\_i\allowbreak{}s\_the\_au\allowbreak{}thors}, \texttt{sqrt\_det\allowbreak{}\_g\_is\_co\allowbreak{}s\_z} & \texttt{metric\_f\allowbreak{}rom\_viel\allowbreak{}bein\_equ\allowbreak{}als\_SPEC}, \texttt{sqrt\_det\allowbreak{}\_g\_equal\allowbreak{}s\_cos\_z} \\
+Christoffel symbols, Ricci tensor, curvature & 2 & \texttt{christof\allowbreak{}fel\_coun\allowbreak{}t}, \texttt{ricci\_mi\allowbreak{}xed\_comp\allowbreak{}onents}, \texttt{ricci\_sc\allowbreak{}alar}, \texttt{never\_fl\allowbreak{}at\_for\_H\allowbreak{}\_positiv\allowbreak{}e} & \texttt{christof\allowbreak{}fel\_symm\allowbreak{}etric\_me\allowbreak{}tric\_com\allowbreak{}patible}, \texttt{curvatur\allowbreak{}e\_nonzer\allowbreak{}o\_flat\_o\allowbreak{}nly\_form\allowbreak{}ally} \\
+Clifford algebra, C, Gamma, B & 3 & \texttt{Clifford\allowbreak{}\_relatio\allowbreak{}n}, \texttt{C\_gamma\_\allowbreak{}real\_ant\allowbreak{}isymmetr\allowbreak{}ic}, \texttt{Gamma\_di\allowbreak{}ag}, \texttt{B\_signat\allowbreak{}ure\_8\_8} & \texttt{clifford\allowbreak{}\_relatio\allowbreak{}n}, \texttt{C\_conjug\allowbreak{}ation}, \texttt{chiralit\allowbreak{}y\_diag}, \texttt{B\_hermit\allowbreak{}ian\_invo\allowbreak{}lution\_s\allowbreak{}ignature} \\
+Pin(4,4) irreducible; Spin(4,4): two inequivalent 8-dimensional irreducible halves & 3 & \texttt{Pin44\_ir\allowbreak{}reducibl\allowbreak{}e\_commut\allowbreak{}ant\_dim\_\allowbreak{}1}, \texttt{chiral\_h\allowbreak{}alves\_ir\allowbreak{}reducibl\allowbreak{}e}, \texttt{chiral\_h\allowbreak{}alves\_in\allowbreak{}equivale\allowbreak{}nt\_inter\allowbreak{}twiners\_\allowbreak{}0} & \texttt{pin\_comm\allowbreak{}utant\_di\allowbreak{}mension\_\allowbreak{}1}, \texttt{spin\_hal\allowbreak{}ves\_irre\allowbreak{}ducible}, \texttt{spin\_hal\allowbreak{}ves\_ineq\allowbreak{}uivalent} \\
+canonical spin connection, covariant constancy & 4 & \texttt{vielbein\allowbreak{}\_postula\allowbreak{}te}, \texttt{omega\_co\allowbreak{}mponents}, \texttt{Omega\_co\allowbreak{}mponents}, \texttt{gamma\_co\allowbreak{}variantl\allowbreak{}y\_consta\allowbreak{}nt} & \texttt{vielbein\allowbreak{}\_postula\allowbreak{}te}, \texttt{Omega\_x4\allowbreak{}\_and\_Ome\allowbreak{}ga\_x8\_va\allowbreak{}nish}, \texttt{covarian\allowbreak{}t\_consta\allowbreak{}ncy\_D\_mu\allowbreak{}\_gamma\_n\allowbreak{}u} \\
+gravitational term 3H gamma8 (diagonal frame) & 4, 7 & \texttt{gammaOme\allowbreak{}ga\_equal\allowbreak{}s\_3H\_gam\allowbreak{}ma\_x8}, \texttt{gammaOme\allowbreak{}ga\_x4\_te\allowbreak{}rms\_canc\allowbreak{}el} & \texttt{gamma\_mu\allowbreak{}\_Omega\_m\allowbreak{}u\_equals\allowbreak{}\_3H\_gamm\allowbreak{}a\_x8}, \texttt{time\_ter\allowbreak{}ms\_cance\allowbreak{}l\_hidden\allowbreak{}\_term\_su\allowbreak{}rvives} \\
+frame and variable dependence of the term; frame-independent content & 4, 7 & \texttt{boosted\_\allowbreak{}frame\_ga\allowbreak{}mmaOmega\allowbreak{}\_vanishe\allowbreak{}s}, \texttt{boosted\_\allowbreak{}frame\_cu\allowbreak{}rvature\_\allowbreak{}nonzero}, \texttt{rescalin\allowbreak{}g\_remove\allowbreak{}s\_the\_co\allowbreak{}nnection\allowbreak{}\_term}, \texttt{connecti\allowbreak{}on\_free\_\allowbreak{}lagrangi\allowbreak{}an\_same\_\allowbreak{}equation\allowbreak{}s} & \texttt{boosted\_\allowbreak{}frame\_ga\allowbreak{}mmaOmega\allowbreak{}\_formula}, \texttt{rescaled\allowbreak{}\_equatio\allowbreak{}n\_quadra\allowbreak{}tic\_pote\allowbreak{}ntial}, \texttt{gammaOme\allowbreak{}ga\_blind\allowbreak{}\_to\_the\_\allowbreak{}deflatio\allowbreak{}n}, \texttt{spin\_con\allowbreak{}nection\_\allowbreak{}in\_the\_e\allowbreak{}nergy\_mo\allowbreak{}mentum\_t\allowbreak{}ensor} \\
+Lagrangian: reality, total divergence & 5 & \texttt{\detokenize{L_real_G}}, \texttt{L\_total\_\allowbreak{}divergen\allowbreak{}ce\_to\_un\allowbreak{}symmetri\allowbreak{}sed\_G} & \texttt{grassman\allowbreak{}n\_lagran\allowbreak{}gian\_rea\allowbreak{}l}, \texttt{grassman\allowbreak{}n\_total\_\allowbreak{}divergen\allowbreak{}ce\_relat\allowbreak{}ion} \\
+Majorana-type negative control & 5 & \texttt{Majorana\allowbreak{}\_Lg\_tota\allowbreak{}l\_deriva\allowbreak{}tive\_gra\allowbreak{}ssmann} & \texttt{negative\allowbreak{}\_control\allowbreak{}\_majoran\allowbreak{}a\_grassm\allowbreak{}ann\_tota\allowbreak{}l\_deriva\allowbreak{}tive} \\
+Euler-Lagrange equations, explicit form & 6 & \texttt{EL\_Psiba\allowbreak{}r\_G}, \texttt{\detokenize{EL_Psi_G}}, \texttt{Dirac\_op\allowbreak{}erator\_e\allowbreak{}xplicit\_\allowbreak{}G}, \texttt{evolutio\allowbreak{}n\_form\_G}, \texttt{block\_fo\allowbreak{}rm} & \texttt{grassman\allowbreak{}n\_euler\_\allowbreak{}lagrange\allowbreak{}\_psibar\_\allowbreak{}variatio\allowbreak{}n}, \texttt{grassman\allowbreak{}n\_euler\_\allowbreak{}lagrange\allowbreak{}\_psi\_var\allowbreak{}iation} \\
+non-triviality [1] & 7 & \texttt{nontrivi\allowbreak{}ality\_1\_\allowbreak{}dirac16c\allowbreak{}omplex}, \texttt{Omega\_va\allowbreak{}nishes\_i\allowbreak{}ff\_a4pri\allowbreak{}me\_and\_H\allowbreak{}\_vanish}, \texttt{spin\_cur\allowbreak{}vature\_e\allowbreak{}quals\_Ri\allowbreak{}emann} & \texttt{nontrivi\allowbreak{}ality\_Om\allowbreak{}ega\_zero\allowbreak{}\_iff\_fla\allowbreak{}t}, \texttt{spinor\_c\allowbreak{}urvature\allowbreak{}\_equals\_\allowbreak{}riemann} \\
+self-consistency & 8 & \texttt{adjoint\_\allowbreak{}equation\allowbreak{}\_is\_Dira\allowbreak{}c\_conjug\allowbreak{}ate\_G}, \texttt{Lichnero\allowbreak{}wicz\_ide\allowbreak{}ntity\_G}, \texttt{current\_\allowbreak{}conserva\allowbreak{}tion\_ide\allowbreak{}ntity\_G}, \texttt{Noether\_\allowbreak{}identity\allowbreak{}\_diffeom\allowbreak{}orphisms\allowbreak{}\_G}, \texttt{Noether\_\allowbreak{}identity\allowbreak{}\_local\_L\allowbreak{}orentz\_G} & \texttt{grassman\allowbreak{}n\_adjoin\allowbreak{}t\_equati\allowbreak{}on\_is\_co\allowbreak{}njugate}, \texttt{lichnero\allowbreak{}wicz\_ide\allowbreak{}ntity\_on\allowbreak{}\_fields}, \texttt{grassman\allowbreak{}n\_curren\allowbreak{}t\_conser\allowbreak{}vation}, \texttt{grassman\allowbreak{}n\_emt\_co\allowbreak{}nservati\allowbreak{}on\_on\_sh\allowbreak{}ell} \\
+energy-momentum tensor & 9 & \texttt{T\_vielbe\allowbreak{}in\_varia\allowbreak{}tion\_clo\allowbreak{}sed\_form\allowbreak{}\_G}, \texttt{T\_symmet\allowbreak{}ric\_part\allowbreak{}\_Belinfa\allowbreak{}nte\_G}, \texttt{T\_diagon\allowbreak{}al\_compo\allowbreak{}nents\_G}, \texttt{T\_x4\_x8\_\allowbreak{}componen\allowbreak{}t\_G}, \texttt{EMT\_trac\allowbreak{}e\_G} & \texttt{grassman\allowbreak{}n\_emt\_eq\allowbreak{}uals\_gen\allowbreak{}eral\_vie\allowbreak{}lbein\_va\allowbreak{}riation\_\allowbreak{}on\_shell}, \texttt{grassman\allowbreak{}n\_emt\_sy\allowbreak{}mmetric}, \texttt{grassman\allowbreak{}n\_trace\_\allowbreak{}on\_shell} \\
+energy density, pressures, equations of state & 10 & \texttt{kinetic\_\allowbreak{}sum\_on\_s\allowbreak{}hell\_G}, \texttt{exact\_so\allowbreak{}lution\_n\allowbreak{}onlinear\allowbreak{}\_homogen\allowbreak{}eous\_G}, \texttt{energy\_e\allowbreak{}xchange\_\allowbreak{}equation} & \texttt{grassman\allowbreak{}n\_homoge\allowbreak{}neous\_on\allowbreak{}\_shell\_r\allowbreak{}ho\_p}, \texttt{energy\_e\allowbreak{}xchange\_\allowbreak{}equation} \\
+canonical quantisation, Krein structure & 11 & \texttt{canonica\allowbreak{}l\_moment\allowbreak{}um}, \texttt{first\_or\allowbreak{}der\_form\allowbreak{}\_and\_ant\allowbreak{}icommuta\allowbreak{}tor}, \texttt{no\_posit\allowbreak{}ive\_inne\allowbreak{}r\_produc\allowbreak{}t}, \texttt{Krein\_fo\allowbreak{}rm\_conse\allowbreak{}rved\_cur\allowbreak{}ved}, \texttt{good\_sec\allowbreak{}tor\_herm\allowbreak{}iticity\_\allowbreak{}curved}, \texttt{Q\_one\_pa\allowbreak{}rticle\_K\allowbreak{}rein\_ine\allowbreak{}rtia\_rea\allowbreak{}l\_freque\allowbreak{}ncies} & \texttt{canonica\allowbreak{}l\_antico\allowbreak{}mmutator\allowbreak{}\_B}, \texttt{no\_posit\allowbreak{}ive\_inne\allowbreak{}r\_produc\allowbreak{}t}, \texttt{good\_sec\allowbreak{}tor\_spec\allowbreak{}trum\_and\allowbreak{}\_B\_secto\allowbreak{}rs}, \texttt{Q.one\_pa\allowbreak{}rticle\_K\allowbreak{}rein\_ine\allowbreak{}rtia\_pro\allowbreak{}of}, \texttt{Q.one\_pa\allowbreak{}rticle\_c\allowbreak{}omplex\_f\allowbreak{}requency\allowbreak{}\_Krein\_n\allowbreak{}eutral} \\
+boundary term at z = pi/2, growing modes, ill-posedness & 8, 11 & \texttt{good\_sec\allowbreak{}tor\_herm\allowbreak{}iticity\_\allowbreak{}up\_to\_th\allowbreak{}e\_brane\_\allowbreak{}flux}, \texttt{good\_sec\allowbreak{}tor\_x8\_i\allowbreak{}ndepende\allowbreak{}nt\_modes\allowbreak{}\_without\allowbreak{}\_boundar\allowbreak{}y\_condit\allowbreak{}ion} & \texttt{extra\_ti\allowbreak{}me\_growt\allowbreak{}h\_rates\_\allowbreak{}unbounde\allowbreak{}d} \\
+Fock space, normal ordering, expectation values & 11, 12 & \texttt{Fock\_spa\allowbreak{}ce\_good\_\allowbreak{}sector\_e\allowbreak{}xample}, \texttt{mode\_ham\allowbreak{}iltonian\allowbreak{}\_Krein\_s\allowbreak{}elfadjoi\allowbreak{}nt} & \texttt{good\_sec\allowbreak{}tor\_posi\allowbreak{}tive\_foc\allowbreak{}k\_realis\allowbreak{}ation}, \texttt{expectat\allowbreak{}ion\_valu\allowbreak{}e\_rule}, \texttt{extra\_ti\allowbreak{}me\_modes\allowbreak{}\_grow} \\
+field equations for a4 & 13 & \texttt{evolutio\allowbreak{}n\_factor\allowbreak{}ises\_a4p\allowbreak{}p\_times\_\allowbreak{}F}, \texttt{algebrai\allowbreak{}c\_identi\allowbreak{}ty\_x1\_pl\allowbreak{}us\_x5\_mi\allowbreak{}nus\_2x8}, \texttt{constrai\allowbreak{}nt\_propa\allowbreak{}gation\_b\allowbreak{}ianchi}, \texttt{einstein\allowbreak{}\_null\_en\allowbreak{}ergy\_x8}, \texttt{linear\_m\allowbreak{}ember\_eq\allowbreak{}ual\_pres\allowbreak{}sures} & \texttt{evolutio\allowbreak{}n\_factor\allowbreak{}ises}, \texttt{algebrai\allowbreak{}c\_identi\allowbreak{}ty}, \texttt{bianchi\_\allowbreak{}x4}, \texttt{einstein\allowbreak{}\_null\_en\allowbreak{}ergy\_x8}, \texttt{linear\_m\allowbreak{}ember\_eq\allowbreak{}ual\_pres\allowbreak{}sures} \\
+the Kohn-Sham states as a source & 13 &  & \texttt{ks\_profi\allowbreak{}les\_depe\allowbreak{}nd\_on\_x8}, \texttt{ks\_integ\allowbreak{}rals\_vio\allowbreak{}late\_alg\allowbreak{}ebraic\_c\allowbreak{}ondition}, \texttt{ks\_histo\allowbreak{}ry\_is\_a\_\allowbreak{}prescrib\allowbreak{}ed\_backg\allowbreak{}round} (Python) \\
+pairing (section 14) & 14 & \texttt{T1\_Lagra\allowbreak{}ngian\_pr\allowbreak{}imordial\allowbreak{}\_grassma\allowbreak{}nn}, \texttt{T2\_mirro\allowbreak{}r\_Lagran\allowbreak{}gian\_gra\allowbreak{}ssmann}, \texttt{Q\_Krein\_\allowbreak{}metric\_o\allowbreak{}f\_images}, \texttt{T3\_energ\allowbreak{}ies\_and\_\allowbreak{}emt\_prof\allowbreak{}iles\_equ\allowbreak{}al} & \texttt{T1.metri\allowbreak{}c.grassm\allowbreak{}ann.lagr\allowbreak{}angian}, \texttt{T2.metri\allowbreak{}c.grassm\allowbreak{}ann.emt}, \texttt{Q.no\_can\allowbreak{}cellatio\allowbreak{}n\_indepe\allowbreak{}ndent\_un\allowbreak{}iverses}, \texttt{T3.energ\allowbreak{}ies\_and\_\allowbreak{}emt\_prof\allowbreak{}iles\_equ\allowbreak{}al} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\end{document}

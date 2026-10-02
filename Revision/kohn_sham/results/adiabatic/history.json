@@ -1,0 +1,82 @@
+{
+  "A": 1.000000000000000e0,
+  "status": "PRESCRIBED BACKGROUND: the history a4 = A H x4 is prescribed, not solved for. The a4 equations of SPEC section 5 allow this linear member only with p3 = p_t = p8 and constant rho; the Kohn-Sham states along it violate these source conditions (p3 != p_t, rho changes with a4,0, the sources depend on x8: Revision/field_equations_a4/reports/ks-source-conditions.json). The Kohn-Sham gas is therefore a test field on a prescribed background without back-reaction, and quantities derived along this history (energies, pressures, equations of state) are not consequences of the coupled field equations.",
+  "slices": [0.000000000000000e0, 5.000000000000000e-1, 1.000000000000000e0, 1.500000000000000e0, 2.000000000000000e0],
+  "series": [
+    {
+      "N": 8,
+      "lambdaTag": "lam0",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 8,
+      "lambdaTag": "lamm1",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 8,
+      "lambdaTag": "lamm2",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 8,
+      "lambdaTag": "lamp1",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 8,
+      "lambdaTag": "lamp2",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 136,
+      "lambdaTag": "lam0",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 136,
+      "lambdaTag": "lamm1",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 136,
+      "lambdaTag": "lamm2",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 136,
+      "lambdaTag": "lamp1",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 136,
+      "lambdaTag": "lamp2",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 688,
+      "lambdaTag": "lam0",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 688,
+      "lambdaTag": "lamm1",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 688,
+      "lambdaTag": "lamm2",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 688,
+      "lambdaTag": "lamp1",
+      "fermiLevelCrossings": []
+    },
+    {
+      "N": 688,
+      "lambdaTag": "lamp2",
+      "fermiLevelCrossings": []
+    }
+  ]
+}

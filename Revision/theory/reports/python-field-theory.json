@@ -1,0 +1,1318 @@
+{
+ "report": "Revision/theory/reports/python-field-theory.json",
+ "producer": "Revision/theory/python/check_field_theory.py (sympy, exact; own jet super-algebra superalg.py for both statistics)",
+ "spec": "Revision/SPEC.md sections 1-6 (metric, Clifford data, the two fields, EMT, quantisation)",
+ "inputs": [
+  "Revision/algebra/gammas.json",
+  "Revision/algebra/reports/python-gammas.json"
+ ],
+ "independence": "no code shared with Revision/theory/wolfram; the Wolfram outputs are read only by the final comparison section",
+ "summary": {
+  "checks": 70,
+  "pass": 70,
+  "fail": 0
+ },
+ "checks": [
+  {
+   "name": "superalgebra_axioms",
+   "section": "0. the jet super-algebra (own implementation)",
+   "verdict": "pass",
+   "detail": "psi psi = 0 and psi_A psi_B = -psi_B psi_A (Grassmann), commuting products symmetric with nonzero squares; (chi_A psi_B)^* = chi_B psi_A (order reversal), (i chi psi)^* = -i chi psi for A = B; left/right derivatives with the Grassmann signs; total derivative acts on the jet coordinates"
+  },
+  {
+   "name": "gammas_coordinates_and_eta",
+   "section": "A. gamma matrices (Revision/algebra/gammas.json)",
+   "verdict": "pass",
+   "detail": "gammas.json lists x1..x8 and eta = diag(+1,+1,+1,-1,-1,-1,-1,+1) (SPEC section 2)"
+  },
+  {
+   "name": "gammas_json_equals_python_construction",
+   "section": "A. gamma matrices (Revision/algebra/gammas.json)",
+   "verdict": "pass",
+   "detail": "every gamma^a, C, Gamma, B and S^ab (a<b) of Revision/algebra/gammas.json (Wolfram construction) equals Revision/algebra/reports/python-gammas.json (independent Python construction) exactly"
+  },
+  {
+   "name": "clifford_relations",
+   "section": "A. gamma matrices (Revision/algebra/gammas.json)",
+   "verdict": "pass",
+   "detail": "{gamma^a, gamma^b} = 2 eta^ab I16 for all 64 pairs (exact)"
+  },
+  {
+   "name": "gammas_real",
+   "section": "A. gamma matrices (Revision/algebra/gammas.json)",
+   "verdict": "pass",
+   "detail": "all 8 gamma^a are real"
+  },
+  {
+   "name": "gamma_symmetry_pattern",
+   "section": "A. gamma matrices (Revision/algebra/gammas.json)",
+   "verdict": "pass",
+   "detail": "gamma^a symmetric for space-like a (x1,x2,x3,x8), antisymmetric for time-like a (x4..x7): ['sym', 'sym', 'sym', 'antisym', 'antisym', 'antisym', 'antisym', 'sym']"
+  },
+  {
+   "name": "C_properties",
+   "section": "A. gamma matrices (Revision/algebra/gammas.json)",
+   "verdict": "pass",
+   "detail": "C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3); C real symmetric, C^2 = 1, C gamma^a real antisymmetric for all a (equivalently gamma^aT C = -C gamma^a)"
+  },
+  {
+   "name": "S_definition_and_C_S_antisymmetric",
+   "section": "A. gamma matrices (Revision/algebra/gammas.json)",
+   "verdict": "pass",
+   "detail": "S^ab = (1/4)[gamma^a, gamma^b] and C S^ab antisymmetric (S^abT C = -C S^ab) for all a, b"
+  },
+  {
+   "name": "chirality_Gamma",
+   "section": "A. gamma matrices (Revision/algebra/gammas.json)",
+   "verdict": "pass",
+   "detail": "Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) = diag(-I8, I8)"
+  },
+  {
+   "name": "B_properties",
+   "section": "A. gamma matrices (Revision/algebra/gammas.json)",
+   "verdict": "pass",
+   "detail": "B = -i C gamma^(x4); B Hermitian, B^2 = 1, tr B = 0, hence eigenvalues +1 and -1 with multiplicity 8 each: signature (8,8)"
+  },
+  {
+   "name": "metric_from_vielbein_equals_SPEC",
+   "section": "B. vielbein, Christoffel symbols, canonical spin connection (author's metric)",
+   "verdict": "pass",
+   "detail": "e^a_mu = sqrt|g_mumu| delta^a_mu reproduces g of SPEC section 1 exactly: g_x1x1 = exp(2*a4(x4))*sin(6*H*x8)**(1/3); g_x2x2 = exp(2*a4(x4))*sin(6*H*x8)**(1/3); g_x3x3 = exp(2*a4(x4))*sin(6*H*x8)**(1/3); g_x4x4 = -1; g_x5x5 = -exp(-2*a4(x4))*sin(6*H*x8)**(1/3); g_x6x6 = -exp(-2*a4(x4))*sin(6*H*x8)**(1/3); g_x7x7 = -exp(-2*a4(x4))*sin(6*H*x8)**(1/3); g_x8x8 = cot(6*H*x8)**2"
+  },
+  {
+   "name": "sqrt_det_g_equals_cos_z",
+   "section": "B. vielbein, Christoffel symbols, canonical spin connection (author's metric)",
+   "verdict": "pass",
+   "detail": "sqrt|det g| = product of the f_a = c (ring) = cos(6 H x8)"
+  },
+  {
+   "name": "christoffel_symmetric_metric_compatible",
+   "section": "B. vielbein, Christoffel symbols, canonical spin connection (author's metric)",
+   "verdict": "pass",
+   "detail": "Gamma^l_ab = Gamma^l_ba and nabla_mu g_ab = 0; 25 independent nonzero symbols"
+  },
+  {
+   "name": "spin_connection_antisymmetric",
+   "section": "B. vielbein, Christoffel symbols, canonical spin connection (author's metric)",
+   "verdict": "pass",
+   "detail": "omega_mu ab = eta_ac omega_mu^c_b = -omega_mu ba (all mu, a, b)"
+  },
+  {
+   "name": "vielbein_postulate",
+   "section": "B. vielbein, Christoffel symbols, canonical spin connection (author's metric)",
+   "verdict": "pass",
+   "detail": "d_mu e^a_nu - Gamma^l_mu nu e^a_l + omega_mu^a_b e^b_nu = 0 for all mu, a, nu (512 components)"
+  },
+  {
+   "name": "Omega_x4_and_Omega_x8_vanish",
+   "section": "B. vielbein, Christoffel symbols, canonical spin connection (author's metric)",
+   "verdict": "pass",
+   "detail": "Omega_(x4) = Omega_(x8) = 0 identically (the diagonal vielbein makes omega_mu ab nonzero only for mu in {a, b} with the other index x4 or x8); Omega_(xi) = (exp(a4(x4))*sin(6*H*x8)**(1/6)*Derivative(a4(x4), x4))*S^(x1,x4) + (H*exp(a4(x4))*sin(6*H*x8)**(1/6))*S^(x1,x8) for i = 1,2,3; Omega_(x5,x6,x7) analogous: (-exp(-a4(x4))*sin(6*H*x8)**(1/6)*Derivative(a4(x4), x4))*S^(x4,x5) + (-H*exp(-a4(x4))*sin(6*H*x8)**(1/6))*S^(x5,x8)"
+  },
+  {
+   "name": "covariant_constancy_D_mu_gamma_nu",
+   "section": "B. vielbein, Christoffel symbols, canonical spin connection (author's metric)",
+   "verdict": "pass",
+   "detail": "D_mu gamma^nu = d_mu gamma^nu + Gamma^nu_mu l gamma^l + [Omega_mu, gamma^nu] = 0 for all 64 (mu, nu)"
+  },
+  {
+   "name": "gamma_mu_Omega_mu_equals_3H_gamma_x8",
+   "section": "B. vielbein, Christoffel symbols, canonical spin connection (author's metric)",
+   "verdict": "pass",
+   "detail": "gamma^mu Omega_mu = 3 H gamma^(x8) exactly (independent of a4 and of x4, x8)"
+  },
+  {
+   "name": "time_terms_cancel_hidden_term_survives",
+   "section": "B. vielbein, Christoffel symbols, canonical spin connection (author's metric)",
+   "verdict": "pass",
+   "detail": "per direction gamma^(xi) Omega_(xi) = (1/2) a4' gamma^(x4) + (H/2) gamma^(x8) for the inflating i = 1,2,3 and = -(1/2) a4' gamma^(x4) + (H/2) gamma^(x8) for the deflating extra times i = 5,6,7; the x4 terms cancel (inflating sum 3*A1/2, deflating sum -3*A1/2); the six hidden-direction terms add to 3*H gamma^(x8)"
+  },
+  {
+   "name": "anticommutator_gamma_Omega_vanishes",
+   "section": "B. vielbein, Christoffel symbols, canonical spin connection (author's metric)",
+   "verdict": "pass",
+   "detail": "sum_mu {gamma^mu, Omega_mu} = 0: only the totally antisymmetric part of omega enters the symmetric Lagrangian and it vanishes for this diagonal vielbein; gravity enters L through e^mu_a and sqrt|g|, and the field equation through gamma^mu Omega_mu = 3 H gamma^(x8) = (1/2)(1/sqrt|g|) d_mu(sqrt|g| e^mu_a) gamma^a"
+  },
+  {
+   "name": "divergence_of_sqrtg_gamma",
+   "section": "B. vielbein, Christoffel symbols, canonical spin connection (author's metric)",
+   "verdict": "pass",
+   "detail": "(1/2)(1/sqrt|g|) d_mu(sqrt|g| gamma^mu) = 3 H gamma^(x8) = gamma^mu Omega_mu"
+  },
+  {
+   "name": "nontriviality_Omega_zero_iff_flat",
+   "section": "B. vielbein, Christoffel symbols, canonical spin connection (author's metric)",
+   "verdict": "pass",
+   "detail": "Omega_(x1) = (A1*E*s) S^(x1,x4) + (E*H*s) S^(x1,x8), Omega_(x5) = (-A1*s/E) S^(x4,x5) + (-H*s/E) S^(x5,x8): the S^ab are linearly independent and E = e^a4 > 0, s > 0 on 0 < z < pi/2, so every Omega_mu vanishes iff a4' = 0 AND H = 0 (formal flat limit with s, c frozen; at H = 0 the metric itself degenerates since sin(6 H x8) = 0, so within the author's family the spin connection never vanishes); the field-equation term gamma^mu Omega_mu = 3 H gamma^(x8) is nonzero for every H > 0"
+  },
+  {
+   "name": "curvature_nonzero_flat_only_formally",
+   "section": "C. curvature, integrability (Lichnerowicz)",
+   "verdict": "pass",
+   "detail": "Ricci scalar R = 6*(A1**2 - 7*H**2) (ring); for a4 = const R = -42*H**2 which is nonzero for H > 0: the metric is curved for every member of the family; every Riemann component vanishes only in the formal limit a4' = a4'' = 0, H = 0 (flat 4+4)"
+  },
+  {
+   "name": "spinor_curvature_equals_riemann",
+   "section": "C. curvature, integrability (Lichnerowicz)",
+   "verdict": "pass",
+   "detail": "[D_mu, D_nu] = F_mu nu = d_mu Omega_nu - d_nu Omega_mu + [Omega_mu, Omega_nu] = (1/4) R_{rho sigma mu nu} gamma^rho gamma^sigma for all mu != nu (integrability of the spin connection; R^rho_{sigma mu nu} = d_mu Gamma^rho_{nu sigma} - ...)"
+  },
+  {
+   "name": "lichnerowicz_contraction",
+   "section": "C. curvature, integrability (Lichnerowicz)",
+   "verdict": "pass",
+   "detail": "gamma^mu gamma^nu F_mu nu = -(R/2) I16 exactly"
+  },
+  {
+   "name": "lichnerowicz_identity_on_fields",
+   "section": "C. curvature, integrability (Lichnerowicz)",
+   "verdict": "pass",
+   "detail": "(gamma^mu D_mu)^2 Psi = g^{mu nu} nabla_mu D_nu Psi - (R/4) Psi identically on the jet space: the first-order operator squares to the second-order one with the curvature term -R/4, R = 6(a4'^2 - 7 H^2) (integrability of the Dirac-type equation in this metric)"
+  },
+  {
+   "name": "grassmann_lagrangian_real",
+   "section": "D. Lagrangian, Euler-Lagrange equations, current - dirac16complex (anticommuting, Grassmann)",
+   "verdict": "pass",
+   "detail": "dirac16complex (anticommuting, Grassmann): L = sqrt|g| [(1/2)(Psibar gamma^mu D_mu Psi - D_mu Psibar gamma^mu Psi) - m S - (lambda/2) S^2], Psibar = Psi^dagger C, satisfies L^* = L exactly (392 monomials; conjugation reverses products)"
+  },
+  {
+   "name": "grassmann_controls_not_vacuous",
+   "section": "D. Lagrangian, Euler-Lagrange equations, current - dirac16complex (anticommuting, Grassmann)",
+   "verdict": "pass",
+   "detail": "dirac16complex (anticommuting, Grassmann): controls - the unsymmetrised sqrt|g|[Psibar gamma^mu D_mu Psi - m S - U] is NOT real off shell and L - L_unsym is NOT identically zero (so the reality and divergence checks test something)"
+  },
+  {
+   "name": "grassmann_total_divergence_relation",
+   "section": "D. Lagrangian, Euler-Lagrange equations, current - dirac16complex (anticommuting, Grassmann)",
+   "verdict": "pass",
+   "detail": "dirac16complex (anticommuting, Grassmann): L = sqrt|g| [Psibar gamma^mu D_mu Psi - m S - U] - (1/2) d_mu (sqrt|g| Psibar gamma^mu Psi) identically"
+  },
+  {
+   "name": "grassmann_euler_lagrange_psibar_variation",
+   "section": "D. Lagrangian, Euler-Lagrange equations, current - dirac16complex (anticommuting, Grassmann)",
+   "verdict": "pass",
+   "detail": "dirac16complex (anticommuting, Grassmann): dL/dPsi^dagger_A - d_mu dL/dPsi^dagger_A,mu = sqrt|g| (C [gamma^mu D_mu Psi - (m + U'(S)) Psi])_A for all 16 A (left derivatives), i.e. gamma^mu D_mu Psi = (m + lambda S) Psi; control: the same comparison with m -> -m fails"
+  },
+  {
+   "name": "grassmann_euler_lagrange_psi_variation",
+   "section": "D. Lagrangian, Euler-Lagrange equations, current - dirac16complex (anticommuting, Grassmann)",
+   "verdict": "pass",
+   "detail": "dirac16complex (anticommuting, Grassmann): dL/dPsi_B - d_mu dL/dPsi_B,mu = -sqrt|g| (D_mu Psibar gamma^mu + (m + U'(S)) Psibar)_B for all 16 B (right derivatives): the adjoint equation D_mu Psibar gamma^mu = -(m + U') Psibar"
+  },
+  {
+   "name": "grassmann_adjoint_equation_is_conjugate",
+   "section": "D. Lagrangian, Euler-Lagrange equations, current - dirac16complex (anticommuting, Grassmann)",
+   "verdict": "pass",
+   "detail": "dirac16complex (anticommuting, Grassmann): (E)^dagger C = Ebar exactly, E = gamma^mu D_mu Psi - (m+U')Psi, Ebar = -(D_mu Psibar gamma^mu + (m+U')Psibar): the two Euler-Lagrange equations are Dirac conjugates of each other"
+  },
+  {
+   "name": "grassmann_current_conservation",
+   "section": "D. Lagrangian, Euler-Lagrange equations, current - dirac16complex (anticommuting, Grassmann)",
+   "verdict": "pass",
+   "detail": "dirac16complex (anticommuting, Grassmann): J^mu = -i Psibar gamma^mu Psi is real; identity d_mu(sqrt|g| J^mu) = -i sqrt|g| (Psibar E - Ebar Psi) holds off shell; nabla_mu J^mu = 0 after the prolonged on-shell substitution (lambda general)"
+  },
+  {
+   "name": "grassmann_emt_symmetric",
+   "section": "E. energy-momentum tensor - dirac16complex (anticommuting, Grassmann)",
+   "verdict": "pass",
+   "detail": "dirac16complex (anticommuting, Grassmann): T_mu nu = g_mu mu T^mu_nu is symmetric (Belinfante symmetrised T^mu_nu = -Theta^(mu_nu) + delta^mu_nu L/sqrt|g|)"
+  },
+  {
+   "name": "grassmann_emt_conservation_on_shell",
+   "section": "E. energy-momentum tensor - dirac16complex (anticommuting, Grassmann)",
+   "verdict": "pass",
+   "detail": "dirac16complex (anticommuting, Grassmann): nabla_mu T^mu_nu = 0 for all 8 nu after the prolonged on-shell substitution (lambda general, all coordinates, exact)"
+  },
+  {
+   "name": "grassmann_emt_conservation_negative_control",
+   "section": "E. energy-momentum tensor - dirac16complex (anticommuting, Grassmann)",
+   "verdict": "pass",
+   "detail": "dirac16complex (anticommuting, Grassmann): the same test on T with the potential term of wrong sign (T + 2 V delta) is NOT zero (the test is not vacuous)"
+  },
+  {
+   "name": "grassmann_trace_on_shell",
+   "section": "E. energy-momentum tensor - dirac16complex (anticommuting, Grassmann)",
+   "verdict": "pass",
+   "detail": "dirac16complex (anticommuting, Grassmann): off shell T^mu_mu = 7 sum_mu K_mu - 8 (m S + U) exactly, K_mu = (1/(2 f_mu))(Psibar gamma^(mu) d_mu Psi - d_mu Psibar gamma^(mu) Psi) (no sum; sum_mu K_mu equals the kinetic term K of L, the spin connection drops out), U = (lambda/2) S^2; on shell (prolonged substitution) T^mu_mu = -m S + 7 S U' - 8 U = -m S + 3 lambda S^2"
+  },
+  {
+   "name": "grassmann_homogeneous_on_shell_rho_p",
+   "section": "E. energy-momentum tensor - dirac16complex (anticommuting, Grassmann)",
+   "verdict": "pass",
+   "detail": "dirac16complex (anticommuting, Grassmann): for states depending on x4 only, on shell: rho = -T^x4_x4 = m S + U, p3 = T^xi_xi (i=1,2,3) = p_t = T^xi_xi (i=5,6,7) = p8 = T^x8_x8 = S U' - U = (lambda/2) S^2; kinetic parts -T_kin^x4_x4 = 0, T_kin^xi_xi = (m + U') S; potential parts -T_pot = delta (m S + U); hence w3 = w_t = w8 = (S U' - U)/(m S + U) = lambda S/(2 m + lambda S)"
+  },
+  {
+   "name": "grassmann_T_x4x8_homogeneous",
+   "section": "E. energy-momentum tensor - dirac16complex (anticommuting, Grassmann)",
+   "verdict": "pass",
+   "detail": "dirac16complex (anticommuting, Grassmann): on homogeneous on-shell states (x4 dependence only, prolonged on-shell substitution) T^x4_x8 has 0 and T^x8_x4 has 0 bilinear monomials: both vanish identically, so these states do not source the off-diagonal x4-x8 component of the a4 field equations (the verdict requires both to vanish). Not claimed for the other off-diagonal components: 42 of the remaining 54 are nonzero bilinears in general (T^x1_x4, T^x1_x5, T^x1_x6, T^x1_x7, T^x1_x8, T^x2_x4, ...); their vanishing is a separate condition on the state (Revision/field_equations_a4: offDiagonalConditions)"
+  },
+  {
+   "name": "grassmann_emt_equals_general_vielbein_variation_on_shell",
+   "section": "F. energy-momentum tensor by vielbein variation (general first-order variation) - dirac16complex (anticommuting, Grassmann)",
+   "verdict": "pass",
+   "detail": "dirac16complex (anticommuting, Grassmann): with ALL 64 components h^a_mu of a first-order vielbein variation around the author's metric (off-diagonal included; first-order Christoffels, spin connection, gamma^mu, sqrt|g|), T_var^mu_nu = (1/sqrt|g|) (delta S/delta e^a_mu) e^a_nu equals the Belinfante T^mu_nu on shell for 64/64 components (off shell 8/64: the diagonal ones; the off-diagonal differences, including the antisymmetric part of T_var, are proportional to the field equations - local Lorentz invariance)"
+  },
+  {
+   "name": "grassmann_emt_equals_vielbein_variation_diagonal",
+   "section": "F. energy-momentum tensor by vielbein variation (general diagonal vielbein) - dirac16complex (anticommuting, Grassmann)",
+   "verdict": "pass",
+   "detail": "dirac16complex (anticommuting, Grassmann): for an ARBITRARY diagonal vielbein e^a_mu = F_a(x1..x8) delta^a_mu, sum_mu {gamma^mu, Omega_mu} = 0 and T^a_a = (F_a/sqrt|g|) delta S/delta F_a (no sum; delta S = (1/2) int sqrt|g| T^mu nu delta g_mu nu) equals -Theta^a_a + K - V for all 8 a, off shell: the diagonal components (rho, p3, p_t, p8) are the vielbein-variation tensor (off-diagonal components: Belinfante symmetrisation, checked through conservation)"
+  },
+  {
+   "name": "commuting_lagrangian_real",
+   "section": "D. Lagrangian, Euler-Lagrange equations, current - dirac16complex00 (commuting)",
+   "verdict": "pass",
+   "detail": "dirac16complex00 (commuting): L = sqrt|g| [(1/2)(Psibar gamma^mu D_mu Psi - D_mu Psibar gamma^mu Psi) - m S - (lambda/2) S^2], Psibar = Psi^dagger C, satisfies L^* = L exactly (408 monomials; conjugation reverses products)"
+  },
+  {
+   "name": "commuting_controls_not_vacuous",
+   "section": "D. Lagrangian, Euler-Lagrange equations, current - dirac16complex00 (commuting)",
+   "verdict": "pass",
+   "detail": "dirac16complex00 (commuting): controls - the unsymmetrised sqrt|g|[Psibar gamma^mu D_mu Psi - m S - U] is NOT real off shell and L - L_unsym is NOT identically zero (so the reality and divergence checks test something)"
+  },
+  {
+   "name": "commuting_total_divergence_relation",
+   "section": "D. Lagrangian, Euler-Lagrange equations, current - dirac16complex00 (commuting)",
+   "verdict": "pass",
+   "detail": "dirac16complex00 (commuting): L = sqrt|g| [Psibar gamma^mu D_mu Psi - m S - U] - (1/2) d_mu (sqrt|g| Psibar gamma^mu Psi) identically"
+  },
+  {
+   "name": "commuting_euler_lagrange_psibar_variation",
+   "section": "D. Lagrangian, Euler-Lagrange equations, current - dirac16complex00 (commuting)",
+   "verdict": "pass",
+   "detail": "dirac16complex00 (commuting): dL/dPsi^dagger_A - d_mu dL/dPsi^dagger_A,mu = sqrt|g| (C [gamma^mu D_mu Psi - (m + U'(S)) Psi])_A for all 16 A (left derivatives), i.e. gamma^mu D_mu Psi = (m + lambda S) Psi; control: the same comparison with m -> -m fails"
+  },
+  {
+   "name": "commuting_euler_lagrange_psi_variation",
+   "section": "D. Lagrangian, Euler-Lagrange equations, current - dirac16complex00 (commuting)",
+   "verdict": "pass",
+   "detail": "dirac16complex00 (commuting): dL/dPsi_B - d_mu dL/dPsi_B,mu = -sqrt|g| (D_mu Psibar gamma^mu + (m + U'(S)) Psibar)_B for all 16 B (right derivatives): the adjoint equation D_mu Psibar gamma^mu = -(m + U') Psibar"
+  },
+  {
+   "name": "commuting_adjoint_equation_is_conjugate",
+   "section": "D. Lagrangian, Euler-Lagrange equations, current - dirac16complex00 (commuting)",
+   "verdict": "pass",
+   "detail": "dirac16complex00 (commuting): (E)^dagger C = Ebar exactly, E = gamma^mu D_mu Psi - (m+U')Psi, Ebar = -(D_mu Psibar gamma^mu + (m+U')Psibar): the two Euler-Lagrange equations are Dirac conjugates of each other"
+  },
+  {
+   "name": "commuting_current_conservation",
+   "section": "D. Lagrangian, Euler-Lagrange equations, current - dirac16complex00 (commuting)",
+   "verdict": "pass",
+   "detail": "dirac16complex00 (commuting): J^mu = -i Psibar gamma^mu Psi is real; identity d_mu(sqrt|g| J^mu) = -i sqrt|g| (Psibar E - Ebar Psi) holds off shell; nabla_mu J^mu = 0 after the prolonged on-shell substitution (lambda general)"
+  },
+  {
+   "name": "commuting_emt_symmetric",
+   "section": "E. energy-momentum tensor - dirac16complex00 (commuting)",
+   "verdict": "pass",
+   "detail": "dirac16complex00 (commuting): T_mu nu = g_mu mu T^mu_nu is symmetric (Belinfante symmetrised T^mu_nu = -Theta^(mu_nu) + delta^mu_nu L/sqrt|g|)"
+  },
+  {
+   "name": "commuting_emt_conservation_on_shell",
+   "section": "E. energy-momentum tensor - dirac16complex00 (commuting)",
+   "verdict": "pass",
+   "detail": "dirac16complex00 (commuting): nabla_mu T^mu_nu = 0 for all 8 nu after the prolonged on-shell substitution (lambda general, all coordinates, exact)"
+  },
+  {
+   "name": "commuting_emt_conservation_negative_control",
+   "section": "E. energy-momentum tensor - dirac16complex00 (commuting)",
+   "verdict": "pass",
+   "detail": "dirac16complex00 (commuting): the same test on T with the potential term of wrong sign (T + 2 V delta) is NOT zero (the test is not vacuous)"
+  },
+  {
+   "name": "commuting_trace_on_shell",
+   "section": "E. energy-momentum tensor - dirac16complex00 (commuting)",
+   "verdict": "pass",
+   "detail": "dirac16complex00 (commuting): off shell T^mu_mu = 7 sum_mu K_mu - 8 (m S + U) exactly, K_mu = (1/(2 f_mu))(Psibar gamma^(mu) d_mu Psi - d_mu Psibar gamma^(mu) Psi) (no sum; sum_mu K_mu equals the kinetic term K of L, the spin connection drops out), U = (lambda/2) S^2; on shell (prolonged substitution) T^mu_mu = -m S + 7 S U' - 8 U = -m S + 3 lambda S^2"
+  },
+  {
+   "name": "commuting_homogeneous_on_shell_rho_p",
+   "section": "E. energy-momentum tensor - dirac16complex00 (commuting)",
+   "verdict": "pass",
+   "detail": "dirac16complex00 (commuting): for states depending on x4 only, on shell: rho = -T^x4_x4 = m S + U, p3 = T^xi_xi (i=1,2,3) = p_t = T^xi_xi (i=5,6,7) = p8 = T^x8_x8 = S U' - U = (lambda/2) S^2; kinetic parts -T_kin^x4_x4 = 0, T_kin^xi_xi = (m + U') S; potential parts -T_pot = delta (m S + U); hence w3 = w_t = w8 = (S U' - U)/(m S + U) = lambda S/(2 m + lambda S)"
+  },
+  {
+   "name": "commuting_T_x4x8_homogeneous",
+   "section": "E. energy-momentum tensor - dirac16complex00 (commuting)",
+   "verdict": "pass",
+   "detail": "dirac16complex00 (commuting): on homogeneous on-shell states (x4 dependence only, prolonged on-shell substitution) T^x4_x8 has 0 and T^x8_x4 has 0 bilinear monomials: both vanish identically, so these states do not source the off-diagonal x4-x8 component of the a4 field equations (the verdict requires both to vanish). Not claimed for the other off-diagonal components: 42 of the remaining 54 are nonzero bilinears in general (T^x1_x4, T^x1_x5, T^x1_x6, T^x1_x7, T^x1_x8, T^x2_x4, ...); their vanishing is a separate condition on the state (Revision/field_equations_a4: offDiagonalConditions)"
+  },
+  {
+   "name": "commuting_emt_equals_general_vielbein_variation_on_shell",
+   "section": "F. energy-momentum tensor by vielbein variation (general first-order variation) - dirac16complex00 (commuting)",
+   "verdict": "pass",
+   "detail": "dirac16complex00 (commuting): with ALL 64 components h^a_mu of a first-order vielbein variation around the author's metric (off-diagonal included; first-order Christoffels, spin connection, gamma^mu, sqrt|g|), T_var^mu_nu = (1/sqrt|g|) (delta S/delta e^a_mu) e^a_nu equals the Belinfante T^mu_nu on shell for 64/64 components (off shell 8/64: the diagonal ones; the off-diagonal differences, including the antisymmetric part of T_var, are proportional to the field equations - local Lorentz invariance)"
+  },
+  {
+   "name": "commuting_emt_equals_vielbein_variation_diagonal",
+   "section": "F. energy-momentum tensor by vielbein variation (general diagonal vielbein) - dirac16complex00 (commuting)",
+   "verdict": "pass",
+   "detail": "dirac16complex00 (commuting): for an ARBITRARY diagonal vielbein e^a_mu = F_a(x1..x8) delta^a_mu, sum_mu {gamma^mu, Omega_mu} = 0 and T^a_a = (F_a/sqrt|g|) delta S/delta F_a (no sum; delta S = (1/2) int sqrt|g| T^mu nu delta g_mu nu) equals -Theta^a_a + K - V for all 8 a, off shell: the diagonal components (rho, p3, p_t, p8) are the vielbein-variation tensor (off-diagonal components: Belinfante symmetrisation, checked through conservation)"
+  },
+  {
+   "name": "negative_control_majorana_grassmann_total_derivative",
+   "section": "G. negative control: the notebook's real Majorana-type Lg[]",
+   "verdict": "pass",
+   "detail": "Lg = sqrt|g| Theta^T C gamma^mu D_mu Theta with 16 REAL anticommuting components: its Euler-Lagrange expressions vanish identically and Lg = (1/2) d_mu(sqrt|g| Theta^T C gamma^mu Theta) exactly - a total derivative without field equations; hence the Dirac-type L with Psibar = Psi^dagger C"
+  },
+  {
+   "name": "negative_control_majorana_commuting_contrast",
+   "section": "G. negative control: the notebook's real Majorana-type Lg[]",
+   "verdict": "pass",
+   "detail": "contrast: for 16 real COMMUTING components the same Lg is not a total derivative (nonzero Euler-Lagrange expressions in 16 of 16 components)"
+  },
+  {
+   "name": "canonical_momentum",
+   "section": "H. canonical quantisation in 4+4 (dirac16complex)",
+   "verdict": "pass",
+   "detail": "pi_A = dL/d(d_4 Psi_A) (right derivative) = i sqrt|g| (Psi^dagger B)_A for the first-order form sqrt|g|[Psibar gamma^mu D_mu Psi - ...] (and one half of it for the symmetric L, which differs by a total divergence; second-class constraints give the same bracket); B = -i C gamma^(x4), gamma^(x4) = gamma^(4)"
+  },
+  {
+   "name": "canonical_anticommutator_B",
+   "section": "H. canonical quantisation in 4+4 (dirac16complex)",
+   "verdict": "pass",
+   "detail": "{Psi_A(x), pi_B(y)} = i delta_AB delta^7(x-y) with pi = i sqrt|g| Psi^dagger B forces {Psi_A(x), Psi^dagger_C(y)} = X_AC delta^7(x-y)/sqrt|g| with X B = 1, unique solution X = B^{-1} = B"
+  },
+  {
+   "name": "no_positive_inner_product",
+   "section": "H. canonical quantisation in 4+4 (dirac16complex)",
+   "verdict": "pass",
+   "detail": "B has an 8-dimensional eigenspace for -1; for a unit vector u in it, Q = u^dagger Psi satisfies {Q, Q^dagger} = u^dagger B u / sqrt|g| = -1/sqrt|g| < 0, while in any positive-definite Hilbert space {Q, Q^dagger} = Q Q^dagger + Q^dagger Q is positive semidefinite: the state space must carry an indefinite (Krein) inner product"
+  },
+  {
+   "name": "mode_hamiltonian_B_selfadjoint_dispersion",
+   "section": "H. canonical quantisation in 4+4 (dirac16complex)",
+   "verdict": "pass",
+   "detail": "plane waves u e^{i(k.x - E x4)} (frame momenta k_a): E u = h u, h = -i m gamma^(4) - sum_{a != x4} k_a gamma^(4) gamma^(a); B h = h^dagger B (h is B-self-adjoint) and h^2 = (m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2) I16"
+  },
+  {
+   "name": "good_sector_spectrum_and_B_sectors",
+   "section": "H. canonical quantisation in 4+4 (dirac16complex)",
+   "verdict": "pass",
+   "detail": "good sector (k5 = k6 = k7 = 0, no extra-time momentum, frame level): h is Hermitian on the full 16-dim space with energies +-sqrt(m^2 + k1^2 + k2^2 + k3^2 + k8^2) (8 each); [B, h] = 0 (also with the curved term 3 i H gamma^(4) gamma^(x8) of gamma^mu Omega_mu), so the B = +1 and B = -1 eigenspaces (8-dim each) are invariant, each with energies +-E (exact example m = 2, k = (1,2,0,k8=4) on B = +1: +5 (x4), -5 (x4)); extra-time momenta mix the two sectors (B anticommutes with gamma^(4) gamma^(x5,x6,x7)). With Psi^dagger realised as the adjoint the B = -1 sector carries negative Krein norm; the positive realisation follows in the next check"
+  },
+  {
+   "name": "good_sector_positive_fock_realisation",
+   "section": "H. canonical quantisation in 4+4 (dirac16complex)",
+   "verdict": "pass",
+   "detail": "good sector, exact example m = 2, k = (1,2,0,k8=4), E = 5: with orthonormal eigenvectors u_s (E = +5), v_s (E = -5) of the Hermitian h and Psi = sum_s (u_s b_s + v_s d_s^*), {b, b^*} = {d, d^*} = 1 on a POSITIVE Fock space, the field conjugate is realised as Psi^dagger = chi B with chi the Hilbert adjoint (so {Psi_A, Psi^dagger_C} = (U U^* B)_AC = B_AC, the canonical relation); exact CAR evaluation: normal-ordered energy chi h Psi = +5 for b_0^*|0> and +5 for d_0^*|0> (vacuum value -40 = -8E, the filled sea), charge chi Psi = +1 and -1; expectation-value rule <:Psi^dagger M Psi:> = u^dagger B M u for particles and -v^dagger B M v for antiparticles, for a generic symbolic 16x16 M (exact)"
+  },
+  {
+   "name": "extra_time_modes_grow",
+   "section": "H. canonical quantisation in 4+4 (dirac16complex)",
+   "verdict": "pass",
+   "detail": "with extra-time momentum E^2 = m^2 + k_space^2 - k_t^2 < 0 when k_t^2 > m^2 + k_space^2: exact example m = 1, k5 = 2: eigenvalues ['-sqrt(3)*I', 'sqrt(3)*I'], i.e. modes ~ e^{sqrt(3) x4} grow; in the metric the frame momentum k_(x5) = e^{a4} sin(z)^{-1/6} k_x5 (coordinate k_x5) grows as the extra times deflate (a4 increasing), so every extra-time mode eventually enters the growing regime (local frame / WKB statement)"
+  },
+  {
+   "name": "expectation_value_rule",
+   "section": "H. canonical quantisation in 4+4 (dirac16complex)",
+   "verdict": "pass",
+   "detail": "with B-orthonormal modes u_n (u_n^dagger B u_m = eps_n delta_nm, including a Krein-boosted pair) and Psi = sum_n u_n b_n, {b_n, b_m^dagger} = eps_n delta_nm: {Psi, Psi^dagger} = sum eps_n u_n u_n^dagger = B, and in the one-particle state b_n^dagger|0> (norm eps_n) the normalised expectation of the normal-ordered :Psi^dagger M Psi: equals eps_n u_n^dagger M u_n for a generic symbolic M (exact Fock evaluation); for an observable written Psibar-form Psi^dagger C N Psi = -i Psi^dagger B gamma^(4) N ... the same rule applies with M = C N; positive-norm modes (eps = +1) give u^dagger M u.  For modes that are B-eigenvectors (B u = eps u) this equals u^dagger B M u (the SPEC section 6 form), verified exactly; for a Krein-boosted mode the form u^dagger B M u does NOT hold (verified), so the general rule is eps_n u_n^dagger M u_n"
+  },
+  {
+   "name": "hamiltonian_form_and_heisenberg_equation",
+   "section": "I. Hamiltonian form, energy exchange, exact solutions",
+   "verdict": "pass",
+   "detail": "with Hd = sqrt|g| [Psi^dagger (m C - sum_(mu != x4) C gamma^mu D_mu) Psi + U(S)] the unsymmetrised L = sqrt|g| Psibar gamma^(x4) d4 Psi - Hd exactly (Omega_x4 = 0), and d4 Psi_A = -i B_AC (1/sqrt|g|) dHd/dPsi^dagger_C (the Heisenberg equation for {Psi, Psi^dagger} = B/sqrt|g|) equals the field equation solved for d4 Psi, -gamma^(x4)[(m + lambda S) Psi - sum_(mu != x4) gamma^mu D_mu Psi], exactly (lambda general; operator ordering of the classical expression)"
+  },
+  {
+   "name": "energy_exchange_equation",
+   "section": "I. Hamiltonian form, energy exchange, exact solutions",
+   "verdict": "pass",
+   "detail": "for a diagonal T^mu_nu = diag(p3,p3,p3,-rho,p_t,p_t,p_t,p8) whose entries are functions of x4 and x8, all eight components: nabla_mu T^mu_x4 = -3*A1*(p3 - pt) - rho_4, nabla_mu T^mu_x8 = 3*H*c*(-p3 + 2*p8 - pt)/s**6 + p8_8 (each equal to the component computed from the Christoffel symbols, exact zero test of the difference; ring: c/s^6 = cot z; rho_4 = d rho/d x4, p8_8 = d p8/d x8), i.e. -d4 rho - 3 a4' (p3 - p_t) and d8 p8 + 3 H cot z (2 p8 - p3 - p_t); the components nu = x1, x2, x3, x5, x6, x7 vanish identically. Conservation is therefore exactly d rho/d x4 = -3 a4' (p3 - p_t) (energy flows between 3-space and the extra times unless p3 = p_t) and d p8/d x8 = -3 H cot z (2 p8 - p3 - p_t); the two components are independent (the x4 one contains no x8 derivative and no H, the x8 one no x4 derivative and no a4'). For x8-independent entries the x8 component is 3 H cot z (2 p8 - p3 - p_t) with cot z > 0, so conservation needs p8 = (p3 + p_t)/2. Controls: a wrong sign of the a4' term and a wrong factor of the cot z term are detected"
+  },
+  {
+   "name": "exact_solution_family_x4_x8",
+   "section": "I. Hamiltonian form, energy exchange, exact solutions",
+   "verdict": "pass",
+   "detail": "Psi = sin(z)^alpha (cosh(k x4) + sinh(k x4)/k M) chi, M = -m gamma^(x4) + 3 H (2 alpha + 1) gamma^(x4) gamma^(x8), k^2 = 9 H^2 (2 alpha + 1)^2 - m^2, constant chi (16 components), solves gamma^mu D_mu Psi = m Psi exactly for every a4(x4) and every alpha (M^2 = k^2 I16, M^T C + C M = 0 so S is x4-independent); a test of the Tan(z) gamma^(x8) d8 and 3 H gamma^(x8) terms (independent re-derivation of the Wolfram side's exact solutions; linear in chi, so it holds for either statistics at U = 0)"
+  },
+  {
+   "name": "exact_nonlinear_homogeneous_solution",
+   "section": "I. Hamiltonian form, energy exchange, exact solutions",
+   "verdict": "pass",
+   "detail": "Phi = (cosh(k x4) + sinh(k x4)/k M) chi, M = -(m + lambda S0) gamma^(x4) + 3 H gamma^(x4) gamma^(x8), k^2 = 9 H^2 - (m + lambda S0)^2: exp(M^T x4) C exp(M x4) = C so S = chi^dagger C chi = S0 is constant, and gamma^mu D_mu Phi = (m + lambda S0) Phi = (m + U'(S)) Phi exactly: an exact homogeneous solution of the nonlinear commuting field dirac16complex00 (U = (lambda/2) S^2); its EMT is the homogeneous on-shell form rho = m S0 + U, p = S0 U' - U (check *_homogeneous_on_shell_rho_p)"
+  }
+ ],
+ "formulas": {
+  "vielbein_f": {
+   "x1": "exp(a4(x4))*sin(6*H*x8)**(1/6)",
+   "x2": "exp(a4(x4))*sin(6*H*x8)**(1/6)",
+   "x3": "exp(a4(x4))*sin(6*H*x8)**(1/6)",
+   "x4": "1",
+   "x5": "exp(-a4(x4))*sin(6*H*x8)**(1/6)",
+   "x6": "exp(-a4(x4))*sin(6*H*x8)**(1/6)",
+   "x7": "exp(-a4(x4))*sin(6*H*x8)**(1/6)",
+   "x8": "cos(6*H*x8)/sin(6*H*x8)"
+  },
+  "sqrt_abs_det_g": "cos(6*H*x8)",
+  "ring_notation": "E = exp(a4(x4)), s = sin(6 H x8)^(1/6), c = cos(6 H x8), A1 = a4', A2 = a4''; physical forms substitute these",
+  "christoffel_nonzero": {
+   "Gamma^x1_x1x4": "Derivative(a4(x4), x4)",
+   "Gamma^x1_x1x8": "H*cos(6*H*x8)/sin(6*H*x8)",
+   "Gamma^x2_x2x4": "Derivative(a4(x4), x4)",
+   "Gamma^x2_x2x8": "H*cos(6*H*x8)/sin(6*H*x8)",
+   "Gamma^x3_x3x4": "Derivative(a4(x4), x4)",
+   "Gamma^x3_x3x8": "H*cos(6*H*x8)/sin(6*H*x8)",
+   "Gamma^x4_x1x1": "exp(2*a4(x4))*sin(6*H*x8)**(1/3)*Derivative(a4(x4), x4)",
+   "Gamma^x4_x2x2": "exp(2*a4(x4))*sin(6*H*x8)**(1/3)*Derivative(a4(x4), x4)",
+   "Gamma^x4_x3x3": "exp(2*a4(x4))*sin(6*H*x8)**(1/3)*Derivative(a4(x4), x4)",
+   "Gamma^x4_x5x5": "exp(-2*a4(x4))*sin(6*H*x8)**(1/3)*Derivative(a4(x4), x4)",
+   "Gamma^x4_x6x6": "exp(-2*a4(x4))*sin(6*H*x8)**(1/3)*Derivative(a4(x4), x4)",
+   "Gamma^x4_x7x7": "exp(-2*a4(x4))*sin(6*H*x8)**(1/3)*Derivative(a4(x4), x4)",
+   "Gamma^x5_x4x5": "-Derivative(a4(x4), x4)",
+   "Gamma^x5_x5x8": "H*cos(6*H*x8)/sin(6*H*x8)",
+   "Gamma^x6_x4x6": "-Derivative(a4(x4), x4)",
+   "Gamma^x6_x6x8": "H*cos(6*H*x8)/sin(6*H*x8)",
+   "Gamma^x7_x4x7": "-Derivative(a4(x4), x4)",
+   "Gamma^x7_x7x8": "H*cos(6*H*x8)/sin(6*H*x8)",
+   "Gamma^x8_x1x1": "-H*exp(2*a4(x4))*sin(6*H*x8)**(4/3)/cos(6*H*x8)",
+   "Gamma^x8_x2x2": "-H*exp(2*a4(x4))*sin(6*H*x8)**(4/3)/cos(6*H*x8)",
+   "Gamma^x8_x3x3": "-H*exp(2*a4(x4))*sin(6*H*x8)**(4/3)/cos(6*H*x8)",
+   "Gamma^x8_x5x5": "H*exp(-2*a4(x4))*sin(6*H*x8)**(4/3)/cos(6*H*x8)",
+   "Gamma^x8_x6x6": "H*exp(-2*a4(x4))*sin(6*H*x8)**(4/3)/cos(6*H*x8)",
+   "Gamma^x8_x7x7": "H*exp(-2*a4(x4))*sin(6*H*x8)**(4/3)/cos(6*H*x8)",
+   "Gamma^x8_x8x8": "-6*H/(sin(6*H*x8)*cos(6*H*x8))"
+  },
+  "spin_connection_omega_mu_ab_nonzero_a<b": {
+   "omega_x1 x1x4": "exp(a4(x4))*sin(6*H*x8)**(1/6)*Derivative(a4(x4), x4)",
+   "omega_x1 x1x8": "H*exp(a4(x4))*sin(6*H*x8)**(1/6)",
+   "omega_x2 x2x4": "exp(a4(x4))*sin(6*H*x8)**(1/6)*Derivative(a4(x4), x4)",
+   "omega_x2 x2x8": "H*exp(a4(x4))*sin(6*H*x8)**(1/6)",
+   "omega_x3 x3x4": "exp(a4(x4))*sin(6*H*x8)**(1/6)*Derivative(a4(x4), x4)",
+   "omega_x3 x3x8": "H*exp(a4(x4))*sin(6*H*x8)**(1/6)",
+   "omega_x5 x4x5": "-exp(-a4(x4))*sin(6*H*x8)**(1/6)*Derivative(a4(x4), x4)",
+   "omega_x5 x5x8": "-H*exp(-a4(x4))*sin(6*H*x8)**(1/6)",
+   "omega_x6 x4x6": "-exp(-a4(x4))*sin(6*H*x8)**(1/6)*Derivative(a4(x4), x4)",
+   "omega_x6 x6x8": "-H*exp(-a4(x4))*sin(6*H*x8)**(1/6)",
+   "omega_x7 x4x7": "-exp(-a4(x4))*sin(6*H*x8)**(1/6)*Derivative(a4(x4), x4)",
+   "omega_x7 x7x8": "-H*exp(-a4(x4))*sin(6*H*x8)**(1/6)"
+  },
+  "Omega_mu": {
+   "x1": "(exp(a4(x4))*sin(6*H*x8)**(1/6)*Derivative(a4(x4), x4))*S^(x1,x4) + (H*exp(a4(x4))*sin(6*H*x8)**(1/6))*S^(x1,x8)",
+   "x2": "(exp(a4(x4))*sin(6*H*x8)**(1/6)*Derivative(a4(x4), x4))*S^(x2,x4) + (H*exp(a4(x4))*sin(6*H*x8)**(1/6))*S^(x2,x8)",
+   "x3": "(exp(a4(x4))*sin(6*H*x8)**(1/6)*Derivative(a4(x4), x4))*S^(x3,x4) + (H*exp(a4(x4))*sin(6*H*x8)**(1/6))*S^(x3,x8)",
+   "x4": "0",
+   "x5": "(-exp(-a4(x4))*sin(6*H*x8)**(1/6)*Derivative(a4(x4), x4))*S^(x4,x5) + (-H*exp(-a4(x4))*sin(6*H*x8)**(1/6))*S^(x5,x8)",
+   "x6": "(-exp(-a4(x4))*sin(6*H*x8)**(1/6)*Derivative(a4(x4), x4))*S^(x4,x6) + (-H*exp(-a4(x4))*sin(6*H*x8)**(1/6))*S^(x6,x8)",
+   "x7": "(-exp(-a4(x4))*sin(6*H*x8)**(1/6)*Derivative(a4(x4), x4))*S^(x4,x7) + (-H*exp(-a4(x4))*sin(6*H*x8)**(1/6))*S^(x7,x8)",
+   "x8": "0"
+  },
+  "gamma_mu_Omega_mu": "3*H*gamma^(x8)",
+  "gamma_xi_Omega_xi": {
+   "x1": "(Derivative(a4(x4), x4)/2)*gamma^(x4) + (H/2)*gamma^(x8)",
+   "x2": "(Derivative(a4(x4), x4)/2)*gamma^(x4) + (H/2)*gamma^(x8)",
+   "x3": "(Derivative(a4(x4), x4)/2)*gamma^(x4) + (H/2)*gamma^(x8)",
+   "x4": "(0)*gamma^(x4) + (0)*gamma^(x8)",
+   "x5": "(-Derivative(a4(x4), x4)/2)*gamma^(x4) + (H/2)*gamma^(x8)",
+   "x6": "(-Derivative(a4(x4), x4)/2)*gamma^(x4) + (H/2)*gamma^(x8)",
+   "x7": "(-Derivative(a4(x4), x4)/2)*gamma^(x4) + (H/2)*gamma^(x8)",
+   "x8": "(0)*gamma^(x4) + (0)*gamma^(x8)"
+  },
+  "ricci_scalar": "-42*H**2 + 6*Derivative(a4(x4), x4)**2",
+  "dirac_equation_components": {
+   "statement": "E_A = (gamma^mu D_mu Psi - (m + lambda S) Psi)_A = 0, A = 1..16; psiA_xk = d psi_A / d xk; chi = Psi^dagger; the same 16 equations for both statistics",
+   "components": {
+    "E1": "(-lambda)*chi1*psi1*psi5 + (-lambda)*chi2*psi1*psi6 + (-lambda)*chi3*psi1*psi7 + (-lambda)*chi4*psi1*psi8 + (-lambda)*chi6*psi1*psi2 + (-lambda)*chi7*psi1*psi3 + (-lambda)*chi8*psi1*psi4 + (lambda)*chi9*psi1*psi13 + (lambda)*chi10*psi1*psi14 + (lambda)*chi11*psi1*psi15 + (lambda)*chi12*psi1*psi16 + (lambda)*chi13*psi1*psi9 + (lambda)*chi14*psi1*psi10 + (lambda)*chi15*psi1*psi11 + (lambda)*chi16*psi1*psi12 + (-m)*psi1 + (3*H)*psi9 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi9_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi9_x8 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi14_x3 + (-1)*psi14_x4 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi15_x2 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi15_x5 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi16_x1 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi16_x6",
+    "E2": "(-lambda)*chi1*psi2*psi5 + (-lambda)*chi2*psi2*psi6 + (-lambda)*chi3*psi2*psi7 + (-lambda)*chi4*psi2*psi8 + (lambda)*chi5*psi1*psi2 + (-lambda)*chi7*psi2*psi3 + (-lambda)*chi8*psi2*psi4 + (lambda)*chi9*psi2*psi13 + (lambda)*chi10*psi2*psi14 + (lambda)*chi11*psi2*psi15 + (lambda)*chi12*psi2*psi16 + (lambda)*chi13*psi2*psi9 + (lambda)*chi14*psi2*psi10 + (lambda)*chi15*psi2*psi11 + (lambda)*chi16*psi2*psi12 + (-m)*psi2 + (3*H)*psi10 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi10_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi10_x8 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi13_x3 + (1)*psi13_x4 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi15_x1 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi15_x6 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi16_x2 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi16_x5",
+    "E3": "(-lambda)*chi1*psi3*psi5 + (-lambda)*chi2*psi3*psi6 + (-lambda)*chi3*psi3*psi7 + (-lambda)*chi4*psi3*psi8 + (lambda)*chi5*psi1*psi3 + (lambda)*chi6*psi2*psi3 + (-lambda)*chi8*psi3*psi4 + (lambda)*chi9*psi3*psi13 + (lambda)*chi10*psi3*psi14 + (lambda)*chi11*psi3*psi15 + (lambda)*chi12*psi3*psi16 + (lambda)*chi13*psi3*psi9 + (lambda)*chi14*psi3*psi10 + (lambda)*chi15*psi3*psi11 + (lambda)*chi16*psi3*psi12 + (-m)*psi3 + (3*H)*psi11 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi11_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi11_x8 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi13_x2 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi13_x5 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi14_x1 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi14_x6 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi16_x3 + (1)*psi16_x4",
+    "E4": "(-lambda)*chi1*psi4*psi5 + (-lambda)*chi2*psi4*psi6 + (-lambda)*chi3*psi4*psi7 + (-lambda)*chi4*psi4*psi8 + (lambda)*chi5*psi1*psi4 + (lambda)*chi6*psi2*psi4 + (lambda)*chi7*psi3*psi4 + (lambda)*chi9*psi4*psi13 + (lambda)*chi10*psi4*psi14 + (lambda)*chi11*psi4*psi15 + (lambda)*chi12*psi4*psi16 + (lambda)*chi13*psi4*psi9 + (lambda)*chi14*psi4*psi10 + (lambda)*chi15*psi4*psi11 + (lambda)*chi16*psi4*psi12 + (-m)*psi4 + (3*H)*psi12 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi12_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi12_x8 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi13_x1 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi13_x6 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi14_x2 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi14_x5 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi15_x3 + (-1)*psi15_x4",
+    "E5": "(-lambda)*chi2*psi5*psi6 + (-lambda)*chi3*psi5*psi7 + (-lambda)*chi4*psi5*psi8 + (lambda)*chi5*psi1*psi5 + (lambda)*chi6*psi2*psi5 + (lambda)*chi7*psi3*psi5 + (lambda)*chi8*psi4*psi5 + (lambda)*chi9*psi5*psi13 + (lambda)*chi10*psi5*psi14 + (lambda)*chi11*psi5*psi15 + (lambda)*chi12*psi5*psi16 + (lambda)*chi13*psi5*psi9 + (lambda)*chi14*psi5*psi10 + (lambda)*chi15*psi5*psi11 + (lambda)*chi16*psi5*psi12 + (-m)*psi5 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi10_x3 + (1)*psi10_x4 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi11_x2 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi11_x5 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi12_x1 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi12_x6 + (3*H)*psi13 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi13_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi13_x8",
+    "E6": "(lambda)*chi1*psi5*psi6 + (-lambda)*chi3*psi6*psi7 + (-lambda)*chi4*psi6*psi8 + (lambda)*chi5*psi1*psi6 + (lambda)*chi6*psi2*psi6 + (lambda)*chi7*psi3*psi6 + (lambda)*chi8*psi4*psi6 + (lambda)*chi9*psi6*psi13 + (lambda)*chi10*psi6*psi14 + (lambda)*chi11*psi6*psi15 + (lambda)*chi12*psi6*psi16 + (lambda)*chi13*psi6*psi9 + (lambda)*chi14*psi6*psi10 + (lambda)*chi15*psi6*psi11 + (lambda)*chi16*psi6*psi12 + (-m)*psi6 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi9_x3 + (-1)*psi9_x4 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi11_x1 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi11_x6 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi12_x2 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi12_x5 + (3*H)*psi14 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi14_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi14_x8",
+    "E7": "(lambda)*chi1*psi5*psi7 + (lambda)*chi2*psi6*psi7 + (-lambda)*chi4*psi7*psi8 + (lambda)*chi5*psi1*psi7 + (lambda)*chi6*psi2*psi7 + (lambda)*chi7*psi3*psi7 + (lambda)*chi8*psi4*psi7 + (lambda)*chi9*psi7*psi13 + (lambda)*chi10*psi7*psi14 + (lambda)*chi11*psi7*psi15 + (lambda)*chi12*psi7*psi16 + (lambda)*chi13*psi7*psi9 + (lambda)*chi14*psi7*psi10 + (lambda)*chi15*psi7*psi11 + (lambda)*chi16*psi7*psi12 + (-m)*psi7 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi9_x2 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi9_x5 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi10_x1 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi10_x6 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi12_x3 + (-1)*psi12_x4 + (3*H)*psi15 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi15_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi15_x8",
+    "E8": "(lambda)*chi1*psi5*psi8 + (lambda)*chi2*psi6*psi8 + (lambda)*chi3*psi7*psi8 + (lambda)*chi5*psi1*psi8 + (lambda)*chi6*psi2*psi8 + (lambda)*chi7*psi3*psi8 + (lambda)*chi8*psi4*psi8 + (lambda)*chi9*psi8*psi13 + (lambda)*chi10*psi8*psi14 + (lambda)*chi11*psi8*psi15 + (lambda)*chi12*psi8*psi16 + (lambda)*chi13*psi8*psi9 + (lambda)*chi14*psi8*psi10 + (lambda)*chi15*psi8*psi11 + (lambda)*chi16*psi8*psi12 + (-m)*psi8 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi9_x1 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi9_x6 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi10_x2 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi10_x5 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi11_x3 + (1)*psi11_x4 + (3*H)*psi16 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi16_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi16_x8",
+    "E9": "(lambda)*chi1*psi5*psi9 + (lambda)*chi2*psi6*psi9 + (lambda)*chi3*psi7*psi9 + (lambda)*chi4*psi8*psi9 + (lambda)*chi5*psi1*psi9 + (lambda)*chi6*psi2*psi9 + (lambda)*chi7*psi3*psi9 + (lambda)*chi8*psi4*psi9 + (lambda)*chi9*psi9*psi13 + (lambda)*chi10*psi9*psi14 + (lambda)*chi11*psi9*psi15 + (lambda)*chi12*psi9*psi16 + (lambda)*chi14*psi9*psi10 + (lambda)*chi15*psi9*psi11 + (lambda)*chi16*psi9*psi12 + (3*H)*psi1 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi1_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi1_x8 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi6_x3 + (1)*psi6_x4 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi7_x2 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi7_x5 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi8_x1 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi8_x6 + (-m)*psi9",
+    "E10": "(lambda)*chi1*psi5*psi10 + (lambda)*chi2*psi6*psi10 + (lambda)*chi3*psi7*psi10 + (lambda)*chi4*psi8*psi10 + (lambda)*chi5*psi1*psi10 + (lambda)*chi6*psi2*psi10 + (lambda)*chi7*psi3*psi10 + (lambda)*chi8*psi4*psi10 + (lambda)*chi9*psi10*psi13 + (lambda)*chi10*psi10*psi14 + (lambda)*chi11*psi10*psi15 + (lambda)*chi12*psi10*psi16 + (-lambda)*chi13*psi9*psi10 + (lambda)*chi15*psi10*psi11 + (lambda)*chi16*psi10*psi12 + (3*H)*psi2 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi2_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi2_x8 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi5_x3 + (-1)*psi5_x4 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi7_x1 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi7_x6 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi8_x2 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi8_x5 + (-m)*psi10",
+    "E11": "(lambda)*chi1*psi5*psi11 + (lambda)*chi2*psi6*psi11 + (lambda)*chi3*psi7*psi11 + (lambda)*chi4*psi8*psi11 + (lambda)*chi5*psi1*psi11 + (lambda)*chi6*psi2*psi11 + (lambda)*chi7*psi3*psi11 + (lambda)*chi8*psi4*psi11 + (lambda)*chi9*psi11*psi13 + (lambda)*chi10*psi11*psi14 + (lambda)*chi11*psi11*psi15 + (lambda)*chi12*psi11*psi16 + (-lambda)*chi13*psi9*psi11 + (-lambda)*chi14*psi10*psi11 + (lambda)*chi16*psi11*psi12 + (3*H)*psi3 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi3_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi3_x8 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi5_x2 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi5_x5 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi6_x1 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi6_x6 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi8_x3 + (-1)*psi8_x4 + (-m)*psi11",
+    "E12": "(lambda)*chi1*psi5*psi12 + (lambda)*chi2*psi6*psi12 + (lambda)*chi3*psi7*psi12 + (lambda)*chi4*psi8*psi12 + (lambda)*chi5*psi1*psi12 + (lambda)*chi6*psi2*psi12 + (lambda)*chi7*psi3*psi12 + (lambda)*chi8*psi4*psi12 + (lambda)*chi9*psi12*psi13 + (lambda)*chi10*psi12*psi14 + (lambda)*chi11*psi12*psi15 + (lambda)*chi12*psi12*psi16 + (-lambda)*chi13*psi9*psi12 + (-lambda)*chi14*psi10*psi12 + (-lambda)*chi15*psi11*psi12 + (3*H)*psi4 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi4_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi4_x8 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi5_x1 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi5_x6 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi6_x2 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi6_x5 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi7_x3 + (1)*psi7_x4 + (-m)*psi12",
+    "E13": "(lambda)*chi1*psi5*psi13 + (lambda)*chi2*psi6*psi13 + (lambda)*chi3*psi7*psi13 + (lambda)*chi4*psi8*psi13 + (lambda)*chi5*psi1*psi13 + (lambda)*chi6*psi2*psi13 + (lambda)*chi7*psi3*psi13 + (lambda)*chi8*psi4*psi13 + (lambda)*chi10*psi13*psi14 + (lambda)*chi11*psi13*psi15 + (lambda)*chi12*psi13*psi16 + (-lambda)*chi13*psi9*psi13 + (-lambda)*chi14*psi10*psi13 + (-lambda)*chi15*psi11*psi13 + (-lambda)*chi16*psi12*psi13 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi2_x3 + (-1)*psi2_x4 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi3_x2 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi3_x5 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi4_x1 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi4_x6 + (3*H)*psi5 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi5_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi5_x8 + (-m)*psi13",
+    "E14": "(lambda)*chi1*psi5*psi14 + (lambda)*chi2*psi6*psi14 + (lambda)*chi3*psi7*psi14 + (lambda)*chi4*psi8*psi14 + (lambda)*chi5*psi1*psi14 + (lambda)*chi6*psi2*psi14 + (lambda)*chi7*psi3*psi14 + (lambda)*chi8*psi4*psi14 + (-lambda)*chi9*psi13*psi14 + (lambda)*chi11*psi14*psi15 + (lambda)*chi12*psi14*psi16 + (-lambda)*chi13*psi9*psi14 + (-lambda)*chi14*psi10*psi14 + (-lambda)*chi15*psi11*psi14 + (-lambda)*chi16*psi12*psi14 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi1_x3 + (1)*psi1_x4 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi3_x1 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi3_x6 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi4_x2 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi4_x5 + (3*H)*psi6 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi6_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi6_x8 + (-m)*psi14",
+    "E15": "(lambda)*chi1*psi5*psi15 + (lambda)*chi2*psi6*psi15 + (lambda)*chi3*psi7*psi15 + (lambda)*chi4*psi8*psi15 + (lambda)*chi5*psi1*psi15 + (lambda)*chi6*psi2*psi15 + (lambda)*chi7*psi3*psi15 + (lambda)*chi8*psi4*psi15 + (-lambda)*chi9*psi13*psi15 + (-lambda)*chi10*psi14*psi15 + (lambda)*chi12*psi15*psi16 + (-lambda)*chi13*psi9*psi15 + (-lambda)*chi14*psi10*psi15 + (-lambda)*chi15*psi11*psi15 + (-lambda)*chi16*psi12*psi15 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi1_x2 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi1_x5 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi2_x1 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi2_x6 + (exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi4_x3 + (1)*psi4_x4 + (3*H)*psi7 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi7_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi7_x8 + (-m)*psi15",
+    "E16": "(lambda)*chi1*psi5*psi16 + (lambda)*chi2*psi6*psi16 + (lambda)*chi3*psi7*psi16 + (lambda)*chi4*psi8*psi16 + (lambda)*chi5*psi1*psi16 + (lambda)*chi6*psi2*psi16 + (lambda)*chi7*psi3*psi16 + (lambda)*chi8*psi4*psi16 + (-lambda)*chi9*psi13*psi16 + (-lambda)*chi10*psi14*psi16 + (-lambda)*chi11*psi15*psi16 + (-lambda)*chi13*psi9*psi16 + (-lambda)*chi14*psi10*psi16 + (-lambda)*chi15*psi11*psi16 + (-lambda)*chi16*psi12*psi16 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi1_x1 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi1_x6 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi2_x2 + (-exp(a4(x4))/sin(6*H*x8)**(1/6))*psi2_x5 + (-exp(-a4(x4))/sin(6*H*x8)**(1/6))*psi3_x3 + (-1)*psi3_x4 + (3*H)*psi8 + (exp(a4(x4))/sin(6*H*x8)**(1/6))*psi8_x7 + (sin(6*H*x8)/cos(6*H*x8))*psi8_x8 + (-m)*psi16"
+   }
+  },
+  "T_x4_x8_homogeneous_on_shell": {
+   "statement": "T^x4_x8 for states depending on x4 only, on shell (bilinear coefficients by monomial)",
+   "monomials": {}
+  },
+  "quantisation": {
+   "momentum": "pi_A = i sqrt|g| (Psi^dagger B)_A (first-order form), B = -i C gamma^(x4)",
+   "anticommutator": "{Psi_A(x), Psi^dagger_B(y)} = B_AB delta^7(x - y)/sqrt|g| on x4 = const",
+   "krein": "B Hermitian, B^2 = 1, signature (8,8): indefinite (Krein) state space",
+   "good_sector": "k5 = k6 = k7 = 0: [B, h] = 0; B = +1 sector positive (Dirac-like Fock space), B = -1 sector negative norm",
+   "dispersion": "E^2 = m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2 (frame momenta)",
+   "expectation_rule": "<n| :Psi^dagger M Psi: |n>/<n|n> = eps_n u_n^dagger M u_n, u_n^dagger B u_n = eps_n; = u_n^dagger B M u_n when B u_n = eps_n u_n",
+   "emt_operator": "T^mu_nu = :-Theta^mu_nu + delta^mu_nu (K - V):, normal ordered with respect to the modes; one-particle expectation = eps_n times the classical bilinear evaluated on u_n"
+  },
+  "energy_exchange": {
+   "T": "diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8), entries functions of x4 and x8",
+   "nabla_mu T^mu_nu": {
+    "x1": "0",
+    "x2": "0",
+    "x3": "0",
+    "x4": "-d4 rho - 3*a4'*(p3 - p_t)",
+    "x5": "0",
+    "x6": "0",
+    "x7": "0",
+    "x8": "d8 p8 + 3*H*cot(6*H*x8)*(2*p8 - p3 - p_t)"
+   },
+   "conservation": [
+    "d4 rho = -3*a4'*(p3 - p_t)",
+    "d8 p8 = -3*H*cot(6*H*x8)*(2*p8 - p3 - p_t)"
+   ],
+   "x8_independent_entries": [
+    "d rho/d x4 = -3*a4'*(p3 - p_t)",
+    "p8 = (p3 + p_t)/2"
+   ]
+  },
+  "lagrangian": "L = sqrt|g| [ (1/2)(Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi) - m Psibar Psi - (lambda/2) (Psibar Psi)^2 ], Psibar = Psi^dagger C, gamma^mu = e^mu_a gamma^a, D_mu Psi = d_mu Psi + Omega_mu Psi",
+  "euler_lagrange": "gamma^mu D_mu Psi = (m + lambda S) Psi;  D_mu Psibar gamma^mu = -(m + lambda S) Psibar; in this metric: e^{-a4} sin(z)^(-1/6) gamma^(xi) d_i Psi (i=1,2,3) + gamma^(x4) d_4 Psi + e^{a4} sin(z)^(-1/6) gamma^(xj) d_j Psi (j=5,6,7) + tan(z) gamma^(x8) d_8 Psi + 3 H gamma^(x8) Psi = (m + lambda S) Psi, z = 6 H x8",
+  "current": "J^mu = -i Psibar gamma^mu Psi (real); nabla_mu J^mu = 0 on shell",
+  "emt": {
+   "Theta": "Theta^mu_nu = (1/4)[Psibar gamma^mu D_nu Psi - D_nu Psibar gamma^mu Psi + g^{mu mu} g_{nu nu} (Psibar gamma^nu D_mu Psi - D_mu Psibar gamma^nu Psi)]",
+   "K": "K = (1/2)(Psibar gamma^mu D_mu Psi - D_mu Psibar gamma^mu Psi)",
+   "V": "V = m S + U, U = (lambda/2) S^2",
+   "T": "T^mu_nu = -Theta^mu_nu + delta^mu_nu (K - V);  T_kin = -Theta + delta K;  T_pot = -delta V",
+   "rho": "rho = -T^x4_x4 = Theta^x4_x4 - K + V",
+   "p3": "p3 = T^x1_x1 = -Theta^x1_x1 + K - V",
+   "p_t": "p_t = T^x5_x5 = -Theta^x5_x5 + K - V",
+   "p8": "p8 = T^x8_x8 = -Theta^x8_x8 + K - V",
+   "trace": "T^mu_mu = 7K - 8V; on shell -m S + 7 S U' - 8 U = -m S + 3 lambda S^2",
+   "homogeneous_on_shell": "rho = m S + U, p3 = p_t = p8 = S U' - U, w = (S U' - U)/(m S + U) = lambda S/(2m + lambda S)",
+   "Theta_diag_in_metric": "Theta^xi_xi = (1/2) f_i^{-1} (Psibar gamma^(xi) d_i Psi - d_i Psibar gamma^(xi) Psi) (no sum; the Omega terms cancel since {gamma^(xi), Omega_(xi)} = 0), f = (e^a4 s, e^a4 s, e^a4 s, 1, e^-a4 s, e^-a4 s, e^-a4 s, cot z), s = sin(z)^(1/6)"
+  }
+ },
+ "comparison_with_wolfram": {
+  "status": "agree",
+  "wolfram_summary": {
+   "passed": 84,
+   "failed": 0,
+   "total": 84
+  },
+  "formulas": {
+   "compared": 32,
+   "agree": 32,
+   "not_compared": [],
+   "records": [
+    {
+     "name": "metric",
+     "verdict": "agree",
+     "detail": "the 8x8 metric of field-theory.json equals g = eta f^2 of the sympy side entry by entry"
+    },
+    {
+     "name": "vielbein_diagonal",
+     "verdict": "agree",
+     "detail": "f_a, a = x1..x8"
+    },
+    {
+     "name": "sqrt_det_g",
+     "verdict": "agree",
+     "detail": "sqrt|det g| = cos(6 H x8)"
+    },
+    {
+     "name": "eta",
+     "verdict": "agree",
+     "detail": "eta = diag(1,1,1,-1,-1,-1,-1,1)"
+    },
+    {
+     "name": "christoffel_nonzero",
+     "verdict": "agree",
+     "detail": "25 Wolfram vs 25 sympy nonzero Gamma^l_mn (m <= n); same index set and equal values"
+    },
+    {
+     "name": "ricci_mixed_diagonal",
+     "verdict": "agree",
+     "detail": "R^mu_mu (no sum) for mu = x1..x8 equal; off-diagonal Ricci components vanish on both sides (sympy: ['A2 - 6*H**2', 'A2 - 6*H**2', 'A2 - 6*H**2', '6*A1**2', '-A2 - 6*H**2', '-A2 - 6*H**2', '-A2 - 6*H**2', '-6*H**2'])"
+    },
+    {
+     "name": "ricci_scalar",
+     "verdict": "agree",
+     "detail": "R = 6 (a4'^2 - 7 H^2) on both sides (sympy: 6*A1**2 - 42*H**2)"
+    },
+    {
+     "name": "omega_nonzero",
+     "verdict": "agree",
+     "detail": "12 Wolfram vs 12 sympy nonzero omega_mu,ab (a < b), equal"
+    },
+    {
+     "name": "Omega_components",
+     "verdict": "agree",
+     "detail": "the stated Omega_xi = (1/2) E^a4 Sin^(1/6) (a4' g[xi].g[x4] + H g[xi].g[x8]), Omega_xt = -(1/2) E^-a4 Sin^(1/6) (a4' g[x4].g[xt] + H g[xt].g[x8]), Omega_x4 = Omega_x8 = 0, rebuilt from the gammas, equal the sympy Omega_mu exactly"
+    },
+    {
+     "name": "gammaOmega_per_direction",
+     "verdict": "agree",
+     "detail": "gamma^mu Omega_mu (no sum) = (stated coefficient) gamma^(x4) + (stated coefficient) gamma^(x8) for all 8 mu, checked against the sympy matrices"
+    },
+    {
+     "name": "gammaOmega_total",
+     "verdict": "agree",
+     "detail": "3 H gamma^(x8) on both sides"
+    },
+    {
+     "name": "Lagrangian",
+     "verdict": "agree",
+     "detail": "the stated L = Cos[z][(1/2) sum_a (1/f_a)(Psibar gamma^(a) d_a Psi - d_a Psibar gamma^(a) Psi) - m S - U] (spin connection dropped) equals the sympy L (with Omega_mu) exactly, both statistics, U = (lambda/2) S^2"
+    },
+    {
+     "name": "field_equation_components",
+     "verdict": "agree",
+     "detail": "all 16 component equations (gamma^mu D_mu Psi)_A = V Psi_A parsed from field-theory.json equal the sympy E_A + (m + lambda S) Psi_A term by term"
+    },
+    {
+     "name": "field_equation_blocks",
+     "verdict": "agree",
+     "detail": "gamma^(xa) = {{0, tb}, {t, 0}} with the listed 8x8 blocks, all 8 a: equal to the fixture gammas"
+    },
+    {
+     "name": "adjoint_equation",
+     "verdict": "agree",
+     "detail": "sum_mu Omega_mu gamma^mu = -3 H gamma^(x8), so the stated adjoint form (... + 3 H Psibar g[x8] = -(m + U') Psibar) equals the sympy D_mu Psibar gamma^mu = -(m + U') Psibar exactly, both statistics"
+    },
+    {
+     "name": "current",
+     "verdict": "agree",
+     "detail": "d_mu(Cos z J^mu) = -i Cos z (Ebar Psi + Psibar E) with the Wolfram sign of Ebar (= minus the sympy Ebar) holds exactly; J^x4 = Psi^dagger B Psi; both statistics"
+    },
+    {
+     "name": "Lichnerowicz",
+     "verdict": "agree",
+     "detail": "(gamma^mu D_mu)^2 = Box - R/4 with R = 6 (a4'^2 - 7 H^2): same statement as the sympy check lichnerowicz_identity_on_fields"
+    },
+    {
+     "name": "T_variation",
+     "verdict": "agree",
+     "detail": "the stated closed form T^nu_mu = delta L0 - (1/2)(Psibar gamma^nu D_mu Psi - D_mu Psibar gamma^nu Psi) - (1/4) g_mu rho nabla_l (Psibar {gamma^l, Sigma^(nu rho)} Psi), rebuilt in the sympy algebra, equals the sympy first-order vielbein variation tensor OFF SHELL for all 64 components, both statistics (the sympy side had established equality with the Belinfante tensor on shell)"
+    },
+    {
+     "name": "T_symmetric",
+     "verdict": "agree",
+     "detail": "the stated Belinfante T^nu_mu equals the sympy T^nu_mu off shell, 64 components, both statistics"
+    },
+    {
+     "name": "EMT_kinetic_potential",
+     "verdict": "agree",
+     "detail": "T_kin = delta sum K - (1/4)(...), T_pot = -delta (m S + U) equal the sympy split, both statistics"
+    },
+    {
+     "name": "EMT_diagonal",
+     "verdict": "agree",
+     "detail": "T^mu_mu (no sum) = L0 - K_mu, K_mu = (1/(2 f_mu))(Psibar gamma^(mu) d_mu Psi - d_mu Psibar gamma^(mu) Psi), sum_mu K_mu = K: equal off shell, both statistics"
+    },
+    {
+     "name": "EMT_trace",
+     "verdict": "agree",
+     "detail": "T^mu_mu = 7 sum K - 8 (m S + U) off shell (sympy algebra) and the same on-shell value -m S + 7 S U' - 8 U"
+    },
+    {
+     "name": "EMT_homogeneous_on_shell",
+     "verdict": "agree",
+     "detail": "rho = m S + U, p3 = p_t = p8 = S U' - U, w = lambda S/(2 m + lambda S): the same statements as the passing sympy checks grassmann_homogeneous_on_shell_rho_p and commuting_homogeneous_on_shell_rho_p (verified there by on-shell substitution)"
+    },
+    {
+     "name": "EMT_offdiagonal_x4_x8",
+     "verdict": "agree",
+     "detail": "T^x4_x8 = -(1/4)(B48 - Cot[z] B84) and T^x8_x4 = -Tan[z]^2 T^x4_x8 equal the sympy components off shell, both statistics; on homogeneous on-shell states the sympy side finds T^x4_x8 = T^x8_x4 = 0 (passing checks grassmann_T_x4x8_homogeneous, commuting_T_x4x8_homogeneous); the Wolfram side states T^x4_x8 = 0 at its exact solutions (exact_solution_x4_x8_*)"
+    },
+    {
+     "name": "energy_exchange",
+     "verdict": "agree",
+     "detail": "the complete identity nabla_mu T^mu_nu, nu = x1..x8, for T = diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8) with entries functions of x4 and x8, recomputed here from the sympy Christoffel symbols with the general mixed-tensor formula (f_4 = d f/d x4, f_8 = d f/d x8; ring c/s^6 = cot z): x1: 0; x2: 0; x3: 0; x4: -3*A1*p3 + 3*A1*pt - rho_4; x5: 0; x6: 0; x7: 0; x8: -3*H*c*p3/s**6 + 6*H*c*p8/s**6 - 3*H*c*pt/s**6 + p8_8. Wolfram entry 1 (the eight components) equals it component by component; entry 2 (d rho/d x4 = -3 a4' (p3 - p_t), d p8/d x8 = -3 H cot z (2 p8 - p3 - p_t)) is equivalent to its vanishing; entry 3 (x8-independent entries: d rho/d x4 = -3 a4' (p3 - p_t), p8 = (p3 + p_t)/2) is equivalent to its vanishing (coefficient of p8 in the x8 component 6 H cot z > 0). Same statement as the sympy check energy_exchange_equation"
+    },
+    {
+     "name": "nontriviality",
+     "verdict": "agree",
+     "detail": "the stated values gamma^mu Omega_mu = 3 H gamma^(x8) and R^x8_x8 = -6 H^2 are recomputed here (sympy matrices and Ricci tensor); the per-direction and iff statements are those of the passing sympy checks gamma_mu_Omega_mu_equals_3H_gamma_x8, time_terms_cancel_hidden_term_survives, nontriviality_Omega_zero_iff_flat, spinor_curvature_equals_riemann. Scope: the values belong to the diagonal vielbein (frame dependence: Revision/theory/reports/python-scope.json)"
+    },
+    {
+     "name": "majorana_negative_control",
+     "verdict": "agree",
+     "detail": "the statement (total derivative and no field equation for anticommuting real components; Euler-Lagrange expression 2 sqrt g C gamma^mu D_mu Phi for commuting ones) is the content of the passing sympy checks negative_control_majorana_grassmann_total_derivative and negative_control_majorana_commuting_contrast"
+    },
+    {
+     "name": "exact_solutions",
+     "verdict": "agree",
+     "detail": "with the sympy gammas: M^2 = (9 H^2 (2 alpha + 1)^2 - m^2) I16 and M^2 = (9 H^2 - (m + lambda S0)^2) I16 for the two stated M, C M + M^T C = 0 for both (S constant), and rho = m S0 + lambda S0^2/2, p = S U' - U = lambda S0^2/2 for U = lambda S^2/2; the solutions themselves are the passing sympy checks exact_solution_family_x4_x8 and exact_nonlinear_homogeneous_solution"
+    },
+    {
+     "name": "equation_of_state_definitions",
+     "verdict": "agree",
+     "detail": "same definitions as SPEC section 4 and the sympy record; (S U' - U)/(m S + U) = lambda S/(2 m + lambda S) for U = lambda S^2/2 recomputed here; homogeneous values from the passing sympy checks *_homogeneous_on_shell_rho_p"
+    },
+    {
+     "name": "hidden_direction_hermiticity",
+     "verdict": "agree",
+     "detail": "recomputed here: cos z [p (tan z d8 + 3H) q + ((tan z d8 + 3H) p) q] = d8(sin z p q) identically, and without the 3H term the same combination is d8(sin z p q) - 6 H cos z p q. Scope: this is antisymmetry for the measure cos z dx8 in the field variables Psi, up to the boundary term sin z p q, which does not vanish at z = pi/2 (Revision/theory/reports/python-scope.json)"
+    },
+    {
+     "name": "quantisation",
+     "verdict": "agree",
+     "detail": "each statement of the Wolfram quantisation summary is present and has a passing sympy counterpart: 'pi_A = (i/2) Cos[z] (Psi^dagger B)_A' <-> canonical_momentum; '{Psi_A(x), Psi^dagger_C(y)}_(x4 = y4) = B_AC delta^7(x - y)/Cos[z]' <-> canonical_anticommutator_B; 'signature (8,8)' <-> B_properties; 'no positive inner product' <-> no_positive_inner_product; 'positive representation chi = Psi^dagger B' <-> good_sector_positive_fock_realisation; 'h Hermitian' <-> good_sector_spectrum_and_B_sectors; '<Psi^dagger M Psi> = u^dagger B M u' <-> good_sector_positive_fock_realisation; 'E^2 = m^2 + k_s^2 - k_t^2' <-> mode_hamiltonian_B_selfadjoint_dispersion. Convention note: the sympy side states the rule in two realisations - (i) Psi^dagger the adjoint in a Krein-Fock space: <:Psi^dagger M Psi:> = eps u^dagger M u (= u^dagger B M u for B-eigenvector modes); (ii) the positive Fock space with Psi^dagger = chi B: u^dagger B M u for particles, -v^dagger B M v for antiparticles (the Wolfram form)"
+    },
+    {
+     "name": "field_equation",
+     "verdict": "agree",
+     "detail": "prose form of the 16 compared component equations"
+    }
+   ]
+  },
+  "checks": {
+   "pairs": 63,
+   "agree": 63,
+   "records": [
+    {
+     "sympy_check": "gammas_coordinates_and_eta",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "fixture_Clifford_relation": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "clifford_relations",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "fixture_Clifford_relation": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "C_properties",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "fixture_C_B_S_consistent": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "S_definition_and_C_S_antisymmetric",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "fixture_C_B_S_consistent": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "chirality_Gamma",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "fixture_C_B_S_consistent": "PASS",
+      "block_form": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "B_properties",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "fixture_C_B_S_consistent": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "metric_from_vielbein_equals_SPEC",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "metric_is_the_authors": "PASS",
+      "vielbein_inverse": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "sqrt_det_g_equals_cos_z",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "sqrt_det_g_is_cos_z": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "christoffel_symmetric_metric_compatible",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "christoffel_count": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "spin_connection_antisymmetric",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "omega_antisymmetric": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "vielbein_postulate",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "vielbein_postulate": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "Omega_x4_and_Omega_x8_vanish",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "Omega_components": "PASS",
+      "omega_components": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "covariant_constancy_D_mu_gamma_nu",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "gamma_covariantly_constant": "PASS",
+      "S_rotates_gamma_with_omega": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "gamma_mu_Omega_mu_equals_3H_gamma_x8",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "gammaOmega_equals_3H_gamma_x8": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "time_terms_cancel_hidden_term_survives",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "gammaOmega_x4_terms_cancel": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "anticommutator_gamma_Omega_vanishes",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "gammaOmega_divergence_form": "PASS",
+      "L_spin_connection_drops_out_G": "PASS",
+      "L_spin_connection_drops_out_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "divergence_of_sqrtg_gamma",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "gammaOmega_divergence_form": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "nontriviality_Omega_zero_iff_flat",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "Omega_vanishes_iff_a4prime_and_H_vanish": "PASS",
+      "nontriviality_1_dirac16complex": "PASS",
+      "nontriviality_2_dirac16complex00": "PASS",
+      "degenerate_at_H_0": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "curvature_nonzero_flat_only_formally",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "ricci_scalar": "PASS",
+      "ricci_mixed_components": "PASS",
+      "never_flat_for_H_positive": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "spinor_curvature_equals_riemann",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "spin_curvature_equals_Riemann": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "lichnerowicz_contraction",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "Lichnerowicz_identity_G": "PASS",
+      "Lichnerowicz_identity_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "lichnerowicz_identity_on_fields",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "Lichnerowicz_identity_G": "PASS",
+      "Lichnerowicz_identity_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "superalgebra_axioms",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "grassmann_algebra_structure": "PASS",
+      "zero_test_sanity": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "grassmann_lagrangian_real",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "L_real_G": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "commuting_lagrangian_real",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "L_real_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "grassmann_total_divergence_relation",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "L_total_divergence_to_unsymmetrised_G": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "commuting_total_divergence_relation",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "L_total_divergence_to_unsymmetrised_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "grassmann_euler_lagrange_psibar_variation",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "EL_Psibar_G": "PASS",
+      "Dirac_operator_explicit_G": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "grassmann_euler_lagrange_psi_variation",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "EL_Psi_G": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "commuting_euler_lagrange_psibar_variation",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "EL_Psibar_C": "PASS",
+      "Dirac_operator_explicit_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "commuting_euler_lagrange_psi_variation",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "EL_Psi_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "grassmann_adjoint_equation_is_conjugate",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "adjoint_equation_is_Dirac_conjugate_G": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "commuting_adjoint_equation_is_conjugate",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "adjoint_equation_is_Dirac_conjugate_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "grassmann_current_conservation",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "current_real_G": "PASS",
+      "current_conservation_identity_G": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "commuting_current_conservation",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "current_real_C": "PASS",
+      "current_conservation_identity_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "grassmann_emt_symmetric",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "T_symmetric_part_Belinfante_G": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "commuting_emt_symmetric",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "T_symmetric_part_Belinfante_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "grassmann_emt_conservation_on_shell",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "Noether_identity_diffeomorphisms_G": "PASS",
+      "conservation_on_shell_general": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "commuting_emt_conservation_on_shell",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "Noether_identity_diffeomorphisms_C": "PASS",
+      "conservation_on_shell_general": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "grassmann_trace_on_shell",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "kinetic_sum_on_shell_G": "PASS",
+      "EMT_trace_G": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "commuting_trace_on_shell",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "kinetic_sum_on_shell_C": "PASS",
+      "EMT_trace_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "grassmann_homogeneous_on_shell_rho_p",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "T_diagonal_components_G": "PASS",
+      "kinetic_sum_on_shell_G": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "commuting_homogeneous_on_shell_rho_p",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "T_diagonal_components_C": "PASS",
+      "kinetic_sum_on_shell_C": "PASS",
+      "exact_solution_nonlinear_homogeneous_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "grassmann_T_x4x8_homogeneous",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "T_x4_x8_component_G": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "commuting_T_x4x8_homogeneous",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "T_x4_x8_component_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "grassmann_emt_equals_general_vielbein_variation_on_shell",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "T_vielbein_variation_closed_form_G": "PASS",
+      "Noether_identity_local_Lorentz_G": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "commuting_emt_equals_general_vielbein_variation_on_shell",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "T_vielbein_variation_closed_form_C": "PASS",
+      "Noether_identity_local_Lorentz_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "grassmann_emt_equals_vielbein_variation_diagonal",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "T_diagonal_components_G": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "commuting_emt_equals_vielbein_variation_diagonal",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "T_diagonal_components_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "negative_control_majorana_grassmann_total_derivative",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "Majorana_Lg_total_derivative_grassmann": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "negative_control_majorana_commuting_contrast",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "Majorana_Lg_commuting_control": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "canonical_momentum",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "canonical_momentum": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "canonical_anticommutator_B",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "first_order_form_and_anticommutator": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "no_positive_inner_product",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "no_positive_inner_product": "PASS",
+      "charge_density_is_Krein_form_G": "PASS",
+      "charge_density_is_Krein_form_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "mode_hamiltonian_B_selfadjoint_dispersion",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "mode_hamiltonian_good_sector": "PASS",
+      "mode_hamiltonian_Krein_selfadjoint": "PASS",
+      "Krein_form_conserved_curved": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "good_sector_spectrum_and_B_sectors",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "mode_hamiltonian_good_sector": "PASS",
+      "good_sector_hermiticity_curved": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "good_sector_positive_fock_realisation",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "Fock_space_good_sector_example": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "extra_time_modes_grow",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "mode_hamiltonian_good_sector": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "expectation_value_rule",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "Fock_space_good_sector_example": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "hamiltonian_form_and_heisenberg_equation",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "Heisenberg_equation_reproduces_field_equation": "PASS",
+      "evolution_form_G": "PASS",
+      "evolution_form_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "energy_exchange_equation",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "energy_exchange_equation": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "exact_solution_family_x4_x8",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "solution_matrix_square": "PASS",
+      "exact_solution_x4_x8_G": "PASS",
+      "exact_solution_x4_x8_C": "PASS"
+     },
+     "agreement": "agree"
+    },
+    {
+     "sympy_check": "exact_nonlinear_homogeneous_solution",
+     "sympy_verdict": "pass",
+     "wolfram_checks": {
+      "exact_solution_nonlinear_homogeneous_C": "PASS"
+     },
+     "agreement": "agree"
+    }
+   ],
+   "sympy_checks_without_wolfram_counterpart": [
+    "gammas_json_equals_python_construction",
+    "gammas_real",
+    "gamma_symmetry_pattern",
+    "grassmann_controls_not_vacuous",
+    "grassmann_emt_conservation_negative_control",
+    "commuting_controls_not_vacuous",
+    "commuting_emt_conservation_negative_control"
+   ],
+   "wolfram_checks_without_sympy_counterpart": [
+    "exact_solution_nonlinear_homogeneous_G"
+   ]
+  }
+ }
+}

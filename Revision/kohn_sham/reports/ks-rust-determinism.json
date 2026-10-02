@@ -1,0 +1,88 @@
+{
+  "report": "Revision Kohn-Sham Rust solver: repeat (byte identity) and refined-tolerance comparison",
+  "producer": "Revision/kohn_sham/solver/tools/compare_runs.py",
+  "tolerances": {
+    "eig": 1e-08,
+    "energy": 1e-08,
+    "profile": 1e-06,
+    "thermo": 1e-08,
+    "derived": 1e-06
+  },
+  "summary": {
+    "checks": 14,
+    "pass": 14,
+    "fail": 0
+  },
+  "checks": [
+    {
+      "name": "repeat_byte_identical",
+      "verdict": "PASS",
+      "detail": "second run with the canonical options: 244 files (5854813 bytes) compared, same file set: True, differing files: none"
+    },
+    {
+      "name": "repeat_report_byte_identical",
+      "verdict": "PASS",
+      "detail": "the solver check report of the repeat run is byte-identical to the canonical report"
+    },
+    {
+      "name": "outputs_lf_only",
+      "verdict": "PASS",
+      "detail": "no CRLF line endings in the canonical outputs (offending: none)"
+    },
+    {
+      "name": "refined_same_inputs",
+      "verdict": "PASS",
+      "detail": "the refined run selects the same N [8.0, 136.0, 688.0] and the same calibrated couplings (rounded to 4 significant digits) [(8.0, 0.01946, 0.05838), (136.0, 0.0009298, 0.002789), (688.0, 0.0001846, 0.0005538)]: N True, couplings True"
+    },
+    {
+      "name": "refined_free_spectra_convergence_order",
+      "verdict": "PASS",
+      "detail": "analytic k = 0 spectra: max error canonical 5.050e-08, refined 3.157e-09; median error ratio 16.00 over 39 levels (RK4 order 4 predicts 16)"
+    },
+    {
+      "name": "refined_ground_energies",
+      "verdict": "PASS",
+      "detail": "75 ground states, same run set: True; max relative difference of E_KS 1.901e-12 (N688_lamp2_a10); tolerance 1e-08"
+    },
+    {
+      "name": "refined_ground_homo_lumo_gap",
+      "verdict": "PASS",
+      "detail": "max |difference| of HOMO, LUMO, KS gap 1.300e-12 m (N136_lamp2_a00); tolerance 1e-08"
+    },
+    {
+      "name": "refined_eigenvalues",
+      "verdict": "PASS",
+      "detail": "23724 Kohn-Sham levels compared label by label: max |difference| 2.135e-09 m (N688_lamm1_a00 level 12:1:odd:2); label sets and occupations identical: True ; tolerance 1e-08"
+    },
+    {
+      "name": "refined_delta_scf",
+      "verdict": "PASS",
+      "detail": "max |difference| of the Delta-SCF excitation energies 5.815e-11 m; tolerance 1e-08"
+    },
+    {
+      "name": "refined_profiles",
+      "verdict": "PASS",
+      "detail": "proper profiles n, S, rho, p3, p_t, p8 at the 151 common y points: max difference / profile maximum 2.800e-09 (N136_lamp2_a00 p3); tolerance 1e-06"
+    },
+    {
+      "name": "refined_adiabatic_derivatives",
+      "verdict": "PASS",
+      "detail": "Q_max, dE/da4 (EMT and finite differences): max relative difference 9.024e-10 (N136_lamp2_a20 Q_max); tolerance 1e-06"
+    },
+    {
+      "name": "refined_thermodynamics",
+      "verdict": "PASS",
+      "detail": "135 thermal states, same set: True; mu, E, F, Omega (both forms; relative to max(|x|, 1)) and S (relative to max(|S|, 1e-6)): max 2.489e-10 (N8_lam0_a20_T50 E); tolerance 1e-08"
+    },
+    {
+      "name": "refined_mermin_root_path",
+      "verdict": "PASS",
+      "detail": "the canonical run solves sum g f = N with the form LogBalance, the refined run with LinearDeviation (exactly equivalent well-conditioned residuals of solver/src/mermin.rs with different rounding paths), so |canonical - refined| of mu and Omega contains the rounding error of the root instead of sharing it (the former direct count, the same in both runs, hid an error of 8.3e-10 m in N8_lamm1_a00_T10); max |mu_c - mu_r| 1.254e-12 m (N136_lamm1_a00_T20), max |Omega_c - Omega_r| 2.738e-10 (N688_lamm1_a00_T20); largest canonical rounding bound of mu (thermodynamics.csv mu_rounding_bound) 4.736e-14 (N688_lamm1_a20_T50)"
+    },
+    {
+      "name": "refined_heat_capacity",
+      "verdict": "PASS",
+      "detail": "C_V = T dS/dT (Richardson): max relative difference (relative to max(|C_V|, 1e-6)) 5.689e-09 (N8_lam0_a20_T50); tolerance 1e-06"
+    }
+  ]
+}

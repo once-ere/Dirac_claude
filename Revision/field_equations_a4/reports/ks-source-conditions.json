@@ -1,0 +1,48 @@
+{
+ "report": "Revision/field_equations_a4/reports/ks-source-conditions.json",
+ "producer": "Revision/field_equations_a4/python/check_ks_source_conditions.py",
+ "spec": "Revision/SPEC.md sections 5 and 7: the Kohn-Sham energy-momentum tensor as a source of the a4 equations",
+ "inputs": [
+  "Revision/kohn_sham/results/ground/profiles/*.csv",
+  "Revision/kohn_sham/results/ground/emt-integrals.csv"
+ ],
+ "conditions": [
+  "C1: every component of the source independent of x8",
+  "C2: p3 + p_t = 2 p8",
+  "C3 (linear member a4 = A H x4 + a0): p3 = p_t = p8 and rho constant"
+ ],
+ "conclusion": "No Kohn-Sham state recorded in Revision/kohn_sham is an admissible source of the author's metric: C1 and C2 fail for every nonzero state (C2 also after integration over x8), and the Kohn-Sham history uses the linear member as a prescribed background, without back-reaction.",
+ "tolerance": "relative 1e-06",
+ "summary": {
+  "checks": 5,
+  "pass": 5,
+  "fail": 0
+ },
+ "checks": [
+  {
+   "name": "ks_profiles_depend_on_x8",
+   "verdict": "PASS",
+   "detail": "75 ground-state profiles of Revision/kohn_sham/results/ground/profiles (70 with a nonzero energy-momentum tensor): for every nonzero one the energy density rho(y) varies along the hidden coordinate y (a function of x8 alone), (max rho - min rho)/max|T| >= 0.0497329 (smallest: N136_lamm2_a20); the a4 equations require every component of the source to be independent of x8, so none of these states is an admissible source of the author's metric"
+  },
+  {
+   "name": "ks_profiles_violate_algebraic_condition",
+   "verdict": "PASS",
+   "detail": "for every nonzero profile max_y |p3 + p_t - 2 p8| / max|T| lies between 2.09192 (N136_lamp2_a20) and 3.99006 (N8_lamm1_a00): the condition p3 + p_t = 2 p8 of the a4 equations (algebraic identity E^x1_x1 + E^x5_x5 = 2 E^x8_x8 of the Lovelock tensors) fails pointwise; example N136_lam0_a10 (N = 136, lambda = 0, a4,0 = 1): y = -3: rho = 43.0702, p3 = 158.268, p_t = -0, p8 = -431.733, p3 + p_t - 2 p8 = 1021.73 | y = -1.5: rho = 0.707818, p3 = 0.498835, p_t = 0, p8 = 0.643324, p3 + p_t - 2 p8 = -0.787813 | y = -0: rho = 0.00211576, p3 = 0.000391237, p_t = -0, p8 = 0.000942049, p3 + p_t - 2 p8 = -0.00149286"
+  },
+  {
+   "name": "ks_integrals_violate_algebraic_condition",
+   "verdict": "PASS",
+   "detail": "integrated over the patch (results/ground/emt-integrals.csv: 2 Vol_7 int e^(6Hy) T dy), (int p3 + int p_t)/(2 int p8) differs from 1 for every nonzero state (closest to 1: 0.414328 at N688_lamm2_a00); for the history N = 136, lambda = 0: N136_lam0_a00: 0.339767, N136_lam0_a10: 0.25969, N136_lam0_a20: 0.239714 - even an x8-averaged (dimensionally reduced) source would violate p3 + p_t = 2 p8"
+  },
+  {
+   "name": "ks_history_is_a_prescribed_background",
+   "verdict": "PASS",
+   "detail": "the Kohn-Sham history of Revision/kohn_sham (ks-theory.json adiabaticity.history: a4 = A H x4, A = 1) uses the linear member, which the a4 equations allow only with p3 = p_t = p8 and constant rho (linear_member_equal_pressures); along it the Kohn-Sham source has N136_lam0_a00: int rho = 80.2822, int p3 = 23.8133, int p_t = 0; N136_lam0_a10: int rho = 32.3841, int p3 = 10.0397, int p_t = 0; N136_lam0_a20: int rho = 12.4451, int p3 = 4.06205, int p_t = 0; N688_lam0_a00: int rho = 680.441, int p3 = 199.305, int p_t = 0; N688_lam0_a10: int rho = 279.425, int p3 = 84.3387, int p_t = 0; N688_lam0_a20: int rho = 110.387, int p3 = 35.1354, int p_t = 0: rho changes with a4,0 and p3 != p_t (dE/da4 = -3 (2 Vol_7) int e^(6Hy) (p3 - p_t) dy, ks-theory.json emt.energyChange). The history is therefore a PRESCRIBED test-field background without back-reaction, not a solution of the a4 equations with the Kohn-Sham source; equations of state derived from it are not consequences of the coupled field equations"
+  },
+  {
+   "name": "ks_zero_source_states_listed",
+   "verdict": "PASS",
+   "detail": "5 states have an identically vanishing energy-momentum tensor (zero source; in Einstein gravity the a4 equations have no vacuum solution for H > 0, check einstein_no_vacuum_solution): N8_lam0_a00, N8_lam0_a05, N8_lam0_a10, N8_lam0_a15, N8_lam0_a20"
+  }
+ ]
+}

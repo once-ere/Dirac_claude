@@ -9,7 +9,7 @@ in this repository; nothing depends on the old session's scratch directory.
 ### 0.1 Resume the same conversation (preferred: keeps all context)
 
 ```powershell
-cd C:\Users\nsh\Developer\github\Dirac_claude
+cd D:\Developer\github\Dirac_claude
 claude --continue
 ```
 
@@ -28,7 +28,7 @@ re-launch them (section 0.3); finished files are on disk and are reused.
 ### 0.2 Start a new session (if the old one cannot be resumed)
 
 ```powershell
-cd C:\Users\nsh\Developer\github\Dirac_claude
+cd D:\Developer\github\Dirac_claude
 claude
 ```
 
@@ -63,6 +63,73 @@ take shortcuts or weaken a check.
    checks the repository every time the session stops.
 4. When the user writes "pause" or "STOP": halt at once (create `.claude/ALLOW_STOP` in
    the same first action so the Stop hook allows the stop), push, report in a few lines.
+
+### 0.4e CURRENT TASK (user, 2026-10-02): the NEW deep-dive textbook "Universes in Pairs"
+
+The user stopped all stages and ordered, first: preserve the original textbook
+(`provenance/DIRAC16COMPLEX_TEXTBOOK.*`, never modified) and create an updated, correct, complete,
+RE-NAMED teaching textbook (.md/.tex/.pdf) with a complete executed Jupyter notebook for EVERY
+example, complete self-contained run instructions just before each notebook's text (and as comments
+in the notebook), the deep-dive technique, and many more plots.  Binding spec:
+`Revision/textbook/TEXTBOOK_SPEC.md` (honesty rule R3: the pairing theorems are proved; creation and a
+solution of the matter-antimatter problem are not - the user was told this on 2026-10-02).
+Workflow `Revision/workflows/textbook_universes_in_pairs.js` RUNNING (relaunched 2026-10-02 as run wf_4139c503-a3e after the
+user's STOP and error report; spec rules R5 charge conjugation as a MATRIX and R6 a provenance file per notebook added): infra
+(nbkit, run instructions, renderer, assembler, pilot) -> 23 chapters pipelined (notebooks -> writer ->
+adversarial reviewer -> fixer) -> assembly (chapter 23, ledger, PDF, registration, test) -> six
+whole-book review lenses with two skeptics per finding -> fixers -> rebuild -> fix verifier.
+Outputs: `Revision/textbook/` (chapters/, notebooks/, notebooks/src/, figures/, tools/,
+UNIVERSES_IN_PAIRS_TEXTBOOK.{md,tex,pdf}), test `Revision/tests/test_universes_in_pairs_textbook.py`.
+If a restart finds the run gone: copy the script to the new scratchpad, set SP, relaunch; agents
+inspect and finish existing files.
+ERROR REPORT (user, 2026-10-02): "complex conjugation Psi -> Psi*" is not charge conjugation for real fields - a
+MATRIX operator is needed.  Fixed: Revision/lead_checks/charge_conjugation_and_u1.py (12/12): calC_+ = C (sigma16),
+calC_- = Gamma C; for real fields the nontrivial real map is Gamma with m -> -m; the quantised field's conjugation
+preserving {Psi, Psi^dagger} = B delta is Gamma (mass reversed).  Spec rule R5.
+SECOND NEW TASK (same message): test and verify every wolframscript set and every Jupyter notebook and write a
+provenance file for each (student instructions, expected output, side effects).  Workflow
+`Revision/workflows/execution_provenance.js` RUNNING (run wf_6845510e-6a4): 22 items (8 Revision Wolfram sets,
+11 old scripts/*.wls sets, the handoff probes, the 2 notebooks/*.ipynb), each run twice in a fresh clone, documented,
+then verified by an independent agent following the provenance file literally, fixed; index
+provenance/EXECUTION_PROVENANCE_INDEX.md and tests/test_execution_provenance.py.  The textbook notebooks get their
+provenance files from nbkit (R6).
+STOPPED for it (resume afterwards, "continue with all stages"): Revision wave 1b (run wf_39a30fcf-75b,
+stopped in its Fix phase; commit 667f153 holds the unverified partial edits of fix:science:0; resume
+with resumeFromRunId in the same session, otherwise relaunch `revision_wave_1b.js`), then wave 2.
+
+### 0.4d STATE 2026-10-01 (resumed session)
+
+The repository now lives at `D:\Developer\github\Dirac_claude` (drive C: was nearly full).  The workflow
+scripts in `Revision/workflows/` carry `ROOT = 'D:/Developer/github/Dirac_claude'` and the `SP` of the
+session of 2026-10-01 afternoon; a new session copies them to its scratchpad and sets its own `SP`.
+
+* Wave 1 (`revision_wave_1.js`, run wf_6f22a73c-e62): COMPLETE, commit 70fab64.  19 agents; every stage
+  passes its checks; review 27 findings (10 major, 17 minor), all fixed (record:
+  `Revision/workflows/wave1_review_and_fix.json`).  Physics corrections of the review: gamma^mu Omega_mu is
+  frame dependent (non-triviality stated with its exact scope); the extra-time evolution is Hadamard
+  ill-posed; the dirac16complex00 energy is unbounded below; the Kohn-Sham states violate the a4 source
+  conditions (x8 dependence, p3 + p_t = 2 p8), so the Kohn-Sham history is a PRESCRIBED BACKGROUND; T3 proved.
+* Fresh-clone check of 1c297d6 by the lead: all 12 verifiers exit 0; python-field-theory.json was stale
+  (energy_exchange "DISAGREE"); the lead's own sympy derivation: nabla_mu T^mu_x4 gives
+  d rho/d x4 = -3 a4' (p3 - p_t), nabla_mu T^mu_x8 gives d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t) = 0, all other
+  components identically zero (both sides were right; they stated different components).
+* Wave 1b (`revision_wave_1b.js`, run wf_39a30fcf-75b, RUNNING): Rust Mermin mu repair (rounding-limited
+  in N8_lamm1_a00_T10), prescribed-background label in ks-theory.json, theory comparison verification,
+  wave-1 fix verification, FULL-matrix Kohn-Sham cross-check, fresh-clone reproduction gate, two skeptics per
+  item, per-area fixers, fix verifier.  It reads `<SP>/w1_args.json` (= the committed record above).
+  Checkpoint 2026-10-01 (second pause request): snapshot a9a1b70 adds the full-matrix reference results
+  (Revision/kohn_sham/reference/results, 338 files, 24 MB) and the repaired Rust outputs, still under review.
+  Lead check 2: `Revision/lead_checks/einstein_gauss_bonnet_a4.py` (15/15).
+  Checkpoint 2026-10-01 (pause request): snapshot commit daeb5ba holds its partial work (new
+  `solver/src/mermin.rs`, the prescribed-background label in ks-theory.json, the theory comparison edits),
+  NOT yet reviewed.  If a restart finds the run gone: relaunch `revision_wave_1b.js` (copy
+  `Revision/workflows/wave1_review_and_fix.json` to `<SP>/w1_args.json` first); its agents inspect and
+  finish the existing files.
+* Lead's independent checks: `Revision/lead_checks/` (10/10; conservation identities, gamma^mu Omega_mu =
+  3 H gamma^(x8), negative control with inflating extra times), test `Revision/tests/test_lead_checks.py`.
+* NEXT: commit and push wave 1b; then `revision_wave_2.js` (dark sector with stated observer assumptions
+  for the time-like extra times, a4 with the Kohn-Sham source starting from the source-condition
+  violation, T3 verification and numerics, documents, notebooks, gate, five-lens review with skeptics).
 
 ### 0.4c CURRENT TASK (user, 2026-10-01, later): `Revision/` - a new, separate record
 

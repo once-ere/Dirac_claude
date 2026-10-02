@@ -1,0 +1,244 @@
+{
+  "producer": "Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls",
+  "spec": "Revision/SPEC.md section 5",
+  "checkCount": 47,
+  "failedCount": 0,
+  "verdict": "PASS",
+  "checks": [
+    {
+      "name": "metric_is_SPEC_section_1",
+      "verdict": "PASS",
+      "detail": "g = diag(e^{2a4} s, e^{2a4} s, e^{2a4} s, -1, -e^{-2a4} s, -e^{-2a4} s, -e^{-2a4} s, cot^2 z), s = sin^{1/3} z, z = 6 H x8 (x1..x8)"
+    },
+    {
+      "name": "sqrt_abs_det_g_is_cos_z",
+      "verdict": "PASS",
+      "detail": "sqrt|det g| = sin z cot z = cos z on 0 < z < pi/2 (independent of a4: the 7-volume factor e^{3a4} e^{-3a4} = 1)"
+    },
+    {
+      "name": "mixed_riemann_free_of_warp_and_a4",
+      "verdict": "PASS",
+      "detail": "every R^{ab}_{cd} (MTW, computed here from the Christoffel symbols) is a function of H, a4', a4'', cot z only (a Laurent polynomial in cot z): the warp sin^{1/3} z and e^{a4} cancel; 39 nonzero components with a < b, c < d"
+    },
+    {
+      "name": "riemann_pair_antisymmetry",
+      "verdict": "PASS",
+      "detail": "R^{ab}_{cd} = -R^{ba}_{cd} = -R^{ab}_{dc} for all 4096 index lists"
+    },
+    {
+      "name": "P1_direct_equals_minus_4_Einstein",
+      "verdict": "PASS",
+      "detail": "P_(1)^h_j = GKD[{h,h1,h2},{j,j1,j2}] R^{j1j2}_{h1h2} equals -4 G^h_j, G from the Ricci tensor (two routes, both in this file)"
+    },
+    {
+      "name": "P1_direct_equals_gkd_branch_monomials",
+      "verdict": "PASS",
+      "detail": "all 64 components of P_(1)^h_j computed here (GKD as Det of the delta matrix, sum over the nonzero R^{ab}_{cd}) equal the exact monomial lists of Revision/gkd_lovelock/results/lovelock-tensors.json"
+    },
+    {
+      "name": "L1_direct_equals_gkd_branch",
+      "verdict": "PASS",
+      "detail": "L_(1) = 12*ad1^2 - 84*H^2"
+    },
+    {
+      "name": "P1_trace_identity",
+      "verdict": "PASS",
+      "detail": "sum_h P_(1)^h_h = (8 - 2) L_(1)"
+    },
+    {
+      "name": "P1_structure",
+      "verdict": "PASS",
+      "detail": "P_(1)^h_j is diagonal (in particular the x4-x8 components vanish), free of x8, with x1 = x2 = x3 and x5 = x6 = x7"
+    },
+    {
+      "name": "P2_direct_equals_gkd_branch_monomials",
+      "verdict": "PASS",
+      "detail": "all 64 components of P_(2)^h_j computed here (GKD as Det of the delta matrix, sum over the nonzero R^{ab}_{cd}) equal the exact monomial lists of Revision/gkd_lovelock/results/lovelock-tensors.json"
+    },
+    {
+      "name": "L2_direct_equals_gkd_branch",
+      "verdict": "PASS",
+      "detail": "L_(2) = -96*ad1^4 - 2112*ad1^2*H^2 + 3360*H^4"
+    },
+    {
+      "name": "P2_trace_identity",
+      "verdict": "PASS",
+      "detail": "sum_h P_(2)^h_h = (8 - 4) L_(2)"
+    },
+    {
+      "name": "P2_structure",
+      "verdict": "PASS",
+      "detail": "P_(2)^h_j is diagonal (in particular the x4-x8 components vanish), free of x8, with x1 = x2 = x3 and x5 = x6 = x7"
+    },
+    {
+      "name": "P3_direct_equals_gkd_branch_monomials",
+      "verdict": "PASS",
+      "detail": "all 64 components of P_(3)^h_j computed here (GKD as Det of the delta matrix, sum over the nonzero R^{ab}_{cd}) equal the exact monomial lists of Revision/gkd_lovelock/results/lovelock-tensors.json"
+    },
+    {
+      "name": "L3_direct_equals_gkd_branch",
+      "verdict": "PASS",
+      "detail": "L_(3) = 1152*ad1^6 + 31104*ad1^4*H^2 + 100224*ad1^2*H^4 - 40320*H^6"
+    },
+    {
+      "name": "P3_trace_identity",
+      "verdict": "PASS",
+      "detail": "sum_h P_(3)^h_h = (8 - 6) L_(3)"
+    },
+    {
+      "name": "P3_structure",
+      "verdict": "PASS",
+      "detail": "P_(3)^h_j is diagonal (in particular the x4-x8 components vanish), free of x8, with x1 = x2 = x3 and x5 = x6 = x7"
+    },
+    {
+      "name": "P4_vanishes_pigeonhole",
+      "verdict": "PASS",
+      "detail": "P_(4) would need GKD of 9 indices over 8 values: two equal upper indices give two equal rows of the delta matrix, determinant 0; so k = 1, 2, 3 is the full Lovelock series in 8 dimensions"
+    },
+    {
+      "name": "E1_divergence_free",
+      "verdict": "PASS",
+      "detail": "nabla_mu E_(1)^mu_nu = 0 for nu = x1..x8 (exact; Christoffel symbols of this file)"
+    },
+    {
+      "name": "E2_divergence_free",
+      "verdict": "PASS",
+      "detail": "nabla_mu E_(2)^mu_nu = 0 for nu = x1..x8 (exact; Christoffel symbols of this file)"
+    },
+    {
+      "name": "E3_divergence_free",
+      "verdict": "PASS",
+      "detail": "nabla_mu E_(3)^mu_nu = 0 for nu = x1..x8 (exact; Christoffel symbols of this file)"
+    },
+    {
+      "name": "independent_components",
+      "verdict": "PASS",
+      "detail": "the left-hand sides of the 64 components reduce to x1 (= x2 = x3), x4, x5 (= x6 = x7), x8 and the x4-x8 pair; every other off-diagonal left-hand side is 0, so those components read 0 = kappa T^mu_nu"
+    },
+    {
+      "name": "evolution_factorises_a4pp_times_F",
+      "verdict": "PASS",
+      "detail": "sum_k alpha_k (E_(k)^x1_x1 - E_(k)^x5_x5) = a4'' F(a4'), F = 2*alpha1 - 48*ad1^2*alpha2 + 720*ad1^4*alpha3 - 80*alpha2*H^2 + 864*ad1^2*alpha3*H^2 + 720*alpha3*H^4"
+    },
+    {
+      "name": "evolution_F_not_identically_zero",
+      "verdict": "PASS",
+      "detail": "F(a4') vanishes identically as a polynomial in (a4', H) only for alpha1 = alpha2 = alpha3 = 0"
+    },
+    {
+      "name": "algebraic_identity_x1_plus_x5_minus_2x8",
+      "verdict": "PASS",
+      "detail": "sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x8_x8) = 0 identically (each k separately), so the field equations imply p3 + p_t = 2 p8"
+    },
+    {
+      "name": "x8_component_contains_no_a4pp",
+      "verdict": "PASS",
+      "detail": "the x4 (constraint) and x8 components contain a4' only (first order)"
+    },
+    {
+      "name": "constraint_propagation_bianchi",
+      "verdict": "PASS",
+      "detail": "d/dx4 [sum_k alpha_k E_(k)^x4_x4] = 3 a4' sum_k alpha_k (E^x1_x1 - E^x5_x5) identically (the x4 component of the Bianchi identity): the derivative of the constraint equals 3 a4' times the evolution equation once rho' = -3 a4' (p3 - p_t)"
+    },
+    {
+      "name": "conservation_components",
+      "verdict": "PASS",
+      "detail": "nabla_mu T^mu_x4 = -d4 rho - 3 a4' (p3 - p_t) + d8 q84 - 6 H tan(z) q84 and nabla_mu T^mu_x8 = d8 p8 + 3 H cot(z) (2 p8 - p3 - p_t) + d4 q48 (the other components vanish identically)"
+    },
+    {
+      "name": "einstein_components",
+      "verdict": "PASS",
+      "detail": "Einstein (alpha1 = 1, alpha2 = alpha3 = 0): G^x4_x4 = 3 a4'^2 + 21 H^2, G^x1_x1 = a4'' - 3 a4'^2 + 15 H^2, G^x5_x5 = -a4'' - 3 a4'^2 + 15 H^2, G^x8_x8 = -3 a4'^2 + 15 H^2"
+    },
+    {
+      "name": "einstein_null_energy_x8",
+      "verdict": "PASS",
+      "detail": "Einstein: kappa (rho + p8) = -6 (a4'^2 + H^2) < 0 for every a4 and every Lambda (H > 0): the source violates the null energy condition along the null direction x4 + x8"
+    },
+    {
+      "name": "einstein_no_vacuum_solution",
+      "verdict": "PASS",
+      "detail": "with T = 0 the Einstein equations (any Lambda) have no real solution a4 for H > 0: the x4 and x8 components give 36 H^2 + 2 Lambda = 0 and 6 a4'^2 + 6 H^2 = 0"
+    },
+    {
+      "name": "linear_member_equal_pressures",
+      "verdict": "PASS",
+      "detail": "for a4 = A H x4 + a0 (a4'' = 0) the field equations require p3 = p_t = p8 =: p, all constant, rho constant (any alpha_k, Lambda)"
+    },
+    {
+      "name": "linear_member_vacuum_factor",
+      "verdict": "PASS",
+      "detail": "sum_k alpha_k (E^x4_x4 - E^x8_x8) at a4' = A H equals 6 (A^2 + 1) H^2 V, V = alpha1 - 40*alpha2*H^2 - 8*AA^2*alpha2*H^2 + 360*alpha3*H^4 + 144*AA^2*alpha3*H^4 + 72*AA^4*alpha3*H^4; vacuum (rho = p = 0) needs V = 0"
+    },
+    {
+      "name": "einstein_gauss_bonnet_vacuum_linear",
+      "verdict": "PASS",
+      "detail": "Einstein-Gauss-Bonnet (alpha1 = 1, alpha3 = 0): V = 1 - 8 alpha2 H^2 (A^2 + 5), so V = 0 gives A^2 = (1 - 40 alpha2 H^2)/(8 alpha2 H^2) (real A iff 0 < alpha2 H^2 <= 1/40), with Lambda = -sum_k alpha_k E^x4_x4"
+    },
+    {
+      "name": "clifford_relations_own_rep",
+      "verdict": "PASS",
+      "detail": "the representation built here (Cl(1,1) tensor-graded four times; real 16 x 16) satisfies {gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,-1,-1,-1,-1,1)"
+    },
+    {
+      "name": "C_properties_own_rep",
+      "verdict": "PASS",
+      "detail": "C = gamma^x8 gamma^x1 gamma^x2 gamma^x3 is real symmetric, C^2 = 1, C gamma^a antisymmetric (the properties SPEC section 2 requires; every bilinear identity below uses only these, so it holds in the author's T16 as well)"
+    },
+    {
+      "name": "spin_connection_antisymmetric",
+      "verdict": "PASS",
+      "detail": "omega_mu ab = -omega_mu ba for the canonical spin connection of this metric (vielbein postulate)"
+    },
+    {
+      "name": "Omega_x4_Omega_x8_vanish",
+      "verdict": "PASS",
+      "detail": "Omega_x4 = Omega_x8 = 0 (the diagonal vielbein has no x4 component that varies, and e^x8 depends on x8 only)"
+    },
+    {
+      "name": "gamma_mu_anticommutes_with_Omega_mu_no_sum",
+      "verdict": "PASS",
+      "detail": "{gamma^mu, Omega_mu} = 0 for each mu separately (no sum): the spin connection drops out of every diagonal kinetic component K^mu_mu = (1/2)(Psibar gamma^mu d_mu Psi - d_mu Psibar gamma^mu Psi)"
+    },
+    {
+      "name": "gravity_term_gamma_mu_Omega_mu",
+      "verdict": "PASS",
+      "detail": "gamma^mu Omega_mu = 3 H gamma^x8 exactly (the x4 terms of the 3 inflating and 3 deflating directions cancel; the hidden-direction term survives; independent of a4 and x8)"
+    },
+    {
+      "name": "condensate_equation_x8_consistent",
+      "verdict": "PASS",
+      "detail": "for Phi = Phi(x4) the equation is d4 Phi = A Phi with A = -gamma^x4 (M - 3 H gamma^x8), free of x8: an x8-independent solution exists"
+    },
+    {
+      "name": "condensate_S_constant",
+      "verdict": "PASS",
+      "detail": "C A + A^T C = 0 (M real), so d4 S = d4 (Phi^dagger C Phi) = 0: S is constant along x4 (exact, for every initial Phi)"
+    },
+    {
+      "name": "condensate_adjoint_equation",
+      "verdict": "PASS",
+      "detail": "(D_mu Phibar) gamma^mu = -M Phibar holds for the condensate (the adjoint of the field equation)"
+    },
+    {
+      "name": "condensate_kinetic_tensor_diagonal",
+      "verdict": "PASS",
+      "detail": "for the condensate the symmetrised kinetic tensor has K^x4_x4 = M S, K^mu_mu = 0 for mu = x1..x3, x5..x8, and K^x4_x8 = K^x8_x4 = 0, exactly, for every Phi"
+    },
+    {
+      "name": "condensate_offdiagonal_are_three_gamma_bilinears",
+      "verdict": "PASS",
+      "detail": "the nonzero off-diagonal kinetic components of the condensate are exactly multiples of the 15 bilinears B_abc = Phibar gamma^a gamma^b gamma^c Phi with {a,b,c} = {i, x4, x8} (i = x1..x3, x5..x7; coefficients proportional to H or a4') and {i, j, x4} (i = x1..x3, j = x5..x7; coefficients proportional to a4'); 42 ordered pairs (mu, nu) are nonzero"
+    },
+    {
+      "name": "condensate_einstein_quadratic_U",
+      "verdict": "PASS",
+      "detail": "Einstein, a4 = A H x4 + a0, U = (lambda/2) S^2 (rho = sigmaT (m S + lambda S^2/2), p = sigmaT lambda S^2/2): the x4 and x8 equations are equivalent to kappa sigmaT m S = -(36 H^2 + 2 Lambda) and 6 (A^2 + 1) H^2 = -kappa sigmaT S (m + lambda S)"
+    },
+    {
+      "name": "condensate_diagonal_witness_exact",
+      "verdict": "PASS",
+      "detail": "exact Gaussian-rational witnesses (M, H) = (5, 1), (5, 4/3), (-5, 1): Phi = e^{-i w x4} Phi0 with w = sqrt(M^2 - 9 H^2) = {4, 3, 4}, Phi0 = v1 + c v2 (v1, v2 the A-eigenvectors with gamma^x1 gamma^x5 = gamma^x2 gamma^x6 = gamma^x3 gamma^x7 = -1 and +1, c = conj(v1^dagger C v2)), solves the condensate equation; all 15 three-gamma bilinears and every off-diagonal kinetic component vanish for every a4, a4'; S = {204800, 115200, 204800} != 0"
+    }
+  ]
+}

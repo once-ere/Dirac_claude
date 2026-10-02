@@ -1,0 +1,85 @@
+{
+  "report": "Revision/pairing/kohn_sham/reports/python-t3.json",
+  "producer": "Revision/pairing/kohn_sham/python/check_t3.py",
+  "spec": "Revision/SPEC.md section 9, theorem T3 (the Kohn-Sham level)",
+  "independence": "sympy only; no code shared with Revision/pairing/kohn_sham/wolfram/verify_t3.wls or with the Kohn-Sham verifiers; ks-theory.json is read for its stated formulas and block basis",
+  "inputs": [
+    "Revision/kohn_sham/ks-theory.json",
+    "Revision/algebra/gammas.json",
+    "Revision/pairing/kohn_sham/t3-theory.json (comparison, read only)",
+    "Revision/kohn_sham/reports/ks-rust-solver.json (numerical confirmation, read only)"
+  ],
+  "theorem": "T3: (chi, j) -> (sigma2 chi, -j) (Psi_16 -> Gamma Psi_16) with brane parities exchanged and tip angle theta -> pi - theta maps every self-consistent instantaneous Kohn-Sham state with (m, lambda, theta) onto one with (-m, +lambda, pi - theta): equal levels, occupations, E_KS, Omega, F and energy-momentum profiles; S -> -S, Q -> -Q. Hypotheses: those of t3-theory.json (Kohn-Sham problem and functional of ks-theory.json, ASSUMED Z2 brane, chosen tip, Mermin occupations with the filling convention, same remaining data)",
+  "counts": {
+    "pass": 13,
+    "fail": 0,
+    "pending": 0
+  },
+  "checks": [
+    {
+      "name": "T3.block_hamiltonian_map",
+      "verdict": "PASS",
+      "detail": "with the block Hamiltonian of ks-theory.json blockEquation (h_j = j[-i sigma1 d_y + M_eff sigma2 + kappa k sigma3] + v_v, stated there and re-typed here), general M(y), kappa(y), v(y), k: h_(-j)(-M) (sigma2 chi) = sigma2 h_j(M) chi for j = +-1 and arbitrary chi(y): equal level eps, same k and v; control: without M -> -M the identity fails"
+    },
+    {
+      "name": "T3.ode_map",
+      "verdict": "PASS",
+      "detail": "chi' = N chi, N = M_eff sigma3 - kappa k sigma2 + i j (eps - v_v) sigma1 (ks-theory.json blockEquation.ode): sigma2 N_j(M) sigma2 = N_(-j)(-M) exactly"
+    },
+    {
+      "name": "T3.tip_condition_map",
+      "verdict": "PASS",
+      "detail": "tip (1 - Q(theta)) chi(-L) = 0, Q = cos(theta) sigma3 + sin(theta) sigma2: sigma2 Q(theta) sigma2 = Q(pi - theta); the canonical theta = 0 goes to theta = pi; control: the image of the theta = 0 solution (1, 0) violates the untransformed condition and satisfies the transformed one"
+    },
+    {
+      "name": "T3.brane_parities_exchanged",
+      "verdict": "PASS",
+      "detail": "brane (ASSUMED Z2 orbifold of ks-theory.json): even chi2(0) = 0, odd chi1(0) = 0, i.e. (1 -+ sigma3) chi(0) = 0; sigma2 (1 - sigma3) sigma2 = 1 + sigma3: the map exchanges the parities (both are part of the problem); the boundary current -i j phi^dagger sigma1 chi and the norm are invariant under (chi, j) -> (sigma2 chi, -j), so self-adjointness and the orbital normalisation carry over"
+    },
+    {
+      "name": "T3.orbital_densities",
+      "verdict": "PASS",
+      "detail": "n_o = chi^dagger chi, s_o = chi^dagger j sigma2 chi, t_o = chi^dagger j sigma3 chi, q_o = chi^dagger sigma3 chi, c_o = chi^dagger j sigma1 chi (ks-theory.json densities.perOrbital, the common factor P omitted): under (chi, j) -> (sigma2 chi, -j) n_o, t_o, c_o are invariant and s_o, q_o change sign, for arbitrary complex chi and both j"
+    },
+    {
+      "name": "T3.mean_field_map",
+      "verdict": "PASS",
+      "detail": "Kohn-Sham potentials read from ks-theory.json: M_eff = m + 15/16 lambda S, v_v = -1/16 lambda n, e_int = (15/32) lambda S^2 - (1/32) lambda n^2 (consistent: M_eff - m = d e_int/dS, v_v = d e_int/dn); with S -> -S, n -> n: M_eff[-m, +lambda, -S] = -M_eff[m, lambda, S], v_v and e_int unchanged; with (-m, -lambda) instead the map fails (control)"
+    },
+    {
+      "name": "T3.energies_and_emt_profiles_equal",
+      "verdict": "PASS",
+      "detail": "three general occupied orbitals (blocks j = +1, -1, +1; arbitrary complex chi, level eps, occupation f, degeneracy g, momentum |k|, weight w): rho = sum w g f eps n_o - e_int, p3 = sum w g f (kappa |k|/3) t_o + e_int, p_t = e_int, p8 = sum w g f [(eps - v_v) n_o - M_eff s_o - kappa |k| t_o] + e_int (ks-theory.json emt), the E_KS density sum g f eps - e_int, the entropy and the exact-Fock diagnostic e_int + (lambda/32) Q^2 are equal for the image with (-m, +lambda) while S and Q change sign; with (-m, -lambda) the E_KS density differs (control). Equal levels and occupations give equal mu, N, Omega and F"
+    },
+    {
+      "name": "T3.exact_k0_spectra",
+      "verdict": "PASS",
+      "detail": "k = 0, v = 0, constant M (ks-theory.json boundaryConditions.exactK0Spectra), chi(y) = exp(N y) chi(0), N^2 = (M^2 - eps^2) I: the characteristic function of (M, j, even, theta = 0) is minus that of (-M, -j, odd, theta = pi), that of (M, j, odd, theta = 0) equals that of (-M, -j, even, theta = pi), identically in eps, M, L, both j: equal spectra level by level; the zero mode (e^(M y), 0) maps to (0, i e^(M y)), the zero mode of the image; control: with the untransformed tip the image's characteristic function differs"
+    },
+    {
+      "name": "T3.Gamma_is_the_block_map",
+      "verdict": "PASS",
+      "detail": "block basis V of ks-theory.json (unitary; rows = spinor components) and the chirality Gamma = diag(-I8, I8) of gammas.json: Gamma V_(j,s2,s3) = V_(-j,s2,s3) (s2 sigma2) for all 8 blocks, with gamma^(x8) = sigma3 and gamma^(x8) gamma^(x4) = j sigma1 in every block: the 2 x 2 map of T3 is the chirality of the 16-component Kohn-Sham orbital (up to the phase s2)"
+    },
+    {
+      "name": "T3.z2_mirror_copy_carries_minus_m_plus_lambda",
+      "verdict": "PASS",
+      "detail": "ASSUMED Z2 orbifold: P_A chi(y) = sigma3 chi(-y) gives h(-M(-y), kappa(-y), v(-y)) P_A chi = P_A h(M, kappa, v) chi for general functions; n_o is even and s_o odd under sigma3; so the doubled problem is P_A-symmetric iff M_eff is odd, i.e. iff the mirror copy carries (-m, +lambda)"
+    },
+    {
+      "name": "T3.rust_selftest_numerical_confirmation",
+      "verdict": "PASS",
+      "detail": "Revision/kohn_sham/reports/ks-rust-solver.json records t3_block_map_solver_selftest as passing: (m, lambda, theta = 0) and (-m, lambda, theta = pi) solved independently give equal levels, occupations, E_KS and energy-momentum integrals and opposite S, with a failing negative control for the untransformed tip; this is a numerical confirmation of the transformed boundary condition theta -> pi - theta, not part of the proof"
+    },
+    {
+      "name": "compare.t3_theory.theorem",
+      "verdict": "PASS",
+      "detail": "the Wolfram record Revision/pairing/kohn_sham/t3-theory.json states T3 for (m, lambda, theta) -> (-m, +lambda, pi - theta) with equal levels and energies and S -> -S, status 'all checks of the report passed'; each of its 10 verification checks has an independent passing sympy counterpart here: T3_block_hamiltonian_map <-> T3.block_hamiltonian_map, T3_ode_map <-> T3.ode_map, T3_tip_condition_map <-> T3.tip_condition_map, T3_brane_parities_exchanged <-> T3.brane_parities_exchanged, T3_orbital_densities <-> T3.orbital_densities, T3_mean_field_map <-> T3.mean_field_map, T3_energies_and_emt_profiles_equal <-> T3.energies_and_emt_profiles_equal, T3_exact_k0_spectra <-> T3.exact_k0_spectra, T3_Gamma_is_the_block_map <-> T3.Gamma_is_the_block_map, T3_z2_mirror_copy_carries_minus_m_plus_lambda <-> T3.z2_mirror_copy_carries_minus_m_plus_lambda"
+    },
+    {
+      "name": "compare.t3_theory.not_established",
+      "verdict": "PASS",
+      "detail": "the Wolfram record's list of what T3 does not establish covers: creation process, time-dependent, assumed, correlation, independently quantised, back-reaction"
+    }
+  ]
+}

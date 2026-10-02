@@ -1557,7 +1557,7 @@
 			"SPlus":2,
 			"PsiNull":"e_0 + i e_4",
 			"SNull":0,
-			"charPolyC":"(-1 + x$5558)^8*(1 + x$5558)^8",
+			"charPolyC":"(-1 + x)^8*(1 + x)^8",
 			"note":"Psibar Psi = Psi^dagger C Psi is a Hermitian form of signature (8,8) on C^16 (C real symmetric, C^2 = 1, eigenvalues +-1 eight times): it takes the values -2, +2, 0 on e_0+e_4, e_8+e_12, e_0+i e_4 (e_k the standard basis, k = 0..15). The mass term L_m = -m sqrt|g| Psibar Psi is linear in m and bilinear in (Psi^dagger, Psi)."
 		},
 		"massTerm.dispersion":"flat (4,4) space, Psi = u e^{i k_mu x^mu}: gamma^mu d_mu Psi = m Psi reads (i gamma^mu k_mu - m) u = 0; (i gamma.k - m)(i gamma.k + m) = -(eta^{mu nu} k_mu k_nu + m^2) I16, so nonzero u exist iff k_4^2 + k_5^2 + k_6^2 + k_7^2 - k_0^2 - k_1^2 - k_2^2 - k_3^2 = m^2 (x4-frequency omega = |k_4|: omega^2 = m^2 + |k_space|^2 - |k_extra-time|^2); at m = 1, k = (1,1,2,3; 4; 0,0,0) the solution space has dimension 8, off shell (k_4 = 3) it is 0. The mass enters the dispersion as m^2.",
@@ -1778,7 +1778,7 @@
 		"static.reducedEquation":"static warped chart ds^2 = dy^2 - dx4^2 + e^{2Hy}[e^{2a4}dx_{123}^2 - e^{-2a4}dx_{567}^2] (Stage 4, geometry rebuilt with D16GeoSymbolicGeometry and equal to the Stage-4 package): for commuting components the ansatz Psi = e^{-i eps x4} e^{i k x1} W^{-3} chi(y), W = e^{Hy}, removes gamma^mu Omega_mu = 3 H gamma^0 exactly and gives gamma^0 chi' + i kappa(y) k gamma^1 chi - i eps gamma^4 chi = M_eff chi, kappa = e^{-Hy-a4} (the Stage-4 reduced equation; linear in Psi, statistics-independent)."
 	},
 	"sourceSha256":{
-		"wolfram/Dirac16Complex00.wl":"91d2e47a80f18b953cfea262f6f85205eccbc7caf4dbc2bdf7ea840e6045015c",
+		"wolfram/Dirac16Complex00.wl":"62b6e269367dbb0554ab0a4a4a4b9a29a35e0ca210a98a7ba7b86bd3735ab880",
 		"scripts/verify_dirac16complex00.wls":"3b143538660106ea25f7908640ff79fc11cf74e99d70405cd6083546da33a4e2",
 		"wolfram/Dirac16ComplexGeometry.wl":"f5b674665eee4000750161e6ab6312c38bfac9da7a17450a2b3bdd88ef292af2",
 		"wolfram/Dirac16ComplexPrimordial.wl":"0b95682601ace6343a89ad8eaf0f4896d071015041f15cccbeb3beac193d81a1",

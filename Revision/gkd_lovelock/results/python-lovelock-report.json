@@ -1,0 +1,381 @@
+{
+  "program": "Revision/gkd_lovelock/verification/check_lovelock_gkd.py",
+  "purpose": "independent sympy verification of the Lovelock tensors P_(k)^h_j, A_(k)^lh (k = 1, 2, 3) and the curvature computed by Revision/gkd_lovelock/code (Rust, GKD); shares no code with the Rust crate",
+  "conventions": {
+    "riemann": "MTW: R^a_bcd = d_c Gamma^a_bd - d_d Gamma^a_bc + Gamma^a_ce Gamma^e_bd - Gamma^a_de Gamma^e_bc; R^ab_cd = g^be R^a_ecd; R^h_j = R^ha_ja; G = Ric - R/2",
+    "kdelta": "Det[Outer[delta, lower, upper]] with sympy Matrix.det, memoised by the 0/1 matrix",
+    "lovelock": "P_(k)^h_j = kdelta[{j,j1..j2k},{h,h1..h2k}] R^{j1j2}_{h1h2}...; L_(k) = kdelta[{j1..},{h1..}] R...R; A_(k)^lh = sqrt|g| g^jl P_(k)^h_j",
+    "sqrtAbsDetG": "cos(6 H x8) (det g = cos^2(6 H x8); domain 0 < 6 H x8 < pi/2)",
+    "symbols": "A1 = a4'(x4), A2 = a4''(x4), c = cot(6 H x8)"
+  },
+  "inputsSha256": {
+    "curvature.json": "d5beb73a32244ea938ca61eac3573f72061c0e329b78f7506dd983881638763e",
+    "lovelock-tensors.json": "9278a0bf0da9ac7b2b22be5bb39e44073e821efb741514f42a43fa9cbc978567"
+  },
+  "randomPoints": [
+    {
+      "H": "1/4",
+      "x8": "46/75",
+      "6Hx8": "23/25",
+      "a4": "-7/100",
+      "a4'": "9/25",
+      "a4''": "49/100",
+      "a4'''": "21/25",
+      "a4''''": "31/50"
+    },
+    {
+      "H": "7/20",
+      "x8": "41/210",
+      "6Hx8": "41/100",
+      "a4": "27/50",
+      "a4'": "-61/100",
+      "a4''": "-51/100",
+      "a4'''": "19/20",
+      "a4''''": "22/25"
+    },
+    {
+      "H": "7/50",
+      "x8": "11/21",
+      "6Hx8": "11/25",
+      "a4": "-9/10",
+      "a4'": "-13/25",
+      "a4''": "19/100",
+      "a4'''": "-1/50",
+      "a4''''": "-9/20"
+    },
+    {
+      "H": "31/100",
+      "x8": "59/186",
+      "6Hx8": "59/100",
+      "a4": "9/20",
+      "a4'": "-31/100",
+      "a4''": "-17/50",
+      "a4'''": "1/100",
+      "a4''''": "19/20"
+    },
+    {
+      "H": "23/100",
+      "x8": "15/23",
+      "6Hx8": "9/10",
+      "a4": "-93/100",
+      "a4'": "-2/5",
+      "a4''": "41/100",
+      "a4'''": "-9/25",
+      "a4''''": "23/25"
+    }
+  ],
+  "counters": {
+    "lovelockSums": [
+      {
+        "k": 1,
+        "products": 156,
+        "kdeltaCalls": 5772,
+        "kdeltaNonzero": 804,
+        "distinctMultisets": 156
+      },
+      {
+        "k": 2,
+        "products": 11040,
+        "kdeltaCalls": 187680,
+        "kdeltaNonzero": 39840,
+        "distinctMultisets": 5520
+      },
+      {
+        "k": 3,
+        "products": 282240,
+        "kdeltaCalls": 1411200,
+        "kdeltaNonzero": 708480,
+        "distinctMultisets": 47040
+      }
+    ],
+    "kdeltaCallsTotal": 4096401,
+    "distinctOuterMatricesDeterminedBySympy": 29030
+  },
+  "independentResults": {
+    "P1_mixed_nonzero": {
+      "x1,x1": "12*A1**2 - 4*A2 - 60*H**2",
+      "x2,x2": "12*A1**2 - 4*A2 - 60*H**2",
+      "x3,x3": "12*A1**2 - 4*A2 - 60*H**2",
+      "x4,x4": "-12*A1**2 - 84*H**2",
+      "x5,x5": "12*A1**2 + 4*A2 - 60*H**2",
+      "x6,x6": "12*A1**2 + 4*A2 - 60*H**2",
+      "x7,x7": "12*A1**2 + 4*A2 - 60*H**2",
+      "x8,x8": "12*A1**2 - 60*H**2"
+    },
+    "L1": "12*A1**2 - 84*H**2",
+    "P2_mixed_nonzero": {
+      "x1,x1": "-96*A1**4 + 192*A1**2*A2 - 1344*A1**2*H**2 + 320*A2*H**2 + 1440*H**4",
+      "x2,x2": "-96*A1**4 + 192*A1**2*A2 - 1344*A1**2*H**2 + 320*A2*H**2 + 1440*H**4",
+      "x3,x3": "-96*A1**4 + 192*A1**2*A2 - 1344*A1**2*H**2 + 320*A2*H**2 + 1440*H**4",
+      "x4,x4": "288*A1**4 + 960*A1**2*H**2 + 3360*H**4",
+      "x5,x5": "-96*A1**4 - 192*A1**2*A2 - 1344*A1**2*H**2 - 320*A2*H**2 + 1440*H**4",
+      "x6,x6": "-96*A1**4 - 192*A1**2*A2 - 1344*A1**2*H**2 - 320*A2*H**2 + 1440*H**4",
+      "x7,x7": "-96*A1**4 - 192*A1**2*A2 - 1344*A1**2*H**2 - 320*A2*H**2 + 1440*H**4",
+      "x8,x8": "-96*A1**4 - 1344*A1**2*H**2 + 1440*H**4"
+    },
+    "L2": "-96*A1**4 - 2112*A1**2*H**2 + 3360*H**4",
+    "P3_mixed_nonzero": {
+      "x1,x1": "1152*A1**6 - 5760*A1**4*A2 + 10368*A1**4*H**2 - 6912*A1**2*A2*H**2 + 31104*A1**2*H**4 - 5760*A2*H**4 - 5760*H**6",
+      "x2,x2": "1152*A1**6 - 5760*A1**4*A2 + 10368*A1**4*H**2 - 6912*A1**2*A2*H**2 + 31104*A1**2*H**4 - 5760*A2*H**4 - 5760*H**6",
+      "x3,x3": "1152*A1**6 - 5760*A1**4*A2 + 10368*A1**4*H**2 - 6912*A1**2*A2*H**2 + 31104*A1**2*H**4 - 5760*A2*H**4 - 5760*H**6",
+      "x4,x4": "-5760*A1**6 - 10368*A1**4*H**2 - 17280*A1**2*H**4 - 40320*H**6",
+      "x5,x5": "1152*A1**6 + 5760*A1**4*A2 + 10368*A1**4*H**2 + 6912*A1**2*A2*H**2 + 31104*A1**2*H**4 + 5760*A2*H**4 - 5760*H**6",
+      "x6,x6": "1152*A1**6 + 5760*A1**4*A2 + 10368*A1**4*H**2 + 6912*A1**2*A2*H**2 + 31104*A1**2*H**4 + 5760*A2*H**4 - 5760*H**6",
+      "x7,x7": "1152*A1**6 + 5760*A1**4*A2 + 10368*A1**4*H**2 + 6912*A1**2*A2*H**2 + 31104*A1**2*H**4 + 5760*A2*H**4 - 5760*H**6",
+      "x8,x8": "1152*A1**6 + 10368*A1**4*H**2 + 31104*A1**2*H**4 - 5760*H**6"
+    },
+    "L3": "1152*A1**6 + 31104*A1**4*H**2 + 100224*A1**2*H**4 - 40320*H**6",
+    "sqrtAbsDetG": "cos(6*H*x8)"
+  },
+  "checks": [
+    {
+      "name": "gkd_literal_equals_cofactor_expansion",
+      "verdict": "PASS",
+      "detail": "kdelta (sympy Det of Outer[delta, lower, upper]) equals an independent cofactor-expansion determinant for all 266304 pairs of index lists of length 1, 2, 3 over 8 values and 7500 random pairs of length 4..8; mismatches: 0"
+    },
+    {
+      "name": "gkd_examples",
+      "verdict": "PASS",
+      "detail": "kdelta[{1,2},{1,2}] = 1; kdelta[{1,2},{2,1}] = -1; kdelta[{1,1},{1,1}] = 0; kdelta[{1,2,3},{2,3,1}] = 1; kdelta[{1,2,3},{1,2,4}] = 0"
+    },
+    {
+      "name": "gkd_nine_indices_in_eight_dimensions_vanish",
+      "verdict": "PASS",
+      "detail": "kdelta of 300 random pairs of 9-index lists over 8 values is 0 (two equal rows: pigeonhole), so P_(4) = 0 and (4.38) stops at k = m - 1 = 3; non-zero: 0"
+    },
+    {
+      "name": "normalisation_P1_derived_minus_4",
+      "verdict": "PASS",
+      "detail": "3 random algebraic curvature tensors in d = 4, unpruned literal kdelta sums: P_(1)^h_j / G^h_j takes the single value [-4] on all non-zero components, and L_(1) = 2 R"
+    },
+    {
+      "name": "normalisation_P2_derived_minus_8",
+      "verdict": "PASS",
+      "detail": "3 random algebraic curvature tensors in d = 5, literal kdelta sums: P_(2)^h_j / H^h_j (Gauss-Bonnet tensor) takes the single value [-8] on all non-zero components, and L_(2) = 4 GB"
+    },
+    {
+      "name": "normalisation_L3_cubic_derived",
+      "verdict": "PASS",
+      "detail": "9 random algebraic curvature tensors in d = 6, literal sums over all 720 x 720 pairs of index permutations with kdelta: the 9 x 8 matrix of cubic invariants has rank 8 and the unique solution of L_(3) = sum c_i T_i is c = [16, 64, 192, 24, 192, 128, -96, 8] = 8 x [2, 8, 24, 3, 24, 16, -12, 1]"
+    },
+    {
+      "name": "metric_inverse",
+      "verdict": "PASS",
+      "detail": "g g^{-1} = 1 exactly (sympy Matrix.inv)"
+    },
+    {
+      "name": "sqrt_abs_det_g",
+      "verdict": "PASS",
+      "detail": "det g = cos^2(6 H x8) exactly, so sqrt|det g| = cos(6 H x8) on 0 < 6 H x8 < pi/2; sympy's sqrt(Abs(det g)) equals cos(6 H x8) > 0 at the 5 random points (60 digits)"
+    },
+    {
+      "name": "christoffel_symmetric",
+      "verdict": "PASS",
+      "detail": "Gamma^a_{bc} = Gamma^a_{cb}"
+    },
+    {
+      "name": "riemann_first_bianchi",
+      "verdict": "PASS",
+      "detail": "R^a_{bcd} + R^a_{cdb} + R^a_{dbc} = 0 exactly for all 4096 index lists"
+    },
+    {
+      "name": "mixed_riemann_free_of_warp_and_exponential",
+      "verdict": "PASS",
+      "detail": "every R^{ab}_{cd} is free of sin(6 H x8)^(1/3) and of e^{a4}: a rational function of H, a4', a4'', cot(6 H x8)"
+    },
+    {
+      "name": "riemann_antisymmetry_and_pair_symmetry",
+      "verdict": "PASS",
+      "detail": "R^ab_cd = -R^ba_cd = -R^ab_dc and R_abcd = R_cdab exactly; 156 non-zero R^ab_cd"
+    },
+    {
+      "name": "k1_unpruned_literal_sum_agrees",
+      "verdict": "PASS",
+      "detail": "the completely unpruned literal sum (156^1 ordered products of non-zero R^ab_cd x 64 (h, j) + the scalar: 10140 kdelta calls) equals the pruned sum exactly, for all 64 components and L_(1)"
+    },
+    {
+      "name": "k2_unpruned_literal_sum_agrees",
+      "verdict": "PASS",
+      "detail": "the completely unpruned literal sum (156^2 ordered products of non-zero R^ab_cd x 64 (h, j) + the scalar: 1581840 kdelta calls) equals the pruned sum exactly, for all 64 components and L_(2)"
+    },
+    {
+      "name": "k3_pruned_terms_vanish_literally",
+      "verdict": "PASS",
+      "detail": "20000 random (3 non-zero R^ab_cd entries, h, j) terms of the unpruned k = 3 sum: 19900 have a repeated index (skipped by the enumeration) and kdelta gives 0 for every one of them (non-zero: 0)"
+    },
+    {
+      "name": "k4_terms_vanish_literally",
+      "verdict": "PASS",
+      "detail": "300 random (4 non-zero R^ab_cd entries, h, j) terms of P_(4): kdelta of the 9-index lists is 0 for every one (non-zero: 0); with 9 indices in 8 dimensions every term has a repeated index, so P_(4) = 0"
+    },
+    {
+      "name": "k1_equals_minus_4_einstein",
+      "verdict": "PASS",
+      "detail": "P_(1)^h_j = -4 G^h_j exactly (G = Ric - R/2 from the sympy Ricci tensor)"
+    },
+    {
+      "name": "L1_equals_2R",
+      "verdict": "PASS",
+      "detail": "L_(1) = 2 R exactly"
+    },
+    {
+      "name": "k2_equals_minus_8_gauss_bonnet",
+      "verdict": "PASS",
+      "detail": "P_(2)^h_j = -8 H^h_j exactly, H = classical Gauss-Bonnet (Lanczos) tensor; derivation in the module docstring"
+    },
+    {
+      "name": "L2_equals_4_gauss_bonnet",
+      "verdict": "PASS",
+      "detail": "L_(2) = 4 (R^2 - 4 Ric.Ric + Riem.Riem) exactly"
+    },
+    {
+      "name": "gauss_bonnet_index_placement",
+      "verdict": "PASS",
+      "detail": "with g explicitly: R^{habc} R_{jabc} = R^{ha}_{bc} R^{bc}_{ja} (all 64 h, j), R_ab R^ab = R^a_b R^b_a and R_abcd R^abcd = R^ab_cd R^cd_ab exactly"
+    },
+    {
+      "name": "L3_equals_8_cubic_lovelock_density",
+      "verdict": "PASS",
+      "detail": "L_(3) = 8 (2 T1 + 8 T2 + 24 T3 + 3 T4 + 24 T5 + 16 T6 - 12 T7 + T8) exactly (coefficients derived in check normalisation_L3_cubic_derived)"
+    },
+    {
+      "name": "k1_trace_identity",
+      "verdict": "PASS",
+      "detail": "sum_h P_(1)^h_h = (8 - 2) L_(1) exactly"
+    },
+    {
+      "name": "k2_trace_identity",
+      "verdict": "PASS",
+      "detail": "sum_h P_(2)^h_h = (8 - 4) L_(2) exactly"
+    },
+    {
+      "name": "k3_trace_identity",
+      "verdict": "PASS",
+      "detail": "sum_h P_(3)^h_h = (8 - 6) L_(3) exactly"
+    },
+    {
+      "name": "k1_divergence_free",
+      "verdict": "PASS",
+      "detail": "nabla_h P_(1)^h_j = 0 exactly for j = x1..x8 (sympy diff + Christoffels)"
+    },
+    {
+      "name": "k1_symmetric",
+      "verdict": "PASS",
+      "detail": "g_hh P_(1)^h_j = g_jj P_(1)^j_h exactly, so A_(1)^lh = A_(1)^hl"
+    },
+    {
+      "name": "k1_free_of_warp",
+      "verdict": "PASS",
+      "detail": "every P_(1)^h_j is free of sin(6 H x8)^(1/3) and of e^(a4)"
+    },
+    {
+      "name": "k2_divergence_free",
+      "verdict": "PASS",
+      "detail": "nabla_h P_(2)^h_j = 0 exactly for j = x1..x8 (sympy diff + Christoffels)"
+    },
+    {
+      "name": "k2_symmetric",
+      "verdict": "PASS",
+      "detail": "g_hh P_(2)^h_j = g_jj P_(2)^j_h exactly, so A_(2)^lh = A_(2)^hl"
+    },
+    {
+      "name": "k2_free_of_warp",
+      "verdict": "PASS",
+      "detail": "every P_(2)^h_j is free of sin(6 H x8)^(1/3) and of e^(a4)"
+    },
+    {
+      "name": "k3_divergence_free",
+      "verdict": "PASS",
+      "detail": "nabla_h P_(3)^h_j = 0 exactly for j = x1..x8 (sympy diff + Christoffels)"
+    },
+    {
+      "name": "k3_symmetric",
+      "verdict": "PASS",
+      "detail": "g_hh P_(3)^h_j = g_jj P_(3)^j_h exactly, so A_(3)^lh = A_(3)^hl"
+    },
+    {
+      "name": "k3_free_of_warp",
+      "verdict": "PASS",
+      "detail": "every P_(3)^h_j is free of sin(6 H x8)^(1/3) and of e^(a4)"
+    },
+    {
+      "name": "rust_k1_mixed_components_agree",
+      "verdict": "PASS",
+      "detail": "P_(1)^h_j: all 64 components of P1_mixed_up_h_down_j present; 64 comparisons (8 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (40 evaluations, max relative deviation 0 at 60 digits); failures: none"
+    },
+    {
+      "name": "rust_k1_contravariant_components_agree",
+      "verdict": "PASS",
+      "detail": "A_(1)^lh: all 64 components of A1_contravariant_l_h present; 64 comparisons (8 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (40 evaluations, max relative deviation 0 at 60 digits); failures: none"
+    },
+    {
+      "name": "rust_L1_agrees",
+      "verdict": "PASS",
+      "detail": "L_(1): 1 comparisons (1 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (5 evaluations, max relative deviation 0 at 60 digits); failures: none"
+    },
+    {
+      "name": "rust_k2_mixed_components_agree",
+      "verdict": "PASS",
+      "detail": "P_(2)^h_j: all 64 components of P2_mixed_up_h_down_j present; 64 comparisons (8 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (40 evaluations, max relative deviation 0 at 60 digits); failures: none"
+    },
+    {
+      "name": "rust_k2_contravariant_components_agree",
+      "verdict": "PASS",
+      "detail": "A_(2)^lh: all 64 components of A2_contravariant_l_h present; 64 comparisons (8 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (40 evaluations, max relative deviation 0 at 60 digits); failures: none"
+    },
+    {
+      "name": "rust_L2_agrees",
+      "verdict": "PASS",
+      "detail": "L_(2): 1 comparisons (1 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (5 evaluations, max relative deviation 0 at 60 digits); failures: none"
+    },
+    {
+      "name": "rust_k3_mixed_components_agree",
+      "verdict": "PASS",
+      "detail": "P_(3)^h_j: all 64 components of P3_mixed_up_h_down_j present; 64 comparisons (8 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (40 evaluations, max relative deviation 0 at 60 digits); failures: none"
+    },
+    {
+      "name": "rust_k3_contravariant_components_agree",
+      "verdict": "PASS",
+      "detail": "A_(3)^lh: all 64 components of A3_contravariant_l_h present; 64 comparisons (8 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (40 evaluations, max relative deviation 0 at 60 digits); failures: none"
+    },
+    {
+      "name": "rust_L3_agrees",
+      "verdict": "PASS",
+      "detail": "L_(3): 1 comparisons (1 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (5 evaluations, max relative deviation 0 at 60 digits); failures: none"
+    },
+    {
+      "name": "negative_controls_detected",
+      "verdict": "PASS",
+      "detail": "each of canon, plain sympy and the 60-digit numerics separately detects every tampered Rust component: P3^x8_x8 with its first coefficient + 1: (True, True, True); A2^x1x1 with S^2 -> S^1 in its first monomial: (True, True, True); A1^x5x5 with E^2 -> E^-2 in its first monomial: (True, True, True); P2^x4_x4 + 10^-30 H^4: (True, True, True)"
+    },
+    {
+      "name": "rust_metric_and_sqrt_g_agree",
+      "verdict": "PASS",
+      "detail": "metricDiagonal (8 entries) and sqrtAbsDetG: 9 comparisons (9 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (45 evaluations, max relative deviation 0 at 60 digits); failures: none"
+    },
+    {
+      "name": "rust_christoffels_agree",
+      "verdict": "PASS",
+      "detail": "the 25 non-zero Gamma^a_bc (b <= c) of sympy are exactly the 25 listed; 25 comparisons (25 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (125 evaluations, max relative deviation 0 at 60 digits); failures: none"
+    },
+    {
+      "name": "rust_riemann_agrees",
+      "verdict": "PASS",
+      "detail": "the 156 non-zero R^ab_cd of sympy are exactly the 156 listed; 156 comparisons (156 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (780 evaluations, max relative deviation 0 at 60 digits); failures: none"
+    },
+    {
+      "name": "rust_ricci_einstein_scalar_agree",
+      "verdict": "PASS",
+      "detail": "ricciMixed (64), einsteinMixed (64) from their monomials and ricciScalar: 129 comparisons (17 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (85 evaluations, max relative deviation 0 at 60 digits); failures: none"
+    },
+    {
+      "name": "rust_text_matches_monomials",
+      "verdict": "PASS",
+      "detail": "in all 512 components with monomial lists (lovelock-tensors.json and curvature.json), the Mathematica text and the monomial list are the same expression exactly"
+    }
+  ],
+  "checkCount": 49,
+  "failedCheckCount": 0,
+  "failedChecks": [],
+  "verdict": "SUCCESS"
+}

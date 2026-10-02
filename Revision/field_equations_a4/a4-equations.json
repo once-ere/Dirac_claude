@@ -1,0 +1,788 @@
+{
+  "title": "Einstein-Lovelock field equations for a4[x4] in the primordial metric (Revision/SPEC.md section 5)",
+  "producer": "Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls (with FieldEquationsA4.wl)",
+  "conventions": {
+    "coordinates": "x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = extra times, time-like, deflating (scale factor e^{-a4} sin^{1/6} z); x8 = hidden direction, z = 6 H x8 in (0, pi/2)",
+    "symbols": "ad1 = a4'(x4), ad2 = a4''(x4), H > 0, alpha1..alpha3 = Lovelock couplings, Lam = Lambda, kappa = gravitational coupling, cc = cot z; d4f, d8f = partial derivatives of f with respect to x4, x8",
+    "curvature": "MTW: R^a_{bcd} = d_c Gamma^a_{bd} - d_d Gamma^a_{bc} + Gamma^a_{ce} Gamma^e_{bd} - Gamma^a_{de} Gamma^e_{bc}",
+    "lovelock": "P_(k)^h_j = GKD[{h,h1..h2k},{j,j1..j2k}] R^{j1j2}_{h1h2} ... R^{j(2k-1)j2k}_{h(2k-1)h2k}; E_(k) = -P_(k)/2^(k+1); E_(1) = G",
+    "fieldEquations": "sum_{k=1}^{3} alpha_k E_(k)^mu_nu + Lam delta^mu_nu = kappa T^mu_nu",
+    "source": "T^mu_nu = diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8) + q48 (mu = x4, nu = x8) + q84 (mu = x8, nu = x4); rho = -T^x4_x4, p_mu = T^mu_mu (no sum)"
+  },
+  "lovelockTensors": {
+    "E1": {
+      "x1x1": {
+        "input": "-3*ad1^2 + ad2 + 15*H^2",
+        "tex": "-3 (a_4')^2+a_4''+15 H^2"
+      },
+      "x4x4": {
+        "input": "3*ad1^2 + 21*H^2",
+        "tex": "3 (a_4')^2+21 H^2"
+      },
+      "x5x5": {
+        "input": "-3*ad1^2 - ad2 + 15*H^2",
+        "tex": "-3 (a_4')^2-a_4''+15 H^2"
+      },
+      "x8x8": {
+        "input": "-3*ad1^2 + 15*H^2",
+        "tex": "15 H^2-3 (a_4')^2"
+      },
+      "x4x8": {
+        "input": "0",
+        "tex": "0"
+      },
+      "x8x4": {
+        "input": "0",
+        "tex": "0"
+      }
+    },
+    "E2": {
+      "x1x1": {
+        "input": "12*ad1^4 - 24*ad1^2*ad2 + 168*ad1^2*H^2 - 40*ad2*H^2 - 180*H^4",
+        "tex": "12 (a_4')^4-24 (a_4')^2 a_4''+168 (a_4')^2 H^2-40 a_4'' H^2-180 H^4"
+      },
+      "x4x4": {
+        "input": "-36*ad1^4 - 120*ad1^2*H^2 - 420*H^4",
+        "tex": "-36 (a_4')^4-120 (a_4')^2 H^2-420 H^4"
+      },
+      "x5x5": {
+        "input": "12*ad1^4 + 24*ad1^2*ad2 + 168*ad1^2*H^2 + 40*ad2*H^2 - 180*H^4",
+        "tex": "12 (a_4')^4+24 (a_4')^2 a_4''+168 (a_4')^2 H^2+40 a_4'' H^2-180 H^4"
+      },
+      "x8x8": {
+        "input": "12*ad1^4 + 168*ad1^2*H^2 - 180*H^4",
+        "tex": "12 (a_4')^4+168 (a_4')^2 H^2-180 H^4"
+      },
+      "x4x8": {
+        "input": "0",
+        "tex": "0"
+      },
+      "x8x4": {
+        "input": "0",
+        "tex": "0"
+      }
+    },
+    "E3": {
+      "x1x1": {
+        "input": "-72*ad1^6 + 360*ad1^4*ad2 - 648*ad1^4*H^2 + 432*ad1^2*ad2*H^2 - 1944*ad1^2*H^4 + 360*ad2*H^4 + 360*H^6",
+        "tex": "-72 (a_4')^6+360 (a_4')^4 a_4''-648 (a_4')^4 H^2+432 (a_4')^2 a_4'' H^2-1944 (a_4')^2 H^4+360 a_4'' H^4+360 H^6"
+      },
+      "x4x4": {
+        "input": "360*ad1^6 + 648*ad1^4*H^2 + 1080*ad1^2*H^4 + 2520*H^6",
+        "tex": "360 (a_4')^6+648 (a_4')^4 H^2+1080 (a_4')^2 H^4+2520 H^6"
+      },
+      "x5x5": {
+        "input": "-72*ad1^6 - 360*ad1^4*ad2 - 648*ad1^4*H^2 - 432*ad1^2*ad2*H^2 - 1944*ad1^2*H^4 - 360*ad2*H^4 + 360*H^6",
+        "tex": "-72 (a_4')^6-360 (a_4')^4 a_4''-648 (a_4')^4 H^2-432 (a_4')^2 a_4'' H^2-1944 (a_4')^2 H^4-360 a_4'' H^4+360 H^6"
+      },
+      "x8x8": {
+        "input": "-72*ad1^6 - 648*ad1^4*H^2 - 1944*ad1^2*H^4 + 360*H^6",
+        "tex": "-72 (a_4')^6-648 (a_4')^4 H^2-1944 (a_4')^2 H^4+360 H^6"
+      },
+      "x4x8": {
+        "input": "0",
+        "tex": "0"
+      },
+      "x8x4": {
+        "input": "0",
+        "tex": "0"
+      }
+    },
+    "allOtherComponents": "x2x2 = x3x3 = x1x1, x6x6 = x7x7 = x5x5, every other off-diagonal component 0 (exact, all 64 components checked)"
+  },
+  "generalSource": {
+    "constraint_x4": {
+      "input": "3*ad1^2*alpha1 - 36*ad1^4*alpha2 + 360*ad1^6*alpha3 + 21*alpha1*H^2 - 120*ad1^2*alpha2*H^2 + 648*ad1^4*alpha3*H^2 - 420*alpha2*H^4 + 1080*ad1^2*alpha3*H^4 + 2520*alpha3*H^6 + Lam == -(kappa*rho)",
+      "tex": "360 (a_4')^6 \\alpha_3-36 (a_4')^4 \\alpha_2+648 (a_4')^4 \\alpha_3 H^2+3 (a_4')^2 \\alpha_1-120 (a_4')^2 \\alpha_2 H^2+1080 (a_4')^2 \\alpha_3 H^4+21 \\alpha_1 H^2-420 \\alpha_2 H^4+2520 \\alpha_3 H^6+\\Lambda = -\\kappa  \\rho"
+    },
+    "space_x1_eq_x2_eq_x3": {
+      "input": "-3*ad1^2*alpha1 + ad2*alpha1 + 12*ad1^4*alpha2 - 24*ad1^2*ad2*alpha2 - 72*ad1^6*alpha3 + 360*ad1^4*ad2*alpha3 + 15*alpha1*H^2 + 168*ad1^2*alpha2*H^2 - 40*ad2*alpha2*H^2 - 648*ad1^4*alpha3*H^2 + 432*ad1^2*ad2*alpha3*H^2 - 180*alpha2*H^4 - 1944*ad1^2*alpha3*H^4 + 360*ad2*alpha3*H^4 + 360*alpha3*H^6 + Lam == kappa*p3",
+      "tex": "-72 (a_4')^6 \\alpha_3+360 (a_4')^4 a_4'' \\alpha_3+12 (a_4')^4 \\alpha_2-648 (a_4')^4 \\alpha_3 H^2-24 (a_4')^2 a_4'' \\alpha_2+432 (a_4')^2 a_4'' \\alpha_3 H^2-3 (a_4')^2 \\alpha_1+168 (a_4')^2 \\alpha_2 H^2-1944 (a_4')^2 \\alpha_3 H^4+a_4'' \\alpha_1-40 a_4'' \\alpha_2 H^2+360 a_4'' \\alpha_3 H^4+15 \\alpha_1 H^2-180 \\alpha_2 H^4+360 \\alpha_3 H^6+\\Lambda = \\kappa  p_3"
+    },
+    "extraTime_x5_eq_x6_eq_x7": {
+      "input": "-3*ad1^2*alpha1 - ad2*alpha1 + 12*ad1^4*alpha2 + 24*ad1^2*ad2*alpha2 - 72*ad1^6*alpha3 - 360*ad1^4*ad2*alpha3 + 15*alpha1*H^2 + 168*ad1^2*alpha2*H^2 + 40*ad2*alpha2*H^2 - 648*ad1^4*alpha3*H^2 - 432*ad1^2*ad2*alpha3*H^2 - 180*alpha2*H^4 - 1944*ad1^2*alpha3*H^4 - 360*ad2*alpha3*H^4 + 360*alpha3*H^6 + Lam == kappa*pt",
+      "tex": "-72 (a_4')^6 \\alpha_3-360 (a_4')^4 a_4'' \\alpha_3+12 (a_4')^4 \\alpha_2-648 (a_4')^4 \\alpha_3 H^2+24 (a_4')^2 a_4'' \\alpha_2-432 (a_4')^2 a_4'' \\alpha_3 H^2-3 (a_4')^2 \\alpha_1+168 (a_4')^2 \\alpha_2 H^2-1944 (a_4')^2 \\alpha_3 H^4-a_4'' \\alpha_1+40 a_4'' \\alpha_2 H^2-360 a_4'' \\alpha_3 H^4+15 \\alpha_1 H^2-180 \\alpha_2 H^4+360 \\alpha_3 H^6+\\Lambda = \\kappa  p_t"
+    },
+    "hidden_x8": {
+      "input": "-3*ad1^2*alpha1 + 12*ad1^4*alpha2 - 72*ad1^6*alpha3 + 15*alpha1*H^2 + 168*ad1^2*alpha2*H^2 - 648*ad1^4*alpha3*H^2 - 180*alpha2*H^4 - 1944*ad1^2*alpha3*H^4 + 360*alpha3*H^6 + Lam == kappa*p8",
+      "tex": "-72 (a_4')^6 \\alpha_3+12 (a_4')^4 \\alpha_2-648 (a_4')^4 \\alpha_3 H^2-3 (a_4')^2 \\alpha_1+168 (a_4')^2 \\alpha_2 H^2-1944 (a_4')^2 \\alpha_3 H^4+15 \\alpha_1 H^2-180 \\alpha_2 H^4+360 \\alpha_3 H^6+\\Lambda = \\kappa  p_8"
+    },
+    "offDiagonal_x4x8": {
+      "input": "0 == kappa*q48",
+      "tex": "0 = \\kappa  q_{48}"
+    },
+    "offDiagonal_x8x4": {
+      "input": "0 == kappa*q84",
+      "tex": "0 = \\kappa  q_{84}"
+    },
+    "offDiagonal_other": "0 = kappa T^mu_nu for every other mu != nu (the left-hand sides vanish identically)",
+    "evolution_x1_minus_x5": {
+      "input": "ad2*(2*alpha1 - 48*ad1^2*alpha2 + 720*ad1^4*alpha3 - 80*alpha2*H^2 + 864*ad1^2*alpha3*H^2 + 720*alpha3*H^4) == kappa*(p3 - pt)",
+      "tex": "a_4'' \\left(720 (a_4')^4 \\alpha_3-48 (a_4')^2 \\alpha_2+864 (a_4')^2 \\alpha_3 H^2+2 \\alpha_1-80 \\alpha_2 H^2+720 \\alpha_3 H^4\\right) = \\kappa  (p_3-p_t)"
+    },
+    "evolution_F": {
+      "input": "2*alpha1 - 48*ad1^2*alpha2 + 720*ad1^4*alpha3 - 80*alpha2*H^2 + 864*ad1^2*alpha3*H^2 + 720*alpha3*H^4",
+      "tex": "720 (a_4')^4 \\alpha_3-48 (a_4')^2 \\alpha_2+864 (a_4')^2 \\alpha_3 H^2+2 \\alpha_1-80 \\alpha_2 H^2+720 \\alpha_3 H^4"
+    },
+    "algebraic_condition": {
+      "input": "p3 + pt == 2*p8",
+      "tex": "p_3+p_t = 2 p_8"
+    },
+    "x8_dependence": "the left-hand sides are free of x8 (and of a4 itself), so the source must satisfy d8 rho = d8 p3 = d8 p_t = d8 p8 = 0 and q48 = q84 = 0: every mixed component of T is a function of x4 alone; an x8-dependent source is not compatible with the metric of SPEC section 1",
+    "conservation_x4": {
+      "input": "-d4rho + d8q84 - 3*ad1*p3 + 3*ad1*pt - (6*H*q84)/cc == 0",
+      "tex": "-3 (a_4') p_3+3 (a_4') p_t-\\frac{6 H q_{84}}{\\cot z}-\\partial_4 \\rho+\\partial_8 q_{84} = 0"
+    },
+    "conservation_x8": {
+      "input": "d4q48 + d8p8 + cc*(-3*H*p3 + 6*H*p8 - 3*H*pt) == 0",
+      "tex": "\\cot z (-3 H p_3+6 H p_8-3 H p_t)+\\partial_4 q_{48}+\\partial_8 p_8 = 0"
+    },
+    "conservation_reduced": "with an x8-independent source and q48 = q84 = 0: rho' = -3 a4' (p3 - p_t) (x4 component) and p3 + p_t = 2 p8 (x8 component), both implied by the field equations (Bianchi identity)",
+    "constraint_propagation": "d/dx4 (constraint) = 3 a4' (evolution) once rho' = -3 a4' (p3 - p_t) is used (constraint: sum_k alpha_k E^x4_x4 + Lam + kappa rho = 0; evolution: a4'' F - kappa (p3 - p_t) = 0); so for a4' != 0 the evolution equation follows from the constraint and rho' = -3 a4' (p3 - p_t); the x8 equation is an independent first-order relation",
+    "sourceRequiredByGivenA4": {
+      "rho": {
+        "input": "(-3*ad1^2*alpha1)/kappa + (36*ad1^4*alpha2)/kappa - (360*ad1^6*alpha3)/kappa - (21*alpha1*H^2)/kappa + (120*ad1^2*alpha2*H^2)/kappa - (648*ad1^4*alpha3*H^2)/kappa + (420*alpha2*H^4)/kappa - (1080*ad1^2*alpha3*H^4)/kappa - (2520*alpha3*H^6)/kappa - Lam/kappa",
+        "tex": "-\\frac{360 (a_4')^6 \\alpha_3}{\\kappa }+\\frac{36 (a_4')^4 \\alpha_2}{\\kappa }-\\frac{648 (a_4')^4 \\alpha_3 H^2}{\\kappa }-\\frac{3 (a_4')^2 \\alpha_1}{\\kappa }+\\frac{120 (a_4')^2 \\alpha_2 H^2}{\\kappa }-\\frac{1080 (a_4')^2 \\alpha_3 H^4}{\\kappa }-\\frac{21 \\alpha_1 H^2}{\\kappa }+\\frac{420 \\alpha_2 H^4}{\\kappa }-\\frac{2520 \\alpha_3 H^6}{\\kappa }-\\frac{\\Lambda}{\\kappa }"
+      },
+      "p3": {
+        "input": "(-3*ad1^2*alpha1)/kappa + (ad2*alpha1)/kappa + (12*ad1^4*alpha2)/kappa - (24*ad1^2*ad2*alpha2)/kappa - (72*ad1^6*alpha3)/kappa + (360*ad1^4*ad2*alpha3)/kappa + (15*alpha1*H^2)/kappa + (168*ad1^2*alpha2*H^2)/kappa - (40*ad2*alpha2*H^2)/kappa - (648*ad1^4*alpha3*H^2)/kappa + (432*ad1^2*ad2*alpha3*H^2)/kappa - (180*alpha2*H^4)/kappa - (1944*ad1^2*alpha3*H^4)/kappa + (360*ad2*alpha3*H^4)/kappa + (360*alpha3*H^6)/kappa + Lam/kappa",
+        "tex": "-\\frac{72 (a_4')^6 \\alpha_3}{\\kappa }+\\frac{360 (a_4')^4 a_4'' \\alpha_3}{\\kappa }+\\frac{12 (a_4')^4 \\alpha_2}{\\kappa }-\\frac{648 (a_4')^4 \\alpha_3 H^2}{\\kappa }-\\frac{24 (a_4')^2 a_4'' \\alpha_2}{\\kappa }+\\frac{432 (a_4')^2 a_4'' \\alpha_3 H^2}{\\kappa }-\\frac{3 (a_4')^2 \\alpha_1}{\\kappa }+\\frac{168 (a_4')^2 \\alpha_2 H^2}{\\kappa }-\\frac{1944 (a_4')^2 \\alpha_3 H^4}{\\kappa }+\\frac{a_4'' \\alpha_1}{\\kappa }-\\frac{40 a_4'' \\alpha_2 H^2}{\\kappa }+\\frac{360 a_4'' \\alpha_3 H^4}{\\kappa }+\\frac{15 \\alpha_1 H^2}{\\kappa }-\\frac{180 \\alpha_2 H^4}{\\kappa }+\\frac{360 \\alpha_3 H^6}{\\kappa }+\\frac{\\Lambda}{\\kappa }"
+      },
+      "pt": {
+        "input": "(-3*ad1^2*alpha1)/kappa - (ad2*alpha1)/kappa + (12*ad1^4*alpha2)/kappa + (24*ad1^2*ad2*alpha2)/kappa - (72*ad1^6*alpha3)/kappa - (360*ad1^4*ad2*alpha3)/kappa + (15*alpha1*H^2)/kappa + (168*ad1^2*alpha2*H^2)/kappa + (40*ad2*alpha2*H^2)/kappa - (648*ad1^4*alpha3*H^2)/kappa - (432*ad1^2*ad2*alpha3*H^2)/kappa - (180*alpha2*H^4)/kappa - (1944*ad1^2*alpha3*H^4)/kappa - (360*ad2*alpha3*H^4)/kappa + (360*alpha3*H^6)/kappa + Lam/kappa",
+        "tex": "-\\frac{72 (a_4')^6 \\alpha_3}{\\kappa }-\\frac{360 (a_4')^4 a_4'' \\alpha_3}{\\kappa }+\\frac{12 (a_4')^4 \\alpha_2}{\\kappa }-\\frac{648 (a_4')^4 \\alpha_3 H^2}{\\kappa }+\\frac{24 (a_4')^2 a_4'' \\alpha_2}{\\kappa }-\\frac{432 (a_4')^2 a_4'' \\alpha_3 H^2}{\\kappa }-\\frac{3 (a_4')^2 \\alpha_1}{\\kappa }+\\frac{168 (a_4')^2 \\alpha_2 H^2}{\\kappa }-\\frac{1944 (a_4')^2 \\alpha_3 H^4}{\\kappa }-\\frac{a_4'' \\alpha_1}{\\kappa }+\\frac{40 a_4'' \\alpha_2 H^2}{\\kappa }-\\frac{360 a_4'' \\alpha_3 H^4}{\\kappa }+\\frac{15 \\alpha_1 H^2}{\\kappa }-\\frac{180 \\alpha_2 H^4}{\\kappa }+\\frac{360 \\alpha_3 H^6}{\\kappa }+\\frac{\\Lambda}{\\kappa }"
+      },
+      "p8": {
+        "input": "(-3*ad1^2*alpha1)/kappa + (12*ad1^4*alpha2)/kappa - (72*ad1^6*alpha3)/kappa + (15*alpha1*H^2)/kappa + (168*ad1^2*alpha2*H^2)/kappa - (648*ad1^4*alpha3*H^2)/kappa - (180*alpha2*H^4)/kappa - (1944*ad1^2*alpha3*H^4)/kappa + (360*alpha3*H^6)/kappa + Lam/kappa",
+        "tex": "-\\frac{72 (a_4')^6 \\alpha_3}{\\kappa }+\\frac{12 (a_4')^4 \\alpha_2}{\\kappa }-\\frac{648 (a_4')^4 \\alpha_3 H^2}{\\kappa }-\\frac{3 (a_4')^2 \\alpha_1}{\\kappa }+\\frac{168 (a_4')^2 \\alpha_2 H^2}{\\kappa }-\\frac{1944 (a_4')^2 \\alpha_3 H^4}{\\kappa }+\\frac{15 \\alpha_1 H^2}{\\kappa }-\\frac{180 \\alpha_2 H^4}{\\kappa }+\\frac{360 \\alpha_3 H^6}{\\kappa }+\\frac{\\Lambda}{\\kappa }"
+      }
+    },
+    "nullCombinations": {
+      "kappa(rho+p8)": {
+        "input": "-6*ad1^2*alpha1 + 48*ad1^4*alpha2 - 432*ad1^6*alpha3 - 6*alpha1*H^2 + 288*ad1^2*alpha2*H^2 - 1296*ad1^4*alpha3*H^2 + 240*alpha2*H^4 - 3024*ad1^2*alpha3*H^4 - 2160*alpha3*H^6",
+        "tex": "-432 (a_4')^6 \\alpha_3+48 (a_4')^4 \\alpha_2-1296 (a_4')^4 \\alpha_3 H^2-6 (a_4')^2 \\alpha_1+288 (a_4')^2 \\alpha_2 H^2-3024 (a_4')^2 \\alpha_3 H^4-6 \\alpha_1 H^2+240 \\alpha_2 H^4-2160 \\alpha_3 H^6"
+      },
+      "kappa(rho+p3)": {
+        "input": "-6*ad1^2*alpha1 + ad2*alpha1 + 48*ad1^4*alpha2 - 24*ad1^2*ad2*alpha2 - 432*ad1^6*alpha3 + 360*ad1^4*ad2*alpha3 - 6*alpha1*H^2 + 288*ad1^2*alpha2*H^2 - 40*ad2*alpha2*H^2 - 1296*ad1^4*alpha3*H^2 + 432*ad1^2*ad2*alpha3*H^2 + 240*alpha2*H^4 - 3024*ad1^2*alpha3*H^4 + 360*ad2*alpha3*H^4 - 2160*alpha3*H^6",
+        "tex": "-432 (a_4')^6 \\alpha_3+360 (a_4')^4 a_4'' \\alpha_3+48 (a_4')^4 \\alpha_2-1296 (a_4')^4 \\alpha_3 H^2-24 (a_4')^2 a_4'' \\alpha_2+432 (a_4')^2 a_4'' \\alpha_3 H^2-6 (a_4')^2 \\alpha_1+288 (a_4')^2 \\alpha_2 H^2-3024 (a_4')^2 \\alpha_3 H^4+a_4'' \\alpha_1-40 a_4'' \\alpha_2 H^2+360 a_4'' \\alpha_3 H^4-6 \\alpha_1 H^2+240 \\alpha_2 H^4-2160 \\alpha_3 H^6"
+      },
+      "kappa(rho+pt)": {
+        "input": "-6*ad1^2*alpha1 - ad2*alpha1 + 48*ad1^4*alpha2 + 24*ad1^2*ad2*alpha2 - 432*ad1^6*alpha3 - 360*ad1^4*ad2*alpha3 - 6*alpha1*H^2 + 288*ad1^2*alpha2*H^2 + 40*ad2*alpha2*H^2 - 1296*ad1^4*alpha3*H^2 - 432*ad1^2*ad2*alpha3*H^2 + 240*alpha2*H^4 - 3024*ad1^2*alpha3*H^4 - 360*ad2*alpha3*H^4 - 2160*alpha3*H^6",
+        "tex": "-432 (a_4')^6 \\alpha_3-360 (a_4')^4 a_4'' \\alpha_3+48 (a_4')^4 \\alpha_2-1296 (a_4')^4 \\alpha_3 H^2+24 (a_4')^2 a_4'' \\alpha_2-432 (a_4')^2 a_4'' \\alpha_3 H^2-6 (a_4')^2 \\alpha_1+288 (a_4')^2 \\alpha_2 H^2-3024 (a_4')^2 \\alpha_3 H^4-a_4'' \\alpha_1+40 a_4'' \\alpha_2 H^2-360 a_4'' \\alpha_3 H^4-6 \\alpha_1 H^2+240 \\alpha_2 H^4-2160 \\alpha_3 H^6"
+      }
+    }
+  },
+  "einstein": {
+    "couplings": "alpha1 = 1, alpha2 = alpha3 = 0",
+    "constraint_x4": {
+      "input": "3*ad1^2 + 21*H^2 + Lam == -(kappa*rho)",
+      "tex": "3 (a_4')^2+21 H^2+\\Lambda = -\\kappa  \\rho"
+    },
+    "space_x1": {
+      "input": "-3*ad1^2 + ad2 + 15*H^2 + Lam == kappa*p3",
+      "tex": "-3 (a_4')^2+a_4''+15 H^2+\\Lambda = \\kappa  p_3"
+    },
+    "extraTime_x5": {
+      "input": "-3*ad1^2 - ad2 + 15*H^2 + Lam == kappa*pt",
+      "tex": "-3 (a_4')^2-a_4''+15 H^2+\\Lambda = \\kappa  p_t"
+    },
+    "hidden_x8": {
+      "input": "-3*ad1^2 + 15*H^2 + Lam == kappa*p8",
+      "tex": "-3 (a_4')^2+15 H^2+\\Lambda = \\kappa  p_8"
+    },
+    "evolution": {
+      "input": "2*ad2 == kappa*(p3 - pt)",
+      "tex": "2 a_4'' = \\kappa  (p_3-p_t)"
+    },
+    "x4_plus_x8": {
+      "input": "36*H^2 + 2*Lam == kappa*(p8 - rho)",
+      "tex": "36 H^2+2 \\Lambda = \\kappa  (p_8-\\rho )"
+    },
+    "nullEnergy": {
+      "input": "kappa*(p8 + rho) == -6*ad1^2 - 6*H^2",
+      "tex": "\\kappa  (p_8+\\rho ) = -6 (a_4')^2-6 H^2"
+    },
+    "noVacuum": "T = 0 has no solution for H > 0 and any Lambda (x4 + x8 components: 36 H^2 + 2 Lambda = 0; x4 - x8: 6 a4'^2 + 6 H^2 = 0)",
+    "allowedA4": "every C^2 function a4(x4) is allowed, with the source fixed by sourceRequiredByGivenA4 (alpha1 = 1, alpha2 = alpha3 = 0); kappa rho > 0 needs Lambda < -(3 a4'^2 + 21 H^2), and kappa (rho + p8) = -6 (a4'^2 + H^2) < 0 always"
+  },
+  "linearMember": {
+    "a4": "a4 = A H x4 + a0 (ad1 = A H, ad2 = 0): 3-space scale factor e^{A H x4}, extra-time scale factor e^{-A H x4} (exponential deflation for A > 0)",
+    "requiredSource": "rho, p3 = p_t = p8 = p constants (any alpha_k); A is any real number, the source being fixed by A through rho and p below",
+    "rho": {
+      "input": "(-21*alpha1*H^2)/kappa - (3*AA^2*alpha1*H^2)/kappa + (420*alpha2*H^4)/kappa + (120*AA^2*alpha2*H^4)/kappa + (36*AA^4*alpha2*H^4)/kappa - (2520*alpha3*H^6)/kappa - (1080*AA^2*alpha3*H^6)/kappa - (648*AA^4*alpha3*H^6)/kappa - (360*AA^6*alpha3*H^6)/kappa - Lam/kappa",
+      "tex": "-\\frac{360 A^6 \\alpha_3 H^6}{\\kappa }+\\frac{36 A^4 \\alpha_2 H^4}{\\kappa }-\\frac{648 A^4 \\alpha_3 H^6}{\\kappa }-\\frac{3 A^2 \\alpha_1 H^2}{\\kappa }+\\frac{120 A^2 \\alpha_2 H^4}{\\kappa }-\\frac{1080 A^2 \\alpha_3 H^6}{\\kappa }-\\frac{21 \\alpha_1 H^2}{\\kappa }+\\frac{420 \\alpha_2 H^4}{\\kappa }-\\frac{2520 \\alpha_3 H^6}{\\kappa }-\\frac{\\Lambda}{\\kappa }"
+    },
+    "p": {
+      "input": "(15*alpha1*H^2)/kappa - (3*AA^2*alpha1*H^2)/kappa - (180*alpha2*H^4)/kappa + (168*AA^2*alpha2*H^4)/kappa + (12*AA^4*alpha2*H^4)/kappa + (360*alpha3*H^6)/kappa - (1944*AA^2*alpha3*H^6)/kappa - (648*AA^4*alpha3*H^6)/kappa - (72*AA^6*alpha3*H^6)/kappa + Lam/kappa",
+      "tex": "-\\frac{72 A^6 \\alpha_3 H^6}{\\kappa }+\\frac{12 A^4 \\alpha_2 H^4}{\\kappa }-\\frac{648 A^4 \\alpha_3 H^6}{\\kappa }-\\frac{3 A^2 \\alpha_1 H^2}{\\kappa }+\\frac{168 A^2 \\alpha_2 H^4}{\\kappa }-\\frac{1944 A^2 \\alpha_3 H^6}{\\kappa }+\\frac{15 \\alpha_1 H^2}{\\kappa }-\\frac{180 \\alpha_2 H^4}{\\kappa }+\\frac{360 \\alpha_3 H^6}{\\kappa }+\\frac{\\Lambda}{\\kappa }"
+    },
+    "rhoEinstein": {
+      "input": "(-21*H^2)/kappa - (3*AA^2*H^2)/kappa - Lam/kappa",
+      "tex": "-\\frac{3 A^2 H^2}{\\kappa }-\\frac{21 H^2}{\\kappa }-\\frac{\\Lambda}{\\kappa }"
+    },
+    "pEinstein": {
+      "input": "(15*H^2)/kappa - (3*AA^2*H^2)/kappa + Lam/kappa",
+      "tex": "-\\frac{3 A^2 H^2}{\\kappa }+\\frac{15 H^2}{\\kappa }+\\frac{\\Lambda}{\\kappa }"
+    },
+    "rhoPlusPEinstein": {
+      "input": "(-6*(1 + AA^2)*H^2)/kappa",
+      "tex": "-\\frac{6 \\left(A^2+1\\right) H^2}{\\kappa }"
+    },
+    "vacuumCondition": {
+      "input": "6*(1 + AA^2)*H^2*(alpha1 - 40*alpha2*H^2 - 8*AA^2*alpha2*H^2 + 360*alpha3*H^4 + 144*AA^2*alpha3*H^4 + 72*AA^4*alpha3*H^4) == 0",
+      "tex": "6 \\left(A^2+1\\right) H^2 \\left(72 A^4 \\alpha_3 H^4-8 A^2 \\alpha_2 H^2+144 A^2 \\alpha_3 H^4+\\alpha_1-40 \\alpha_2 H^2+360 \\alpha_3 H^4\\right) = 0"
+    },
+    "vacuumFactor": {
+      "input": "alpha1 - 40*alpha2*H^2 - 8*AA^2*alpha2*H^2 + 360*alpha3*H^4 + 144*AA^2*alpha3*H^4 + 72*AA^4*alpha3*H^4",
+      "tex": "72 A^4 \\alpha_3 H^4-8 A^2 \\alpha_2 H^2+144 A^2 \\alpha_3 H^4+\\alpha_1-40 \\alpha_2 H^2+360 \\alpha_3 H^4"
+    },
+    "einsteinGaussBonnetVacuum": "alpha3 = 0, alpha1 = 1: A^2 = (1 - 40 alpha2 H^2)/(8 alpha2 H^2), real A iff 0 < alpha2 H^2 <= 1/40; Lambda = -sum_k alpha_k E_(k)^x4_x4 at a4' = A H"
+  },
+  "fields": {
+    "lemmas": {
+      "gravityTerm": "gamma^mu Omega_mu = 3 H gamma^x8 (canonical spin connection; Omega_x4 = Omega_x8 = 0)",
+      "diagonalKinetic": "{gamma^mu, Omega_mu} = 0 for each mu (no sum), so K^mu_mu = (1/2)(Psibar gamma^mu d_mu Psi - d_mu Psibar gamma^mu Psi) contains no spin connection; for a configuration independent of x_mu, K^mu_mu = 0",
+      "traceOnShell": "sum_mu K^mu_mu = (m + U'(S)) S on shell (both statistics), so the on-shell Lagrangian is L = S U'(S) - U(S)"
+    },
+    "emtConvention": "T^mu_nu = sigmaT ( -K^(mu_nu) + delta^mu_nu L ), K^mu_nu = (1/2)(Psibar gamma^mu D_nu Psi - D_nu Psibar gamma^mu Psi), symmetrised; sigmaT = +1 is the convention of SPEC section 4 (homogeneous on-shell states: rho = m S + U, p = S U' - U); if the vielbein variation of the theory branch fixes the opposite overall sign, set sigmaT = -1 everywhere",
+    "generalFormulas": {
+      "rho": "sigmaT ( k4 - L )",
+      "p3": "sigmaT ( L - k1 )",
+      "pt": "sigmaT ( L - k5 )",
+      "p8": "sigmaT ( L - k8 )",
+      "q48": "-sigmaT K^(x4_x8)",
+      "kmu": "k_mu = K^mu_mu (no sum) = (1/2)(Psibar gamma^mu d_mu Psi - d_mu Psibar gamma^mu Psi); L = k1+k2+k3+k4+k5+k6+k7+k8 - m S - U(S) (on shell S U'(S) - U(S))",
+      "evolution": "a4'' F(a4') = kappa sigmaT ( k5 - k1 )",
+      "offDiagonal": "T^mu_nu = -sigmaT K^(mu_nu) for mu != nu must vanish (0 = kappa T^mu_nu); for the homogeneous condensate these are the 15 three-gamma bilinears listed under dirac16complex00.offDiagonalKinetic",
+      "algebraic": "2 k8 = k1 + k5 (from p3 + p_t = 2 p8)"
+    },
+    "dirac16complex00": {
+      "statement": "classical commuting Phi; k_mu, S, U are classical bilinears",
+      "homogeneousCondensate": "Phi = Phi(x4) on shell, independent of x1..x3, x5..x8 (d4 Phi = A Phi, A = -gamma^x4 (M - 3 H gamma^x8), M = m + U'(S)): S = Phibar Phi is constant (exact); the diagonal kinetic components are K^x4_x4 = M S and 0 for every other direction, and K^x4_x8 = 0; hence rho = sigmaT (m S + U(S)), p3 = p_t = p8 = sigmaT (S U'(S) - U(S)), q48 = q84 = 0",
+      "offDiagonalKinetic": [
+        {
+          "component": "K^x1_x4 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x1 gamma^x4 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(7*(1 + cc^2)^(1/12)*H)/(4*E^a4v)",
+                "tex": "\\frac{7}{4} e^{-a_4} \\sqrt[12]{\\cot z^2+1} H"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x1_x5 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x1 gamma^x4 gamma^x5 Phi",
+              "coefficient": {
+                "input": "-1/2*ad1/E^(2*a4v)",
+                "tex": "-\\frac{1}{2} e^{-2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x1_x6 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x1 gamma^x4 gamma^x6 Phi",
+              "coefficient": {
+                "input": "-1/2*ad1/E^(2*a4v)",
+                "tex": "-\\frac{1}{2} e^{-2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x1_x7 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x1 gamma^x4 gamma^x7 Phi",
+              "coefficient": {
+                "input": "-1/2*ad1/E^(2*a4v)",
+                "tex": "-\\frac{1}{2} e^{-2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x1_x8 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x1 gamma^x4 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(ad1*cc*(1 + cc^2)^(1/12))/(4*E^a4v)",
+                "tex": "\\frac{1}{4} e^{-a_4} (a_4') \\cot z \\sqrt[12]{\\cot z^2+1}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x2_x4 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x2 gamma^x4 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(7*(1 + cc^2)^(1/12)*H)/(4*E^a4v)",
+                "tex": "\\frac{7}{4} e^{-a_4} \\sqrt[12]{\\cot z^2+1} H"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x2_x5 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x2 gamma^x4 gamma^x5 Phi",
+              "coefficient": {
+                "input": "-1/2*ad1/E^(2*a4v)",
+                "tex": "-\\frac{1}{2} e^{-2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x2_x6 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x2 gamma^x4 gamma^x6 Phi",
+              "coefficient": {
+                "input": "-1/2*ad1/E^(2*a4v)",
+                "tex": "-\\frac{1}{2} e^{-2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x2_x7 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x2 gamma^x4 gamma^x7 Phi",
+              "coefficient": {
+                "input": "-1/2*ad1/E^(2*a4v)",
+                "tex": "-\\frac{1}{2} e^{-2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x2_x8 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x2 gamma^x4 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(ad1*cc*(1 + cc^2)^(1/12))/(4*E^a4v)",
+                "tex": "\\frac{1}{4} e^{-a_4} (a_4') \\cot z \\sqrt[12]{\\cot z^2+1}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x3_x4 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x3 gamma^x4 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(7*(1 + cc^2)^(1/12)*H)/(4*E^a4v)",
+                "tex": "\\frac{7}{4} e^{-a_4} \\sqrt[12]{\\cot z^2+1} H"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x3_x5 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x3 gamma^x4 gamma^x5 Phi",
+              "coefficient": {
+                "input": "-1/2*ad1/E^(2*a4v)",
+                "tex": "-\\frac{1}{2} e^{-2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x3_x6 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x3 gamma^x4 gamma^x6 Phi",
+              "coefficient": {
+                "input": "-1/2*ad1/E^(2*a4v)",
+                "tex": "-\\frac{1}{2} e^{-2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x3_x7 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x3 gamma^x4 gamma^x7 Phi",
+              "coefficient": {
+                "input": "-1/2*ad1/E^(2*a4v)",
+                "tex": "-\\frac{1}{2} e^{-2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x3_x8 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x3 gamma^x4 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(ad1*cc*(1 + cc^2)^(1/12))/(4*E^a4v)",
+                "tex": "\\frac{1}{4} e^{-a_4} (a_4') \\cot z \\sqrt[12]{\\cot z^2+1}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x4_x1 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x1 gamma^x4 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(-7*E^a4v*H)/(4*(1 + cc^2)^(1/12))",
+                "tex": "-\\frac{7 e^{a_4} H}{4 \\sqrt[12]{\\cot z^2+1}}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x4_x2 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x2 gamma^x4 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(-7*E^a4v*H)/(4*(1 + cc^2)^(1/12))",
+                "tex": "-\\frac{7 e^{a_4} H}{4 \\sqrt[12]{\\cot z^2+1}}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x4_x3 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x3 gamma^x4 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(-7*E^a4v*H)/(4*(1 + cc^2)^(1/12))",
+                "tex": "-\\frac{7 e^{a_4} H}{4 \\sqrt[12]{\\cot z^2+1}}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x4_x5 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x4 gamma^x5 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(-7*H)/(4*(1 + cc^2)^(1/12)*E^a4v)",
+                "tex": "-\\frac{7 e^{-a_4} H}{4 \\sqrt[12]{\\cot z^2+1}}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x4_x6 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x4 gamma^x6 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(-7*H)/(4*(1 + cc^2)^(1/12)*E^a4v)",
+                "tex": "-\\frac{7 e^{-a_4} H}{4 \\sqrt[12]{\\cot z^2+1}}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x4_x7 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x4 gamma^x7 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(-7*H)/(4*(1 + cc^2)^(1/12)*E^a4v)",
+                "tex": "-\\frac{7 e^{-a_4} H}{4 \\sqrt[12]{\\cot z^2+1}}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x5_x1 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x1 gamma^x4 gamma^x5 Phi",
+              "coefficient": {
+                "input": "(ad1*E^(2*a4v))/2",
+                "tex": "\\frac{1}{2} e^{2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x5_x2 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x2 gamma^x4 gamma^x5 Phi",
+              "coefficient": {
+                "input": "(ad1*E^(2*a4v))/2",
+                "tex": "\\frac{1}{2} e^{2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x5_x3 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x3 gamma^x4 gamma^x5 Phi",
+              "coefficient": {
+                "input": "(ad1*E^(2*a4v))/2",
+                "tex": "\\frac{1}{2} e^{2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x5_x4 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x4 gamma^x5 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(-7*(1 + cc^2)^(1/12)*E^a4v*H)/4",
+                "tex": "-\\frac{7}{4} e^{a_4} \\sqrt[12]{\\cot z^2+1} H"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x5_x8 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x4 gamma^x5 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(ad1*cc*(1 + cc^2)^(1/12)*E^a4v)/4",
+                "tex": "\\frac{1}{4} e^{a_4} (a_4') \\cot z \\sqrt[12]{\\cot z^2+1}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x6_x1 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x1 gamma^x4 gamma^x6 Phi",
+              "coefficient": {
+                "input": "(ad1*E^(2*a4v))/2",
+                "tex": "\\frac{1}{2} e^{2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x6_x2 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x2 gamma^x4 gamma^x6 Phi",
+              "coefficient": {
+                "input": "(ad1*E^(2*a4v))/2",
+                "tex": "\\frac{1}{2} e^{2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x6_x3 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x3 gamma^x4 gamma^x6 Phi",
+              "coefficient": {
+                "input": "(ad1*E^(2*a4v))/2",
+                "tex": "\\frac{1}{2} e^{2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x6_x4 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x4 gamma^x6 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(-7*(1 + cc^2)^(1/12)*E^a4v*H)/4",
+                "tex": "-\\frac{7}{4} e^{a_4} \\sqrt[12]{\\cot z^2+1} H"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x6_x8 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x4 gamma^x6 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(ad1*cc*(1 + cc^2)^(1/12)*E^a4v)/4",
+                "tex": "\\frac{1}{4} e^{a_4} (a_4') \\cot z \\sqrt[12]{\\cot z^2+1}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x7_x1 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x1 gamma^x4 gamma^x7 Phi",
+              "coefficient": {
+                "input": "(ad1*E^(2*a4v))/2",
+                "tex": "\\frac{1}{2} e^{2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x7_x2 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x2 gamma^x4 gamma^x7 Phi",
+              "coefficient": {
+                "input": "(ad1*E^(2*a4v))/2",
+                "tex": "\\frac{1}{2} e^{2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x7_x3 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x3 gamma^x4 gamma^x7 Phi",
+              "coefficient": {
+                "input": "(ad1*E^(2*a4v))/2",
+                "tex": "\\frac{1}{2} e^{2 a_4} (a_4')"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x7_x4 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x4 gamma^x7 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(-7*(1 + cc^2)^(1/12)*E^a4v*H)/4",
+                "tex": "-\\frac{7}{4} e^{a_4} \\sqrt[12]{\\cot z^2+1} H"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x7_x8 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x4 gamma^x7 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(ad1*cc*(1 + cc^2)^(1/12)*E^a4v)/4",
+                "tex": "\\frac{1}{4} e^{a_4} (a_4') \\cot z \\sqrt[12]{\\cot z^2+1}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x8_x1 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x1 gamma^x4 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(ad1*E^a4v)/(4*cc*(1 + cc^2)^(1/12))",
+                "tex": "\\frac{e^{a_4} (a_4')}{4 \\cot z \\sqrt[12]{\\cot z^2+1}}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x8_x2 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x2 gamma^x4 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(ad1*E^a4v)/(4*cc*(1 + cc^2)^(1/12))",
+                "tex": "\\frac{e^{a_4} (a_4')}{4 \\cot z \\sqrt[12]{\\cot z^2+1}}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x8_x3 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x3 gamma^x4 gamma^x8 Phi",
+              "coefficient": {
+                "input": "(ad1*E^a4v)/(4*cc*(1 + cc^2)^(1/12))",
+                "tex": "\\frac{e^{a_4} (a_4')}{4 \\cot z \\sqrt[12]{\\cot z^2+1}}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x8_x5 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x4 gamma^x5 gamma^x8 Phi",
+              "coefficient": {
+                "input": "-1/4*ad1/(cc*(1 + cc^2)^(1/12)*E^a4v)",
+                "tex": "-\\frac{e^{-a_4} (a_4')}{4 \\cot z \\sqrt[12]{\\cot z^2+1}}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x8_x6 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x4 gamma^x6 gamma^x8 Phi",
+              "coefficient": {
+                "input": "-1/4*ad1/(cc*(1 + cc^2)^(1/12)*E^a4v)",
+                "tex": "-\\frac{e^{-a_4} (a_4')}{4 \\cot z \\sqrt[12]{\\cot z^2+1}}"
+              }
+            }
+          ]
+        },
+        {
+          "component": "K^x8_x7 (symmetrised)",
+          "terms": [
+            {
+              "bilinear": "Phibar gamma^x4 gamma^x7 gamma^x8 Phi",
+              "coefficient": {
+                "input": "-1/4*ad1/(cc*(1 + cc^2)^(1/12)*E^a4v)",
+                "tex": "-\\frac{e^{-a_4} (a_4')}{4 \\cot z \\sqrt[12]{\\cot z^2+1}}"
+              }
+            }
+          ]
+        }
+      ],
+      "offDiagonalConditions": "the off-diagonal field equations 0 = kappa T^mu_nu (mu != nu, not x4-x8) require the 15 bilinears B_abc = Phibar gamma^a gamma^b gamma^c Phi (frame gammas) to vanish: B_{i x4 x8} = 0 for i = x1..x3, x5..x7 (coefficients proportional to H and to a4'), and, when a4' != 0, B_{i j x4} = 0 for i = x1..x3, j = x5..x7",
+      "offDiagonalWitness": "exact solutions with all 15 bilinears zero and S != 0 exist: Phi = e^{-i w x4} Phi0, w = sqrt(M^2 - 9 H^2) (M^2 > 9 H^2), Phi0 = v1 + c v2 from the two A-eigenvectors with gamma^x1 gamma^x5 = gamma^x2 gamma^x6 = gamma^x3 gamma^x7 = -1 and +1, c = conj(v1^dagger C v2); checked exactly at (M, H) = (5, 1), (5, 4/3), (-5, 1) (wolfram report, condensate_diagonal_witness_exact)",
+      "theoremLinear": "Hypotheses: Phi a homogeneous on-shell condensate as above (classical, commuting), satisfying the off-diagonal conditions, a4 in C^2, (alpha1, alpha2, alpha3) != (0,0,0). Then p3 = p_t, so a4'' F(a4') = 0; F is a nonzero polynomial with finitely many roots, a4' is continuous, so a4'' = 0 on every interval: a4 = A H x4 + a0 (linear) with real A. The equations contain A only through A^2 (invariant under A -> -A): the extra times deflate for A > 0, which is a choice of sign (an initial condition), not selected by the equations; A < 0 (inflating extra times) is allowed on the same footing and A = 0 is the static case",
+      "einsteinConditions": "kappa sigmaT (m S + U) = -(3 A^2 + 21) H^2 - Lambda and kappa sigmaT (S U' - U) = (15 - 3 A^2) H^2 + Lambda",
+      "einsteinQuadraticU": "U = (lambda/2) S^2, m != 0: kappa sigmaT m S = -(36 H^2 + 2 Lambda) and A^2 = -kappa sigmaT S (m + lambda S)/(6 H^2) - 1 (real A needs kappa sigmaT S (m + lambda S) <= -6 H^2)",
+      "lovelockConditions": "kappa sigmaT (m S + U) = -(Lam + sum_k alpha_k E_(k)^x4_x4) and kappa sigmaT (S U' - U) = Lam + sum_k alpha_k E_(k)^x8_x8, both at a4' = A H (linearMember.rho, linearMember.p)"
+    },
+    "dirac16complex": {
+      "statement": "quantised Psi (SPEC section 6): every bilinear is replaced by the expectation value of the normal-ordered operator in the state, <:k_mu:>, <:S:>, <:U(S):> (note <U(S)> != U(<S>) in general); the trace identity sum_mu <:k_mu:> = <:(m + U'(S)) S:> is assumed to hold for the normal-ordered operators (to be confirmed by the theory branch)",
+      "rho": "sigmaT ( <:k4:> - <:L:> )",
+      "p3": "sigmaT ( <:L:> - <:k1:> )",
+      "pt": "sigmaT ( <:L:> - <:k5:> )",
+      "p8": "sigmaT ( <:L:> - <:k8:> )",
+      "evolution": "a4'' F(a4') = kappa sigmaT ( <:k5:> - <:k1:> ): a state with <:k1:> != <:k5:> would drive a4'' if it also met the remaining conditions (p3 + p_t = 2 p8, every expectation value independent of x8, off-diagonal components zero); no such state is constructed in Revision",
+      "kohnSham": "to be filled by Revision/kohn_sham: rho_KS(x4), p3_KS(x4), p_t_KS(x4), p8_KS(x4) from the occupied Kohn-Sham orbitals (with the Hartree and exchange terms); then constraint: sum_k alpha_k E_(k)^x4_x4 + Lam = -kappa rho_KS; evolution: a4'' F(a4') = kappa (p3_KS - p_t_KS); x8: sum_k alpha_k E_(k)^x8_x8 + Lam = kappa p8_KS; conditions: p3_KS + p_t_KS = 2 p8_KS, the x4-x8 component zero, and every component independent of x8 (a Kohn-Sham source with an x8 profile satisfies the equations only if these hold; otherwise the metric of SPEC section 1 is not an exact solution with that source). Evaluated on the recorded Kohn-Sham states (Revision/field_equations_a4/reports/ks-source-conditions.json): every nonzero ground state depends on x8 and violates p3 + p_t = 2 p8 pointwise and after integration over x8, so none is an admissible source; the Kohn-Sham history a4 = A H x4 is a PRESCRIBED test-field background without back-reaction (the linear member needs p3 = p_t = p8 and constant rho, which the Kohn-Sham gas does not have)",
+      "offDiagonal": "every off-diagonal expectation value <:T^mu_nu:> (mu != nu) must vanish, in particular the expectation values of the 15 three-gamma bilinears for a homogeneous state",
+      "homogeneousSingleMode": "if a state has <:k1:> = <:k5:> (e.g. all quanta at zero 3- and extra-time momentum), for every x4 (and the off-diagonal conditions hold), then a4'' F(a4') = 0 and the argument of the dirac16complex00 theorem gives a4 = A H x4 + a0 with real A (A -> -A is a symmetry of the equations; the sign of A is not selected)"
+    }
+  },
+  "checksSummary": "see reports/wolfram-a4-report.json"
+}

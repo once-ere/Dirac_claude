@@ -1,0 +1,222 @@
+{
+  "report": "Revision Kohn-Sham Rust solver: checks of the canonical matrix (SPEC section 7)",
+  "producer": "Revision/kohn_sham/solver (cargo run --release -- all)",
+  "numerics": "canonical",
+  "summary": {
+    "checks": 42,
+    "pass": 42,
+    "fail": 0
+  },
+  "checks": [
+    {
+      "name": "theory_input_coefficients",
+      "verdict": "PASS",
+      "detail": "ks-theory.json (sha256 1bf41d79318a24a4): M_eff = m + 0.9375 lambda S, v_v = -0.0625 lambda n, e_x = (-0.03125 n^2 + -0.03125 S^2) lambda; consistent: M_eff - m = d e_int/dS with e_int = (1/2 + -0.03125) lambda S^2 + -0.03125 lambda n^2, v_v = d e_int/dn"
+    },
+    {
+      "name": "gamma_fixture_numeric",
+      "verdict": "PASS",
+      "detail": "gammas.json (sha256 95d8cbdd0682fd30): {gamma^a, gamma^b} = 2 eta^ab exactly in floating point (max deviation 0e0), C = g8 g1 g2 g3 and B = -i C g4 reproduced (max deviation 0e0)"
+    },
+    {
+      "name": "block_reduction_numeric",
+      "verdict": "PASS",
+      "detail": "basis V of ks-theory.json (rows = spinor components): |V^dag V - 1| = 1.1e-16; off-block entries of V^dag X V 2.8e-17; diagonal blocks equal the solver's forms (i g4 g8 -> -i j sigma1, -i g4 -> j sigma2, -g4 g1 -> j sigma3, B B -> 1, B C -> j sigma2, B B g8 -> sigma3, -i B C g1 -> j sigma3, g8 -> sigma3, B -> j s2) to 1.1e-16: the 2x2 equation h_j = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v integrated by the solver is the 16-component Hamiltonian"
+    },
+    {
+      "name": "free_k0_analytic_spectra",
+      "verdict": "PASS",
+      "detail": "k = 0, constant M, v = 0, theta_tip = 0 (ks-theory.json boundaryConditions.exactK0Spectra) for (m, L) = (1, 3), (1, 2), (2, 3), labels -3..5 of both parities: even eps = 0 and +-sqrt(M^2 + (n pi/L)^2), odd eps = +-sqrt(M^2 + p^2) with tan(pL) = -p/M; max |difference| 7.23e-10 for |eps| < 4 m (tolerance 5e-9, RK4 error ~ (h eps)^4), 5.05e-8 for 4 m <= |eps| < 7 m (tolerance 3e-7)"
+    },
+    {
+      "name": "free_zero_mode_exact",
+      "verdict": "PASS",
+      "detail": "k = 0 brane zero mode (both j): eps = 0 exactly, chi = (a, 0) with b = 0 identically (max |b| = 0e0); a = sqrt(2M/(1 - e^(-2ML))) e^(My) to 1.35e-12 (normalised, Simpson)"
+    },
+    {
+      "name": "free_brane_band_slope",
+      "verdict": "PASS",
+      "detail": "d eps/dk at k = 0 of the even j = +1 brane band (Richardson extrapolation of eps(k)/k from k = 1e-4, 2e-4) equals ks-theory.json c = 1.9051482536448665 times e^(-a4,0) at a4,0 = [0.0, 0.5, 1.0, 1.5, 2.0] (M = H = 1, L = 3) to 1.87e-12 relative"
+    },
+    {
+      "name": "free_block_type_symmetries",
+      "verdict": "PASS",
+      "detail": "lambda = 0, n2 in {0,1,2,5,9}, labels -3..3: spec h_(-1) = -spec h_(+1) (label l <-> -l even, -l-1 odd) to 0.0e0; sigma3 h_j(k) sigma3 = h_(-j)(-k): eps_(-1)(-k) = eps_(+1)(k) label by label to 0.0e0"
+    },
+    {
+      "name": "free_particle_branch_labels",
+      "verdict": "PASS",
+      "detail": "for every shell n2 <= 30 and sector (j, parity): the lowest particle label l_min (first target above Phi(eps = 0)) has eps > 0 and l_min - 1 has eps < 0 (the branch split by the sign of the lambda = 0 level is a split of the Pruefer labels; closest level to zero away from the k = 0 zero modes: 0.4307 m); k = 0 even l_min = 0 is the zero mode (convention)"
+    },
+    {
+      "name": "free_tip_angle_insensitivity",
+      "verdict": "PASS",
+      "detail": "even j = +1 brane-band level at k = 0.25, 0.5, 1 with tip angles theta = 0, 0.5, 1 (tip family (1 - Q(theta)) chi(-L) = 0): the shift from theta = 0 is below the tip suppression factor exp(-k (kappa(-L) - kappa(0))/H) (spectrum/tip-angle.csv)"
+    },
+    {
+      "name": "free_rescaling_relation_and_band_monotone",
+      "verdict": "PASS",
+      "detail": "lambda = 0: eps(k, a4,0) = eps(k e^(-a4,0), 0) for k in {0.25, 1, 2.5}, a4,0 in [0.0, 0.5, 1.0, 1.5, 2.0], three sectors, to 0.0e0; the even j = +1 brane band is strictly increasing in k on [0, 4] (spectrum/brane-band.csv): true"
+    },
+    {
+      "name": "adiabatic_crossing_flag_demonstration",
+      "verdict": "PASS",
+      "detail": "lambda = 0, N = 696 (the smallest closed shell of the a4,0 = 0 aufbau that occupies a level off the even j = +1 brane band): the brane-band levels redshift below the k = 0 bulk level along the history, the instantaneous aufbau occupation changes (flagged: true) and the adiabatically continued state (a4,0 = 0 labels) lies at or above the aufbau ground state at every flagged slice: true (adiabatic/crossing-demo.csv)"
+    },
+    {
+      "name": "thermo_sea_hole_diagnostic_computed",
+      "verdict": "PASS",
+      "detail": "DIAGNOSTIC of the filling CONVENTION (not a validation): for every thermal state the number of thermal holes the excluded sea brane band (j = -1, even, l = 0, eps < 0) would carry at the same mu and T was computed; it exceeds 1% of N in 15 of 135 states (largest 30.976 N): there the particle-only Mermin ensemble is outside its range of validity and a thermal treatment of the sea (pairs) would be required; listed: N8_lam0_a10_T50 (0.097), N8_lam0_a15_T50 (2.054), N8_lam0_a20_T20 (0.133), N8_lam0_a20_T50 (30.804), N8_lamp1_a10_T50 (0.097), N8_lamp1_a15_T50 (2.044), N8_lamp1_a20_T20 (0.132), N8_lamp1_a20_T50 (30.623), N8_lamm1_a10_T50 (0.098), N8_lamm1_a15_T50 (2.064), N8_lamm1_a20_T20 (0.133), N8_lamm1_a20_T50 (30.976), N136_lam0_a20_T50 (0.112), N136_lamp1_a20_T50 (0.111), N136_lamm1_a20_T50 (0.113)"
+    },
+    {
+      "name": "thermo_mu_well_conditioned_root",
+      "verdict": "PASS",
+      "detail": "every thermal state (135 of 135): mu is the root of sum g f = N in the well-conditioned form LogBalance of solver/src/mermin.rs (thermal particles above and holes below a split of the levels, complementary factors f(-x), never 1 - f) on its final levels, bit for bit: true; the two exactly equivalent forms LogBalance and LinearDeviation (different rounding paths; the refined run uses LinearDeviation) agree within the rounding bound (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + 2 eps_mach |mu|: max |difference| 2.429e-16 (N136_lamp1_a20_T50), max ratio to the bound 0.360 (N136_lamm1_a05_T10), largest bound 4.74e-14; split passes at most 2. DIAGNOSTIC of the error class removed: the former direct count sum g f - N (bisection) deviates from the LogBalance root by more than 1e-12 m in 3 states, each within its conditioning bound (n + 2) eps_mach N/(dN/dmu): true; largest: N8_lamm1_a00_T10 -8.267e-10 (dN/dmu 1.242e-6, its bound 1.29e-8); N8_lam0_a00_T10 2.722e-10 (dN/dmu 1.229e-6, its bound 1.01e-8); N8_lamp1_a00_T10 6.959e-11 (dN/dmu 1.216e-6, its bound 1.31e-8); N8_lamp1_a05_T10 -4.000e-13 (dN/dmu 3.302e-3, its bound 8.07e-12); N8_lam0_a05_T10 -1.716e-13 (dN/dmu 3.329e-3, its bound 5.34e-12)"
+    },
+    {
+      "name": "thermo_mu_vs_40digit_roots",
+      "verdict": "PASS",
+      "detail": "the root finder on fixed inputs: tools/mermin-roots-40digit.json (sha256 fd727e7a576e1324) holds the exact final levels (shortest round-trip decimals of `single --mermin-levels`) of the 8 thermal states with the largest conditioning bound of the direct count and the roots of sum g f = N computed by tools/mermin_roots_mp.py with mpmath at 40 digits; |mu - root| of both forms within their rounding bounds: true (largest ratio 0.303, largest bound 1.5e-16); LogBalance reproduces the recorded canonical mu bit for bit: true; negative control: the former direct count misses the root by up to 8.267e-10 (N8_lamm1_a00_T10), 5.6e6 times the largest new bound. Per state: N8_lamp1_a00_T10 (7 levels, dN/dmu 1.216e-6): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 1.1e-16, 1.1e-16); former direct count 6.959e-11 (its bound 1.3e-8); N8_lamm1_a00_T10 (7 levels, dN/dmu 1.242e-6): LogBalance -2.8e-17, LinearDeviation 0.0e0 (bounds 1.1e-16, 1.1e-16); former direct count -8.267e-10 (its bound 1.3e-8); N8_lam0_a00_T10 (5 levels, dN/dmu 1.229e-6): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 1.1e-16, 1.1e-16); former direct count 2.722e-10 (its bound 1.0e-8); N8_lamp1_a05_T10 (13 levels, dN/dmu 3.302e-3): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 9.1e-17, 9.1e-17); former direct count -4.000e-13 (its bound 8.1e-12); N8_lamm1_a05_T10 (13 levels, dN/dmu 3.359e-3): LogBalance 0.0e0, LinearDeviation -2.8e-17 (bounds 9.1e-17, 9.1e-17); former direct count -1.527e-15 (its bound 7.9e-12); N8_lam0_a05_T10 (8 levels, dN/dmu 3.329e-3): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 8.0e-17, 8.0e-17); former direct count -1.716e-13 (its bound 5.3e-12); N8_lamp1_a00_T20 (11 levels, dN/dmu 2.903e-2): LogBalance 0.0e0, LinearDeviation -2.8e-17 (bounds 1.5e-16, 1.5e-16); former direct count -2.803e-15 (its bound 8.0e-13); N8_lamm1_a00_T20 (11 levels, dN/dmu 2.934e-2): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 1.5e-16, 1.5e-16); former direct count -6.406e-14 (its bound 7.9e-13)"
+    },
+    {
+      "name": "t3_block_map_solver_selftest",
+      "verdict": "PASS",
+      "detail": "numerical self-test of the solver for the Kohn-Sham-level block map of ks-theory.json blockForms.Gamma (NOT a proof of T3, which is owned by Revision/pairing/kohn_sham and not established here): (m, lambda, tip theta = 0) and (-m, lambda, tip theta = pi) solved independently give the same sorted levels, occupations, E_KS and EMT integrals and opposite S (worst 9.95e-14, tolerance 1e-9): N = 8, lambda = 0.01946, a4,0 = 1: E_KS -9.868426190876e-4 vs -9.868426190868e-4; 80 levels; max |delta| of sorted (eps, g, f) 6.91e-14, EMT integrals 8.96e-16, |S_a + S_b|/max|S| 1.97e-15; negative control (-m, lambda, untransformed tip b(-L) = 0): E_KS = -2.0145243719e0 vs -9.8684261909e-4 (difference -2.014e0) | N = 136, lambda = 0.0009298, a4,0 = 1: E_KS 3.239294915318e1 vs 3.239294915318e1; 160 levels; max |delta| of sorted (eps, g, f) 9.95e-14, EMT integrals 4.39e-16, |S_a + S_b|/max|S| 1.05e-15; negative control (-m, lambda, untransformed tip b(-L) = 0): E_KS = 2.9283751318e1 vs 3.2392949153e1 (difference -3.109e0)"
+    },
+    {
+      "name": "adiabatic_hellmann_feynman",
+      "verdict": "PASS",
+      "detail": "d eps_n/da4 (Richardson differences of the self-consistent levels) = <n| d_a h |n> with d_a h = -j kappa k sigma3 + j (d_a M_eff) sigma2 + d_a v_v (+ d_a w_Q sigma3): max absolute deviation (units of m); 75 cases; worst value 2.609e-9 (N688_lamm2_a00); tolerance 1.0e-7; failures: none"
+    },
+    {
+      "name": "emt_energy_change_dE_da4",
+      "verdict": "PASS",
+      "detail": "dE/da4 at fixed occupations (self-consistent states at a4 +- delta, +- 2 delta, delta = 2e-3, Richardson) = -6 Vol_7 int e^{6Hy}(p3 - p_t) dy (nabla_mu T^mu_x4 = 0, Hellmann-Feynman): |difference| / max(sum g f |eps|, m); 75 cases; worst value 1.505e-10 (N136_lamp1_a20); tolerance 1.0e-8; failures: none"
+    },
+    {
+      "name": "emt_energy_integral",
+      "verdict": "PASS",
+      "detail": "2 Vol_7 int e^{6Hy} rho dy = E_KS: relative difference; 75 cases; worst value 1.628e-15 (N688_lamm1_a10); tolerance 1.0e-11; failures: none"
+    },
+    {
+      "name": "emt_trace_derivative_form",
+      "verdict": "PASS",
+      "detail": "derivative form of the y-kinetic term j(a b' - b a') = (eps - v)(a^2+b^2) - M j 2ab - kappa k j(a^2-b^2) (orbital equation residual from finite differences of the stored occupied orbitals): max relative deviation; 75 cases; worst value 4.894e-8 (N688_lamp2_a15); tolerance 1.0e-5; failures: none"
+    },
+    {
+      "name": "emt_y_conservation_integrated",
+      "verdict": "PASS",
+      "detail": "[e^{6Hy} p8]_{-L}^{0} = 3H int e^{6Hy} (p3 + p_t) dy (nabla_mu T^mu_y = 0): relative difference; 75 cases; worst value 1.422e-11 (N8_lamp2_a00); tolerance 1.0e-7; failures: none"
+    },
+    {
+      "name": "emt_y_conservation_pointwise",
+      "verdict": "PASS",
+      "detail": "(e^{6Hy} p8)' = 3H e^{6Hy}(p3 + p_t) on the node grid (4th-order differences): max relative residual; 75 cases; worst value 1.951e-8 (N8_lamp2_a00); tolerance 1.0e-5; failures: none"
+    },
+    {
+      "name": "excited_delta_scf_free_equals_gap",
+      "verdict": "PASS",
+      "detail": "lambda = 0: Delta-SCF excitation energy equals the KS gap exactly (|difference|, units of m); 15 cases; worst value 2.011e-11 (N688_lam0_a10); tolerance 1.0e-10; failures: none"
+    },
+    {
+      "name": "excited_scf_converged",
+      "verdict": "PASS",
+      "detail": "Delta-SCF state (fixed ensemble occupations) converged: final residual; 75 cases; worst value 9.780e-12 (N688_lamm2_a15); tolerance 1.0e-11; failures: none"
+    },
+    {
+      "name": "exx_variant_scf_converged",
+      "verdict": "PASS",
+      "detail": "exact-Fock-exchange variant (w_Q = lambda Q/16 sigma3, + lambda Q^2/32) converged from the uniform-gas state; 60 cases; worst value 9.699e-12 (N688_lamp2_a15); tolerance 1.0e-11; failures: none"
+    },
+    {
+      "name": "exx_variant_y_conservation",
+      "verdict": "PASS",
+      "detail": "exact-Fock variant: (e^{6Hy} p8)' = 3H e^{6Hy}(p3 + p_t) with p8 including -w_Q Q (derived): integrated relative residual; 60 cases; worst value 3.199e-11 (N8_lamp2_a00); tolerance 1.0e-7; failures: none"
+    },
+    {
+      "name": "ground_N_conservation",
+      "verdict": "PASS",
+      "detail": "particle number: |sum g f - N| and |2 Vol_7 int e^{6Hy} n dy - N| / N (doubled system; the patch holds N/2); 75 cases; worst value 1.463e-15 (N136_lamm1_a10); tolerance 1.0e-9; failures: none"
+    },
+    {
+      "name": "ground_closed_shell",
+      "verdict": "PASS",
+      "detail": "the aufbau ground state is closed-shell (no fractionally occupied degenerate level; value 1 = open); 75 cases; worst value 0.000e0 (N8_lam0_a00); tolerance 0.0e0; failures: none"
+    },
+    {
+      "name": "ground_energy_two_forms",
+      "verdict": "PASS",
+      "detail": "E_KS = sum g f eps - 2 Vol_7 int e^{6Hy} e_int equals the variational form (input potentials, output densities): relative difference; 75 cases; worst value 2.222e-13 (N136_lamp1_a20); tolerance 1.0e-9; failures: none"
+    },
+    {
+      "name": "ground_orbital_boundary_conditions",
+      "verdict": "PASS",
+      "detail": "max over orbitals of the brane-condition residual |b(0)| (even) or |a(0)| (odd) of the normalised orbital; 75 cases; worst value 2.829e-13 (N136_lamp2_a20); tolerance 1.0e-8; failures: none"
+    },
+    {
+      "name": "ground_runs_completed",
+      "verdict": "PASS",
+      "detail": "every run of the canonical matrix completed (ground, a4 +- delta, Delta-SCF, rescaling partner, exact-Fock variant); 75 cases; worst value 0.000e0 (N8_lam0_a00); tolerance 0.0e0; failures: none"
+    },
+    {
+      "name": "ground_scf_converged",
+      "verdict": "PASS",
+      "detail": "Kohn-Sham SCF (Anderson mixing) converged: final max |potential residual| (units of m); 75 cases; worst value 9.340e-12 (N136_lamp1_a15); tolerance 1.0e-11; failures: none"
+    },
+    {
+      "name": "ground_window_complete",
+      "verdict": "PASS",
+      "detail": "label set complete: the lowest level outside the label set lies above the LUMO (value: LUMO - lowest excluded, must be < 0); 75 cases; worst value -2.548e-1 (N688_lam0_a20); tolerance 0.0e0; failures: none"
+    },
+    {
+      "name": "rescaling_identity_between_slices",
+      "verdict": "PASS",
+      "detail": "KS(a4,0; dk, v_t, lambda) = KS(0; dk e^{-a4,0}, v_t e^{-3 a4,0}, lambda), solved independently: same label set and occupations, max |delta eps| (units of m); 60 cases; worst value 1.478e-13 (N136_lamp1_a05); tolerance 1.0e-9; failures: none"
+    },
+    {
+      "name": "rescaling_identity_energy_profiles",
+      "verdict": "PASS",
+      "detail": "rescaling partner: relative difference of E_KS and max relative difference of the proper profiles n, S, rho, p3, p8; 60 cases; worst value 3.318e-13 (N136_lamp1_a05); tolerance 1.0e-8; failures: none"
+    },
+    {
+      "name": "thermo_CV_identity",
+      "verdict": "PASS",
+      "detail": "C_V = T dS/dT (reported; S is computed from the occupations and is well conditioned) equals dE/dT at fixed N (self-consistent Mermin states at T +- dT, T +- 2 dT, dT = 0.01 T, Richardson): |difference| / (1e-4 max(|dE/dT|, |T dS/dT|) + eta), eta = N x root tolerance / dT the noise floor of a difference quotient of energies (it dominates only where the thermal change of E over dT is below ~1e-11, i.e. deep in the activated regime); 135 cases; worst value 1.202e-1 (N8_lamm1_a00_T10); tolerance 1.0e0; failures: none"
+    },
+    {
+      "name": "thermo_N_conservation",
+      "verdict": "PASS",
+      "detail": "Mermin: |sum g f - N| at the converged mu; 135 cases; worst value 3.070e-12 (N688_lamm1_a20_T50); tolerance 1.0e-9; failures: none"
+    },
+    {
+      "name": "thermo_entropy_identity",
+      "verdict": "PASS",
+      "detail": "-dF/dT = S (Richardson differences): |difference| / (1e-4 S + eta), eta as for thermo_CV_identity; 135 cases; worst value 1.335e-1 (N8_lamm1_a00_T10); tolerance 1.0e0; failures: none"
+    },
+    {
+      "name": "thermo_grand_potential_two_forms",
+      "verdict": "PASS",
+      "detail": "Omega = -T sum g ln(1 + e^{-(eps-mu)/T}) - 2 Vol_7 int e^{6Hy} e_int equals F - mu N = E - T S - mu N: relative difference; 135 cases; worst value 1.748e-14 (N688_lamm1_a20_T50); tolerance 1.0e-10; failures: none"
+    },
+    {
+      "name": "thermo_runs_completed",
+      "verdict": "PASS",
+      "detail": "every thermal run (T, T(1 +- dt)) completed; 135 cases; worst value 0.000e0 (N8_lam0_a00_T10); tolerance 0.0e0; failures: none"
+    },
+    {
+      "name": "thermo_scf_converged",
+      "verdict": "PASS",
+      "detail": "Mermin SCF converged at T, T +- dT, T +- 2 dT (dT = 0.01 T): max final residual; 135 cases; worst value 9.992e-12 (N136_lamp1_a20_T20); tolerance 1.0e-11; failures: none"
+    },
+    {
+      "name": "thermo_window_cut",
+      "verdict": "PASS",
+      "detail": "occupation at the thermal window cut f(ecut) (levels above the cut are omitted); 135 cases; worst value 1.800e-14 (N688_lam0_a10_T50); tolerance 2.0e-12; failures: none"
+    },
+    {
+      "name": "thermo_window_shells_beyond",
+      "verdict": "PASS",
+      "detail": "the free levels of the five shells beyond the thermal label set lie above the cut (value: cut - lowest such level, must be < 0); 135 cases; worst value -2.202e-5 (N136_lamp1_a20_T50); tolerance 0.0e0; failures: none"
+    }
+  ]
+}

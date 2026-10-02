@@ -1,0 +1,369 @@
+{
+  "producer": "Revision/pairing/python/check_pairing.py",
+  "spec": "Revision/SPEC.md section 9 (pairing of universes of masses {+m, -m}, both fields)",
+  "independence": "sympy only; gammas re-built from the author's tau formulas; no code shared with Revision/pairing/wolfram",
+  "conventions": {
+    "coordinates": "x1..x3 3-space, x4 time, x5..x7 the exponentially deflating extra times, x8 hidden (z = 6 H x8)",
+    "lagrangian": "L = sqrt|g| [ (1/2)(Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi) - m S - (lambda/2) S^2 ], Psibar = Psi^dagger C, S = Psibar Psi",
+    "emt": "T_mu nu = (1/4)[Psibar gamma_mu D_nu Psi + Psibar gamma_nu D_mu Psi - (D_mu Psibar) gamma_nu Psi - (D_nu Psibar) gamma_mu Psi] - g_mu nu L/sqrt|g|",
+    "current": "J^mu = i Psibar gamma^mu Psi",
+    "mirror": "R: z -> pi - z (x8 -> pi/(6H) - x8), Z2 brane at z = pi/2 (ASSUMED boundary construction); positive frame e^(x8)_(x8) = |cot z| on both sides; Lambda = diag(1,1,1,1,1,1,1,-1)",
+    "statistics": "commuting jets = dirac16complex00 (classical); Grassmann jets = dirac16complex (anticommuting, the same identities hold as operator identities before normal ordering)"
+  },
+  "theorems_verified": {
+    "T1": "L_{m,lambda}[Gamma Psi] = -L_{-m,-lambda}[Psi]; E_{m,lambda}[Gamma Psi] = -Gamma E_{-m,-lambda}[Psi]; T[Gamma Psi; m, lambda] = -T[Psi; -m, -lambda]; J[Gamma Psi] = -J[Psi]; for the pair (Psi, m, lambda) and (Gamma Psi, -m, -lambda): T + T = 0 and J + J = 0 identically; both statistics; the metric of SPEC section 1 and any gravitational field",
+    "T2": "with P = gamma^(x8) = Gamma (Gamma gamma^(x8)) and the mirror z -> pi - z: L_{m,lambda}[P Psi(Rx)](x) = +L_{-m,lambda}[Psi](Rx); EL map; T pulled back (no sign change); J pulled back; S -> -S; both statistics",
+    "quantum": "{Psi, Psi^dagger} = B/sqrt|g|; the image Gamma Psi carries -B; its own generators (-h) reproduce the same dynamics; no operator cancellation between two independently quantised universes"
+  },
+  "not_established": [
+    "No creation process: nothing in these equations produces a universe, a pair of universes or a change of the number of universes; no transition between 'no universe' and 'two universes' is described.",
+    "No rate, probability or amplitude for creating a pair is derived; no wave function of the universe, path integral or tunnelling computation is part of these theorems.",
+    "No conservation law forces pairing: the theorems are symmetries (maps between solutions); a single universe with mass +m is an equally valid solution of the field equations without its partner.",
+    "The vanishing total energy-momentum and charge of a pair (T1) is an identity for a field configuration and its image (classical bilinears, or one operator and its image); it is not a cancellation between two independently quantised universes (Q.no_cancellation_independent_universes).",
+    "T2 does not reverse the sign of the energy-momentum tensor: the mirror universe of mass -m has the pulled-back T of the original, not -T.",
+    "The Z2 brane at z = pi/2 and the mirror construction are ASSUMED (a boundary/orbifold choice), not derived from the field equations.",
+    "The gravitational back-reaction (the a4 equations of SPEC section 5) is not part of the pairing theorems; T1 maps T -> -T, so a pair sourcing ONE common geometry would have zero total source, which is a statement about sources, not a derivation that such a geometry is created.",
+    "No dynamical necessity: nothing forces the partner configuration to exist; the theorems are correspondences between solutions of two parameter sets, not a mechanism.",
+    "T1 pairs (m, lambda) with (-m, -lambda): for lambda != 0 it is not a pure +m / -m pairing; the pure pairing (m, lambda) -> (-m, lambda) is T2, at EQUAL (not opposite) energy-momentum.",
+    "Quantum positivity: in flat 4+4 space every real-frequency energy eigenspace of the one-particle generator has Krein inertia (4,4) (Q.one_particle_Krein_inertia_proof) and every imaginary- or zero-frequency eigenspace (the growing extra-time modes) is Krein-neutral (Q.one_particle_complex_frequency_Krein_neutral); a positive-norm Fock space for either universe is not established by these theorems.",
+    "The brane z = pi/2 is a degenerate surface of the metric (g_88 = cot^2 z = 0, sqrt|g| = cos z = 0 there, geometry.brane_degenerate); no junction condition, brane tension or matching of the field across it is derived.",
+    "The Kohn-Sham level (T3) is not covered by this checker; it is proved separately in Revision/pairing/kohn_sham/ (check_t3.py, with its own hypotheses: ASSUMED Z2 brane, instantaneous mean-field Kohn-Sham states)."
+  ],
+  "counts": {
+    "pass": 66,
+    "fail": 0,
+    "pending": 0
+  },
+  "checks": [
+    {
+      "name": "gammas.clifford",
+      "verdict": "PASS",
+      "detail": "{gamma^a, gamma^b} = 2 eta^ab I16 exactly, eta = diag(+1,+1,+1,-1,-1,-1,-1,+1) in x1..x8, for the gammas re-built here from the author's tau formulas"
+    },
+    {
+      "name": "gammas.C",
+      "verdict": "PASS",
+      "detail": "C = gamma^(x8) gamma^(x1) gamma^(x2) gamma^(x3) is real symmetric, C^2 = 1, C gamma^a real antisymmetric (a = x1..x8)"
+    },
+    {
+      "name": "gammas.Gamma",
+      "verdict": "PASS",
+      "detail": "Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) = diag(-I8, I8) (diagonal [-1, -1, -1, -1, -1, -1, -1, -1, 1, 1, 1, 1, 1, 1, 1, 1])"
+    },
+    {
+      "name": "gammas.Gamma_anticommutes",
+      "verdict": "PASS",
+      "detail": "Gamma^2 = 1 and Gamma gamma^a = -gamma^a Gamma for all eight a; hence [Gamma, S^ab] = 0 and Gamma C = C Gamma"
+    },
+    {
+      "name": "gammas.B",
+      "verdict": "PASS",
+      "detail": "B = -i C gamma^(x4) is Hermitian, B^2 = 1, eigenvalues +1 (8 times) and -1 (8 times): signature (8,8)"
+    },
+    {
+      "name": "gammas.equal_wolfram_fixture",
+      "verdict": "PASS",
+      "detail": "the eight gammas, C, Gamma and B built here equal Revision/algebra/gammas.json entry by entry"
+    },
+    {
+      "name": "geometry.omega_antisymmetric",
+      "verdict": "PASS",
+      "detail": "the canonical spin connection omega_mu ab = eta_ac omega_mu^c_b of the metric of SPEC section 1 is antisymmetric in (a, b) for all mu"
+    },
+    {
+      "name": "geometry.gamma_covariantly_constant",
+      "verdict": "PASS",
+      "detail": "d_mu gamma^nu + Gamma^nu_mu lam gamma^lam + [Omega_mu, gamma^nu] = 0 for all mu, nu (the vielbein postulate holds for Omega_mu = (1/2) omega_mu ab S^ab)"
+    },
+    {
+      "name": "geometry.spin_connection_components",
+      "verdict": "PASS",
+      "detail": "nonzero components (a < b): omega_x1 x1x4 = a4p*exp(a4)*sin(z)**(1/6); omega_x1 x1x8 = H*exp(a4)*sin(z)**(1/6); omega_x2 x2x4 = a4p*exp(a4)*sin(z)**(1/6); omega_x2 x2x8 = H*exp(a4)*sin(z)**(1/6); omega_x3 x3x4 = a4p*exp(a4)*sin(z)**(1/6); omega_x3 x3x8 = H*exp(a4)*sin(z)**(1/6); omega_x5 x4x5 = -a4p*exp(-a4)*sin(z)**(1/6); omega_x5 x5x8 = -H*exp(-a4)*sin(z)**(1/6); omega_x6 x4x6 = -a4p*exp(-a4)*sin(z)**(1/6); omega_x6 x6x8 = -H*exp(-a4)*sin(z)**(1/6); omega_x7 x4x7 = -a4p*exp(-a4)*sin(z)**(1/6); omega_x7 x7x8 = -H*exp(-a4)*sin(z)**(1/6)"
+    },
+    {
+      "name": "geometry.brane_degenerate",
+      "verdict": "PASS",
+      "detail": "sqrt|g| = cos(z) on the patch; at the brane z = pi/2: g_88 -> 0 and sqrt|g| -> 0 (a degenerate surface of the metric)"
+    },
+    {
+      "name": "geometry.mirror_isometry",
+      "verdict": "PASS",
+      "detail": "g_mu mu(pi - z) = g_mu mu(z) for every component: z -> pi - z (x8 -> pi/(6H) - x8, the Z2 brane at z = pi/2) is an isometry of the metric of SPEC section 1"
+    },
+    {
+      "name": "T1.general_field.matrix_identities",
+      "verdict": "PASS",
+      "detail": "Gamma^T M Gamma = -M for all 456 kinetic and connection basis matrices M (C gamma^a; C gamma^a S^bc; C S^bc gamma^a) and Gamma^T C Gamma = +C; since Gamma is constant and real, for ANY vielbein, spin connection and sqrt|g|: L_{m,lambda}[Gamma Psi] = -L_{-m,-lambda}[Psi], the EL map, J -> -J, and (the identity holding for every vielbein) T_mu nu -> -T_mu nu, for both statistics"
+    },
+    {
+      "name": "T2.general_field.matrix_identities",
+      "verdict": "PASS",
+      "detail": "gamma^(x8)^T C gamma^(x8) = -C; gamma^(x8)^T C gamma^a gamma^(x8) = C Lambda^a_b gamma^b; gamma^(x8)^-1 S^ab gamma^(x8) = Lambda^a Lambda^b S^ab (Lambda = diag(1,1,1,1,1,1,1,-1)); (Gamma gamma^(x8))^-1 gamma^a (Gamma gamma^(x8)) = Lambda^a_b gamma^b and (Gamma gamma^(x8))^T C (Gamma gamma^(x8)) = -C; gamma^(x8)^-1 gamma^a gamma^(x8) = -Lambda^a_b gamma^b. Hence in ANY field with an isometry reflecting the x8 frame direction the hidden-direction reflection with gamma^(x8) maps (m, lambda) -> (-m, lambda), L -> +L"
+    },
+    {
+      "name": "T2.general_field.reflection_table",
+      "verdict": "PASS",
+      "detail": "spinor matrix gamma^(b) with the frame reflection of direction b: x1: S -> -S, kinetic invariant; x2: S -> -S, kinetic invariant; x3: S -> -S, kinetic invariant; x4: S -> +S, kinetic -1; x5: S -> +S, kinetic -1; x6: S -> +S, kinetic -1; x7: S -> +S, kinetic -1; x8: S -> -S, kinetic invariant. The space-like reflections (x1, x2, x3, x8) give (m, lambda) -> (-m, lambda), L -> +L; the time-like ones (x4..x7) give L -> -L_{-m,-lambda}"
+    },
+    {
+      "name": "T1.general_field.random_instance.commuting",
+      "verdict": "PASS",
+      "detail": "dirac16complex00, a random exact non-diagonal vielbein and connection (seed 20261001): L_{m,lambda}[Gamma Psi] + L_{-m,-lambda}[Psi] = 0 and E_{m,lambda}[Gamma Psi] + Gamma E_{-m,-lambda}[Psi] = 0 (17 components identically zero)"
+    },
+    {
+      "name": "T1.general_field.random_instance.grassmann",
+      "verdict": "PASS",
+      "detail": "dirac16complex, a random exact non-diagonal vielbein and connection (seed 20261001): L_{m,lambda}[Gamma Psi] + L_{-m,-lambda}[Psi] = 0 and E_{m,lambda}[Gamma Psi] + Gamma E_{-m,-lambda}[Psi] = 0 (17 components identically zero)"
+    },
+    {
+      "name": "T1.metric.commuting.S_invariant",
+      "verdict": "PASS",
+      "detail": "dirac16complex00: S[Gamma Psi] - S[Psi] = 0 (1 components identically zero)"
+    },
+    {
+      "name": "T1.metric.commuting.lagrangian",
+      "verdict": "PASS",
+      "detail": "dirac16complex00, metric of SPEC section 1 with the canonical spin connection: L_{m,lambda}[Gamma Psi] + L_{-m,-lambda}[Psi] = 0 on the full first jet (1 components identically zero)"
+    },
+    {
+      "name": "T1.metric.commuting.negative_controls",
+      "verdict": "PASS",
+      "detail": "dirac16complex00: L_{m,lambda}[Gamma Psi] + L_{m,lambda}[Psi] != 0 and L_{m,lambda}[Gamma Psi] + L_{-m,lambda}[Psi] != 0 (the checker detects a wrong mass/coupling map)"
+    },
+    {
+      "name": "T1.metric.commuting.euler_lagrange_derived",
+      "verdict": "PASS",
+      "detail": "dirac16complex00: dL/dPsi^*_A - d_mu dL/d(d_mu Psi^*_A) = sqrt|g| [C (gamma^mu D_mu Psi - (m + lambda S) Psi)]_A for all 16 A, i.e. the EL equation gamma^mu D_mu Psi = (m + U'(S)) Psi (16 components identically zero)"
+    },
+    {
+      "name": "T1.metric.commuting.euler_lagrange_map",
+      "verdict": "PASS",
+      "detail": "dirac16complex00: E_{m,lambda}[Gamma Psi] = -Gamma E_{-m,-lambda}[Psi]; so Psi solves the (-m,-lambda) equations iff Gamma Psi solves the (m,lambda) equations (16 components identically zero)"
+    },
+    {
+      "name": "T1.metric.commuting.emt",
+      "verdict": "PASS",
+      "detail": "dirac16complex00: T_mu nu[Gamma Psi; m, lambda] = -T_mu nu[Psi; -m, -lambda] for all 36 components mu <= nu (36 components identically zero)"
+    },
+    {
+      "name": "T1.metric.commuting.pair_total_emt_zero",
+      "verdict": "PASS",
+      "detail": "dirac16complex00: the pair (Psi with (m, lambda), Gamma Psi with (-m, -lambda)) has T_mu nu[Psi; m, lambda] + T_mu nu[Gamma Psi; -m, -lambda] = 0 identically (all 36 components) (36 components identically zero)"
+    },
+    {
+      "name": "T1.metric.commuting.current",
+      "verdict": "PASS",
+      "detail": "dirac16complex00: J^mu[Gamma Psi] = -J^mu[Psi] (J^mu = i Psibar gamma^mu Psi); the pair's total charge current vanishes identically (8 components identically zero)"
+    },
+    {
+      "name": "T1.metric.grassmann.S_invariant",
+      "verdict": "PASS",
+      "detail": "dirac16complex: S[Gamma Psi] - S[Psi] = 0 (1 components identically zero)"
+    },
+    {
+      "name": "T1.metric.grassmann.lagrangian",
+      "verdict": "PASS",
+      "detail": "dirac16complex, metric of SPEC section 1 with the canonical spin connection: L_{m,lambda}[Gamma Psi] + L_{-m,-lambda}[Psi] = 0 on the full first jet (1 components identically zero)"
+    },
+    {
+      "name": "T1.metric.grassmann.negative_controls",
+      "verdict": "PASS",
+      "detail": "dirac16complex: L_{m,lambda}[Gamma Psi] + L_{m,lambda}[Psi] != 0 and L_{m,lambda}[Gamma Psi] + L_{-m,lambda}[Psi] != 0 (the checker detects a wrong mass/coupling map)"
+    },
+    {
+      "name": "T1.metric.grassmann.euler_lagrange_derived",
+      "verdict": "PASS",
+      "detail": "dirac16complex: dL/dPsi^*_A - d_mu dL/d(d_mu Psi^*_A) = sqrt|g| [C (gamma^mu D_mu Psi - (m + lambda S) Psi)]_A for all 16 A, i.e. the EL equation gamma^mu D_mu Psi = (m + U'(S)) Psi (16 components identically zero)"
+    },
+    {
+      "name": "T1.metric.grassmann.euler_lagrange_map",
+      "verdict": "PASS",
+      "detail": "dirac16complex: E_{m,lambda}[Gamma Psi] = -Gamma E_{-m,-lambda}[Psi]; so Psi solves the (-m,-lambda) equations iff Gamma Psi solves the (m,lambda) equations (16 components identically zero)"
+    },
+    {
+      "name": "T1.metric.grassmann.emt",
+      "verdict": "PASS",
+      "detail": "dirac16complex: T_mu nu[Gamma Psi; m, lambda] = -T_mu nu[Psi; -m, -lambda] for all 36 components mu <= nu (36 components identically zero)"
+    },
+    {
+      "name": "T1.metric.grassmann.pair_total_emt_zero",
+      "verdict": "PASS",
+      "detail": "dirac16complex: the pair (Psi with (m, lambda), Gamma Psi with (-m, -lambda)) has T_mu nu[Psi; m, lambda] + T_mu nu[Gamma Psi; -m, -lambda] = 0 identically (all 36 components) (36 components identically zero)"
+    },
+    {
+      "name": "T1.metric.grassmann.current",
+      "verdict": "PASS",
+      "detail": "dirac16complex: J^mu[Gamma Psi] = -J^mu[Psi] (J^mu = i Psibar gamma^mu Psi); the pair's total charge current vanishes identically (8 components identically zero)"
+    },
+    {
+      "name": "T2.metric.commuting.reflection_table",
+      "verdict": "PASS",
+      "detail": "dirac16complex00, mirror across the Z2 brane z -> pi - z with the positive frame on both sides: P = 1: no relation L_mirror = sigma L_patch(R x) with (m, lambda) -> (+-m, +-lambda); P = Gamma: no relation L_mirror = sigma L_patch(R x) with (m, lambda) -> (+-m, +-lambda); P = gamma^(x8): L_{m,lambda}[P Psi(Rx)] = + L_{-m,lambda}[Psi](Rx); P = Gamma gamma^(x8): L_{m,lambda}[P Psi(Rx)] = - L_{m,-lambda}[Psi](Rx). So the reflection Gamma gamma^(x8) (spinor action P^-1 gamma^a P = Lambda^a_b gamma^b, character -1 on S) gives L -> -L_{m,-lambda}; combined with Gamma (Gamma Gamma gamma^(x8) = gamma^(x8)) it gives T2: (m, lambda) -> (-m, lambda), L -> +L"
+    },
+    {
+      "name": "T2.metric.commuting.euler_lagrange_map",
+      "verdict": "PASS",
+      "detail": "dirac16complex00: E_{m,lambda}[gamma^(x8) Psi(Rx)](x) = -gamma^(x8) E_{-m,lambda}[Psi](Rx): Psi solves the (-m, lambda) equations on the patch iff its mirror image solves the (m, lambda) equations on the mirror patch (16 components identically zero)"
+    },
+    {
+      "name": "T2.metric.commuting.emt",
+      "verdict": "PASS",
+      "detail": "dirac16complex00: T_mu nu[gamma^(x8) Psi(Rx); m, lambda](x) = Lambda_mu Lambda_nu T_mu nu[Psi; -m, lambda](Rx) (the pull-back by R; no sign change of the energy density) (36 components identically zero)"
+    },
+    {
+      "name": "T2.metric.commuting.current",
+      "verdict": "PASS",
+      "detail": "dirac16complex00: J^mu[mirror image](x) = Lambda^mu J^mu[Psi](Rx): the charge density J^(x4) is unchanged (8 components identically zero)"
+    },
+    {
+      "name": "T2.metric.commuting.S_odd",
+      "verdict": "PASS",
+      "detail": "dirac16complex00: S[gamma^(x8) Psi] = -S[Psi] (S is a pseudo-scalar under the hidden-direction reflection because C contains gamma^(x8)) (1 components identically zero)"
+    },
+    {
+      "name": "T2.metric.grassmann.reflection_table",
+      "verdict": "PASS",
+      "detail": "dirac16complex, mirror across the Z2 brane z -> pi - z with the positive frame on both sides: P = 1: no relation L_mirror = sigma L_patch(R x) with (m, lambda) -> (+-m, +-lambda); P = Gamma: no relation L_mirror = sigma L_patch(R x) with (m, lambda) -> (+-m, +-lambda); P = gamma^(x8): L_{m,lambda}[P Psi(Rx)] = + L_{-m,lambda}[Psi](Rx); P = Gamma gamma^(x8): L_{m,lambda}[P Psi(Rx)] = - L_{m,-lambda}[Psi](Rx). So the reflection Gamma gamma^(x8) (spinor action P^-1 gamma^a P = Lambda^a_b gamma^b, character -1 on S) gives L -> -L_{m,-lambda}; combined with Gamma (Gamma Gamma gamma^(x8) = gamma^(x8)) it gives T2: (m, lambda) -> (-m, lambda), L -> +L"
+    },
+    {
+      "name": "T2.metric.grassmann.euler_lagrange_map",
+      "verdict": "PASS",
+      "detail": "dirac16complex: E_{m,lambda}[gamma^(x8) Psi(Rx)](x) = -gamma^(x8) E_{-m,lambda}[Psi](Rx): Psi solves the (-m, lambda) equations on the patch iff its mirror image solves the (m, lambda) equations on the mirror patch (16 components identically zero)"
+    },
+    {
+      "name": "T2.metric.grassmann.emt",
+      "verdict": "PASS",
+      "detail": "dirac16complex: T_mu nu[gamma^(x8) Psi(Rx); m, lambda](x) = Lambda_mu Lambda_nu T_mu nu[Psi; -m, lambda](Rx) (the pull-back by R; no sign change of the energy density) (36 components identically zero)"
+    },
+    {
+      "name": "T2.metric.grassmann.current",
+      "verdict": "PASS",
+      "detail": "dirac16complex: J^mu[mirror image](x) = Lambda^mu J^mu[Psi](Rx): the charge density J^(x4) is unchanged (8 components identically zero)"
+    },
+    {
+      "name": "T2.metric.grassmann.S_odd",
+      "verdict": "PASS",
+      "detail": "dirac16complex: S[gamma^(x8) Psi] = -S[Psi] (S is a pseudo-scalar under the hidden-direction reflection because C contains gamma^(x8)) (1 components identically zero)"
+    },
+    {
+      "name": "T1.metric.commuting.general_potential",
+      "verdict": "PASS",
+      "detail": "dirac16complex00: with U(S) = u1 S + u2 S^2 + u3 S^3 (a general cubic, Grassmann powers of S computed in the exterior algebra): L_{m,U}[Gamma Psi] = -L_{-m,-U}[Psi] (1 components identically zero)"
+    },
+    {
+      "name": "T1.metric.grassmann.general_potential",
+      "verdict": "PASS",
+      "detail": "dirac16complex: with U(S) = u1 S + u2 S^2 + u3 S^3 (a general cubic, Grassmann powers of S computed in the exterior algebra): L_{m,U}[Gamma Psi] = -L_{-m,-U}[Psi] (1 components identically zero)"
+    },
+    {
+      "name": "T1.diagonal8.commuting",
+      "verdict": "PASS",
+      "detail": "dirac16complex00, general diagonal field e^a_mu = h_a(x1..x8) delta^a_mu with its canonical spin connection: L_{m,lambda}[Gamma Psi] = -L_{-m,-lambda}[Psi]; EL derived from L = sqrt|g| C E; E_{m,lambda}[Gamma Psi] = -Gamma E_{-m,-lambda}[Psi]; T -> -T (36 components); J -> -J (77 components identically zero)"
+    },
+    {
+      "name": "T2.diagonal8.frame_reflections.commuting",
+      "verdict": "PASS",
+      "detail": "dirac16complex00, general diagonal field, frame reflection of direction n (e'^n = -e^n, same metric, same sqrt|g|) with Psi' = gamma^n Psi = Gamma (Gamma gamma^n) Psi: x1: L_{m,lambda}[gamma^n Psi; R_n e] = +L_{-m,lambda}[Psi; e] holds; x2: L_{m,lambda}[gamma^n Psi; R_n e] = +L_{-m,lambda}[Psi; e] holds; x3: L_{m,lambda}[gamma^n Psi; R_n e] = +L_{-m,lambda}[Psi; e] holds; x4: L_{m,lambda}[gamma^n Psi; R_n e] = -L_{-m,-lambda}[Psi; e] holds; x5: L_{m,lambda}[gamma^n Psi; R_n e] = -L_{-m,-lambda}[Psi; e] holds; x6: L_{m,lambda}[gamma^n Psi; R_n e] = -L_{-m,-lambda}[Psi; e] holds; x7: L_{m,lambda}[gamma^n Psi; R_n e] = -L_{-m,-lambda}[Psi; e] holds; x8: L_{m,lambda}[gamma^n Psi; R_n e] = +L_{-m,lambda}[Psi; e] holds"
+    },
+    {
+      "name": "T1.diagonal8.grassmann",
+      "verdict": "PASS",
+      "detail": "dirac16complex, general diagonal field e^a_mu = h_a(x1..x8) delta^a_mu with its canonical spin connection: L_{m,lambda}[Gamma Psi] = -L_{-m,-lambda}[Psi]; EL derived from L = sqrt|g| C E; E_{m,lambda}[Gamma Psi] = -Gamma E_{-m,-lambda}[Psi]; T -> -T (36 components); J -> -J (77 components identically zero)"
+    },
+    {
+      "name": "T2.diagonal8.frame_reflections.grassmann",
+      "verdict": "PASS",
+      "detail": "dirac16complex, general diagonal field, frame reflection of direction n (e'^n = -e^n, same metric, same sqrt|g|) with Psi' = gamma^n Psi = Gamma (Gamma gamma^n) Psi: x1: L_{m,lambda}[gamma^n Psi; R_n e] = +L_{-m,lambda}[Psi; e] holds; x2: L_{m,lambda}[gamma^n Psi; R_n e] = +L_{-m,lambda}[Psi; e] holds; x3: L_{m,lambda}[gamma^n Psi; R_n e] = +L_{-m,lambda}[Psi; e] holds; x4: L_{m,lambda}[gamma^n Psi; R_n e] = -L_{-m,-lambda}[Psi; e] holds; x5: L_{m,lambda}[gamma^n Psi; R_n e] = -L_{-m,-lambda}[Psi; e] holds; x6: L_{m,lambda}[gamma^n Psi; R_n e] = -L_{-m,-lambda}[Psi; e] holds; x7: L_{m,lambda}[gamma^n Psi; R_n e] = -L_{-m,-lambda}[Psi; e] holds; x8: L_{m,lambda}[gamma^n Psi; R_n e] = +L_{-m,lambda}[Psi; e] holds"
+    },
+    {
+      "name": "Q.canonical_anticommutator",
+      "verdict": "PASS",
+      "detail": "from the x4-velocity terms of L (dirac16complex): L = i Psi^dagger M d_4 Psi + ... with M = sqrt|g| B, hence {Psi_A(x), Psi^dagger_B(y)} = B_AB delta^7(x - y)/sqrt|g| (sqrt|g| = cos(z))"
+    },
+    {
+      "name": "Q.image_krein_metric",
+      "verdict": "PASS",
+      "detail": "Gamma B Gamma^dagger = -B: if Psi is canonically quantised ({Psi, Psi^dagger} = B/sqrt|g|), the image field Gamma Psi has {Gamma Psi, (Gamma Psi)^dagger} = -B/sqrt|g|, the Krein metric -B (also of signature (8,8))"
+    },
+    {
+      "name": "Q.image_own_quantisation",
+      "verdict": "PASS",
+      "detail": "the image Psi' = Gamma Psi obeys the (m, lambda) equations but its dynamics comes from L' = -L_{m,lambda}[Psi']: canonical quantisation of L' gives {Psi', Psi'^dagger} = -B/sqrt|g| = Gamma (B/sqrt|g|) Gamma, consistent with the map"
+    },
+    {
+      "name": "Q.image_generators_same_dynamics",
+      "verdict": "PASS",
+      "detail": "with metric -B and its own generator density -h_m the image field has the one-particle generator (-B)(-h_m) = B h_m = Gamma (B h_{-m}) Gamma: the Krein sign and the generator sign compensate, the image evolves exactly by the (m, lambda) dynamics"
+    },
+    {
+      "name": "Q.no_cancellation_independent_universes",
+      "verdict": "PASS",
+      "detail": "two independently quantised universes (Psi1 with (m, lambda), Psi2 with (-m, -lambda), each with its own anticommutator B/sqrt|g|, {Psi1, Psi2^dagger} = 0) have the block one-particle generator diag(B h_m, B h_{-m}) with eigenvalues [('-m', 16), ('m', 16)] (zero momentum, all nonzero for m != 0): the total generators do not cancel as operators. Psi2 = Gamma Psi1 is impossible for independent universes because {Gamma Psi1, Psi1^dagger} = Gamma B/sqrt|g| has rank 16 != 0; T[Psi] + T[Gamma Psi] = 0 is an identity for ONE field and its image, not a cancellation between two independent quantum systems"
+    },
+    {
+      "name": "Q.one_particle_maps",
+      "verdict": "PASS",
+      "detail": "flat 4+4 one-particle generator G_m(k) = B (m C - i k_j C gamma^j) (i d_4 Psi = G Psi, k in x1..x3, x5..x8): Gamma G_m(k) Gamma = G_(-m)(k) and gamma^(x8) G_m(k) gamma^(x8) = G_(-m)(R_8 k) (similarities, so equal spectra); G_(+-m)(k)^2 = (k1**2 + k2**2 + k3**2 - k5**2 - k6**2 - k7**2 + k8**2 + m**2) I16 and tr G = 0: both universes have the eigenvalues +-sqrt(k1**2 + k2**2 + k3**2 - k5**2 - k6**2 - k7**2 + k8**2 + m**2), each 8-fold (the extra-time momenta k5, k6, k7 enter with the opposite sign)"
+    },
+    {
+      "name": "Q.one_particle_Krein_inertia",
+      "verdict": "PASS",
+      "detail": "at the exact sample m = 1, k1 = 2, k8 = 2, other k = 0 (E = 3, a real frequency): w = 3: dim 8, Krein inertia (4,4); w = -3: dim 8, Krein inertia (4,4) - B restricted to each of these eigenspaces has inertia (4,4); the statement for every real frequency is Q.one_particle_Krein_inertia_proof, the imaginary and zero frequencies are Q.one_particle_complex_frequency_Krein_neutral"
+    },
+    {
+      "name": "Q.one_particle_Krein_inertia_proof",
+      "verdict": "PASS",
+      "detail": "flat 4+4, one-particle generator G_m(k) = B (m C - i k_j C gamma^j), G^2 = w^2 I16 with w^2 = k1**2 + k2**2 + k3**2 - k5**2 - k6**2 - k7**2 + k8**2 + m**2: (i) for real w > 0 the projectors P_(+-) = (1 +- G/w)/2 obey P_+^dagger B P_- = 0 and P_+^dagger B P_+ = B P_+ (symbolic): the two 8-dimensional eigenspaces are B-orthogonal and B is nondegenerate on each; (ii) good sector (k5 = k6 = k7 = 0): [B, G] = 0 and tr B = tr(B G) = 0, so tr(B P_(+-)) = 0 and B has inertia (4,4) on each eigenspace; (iii) w^2 > 0 is a connected region containing the good sector (k5, k6, k7 -> 0 at fixed other k only increases w^2) on which P_(+-) are continuous, so the inertia (4,4) holds at EVERY real frequency; exact extra-time sample m = 2, k5 = 1: w = sqrt(3): dim 8, inertia (4,4); w = -sqrt(3): dim 8, inertia (4,4)"
+    },
+    {
+      "name": "Q.one_particle_complex_frequency_Krein_neutral",
+      "verdict": "PASS",
+      "detail": "B G = G^dagger B gives (w - conj w) u^dagger B v = 0 on an eigenspace of G, so for imaginary w (growing extra-time modes) B vanishes identically there (Krein-neutral, inertia (0,0,8)); for w = 0, G^2 = 0 with rank 8 and ker G = ran G is B-neutral. Exact samples: m = 1, (k1,k2,k3,k5,k6,k7,k8) = (0, 0, 0, 2, 0, 0, 0): w^2 = -3, eigenspace dimensions [8, 8], B-form identically zero: True; m = 1, (k1,k2,k3,k5,k6,k7,k8) = (1, 0, 0, 2, 0, 0, 0): w^2 = -2, eigenspace dimensions [8, 8], B-form identically zero: True; m = 1, (k1,k2,k3,k5,k6,k7,k8) = (0, 0, 0, 1, 0, 0, 0): w^2 = 0, eigenspace dimensions [8], B-form identically zero: True. Hence 'Krein inertia (4,4) in every energy eigenspace' is exact for real frequencies only"
+    },
+    {
+      "name": "Q.T2_image_keeps_B",
+      "verdict": "PASS",
+      "detail": "gamma^(x8) B gamma^(x8)^dagger = +B: the T2 (mirror) image keeps the canonical anticommutator +B/sqrt|g|, it is an ordinary independently quantisable copy with equal energies (unlike the T1 image, which carries -B)"
+    },
+    {
+      "name": "compare.theory.status",
+      "verdict": "PASS",
+      "detail": "the Wolfram theory record states: all checks of the report passed"
+    },
+    {
+      "name": "compare.theory.reflection_table",
+      "verdict": "PASS",
+      "detail": "(eta_nn, sign of P_n = Gamma gamma^n against the product of the other seven gammas in Gamma's order, character chi of P_n^dagger C P_n = chi C, S sign under gamma^n, kinetic sign) recomputed here for every direction and equal to the Wolfram record: x1 (1, 1, -1, -1, 1); x2 (1, -1, -1, -1, 1); x3 (1, 1, -1, -1, 1); x4 (-1, 1, 1, 1, -1); x5 (-1, -1, 1, 1, -1); x6 (-1, 1, 1, 1, -1); x7 (-1, -1, 1, 1, -1); x8 (1, -1, -1, -1, 1)"
+    },
+    {
+      "name": "compare.theory.krein_signs",
+      "verdict": "PASS",
+      "detail": "M B M^dagger = s B recomputed here, equal to the Wolfram record: Gamma: -1, gamma^x1: +1, gamma^x2: +1, gamma^x3: +1, gamma^x4: +1, gamma^x5: -1, gamma^x6: -1, gamma^x7: -1, gamma^x8: +1, P_x1: -1, P_x2: -1, P_x3: -1, P_x4: -1, P_x5: +1, P_x6: +1, P_x7: +1, P_x8: -1"
+    },
+    {
+      "name": "compare.theory.one_particle",
+      "verdict": "PASS",
+      "detail": "the Wolfram h_m(k) = -i m gamma^(x4) - gamma^(x4) sum k_a gamma^a equals the generator B (m C - i k_a C gamma^a) derived here from L (True); h^2 = (m**2 + q1**2 + q2**2 + q3**2 - q5**2 - q6**2 - q7**2 + q8**2) I16 (True); samples (eigenvalue w, eigenspace dimensions, Krein inertia of B on each): m=2 k=[1, 2, 0, 0, 0, 0, 0, 4]: w=5 agrees; m=-2 k=[1, 2, 0, 0, 0, 0, 0, 4]: w=5 agrees; m=3 k=[0, 0, 0, 0, 0, 0, 0, 0]: w=3 agrees; m=-3 k=[0, 0, 0, 0, 0, 0, 0, 0]: w=3 agrees; m=1 k=[1, 0, 0, 0, 0, 0, 0, 0]: w=sqrt(2) agrees; m=-1 k=[1, 0, 0, 0, 0, 0, 0, 0]: w=sqrt(2) agrees; m=2 k=[0, 0, 0, 0, 1, 0, 0, 0]: w=sqrt(3) agrees; m=-2 k=[0, 0, 0, 0, 1, 0, 0, 0]: w=sqrt(3) agrees"
+    },
+    {
+      "name": "compare.theory.theorem_T1",
+      "verdict": "PASS",
+      "detail": "Wolfram theorem T1 (chirality pairing; 5 statements, 51 Wolfram verifications) is independently confirmed by 17 sympy checks of this file, all PASS: T1.general_field.matrix_identities, T1.general_field.random_instance.commuting, T1.general_field.random_instance.grassmann, T1.diagonal8.commuting, T1.diagonal8.grassmann, T1.metric.commuting.lagrangian, T1.metric.grassmann.lagrangian, T1.metric.commuting.euler_lagrange_map, T1.metric.grassmann.euler_lagrange_map, T1.metric.commuting.emt, T1.metric.grassmann.emt, T1.metric.commuting.pair_total_emt_zero, T1.metric.grassmann.pair_total_emt_zero, T1.metric.commuting.current, T1.metric.grassmann.current, T1.metric.commuting.general_potential, T1.metric.grassmann.general_potential"
+    },
+    {
+      "name": "compare.theory.theorem_T2",
+      "verdict": "PASS",
+      "detail": "Wolfram theorem T2 (mirror pairing (Gamma combined with a Pin(4,4) reflection of character -1); 4 statements, 28 Wolfram verifications) is independently confirmed by 13 sympy checks of this file, all PASS: T2.general_field.matrix_identities, T2.general_field.reflection_table, T2.diagonal8.frame_reflections.commuting, T2.diagonal8.frame_reflections.grassmann, geometry.mirror_isometry, T2.metric.commuting.reflection_table, T2.metric.grassmann.reflection_table, T2.metric.commuting.euler_lagrange_map, T2.metric.grassmann.euler_lagrange_map, T2.metric.commuting.emt, T2.metric.grassmann.emt, T2.metric.commuting.current, T2.metric.grassmann.current"
+    },
+    {
+      "name": "compare.theory.theorem_Q",
+      "verdict": "PASS",
+      "detail": "Wolfram theorem Q (quantum-level reading; 5 statements, 12 Wolfram verifications) is independently confirmed by 10 sympy checks of this file, all PASS: Q.canonical_anticommutator, Q.image_krein_metric, Q.image_own_quantisation, Q.image_generators_same_dynamics, Q.no_cancellation_independent_universes, Q.one_particle_maps, Q.one_particle_Krein_inertia, Q.one_particle_Krein_inertia_proof, Q.one_particle_complex_frequency_Krein_neutral, Q.T2_image_keeps_B"
+    },
+    {
+      "name": "compare.theory.not_established",
+      "verdict": "PASS",
+      "detail": "the two independently written lists of what the theorems do NOT establish cover the same topics: creation process: Wolfram yes, sympy yes; rate / amplitude: Wolfram yes, sympy yes; no necessity: Wolfram yes, sympy yes; independent universes do not cancel: Wolfram yes, sympy yes; Z2 brane assumed: Wolfram yes, sympy yes; back-reaction: Wolfram yes, sympy yes; Krein positivity: Wolfram yes, sympy yes; T1 not a pure +-m pairing for lambda != 0: Wolfram yes, sympy yes; degenerate brane: Wolfram yes, sympy yes; T3 not covered: Wolfram yes, sympy yes"
+    }
+  ]
+}

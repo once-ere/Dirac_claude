@@ -1,0 +1,182 @@
+{
+ "N_demo": 696.0,
+ "grids": [
+  300,
+  600,
+  1200
+ ],
+ "occupation_a4_0": {
+  "0:-1:even:0": 1.0,
+  "0:-1:odd:0": 1.0,
+  "0:+1:even:0": 1.0,
+  "0:+1:odd:0": 1.0,
+  "1:+1:even:0": 1.0,
+  "2:+1:even:0": 1.0,
+  "3:+1:even:0": 1.0,
+  "4:+1:even:0": 1.0,
+  "5:+1:even:0": 1.0,
+  "6:+1:even:0": 1.0,
+  "8:+1:even:0": 1.0,
+  "9:+1:even:0": 1.0,
+  "10:+1:even:0": 1.0,
+  "11:+1:even:0": 1.0
+ },
+ "occupation_a4_0_same_on_all_grids": true,
+ "rows": [
+  {
+   "a4": 0.0,
+   "occupied_set_equal_to_a4_0": true,
+   "occupied_labels_same_on_all_grids": true,
+   "occupations_same_on_all_grids": true,
+   "open_shell": false,
+   "open_shell_all_grids": [
+    false,
+    false,
+    false
+   ],
+   "E_aufbau": {
+    "value": 690.7795892060706,
+    "U": 3.2932033547011147e-09
+   },
+   "E_adiabatically_continued": {
+    "value": 690.7795892060706,
+    "U": 3.2932033547011147e-09
+   },
+   "difference": {
+    "value": 0.0,
+    "U": 2e-12
+   },
+   "labels_left": [],
+   "labels_entered": [],
+   "N_continued": 696.0
+  },
+  {
+   "a4": 0.5,
+   "occupied_set_equal_to_a4_0": false,
+   "occupied_labels_same_on_all_grids": true,
+   "occupations_same_on_all_grids": true,
+   "open_shell": true,
+   "open_shell_all_grids": [
+    true,
+    true,
+    true
+   ],
+   "E_aufbau": {
+    "value": 444.19456056281575,
+    "U": 1.7466110590861108e-09
+   },
+   "E_adiabatically_continued": {
+    "value": 447.8512507501022,
+    "U": 1.7315281324295255e-09
+   },
+   "difference": {
+    "value": 3.6566901872864985,
+    "U": 2.968304205314035e-11
+   },
+   "labels_left": [
+    "0:+1:odd:0",
+    "0:-1:odd:0"
+   ],
+   "labels_entered": [
+    "12:+1:even:0"
+   ],
+   "N_continued": 696.0
+  },
+  {
+   "a4": 1.0,
+   "occupied_set_equal_to_a4_0": false,
+   "occupied_labels_same_on_all_grids": true,
+   "occupations_same_on_all_grids": true,
+   "open_shell": true,
+   "open_shell_all_grids": [
+    true,
+    true,
+    true
+   ],
+   "E_aufbau": {
+    "value": 283.71058391295054,
+    "U": 9.996585248434852e-10
+   },
+   "E_adiabatically_continued": {
+    "value": 289.76322916753696,
+    "U": 9.973255869620128e-10
+   },
+   "difference": {
+    "value": 6.052645254586379,
+    "U": 2.6587927820803e-11
+   },
+   "labels_left": [
+    "0:+1:odd:0",
+    "0:-1:odd:0"
+   ],
+   "labels_entered": [
+    "12:+1:even:0"
+   ],
+   "N_continued": 696.0
+  },
+  {
+   "a4": 1.5,
+   "occupied_set_equal_to_a4_0": false,
+   "occupied_labels_same_on_all_grids": true,
+   "occupations_same_on_all_grids": true,
+   "open_shell": true,
+   "open_shell_all_grids": [
+    true,
+    true,
+    true
+   ],
+   "E_aufbau": {
+    "value": 179.45933681462654,
+    "U": 6.064149193492112e-10
+   },
+   "E_adiabatically_continued": {
+    "value": 187.0711636361202,
+    "U": 6.103835760577585e-10
+   },
+   "difference": {
+    "value": 7.611826821493626,
+    "U": 2.649374961056214e-11
+   },
+   "labels_left": [
+    "0:+1:odd:0",
+    "0:-1:odd:0"
+   ],
+   "labels_entered": [
+    "12:+1:even:0"
+   ],
+   "N_continued": 696.0
+  },
+  {
+   "a4": 2.0,
+   "occupied_set_equal_to_a4_0": false,
+   "occupied_labels_same_on_all_grids": true,
+   "occupations_same_on_all_grids": true,
+   "open_shell": true,
+   "open_shell_all_grids": [
+    true,
+    true,
+    true
+   ],
+   "E_aufbau": {
+    "value": 112.1016260895159,
+    "U": 3.664396970234886e-10
+   },
+   "E_adiabatically_continued": {
+    "value": 120.72500959382886,
+    "U": 3.739946611163468e-10
+   },
+   "difference": {
+    "value": 8.623383504312942,
+    "U": 2.693679356755425e-11
+   },
+   "labels_left": [
+    "0:+1:odd:0",
+    "0:-1:odd:0"
+   ],
+   "labels_entered": [
+    "12:+1:even:0"
+   ],
+   "N_continued": 696.0
+  }
+ ]
+}

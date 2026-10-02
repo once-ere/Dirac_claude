@@ -12,11 +12,15 @@ export const meta = {
   ],
 }
 
-const ROOT = 'C:/Users/nsh/Developer/github/Dirac_claude'
-const SP = 'C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad'
+const ROOT = 'D:/Developer/github/Dirac_claude'
+// ROOT: the repository on the machine where these waves ran; SP: the scratchpad directory of the session that
+// runs the script (set it in the session's own copy before launching; see Revision/README.md, workflows/).
+const SP = '<SCRATCHPAD OF THE RUNNING SESSION>'
+if (SP.startsWith('<')) throw new Error('set SP to the scratchpad directory of the running session')
 const R = 'Revision'
 
 const COMMON = `
+RESTART NOTE: this is a relaunch after a pause; files written by an earlier, stopped run may exist (e.g. Revision/algebra/wolfram/RevisionAlgebra.wl): inspect them, verify them and finish them; never trust them unchecked.
 CONTEXT: repository ${ROOT} (git, branch main). NEVER run git commands that change the index, the working tree or the remote; read-only git is fine. You work ONLY inside ${ROOT}/${R}/ (plus scratch). BINDING: ${ROOT}/${R}/SPEC.md (read it fully first: the no-mixing rule of section 0, the author's metric and coordinate names of section 1 (x1..x3 3-space, x4 time, x5..x7 the exponentially DEFLATING extra times, x8 hidden), the conventions of sections 2-9) and ${ROOT}/${R}/README.md (the author's task verbatim and the answers already given). NO-MIXING RULE: nothing from the old stages (artifacts/, provenance/, studies/, scripts/ (except the generic PDF tooling), wolfram/, notebooks/) is copied into Revision or used as a result; you may READ old documents to recall a method, but every Revision statement is computed anew by Revision code; never import old Python modules or old Wolfram packages. HONESTY: numbers only from Revision outputs; theorems with exact hypotheses; never "proved" for anything not proved; the pair-creation request is answered by the pairing theorems plus an exact statement of what they do not establish. Private inputs never committed or quoted beyond what Revision/README.md quotes: the Gmail PDF, prompt files, dirac-main/, vendor/, Generalized_Kronecker_Delta.*. Tooling: Python 3.14 (sympy, numpy, mpmath, matplotlib, nbformat/nbclient; no scipy); WolframScript 1.14 (it drops arguments after "--"); Rust (cargo; give each new crate its own empty [workspace] table because a stray Cargo.toml sits above the repository; the SUNDIALS engine is at ${ROOT}/vendor/rustSolveIt/sundials_rs/crates/{sundials_core,cvode_rs} if needed); pdflatex (MiKTeX); PDFs only via python scripts/build_provenance_pdf.py <md> --developer-layout --specifications ${R}/pdf-specifications.json [--register]. Deterministic outputs (two runs byte-identical, LF). Every check in a JSON report with name, verdict, detail. Read files in chunks of at most 300 lines. Scratch only under ${SP}/revision/<label>/. If a step needs a long computation, run it and report its time; never wait idly.
 `
 const RESULT = { type: 'object', properties: { files_changed: { type: 'array', items: { type: 'string' } }, commands_run: { type: 'array', items: { type: 'string' } }, all_checks_pass: { type: 'boolean' }, failing: { type: 'array', items: { type: 'string' } }, key_results: { type: 'array', items: { type: 'string' } }, open_items: { type: 'array', items: { type: 'string' } }, summary: { type: 'string' } }, required: ['files_changed', 'commands_run', 'all_checks_pass', 'failing', 'key_results', 'open_items', 'summary'] }

@@ -5,13 +5,16 @@ export const meta = {
     { title: 'Science', detail: 'dark sector (both fields), a4 with the KS source, KS pairing T3' },
     { title: 'Documents', detail: 'Kohn-Sham, dark sector, Lovelock/GKD; update the three wave-1 documents' },
     { title: 'Notebooks and gate', detail: 'Jupyter notebooks (rustSolveIt style), verify_revision.{ps1,sh}' },
-    { title: 'Review', detail: 'four lenses' },
-    { title: 'Fix', detail: 'apply confirmed findings' },
+    { title: 'Review', detail: 'five lenses, two skeptics per finding' },
+    { title: 'Fix', detail: 'per-area fixers, fix verifier, second round' },
   ],
 }
 
-const ROOT = 'C:/Users/nsh/Developer/github/Dirac_claude'
-const SP = 'C:/Users/nsh/AppData/Local/Temp/claude/C--Users-nsh-Developer-github-Dirac-claude/cc75e05b-1dc1-4a82-a1dd-e65cb8479099/scratchpad'
+const ROOT = 'D:/Developer/github/Dirac_claude'
+// ROOT: the repository on the machine where these waves ran; SP: the scratchpad directory of the session that
+// runs the script (set it in the session's own copy before launching; see Revision/README.md, workflows/).
+const SP = '<SCRATCHPAD OF THE RUNNING SESSION>'
+if (SP.startsWith('<')) throw new Error('set SP to the scratchpad directory of the running session')
 const R = 'Revision'
 
 const COMMON = `
@@ -23,10 +26,10 @@ const run = (label, ph, task) => agent(`${COMMON}\nTASK (${label}): ${task}`, { 
 
 phase('Science')
 const science = await parallel([
-  () => run('dark-sector-dirac16complex', 'Science', `Own ${R}/dark_sector/dirac16complex/ (code, outputs, reports). Investigate the Hypothesis for dirac16complex (SPEC sections 8 and 11): the equation of state a 3-space observer infers as the extra times deflate and 3-space inflates (a = e^{a4}), for (i) the Kohn-Sham fermion gas of ${R}/kohn_sham (instantaneous states along a4; the 3-space pressure p3, the extra-time pressure p_t, the hidden pressure p8, rho; the 4-dimensional effective density rho_4 obtained by integrating over the hidden direction and the extra times, the dilution-inferred w_eff = -1 - (1/3) d ln rho_4 / d ln a and the ratio w = p3/rho), (ii) homogeneous condensates (the exact solutions of the field equations in this metric), (iii) mixtures; derive every effective formula exactly (sympy) before computing; compute w(a), its CPL tangent at a = 1 and fits over stated ranges of a, compare with w = -0.764 and (w0, wa) = (-0.861, -0.60); say exactly where a time-varying DARK-MATTER equation of state appears (expected: the gas, 1/3 -> 0) and whether any time-varying DARK-ENERGY equation of state near the Unite values appears, with the reasons; checks and an independent second implementation of the key numbers.`),
-  () => run('dark-sector-dirac16complex00', 'Science', `Own ${R}/dark_sector/dirac16complex00/. Investigate Hypothesis00 for the semi-classical dirac16complex00 field: classical solutions in the deflating field (homogeneous condensates, superpositions of good-sector modes, wave packets; the indefinite (Krein-signed) classical energy of modes of both Krein signs; the extra-time-momentum modes whose growth is driven by the deflation), the 3-space observer's equation of state as in the dirac16complex task (rho_4, w_eff, w = p3/rho), whether negative classical energy densities allow w < -1 (phantom) and a crossing of w = -1 near the Unite trajectory, and what that would require (a classical field with negative-energy components is a ghost-like sector: say so); CPL tangent and fits; comparison with w = -0.764 and (w0, wa) = (-0.861, -0.60); exact derivations (sympy) before numerics; checks and an independent second implementation of the key numbers.`),
-  () => run('a4-with-ks-source', 'Science', `Own ${R}/field_equations_a4/ks_source/. Specialise the a4 field equations of ${R}/field_equations_a4/a4-equations.json to the Kohn-Sham states of ${R}/kohn_sham (the instantaneous energy-momentum tensor profiles as the source; the hidden-direction dependence the source must have versus the profiles actually computed - quantify the mismatch honestly), for Einstein gravity and for Einstein-Lovelock with stated alpha_2, alpha_3, and integrate the a4 evolution equation where it is well defined (state the assumptions); does the dirac16complex source drive exponential deflation of the extra times? Report what the equations allow.`),
-  () => run('ks-pairing-T3', 'Science', `Own ${R}/pairing/kohn_sham/. Prove T3 (the Kohn-Sham level pairing: the block map with the transformed boundary conditions maps the instantaneous Kohn-Sham problem with (m, lambda) to the one with (-m, +lambda) with equal energies and energy-momentum tensors) exactly (sympy/Wolfram) for the Revision Kohn-Sham model, and demonstrate it numerically with the Revision Rust solver and reference (+M and -M universes on the deflating slice series; the untransformed boundary condition as the negative control).`),
+  () => run('dark-sector-dirac16complex', 'Science', `Own ${R}/dark_sector/dirac16complex/ (code, outputs, reports). Investigate the Hypothesis for dirac16complex (SPEC sections 8 and 11): the equation of state a 3-space observer infers as the extra times deflate and 3-space inflates (a = e^{a4}), for (i) the Kohn-Sham fermion gas of ${R}/kohn_sham (instantaneous states along a4; the 3-space pressure p3, the extra-time pressure p_t, the hidden pressure p8, rho; the 4-dimensional effective density rho_4 obtained by integrating over the hidden direction and the extra times, the dilution-inferred w_eff = -1 - (1/3) d ln rho_4 / d ln a and the ratio w = p3/rho), (ii) homogeneous condensates (the exact solutions of the field equations in this metric), (iii) mixtures; derive every effective formula exactly (sympy) before computing; the extra times x5..x7 are TIME-LIKE: integrating over them to define rho_4 (a compact range of time-like coordinates means closed time-like directions; a non-compact range needs a normalisation per unit extra-time volume) is an ASSUMPTION about the observer - state it, give the alternatives (per unit proper 7-volume, per unit extra-time coordinate volume) and show how the verdict depends on the choice; use the exact conservation identities nabla_mu T^mu_x4: d rho/d x4 = -3 a4' (p3 - p_t) and nabla_mu T^mu_x8: d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t) = 0 (re-derive them) as checks of every source you use; compute w(a), its CPL tangent at a = 1 and fits over stated ranges of a, compare with w = -0.764 and (w0, wa) = (-0.861, -0.60); say exactly where a time-varying DARK-MATTER equation of state appears (expected: the gas, 1/3 -> 0) and whether any time-varying DARK-ENERGY equation of state near the Unite values appears, with the reasons; checks and an independent second implementation of the key numbers.`),
+  () => run('dark-sector-dirac16complex00', 'Science', `Own ${R}/dark_sector/dirac16complex00/. Investigate Hypothesis00 for the semi-classical dirac16complex00 field: classical solutions in the deflating field (homogeneous condensates, superpositions of good-sector modes, wave packets; the indefinite (Krein-signed) classical energy of modes of both Krein signs; the extra-time-momentum modes whose growth is driven by the deflation), the 3-space observer's equation of state as in the dirac16complex task (rho_4, w_eff, w = p3/rho) with the same stated observer assumptions and conservation checks, whether negative classical energy densities allow w < -1 (phantom) and a crossing of w = -1 near the Unite trajectory, and what that would require (a classical field with negative-energy components is a ghost-like sector: say so); CPL tangent and fits; comparison with w = -0.764 and (w0, wa) = (-0.861, -0.60); exact derivations (sympy) before numerics; checks and an independent second implementation of the key numbers.`),
+  () => run('a4-with-ks-source', 'Science', `Own ${R}/field_equations_a4/ks_source/. Specialise the a4 field equations of ${R}/field_equations_a4/a4-equations.json to the Kohn-Sham states of ${R}/kohn_sham (the instantaneous energy-momentum tensor profiles as the source; the hidden-direction dependence the source must have versus the profiles actually computed - quantify the mismatch honestly) (the wave-1 fixer already showed in ${R}/field_equations_a4/reports/ks-source-conditions.json that every nonzero Kohn-Sham state depends on x8 and violates p3 + p_t = 2 p8, i.e. the x8 conservation identity d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t) = 0 - start from that, verify it, and decide what, if anything, can still be integrated: e.g. hidden-direction averages with the violation quantified, stated as an approximation), for Einstein gravity and for Einstein-Lovelock with stated alpha_2, alpha_3, and integrate the a4 evolution equation where it is well defined (state the assumptions); does the dirac16complex source drive exponential deflation of the extra times? Report what the equations allow.`),
+  () => run('ks-pairing-T3', 'Science', `Own ${R}/pairing/kohn_sham/. T3 was already proved exactly by the wave-1 fixer there (Wolfram 10/10, sympy 13/13, t3-theory.json): verify that proof adversarially and complete it where needed, then make sure everything below exists. Prove T3 (the Kohn-Sham level pairing: the block map with the transformed boundary conditions maps the instantaneous Kohn-Sham problem with (m, lambda) to the one with (-m, +lambda) with equal energies and energy-momentum tensors) exactly (sympy/Wolfram) for the Revision Kohn-Sham model, and demonstrate it numerically with the Revision Rust solver and reference (+M and -M universes on the deflating slice series; the untransformed boundary condition as the negative control). The Kohn-Sham history a4 = A H x4 is a PRESCRIBED BACKGROUND (the states violate the a4 source conditions; ${R}/field_equations_a4/reports/ks-source-conditions.json): say so wherever it is used.`),
 ])
 
 phase('Documents')
@@ -43,15 +46,50 @@ const nbgate = await parallel([
   () => run('gate', 'Notebooks and gate', `Own ${R}/verify_revision.ps1 and ${R}/verify_revision.sh (twins) and ${R}/tests/test_revision_gate.py. Following the pattern of the repository's stage gates (read one, e.g. scripts/verify_stage3_dark_sector.sh, for the structure only), re-run every Revision verifier, checker, solver run and figure/PDF build into build/revision/, compare with the committed outputs byte for byte, run python -m unittest discover -s Revision/tests, and print revision_verification=OK at the end; a --dry-run and a --steps option; document the expected wall time per step; test the fast steps.`),
 ])
 
+// ---------------- Review: lenses -> adversarial skeptics per finding (pipeline, no barrier) ----------------
 phase('Review')
+const VERDICT = { type: 'object', properties: { refuted: { type: 'boolean' }, reason: { type: 'string' }, evidence: { type: 'string' } }, required: ['refuted', 'reason', 'evidence'] }
 const lenses = [
-  ['correctness', 'Check every derivation, formula and number of all Revision documents against the reports; re-derive the key steps of the dark-sector effective formulas and of T3 yourself.'],
-  ['honesty', 'Hunt for overclaims (the hypotheses, the pair creation, the Kohn-Sham approximation, the a4 dynamics) and for any mixing with the old stages.'],
-  ['physics', 'Judge the physics of the dark-sector investigation (rho_4, the 3-space observer, the extra-time and hidden pressures, the Unite comparison), of the a4 equations with the Kohn-Sham source and of the deflation.'],
-  ['reproducibility', 'From a fresh copy of the working tree in scratch, run the Revision gate fast steps, every checker, the notebooks and the PDF builds in verify mode; compare byte for byte.'],
+  ['correctness', 'Check every derivation, formula and number of all Revision documents against the reports; re-derive the key steps of the dark-sector effective formulas (rho_4, w_eff, w = p3/rho, the CPL tangent) and of T3 yourself.'],
+  ['honesty', 'Hunt for overclaims (the hypotheses, the pair creation, the Kohn-Sham approximation, the a4 dynamics, the Unite comparison) and for any mixing with the old stages.'],
+  ['physics', 'Judge the physics of the dark-sector investigation (rho_4, the 3-space observer, the extra-time and hidden pressures, the Krein-signed energies, phantom crossing, the Unite comparison), of the a4 equations with the Kohn-Sham source and of the deflation.'],
+  ['reproducibility', 'From a fresh git clone of the committed state plus a copy of the uncommitted Revision files in scratch, run the Revision gate fast steps, every checker, the notebooks and the PDF builds in verify mode; compare byte for byte; look for absolute paths, nondeterminism, missing files.'],
+  ['completeness', 'Compare Revision/README.md (the task verbatim) and SPEC sections 0-11 item by item with what Revision/ now contains; list every requested item that is missing, partial or only asserted.'],
 ]
-const reviews = await parallel(lenses.map(([k, t]) => () => agent(`${COMMON}\nTASK (adversarial reviewer, lens ${k}; do not edit files): ${t} Report only real problems with concrete evidence.`, { label: 'review:' + k, phase: 'Review', schema: FINDINGS })))
-const findings = reviews.filter(Boolean).flatMap(r => r.findings || [])
+const judged = await pipeline(
+  lenses,
+  ([k, t]) => agent(`${COMMON}\nTASK (adversarial reviewer, lens ${k}; do not edit files): ${t} Report only real problems with concrete evidence.`, { label: 'review:' + k, phase: 'Review', schema: FINDINGS }),
+  (rev, [k]) => parallel(((rev && rev.findings) || []).map((f, i) => () =>
+    parallel(['re-derive it independently', 'check the cited evidence in the files'].map((how, j) => () =>
+      agent(`${COMMON}\nTASK (skeptic ${j + 1}, do not edit files): try to REFUTE this ${k} finding by trying to ${how}. Finding: ${JSON.stringify(f)}. Set refuted=true only if the finding is wrong or not a real problem; give concrete evidence either way.`, { label: `skeptic:${k}:${i}:${j}`, phase: 'Review', schema: VERDICT })))
+      .then(vs => ({ ...f, lens: k, votes: vs.filter(Boolean), confirmed: vs.filter(Boolean).filter(v => !v.refuted).length >= 1 })))),
+)
+const allFindings = judged.filter(Boolean).flat().filter(Boolean)
+const confirmed = allFindings.filter(f => f.confirmed)
+log(`review: ${allFindings.length} findings, ${confirmed.length} survived the skeptics, ${allFindings.length - confirmed.length} refuted by both`)
+
+// ---------------- Fix: per area, science before documents before notebooks/gate; then verify the fixes ----------------
 phase('Fix')
-const fix = findings.length ? await run('fix', 'Fix', `Findings (JSON): ${JSON.stringify(findings).slice(0, 80000)}\nRe-verify each; fix confirmed ones at their root inside ${R}/; reject unconfirmed ones with evidence. One line per finding in key_results: FIXED / REJECTED (reason).`) : null
-return { science, docs, nbgate, findings, fix }
+const area = f => /(^|\/)docs\//.test(f.file || '') ? 'docs' : /(notebooks\/|verify_revision|(^|\/)tests\/)/.test(f.file || '') ? 'other' : 'science'
+const fixRound = async (items, round) => {
+  const out = []
+  for (const a of ['science', 'docs', 'other']) {
+    const mine = items.filter(f => area(f) === a)
+    if (!mine.length) continue
+    const payload = JSON.stringify(mine)
+    if (payload.length > 90000) log(`fix ${a} round ${round}: findings JSON ${payload.length} chars, split into chunks`)
+    for (let c = 0; c * 90000 < payload.length; c++) {
+      const chunk = mine.slice(Math.floor(c * mine.length / Math.ceil(payload.length / 90000)), Math.floor((c + 1) * mine.length / Math.ceil(payload.length / 90000)))
+      out.push(await run(`fix:${a}:${round}:${c}`, 'Fix', `Confirmed findings with skeptic votes (JSON): ${JSON.stringify(chunk)}\nRe-verify each; fix confirmed ones at their ROOT inside ${R}/ (regenerate reports deterministically, rebuild and re-register PDFs, rerun the affected tests and notebooks; a science fix must propagate to every document and notebook that quotes the changed number); reject only with evidence. One line per finding in key_results: FIXED / REJECTED (reason).`))
+    }
+  }
+  return out
+}
+let fixes = confirmed.length ? await fixRound(confirmed, 1) : []
+let fixCheck = null
+if (confirmed.length) {
+  fixCheck = await agent(`${COMMON}\nTASK (fix verifier, do not edit files): The fixers report (JSON): ${JSON.stringify(fixes).slice(0, 60000)}\nFor every finding marked FIXED, check in the files that it is really fixed at the root and that the fix introduced no inconsistency (numbers in documents, notebooks, tests and reports agree; tests pass: python -m unittest discover -s ${R}/tests). For every REJECTED one, judge the rejection. Report remaining problems as findings.`, { label: 'fix-verifier', phase: 'Fix', schema: FINDINGS })
+  const rest = (fixCheck && fixCheck.findings) || []
+  if (rest.length) fixes = fixes.concat(await fixRound(rest.map(f => ({ ...f, lens: 'fix-verifier' })), 2))
+}
+return { science, docs, nbgate, findings: allFindings, confirmed: confirmed.length, fixes, fixCheck }
