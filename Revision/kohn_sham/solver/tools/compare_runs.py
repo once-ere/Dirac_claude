@@ -5,11 +5,21 @@
   canonical output tree (and the canonical report, if --repeat-report is given)
   must be byte-identical.
 * --refined DIR: a run with --refined (RK4 steps x 2, root tolerance / 10, SCF
-  tolerance / 10, thermal occupation cut / 100); the canonical numbers must
-  agree within tolerances that bound the canonical discretisation error:
-  eigenvalues 1e-8 m (absolute), energies 1e-8 (relative), proper profiles
-  1e-6 (relative to the profile maximum), thermodynamic quantities 1e-8
-  (relative), derived derivatives (Q_max, dE/da4, C_V = T dS/dT) 1e-6 (relative).
+  tolerance / 10, thermal occupation cut / 100, and the Mermin root solved with
+  the exactly equivalent LinearDeviation form instead of LogBalance, a
+  different rounding path); the canonical numbers must agree within
+  tolerances that bound the canonical discretisation error: eigenvalues 1e-8 m
+  (absolute), energies 1e-8 (relative), proper profiles 1e-6 (relative to the
+  profile maximum), thermodynamic quantities (mu, E, F, both forms of Omega,
+  S) 1e-8 (relative), derived derivatives (Q_max, dE/da4, C_V = T dS/dT) 1e-6
+  (relative).
+
+Why the refined run changes the root form: the former direct count
+sum g f - N fixed mu only to eps_mach N/(dN/dmu), and the canonical and the
+refined run carried the same rounding (their levels differ too little to move
+it), so |canonical - refined| did not see an error of 8.3e-10 m.  With two
+different rounding paths, |canonical - refined| of mu and of Omega = F - mu N
+contains the rounding error of the root.
 
 Writes a JSON report with every check (name, verdict, detail); exit 1 on failure.
 """
@@ -198,7 +208,7 @@ def main():
             y = tr.get(k)
             if y is None:
                 continue
-            for col in ("mu", "E", "F"):
+            for col in ("mu", "E", "F", "Omega_direct", "Omega_F_minus_muN"):
                 d = rel(num(x[col]), num(y[col]), 1.0)
                 if d > wt:
                     wt, wtid = d, f"{k[0]} {col}"
@@ -209,7 +219,32 @@ def main():
             if d > wcv:
                 wcv, wcid = d, k[0]
         check("refined_thermodynamics", wt <= TOL["thermo"] and set(tc) == set(tr),
-              f"{len(tc)} thermal states, same set: {set(tc) == set(tr)}; mu, E, F (relative to max(|x|, 1)) and S (relative to max(|S|, 1e-6)): max {wt:.3e} ({wtid}); tolerance {TOL['thermo']:.0e}")
+              f"{len(tc)} thermal states, same set: {set(tc) == set(tr)}; mu, E, F, Omega (both forms; relative to max(|x|, 1)) and S (relative to max(|S|, 1e-6)): max {wt:.3e} ({wtid}); tolerance {TOL['thermo']:.0e}")
+        # the Mermin root: two rounding paths, so that |canonical - refined| sees the rounding of mu
+        fc = pc["numerics"].get("merminRoot")
+        fr_ = pr["numerics"].get("merminRoot")
+        wm = wo = wb = 0.0
+        wmid = woid = wbid = ""
+        for k, x in tc.items():
+            y = tr.get(k)
+            if y is None:
+                continue
+            d = abs(num(x["mu"]) - num(y["mu"]))
+            if d > wm:
+                wm, wmid = d, k[0]
+            d = max(abs(num(x[c]) - num(y[c])) for c in ("Omega_direct", "Omega_F_minus_muN"))
+            if d > wo:
+                wo, woid = d, k[0]
+            b = num(x.get("mu_rounding_bound"))
+            if b > wb:
+                wb, wbid = b, k[0]
+        check("refined_mermin_root_path", fc is not None and fr_ is not None and fc != fr_,
+              f"the canonical run solves sum g f = N with the form {fc}, the refined run with {fr_} (exactly equivalent "
+              f"well-conditioned residuals of solver/src/mermin.rs with different rounding paths), so |canonical - refined| "
+              f"of mu and Omega contains the rounding error of the root instead of sharing it (the former direct count, the "
+              f"same in both runs, hid an error of 8.3e-10 m in N8_lamm1_a00_T10); max |mu_c - mu_r| {wm:.3e} m ({wmid}), "
+              f"max |Omega_c - Omega_r| {wo:.3e} ({woid}); largest canonical rounding bound of mu (thermodynamics.csv "
+              f"mu_rounding_bound) {wb:.3e} ({wbid})")
         check("refined_heat_capacity", wcv <= TOL["derived"], f"C_V = T dS/dT (Richardson): max relative difference (relative to max(|C_V|, 1e-6)) {wcv:.3e} ({wcid}); tolerance {TOL['derived']:.0e}")
 
     nfail = sum(1 for c in checks if c["verdict"] == "FAIL")

@@ -427,7 +427,7 @@ mod tests {
     /// mu = D - T ln(sqrt(1 + 3 e^{D/T}) + 1) in closed form (no cancellation).
     #[test]
     fn two_level_closed_form() {
-        for &(gap, t) in &[(0.43, 0.01), (0.43, 0.02), (0.17, 0.01), (0.064, 0.05), (0.3, 0.004)] {
+        for &(gap, t) in &[(0.43f64, 0.01f64), (0.43, 0.02), (0.17, 0.01), (0.064, 0.05), (0.3, 0.004)] {
             let exact = gap - t * ((1.0 + 3.0 * (gap / t).exp()).sqrt() + 1.0).ln();
             let (a, b, _) = all_forms(&[0.0, gap], &[8.0, 24.0], 8.0, t);
             for r in [a, b] {
