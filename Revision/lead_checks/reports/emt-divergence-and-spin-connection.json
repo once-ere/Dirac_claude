@@ -1,0 +1,59 @@
+{
+ "producer": "Revision/lead_checks/emt_divergence_and_spin_connection.py (lead, independent; no Revision code imported)",
+ "summary": {
+  "passed": 10,
+  "total": 10
+ },
+ "checks": [
+  {
+   "name": "divergence_x4_component",
+   "verdict": "PASS",
+   "detail": "nabla_mu T^mu_x4 = -d rho/d x4 - 3 a4' (p3 - p_t)"
+  },
+  {
+   "name": "divergence_x8_component",
+   "verdict": "PASS",
+   "detail": "nabla_mu T^mu_x8 = d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t), z = 6 H x8"
+  },
+  {
+   "name": "divergence_other_components_zero",
+   "verdict": "PASS",
+   "detail": "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7"
+  },
+  {
+   "name": "ks_coordinate_jacobian",
+   "verdict": "PASS",
+   "detail": "y = ln(sin z)/(6H) gives dy/dx8 = cot z"
+  },
+  {
+   "name": "ks_coordinate_form",
+   "verdict": "PASS",
+   "detail": "x8 component = cot z [p8'(y) + 6 H p8 - 3 H (p3 + p_t)], i.e. (e^{6Hy} p8)' = 3 H e^{6Hy} (p3 + p_t)"
+  },
+  {
+   "name": "fixture_clifford",
+   "verdict": "PASS",
+   "detail": "gammas.json satisfies {gamma^a, gamma^b} = 2 eta^ab with eta = diag(+,+,+,-,-,-,-,+)"
+  },
+  {
+   "name": "vielbein_reproduces_metric",
+   "verdict": "PASS",
+   "detail": "g_mu nu = e^a_mu e^b_nu eta_ab for the diagonal vielbein"
+  },
+  {
+   "name": "gamma_Omega_equals_3H_gamma8",
+   "verdict": "PASS",
+   "detail": "gamma^mu Omega_mu = 3 H gamma^(x8) exactly; no a4 or a4' survives (inflating and deflating terms cancel)"
+  },
+  {
+   "name": "gamma_Omega_divergence_formula",
+   "verdict": "PASS",
+   "detail": "gamma^mu Omega_mu = (1/2) gamma^a (1/sqrt|g|) d_mu (sqrt|g| e_a^mu) for the diagonal vielbein, computed independently (sqrt|g| = cos z is x4-independent; (1/cos z) d_x8 (cos z tan z) = 6 H)"
+  },
+  {
+   "name": "negative_control_inflating_extra_times",
+   "verdict": "PASS",
+   "detail": "with INFLATING extra times (g_tt = -e^{2 a4} sin^{1/3} z) gamma^mu Omega_mu = 3 H gamma^(x8) + (3*Derivative(a4(x4), x4)) gamma^(x4): an a4' term survives, so the cancellation in the author's metric is due to the deflation"
+  }
+ ]
+}
