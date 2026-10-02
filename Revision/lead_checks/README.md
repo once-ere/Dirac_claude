@@ -35,3 +35,21 @@ the GKD route) reproduces the alpha_2 terms of the record's rho and p exactly, a
 ```
 python Revision/lead_checks/einstein_gauss_bonnet_a4.py
 ```
+
+## Charge conjugation is a MATRIX; U(1) charge conservation
+
+`charge_conjugation_and_u1.py` (about 9 s, 11 checks).  The author's gammas are real, so for a REAL field plain
+complex conjugation is the identity and cannot be charge conjugation (a statement of the lead's of 2026-10-02 that
+said otherwise was wrong and is corrected here).  Charge conjugation is the matrix map Psi^c = calC Psibar^T =
+calC C Psi*.  Solving exactly for every matrix that maps solutions to solutions gives two one-dimensional families:
+calC_+ = C (the author's sigma16; calC_+^-1 gamma^a calC_+ = -(gamma^a)^T; same mass; Psi^c = Psi*) and
+calC_- = Gamma C (calC_-^-1 gamma^a calC_- = +(gamma^a)^T; mass reversed; Psi^c = Gamma Psi*).  Both reality
+(Majorana) conditions are consistent.  For REAL commuting fields J = 0 identically and calC_+ is the identity (a
+real field is its own conjugate); the nontrivial real matrix map is Gamma with (m, lambda) -> (-m, -lambda), which
+reverses J and the kinetic term (theorem T1).  The bilinears' signs for commuting and Grassmann components are
+exact matrix identities; the U(1) Noether identity in the author's metric is reduced exactly to a 16 x 16 matrix
+identity and verified, so the charge Q = Int cos z Psi^dagger B Psi d^7x is conserved on shell.
+
+```
+python Revision/lead_checks/charge_conjugation_and_u1.py
+```

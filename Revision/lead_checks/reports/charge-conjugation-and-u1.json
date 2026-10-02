@@ -1,0 +1,64 @@
+{
+ "producer": "Revision/lead_checks/charge_conjugation_and_u1.py (lead, independent; no Revision code imported)",
+ "summary": {
+  "passed": 11,
+  "total": 11
+ },
+ "checks": [
+  {
+   "name": "representation_real",
+   "verdict": "PASS",
+   "detail": "gamma^a, C (= sigma16, symmetric, C^2 = 1) and S^ab are real: plain complex conjugation is the identity on a real field"
+  },
+  {
+   "name": "B_imaginary_hermitian",
+   "verdict": "PASS",
+   "detail": "B = -i C gamma^(x4) is purely imaginary and Hermitian, B^2 = 1"
+  },
+  {
+   "name": "intertwiners_same_mass",
+   "verdict": "PASS",
+   "detail": "M (gamma^a)* = + gamma^a M for all a: solution space of dimension 1, spanned by the identity (Pin(4,4) irreducible): Psi -> Psi* (times a phase) is the only same-mass conjugation in the Psi* form"
+  },
+  {
+   "name": "intertwiners_reversed_mass",
+   "verdict": "PASS",
+   "detail": "M (gamma^a)* = - gamma^a M for all a: solution space of dimension 1, spanned by Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7): the mass-reversing conjugation Psi -> Gamma Psi*"
+  },
+  {
+   "name": "charge_conjugation_matrix_plus",
+   "verdict": "PASS",
+   "detail": "calC_+ = C (= sigma16): calC_+^-1 gamma^a calC_+ = -(gamma^a)^T for every a; real symmetric; Psi^c = calC_+ Psibar^T = Psi*"
+  },
+  {
+   "name": "charge_conjugation_matrix_minus",
+   "verdict": "PASS",
+   "detail": "calC_- = Gamma C: calC_-^-1 gamma^a calC_- = +(gamma^a)^T for every a; real; Psi^c = calC_- Psibar^T = Gamma Psi* (solves the equation with V -> -V)"
+  },
+  {
+   "name": "majorana_conditions_consistent",
+   "verdict": "PASS",
+   "detail": "M M* = 1 for M = 1 and M = Gamma: the reality conditions Psi = Psi* (calC_+) and Psi = Gamma Psi* (calC_-) are both consistent"
+  },
+  {
+   "name": "bilinears_under_charge_conjugation",
+   "verdict": "PASS",
+   "detail": "S -> sS S, J^a -> sJ J^a under Psi -> M Psi*: calC_+ commuting (S, J) -> (S, -J); calC_+ Grassmann (S, J) -> (-S, +J) classically (in the quantum theory normal ordering supplies one more sign for each bilinear, giving the standard (S, J) -> (S, -J)); calC_- commuting (S, J) -> (S, +J); calC_- Grassmann (S, J) -> (-S, -J); measured: {\"plus,eps=1\": [1, [-1, -1, -1, -1, -1, -1, -1, -1]], \"plus,eps=-1\": [-1, [1, 1, 1, 1, 1, 1, 1, 1]], \"minus,eps=1\": [1, [1, 1, 1, 1, 1, 1, 1, 1]], \"minus,eps=-1\": [-1, [-1, -1, -1, -1, -1, -1, -1, -1]]}"
+  },
+  {
+   "name": "real_fields_charge_conjugation",
+   "verdict": "PASS",
+   "detail": "real commuting Psi: J^a = -i Psi^T C gamma^a Psi = 0 identically and calC_+ acts as the identity (a real field is its own conjugate, no U(1) charge); the REAL matrix Gamma maps real fields to real fields, keeps S = Psi^T C Psi and reverses every kinetic matrix C gamma^a (Gamma^T C gamma^a Gamma = -C gamma^a): with m -> -m (and lambda -> -lambda) it maps solutions to solutions (T1) - for real fields the matter <-> antimatter map is the matrix Gamma with the mass reversed"
+  },
+  {
+   "name": "spinor_connection_real",
+   "verdict": "PASS",
+   "detail": "every entry of Omega_mu = (1/2) omega_mu,ab S^ab is a real expression on the patch 0 < z < pi/2 (built from real gammas, exp(+-a4), sin z > 0, cot z; no imaginary unit): gamma^mu D_mu is a REAL operator"
+  },
+  {
+   "name": "u1_noether_matrix_identity",
+   "verdict": "PASS",
+   "detail": "d_mu(cos z J^mu) = Psi^dagger [d_mu(cos z K^mu)] Psi + cos z [(d Psi)^dagger K^mu Psi + Psi^dagger K^mu d Psi], K^mu = -i C gamma^mu; -i cos z (Psi^dagger C E - E^dagger C Psi) gives the same derivative terms (i (gamma^mu)^T C = -i C gamma^mu, gamma and Omega real), the V terms cancel (V real), and the remaining terms agree iff sum_mu d_mu(cos z C gamma^mu) = cos z sum_mu (C gamma^mu Omega_mu - Omega_mu^T (gamma^mu)^T C): verified exactly for general a4(x4); on shell the charge Q = Int cos z Psi^dagger B Psi d^7x is conserved"
+  }
+ ]
+}
