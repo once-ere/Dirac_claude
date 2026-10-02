@@ -69,22 +69,24 @@ take shortcuts or weaken a check.
 The repository now lives at `D:\Developer\github\Dirac_claude` (drive C: was nearly full).  The workflow
 scripts in `Revision/workflows/` carry `ROOT = 'D:/Developer/github/Dirac_claude'` and the `SP` of the
 session of 2026-10-01 afternoon; a new session copies them to its scratchpad and sets its own `SP`.
-`revision_wave_2.js` now reviews with five lenses (correctness, honesty, physics, reproducibility,
-completeness), two skeptics per finding, per-area fixers (science, then documents, then notebooks/gate),
-a fix verifier and a second fix round.
-Revision wave 1 (`Revision/workflows/revision_wave_1.js`) was RELAUNCHED in this session (run
-wf_6f22a73c-e62) with a restart note telling the agents to inspect and finish the partial
-`Revision/algebra/wolfram/RevisionAlgebra.wl`.  Progress at the checkpoint of 2026-10-01 15:45 (commit
-2c61fb0, pushed): Algebra, Theory (Wolfram 84 exact checks and the independent sympy check), a4 equations,
-pairing (Wolfram 99 checks and sympy), GKD verification, Kohn-Sham exact theory and the Rust solver
-all reported every check passing; the three documents (DIRAC16COMPLEX_FIELD_THEORY 25 pp,
-DIRAC16COMPLEX00_FIELD_THEORY 32 pp, PAIR_CREATION_PROOFS 26 pp) are built and registered.  STILL
-RUNNING: the Kohn-Sham reference solver/cross-checker (ks-reference) and the four review lenses, then
-the fixer.  These files are committed as a snapshot and are NOT yet reviewed.  If a restart finds the
-run gone: relaunch the retargeted `revision_wave_1.js` (its agents inspect and finish existing files),
-or hand-author a script with only ks-reference, the four reviews and the fixer.  NEXT: when wave 1 finishes, commit and push, then
-launch `revision_wave_2.js` (dark-sector hypotheses vs Unite, a4 with the Kohn-Sham source, T3,
-documents, notebooks, gate, reviews).
+
+* Wave 1 (`revision_wave_1.js`, run wf_6f22a73c-e62): COMPLETE, commit 70fab64.  19 agents; every stage
+  passes its checks; review 27 findings (10 major, 17 minor), all fixed (record:
+  `Revision/workflows/wave1_review_and_fix.json`).  Physics corrections of the review: gamma^mu Omega_mu is
+  frame dependent (non-triviality stated with its exact scope); the extra-time evolution is Hadamard
+  ill-posed; the dirac16complex00 energy is unbounded below; the Kohn-Sham states violate the a4 source
+  conditions (x8 dependence, p3 + p_t = 2 p8), so the Kohn-Sham history is a PRESCRIBED BACKGROUND; T3 proved.
+* Fresh-clone check of 1c297d6 by the lead: all 12 verifiers exit 0; python-field-theory.json was stale
+  (energy_exchange "DISAGREE"); the lead's own sympy derivation: nabla_mu T^mu_x4 gives
+  d rho/d x4 = -3 a4' (p3 - p_t), nabla_mu T^mu_x8 gives d p8/d x8 + 3 H cot z (2 p8 - p3 - p_t) = 0, all other
+  components identically zero (both sides were right; they stated different components).
+* Wave 1b (`revision_wave_1b.js`, run wf_39a30fcf-75b, RUNNING): Rust Mermin mu repair (rounding-limited
+  in N8_lamm1_a00_T10), prescribed-background label in ks-theory.json, theory comparison verification,
+  wave-1 fix verification, FULL-matrix Kohn-Sham cross-check, fresh-clone reproduction gate, two skeptics per
+  item, per-area fixers, fix verifier.  It reads `<SP>/w1_args.json` (= the committed record above).
+* NEXT: commit and push wave 1b; then `revision_wave_2.js` (dark sector with stated observer assumptions
+  for the time-like extra times, a4 with the Kohn-Sham source starting from the source-condition
+  violation, T3 verification and numerics, documents, notebooks, gate, five-lens review with skeptics).
 
 ### 0.4c CURRENT TASK (user, 2026-10-01, later): `Revision/` - a new, separate record
 
