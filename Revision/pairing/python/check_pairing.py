@@ -30,7 +30,8 @@ Checked items (the pairing-wolfram task, every item):
   NOT  the exact list of what the theorems do not establish.
   Further: a general diagonal field e^a_mu = h_a(x1..x8) (T1 in full; T2 as frame reflections of every
   direction), a general cubic potential U(S) (T1), negative controls, and the flat one-particle
-  generator (similarities, h^2, Krein inertia (4,4) of every energy eigenspace).
+  generator (similarities, h^2, Krein inertia (4,4) of every real-frequency eigenspace, Krein-neutral
+  eigenspaces of imaginary or zero frequency).
 
 Output (deterministic, LF): Revision/pairing/reports/python-pairing.json.
 At the end the results are compared with Revision/pairing/pairing-theory.json (the Wolfram side's
@@ -849,7 +850,51 @@ def quantum_one_particle_checks():
         res.append("w = %s: dim %d, Krein inertia (%d,%d)" % (ev, V.cols, pos, neg))
         good = good and ok_ev and V.cols == 8 and (pos, neg) == (4, 4)
     check("Q.one_particle_Krein_inertia", good,
-          "at the exact sample m = 1, k1 = 2, k8 = 2, other k = 0 (E = 3): " + "; ".join(res) + " - every energy eigenspace of the canonically quantised field is Krein-indefinite (B restricted to it has inertia (4,4))")
+          "at the exact sample m = 1, k1 = 2, k8 = 2, other k = 0 (E = 3, a real frequency): " + "; ".join(res) + " - B restricted to each of these eigenspaces has inertia (4,4); the statement for every real frequency is Q.one_particle_Krein_inertia_proof, the imaginary and zero frequencies are Q.one_particle_complex_frequency_Krein_neutral")
+    # every REAL frequency: B-orthogonal eigenspaces, signature 0 in the good sector, continuity
+    w = sp.Symbol("w", positive=True)
+    Gm = G_of(m, ks)
+    good_sector = {ks[3]: 0, ks[4]: 0, ks[5]: 0}
+    commute = (B * Gm.subs(good_sector) - Gm.subs(good_sector) * B).applyfunc(sp.expand) == sp.zeros(N)
+    traces = sp.expand((B * Gm).trace()) == 0 and B.trace() == 0
+    Pp, Pn = (I16 + Gm / w) / 2, (I16 - Gm / w) / 2
+    PpH = (I16 + Gm.H / w) / 2                                    # m, k real and w real
+    sq = (Gm * Gm - E2 * I16).applyfunc(sp.expand) == sp.zeros(N)
+    orth = ((PpH * B * Pn).applyfunc(sp.expand).subs(w, sp.sqrt(E2)).applyfunc(sp.simplify) == sp.zeros(N))
+    selfp = ((PpH * B * Pp - B * Pp).applyfunc(sp.expand).subs(w, sp.sqrt(E2)).applyfunc(sp.simplify) == sp.zeros(N))
+    # an exact real-frequency sample WITH extra-time momentum: m = 2, k5 = 1 (w^2 = 3)
+    sub2 = {m: 2, ks[0]: 0, ks[1]: 0, ks[2]: 0, ks[3]: 1, ks[4]: 0, ks[5]: 0, ks[6]: 0}
+    G2 = Gm.subs(sub2)
+    w2v = sp.sqrt(3)
+    res2, good2 = [], True
+    for ev in (w2v, -w2v):
+        V = sp.Matrix.hstack(*(G2 - ev * I16).nullspace())
+        K = (V.H * B * V).applyfunc(sp.simplify)
+        evs = K.eigenvals()
+        pos = sum(v for e, v in evs.items() if sp.N(e) > 0)
+        neg = sum(v for e, v in evs.items() if sp.N(e) < 0)
+        res2.append("w = %s: dim %d, inertia (%d,%d)" % (ev, V.cols, pos, neg))
+        good2 = good2 and V.cols == 8 and (pos, neg) == (4, 4)
+    check("Q.one_particle_Krein_inertia_proof", commute and traces and sq and orth and selfp and good2,
+          "flat 4+4, one-particle generator G_m(k) = B (m C - i k_j C gamma^j), G^2 = w^2 I16 with w^2 = %s: (i) for real w > 0 the projectors P_(+-) = (1 +- G/w)/2 obey P_+^dagger B P_- = 0 and P_+^dagger B P_+ = B P_+ (symbolic): the two 8-dimensional eigenspaces are B-orthogonal and B is nondegenerate on each; (ii) good sector (k5 = k6 = k7 = 0): [B, G] = 0 and tr B = tr(B G) = 0, so tr(B P_(+-)) = 0 and B has inertia (4,4) on each eigenspace; (iii) w^2 > 0 is a connected region containing the good sector (k5, k6, k7 -> 0 at fixed other k only increases w^2) on which P_(+-) are continuous, so the inertia (4,4) holds at EVERY real frequency; exact extra-time sample m = 2, k5 = 1: %s" % (E2, "; ".join(res2)))
+    # imaginary and zero frequencies: Krein-neutral eigenspaces
+    res3, good3 = [], True
+    for mv, kv in ((1, (0, 0, 0, 2, 0, 0, 0)), (1, (1, 0, 0, 2, 0, 0, 0)), (1, (0, 0, 0, 1, 0, 0, 0))):
+        Gs3 = Gm.subs({m: mv, **{ks[i]: kv[i] for i in range(7)}})
+        w3sq = E2.subs({m: mv, **{ks[i]: kv[i] for i in range(7)}})
+        if w3sq == 0:
+            spaces = [Gs3.nullspace()]
+            nil = (Gs3 * Gs3).applyfunc(sp.expand) == sp.zeros(N) and Gs3.rank() == 8
+        else:
+            w3 = sp.sqrt(w3sq)
+            spaces = [(Gs3 - w3 * I16).nullspace(), (Gs3 + w3 * I16).nullspace()]
+            nil = True
+        dims = [len(sps) for sps in spaces]
+        zero_form = all(((sp.Matrix.hstack(*sps).H * B * sp.Matrix.hstack(*sps)).applyfunc(sp.simplify) == sp.zeros(len(sps))) for sps in spaces)
+        res3.append("m = %s, (k1,k2,k3,k5,k6,k7,k8) = %s: w^2 = %s, eigenspace dimensions %s, B-form identically zero: %s" % (mv, kv, w3sq, dims, zero_form))
+        good3 = good3 and all(d == 8 for d in dims) and zero_form and nil
+    check("Q.one_particle_complex_frequency_Krein_neutral", good3,
+          "B G = G^dagger B gives (w - conj w) u^dagger B v = 0 on an eigenspace of G, so for imaginary w (growing extra-time modes) B vanishes identically there (Krein-neutral, inertia (0,0,8)); for w = 0, G^2 = 0 with rank 8 and ker G = ran G is B-neutral. Exact samples: " + "; ".join(res3) + ". Hence 'Krein inertia (4,4) in every energy eigenspace' is exact for real frequencies only")
     check("Q.T2_image_keeps_B", G8 * B * G8.H == B,
           "gamma^(x8) B gamma^(x8)^dagger = +B: the T2 (mirror) image keeps the canonical anticommutator +B/sqrt|g|, it is an ordinary independently quantisable copy with equal energies (unlike the T1 image, which carries -B)")
 
@@ -863,9 +908,9 @@ NOT_ESTABLISHED = [
     "The gravitational back-reaction (the a4 equations of SPEC section 5) is not part of the pairing theorems; T1 maps T -> -T, so a pair sourcing ONE common geometry would have zero total source, which is a statement about sources, not a derivation that such a geometry is created.",
     "No dynamical necessity: nothing forces the partner configuration to exist; the theorems are correspondences between solutions of two parameter sets, not a mechanism.",
     "T1 pairs (m, lambda) with (-m, -lambda): for lambda != 0 it is not a pure +m / -m pairing; the pure pairing (m, lambda) -> (-m, lambda) is T2, at EQUAL (not opposite) energy-momentum.",
-    "Quantum positivity: in flat 4+4 space every energy eigenspace of the one-particle generator has Krein inertia (4,4) (Q.one_particle_Krein_inertia); a positive-norm Fock space for either universe is not established by these theorems.",
+    "Quantum positivity: in flat 4+4 space every real-frequency energy eigenspace of the one-particle generator has Krein inertia (4,4) (Q.one_particle_Krein_inertia_proof) and every imaginary- or zero-frequency eigenspace (the growing extra-time modes) is Krein-neutral (Q.one_particle_complex_frequency_Krein_neutral); a positive-norm Fock space for either universe is not established by these theorems.",
     "The brane z = pi/2 is a degenerate surface of the metric (g_88 = cot^2 z = 0, sqrt|g| = cos z = 0 there, geometry.brane_degenerate); no junction condition, brane tension or matching of the field across it is derived.",
-    "The Kohn-Sham level (T3) is not covered by this checker (owned by Revision/pairing/kohn_sham/).",
+    "The Kohn-Sham level (T3) is not covered by this checker; it is proved separately in Revision/pairing/kohn_sham/ (check_t3.py, with its own hypotheses: ASSUMED Z2 brane, instantaneous mean-field Kohn-Sham states).",
 ]
 
 
@@ -963,7 +1008,8 @@ def compare_with_theory():
                "T2.metric.commuting.emt", "T2.metric.grassmann.emt", "T2.metric.commuting.current", "T2.metric.grassmann.current"],
         "Q": ["Q.canonical_anticommutator", "Q.image_krein_metric", "Q.image_own_quantisation",
               "Q.image_generators_same_dynamics", "Q.no_cancellation_independent_universes", "Q.one_particle_maps",
-              "Q.one_particle_Krein_inertia", "Q.T2_image_keeps_B"],
+              "Q.one_particle_Krein_inertia", "Q.one_particle_Krein_inertia_proof",
+              "Q.one_particle_complex_frequency_Krein_neutral", "Q.T2_image_keeps_B"],
     }
     for t in th["theorems"]:
         names = support.get(t["id"], [])

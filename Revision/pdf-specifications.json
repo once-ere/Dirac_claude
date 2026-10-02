@@ -1,17 +1,17 @@
 {
   "dirac16complex-field-theory": {
     "path": "Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.pdf",
-    "pages": 25,
-    "sha256": "e387f5446f39c3ecf76234ba6a52a9d3bbbd8ad7ae2a53902184c9ffd7e90eb5"
+    "pages": 29,
+    "sha256": "e0e9c52cfd5ea1b624e0fdd4204bb0ee40ecf0b403cfd598825e2ac715d384f9"
   },
   "dirac16complex00-field-theory": {
     "path": "Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.pdf",
-    "pages": 32,
-    "sha256": "00d970a189659fe6ca08d586ec2fa5fe31e2af71515035f776e194c33b9550d0"
+    "pages": 36,
+    "sha256": "3b7a9f128c2246801d476b128822ed97fdbc48cac1836f624275d79f663e842a"
   },
   "pair-creation-proofs": {
     "path": "Revision/docs/PAIR_CREATION_PROOFS.pdf",
-    "pages": 26,
-    "sha256": "e68bc749f30fc8cf56747a982c7eb447cc0bcf2d594d0a8b83540e50c92d6567"
+    "pages": 29,
+    "sha256": "5fa4a78daee11da7028af5bc0100fabac6b82e24861d0568b7495065b7d6bc60"
   }
 }

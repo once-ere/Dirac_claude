@@ -317,16 +317,43 @@ addCheck["Q_one_particle_maps",
   Gam . hm . Gam == hmm && g[[8]] . hm . g[[8]] == hFlat[-RPm, R8 . kk],
   "Gamma h_m(k) Gamma = h_(-m)(k) and gamma^(x8) h_m(k) gamma^(x8) = h_(-m)(R_8 k): the one-particle Hamiltonians of the +m and -m universes are similar, so their spectra are IDENTICAL (+-w each with multiplicity 8), not opposite"];
 inertia[V_] := Module[{G = Conjugate[V] . Bm . Transpose[V], ev}, ev = Eigenvalues[G]; {Count[ev, x_ /; Positive[x]], Count[ev, x_ /; Negative[x]]}];
-samples = {{2, {1, 2, 0, 0, 0, 0, 0, 4}}, {3, {0, 0, 0, 0, 0, 0, 0, 0}}, {1, {1, 0, 0, 0, 0, 0, 0, 0}}};
+samples = {{2, {1, 2, 0, 0, 0, 0, 0, 4}}, {3, {0, 0, 0, 0, 0, 0, 0, 0}}, {1, {1, 0, 0, 0, 0, 0, 0, 0}}, {2, {0, 0, 0, 0, 1, 0, 0, 0}}};
 sampleRows = Flatten[Table[Module[{mm = smp[[1]] sgn, k = smp[[2]], h, w, Vp, Vn},
-    h = hFlat[mm, k]; w = Sqrt[smp[[1]]^2 + Total[k[[{1, 2, 3, 8}]]^2]];
+    h = hFlat[mm, k]; w = Sqrt[smp[[1]]^2 + Total[k[[{1, 2, 3, 8}]]^2] - Total[k[[{5, 6, 7}]]^2]];
     Vp = NullSpace[h - w id16]; Vn = NullSpace[h + w id16];
     <|"m" -> mm, "k" -> k, "w" -> w, "dimPlus" -> Length[Vp], "dimMinus" -> Length[Vn], "inertiaPlus" -> inertia[Vp], "inertiaMinus" -> inertia[Vn],
       "imageOK" -> (MatrixRank[Join[Transpose[Gam . Transpose[Vp]], NullSpace[hFlat[-mm, k] - w id16]]] == 8)|>], {smp, samples}, {sgn, {1, -1}}], 1];
 addCheck["Q_one_particle_Krein_signatures",
   AllTrue[sampleRows, #["dimPlus"] == 8 && #["dimMinus"] == 8 && #["inertiaPlus"] == {4, 4} && #["inertiaMinus"] == {4, 4} && #["imageOK"] &],
   "exact eigenspaces of h_m(k) for (m, k) = " <> StringRiffle[("(" <> ToString[#["m"]] <> ", " <> ToString[#["k"]] <> ", w = " <> ToString[InputForm[#["w"]]] <> ")") & /@ sampleRows, "; "] <>
-  ": each of the eigenspaces w and -w has dimension 8 and the form u^dagger B u restricted to it has inertia (4 positive, 4 negative); Gamma maps the w-eigenspace of h_m onto that of h_(-m) and turns the form into its negative, so the inertia is (4,4) in both universes. In flat 4+4 space the Krein form is indefinite within every energy eigenspace (the good-sector restriction k5 = k6 = k7 = 0 removes the complex frequencies, not this indefiniteness)"];
+  ": at each of these samples (all with a real frequency w > 0; the last pair has the extra-time momentum k5 = 1) the eigenspaces w and -w have dimension 8 and the form u^dagger B u restricted to each has inertia (4 positive, 4 negative); Gamma maps the w-eigenspace of h_m onto that of h_(-m) and turns the form into its negative, so the inertia is (4,4) in both universes. The general statement for every real frequency, and the Krein-neutral eigenspaces of imaginary or zero frequency, are the next two checks"];
+(* every REAL frequency: proof; imaginary and zero frequencies: Krein-neutral eigenspaces *)
+Module[{w2 = RPm^2 + kk[[1]]^2 + kk[[2]]^2 + kk[[3]]^2 + kk[[8]]^2 - kk[[5]]^2 - kk[[6]]^2 - kk[[7]]^2, hG, hmD, PpD, Pp, Pn, good, trBh, orth, smpRows, wv},
+  hG = hm /. {kk[[5]] -> 0, kk[[6]] -> 0, kk[[7]] -> 0};
+  good = Expand[Bm . hG - hG . Bm] == zero16;
+  trBh = Expand[Tr[Bm . hm]] === 0 && Tr[Bm] === 0;
+  (* real frequency wv > 0 with wv^2 = w2: P_(+-) = (1 +- h/wv)/2, P_+^dagger = (1 + h^dagger/wv)/2 since wv is real *)
+  hmD = ComplexExpand[ConjugateTranspose[hm]];
+  Pp = (id16 + hm/wv)/2; Pn = (id16 - hm/wv)/2; PpD = (id16 + hmD/wv)/2;
+  orth = Map[Together, Expand[PpD . Bm . Pn] /. wv -> Sqrt[w2], {2}] == zero16 &&
+    Map[Together, Expand[PpD . Bm . Pp - Bm . Pp] /. wv -> Sqrt[w2], {2}] == zero16;
+  addCheck["Q_one_particle_Krein_inertia_real_frequencies",
+    good && trBh && orth,
+    "PROOF for every real frequency, flat 4+4 space: (i) h_m(k)^2 = w^2 I16 (check Q_one_particle_flat_dispersion) and B h_m = h_m^dagger B; for w^2 = m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2 > 0 the projectors P_(+-) = (1 +- h_m/w)/2 satisfy P_+^dagger B P_- = 0 and P_+^dagger B P_+ = B P_+ (verified symbolically for real m, k with w^2 > 0): the two eigenspaces (dimension 8 each) are B-orthogonal, so B is nondegenerate on each; (ii) in the good sector k5 = k6 = k7 = 0, [B, h_m(k)] = 0 (verified), and tr B = 0, tr(B h_m(k)) = 0 for all k (verified: tr C = tr(C gamma^a) = 0), so tr(B P_(+-)) = 0: B restricted to each eigenspace has signature 0, inertia (4,4); (iii) the region w^2 > 0 is connected and contains the good sector (scale k5, k6, k7 down to 0 at fixed k1, k2, k3, k8, m: w^2 only grows), P_(+-) depend continuously on k there and B stays nondegenerate on their ranges, so the inertia (4,4) is the same at every real frequency, with or without extra-time momenta"];
+  smpRows = Table[Module[{mm = sm[[1]], k = sm[[2]], h, w, sp1, sp2},
+      h = hFlat[mm, k]; w = Sqrt[mm^2 + Total[k[[{1, 2, 3, 8}]]^2] - Total[k[[{5, 6, 7}]]^2] + 0];
+      If[w == 0,
+        sp1 = NullSpace[h]; sp2 = sp1,
+        sp1 = NullSpace[h - w id16]; sp2 = NullSpace[h + w id16]];
+      <|"m" -> mm, "k" -> k, "w" -> w, "dims" -> {Length[sp1], Length[sp2]},
+        "formZero" -> (Simplify[Conjugate[sp1] . Bm . Transpose[sp1]] == ConstantArray[0, {Length[sp1], Length[sp1]}] &&
+                       Simplify[Conjugate[sp2] . Bm . Transpose[sp2]] == ConstantArray[0, {Length[sp2], Length[sp2]}]),
+        "squareZero" -> (w == 0 && Expand[h . h] == zero16 && MatrixRank[h] == 8)|>], {sm, {{1, {0, 0, 0, 0, 2, 0, 0, 0}}, {1, {1, 0, 0, 0, 2, 0, 0, 0}}, {1, {0, 0, 0, 0, 1, 0, 0, 0}}}}];
+  addCheck["Q_one_particle_complex_and_zero_frequencies_Krein_neutral",
+    AllTrue[smpRows, #["dims"] == {8, 8} && #["formZero"] &] && smpRows[[3]]["squareZero"],
+    "general: if h u = w u and h v = w v then w u^dagger B v = u^dagger B h v = (h u)^dagger B v = conj(w) u^dagger B v (B h = h^dagger B), so for w not real the form u^dagger B v vanishes identically on the eigenspace (Krein-neutral, inertia (0,0,8)); for w = 0, h^2 = 0 with rank 8, ker h = ran h and u^dagger B h x = (h u)^dagger B x = 0. Exact samples: " <>
+    StringRiffle[("(m, k) = (" <> ToString[#["m"]] <> ", " <> ToString[#["k"]] <> "): w = " <> ToString[InputForm[#["w"]]] <> ", eigenspace dimensions " <> ToString[#["dims"]] <> ", B-form identically zero: " <> ToString[#["formZero"]]) & /@ smpRows, "; "] <>
+    ". So the statement 'every energy eigenspace has Krein inertia (4,4)' holds exactly for the real frequencies (w^2 > 0) only; the growing extra-time modes span Krein-neutral eigenspaces"]];
 Module[{gu = geoPt["gammaUp"], Om = geoPt["Omega"], g44, hG, hGm, kk2 = kk},
   g44 = Inverse[geoPt["g"]][[4, 4]];
   hG[mm_] := I (gu[[4]]/g44) . (mm id16 - Sum[If[mu == 4, zero16, gu[[mu]] . (I kk2[[mu]] id16 + Om[[mu]])], {mu, 8}]) - I Om[[4]];
@@ -420,7 +447,7 @@ theory = <|
         "the chirality image chi = Gamma Psi carries the Krein metric -B: {chi, chi^dagger} = Gamma B Gamma delta/sqrt|g| = -B delta/sqrt|g|, which is also the anticommutator demanded by its own Lagrangian L_(m,lambda)[Gamma chi] = -L_(-m,-lambda)[chi]",
         "the image's own generators (energy, momentum, charge from its own Lagrangian) coincide with those of Psi: the pair Psi, Gamma Psi is ONE quantum system, and the T1 identity T^(-m,-lambda)[Gamma Psi] = -T^(m,lambda)[Psi] is an identity between operators of that one system",
         "an independently quantised (-m,-lambda) universe has the anticommutator +B (from L_(-m,-lambda)), its own vacuum and generators; it cannot be identified with Gamma Psi (B != -B); on the product state space the generators add and no cancellation P_1 + P_2 = 0 follows",
-        "the one-particle Hamiltonians satisfy Gamma h_m Gamma = h_(-m) (flat space and a general field at a point) and gamma^(x8) h_m(k) gamma^(x8) = h_(-m)(R_8 k): the +m and -m universes have identical spectra; in flat 4+4 space each energy eigenspace has Krein inertia (4,4)",
+        "the one-particle Hamiltonians satisfy Gamma h_m Gamma = h_(-m) (flat space and a general field at a point, frozen coefficients) and gamma^(x8) h_m(k) gamma^(x8) = h_(-m)(R_8 k): the +m and -m one-particle (lambda = 0) spectra are identical; in flat 4+4 space every eigenspace of REAL frequency (w^2 = m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2 > 0) has Krein inertia (4,4) (proved for every such k), and every eigenspace of imaginary or zero frequency is Krein-neutral (B vanishes on it)",
         "the T2 image gamma^(x8) Psi keeps the anticommutator +B: the mirror (-m, lambda) universe is an ordinary, independently quantisable copy with equal energies"},
       "verification" -> namesWith["Q_"]|>},
   "data" -> <|
@@ -433,7 +460,7 @@ theory = <|
       "square" -> "h_m(k)^2 = (m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2) I16",
       "samples" -> Table[<|"m" -> s["m"], "k" -> s["k"], "w" -> istr[s["w"]], "dim_plus_w" -> s["dimPlus"], "dim_minus_w" -> s["dimMinus"],
           "B_inertia_plus_w" -> s["inertiaPlus"], "B_inertia_minus_w" -> s["inertiaMinus"]|>, {s, sampleRows}]|>|>,
-  "T3" -> "The Kohn-Sham level pairing (SPEC section 9, T3) is not part of this file; it is owned by Revision/pairing/kohn_sham/ (wave 2).",
+  "T3" -> "The Kohn-Sham level pairing (SPEC section 9, T3) is not part of this file; it is proved separately in Revision/pairing/kohn_sham/ (theorem record t3-theory.json, reports/wolfram-t3.json and reports/python-t3.json).",
   "not_established" -> {
     "No creation process: the theorems map solutions to solutions and quantities to quantities; no equation of this record produces a pair of universes from anything, and no initial state, vacuum decay or tunnelling process is derived.",
     "No rate and no amplitude: no transition amplitude, probability, cross-section, rate or Bogoliubov coefficient for creating universes of masses {+m, -m} is computed or implied.",
@@ -442,8 +469,8 @@ theory = <|
     "The vanishing total energy-momentum and charge of the T1 pair holds for classical bilinears (and as an operator identity within ONE quantum system); it does not hold for two independently quantised universes, whose generators add without cancelling.",
     "Test-field statement only: the gravitational field is fixed and the same for both members; back-reaction through the Einstein-Lovelock equations of SPEC section 5 (which would need the field equations for a4 with the pair as source) is not addressed here.",
     "The Z2 brane: the mirror across z = pi/2 uses the ASSUMED Z2 construction of SPEC section 7; the metric is degenerate at z = pi/2 (g_88 = 0, sqrt|g| = 0), and no junction condition, brane tension or matching of the field across the brane is derived here.",
-    "Quantum positivity: in flat 4+4 space every energy eigenspace of the one-particle Hamiltonian has Krein inertia (4,4); a positive-norm Fock space for either universe is not established by these theorems.",
-    "The Kohn-Sham level (T3) is not established by this file."}|>;
+    "Quantum positivity: in flat 4+4 space every real-frequency energy eigenspace of the one-particle Hamiltonian has Krein inertia (4,4) and every imaginary- or zero-frequency eigenspace (the growing extra-time modes) is Krein-neutral; a positive-norm Fock space for either universe is not established by these theorems.",
+    "The Kohn-Sham level (T3) is not established by this file; it is proved separately, with its own hypotheses (ASSUMED Z2 brane, instantaneous mean-field Kohn-Sham states), in Revision/pairing/kohn_sham/."}|>;
 theoryText = toJ[theory, ""] <> "\n";
 theoryText2 = toJ[theory, ""] <> "\n";
 

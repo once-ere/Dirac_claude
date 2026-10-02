@@ -64,12 +64,15 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "77e13b749337a0029aa5608b6021ba3f592d62ef7654516f759364c3ea4bf25a"
-TEX_SHA256 = "b40e02199fda8692d46119e9934f6e1af16d5c4f35f66b8a6b378e4ad8cd1e6a"
+MARKDOWN_SHA256 = "e3d2cce7cdf318428ed3b0fdf893aafbe8cdcc775d9248d4ec8cd01b56d37d3b"
+TEX_SHA256 = "04510a8d885c72cf44febcaa737ed44f34d376daf71a7518e02d73419f75295c"
 
 PAIRING_THEORY = REVISION / "pairing" / "pairing-theory.json"
 WOLFRAM_PAIRING = REVISION / "pairing" / "reports" / "wolfram-pairing.json"
 PYTHON_PAIRING = REVISION / "pairing" / "reports" / "python-pairing.json"
+T3_THEORY = REVISION / "pairing" / "kohn_sham" / "t3-theory.json"
+WOLFRAM_T3 = REVISION / "pairing" / "kohn_sham" / "reports" / "wolfram-t3.json"
+PYTHON_T3 = REVISION / "pairing" / "kohn_sham" / "reports" / "python-t3.json"
 KS_SOLVER = REVISION / "kohn_sham" / "reports" / "ks-rust-solver.json"
 A4_WOLFRAM = REVISION / "field_equations_a4" / "reports" / "wolfram-a4-report.json"
 A4_PYTHON = REVISION / "field_equations_a4" / "reports" / "python-a4-report.json"
@@ -78,6 +81,8 @@ A4_PYTHON = REVISION / "field_equations_a4" / "reports" / "python-a4-report.json
 COUNTED_REPORTS = (
     "Revision/pairing/reports/wolfram-pairing.json",
     "Revision/pairing/reports/python-pairing.json",
+    "Revision/pairing/kohn_sham/reports/wolfram-t3.json",
+    "Revision/pairing/kohn_sham/reports/python-t3.json",
     "Revision/algebra/reports/wolfram-algebra.json",
     "Revision/algebra/reports/python-algebra.json",
     "Revision/theory/reports/wolfram-field-theory.json",
@@ -94,11 +99,12 @@ CITABLE_REPORT_GLOBS = (
     "theory/reports/*.json",
     "field_equations_a4/reports/*.json",
     "pairing/reports/*.json",
+    "pairing/kohn_sham/reports/*.json",
     "kohn_sham/reports/*.json",
 )
 
 TITLE = "Pairing of universes of masses +m and -m: exact proofs for dirac16complex and dirac16complex00"
-SUBTITLE_START = "The pairing theorems T1 and T2 and the quantum-level reading in the author's primordial"
+SUBTITLE_START = "The pairing theorems T1, T2 and T3 and the quantum-level reading in the author's primordial"
 SECTIONS = (
     "## Abstract",
     "## 1. The request and the exact answer",
@@ -108,7 +114,7 @@ SECTIONS = (
     "## 5. Theorem T2: the mirror pairing (both fields)",
     "## 6. The quantum-level reading (dirac16complex)",
     "## 7. Corollary C1: a T1 pair as the source of the field equations for $a_4$",
-    "## 8. The Kohn-Sham level T3 (to be added)",
+    "## 8. Theorem T3: the Kohn-Sham level (dirac16complex)",
     "## 9. Verification records",
     "## 10. Reproduction",
     "## 11. What is proved and what is not",
@@ -116,7 +122,10 @@ SECTIONS = (
 REQUEST = "PROVE that Universes of masses {+mass, -mass} are created in pairs"
 KEY_STATEMENTS = (
     REQUEST + " for each case of the dirac16complex and the dirac16complex00 fields.",
-    "The pairing theorems are proved; the creation of pairs is not.",
+    "T1, T2, T3 and the quantum reading Q are proved, each under its stated hypotheses; the creation of pairs is not.",
+    "That universes occur in pairs is not proved",
+    "with the ASSUMED Z2 mirror construction",
+    "identical one-particle ($\\lambda = 0$) spectra (flat space, or frozen coefficients at a point)",
     "No creation process, rate or amplitude follows from these equations.",
     "Not proved: that such universes are CREATED, in pairs or otherwise.",
     r"$\mathcal{L}_{m,\lambda}[\Gamma\Psi] = -\mathcal{L}_{-m,-\lambda}[\Psi]$",
@@ -129,7 +138,8 @@ KEY_STATEMENTS = (
     "no cancellation $P_1 + P_2 = 0$ follows",
     "The T2 image $\\gamma^8\\Psi$ keeps the anticommutator $+B$",
     "the ASSUMED Z2 construction of `Revision/SPEC.md` section 7",
-    "Status: T3 is NOT established in this document.",
+    "the same occupations, chemical potential, particle number and entropy, EQUAL Kohn-Sham energy",
+    "for every REAL frequency ($w^2 > 0$, with or without extra-time momentum)",
     "The field is a fixed (test) background: it is NOT varied",
     "dirac16complex00 is a classical field and has no quantum reading.",
     "they neither use nor establish a positive-norm Fock space for either universe",
@@ -137,11 +147,11 @@ KEY_STATEMENTS = (
     "1. No creation process:",
     "2. No rate, probability or amplitude:",
     "3. No dynamical necessity:",
-    "10. The Kohn-Sham level T3 is not established in this document (section 8).",
+    "10. The Kohn-Sham level T3 holds for the instantaneous (adiabatic) mean-field Kohn-Sham states only",
 )
 FORBIDDEN = (
     r"creation (?:of (?:pairs|universes) )?(?:is|has been|was|are) (?:proved|proven|established|derived)",
-    r"\bT3 (?:is|has been|was) (?:proved|proven|established)",
+    r"\bthe Z2 (?:brane|mirror) (?:is|has been|was) (?:derived|proved|proven)",
     r"\bwe (?:have )?prove[d]? that (?:the )?universes\b",
     r"\bproof of (?:the )?(?:pair )?creation\b",
 )
@@ -300,7 +310,7 @@ class Content(unittest.TestCase):
         """The content checks are not vacuous: tampered statements are detected."""
         tampered = (
             "The creation of pairs is proved by T1.",
-            "T3 is established in this document.",
+            "The Z2 brane is derived from the field equations.",
             "We have proved that universes are created.",
             "This section is the proof of pair creation.",
         )
@@ -409,14 +419,29 @@ class QuotedData(unittest.TestCase):
             self.assertEqual(sample["B_inertia_plus_w"], [4, 4])
             self.assertEqual(sample["B_inertia_minus_w"], [4, 4])
             w = sample["w"]
-            w_tex = "\\sqrt{2}" if w == "Sqrt[2]" else w
+            w_tex = re.sub(r"Sqrt\[(\d+)\]", r"\\sqrt{\1}", w)
             k = ", ".join(str(value) for value in sample["k"])
             row = f"| ${sample['m']}$ | ({k}) | ${w_tex}$ | 8 and 8 | (4,4) and (4,4) |"
             self.assertIn(row, self.text, row)
             m, ks = sp.Integer(sample["m"]), [sp.Integer(value) for value in sample["k"]]
             w_value = sp.sqrt(m**2 + ks[0]**2 + ks[1]**2 + ks[2]**2 + ks[7]**2
                               - ks[4]**2 - ks[5]**2 - ks[6]**2)
-            self.assertEqual(sp.simplify(w_value - sp.sympify(w.replace("Sqrt[2]", "sqrt(2)"))), 0)
+            self.assertEqual(sp.simplify(w_value - sp.sympify(re.sub(r"Sqrt\[(\d+)\]", r"sqrt(\1)", w))), 0)
+
+    def test_t3_record_and_its_checks(self):
+        theory = load_json(T3_THEORY)
+        self.assertEqual(theory["status"], "all checks of the report passed")
+        statement = " ".join(theory["statement"])
+        self.assertIn("(-m, +lambda, Pi - theta)", statement)
+        self.assertIn("EQUAL Kohn-Sham levels", statement)
+        self.assertTrue(any("ASSUMED" in h for h in theory["hypotheses"]))
+        cited = set(cited_check_names(self.text))
+        for path in (WOLFRAM_T3, PYTHON_T3):
+            total, passed, failed = count_report(path)
+            self.assertEqual((passed, failed), (total, 0), path.name)
+            for check in load_json(path)["checks"]:
+                self.assertIn(check["name"], cited, f"{check['name']} of {path.name}")
+        self.assertEqual(theory["verification"], [c["name"] for c in load_json(WOLFRAM_T3)["checks"]])
 
     def test_a4_vacuum_polynomial(self):
         a1, a2, a3, h, a = sp.symbols("alpha1 alpha2 alpha3 H AA")

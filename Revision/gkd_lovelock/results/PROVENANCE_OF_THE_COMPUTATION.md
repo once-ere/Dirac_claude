@@ -51,3 +51,23 @@ notebook_reading/) with `git mv`, unchanged, when the author asked for all new c
 metric to be kept in the new folder `Revision`.  The files in `verification_unfinished/` were written by a
 verification workflow that was stopped at the author's request before it finished; they are NOT verified
 and are not used for any result until they have been run and checked.
+
+## Later note (2026-10-01, appended; nothing above is changed)
+
+* The verification was finished in `Revision/gkd_lovelock/verification/` (`verify_lovelock_gkd.wls` with
+  `LovelockGKDCheck.wl`, report `wolfram-gkd-report.json`, 29 checks; `check_lovelock_gkd.py`, report
+  `python-lovelock-report.json`, 49 checks; all pass). The unfinished files of `verification_unfinished/` were
+  removed and are not used.
+* The two notebook-reading outputs are reproduced by these commands (from the repository root):
+
+```text
+wolframscript -file Revision/gkd_lovelock/notebook_reading/lovelock_extract_nb_inputs.wls
+python Revision/gkd_lovelock/notebook_reading/lovelock_digest_nb_inputs.py
+wolframscript -file Revision/gkd_lovelock/notebook_reading/lovelock_export_nb_image.wls
+```
+
+  The first writes the full InputForm text of the 58 input cells to `build/lovelock_nb_inputs.txt` (or to
+  `$LOVELOCK_NB_INPUTS`; not committed), the second writes the digest `notebook-input-cells.txt` from it
+  (byte-identical to the file recorded above), the third renders the image `notebook-in68-image.png` without the
+  PNG text and time chunks that `Export` adds, so that two runs are byte-identical (the pixel data are those of
+  the first rendering).

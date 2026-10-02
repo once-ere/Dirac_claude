@@ -5,7 +5,7 @@
 	"authorDefinition":"kδ[lower_, upper_] /; Length[lower] == Length[upper] := Det[Outer[delta, lower, upper]]",
 	"deltaOnCoordinateLabels":"delta[a_Integer, b_Integer] := KroneckerDelta[a, b]",
 	"gkdValuesSource":{
-		"how":"values computed by the compiled Rust function lovelock_gkd::gkd::GKD (crate Revision/gkd_lovelock/code, unchanged, as a path dependency) through the exporter whose source is embedded in this script (exporterMainRs), built with cargo in the export directory ($LOVELOCK_GKD_EXPORT_DIR, default Revision/gkd_lovelock/code/target/wolfram_gkd_export); the GKD rule is not re-implemented in Wolfram Language",
+		"how":"values computed by the compiled Rust function lovelock_gkd::gkd::GKD (crate Revision/gkd_lovelock/code, unchanged, as a path dependency) through the exporter whose source is embedded in this script (exporterMainRs), built with cargo in the export directory ($LOVELOCK_GKD_EXPORT_DIR, default <$TemporaryDirectory>/revision_gkd_export); the GKD rule is not re-implemented in Wolfram Language",
 		"exporterMainRsSha256":"b5130177e38adba151c043fd5048f023b2ab6521acc32f620efcc2b8e794a372",
 		"valuesFile":"gkd-values.bin",
 		"valuesFileBytes":3161984,
@@ -319,7 +319,7 @@
 		}
 	},
 	"inputSha256":{
-		"Revision/gkd_lovelock/results/PROVENANCE_OF_THE_COMPUTATION.md":"211e211d91685e79d992171b5af33d2608f8885829ef8186415d0539aa56d25a",
+		"Revision/gkd_lovelock/results/PROVENANCE_OF_THE_COMPUTATION.md":"eb7011d650683737868b43422cfc6c6e311aa1647a3d2608af1c2fb4c8df3759",
 		"Revision/gkd_lovelock/results/curvature.json":"d5beb73a32244ea938ca61eac3573f72061c0e329b78f7506dd983881638763e",
 		"Revision/gkd_lovelock/results/lovelock-tensors.json":"9278a0bf0da9ac7b2b22be5bb39e44073e821efb741514f42a43fa9cbc978567",
 		"Revision/gkd_lovelock/results/lovelock-report.json":"5c919ea827a5e6822a7196bb66ead64fa0a3e70f01f35b2bbfb99a65ae028bb8",
@@ -335,7 +335,7 @@
 	},
 	"sourceSha256":{
 		"Revision/gkd_lovelock/verification/LovelockGKDCheck.wl":"2ea70c740c477fd7e89493d068d6f9e00e48e0faf354a9c50f5525560d0655f8",
-		"Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls":"de009b122a4e9633338f74c14ada73cbc702b60c4252d8506f842dd3d25953ac"
+		"Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls":"2a3bb5fa612f74d7de7bbc0d47e3b029d9e00a4dccb36d1624329f0b1a23f943"
 	},
 	"checkCount":29,
 	"expectedCheckCount":29,

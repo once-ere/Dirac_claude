@@ -80,7 +80,11 @@ energies, energy-momentum integrals and identities.
   p_t = e_int, p8 = sum w g f [(eps - v) n_o - M s_o - kappa |k| t_o] + e_int (ks-theory.json emt). For the
   exact-Fock variant, p8 gets -w_Q q_o inside the sum. This is derived here: the orbital identity holds with
   kappa k replaced by kappa k + j w_Q, and e_int stays homogeneous of degree 2.
-* **History and adiabaticity:** a4 = A H x4 with A = 1, slices a4,0 in {0, 0.5, 1, 1.5, 2}. The measure is
+* **History and adiabaticity:** a4 = A H x4 with A = 1, slices a4,0 in {0, 0.5, 1, 1.5, 2}. This history is a
+  PRESCRIBED test-field background without back-reaction: the a4 equations of SPEC section 5 allow the linear
+  member only with p3 = p_t = p8 and constant rho, and the Kohn-Sham gas along it has p3 != p_t and a changing
+  rho (and depends on x8); it is not a solution of the a4 equations with the Kohn-Sham source
+  (`Revision/field_equations_a4/reports/ks-source-conditions.json`). The measure is
   Q_nm = A H |<n| d_a h |m>| / (eps_n - eps_m)^2 for n occupied and m empty in the same (shell, j, parity),
   with d_a h = -j kappa k sigma3 + j (d_a M_eff) sigma2 + d_a v_v. The self-consistent derivatives come from
   the states at a4 +- delta and +- 2 delta (delta = 2e-3, fixed occupations, Richardson). Changes of the
@@ -169,7 +173,8 @@ the well-conditioned T dS/dT (dE/dT is kept for the identity check).
   E_KS is the same at every slice. Delta-SCF equals the gap at lambda = 0; with lambda_2 it is 0.4312929
   vs gap 0.4312996 at a4,0 = 0.
 * **E_KS along the history (lambda = 0):** 80.28222, 32.38412, 12.44507 for N = 136 and 680.4412, 279.4249,
-  110.3867 for N = 688, at a4,0 = 0, 1, 2. The brane-band gas redshifts.
+  110.3867 for N = 688, at a4,0 = 0, 1, 2. The brane-band gas redshifts. (Along the prescribed history, without
+  back-reaction: equations of state derived from it are not consequences of the coupled field equations.)
 * **Integrated pressure ratios (lambda = 0):** int p3 / int rho is 0.2966, 0.3100, 0.3264 (N = 136) and
   0.2929, 0.3018, 0.3183 (N = 688); int p8 / int rho is 0.4365, 0.5969, 0.6808 (N = 136). These are the
   integrated EMT components only. Equations of state seen by a 3-space observer are the work of

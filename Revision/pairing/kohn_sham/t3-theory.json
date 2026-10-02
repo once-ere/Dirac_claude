@@ -1,0 +1,55 @@
+{
+  "document": "Theorem T3 of Revision/SPEC.md section 9: the Kohn-Sham level of the pairing of universes of masses {+m, -m} for dirac16complex in the author's primordial field",
+  "producer": "Revision/pairing/kohn_sham/wolfram/verify_t3.wls",
+  "report": "Revision/pairing/kohn_sham/reports/wolfram-t3.json",
+  "inputs": [
+    "Revision/kohn_sham/ks-theory.json (block equation, functional, densities, energy-momentum tensor, boundary conditions, block basis V)",
+    "Revision/algebra/gammas.json"
+  ],
+  "status": "all checks of the report passed",
+  "coordinates": "x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times; x8 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0] (brane y = 0, tip y = -L)",
+  "hypotheses": [
+    "H1 (the problem): the instantaneous Kohn-Sham problem of Revision/kohn_sham/ks-theory.json at a fixed slice a4,0 = a4(x4) of the author's metric: good sector (no extra-time momentum), 3-torus lattice of momenta k, block Hamiltonians h_j = j[-i sigma1 d_y + M_eff(y) sigma2 + kappa(y) k sigma3] + v_v(y) on y in [-L, 0], j = +-1, four blocks (s2, s3) per j",
+    "H2 (the functional): Hartree plus the exact uniform-gas exchange, M_eff = m + (15/16) lambda S, v_v = -lambda n/16, e_int = (15/32) lambda S^2 - (1/32) lambda n^2 (no correlation); the energy-momentum tensor of ks-theory.json emt",
+    "H3 (the brane, ASSUMED): the Z2 mirror (orbifold) construction at y = 0 of ks-theory.json boundaryConditions.brane; both brane parities (chi2(0) = 0 and chi1(0) = 0) are solved and filled together with the weight w_Z2 = 1/2",
+    "H4 (the tip, chosen): (1 - Q(theta)) chi(-L) = 0, Q(theta) = Cos[theta] sigma3 + Sin[theta] sigma2 (canonical theta = 0)",
+    "H5 (occupation): Mermin occupations f = 1/(1 + e^((eps - mu)/T)) with the particle number N fixed, and the filling CONVENTION of ks-theory.json thermodynamics (positive branch of the lambda = 0 problem plus the k = 0 zero modes, followed continuously in lambda)",
+    "H6 (same remaining data): the same H, L, a4,0, lattice, extra-time volume, N and T for both members; mean-field (quasi-free) Kohn-Sham states only"
+  ],
+  "statement": [
+    "S1: (chi, j) -> (sigma2 chi, -j) at the same k, i.e. Psi_16 -> Gamma Psi_16 (the chirality, up to the phase s2 per block), maps every eigen-orbital of h_j with (M_eff, v_v) onto an eigen-orbital of h_(-j) with (-M_eff, v_v) at the SAME level eps, and exchanges the brane parities",
+    "S2: the tip condition with angle theta goes into the tip condition with angle Pi - theta (canonical theta = 0 -> theta = Pi); with the untransformed tip the spectra differ (control)",
+    "S3: the densities transform as n -> n, S -> -S, t -> t, Q -> -Q; hence M_eff -> -M_eff and v_v -> v_v exactly when (m, lambda) -> (-m, +lambda): every self-consistent Kohn-Sham state with (m, lambda, theta) is mapped onto a self-consistent Kohn-Sham state with (-m, +lambda, Pi - theta), and conversely (the map is an involution)",
+    "S4: EQUAL Kohn-Sham levels with their degeneracies, occupations, chemical potential, particle number, entropy, Kohn-Sham energy E_KS, grand potential Omega and free energy F, and equal energy-momentum profiles rho(y), p3(y), p_t(y), p8(y) (also for the exact-Fock diagnostic); S(y) and Q(y) change sign",
+    "S5: inside the ASSUMED Z2 orbifold the mirror copy of a self-consistent state carries (-m, +lambda) (P_A symmetry of the doubled problem), consistent with S3"
+  ],
+  "proof": [
+    "sigma2 h_j(M, k, v) sigma2 = h_(-j)(-M, k, v) and sigma2 N_j sigma2 = N_(-j)(-M) (checks T3_block_hamiltonian_map, T3_ode_map)",
+    "sigma2 Q(theta) sigma2 = Q(Pi - theta), sigma2 (1 - sigma3) sigma2 = 1 + sigma3; the boundary current and the norm are invariant (T3_tip_condition_map, T3_brane_parities_exchanged)",
+    "per orbital n_o, t_o even and s_o, q_o odd (T3_orbital_densities); M_eff[-m, lambda, -S] = -M_eff[m, lambda, S], v_v and e_int even in S (T3_mean_field_map)",
+    "the map is a bijection between the eigen-orbitals of the two problems with equal eps (both j and both parities are part of each problem), so the occupations, mu, N and the entropy are equal; every term of E_KS, Omega, F and of the energy-momentum profiles is a sum over orbitals of even densities, or of M_eff s_o (product of two odd factors), plus e_int (even): equal (T3_energies_and_emt_profiles_equal)",
+    "independent confirmation on exactly solvable data: equal k = 0 spectra level by level, and a different spectrum for the untransformed tip (T3_exact_k0_spectra); the 2 x 2 map is the 16-component chirality Gamma in the block basis (T3_Gamma_is_the_block_map); the Z2 mirror copy (T3_z2_mirror_copy_carries_minus_m_plus_lambda)"
+  ],
+  "relation_to_T1_T2": "Interpretation (labelled, not a theorem): the 16-component matrix is the chirality Gamma of T1, but at the Kohn-Sham level the expectation values are taken with the fixed Krein metric B of the canonical quantisation (rho = sum f u u^dagger B), under which Gamma flips B (Gamma B Gamma = -B); the result is a pairing (m, lambda) -> (-m, +lambda) at EQUAL energies, of the T2 type in its parameters, not the T1 pairing (m, lambda) -> (-m, -lambda) with opposite energy-momentum",
+  "verification": [
+    "T3_block_hamiltonian_map",
+    "T3_ode_map",
+    "T3_tip_condition_map",
+    "T3_brane_parities_exchanged",
+    "T3_orbital_densities",
+    "T3_mean_field_map",
+    "T3_energies_and_emt_profiles_equal",
+    "T3_exact_k0_spectra",
+    "T3_Gamma_is_the_block_map",
+    "T3_z2_mirror_copy_carries_minus_m_plus_lambda"
+  ],
+  "numerical_confirmation": "Revision/kohn_sham/reports/ks-rust-solver.json check t3_block_map_solver_selftest: (m, lambda, theta = 0) and (-m, lambda, theta = Pi) solved independently by the Rust Kohn-Sham solver give the same levels, occupations, E_KS and energy-momentum integrals and opposite S (a numerical test, not part of the proof)",
+  "not_established": [
+    "No creation process, rate or amplitude: T3 maps self-consistent Kohn-Sham states to self-consistent Kohn-Sham states of a second parameter set; it does not produce a pair of universes and does not force the partner to exist.",
+    "Instantaneous (adiabatic) states only: the non-adiabatic, time-dependent Kohn-Sham problem along the history with the extra times deflating is OPEN; T3 holds slice by slice.",
+    "The brane: the Z2 mirror construction at y = 0 is ASSUMED (ks-theory.json); the tip condition is a choice, and T3 needs the transformed tip angle Pi - theta.",
+    "Mean-field level only: Hartree plus uniform-gas exchange without correlation, quasi-free states, the filling convention of ks-theory.json (its justification is OPEN).",
+    "Not a statement about two independently quantised universes; the pairing is between Kohn-Sham problems with (m, lambda) and (-m, +lambda), not (-m, -lambda).",
+    "No back-reaction: the Kohn-Sham energy-momentum tensor is not a source that satisfies the a4 equations of SPEC section 5 (it depends on x8), see Revision/field_equations_a4/reports/ks-source-conditions.json."
+  ]
+}

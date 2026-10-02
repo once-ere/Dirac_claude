@@ -32,7 +32,7 @@ What is tested (fast, read-only):
   * the vielbein, sqrt|g|, the Christoffel symbols, the Ricci components, the spin connection and
     the per-direction contractions gamma^mu Omega_mu written in the document equal the entries of
     Revision/theory/field-theory.json.
-Optional (REVISION_PDF_BUILD=1): the PDF is rebuilt in verify mode by scripts/build_provenance_pdf.py
+Optional (REVISION_PDF_REBUILD=1, the switch shared by every Revision publication test): the PDF is rebuilt in verify mode by scripts/build_provenance_pdf.py
 and must reproduce the registered edition (this rewrites the .tex and the .pdf with identical
 bytes; it takes about a minute).
 
@@ -82,6 +82,11 @@ REPORTS = {
     "a4-python": REVISION / "field_equations_a4" / "reports" / "python-a4-report.json",
     "pairing-wolfram": REVISION / "pairing" / "reports" / "wolfram-pairing.json",
     "pairing-python": REVISION / "pairing" / "reports" / "python-pairing.json",
+    "scope-wolfram": REVISION / "theory" / "reports" / "wolfram-scope.json",
+    "scope-python": REVISION / "theory" / "reports" / "python-scope.json",
+    "t3-wolfram": REVISION / "pairing" / "kohn_sham" / "reports" / "wolfram-t3.json",
+    "t3-python": REVISION / "pairing" / "kohn_sham" / "reports" / "python-t3.json",
+    "ks-source": REVISION / "field_equations_a4" / "reports" / "ks-source-conditions.json",
 }
 
 TITLE = "dirac16complex in the author's primordial gravitational field"
@@ -139,6 +144,12 @@ ESSENTIAL_CHECKS = [
     "grassmann_homogeneous_on_shell_rho_p", "first_order_form_and_anticommutator",
     "no_positive_inner_product", "Fock_space_good_sector_example", "expectation_value_rule",
     "extra_time_modes_grow", "good_sector_hermiticity_curved", "evolution_factorises_a4pp_times_F",
+    "boosted_frame_gammaOmega_vanishes", "boosted_frame_curvature_nonzero", "rescaling_removes_the_connection_term",
+    "connection_free_lagrangian_same_equations", "good_sector_hermiticity_up_to_the_brane_flux",
+    "good_sector_x8_independent_modes_without_boundary_condition", "extra_time_growth_rates_unbounded",
+    "Q_one_particle_Krein_inertia_real_frequencies", "Q_one_particle_complex_and_zero_frequencies_Krein_neutral",
+    "ks_profiles_violate_algebraic_condition", "ks_history_is_a_prescribed_background",
+    "T3_energies_and_emt_profiles_equal",
     "algebraic_identity_x1_plus_x5_minus_2x8", "constraint_propagation_bianchi",
     "einstein_null_energy_x8", "linear_member_equal_pressures", "Q_Krein_metric_of_images",
 ]
@@ -162,6 +173,12 @@ REQUIRED_PHRASES = [
     "no creation process",
     "is not claimed",
     "Numbers and formulas are taken only from",
+    "belongs to the diagonal vielbein",
+    "vanishes in no frame",
+    "Krein-neutral",
+    "not well posed in Hadamard's sense",
+    "prescribed test-field background without back-reaction",
+    "is a choice of sign",
 ]
 
 PLACEHOLDERS = ["TODO", "TBD", "FIXME", "lorem ipsum", "PLACEHOLDER", "XXX"]
@@ -469,9 +486,13 @@ def report_count(key: str) -> tuple[int, int]:
         return data["checkCount"] - data["failedCount"], data["checkCount"]
     if key == "a4-python":
         return data["passCount"], data["checkCount"]
-    if key == "pairing-python":
+    if key in ("pairing-python", "t3-python"):
         counts = data["counts"]
         return counts["pass"], counts["pass"] + counts["fail"] + counts["pending"]
+    if key in ("scope-wolfram", "t3-wolfram"):
+        return data["summary"]["passed"], data["summary"]["total"]
+    if key in ("scope-python", "ks-source"):
+        return data["summary"]["pass"], data["summary"]["checks"]
     raise KeyError(key)
 
 
@@ -484,6 +505,11 @@ QUOTED_COUNTS = {
     "a4-python": "sympy: {p} of {t} checks pass",
     "pairing-wolfram": "Wolfram: {p} of {t} checks pass",
     "pairing-python": "sympy: {p} of {t} checks pass",
+    "scope-wolfram": "Wolfram: {p} of {t} checks pass",
+    "scope-python": "sympy: {p} of {t} checks pass",
+    "t3-wolfram": "Wolfram: {p} of {t} checks pass",
+    "t3-python": "sympy: {p} of {t} checks pass",
+    "ks-source": "Python: {p} of {t} checks pass",
 }
 
 
@@ -602,11 +628,16 @@ class CitedChecksTest(unittest.TestCase):
             referenced |= set(record["wolfram_checks"])
         uncovered = [name for name in wolfram_names if name not in referenced]
         self.assertEqual(comparison["status"], "agree")
+        self.assertEqual(comparison["formulas"]["not_compared"], [])
+        self.assertEqual(comparison["formulas"]["agree"], comparison["formulas"]["compared"])
+        self.assertEqual(comparison["checks"]["agree"], comparison["checks"]["pairs"])
+        wolfram = load(REPORTS["theory-wolfram"])
+        self.assertEqual(comparison["wolfram_summary"], wolfram["summary"])
         self.assertIn(f"a Wolfram run of {comparison['wolfram_summary']['total']} checks", text)
         self.assertIn(f"{comparison['formulas']['agree']} of {comparison['formulas']['compared']} formula records", text)
         self.assertIn(f"{comparison['checks']['agree']} of {comparison['checks']['pairs']} check pairs", text)
-        self.assertEqual(uncovered, ["EMT_trace_G", "EMT_trace_C"])
-        for name in uncovered:
+        self.assertEqual(uncovered, [])
+        for name in comparison["checks"]["wolfram_checks_without_sympy_counterpart"]:
             self.assertIn(f"`{name}`", text)
 
 
@@ -701,7 +732,7 @@ class GeneratedBlocksTest(unittest.TestCase):
         self.assertEqual(formulas["gammaOmega_total"].replace(" ", ""), '3*H*gamma["x8"]')
 
 
-@unittest.skipUnless(os.environ.get("REVISION_PDF_BUILD") == "1", "set REVISION_PDF_BUILD=1 to rebuild the PDF")
+@unittest.skipUnless(os.environ.get("REVISION_PDF_REBUILD") == "1", "set REVISION_PDF_REBUILD=1 to rebuild the PDF in verify mode")
 class PdfRebuildTest(unittest.TestCase):
     def test_verify_mode_reproduces_the_registered_edition(self):
         completed = subprocess.run(

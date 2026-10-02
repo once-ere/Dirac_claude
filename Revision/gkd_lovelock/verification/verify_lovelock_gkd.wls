@@ -68,7 +68,8 @@
    Do NOT put "--" before the path: WolframScript 1.14 drops "--" and every argument after it.
    Environment: LOVELOCK_GKD_WOLFRAM_REPORT (report path if no argument is given),
    LOVELOCK_GKD_EXPORT_DIR (where the exporter crate is written and built; default
-   Revision/gkd_lovelock/code/target/wolfram_gkd_export, git-ignored), LOVELOCK_GKD_K3_UNPRUNED (none (default) or diagonal; the committed report is the default run).
+   <$TemporaryDirectory>/revision_gkd_export, a short path outside the repository: a default inside the crate's
+   target directory made the nested cargo paths exceed the Windows MAX_PATH limit), LOVELOCK_GKD_K3_UNPRUNED (none (default) or diagonal; the committed report is the default run).
    Requires cargo (Rust >= 1.87) on PATH.
 
    The JSON text is produced by ExportString[..., "RawJSON"] with "\r\n" -> "\n" and "\/" -> "/",
@@ -88,8 +89,11 @@ reportPath = ExpandFileName[Which[
   nonEmptyString[Environment["LOVELOCK_GKD_WOLFRAM_REPORT"]], Environment["LOVELOCK_GKD_WOLFRAM_REPORT"],
   True, defaultReportPath
 ]];
+(* default export directory: a SHORT path outside the repository ($TemporaryDirectory), so that the exporter's own
+   cargo target (export/target/release/deps/...) does not push linker inputs past the Windows MAX_PATH limit when the
+   repository sits at a deep path *)
 exportDirectory = ExpandFileName[If[nonEmptyString[Environment["LOVELOCK_GKD_EXPORT_DIR"]],
-  Environment["LOVELOCK_GKD_EXPORT_DIR"], FileNameJoin[{gkdDirectory, "code", "target", "wolfram_gkd_export"}]]];
+  Environment["LOVELOCK_GKD_EXPORT_DIR"], FileNameJoin[{$TemporaryDirectory, "revision_gkd_export"}]]];
 k3UnprunedSetting = If[nonEmptyString[Environment["LOVELOCK_GKD_K3_UNPRUNED"]], ToLowerCase[Environment["LOVELOCK_GKD_K3_UNPRUNED"]], "none"];
 If[! MemberQ[{"diagonal", "none"}, k3UnprunedSetting], Print["ERROR: LOVELOCK_GKD_K3_UNPRUNED must be diagonal or none"]; Exit[2]];
 
@@ -523,7 +527,7 @@ report = <|
   "authorDefinition" -> authorDefinitionText,
   "deltaOnCoordinateLabels" -> "delta[a_Integer, b_Integer] := KroneckerDelta[a, b]",
   "gkdValuesSource" -> <|
-    "how" -> "values computed by the compiled Rust function lovelock_gkd::gkd::GKD (crate Revision/gkd_lovelock/code, unchanged, as a path dependency) through the exporter whose source is embedded in this script (exporterMainRs), built with cargo in the export directory ($LOVELOCK_GKD_EXPORT_DIR, default Revision/gkd_lovelock/code/target/wolfram_gkd_export); the GKD rule is not re-implemented in Wolfram Language",
+    "how" -> "values computed by the compiled Rust function lovelock_gkd::gkd::GKD (crate Revision/gkd_lovelock/code, unchanged, as a path dependency) through the exporter whose source is embedded in this script (exporterMainRs), built with cargo in the export directory ($LOVELOCK_GKD_EXPORT_DIR, default <$TemporaryDirectory>/revision_gkd_export); the GKD rule is not re-implemented in Wolfram Language",
     "exporterMainRsSha256" -> sha256String[exporterMainRs],
     "valuesFile" -> "gkd-values.bin",
     "valuesFileBytes" -> Length[bytes],

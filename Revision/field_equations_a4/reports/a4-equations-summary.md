@@ -35,7 +35,9 @@ $E_{(k)} = -P_{(k)}/2^{k+1}$, $T = \mathrm{diag}(p_3,p_3,p_3,-\rho,p_t,p_t,p_t,p
   the off-diagonal equations need the 15 bilinears $\bar\Phi\gamma^a\gamma^b\gamma^c\Phi$, $\{a,b,c\}=\{i,x4,x8\},\{i,j,x4\}$, to vanish (exact witnesses exist);
   then $p_3 = p_t$ forces $a_4'' F(a_4') = 0$, hence $a_4 = A H x_4 + a_0$
 * Einstein with $U = \lambda S^2/2$: $\kappa\sigma_T m S = -(36H^2 + 2\Lambda)$, $6(A^2+1)H^2 = -\kappa\sigma_T S(m+\lambda S)$
-* dirac16complex: the same with normal-ordered expectation values; a Kohn-Sham gas with $\langle k_1\rangle \ne \langle k_5\rangle$ drives $a_4''$
+  ($A$ enters only as $A^2$: deflation of the extra times, $A > 0$, is a choice of sign, not selected by the equations; $A = 0$ is static)
+* dirac16complex: the same with normal-ordered expectation values; a state with $\langle k_1\rangle \ne \langle k_5\rangle$ would drive $a_4''$ only if it also satisfied $p_3 + p_t = 2p_8$ and $x_8$-independence;
+  the recorded Kohn-Sham states violate both (reports/ks-source-conditions.json), and the Kohn-Sham history $a_4 = AHx_4$ is a prescribed background without back-reaction
 
 ## Run
 

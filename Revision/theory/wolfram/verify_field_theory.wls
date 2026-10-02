@@ -608,13 +608,13 @@ Module[{u = Table[ph[A] @@ X, {A, 16}], uc = Table[phc[A] @@ X, {A, 16}], v = Ta
     rftZeroQ[Cos[rftZ] (pf[x8] (Tan[rftZ] D[qf[x8], x8] + 3 H qf[x8]) + (Tan[rftZ] D[pf[x8], x8] + 3 H pf[x8]) qf[x8]) - D[Sin[rftZ] pf[x8] qf[x8], x8]],
     "the curved mode operator h = m (-i gamma^(x4)) + sum_(a != 4) (1/f_a) i gamma^(x4) gamma^(a) d_a + 3 i H gamma^(x4) gamma^(x8) (i d4 Psi = h Psi for U = 0) satisfies, for general u, v, " <>
     "Cos[z] (u^dagger h v - (h u)^dagger v) = sum_(a = 1,2,3,8) d_a (Cos[z]/f_a u^dagger M_a v) + sum_(t = 5,6,7) (Cos[z]/f_t)(u^dagger M_t d_t v - d_t u^dagger M_t v), M_a = i gamma^(x4) gamma^(a): " <>
-    "h is Hermitian for the measure Cos[z] d^7x exactly in the GOOD SECTOR (no extra-time dependence); without the spin-connection term 3 H gamma^(x8) a remainder -6 H Cos[z] u^dagger M_8 v survives " <>
-    "(Cos[z] [p (Tan z d8 + 3H) q + ((Tan z d8 + 3H) p) q] = d8 (Sin[z] p q)): the gravitational term is exactly what makes the hidden-direction operator Hermitian"];
+    "in the GOOD SECTOR (no extra-time dependence) h is therefore symmetric for the measure Cos[z] d^7x up to the boundary terms Cos[z]/f_a u^dagger M_a v (formal Hermiticity; the x8 term Sin[z] u^dagger M_8 v does not vanish at the patch end z = Pi/2, so Hermiticity needs a boundary condition there, see Revision/theory/reports/wolfram-scope.json); without the spin-connection term 3 H gamma^(x8) a remainder -6 H Cos[z] u^dagger M_8 v survives " <>
+    "(Cos[z] [p (Tan z d8 + 3H) q + ((Tan z d8 + 3H) p) q] = d8 (Sin[z] p q)): for the measure Cos[z] dx8 and the variables Psi the gravitational term is what makes the hidden-direction operator formally antisymmetric (in the variables Sin[z]^(1/2) Psi with the measure dy no such term is needed)"];
   lhsB = sg (uc . Bm . hOp[v, 1] - hOpC[uc, 1] . Bm . v);
   divsB = Sum[If[a == 4, 0, D[sg/f[[a]] uc . Bm . Mm[a] . v, X[[a]]]], {a, 8}];
   addCheck["Krein_form_conserved_curved",
     rftZeroQ[lhsB - divsB],
-    "Cos[z] (u^dagger B h v - (h u)^dagger B v) = sum_(a != 4) d_a (Cos[z]/f_a u^dagger B M_a v) for general u, v (all seven slice directions): h is self-adjoint for the Krein form integral Cos[z] u^dagger B v d^7x in the whole theory"]];
+    "Cos[z] (u^dagger B h v - (h u)^dagger B v) = sum_(a != 4) d_a (Cos[z]/f_a u^dagger B M_a v) for general u, v (all seven slice directions): h is formally self-adjoint for the Krein form integral Cos[z] u^dagger B v d^7x in the whole theory, i.e. up to these boundary terms (they need boundary conditions, in particular at the patch end z = Pi/2)"]];
 (* explicit Fock space in the good sector: m = 3, k1 = 4, E = 5 *)
 Module[{beta = -I g[[4]], al1, h, E0 = 5, up, vn, gs, U16, W, apply, expect, vac, st1, std, okC, eH, Ms, okRule, Q, okQ, nb = 16, bitsOf},
   al1 = -g[[4]] . g[[1]];
@@ -668,7 +668,7 @@ addFormulaText["exact_solutions",
 addFormulaText["equation_of_state_definitions", "pressures and equations of state from the diagonal components (SPEC section 4)",
   "rho = -T^x4_x4, p3 = T^x1_x1, p_t = T^x5_x5, p8 = T^x8_x8; w3 = p3/rho, w_t = p_t/rho, w8 = p8/rho; homogeneous on shell: w3 = w_t = w8 = (S U' - U)/(m S + U)"];
 addFormulaText["hidden_direction_hermiticity", "role of the spin-connection term in the quantum theory (check good_sector_hermiticity_curved)",
-  "Cos[z] [p (Tan[z] d8 + 3 H) q + ((Tan[z] d8 + 3 H) p) q] = d8 (Sin[z] p q): the operator Tan[z] d8 + 3 H is antisymmetric for the measure Cos[z] dx8; without 3 H the mode operator is not Hermitian"];
+  "Cos[z] [p (Tan[z] d8 + 3 H) q + ((Tan[z] d8 + 3 H) p) q] = d8 (Sin[z] p q): the operator Tan[z] d8 + 3 H is antisymmetric for the measure Cos[z] dx8 up to the boundary term Sin[z] p q, which does not vanish at z = Pi/2; without 3 H the mode operator is not formally Hermitian for this measure and these variables (Psi = Sin[z]^(-1/2) chi with the measure dy needs no such term)"];
 
 (* ================================================================== formulas: geometry *)
 addFormula["metric", "the author's metric (SPEC section 1), coordinates x1..x8", rftMetricAuthor];

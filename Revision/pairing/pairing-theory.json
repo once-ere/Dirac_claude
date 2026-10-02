@@ -162,7 +162,7 @@
         "the chirality image chi = Gamma Psi carries the Krein metric -B: {chi, chi^dagger} = Gamma B Gamma delta/sqrt|g| = -B delta/sqrt|g|, which is also the anticommutator demanded by its own Lagrangian L_(m,lambda)[Gamma chi] = -L_(-m,-lambda)[chi]",
         "the image's own generators (energy, momentum, charge from its own Lagrangian) coincide with those of Psi: the pair Psi, Gamma Psi is ONE quantum system, and the T1 identity T^(-m,-lambda)[Gamma Psi] = -T^(m,lambda)[Psi] is an identity between operators of that one system",
         "an independently quantised (-m,-lambda) universe has the anticommutator +B (from L_(-m,-lambda)), its own vacuum and generators; it cannot be identified with Gamma Psi (B != -B); on the product state space the generators add and no cancellation P_1 + P_2 = 0 follows",
-        "the one-particle Hamiltonians satisfy Gamma h_m Gamma = h_(-m) (flat space and a general field at a point) and gamma^(x8) h_m(k) gamma^(x8) = h_(-m)(R_8 k): the +m and -m universes have identical spectra; in flat 4+4 space each energy eigenspace has Krein inertia (4,4)",
+        "the one-particle Hamiltonians satisfy Gamma h_m Gamma = h_(-m) (flat space and a general field at a point, frozen coefficients) and gamma^(x8) h_m(k) gamma^(x8) = h_(-m)(R_8 k): the +m and -m one-particle (lambda = 0) spectra are identical; in flat 4+4 space every eigenspace of REAL frequency (w^2 = m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2 > 0) has Krein inertia (4,4) (proved for every such k), and every eigenspace of imaginary or zero frequency is Krein-neutral (B vanishes on it)",
         "the T2 image gamma^(x8) Psi keeps the anticommutator +B: the mirror (-m, lambda) universe is an ordinary, independently quantisable copy with equal energies"
       ],
       "verification": [
@@ -174,6 +174,8 @@
         "Q_one_particle_flat_dispersion",
         "Q_one_particle_maps",
         "Q_one_particle_Krein_signatures",
+        "Q_one_particle_Krein_inertia_real_frequencies",
+        "Q_one_particle_complex_and_zero_frequencies_Krein_neutral",
         "Q_one_particle_general_field",
         "Q_no_identification_of_independent_universes"
       ]
@@ -381,11 +383,29 @@
           "dim_minus_w": 8,
           "B_inertia_plus_w": [4, 4],
           "B_inertia_minus_w": [4, 4]
+        },
+        {
+          "m": 2,
+          "k": [0, 0, 0, 0, 1, 0, 0, 0],
+          "w": "Sqrt[3]",
+          "dim_plus_w": 8,
+          "dim_minus_w": 8,
+          "B_inertia_plus_w": [4, 4],
+          "B_inertia_minus_w": [4, 4]
+        },
+        {
+          "m": -2,
+          "k": [0, 0, 0, 0, 1, 0, 0, 0],
+          "w": "Sqrt[3]",
+          "dim_plus_w": 8,
+          "dim_minus_w": 8,
+          "B_inertia_plus_w": [4, 4],
+          "B_inertia_minus_w": [4, 4]
         }
       ]
     }
   },
-  "T3": "The Kohn-Sham level pairing (SPEC section 9, T3) is not part of this file; it is owned by Revision/pairing/kohn_sham/ (wave 2).",
+  "T3": "The Kohn-Sham level pairing (SPEC section 9, T3) is not part of this file; it is proved separately in Revision/pairing/kohn_sham/ (theorem record t3-theory.json, reports/wolfram-t3.json and reports/python-t3.json).",
   "not_established": [
     "No creation process: the theorems map solutions to solutions and quantities to quantities; no equation of this record produces a pair of universes from anything, and no initial state, vacuum decay or tunnelling process is derived.",
     "No rate and no amplitude: no transition amplitude, probability, cross-section, rate or Bogoliubov coefficient for creating universes of masses {+m, -m} is computed or implied.",
@@ -394,7 +414,7 @@
     "The vanishing total energy-momentum and charge of the T1 pair holds for classical bilinears (and as an operator identity within ONE quantum system); it does not hold for two independently quantised universes, whose generators add without cancelling.",
     "Test-field statement only: the gravitational field is fixed and the same for both members; back-reaction through the Einstein-Lovelock equations of SPEC section 5 (which would need the field equations for a4 with the pair as source) is not addressed here.",
     "The Z2 brane: the mirror across z = pi/2 uses the ASSUMED Z2 construction of SPEC section 7; the metric is degenerate at z = pi/2 (g_88 = 0, sqrt|g| = 0), and no junction condition, brane tension or matching of the field across the brane is derived here.",
-    "Quantum positivity: in flat 4+4 space every energy eigenspace of the one-particle Hamiltonian has Krein inertia (4,4); a positive-norm Fock space for either universe is not established by these theorems.",
-    "The Kohn-Sham level (T3) is not established by this file."
+    "Quantum positivity: in flat 4+4 space every real-frequency energy eigenspace of the one-particle Hamiltonian has Krein inertia (4,4) and every imaginary- or zero-frequency eigenspace (the growing extra-time modes) is Krein-neutral; a positive-norm Fock space for either universe is not established by these theorems.",
+    "The Kohn-Sham level (T3) is not established by this file; it is proved separately, with its own hypotheses (ASSUMED Z2 brane, instantaneous mean-field Kohn-Sham states), in Revision/pairing/kohn_sham/."
   ]
 }

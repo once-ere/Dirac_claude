@@ -75,21 +75,43 @@ anew by code in this folder. The binding plan is [`SPEC.md`](SPEC.md).
   convention). Its notation H (Hubble rate) and a (scale factor) differ from the metric's H and a4.
 * Coupling through the canonical spin connection is correct for both fields (both are Pin(4,4)
   spinors). The non-trivial Lagrangian is the Dirac-type one with Psibar = Psi^dagger C; the notebook's
-  real Majorana-type Lg[] is a total derivative for anticommuting fields. In this metric the
-  time-direction spin-connection terms of the 3 inflating and 3 deflating directions cancel exactly,
-  while a hidden-direction term proportional to H survives; non-triviality [1], [2] is proved exactly.
-* Canonical quantisation in 4 + 4 forces an indefinite (Krein) inner product; this is stated.
-* "PROVE that Universes ... are created in pairs": the exact pairing theorems are proved for both fields;
-  no creation process, rate or amplitude follows from these equations, and the documents say so.
+  real Majorana-type Lg[] is a total derivative for anticommuting fields. In this metric, in the diagonal
+  vielbein, the time-direction spin-connection terms of the 3 inflating and 3 deflating directions cancel
+  exactly, while a hidden-direction term 3 H gamma^(x8) survives. Non-triviality [1], [2] holds in the
+  qualified sense stated in the correction below (this sentence was written as a plan before the work and
+  has been corrected after it).
+* Canonical quantisation in 4 + 4: when Psi^dagger is realised as the Hilbert adjoint, the canonical
+  anticommutator forces an indefinite (Krein) inner product; in the good sector (no extra-time momentum) a
+  positive Fock realisation with Psi^dagger = chi B exists. Both are stated.
+* "PROVE that Universes ... are created in pairs": the pairing theorems T1, T2 (both fields), the quantum
+  reading Q (dirac16complex) and the Kohn-Sham-level theorem T3 (dirac16complex) are proved, each under its
+  stated hypotheses (T2 and T3 with the ASSUMED Z2 brane; verified after the work, see
+  `docs/PAIR_CREATION_PROOFS`); that universes occur in pairs, or are created, is not proved: no creation
+  process, rate or amplitude follows from these equations, and the documents say so.
+
+**Correction for the author (2026-10-01, after the review; you asked to be corrected where you are wrong).**
+Non-triviality [1] and [2] are true only in a qualified sense. In this metric the canonical spin connection
+drops out of the Lagrangian, so the Euler-Lagrange equations are those of the connection-free symmetric
+Lagrangian; the surviving term 3 H gamma^(x8) is its half-density (volume and vielbein divergence) term. Its
+value belongs to the diagonal vielbein: in a frame boosted in the (x4, x8) plane with rapidity 6 H x4 the term
+gamma^mu Omega_mu vanishes identically, and the rescaling Psi = sin^(-1/2)(z) chi removes it (completely for
+U = 0). The deflation a4 contributes nothing to gamma^mu Omega_mu; it enters through the vielbein factors
+e^(-+a4). What is frame-independent: Omega_mu vanishes in no frame (its curvature is the Riemann tensor,
+R^x8_x8 = -6 H^2), the vielbein factors enter every derivative term, and the metric is curved for every
+H > 0; the spin connection also enters the energy-momentum tensor. The exact checks are in
+`theory/reports/wolfram-scope.json` and `theory/reports/python-scope.json`.
 
 ## Folders
 
+State on 2026-10-01 (after the review of wave 1; every count is that of the report named):
+
 | folder | content | state |
 | --- | --- | --- |
-| `gkd_lovelock/` | GKD (pure-Rust generalized Kronecker delta) and the three Lovelock tensors of this metric | computed (commit 3e81eeb), 19/19 checks; independent verification to be completed |
-| `algebra/`, `theory/` | gammas, Pin/Spin facts, Lagrangians, field equations, EMT, quantisation (Wolfram + sympy) | to do |
-| `field_equations_a4/` | the Einstein-Lovelock equations for a4[x4] with each field as source | to do |
-| `kohn_sham/` | Kohn-Sham fermion gas in the deflating field (instantaneous states) | to do |
-| `dark_sector/` | the two hypotheses against the Unite values | to do |
-| `pairing/` | the pairing theorems for both fields | to do |
-| `docs/` | md + tex + pdf documents | to do |
+| `gkd_lovelock/` | GKD (pure-Rust generalized Kronecker delta) and the three Lovelock tensors of this metric | computed (commit 3e81eeb), 19/19 Rust checks; verified in `verification/`: sympy 49/49, Wolfram 29/29 |
+| `algebra/` | the author's gammas, C, Gamma, B, Pin(4,4) and Spin(4,4) facts | Wolfram 45/45, sympy 35/35 |
+| `theory/` | Lagrangians, field equations, non-triviality, EMT, quantisation (Wolfram + sympy); scope checks (frame dependence, boundary terms, growth, sign of the energy) | Wolfram 84/84, sympy 70/70 (comparison with Wolfram: agree); scope Wolfram 15/15, sympy 14/14 |
+| `field_equations_a4/` | the Einstein-Lovelock equations for a4[x4] with each field as source; the Kohn-Sham states as a source | Wolfram 47/47, sympy 61/61; Kohn-Sham source conditions 5/5 (the recorded Kohn-Sham states are not admissible sources) |
+| `kohn_sham/` | Kohn-Sham fermion gas in the deflating field (instantaneous states) | computed (theory, Rust solver, reference, cross-check); its document is planned |
+| `dark_sector/` | the two hypotheses against the Unite values | to do (wave 2) |
+| `pairing/` | the pairing theorems T1, T2, Q for both fields; `pairing/kohn_sham/`: T3 | Wolfram 101/101, sympy 66/66; T3 Wolfram 10/10, sympy 13/13 |
+| `docs/` | md + tex + pdf documents | DIRAC16COMPLEX_FIELD_THEORY, DIRAC16COMPLEX00_FIELD_THEORY, PAIR_CREATION_PROOFS built and registered in `pdf-specifications.json`; KOHN_SHAM_DEFLATING_FIELD, DARK_SECTOR_HYPOTHESES and LOVELOCK_GKD planned |

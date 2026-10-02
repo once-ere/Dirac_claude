@@ -22,13 +22,17 @@ What is tested (nothing is rebuilt with pdflatex here; the committed files are n
     density, pressures, equations of state, the a4 equations, what is not claimed) are present, and
     the numbers the document quotes occur in the Revision outputs;
   * the document names no private input and uses only the characters the builder accepts.
+Optional (REVISION_PDF_REBUILD=1, the switch shared by every Revision publication test; needs pdflatex): the PDF
+is rebuilt in verify mode by scripts/build_provenance_pdf.py and must reproduce the registered edition.
 """
 
 from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
+import subprocess
 import sys
 import unittest
 from pathlib import Path
@@ -61,6 +65,8 @@ REPORTS = {
     "field_equations_a4/reports/python-a4-report.json": "checks",
     "pairing/reports/wolfram-pairing.json": "checks",
     "pairing/reports/python-pairing.json": "checks",
+    "theory/reports/wolfram-scope.json": "checks",
+    "theory/reports/python-scope.json": "checks",
 }
 PASSING = {"PASS", "pass"}
 
@@ -449,6 +455,13 @@ class TestKeyStatements(unittest.TestCase):
         "is not quantised",
         "## 15. What is not claimed",
         "no creation process",
+        "**Scope of [2] (exact).**",
+        "The value $\\gamma^\\mu\\Omega_\\mu = 3H\\gamma^{(x_8)}$ belongs to the diagonal vielbein",
+        "What cannot be removed in any frame is $\\Omega_\\mu$ itself",
+        "The classical energy of dirac16complex00 is unbounded below already for $U = 0$",
+        "This does not make the Cauchy problem well posed",
+        "which is a choice of sign and is not selected by the equations",
+        "are interpretations",
     )
 
     def test_statements_present(self):
@@ -463,6 +476,19 @@ class TestKeyStatements(unittest.TestCase):
         for number in ("204800", "115200", "{4, 3, 4}", "(5, 4/3)"):
             self.assertIn(number, a4_report)
             self.assertIn(number.strip("{}").replace(", ", ", "), markdown_text())
+
+
+@unittest.skipUnless(os.environ.get("REVISION_PDF_REBUILD") == "1", "set REVISION_PDF_REBUILD=1 to rebuild the PDF in verify mode")
+class TestPdfRebuild(unittest.TestCase):
+    def test_rebuild_in_verify_mode(self):
+        completed = subprocess.run(
+            [sys.executable, str(ROOT / "scripts" / "build_provenance_pdf.py"), f"Revision/docs/{STEM}.md",
+             "--developer-layout", "--specifications", "Revision/pdf-specifications.json"],
+            cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False, timeout=1800)
+        output = completed.stdout.decode("utf-8", "replace")
+        self.assertEqual(completed.returncode, 0, output[-3000:])
+        self.assertIn("check_logWarningFree=true", output)
+        self.assertIn("provenance_pdf=OK", output)
 
 
 if __name__ == "__main__":

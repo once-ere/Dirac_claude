@@ -569,13 +569,13 @@
  "comparison_with_wolfram": {
   "status": "agree",
   "wolfram_summary": {
-   "passed": 82,
+   "passed": 84,
    "failed": 0,
-   "total": 82
+   "total": 84
   },
   "formulas": {
-   "compared": 27,
-   "agree": 27,
+   "compared": 32,
+   "agree": 32,
    "not_compared": [],
    "records": [
     {
@@ -701,7 +701,32 @@
     {
      "name": "energy_exchange",
      "verdict": "agree",
-     "detail": "d rho/d x4 = -3 a4' (p3 - p_t) on both sides (sympy check energy_exchange_equation; the sympy side adds nabla_mu T^mu_x8 = 3 H cot z (2 p8 - p3 - p_t))"
+     "detail": "nabla_mu T^mu_x4 = -3*A1*p3 + 3*A1*pt - rhod recomputed here from the sympy Christoffel symbols for T = diag(p3, p3, p3, -rho, p_t, p_t, p_t, p8)(x4) (rhod = d rho/d x4) equals the Wolfram left-hand side, and the Wolfram d rho/d x4 = -3 a4' (p3 - p_t) makes it vanish (prose form: lhs -3*A1*(p3 - pt) - rhod, rhs -3*A1*(p3 - pt); sympy check energy_exchange_equation adds nabla_mu T^mu_x8 = 3 H cot z (2 p8 - p3 - p_t))"
+    },
+    {
+     "name": "nontriviality",
+     "verdict": "agree",
+     "detail": "the stated values gamma^mu Omega_mu = 3 H gamma^(x8) and R^x8_x8 = -6 H^2 are recomputed here (sympy matrices and Ricci tensor); the per-direction and iff statements are those of the passing sympy checks gamma_mu_Omega_mu_equals_3H_gamma_x8, time_terms_cancel_hidden_term_survives, nontriviality_Omega_zero_iff_flat, spinor_curvature_equals_riemann. Scope: the values belong to the diagonal vielbein (frame dependence: Revision/theory/reports/python-scope.json)"
+    },
+    {
+     "name": "majorana_negative_control",
+     "verdict": "agree",
+     "detail": "the statement (total derivative and no field equation for anticommuting real components; Euler-Lagrange expression 2 sqrt g C gamma^mu D_mu Phi for commuting ones) is the content of the passing sympy checks negative_control_majorana_grassmann_total_derivative and negative_control_majorana_commuting_contrast"
+    },
+    {
+     "name": "exact_solutions",
+     "verdict": "agree",
+     "detail": "with the sympy gammas: M^2 = (9 H^2 (2 alpha + 1)^2 - m^2) I16 and M^2 = (9 H^2 - (m + lambda S0)^2) I16 for the two stated M, C M + M^T C = 0 for both (S constant), and rho = m S0 + lambda S0^2/2, p = S U' - U = lambda S0^2/2 for U = lambda S^2/2; the solutions themselves are the passing sympy checks exact_solution_family_x4_x8 and exact_nonlinear_homogeneous_solution"
+    },
+    {
+     "name": "equation_of_state_definitions",
+     "verdict": "agree",
+     "detail": "same definitions as SPEC section 4 and the sympy record; (S U' - U)/(m S + U) = lambda S/(2 m + lambda S) for U = lambda S^2/2 recomputed here; homogeneous values from the passing sympy checks *_homogeneous_on_shell_rho_p"
+    },
+    {
+     "name": "hidden_direction_hermiticity",
+     "verdict": "agree",
+     "detail": "recomputed here: cos z [p (tan z d8 + 3H) q + ((tan z d8 + 3H) p) q] = d8(sin z p q) identically, and without the 3H term the same combination is d8(sin z p q) - 6 H cos z p q. Scope: this is antisymmetry for the measure cos z dx8 in the field variables Psi, up to the boundary term sin z p q, which does not vanish at z = pi/2 (Revision/theory/reports/python-scope.json)"
     },
     {
      "name": "quantisation",
@@ -1055,7 +1080,8 @@
      "sympy_check": "grassmann_trace_on_shell",
      "sympy_verdict": "pass",
      "wolfram_checks": {
-      "kinetic_sum_on_shell_G": "PASS"
+      "kinetic_sum_on_shell_G": "PASS",
+      "EMT_trace_G": "PASS"
      },
      "agreement": "agree"
     },
@@ -1063,7 +1089,8 @@
      "sympy_check": "commuting_trace_on_shell",
      "sympy_verdict": "pass",
      "wolfram_checks": {
-      "kinetic_sum_on_shell_C": "PASS"
+      "kinetic_sum_on_shell_C": "PASS",
+      "EMT_trace_C": "PASS"
      },
      "agreement": "agree"
     },

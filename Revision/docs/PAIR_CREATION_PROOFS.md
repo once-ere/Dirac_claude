@@ -1,10 +1,10 @@
 # Pairing of universes of masses +m and -m: exact proofs for dirac16complex and dirac16complex00
 
-## The pairing theorems T1 and T2 and the quantum-level reading in the author's primordial gravitational field, with every hypothesis, the verification records and an exact statement of what they do not establish
+## The pairing theorems T1, T2 and T3 and the quantum-level reading in the author's primordial gravitational field, with every hypothesis, the verification records and an exact statement of what they do not establish
 
 ## Abstract
 
-The author asked on 2026-10-01: “PROVE that Universes of masses {+mass, -mass} are created in pairs for each case of the dirac16complex and the dirac16complex00 fields.” This document gives the exact answer computed by the code in `Revision/` for the author's primordial metric. Proved, for both fields and with every hypothesis stated: T1 (chirality pairing): the chirality matrix $\Gamma$ maps every configuration $\Psi$ of the theory with mass and coupling $(m,\lambda)$ to the configuration $\Gamma\Psi$ of the theory with $(-m,-\lambda)$, with $\mathcal{L}_{m,\lambda}[\Gamma\Psi] = -\mathcal{L}_{-m,-\lambda}[\Psi]$, solutions to solutions and the energy-momentum tensor and the current reversed, so that the pair has zero total energy-momentum, current and charge as classical bilinears, in every gravitational field. T2 (mirror pairing): $\Gamma$ combined with a Pin(4,4) reflection of character $-1$ maps $(m,\lambda)$ to $(-m,\lambda)$ with $\mathcal{L} \to +\mathcal{L}$; in the author's field it is the mirror across the Z2 brane $z = \pi/2$ (an ASSUMED construction), and the partner has EQUAL, not opposite, energy-momentum. The quantum-level reading for dirac16complex: the chirality image carries the Krein metric $-B$ and is the same quantum system re-labelled; two independently quantised universes of masses $+m$ and $-m$ have identical one-particle spectra and their generators do not cancel. A corollary: a T1 pair taken as the complete classical source of the author's metric is a zero source, and the Einstein equations then have no solution for $H > 0$. The Kohn-Sham level T3 is not established here (it is to be added; its verified ingredients are pointed to). Not established by any of these equations: a creation process, a rate, a probability or an amplitude for creating universes, in pairs or otherwise. The pairing theorems are proved; the creation of pairs is not.
+The author asked on 2026-10-01: “PROVE that Universes of masses {+mass, -mass} are created in pairs for each case of the dirac16complex and the dirac16complex00 fields.” This document gives the exact answer computed by the code in `Revision/` for the author's primordial metric. Proved, for both fields and with every hypothesis stated: T1 (chirality pairing): the chirality matrix $\Gamma$ maps every configuration $\Psi$ of the theory with mass and coupling $(m,\lambda)$ to the configuration $\Gamma\Psi$ of the theory with $(-m,-\lambda)$, with $\mathcal{L}_{m,\lambda}[\Gamma\Psi] = -\mathcal{L}_{-m,-\lambda}[\Psi]$, solutions to solutions and the energy-momentum tensor and the current reversed, so that the pair has zero total energy-momentum, current and charge as classical bilinears, in every gravitational field. T2 (mirror pairing): $\Gamma$ combined with a Pin(4,4) reflection of character $-1$ maps $(m,\lambda)$ to $(-m,\lambda)$ with $\mathcal{L} \to +\mathcal{L}$; in the author's field it is the mirror across the Z2 brane $z = \pi/2$ (an ASSUMED construction), and the partner has EQUAL, not opposite, energy-momentum. T3 (Kohn-Sham level, dirac16complex): the block map of $\Gamma$, with the brane parities exchanged and the tip angle $\theta \to \pi - \theta$, maps every self-consistent instantaneous Kohn-Sham state with $(m,\lambda,\theta)$ onto one with $(-m,+\lambda,\pi-\theta)$, with equal levels, occupations, Kohn-Sham energies and energy-momentum profiles (ASSUMED Z2 brane, mean-field level). The quantum-level reading for dirac16complex: the chirality image carries the Krein metric $-B$ and is the same quantum system re-labelled; two independently quantised universes of masses $+m$ and $-m$ have identical one-particle ($\lambda = 0$) spectra (flat space, or frozen coefficients at a point) and their generators do not cancel. A corollary: a T1 pair taken as the complete classical source of the author's metric is a zero source, and the Einstein equations then have no solution for $H > 0$. Not established by any of these equations: a creation process, a rate, a probability or an amplitude for creating universes, in pairs or otherwise. T1, T2, T3 and the quantum reading Q are proved, each under its stated hypotheses; the creation of pairs is not.
 
 ## 1. The request and the exact answer
 
@@ -14,9 +14,9 @@ What a universe of mass $m$ means in this record: a configuration of one of the 
 
 The exact answer, for both fields:
 
-1. Proved (sections 4 to 7): the pairing theorems T1 and T2, the quantum-level reading Q for dirac16complex and the corollary C1 for the field equations of $a_4$, each with its exact hypotheses.
+1. Proved (sections 4 to 8): the pairing theorems T1 and T2, the quantum-level reading Q for dirac16complex, the corollary C1 for the field equations of $a_4$ and the Kohn-Sham-level theorem T3 for dirac16complex, each with its exact hypotheses (T2 and T3 use the ASSUMED Z2 construction at the brane).
 2. Not proved, and not derivable from these equations: that such universes are CREATED. The equations are field equations on a fixed gravitational background and their canonical quantisation; no equation of this record produces a pair of universes from anything, and no creation process, rate or amplitude follows from them (section 11).
-3. The Kohn-Sham level T3 of `Revision/SPEC.md` section 9 is not established in this document; section 8 states it and points to the Kohn-Sham ingredients that are already verified.
+3. The Kohn-Sham level T3 of `Revision/SPEC.md` section 9 is proved in section 8 for the instantaneous (adiabatic) mean-field Kohn-Sham states of `Revision/kohn_sham/ks-theory.json`; the time-dependent Kohn-Sham problem is open.
 
 Every formula and number below is taken from the Revision reports listed in section 9; nothing is taken from the earlier stages of the repository. Interpretations are labelled as such.
 
@@ -357,7 +357,7 @@ In the author's field only the reflection of $x_8$ is realised by an isometry th
 - (Q1) The chirality image $\chi = \Gamma\Psi$ carries the Krein metric $-B$: $\{\chi_A, \chi^\dagger_B\} = (\Gamma B\Gamma)_{AB}\,\delta/\sqrt{|g|} = -B_{AB}\,\delta/\sqrt{|g|}$, which is also the anticommutator demanded by its own Lagrangian $\mathcal{L}_{m,\lambda}[\Gamma\chi] = -\mathcal{L}_{-m,-\lambda}[\chi]$.
 - (Q2) The image's own generators (energy, momentum and charge from its own Lagrangian) coincide with those of $\Psi$: the pair $\Psi$, $\Gamma\Psi$ is ONE quantum system, and the T1 identity $T^{(-m,-\lambda)}[\Gamma\Psi] = -T^{(m,\lambda)}[\Psi]$ is an identity between operators of that one system.
 - (Q3) An independently quantised $(-m,-\lambda)$ universe has the anticommutator $+B$ (from $\mathcal{L}_{-m,-\lambda}$), its own vacuum and its own generators; it cannot be identified with $\Gamma\Psi$ ($B \neq -B$); on the product state space the generators add, $P_{\mathrm{total}} = P_1\otimes 1 + 1\otimes P_2$, and no cancellation $P_1 + P_2 = 0$ follows.
-- (Q4) The one-particle Hamiltonians satisfy $\Gamma h_m\Gamma = h_{-m}$ (flat space, and a general field at a point) and $\gamma^8h_m(k)\gamma^8 = h_{-m}(R_8k)$: the $+m$ and $-m$ universes have IDENTICAL spectra, not opposite ones. In flat 4+4 space $h_m(k) = -im\gamma^4 - \gamma^4\sum_{a \neq 4}k_a\gamma^a$ and $h_m(k)^2 = (m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2)\,I_{16}$; at every exactly computed sample (table in section 6.3) each energy eigenspace has dimension 8 and Krein inertia (4,4), the same for $+m$ and $-m$.
+- (Q4) The one-particle ($\lambda = 0$) Hamiltonians satisfy $\Gamma h_m\Gamma = h_{-m}$ (flat space, and a general field at a point with frozen coefficients) and $\gamma^8h_m(k)\gamma^8 = h_{-m}(R_8k)$: the $+m$ and $-m$ one-particle spectra are IDENTICAL, not opposite. In flat 4+4 space $h_m(k) = -im\gamma^4 - \gamma^4\sum_{a \neq 4}k_a\gamma^a$ and $h_m(k)^2 = w^2 I_{16}$ with $w^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$; for every REAL frequency ($w^2 > 0$, with or without extra-time momentum) each of the two eigenspaces has dimension 8 and Krein inertia (4,4), the same for $+m$ and $-m$, and for imaginary or zero frequency (the growing extra-time modes) the eigenspaces are Krein-neutral ($B$ vanishes on them).
 - (Q5) The T2 image $\gamma^8\Psi$ keeps the anticommutator $+B$: the mirror $(-m,\lambda)$ universe is an ordinary, independently quantisable copy with equal energies.
 
 ### 6.3 Proofs
@@ -386,8 +386,10 @@ which gives $\gamma^8h_m(k)\gamma^8 = h_{-m}(R_8k)$. Similar matrices have equal
 | $-3$ | (0, 0, 0, 0, 0, 0, 0, 0) | $3$ | 8 and 8 | (4,4) and (4,4) |
 | $1$ | (1, 0, 0, 0, 0, 0, 0, 0) | $\sqrt{2}$ | 8 and 8 | (4,4) and (4,4) |
 | $-1$ | (1, 0, 0, 0, 0, 0, 0, 0) | $\sqrt{2}$ | 8 and 8 | (4,4) and (4,4) |
+| $2$ | (0, 0, 0, 0, 1, 0, 0, 0) | $\sqrt{3}$ | 8 and 8 | (4,4) and (4,4) |
+| $-2$ | (0, 0, 0, 0, 1, 0, 0, 0) | $\sqrt{3}$ | 8 and 8 | (4,4) and (4,4) |
 
-The entry $k_4$ is not used ($h_m$ contains no $\gamma^4\gamma^4$ term). In a general field at a point the same similarity $\Gamma h_m\Gamma = h_{-m}$ holds for symbolic momenta; in the pointwise test field $(\gamma^{x_4})^2 = g^{x_4x_4}I_{16} = -\frac{2269482}{1990921}I_{16}$.
+The entry $k_4$ is not used ($h_m$ contains no $\gamma^4\gamma^4$ term). The last two rows have an extra-time momentum and a real frequency. The general statement is proved, not sampled: (i) for real $w > 0$ the projectors $P_\pm = (1 \pm h_m/w)/2$ satisfy $P_+^\dagger BP_- = 0$ and $P_+^\dagger BP_+ = BP_+$ (from $Bh_m = h_m^\dagger B$ and $h_m^2 = w^2$), so the two eigenspaces are $B$-orthogonal and $B$ is nondegenerate on each; (ii) in the good sector $[B, h_m] = 0$ and $\mathrm{tr}\,B = \mathrm{tr}(Bh_m) = 0$, so $\mathrm{tr}(BP_\pm) = 0$ and $B$ has inertia (4,4) on each eigenspace; (iii) the region $w^2 > 0$ is connected and contains the good sector (lowering $k_5, k_6, k_7$ to zero only increases $w^2$), and $P_\pm$ depend continuously on $k$ there, so the inertia (4,4) holds at every real frequency. For imaginary $w$, $h u = wu$ and $hv = wv$ give $(w - \bar w)\,u^\dagger Bv = 0$: the eigenspace is Krein-neutral; for $w = 0$, $h^2 = 0$ with rank 8 and $\ker h = \mathrm{ran}\,h$ is $B$-neutral. Exact samples: $m = 1$, $k_5 = 2$ ($w = \pm i\sqrt3$); $m = 1$, $k_1 = 1$, $k_5 = 2$ ($w = \pm i\sqrt2$); $m = 1$, $k_5 = 1$ ($w = 0$): every eigenspace has dimension 8 and the form $u^\dagger Bv$ vanishes on it identically. In a general field at a point the same similarity $\Gamma h_m\Gamma = h_{-m}$ holds for symbolic momenta; in the pointwise test field $(\gamma^{x_4})^2 = g^{x_4x_4}I_{16} = -\frac{2269482}{1990921}I_{16}$.
 
 (Q5) Lemma 4 gives $\gamma^8B(\gamma^8)^\dagger = +B$. QED.
 
@@ -397,7 +399,7 @@ The entry $k_4$ is not used ($h_m$ contains no $\gamma^4\gamma^4$ term). In a ge
 | (Q1) | `Q_Krein_metric_of_images`, `Q_symplectic_kernel_commuting`, `Q_symplectic_kernel_grassmann` | `Q.image_krein_metric`, `Q.image_own_quantisation` |
 | (Q2) | `Q_generators_of_the_image_commuting`, `Q_generators_of_the_image_grassmann` | `Q.image_generators_same_dynamics` |
 | (Q3) | `Q_no_identification_of_independent_universes` | `Q.no_cancellation_independent_universes` |
-| (Q4) | `Q_one_particle_flat_dispersion`, `Q_one_particle_maps`, `Q_one_particle_Krein_signatures`, `Q_one_particle_general_field` | `Q.one_particle_maps`, `Q.one_particle_Krein_inertia`, `compare.theory.one_particle` |
+| (Q4) | `Q_one_particle_flat_dispersion`, `Q_one_particle_maps`, `Q_one_particle_Krein_signatures`, `Q_one_particle_Krein_inertia_real_frequencies`, `Q_one_particle_complex_and_zero_frequencies_Krein_neutral`, `Q_one_particle_general_field` | `Q.one_particle_maps`, `Q.one_particle_Krein_inertia`, `Q.one_particle_Krein_inertia_proof`, `Q.one_particle_complex_frequency_Krein_neutral`, `compare.theory.one_particle` |
 | (Q5) | `Q_Krein_metric_of_images` | `Q.T2_image_keeps_B` |
 
 Relation to the good sector of the theory record. With $\Psi^\dagger$ realised as the Hilbert adjoint, the canonical anticommutator forces an indefinite (Krein) inner product (record `no_positive_inner_product`). The theory record constructs, in the good sector without extra-time momentum, a positive Fock representation in which $\Psi^\dagger$ is realised as $\chi B$ with $\chi$ the Hilbert adjoint (records `good_sector_positive_fock_realisation` and `Fock_space_good_sector_example`). The statements Q1 to Q5 are statements about the canonical anticommutator; they neither use nor establish a positive-norm Fock space for either universe.
@@ -423,26 +425,50 @@ in Einstein-Gauss-Bonnet gravity ($\alpha_1 = 1$, $\alpha_3 = 0$) this gives $A^
 
 Consequence (exact, under (i) to (iii)): a T1 pair cannot by itself be the source of the author's metric in Einstein gravity. This is a statement about sources in one common geometry; it is not a derivation that such a geometry, or such a pair, is created. For a T2 pair the sources do not cancel: the mirror partner carries the pulled-back energy-momentum tensor $R_8TR_8$ of the $(-m,\lambda)$ configuration. For two independently quantised universes C1 does not apply (Q3).
 
-## 8. The Kohn-Sham level T3 (to be added)
+## 8. Theorem T3: the Kohn-Sham level (dirac16complex)
 
-`Revision/SPEC.md` section 9 asks for T3: at the Kohn-Sham level, the block map with the transformed boundary conditions maps the instantaneous Kohn-Sham problem with $(m,\lambda)$ to the one with $(-m,+\lambda)$ with equal energies. Status: T3 is NOT established in this document. Its exact proof is owned by `Revision/pairing/kohn_sham/` (a later step of the Revision work), which does not exist at the time of writing; T3 is to be added there and to this document.
+`Revision/SPEC.md` section 9 asks for T3: at the Kohn-Sham level, the block map with the transformed boundary conditions maps the instantaneous Kohn-Sham problem with $(m,\lambda)$ to the one with $(-m,+\lambda)$ with equal energies. It is proved by two independent exact verifiers in `Revision/pairing/kohn_sham/` (theorem record `Revision/pairing/kohn_sham/t3-theory.json`).
 
-The Kohn-Sham results of `Revision/kohn_sham/` exist, and the following ingredients of T3 are already verified there by exact checks of the Wolfram and sympy Kohn-Sham theory reports (all PASS; the boundary construction is labelled ASSUMED by that record):
+### 8.1 Hypotheses
 
-- The block form of $\Gamma$: $\sigma_2h_j(M,k)\sigma_2 = h_{-j}(-M,k)$. It maps a solution of block type $j$ with mass $M$ onto block type $-j$ with mass $-M$ at the same $k$ and $\varepsilon$, and it exchanges the two brane parities $\chi_2(0) = 0$ and $\chi_1(0) = 0$; $\Gamma$ maps the block $(j,s_2,s_3)$ onto $(-j,s_2,s_3)$ with the $2 \times 2$ entry $s_2\sigma_2$.
-- The mirror reflection $P_A: \chi(y) \mapsto \sigma_3\chi(-y) = \gamma^8\chi(-y)$ maps $(M(y), v(y), \kappa(y))$ to $(-M(-y), v(-y), \kappa(-y))$. Under $P_A$ the densities $n$ and $Q$ are even and $S$ and the $y$-current odd, so the doubled problem of the ASSUMED Z2 orbifold is $P_A$-symmetric if and only if the mirror copy carries $(-m,+\lambda)$: $M_{\mathrm{eff}} = m + \frac{15}{16}\lambda S$ is odd and $v_v = -\lambda n/16$ even.
-- The ASSUMED Z2 mirror gives $(1 \mp \gamma^8)\chi(0) = 0$, i.e. $\chi_2(0) = 0$ (even parity) or $\chi_1(0) = 0$ (odd parity); both kill the $y$-current.
+- (H3.1) The problem: the instantaneous Kohn-Sham problem of `Revision/kohn_sham/ks-theory.json` at a fixed slice $a_{4,0} = a_4(x_4)$ of the author's metric: good sector (no extra-time momentum), a lattice of 3-space momenta $k$, and in each of the eight $2 \times 2$ blocks the Hamiltonian $h_j = j[-i\sigma_1\,d/dy + M_{\mathrm{eff}}(y)\sigma_2 + \kappa(y)k\sigma_3] + v_v(y)$ on $y \in [-L, 0]$ ($j = \pm1$; four blocks $(s_2, s_3)$ per $j$).
+- (H3.2) The functional: Hartree plus the exact uniform-gas exchange, $M_{\mathrm{eff}} = m + \frac{15}{16}\lambda S$, $v_v = -\lambda n/16$, $e_{\mathrm{int}} = \frac{15}{32}\lambda S^2 - \frac{1}{32}\lambda n^2$, no correlation; the energy-momentum tensor of that record.
+- (H3.3) The brane (ASSUMED): the Z2 mirror (orbifold) at $y = 0$; both brane parities, $\chi_2(0) = 0$ and $\chi_1(0) = 0$, are solved and filled together.
+- (H3.4) The tip (chosen): $(1 - Q(\theta))\chi(-L) = 0$ with $Q(\theta) = \cos\theta\,\sigma_3 + \sin\theta\,\sigma_2$.
+- (H3.5) Mermin occupations at fixed particle number $N$ and temperature $T$, with the filling convention of the Kohn-Sham record (positive branch of the $\lambda = 0$ problem plus the $k = 0$ zero modes, followed continuously in $\lambda$).
+- (H3.6) The same $H$, $L$, $a_{4,0}$, lattice, extra-time volume, $N$ and $T$ for both members; quasi-free (mean-field) states.
+
+### 8.2 Statement
+
+For every self-consistent Kohn-Sham state with $(m,\lambda,\theta)$, the map $(\chi, j) \to (\sigma_2\chi, -j)$ at the same $k$, which is the chirality $\Gamma$ of the 16-component orbital in the block basis (up to the phase $s_2$ per block), with the two brane parities exchanged, gives a self-consistent Kohn-Sham state with $(-m,+\lambda,\pi-\theta)$, and conversely (the map is an involution). The two states have the same levels with their degeneracies, the same occupations, chemical potential, particle number and entropy, EQUAL Kohn-Sham energy $E_{KS}$, grand potential and free energy, and equal energy-momentum profiles $\rho(y)$, $p_3(y)$, $p_t(y)$, $p_8(y)$; the densities transform as $n \to n$, $S \to -S$, $Q \to -Q$, so $M_{\mathrm{eff}} \to -M_{\mathrm{eff}}$ and $v_v \to v_v$. With the untransformed tip angle the spectra differ. Inside the ASSUMED Z2 orbifold the mirror copy of a self-consistent state carries $(-m,+\lambda)$.
+
+### 8.3 Proof
+
+1. $\sigma_2h_j(M,k,v)\sigma_2 = h_{-j}(-M,k,v)$ as differential operators, and for the shooting form $\chi' = N\chi$, $N = M\sigma_3 - \kappa k\sigma_2 + ij(\varepsilon - v)\sigma_1$: $\sigma_2N_j(M)\sigma_2 = N_{-j}(-M)$. So $\sigma_2\chi$ is an eigen-orbital of block $-j$ with $-M$ at the same level $\varepsilon$.
+2. $\sigma_2Q(\theta)\sigma_2 = Q(\pi - \theta)$ and $\sigma_2(1 - \sigma_3)\sigma_2 = 1 + \sigma_3$: the tip condition goes into the one with $\pi - \theta$ (the canonical $\theta = 0$ into $\theta = \pi$) and the brane parities are exchanged; the boundary current $-ij\,\phi^\dagger\sigma_1\chi$ and the norm are invariant, so the image problem is self-adjoint with the same normalisation.
+3. Per orbital, $n_o$ and $t_o$ are invariant and $s_o$, $q_o$ change sign; hence $n(y)$ is unchanged and $S(y)$ changes sign. $M_{\mathrm{eff}}[-m,+\lambda,-S] = -M_{\mathrm{eff}}[m,\lambda,S]$, $v_v$ and $e_{\mathrm{int}}$ are even in $S$: the self-consistency loop commutes with the map exactly for $(-m,+\lambda)$ (not for $(-m,-\lambda)$).
+4. The map is a bijection between the eigen-orbitals of the two problems with equal levels (both $j$ and both parities belong to each problem), so occupations, $\mu$, $N$ and entropy agree; every term of $E_{KS}$, $\Omega$, $F$ and of the energy-momentum profiles is a sum of invariant densities, or contains the product $M_{\mathrm{eff}}s_o$ of two odd factors, plus the even $e_{\mathrm{int}}$. QED.
+
+Independent confirmations inside the same records: for $k = 0$, $v = 0$ and constant $M$ the characteristic functions of $(M, j, \theta = 0)$ and $(-M, -j, \theta = \pi)$ agree parity by parity, so the two spectra are equal level by level, while the untransformed tip gives a different characteristic function; the $2 \times 2$ map is the 16-component $\Gamma$ in the block basis $V$ of the Kohn-Sham record; the Z2 mirror $P_A\chi(y) = \sigma_3\chi(-y)$ makes the doubled problem symmetric exactly when the mirror copy carries $(-m,+\lambda)$.
+
+| step | Wolfram records | sympy records |
+| --- | --- | --- |
+| 1 | `T3_block_hamiltonian_map`, `T3_ode_map` | `T3.block_hamiltonian_map`, `T3.ode_map` |
+| 2 | `T3_tip_condition_map`, `T3_brane_parities_exchanged` | `T3.tip_condition_map`, `T3.brane_parities_exchanged` |
+| 3 | `T3_orbital_densities`, `T3_mean_field_map` | `T3.orbital_densities`, `T3.mean_field_map` |
+| 4 | `T3_energies_and_emt_profiles_equal` | `T3.energies_and_emt_profiles_equal` |
+| confirmations | `T3_exact_k0_spectra`, `T3_Gamma_is_the_block_map`, `T3_z2_mirror_copy_carries_minus_m_plus_lambda` | `T3.exact_k0_spectra`, `T3.Gamma_is_the_block_map`, `T3.z2_mirror_copy_carries_minus_m_plus_lambda` |
+| comparison with the theorem record, numerical confirmation | | `compare.t3_theory.theorem`, `compare.t3_theory.not_established`, `T3.rust_selftest_numerical_confirmation` |
+
+The ingredients recorded earlier by the Kohn-Sham theory reports agree with these steps: `block_Gamma_map`, `blocks_relation_to_Gamma`, `bc_mirror_map_PA`, `bc_mirror_parities_of_densities` and `bc_brane_parity_conditions` (both Kohn-Sham theory reports).
+
+### 8.4 Numerical confirmation and interpretation
 
 A numerical self-test of the Rust solver, labelled in its report as NOT a proof of T3: $(m, \lambda, \text{tip } \theta = 0)$ and $(-m, \lambda, \text{tip } \theta = \pi)$, solved independently, give the same sorted levels, occupations, Kohn-Sham energies and energy-momentum integrals and opposite $S$ (worst deviation 9.95e-14, tolerance 1e-9). For $N = 8$, $\lambda = 0.01946$ and $a_{4,0} = 1$: $E_{KS}$ = -9.868426190876e-4 versus -9.868426190868e-4 (80 levels), while the negative control with the untransformed tip $b(-L) = 0$ gives $E_{KS}$ = -2.0145243719e0. For $N = 136$ and $\lambda = 0.0009298$: $E_{KS}$ = 3.239294915318e1 in both runs (160 levels), negative control 2.9283751318e1. The units are those of `Revision/kohn_sham/ks-theory.json`.
 
-| item | Wolfram records | sympy or Rust records |
-| --- | --- | --- |
-| block form of $\Gamma$ | `block_Gamma_map`, `blocks_relation_to_Gamma` | `block_Gamma_map`, `blocks_relation_to_Gamma` |
-| mirror reflection and parities | `bc_mirror_map_PA`, `bc_mirror_parities_of_densities` | `bc_mirror_map_PA`, `bc_mirror_parities_of_densities` |
-| brane conditions (ASSUMED) | `bc_brane_parity_conditions` | `bc_brane_parity_conditions` |
-| numerical self-test (not a proof) | none | `t3_block_map_solver_selftest` |
+Interpretation (labelled, not a theorem): in its parameters the Kohn-Sham-level map is of the T2 type, $(m,\lambda) \to (-m,+\lambda)$ at equal energies, not of the T1 type, although its 16-component matrix is the chirality $\Gamma$ of T1: the Kohn-Sham expectation values are taken with the fixed Krein metric $B$ of the canonical quantisation, under which $\Gamma$ flips the sign ($\Gamma B\Gamma = -B$, statement Q1), so $S \to -S$ at the Kohn-Sham level while $S[\Gamma\Psi] = S[\Psi]$ for the classical bilinear.
 
-Interpretation (labelled, not a theorem): in its parameters the Kohn-Sham-level map is of the T2 type, $(m,\lambda) \to (-m,+\lambda)$ at equal energies, not of the T1 type.
+What T3 does not establish: no creation process, rate or amplitude; only instantaneous (adiabatic) mean-field states (the time-dependent problem is OPEN); the Z2 brane is ASSUMED and the tip angle must be transformed; no correlation; no statement about two independently quantised universes; no back-reaction (the Kohn-Sham energy-momentum tensor does not satisfy the source conditions of the $a_4$ equations, record `ks_profiles_violate_algebraic_condition`).
 
 ## 9. Verification records
 
@@ -452,8 +478,10 @@ Every check has a name, a verdict and a detail. Counts at the time of writing (t
 
 | report | checks | PASS | FAIL |
 | --- | --- | --- | --- |
-| `Revision/pairing/reports/wolfram-pairing.json` | 99 | 99 | 0 |
-| `Revision/pairing/reports/python-pairing.json` | 64 | 64 | 0 |
+| `Revision/pairing/reports/wolfram-pairing.json` | 101 | 101 | 0 |
+| `Revision/pairing/reports/python-pairing.json` | 66 | 66 | 0 |
+| `Revision/pairing/kohn_sham/reports/wolfram-t3.json` | 10 | 10 | 0 |
+| `Revision/pairing/kohn_sham/reports/python-t3.json` | 13 | 13 | 0 |
 | `Revision/algebra/reports/wolfram-algebra.json` | 45 | 45 | 0 |
 | `Revision/algebra/reports/python-algebra.json` | 35 | 35 | 0 |
 | `Revision/theory/reports/wolfram-field-theory.json` | 84 | 84 | 0 |
@@ -468,7 +496,7 @@ The pairing theorems are verified in four gravitational fields: the author's met
 
 ### 9.2 Checks per theorem
 
-The tables below list all 99 checks of the Wolfram pairing report and all 64 checks of the sympy pairing report (section 9.1), grouped by theorem; every one has the verdict PASS. Among the common sympy checks, the three comparison checks for T1, T2 and Q record that the sympy side confirms each Wolfram theorem independently (with 17, 13 and 8 named sympy checks), and the comparison check for the limits records that the two independently written lists of what the theorems do not establish cover the same topics; section 11.2 merges them.
+The tables below list all 101 checks of the Wolfram pairing report and all 66 checks of the sympy pairing report (section 9.1), grouped by theorem; every one has the verdict PASS (the checks of T3 are listed in section 8.3). Among the common sympy checks, the three comparison checks for T1, T2 and Q record that the sympy side confirms each Wolfram theorem independently (with 17, 13 and 10 named sympy checks), and the comparison check for the limits records that the two independently written lists of what the theorems do not establish cover the same topics; section 11.2 merges them.
 
 **T1, Wolfram** (51 checks):
 
@@ -531,22 +559,23 @@ The tables below list all 99 checks of the Wolfram pairing report and all 64 che
 | `T2.metric.grassmann.current` | `T2.metric.grassmann.S_odd` | `T2.diagonal8.frame_reflections.commuting` |
 | `T2.diagonal8.frame_reflections.grassmann` |  |  |
 
-**Q, Wolfram** (10 checks):
+**Q, Wolfram** (12 checks):
 
 | check | check | check |
 | --- | --- | --- |
 | `Q_Krein_metric_of_images` | `Q_symplectic_kernel_commuting` | `Q_generators_of_the_image_commuting` |
 | `Q_symplectic_kernel_grassmann` | `Q_generators_of_the_image_grassmann` | `Q_one_particle_flat_dispersion` |
-| `Q_one_particle_maps` | `Q_one_particle_Krein_signatures` | `Q_one_particle_general_field` |
-| `Q_no_identification_of_independent_universes` |  |  |
+| `Q_one_particle_maps` | `Q_one_particle_Krein_signatures` | `Q_one_particle_Krein_inertia_real_frequencies` |
+| `Q_one_particle_complex_and_zero_frequencies_Krein_neutral` | `Q_one_particle_general_field` | `Q_no_identification_of_independent_universes` |
 
-**Q, sympy** (8 checks):
+**Q, sympy** (10 checks):
 
 | check | check | check |
 | --- | --- | --- |
 | `Q.canonical_anticommutator` | `Q.image_krein_metric` | `Q.image_own_quantisation` |
 | `Q.image_generators_same_dynamics` | `Q.no_cancellation_independent_universes` | `Q.one_particle_maps` |
-| `Q.one_particle_Krein_inertia` | `Q.T2_image_keeps_B` |  |
+| `Q.one_particle_Krein_inertia` | `Q.one_particle_Krein_inertia_proof` | `Q.one_particle_complex_frequency_Krein_neutral` |
+| `Q.T2_image_keeps_B` |  |  |
 
 **Common checks (gammas, geometry, comparison with the Wolfram record), sympy** (17 checks):
 
@@ -570,7 +599,7 @@ The tables below list all 99 checks of the Wolfram pairing report and all 64 che
 
 ### 9.3 Re-verification for this document
 
-On 2026-10-01 both pairing verifiers were re-run, for this document, on a copy of the working tree in a scratch directory: `verify_pairing.wls` gave 99 of 99 PASS in 80.5 s and `check_pairing.py` gave 64 of 64 PASS in 143.6 s (the two ran concurrently on the development machine); the regenerated `wolfram-pairing.json`, `pairing-theory.json` and `python-pairing.json` were byte-identical to the committed files.
+For the first edition (2026-10-01) both pairing verifiers were re-run on a copy of the working tree: 99 of 99 and 64 of 64 checks passed and the outputs were byte-identical to the recorded files. After the review of the same day the pairing verifiers were extended (the Krein inertia of every real-frequency eigenspace, the Krein-neutral imaginary-frequency eigenspaces) and re-run on the working tree: `verify_pairing.wls` 101 of 101 PASS in about 80 s, `check_pairing.py` 66 of 66 PASS in about 140 s; the T3 verifiers 10 of 10 (about 3 s) and 13 of 13 (about 1 s). Two runs of each give byte-identical outputs. The reports cited in this document are the files of the working tree.
 
 ## 10. Reproduction
 
@@ -587,6 +616,8 @@ wolframscript -file Revision/field_equations_a4/wolfram/verify_field_equations_a
 python Revision/field_equations_a4/python/check_field_equations_a4.py
 wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls
 python Revision/kohn_sham/theory/check_ks_theory.py
+wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3.wls
+python Revision/pairing/kohn_sham/python/check_t3.py
 python scripts/build_provenance_pdf.py Revision/docs/PAIR_CREATION_PROOFS.md \
     --developer-layout --specifications Revision/pdf-specifications.json
 python -m unittest Revision/tests/test_pair_creation_proofs_publication.py -v
@@ -602,8 +633,9 @@ Exactly, for both fields (dirac16complex with Grassmann components, dirac16compl
 
 1. T1 (section 4): $\mathcal{L}_{m,\lambda}[\Gamma\Psi] = -\mathcal{L}_{-m,-\lambda}[\Psi]$; the solutions of the $(m,\lambda)$ theory and of the $(-m,-\lambda)$ theory correspond one to one; $T \to -T$ and $J \to -J$; the pair has zero total energy-momentum, current and charge as classical bilinears; in every gravitational field taken as a fixed background.
 2. T2 (section 5): $\Gamma$ combined with a Pin(4,4) reflection of character $-1$ gives $\mathcal{L}_{m,\lambda}[\gamma^n\Psi; R_ne] = +\mathcal{L}_{-m,\lambda}[\Psi; e]$; in the author's field the mirror across the Z2 brane $z = \pi/2$ (ASSUMED construction) pairs a $(-m,\lambda)$ solution on the patch with an $(m,\lambda)$ solution on the mirror patch at EQUAL energy-momentum and charge.
-3. Q (section 6, dirac16complex only): the chirality image carries the Krein metric $-B$ and is the same quantum system re-labelled; an independently quantised $(-m,-\lambda)$ universe carries $+B$ and cannot be identified with it; the generators of two independent universes add without cancelling; the $+m$ and $-m$ one-particle spectra are identical; the T2 image keeps $+B$.
+3. Q (section 6, dirac16complex only): the chirality image carries the Krein metric $-B$ and is the same quantum system re-labelled; an independently quantised $(-m,-\lambda)$ universe carries $+B$ and cannot be identified with it; the generators of two independent universes add without cancelling; the $+m$ and $-m$ one-particle ($\lambda = 0$) spectra are identical (flat space, or frozen coefficients at a point); the T2 image keeps $+B$.
 4. C1 (section 7): a T1 pair as the complete classical source of the author's metric is a zero source; in Einstein gravity the author's metric then has no solution for $H > 0$.
+5. T3 (section 8, dirac16complex): every self-consistent instantaneous Kohn-Sham state with $(m,\lambda,\theta)$ is mapped by the block map of $\Gamma$, with the brane parities exchanged and $\theta \to \pi - \theta$, onto a self-consistent Kohn-Sham state with $(-m,+\lambda,\pi-\theta)$ with equal levels, occupations, Kohn-Sham energy and energy-momentum profiles, and $S \to -S$ (ASSUMED Z2 brane).
 
 ### 11.2 Not established
 
@@ -614,10 +646,10 @@ Exactly, for both fields (dirac16complex with Grassmann components, dirac16compl
 5. The vanishing total energy-momentum and charge of a T1 pair holds for classical bilinears and as an operator identity within ONE quantum system; it does not hold for two independently quantised universes, whose generators add without cancelling.
 6. Test-field statement: the gravitational field is fixed and the same for both members. The back-reaction through the field equations for $a_4$ is not part of the theorems; corollary C1 is the only statement about it, and it concerns the sum of classical sources in one common geometry.
 7. The Z2 brane: the mirror across $z = \pi/2$ uses the ASSUMED Z2 construction; the metric is degenerate there ($g_{88} = 0$ and $\sqrt{|g|} = 0$), and no junction condition, brane tension or matching of the field across the brane is derived.
-8. Quantum positivity: in flat 4+4 space every energy eigenspace of the one-particle Hamiltonian computed exactly at the samples of section 6.3 has Krein inertia (4,4); a positive-norm Fock space for either universe is not established by these theorems (the good-sector construction of the theory record is a separate result, not used here).
+8. Quantum positivity: in flat 4+4 space every real-frequency eigenspace of the one-particle Hamiltonian has Krein inertia (4,4) (proved, section 6.3), and the eigenspaces of imaginary or zero frequency are Krein-neutral; a positive-norm Fock space for either universe is not established by these theorems (the good-sector construction of the theory record is a separate result, not used here).
 9. dirac16complex00 is a classical field: no quantum statement is made for it.
-10. The Kohn-Sham level T3 is not established in this document (section 8).
+10. The Kohn-Sham level T3 holds for the instantaneous (adiabatic) mean-field Kohn-Sham states only, with the ASSUMED Z2 brane and the transformed tip condition; the time-dependent Kohn-Sham problem is open, no correlation is included, and T3 says nothing about back-reaction (section 8).
 
 ### 11.3 The answer to the request
 
-The request “PROVE that Universes of masses {+mass, -mass} are created in pairs” is answered exactly as follows, for dirac16complex and for dirac16complex00. Proved: universes of masses $+m$ and $-m$ come in pairs in the precise sense of the theorems T1 and T2. To every solution with mass $m$ the explicit maps $\Gamma$ (with $\lambda \to -\lambda$, opposite energy-momentum and charge) and $\gamma^8$ with the Z2 mirror (same $\lambda$, equal energy-momentum) assign a solution with mass $-m$, in the author's primordial gravitational field and, for T1, in every gravitational field; at the quantum level of dirac16complex the chirality partner is the same quantum system with the Krein metric $-B$, and two independent universes of masses $+m$ and $-m$ have identical spectra and no cancelling generators. Not proved: that such universes are CREATED, in pairs or otherwise. No creation process, rate or amplitude follows from these equations.
+The request “PROVE that Universes of masses {+mass, -mass} are created in pairs” is answered exactly as follows, for dirac16complex and for dirac16complex00. Proved: to every solution with mass $m$ the explicit maps $\Gamma$ (T1: with $\lambda \to -\lambda$, opposite energy-momentum and charge, in every gravitational field) and $\gamma^8$ with the ASSUMED Z2 mirror construction (T2: same $\lambda$, equal energy-momentum, in the author's primordial gravitational field) assign a solution with mass $-m$; for dirac16complex, at the Kohn-Sham level, the block map of $\Gamma$ with the transformed boundary conditions assigns to every self-consistent instantaneous Kohn-Sham state with $(m,\lambda)$ one with $(-m,+\lambda)$ at equal energies (T3, ASSUMED Z2 brane). That universes occur in pairs is not proved: these are maps between the solutions of two parameter sets, and a single universe with mass $+m$ is an equally valid solution without its partner. At the quantum level of dirac16complex the chirality partner is the same quantum system with the Krein metric $-B$, and two independently quantised universes of masses $+m$ and $-m$ have identical one-particle ($\lambda = 0$) spectra (flat space, or frozen coefficients at a point) and no cancelling generators. Not proved: that such universes are CREATED, in pairs or otherwise. No creation process, rate or amplitude follows from these equations.

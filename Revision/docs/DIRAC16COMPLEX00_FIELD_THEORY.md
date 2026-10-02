@@ -4,7 +4,7 @@
 
 ## Abstract
 
-This document records, for the author's primordial gravitational field of `Revision/SPEC.md` section 1, the field theory of dirac16complex00: a field $\Phi$ with 16 complex commuting components that transform as a spinor of Pin(4,4) (a set of 16 scalar fields that transform as a Pin(4,4) spinor), treated as a classical ("semi-classical") field. It gives the Lagrangian and its coupling to gravity through the vielbein and the canonical spin connection, the exact Euler-Lagrange equations (covariant, explicit in the metric, and as 16 component equations), the non-triviality theorem [2] with its proof (the gravitational term $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ of the field equation never vanishes for $H > 0$), the self-consistency of the equations, the energy-momentum tensor as a classical bilinear, its kinetic and potential parts, the energy density, the pressures and the equations of state, and the Einstein-Lovelock field equations for $a_4(x_4)$ with dirac16complex00 as the source. Every formula is an output of Revision code (Wolfram and an independent sympy checker for each part); each section ends with the names of the checks that verify it, and the check index collects them. Nothing is taken from the earlier stages of the repository. What the record does not establish is stated in the section "What is not claimed".
+This document records, for the author's primordial gravitational field of `Revision/SPEC.md` section 1, the field theory of dirac16complex00: a field $\Phi$ with 16 complex commuting components that transform as a spinor of Pin(4,4) (a set of 16 scalar fields that transform as a Pin(4,4) spinor), treated as a classical ("semi-classical") field. It gives the Lagrangian and its coupling to gravity through the vielbein and the canonical spin connection, the exact Euler-Lagrange equations (covariant, explicit in the metric, and as 16 component equations), the non-triviality theorem [2] with its proof and its exact scope (in the diagonal vielbein the gravitational term of the field equation is $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$, nonzero for every $H > 0$; this value depends on the frame and on the field variables, while $\Omega_\mu$ itself vanishes in no frame because the metric is curved), the self-consistency of the equations and its limits (no well-posed Cauchy problem for data that depend on the extra times; boundary terms at $z = \pi/2$), the energy-momentum tensor as a classical bilinear, its kinetic and potential parts, the energy density, the pressures and the equations of state, and the Einstein-Lovelock field equations for $a_4(x_4)$ with dirac16complex00 as the source. Every formula is an output of Revision code (Wolfram and an independent sympy checker for each part); each section ends with the names of the checks that verify it, and the check index collects them. Nothing is taken from the earlier stages of the repository. The classical energy of dirac16complex00 is unbounded below already for $U = 0$ (positive-frequency modes of negative energy) and its conserved charge is indefinite. What the record does not establish is stated in the section "What is not claimed".
 
 ## 1. Scope, sources and conventions
 
@@ -16,6 +16,7 @@ This document records, for the author's primordial gravitational field of `Revis
 | geometry, Lagrangian, field equations, energy-momentum tensor (SPEC sections 1-4) | `Revision/theory/reports/wolfram-field-theory.json`, formulas `Revision/theory/field-theory.json` | `Revision/theory/reports/python-field-theory.json` |
 | field equations for $a_4(x_4)$ (SPEC section 5) | `Revision/field_equations_a4/reports/wolfram-a4-report.json`, formulas `Revision/field_equations_a4/a4-equations.json` | `Revision/field_equations_a4/reports/python-a4-report.json` |
 | pairing theorems (SPEC section 9) | `Revision/pairing/reports/wolfram-pairing.json`, theorems `Revision/pairing/pairing-theory.json` | `Revision/pairing/reports/python-pairing.json` |
+| scope of the statements: frame dependence, boundary terms, growth, sign of the energy | `Revision/theory/reports/wolfram-scope.json` | `Revision/theory/reports/python-scope.json` |
 
 The Wolfram and the sympy records are written independently (no shared code); each sympy record re-derives the statements and compares them with the Wolfram record. The theory records verify every statement for both statistics: the checks whose names end in `_C` (Wolfram) or start with `commuting_` (sympy) are the ones for the commuting field dirac16complex00 of this document; the Grassmann versions belong to dirac16complex (`Revision/docs/DIRAC16COMPLEX_FIELD_THEORY`).
 
@@ -53,7 +54,7 @@ independent of $x_4$: the inflation $e^{3a_4}$ of 3-space is compensated by the 
 
 ## 2. The field dirac16complex00 and its symmetry group
 
-dirac16complex00 is a field $\Phi$ with 16 complex commuting components (16 scalar fields) that transform as a Pin(4,4) spinor. It is a classical field, the analogue of Dirac's 1928 wave function; it is not quantised (SPEC section 6: only dirac16complex, the anticommuting field, is quantised canonically).
+dirac16complex00 is a field $\Phi$ with 16 complex commuting components (16 scalar fields) that transform as a Pin(4,4) spinor. It is a classical field; it is not quantised (SPEC section 6: only dirac16complex, the anticommuting field, is quantised canonically). SPEC section 3 calls it the analogue of Dirac's 1928 wave function and the author calls it semi-classical; both are interpretations, and the record shows two exact differences from Dirac's wave function: its conserved charge $Q = \int\cos z\,\Phi^\dagger B\Phi\,d^7x$ is an indefinite form, and its classical energy is unbounded below already for $U = 0$ in the good sector (section 9).
 
 **The gammas.** The real $16\times16$ matrices are the author's T16, rebuilt in Revision code from the author's formulas (the tau matrices and their blocks), with the frame map $\gamma^{(x_8)} = T16[0]$, $\gamma^{(x_1..x_3)} = T16[1..3]$, $\gamma^{(x_4)} = T16[4]$ and $\gamma^{(x_5..x_7)} = T16[5..7]$. Verified exactly:
 
@@ -171,13 +172,13 @@ $$
 \mathcal{L} = \cos z\,\Big[\tfrac12\sum_a \frac{1}{f_a}\big(\bar\Phi\gamma^{(a)}\partial_a\Phi - \partial_a\bar\Phi\,\gamma^{(a)}\Phi\big) - m S - U(S)\Big] .
 $$
 
-The canonical spin connection nevertheless reaches the field equations, through the identity
+The canonical spin connection reaches the field equations only through the identity
 
 $$
 \partial_\mu\big(\sqrt{|g|}\,\gamma^\mu\big) = 2\sqrt{|g|}\,\gamma^\mu\Omega_\mu
 $$
 
-in the variation of the derivative terms (section 6).
+in the variation of the derivative terms (section 6). Consequently the Euler-Lagrange equations of $\mathcal{L}$ are exactly those of the connection-free symmetric Lagrangian (the display above), and the surviving term is its half-density (volume and vielbein divergence) term.
 
 **Negative control (why the Dirac-type form is used).** The notebook's real Majorana-type Lagrangian $L_g = \sqrt{|g|}\,\Theta^TC\gamma^\mu D_\mu\Theta$ with 16 real anticommuting components is a total derivative,
 
@@ -191,7 +192,7 @@ and has no field equations (all Euler-Lagrange expressions vanish identically). 
 | --- | --- | --- |
 | $\mathcal{L}$ real | `L_real_C` | `commuting_lagrangian_real`, `commuting_controls_not_vacuous` |
 | total-divergence relation | `L_total_divergence_to_unsymmetrised_C` | `commuting_total_divergence_relation` |
-| spin connection drops out of $\mathcal{L}$, enters through the divergence identity | `L_spin_connection_drops_out_C`, `gammaOmega_divergence_form` | `anticommutator_gamma_Omega_vanishes`, `divergence_of_sqrtg_gamma` |
+| spin connection drops out of $\mathcal{L}$, enters through the divergence identity; same equations as the connection-free symmetric Lagrangian | `L_spin_connection_drops_out_C`, `gammaOmega_divergence_form`, `connection_free_lagrangian_same_equations` (scope) | `anticommutator_gamma_Omega_vanishes`, `divergence_of_sqrtg_gamma`, `connection_free_lagrangian_same_equations` (scope) |
 | negative control: Majorana-type $L_g$ | `Majorana_Lg_total_derivative_grassmann`, `Majorana_Lg_commuting_control` | `negative_control_majorana_grassmann_total_derivative`, `negative_control_majorana_commuting_contrast` |
 
 ## 5. The exact field equations
@@ -307,7 +308,7 @@ In every component the gravitational term $3H\,\Phi_B$ appears next to the hidde
 | --- | --- | --- |
 | Euler-Lagrange equations derived from $\mathcal{L}$ | `EL_Psibar_C`, `EL_Psi_C` | `commuting_euler_lagrange_psibar_variation`, `commuting_euler_lagrange_psi_variation` |
 | the adjoint equation is the Dirac conjugate | `adjoint_equation_is_Dirac_conjugate_C` | `commuting_adjoint_equation_is_conjugate` |
-| explicit form, 16 components, chiral blocks | `Dirac_operator_explicit_C`, `block_form` | comparison of `field_equation_components` and `field_equation_blocks` (sympy record, section `comparison_with_wolfram`) |
+| explicit form, 16 components, chiral blocks | `Dirac_operator_explicit_C`, `block_form` | `commuting_euler_lagrange_psibar_variation` (the sympy field equation), compared term by term with `field_equation_components` and entry by entry with `field_equation_blocks` in the regenerated comparison record (section `comparison_with_wolfram` of the sympy report: 32 of 32 formula records agree) |
 | evolution form | `evolution_form_C` | |
 | exact solutions | `solution_matrix_square`, `exact_solution_x4_x8_C`, `exact_solution_nonlinear_homogeneous_C` | `exact_solution_family_x4_x8`, `exact_nonlinear_homogeneous_solution` |
 
@@ -315,7 +316,7 @@ In every component the gravitational term $3H\,\Phi_B$ appears next to the hidde
 
 The author's requirement [2]: the Lagrangian of dirac16complex00 must be non-trivial, i.e. its Euler-Lagrange equations always possess nonzero contributions from gravity through the canonical spin connection unless the spacetime is flat 4+4, and they must be self-consistent, checked and verified.
 
-**Theorem (NON-TRIVIALITY [2]).** Hypotheses: the author's metric of section 1 with $H > 0$ and $0 < z < \pi/2$; $a_4$ any differentiable function of $x_4$ (constant included); the diagonal vielbein of section 3 and its canonical spin connection; $\Phi$ the commuting 16-component field with the Lagrangian of section 4 and any real potential $U$. Then statements (1) to (4) hold.
+**Theorem (NON-TRIVIALITY [2]).** Hypotheses: the author's metric of section 1 with $H > 0$ and $0 < z < \pi/2$; $a_4$ any differentiable function of $x_4$ (constant included); the diagonal vielbein of section 3 and its canonical spin connection; $\Phi$ the commuting 16-component field with the Lagrangian of section 4 and any real potential $U$. Then statements (1) to (4) hold. Statements (1) and (2) concern the diagonal vielbein and the field variables $\Phi$; statements (3) and (4) are the frame-independent content (see "Scope of [2]" below).
 
 **(1) The gravitational term of the field equation.** The spin-connection part of the Euler-Lagrange operator is
 
@@ -374,7 +375,15 @@ Step (d): each of the 12 nonzero $\omega_{\mu ab}$ is $a_4'$ or $H$ times $\pm e
 
 Step (e): statement (4) is the explicit form of section 5. Every step is verified exactly, for the author's T16 and, in the $a_4$ record, also for a second, independently built Clifford representation. $\square$
 
-**What survives and what cancels, in words.** The three inflating directions contribute $+\tfrac{a_4'}{2}\gamma^{(x_4)}$ each and the three deflating extra times $-\tfrac{a_4'}{2}\gamma^{(x_4)}$ each: the expansion-rate terms cancel exactly because 3-space inflates at the rate at which the extra times deflate (the same balance that makes $\sqrt{|g|} = \cos z$ independent of $x_4$). The warp $\sin^{1/6}z$ of the six directions along the hidden direction gives $+\tfrac{H}{2}\gamma^{(x_8)}$ for each of them and survives as $3H\gamma^{(x_8)}$. In the quantum theory of dirac16complex the same term is what makes the hidden-direction mode operator Hermitian; for the classical dirac16complex00 it is a term of the field equation that no frame or coordinate choice removes.
+**What survives and what cancels, in words.** The three inflating directions contribute $+\tfrac{a_4'}{2}\gamma^{(x_4)}$ each and the three deflating extra times $-\tfrac{a_4'}{2}\gamma^{(x_4)}$ each: the expansion-rate terms cancel exactly because 3-space inflates at the rate at which the extra times deflate (the same balance that makes $\sqrt{|g|} = \cos z$ independent of $x_4$). The warp $\sin^{1/6}z$ of the six directions along the hidden direction gives $+\tfrac{H}{2}\gamma^{(x_8)}$ for each of them and survives as $3H\gamma^{(x_8)}$.
+
+**Scope of [2] (exact).** The value $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ belongs to the diagonal vielbein and to the field variables $\Phi$:
+
+- In another admissible vielbein of the same metric, the frame boosted in the $(x_4, x_8)$ plane, $e'^{(x_4)} = \cosh b\,e^{(x_4)} + \sinh b\,e^{(x_8)}$, $e'^{(x_8)} = \sinh b\,e^{(x_4)} + \cosh b\,e^{(x_8)}$ with rapidity $b = \beta x_4 + b_0$, its canonical connection gives $\gamma'^\mu\Omega'_\mu = \tfrac{6H - \beta}{2}(\cosh b\,\gamma^{(x_8)} - \sinh b\,\gamma^{(x_4)})$, which vanishes identically for $\beta = 6H$, for every $H > 0$ and every $a_4$.
+- Within the diagonal frame the rescaling $\Phi = \sin^{-1/2}z\,\chi$ removes the term exactly: $\gamma^\mu D_\mu\Phi = \sin^{-1/2}z\,\gamma^\mu\partial_\mu\chi$, so for $U = 0$ the equation for $\chi$ has no spin-connection term, and for $U = \tfrac{\lambda}{2}S^2$ the term becomes the $x_8$-dependent coupling $\lambda S[\chi]/\sin z$. The exact family of section 5 shows this: $\alpha = -\tfrac12$ gives $M = -m\gamma^{(x_4)}$ with no $H$ term.
+- The canonical connection drops out of $\mathcal{L}$ (section 4), so the Euler-Lagrange equations are those of the connection-free symmetric Lagrangian; the deflation $a_4$ contributes nothing to $\gamma^\mu\Omega_\mu$ although $R^{x_4}{}_{x_4} = 6(a_4')^2 \neq 0$.
+- What cannot be removed in any frame is $\Omega_\mu$ itself (its curvature is the Riemann tensor, $R^{x_8}{}_{x_8} = -6H^2$), together with the frame factors $e^{\mp a_4}\sin^{-1/6}z$ and $\tan z$ of the derivative terms: this is the frame-independent content of [2]. In the diagonal frame the connection also enters the energy-momentum tensor (for a homogeneous configuration $K^{x_4}{}_{x_1}$ contains $\tfrac12 e^{a_4}\sin^{1/6}z\,H\,\bar\Phi\gamma^{(x_4)}\gamma^{(x_1)}\gamma^{(x_8)}\Phi$).
+- Interpretation (labelled): in the quantum theory of dirac16complex the term makes the hidden-direction operator antisymmetric for the measure $\cos z\,dx_8$ in the variables $\Psi$, up to a boundary term that does not vanish at $z = \pi/2$; in the variables $\chi$ with the measure $dy = \cot z\,dx_8$ no $H$ term is needed. This role therefore depends on the variables and the measure.
 
 | statement | Wolfram checks | sympy checks |
 | --- | --- | --- |
@@ -382,7 +391,9 @@ Step (e): statement (4) is the explicit form of section 5. Every step is verifie
 | (2) the $x_4$ terms cancel, the $x_8$ terms add | `gammaOmega_x4_terms_cancel`, `gammaOmega_divergence_form` | `time_terms_cancel_hidden_term_survives`, `divergence_of_sqrtg_gamma` |
 | (3) $\Omega_\mu = 0$ only for $a_4' = 0$ and $H = 0$; never flat | `Omega_vanishes_iff_a4prime_and_H_vanish`, `never_flat_for_H_positive`, `spin_curvature_equals_Riemann` | `nontriviality_Omega_zero_iff_flat`, `curvature_nonzero_flat_only_formally`, `spinor_curvature_equals_riemann` |
 | (4) explicit operator | `Dirac_operator_explicit_C` | |
-| the same term in the quantum theory of dirac16complex | `good_sector_hermiticity_curved` | |
+| the same term in the quantum theory of dirac16complex (up to a boundary term) | `good_sector_hermiticity_curved`, `good_sector_hermiticity_up_to_the_brane_flux` (scope) | `good_sector_hermiticity_up_to_the_brane_flux` (scope) |
+| scope: the boosted frame removes $\gamma^\mu\Omega_\mu$, not $\Omega_\mu$ | `boosted_frame_reproduces_metric`, `boosted_frame_canonical_connection`, `boosted_frame_gammaOmega_formula`, `boosted_frame_gammaOmega_vanishes`, `boosted_frame_curvature_nonzero` (scope) | the same five names (scope) |
+| scope: rescaling, deflation, energy-momentum tensor | `rescaling_removes_the_connection_term`, `rescaled_equation_quadratic_potential`, `gammaOmega_blind_to_the_deflation`, `spin_connection_in_the_energy_momentum_tensor` (scope) | the same four names (scope) |
 
 ## 7. Self-consistency of the field equations
 
@@ -404,7 +415,7 @@ $$
 
 and $\gamma^\mu\gamma^\nu F_{\mu\nu} = -\tfrac{R}{2}$ for the spinor curvature $F_{\mu\nu} = [D_\mu, D_\nu]$.
 
-**Cauchy problem.** The equation is first order in $x_4$ with non-characteristic slices (evolution form, section 5).
+**Cauchy problem.** The equation is first order in $x_4$ with non-characteristic slices (evolution form, section 5). This does not make the Cauchy problem well posed, and it is not listed here as a self-consistency property: for data that depend on the extra times the growth rates of the modes have no upper bound (with frozen coefficients $k_5 = K$ gives the rate $\sqrt{K^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$; Hadamard ill-posedness), and in the good sector, without a boundary condition at $z = \pi/2$, the $x_8$-independent modes grow whenever $m^2 < 9H^2$ (for $U = 0$; the matrix $-im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_8)}$ has square $(m^2 - 9H^2)I_{16}$).
 
 **Conserved current.** $J^\mu = -i\bar\Phi\gamma^\mu\Phi$ is real, and off shell
 
@@ -432,6 +443,7 @@ and the off-shell identity of local Lorentz invariance (the antisymmetric part o
 | Lichnerowicz identity | `Lichnerowicz_identity_C` | `lichnerowicz_identity_on_fields`, `lichnerowicz_contraction` |
 | current: reality, conservation, indefinite charge | `current_real_C`, `current_conservation_identity_C`, `charge_density_is_Krein_form_C` | `commuting_current_conservation` |
 | Noether identities and conservation of $T$ | `Noether_identity_diffeomorphisms_C`, `Noether_identity_local_Lorentz_C`, `conservation_on_shell_general` | `commuting_emt_conservation_on_shell`, `commuting_emt_conservation_negative_control` |
+| no well-posed Cauchy problem: unbounded growth, growing good-sector modes without a boundary condition | `extra_time_growth_rates_unbounded`, `good_sector_x8_independent_modes_without_boundary_condition` (scope) | the same two names (scope) |
 
 ## 8. The energy-momentum tensor (classical bilinears)
 
@@ -558,12 +570,13 @@ $$
 
 for $U = \tfrac{\lambda}{2}S^2$: $\rho = mS + \tfrac{\lambda}{2}S^2$ and $p = \tfrac{\lambda}{2}S^2$ (formula `EMT_homogeneous_on_shell` of `Revision/theory/field-theory.json`; the exact nonlinear solution of section 5 realises these values). $S$ is constant along $x_4$ for a homogeneous solution, so $\rho$ and $p$ are constant, consistent with $d\rho/dx_4 = -3a_4'(p_3 - p_t) = 0$.
 
-**Sign of the energy.** $S = \Phi^\dagger C\Phi$ is an indefinite form (section 2), and for the homogeneous solutions of section 5 $S = S_0 = \chi^\dagger C\chi$ with an arbitrary constant $\chi$; the sign of $\rho = mS + U$ is therefore not fixed by the field equations. This record contains no positivity statement for the energy of dirac16complex00.
+**Sign of the energy (exact).** The classical energy of dirac16complex00 is unbounded below already for $U = 0$ in the good sector. In the flat frame with $m = 2$ and $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$, $E = 5$, the one-particle generator commutes with $B$ and its $E = 5$ eigenspace (dimension 8) contains vectors $u$ with $Bu = -u$ and with $Bu = +u$; the positive-frequency solutions $\Phi = c\,u\,e^{i(k\cdot x - 5x_4)}$ ($|u| = 1$) have the energy density $\rho = -T^{x_4}{}_{x_4} = -5|c|^2$ and $+5|c|^2$ and the charge density $\Phi^\dagger B\Phi = -|c|^2$ and $+|c|^2$ (`commuting_field_energy_unbounded_below`, both engines). By the Krein-inertia theorem of the pairing record (every real-frequency eigenspace has inertia (4,4), `Q_one_particle_Krein_inertia_real_frequencies`) such negative-energy modes exist at every real frequency. In the author's metric the homogeneous solutions of section 5 have $\rho = mS_0$ with $S_0 = \chi^\dagger C\chi$ of either sign. dirac16complex00 therefore has a negative-energy (ghost-like) sector at positive frequency, the classical form of the spin-statistics problem of a commuting field with a first-order Lagrangian; this matters for any reading of Hypothesis00, for example a phantom $w < -1$.
 
 | statement | Wolfram checks | sympy checks |
 | --- | --- | --- |
 | homogeneous on-shell $\rho$, $p$; kinetic and potential parts | `exact_solution_nonlinear_homogeneous_C` (theory) | `commuting_homogeneous_on_shell_rho_p` (theory) |
 | $S$ constant along $x_4$ for a homogeneous solution | `condensate_S_constant` ($a_4$ record) | `ownrep_condensate_S_constant`, `authorT16_condensate_S_constant` ($a_4$ record) |
+| energy unbounded below, indefinite charge | `commuting_field_energy_unbounded_below` (scope), `Q_one_particle_Krein_inertia_real_frequencies` (pairing) | `commuting_field_energy_unbounded_below` (scope), `Q.one_particle_Krein_inertia_proof` (pairing) |
 
 ## 10. Equations of state
 
@@ -585,7 +598,7 @@ For $\lambda = 0$ the homogeneous state has $p = 0$ and $w = 0$. Because $S$, $\
 | --- | --- |
 | definitions and homogeneous values of $w_3$, $w_t$, $w_8$ | formula `equation_of_state_definitions` of `Revision/theory/field-theory.json`; sympy check `commuting_homogeneous_on_shell_rho_p` |
 
-Not computed in this document: the equation of state that a 3-space observer infers (after integrating over the hidden direction and the extra times), its time dependence as the extra times deflate, CPL parameters, and any comparison with supernova data. These belong to the dark-sector investigation of Hypothesis00 (SPEC section 8), which is a separate Revision record.
+Not computed in this document: the equation of state that a 3-space observer infers (after integrating over the hidden direction and the extra times), its time dependence as the extra times deflate, CPL parameters, and any comparison with supernova data. These belong to the dark-sector investigation of Hypothesis00 (SPEC section 8), a separate Revision record that is planned and not yet written.
 
 ## 11. The field equations for a4[x4]
 
@@ -740,7 +753,7 @@ $$
 a_4 = A H x_4 + a_0 ,
 $$
 
-and the deflating member (for $A > 0$) is the only kind of $a_4$ this source allows (`theoremLinear` of `Revision/field_equations_a4/a4-equations.json`, resting on the checks listed below).
+with real $A$: only the linear member is allowed (`theoremLinear` of `Revision/field_equations_a4/a4-equations.json`, resting on the checks listed below). The equations contain $A$ only through $A^2$ (invariant under $A \to -A$): the extra times deflate for $A > 0$, which is a choice of sign and is not selected by the equations; $A < 0$ is allowed on the same footing, and $A = 0$ is the static case.
 
 **The source it requires.** With $a_4' = AH$ the remaining equations are the constraint and the $x_8$ equation, at $a_4' = AH$:
 
@@ -801,7 +814,7 @@ There is no quantum reading for dirac16complex00: it is not quantised. These the
 
 ## 14. Check index
 
-Every check below has the verdict PASS in the named report (the publication test re-reads the reports and confirms each name and verdict). Counts at the time of writing: wolfram-algebra 45 checks, python-algebra 35, wolfram-field-theory 84, python-field-theory 70, wolfram-a4-report 47, python-a4-report 61, wolfram-pairing 99, python-pairing 64; all pass.
+Every check below has the verdict PASS in the named report (the publication test re-reads the reports and confirms each name and verdict). Counts at the time of writing: wolfram-algebra 45 checks, python-algebra 35, wolfram-field-theory 84, python-field-theory 70, wolfram-a4-report 47, python-a4-report 61, wolfram-pairing 101, python-pairing 66, wolfram-scope 15, python-scope 14; all pass.
 
 | report | checks cited in this document |
 | --- | --- |
@@ -846,17 +859,25 @@ Every check below has the verdict PASS in the named report (the publication test
 | `Revision/pairing/reports/wolfram-pairing.json` | `T1_Euler_Lagrange_map_primordial_commuting`, `T1_energy_momentum_primordial_commuting`, `T1_current_primordial_commuting`, `T1_general_potential_primordial_commuting`, `T2_mirror_is_isometry`, `T2_mirror_Lagrangian_commuting` |
 | `Revision/pairing/reports/wolfram-pairing.json` | `T2_mirror_energy_momentum_and_current_commuting`, `T2_mirror_Euler_Lagrange_commuting` |
 | `Revision/pairing/reports/python-pairing.json` | `T1.metric.commuting.lagrangian`, `T1.metric.commuting.negative_controls`, `T1.metric.commuting.euler_lagrange_map`, `T1.metric.commuting.emt`, `T1.metric.commuting.pair_total_emt_zero`, `T1.metric.commuting.current` |
-| `Revision/pairing/reports/python-pairing.json` | `T1.metric.commuting.general_potential`, `T2.metric.commuting.euler_lagrange_map`, `T2.metric.commuting.emt`, `T2.metric.commuting.current`, `T2.metric.commuting.S_odd` |
+| `Revision/pairing/reports/python-pairing.json` | `T1.metric.commuting.general_potential`, `T2.metric.commuting.euler_lagrange_map`, `T2.metric.commuting.emt`, `T2.metric.commuting.current`, `T2.metric.commuting.S_odd`, `Q.one_particle_Krein_inertia_proof` |
+| `Revision/pairing/reports/wolfram-pairing.json` | `Q_one_particle_Krein_inertia_real_frequencies` |
+| `Revision/theory/reports/wolfram-scope.json` | `boosted_frame_reproduces_metric`, `boosted_frame_canonical_connection`, `boosted_frame_gammaOmega_formula`, `boosted_frame_gammaOmega_vanishes`, `boosted_frame_curvature_nonzero`, `rescaling_removes_the_connection_term` |
+| `Revision/theory/reports/wolfram-scope.json` | `rescaled_equation_quadratic_potential`, `gammaOmega_blind_to_the_deflation`, `connection_free_lagrangian_same_equations`, `spin_connection_in_the_energy_momentum_tensor`, `good_sector_hermiticity_up_to_the_brane_flux` |
+| `Revision/theory/reports/wolfram-scope.json` | `good_sector_x8_independent_modes_without_boundary_condition`, `extra_time_growth_rates_unbounded`, `commuting_field_energy_unbounded_below` |
+| `Revision/theory/reports/python-scope.json` | `boosted_frame_reproduces_metric`, `boosted_frame_canonical_connection`, `boosted_frame_gammaOmega_formula`, `boosted_frame_gammaOmega_vanishes`, `boosted_frame_curvature_nonzero`, `rescaling_removes_the_connection_term` |
+| `Revision/theory/reports/python-scope.json` | `rescaled_equation_quadratic_potential`, `gammaOmega_blind_to_the_deflation`, `connection_free_lagrangian_same_equations`, `spin_connection_in_the_energy_momentum_tensor`, `good_sector_hermiticity_up_to_the_brane_flux` |
+| `Revision/theory/reports/python-scope.json` | `good_sector_x8_independent_modes_without_boundary_condition`, `extra_time_growth_rates_unbounded`, `commuting_field_energy_unbounded_below` |
 
 ## 15. What is not claimed
 
 - **No quantisation.** dirac16complex00 is not quantised; its energy-momentum tensor is a classical bilinear. The operator statements (Krein space, Fock space, normal ordering) belong to dirac16complex.
-- **No positivity of the energy.** $S = \Phi^\dagger C\Phi$ is indefinite; no statement that the energy of dirac16complex00 is bounded below is made or derived.
+- **The energy is not bounded below, the charge is indefinite.** The record decides the energy question negatively: already for $U = 0$ in the good sector there are positive-frequency solutions of negative energy, and the energy density $-5|c|^2$ of the example of section 9 is unbounded below as $|c|$ grows; the conserved charge $\int\cos z\,\Phi^\dagger B\Phi$ is indefinite. The descriptions "semi-classical" and "analogue of Dirac's 1928 wave function" are interpretations: that wave function has a positive conserved density, this field does not.
+- **Frame dependence of the gravitational term.** $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ is the value for the diagonal vielbein and the variables $\Phi$; it vanishes in the boosted frame of section 6 and is removed by the rescaling $\Phi = \sin^{-1/2}z\,\chi$. Only $\Omega_\mu$ itself (curvature) and the frame factors are frame-independent; non-triviality [2] is claimed in this exact sense.
 - **No 3-space observer equation of state, no CPL fit, no comparison with supernova data.** Section 10 gives the ratios $p/\rho$ of the 8-dimensional tensor only; Hypothesis00 (a time-varying dark-energy or dark-matter equation of state from dirac16complex00) is investigated in the separate dark-sector record, not here. For the homogeneous condensate the ratio $w$ is constant in $x_4$.
-- **No general solution.** The exact solutions of section 5 are test points; the field equation is not solved in general, and no existence statement for the nonlinear Cauchy problem is made beyond the first-order evolution form.
-- **No realisation of the deflating member by a specific condensate.** The theorem of section 12 shows that a homogeneous condensate allows only $a_4 = AHx_4 + a_0$ and gives the conditions the source must satisfy; it is not shown that a specific dirac16complex00 condensate meets those conditions with definite $\kappa$, $\Lambda$, $m$, $\lambda$ and $A > 0$, and no non-homogeneous source with $k_1 \ne k_5$ (which would drive $a_4''$) is constructed.
+- **No general solution, no well-posed Cauchy problem.** The exact solutions of section 5 are test points; the field equation is not solved in general, and no existence statement for the nonlinear Cauchy problem is made beyond the first-order evolution form. For data that depend on the extra times the problem is ill-posed in Hadamard's sense (section 7), and the good sector needs a boundary condition at $z = \pi/2$, which this record does not impose.
+- **No realisation of the deflating member by a specific condensate.** The theorem of section 12 shows that a homogeneous condensate allows only $a_4 = AHx_4 + a_0$ and gives the conditions the source must satisfy; the sign of $A$ (deflation for $A > 0$) is not selected by the equations; it is not shown that a specific dirac16complex00 condensate meets those conditions with definite $\kappa$, $\Lambda$, $m$, $\lambda$ and $A > 0$, and no non-homogeneous source with $k_1 \ne k_5$ (which would drive $a_4''$) is constructed.
 - **The $x_8$ dependence.** The metric of section 1 is an exact solution only with an $x_8$-independent, isotropic source with vanishing off-diagonal components; a dirac16complex00 configuration that depends on $x_8$ is not a consistent source for this metric.
-- **The brane.** The patch end $z = \pi/2$ is a degenerate surface of the metric ($g_{88} = 0$, $\sqrt{|g|} = 0$); no junction condition is derived, and the mirror construction used by T2 is an assumption.
+- **The brane.** The patch end $z = \pi/2$ is a degenerate surface of the metric ($g_{88} = 0$, $\sqrt{|g|} = 0$) at finite proper distance; no junction condition is derived, the mirror construction used by T2 is an assumption, and the boundary term $\sin z\,u^\dagger M_8 v$ of the hidden direction does not vanish there.
 - **Pairing.** The pairing theorems of section 13 derive no creation process, rate or amplitude for universes of masses $\{+m, -m\}$; they are correspondences between solutions, in a fixed gravitational field.
 - **Notebook conventions.** The canonical spin connection used here is the one with $\omega_{\mu ab} = \eta_{ac}\omega_\mu{}^c{}_b$; the notebook's contraction of the mixed components (which lacks a metric factor) is not used, and its Majorana-type $L_g$ serves only as the negative control of section 4.
 
@@ -873,9 +894,11 @@ wolframscript -file Revision/field_equations_a4/wolfram/verify_field_equations_a
 python Revision/field_equations_a4/python/check_field_equations_a4.py
 wolframscript -file Revision/pairing/wolfram/verify_pairing.wls
 python Revision/pairing/python/check_pairing.py
+wolframscript -file Revision/theory/wolfram/verify_scope.wls
+python Revision/theory/python/check_scope.py
 ```
 
-**Re-run for this document (2026-10-01).** The eight verifiers were run in this order on a scratch copy of the Revision inputs (the committed files were not touched). Run times on the development machine: algebra 4 s (Wolfram) and 2 s (sympy); theory 1029 s (Wolfram) and 115 s (sympy); $a_4$ equations 15 s and 4 s; pairing 82 s and 147 s. Every run exited with code 0 and every check passed. All outputs are byte-identical to the committed files except the sympy theory report `Revision/theory/reports/python-field-theory.json`: its 70 checks are identical, and it differs only in the section `comparison_with_wolfram`. The committed report was compared with an earlier Wolfram run (82 checks; the current Wolfram report has 84). Compared with the current Wolfram output, 63 of 63 check pairs and 26 of 27 formula records agree; the one record reported as disagreeing, `energy_exchange`, fails because the comparison parses an older text form of that formula (an equation written with `==`), whereas the current `Revision/theory/field-theory.json` writes it as `nabla_mu T^mu_x4 = -rho'[x4] - 3 a4'[x4] (p3 - p_t) = 0, i.e. d rho/d x4 = -3 a4'[x4] (p3 - p_t)`. That is the same equation as section 8 of this document, and the check `energy_exchange_equation` verifies it on both sides; the parser mismatch is left to the owner of `Revision/theory`.
+**Re-run for this document (2026-10-01).** The eight verifiers of the first edition were run in this order on a scratch copy of the Revision inputs. Run times on the development machine: algebra 4 s (Wolfram) and 2 s (sympy); theory 1029 s (Wolfram) and 115 s (sympy); $a_4$ equations 15 s and 4 s; pairing 82 s and 147 s. After the review of 2026-10-01 the sympy theory checker, the pairing verifiers, the $a_4$ verifiers and the new scope verifiers were run again on the working tree: every check passes, and the outputs of two runs are byte-identical. The comparison section `comparison_with_wolfram` of `Revision/theory/reports/python-field-theory.json` was regenerated against the current Wolfram record (84 checks): 32 of 32 formula records and 63 of 63 check pairs agree; its parser now reads the prose form of `energy_exchange` in the current `Revision/theory/field-theory.json`, and the five prose records that it did not compare before are compared by re-deriving their formulas. The sympy theory checker now exits with an error when the comparison disagrees (103 s for the regenerated report; the scope verifiers 17 s and 1 s). The reports cited here are the files of the working tree.
 
 The document is built and checked with (the first command on one line)
 

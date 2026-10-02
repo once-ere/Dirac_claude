@@ -25,12 +25,12 @@
     "The gravitational back-reaction (the a4 equations of SPEC section 5) is not part of the pairing theorems; T1 maps T -> -T, so a pair sourcing ONE common geometry would have zero total source, which is a statement about sources, not a derivation that such a geometry is created.",
     "No dynamical necessity: nothing forces the partner configuration to exist; the theorems are correspondences between solutions of two parameter sets, not a mechanism.",
     "T1 pairs (m, lambda) with (-m, -lambda): for lambda != 0 it is not a pure +m / -m pairing; the pure pairing (m, lambda) -> (-m, lambda) is T2, at EQUAL (not opposite) energy-momentum.",
-    "Quantum positivity: in flat 4+4 space every energy eigenspace of the one-particle generator has Krein inertia (4,4) (Q.one_particle_Krein_inertia); a positive-norm Fock space for either universe is not established by these theorems.",
+    "Quantum positivity: in flat 4+4 space every real-frequency energy eigenspace of the one-particle generator has Krein inertia (4,4) (Q.one_particle_Krein_inertia_proof) and every imaginary- or zero-frequency eigenspace (the growing extra-time modes) is Krein-neutral (Q.one_particle_complex_frequency_Krein_neutral); a positive-norm Fock space for either universe is not established by these theorems.",
     "The brane z = pi/2 is a degenerate surface of the metric (g_88 = cot^2 z = 0, sqrt|g| = cos z = 0 there, geometry.brane_degenerate); no junction condition, brane tension or matching of the field across it is derived.",
-    "The Kohn-Sham level (T3) is not covered by this checker (owned by Revision/pairing/kohn_sham/)."
+    "The Kohn-Sham level (T3) is not covered by this checker; it is proved separately in Revision/pairing/kohn_sham/ (check_t3.py, with its own hypotheses: ASSUMED Z2 brane, instantaneous mean-field Kohn-Sham states)."
   ],
   "counts": {
-    "pass": 64,
+    "pass": 66,
     "fail": 0,
     "pending": 0
   },
@@ -308,7 +308,17 @@
     {
       "name": "Q.one_particle_Krein_inertia",
       "verdict": "PASS",
-      "detail": "at the exact sample m = 1, k1 = 2, k8 = 2, other k = 0 (E = 3): w = 3: dim 8, Krein inertia (4,4); w = -3: dim 8, Krein inertia (4,4) - every energy eigenspace of the canonically quantised field is Krein-indefinite (B restricted to it has inertia (4,4))"
+      "detail": "at the exact sample m = 1, k1 = 2, k8 = 2, other k = 0 (E = 3, a real frequency): w = 3: dim 8, Krein inertia (4,4); w = -3: dim 8, Krein inertia (4,4) - B restricted to each of these eigenspaces has inertia (4,4); the statement for every real frequency is Q.one_particle_Krein_inertia_proof, the imaginary and zero frequencies are Q.one_particle_complex_frequency_Krein_neutral"
+    },
+    {
+      "name": "Q.one_particle_Krein_inertia_proof",
+      "verdict": "PASS",
+      "detail": "flat 4+4, one-particle generator G_m(k) = B (m C - i k_j C gamma^j), G^2 = w^2 I16 with w^2 = k1**2 + k2**2 + k3**2 - k5**2 - k6**2 - k7**2 + k8**2 + m**2: (i) for real w > 0 the projectors P_(+-) = (1 +- G/w)/2 obey P_+^dagger B P_- = 0 and P_+^dagger B P_+ = B P_+ (symbolic): the two 8-dimensional eigenspaces are B-orthogonal and B is nondegenerate on each; (ii) good sector (k5 = k6 = k7 = 0): [B, G] = 0 and tr B = tr(B G) = 0, so tr(B P_(+-)) = 0 and B has inertia (4,4) on each eigenspace; (iii) w^2 > 0 is a connected region containing the good sector (k5, k6, k7 -> 0 at fixed other k only increases w^2) on which P_(+-) are continuous, so the inertia (4,4) holds at EVERY real frequency; exact extra-time sample m = 2, k5 = 1: w = sqrt(3): dim 8, inertia (4,4); w = -sqrt(3): dim 8, inertia (4,4)"
+    },
+    {
+      "name": "Q.one_particle_complex_frequency_Krein_neutral",
+      "verdict": "PASS",
+      "detail": "B G = G^dagger B gives (w - conj w) u^dagger B v = 0 on an eigenspace of G, so for imaginary w (growing extra-time modes) B vanishes identically there (Krein-neutral, inertia (0,0,8)); for w = 0, G^2 = 0 with rank 8 and ker G = ran G is B-neutral. Exact samples: m = 1, (k1,k2,k3,k5,k6,k7,k8) = (0, 0, 0, 2, 0, 0, 0): w^2 = -3, eigenspace dimensions [8, 8], B-form identically zero: True; m = 1, (k1,k2,k3,k5,k6,k7,k8) = (1, 0, 0, 2, 0, 0, 0): w^2 = -2, eigenspace dimensions [8, 8], B-form identically zero: True; m = 1, (k1,k2,k3,k5,k6,k7,k8) = (0, 0, 0, 1, 0, 0, 0): w^2 = 0, eigenspace dimensions [8], B-form identically zero: True. Hence 'Krein inertia (4,4) in every energy eigenspace' is exact for real frequencies only"
     },
     {
       "name": "Q.T2_image_keeps_B",
@@ -333,7 +343,7 @@
     {
       "name": "compare.theory.one_particle",
       "verdict": "PASS",
-      "detail": "the Wolfram h_m(k) = -i m gamma^(x4) - gamma^(x4) sum k_a gamma^a equals the generator B (m C - i k_a C gamma^a) derived here from L (True); h^2 = (m**2 + q1**2 + q2**2 + q3**2 - q5**2 - q6**2 - q7**2 + q8**2) I16 (True); samples (eigenvalue w, eigenspace dimensions, Krein inertia of B on each): m=2 k=[1, 2, 0, 0, 0, 0, 0, 4]: w=5 agrees; m=-2 k=[1, 2, 0, 0, 0, 0, 0, 4]: w=5 agrees; m=3 k=[0, 0, 0, 0, 0, 0, 0, 0]: w=3 agrees; m=-3 k=[0, 0, 0, 0, 0, 0, 0, 0]: w=3 agrees; m=1 k=[1, 0, 0, 0, 0, 0, 0, 0]: w=sqrt(2) agrees; m=-1 k=[1, 0, 0, 0, 0, 0, 0, 0]: w=sqrt(2) agrees"
+      "detail": "the Wolfram h_m(k) = -i m gamma^(x4) - gamma^(x4) sum k_a gamma^a equals the generator B (m C - i k_a C gamma^a) derived here from L (True); h^2 = (m**2 + q1**2 + q2**2 + q3**2 - q5**2 - q6**2 - q7**2 + q8**2) I16 (True); samples (eigenvalue w, eigenspace dimensions, Krein inertia of B on each): m=2 k=[1, 2, 0, 0, 0, 0, 0, 4]: w=5 agrees; m=-2 k=[1, 2, 0, 0, 0, 0, 0, 4]: w=5 agrees; m=3 k=[0, 0, 0, 0, 0, 0, 0, 0]: w=3 agrees; m=-3 k=[0, 0, 0, 0, 0, 0, 0, 0]: w=3 agrees; m=1 k=[1, 0, 0, 0, 0, 0, 0, 0]: w=sqrt(2) agrees; m=-1 k=[1, 0, 0, 0, 0, 0, 0, 0]: w=sqrt(2) agrees; m=2 k=[0, 0, 0, 0, 1, 0, 0, 0]: w=sqrt(3) agrees; m=-2 k=[0, 0, 0, 0, 1, 0, 0, 0]: w=sqrt(3) agrees"
     },
     {
       "name": "compare.theory.theorem_T1",
@@ -348,7 +358,7 @@
     {
       "name": "compare.theory.theorem_Q",
       "verdict": "PASS",
-      "detail": "Wolfram theorem Q (quantum-level reading; 5 statements, 10 Wolfram verifications) is independently confirmed by 8 sympy checks of this file, all PASS: Q.canonical_anticommutator, Q.image_krein_metric, Q.image_own_quantisation, Q.image_generators_same_dynamics, Q.no_cancellation_independent_universes, Q.one_particle_maps, Q.one_particle_Krein_inertia, Q.T2_image_keeps_B"
+      "detail": "Wolfram theorem Q (quantum-level reading; 5 statements, 12 Wolfram verifications) is independently confirmed by 10 sympy checks of this file, all PASS: Q.canonical_anticommutator, Q.image_krein_metric, Q.image_own_quantisation, Q.image_generators_same_dynamics, Q.no_cancellation_independent_universes, Q.one_particle_maps, Q.one_particle_Krein_inertia, Q.one_particle_Krein_inertia_proof, Q.one_particle_complex_frequency_Krein_neutral, Q.T2_image_keeps_B"
     },
     {
       "name": "compare.theory.not_established",
