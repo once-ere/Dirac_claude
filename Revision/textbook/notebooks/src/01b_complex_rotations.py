@@ -53,7 +53,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS all 6 figure files of this notebook exist",
-        "ALL 33 CHECKS PASSED (notebook 01b)",
+        "ALL 34 CHECKS PASSED (notebook 01b)",
     ],
     "troubleshooting": [],
 }
@@ -300,7 +300,10 @@ CELLS = [
     The next cell draws the partial sums $S_0, \dots, S_{10}$ as points of the complex
     plane joined in order (they spiral in towards the point $e^{2i}$ on the unit
     circle), and on the right the error against $N$ on a logarithmic scale, together
-    with the bound of the previous cell.
+    with the bound of the previous cell. For large $N$ the error is about the size of
+    the first term left out, $\theta^{N+1}/(N+1)!$, so going from $N$ to $N + 1$
+    multiplies it by about $\theta/(N+2)$: the error shrinks faster and faster. The
+    cell checks this for $N = 10$ to 19 (agreement within 10 per cent).
     """),
     code(r'''
     fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.6))
@@ -332,8 +335,12 @@ CELLS = [
                 "i \\sin 2$ (red star); axes real and imaginary part. The partial sums "
                 "turn around the origin and close in on the star. Right: the error "
                 "$|S_N - e^{2i}|$ against $N$ on a logarithmic scale (circles) and the "
-                "bound $e^2 2^{N+1}/(N+1)!$ (dashed); the error falls faster than any "
-                "power of 10 per step once $N$ exceeds about 4.")
+                "bound $e^2 2^{N+1}/(N+1)!$ (dashed); the error shrinks faster and "
+                "faster, each new term multiplying it by about $2/(N+2)$.")
+    step_ratios = [errors[n + 1] / errors[n] for n in range(10, 20)]
+    check(all(abs(ratio - theta / (n + 2)) < 0.1 * theta / (n + 2)
+              for ratio, n in zip(step_ratios, range(10, 20))),
+          "from N to N + 1 the error is multiplied by about theta/(N + 2) (N = 10 to 19)")
     '''),
     md(r"""
     The next cell repeats Euler's formula with mpmath at 50 significant digits, in

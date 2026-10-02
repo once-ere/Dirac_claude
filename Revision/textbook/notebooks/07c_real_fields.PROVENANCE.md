@@ -322,7 +322,7 @@ The notebook shows 4 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/07c_1_majorana_control.png` (1332 x 554 pixels): The Majorana-type Lagrangian $L_g = \sqrt{|g|}\,\Theta^T C\gamma^\mu D_\mu\Theta$ of the author's notebook in the author's metric, for a real column of 16 anticommuting (blue) or commuting (orange) components. Left: the number of monomials of $L_g$ in the jet algebra; it is not zero in either case. Right: the number of its 16 Euler-Lagrange expressions that are not zero. For anticommuting components $L_g$ is a total derivative and gives no field equation at all (0 of 16); for commuting components it gives a field equation in every component (16 of 16).
 - `Revision/textbook/figures/07c_2_commutation_pattern.png` (710 x 749 pixels): The 256 products $\gamma_I$ of the author's gamma matrices (a basis of all $16 \times 16$ matrices), counted by the number $k$ of factors (rows) and by the number of the eight gammas with which they commute (columns); the numbers are the binomial coefficients. Only two squares (red frames) lie in the outer columns: the identity ($k = 0$) commutes with all eight, and the chirality matrix $\Gamma$ ($k = 8$) anticommutes with all eight. Hence every matrix $M$ with $M\gamma^{(a)} = \pm\gamma^{(a)}M$ for all $a$ is a multiple of 1 or of $\Gamma$.
 - `Revision/textbook/figures/07c_3_gamma_map_matrices.png` (892 x 889 pixels): What the real matrix $\Gamma$ does to the two kinds of terms of the Lagrangian of a real field ($16 \times 16$ matrices, red $+1$, blue $-1$, grey 0; rows and columns 1 to 16). Top: the matrix $C$ of the scalar density $S = \Phi^T C\Phi$ and $\Gamma^T C\Gamma$, which is the same: $S$ is kept. Bottom: the kinetic matrix $C\gamma^{(x_4)}$ and $\Gamma^T C\gamma^{(x_4)}\Gamma$, which has every colour swapped: the kinetic term changes sign (the same holds for all eight directions). So the Lagrangian of $\Gamma\Phi$ with $(m, \lambda)$ is minus the Lagrangian of $\Phi$ with $(-m, -\lambda)$.
-- `Revision/textbook/figures/07c_4_mass_reversal.png` (1453 x 569 pixels): The real matrix $\Gamma$ reverses the mass. Left: components 1 and 13 of the real exact solution $\Phi$ (illustration values $H = 1$, $m = 2$, $\alpha = 0$, $\chi_0 = e_1 + e_{13}$, at $z = \pi/4$) and of its image $\Gamma\Phi$ against the time $x_4$: $\Gamma$ reverses the sign of the components 1 to 8 and keeps 9 to 16. Right (logarithmic axis): the largest component of the residual of $\Gamma\Phi$ in the equation with mass $+m$ (solid), which is $2m$ times the size of $\Phi$ (dotted); in the equation with mass $-m$ the residual is zero up to rounding (below $10^{-12}$ of the size, not drawn). A real field has no charge; $\Gamma$ relates solutions of masses $m$ and $-m$.
+- `Revision/textbook/figures/07c_4_mass_reversal.png` (1453 x 569 pixels): The real matrix $\Gamma$ reverses the mass. Left: components 1 and 13 of the real exact solution $\Phi$ (illustration values $H = 1$, $m = 2$, $\alpha = 0$, $\chi_0 = e_1 + 2e_{13}$, at $z = \pi/4$) and of its image $\Gamma\Phi$ against the time $x_4$: $\Gamma$ reverses the sign of the components 1 to 8 and keeps 9 to 16. Right (logarithmic axis): the largest component of the residual of $\Gamma\Phi$ in the equation with mass $+m$ (solid), which is $2m$ times the size of $\Phi$ (dotted); in the equation with mass $-m$ the residual is zero up to rounding (below $10^{-12}$ of the size, not drawn). A real field has no charge; $\Gamma$ relates solutions of masses $m$ and $-m$.
 
 ## 4. Side effects
 
@@ -332,11 +332,11 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/07c.captions.json` | 2563 | `981576b19a66a7a0d2ffef72a8cc29c5d074f02ff0de4e41e5a5fae50cb91007` |
+| `Revision/textbook/figures/07c.captions.json` | 2564 | `a1163dd7e4b869e7c885513544d58d2286ec6039277584e82f05e1ac8cc51c7d` |
 | `Revision/textbook/figures/07c_1_majorana_control.png` | 46507 | `36879248079f2d9aca47125ce08378d4c8f26a45f9fbf556c2bf120a64f815ff` |
 | `Revision/textbook/figures/07c_2_commutation_pattern.png` | 36482 | `47b5b6184cd9608f59e79aea39409668482b82054d6657bff7d1f68ea9756d24` |
 | `Revision/textbook/figures/07c_3_gamma_map_matrices.png` | 29296 | `a6d488d43055cc7888850ee82ea38273b803ed2c0a170f3e29a074a69759952f` |
-| `Revision/textbook/figures/07c_4_mass_reversal.png` | 82417 | `d8204e35b78d793b0f0a2cd2ebedc45893995ae2aa5101ba7a1d79f8583cb2e9` |
+| `Revision/textbook/figures/07c_4_mass_reversal.png` | 87941 | `ba965580c638f5eea6146572b63c060d6a41e59db8dce79d391ed1de53ddfcb2` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/07c_real_fields.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
 
@@ -359,8 +359,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 4.8 s, peak memory of the kernel process 187 MiB;
-- the check run: 4.6 s, peak memory of the kernel process 186 MiB.
+- the build run: 5.1 s, peak memory of the kernel process 187 MiB;
+- the check run: 4.3 s, peak memory of the kernel process 186 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -372,13 +372,13 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/07c_real_fields.ipynb`: `992e9ad05dc40d0b7486e2c5e82008e93e58dcaed7214842a5874f16bc511793`
-- `Revision/textbook/notebooks/src/07c_real_fields.py`: `68501d8a133d55dbbb5da2fc62e1a8656b76ddd4f40af0250f5bd4062cd7d9b7`
-- `Revision/textbook/figures/07c.captions.json`: `981576b19a66a7a0d2ffef72a8cc29c5d074f02ff0de4e41e5a5fae50cb91007`
+- `Revision/textbook/notebooks/07c_real_fields.ipynb`: `412b5e29ed558c3439403e984de72766c100572efc8295a0f193b10eadce455c`
+- `Revision/textbook/notebooks/src/07c_real_fields.py`: `8f09eea2f93a0956773553e756cc6ccfa67283afd831ac045d5980480fc6c9fb`
+- `Revision/textbook/figures/07c.captions.json`: `a1163dd7e4b869e7c885513544d58d2286ec6039277584e82f05e1ac8cc51c7d`
 - `Revision/textbook/figures/07c_1_majorana_control.png`: `36879248079f2d9aca47125ce08378d4c8f26a45f9fbf556c2bf120a64f815ff`
 - `Revision/textbook/figures/07c_2_commutation_pattern.png`: `47b5b6184cd9608f59e79aea39409668482b82054d6657bff7d1f68ea9756d24`
 - `Revision/textbook/figures/07c_3_gamma_map_matrices.png`: `a6d488d43055cc7888850ee82ea38273b803ed2c0a170f3e29a074a69759952f`
-- `Revision/textbook/figures/07c_4_mass_reversal.png`: `d8204e35b78d793b0f0a2cd2ebedc45893995ae2aa5101ba7a1d79f8583cb2e9`
+- `Revision/textbook/figures/07c_4_mass_reversal.png`: `ba965580c638f5eea6146572b63c060d6a41e59db8dce79d391ed1de53ddfcb2`
 
 ## 7. Verification
 
@@ -386,4 +386,4 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 5 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":187.0,"seconds":4.8},"check":{"date":"2026-10-02","files":5,"peak_mb":186.0,"result":"passed","seconds":4.6},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":187.0,"seconds":5.1},"check":{"date":"2026-10-02","files":5,"peak_mb":186.0,"result":"passed","seconds":4.3},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

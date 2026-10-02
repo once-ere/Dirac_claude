@@ -89,7 +89,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all four figure files of the notebook exist",
-        "ALL 28 CHECKS PASSED (notebook 11b)",
+        "ALL 29 CHECKS PASSED (notebook 11b)",
     ],
     "troubleshooting": [
         ["AssertionError: check failed: the program wrote curvature.json equal to the "
@@ -406,9 +406,29 @@ CELLS = [
 
 
     def gamma(a, b, c):
+        """Gamma^a_bc (0 when it is not in the dictionary)."""
         return christoffel.get((a, b, c), 0)
 
 
+    christoffel_b_le_c = [key for key in christoffel if key[1] <= key[2]]
+    report("nonzero Christoffel symbols Gamma^a_bc with b <= c", len(christoffel_b_le_c))
+    check(all(christoffel.get((a, c, b)) == value
+              for (a, b, c), value in christoffel.items()),
+          "Gamma^a_bc = Gamma^a_cb (symmetric in the lower labels)")
+    '''),
+    md(r"""
+    The next cell computes the Riemann tensor from the formula of section 4 and raises
+    its second label, $R^{ab}{}_{cd} = R^a{}_{bcd}/g_{bb}$. For every component it
+    replaces $a_4'$ and $a_4''$ by the symbols `A1` and `A2`, simplifies
+    (`sp.simplify`), and writes $\cot z$ as the symbol `C` (with $\tan z = 1/C$ and
+    $\cos z = C \sin z$). If a component still contained $x_8$, $\sin z$ or $e^{a_4}$,
+    the check at the end would fail: the warp factor $\sin^{1/3} z$ and the exponentials
+    cancel in every $R^{ab}{}_{cd}$. The cell takes about 10 seconds, almost all of it
+    in `sp.simplify`.
+    """),
+    code(r'''
+    A1, A2, C = sp.symbols("A1 A2 C")  # a4', a4'' and cot(z)
+    SYMBOLS = {sp.Derivative(a4, (X[3], 2)): A2, sp.Derivative(a4, X[3]): A1}
     RIEMANN = {}  # (a, b, c, d) -> R^ab_cd in the symbols H, A1, A2, C
     for a in range(8):
         for b in range(8):
@@ -425,8 +445,6 @@ CELLS = [
                                                   sp.cos(z): C * sp.sin(z)}))
                     if value != 0:
                         RIEMANN[a, b, c, d] = value
-    christoffel_b_le_c = [key for key in christoffel if key[1] <= key[2]]
-    report("nonzero Christoffel symbols with b <= c", len(christoffel_b_le_c))
     report("nonzero components R^ab_cd", len(RIEMANN))
     check(all(v.free_symbols <= {H, A1, A2, C} for v in RIEMANN.values()),
           "every R^ab_cd is a polynomial in H, a4', a4'' and cot z and its inverse, free "
@@ -901,17 +919,20 @@ CELLS = [
     $T_6 = R^a{}_bR^b{}_cR^c{}_a$, $T_7 = R\,R^a{}_bR^b{}_a$, $T_8 = R^3$ (the
     coefficients were derived by the Revision checker from 9 random curvature tensors).
 
-    The next cell computes the Ricci tensor, the Ricci scalar, Einstein's tensor, the
-    Gauss-Bonnet scalar and tensor and the eight cubic invariants from `ENTRIES`, all
-    with the exact polynomial arithmetic, and checks the three identities for all 64
-    components. `RM` is the dictionary of the entries, `get(key, {})` gives the empty
-    polynomial (zero) for a missing key, and `poly_sum` adds a list of polynomials.
+    The next three cells compute, from `ENTRIES` and with the exact polynomial
+    arithmetic, the Ricci tensor, the Ricci scalar and Einstein's tensor; then the
+    Gauss-Bonnet scalar and tensor; then the eight cubic invariants; and each checks its
+    identity for all 64 components. The first cell checks order 1. `RM` is the
+    dictionary of the entries, `get(key, {})` gives the empty polynomial (zero) for a
+    missing key, `poly_sum` adds a list of polynomials, and `delta[h, j]` is the
+    polynomial 1 for $h = j$ and 0 otherwise.
     """),
     code(r'''
     RM = dict(ENTRIES)  # (a, b, c, d) -> R^ab_cd as a polynomial dict
 
 
     def poly_sum(polynomials):
+        """The sum of a list of polynomials."""
         total = {}
         for p in polynomials:
             total = poly_add(total, p)
@@ -929,7 +950,16 @@ CELLS = [
           "P(1) = -4 G for all 64 components and L(1) = 2 R",
           record="Revision/gkd_lovelock/results/python-lovelock-report.json, checks "
                  "k1_equals_minus_4_einstein and L1_equals_2R")
-
+    '''),
+    md(r"""
+    The next cell checks order 2. It forms the two squares $R^a{}_b R^b{}_a$ and
+    $R^{ab}{}_{cd} R^{cd}{}_{ab}$, the Gauss-Bonnet scalar
+    $\mathrm{GB} = R^2 - 4 R^a{}_b R^b{}_a + R^{ab}{}_{cd} R^{cd}{}_{ab}$, and, for each
+    of the 64 pairs $(h, j)$, the four sums of Lanczos's tensor $2\mathcal{H}^h{}_j$
+    written above (`t` collects them before the factor 4 and the term
+    $-\delta^h_j\,\mathrm{GB}$ are applied).
+    """),
+    code(r'''
     ric_square = poly_sum(poly_mul(RIC[a, b], RIC[b, a]) for a in range(8)
                           for b in range(8))  # R^a_b R^b_a
     riem_square = poly_sum(poly_mul(v, RM[(c, d, a, b)]) for (a, b, c, d), v in
@@ -1044,4 +1074,3 @@ CELLS = [
 
 if __name__ == "__main__":
     raise SystemExit(run_builder(__file__))
-                                                                                                                                          

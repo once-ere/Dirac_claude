@@ -258,7 +258,7 @@ CELLS = [
         """check(condition, name, record=record), printed in one piece."""
         collected = io.StringIO()
         with contextlib.redirect_stdout(collected):  # print into the buffer
-            check_reproduces(condition, name, record=record)  # stops here if the check fails
+            check(condition, name, record=record)  # stops here if the check fails
         sys.stdout.write(collected.getvalue())  # the PASS and reproduces lines together
 
 
@@ -316,7 +316,8 @@ CELLS = [
     check_reproduces(symmetric == ["x1", "x2", "x3", "x8"]
                      and antisymmetric == ["x4", "x5", "x6", "x7"]
                      and recorded("python", "symmetry_pattern"),
-                     "(gamma^a)^T = eta_aa gamma^a: space-like symmetric, time-like antisymmetric",
+                     "(gamma^a)^T = eta_aa gamma^a: space-like symmetric, time-like "
+                     "antisymmetric",
                      record=record_of("python", "symmetry_pattern"))
     '''),
     md(r"""
@@ -570,7 +571,8 @@ CELLS = [
     check_reproduces(np.array_equal(Gamma, np.array(fixture["Gamma"], dtype=np.int64))
                      and np.array_equal(Gamma, np.block([[-I8, Z8], [Z8, I8]]))
                      and recorded("python", "chirality_diag"),
-                     "Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) = diag(-1_8, 1_8), as recorded",
+                     "Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) = diag(-1_8, 1_8), as "
+                     "recorded",
                      record=record_of("python", "chirality_diag"))
     check_reproduces(np.array_equal(Gamma @ Gamma, I16)
                      and all(commutation_sign(Gamma, gamma[x]) == -1 for x in COORDS)
@@ -586,7 +588,8 @@ CELLS = [
                      and all(np.array_equal(Gamma.T @ C @ gamma[x] @ Gamma, -(C @ gamma[x]))
                              for x in COORDS)
                      and recorded("python", "chirality_C_relation"),
-                     "C Gamma = Gamma C, Gamma^T C Gamma = C, Gamma^T C gamma^a Gamma = -C gamma^a",
+                     "C Gamma = Gamma C, Gamma^T C Gamma = C, Gamma^T C gamma^a Gamma = -C "
+                     "gamma^a",
                      record=record_of("python", "chirality_C_relation"))
     '''),
     md(r"""
@@ -613,7 +616,8 @@ CELLS = [
           and np.trace(P_minus) == 8 and np.trace(P_plus) == 8,
           "P_- = diag(1_8, 0) and P_+ = diag(0, 1_8) are complementary projectors of "
           "rank 8")
-    check_reproduces(all(np.array_equal(gamma[x] @ P_minus, P_plus @ gamma[x]) for x in COORDS)
+    check_reproduces(all(np.array_equal(gamma[x] @ P_minus, P_plus @ gamma[x])
+                         for x in COORDS)
                      and all(not np.any(gamma[x][:8, :8]) and not np.any(gamma[x][8:, 8:])
                              for x in COORDS)
                      and recorded("python", "reflections_exchange_halves")
@@ -688,7 +692,8 @@ CELLS = [
     say(f"characteristic polynomial of B: {polynomial}")
     detail = VERDICTS[("python", "B_hermitian_involution_signature")][1]
     check_reproduces(sp.expand(polynomial - (lam - 1) ** 8 * (lam + 1) ** 8) == 0
-                     and f"= {polynomial}" in detail and recorded("wolfram", "B_signature_8_8"),
+                     and f"= {polynomial}" in detail
+                     and recorded("wolfram", "B_signature_8_8"),
                      "det(lam 1 - B) = (lam - 1)^8 (lam + 1)^8: signature (8, 8)",
                      record=record_of("python", "B_hermitian_involution_signature"))
     '''),
@@ -705,9 +710,11 @@ CELLS = [
     anticommute = [x for x in COORDS if signs_B[x] == -1]
     say("B commutes with gamma^(x) for x = " + ", ".join(commute))
     say("B anticommutes with gamma^(x) for x = " + ", ".join(anticommute))
-    check_reproduces(commute == ["x1", "x2", "x3", "x4", "x8"] and anticommute == ["x5", "x6", "x7"]
+    check_reproduces(commute == ["x1", "x2", "x3", "x4", "x8"]
+                     and anticommute == ["x5", "x6", "x7"]
                      and recorded("python", "B_gamma_relations"),
-                     "B commutes with gamma^a for a = x1, x2, x3, x4, x8 and anticommutes for "
+                     "B commutes with gamma^a for a = x1, x2, x3, x4, x8 and anticommutes "
+                     "for "
                      "x5, x6, x7",
                      record=record_of("python", "B_gamma_relations"))
     '''),

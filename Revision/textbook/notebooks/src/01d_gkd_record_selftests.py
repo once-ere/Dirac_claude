@@ -387,8 +387,10 @@ CELLS = [
     the first 160,000 calls of `below(8)`. Each label should come out about
     $160\,000/8 = 20\,000$ times, with a standard deviation of
     $\sqrt{160\,000 \cdot \tfrac18 \cdot \tfrac78} \approx 132$. The check asks that
-    every count lies within 5 standard deviations of 20,000, which a fair source
-    fails with a probability of less than one in a million.
+    every count lies within 5 standard deviations of 20,000. A single count of a fair
+    source lies further away with a probability of about 0.6 in a million, so with
+    8 counts a fair source fails this check with a probability of about 5 in a
+    million.
     """),
     code(r'''
     stream = XorShift64Star(EXPORTER_SEED ^ 4)

@@ -839,7 +839,7 @@ CELLS = [
     \Psi$ is the member of the family with mass $-m$ and the column $\Gamma\chi_0$. The
     next cell checks $\Gamma M_m\Gamma = M_{-m}$ exactly, then evaluates, for the
     illustration values $H = 1$, $m = 2$, $\alpha = 0$ ($k = \sqrt5$), $\chi_0 = e_1 +
-    e_{13}$, $z = \pi/4$ and $x_4$ from 0 to 2, the residuals
+    2e_{13}$, $z = \pi/4$ and $x_4$ from 0 to 2, the residuals
     $\gamma^{(x_4)}\partial_4\Psi + 3H\gamma^{(x_8)}\Psi - \mu\Psi$ of $\Phi$ and of
     $\Gamma\Phi$ in the equations with $\mu = +m$ and $\mu = -m$ (Figure 4).
     """),
@@ -857,7 +857,7 @@ CELLS = [
     Gf = [np.array(gm.tolist(), dtype=float) for gm in G]
     GAMMAf = np.array(GAMMA.tolist(), dtype=float)
     chi0 = np.zeros(16)
-    chi0[[0, 12]] = 1.0  # e_1 + e_13: one component in each chiral half
+    chi0[0], chi0[12] = 1.0, 2.0  # e_1 + 2 e_13: one component in each chiral half
     times = np.linspace(0.0, 2.0, 201)
     Mf = -2.0 * Gf[X4] + 3.0 * Gf[X4] @ Gf[X8]  # m = 2, H = 1
     kk = np.sqrt(5.0)
@@ -909,7 +909,7 @@ CELLS = [
     save_figure(fig, "mass_reversal",
                 "The real matrix $\\Gamma$ reverses the mass. Left: components 1 and 13 "
                 "of the real exact solution $\\Phi$ (illustration values $H = 1$, "
-                "$m = 2$, $\\alpha = 0$, $\\chi_0 = e_1 + e_{13}$, at $z = \\pi/4$) and "
+                "$m = 2$, $\\alpha = 0$, $\\chi_0 = e_1 + 2e_{13}$, at $z = \\pi/4$) and "
                 "of its image $\\Gamma\\Phi$ against the time $x_4$: $\\Gamma$ reverses "
                 "the sign of the components 1 to 8 and keeps 9 to 16. Right "
                 "(logarithmic axis): the largest component of the residual of "

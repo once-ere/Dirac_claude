@@ -97,9 +97,10 @@ CELLS = [
     energy-momentum tensor. It
 
     - shows that the number $S = \bar\Phi\Phi$ can have either sign (a histogram);
-    - builds the exact solution $\Phi(x_4) = (\cosh(kx_4) + \frac{\sinh(kx_4)}{k}M
-      )\chi$ of the Revision record, checks the field equation and that $S$ stays
-      constant, for one condensate that oscillates and one that grows;
+    - builds the exact solution
+      $\Phi(x_4) = (\cosh(kx_4) + \frac{\sinh(kx_4)}{k}M)\chi$ of the Revision
+      record, checks the field equation and that $S$ stays constant, for one
+      condensate that oscillates and one that grows;
     - computes from the solution the energy density $\rho$ and the pressure $p$ and
       checks the record's values $\rho = mS + U$ and $p = SU' - U$, the same in all
       seven directions, and the vanishing of the $x_4$-$x_8$ component;
@@ -235,8 +236,8 @@ CELLS = [
     '''),
     md(r"""
     The next cell draws the histogram of the 20000 values of $S_0$. A condensate
-    with $\lambda = 0$ has $\rho = mS_0$, so for $m > 0$ about half of all such
-    condensates have negative energy density.
+    with $\lambda = 0$ has $\rho = mS_0$, so for $m > 0$ about half of these random
+    condensates have a negative energy density.
     """),
     code(r'''
     fig, ax = plt.subplots()
@@ -354,9 +355,9 @@ CELLS = [
     The next cell draws the two condensates. Left: the real parts of three of the 16
     components of the oscillating condensate, and $S$. Right: the size
     $\Phi^\dagger\Phi$ of the growing condensate (logarithmic axis) and $S$. In both
-    cases $S$ stays exactly 1, even where $\Phi$ grows a thousand-fold: the growth
-    happens in directions in which the indefinite form $\Phi^\dagger C\Phi$ does not
-    grow.
+    cases $S$ stays exactly 1, even where $\Phi^\dagger\Phi$ grows by a factor of
+    more than 100000: the growth happens in directions in which the indefinite form
+    $\Phi^\dagger C\Phi$ does not grow.
     """),
     code(r'''
     fig, (left, right) = plt.subplots(1, 2, figsize=(9.6, 3.9))
@@ -397,9 +398,9 @@ CELLS = [
     solution, the Lagrangian $L_0 = K_4 - mS - U$, the energy density
     $\rho = -T^{x_4}{}_{x_4} = K_4 - L_0$ and the pressures
     $p_\mu = T^\mu{}_\mu = L_0 - K_\mu = L_0$ for $\mu \neq x_4$, which are equal in
-    all seven directions. It checks $K_4 = VS$, $\rho = mS + \frac{\lambda}{2}S^2$,
-    $p = \frac{\lambda}{2}S^2$, the kinetic and potential parts
-    ($\rho_{\rm kin} = 0$, $p_{\rm kin} = VS$, $p_{\rm pot} = -(mS + U)$), the trace
+    all seven directions. It checks $K_4 = VS$, $\rho = mS + \frac{\lambda}{2}S^2$ and
+    $p = \frac{\lambda}{2}S^2$, hence the kinetic and potential parts
+    ($\rho_{\rm kin} = 0$, $p_{\rm kin} = K_4 = VS$, $p_{\rm pot} = -(mS + U)$), the trace
     $-\rho + 7p = -mS + 3\lambda S^2$, and that the $x_4$-$x_8$ component vanishes:
     $T^{x_4}{}_{x_8} = -\frac14(B_{48} - \cot z B_{84})$ with
     $B_{48} = 0$ (no $x_8$ derivative) and

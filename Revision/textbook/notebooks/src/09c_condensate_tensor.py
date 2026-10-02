@@ -91,8 +91,8 @@ CELLS = [
     - checks that each of the 42 entries is a multiple of one of 15 *three-gamma
       bilinears* $\bar\Phi\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}\Phi$;
     - builds the exact condensates of the Revision record for which all 15
-      bilinears vanish, and checks that their tensor is diagonal at every point of
-      every history;
+      bilinears vanish, and checks that their tensor is diagonal at 36 points with
+      different $a_4$, $a_4'$ and $z$ (the record states it for all of them);
     - tests the conservation $\nabla_\mu T^\mu{}_\nu = 0$ of the full tensor of a
       condensate along a curved (non-linear) history with finite differences whose
       step shrinks, and contrasts it with a configuration that leaves out the
@@ -149,8 +149,10 @@ CELLS = [
     nonzero off-diagonal entries, each a multiple of one of the 15 bilinears with
     $\{a, b, c\} = \{i, x_4, x_8\}$ ($i$ any of $x_1, x_2, x_3, x_5, x_6, x_7$) or
     $\{i, j, x_4\}$ ($i$ in 3-space, $j$ an extra time); and exact witnesses exist
-    for which all 15 vanish. The field equations for $a_4$ need a source whose
-    off-diagonal entries vanish, so only such special condensates qualify there.
+    for which all 15 vanish. The field equations for $a_4$ require, among other
+    conditions, that every off-diagonal entry of the source vanishes; on the
+    deflating history a condensate meets this one condition only if all 15
+    bilinears vanish, as for the witnesses.
 
     **Conservation.** The record proves $\nabla_\mu T^\mu{}_\nu = 0$ for every
     solution (the Noether identity of coordinate invariance) and checks it exactly
@@ -525,7 +527,7 @@ CELLS = [
                 "($a_4 = 0.5$, $a_4' = 0.25$, $z = \\pi/4$) and with the same colour "
                 "scale as the generic condensate, in units of energy per unit volume. "
                 "All 15 three-gamma bilinears of $\\Phi_0$ vanish, so every off-diagonal "
-                "entry is zero (it is zero at every point of every history): this "
+                "entry is zero (by the record, at every point of every history): this "
                 "condensate is a perfect fluid at rest, with $T^{x_4}{}_{x_4} = -VS$ "
                 "and zero pressure.")
     check(len(off_diagonal_pairs(T_witness)) == 0 and abs(T_witness[3, 3]) > 0.1,
@@ -757,14 +759,16 @@ CELLS = [
       (the record's statement, confirmed with three random columns).
     - The record's witnesses, built from joint eigenvectors of
       $\gamma^{(1)}\gamma^{(5)}$, $\gamma^{(2)}\gamma^{(6)}$, $\gamma^{(3)}\gamma^{(7)}$,
-      make all 15 bilinears vanish: their tensor is diagonal at every point of every
-      history. Only such special condensates can meet the condition of the $a_4$
-      field equations that the off-diagonal entries vanish.
+      make all 15 bilinears vanish: their tensor is diagonal (the record shows it for
+      every $a_4$ and $a_4'$; this notebook checked 36 points). On the deflating
+      history only such special condensates meet the condition of the $a_4$ field
+      equations that the off-diagonal entries of the source vanish (one condition
+      among several).
     - The full tensor of a condensate is conserved, $\nabla_\mu T^\mu{}_\nu = 0$,
       along a curved history: the finite-difference divergence falls like $h^2$. A
       configuration that leaves out the gravitational term $3H\gamma^{(8)}$ keeps the
       energy balance but breaks the six momentum balances along 3-space and the
-      extra times: the term is needed for the consistency of the theory.
+      extra times: the term is needed for the conservation of the tensor.
     - Status: the statements are PROVED in the Revision record (exact, Wolfram and
       sympy); this notebook confirms them numerically. The parameter values are
       choices of this notebook.

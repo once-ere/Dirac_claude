@@ -406,7 +406,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | `Revision/textbook/figures/07b.captions.json` | 3833 | `06220cdefa6b501f3f6eecbf828aeddec2a8fbd5f55a10ec56d12a3f88433773` |
 | `Revision/textbook/figures/07b_1_scale_factors.png` | 83667 | `149ca5b99e34521a9c97060527a97fa1a7f72149b15a809ab8542f263f5c90ea` |
 | `Revision/textbook/figures/07b_2_gamma_omega_per_direction.png` | 64873 | `b5604734edc1e7b7e54f1c4e55607afe61d064d2b6bde3ec418ecf437553702e` |
-| `Revision/textbook/figures/07b_3_lagrangian_monomials.png` | 41417 | `fc5920545b2eed36a4a7e9c7777e111d48d064363d119206cac405411bed018f` |
+| `Revision/textbook/figures/07b_3_lagrangian_monomials.png` | 41252 | `78ac1ca5f0556d4c2ee1f9e42e974e9356d68807619f2cf04cf40ab53340242f` |
 | `Revision/textbook/figures/07b_4_coupling_map.png` | 67219 | `f9cac6d563baad8c69b7177c4a8de7dab4db459d3f486db65f2927282b3b1001` |
 | `Revision/textbook/figures/07b_5_exact_solutions.png` | 111800 | `81cc2d8d55b5683a83b03481f2be2b61953612eba82916f0a0a9ebb4021d51ab` |
 | `Revision/textbook/figures/07b_6_residuals.png` | 63076 | `af75f7213683daa706b24411bec52a0b89211c489c51b24286209882cc28114c` |
@@ -432,8 +432,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 5.3 s, peak memory of the kernel process 205 MiB;
-- the check run: 5.3 s, peak memory of the kernel process 205 MiB.
+- the build run: 6.8 s, peak memory of the kernel process 205 MiB;
+- the check run: 6.1 s, peak memory of the kernel process 205 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -445,12 +445,12 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/07b_euler_lagrange_metric.ipynb`: `5b8e68ed5c2555a0d4dd111e5456bbbf95e6029d4987ea5fe21adc46a97229ea`
-- `Revision/textbook/notebooks/src/07b_euler_lagrange_metric.py`: `deb0d6f7cba3d8534625f58e0a125efafa5c32240618a01b42007d3c4591a1b9`
+- `Revision/textbook/notebooks/07b_euler_lagrange_metric.ipynb`: `33c021fd7bdb267c10b3829283ee63e7f79c0befb3222878a43e35d9d4bffb5d`
+- `Revision/textbook/notebooks/src/07b_euler_lagrange_metric.py`: `e1b758110863b99ff49c06ac8fa5d186c2ff60629891de92a037a0cf510c016b`
 - `Revision/textbook/figures/07b.captions.json`: `06220cdefa6b501f3f6eecbf828aeddec2a8fbd5f55a10ec56d12a3f88433773`
 - `Revision/textbook/figures/07b_1_scale_factors.png`: `149ca5b99e34521a9c97060527a97fa1a7f72149b15a809ab8542f263f5c90ea`
 - `Revision/textbook/figures/07b_2_gamma_omega_per_direction.png`: `b5604734edc1e7b7e54f1c4e55607afe61d064d2b6bde3ec418ecf437553702e`
-- `Revision/textbook/figures/07b_3_lagrangian_monomials.png`: `fc5920545b2eed36a4a7e9c7777e111d48d064363d119206cac405411bed018f`
+- `Revision/textbook/figures/07b_3_lagrangian_monomials.png`: `78ac1ca5f0556d4c2ee1f9e42e974e9356d68807619f2cf04cf40ab53340242f`
 - `Revision/textbook/figures/07b_4_coupling_map.png`: `f9cac6d563baad8c69b7177c4a8de7dab4db459d3f486db65f2927282b3b1001`
 - `Revision/textbook/figures/07b_5_exact_solutions.png`: `81cc2d8d55b5683a83b03481f2be2b61953612eba82916f0a0a9ebb4021d51ab`
 - `Revision/textbook/figures/07b_6_residuals.png`: `af75f7213683daa706b24411bec52a0b89211c489c51b24286209882cc28114c`
@@ -461,4 +461,4 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":205.0,"seconds":5.3},"check":{"date":"2026-10-02","files":7,"peak_mb":205.0,"result":"passed","seconds":5.3},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":205.0,"seconds":6.8},"check":{"date":"2026-10-02","files":7,"peak_mb":205.0,"result":"passed","seconds":6.1},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

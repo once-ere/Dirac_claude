@@ -261,7 +261,7 @@ CELLS = [
         """check(condition, name, record=record), printed in one piece."""
         collected = io.StringIO()
         with contextlib.redirect_stdout(collected):  # print into the buffer
-            check_reproduces(condition, name, record=record)  # stops here if the check fails
+            check(condition, name, record=record)  # stops here if the check fails
         sys.stdout.write(collected.getvalue())  # the PASS and reproduces lines together
 
 
@@ -392,18 +392,20 @@ CELLS = [
                      in detail("python", "clifford_products_span_M16")
                      and recorded("python", "clifford_products_span_M16")
                      and recorded("wolfram", "Clifford_basis_spans_full_matrix_algebra"),
-                     "the 256 Clifford products are independent: they span all 16 x 16 matrices",
+                     "the 256 Clifford products are independent: they span all 16 x 16 "
+                     "matrices",
                      record=record_of("python", "clifford_products_span_M16"))
     even_diagonal = all(not p[:8, 8:].any() and not p[8:, :8].any()
                         for k in (0, 2, 4, 6, 8) for p in products[k])
     odd_off = all(not p[:8, :8].any() and not p[8:, 8:].any()
                   for k in (1, 3, 5, 7) for p in products[k])
     check_reproduces(rank_even == 128 and even_diagonal and odd_off
-                     and f"rank {rank_even} (Fraction)" in detail("python",
-                                                                  "even_products_span_M8_plus_M8")
+                     and f"rank {rank_even} (Fraction)"
+                     in detail("python", "even_products_span_M8_plus_M8")
                      and recorded("python", "even_products_span_M8_plus_M8")
                      and recorded("wolfram", "even_subalgebra_dimension"),
-                     "the 128 even products are block diagonal and independent (64 + 64); the odd "
+                     "the 128 even products are block diagonal and independent (64 + 64); "
+                     "the odd "
                      "ones are block off-diagonal",
                      record=record_of("python", "even_products_span_M8_plus_M8"))
     '''),
@@ -471,8 +473,8 @@ CELLS = [
     say(f"the basis solution divided by its entry (1,1) equals the identity: "
         f"{proportional}")
     check_reproduces(dimension_pin == 1 and len(basis_pin) == 1 and proportional
-                     and f"= {dimension_pin} (Fraction)" in detail("python",
-                                                                   "pin_commutant_dimension_1")
+                     and f"= {dimension_pin} (Fraction)"
+                     in detail("python", "pin_commutant_dimension_1")
                      and recorded("python", "pin_commutant_dimension_1")
                      and recorded("wolfram", "Pin44_irreducible_commutant_dim_1"),
                      "only the multiples of 1 commute with all eight gammas: Pin(4,4) acts "
@@ -555,9 +557,11 @@ CELLS = [
     entries = sorted({float(v) for s in S.values() for v in s.flat})
     say(f"{len(S)} generators S^ab; their entries are {entries}")
     check_reproduces(len(S) == 28 and entries == [-0.5, 0.0, 0.5]
-                     and all(np.array_equal(S[(a, b)], gamma[a] @ gamma[b] / 2) for a, b in pairs)
+                     and all(np.array_equal(S[(a, b)], gamma[a] @ gamma[b] / 2)
+                             for a, b in pairs)
                      and recorded("python", "S_definition"),
-                     "S^ab = (1/4)[gamma^a, gamma^b] = (1/2) gamma^a gamma^b: 28 matrices with "
+                     "S^ab = (1/4)[gamma^a, gamma^b] = (1/2) gamma^a gamma^b: 28 matrices "
+                     "with "
                      "entries 0, +1/2, -1/2",
                      record=record_of("python", "S_definition"))
     check_reproduces(all(not s[:8, 8:].any() and not s[8:, :8].any() for s in S.values())
@@ -589,8 +593,8 @@ CELLS = [
         f"numpy: zero eigenvalues of A^T A: {zeros_spin}")
     say(f"the basis and P_-, P_+ span the same space: {same_span}")
     check_reproduces(dimension_spin == 2 and zeros_spin == 2 and same_span
-                     and f"= {dimension_spin} (Fraction)" in detail("python",
-                                                                    "spin_commutant_dimension_2")
+                     and f"= {dimension_spin} (Fraction)"
+                     in detail("python", "spin_commutant_dimension_2")
                      and recorded("python", "spin_commutant_dimension_2")
                      and recorded("wolfram", "Spin44_commutant_dim_2_chiral_projectors"),
                      "the commutant of the 28 S^ab has dimension 2, spanned by P_- and P_+",
@@ -721,13 +725,15 @@ CELLS = [
     say(f"intertwiners: {dim_minus_plus} and {dim_plus_minus}")
     say(f"control (two copies of half -): commutant dimension {dim_control}")
     check_reproduces(dim_minus == 1 and dim_plus == 1
-                     and "dimension 1 (sympy 1)" in detail("python", "spin_halves_irreducible")
+                     and "dimension 1 (sympy 1)"
+                     in detail("python", "spin_halves_irreducible")
                      and recorded("python", "spin_halves_irreducible")
                      and recorded("wolfram", "chiral_halves_irreducible"),
                      "each chiral half is an irreducible representation of Spin(4,4)",
                      record=record_of("python", "spin_halves_irreducible"))
     check_reproduces(dim_minus_plus == 0 and dim_plus_minus == 0
-                     and "dimension 0 (sympy 0)" in detail("python", "spin_halves_inequivalent")
+                     and "dimension 0 (sympy 0)"
+                     in detail("python", "spin_halves_inequivalent")
                      and recorded("python", "spin_halves_inequivalent")
                      and recorded("wolfram", "chiral_halves_inequivalent_intertwiners_0"),
                      "the two halves are inequivalent: the only intertwiner is zero",
@@ -743,7 +749,8 @@ CELLS = [
     the even elements. Then it draws all the dimensions computed in this notebook.
     """),
     code(r'''
-    check_reproduces(all(np.array_equal(gamma[x] @ P_minus, P_plus @ gamma[x]) for x in COORDS)
+    check_reproduces(all(np.array_equal(gamma[x] @ P_minus, P_plus @ gamma[x])
+                         for x in COORDS)
                      and recorded("python", "reflections_exchange_halves"),
                      "gamma^a P_- = P_+ gamma^a: every reflection exchanges the two halves",
                      record=record_of("python", "reflections_exchange_halves"))

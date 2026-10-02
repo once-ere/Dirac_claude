@@ -34,7 +34,7 @@ The notebook has 30 cells (17 markdown cells and 13 code cells) in these section
 - 13. The last check
 - 14. What this notebook showed
 
-It prints 28 PASS lines (one per check), 3 RESULT lines (key numbers) and draws 5 figures.
+It prints 31 PASS lines (one per check), 4 RESULT lines (key numbers) and draws 5 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -196,7 +196,7 @@ Every check of the notebook prints a line that starts with PASS. At the end of t
 
 ```text
 PASS the figure file 08c_5_curvature_maps.png exists
-ALL 28 CHECKS PASSED (notebook 08c)
+ALL 31 CHECKS PASSED (notebook 08c)
 ```
 
 and the notebook must show 5 figures below the cells that draw them.
@@ -286,9 +286,12 @@ In [10]  PASS diagonal frame: F_x1x8 = (1/4) R_rho,sigma,x1,x8 gamma^rho gamma^s
 In [10]       reproduces Revision/theory/reports/python-field-theory.json, check
 In [10]      spinor_curvature_equals_riemann
 In [10]  PASS boosted frame (beta = 6H): F'_x1x8 = (1/4) R gamma'^rho gamma'^sigma
+In [10]  PASS in both frames F_x1x8 = c14 gamma^(1) gamma^(4) + c18 gamma^(1) gamma^(8)
+In [10]  PASS F^2 = F'^2 = H^2 (a4'^2 - H^2) e^(2 a4) cos^2 z / (4 sin^(5/3) z) I16 in both frames
 In [10]  PASS beta = 6H: the spinor curvature F'_x1x8 is not zero
 In [10]       reproduces Revision/theory/reports/python-scope.json, check
 In [10]      boosted_frame_curvature_nonzero
+In [11]  PASS a4 = x4: F and F' have rank 8 and square 0, and F' = e^(-3) F at x4 = 0.5
 In [12]  PASS (1/2){gamma^x4, Omega_x1} = (1/2) e^a4 sin^(1/6) z H gamma^(4) gamma^(1) gamma^(8),
 In [12]      and C gamma^(4) gamma^(1) gamma^(8) != 0
 In [12]       reproduces Revision/theory/reports/python-scope.json, check
@@ -308,6 +311,7 @@ The key numbers are printed as RESULT lines:
 In [3]  RESULT independent nonzero Christoffel symbols = 25
 In [10]  RESULT nonzero entries of F'_x1x8 in the frame with gamma'^mu Omega'_mu = 0 = 32
 In [11]  RESULT largest entry of F_x1x8 at the point (diagonal, boosted) = 0.778093, 0.038739
+In [11]  RESULT rank of F_x1x8 at the point (diagonal, boosted) = [8, 8]
 ```
 
 ### 3.3 The last lines
@@ -316,7 +320,7 @@ The last code cell ends with exactly these lines:
 
 ```text
 PASS the figure file 08c_5_curvature_maps.png exists
-ALL 28 CHECKS PASSED (notebook 08c)
+ALL 31 CHECKS PASSED (notebook 08c)
 ```
 
 ### 3.4 Figures
@@ -324,10 +328,10 @@ ALL 28 CHECKS PASSED (notebook 08c)
 The notebook shows 5 figures, each below the cell that draws it, and saves each as a PNG file (150 dots per inch, no metadata):
 
 - `Revision/textbook/figures/08c_1_cancel_and_survive.png` (1287 x 596 pixels): The term $\gamma^\mu\Omega_\mu$ of the field equation in the diagonal frame, direction by direction (no sum) and summed (black). Left: the coefficient of $\gamma^{(4)}$ in units of $a_4'$; the three inflating directions $x_1, x_2, x_3$ (blue) give $+1/2$ each, the three deflating extra times $x_5, x_6, x_7$ (red) give $-1/2$ each, $x_4$ and $x_8$ (gray) give 0, and the sum is 0. Right: the coefficient of $\gamma^{(8)}$ in units of $H$; the same six directions give $+1/2$ each and the sum is $3$. Exact values from sympy, valid for every history $a_4$ and every $H > 0$.
-- `Revision/textbook/figures/08c_2_pieces_along_history.png` (1285 x 611 pixels): Along the canonical history $a_4 = x_4$ of the Kohn-Sham record ($A = H = 1$, a prescribed background) at $z = \pi/4$, against the time $x_4$. Left, on a logarithmic axis: four components of the canonical spin connection of the diagonal frame; those of the inflating direction $x_1$ grow like $e^{a_4}$, those of the deflating extra time $x_5$ shrink like $e^{-a_4}$. Right: the coefficient of $\gamma^{(4)}$ in $\gamma^\mu\Omega_\mu$ summed over the three inflating directions (blue, $+3a_4'/2$) and over the three extra times (red, $-3a_4'/2$): the frame factors cancel the exponentials, both partial sums stay constant, and they cancel exactly (black).
+- `Revision/textbook/figures/08c_2_pieces_along_history.png` (1285 x 611 pixels): Along the canonical history $a_4 = x_4$ of the Kohn-Sham record ($A = H = 1$, a prescribed background) at $z = \pi/4$, against the time $x_4$. Left, on a logarithmic axis: four components of the canonical spin connection of the diagonal frame; those of the inflating direction $x_1$ grow like $e^{a_4}$, those of the deflating extra time $x_5$ shrink like $e^{-a_4}$; the dashed ones (factor $H$) lie on the solid ones (factor $a_4'$) because here $a_4' = AH = H = 1$. Right: the coefficient of $\gamma^{(4)}$ in $\gamma^\mu\Omega_\mu$ summed over the three inflating directions (blue, $+3a_4'/2$) and over the three extra times (red, $-3a_4'/2$): the frame factors cancel the exponentials, both partial sums stay constant, and they cancel exactly (black).
 - `Revision/textbook/figures/08c_3_boost_size.png` (1272 x 588 pixels): The size $\sqrt{\mathrm{tr}(M^TM)/16}$ of the term $M = \gamma'^\mu\Omega'_\mu$ of the field equation in the frame boosted in the $(x_4, x_8)$ plane with rapidity $b = \beta x_4 + b_0$, for $H = 1$; sizes in units of $H$. Left: against the rapidity rate $\beta$ at $x_4 = 0$, $b_0 = 0$; the diagonal frame ($\beta = 0$) gives $3$, the value of $3H\gamma^{(8)}$, and the size $|6H - \beta|/2$ falls to zero at $\beta = 6H$. Right: against the time $x_4$ (symmetric logarithmic axis) for $\beta = 0, 3H, 6H, 9H$; for $\beta = 6H$ the term is zero at all times. The metric is the same in every one of these frames.
-- `Revision/textbook/figures/08c_4_heat_maps.png` (1279 x 425 pixels): The $16 \times 16$ matrix $\gamma^\mu\Omega_\mu$ of the field equation as a colour map (rows and columns numbered from 0; red positive, blue negative, white zero; entries in units of $H$, $H = 1$, time $x_4 = 0.3$, $b_0 = 0$). Left: diagonal frame, $3H\gamma^{(8)}$, sixteen entries $\pm 3$. Middle: frame boosted with $\beta = 3H$, $\frac{3H}{2}(\cosh b\,\gamma^{(8)} - \sinh b\,\gamma^{(4)})$ with $b = 0.9$. Right: frame boosted with $\beta = 6H$, the zero matrix. Same metric, same field equation, different frames.
-- `Revision/textbook/figures/08c_5_curvature_maps.png` (1108 x 504 pixels): The spinor curvature $F_{x_1x_8} = \partial_1\Omega_8 - \partial_8\Omega_1 + \Omega_1\Omega_8 - \Omega_8\Omega_1$ as a $16 \times 16$ colour map (red positive, blue negative, white zero; units of $H^2$) at $H = 1$, $z = \pi/4$, $x_4 = 0.5$ along the history $a_4 = x_4$. Left: diagonal frame. Right: the frame boosted with $\beta = 6H$, in which the term $\gamma'^\mu\Omega'_\mu$ of the field equation is identically zero. The curvature is not zero in either frame: it equals one quarter of the Riemann tensor contracted with two gammas, so no choice of frame can make the spin connection vanish.
+- `Revision/textbook/figures/08c_4_heat_maps.png` (1279 x 425 pixels): The $16 \times 16$ matrix $\gamma^\mu\Omega_\mu$ of the field equation as a colour map (rows and columns numbered from 0; red positive, blue negative, white zero; entries in units of $H$, $H = 1$, time $x_4 = 0.3$, $b_0 = 0$). Left: diagonal frame, $3H\gamma^{(8)}$, sixteen entries equal to 3. Middle: frame boosted with $\beta = 3H$, $\frac{3H}{2}(\cosh b\,\gamma^{(8)} - \sinh b\,\gamma^{(4)})$ with $b = 0.9$. Right: frame boosted with $\beta = 6H$, the zero matrix. Same metric, same field equation, different frames.
+- `Revision/textbook/figures/08c_5_curvature_maps.png` (1315 x 546 pixels): The spinor curvature $F_{x_1x_8} = \partial_1\Omega_8 - \partial_8\Omega_1 + \Omega_1\Omega_8 - \Omega_8\Omega_1$ as a $16 \times 16$ colour map (red positive, blue negative, white zero; units of $H^2$) at $H = 1$, $z = \pi/4$, $x_4 = 0.5$ along the history $a_4 = x_4$; each panel has its own colour scale. Left: diagonal frame. Right: the frame boosted with $\beta = 6H$, in which the term $\gamma'^\mu\Omega'_\mu$ of the field equation is identically zero; there the curvature is $e^{-3}$ times the left one. Neither is zero: the curvature equals one quarter of the Riemann tensor contracted with two gammas, so no choice of frame can make the spin connection vanish. On this history both matrices have rank 8 and square zero.
 
 ## 4. Side effects
 
@@ -337,12 +341,12 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/08c.captions.json` | 3181 | `3bb50c8022b328f25b7d6901faab65c0dec953ba8c9c6683c75a235ca6a9a060` |
+| `Revision/textbook/figures/08c.captions.json` | 3417 | `e31ccd0453bbda6c2c4f91a1459aa4640479daff883d4a8afe3eee594fd4b59f` |
 | `Revision/textbook/figures/08c_1_cancel_and_survive.png` | 40705 | `3da713f431b235a8e1e867524f8f2516ad0d20ceb094d4fbd79daf51f4a57350` |
-| `Revision/textbook/figures/08c_2_pieces_along_history.png` | 72225 | `374dc5fc48838dac2a220960b17a18b5111cd33ff37237c078b64c539fcb6461` |
+| `Revision/textbook/figures/08c_2_pieces_along_history.png` | 73405 | `e34cc8ddd1cdc0f80dc5628b766f7533fe77799190bb780a9f5eac6d2d6393cd` |
 | `Revision/textbook/figures/08c_3_boost_size.png` | 81205 | `ed83660945a47303cd2f8038ea1f0179a10958a6a6058cef5fbe26f10b2dd6a0` |
-| `Revision/textbook/figures/08c_4_heat_maps.png` | 35696 | `6bf1128bc8b7677dc9f08965231f086798305da7b8860f9ba5bb7ace27be8dc4` |
-| `Revision/textbook/figures/08c_5_curvature_maps.png` | 34456 | `2f455898d378b3724272f95ced449c52065d9d1924d666ec3df1d16285322821` |
+| `Revision/textbook/figures/08c_4_heat_maps.png` | 34932 | `5b51c9bcf3481c147ea1f4912804d9bf49b44e741adadaccd766f236af61d94f` |
+| `Revision/textbook/figures/08c_5_curvature_maps.png` | 44680 | `53008ba286efa57687381ed838487e793ad23c8a1b024dcde47d971bef09066e` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/08c_frame_dependence.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
 
@@ -365,7 +369,7 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 2 minutes (FACTS: 90 s); nbkit stops a cell after 900 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 43.9 s, peak memory of the kernel process 203 MiB;
+- the build run: 65.4 s, peak memory of the kernel process 204 MiB;
 - the check run: not measured.
 
 ## 5. Environment of the verified execution
@@ -378,14 +382,14 @@ Expected run time: about 2 minutes (FACTS: 90 s); nbkit stops a cell after 900 s
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/08c_frame_dependence.ipynb`: `8cb42a1a2f09ee01c5234ccfbdce5f00b4387b8690792fa9d11b904c34e0b997`
-- `Revision/textbook/notebooks/src/08c_frame_dependence.py`: `d7f17e84c96225db07d862c34d076cd180188a859dcbd296ccbbebbec22e6fa1`
-- `Revision/textbook/figures/08c.captions.json`: `3bb50c8022b328f25b7d6901faab65c0dec953ba8c9c6683c75a235ca6a9a060`
+- `Revision/textbook/notebooks/08c_frame_dependence.ipynb`: `0c473fc98c7c8435cd15a04a7f17aa1c55e9ed72ef0d30c69d6cd93467c43d2b`
+- `Revision/textbook/notebooks/src/08c_frame_dependence.py`: `d5f9a05c419dac43ccef8989dbe499bbe44281f42d9af16d7e1333baed131846`
+- `Revision/textbook/figures/08c.captions.json`: `e31ccd0453bbda6c2c4f91a1459aa4640479daff883d4a8afe3eee594fd4b59f`
 - `Revision/textbook/figures/08c_1_cancel_and_survive.png`: `3da713f431b235a8e1e867524f8f2516ad0d20ceb094d4fbd79daf51f4a57350`
-- `Revision/textbook/figures/08c_2_pieces_along_history.png`: `374dc5fc48838dac2a220960b17a18b5111cd33ff37237c078b64c539fcb6461`
+- `Revision/textbook/figures/08c_2_pieces_along_history.png`: `e34cc8ddd1cdc0f80dc5628b766f7533fe77799190bb780a9f5eac6d2d6393cd`
 - `Revision/textbook/figures/08c_3_boost_size.png`: `ed83660945a47303cd2f8038ea1f0179a10958a6a6058cef5fbe26f10b2dd6a0`
-- `Revision/textbook/figures/08c_4_heat_maps.png`: `6bf1128bc8b7677dc9f08965231f086798305da7b8860f9ba5bb7ace27be8dc4`
-- `Revision/textbook/figures/08c_5_curvature_maps.png`: `2f455898d378b3724272f95ced449c52065d9d1924d666ec3df1d16285322821`
+- `Revision/textbook/figures/08c_4_heat_maps.png`: `5b51c9bcf3481c147ea1f4912804d9bf49b44e741adadaccd766f236af61d94f`
+- `Revision/textbook/figures/08c_5_curvature_maps.png`: `53008ba286efa57687381ed838487e793ad23c8a1b024dcde47d971bef09066e`
 
 ## 7. Verification
 
@@ -393,4 +397,4 @@ Expected run time: about 2 minutes (FACTS: 90 s); nbkit stops a cell after 900 s
 - `nbkit check`: not run yet.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":203.0,"seconds":43.9},"check":null,"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":204.0,"seconds":65.4},"check":null,"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

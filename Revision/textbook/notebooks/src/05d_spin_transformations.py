@@ -32,7 +32,8 @@ FACTS = {
              "cover",
     "purpose": (
         "It builds the 28 generators S^ab = (1/4)(gamma^a gamma^b - gamma^b gamma^a) "
-        "from the Revision gammas, checks the recorded commutation relations (the Lie algebra so(4,4), "
+        "from the Revision gammas, checks the recorded commutation relations (the Lie "
+        "algebra so(4,4), "
         "the action on the gammas, the invariance of the charge matrix C and of the "
         "chirality), sorts the 28 planes into 12 rotations and 16 boosts, computes the "
         "finite transformations exp(theta S^ab) by their power series and by the closed "
@@ -249,7 +250,7 @@ CELLS = [
         """check(condition, name, record=record), printed in one piece."""
         collected = io.StringIO()
         with contextlib.redirect_stdout(collected):  # print into the buffer
-            check_reproduces(condition, name, record=record)  # stops here if the check fails
+            check(condition, name, record=record)  # stops here if the check fails
         sys.stdout.write(collected.getvalue())  # the PASS and reproduces lines together
 
 
@@ -295,8 +296,10 @@ CELLS = [
     definition_ok = all(np.array_equal(S[(a, b)], -S[(b, a)]) for a in COORDS
                         for b in COORDS) and all(
         np.array_equal(S[(a, b)], gamma[a] @ gamma[b] / 2.0) for a, b in pairs)
-    check_reproduces(len(pairs) == 28 and definition_ok and recorded("python", "S_definition"),
-                     "S^ab = -S^ba and S^ab = (1/2) gamma^a gamma^b: 28 independent generators",
+    check_reproduces(len(pairs) == 28 and definition_ok
+                     and recorded("python", "S_definition"),
+                     "S^ab = -S^ba and S^ab = (1/2) gamma^a gamma^b: 28 independent "
+                     "generators",
                      record=record_of("python", "S_definition"))
     algebra_failures = 0
     for a, b in pairs:

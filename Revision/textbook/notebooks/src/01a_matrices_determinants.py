@@ -626,13 +626,16 @@ CELLS = [
     ax.set_ylabel("number of terms or steps")
     ax.set_title("The cost of a determinant")
     ax.legend();
+    # The two counts for n = 16, rounded, for the caption: 2.1e13 and 1365.
+    mantissa, exponent = f"{leibniz_terms[-1]:.1e}".split("e")
     save_figure(fig, "determinant_cost",
                 "The number of terms $n!$ of the Leibniz formula (circles) and the "
                 "number of steps $n^3/3$ of elimination (squares) for an $n \\times n$ "
                 "matrix, $n = 1$ to $16$; horizontal axis $n$, vertical axis the count "
                 "on a logarithmic scale. Up to $n = 4$ the two are similar; for "
-                "$n = 16$ the Leibniz formula has about $2 \\times 10^{13}$ terms "
-                "against about 1400 steps of elimination.")
+                f"$n = 16$ the Leibniz formula has about ${mantissa} \\times "
+                f"10^{{{int(exponent)}}}$ terms against about "
+                f"{elimination_steps[-1]:.0f} steps of elimination.")
     '''),
     md(r"""
     ## 12. Matrices of the course: the gamma matrices of the Revision record

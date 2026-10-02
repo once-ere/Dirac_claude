@@ -32,7 +32,8 @@ FACTS = {
     "purpose": (
         "It derives charge conjugation as a MATRIX map: it solves exactly the linear "
         "equations M conj(gamma^a) = s gamma^a M for all 16 by 16 matrices M (s = +1: "
-        "same mass, s = -1: mass reversed; conj is the complex conjugate), finds the two one-dimensional solution spaces "
+        "same mass, s = -1: mass reversed; conj is the complex conjugate), finds the two "
+        "one-dimensional solution spaces "
         "spanned by 1 and by Gamma, builds the charge-conjugation matrices calC_+ = C and "
         "calC_- = Gamma C, checks their transposition rules, applies them to explicit "
         "solutions of the free field equation along the time x4, computes how the "
@@ -261,7 +262,7 @@ CELLS = [
         """check(condition, name, record=record), printed in one piece."""
         collected = io.StringIO()
         with contextlib.redirect_stdout(collected):  # print into the buffer
-            check_reproduces(condition, name, record=record)  # stops here if the check fails
+            check(condition, name, record=record)  # stops here if the check fails
         sys.stdout.write(collected.getvalue())  # the PASS and reproduces lines together
 
 
@@ -430,11 +431,13 @@ CELLS = [
                              for x in COORDS)
                      and np.array_equal(calC_plus.T, calC_plus)
                      and recorded("charge_conjugation_matrix_plus"),
-                     "calC_+ = C: calC_+^-1 gamma^a calC_+ = -(gamma^a)^T, real and symmetric",
+                     "calC_+ = C: calC_+^-1 gamma^a calC_+ = -(gamma^a)^T, real and "
+                     "symmetric",
                      record=f"{RECORD}, check charge_conjugation_matrix_plus")
     check_reproduces(all(np.array_equal(inverse_minus @ gamma[x] @ calC_minus, gamma[x].T)
                          for x in COORDS)
-                     and np.isrealobj(calC_minus) and np.array_equal(calC_minus.T, calC_minus)
+                     and np.isrealobj(calC_minus)
+                     and np.array_equal(calC_minus.T, calC_minus)
                      and np.array_equal(calC_minus @ calC_minus, I16)
                      and recorded("charge_conjugation_matrix_minus"),
                      "calC_- = Gamma C: calC_-^-1 gamma^a calC_- = +(gamma^a)^T, real",
@@ -743,8 +746,10 @@ CELLS = [
             + " ".join(f"{s:+d}" for s in signs_J))
     recorded_table = json.loads(detail("bilinears_under_charge_conjugation")
                                 .split("measured: ", 1)[1])
-    check_reproduces(measured == recorded_table and recorded("bilinears_under_charge_conjugation"),
-                     "the signs of S and J under calC_+ and calC_-, commuting and anticommuting, "
+    check_reproduces(measured == recorded_table
+                     and recorded("bilinears_under_charge_conjugation"),
+                     "the signs of S and J under calC_+ and calC_-, commuting and "
+                     "anticommuting, "
                      "equal the recorded table",
                      record=f"{RECORD}, check bilinears_under_charge_conjugation")
     '''),
@@ -796,7 +801,8 @@ CELLS = [
     check_reproduces(np.array_equal(I16 @ np.conj(I16), I16)
                      and np.array_equal(Gamma @ np.conj(Gamma), I16)
                      and recorded("majorana_conditions_consistent"),
-                     "M M* = 1 for M = 1 and M = Gamma: both reality conditions are consistent",
+                     "M M* = 1 for M = 1 and M = Gamma: both reality conditions are "
+                     "consistent",
                      record=f"{RECORD}, check majorana_conditions_consistent")
     '''),
     md(r"""
@@ -916,7 +922,8 @@ CELLS = [
     check_reproduces(all(c == 0 for c in currents) and S_change == 0 and kinetic_reversed
                      and psi_real.conjugate() == psi_real and image_solves_minus
                      and recorded("real_fields_charge_conjugation"),
-                     "real fields: J = 0, calC_+ is the identity, Gamma keeps S, reverses the "
+                     "real fields: J = 0, calC_+ is the identity, Gamma keeps S, reverses "
+                     "the "
                      "kinetic matrices and maps a solution with m to one with -m",
                      record=f"{RECORD}, check real_fields_charge_conjugation")
     '''),
@@ -978,8 +985,10 @@ CELLS = [
         f"{np.array_equal(q_minus, B)}")
     check_reproduces(np.array_equal(q_minus, B) and np.array_equal(q_plus, -B)
                      and recorded("quantum_charge_conjugation_unitary_type"),
-                     "M B^T M^dagger = B for M = Gamma and = -B for M = 1: the conjugation of the "
-                     "quantised field is Psi -> Gamma Psi^(dagger T), which reverses the mass",
+                     "M B^T M^dagger = B for M = Gamma and = -B for M = 1: the conjugation "
+                     "of the "
+                     "quantised field is Psi -> Gamma Psi^(dagger T), which reverses the "
+                     "mass",
                      record=f"{RECORD}, check quantum_charge_conjugation_unitary_type")
     fig, axes = plt.subplots(1, 3, figsize=(11.0, 4.0))
     heat_map(axes[0], B.imag, "imaginary part of $B$")

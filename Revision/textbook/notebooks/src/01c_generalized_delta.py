@@ -743,14 +743,16 @@ CELLS = [
     right.set_ylabel("fraction of pairs with value $\\pm 1$")
     right.set_title("the nonzero values become rare")
     fig.tight_layout()
+    # The fraction for p = 8 written as "5.8 \times 10^{-6}" for the caption:
+    mantissa, exponent = f"{nonzero_count(8, 8) / 8 ** 16:.1e}".split("e")
     save_figure(fig, "nonzero_fraction",
                 "Left: the number of all pairs of index lists of length $p$ over 8 "
                 "labels, $8^{2p}$ (squares), and of the pairs whose generalized delta "
                 "is not zero, $8!/(8-p)! \\cdot p!$ (circles), for $p = 1$ to 8, on a "
                 "logarithmic scale; for $p = 9$ the second number is 0. Right: their "
                 "ratio, the fraction of nonzero values, which falls from $1/8$ at "
-                "$p = 1$ to about $2.3 \\times 10^{-10}$ at $p = 8$; horizontal axes "
-                "the length $p$.")
+                f"$p = 1$ to about ${mantissa} \\times 10^{{{int(exponent)}}}$ at "
+                "$p = 8$; horizontal axes the length $p$.")
     '''),
     md(r"""
     ## 13. Nine indices in eight dimensions
