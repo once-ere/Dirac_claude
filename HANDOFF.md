@@ -64,6 +64,18 @@ take shortcuts or weaken a check.
 4. When the user writes "pause" or "STOP": halt at once (create `.claude/ALLOW_STOP` in
    the same first action so the Stop hook allows the stop), push, report in a few lines.
 
+### 0.4f STATE 2026-10-03 (after the session limit)
+
+The session hit its usage limit on 2026-10-02 (resets 09:50 America/Los_Angeles); both workflows lost the
+agents that were running (textbook 32 of 42, execution provenance 4 of 66).  Both were RESUMED in the same
+session with resumeFromRunId (finished agents replay from cache): textbook run wf_4139c503-a3e and execution
+provenance run wf_6845510e-6a4.  Snapshot 06c2d25 holds the partial files.  Known and expected until the
+pipelines rebuild them: notebooks built before 4fc381d (the run-instruction list fix) fail
+test_universes_in_pairs_textbook's three-renderings test.  If a NEW session must take over (no cache):
+relaunch both scripts from Revision/workflows/ with the new SP (agents inspect and finish existing files),
+then rebuild every textbook notebook with `python Revision/textbook/tools/nbkit.py build <builder>` and
+check with `nbkit.py check`.
+
 ### 0.4e CURRENT TASK (user, 2026-10-02): the NEW deep-dive textbook "Universes in Pairs"
 
 The user stopped all stages and ordered, first: preserve the original textbook
