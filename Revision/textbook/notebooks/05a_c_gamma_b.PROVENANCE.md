@@ -164,7 +164,7 @@ cd Revision/textbook/notebooks
 jupyter lab 05a_c_gamma_b.ipynb
 ```
 
-JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 15 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
+JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 10 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
 
 **Step 6. Or run the notebook without a browser (headless).**
 
@@ -354,10 +354,10 @@ The notebook does not use the network while it runs. The installation (git clone
 
 ### 4.5 Run time and memory
 
-Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
+Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 7.5 s, peak memory of the kernel process 210 MiB;
-- the check run: 5.9 s, peak memory of the kernel process 211 MiB.
+- the build run: 9.7 s, peak memory of the kernel process 211 MiB;
+- the check run: 5.1 s, peak memory of the kernel process 210 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -369,8 +369,8 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/05a_c_gamma_b.ipynb`: `d440f605be6db50ddffad3b0f9f2d6518dc8984d8683a457f7070b065544a321`
-- `Revision/textbook/notebooks/src/05a_c_gamma_b.py`: `23436516e5cfda9d92c008a67d72533d73d97b4cabc8ebc0717d2fa7eaffd0cc`
+- `Revision/textbook/notebooks/05a_c_gamma_b.ipynb`: `053d92b5a0761713f4a12ddb23e71765e4be510ad5fd3163391f9070ba067d57`
+- `Revision/textbook/notebooks/src/05a_c_gamma_b.py`: `0fb856dd0a9a39d53de1f59060000f85d42922cd7469ddc50274dc9a579bd7c4`
 - `Revision/textbook/figures/05a.captions.json`: `33d63ce7e4a66074a07c534d3fd72c87f7bc301a7993973ee5ab1e742aa0ddae`
 - `Revision/textbook/figures/05a_1_c_matrix.png`: `67356e100248bc1efb9dfc769dbadc77711c5422e93c83e62401587359c9943c`
 - `Revision/textbook/figures/05a_2_c_form_signs.png`: `3f453d483a1364f8279ed1bce06215ba38b863dafe285233c5e66a7e318a697a`
@@ -385,4 +385,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":210.0,"seconds":7.5},"check":{"date":"2026-10-02","files":7,"peak_mb":211.0,"result":"passed","seconds":5.9},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":211.0,"seconds":9.7},"check":{"date":"2026-10-02","files":7,"peak_mb":210.0,"result":"passed","seconds":5.1},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

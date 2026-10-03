@@ -619,7 +619,7 @@ CELLS = [
     determinant; then the determinant is the product of the diagonal) needs about
     $n^3/3$ multiplications. The next cell prints and plots both numbers for
     $n = 1$ to $16$. For the $16 \times 16$ gamma matrices of the theory the Leibniz
-    formula would have $16! = 20\,922\,789\,888\,000$ terms. The vertical axis is
+    formula would have $16!$ = 20,922,789,888,000 terms. The vertical axis is
     logarithmic: each step up multiplies by 10.
     """),
     code(r'''

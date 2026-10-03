@@ -518,7 +518,7 @@ CELLS = [
 
     The Revision record compared GKD with the author's definition for *every* pair of
     index lists of length 1, 2 and 3 over the eight labels: $8^2 = 64$, $8^4 = 4096$
-    and $8^6 = 262\,144$ pairs, $266\,304$ in all, and recorded how many values are
+    and $8^6$ = 262,144 pairs, 266,304 in all, and recorded how many values are
     $+1$, $-1$ and $0$. The next cell does the same with plain Python loops: for every
     pair it computes the literal determinant and the fast rule, counts disagreements
     and tallies the values. Then it compares the tallies with the record's
@@ -561,7 +561,7 @@ CELLS = [
     md(r"""
     ## 11. All 16,777,216 pairs of length 4
 
-    For length 4 there are $8^8 = 16\,777\,216$ pairs, too many for a plain Python
+    For length 4 there are $8^8$ = 16,777,216 pairs, too many for a plain Python
     loop. The next cell writes both functions again so that numpy treats a whole
     block of pairs at once (one index list per row of an array):
 
@@ -622,8 +622,8 @@ CELLS = [
           "length 1, 2, 3")
     '''),
     md(r"""
-    The next cell runs through all $16\,777\,216$ pairs of length 4 in 16 blocks of
-    256 lower lists times all 4096 upper lists ($1\,048\,576$ pairs per block),
+    The next cell runs through all 16,777,216 pairs of length 4 in 16 blocks of
+    256 lower lists times all 4096 upper lists (1,048,576 pairs per block),
     computes the literal determinant and the fast rule for each pair, counts the
     disagreements and tallies the values. The record's self-test did exactly this
     with the Rust program; its file gkd-selftest.json gives the number of pairs and
@@ -765,8 +765,8 @@ CELLS = [
     term $k = 4$ would need $2k + 1 = 9$ indices. The next cell confirms it on 300
     pairs of random lists of 9 labels (numpy's random generator with the seed 12345)
     and on 300 pairs in which the lower list is a re-ordering of the upper one; here
-    the literal determinant of the $9 \times 9$ matrix (which would have $9! =
-    362\,880$ Leibniz terms) is computed with numpy's elimination. With 8 labels a
+    the literal determinant of the $9 \times 9$ matrix (which would have $9!$ =
+    362,880 Leibniz terms) is computed with numpy's elimination. With 8 labels a
     nonzero value is still possible: the cell prints the value for the list
     $(x_1, \dots, x_8)$ against its reverse, which has 28 inversions.
     """),
@@ -1066,7 +1066,7 @@ CELLS = [
       written literally in Python, equals the fast rule of the Revision program GKD
       (0 for a repeated or missing label, otherwise the sign of a permutation) for
       every pair of index lists of length 1 to 4 over the eight coordinates
-      $x_1, \dots, x_8$: $266\,304 + 16\,777\,216$ pairs, no disagreement, the same
+      $x_1, \dots, x_8$: 266,304 + 16,777,216 pairs, no disagreement, the same
       result as the record's self-test.
     - The counts of $+1$, $-1$ and $0$ (8, 0, 56; 56, 56, 3984; 1008, 1008, 260128;
       20160, 20160, 16736896 for the lengths 1 to 4) agree with the record and with

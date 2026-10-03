@@ -187,7 +187,18 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 7. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/07a.captions.json`, `Revision/textbook/figures/07a_1_dimension_and_degrees.png`, `Revision/textbook/figures/07a_2_multiplication_signs.png`, `Revision/textbook/figures/07a_3_commutation_signs.png`, `Revision/textbook/figures/07a_4_bilinear_survivors.png`, `Revision/textbook/figures/07a_5_symmetric_antisymmetric.png`, `Revision/textbook/figures/07a_6_powers_of_s.png` and `Revision/textbook/figures/07a_7_oscillator_solution.png`. It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/07a.captions.json`
+- `Revision/textbook/figures/07a_1_dimension_and_degrees.png`
+- `Revision/textbook/figures/07a_2_multiplication_signs.png`
+- `Revision/textbook/figures/07a_3_commutation_signs.png`
+- `Revision/textbook/figures/07a_4_bilinear_survivors.png`
+- `Revision/textbook/figures/07a_5_symmetric_antisymmetric.png`
+- `Revision/textbook/figures/07a_6_powers_of_s.png`
+- `Revision/textbook/figures/07a_7_oscillator_solution.png`
+
+It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -366,8 +377,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 5.5 s, peak memory of the kernel process 206 MiB;
-- the check run: 4.8 s, peak memory of the kernel process 206 MiB.
+- the build run: 7.1 s, peak memory of the kernel process 207 MiB;
+- the check run: 6.8 s, peak memory of the kernel process 207 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -379,7 +390,7 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/07a_grassmann_algebra.ipynb`: `7873ab7146089e384c65fa1b2b119c156df72a11d3a33ed979f008f1177a1d8c`
+- `Revision/textbook/notebooks/07a_grassmann_algebra.ipynb`: `c2519dfe8107ecc7dd9a8032b2cf5ea4227daed0bc5e68c1fbb7816d30e16c4f`
 - `Revision/textbook/notebooks/src/07a_grassmann_algebra.py`: `ca49c3da47cd3f6e8b104ea667c0fb90cb5b2efc8f23fb82c47110d9fe0c5459`
 - `Revision/textbook/figures/07a.captions.json`: `270722bdb0381791904a35e18d85d8c4ad1c95789aa54c6d6268606892ca9a40`
 - `Revision/textbook/figures/07a_1_dimension_and_degrees.png`: `a1ac848c7a9dfac793a6a62550b69a8e4459fc62fff4b3f4b5d87e11486e6ba9`
@@ -396,4 +407,4 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-02: a second, independent execution reproduced the notebook and the 8 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":206.0,"seconds":5.5},"check":{"date":"2026-10-02","files":8,"peak_mb":206.0,"result":"passed","seconds":4.8},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":207.0,"seconds":7.1},"check":{"date":"2026-10-02","files":8,"peak_mb":207.0,"result":"passed","seconds":6.8},"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

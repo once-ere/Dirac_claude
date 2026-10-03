@@ -55,7 +55,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 25,
+    "expected_seconds": 15,
     "timeout_seconds": 600,
     "files_written": [
         "Revision/textbook/figures/05c.captions.json",
@@ -74,8 +74,8 @@ FACTS = {
         "ALL 19 CHECKS PASSED (notebook 05c)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" naming `Revision/algebra/gammas.json` or "
-         "`Revision/lead_checks/reports/charge-conjugation-and-u1.json`",
+        ["\"FileNotFoundError\" naming a file in the folder `Revision/algebra` or in "
+         "the folder `Revision/lead_checks`",
          "the notebook was opened outside the repository, or the repository is "
          "incomplete; clone the repository again and open the notebook from its folder "
          "`Revision/textbook/notebooks`."],

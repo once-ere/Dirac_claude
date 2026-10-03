@@ -385,8 +385,8 @@ CELLS = [
     The next cell draws the 64 bits of the first 64 outputs of the same generator
     (one row per output) and then counts how often each label 0 to 7 comes out among
     the first 160,000 calls of `below(8)`. Each label should come out about
-    $160\,000/8 = 20\,000$ times, with a standard deviation of
-    $\sqrt{160\,000 \cdot \tfrac18 \cdot \tfrac78} \approx 132$. The check asks that
+    160,000/8 = 20,000 times, with a standard deviation of
+    $\sqrt{160000 \cdot \tfrac18 \cdot \tfrac78} \approx 132$. The check asks that
     every count lies within 5 standard deviations of 20,000. A single count of a fair
     source lies further away with a probability of about 0.6 in a million, so with
     8 counts a fair source fails this check with a probability of about 5 in a
@@ -663,7 +663,7 @@ CELLS = [
     sign shortcut of notebook 01c (`rule_many`: the sign of the re-ordering is the
     product of the signs of the two lists), and the determinant with numpy's
     elimination (`np.linalg.det`, floating point, then rounded; the Leibniz formula
-    would have $9! = 362\,880$ terms per matrix). The cell checks that every
+    would have $9!$ = 362,880 terms per matrix). The cell checks that every
     determinant is a whole number up to $10^{-6}$. It takes 10 to 30 seconds.
     """),
     code(r'''
@@ -745,9 +745,9 @@ CELLS = [
     sample is nonzero with the probability $q(p) = (8!/(8-p)! \cdot p!)/8^{2p}$ (the
     counting formula of notebook 01c divided by the number of all pairs).
 
-    The next cell computes the expected numbers $100\,000\,P(p) + 100\,000\,q(p)$ of
+    The next cell computes the expected numbers $100000\,P(p) + 100000\,q(p)$ of
     nonzero values in the self-test and their standard deviation
-    $\sqrt{100\,000\,P(1 - P) + 100\,000\,q(1 - q)}$, and checks that every recorded
+    $\sqrt{100000\,P(1 - P) + 100000\,q(1 - q)}$, and checks that every recorded
     number lies within 4 standard deviations (and that it is exactly 0 for $p = 9$,
     where $P = 0$); "sd" in the printed lines means standard deviation. It does the
     same for the odd samples of the Wolfram check

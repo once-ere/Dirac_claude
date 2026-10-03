@@ -7,7 +7,7 @@ This file is the provenance record of the notebook `Revision/textbook/notebooks/
 
 ## 1. What the notebook computes
 
-It writes the author's generalized Kronecker delta literally as the determinant of a matrix of zeros and ones, proves and checks that it equals the sign of a permutation or zero (the rule of the Rust function GKD), compares the two for all 266,304 pairs of index lists of length 1, 2 and 3 over the eight coordinate labels and for 12,000 random pairs of length 4 to 9, counts how often the values +1, -1 and 0 occur and derives these counts by a formula, shows why the delta of nine indices in eight dimensions is always zero, and builds and runs the Revision Rust program lovelock_gkd (its GKD self-test, with 16,777,216 pairs of length 4 compared exhaustively) and checks that it reproduces the committed Revision record byte for byte; it draws six teaching figures.
+It writes the author's generalized Kronecker delta literally as the determinant of a matrix of zeros and ones, proves and checks that it equals the sign of a permutation or zero (the rule of the Rust function GKD), compares the two for all 266,304 pairs of index lists of length 1, 2 and 3 over the eight coordinate labels and for 12,000 random pairs of length 4 to 9, counts how often the values +1, -1 and 0 occur and derives these counts by a formula, shows why the delta of nine indices in eight dimensions is always zero, and builds and runs the Revision Rust program lovelock_gkd (its GKD self-test, with 16,777,216 pairs of length 4 compared exhaustively) and checks that it reproduces the committed Revision record byte for byte; it draws six teaching figures. The Rust program writes its result file gkd-selftest.json into the folder `Revision/gkd_lovelock/code/target/textbook_11a`, inside the Rust build folder, which git ignores.
 
 It reads or reproduces these Revision records:
 
@@ -39,7 +39,7 @@ These are the same instructions that the book prints just before the text of the
 
 **Step 1. What this notebook does and what it needs.**
 
-Notebook 11a (The generalized Kronecker delta GKD in Python and in Rust) is the file `Revision/textbook/notebooks/11a_kronecker_delta_gkd.ipynb` of the repository Dirac_claude. It writes the author's generalized Kronecker delta literally as the determinant of a matrix of zeros and ones, proves and checks that it equals the sign of a permutation or zero (the rule of the Rust function GKD), compares the two for all 266,304 pairs of index lists of length 1, 2 and 3 over the eight coordinate labels and for 12,000 random pairs of length 4 to 9, counts how often the values +1, -1 and 0 occur and derives these counts by a formula, shows why the delta of nine indices in eight dimensions is always zero, and builds and runs the Revision Rust program lovelock_gkd (its GKD self-test, with 16,777,216 pairs of length 4 compared exhaustively) and checks that it reproduces the committed Revision record byte for byte; it draws six teaching figures. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy, sympy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It also needs Rust (the program cargo, version 1.91.1 or newer), because it runs the Rust program lovelock_gkd, which is part of the repository and is built on your computer.
+Notebook 11a (The generalized Kronecker delta GKD in Python and in Rust) is the file `Revision/textbook/notebooks/11a_kronecker_delta_gkd.ipynb` of the repository Dirac_claude. It writes the author's generalized Kronecker delta literally as the determinant of a matrix of zeros and ones, proves and checks that it equals the sign of a permutation or zero (the rule of the Rust function GKD), compares the two for all 266,304 pairs of index lists of length 1, 2 and 3 over the eight coordinate labels and for 12,000 random pairs of length 4 to 9, counts how often the values +1, -1 and 0 occur and derives these counts by a formula, shows why the delta of nine indices in eight dimensions is always zero, and builds and runs the Revision Rust program lovelock_gkd (its GKD self-test, with 16,777,216 pairs of length 4 compared exhaustively) and checks that it reproduces the committed Revision record byte for byte; it draws six teaching figures. The Rust program writes its result file gkd-selftest.json into the folder `Revision/gkd_lovelock/code/target/textbook_11a`, inside the Rust build folder, which git ignores. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy, sympy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It also needs Rust (the program cargo, version 1.91.1 or newer), because it runs the Rust program lovelock_gkd, which is part of the repository and is built on your computer.
 
 **Step 2. Install Git and Python (once per computer).**
 
@@ -209,7 +209,17 @@ This runs every cell from the top to the bottom and saves the results into the n
 
 **Step 8. What the notebook writes and what you must see.**
 
-The notebook writes (or overwrites) these files: `Revision/textbook/figures/11a.captions.json`, `Revision/textbook/figures/11a_1_outer_delta_matrices.png`, `Revision/textbook/figures/11a_2_six_permutations.png`, `Revision/textbook/figures/11a_3_gkd_map_length_two.png`, `Revision/textbook/figures/11a_4_value_counts.png`, `Revision/textbook/figures/11a_5_cost_of_the_determinant.png` and `Revision/textbook/figures/11a_6_all_labels_different.png`. It changes no other file of the repository except the Rust build folder `target` next to each `Cargo.toml` it builds; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
+The notebook writes (or overwrites) these files:
+
+- `Revision/textbook/figures/11a.captions.json`
+- `Revision/textbook/figures/11a_1_outer_delta_matrices.png`
+- `Revision/textbook/figures/11a_2_six_permutations.png`
+- `Revision/textbook/figures/11a_3_gkd_map_length_two.png`
+- `Revision/textbook/figures/11a_4_value_counts.png`
+- `Revision/textbook/figures/11a_5_cost_of_the_determinant.png`
+- `Revision/textbook/figures/11a_6_all_labels_different.png`
+
+It changes no other file of the repository except the Rust build folder `target` next to each `Cargo.toml` it builds; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
 Windows, macOS and Linux:
 
@@ -244,13 +254,7 @@ python -m ipykernel install --user --name python3
 - An AssertionError names a check that failed: choose the menu Kernel > Restart Kernel and Run All Cells; if it fails again, install the packages again with the pip commands of Step 3, because a different package version can change the last digits of a result.
 - "cargo is not recognized" or "command not found: cargo" or "cargo was not found": open a new terminal after installing Rust, do Step 4 again, and start JupyterLab from this terminal.
 - "linker link.exe not found" (Windows) or "linker cc not found" (Linux): install the C++ Build Tools (Windows) or build-essential (Linux) as described in Step 5 and build again.
-- The notebook seems to hang at the cell that runs the Rust self-test.: It does not hang. The self-test compares 16,777,216 pairs of index lists of length 4 and then 200,000 random pairs of each length 5 to 9 with the literal determinant, and the 200,000 determinants of nine by nine matrices alone take several minutes, because each one is a sum of 362,880 products. Wait until the label to the left of the cell shows a number; the whole notebook takes about 10 minutes.
-- The Rust build fails with a message that mentions link.exe, cc or a linker.: Rust needs a linker from the C and C++ build tools. On Windows install the workload Desktop development with C++ of the Visual Studio Build Tools from https://visualstudio.microsoft.com/visual-cpp-build-tools/ and start JupyterLab again; on Linux run the command below; on macOS run xcode-select with the option install, as in Step 2.
-
-```text
-sudo apt install build-essential
-```
-
+- The notebook seems to hang at the cell that runs the Rust self-test: It does not hang. The self-test compares 16,777,216 pairs of index lists of length 4 and then 200,000 random pairs of each length 5 to 9 with the literal determinant, and the 200,000 determinants of nine by nine matrices alone take several minutes, because each one is a sum of 362,880 products. Wait until the label to the left of the cell shows a number; the whole notebook takes about 10 minutes.
 - AssertionError: check failed: the program wrote gkd-selftest.json equal to the Revision record byte for byte: The file that the program wrote differs from the committed record. Run git status in the repository folder to see whether the record or the Rust source was changed, and restore both with the command below.
 
 ```text
@@ -370,7 +374,7 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 minutes (FACTS: 600 s); nbkit stops a cell after 3600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 508.5 s, peak memory of the kernel process 200 MiB;
+- the build run: 524.8 s, peak memory of the kernel process 200 MiB;
 - the check run: not measured.
 
 ## 5. Environment of the verified execution
@@ -383,8 +387,8 @@ Expected run time: about 10 minutes (FACTS: 600 s); nbkit stops a cell after 360
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/11a_kronecker_delta_gkd.ipynb`: `b6c3b60b4bed6b8afcf7bb2d6cd3f9a3ac53afb35131016544c445022537b6a0`
-- `Revision/textbook/notebooks/src/11a_kronecker_delta_gkd.py`: `ba639e94fe62c58dba2190c22906cd92a4c68dd45f42601da23713ceb428dcac`
+- `Revision/textbook/notebooks/11a_kronecker_delta_gkd.ipynb`: `3d801b23d84ce18f006ee0a5d3331976941708fe38ad8ba2bf735c782cb4d029`
+- `Revision/textbook/notebooks/src/11a_kronecker_delta_gkd.py`: `adee72da6071ebb78f27e98cc43901a3f6c1761b8a0b9b65077bd4393837b1fd`
 - `Revision/textbook/figures/11a.captions.json`: `f818383d63a8aa5c074605e9aeaa557af79170183b9d30304f4821a80ded5a35`
 - `Revision/textbook/figures/11a_1_outer_delta_matrices.png`: `266a5ab76d9653429e22f71a6568691539f22e173b372930899bf43d2101df5d`
 - `Revision/textbook/figures/11a_2_six_permutations.png`: `9912944fea846c691e4f25058bdf4d591b26122a4b768dfde1e2e0db8daefa03`
@@ -399,4 +403,4 @@ Expected run time: about 10 minutes (FACTS: 600 s); nbkit stops a cell after 360
 - `nbkit check`: not run yet.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":200.0,"seconds":508.5},"check":null,"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":200.0,"seconds":524.8},"check":null,"date":"2026-10-02","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26200)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
