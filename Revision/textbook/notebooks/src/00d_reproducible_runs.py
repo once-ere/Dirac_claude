@@ -36,30 +36,30 @@ FACTS = {
         "decimal numbers, why the order of a sum changes its last digits (so that checks "
         "allow a tolerance), how a seed fixes random numbers, why names are sorted before "
         "they are printed, and why every file is written with the same line ends. It "
-        "reproduces the repeat and tolerance checks of the Revision Kohn-Sham record (244 "
-        "result files of 5854813 bytes, 582 recorded sha256 fingerprints, no CR LF line "
-        "ends, eight measured differences below their tolerances) and draws five "
-        "teaching plots."
+        "reproduces the tolerance, line-end, fingerprint and repeat checks of the "
+        "Revision Kohn-Sham record (eight measured differences below their tolerances, "
+        "584 result files of two solvers without CR LF line ends, 582 recorded sha256 "
+        "fingerprints equal to the files of today) and draws five teaching plots."
     ),
     "records": [
         ["Revision/kohn_sham/reports/ks-rust-determinism.json",
-         "the repeat run and the refined run of the Rust Kohn-Sham solver: its checks "
-         "`repeat_byte_identical`, `outputs_lf_only` and `refined_mermin_root_path`, and "
-         "its eight comparisons `refined_ground_energies` to `refined_heat_capacity` with "
-         "their tolerances"],
+         "the refined run of the Rust Kohn-Sham solver: its eight comparisons "
+         "`refined_ground_energies` to `refined_heat_capacity` with their tolerances, "
+         "and its checks `refined_mermin_root_path` and `outputs_lf_only`"],
         ["Revision/kohn_sham/reports/ks-crosscheck.json",
          "its key `rust_matrix_wide_uncertainties` (the eight measured differences) and "
-         "its checks `reference_outputs_lf_only` and `reference_manifest`"],
+         "its checks `reference_outputs_lf_only`, `reference_manifest` and "
+         "`reference_repeat_byte_identical`"],
         ["Revision/kohn_sham/results",
-         "the 244 result files of the Rust solver: counted, measured, searched for CR LF "
+         "the result files of the Rust solver: counted, measured, searched for CR LF "
          "line ends and fingerprinted"],
         ["Revision/kohn_sham/results/manifest.json",
-         "the sha256 fingerprints of the 243 other result files of the Rust solver"],
+         "the sha256 fingerprints of the other result files of the Rust solver"],
         ["Revision/kohn_sham/reference/results",
-         "the 340 result files of the independent Python reference solver: counted and "
-         "searched for CR LF line ends"],
+         "the result files of the independent Python reference solver: counted, "
+         "measured, searched for CR LF line ends and fingerprinted"],
         ["Revision/kohn_sham/reference/results/manifest.json",
-         "the sha256 fingerprints of the 339 other result files of the reference solver"],
+         "the sha256 fingerprints of the other result files of the reference solver"],
     ],
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [],
@@ -75,7 +75,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS the five figure files of this notebook exist",
-        "ALL 20 CHECKS PASSED (notebook 00d)",
+        "ALL 21 CHECKS PASSED (notebook 00d)",
     ],
     "troubleshooting": [
         ["\"AssertionError: check failed\" for a check about the files of the folder "
@@ -100,9 +100,10 @@ CELLS = [
     Every notebook of this book is run twice by the book's checking tool, and the
     second run must reproduce the first one exactly, byte for byte: the same printed
     text, the same pictures, the same files. The Revision record does the same with
-    its long computations: its Rust solver of the Kohn-Sham equations was run a second
-    time and all 244 result files were compared. This notebook shows, with small
-    experiments, what could make two runs differ and how the book prevents it. It
+    its long computations: its solvers of the Kohn-Sham equations were run a second
+    time and their result files compared byte for byte. This notebook shows, with
+    small experiments, what could make two runs differ and how the book prevents it.
+    It
 
     - shows how the computer stores the number 0.1, and why 0.1 + 0.2 is not exactly
       0.3;
@@ -116,8 +117,9 @@ CELLS = [
       run to run, while the sorted order does not;
     - shows that line ends change the bytes of a file, counts the result files of the
       Revision record and confirms that none has the line ends of Windows;
-    - computes 582 sha256 fingerprints of result files and compares them with the
-      fingerprints written down in the record;
+    - computes the sha256 fingerprints of 582 result files, compares them with the
+      fingerprints written down in the record, and reads the record's comparison of
+      two runs of its reference solver;
     - draws five teaching plots and prints a PASS line for every check.
     """),
     md(r"""
@@ -689,16 +691,15 @@ CELLS = [
           "the same two lines with LF and with CR LF line ends are different bytes")
     '''),
     md(r"""
-    The next cell looks at the result files of the Revision record's Kohn-Sham
-    solvers. For the Rust solver (the folder Revision/kohn_sham/results) it counts the
-    files, adds up their sizes in bytes and counts the files that contain the bytes
-    CR LF; the check compares the number of files and of bytes with the numbers that
-    the record wrote down when it ran the solver a second time and compared every file
-    (its check `repeat_byte_identical`: "244 files (5854813 bytes) compared"). For the
+    The next cell looks at the result files of the Revision record's two Kohn-Sham
+    solvers: the Rust solver (the folder Revision/kohn_sham/results) and the
     independent Python reference solver (the folder Revision/kohn_sham/reference/
-    results) it counts the files and those with CR LF and compares with the record's
-    check `reference_outputs_lf_only`. `folder.rglob("*")` lists everything in a folder
-    and in all its sub-folders; `sorted` puts the list in a fixed order.
+    results). For each folder it counts the files, adds up their sizes in bytes and
+    counts the files that contain the two bytes CR LF. The two checks require that no
+    file has CR LF line ends, as the record's checks `outputs_lf_only` (Rust) and
+    `reference_outputs_lf_only` (reference) found when the solvers ran.
+    `folder.rglob("*")` lists everything in a folder and in all its sub-folders;
+    `sorted` puts the list in a fixed order.
     """),
     code(r'''
     def files_below(folder):
@@ -709,31 +710,29 @@ CELLS = [
     RUST_RESULTS = "Revision/kohn_sham/results"
     REFERENCE_RESULTS = "Revision/kohn_sham/reference/results"
     rust_files = files_below(RUST_RESULTS)
-    rust_bytes = sum(p.stat().st_size for p in rust_files)  # the sizes in bytes
     rust_crlf = sum(1 for p in rust_files if b"\r\n" in p.read_bytes())
     reference_files = files_below(REFERENCE_RESULTS)
     reference_crlf = sum(1 for p in reference_files if b"\r\n" in p.read_bytes())
     report("Rust result files", len(rust_files))
-    report("their size", rust_bytes, "bytes")
+    report("their size", sum(p.stat().st_size for p in rust_files), "bytes")
     report("Rust result files with CR LF line ends", rust_crlf)
     report("reference result files", len(reference_files))
+    report("their size", sum(p.stat().st_size for p in reference_files), "bytes")
     report("reference result files with CR LF line ends", reference_crlf)
 
-    repeat = determinism_checks["repeat_byte_identical"]
-    numbers = re.search(r"(\d+) files \((\d+) bytes\)", repeat["detail"])
-    say(f"the record: {numbers.group(0)} compared")
+    lf_rust = determinism_checks["outputs_lf_only"]  # the record's check (Rust)
     check_reproduces(
-        repeat["verdict"] == "PASS" and rust_crlf == 0
-        and (len(rust_files), rust_bytes) == (int(numbers.group(1)), int(numbers.group(2)))
-        and determinism_checks["outputs_lf_only"]["verdict"] == "PASS",
-        "244 Rust result files of 5854813 bytes, none with CR LF line ends",
-        f"{DETERMINISM}, checks repeat_byte_identical and outputs_lf_only")
+        rust_crlf == 0 and lf_rust["verdict"] == "PASS"
+        and "(offending: none)" in lf_rust["detail"],
+        f"none of the {len(rust_files)} Rust result files has CR LF line ends",
+        f"{DETERMINISM}, check outputs_lf_only")
     cross_checks = {entry["name"]: entry for entry in read_json(CROSS)["checks"]}
-    lf_detail = cross_checks["reference_outputs_lf_only"]["detail"]
+    lf_reference = cross_checks["reference_outputs_lf_only"]  # the record's check
+    stated = f"{len(reference_files)} reference result files; files with CRLF: none"
     check_reproduces(
-        reference_crlf == 0 and f"{len(reference_files)} reference result files" in lf_detail
-        and "files with CRLF: none" in lf_detail,
-        "340 reference result files, none with CR LF line ends",
+        reference_crlf == 0 and lf_reference["verdict"] == "PASS"
+        and stated in lf_reference["detail"],
+        f"none of the {len(reference_files)} reference result files has CR LF line ends",
         f"{CROSS}, check reference_outputs_lf_only")
     '''),
     md(r"""
@@ -747,6 +746,12 @@ CELLS = [
     and checks that every file of each folder except the manifest itself is listed.
     When all agree, the files of today are exactly, byte for byte, the files that the
     solvers wrote.
+
+    The cross-check of the record also ran the reference solver a second time into an
+    empty folder and compared every file of the two runs (its check
+    `reference_repeat_byte_identical`). The third check of the cell confirms that the
+    record found no differing file and that it compared as many files as the folder
+    holds today.
     """),
     code(r'''
     def file_fingerprint(path):
@@ -785,18 +790,27 @@ CELLS = [
                    if n != "manifest.json"]
     reference_others = [n for n in relative_names(reference_files, REFERENCE_RESULTS)
                         if n != "manifest.json"]
-    check_reproduces(
-        rust_wrong == [] and sorted(rust_listed) == rust_others
-        and len(rust_listed) == 243,
-        "the 243 fingerprints of the Rust results' manifest equal the files of today",
-        f"{RUST_RESULTS}/manifest.json, its 243 entries")
+    check(rust_wrong == [] and sorted(rust_listed) == rust_others,
+          f"the {len(rust_listed)} fingerprints of the Rust manifest equal today's files")
     manifest_check = cross_checks["reference_manifest"]
     stated = f"lists {len(reference_manifest)} files with SHA-256"  # the record's words
     check_reproduces(
         reference_wrong == [] and sorted(reference_manifest) == reference_others
         and manifest_check["verdict"] == "PASS" and stated in manifest_check["detail"],
-        "the 339 fingerprints of the reference manifest equal the files of today",
+        f"the {len(reference_manifest)} fingerprints of the reference manifest equal "
+        "today's files",
         f"{CROSS}, check reference_manifest")
+    repeat = cross_checks["reference_repeat_byte_identical"]  # the second run
+    # The part of its detail that counts the files, e.g. "340 result files, same ...".
+    found = re.search(r"(\d+) result files, same file set: (\w+), differing files: (\w+)",
+                      repeat["detail"])
+    say(f"the record: {found.group(0)}")
+    check_reproduces(
+        repeat["verdict"] == "PASS" and int(found.group(1)) == len(reference_files)
+        and found.group(2) == "True" and found.group(3) == "none",
+        f"a second run of the reference solver gave the same {len(reference_files)} "
+        "files, byte for byte",
+        f"{CROSS}, check reference_repeat_byte_identical")
     '''),
     md(r"""
     ## 13. The last check
