@@ -22,8 +22,9 @@
 //! With S = {eps < mu} every term is at most 2 g f (1 - f), and
 //! dN/dmu = sum g f (1 - f)/T, so the residual is accurate to
 //! eps_mach (P + Hl + |d|) <= 4 eps_mach T dN/dmu per term: mu is fixed to
-//! O(n eps_mach T) plus the spacing of the doubles at mu.  `Root::bound` states
-//! this bound for every solve, `Root::bound_direct` the bound of the direct count.
+//! O((n + L) eps_mach T + eps_mach |eps - mu|) plus the spacing of the doubles
+//! at mu (L below).  `Root::bound` states this bound for every solve,
+//! `Root::bound_direct` the bound of the direct count.
 //!
 //! The rounding bound (first order in eps_mach = 2^-52 = 2u, u the unit
 //! roundoff; one formula, with generous constants, for the two well-conditioned

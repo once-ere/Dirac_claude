@@ -723,14 +723,22 @@ CELLS = [
           and min(values[2].min(), values[3].min()) > 0.1,
           "numerically: the solutions give |E| below 1e-12, the controls above 0.1")
 
+    B_c = B.astype(complex)  # the charge density is J^(x4) = Psi^dagger B Psi
+    density = {}
+    for field, label in ((Psi, r"$\Psi$"), (Psi_conj, r"$\Psi^*$"),
+                         (Psi_gamma_conj, r"$\Gamma\Psi^*$")):
+        values_f = numeric(field)  # shape (161, 16): the field at every time
+        density[label] = np.einsum("tr,rc,tc->t", np.conj(values_f), B_c, values_f).real
+    d_psi, d_conj, d_gconj = density.values()
+    check(np.allclose(d_conj, -d_psi) and np.allclose(d_gconj, d_psi)
+          and np.ptp(d_psi) > 0.1,
+          "charge density: Psi* has -J^(x4), Gamma Psi* has +J^(x4) at every time")
+
     fig, axes = plt.subplots(1, 2, figsize=(12.0, 4.4))
-    component = 9  # component number 10 (counting from 1)
-    for field, label, style in ((Psi, r"$\Psi$", "-"), (Psi_conj, r"$\Psi^*$", "--"),
-                                (Psi_gamma_conj, r"$\Gamma\Psi^*$", ":")):
-        values_c = numeric(field)[:, component]
-        axes[0].plot(times, values_c.imag, style, label=f"imaginary part of {label}")
+    for (label, values_d), style in zip(density.items(), ["-", "--", ":"]):
+        axes[0].plot(times, values_d, style, linewidth=2, label=f"{label}")
     axes[0].set_xlabel("time $x_4$")
-    axes[0].set_ylabel("component 10 at $z = \\pi/4$")
+    axes[0].set_ylabel("charge density $\\Psi^\\dagger B\\Psi$ at $z = \\pi/4$")
     axes[0].set_title("A solution and its two conjugates")
     axes[0].legend(fontsize=8)
     for (label, values_e), style in zip(curves.items(), ["-", "--", "-.", ":"]):
@@ -742,9 +750,11 @@ CELLS = [
     save_figure(fig, "curved_solution_images",
                 "Charge conjugation acting on an exact solution of the field equation "
                 "in the author's metric ($H = 1/6$, $\\alpha = 1$, mass $m = 2$, valid "
-                "for every history $a_4$). Left: the imaginary part of component 10 of "
-                "$\\Psi$, $\\Psi^\\ast$ and $\\Gamma\\Psi^\\ast$ versus the time $x_4$ at "
-                "$z = \\pi/4$ (pure numbers). Right: the size $|E|$ of the left-hand "
+                "for every history $a_4$). Left: the charge density "
+                "$\\Psi^\\dagger B\\Psi$ of $\\Psi$ (solid), $\\Psi^\\ast$ (dashed) and "
+                "$\\Gamma\\Psi^\\ast$ (dotted, on top of the solid curve) versus the "
+                "time $x_4$ at $z = \\pi/4$ (pure numbers); $\\Psi^\\ast$ carries the "
+                "opposite charge density. Right: the size $|E|$ of the left-hand "
                 "side of the field equation versus $x_4$, logarithmic scale. $\\Psi^\\ast$ "
                 "solves the equation with the same mass $+2$ and $\\Gamma\\Psi^\\ast$ the "
                 "one with the reversed mass $-2$ ($|E|$ at rounding level, about "

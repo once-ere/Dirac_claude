@@ -560,6 +560,7 @@ CELLS = [
     """),
     code(r'''
     rng = np.random.default_rng(20261007)  # a fixed seed: the same numbers every run
+    R8_SIGNS = [1, 1, 1, 1, 1, 1, 1, -1]  # the mirror reverses the direction x8
     psi = rng.normal(size=16) + 1j * rng.normal(size=16)  # the 16 complex values
     dpsi = [rng.normal(size=16) + 1j * rng.normal(size=16) for _ in range(8)]
     Z0, A4_0, M0, LAM0 = 0.6, 0.5, 2.0, 0.5  # the point and the parameters (H = 1)
@@ -640,7 +641,7 @@ CELLS = [
       $\Psi'(\pi - z) = \gamma^{(x_8)}\Psi(z)$ on the mirror patch solves the
       $(-m, \lambda)$ equations if and only if $\Psi$ solves the $(m, \lambda)$
       equations. Its derivatives are $\gamma^{(x_8)}$ times those of $\Psi$, with the
-      $x_8$ derivative reversed (here zero).
+      $x_8$ derivative reversed (the mirror reverses the direction $x_8$).
 
     It computes the energy density $\rho = -T_{x_4x_4}$ and the charge density
     $J^{x_4}$ of each, and checks: the T1 partner has $-\rho$ and $-J^{x_4}$; the
@@ -648,19 +649,22 @@ CELLS = [
     $J^{x_4}$.
     """),
     code(r'''
-    flat_dpsi = [row.copy() for row in dpsi]
-    flat_dpsi[7] = np.zeros(16)  # no derivative along x8
+    psi_1 = rng.normal(size=16) + 1j * rng.normal(size=16)  # the spinor Psi_1
     z_patch = np.linspace(0.05, np.pi / 2 - 0.02, 160)  # points of the patch
     rho, charge = {"one": [], "T1": [], "T2": []}, {"one": [], "T1": [], "T2": []}
     for z_value in z_patch:
+        field = psi + (np.pi / 2 - z_value) ** 2 * psi_1  # Psi(z)
+        slopes_here = [row.copy() for row in dpsi]  # the derivatives along x1 .. x7
+        slopes_here[7] = -12.0 * (np.pi / 2 - z_value) * psi_1  # 6 H dPsi/dz, H = 1
+        mirror_slopes = [R8_SIGNS[mu] * (gamma_num[7] @ slopes_here[mu])
+                         for mu in range(8)]  # the mirror reverses d/dx8
         here = geometry_at(1, z_value, A4_0, 1.0)
         there = geometry_at(-1, np.pi - z_value, A4_0, 1.0)  # the mirror point
         results = {
-            "one": bilinears(here, psi, flat_dpsi, M0, LAM0),
-            "T1": bilinears(here, Gamma_num @ psi, [Gamma_num @ r for r in flat_dpsi],
-                            -M0, -LAM0),
-            "T2": bilinears(there, gamma_num[7] @ psi,
-                            [gamma_num[7] @ r for r in flat_dpsi], -M0, LAM0),
+            "one": bilinears(here, field, slopes_here, M0, LAM0),
+            "T1": bilinears(here, Gamma_num @ field,
+                            [Gamma_num @ row for row in slopes_here], -M0, -LAM0),
+            "T2": bilinears(there, gamma_num[7] @ field, mirror_slopes, -M0, LAM0),
         }
         for key, result in results.items():
             rho[key].append(-result["T"][3, 3])  # rho = -T_x4x4
@@ -727,7 +731,7 @@ CELLS = [
     three tables.
     """),
     code(r'''
-    R8 = np.array([1, 1, 1, 1, 1, 1, 1, -1.0])  # the reflection of the x8 direction
+    R8 = np.array(R8_SIGNS, dtype=float)  # the reflection R8 of the x8 direction
     mirror_dpsi = [R8[mu] * (gamma_num[7] @ dpsi[mu]) for mu in range(8)]
     copy = bilinears(geometry_at(-1, np.pi - Z0, A4_0, 1.0), gamma_num[7] @ psi,
                      mirror_dpsi, -M0, LAM0)  # the T2 copy at the mirror point
