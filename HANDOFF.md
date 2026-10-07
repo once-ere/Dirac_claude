@@ -79,6 +79,11 @@ Also RUNNING: `Revision/workflows/dirac_matrices_audit.js` (run wf_5ccefead-ea3)
 (notebook fidelity incl. later redefinitions and stored Out cells; the mathematics incl. the Pin(4,4) argument; COVERAGE of every
 gamma-matrix source in the repository incl. Rust and .nb; fresh-clone reproducibility), two skeptics per finding, one fixer owning
 provenance/dirac_matrices/*, the .md and its test, then a fresh-clone verifier.  If lost: relaunch with the new SP.
+Also RUNNING (user 2026-10-07: "continue with all stages, do not stop"): Revision wave 1b followed automatically by wave 2,
+chained in `Revision/workflows/revision_wave_1b_then_2.js` (run wf_987b1061-79b; set SP in the session copies of
+revision_wave_1b.js, revision_wave_2.js and the chain script, and copy wave1_review_and_fix.json to <SP>/w1_args.json).
+Both wave scripts now carry a CONCURRENCY NOTE: never edit Revision/textbook/, the textbook test, provenance/, notebooks/, tests/
+while the other workflows run; pdf-specifications.json is shared (re-read before any change).
 
 ### 0.4f STATE 2026-10-03 (after the session limit)
 
