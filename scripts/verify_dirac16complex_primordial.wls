@@ -12,7 +12,9 @@
    Writes the report and, next to it, primordial-components.json (read by
    scripts/check_dirac16complex_primordial.py for P_EL_agreesWithWolfram).
    Prints check_<name>=true|false, measurement_<name>=..., check_count, failed_check_count;
-   exits nonzero if any check fails. *)
+   exits nonzero if any check fails.  A missing package, a run that does not return an Association
+   of checks and measurements, or an output that cannot be written prints one ERROR line and exits 1
+   (it can never report success without checks). *)
 
 scriptDir = DirectoryName[ExpandFileName[$InputFileName]];
 repoRoot = ParentDirectory[scriptDir];
@@ -24,11 +26,16 @@ componentsPath = FileNameJoin[{DirectoryName[reportPath], "primordial-components
 If[! DirectoryQ[DirectoryName[reportPath]], CreateDirectory[DirectoryName[reportPath], CreateIntermediateDirectories -> True]];
 
 modulePath = FileNameJoin[{repoRoot, "wolfram", "Dirac16ComplexPrimordial.wl"}];
+If[! FileExistsQ[modulePath], Print["ERROR: package not found: ", modulePath]; Exit[1]];
 Get[modulePath];
 
 t0 = AbsoluteTime[];
 result = Dirac16ComplexPrimordial`D16PRun[repoRoot];
 elapsed = Round[AbsoluteTime[] - t0];
+If[! (AssociationQ[result] && AssociationQ[result["checks"]] && Length[result["checks"]] > 0 &&
+      AssociationQ[result["measurements"]] && AssociationQ[result["components"]]),
+  Print["ERROR: Dirac16ComplexPrimordial`D16PRun did not return an Association with checks, measurements and components (the package did not load or did not run)"];
+  Exit[1]];
 
 relFiles = {"wolfram/Dirac16ComplexPrimordial.wl", "scripts/verify_dirac16complex_primordial.wls",
    "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json",
@@ -48,7 +55,9 @@ writeJSON[path_, data_] := Module[{str, bytes},
   str = StringReplace[str, "\r\n" -> "\n"];
   If[! StringEndsQ[str, "\n"], str = str <> "\n"];
   bytes = ToCharacterCode[str, "UTF-8"];
-  With[{s = OpenWrite[path, BinaryFormat -> True]}, BinaryWrite[s, bytes]; Close[s]];];
+  With[{s = Quiet[OpenWrite[path, BinaryFormat -> True]]},
+   If[Head[s] =!= OutputStream, Print["ERROR: could not write ", path]; Exit[1]];
+   BinaryWrite[s, bytes]; Close[s]];];
 
 checks = result["checks"];
 meas = result["measurements"];
@@ -73,7 +82,7 @@ writeJSON[componentsPath, components];
 
 Scan[Print["check_", #, "=", If[TrueQ[checks[#]], "true", "false"]] &, Keys[checks]];
 Scan[Print["measurement_", #, "=", jsonValue[meas[#]] /. {l_List :> ExportString[l, "RawJSON", "Compact" -> True]}] &, Keys[meas]];
-failed = Count[Values[checks], False];
+failed = Count[Values[checks], v_ /; ! TrueQ[v]];
 Print["check_count=", Length[checks]];
 Print["failed_check_count=", failed];
 Print["elapsed_seconds=", elapsed];

@@ -84,12 +84,19 @@ chained in `Revision/workflows/revision_wave_1b_then_2.js` (run wf_987b1061-79b;
 revision_wave_1b.js, revision_wave_2.js and the chain script, and copy wave1_review_and_fix.json to <SP>/w1_args.json).
 Both wave scripts now carry a CONCURRENCY NOTE: never edit Revision/textbook/, the textbook test, provenance/, notebooks/, tests/
 while the other workflows run; pdf-specifications.json is shared (re-read before any change).
-LEAD DECISION PENDING (2026-10-07): the runner of old-primordial found that scripts/verify_dirac16complex_primordial.wls does not
+DONE 2026-10-07 (was: LEAD DECISION PENDING): the runner of old-primordial found that scripts/verify_dirac16complex_primordial.wls does not
 check that wolfram/Dirac16ComplexPrimordial.wl loaded and that D16PRun returned an Association: with the package missing, checks
 is not an Association, Count[Values[checks], False] = 0 and the script can exit 0 after writing a garbage report (false success).
 FIX IT (after the execution-provenance chain for old-primordial has finished, to avoid a concurrent edit): fail with an ERROR line and
 exit 1 unless AssociationQ[result] && AssociationQ[result["checks"]] && Length > 0, and count every non-True check as failed;
 then re-run the set twice in a fresh clone (byte identity of both outputs) and update its provenance file.
+  -> FIXED by the lead: package-existence check, AssociationQ guard on D16PRun's result, ERROR + exit 1 when an output cannot be
+  written, every non-True check counted as failed.  Two runs: 126/126, both outputs identical between runs; primordial-components.json
+  byte-identical to the committed file; the report changes only in the script's own sha256 (919928...->f49606...).  Missing package ->
+  ERROR, exit 1; unwritable output -> ERROR, exit 1.  The Stage-2 publication pins that sha: provenance/DIRAC16COMPLEX_PRIMORDIAL_FIELD.md
+  updated, .tex/.pdf rebuilt with --register (38 pages, 11/11; register and verify builds byte-identical), test pins updated;
+  tests/test_d16c_primordial{,_publication}.py 53/53.  The set's provenance file is updated by the execution-provenance fixer of
+  old-primordial (it re-verifies against the fixed script).
 LEAD DECISION PENDING (2026-10-07, from the dirac-matrices audit, coverage lens): Revision/field_equations_a4/wolfram/FieldEquationsA4.wl
 (FEsig1/FEeps/FEGen/FEGammaFrame, lines 119-128) builds its OWN real 16x16 Cl(4,4) basis Cl(1,1)^(x)4 and never reads
 Revision/algebra/gammas.json; check_field_equations_a4.py runs its primary checks on a third basis own_rep().  Both are real 16x16

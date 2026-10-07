@@ -52,8 +52,8 @@ COMPONENTS = ARTIFACTS / "primordial-components.json"
 WOLFRAM_REPORT = ARTIFACTS / "wolfram-primordial-report.json"
 PYTHON_REPORT = ARTIFACTS / "python-primordial-report.json"
 
-MARKDOWN_SHA256 = "550d9052e90e1ecedf05eaa2f64685a46d46938a319a0f0d1eb8cd03f620c645"
-TEX_SHA256 = "c1cd3773ef2f15c43002449745171afeb48e14e8d35a3c5d0d100c4906ab607e"
+MARKDOWN_SHA256 = "2a4e936071045ab6df7fd42c3c54a3e47d0a14c9127b8a7d0cb69100e885da2d"
+TEX_SHA256 = "64ebbc64bbeebf907659fb7e44eeaf7d1c2cc4295b72e0ec8379d2318b469eb0"
 
 TITLE = "dirac16complex in the primordial pair-creation gravitational field"
 SUBTITLE = ("Explicit components of the connection, field equations, energy-momentum "
