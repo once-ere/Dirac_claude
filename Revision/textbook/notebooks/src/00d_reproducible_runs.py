@@ -31,7 +31,7 @@ FACTS = {
     "name": "00d_reproducible_runs",
     "title": "Why every run gives the same bytes: rounding, order, seeds and line ends",
     "purpose": (
-        "It shows with small experiments why the notebooks of this book print the same "
+        "It shows with small experiments why the notebooks of the textbook print the same "
         "numbers and write the same files every time they run: how the computer rounds "
         "decimal numbers, why the order of a sum changes its last digits (so that checks "
         "allow a tolerance), how a seed fixes random numbers, why names are sorted before "
@@ -361,8 +361,10 @@ CELLS = [
     say(f"backward sum of 10^6 numbers: {backward_million!r}")
     say(f"pairwise sum of 10^6 numbers: {np.sum(terms)!r}")
     say(f"exactly rounded sum         : {exact_million!r}")
-    report("largest forward error in ulps", f"{max(map(abs, ulps['forward'])):.0f}")
-    report("largest backward error in ulps", f"{max(map(abs, ulps['backward'])):.0f}")
+    worst_forward = max(abs(u) for u in ulps["forward"])  # the largest size of error
+    worst_backward = max(abs(u) for u in ulps["backward"])
+    report("largest forward error in ulps", f"{worst_forward:.0f}")
+    report("largest backward error in ulps", f"{worst_backward:.0f}")
     report("pi^2/6 minus the exact sum of 10^6 numbers",
            f"{math.pi ** 2 / 6 - exact_million:.6e}")
     '''),
@@ -405,7 +407,7 @@ CELLS = [
            f"{relative:.2e}")
     check(forward[-1] != backward_million,
           "forwards and backwards, the sums of the 10^6 numbers differ in the last digits")
-    check(max(map(abs, ulps["backward"])) <= 1.0,
+    check(worst_backward <= 1.0,
           "the backward sum is within one ulp of the exactly rounded sum for every N")
     check(relative < 1e-13,
           "the three sums agree to a relative 1e-13: a tolerance of 1e-12 accepts all")
@@ -516,14 +518,17 @@ CELLS = [
     ax.set_xlabel("difference (relative, or in units of the mass m)")
     ax.set_title("Kohn-Sham solver: measured differences and tolerances")
     ax.legend(loc="upper right", fontsize=8)
+    margins = [tolerances[n] / measured[n] for n in SHORT_NAMES]  # tolerance / measured
     save_figure(fig, "tolerances",
                 r"The eight comparisons between the canonical and the refined run of "
                 r"the Revision record's Kohn-Sham solver (one row each): the largest "
                 r"measured difference (blue dot) and the tolerance fixed before the "
                 r"comparison (black bar), on a logarithmic horizontal axis (relative "
                 r"differences, or level differences in units of the mass $m$). Every "
-                r"dot lies far to the left of its bar: the measured differences are "
-                r"between about 200 and 5000 times smaller than the tolerances.")
+                r"dot lies to the left of its bar: the measured differences are "
+                f"between {min(margins):.1f} and {max(margins):.0f} times smaller "
+                r"than their tolerances. The grey line from a dot to its bar is this "
+                r"margin.")
     '''),
     md(r"""
     ## 9. Random numbers that repeat: seeds
@@ -543,7 +548,8 @@ CELLS = [
         generator = np.random.default_rng(seed)  # a new generator from this seed
         steps = generator.choice([-1, 1], size=400)  # 400 random steps of +1 or -1
         walks[label] = np.concatenate([[0], np.cumsum(steps)])  # positions 0 ... 400
-        say(f"{label:23} first steps: {' '.join(f'{s:+d}' for s in steps[:10])}")
+        first = " ".join(f"{s:+d}" for s in steps[:10])  # e.g. "+1 -1 +1 ..."
+        say(f"{label:23} first steps: {first}")
 
     fig, ax = plt.subplots()
     step_numbers = np.arange(401)
@@ -604,10 +610,12 @@ CELLS = [
         return completed.stdout.split()  # the printed names, in their printed order
 
 
-    orders = [set_order(seed) for seed in range(12)]
+    orders = [set_order(seed) for seed in range(12)]  # the seeds 0, 1, ..., 11
     for seed, order in enumerate(orders):
-        say(f"PYTHONHASHSEED={seed:<2}  {' '.join(order)}")
-    say(f"sorted              {' '.join(sorted(orders[0]))}")
+        printed = " ".join(order)  # the eight names separated by blanks
+        say(f"PYTHONHASHSEED={seed:<2}  {printed}")
+    in_order = " ".join(sorted(orders[0]))  # sorted: x1 x2 ... x8
+    say(f"sorted              {in_order}")
     different = len({tuple(order) for order in orders})  # the number of distinct orders
     report("distinct orders among the 12 runs", different)
     check(set_order(0) == orders[0], "the same hash seed gives the same order")
@@ -621,12 +629,12 @@ CELLS = [
     there; the last row is the sorted order.
     """),
     code(r'''
-    from matplotlib.colors import ListedColormap  # a colour map made of a few colours
-
-    table = [order for order in orders] + [sorted(orders[0])]  # 13 rows of 8 names
+    table = orders + [sorted(orders[0])]  # 13 rows of 8 names: 12 runs and the sorted
+    # Each name replaced by its number in NAMES: x1 -> 0, x2 -> 1, ..., x8 -> 7.
     numbers = np.array([[NAMES.index(name) for name in row] for row in table])
-    colours = ListedColormap(plt.get_cmap("viridis")(np.linspace(0.0, 1.0, 8)))
+    colours = matplotlib.colormaps["viridis"].resampled(8)  # 8 colours, violet to yellow
     fig, ax = plt.subplots(figsize=(7.0, 6.0))
+    # vmin and vmax put each of the numbers 0 ... 7 in the middle of its own colour.
     ax.imshow(numbers, cmap=colours, vmin=-0.5, vmax=7.5, aspect="auto")
     for row in range(numbers.shape[0]):
         for column in range(8):
@@ -748,17 +756,22 @@ CELLS = [
         return sorted(p.relative_to(root).as_posix() for p in files)
 
 
+    # The Rust manifest: a list of entries {"path": ..., "bytes": ..., "sha256": ...}.
     rust_manifest = read_json(f"{RUST_RESULTS}/manifest.json")["files"]
     rust_listed = {entry["path"]: entry for entry in rust_manifest}  # path -> entry
-    rust_wrong = [path for path, entry in rust_listed.items()
-                  if file_fingerprint(repository_file(f"{RUST_RESULTS}/{path}"))
-                  != entry["sha256"]
-                  or repository_file(f"{RUST_RESULTS}/{path}").stat().st_size
-                  != entry["bytes"]]
+    rust_wrong = []  # the listed files whose size or fingerprint differs today
+    for path, entry in rust_listed.items():
+        today = repository_file(f"{RUST_RESULTS}/{path}")  # the file as it is today
+        same_size = today.stat().st_size == entry["bytes"]
+        if not same_size or file_fingerprint(today) != entry["sha256"]:
+            rust_wrong.append(path)
+    # The reference manifest: a dictionary path -> fingerprint.
     reference_manifest = read_json(f"{REFERENCE_RESULTS}/manifest.json")["files"]
-    reference_wrong = [path for path, value in reference_manifest.items()
-                       if file_fingerprint(repository_file(f"{REFERENCE_RESULTS}/{path}"))
-                       != value]
+    reference_wrong = []
+    for path, value in reference_manifest.items():
+        today = repository_file(f"{REFERENCE_RESULTS}/{path}")
+        if file_fingerprint(today) != value:
+            reference_wrong.append(path)
     report("Rust results: fingerprints compared", len(rust_listed))
     report("Rust results: files that differ", len(rust_wrong))
     report("reference results: fingerprints compared", len(reference_manifest))
@@ -774,10 +787,10 @@ CELLS = [
         "the 243 fingerprints of the Rust results' manifest equal the files of today",
         f"{RUST_RESULTS}/manifest.json, its 243 entries")
     manifest_check = cross_checks["reference_manifest"]
+    stated = f"lists {len(reference_manifest)} files with SHA-256"  # the record's words
     check_reproduces(
         reference_wrong == [] and sorted(reference_manifest) == reference_others
-        and manifest_check["verdict"] == "PASS"
-        and f"lists {len(reference_manifest)} files with SHA-256" in manifest_check["detail"],
+        and manifest_check["verdict"] == "PASS" and stated in manifest_check["detail"],
         "the 339 fingerprints of the reference manifest equal the files of today",
         f"{CROSS}, check reference_manifest")
     '''),

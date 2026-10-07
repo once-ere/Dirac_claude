@@ -259,8 +259,7 @@ In [6]  PASS Milne: gamma^mu Omega_mu = g0/(2 tau) = the divergence form (notebo
 In [8]  PASS the 12 nonzero lowered components omega_mu ab equal the record
 In [8]       reproduces Revision/theory/field-theory.json, formula omega_nonzero
 In [8]  PASS Omega^nb_mu = Omega^ss_mu - Omega^tt_mu for all eight mu (boosts deleted)
-In [9]  PASS closed forms: Omega^nb_xi = e^a4 s H S^(xi x8) and Omega^nb_xt = +e^-a4 s a4' S^(x4
-In [9]      xt)
+In [9]  PASS the closed forms of Omega_mu and Omega^nb_mu for x1 ... x3, x5 ... x7
 In [10]  PASS notebook's terms: (H/2) gamma^(x8) for x1, x2, x3; (a4'/2) gamma^(x4) for x5, x6, x7
 In [10]  PASS correct: gamma^mu Omega_mu = 3 H gamma^(x8)
 In [10]       reproduces Revision/theory/field-theory.json, formula gammaOmega_total
@@ -289,9 +288,9 @@ In [17]  PASS all six figure files exist
 The key numbers are printed as RESULT lines:
 
 ```text
-In [4]  RESULT number of space-space pairs (factor +1) = 6
+In [4]  RESULT number of space-space pairs (factor 1) = 6
 In [4]  RESULT number of time-time pairs (factor -1) = 6
-In [4]  RESULT number of boost pairs (factor +0) = 16
+In [4]  RESULT number of boost pairs (factor 0) = 16
 In [10]  RESULT notebook: coefficient of gamma^(x8) = 3*H/2
 In [10]  RESULT notebook: coefficient of gamma^(x4) = 3*Derivative(a4(x4), x4)/2
 In [13]  RESULT pairs (mu, nu) with D^nb_mu gamma^nu not zero = 15
@@ -317,7 +316,7 @@ The notebook shows 6 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/06c_3_per_direction_comparison.png` (1287 x 619 pixels): The eight terms $\gamma^\mu\Omega_\mu$ (no sum) of the author's metric, each of the form $\alpha_\mu\gamma^{(x4)} + \beta_\mu\gamma^{(x8)}$, for the correct contraction (dark bars) and for the notebook's contraction of the mixed components (light bars), versus the direction $\mu$. Left: $\alpha_\mu$ in units of $a_4'$; the correct values $+1/2$ for $x1, x2, x3$ and $-1/2$ for $x5, x6, x7$ cancel, the notebook's $+1/2$ for $x5, x6, x7$ add to $3/2$. Right: $\beta_\mu$ in units of $H$; the correct six values $1/2$ add to $3$, the notebook keeps only three of them, total $3/2$.
 - `Revision/textbook/figures/06c_4_contraction_heat_maps.png` (1014 x 462 pixels): The total $\gamma^\mu\Omega_\mu$ as a 16 x 16 heat map at the sample point $H = 1$, $z = \pi/4$, $a_4 = 1/2$, $a_4' = 1/2$ (rows and columns are the spinor components; red positive, blue negative, white zero; colour scale from $-3.2$ to $3.2$). Left: the correct value $3H\gamma^{(x8)}$, the number 3 on two diagonal lines. Right: what the notebook's contraction of the mixed components would give, $\frac{3H}{2}\gamma^{(x8)} + \frac{3a_4'}{2}\gamma^{(x4)}$: the same lines with half the value, and the pattern of $\gamma^{(x4)}$ with entries $\pm 0.75$, which depends on the rate $a_4'$ of the deflation.
 - `Revision/textbook/figures/06c_5_constancy_violation.png` (833 x 727 pixels): Where the notebook's contraction breaks the covariant constancy of the gammas: for each pair of coordinates, the derivative index $\mu$ (rows) and the upper index $\nu$ (columns), the largest absolute entry of the 16 x 16 matrix $D^{nb}_\mu\gamma^\nu$ at the sample point $H = 1$, $z = \pi/4$, $a_4 = 1/2$, $a_4' = 1/2$ (pure numbers; white is zero). Exactly 15 of the 64 pairs are nonzero, all in the rows of the six warped directions; with the correct spinor connection all 64 matrices vanish exactly.
-- `Revision/textbook/figures/06c_6_hermiticity_defect.png` (918 x 611 pixels): The term that spoils the antisymmetry of the hidden-direction operator $A_c = \tan z\,\partial_{x8} + c$ for the volume weight $\cos z$: the coefficient $(2c/H - 6)\cos z$ of $H\,p\,q$ in $\cos z\,(p\,A_c q + (A_c p)\,q) - \partial_{x8}(\sin z\,p\,q)$, a pure number, versus the hidden angle $z$ in radians, for the correct value $c = 3H$ of the spin-connection term (solid, zero everywhere), for the notebook's value $c = 3H/2$ (dashed) and for no spin-connection term, $c = 0$ (dotted). Only the correct value leaves nothing but a boundary term.
+- `Revision/textbook/figures/06c_6_hermiticity_defect.png` (918 x 611 pixels): The term that spoils the antisymmetry of the hidden-direction operator $A_c = \tan z\,\partial_{x8} + c$ for the volume weight $\cos z$: the coefficient $(2c/H - 6)\cos z$ of $H\,p\,q$ in $\cos z\,(p\,A_c q + (A_c p)\,q) - \partial_{x8}(\sin z\,p\,q)$, a pure number, versus the hidden angle $z$ in radians, for the correct value $c = 3H$ of the spin-connection term (solid, zero everywhere), for the notebook's value $c = 3H/2$ (dashed) and for no spin-connection term, $c = 0$ (dotted). Only the correct value leaves nothing but a boundary term; the solid line lies on the zero line.
 
 ## 4. Side effects
 
@@ -327,13 +326,13 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/06c.captions.json` | 3864 | `92c22175c3e786fb1179e673ce4011e4a61a26bf8fe6b5d0f603cd0ecdae1cf4` |
+| `Revision/textbook/figures/06c.captions.json` | 3902 | `388f8d7fe6dc9a6b6561e6dfc1db606e36e4f4f0025a7960fb62ffe4a3d07816` |
 | `Revision/textbook/figures/06c_1_pair_kinds.png` | 54369 | `666174c2fb9bfd99f9f91ada09b3c560c0dde7d73bbe5c2ae60a6d1dcbf5c413` |
 | `Revision/textbook/figures/06c_2_milne_frame_and_spin_boost.png` | 109194 | `ea1ff1db4749df0f1106d4c6ce7ea9129e85ab2ca958c49d4204dca999e51cc2` |
 | `Revision/textbook/figures/06c_3_per_direction_comparison.png` | 52216 | `6dcad07232c97f162dc0b87e1a2ef2738199759c9378f727b2d41c8787f195f3` |
 | `Revision/textbook/figures/06c_4_contraction_heat_maps.png` | 18912 | `7f2e7b3a51b55184e7d280c7db401cbeec5813937485974c24118681d0b3d1f7` |
 | `Revision/textbook/figures/06c_5_constancy_violation.png` | 51285 | `cee15e93955db35f9a6b429a328beb09bcb18cf13a6a7b8359e6153a4223e7d5` |
-| `Revision/textbook/figures/06c_6_hermiticity_defect.png` | 62032 | `58a801431bf353884be335b8543bded0421e3ec2cb428d91c2db0262869afbf2` |
+| `Revision/textbook/figures/06c_6_hermiticity_defect.png` | 62135 | `39d2cfabe381f0a8cad522e28125e06bfbf67b56d86aa28924b1037e9b78d53c` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/06c_mixed_contraction.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
 
@@ -356,8 +355,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 45 seconds (FACTS: 45 s); nbkit stops a cell after 900 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 23.7 s, peak memory of the kernel process 202 MiB;
-- the check run: 24.3 s, peak memory of the kernel process 202 MiB.
+- the build run: 32.9 s, peak memory of the kernel process 201 MiB;
+- the check run: 24.4 s, peak memory of the kernel process 201 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -369,15 +368,15 @@ Expected run time: about 45 seconds (FACTS: 45 s); nbkit stops a cell after 900 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/06c_mixed_contraction.ipynb`: `eda1b736a4bdea71e63f3fe75e3e1c0c8e70210b58862f268c79a6986f1171a8`
-- `Revision/textbook/notebooks/src/06c_mixed_contraction.py`: `44f693128d4501f5bfac1174599ae0c4e6c1496f821df1a0b1982b2dc68fd014`
-- `Revision/textbook/figures/06c.captions.json`: `92c22175c3e786fb1179e673ce4011e4a61a26bf8fe6b5d0f603cd0ecdae1cf4`
+- `Revision/textbook/notebooks/06c_mixed_contraction.ipynb`: `d86edc3c45a73c04d85c5b689620e906c2b29a6c6dbb3c42ab954fcd2ef83d52`
+- `Revision/textbook/notebooks/src/06c_mixed_contraction.py`: `92d557e880c1e2b536bfd3f3208b03a1c913723441c3d9dfa70c66e15e364419`
+- `Revision/textbook/figures/06c.captions.json`: `388f8d7fe6dc9a6b6561e6dfc1db606e36e4f4f0025a7960fb62ffe4a3d07816`
 - `Revision/textbook/figures/06c_1_pair_kinds.png`: `666174c2fb9bfd99f9f91ada09b3c560c0dde7d73bbe5c2ae60a6d1dcbf5c413`
 - `Revision/textbook/figures/06c_2_milne_frame_and_spin_boost.png`: `ea1ff1db4749df0f1106d4c6ce7ea9129e85ab2ca958c49d4204dca999e51cc2`
 - `Revision/textbook/figures/06c_3_per_direction_comparison.png`: `6dcad07232c97f162dc0b87e1a2ef2738199759c9378f727b2d41c8787f195f3`
 - `Revision/textbook/figures/06c_4_contraction_heat_maps.png`: `7f2e7b3a51b55184e7d280c7db401cbeec5813937485974c24118681d0b3d1f7`
 - `Revision/textbook/figures/06c_5_constancy_violation.png`: `cee15e93955db35f9a6b429a328beb09bcb18cf13a6a7b8359e6153a4223e7d5`
-- `Revision/textbook/figures/06c_6_hermiticity_defect.png`: `58a801431bf353884be335b8543bded0421e3ec2cb428d91c2db0262869afbf2`
+- `Revision/textbook/figures/06c_6_hermiticity_defect.png`: `39d2cfabe381f0a8cad522e28125e06bfbf67b56d86aa28924b1037e9b78d53c`
 
 ## 7. Verification
 
@@ -385,4 +384,4 @@ Expected run time: about 45 seconds (FACTS: 45 s); nbkit stops a cell after 900 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":202.0,"seconds":23.7},"check":{"date":"2026-10-07","files":7,"peak_mb":202.0,"result":"passed","seconds":24.3},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":201.0,"seconds":32.9},"check":{"date":"2026-10-07","files":7,"peak_mb":201.0,"result":"passed","seconds":24.4},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

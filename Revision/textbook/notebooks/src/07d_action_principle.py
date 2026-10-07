@@ -374,9 +374,10 @@ CELLS = [
     right.legend(fontsize=8)
     fig.tight_layout()
     save_figure(fig, "action_versus_epsilon",
-                "Left: the change of the action, $S[q + \\epsilon\\xi_1] - S[q]$, of the "
-                "oscillator ($\\omega = 1$, from $t = 0$ to $1$, end values 0 and 1) "
-                "against the size $\\epsilon$ of the change, for the true path "
+                "Left: the change of the action of the oscillator ($\\omega = 1$, from "
+                "$t = 0$ to $1$, end values 0 and 1) when a path $q$ is replaced by "
+                "$q + \\epsilon\\xi_1$, against the size $\\epsilon$ of the change, for "
+                "the true path "
                 "$\\sin t/\\sin 1$ (solid) and the wrong paths $t$ (dashed) and $t^2$ "
                 "(dotted), with the shape $\\xi_1 = \\sin\\pi t$; the thin grey lines "
                 "are the tangents at $\\epsilon = 0$. Only the true path has a "

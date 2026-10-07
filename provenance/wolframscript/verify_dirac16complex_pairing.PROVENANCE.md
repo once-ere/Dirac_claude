@@ -874,9 +874,10 @@ commit them; restore the committed files with the command above.
 * **Dates:** first verification on 2026-10-02 at commit `c2b33cc` (Section 6.3). The
   workflow that made it was interrupted by a session limit before this file had been
   checked independently; after the restart the whole record was verified again, from new
-  fresh clones, on 2026-10-07 at commit `a4c5eda` (Section 6.2). Every statement of
-  Parts 1 to 5 was checked again on 2026-10-07; where a statement rests only on the
-  first verification, the text says so.
+  fresh clones, on 2026-10-07 at commit `a4c5eda` (Section 6.2). Every measurable
+  statement of Parts 1 to 5 was checked again on 2026-10-07, on Windows; where a
+  statement rests only on the first verification, the text says so. Nothing was run on
+  macOS or Linux in either verification (the instructions for them are not tested).
 * **Result:** the set **executes correctly** as committed. In every run with all files
   present it printed `check_count=141` and `failed_check_count=0`, ended with exit code
   0, and wrote both output files **byte-identical** to the committed files and to each
@@ -921,7 +922,7 @@ commit them; restore the committed files with the command above.
   | 1 | 1 | PowerShell 7.6.6 | nothing | `artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json` | 0 | 15:19:15 | 392.9 s | `check_count=141`, `failed_check_count=0` |
   | 2 | 2 | PowerShell 7.6.6 | nothing | the same | 0 | 15:26:08 | 360.6 s | `check_count=141`, `failed_check_count=0` |
   | 3 | 3 | Windows PowerShell 5.1, output into a file with `>` | nothing | `build/old-pairing/wolfram-pairing-report.json` | 0 | 15:32:23 | 468.0 s | `check_count=141`, `failed_check_count=0` |
-  | 4 | 4 | Git Bash, output into a file with `>` | `wolfram/Dirac16ComplexPairing.wl` moved out of the clone | `artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json` | 1 | 15:21 and 15:35 | 5.3 s (second run) | `Get::noopen`, `FATAL: module failed to load: ...`, `check_count=0`, `failed_check_count=1` |
+  | 4 | 4 | Git Bash, output into a file with `>` | `wolfram/Dirac16ComplexPairing.wl` moved out of the clone | `artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json` | 1 | 15:21:47 and 15:35 | 5.3 s (second run) | `Get::noopen`, `FATAL: module failed to load: ...`, `check_count=0`, `failed_check_count=1` |
   | 5 | 5 | PowerShell 7.6.6, output into a file with `>` | `artifacts/dirac16complex/arbitrary-field/algebra-fixture.json` moved away | the same | 1 | 15:32:23 | 469.4 s | `Import::nffil`, `Table::iterb` (twice), `CHECK FAILED: PAIR_algebra_fixtureMatches`, `FileHash::noopen`, `check_count=141`, `failed_check_count=1` |
   | 6 | 6 | PowerShell 7.6.6, output into a file with `>` | `artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json` moved away | the same | 1 | 15:32:23 | 433.9 s | `Import::nffil`, `INTERNAL ERROR: ...` (one line of 88,820 characters), `FileHash::noopen`, `check_count=98`, `failed_check_count=4` (`PAIR_T3block_basisFromStage4`, `PAIR_T3block_gamma8IsSigma2BetweenPartnerBlocks`, `PAIR_T3block_gamma1IsSigma1InEveryBlock`, `PAIR_internal_noException`); no step after `T3 block maps` was run |
   | 7 | 7 | Git Bash, output into a file with `>` | `wolfram/Dirac16ComplexGeometry.wl` moved away | the same | 1 | 15:32:23 | 280.1 s | `Get::noopen`, Wolfram error messages (`Set::shape`, `Part::pkspec1`, `Part::partw`, `Part::partd`, `Part::take`, `General::stop`), 29 lines `CHECK FAILED: ...`, `FileHash::noopen`, `check_count=141`, `failed_check_count=29` (818,900 bytes of printed text) |
@@ -957,7 +958,8 @@ commit them; restore the committed files with the command above.
   end); the files of runs 5 and 6 (PowerShell 7) stayed empty while the runs proceeded (0
   bytes at every sample, every 10 s, until 7 and 12 seconds before the ends of the runs),
   received the text only at the end, and are ASCII; the file of run 7 (Git Bash) grew
-  while the run proceeded and is ASCII. This is what Section 3.4 says about output sent into a file.
+  while the run proceeded and is ASCII. This is what Section 3.4 says about output sent
+  into a file.
 * **Repository state after each run:** `git status --porcelain --untracked-files=all --ignored`
   printed nothing in clones 1 and 2; in clone 3 it listed only
   `build/old-pairing/pairing-theory.json` and `build/old-pairing/wolfram-pairing-report.json`,
@@ -1014,7 +1016,8 @@ commit them; restore the committed files with the command above.
   26200.9457), 24 logical processors; WolframScript 1.14.0; Wolfram 15.0.1, Professional
   licence; PowerShell 7.6.6; Windows PowerShell 5.1.26100.9444; Git Bash (GNU bash 5.2.37)
   with git 2.51.2.windows.1; about eight other Wolfram kernels of other jobs running.
-* **Runs:** seven fresh clones, nothing copied into them, one run each. Run 1 (PowerShell
+* **Runs:** seven fresh clones, nothing copied into them; one run in each, and in clone 3
+  also the package-missing test after its run. Run 1 (PowerShell
   7.6.6, 295.9 s) and run 2 (Git Bash, 321.9 s) with the committed report path, run 3
   (PowerShell 7.6.6, 317.4 s) and run 4 (Windows PowerShell 5.1 with `>`, 244.5 s) with the
   `build/` variant: each exit code 0, `check_count=141`, `failed_check_count=0`, both

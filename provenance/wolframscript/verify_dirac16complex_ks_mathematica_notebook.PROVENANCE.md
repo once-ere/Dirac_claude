@@ -63,6 +63,7 @@ Altogether: 1 + 6 + 6 + 7 + 10 + 8 + 11 + 3 + 13 + 14 + 11 + 3 + 1 = **94 checks
 * `handoff/specs/STAGE4_SPEC.md`, the Stage-4 specification, which asks for this notebook with its builder and verifier.
 * The Stage-4 gate `scripts/verify_stage4_kohn_sham.ps1` and its twin `scripts/verify_stage4_kohn_sham.sh`: step `stage4-30-mathematica-notebook` runs exactly the default command of this set, and step `stage4-31-mathematica-unchanged` requires the report (except its key `engine.binary`) and the figures to be rewritten byte for byte.
 * `tests/test_d16c_kohn_sham_mathematica.py`: unit tests of the committed report and figures. They read the expected counts 33 and 94 from this script.
+* `studies/dirac16complex_kohn_sham/tools/build_kohn_sham_summary.py`, the builder of the Stage-4 summary: it reads the report as an optional input (its verdict, its checks and its count of checks, which must agree, its `sourceSha256` fingerprints, which must still be those of the current files, and its list of figures).
 * `scripts/build_dirac16complex_ks_mathematica_notebook.wls`, which writes the notebook (a different set with its own provenance file; this set does not run it).
 
 ## 2. Its files
@@ -76,11 +77,11 @@ All paths are relative to the repository root (the folder `Dirac_claude` that `g
 | the script (you run it) | `scripts/verify_dirac16complex_ks_mathematica_notebook.wls` | `0ad59e5df4b10df9a739d8035fb193e615d4811660d34a3c0fe1511235fc4e8f` | 89 | 5255 |
 | the notebook it evaluates (read only) | `notebooks/Dirac16ComplexKohnSham.nb` | `7e91159dba0fd1875736e3101e69a2b174017b173539ad0df4b3348d4457b22f` | 5122 (no newline after the last line, so an editor shows 5123 lines) | 359236 |
 
-Both are unchanged since commit `eac67e6` (2026-09-30). The notebook was written by `scripts/build_dirac16complex_ks_mathematica_notebook.wls` (SHA-256 `2bb0e133adfa86ff3ec8d63e49759e69d6fcb1a1c74805fc6aba7feccff1a982` at the verified commit), which this set does not run. Later on 2026-10-02 that builder received checks of its write steps (SHA-256 `7432e599992eecab33a9caf62e5b7352c8a03e2d36d9eede86d66d9eab8868bb`, in commit `d86e42d`); the notebook and the two files of this set did not change.
+Both are unchanged since commit `eac67e6` (2026-09-30); on 2026-10-07 the fresh clones at commits `d278c49` and `72fc9ff` had exactly these bytes. The notebook was written by `scripts/build_dirac16complex_ks_mathematica_notebook.wls` (SHA-256 `2bb0e133adfa86ff3ec8d63e49759e69d6fcb1a1c74805fc6aba7feccff1a982` at the verified commit), which this set does not run. Later on 2026-10-02 that builder received checks of its write steps (SHA-256 `7432e599992eecab33a9caf62e5b7352c8a03e2d36d9eede86d66d9eab8868bb`, in commit `d86e42d`); the notebook and the two files of this set did not change.
 
 ### 2.2 The inputs it reads
 
-The notebook records the SHA-256 of every repository file it reads in the report (key `sourceSha256`). These are the 18 files below. On 2026-10-02 every one of them in the fresh clone had exactly the recorded fingerprint.
+The notebook records the SHA-256 of every repository file it reads in the report (key `sourceSha256`). These are the 18 files below. On 2026-10-02, and again on 2026-10-07, every one of them in the fresh clones had exactly the recorded fingerprint.
 
 | Input | Path | SHA-256 | Line feeds | Bytes |
 | --- | --- | --- | --- | --- |
@@ -103,7 +104,7 @@ The notebook records the SHA-256 of every repository file it reads in the report
 | Rust run N = 8: levels | `artifacts/dirac16complex/kohn-sham/rust/scf/m1_L3_N8_lamp2_T0/levels.csv` | `a4a38b702c1873d3fc725cca91c0bdf28c4616be104739ccbe87b2b6545a1329` | 789 | 325987 |
 | Rust run N = 8: iteration history | `artifacts/dirac16complex/kohn-sham/rust/scf/m1_L3_N8_lamp2_T0/history.csv` | `e194b9db46810883a23cb1e9509ae6e1388ba47d664313ce7266e6737cbc47f9` | 20 | 3759 |
 
-It also uses one program that is **not** in the repository and that you build yourself (Part 3.7): the Rust program `studies/dirac16complex_kohn_sham/target/release/dirac16complex_kohn_sham` (`.exe` on Windows), which it runs once with `print-config`. Building it needs the pinned CVODE engine in `vendor/rustSolveIt/` (fetched by `scripts/setup_solver.ps1` or `scripts/setup_solver.sh`, Part 3.6) and the crate sources in `studies/dirac16complex_kohn_sham/`. The program's printed text, not its bytes, is what the notebook compares: the program contains the folder name of the clone, so every build has another fingerprint (the four builds of the verification gave four different SHA-256 values), and all of them passed.
+It also uses one program that is **not** in the repository and that you build yourself (Part 3.7): the Rust program `studies/dirac16complex_kohn_sham/target/release/dirac16complex_kohn_sham` (`.exe` on Windows), which it runs once with `print-config`. Building it needs the pinned CVODE engine in `vendor/rustSolveIt/` (fetched by `scripts/setup_solver.ps1` or `scripts/setup_solver.sh`, Part 3.6) and the crate sources in `studies/dirac16complex_kohn_sham/`. The program's printed text, not its bytes, is what the notebook compares: the program contains the folder name of the clone, so every build has another fingerprint (the four builds of 2026-10-02 gave four different SHA-256 values), and all of them passed (and so did the two builds of 2026-10-07).
 
 Like every Wolfram kernel, it also reads the Wolfram system files and, if you have one, your personal kernel start-up file `Kernel/init.m` in your Wolfram user folder.
 
@@ -128,11 +129,11 @@ The report contains no date, no time and no folder name, so a correct run on the
 ### 3.1 What you need
 
 * A 64-bit computer with Windows 10 or 11, macOS, or Linux. Only Windows 11 was tested (Part 6).
-* About 1.5 GB of free disk space: the repository is about 130 MB to download and about 520 MB on disk; the Rust engine adds about 84 MB and the compiled program about 18 MB; the Wolfram Engine itself needs several GB.
-* About 1 GB of free memory: the Wolfram kernel used at most 563 MB in the tests.
+* About 1.5 GB of free disk space: on 2026-10-07 the repository was about 195 MB to download and about 670 MB on disk (it grows as the project grows); the Rust engine adds about 84 MB and the compiled program about 18 MB; the Wolfram Engine itself needs several GB.
+* About 1 GB of free memory: the Wolfram kernel used at most 575 MB in the tests.
 * An internet connection for the installations, the repository and the Rust engine. The run itself does not need the network.
 * Four programs: **Git**, **WolframScript with a Wolfram kernel**, the **Rust toolchain** (`cargo`), and, on Windows, the Microsoft C++ build tools that Rust needs. You do not need Python or Jupyter for this set.
-* Patience: one run takes about 11 minutes on the verification machine (Part 4.4).
+* Patience: one run took 11 to 17 minutes on the verification machine, depending on how busy it was (Part 4.4).
 
 ### 3.2 Open a terminal
 
@@ -180,7 +181,7 @@ You need two programs. The first is the Wolfram Language *kernel*, the program t
 wolframscript -code '$Version'
 ```
 
-It must print the kernel version, for example `15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)` on the verification machine. The single quotes matter on macOS and Linux, because they stop the shell from replacing `$Version`; they are also correct in PowerShell. `wolframscript -version` prints the WolframScript version, for example `WolframScript 1.14.0 for Microsoft Windows (64-bit)`. (The verification machine already had Wolfram installed and activated; the installation steps above were not repeated for this record. The two test commands were run.)
+It must print the kernel version, for example `15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)` on the verification machine. The single quotes matter on macOS and Linux, because they stop the shell from replacing `$Version`; they are also correct in PowerShell. `wolframscript -version` prints the WolframScript version, for example `WolframScript 1.14.0 for Microsoft Windows (64-bit)`. (The verification machine already had Wolfram installed and activated; the installation steps above were not repeated for this record. The two test commands were run on 2026-10-02 and again on 2026-10-07, with the outputs shown.)
 
 ### 3.5 Install Rust
 
@@ -200,7 +201,7 @@ Check: in a new terminal, `cargo --version` prints a line such as `cargo 1.91.1 
 
 ### 3.6 Get the repository and the Rust engine
 
-**On Windows, put the repository in a folder with a short path**, for example `C:\work`. The Microsoft linker that Rust uses on Windows cannot open a file whose full path has 260 or more characters, and the longest file it opens during the build of Part 3.7 lies 103 characters below the repository folder (`studies\dirac16complex_kohn_sham\target\release\deps\libdirac16complex_kohn_sham-<16 hexadecimal digits>.rlib`). The full path of the repository folder `Dirac_claude` must therefore have **at most 156 characters**. This was measured on the verification machine: a repository path of 156 characters built, one of 157 characters failed with `LNK1104` (Part 3.10), even though long paths were enabled in Windows (`LongPathsEnabled = 1`). In Windows PowerShell, to make and enter such a folder, type:
+**On Windows, put the repository in a folder with a short path**, for example `C:\work`. The Microsoft linker that Rust uses on Windows cannot open a file whose full path has 260 or more characters, and the longest file it opens during the build of Part 3.7 lies 103 characters below the repository folder (`studies\dirac16complex_kohn_sham\target\release\deps\libdirac16complex_kohn_sham-<16 hexadecimal digits>.rlib`). The full path of the repository folder `Dirac_claude` must therefore have **at most 156 characters**. This was measured on the verification machine, on 2026-10-02 and again on 2026-10-07: a repository path of 156 characters built, one of 157 characters failed with `LNK1104` (Part 3.10), even though long paths were enabled in Windows (`LongPathsEnabled = 1`). In Windows PowerShell, to make and enter such a folder, type:
 
 ```
 mkdir C:\work
@@ -216,7 +217,7 @@ git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
 ```
 
-On Windows you can check the length of the path in PowerShell with `(Get-Location).Path.Length`, typed in the repository folder: it must print a number not larger than 156 (`C:\work\Dirac_claude` gives 20). The clone took 9 seconds on the verification machine. Type every command below in this folder, the *repository root*: the folder that contains `scripts`, `notebooks`, `studies` and `wolfram`. The repository stores every file byte for byte (its `.gitattributes` turns off line-end conversion), so the checked-out notebook and inputs have exactly the committed bytes.
+On Windows you can check the length of the path in PowerShell with `(Get-Location).Path.Length`, typed in the repository folder: it must print a number not larger than 156 (`C:\work\Dirac_claude` gives 20). The clone took 9 seconds on 2026-10-02 and 13 seconds on 2026-10-07 on the verification machine. Type every command below in this folder, the *repository root*: the folder that contains `scripts`, `notebooks`, `studies` and `wolfram`. The repository stores every file byte for byte (its `.gitattributes` turns off line-end conversion), so the checked-out notebook and inputs have exactly the committed bytes.
 
 The Rust program uses a pure-Rust version of the SUNDIALS 7.8.0 CVODE integrator, which is not stored in this repository. A setup script downloads it, at a fixed ("pinned") commit, into the folder `vendor/rustSolveIt` (Git ignores this folder):
 
@@ -235,7 +236,7 @@ The Rust program uses a pure-Rust version of the SUNDIALS 7.8.0 CVODE integrator
 
   The script detects your platform (macOS, Linux, or `win11` in Git Bash on Windows).
 
-The last line printed must be `solver_setup=OK` (or `solver_setup=ALREADY-PRESENT` if you run it a second time). The download took 5 to 7 seconds and occupies about 84 MB.
+The last line printed must be `solver_setup=OK` (or `solver_setup=ALREADY-PRESENT` if you run it a second time). The download took 5 to 8 seconds and occupies about 84 MB.
 
 ### 3.7 Build the Rust program
 
@@ -245,7 +246,7 @@ From the repository root, in any of the three shells:
 cargo build --manifest-path studies/dirac16complex_kohn_sham/Cargo.toml --release
 ```
 
-A first build took 8 to 15 seconds on the verification machine (four builds); it ends with a line like ``Finished `release` profile [optimized] target(s) in 14.39s``. Run it from the repository root, so that the repository's `.cargo/config.toml` (which switches on the FMA instructions of the processor) applies. The program is written to `studies/dirac16complex_kohn_sham/target/release/`.
+A first build took 8 to 20 seconds on the verification machine (six builds on two days); it ends with a line like ``Finished `release` profile [optimized] target(s) in 16.92s``. Run it from the repository root, so that the repository's `.cargo/config.toml` (which switches on the FMA instructions of the processor) applies. The program is written to `studies/dirac16complex_kohn_sham/target/release/`.
 
 Check that it works:
 
@@ -280,11 +281,11 @@ wolframscript -file scripts/verify_dirac16complex_ks_mathematica_notebook.wls
 echo $?
 ```
 
-Nothing is printed while the cells run: in the verification runs all 145 lines arrived at the very end, after about 11 minutes on the verification machine (Part 4.4). Do not close the window in the meantime. The second line prints the exit code, which must be `0`. To time the run, type `Measure-Command { wolframscript -file scripts/verify_dirac16complex_ks_mathematica_notebook.wls | Out-Host }` in PowerShell, or put `time ` in front of the command in bash or zsh.
+Nothing is printed while the cells run: in the verification runs all 145 lines arrived at the very end, after 11 to 17 minutes on the verification machine (Part 4.4). Do not close the window in the meantime. The second line prints the exit code, which must be `0`. To time the run, type `Measure-Command { wolframscript -file scripts/verify_dirac16complex_ks_mathematica_notebook.wls | Out-Host }` in PowerShell, or put `time ` in front of the command in bash or zsh.
 
 **Options.**
 
-* **`--verbose`** prints, before the 145 lines, one line per cell with its wall time, for example `cell 2 time=9.52 failed=False messages=0`. Write it after `--`, as in `wolframscript -file scripts/verify_dirac16complex_ks_mathematica_notebook.wls -- --verbose`. Without the `--`, WolframScript also takes `--verbose` as its own option and prints three extra lines of its own on the error output, beginning with `Performing '-file' parsing.`; they are harmless. (The script ignores the `--`. Because the script's first line is `#!/usr/bin/env wolframscript`, WolframScript 1.14.0 passes the `--` and everything after it to the script; this was tested in PowerShell 7.6.6, Windows PowerShell 5.1 and Git Bash.)
+* **`--verbose`** prints, before the 145 lines, one line per cell with its wall time, for example `cell 2 time=9.52 failed=False messages=0`. Each of these lines appears as soon as its cell has finished (measured on 2026-10-07 with the output written to a file: 19 of them were there after about 8 minutes, while cell 20 was still running), so you can follow the progress. Write it after `--`, as in `wolframscript -file scripts/verify_dirac16complex_ks_mathematica_notebook.wls -- --verbose`. Without the `--`, WolframScript also takes `--verbose` as its own option and prints three extra lines of its own on the error output, beginning with `Performing '-file' parsing.`; they are harmless. (The script ignores the `--`. Because the script's first line is `#!/usr/bin/env wolframscript`, WolframScript 1.14.0 passes the `--` and everything after it to the script; this was tested in PowerShell 7.6.6, Windows PowerShell 5.1 and Git Bash.)
 * **A notebook path** evaluates another copy of the notebook, for example `wolframscript -file scripts/verify_dirac16complex_ks_mathematica_notebook.wls -- notebooks/Dirac16ComplexKohnSham.nb`. A relative path is taken relative to the folder you are in. The copy must have exactly 33 Input cells. Whatever notebook you give, the outputs are always written to the fixed paths of Part 2.3 of the repository that contains the script.
 
 ### 3.9 Check the result
@@ -313,26 +314,26 @@ Nothing is printed while the cells run: in the verification runs all 145 lines a
 | --- | --- | --- |
 | `wolframscript` is not recognized / `command not found` | WolframScript is not installed or not on the PATH | Install it (Part 3.4). On Windows you can add its folder for the current session with `$env:Path += ";C:\Program Files\Wolfram Research\WolframScript"`. On macOS and Linux, find it with `find / -name wolframscript -type f 2>/dev/null` and add its folder with `export PATH="<folder>:$PATH"`. |
 | A request for a Wolfram ID, or a message that the kernel is not activated or that no licence is available | The engine was never activated, or its licence has expired | Run `wolframscript -activate` (Part 3.4) and run the set again. |
-| A message that too many kernels are running, or that no kernel licence is free | Your licence (the free licence in particular) may limit how many kernels can run at the same time | Close other Wolfram programs and run again. This set runs one kernel for about 11 minutes; near the end the PNG export briefly starts a hidden notebook front end with a second, sandboxed kernel (Part 5). |
+| A message that too many kernels are running, or that no kernel licence is free | Your licence (the free licence in particular) may limit how many kernels can run at the same time | Close other Wolfram programs and run again. This set runs one kernel for 11 to 17 minutes (WolframScript first starts a short licence-check kernel for a moment); near the end the PNG export briefly starts a hidden notebook front end with a second, sandboxed kernel (Part 5). |
 | `ERROR: missing notebook: <path>`, then `...=FAILED`, exit code 2 | The notebook path you gave does not exist (a relative path is taken relative to the folder you are in) | Give the right path, or no path at all. |
 | `ERROR: expected 33 input cells, found <n>`, then `...=FAILED`, exit code 1 (after about 4 seconds) | You gave another notebook, or the notebook was changed, for example by saving it in Mathematica after evaluating it | Restore it with `git checkout -- notebooks/Dirac16ComplexKohnSham.nb`, and give no path. |
 | `ERROR: expected 94 notebook checks, found <n>` just before `...=FAILED`, exit code 1 | The notebook has 33 Input cells but does not define exactly 94 checks: you gave another notebook, or the notebook was changed. If `failed_cells=` or `messages=` lines are also printed, a failing cell stopped the checks from being collected (see the row about `message_count=` below). | Restore the notebook with `git checkout -- notebooks/Dirac16ComplexKohnSham.nb`, and give no path. (Measured with a test notebook of 33 trivial Input cells that defines a single check: `found 1`, exit code 1, after 4.8 s.) |
-| After about 10 minutes: `check_engine_binaryFound=false` and nine more `check_engine_...=false` lines, `failed_check_count=10`, `failed_evaluation_count=1`, `failed_cells=33`, `failed_checks=engine_binaryFound,...`, then `...=FAILED`, exit code 1 | The Rust program was not built (Parts 3.6 and 3.7) | Build it, restore the report (it was overwritten with verdict `FAILURE`) with `git checkout -- artifacts/dirac16complex/kohn-sham/mathematica-report.json artifacts/dirac16complex/kohn-sham/figures/mathematica`, and run the set again. This was measured in run R4 of Part 6 (594 s, then exit code 1). |
+| After 10 to 17 minutes: `check_engine_binaryFound=false` and nine more `check_engine_...=false` lines, `failed_check_count=10`, `failed_evaluation_count=1`, `failed_cells=33`, `failed_checks=engine_binaryFound,...`, then `...=FAILED`, exit code 1 | The Rust program was not built (Parts 3.6 and 3.7), or its build failed | Build it, restore the report (it was overwritten with verdict `FAILURE`) with `git checkout -- artifacts/dirac16complex/kohn-sham/mathematica-report.json artifacts/dirac16complex/kohn-sham/figures/mathematica`, and run the set again. This was measured in run R4 of Part 6.1 (no engine and no build: 594 s, then exit code 1) and in run V3 of Part 6.2 (a build that failed with `LNK1104`: 1020 s on a fully loaded machine, then exit code 1). |
 | `cargo build` fails with `failed to read ... vendor/rustSolveIt/.../Cargo.toml` | The Rust engine was not downloaded | Run the setup script of Part 3.6 and build again. |
 | `cargo build` fails with `linker 'link.exe' not found` (Windows) or `linker 'cc' not found` (macOS, Linux) | The C/C++ build tools are missing | Install them (Part 3.5: the Visual Studio C++ build tools on Windows, `xcode-select --install` on macOS, `build-essential` on Linux) and build again. |
-| `cargo build` fails (exit code 101) with `` error: linking with `link.exe` failed: exit code: 1104 `` and `LINK : fatal error LNK1104: cannot open file '<repository folder>\studies\dirac16complex_kohn_sham\target\release\deps\libdirac16complex_kohn_sham-<16 hexadecimal digits>.rlib'` (Windows), although that file exists | The path of the repository folder is too long: more than 156 characters, so the path of that file has 260 or more characters, which the Microsoft linker cannot open | Clone the repository again into a folder with a short path, for example `C:\work` (Part 3.6), and repeat Parts 3.6 and 3.7 there. If you run the set without a successful build, it fails after about 10 minutes with 10 false `engine` checks (the row beginning "After about 10 minutes" above). Measured: a repository path of 157 characters failed in 8.7 s, one of 156 characters built in 9.1 s. |
+| `cargo build` fails (exit code 101) with `` error: linking with `link.exe` failed: exit code: 1104 `` and `LINK : fatal error LNK1104: cannot open file '<repository folder>\studies\dirac16complex_kohn_sham\target\release\deps\libdirac16complex_kohn_sham-<16 hexadecimal digits>.rlib'` (Windows), although that file exists | The path of the repository folder is too long: more than 156 characters, so the path of that file has 260 or more characters, which the Microsoft linker cannot open | Clone the repository again into a folder with a short path, for example `C:\work` (Part 3.6), and repeat Parts 3.6 and 3.7 there. If you run the set without a successful build, it fails after about 10 minutes with 10 false `engine` checks (the row beginning "After about 10 minutes" above). Measured: a repository path of 157 characters failed in 8.7 s, one of 156 characters built in 9.1 s (2026-10-02); again on 2026-10-07, 157 characters failed (exit code 101, 20 s) and 156 characters built (20 s). |
 | `setup_solver.ps1 cannot be loaded because running scripts is disabled on this system` | You started the script without `-ExecutionPolicy Bypass` | Use the exact command of Part 3.6. |
 | `vendor\rustSolveIt is at <commit>, expected <commit>; remove it and rerun`, or `... is an incomplete checkout` | An older or interrupted download is in the way | Delete the folder `vendor/rustSolveIt` (Windows PowerShell: `Remove-Item -Recurse -Force vendor/rustSolveIt`; macOS and Linux: `rm -rf vendor/rustSolveIt`) and run the setup script again. |
 | `message_count=` larger than 0, with a line `messages=cell <n>: ...`, or `failed_cells=...`, and `...=FAILED` | A Wolfram message or a failed evaluation in that cell, for example with another Wolfram version, or a changed input file | Read the message. Check with `git status --porcelain` that no input file was changed, and restore changed files with `git checkout -- <file>`. Note the Wolfram version (`wolframscript -code '$Version'`); only 15.0.1 was tested. |
 | The WolframScript check command of Part 3.9 prints `Import::chtype: First argument ... is not a valid file, directory or URL specification.` and `{$Failed[verdict], $Failed[checkCount], $Failed[failedChecks]}` | You typed it in Windows PowerShell 5.1, which removes the double quotes inside the single-quoted code; the run itself is not affected | Use the `ConvertFrom-Json` command of Part 3.9 (it must print `SUCCESS 94 failed=0`), or type the WolframScript command in PowerShell 7 or Git Bash. |
 | `OK`, but `git status --porcelain` lists the report or figures as modified (` M ...`) | Another Wolfram version or another platform computed slightly different floating-point numbers or drew the figures with other fonts (Part 4.5) | The checks decide correctness, not the bytes. Look at the difference with `git diff artifacts/dirac16complex/kohn-sham/mathematica-report.json` and restore the committed files with the `git checkout` command of Part 5. |
-| Nothing is printed for many minutes | This is normal: the script prints only at the end | Wait. On a slower or busier computer the run can take much longer than 11 minutes. |
+| Nothing is printed for many minutes | This is normal: the script prints only at the end | Wait. The verification machine needed 11 minutes when it was moderately busy and 17 minutes when all its 24 cores were busy; a slower computer can need longer. Use `-- --verbose` (Part 3.8) to see each cell finish. |
 
 ## 4. Expected output
 
 ### 4.1 Printed lines and exit code
 
-The script prints exactly 145 lines on standard output and nothing on standard error: 94 `check_` lines, 43 `measurement_` lines and 8 summary lines. In all four successful verification runs (R1, R2, R3 and R5, Part 6) the 145 lines were identical except the lines `report=` and `elapsed_seconds=`. On Windows the lines end with CR LF.
+The script prints exactly 145 lines on standard output and nothing on standard error: 94 `check_` lines, 43 `measurement_` lines and 8 summary lines. In all seven successful verification runs (R1, R2, R3 and R5 of Part 6.1, V1, V2 and V4 of Part 6.2) the 145 lines were identical except the lines `report=` and `elapsed_seconds=`. On Windows the lines end with CR LF.
 
 ```
 check_theory_packageChecksAllPass=true

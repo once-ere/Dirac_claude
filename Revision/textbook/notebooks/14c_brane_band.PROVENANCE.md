@@ -306,7 +306,7 @@ The notebook shows 6 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/14c_2_band_slope.png` (1321 x 588 pixels): The slope $c = d\varepsilon/dk$ of the brane band at $k = 0$ ($M = H = 1$). Left: against the slice $a_{4,0}$ from 0 to 2, logarithmic vertical axis; the numerical Richardson values (dots) lie on the exact line $c\,e^{-a_{4,0}}$ with $c = 1.9051$ for $L = 3$: the band is redshifted along the history. Right: against the cutoff $L$ (units of $1/H$) at $a_{4,0} = 0$; exact curve $2/(1 + e^{-L})$ and numerical values for $L = 2, 3, 4$; for a long hidden interval the slope tends to $2M/(2M - H) = 2$.
 - `Revision/textbook/figures/14c_3_band_redshift.png` (1249 x 589 pixels): The brane band along the prescribed deflating history. Left: the band $\varepsilon(k)$ (units of $m$) against the 3-momentum $k$ (units of $H$) at the five slices $a_{4,0} = 0$ to $2$; later slices lie lower. Right: the same levels against the redshifted momentum $k\,e^{-a_{4,0}}$; all points fall on the band of the slice 0 (black line), the exact rescaling identity $\varepsilon(k, a_{4,0}) = \varepsilon(k e^{-a_{4,0}}, 0)$.
 - `Revision/textbook/figures/14c_4_block_type_mirror.png` (1267 x 611 pixels): The even-parity levels with labels $-2$ to $2$ against the 3-momentum $k$ (units of $H$), slice 0, $m = 1$, $L = 3$; vertical axis the level in units of $m$. Left the blocks $j = +1$, right the blocks $j = -1$: each picture is the other one reflected in the line $\varepsilon = 0$ (label $l$ goes to $-l$), the exact relation $h_{-1} = -h_{+1}$; the rising curve of the label 0 on the left is the brane band, the falling one on the right its sea partner.
-- `Revision/textbook/figures/14c_5_tip_insensitivity.png` (1004 x 634 pixels): The change of the brane-band level when the tip condition $(1 - Q(\theta))\chi(-L) = 0$ is changed from $\theta = 0$ to $\theta = 0.5$ (circles) and $\theta = 1$ (squares), against the 3-momentum $k$ (units of $H$), for $m = 1$, $L = 3$, logarithmic vertical axis in units of $m$; every shift lies below the suppression factor $\exp(-k(e^{HL} - 1)/H)$ (line) and from $k = 0.6$ on it is at the rounding level of the computer: the band lives at the brane and does not see the cutoff.
+- `Revision/textbook/figures/14c_5_tip_insensitivity.png` (1004 x 634 pixels): The change of the brane-band level when the tip condition $(1 - Q(\theta))\chi(-L) = 0$ is changed from $\theta = 0$ to $\theta = 0.5$ (circles) and $\theta = 1$ (squares), against the 3-momentum $k$ (units of $H$), for $m = 1$, $L = 3$, logarithmic vertical axis in units of $m$; every shift lies below the suppression factor $\exp(-k(e^{HL} - 1)/H)$ (line), falls by a factor of 11 to 33 for each step of $0.1$ in $k$, and from $k = 0.9$ on it is at the rounding level of the computer (dotted line): the band lives at the brane and does not see the cutoff.
 - `Revision/textbook/figures/14c_6_closed_shells.png` (1040 x 657 pixels): The closed shells of the free aufbau: the particle number $N$ (logarithmic axis) against the energy of the last filled level (units of $m$), at the slices $a_{4,0} = 0$ (solid) and $0.5$ (dashed), for $m = 1$, $L = 3$, $\Delta k = 0.25$. Each step is one group of degenerate levels; the red dots mark the particle numbers $N = 8$ (the zero modes), $136$ and $688$ of the Revision runs; $688$ is the last closed shell below the bulk edge $1.2923\,m$ (dash-dotted line); at the later slice the redshifted brane band holds many more particles below the same energy.
 
 ## 4. Side effects
@@ -317,7 +317,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/14c.captions.json` | 3116 | `00dcf0d83446a146ddcdca5ae8b143039a3df747cd71db73cbc23fc75f51a490` |
+| `Revision/textbook/figures/14c.captions.json` | 3192 | `f89deff5ac56e688084490434b52452fcb4f0d3fab032fdba6d1d83c591adb69` |
 | `Revision/textbook/figures/14c_1_band_structure.png` | 94208 | `32e2918edf26082ba82c85b9ae5d12a069849337e3c0d60ffe905e3af03c72ae` |
 | `Revision/textbook/figures/14c_2_band_slope.png` | 85758 | `15b8aea525cb576bf53199cd526ec6c16f3a2c6c257ea3d93ea98fe0ff2840b1` |
 | `Revision/textbook/figures/14c_3_band_redshift.png` | 92774 | `6faabef2388e961150756d9f79837e4a9038efb7343233ffa3a29cd7c68c2d6a` |
@@ -346,8 +346,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 2 minutes (FACTS: 90 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 97.8 s, peak memory of the kernel process 199 MiB;
-- the check run: 142.1 s, peak memory of the kernel process 200 MiB.
+- the build run: 132.3 s, peak memory of the kernel process 199 MiB;
+- the check run: 101.7 s, peak memory of the kernel process 200 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -359,9 +359,9 @@ Expected run time: about 2 minutes (FACTS: 90 s); nbkit stops a cell after 600 s
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/14c_brane_band.ipynb`: `890698ea92ed5c64086ceee4c17075abcbcf57d4e039b3d87a9a0d210fcfff19`
-- `Revision/textbook/notebooks/src/14c_brane_band.py`: `4c133cfb19711d404f7ede2ec750d7a04923bed0082f95396b1f927d39a2c9e2`
-- `Revision/textbook/figures/14c.captions.json`: `00dcf0d83446a146ddcdca5ae8b143039a3df747cd71db73cbc23fc75f51a490`
+- `Revision/textbook/notebooks/14c_brane_band.ipynb`: `8603cde1f2224d95c56310c3ac234d2b064b3a0b0ae899c3fdcfe07b99ad9737`
+- `Revision/textbook/notebooks/src/14c_brane_band.py`: `d529d482541157ebbd62ab7de418ec374486f62e6e3b7f1600562cbd9a5b37b9`
+- `Revision/textbook/figures/14c.captions.json`: `f89deff5ac56e688084490434b52452fcb4f0d3fab032fdba6d1d83c591adb69`
 - `Revision/textbook/figures/14c_1_band_structure.png`: `32e2918edf26082ba82c85b9ae5d12a069849337e3c0d60ffe905e3af03c72ae`
 - `Revision/textbook/figures/14c_2_band_slope.png`: `15b8aea525cb576bf53199cd526ec6c16f3a2c6c257ea3d93ea98fe0ff2840b1`
 - `Revision/textbook/figures/14c_3_band_redshift.png`: `6faabef2388e961150756d9f79837e4a9038efb7343233ffa3a29cd7c68c2d6a`
@@ -375,4 +375,4 @@ Expected run time: about 2 minutes (FACTS: 90 s); nbkit stops a cell after 600 s
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":199.0,"seconds":97.8},"check":{"date":"2026-10-07","files":7,"peak_mb":200.0,"result":"passed","seconds":142.1},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":199.0,"seconds":132.3},"check":{"date":"2026-10-07","files":7,"peak_mb":200.0,"result":"passed","seconds":101.7},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

@@ -16,7 +16,9 @@ canonical spin connection of the diagonal frame and of the frame boosted in the
 (x4, x8) plane, and reproduces the checks of Revision/theory/reports/python-scope.json
 (boosted_frame_*, gammaOmega_blind_to_the_deflation,
 connection_free_lagrangian_same_equations, spin_connection_in_the_energy_momentum_tensor)
-and of Revision/theory/reports/python-field-theory.json.
+and of Revision/theory/reports/python-field-theory.json (among them
+nontriviality_Omega_zero_iff_flat) and wolfram-field-theory.json. Every such check also
+requires the record to hold the check with the verdict pass and the values computed here.
 """
 
 import sys
@@ -974,13 +976,19 @@ CELLS = [
     md(r"""
     ## 15. What this notebook showed
 
+    - The canonical spin connection of the diagonal frame has 12 independent nonzero
+      components, each $a_4'$ or $H$ times a factor that never vanishes, so
+      $\Omega_\mu = 0$ for every $\mu$ only in the formal flat limit $a_4' = 0$,
+      $H = 0$, which is not a member of the author's family (PROVED; Revision check
+      `nontriviality_Omega_zero_iff_flat`).
     - In the diagonal frame the term of the field equation is $\gamma^\mu\Omega_\mu =
       3H\gamma^{(8)}$ for EVERY history $a_4$ (PROVED, exact): the time-direction
       pieces $\pm a_4'/2$ of the three inflating and the three deflating directions
       cancel, the six hidden-direction pieces $H/2$ add up; equivalently it is the
       half-density term $\frac{1}{2\sqrt{|g|}}\partial_\mu(\sqrt{|g|}\gamma^\mu)$, and
       $\{\gamma^\mu, \Omega_\mu\} = 0$ for each $\mu$, so the connection drops out of
-      the symmetrised Lagrangian.
+      the symmetrised Lagrangian. Because $(\gamma^{(8)})^2 = I_{16}$, the term
+      $3H\gamma^{(8)}\Psi$ is not zero for any field $\Psi \neq 0$ (PROVED).
     - The term contains no $a_4$, although $R^{x_4}{}_{x_4} = 6(a_4')^2$: the
       deflation of the extra times enters the field equation only through the frame
       factors $e^{\mp a_4}\sin^{-1/6}z$ of the derivative terms (PROVED).

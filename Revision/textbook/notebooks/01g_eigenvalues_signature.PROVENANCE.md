@@ -313,15 +313,15 @@ ALL 30 CHECKS PASSED (notebook 01g)
 
 The notebook shows 9 figures, each below the cell that draws it, and saves each as a PNG file (150 dots per inch, no metadata):
 
-- `Revision/textbook/figures/01g_1_circle_to_ellipse.png` (797 x 819 pixels): The unit circle (grey) and its image under the matrix $M$ with rows (2, 1) and (1, 2), an ellipse (black); axes the two components of a vector (pure numbers). Solid arrows are vectors of length 1, dashed arrows their images. The eigenvector $(1, 1)/\sqrt{2}$ (red) keeps its direction and is stretched by 3, the eigenvector $(1, -1)/\sqrt{2}$ (blue) keeps its direction and its length (eigenvalue 1), while $u = (1, 0)$ (green) is turned to $(2, 1)$. The half-axes of the ellipse lie along the eigenvectors.
+- `Revision/textbook/figures/01g_1_circle_to_ellipse.png` (797 x 819 pixels): The unit circle (grey) and its image under the matrix $M$ with rows (2, 1) and (1, 2), an ellipse (black); axes the two components of a vector (pure numbers). Thin solid arrows are vectors of length 1, thick dashed see-through arrows their images. The eigenvector $(1, 1)/\sqrt{2}$ (red) keeps its direction and is stretched by 3, the eigenvector $(1, -1)/\sqrt{2}$ (blue) keeps its direction and its length (eigenvalue 1, so its image lies under it), while $u = (1, 0)$ (green) is turned to $(2, 1)$. The half-axes of the ellipse lie along the eigenvectors.
 - `Revision/textbook/figures/01g_2_characteristic_polynomial.png` (941 x 611 pixels): The characteristic polynomial $p(\lambda) = \det(T_3 - \lambda I) = -\lambda^3 + 6\lambda^2 - 10\lambda + 4$ of the $3 \times 3$ chain matrix $T_3$ (2 on the diagonal, $-1$ next to it) against $\lambda$ (black), with its three roots $2 - \sqrt{2}$, 2 and $2 + \sqrt{2}$ (red dots); both axes pure numbers. The curve crosses zero exactly at the eigenvalues; their sum is the trace 6 and their product the determinant $p(0) = 4$.
 - `Revision/textbook/figures/01g_3_chain_matrix.png` (1634 x 613 pixels): The $10 \times 10$ chain matrix $T_{10}$ (2 on the diagonal, $-1$ next to it). Left: the entries $v_j$ of its eigenvectors for the three smallest eigenvalues $k = 1, 2, 3$ (dots) against the point $j = 1$ to 10, with the sine curves $\sin(jk\pi/11)$ through them (lines): half a wave, a full wave, one and a half waves. Right: the ten eigenvalues from numpy (red dots) on the curve $2 - 2\cos(k\pi/11)$ (black) against $k$; all axes pure numbers.
 - `Revision/textbook/figures/01g_4_rotation_and_boost.png` (1565 x 674 pixels): Left: the eigenvalues $e^{\pm i\alpha}$ of the real rotation matrices $R(\alpha)$ for $\alpha = 30$ to 180 degrees in steps of 30 (one colour per angle) in the complex plane, on the unit circle (grey); horizontal axis the real part, vertical axis the imaginary part. Each pair is mirror-symmetric in the real axis; $\alpha = 90$ degrees gives $\pm i$, the eigenvalues of $J$. Right: the real eigenvalues $e^{\varphi}$ (red) and $e^{-\varphi}$ (blue) of a boost against its rapidity $\varphi$ (pure numbers); their product is always 1 (dashed).
 - `Revision/textbook/figures/01g_5_random_spectra.png` (1634 x 644 pixels): The eigenvalues of 300 random real $8 \times 8$ matrices in the complex plane (horizontal axis real part, vertical axis imaginary part, pure numbers). Left: the symmetric matrices $S = A + A^T$; every one of the 2400 eigenvalues lies on the real axis (blue strokes). Right: the non-symmetric matrices $A$ (red dots); many eigenvalues are complex, and the picture is mirror-symmetric in the real axis because complex eigenvalues of a real matrix come in conjugate pairs.
-- `Revision/textbook/figures/01g_6_signature.png` (1709 x 673 pixels): Left: the eight eigenvalues of $P^T \eta P$ for 40 random matrices $P$ (one column of dots per matrix; red positive, blue negative); the values change from matrix to matrix, but every column has four positive and four negative eigenvalues (Sylvester's law of inertia). Right: the eigenvalues of the author's metric $g$ at $z = 6 H x_8 = 0.9$ against $a_4$: the three space entries $e^{2a_4} s$ (red, growing), the time entry $-1$ (grey), the three extra-time entries $-e^{-2a_4} s$ (blue, shrinking towards 0 as the extra times deflate, but never crossing it) and the hidden entry $\cot^2 z$ (green). Both vertical axes are linear between $-0.1$ and 0.1 and logarithmic outside; all quantities are pure numbers.
+- `Revision/textbook/figures/01g_6_signature.png` (1709 x 673 pixels): Left: the eight eigenvalues of $P^T \eta P$ for 40 random matrices $P$ (one column of dots per matrix; red positive, blue negative); the values change from matrix to matrix, but every column has four positive and four negative eigenvalues (Sylvester's law of inertia); the 1 eigenvalues smaller than 0.001 in size sit on the zero line, but none is zero. Right: the eigenvalues of the author's metric $g$ at $z = 6 H x_8 = 0.9$ against $a_4$: the three space entries $e^{2a_4} s$ (red, growing), the time entry $-1$ (grey), the three extra-time entries $-e^{-2a_4} s$ (blue, shrinking towards 0 as the extra times deflate, but never crossing it) and the hidden entry $\cot^2 z$ (green). The vertical axes are linear near 0 (between $-0.001$ and 0.001 on the left, $-0.1$ and 0.1 on the right) and logarithmic outside; all quantities are pure numbers.
 - `Revision/textbook/figures/01g_7_gamma_eigenvalues.png` (1634 x 705 pixels): Eigenvalues in the complex plane (horizontal axis real part, vertical axis imaginary part, pure numbers). Left: the 16 eigenvalues of each of the eight real gamma matrices of the Revision record: $\pm 1$, eight times each, for the space-like $x_1, x_2, x_3, x_8$ (red) and $\pm i$, eight times each, for the time-like $x_4$ to $x_7$ (blue). Right: the eigenvalues of $\gamma(v) = v_a \gamma^a$ for four vectors: $\pm 1$ for the unit vector along $x_1$ ($Q = 1$), $\pm i$ along $x_5$ ($Q = -1$), only 0 for the light-like sum of the two ($Q = 0$, black star) and $\pm i\sqrt{48}$ for $v = (1, 2, \dots, 8)$ ($Q = -48$).
 - `Revision/textbook/figures/01g_8_hermitian_b.png` (1578 x 673 pixels): Left: heat map of the imaginary part of the Hermitian matrix $B = -i C\gamma^{(x_4)}$ of the Revision record (rows and columns 1 to 16; red $+1$, blue $-1$, white 0; its real part is 0). The picture changes sign when mirrored in the diagonal: the imaginary part is antisymmetric, which makes $B$ Hermitian. Right: the 16 eigenvalues of $B$ from the smallest up (pure numbers): eight times $-1$ (blue) and eight times $+1$ (red), the signature (8,8).
-- `Revision/textbook/figures/01g_9_power_iteration.png` (1004 x 634 pixels): Power iteration: the distance between the rescaled vector $M^k x_0/|M^k x_0|$ and the eigenvector of the largest eigenvalue after $k$ steps (dots), for the $2 \times 2$ matrix $M$ (red, eigenvalues 3 and 1) and the $3 \times 3$ chain matrix $T_3$ (blue, largest eigenvalues $2 + \sqrt{2}$ and 2), with the lines $|\lambda_2/\lambda_1|^{k-1}$ times the first distance; horizontal axis $k$, vertical axis the distance on a logarithmic scale (pure numbers). The dots follow straight lines until the distance reaches the rounding of floating-point numbers, about $10^{-16}$.
+- `Revision/textbook/figures/01g_9_power_iteration.png` (1004 x 634 pixels): Power iteration: the distance between the rescaled vector $M^k x_0/|M^k x_0|$ and the eigenvector of the largest eigenvalue after $k$ steps (dots), for the $2 \times 2$ matrix $M$ (red, eigenvalues 3 and 1) and the $3 \times 3$ chain matrix $T_3$ (blue, largest eigenvalues $2 + \sqrt{2}$ and 2), with the lines $|\lambda_2/\lambda_1|^{k-1}$ times the first distance; horizontal axis $k$, vertical axis the distance on a logarithmic scale (pure numbers). The dots follow straight lines until the distance reaches the rounding of floating-point numbers, about $10^{-16}$ (a distance that is exactly 0 is drawn at the bottom of the axis).
 
 ## 4. Side effects
 
@@ -331,14 +331,14 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/01g.captions.json` | 5096 | `15feeb23829158537e34d1c13eece26f0a468c6c72fcd9a64840b0c9d01fb68e` |
-| `Revision/textbook/figures/01g_1_circle_to_ellipse.png` | 67904 | `c74e343278c95f0d302e375f3753f89b60e889abaf20e6239ad2ea046c59be7f` |
+| `Revision/textbook/figures/01g.captions.json` | 5351 | `d95336050d3c169cee3f9e6c3fda39a821c8010280c04a0d30e035e7558c1523` |
+| `Revision/textbook/figures/01g_1_circle_to_ellipse.png` | 68712 | `f09224383929728863cfd473015db9c9f7d2c9ef92d831f103a8ffdc25abcb01` |
 | `Revision/textbook/figures/01g_2_characteristic_polynomial.png` | 46478 | `c70bab89eda71bb40964dca1339a1c8624944e8d279f0bb49c63b9e2fb49dbb1` |
 | `Revision/textbook/figures/01g_3_chain_matrix.png` | 114633 | `cfa89c8b935c4b34586814ba460ce4d21ab8c9dd228422d5011dfdeeee0d68f5` |
 | `Revision/textbook/figures/01g_4_rotation_and_boost.png` | 94061 | `d9b8cc02ad672ae725b0090f6e4f9ac00b29d3b38c3f7d5d17dda8ed249a50e0` |
 | `Revision/textbook/figures/01g_5_random_spectra.png` | 114201 | `8fdc43670637e77633de683cd990617532a58b76048f0d96d29f285306b00837` |
-| `Revision/textbook/figures/01g_6_signature.png` | 144860 | `76b57bdac7744932248fc3a3420109ba1ff72404ad09c9a1db720343ee68fc84` |
-| `Revision/textbook/figures/01g_7_gamma_eigenvalues.png` | 63341 | `8e53f6fdb11d48e760d927a9dc5228833939586942fac828aefac11eceb55b93` |
+| `Revision/textbook/figures/01g_6_signature.png` | 145271 | `ff801e182321dcb0124d45962445be5b2a57cddf9751c5575bf84371a360743c` |
+| `Revision/textbook/figures/01g_7_gamma_eigenvalues.png` | 64442 | `1f3e997e10739b3a97c11972266117033a303e7694843f71307d71b023c914e3` |
 | `Revision/textbook/figures/01g_8_hermitian_b.png` | 44178 | `e4ad497835ba0462042f0c896e135c98a8423a90606f6355487800c5fc028a17` |
 | `Revision/textbook/figures/01g_9_power_iteration.png` | 64077 | `cfa619dacfa5990486c6d210d2147d1944fc29e79680fa325265f167a4fc5254` |
 
@@ -363,7 +363,7 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 11.4 s, peak memory of the kernel process 224 MiB;
+- the build run: 21.5 s, peak memory of the kernel process 221 MiB;
 - the check run: not measured.
 
 ## 5. Environment of the verified execution
@@ -376,16 +376,16 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/01g_eigenvalues_signature.ipynb`: `429a8b6a9e077d1f06c263588f0323f68b0cf69be2feea286f33896edcb37785`
-- `Revision/textbook/notebooks/src/01g_eigenvalues_signature.py`: `00f3940004053f66f3bfb8de95417ad086ddbc5124d35611169cf705beeb8661`
-- `Revision/textbook/figures/01g.captions.json`: `15feeb23829158537e34d1c13eece26f0a468c6c72fcd9a64840b0c9d01fb68e`
-- `Revision/textbook/figures/01g_1_circle_to_ellipse.png`: `c74e343278c95f0d302e375f3753f89b60e889abaf20e6239ad2ea046c59be7f`
+- `Revision/textbook/notebooks/01g_eigenvalues_signature.ipynb`: `a9be4da8c792ec068f645f019e058967c5c76a66dd14f3f597cb05bc19e662dd`
+- `Revision/textbook/notebooks/src/01g_eigenvalues_signature.py`: `0d9589c7c5ae8be78d4e58faaf3f89dd6ddb02a3a4004d76ec64ae6029436e1d`
+- `Revision/textbook/figures/01g.captions.json`: `d95336050d3c169cee3f9e6c3fda39a821c8010280c04a0d30e035e7558c1523`
+- `Revision/textbook/figures/01g_1_circle_to_ellipse.png`: `f09224383929728863cfd473015db9c9f7d2c9ef92d831f103a8ffdc25abcb01`
 - `Revision/textbook/figures/01g_2_characteristic_polynomial.png`: `c70bab89eda71bb40964dca1339a1c8624944e8d279f0bb49c63b9e2fb49dbb1`
 - `Revision/textbook/figures/01g_3_chain_matrix.png`: `cfa89c8b935c4b34586814ba460ce4d21ab8c9dd228422d5011dfdeeee0d68f5`
 - `Revision/textbook/figures/01g_4_rotation_and_boost.png`: `d9b8cc02ad672ae725b0090f6e4f9ac00b29d3b38c3f7d5d17dda8ed249a50e0`
 - `Revision/textbook/figures/01g_5_random_spectra.png`: `8fdc43670637e77633de683cd990617532a58b76048f0d96d29f285306b00837`
-- `Revision/textbook/figures/01g_6_signature.png`: `76b57bdac7744932248fc3a3420109ba1ff72404ad09c9a1db720343ee68fc84`
-- `Revision/textbook/figures/01g_7_gamma_eigenvalues.png`: `8e53f6fdb11d48e760d927a9dc5228833939586942fac828aefac11eceb55b93`
+- `Revision/textbook/figures/01g_6_signature.png`: `ff801e182321dcb0124d45962445be5b2a57cddf9751c5575bf84371a360743c`
+- `Revision/textbook/figures/01g_7_gamma_eigenvalues.png`: `1f3e997e10739b3a97c11972266117033a303e7694843f71307d71b023c914e3`
 - `Revision/textbook/figures/01g_8_hermitian_b.png`: `e4ad497835ba0462042f0c896e135c98a8423a90606f6355487800c5fc028a17`
 - `Revision/textbook/figures/01g_9_power_iteration.png`: `cfa619dacfa5990486c6d210d2147d1944fc29e79680fa325265f167a4fc5254`
 
@@ -395,4 +395,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: not run yet.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":224.0,"seconds":11.4},"check":null,"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":221.0,"seconds":21.5},"check":null,"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

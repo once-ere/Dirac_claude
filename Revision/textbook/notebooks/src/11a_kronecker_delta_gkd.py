@@ -659,8 +659,9 @@ CELLS = [
     list is a second, independent random list, and the delta is almost always zero. The
     cell counts the disagreements between `gkd` and `kdelta` and the number of nonzero
     values. Because a list of 9 labels from 8 must repeat a label, every value of
-    length 9 must be zero. The cell takes a few seconds (sympy computes about 10,000
-    different determinants of matrices up to $9 \times 9$).
+    length 9 must be zero. The cell takes a few seconds: sympy computes the
+    determinants of several thousand new matrices of sizes up to $9 \times 9$ (the cell
+    prints how many different matrices `kdelta` has met so far).
     """),
     code(r'''
     rng = np.random.default_rng(12345)  # pseudo-random numbers with a fixed seed
@@ -682,6 +683,8 @@ CELLS = [
         say(f"p = {p}: {SAMPLES} random pairs, {nonzero:4d} nonzero values")
     report("random pairs compared (lengths 4 to 9)", 6 * SAMPLES)
     report("random pairs where GKD and the determinant differ", random_mismatches)
+    report("different 0/1 matrices whose determinant sympy computed (so far)",
+           len(DETERMINANTS))
     check(random_mismatches == 0,
           "GKD equals the literal determinant for 12000 random pairs of lengths 4 to 9")
     check(python_nonzero[9] == 0,
@@ -884,8 +887,12 @@ CELLS = [
     $100000\,(r_p + q_p)$, with the standard deviation of section 8. The next cell checks
     that every count lies within 5 standard deviations of its expectation, and that the
     count of length 9 is exactly 0. Then it draws the chance $r_p$ that $p$ random
-    labels out of 8 are all different, with the fractions measured by the Python samples
-    of section 8 and by the Rust program.
+    labels out of 8 are all different, with the measured fractions: the number of
+    nonzero values found among ALL the samples of one length, divided by the number of
+    rearranged samples (1,000 in the Python test of section 8, 100,000 in the Rust
+    test). This fraction should be close to $r_p + q_p$; the independent pairs add the
+    small chance $q_p$, which is at most $0.0025$ (for $p = 4$, $q_4 = 40320/8^8$) and
+    invisible on the logarithmic axis.
     """),
     code(r'''
     selftest = json.loads(written.decode("utf-8"))
@@ -908,11 +915,11 @@ CELLS = [
     python_points = [p for p in python_nonzero if python_nonzero[p] > 0]
     ax.semilogy(python_points, [python_nonzero[p] / (SAMPLES // 2)
                                 for p in python_points], "o",
-                label="Python, 1000 rearranged pairs per length")
+                label="Python: nonzero values / 1000 rearranged pairs")
     rust_points = [p for p in rust_nonzero if rust_nonzero[p] > 0]
     ax.semilogy(rust_points, [rust_nonzero[p] / 100000 for p in rust_points], "s",
                 fillstyle="none", markersize=10,
-                label="Rust, 100000 rearranged pairs per length")
+                label="Rust: nonzero values / 100000 rearranged pairs")
     ax.plot([9], [1e-6], "v", color="black", markersize=9)  # marks the zeros of p = 9
     ax.text(9.0, 2.2e-6, "p = 9: none\n(0 of 1000,\n0 of 100000)", fontsize=8,
             ha="center", va="bottom")
@@ -928,10 +935,12 @@ CELLS = [
                 "The chance $r_p = 8!/((8 - p)!\\, 8^p)$ that $p$ random labels out of "
                 "eight are all different (line), which is the chance that a rearranged "
                 "random pair of index lists has a nonzero generalized Kronecker delta, "
-                "with the fractions of nonzero values measured among the rearranged "
-                "pairs by the Python samples of this notebook (dots) and by the Rust "
-                "self-test (open squares); the vertical axis is logarithmic. The "
-                "measured points follow the formula. For $p = 9$ no list can have nine "
+                "with the measured fractions: the nonzero values found among all the "
+                "samples of one length divided by the number of rearranged samples, "
+                "for the Python samples of this notebook (dots) and the Rust self-test "
+                "(open squares); the independent samples add at most 0.0025. The "
+                "vertical axis is logarithmic. The measured points follow the formula. "
+                "For $p = 9$ no list can have nine "
                 "different labels, so the chance and both measured fractions are 0, "
                 "which a logarithmic axis cannot show; the black triangle at the "
                 "bottom edge marks them.")

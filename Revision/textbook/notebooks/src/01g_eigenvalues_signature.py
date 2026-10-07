@@ -174,8 +174,11 @@ CELLS = [
 
     By the Leibniz formula every term of $\det(M - \lambda I)$ is a product of $n$
     entries, and at most $n$ of them contain $\lambda$; so $p$ is a polynomial of
-    degree $n$ and has $n$ roots $\lambda_1, \dots, \lambda_n$ (counted with
-    multiplicity; they may be complex numbers).
+    degree $n$. A theorem of algebra (the *fundamental theorem of algebra*) says
+    that such a polynomial has exactly $n$ roots $\lambda_1, \dots, \lambda_n$ when
+    complex numbers are allowed and a repeated root is counted as often as its
+    multiplicity says; so an $n \times n$ matrix has $n$ eigenvalues, some of which
+    may be complex or repeated.
 
     **Trace and determinant.** A polynomial of degree $n$ whose highest term is
     $(-\lambda)^n$ and whose roots are $\lambda_1, \dots, \lambda_n$ is
@@ -251,6 +254,10 @@ CELLS = [
     check(sum(eigenvalues) == M.trace() == 4 and eigenvalues[0] * eigenvalues[1]
           == M.det() == 3, "sum of the eigenvalues = trace = 4, product = det = 3")
     values, vectors = np.linalg.eigh(np.array(M.tolist(), dtype=float))
+    # The sign of an eigenvector is free (v and -v are both eigenvectors), and
+    # different computers may return either; make the first entry of each column
+    # positive so that every computer prints the same.
+    vectors = vectors * np.sign(vectors[0])
     say(f"numpy eigh: eigenvalues {values.round(12).tolist()}")
     say(f"            eigenvectors (columns) {vectors.round(6).tolist()}")
     check(np.allclose(values, [1.0, 3.0], atol=1e-12) and
@@ -284,11 +291,13 @@ CELLS = [
               (np.array([1.0, 0.0]), "tab:green", "u = (1, 0)")]
     for vector, color, name in arrows:
         image = M_numbers @ vector
+        # the image first: thick, dashed and see-through, so that the vector drawn
+        # on top of it stays visible where the two coincide
+        ax.annotate("", xy=image, xytext=(0, 0),
+                    arrowprops={"arrowstyle": "->", "color": color, "lw": 5,
+                                "linestyle": "--", "alpha": 0.4})
         ax.annotate("", xy=vector, xytext=(0, 0),
                     arrowprops={"arrowstyle": "->", "color": color, "lw": 2})
-        ax.annotate("", xy=image, xytext=(0, 0),
-                    arrowprops={"arrowstyle": "->", "color": color, "lw": 2,
-                                "linestyle": "--"})
         ax.plot([], [], color=color, lw=2, label=f"{name} (dashed: its image)")
     ax.set_aspect("equal")
     ax.set_xlim(-3.3, 3.3)
@@ -300,11 +309,12 @@ CELLS = [
     save_figure(fig, "circle_to_ellipse",
                 "The unit circle (grey) and its image under the matrix $M$ with rows "
                 "(2, 1) and (1, 2), an ellipse (black); axes the two components of a "
-                "vector (pure numbers). Solid arrows are vectors of length 1, dashed "
-                "arrows their images. The eigenvector $(1, 1)/\\sqrt{2}$ (red) keeps "
-                "its direction and is stretched by 3, the eigenvector "
-                "$(1, -1)/\\sqrt{2}$ (blue) keeps its direction and its length "
-                "(eigenvalue 1), while $u = (1, 0)$ (green) is turned to $(2, 1)$. "
+                "vector (pure numbers). Thin solid arrows are vectors of length 1, "
+                "thick dashed see-through arrows their images. The eigenvector "
+                "$(1, 1)/\\sqrt{2}$ (red) keeps its direction and is stretched by 3, "
+                "the eigenvector $(1, -1)/\\sqrt{2}$ (blue) keeps its direction and "
+                "its length (eigenvalue 1, so its image lies under it), while "
+                "$u = (1, 0)$ (green) is turned to $(2, 1)$. "
                 "The half-axes of the ellipse lie along the eigenvectors.")
     '''),
     md(r"""
@@ -650,7 +660,10 @@ CELLS = [
 
     The next cell reads $\eta$ from the Revision record, finds its eigenvalues
     (for a diagonal matrix: its diagonal entries) and its signature, and checks the
-    law on 2000 random invertible matrices $P$. Then it reads the author's metric
+    law on 2000 random invertible matrices $P$ (it also makes sure that no
+    eigenvalue is so close to 0 that rounding could change its sign: each must be
+    larger than 1000 times the rounding error, $2.2 \times 10^{-16}$ times the
+    largest size). Then it reads the author's metric
     from the record and counts the signs of its eigenvalues on a grid of 61 values
     of $a_4$ from $-3$ to 3 and 50 values of $z$ in $(0, \pi/2)$; their product
     must be $\det g = \cos^2 z > 0$.
@@ -683,8 +696,11 @@ CELLS = [
             transformed_spectra.append(changed)
     say(f"signatures of P^T eta P found: {sorted(sylvester_counts)}; eigenvalue "
         f"sizes from {smallest_size:.1e} to {largest_size:.1f}")
-    check(sylvester_counts == {(4, 4)}, "Sylvester: P^T eta P has the signature "
-          "(4,4) for all 2000 random P, although its eigenvalues change")
+    # Rounding changes an eigenvalue by about 2.2e-16 times the largest size; the
+    # signs are reliable if the smallest size is far above that.
+    reliable = smallest_size > 1000 * 2.2e-16 * largest_size
+    check(sylvester_counts == {(4, 4)} and reliable, "Sylvester: P^T eta P has the "
+          "signature (4,4) for all 2000 random P, although its eigenvalues change")
     '''),
     md(r"""
     The next cell reads the author's metric from the record (as in notebook 01a),
@@ -731,7 +747,8 @@ CELLS = [
     The next cell draws both results. Left: the eight eigenvalues of
     $P^T \eta P$ for 40 random $P$ (one column per $P$). Right: the eight
     eigenvalues of the author's metric at $z = 0.9$ against $a_4$. Both vertical
-    axes are *symmetric logarithmic*: linear between $-0.1$ and $0.1$ and
+    axes are *symmetric logarithmic*: linear in a small band around 0 (between
+    $-0.001$ and 0.001 on the left, between $-0.1$ and 0.1 on the right) and
     logarithmic outside, so that large and small values of both signs fit.
     """),
     code(r'''
@@ -740,7 +757,7 @@ CELLS = [
         colors_column = ["tab:red" if value > 0 else "tab:blue" for value in spectrum]
         left.scatter(np.full(8, column + 1), spectrum, c=colors_column, s=12)
     left.axhline(0.0, color="black", lw=0.8)
-    left.set_yscale("symlog", linthresh=0.1)
+    left.set_yscale("symlog", linthresh=0.001)  # linear between -0.001 and 0.001
     left.set_xlabel("random matrix $P$ (number)")
     left.set_ylabel("eigenvalues of $P^T \\eta P$")
     left.set_title("always 4 positive (red) and 4 negative (blue)")
@@ -756,20 +773,25 @@ CELLS = [
     right.set_xlabel("$a_4$")
     right.set_ylabel("eigenvalues of $g$ at $z = 0.9$")
     right.set_title("the signs never change: signature (4,4)")
-    right.legend(fontsize=8, loc="center left")
+    right.legend(fontsize=8, loc="upper left")
     fig.tight_layout()
+    # how many of the 320 drawn eigenvalues are smaller than 0.001 in size
+    tiny = sum(int((np.abs(spectrum) < 0.001).sum()) for spectrum in transformed_spectra)
     save_figure(fig, "signature",
                 "Left: the eight eigenvalues of $P^T \\eta P$ for 40 random matrices "
                 "$P$ (one column of dots per matrix; red positive, blue negative); "
                 "the values change from matrix to matrix, but every column has four "
-                "positive and four negative eigenvalues (Sylvester's law of inertia). "
+                "positive and four negative eigenvalues (Sylvester's law of inertia); "
+                f"the {tiny} eigenvalues smaller than 0.001 in size sit on the zero "
+                "line, but none is zero. "
                 "Right: the eigenvalues of the author's metric $g$ at $z = 6 H x_8 = "
                 "0.9$ against $a_4$: the three space entries $e^{2a_4} s$ (red, "
                 "growing), the time entry $-1$ (grey), the three extra-time entries "
                 "$-e^{-2a_4} s$ (blue, shrinking towards 0 as the extra times deflate, "
-                "but never crossing it) and the hidden entry $\\cot^2 z$ (green). Both "
-                "vertical axes are linear between $-0.1$ and 0.1 and logarithmic "
-                "outside; all quantities are pure numbers.")
+                "but never crossing it) and the hidden entry $\\cot^2 z$ (green). The "
+                "vertical axes are linear near 0 (between $-0.001$ and 0.001 on the "
+                "left, $-0.1$ and 0.1 on the right) and logarithmic outside; all "
+                "quantities are pure numbers.")
     '''),
     md(r"""
     ## 10. The eigenvalues of the gamma matrices
@@ -911,7 +933,7 @@ CELLS = [
     right.set_xlim(-3.0, 3.0)
     right.set_ylim(-8.0, 8.0)
     right.set_title("$\\gamma(v) = v_a \\gamma^a$: eigenvalues $\\pm\\sqrt{Q(v)}$")
-    right.legend(fontsize=8, loc="center right")
+    right.legend(fontsize=8, loc="lower right")
     for ax in (left, right):
         ax.axhline(0.0, color="0.5", lw=0.8)
         ax.axvline(0.0, color="0.5", lw=0.8)
@@ -1088,7 +1110,8 @@ CELLS = [
                 "$|\\lambda_2/\\lambda_1|^{k-1}$ times the first distance; horizontal "
                 "axis $k$, vertical axis the distance on a logarithmic scale (pure "
                 "numbers). The dots follow straight lines until the distance reaches "
-                "the rounding of floating-point numbers, about $10^{-16}$.")
+                "the rounding of floating-point numbers, about $10^{-16}$ (a distance "
+                "that is exactly 0 is drawn at the bottom of the axis).")
     '''),
     md(r"""
     ## 13. The last check
