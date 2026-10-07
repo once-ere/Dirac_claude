@@ -35,7 +35,7 @@ STATS = {"grassmann": "dirac16complex (anticommuting, Grassmann)",
 
 CHECKS = []
 FORMULAS = {}
-EMT_PARTS = {}  # stat -> (T_kin, T_pot, V) of fields.Spinors.emt(), lambda general
+EMT_PARTS = {}  # stat -> (T_kin, T_pot, K, V) of fields.Spinors.emt(), lambda general
 T0 = time.time()
 
 
@@ -467,7 +467,7 @@ def section_emt(gm, geo, stat, sps):
     pre = stat
     sec = f"E. energy-momentum tensor - {name}"
     T, Tk, Tp, K, V = sps.emt()
-    EMT_PARTS[stat] = (Tk, Tp, V)
+    EMT_PARTS[stat] = (Tk, Tp, K, V)
     g = geo.g
     ok = all(alg_zero((T[mu][nu].scale(g[mu]) - T[nu][mu].scale(g[nu])).expand()) for mu in range(8) for nu in range(8))
     check(f"{pre}_emt_symmetric", ok, f"{name}: T_mu nu = g_mu mu T^mu_nu is symmetric (Belinfante symmetrised "
@@ -984,7 +984,7 @@ def section_further(gm, geo, ctx):
     inv = (E2.T * Cm * E2 - Cm).applyfunc(lambda e: sp.simplify(sp.expand(e).subs(kk, sp.sqrt(k2sq))))
     res2 = dirac(E2 * chi, m + lam * S0)
     ok2 = ok_sq2 and ok_c2 and inv == sp.zeros(16, 16) and all(vanish(e, k2sq) for e in res2)
-    Tk_g, Tp_g, V_g = EMT_PARTS["grassmann"]
+    Tk_g, Tp_g, _, V_g = EMT_PARTS["grassmann"]
     okg, detg = grassmann_solution.verify(gm, geo, ctx["sps"]["grassmann"], Tk_g, Tp_g, V_g)
     check("exact_nonlinear_homogeneous_solution", ok2 and okg,
           "both statistics, U = (lambda/2) S^2, homogeneous. Commuting (dirac16complex00): Phi = (cosh(k x4) + "
@@ -1052,7 +1052,7 @@ def main():
     gm = section_gammas()
     geo = section_geometry(gm)
     section_curvature(gm, geo)
-    ctx = {"gm": gm, "geo": geo, "sps": {}, "T": {}, "Tvar": {}}
+    ctx = {"gm": gm, "geo": geo, "sps": {}, "T": {}, "Tvar": {}, "emt_parts": EMT_PARTS}
     for stat in ("grassmann", "commuting"):
         sps = section_lagrangian(gm, geo, stat)
         T = section_emt(gm, geo, stat, sps)
@@ -1075,8 +1075,10 @@ def main():
                     "superalg.py for both statistics)",
         "spec": "Revision/SPEC.md sections 1-6 (metric, Clifford data, the two fields, EMT, quantisation)",
         "inputs": ["Revision/algebra/gammas.json", "Revision/algebra/reports/python-gammas.json"],
-        "independence": "no code shared with Revision/theory/wolfram; the Wolfram outputs are read only by the final "
-                        "comparison section",
+        "independence": "no code shared with Revision/theory/wolfram; the Wolfram outputs (Revision/theory/"
+                        "field-theory.json, Revision/theory/reports/wolfram-field-theory.json and, for the justification "
+                        "of the unpaired sympy checks, Revision/algebra/reports/wolfram-algebra.json) are read only by "
+                        "the final comparison section",
         "summary": {"checks": len(CHECKS), "pass": npass, "fail": len(CHECKS) - npass},
         "checks": CHECKS,
         "formulas": FORMULAS,

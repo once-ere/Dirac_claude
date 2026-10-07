@@ -840,17 +840,17 @@ CELLS = [
       $10^{-14}$. This is why every comparison of two different computations uses a
       tolerance, fixed in advance.
     - The Revision record's Kohn-Sham solver was compared with a refined run of itself:
-      all eight measured differences lie between about 200 and 5000 times below their
-      tolerances. The record also shows that two runs with the same rounding path can
-      hide an error, which is why the refined run rounds along a different path.
+      all eight measured differences lie below the tolerances that were fixed in
+      advance (the margins are printed in section 8). The record also shows that two
+      runs with the same rounding path can hide an error, which is why the refined run
+      rounds along a different path.
     - A fixed seed makes random numbers repeat exactly; the order of a set of names
       changes with the hash seed, while the sorted order does not; LF and CR LF line
       ends make the same text into different bytes.
-    - The Revision record's 244 Rust result files (5854813 bytes) and 340 reference
-      result files have only LF line ends, and all 582 fingerprints of their two
-      manifests equal the files of today: the stored results are exactly the ones the
-      solvers wrote, and a second run of the Rust solver reproduced all of them byte
-      for byte.
+    - The result files of the record's two Kohn-Sham solvers have only LF line ends,
+      and the 582 fingerprints of their two manifests equal the files of today: the
+      stored results are exactly the ones the solvers wrote. A second run of the
+      reference solver gave the same files byte for byte.
     """),
 ]
 

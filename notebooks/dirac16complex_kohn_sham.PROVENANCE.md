@@ -1,6 +1,6 @@
 # Provenance of the Jupyter notebook `notebooks/dirac16complex_kohn_sham.ipynb` (old Stage 4: Kohn-Sham DFT in the primordial gravitational field)
 
-This file is written for a student who has never used Python, Jupyter or Rust. It explains one notebook of this repository: what it computes, which files it reads and writes, how to install everything it needs and run it on Windows, macOS or Linux, what it prints, what it changes on your computer, and how it was tested on 2026-10-02. Everything you need is in this file; you do not have to open any other file to run the notebook.
+This file is written for a student who has never used Python, Jupyter or Rust. It explains one notebook of this repository: what it computes, which files it reads and writes, how to install everything it needs and run it on Windows, macOS or Linux, what it prints, what it changes on your computer, and how it was tested on 2026-10-02 and tested again on 2026-10-07. Everything you need is in this file; you do not have to open any other file to run the notebook.
 
 Contents:
 
@@ -50,6 +50,7 @@ This notebook neither defines nor uses a charge conjugation. The 16 x 16 matrice
 - `provenance/DIRAC16COMPLEX_TEXTBOOK.md` and `.tex` (the earlier teaching textbook; its chapters are also stored one per file in `provenance/textbook/chapters/`): Chapter 13 (`13-kohn-sham-primordial.md`) shows ten of the 14 figures of `artifacts/dirac16complex/kohn-sham/figures/` (block structure, Kohn-Sham spectrum, exchange of the uniform gas, density profiles, level crossing, self-consistency history, gap and Delta-SCF, thermodynamics, energy-momentum tensor, Einstein source) and names an eleventh, `ground_state_energy.png`; Chapter 19 (`19-reproducing-everything.md`) states that `notebook-report.json` has "68 of 74 checks true and the verdict FAILURE" and that "the notebook has not been executed again since"; Chapter 20 (`20-glossary-and-check-index.md`) lists `kohn-sham/notebook-report.json` under the abbreviation NB.
 - `provenance/DIRAC16COMPLEX_KOHN_SHAM_PRIMORDIAL.md` (the Stage-4 document): names "a Jupyter notebook" among the independent verifications and `notebook-report.json` among its sources.
 - `handoff/specs/STAGE4_SPEC.md` (the specification of Stage 4: the notebook is one of its deliverables) and `HANDOFF.md.txt`.
+- `provenance/wolframscript/verify_dirac16complex_kohn_sham.PROVENANCE.md` (the provenance file of the Wolfram verifier of the exact Kohn-Sham theory, whose report `wolfram-kohn-sham-report.json` this notebook reads): names this notebook and this provenance file among the places that show results of that verifier.
 
 ### 1.5 Programs that run or read it
 

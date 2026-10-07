@@ -355,8 +355,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 45 seconds (FACTS: 45 s); nbkit stops a cell after 900 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 32.9 s, peak memory of the kernel process 201 MiB;
-- the check run: 24.4 s, peak memory of the kernel process 201 MiB.
+- the build run: 23.2 s, peak memory of the kernel process 202 MiB;
+- the check run: 22.3 s, peak memory of the kernel process 201 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -368,8 +368,8 @@ Expected run time: about 45 seconds (FACTS: 45 s); nbkit stops a cell after 900 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/06c_mixed_contraction.ipynb`: `d86edc3c45a73c04d85c5b689620e906c2b29a6c6dbb3c42ab954fcd2ef83d52`
-- `Revision/textbook/notebooks/src/06c_mixed_contraction.py`: `92d557e880c1e2b536bfd3f3208b03a1c913723441c3d9dfa70c66e15e364419`
+- `Revision/textbook/notebooks/06c_mixed_contraction.ipynb`: `0ad5d77111e760f32e98cb859b2203aba23c0b2fec1dd2c2dd64b19e6d3be40e`
+- `Revision/textbook/notebooks/src/06c_mixed_contraction.py`: `62b664a918c0587d4bebd9982e65e4d8f52b94e305aa9949d5a26d7ed9859686`
 - `Revision/textbook/figures/06c.captions.json`: `388f8d7fe6dc9a6b6561e6dfc1db606e36e4f4f0025a7960fb62ffe4a3d07816`
 - `Revision/textbook/figures/06c_1_pair_kinds.png`: `666174c2fb9bfd99f9f91ada09b3c560c0dde7d73bbe5c2ae60a6d1dcbf5c413`
 - `Revision/textbook/figures/06c_2_milne_frame_and_spin_boost.png`: `ea1ff1db4749df0f1106d4c6ce7ea9129e85ab2ca958c49d4204dca999e51cc2`
@@ -384,4 +384,4 @@ Expected run time: about 45 seconds (FACTS: 45 s); nbkit stops a cell after 900 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":201.0,"seconds":32.9},"check":{"date":"2026-10-07","files":7,"peak_mb":201.0,"result":"passed","seconds":24.4},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":202.0,"seconds":23.2},"check":{"date":"2026-10-07","files":7,"peak_mb":201.0,"result":"passed","seconds":22.3},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

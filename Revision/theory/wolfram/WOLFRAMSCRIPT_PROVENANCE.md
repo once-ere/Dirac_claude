@@ -1,9 +1,13 @@
 # Provenance of the wolframscript set `Revision/theory/wolfram/` (the field theory of dirac16complex and dirac16complex00, and the scope of its statements)
 
 Status: both scripts of this set were executed twice, each time in a fresh clone of
-`https://github.com/once-ere/Dirac_claude.git` at commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`, on
-2026-10-02. Both runs of both scripts finished with exit code 0 (84 of 84 and 15 of 15 checks PASS), and
-every output file was byte-identical to the committed file and between the two runs. No fix was needed.
+`https://github.com/once-ere/Dirac_claude.git`, on two occasions: on 2026-10-02 at commit
+`c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`, and again, after a restart of the verification, on 2026-10-07
+at commit `a4c5eda1df069a43a55ff8b57148f5de8edd1670`. Every run of both scripts finished with exit code 0
+(84 of 84 and 15 of 15 checks PASS), and every output file was byte-identical to the committed file and
+between the two runs. One execution defect was fixed on 2026-10-02 (an output file that cannot be written
+is now reported with exit code 2 instead of being ignored; section 6.6); the fix is part of commit
+`a4c5eda`. Unless stated otherwise, the measured values in this file are those of 2026-10-07.
 
 ## 1. What this set is and what it computes
 
@@ -23,8 +27,10 @@ the repository quote.
 * The gravitational field is the author's primordial metric. It depends on `x4` through a function
   `a4(x4)` and on `x8` through `z = 6 H x8` with a constant `H > 0` and `0 < z < Pi/2`.
 * The matter field is a spinor with 16 complex components (a larger relative of the electron's Dirac
-  field), in two versions: `dirac16complex`, whose components ANTICOMMUTE (Grassmann numbers; the scripts
-  call this statistics `G`), and `dirac16complex00`, whose components commute (statistics `C`).
+  field), built on the author's eight real 16 x 16 Dirac matrices (read from the file
+  `Revision/algebra/gammas.json`), in two versions: `dirac16complex`, whose components ANTICOMMUTE
+  (Grassmann numbers; the scripts call this statistics `G`), and `dirac16complex00`, whose components
+  commute (statistics `C`).
 * The field is coupled to gravity through a vielbein (a "frame" at every point) and the canonical spin
   connection. The scripts derive the Lagrangian, the field equations, the conserved current, the
   energy-momentum tensor and the canonical quantisation, and test what each statement does and does not
@@ -77,10 +83,11 @@ holds only up to boundary terms, and what the indefinite structures imply.
 * `Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md` (and its `.tex` and `.pdf`): section 1 (record table:
   "Wolfram: 84 of 84 checks pass", "Wolfram: 15 of 15 checks pass"), formulas and check names throughout
   the text, section 16 (reproduction) and section 17 (index of formulas and checks).
-* `Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md` (and its `.tex` and `.pdf`): section 1 (record table),
+* `Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md` (and its `.tex` and `.pdf`): section 1 (sources),
   formula blocks generated from `Revision/theory/field-theory.json` (for example the 16 component field
-  equations of section 5), section 14 (check index) and section 16 (reproduction; it records an earlier
-  Wolfram run time of 1029 s for `verify_field_theory.wls`).
+  equations of section 5, from the record `field_equation_components`), section 14 (check index) and
+  section 16 (reproduction; it records an earlier Wolfram run time of 1029 s for `verify_field_theory.wls`
+  on the development machine).
 * `Revision/docs/PAIR_CREATION_PROOFS.md` (and its `.tex` and `.pdf`): section 9.1 (count table: 84
   checks, 84 PASS) and section 10 (reproduction).
 * `Revision/README.md`: the row of the folder `theory/` ("Wolfram 84/84 ... scope Wolfram 15/15").
@@ -94,11 +101,16 @@ holds only up to boundary terms, and what the indefinite structures imply.
   check to exist with verdict PASS and every quoted count to match.
 * `Revision/lead_checks/charge_conjugation_and_u1.py` takes its conventions from the keys `Lagrangian`,
   `current` and `quantisation` of `Revision/theory/field-theory.json`.
+* `provenance/dirac matrices.md` lists the three files of this set among the calculations that use the
+  author's eight real 16 x 16 Dirac matrices (through `Revision/algebra/gammas.json`).
+* The textbook notebooks of `Revision/textbook/notebooks/` (work in progress at the time of this record):
+  18 notebooks and their sources in `Revision/textbook/notebooks/src/` (from `00b_eight_directions` to
+  `10f_krein_along_history`) quote checks and formulas of the three output files.
 
 ## 2. Files
 
-All files are plain text, UTF-8 (in fact pure ASCII), with LF line endings and a final newline. "Lines" is
-the number of newline characters.
+All files are plain text, pure ASCII (hence also UTF-8), with LF line endings and a final newline.
+"Lines" is the number of newline characters.
 
 ### 2.1 The scripts and the package
 
@@ -108,14 +120,16 @@ the number of newline characters.
 | `Revision/theory/wolfram/RevisionFieldTheory.wl` | package loaded by `verify_field_theory.wls` (geometry, Grassmann algebra, Lagrangian, Euler-Lagrange derivative, vielbein variation) | 292 | 18269 | `31528570831302199c15a5d6f95e8b95a3ed6532a1c3360c4fc526e8f9dad71d` |
 | `Revision/theory/wolfram/verify_scope.wls` | script: 15 checks; writes the scope report | 205 | 17177 | `41b9e4a52dcbffe60e6decf62835ece0aef9f5c3388aac7d22236b7f20d6e499` |
 
-The values for `verify_field_theory.wls` are those of the version with the output-writing fix of section
-6.6 (line 706 now stops the script with exit code 2 when an output file cannot be written). The version of
-commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` and earlier has 734 lines, 73873 bytes and sha256
-`dafe62233cf76106e1dc7bca51ad3aafcf62762eaf37c3af9969f0c955014c9d`; it computes and prints exactly the same
-and writes exactly the same files, and differs only when an output cannot be written (section 3.7).
+These are the files of commit `a4c5eda`. The value for `verify_field_theory.wls` is that of the version
+with the output-writing fix of section 6.6 (line 706 now stops the script with exit code 2 when an output
+file cannot be written). The version of commit `c2b33cc` and earlier has 734 lines, 73873 bytes and
+sha256 `dafe62233cf76106e1dc7bca51ad3aafcf62762eaf37c3af9969f0c955014c9d`; it computes and prints exactly
+the same and writes exactly the same files, and differs only when an output cannot be written (section
+3.7).
 
 Both scripts find their other files relative to their own location (`$InputFileName`), so they work from
-any current folder; the usage line in their headers runs them from the repository root.
+any current folder (tested from `Revision/theory/wolfram`, section 6.4); the usage line in their headers
+runs them from the repository root.
 
 ### 2.2 Inputs (read only, never modified)
 
@@ -124,12 +138,12 @@ any current folder; the usage line in their headers runs them from the repositor
 | `Revision/algebra/gammas.json` | both scripts | 1405 | 76968 | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` |
 | `Revision/theory/wolfram/RevisionFieldTheory.wl` | `verify_field_theory.wls` | (section 2.1) | | |
 
-`gammas.json` holds the 8 gamma matrices (16 x 16, exact rational entries) and the derived matrices `C`,
-`B`, `Gamma`, `S^ab` and `eta`. It is committed; it is produced by the separate set
+`gammas.json` holds the author's 8 gamma matrices (16 x 16, exact rational entries) and the derived
+matrices `C`, `B`, `Gamma`, `S^ab` and `eta`. It is committed; it is produced by the separate set
 `Revision/algebra/wolfram/` (`verify_algebra.wls`), which you do NOT need to run first. No other file is
 read, and nothing is downloaded.
 
-### 2.3 Outputs (rewritten in full on every run; LF, UTF-8, no time stamps, deterministic)
+### 2.3 Outputs (rewritten in full on every run; LF, ASCII, no time stamps, deterministic)
 
 | file | written by | lines | bytes | sha256 of the committed (and reproduced) file |
 | --- | --- | --- | --- | --- |
@@ -149,12 +163,13 @@ read, and nothing is downloaded.
 
 * A computer with Windows 10 or 11, macOS, or Linux, and an internet connection for the installation,
   the activation and the download (the scripts themselves use no network).
-* About 600 MB of free disk space for the repository (a fresh clone measured 519 MB including its git
-  history) plus the space the Wolfram installer asks for.
-* About 1 GB of free memory (the Wolfram kernel peaked at 578 MB for `verify_field_theory.wls` and at
-  227 MB for `verify_scope.wls`).
-* Time: `verify_scope.wls` takes about half a minute; `verify_field_theory.wls` takes about 17 to 30
-  minutes (section 4.4). Keep the computer awake while it runs.
+* About 1 GB of free disk space for the repository (a fresh clone measured 690 MB including its git
+  history on 2026-10-07; the repository grows over time) plus the space the Wolfram installer asks for.
+* About 1 GB of free memory (the Wolfram kernel peaked at 577 MB for `verify_field_theory.wls` and at
+  226 MB for `verify_scope.wls`).
+* Time: `verify_scope.wls` takes about half a minute to one minute; `verify_field_theory.wls` takes about
+  17 minutes on a quiet machine and up to about 45 minutes on a busy one (section 4.4). Keep the computer
+  awake while it runs.
 * A Wolfram kernel with WolframScript: either the free Wolfram Engine for Developers or a licensed
   Mathematica / Wolfram desktop installation. The verification used Wolfram 15.0.1 with WolframScript
   1.14.0; older versions were not tested.
@@ -240,7 +255,7 @@ git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
 ```
 
-The download took 7 to 14 seconds on the verification machine. You are now in the repository root: the
+The download took 16.5 seconds on the verification machine. You are now in the repository root: the
 folder that contains the folder `Revision`. Every command below is run from here. The repository stores
 every file byte for byte (its file `.gitattributes` contains `* -text`), so the files are identical on
 every system, whatever your Git line-ending setting is.
@@ -256,8 +271,8 @@ For each file it prints two lines, `Hash : <64 hexadecimal digits, in capital le
 `Path : <the full path of the file>` (a long path continues on the next line), for example
 `Path : C:\Users\<your name>\Dirac_claude\Revision\theory\wolfram\verify_field_theory.wls`. Do not leave
 out the ending `| Format-List Hash, Path`: without it PowerShell prints a table whose `Path` column is cut
-off after about 30 characters (it ends in `…` or `...`), so you cannot see which file a hash belongs to;
-the rows of that table are in the order of the files in the command.
+off after about 30 characters (it ends in an ellipsis character or in `...`), so you cannot see which file
+a hash belongs to; the rows of that table are in the order of the files in the command.
 
 macOS: `shasum -a 256 Revision/theory/wolfram/verify_field_theory.wls Revision/theory/wolfram/RevisionFieldTheory.wl Revision/theory/wolfram/verify_scope.wls`;
 Linux: the same with `sha256sum` instead of `shasum -a 256` (each line is the hash, two spaces, and the
@@ -270,10 +285,11 @@ may differ.
 
 ### 3.5 Run the scripts
 
-Run the short script first (it shows within a minute that everything works), then the long one. The order
-does not matter for the results: each script reads only `Revision/algebra/gammas.json` (and the field
-script its package), never the output of the other. Run them one after the other, not at the same time
-(each uses one Wolfram kernel).
+Run the short script first (it shows within about a minute that everything works), then the long one.
+The order does not matter for the results: each script reads only `Revision/algebra/gammas.json` (and the
+field script its package), never the output of the other. Run them one after the other: each uses one
+Wolfram kernel, and the free Wolfram Engine licence allows only a small number of kernels at the same
+time.
 
 Windows PowerShell (forward slashes and backslashes both work):
 
@@ -295,7 +311,7 @@ echo "exit code: $?"
 
 The line after each `wolframscript` command shows that command's exit code; type it immediately after the
 script has finished, because it reports the most recent command. While `verify_field_theory.wls` runs, the
-screen can show no new line for about 10 minutes (sections `energy-momentum tensor by vielbein
+screen can show no new line for 10 minutes or longer (in the sections `energy-momentum tensor by vielbein
 variation`, `Noether identities` and `exact solutions and conservation`); this is normal, do not stop it.
 
 Optional, to measure the run time: in PowerShell
@@ -364,44 +380,49 @@ shown, then `TotalSeconds`; `$LASTEXITCODE` afterwards still gives the exit code
   any `PASS` line: run `wolframscript -activate` (section 3.3, option A, step 4).
 * The message `The product exited because an error occurred. For a product older than 12.1, this can mean
   that the product is unregistered.` printed AFTER the normal output (for example after the result `2` of
-  `wolframscript -code '1+1'`), with exit code 1: this was observed intermittently on the verification
-  machine while 10 to 20 other Wolfram kernels were running (2 of 11 short `-code` tests; none of the 8
-  complete `-file` runs of this set with its input present). The script itself had finished: if the line
-  just BEFORE this message is the verdict line `84/84 checks passed; ...` (or `15/15 checks passed; ...`),
-  all other lines are as in section 4, and steps 2 and 3 of section 3.6 succeed, then the outputs are
-  correct and the exit code 1 came from WolframScript after the script had ended; otherwise run the script
-  again.
+  `wolframscript -code '1+1'`), with exit code 1: this was observed intermittently on 2026-10-02 while 10
+  to 20 other Wolfram kernels were running (2 of 11 short `-code` tests; none of the complete `-file` runs
+  of this set); on 2026-10-07 it did not occur (0 of 10 short `-code` tests at 100 percent CPU load, none
+  of the 15 `-file` runs). If it appears and the line just BEFORE it is the verdict line
+  `84/84 checks passed; ...` (or `15/15 checks passed; ...`), all other lines are as in section 4, and
+  steps 2 and 3 of section 3.6 succeed, then the outputs are correct and the exit code 1 came from
+  WolframScript after the script had ended; otherwise run the script again.
 * The only output is `Failed to open file at path: Revision/theory/wolfram/verify_scope.wls` (or the same
   for `verify_field_theory.wls`): you are not in the repository root. CAUTION: WolframScript still returns
-  exit code 0 in this case (observed during the verification), so always read the last line. Go to the
-  folder that contains `Revision` (`cd $HOME\Dirac_claude` in PowerShell, `cd ~/Dirac_claude` on macOS and
-  Linux) and run again.
+  exit code 0 in this case (observed in both verifications; the message goes to the error stream, which
+  the terminal shows like any other line), so always read the last line. Go to the folder that contains
+  `Revision` (`cd $HOME\Dirac_claude` in PowerShell, `cd ~/Dirac_claude` on macOS and Linux) and run
+  again.
 * `Import::nffil: File ...gammas.json not found during Import.` followed by many messages and `FAIL` lines:
   the input `Revision/algebra/gammas.json` is missing (an incomplete download, or the file was moved).
-  Observed during the verification with the file hidden on purpose: `verify_scope.wls` ended with
+  Observed on 2026-10-07 with the file hidden on purpose: `verify_scope.wls` ended after 166 s with
   `4/15 checks passed` and exit code 1 AND OVERWROTE `Revision/theory/reports/wolfram-scope.json` with
-  the failing verdicts; `verify_field_theory.wls` printed the same message after `RevisionFieldTheory.wl
-  loaded` and, a few lines later, `FAIL  fixture_Clifford_relation` (stop it with Ctrl+C; if the window
-  does not react, close it). Restore the input and the outputs with
+  the failing verdicts (summary `{"passed": 4, "failed": 11, "total": 15}`); `verify_field_theory.wls`
+  printed `RevisionFieldTheory.wl loaded`, the same `Import::nffil` message, further messages
+  (`Part::partd`, `Part::partw`), `PASS  zero_test_sanity` and then `FAIL  fixture_Clifford_relation`,
+  and was still running (in the section `Lagrangian, both statistics`) when it was stopped after 7
+  minutes; it had written nothing, because the outputs are written only at the very end. Stop such a run
+  with Ctrl+C (if the window does not react, close it). Restore the input and the outputs with
   `git checkout -- Revision/algebra/gammas.json Revision/theory/reports/wolfram-scope.json Revision/theory/reports/wolfram-field-theory.json Revision/theory/field-theory.json`
   and run again.
 * `Get::noopen: Cannot open ...RevisionFieldTheory.wl.` as the first message of `verify_field_theory.wls`
   (instead of the line `RevisionFieldTheory.wl loaded`): the package file
   `Revision/theory/wolfram/RevisionFieldTheory.wl` is missing or renamed. The script does NOT stop: it
-  prints many further messages (for example `Part::partd: ...`) and `FAIL` lines, ends after a few seconds
-  with the last line `3/84 checks passed; total time <seconds> s` (3 PASS, 81 FAIL) and exit code 1, and
-  it OVERWRITES its two committed outputs `Revision/theory/reports/wolfram-field-theory.json` and
-  `Revision/theory/field-theory.json` with these failing results (observed during the verification: 5.5
-  and 6.8 s of wall time, section 6.4). Restoring only the package is therefore not enough. Restore the
-  package AND the two outputs with
+  prints many further messages (for example `Part::partd: ...`) and `FAIL` lines, 166 lines in all (3
+  `PASS`, 81 `FAIL`), ends after a few seconds with the last line `3/84 checks passed; total time
+  <seconds> s` and exit code 1, and it OVERWRITES its two committed outputs
+  `Revision/theory/reports/wolfram-field-theory.json` and `Revision/theory/field-theory.json` with these
+  failing results (observed on 2026-10-02 and again on 2026-10-07: 15.7 s of wall time, summary
+  `{"passed": 3, "failed": 81, "total": 84}`). Restoring only the package is therefore not enough.
+  Restore the package AND the two outputs with
   `git checkout -- Revision/theory/wolfram/RevisionFieldTheory.wl Revision/theory/reports/wolfram-field-theory.json Revision/theory/field-theory.json`,
   check that `git status --porcelain Revision/theory` prints nothing, and run the script again.
 * `OpenWrite::noopen: Cannot open <path>.` followed by the line `cannot write <path>`, with NO verdict line
   (`N/84 checks passed` or `N/15 checks passed`) and exit code `2`: the script could not write the output
   file named in the message (it is read-only, open in another program, or in a folder you may not write
-  to). Both scripts behave this way (observed during the verification for both, section 6.4). The `PASS`
-  lines before the message may all be there, but the run is NOT complete: the script stops at the first
-  output it cannot write, so that file keeps its previous content (and when
+  to). Both scripts behave this way (observed on 2026-10-07 for both, with the output made read-only,
+  section 6.4). The `PASS` lines before the message may all be there, but the run is NOT complete: the
+  script stops at the first output it cannot write, so that file keeps its previous content (and when
   `Revision/theory/reports/wolfram-field-theory.json` cannot be written, `Revision/theory/field-theory.json`
   is not written either). Close any program that has the file open; make sure the file is not read-only
   (Windows PowerShell: `attrib -R <file>`; macOS and Linux: `chmod u+w <file>`) and that the folder is not
@@ -411,16 +432,17 @@ shown, then `TotalSeconds`; `$LASTEXITCODE` afterwards still gives the exit code
   2.1): it does not check the writing. It prints `OpenWrite::noopen: Cannot open <path>.`,
   `BinaryWrite::stream: $Failed is not a string, SocketObject, InputStream[ ] or OutputStream[ ].` and
   `Close::stream: ...` (once per output file) and then STILL prints `84/84 checks passed; total time ...`
-  and returns exit code 0, although it has NOT rewritten its outputs (observed during the verification,
-  section 6.4). With that version, any of these messages means that the outputs were not written,
-  whatever the last line and the exit code say.
+  and returns exit code 0, although it has NOT rewritten its outputs (observed with the complete old
+  script on 2026-10-02, and its output-writing code alone on 2026-10-07, section 6.4). With that version,
+  any of these messages means that the outputs were not written, whatever the last line and the exit code
+  say.
 * A message that no licence or no more kernels are available: another Wolfram program is using the
   allowed kernels. Close other Mathematica windows and other `wolframscript` commands and run again.
 * The run was interrupted (Ctrl+C, window closed, computer asleep or switched off): the outputs are written
   only in the very last step (`writing outputs`), so an interrupted run changes no file of the repository
-  (observed for four interrupted runs, sections 6.4 and 6.5). It leaves two WolframScript temporary files
-  behind, outside the repository (section 5.2); they are harmless. Start the script again from the
-  beginning.
+  (observed for every interrupted run of both verifications, sections 6.4 and 6.5). It leaves two
+  WolframScript temporary files behind, outside the repository (section 5.2); they are harmless. Start the
+  script again from the beginning.
 * A line beginning with `FAIL`, a last line `N/84 checks passed` (or `N/15`) with N below the total, and
   exit code 1, although `gammas.json` is present: do not edit anything. Run `git status` and
   `git diff --stat` to see whether a file of the set or its input was changed; if so, restore them with
@@ -440,25 +462,25 @@ shown, then `TotalSeconds`; `$LASTEXITCODE` afterwards still gives the exit code
 
 16 lines: one `PASS` line per check, in this order, then the final verdict line. The numbers in brackets
 are the seconds since the start and vary from run to run (also in their number of digits, for example
-`[33.300000000000004 s]`); everything else is exactly as shown. Run 1 of the verification printed:
+`[54.400000000000006 s]`); everything else is exactly as shown. Run 1 of 2026-10-07 printed:
 
 ```text
-PASS  fixture_gammas  [0.1 s]
-PASS  boosted_frame_reproduces_metric  [1.5 s]
-PASS  boosted_frame_canonical_connection  [1.7000000000000002 s]
-PASS  boosted_frame_gammaOmega_formula  [2.1 s]
-PASS  boosted_frame_gammaOmega_vanishes  [7.800000000000001 s]
-PASS  boosted_frame_curvature_nonzero  [31.5 s]
-PASS  rescaling_removes_the_connection_term  [32. s]
-PASS  rescaled_equation_quadratic_potential  [32. s]
-PASS  gammaOmega_blind_to_the_deflation  [32. s]
-PASS  connection_free_lagrangian_same_equations  [32.4 s]
-PASS  spin_connection_in_the_energy_momentum_tensor  [32.6 s]
-PASS  good_sector_hermiticity_up_to_the_brane_flux  [32.9 s]
-PASS  good_sector_x8_independent_modes_without_boundary_condition  [33.300000000000004 s]
-PASS  extra_time_growth_rates_unbounded  [33.300000000000004 s]
-PASS  commuting_field_energy_unbounded_below  [33.5 s]
-15/15 checks passed; time 33.5 s
+PASS  fixture_gammas  [0.2 s]
+PASS  boosted_frame_reproduces_metric  [3.7 s]
+PASS  boosted_frame_canonical_connection  [4.2 s]
+PASS  boosted_frame_gammaOmega_formula  [4.9 s]
+PASS  boosted_frame_gammaOmega_vanishes  [14.600000000000001 s]
+PASS  boosted_frame_curvature_nonzero  [47.800000000000004 s]
+PASS  rescaling_removes_the_connection_term  [49.400000000000006 s]
+PASS  rescaled_equation_quadratic_potential  [49.400000000000006 s]
+PASS  gammaOmega_blind_to_the_deflation  [49.400000000000006 s]
+PASS  connection_free_lagrangian_same_equations  [51. s]
+PASS  spin_connection_in_the_energy_momentum_tensor  [51.2 s]
+PASS  good_sector_hermiticity_up_to_the_brane_flux  [52.6 s]
+PASS  good_sector_x8_independent_modes_without_boundary_condition  [53.900000000000006 s]
+PASS  extra_time_growth_rates_unbounded  [54. s]
+PASS  commuting_field_energy_unbounded_below  [54.400000000000006 s]
+15/15 checks passed; time 54.400000000000006 s
 ```
 
 Final verdict line: `15/15 checks passed; time <seconds> s`. Exit code: `0`. Nothing is printed to the
@@ -469,8 +491,8 @@ error stream.
 103 lines: `RevisionFieldTheory.wl loaded`, then one `PASS` line per check (84), a line
 `[<seconds> s] -> <section>` at the start of each section (15 lines; the number is the time spent in the
 PREVIOUS section), two lines `   G vielbein variations: ...` and `   C vielbein variations: ...`, and the
-final verdict line. The numbers vary from run to run; everything else is exactly as shown. Run 1 of the
-verification printed:
+final verdict line. The numbers vary from run to run; everything else is exactly as shown. Run 1 of
+2026-10-07 printed:
 
 ```text
 RevisionFieldTheory.wl loaded
@@ -487,7 +509,7 @@ PASS  christoffel_count
 PASS  ricci_scalar
 PASS  ricci_mixed_components
 PASS  never_flat_for_H_positive
-[1. s] -> spin connection
+[1.2000000000000002 s] -> spin connection
 PASS  vielbein_postulate
 PASS  omega_antisymmetric
 PASS  omega_components
@@ -495,7 +517,7 @@ PASS  Omega_components
 PASS  gamma_covariantly_constant
 PASS  S_rotates_gamma_with_omega
 PASS  spin_curvature_equals_Riemann
-[3.2 s] -> gamma^mu Omega_mu
+[2.3000000000000003 s] -> gamma^mu Omega_mu
 PASS  gammaOmega_equals_3H_gamma_x8
 PASS  gammaOmega_x4_terms_cancel
 PASS  gammaOmega_divergence_form
@@ -507,7 +529,7 @@ PASS  L_total_divergence_to_unsymmetrised_G
 PASS  L_total_divergence_to_unsymmetrised_C
 PASS  L_spin_connection_drops_out_G
 PASS  L_spin_connection_drops_out_C
-[7.300000000000001 s] -> Euler-Lagrange equations
+[5.5 s] -> Euler-Lagrange equations
 PASS  EL_Psibar_G
 PASS  EL_Psi_G
 PASS  EL_Psibar_C
@@ -519,7 +541,7 @@ PASS  Dirac_operator_explicit_C
 PASS  block_form
 PASS  evolution_form_G
 PASS  evolution_form_C
-[8. s] -> non-triviality
+[7.300000000000001 s] -> non-triviality
 PASS  nontriviality_1_dirac16complex
 PASS  nontriviality_2_dirac16complex00
 PASS  Omega_vanishes_iff_a4prime_and_H_vanish
@@ -532,23 +554,23 @@ PASS  current_conservation_identity_C
 PASS  charge_density_is_Krein_form_C
 PASS  Lichnerowicz_identity_G
 PASS  Lichnerowicz_identity_C
-[19.8 s] -> Majorana-type Lg
+[24.700000000000003 s] -> Majorana-type Lg
 PASS  Majorana_Lg_total_derivative_grassmann
 PASS  Majorana_Lg_commuting_control
-[1.8 s] -> energy-momentum tensor by vielbein variation
-   G vielbein variations: 30.5 s
+[2.6 s] -> energy-momentum tensor by vielbein variation
+   G vielbein variations: 40.1 s
 PASS  T_vielbein_variation_closed_form_G
 PASS  T_symmetric_part_Belinfante_G
-   C vielbein variations: 17.7 s
+   C vielbein variations: 24.5 s
 PASS  T_vielbein_variation_closed_form_C
 PASS  T_symmetric_part_Belinfante_C
-[371.3 s] -> Noether identities
+[444.5 s] -> Noether identities
 PASS  Noether_identity_diffeomorphisms_G
 PASS  Noether_identity_local_Lorentz_G
 PASS  Noether_identity_diffeomorphisms_C
 PASS  Noether_identity_local_Lorentz_C
 PASS  conservation_on_shell_general
-[633.9000000000001 s] -> EMT components
+[910.8000000000001 s] -> EMT components
 PASS  T_diagonal_components_G
 PASS  EMT_trace_G
 PASS  kinetic_sum_on_shell_G
@@ -558,13 +580,13 @@ PASS  kinetic_sum_on_shell_C
 PASS  T_x4_x8_component_G
 PASS  T_x4_x8_component_C
 PASS  energy_exchange_equation
-[46.800000000000004 s] -> exact solutions and conservation
+[72.2 s] -> exact solutions and conservation
 PASS  solution_matrix_square
 PASS  exact_solution_x4_x8_G
 PASS  exact_solution_x4_x8_C
 PASS  exact_solution_nonlinear_homogeneous_C
 PASS  exact_solution_nonlinear_homogeneous_G
-[673.1 s] -> canonical quantisation
+[1005.4000000000001 s] -> canonical quantisation
 PASS  canonical_momentum
 PASS  first_order_form_and_anticommutator
 PASS  Heisenberg_equation_reproduces_field_equation
@@ -574,13 +596,14 @@ PASS  mode_hamiltonian_Krein_selfadjoint
 PASS  good_sector_hermiticity_curved
 PASS  Krein_form_conserved_curved
 PASS  Fock_space_good_sector_example
-[6.2 s] -> writing outputs
-84/84 checks passed; total time 1773.4 s
+[12.600000000000001 s] -> writing outputs
+84/84 checks passed; total time 2490.1000000000004 s
 ```
 
 Final verdict line: `84/84 checks passed; total time <seconds> s`. Exit code: `0`. Nothing is printed to
 the error stream. The second run printed the same lines with slightly different times (for example
-`[370.3 s] -> Noether identities` and `84/84 checks passed; total time 1775.1000000000001 s`).
+`[915.8000000000001 s] -> EMT components` and `84/84 checks passed; total time 2508.4 s`); the printed
+lines of 2026-10-02 were the same apart from the times.
 
 ### 4.3 Files written
 
@@ -594,25 +617,32 @@ contains 32 records with the keys `christoffel_nonzero` ... `eta`.
 
 ### 4.4 Run time and memory on the verification machine
 
-Windows 11 Pro for Workstations, Intel Core Ultra 9 275HX (24 logical processors), 191 GB RAM. During the
-two verification runs the machine was heavily loaded by other jobs (CPU load 88 to 100 percent, 6 to 22
-other Wolfram kernels running), and the two runs ran at the same time; on a quiet machine expect shorter
-times (the document `Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md` records 1029 s for an earlier run of
-`verify_field_theory.wls` on the development machine).
+Windows 11 Pro for Workstations, Intel Core Ultra 9 275HX (24 logical processors), 191 GB RAM. During
+both verifications the machine was heavily loaded by other jobs: on 2026-10-07 the CPU load was 100
+percent, 16 Wolfram processes (`wolframscript` and kernels, those of this verification included) were
+running, and the field-theory runs 1 and 2 and a third field-theory run (the read-only experiment of
+section 6.4) ran at the same time. On a quiet machine expect much shorter times: the document
+`Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md` records 1029 s for an earlier run of
+`verify_field_theory.wls` on the development machine.
 
-| run | script | wall time | time printed by the script | CPU time of the kernel | peak memory of the kernel (working set) |
+| date | run | script | wall time | time printed by the script | peak memory of the kernel (working set) |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `verify_field_theory.wls` | 1778.0 s | 1773.4 s | about 1549 s | 578 MB |
-| 2 | `verify_field_theory.wls` | 1779.8 s | 1775.1 s | about 1549 s | 578 MB |
-| 1 | `verify_scope.wls` | 37.9 s | 33.5 s | about 25 s | 227 MB |
-| 2 | `verify_scope.wls` | 39.9 s | 34.4 s | about 25 s | 221 MB |
+| 2026-10-07 | 1 | `verify_field_theory.wls` | 2497.9 s | 2490.1 s | 577 MB |
+| 2026-10-07 | 2 | `verify_field_theory.wls` | 2513.0 s | 2508.4 s | 577 MB |
+| 2026-10-07 | 1 | `verify_scope.wls` | 63.9 s | 54.4 s | 226 MB |
+| 2026-10-07 | 2 | `verify_scope.wls` | 69.9 s | 60.2 s | 171 MB (see below) |
+| 2026-10-02 | 1 | `verify_field_theory.wls` | 1778.0 s | 1773.4 s | 578 MB |
+| 2026-10-02 | 2 | `verify_field_theory.wls` | 1779.8 s | 1775.1 s | 578 MB |
+| 2026-10-02 | 1 | `verify_scope.wls` | 37.9 s | 33.5 s | 227 MB |
+| 2026-10-02 | 2 | `verify_scope.wls` | 39.9 s | 34.4 s | 221 MB |
 
-Three further, timed runs of `verify_scope.wls` with the input present (section 6.4) took 24.0 to 29.1 s of
-wall time, on the same loaded machine but not concurrently with each other. The `wolframscript`
-process itself used 17 MB. Time per section of `verify_field_theory.wls` in run 1: about 371 s for
-`energy-momentum tensor by vielbein variation`, 634 s for `Noether identities`, 47 s for `EMT components`,
-673 s for `exact solutions and conservation`, 6 s for `canonical quantisation`, and less than 45 s for all
-other sections together.
+The wall time includes about 5 to 10 s for starting the Wolfram kernel. In run 2 of `verify_scope.wls`
+of 2026-10-07 the sampler saw two kernel processes under `wolframscript` (peaks 171 MB and 68 MB); in
+all other runs it saw one. The `wolframscript` process itself used 17 MB. Further runs of
+`verify_scope.wls` on 2026-10-07 (section 6.4) took 40.8 to 53.3 s of wall time. Time per section of
+`verify_field_theory.wls` in run 1 of 2026-10-07: 444.5 s for `energy-momentum tensor by vielbein
+variation`, 910.8 s for `Noether identities`, 72.2 s for `EMT components`, 1005.4 s for `exact solutions
+and conservation`, 12.6 s for `canonical quantisation`, and 44.5 s for all other sections together.
 
 ## 5. Side effects
 
@@ -625,48 +655,46 @@ other sections together.
 * If the folder `Revision/theory/reports/` is missing, the scripts create it (tested for
   `verify_scope.wls`: with the folder deleted it was recreated and the report was byte-identical).
 * A run in which checks fail (for example with a missing input or a missing package, section 3.7) still
-  overwrites its outputs with the failing verdicts. An interrupted run writes nothing. A run that cannot
-  write an output file stops there with exit code 2 and leaves that file (and every output after it)
-  unchanged (section 3.7).
+  overwrites its outputs with the failing verdicts if it reaches the end. An interrupted run writes
+  nothing. A run that cannot write an output file stops there with exit code 2 and leaves that file (and
+  every output after it) unchanged (section 3.7).
 * Nothing else is created, changed or deleted in the repository: after both scripts had run in each of the
   two fresh clones, `git status --porcelain --ignored` printed nothing (no modified, untracked or ignored
   file).
 
 ### 5.2 Outside the repository
 
-* Processes: each `wolframscript` command starts one Wolfram kernel (on Windows the process `wolfram.exe`,
+* Processes: each `wolframscript` command starts a Wolfram kernel (on Windows the process `wolfram.exe`,
   a child of `wolframscript.exe`), which ends when the script ends. It uses one kernel of your licence.
 * Temporary files: every `wolframscript -file ...` command creates TWO temporary files, each named
   `tmp_<10 letters and digits>`, in WolframScript's own folder (on Windows
   `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary\`; on macOS and Linux the location was not
-  examined). Observed on the verification machine (section 6.4): the first file is EMPTY (0 bytes) and is
-  created immediately, 15 to 26 ms after the `wolframscript` process starts; the second file is created a
-  few seconds later, when the Wolfram kernel has started (2.0 to 4.7 s after the start in the observed
-  runs), and receives every line the script prints (at the end its content was byte-identical to the
-  printed output). When the script ends normally, WolframScript deletes BOTH files. After an interrupted
-  run (Ctrl+C, closed window, killed process) BOTH stay behind: the empty one and the one with the lines
-  printed so far. They are harmless and can be deleted; delete them only while no `wolframscript` command
-  is running, because a running command keeps its own two files in the same folder.
-* Nothing was written to the system temporary folder (`%TEMP%`) by these runs: a listing before and after
-  showed no new or changed entry belonging to Wolfram (the changes there belonged to other programs).
+  examined). Observed on 2026-10-07 (section 6.4): the first file is EMPTY (0 bytes) and is created
+  immediately (45 and 48 ms after the `wolframscript` process started); the second file is created a few
+  seconds later, when the Wolfram kernel has started (3.8 and 4.2 s after the start), and receives every
+  line the script prints (at the end its content was byte-identical to the printed output). When the
+  script ends normally, WolframScript deletes BOTH files. After an interrupted run (Ctrl+C, closed window,
+  killed process) BOTH stay behind: the empty one and the one with the lines printed so far. They are
+  harmless and can be deleted; delete them only while no `wolframscript` command is running, because a
+  running command keeps its own two files in the same folder.
+* Nothing was written to the system temporary folder: for runs 1 and 2 of 2026-10-07 the variables
+  `TEMP` and `TMP` pointed to two new, empty folders, and both folders were still empty after the runs.
 * WolframScript rewrites its own settings file `%APPDATA%\Wolfram\WolframScript\WolframScript.conf` when
-  it starts (observed for a `wolframscript -code` call: same content, new modification time). This is
-  WolframScript's normal behaviour, not specific to this set. The paclet configuration file of the Wolfram
-  user folder (`%APPDATA%\Wolfram\Paclets\Configuration\`) changed once during the verification period, at
-  a moment when many other Wolfram jobs were running and no kernel of this set was starting; it is not
-  attributed to this set.
-* Network: none. No network connection (TCP) or endpoint (UDP) owned by `wolframscript` or by the kernel
-  was seen in 404 samples (about one every 4 s) from 2 minutes 21 s after the start of the field-theory
-  runs to the end of the scope runs; a connection shorter than the sampling interval cannot be excluded
-  by this method. The scripts contain no network function. (Activating the free Wolfram Engine needs the
-  internet once; that is a property of the licence, not of these scripts.)
+  it runs (observed for a `wolframscript -code` call on both dates: same content, new modification time).
+  This is WolframScript's normal behaviour, not specific to this set.
+* Network: none. On 2026-10-07 the TCP connections owned by `wolframscript` and by its kernel were
+  sampled about every 3 to 5 s during runs 1 and 2 of both scripts: none was seen (on 2026-10-02, 404
+  samples of TCP connections and UDP endpoints during the runs showed none either). A connection shorter
+  than the sampling interval cannot be excluded by this method. The scripts contain no network function.
+  (Activating the free Wolfram Engine needs the internet once; that is a property of the licence, not of
+  these scripts.)
 
 ### 5.3 Effects on other parts of the repository
 
 The outputs are inputs of `Revision/theory/python/check_field_theory.py` (its comparison with the Wolfram
-record) and of the publication tests listed in section 1.4. A correct run leaves them byte-identical, so it
-changes nothing for them. A failed run (section 5.1) would make those tests fail until the outputs are
-restored.
+record), of the publication tests and of the textbook notebooks listed in section 1.4. A correct run
+leaves them byte-identical, so it changes nothing for them. A failed run (section 5.1) would make those
+tests fail until the outputs are restored.
 
 ### 5.4 How to restore the committed state
 
@@ -684,135 +712,157 @@ The second command must then print nothing. To restore the input as well, add
 
 ### 6.1 What was verified, where and with what
 
-* Date: 2026-10-02.
-* Commit: `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` (the branch `main` of
-  `https://github.com/once-ere/Dirac_claude.git` at the time). The files of the set were last changed in
-  commits `daeb5ba` (both scripts) and `2c61fb0` (the package), the input in `9ea68d4`, the outputs in
-  `a9a1b70` (field theory) and `70fab64` (scope).
-* Clones: two fresh clones made with `git clone https://github.com/once-ere/Dirac_claude.git` (runs 1 and
-  2), and a third fresh clone for the experiments of section 6.4. No uncommitted file was copied into them:
-  the set, its input and its outputs were committed and unchanged in the working tree.
-* Environment: Windows 11 Pro for Workstations 10.0.26200; Intel Core Ultra 9 275HX, 24 logical
-  processors, 191 GB RAM; WolframScript 1.14.0; Wolfram 15.0.1 for Microsoft Windows (64-bit) (July 2,
-  2026), Professional licence; Git 2.51.2.windows.1 with the global setting `core.autocrlf=true` (no
-  effect: the repository's `.gitattributes` keeps every file byte for byte; all files of the set have LF
-  line endings); PowerShell 7.6.6.
+* Dates: 2026-10-02 (first verification) and 2026-10-07 (re-verification after the verification had been
+  interrupted by a session limit and restarted; every statement of the earlier record that this file keeps
+  was checked again, or is marked with its date).
+* Commits: `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` (2026-10-02) and
+  `a4c5eda1df069a43a55ff8b57148f5de8edd1670` (2026-10-07; the branch `main` of
+  `https://github.com/once-ere/Dirac_claude.git` at the time). Between them only line 706 of
+  `verify_field_theory.wls` changed (the fix of section 6.6, committed in `3f0a577`); the package, the
+  scope script, the input and the outputs are identical in both commits. The commits that followed
+  `a4c5eda` up to `565c9b0` (the state of `main` when this file was written) change no file of the set,
+  its input or its outputs. The files of the set were last changed in commits `3f0a577`
+  (`verify_field_theory.wls`), `daeb5ba` (`verify_scope.wls`) and `2c61fb0` (the package), the input in
+  `9ea68d4`, the outputs in `a9a1b70` (field theory) and `70fab64` (scope).
+* Clones on 2026-10-07: two fresh clones made with `git clone https://github.com/once-ere/Dirac_claude.git`
+  (runs 1 and 2) and two further fresh clones for the experiments of section 6.4. No uncommitted file was
+  copied into them: the set, its input and its outputs were committed and unchanged in the working tree.
+* Environment on 2026-10-07: Windows 11 Pro for Workstations 10.0.26300; Intel Core Ultra 9 275HX, 24
+  logical processors, 191 GB RAM; WolframScript 1.14.0; Wolfram 15.0.1 for Microsoft Windows (64-bit)
+  (July 2, 2026), Professional licence; Git 2.51.2.windows.1 with `core.autocrlf=true` in the system
+  configuration (no effect: the repository's `.gitattributes` keeps every file byte for byte; all files of
+  the set have LF line endings); PowerShell 7.6.6 and Windows PowerShell 5.1.26100; Git Bash. (On
+  2026-10-02: the same machine with Windows 11 10.0.26200 and the same Wolfram, WolframScript and Git.)
 * Commands: in each clone, from the repository root, `wolframscript -file
   Revision/theory/wolfram/verify_field_theory.wls` and then `wolframscript -file
-  Revision/theory/wolfram/verify_scope.wls`, started from PowerShell (`Start-Process` with the clone as
-  working folder, recording wall time, exit code and the peak working set of the child processes; separate
-  samplers recorded the kernels' CPU time and their network endpoints). Runs 1 and 2 ran at the same time,
-  on a machine loaded by other jobs (section 4.4).
+  Revision/theory/wolfram/verify_scope.wls`, started from PowerShell 7 (`Start-Process` with the clone as
+  working folder, recording wall time, exit code, the printed output and the error stream, the peak
+  working set of every process in the tree below `wolframscript` and its TCP connections, about every 3
+  to 5 s). Runs 1 and 2 ran at the same time, on a machine loaded by other jobs (section 4.4).
 
 ### 6.2 Results
 
-| run | script | exit code | final line | checks |
-| --- | --- | --- | --- | --- |
-| 1 | `verify_field_theory.wls` | 0 | `84/84 checks passed; total time 1773.4 s` | 84 PASS, 0 FAIL |
-| 2 | `verify_field_theory.wls` | 0 | `84/84 checks passed; total time 1775.1000000000001 s` | 84 PASS, 0 FAIL |
-| 1 | `verify_scope.wls` | 0 | `15/15 checks passed; time 33.5 s` | 15 PASS, 0 FAIL |
-| 2 | `verify_scope.wls` | 0 | `15/15 checks passed; time 34.4 s` | 15 PASS, 0 FAIL |
+| date | run | script | exit code | final line | checks |
+| --- | --- | --- | --- | --- | --- |
+| 2026-10-07 | 1 | `verify_field_theory.wls` | 0 | `84/84 checks passed; total time 2490.1000000000004 s` | 84 PASS, 0 FAIL |
+| 2026-10-07 | 2 | `verify_field_theory.wls` | 0 | `84/84 checks passed; total time 2508.4 s` | 84 PASS, 0 FAIL |
+| 2026-10-07 | 1 | `verify_scope.wls` | 0 | `15/15 checks passed; time 54.400000000000006 s` | 15 PASS, 0 FAIL |
+| 2026-10-07 | 2 | `verify_scope.wls` | 0 | `15/15 checks passed; time 60.2 s` | 15 PASS, 0 FAIL |
+| 2026-10-02 | 1 | `verify_field_theory.wls` | 0 | `84/84 checks passed; total time 1773.4 s` | 84 PASS, 0 FAIL |
+| 2026-10-02 | 2 | `verify_field_theory.wls` | 0 | `84/84 checks passed; total time 1775.1000000000001 s` | 84 PASS, 0 FAIL |
+| 2026-10-02 | 1 | `verify_scope.wls` | 0 | `15/15 checks passed; time 33.5 s` | 15 PASS, 0 FAIL |
+| 2026-10-02 | 2 | `verify_scope.wls` | 0 | `15/15 checks passed; time 34.4 s` | 15 PASS, 0 FAIL |
 
-The printed lines of the two runs are identical apart from the time values. Nothing was printed to the
-error stream.
+The printed lines of all runs of a script are identical apart from the time values (103 lines for
+`verify_field_theory.wls`, 16 for `verify_scope.wls`). Nothing was printed to the error stream.
 
 ### 6.3 Byte identity of the outputs
 
-| output | committed sha256 | run 1 | run 2 |
-| --- | --- | --- | --- |
-| `Revision/theory/reports/wolfram-field-theory.json` | `eed5e0fb01b281d58ccabe7dd84bde3b81574ae09a9c4b05e67f22f6a8065a7e` | identical | identical |
-| `Revision/theory/field-theory.json` | `2a3c83e5db5e0ad3572791334a4797b8af549a22295bb6800739340f2c107f54` | identical | identical |
-| `Revision/theory/reports/wolfram-scope.json` | `8a0bee2e9c0b536ed25c6dcb31272e6e0d7a49ae9e1f69a755899ce6efa021ce` | identical | identical |
+| output | committed sha256 | 2026-10-07 run 1 | 2026-10-07 run 2 | 2026-10-02 runs 1 and 2 |
+| --- | --- | --- | --- | --- |
+| `Revision/theory/reports/wolfram-field-theory.json` | `eed5e0fb01b281d58ccabe7dd84bde3b81574ae09a9c4b05e67f22f6a8065a7e` | identical | identical | identical |
+| `Revision/theory/field-theory.json` | `2a3c83e5db5e0ad3572791334a4797b8af549a22295bb6800739340f2c107f54` | identical | identical | identical |
+| `Revision/theory/reports/wolfram-scope.json` | `8a0bee2e9c0b536ed25c6dcb31272e6e0d7a49ae9e1f69a755899ce6efa021ce` | identical | identical | identical |
 
 Each output was compared byte for byte (`cmp`) with the committed blob (`git show HEAD:<file>`) and between
-the two runs: all identical. `git status --porcelain --ignored` printed nothing in either clone after the
-field-theory script and again after the scope script.
+the two runs: all identical. `git status --porcelain --ignored` printed nothing in either clone after both
+scripts had run.
 
-### 6.4 Further experiments
+### 6.4 Further experiments (2026-10-07)
 
-In the third fresh clone of the first verification (commit `c2b33cc`, nothing changed):
+In a third fresh clone (commit `a4c5eda`, nothing changed); every experiment was undone with
+`git checkout` and `attrib -R`, after which `git status --porcelain --ignored` printed nothing:
 
+* `verify_scope.wls` started from a folder that is not the repository root: the error stream received
+  `Failed to open file at path: Revision/theory/wolfram/verify_scope.wls`, nothing else was printed, exit
+  code 0, 6.2 s.
 * `verify_scope.wls` started from the folder `Revision/theory/wolfram` as `wolframscript -file
-  verify_scope.wls`: 15/15, exit code 0, output byte-identical (the scripts locate their files relative to
-  themselves). WolframScript's temporary file with the printed lines was seen to be created at the start
-  and deleted at the end. (The empty first temporary file of section 5.2 was not noticed in this
-  experiment; it was measured in clone E, below.)
+  verify_scope.wls`: 15/15, exit code 0, 47.7 s, output byte-identical (the scripts locate their files
+  relative to themselves).
 * The folder `Revision/theory/reports` deleted, then `verify_scope.wls` run from the root: the folder was
-  recreated, 15/15, exit code 0, `wolfram-scope.json` byte-identical; restored with `git checkout`.
-* `Revision/algebra/gammas.json` hidden: `verify_scope.wls` printed `Import::nffil` and ended with
-  `4/15 checks passed`, exit code 1, and overwrote `wolfram-scope.json`; `verify_field_theory.wls`
-  printed the same message and `FAIL  fixture_Clifford_relation` and was stopped after 60 s without
-  writing any output. Everything was restored with `git checkout` and `git status --porcelain --ignored`
-  printed nothing.
-* The POSIX-shell forms of the commands of sections 3.5 and 3.6 were tested in Git Bash on the
-  verification machine (`time wolframscript -file Revision/theory/wolfram/verify_scope.wls`, a run followed
-  by `echo` of `$?`, `sha256sum`, `grep '"summary"'`, `git status --porcelain Revision/theory`): 15/15,
-  exit code 0, the hashes and summary lines of sections 2.3 and 4.3, empty status. They were not executed
-  on macOS or Linux themselves. The PowerShell forms were tested in PowerShell 7.6.6.
-* `wolframscript -file Revision/theory/wolfram/verify_scope.wls` from a folder that is not the repository
-  root printed `Failed to open file at path: Revision/theory/wolfram/verify_scope.wls` with exit code 0
-  (section 3.7).
-
-In a further fresh clone, E, made for the re-verification after the review (section 6.6). Each command
-was started from PowerShell with `Start-Process` (clone E as working folder) while a watcher listed
-WolframScript's temporary folder `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary` every 5 ms
-and recorded the creation time (from the file system), the size and the disappearance of every new
-`tmp_*` file, relative to the start time of the `wolframscript` process:
-
-* Normal run of `verify_scope.wls` (unchanged script): `15/15 checks passed; time 18.900000000000002 s`,
-  exit code 0, 21.9 s of wall time. Temporary files: `tmp_DLMyVO9NBc`, 0 bytes, created 0.023 s after the
-  start; `tmp_eQ7tVjfpJl`, created 2.547 s after the start, 925 bytes at the end (the size of the printed
-  output); both deleted when the run ended (21.87 s).
-* Run of `verify_scope.wls` killed after 10.0 s (`taskkill /T /F`, the whole process tree; no kernel was
-  left running): it had printed 4 `PASS` lines; exit code 1; no file of the repository changed (`git
-  status --porcelain --ignored` printed nothing). It left BOTH temporary files: `tmp_LugLXhRPB1`, 0 bytes,
-  created 0.015 s after the start, and `tmp_Blin0vqqCX`, created 4.702 s after the start, 179 bytes, whose
-  sha256 (`0ab1492f...`) equals that of the run's captured printed output. Both were deleted by hand
-  afterwards.
-* The four long runs of section 6.2 (runs 3 and 4 and the two read-only runs below) each created the same
-  pair of temporary files: one 0-byte file at its start and one file with the printed lines 2.0 to 2.6 s
-  later.
+  recreated, 15/15, exit code 0, 41.1 s, `wolfram-scope.json` byte-identical (the other files of the
+  folder were restored with `git checkout`).
+* `Revision/algebra/gammas.json` hidden: `verify_scope.wls` printed `Import::nffil` and further messages,
+  ended after 165.7 s with `4/15 checks passed; time 160.4 s`, exit code 1, and overwrote
+  `wolfram-scope.json` (summary `{"passed": 4, "failed": 11, "total": 15}`); `verify_field_theory.wls`
+  printed `RevisionFieldTheory.wl loaded`, the same message, `FAIL  fixture_Clifford_relation` and further
+  `FAIL` lines, and was stopped (`taskkill /T /F`) after 421 s, still in the section `Lagrangian, both
+  statistics`, without having written any output.
 * `Revision/theory/wolfram/RevisionFieldTheory.wl` moved away, then `verify_field_theory.wls` run from the
-  root, once with the script of commit `c2b33cc` and once with the fixed script (section 6.6): both
-  printed first `Get::noopen: Cannot open ...RevisionFieldTheory.wl.`, then `FAIL  zero_test_sanity` and
-  many further messages (for example `Part::partd: ...`), 166 lines in all (3 `PASS`, 81 `FAIL`), and
-  ended with `3/84 checks passed; total time 3.7 s` (respectively `2.9000000000000004 s`), exit code 1,
-  6.8 s (respectively 5.5 s) of wall time; apart from the time values the printed lines of the two
-  versions were identical. The 3 passing checks were `degenerate_at_H_0`, `EL_Psibar_G`, `EL_Psi_G`.
-  Both runs OVERWROTE `Revision/theory/reports/wolfram-field-theory.json` (its summary line became
-  `"summary": {"passed": 3, "failed": 81, "total": 84},`) and `Revision/theory/field-theory.json`: `git
-  status --porcelain --ignored` showed ` M Revision/theory/field-theory.json`,
-  ` M Revision/theory/reports/wolfram-field-theory.json` and ` D Revision/theory/wolfram/RevisionFieldTheory.wl`.
-  The command `git checkout -- Revision/theory/wolfram/RevisionFieldTheory.wl Revision/theory/reports/wolfram-field-theory.json Revision/theory/field-theory.json`
-  of section 3.7 restored everything (empty status apart from the copied fixed script).
+  root: first `Get::noopen: Cannot open ...RevisionFieldTheory.wl.`, then `FAIL  zero_test_sanity` and
+  many further messages, 166 lines (3 `PASS`: `degenerate_at_H_0`, `EL_Psibar_G`, `EL_Psi_G`; 81 `FAIL`),
+  last line `3/84 checks passed; total time 8.6 s`, exit code 1, 15.7 s; it OVERWROTE
+  `wolfram-field-theory.json` (summary `{"passed": 3, "failed": 81, "total": 84}`) and
+  `field-theory.json`; the `git checkout` command of section 3.7 restored everything. (The same was
+  observed on 2026-10-02 with both versions of the script.)
 * `Revision/theory/reports/wolfram-scope.json` made read-only (`attrib +R`), then `verify_scope.wls` run:
   15 `PASS` lines, then an empty line, `OpenWrite::noopen: Cannot open
   ...\Revision\theory\wolfram\..\..\theory\reports\wolfram-scope.json.` and `cannot write
-  ...\wolfram-scope.json`, NO verdict line, exit code 2, 25.1 s; the file kept its committed bytes.
-* PowerShell 7.6.6 and Windows PowerShell 5.1.26100: `Get-FileHash <three files>` without
-  `| Format-List Hash, Path`, formatted at a width of 120 characters, cut every path to 33 characters
-  (`C:\Users\nsh\AppData\Local\Temp\…` in 7.6.6, `C:\Users\nsh\AppData\Local\Tem...` in 5.1), so that only
-  the order of the rows identified the files; with `| Format-List Hash, Path` the full paths were printed,
-  wrapped onto a second line where they were long (sections 3.4 and 3.6).
+  ...\wolfram-scope.json`, NO verdict line, exit code 2, 53.3 s; the file kept its committed bytes.
+* A normal run of `verify_scope.wls` (15/15, exit code 0, 40.8 s) while a `FileSystemWatcher` recorded
+  WolframScript's temporary folder: `tmp_2dpknoUc6w` (0 bytes) was created 0.045 s after the start of the
+  `wolframscript` process and `tmp_fHyZi6RXzR` 3.8 s after the start; the latter grew to 872 bytes, byte
+  for byte the printed output; both were deleted together 40.76 s after the start, as the process ended.
+  (The folder is shared with other Wolfram jobs; these two files are identified by their times and by the
+  content of the second.)
+* A run of `verify_scope.wls` killed after 10 s (`taskkill /T /F`, the whole process tree): it had printed
+  4 `PASS` lines; exit code 1; no file of the repository changed. It left BOTH temporary files:
+  `tmp_Qm4HgBEyVW`, 0 bytes, created 0.048 s after the start, and `tmp_yOuq6LmX5k`, created 4.2 s after
+  the start, 209 bytes, byte for byte the run's printed output. Both were deleted by hand afterwards.
+
+In a fourth fresh clone: `Revision/theory/reports/wolfram-field-theory.json` made read-only, then
+`verify_field_theory.wls` run from the root (at the same time as runs 1 and 2): 84 `PASS` lines,
+`[11.5 s] -> writing outputs`, an empty line, `OpenWrite::noopen: Cannot open
+...\Revision\theory\wolfram\..\reports\wolfram-field-theory.json.` and `cannot write
+...\wolfram-field-theory.json`, NO verdict line, exit code 2, 2568.3 s; both outputs kept their committed
+bytes (`field-theory.json` was not written).
+
+The output-writing code of the version before the fix (the function `writeLF` of commit `c2b33cc`), run
+alone by a small script on a read-only file and followed, as in the old script, by the verdict line: it
+printed `OpenWrite::noopen`, `BinaryWrite::stream` and `Close::stream`, then the verdict line, exit code
+0, and the file kept its content. (On 2026-10-02 the same was observed with the complete old script.)
+
+The POSIX-shell forms of the check commands of section 3.6 were run in Git Bash on the verification
+machine in clone 1 after its runs: `grep '"summary"' ...` printed the two summary lines, `sha256sum ...`
+the hashes of section 2.3 (Git Bash marks each file name with `*`; on Linux the separator is two
+spaces), and `git status --porcelain Revision/theory` printed nothing. On 2026-10-02 the POSIX forms of
+the run commands (`time wolframscript -file ...`, `echo "exit code: $?"`) were also run in Git Bash. They
+were not executed on macOS or Linux themselves. The PowerShell forms were run in PowerShell 7.6.6;
+`Get-FileHash <three files>` without `| Format-List Hash, Path`, formatted at a width of 120 characters,
+cut every path to 33 characters (`C:\Users\nsh\AppData\Local\Temp\` and an ellipsis character in 7.6.6,
+`C:\Users\nsh\AppData\Local\Tem...` in Windows PowerShell 5.1), while `| Format-List Hash, Path` printed
+the full paths, wrapped onto a second line where they were long. `wolframscript -code 'Exit[3]'`
+followed by `$LASTEXITCODE` printed `3` in PowerShell 7.6.6.
 
 ### 6.5 Interrupted runs
 
-A first pair of runs of `verify_field_theory.wls` was stopped after less than 3 minutes (it had been
-started under a tool time limit shorter than the run time) and restarted as runs 1 and 2 in the same
-clones, which were still unmodified (`git status --porcelain --ignored` printed nothing before the
-restart). Those interrupted runs and the interrupted missing-input run of the third clone (section 6.4)
-wrote no output file. At the time, one WolframScript temporary file per interrupted run (the one with the
-printed lines) was noticed and deleted; the empty companion file that every run also creates (section 5.2)
-was not noticed then and was not identified afterwards (the temporary folder is shared with other Wolfram
-jobs of the same user). The killed run of clone E (section 6.4) confirms that an interrupted run leaves
-both files.
+On 2026-10-02 a first pair of runs of `verify_field_theory.wls` was stopped after less than 3 minutes (it
+had been started under a tool time limit shorter than the run time) and restarted as runs 1 and 2 in the
+same clones, which were still unmodified (`git status --porcelain --ignored` printed nothing before the
+restart); those interrupted runs wrote no output file. On 2026-10-07 the two killed runs of section 6.4
+wrote no output file either. No run of 2026-10-07 was interrupted other than these two deliberate
+experiments.
 
 ### 6.6 Fixes and open discrepancies
 
-* Fixes: none. No execution defect was found; no file of the set was changed.
+* Fix (an execution defect, found and fixed on 2026-10-02, committed in `3f0a577`, verified again on
+  2026-10-07): in `verify_field_theory.wls` the function `writeLF` ignored a failed `OpenWrite`. When an
+  output file could not be written (read-only, locked, or in a folder without write permission), the old
+  script printed the messages `OpenWrite::noopen`, `BinaryWrite::stream` and `Close::stream`, left the
+  file unchanged, and still printed `84/84 checks passed` and exited with code 0, so a student could
+  believe that the outputs had been regenerated. Diff (one line changed, line 706): before `BinaryWrite`
+  the line now contains `If[s === $Failed, Print["cannot write ", path]; Exit[2]];`, the same treatment
+  that `verify_scope.wls` already had (its lines 201-202). No check, tolerance, printed line of a correct
+  run or output byte changed: the outputs of the fixed script are byte-identical to the committed files
+  (section 6.3), and the failure case now ends with exit code 2 (section 6.4).
+* No fix was made on 2026-10-07; no file of the set was changed.
 * Open discrepancies: none. Every check passes and every output reproduces byte for byte.
 * Observations recorded for students (not defects of this set): WolframScript returns exit code 0 when it
   cannot open the script file; WolframScript occasionally printed `The product exited because an error
-  occurred ...` with exit code 1 after a correct result while the machine was heavily loaded (section
-  3.7); the run time of `verify_field_theory.wls` under that load was about 1778 s, against 1029 s
-  recorded earlier on the development machine.
+  occurred ...` with exit code 1 after a correct result while the machine was heavily loaded (2026-10-02
+  only, section 3.7); the run time of `verify_field_theory.wls` depends strongly on the load of the
+  machine (1029 s recorded earlier on the development machine, about 1775 s on 2026-10-02 and about
+  2500 s on 2026-10-07 under heavy load).
+* Correction of the earlier draft of this file (committed in the snapshots `3f0a577` and `cb7c01e`): it
+  described the fix in section 2.1 but stated "No fix was needed" in its status line and "Fixes: none" in
+  this section; this version records the fix consistently.

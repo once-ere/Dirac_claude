@@ -1,9 +1,13 @@
 """Revision theory (sympy side): compare the sympy results with the Wolfram side's
 Revision/theory/field-theory.json (formulas) and Revision/theory/reports/wolfram-field-theory.json (checks).
 
-These two files are READ here, at the end, and only as data: every Wolfram formula is either parsed from its
-InputForm string into sympy and compared with the sympy-side expression, or (for formulas given in prose) the
-stated formula is re-built in the sympy jet algebra and compared with the sympy-side object exactly.
+These two files are READ here, at the end, and only as data: every Wolfram formula record is compared.  A record
+in InputForm is parsed into sympy and compared with the sympy-side expression; the prose field equation and adjoint
+equation are parsed (parse_dirac_prose); every other prose record must be exactly the statement quoted in STATED
+(QUANTISATION_STATEMENTS for quantisation), which is re-derived here in the sympy jet algebra or, where it is the
+statement of a sympy check, is backed by that passing check.  Every Wolfram check is paired with sympy checks
+(CHECK_MAP); the sympy checks without a Wolfram counterpart carry a written justification (SYMPY_ONLY).
+Reading Revision/algebra/reports/wolfram-algebra.json (data) for the algebra checks those justifications cite.
 No Wolfram code is used."""
 
 import json
@@ -635,7 +639,7 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     for stat in ("grassmann", "commuting"):
         sps = ctx["sps"][stat]
         T, Tvar = ctx["T"][stat], ctx["Tvar"][stat]
-        _, Tk, Tp, K, V = sps.emt()
+        Tk, Tp, K, V = ctx["emt_parts"][stat]  # fields.Spinors.emt() of the sympy checks
         pb, ps = sps.psibar(), sps.psi()
         L0 = K - V
         Xm = [[sps.dot(pb, sps.matvec(geo.gam[nu], sps.Dpsi(mu))) -
@@ -692,62 +696,95 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
         T48 = (B48 - B84.scale(c / s**6)).scale(-sp.Rational(1, 4))
         okx = okx and (T48 - T[3][7]).expand().is_zero(zero_author)[0]
         okx = okx and (T[7][3] + T[3][7].scale(s**12 / c**2)).expand().is_zero(zero_author)[0]
-    rec(out, "T_variation", okv, "the stated closed form T^nu_mu = delta L0 - (1/2)(Psibar gamma^nu D_mu Psi - D_mu "
+    rec(out, "T_variation", okv and F["T_variation"] == STATED["T_variation"],
+        "(statement verbatim) the stated closed form T^nu_mu = delta L0 - (1/2)(Psibar gamma^nu D_mu Psi - D_mu "
         "Psibar gamma^nu Psi) - (1/4) g_mu rho nabla_l (Psibar {gamma^l, Sigma^(nu rho)} Psi), rebuilt in the "
         "sympy algebra, equals the sympy first-order vielbein variation tensor OFF SHELL for all 64 components, "
         "both statistics (the sympy side had established equality with the Belinfante tensor on shell)")
-    rec(out, "T_symmetric", oks, "the stated Belinfante T^nu_mu equals the sympy T^nu_mu off shell, 64 components, "
-        "both statistics")
-    rec(out, "EMT_kinetic_potential", okk, "T_kin = delta sum K - (1/4)(...), T_pot = -delta (m S + U) equal the "
-        "sympy split, both statistics")
-    rec(out, "EMT_diagonal", okd, "T^mu_mu (no sum) = L0 - K_mu, K_mu = (1/(2 f_mu))(Psibar gamma^(mu) d_mu Psi - "
-        "d_mu Psibar gamma^(mu) Psi), sum_mu K_mu = K: equal off shell, both statistics")
-    rec(out, "EMT_trace", okt and "-m S + 7 S U' - 8 U" in F["EMT_trace"],
-        "T^mu_mu = 7 sum K - 8 (m S + U) off shell (sympy algebra) and the same on-shell value -m S + 7 S U' - 8 U")
-    hw = F["EMT_homogeneous_on_shell"]
-    rec(out, "EMT_homogeneous_on_shell", all(x in hw for x in ("rho = m S + U(S)", "p3 = p_t = p8 = S U'(S) - U(S)",
-                                                                "w = lam S/(2 m + lam S)")) and
-        {"grassmann_homogeneous_on_shell_rho_p", "commuting_homogeneous_on_shell_rho_p"} <= passed,
-        "rho = m S + U, p3 = p_t = p8 = S U' - U, w = lambda S/(2 m + lambda S): the same statements as the passing "
-        "sympy checks grassmann_homogeneous_on_shell_rho_p and commuting_homogeneous_on_shell_rho_p (verified there by "
-        "on-shell substitution)")
-    rec(out, "EMT_offdiagonal_x4_x8", okx and {"grassmann_T_x4x8_homogeneous", "commuting_T_x4x8_homogeneous"} <= passed,
-        "T^x4_x8 = -(1/4)(B48 - Cot[z] B84) and T^x8_x4 = -Tan[z]^2 T^x4_x8 equal the sympy components off shell, both "
-        "statistics; on homogeneous on-shell states the sympy side finds T^x4_x8 = T^x8_x4 = 0 (passing checks "
-        "grassmann_T_x4x8_homogeneous, commuting_T_x4x8_homogeneous); the Wolfram side states T^x4_x8 = 0 at its "
-        "exact solutions (exact_solution_x4_x8_*)")
+    rec(out, "T_symmetric", oks and F["T_symmetric"] == STATED["T_symmetric"],
+        "(statement verbatim) the stated Belinfante T^nu_mu, rebuilt in the sympy algebra, equals the sympy T^nu_mu off "
+        "shell, 64 components, both statistics")
+    rec(out, "EMT_kinetic_potential", okk and F["EMT_kinetic_potential"] == STATED["EMT_kinetic_potential"],
+        "(statement verbatim) T_kin = delta sum K - (1/4)(...) and T_pot = -delta (m S + U), rebuilt in the sympy "
+        "algebra, equal the sympy split, both statistics; hence rho_pot = -T_pot^x4_x4 = m S + U and p_pot = -(m S + U) "
+        "in every direction")
+    rec(out, "EMT_diagonal", okd and F["EMT_diagonal"] == STATED["EMT_diagonal"],
+        "(statement verbatim) T^mu_mu (no sum) = L0 - K_mu with K_mu = (1/(2 f_mu))(Psibar gamma^(mu) d_mu Psi - d_mu "
+        "Psibar gamma^(mu) Psi) and sum_mu K_mu = K: equal off shell, both statistics; with L0 = sum K - m S - U these "
+        "are the stated rho = -sum_(mu != x4) K_mu + m S + U and p_mu = sum_(l != mu) K_l - m S - U")
+    # trace: off shell in the sympy algebra (okt); on shell for a general U from sum_mu K_mu = (m + U') S
+    Sg = sp.Symbol("S", real=True)
+    Uf = sp.Function("U")
+    dU = sp.diff(Uf(Sg), Sg)
+    ok_tr = okt and sp.expand(7 * (m + dU) * Sg - 8 * (m * Sg + Uf(Sg)) - (-m * Sg + 7 * Sg * dU - 8 * Uf(Sg))) == 0
+    Uq = lam * Sg**2 / 2
+    ok_tr = ok_tr and sp.expand(-m * Sg + 7 * Sg * sp.diff(Uq, Sg) - 8 * Uq - (-m * Sg + 3 * lam * Sg**2)) == 0
+    ok_tr = ok_tr and {"grassmann_trace_on_shell", "commuting_trace_on_shell"} <= passed
+    ok_tr = ok_tr and F["EMT_trace"] == STATED["EMT_trace"]
+    rec(out, "EMT_trace", ok_tr, "(statement verbatim) T^mu_mu = 8 L0 - sum K = 7 sum K - 8 (m S + U) off shell "
+        "(rebuilt in the sympy algebra, both statistics); on shell the sympy checks grassmann_trace_on_shell and "
+        "commuting_trace_on_shell (passing) verify -m S + 3 lambda S^2 for U = (lambda/2) S^2 by the prolonged on-shell "
+        "substitution; recomputed here: 7 (m + U') S - 8 (m S + U) = -m S + 7 S U' - 8 U for a general U, and = -m S + "
+        "3 lambda S^2 for U = (lambda/2) S^2. Counterparts of the Wolfram checks EMT_trace_G and EMT_trace_C")
+    ok_h = F["EMT_homogeneous_on_shell"] == STATED["EMT_homogeneous_on_shell"]
+    ok_h = ok_h and sp.expand(m * Sg + Uq - (m * Sg + lam * Sg**2 / 2)) == 0
+    ok_h = ok_h and sp.expand(Sg * sp.diff(Uq, Sg) - Uq - lam * Sg**2 / 2) == 0
+    ok_h = ok_h and sp.simplify((Sg * sp.diff(Uq, Sg) - Uq) / (m * Sg + Uq) - lam * Sg / (2 * m + lam * Sg)) == 0
+    ok_h = ok_h and {"grassmann_homogeneous_on_shell_rho_p", "commuting_homogeneous_on_shell_rho_p"} <= passed
+    rec(out, "EMT_homogeneous_on_shell", ok_h, "(statement verbatim) rho = m S + U and p3 = p_t = p8 = S U' - U are the "
+        "statements of the passing sympy checks grassmann_homogeneous_on_shell_rho_p and "
+        "commuting_homogeneous_on_shell_rho_p (verified there for U = (lambda/2) S^2 by the prolonged on-shell "
+        "substitution, with T_kin^x4_x4 = 0 and T_kin^mu_mu = (m + U') S for mu != x4); the specialisations rho = m S + "
+        "lambda S^2/2, p = lambda S^2/2 and w = lambda S/(2 m + lambda S) are recomputed here")
+    rec(out, "EMT_offdiagonal_x4_x8", okx and {"grassmann_T_x4x8_homogeneous", "commuting_T_x4x8_homogeneous"} <= passed
+        and F["EMT_offdiagonal_x4_x8"] == STATED["EMT_offdiagonal_x4_x8"],
+        "(statement verbatim) T^x4_x8 = -(1/4)(B48 - Cot[z] B84) and T^x8_x4 = -Tan[z]^2 T^x4_x8 equal the sympy "
+        "components off shell, both statistics; on homogeneous on-shell states the sympy side finds T^x4_x8 = T^x8_x4 = "
+        "0 (passing checks grassmann_T_x4x8_homogeneous, commuting_T_x4x8_homogeneous); the Wolfram side states "
+        "T^x4_x8 = 0 at its exact solutions (exact_solution_x4_x8_*)")
     # ---- energy exchange: the complete identity nabla_mu T^mu_nu (all eight nu) for T = diag(p3, p3, p3, -rho, pt,
     # pt, pt, p8) with entries functions of x4 and x8, recomputed HERE from the sympy Christoffel symbols with the
     # general mixed-tensor formula d_mu T^mu_nu + Gamma^mu_(mu l) T^l_nu - Gamma^l_(mu nu) T^mu_l (the sympy check
     # uses the sqrt g form), and compared with the three InputForm entries of the Wolfram record
     okE, detE = energy_exchange_compare(F["energy_exchange"], geo)
     rec(out, "energy_exchange", okE and "energy_exchange_equation" in passed, detE)
-    # ---- the five prose records (statements of checks), each re-derived here where it is a formula
-    nt = F["nontriviality"]
+    # ---- the remaining prose records, each re-derived here where it is a formula
+    ok_nt = F["nontriviality"] == STATED["nontriviality"]
     tot_nt = sp.zeros(16, 16)
     for mu in range(8):
-        tot_nt += geo.gam[mu] * geo.Om[mu]
+        M = (geo.gam[mu] * geo.Om[mu]).applyfunc(sp.expand)
+        tot_nt += M
+        if mu in (0, 1, 2):
+            want = A1 / 2 * G[3] + H / 2 * G[7]
+        elif mu in (4, 5, 6):
+            want = -A1 / 2 * G[3] + H / 2 * G[7]
+        else:
+            want = sp.zeros(16, 16)
+        ok_nt = ok_nt and all(zero_author(x) for x in (M - want))
     r88 = sp.expand(geo.ginv[X8] * geo.ricci[X8][X8])
-    ok_nt = all(x in nt for x in ("= 3 H gamma^(x8) Psi", "(a4'/2) gamma^(x4) + (H/2) gamma^(x8)",
-                                  "-(a4'/2) gamma^(x4) + (H/2) gamma^(x8)", "iff a4' = 0 and H = 0",
-                                  "R^x8_x8 = -6 H^2"))
     ok_nt = ok_nt and all(zero_author(x) for x in (tot_nt - 3 * H * G[7])) and zero_author(r88 + 6 * H**2)
+    ok_nt = ok_nt and G[7] * G[7] == sp.eye(16)
     ok_nt = ok_nt and {"gamma_mu_Omega_mu_equals_3H_gamma_x8", "time_terms_cancel_hidden_term_survives",
                        "nontriviality_Omega_zero_iff_flat", "spinor_curvature_equals_riemann"} <= passed
-    rec(out, "nontriviality", ok_nt, "the stated values gamma^mu Omega_mu = 3 H gamma^(x8) and R^x8_x8 = -6 H^2 are "
-        "recomputed here (sympy matrices and Ricci tensor); the per-direction and iff statements are those of the "
-        "passing sympy checks gamma_mu_Omega_mu_equals_3H_gamma_x8, time_terms_cancel_hidden_term_survives, "
-        "nontriviality_Omega_zero_iff_flat, spinor_curvature_equals_riemann. Scope: the values belong to the "
-        "diagonal vielbein (frame dependence: Revision/theory/reports/python-scope.json)")
-    mj = F["majorana_negative_control"]
-    ok_mj = all(x in mj for x in ("a total derivative", "no field equation", "Psi^T C Psi = 0",
-                                  "2 sqrt g C gamma^mu D_mu Phi")) and \
-        {"negative_control_majorana_grassmann_total_derivative", "negative_control_majorana_commuting_contrast"} <= passed
-    rec(out, "majorana_negative_control", ok_mj, "the statement (total derivative and no field equation for "
-        "anticommuting real components; Euler-Lagrange expression 2 sqrt g C gamma^mu D_mu Phi for commuting ones) is "
-        "the content of the passing sympy checks negative_control_majorana_grassmann_total_derivative and "
-        "negative_control_majorana_commuting_contrast")
-    ex = F["exact_solutions"]
+    rec(out, "nontriviality", ok_nt, "(statement verbatim) recomputed here from the sympy matrices and Ricci tensor: "
+        "gamma^(xi) Omega_xi = (a4'/2) gamma^(x4) + (H/2) gamma^(x8) (i = 1, 2, 3), gamma^(xt) Omega_xt = -(a4'/2) "
+        "gamma^(x4) + (H/2) gamma^(x8) (t = 5, 6, 7), gamma^(x4) Omega_x4 = gamma^(x8) Omega_x8 = 0, the sum 3 H "
+        "gamma^(x8) (nonzero on every Psi != 0 since (gamma^(x8))^2 = 1), R^x8_x8 = -6 H^2; the iff statement and "
+        "[D_mu, D_nu] = curvature are the passing sympy checks nontriviality_Omega_zero_iff_flat and "
+        "spinor_curvature_equals_riemann. Scope: the values belong to the diagonal vielbein (frame dependence: "
+        "Revision/theory/reports/python-scope.json)")
+    ok_mj = F["majorana_negative_control"] == STATED["majorana_negative_control"]
+    ok_mj = ok_mj and {"negative_control_majorana_grassmann_total_derivative",
+                       "negative_control_majorana_commuting_contrast"} <= passed
+    spg, spc = ctx["sps"]["grassmann"], ctx["sps"]["commuting"]
+    thg, thc = spg.theta(), spc.theta()
+    ok_mj = ok_mj and len(spg.dot(spg.vecmat(thg, Cm), thg).expand()) == 0  # Psi^T C Psi = 0 (anticommuting)
+    ok_mj = ok_mj and all(len(spc.dot(spc.vecmat(thc, Cm), spc.matvec(G[a], thc)).expand()) == 0 for a in range(8))
+    rec(out, "majorana_negative_control", ok_mj, "(statement verbatim) the total derivative and the absence of field "
+        "equations for anticommuting real components, and the Euler-Lagrange expression for commuting ones, are the "
+        "passing sympy checks negative_control_majorana_grassmann_total_derivative and "
+        "negative_control_majorana_commuting_contrast; recomputed here: Psi^T C Psi = 0 for 16 real anticommuting "
+        "components and Phi^T C gamma^(a) Phi = 0 for 16 real commuting components, all a")
     al, S0 = sp.symbols("alpha S0", real=True)
     M1 = -m * G[3] + 3 * H * (2 * al + 1) * G[3] * G[7]
     M2 = -(m + lam * S0) * G[3] + 3 * H * G[3] * G[7]
@@ -756,61 +793,51 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
     ok_ex = ok_ex and (M2 * M2 - (9 * H**2 - (m + lam * S0)**2) * I16).applyfunc(sp.expand) == sp.zeros(16, 16)
     ok_ex = ok_ex and (Cm * M1 + M1.T * Cm).applyfunc(sp.expand) == sp.zeros(16, 16)
     ok_ex = ok_ex and (Cm * M2 + M2.T * Cm).applyfunc(sp.expand) == sp.zeros(16, 16)
-    Sx = sp.Symbol("S")
-    Ux = lam * Sx**2 / 2
-    ok_ex = ok_ex and sp.expand((m * Sx + Ux).subs(Sx, S0) - (m * S0 + lam * S0**2 / 2)) == 0 and \
-        sp.expand((Sx * sp.diff(Ux, Sx) - Ux).subs(Sx, S0) - lam * S0**2 / 2) == 0
-    ok_ex = ok_ex and all(x in ex for x in ("M = -m g[x4] + 3 H (2 al + 1) g[x4].g[x8]",
-                                            "k^2 = 9 H^2 (2 al + 1)^2 - m^2",
-                                            "M = -(m + lam S0) g[x4] + 3 H g[x4].g[x8]",
-                                            "k^2 = 9 H^2 - (m + lam S0)^2", "rho = m S0 + lam S0^2/2",
-                                            "p3 = p_t = p8 = lam S0^2/2"))
+    ok_ex = ok_ex and sp.expand((m * Sg + Uq).subs(Sg, S0) - (m * S0 + lam * S0**2 / 2)) == 0 and \
+        sp.expand((Sg * sp.diff(Uq, Sg) - Uq).subs(Sg, S0) - lam * S0**2 / 2) == 0
+    ok_ex = ok_ex and F["exact_solutions"] == STATED["exact_solutions"]
     ok_ex = ok_ex and {"exact_solution_family_x4_x8", "exact_nonlinear_homogeneous_solution"} <= passed
-    rec(out, "exact_solutions", ok_ex, "with the sympy gammas: M^2 = (9 H^2 (2 alpha + 1)^2 - m^2) I16 and "
-        "M^2 = (9 H^2 - (m + lambda S0)^2) I16 for the two stated M, C M + M^T C = 0 for both (S constant), and "
-        "rho = m S0 + lambda S0^2/2, p = S U' - U = lambda S0^2/2 for U = lambda S^2/2; the solutions themselves are "
-        "the passing sympy checks exact_solution_family_x4_x8 and exact_nonlinear_homogeneous_solution")
-    eo = F["equation_of_state_definitions"]
-    wq = sp.simplify((Sx * sp.diff(Ux, Sx) - Ux) / (m * Sx + Ux) - lam * Sx / (2 * m + lam * Sx))
-    ok_eo = all(x in eo for x in ("rho = -T^x4_x4", "p3 = T^x1_x1", "p_t = T^x5_x5", "p8 = T^x8_x8",
-                                  "w3 = p3/rho", "(S U' - U)/(m S + U)")) and wq == 0 and \
+    rec(out, "exact_solutions", ok_ex, "(statement verbatim) with the sympy gammas: M^2 = (9 H^2 (2 alpha + 1)^2 - m^2) "
+        "I16 and M^2 = (9 H^2 - (m + lambda S0)^2) I16 for the two stated M, C M + M^T C = 0 for both (S constant), and "
+        "rho = m S0 + lambda S0^2/2, p = S U' - U = lambda S0^2/2 for U = lambda S^2/2; the solutions themselves - (i), "
+        "(ii) and the Grassmann solution in an explicit Grassmann algebra with N = 2 - are the passing sympy checks "
+        "exact_solution_family_x4_x8 and exact_nonlinear_homogeneous_solution")
+    wq = sp.simplify((Sg * sp.diff(Uq, Sg) - Uq) / (m * Sg + Uq) - lam * Sg / (2 * m + lam * Sg))
+    ok_eo = F["equation_of_state_definitions"] == STATED["equation_of_state_definitions"] and wq == 0 and \
         {"grassmann_homogeneous_on_shell_rho_p", "commuting_homogeneous_on_shell_rho_p"} <= passed
-    rec(out, "equation_of_state_definitions", ok_eo, "same definitions as SPEC section 4 and the sympy record; "
-        "(S U' - U)/(m S + U) = lambda S/(2 m + lambda S) for U = lambda S^2/2 recomputed here; homogeneous values "
-        "from the passing sympy checks *_homogeneous_on_shell_rho_p")
-    hh = F["hidden_direction_hermiticity"]
+    rec(out, "equation_of_state_definitions", ok_eo, "(statement verbatim) the same definitions as SPEC section 4 and "
+        "the sympy record (rho = -T^x4_x4, p_mu = T^mu_mu); (S U' - U)/(m S + U) = lambda S/(2 m + lambda S) for U = "
+        "lambda S^2/2 recomputed here; the homogeneous values from the passing sympy checks "
+        "*_homogeneous_on_shell_rho_p")
     pf, qf = sp.Function("p")(x8s), sp.Function("q")(x8s)
     op = lambda f, k3: sp.tan(Z) * sp.diff(f, x8s) + k3 * f
     lhs3 = sp.cos(Z) * (pf * op(qf, 3 * H) + op(pf, 3 * H) * qf) - sp.diff(sp.sin(Z) * pf * qf, x8s)
     lhs0 = sp.cos(Z) * (pf * op(qf, 0) + op(pf, 0) * qf) - sp.diff(sp.sin(Z) * pf * qf, x8s)
     ok_hh = sp.simplify(lhs3) == 0 and sp.simplify(lhs0 + 6 * H * sp.cos(Z) * pf * qf) == 0 and \
-        "Cos[z] [p (Tan[z] d8 + 3 H) q + ((Tan[z] d8 + 3 H) p) q] = d8 (Sin[z] p q)" in hh
-    rec(out, "hidden_direction_hermiticity", ok_hh, "recomputed here: cos z [p (tan z d8 + 3H) q + ((tan z d8 + 3H) "
-        "p) q] = d8(sin z p q) identically, and without the 3H term the same combination is d8(sin z p q) - 6 H cos z "
-        "p q. Scope: this is antisymmetry for the measure cos z dx8 in the field variables Psi, up to the boundary "
-        "term sin z p q, which does not vanish at z = pi/2 (Revision/theory/reports/python-scope.json)")
-    q = F["quantisation"]
-    items = [("pi_A = (i/2) Cos[z] (Psi^dagger B)_A", "canonical_momentum"),
-             ("{Psi_A(x), Psi^dagger_C(y)}_(x4 = y4) = B_AC delta^7(x - y)/Cos[z]", "canonical_anticommutator_B"),
-             ("signature (8,8)", "B_properties"),
-             ("no positive inner product", "no_positive_inner_product"),
-             ("positive representation chi = Psi^dagger B", "good_sector_positive_fock_realisation"),
-             ("h Hermitian", "good_sector_spectrum_and_B_sectors"),
-             ("<Psi^dagger M Psi> = u^dagger B M u", "good_sector_positive_fock_realisation"),
-             ("E^2 = m^2 + k_s^2 - k_t^2", "mode_hamiltonian_B_selfadjoint_dispersion")]
+        F["hidden_direction_hermiticity"] == STATED["hidden_direction_hermiticity"]
+    rec(out, "hidden_direction_hermiticity", ok_hh, "(statement verbatim) recomputed here: cos z [p (tan z d8 + 3H) q + "
+        "((tan z d8 + 3H) p) q] = d8(sin z p q) identically, and without the 3H term the same combination is d8(sin z "
+        "p q) - 6 H cos z p q. Scope: this is antisymmetry for the measure cos z dx8 in the field variables Psi, up to "
+        "the boundary term sin z p q, which does not vanish at z = pi/2 (Revision/theory/reports/python-scope.json)")
+    segs = F["quantisation"].split("; ")
     mine_pass = {x["name"]: x["verdict"] == "pass" for x in checks}
-    okq = all(a in q and mine_pass.get(b, False) for a, b in items)
-    rec(out, "quantisation", okq, "each statement of the Wolfram quantisation summary is present and has a passing "
-        "sympy counterpart: " + "; ".join(f"'{a}' <-> {b}" for a, b in items) + ". Convention note: the sympy side "
-        "states the rule in two realisations - (i) Psi^dagger the adjoint in a Krein-Fock space: <:Psi^dagger M "
-        "Psi:> = eps u^dagger M u (= u^dagger B M u for B-eigenvector modes); (ii) the positive Fock space with "
-        "Psi^dagger = chi B: u^dagger B M u for particles, -v^dagger B M v for antiparticles (the Wolfram form)")
-    covered = {x["name"] for x in out}
-    missing = [k for k in F if k not in covered and k not in ("field_equation",)]
-    # the prose field_equation is the sum of the 16 components (compared above)
-    rec(out, "field_equation", "3 H g[x8] Psi = (m + U'(S)) Psi" in F["field_equation"] and
-        any(x["name"] == "field_equation_components" and x["verdict"] == "agree" for x in out),
-        "prose form of the 16 compared component equations")
+    okq = segs == [a for a, _ in QUANTISATION_STATEMENTS]
+    okq = okq and all(mine_pass.get(b, False) for _, bs in QUANTISATION_STATEMENTS for b in bs)
+    okq = okq and (Cm * G[3] - sp.I * gm["B"]).applyfunc(sp.expand) == sp.zeros(16, 16)
+    rec(out, "quantisation", okq, f"the record consists of exactly these {len(QUANTISATION_STATEMENTS)} statements, "
+        "each with passing sympy counterparts: " + "; ".join(f"'{a}' <-> {', '.join(bs)}"
+                                                           for a, bs in QUANTISATION_STATEMENTS)
+        + "; C gamma^(x4) = i B recomputed here. Convention note: the sympy side states the rule in two realisations - "
+        "(i) Psi^dagger the adjoint in a Krein-Fock space: <:Psi^dagger M Psi:> = eps u^dagger M u (= u^dagger B M u "
+        "for B-eigenvector modes); (ii) the positive Fock space with Psi^dagger = chi B: u^dagger B M u for particles, "
+        "-v^dagger B M v for antiparticles (the Wolfram form). Scope: 'h Hermitian for Cos[z] d^7x' holds up to the "
+        "boundary term at z = pi/2 (record hidden_direction_hermiticity; Revision/theory/reports/python-scope.json); "
+        "the EMT operator is a definition (normal ordering of the classical tensor), the same as the sympy record "
+        "quantisation.emt_operator")
+    covered = [x["name"] for x in out]
+    missing = [k for k in F if k not in covered]
+    extra = [k for k in covered if k not in F]
+    duplicates = len(covered) != len(set(covered)) or len(ft["formulas"]) != len(F)
     # ---- check-by-check
     wv = {x["name"]: x["verdict"] for x in wr["checks"]}
     pairs = []
@@ -824,14 +851,30 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
                       "agreement": "agree" if agree else "DISAGREE"})
     mine_unmapped = [x["name"] for x in checks if x["name"] not in {p[0] for p in CHECK_MAP}]
     w_unmapped = [n for n in wv if n not in used]
+    # the unpaired checks need a written justification (and the algebra-report checks they cite must pass)
+    alg_path = os.path.join(os.path.dirname(ft_path), "..", "algebra", "reports", "wolfram-algebra.json")
+    av = {}
+    if os.path.exists(alg_path):
+        with open(alg_path, encoding="utf-8") as fh:
+            av = {x["name"]: x["verdict"] for x in json.load(fh)["checks"]}
+    just_sympy = []
+    for n in mine_unmapped:
+        reason, refs = SYMPY_ONLY.get(n, ("MISSING", []))
+        just_sympy.append({"sympy_check": n, "justification": reason,
+                           "wolfram_algebra_checks": {r: av.get(r, "absent") for r in refs}})
+    just_wolfram = [{"wolfram_check": n, "justification": WOLFRAM_ONLY.get(n, "MISSING")} for n in w_unmapped]
+    ok_just = all(j["justification"] != "MISSING" and all(v == "PASS" for v in j["wolfram_algebra_checks"].values())
+                  for j in just_sympy) and all(j["justification"] != "MISSING" for j in just_wolfram)
     nf = sum(1 for x in out if x["verdict"] == "agree")
     npair = sum(1 for p in pairs if p["agreement"] == "agree")
-    status = "agree" if nf == len(out) and npair == len(pairs) and not missing else "DISAGREEMENTS"
+    status = "agree" if (nf == len(out) and npair == len(pairs) and not missing and not extra and not duplicates
+                         and ok_just) else "DISAGREEMENTS"
     return {
         "status": status,
         "wolfram_summary": wr.get("summary"),
         "formulas": {"compared": len(out), "agree": nf, "not_compared": missing, "records": out},
         "checks": {"pairs": len(pairs), "agree": npair, "records": pairs,
                    "sympy_checks_without_wolfram_counterpart": mine_unmapped,
-                   "wolfram_checks_without_sympy_counterpart": w_unmapped},
+                   "wolfram_checks_without_sympy_counterpart": w_unmapped,
+                   "justifications": {"sympy_only": just_sympy, "wolfram_only": just_wolfram}},
     }

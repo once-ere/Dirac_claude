@@ -18,7 +18,7 @@ It reads or reproduces these Revision records:
 - `Revision/field_equations_a4/a4-equations.json`: the record of the field equations of a4: for the linear history a4 = A H x4 the energy density and the pressure that the Einstein equations require (linearMember: rhoEinstein, pEinstein, rhoPlusPEinstein)
 - `Revision/field_equations_a4/reports/python-a4-report.json`: its sympy verification: the check L1_equals_gkd_branch (the first Lovelock scalar, twice the Ricci scalar) and the check json_linear_member
 
-The notebook has 58 cells (31 markdown cells and 27 code cells) in these sections:
+The notebook has 60 cells (32 markdown cells and 28 code cells) in these sections:
 
 - 1. What this notebook computes
 - 2. How to run this notebook
@@ -246,102 +246,102 @@ python Revision/textbook/tools/nbkit.py check Revision/textbook/notebooks/src/03
 Every check prints a PASS line (a check that fails stops the notebook with an AssertionError instead). The notebook prints these lines, in this order; the label In [k] is the number of the code cell that prints the line:
 
 ```text
-In [3]  PASS the metric read from the text of the author is diagonal
-In [5]  PASS the Christoffel symbols are symmetric in their two lower indices
-In [6]  PASS the same 25 non-zero Christoffel symbols as the record
-In [6]  PASS every Christoffel symbol equals the record exactly
-In [6]       reproduces Revision/gkd_lovelock/results/curvature.json, christoffelNonzero_b_le_c
-In [6]      (and python-lovelock-report.json, check rust_christoffels_agree)
-In [7]  PASS the tables are symmetric in b, c; every non-zero symbol has an index x4 or x8
-In [8]  PASS Gamma^x1_(x1 x8) = H cot z equals 1 at z = pi/4, H = 1
-In [9]  PASS the test point is the one of the brute-force check of the Rust program
-In [9]    h = 1e-01: largest error of the 512 symbols = 4.01e-01
-In [9]    h = 1e-02: largest error of the 512 symbols = 3.66e-03
-In [9]    h = 1e-03: largest error of the 512 symbols = 3.65e-05
-In [9]    h = 1e-04: largest error of the 512 symbols = 3.65e-07
-In [9]    h = 1e-05: largest error of the 512 symbols = 3.66e-09
-In [9]    h = 1e-06: largest error of the 512 symbols = 5.36e-11
-In [9]    h = 1e-07: largest error of the 512 symbols = 8.46e-10
-In [9]    h = 1e-08: largest error of the 512 symbols = 9.00e-09
-In [9]  PASS finite differences reproduce all 512 symbols; the error falls like h^2
-In [10]  PASS the error shrinks as the step shrinks from 0.1 to 0.0001
-In [11]  PASS Gamma^a_(x4 x4) = 0: observers at rest fall freely, x4 is their proper time
-In [11]  PASS sum over a of Gamma^a_(a b) equals the derivative of ln cos z
-In [12]  PASS R^ab_cd has 156 non-zero components, as in the record
-In [12]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
-In [12]      riemann_antisymmetry (156 nonzero entries)
-In [13]  PASS R^ab_cd is antisymmetric in a, b and in c, d; R_abcd = R_cdab
-In [13]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, check
-In [13]      riemann_antisymmetry_and_pair_symmetry
-In [13]  PASS the first Bianchi identity holds for all 4096 index lists
+In [4]  PASS the metric read from the text of the author is diagonal
+In [6]  PASS the Christoffel symbols are symmetric in their two lower indices
+In [7]  PASS the same 25 non-zero Christoffel symbols as the record
+In [7]  PASS every Christoffel symbol equals the record exactly
+In [7]       reproduces Revision/gkd_lovelock/results/curvature.json, christoffelNonzero_b_le_c
+In [7]      (and python-lovelock-report.json, check rust_christoffels_agree)
+In [8]  PASS the tables are symmetric in b, c; every non-zero symbol has an index x4 or x8
+In [9]  PASS Gamma^x1_(x1 x8) = H cot z equals 1 at z = pi/4, H = 1
+In [10]  PASS the test point is the one of the brute-force check of the Rust program
+In [10]    h = 1e-01: largest error of the 512 symbols = 4.01e-01
+In [10]    h = 1e-02: largest error of the 512 symbols = 3.66e-03
+In [10]    h = 1e-03: largest error of the 512 symbols = 3.65e-05
+In [10]    h = 1e-04: largest error of the 512 symbols = 3.65e-07
+In [10]    h = 1e-05: largest error of the 512 symbols = 3.66e-09
+In [10]    h = 1e-06: largest error of the 512 symbols = 5.36e-11
+In [10]    h = 1e-07: largest error of the 512 symbols = 8.46e-10
+In [10]    h = 1e-08: largest error of the 512 symbols = 9.00e-09
+In [10]  PASS finite differences reproduce all 512 symbols; the error falls like h^2
+In [11]  PASS the error shrinks as the step shrinks from 0.1 to 0.0001
+In [12]  PASS Gamma^a_(x4 x4) = 0: observers at rest fall freely, x4 is their proper time
+In [12]  PASS sum over a of Gamma^a_(a b) equals the derivative of ln cos z
+In [13]  PASS R^ab_cd has 156 non-zero components, as in the record
 In [13]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
-In [13]      riemann_first_bianchi
-In [13]  PASS no R^ab_cd contains sin(z)^(1/3) or e^(a4): the warp cancels
-In [13]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
-In [13]      mixed_riemann_free_of_sin_third, and python-lovelock-report.json, check
-In [13]      mixed_riemann_free_of_warp_and_exponential
-In [14]  PASS the same 156 non-zero components R^ab_cd as the record
-In [14]  PASS every component R^ab_cd equals the record exactly
-In [14]       reproduces Revision/gkd_lovelock/results/curvature.json, riemannMixedNonzero (and
-In [14]      python-lovelock-report.json, check rust_riemann_agrees)
-In [14]    12 x  -H**2                           e.g. R^(x1 x8)_(x1 x8)
-In [14]    12 x  -H**2 + a4p**2                  e.g. R^(x1 x2)_(x1 x2)
-In [14]    18 x  -H**2 - a4p**2                  e.g. R^(x1 x5)_(x1 x5)
-In [14]    12 x  -H*a4p*tan(z)                   e.g. R^(x1 x8)_(x1 x4)
-In [14]    12 x  -H*a4p/tan(z)                   e.g. R^(x1 x4)_(x8 x1)
-In [14]     6 x  -a4p**2 + a4pp                  e.g. R^(x4 x5)_(x5 x4)
-In [14]     6 x  -a4p**2 - a4pp                  e.g. R^(x1 x4)_(x4 x1)
-In [14]    12 x  H**2                            e.g. R^(x1 x8)_(x8 x1)
-In [14]    18 x  H**2 + a4p**2                   e.g. R^(x1 x5)_(x5 x1)
-In [14]    12 x  H**2 - a4p**2                   e.g. R^(x1 x2)_(x2 x1)
-In [14]    12 x  H*a4p*tan(z)                    e.g. R^(x1 x8)_(x4 x1)
-In [14]    12 x  H*a4p/tan(z)                    e.g. R^(x1 x4)_(x1 x8)
-In [14]     6 x  a4p**2 + a4pp                   e.g. R^(x1 x4)_(x1 x4)
-In [14]     6 x  a4p**2 - a4pp                   e.g. R^(x4 x5)_(x4 x5)
-In [15]  PASS the plane curvatures have the six formulas and do not depend on z or a4
-In [15]  PASS the planes inside 3-space: -0.75, 0 and 3 for A = 0.5, 1 and 2
-In [16]  PASS all 64 Ricci, all 64 Einstein components and R equal the record
-In [16]       reproduces Revision/gkd_lovelock/results/curvature.json, ricciMixed, einsteinMixed,
-In [16]      ricciScalar (and python-lovelock-report.json, check rust_ricci_einstein_scalar_agree)
-In [17]  PASS the first Lovelock scalar of the record is twice our Ricci scalar
-In [17]       reproduces Revision/field_equations_a4/reports/python-a4-report.json, check
-In [17]      L1_equals_gkd_branch (with python-lovelock-report.json, check L1_equals_2R)
-In [18]  PASS at the five test points every component agrees to more than 25 digits
-In [18]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, randomPoints,
-In [18]      checks rust_christoffels_agree, rust_riemann_agrees, rust_ricci_einstein_scalar_agree
-In [19]  PASS the Einstein tensor is diagonal
-In [19]       reproduces Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json, check
-In [19]      einstein_off_diagonal_zero
-In [19]  PASS no component of the Einstein tensor depends on x8
-In [19]       reproduces Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json, check
-In [19]      einstein_x8_independent
-In [19]  PASS 3-space components equal, extra-time components equal
-In [19]       reproduces Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json, check
-In [19]      einstein_isotropy
-In [19]  PASS G^x4_x4 - G^x8_x8 = 6 (a4p^2 + H^2) > 0
-In [19]       reproduces Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json, check
-In [19]      no_vacuum_for_H_positive
-In [20]  PASS the contracted Bianchi identity: the divergence of G vanishes
-In [20]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, checks
-In [20]      k1_equals_minus_4_einstein and k1_divergence_free
-In [21]  PASS K from our components equals K from the 156 components of the record
-In [21]  PASS K depends only on H, a4p and a4pp, not on z and not on a4
-In [21]  PASS K/12 = 7 (a4p^2 - H^2/7)^2 + 48 H^4/7 + 2 a4pp^2, so K > 0 for H > 0
-In [22]  PASS summed numerically, K is the same at all 300 values of z and equals the formula
-In [23]  PASS the curvature scalars are even in A
-In [23]  PASS at A = 1: R = -36 H^2 and K = 144 H^4
-In [24]  PASS diagonal of G: 12 (24 for x4) at A = 1 and 3 (33 for x4) at A = 2, unit H^2
-In [25]  PASS kappa rho of the record equals -G^x4_x4 - Lambda
-In [25]       reproduces Revision/field_equations_a4/a4-equations.json, linearMember.rhoEinstein
-In [25]      (and python-a4-report.json, check json_linear_member)
-In [25]  PASS kappa p of the record equals G^x1_x1, G^x5_x5 and G^x8_x8 plus Lambda
-In [25]       reproduces Revision/field_equations_a4/a4-equations.json, linearMember.pEinstein
-In [25]  PASS kappa (rho + p) of the record equals G^x1_x1 - G^x4_x4 = -6 (A^2 + 1) H^2
-In [25]       reproduces Revision/field_equations_a4/a4-equations.json,
-In [25]      linearMember.rhoPlusPEinstein
-In [26]  PASS negative control: with inflating extra times G^x4_x8 and G^x8_x4 are not zero and
-In [26]      depend on z
-In [27]  PASS all seven figure files exist
+In [13]      riemann_antisymmetry (156 nonzero entries)
+In [14]  PASS R^ab_cd is antisymmetric in a, b and in c, d; R_abcd = R_cdab
+In [14]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, check
+In [14]      riemann_antisymmetry_and_pair_symmetry
+In [14]  PASS the first Bianchi identity holds for all 4096 index lists
+In [14]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
+In [14]      riemann_first_bianchi
+In [14]  PASS no R^ab_cd contains sin(z)^(1/3) or e^(a4): the warp cancels
+In [14]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, check
+In [14]      mixed_riemann_free_of_sin_third, and python-lovelock-report.json, check
+In [14]      mixed_riemann_free_of_warp_and_exponential
+In [15]  PASS the same 156 non-zero components R^ab_cd as the record
+In [15]  PASS every component R^ab_cd equals the record exactly
+In [15]       reproduces Revision/gkd_lovelock/results/curvature.json, riemannMixedNonzero (and
+In [15]      python-lovelock-report.json, check rust_riemann_agrees)
+In [15]    12 x  -H**2                           e.g. R^(x1 x8)_(x1 x8)
+In [15]    12 x  -H**2 + a4p**2                  e.g. R^(x1 x2)_(x1 x2)
+In [15]    18 x  -H**2 - a4p**2                  e.g. R^(x1 x5)_(x1 x5)
+In [15]    12 x  -H*a4p*tan(z)                   e.g. R^(x1 x8)_(x1 x4)
+In [15]    12 x  -H*a4p/tan(z)                   e.g. R^(x1 x4)_(x8 x1)
+In [15]     6 x  -a4p**2 + a4pp                  e.g. R^(x4 x5)_(x5 x4)
+In [15]     6 x  -a4p**2 - a4pp                  e.g. R^(x1 x4)_(x4 x1)
+In [15]    12 x  H**2                            e.g. R^(x1 x8)_(x8 x1)
+In [15]    18 x  H**2 + a4p**2                   e.g. R^(x1 x5)_(x5 x1)
+In [15]    12 x  H**2 - a4p**2                   e.g. R^(x1 x2)_(x2 x1)
+In [15]    12 x  H*a4p*tan(z)                    e.g. R^(x1 x8)_(x4 x1)
+In [15]    12 x  H*a4p/tan(z)                    e.g. R^(x1 x4)_(x1 x8)
+In [15]     6 x  a4p**2 + a4pp                   e.g. R^(x1 x4)_(x1 x4)
+In [15]     6 x  a4p**2 - a4pp                   e.g. R^(x4 x5)_(x4 x5)
+In [16]  PASS the plane curvatures have the six formulas and do not depend on z or a4
+In [16]  PASS the planes inside 3-space: -0.75, 0 and 3 for A = 0.5, 1 and 2
+In [17]  PASS all 64 Ricci, all 64 Einstein components and R equal the record
+In [17]       reproduces Revision/gkd_lovelock/results/curvature.json, ricciMixed, einsteinMixed,
+In [17]      ricciScalar (and python-lovelock-report.json, check rust_ricci_einstein_scalar_agree)
+In [18]  PASS the first Lovelock scalar of the record is twice our Ricci scalar
+In [18]       reproduces Revision/field_equations_a4/reports/python-a4-report.json, check
+In [18]      L1_equals_gkd_branch (with python-lovelock-report.json, check L1_equals_2R)
+In [19]  PASS at the five test points every component agrees to more than 25 digits
+In [19]       reproduces Revision/gkd_lovelock/results/python-lovelock-report.json, randomPoints,
+In [19]      checks rust_christoffels_agree, rust_riemann_agrees, rust_ricci_einstein_scalar_agree
+In [20]  PASS the Einstein tensor is diagonal
+In [20]       reproduces Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json, check
+In [20]      einstein_off_diagonal_zero
+In [20]  PASS no component of the Einstein tensor depends on x8
+In [20]       reproduces Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json, check
+In [20]      einstein_x8_independent
+In [20]  PASS 3-space components equal, extra-time components equal
+In [20]       reproduces Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json, check
+In [20]      einstein_isotropy
+In [20]  PASS G^x4_x4 - G^x8_x8 = 6 (a4p^2 + H^2) > 0
+In [20]       reproduces Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json, check
+In [20]      no_vacuum_for_H_positive
+In [21]  PASS the contracted Bianchi identity: the divergence of G vanishes
+In [21]       reproduces Revision/gkd_lovelock/results/lovelock-report.json, checks
+In [21]      k1_equals_minus_4_einstein and k1_divergence_free
+In [22]  PASS K from our components equals K from the 156 components of the record
+In [22]  PASS K depends only on H, a4p and a4pp, not on z and not on a4
+In [22]  PASS K/12 = 7 (a4p^2 - H^2/7)^2 + 48 H^4/7 + 2 a4pp^2, so K > 0 for H > 0
+In [23]  PASS summed numerically, K is the same at all 300 values of z and equals the formula
+In [24]  PASS the curvature scalars are even in A
+In [24]  PASS at A = 1: R = -36 H^2 and K = 144 H^4
+In [25]  PASS diagonal of G: 12 (24 for x4) at A = 1 and 3 (33 for x4) at A = 2, unit H^2
+In [26]  PASS kappa rho of the record equals -G^x4_x4 - Lambda
+In [26]       reproduces Revision/field_equations_a4/a4-equations.json, linearMember.rhoEinstein
+In [26]      (and python-a4-report.json, check json_linear_member)
+In [26]  PASS kappa p of the record equals G^x1_x1, G^x5_x5 and G^x8_x8 plus Lambda
+In [26]       reproduces Revision/field_equations_a4/a4-equations.json, linearMember.pEinstein
+In [26]  PASS kappa (rho + p) of the record equals G^x1_x1 - G^x4_x4 = -6 (A^2 + 1) H^2
+In [26]       reproduces Revision/field_equations_a4/a4-equations.json,
+In [26]      linearMember.rhoPlusPEinstein
+In [27]  PASS negative control: with inflating extra times G^x4_x8 and G^x8_x4 are not zero and
+In [27]      depend on z
+In [28]  PASS all seven figure files exist
 ```
 
 ### 3.2 Key numbers
@@ -349,17 +349,17 @@ In [27]  PASS all seven figure files exist
 The key numbers are printed as RESULT lines:
 
 ```text
-In [5]  RESULT non-zero Christoffel symbols (all orders of b, c) = 37
-In [5]  RESULT non-zero Christoffel symbols with b <= c = 25
-In [9]  RESULT measured order of the error between h = 0.1 and h = 0.01 = 2.040
-In [10]  RESULT best step and its error = h = 1e-06, error 5.4e-11
-In [12]  RESULT non-zero components R^a_bcd = 156
-In [12]  RESULT non-zero components R^ab_cd = 156
-In [14]  RESULT different values among the 156 components = 14
-In [18]  RESULT components compared numerically = 310
-In [18]  RESULT evaluations at the five test points = 1550
-In [18]  RESULT largest relative difference (30 digits) = 1.48e-31
-In [21]  RESULT smallest possible K (at a4p^2 = H^2/7, a4pp = 0) = 576*H**4/7
+In [6]  RESULT non-zero Christoffel symbols (all orders of b, c) = 37
+In [6]  RESULT non-zero Christoffel symbols with b <= c = 25
+In [10]  RESULT measured order of the error between h = 0.1 and h = 0.01 = 2.040
+In [11]  RESULT best step and its error = h = 1e-06, error 5.4e-11
+In [13]  RESULT non-zero components R^a_bcd = 156
+In [13]  RESULT non-zero components R^ab_cd = 156
+In [15]  RESULT different values among the 156 components = 14
+In [19]  RESULT components compared numerically = 310
+In [19]  RESULT evaluations at the five test points = 1550
+In [19]  RESULT largest relative difference (30 digits) = 1.48e-31
+In [22]  RESULT smallest possible K (at a4p^2 = H^2/7, a4pp = 0) = 576*H**4/7
 ```
 
 ### 3.3 The last lines
@@ -421,8 +421,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 1 minute (FACTS: 60 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 75.9 s, peak memory of the kernel process 210 MiB;
-- the check run: 53.1 s, peak memory of the kernel process 210 MiB.
+- the build run: 35.0 s, peak memory of the kernel process 210 MiB;
+- the check run: 37.6 s, peak memory of the kernel process 209 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -434,8 +434,8 @@ Expected run time: about 1 minute (FACTS: 60 s); nbkit stops a cell after 600 s.
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/03b_curvature.ipynb`: `253138bfa9fbb575ba8f857c4721f21edf2fd90e01ec28f709f0fa5bcdfca484`
-- `Revision/textbook/notebooks/src/03b_curvature.py`: `0297f4c6c9e6e4c065f8127cc5875b37aaf070a79ba409f37ef796a9b53602ea`
+- `Revision/textbook/notebooks/03b_curvature.ipynb`: `936d93998037126db41f8cce3f74602fbd74233bc23e9672942fcc5809ee24a7`
+- `Revision/textbook/notebooks/src/03b_curvature.py`: `d675edb0e852131ae54f5a89029d841a23299d79277db54d9f723712518562a1`
 - `Revision/textbook/figures/03b.captions.json`: `79bfcd3dc1df556eaf897ec08d516caab808540757aa1b8e5e6994bce3e1c6ea`
 - `Revision/textbook/figures/03b_1_christoffel_heat_maps.png`: `47f371d7865943a6631f14c2488a021fab2cd3f9179c46a7a6c1f63103fbd016`
 - `Revision/textbook/figures/03b_2_christoffel_versus_z.png`: `fdd959c0dadbd0dd8fd7d307decb9625d0604fb193a4ccdb6ffca7da84e44343`
@@ -451,4 +451,4 @@ Expected run time: about 1 minute (FACTS: 60 s); nbkit stops a cell after 600 s.
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 8 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":210.0,"seconds":75.9},"check":{"date":"2026-10-07","files":8,"peak_mb":210.0,"result":"passed","seconds":53.1},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":210.0,"seconds":35.0},"check":{"date":"2026-10-07","files":8,"peak_mb":209.0,"result":"passed","seconds":37.6},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

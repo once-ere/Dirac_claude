@@ -217,7 +217,7 @@ Failed to open file at path: scripts/build_dirac16complex_ks_mathematica_noteboo
 
 and still gives exit code 0, without writing anything. A run has succeeded only if it prints the three lines of Part 4.1.
 
-The run takes about 5 to 10 seconds when the computer is busy, and about 2 to 4 seconds when it is not (Part 4.4). To time it:
+On the verification machine the run took 1.8 to 10 seconds, depending on how busy the computer was (Part 4.4). To time it:
 
 * in PowerShell, type `Measure-Command { wolframscript -file scripts/build_dirac16complex_ks_mathematica_notebook.wls | Out-Host }`;
 * in bash or zsh, put `time ` in front of the command.
@@ -362,9 +362,9 @@ The 94 checks of the notebook are evaluated by the verifier `scripts/verify_dira
 
 ### 4.4 Run time, memory, and other Wolfram versions
 
-**Run time.** These are wall-clock times on the verification machine (24 cores, Windows 11). Most of the time is the start of the kernel; the kernel itself used 2.2 to 2.8 seconds of processor time. The wall-clock time grows when the computer is busy:
+**Run time.** These are wall-clock times on the verification machine (24 cores, Windows 11). Most of the time is the start of WolframScript and the kernel: on 2026-10-07 a script file that only prints `1+1` took 3.9 to 5.0 seconds (3 runs) at the same time as the builds below. The builder's kernel used 2.2 to 2.8 seconds of processor time. The wall-clock time grows when the computer is busy:
 
-* 2026-10-07: 34 timed builds took 4.9 to 10.0 seconds, median 6.2 seconds. During these runs 8 to 13 other Wolfram kernels of parallel verification jobs were running, and the processor load was 88 percent when it was read before the runs.
+* 2026-10-07: 34 timed builds took 4.9 to 10.0 seconds, median 6.2 seconds. During these runs 8 to 13 other `wolfram.exe` processes of parallel verification jobs were running, and the processor load was 88 percent when it was read before the runs.
 * 2026-10-02: 1.8 to 4.2 seconds (median 2.3) with about 11 other kernels running, and 3.6 to 6.7 seconds in the later re-check with about 12.
 
 Expect about 2 to 10 seconds.
@@ -375,9 +375,9 @@ Expect about 2 to 10 seconds.
 * the short licence-information process `wolfram.exe -wlbanner -licenseinfo` (Part 5): 68.1 to 68.3 MiB (71.4 to 71.6 MB);
 * `wolframscript.exe`: 17.1 to 17.3 MiB (17.9 to 18.2 MB).
 
-A kernel that only evaluates `1+1` (`wolframscript -code 1+1`, 3 runs, same method) peaked at 156.2 to 156.3 MiB, as high as the builder's kernel. So the peak is what the kernel needs for its own start; building the notebook adds nothing measurable.
+With the same method, a kernel that only evaluates `1+1` peaked at 156.2 to 156.3 MiB, both with `wolframscript -code 1+1` (3 runs) and with a script file that only prints `1+1` (3 runs). That is as high as the builder's kernel. So the peak is what the kernel needs for its own start; building the notebook adds nothing measurable.
 
-The re-check of 2026-10-02 (clone D), with the same method, gave 155.4 to 156.1 MiB for the kernel, 68.4 to 68.6 MiB for the licence process and 17.1 to 17.3 MiB for `wolframscript.exe`. The first verification of 2026-10-02 sampled the processes only about every 0.1 s and gave lower values (143.6 to 143.8 MiB for the kernel, and 148.2 to 148.4 MiB for a `1+1` kernel); those were lower bounds. The first version of this file explained the difference by a peak while the notebook is written and read back. The measurement of 2026-10-07 with `1+1` does not support that explanation, so it was removed.
+The re-check of 2026-10-02 (clone D), with the same method, gave 155.4 to 156.1 MiB for the kernel, 68.4 to 68.6 MiB for the licence process and 17.1 to 17.3 MiB for `wolframscript.exe`. The first verification of 2026-10-02 sampled the processes only about every 0.1 s and gave lower values for the kernel (143.6 to 143.8 MiB); those were lower bounds. The first version of this file also gave 148.2 to 148.4 MiB for a `1+1` kernel and explained the difference to the builder's kernel by a peak while the notebook is written and read back. The measurements of 2026-10-07 do not support that explanation, so it was removed; why the `1+1` value of 2026-10-02 was lower is not known.
 
 **Other Wolfram versions.** Only version 15.0.1 was tested, and it reproduces the committed bytes exactly. Another version may wrap long lines or form some boxes differently. That would change the bytes, but not the meaning. Check 5 of Part 3.4 tells you whether the content is still the same.
 
@@ -389,10 +389,10 @@ The re-check of 2026-10-02 (clone D), with the same method, gave 155.4 to 156.1 
   * The builder does not touch `artifacts/`: the report `mathematica-report.json` and the 6 figures are written only when the notebook is evaluated.
   * With an output path argument, that file and any missing parent folders are created, and the committed notebook is left untouched (its modification time did not change). For example, `build/rebuilt/` is created; Git lists it only as ignored (`!! build/rebuilt/Dirac16ComplexKohnSham.nb` with `--ignored`).
 * **Created by check 6 of Part 3.4 (the Python test), not by the builder:** the ignored file `tests/__pycache__/test_d16c_kohn_sham_mathematica.cpython-314.pyc` (unless `PYTHONDONTWRITEBYTECODE` is set), and a temporary folder outside the repository that the test deletes again. Check 6 says how to remove the `__pycache__` folder.
-* **Files outside the repository (Windows).** On 2026-10-07 these were watched with file-system notifications on `%APPDATA%\Wolfram`, `%LOCALAPPDATA%\Wolfram` and `C:\ProgramData\Wolfram` and all their subfolders, during 8 default builds; in 4 of them each event was timed when it happened. Other Wolfram jobs ran at the same time and caused the same kinds of events. The clearest run was one in which no other WolframScript was started. None of these files belongs to the repository, and none needs to be restored.
+* **Files outside the repository (Windows).** On 2026-10-07 these were watched with file-system notifications on `%APPDATA%\Wolfram`, `%LOCALAPPDATA%\Wolfram` and `C:\ProgramData\Wolfram` and all their subfolders, during 8 default builds; in 4 of them each event was timed when it happened. Other Wolfram jobs ran at the same time and caused the same kinds of events. The clearest of the timed runs showed only one set of the lock files described below, and no other `wolframscript.exe` that had started during it was still running at its end. None of these files belongs to the repository, and none needs to be restored.
   * *WolframScript's console files.* In `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary\`, WolframScript keeps the console output that it relays in files named `tmp_` plus 10 random characters. In the clearest run, one such file was created at +0.06 s, a second one at +4.0 s, and both were deleted at +5.24 s, as the run ended (it took 5.26 s).
   * *WolframScript's settings file.* Every run rewrites `%APPDATA%\Wolfram\WolframScript\WolframScript.conf` at its start, with the same content. Only the modification time changes. In the clearest run it was written at +0.07 s. Its size (238 bytes) and its sha256 (`AD439D17632B7FB8D0CDA9C9EAFFB10278B7995838EA3C588AD9B88C2800216C` on the verification machine) were the same before and after the runs, as on 2026-10-02.
-  * *The kernel's paclet lock files.* About 1 to 2 s after the run starts, the kernel creates 0-byte lock files in `%APPDATA%\Wolfram\Paclets\Temporary\` and deletes each of them again within 0.2 s. The files are `pacletData_15.0.1.0_<number>.pmd3.lock`, `managerData_15.0.1.0.pmd2.lock` and `pacletSiteData_15.lock`. The other files in that folder (10 on 2026-10-07) kept their names and sizes; the folder held the same files before and after the runs.
+  * *The kernel's paclet lock files.* About 0.6 to 1.7 s after the run starts (1.08 to 1.66 s in the clearest run), the kernel creates 0-byte lock files in `%APPDATA%\Wolfram\Paclets\Temporary\` and deletes each of them again within 0.2 s. The files are `pacletData_15.0.1.0_<number>.pmd3.lock`, `managerData_15.0.1.0.pmd2.lock` and `pacletSiteData_15.lock`. The other files in that folder (10 on 2026-10-07) kept their names and sizes; the folder held the same files before and after the runs.
   * *Other changes.* None in the 4 timed runs of 2026-10-07. On 2026-10-02, in 2 of 20 watched runs, a front-end cache file, the front-end log and a file in `ApplicationData\ProcessLink\Streams\` changed. This builder starts no front end (see *Processes* below), and other Wolfram jobs, which do use one, were running at the same time, so those changes are not attributed to this builder.
   * The locations on macOS and Linux were not examined.
 * **Processes.** One `wolframscript.exe` starts two `wolfram.exe` processes, one after the other. The job object of Part 4.4 counts every process that a run creates. In each of the 11 builds of 2026-10-07 (and in 12 builds of 2026-10-02) it counted exactly 3 processes:
@@ -446,6 +446,7 @@ The re-check of 2026-10-02 (clone D), with the same method, gave 155.4 to 156.1 
 | F3 | F | Python test (check 6), `PYTHONDONTWRITEBYTECODE=1` | builder into a temporary folder | 0 | `Ran 2 tests in 6.028s`, `OK` | identical (inside the test); no `.pyc`; `git status --ignored` empty afterwards |
 | F4 | F | Git Bash | `build/final/...` | 0 | not timed | identical |
 
+* **Comparison runs (not builds)**, under the job-object monitor in clone E's parent folder: 3 runs of `wolframscript -code 1+1` and 3 runs of a script file that only prints `1+1` (3.9 to 5.0 s). Each had exactly 3 processes and exit code 0 (Part 4.4 and Part 5).
 * **The checks of Part 3.4**, run on 2026-10-07 in clone E:
   * check 2 (sha256) and check 3 (`git status` empty, `git diff --quiet` exit 0) after default runs, in PowerShell 7.6.6 and Git Bash;
   * checks 4 and 5 as written: the expected line and `True` in PowerShell 7.6.6 and in Git Bash; check 5 with a missing file printed `Get::noopen` and `False` (PowerShell 7.6.6);
