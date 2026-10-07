@@ -311,8 +311,8 @@ The command is the same on all three systems (forward slashes work on Windows to
 prints the exit code: `0` means every check passed.
 
 What you see: nothing for a few seconds (the Wolfram kernel starts), then the `time_...` lines one by
-one; the two long pauses are the k = 2 sum (about 35 s) and the k = 3 sum (about 50-65 s). After
-about 1.5 to 2 minutes the 29 `check_...` lines and the summary appear. Part 4 shows the exact output.
+one; the two long pauses are the k = 2 sum (about 35-45 s) and the k = 3 sum (about 50-80 s). After
+about 1.5 to 2.5 minutes the 29 `check_...` lines and the summary appear. Part 4 shows the exact output.
 
 Important details:
 
@@ -610,7 +610,8 @@ What a run of the documented command creates, overwrites or starts:
 
 ## 6. Verification record
 
-* **Date:** 2026-10-02.
+* **Date:** 2026-10-02 (first verification); verified again on 2026-10-07 at commit `a4c5eda` (see
+  "Re-verification after a restart" below).
 * **Commit verified:** `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` (main, equal to
   https://github.com/once-ere/Dirac_claude.git at the time). `verify_lovelock_gkd.wls`, the committed
   report and `PROVENANCE_OF_THE_COMPUTATION.md` were last changed in commit `70fab64`,
@@ -696,6 +697,70 @@ What a run of the documented command creates, overwrites or starts:
     changed each file, part 6; the messages of a failed cargo build, part 3.6; what may differ on
     another Wolfram version, part 3.6; the growth of the export directory and the `conhost.exe`
     process, parts 2.3, 3, 4.4 and 5). No file of the set was changed.
+* **Re-verification after a restart (2026-10-07).** The verification workflow was interrupted by a
+  session limit and relaunched; nothing written earlier was trusted, everything was measured again.
+  * Commit verified: `a4c5eda1df069a43a55ff8b57148f5de8edd1670` (main, equal to
+    https://github.com/once-ere/Dirac_claude.git at the time). Between `c2b33cc` and `a4c5eda` no file of
+    the set, no input and not the committed report changed (`git diff --stat` over
+    `Revision/gkd_lovelock` shows only the two provenance files added); in fresh clones of `a4c5eda` all
+    fifteen digests of part 2 and the report digest were measured again and are the same; `git log -1`
+    gives the same last-change commits as above (`70fab64`, `2c61fb0`, `ad02ebb`). The snapshot commits
+    made while this re-verification ran (up to `72fc9ff`) changed no file of the set, no input and not
+    the report (only provenance files, among them a partial copy of this file).
+  * Environment: Windows 11 Pro for Workstations 10.0.26300, 24 logical cores; WolframScript 1.14.0,
+    Wolfram 15.0.1 for Microsoft Windows (64-bit) (July 2, 2026), Professional licence; cargo 1.91.1
+    (ea2d97820 2025-10-10), rustc 1.91.1 (ed61e7d7e 2025-11-07); PowerShell 7.6.6; Python 3.14.5 with
+    sympy 1.14.0 (only for the repository test below).
+  * Fresh clones: two new clones made with `git clone https://github.com/once-ere/Dirac_claude.git` into
+    an empty scratch folder; NO uncommitted file was copied into them (the working tree had no
+    uncommitted change in `Revision/gkd_lovelock/`). Every run was the documented command
+    `wolframscript -file Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls Revision/gkd_lovelock/results/wolfram-gkd-report.json`
+    from the clone root, with no `LOVELOCK_GKD_...` variable set, and with `TEMP` and `TMP` pointed to
+    a new, empty scratch folder, so that Wolfram's `$TemporaryDirectory`, and with it the default export
+    directory `revision_gkd_export`, started EMPTY and was private to these runs (verified: it was the
+    only entry that appeared in that folder).
+  * run 4: clone 1, export directory empty (a first build from nothing); run 5: clone 1 again, same
+    export directory (up to date, no rebuild); run 6: clone 2, same export directory (`Cargo.toml`
+    rewritten with the new crate path, so cargo rebuilt the crate).
+
+    | run | exit code | stderr | checks | failed | `time_total` (s) | wall (s) | report sha256 | identical to committed |
+    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | 4 | 0 | empty | 29 | 0 | 128.2 | 133.3 | `de3678170c7d...e86bb1` | yes |
+    | 5 | 0 | empty | 29 | 0 | 135.0 | 139.9 | `de3678170c7d...e86bb1` | yes |
+    | 6 | 0 | empty | 29 | 0 | 117.3 | 121.6 | `de3678170c7d...e86bb1` | yes |
+
+  * Byte identity per output: `wolfram-gkd-report.json` byte-identical between runs 4, 5 and 6 and to the
+    committed file (`cmp` against `git show HEAD:...`; full sha256
+    `de3678170c7d62114f4d8f8e0d8024ec688bb0be3f2f4a870333243851e86bb1`, 344 lines, 18,135 bytes);
+    `gkd-values.bin` 3,161,984 bytes with sha256
+    `3ddccfa744b3708bbd3e251852236b0a2d3370e957c67bae8d94168de6d2d695` after every run (hashed directly
+    after each run, and equal to `valuesFileSha256` in the report); the exporter's `src/main.rs`
+    identical (`b5130177e38adba151c043fd5048f023b2ab6521acc32f620efcc2b8e794a372` = `exporterMainRsSha256`);
+    the exporter's `Cargo.toml` differs between the two clones only by the crate path, as expected
+    (part 2.3); standard output identical in all three runs apart from the `time_...` numbers (43 lines;
+    on Windows the lines end with CR LF) and equal, line by line, to the listing of part 4.1;
+    `git status --porcelain --ignored --untracked-files=all` empty in both clones after every run, and no
+    `target` folder in `Revision/gkd_lovelock/code`.
+  * Export directory: 24 files after run 4 (6,815,718 bytes added up, 5,325,286 bytes on disk with
+    `du -sb`), the same 24 files after run 5, and 31 files after run 6 (7,480,703 bytes added up,
+    5,990,271 on disk): the rebuild for clone 2 added the 7 files of one more `lovelock_gkd-<hash>` set
+    (`.rlib` 590,136 bytes, `.rmeta` 68,005 bytes, `.d` and four fingerprint files), as described in
+    parts 2.3 and 5. (The sizes differ by about a hundred bytes from 2026-10-02 because cargo's
+    fingerprint files hold the clone path, which was longer here.)
+  * Processes seen under `wolframscript.exe` (polled every 0.25 s): two `wolfram.exe` (a short start-up
+    process of about 50 MB, then the kernel, peak 485-486 MB working set, 700 MB private), `rustup.exe`
+    started by the kernel, `cargo.exe` and `conhost.exe` as children of `rustup.exe`, and `rustc.exe`
+    under `cargo.exe` during the builds of runs 4 and 6 (none in run 5, where nothing was rebuilt). No
+    parallel subkernel.
+  * Check counts: 29 checks, 29 PASS, 0 FAIL (expected 29) in every run; the numbers in the details are
+    those quoted in parts 1.2 and 4.3 (for example 0 mismatches and +1: 1008, -1: 1008, 0: 260128 for
+    length 3; 696, 32,640 and 495,360 nonzero `kδ` terms; 1,128,960 calls for k = 3).
+  * The repository's own test, in clone 2 (`PYTHONDONTWRITEBYTECODE=1`, `TEMP`/`TMP` in a scratch folder):
+    `python -m unittest Revision.tests.test_gkd_lovelock.TestCommittedOutputs Revision.tests.test_gkd_lovelock.TestSlowRuns.test_SLOW_wolfram_check_reproduces_the_report -v`
+    ran 6 tests, all OK, in 128.5 s (exit code 0); its slow test ran this script a seventh time (report
+    and export directory in a temporary folder, removed by the test afterwards: the scratch `TEMP`
+    folder was empty again) and found the pinned sha256 `de3678170c7d...e86bb1`. The clone was still clean.
+  * The optional `diagonal` mode (part 4.5, 27 minutes) was not run again: none of its inputs changed.
 * **Fixes made:** none. The set executed correctly as committed; no file of the set was changed.
 * **Open discrepancies:** none. Note for other installations: the report records the Wolfram version
   in its `producer` line, so byte identity with the committed report holds on Wolfram 15.0.1; on another

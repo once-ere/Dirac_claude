@@ -506,10 +506,11 @@ else is printed and nothing is written to standard error.
 
 `0` when all 45 checks pass, `1` when any check fails (the failure path was confirmed on a scratch
 copy of the driver with one added failing check: it printed `FAIL  forced_failure_test_only`,
-`45/46 checks passed`, exited with 1 and wrote `"failed": 1` into the summary). Also `1`, at once and
-without any verdict line, when an output file cannot be written (the line `ERROR  cannot write ...`,
-section 3.7). Remember the exception of section 3.7: when the script file is not found, WolframScript
-prints `Failed to open file at path: ...` and still exits with 0.
+`45/46 checks passed`, exited with 1 and wrote `"failed": 1` into the summary; confirmed again on
+2026-10-07, section 6.4). Also `1`, at once and without any verdict line, when an output file cannot be
+written (the line `ERROR  cannot write ...`, section 3.7). Remember the exception of section 3.7: when
+the script file is not found, WolframScript prints `Failed to open file at path: ...` (on standard
+error) and still exits with 0.
 
 ### 4.3 Files written
 
@@ -558,7 +559,8 @@ other jobs were running on the same machine during the measurements.
 * Nothing else in the repository is created or changed: `git status --porcelain --ignored` printed
   nothing after runs A and B and after the last run in every clone of the first verification (no
   untracked and no ignored files appeared); in the re-verification clones it listed nothing, or only the
-  fixed driver copied in on purpose (section 6.2).
+  fixed driver copied in on purpose (section 6.2); in the three clones of 2026-10-07 it printed nothing
+  after all runs (section 6.4).
 
 ### 5.2 Outside the repository
 
@@ -574,9 +576,9 @@ other jobs were running on the same machine during the measurements.
 * Temporary files: none are left behind. With the variables `TEMP` and `TMP` pointed to an empty private
   folder, the folder was still empty after the run. On Windows, `wolframscript` creates TWO temporary
   files of its own in `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary` (names like
-  `tmp_` followed by 10 random letters). The first is empty and appears within about 0.1 s of the start
-  (observed at +0.02 to +0.07 s). The second appears 2 to 4 s after the start, once the kernel runs
-  (observed at +2.3 to +3.9 s), and holds a byte-for-byte copy of everything the script prints (1384 bytes
+  `tmp_` followed by 10 random letters). The first is empty and appears within about 0.15 s of the start
+  (observed at +0.02 to +0.14 s). The second appears 2 to 5 s after the start, once the kernel runs
+  (observed at +2.3 to +4.4 s), and holds a byte-for-byte copy of everything the script prints (1384 bytes
   when the last line reads `time 1.57 s`; about 1.4 KB in general). Both are deleted when `wolframscript`
   finishes: in the monitored runs they were still present at the last look before the process ended and
   gone at the first look after it. Observation method: a monitor listed the folder about every 15 ms (a
@@ -776,3 +778,103 @@ instead. Afterwards `git status --porcelain` prints nothing.
 * Open discrepancies: none. No scientific result changed: 45 of 45 checks pass and both outputs are
   byte-identical to the committed files. The only caveat is the behaviour of WolframScript itself
   described in section 3.7 (exit code 0 when the script file is not found).
+
+### 6.4 Re-verification after the restart (2026-10-07, commit `a4c5eda`)
+
+* Why: the verification workflow was interrupted by a session limit and relaunched in a new session.
+  This file and the fix of section 6.3 were therefore checked again from fresh clones, not trusted.
+* Commit verified: `a4c5eda1df069a43a55ff8b57148f5de8edd1670` (2026-10-07 15:17:26 -0700, branch `main` of
+  `https://github.com/once-ere/Dirac_claude.git`). The files of the set were last changed in `3f0a577`
+  (the driver with the fix of section 6.3, 2026-10-02 07:35:37 -0700), `9ea68d4` (fixture and report) and
+  `40168e9` (package). In all three clones the four files had exactly the sha256 values, line counts and
+  byte counts of sections 2.1 and 2.3 and no CR byte; the working tree had the same four files,
+  unmodified. The commits made after `a4c5eda` on the same day (up to `72fc9ff`) changed no file of this
+  set except this provenance file (`git diff --stat a4c5eda 72fc9ff -- Revision/algebra`). Files copied
+  into the clones: none (the set needs only committed files).
+* Environment: Windows 11 Pro for Workstations 10.0.26300 (a newer build than the 10.0.26200 recorded on
+  2026-10-02), 24 logical processors, 191 GB memory; WolframScript 1.14.0; `$Version` =
+  `15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)`; `$NetworkLicense` = `False`; Git
+  2.51.2.windows.1; PowerShell 7.6.6 and Git Bash. Between 12 and 13 Wolfram kernels of other jobs ran
+  on the machine at the same time, so the times are slower than on 2026-10-02.
+* Three fresh clones (`git clone`; the third took 17.6 s). Runs A to H were started from PowerShell with
+  `Start-Process` (standard output and standard error captured to files) under a monitor:
+
+  | run | clone | monitor | exit code | checks | lines printed | standard error | wall time | script time | kernel peak memory |
+  | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+  | A | 1 (fresh) | memory (every 20 ms) | 0 | 45/45 PASS | 46 | empty | 5.98 s | 1.83 s | 395.9 MiB |
+  | B | 2 (fresh) | memory (every 20 ms) | 0 | 45/45 PASS | 46 | empty | 5.60 s | 1.81 s | 397.7 MiB |
+  | C | 1 (second run) | child processes and their command lines | 0 | 45/45 PASS | 46 | empty | 7.25 s | 2.6 s | 395.8 MiB |
+  | D | 2 (second run) | new Wolfram processes (the monitor script had an error; its record is not used) | 0 | 45/45 PASS | 46 | empty | 6.65 s | 1.9100000000000001 s | not measured |
+  | E | 3 (fresh) | new Wolfram processes (every 5 ms) | 0 | 45/45 PASS | 46 | empty | 6.80 s | 2.02 s | not measured |
+  | F | 3 | TCP and UDP tables | 0 | 45/45 PASS | 46 | empty | 6.99 s | 2.33 s | not measured |
+  | G | 3 | WolframScript temporary folder; `TEMP`, `TMP` private | 0 | 45/45 PASS | 46 | empty | 7.40 s | 2.46 s | not measured |
+  | H | 3 | memory; WolframScript settings file | 0 | 45/45 PASS | 46 | empty | 6.34 s | 2.14 s | 395.7 MiB |
+
+* Byte identity: after runs A and B (one run in each of two fresh clones) `gammas.json` and
+  `wolfram-algebra.json` were byte-identical between the two clones (`cmp`) and to the committed files
+  (sha256 of section 2.3, equal to `git show HEAD:<path>`); after runs C and D (the second run in each of
+  these clones) they were again identical to the committed files; after all runs and all negative tests
+  below, the outputs of the three clones were byte-identical to one another and to the committed files.
+  The modification times showed that both files had been rewritten by the runs. The 45 verdict lines of
+  runs A to H were identical (`cmp`) and equal to the listing of section 4.1. On Windows the captured
+  standard output has CRLF line endings (1384 bytes when the last line reads `time 1.83 s`); the files
+  the script writes have LF only. At the end `git status --porcelain --ignored` printed nothing in all
+  three clones.
+* The commands of sections 3.3 (test), 3.5 and 3.6, typed as printed in clone 3: in PowerShell
+  `wolframscript -version` printed `WolframScript 1.14.0 for Microsoft Windows (64-bit)`, `1+1` printed
+  `2`, `Measure-Command` showed the 46 lines and `TotalSeconds` 8.19 (script time 2.6 s), and item 1
+  printed `0`, `46` and the single line `45/45 checks passed; time 2.5300000000000002 s`; items 2 and 3
+  printed the summary line, the two hashes of section 2.3 and an empty `git status --porcelain`. In Git
+  Bash (the macOS/Linux form) `time` showed `real 0m6.878s`, then `exit code: 0`, `46`, the single line
+  `45/45 checks passed; time 2.36 s`, the summary line, the two hashes and an empty status.
+* Processes (runs C and E): `wolframscript` started two child processes, the licence probe
+  `wolfram.exe -wlbanner -licenseinfo` (run E: from +0.09 s to +0.41 s) and the kernel
+  `wolfram.exe -runfirst ... -linkmode Connect -linkname <random>_shm -mathlink` (run E: from +0.43 s
+  until +6.78 s, just before `wolframscript` ended at +6.80 s). Section 5.2 is corrected accordingly.
+  Other `wolfram.exe` processes seen at the same time had other parents (other jobs).
+* Network (run F; the tables were read every 0.87 s on average, so short connections can be missed):
+  only the kernel owned entries: a pair of established loopback connections of the kernel with itself
+  (`127.0.0.1:63070` to `127.0.0.1:63071` and back) and two `Bound` entries on `0.0.0.0` with no remote
+  address. No UDP endpoint, nothing owned by `wolframscript` or by the licence probe, and no connection
+  to another computer. This agrees with section 5.2.
+* Temporary files (run G): the private `TEMP`/`TMP` folder was still empty after the run. In
+  `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary` (listed 364 times, every 20 ms on
+  average) an empty file appeared at +0.14 s and a file of 1384 bytes at +4.4 s whose copy was
+  byte-identical to the captured output; both were gone after the run, as in section 5.2. Six further
+  files appeared in the same folder during the run; they were empty, four of them were still there after
+  the run ended, and none was attributed to this run (the `wolframscript` processes of other jobs use the
+  same folder).
+* Settings file (run H): `%APPDATA%\Wolfram\WolframScript\WolframScript.conf` had a new modification time
+  after the run and the same sha256 as before.
+* Negative tests (clone 3 only; every file was restored afterwards, and a correct rerun printed
+  `45/45 checks passed; time 2.48 s` with exit code 0):
+  * from the folder `Revision` (wrong folder): `Failed to open file at path: Revision/algebra/wolfram/verify_algebra.wls`
+    on standard error, nothing on standard output, exit code 0 (section 3.7).
+  * `gammas.json` read-only (`attrib +R` in PowerShell, `chmod -w` in Git Bash): 3 lines on standard
+    output (an empty line, `OpenWrite::noopen: Cannot open ...\gammas.json.` and
+    `ERROR  cannot write ...\gammas.json; the run is aborted with exit code 1 (no verdict is printed)`),
+    standard error empty, exit code 1, neither output rewritten (modification times unchanged).
+  * the report read-only: the same 3 lines naming `wolfram-algebra.json`, exit code 1; `gammas.json` was
+    rewritten (same content), the report was not.
+  * the package renamed: 99 lines, the first message `Get::noopen: Cannot open ...\RevisionAlgebra.wl.`,
+    45 `FAIL` lines, last line `0/45 checks passed; time 0.6 s`, exit code 1; the report was overwritten
+    (summary `"passed": 0, "failed": 45, "total": 45`, listed by `git status --porcelain` as ` M`) and
+    `gammas.json` was not rewritten.
+  * the folder `Revision/algebra/reports` deleted: the run re-created it with a report identical to the
+    committed one (exit code 0, 46 lines); `git status --porcelain` then listed ` D` for
+    `python-algebra.json` and `python-gammas.json`, which `git checkout -- Revision/algebra/reports`
+    restored (section 5.1).
+  * a scratch copy of the driver (`verify_algebra_failtest.wls`, next to the driver, deleted afterwards)
+    with one added check that fails on purpose: 47 lines, among them `FAIL  forced_failure_test_only`
+    and the last line `45/46 checks passed; time 2.17 s`, standard error empty, exit code 1, and the
+    summary `"passed": 45, "failed": 1, "total": 46` in the report, which was then restored with
+    `git checkout -- Revision/algebra/reports/wolfram-algebra.json` (section 4.2).
+  * `wolframscript -code 'Round[1.999, 0.01]'` printed `2.` (section 4.1).
+* Corrections of this file on 2026-10-07: section 5.2 (two Wolfram processes: the licence probe and the
+  kernel), section 3.7 (the wrong-folder message goes to standard error), section 3.1 (the size of a
+  clone), section 1.4 (the textbook notebooks and `provenance/dirac matrices.md`), section 2.1 (the fix is
+  committed), section 4.4 (times and memory of 2026-10-07), section 5.1 (the reports folder also holds
+  the Python reports), section 6 (the dates and commits) and this section.
+* Fixes made on 2026-10-07: none (no execution defect was found). Open discrepancies: none. 45 of 45
+  checks pass, the exit code is 0, and both outputs are byte-identical to the committed files in every
+  run.

@@ -84,7 +84,7 @@ of the programs and inputs) and a **theory file** (the exact results in a form o
 programs can read; the independent Python checker of the repository compares its own
 results with it).
 
-### 1.2 Charge conjugation in this set is a matrix
+### 1.2 Charge conjugation in this set is a matrix: $\Psi\to M\Psi^\ast$ or $\Psi\to M\bar\Psi^T$
 
 Every gamma matrix of this theory is **real** (a signed permutation matrix). For a real
 field, plain complex conjugation $\Psi\to\Psi^\ast$ changes nothing, so it cannot by itself
@@ -637,9 +637,9 @@ The likely problems, what you see, and what to do:
    which ends with the version number; a changed program or input changes `sourceSha256`
    (compare with Section 2). Restore with the command of Section 5.4.
 9. **The program seems to hang.** The steps `M2: all maps at the Lagrangian level (flat)`
-   and `M2: named maps and the curved field G1` print nothing for about 2 and 3 minutes
-   on the verification machine. Wait; the whole run takes about 8 minutes there
-   (Section 4.4). If you stop it with Ctrl+C before the end, no output file is written;
+   and `M2: named maps and the curved field G1` print nothing for about 2 to 2.5 and 3 to
+   3.6 minutes on the verification machine. Wait; the whole run takes about 7 to 10
+   minutes there (Section 4.4). If you stop it with Ctrl+C before the end, no output file is written;
    the Wolfram kernel ends as well, and WolframScript's two temporary files stay behind
    (Section 5.2 says where they are; you may delete them).
 10. **Not enough memory.** The Wolfram kernel needs about 3 GB (Section 4.4). Close other
@@ -810,6 +810,16 @@ private memory of 2.74 to 2.77 GiB (3.0 GB); `wolframscript` itself used 17 MB. 
 kernel used about one processor core (its CPU time, read during run 6, was 0.96 of the
 elapsed time), so more processors do not make one run faster.
 
+On 2026-10-07 (Section 6.6; runs R1 and R2 ran at the same time as each other, while 13 to
+19 Wolfram kernels, these two included, were running on the machine) one run took 601.5 s
+and 606.7 s (about 10 minutes). The steps took, in run R1:
+`M2: named maps and the curved field G1` 214 s, `M2: all maps at the Lagrangian level (flat)`
+151 s, `M1: Noether current and identity` 117 s, `M1: U(1) invariance` 52 s, `M4` 27 s,
+`M3: invariant forms` 18 s, and every other step at most 6 s. The Wolfram kernel reached a
+peak working set of 2.441 and 2.442 GiB, and the largest private memory seen (sampled every
+few seconds) was 2.758 GiB in run R1; `wolframscript` itself used 16 MB. On a
+machine without other jobs expect the shorter times of 2026-10-02.
+
 ## 5. Side effects
 
 ### 5.1 Files in the repository
@@ -863,7 +873,11 @@ elapsed time), so more processors do not make one run faster.
   within 0.3 s of the end of the run; those of a short test program ending with exit code
   2 were gone 0.5 s after its end). When `wolframscript` is stopped with Ctrl+C or killed, the two files **stay**
   (observed with a short test program); they are harmless and may be deleted. Other
-  `tmp_...` files in that folder belong to other WolframScript runs.
+  `tmp_...` files in that folder belong to other WolframScript runs. (On 2026-10-07 the
+  folder was listed during runs R1 and R2 of Section 6.6 as well, but many other
+  WolframScript runs of other jobs used it at the same time, so their files could not be
+  told apart from those of R1 and R2; the description above rests on runs 7 to 9 and D3 of
+  2026-10-02.)
   Wolfram's own bookkeeping files in the Wolfram user folder (on Windows under
   `%APPDATA%\Wolfram`, for example `Paclets\Configuration\managerData_15.0.1.0.pmd2`) may be
   updated by any kernel start; such updates were seen during the verification, while other
@@ -872,8 +886,9 @@ elapsed time), so more processors do not make one run faster.
 - **Network.** The program contains no network access. During runs 1 to 5, D1 and D2 of
   Section 6.2 the process tree was examined every 1.5 seconds: no connection to any other
   computer was seen; in one run the kernel held a connection from `127.0.0.1` to
-  `127.0.0.1`, which stays inside the same computer. (The internet is needed once, before,
-  to activate Wolfram.)
+  `127.0.0.1`, which stays inside the same computer. During runs R1 and R2 of 2026-10-07
+  (Section 6.6) the TCP connections of every process of the run were listed repeatedly
+  during the run (at intervals of 7.5 seconds or more): none was seen. (The internet is needed once, before, to activate Wolfram.)
 
 ### 5.3 Effect on other files of the repository
 
@@ -1100,6 +1115,93 @@ Those documents were not changed by this verification.
   3.5 and 3.7, item 11); the 155-character limit is stated for Git Bash on Windows, with
   its check command (Sections 3.3, 3.5 and 3.7, item 3); and the textbook Chapters 6 and
   7 are added to the documents that cite this set (Section 1.4).
+- **Re-verification of 2026-10-07 (Section 6.6):** no fix was needed and none was made; no
+  file of the set and no committed output was changed.
 - **Open:** the Windows path-length limitation of Section 6.4 (environment, documented).
 - **Scientific discrepancies:** none. Every check is true and both outputs reproduce the
-  committed bytes.
+  committed bytes (2026-10-02 and again 2026-10-07).
+
+### 6.6 Re-verification after the restart (2026-10-07)
+
+The verification workflow was interrupted by a session limit after this file had been
+written and committed. On its relaunch this file was not trusted: the set was run again
+and every number of this file that the runs could measure was compared with the new
+measurement.
+
+- **Date:** 2026-10-07.
+- **Commit verified:** `a4c5eda1df069a43a55ff8b57148f5de8edd1670` (branch `main` of
+  `https://github.com/once-ere/Dirac_claude.git`, committed 2026-10-07 15:17:26 -07:00;
+  the remote branch pointed to this commit). Between the commit of 2026-10-02 and this one,
+  `git diff --name-only c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e a4c5eda1df069a43a55ff8b57148f5de8edd1670`
+  restricted to the three programs of Section 2.1, every input of Sections 2.2 and 2.3 (the
+  folders `artifacts/dirac16complex/arbitrary-field/` and
+  `artifacts/dirac16complex/kohn-sham/` as a whole, and the two Stage-5 files), the
+  outputs of Section 2.4, `.gitattributes`, `.gitignore` and the files of Section 1.4
+  (with the `.tex` and `.pdf` editions and the chapter folder `provenance/textbook/`)
+  printed only `HANDOFF.md`, whose changed lines do not mention the matter-antimatter
+  analysis: none of the files the set runs, reads or writes changed, and neither did the
+  documents, the Python checker and the unit test that cite it. In the clone of run R1
+  the sha256, line counts and byte counts of Sections 2.1, 2.2 and 2.4 and the 56 plus 33
+  sha256 values of Section 2.3 were recomputed: all equal to the values written in this
+  file. No uncommitted file was needed or copied: both clones were used exactly as cloned.
+- **Machine:** Windows 11 Pro for Workstations, version 26H2, build 26300.9457 (the
+  operating system had been updated since 2026-10-02; Section 6.1 records build 26200), 24 logical
+  processors, 191.4 GB of memory; `LongPathsEnabled` = 1; Git 2.51.2.windows.1 with
+  `core.longpaths` = true. The machine was shared: 13 to 19 Wolfram kernels (R1 and R2
+  included) were running during the runs.
+- **Wolfram:** `15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)`, WolframScript
+  1.14.0 (unchanged). **Shells:** PowerShell 7.6.6, Windows PowerShell 5.1.26100.9444, Git
+  Bash with GNU bash 5.2.37. **Python** 3.14.5, used only for hash comparisons and the unit
+  test; the set itself does not use Python.
+- **Clones:** two fresh clones made with `git clone https://github.com/once-ere/Dirac_claude.git`
+  (14.7 s and 17.9 s), each with a root path of 147 characters (at most 155, Section 3.3);
+  `git status --porcelain --ignored --untracked-files=all` printed nothing in both before
+  the runs.
+
+| Run | How it was started (from the repository root) | Root | Exit | Wall time | Checks | Report | Theory |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| R1 | PowerShell 7.6.6 (`Start-Process wolframscript` with exactly the arguments of Section 3.4) | 147 | 0 | 601.5 s | 44 of 44 true | same | same |
+| R2 | Git Bash 5.2.37: `bash -c "..."` with the command of Section 3.5 | 147 | 0 | 606.7 s | 44 of 44 true | same | same |
+
+Both runs were started at 15:19:19 and 15:19:21 (Pacific time) and ran at the same time;
+the wall time was measured by a stopwatch around the process, and the exit code, the memory
+and the TCP connections were recorded by a monitor that examined the process tree
+repeatedly during the run. Standard output and standard error were redirected to files
+outside the clones.
+
+- **Byte identity:** in both clones the report had the sha256
+  `ad6b91296034a24c14b2ee08c7bfe8da98aaff2db83544897767e498adeaa269` and the theory file
+  `1505a3962938477e5db42f568c0a1afcd21898c4409793178f8311b792638f10`, the values of the
+  committed files (`git show HEAD:<file>`); `cmp` found the outputs of R1 and R2 identical,
+  and identical to the files in the working tree of the repository.
+- **Printed output:** in both runs 149 lines, 43152 bytes, with Windows line endings (CR LF;
+  also in the Git Bash run), and an empty standard error: 14 progress lines, 44 lines
+  `  <check> = True`, the 44 verdict lines of Section 4.1 (compared line by line, identical,
+  all `=true`), 43 measurement lines (the longest 11569 characters) and the four final lines
+  of Section 4.1, exactly. After the clock times of the progress lines were replaced, the
+  printed output of R1 and R2 was identical.
+- **Check counts:** `check_count=44` and `failed_check_count=0` in both runs; exit code 0
+  in both.
+- **Side effects:** after each run `git status --porcelain --ignored --untracked-files=all`
+  printed nothing in its clone; the two committed outputs had been rewritten with
+  identical bytes (modification times 15:29:18 in R1 and 15:29:26 in R2, the end of the
+  run). No TCP connection of any process of the runs was seen. The temporary files of
+  WolframScript could not be attributed (Section 5.2).
+- **Check commands of Section 4.3** (on the committed report, which equals the outputs of
+  R1 and R2): the PowerShell commands printed `44 of 44 checks true` in PowerShell 7.6.6
+  and in Windows PowerShell 5.1, and the `wolframscript -code` command printed `{44, 44}`
+  (4.6 s).
+- **Dependent test:** `python -m unittest discover -s tests -p "test_d16c_matter_antimatter_publication.py"`
+  in the clone of R1, after the run: 29 tests, OK; `git status --porcelain --ignored --untracked-files=all`
+  still printed nothing afterwards.
+- **Matrices and charge conjugation (Section 1.2):** the fixture
+  `artifacts/dirac16complex/arbitrary-field/algebra-fixture.json` was compared entry by
+  entry with `provenance/dirac_matrices/author_notebook_T16.json` (sha256
+  `b4bdec86878f11d874e276bd30e3a9ca6ae0d607368dafabd71bde7e8e2de334`, the author's matrices
+  read from the notebook) and with `Revision/algebra/gammas.json` (sha256
+  `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01`): every comparison of
+  Section 1.2 gave equality. The committed report of
+  `Revision/lead_checks/charge_conjugation_and_u1.py` still has 12 of 12 checks PASS.
+- **Fixes:** none needed, none made. **Open:** the Windows path-length limitation of
+  Section 6.4 (not re-tested; both roots had 147 characters). **Scientific
+  discrepancies:** none.

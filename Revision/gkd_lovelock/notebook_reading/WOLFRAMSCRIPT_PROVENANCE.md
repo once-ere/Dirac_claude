@@ -498,8 +498,8 @@ On 2026-10-02:
 | digest | 0.37 s | 0.72 s | - | Python 60 MB |
 | image export | 5.85 s | 6.56 s | 5.27 s, 6.18 s | Wolfram kernel 204 to 210 MB; `wolframscript` 16.5 MB |
 
-On 2026-10-07 (about 18 Wolfram kernels of other jobs were running at the same time, which explains the longer
-times of the image export):
+On 2026-10-07 (about 18 Wolfram kernels of other jobs were running at the same time, the likely reason for the
+longer times of the image export):
 
 | script | run 8 (fresh clone) | run 9 (same clone) | run 10 (another fresh clone) | peak memory (working set) |
 | --- | --- | --- | --- | --- |
@@ -507,12 +507,13 @@ times of the image export):
 | digest | 0.69 s | 0.70 s | 0.36 s | Python 63.7 MB |
 | image export | 9.28 s | 11.26 s | 10.94 s | Wolfram kernel 210.2 to 210.4 MB; `wolframscript` 16.5 MB; licence query (part 5) 49.7 to 53.6 MB |
 
-The times are wall-clock seconds from start to exit, including the start of the Wolfram kernel. "MB" here means
-2^20 bytes. The memory of the Wolfram processes was sampled every 0.2 s (2026-10-02) or 0.1 s (2026-10-07), over
-`wolframscript` and every process it started. The digest finishes too quickly for sampling, so on 2026-10-07 its
-peak was read by the Python process itself at its end (Windows `GetProcessMemoryInfo`, `PeakWorkingSetSize`;
-63.7 MB in each of three runs; the work inside Python took 0.13 to 0.16 s, the rest of the 0.4 to 0.7 s is the
-start of Python).
+The times are wall-clock seconds from start to exit, including the start of the Wolfram kernel. In the
+2026-10-07 table "MB" means 2^20 bytes. The memory of the Wolfram processes was sampled every 0.2 s (2026-10-02)
+or 0.1 s (2026-10-07), over `wolframscript` and every process it started. The digest finishes too quickly for
+sampling (the 0.1 s samples caught only 12 to 30 MB), so on 2026-10-07 its peak was read by the Python process
+itself at its end: a small wrapper ran the digest (with `--out` to a scratch file) and then asked Windows
+(`GetProcessMemoryInfo`, `PeakWorkingSetSize`). It gave 63.7 MB in each of three runs; the work inside Python
+took 0.13 to 0.16 s, and the rest of the 0.4 to 0.7 s is the start of Python.
 
 ---
 
@@ -621,21 +622,28 @@ What a run of the three commands of part 3.5 creates, overwrites or starts.
 
 ## 6. Verification record
 
-* **Date:** 2026-10-02.
+* **Dates:** 2026-10-02 (first verification and its re-verification after an independent review, runs 1 to 7)
+  and 2026-10-07 (verified again after a restart of the verification workflow, runs 8 to 10; see the bullet
+  "Verification of 2026-10-07" below).
 * **Commits verified:**
-  * clone 1 at `45d47343ae480df46e06689ed822b8f9a88a8030`;
-  * clone 2 at `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`.
+  * clone 1 at `45d47343ae480df46e06689ed822b8f9a88a8030` (2026-10-02);
+  * clones 2, 3 and 4 at `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` (2026-10-02);
+  * clone 5 at `a4c5eda1df069a43a55ff8b57148f5de8edd1670` (2026-10-07);
+  * clone 6 at `8cbd03a02f7771bce9e199f5d48cd41a979f1f06` (2026-10-07).
 
-  Both were `main` of https://github.com/once-ere/Dirac_claude.git at the time of cloning. The three scripts,
-  the notebook and both committed outputs are identical at the two commits (`git diff --stat 45d4734 c2b33cc`
-  over these six paths is empty), and their digests are those of part 2. The three scripts and the PNG
+  Each was `main` of https://github.com/once-ere/Dirac_claude.git at the time of cloning. The three scripts,
+  the notebook and both committed outputs are identical at all four commits (`git diff --stat 45d4734 c2b33cc`
+  and `git diff --stat c2b33cc 8cbd03a` over these six paths are empty; between them only this provenance file
+  was added, in commit `3f0a577`), and their digests are those of part 2. The three scripts and the PNG
   `notebook-in68-image.png` were last changed in commit `70fab64`, the digest `notebook-input-cells.txt` in
   commit `ad02ebb`, and the notebook `Generalized _Kronecker_Delta_4+4.nb` in commit `eb03ec8` (all on
   2026-10-01).
 * **Environment:**
-  * Windows 11 Pro for Workstations 10.0.26200, 24 logical cores, 191 GB RAM;
-  * WolframScript 1.14.0, Wolfram 15.0.1 for Microsoft Windows (64-bit) (July 2, 2026), Professional licence;
-  * Python 3.14.5 (the digest also with 3.11.15, 3.12.13 and 3.13.13);
+  * Windows 11 Pro for Workstations 10.0.26200 on 2026-10-02 and 10.0.26300 on 2026-10-07, 24 logical cores
+    (Intel Core Ultra 9 275HX), 191 GB RAM;
+  * WolframScript 1.14.0, Wolfram 15.0.1 for Microsoft Windows (64-bit) (July 2, 2026), Professional licence
+    (`$AllowInternet` was `True` at the start of the 2026-10-07 runs);
+  * Python 3.14.5 (the digest also with 3.11.15, 3.12.13, 3.13.13 and, on 2026-10-07, 3.14.4);
   * git 2.51.2.windows.1; PowerShell 7.6.6 (some checks also in Windows PowerShell 5.1.26100.9444 and in Git
     Bash, GNU bash 5.2.37).
 * **Fresh clones:** two clones made with `git clone https://github.com/once-ere/Dirac_claude.git` into an empty
@@ -685,11 +693,63 @@ What a run of the three commands of part 3.5 creates, overwrites or starts.
     were removed by the cleanup command given there.
   * The Wolfram Engine download links of part 3.2 were followed on 2026-10-02 (redirects only, nothing
     downloaded); the last commits of the six files were read with `git log -1` in the fresh clone.
-* **Check counts:** the set has no internal pass/fail checks. Expected and found in every run (runs 1 to 7):
+* **Verification of 2026-10-07** (after the verification workflow was interrupted by a session limit and
+  restarted; this file, written on 2026-10-02, was not trusted but checked again). Two NEW fresh clones were
+  made with `git clone https://github.com/once-ere/Dirac_claude.git` into an empty scratch folder (clone 5 at
+  `a4c5eda`, clone 6 at `8cbd03a`). No file was copied into them: `git status --porcelain` in the working
+  repository showed no uncommitted change to any file of the set, to the notebook or to the two outputs. Each
+  command was started from the clone root exactly as in part 3.5, with its standard output and standard error
+  captured to separate files, its wall time measured and its processes sampled every 0.1 s.
+
+  | run | clone | exit codes | stderr | printed counts | time (extraction, digest, export) | `notebook-input-cells.txt` | `notebook-in68-image.png` | `build/lovelock_nb_inputs.txt` |
+  | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+  | 8 | 5 (fresh, no `build/`) | 0, 0, 0 | empty | 58; 58; {1372, 435}, 28229 bytes, 117 removed | 3.74 s, 0.69 s, 9.28 s | identical to committed | identical to committed | `52f611d4...276a6`, 9,923,611 bytes |
+  | 9 | 5 again | 0, 0, 0 | empty | the same | 5.78 s, 0.70 s, 11.26 s | identical to committed and to run 8 | identical to committed and to run 8 | identical to run 8 |
+  | 10 | 6 (fresh) | 0, 0, 0 | empty | the same | 5.07 s, 0.36 s, 10.94 s | identical to committed | identical to committed | identical to run 8 |
+
+  * The printed output of every command (218, 235 and 386 bytes) was byte-identical in runs 8 and 9, and in
+    run 10 apart from the clone folder name in the paths. After each run `git status --porcelain --ignored` in
+    the clone printed only `!! build/`, so no committed file changed, no `__pycache__` appeared, and the
+    notebook kept its sha256 `23bb4e0c...b80afb`.
+  * The PNG was decoded independently in Python: chunks `IHDR pHYs IDAT IDAT IDAT IDAT IEND` with valid CRCs,
+    1372 x 435 pixels, 8-bit RGB; the decompressed stream `8bb2905c...cb1c98` and the pixel bytes
+    `4efe457d...8a198` of part 2.3. The pixel check of part 4.3 printed `4efe457d...8a198` in PowerShell 7.6.6
+    (first command) and in Windows PowerShell 5.1.26100.9444 (second command).
+  * The full text has 174 lines and 174 CR LF line ends; its LF-only version has 9,923,437 bytes and the sha256
+    `f4aa92fd...2f0317e` of part 2.3, and the digest made from it equals the committed digest. The digest run with
+    Python 3.11.15, 3.12.13, 3.13.13 and 3.14.4 also equals the committed digest.
+  * The optional variant of part 3.5 was run literally in PowerShell 7.6.6 (with `TEMP` pointed to a scratch
+    folder): it printed `1A889643...1418CE`, wrote the full text `52f611d4...276a6`, left the clone unchanged,
+    and its cleanup command removed both files.
+  * From the subfolder `Revision`, the three commands of part 3.5 gave `Failed to open file at path: ...` (exit
+    `0`), Python's `can't open file ... [Errno 2]` (exit `2`) and again `Failed to open file at path: ...` (exit
+    `0`). Called by their full paths from an empty folder, the extraction printed `Get::noopen` and
+    `input cells written: 0` and left an empty `build/lovelock_nb_inputs.txt` in that folder, and the export
+    printed the messages listed in part 3.6 and `wrote ...: 1371 bytes`, both with exit code `0`. The digest
+    with a missing input ended with `FileNotFoundError` and exit code `1`. These are the rows of part 3.6.
+  * Part 5 was checked again where the other jobs running on the machine allowed it. Every `wolframscript`
+    command started the licence query `wolfram.exe -wlbanner -licenseinfo` and then one kernel, with the command
+    line of part 5 (`-linkmode Connect -linkname <5 letters>_shm -mathlink`). WolframScript's temporary folder,
+    polled every 5 ms, showed for the extraction an empty `tmp_...` file from 0.05 s until the exit (5.41 s) and a
+    second one from 4.42 s, 218 bytes at the end (the printed output), deleted at the exit; and for the export
+    the same pair (0.06 s and 4.62 s, 386 bytes, both deleted at the exit at 11.31 s). Other `tmp_...` files in
+    that folder belonged to the other jobs (about 18 `wolframscript` commands of other jobs were running).
+    `WolframScript.conf` kept its content (238 bytes, same sha256) but got a new modification time; with the
+    other jobs running, that rewrite could not be tied to the commands of this set. Not repeated on 2026-10-07:
+    the lock files, the open-handle and socket listings and the comparison of the Wolfram folders.
+  * Network: see part 5 (re-checked: no paclet installed, the kernel could not connect).
+  * The download links of part 3.2 were checked again with `HEAD` requests (nothing downloaded).
+  * Peak memory: part 4.4.
+* **Check counts:** the set has no internal pass/fail checks. Expected and found in every run (runs 1 to 10):
   58 input cells written, 58 digest rows, an image of 1372 x 435 pixels, a PNG of 28229 bytes with 117 bytes of
-  chunks removed, and 2 of 2 committed outputs byte-identical.
-* **Fixes made:** none to the set. The set executed correctly as committed, and no script, input or output of
-  the set was changed. This provenance file itself was corrected after the review: part 3.2 (download, free
+  chunks removed, and 2 of 2 committed outputs byte-identical (and the uncommitted full text byte-identical).
+* **Fixes made:** none to the set, on 2026-10-02 or on 2026-10-07. The set executed correctly as committed,
+  and no script, input or output of the set was changed. On 2026-10-07 this provenance file was brought up to
+  date: the summary at the top, part 1.2 (the textbook notebook `01c_generalized_delta`, which reads the digest),
+  part 3.2 (links checked again; the free Engine download is 15.0.0), part 3.3 (Python 3.14.4), part 3.6 (the
+  complete list of messages of the image export started from a wrong folder), part 4.4 (times and memory of
+  2026-10-07), part 5 (the licence query process; the re-check of the network behaviour) and part 6. On
+  2026-10-02 it had been corrected after the review: part 3.2 (download, free
   licence and install steps of the Wolfram Engine 15.0), part 3.5 (cleanup of the optional variant), part 3.6
   (new row for a terminal that is not in the repository root; the `Get::noopen` rows now say when they occur),
   part 4.2 (exit codes when a script file is not found), part 4.3 (PowerShell 7.3 or newer for the first
@@ -705,7 +765,11 @@ What a run of the three commands of part 3.5 creates, overwrites or starts.
   `$AllowInternet = False` was also identical, because the kernel could not connect in either case.
 * **Open discrepancies:** none. Notes for other installations:
   * Byte identity of the PNG and of the digest was verified on Wolfram 15.0.1 on Windows only. Another
-    Wolfram version may compress the PNG or format InputForm text differently; use the pixel check of part 4.3.
+    Wolfram version, including the free Wolfram Engine 15.0.0 offered for download on 2026-10-07 (part 3.2),
+    may compress the PNG or format InputForm text differently; use the pixel check of part 4.3.
+  * The two `.wls` scripts find the notebook through the CURRENT folder and end with exit code `0` even when
+    it is not found (part 3.6). That is not a defect when they are run as their usage says (from the repository
+    root), so they were left unchanged; check the printed counts.
   * The behaviour of the image export on a computer whose Wolfram kernel can reach the internet (download of
     the `ImageMetadataTools` paclet, part 5) was not tested.
   * The macOS and Linux commands are the same command lines as on Windows (with `python3`). Only Windows was

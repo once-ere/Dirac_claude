@@ -123,7 +123,9 @@ separate set.
 | `Revision/pairing/reports/wolfram-pairing.json` | OUTPUT, overwritten by every run (every check with its name, verdict `PASS` or `FAIL` and detail; the summary counts) | `4ea0fa709ed595b9279b04f1d45d2dce64b759ef0d60c57d15207bba02352990` | 112 | 40151 |
 | `Revision/pairing/pairing-theory.json` | OUTPUT, overwritten by every run (the theorems T1, T2, Q with hypotheses, statements, proofs, the names of the checks verifying them, data tables, and what is not established) | `aaf104a92a64d7a50ef590207201798ddfe08affbf4df371441eba157517c2ce` | 420 | 22430 |
 
-The hashes are those of the committed files; a successful run reproduces both outputs byte for byte.
+The hashes are those of the committed files (unchanged from commit `70fab64` up to commit `a4c5eda`
+of 2026-10-07, where they were checked again); a successful run reproduces both outputs byte for
+byte.
 Nothing else is read: no other file of the repository, no network resource, no command-line argument.
 The script finds its package, its input and its output folders relative to its own location, so these
 files must keep their places in the repository.
@@ -241,8 +243,8 @@ wolframscript -file Revision/pairing/wolfram/verify_pairing.wls; echo "exit code
 Type the command on one line and press Enter. For a few seconds nothing is printed while the kernel
 starts and reads the input; then one line per check appears as each check finishes, with pauses of
 several seconds at the heavier checks. The whole run takes about two to three and a half minutes
-(up to 3.4 minutes on the fully loaded verification machine). Do not close the window while it runs. Wait for the line
-`101/101 checks passed; time ... s` and then the line `exit code: 0`.
+(up to 3.4 minutes on the fully loaded verification machine). Do not close the window while it
+runs. Wait for the line `101/101 checks passed; time ... s` and then the line `exit code: 0`.
 
 ### 3.6 If it fails
 
@@ -420,7 +422,9 @@ earlier run on the same machine with less load, recorded in the documents of sec
   `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`, used for run 3 and for the re-verification after an
   independent review of this file (runs 5 and 6 and the probes below, in a new fresh clone C of that
   commit), and at the commit `a4c5eda1df069a43a55ff8b57148f5de8edd1670` (the head of `main` on
-  2026-10-07), used for runs 7 and 8 in a new fresh clone D. The set's files were last changed in
+  2026-10-07), used for runs 7 and 8 in a new fresh clone D; the snapshot commits made after it
+  while this record was being updated (up to `72fc9ff`) changed no file of the set, its input or its
+  outputs (only provenance files). The set's files were last changed in
   commit `70fab64` (2026-10-01). No uncommitted file was copied into the clones: only committed files
   were used.
 * **Environment:** Windows 11 Pro for Workstations 10.0.26200 (build 26200.9457) for runs 1 to 6,
@@ -465,11 +469,12 @@ earlier run on the same machine with less load, recorded in the documents of sec
   | run 7 = run 8 | yes | yes |
 
   `git status --porcelain --ignored` was empty in each clone after each run, and `git status` in
-  clones B, C and D printed `nothing to commit, working tree clean`. After run 6 the eighth line of the
-  report was `  "summary": {"passed": 101, "failed": 0, "total": 101},`, the seventh line of the
-  theory file `  "status": "all checks of the report passed",`, and the sha256 of both files those of
-  section 2. The checking commands of section 4.3 (`Select-String`, `Get-FileHash`, `git status`)
-  were run in clone B and printed the summary line, the status line and the hashes of section 2. The
+  clones B, C and D printed `nothing to commit, working tree clean`. After runs 6 and 8 the eighth
+  line of the report was `  "summary": {"passed": 101, "failed": 0, "total": 101},`, the seventh line
+  of the theory file `  "status": "all checks of the report passed",`, and the sha256 of both files
+  those of section 2. The checking commands of section 4.3 (`Select-String`, `Get-FileHash`,
+  `git status`) were run in clones B and D and printed the summary line, the status line and the
+  hashes of section 2. The
   macOS and Linux command of section 3.5 was run in Git Bash on Windows (the same bash syntax); no
   macOS or Linux machine was available for this record.
 * **Failure modes tried:** a wrong path (`wolframscript -file verify_pairing.wls` outside the
@@ -489,7 +494,14 @@ earlier run on the same machine with less load, recorded in the documents of sec
   in bash, PowerShell 7 and Windows PowerShell 5.1; the script's own
   file-writing function (copied into a probe script) applied to a read-only file prints
   `OpenWrite::noopen`, `BinaryWrite::stream` and `Close::stream`, leaves the file unchanged and the
-  probe still exits with 0.
+  probe still exits with 0. Repeated on 2026-10-07 (commit a4c5eda): the wrong path printed
+  `Failed to open file at path: verify_pairing.wls` (bash) and
+  `Failed to open file at path: Revision/pairing/wolfram/verify_pairing.wls` (PowerShell 7, outside
+  the repository root), both with exit code 0; the missing-input run printed the same 33 lines, all
+  on standard output (error stream 0 bytes), the same messages in the same order and 15 `FAIL` lines
+  up to `FAIL  primordial_vielbein  (0.8 s)`, its output stopped growing 4.7 s after the start, the
+  kernel kept computing (peak working set 255.9 MB) until it was stopped after 60.7 s, and no output
+  file was written.
 * **Process and network probes:** runs 5 and 6, the missing-input run, five probe scripts that only
   wait (`Pause[6]`) and one socket control script (nine watched runs) were watched by a loop that
   listed the `wolfram.exe` processes about 80 to 175 times per second and read the parent and command
@@ -501,7 +513,13 @@ earlier run on the same machine with less load, recorded in the documents of sec
   left after `wolframscript` exited. The kernel's peak memory (working set) was 246.7 MB in run 5 and
   246.8 MB in run 6. A control script that opens a local server socket (`SocketOpen[48456]`) was
   seen by the same socket-table reading (a listening entry on `127.0.0.1`, owned by its kernel),
-  which shows that the reading works.
+  which shows that the reading works. Runs 7 and 8 were watched more coarsely (`Get-CimInstance`
+  for the children of `wolframscript`, a few readings per second on the fully loaded machine) and
+  showed the same two children: in run 7 the licence query was first seen 0.18 s after the start
+  and was still alive at 2.83 s, the kernel was first seen at 0.53 s; in run 8 the licence query was
+  seen once, at 0.37 s, and the kernel first at 4.18 s (that watch loop was slower because it also
+  read the socket tables); in both runs the kernel stayed until the end and no Wolfram process was
+  left after `wolframscript` exited.
 * **Fixes made:** none were needed to the set; no script, package, input or output was changed.
   This provenance file itself was corrected after the independent review: the macOS installation of
   the Wolfram Engine now includes `wolframscript.pkg` (as in Wolfram's own instructions,
@@ -511,9 +529,15 @@ earlier run on the same machine with less load, recorded in the documents of sec
   `General::stop` and say that they go to standard output; whole-number times such as `(0. s)` are
   explained; the side effects now list the short-lived licence query process, the network
   observation with its exact coverage, and the precise contents of the two output files after a
-  failed check.
+  failed check. On 2026-10-07 (re-verification after the restart) again no fix to the set was
+  needed; this file was updated with the measured truth: the documents and notebooks that now cite
+  or read the outputs (section 1.3), the size of the repository download (section 3.4), the run-time
+  ranges including runs 7 and 8 (sections 3, 4.1 and 4.4), the longer life of the licence query on
+  a fully loaded machine (section 5) and runs 7 and 8 with their byte-identity results (this
+  section).
 * **Known limitation (not changed):** the script does not test whether writing its two output files
   succeeded, so in a read-only folder it ends with exit code 0 although nothing was saved (section
   3.6 says how to recognise this). This never affects a run in a normal, writable clone.
-* **Open discrepancies:** none. The counts in the citing documents (101 checks, 101 PASS, 0 FAIL)
-  agree with the reproduced report.
+* **Open discrepancies:** none. The counts in the citing documents (101 checks, 101 PASS, 0 FAIL;
+  on 2026-10-07 also the textbook chapter `00-how-to-use-this-book.md` and the notebook
+  `00c_honesty_ledger.ipynb`, both work in progress) agree with the reproduced report.

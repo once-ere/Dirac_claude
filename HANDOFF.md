@@ -84,6 +84,12 @@ chained in `Revision/workflows/revision_wave_1b_then_2.js` (run wf_987b1061-79b;
 revision_wave_1b.js, revision_wave_2.js and the chain script, and copy wave1_review_and_fix.json to <SP>/w1_args.json).
 Both wave scripts now carry a CONCURRENCY NOTE: never edit Revision/textbook/, the textbook test, provenance/, notebooks/, tests/
 while the other workflows run; pdf-specifications.json is shared (re-read before any change).
+LEAD DECISION PENDING (2026-10-07): the runner of old-primordial found that scripts/verify_dirac16complex_primordial.wls does not
+check that wolfram/Dirac16ComplexPrimordial.wl loaded and that D16PRun returned an Association: with the package missing, checks
+is not an Association, Count[Values[checks], False] = 0 and the script can exit 0 after writing a garbage report (false success).
+FIX IT (after the execution-provenance chain for old-primordial has finished, to avoid a concurrent edit): fail with an ERROR line and
+exit 1 unless AssociationQ[result] && AssociationQ[result["checks"]] && Length > 0, and count every non-True check as failed;
+then re-run the set twice in a fresh clone (byte identity of both outputs) and update its provenance file.
 
 ### 0.4f STATE 2026-10-03 (after the session limit)
 
