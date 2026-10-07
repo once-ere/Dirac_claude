@@ -17,6 +17,7 @@ const SP = '<SCRATCHPAD OF THE RUNNING SESSION>'
 if (SP.startsWith('<')) throw new Error('set SP to the scratchpad directory of the running session')
 const R = 'Revision'
 const COMMON = `
+NEVER accept licence terms, source agreements, cookie banners or any other agreement on the user's machine or accounts (e.g. never pass --accept-source-agreements / --accept-package-agreements to winget, never run wolframscript -activate or accept an EULA); if a step needs that, stop that step and report it as an open item for the user.
 RESTART NOTE: relaunched in a new session after a session limit (no cached agents). The earlier run stopped in its Fix phase; commits daeb5ba, a9a1b70 and 667f153 hold its partial, UNVERIFIED work (solver/src/mermin.rs, the full-matrix reference results, partial edits of fix:science:0): inspect, verify and finish them, never trust them unchecked.
 CONCURRENCY NOTE (2026-10-07): other workflows run at the same time. NEVER edit Revision/textbook/ (any file), Revision/tests/test_universes_in_pairs_textbook.py, provenance/, notebooks/, tests/: they belong to the textbook, execution-provenance and dirac-matrices workflows. Revision/pdf-specifications.json is shared: re-read it immediately before any change and change only your own entries. Read-only use of every file is fine.
 WAVE 1B NOTE: wave 1 (algebra, theory, a4 equations, pairing, GKD verification, Kohn-Sham solver, reference, three documents) is finished and was reviewed once; you repair and verify it. Inspect the current files and git diff before changing anything.

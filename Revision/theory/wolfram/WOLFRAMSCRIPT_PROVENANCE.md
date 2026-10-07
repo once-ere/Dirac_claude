@@ -138,8 +138,8 @@ runs them from the repository root.
 | `Revision/algebra/gammas.json` | both scripts | 1405 | 76968 | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` |
 | `Revision/theory/wolfram/RevisionFieldTheory.wl` | `verify_field_theory.wls` | (section 2.1) | | |
 
-`gammas.json` holds the author's 8 gamma matrices (16 x 16, exact rational entries) and the derived
-matrices `C`, `B`, `Gamma`, `S^ab` and `eta`. It is committed; it is produced by the separate set
+`gammas.json` holds the author's 8 real gamma matrices (16 x 16, exact entries -1, 0 and 1) and the
+derived matrices `C`, `B` (complex), `Gamma`, `S^ab` and `eta`. It is committed; it is produced by the separate set
 `Revision/algebra/wolfram/` (`verify_algebra.wls`), which you do NOT need to run first. No other file is
 read, and nothing is downloaded.
 
@@ -409,8 +409,8 @@ shown, then `TotalSeconds`; `$LASTEXITCODE` afterwards still gives the exit code
   (instead of the line `RevisionFieldTheory.wl loaded`): the package file
   `Revision/theory/wolfram/RevisionFieldTheory.wl` is missing or renamed. The script does NOT stop: it
   prints many further messages (for example `Part::partd: ...`) and `FAIL` lines, 166 lines in all (3
-  `PASS`, 81 `FAIL`), ends after a few seconds with the last line `3/84 checks passed; total time
-  <seconds> s` and exit code 1, and it OVERWRITES its two committed outputs
+  `PASS`, 81 `FAIL`), ends after about 5 to 20 seconds with the last line `3/84 checks passed; total
+  time <seconds> s` and exit code 1, and it OVERWRITES its two committed outputs
   `Revision/theory/reports/wolfram-field-theory.json` and `Revision/theory/field-theory.json` with these
   failing results (observed on 2026-10-02 and again on 2026-10-07: 15.7 s of wall time, summary
   `{"passed": 3, "failed": 81, "total": 84}`). Restoring only the package is therefore not enough.

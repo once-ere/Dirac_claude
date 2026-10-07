@@ -510,8 +510,7 @@ CELLS = [
     ax.set_xlim(1e-13, 1e-4)
     ax.set_yticks(rows, labels=list(SHORT_NAMES.values()))
     ax.grid(False, axis="y")
-    ax.set_xlabel("difference between the canonical and the refined run "
-                  "(relative, or in units of the mass m)")
+    ax.set_xlabel("canonical minus refined run (relative, or in units of the mass m)")
     ax.set_title("Kohn-Sham solver: measured differences and tolerances")
     # The legend below the picture, in two columns, so that it covers no row.
     ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=2)
@@ -553,7 +552,7 @@ CELLS = [
     control = []  # (state, error of the old root, former measure, present measure)
     for state, error, former, present in re.findall(CONTROL, root_path["detail"]):
         control.append((state, abs(float(error)), float(former), float(present)))
-    say("state              error of the old   former measure   present measure")
+    say("state              old method error   former measure   present measure")
     for state, error, former, present in control:
         say(f"{state:17} {error:12.3e} m   {former:14.3e}   {present:15.3e}")
     largest_hidden = max(error for _, error, _, _ in control)
@@ -600,7 +599,8 @@ CELLS = [
                 r"rounding (grey), and the difference seen by the present refined run, "
                 r"which rounds along another path (blue); horizontal axis the size of "
                 r"the difference in units of the mass $m$, logarithmic. The grey bars "
-                f"are between {min(hidden_ratios):.0f} and {max(hidden_ratios):.1e} "
+                f"are between {min(hidden_ratios):.0f} and "
+                f"{max(hidden_ratios) / 1e6:.1f} million "
                 r"times shorter than the orange ones: two runs with the same rounding "
                 f"hid errors up to {largest_hidden:.1e} "
                 r"$m$, which the blue bars show in full.")
@@ -637,7 +637,8 @@ CELLS = [
     ax.set_xlabel("step number")
     ax.set_ylabel("position (sum of the steps)")
     ax.set_title("Random walks: the same seed gives the same walk")
-    ax.legend(loc="lower left")  # the lower left corner holds no part of the walks
+    # The legend below the picture, so that it covers no part of the walks.
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=1)
     save_figure(fig, "seeded_walks",
                 r"Three random walks of 400 steps of $+1$ or $-1$ (horizontal axis the "
                 r"step number, vertical axis the position, the sum of the steps so far; "

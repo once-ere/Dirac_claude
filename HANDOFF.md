@@ -114,6 +114,10 @@ and reference-summary.json was regenerated after it (33c07a3): old Stage 4 was p
 (2) test_d16c_student_guide_publication path studies/dirac16complex_cosmology/target/release/dirac16complex_cosmology.exe - exists
 only after bash scripts/setup_solver.sh.  The execution-provenance agent nb-kohn-sham must document (1) truthfully; decide with the
 user whether old Stage 4 is to be finished or formally marked superseded by Revision/kohn_sham.
+INCIDENT (2026-10-07): the execution-provenance runner of old-nb-build-ks ran `winget show --accept-source-agreements` to read
+package versions; if the winget source agreements were not yet accepted on this machine, that accepted them without the user's
+permission.  Reported to the user.  Every workflow script in Revision/workflows/ now carries a rule forbidding the acceptance of any
+agreement/licence/EULA (effective for future launches; the prompts of already-running runs cannot be changed).
 
 ### 0.4f STATE 2026-10-03 (after the session limit)
 
