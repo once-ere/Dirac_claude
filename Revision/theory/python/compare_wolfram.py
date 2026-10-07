@@ -576,23 +576,30 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
         ok = ok and Mb == G[a]
     rec(out, "field_equation_blocks", ok and len(blocks) == 8,
         "gamma^(xa) = {{0, tb}, {t, 0}} with the listed 8x8 blocks, all 8 a: equal to the fixture gammas")
-    ok = True
+    # the prose adjoint equation, parsed; then the parsed operator is rebuilt in the jet algebra
     OmG = sp.zeros(16, 16)
     for mu in range(8):
         OmG += geo.Om[mu] * geo.gam[mu]
-    ok = all(zero_author(x) for x in (OmG + 3 * H * G[7]))
+    ad_coef, ad_const, ad_rhs, ad_prob = parse_dirac_prose(F["adjoint_equation"], adjoint=True)
+    ok = not ad_prob and ad_rhs == "-(m + U'(S)) Psibar"
+    ok = ok and all(same(ad_coef[a], to_wl_vars(1 / geo.f[a])) for a in range(8))
+    # the stated non-derivative term Psibar (ad_const gamma^(x8)) must be -Psibar Omega_mu gamma^mu
+    ok = ok and all(same(to_wl_vars(x), y) for x, y in zip(-OmG, ad_const * G[7]))
+    ok = ok and not ad_const.free_symbols - {H}
     for stat in ("grassmann", "commuting"):
         sps = ctx["sps"][stat]
         pb = sps.psibar()
-        lhs = sps.vecmat(pb, 3 * H * G[7])
+        lhs = sps.vecmat(pb, ad_const * G[7])
         for a in range(8):
             lhs = sps.vadd(lhs, sps.vecmat(sps.psibar((a,)), G[a] / geo.f[a]))
         Mp = Alg.scalar(stat, m) + sps.S().scale(lam)
         Eb = sps.dirac_Ebar()
         ok = ok and all((lhs[B] + Mp * pb[B] + Eb[B]).expand().is_zero(zero_author)[0] for B in range(16))
-    rec(out, "adjoint_equation", ok, "sum_mu Omega_mu gamma^mu = -3 H gamma^(x8), so the stated adjoint form "
-        "(... + 3 H Psibar g[x8] = -(m + U') Psibar) equals the sympy D_mu Psibar gamma^mu = -(m + U') Psibar "
-        "exactly, both statistics")
+    rec(out, "adjoint_equation", ok, "the prose equation parsed: the coefficient of d_a Psibar gamma^(a) equals the "
+        "sympy 1/f_a for all eight a, the term without derivative " + sp.sstr(ad_const) + " Psibar gamma^(x8) equals "
+        "-Psibar Omega_mu gamma^mu (sympy: sum_mu Omega_mu gamma^mu = -3 H gamma^(x8)), and the stated equation "
+        "(... = -(m + U'(S)) Psibar), rebuilt in the jet algebra, equals the sympy D_mu Psibar gamma^mu = -(m + U') "
+        "Psibar exactly, both statistics" + (f"; problems: {ad_prob}" if ad_prob else ""))
     # ---- current
     ok = True
     for stat in ("grassmann", "commuting"):
