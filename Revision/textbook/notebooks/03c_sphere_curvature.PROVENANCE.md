@@ -11,7 +11,7 @@ It applies the formulas of the Christoffel symbols, the Riemann tensor, the Ricc
 
 It reads and reproduces no Revision record.
 
-The notebook has 30 cells (17 markdown cells and 13 code cells) in these sections:
+The notebook has 32 cells (18 markdown cells and 14 code cells) in these sections:
 
 - 1. What this notebook computes
 - 2. How to run this notebook
@@ -232,22 +232,22 @@ python Revision/textbook/tools/nbkit.py check Revision/textbook/notebooks/src/03
 Every check prints a PASS line (a check that fails stops the notebook with an AssertionError instead). The notebook prints these lines, in this order; the label In [k] is the number of the code cell that prints the line:
 
 ```text
-In [3]  PASS plane in polar coordinates: Gamma^r_(phi phi) = -r, Gamma^phi_(r phi) = 1/r
-In [3]  PASS the Riemann tensor of the plane is zero: the plane is flat
-In [4]  PASS the covariant derivative of the constant field e_x is zero
-In [5]  PASS the components of the unit field e_x have length 1 at every point
-In [6]  PASS sphere: Gamma^theta_(phi phi) = -sin cos, Gamma^phi_(theta phi) = cot theta
-In [6]  PASS the Gaussian curvature of the sphere is 1/a^2 at every point
-In [6]  PASS Ricci scalar 2/a^2 and Kretschmann scalar 4/a^4
-In [7]  PASS parallel transport keeps the length of the vector
-In [7]  PASS at theta0 = pi/3 the vector comes back exactly reversed
-In [8]  PASS the turning angle at theta0 = pi/3 is pi
-In [9]  PASS the turning angle equals the enclosed area over a^2
-In [10]  PASS the three geodesics stay in planes through the centre: great circles
-In [10]  PASS the circle of latitude theta0 = pi/3 is not a geodesic
-In [11]  PASS every geodesic returns to its start after the length 2 pi
-In [12]  PASS the curvature 1/a^2 predicts how fast neighbouring geodesics approach
-In [13]  PASS all five figure files exist
+In [4]  PASS plane in polar coordinates: Gamma^r_(phi phi) = -r, Gamma^phi_(r phi) = 1/r
+In [4]  PASS the Riemann tensor of the plane is zero: the plane is flat
+In [5]  PASS the covariant derivative of the constant field e_x is zero
+In [6]  PASS the components of the unit field e_x have length 1 at every point
+In [7]  PASS sphere: Gamma^theta_(phi phi) = -sin cos, Gamma^phi_(theta phi) = cot theta
+In [7]  PASS the Gaussian curvature of the sphere is 1/a^2 at every point
+In [7]  PASS Ricci scalar 2/a^2 and Kretschmann scalar 4/a^4
+In [8]  PASS parallel transport keeps the length of the vector
+In [8]  PASS at theta0 = pi/3 the vector comes back exactly reversed
+In [9]  PASS the turning angle at theta0 = pi/3 is pi
+In [10]  PASS the turning angle equals the enclosed area over a^2
+In [11]  PASS the three geodesics stay in planes through the centre: great circles
+In [11]  PASS the circle of latitude theta0 = pi/3 is not a geodesic
+In [12]  PASS every geodesic returns to its start after the length 2 pi
+In [13]  PASS the curvature 1/a^2 predicts how fast neighbouring geodesics approach
+In [14]  PASS all five figure files exist
 ```
 
 ### 3.2 Key numbers
@@ -255,9 +255,9 @@ In [13]  PASS all five figure files exist
 The key numbers are printed as RESULT lines:
 
 ```text
-In [9]  RESULT largest difference between the turning angle and area/a^2 = 5.0e-12 radians
-In [10]  RESULT geodesic equation of the latitude theta0 = pi/3: missing acceleration = 0.577350
-In [12]  RESULT largest difference between the meridians and the deviation equation = 8.0e-14
+In [10]  RESULT largest difference between the turning angle and area/a^2 = 5.0e-12 radians
+In [11]  RESULT geodesic equation of the latitude theta0 = pi/3: missing acceleration = 0.577350
+In [13]  RESULT largest difference between the meridians and the deviation equation = 8.0e-14
 ```
 
 ### 3.3 The last lines
@@ -315,8 +315,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 15.0 s, peak memory of the kernel process 186 MiB;
-- the check run: 8.6 s, peak memory of the kernel process 186 MiB.
+- the build run: 14.2 s, peak memory of the kernel process 186 MiB;
+- the check run: 8.9 s, peak memory of the kernel process 186 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -328,8 +328,8 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/03c_sphere_curvature.ipynb`: `4ca438fea80fe8ebda4b049e2f9cdf21ec2deed2ec37e150ee0d2513d4854cee`
-- `Revision/textbook/notebooks/src/03c_sphere_curvature.py`: `ad940554dfeecd7cc220e1c5d5abcfd430a5a2a80a0f5e6ca3f034a5cd0e68ee`
+- `Revision/textbook/notebooks/03c_sphere_curvature.ipynb`: `d46349bbcd7c9cda518c8733ff4af275e9b8301029c50f3baa5002ea40e1613b`
+- `Revision/textbook/notebooks/src/03c_sphere_curvature.py`: `d91f792b68cef9d5c6eded4f910b90872569f537dc6136b7714de9c503873064`
 - `Revision/textbook/figures/03c.captions.json`: `424d86d4605b82c11d76767e16a50b992934923ac479d59f525c969f6c468dac`
 - `Revision/textbook/figures/03c_1_plane_polar_components.png`: `965abef9aa2451e12d42e1585bd828a4da56f577d9bb5bf9922014e966e7172b`
 - `Revision/textbook/figures/03c_2_parallel_transport_sphere.png`: `14f591291e20ede97f29c838666c687c5cc76fb780078e519e4c02f0ded04759`
@@ -343,4 +343,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 6 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":186.0,"seconds":15.0},"check":{"date":"2026-10-07","files":6,"peak_mb":186.0,"result":"passed","seconds":8.6},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":186.0,"seconds":14.2},"check":{"date":"2026-10-07","files":6,"peak_mb":186.0,"result":"passed","seconds":8.9},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

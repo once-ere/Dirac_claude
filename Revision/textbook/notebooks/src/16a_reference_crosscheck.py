@@ -86,7 +86,7 @@ FACTS = {
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [{"manifest": "Revision/kohn_sham/solver/Cargo.toml",
                     "binaries": ["revision_ks_solver"], "build_minutes": 1}],
-    "expected_seconds": 240,
+    "expected_seconds": 270,
     "timeout_seconds": 1800,
     "files_written": ["Revision/textbook/figures/16a.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
@@ -755,8 +755,9 @@ CELLS = [
     `Revision/kohn_sham/reference/results/thermo/<id>.json` in the same way, and prints
     the chemical potential $\mu$, the energy $E$ and the heat capacity $C_V$ with their
     uncertainties. The state N8_lamm1_a00_T10 is the one in which the first cross-check
-    failed (the Rust $\mu$ was wrong in its tenth digit); Notebook 16c of this chapter
-    tells that story.
+    failed (the Rust value of $\mu$ was $8.3\times10^{-10}$ too small, about 100 times
+    the tolerance); Notebook 16c of this chapter tells that story and reproduces the
+    faulty value digit for digit.
     """),
     code(r'''
     for sid in THERMAL_IDS:
@@ -1120,7 +1121,8 @@ CELLS = [
     Three classes of the full cross-check are not repeated here: the particle-hole
     lists, the exact-Fock variant and the rescaling partners (other solver runs that this
     subset does not make), and for thermal states the sea-hole diagnostic and the
-    40-digit chemical potential (Notebook 16c computes the latter for N8_lamm1_a00_T10).
+    40-digit chemical potential (Notebook 16c computes the latter for all 45 thermal
+    states with $N = 8$, among them N8_lamm1_a00_T10).
     """),
     code(r'''
     ROOT_TOLERANCE = RUST_PARAMS["numerics"]["rootTolerance"]  # 1e-13
@@ -1354,8 +1356,11 @@ CELLS = [
                 "density of N8_lamm2_a00.")
     for cls in classes:
         say(f"  {cls:24s} largest ratio {worst_by_class[cls]:.4f}")
-    check(max(worst_by_class.values()) < 0.5,
-          "no comparison of the subset uses even half of its tolerance")
+    top_row = max(ROWS, key=lambda r: r[8])  # the comparison with the largest ratio
+    say(f"the largest ratio of the subset: {top_row[8]:.4f} ({top_row[1]})")
+    check(max(worst_by_class.values()) < 0.5
+          and top_row[1] == "N8_lamm2_a00 rho_tip",
+          "no comparison uses half of its tolerance; the largest is rho at the tip")
     '''),
     md(r"""
     ## 18. The last check

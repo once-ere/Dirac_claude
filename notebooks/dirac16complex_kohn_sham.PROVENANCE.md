@@ -54,12 +54,12 @@ This notebook neither defines nor uses a charge conjugation. The 16 x 16 matrice
 
 ### 1.5 Programs that run or read it
 
-- The Stage-4 gate `scripts/verify_stage4_kohn_sham.ps1` / `scripts/verify_stage4_kohn_sham.sh` (steps `stage4-24` to `stage4-29`: it clears the outputs of a copy of the notebook, executes it with the runner and with `nbconvert`, audits both copies and compares the fresh report with the committed one, through `scripts/verify_stage4_kohn_sham_audit.py`). The gate had not been run when this file was written.
+- The Stage-4 gate `scripts/verify_stage4_kohn_sham.ps1` / `scripts/verify_stage4_kohn_sham.sh` (steps `stage4-24` to `stage4-29`: it clears the outputs of a copy of the notebook, executes it with the runner and with `nbconvert`, audits both copies and compares the fresh report with the committed one, through `scripts/verify_stage4_kohn_sham_audit.py`). The gate had not been run when this file was written, and it was not run for the re-test of 2026-10-07 either: its notebook steps require exit code 0 from the runner and from `nbconvert` (without `--allow-errors`), which today is impossible because of the two failed gauntlet checks (Section 4.1). Its comparison step 28 was run on its own (Section 6.3, runs 7 and 8).
 - The unit tests `tests/test_d16c_kohn_sham_notebook.py` (Section 6.5).
 
 ## 2. Its files
 
-All paths are relative to the repository root (the folder `Dirac_claude` that `git clone` creates). "Lines" is the number of line-feed characters (what `wc -l` prints); all text files use LF line endings. The SHA-256 values are those of commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`.
+All paths are relative to the repository root (the folder `Dirac_claude` that `git clone` creates). "Lines" is the number of line-feed characters (what `wc -l` prints); all text files use LF line endings. The SHA-256 values are those of commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` (the commit tested on 2026-10-02); every value, line count and size in Section 2 was checked again on 2026-10-07 in the fresh clones of the commits `d806b00cfd769141b9d3f2c6c46a72de5d8027a2` and `a11befc261ce71d8b1843edf73de9286715ef296` and is unchanged there (no file of the set and no input changed between these commits).
 
 ### 2.1 Program files of the set
 

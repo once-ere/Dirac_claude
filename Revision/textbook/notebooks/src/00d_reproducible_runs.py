@@ -357,16 +357,21 @@ CELLS = [
         ulps["backward"].append(float((backward - exact) / gap))
         ulps["pairwise"].append(float((np.sum(terms[:n]) - exact) / gap))
 
+    # The three sums of all 10^6 numbers, as plain Python floats (float(...)).
+    forward_million = float(forward[-1])
+    backward_million = float(np.add.accumulate(terms[::-1])[-1])
+    pairwise_million = float(np.sum(terms))
     exact_million = math.fsum(terms)
-    backward_million = np.add.accumulate(terms[::-1])[-1]
-    say(f"forward  sum of 10^6 numbers: {forward[-1]!r}")
+    say(f"forward  sum of 10^6 numbers: {forward_million!r}")
     say(f"backward sum of 10^6 numbers: {backward_million!r}")
-    say(f"pairwise sum of 10^6 numbers: {np.sum(terms)!r}")
+    say(f"pairwise sum of 10^6 numbers: {pairwise_million!r}")
     say(f"exactly rounded sum         : {exact_million!r}")
     worst_forward = max(abs(u) for u in ulps["forward"])  # the largest size of error
     worst_backward = max(abs(u) for u in ulps["backward"])
+    worst_pairwise = max(abs(u) for u in ulps["pairwise"])
     report("largest forward error in ulps", f"{worst_forward:.0f}")
     report("largest backward error in ulps", f"{worst_backward:.0f}")
+    report("largest pairwise error in ulps", f"{worst_pairwise:.0f}")
     report("pi^2/6 minus the exact sum of 10^6 numbers",
            f"{math.pi ** 2 / 6 - exact_million:.6e}")
     '''),
@@ -400,14 +405,16 @@ CELLS = [
                 r"the exactly rounded sum: forwards with the largest term first (blue "
                 r"circles), backwards with the smallest term first (orange squares), "
                 r"and pairwise as numpy adds (aqua triangles). The forward error grows "
-                r"to about 200 ulps, a relative error of a few times $10^{-14}$; the "
-                r"other two stay within one ulp. Same numbers, different order, "
-                r"different last digits.")
-    relative = max(abs(forward[-1] - exact_million), abs(backward_million - exact_million),
-                   abs(np.sum(terms) - exact_million)) / exact_million
+                f"to {worst_forward:.0f} ulps, a relative error of a few times "
+                r"$10^{-14}$; the backward error stays within "
+                f"{worst_backward:.0f} ulp and the pairwise error within "
+                f"{worst_pairwise:.0f} ulps. Same numbers, different order, different "
+                r"last digits.")
+    relative = max(abs(s - exact_million) for s in
+                   (forward_million, backward_million, pairwise_million)) / exact_million
     report("largest relative difference of the three sums of 10^6 numbers",
            f"{relative:.2e}")
-    check(forward[-1] != backward_million,
+    check(forward_million != backward_million,
           "forwards and backwards, the sums of the 10^6 numbers differ in the last digits")
     check(worst_backward <= 1.0,
           "the backward sum is within one ulp of the exactly rounded sum for every N")
@@ -469,9 +476,9 @@ CELLS = [
         tolerances[name] = float(re.findall(r"tolerance (\S+)", detail)[-1])
         quoted[name] = f"{measured[name]:.3e}" in detail  # the same number in both files
         margin = tolerances[name] / measured[name]
-        say(f"{short:22} {measured[name]:9.3e}   {tolerances[name]:9.0e}   {margin:6.0f}")
+        say(f"{short:22} {measured[name]:9.3e}   {tolerances[name]:9.0e}   {margin:7.1f}")
     smallest = min(tolerances[n] / measured[n] for n in SHORT_NAMES)
-    report("smallest margin (tolerance / measured difference)", f"{smallest:.0f}")
+    report("smallest margin (tolerance / measured difference)", f"{smallest:.1f}")
     check_reproduces(
         sorted(measured) == sorted(SHORT_NAMES) and all(quoted.values())
         and all(verdicts[n] == "PASS" and measured[n] < tolerances[n] for n in SHORT_NAMES),
@@ -514,16 +521,18 @@ CELLS = [
         ax.plot([measured[name], tolerances[name]], [row, row], color="#b5b3ad",
                 linewidth=2.5)  # the margin
     ax.plot([measured[n] for n in SHORT_NAMES], rows, "o", color=BLUE, markersize=7,
-            label="largest measured difference (canonical minus refined run)")
+            label="largest measured difference")
     ax.plot([tolerances[n] for n in SHORT_NAMES], rows, "|", color="black",
             markersize=16, markeredgewidth=2.0, label="tolerance fixed in advance")
     ax.set_xscale("log")
     ax.set_xlim(1e-13, 1e-4)
     ax.set_yticks(rows, labels=list(SHORT_NAMES.values()))
     ax.grid(False, axis="y")
-    ax.set_xlabel("difference (relative, or in units of the mass m)")
+    ax.set_xlabel("difference between the canonical and the refined run "
+                  "(relative, or in units of the mass m)")
     ax.set_title("Kohn-Sham solver: measured differences and tolerances")
-    ax.legend(loc="upper right", fontsize=8)
+    # The legend below the picture, in two columns, so that it covers no row.
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=2)
     margins = [tolerances[n] / measured[n] for n in SHORT_NAMES]  # tolerance / measured
     save_figure(fig, "tolerances",
                 r"The eight comparisons between the canonical and the refined run of "
@@ -568,7 +577,7 @@ CELLS = [
     ax.set_xlabel("step number")
     ax.set_ylabel("position (sum of the steps)")
     ax.set_title("Random walks: the same seed gives the same walk")
-    ax.legend(loc="upper left")
+    ax.legend(loc="lower left")  # the lower left corner holds no part of the walks
     save_figure(fig, "seeded_walks",
                 r"Three random walks of 400 steps of $+1$ or $-1$ (horizontal axis the "
                 r"step number, vertical axis the position, the sum of the steps so far; "
@@ -714,10 +723,12 @@ CELLS = [
     reference_files = files_below(REFERENCE_RESULTS)
     reference_crlf = sum(1 for p in reference_files if b"\r\n" in p.read_bytes())
     report("Rust result files", len(rust_files))
-    report("their size", sum(p.stat().st_size for p in rust_files), "bytes")
+    report("size of the Rust result files", sum(p.stat().st_size for p in rust_files),
+           "bytes")
     report("Rust result files with CR LF line ends", rust_crlf)
     report("reference result files", len(reference_files))
-    report("their size", sum(p.stat().st_size for p in reference_files), "bytes")
+    report("size of the reference result files",
+           sum(p.stat().st_size for p in reference_files), "bytes")
     report("reference result files with CR LF line ends", reference_crlf)
 
     lf_rust = determinism_checks["outputs_lf_only"]  # the record's check (Rust)

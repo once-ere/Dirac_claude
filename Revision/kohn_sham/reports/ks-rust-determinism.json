@@ -17,7 +17,7 @@
     {
       "name": "repeat_byte_identical",
       "verdict": "PASS",
-      "detail": "second run with the canonical options: 244 files (5854813 bytes) compared, same file set: True, differing files: none"
+      "detail": "second run with the canonical options: 244 files (5857791 bytes) compared, same file set: True, differing files: none"
     },
     {
       "name": "repeat_report_byte_identical",
@@ -77,7 +77,7 @@
     {
       "name": "refined_mermin_root_path",
       "verdict": "PASS",
-      "detail": "the canonical run solves sum g f = N with the form LogBalance, the refined run with LinearDeviation (exactly equivalent well-conditioned residuals of solver/src/mermin.rs with different rounding paths), so |canonical - refined| of mu and Omega contains the rounding error of the root instead of sharing it (the former direct count, the same in both runs, hid an error of 8.3e-10 m in N8_lamm1_a00_T10); max |mu_c - mu_r| 1.254e-12 m (N136_lamm1_a00_T20), max |Omega_c - Omega_r| 2.738e-10 (N688_lamm1_a00_T20); largest canonical rounding bound of mu (thermodynamics.csv mu_rounding_bound) 4.736e-14 (N688_lamm1_a20_T50)"
+      "detail": "the canonical run solves sum g f = N with the form LogBalance, the refined run with LinearDeviation (exactly equivalent well-conditioned residuals of solver/src/mermin.rs with different rounding paths); each run's mu is its own form's root bit for bit and the two forms agree within their bounds on that run's levels (check thermo_mu_well_conditioned_root of both reports: canonical True, refined True). Measure of the root: U_mu = |mu_c - mu_r| + B_c + B_r (B = mu_rounding_bound of each run), max 1.255e-12 m (N136_lamm1_a00_T20); U_Omega = |Omega_c - Omega_r| (both forms) + N (B_c + B_r), max 2.752e-10 (N688_lamm1_a00_T20); largest B_c + B_r 1.143e-13 m (N688_lamm1_a20_T50), negligible against the tolerance (<= 1e-3 x 1e-08): True. NEGATIVE CONTROL (column mu_direct_count_minus_mu of both runs: the former direct-count root on the same final levels minus mu; columns present in every state: True): in 3 states the former canonical root would be wrong by more than twice U_mu; there the former measure (direct count in both runs) stays below half that error in every state (True: the two runs shared the rounding), while the present refined run differs from a former canonical root by at least half of it in every state (True): N8_lamm1_a00_T10: direct-count error -8.267e-10 m (refined run -8.271e-10), former measure 5.829e-16, present measure against it 8.271e-10, U_mu 3.78e-13; N8_lam0_a00_T10: direct-count error 2.722e-10 m (refined run 2.726e-10), former measure 7.528e-13, present measure against it 2.719e-10, U_mu 3.77e-13; N8_lamp1_a00_T10: direct-count error 6.959e-11 m (refined run 6.997e-11), former measure 7.518e-13, present measure against it 6.921e-11, U_mu 3.76e-13"
     },
     {
       "name": "refined_heat_capacity",
