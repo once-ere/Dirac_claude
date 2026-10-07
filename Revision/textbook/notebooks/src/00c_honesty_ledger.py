@@ -203,12 +203,12 @@ CELLS = [
     fingerprints of today's files are the same, the report belongs to exactly these
     files.
 
-    A ledger row labelled OPEN or HYPOTHESIS has no report: no check can prove it. In
-    particular the record proves exact maps between the solutions of mass $+m$ and
-    those of mass $-m$ (the pairing theorems T1, T2, Q and T3), but it does not prove
-    that the big bang creates universes, in pairs or otherwise, and the theory as built
-    does not explain the excess of matter over antimatter. The pairing record states
-    itself what it does not establish; the notebook prints that list.
+    A ledger row labelled OPEN or HYPOTHESIS has no report: nothing in the record
+    establishes it. In particular the record proves exact maps between the solutions
+    of mass $+m$ and those of mass $-m$ (the pairing theorems T1, T2, Q and T3), but it
+    does not prove that the big bang creates universes, in pairs or otherwise, and the
+    theory as built does not explain the excess of matter over antimatter. The pairing
+    record states itself what it does not establish; the notebook prints that list.
     """),
     md(r"""
     ## 5. One report, opened by hand
@@ -559,95 +559,119 @@ CELLS = [
     md(r"""
     ## 9. The honesty ledger
 
-    The next cell writes the ledger: fifteen rows, each with a statement of the book,
-    its label and the reports that verify it. Every one of the 27 reports belongs to
-    exactly one row. The three rows labelled HYPOTHESIS or OPEN have no report,
-    because no check can establish them. Two rows of PROVED theorems name an
-    assumption in their statement: the pairing theorems T2 and T3 hold with the Z2
-    mirror (a choice of boundary condition) ASSUMED. The row of the Kohn-Sham history
-    of $a_4$ is labelled ASSUMED although it has five checks: those checks show that
-    the computed Kohn-Sham states cannot be the source of that history in the field
-    equations, so the history has to be assumed (a *prescribed background*).
+    The next cell writes the ledger: sixteen rows, each with a statement of the book,
+    its label, a short note and the reports that verify it. Every one of the 27
+    reports belongs to exactly one row. The four rows labelled HYPOTHESIS or OPEN have
+    no report: nothing in the record establishes them, and their notes say why. Two
+    rows of PROVED theorems name an assumption in their statement: the pairing
+    theorems T2 and T3 hold with the Z2 mirror (a choice of boundary condition)
+    ASSUMED. The row of the Kohn-Sham history of $a_4$ is labelled ASSUMED although it
+    has five checks: those checks show that the computed Kohn-Sham states cannot be
+    the source of that history in the field equations, so the history has to be
+    assumed (a *prescribed background*).
 
-    The cell prints the ledger, checks that every report is used exactly once and
-    that every row with a report has only passed checks, and draws the ledger.
+    Two rows concern pairs of universes and matter and antimatter, and their words
+    are chosen with care. PROVED (rows 10 and 11) are exact maps between the solutions
+    of mass $+m$ and those of mass $-m$; the map T1 also reverses the charge, so a
+    solution and its image carry opposite charges. That our universe actually has
+    such a partner is a HYPOTHESIS (row 14: an idea of the universe and anti-universe
+    kind, not a result). That the big bang creates universes in pairs is not proved:
+    no creation process, rate or amplitude follows from the equations (row 15, OPEN).
+    The theory as built has no baryons (the particles of ordinary matter such as the
+    proton), no process that changes their number and no violation of the CP symmetry
+    (the exchange of particles and antiparticles combined with a mirror reflection; it
+    must be violated for matter to win over antimatter), so it does not explain why
+    there is more matter than antimatter (row 16, OPEN).
+
+    The cell prints the ledger and the notes of the rows without a report, checks that
+    every report is used exactly once, that every row with a report has only passed
+    checks, and counts the labels.
     """),
     code(r'''
     R = "Revision/"
-    LEDGER = [  # (statement, label, the reports that verify it)
-        ("the gammas, C, Gamma, B; Pin(4,4) and Spin(4,4)", "PROVED",
+    LEDGER = [  # (statement, label, note, the reports that verify it)
+        ("the gammas, C, Gamma, B; Pin(4,4) and Spin(4,4)", "PROVED", "",
          [R + "algebra/reports/wolfram-algebra.json",
           R + "algebra/reports/python-algebra.json"]),
-        ("Lagrangians, field equations, EMT, quantisation", "PROVED",
+        ("Lagrangians, field equations, EMT, quantisation", "PROVED", "",
          [R + "theory/reports/wolfram-field-theory.json",
           R + "theory/reports/python-field-theory.json"]),
-        ("the exact scope of the non-triviality", "PROVED",
+        ("the exact scope of the non-triviality", "PROVED", "",
          [R + "theory/reports/wolfram-scope.json",
           R + "theory/reports/python-scope.json"]),
-        ("the conservation identities of the EMT", "PROVED",
+        ("EMT conservation identities; the spin connection", "PROVED", "",
          [R + "lead_checks/reports/emt-divergence-and-spin-connection.json"]),
-        ("the field equations for a4", "PROVED",
+        ("the field equations for a4", "PROVED", "",
          [R + "field_equations_a4/reports/wolfram-a4-report.json",
           R + "field_equations_a4/reports/python-a4-report.json",
           R + "lead_checks/reports/einstein-gauss-bonnet-a4.json"]),
-        ("GKD and the three Lovelock tensors", "PROVED",
+        ("GKD and the three Lovelock tensors", "PROVED", "",
          [R + "gkd_lovelock/results/lovelock-report.json",
           R + "gkd_lovelock/results/gkd-selftest.json",
           R + "gkd_lovelock/results/wolfram-gkd-report.json",
           R + "gkd_lovelock/results/python-lovelock-report.json"]),
-        ("Kohn-Sham theory: blocks, rescaling, exchange", "PROVED",
+        ("Kohn-Sham theory: blocks, rescaling, exchange", "PROVED", "",
          [R + "kohn_sham/reports/ks-theory-wolfram.json",
           R + "kohn_sham/reports/ks-theory-python.json"]),
-        ("Kohn-Sham states along the deflating history", "COMPUTED",
+        ("Kohn-Sham states along the deflating history", "COMPUTED", "",
          [R + "kohn_sham/reports/ks-rust-solver.json",
           R + "kohn_sham/reports/ks-reference.json",
           R + "kohn_sham/reports/ks-crosscheck.json",
           R + "kohn_sham/reports/ks-rust-determinism.json",
           R + "kohn_sham/reports/ks-rust-mermin-roots.json"]),
-        ("the Kohn-Sham history of a4 is a prescribed background", "ASSUMED",
+        ("the Kohn-Sham history of a4 is a prescribed background", "ASSUMED", "",
          [R + "field_equations_a4/reports/ks-source-conditions.json"]),
-        ("pairing T1, T2 (Z2 mirror ASSUMED) and Q", "PROVED",
+        ("pairing T1, T2 (Z2 mirror ASSUMED) and Q", "PROVED", "",
          [R + "pairing/reports/wolfram-pairing.json",
           R + "pairing/reports/python-pairing.json"]),
-        ("T3 (Z2 mirror ASSUMED): Kohn-Sham +M and -M", "PROVED",
+        ("T3 (Z2 mirror ASSUMED): Kohn-Sham +M and -M", "PROVED", "",
          [R + "pairing/kohn_sham/reports/wolfram-t3.json",
           R + "pairing/kohn_sham/reports/python-t3.json"]),
-        ("charge conjugation C, Gamma C; U(1) charge", "PROVED",
+        ("charge conjugation C, Gamma C; U(1) charge", "PROVED", "",
          [R + "lead_checks/reports/charge-conjugation-and-u1.json"]),
-        ("a time-varying dark sector from the fields", "HYPOTHESIS", []),
-        ("the big bang creates universes in pairs", "OPEN", []),
-        ("the theory explains matter over antimatter", "OPEN", []),
+        ("a time-varying dark sector from the fields", "HYPOTHESIS",
+         "to be investigated; no result yet", []),
+        ("our universe has a partner of opposite charge", "HYPOTHESIS",
+         "the T1 maps exist; that a partner exists is not shown", []),
+        ("the big bang creates universes in pairs", "OPEN",
+         "not proved: no creation process, rate or amplitude", []),
+        ("the theory explains matter over antimatter", "OPEN",
+         "the theory as built does not explain it", []),
     ]
     say("row label       passed of all  statement")
     row_totals = []
-    for number, (statement, label, paths) in enumerate(LEDGER, 1):
+    for number, (statement, label, note, paths) in enumerate(LEDGER, 1):
         passed = sum(counted[path][0] for path in paths)
         total = sum(counted[path][1] for path in paths)
         row_totals.append(total)
         say(f"{number:3d} {label:10} {passed:7d} of {total:3d}  {statement}")
-    used = sorted(path for _, _, paths in LEDGER for path in paths)
+    say("The notes of the rows without a report:")
+    for number, (statement, label, note, paths) in enumerate(LEDGER, 1):
+        if note:  # only the HYPOTHESIS and OPEN rows have a note
+            say(f"{number:3d} {label:10} {note}")
+    used = sorted(path for _, _, _, paths in LEDGER for path in paths)
     check(used == sorted(path for path, _ in REPORTS),
           "every one of the 27 reports belongs to exactly one row of the ledger")
-    check(all((label in ("HYPOTHESIS", "OPEN")) == (paths == [])
+    check(all((label in ("HYPOTHESIS", "OPEN")) == (paths == []) == (note != "")
               and all(counted[p][0] == counted[p][1] for p in paths)
-              for _, label, paths in LEDGER),
+              for _, label, note, paths in LEDGER),
           "rows with a report have only PASS checks; OPEN and HYPOTHESIS rows have none")
-    labels = [label for _, label, _ in LEDGER]
+    labels = [label for _, label, _, _ in LEDGER]
     check([labels.count(name) for name in
-           ("PROVED", "COMPUTED", "ASSUMED", "HYPOTHESIS", "OPEN")] == [10, 1, 1, 1, 2],
-          "the ledger: 10 PROVED, 1 COMPUTED, 1 ASSUMED, 1 HYPOTHESIS and 2 OPEN rows")
+           ("PROVED", "COMPUTED", "ASSUMED", "HYPOTHESIS", "OPEN")] == [10, 1, 1, 2, 2],
+          "the ledger: 10 PROVED, 1 COMPUTED, 1 ASSUMED, 2 HYPOTHESIS and 2 OPEN rows")
     '''),
     md(r"""
     The next cell draws the ledger: one bar per row, with the row's number and
     statement written just above it, its length the number of checks of the row's
     reports, its colour the label. The rows labelled HYPOTHESIS and OPEN have no bar;
-    their label is written where the bar would begin.
+    their label and their note are written where the bar would begin.
     """),
     code(r'''
     LABEL_COLOURS = {"PROVED": "#2a78d6", "COMPUTED": "#eb6834", "ASSUMED": "#1baf7a"}
-    fig, ax = plt.subplots(figsize=(7.0, 7.9))
+    fig, ax = plt.subplots(figsize=(7.0, 8.4))
     rows = np.arange(len(LEDGER))[::-1]  # the first row of the ledger at the top
-    for number, row, (statement, label, paths), total in zip(
+    for number, row, (statement, label, note, paths), total in zip(
             range(1, len(LEDGER) + 1), rows, LEDGER, row_totals):
         # The statement is written just above its bar (va="bottom": the text starts
         # at the given height and extends upwards).
@@ -656,9 +680,9 @@ CELLS = [
             ax.barh(row, total, height=0.42, color=LABEL_COLOURS[label])
             ax.text(total + 2, row, f"{total} checks: {label}", va="center",
                     fontsize=9)
-        else:
-            ax.text(0, row, f"no check can establish it: {label}", va="center",
-                    fontsize=9, color="#52514e")
+        else:  # no report: the label and the note, in grey
+            ax.text(0, row, f"{label}: {note}", va="center", fontsize=9,
+                    color="#52514e")
     ax.set_yticks([])  # the statements are written above the bars instead
     ax.set_xlim(0, 232)
     ax.set_ylim(-0.6, len(LEDGER) - 0.1)
@@ -674,10 +698,12 @@ CELLS = [
                 r"checks in the reports that verify it (horizontal axis, a count), the "
                 r"colour its label: blue PROVED, orange COMPUTED, aqua ASSUMED. The "
                 r"ASSUMED row has five checks, which show why the Kohn-Sham history of "
-                r"$a_4$ must be assumed. The last three rows, a hypothesis and two open "
-                r"questions (that the big bang creates universes in pairs, and that "
-                r"the theory explains the excess of matter over antimatter), have no "
-                r"bar: no check of the record establishes them.")
+                r"$a_4$ must be assumed. The last four rows have no bar, because no "
+                r"check of the record establishes them: two hypotheses (a time-varying "
+                r"dark sector, and a partner universe of opposite charge) and two open "
+                r"questions (that the big bang creates universes in pairs, which is not "
+                r"proved, and the excess of matter over antimatter, which the theory as "
+                r"built does not explain).")
     '''),
     md(r"""
     The pairing record states in its own words what the pairing theorems do NOT
@@ -856,10 +882,12 @@ CELLS = [
     - Eight subjects are checked by two independent verifiers, one in Wolfram Language
       and one in Python.
     - Every report belongs to exactly one row of the honesty ledger. Twelve rows have
-      reports (ten PROVED, one COMPUTED, one ASSUMED); one row is a HYPOTHESIS and two
-      are OPEN: that the big bang creates universes in pairs, and that the theory
-      explains the excess of matter over antimatter. The pairing record itself lists
-      twelve things it does not establish, the first being any creation process.
+      reports (ten PROVED, one COMPUTED, one ASSUMED). Two rows are HYPOTHESIS (a
+      time-varying dark sector; a partner universe of opposite charge) and two are
+      OPEN: that the big bang creates universes in pairs is not proved, and the
+      theory as built does not explain the excess of matter over antimatter. The
+      pairing record itself lists twelve things it does not establish, the first
+      being any creation process.
     - A sha256 fingerprint changes completely when one character changes, and the 24
       fingerprints that the reports recorded for their input files equal those of
       today's files.

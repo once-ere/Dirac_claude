@@ -42,7 +42,8 @@ FACTS = {
         "of the commuting field dirac16complex00 in the author's metric, including the "
         "off-diagonal entries that the spin connection produces, finds the 42 nonzero "
         "off-diagonal entries of a generic condensate and checks that each is a "
-        "multiple of one of 15 three-gamma bilinears, builds the exact condensates "
+        "multiple of one of 15 three-gamma bilinears with exactly the coefficient that "
+        "the record lists for it, builds the exact condensates "
         "whose tensor is diagonal and reproduces their frequencies omega and their S "
         "from the record (S up to one common factor), and tests the conservation of the "
         "full tensor along "
@@ -58,6 +59,9 @@ FACTS = {
         ["Revision/theory/reports/wolfram-field-theory.json",
          "the exact nonlinear homogeneous solution conserves its tensor; conservation "
          "on shell"],
+        ["Revision/field_equations_a4/a4-equations.json",
+         "the 42 off-diagonal entries of the condensate tensor: bilinear and "
+         "coefficient of each"],
         ["Revision/field_equations_a4/reports/wolfram-a4-report.json",
          "the condensate tensor: diagonal kinetic part, 42 off-diagonal entries, the "
          "diagonal witness"],
@@ -71,7 +75,7 @@ FACTS = {
     "files_written": ["Revision/textbook/figures/09c.captions.json"] + FIGURES,
     "final_lines": [
         "PASS the five figures of this notebook are saved and captioned",
-        "ALL 23 CHECKS PASSED (notebook 09c)",
+        "ALL 24 CHECKS PASSED (notebook 09c)",
     ],
     "troubleshooting": [
         ["\"KeyError\" with the words \"has no check\"",
@@ -97,7 +101,8 @@ CELLS = [
       off-diagonal entries: 42 on the deflating history, 12 when $a_4' = 0$;
     - shows how these entries depend on the deflation rate $a_4'$;
     - checks that each of the 42 entries is a multiple of one of 15 *three-gamma
-      bilinears* $\bar\Phi\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}\Phi$;
+      bilinears* $\bar\Phi\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}\Phi$, with exactly the
+      coefficient that the Revision record lists for it;
     - builds the exact condensates of the Revision record for which all 15
       bilinears vanish, and checks that their tensor is diagonal at 36 points with
       different $a_4$, $a_4'$ and $z$ (the record states it for all of them);
@@ -506,6 +511,57 @@ CELLS = [
             + ") Phi")
     '''),
     md(r"""
+    **The coefficients of the record.** The record
+    `Revision/field_equations_a4/a4-equations.json` lists, for each of the 42
+    entries, its bilinear and its coefficient as a formula in the Wolfram Language,
+    in the names `cc` $= \cot z$, `a4v` $= a_4$, `ad1` $= a_4'$ and `H`, for the
+    symmetrised kinetic tensor $K^{(\nu}{}_{\mu)}$ (the average of
+    $K^\nu{}_\mu = \frac12(\bar\Phi\gamma^\nu D_\mu\Phi - D_\mu\bar\Phi\gamma^\nu\Phi)$
+    and its mirror image $g^{\nu\nu}g_{\mu\mu}K^\mu{}_\nu$). Off the diagonal the
+    tensor is $T^\nu{}_\mu = -K^{(\nu}{}_{\mu)}$, so every entry must equal minus
+    the coefficient times the bilinear. The next cell translates each formula into
+    sympy (`E^x` becomes `E**x`, `^` becomes `**`), evaluates it at the point
+    $a_4 = 0.5$, $a_4' = 0.25$, $z = \pi/4$, $H = 1$, and compares, for the generic
+    condensate and for the three random columns, all 42 entries. The coefficients
+    contain $V$ nowhere: they are the same for every effective mass. The cell prints
+    one entry of each of the ten groups of equal coefficients.
+    """),
+    code(r\'\'\'
+    import re  # regular expressions: patterns that find pieces of a text
+
+    A4_RECORD = "Revision/field_equations_a4/a4-equations.json"
+    record_entries = json.loads(repository_file(A4_RECORD).read_text(encoding="utf-8"))[
+        "fields"]["dirac16complex00"]["offDiagonalKinetic"]
+    cc, a4v, ad1, H_symbol = sp.symbols("cc a4v ad1 H", real=True)
+    AT_POINT = {cc: 1 / np.tan(POINT["z"]), a4v: POINT["a4"], ad1: POINT["a4p"],
+                H_symbol: H}
+    worst_coefficient, groups = 0.0, {}  # groups: formula text -> its first entry
+    for item in record_entries:
+        # "K^x1_x4 (symmetrised)": upper index x1 (row nu), lower index x4 (column mu)
+        nu, mu = [int(digit) - 1 for digit in re.findall(r"x(\d)", item["component"])]
+        term = item["terms"][0]  # every entry of the record has exactly one term
+        directions = [int(digit) - 1 for digit in re.findall(r"x(\d)", term["bilinear"])]
+        formula = term["coefficient"]["input"]  # the Wolfram Language text
+        coefficient = float(sp.sympify(
+            formula.replace("E^", "E**").replace("^", "**"),
+            locals={"E": sp.E, "cc": cc, "a4v": a4v, "ad1": ad1, "H": H_symbol},
+        ).subs(AT_POINT))
+        for column, T in zip([chi] + columns, [T_generic] + tensors):
+            predicted = -coefficient * bilinear(column, tuple(directions))
+            worst_coefficient = max(worst_coefficient, abs(T[nu, mu] - predicted))
+        groups.setdefault(formula, (nu, mu, coefficient))
+    check(len(record_entries) == 42 and len(groups) == 10 and worst_coefficient < 1e-12
+          and recorded(A4_PY, "json_offdiagonal_coefficients") == "PASS"
+          and recorded(A4_PY, "offdiagonal_coefficients_representation_independent")
+          == "PASS",
+          "all 42 entries are -(record coefficient) x bilinear, for 4 columns",
+          record=f"{A4_RECORD}, offDiagonalKinetic; {A4_PY}, checks "
+                 "json_offdiagonal_coefficients and "
+                 "offdiagonal_coefficients_representation_independent")
+    for nu, mu, coefficient in groups.values():
+        say(f"T^{NAMES[nu]}_{NAMES[mu]} = -({coefficient:+.6f}) x its bilinear")
+    \'\'\'),
+    md(r"""
     The next cell defines the function `witness(V_w, H_w)`. It finds the
     8-dimensional space of $A$ for the eigenvalue $-i\omega$ (as the null space of
     $A + i\omega$, from a singular value decomposition), then inside it the joint
@@ -623,8 +679,6 @@ CELLS = [
     record's three values are reproduced up to one common factor.
     """),
     code(r'''
-    import re  # regular expressions: patterns that find pieces of a text
-
     detail = record_entry(A4_WL, "condensate_diagonal_witness_exact")["detail"]
     # the frequencies, which the record writes "w = sqrt(M^2 - 9 H^2) = {4, 3, 4}"
     freq_text = re.search(r"9 H\^2\) = \{([^}]*)\}", detail).group(1)  # "4, 3, 4"

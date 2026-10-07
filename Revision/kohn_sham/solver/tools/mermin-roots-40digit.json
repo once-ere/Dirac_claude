@@ -1,6 +1,6 @@
 {
  "producer": "Revision/kohn_sham/solver/tools/mermin_roots_mp.py",
- "description": "Exact final Kohn-Sham levels (shortest round-trip decimals of `revision_ks_solver single --mermin-levels`, canonical numerics) and the root of sum g/(1 + exp((eps - mu)/T)) = N computed with mpmath at 40 significant digits (checked at 50), for the thermal states with the largest conditioning bound (n + 2) eps_mach N/(dN/dmu) of the former direct count. Test input of the Rust unit test mermin::tests::forty_digit_roots and of the solver check thermo_mu_vs_40digit_roots. All numbers are strings.",
+ "description": "Exact final Kohn-Sham levels (shortest round-trip decimals of `revision_ks_solver single --mermin-levels`, canonical numerics) and the root of sum g/(1 + exp((eps - mu)/T)) = N computed with mpmath at 40 significant digits (checked at 50), for the thermal states with the largest conditioning bound (n + 2) eps_mach N/(dN/dmu) + eps_mach <|eps - mu|> + 2 eps_mach |mu| of the former direct count. Test input of the Rust unit test mermin::tests::forty_digit_roots and of the solver check thermo_mu_vs_40digit_roots. All numbers are strings.",
  "digits": 40,
  "fixture": [
   {
@@ -11,7 +11,7 @@
    "root40": "0.2097333311417908208625081810004743590039",
    "dN_dmu": "1.215773e-06",
    "boundDirectCount": "1.315e-08",
-   "boundWellConditioned": "1.131e-16",
+   "boundWellConditioned": "1.610e-16",
    "levels": [
     [
      "-2.455627075905861e-4",
@@ -51,7 +51,7 @@
    "root40": "0.2100104497339036454387746813939219759135",
    "dN_dmu": "1.242072e-06",
    "boundDirectCount": "1.287e-08",
-   "boundWellConditioned": "1.132e-16",
+   "boundWellConditioned": "1.610e-16",
    "levels": [
     [
      "2.455627075757018e-4",
@@ -91,7 +91,7 @@
    "root40": "0.2098737763871040213440338499705354858176",
    "dN_dmu": "1.228620e-06",
    "boundDirectCount": "1.012e-08",
-   "boundWellConditioned": "1.087e-16",
+   "boundWellConditioned": "1.566e-16",
    "levels": [
     [
      "0e0",
@@ -123,7 +123,7 @@
    "root40": "0.1306639109285295195887430792676854381681",
    "dN_dmu": "3.302116e-03",
    "boundDirectCount": "8.069e-12",
-   "boundWellConditioned": "9.133e-17",
+   "boundWellConditioned": "1.216e-16",
    "levels": [
     [
      "-2.4556240622085443e-4",
@@ -187,7 +187,7 @@
    "root40": "0.1309829832491129816911355368453053999217",
    "dN_dmu": "3.359421e-03",
    "boundDirectCount": "7.932e-12",
-   "boundWellConditioned": "9.147e-17",
+   "boundWellConditioned": "1.217e-16",
    "levels": [
     [
      "2.4556230910936306e-4",
@@ -251,7 +251,7 @@
    "root40": "0.1308290030325123205682142847127851436487",
    "dN_dmu": "3.328795e-03",
    "boundDirectCount": "5.336e-12",
-   "boundWellConditioned": "8.030e-17",
+   "boundWellConditioned": "1.106e-16",
    "levels": [
     [
      "0e0",
@@ -295,7 +295,7 @@
    "root40": "0.2042323199513865980003201726326544400205",
    "dN_dmu": "2.903241e-02",
    "boundDirectCount": "7.955e-13",
-   "boundWellConditioned": "1.484e-16",
+   "boundWellConditioned": "1.963e-16",
    "levels": [
     [
      "-2.455553731429663e-4",
@@ -350,8 +350,8 @@
    "muRun": "2.0450941370512848e-1",
    "root40": "0.2045094137051284893028762710211205745248",
    "dN_dmu": "2.934473e-02",
-   "boundDirectCount": "7.870e-13",
-   "boundWellConditioned": "1.486e-16",
+   "boundDirectCount": "7.871e-13",
+   "boundWellConditioned": "1.964e-16",
    "levels": [
     [
      "2.455547482575715e-4",

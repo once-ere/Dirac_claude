@@ -383,22 +383,28 @@ CELLS = [
     $\zeta$ of the previous cell: sympy prints $\sin^2 \zeta \cot^2 \zeta$, and
     `sp.trigsimp` (trigonometric simplification) writes this as $\cos^2 \zeta$. The
     first check confirms, for the determinant written with $x_8$ and $H$, that the
-    difference from $\cos^2 z$ is exactly zero. The second check confirms that the
-    determinant does not change with the time $x_4$: its derivative with respect to
-    $x_4$ is zero, although $a_4$ depends on $x_4$. The third check reads the verdict
-    that the Wolfram verifier of the field equations for $a_4$ (the report
-    Revision/field_equations_a4/reports/wolfram-a4-report.json) recorded for its check
-    `metric_is_SPEC_section_1`: that verifier used this same metric.
+    difference from $\cos^2 z$ is exactly zero, and that the Wolfram verifier of the
+    field theory (the report Revision/theory/reports/wolfram-field-theory.json)
+    recorded PASS for the same statement, its check `sqrt_det_g_is_cos_z`. The second
+    check confirms that the determinant does not change with the time $x_4$: its
+    derivative with respect to $x_4$ is zero, although $a_4$ depends on $x_4$. The
+    third check reads the verdict that the Wolfram verifier of the field equations for
+    $a_4$ (the report Revision/field_equations_a4/reports/wolfram-a4-report.json)
+    recorded for its check `metric_is_SPEC_section_1`: that verifier used this same
+    metric.
     """),
     code(r'''
     determinant = g.det()  # the product of the eight diagonal entries
     determinant_zeta = determinant.subs(x8, zeta / (6 * H))  # 6 H x8 replaced by zeta
     say(f"det g = {determinant_zeta}")
     say(f"    = {sp.trigsimp(determinant_zeta)}   (zeta stands for z = 6 H x8)")
+    WOLFRAM_THEORY = "Revision/theory/reports/wolfram-field-theory.json"
+    verdict, detail = recorded_check(WOLFRAM_THEORY, "sqrt_det_g_is_cos_z")
+    say(f"The Wolfram verifier recorded for sqrt_det_g_is_cos_z: {verdict}")
     check_reproduces(
-        sp.simplify(determinant - sp.cos(z) ** 2) == 0,
+        sp.simplify(determinant - sp.cos(z) ** 2) == 0 and verdict == "PASS",
         "det g = cos^2 z exactly, so sqrt|det g| = cos z on 0 < z < pi/2",
-        "Revision/theory/reports/wolfram-field-theory.json, check sqrt_det_g_is_cos_z")
+        f"{WOLFRAM_THEORY}, check sqrt_det_g_is_cos_z")
     check(sp.diff(determinant, x4) == 0,
           "det g does not depend on the time x4: no a4 in the volume factor")
     verdict, detail = recorded_check(
@@ -473,7 +479,10 @@ CELLS = [
     the factors as a table and draws them as bars: the bars of $x_1, x_2, x_3$ grow
     with $a_4$, those of $x_5, x_6, x_7$ shrink, and those of $x_4$ and $x_8$ do not
     change. The product of the eight factors is $\sqrt{|\det g|} = \cos(\pi/4) =
-    0.7071$ for every $a_4$.
+    0.7071$ for every $a_4$. The check confirms this for the three values of $a_4$
+    and that the Wolfram verifier of the field equations for $a_4$ recorded PASS for
+    its check `sqrt_abs_det_g_is_cos_z` (the volume factor is $\cos z$ and does not
+    depend on $a_4$).
     """),
     code(r'''
     AQUA = "#1baf7a"
@@ -512,11 +521,12 @@ CELLS = [
                 r"and of the hidden direction $x_8$ stay 1. The product of the eight "
                 r"factors is $\cos(\pi/4) = 0.7071$ in all three cases.")
     products = [float(np.prod(factors[a4_value])) for a4_value in a4_choices]
+    A4_REPORT = "Revision/field_equations_a4/reports/wolfram-a4-report.json"
+    verdict, detail = recorded_check(A4_REPORT, "sqrt_abs_det_g_is_cos_z")
     check_reproduces(
-        all(abs(p - np.cos(z_fixed)) < 1e-12 for p in products),
+        all(abs(p - np.cos(z_fixed)) < 1e-12 for p in products) and verdict == "PASS",
         "the product of the eight factors is cos(pi/4) = 0.7071 for a4 = 0, 0.5, 1",
-        "Revision/field_equations_a4/reports/wolfram-a4-report.json, check "
-        "sqrt_abs_det_g_is_cos_z")
+        f"{A4_REPORT}, check sqrt_abs_det_g_is_cos_z")
     '''),
     md(r"""
     ## 9. The volume factor does not depend on $a_4$
@@ -528,7 +538,9 @@ CELLS = [
     sets of points lie on the same curve: the inflation of ordinary space and the
     deflation of the extra times cancel in the volume. (To keep the three sets of
     points visible, each is drawn only at every 12th value of $z$, shifted by 4
-    values from the previous set.)
+    values from the previous set.) The check compares all 600 computed values with
+    $\cos z$ and confirms that the Python verifier of the field theory recorded PASS
+    for its check `sqrt_det_g_equals_cos_z`.
     """),
     code(r'''
     z_values = np.linspace(0.005, np.pi / 2 - 0.005, 200)  # 200 values inside (0, pi/2)
@@ -565,8 +577,9 @@ CELLS = [
                 r"cancel; it falls from 1 at $z = 0$ to 0 at $z = \pi/2$.")
     largest = max(float(np.max(np.abs(volume[v] - np.cos(z_values)))) for v in volume)
     report("largest difference from cos z", f"{largest:.1e}")
+    verdict, detail = recorded_check(THEORY_REPORT, "sqrt_det_g_equals_cos_z")
     check_reproduces(
-        largest < 1e-12,
+        largest < 1e-12 and verdict == "PASS",
         "the volume factor equals cos z at 200 points for a4 = 0, 1 and 2",
         f"{THEORY_REPORT}, check sqrt_det_g_equals_cos_z")
     '''),

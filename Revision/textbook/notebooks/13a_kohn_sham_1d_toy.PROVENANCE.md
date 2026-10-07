@@ -165,7 +165,7 @@ cd Revision/textbook/notebooks
 jupyter lab 13a_kohn_sham_1d_toy.ipynb
 ```
 
-JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 15 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
+JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 20 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
 
 **Step 6. Or run the notebook without a browser (headless).**
 
@@ -319,7 +319,7 @@ The notebook shows 9 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/13a_5_density_orbitals.png` (920 x 611 pixels): The self-consistent density $n(x)$ (black line) as a stack of the contributions $2\phi_a(x)^2$ of the four occupied Kohn-Sham orbitals (colored layers, orbital 0 at the bottom); horizontal axis the position $x$, vertical axis particles per unit length. The area under each layer is 2 and under the black line 8; the four bumps are the shell structure of the four occupied orbitals.
 - `Revision/textbook/figures/13a_6_variational_scan.png` (920 x 611 pixels): The energy $E(c)$ of the determinant built from the four lowest orbitals of the trial potential $v + c\,n_{scf}$, minus the Kohn-Sham energy, for $c$ from 0 to 2; horizontal axis $c$ (the same units as $g_c$), vertical axis the energy difference in units of $\hbar\omega$. The curve is never negative and touches zero at the self-consistent value $c = g_c/2 = 1$ (dashed line), where it is flat: the variational principle.
 - `Revision/textbook/figures/13a_7_approximations.png` (933 x 611 pixels): Four densities of the eight fermions in the trap: without interaction (dotted), the Hartree approximation that keeps the self-interaction (dashed), Kohn-Sham with Hartree and exact exchange (thick black) and Thomas-Fermi with the uniform-gas kinetic energy (dash-dotted); horizontal axis the position $x$, vertical axis particles per unit length. The repulsion spreads the cloud; Hartree overdoes it; Thomas-Fermi follows the Kohn-Sham density on average but misses its four shell bumps.
-- `Revision/textbook/figures/13a_8_coupling_scan.png` (913 x 611 pixels): The parts of the Kohn-Sham energy of the eight fermions as the strength $g_c$ of the contact repulsion grows from 0 to 2: kinetic energy $T_s$, trap energy, interaction energy $E_H + E_x$ and the total (black); horizontal axis $g_c$, vertical axis the energy in units of $\hbar\omega$. At $g_c = 0$ the total is $2(1/2 + 3/2 + 5/2 + 7/2) = 16$ and kinetic and trap energy are equal (virial theorem); the repulsion spreads the cloud, so the trap energy rises and the kinetic energy falls.
+- `Revision/textbook/figures/13a_8_coupling_scan.png` (913 x 611 pixels): The parts of the Kohn-Sham energy of the eight fermions as the strength $g_c$ of the contact repulsion grows from 0 to 2: kinetic energy $T_s$, trap energy, interaction energy $E_H + E_x$ and the total (black); horizontal axis $g_c$, vertical axis the energy in units of $\hbar\omega$. At $g_c = 0$ the total is $2(1/2 + 3/2 + 5/2 + 7/2) = 16$ (15.99 on the grid, whose levels lie slightly below $n + 1/2$) and kinetic and trap energy are equal (virial theorem); the repulsion spreads the cloud, so the trap energy rises and the kinetic energy falls.
 - `Revision/textbook/figures/13a_9_delta_scf.png` (1269 x 616 pixels): Left: the level difference $\epsilon_4(\tau) - \epsilon_3(\tau)$ of label up when a fraction $\tau$ of one fermion is moved from orbital 3 to orbital 4 (horizontal axis $\tau$, vertical axis energy in units of $\hbar\omega$); its value at $\tau = 0$ is the Kohn-Sham gap, at $\tau = 1/2$ the transition-state estimate, and the shaded area is the Delta-SCF excitation energy (dashed line), by Janak's theorem. Right: the ground-state density and the density of the excited state (horizontal axis $x$); the moved fermion sits in orbital 4, which has four zeros, so the shell bumps change and a little more density reaches the outer flanks.
 
 ## 4. Side effects
@@ -330,7 +330,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/13a.captions.json` | 4546 | `1b6b40d5d25acac64070637d6ba2ee7c1a2c4609d40a7bed53b650ccf043e018` |
+| `Revision/textbook/figures/13a.captions.json` | 4609 | `ac98f0d4825aedf5419662f6c56626e47a097b418d34aaf70c96f0450a54c742` |
 | `Revision/textbook/figures/13a_1_trap_orbitals.png` | 91949 | `42a20b39974b16079b64f40ed2d66b68aba7a716992333b81ebafea03c90eff7` |
 | `Revision/textbook/figures/13a_2_scf_convergence.png` | 79100 | `a56934d01eaa60948720eb3a2a5dc7f692585f9fafaa07c75deced97d2cd0f29` |
 | `Revision/textbook/figures/13a_3_first_iterations.png` | 94955 | `da58bcd4cdc48ae1dfe4f058646787459265909c1def26245eee80377f09291b` |
@@ -360,10 +360,10 @@ The notebook does not use the network while it runs. The installation (git clone
 
 ### 4.5 Run time and memory
 
-Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
+Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 25.0 s, peak memory of the kernel process 160 MiB;
-- the check run: 23.2 s, peak memory of the kernel process 161 MiB.
+- the build run: 22.5 s, peak memory of the kernel process 161 MiB;
+- the check run: 15.8 s, peak memory of the kernel process 160 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -375,9 +375,9 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/13a_kohn_sham_1d_toy.ipynb`: `8dd49bea6f2abfccf8712199b576a4c5f4e970e7f028d79d6081d4aa681fb263`
-- `Revision/textbook/notebooks/src/13a_kohn_sham_1d_toy.py`: `49335103f0db3e83f5284ef15727f4845936dabec9192144f7f46af1a16d0ce5`
-- `Revision/textbook/figures/13a.captions.json`: `1b6b40d5d25acac64070637d6ba2ee7c1a2c4609d40a7bed53b650ccf043e018`
+- `Revision/textbook/notebooks/13a_kohn_sham_1d_toy.ipynb`: `30e13527c4728c75dbd1304612b692b2f369366c8465d3b3f84eb17963fdb87c`
+- `Revision/textbook/notebooks/src/13a_kohn_sham_1d_toy.py`: `d87be2c36af5e7874299fdc493610745462274ba9751004f2957b881bc470b25`
+- `Revision/textbook/figures/13a.captions.json`: `ac98f0d4825aedf5419662f6c56626e47a097b418d34aaf70c96f0450a54c742`
 - `Revision/textbook/figures/13a_1_trap_orbitals.png`: `42a20b39974b16079b64f40ed2d66b68aba7a716992333b81ebafea03c90eff7`
 - `Revision/textbook/figures/13a_2_scf_convergence.png`: `a56934d01eaa60948720eb3a2a5dc7f692585f9fafaa07c75deced97d2cd0f29`
 - `Revision/textbook/figures/13a_3_first_iterations.png`: `da58bcd4cdc48ae1dfe4f058646787459265909c1def26245eee80377f09291b`
@@ -394,4 +394,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 10 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":160.0,"seconds":25.0},"check":{"date":"2026-10-07","files":10,"peak_mb":161.0,"result":"passed","seconds":23.2},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":161.0,"seconds":22.5},"check":{"date":"2026-10-07","files":10,"peak_mb":160.0,"result":"passed","seconds":15.8},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

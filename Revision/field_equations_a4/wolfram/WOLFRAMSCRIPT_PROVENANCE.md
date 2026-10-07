@@ -558,8 +558,9 @@ which was empty after every run; the modification times show that every run rewr
 | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `2c070eda41303a6434a9860ce4bddd74510b2494e345332a8f82ddabee13857c` | yes | yes |
 
 The captured standard output of every run was the 23 bytes `checks: 47, failed: 0` plus CR LF; the
-error stream was empty (0 bytes). Check counts: 47 checks, 47 PASS, 0 FAIL, in every run. No
-Wolfram kernel of this set was left running after any run.
+error stream was empty (0 bytes). Check counts: 47 checks, 47 PASS, 0 FAIL, in every run. The
+kernel of each of runs 2 to 5 had ended when `wolframscript` returned (checked by its process
+number).
 
 Failure tests repeated in fresh clone 3 (each restored afterwards, `git status --porcelain
 --ignored -uall` then empty), all with the behaviour stated in section 3.6:

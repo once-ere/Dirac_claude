@@ -637,8 +637,11 @@ CELLS = [
     \sinh b\,\gamma^{(4)})$ exactly. For $\beta = 6H$ this is ZERO for every $H$ and
     every $a_4$, although the spinor connections $\Omega'_\mu$ themselves are not zero
     (for $\mu = x_1, \dots, x_7$). The 28 matrices $S^{ab}$ ($a < b$) are linearly
-    independent (checked: as rows of 256 numbers they have rank 28), so $\Omega'_\mu$
-    is zero exactly when all its coefficients $\omega'_{\mu ab}$ are.
+    independent (rank 28, checked in section 8), so $\Omega'_\mu$ is zero exactly when
+    all its coefficients $\omega'_{\mu ab}$ are. Every check also compares with the
+    text of the Revision record (for example the formula of
+    $\gamma'^\mu\Omega'_\mu$ and the list of the directions with $\Omega'_\mu 
+eq 0$).
     """),
     code(r'''
     rapidity = beta * x[3] + b0
@@ -647,37 +650,36 @@ CELLS = [
     same_metric = all(
         is_zero(sum(ETA[a] * e_b[a, mu] * e_b[a, nu] for a in range(8))
                 - (g[mu] if mu == nu else 0)) for mu in range(8) for nu in range(8))
-    check(same_metric and all(is_zero(v) for v in e_b * boosted["E"] - sp.eye(8)),
-          "the boosted frame gives the same metric (64 entries); e' E' = 1",
-          record="Revision/theory/reports/python-scope.json, check "
-                 "boosted_frame_reproduces_metric")
-    check(postulate_failures(boosted) == 0 and antisymmetric(boosted),
-          "boosted frame: vielbein postulate (512 components), omega' antisymmetric",
-          record="Revision/theory/reports/python-scope.json, check "
-                 "boosted_frame_canonical_connection")
+    SCOPE = "Revision/theory/reports/python-scope.json"  # the record of these checks
+    check_record(same_metric and all(is_zero(v) for v in e_b * boosted["E"] - sp.eye(8)),
+                 "the boosted frame gives the same metric (64 entries); e' E' = 1",
+                 SCOPE, "boosted_frame_reproduces_metric",
+                 "equals the author's metric for all 64 (mu, nu)")
+    failures = postulate_failures(boosted)  # the number of nonzero components
+    check_record(failures == 0 and antisymmetric(boosted),
+                 "boosted frame: vielbein postulate (512 components), omega' antisymmetric",
+                 SCOPE, "boosted_frame_canonical_connection",
+                 f"holds for all 512 (a, mu, nu) ({failures} failures)")
     total_boosted = sum((boosted["gamma"][mu] * boosted["Omega"][mu] for mu in range(8)),
                         sp.zeros(16, 16))
     formula = (6 * H - beta) / 2 * (sp.cosh(rapidity) * G[7] - sp.sinh(rapidity) * G[3])
-    check(all(is_zero(entry) for entry in total_boosted - formula),
-          "gamma'^mu Omega'_mu = ((6H - beta)/2) (cosh b gamma^(x8) - sinh b gamma^(x4))",
-          record="Revision/theory/reports/python-scope.json, check "
-                 "boosted_frame_gammaOmega_formula")
-    S_rows = np.array([[float(v) for v in S_AB[a][c]] for a in range(8)
-                       for c in range(a + 1, 8)])  # 28 rows of 256 numbers
-    check(np.linalg.matrix_rank(S_rows) == 28, "the 28 matrices S^ab (a < b) are "
-          "linearly independent")
+    check_record(all(is_zero(entry) for entry in total_boosted - formula),
+                 "gamma'^mu Omega'_mu = ((6H - beta)/2) (cosh b gamma^(x8) - sinh b "
+                 "gamma^(x4))", SCOPE, "boosted_frame_gammaOmega_formula",
+                 "gamma'^mu Omega'_mu = ((6 H - beta)/2) (cosh b gamma^(x8) - sinh b "
+                 "gamma^(x4))")
     at_6H = {beta: 6 * H}
     nonzero_Omega = [mu for mu in range(8) if not all(
         is_zero(ETA[a] * boosted["omega"][mu, a, c].subs(at_6H))
         for a in range(8) for c in range(a + 1, 8))]
-    say("beta = 6H: Omega'_mu is nonzero for mu = "
-        + ", ".join(f"x{mu + 1}" for mu in nonzero_Omega))
-    check(all(is_zero(entry.subs(at_6H)) for entry in total_boosted - formula)
-          and formula.subs(at_6H) == sp.zeros(16, 16)
-          and nonzero_Omega == [0, 1, 2, 3, 4, 5, 6],
-          "beta = 6H: gamma'^mu Omega'_mu = 0 identically, Omega'_mu != 0 for x1..x7",
-          record="Revision/theory/reports/python-scope.json, check "
-                 "boosted_frame_gammaOmega_vanishes")
+    nonzero_text = ", ".join(f"x{mu + 1}" for mu in nonzero_Omega)  # "x1, x2, ..."
+    say("beta = 6H: Omega'_mu is nonzero for mu = " + nonzero_text)
+    check_record(all(is_zero(entry.subs(at_6H)) for entry in total_boosted - formula)
+                 and formula.subs(at_6H) == sp.zeros(16, 16)
+                 and nonzero_Omega == [0, 1, 2, 3, 4, 5, 6],
+                 "beta = 6H: gamma'^mu Omega'_mu = 0 identically, Omega'_mu != 0 for "
+                 "x1..x7", SCOPE, "boosted_frame_gammaOmega_vanishes", "IDENTICALLY ZERO",
+                 f"nonzero for mu = {nonzero_text} (zero only for x8)")
     '''),
     md(r"""
     The next cell draws the size of the term, $\lVert M\rVert = \sqrt{\mathrm{tr}

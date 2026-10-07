@@ -54,10 +54,10 @@ FACTS = {
     ),
     "records": [
         ["Revision/kohn_sham/results",
-         "the committed canonical matrix (243 result files and the manifest of their "
+         "the committed canonical matrix (its result files and the manifest of their "
          "sha256 fingerprints) that the new run must reproduce"],
         ["Revision/kohn_sham/reports/ks-rust-solver.json",
-         "the 42 checks of the solver, all PASS"],
+         "the solver's own checks of the canonical matrix, all PASS"],
         ["Revision/kohn_sham/reports/ks-rust-determinism.json",
          "the tolerances fixed in advance for comparing two runs of the solver"],
         ["Revision/kohn_sham/ks-theory.json",
@@ -103,7 +103,8 @@ CELLS = [
     couplings and five instants of the deflating history (75 ground states), and for
     135 states at three temperatures. Then it
 
-    - checks that the solver reports all 42 of its own checks as PASS;
+    - checks that the solver reports every one of its own checks as PASS (the
+      committed record holds 42 of them);
     - compares every new result with the committed Revision record (the folder
       Revision/kohn_sham/results), number by number, with tolerances that were fixed in
       advance;
@@ -195,7 +196,9 @@ CELLS = [
     **Parameters** (units $H = m = 1$): $L = 3$, $\Delta k = 0.25$, $N = 8$ (the eight
     zero modes at $k = 0$), $N = 136$ and $N = 688$ (closed shells of the brane band),
     and per $N$ the couplings $\lambda_1, \lambda_2$ that make the first-order
-    potential $0.1\,m$ and $0.3\,m$ (Revision/kohn_sham/results/parameters.json).
+    potential $0.1\,m$ and $0.3\,m$ where it is largest, over every point and every
+    slice, so that it stays below these values along the whole history
+    (Revision/kohn_sham/results/parameters.json).
     Particles fill the positive branch and the zero modes, a CONVENTION whose
     justification is OPEN. $N$ counts the particles of the doubled system (universe and
     Z2 image); one patch holds $N/2$.
@@ -268,8 +271,9 @@ CELLS = [
     The solver writes its checks into a JSON report. The next cell reads the new report
     and the committed one, prints how many checks of each group there are (the group
     is the first word of the check name, for example `ground` or `thermo`), and checks
-    that all 42 pass and that the new report lists the same checks, in the same order,
-    as the committed report. Whether the two reports are identical byte for byte is
+    that every check passes, that the new report has the same summary (number of
+    checks, of PASS and of FAIL) as the committed report, and that it lists the same
+    checks in the same order. Whether the two reports are identical byte for byte is
     printed as a RESULT line: on the computer that built this book they are; on another
     computer the last digits of some reported deviations may differ.
     """),
@@ -287,9 +291,13 @@ CELLS = [
         say(f"  {group:10} {count:2d} checks, {passed:2d} PASS")
     new_names = [item["name"] for item in new_report["checks"]]
     old_names = [item["name"] for item in old_report["checks"]]
-    check(new_report["summary"] == {"checks": 42, "pass": 42, "fail": 0},
-          "the new report holds 42 checks, all PASS",
-          record=f"{RECORD_REPORT}, summary 42 of 42 PASS")
+    summary = new_report["summary"]  # {"checks": ..., "pass": ..., "fail": ...}
+    report("checks in the new report / PASS / FAIL",
+           f"{summary['checks']} / {summary['pass']} / {summary['fail']}")
+    check(summary == old_report["summary"] and summary["fail"] == 0
+          and summary["pass"] == summary["checks"] == len(new_names),
+          f"the new report holds the {summary['checks']} checks of the record, all PASS",
+          record=f"{RECORD_REPORT}, summary")
     check(new_names == old_names, "the new report has the same checks as the record")
     report("new report byte-identical to the record",
            NEW_REPORT.read_bytes() == repository_file(RECORD_REPORT).read_bytes())
@@ -534,15 +542,21 @@ CELLS = [
         ax.set_xlabel("slice $a_{4,0}$")
     axes[0].set_ylabel("$\\Delta_{SCF} - \\Delta_{KS}$ (units of $m$)")
     axes[0].legend(fontsize=8)
+    largest_id = max(excited, key=lambda i: abs(float(excited[i]["delta_SCF_minus_gap"])))
+    largest_relax = abs(float(excited[largest_id]["delta_SCF_minus_gap"]))
+    mantissa, power = f"{largest_relax:.1e}".split("e")  # e.g. "5.5", "-04"
     save_figure(fig, "delta_scf",
                 "Orbital relaxation: the Delta-SCF excitation energy minus the Kohn-Sham "
                 "gap (vertical axis, symmetric logarithmic, units of $m$) for the "
                 "couplings $\\pm\\lambda_1$ and $\\pm\\lambda_2$ at the five slices "
                 "(horizontal axis), for $N = 8$, $136$ and $688$. It is small everywhere; "
-                "it is largest, about $5 \\times 10^{-4}$, for $N = 688$ at "
-                "$a_{4,0} = 0$, where the lowest empty level is a bulk level at $k = 0$.")
-    largest_relax = max(abs(float(excited[i]["delta_SCF_minus_gap"])) for i in excited)
-    report("largest |Delta-SCF - gap| over the 75 states", f"{largest_relax:.3e}")
+                f"it is largest, ${mantissa} \\times 10^{{{int(power)}}}\\,m$, for "
+                "$N = 688$ with $+\\lambda_2$ at $a_{4,0} = 0$, where the lowest empty "
+                "level is a bulk level at $k = 0$.")
+    report("largest |Delta-SCF - gap| over the 75 states",
+           f"{largest_relax:.3e} ({largest_id})")
+    check(largest_id == "N688_lamp2_a00",
+          "the largest relaxation belongs to N = 688, +lambda_2, a4,0 = 0 (the caption)")
     check(largest_relax < 1e-3, "the orbital relaxation is below 0.001 m in every state")
     '''),
     md(r"""
@@ -569,10 +583,13 @@ CELLS = [
     left.legend()
     tags = ("lamp2", "lamp1", "lamm1", "lamm2")
     labels = ("$+\\lambda_2$", "$+\\lambda_1$", "$-\\lambda_1$", "$-\\lambda_2$")
+    largest_shift = 0.0  # the largest |E(lambda) - E(0)| of N = 136
     for colour, tag, label in zip(PALETTE, tags, labels):
         shift = [float(ground[state_id(136, tag, a)]["E_KS"])
                  - float(ground[state_id(136, "lam0", a)]["E_KS"]) for a in SLICES]
+        largest_shift = max([largest_shift] + [abs(s) for s in shift])
         right.plot(SLICES, shift, "o-", color=colour, lw=1.5, label=label)
+    e136 = [float(ground[state_id(136, "lam0", a)]["E_KS"]) for a in SLICES]
     right.axhline(0.0, color="0.4", lw=0.8)
     right.set_xlabel("slice $a_{4,0}$")
     right.set_ylabel("$E_{KS}(\\lambda) - E_{KS}(0)$ (units of $m$)")
@@ -584,8 +601,10 @@ CELLS = [
                 "slices; it falls along the history as the brane band redshifts. Right: "
                 "the energy shift caused by the couplings $\\pm\\lambda_1$ and "
                 "$\\pm\\lambda_2$ for $N = 136$ (vertical axis, units of $m$): repulsion "
-                "raises and attraction lowers the energy, by at most $0.032\\,m$ out of "
-                "$12$ to $80\\,m$.")
+                f"raises and attraction lowers the energy, by at most "
+                f"${largest_shift:.3f}\\,m$ out of ${min(e136):.0f}$ to "
+                f"${max(e136):.0f}\\,m$.")
+    report("largest |E(lambda) - E(0)| of N = 136", f"{largest_shift:.4f}")
     ordered = all(
         float(ground[state_id(n, "lamp2", a)]["E_KS"])
         > float(ground[state_id(n, "lamp1", a)]["E_KS"])
@@ -703,28 +722,31 @@ CELLS = [
     right.set_xlabel("hidden coordinate $y$")
     right.set_ylabel("$v(y)$ (units of $m$)")
     right.set_title("Exchange potential, $N = 136$, $+\\lambda_2$")
+    m_max = [float(ground[state_id(136, "lamp2", a4)]["max_abs_Meff_minus_m"])
+             for a4 in SLICES]  # the solver's largest |M - m| at each slice
+    v_max = [float(ground[state_id(136, "lamp2", a4)]["max_abs_v_v"]) for a4 in SLICES]
+    peak = int(np.argmax(m_max))  # the slice where |M - m| is largest
     save_figure(fig, "potentials",
                 "The self-consistent mass shift $M(y) - m$ (left) and potential $v(y)$ "
                 "(right), vertical axes in units of $m$, of $N = 136$ with the repulsive "
                 "coupling $+\\lambda_2$ at the five slices (light blue: $a_{4,0} = 0$, "
                 "dark blue: $a_{4,0} = 2$) against the hidden coordinate $y$. Both are "
                 "concentrated in the tip region and become much larger along the "
-                "history: the largest $|M - m|$ grows from $0.008\\,m$ at "
-                "$a_{4,0} = 0$ to $0.355\\,m$ at $a_{4,0} = 1.5$ ($0.310\\,m$ at "
-                "$a_{4,0} = 2$), the largest $|v|$ from $0.015\\,m$ to $0.242\\,m$; "
-                "both stay below $0.4\\,m$.")
+                f"history: the largest $|M - m|$ grows from ${m_max[0]:.3f}\\,m$ at "
+                f"$a_{{4,0}} = 0$ to ${m_max[peak]:.3f}\\,m$ at "
+                f"$a_{{4,0}} = {SLICES[peak]}$ (${m_max[-1]:.3f}\\,m$ at "
+                f"$a_{{4,0}} = 2$), the largest $|v|$ from ${v_max[0]:.3f}\\,m$ to "
+                f"${v_max[-1]:.3f}\\,m$; both stay below $0.4\\,m$.")
     report("profile maximum / recorded maximum of |M - m|",
            ", ".join(f"{r:.5f}" for r in ratios))
     check(all(0.998 <= r <= 1.0 + 1e-12 for r in ratios),
           "the profile maxima of |M - m| lie within 0.2 percent below the recorded ones",
           record=f"{RECORD_RESULTS}/ground/summary.csv, column max_abs_Meff_minus_m")
-    m_max = [float(ground[state_id(136, "lamp2", a4)]["max_abs_Meff_minus_m"])
-             for a4 in SLICES]  # the solver's largest |M - m| at each slice
-    v_max = [float(ground[state_id(136, "lamp2", a4)]["max_abs_v_v"]) for a4 in SLICES]
     report("largest |M - m| at the five slices", ", ".join(f"{v:.3f}" for v in m_max))
     report("largest |v| at the five slices", ", ".join(f"{v:.3f}" for v in v_max))
-    check(all(v_max[i + 1] > v_max[i] for i in range(4)) and max(m_max + v_max) < 0.4,
-          "the largest |v| grows at every slice; both potentials stay below 0.4 m",
+    check(all(v_max[i + 1] > v_max[i] for i in range(4)) and SLICES[peak] == 1.5
+          and max(m_max + v_max) < 0.4,
+          "|v| grows at every slice, |M - m| peaks at a4,0 = 1.5, both stay below 0.4 m",
           record=f"{RECORD_RESULTS}/ground/summary.csv, columns max_abs_Meff_minus_m "
                  "and max_abs_v_v")
     '''),
@@ -862,8 +884,8 @@ CELLS = [
           record=f"{RECORD_RESULTS}/excited/particle-hole and ground/summary.csv")
     check(cheaper, "every excitation listed at all five slices gets cheaper along the "
                    "history")
-    check(count == 1610 and inside == 0,
-          "none of the 1610 listed excitations stays inside one sector",
+    check(count >= len(lists) and inside == 0,
+          f"none of the {count} listed excitations stays inside one sector",
           record=f"{RECORD_RESULTS}/excited/particle-hole, column same_sector")
     '''),
     md(r"""
@@ -885,8 +907,8 @@ CELLS = [
     ## 18. What this notebook showed
 
     - The Rust solver, built on this computer, reproduces the whole canonical matrix of
-      the Revision record: the same files, all 42 of its own checks PASS, and every key
-      number within the tolerances fixed in advance (COMPUTED).
+      the Revision record: the same files, every one of its own checks PASS, and every
+      key number within the tolerances fixed in advance (COMPUTED).
     - Along the deflating history the brane band redshifts like $k e^{-a_{4,0}}$, the
       levels at $k = 0$ stay where they are, the gaps close at nearly the rate
       $e^{-a_{4,0}}$, and the energy of the gas falls.

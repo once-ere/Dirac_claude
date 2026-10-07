@@ -787,42 +787,61 @@ real discrepancy: record your `$Version` and the failed names.
   `build/old-pairing/pairing-theory.json` and
   `build/old-pairing/wolfram-pairing-report.json`.
 * No other file in the repository is created, changed or deleted (verified with
-  `git status --porcelain --untracked-files=all --ignored` after runs 1 to 4 of Part 6;
-  after runs 5 to 7, which had an input file removed on purpose, it listed only that
-  removed file and the two overwritten outputs).
+  `git status --porcelain --untracked-files=all --ignored` after every run of both
+  verifications of Part 6: after the runs with every file present it listed nothing, or
+  only the two files under `build/old-pairing/` for the `build/` variant; after the
+  runs that had a file removed on purpose it listed only that removed file and, except
+  for the `FATAL` case, the two overwritten outputs).
 
 **Files outside the repository** (observed on Windows; the corresponding folders on macOS
 and Linux were not inspected):
 
-* WolframScript creates two temporary files named `tmp_` followed by ten random letters
-  and digits in `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary\` (that is
-  `C:\Users\<you>\AppData\Local\Wolfram\WolframScript\WolframScriptTemporary\`): an empty
-  one when it starts and, about three seconds later, one that collects the printed lines
-  while the run is in progress. Both were deleted at the end of every run in which this
-  was checked: runs 1 and 2 of Part 6 (snapshots of the folder before and after) and
-  runs 4 to 7 (including the three failing runs: after they had ended, no file created
-  at their start was left in the folder; files of other jobs that were running at the
-  same time were). If a run is interrupted they may be left behind; they can then be
-  deleted by hand.
+* WolframScript keeps temporary files named `tmp_` followed by ten random letters and
+  digits in `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary\` (that is
+  `C:\Users\<you>\AppData\Local\Wolfram\WolframScript\WolframScriptTemporary\`); one of them
+  collects the printed lines while the run is in progress. In the verification of
+  2026-10-07 the folder was read every 0.7 seconds while runs 3 to 7 were made (with a
+  reader that does not block the writer): every file that held printed output of this
+  set (five files, one for each of those runs, created within 7 seconds of the start of
+  its run, up to 884 kB for the failing runs) was deleted when its run ended. Other
+  files of the folder could not be attributed with certainty, because about a dozen other
+  WolframScript jobs were writing there at the same time; in run 2 the two files created
+  in the same second as the run started (one empty, one of 206 bytes) and one created
+  three seconds later were gone after the run. The first verification (2026-10-02, with
+  fewer other jobs) saw two such files per run, an empty one at the start and, about three
+  seconds later, the one that collects the printed lines, both deleted at the end of every
+  run in which this was checked, including the failing runs. If a run is interrupted they
+  may be left behind (not tested); they can then be deleted by hand.
 * WolframScript rewrites its own small settings file
-  `%APPDATA%\Wolfram\WolframScript\WolframScript.conf` at the end of every run (same size;
-  only its modification time was seen to change).
-* Nothing else was seen to change in `%APPDATA%\Wolfram`, `%LOCALAPPDATA%\Wolfram`,
-  `C:\ProgramData\Wolfram` or at the top level of `%TEMP%` that could be attributed to the
-  run (snapshots of these folders before and after runs 1 and 2 of Part 6; other programs
-  that ran at the same time changed some entries there). The package itself writes no temporary file.
+  `%APPDATA%\Wolfram\WolframScript\WolframScript.conf` (238 bytes) at the end of every run
+  (seen in runs 1 and 2 of both verifications; on 2026-10-02 only its modification time
+  was seen to change).
+* Nothing else was seen to change in `%APPDATA%\Wolfram`, `%LOCALAPPDATA%\Wolfram` or at
+  the top level of `%TEMP%` that could be attributed to the run (snapshots of these
+  folders before and after runs 1 and 2 of 2026-10-07; on 2026-10-02 also
+  `C:\ProgramData\Wolfram`). Other programs that ran at the same time changed some entries
+  there: during run 1 of 2026-10-07 a Wolfram front end of another job (its process was not
+  one of the processes of the run) wrote `%LOCALAPPDATA%\Wolfram\Logs\FrontEnd\system.log`
+  and a cache file; during run 2 nothing besides `WolframScript.conf` and the temporary
+  folder changed there. The package itself writes no temporary file.
 
-**Processes.** `wolframscript` (about 17 MB of memory) starts **one** Wolfram kernel (a
-process named `wolfram.exe` on Windows; on macOS and Linux it is named `WolframKernel` or
-`wolfram`) and waits for it; WolframScript may also start a short-lived kernel process
-with the options `-wlbanner -licenseinfo` to read the licence. No parallel kernels are
-launched. Both processes end with the run. The kernel's peak memory is given in Part 4.5.
+**Processes.** `wolframscript` (about 17 MiB of memory) starts **one** Wolfram kernel (a
+process named `wolfram.exe` on Windows, started with the options `-runfirst ...
+-linkmode Connect -linkname ... -mathlink`; on macOS and Linux it is named
+`WolframKernel` or `wolfram`) and waits for it. A second, short-lived `wolfram.exe`
+process was also seen in runs 1 and 2 of 2026-10-07 (in run 2 it ended before its
+options could be read; on 2026-10-02 they were read as `-wlbanner -licenseinfo`, a query
+of the licence). No parallel kernels are launched. All processes end with the run. The
+kernel's peak memory is given in Part 4.5.
 
 **Network.** None needed and none used. All network endpoints owned by `wolframscript`
-and by its kernel were listed every 0.5 seconds during runs 1 and 2 of Part 6. In run 1
-the kernel held two pairs of TCP connections between local ports of `127.0.0.1` (links
-inside the same computer); in run 2 no endpoint at all was seen. No connection to any
-other computer and no UDP endpoint was seen in either run.
+and by its kernels were listed every 0.5 seconds during run 2 of 2026-10-07 and during
+runs 1 and 2 of 2026-10-02. In run 2 of 2026-10-07 the kernel held one TCP connection
+between two local ports of `127.0.0.1` (54552 and 54553, a link inside the same computer)
+and a socket bound to the local port 54553 (state `Bound`, no remote end); on 2026-10-02
+the kernel held two such pairs of `127.0.0.1` connections in run 1 and no endpoint at all
+in run 2. No connection to any other computer and no UDP endpoint was seen in any of these
+runs.
 
 **How to restore the committed state.** From the repository root, in any shell:
 
