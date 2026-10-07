@@ -10,7 +10,8 @@ Everything needed to run the set is in this file; you do not have to open any ot
 
 The file has six parts: (1) what the set is and what it computes, (2) its files,
 (3) complete instructions to run it, (4) the expected output, (5) the side effects,
-(6) the verification record (what was actually run on 2026-10-02, and what came out).
+(6) the verification record (what was actually run on 2026-10-02 and again on
+2026-10-07, and what came out).
 
 ---
 
@@ -836,12 +837,12 @@ kernel's peak memory is given in Part 4.5.
 
 **Network.** None needed and none used. All network endpoints owned by `wolframscript`
 and by its kernels were listed again and again (with a pause of 0.5 seconds between two
-listings) during run 2 of 2026-10-07 and during runs 1 and 2 of 2026-10-02. In run 2 of 2026-10-07 the kernel held one TCP connection
-between two local ports of `127.0.0.1` (54552 and 54553, a link inside the same computer)
-and a socket bound to the local port 54553 (state `Bound`, no remote end); on 2026-10-02
-the kernel held two such pairs of `127.0.0.1` connections in run 1 and no endpoint at all
-in run 2. No connection to any other computer and no UDP endpoint was seen in any of these
-runs.
+listings) during run 2 of 2026-10-07 and during runs 1 and 2 of 2026-10-02. In run 2 of
+2026-10-07 the kernel held one TCP connection between two local ports of `127.0.0.1`
+(54552 and 54553, a link inside the same computer) and a socket bound to the local port
+54553 (state `Bound`, no remote end); on 2026-10-02 the kernel held two such pairs of
+`127.0.0.1` connections in run 1 and no endpoint at all in run 2. No connection to any
+other computer and no UDP endpoint was seen in any of these runs.
 
 **How to restore the committed state.** From the repository root, in any shell:
 
@@ -867,122 +868,168 @@ commit them; restore the committed files with the command above.
 
 ## 6. Verification record
 
-* **Date:** 2026-10-02.
-* **Commit verified:** `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`, the head of branch `main`
-  of <https://github.com/once-ere/Dirac_claude.git> when the clones were made. The files of
-  the set were last changed in commit `ba7b170` (2026-09-30) and the two outputs were last
-  committed in commit `eac67e6` (2026-09-30). The sha256 values of every file of the set at
-  the verified commit are those of Part 2, and they equal the values recorded in the
-  committed report (`sourceSha256`).
-* **Environment:** Windows 11 Pro for Workstations, version 10.0.26200 (build
-  26200.9457), 24 logical processors; WolframScript 1.14.0; Wolfram 15.0.1 for Microsoft
-  Windows (64-bit) (July 2, 2026), Professional licence; PowerShell 7.6.6; Windows
-  PowerShell 5.1.26100.9444 (second verification only); Git Bash (GNU bash 5.2.37) with
-  git 2.51.2.windows.1. Other jobs, including about eight other Wolfram kernels, were
-  running on the computer at the same time.
-* **Clones:** three fresh clones (`git clone https://github.com/once-ere/Dirac_claude.git`)
-  in a scratch folder about 135 characters deep; nothing was copied into them from any
-  other working copy (the set needs no uncommitted file). Each clone was used for one run.
-* **Runs** (all from the repository root of their clone, with the exact command shown):
+### 6.1 Summary
 
-  | Run | Clone | Shell | Command | Exit code | Started | Elapsed |
-  | --- | --- | --- | --- | ---: | --- | ---: |
-  | 1 | 1 | PowerShell 7.6.6 | `wolframscript -file scripts/verify_dirac16complex_pairing.wls artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json` | 0 | 2026-10-02T06:02:20 | 295.9 s |
-  | 2 | 2 | Git Bash | the same command | 0 | 2026-10-02T06:07:22 | 321.9 s |
-  | 3 | 3 | PowerShell 7.6.6 | `wolframscript -file scripts/verify_dirac16complex_pairing.wls build/old-pairing/wolfram-pairing-report.json` | 0 | 2026-10-02T06:04:07 | 317.4 s |
+* **Dates:** first verification on 2026-10-02 at commit `c2b33cc` (Section 6.3). The
+  workflow that made it was interrupted by a session limit before this file had been
+  checked independently; after the restart the whole record was verified again, from new
+  fresh clones, on 2026-10-07 at commit `a4c5eda` (Section 6.2). Every statement of
+  Parts 1 to 5 was checked again on 2026-10-07; where a statement rests only on the
+  first verification, the text says so.
+* **Result:** the set **executes correctly** as committed. In every run with all files
+  present it printed `check_count=141` and `failed_check_count=0`, ended with exit code
+  0, and wrote both output files **byte-identical** to the committed files and to each
+  other. No file of the set was changed; no discrepancy, scientific or of execution, is
+  open (the open item of Section 1.1 is one of interpretation, see the end of 6.2).
+* The sha256 values of the five files of Sections 2.1 and 2.2 and of the two outputs are
+  the same at both commits (and at the newer head `8cbd03a` of 2026-10-07, at which no
+  file of the set, no input and no output had changed: `git diff --stat a4c5eda 8cbd03a`
+  lists none of them).
 
-  Runs 1 and 2 are the two runs of the command of the script's own usage header (which
-  overwrites the committed outputs in the clone); run 3 checks the `build/` variant of
-  Section 3.4. Runs 1 and 3 overlapped in time; run 2 started after run 1 had ended. The
-  start times are local time (UTC-7). Every run printed `check_count=141` and
-  `failed_check_count=0`. For comparison, the textbook (Section 19.10) records an earlier
-  run of the same command at commit `1f2dd69`: 338 s, 141 of 141 checks, both outputs
-  byte-identical.
+### 6.2 Re-verification of 2026-10-07
 
-* **Byte identity of every output:**
+* **Commit verified:** `a4c5eda1df069a43a55ff8b57148f5de8edd1670` (2026-10-07 15:17 local
+  time), the head of branch `main` of <https://github.com/once-ere/Dirac_claude.git> when
+  the clones were made. The script and the package were last changed in commit `ba7b170`
+  (2026-09-30), the geometry package in `6c0bfad` (2026-09-25), the inputs in `78b4a5f`
+  (`algebra-fixture.json`, 2026-09-25) and `34b9fd4` (`kohn-sham-theory.json`,
+  2026-09-25), and the two outputs were last committed in `eac67e6` (2026-09-30). The
+  sha256 values, line counts and byte counts of all seven files at this commit are those of
+  Part 2 (measured with `sha256sum`, `wc -l` and `wc -c` in a fresh clone; none of the
+  files contains a carriage return), and the five source values equal the ones recorded
+  in the committed report (`sourceSha256`).
+* **Environment:** Windows 11 Pro for Workstations, version 10.0.26300 (the operating
+  system had been updated since 2026-10-02), Intel Core Ultra 9 275HX with 24 logical
+  processors; WolframScript 1.14.0; Wolfram 15.0.1 for Microsoft Windows (64-bit)
+  (July 2, 2026), Professional licence; PowerShell 7.6.6; Windows PowerShell
+  5.1.26100.9444; Git Bash (GNU bash 5.2.37) with git 2.51.2.windows.1. Other jobs,
+  among them about a dozen other Wolfram kernels, were running on the computer at the
+  same time.
+* **Clones:** seven fresh clones (`git clone https://github.com/once-ere/Dirac_claude.git`)
+  in a scratch folder whose path is 145 characters long on Windows; nothing was copied
+  into them from any other working copy (the set needs no uncommitted file). Each clone
+  was used for one run (clone 4 for two runs of the same failure test). Size of a fresh
+  clone (clone 3 before its run): 691,412,010 bytes, of which `.git` is 204,159,619 bytes
+  (`git count-objects -vH`: size-pack 194.26 MiB); the longest path inside the
+  repository has 117 characters.
+* **Runs** (all from the repository root of their clone; the command is the one of
+  Section 3.4 with the report path shown):
 
-  | Output | Committed sha256 | Run 1 | Run 2 | Run 3 | Run 1 = Run 2 |
+  | Run | Clone | Shell | Changed before the run | Report path | Exit code | Started | Elapsed | Printed result |
+  | --- | --- | --- | --- | --- | ---: | --- | ---: | --- |
+  | 1 | 1 | PowerShell 7.6.6 | nothing | `artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json` | 0 | 15:19:15 | 392.9 s | `check_count=141`, `failed_check_count=0` |
+  | 2 | 2 | PowerShell 7.6.6 | nothing | the same | 0 | 15:26:08 | 360.6 s | `check_count=141`, `failed_check_count=0` |
+  | 3 | 3 | Windows PowerShell 5.1, output into a file with `>` | nothing | `build/old-pairing/wolfram-pairing-report.json` | 0 | 15:32:23 | 468.0 s | `check_count=141`, `failed_check_count=0` |
+  | 4 | 4 | Git Bash, output into a file with `>` | `wolfram/Dirac16ComplexPairing.wl` moved out of the clone | `artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json` | 1 | 15:21 and 15:35 | 5.3 s (second run) | `Get::noopen`, `FATAL: module failed to load: ...`, `check_count=0`, `failed_check_count=1` |
+  | 5 | 5 | PowerShell 7.6.6, output into a file with `>` | `artifacts/dirac16complex/arbitrary-field/algebra-fixture.json` moved away | the same | 1 | 15:32:23 | 469.4 s | `Import::nffil`, `Table::iterb` (twice), `CHECK FAILED: PAIR_algebra_fixtureMatches`, `FileHash::noopen`, `check_count=141`, `failed_check_count=1` |
+  | 6 | 6 | PowerShell 7.6.6, output into a file with `>` | `artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json` moved away | the same | 1 | 15:32:23 | 433.9 s | `Import::nffil`, `INTERNAL ERROR: ...` (one line of 88,820 characters), `FileHash::noopen`, `check_count=98`, `failed_check_count=4` (`PAIR_T3block_basisFromStage4`, `PAIR_T3block_gamma8IsSigma2BetweenPartnerBlocks`, `PAIR_T3block_gamma1IsSigma1InEveryBlock`, `PAIR_internal_noException`); no step after `T3 block maps` was run |
+  | 7 | 7 | Git Bash, output into a file with `>` | `wolfram/Dirac16ComplexGeometry.wl` moved away | the same | 1 | 15:32:23 | 280.1 s | `Get::noopen`, Wolfram error messages (`Set::shape`, `Part::pkspec1`, `Part::partw`, `Part::partd`, `Part::take`, `General::stop`), 29 lines `CHECK FAILED: ...`, `FileHash::noopen`, `check_count=141`, `failed_check_count=29` (818,900 bytes of printed text) |
+
+  Start times are local time (UTC-7) on 2026-10-07. Runs 1 and 2 are the two runs of the
+  command of the script's own usage header (which overwrites the committed outputs in
+  the clone); they were made one after the other, each alone among the runs of this
+  verification. In runs 1 and 2, PowerShell started `wolframscript` directly with exactly
+  this command and collected the printed lines and the error stream separately through
+  pipes; the elapsed time was measured by a stopwatch around the process, the kernel's
+  memory by reading its process figures repeatedly. Runs 3, 5, 6 and 7 were started
+  together and ran at the same time; their elapsed times are those of the shell process
+  that ran the command (start to exit). Run 4 was made twice (the first time its time was
+  not measured); both times it printed the same lines.
+* **Byte identity of every output** (`cmp` and sha256):
+
+  | Output | Committed sha256 | Run 1 | Run 2 | Run 3 (`build/old-pairing/`) | Run 1 = Run 2 |
   | --- | --- | --- | --- | --- | --- |
   | `wolfram-pairing-report.json` | `735534de950c7fb0327370c33caa275cf805aa91a41dee903e4eaec7a6fa0de8` | byte-identical to committed | byte-identical to committed | byte-identical to committed | yes |
   | `pairing-theory.json` | `5a267bd696391b131134577ccdcf7766b83f96f3eb32b9b8de60c9175b1ebf6a` | byte-identical to committed | byte-identical to committed | byte-identical to committed | yes |
 
+  In run 3 the two `git diff --no-index --stat` commands of Section 3.4 printed nothing
+  and ended with exit code 0.
 * **Printed output:** after replacing the clock times, the durations and the two absolute
-  paths by placeholders, the printed output of each of runs 1, 2 and 3 is identical, line
-  for line, to the block of Section 4.1 (191 lines); the error stream was empty in each of
-  them.
-* **Repository state after each run:** `git status --porcelain --untracked-files=all`
-  printed nothing in all three clones; with `--ignored` added
-  (`git status --porcelain --untracked-files=all --ignored`), clone 3 listed only the two
-  files `build/old-pairing/pairing-theory.json` and
-  `build/old-pairing/wolfram-pairing-report.json` (`git status --short --ignored`, without
-  `--untracked-files=all`, shows them as the folder `build/`).
-* **Check counts:** 141 checks, 141 true, 0 false, in each of runs 1, 2 and 3 (and in
-  run 4 below); 19 measurements, all identical to the committed report.
-* **Failure-mode test:** after run 3 (and after its repository state had been recorded),
-  in clone 3, the package `wolfram/Dirac16ComplexPairing.wl` was renamed on purpose and
-  the command with the report path `build/fail-test/wolfram-pairing-report.json` was run.
-  It printed `Get::noopen: Cannot open ...`, `FATAL: module failed to load: ...`,
-  `check_count=0` and `failed_check_count=1`, ended with exit code 1 after 2 seconds, and
-  created only the empty folder `build/fail-test` (no output file). The package was then
-  renamed back (its sha256 checked) and the empty folder removed. This is the row
-  "FATAL: module failed to load" of Section 3.5.
-* **Second verification (after a review of this file), same date, same commit
-  `c2b33cc`:** four more fresh clones P, Q, R and S, nothing copied into them. The four
-  runs started together at 06:48:48 local time and ran at the same time (with other jobs
-  on the computer). Runs 5, 6 and 7 are failure-mode tests: one file of the clone was
-  moved out of it before the run, and the command of Section 3.4 (which writes over the
-  committed outputs) was used.
-
-  | Run | Clone | Shell | Changed before the run | Report path | Exit code | Elapsed | Printed result |
-  | --- | --- | --- | --- | --- | ---: | ---: | --- |
-  | 4 | P | Windows PowerShell 5.1.26100.9444, output sent into a file with `>` | nothing | `build/old-pairing/wolfram-pairing-report.json` | 0 | 244.5 s | `check_count=141`, `failed_check_count=0` |
-  | 5 | Q | PowerShell 7.6.6, output into a file with `>` | `artifacts/dirac16complex/arbitrary-field/algebra-fixture.json` moved away | `artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json` | 1 | 244.4 s | `Import::nffil`, `Table::iterb`, `CHECK FAILED: PAIR_algebra_fixtureMatches`, `FileHash::noopen`, `check_count=141`, `failed_check_count=1` |
-  | 6 | S | PowerShell 7.6.6, output into a file with `>` | `artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json` moved away | the same | 1 | 229.7 s | `Import::nffil`, `INTERNAL ERROR: ...` (one line of about 89,000 characters), `FileHash::noopen`, `check_count=98`, `failed_check_count=4` (`PAIR_T3block_basisFromStage4`, `PAIR_T3block_gamma8IsSigma2BetweenPartnerBlocks`, `PAIR_T3block_gamma1IsSigma1InEveryBlock`, `PAIR_internal_noException`); no step after `T3 block maps` was run |
-  | 7 | R | Git Bash, output into a file with `>` | `wolfram/Dirac16ComplexGeometry.wl` moved away | the same | 1 | 153.5 s | `Get::noopen`, Wolfram error messages, `FileHash::noopen`, `check_count=141`, `failed_check_count=29` (818,908 bytes of printed text) |
-
-  * Run 4: both outputs byte-identical to the committed files (sha256 as in Part 2); the
-    printed output, after the placeholders of Section 4.1, identical line for line to
-    the block of Section 4.1 (191 lines); the error stream empty. Before the run the
-    clone had no folder `build/`; the run created `build/` and `build/old-pairing/`.
-    Afterwards `git status` printed `nothing to commit, working tree clean`,
-    `git status --porcelain` printed nothing,
-    `git status --porcelain --untracked-files=all --ignored` printed the two files under
-    `build/old-pairing/`, and `git status --short --ignored` printed `!! build/`. After
-    `Remove-Item -Recurse -Force build/old-pairing` the empty folder `build/` was still
-    there, and git listed nothing, even with `--ignored`; after
-    `Remove-Item -Recurse -Force build` the clone was exactly as cloned. The same two
-    steps with `rm -r` in Git Bash were tested on a re-created copy of the folder.
-  * Output sent into a file, sampled every 10 seconds: the file of run 4 (Windows
-    PowerShell 5.1) grew while the run proceeded (104 bytes 12 seconds after the start,
-    1,450 bytes about three seconds before the end, 17,982 bytes at the end); it is UTF-16
-    little-endian with a byte-order mark and with CR LF at the end of each of its 191
-    lines. The files of runs 5 and 6 (PowerShell 7) had 0 bytes at every sample until
-    their runs had ended; they are ASCII with CR LF line ends. The file of run 7 (Git Bash)
-    grew while the run proceeded, also with CR LF line ends (as did the Git Bash file of
-    run 2).
-  * Runs 5, 6 and 7 each **overwrote both committed output files with a failing report**
-    (`git status` showed them as modified, next to the moved input file as deleted). The
-    commands `git checkout -- <the moved file>` and
-    `git checkout -- artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json artifacts/dirac16complex/pair-creation/pairing-theory.json`
-    restored the committed bytes (sha256 checked); `git status` then printed
-    `nothing to commit, working tree clean` and
-    `git status --porcelain --untracked-files=all --ignored` printed nothing. These are the
-    rows of Section 3.5 for a missing geometry package and a missing input file.
-  * Size of a fresh clone (clone P before its run): 538,056,938 bytes = 513.1 MiB, of
-    which the folder `.git` is 133,534,691 bytes = 127.3 MiB (`git count-objects -vH`:
-    size-pack 126.99 MiB) and the checked-out files are 404,522,247 bytes = 385.8 MiB
-    (Section 3.1).
+  paths by the placeholders of Section 4.1, the printed output of each of runs 1, 2 and 3
+  is identical, line for line, to the block of Section 4.1 (191 lines; compared by a
+  program); the 141 check lines and 19 measurement lines of runs 1 and 2 are identical to
+  each other character for character, and the error stream of runs 1 and 2 was empty.
+  Every printed line ends in CR LF (seen in the raw bytes of the Git Bash files of runs 4
+  and 7). The output file of run 3 (Windows PowerShell 5.1) is UTF-16 little-endian with a
+  byte-order mark, 17,982 bytes, 191 lines, and grew while the run proceeded (104 bytes
+  10 s after the start, 1,454 bytes at the last sample before the end, 17,982 bytes at the
+  end); the files of runs 5 and 6 (PowerShell 7) stayed empty while the runs proceeded (0
+  bytes at every sample, every 10 s, until 7 and 12 seconds before the ends of the runs),
+  received the text only at the end, and are ASCII; the file of run 7 (Git Bash) grew
+  while the run proceeded and is ASCII. This is what Section 3.4 says about output sent into a file.
+* **Repository state after each run:** `git status --porcelain --untracked-files=all --ignored`
+  printed nothing in clones 1 and 2; in clone 3 it listed only
+  `build/old-pairing/pairing-theory.json` and `build/old-pairing/wolfram-pairing-report.json`,
+  `git status --short --ignored` printed `!! build/`, `git status` printed
+  `nothing to commit, working tree clean`, and the clone had no folder `build/` before the
+  run. The restore steps of Part 5 were then tested there: after
+  `Remove-Item -Recurse -Force build/old-pairing` the empty folder `build/` was still
+  there and git listed nothing, even with `--ignored`; after
+  `Remove-Item -Recurse -Force build` the clone was exactly as cloned.
+* **Check counts:** 141 checks, 141 true, 0 false, in each of runs 1, 2 and 3; 19
+  measurements, all identical to the committed report. Per group exactly the numbers of
+  the table of Section 1.1 (counted in the committed report and in the reports of runs 1
+  and 2, which are the same bytes).
+* **Failure-mode tests** (runs 4 to 7, the rows of Section 3.5): run 4 wrote no output
+  file (both committed outputs kept their sha256) and `git status --porcelain` listed only
+  the moved package; after the package had been moved back (sha256 checked) the clone was
+  clean again. Runs 5, 6 and 7 each **overwrote both committed output files with a failing
+  report** (`git status` showed them as modified, next to the moved input as deleted; the
+  rewritten reports had 141 checks with 1 false, 98 checks with 4 false, and 141 checks
+  with 29 false). The commands `git checkout -- <the moved file>` and
+  `git checkout -- artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json artifacts/dirac16complex/pair-creation/pairing-theory.json`
+  restored the committed bytes (sha256 checked); `git status` then printed
+  `nothing to commit, working tree clean` and
+  `git status --porcelain --untracked-files=all --ignored` printed nothing.
+* **The `--` rule of Section 3.4:** a two-line test script that prints
+  `$ScriptCommandLine` received `{"argtest.wls"}` from
+  `wolframscript -file argtest.wls -- build/x.json` and
+  `{"argtest.wls", "build/x.json"}` from `wolframscript -file argtest.wls build/x.json`:
+  WolframScript 1.14 drops `--` and what follows.
+* **Documents and programs of Section 1.2:** checked with `git grep` in fresh clone 2 at
+  the verified commit (the names of the set, of the package and of both outputs, and both
+  sha256 values); the cited sections, chapter titles and line numbers were checked in
+  the files themselves. `HANDOFF.md` section 0.4 item C still records the open correction
+  of Section 1.1.
 * **Fixes made:** none to the set. The set executed correctly as committed; no file of the
-  set was changed. After a review, this provenance file itself was corrected (the clone
-  size, the text that plain `git status` prints, the empty `build/` folder left after the
-  restore of the `build/` variant, the output files that a failing run overwrites, the
-  documents and tests that use the outputs, the `--ignored` listing of clone 3, and
-  output redirection in Windows PowerShell 5.1). Every corrected statement was checked
-  again: by the runs of the second verification above, by `git grep` in fresh clone P
-  (the lists of Section 1.2) and in the original clone 3 (its `--ignored` listing, which
-  was still the same).
+  set, no input and no committed output was changed. This provenance file was brought up
+  to date: the list of the files that pin the two sha256 values (the provenance file of
+  the matter-antimatter set now also contains them), a note on the newer `Revision/`
+  textbook notebooks, the clone size, the verified commit of Section 3.3, the measured run
+  times and memory (Part 4.5), the temporary files, processes and network endpoints of
+  Part 5, and this record.
 * **Open discrepancies:** none in execution or in the numbers. The open item of
   Section 1.1 (the physical wording of `T1krein.imageField` and `T1krein.consequence` in
   `pairing-theory.json`, to be corrected according to `HANDOFF.md` section 0.4 item C) is
   a matter of interpretation; the checks themselves are true, and the committed outputs
   were left unchanged.
+
+### 6.3 First verification of 2026-10-02
+
+* **Commit verified:** `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`, the head of `main` when
+  the clones were made; the files of the set, the inputs and the outputs had the sha256
+  values of Part 2 (the same as at `a4c5eda`).
+* **Environment:** Windows 11 Pro for Workstations, version 10.0.26200 (build
+  26200.9457), 24 logical processors; WolframScript 1.14.0; Wolfram 15.0.1, Professional
+  licence; PowerShell 7.6.6; Windows PowerShell 5.1.26100.9444; Git Bash (GNU bash 5.2.37)
+  with git 2.51.2.windows.1; about eight other Wolfram kernels of other jobs running.
+* **Runs:** seven fresh clones, nothing copied into them, one run each. Run 1 (PowerShell
+  7.6.6, 295.9 s) and run 2 (Git Bash, 321.9 s) with the committed report path, run 3
+  (PowerShell 7.6.6, 317.4 s) and run 4 (Windows PowerShell 5.1 with `>`, 244.5 s) with the
+  `build/` variant: each exit code 0, `check_count=141`, `failed_check_count=0`, both
+  outputs byte-identical to the committed files (and run 1 = run 2), the printed output
+  identical to the block of Section 4.1 after the placeholders, the error stream empty,
+  and `git status --porcelain --untracked-files=all` printed nothing (with `--ignored`,
+  clones 3 and 4 listed only the two files under `build/old-pairing/`). Failure tests:
+  the package renamed (`FATAL`, exit code 1 after 2 seconds, no output file; it created
+  only the empty folder of its report path `build/fail-test`), `algebra-fixture.json`
+  moved away (244.4 s, 141 checks, 1 false), `kohn-sham-theory.json` moved away (229.7 s,
+  98 checks, 4 false, one `INTERNAL ERROR` line of about 89,000 characters) and the
+  geometry package moved away (Git Bash, 153.5 s, 141 checks, 29 false, 818,908 bytes of
+  printed text); each with exit code 1, and each of the last three overwrote both
+  committed outputs, which `git checkout` restored. Size of a fresh clone then:
+  538,056,938 bytes, of which `.git` 133,534,691 bytes.
+* **Fixes made then:** none to the set; this provenance file was corrected after a review
+  (clone size, `git status` wording, the empty `build/` folder, the outputs overwritten by
+  a failing run, the documents and tests of Section 1.2, output redirection in Windows
+  PowerShell 5.1).

@@ -647,10 +647,12 @@ CELLS = [
         recorded = float(record[state_id(8, a4, 0.05)]["sea_holes_excluded"])
         worst_sea = max(worst_sea, abs(holes / recorded - 1.0))
     fig, ax = plt.subplots()
+    plotted = []  # every value drawn, to measure their range
     for marker, n in (("o", 8), ("s", 136)):
         for colour, t in zip(PALETTE, TEMPS):
             values = [float(record[state_id(n, a, t)]["sea_holes_over_N"])
                       for a in (0.0, 0.5, 1.0, 1.5, 2.0)]
+            plotted += values
             ax.plot([0, 0.5, 1, 1.5, 2], np.maximum(values, 1e-60), marker + "-",
                     color=colour, ms=6, lw=1.2,
                     markerfacecolor=colour if n == 8 else "white",
@@ -664,15 +666,19 @@ CELLS = [
     ax.set_ylabel("sea holes per particle")
     ax.set_title("Diagnostic of the filling convention ($\\lambda = 0$)")
     ax.legend(fontsize=7, ncol=2, loc="lower right")
+    smallest = min(v for v in plotted if v > 0.0)  # the smallest nonzero value
+    powers = int(math.log10(max(plotted) / smallest))  # whole powers of ten spanned
     save_figure(fig, "sea_holes",
                 "The number of thermal holes that the excluded sea brane band would "
                 "carry, per particle (vertical axis, logarithmic), for $N = 8$ (filled) "
                 "and $N = 136$ (open) at $T = 0.01$, $0.02$, $0.05$ against the slice "
                 "(horizontal axis), from the record; crosses: recomputed here. The values "
-                "span more than 55 powers of ten: deep in the gap the sea is practically "
-                "full. Above the dotted 1 percent line, reached late in the history at "
-                "the higher temperatures, the particle-only convention is outside its "
-                "range of validity.")
+                f"span more than {powers} powers of ten: at low temperature and early in "
+                "the history the sea is practically full. Above the dotted 1 percent "
+                "line, reached late in the history at the higher temperatures, the "
+                "particle-only convention is outside its range of validity.")
+    report("smallest and largest sea holes per particle drawn",
+           f"{smallest:.2e}, {max(plotted):.2e}")
     report("sea holes per particle, N = 8, T = 0.05, a4,0 = 0, 1, 2",
            ", ".join(f"{v:.4g}" for v in mine.values()))
     check(worst_sea < 1e-9, "the sea-hole diagnostic reproduced",

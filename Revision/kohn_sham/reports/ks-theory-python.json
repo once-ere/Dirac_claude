@@ -3,10 +3,10 @@
   "producer": "Revision/kohn_sham/theory/check_ks_theory.py",
   "coordinates": "x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times; x8 = the hidden direction (proper coordinate y = ln(sin 6Hx8)/(6H) <= 0)",
   "summary": {
-    "passed": 57,
+    "passed": 58,
     "failed": 0,
     "other": 0,
-    "total": 57
+    "total": 58
   },
   "checks": [
     {
@@ -293,6 +293,11 @@
       "name": "ks_theory_json_slope",
       "verdict": "PASS",
       "detail": "the exported brane-band slope agrees with this file to 1e-12"
+    },
+    {
+      "name": "ks_theory_json_history_label",
+      "verdict": "PASS",
+      "detail": "ks-theory.json labels the history a4 = A H x4 (A = 1 canonical) of the adiabatic measure as a PRESCRIBED BACKGROUND (adiabaticity.history ends 'PRESCRIBED BACKGROUND (see historyStatus)', adiabaticity.historyStatus states the reason and cites the source-condition report): True; the reason is the one recorded in Revision/field_equations_a4/reports/ks-source-conditions.json (condition C3: the linear member requires p3 = p_t = p8 and constant rho; checks ks_history_is_a_prescribed_background, ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x8 PASS): True. The Kohn-Sham gas is a test field on this background without back-reaction; its states are not solutions of the a4 equations with the Kohn-Sham source"
     }
   ]
 }

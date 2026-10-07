@@ -209,7 +209,7 @@ CELLS = [
     \gamma^{(x_a)}$ (second notebook of this chapter), and its charge is $Q =
     \Psi^\dagger B\Psi$. Written in the image variable:
 
-    $$H = \chi^\dagger\Gamma h'_m\Gamma\chi = \chi^\dagger(mC + i\textstyle\sum_a k_aC
+    $$H = \chi^\dagger\Gamma h'_m\Gamma\chi = \chi^\dagger(mC + i\sum_a k_aC
     \gamma^{(x_a)})\chi = -\chi^\dagger h'_{-m}\chi,\qquad Q = \chi^\dagger\Gamma B
     \Gamma\chi = -\chi^\dagger B\chi .$$
 
@@ -308,7 +308,7 @@ CELLS = [
            f"{int(np.sum(signature == -1))} and {int(np.sum(signature == 1))}")
     check_record(np.array_equal(image_metric, -B)
                  and sorted(signature.tolist()) == [-1] * 8 + [1] * 8,
-                 "the chirality image Gamma Psi carries the Krein metric -B, signature (8,8)",
+                 "the chirality image Gamma Psi carries the Krein metric -B, (8,8)",
                  record="Revision/pairing/reports/python-pairing.json, check "
                         "Q.image_krein_metric")
     check_record(np.array_equal(mirror_metric, B),
@@ -376,7 +376,7 @@ CELLS = [
     code(r'''
     g = {a: sp.Matrix(fixture["gamma"][a - 1]) for a in range(1, 9)}  # exact gammas
     C_exact = g[8] * g[1] * g[2] * g[3]
-    Gamma_exact = sp.Matrix(np.diag(diagonal))  # diag(-I8, I8)
+    Gamma_exact = sp.diag(*[int(x) for x in diagonal])  # diag(-I8, I8), exact
     B_exact = -sp.I * C_exact * g[4]
     m = sp.Symbol("m", real=True)  # the mass: any real number
     field = sp.Matrix(sp.symbols("c1:17"))  # chi_A, A = 1, ..., 16
@@ -543,13 +543,13 @@ CELLS = [
 
     Psi, Psi_dagger = field_op(0), conjugate_op(0)  # one universe: modes 0, ..., 15
     phi = random_state(6, 16)
-    own = anticommutator_matrix(Psi, Psi_dagger, phi)
-    image = anticommutator_matrix(mapped(Gamma, Psi),
-                                  mapped_conjugate(Gamma, Psi_dagger), phi)
-    mirror = anticommutator_matrix(mapped(gamma[8], Psi),
-                                   mapped_conjugate(gamma[8], Psi_dagger), phi)
-    errors = [np.max(np.abs(own - B)), np.max(np.abs(image + B)),
-              np.max(np.abs(mirror - B))]
+    own_rule = anticommutator_matrix(Psi, Psi_dagger, phi)
+    image_rule = anticommutator_matrix(mapped(Gamma, Psi),
+                                       mapped_conjugate(Gamma, Psi_dagger), phi)
+    mirror_rule = anticommutator_matrix(mapped(gamma[8], Psi),
+                                        mapped_conjugate(gamma[8], Psi_dagger), phi)
+    errors = [np.max(np.abs(own_rule - B)), np.max(np.abs(image_rule + B)),
+              np.max(np.abs(mirror_rule - B))]
     report("largest deviations from B, -B and +B", ", ".join(f"{e:.1e}" for e in errors))
     check(max(errors) < 1e-12,
           "Fock space: {Psi, Psi^dag} = B, image -B, mirror +B (256 entries each)")
@@ -716,10 +716,9 @@ CELLS = [
     """),
     code(r'''
     conjugate_field = mapped(Gamma, Psi_dagger)  # Psi^c_A = sum_D Gamma_AD Psi^dag_D
-    # (Psi^c)^dagger_A = sum_D Gamma_AD Psi_D: Gamma is real and Psi^dagger^dagger = Psi
-    # in the positive realisation only up to B, so build it from its definition:
-    # Psi^dagger_D = sum_E chi_E B_ED, hence (Psi^dagger_D)^* = sum_E B*_ED Psi_E.
-    conjugate_field_dagger = mapped(Gamma @ B.conj().T, Psi)
+    # Its canonical conjugate: (Psi^c)^dagger_A = sum_D conj(Gamma_AD) Psi_D, by the
+    # rule (Psi^dagger)^dagger = Psi of the canonical relations (Gamma is real).
+    conjugate_field_dagger = mapped(Gamma, Psi)
     candidates = {
         "Gamma Psi": (image_field, image_conjugate),
         "gamma8 Psi": (mapped(gamma[8], Psi), mapped_conjugate(gamma[8], Psi_dagger)),
@@ -761,7 +760,8 @@ CELLS = [
     as an ordinary copy (statement Q5 of the record); for the chirality image this is
     impossible (statement Q3). A second universe must therefore be a NEW field on a
     larger state space, which the next section builds.
-
+    """),
+    md(r"""
     ## 10. Two independently quantised universes
 
     The next cell puts universe 1 (mass $+m$) on the modes 0 to 15 and universe 2 (mass
@@ -827,7 +827,9 @@ CELLS = [
     block = sp.diag((B_exact * h_prime_exact(m)).subs(zero_momentum),
                     (B_exact * h_prime_exact(-m)).subs(zero_momentum))
     block_eigenvalues = block.eigenvals()  # {eigenvalue: how often}
-    say(f"exact eigenvalues of diag(B h'_m, B h'_-m) at k = 0: {block_eigenvalues}")
+    say(f"exact eigenvalues of diag(B h'_m, B h'_-m) at k = 0: +m "
+        f"{block_eigenvalues.get(m, 0)} times, -m {block_eigenvalues.get(-m, 0)} times, "
+        f"{len(block_eigenvalues)} different values")
     check_record(block_eigenvalues == {m: 16, -m: 16},
                  "block generator at k = 0: eigenvalues +m and -m, 16 each, none zero",
                  record="Revision/pairing/reports/python-pairing.json, check "
@@ -887,7 +889,10 @@ CELLS = [
     energy $-8E$ of each, that every pattern is an energy and charge eigenstate with
     the normal-ordered total energy $E \times$(number of quanta) and the total charge
     (particles minus antiparticles), on 200 random patterns, and the pair state
-    "particle in universe 1, antiparticle in universe 2".
+    "particle in universe 1, antiparticle in universe 2". Energy and charge are applied
+    in the mode form $\chi N\Psi = \sum_{p,q}(W^\dagger NW)_{pq}F_p^*F_q$, where $F_p$
+    is $b$ or $d^*$ (the same operator as $\sum_{A,C}\chi_AN_{AC}\Psi_C$, but much
+    faster to apply, because $W^\dagger hW$ is diagonal).
     """),
     code(r'''
     def orthonormal_columns(P):
@@ -925,23 +930,37 @@ CELLS = [
 
 
     def universe(W, offset):
-        """Psi, chi (Hilbert adjoint) and Psi^dagger = chi B of one universe."""
-        def F(p, s):  # b (particle modes) or d^* (antiparticle modes)
+        """Psi, chi (Hilbert adjoint), Psi^dagger = chi B and the mode operators of
+        one universe whose 16 modes start at offset."""
+        def F(p, s):  # b (particle modes p < 8) or d^* (antiparticle modes p >= 8)
             return annihilate(p + offset, s) if p < 8 else create(p + offset, s)
 
         def F_star(p, s):  # the Hilbert adjoint of F_p
             return create(p + offset, s) if p < 8 else annihilate(p + offset, s)
 
         psi = [lambda s, A=A: add(*[(W[A, p], F(p, s)) for p in range(16)])
-               for A in range(16)]
+               for A in range(16)]  # Psi_A = sum_p W_Ap F_p
         chi = [lambda s, A=A: add(*[(np.conj(W[A, p]), F_star(p, s)) for p in range(16)])
-               for A in range(16)]
+               for A in range(16)]  # chi_A = sum_p conj(W_Ap) F_p^*
         psi_dagger = mapped(B.T, chi)  # Psi^dagger_A = sum_C chi_C B_CA
-        return psi, chi, psi_dagger
+        return psi, chi, psi_dagger, F, F_star
 
 
-    psi_1, chi_1, psi_1_dagger = universe(W1, 0)
-    psi_2, chi_2, psi_2_dagger = universe(W2, 16)
+    def mode_bilinear(W, F, F_star, N, state):
+        """chi N Psi = sum_(p,q) (W^dagger N W)_pq F_p^* F_q applied to a state (the
+        same operator as sum_(A,C) chi_A N_AC Psi_C, written with the mode operators)."""
+        M = W.conj().T @ N @ W
+        terms = []
+        for q in range(16):
+            lowered = F(q, state)
+            if lowered:
+                terms += [(M[p, q], F_star(p, lowered)) for p in range(16)
+                          if abs(M[p, q]) > 1e-12]
+        return add(*terms)
+
+
+    psi_1, chi_1, psi_1_dagger, F_1, F_1_star = universe(W1, 0)
+    psi_2, chi_2, psi_2_dagger, F_2, F_2_star = universe(W2, 16)
     phi_32 = random_state(4, 32)
     rule_1 = anticommutator_matrix(psi_1, psi_1_dagger, phi_32)
     rule_2 = anticommutator_matrix(psi_2, psi_2_dagger, phi_32)
@@ -952,14 +971,14 @@ CELLS = [
 
     def total_energy(state):
         """(H_1 + H_2) state, with H = chi h Psi in each universe."""
-        return add((1, bilinear(chi_1, h_plus, psi_1, state)),
-                   (1, bilinear(chi_2, h_minus, psi_2, state)))
+        return add((1, mode_bilinear(W1, F_1, F_1_star, h_plus, state)),
+                   (1, mode_bilinear(W2, F_2, F_2_star, h_minus, state)))
 
 
     def total_charge(state):
         """(Q_1 + Q_2) state, with Q = Psi^dagger B Psi = chi Psi in each universe."""
-        return add((1, bilinear(chi_1, I16, psi_1, state)),
-                   (1, bilinear(chi_2, I16, psi_2, state)))
+        return add((1, mode_bilinear(W1, F_1, F_1_star, I16, state)),
+                   (1, mode_bilinear(W2, F_2, F_2_star, I16, state)))
 
 
     VACUUM = {0: 1.0}

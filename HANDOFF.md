@@ -102,6 +102,9 @@ provenance/dirac matrices.md (its coverage section).
   PREPARATION RUNNING: `Revision/workflows/a4_author_gammas_prep.js` (run wf_da94d8ca-701) makes and verifies this change in a
   SCRATCH clone only and writes <SP>/a4prep/a4_author_gammas.patch (implementer, two adversarial reviewers, fixer, fresh-clone
   verifier).  Apply the verified patch to the repository once the execution-provenance chain of rev-a4 has finished.
+  ALSO in this change (rev-a4 runner, 2026-10-07): verify_field_equations_a4.wls exits 0 when an output cannot be written and never
+  finishes when its package is missing - make both an ERROR line with exit code 1 (keep the committed output bytes identical); README
+  says 'about 15 s' (measured 19-34 s on a loaded machine).
 
 ### 0.4f STATE 2026-10-03 (after the session limit)
 

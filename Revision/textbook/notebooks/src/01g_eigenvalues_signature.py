@@ -62,8 +62,8 @@ FACTS = {
          "checks coordinate_map, clifford_relation, symmetry_pattern and "
          "B_hermitian_involution_signature (reproduced)"],
         ["Revision/theory/reports/python-field-theory.json",
-         "check B_properties and the quantisation entry krein: B has the signature "
-         "(8,8), so the charge form is indefinite (reproduced and quoted)"],
+         "check B_properties and the entry krein of formulas, quantisation: B has the "
+         "signature (8,8), so the state space is indefinite (reproduced and quoted)"],
         ["Revision/gkd_lovelock/results/curvature.json",
          "metricDiagonal, the diagonal of the author's metric (read)"],
         ["Revision/gkd_lovelock/results/python-lovelock-report.json",
@@ -78,7 +78,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS all 9 figure files of this notebook exist",
-        "ALL 36 CHECKS PASSED (notebook 01g)",
+        "ALL 30 CHECKS PASSED (notebook 01g)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for a file below Revision/algebra, Revision/theory or "
@@ -976,7 +976,8 @@ CELLS = [
     theory = json.loads(repository_file(
         "Revision/theory/reports/python-field-theory.json").read_text(encoding="utf-8"))
     theory_verdict = {c["name"]: c["verdict"] for c in theory["checks"]}["B_properties"]
-    say(f"the record's quantisation entry: {theory['quantisation']['krein']}")
+    krein_entry = theory["formulas"]["quantisation"]["krein"]  # a sentence of the record
+    say(f"the record's quantisation entry: {krein_entry}")
     check(np.allclose(values_B, [-1.0] * 8 + [1.0] * 8, rtol=0, atol=1e-12)
           and unitary_error < 1e-12 and theory_verdict == "pass",
           "numpy: eight eigenvalues -1 and eight +1, perpendicular eigenvectors",

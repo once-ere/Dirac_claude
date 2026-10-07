@@ -7,17 +7,18 @@ This file is the provenance record of the notebook `Revision/textbook/notebooks/
 
 ## 1. What the notebook computes
 
-It computes all 64 entries of the energy-momentum tensor of exact condensates of the commuting field dirac16complex00 in the author's metric, including the off-diagonal entries that the spin connection produces, finds the 42 nonzero off-diagonal entries of a generic condensate and checks that each is a multiple of one of 15 three-gamma bilinears, builds the exact condensates whose tensor is diagonal and reproduces their frequencies omega and their S from the record (S up to one common factor), and tests the conservation of the full tensor along a curved history with finite differences of shrinking step, with a negative control that leaves out the gravitational term of the field equation; five teaching plots.
+It computes all 64 entries of the energy-momentum tensor of exact condensates of the commuting field dirac16complex00 in the author's metric, including the off-diagonal entries that the spin connection produces, finds the 42 nonzero off-diagonal entries of a generic condensate and checks that each is a multiple of one of 15 three-gamma bilinears with exactly the coefficient that the record lists for it, builds the exact condensates whose tensor is diagonal and reproduces their frequencies omega and their S from the record (S up to one common factor), and tests the conservation of the full tensor along a curved history with finite differences of shrinking step, with a negative control that leaves out the gravitational term of the field equation; five teaching plots.
 
 It reads or reproduces these Revision records:
 
 - `Revision/algebra/gammas.json`: the author's gamma matrices and the matrix C (the fixture)
 - `Revision/theory/field-theory.json`: the formulas of the spin connection, of the tensor and of the exact solutions
 - `Revision/theory/reports/wolfram-field-theory.json`: the exact nonlinear homogeneous solution conserves its tensor; conservation on shell
+- `Revision/field_equations_a4/a4-equations.json`: the 42 off-diagonal entries of the condensate tensor: bilinear and coefficient of each
 - `Revision/field_equations_a4/reports/wolfram-a4-report.json`: the condensate tensor: diagonal kinetic part, 42 off-diagonal entries, the diagonal witness
 - `Revision/field_equations_a4/reports/python-a4-report.json`: the same statements, verified independently with sympy
 
-The notebook has 42 cells (23 markdown cells and 19 code cells) in these sections:
+The notebook has 44 cells (24 markdown cells and 20 code cells) in these sections:
 
 - 1. What this notebook computes
 - 2. How to run this notebook
@@ -31,7 +32,7 @@ The notebook has 42 cells (23 markdown cells and 19 code cells) in these section
 - 10. The last check
 - 11. What this notebook showed
 
-It prints 23 PASS lines (one per check), 9 RESULT lines (key numbers) and draws 5 figures.
+It prints 24 PASS lines (one per check), 9 RESULT lines (key numbers) and draws 5 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -39,7 +40,7 @@ These are the same instructions that the book prints just before the text of the
 
 **Step 1. What this notebook does and what it needs.**
 
-Notebook 09c (The full energy-momentum tensor of a condensate) is the file `Revision/textbook/notebooks/09c_condensate_tensor.ipynb` of the repository Dirac_claude. It computes all 64 entries of the energy-momentum tensor of exact condensates of the commuting field dirac16complex00 in the author's metric, including the off-diagonal entries that the spin connection produces, finds the 42 nonzero off-diagonal entries of a generic condensate and checks that each is a multiple of one of 15 three-gamma bilinears, builds the exact condensates whose tensor is diagonal and reproduces their frequencies omega and their S from the record (S up to one common factor), and tests the conservation of the full tensor along a curved history with finite differences of shrinking step, with a negative control that leaves out the gravitational term of the field equation; five teaching plots. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy, sympy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
+Notebook 09c (The full energy-momentum tensor of a condensate) is the file `Revision/textbook/notebooks/09c_condensate_tensor.ipynb` of the repository Dirac_claude. It computes all 64 entries of the energy-momentum tensor of exact condensates of the commuting field dirac16complex00 in the author's metric, including the off-diagonal entries that the spin connection produces, finds the 42 nonzero off-diagonal entries of a generic condensate and checks that each is a multiple of one of 15 three-gamma bilinears with exactly the coefficient that the record lists for it, builds the exact condensates whose tensor is diagonal and reproduces their frequencies omega and their S from the record (S up to one common factor), and tests the conservation of the full tensor along a curved history with finite differences of shrinking step, with a negative control that leaves out the gravitational term of the field equation; five teaching plots. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy, sympy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
 
 **Step 2. Install Git and Python (once per computer).**
 
@@ -202,7 +203,7 @@ Every check of the notebook prints a line that starts with PASS. At the end of t
 
 ```text
 PASS the five figures of this notebook are saved and captioned
-ALL 23 CHECKS PASSED (notebook 09c)
+ALL 24 CHECKS PASSED (notebook 09c)
 ```
 
 and the notebook must show 5 figures below the cells that draw them.
@@ -252,35 +253,39 @@ In [8]       reproduces Revision/field_equations_a4/reports/wolfram-a4-report.js
 In [8]      condensate_offdiagonal_are_three_gamma_bilinears;
 In [8]      Revision/field_equations_a4/reports/python-a4-report.json, check
 In [8]      authorT16_condensate_offdiagonal_three_gamma
-In [10]  PASS witness (V, H) = (5, 1): omega = 4, the 15 bilinears vanish, S != 0, T diagonal at
-In [10]      36 points
-In [10]  PASS witness (V, H) = (5, 1.333): omega = 3, the 15 bilinears vanish, S != 0, T diagonal
-In [10]      at 36 points
-In [10]  PASS witness (V, H) = (-5, 1): omega = 4, the 15 bilinears vanish, S != 0, T diagonal at
-In [10]      36 points
-In [11]  PASS C P_k = -P_k C, P_k symmetric, v^dagger C v = 0, so S = 2 |v1^dagger C v2|^2
-In [11]  PASS observed: S = 2 omega^2 / V^2 for the three witnesses (unit v1, v2)
-In [12]  PASS omega = 4, 3, 4 for the three witnesses, as in the record
-In [12]       reproduces Revision/field_equations_a4/reports/wolfram-a4-report.json, check
-In [12]      condensate_diagonal_witness_exact;
-In [12]      Revision/field_equations_a4/reports/python-a4-report.json, check
-In [12]      authorT16_condensate_witness
-In [12]  PASS S = 204800, 115200, 204800 of the record are one common multiple of ours
-In [12]       reproduces Revision/field_equations_a4/reports/wolfram-a4-report.json, check
-In [12]      condensate_diagonal_witness_exact
-In [13]  PASS the drawn witness tensor is diagonal with T^x4_x4 = -V S != 0
-In [14]  PASS 25 nonzero Christoffel symbols (i <= j)
-In [16]  PASS true condensate: halving h divides the divergence by about 4 (error h^2)
-In [16]  PASS true condensate: the divergence falls below 1e-6 of the tensor's size
-In [16]  PASS control: the divergence tends to a nonzero value (it is not conserved)
-In [16]  PASS true condensate conserved at x4 = 2.0, z = 1.0 (h = 0.001 and 0.0001)
-In [16]  PASS true condensate conserved at x4 = 0.5, z = 1.2 (h = 0.001 and 0.0001)
-In [16]  PASS the record proves the conservation that these numbers confirm
-In [16]       reproduces Revision/theory/reports/wolfram-field-theory.json, checks
-In [16]      exact_solution_nonlinear_homogeneous_C and conservation_on_shell_general
-In [18]  PASS control: its six momentum components are nonzero (over 1000 times the true
-In [18]      condensate's), its x4 and x8 components vanish
-In [19]  PASS the five figures of this notebook are saved and captioned
+In [9]  PASS all 42 entries are -(record coefficient) x bilinear, for 4 columns
+In [9]       reproduces Revision/field_equations_a4/a4-equations.json, offDiagonalKinetic;
+In [9]      Revision/field_equations_a4/reports/python-a4-report.json, checks
+In [9]      json_offdiagonal_coefficients and offdiagonal_coefficients_representation_independent
+In [11]  PASS witness (V, H) = (5, 1): omega = 4, the 15 bilinears vanish, S != 0, T diagonal at
+In [11]      36 points
+In [11]  PASS witness (V, H) = (5, 1.333): omega = 3, the 15 bilinears vanish, S != 0, T diagonal
+In [11]      at 36 points
+In [11]  PASS witness (V, H) = (-5, 1): omega = 4, the 15 bilinears vanish, S != 0, T diagonal at
+In [11]      36 points
+In [12]  PASS C P_k = -P_k C, P_k symmetric, v^dagger C v = 0, so S = 2 |v1^dagger C v2|^2
+In [12]  PASS observed: S = 2 omega^2 / V^2 for the three witnesses (unit v1, v2)
+In [13]  PASS omega = 4, 3, 4 for the three witnesses, as in the record
+In [13]       reproduces Revision/field_equations_a4/reports/wolfram-a4-report.json, check
+In [13]      condensate_diagonal_witness_exact;
+In [13]      Revision/field_equations_a4/reports/python-a4-report.json, check
+In [13]      authorT16_condensate_witness
+In [13]  PASS S = 204800, 115200, 204800 of the record are one common multiple of ours
+In [13]       reproduces Revision/field_equations_a4/reports/wolfram-a4-report.json, check
+In [13]      condensate_diagonal_witness_exact
+In [14]  PASS the drawn witness tensor is diagonal with T^x4_x4 = -V S != 0
+In [15]  PASS 25 nonzero Christoffel symbols (i <= j)
+In [17]  PASS true condensate: halving h divides the divergence by about 4 (error h^2)
+In [17]  PASS true condensate: the divergence falls below 1e-6 of the tensor's size
+In [17]  PASS control: the divergence tends to a nonzero value (it is not conserved)
+In [17]  PASS true condensate conserved at x4 = 2.0, z = 1.0 (h = 0.001 and 0.0001)
+In [17]  PASS true condensate conserved at x4 = 0.5, z = 1.2 (h = 0.001 and 0.0001)
+In [17]  PASS the record proves the conservation that these numbers confirm
+In [17]       reproduces Revision/theory/reports/wolfram-field-theory.json, checks
+In [17]      exact_solution_nonlinear_homogeneous_C and conservation_on_shell_general
+In [19]  PASS control: its six momentum components are nonzero (over 1000 times the true
+In [19]      condensate's), its x4 and x8 components vanish
+In [20]  PASS the five figures of this notebook are saved and captioned
 ```
 
 ### 3.2 Key numbers
@@ -292,11 +297,11 @@ In [5]  RESULT S of the random column = 0.293667
 In [5]  RESULT T^x4_x4 = -V S = -1.468334
 In [7]  RESULT T^x4_x1 = 0.835532
 In [7]  RESULT slopes d T^x1_x5/d a4p and d T^x1_x8/d a4p = -0.012942 and -0.049288
-In [10]  RESULT witness (5, 1): omega, and S for unit v1, v2 = 4 and 1.280000
-In [10]  RESULT witness (5, 1.333): omega, and S for unit v1, v2 = 3 and 0.720000
-In [10]  RESULT witness (-5, 1): omega, and S for unit v1, v2 = 4 and 1.280000
-In [12]  RESULT S of the record divided by S of unit v1, v2 (all three) = 160000.0
-In [15]  RESULT effective mass V = m + lambda S of the test condensate = 0.883522
+In [11]  RESULT witness (5, 1): omega, and S for unit v1, v2 = 4 and 1.280000
+In [11]  RESULT witness (5, 1.333): omega, and S for unit v1, v2 = 3 and 0.720000
+In [11]  RESULT witness (-5, 1): omega, and S for unit v1, v2 = 4 and 1.280000
+In [13]  RESULT S of the record divided by S of unit v1, v2 (all three) = 160000.0
+In [16]  RESULT effective mass V = m + lambda S of the test condensate = 0.883522
 ```
 
 ### 3.3 The last lines
@@ -305,7 +310,7 @@ The last code cell ends with exactly these lines:
 
 ```text
 PASS the five figures of this notebook are saved and captioned
-ALL 23 CHECKS PASSED (notebook 09c)
+ALL 24 CHECKS PASSED (notebook 09c)
 ```
 
 ### 3.4 Figures
@@ -354,8 +359,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 16.6 s, peak memory of the kernel process 201 MiB;
-- the check run: 11.1 s, peak memory of the kernel process 201 MiB.
+- the build run: 10.4 s, peak memory of the kernel process 199 MiB;
+- the check run: 9.9 s, peak memory of the kernel process 199 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -367,8 +372,8 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/09c_condensate_tensor.ipynb`: `4040cc75ebddf8076340d624559e84da0d8332847db3d0f64041a7342cdff90d`
-- `Revision/textbook/notebooks/src/09c_condensate_tensor.py`: `fecca9c9af22e228cd559f07d4cc46cb6a5135391a9d52e4d074ca983dd8804e`
+- `Revision/textbook/notebooks/09c_condensate_tensor.ipynb`: `7e8547370baaf8d2f4ae47fc36a37b3e7b3d55d1ac4d2bd327e3978a1e199c34`
+- `Revision/textbook/notebooks/src/09c_condensate_tensor.py`: `c6f1156e65dd4d50137f4a1f198be105691f2002df345ba6fc448f8dd7603232`
 - `Revision/textbook/figures/09c.captions.json`: `653a58afe2f309331fb407d5a93f9de46865c48f1cf4ae6b5120ef54239f2366`
 - `Revision/textbook/figures/09c_1_generic_condensate.png`: `c5ca9bf64ac878a0cc85ecc29450117777efaaed42f3c50b5081f2789cf667d8`
 - `Revision/textbook/figures/09c_2_offdiagonal_entries.png`: `8295510489efae6be291c07a0372e63412402b277702287aacba445e0df3b881`
@@ -382,4 +387,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 6 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":201.0,"seconds":16.6},"check":{"date":"2026-10-07","files":6,"peak_mb":201.0,"result":"passed","seconds":11.1},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":199.0,"seconds":10.4},"check":{"date":"2026-10-07","files":6,"peak_mb":199.0,"result":"passed","seconds":9.9},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

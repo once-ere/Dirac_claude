@@ -460,7 +460,13 @@ CELLS = [
     $\gamma^\mu\Omega_\mu = 3H\gamma^{(8)}$, the *divergence form*
     $\frac{1}{2\sqrt{|g|}}\sum_\mu\partial_\mu(\sqrt{|g|}\gamma^\mu) = 3H\gamma^{(8)}$,
     and $\{\gamma^\mu, \Omega_\mu\} = 0$ for each $\mu$ (which makes the connection
-    drop out of the symmetrised Lagrangian), and draws the coefficients.
+    drop out of the symmetrised Lagrangian), and draws the coefficients. It prints the
+    three partial sums in the record's notation (`A1` for $a_4'$) and compares them
+    with the record's text. It also checks $(\gamma^{(8)})^2 = I_{16}$: then
+    $\gamma^{(8)}$ can be undone (multiply by $\gamma^{(8)}$ again), so
+    $3H\gamma^{(8)}\Psi = 0$ only when $\Psi = 0$; in the diagonal frame the
+    gravitational term is not zero for any field that is not zero (the statement [1]
+    of the Revision record, whose scope sections 11 and 12 below make precise).
     """),
     code(r'''
     per_direction = [(diagonal["gamma"][mu] * diagonal["Omega"][mu]).applyfunc(sp.simplify)
@@ -574,19 +580,23 @@ CELLS = [
     a4_second = sp.diff(a4, x[3], 2)
     expected = [a4_second - 6 * H**2] * 3 + [6 * a4_prime**2] \
         + [-a4_second - 6 * H**2] * 3 + [-6 * H**2]
-    check(all(is_zero(ricci[a] - expected[a]) for a in range(8)),
-          "R^x1_x1 = a4'' - 6H^2, R^x4_x4 = 6 a4'^2, R^x5_x5 = -a4'' - 6H^2, "
-          "R^x8_x8 = -6H^2",
-          record="Revision/theory/reports/wolfram-field-theory.json, check "
-                 "ricci_mixed_components")
-    check(is_zero(sum(ricci) - 6 * (a4_prime**2 - 7 * H**2)),
-          "Ricci scalar R = 6 (a4'^2 - 7 H^2): curved for every H > 0",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "curvature_nonzero_flat_only_formally")
-    check(not total.applyfunc(sp.simplify).has(a4) and not is_zero(ricci[3]),
-          "gamma^mu Omega_mu contains no a4, although R^x4_x4 = 6 a4'^2 is not zero",
-          record="Revision/theory/reports/python-scope.json, check "
-                 "gammaOmega_blind_to_the_deflation")
+    check_record(all(is_zero(ricci[a] - expected[a]) for a in range(8)),
+                 "R^x1_x1 = a4'' - 6H^2, R^x4_x4 = 6 a4'^2, R^x5_x5 = -a4'' - 6H^2, "
+                 "R^x8_x8 = -6H^2", "Revision/theory/reports/wolfram-field-theory.json",
+                 "ricci_mixed_components", "R^1_1 = R^2_2 = R^3_3 = a4'' - 6 H^2",
+                 "R^4_4 = 6 a4'^2", "R^5_5 = R^6_6 = R^7_7 = -a4'' - 6 H^2",
+                 "R^8_8 = -6 H^2")
+    ricci_scalar = sp.factor(sp.simplify(sum(ricci)).subs(a4_prime, A1))  # A1 for a4'
+    say(f"Ricci scalar in the record's notation: R = {ricci_scalar}")
+    check_record(is_zero(sum(ricci) - 6 * (a4_prime**2 - 7 * H**2)),
+                 "Ricci scalar R = 6 (a4'^2 - 7 H^2): curved for every H > 0",
+                 THEORY, "curvature_nonzero_flat_only_formally",
+                 f"Ricci scalar R = {sp.sstr(ricci_scalar)}")
+    check_record(not total.applyfunc(sp.simplify).has(a4) and not is_zero(ricci[3]),
+                 "gamma^mu Omega_mu contains no a4, although R^x4_x4 = 6 a4'^2 is not zero",
+                 "Revision/theory/reports/python-scope.json",
+                 "gammaOmega_blind_to_the_deflation",
+                 "contains neither e^a4 nor a4' nor a4''", "R^x4_x4 = 6 a4'^2")
 
     parameters = json.loads(repository_file(
         "Revision/kohn_sham/results/parameters.json").read_text(encoding="utf-8"))
@@ -839,10 +849,10 @@ CELLS = [
                   "gamma": [M.subs(at_6H) for M in boosted["gamma"]]}
     F_diagonal = spinor_curvature(diagonal)
     F_zero = spinor_curvature(zero_frame)
-    check(all(is_zero(v) for v in F_diagonal - riemann_side(diagonal)),
-          "diagonal frame: F_x1x8 = (1/4) R_rho,sigma,x1,x8 gamma^rho gamma^sigma",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "spinor_curvature_equals_riemann")
+    check_record(all(is_zero(v) for v in F_diagonal - riemann_side(diagonal)),
+                 "diagonal frame: F_x1x8 = (1/4) R_rho,sigma,x1,x8 gamma^rho gamma^sigma",
+                 THEORY, "spinor_curvature_equals_riemann",
+                 "= (1/4) R_{rho sigma mu nu} gamma^rho gamma^sigma")
     check(all(is_zero(v) for v in F_zero - riemann_side(zero_frame)),
           "boosted frame (beta = 6H): F'_x1x8 = (1/4) R gamma'^rho gamma'^sigma")
     c14, c18, only_two = two_coefficients(F_diagonal)
@@ -861,9 +871,11 @@ CELLS = [
     entries_nonzero = sum(1 for v in F_zero if not is_zero(v))
     report("nonzero entries of F'_x1x8 in the frame with gamma'^mu Omega'_mu = 0",
            entries_nonzero)
-    check(entries_nonzero > 0, "beta = 6H: the spinor curvature F'_x1x8 is not zero",
-          record="Revision/theory/reports/python-scope.json, check "
-                 "boosted_frame_curvature_nonzero")
+    check_record(entries_nonzero > 0, "beta = 6H: the spinor curvature F'_x1x8 is not "
+                 "zero", "Revision/theory/reports/python-scope.json",
+                 "boosted_frame_curvature_nonzero",
+                 "F'_x1x8 = d_x1 Omega'_x8 - d_x8 Omega'_x1 + [Omega'_x1, Omega'_x8] is "
+                 "nonzero")
     '''),
     md(r"""
     The next cell draws $F_{x_1x_8}$ in both frames as colour maps, at $H = 1$,
@@ -935,12 +947,14 @@ CELLS = [
     g4_up, Omega_1 = diagonal["gamma"][3], diagonal["Omega"][0]
     connection_part = (g4_up * Omega_1 + Omega_1 * g4_up) / 2
     target = sp.exp(a4) * sixth * H * G[3] * G[0] * G[7] / 2
-    check(all(is_zero(v) for v in connection_part - target)
-          and C * G[3] * G[0] * G[7] != sp.zeros(16, 16),
-          "(1/2){gamma^x4, Omega_x1} = (1/2) e^a4 sin^(1/6) z H gamma^(4) gamma^(1) "
-          "gamma^(8), and C gamma^(4) gamma^(1) gamma^(8) != 0",
-          record="Revision/theory/reports/python-scope.json, check "
-                 "spin_connection_in_the_energy_momentum_tensor")
+    check_record(all(is_zero(v) for v in connection_part - target)
+                 and C * G[3] * G[0] * G[7] != sp.zeros(16, 16),
+                 "(1/2){gamma^x4, Omega_x1} = (1/2) e^a4 sin^(1/6) z H gamma^(4) "
+                 "gamma^(1) gamma^(8), and C gamma^(4) gamma^(1) gamma^(8) != 0",
+                 "Revision/theory/reports/python-scope.json",
+                 "spin_connection_in_the_energy_momentum_tensor",
+                 "(1/2) e^a4 sin^(1/6) z H Phibar gamma^(x4) gamma^(x1) gamma^(x8) Phi",
+                 "C gamma^(x4) gamma^(x1) gamma^(x8) != 0")
     '''),
     md(r"""
     ## 14. The last check

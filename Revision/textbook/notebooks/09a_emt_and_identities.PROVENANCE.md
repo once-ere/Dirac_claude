@@ -364,7 +364,7 @@ The notebook shows 5 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/09a_2_tensor_heat_map.png` (872 x 741 pixels): Heat map of the energy-momentum tensor $T^\nu{}_\mu$ of a random configuration of dirac16complex00 at the point $a_4 = 0.5$, $a_4' = 0.25$, $z = \pi/4$ of the deflating history, with $H = 0.25$, $m = 1$, $\lambda = 0.5$; row $\nu$ and column $\mu$ run over $x_1, \dots, x_8$; colour and printed number give the value, in units of energy per unit volume. The diagonal holds $-\rho$ at $x_4$ and the seven pressures; the off-diagonal squares are flows of energy and momentum. The table is not symmetric as printed, because the upper index is raised with the metric; $g_{\nu\nu}T^\nu{}_\mu$ is symmetric.
 - `Revision/textbook/figures/09a_3_diagonal_parts.png` (1034 x 612 pixels): The eight diagonal entries $T^\mu{}_\mu$ (right bar of each group) of the random configuration of the previous figure, each split into its kinetic part, the sum of the kinetic terms $K_\nu$ of the other seven directions (left bar), and its potential part $-(mS + U)$ (middle bar), in units of energy per unit volume. The potential part is the same in every direction; the entry at $x_4$ is $-\rho$, and the others are the pressures $p_3$ (three of them), $p_t$ (three) and $p_8$.
 - `Revision/textbook/figures/09a_4_volumes_first_law.png` (936 x 611 pixels): The 3-space volume $V_3 = e^{3a_4}\sin^{1/2}z$ (solid), the extra-time volume $V_t = e^{-3a_4}\sin^{1/2}z$ (dashed) and the 7-volume $V_7 = \cos z$ (dotted) of a coordinate box at fixed $x_8$, along the deflating history $a_4 = AHx_4$ with $A = 1$, $H = 0.25$, for $x_4$ from $0$ to $8$, each divided by its value at $x_4 = 0$; logarithmic vertical axis. The growth of $V_3$ and the shrinking of $V_t$ cancel exactly. Read as a first law, the conservation identity $d\rho/dx_4 = -3a_4'(p_3 - p_t)$ says: while 3-space inflates a positive $p_3$ takes energy out of the box, while the extra times deflate a positive $p_t$ puts energy in, and the two balance only when $p_3 = p_t$.
-- `Revision/textbook/figures/09a_5_hidden_balance.png` (918 x 611 pixels): The hidden-direction pressure profiles $p_8 = P/2 + c/\sin z$ that satisfy the conservation identity along $x_8$, $\partial_8 p_8 = -3H\cot z\,(2p_8 - p_3 - p_t)$, when $p_3 + p_t = P = 1$ is constant, for $c = -0.2, -0.1, 0, 0.1, 0.2$; horizontal axis $z = 6Hx_8$ from $0.1$ to just below $\pi/2$, vertical axis $p_8$ in units of energy per unit volume. Only $c = 0$ (solid line) is independent of $x_8$, and it has $p_8 = P/2 = (p_3 + p_t)/2$; every other profile grows like $1/\sin z$ towards the tip $z = 0$.
+- `Revision/textbook/figures/09a_5_hidden_balance.png` (918 x 611 pixels): The hidden-direction pressure profiles $p_8 = P/2 + c/\sin z$ that satisfy the conservation identity along $x_8$, $\partial_8 p_8 = -3H\cot z\,(2p_8 - p_3 - p_t)$, when $p_3 + p_t = P = 1$ is constant, for $c = -0.2, -0.1, 0, 0.1, 0.2$; horizontal axis $z = 6Hx_8$ from $0.1$ to just below $\pi/2$, vertical axis $p_8$ in units of energy per unit volume. Only $c = 0$ (solid line) is independent of $x_8$, and it has $p_8 = P/2 = (p_3 + p_t)/2$; every other profile grows in size like $1/\sin z$ towards the tip $z = 0$ (upwards for $c > 0$, downwards for $c < 0$).
 
 ## 4. Side effects
 
@@ -374,7 +374,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/09a.captions.json` | 3061 | `3fee576d2ff839a65afa4c011ec4a8f92a83fceb09f5e2d6fdd8d825a1c07b16` |
+| `Revision/textbook/figures/09a.captions.json` | 3114 | `f0aa7d67459037ec9d116661db89d6e4dc35a5b4f32447dd403d97b66045f8f9` |
 | `Revision/textbook/figures/09a_1_kinetic_weights.png` | 88756 | `8ab5db0962beea063aa6820fcbee3b6194482047a916f1a24d59b852e2461e57` |
 | `Revision/textbook/figures/09a_2_tensor_heat_map.png` | 79538 | `3d14c0586ef67a3f2450a3aec53b785d4418e81df6b6c17fb66b239a7eb1eaf8` |
 | `Revision/textbook/figures/09a_3_diagonal_parts.png` | 36812 | `864ffe9db100ad752b265b9a0b2d43c323ba295cacdd5a4491a1418b16249510` |
@@ -402,8 +402,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 14.2 s, peak memory of the kernel process 199 MiB;
-- the check run: 27.4 s, peak memory of the kernel process 198 MiB.
+- the build run: 11.7 s, peak memory of the kernel process 199 MiB;
+- the check run: 8.5 s, peak memory of the kernel process 198 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -415,9 +415,9 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/09a_emt_and_identities.ipynb`: `bde9e535586c58c817671f0f8f8671f813597d9f99fcfc2c01169076b71be817`
-- `Revision/textbook/notebooks/src/09a_emt_and_identities.py`: `2233aa9070a23037e6ca3c3281ea2f9e39d62cb9bb25d796c0af342be461cbc4`
-- `Revision/textbook/figures/09a.captions.json`: `3fee576d2ff839a65afa4c011ec4a8f92a83fceb09f5e2d6fdd8d825a1c07b16`
+- `Revision/textbook/notebooks/09a_emt_and_identities.ipynb`: `587c10a6e51a3177ff56ad242e77da8c0e69d32779789c36d8f9198732e28018`
+- `Revision/textbook/notebooks/src/09a_emt_and_identities.py`: `3211369f1ee81bcc3d1db93a11edd8fe33c20f7c328750e1481a91ca088c0311`
+- `Revision/textbook/figures/09a.captions.json`: `f0aa7d67459037ec9d116661db89d6e4dc35a5b4f32447dd403d97b66045f8f9`
 - `Revision/textbook/figures/09a_1_kinetic_weights.png`: `8ab5db0962beea063aa6820fcbee3b6194482047a916f1a24d59b852e2461e57`
 - `Revision/textbook/figures/09a_2_tensor_heat_map.png`: `3d14c0586ef67a3f2450a3aec53b785d4418e81df6b6c17fb66b239a7eb1eaf8`
 - `Revision/textbook/figures/09a_3_diagonal_parts.png`: `864ffe9db100ad752b265b9a0b2d43c323ba295cacdd5a4491a1418b16249510`
@@ -430,4 +430,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 6 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":199.0,"seconds":14.2},"check":{"date":"2026-10-07","files":6,"peak_mb":198.0,"result":"passed","seconds":27.4},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":199.0,"seconds":11.7},"check":{"date":"2026-10-07","files":6,"peak_mb":198.0,"result":"passed","seconds":8.5},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

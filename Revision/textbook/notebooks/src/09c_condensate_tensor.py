@@ -965,7 +965,9 @@ CELLS = [
       of 3-space and of the extra times), which come from $H$, and 30 more that are
       proportional to the deflation rate $a_4'$. Its $x_4$-$x_8$ entries vanish.
     - Each off-diagonal entry is a fixed multiple of one of 15 three-gamma bilinears
-      (the record's statement, confirmed with three random columns).
+      (the record's statement, confirmed with three random columns), and the
+      multiple is exactly minus the coefficient that the record lists for the
+      entry (all 42 entries, ten groups of equal coefficients, four columns).
     - The record's witnesses, built from joint eigenvectors of
       $\gamma^{(1)}\gamma^{(5)}$, $\gamma^{(2)}\gamma^{(6)}$, $\gamma^{(3)}\gamma^{(7)}$,
       make all 15 bilinears vanish: their tensor is diagonal (the record shows it for

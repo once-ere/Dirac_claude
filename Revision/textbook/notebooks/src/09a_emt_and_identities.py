@@ -953,8 +953,8 @@ CELLS = [
                 "horizontal axis $z = 6Hx_8$ from $0.1$ to just below $\\pi/2$, "
                 "vertical axis $p_8$ in units of energy per unit volume. Only $c = 0$ "
                 "(solid line) is independent of $x_8$, and it has $p_8 = P/2 = "
-                "(p_3 + p_t)/2$; every other profile grows like $1/\\sin z$ towards "
-                "the tip $z = 0$.")
+                "(p_3 + p_t)/2$; every other profile grows in size like $1/\\sin z$ "
+                "towards the tip $z = 0$ (upwards for $c > 0$, downwards for $c < 0$).")
     report("largest relative residual of the balance on the grid", f"{worst:.1e}")
     '''),
     md(r"""

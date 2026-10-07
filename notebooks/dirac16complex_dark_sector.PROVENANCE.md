@@ -794,9 +794,49 @@ Byte identity in runs 3 and 4 was checked after nbconvert, after the runner and 
 
 Fixes made to files of this set in the second verification: **none**. Only this provenance file was corrected.
 
-### 6.6 Open discrepancies
+### 6.6 Third verification on 2026-10-07: commit `72fc9ff`, runs 6 and 7
 
-None for this set. Not verified on 2026-10-02:
+**Why.** By 2026-10-07 the head of `main` had moved 13 commits on, to `72fc9ffc4a10328080a5778cc8a8c6e689aeaca6` (`git ls-remote` on GitHub confirmed it as the head). `git diff --stat c2b33cc 72fc9ff` over every file this notebook runs or reads (`notebooks/`, `scripts/analyze_dirac16complex_exp3.py`, `scripts/setup_solver.*`, `requirements-stage3.txt`, `.cargo/`, `studies/dirac16complex_cosmology/`, `artifacts/dirac16complex/`, `.gitattributes`, `.gitignore`) lists only three files of `artifacts/dirac16complex/pair-creation/`, which the notebook does not read, and the addition of this provenance file and of the Kohn-Sham notebook's provenance file. The notebook was nevertheless executed again from the beginning, as a student would.
+
+**What, where and with what.**
+
+* Date: 2026-10-07. Commit: `72fc9ffc4a10328080a5778cc8a8c6e689aeaca6`; both fresh clones checked it out.
+* Uncommitted files copied into the clones: none. The uncommitted changes of the working copy that day (four provenance files of Wolfram script sets) do not belong to this set.
+* Computer: the one of Part 6.1, now with Windows 11 Pro for Workstations 10.0.26300 (an operating-system update since 2026-10-02). Other jobs, among them several Wolfram kernels, kept the processor 100 % busy during both runs.
+* Software: as in Part 6.1 (Python 3.14.5, cargo and rustc 1.91.1, git 2.51.2.windows.1, PowerShell 7.6.6, GNU bash 5.2.37). The Python packages were NOT taken from the computer: each run created a new private environment with `python -m venv` (outside the clone, in the verification's scratch folder instead of `~/venvs/dirac16`), activated it and typed the three pip commands of Part 3.6 literally. pip upgraded itself from 26.1.1 to 26.2.1. Each environment then held 101 packages, the 21 named in Part 3.6 in exactly the versions of Part 6.1; `python -m pip freeze` printed identical lists in both runs; `python -m pip check` printed `No broken requirements found.`; `python -m jupyter_client.kernelspecapp list` showed `python3` in the environment's own folder `share\jupyter\kernels\python3`.
+* Environment: `RUSTFLAGS`, `CARGO_TARGET_DIR`, `DIRAC16_BIN`, `DIRAC16_NB_OUTPUT`, `JUPYTER_PATH`, `JUPYTER_PREFER_ENV_PATH` and `PYTHONDONTWRITEBYTECODE` were removed for every step.
+* Clone folders: 146 characters long, so the longest build path had 249 characters, below the linker limit of Part 3.5.
+
+**The runs.** Each started from an empty folder with `git clone https://github.com/once-ere/Dirac_claude.git`, then followed Parts 3.6 to 3.11 literally from the repository root of the clone, each step as a separate command of the run's shell.
+
+* **Run 6, Git Bash route**: `source .../Scripts/activate` before every Python command; `bash scripts/setup_solver.sh win11`; `cd studies/dirac16complex_cosmology` and `cargo build --release`; `python -m nbconvert --to notebook --execute ...` (Part 3.9); `python notebooks/run_notebook.py ...`; `python notebooks/check_notebook.py ... --also ... --report ...`; the summary command of Part 4.7; the engine download once more.
+* **Run 7, PowerShell route**: `& ...\Scripts\Activate.ps1` before every Python command; `pwsh -NoProfile -File scripts/setup_solver.ps1 -Platform win11`; the same build; `jupyter nbconvert --to notebook --execute ...` (the environment's own `jupyter.exe`); the same runner, audit, summary and second engine download.
+
+| Step | Run 6 (Git Bash) | Run 7 (PowerShell) |
+| --- | --- | --- |
+| `git clone` | exit 0, HEAD `72fc9ff` | exit 0, HEAD `72fc9ff` |
+| `python -m venv`, the three pip commands, `pip check` | exit 0 each; `Successfully installed pip-26.2.1`; several harmless `WARNING: Cache entry deserialization failed, entry ignored` (Part 3.14); `No broken requirements found.` | the same |
+| engine download | exit 0; `solver_platform=win11`, `solver_commit=a8fdff459adfe181573d7924b18bffbdf378fdb3`, `solver_setup=OK` | the same |
+| `cargo build --release` | exit 0, no warning, the three `Compiling` lines of Part 4.2, `Finished ... in 20.22s` | exit 0, no warning, `Finished ... in 19.89s` |
+| Jupyter's executor | exit 0; the lines of Part 4.3 including the Proactor warning; `Writing 2153599 bytes` | exit 0; `Writing 2153686 bytes` |
+| the runner | exit 0; 346 lines; 140 `PASS - ` lines (71 of them the gauntlet), 0 `FAIL`, 6 `SUCCESS`; the comparison lines of Part 4.4 with the same solver statistics (exp1 33866 steps ... exp4 339071692 steps, exp5 2548 steps) and `29/29`, `4/4`, `11/11`, `3/3`, `13/13`, `5/5`; 17 `figure ...` lines; `ALL CHECKS PASSED`; `ok notebooks\dirac16complex_dark_sector.ipynb (8 cells)`; `1 ok, 0 failed` | exit 0; printed output byte-identical to run 6 |
+| the audit | exit 0; the four lines of Part 4.5, verdict `SUCCESS` | the same |
+| summary command of Part 4.7 | `SUCCESS 71 of 71 gauntlet checks, 17 figures, 2 executions` | the same |
+| engine download again | `solver_setup=ALREADY-PRESENT` | the same |
+| `git status --porcelain` | empty after each of the 15 steps | the same |
+| `git status --porcelain --ignored` at the end | exactly `build/`, `studies/dirac16complex_cosmology/target/`, `vendor/` | the same |
+
+**Byte identity.** After nbconvert, after the runner and after the audit, the 19 committed outputs (the notebook, `notebook-report.json` and the 17 figures) were compared with the committed versions in git (`git hash-object` of the file against the blob of `HEAD`): 19 of 19 identical at all three points of both runs (114 comparisons), with the sha256 values of Part 2.3. The 65 files of `build/notebook-run/` were compared with the committed files of the same name: 65 of 65 byte-identical at all three points of both runs (390 comparisons; the scratch files were written by nbconvert's execution and written again by the runner's). Jupyter's own copies are not byte-identical, by design: run 6 sha256 `0598dea71fdf6d9c32fd70a6ce412c2511894080016ac623668787249551e23d` (2156952 bytes, all 3353 lines ending in CR LF), run 7 `5483f6cdc5982320608250f84793b63b84c085c0dfa930051403e4175f2ce055` (2157045 bytes, 3359 lines, CR LF). With the normalised comparison of Part 6.3 (ignoring only N1 to N5) each is identical to the committed notebook (execution counts 1 to 8, every printed character, all 17 images byte for byte), and the two are identical to each other; their `language_info` records Python 3.14.5. The Stage-3 gate's comparison program `scripts/verify_stage3_dark_sector_audit.py notebook`, run in each clone with the fresh report and notebook against the versions of `HEAD` (extracted with `git show`), printed `stage3_notebook_report=equal to the committed report except the notebook paths: 2 executions, gauntlet 71/71, 17 figures with the committed sha256`, `stage3_notebook_executed_copy_byte_identical_to_committed=yes` and `stage3_audit_notebook=OK` (exit code 0).
+
+**Temporary files.** Jupyter's runtime folder `%APPDATA%\jupyter\runtime` held no kernel connection file from these runs afterwards (nbconvert deletes its file). No `__pycache__` folder appeared in the clones.
+
+**Measured times and memory** are in Part 4.8.
+
+Problems met: none, apart from the harmless pip warning and the longer run times on the fully loaded processor. Fixes made to files of this set: **none**. Only this provenance file was updated (the header, Parts 2, 3.5, 3.6, 3.14, 4.3, 4.8 and 6.6).
+
+### 6.7 Open discrepancies
+
+None for this set. Not verified on 2026-10-02 or 2026-10-07:
 
 * the macOS and Linux routes;
 * on Apple silicon, the build warning inside a full `cargo build` (it was reproduced only with a minimal program) and whether the `win11` engine reproduces the committed files byte for byte there;
