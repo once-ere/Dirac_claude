@@ -403,7 +403,7 @@ CELLS = [
     pairs = [(a, b) for a in range(8) for b in range(a + 1, 8)]  # the 28 pairs a < b
     counts = {k: sum(1 for a, b in pairs if factor[a][b] == k) for k in KIND}
     for k, name in KIND.items():
-        report(f"number of {name} pairs (factor {k:+d})", counts[k])
+        report(f"number of {name} pairs (factor {k})", counts[k])
     check(len(pairs) == 28 and counts == {1: 6, -1: 6, 0: 16},
           "28 pairs: 6 space-space (+1), 6 time-time (-1), 16 boost pairs (0)")
     w = sp.Symbol("w")  # stands for omega_mu ab; then omega_mu ba = -w
@@ -693,8 +693,8 @@ CELLS = [
             Omega_nb[t] - sp.exp(-a4) * s * a4p * S[3][t])  # pair (x4, xt) reversed
         closed_ok = closed_ok and matrix_is_zero(
             Omega[t] + sp.exp(-a4) * s * (a4p * S[3][t] + H * S[t][7]))
-    check(closed_ok, "closed forms: Omega^nb_xi = e^a4 s H S^(xi x8) and "
-          "Omega^nb_xt = +e^-a4 s a4' S^(x4 xt)")
+    check(closed_ok, "the closed forms of Omega_mu and Omega^nb_mu for x1 ... x3, "
+          "x5 ... x7")
     '''),
     md(r"""
     ## 9. What the notebook's contraction would put into the field equation
@@ -1009,11 +1009,12 @@ CELLS = [
     code(r'''
     zz = np.linspace(0.0, np.pi / 2, 300)  # the hidden angle z from 0 to pi/2
     fig, ax = plt.subplots(figsize=(7.0, 4.2))
-    for value, style, label in ((3.0, "-", "correct $c = 3H$"),
-                                (1.5, "--", "notebook $c = 3H/2$"),
-                                (0.0, ":", "no connection term, $c = 0$")):
-        ax.plot(zz, (2 * value - 6) * np.cos(zz), style, label=label)
-    ax.axhline(0.0, color="black", linewidth=0.8)
+    ax.axhline(0.0, color="gray", linewidth=0.6, zorder=1)  # the zero line, underneath
+    for value, style, width, label in ((3.0, "-", 2.5, "correct $c = 3H$"),
+                                       (1.5, "--", 1.5, "notebook $c = 3H/2$"),
+                                       (0.0, ":", 1.5, "no connection term, $c = 0$")):
+        ax.plot(zz, (2 * value - 6) * np.cos(zz), style, linewidth=width, label=label,
+                zorder=3)  # drawn above the zero line
     ax.set_xlabel("hidden angle $z = 6Hx_8$ (radians)")
     ax.set_ylabel("leftover coefficient $(2c/H - 6)\\cos z$")
     ax.set_title("Only $c = 3H$ makes the hidden operator antisymmetric")
@@ -1027,7 +1028,7 @@ CELLS = [
                 "$c = 3H$ of the spin-connection term (solid, zero everywhere), for the "
                 "notebook's value $c = 3H/2$ (dashed) and for no spin-connection term, "
                 "$c = 0$ (dotted). Only the correct value leaves nothing but a boundary "
-                "term.")
+                "term; the solid line lies on the zero line.")
     '''),
     md(r"""
     ## 12. The last checks

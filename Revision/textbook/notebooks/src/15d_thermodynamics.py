@@ -715,15 +715,16 @@ CELLS = [
     ax.set_ylabel("$F(\\lambda) - F(0)$ (units of $m$)")
     ax.set_title("Effect of the interaction on the free energy, $a_{4,0} = 0$")
     ax.legend(fontsize=8, ncol=2)
+    up = by_series[(688, "lamp1")]  # N = 688, +lambda_1, at T = 0.01, 0.02, 0.05
     save_figure(fig, "interaction_free_energy",
                 "The change of the free energy caused by the couplings $+\\lambda_1$ "
                 "(solid) and $-\\lambda_1$ (dashed), $F(\\lambda) - F(0)$ (vertical axis, "
                 "symmetric logarithmic, units of $m$), for $N = 8$, $136$, $688$ at "
                 "$a_{4,0} = 0$ against the temperature (horizontal axis), from the "
                 "record. The effect is small and changes only slowly with $T$ (for "
-                "$N = 688$ it grows from $0.0033\\,m$ at $T = 0.01$ to $0.0045\\,m$ at "
-                "$T = 0.05$); its sign follows the sign of the coupling, the other way "
-                "round for $N = 8$.")
+                f"$N = 688$ and $+\\lambda_1$ it grows from ${up[0]:.4f}\\,m$ at "
+                f"$T = 0.01$ to ${up[-1]:.4f}\\,m$ at $T = 0.05$); its sign follows the "
+                "sign of the coupling, the other way round for $N = 8$.")
     report("largest |F(lambda) - F(0)| at a4,0 = 0", f"{max(abs(s) for s in shifts):.4f}")
     check(max(abs(s) for s in shifts) < 0.005,
           "the interaction changes F by less than 0.005 at a4,0 = 0",

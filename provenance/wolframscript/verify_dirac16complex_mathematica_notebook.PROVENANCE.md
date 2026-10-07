@@ -68,7 +68,8 @@ The sum is 350 s. Three cells take 88 % of the time: cell 17 (EXP-4 thermal mode
 * The Stage-3 gates `scripts/verify_stage3_dark_sector.ps1` and `scripts/verify_stage3_dark_sector.sh`, steps `stage3-26-mathematica-notebook` (runs this verifier with no argument) and `stage3-27-mathematica-unchanged` (requires the report and the 8 figures to be byte-identical to a snapshot taken at the start of the gate, ignoring only the key `engine.binary` of the report).
 * `tests/test_d16c_student_guide_publication.py` (test `test_mathematica_counts`): requires the verifier to contain `expectedInputCount = 37` and `expectedCheckCount = 49`, and the committed report to have 49 true checks and 8 figures. `tests/test_d16c_numerics_publication.py` compares numbers of the committed report with the Stage-3 document.
 * `artifacts/dirac16complex/numerics/mathematica-report.json` itself: its `generatedBy` field names the notebook, its builder and this verifier.
-* `scripts/build_dirac16complex_mathematica_notebook.wls`, the builder that writes the notebook (a different set with its own provenance file, `provenance/wolframscript/build_dirac16complex_mathematica_notebook.PROVENANCE.md`). The builder only writes the notebook file; it never evaluates it.
+* `scripts/build_dirac16complex_mathematica_notebook.wls`, the builder that writes the notebook (a different set with its own provenance file, `provenance/wolframscript/build_dirac16complex_mathematica_notebook.PROVENANCE.md`). The builder only writes the notebook file; it never evaluates it. Its write steps were made to fail with exit code 1 when a file cannot be written (commit `3f0a577`, 2026-10-02); on 2026-10-07 the changed builder still wrote a notebook byte-identical to the committed one (Part 6).
+* `scripts/verify_dirac16complex_ks_mathematica_notebook.wls`, the headless verifier of the Stage-4 notebook `notebooks/Dirac16ComplexKohnSham.nb`, names this verifier as its pattern in its header. It does not run this verifier.
 
 ## 2. Files
 
@@ -82,7 +83,7 @@ The set has no other script and no package of its own.
 
 ### 2.2 Inputs
 
-Everything the run reads, with the sha256 at commit `c2b33cc`. "Lines" counts line-feed characters.
+Everything the run reads, with the sha256 at commit `c2b33cc`. "Lines" counts line-feed characters. The table is also exact at commit `8cbd03a`: on 2026-10-07 a script read every row of the table and hashed each file in a fresh clone of `8cbd03a`, and all 59 files agreed in sha256, bytes and lines (Part 6).
 
 **When each input was last changed** (measured with `git log -1 -- <file>`):
 
@@ -96,7 +97,7 @@ These two later changes leave everything the notebook reads unchanged:
 * `pair_spectrum.csv` gained three columns at the end (`a_end_smooth`, `beta2_end_smooth`, `beta2_adiabatic_end_smooth`). Its first 11 columns kept the same value in all 321 rows, and the notebook selects columns by name (`m`, `node`, `k`, `beta2_end`).
 * `summary.json` gained 116 keys and lost the 5 keys `pair.masses[i].nA3Adiabatic`. It changed 22 values: the pair-creation results `pair.masses[i].nA3`, `rhoA3End`, `wFrozenSpectrumAtA1` and `wEnd`, and `solverTotals.steps` and `rhsEvaluations`. The notebook reads from this file only `parameters`, `verdict`, `fixture.sha256` and `tolerances.rtol`, and none of these changed.
 
-This is why the committed report and figures, which were generated at `fbec4d7`, are still reproduced byte for byte at `c2b33cc` (Part 6).
+This is why the committed report and figures, which were generated at `fbec4d7`, are still reproduced byte for byte at `c2b33cc` and at `8cbd03a` (Part 6).
 
 | File | Read by | sha256 | Bytes | Lines |
 | --- | --- | --- | --- | --- |
@@ -149,7 +150,7 @@ This is why the committed report and figures, which were generated at `fbec4d7`,
 
 `...` stands for `artifacts/dirac16complex/numerics`. That is 59 files with 23,585,029 bytes in all (58 files and 23,230,099 bytes besides the notebook). The 13 EXP-1 runs with amplitude A = 2 are byte-identical to their A = 1 twins, as the table shows; this is what check `exp1ProfileIndependence` tests (the spinor equation does not contain the background profile).
 
-**One input that is not in the repository: the compiled Rust program** `studies/dirac16complex_cosmology/target/release/dirac16complex_cosmology.exe` (Windows; without `.exe` on macOS and Linux). Cell 24 runs it once as `dirac16complex_cosmology print-config` with the repository root as working directory. You build it yourself (Part 3.4). Its bytes are not reproducible from clone to clone: the three builds of this verification (clones A, B and C) had three different sha256 (`381f6ff1...`, `4a8c0278...` and `69b1526b...`) at the same size of 1,721,344 bytes, because the program contains the absolute path of the folder it was built in (the string `cloneA` occurs 14 times in the first one). This does not matter: the notebook uses only what `print-config` prints, and those 31 lines were byte-identical in the three clones (sha256 `02b053b9a4d5c2113f204de33fe885e785801ddfbc2c20b83442d2a6156d1594`).
+**One input that is not in the repository: the compiled Rust program** `studies/dirac16complex_cosmology/target/release/dirac16complex_cosmology.exe` (Windows; without `.exe` on macOS and Linux). Cell 24 runs it once as `dirac16complex_cosmology print-config` with the repository root as working directory. You build it yourself (Part 3.4). Its bytes are not reproducible from clone to clone: the three builds of this verification (clones A, B and C) had three different sha256 (`381f6ff1...`, `4a8c0278...` and `69b1526b...`) at the same size of 1,721,344 bytes, because the program contains the absolute path of the folder it was built in (the string `cloneA` occurs 14 times in the first one). The build of 2026-10-07 (clone S, Part 6) had a fourth sha256, `53149a2d...`, at the same size. This does not matter: the notebook uses only what `print-config` prints, and those 31 lines were byte-identical in the four clones (sha256 `02b053b9a4d5c2113f204de33fe885e785801ddfbc2c20b83442d2a6156d1594`).
 
 The run reads no other file of the repository. It needs no Python, and, apart from the possible download of an optional Wolfram component described in Part 5, no internet access.
 
@@ -182,7 +183,7 @@ If the folder `artifacts/dirac16complex/numerics/figures/mathematica/` is missin
 | The Wolfram Engine (free) or Wolfram/Mathematica, with WolframScript | evaluates the notebook | Wolfram 15.0.1, WolframScript 1.14.0 |
 | Git | downloads the repository and the solver engine, and compares the results with the committed files | 2.51.2.windows.1 |
 | Rust (rustup, cargo) and a C linker | builds the Rust program that cell 24 runs | cargo and rustc 1.91.1 |
-| **About 35 GiB (37 GB) of free memory (RAM)** | the kernel's working set reached 35,246 MiB in cell 17 (Part 4.4) | the verification machine has 191 GB |
+| **About 35 GiB (37 GB) of free memory (RAM)** | the kernel's working set reached 35,246 MiB in cell 17 (Part 4.4) | the verification machine has 191.4 GiB (205.6 GB) |
 | About 640 MB of free disk (1 MB = 1,000,000 bytes) | repository 538 MB (of which 134 MB Git history), solver engine 83 MB, Rust build 16 MB | measured with `du -sb`: 637 MB in all |
 | An internet connection | only to download Wolfram, Rust, the repository and the solver engine; the run itself needs none | |
 
@@ -277,7 +278,7 @@ macOS, Linux, and Git Bash on Windows:
 bash scripts/setup_solver.sh win11
 ```
 
-It must print these three lines (measured: 5.8 s in PowerShell, 4.7 s in Git Bash):
+It must print these three lines (measured: 5.0 to 5.8 s in PowerShell, 4.7 s in Git Bash):
 
 ```
 solver_platform=win11
@@ -321,7 +322,7 @@ wolframscript -file scripts/verify_dirac16complex_mathematica_notebook.wls
 echo $?
 ```
 
-The second line prints the exit code, which must be `0`. The run takes 4 to 7 minutes, during which nothing is printed; the 8 result lines appear together at the end. Do not close the terminal and do not press Ctrl+C. To time it, type `Measure-Command { wolframscript -file scripts/verify_dirac16complex_mathematica_notebook.wls | Out-Host }` in PowerShell, or put `time ` in front of the command in bash or zsh.
+The second line prints the exit code, which must be `0`. The run takes 4 to 7 minutes, and up to about 10 minutes when the computer is busy with other work (Part 4.4); during that time nothing is printed; the 8 result lines appear together at the end. Do not close the terminal and do not press Ctrl+C. To time it, type `Measure-Command { wolframscript -file scripts/verify_dirac16complex_mathematica_notebook.wls | Out-Host }` in PowerShell, or put `time ` in front of the command in bash or zsh.
 
 **Variants (all tested).**
 
@@ -377,7 +378,7 @@ Checks 1, 2 and 4 must succeed on every computer. Check 3 is exact only on Windo
 | ``error: linker `link.exe` not found`` from `cargo build` (Windows; not tested) | The Microsoft C++ build tools are missing | Install them (first line of the Windows commands in Part 3.3), open a new terminal, build again. |
 | ``error: linking with `link.exe` failed: exit code: 1104`` with `LINK : fatal error LNK1104: cannot open file '...\target\release\deps\libdirac16complex_cosmology-<16 hex digits>.rlib'` (or `...\target\release\deps\dirac16complex_cosmology.exe`), then ``error: could not compile `dirac16complex_cosmology` ``, from `cargo build` (Windows, exit code 101; measured) | The path of the repository folder is too long. The Microsoft linker cannot open a file whose full path has 260 characters or more. This happens even when Windows long paths are switched on (`LongPathsEnabled` was 1 on the verification machine). The longest path the linker opens is the repository path plus 103 characters, so the repository path may have at most 156 characters. Measured: a 139-character repository path built. Paths of 163 characters (the `.rlib` was named) and 179 characters (the `.exe` was named) failed. A build folder with an `.rlib` path of exactly 259 characters built; one of 260 characters failed. | Type `(Get-Location).Path.Length` in the repository folder to see its length. Clone the repository again into a short folder, for example `C:\src` (`mkdir C:\src`, `cd C:\src`, then the commands of Part 3.4), and build there. |
 | A request for a Wolfram ID, or a message that the kernel is not activated or that no licence is available | The engine was never activated, or the licence expired | Run `wolframscript -activate` once (Part 3.2). The free Engine renews its licence over the internet from time to time. |
-| A message that too many kernels are running, or that a kernel could not be launched | The free licence limits how many kernels may run at the same time | Close other Wolfram programs and run again. This verifier needs one kernel for 4 to 7 minutes. |
+| A message that too many kernels are running, or that a kernel could not be launched | The free licence limits how many kernels may run at the same time | Close other Wolfram programs and run again. This verifier needs one kernel for 4 to 10 minutes. |
 | `ERROR: expected 37 input cells, found <n>` or `ERROR: expected 49 notebook checks, found <n>` | The notebook was changed (for example saved from Mathematica after editing) | Restore it with `git checkout -- notebooks/Dirac16ComplexDarkSector.nb`. |
 | Any other `messages=...` line, `failed_cells=...` or `failed_checks=...`, verdict FAILED | A check of the physics failed, or a committed input was changed | `git status --porcelain` shows which files differ from the committed ones; restore them with `git checkout -- <file>`. If nothing was changed and you use another Wolfram version (Part 4.5), report the printed lines. |
 | Everything is OK, but `git status --porcelain` shows ` M artifacts/dirac16complex/numerics/mathematica-report.json` or a changed PNG | Another Wolfram version or another operating system (Part 4.5) | This alone is not a failure: the verdict decides. `git diff artifacts/dirac16complex/numerics/mathematica-report.json` shows which values changed. Restore the committed files with `git checkout -- artifacts/dirac16complex/numerics`. |
@@ -395,7 +396,7 @@ message_count=0
 notebook_check_count=49
 failed_notebook_check_count=0
 report=<repository root>\artifacts\dirac16complex\numerics\mathematica-report.json
-elapsed_seconds=<about 250 to 410>
+elapsed_seconds=<about 250 to 560>
 dirac16complex_mathematica_notebook=OK
 ```
 

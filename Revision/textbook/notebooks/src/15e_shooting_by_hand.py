@@ -848,14 +848,25 @@ CELLS = [
     $-\lambda_2$, compares the energies and occupied levels with the record, and computes
     the lowest empty level (the LUMO: the brane band at $k = 0.25$ in the final
     potentials) for $+\lambda_1$. Then it checks an **exact symmetry** of this state:
-    changing the sign of $\lambda$ changes the sign of the energy. The reason: if the
-    orbital $(a, b)$ of block $j$ solves the problem with $(M, v)$ at $\lambda$, then
-    $(a, -b)$ (the orbital of the other block type) solves it with $(M, -v)$ and the
-    level $-\varepsilon$; this flips the sign of $S$, so
-    $M - m = \tfrac{15}{16}\lambda S$ is unchanged under $\lambda \to -\lambda$, while
-    $v = -\tfrac{1}{16}\lambda n$ changes sign, exactly as required. The interaction
-    energy density $e_{int}$ is proportional to $\lambda$ with $n^2$ and $S^2$ unchanged,
-    so every term of $E_{KS}$ changes sign.
+    changing the sign of $\lambda$ changes the sign of the energy. The reason, line by
+    line. (1) At $k = 0$ the real system of block $j$ is $a' = M a - j(\varepsilon -
+    v)\,b$, $b' = j(\varepsilon - v)\,a - M b$. (2) Put $\tilde a = a$, $\tilde b = -b$,
+    $\tilde\varepsilon = -\varepsilon$, $\tilde v = -v$, the same $M$ and the same $j$;
+    then $\tilde\varepsilon - \tilde v = -(\varepsilon - v)$, and the two equations
+    become $\tilde a' = M\tilde a - j(\tilde\varepsilon - \tilde v)\,\tilde b$ and
+    $\tilde b' = j(\tilde\varepsilon - \tilde v)\,\tilde a - M\tilde b$ (each sign
+    change appears twice and cancels): $(a, -b)$ is an orbital of the problem with
+    $(M, -v)$ at the level $-\varepsilon$, with the same boundary conditions ($b = 0$
+    stays $b = 0$) and the same label ($\Phi \to -\Phi$, and the label 0 goes to 0).
+    (3) Its density $a^2 + b^2$ is the same and its scalar density $2jab$ changes sign,
+    so $n \to n$ and $S \to -S$. (4) Under $\lambda \to -\lambda$ the potentials of
+    these densities are $M - m = \tfrac{15}{16}(-\lambda)(-S)$, unchanged, and
+    $-\tfrac{1}{16}(-\lambda)n = -v$: exactly the potentials assumed in (2), so the
+    mapped orbitals form a self-consistent state of $-\lambda$ (the loop started from
+    the free state finds exactly this one, as the check shows). (5) Its energy:
+    $\sum g f\varepsilon$ changes sign with every level, and
+    $e_{int} = \lambda(\tfrac{15}{32}S^2 - \tfrac{1}{32}n^2)$ changes sign with
+    $\lambda$ while $S^2$ and $n^2$ stay; so $E_{KS}(-\lambda) = -E_{KS}(\lambda)$.
     """),
     code(r'''
     tags = {"lamp1": LAM1, "lamm1": -LAM1, "lamp2": LAM2, "lamm2": -LAM2}

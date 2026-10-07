@@ -41,7 +41,8 @@ FACTS = {
         "From the author's metric and gamma matrices it computes exactly (sympy) the "
         "Christoffel symbols, the canonical spin connection of the diagonal frame and "
         "of a frame boosted in the (x4, x8) plane, and the term gamma^mu Omega_mu of the "
-        "field equation; it shows which pieces cancel and which survive (3 H gamma^(x8) "
+        "field equation; it shows that the connection vanishes only in the formal flat "
+        "limit, which pieces cancel and which survive (3 H gamma^(x8) "
         "in the diagonal frame), that the term contains no a4 although the a4 sector is "
         "curved, that it vanishes identically in the frame boosted with rapidity "
         "6 H x4 + b0, that the spin connection itself vanishes in no frame (its "
@@ -58,10 +59,11 @@ FACTS = {
          "christoffel_symmetric_metric_compatible, vielbein_postulate, "
          "spin_connection_antisymmetric, gamma_mu_Omega_mu_equals_3H_gamma_x8, "
          "time_terms_cancel_hidden_term_survives, divergence_of_sqrtg_gamma, "
-         "curvature_nonzero_flat_only_formally and spinor_curvature_equals_riemann "
-         "(reproduced)"],
+         "curvature_nonzero_flat_only_formally, spinor_curvature_equals_riemann and "
+         "nontriviality_Omega_zero_iff_flat (reproduced)"],
         ["Revision/theory/reports/wolfram-field-theory.json",
-         "checks omega_components and ricci_mixed_components (reproduced)"],
+         "checks omega_components, ricci_mixed_components and "
+         "nontriviality_1_dirac16complex (reproduced)"],
         ["Revision/theory/reports/python-scope.json",
          "checks boosted_frame_reproduces_metric, boosted_frame_canonical_connection, "
          "boosted_frame_gammaOmega_formula, boosted_frame_gammaOmega_vanishes, "
@@ -77,7 +79,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS the figure file 08c_5_curvature_maps.png exists",
-        "ALL 31 CHECKS PASSED (notebook 08c)",
+        "ALL 32 CHECKS PASSED (notebook 08c)",
     ],
     "troubleshooting": [
         ["A cell of sections 7, 11 or 12 runs for more than a minute.",

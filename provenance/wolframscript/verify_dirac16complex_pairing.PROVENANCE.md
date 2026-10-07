@@ -215,8 +215,8 @@ path you give.
 
 * A computer with Windows 10 or 11, macOS, or Linux (64-bit).
 * About 1 GB of free memory (RAM; the kernel's measured peak, Part 4.5, is below
-  700 MiB, that is about 0.7 GB) and about 1 GB of free disk space (the clone of the repository is about
-  660 MiB in total: about 465 MiB of files plus about 195 MiB of git history in the
+  700 MiB, that is about 0.7 GB) and about 1 GB of free disk space (the clone of the
+  repository is about 660 MiB in total: about 465 MiB of files plus about 195 MiB of git history in the
   hidden folder `.git`, which is also about the size of the download; measured on a
   fresh clone of the verified commit of Part 6: 691,412,010 bytes = 659.4 MiB, of which
   `.git` is 204,159,619 bytes = 194.7 MiB; the repository grows with every commit, so a
@@ -802,9 +802,10 @@ and Linux were not inspected):
   `C:\Users\<you>\AppData\Local\Wolfram\WolframScript\WolframScriptTemporary\`); one of them
   collects the printed lines while the run is in progress. In the verification of
   2026-10-07 the folder was read again and again (with a pause of 0.7 seconds) while runs
-  3 to 7 were made, with a reader that does not block the writer: every file that held printed output of this
-  set (five files, one for each of those runs, created within 7 seconds of the start of
-  its run, up to 884 kB for the failing runs) was deleted when its run ended. Other
+  3 to 7 were made, with a reader that does not block the writer: every file that held
+  printed output of this set (five files, one for each of those runs, created within 7
+  seconds of the start of its run, up to 884 kB for the failing runs) was deleted when
+  its run ended. Other
   files of the folder could not be attributed with certainty, because about a dozen other
   WolframScript jobs were writing there at the same time; in run 2 the two files created
   in the same second as the run started (one empty, one of 206 bytes) and one created

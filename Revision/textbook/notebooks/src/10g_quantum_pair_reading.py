@@ -71,7 +71,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS the figure file 10g_5_two_universe_states.png exists",
-        "ALL 25 CHECKS PASSED (notebook 10g)",
+        "ALL 29 CHECKS PASSED (notebook 10g)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for gammas.json or pairing-theory.json",
