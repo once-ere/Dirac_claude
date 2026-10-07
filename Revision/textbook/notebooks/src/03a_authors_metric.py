@@ -754,19 +754,31 @@ CELLS = [
     uses the coordinate $y = \ln(\sin z)/(6H)$, which measures proper distance along
     $x_8$. Line by line: the chain rule gives
     $dy/dx_8 = \frac{1}{6H}\,\frac{\cos z}{\sin z}\, 6H = \cot z$, so
-    $dy^2 = \cot^2 z\, dx_8^2 = g_{88}\, dx_8^2$; and $\sin z = e^{6Hy}$ gives
-    $\sin^{1/3} z = e^{2Hy}$. Hence the **warped form**
+    $dy^2 = \cot^2 z\, dx_8^2 = g_{88}\, dx_8^2$. Next, $6Hy = \ln \sin z$ gives
+    $\sin z = e^{6Hy}$ ($e$ to the power of both sides), so the warp factor is
+    $W = \sin^{1/6} z = e^{Hy}$ and its square is $W^2 = \sin^{1/3} z = e^{2Hy}$. Hence
+    the **warped form**
 
-    $$ds^2 = dy^2 - dx_4^2 + e^{2Hy}\bigl[e^{2a_4}(dx_1^2 + dx_2^2 + dx_3^2)
-    - e^{-2a_4}(dx_5^2 + dx_6^2 + dx_7^2)\bigr].$$
+    $$ds^2 = dy^2 - dx_4^2 + W^2\bigl[e^{2a_4}(dx_1^2 + dx_2^2 + dx_3^2)
+    - e^{-2a_4}(dx_5^2 + dx_6^2 + dx_7^2)\bigr], \qquad W = e^{Hy}.$$
 
     As $z$ runs from $0$ to $\pi/2$, $y$ runs from $-\infty$ (the tip) to $0$ (the patch
-    end); in $y$ the volume factor is $\sin z = e^{6Hy}$. The next cell prints the
-    definition stored in the record `Revision/kohn_sham/ks-theory.json` (read in
-    section 10) and checks these statements with sympy.
+    end). In the coordinates $(x_1, \dots, x_7, y)$ the scale factor of the hidden
+    direction is $1$, so the volume factor is the product of the six transverse scale
+    factors, $W^6 = e^{6Hy} = \sin z$.
+
+    The next cell prints four statements of the record
+    `Revision/kohn_sham/ks-theory.json` (read in section 10): the definition of $y$, the
+    line element, the warp factor and the volume factor. Then it checks them with sympy.
+    To write the metric in the coordinate $y$ it uses the inverse relation
+    $x_8 = \arcsin(e^{6Hy})/(6H)$: the seven entries $g_{11}, \dots, g_{77}$ only need
+    $\sin z = e^{6Hy}$ put in, and the hidden entry becomes
+    $g_{88}\,(dx_8/dy)^2$ (because $dx_8 = (dx_8/dy)\,dy$).
     """),
     code(r'''
-    say("record: " + ks_theory["geometry"]["hiddenCoordinate"])
+    geometry = ks_theory["geometry"]  # the statements of the record about the geometry
+    for key in ("hiddenCoordinate", "lineElement", "warp", "sqrtDetG"):
+        say(f"record, {key}: {geometry[key]}")
     y_of_x8 = sp.log(sp.sin(6 * H * x8)) / (6 * H)  # y = ln(sin z)/(6H)
     dy_dx8 = sp.diff(y_of_x8, x8)  # the chain rule, done by sympy
     say(f"dy/dx8 = {plain(dy_dx8)}")
@@ -776,8 +788,25 @@ CELLS = [
                  "check ks_coordinate_jacobian")
     check(sp.simplify(dy_dx8 ** 2 - g[7, 7]) == 0,
           "dy^2 = g88 dx8^2: y measures proper distance along x8")
-    check(sp.simplify(sp.exp(2 * H * y_of_x8) - warp) == 0,
-          "the warp factor sin(z)^(1/3) equals e^(2 H y)")
+    check(sp.simplify(sp.exp(H * y_of_x8) - sixth) == 0,
+          "the warp factor W = sin(z)^(1/6) equals e^(H y)")
+    y = sp.symbols("y", real=True)  # the hidden coordinate as a symbol of its own
+    x8_of_y = sp.asin(sp.exp(6 * H * y)) / (6 * H)  # the inverse: sin z = e^(6 H y)
+    dx8_dy = sp.diff(x8_of_y, y)  # dx8/dy
+    g_y = sp.diag(*[g[k, k].subs(x8, x8_of_y) for k in range(7)],
+                  g[7, 7].subs(x8, x8_of_y) * dx8_dy ** 2)  # the metric in x1..x7, y
+    W = sp.exp(H * y)  # the warp factor in the coordinate y
+    warped = sp.diag(*([W ** 2 * sp.exp(2 * a4)] * 3 + [-1]
+                       + [-W ** 2 * sp.exp(-2 * a4)] * 3 + [1]))  # the warped form
+    for k in (0, 3, 4, 7):
+        say(f"  in the coordinate y: g[{k + 1}, {k + 1}] = {plain(g_y[k, k])}")
+    check((g_y - warped).applyfunc(sp.simplify) == sp.zeros(8, 8),
+          "in the coordinate y the metric is the warped form with W = e^(H y)",
+          record="Revision/kohn_sham/ks-theory.json, geometry.lineElement and "
+                 "geometry.warp")
+    check(sp.simplify(g_y.det() - sp.exp(12 * H * y)) == 0,
+          "in the coordinate y the volume factor sqrt|det g| is e^(6 H y) = sin z",
+          record="Revision/kohn_sham/ks-theory.json, geometry.sqrtDetG")
     distance_to_end = -y_of_x8  # proper distance from the point to the patch end
     check(sp.limit(distance_to_end, x8, 0, "+") == sp.oo,
           "the tip z -> 0 lies at an infinite proper distance (y -> minus infinity)")
