@@ -99,7 +99,7 @@ FACTS = {
         for k, name in enumerate(FIGURES, 1)],
     "final_lines": [
         "PASS every figure file of this notebook exists",
-        "ALL 45 CHECKS PASSED (notebook 18b)",
+        "ALL 20 CHECKS PASSED (notebook 18b)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for gammas.json or one of the pairing reports",

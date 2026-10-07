@@ -375,7 +375,7 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 13 minutes (FACTS: 780 s); nbkit stops a cell after 3600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 792.4 s, peak memory of the kernel process 200 MiB;
+- the build run: 774.7 s, peak memory of the kernel process 199 MiB;
 - the check run: not measured.
 
 ## 5. Environment of the verified execution
@@ -388,8 +388,8 @@ Expected run time: about 13 minutes (FACTS: 780 s); nbkit stops a cell after 360
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/11a_kronecker_delta_gkd.ipynb`: `08f8262700ec4961b107bcb2d398e10e02e66a868cfab22fca0c3270707881c1`
-- `Revision/textbook/notebooks/src/11a_kronecker_delta_gkd.py`: `1dbe9656871d478f1b00afb6433081eedc7806edd7c8886e6975e4623d624bce`
+- `Revision/textbook/notebooks/11a_kronecker_delta_gkd.ipynb`: `c21022129e2843c89ba82cca7a11f9d0527823ebdcaa0783049f134bb2fd08bb`
+- `Revision/textbook/notebooks/src/11a_kronecker_delta_gkd.py`: `227d1e2edb5570cdf20401bb1830f9bd715f00ad2803d9dd0e2acd5055f8569e`
 - `Revision/textbook/figures/11a.captions.json`: `ee58ebd834e0143ba6c647be81a32b4cf0d4358e4811975e537e8ca9b97cbb6d`
 - `Revision/textbook/figures/11a_1_outer_delta_matrices.png`: `266a5ab76d9653429e22f71a6568691539f22e173b372930899bf43d2101df5d`
 - `Revision/textbook/figures/11a_2_six_permutations.png`: `9912944fea846c691e4f25058bdf4d591b26122a4b768dfde1e2e0db8daefa03`
@@ -404,4 +404,4 @@ Expected run time: about 13 minutes (FACTS: 780 s); nbkit stops a cell after 360
 - `nbkit check`: not run yet.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":200.0,"seconds":792.4},"check":null,"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":199.0,"seconds":774.7},"check":null,"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

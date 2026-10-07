@@ -217,11 +217,12 @@ CELLS = [
     md(r"""
     ## 5. The Revision records and the helpers that read them
 
-    The next cell imports the packages and defines three helpers. `read_json` reads a
+    The next cell imports the packages and defines four helpers. `read_json` reads a
     JSON file of the repository. `record_entry` finds a check by its name in a Revision
     report. `reproduces` is a check that passes only when this notebook's own result
     holds AND the named checks of the report have the verdict PASS; it prints the
-    report file and the check names. The cell then reads the record on the Kohn-Sham
+    report file and the check names. `tex_number` writes a number in powers of ten for
+    the captions of the figures. The cell then reads the record on the Kohn-Sham
     source conditions, prints its conclusion and checks that its five checks passed.
     """),
     code(r'''
@@ -254,14 +255,20 @@ CELLS = [
         """A check that also requires the named checks of the report to be PASS."""
         found = all((record_entry(report_file, n) or {}).get("verdict") == "PASS"
                     for n in record_names)
-        check(condition and found, name,
-              record=f"{report_file}, check {', '.join(record_names)}")
+        names_text = ", ".join(record_names)  # the check names, separated by commas
+        check(condition and found, name, record=f"{report_file}, check {names_text}")
+
+
+    def tex_number(value, digits=2):
+        """A number for a caption in powers of ten: 0.0123 -> 1.2 \\times 10^{-2}."""
+        mantissa, exponent = f"{value:.{digits - 1}e}".split("e")
+        return f"{mantissa} \\times 10^{{{int(exponent)}}}"
 
 
     source_record = read_json(SOURCE_REPORT)
     summary = source_record["summary"]  # how many checks the record has, how many pass
-    report("checks of the record ks-source-conditions.json",
-           f"{summary['pass']} of {summary['checks']} PASS")
+    passed, total = summary["pass"], summary["checks"]
+    report("checks of the record ks-source-conditions.json", f"{passed} of {total} PASS")
     say("its conclusion: " + source_record["conclusion"])
     check(summary == {"checks": 5, "pass": 5, "fail": 0},
           "the record on the Kohn-Sham source conditions has 5 checks, all PASS")
@@ -364,8 +371,8 @@ CELLS = [
     report("states with a nonzero tensor", len(nonzero))
     report("grid of y", f"{len(y)} points from {y[0]:g} to {y[-1] + 0.0:g}, "
            f"step {y[1] - y[0]:.2f}")
-    report("H, tip cutoff L, Vol_7", f"{physics['H']:g}, {physics['L_tipCutoff']:g}, "
-           f"{physics['Vol7']:.6g}")
+    H_value, L_cut, VOL7 = physics["H"], physics["L_tipCutoff"], physics["Vol7"]
+    report("H, tip cutoff L, Vol_7", f"{H_value:g}, {L_cut:g}, {VOL7:.6g}")
     say("ks-theory.json, emt.offDiagonal: "
         + read_json("Revision/kohn_sham/ks-theory.json")["emt"]["offDiagonal"])
     check(len(profiles) == 75 and len(nonzero) == 70 and len(zero) == 5 and same_grid
@@ -421,7 +428,8 @@ CELLS = [
                 "density $\\rho(y)$ of the Kohn-Sham state $N = 136$, $\\lambda = 0$ "
                 "divided by the largest component of the state, at the five slices "
                 "$a_{4,0} = 0$ to $2$ (logarithmic vertical axis). The largest value of "
-                f"$\\rho$ is {min(falls):.0f} to {max(falls):.3g} times its smallest "
+                f"$\\rho$ is {min(falls):.0f} to ${tex_number(max(falls))}$ times its "
+                "smallest "
                 "value, depending on the slice, while condition C1 of the field "
                 "equations demands a horizontal line such as the dotted one.")
     '''),
@@ -509,6 +517,9 @@ CELLS = [
 
 
     n8_spread = [value for sid, value in spread.items() if sid.startswith("N8_")]
+    low8, high8 = f"{min(n8_spread):.3f}", f"{max(n8_spread):.3f}"  # three decimals
+    n8_text = (f"all have the spread ${low8}$" if low8 == high8  # equal when rounded
+               else f"have spreads of ${low8}$ to ${high8}$")
     fig, ax = plt.subplots(figsize=(6.4, 6.0))
     image = draw_table(ax, state_table(spread), LogNorm(0.04, 1.0), ".3f")
     fig.colorbar(image, ax=ax, label="spread of $\\rho$ / max|T| (C1 needs 0)")
@@ -521,8 +532,7 @@ CELLS = [
                 "scale, pure numbers). "
                 "Condition C1 needs $0$ in every cell; the smallest value is "
                 f"${spread[smallest]:.4f}$ ({describe(smallest)}), and the $N = 8$ "
-                f"states, made of brane zero modes, have spreads of "
-                f"${min(n8_spread):.3f}$ to ${max(n8_spread):.3f}$, almost the whole "
+                f"states, made of brane zero modes, {n8_text}, almost the whole "
                 "size of the tensor. Grey cells: the five states with no source at all.")
     '''),
     md(r"""
@@ -576,6 +586,7 @@ CELLS = [
                     label=f"$a_{{4,0}} = {a40:g}$")
         ax.axhline(0.0, color="#e34948", ls="--", lw=1.2, label="C2: $V = 0$")
         ax.set_yscale("symlog", linthresh=1e-7)
+        ax.set_yticks([-1e-1, -1e-3, -1e-5, -1e-7, 0.0, 1e-7, 1e-5, 1e-3, 1e-1, 1e1])
         ax.set_xlabel("hidden coordinate $y$")
         ax.set_title(f"$N = {n}$, $\\lambda = 0$")
     axes[0].set_ylabel("$V = p_3 + p_t - 2p_8$, divided by max|T|")
@@ -590,8 +601,8 @@ CELLS = [
                 "Condition C2 of the field equations demands the dashed line $V = 0$; "
                 f"instead $|V|$ is {min(at_tip):.2f} to {max(at_tip):.2f} times max|T| "
                 "at the tip, every profile changes sign exactly once, and at the brane "
-                f"$|V|$/max|T| is still between ${min(at_brane):.1e}$ and "
-                f"${max(at_brane):.1e}$, small but not zero.")
+                f"$|V|$/max|T| is still between ${tex_number(min(at_brane))}$ and "
+                f"${tex_number(max(at_brane))}$, small but not zero.")
     '''),
     md(r"""
     The next cell draws the size $\max_y|V|/\max|T|$ for all 75 states as a heat map,
@@ -634,9 +645,8 @@ CELLS = [
         values = {c: float(example[c][i]) for c in ("y",) + COLUMNS}
         values["V"] = values["p3"] + values["p_t"] - 2.0 * values["p8"]
         rows.append(values)
-        text = (f"y = {values['y']:.6g}: rho = {values['rho']:.6g}, "
-                f"p3 = {values['p3']:.6g}, p_t = {values['p_t']:.6g}, "
-                f"p8 = {values['p8']:.6g}, p3 + p_t - 2 p8 = {values['V']:.6g}")
+        text = ("y = {y:.6g}: rho = {rho:.6g}, p3 = {p3:.6g}, p_t = {p_t:.6g}, "
+                "p8 = {p8:.6g}, p3 + p_t - 2 p8 = {V:.6g}").format(**values)
         say(text)
         values["in_record"] = text in detail  # the record prints the same text?
     reproduces(all(r["in_record"] for r in rows) and all(r["V"] != 0 for r in rows),
@@ -656,21 +666,23 @@ CELLS = [
             ax.annotate(f"{value:.4g}", (bar.get_x() + bar.get_width() / 2, value),
                         ha="center", va="bottom" if value >= 0 else "top", fontsize=8)
         ax.axhline(0.0, color="0.3", lw=0.8)
-        ax.set_title(f"{where}: $y = {values['y'] + 0.0:g}$", fontsize=10)
+        y_here = values["y"] + 0.0  # + 0.0 turns -0 into 0
+        ax.set_title(f"{where}: $y = {y_here:g}$", fontsize=10)
         ax.margins(y=0.18)
     axes[0].set_ylabel("pressure (units of $m^8$)")
     fig.suptitle("$N = 136$, $\\lambda = 0$, $a_{4,0} = 1$: the two sides of C2")
     fig.tight_layout()
     tip, middle, brane = rows
     factors = [2.0 * r["p8"] / (r["p3"] + r["p_t"]) for r in (middle, brane)]
+    tip_left, tip_right = tip["p3"] + tip["p_t"], 2.0 * tip["p8"]  # the two sides
     save_figure(fig, "three_points",
                 "The two sides of condition C2, $p_3 + p_t$ (blue) and $2p_8$ (orange), "
                 "of the Kohn-Sham state $N = 136$, $\\lambda = 0$, $a_{4,0} = 1$ at the "
                 "tip $y = -3$, in the middle $y = -1.5$ and at the brane $y = 0$ "
                 "(vertical axes: proper pressure in units of $m^8$, each panel with its "
                 "own scale). C2 demands equal bars; near the tip the two sides even have "
-                f"opposite signs (${tip['p3'] + tip['p_t']:.1f}$ against "
-                f"${2.0 * tip['p8']:.1f}$), in the middle $2p_8$ is {factors[0]:.2f} "
+                f"opposite signs (${tip_left:.1f}$ against "
+                f"${tip_right:.1f}$), in the middle $2p_8$ is {factors[0]:.2f} "
                 f"times $p_3 + p_t$ and at the brane {factors[1]:.2f} times.")
     '''),
     md(r"""
@@ -735,7 +747,10 @@ CELLS = [
     ax.set_xlabel("slice $a_{4,0}$")
     ax.set_ylabel("$(\\int p_3 + \\int p_t) / (2\\int p_8)$")
     ax.set_ylim(0.0, 1.1)
-    ax.legend(fontsize=7, ncol=2, loc="lower left")
+    ax.legend(fontsize=7, ncol=2, loc="center right")
+    near = max(max(ratio[f"N{n}_lam{tag}_{s}"] for tag, _ in TAGS)
+               - min(ratio[f"N{n}_lam{tag}_{s}"] for tag, _ in TAGS)
+               for n in (136, 688) for s in SLICES)  # spread over the couplings
     save_figure(fig, "integrated_ratio",
                 "The ratio $(\\int p_3 + \\int p_t)/(2\\int p_8)$ of the pressures "
                 "integrated over the patch with the proper-volume weight, for every "
@@ -744,7 +759,9 @@ CELLS = [
                 "numbers). A source averaged over $x_8$ would need the value $1$ (red "
                 "dashed line); the states lie between "
                 f"${min(ratio.values()):.3f}$ and ${max(ratio.values()):.3f}$, so even "
-                "the average violates condition C2.")
+                "the average violates condition C2. For $N = 136$ and $N = 688$ the "
+                "five couplings give almost the same ratio (they differ by at most "
+                f"${near:.4f}$ at one slice), so their lines lie on top of each other.")
     '''),
     md(r"""
     ## 12. Condition C3: the linear member along the history
@@ -807,7 +824,9 @@ CELLS = [
                 "The energy density and the three pressures of the Kohn-Sham states with "
                 "$\\lambda = 0$, integrated over the patch with the proper-volume weight, "
                 "at the five slices of the history $a_4 = Hx_4$ (left $N = 136$, right "
-                "$N = 688$; vertical axis in units of $m$ with $H = 1$). The linear member "
+                "$N = 688$; vertical axis in units of $m$ with $H = 1$; along the "
+                "history 3-space inflates as $e^{a_4}$ and the extra times deflate as "
+                "$e^{-a_4}$). The linear member "
                 "needs a constant $\\rho$ and equal pressures (condition C3); instead "
                 f"$\\int\\rho$ falls by a factor of {drop[0]:.2f} ($N = 136$) and "
                 f"{drop[1]:.2f} ($N = 688$) from $a_{{4,0}} = 0$ to $2$, $\\int p_3$ stays "
@@ -833,9 +852,9 @@ CELLS = [
             same = same and all(np.array_equal(prof[c], first[c]) for c in COLUMNS)
         p3_equals_pt = p3_equals_pt and np.array_equal(first["p3"], first["p_t"])
         p8_differs = p8_differs and float(np.max(np.abs(first["p8"] - first["p3"]))) > 0
-    say("N = 8, lambda = +lambda_1: int p3 = "
-        f"{integral('N8_lamp1_a00', 'int_p3'):.6g}, int p8 = "
-        f"{integral('N8_lamp1_a00', 'int_p8'):.6g}")
+    int_p3_n8 = integral("N8_lamp1_a00", "int_p3")  # N = 8, lambda = +lambda_1
+    int_p8_n8 = integral("N8_lamp1_a00", "int_p8")
+    say(f"N = 8, lambda = +lambda_1: int p3 = {int_p3_n8:.6g}, int p8 = {int_p8_n8:.6g}")
     check(same and p3_equals_pt and p8_differs,
           "N = 8: the same state at every slice, p3 = p_t, but p8 differs from p3")
     '''),
@@ -859,7 +878,7 @@ CELLS = [
 
 
     def equation(text):
-        """An equation 'left == right' of the record as the expression left - right."""
+        """An equation (left == right) of the record as the expression left - right."""
         left, right = text.split("==")
         return parse(left) - parse(right)
 
@@ -896,8 +915,9 @@ CELLS = [
     md(r"""
     ## 15. What this notebook showed
 
-    - PROVED (read from the a4 record and re-derived here with sympy): the left-hand
-      sides of the Einstein-Lovelock equations of the author's metric are free of
+    - PROVED (exact algebra with sympy on the Lovelock components stored in the a4
+      record): the left-hand sides of the Einstein-Lovelock equations of the author's
+      metric are free of
       $x_8$ and have no $x_4x_8$ component (C1), obey
       $E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} = 2E^{x_8}{}_{x_8}$ for every order (C2:
       $p_3 + p_t = 2p_8$), and for the linear member need equal pressures and a
@@ -915,6 +935,12 @@ CELLS = [
       $a_4 = Hx_4$ is a PRESCRIBED BACKGROUND (ASSUMED, not solved for): the gas is a
       test field without back-reaction, and energies, pressures and equations of state
       computed along it are not consequences of the coupled field equations.
+    - WHY (worked out in Notebook 17b): every source of the field equations must be
+      conserved, and for a conserved source C2 says exactly that $p_8$ does not
+      change along $x_8$, while C3 says exactly that no energy is exchanged with the
+      inflating 3-space and the deflating extra times ($p_3 = p_t$). The Kohn-Sham
+      states are conserved, but their $p_8$ varies strongly along $x_8$ and their
+      $p_3$ exceeds $p_t$.
     - NOT shown: that no state of dirac16complex could ever be a source of the
       author's metric, or what metric the Kohn-Sham gas would produce with
       back-reaction (OPEN).

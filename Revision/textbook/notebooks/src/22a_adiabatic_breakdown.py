@@ -81,7 +81,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS every figure file of this notebook exists",
-        "ALL 21 CHECKS PASSED (notebook 22a)",
+        "ALL 20 CHECKS PASSED (notebook 22a)",
     ],
     "troubleshooting": [],
 }
@@ -578,7 +578,8 @@ CELLS = [
     g_star, q_star = float(fine_g.max()), float(fine_q[int(np.argmax(fine_g))])
     report("largest Q per unit rate of the band jump, G*", f"{g_star:.5f}")
     report("at the redshifted momentum q*", f"{q_star:.3f}")
-    report("naive breakdown rate for any shell, 1/G*", f"{1.0 / g_star:.3f}")
+    report("naive breakdown rate of the band level of any shell, 1/G*",
+           f"{1.0 / g_star:.3f}")
     '''),
     md(r"""
     The next cell draws $G_{01}(q)$ and $G_{02}(q)$ and puts the record's $Q_{max}$ of
@@ -771,7 +772,7 @@ CELLS = [
     left.set_xlabel("slice $a_{4,0}$")
     left.set_ylabel("level $\\varepsilon$ (units of $m$)")
     left.set_title("Sector $n_2 = 11$, $j = +1$, even, of $N = 688$")
-    left.legend(fontsize=8, loc="lower right")
+    left.legend(fontsize=8, loc="upper center", bbox_to_anchor=(0.5, -0.15), ncol=3)
     for colour, style, label in zip(PALETTE, ("-", "--", "-.", ":"), (1, 2, -1, -2)):
         m = ZERO + label
         turn = np.abs(m_plot[:, m, ZERO]) / np.abs(eps_plot[:, ZERO] - eps_plot[:, m])
@@ -921,8 +922,9 @@ CELLS = [
     check(norm_error < 1e-9, "the evolution keeps the total probability 1 within 1e-9")
     check(abs(sudden_basis / sudden - 1.0) < 1e-3,
           "the sudden limit of the 20-level basis equals the direct overlap within 0.1%")
-    check(abs(excited[-1] / sudden - 1.0) < 1e-3 and excited[0] < 1e-6,
-          "P rises from below 1e-6 at A = 0.25 to the sudden limit at A = 251")
+    check(abs(excited[-1] / sudden - 1.0) < 1e-3 and excited[0] < 1e-6
+          and bool(np.all(excited <= sudden * (1.0 + 1e-3))),
+          "P rises from below 1e-6 at A = 0.25 to the sudden limit at A = 251, never above")
     '''),
     md(r"""
     The next cell draws $P$ against the peak rate $A$, with the first-order estimate,
@@ -935,10 +937,11 @@ CELLS = [
             label="exact evolution (20 levels)")
     ax.plot(RATES, first, "--", color=PALETTE[1], lw=2.0, label="first order")
     ax.axhline(sudden, color="0.3", ls=":", lw=1.5, label="sudden limit")
-    for value, style, text in ((1.0, "--", "record"), (rate_half, "-", "$A_{1/2}$"),
-                               (naive[weakest], "-.", "$1/Q_{max}$")):
+    for value, style, text, height in ((1.0, "--", "record", 2e-7),
+                                       (rate_half, "-", "$A_{1/2}$", 2e-5),
+                                       (naive[weakest], "-.", "$1/Q_{max}$", 2e-7)):
         ax.axvline(value, color="0.45", ls=style, lw=1.2)
-        ax.text(value * 1.06, 2e-7, text, fontsize=9, color="0.3")
+        ax.text(value * 1.06, height, text, fontsize=9, color="0.3")
     ax.set_xscale("log")
     ax.set_yscale("log")
     ax.set_ylim(1e-8, 0.3)
@@ -1011,10 +1014,11 @@ CELLS = [
         left.plot(s_marks, dressing(rate), color=colour, lw=1.5, ls="--")
     left.plot([], [], color="0.4", ls="--", label="first order $\\sum_m Q_{0m}^2$")
     left.set_yscale("log")
+    left.set_ylim(3e-5, 0.3)
     left.set_xlabel("$a_4$ along the constant-rate history")
     left.set_ylabel("$P$: probability outside the band level")
     left.set_title("Dressed start: exact against first order")
-    left.legend(fontsize=8)
+    left.legend(fontsize=8, loc="lower left")
     right.plot(s_marks, runs[1.0], color=PALETTE[1], lw=2.0, label="dressed start")
     right.plot(s_marks, bare, color=PALETTE[0], lw=2.0, ls="-.", label="bare start")
     right.plot(s_marks, dressing(1.0), color="0.4", lw=1.5, ls="--",
@@ -1132,6 +1136,7 @@ CELLS = [
         ax.plot(sizes[:-1], errors[rate][:-1], marker + "--", color=colour, lw=1.5, ms=6,
                 label=f"$A = {rate:.0f}$ (against 20 levels)")
     ax.set_yscale("log")
+    ax.set_xticks(range(3, 21))
     ax.set_xlabel("number of instantaneous levels in the basis")
     ax.set_ylabel("$|P - P_{reference}|$")
     ax.set_title("Convergence with the size of the basis")
@@ -1163,7 +1168,7 @@ CELLS = [
     q_first = q_max[(688, "lam0", 0.0)]  # the largest Q of the free Fermi shell, A = 1
     estimates = [
         ("naive: Q = 1 for the weakest recorded state", naive[weakest]),
-        ("naive: Q = 1 for any shell (top of the curve)", 1.0 / g_star),
+        ("naive: Q = 1 for the band level of any shell", 1.0 / g_star),
         ("first order: Q^2 reaches the sudden limit", math.sqrt(sudden) / q_first),
         ("exact: P reaches half the sudden limit", rate_half),
     ]
@@ -1173,7 +1178,8 @@ CELLS = [
     report("P at the record's rate A = 1, constant rate (dressed start)",
            f"{runs[1.0].min():.4f} ... {runs[1.0].max():.4f}")
     report("P at the peak rate A = 1, smooth passage", f"{excited[6]:.4f}")
-    report("largest P at any rate over the span 0 ... 2 (sudden limit)", f"{sudden:.4f}")
+    report("sudden limit over the span 0 ... 2, the most P reaches in the scan",
+           f"{sudden:.4f}")
     NAMES = ["naive_rates", "one_curve", "across_the_gap", "sector_levels",
              "smooth_passage", "constant_rate", "sudden_ceiling", "convergence"]
     missing = [name for number, name in enumerate(NAMES, start=1)
@@ -1192,8 +1198,8 @@ CELLS = [
     - The solver's shooting method, written again in vectorised Python, reproduces the
       record's levels and $Q$ of the free Fermi shells; with the exact rescaling
       identity every slice and every shell falls on ONE curve $Q/A = G(q)$, whose top
-      is $G^* = 0.0998$ at $q = 2.07$ (COMPUTED here): no shell at any slice can push
-      the naive breakdown rate below $A = 10.0$.
+      is $G^* = 0.0998$ at $q = 2.13$ (COMPUTED here): for a particle in the band level
+      of any shell at any slice the naive breakdown rate is at least $A = 10.0$.
     - Jumps across the gap into the negative branch, which the record leaves out, are
       weaker (below 0.05 per unit rate, largest near $q = 0.1$); their reading as pair
       creation of the field in 4+4 dimensions is OPEN, and they say nothing about the
@@ -1209,9 +1215,10 @@ CELLS = [
     - What remains OPEN: the self-consistent time-dependent Kohn-Sham problem with
       interaction, the meaning of the negative branch, the history itself (a PRESCRIBED
       BACKGROUND, without back-reaction) and the ASSUMED Z2 brane. A student could
-      attack the first by adding the self-consistent potentials to `frame` (their
-      derivatives come from the record's states at neighbouring slices) and repeating
-      sections 13 and 14.
+      attack the first by starting from the record's self-consistent states and
+      recomputing the potentials $M$ and $v$ at every time step from the evolving
+      orbitals of all occupied sectors (time-dependent Kohn-Sham theory), then
+      repeating sections 13 and 14 with them.
     """),
 ]
 

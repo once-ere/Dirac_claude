@@ -111,6 +111,11 @@ FACTS = {
          "that the reference program, the Rust solver or the record was changed. Get the "
          "stored versions back and run the notebook again.",
          ["git checkout -- Revision/kohn_sham"]],
+        ["On Windows the cell that builds the Rust solver stops with the cargo message "
+         "failed to remove file and Access is denied",
+         "the program revision_ks_solver is still running in another window or "
+         "terminal, and Windows does not let cargo replace a running program. Wait "
+         "until that run has finished (or close it), then run the cell again."],
         ["You want the disk space of the Rust outputs back",
          "the folder `Revision/kohn_sham/solver/target/textbook_16a` holds only the raw "
          "output of the last run (about 1 MB, ignored by git); delete it at any time, "

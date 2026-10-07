@@ -89,7 +89,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 20,
+    "expected_seconds": 30,
     "timeout_seconds": 600,
     "files_written": ["Revision/textbook/figures/20a.captions.json"] + [
         f"Revision/textbook/figures/20a_{k}_{name}.png"
@@ -626,16 +626,18 @@ CELLS = [
     ## 9. Along the hidden direction: the T1 partner and the T2 mirror copy
 
     T1 holds at EVERY point. To see it along a line, the next cell uses a field that
-    varies along the hidden direction, $\Psi(z) = \Psi_0 + (\pi/2 - z)^2\Psi_1$, with
-    the values $\Psi_0$ and the derivatives along $x_1, \dots, x_7$ of section 8 and a
-    second random spinor $\Psi_1$. Its derivative along $x_8$ is
-    $\partial_8\Psi = 6H\,d\Psi/dz = -12H(\pi/2 - z)\Psi_1$; it vanishes at the brane
-    like $\pi/2 - z$, which keeps the term $\tan z\,\gamma^{(x_8)}\partial_8\Psi$ of
-    the field equation finite there (the factor $\tan z = 1/E_8$ grows without bound
-    at $z = \pi/2$, where $g_{88} = \cot^2z$ vanishes). The geometry changes with $z$
-    through $\sin^{1/6}z$ and $\cot z$. It evaluates three objects:
+    varies along the hidden direction, $\Psi(z) = \Psi_0 + \tfrac{3}{10}(\pi/2 - z)^2
+    \Psi_1$, with the values $\Psi_0$ and the derivatives along $x_1, \dots, x_7$ of
+    section 8 and a second random spinor $\Psi_1$. Its derivative along $x_8$ is
+    $\partial_8\Psi = 6H\,d\Psi/dz = -\tfrac{18}{5}H(\pi/2 - z)\Psi_1$; it vanishes at
+    the brane like $\pi/2 - z$, which keeps the term
+    $\tan z\,\gamma^{(x_8)}\partial_8\Psi$ of the field equation finite there (the
+    factor $\tan z = 1/E_8$ grows without bound at $z = \pi/2$, where
+    $g_{88} = \cot^2z$ vanishes). The field is not a solution (T1 and T2 hold off
+    shell). The geometry changes with $z$ through $\sin^{1/6}z$ and $\cot z$. The cell
+    evaluates three objects:
 
-    - the configuration $\Psi$ with $(m, \lambda)$ on the patch, $0 < z < \pi/2$;
+    - the field $\Psi$ with $(m, \lambda)$ on the patch, $0 < z < \pi/2$;
     - its T1 partner $\Gamma\Psi$ with $(-m, -\lambda)$ at the same points;
     - its T2 mirror copy: by theorem T2 (with $m$ replaced by $-m$), the field
       $\Psi'(\pi - z) = \gamma^{(x_8)}\Psi(z)$ on the mirror patch solves the
@@ -653,9 +655,9 @@ CELLS = [
     z_patch = np.linspace(0.05, np.pi / 2 - 0.02, 160)  # points of the patch
     rho, charge = {"one": [], "T1": [], "T2": []}, {"one": [], "T1": [], "T2": []}
     for z_value in z_patch:
-        field = psi + (np.pi / 2 - z_value) ** 2 * psi_1  # Psi(z)
+        field = psi + 0.3 * (np.pi / 2 - z_value) ** 2 * psi_1  # Psi(z)
         slopes_here = [row.copy() for row in dpsi]  # the derivatives along x1 .. x7
-        slopes_here[7] = -12.0 * (np.pi / 2 - z_value) * psi_1  # 6 H dPsi/dz, H = 1
+        slopes_here[7] = -3.6 * (np.pi / 2 - z_value) * psi_1  # 6 H dPsi/dz, H = 1
         mirror_slopes = [R8_SIGNS[mu] * (gamma_num[7] @ slopes_here[mu])
                          for mu in range(8)]  # the mirror reverses d/dx8
         here = geometry_at(1, z_value, A4_0, 1.0)
@@ -699,7 +701,9 @@ CELLS = [
         ax.text(np.pi / 2, ax.get_ylim()[1], " brane", va="top", fontsize=8)
         ax.set_xlabel("hidden coordinate $z = 6Hx_8$")
         ax.set_ylabel(label + " (units $H = 1$)")
-        ax.legend(fontsize=7.5, loc="best")
+    handles, names = axes[0].get_legend_handles_labels()
+    fig.legend(handles, names, loc="lower center", ncol=4, fontsize=8.5,
+               bbox_to_anchor=(0.5, -0.06))  # one legend below both panels
     axes[0].set_title("T1: reversed at the same point; T2: equal at the mirror point",
                       fontsize=9)
     axes[1].set_title("the same for the charge density", fontsize=9)
@@ -707,8 +711,9 @@ CELLS = [
                 "Left: the energy density $\\rho = -T_{x_4x_4}$, right: the charge "
                 "density $J^{x_4} = \\Psi^\\dagger B\\Psi$, as functions of the hidden "
                 "coordinate $z$ (horizontal, from 0 to $\\pi$; the brane $z = \\pi/2$ "
-                "dotted; units $H = 1$), for an arbitrary configuration $\\Psi$ of "
-                "dirac16complex00 with $(m, \\lambda) = (2, 1/2)$ on the patch (blue), "
+                "dotted; units $H = 1$), for an arbitrary field $\\Psi(z)$ of "
+                "dirac16complex00 (not a solution) with $(m, \\lambda) = (2, 1/2)$ on "
+                "the patch (blue), "
                 "its T1 partner $\\Gamma\\Psi$ with $(-m, -\\lambda)$ (red dashed) and "
                 "their sum (black, zero everywhere), and the T2 mirror copy "
                 "$\\gamma^{(x_8)}\\Psi$ with $(-m, \\lambda)$ on the mirror patch "
@@ -845,7 +850,8 @@ CELLS = [
                     label="gap $6a_4'^2 + 6H^2$")
     ax.annotate("", xy=(1.0, -12.0), xytext=(1.0, -24.0),
                 arrowprops={"arrowstyle": "<->", "color": "black"})
-    ax.text(1.08, -18.0, "$12H^2$ at $a_4' = H$\n(the author's history)", fontsize=8)
+    ax.text(1.12, -19.3, "$12H^2$ at $a_4' = H$\n(the author's history)", fontsize=8,
+            va="top")  # va="top": the text hangs below the given height
     ax.axhline(-18.0, color="black", linestyle=":", linewidth=1.0)
     ax.text(-2.95, -17.3, "$\\Lambda = -18H^2$: both hold only for $a_4' = \\pm iH$",
             fontsize=8)

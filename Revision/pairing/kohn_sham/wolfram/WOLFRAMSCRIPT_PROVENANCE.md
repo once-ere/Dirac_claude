@@ -93,9 +93,16 @@ equal energies, not (m, lambda) -> (-m, -lambda).
   from `Revision/algebra/gammas.json`; `Revision/algebra/wolfram/WOLFRAMSCRIPT_PROVENANCE.md` and
   `Revision/kohn_sham/theory/WOLFRAMSCRIPT_PROVENANCE.md` name it as a consumer of their outputs.
 - The textbook (`Revision/textbook/`, still being written by another workflow and not yet verified at the time
-  of section 6.3): `chapters/00-how-to-use-this-book.md` cites `wolfram-t3.json` (10 of 10) for theorem T3,
-  the notebook source `notebooks/src/00c_honesty_ledger.py` counts the checks of `wolfram-t3.json` (10), and
-  `notebooks/src/19a_t3_rust_pairs.py` lists `t3-theory.json` and `wolfram-t3.json` as records it reads.
+  of sections 6.3 and 6.4): `chapters/00-how-to-use-this-book.md` cites `wolfram-t3.json` (10 of 10) for
+  theorem T3; the notebook source `notebooks/src/00c_honesty_ledger.py` counts the checks of `wolfram-t3.json`
+  (10); its built notebook `notebooks/00c_honesty_ledger.ipynb` reads the same report and shows the count in
+  its saved output (a table line naming `pairing/kohn_sham/reports/wolfram-t3.json`, `Wolfram` and
+  `10 of  10`); its provenance file `notebooks/00c_honesty_ledger.PROVENANCE.md` lists `wolfram-t3.json` as a
+  verifier report whose checks the notebook counts; and `notebooks/src/19a_t3_rust_pairs.py` lists
+  `t3-theory.json` and `wolfram-t3.json` as records it reads.
+- Left out on purpose: the workflow scripts `Revision/workflows/revision_wave_2.js` and
+  `Revision/workflows/wave1_review_and_fix.json` also mention the set, but they are automation scripts that
+  produced or reviewed it, not documents that cite its results.
 
 ## 2. Files
 
@@ -232,7 +239,9 @@ If you use the older Windows "Command Prompt" (cmd.exe) instead of PowerShell, t
 and the second line is `echo %ERRORLEVEL%`.
 
 The first line runs the script (it takes about 2 to 8 seconds, typically 3 to 5, more on a busy machine;
-most of it is starting Wolfram). The second line
+usually most of it is starting Wolfram). On a heavily loaded machine (10 to 26 Wolfram processes of other
+jobs running, 2026-10-07) a run took up to about 14 seconds; only the time changes, the printed result and
+the two output files stay the same (sections 4.1 and 4.4). The second line
 prints the exit code of the run: `0` means every check passed, `1` means at least one check failed. The run
 needs no input from you and opens no window.
 
@@ -274,7 +283,10 @@ needs no input from you and opens no window.
    not yet committed version of this provenance file was copied by hand, `git status --porcelain` prints a
    single line naming it (`?? Revision/pairing/kohn_sham/wolfram/WOLFRAMSCRIPT_PROVENANCE.md` if the file is
    new, ` M Revision/pairing/kohn_sham/wolfram/WOLFRAMSCRIPT_PROVENANCE.md` if it replaces a committed
-   version), which is fine.
+   version), and in the second case `git diff --exit-code --stat` also prints a line naming that file (its
+   path may be shortened, for example `.../kohn_sham/wolfram/WOLFRAMSCRIPT_PROVENANCE.md | 57 +++++-----`)
+   and then `1 file changed, ...` (and its exit code is `1`). This is fine as long as
+   neither command names `t3-theory.json` or `wolfram-t3.json`.
 3. Optionally compare the sha256 checksums with section 2.3: Windows PowerShell
    `Get-FileHash -Algorithm SHA256 Revision/pairing/kohn_sham/t3-theory.json, Revision/pairing/kohn_sham/reports/wolfram-t3.json`
    (it prints the hash in capital letters); Linux
@@ -388,7 +400,10 @@ PASS  T3_z2_mirror_copy_carries_minus_m_plus_lambda
 
 The final verdict line is `10/10 checks passed; time <t> s`. Only `<t>` changes from run to run: it is the
 computing time inside Wolfram, without the start of Wolfram; on the verification machine it was 0.4 to 2
-seconds (the larger values when the machine was busy with other work). It is rounded to 0.1 s, but Wolfram
+seconds (the larger values when the machine was busy with other work), and on a heavily loaded machine
+(10 to 26 Wolfram processes of other jobs running, 2026-10-07) up to 7.2 seconds (printed, for example,
+`time 3.2 s`, `time 3.7 s` and `time 7.2 s`). Only this number changes: the ten `PASS` lines, the
+`10/10 checks passed` and the two output files stay exactly the same. It is rounded to 0.1 s, but Wolfram
 prints the rounded number in its own way: the verification runs printed, for example, `time 0.5 s`,
 `time 1. s`, `time 2. s`, `time 0.7000000000000001 s` and `time 1.2000000000000002 s`. This is harmless:
 the time is printed only on the screen and never enters a file. The lines appear one after the other while
@@ -411,9 +426,10 @@ the checks run.
 
 ### 4.4 Run time and memory on the verification machine
 
-Windows 11, 24 logical cores: about 2 to 8 seconds wall-clock time per run, typically 3 to 5 seconds (about
-6 to 7.5 seconds while the machine was busy with many other Wolfram jobs), of which 0.4 to 2 s is
-computation and the rest is starting and stopping Wolfram. All measurements (seconds):
+Windows 11, 24 logical cores: about 2 to 8 seconds wall-clock time per run, typically 3 to 5 seconds, of
+which 0.4 to 2 s is computation and the rest is starting and stopping Wolfram. While the machine was busy
+with many other Wolfram jobs a run took about 4 to 9 seconds, and on a heavily loaded machine up to about 14
+seconds, with up to 7.2 s of computation. All measurements (seconds):
 
 - first verification (runs 1 to 8 of section 6.1): 4.56, 4.65, 4.13, 3.57, 3.23, 4.15, 4.64, 4.80;
 - review of this file, unmonitored runs: 2.09, 2.07, 2.26, 4.04, 3.92, 6.08; runs under process, file or
@@ -425,10 +441,25 @@ computation and the rest is starting and stopping Wolfram. All measurements (sec
 - re-verification after the restart (section 6.3, 2026-10-07, the machine busy with 7 to 14 Wolfram
   processes of other jobs): 3.71, 6.45 (clone 1, runs 1 and 2), 7.44, 5.90, 6.18, 6.55 (clone 2, runs 3 to 6),
   5.99 (socket-monitored run).
+- independent review of section 6.3 (2026-10-07, a heavily loaded machine with 10 to 20 Wolfram processes of
+  other jobs; the printed time, written here to 0.1 s, in brackets): 13.89 (3.2), 6.83 (1.4), 13.34 (7.2),
+  8.42 (1.5), 11.08 (3.7), 4.96 (0.9), 5.49 (1.4), 7.26 (1.6), 7.59 (1.4), 5.75 (1.1), 5.27 (1.1), 4.66 (0.7,
+  Windows PowerShell 5.1); a Command Prompt run printed `time 5.5 s`. Every one of these runs printed
+  `10/10 checks passed` and exited with `0`.
+- re-verification after that review (section 6.4, 2026-10-07, 20 to 26 Wolfram processes of other jobs, all
+  24 cores at 100 % load): monitored runs 6.55, 7.02, 7.21, 6.08, 5.96, 5.90; unmonitored PowerShell runs
+  5.25, 5.16, 6.65, 8.74, 7.46, 6.60, 6.19; Git Bash run 8.28 (printed times 0.8 to 2 s).
+
+So on a heavily loaded machine a run can take up to about 14 seconds and print a time of up to about 7
+seconds; only the time changes, while the 11 printed lines (apart from the time) and the two output files
+stay identical.
 
 Peak memory (working set): about 148 to 157 MB for the Wolfram kernel (measured 148.1 to 149.1 MB on
-2026-10-02 and 156.2 MB on 2026-10-07), about 10 MB for the short-lived licence query (9.8 MB) and
-about 17 MB for `wolframscript` (16.7 MB).
+2026-10-02 and 156.2 to 156.7 MB on 2026-10-07), about 68 MB for the short-lived licence query (68.3 to
+68.4 MB in the six runs of section 6.4, read from the process right after it ended, which gives its exact
+peak; the independent review found 66.7 to 68.3 MB by sampling it while it ran) and about 17 MB for
+`wolframscript` (16.6 to 16.8 MB). The value 9.8 MB that section 6.3 first gave for the licence query was a
+single sample taken early in that process's life by slow polling, not its peak.
 
 ## 5. Side effects
 
@@ -445,16 +476,16 @@ about 17 MB for `wolframscript` (16.7 MB).
 ### 5.2 Outside the repository
 
 - Processes: `wolframscript` starts one Wolfram kernel (on Windows the process `wolfram.exe` of Wolfram 15,
-  started as `wolfram.exe -runfirst ... -linkmode Connect -linkname <name>_shm -mathlink`; older versions
-  call the kernel `WolframKernel`). Before the kernel it starts a second, short-lived `wolfram.exe` that
-  queries the licence (`wolfram.exe -wlbanner -licenseinfo`); it lives only a fraction of a second (the
-  kernel was started 0.15 to 0.9 s after it). On the verification machine this licence query was seen in
-  every run in which process creation was recorded by events (5 of 5 runs, section 6.2); runs observed only
-  by polling every 30 ms usually missed it because it is so short-lived. The kernel ends when the script
-  ends; no process is left running (verified for runs 1 to 4 of section 6.1 and every monitored run of
-  sections 6.2 and 6.3). If you interrupt a run by
-  killing `wolframscript` (tested with `Stop-Process -Force` 1, 1.5 and 3 s after the start), the kernel
-  also ends; no kernel was left running.
+  started as `wolfram.exe -runfirst ... -linkmode Connect -linkname <name>_shm -mathlink`; older versions call
+  the kernel `WolframKernel`). Before the kernel it starts a second, short-lived `wolfram.exe` that queries
+  the licence (`wolfram.exe -wlbanner -licenseinfo`, peak working set about 68 MB); it lives only a fraction
+  of a second (0.18 to 0.53 s measured on 2026-10-07, section 6.4; the kernel was started 0.15 to 0.9 s after
+  it). On the verification machine this licence query was seen in every run in which process creation was
+  recorded by events (5 of 5 runs, section 6.2); runs observed only by polling every 30 ms usually missed it
+  because it is so short-lived. The kernel ends when the script ends; no process is left running (verified for
+  runs 1 to 4 of section 6.1 and every monitored run of sections 6.2 to 6.4). If you interrupt a run by
+  killing `wolframscript` (tested with `Stop-Process -Force` 1, 1.5 and 3 s after the start), the kernel also
+  ends; no kernel was left running.
 - Temporary files: on every run `wolframscript` creates two temporary files in the folder
   `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary` (on the verification machine
   `C:\Users\<you>\AppData\Local\Wolfram\WolframScript\WolframScriptTemporary`), each named `tmp_` followed
@@ -691,11 +722,12 @@ earlier record was taken on trust: every statement of sections 1 to 5 that can b
   same bytes).
 - Processes (attributed by parent process id, because other jobs started Wolfram processes at the same time):
   `wolframscript` (peak working set 16.7 MB) started `wolfram.exe -wlbanner -licenseinfo` (seen 0.53 s after
-  the start in run 2, peak 9.8 MB; missed by polling in the other runs because it is so short-lived) and the
-  kernel `wolfram.exe -runfirst ... -linkmode Connect -linkname <name>_shm -mathlink` (seen 0.66 to 0.83 s
-  after the start, peak working set 156.2 MB in runs 2 and 3, the runs in which the processes were
-  attributed by parent process id). No child process was left running after any run.
-  Killing `wolframscript` 3 s after the start ended its kernel as well (not running 2 s later).
+  the start in run 2 by a single slow poll, whose one sample showed 9.8 MB; that was an early sample, NOT the
+  peak, which is about 68 MB, see sections 4.4 and 6.4; missed by polling in the other runs because it is so
+  short-lived) and the kernel `wolfram.exe -runfirst ... -linkmode Connect -linkname <name>_shm -mathlink`
+  (seen 0.66 to 0.83 s after the start, peak working set 156.2 MB in runs 2 and 3, the runs in which the
+  processes were attributed by parent process id). No child process was left running after any run. Killing
+  `wolframscript` 3 s after the start ended its kernel as well (not running 2 s later).
 - Temporary files: in every monitored run the `tmp_*` file in the folder
   `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary` that held this run's printed output
   (identified by its content; 354 or 369 bytes) was deleted at the end of the run. Other `tmp_*` files
@@ -732,3 +764,82 @@ earlier record was taken on trust: every statement of sections 1 to 5 that can b
 - Open discrepancies: none. The scientific results are unchanged: 10 of 10 checks pass and both outputs are
   byte-identical to the committed files in all six runs. Not verified: macOS, Linux with Wolfram, and Wolfram
   versions other than 15.0.1.
+
+### 6.4 Re-verification after the independent review of section 6.3
+
+An independent review of section 6.3 (2026-10-07) reported four points: (1) the peak memory given for the
+licence query (9.8 MB) was wrong; (2) the run times given were not upper bounds on a heavily loaded machine;
+(3) section 1.4 left out two committed textbook files that cite `wolfram-t3.json`; (4) a status note of the
+verification workflow (not this file) still said that this file was not yet committed, although the version
+with section 6.3 had already been committed. Each point was re-checked in fresh clones.
+
+- Date: 2026-10-07.
+- Commit verified: `fdab20615409434e030193880d01fb2d0c685baf` (the remote `main` at that time). Between
+  `c8f6022` (the commit the review used) and `fdab206` no file under `Revision/pairing/kohn_sham/`, no input
+  and no committed output changed; the sha256, line counts and byte counts of the script, its two inputs and
+  its two committed outputs are exactly those of section 2. The version of this file with section 6.3 is
+  committed (`72fc9ff`, a work-in-progress snapshot made before the independent review had finished); the
+  corrections listed below were made on top of `fdab206`.
+- Environment: as in section 6.3 (Windows 11 Pro for Workstations 10.0.26300, 24 logical cores;
+  WolframScript 1.14.0; Wolfram 15.0.1, Professional licence; PowerShell 7.6.6; Git 2.51.2.windows.1). The
+  machine was heavily loaded: 20 to 26 Wolfram processes of other jobs were running and the processor load
+  (`Win32_Processor` `LoadPercentage`) was 100 %.
+- Clone 1 (`git clone https://github.com/once-ere/Dirac_claude.git` into an empty scratch folder; no
+  uncommitted file copied in): 6 monitored runs and 6 unmonitored PowerShell runs of the command of section
+  3.5. The monitor was a small C# program that started `wolframscript`, found its child processes by their
+  parent process id, read their peak working set while they ran (one pass of its loop every 23 to 38 ms on the
+  loaded machine) and once more, through the still open process handle, after they had ended (which gives the
+  exact peak). All 12 runs: exit code `0`, the 11 lines of section 4.1 ending
+  `10/10 checks passed; time <t> s` with `<t>` = `1.3`, `1.4000000000000001`, `1.3`, `1.`, `1.1`,
+  `1.4000000000000001` (monitored) and `1.`, `0.8`, `1.7000000000000002`, `2.`, `1.4000000000000001`,
+  `1.2000000000000002` (unmonitored); standard error 0 bytes and standard output 353 bytes (when the time is
+  printed as `1.`), 354 bytes (`1.1`, `1.3`) or 369 bytes (`1.4000000000000001`) in the monitored runs; both
+  outputs byte-identical to the committed files after every run (sha256 as in section 2.3);
+  `git status --porcelain --ignored` empty after every run; `git diff --exit-code --stat` empty with exit code
+  0 at the end. Wall times: section 4.4.
+- Processes (monitored runs): `wolframscript` started `"C:/Program Files/Wolfram Research/Wolfram/15.0.1/wolfram.exe" -wlbanner -licenseinfo`
+  0.046 to 0.138 s after its own start; this licence query lived 0.250 to 0.474 s and its peak working set
+  was 68.3 to 68.4 MB (10 to 13 samples while it ran; the value read after it ended equalled the largest
+  sample). The kernel (`wolfram.exe -runfirst ... -mathlink`) started 0.324 to 0.676 s after
+  `wolframscript`, lived 5.52 to 6.45 s and peaked at 156.3 to 156.7 MB; `wolframscript` peaked at 16.6 to
+  16.8 MB. No child process was running 0.3 s after the end of any run.
+- Point 1 confirmed: the licence query peaks at about 68 MB, not 9.8 MB; the 9.8 MB of section 6.3 was a
+  single early sample. Corrected in sections 4.4, 5.2 and 6.3.
+- Point 2 confirmed: in this re-verification the wall time reached 8.74 s, above the range of about 6 to 7.5 s
+  that section 4.4 gave for a busy machine before this correction, and the review measured up to 13.89 s and
+  printed times up to 7.2 s (section 4.4). Corrected in sections 3.5, 4.1 and 4.4; the 10 checks, the printed
+  result apart from the time, and the two output files did not change in any run.
+- Point 3 confirmed: `git grep -l -E 'verify_t3|t3-theory|wolfram-t3' <commit> -- Revision/textbook` lists the
+  same five files at `a4c5eda`, `c8f6022` and `fdab206`: `chapters/00-how-to-use-this-book.md`,
+  `notebooks/00c_honesty_ledger.PROVENANCE.md`, `notebooks/00c_honesty_ledger.ipynb`,
+  `notebooks/src/00c_honesty_ledger.py` and `notebooks/src/19a_t3_rust_pairs.py`; the two `00c` files that
+  were missing were added to section 1.4. The same `git grep` over the whole clone at `fdab206` finds,
+  besides these and the files of section 1.4, only the set's own files, the sympy report `python-t3.json`
+  and the two workflow scripts under `Revision/workflows/`, which section 1.4 now names as left out on
+  purpose. (`Revision/README.md` does not match the pattern, but its line 116 still quotes
+  `T3 Wolfram 10/10`.) The documents of section 1.4 outside the textbook did not change between `c8f6022`
+  and `fdab206`; four of the five textbook files did (another workflow is writing them), and at `fdab206`
+  they still cite the set as section 1.4 describes.
+- Point 4 confirmed as a fact about the workflow's status note, not about this file: `git log` shows the
+  commit `72fc9ff`, and before the corrections of this section the file in the working repository was equal
+  to the committed one. No change to this file was needed for it.
+- Clone 2 (a second fresh clone plus a copy of this file as corrected for points 1 to 3, before the correction
+  of section 3.6 that this run led to), following sections 3.5 and 3.6 literally. PowerShell: the 11 lines
+  ending `10/10 checks passed; time 1.1 s`, `$LASTEXITCODE` `0`, 6.19 s; summary table `10 0 10`;
+  `git status --porcelain` printed only ` M Revision/pairing/kohn_sham/wolfram/WOLFRAMSCRIPT_PROVENANCE.md`,
+  and `git diff --exit-code --stat` printed only that file (shortened to
+  `.../kohn_sham/wolfram/WOLFRAMSCRIPT_PROVENANCE.md`) and `1 file changed, ...` with exit code 1, which
+  section 3.6 did not say and now says; `Get-FileHash` gave the two sha256 of section 2.3. Git Bash (the
+  macOS/Linux commands): `10/10 checks passed; time 1.8 s`, `echo $?` `0`, 8.28 s, standard error empty;
+  `grep` printed `  "summary": {"passed": 10, "failed": 0, "total": 10},`; `sha256sum` gave the two sha256 of
+  section 2.3; both outputs byte-identical to `git show HEAD:<file>` (`cmp`).
+- Corrections made to this file: section 1.4 (the two `00c` textbook files; the workflow scripts left out on
+  purpose), section 3.5 (run time on a heavily loaded machine), section 3.6 (what `git diff --exit-code
+  --stat` prints when a newer copy of this file replaces the committed one), section 4.1 (printed time up to
+  7.2 s), section 4.4 (all new wall times; the peak memory of the licence query, the kernel and
+  `wolframscript`), section 5.2 (the licence query's peak memory and lifetime), section 6.3 (the 9.8 MB
+  sample marked as not the peak) and this section.
+- Fixes made to the script or other files of the set: none (no execution defect was found).
+- Open discrepancies: none. The scientific results are unchanged: 10 of 10 checks pass and both outputs are
+  byte-identical to the committed files in all 14 runs of this section. Not verified: macOS, Linux with
+  Wolfram, and Wolfram versions other than 15.0.1.

@@ -21,7 +21,7 @@
     {
       "name": "solver_mu_within_rounding_bound",
       "verdict": "PASS",
-      "detail": "the solver's mu (form LogBalance) minus the 40-digit root on its own final levels lies within the rounding bound (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + eps_mach <|eps - mu|> + 2 eps_mach |mu| in 135 of 135 states; largest |mu - root| 2.433e-16 (N136_lamp1_a20_T50); largest ratio to the bound 0.156 (N8_lamm1_a00_T10); N8_lamm1_a00_T10 (the cross-check failure, 8.27e-10 with the former direct count): -2.519e-17 (bound 1.610e-16)"
+      "detail": "the solver's mu (form LogBalance) minus the 40-digit root on its own final levels lies within the rounding bound eps_mach [(n + 2 + L) (P + Hl + |d|)/(dN/dmu) + 3 <|eps - mu|> + T (ln g_max + 3) + 2 |mu|] in 135 of 135 states; largest |mu - root| 2.433e-16 (N136_lamp1_a20_T50); largest ratio to the bound 0.149 (N688_lam0_a00_T10); N8_lamm1_a00_T10 (the cross-check failure, 8.27e-10 with the former direct count): -2.519e-17 (bound 3.154e-16)"
     },
     {
       "name": "single_reproduces_committed_matrix",
@@ -31,7 +31,7 @@
     {
       "name": "fixture_written",
       "verdict": "PASS",
-      "detail": "fixture solver/tools/mermin-roots-40digit.json: the 8 states with the largest conditioning bound of the direct count: N8_lamp1_a00_T10 (1.315e-08), N8_lamm1_a00_T10 (1.287e-08), N8_lam0_a00_T10 (1.012e-08), N8_lamp1_a05_T10 (8.069e-12), N8_lamm1_a05_T10 (7.932e-12), N8_lam0_a05_T10 (5.336e-12), N8_lamp1_a00_T20 (7.955e-13), N8_lamm1_a00_T20 (7.871e-13)"
+      "detail": "fixture solver/tools/mermin-roots-40digit.json: the 8 states with the largest conditioning bound of the direct count: N8_lamp1_a00_T10 (1.315e-08), N8_lamm1_a00_T10 (1.287e-08), N8_lam0_a00_T10 (1.012e-08), N8_lamp1_a05_T10 (8.069e-12), N8_lamm1_a05_T10 (7.932e-12), N8_lam0_a05_T10 (5.337e-12), N8_lamp1_a00_T20 (7.957e-13), N8_lamm1_a00_T20 (7.872e-13)"
     }
   ],
   "states": [
@@ -44,8 +44,8 @@
       "root40": "0.8339282639729952237173715020944136206003",
       "muRun_minus_root": "1.916e-17",
       "dN_dmu": "1.478889e+02",
-      "boundWellConditioned": "4.203e-16",
-      "boundDirectCount": "4.055e-15",
+      "boundWellConditioned": "4.566e-16",
+      "boundDirectCount": "4.091e-15",
       "withinBound": true
     },
     {
@@ -57,8 +57,8 @@
       "root40": "0.8250861168094277650322017599219080430865",
       "muRun_minus_root": "1.807e-17",
       "dN_dmu": "4.613909e+02",
-      "boundWellConditioned": "5.200e-16",
-      "boundDirectCount": "2.209e-15",
+      "boundWellConditioned": "5.851e-16",
+      "boundDirectCount": "2.265e-15",
       "withinBound": true
     },
     {
@@ -70,8 +70,8 @@
       "root40": "0.7941344428510959844393653849962421629949",
       "muRun_minus_root": "-7.252e-17",
       "dN_dmu": "5.285955e+02",
-      "boundWellConditioned": "2.268e-15",
-      "boundDirectCount": "4.771e-15",
+      "boundWellConditioned": "2.489e-15",
+      "boundDirectCount": "4.908e-15",
       "withinBound": true
     },
     {
@@ -83,8 +83,8 @@
       "root40": "0.5320047954169682203490684113527165265822",
       "muRun_minus_root": "-7.842e-18",
       "dN_dmu": "5.554527e+02",
-      "boundWellConditioned": "2.954e-16",
-      "boundDirectCount": "1.438e-15",
+      "boundWellConditioned": "3.286e-16",
+      "boundDirectCount": "1.469e-15",
       "withinBound": true
     },
     {
@@ -96,8 +96,8 @@
       "root40": "0.5216958299099744193690152903046381177671",
       "muRun_minus_root": "9.582e-18",
       "dN_dmu": "7.945323e+02",
-      "boundWellConditioned": "4.453e-16",
-      "boundDirectCount": "1.608e-15",
+      "boundWellConditioned": "5.132e-16",
+      "boundDirectCount": "1.663e-15",
       "withinBound": true
     },
     {
@@ -109,8 +109,8 @@
       "root40": "0.4930880510802005121102234490032641203045",
       "muRun_minus_root": "-2.753e-17",
       "dN_dmu": "8.151837e+02",
-      "boundWellConditioned": "2.864e-15",
-      "boundDirectCount": "4.943e-15",
+      "boundWellConditioned": "3.081e-15",
+      "boundDirectCount": "5.084e-15",
       "withinBound": true
     },
     {
@@ -122,8 +122,8 @@
       "root40": "0.3349457243403255502871420792698478756493",
       "muRun_minus_root": "-4.533e-18",
       "dN_dmu": "1.171843e+03",
-      "boundWellConditioned": "2.417e-16",
-      "boundDirectCount": "1.004e-15",
+      "boundWellConditioned": "2.752e-16",
+      "boundDirectCount": "1.032e-15",
       "withinBound": true
     },
     {
@@ -135,8 +135,8 @@
       "root40": "0.3245515440661317362015253480005307748313",
       "muRun_minus_root": "1.420e-19",
       "dN_dmu": "1.247158e+03",
-      "boundWellConditioned": "7.005e-16",
-      "boundDirectCount": "1.459e-15",
+      "boundWellConditioned": "7.895e-16",
+      "boundDirectCount": "1.514e-15",
       "withinBound": true
     },
     {
@@ -148,8 +148,8 @@
       "root40": "0.2949771673464928574248747550178105862558",
       "muRun_minus_root": "1.709e-17",
       "dN_dmu": "1.219144e+03",
-      "boundWellConditioned": "4.818e-15",
-      "boundDirectCount": "6.293e-15",
+      "boundWellConditioned": "5.040e-15",
+      "boundDirectCount": "6.441e-15",
       "withinBound": true
     },
     {
@@ -161,8 +161,8 @@
       "root40": "0.2068006821794366157212275647769948555837",
       "muRun_minus_root": "2.181e-18",
       "dN_dmu": "1.908360e+03",
-      "boundWellConditioned": "2.719e-16",
-      "boundDirectCount": "1.045e-15",
+      "boundWellConditioned": "3.071e-16",
+      "boundDirectCount": "1.073e-15",
       "withinBound": true
     },
     {
@@ -174,8 +174,8 @@
       "root40": "0.1974603477798658737607806304404485494768",
       "muRun_minus_root": "8.460e-19",
       "dN_dmu": "1.943823e+03",
-      "boundWellConditioned": "9.770e-16",
-      "boundDirectCount": "1.726e-15",
+      "boundWellConditioned": "1.065e-15",
+      "boundDirectCount": "1.784e-15",
       "withinBound": true
     },
     {
@@ -187,8 +187,8 @@
       "root40": "0.1587893727829399294943257602350936836499",
       "muRun_minus_root": "-1.019e-17",
       "dN_dmu": "1.722115e+03",
-      "boundWellConditioned": "1.169e-14",
-      "boundDirectCount": "9.526e-15",
+      "boundWellConditioned": "1.195e-14",
+      "boundDirectCount": "9.685e-15",
       "withinBound": true
     },
     {
@@ -200,8 +200,8 @@
       "root40": "0.1247135962152162498986846827824503800561",
       "muRun_minus_root": "-6.286e-18",
       "dN_dmu": "3.048611e+03",
-      "boundWellConditioned": "5.245e-16",
-      "boundDirectCount": "1.060e-15",
+      "boundWellConditioned": "5.691e-16",
+      "boundDirectCount": "1.088e-15",
       "withinBound": true
     },
     {
@@ -213,8 +213,8 @@
       "root40": "0.1150667869826012212250427148545099158838",
       "muRun_minus_root": "-2.214e-17",
       "dN_dmu": "2.971174e+03",
-      "boundWellConditioned": "1.807e-15",
-      "boundDirectCount": "2.406e-15",
+      "boundWellConditioned": "1.896e-15",
+      "boundDirectCount": "2.466e-15",
       "withinBound": true
     },
     {
@@ -226,8 +226,8 @@
       "root40": "0.05801332985837160688990984552152599072119",
       "muRun_minus_root": "-9.177e-17",
       "dN_dmu": "2.222503e+03",
-      "boundWellConditioned": "3.279e-14",
-      "boundDirectCount": "1.719e-14",
+      "boundWellConditioned": "3.309e-14",
+      "boundDirectCount": "1.737e-14",
       "withinBound": true
     },
     {
@@ -239,8 +239,8 @@
       "root40": "0.8339116594850704854608491198968447665385",
       "muRun_minus_root": "2.563e-17",
       "dN_dmu": "1.478720e+02",
-      "boundWellConditioned": "4.362e-16",
-      "boundDirectCount": "5.485e-15",
+      "boundWellConditioned": "4.735e-16",
+      "boundDirectCount": "5.522e-15",
       "withinBound": true
     },
     {
@@ -252,8 +252,8 @@
       "root40": "0.8250696584176436522836198078694763282855",
       "muRun_minus_root": "2.869e-17",
       "dN_dmu": "4.613698e+02",
-      "boundWellConditioned": "5.661e-16",
-      "boundDirectCount": "2.798e-15",
+      "boundWellConditioned": "6.330e-16",
+      "boundDirectCount": "2.856e-15",
       "withinBound": true
     },
     {
@@ -265,8 +265,8 @@
       "root40": "0.7941179535716694104491173313629753980214",
       "muRun_minus_root": "-4.441e-17",
       "dN_dmu": "5.285789e+02",
-      "boundWellConditioned": "2.736e-15",
-      "boundDirectCount": "5.856e-15",
+      "boundWellConditioned": "2.957e-15",
+      "boundDirectCount": "5.994e-15",
       "withinBound": true
     },
     {
@@ -278,8 +278,8 @@
       "root40": "0.5319624203529388298930208410752374378523",
       "muRun_minus_root": "6.317e-18",
       "dN_dmu": "5.552983e+02",
-      "boundWellConditioned": "3.146e-16",
-      "boundDirectCount": "1.874e-15",
+      "boundWellConditioned": "3.488e-16",
+      "boundDirectCount": "1.905e-15",
       "withinBound": true
     },
     {
@@ -291,8 +291,8 @@
       "root40": "0.5216538598272913087105494388919395501089",
       "muRun_minus_root": "-2.016e-17",
       "dN_dmu": "7.944269e+02",
-      "boundWellConditioned": "5.366e-16",
-      "boundDirectCount": "2.216e-15",
+      "boundWellConditioned": "6.058e-16",
+      "boundDirectCount": "2.272e-15",
       "withinBound": true
     },
     {
@@ -304,8 +304,8 @@
       "root40": "0.4930459808014629353709608847586409809601",
       "muRun_minus_root": "-4.452e-17",
       "dN_dmu": "8.150870e+02",
-      "boundWellConditioned": "3.670e-15",
-      "boundDirectCount": "6.388e-15",
+      "boundWellConditioned": "3.889e-15",
+      "boundDirectCount": "6.531e-15",
       "withinBound": true
     },
     {
@@ -317,8 +317,8 @@
       "root40": "0.3348419783883067247166610566052648364718",
       "muRun_minus_root": "-2.003e-17",
       "dN_dmu": "1.171242e+03",
-      "boundWellConditioned": "2.926e-16",
-      "boundDirectCount": "1.494e-15",
+      "boundWellConditioned": "3.267e-16",
+      "boundDirectCount": "1.523e-15",
       "withinBound": true
     },
     {
@@ -330,8 +330,8 @@
       "root40": "0.3244481332200197618147179878440983376080",
       "muRun_minus_root": "-9.727e-18",
       "dN_dmu": "1.246661e+03",
-      "boundWellConditioned": "9.547e-16",
-      "boundDirectCount": "2.065e-15",
+      "boundWellConditioned": "1.045e-15",
+      "boundDirectCount": "2.121e-15",
       "withinBound": true
     },
     {
@@ -343,8 +343,8 @@
       "root40": "0.2948837490563473696468451949062093313615",
       "muRun_minus_root": "2.988e-17",
       "dN_dmu": "1.218840e+03",
-      "boundWellConditioned": "6.531e-15",
-      "boundDirectCount": "8.549e-15",
+      "boundWellConditioned": "6.754e-15",
+      "boundDirectCount": "8.698e-15",
       "withinBound": true
     },
     {
@@ -356,8 +356,8 @@
       "root40": "0.2066409188718740989314493514602424703764",
       "muRun_minus_root": "8.523e-18",
       "dN_dmu": "1.907995e+03",
-      "boundWellConditioned": "3.893e-16",
-      "boundDirectCount": "1.678e-15",
+      "boundWellConditioned": "4.257e-16",
+      "boundDirectCount": "1.707e-15",
       "withinBound": true
     },
     {
@@ -369,8 +369,8 @@
       "root40": "0.1973051955369887397048669161618736015182",
       "muRun_minus_root": "3.585e-17",
       "dN_dmu": "1.943640e+03",
-      "boundWellConditioned": "1.447e-15",
-      "boundDirectCount": "2.597e-15",
+      "boundWellConditioned": "1.535e-15",
+      "boundDirectCount": "2.655e-15",
       "withinBound": true
     },
     {
@@ -382,8 +382,8 @@
       "root40": "0.1586621503493789228568578287292353403000",
       "muRun_minus_root": "-8.964e-17",
       "dN_dmu": "1.722009e+03",
-      "boundWellConditioned": "1.603e-14",
-      "boundDirectCount": "1.305e-14",
+      "boundWellConditioned": "1.628e-14",
+      "boundDirectCount": "1.321e-14",
       "withinBound": true
     },
     {
@@ -395,8 +395,8 @@
       "root40": "0.1246195328811904372630766228402405258189",
       "muRun_minus_root": "7.876e-18",
       "dN_dmu": "3.051704e+03",
-      "boundWellConditioned": "9.295e-16",
-      "boundDirectCount": "1.929e-15",
+      "boundWellConditioned": "9.749e-16",
+      "boundDirectCount": "1.959e-15",
       "withinBound": true
     },
     {
@@ -408,8 +408,8 @@
       "root40": "0.1149678023439721012820865815788273197403",
       "muRun_minus_root": "7.343e-18",
       "dN_dmu": "2.973487e+03",
-      "boundWellConditioned": "2.821e-15",
-      "boundDirectCount": "3.765e-15",
+      "boundWellConditioned": "2.911e-15",
+      "boundDirectCount": "3.826e-15",
       "withinBound": true
     },
     {
@@ -421,8 +421,8 @@
       "root40": "0.05789914800456490539405872658494919583587",
       "muRun_minus_root": "-5.939e-17",
       "dN_dmu": "2.222920e+03",
-      "boundWellConditioned": "4.584e-14",
-      "boundDirectCount": "2.402e-14",
+      "boundWellConditioned": "4.615e-14",
+      "boundDirectCount": "2.420e-14",
       "withinBound": true
     },
     {
@@ -434,8 +434,8 @@
       "root40": "0.8339448947637459859425434832016184263880",
       "muRun_minus_root": "1.707e-17",
       "dN_dmu": "1.479059e+02",
-      "boundWellConditioned": "4.362e-16",
-      "boundDirectCount": "5.484e-15",
+      "boundWellConditioned": "4.736e-16",
+      "boundDirectCount": "5.521e-15",
       "withinBound": true
     },
     {
@@ -447,8 +447,8 @@
       "root40": "0.8251026010271066628349303269648853518745",
       "muRun_minus_root": "-2.152e-17",
       "dN_dmu": "4.614120e+02",
-      "boundWellConditioned": "5.661e-16",
-      "boundDirectCount": "2.798e-15",
+      "boundWellConditioned": "6.331e-16",
+      "boundDirectCount": "2.856e-15",
       "withinBound": true
     },
     {
@@ -460,8 +460,8 @@
       "root40": "0.7941509571173811661474438177728575269696",
       "muRun_minus_root": "-1.512e-17",
       "dN_dmu": "5.286122e+02",
-      "boundWellConditioned": "2.736e-15",
-      "boundDirectCount": "5.856e-15",
+      "boundWellConditioned": "2.957e-15",
+      "boundDirectCount": "5.993e-15",
       "withinBound": true
     },
     {
@@ -473,8 +473,8 @@
       "root40": "0.5320475435871995163076243820965315278476",
       "muRun_minus_root": "6.589e-18",
       "dN_dmu": "5.556094e+02",
-      "boundWellConditioned": "3.146e-16",
-      "boundDirectCount": "1.873e-15",
+      "boundWellConditioned": "3.488e-16",
+      "boundDirectCount": "1.904e-15",
       "withinBound": true
     },
     {
@@ -486,8 +486,8 @@
       "root40": "0.5217381660446506721809202998198944611656",
       "muRun_minus_root": "-5.243e-17",
       "dN_dmu": "7.946394e+02",
-      "boundWellConditioned": "5.367e-16",
-      "boundDirectCount": "2.216e-15",
+      "boundWellConditioned": "6.059e-16",
+      "boundDirectCount": "2.272e-15",
       "withinBound": true
     },
     {
@@ -499,8 +499,8 @@
       "root40": "0.4931304828857904863461908461560889941136",
       "muRun_minus_root": "4.679e-17",
       "dN_dmu": "8.152820e+02",
-      "boundWellConditioned": "3.670e-15",
-      "boundDirectCount": "6.387e-15",
+      "boundWellConditioned": "3.889e-15",
+      "boundDirectCount": "6.530e-15",
       "withinBound": true
     },
     {
@@ -512,8 +512,8 @@
       "root40": "0.3350538524723520844585030530098901214299",
       "muRun_minus_root": "2.774e-18",
       "dN_dmu": "1.172488e+03",
-      "boundWellConditioned": "2.927e-16",
-      "boundDirectCount": "1.493e-15",
+      "boundWellConditioned": "3.268e-16",
+      "boundDirectCount": "1.521e-15",
       "withinBound": true
     },
     {
@@ -525,8 +525,8 @@
       "root40": "0.3246592752780657684114976009889576738137",
       "muRun_minus_root": "-6.384e-18",
       "dN_dmu": "1.247693e+03",
-      "boundWellConditioned": "9.545e-16",
-      "boundDirectCount": "2.064e-15",
+      "boundWellConditioned": "1.044e-15",
+      "boundDirectCount": "2.120e-15",
       "withinBound": true
     },
     {
@@ -538,8 +538,8 @@
       "root40": "0.2950739253791860055973982037482537180231",
       "muRun_minus_root": "2.500e-17",
       "dN_dmu": "1.219469e+03",
-      "boundWellConditioned": "6.531e-15",
-      "boundDirectCount": "8.545e-15",
+      "boundWellConditioned": "6.754e-15",
+      "boundDirectCount": "8.694e-15",
       "withinBound": true
     },
     {
@@ -551,8 +551,8 @@
       "root40": "0.2069754440560210131821206165959575381656",
       "muRun_minus_root": "1.639e-17",
       "dN_dmu": "1.908817e+03",
-      "boundWellConditioned": "3.895e-16",
-      "boundDirectCount": "1.678e-15",
+      "boundWellConditioned": "4.259e-16",
+      "boundDirectCount": "1.707e-15",
       "withinBound": true
     },
     {
@@ -564,8 +564,8 @@
       "root40": "0.1976294747550752750102554783865399789246",
       "muRun_minus_root": "4.492e-18",
       "dN_dmu": "1.944068e+03",
-      "boundWellConditioned": "1.447e-15",
-      "boundDirectCount": "2.596e-15",
+      "boundWellConditioned": "1.535e-15",
+      "boundDirectCount": "2.654e-15",
       "withinBound": true
     },
     {
@@ -577,8 +577,8 @@
       "root40": "0.1589251412330867844379538509136149420854",
       "muRun_minus_root": "1.184e-16",
       "dN_dmu": "1.722243e+03",
-      "boundWellConditioned": "1.603e-14",
-      "boundDirectCount": "1.305e-14",
+      "boundWellConditioned": "1.628e-14",
+      "boundDirectCount": "1.321e-14",
       "withinBound": true
     },
     {
@@ -590,8 +590,8 @@
       "root40": "0.1248091782522742577195484811622779517808",
       "muRun_minus_root": "-7.832e-18",
       "dN_dmu": "3.045099e+03",
-      "boundWellConditioned": "9.303e-16",
-      "boundDirectCount": "1.934e-15",
+      "boundWellConditioned": "9.758e-16",
+      "boundDirectCount": "1.963e-15",
       "withinBound": true
     },
     {
@@ -603,8 +603,8 @@
       "root40": "0.1151693613289678765866379586286153590452",
       "muRun_minus_root": "1.588e-17",
       "dN_dmu": "2.968552e+03",
-      "boundWellConditioned": "2.822e-15",
-      "boundDirectCount": "3.772e-15",
+      "boundWellConditioned": "2.912e-15",
+      "boundDirectCount": "3.832e-15",
       "withinBound": true
     },
     {
@@ -616,8 +616,8 @@
       "root40": "0.05813521600708301863148954055407658313552",
       "muRun_minus_root": "-2.433e-16",
       "dN_dmu": "2.222047e+03",
-      "boundWellConditioned": "4.585e-14",
-      "boundDirectCount": "2.403e-14",
+      "boundWellConditioned": "4.616e-14",
+      "boundDirectCount": "2.421e-14",
       "withinBound": true
     },
     {
@@ -629,8 +629,8 @@
       "root40": "1.275652039858362943414217406063674524947",
       "muRun_minus_root": "-1.028e-16",
       "dN_dmu": "9.574809e+02",
-      "boundWellConditioned": "6.575e-16",
-      "boundDirectCount": "6.156e-15",
+      "boundWellConditioned": "6.909e-16",
+      "boundDirectCount": "6.186e-15",
       "withinBound": true
     },
     {
@@ -642,8 +642,8 @@
       "root40": "1.279315637522542556118113592002946647695",
       "muRun_minus_root": "-4.136e-17",
       "dN_dmu": "1.417802e+03",
-      "boundWellConditioned": "8.574e-16",
-      "boundDirectCount": "6.072e-15",
+      "boundWellConditioned": "9.281e-16",
+      "boundDirectCount": "6.126e-15",
       "withinBound": true
     },
     {
@@ -655,8 +655,8 @@
       "root40": "1.275542944752390565513410025733172952056",
       "muRun_minus_root": "-7.040e-17",
       "dN_dmu": "1.829091e+03",
-      "boundWellConditioned": "2.580e-15",
-      "boundDirectCount": "1.203e-14",
+      "boundWellConditioned": "2.776e-15",
+      "boundDirectCount": "1.216e-14",
       "withinBound": true
     },
     {
@@ -668,8 +668,8 @@
       "root40": "0.8251753709571739870131104312871402285061",
       "muRun_minus_root": "-1.668e-17",
       "dN_dmu": "1.762009e+03",
-      "boundWellConditioned": "4.690e-16",
-      "boundDirectCount": "3.579e-15",
+      "boundWellConditioned": "5.036e-16",
+      "boundDirectCount": "3.607e-15",
       "withinBound": true
     },
     {
@@ -681,8 +681,8 @@
       "root40": "0.8260475974153492144914279946643381053248",
       "muRun_minus_root": "-4.821e-17",
       "dN_dmu": "2.439058e+03",
-      "boundWellConditioned": "7.216e-16",
-      "boundDirectCount": "4.258e-15",
+      "boundWellConditioned": "7.964e-16",
+      "boundDirectCount": "4.314e-15",
       "withinBound": true
     },
     {
@@ -694,8 +694,8 @@
       "root40": "0.8181040158232130485100501252152873310498",
       "muRun_minus_root": "-3.301e-17",
       "dN_dmu": "2.771916e+03",
-      "boundWellConditioned": "3.467e-15",
-      "boundDirectCount": "1.173e-14",
+      "boundWellConditioned": "3.673e-15",
+      "boundDirectCount": "1.187e-14",
       "withinBound": true
     },
     {
@@ -707,8 +707,8 @@
       "root40": "0.5298823376575297255398461053653606173097",
       "muRun_minus_root": "-4.713e-17",
       "dN_dmu": "3.359798e+03",
-      "boundWellConditioned": "3.800e-16",
-      "boundDirectCount": "2.558e-15",
+      "boundWellConditioned": "4.167e-16",
+      "boundDirectCount": "2.587e-15",
       "withinBound": true
     },
     {
@@ -720,8 +720,8 @@
       "root40": "0.5286051409875937076058330960212259558922",
       "muRun_minus_root": "-5.222e-18",
       "dN_dmu": "4.157929e+03",
-      "boundWellConditioned": "7.549e-16",
-      "boundDirectCount": "3.512e-15",
+      "boundWellConditioned": "8.336e-16",
+      "boundDirectCount": "3.567e-15",
       "withinBound": true
     },
     {
@@ -733,8 +733,8 @@
       "root40": "0.5143562437213529429090545167048383641001",
       "muRun_minus_root": "-3.031e-17",
       "dN_dmu": "4.172428e+03",
-      "boundWellConditioned": "7.043e-15",
-      "boundDirectCount": "1.240e-14",
+      "boundWellConditioned": "7.293e-15",
+      "boundDirectCount": "1.254e-14",
       "withinBound": true
     },
     {
@@ -746,8 +746,8 @@
       "root40": "0.3367473785827460724635035935972291930259",
       "muRun_minus_root": "-1.274e-17",
       "dN_dmu": "6.070886e+03",
-      "boundWellConditioned": "3.908e-16",
-      "boundDirectCount": "2.267e-15",
+      "boundWellConditioned": "4.295e-16",
+      "boundDirectCount": "2.295e-15",
       "withinBound": true
     },
     {
@@ -759,8 +759,8 @@
       "root40": "0.3340750502762393731916678265407897152648",
       "muRun_minus_root": "-2.396e-17",
       "dN_dmu": "6.554724e+03",
-      "boundWellConditioned": "1.074e-15",
-      "boundDirectCount": "3.744e-15",
+      "boundWellConditioned": "1.157e-15",
+      "boundDirectCount": "3.800e-15",
       "withinBound": true
     },
     {
@@ -772,8 +772,8 @@
       "root40": "0.3107298987929165489187940259038343512496",
       "muRun_minus_root": "-3.431e-17",
       "dN_dmu": "6.142304e+03",
-      "boundWellConditioned": "1.462e-14",
-      "boundDirectCount": "1.645e-14",
+      "boundWellConditioned": "1.490e-14",
+      "boundDirectCount": "1.660e-14",
       "withinBound": true
     },
     {
@@ -785,8 +785,8 @@
       "root40": "0.2110104408711085013848867749426951602582",
       "muRun_minus_root": "1.083e-17",
       "dN_dmu": "1.006141e+04",
-      "boundWellConditioned": "5.561e-16",
-      "boundDirectCount": "2.481e-15",
+      "boundWellConditioned": "5.965e-16",
+      "boundDirectCount": "2.509e-15",
       "withinBound": true
     },
     {
@@ -798,8 +798,8 @@
       "root40": "0.2061825836295291617007347666324531735089",
       "muRun_minus_root": "-8.066e-18",
       "dN_dmu": "9.959141e+03",
-      "boundWellConditioned": "2.028e-15",
-      "boundDirectCount": "4.915e-15",
+      "boundWellConditioned": "2.116e-15",
+      "boundDirectCount": "4.973e-15",
       "withinBound": true
     },
     {
@@ -811,8 +811,8 @@
       "root40": "0.1700623314301970519325412113470984869354",
       "muRun_minus_root": "-2.402e-17",
       "dN_dmu": "8.658843e+03",
-      "boundWellConditioned": "3.420e-14",
-      "boundDirectCount": "2.557e-14",
+      "boundWellConditioned": "3.451e-14",
+      "boundDirectCount": "2.574e-14",
       "withinBound": true
     },
     {
@@ -824,8 +824,8 @@
       "root40": "1.275635556683546286233100777157246718902",
       "muRun_minus_root": "-6.282e-17",
       "dN_dmu": "9.581391e+02",
-      "boundWellConditioned": "6.819e-16",
-      "boundDirectCount": "7.747e-15",
+      "boundWellConditioned": "7.162e-16",
+      "boundDirectCount": "7.777e-15",
       "withinBound": true
     },
     {
@@ -837,8 +837,8 @@
       "root40": "1.279267074933175705273006051394092160539",
       "muRun_minus_root": "-1.089e-16",
       "dN_dmu": "1.418974e+03",
-      "boundWellConditioned": "9.514e-16",
-      "boundDirectCount": "7.897e-15",
+      "boundWellConditioned": "1.023e-15",
+      "boundDirectCount": "7.953e-15",
       "withinBound": true
     },
     {
@@ -850,8 +850,8 @@
       "root40": "1.275508392593071721653672338404272044298",
       "muRun_minus_root": "-2.794e-17",
       "dN_dmu": "1.829305e+03",
-      "boundWellConditioned": "3.033e-15",
-      "boundDirectCount": "1.461e-14",
+      "boundWellConditioned": "3.229e-15",
+      "boundDirectCount": "1.475e-14",
       "withinBound": true
     },
     {
@@ -863,8 +863,8 @@
       "root40": "0.8251573424724019529062431967239510378755",
       "muRun_minus_root": "-4.167e-17",
       "dN_dmu": "1.761925e+03",
-      "boundWellConditioned": "5.193e-16",
-      "boundDirectCount": "5.226e-15",
+      "boundWellConditioned": "5.545e-16",
+      "boundDirectCount": "5.255e-15",
       "withinBound": true
     },
     {
@@ -876,8 +876,8 @@
       "root40": "0.8260297886959877206855196572125634479513",
       "muRun_minus_root": "3.378e-17",
       "dN_dmu": "2.438958e+03",
-      "boundWellConditioned": "8.447e-16",
-      "boundDirectCount": "5.636e-15",
+      "boundWellConditioned": "9.195e-16",
+      "boundDirectCount": "5.692e-15",
       "withinBound": true
     },
     {
@@ -889,8 +889,8 @@
       "root40": "0.8180866394188161962816225665104175846222",
       "muRun_minus_root": "1.201e-17",
       "dN_dmu": "2.771835e+03",
-      "boundWellConditioned": "4.291e-15",
-      "boundDirectCount": "1.476e-14",
+      "boundWellConditioned": "4.499e-15",
+      "boundDirectCount": "1.490e-14",
       "withinBound": true
     },
     {
@@ -902,8 +902,8 @@
       "root40": "0.5298368058270595299061704328370222880817",
       "muRun_minus_root": "-3.166e-17",
       "dN_dmu": "3.359173e+03",
-      "boundWellConditioned": "4.462e-16",
-      "boundDirectCount": "3.650e-15",
+      "boundWellConditioned": "4.833e-16",
+      "boundDirectCount": "3.679e-15",
       "withinBound": true
     },
     {
@@ -915,8 +915,8 @@
       "root40": "0.5285601083790885262264036136319457140850",
       "muRun_minus_root": "-1.493e-17",
       "dN_dmu": "4.157334e+03",
-      "boundWellConditioned": "9.856e-16",
-      "boundDirectCount": "4.982e-15",
+      "boundWellConditioned": "1.065e-15",
+      "boundDirectCount": "5.038e-15",
       "withinBound": true
     },
     {
@@ -928,8 +928,8 @@
       "root40": "0.5143136969885862850180154492036053812017",
       "muRun_minus_root": "2.577e-17",
       "dN_dmu": "4.171983e+03",
-      "boundWellConditioned": "9.234e-15",
-      "boundDirectCount": "1.632e-14",
+      "boundWellConditioned": "9.487e-15",
+      "boundDirectCount": "1.646e-14",
       "withinBound": true
     },
     {
@@ -941,8 +941,8 @@
       "root40": "0.3366366951018550599606614785778252339367",
       "muRun_minus_root": "5.765e-18",
       "dN_dmu": "6.067756e+03",
-      "boundWellConditioned": "5.293e-16",
-      "boundDirectCount": "3.502e-15",
+      "boundWellConditioned": "5.686e-16",
+      "boundDirectCount": "3.531e-15",
       "withinBound": true
     },
     {
@@ -954,8 +954,8 @@
       "root40": "0.3339669003407197518419197471622797637622",
       "muRun_minus_root": "-1.066e-17",
       "dN_dmu": "6.552201e+03",
-      "boundWellConditioned": "1.528e-15",
-      "boundDirectCount": "5.517e-15",
+      "boundWellConditioned": "1.611e-15",
+      "boundDirectCount": "5.574e-15",
       "withinBound": true
     },
     {
@@ -967,8 +967,8 @@
       "root40": "0.3106359593134509177159414026011469560378",
       "muRun_minus_root": "3.120e-17",
       "dN_dmu": "6.140755e+03",
-      "boundWellConditioned": "2.001e-14",
-      "boundDirectCount": "2.252e-14",
+      "boundWellConditioned": "2.029e-14",
+      "boundDirectCount": "2.267e-14",
       "withinBound": true
     },
     {
@@ -980,8 +980,8 @@
       "root40": "0.2108392532875593214296533641526634557105",
       "muRun_minus_root": "-7.487e-18",
       "dN_dmu": "1.005874e+04",
-      "boundWellConditioned": "8.776e-16",
-      "boundDirectCount": "4.152e-15",
+      "boundWellConditioned": "9.188e-16",
+      "boundDirectCount": "4.181e-15",
       "withinBound": true
     },
     {
@@ -993,8 +993,8 @@
       "root40": "0.2060179336657330641773153375765264154266",
       "muRun_minus_root": "2.029e-18",
       "dN_dmu": "9.957018e+03",
-      "boundWellConditioned": "2.993e-15",
-      "boundDirectCount": "7.324e-15",
+      "boundWellConditioned": "3.082e-15",
+      "boundDirectCount": "7.383e-15",
       "withinBound": true
     },
     {
@@ -1006,8 +1006,8 @@
       "root40": "0.1699289041278406070426939730061009530793",
       "muRun_minus_root": "1.782e-16",
       "dN_dmu": "8.657907e+03",
-      "boundWellConditioned": "4.738e-14",
-      "boundDirectCount": "3.542e-14",
+      "boundWellConditioned": "4.769e-14",
+      "boundDirectCount": "3.559e-14",
       "withinBound": true
     },
     {
@@ -1019,8 +1019,8 @@
       "root40": "1.275667644800543345985645638952265052332",
       "muRun_minus_root": "-5.820e-17",
       "dN_dmu": "9.568883e+02",
-      "boundWellConditioned": "6.819e-16",
-      "boundDirectCount": "7.756e-15",
+      "boundWellConditioned": "7.162e-16",
+      "boundDirectCount": "7.787e-15",
       "withinBound": true
     },
     {
@@ -1032,8 +1032,8 @@
       "root40": "1.279360417653471902231163749593250739335",
       "muRun_minus_root": "-4.251e-17",
       "dN_dmu": "1.416708e+03",
-      "boundWellConditioned": "9.508e-16",
-      "boundDirectCount": "7.909e-15",
+      "boundWellConditioned": "1.023e-15",
+      "boundDirectCount": "7.965e-15",
       "withinBound": true
     },
     {
@@ -1045,8 +1045,8 @@
       "root40": "1.275575348155020831841966872831373384311",
       "muRun_minus_root": "-1.156e-16",
       "dN_dmu": "1.828891e+03",
-      "boundWellConditioned": "3.031e-15",
-      "boundDirectCount": "1.462e-14",
+      "boundWellConditioned": "3.227e-15",
+      "boundDirectCount": "1.475e-14",
       "withinBound": true
     },
     {
@@ -1058,8 +1058,8 @@
       "root40": "0.8251934326782738980644751103457112031467",
       "muRun_minus_root": "4.344e-17",
       "dN_dmu": "1.762093e+03",
-      "boundWellConditioned": "5.193e-16",
-      "boundDirectCount": "5.226e-15",
+      "boundWellConditioned": "5.545e-16",
+      "boundDirectCount": "5.255e-15",
       "withinBound": true
     },
     {
@@ -1071,8 +1071,8 @@
       "root40": "0.8260654386863170702192312508120829309650",
       "muRun_minus_root": "2.926e-17",
       "dN_dmu": "2.439159e+03",
-      "boundWellConditioned": "8.448e-16",
-      "boundDirectCount": "5.636e-15",
+      "boundWellConditioned": "9.195e-16",
+      "boundDirectCount": "5.691e-15",
       "withinBound": true
     },
     {
@@ -1084,8 +1084,8 @@
       "root40": "0.8181214229791712211772916346407605024539",
       "muRun_minus_root": "9.950e-18",
       "dN_dmu": "2.771997e+03",
-      "boundWellConditioned": "4.291e-15",
-      "boundDirectCount": "1.476e-14",
+      "boundWellConditioned": "4.499e-15",
+      "boundDirectCount": "1.490e-14",
       "withinBound": true
     },
     {
@@ -1097,8 +1097,8 @@
       "root40": "0.5299283074713654623457877152782465225879",
       "muRun_minus_root": "-2.833e-17",
       "dN_dmu": "3.360432e+03",
-      "boundWellConditioned": "4.462e-16",
-      "boundDirectCount": "3.649e-15",
+      "boundWellConditioned": "4.833e-16",
+      "boundDirectCount": "3.678e-15",
       "withinBound": true
     },
     {
@@ -1110,8 +1110,8 @@
       "root40": "0.5286506029943841915792456229387765870641",
       "muRun_minus_root": "-3.599e-17",
       "dN_dmu": "4.158535e+03",
-      "boundWellConditioned": "9.856e-16",
-      "boundDirectCount": "4.981e-15",
+      "boundWellConditioned": "1.065e-15",
+      "boundDirectCount": "5.037e-15",
       "withinBound": true
     },
     {
@@ -1123,8 +1123,8 @@
       "root40": "0.5143991787056379399527632408931183708066",
       "muRun_minus_root": "-4.603e-17",
       "dN_dmu": "4.172880e+03",
-      "boundWellConditioned": "9.234e-15",
-      "boundDirectCount": "1.632e-14",
+      "boundWellConditioned": "9.487e-15",
+      "boundDirectCount": "1.646e-14",
       "withinBound": true
     },
     {
@@ -1136,8 +1136,8 @@
       "root40": "0.3368629112244321032219966302337446583571",
       "muRun_minus_root": "2.342e-17",
       "dN_dmu": "6.074260e+03",
-      "boundWellConditioned": "5.294e-16",
-      "boundDirectCount": "3.498e-15",
+      "boundWellConditioned": "5.687e-16",
+      "boundDirectCount": "3.527e-15",
       "withinBound": true
     },
     {
@@ -1149,8 +1149,8 @@
       "root40": "0.3341878147389253169179541581853118940719",
       "muRun_minus_root": "2.037e-17",
       "dN_dmu": "6.557439e+03",
-      "boundWellConditioned": "1.528e-15",
-      "boundDirectCount": "5.513e-15",
+      "boundWellConditioned": "1.611e-15",
+      "boundDirectCount": "5.570e-15",
       "withinBound": true
     },
     {
@@ -1162,8 +1162,8 @@
       "root40": "0.3108272541944663419013012736911018954093",
       "muRun_minus_root": "-1.237e-16",
       "dN_dmu": "6.143958e+03",
-      "boundWellConditioned": "2.001e-14",
-      "boundDirectCount": "2.251e-14",
+      "boundWellConditioned": "2.029e-14",
+      "boundDirectCount": "2.266e-14",
       "withinBound": true
     },
     {
@@ -1175,8 +1175,8 @@
       "root40": "0.2111991158112234649768935506540023555829",
       "muRun_minus_root": "5.130e-18",
       "dN_dmu": "1.006474e+04",
-      "boundWellConditioned": "8.778e-16",
-      "boundDirectCount": "4.150e-15",
+      "boundWellConditioned": "9.190e-16",
+      "boundDirectCount": "4.179e-15",
       "withinBound": true
     },
     {
@@ -1188,8 +1188,8 @@
       "root40": "0.2063631474813065336725651209897420356738",
       "muRun_minus_root": "-1.448e-17",
       "dN_dmu": "9.961768e+03",
-      "boundWellConditioned": "2.993e-15",
-      "boundDirectCount": "7.321e-15",
+      "boundWellConditioned": "3.082e-15",
+      "boundDirectCount": "7.380e-15",
       "withinBound": true
     },
     {
@@ -1201,8 +1201,8 @@
       "root40": "0.1702053381207517649582449953551513205368",
       "muRun_minus_root": "2.106e-16",
       "dN_dmu": "8.659951e+03",
-      "boundWellConditioned": "4.737e-14",
-      "boundDirectCount": "3.541e-14",
+      "boundWellConditioned": "4.768e-14",
+      "boundDirectCount": "3.558e-14",
       "withinBound": true
     },
     {
@@ -1214,7 +1214,7 @@
       "root40": "0.2098737763871040213440338499705354858176",
       "muRun_minus_root": "6.041e-18",
       "dN_dmu": "1.228620e-06",
-      "boundWellConditioned": "1.566e-16",
+      "boundWellConditioned": "3.095e-16",
       "boundDirectCount": "1.012e-08",
       "withinBound": true
     },
@@ -1227,8 +1227,8 @@
       "root40": "0.2043727519099716980478701760461562064291",
       "muRun_minus_root": "2.442e-18",
       "dN_dmu": "2.918540e-02",
-      "boundWellConditioned": "1.830e-16",
-      "boundDirectCount": "6.088e-13",
+      "boundWellConditioned": "3.484e-16",
+      "boundDirectCount": "6.089e-13",
       "withinBound": true
     },
     {
@@ -1240,8 +1240,8 @@
       "root40": "0.1852385617469399992318900646904244813040",
       "muRun_minus_root": "6.638e-18",
       "dN_dmu": "7.566694e+00",
-      "boundWellConditioned": "5.264e-16",
-      "boundDirectCount": "8.348e-15",
+      "boundWellConditioned": "7.357e-16",
+      "boundDirectCount": "8.539e-15",
       "withinBound": true
     },
     {
@@ -1253,8 +1253,8 @@
       "root40": "0.1308290030325123205682142847127851436487",
       "muRun_minus_root": "4.865e-18",
       "dN_dmu": "3.328795e-03",
-      "boundWellConditioned": "1.106e-16",
-      "boundDirectCount": "5.336e-12",
+      "boundWellConditioned": "2.123e-16",
+      "boundDirectCount": "5.337e-12",
       "withinBound": true
     },
     {
@@ -1266,8 +1266,8 @@
       "root40": "0.1252011269249118408250959635738453349849",
       "muRun_minus_root": "-3.346e-18",
       "dN_dmu": "1.524065e+00",
-      "boundWellConditioned": "1.616e-16",
-      "boundDirectCount": "1.990e-14",
+      "boundWellConditioned": "2.777e-16",
+      "boundDirectCount": "2.000e-14",
       "withinBound": true
     },
     {
@@ -1279,8 +1279,8 @@
       "root40": "0.09924888040728091348947740515361822174327",
       "muRun_minus_root": "-2.626e-17",
       "dN_dmu": "3.586311e+01",
-      "boundWellConditioned": "9.520e-16",
-      "boundDirectCount": "3.694e-15",
+      "boundWellConditioned": "1.121e-15",
+      "boundDirectCount": "3.863e-15",
       "withinBound": true
     },
     {
@@ -1292,8 +1292,8 @@
       "root40": "0.07966677017408599647952153985937406495188",
       "muRun_minus_root": "1.088e-17",
       "dN_dmu": "5.546069e-01",
-      "boundWellConditioned": "9.207e-17",
-      "boundDirectCount": "5.450e-14",
+      "boundWellConditioned": "1.613e-16",
+      "boundDirectCount": "5.456e-14",
       "withinBound": true
     },
     {
@@ -1305,8 +1305,8 @@
       "root40": "0.07324925651222792566119077761796422012321",
       "muRun_minus_root": "1.366e-17",
       "dN_dmu": "1.969902e+01",
-      "boundWellConditioned": "2.100e-16",
-      "boundDirectCount": "3.208e-15",
+      "boundWellConditioned": "2.948e-16",
+      "boundDirectCount": "3.286e-15",
       "withinBound": true
     },
     {
@@ -1318,8 +1318,8 @@
       "root40": "0.03221955457934142371153003557491154856930",
       "muRun_minus_root": "-1.806e-17",
       "dN_dmu": "8.920928e+01",
-      "boundWellConditioned": "2.319e-15",
-      "boundDirectCount": "3.348e-15",
+      "boundWellConditioned": "2.496e-15",
+      "boundDirectCount": "3.512e-15",
       "withinBound": true
     },
     {
@@ -1331,8 +1331,8 @@
       "root40": "0.04683102974714309382071570464575622980304",
       "muRun_minus_root": "-1.874e-19",
       "dN_dmu": "1.457648e+01",
-      "boundWellConditioned": "1.130e-16",
-      "boundDirectCount": "4.420e-15",
+      "boundWellConditioned": "1.617e-16",
+      "boundDirectCount": "4.463e-15",
       "withinBound": true
     },
     {
@@ -1344,8 +1344,8 @@
       "root40": "0.03777349389943166686300151095992457886075",
       "muRun_minus_root": "-5.644e-19",
       "dN_dmu": "9.681966e+01",
-      "boundWellConditioned": "4.158e-16",
-      "boundDirectCount": "1.498e-15",
+      "boundWellConditioned": "4.841e-16",
+      "boundDirectCount": "1.566e-15",
       "withinBound": true
     },
     {
@@ -1357,8 +1357,8 @@
       "root40": "-0.03040298055041425007637407907792425191336",
       "muRun_minus_root": "-1.883e-18",
       "dN_dmu": "1.372058e+02",
-      "boundWellConditioned": "9.709e-15",
-      "boundDirectCount": "4.880e-15",
+      "boundWellConditioned": "9.950e-15",
+      "boundDirectCount": "5.067e-15",
       "withinBound": true
     },
     {
@@ -1370,8 +1370,8 @@
       "root40": "0.02554574996465954841951558938187178511485",
       "muRun_minus_root": "-2.192e-18",
       "dN_dmu": "1.102001e+02",
-      "boundWellConditioned": "2.143e-16",
-      "boundDirectCount": "1.373e-15",
+      "boundWellConditioned": "2.516e-16",
+      "boundDirectCount": "1.409e-15",
       "withinBound": true
     },
     {
@@ -1383,8 +1383,8 @@
       "root40": "0.01055862992913855698281216207559839730655",
       "muRun_minus_root": "4.177e-18",
       "dN_dmu": "2.359121e+02",
-      "boundWellConditioned": "1.100e-15",
-      "boundDirectCount": "1.476e-15",
+      "boundWellConditioned": "1.171e-15",
+      "boundDirectCount": "1.542e-15",
       "withinBound": true
     },
     {
@@ -1396,8 +1396,8 @@
       "root40": "-0.09766539473372879347172853958763706365594",
       "muRun_minus_root": "-1.062e-16",
       "dN_dmu": "1.558298e+02",
-      "boundWellConditioned": "2.287e-14",
-      "boundDirectCount": "1.149e-14",
+      "boundWellConditioned": "2.315e-14",
+      "boundDirectCount": "1.171e-14",
       "withinBound": true
     },
     {
@@ -1409,7 +1409,7 @@
       "root40": "0.2100104497339036454387746813939219759135",
       "muRun_minus_root": "-2.519e-17",
       "dN_dmu": "1.242072e-06",
-      "boundWellConditioned": "1.610e-16",
+      "boundWellConditioned": "3.154e-16",
       "boundDirectCount": "1.287e-08",
       "withinBound": true
     },
@@ -1422,8 +1422,8 @@
       "root40": "0.2045094137051284893028762710211205745248",
       "muRun_minus_root": "-4.919e-18",
       "dN_dmu": "2.934473e-02",
-      "boundWellConditioned": "1.964e-16",
-      "boundDirectCount": "7.871e-13",
+      "boundWellConditioned": "3.627e-16",
+      "boundDirectCount": "7.872e-13",
       "withinBound": true
     },
     {
@@ -1435,8 +1435,8 @@
       "root40": "0.1853700479813852422370030123454136874170",
       "muRun_minus_root": "-9.144e-18",
       "dN_dmu": "7.582535e+00",
-      "boundWellConditioned": "6.618e-16",
-      "boundDirectCount": "1.114e-14",
+      "boundWellConditioned": "8.755e-16",
+      "boundDirectCount": "1.134e-14",
       "withinBound": true
     },
     {
@@ -1448,7 +1448,7 @@
       "root40": "0.1309829832491129816911355368453053999217",
       "muRun_minus_root": "-4.172e-18",
       "dN_dmu": "3.359421e-03",
-      "boundWellConditioned": "1.217e-16",
+      "boundWellConditioned": "2.239e-16",
       "boundDirectCount": "7.932e-12",
       "withinBound": true
     },
@@ -1461,8 +1461,8 @@
       "root40": "0.1253544796907421294901054490299950013558",
       "muRun_minus_root": "1.931e-17",
       "dN_dmu": "1.531058e+00",
-      "boundWellConditioned": "1.928e-16",
-      "boundDirectCount": "2.793e-14",
+      "boundWellConditioned": "3.088e-16",
+      "boundDirectCount": "2.803e-14",
       "withinBound": true
     },
     {
@@ -1474,8 +1474,8 @@
       "root40": "0.09937032652333270485709914937955165220692",
       "muRun_minus_root": "-1.330e-17",
       "dN_dmu": "3.592175e+01",
-      "boundWellConditioned": "1.263e-15",
-      "boundDirectCount": "4.974e-15",
+      "boundWellConditioned": "1.434e-15",
+      "boundDirectCount": "5.145e-15",
       "withinBound": true
     },
     {
@@ -1487,8 +1487,8 @@
       "root40": "0.07984985129134830569305642272699365741429",
       "muRun_minus_root": "3.663e-19",
       "dN_dmu": "5.580783e-01",
-      "boundWellConditioned": "1.210e-16",
-      "boundDirectCount": "9.554e-14",
+      "boundWellConditioned": "1.911e-16",
+      "boundDirectCount": "9.560e-14",
       "withinBound": true
     },
     {
@@ -1500,8 +1500,8 @@
       "root40": "0.07342389214179040123850872005753509799059",
       "muRun_minus_root": "-1.176e-17",
       "dN_dmu": "1.976279e+01",
-      "boundWellConditioned": "2.959e-16",
-      "boundDirectCount": "4.906e-15",
+      "boundWellConditioned": "3.819e-16",
+      "boundDirectCount": "4.985e-15",
       "withinBound": true
     },
     {
@@ -1513,8 +1513,8 @@
       "root40": "0.03229216801430904723625604181582517893058",
       "muRun_minus_root": "-4.136e-18",
       "dN_dmu": "8.931673e+01",
-      "boundWellConditioned": "3.197e-15",
-      "boundDirectCount": "4.617e-15",
+      "boundWellConditioned": "3.377e-15",
+      "boundDirectCount": "4.783e-15",
       "withinBound": true
     },
     {
@@ -1526,8 +1526,8 @@
       "root40": "0.04703985516387806730900874335831854441858",
       "muRun_minus_root": "-4.937e-18",
       "dN_dmu": "1.462821e+01",
-      "boundWellConditioned": "1.824e-16",
-      "boundDirectCount": "8.169e-15",
+      "boundWellConditioned": "2.322e-16",
+      "boundDirectCount": "8.213e-15",
       "withinBound": true
     },
     {
@@ -1539,8 +1539,8 @@
       "root40": "0.03794922538670283434176984396550744086325",
       "muRun_minus_root": "-1.768e-18",
       "dN_dmu": "9.704353e+01",
-      "boundWellConditioned": "6.426e-16",
-      "boundDirectCount": "2.355e-15",
+      "boundWellConditioned": "7.122e-16",
+      "boundDirectCount": "2.424e-15",
       "withinBound": true
     },
     {
@@ -1552,8 +1552,8 @@
       "root40": "-0.03041066135173194765700127690473324414595",
       "muRun_minus_root": "3.814e-17",
       "dN_dmu": "1.372898e+02",
-      "boundWellConditioned": "1.387e-14",
-      "boundDirectCount": "6.960e-15",
+      "boundWellConditioned": "1.411e-14",
+      "boundDirectCount": "7.148e-15",
       "withinBound": true
     },
     {
@@ -1565,8 +1565,8 @@
       "root40": "0.02576373952928265871101040740842201992300",
       "muRun_minus_root": "-2.035e-18",
       "dN_dmu": "1.104359e+02",
-      "boundWellConditioned": "3.981e-16",
-      "boundDirectCount": "2.641e-15",
+      "boundWellConditioned": "4.361e-16",
+      "boundDirectCount": "2.678e-15",
       "withinBound": true
     },
     {
@@ -1578,8 +1578,8 @@
       "root40": "0.01071385016999370139145748406100987944274",
       "muRun_minus_root": "3.942e-18",
       "dN_dmu": "2.362974e+02",
-      "boundWellConditioned": "1.788e-15",
-      "boundDirectCount": "2.399e-15",
+      "boundWellConditioned": "1.861e-15",
+      "boundDirectCount": "2.466e-15",
       "withinBound": true
     },
     {
@@ -1591,8 +1591,8 @@
       "root40": "-0.09774097491361868502372878624661268596711",
       "muRun_minus_root": "2.383e-17",
       "dN_dmu": "1.558502e+02",
-      "boundWellConditioned": "3.270e-14",
-      "boundDirectCount": "1.640e-14",
+      "boundWellConditioned": "3.297e-14",
+      "boundDirectCount": "1.663e-14",
       "withinBound": true
     },
     {
@@ -1604,7 +1604,7 @@
       "root40": "0.2097333311417908208625081810004743590039",
       "muRun_minus_root": "3.286e-18",
       "dN_dmu": "1.215773e-06",
-      "boundWellConditioned": "1.610e-16",
+      "boundWellConditioned": "3.155e-16",
       "boundDirectCount": "1.315e-08",
       "withinBound": true
     },
@@ -1617,8 +1617,8 @@
       "root40": "0.2042323199513865980003201726326544400205",
       "muRun_minus_root": "5.884e-18",
       "dN_dmu": "2.903241e-02",
-      "boundWellConditioned": "1.963e-16",
-      "boundDirectCount": "7.955e-13",
+      "boundWellConditioned": "3.628e-16",
+      "boundDirectCount": "7.957e-13",
       "withinBound": true
     },
     {
@@ -1630,8 +1630,8 @@
       "root40": "0.1851034633426116683484097191248980262952",
       "muRun_minus_root": "-1.122e-17",
       "dN_dmu": "7.551357e+00",
-      "boundWellConditioned": "6.617e-16",
-      "boundDirectCount": "1.119e-14",
+      "boundWellConditioned": "8.755e-16",
+      "boundDirectCount": "1.138e-14",
       "withinBound": true
     },
     {
@@ -1643,7 +1643,7 @@
       "root40": "0.1306639109285295195887430792676854381681",
       "muRun_minus_root": "5.680e-18",
       "dN_dmu": "3.302116e-03",
-      "boundWellConditioned": "1.216e-16",
+      "boundWellConditioned": "2.239e-16",
       "boundDirectCount": "8.069e-12",
       "withinBound": true
     },
@@ -1656,8 +1656,8 @@
       "root40": "0.1250367079140765270797400224901775828472",
       "muRun_minus_root": "6.541e-18",
       "dN_dmu": "1.517935e+00",
-      "boundWellConditioned": "1.927e-16",
-      "boundDirectCount": "2.817e-14",
+      "boundWellConditioned": "3.088e-16",
+      "boundDirectCount": "2.827e-14",
       "withinBound": true
     },
     {
@@ -1669,8 +1669,8 @@
       "root40": "0.09911719577942541473620030446782364824636",
       "muRun_minus_root": "-3.811e-17",
       "dN_dmu": "3.580802e+01",
-      "boundWellConditioned": "1.263e-15",
-      "boundDirectCount": "4.990e-15",
+      "boundWellConditioned": "1.434e-15",
+      "boundDirectCount": "5.160e-15",
       "withinBound": true
     },
     {
@@ -1682,8 +1682,8 @@
       "root40": "0.07946631075372815818167998939184306616738",
       "muRun_minus_root": "3.372e-18",
       "dN_dmu": "5.521138e-01",
-      "boundWellConditioned": "1.209e-16",
-      "boundDirectCount": "9.658e-14",
+      "boundWellConditioned": "1.911e-16",
+      "boundDirectCount": "9.663e-14",
       "withinBound": true
     },
     {
@@ -1695,8 +1695,8 @@
       "root40": "0.07305675921218817738435262297774714555410",
       "muRun_minus_root": "5.200e-18",
       "dN_dmu": "1.965068e+01",
-      "boundWellConditioned": "2.957e-16",
-      "boundDirectCount": "4.933e-15",
+      "boundWellConditioned": "3.818e-16",
+      "boundDirectCount": "5.012e-15",
       "withinBound": true
     },
     {
@@ -1708,8 +1708,8 @@
       "root40": "0.03213065120412064460735542990392656277355",
       "muRun_minus_root": "1.639e-17",
       "dN_dmu": "8.910276e+01",
-      "boundWellConditioned": "3.195e-15",
-      "boundDirectCount": "4.628e-15",
+      "boundWellConditioned": "3.375e-15",
+      "boundDirectCount": "4.794e-15",
       "withinBound": true
     },
     {
@@ -1721,8 +1721,8 @@
       "root40": "0.04660512700461484912560324707420264504196",
       "muRun_minus_root": "4.178e-18",
       "dN_dmu": "1.454853e+01",
-      "boundWellConditioned": "1.822e-16",
-      "boundDirectCount": "8.213e-15",
+      "boundWellConditioned": "2.320e-16",
+      "boundDirectCount": "8.257e-15",
       "withinBound": true
     },
     {
@@ -1734,8 +1734,8 @@
       "root40": "0.03757537919052641920446634095943410959326",
       "muRun_minus_root": "8.545e-19",
       "dN_dmu": "9.665017e+01",
-      "boundWellConditioned": "6.422e-16",
-      "boundDirectCount": "2.364e-15",
+      "boundWellConditioned": "7.118e-16",
+      "boundDirectCount": "2.434e-15",
       "withinBound": true
     },
     {
@@ -1747,8 +1747,8 @@
       "root40": "-0.03040747296970770584965068300060257438819",
       "muRun_minus_root": "2.575e-17",
       "dN_dmu": "1.371150e+02",
-      "boundWellConditioned": "1.389e-14",
-      "boundDirectCount": "6.968e-15",
+      "boundWellConditioned": "1.413e-14",
+      "boundDirectCount": "7.157e-15",
       "withinBound": true
     },
     {
@@ -1760,8 +1760,8 @@
       "root40": "0.02531183918101410270101715656894520357654",
       "muRun_minus_root": "-3.986e-18",
       "dN_dmu": "1.100854e+02",
-      "boundWellConditioned": "3.979e-16",
-      "boundDirectCount": "2.649e-15",
+      "boundWellConditioned": "4.358e-16",
+      "boundDirectCount": "2.686e-15",
       "withinBound": true
     },
     {
@@ -1773,8 +1773,8 @@
       "root40": "0.01037525111581937130886850575403716466714",
       "muRun_minus_root": "-1.324e-18",
       "dN_dmu": "2.355775e+02",
-      "boundWellConditioned": "1.786e-15",
-      "boundDirectCount": "2.406e-15",
+      "boundWellConditioned": "1.859e-15",
+      "boundDirectCount": "2.473e-15",
       "withinBound": true
     },
     {
@@ -1786,8 +1786,8 @@
       "root40": "-0.09759079999939265261995203397834484919563",
       "muRun_minus_root": "-7.458e-17",
       "dN_dmu": "1.558066e+02",
-      "boundWellConditioned": "3.270e-14",
-      "boundDirectCount": "1.640e-14",
+      "boundWellConditioned": "3.298e-14",
+      "boundDirectCount": "1.663e-14",
       "withinBound": true
     }
   ]

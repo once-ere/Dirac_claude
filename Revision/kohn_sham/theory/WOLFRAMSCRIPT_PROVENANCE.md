@@ -16,8 +16,9 @@ field dirac16complex in the author's primordial 8-dimensional field, checks 46 s
 and writes the result twice: as a check report (`Revision/kohn_sham/reports/ks-theory-wolfram.json`) and
 as the recipe of formulas that the numerical Kohn-Sham solvers read (`Revision/kohn_sham/ks-theory.json`).
 The same folder holds an independent second engine, the Python/sympy program `check_ks_theory.py`
-(57 checks, report `Revision/kohn_sham/reports/ks-theory-python.json`); it is documented here as an
-optional companion (sections 3.6 and 4.5), because it reads the Wolfram output.
+(58 checks since commit `3d22bc5` of 2026-10-07, 57 before; report
+`Revision/kohn_sham/reports/ks-theory-python.json`); it is documented here as an optional companion
+(sections 3.6 and 4.5), because it reads the Wolfram output.
 
 ### 1.2 The physics, in plain words
 
@@ -93,16 +94,20 @@ text; the exit code is 0 only if all 46 pass and both output files were written.
 or an output file that cannot be written stops the run at once with a line beginning `ERROR` and exit
 code 1 (this guard is the execution fix of 2026-10-02, section 6). The companion `check_ks_theory.py`
 repeats the derivation independently with sympy (it shares no code with the Wolfram script) and in
-addition compares its own results with `ks-theory.json`.
+addition compares its own results with `ks-theory.json`; its last check (`ks_theory_json_history_label`,
+added on 2026-10-07) also confirms that `ks-theory.json` labels the history a4 = A H x4 a PRESCRIBED
+BACKGROUND for the reason recorded in `Revision/field_equations_a4/reports/ks-source-conditions.json`.
 
 ### 1.4 Which documents cite its results
 
 * `Revision/docs/PAIR_CREATION_PROOFS.md` (and its `.tex` and `.pdf`): section 8 (Theorem T3 is proved for
   the Kohn-Sham problem of `Revision/kohn_sham/ks-theory.json`), section 9.1 (the table of report counts:
-  `ks-theory-wolfram.json` 46 of 46, `ks-theory-python.json` 57 of 57), section 10 (the reproduction
-  commands `wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls` and
-  `python Revision/kohn_sham/theory/check_ks_theory.py`).
-* `Revision/tests/test_pair_creation_proofs_publication.py` reads both reports for the count table.
+  `ks-theory-wolfram.json` 46 of 46, `ks-theory-python.json` 57 of 57; the committed companion report has
+  58 of 58 since commit `972cad1`, so this row is out of date, an open discrepancy of section 6.3),
+  section 10 (the reproduction commands `wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls`
+  and `python Revision/kohn_sham/theory/check_ks_theory.py`).
+* `Revision/tests/test_pair_creation_proofs_publication.py` reads both reports for the count table (its
+  test `test_report_count_table` fails since commit `972cad1` because of the out-of-date row; section 6.3).
 * The numerical Kohn-Sham programs that read `ks-theory.json`: the Rust solver
   (`Revision/kohn_sham/solver/src/theory.rs`, described in `Revision/kohn_sham/solver/README.md`; it refuses
   a `ks-theory.json` without the PRESCRIBED BACKGROUND label), the Python reference
@@ -116,7 +121,8 @@ addition compares its own results with `ks-theory.json`.
   `Revision/pairing/kohn_sham/python/check_t3.py` (with `Revision/pairing/kohn_sham/README.md`) read
   `ks-theory.json`.
 * `Revision/field_equations_a4/python/check_ks_source_conditions.py` cites `ks-theory.json`
-  (`adiabaticity.history`, `emt.energyChange`).
+  (`adiabaticity.history`, `emt.energyChange`); its report `ks-source-conditions.json` is in turn read by
+  the companion (section 2.2).
 * `Revision/textbook/TEXTBOOK_SPEC.md` (chapter 14) lists `Revision/kohn_sham/theory`, `ks-theory.json` and
   the reports as sources.
 * `provenance/dirac matrices.md` (section "Calculations that use these matrices") lists the three program
@@ -138,7 +144,7 @@ their line endings). Line counts are counts of line-feed characters (`wc -l`).
 | --- | --- | --- | --- |
 | `Revision/kohn_sham/theory/verify_ks_theory.wls` (the script you run) | `4ce71aaa2c8efd78c8e1508ab72a3223383e21900805c4a34e55a3d5f7deb50d` | 463 | 41295 |
 | `Revision/kohn_sham/theory/KohnShamTheory.wl` (its package, loaded by the script with `Get`) | `554d726af9cff43c680ee9a4a70e7ffa28740a306c91581b6944cc668007f3cf` | 87 | 4575 |
-| `Revision/kohn_sham/theory/check_ks_theory.py` (optional companion, Python/sympy) | `28c24832e73dbfc1fb133cabf477d3b6eb59e257e1042030dbbb3c3672e56b80` | 791 | 47119 |
+| `Revision/kohn_sham/theory/check_ks_theory.py` (optional companion, Python/sympy) | `e395b794e33c24700a4fcc81e0e7279a5317dc82163811043e4aaa08c8af1458` | 825 | 49831 |
 
 The script's sha256 is that of the version with the execution fix of 2026-10-02 (section 6); this
 version is committed since commit `3f0a577c234501e0e073df1ec1640554bf93d764` and is the one re-verified on
@@ -147,6 +153,17 @@ version is committed since commit `3f0a577c234501e0e073df1ec1640554bf93d764` and
 versions perform the same 46 checks and write the same bytes; the earlier one does not stop when an
 input file is missing or an output file cannot be written (section 3.7 describes what it does then).
 
+The companion was extended on 2026-10-07, outside this verification, by commit
+`3d22bc54a15cbfbc1fc38a4860bc2b1a8f0613f1` (a WIP snapshot of another workflow): it gained one check,
+`ks_theory_json_history_label`, and one input, `ks-source-conditions.json` (section 2.2); the commit
+`972cad112832b9d60564f6c90e0b84b081cd7259` then committed the regenerated report with 58 checks. The
+version described in this file is that extended one (verified in section 6.3). Sections 6.1 and 6.2
+verified the earlier version (sha256 `28c24832e73dbfc1fb133cabf477d3b6eb59e257e1042030dbbb3c3672e56b80`,
+791 lines, 47119 bytes, 57 checks, report sha256
+`0f2dd2975db2af5b9e63453c6fe028c64e80aee3be921d4932c252acfb150f6c`, 298 lines, 18572 bytes); the
+57 checks of the earlier version are the first 57 checks of the extended one, in the same order and with
+the same detail texts.
+
 ### 2.2 Inputs (read only, never modified)
 
 | Input | Read by | sha256 | Lines | Bytes |
@@ -154,6 +171,7 @@ input file is missing or an output file cannot be written (section 3.7 describes
 | `Revision/algebra/gammas.json` (the 8 gamma matrices and eta) | both | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` | 1405 | 76968 |
 | `Revision/algebra/reports/python-gammas.json` (the same matrices rebuilt in Python) | companion only | `b6241910ade6cc282e0aaab75d90fc697247a0d68504618787f547447e2e458b` | 11639 | 94180 |
 | `Revision/kohn_sham/ks-theory.json` (the Wolfram output) | the Wolfram script reads back what it has just written; the companion cross-checks it | see 2.3 | | |
+| `Revision/field_equations_a4/reports/ks-source-conditions.json` (the a4 source conditions of the Kohn-Sham states, written by `Revision/field_equations_a4/python/check_ks_source_conditions.py`) | companion only (check `ks_theory_json_history_label`) | `0597509efe64e0686dcf3cc916121317aacca01c6e73d902edc16f434287361e` | 48 | 4150 |
 
 The script finds the package and the inputs relative to its own location (`$InputFileName`), not relative
 to the current folder. Before it reads the package and before it reads `gammas.json` it checks that the
@@ -165,7 +183,7 @@ file exists; if not, it prints `ERROR  input file not found: <full path>` and st
 | --- | --- | --- | --- | --- |
 | `Revision/kohn_sham/ks-theory.json` (the formulas for the solvers) | `verify_ks_theory.wls` | `1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3` | 477 | 17278 |
 | `Revision/kohn_sham/reports/ks-theory-wolfram.json` (46 checks) | `verify_ks_theory.wls` | `5d803af6b270bc7dd93120907c13c28e855c4ba351ccdc3b411d7f8086112ae6` | 56 | 10291 |
-| `Revision/kohn_sham/reports/ks-theory-python.json` (57 checks) | `check_ks_theory.py` | `0f2dd2975db2af5b9e63453c6fe028c64e80aee3be921d4932c252acfb150f6c` | 298 | 18572 |
+| `Revision/kohn_sham/reports/ks-theory-python.json` (58 checks) | `check_ks_theory.py` | `7ae5c6be4dbaf167093a7c0799d9c102d3a7d1d17ec93311a1b17ea5bc26cf9c` | 303 | 19402 |
 
 If the folder `Revision/kohn_sham/reports` is missing, both scripts create it. If an output file cannot
 be opened for writing (for example because it is read-only), the Wolfram script prints the Wolfram
@@ -173,6 +191,9 @@ message `OpenWrite::noopen: Cannot open <full path>.` and the line `ERROR  canno
 stops with exit code 1.
 
 ## 3. How to run it (complete instructions)
+
+All times in this file were measured on one verification machine (section 4.4) while other jobs were
+running on it; on your computer they can be shorter or longer.
 
 ### 3.1 What you need
 
@@ -280,8 +301,9 @@ git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
 ```
 
-The download took about 13 seconds on the verification machine on 2026-10-02 and 15.8 seconds on
-2026-10-07. You are now in the repository root: the
+The download took 13 to 28 seconds on the verification machine (about 13 s on 2026-10-02; 15.8 s,
+17.5 s, 24.9 s and 27.3 s on 2026-10-07, when the repository was larger). You are now in the
+repository root: the
 folder that contains the folder `Revision`. Every command below is run from here. Do not open and save
 the JSON files of section 2 with an editor: an editor may change their line endings, and then they are
 no longer byte-identical to the committed files.
@@ -291,30 +313,49 @@ no longer byte-identical to the committed files.
 Windows PowerShell (forward slashes and backslashes both work):
 
 ```powershell
-wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls
+$out = wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls
 $LASTEXITCODE
+$out
+$out.Count
+($out | Select-String -SimpleMatch '::').Count
 ```
 
 macOS and Linux:
 
 ```bash
-wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls
+out=$(wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls)
 echo "exit code: $?"
+echo "$out"
+echo "$out" | wc -l
+echo "$out" | grep -c '::'
 ```
 
-The second line shows the exit code of the run; type it immediately after the first, because it reports
-the most recent command. The run takes about 40 to 55 seconds; the lines appear while it runs. Optional, to
-measure the run time: in PowerShell
+What the five lines do:
+
+* The first line runs the script and keeps every line it prints in the variable `out` instead of showing
+  it. Nothing appears on the screen while it runs (nothing appeared in the verified runs); wait until the
+  prompt comes back. The run takes about 40 to 85 seconds, longer on a busy computer. If a line does
+  appear during this wait, it came on the error stream and is not kept in `out`; it means that something
+  went wrong (section 3.7).
+* The second line shows the exit code of the run. Type it immediately after the first line, because it
+  reports the most recent program that ran.
+* The third line shows the kept lines (section 4.1 lists them).
+* The fourth line counts them. It must print `47` (on macOS `wc -l` puts spaces before the number).
+* The fifth line counts the lines that contain `::`. It must print `0`.
+
+These five lines write nothing into the repository, and the variable `out` is forgotten when you close the
+terminal. Optional, to see the lines while the script runs and to measure its run time (this runs the
+script once more): in PowerShell
 `Measure-Command { wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls | Out-Default }`
 (the output is shown, then `TotalSeconds`), on macOS and Linux
 `time wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls`.
 
 Then check the result:
 
-1. The last printed line must begin with `46/46 checks passed`, the exit code must be `0`, and exactly
-   47 lines must have been printed (46 lines beginning with `PASS` and the final line), none containing
-   `::`. A line containing `::` is a Wolfram message (for example `OpenWrite::noopen`) and means that
-   something went wrong even if the other checks below look right.
+1. The last line shown by `$out` (or `echo "$out"`) must begin with `46/46 checks passed`, the exit code
+   must be `0`, the line count must be `47` (46 lines beginning with `PASS` and the final line), and the
+   count of lines containing `::` must be `0`. A line containing `::` is a Wolfram message (for example
+   `OpenWrite::noopen`) and means that something went wrong even if the other checks below look right.
 2. The report's summary line. Windows PowerShell:
 
    ```powershell
@@ -376,22 +417,26 @@ anyway, so the result is the same in either order.
    ```
 
    (Calling the environment's own `python` directly needs no "activation" step.) What you see: the
-   `venv` line prints nothing (it took 6 to 16 s on the verification machine). A new environment
+   `venv` line prints nothing (it took 6 to 17 s on the verification machine). A new environment
    contains only pip, so the `pip install` line downloads three package files of about 19 MB together
    (numpy 12.5 MB, sympy 6.3 MB, mpmath 0.5 MB) from the Python Package Index, or takes them from pip's
    local cache if this computer downloaded them before (then the lines say `Using cached ...`). It prints
    `Collecting ...` lines, `Installing collected packages: mpmath, sympy, numpy`, and must end with the
-   line `Successfully installed mpmath-1.3.0 numpy-2.4.6 sympy-1.14.0`; it took 34 to 40 s on the
-   verification machine (from the cache). Two kinds of extra lines are harmless and can be ignored: a
-   notice `[notice] A new release of pip is available: ...` with a suggested upgrade command (you need not
-   upgrade pip), and on some computers `WARNING: Cache entry deserialization failed, entry ignored` (pip
-   ignores that cache entry and continues). If your Python is older than 3.14 and pip cannot find these exact
-   versions, `pip install numpy sympy mpmath` installs versions for your Python; the verdicts are
-   expected to be the same, but only the versions above were verified.
-3. Check: the last line must be `{"passed": 57, "failed": 0, "other": 0, "total": 57}`, the exit code
+   line `Successfully installed mpmath-1.3.0 numpy-2.4.6 sympy-1.14.0`; it took 34 to 94 s on the
+   verification machine (from the cache; the longer times on a busy day). Two kinds of extra lines are
+   harmless and can be ignored: a notice `[notice] A new release of pip is available: ...` with a
+   suggested upgrade command (you need not upgrade pip), and on some computers
+   `WARNING: Cache entry deserialization failed, entry ignored` (pip ignores that cache entry and
+   continues). If your Python is older than 3.14 and pip cannot find these exact versions,
+   `pip install numpy sympy mpmath` installs versions for your Python; the verdicts are expected to be the
+   same, but only the versions above were verified. The checker itself prints its lines while it runs and
+   takes about 75 to 165 seconds, longer on a busy computer.
+3. Check: the last line must be `{"passed": 58, "failed": 0, "other": 0, "total": 58}`, the exit code
    `0`, and the report `Revision/kohn_sham/reports/ks-theory-python.json` must have the sha256
-   `0f2dd2975db2af5b9e63453c6fe028c64e80aee3be921d4932c252acfb150f6c` (same hash commands as in
-   section 3.5, step 3); `git status --porcelain` must again print nothing.
+   `7ae5c6be4dbaf167093a7c0799d9c102d3a7d1d17ec93311a1b17ea5bc26cf9c` (same hash commands as in
+   section 3.5, step 3); `git status --porcelain` must again print nothing. The exit code `0` alone does
+   not prove success: a run without `Revision/kohn_sham/ks-theory.json` also ends with exit code `0`
+   (section 3.7), so always read the last line.
 
 ### 3.7 What to do if it fails
 
@@ -405,18 +450,23 @@ anyway, so the result is the same in either order.
   WolframScript finds the newest installed kernel by itself, and the line `WOLFRAMSCRIPT_KERNELPATH` is
   commented out with `//`). Point it to the kernel program of your installation with
   `wolframscript -configure WOLFRAMSCRIPT_KERNELPATH=<full path of the kernel program>` (on the
-  verification machine the kernel program is `C:/Program Files/Wolfram Research/Wolfram/15.0.1/wolfram.exe`;
-  older versions call it `WolframKernel.exe` on Windows and `WolframKernel` on macOS and Linux), or
-  reinstall the Wolfram Engine or Mathematica.
+  verification machine WolframScript uses `C:/Program Files/Wolfram Research/Wolfram/15.0.1/wolfram.exe`;
+  that folder also contains `WolframKernel.exe` and `MathKernel.exe`; older versions have only
+  `WolframKernel.exe` on Windows and `WolframKernel` on macOS and Linux), or reinstall the Wolfram Engine
+  or Mathematica.
 * The only output is `Failed to open file at path: Revision/kohn_sham/theory/verify_ks_theory.wls`: you
   are not in the repository root. CAUTION: in this case WolframScript still returns exit code 0
-  (observed during the verification), so always read the last line. Go to the folder that contains
+  (observed during the verification), so always read the last line. WolframScript writes this message to
+  the error stream, so with the commands of section 3.5 it appears on the screen at once, after about
+  4 seconds, during the first line, and is NOT kept in `out`: `$out` (or `echo "$out"`) then shows
+  nothing, the line count is `0` in PowerShell and `1` (an empty line) on macOS and Linux, and the `::`
+  count is `0` (observed in PowerShell 7.6.6 and Git Bash). Go to the folder that contains
   `Revision` (`cd $HOME\Dirac_claude` in PowerShell, `cd ~/Dirac_claude` on macOS and Linux) and run
   again.
 * The only output is the line
   `ERROR  input file not found: ...\Revision\kohn_sham\theory\..\..\algebra\gammas.json` (the dots stand
   for the full path of your repository folder; on macOS and Linux the path has forward slashes), and the
-  exit code is `1` (observed: after about 3 to 5 seconds): the input file `Revision/algebra/gammas.json` is
+  exit code is `1` (observed: after about 3 to 6 seconds): the input file `Revision/algebra/gammas.json` is
   missing or renamed. Restore it with `git checkout -- Revision/algebra/gammas.json` and run again. If the
   line names `...\Revision\kohn_sham\theory\KohnShamTheory.wl` instead, the package is missing: restore
   it with `git checkout -- Revision/kohn_sham/theory/KohnShamTheory.wl`.
@@ -430,8 +480,9 @@ anyway, so the result is the same in either order.
   running after 167 and after 400 seconds). Press Ctrl+C to stop it, then restore the file as above.
 * The output contains `OpenWrite::noopen: Cannot open ...\ks-theory-wolfram.json.` (or
   `...\ks-theory.json.`), followed by `ERROR  cannot write ...` with the same path, there is no
-  `checks passed` line, and the exit code is `1` (observed): an output file of section 2.3 is read-only, or
-  the folder is not writable. The file is left unchanged. Make the file writable again (Windows
+  `checks passed` line, and the exit code is `1` (observed; with the commands of section 3.5 the line
+  count is `49` for the report and `48` for `ks-theory.json`, and the `::` count is `1`): an output file of
+  section 2.3 is read-only, or the folder is not writable. The file is left unchanged. Make the file writable again (Windows
   PowerShell: `Set-ItemProperty <file> -Name IsReadOnly -Value $false`, tested in PowerShell 7 and
   Windows PowerShell 5.1; macOS and Linux: `chmod u+w <file>`), or use a clone in a folder where you may
   write, and run again. A missing folder
@@ -460,6 +511,21 @@ anyway, so the result is the same in either order.
 * Python companion: `ModuleNotFoundError: No module named 'sympy'` (or `numpy`) means the packages are
   not installed in the Python you ran; repeat the `pip install` line of section 3.6 with the same
   `python` you use to run the checker.
+* Python companion: the line before the last is `[pending] ks_theory_json_basis  t=...s` and the last
+  line is `{"passed": 54, "failed": 0, "other": 1, "total": 55}`, although the exit code is `0`
+  (observed): the file `Revision/kohn_sham/ks-theory.json` is missing, so the companion skipped its
+  cross-check of that file (it marks this `pending`, which does not count as a failure). The run has
+  also OVERWRITTEN the committed `Revision/kohn_sham/reports/ks-theory-python.json` with this
+  incomplete report. Restore `ks-theory.json` with `git checkout -- Revision/kohn_sham/ks-theory.json`
+  (or run the Wolfram script of section 3.5, which writes it), restore the report with the command of
+  section 5.4, and run the companion again.
+* Python companion: a line `[FAIL] ks_theory_json_history_label  t=...s`, the last line
+  `{"passed": 57, "failed": 1, "other": 0, "total": 58}` and exit code `1` (observed with the file
+  `Revision/field_equations_a4/reports/ks-source-conditions.json` moved away): that input is missing or
+  changed, or `ks-theory.json` no longer carries the PRESCRIBED BACKGROUND label. Restore both with
+  `git checkout -- Revision/field_equations_a4/reports/ks-source-conditions.json Revision/kohn_sham/ks-theory.json`,
+  restore the report with the command of section 5.4, and run again. If the files were not changed and
+  the check still fails, do not edit anything; report the failing check name.
 
 ## 4. Expected output
 
@@ -522,13 +588,16 @@ PASS  ks_theory_json_written  t=33.6
 46/46 checks passed; time 33.6 s
 ```
 
-(This is recorded run 1 of 2026-10-02, section 6.) The two recorded runs of 2026-10-07 printed the same 47
-lines in the same order with larger `t=` values, because the machine was busier that day; their final
-lines were `46/46 checks passed; time 46.300000000000004 s` and `46/46 checks passed; time 45.800000000000004 s`.
+(This is recorded run 1 of 2026-10-02, section 6.) The runs of 2026-10-07 printed the same 47 lines in
+the same order with larger `t=` values, because the machine was busier that day; the final lines of the
+two recorded runs of section 6.2 were `46/46 checks passed; time 46.300000000000004 s` and
+`46/46 checks passed; time 45.800000000000004 s`, those of the three complete runs of section 6.3
+`46/46 checks passed; time 76.80000000000001 s`, `46/46 checks passed; time 67.2 s` and
+`46/46 checks passed; time 64. s`.
 The longest single step is the explicit angular integral of `gas_angular_average` (23 to 25 s on
-2026-10-02, 30.4 and 30.7 s on 2026-10-07), then the energy-momentum components of
-`emt_orbital_components` (7 to 8 s; 10.5 and 8.8 s) and the NDSolve shooting of `brane_band_slope`
-(about 2 s; 2.6 and 2.7 s).
+2026-10-02, 30.4 and 30.7 s in section 6.2, 41.6 to 49.5 s in section 6.3), then the energy-momentum
+components of `emt_orbital_components` (7 to 8 s; 10.5 and 8.8 s; 10.6 to 17.4 s) and the NDSolve
+shooting of `brane_band_slope` (about 2 s; 2.6 and 2.7 s; 3.1 to 4.5 s).
 
 ### 4.2 Exit code
 
@@ -569,26 +638,44 @@ parallel kernels.
   section 3.5 typed literally (script time 51.1 s), 52.7 s and 57.1 s for the two failure tests that run
   all checks (section 6.2); peak memory of the kernel 238 MB and 237 MB, of `wolframscript.exe` 17 MB, of
   the short licence query `wolfram.exe -wlbanner -licenseinfo` 53 MB and 54 MB.
+* Third verification of 2026-10-07 (section 6.3; same script, same machine, still busier: 4 to 15
+  `wolfram.exe` processes at the moments checked, and the companion of section 6.3 ran at the same time):
+  wall clock 82.2 s for the PowerShell commands of section 3.5 typed literally (script time 76.8 s),
+  73.8 s for the `Measure-Command` form (`TotalSeconds : 73.8468607`, script time 67.2 s), 69.5 s for the
+  macOS/Linux commands of section 3.5 in Git Bash (script time 64. s), 58.1 s for the PowerShell commands
+  of section 3.5 in Windows PowerShell 5.1 (script time 52.3 s), 72.5 s and 55.1 s for the failure tests
+  with a read-only `ks-theory.json` and a read-only report, 4.3 s for the failure test with `gammas.json`
+  missing.
+* In all, over every complete run recorded in this file, the wall-clock time of the Wolfram script was
+  36.6 to 82.2 s.
 
 ### 4.5 The optional Python companion
 
-It prints 59 lines: 57 lines `[PASS] <name>  t=<seconds>s`, the line `shooting time <seconds> s` (right
+It prints 60 lines: 58 lines `[PASS] <name>  t=<seconds>s`, the line `shooting time <seconds> s` (right
 after `[PASS] brane_band_slope`), and the final line
 
 ```text
-{"passed": 57, "failed": 0, "other": 0, "total": 57}
+{"passed": 58, "failed": 0, "other": 0, "total": 58}
 ```
 
 The first three lines are `[PASS] fixture_input  t=0.0s`, `[PASS] fixture_python_equals_wolfram  t=0.0s`,
-`[PASS] clifford_relation  t=0.0s`; the last three checks are `ks_theory_json_basis`,
-`ks_theory_json_exchange`, `ks_theory_json_slope` (the cross-check of `ks-theory.json`). Exit code `0`
-(`1` if a check fails). It writes `Revision/kohn_sham/reports/ks-theory-python.json` (298 lines, 18572
-bytes, sha256 `0f2dd2975db2af5b9e63453c6fe028c64e80aee3be921d4932c252acfb150f6c`), whose `"summary"`
-block (lines 5 to 10) holds `"passed": 57`, `"failed": 0`, `"other": 0`, `"total": 57`. Run time 73.3 to
-90.4 s wall clock over 4 timed runs (the script's own last time stamp 65.3 to 88.4 s over 5 runs; the
-RK4 shooting, printed as `shooting time`, 28.5 to 39.7 s of it); peak memory 88 MB. On 2026-10-07, with
-the machine busier: 111.1 s and 101.6 s wall clock (last time stamp 108.1 s and 97.9 s; `shooting time
-47.1 s` and `39.5 s`), peak memory 89 MB and 88 MB.
+`[PASS] clifford_relation  t=0.0s`; the last four checks are `ks_theory_json_basis`,
+`ks_theory_json_exchange`, `ks_theory_json_slope` (the cross-check of `ks-theory.json`) and
+`ks_theory_json_history_label` (the PRESCRIBED BACKGROUND label, against `ks-source-conditions.json`).
+Exit code `0` when no check fails, `1` if a check fails. Caution: an exit code `0` alone does not prove
+success for the companion either. A check whose verdict is neither PASS nor FAIL (the verdict `pending`,
+printed when `ks-theory.json` is missing) is counted as `"other"` and does not change the exit code
+(section 3.7); so the last line must read exactly 58 of 58 as above. It writes
+`Revision/kohn_sham/reports/ks-theory-python.json` (303 lines, 19402 bytes, sha256
+`7ae5c6be4dbaf167093a7c0799d9c102d3a7d1d17ec93311a1b17ea5bc26cf9c`), whose `"summary"` block (lines 5
+to 10) holds `"passed": 58`, `"failed": 0`, `"other": 0`, `"total": 58`. Run time of the extended version
+(section 6.3): 134.3 s and 128.5 s wall clock (last time stamp 123.5 s and 119.3 s; `shooting time
+38.6 s` and `42.5 s`), on a busy machine. The earlier 57-check version (sections 6.1 and 6.2) took 73.3 to
+90.4 s wall clock over 4 timed runs on 2026-10-02 (the script's own last time stamp 65.3 to 88.4 s over 5
+runs; the RK4 shooting, printed as `shooting time`, 28.5 to 39.7 s of it; peak memory 88 MB), and 111.1 s
+and 101.6 s on 2026-10-07 (last time stamp 108.1 s and 97.9 s; `shooting time 47.1 s` and `39.5 s`; peak
+memory 89 MB and 88 MB). The added check reads two small JSON files; its time stamp is at most 0.1 s
+after that of the check before it.
 
 ## 5. Side effects
 
@@ -600,13 +687,14 @@ the machine busier: 111.1 s and 101.6 s wall clock (last time stamp 108.1 s and 
   `Revision/kohn_sham/reports` is missing, the Wolfram script creates it (observed; the script of commit
   `c2b33cc` did not).
 * The companion OVERWRITES `Revision/kohn_sham/reports/ks-theory-python.json` (it would create the folder
-  `Revision/kohn_sham/reports` if it were missing).
+  `Revision/kohn_sham/reports` if it were missing). It does so on every run, also when an input is
+  missing and the report is then incomplete (section 3.7); restore it as in section 5.4.
 * Nothing else in the repository is created or changed: `git status --porcelain --untracked-files=all --ignored`
   printed nothing after the recorded runs of both scripts and at the end of all runs in both clones of
   the first pass (no new file, no ignored file, no `__pycache__` folder); in the clones of the second
   pass it printed only the line ` M Revision/kohn_sham/theory/verify_ks_theory.wls`, the fixed script
   that had been copied in (section 6). On 2026-10-07, with the fixed script committed, it printed nothing
-  in all three fresh clones after all runs (section 6.2).
+  in all three fresh clones of section 6.2 and in all three fresh clones of section 6.3 after all runs.
 
 ### 5.2 Outside the repository
 
@@ -621,7 +709,8 @@ the machine busier: 111.1 s and 101.6 s wall clock (last time stamp 108.1 s and 
 * Nothing is written to the system temporary folder: with `TEMP` and `TMP` pointed to an empty private
   folder, the folder was still empty after the run (both the Wolfram script and the companion).
 * Processes: `wolframscript.exe` starts ONE Wolfram kernel (on Wolfram 15.0.1 the program
-  `wolfram.exe ... -linkmode Connect ... -mathlink`; older versions call it `WolframKernel`), which ends
+  `wolfram.exe ... -linkmode Connect ... -mathlink`, although the installation folder also contains
+  `WolframKernel.exe`; older versions have only `WolframKernel`), which ends
   with the run; in 4 of 6 monitored runs WolframScript also started a second, short-lived `wolfram.exe`
   (60 to 68 MB); where its command line was captured it was `wolfram.exe -wlbanner -licenseinfo`, a
   licence query. No parallel subkernels are launched. When the run was killed, its kernel ended as well
@@ -635,9 +724,11 @@ the machine busier: 111.1 s and 101.6 s wall clock (last time stamp 108.1 s and 
 
 The sha256 of `ks-theory.json` is pinned in `Revision/kohn_sham/results/parameters.json` and
 `Revision/kohn_sham/reference/results/parameters.json`, and the count table of
-`Revision/docs/PAIR_CREATION_PROOFS.md` (with its test) quotes 46 and 57. A run that reproduces the
-committed bytes (as verified) leaves all of these valid; if your run produced different bytes, restore the
-committed files (section 5.4) before running anything that reads them.
+`Revision/docs/PAIR_CREATION_PROOFS.md` (with its test) quotes 46 and 57 (the committed companion report
+has 58 checks since commit `972cad1`; this mismatch exists before any run and is an open discrepancy of
+section 6.3). A run that reproduces the committed bytes (as verified) leaves all of these as they were; if
+your run produced different bytes, restore the committed files (section 5.4) before running anything that
+reads them.
 
 ### 5.4 How to restore the committed state
 
@@ -654,7 +745,16 @@ If you made the Python environment of section 3.6 and no longer need it: Windows
 
 The set was verified on 2026-10-02 (section 6.1) and verified again on 2026-10-07 (section 6.2), after the
 verification workflow had been interrupted by a session limit and relaunched: the earlier record was not
-trusted unchecked but repeated in new fresh clones.
+trusted unchecked but repeated in new fresh clones. Later on 2026-10-07 an independent review of this
+file reported six minor findings; they were checked, and the set (with the companion as extended that
+day) was verified a third time in new fresh clones (section 6.3). Sections 6.1 and 6.2 verified the
+earlier, 57-check version of the companion (section 2.1); the fixed Wolfram script (second pass of
+section 6.1, sections 6.2 and 6.3) and its two outputs are the same in all of them.
+
+Until section 6.3, section 3.5 showed the run command in its plain form
+(`wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls`, then `$LASTEXITCODE` or
+`echo "exit code: $?"`), without `$out =` / `out=$(...)` and the two counting lines; "the commands of
+section 3.5 typed literally" in sections 6.1 and 6.2 means that plain form.
 
 ### 6.1 Verification of 2026-10-02
 
@@ -707,9 +807,10 @@ trusted unchecked but repeated in new fresh clones.
     `ERROR  cannot write ...\Revision\kohn_sham\theory\..\reports\ks-theory-wolfram.json`, no
     `checks passed` line, exit code 1 (38.9 s); the file was not changed (same modification time and
     sha256);
-  * `ks-theory.json` read-only (clone C5): 45 lines `PASS` (the last is `brane_band_slope`), then the same
-    two lines for `...\Revision\kohn_sham\theory\..\ks-theory.json`, exit code 1 (39.2 s); the file was
-    not changed;
+  * `ks-theory.json` read-only (clone C5): 45 lines `PASS` (the last is `brane_band_slope`), an empty line,
+    then the same two lines for `...\Revision\kohn_sham\theory\..\ks-theory.json` (48 lines in all; the
+    empty line was left out of this entry when it was first written and was counted when the test was
+    repeated on 2026-10-07, section 6.3), exit code 1 (39.2 s); the file was not changed;
   * `Revision/algebra/gammas.json` moved away (clone C5): the only output was
     `ERROR  input file not found: ...\Revision\kohn_sham\theory\..\..\algebra\gammas.json`, exit code 1
     (3.3 s);
@@ -870,9 +971,133 @@ trusted unchecked but repeated in new fresh clones.
   clones A, B and C (no file changed, created or left behind in the repository).
 * Check counts: 46 of 46 (Wolfram) and 57 of 57 (companion), equal to the committed reports and to the
   count table of `Revision/docs/PAIR_CREATION_PROOFS.md` section 9.1.
-* Not repeated on 2026-10-07 (recorded in section 6.1 only): the Git Bash commands of section 3.5, the
-  private-environment commands of section 3.6, the read-only `ks-theory.json` test, the monitoring of
-  temporary files, settings file and network of section 5.2, and the failure tests of the script of
-  commit `c2b33cc`.
-* Fixes: none on 2026-10-07; no file of the set was changed (only this provenance file was updated).
-* Open discrepancies: none.
+* Not repeated in this second verification (recorded in section 6.1 only): the Git Bash commands of
+  section 3.5, the private-environment commands of section 3.6, the read-only `ks-theory.json` test (these
+  three were repeated in section 6.3), the monitoring of temporary files, settings file and network of
+  section 5.2, and the failure tests of the script of commit `c2b33cc`.
+* Fixes: none in this second verification; no file of the set was changed (only this provenance file was
+  updated).
+* Open discrepancies: none at commit `a4c5eda` (the companion was extended later that day; section 6.3).
+
+### 6.3 Third verification of 2026-10-07 (after an independent review)
+
+* Date: 2026-10-07. An independent review of this file, made on the same machine in fresh clones of the
+  commits `c8f6022` and `565c9b0` (in which the set was still that of section 6.2), reported six minor
+  findings. Each was checked again here in new fresh clones; the outcome is listed at the end of this
+  section. In the meantime the companion had been extended (section 2.1), so the companion was verified
+  anew.
+* Commit verified: `772f7741660c758ba16ea3232aaa3bde22fb4888` (clone F1) and
+  `d4431b20f839553b37eaadf1f0c12e869c7070b4` (clones F2 and F3, made a few minutes later; it differs
+  from `772f774` only in `Revision/kohn_sham/solver/README.md`), each cloned fresh from
+  `https://github.com/once-ere/Dirac_claude.git` into an empty folder. No uncommitted file was copied into
+  any clone. The script, the package, the companion, the inputs and the outputs had exactly the sha256
+  values, line counts and byte counts of section 2 (measured in clone F1).
+* Environment: Windows 11 Pro for Workstations 10.0.26300, Intel Core Ultra 9 275HX (24 cores), 191 GB
+  memory; WolframScript 1.14.0 with Wolfram 15.0.1 for Microsoft Windows (64-bit) (July 2, 2026),
+  Professional licence; Python 3.14.5 (system installation `C:\Python314`); a private environment made
+  with the commands of section 3.6 (pip 26.1.1, numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0); Git
+  2.51.2.windows.1; PowerShell 7.6.6, Windows PowerShell 5.1.26100.9444 and Git Bash. The PowerShell
+  commands were run from a script file
+  (`pwsh -NoProfile -File ...`) that wrote everything printed to a log file; it contained the five
+  PowerShell lines of section 3.5, the optional `Measure-Command` line, the `Select-String` and
+  `Get-FileHash` lines and the `venv` and `pip install` lines of section 3.6 word for word, and ran the
+  checker line of section 3.6 with its output kept in a variable for counting
+  (`$out = ..\ks-venv\Scripts\python.exe Revision/kohn_sham/theory/check_ks_theory.py`). The five macOS/Linux
+  lines of section 3.5 and the `grep` and `sha256sum` lines ran word for word from a `bash` script. Other
+  workflows were running Wolfram kernels at the same time (4 to 15 `wolfram.exe` processes at the moments
+  checked), and the companion runs of clone F2 overlapped with the Wolfram runs of clone F1.
+* The Wolfram script, complete runs:
+
+  | Run | Clone | Commands | Exit code | Printed verdict | Line count / `::` count | Wall clock |
+  | --- | --- | --- | --- | --- | --- | --- |
+  | 1 | F1 | PowerShell, section 3.5 | 0 | `46/46 checks passed; time 76.80000000000001 s` | `47` / `0` (printed by the commands) | 82.2 s |
+  | 2 | F1 | PowerShell, the optional `Measure-Command` line of section 3.5 | 0 | `46/46 checks passed; time 67.2 s` | 47 / 0 (counted in the log) | 73.8 s (`TotalSeconds : 73.8468607`) |
+  | 3 | F3 | Git Bash, the macOS/Linux commands of section 3.5 | 0 (`exit code: 0`) | `46/46 checks passed; time 64. s` | `47` / `0` (printed by the commands) | 69.5 s |
+  | 4 | F3 | Windows PowerShell 5.1.26100.9444, the PowerShell commands of section 3.5 | 0 | `46/46 checks passed; time 52.300000000000004 s` | `47` / `0` (printed by the commands) | 58.1 s |
+
+  Each run printed the 46 `PASS` lines in the order of section 4.1 and nothing else. After each run
+  `ks-theory.json` and `ks-theory-wolfram.json` were byte-identical to the committed files (`cmp` against
+  `git show HEAD:<file>`), and the outputs of runs 1 and 2 were identical to each other; `Get-FileHash`
+  (runs 1 and 4) and `sha256sum` (run 3) printed the two hashes of section 3.5, step 3; `Select-String`
+  (run 2) and `grep` (run 3) found line 7 `  "summary": {"passed": 46, "failed": 0, "total": 46},`;
+  `git status --porcelain` printed nothing after each run.
+* Failure tests of the Wolfram script (clone F1, with the PowerShell commands of section 3.5; after each
+  the file was restored):
+  * `Revision/kohn_sham/ks-theory.json` read-only: exit code 1; the counting lines printed `48` and `1`;
+    the 48 lines were 45 lines `PASS` (the last `PASS  brane_band_slope  t=66.8`), one empty line,
+    `OpenWrite::noopen: Cannot open ...\Revision\kohn_sham\theory\..\ks-theory.json.` and
+    `ERROR  cannot write ...\Revision\kohn_sham\theory\..\ks-theory.json`; 72.5 s; the file kept its
+    sha256 and its modification time;
+  * report `Revision/kohn_sham/reports/ks-theory-wolfram.json` read-only: exit code 1; the counting lines
+    printed `49` and `1`; the 49 lines were 46 lines `PASS` (the last `PASS  ks_theory_json_written`), one
+    empty line, `OpenWrite::noopen: Cannot open ...\Revision\kohn_sham\theory\..\reports\ks-theory-wolfram.json.`
+    and `ERROR  cannot write ...\Revision\kohn_sham\theory\..\reports\ks-theory-wolfram.json`; 55.1 s; the
+    report kept its sha256 and its modification time;
+  * `Revision/algebra/gammas.json` moved away: exit code 1; the only line was
+    `ERROR  input file not found: ...\Revision\kohn_sham\theory\..\..\algebra\gammas.json` (count `1`);
+    4.3 s;
+  * run from the folder `Revision` (not the repository root): exit code 0 after 4.2 s;
+    `Failed to open file at path: Revision/kohn_sham/theory/verify_ks_theory.wls` appeared on the error
+    stream, `out` stayed empty, and the counting lines printed `0` and `0` in PowerShell, `1` and `0` in
+    Git Bash.
+* The companion (clone F2, PowerShell commands of section 3.6): `python -m venv ..\ks-venv` printed
+  nothing, exit code 0, 16.2 s; the `pip install` line printed four lines
+  `WARNING: Cache entry deserialization failed, entry ignored`, the `Collecting` and `Using cached` lines
+  of the three packages (`numpy-2.4.6-cp314-cp314-win_amd64.whl (12.5 MB)`,
+  `sympy-1.14.0-py3-none-any.whl (6.3 MB)`, `mpmath-1.3.0-py3-none-any.whl (536 kB)`),
+  `Installing collected packages: mpmath, sympy, numpy`,
+  `Successfully installed mpmath-1.3.0 numpy-2.4.6 sympy-1.14.0` and the notice
+  `[notice] A new release of pip is available: 26.1.1 -> 26.2.1`; exit code 0, 94.0 s. Two runs of the
+  checker: exit code 0, 60 lines (58 lines `[PASS]`, the `shooting time` line, the final line
+  `{"passed": 58, "failed": 0, "other": 0, "total": 58}`), nothing on the error stream, 134.3 s and
+  128.5 s (`shooting time 38.6 s` and `42.5 s`); after each run `ks-theory-python.json` was
+  byte-identical to the committed file
+  (`7ae5c6be4dbaf167093a7c0799d9c102d3a7d1d17ec93311a1b17ea5bc26cf9c`), and the two reports were
+  identical to each other; `git status --porcelain` printed nothing.
+* Failure tests of the companion (clone F2; after each, the moved file was put back and the report
+  restored with `git checkout -- Revision/kohn_sham/reports/ks-theory-python.json`):
+  * `Revision/kohn_sham/ks-theory.json` moved away: exit code 0, 57 lines (54 lines `[PASS]`, the
+    `shooting time` line, then `[pending] ks_theory_json_basis  t=150.6s` and
+    `{"passed": 54, "failed": 0, "other": 1, "total": 55}`); 161.3 s. `git status --porcelain` then printed
+    ` D Revision/kohn_sham/ks-theory.json` and ` M Revision/kohn_sham/reports/ks-theory-python.json`: the
+    committed report had been overwritten by an incomplete one (55 checks; sha256
+    `7b30817ca1a0d5316d10713d1620ed3b5ebae42586c6a31b81471b7b4c029f44`, 288 lines, 18215 bytes);
+  * `Revision/field_equations_a4/reports/ks-source-conditions.json` moved away: exit code 1, 60 lines,
+    `[FAIL] ks_theory_json_history_label  t=109.8s`, last line
+    `{"passed": 57, "failed": 1, "other": 0, "total": 58}`; 137.7 s; the report was overwritten (restored).
+* The kernel folder: `C:\Program Files\Wolfram Research\Wolfram\15.0.1\` contains `wolfram.exe` (65768
+  bytes), `WolframKernel.exe` (248552 bytes) and `MathKernel.exe` (248552 bytes);
+  `wolframscript -configure` lists `//WOLFRAMSCRIPT_KERNELPATH=C:/Program Files/Wolfram Research/Wolfram/15.0.1/wolfram.exe`
+  (commented out).
+* The count table of `Revision/docs/PAIR_CREATION_PROOFS.md`: in clone F3,
+  `python -B Revision/tests/test_pair_creation_proofs_publication.py -k test_report_count_table` ended with
+  `FAILED (failures=1)`: the row
+  ``| `Revision/kohn_sham/reports/ks-theory-python.json` | 58 | 58 | 0 |`` is not in the document, whose
+  section 9.1 still has 57.
+* Final state: after all runs `git status --porcelain --untracked-files=all --ignored` printed nothing in
+  clones F1, F2 and F3.
+* Check counts: 46 of 46 (Wolfram) and 58 of 58 (companion), equal to the committed reports. The count
+  table of `Revision/docs/PAIR_CREATION_PROOFS.md` section 9.1 has 46 (equal) and 57 (not equal).
+* Review findings and their outcome:
+  1. Run times exceeded on a busy machine: confirmed (this verification measured up to 82.2 s for the
+     Wolfram script, 94.0 s for `pip install` and 161.3 s for the companion); sections 3.4 to 3.7, 4.4
+     and 4.5 now give the measured ranges and say that the times come from one busy machine.
+  2. The companion ends with exit code 0 when `ks-theory.json` is missing: confirmed (also with the
+     extended companion, whose `sys.exit` line is now line 825); documented in sections 3.6, 3.7, 4.5 and
+     5.1. The program was not changed (the verdict `pending` is its intended behaviour before the Wolfram
+     export exists).
+  3. No command to count the 47 lines and the `::` lines: confirmed; section 3.5 now gives such commands
+     for PowerShell and for macOS/Linux; they were run above (printed `47`/`0`, and `48`/`1` and `49`/`1`
+     in the two read-only tests); section 3.7 says what they print when the script file cannot be found.
+  4. The read-only `ks-theory.json` entry of section 6.1 left out the empty line: confirmed (48 lines
+     above); section 6.1 corrected.
+  5. The kernel-path bullet implied that Wolfram 15.0.1 has no `WolframKernel.exe`: confirmed; sections
+     3.7 and 5.2 corrected.
+  6. A summary of the earlier run said that this file was uncommitted: confirmed as stale (the file is
+     committed since commit `72fc9ffc4a10328080a5778cc8a8c6e689aeaca6`); it concerned no text of this file,
+     so nothing in it needed to change for this finding.
+* Fixes: none to the files of the set; only this provenance file was updated.
+* Open discrepancies: the count table of `Revision/docs/PAIR_CREATION_PROOFS.md` section 9.1 (and so its
+  test `test_report_count_table`) still quotes 57 checks for `ks-theory-python.json`, while the committed
+  report has 58 since commit `972cad1`. This set's outputs are reproduced exactly; the document belongs to
+  another set and was not changed here.

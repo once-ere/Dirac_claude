@@ -84,7 +84,7 @@ FACTS = {
     ),
     "final_lines": [
         "PASS the seven figure files of notebook 21a exist",
-        "ALL 27 CHECKS PASSED (notebook 21a)",
+        "ALL 26 CHECKS PASSED (notebook 21a)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" naming a file in the folder `Revision/algebra`, "
@@ -644,7 +644,8 @@ CELLS = [
     def E(mass, field):
         """E_m[Psi] = gamma^(x4) d4 Psi + 6H tan z gamma^(x8) dz Psi + 3H gamma^(x8) Psi
         - m Psi (the field equation of the record for fields of x4 and z only)."""
-        return (G["x4"] * field.diff(x4) + 6 * H * sp.tan(z) * G["x8"] * field.diff(z)
+        tan_z = sp.sin(z) / sp.cos(z)  # tan z written as sin z / cos z
+        return (G["x4"] * field.diff(x4) + 6 * H * tan_z * G["x8"] * field.diff(z)
                 + 3 * H * G["x8"] * field - mass * field)
 
 
@@ -653,7 +654,7 @@ CELLS = [
                      for j in range(1, 17)])
     U = sp.cos(w * x4) * sp.eye(16) + sp.sin(w * x4) / w * M_of(m)  # real 16 x 16
     Psi = sp.sin(z) ** alpha * U * chi
-    check(E(m, Psi).applyfunc(sp.simplify) == sp.zeros(16, 1)
+    check(E(m, Psi).expand() == sp.zeros(16, 1)
           and sp.simplify(M_of(m) ** 2 + w ** 2 * sp.eye(16)) == sp.zeros(16, 16),
           "the record's exact solution solves the field equation (mass m = 2)",
           record="Revision/theory/reports/python-field-theory.json, check "
@@ -674,8 +675,9 @@ CELLS = [
 
 
     def vanishes(vector):
-        """True when every component simplifies to exactly zero."""
-        return vector.applyfunc(sp.simplify) == sp.zeros(16, 1)
+        """True when every component expands to exactly zero (sympy multiplies out
+        every product; cos z / cos z cancels automatically)."""
+        return vector.expand() == sp.zeros(16, 1)
 
 
     check(vanishes(E(m, Psi_conj)) and vanishes(E(-m, Psi_gamma_conj)),
@@ -685,12 +687,17 @@ CELLS = [
     '''),
     md(r"""
     The next cell turns the exact expressions into fast numerical functions
-    (`sp.lambdify`) and draws them along the time $x_4$ at the fixed angle $z = \pi/4$:
-    on the left one component of $\Psi$, $\Psi^*$ and $\Gamma\Psi^*$; on the right the
-    size of the left-hand side of the field equation, $|E_{\pm2}[\cdot]|$ (the square
-    root of the sum of the squared moduli of its 16 components), on a logarithmic
-    scale. Where a field solves the equation, $|E|$ is zero up to rounding (about
-    $10^{-15}$); where it does not, $|E|$ is of order 1.
+    (`sp.lambdify`) and evaluates them along the time $x_4$ at the fixed angle
+    $z = \pi/4$. It computes the charge density $J^{(x4)} = \Psi^\dagger B\Psi$ of
+    $\Psi$, $\Psi^*$ and $\Gamma\Psi^*$ (`np.einsum("tr,rc,tc->t", ...)` forms
+    $\sum_{r,c}\Psi_r^* B_{rc}\Psi_c$ at every time $t$) and checks the signs of the
+    table of section 11 below: $\Psi^*$ carries $-J^{(x4)}$, $\Gamma\Psi^*$ carries
+    $+J^{(x4)}$. It also computes the size of the left-hand side of the field
+    equation, $|E_{\pm2}[\cdot]|$ (the square root of the sum of the squared moduli of
+    its 16 components). Where a field solves the equation, $|E|$ is zero up to
+    rounding (about $10^{-15}$); where it does not, $|E|$ is of order 1. The figure
+    shows the charge densities on the left and $|E|$ on a logarithmic scale on the
+    right.
     """),
     code(r'''
     times = np.linspace(0.0, 8.0, 161)  # 161 times x4 from 0 to 8
@@ -717,7 +724,8 @@ CELLS = [
     }
     floor = 1e-17  # added before taking the logarithm, so that 0 can be drawn
     values = list(curves.values())
-    say(f"largest |E| of the two solutions: {max(values[0].max(), values[1].max()):.1e}")
+    say(f"largest |E| of the two solutions below 1e-12: "
+        f"{max(values[0].max(), values[1].max()) < 1e-12}")
     say(f"smallest |E| of the two controls: {min(values[2].min(), values[3].min()):.2f}")
     check(max(values[0].max(), values[1].max()) < 1e-12
           and min(values[2].min(), values[3].min()) > 0.1,

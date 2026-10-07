@@ -361,9 +361,12 @@ CELLS = [
     energies = np.linspace(-0.05, 1.0, 2001)
     left.plot(energies, K.fermi((energies - mu) / T), color=PALETTE[0], lw=1.8,
               label="occupation $f((\\varepsilon - \\mu)/T)$")
-    for e, gi in zip(eps, g):
+    for e in np.unique(eps):  # one dotted line per energy, labelled with its states
         left.axvline(e, color="k", lw=0.8, ls=":")
-        left.text(e + 0.006, 0.52, f"g = {gi:.0f}", rotation=90, fontsize=8)
+        states = g[eps == e]
+        label = (f"g = {states[0]:.0f}" if len(states) == 1
+                 else f"{len(states)} levels, g = {states[0]:.0f} each")
+        left.text(e + 0.008, 0.08, label, rotation=90, fontsize=8)
     left.axvline(mu, color=PALETTE[1], lw=1.4, ls="--", label=f"$\\mu = {mu:.6f}$")
     left.annotate("", (eps[2], 1.12), (eps[1], 1.12), arrowprops={"arrowstyle": "<->"})
     left.text(0.5 * (eps[1] + eps[2]), 1.15, "gap $= 43\\,T$", ha="center")
@@ -371,7 +374,7 @@ CELLS = [
     left.set_xlabel("energy $\\varepsilon$ (units of $m$)")
     left.set_ylabel("occupation $f$")
     left.set_title("N8_lamm1_a00_T10: levels and occupation")
-    left.legend(fontsize=8, loc="center right")
+    left.legend(fontsize=8, loc="center right", framealpha=1.0)
     right.semilogy(eps[below], holes[below], "v", color=PALETTE[1], ms=9,
                    label=f"holes $g(1-f)$, sum {np.sum(holes[below]):.3e}")
     right.semilogy(eps[~below], particles[~below], "^", color=PALETTE[0], ms=9,
@@ -674,9 +677,10 @@ CELLS = [
         f"{float(mu_direct_ref - ROOT_F):+.3e}")
     '''),
     md(r"""
-    The direct sum also misses on the reference levels, by a different amount: where in
-    the zero interval of the staircase the bisection stops depends on the last binary
-    digits of the levels. (The reference's own first complete run missed by
+    The direct sum also misses on the reference levels, by almost the same amount
+    (printed above): their levels agree with the Rust levels to about $10^{-12}$, so
+    their staircase has a zero interval at almost the same place, and bisection again
+    stops at its left end. (The reference's own first complete run missed by
     $1.15\times10^{-9}$; it computed $\mu$ on each of its three grids and then combined
     them, so that number is not the same computation and is not reproduced here.)
 
@@ -691,11 +695,11 @@ CELLS = [
     code(r'''
     fig, ax = plt.subplots(figsize=(8.5, 5.0))
     floor = 1e-36  # distances that are exactly zero are drawn here
-    for colour, path, label in ((PALETTE[1], PATH_DIRECT, "bisection, direct sum"),
-                                (PALETTE[0], PATH_WELL,
-                                 "bisection, well-conditioned form")):
+    for colour, path, label, size in (
+            (PALETTE[0], PATH_WELL, "bisection, well-conditioned form", 6),
+            (PALETTE[1], PATH_DIRECT, "bisection, direct sum", 3)):  # drawn on top
         distance = [max(float(abs(mp.mpf(m) - ROOT_R)), floor) for m in path]
-        ax.semilogy(range(1, len(path) + 1), distance, "o-", color=colour, ms=3,
+        ax.semilogy(range(1, len(path) + 1), distance, "o-", color=colour, ms=size,
                     lw=1.2, label=f"{label} ({len(path)} steps)")
     newton = [max(float(abs(m - ROOT_R)), floor) for m in NEWTON_PATH]
     ax.semilogy(range(len(newton)), newton, "s-", color=PALETTE[2], ms=6, lw=1.5,
@@ -741,13 +745,18 @@ CELLS = [
       $P + H + |d|$.
 
     The Rust solver's documentation (file `solver/src/mermin.rs`) states the complete
-    bounds, which add two small terms (the rounding of the arguments $x_i$ and of the
-    returned double):
-    $$B_{direct} = (n + 2)\,\epsilon_{mach}\,\frac{N}{N'} + \epsilon_{mach}\,
-    \langle|\varepsilon - \mu|\rangle + 2\,\epsilon_{mach}|\mu|, \qquad
-    B_{well} = (n + 2)\,\epsilon_{mach}\,\frac{P + H + |d|}{N'} + \epsilon_{mach}\,
-    \langle|\varepsilon - \mu|\rangle + 2\,\epsilon_{mach}|\mu|,$$
-    where $n$ is the number of levels and $\langle\cdot\rangle$ the average weighted with
+    bounds, with generous constants. Besides the summation they count the rounding of
+    the arguments $x_i = (\varepsilon_i - \mu)/T$ (the term with
+    $\langle|\varepsilon - \mu|\rangle$), the logarithms of the degeneracies and a few
+    constants (the term with $T$), the returned double (the term with $|\mu|$), and, for
+    the well-conditioned form, the logarithms with which the solver balances the two
+    sides $A = P + d_-$ and $B = H + d_+$ ($d_\pm = \max(\pm d, 0)$; at the root $A = B$):
+    $$B_{direct} = \epsilon_{mach}\Big[(n + 2)\,\frac{N}{N'} + 3\,\langle|\varepsilon
+    - \mu|\rangle + T(\ln g_{max} + 3) + 2|\mu|\Big],$$
+    $$B_{well} = \epsilon_{mach}\Big[(n + 2 + L)\,\frac{P + H + |d|}{N'} + 3\,
+    \langle|\varepsilon - \mu|\rangle + T(\ln g_{max} + 3) + 2|\mu|\Big],$$
+    where $n$ is the number of levels, $g_{max}$ the largest degeneracy,
+    $L = \max(|\ln A|, |\ln B|)$, and $\langle\cdot\rangle$ the average weighted with
     $g f(1 - f)$. The next cell evaluates both at the root and compares them with the
     entry of this state in the Rust solver's 40-digit report `ks-rust-mermin-roots.json`
     (which prints 4 digits).
@@ -766,19 +775,22 @@ CELLS = [
         holes = float(np.sum(g[below] * f_minus[below]))  # H
         d = N - float(np.sum(g[below]))  # a whole number
         n = len(eps)
-        extra = EPS_MACH * mean_distance + 2.0 * EPS_MACH * abs(mu)
-        direct = (n + 2) * EPS_MACH * N / slope + extra
-        well = (n + 2) * EPS_MACH * (particles + holes + abs(d)) / slope + extra
+        big_l = max(abs(math.log(particles + max(-d, 0.0))),  # |ln A|
+                    abs(math.log(holes + max(d, 0.0))))  # |ln B|
+        common = EPS_MACH * (3.0 * mean_distance + T * (math.log(float(np.max(g))) + 3.0)
+                             + 2.0 * abs(mu))
+        direct = EPS_MACH * (n + 2) * N / slope + common
+        well = EPS_MACH * (n + 2 + big_l) * (particles + holes + abs(d)) / slope + common
         return {"slope": slope, "direct": direct, "well": well, "P": particles,
-                "H": holes, "d": d, "n": n}
+                "H": holes, "d": d, "n": n, "L": big_l}
 
 
     MERMIN_REPORT = read_json(f"{KS}/reports/ks-rust-mermin-roots.json")
     RECORD = {s["id"]: s for s in MERMIN_REPORT["states"]}
     b = rounding_bounds(eps_r, g_r, 8.0, 0.01, mu_star)
     rec = RECORD[STATE]
-    say(f"n = {b['n']} levels; P = {b['P']:.6e}, H = {b['H']:.6e}, d = {b['d']:.0f}; "
-        f"dN/dmu = {b['slope']:.6e} (record {rec['dN_dmu']})")
+    say(f"n = {b['n']} levels; P = {b['P']:.6e}, H = {b['H']:.6e}, d = {b['d']:.0f}, "
+        f"L = {b['L']:.3f}; dN/dmu = {b['slope']:.6e} (record {rec['dN_dmu']})")
     say(f"B_direct = {b['direct']:.4e} (record {rec['boundDirectCount']}); B_well = "
         f"{b['well']:.4e} (record {rec['boundWellConditioned']})")
     one_step = EPS_MACH * 8.0 / b["slope"]  # one rounding of size eps_mach N, as mu
@@ -794,11 +806,11 @@ CELLS = [
           "the old error lies within B_direct, the repaired mu within B_well")
     '''),
     md(r"""
-    So the error of the first cross-check was not bad luck of a broken program but the
-    expected size: $8.27\times10^{-10}$ is about 0.6 of the shift that a single rounding
-    of size $\epsilon_{mach} N$ causes, and far inside $B_{direct} \approx
-    1.3\times10^{-8}$. The well-conditioned form shrinks the bound to $1.6\times10^{-16}$,
-    a factor of about $10^8$.
+    So the error of the first cross-check was no accident: it has exactly the size that
+    the rounding of the direct sum allows. $8.27\times10^{-10}$ is about 0.6 of the shift
+    that a single rounding of size $\epsilon_{mach} N$ causes, and far inside
+    $B_{direct} \approx 1.3\times10^{-8}$. The well-conditioned form shrinks the bound
+    to about $3\times10^{-16}$ (printed above), a factor of about $4\times10^{7}$.
     """),
     md(r"""
     ## 10. All 45 thermal states with eight particles
@@ -987,6 +999,7 @@ CELLS = [
         grid = np.array([[math.log10(by_id[f"N8_{tag}_{a}_{t}"]["b_r"]["direct"])
                           for t in temps] for a in slices])
         image = ax.imshow(grid, cmap="viridis", vmin=-15.0, vmax=-7.5, aspect="auto")
+        ax.grid(False)  # no grid lines across the coloured squares
         for i in range(5):
             for j in range(3):
                 ax.text(j, i, f"{grid[i, j]:.1f}", ha="center", va="center",
@@ -1060,10 +1073,12 @@ CELLS = [
         if c["name"] == "thermo_mu_high_precision")
     worst_all = float(re.search(r"worst \|diff\|/tolerance ([0-9.]+)",
                                 report_detail).group(1))
-    say(f"first comparison ratio {ratio_old:.1f}; now at most "
-        f"{max(max(r['ratio_mu'], r['ratio_hp']) for r in ROWS):.4f} over these 45 "
-        f"states (the report: at most {worst_all} over all 135)")
-    check(ratio_old > 1.0 and max(r["ratio_hp"] for r in ROWS) <= worst_all + 5e-4,
+    say(f"first comparison: ratio {ratio_old:.1f}. After the repair, over these 45 "
+        f"states: mu at most {max(r['ratio_mu'] for r in ROWS):.4f}, 40-digit roots at "
+        f"most {max(r['ratio_hp'] for r in ROWS):.4f} (the report, over all 135 states: "
+        f"40-digit roots at most {worst_all})")
+    check(ratio_old > 1.0 and max(r["ratio_hp"] for r in ROWS) <= worst_all + 5e-4
+          and max(r["ratio_mu"] for r in ROWS) < 0.1,
           "the first comparison failed the rule; after the repair all ratios are small",
           record=f"{KS}/reports/ks-crosscheck.json, check thermo_mu_high_precision")
     '''),
@@ -1100,11 +1115,13 @@ CELLS = [
       precision; bisection on it gives the root to $10^{-16}$, the committed repaired
       values of both solvers.
     - The rounding bounds of the Rust documentation predict both errors
-      ($B_{direct} \approx 1.3\times10^{-8}$, $B_{well} \approx 1.6\times10^{-16}$ for
-      this state) and reproduce the Rust 40-digit report for all 45 states with
-      $N = 8$; the direct sum is dangerous only early in the history and at low $T$.
+      ($B_{direct} \approx 1.3\times10^{-8}$, $B_{well} \approx 3\times10^{-16}$ for
+      this state); our evaluation of them reproduces the Rust 40-digit report for all
+      45 states with $N = 8$; the direct sum is dangerous only early in the history and
+      at low $T$.
     - The cross-check's tolerance, fixed in advance, caught the error (ratio about
-      100); after the repair all ratios are below 0.05.
+      100); after the repair every ratio of the chemical potential in these 45 states is
+      below 0.1, with the same rule.
     - What this does NOT show: the 40-digit roots test the computation of $\mu$ from
       given levels. The levels themselves, the functional, the ASSUMED $Z_2$ brane, the
       filling CONVENTION and the PRESCRIBED BACKGROUND history are inputs that both

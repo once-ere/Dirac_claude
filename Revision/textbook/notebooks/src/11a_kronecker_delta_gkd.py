@@ -662,8 +662,8 @@ CELLS = [
     cell counts the disagreements between `gkd` and `kdelta` and the number of nonzero
     values. Because a list of 9 labels from 8 must repeat a label, every value of
     length 9 must be zero. The cell takes a few seconds: sympy computes the
-    determinants of several thousand new matrices of sizes up to $9 \times 9$ (the cell
-    prints how many different matrices `kdelta` has met so far).
+    determinants of about ten thousand new matrices of sizes $4 \times 4$ to $9 \times 9$
+    (the cell prints how many different matrices `kdelta` has met so far).
     """),
     code(r'''
     rng = np.random.default_rng(12345)  # pseudo-random numbers with a fixed seed

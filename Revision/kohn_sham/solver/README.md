@@ -195,13 +195,13 @@ with the worst case and its run id.
   quotient of energies. Also the window cut and the shells beyond the window.
 * **The Mermin root:** `thermo_mu_well_conditioned_root`: in all 135 thermal states mu equals the
   `LogBalance` root on the final levels bit for bit; `LogBalance` and `LinearDeviation` agree within the larger
-  of their rounding bounds (max difference 2.429e-16 m, max ratio to the bound 0.353, largest bound 4.74e-14 m; at
+  of their rounding bounds (max difference 2.429e-16 m, max ratio to the bound 0.318, largest bound 4.77e-14 m; at
   most 2 split passes). As a diagnostic it records how far the former direct count would deviate: by more than
   1e-12 m in 3 states, -8.267e-10 m (N8_lamm1_a00_T10), 2.722e-10 m (N8_lam0_a00_T10) and 6.959e-11 m
   (N8_lamp1_a00_T10), each within its own conditioning bound. `thermo_mu_vs_40digit_roots`: on the 8 states of
-  the fixture both forms lie within their bounds of the 40-digit roots (largest ratio 0.228, largest bound
-  2.0e-16 m), `LogBalance` reproduces the recorded mu bit for bit, and the negative control (the direct count)
-  misses the root by up to 8.267e-10 m, 4.2e6 times the largest new bound.
+  the fixture both forms lie within their bounds of the 40-digit roots (largest ratio 0.124, largest bound
+  3.6e-16 m), `LogBalance` reproduces the recorded mu bit for bit, and the negative control (the direct count)
+  misses the root by up to 8.267e-10 m, 2.3e6 times the largest new bound.
 * **Crossing-flag demonstration, and the T3 solver self-test.** The self-test solves (m, lambda, tip 0) and
   (-m, lambda, tip pi) independently and gets equal levels, E and EMT integrals and opposite S, to 1e-13;
   the untransformed tip is the negative control. It is NOT a proof of T3, which is owned by
@@ -210,8 +210,8 @@ with the worst case and its run id.
 `Revision/kohn_sham/reports/ks-rust-mermin-roots.json` (5 checks, all PASS; `tools/mermin_roots_mp.py`): all
 135 `single --mermin-levels` runs completed; the 40-digit and 50-digit roots agree to 7.5e-35 (relative); the
 solver's mu lies within its rounding bound of the 40-digit root on its own levels in 135 of 135 states (largest
-|mu - root| 2.433e-16 m, N136_lamp1_a20_T50; largest ratio to the bound 0.156; N8_lamm1_a00_T10 -2.519e-17 m
-with bound 1.610e-16 m, where the former direct count was 8.27e-10 m off; the tool evaluates the bounds at the
+|mu - root| 2.433e-16 m, N136_lamp1_a20_T50; largest ratio to the bound 0.149, N688_lam0_a00_T10;
+N8_lamm1_a00_T10 -2.519e-17 m with bound 3.154e-16 m, where the former direct count was 8.27e-10 m off; the tool evaluates the bounds at the
 40-digit root, independently of the solver); the mu of every `single` run equals the committed matrix;
 the fixture holds the 8 states with the largest direct-count bound.
 
@@ -255,7 +255,7 @@ the well-conditioned T dS/dT (dE/dT is kept for the identity check).
    was rewritten (`src/mermin.rs`, Method above), the refined run was given
    the second form, and the check `refined_mermin_root_path` was added: max |mu_c - mu_r| 1.254e-12 m
    (N136_lamm1_a00_T20), max |Omega_c - Omega_r| 2.738e-10 (N688_lamm1_a00_T20); with the rounding bounds added,
-   U_mu <= 1.255e-12 m and U_Omega <= 2.752e-10 (largest B_c + B_r 1.143e-13 m). The old canonical mu against
+   U_mu <= 1.255e-12 m and U_Omega <= 2.753e-10 (largest B_c + B_r 1.149e-13 m). The old canonical mu against
    the new refined run differs by 8.271e-10 m (Omega by 6.617e-9) in N8_lamm1_a00_T10, so the new measure would
    have exposed the defect; the live negative control of `refined_mermin_root_path` shows the same from the
    current runs: for N8_lamm1_a00_T10 the former measure (direct count in both runs, -8.267e-10 and -8.271e-10 m
@@ -279,8 +279,8 @@ the well-conditioned T dS/dT (dE/dT is kept for the identity check).
    `adiabatic/history.json`). In the verification pass of 2026-10-07 the rounding bound was re-derived to first
    order for both forms: the former (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + 2 eps_mach |mu| omitted the
    rounding of the arguments x_i and the log domain of `LogBalance`; the bound is now the formula of Method
-   above, so every `mu_rounding_bound` grew (by the factors given in the final report of that pass), and the
-   column `mu_direct_count_minus_mu` was added; mu and every other number of the matrix are unchanged by that
+   above, so every `mu_rounding_bound` grew, by a factor 1.007 (N688_lamm1_a20_T50) to 2.85 (N8_lam0_a00_T10:
+   1.087e-16 -> 3.095e-16 m), and the column `mu_direct_count_minus_mu` was added; mu and every other number of the matrix are unchanged by that
    pass.
 
 ## Canonical results (from `results/`; units m = H = 1)
@@ -341,15 +341,15 @@ scratch directory): 78.1 s in total.
 * thermodynamics 35.4 s: 135 states, each with 4 temperature neighbours
 * T3 self-test 1.5 s
 
-Verification pass of 2026-10-07 (rounding bound with the argument term, column `mu_direct_count_minus_mu`,
-the live negative control), run while other workflows used the same machine, so the times are longer:
-* canonical matrix 166.6 s (ground matrix 89.1 s, thermodynamics 56.3 s); `tools/mermin_roots_mp.py` 24.1 s
-  (135 `single` runs 19.0 s, 40-digit roots 5.1 s), which rewrote the bound strings of the fixture; the canonical
-  matrix again 171.7 s (results byte-identical to the first pass, the report differs only by the fixture's
-  sha256 and ratios);
-* repeat of the canonical matrix 194.1 s: all 244 result files and the report byte-identical;
+Verification pass of 2026-10-07 (the re-derived rounding bound, the column `mu_direct_count_minus_mu`, the live
+negative control), run while other workflows used the same machine, so the times are longer (final round):
+* canonical matrix 191.6 s (ground matrix 94.7 s, thermodynamics 56.3 s); `tools/mermin_roots_mp.py` 22.9 s
+  (135 `single` runs 17.8 s, 40-digit roots 5.1 s), which rewrote the bound strings of the fixture; the canonical
+  matrix again 244.1 s (results byte-identical to the first run, the report differs only by the fixture's
+  sha256 and the ratios to the bounds);
+* repeat of the canonical matrix 178.4 s: all 244 result files and the report byte-identical;
 * refined-tolerance run (G = 1800, root tolerance 1e-14, SCF tolerance 1e-12, thermal cut 1e-14, Mermin form
-  `LinearDeviation`) 635.3 s (ground matrix 265.1 s, thermodynamics 299.0 s).
+  `LinearDeviation`; run in parallel with the repeat) 618.6 s (ground matrix 219.8 s, thermodynamics 349.0 s).
 
 The comparison (`Revision/kohn_sham/reports/ks-rust-determinism.json`, 14 checks, all PASS):
 * the repeat is byte-identical in all 244 files, and its check report is byte-identical too;
@@ -357,7 +357,7 @@ The comparison (`Revision/kohn_sham/reports/ks-rust-determinism.json`, 14 checks
   label by label to 2.1e-9 m; Delta-SCF to 5.8e-11 m; profiles to 2.8e-9 of their maxima; Q_max and
   dE/da4 to 9.0e-10; thermodynamics (mu, E, F, both forms of Omega, S) to 2.5e-10; C_V to 5.7e-9;
 * the Mermin root along the two rounding paths (`refined_mermin_root_path`): U_mu = |mu_c - mu_r| + B_c + B_r
-  at most 1.255e-12 m (N136_lamm1_a00_T20), U_Omega = |Omega_c - Omega_r| + N (B_c + B_r) at most 2.752e-10
-  (N688_lamm1_a00_T20); the largest B_c + B_r is 1.143e-13 m (N688_lamm1_a20_T50; canonical bound 4.738e-14 m,
-  refined 6.693e-14 m); the negative control passes in the 3 states where the former error exceeds 2 U_mu;
+  at most 1.255e-12 m (N136_lamm1_a00_T20), U_Omega = |Omega_c - Omega_r| + N (B_c + B_r) at most 2.753e-10
+  (N688_lamm1_a00_T20); the largest B_c + B_r is 1.149e-13 m (N688_lamm1_a20_T50; canonical bound 4.769e-14 m,
+  refined 6.724e-14 m); the negative control passes in the 3 states where the former error exceeds 2 U_mu;
 * the analytic spectra converge with a measured error ratio of 16.00, the order of RK4.

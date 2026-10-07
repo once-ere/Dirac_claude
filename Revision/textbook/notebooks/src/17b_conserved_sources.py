@@ -204,15 +204,19 @@ CELLS = [
 
     The Kohn-Sham states are computed in the prescribed background $a_4 = Hx_4$ (the
     extra times deflate as $e^{-a_4}$, 3-space inflates as $e^{a_4}$). A field that
-    solves its own field equation in a given metric always has a conserved
-    energy-momentum tensor; the Kohn-Sham theory record proves this for the
-    self-consistent states, and the Rust solver checks it numerically. We will see:
+    solves its own field equation in a given metric has a conserved energy-momentum
+    tensor. For the Kohn-Sham states the Revision record proves the conservation law
+    of the hidden direction for every self-consistent state, and it proves the
+    energy-change law of the time direction, integrated over the hidden direction,
+    for the instantaneous states followed with fixed occupations; the Rust solver
+    checks both numerically. We will see:
 
     1. in the hidden direction, conservation reads
        $p_8' + 6Hp_8 = 3H(p_3 + p_t)$ (the prime is $d/dy$); hence the violation of
-       C2 is $V = p_3 + p_t - 2p_8 = p_8'/(3H)$. For a conserved source, C2 and
-       "$p_8$ does not depend on $x_8$" (part of C1) are the SAME condition. The
-       Kohn-Sham $p_8$ changes by orders of magnitude along $y$, so C2 must fail;
+       C2 is $V = p_3 + p_t - 2p_8 = p_8'/(3H)$. For a conserved source without mixed
+       entries, C2 and "$p_8$ does not depend on $x_8$" (part of C1) are the SAME
+       condition. The Kohn-Sham $p_8$ changes by orders of magnitude along $y$, so C2
+       must fail;
     2. in the time direction, conservation reads $\rho' = -3a_4'(p_3 - p_t)$ (the
        prime is $d/dx_4$): energy flows between the source and the expanding and
        deflating directions unless $p_3 = p_t$. The Kohn-Sham gas has
@@ -223,11 +227,12 @@ CELLS = [
     ## 5. The Revision records and the helpers that read them
 
     The next cell imports the packages and names the Revision records used below. It
-    defines three helpers: `read_json` reads a JSON file of the repository,
-    `record_entry` finds a check by its name in a Revision report, and `reproduces` is
+    defines four helpers: `read_json` reads a JSON file of the repository,
+    `record_entry` finds a check by its name in a Revision report, `reproduces` is
     a check that passes only when this notebook's own result holds AND the named
-    checks of the report have the verdict PASS. Then it counts the checks of the six
-    reports and requires that all of them passed.
+    checks of the report have the verdict PASS, and `tex_number` writes a number in
+    powers of ten for the captions. Then it counts the checks of the six reports and
+    requires that all of them passed.
     """),
     code(r'''
     import csv  # reads tables stored as CSV files (comma-separated values)
@@ -267,6 +272,12 @@ CELLS = [
                     == "PASS" for n in record_names)  # some reports write "pass"
         names_text = ", ".join(record_names)  # the check names, separated by commas
         check(condition and found, name, record=f"{report_file}, check {names_text}")
+
+
+    def tex_number(value, digits=2):
+        """A number for a caption in powers of ten: 0.0123 -> 1.2 \\times 10^{-2}."""
+        mantissa, exponent = f"{value:.{digits - 1}e}".split("e")
+        return f"{mantissa} \\times 10^{{{int(exponent)}}}"
 
 
     REPORTS = [ALGEBRA, PY_A4, WL_A4, SOURCE_REPORT, KS_PY, KS_RUST]
@@ -353,7 +364,9 @@ CELLS = [
         ax.set_title(f"$\\gamma^{{({LABELS[a]})}}$, square ${sign}$", fontsize=10)
         ax.set_xticks([0, 15], ["1", "16"])  # column numbers 1 and 16
         ax.set_yticks([0, 15], ["1", "16"])  # row numbers 1 and 16
-    fig.colorbar(image, ax=axes, shrink=0.75, label="matrix entry")
+        ax.tick_params(labelsize=7)  # small numbers, so that they do not collide
+        ax.grid(False)  # no grid lines over the entries
+    fig.colorbar(image, ax=axes, shrink=0.75, label="matrix entry", ticks=[-1, 0, 1])
     nonzero_count = int(sum(np.count_nonzero(matrix) for matrix in gamma))
     save_figure(fig, "eight_gammas",
                 "The author's eight real $16 \\times 16$ gamma matrices "
@@ -422,7 +435,9 @@ CELLS = [
     the $a_4$ record allows: $\rho, p_3, p_t, p_8, q_{48}, q_{84}$, each a function of
     $x_4$ and $x_8$. Finally it prints the eight components of the divergence, written
     in the record's notation: `ad1` is $a_4'$, `d4rho` is $\partial\rho/\partial x_4$,
-    `d8p8` is $\partial p_8/\partial x_8$, and so on.
+    `d8p8` is $\partial p_8/\partial x_8$, `cc` is $\cot z$, and so on (the helper
+    `readable` collects the terms of each source quantity and simplifies the factor in
+    front of it with $\sin 2z = 2\sin z\cos z$ and $\tan z = \sin z/\cos z$).
     """),
     code(r'''
     def christoffel(metric, chart):
@@ -474,13 +489,24 @@ CELLS = [
                                 for f in (rho, p3, pt, p8, q48, q84)})
 
 
-    def tidy(expression):
-        """Simplify with sin(2z) = 2 sin z cos z, for printing."""
-        return sp.simplify(expression.subs(sp.sin(2 * zz), 2 * sp.sin(zz) * sp.cos(zz)))
+    cc = sp.Symbol("cc")  # the record writes cot z as cc
+
+
+    def readable(expression):
+        """A component as a sum of source symbols times simplified coefficients."""
+        plain = sp.expand(in_record_notation(expression))
+        sources = sorted(plain.free_symbols - {H, x8, sp.Symbol("ad1")}, key=str)
+        total = sp.Integer(0)  # the sum, built term by term
+        for symbol, factor in sp.collect(plain, sources, evaluate=False).items():
+            factor = factor.subs(sp.sin(2 * zz), 2 * sp.sin(zz) * sp.cos(zz))
+            factor = sp.simplify(factor.subs(sp.tan(zz), sp.sin(zz) / sp.cos(zz)))
+            factor = sp.simplify(factor.subs(sp.sin(zz), sp.cos(zz) / cc))
+            total += factor * symbol  # sin z = cos z / cot z
+        return total.subs(sp.tan(zz), 1 / cc)
 
 
     for nu, component in enumerate(div_x8):
-        say(f"nabla_mu T^mu_x{nu + 1} = {in_record_notation(tidy(component))}")
+        say(f"nabla_mu T^mu_x{nu + 1} = {readable(component)}")
     '''),
     md(r"""
     Six of the eight components vanish identically. The two others are the
@@ -530,7 +556,9 @@ CELLS = [
     $$\nabla_\mu T^\mu{}_{x_4} = -\partial_4\rho - 3a_4'(p_3 - p_t), \qquad
     \nabla_\mu T^\mu{}_y = p_8' + 6Hp_8 - 3H(p_3 + p_t)$$
 
-    of the Kohn-Sham theory record (the prime on $p_8$ is $\partial/\partial y$).
+    of the Kohn-Sham theory record (the prime on $p_8$ is $\partial/\partial y$). It
+    prints the components with short names: `ad1` is $a_4'$, `d4rho` is
+    $\partial\rho/\partial x_4$ and `dyp8` is $\partial p_8/\partial y$.
     """),
     code(r'''
     yc = sp.symbols("y", real=True)  # the hidden coordinate y
@@ -543,8 +571,19 @@ CELLS = [
     div_y = divergence(T_y, metric_y, chart_y)
     law_x4 = -sp.diff(RHO, x4) - 3 * sp.diff(a4, x4) * (P3 - PT)
     law_y = sp.diff(P8, yc) + 6 * H * P8 - 3 * H * (P3 + PT)
-    say(f"nabla_mu T^mu_x4 = {div_y[3]}")
-    say(f"nabla_mu T^mu_y = {div_y[7]}")
+    derivatives = {sp.Derivative(RHO, x4): sp.Symbol("d4rho"),
+                   sp.Derivative(P8, yc): sp.Symbol("dyp8"),
+                   sp.Derivative(a4, x4): sp.Symbol("ad1")}  # short names
+    functions = {f: sp.Symbol(f.func.__name__) for f in (RHO, P3, PT, P8)}
+
+
+    def short(expression):
+        """Write the derivatives as d4rho, dyp8, ad1 and the functions as symbols."""
+        return expression.subs(derivatives).subs(functions)
+
+
+    say(f"nabla_mu T^mu_x4 = {short(div_y[3])}")
+    say(f"nabla_mu T^mu_y = {short(div_y[7])}")
     others_zero = all(div_y[nu] == 0 for nu in (0, 1, 2, 4, 5, 6))
     theory = read_json(KS_THEORY)["emt"]  # the energy-momentum part of the record
     say("ks-theory.json, emt.conservationY: " + theory["conservationY"])
@@ -571,8 +610,8 @@ CELLS = [
     p3_from_law = sp.solve(sp.Eq(law_y, 0), P3)[0]  # p3 from the y conservation law
     V = P3 + PT - 2 * P8  # the violation of C2
     V_conserved = sp.simplify(V.subs(P3, p3_from_law))
-    say(f"p3 from the conservation law: {p3_from_law}")
-    say(f"V = p3 + p_t - 2 p8 for a conserved source: {V_conserved}")
+    say(f"p3 from the conservation law: {short(p3_from_law)}")
+    say(f"V = p3 + p_t - 2 p8 for a conserved source: {short(V_conserved)}")
     check(sp.simplify(V_conserved - sp.diff(P8, yc) / (3 * H)) == 0,
           "PROVED: for a conserved source V = p3 + p_t - 2 p8 = (dp8/dy) / (3H)")
     '''),
@@ -678,7 +717,8 @@ CELLS = [
                 "divided by the largest component of each state (horizontal axis: the "
                 "hidden coordinate $y$; vertical axis symmetric logarithmic, linear "
                 "between $-10^{-6}$ and $10^{-6}$); the largest $|p_8|$ is "
-                f"{min(p8_range):.0f} to {max(p8_range):.3g} times the smallest, while "
+                f"{min(p8_range):.0f} to ${tex_number(max(p8_range))}$ times the "
+                "smallest, while "
                 "condition C2 of a conserved source demands a flat $p_8$. Right: for "
                 "$a_{4,0} = 1$ the violation $V = p_3 + p_t - 2p_8$ (blue line) and the "
                 "slope $p_8'(y)/(3H)$ from fourth-order differences (orange dots) lie "
@@ -751,8 +791,14 @@ CELLS = [
 
     where $\int X$ means $2\,\mathrm{Vol}_7\int_{-L}^{0}e^{6Hy}X\,dy$, the column
     `int_X` of the record's table. The next cell checks this with the table's brane
-    values, tip values and integrals for all 70 nonzero states (relative difference)
-    and compares with the solver's check `emt_y_conservation_integrated`.
+    values, tip values and integrals for all 70 nonzero states (relative difference
+    of the two sides). The table also has a column `ycons_integrated_rel`, the same
+    relative difference computed by the solver from its own unrounded numbers; the
+    cell checks that its largest value is the one printed in the solver's check
+    `emt_y_conservation_integrated` (two mirror states, $\lambda = \pm\lambda_2$ with
+    $N = 8$, share this largest value; the record names one of them). Our
+    differences, computed from numbers printed with 16 digits, are of the same tiny
+    size, about $10^{-11}$.
     """),
     code(r'''
     def number(sid, column):
@@ -769,12 +815,18 @@ CELLS = [
     worst_integrated = max(integrated, key=integrated.get)
     report("largest relative difference of the integrated law",
            f"{integrated[worst_integrated]:.3e} ({worst_integrated})")
+    column = {sid: number(sid, "ycons_integrated_rel") for sid in nonzero}
+    column_worst = max(column, key=column.get)  # the solver's own largest value
+    report("largest value of the column ycons_integrated_rel",
+           f"{column[column_worst]:.3e} ({column_worst})")
     solver = record_entry(KS_RUST, "emt_y_conservation_integrated")["detail"]
     say("the solver record: " + solver)
-    same_as_column = all(abs(integrated[sid] - number(sid, "ycons_integrated_rel"))
-                         < 1e-13 for sid in nonzero)  # the table's own column
-    reproduces(integrated[worst_integrated] < 1e-7 and same_as_column
-               and f"({worst_integrated})" in solver,
+    named = solver.split("worst value ")[1].split("(")[1].split(")")[0]  # its state
+    tie = abs(column[named] - column[column_worst]) < 1e-15  # mirror states tie
+    report("the state named by the record and its column value",
+           f"{named}, {column[named]:.3e}")
+    reproduces(integrated[worst_integrated] < 1e-10 and tie
+               and f"worst value {column[column_worst]:.3e}" in solver,
                "the integrated conservation law holds for all 70 states",
                KS_RUST, ["emt_y_conservation_integrated"])
     '''),
@@ -812,40 +864,48 @@ CELLS = [
     '''),
     md(r"""
     The next cell draws $|p_8(\text{brane})|$ against $|\bar p_8|$ for all 70
-    states (logarithmic axes; filled markers where $p_8$ is positive, open markers
-    where it is negative: the $N = 8$ states have negative $p_8$). The averaged C2
-    would put every point on the diagonal.
+    states (logarithmic axes; filled markers where $p_8$ is positive, larger open
+    rings where it is negative). The averaged C2 would put every point on the
+    diagonal. The cell also lists the states with a negative mean $\bar p_8$ and
+    checks that every state lies below the diagonal ($0 < R < 1$).
     """),
     code(r'''
     N_COLOURS = {8: "#1baf7a", 136: "#2a78d6", 688: "#eb6834"}
     fig, ax = plt.subplots(figsize=(6.4, 5.0))
     for n, colour in N_COLOURS.items():
-        ids = [sid for sid in nonzero if sid.startswith(f"N{n}_")]
-        xs = [abs(mean_p8[sid]) for sid in ids]
-        ys = [abs(number(sid, "p8_brane")) for sid in ids]
-        filled = mean_p8[ids[0]] > 0  # all states of one N have the same sign
-        ax.loglog(xs, ys, "o", ms=5, color=colour,
-                  mfc=colour if filled else "none",
-                  label=f"$N = {n}$" + ("" if filled else " ($p_8 < 0$)"))
+        for positive in (True, False):
+            ids = [sid for sid in nonzero if sid.startswith(f"N{n}_")
+                   and (mean_p8[sid] > 0) == positive]  # one sign at a time
+            if not ids:
+                continue
+            ax.loglog([abs(mean_p8[sid]) for sid in ids],
+                      [abs(number(sid, "p8_brane")) for sid in ids], "o",
+                      ms=5 if positive else 10,  # rings around the mirror states
+                      color=colour, mfc=colour if positive else "none",
+                      label=f"$N = {n}$" + ("" if positive else ", $p_8 < 0$"))
     line = np.array([1e-7, 1.0])  # the range of the diagonal
     ax.loglog(line, line, "--", color="#e34948", lw=1.2,
               label="averaged C2: brane value = mean")
     ax.set_xlabel("weighted mean $|\\bar p_8|$ (units of $m^8$)")
     ax.set_ylabel("$|p_8|$ at the brane $y = 0$ (units of $m^8$)")
     ax.legend(fontsize=8, loc="upper left")
-    negative = sorted(sid for sid in nonzero if mean_p8[sid] < 0)  # states with p8 < 0
-    n8_states = sorted(sid for sid in nonzero if sid.startswith("N8_"))
+    negative = sorted(sid for sid in nonzero if mean_p8[sid] < 0)  # mean of p8 < 0
+    say("states with a negative mean of p8: " + ", ".join(negative))
+    expected = sorted(sid for sid in nonzero if sid.startswith("N8_lamp"))
     save_figure(fig, "brane_and_mean",
                 "The hidden-direction pressure $p_8$ at the brane against its weighted "
                 "mean over the patch, for the 70 recorded Kohn-Sham states with a "
                 "nonzero source (logarithmic axes, units of $m^8$; colours: particle "
-                "number; open markers: the $N = 8$ states, whose $p_8$ is negative). By "
+                "number; open rings: the $N = 8$ states with $\\lambda > 0$, whose "
+                "$p_8$ is negative; they enclose the points of their partners with "
+                "$-\\lambda$, which have the same $|p_8|$, and the 20 nonzero $N = 8$ "
+                "states, equal at every slice, fall on only two places). By "
                 "the integrated conservation law the averaged condition C2 holds only "
                 "on the dashed diagonal; every state lies below it, with ratios "
                 f"between {min(ratio.values()):.3f} and {max(ratio.values()):.3f}: "
                 "$p_8$ at the brane is much smaller than its mean.")
-    check(negative == n8_states and all(0.0 < ratio[sid] < 1.0 for sid in nonzero),
-          "every state lies below the diagonal; p8 < 0 exactly for N = 8")
+    check(negative == expected and all(0.0 < ratio[sid] < 1.0 for sid in nonzero),
+          "every state lies below the diagonal; p8 < 0 only for N = 8, lambda > 0")
     '''),
     md(r"""
     ## 12. The time direction: energy exchange and condition C3
@@ -982,7 +1042,8 @@ CELLS = [
                 f"{fall[1]:.2f}: as 3-space inflates and the extra times deflate, the "
                 "gas with $p_3 > p_t = 0$ gives up energy. Right: the relative error of "
                 "Simpson's rule for $E(2) - E(0)$ in all ten moving series, in units of "
-                f"$10^{{-4}}$ (largest {largest:.1e}): the energy-change law holds to "
+                f"$10^{{-4}}$ (largest ${tex_number(largest)}$): the energy-change law "
+                "holds to "
                 "the accuracy of the five slices.")
     '''),
     md(r"""

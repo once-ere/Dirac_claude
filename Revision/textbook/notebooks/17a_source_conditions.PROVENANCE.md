@@ -317,13 +317,13 @@ ALL 16 CHECKS PASSED (notebook 17a)
 
 The notebook shows 7 figures, each below the cell that draws it, and saves each as a PNG file (150 dots per inch, no metadata):
 
-- `Revision/textbook/figures/17a_1_rho_profiles.png` (1334 x 554 pixels): Left: the hidden coordinate $y = \ln(\sin z)/(6H)$ against $z = 6Hx_8$ (logarithmic axis, $H = 1$); the shaded band is the computed patch from the tip cutoff $y = -3$ to the brane $y = 0$, which covers $z$ from $1.5 \times 10^{-8}$ to $\pi/2$. Right: the energy density $\rho(y)$ of the Kohn-Sham state $N = 136$, $\lambda = 0$ divided by the largest component of the state, at the five slices $a_{4,0} = 0$ to $2$ (logarithmic vertical axis). The largest value of $\rho$ is 319 to 1.11e+05 times its smallest value, depending on the slice, while condition C1 of the field equations demands a horizontal line such as the dotted one.
-- `Revision/textbook/figures/17a_2_c1_map.png` (925 x 819 pixels): The spread $(\max_y \rho - \min_y \rho)/\max|T|$ of the energy density along the hidden coordinate for all 75 recorded Kohn-Sham ground states: rows are the particle numbers $N = 8, 136, 688$ with the five couplings, columns the slices $a_{4,0}$ (logarithmic colour scale, pure numbers). Condition C1 needs $0$ in every cell; the smallest value is $0.0497$ ($N = 136$, $\lambda = -\lambda_2$, $a_{4,0} = 2$), and the $N = 8$ states, made of brane zero modes, have spreads of $0.995$ to $0.995$, almost the whole size of the tensor. Grey cells: the five states with no source at all.
-- `Revision/textbook/figures/17a_3_violation_profiles.png` (1333 x 554 pixels): The violation profiles $V(y) = p_3 + p_t - 2p_8$ of the Kohn-Sham ground states with $\lambda = 0$, divided by the largest component of each state, for $N = 136$ (left) and $N = 688$ (right) at the five slices $a_{4,0}$ (horizontal axis: the hidden coordinate $y$; vertical axis symmetric logarithmic, linear between $-10^{-7}$ and $10^{-7}$). Condition C2 of the field equations demands the dashed line $V = 0$; instead $|V|$ is 2.36 to 2.37 times max|T| at the tip, every profile changes sign exactly once, and at the brane $|V|$/max|T| is still between $7.1e-07$ and $4.0e-03$, small but not zero.
+- `Revision/textbook/figures/17a_1_rho_profiles.png` (1334 x 554 pixels): Left: the hidden coordinate $y = \ln(\sin z)/(6H)$ against $z = 6Hx_8$ (logarithmic axis, $H = 1$); the shaded band is the computed patch from the tip cutoff $y = -3$ to the brane $y = 0$, which covers $z$ from $1.5 \times 10^{-8}$ to $\pi/2$. Right: the energy density $\rho(y)$ of the Kohn-Sham state $N = 136$, $\lambda = 0$ divided by the largest component of the state, at the five slices $a_{4,0} = 0$ to $2$ (logarithmic vertical axis). The largest value of $\rho$ is 319 to $1.1 \times 10^{5}$ times its smallest value, depending on the slice, while condition C1 of the field equations demands a horizontal line such as the dotted one.
+- `Revision/textbook/figures/17a_2_c1_map.png` (925 x 819 pixels): The spread $(\max_y \rho - \min_y \rho)/\max|T|$ of the energy density along the hidden coordinate for all 75 recorded Kohn-Sham ground states: rows are the particle numbers $N = 8, 136, 688$ with the five couplings, columns the slices $a_{4,0}$ (logarithmic colour scale, pure numbers). Condition C1 needs $0$ in every cell; the smallest value is $0.0497$ ($N = 136$, $\lambda = -\lambda_2$, $a_{4,0} = 2$), and the $N = 8$ states, made of brane zero modes, all have the spread $0.995$, almost the whole size of the tensor. Grey cells: the five states with no source at all.
+- `Revision/textbook/figures/17a_3_violation_profiles.png` (1333 x 554 pixels): The violation profiles $V(y) = p_3 + p_t - 2p_8$ of the Kohn-Sham ground states with $\lambda = 0$, divided by the largest component of each state, for $N = 136$ (left) and $N = 688$ (right) at the five slices $a_{4,0}$ (horizontal axis: the hidden coordinate $y$; vertical axis symmetric logarithmic, linear between $-10^{-7}$ and $10^{-7}$). Condition C2 of the field equations demands the dashed line $V = 0$; instead $|V|$ is 2.36 to 2.37 times max|T| at the tip, every profile changes sign exactly once, and at the brane $|V|$/max|T| is still between $7.1 \times 10^{-7}$ and $4.0 \times 10^{-3}$, small but not zero.
 - `Revision/textbook/figures/17a_4_c2_map.png` (922 x 819 pixels): The size $\max_y|p_3 + p_t - 2p_8|/\max|T|$ of the violation of condition C2 for all 75 recorded Kohn-Sham ground states (rows: particle number and coupling; columns: the slice $a_{4,0}$; linear colour scale, pure numbers). C2 needs $0$; every nonzero state violates it by $2.09$ to $3.99$ times its largest component. The $N = 8$ states, made of brane zero modes, have the same value at every slice; grey cells: no source.
 - `Revision/textbook/figures/17a_5_three_points.png` (1333 x 506 pixels): The two sides of condition C2, $p_3 + p_t$ (blue) and $2p_8$ (orange), of the Kohn-Sham state $N = 136$, $\lambda = 0$, $a_{4,0} = 1$ at the tip $y = -3$, in the middle $y = -1.5$ and at the brane $y = 0$ (vertical axes: proper pressure in units of $m^8$, each panel with its own scale). C2 demands equal bars; near the tip the two sides even have opposite signs ($158.3$ against $-863.5$), in the middle $2p_8$ is 2.58 times $p_3 + p_t$ and at the brane 4.82 times.
-- `Revision/textbook/figures/17a_6_integrated_ratio.png` (929 x 579 pixels): The ratio $(\int p_3 + \int p_t)/(2\int p_8)$ of the pressures integrated over the patch with the proper-volume weight, for every nonzero recorded Kohn-Sham state, against the slice $a_{4,0}$ (colours: particle number; line styles and markers: coupling; pure numbers). A source averaged over $x_8$ would need the value $1$ (red dashed line); the states lie between $0.107$ and $0.414$, so even the average violates condition C2.
-- `Revision/textbook/figures/17a_7_history_integrals.png` (1334 x 553 pixels): The energy density and the three pressures of the Kohn-Sham states with $\lambda = 0$, integrated over the patch with the proper-volume weight, at the five slices of the history $a_4 = Hx_4$ (left $N = 136$, right $N = 688$; vertical axis in units of $m$ with $H = 1$). The linear member needs a constant $\rho$ and equal pressures (condition C3); instead $\int\rho$ falls by a factor of 6.45 ($N = 136$) and 6.16 ($N = 688$) from $a_{4,0} = 0$ to $2$, $\int p_3$ stays above $\int p_t = 0$, and $\int p_8$ is different again.
+- `Revision/textbook/figures/17a_6_integrated_ratio.png` (929 x 579 pixels): The ratio $(\int p_3 + \int p_t)/(2\int p_8)$ of the pressures integrated over the patch with the proper-volume weight, for every nonzero recorded Kohn-Sham state, against the slice $a_{4,0}$ (colours: particle number; line styles and markers: coupling; pure numbers). A source averaged over $x_8$ would need the value $1$ (red dashed line); the states lie between $0.107$ and $0.414$, so even the average violates condition C2. For $N = 136$ and $N = 688$ the five couplings give almost the same ratio (they differ by at most $0.0045$ at one slice), so their lines lie on top of each other.
+- `Revision/textbook/figures/17a_7_history_integrals.png` (1334 x 553 pixels): The energy density and the three pressures of the Kohn-Sham states with $\lambda = 0$, integrated over the patch with the proper-volume weight, at the five slices of the history $a_4 = Hx_4$ (left $N = 136$, right $N = 688$; vertical axis in units of $m$ with $H = 1$; along the history 3-space inflates as $e^{a_4}$ and the extra times deflate as $e^{-a_4}$). The linear member needs a constant $\rho$ and equal pressures (condition C3); instead $\int\rho$ falls by a factor of 6.45 ($N = 136$) and 6.16 ($N = 688$) from $a_{4,0} = 0$ to $2$, $\int p_3$ stays above $\int p_t = 0$, and $\int p_8$ is different again.
 
 ## 4. Side effects
 
@@ -333,13 +333,13 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/17a.captions.json` | 3908 | `2bb322089e3e2926a773428743894ea04c3e800a05f3b2091d3b7f8f6ddc4561` |
+| `Revision/textbook/figures/17a.captions.json` | 4191 | `eafe4a10c0235f08848be20f85b6cbd0b3e0c30aa2eca525598e7e227dff9be7` |
 | `Revision/textbook/figures/17a_1_rho_profiles.png` | 125815 | `0b6c65650a6c86b69f6bff5a40fed6172ea350a808f32ecf6cb0ae753fa0e1af` |
 | `Revision/textbook/figures/17a_2_c1_map.png` | 104688 | `00695ded57ef50250e6e7a6f77a1eabf17f9fefe5e88150e80553c60f9e992e4` |
-| `Revision/textbook/figures/17a_3_violation_profiles.png` | 106765 | `2c2e2a9d7d4d42695b0e61af2a54db58d6f929a55797ce1b1cf00fd237fc0991` |
+| `Revision/textbook/figures/17a_3_violation_profiles.png` | 100016 | `9cf9b519d2d40d7fb0e6ba6b3b8e07af3836b3dc458a46036e5ef79d2d7ac4bc` |
 | `Revision/textbook/figures/17a_4_c2_map.png` | 119926 | `c20641704415acaf6cf223e020909a4862676e39d10f2983936f7db53cc68097` |
 | `Revision/textbook/figures/17a_5_three_points.png` | 52048 | `539e92df3bc4aa7dabbdefcc5e5de7f9353177c840f1eaac55d61bdc81326bf1` |
-| `Revision/textbook/figures/17a_6_integrated_ratio.png` | 53893 | `f765303f6087f2f94190ddd3fca95f8a73a3bd46383b9eacc7aad090501c67c0` |
+| `Revision/textbook/figures/17a_6_integrated_ratio.png` | 53309 | `44d12e3cef6f68db3079bbf92cce61dc78aff7b850399dfffeef5c3792d03f31` |
 | `Revision/textbook/figures/17a_7_history_integrals.png` | 95853 | `5a05af01e1f6ef4ee926a546589f52a4168402ee6fe27166241b0255f37cd33b` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/17a_source_conditions.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
@@ -363,8 +363,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 12.5 s, peak memory of the kernel process 208 MiB;
-- the check run: 11.2 s, peak memory of the kernel process 209 MiB.
+- the build run: 22.3 s, peak memory of the kernel process 213 MiB;
+- the check run: 10.8 s, peak memory of the kernel process 214 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -376,15 +376,15 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/17a_source_conditions.ipynb`: `a3859d70ca1df6cd0f2f211d812212994421e782a9d9ace368104e317e86414a`
-- `Revision/textbook/notebooks/src/17a_source_conditions.py`: `2515be58bbc46d8310ff7da52537be159ee2d8709e69e7d13790c845da083d8e`
-- `Revision/textbook/figures/17a.captions.json`: `2bb322089e3e2926a773428743894ea04c3e800a05f3b2091d3b7f8f6ddc4561`
+- `Revision/textbook/notebooks/17a_source_conditions.ipynb`: `ac791f5f64b48f9ea1c4679a2ac51bfcbce52263a795003eb6e5397fde68d31b`
+- `Revision/textbook/notebooks/src/17a_source_conditions.py`: `f725ccfebda29b1e5b93254a0cf703bb412db7f48126d5dc2b40dd7734f7eb28`
+- `Revision/textbook/figures/17a.captions.json`: `eafe4a10c0235f08848be20f85b6cbd0b3e0c30aa2eca525598e7e227dff9be7`
 - `Revision/textbook/figures/17a_1_rho_profiles.png`: `0b6c65650a6c86b69f6bff5a40fed6172ea350a808f32ecf6cb0ae753fa0e1af`
 - `Revision/textbook/figures/17a_2_c1_map.png`: `00695ded57ef50250e6e7a6f77a1eabf17f9fefe5e88150e80553c60f9e992e4`
-- `Revision/textbook/figures/17a_3_violation_profiles.png`: `2c2e2a9d7d4d42695b0e61af2a54db58d6f929a55797ce1b1cf00fd237fc0991`
+- `Revision/textbook/figures/17a_3_violation_profiles.png`: `9cf9b519d2d40d7fb0e6ba6b3b8e07af3836b3dc458a46036e5ef79d2d7ac4bc`
 - `Revision/textbook/figures/17a_4_c2_map.png`: `c20641704415acaf6cf223e020909a4862676e39d10f2983936f7db53cc68097`
 - `Revision/textbook/figures/17a_5_three_points.png`: `539e92df3bc4aa7dabbdefcc5e5de7f9353177c840f1eaac55d61bdc81326bf1`
-- `Revision/textbook/figures/17a_6_integrated_ratio.png`: `f765303f6087f2f94190ddd3fca95f8a73a3bd46383b9eacc7aad090501c67c0`
+- `Revision/textbook/figures/17a_6_integrated_ratio.png`: `44d12e3cef6f68db3079bbf92cce61dc78aff7b850399dfffeef5c3792d03f31`
 - `Revision/textbook/figures/17a_7_history_integrals.png`: `5a05af01e1f6ef4ee926a546589f52a4168402ee6fe27166241b0255f37cd33b`
 
 ## 7. Verification
@@ -393,4 +393,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 8 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":208.0,"seconds":12.5},"check":{"date":"2026-10-07","files":8,"peak_mb":209.0,"result":"passed","seconds":11.2},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":213.0,"seconds":22.3},"check":{"date":"2026-10-07","files":8,"peak_mb":214.0,"result":"passed","seconds":10.8},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
