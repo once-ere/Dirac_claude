@@ -69,13 +69,13 @@ The full construction is in `Revision/lead_checks/charge_conjugation_and_u1.py`.
 
 ### 1.5 The eight real 16 by 16 Dirac matrices are the author's
 
-The provenance file `provenance/dirac matrices.md` displays the author's eight real 16 by 16 Dirac matrices `T16A[0]` ... `T16A[7]`, evaluated directly from the author's notebook `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb` and stored in `provenance/dirac_matrices/author_notebook_T16.json` (sha256 `b4bdec86878f11d874e276bd30e3a9ca6ae0d607368dafabd71bde7e8e2de334`). On 2026-10-07 the matrices of this set's package were compared with that file exactly, entry by entry (Wolfram `===` on integer arrays), in clone A of Part 6:
+The provenance file `provenance/dirac matrices.md` displays the author's eight real 16 by 16 Dirac matrices `T16A[0]` ... `T16A[7]`, evaluated directly from the author's notebook `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb` and stored in `provenance/dirac_matrices/author_notebook_T16.json` (sha256 `b4bdec86878f11d874e276bd30e3a9ca6ae0d607368dafabd71bde7e8e2de334`). On 2026-10-07 the matrices of this set's package were compared with that file exactly, entry by entry (Wolfram `===` on integer arrays), in clone A2 of Part 6:
 
 | Package (this set) | Author's notebook (`author_notebook_T16.json`) | Equal |
 |---|---|---|
 | `D16Gammas` = gamma^0 ... gamma^7 | `T16A[0]` ... `T16A[7]` | yes, all eight |
 | `D16C` = C | `sigma16` | yes |
-| `D16Chirality` = gamma^8 | `T16A_8` = `T16A[0]` ... `T16A[7]` | yes |
+| `D16Chirality` = gamma^8 | `T16A_8` (the notebook's `T16A[8]`, the product `T16A[0]` ... `T16A[7]`) | yes |
 | 2 `D16ProjMinus` = I - gamma^8 | `twice_PL` = 2 P_L | yes |
 | 2 `D16ProjPlus` = I + gamma^8 | `twice_PR` = 2 P_R | yes |
 | `D16Eta` | `eta4488` | yes |

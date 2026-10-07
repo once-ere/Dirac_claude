@@ -194,8 +194,8 @@ CELLS = [
     slot 4; for example
     $\hat\gamma^{(x_1)} = P \otimes I_2 \otimes I_2 \otimes I_2$,
     $\hat\gamma^{(x_5)} = G \otimes N \otimes I_2 \otimes I_2$ and
-    $\hat\gamma^{(x_8)} = G \otimes G \otimes G \otimes P$. (Part 12 of this notebook
-    explains why these pairs are the ones that match the author's matrices.)
+    $\hat\gamma^{(x_8)} = G \otimes G \otimes G \otimes P$. (Section 12 of this notebook,
+    below, explains why these pairs are the ones that match the author's matrices.)
 
     **Why the recipe satisfies the Clifford relation** (by the mixed-product rule, every
     product is computed slot by slot):
@@ -771,19 +771,38 @@ CELLS = [
     sides and add them up: for a matrix $X$ (as a list $v$ of 256 numbers) the sum of
     the squares of all 2048 equations is $v^T K v$ with the $256 \times 256$ matrix
     $K = A^T A$, where $A$ is the system. $K$ has a complete set of exact eigenvectors:
-    the matrices $X_B = Q\hat\gamma_B$ for the 256 sets $B$. Indeed
-    $\gamma^{(a)} X_B - X_B\hat\gamma^{(a)} = Q(\hat\gamma^{(a)}\hat\gamma_B -
-    \hat\gamma_B\hat\gamma^{(a)})$, and by the rule for passing one gamma through a
-    product (a product of $k$ gammas) this is 0 when $\hat\gamma^{(a)}$ commutes with
-    $\hat\gamma_B$ and $2Q\hat\gamma^{(a)}\hat\gamma_B$ when it anticommutes. The
-    anticommuting directions are the $k$ directions in $B$ for an even $k$, and the
-    $8 - k$ directions outside $B$ for an odd $k$. So $K v_B = 4\,n_B\,v_B$ with
-    $n_B = k$ (even $k$) or $8 - k$ (odd $k$): the eigenvalues are
-    $0, 4, 8, \dots, 32$ with the multiplicities $\binom{8}{0}, \binom{8}{1}, \dots,
-    \binom{8}{8}$, and the eigenvalue 0 belongs only to $B = \{\}$, that is to $Q$. The
-    next cell checks $K v_B = 4 n_B v_B$ exactly for all 256 sets, counts the
-    multiplicities, and confirms them with numpy's floating-point eigenvalues (rounded to
-    whole numbers).
+    the matrices $X_B = Q\hat\gamma_B$ for the 256 sets $B$. Line by line:
+
+    1. Write $L_a(X) = \gamma^{(a)} X - X\hat\gamma^{(a)}$ for the left-hand side of
+       equation block $a$; then $A$ is the stack of the eight blocks $L_a$, and
+       $K = \sum_a L_a^T L_a$ (a matrix product of a stack with its transpose adds up
+       the products of the blocks).
+    2. The transpose of the block $L_a$ is the map
+       $Y \to (\gamma^{(a)})^T Y - Y(\hat\gamma^{(a)})^T$ (the rows of the system become
+       its columns). Both sets have $(\gamma^{(a)})^T = \eta_{aa}\gamma^{(a)}$ and
+       $(\hat\gamma^{(a)})^T = \eta_{aa}\hat\gamma^{(a)}$, so $L_a^T = \eta_{aa} L_a$
+       and $K = \sum_a \eta_{aa} L_a L_a$.
+    3. $L_a(X_B) = Q\hat\gamma^{(a)}Q^T Q\hat\gamma_B - Q\hat\gamma_B\hat\gamma^{(a)}
+       = Q(\hat\gamma^{(a)}\hat\gamma_B - \hat\gamma_B\hat\gamma^{(a)})$ (insert
+       $\gamma^{(a)} = Q\hat\gamma^{(a)}Q^T$ and $Q^T Q = I_{16}$). By the rule for passing
+       one gamma through a product of $k$ gammas this is 0 when $\hat\gamma^{(a)}$
+       commutes with $\hat\gamma_B$, and $2Q\hat\gamma^{(a)}\hat\gamma_B$ when it
+       anticommutes.
+    4. In the anticommuting case apply $L_a$ once more: $L_a(2Q\hat\gamma^{(a)}
+       \hat\gamma_B) = 2Q(\hat\gamma^{(a)}\hat\gamma^{(a)}\hat\gamma_B -
+       \hat\gamma^{(a)}\hat\gamma_B\hat\gamma^{(a)}) = 2Q(\eta_{aa}\hat\gamma_B +
+       \eta_{aa}\hat\gamma_B) = 4\eta_{aa}X_B$ (the square is $\eta_{aa}$, and
+       $\hat\gamma_B\hat\gamma^{(a)} = -\hat\gamma^{(a)}\hat\gamma_B$). Multiplied by
+       the $\eta_{aa}$ of step 2 it gives $4X_B$, because $\eta_{aa}^2 = 1$.
+    5. Adding over $a$: $K v_B = 4\,n_B\,v_B$, where $n_B$ is the number of directions
+       whose gamma anticommutes with $\hat\gamma_B$. These are the $k$ directions in
+       $B$ for an even $k$, and the $8 - k$ directions outside $B$ for an odd $k$.
+
+    So the eigenvalues are $0, 4, 8, \dots, 32$ with the multiplicities
+    $\binom{8}{0}, \binom{8}{1}, \dots, \binom{8}{8}$, and the eigenvalue 0 belongs only
+    to $B = \{\}$, that is to $Q$. The next cell checks $K v_B = 4 n_B v_B$ exactly for
+    all 256 sets, counts the multiplicities, and confirms them with numpy's
+    floating-point eigenvalues (rounded to whole numbers).
     """),
     code(r'''
     K = system.T @ system  # 256 x 256, whole numbers
