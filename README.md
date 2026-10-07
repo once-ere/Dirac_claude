@@ -21,6 +21,14 @@ transformations) it is the direct sum of two inequivalent irreducible
 8-dimensional representations.  Both statements are proved by exact commutant and
 intertwiner computations.
 
+The gamma matrices are the author's eight REAL 16 x 16 Dirac matrices `T16^A[0..7]`,
+taken by evaluating the author's own notebook cells.  `provenance/dirac matrices.md`
+proves that they are real and satisfy `{T16^A[a], T16^A[b]} = 2 eta_ab I16`.  It proves
+that the scaled commutators `(1/4)[T16^A[a], T16^A[b]]` span spin(4,4) and generate
+Spin_0(4,4); together with `T16^A[0]` and `T16^A[4]` they generate Pin(4,4).  It
+displays the matrices, their products and the projectors `P_L`, `P_R`, and checks that
+every gamma source in the repository equals them.
+
 Its Lagrangian density, loosely based on the notebook's `Lg[]`, is
 
     L = sqrt|g| [ (1/2)(Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi)
