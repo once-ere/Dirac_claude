@@ -88,8 +88,8 @@ FACTS = {
          "Dirac_claude (a single downloaded notebook file is not enough)."],
         ["a cell runs for many minutes",
          "the exact algebra of sympy is slow on old computers; the whole notebook needs "
-         "about a minute on a 2024 laptop. Wait, or close other programs that use the "
-         "processor."],
+         "about half a minute on a 2024 laptop, and up to about a minute while other "
+         "programs use the processor. Wait, or close the other programs."],
     ],
 }
 
@@ -234,8 +234,9 @@ CELLS = [
     The next cell imports numpy (numbers for the plots) and sympy (exact algebra),
     reads the author's eight gamma matrices from the Revision record
     `Revision/algebra/gammas.json`, and checks two of their properties: the 64
-    Clifford relations and that every entry is a real number. It then builds the 28
-    matrices $S^{ab} = \frac14[\gamma^a, \gamma^b]$.
+    Clifford relations, and that there are eight of them, each a 16 x 16 matrix whose
+    entries are all real numbers. It then builds the 28 matrices $S^{ab} =
+    \frac14[\gamma^a, \gamma^b]$.
     """),
     code(r'''
     import numpy as np  # arrays of decimal numbers (only for the plots)
@@ -260,8 +261,10 @@ CELLS = [
     check(clifford, "the 64 Clifford relations of the author's gammas",
           record="Revision/theory/reports/python-field-theory.json, "
                  "check clifford_relations")
-    check(all(entry.is_real for matrix in gamma for entry in matrix),
-          "every entry of every gamma is a real number",
+    # eight matrices, each with 16 rows and 16 columns, and every entry a real number
+    check(len(gamma) == 8 and all(matrix.shape == (16, 16) for matrix in gamma)
+          and all(entry.is_real for matrix in gamma for entry in matrix),
+          "the eight gammas are 16 x 16 matrices with real entries",
           record="Revision/theory/reports/python-field-theory.json, check gammas_real")
     # S[a][b] = (1/4)(gamma^a gamma^b - gamma^b gamma^a), for all 64 pairs (a, b).
     S = [[(gamma[a] * gamma[b] - gamma[b] * gamma[a]) / 4 for b in range(8)]

@@ -86,8 +86,9 @@ FACTS = {
          "Dirac_claude (a single downloaded notebook file is not enough)."],
         ["a cell runs for several minutes",
          "the exact algebra of sympy with hyperbolic functions is slow on old "
-         "computers; the whole notebook needs about a minute on a 2024 laptop. Wait, "
-         "or close other programs that use the processor."],
+         "computers; the whole notebook needs about a minute on a 2024 laptop, and up "
+         "to about two minutes while other programs use the processor. Wait, or close "
+         "the other programs."],
     ],
 }
 
@@ -807,8 +808,10 @@ CELLS = [
     for mu in range(8):
         for nu in range(8):
             if norms[mu, nu] > 0:
+                # white digits on the dark squares (the largest sizes), black elsewhere
+                dark = norms[mu, nu] > 0.6 * norms.max()
                 ax.text(nu, mu, f"{norms[mu, nu]:.1f}", ha="center", va="center",
-                        fontsize=7, color="black" if norms[mu, nu] < 8 else "white")
+                        fontsize=7, color="white" if dark else "black")
     ax.set_xticks(range(8), NAMES)
     ax.set_yticks(range(8), NAMES)
     ax.set_xlabel("coordinate $\\nu$")

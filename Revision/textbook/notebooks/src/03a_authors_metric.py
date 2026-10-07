@@ -147,8 +147,12 @@ CELLS = [
     - $z = 6 H x_8$: the hidden coordinate in angle form, between $0$ and $\pi/2$.
     - **Patch**: the range $0 < z < \pi/2$ on which the metric is used. Its end
       $z = \pi/2$ is the **patch end**; the end $z \to 0$ is the **tip**.
-    - **Warp factor**: the common factor $\sin^{1/3} z = e^{2Hy}$ of the six transverse
-      entries $g_{11}, g_{22}, g_{33}, g_{55}, g_{66}, g_{77}$.
+    - **Warp factor** $W = \sin^{1/6} z$: the factor that the scale factors of the six
+      **transverse** directions $x_1, x_2, x_3, x_5, x_6, x_7$ share; the six transverse
+      entries $g_{11}, g_{22}, g_{33}, g_{55}, g_{66}, g_{77}$ of the metric contain its
+      square $W^2 = \sin^{1/3} z$.
+    - **Hidden coordinate** $y = \ln(\sin z)/(6H)$: a second coordinate for the hidden
+      direction, in which the warp factor is $W = e^{Hy}$ (section 13).
     - **Prescribed background**: a metric that is given and not solved for from field
       equations.
     - **sympy**: the Python package for exact algebra with symbols; **numpy**: arrays of
@@ -599,20 +603,20 @@ CELLS = [
     ## 11. The hidden direction: the functions of $z$
 
     The scale factors also depend on the hidden direction through $z$. The six
-    transverse directions share the factor $\sin^{1/6} z$ (their metric entries share
-    $\sin^{1/3} z$, the warp factor), and the hidden direction itself has the scale
-    factor $\cot z$ (its metric entry is $\cot^2 z$). The next cell draws these four
-    functions across the patch: the first two on an ordinary axis (they lie between 0
-    and 1 and reach 1 at the patch end), the last two on a logarithmic axis (they grow
-    without bound at the tip and vanish at the patch end).
+    transverse directions share the warp factor $W = \sin^{1/6} z$ (their metric
+    entries share its square $W^2 = \sin^{1/3} z$), and the hidden direction itself
+    has the scale factor $\cot z$ (its metric entry is $\cot^2 z$). The next cell draws
+    these four functions across the patch: the first two on an ordinary axis (they lie
+    between 0 and 1 and reach 1 at the patch end), the last two on a logarithmic axis
+    (they grow without bound at the tip and vanish at the patch end).
     """),
     code(r'''
     z_line = np.linspace(0.005, np.pi / 2 - 0.005, 600)
     fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.2))
     axes[0].plot(z_line, np.sin(z_line) ** (1 / 6), color=RED, lw=1.8,
-                 label="$\\sin^{1/6} z$ (transverse scale factor)")
+                 label="warp factor $W = \\sin^{1/6} z$")
     axes[0].plot(z_line, np.sin(z_line) ** (1 / 3), color=ORANGE, lw=1.8, ls="--",
-                 label="$\\sin^{1/3} z$ (warp factor of $g$)")
+                 label="$W^2 = \\sin^{1/3} z$ (in the entries of $g$)")
     axes[0].set_ylim(0.0, 1.05)
     axes[0].set_title("The warp of the six transverse directions")
     axes[1].plot(z_line, 1 / np.tan(z_line), color=AQUA, lw=1.8,
@@ -628,11 +632,13 @@ CELLS = [
     save_figure(fig, "hidden_direction",
                 "The functions of the hidden coordinate $z = 6Hx_8$ in the author's "
                 "metric, across the patch $0 < z < \\pi/2$; horizontal axes $z$ in "
-                "radians, vertical axes pure numbers. Left: the transverse scale factor "
-                "$\\sin^{1/6} z$ (solid) and the warp factor $\\sin^{1/3} z$ of the "
-                "metric entries (dashed) rise from $0$ at the tip to $1$ at the patch "
-                "end. Right, on a logarithmic axis: the scale factor $\\cot z$ of the "
-                "hidden direction (solid) and its square $g_{88} = \\cot^2 z$ (dashed) "
+                "radians, vertical axes pure numbers. Left: the warp factor "
+                "$W = \\sin^{1/6} z$ shared by the six transverse scale factors (solid) "
+                "and its square $W^2 = \\sin^{1/3} z$, which stands in the six "
+                "transverse metric entries (dashed), rise from $0$ at the tip to $1$ at "
+                "the patch end. Right, on a logarithmic axis: the scale factor "
+                "$\\cot z$ of the hidden direction (solid) and its square "
+                "$g_{88} = \\cot^2 z$ (dashed) "
                 "grow without bound towards the tip and fall to $0$ at the patch end.")
     check(abs(np.sin(np.pi / 2) ** (1 / 6) - 1.0) < 1e-15,
           "the warp factor equals 1 at the patch end z = pi/2")

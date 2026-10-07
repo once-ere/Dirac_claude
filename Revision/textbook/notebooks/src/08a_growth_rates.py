@@ -199,15 +199,50 @@ CELLS = [
     md(r"""
     ## 5. The author's gamma matrices
 
-    The next cell reads the record `Revision/algebra/gammas.json`, turns the eight gamma
-    matrices and the matrix $B$ into numpy arrays and checks the Clifford relation for
-    all $8 \times 8 = 64$ ordered pairs $(a, b)$ with exact integer arithmetic. In
-    Python lists count from 0, so $\gamma^{(x_1)}$ is `GAMMA[0]` and $\gamma^{(x_4)}$ is
-    `GAMMA[3]`.
+    The next cell first defines two helpers for the checks that reproduce a Revision
+    record. `record_says(report, name, ...)` opens the report (a JSON file with a list
+    of checks, each with a name, a verdict and a detail text) and is true when the
+    check `name` is there with the verdict pass and its detail text contains every
+    further piece of text given (for example a number that this notebook computes).
+    `check_record(condition, title, report, name, ...)` is the helper `check` for such
+    a result: it passes only if the notebook's own computation (`condition`) is right
+    AND the record says the same. Then the cell reads the record
+    `Revision/algebra/gammas.json`, turns the eight gamma matrices and the matrix $B$
+    into numpy arrays and checks the Clifford relation for all $8 \times 8 = 64$
+    ordered pairs $(a, b)$ with exact integer arithmetic. In Python lists count from 0,
+    so $\gamma^{(x_1)}$ is `GAMMA[0]` and $\gamma^{(x_4)}$ is `GAMMA[3]`. Last, it
+    checks $(\gamma^{(x_4)})^2 = -I_{16}$: multiplying the field equation by
+    $-\gamma^{(x_4)}$ solves it for $\partial_4\Psi$, so the field equation says how the
+    field changes in the time $x_4$ (the slices $x_4 = $ const are *non-characteristic*).
+    Section 12 shows that this does NOT make the initial-value problem well posed.
     """),
     code(r'''
     import numpy as np  # arrays of numbers, matrices, linear algebra
     import sympy as sp  # exact algebra with symbols
+
+    REPORTS = {}  # report file -> {check name: (verdict, detail)}, each read once
+
+
+    def record_says(report_file, check_name, *pieces):
+        """True when the Revision report records the check check_name with the verdict
+        pass and its detail text contains every given piece of text."""
+        if report_file not in REPORTS:  # read the report the first time it is needed
+            data = json.loads(repository_file(report_file).read_text(encoding="utf-8"))
+            REPORTS[report_file] = {entry["name"]: (entry["verdict"].lower(),
+                                                    entry["detail"])
+                                    for entry in data["checks"]}
+        verdict, detail = REPORTS[report_file][check_name]
+        return verdict == "pass" and all(piece in detail for piece in pieces)
+
+
+    def check_record(condition, title, report_file, check_name, *pieces):
+        """check() for a result that reproduces the Revision check check_name: it passes
+        only if condition is true AND the report records check_name as passed, with
+        every piece of text (values computed here) in its detail."""
+        on_record = record_says(report_file, check_name, *pieces)
+        check(condition and on_record, title,
+              record=f"{report_file}, check {check_name}")
+
 
     gammas_record = json.loads(
         repository_file("Revision/algebra/gammas.json").read_text(encoding="utf-8"))
@@ -222,10 +257,17 @@ CELLS = [
         np.array_equal(GAMMA[a] @ GAMMA[b] + GAMMA[b] @ GAMMA[a],
                        2 * ETA[a] * (a == b) * I16)  # (a == b) is 1 or 0
         for a in range(8) for b in range(8))
-    check(clifford_ok, "the 64 Clifford relations {gamma^a, gamma^b} = 2 eta^ab I16",
-          record="Revision/algebra/reports/python-algebra.json, check clifford_relation")
+    check_record(clifford_ok, "the 64 Clifford relations {gamma^a, gamma^b} = 2 eta^ab I16",
+                 "Revision/algebra/reports/python-algebra.json", "clifford_relation",
+                 "for all 64 ordered pairs")
     check(np.allclose(B, B.conj().T) and np.allclose(B @ B, np.eye(16)),
           "B is Hermitian and B^2 = 1")
+    # (gamma^(x4))^2 = -1: the field equation can be solved for d4 Psi (multiply it by
+    # -gamma^(x4)), so the slices x4 = const are non-characteristic.
+    check_record(np.array_equal(GAMMA[3] @ GAMMA[3], -I16),
+                 "(gamma^(x4))^2 = -1: the slices x4 = const are non-characteristic",
+                 "Revision/theory/reports/wolfram-field-theory.json", "evolution_form_G",
+                 "the slices x4 = const are non-characteristic")
     '''),
     md(r"""
     ## 6. The mode matrix and its square, exactly
@@ -237,6 +279,9 @@ CELLS = [
     0, so its eigenvalues $+E$ and $-E$ occur equally often (8 times each); and
     $B h_k = h_k^\dagger B$, which says that $h_k$ is *self-adjoint for the Krein form*
     (section 13 uses it). sympy prints a power with two stars: `k1**2` means $k_1^2$.
+    The Revision record was checked by two independent programs, one in Python (sympy)
+    and one in the Wolfram language; the cell checks that the reports of BOTH contain
+    exactly the $E^2$ computed here.
     """),
     code(r'''
     m = sp.Symbol("m", real=True)  # the mass
@@ -251,15 +296,23 @@ CELLS = [
     E2 = m**2 + k[1]**2 + k[2]**2 + k[3]**2 + k[8]**2 - k[5]**2 - k[6]**2 - k[7]**2
     say(f"E^2 = {E2}")
     square_minus_E2 = (h * h - E2 * sp.eye(16)).applyfunc(sp.expand)
-    check(square_minus_E2 == sp.zeros(16, 16),
-          "h_k^2 = E^2 I16, E^2 = m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2",
-          record="Revision/theory/reports/python-scope.json, check "
-                 "extra_time_growth_rates_unbounded")
+    square_ok = square_minus_E2 == sp.zeros(16, 16)
+    # The two independent Revision verifiers print E^2 in their own notations: sympy
+    # writes powers with **, the Wolfram verifier with ^. Both texts must hold this E^2.
+    E2_sympy_text = sp.sstr(E2)  # "k1**2 + k2**2 + ... + m**2"
+    E2_wolfram_text = E2_sympy_text.replace("**", "^")  # "k1^2 + k2^2 + ... + m^2"
+    check_record(square_ok,
+                 "h_k^2 = E^2 I16, E^2 = m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2",
+                 "Revision/theory/reports/python-scope.json",
+                 "extra_time_growth_rates_unbounded", f"h_k^2 = ({E2_sympy_text}) I16")
+    check_record(square_ok, "the same E^2 in the independent Wolfram verifier",
+                 "Revision/theory/reports/wolfram-scope.json",
+                 "extra_time_growth_rates_unbounded", f"h_k^2 = ({E2_wolfram_text}) I16")
     check(sp.expand(h.trace()) == 0, "the trace of h_k is 0 (eigenvalues +E, -E, 8 each)")
     krein = (B_exact * h - h.H * B_exact).applyfunc(sp.expand)  # .H: conjugate transpose
-    check(krein == sp.zeros(16, 16), "B h_k = h_k^dagger B (Krein self-adjoint)",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "mode_hamiltonian_B_selfadjoint_dispersion")
+    check_record(krein == sp.zeros(16, 16), "B h_k = h_k^dagger B (Krein self-adjoint)",
+                 "Revision/theory/reports/python-field-theory.json",
+                 "mode_hamiltonian_B_selfadjoint_dispersion", "B h = h^dagger B")
     '''),
     md(r"""
     ## 7. When is the mode matrix Hermitian?
@@ -288,6 +341,8 @@ CELLS = [
     computes the dimension of the eigenspace of $+i\sqrt3$ exactly (16 minus the rank of
     $h - i\sqrt3\,I_{16}$), and prints the numerical eigenvalues. The waves of the
     eigenvalue $+i\sqrt3$ behave like $e^{-i(i\sqrt3)x_4} = e^{\sqrt3\,x_4}$: they grow.
+    The Revision record lists the same two exact eigenvalues in sympy's notation,
+    `-sqrt(3)*I` and `sqrt(3)*I` (`I` is sympy's $i$); the check compares with that text.
     """),
     code(r'''
     sample = {m: 1, k[5]: 2, k[1]: 0, k[2]: 0, k[3]: 0, k[6]: 0, k[7]: 0, k[8]: 0}
@@ -303,11 +358,14 @@ CELLS = [
     for value in rounded:
         count = int(np.sum(np.abs(eigenvalues - value) < 1e-6))
         say(f"eigenvalue {value.imag:+.9f} i occurs {count} times")
-    check(dimension == 8 and np.max(np.abs(eigenvalues.real)) < 1e-9
-          and all(abs(abs(v.imag) - 3**0.5) < 1e-9 for v in eigenvalues),
-          "m = 1, k5 = 2: eigenvalues +i sqrt(3) and -i sqrt(3), 8 each",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "extra_time_modes_grow")
+    # The record lists the exact eigenvalues as sympy writes them, sorted as text:
+    exact_text = sorted(str(sign * sp.sqrt(3) * sp.I) for sign in (1, -1))
+    say("exact eigenvalues as sympy writes them: " + ", ".join(exact_text))
+    check_record(dimension == 8 and np.max(np.abs(eigenvalues.real)) < 1e-9
+                 and all(abs(abs(v.imag) - 3**0.5) < 1e-9 for v in eigenvalues),
+                 "m = 1, k5 = 2: eigenvalues +i sqrt(3) and -i sqrt(3), 8 each",
+                 "Revision/theory/reports/python-field-theory.json",
+                 "extra_time_modes_grow", f"m = 1, k5 = 2: eigenvalues {exact_text}")
     '''),
     md(r"""
     ## 9. The growth rate versus the extra-time momentum
@@ -346,10 +404,10 @@ CELLS = [
           "growth rate from the eigenvalues = sqrt(K^2 - m^2) (m = 1)")
     report("growth rate at m = 1, K = 2 (sqrt 3)", f"{growth_rate(1.0, 2.0):.9f}")
     report("growth rate at m = 1, K = 1000", f"{growth_rate(1.0, 1000.0):.6f}")
-    check(growth_rate(1.0, 1000.0) > 999.0 and growth_rate(1.0, 1e6) > 999999.0,
-          "the growth rate has no upper bound (kappa/K tends to 1)",
-          record="Revision/theory/reports/python-scope.json, check "
-                 "extra_time_growth_rates_unbounded")
+    check_record(growth_rate(1.0, 1000.0) > 999.0 and growth_rate(1.0, 1e6) > 999999.0,
+                 "the growth rate has no upper bound (kappa/K tends to 1)",
+                 "Revision/theory/reports/python-scope.json",
+                 "extra_time_growth_rates_unbounded", "which has no upper bound")
 
     K_fine = np.linspace(0.0, 6.0, 601)
     fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.2), sharey=True)
@@ -568,7 +626,8 @@ CELLS = [
     ($m = 1$, $k_5 = 2$) carries the Krein form zero (every $u^\dagger B v$ vanishes on
     it), while an eigenspace of a real frequency ($m = 1$, $k_1 = 2$, $k_8 = 2$, $E = 3$)
     carries a Krein form with four positive and four negative directions (*inertia*
-    (4, 4)).
+    (4, 4)). Both checks compare the dimensions and the inertia found here with the
+    text of the pairing record (which calls the frequency $w$).
     """),
     code(r'''
     hk = mode_matrix(1.0, {5: 2.0})
@@ -592,18 +651,21 @@ CELLS = [
 
     V_grow = eigenspace(mode_matrix(1.0, {5: 2.0}), 1j * 3**0.5)
     form_grow = V_grow.conj().T @ B @ V_grow  # the Krein form on that eigenspace
-    check(V_grow.shape[1] == 8 and np.max(np.abs(form_grow)) < 1e-12,
-          "m = 1, k5 = 2: the 8-dim eigenspace of +i sqrt(3) is Krein-neutral",
-          record="Revision/pairing/reports/python-pairing.json, check "
-                 "Q.one_particle_complex_frequency_Krein_neutral")
+    check_record(V_grow.shape[1] == 8 and np.max(np.abs(form_grow)) < 1e-12,
+                 "m = 1, k5 = 2: the 8-dim eigenspace of +i sqrt(3) is Krein-neutral",
+                 "Revision/pairing/reports/python-pairing.json",
+                 "Q.one_particle_complex_frequency_Krein_neutral",
+                 "(0, 0, 0, 2, 0, 0, 0): w^2 = -3, eigenspace dimensions "
+                 f"[{V_grow.shape[1]}, {V_grow.shape[1]}], B-form identically zero: True")
     V_real = eigenspace(mode_matrix(1.0, {1: 2.0, 8: 2.0}), 3.0)
     form_real = np.linalg.eigvalsh(V_real.conj().T @ B @ V_real)  # Hermitian 8 x 8
     inertia = (int(np.sum(form_real > 1e-9)), int(np.sum(form_real < -1e-9)))
     report("Krein inertia of the eigenspace of E = 3 (m = 1, k1 = k8 = 2)", inertia)
-    check(V_real.shape[1] == 8 and inertia == (4, 4),
-          "m = 1, k1 = k8 = 2: the eigenspace of E = 3 has Krein inertia (4, 4)",
-          record="Revision/pairing/reports/python-pairing.json, check "
-                 "Q.one_particle_Krein_inertia")
+    check_record(V_real.shape[1] == 8 and inertia == (4, 4),
+                 "m = 1, k1 = k8 = 2: the eigenspace of E = 3 has Krein inertia (4, 4)",
+                 "Revision/pairing/reports/python-pairing.json",
+                 "Q.one_particle_Krein_inertia",
+                 f"w = 3: dim {V_real.shape[1]}, Krein inertia ({inertia[0]},{inertia[1]})")
 
     fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
     left.plot(times, np.log(hilbert))
@@ -640,12 +702,12 @@ CELLS = [
     good = mode_matrix(1.3, {1: 0.4, 2: -1.1, 3: 0.7, 8: 2.2})  # no k5, k6, k7
     good_eigenvalues = np.linalg.eigvals(good)
     E_good = np.sqrt(1.3**2 + 0.4**2 + 1.1**2 + 0.7**2 + 2.2**2)
-    check(np.allclose(good, good.conj().T) and np.allclose(good @ B, B @ good)
-          and np.max(np.abs(np.abs(good_eigenvalues) - E_good)) < 1e-12
-          and np.max(np.abs(good_eigenvalues.imag)) < 1e-12,
-          "good sector: h_k Hermitian, [B, h_k] = 0, eigenvalues real +-E",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "good_sector_spectrum_and_B_sectors")
+    check_record(np.allclose(good, good.conj().T) and np.allclose(good @ B, B @ good)
+                 and np.max(np.abs(np.abs(good_eigenvalues) - E_good)) < 1e-12
+                 and np.max(np.abs(good_eigenvalues.imag)) < 1e-12,
+                 "good sector: h_k Hermitian, [B, h_k] = 0, eigenvalues real +-E",
+                 "Revision/theory/reports/python-field-theory.json",
+                 "good_sector_spectrum_and_B_sectors", "h is Hermitian", "[B, h] = 0")
 
     path_values = np.linspace(0.0, 2.5, 26)  # the momenta 0, 0.1, ..., 2.5
     colours = np.repeat(path_values, 16)  # each matrix has 16 eigenvalues

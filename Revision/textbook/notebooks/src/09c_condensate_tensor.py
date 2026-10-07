@@ -916,9 +916,9 @@ CELLS = [
       make all 15 bilinears vanish: their tensor is diagonal (the record shows it for
       every $a_4$ and $a_4'$; this notebook checked 36 points). Their
       $S = 2|v_1^\dagger Cv_2|^2$ is never negative; the record's frequencies
-      $\omega = 4, 3, 4$ are reproduced exactly and its
-      $S = 204800, 115200, 204800$ up to one common
-      factor, 160000 (the record's columns are not of length 1). On the deflating
+      $\omega = 4, 3, 4$ are reproduced exactly and its $S = 204800, 115200, 204800$
+      up to one common factor, 160000 (the record's columns are not of length 1).
+      On the deflating
       history only condensates whose 15 bilinears all vanish, such as these, meet
       the condition of the $a_4$ field equations that the off-diagonal entries of
       the source vanish (one condition among several).
@@ -930,8 +930,8 @@ CELLS = [
     - Status: the statements are PROVED in the Revision record (exact, Wolfram and
       sympy); this notebook confirms them numerically (COMPUTED). The formula
       $S = 2\omega^2/V^2$ for unit $v_1$, $v_2$ is an observation for the three
-      witnesses
-      (COMPUTED, not proved). The parameter values are choices of this notebook.
+      witnesses (COMPUTED, not proved). The parameter values are choices of this
+      notebook.
     """),
 ]
 
