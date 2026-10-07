@@ -22,7 +22,7 @@ $B all --refined --out <scratch>/refined --report <scratch>/refined-report.json 
 python Revision/kohn_sham/solver/tools/compare_runs.py --canonical Revision/kohn_sham/results \
    --canonical-report Revision/kohn_sham/reports/ks-rust-solver.json --repeat <scratch>/repeat \
    --repeat-report <scratch>/repeat-report.json --refined <scratch>/refined \
-   --report Revision/kohn_sham/reports/ks-rust-determinism.json
+   --refined-report <scratch>/refined-report.json --report Revision/kohn_sham/reports/ks-rust-determinism.json
 $B single --m M --lambda L --a4 A --N N --out FILE.json [--tip-theta TH] [--T T] [--exx] [--margin W]
    [--profiles FILE.csv] [--mermin-levels FILE.json] [--refined]
 ```
@@ -98,10 +98,15 @@ energies, energy-momentum integrals and identities.
   ln(P + d-) - ln(Hl + d+), d+- = max(+-d, 0), each sum a log-sum-exp so that nothing underflows; safeguarded
   Newton in a sign bracket, then bisection down to adjacent doubles. The refined run uses `LinearDeviation`, the
   exactly equivalent (P - Hl) - d summed in descending level order and solved by bisection, so the two runs
-  reach the root by different rounding paths. Rounding bound of mu: (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu)
-  + 2 eps_mach |mu|, about n eps_mach T, against (n + 2) eps_mach N/(dN/dmu) for the former direct count, which
-  missed the root by 8.267e-10 m in the activated state N8_lamm1_a00_T10 (dN/dmu = 1.24e-6; found by the
-  cross-check, see History below). `thermodynamics.csv` records dN/dmu and this bound for every state.
+  reach the root by different rounding paths. Rounding bound of mu (first order in eps_mach = 2^-52, derived in
+  the module documentation of `src/mermin.rs`): (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + eps_mach <|eps - mu|>
+  + 2 eps_mach |mu|, with n the number of levels and <.> the mean weighted with g f (1 - f). The three terms are
+  the summation and evaluation of the terms, the rounding of the arguments x_i = (eps_i - mu)/T, and the two
+  adjacent doubles at the root; the first is about n eps_mach T. For the former direct count the first term has N
+  in place of P + Hl + |d|: that count missed the root by 8.267e-10 m in the activated state N8_lamm1_a00_T10
+  (dN/dmu = 1.24e-6; found by the cross-check, see History below). `thermodynamics.csv` records dN/dmu, this
+  bound (`mu_rounding_bound`) and, as a DIAGNOSTIC for the negative control of the refined comparison, the root of
+  the former direct count on the same final levels minus mu (`mu_direct_count_minus_mu`) for every state.
 * **Particle number:** N = sum g f over both brane parities is the particle number of the doubled
   (universe + Z2 image) system; the patch holds N/2. Note: ks-theory.json thermodynamics.occupation writes
   "sum w_Z2 g f = N". That line is inconsistent with its own densities.total, energy and grand potential;
@@ -156,7 +161,7 @@ H = 1, m = 1, L = 3, dk = 0.25, v_t = 1, Vol_7 = ell^3 v_t, tip theta = 0.
 | `adiabatic/` | Q_max per state, Fermi-level crossings, continued states, crossing demonstration (N = 696) |
 | `rescaling/rescaling.csv` | the exact rescaling identity, solved independently |
 | `exx/exact-fock-variant.csv` | uniform-gas vs exact-Fock exchange |
-| `thermo/thermodynamics.csv` | 135 Mermin states: mu, E, S, F, Omega (two forms), C_V = T dS/dT, dE/dT, -dF/dT, sea-hole diagnostic, dN/dmu and the rounding bound of mu (`dN_dmu`, `mu_rounding_bound`) |
+| `thermo/thermodynamics.csv` | 135 Mermin states: mu, E, S, F, Omega (two forms), C_V = T dS/dT, dE/dT, -dF/dT, sea-hole diagnostic, dN/dmu, the rounding bound of mu and the former direct-count root minus mu (`dN_dmu`, `mu_rounding_bound`, `mu_direct_count_minus_mu`) |
 
 Run ids: `N<N>_<lam0|lamp1|lamm1|lamp2|lamm2>_a<10 a4,0>` (`_T<1000 T>` for thermal states).
 
@@ -186,14 +191,14 @@ with the worst case and its run id.
   differences, compared within 1e-4 relative plus the noise floor N x root tolerance / dT of a difference
   quotient of energies. Also the window cut and the shells beyond the window.
 * **The Mermin root:** `thermo_mu_well_conditioned_root`: in all 135 thermal states mu equals the
-  `LogBalance` root on the final levels bit for bit; `LogBalance` and `LinearDeviation` agree within the
-  rounding bound (max difference 2.429e-16 m, max ratio to the bound 0.360, largest bound 4.74e-14 m; at most 2
-  split passes). As a diagnostic it records how far the former direct count would deviate: by more than
+  `LogBalance` root on the final levels bit for bit; `LogBalance` and `LinearDeviation` agree within the larger
+  of their rounding bounds (max difference 2.429e-16 m, max ratio to the bound 0.353, largest bound 4.74e-14 m; at
+  most 2 split passes). As a diagnostic it records how far the former direct count would deviate: by more than
   1e-12 m in 3 states, -8.267e-10 m (N8_lamm1_a00_T10), 2.722e-10 m (N8_lam0_a00_T10) and 6.959e-11 m
   (N8_lamp1_a00_T10), each within its own conditioning bound. `thermo_mu_vs_40digit_roots`: on the 8 states of
-  the fixture both forms lie within their bounds of the 40-digit roots (largest ratio 0.303), `LogBalance`
-  reproduces the recorded mu bit for bit, and the negative control (the direct count) misses the root by up to
-  8.267e-10 m, 5.6e6 times the largest new bound.
+  the fixture both forms lie within their bounds of the 40-digit roots (largest ratio 0.228, largest bound
+  2.0e-16 m), `LogBalance` reproduces the recorded mu bit for bit, and the negative control (the direct count)
+  misses the root by up to 8.267e-10 m, 4.2e6 times the largest new bound.
 * **Crossing-flag demonstration, and the T3 solver self-test.** The self-test solves (m, lambda, tip 0) and
   (-m, lambda, tip pi) independently and gets equal levels, E and EMT integrals and opposite S, to 1e-13;
   the untransformed tip is the negative control. It is NOT a proof of T3, which is owned by
@@ -202,8 +207,9 @@ with the worst case and its run id.
 `Revision/kohn_sham/reports/ks-rust-mermin-roots.json` (5 checks, all PASS; `tools/mermin_roots_mp.py`): all
 135 `single --mermin-levels` runs completed; the 40-digit and 50-digit roots agree to 7.5e-35 (relative); the
 solver's mu lies within its rounding bound of the 40-digit root on its own levels in 135 of 135 states (largest
-|mu - root| 2.433e-16 m, N136_lamp1_a20_T50; largest ratio to the bound 0.222; N8_lamm1_a00_T10 -2.519e-17 m,
-where the former direct count was 8.27e-10 m off); the mu of every `single` run equals the committed matrix;
+|mu - root| 2.433e-16 m, N136_lamp1_a20_T50; largest ratio to the bound 0.156; N8_lamm1_a00_T10 -2.519e-17 m
+with bound 1.610e-16 m, where the former direct count was 8.27e-10 m off; the tool evaluates the bounds at the
+40-digit root, independently of the solver); the mu of every `single` run equals the committed matrix;
 the fixture holds the 8 states with the largest direct-count bound.
 
 `Revision/kohn_sham/reports/ks-rust-determinism.json` covers the repeat (byte identity of all files) and the
@@ -213,6 +219,22 @@ comparison: eigenvalues 1e-8 m, energies 1e-8 relative, profiles 1e-6, thermodyn
 derivatives 1e-6. Because the two runs solve the Mermin root along different rounding paths, |canonical -
 refined| of mu and Omega contains the rounding error of the root instead of sharing it (check
 `refined_mermin_root_path`; `refined_thermodynamics` compares both forms of Omega).
+
+How the uncertainty measure of mu and Omega was made sensitive to the rounding of the root (the error class that
+the cross-check found and that the former measure could not show):
+1. Different rounding paths: the canonical run (and `single`) solves the root in the form `LogBalance`, the
+   refined run (and `single --refined`, which `Revision/kohn_sham/checker/measure_rust_refinement.py` uses) in
+   the exactly equivalent form `LinearDeviation`. A rounding error of one root therefore enters |mu_c - mu_r|
+   instead of cancelling in it; the former direct count gave both runs the same rounding (their levels differ too
+   little to change it).
+2. The rounding bound of each root is added: U_mu = |mu_c - mu_r| + B_c + B_r and
+   U_Omega = |Omega_c - Omega_r| + N (B_c + B_r) (B = `mu_rounding_bound` of each run; dOmega/dmu = -N at fixed
+   levels). The bound is validated against 40-digit roots in all 135 states (`ks-rust-mermin-roots.json`), in the
+   solver check `thermo_mu_vs_40digit_roots` and in the unit test `mermin::tests::forty_digit_roots`.
+3. A live negative control in `refined_mermin_root_path`: from the column `mu_direct_count_minus_mu` of both runs
+   it evaluates the former measure (direct count in both runs) and requires that it stayed below half of the
+   former error wherever that error exceeds 2 U_mu (the shared rounding that hid the defect), and that the present
+   refined run differs from a former canonical root by at least half of it there.
 
 History of that comparison: the first refined comparison, made with G = 600, failed two checks.
 1. The highest (empty) bulk levels of the label sets, near 5.6 m, differed by up to 1.08e-8 m (RK4 error).

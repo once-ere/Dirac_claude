@@ -124,9 +124,11 @@ The probe's matrices are also identical to the project's committed exact fixture
 
 * `handoff/specs/CONTRACT.md`, line 5: "[VERIFIED] ... proved by exact WolframScript computation in the design phase (scratchpad probes probe1/2/3)", with the [VERIFIED] marks of sections 1 (gamma matrices, C, expression [1], spin-generator properties, chirality, the intertwiner compatibility: probe1 lines 1-9, 12-14 and 26), 2 (the Pin and Spin commutants: probe1 lines 18 and 23), 3 item 4 (the notebook contraction fails in the primordial field: probe2 lines 5 and 6), 4 (covariant constancy of the gamma matrices: probe2 line 5), 8 (the matrix B: probe1 lines 24 and 25) and 9 (the primordial field's invariants and Einstein tensor: probe2 lines 1-4, 7, 8 and 10-13). Line 138 mentions probe3, which was never completed; the identity it was meant to prove (the divergence identity) is proved by the shipped checks `GEO_divergenceIdentity_G1`, `GEO_divergenceIdentity_G2` and `P_gammaConst_divergenceIdentity`.
 * `handoff/workflows/stage1-build-dirac16complex-wf_64819362-2a3.js` (lines 16 and 54) and `handoff/workflows/stage2-build-primordial-wf_de6a8e13-a3a.js` (line 14): the agent prompts of the Stage-1 and Stage-2 build workflows ("Design-phase probes that already passed (reuse their code)").
-* `HANDOFF.md` (line 92, "the handoff probes") and `Revision/workflows/execution_provenance.js` (line 43): the task that produced this provenance file.
+* `HANDOFF.md` (the words "the handoff probes" in its description of the execution-provenance workflow; the line number changes often because `HANDOFF.md` is updated often: line 92 on 2026-10-02, line 155 at commit `2c05210` on 2026-10-07) and `Revision/workflows/execution_provenance.js` (line 44 on 2026-10-07; its item `handoff-probes`): the task that produced this provenance file.
+* `wolfram/Dirac16ComplexGeometry.wl`, line 89: its section 1 builds the "notebook gammas (copied construction of the design probe)", i.e. the construction of probe1.
+* The execution-provenance files `provenance/wolframscript/verify_dirac16complex_algebra.PROVENANCE.md` and `provenance/wolframscript/verify_dirac16complex_geometry.PROVENANCE.md` cite *this provenance file* (as a document that names their checks as the shipped proofs of the probes' statements); they do not run the probes.
 
-No published document (`provenance/*.md`, `.tex`, `.pdf`, the textbook) names the probes; the published documents cite the shipped verifiers of Part 1.6.
+The words "design probe(s)" in `scripts/check_dirac16complex_kohn_sham_theory.py` (lines 37 and 954), in its report `artifacts/dirac16complex/kohn-sham/python-theory-report.json` (line 331) and in `studies/dirac16complex_kohn_sham/src/exchange.rs` (lines 33 and 361) refer to the Python Kohn-Sham probes `handoff/tools/ks_probe.py` and `ks_probe2.py` (the matrix J = A0 A1 A4 and the filled single-k shell), not to probe1 or probe2, which compute neither. No published document (`provenance/*.md` including `provenance/dirac matrices.md`, `.tex`, `.pdf`, the textbook) names probe1 or probe2; the published documents cite the shipped verifiers of Part 1.6. (Searched again with `git grep` at commit `2c05210` on 2026-10-07.)
 
 ## 2. Files
 
@@ -188,7 +190,7 @@ git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
 ```
 
-The clone's `.git` folder takes about 128 MB, and the whole clone about 519 MB on disk (measured on 2026-10-02). Every command below is typed in this folder, the *repository root* (the folder that contains `handoff`, `scripts`, `wolfram` and `artifacts`). Instead of git you may also download the ZIP archive from the GitHub page (button "Code", "Download ZIP") and unpack it. In that case `git status` is not available.
+The whole clone takes about 670 MB on disk, of which about 195 MB are the `.git` folder (measured on 2026-10-07; on 2026-10-02 it was about 519 MB with a 128 MB `.git`: the repository grows). Every command below is typed in this folder, the *repository root* (the folder that contains `handoff`, `scripts`, `wolfram` and `artifacts`). Instead of git you may also download the ZIP archive from the GitHub page (button "Code", "Download ZIP") and unpack it. In that case `git status` is not available.
 
 ### 3.3 Run it
 
@@ -199,7 +201,7 @@ wolframscript -file handoff/tools/probe1.wls
 wolframscript -file handoff/tools/probe2.wls
 ```
 
-Each command prints its lines within a few seconds (Part 4.5) and then returns to the prompt. probe1's line 15 is 14234 characters long and fills the screen with matrices; this is expected (Part 4.3).
+Each command prints its lines within a few seconds, or up to about 20 seconds on a busy computer (Part 4.5), and then returns to the prompt. probe1's line 15 is 14234 characters long and fills the screen with matrices; this is expected (Part 4.3).
 
 **Recommended: save the output and check it.** The commands below save the printed lines in the folder `build/probes/`. git ignores this folder (rule `/build/` in `.gitignore`). The commands then count the `True` and `False` results, print the sha256 fingerprints of the saved files, and show the output with the long line shortened.
 
@@ -288,7 +290,7 @@ The last printed line must be `True`. (Tested on 2026-10-02: the first form in P
 | A `False` where Part 4 shows `True`, or different numbers | The probe files may have been changed. Compare their sha256 values with Part 2 (`Get-FileHash -Algorithm SHA256 handoff/tools/probe1.wls` in PowerShell, `shasum -a 256 handoff/tools/probe1.wls` on macOS, `sha256sum handoff/tools/probe1.wls` on Linux). If they differ, run `git checkout -- handoff/tools/probe1.wls handoff/tools/probe2.wls` or clone again. If they are the committed ones, note your Wolfram version (`wolframscript -code '$Version'`) and report the line. |
 | The counts are right but the sha256 of the saved file differs | Most likely the line endings (macOS/Linux: use the `tr -d '\r'` commands of Part 3.3), the UTF-16 files of Windows PowerShell 5.1 (Part 3.3), or another Wolfram version (Part 4.6). |
 | PowerShell says the path to `build/probes/probe1.txt` could not be found | The folder does not exist yet: run the `New-Item` line first. |
-| A run takes much longer than about 10 seconds | The kernel starts slowly when the computer is busy (most of the time of a run is the start of the kernel, Part 4.5). Let it finish. If you stop it with Ctrl+C, nothing in the repository is changed. |
+| A run takes much longer than about 10 seconds | The kernel starts slowly when the computer is busy (most of the time of a run is the start of the kernel, Part 4.5; on the busy verification machine one probe2 run took 19.5 s). Let it finish. If you stop it with Ctrl+C, nothing in the repository is changed. |
 
 ## 4. Expected output
 
@@ -373,14 +375,16 @@ Both probes end with exit code **0** in every run. The probes never set the exit
 
 ### 4.5 Run time and memory
 
-Measured on the verification machine (Intel Core Ultra 9 275HX, 24 cores, 191 GB RAM, Windows 11 Pro for Workstations 10.0.26200, Wolfram 15.0.1, WolframScript 1.14.0). Wolfram kernels of other jobs were running at the same time (eight `wolfram.exe` processes at one moment).
+Measured on the verification machine (Intel Core Ultra 9 275HX, 24 cores, 191 GB RAM, Windows 11 Pro for Workstations, build 10.0.26200 on 2026-10-02 and 10.0.26300 on 2026-10-07, Wolfram 15.0.1, WolframScript 1.14.0). Wolfram kernels of other jobs were running at the same time (eight `wolfram.exe` processes at one moment on 2026-10-02; between 2 and 15 on 2026-10-07).
 
-| Probe | Wall time of the runs (from start of `wolframscript` to its end) | Kernel processor time | Peak working set of the kernel |
-| --- | --- | --- | --- |
-| probe1 | 2.58 s, 3.59 s, 3.32 s (the three required runs); 3.99 s, 4.35 s and 4.84 s in measurement runs; 4.93 s, 5.21 s, 5.26 s, 5.00 s and 5.28 s in the monitored runs of the re-check (Part 6) | 7.2 s (one measurement) | 143.8 MiB and 148.3 MiB (two measurements) |
-| probe2 | 5.90 s (while probe1 ran at the same time), 4.14 s, 5.45 s (the three required runs); 5.19 s, 6.78 s and 7.70 s in measurement runs; 6.90 s, 6.00 s and 7.57 s in the monitored runs of the re-check (Part 6) | 5.0 s (one measurement) | 144.2 MiB and 150.1 MiB (two measurements) |
+| Probe | Date | Wall time of the runs (from start of `wolframscript` to its end) | Kernel processor time | Peak working set of the kernel |
+| --- | --- | --- | --- | --- |
+| probe1 | 2026-10-02 | 2.58 s, 3.59 s, 3.32 s (the three required runs); 3.99 s, 4.35 s and 4.84 s in measurement runs; 4.93 s, 5.21 s, 5.26 s, 5.00 s and 5.28 s in the monitored runs of the re-check (Part 6) | 7.2 s (one measurement) | 143.8 MiB and 148.3 MiB (two measurements) |
+| probe1 | 2026-10-07 | 5.76 s, 6.12 s, 7.39 s (runs V1, V2, V3); 7.12 s (socket-monitored run) and 9.60 s (marker run) | 10.6 s, 9.5 s, 7.9 s (V1 to V3) | 156.4 MiB, 156.3 MiB, 156.3 MiB (V1 to V3) |
+| probe2 | 2026-10-02 | 5.90 s (while probe1 ran at the same time), 4.14 s, 5.45 s (the three required runs); 5.19 s, 6.78 s and 7.70 s in measurement runs; 6.90 s, 6.00 s and 7.57 s in the monitored runs of the re-check (Part 6) | 5.0 s (one measurement) | 144.2 MiB and 150.1 MiB (two measurements) |
+| probe2 | 2026-10-07 | 7.81 s, 8.41 s, 9.84 s (runs V1, V2, V3); 19.48 s (socket-monitored run), 11.34 s (marker run), 9.20 s, 7.46 s and 8.23 s (settings-file timing runs) | 5.2 s in each of V1 to V3 | 156.1 MiB, 156.1 MiB, 156.3 MiB (V1 to V3) |
 
-Most of this time is the start of the Wolfram kernel: on the same busy machine a trivial `wolframscript -code '1+1'` took 4.2 s and 5.5 s. Expect a few seconds per probe, and up to about 10 seconds on a busy or slower computer. WolframScript itself used about 16.6 MiB. The kernel's processor time can exceed the wall time because the kernel uses several threads (for example in its linear algebra). The memory values are the peak working sets of the processes (Windows `PeakWorkingSetSize`), read every 0.1 s while the probe ran; 1 MiB = 1048576 bytes.
+Most of this time is the start of the Wolfram kernel: on the same busy machine a trivial `wolframscript -code '1+1'` took 4.2 s and 5.5 s on 2026-10-02, and 6.5 s and 3.9 s on 2026-10-07. Expect a few seconds per probe, and up to about 10 seconds (in one run of 2026-10-07 about 20 seconds) on a busy or slower computer; the machine was busier on 2026-10-07 than on 2026-10-02, which most likely explains the longer times (the printed output was identical). WolframScript itself used about 16.6 MiB (16.5 to 16.6 MiB on 2026-10-07), and the short licence query (Part 5) 49.8 to 60.6 MiB. The kernel's processor time can exceed the wall time because the kernel uses several threads (for example in its linear algebra). The memory values are the peak working sets of the processes (Windows `PeakWorkingSetSize`), read every 0.1 s while the probe ran; 1 MiB = 1048576 bytes.
 
 ### 4.6 Other Wolfram versions and other operating systems
 

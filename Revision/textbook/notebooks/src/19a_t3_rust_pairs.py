@@ -466,10 +466,10 @@ CELLS = [
     sympy_t3 = json.loads(repository_file(T3_SYMPY).read_text(encoding="utf-8"))
     passed_w = sum(c["verdict"] == "PASS" for c in wolfram_t3["checks"])
     passed_s = sum(c["verdict"] == "PASS" for c in sympy_t3["checks"])
-    say(f"proof of T3: Wolfram {passed_w} of {len(wolfram_t3['checks'])} checks pass, "
-        f"sympy {passed_s} of {len(sympy_t3['checks'])}")
-    check(passed_w == len(wolfram_t3["checks"]) == 10
-          and passed_s == len(sympy_t3["checks"]) == 13,
+    total_w, total_s = len(wolfram_t3["checks"]), len(sympy_t3["checks"])
+    say(f"proof of T3: Wolfram {passed_w} of {total_w} checks pass, "
+        f"sympy {passed_s} of {total_s}")
+    check(passed_w == total_w == 10 and passed_s == total_s == 13,
           "the proof records of T3 pass completely (10 and 13 checks)",
           record=f"{T3_WOLFRAM} and {T3_SYMPY}")
 
@@ -494,9 +494,9 @@ CELLS = [
             "E_B": float(found.group(4)), "levels": int(found.group(5)),
             "E_C": float(found.group(6))}
     for N, entry in RECORD.items():
-        say(f"record, N = {N}: E_KS(A) = {entry['E_A']:.12e}, "
-            f"E_KS(B) = {entry['E_B']:.12e}, {entry['levels']} levels, "
-            f"control E_KS(C) = {entry['E_C']:.10e}")
+        E_A, E_B, E_C, count = (entry[key] for key in ("E_A", "E_B", "E_C", "levels"))
+        say(f"record, N = {N}: E_KS(A) = {E_A:.12e}, E_KS(B) = {E_B:.12e}, "
+            f"{count} levels, control E_KS(C) = {E_C:.10e}")
     check(selftest["verdict"] == "PASS" and sorted(RECORD) == [8, 136]
           and all(RECORD[N]["lambda"] == LAMBDA[N][0] for N in RECORD),
           "the record holds the passing self-test for N = 8 and 136 at lambda_1",
@@ -545,11 +545,13 @@ CELLS = [
 
     for N in (8, 136):
         A, B, C = SELF[(N, "A")], SELF[(N, "B")], SELF[(N, "C")]
-        say(f"N = {N}: E_KS(A) = {A['E_KS']:.12e}, E_KS(B) = {B['E_KS']:.12e}, "
-            f"{len(A['levels'])} and {len(B['levels'])} levels")
+        E_A, E_B, E_C = A["E_KS"], B["E_KS"], C["E_KS"]
+        count_A, count_B = len(A["levels"]), len(B["levels"])
+        say(f"N = {N}: E_KS(A) = {E_A:.12e}, E_KS(B) = {E_B:.12e}, "
+            f"{count_A} and {count_B} levels")
         say(f"    levels (eps, g, f): {level_difference(A, B):.2e}; EMT integrals: "
             f"{integral_difference(A, B):.2e}; |S_A + S_B|/max|S|: "
-            f"{scalar_sum(A, B):.2e}; control E_KS(C) = {C['E_KS']:.10e}")
+            f"{scalar_sum(A, B):.2e}; control E_KS(C) = {E_C:.10e}")
     '''),
     md(r"""
     The next cell turns these numbers into checks. For each $N$: A and B have the
@@ -1001,8 +1003,9 @@ CELLS = [
         gap[kind] = lumo - homo
         say(f"{kind}: HOMO {homo:.3e}, LUMO {lumo:.12f}, Kohn-Sham gap {gap[kind]:.12f}")
     recorded = float(summary["N8_lam0_a10"]["KS_gap"])
-    check(abs(gap["C"] - eps_b) < 1e-9 and abs(math.sqrt(1 - q_root ** 2) - eps_b)
-          < 1e-12, "the free control's Kohn-Sham gap is the sub-gap level m/cosh(qL)")
+    same_level = abs(math.sqrt(M_BARE ** 2 - q_root ** 2) - eps_b) < 1e-12  # two forms
+    check(abs(gap["C"] - eps_b) < 1e-9 and same_level,
+          "the free control has the Kohn-Sham gap m/cosh(qL) of the sub-gap level")
     check(close(gap["A"], recorded) and close(gap["B"], gap["A"]),
           "the free A and B have the gap of the committed state N8_lam0_a10",
           record=f"{GROUND}/summary.csv, N8_lam0_a10, column KS_gap")
@@ -1075,8 +1078,9 @@ CELLS = [
             partner_rel.append(abs(A["E_KS"] - B["E_KS"]) / abs(A["E_KS"]))
             control_pct.append(100.0 * abs(A["E_KS"] - C["E_KS"]) / abs(A["E_KS"]))
             ok_partner &= level_difference(A, B) < TOL and profile_mismatch(A, B) < TOL
-            say(f"N = {N:3d}, a4,0 = {a4:3.1f}: E_KS A {A['E_KS']:.10f}, "
-                f"B {B['E_KS']:.10f}, C {C['E_KS']:.6f}")
+            E_A, E_B, E_C = A["E_KS"], B["E_KS"], C["E_KS"]
+            say(f"N = {N:3d}, a4,0 = {a4:3.1f}: E_KS A {E_A:.10f}, "
+                f"B {E_B:.10f}, C {E_C:.6f}")
     report("largest relative E_KS difference A - B", f"{max(partner_rel):.1e}")
     report("E_KS of C differs from A by", f"{min(control_pct):.1f} to "
            f"{max(control_pct):.1f}", "percent")
@@ -1178,8 +1182,9 @@ CELLS = [
         ok_mirror &= close(E["D"], SCAN[(MIRROR[tag], "A")]["E_KS"])
         ok_wrong &= (lam == 0.0) or abs(E["D"] - E["A"]) > 1e-4
         control_gap.append(abs(E["C"] - E["A"]))
-        say(f"lambda = {lam:+.4e}: A {E['A']:.10f}  B {E['B']:.10f}  "
-            f"C {E['C']:.6f}  D {E['D']:.10f}")
+        E_A, E_B, E_C, E_D = (E[kind] for kind in "ABCD")
+        say(f"lambda = {lam:+.4e}: A {E_A:.10f}  B {E_B:.10f}  "
+            f"C {E_C:.6f}  D {E_D:.10f}")
     check(ok_record, "A reproduces the recorded E_KS for all five couplings",
           record=f"{GROUND}/summary.csv, N136_lamm2_a10 to N136_lamp2_a10")
     check(ok_partner, "B = A for every coupling: the partner keeps +lambda")
@@ -1259,9 +1264,10 @@ CELLS = [
                        and close(A["entropy"], B["entropy"]) and close(F["A"], F["B"])
                        and level_difference(A, B) < TOL)
         ok_control &= 2.5 < F["A"] - F["C"] < 3.5
-        say(f"T = {T:.2f}: mu A {A['mu_or_fermi_level']:.12f} B "
-            f"{B['mu_or_fermi_level']:.12f} C {C['mu_or_fermi_level']:.6f}; "
-            f"F A {F['A']:.9f} B {F['B']:.9f} C {F['C']:.5f}")
+        mu_A, mu_B, mu_C = (s["mu_or_fermi_level"] for s in (A, B, C))
+        F_A, F_B, F_C = (F[kind] for kind in "ABC")
+        say(f"T = {T:.2f}: mu A {mu_A:.12f} B {mu_B:.12f} C {mu_C:.6f}; "
+            f"F A {F_A:.9f} B {F_B:.9f} C {F_C:.5f}")
     check(ok_record, "A reproduces mu, E, entropy and F of the three thermal states",
           record="Revision/kohn_sham/results/thermo/thermodynamics.csv, "
                  "N136_lamp1_a10_T10, T20, T50")
