@@ -875,7 +875,8 @@ CELLS = [
                 "energy $T_s$, trap energy, interaction energy $E_H + E_x$ and the "
                 "total (black); horizontal axis $g_c$, vertical axis the energy in "
                 "units of $\\hbar\\omega$. At $g_c = 0$ the total is "
-                "$2(1/2 + 3/2 + 5/2 + 7/2) = 16$ and kinetic and trap energy are equal "
+                "$2(1/2 + 3/2 + 5/2 + 7/2) = 16$ (15.99 on the grid, whose levels lie "
+                "slightly below $n + 1/2$) and kinetic and trap energy are equal "
                 "(virial theorem); the repulsion spreads the cloud, so the trap energy "
                 "rises and the kinetic energy falls.")
     check(abs(scan[0].sum() - 16.0) < 0.05 and abs(scan[0, 0] - scan[0, 1]) < 0.05,

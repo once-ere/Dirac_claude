@@ -521,11 +521,193 @@ fresh clone 3 (commit `c2b33cc`); none changes a result:
   `SystemFiles/Links/WSTPServer/wstpserver.conf-sample`
   (`/Applications/Wolfram.app/Contents/MacOS/WolframKernel`). Not verified on a Mac.
 
-Open discrepancies: none in the results. Two remarks that do not affect a run from a complete
-clone: (a) `Revision/field_equations_a4/README.md` states "about 15 s" for the Wolfram run; the
-measured wall times on the loaded verification machine were 18.9 s to 31.2 s (kernel CPU time
-20.1 s). (b) The script does not stop with an error message and a nonzero exit code when an
-output file cannot be written (it exits with code 0) or when its package is missing (it does not
-finish); see the last two failure tests above. Neither can happen in a complete clone, because the
-package and the `reports` folder are committed; the script was left unchanged so that the
-verified files are exactly the committed ones.
+### 6.2 Re-verification of 2026-10-07
+
+| item | value |
+| --- | --- |
+| date | 2026-10-07 |
+| commits verified | clones 1 and 2: `a4c5eda1df069a43a55ff8b57148f5de8edd1670`; clone 3: `cb6e78fcd8fdd3f6b360cdd6ad9d8f51e6453bbd` (the remote had advanced in between; `git diff a4c5eda cb6e78f` changes no file of section 2, nor `Revision/algebra/gammas.json`). The five files of section 2 are unchanged since the verification of 6.1 (same sha256, same last commits) |
+| clones | three fresh `git clone https://github.com/once-ere/Dirac_claude.git` in a scratch folder; no uncommitted file was copied in (none is needed by this set) |
+| operating system | Windows 11 Pro for Workstations 10.0.26300, Intel Core Ultra 9 275HX (24 cores), 191 GB memory |
+| Wolfram | Wolfram 15.0.1 for Microsoft Windows (64-bit) (July 2, 2026), Professional licence, `$ProcessorCount` 24, `$MaxLicenseProcesses` Infinity, `$NetworkLicense` False; WolframScript 1.14.0; kernel `C:/Program Files/Wolfram Research/Wolfram/15.0.1/wolfram.exe` |
+| shells | PowerShell 7.6.6 (runs started with `Start-Process wolframscript -ArgumentList '-file', ...` from the clone root, standard output and error redirected to files, the child processes sampled every 0.2 s for memory and CPU time) and Git Bash (git 2.51.2.windows.1) for the comparisons |
+| command | `wolframscript -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` from the repository root |
+
+Runs (machine load: CPU 99-100 % from other jobs, 8 to 17 other Wolfram kernels running):
+
+| run | where | exit code | printed line | wall time | kernel CPU | peak memory (kernel / wolframscript) | outputs vs committed |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | fresh clone 1 (`a4c5eda`) | 0 | `checks: 47, failed: 0` | 33.6 s | not measured | not measured / 16.7 MB | both byte-identical |
+| 2 | fresh clone 2 (`a4c5eda`) | 0 | `checks: 47, failed: 0` | 32.4 s | 21.8 s | 226.8 MB / 16.7 MB | both byte-identical; also identical to run 1 |
+| 3 | clone 1 again (over run 1's outputs) | 0 | `checks: 47, failed: 0` | 33.2 s | 23.1 s | 226.6 MB / 16.7 MB | both byte-identical |
+| 4 | clone 2, started from the folder `Revision/field_equations_a4/wolfram` with `wolframscript -file verify_field_equations_a4.wls` | 0 | `checks: 47, failed: 0` | 27.4 s | 22.5 s | 227.0 MB / 16.8 MB | both byte-identical |
+| 5 | fresh clone 3 (`cb6e78f`), after the three failure tests below and the restores | 0 | `checks: 47, failed: 0` | 32.4 s | 21.8 s | 226.5 MB / 16.7 MB | both byte-identical |
+| 6 | clone 2 again, network endpoints monitored | 0 | `checks: 47, failed: 0` | 33.7 s | not measured | not measured | both byte-identical; no TCP connection or UDP endpoint seen |
+
+In run 1 the sampler picked up the short licence-query process first (section 5, processes) and
+lost the kernel, so its kernel memory and CPU time were not measured; the sampler was corrected
+before run 2 (it then follows every child process of `wolframscript`).
+
+Byte identity, per output, over runs 1 to 6 (compared with `cmp` against the committed bytes taken
+with `git show HEAD:<path>`, with `sha256sum`, and with `git status --porcelain --ignored -uall`,
+which was empty after every run; the modification times show that every run rewrote both files):
+
+| output | sha256 in every run | identical to committed | identical between runs |
+| --- | --- | --- | --- |
+| `Revision/field_equations_a4/a4-equations.json` | `98d3245d30e5c25f7bbdfcd186d5723aec2059a1feeaef4cc3c3249684de03b4` | yes | yes |
+| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `2c070eda41303a6434a9860ce4bddd74510b2494e345332a8f82ddabee13857c` | yes | yes |
+
+The captured standard output of every run was the 23 bytes `checks: 47, failed: 0` plus CR LF; the
+error stream was empty (0 bytes). Check counts: 47 checks, 47 PASS, 0 FAIL, in every run. No
+Wolfram kernel of this set was left running after any run.
+
+Failure tests repeated in fresh clone 3 (each restored afterwards, `git status --porcelain
+--ignored -uall` then empty), all with the behaviour stated in section 3.6:
+
+* `lovelock-tensors.json` removed: `Import::nffil`, `Part::partd`, `Part::partw`, `General::stop`
+  on standard output (2375 bytes in all), `checks: 47, failed: 6` and the six `FAIL` lines of the
+  comparisons with the Rust results, exit code 1, 34.8 s; the report was overwritten with
+  `"failedCount": 6` and `"verdict": "FAIL"` (` M` in `git status`), `a4-equations.json` stayed
+  byte-identical. Restored with
+  `git checkout -- Revision/field_equations_a4/reports/wolfram-a4-report.json Revision/gkd_lovelock/results/lovelock-tensors.json`.
+* `reports` folder removed: `OpenWrite::noopen`, `BinaryWrite::stream`, `Close::stream` (461 bytes
+  on standard output), then `checks: 47, failed: 0` and exit code 0 although the report was not
+  written. Restored with `git checkout -- Revision/field_equations_a4/reports`.
+* `FieldEquationsA4.wl` removed: `Get::noopen` (1), `Part::partd` (3), `Part::partw` (3),
+  `ReplaceAll::reps` (3), `Part::pkspec1` (1), `First::nofirst` (3), `General::stop` (4) on standard
+  output (1736 bytes); still running after 120.9 s (98.5 s of kernel CPU time); ending this run's
+  kernel made `wolframscript` exit 0.13 s later with exit code -1 and the 42 bytes
+  `The product exited for an unknown reason.` plus LF on the error stream; both outputs unchanged.
+  Restored with `git checkout -- Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` (sha256
+  `4ac40fef...c8f8` again).
+
+Supplementary Dirac-matrix check (not part of the set; it answers whether this set computes with
+eight real 16 x 16 Dirac matrices, see "The Dirac matrices of this set" in section 1). The script
+below (50 lines, 4288 bytes, sha256
+`f123a5d93d3ff93fd1a3ecc7564e18f2b81ef4d625331afd08a9aad5efacd7ab`, LF) was run from the root of
+fresh clones 1 and 2 with `wolframscript -file <path>/dirac_crosscheck.wls`: exit code 0, about 5 s
+(5.3 s measured), nothing written (`git status --porcelain --ignored -uall` empty). To run it
+yourself, save the text between the fences as `dirac_crosscheck.wls` outside the repository (for
+example in your home folder) and run the command above from the repository root.
+
+```text
+#!/usr/bin/env wolframscript
+(* dirac_crosscheck.wls - optional supplementary check printed in section 6.2 of
+   Revision/field_equations_a4/wolfram/WOLFRAMSCRIPT_PROVENANCE.md; not part of the set.
+   Usage: save this file outside the repository, then, from the repository root:
+     wolframscript -file <path to>/dirac_crosscheck.wls
+   Compares the real 16 x 16 representation built in FieldEquationsA4.wl (FEGammaFrame, FEC) with the
+   author's eight real 16 x 16 Dirac matrices as stored in Revision/algebra/gammas.json, exactly.
+   Writes nothing; exit code 0 iff every check passes. *)
+root = Directory[];
+Get[FileNameJoin[{root, "Revision", "field_equations_a4", "wolfram", "FieldEquationsA4.wl"}]];
+js = Import[FileNameJoin[{root, "Revision", "algebra", "gammas.json"}], "RawJSON"];
+gA = js["gamma"]; CA = js["C"]; etaA = js["eta"];
+gF = FEGammaFrame; id = IdentityMatrix[16];
+res = {};
+chk[name_, ok_, det_] := (AppendTo[res, {name, TrueQ[ok]}]; Print[If[TrueQ[ok], "PASS ", "FAIL "], name, ": ", det]);
+
+chk["own_rep_eight_real_16x16", Length[gF] == 8 && And @@ (Dimensions[#] == {16, 16} & /@ gF) &&
+   Union[Flatten[gF]] === {-1, 0, 1}, "8 matrices, each 16 x 16, entries in {-1, 0, 1} (integers, hence real)"];
+chk["own_rep_clifford", And @@ Flatten[Table[gF[[a]] . gF[[b]] + gF[[b]] . gF[[a]] == 2 FEEta[[a, b]] id, {a, 8}, {b, 8}]],
+   "{g_a, g_b} = 2 eta_ab I16, eta = " <> ToString[Diagonal[FEEta]]];
+chk["same_signature_and_order", Diagonal[FEEta] === etaA, "eta of FieldEquationsA4.wl = eta of gammas.json = " <> ToString[etaA] <> " (x1..x8)"];
+chk["author_rep_eight_real_16x16", Length[gA] == 8 && Union[Flatten[gA]] === {-1, 0, 1} &&
+   And @@ Flatten[Table[gA[[a]] . gA[[b]] + gA[[b]] . gA[[a]] == 2 etaA[[a]] KroneckerDelta[a, b] id, {a, 8}, {b, 8}]],
+   "gammas.json: 8 real 16 x 16 matrices with {G_a, G_b} = 2 eta_ab I16"];
+nEqual = Count[Table[gF[[a]] === gA[[a]], {a, 8}], True];
+Print["INFO matrices equal entry by entry (own vs author): ", nEqual, " of 8"];
+chk["transpose_pattern_both", And @@ Table[Transpose[gF[[a]]] === etaA[[a]] gF[[a]] && Transpose[gA[[a]]] === etaA[[a]] gA[[a]], {a, 8}],
+   "g_a^T = eta_aa g_a for both sets (so every matrix is orthogonal)"];
+
+(* intertwiner S = sum_I G_I X g_I^T over the 256 ordered products (g_I orthogonal, so g_I^-1 = g_I^T) *)
+subsets = Subsets[Range[8]];
+prod[m_, I_] := If[I === {}, id, Dot @@ (m[[#]] & /@ I)];
+mk[X_] := Sum[prod[gA, I] . X . Transpose[prod[gF, I]], {I, subsets}];
+S = Null; Do[With[{X = SparseArray[{{i, j} -> 1}, {16, 16}] // Normal}, Module[{t = mk[X]}, If[t =!= ConstantArray[0, {16, 16}], S = t; Print["INFO seed X = E_", i, ",", j]; Break[]]]], {i, 16}, {j, 16}];
+Print["INFO S entries: ", Union[Flatten[S]]];
+chk["intertwiner_invertible", S =!= Null && Det[S] =!= 0, "det S = " <> ToString[Det[S]]];
+chk["intertwiner_maps_all_eight", And @@ Table[S . gF[[a]] === gA[[a]] . S, {a, 8}], "S g_a = G_a S for a = x1..x8, i.e. G_a = S g_a S^-1"];
+lam = (Transpose[S] . S)[[1, 1]];
+chk["intertwiner_orthogonal_up_to_scale", Transpose[S] . S === lam id, "S^T S = " <> ToString[lam] <> " I16 (so S/Sqrt[" <> ToString[lam] <> "] is orthogonal)"];
+chk["C_maps_to_author_C", S . FEC . Inverse[S] === CA && Transpose[S] . CA . S === lam FEC,
+   "S C S^-1 = C_author (gammas.json C = sigma16) and S^T C_author S = lam C: the bilinear form Phibar Psi = Phi^T C Psi is carried to the author's"];
+signedPermQ[m_] := And @@ (Count[#, 0] == 15 &) /@ m && And @@ (Count[#, 0] == 15 &) /@ Transpose[m];
+chk["own_rep_signed_permutations", And @@ (signedPermQ /@ gF), "each g_a has exactly one nonzero entry (+1 or -1) in every row and every column"];
+compact[m_] := "[" <> StringRiffle[Table[With[{j = First[FirstPosition[m[[i]], x_ /; x != 0]]}, If[m[[i, j]] > 0, "+", "-"] <> ToString[j]], {i, 16}], ", "] <> "]";
+coord = {"x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"};
+Do[Print["ROW g_", coord[[a]], " = ", compact[gF[[a]]]], {a, 8}];
+Print["ROW C = g_x8 g_x1 g_x2 g_x3 = ", compact[FEC]];
+Print["ROW S/8 rows (column:sign): ", StringRiffle[Table[StringRiffle[(ToString[#] <> ":" <> If[S[[i, #]] > 0, "+", "-"]) & /@ Flatten[Position[S[[i]], x_ /; x != 0]], " "], {i, 16}], " | "]];
+Print["checks: ", Length[res], ", failed: ", Count[res, {_, False}]];
+Exit[If[Count[res, {_, False}] == 0, 0, 1]];
+```
+
+Its output (identical in both clones; sha256 of the output with LF line endings
+`c6e62f5d7d5a2ca2b9a2d8ead76ee28bf2a4b2fdc75a5e7ed5d498984412265b`):
+
+```text
+PASS own_rep_eight_real_16x16: 8 matrices, each 16 x 16, entries in {-1, 0, 1} (integers, hence real)
+PASS own_rep_clifford: {g_a, g_b} = 2 eta_ab I16, eta = {1, 1, 1, -1, -1, -1, -1, 1}
+PASS same_signature_and_order: eta of FieldEquationsA4.wl = eta of gammas.json = {1, 1, 1, -1, -1, -1, -1, 1} (x1..x8)
+PASS author_rep_eight_real_16x16: gammas.json: 8 real 16 x 16 matrices with {G_a, G_b} = 2 eta_ab I16
+INFO matrices equal entry by entry (own vs author): 0 of 8
+PASS transpose_pattern_both: g_a^T = eta_aa g_a for both sets (so every matrix is orthogonal)
+INFO seed X = E_1,1
+INFO S entries: {-8, 0, 8}
+PASS intertwiner_invertible: det S = 72057594037927936
+PASS intertwiner_maps_all_eight: S g_a = G_a S for a = x1..x8, i.e. G_a = S g_a S^-1
+PASS intertwiner_orthogonal_up_to_scale: S^T S = 128 I16 (so S/Sqrt[128] is orthogonal)
+PASS C_maps_to_author_C: S C S^-1 = C_author (gammas.json C = sigma16) and S^T C_author S = lam C: the bilinear form Phibar Psi = Phi^T C Psi is carried to the author's
+PASS own_rep_signed_permutations: each g_a has exactly one nonzero entry (+1 or -1) in every row and every column
+ROW g_x1 = [+9, +10, +11, +12, +13, +14, +15, +16, +1, +2, +3, +4, +5, +6, +7, +8]
+ROW g_x2 = [-5, -6, -7, -8, -1, -2, -3, -4, +13, +14, +15, +16, +9, +10, +11, +12]
+ROW g_x3 = [+3, +4, +1, +2, -7, -8, -5, -6, -11, -12, -9, -10, +15, +16, +13, +14]
+ROW g_x4 = [+9, +10, +11, +12, +13, +14, +15, +16, -1, -2, -3, -4, -5, -6, -7, -8]
+ROW g_x5 = [-5, -6, -7, -8, +1, +2, +3, +4, +13, +14, +15, +16, -9, -10, -11, -12]
+ROW g_x6 = [+3, +4, -1, -2, -7, -8, +5, +6, -11, -12, +9, +10, +15, +16, -13, -14]
+ROW g_x7 = [-2, +1, +4, -3, +6, -5, -8, +7, +10, -9, -12, +11, -14, +13, +16, -15]
+ROW g_x8 = [-2, -1, +4, +3, +6, +5, -8, -7, +10, +9, -12, -11, -14, -13, +16, +15]
+ROW C = g_x8 g_x1 g_x2 g_x3 = [-16, -15, +14, +13, -12, -11, +10, +9, +8, +7, -6, -5, +4, +3, -2, -1]
+ROW S/8 rows (column:sign): 1:+ 11:- | 7:+ 13:+ | 1:- 11:- | 7:+ 13:- | 6:- 16:+ | 4:- 10:- | 6:- 16:- | 4:+ 10:- | 2:- 12:+ | 8:- 14:- | 2:+ 12:+ | 8:- 14:+ | 5:- 15:+ | 3:- 9:- | 5:- 15:- | 3:+ 9:-
+checks: 10, failed: 0
+```
+
+How to read the `ROW` lines: every matrix of this set has exactly one nonzero entry in each row,
+so it is written as the list of its 16 rows, each entry giving the column of that row's nonzero
+entry and its sign (for example `g_x1`: row 1 has +1 in column 9, ..., row 16 has +1 in column 8).
+The last line lists, for each of the 16 rows of S/8, its two nonzero entries (column:sign).
+
+Fixes made on 2026-10-07: none. No file of the set was changed (the sha256 of section 2 are those
+of the committed files). Corrections to this provenance file on 2026-10-07 (none changes a result):
+section 1 (the readers found on 2026-10-07; the subsection on the Dirac matrices of this set),
+section 2 (the remark on random numbers, dates, parallel and network functions; the input of the
+supplementary check), section 3.1 (clone size measured in fresh clone 3: pack 194.28 MiB,
+whole clone 691,452,948 bytes, `.git` 204,183,417 bytes), sections 3.5 and 3.6 (run times and the
+repeated failure tests), section 4 (run times and memory of 6.2), section 5 (the licence-query
+process started by `wolframscript` before the kernel, which the earlier text missed when it said
+"exactly one Wolfram kernel"; the files written in the Wolfram user folders; the network
+observation of 2026-10-07) and this section.
+
+### 6.3 Open discrepancies and remarks
+
+Open discrepancies in the results: none. The 47 checks pass and both outputs are reproduced byte
+for byte on both dates. Remarks that do not affect a run from a complete clone:
+
+* (a) `Revision/field_equations_a4/README.md` states "about 15 s" for the Wolfram run; the
+  measured wall times on the loaded verification machine were 18.9 s to 31.2 s (2026-10-02) and
+  27.4 s to 33.7 s (2026-10-07), with 20.1 s to 23.1 s of kernel CPU time.
+* (b) The script does not stop with an error message and a nonzero exit code when an output file
+  cannot be written (it exits with code 0) or when its package is missing (it does not finish);
+  see the failure tests of 6.1 and 6.2. Neither can happen in a complete clone, because the
+  package and the `reports` folder are committed; the script was left unchanged so that the
+  verified files are exactly the committed ones.
+* (c) Dirac matrices: this set computes with its own eight real 16 x 16 matrices (built in
+  `FieldEquationsA4.wl`), not with the author's matrices read from `Revision/algebra/gammas.json`.
+  The supplementary check of 6.2 proves exactly that they are the author's matrices in an
+  orthogonally changed basis, so no result of this set depends on the choice. The sentence of
+  `provenance/dirac matrices.md` (section "Calculations that use these matrices") that "Every
+  Revision calculation and every textbook notebook reads its gamma matrices from
+  `Revision/algebra/gammas.json`" is therefore not literally true for this set; its list of the
+  60 files that read `gammas.json` correctly does not include this set. That file was not changed
+  by this verification.

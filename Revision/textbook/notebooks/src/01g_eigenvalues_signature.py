@@ -635,15 +635,18 @@ CELLS = [
     A change of coordinates $v = P w$ with an invertible matrix $P$ gives
     $Q = w^T (P^T S P) w$: the matrix of the form becomes $P^T S P$. Its
     eigenvalues are different, but **Sylvester's law of inertia** says that the
-    signature is the same. The reason in words: if $P^T S P$ had fewer positive
-    eigenvalues than $S$, the $p$ directions where $Q > 0$ for $S$ and the
-    $n - p'$ directions where $Q \leq 0$ for $P^T S P$ (mapped by $P$) would be
-    more than $n$ directions in $n$-dimensional space, so they would share a
-    nonzero vector, on which $Q > 0$ and $Q \leq 0$ at once, which is impossible;
-    exchanging the roles of the two matrices gives the opposite inequality, and
-    the same argument for $-S$ counts the negative eigenvalues. So the
-    signature (4,4) of the author's spacetime is a property of the spacetime, not
-    of the coordinates used to describe it.
+    signature is the same. The reason in words: let $S$ have $p$ and $P^T S P$
+    have $p'$ positive eigenvalues, and suppose $p' < p$. On every nonzero
+    combination of the $p$ eigenvectors of $S$ with positive eigenvalues,
+    $Q > 0$. On every combination of the $n - p'$ vectors $P u$, where $u$ runs
+    through the eigenvectors of $P^T S P$ with eigenvalues $\leq 0$, $Q \leq 0$.
+    Together these are $p + n - p' > n$ vectors in $n$-dimensional space, so a
+    nonzero combination of the first kind equals a combination of the second
+    kind, and on that vector $Q > 0$ and $Q \leq 0$ at once, which is
+    impossible. So $p' \geq p$; exchanging the roles of the two matrices gives
+    $p \geq p'$, and the same argument for $-S$ counts the negative eigenvalues.
+    So the signature (4,4) of the author's spacetime is a property of the
+    spacetime, not of the coordinates used to describe it.
 
     The next cell reads $\eta$ from the Revision record, finds its eigenvalues
     (for a diagonal matrix: its diagonal entries) and its signature, and checks the

@@ -80,7 +80,7 @@ FACTS = {
         "ALL 31 CHECKS PASSED (notebook 08c)",
     ],
     "troubleshooting": [
-        ["A cell of sections 7, 10 or 11 runs for more than a minute.",
+        ["A cell of sections 7, 11 or 12 runs for more than a minute.",
          "these cells simplify hundreds of exact expressions with sympy; on a slow "
          "computer each can take a few minutes. Wait until the star in the brackets "
          "to the left of the cell turns into a number."],
@@ -173,10 +173,10 @@ CELLS = [
     \times 16$ matrix $S$).
 
     The plan: compute $\gamma^\mu\Omega_\mu$ in the diagonal frame (result
-    $3H\gamma^{(8)}$, sections 7 to 9), then in the boosted frame
+    $3H\gamma^{(8)}$, sections 7 to 10), then in the boosted frame
     $e'^{(4)} = \cosh b\,e^{(4)} + \sinh b\,e^{(8)}$, $e'^{(8)} = \sinh b\,e^{(4)} +
     \cosh b\,e^{(8)}$, other $e'^{(a)} = e^{(a)}$, with rapidity $b = \beta x_4 + b_0$
-    (section 10), and finally the curvature (section 11), which no frame can remove.
+    (section 11), and finally the curvature (section 12), which no frame can remove.
 
     Every symbol is exact: $H > 0$, $\beta$, $b_0$ are letters, and $a_4(x_4)$ is an
     unspecified function; so every check holds for EVERY history $a_4$. Only the plots
@@ -448,7 +448,7 @@ CELLS = [
                  "every Omega_mu vanishes iff a4' = 0 AND H = 0")
     '''),
     md(r"""
-    ## 8. What cancels and what survives
+    ## 9. What cancels and what survives
 
     For each direction $\mu$ separately (no sum) the product $\gamma^{x_\mu}
     \Omega_{x_\mu}$ turns out to be a combination of $\gamma^{(4)}$ and $\gamma^{(8)}$
@@ -530,7 +530,7 @@ CELLS = [
                 "history $a_4$ and every $H > 0$.")
     '''),
     md(r"""
-    ## 9. The deflation is invisible in this term, but not in the curvature
+    ## 10. The deflation is invisible in this term, but not in the curvature
 
     The term $3H\gamma^{(8)}$ contains no $a_4$: the deflation of the extra times does
     not show up in it. The geometry of the $a_4$ sector is nevertheless curved. The
@@ -627,7 +627,7 @@ CELLS = [
                 "sums stay constant, and they cancel exactly (black).")
     '''),
     md(r"""
-    ## 10. The boosted frame: the term depends on the frame
+    ## 11. The boosted frame: the term depends on the frame
 
     The next cell builds the frame boosted by the rapidity $b = \beta x_4 + b_0$ with
     symbolic $\beta$ and $b_0$. It checks that the new frame gives the SAME metric
@@ -762,7 +762,7 @@ CELLS = [
                 "matrix. Same metric, same field equation, different frames.")
     '''),
     md(r"""
-    ## 11. The connection itself vanishes in no frame: the curvature
+    ## 12. The connection itself vanishes in no frame: the curvature
 
     If $\Omega'_\mu$ were zero in some frame, the spinor curvature $F_{\mu\nu} =
     \partial_\mu\Omega_\nu - \partial_\nu\Omega_\mu + [\Omega_\mu, \Omega_\nu]$ would
@@ -775,7 +775,7 @@ CELLS = [
        Riemann tensor of the metric;
     2. in both frames $F_{x_1x_8} = c_{14}\,\gamma^{(1)}\gamma^{(4)} +
        c_{18}\,\gamma^{(1)}\gamma^{(8)}$ with two numbers $c_{14}, c_{18}$ (found as
-       traces, like the coefficients of section 8, and printed);
+       traces, like the coefficients of section 9, and printed);
     3. hence $F_{x_1x_8}^2 = (c_{14}^2 - c_{18}^2)\,I_{16}$, because
        $(\gamma^{(1)}\gamma^{(4)})^2 = +1$, $(\gamma^{(1)}\gamma^{(8)})^2 = -1$ and the
        two products anticommute; and $c_{14}^2 - c_{18}^2$ is the SAME in both frames,
@@ -904,9 +904,9 @@ CELLS = [
                 "vanish. On this history both matrices have rank 8 and square zero.")
     '''),
     md(r"""
-    ## 12. The spin connection in the energy-momentum tensor
+    ## 13. The spin connection in the energy-momentum tensor
 
-    Although the connection drops out of the symmetrised Lagrangian (section 8), it
+    Although the connection drops out of the symmetrised Lagrangian (section 9), it
     appears in the energy-momentum tensor. For a field that depends only on $x_4$,
     the derivative part of $K^{x_4}{}_{x_1} = \frac12(\bar\Phi\gamma^{x_4}D_{x_1}\Phi -
     (D_{x_1}\bar\Phi)\gamma^{x_4}\Phi)$ vanishes and the connection part is
@@ -927,7 +927,7 @@ CELLS = [
                  "spin_connection_in_the_energy_momentum_tensor")
     '''),
     md(r"""
-    ## 13. The last check
+    ## 14. The last check
 
     The last cell checks that the five figure files exist in the folder
     Revision/textbook/figures and prints the number of checks that passed.
@@ -940,7 +940,7 @@ CELLS = [
     all_checks_passed()
     '''),
     md(r"""
-    ## 14. What this notebook showed
+    ## 15. What this notebook showed
 
     - In the diagonal frame the term of the field equation is $\gamma^\mu\Omega_\mu =
       3H\gamma^{(8)}$ for EVERY history $a_4$ (PROVED, exact): the time-direction

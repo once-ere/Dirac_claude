@@ -555,6 +555,7 @@ CELLS = [
     right.plot(U_values, E_c, "o-", ms=3, color="black")
     right.set_xlabel("repulsion $U/t$")
     right.set_ylabel("correlation energy $E_0 - E_{HF}$ ($t$)")
+    fig.subplots_adjust(wspace=0.32)  # room between the panels for the axis label
     fig.suptitle("Two electrons on two sites: exact versus Hartree-Fock")
     save_figure(fig, "two_site_energies",
                 "Left: the ground-state energy of two electrons on two sites against "

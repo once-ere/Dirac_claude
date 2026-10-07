@@ -550,8 +550,9 @@ CELLS = [
                 "p_8^2$; all points lie on the line of slope 1, for positive and "
                 "negative $\\eta(p,p)$. Right: for each vector the largest deviation of "
                 "an entry of this matrix from $\\eta(p,p) I_{16}$, on a logarithmic "
-                "scale; it is below $10^{-14}$, the size of floating-point rounding (the "
-                "exact identity is proved with symbols in the notebook).")
+                "scale; it is of the size of floating-point rounding, far below the "
+                "tolerance $10^{-12}$ of the check (the exact identity is proved with "
+                "symbols in the notebook).")
     '''),
     md(r"""
     ## 10. Plane waves in flat 4+4 space
