@@ -87,7 +87,7 @@ The Rust program itself, `studies/dirac16complex_kohn_sham/target/release/dirac1
 
 ### 2.3 Inputs it reads
 
-The Python process of the notebook reads exactly **459 files** of the repository (measured on 2026-10-02 by executing the 18 code cells in one Python process, as route B does, with a Python audit hook that recorded every file the process opened; 215282859 bytes in total). The most important ones:
+The Python process of the notebook reads exactly **459 files** of the repository (measured on 2026-10-02 by executing the 18 code cells in one Python process, as route B does, with a Python audit hook that recorded every file the process opened; 215282859 bytes in total). The measurement was repeated on 2026-10-07 in the fresh clones of runs 7 and 8 (Section 6.3), this time by letting `notebooks/run_notebook.py` execute a copy of the notebook under the audit hook: the 18 code cells read exactly the same 459 files with the same SHA-256 (the list of Section 2.5 came out byte for byte identical); the runner itself reads two more files, its own source `notebooks/run_notebook.py` and the notebook file it executes. The only repository files the Python process opened for writing were the 14 figures; outside the repository it read only matplotlib's font cache (Section 5.2). The most important inputs:
 
 | Input | Path | SHA-256 | Lines | Bytes |
 |---|---|---|---|---|
