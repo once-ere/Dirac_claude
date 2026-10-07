@@ -11,15 +11,18 @@ Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
     python Revision/textbook/tools/nbkit.py check \
         Revision/textbook/notebooks/src/19a_t3_rust_pairs.py
 
-The notebook builds the Revision Kohn-Sham solver (Revision/kohn_sham/solver) with cargo and
-runs its subcommand "single" for the universe of mass +M (m, lambda, tip angle 0), its T3
+The notebook first checks the eight real 16 x 16 gamma matrices of the record
+(Revision/algebra/gammas.json), the chirality Gamma built from them and its block form in
+the Kohn-Sham block basis (Revision/kohn_sham/ks-theory.json): this is the map of theorem T3.
+Then it builds the Revision Kohn-Sham solver (Revision/kohn_sham/solver) with cargo and runs
+its subcommand "single" for the universe of mass +M (m, lambda, tip angle 0), its T3
 partner of mass -M (-m, +lambda, tip angle pi), the negative control with the untransformed
 tip (-m, +lambda, tip angle 0) and the wrong partner (-m, -lambda, tip angle pi): at N = 8,
-136 and 688, along the deflating history, for five couplings and at three temperatures. It
-reproduces the solver's T3 self-test of Revision/kohn_sham/reports/ks-rust-solver.json and
-the committed canonical states of Revision/kohn_sham/results, and draws ten overlay figures.
-The solver's raw output goes into Revision/kohn_sham/solver/target/textbook_19a (ignored by
-git).
+136 and 688, along the deflating history, for five couplings and at three temperatures (62
+runs). It reproduces the solver's T3 self-test of Revision/kohn_sham/reports/ks-rust-solver.json
+and the committed canonical states of Revision/kohn_sham/results, checks the free zero modes
+and the control's sub-gap level against closed forms, and draws ten overlay figures. The
+solver's raw output goes into Revision/kohn_sham/solver/target/textbook_19a (ignored by git).
 """
 
 import sys
@@ -46,7 +49,9 @@ FACTS = {
     "name": "19a_t3_rust_pairs",
     "title": "The Rust Kohn-Sham solver for the universes of mass +M and -M",
     "purpose": (
-        "It builds the Rust Kohn-Sham solver of the repository with cargo (about a "
+        "It checks the eight real 16 x 16 gamma matrices of the record, builds from them "
+        "the chirality matrix Gamma and checks that Gamma is the block map of theorem T3. "
+        "Then it builds the Rust Kohn-Sham solver of the repository with cargo (about a "
         "minute when the program is missing, a second when it is up to date) and solves "
         "the Kohn-Sham problem of dirac16complex in the deflating primordial field for "
         "the universe of mass +M (bare mass m, coupling lambda, tip angle 0), for its "
@@ -54,15 +59,24 @@ FACTS = {
         "negative control with the untransformed tip (bare mass -m, tip angle 0) and for "
         "the wrong partner with the reversed coupling (-m, -lambda, tip angle pi). It "
         "does this for 8, 136 and 688 particles, at the five instants of the deflating "
-        "history, for five couplings and at three temperatures (59 runs). It checks that "
+        "history, for five couplings and at three temperatures (62 runs). It checks that "
         "the partners have the same levels, occupations, energies and energy-momentum "
         "profiles and the opposite scalar density, that the controls differ, that the "
-        "+M runs reproduce the committed canonical states, and that the solver's own T3 "
-        "self-test is reproduced number by number, and it draws ten overlay figures. "
-        "The solver writes its raw output (about 2 MB) into the folder "
+        "+M runs reproduce the committed canonical states, that the solver's own T3 "
+        "self-test is reproduced number by number, and that the free zero modes and the "
+        "sub-gap level of the control agree with their closed forms, and it draws ten "
+        "overlay figures. The solver writes its raw output (about 2 MB) into the folder "
         "`Revision/kohn_sham/solver/target/textbook_19a`, which git ignores."
     ),
     "records": [
+        ["Revision/algebra/gammas.json",
+         "the eight real 16 x 16 gamma matrices of the author, the metric signs eta and "
+         "the chirality Gamma"],
+        ["Revision/algebra/reports/wolfram-algebra.json",
+         "its checks reality, Clifford_relation and Gamma_diag are reproduced"],
+        ["Revision/kohn_sham/ks-theory.json",
+         "the block basis V of the Kohn-Sham reduction, the block equation and the "
+         "boundary conditions"],
         ["Revision/kohn_sham/reports/ks-rust-solver.json",
          "the 42 checks of the solver; its check t3_block_map_solver_selftest is "
          "reproduced number by number"],
@@ -80,12 +94,13 @@ FACTS = {
         ["Revision/pairing/kohn_sham/reports/wolfram-t3.json",
          "the 10 exact Wolfram checks of the proof of T3, all PASS"],
         ["Revision/pairing/kohn_sham/reports/python-t3.json",
-         "the 13 independent sympy checks of T3, all PASS"],
+         "the 13 independent sympy checks of T3, all PASS; its check "
+         "T3.Gamma_is_the_block_map is reproduced"],
     ],
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [{"manifest": "Revision/kohn_sham/solver/Cargo.toml",
                     "binaries": ["revision_ks_solver"], "build_minutes": 1}],
-    "expected_seconds": 120,
+    "expected_seconds": 90,
     "timeout_seconds": 900,
     "files_written": ["Revision/textbook/figures/19a.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
@@ -96,7 +111,7 @@ FACTS = {
     "troubleshooting": [
         ["A cell shows the label with the star for a minute or more",
          "this is normal for the cells that run the history and the coupling scan: they "
-         "start the Rust program 15 to 20 times, each run takes about a second on a "
+         "start the Rust program 17 to 27 times, each run takes about a second on a "
          "fast computer and up to five seconds on a laptop. Wait until the label shows "
          "a number."],
         ["RuntimeError: the solver failed for a state",
@@ -133,6 +148,8 @@ CELLS = [
 
     The notebook
 
+    - checks the eight real $16 \times 16$ gamma matrices of the record, builds from
+      them the chirality matrix $\Gamma$ and checks that $\Gamma$ is the map of T3;
     - builds the Rust program `revision_ks_solver` with cargo;
     - solves four kinds of universes: A (mass $+m$, tip angle $0$; the canonical
       state of the record), B (mass $-m$, coupling $+\lambda$, tip angle $\pi$; the T3
@@ -143,8 +160,10 @@ CELLS = [
       record `Revision/kohn_sham/reports/ks-rust-solver.json`;
     - compares A and B level by level and point by point, for 8, 136 and 688
       particles, at the five instants of the deflating history, for five couplings and
-      at three temperatures (59 runs of the solver), and shows that C and D differ;
-    - checks that every A run reproduces the committed canonical state of the record;
+      at three temperatures (62 runs of the solver), and shows that C and D differ;
+    - checks that every A run reproduces the committed canonical state of the record,
+      and that the free zero modes and a level of the control agree with formulas
+      derived here by hand;
     - draws ten figures that put the universes on top of each other.
 
     It takes about one to two minutes (longer on a laptop).
@@ -161,6 +180,15 @@ CELLS = [
       (the model cuts the hidden direction there, $L = 3$) to the **brane** $y = 0$.
     - **Slice** $a_{4,0}$: one instant of the history $a_4 = AHx_4$ ($A = 1$), the value
       of $a_4$ at that instant. The slices are $a_{4,0} = 0, 0.5, 1, 1.5, 2$.
+    - **Gamma matrices** $\gamma^{(x_1)}, \dots, \gamma^{(x_8)}$: the author's eight
+      real $16 \times 16$ matrices, one for each coordinate, with
+      $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}$ times the unit matrix, where
+      $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the order
+      $x_1, \dots, x_8$. **Chirality** $\Gamma$: their product
+      $\gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$.
+    - **Pauli matrices** $\sigma_1, \sigma_2, \sigma_3$: the three $2 \times 2$ matrices
+      $\begin{pmatrix}0&1\\1&0\end{pmatrix}$, $\begin{pmatrix}0&-i\\i&0\end{pmatrix}$,
+      $\begin{pmatrix}1&0\\0&-1\end{pmatrix}$.
     - **Kohn-Sham state**: an approximate state of $N$ identical fermions built from
       one-particle wave functions (**orbitals**) that each solve a one-particle equation
       in a common **effective potential**; the potential depends on the densities of the
@@ -168,7 +196,9 @@ CELLS = [
       nothing changes).
     - **Level** $\varepsilon$: an allowed energy of the one-particle equation;
       **occupation** $f$: how many particles sit in an orbital of that level ($0$ to
-      $1$); **degeneracy** $g$: how many orbitals share the level.
+      $1$); **degeneracy** $g$: how many orbitals share the level. **HOMO** and
+      **LUMO**: the highest occupied and the lowest empty level; **Kohn-Sham gap**:
+      LUMO minus HOMO.
     - **Block type** $j = \pm 1$ and **brane parity** (even or odd): labels of the
       orbitals (explained in section 4).
     - **Bare mass** $m$: the mass in the Lagrangian; **effective mass** $M_{eff}(y)$:
@@ -176,10 +206,12 @@ CELLS = [
     - **Coupling** $\lambda$: the strength of the self-interaction $U = (\lambda/2)S^2$.
       $\lambda_1$ and $\lambda_2$ are the two calibrated couplings of the record.
     - **Densities**: the particle density $n(y)$, the scalar density $S(y)$ and the
-      density $Q(y)$; **proper** means per unit of proper 7-volume.
+      density $Q(y)$; **proper** means per unit of proper 7-volume; the **coordinate
+      density** $e^{6Hy}n(y)$ is the density per unit of $y$.
     - **Energy-momentum profiles**: the energy density $\rho(y)$ and the pressures
       $p_3(y)$ (3-space), $p_t(y)$ (extra times), $p_8(y)$ (hidden direction).
     - **Tip angle** $\theta$: the angle of the boundary condition at the tip.
+    - **Zero mode**: an orbital with the level $\varepsilon = 0$ at zero momentum.
     - **Partner**: the image of a state under the map of theorem T3. **Negative
       control**: a computation that must FAIL to agree; it shows that the agreement is
       not automatic.
@@ -210,9 +242,9 @@ CELLS = [
     $$h_j\chi = \varepsilon\chi,\qquad h_j = j\Big[-i\sigma_1\frac{d}{dy}
     + M_{eff}(y)\,\sigma_2 + \kappa(y)\,k\,\sigma_3\Big] + v_v(y),$$
 
-    with the Pauli matrices $\sigma_1, \sigma_2, \sigma_3$, the effective mass
-    $M_{eff} = m + \frac{15}{16}\lambda S$ and the potential $v_v = -\frac{1}{16}\lambda n$
-    (Hartree plus the exact exchange of the uniform gas; no correlation).
+    with the effective mass $M_{eff} = m + \frac{15}{16}\lambda S$ and the potential
+    $v_v = -\frac{1}{16}\lambda n$ (Hartree plus the exact exchange of the uniform gas;
+    no correlation).
 
     **Boundary conditions.** At the brane $y = 0$ the $Z_2$ mirror, which is ASSUMED:
     even parity $\chi_2(0) = 0$ or odd parity $\chi_1(0) = 0$; both parities are solved
@@ -228,7 +260,7 @@ CELLS = [
     Kohn-Sham state with $(m, \lambda, \theta)$ to a self-consistent state with
     $(-m, +\lambda, \pi - \theta)$: equal levels with degeneracies, occupations, chemical
     potential, entropy, Kohn-Sham energy $E_{KS}$, grand potential and free energy,
-    equal $n$, $\rho$, $p_3$, $p_t$, $p_8$; opposite $S$, $Q$ and $M_{eff}$. With
+    equal $n$, $v_v$, $\rho$, $p_3$, $p_t$, $p_8$; opposite $S$, $Q$ and $M_{eff}$. With
     $(-m, -\lambda)$ the map fails, and with the untransformed tip it fails too.
 
     **The four universes of this notebook** ($m = 1$):
@@ -250,20 +282,103 @@ CELLS = [
     numerical confirmation of T3, not its proof.
     """),
     md(r"""
-    ## 5. Building the solver and a helper that runs it
+    ## 5. The eight real gamma matrices and the map of T3
 
-    The next cell imports the packages, builds the Rust program with cargo (the helper
-    `rust_program` of the set-up cell; the first build takes about a minute, later
-    builds a second) and defines the colours of the figures: blue for A, orange for B,
-    aqua for C and yellow for D, always in this order.
+    The map of T3 is built from the author's eight real $16 \times 16$ gamma matrices.
+    The next cell reads them from the record `Revision/algebra/gammas.json` (a matrix is
+    a list of 16 rows of 16 numbers; a complex matrix would be stored as a pair of real
+    and imaginary parts, so a plain list means a real matrix) and checks three things:
+    (1) every entry is $-1$, $0$ or $+1$, so the matrices are real; (2) the
+    anticommutation rule $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}\mathbf{1}$ for
+    all 64 pairs; (3) the product $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}
+    \cdots\gamma^{(x_7)}$ is the diagonal matrix with $-1$ eight times and then $+1$ eight
+    times, the matrix stored in the record, and anticommutes with every gamma.
     """),
     code(r'''
     import csv  # reads the tables (CSV files) of the record
-    import math  # pi and a few functions of single numbers
+    import math  # pi, exp, tanh and cosh of single numbers
     import re  # regular expressions: reads numbers out of the record's text
 
     import numpy as np  # arrays of numbers
 
+    GAMMAS = "Revision/algebra/gammas.json"  # the record of the gamma matrices
+    ALGEBRA = "Revision/algebra/reports/wolfram-algebra.json"  # its check report
+    fixture = json.loads(repository_file(GAMMAS).read_text(encoding="utf-8"))
+    stored_real = all(isinstance(g, list) for g in fixture["gamma"])  # no complex part
+    gamma = [np.array(g, dtype=float) for g in fixture["gamma"]]  # gamma[0] is x1
+    eta = np.array(fixture["eta"], dtype=float)  # +1 +1 +1 -1 -1 -1 -1 +1
+    entries = sorted({float(x) for g in gamma for x in g.flat})  # all values used
+    say(f"{len(gamma)} matrices of size {gamma[0].shape}; their entries: {entries}")
+    worst = 0.0  # largest violation of the anticommutation rule
+    for a in range(8):
+        for b in range(8):
+            anti = gamma[a] @ gamma[b] + gamma[b] @ gamma[a]
+            rule = 2.0 * eta[a] * (a == b) * np.eye(16)  # 2 eta^ab times the unit
+            worst = max(worst, float(np.max(np.abs(anti - rule))))
+    Gamma = gamma[7]  # gamma^(x8) first ...
+    for a in range(7):
+        Gamma = Gamma @ gamma[a]  # ... times gamma^(x1), gamma^(x2), ..., gamma^(x7)
+    diagonal = np.diag([-1.0] * 8 + [1.0] * 8)
+    anticommutes = all(np.array_equal(Gamma @ g, -(g @ Gamma)) for g in gamma)
+    check(stored_real and entries == [-1.0, 0.0, 1.0] and worst == 0.0,
+          "the eight gamma matrices are real and obey g^a g^b + g^b g^a = 2 eta^ab",
+          record=f"{ALGEBRA}, checks reality and Clifford_relation")
+    check(np.array_equal(Gamma, diagonal) and anticommutes
+          and np.array_equal(Gamma, np.array(fixture["Gamma"], dtype=float)),
+          "Gamma = g^(x8) g^(x1) ... g^(x7) = diag(-1 (8 times), +1 (8 times))",
+          record=f"{ALGEBRA}, check Gamma_diag")
+    '''),
+    md(r"""
+    The record `Revision/kohn_sham/ks-theory.json` stores the unitary $16 \times 16$
+    matrix $V$ whose 16 columns are the basis of the eight blocks (two columns per
+    block, block $b$ in the columns $2b$ and $2b + 1$), and the label $(j, s_2, s_3)$ of
+    every block. The entries are written as text: `0`, `1`, `-1`, `I`, `-I` times
+    $1/(2\sqrt2)$. The next cell checks that $V$ is unitary, that in every block
+    $\gamma^{(x_8)}$ acts as $\sigma_3$ and $\gamma^{(x_8)}\gamma^{(x_4)}$ as
+    $j\sigma_1$, and that $\Gamma$ maps the two columns of block $(j, s_2, s_3)$ onto
+    the two columns of block $(-j, s_2, s_3)$ times $s_2\sigma_2$. That last statement
+    is the map $(\chi, j) \to (\sigma_2\chi, -j)$ of T3 (up to the sign $s_2$).
+    """),
+    code(r'''
+    KS_THEORY = "Revision/kohn_sham/ks-theory.json"
+    ks = json.loads(repository_file(KS_THEORY).read_text(encoding="utf-8"))
+    ENTRY = {"0": 0.0, "1": 1.0, "-1": -1.0, "I": 1j, "-I": -1j}  # the record's text
+    V = np.array([[ENTRY[x] for x in row]
+                  for row in ks["blockBasis"]["unnormalisedColumns2Sqrt2V"]])
+    V = V / (2.0 * math.sqrt(2.0))  # the record stores 2 sqrt(2) V
+    labels = [tuple(int(x) for x in label) for label in ks["blockBasis"]["labels"]]
+    sig1 = np.array([[0, 1], [1, 0]], dtype=complex)  # Pauli matrix sigma1
+    sig2 = np.array([[0, -1j], [1j, 0]])  # Pauli matrix sigma2
+    sig3 = np.array([[1, 0], [0, -1]], dtype=complex)  # Pauli matrix sigma3
+    unitary = float(np.max(np.abs(V.conj().T @ V - np.eye(16))))
+    worst_map, worst_form = 0.0, 0.0
+    for b, (j, s2, s3) in enumerate(labels):
+        p = labels.index((-j, s2, s3))  # the partner block
+        Vb, Vp = V[:, 2 * b:2 * b + 2], V[:, 2 * p:2 * p + 2]  # their two columns
+        worst_map = max(worst_map, float(np.max(np.abs(Gamma @ Vb - Vp @ (s2 * sig2)))))
+        g8 = Vb.conj().T @ gamma[7] @ Vb  # gamma^(x8) inside block b
+        g84 = Vb.conj().T @ gamma[7] @ gamma[3] @ Vb  # gamma^(x8) gamma^(x4) there
+        worst_form = max(worst_form, float(np.max(np.abs(g8 - sig3))),
+                         float(np.max(np.abs(g84 - j * sig1))))
+        if b < 4:
+            say(f"block {b} {labels[b]} <-> block {p} {labels[p]}: matrix "
+                f"{s2:+d} sigma2")
+    say(f"largest deviations: unitarity {unitary:.1e}, block map {worst_map:.1e}, "
+        f"block forms {worst_form:.1e}")
+    check(unitary < 1e-12 and worst_map < 1e-12 and worst_form < 1e-12,
+          "Gamma maps block (j, s2, s3) onto block (-j, s2, s3) as s2 sigma2",
+          record="Revision/pairing/kohn_sham/reports/python-t3.json, check "
+                 "T3.Gamma_is_the_block_map")
+    '''),
+    md(r"""
+    ## 6. Building the solver and a helper that runs it
+
+    The next cell builds the Rust program with cargo (the helper `rust_program` of the
+    set-up cell; the first build takes about a minute, later builds a second) and
+    defines the colours of the figures: blue for A, orange for B, aqua for C and yellow
+    for D, always in this order.
+    """),
+    code(r'''
     SOLVER_MANIFEST = "Revision/kohn_sham/solver/Cargo.toml"  # the crate of the solver
     program = rust_program(SOLVER_MANIFEST, "revision_ks_solver")  # build it, get path
     RUN_FOLDER = REPO / "Revision/kohn_sham/solver/target/textbook_19a"  # git ignores it
@@ -274,7 +389,7 @@ CELLS = [
             "B": "B: $-m$, $+\\lambda$, $\\theta = \\pi$ (T3 partner)",
             "C": "C: $-m$, $+\\lambda$, $\\theta = 0$ (control)",
             "D": "D: $-m$, $-\\lambda$, $\\theta = \\pi$ (wrong partner)"}
-    say("Packages imported, solver ready, colours defined.")
+    say("Solver ready, colours defined.")
     '''),
     md(r"""
     The next cell defines `solve`, which runs the solver once. The subcommand `single`
@@ -334,16 +449,30 @@ CELLS = [
         "Revision/kohn_sham/solver/target/textbook_19a")
     '''),
     md(r"""
-    ## 6. What the record says: the solver's own T3 self-test
+    ## 7. What the record says: the proof counts and the solver's own T3 self-test
 
-    The solver's check report contains a check named `t3_block_map_solver_selftest`.
-    It solved A, B and C at the slice $a_{4,0} = 1$ with the coupling $\lambda_1$ for
+    The next cell reads the two proof reports of T3 and counts their passing checks
+    (Wolfram 10, sympy 13). Then it reads the couplings of the record
+    (`parameters.json`) and the solver's check named `t3_block_map_solver_selftest`. That
+    check solved A, B and C at the slice $a_{4,0} = 1$ with the coupling $\lambda_1$ for
     $N = 8$ and $N = 136$ and recorded the energies, the number of levels and the
-    largest differences. The next cell reads the couplings of the record
-    (`parameters.json`) and this check, and pulls its numbers out of its text with a
-    regular expression (a pattern that matches text).
+    control's energy in its text; the cell pulls these numbers out with a regular
+    expression (a pattern that matches text).
     """),
     code(r'''
+    T3_WOLFRAM = "Revision/pairing/kohn_sham/reports/wolfram-t3.json"
+    T3_SYMPY = "Revision/pairing/kohn_sham/reports/python-t3.json"
+    wolfram_t3 = json.loads(repository_file(T3_WOLFRAM).read_text(encoding="utf-8"))
+    sympy_t3 = json.loads(repository_file(T3_SYMPY).read_text(encoding="utf-8"))
+    passed_w = sum(c["verdict"] == "PASS" for c in wolfram_t3["checks"])
+    passed_s = sum(c["verdict"] == "PASS" for c in sympy_t3["checks"])
+    say(f"proof of T3: Wolfram {passed_w} of {len(wolfram_t3['checks'])} checks pass, "
+        f"sympy {passed_s} of {len(sympy_t3['checks'])}")
+    check(passed_w == len(wolfram_t3["checks"]) == 10
+          and passed_s == len(sympy_t3["checks"]) == 13,
+          "the proof records of T3 pass completely (10 and 13 checks)",
+          record=f"{T3_WOLFRAM} and {T3_SYMPY}")
+
     SOLVER_REPORT = "Revision/kohn_sham/reports/ks-rust-solver.json"
     PARAMETERS = "Revision/kohn_sham/results/parameters.json"
     SELFTEST = "t3_block_map_solver_selftest"
@@ -374,7 +503,7 @@ CELLS = [
           record=f"{SOLVER_REPORT}, check {SELFTEST}")
     '''),
     md(r"""
-    ## 7. Reproducing the self-test: A, B and C for N = 8 and N = 136
+    ## 8. Reproducing the self-test: A, B and C for N = 8 and N = 136
 
     The next cell solves the three universes A, B, C for $N = 8$ and $N = 136$ at the
     slice $a_{4,0} = 1$ with the coupling $\lambda_1$ and the record's margin $0.45$
@@ -455,17 +584,17 @@ CELLS = [
               record=REC)
     '''),
     md(r"""
-    ## 8. A is the canonical state of the record
+    ## 9. A is the canonical state of the record
 
     Universe A at $N = 136$, $\lambda_1$, $a_{4,0} = 1$ is the state `N136_lamp1_a10` of
     the committed canonical matrix. The next cell reads its row of
     `ground/summary.csv`, its row of `ground/emt-integrals.csv` and its profile file,
     and compares them with the new run: the energy, the highest occupied level (HOMO),
-    the lowest empty level (LUMO), the Kohn-Sham gap, the four EMT integrals, and every
-    column of the profile at every point (relative to the column's largest value). It
-    also prints whether the new profile file is identical byte for byte to the
-    committed one (on the computer that built this book it is; on another computer the
-    last digit of a few numbers may differ).
+    the lowest empty level (LUMO), the Kohn-Sham gap, the four EMT integrals and the
+    particle number, and every column of the profile at every point (relative to the
+    column's largest value). It also prints whether the new profile file is identical
+    byte for byte to the committed one (on the computer that built this book it is; on
+    another computer the last digit of a few numbers may differ).
     """),
     code(r'''
     GROUND = "Revision/kohn_sham/results/ground"
@@ -477,17 +606,23 @@ CELLS = [
             return {row["id"]: row for row in csv.DictReader(handle)}
 
 
+    def homo_lumo(state):
+        """The highest occupied (f = 1) and the lowest empty (f = 0) level."""
+        occupied = [lv[4] for lv in state["levels"] if lv[6] > 0.5]
+        empty = [lv[4] for lv in state["levels"] if lv[6] < 0.5]
+        return max(occupied), min(empty)
+
+
     summary = read_rows(f"{GROUND}/summary.csv")
     integrals = read_rows(f"{GROUND}/emt-integrals.csv")
     A = SELF[(136, "A")]
-    occupied = [lv[4] for lv in A["levels"] if lv[6] > 0.5]  # levels with f = 1
-    empty = [lv[4] for lv in A["levels"] if lv[6] < 0.5]  # levels with f = 0
-    new = {"E_KS": A["E_KS"], "HOMO": max(occupied), "LUMO": min(empty),
-           "KS_gap": min(empty) - max(occupied)}
+    homo, lumo = homo_lumo(A)
+    new = {"E_KS": A["E_KS"], "HOMO": homo, "LUMO": lumo, "KS_gap": lumo - homo}
     row = summary["N136_lamp1_a10"]
     worst_scalar = max(abs(new[key] - float(row[key])) for key in new)
     emt_row = integrals["N136_lamp1_a10"]
-    worst_integral = max(abs(A["emtIntegrals_2Vol7_int_e6Hy"][c] - float(emt_row[f"int_{c}"]))
+    new_int = A["emtIntegrals_2Vol7_int_e6Hy"]  # the new integrals
+    worst_integral = max(abs(new_int[c] - float(emt_row[f"int_{c}"]))
                          / max(abs(float(emt_row[f"int_{c}"])), 1.0)
                          for c in ("rho", "p3", "p_t", "p8", "n"))
     committed = read_profile(repository_file(f"{GROUND}/profiles/N136_lamp1_a10.csv"))
@@ -506,7 +641,7 @@ CELLS = [
           record=f"{GROUND}/summary.csv, emt-integrals.csv and profiles, N136_lamp1_a10")
     '''),
     md(r"""
-    ## 9. The two spectra, level by level
+    ## 10. The two spectra, level by level
 
     T3 does more than say that the sorted lists agree: it says WHICH level goes where.
     The orbital of block type $j$ and brane parity $p$ goes to block type $-j$ and the
@@ -514,8 +649,12 @@ CELLS = [
     \sqrt{n_2}$) and with the same level. The next cell checks this for $N = 136$: for
     every level of A it looks for a level of B in the shell $n_2$, with $-j$ and the
     other parity, at the same $\varepsilon$ (within $10^{-9}$), and checks that the
-    pairing uses every level of B exactly once. It also prints how the solver's labels
-    (the Pruefer numbers that count the levels inside a sector) are shifted by the map.
+    pairing uses every level of B exactly once, with the same degeneracy and occupation.
+    It also prints, sector by sector, the label of the partner minus the label of the
+    level. The label is the solver's count of a level inside its sector, counted from
+    the boundary conditions; A and B have different boundary conditions, so the count
+    of a partner can differ by one. The map is fixed by the sector and the energy, not
+    by the label.
     """),
     code(r'''
     OTHER = {"even": "odd", "odd": "even"}  # the brane parity is exchanged
@@ -595,7 +734,7 @@ CELLS = [
     $i$-th level of the sorted lists, $|\varepsilon_{A,i} - \varepsilon_{B,i}|$ (A
     against its partner) and $|\varepsilon_{A,i} - \varepsilon_{C,i}|$ (A against the
     control). A difference that is exactly zero cannot be drawn on a logarithmic axis;
-    it is drawn at $10^{-17}$.
+    it is drawn at $10^{-17}$. The cell checks the two ranges that the caption states.
     """),
     code(r'''
     FLOOR = 1e-17  # where exact zeros are drawn on the logarithmic axis
@@ -618,16 +757,19 @@ CELLS = [
                 "for $N = 136$, $\\lambda = \\lambda_1$, $a_{4,0} = 1$; horizontal axis "
                 "the number of the level in the sorted list, vertical axis the absolute "
                 "difference in units of $|m|$ (logarithmic; exact zeros drawn at "
-                "$10^{-17}$). The partner agrees to about $10^{-13}$, the rounding of "
-                "the computer, far below the tolerance $10^{-9}$ (dashed); the control "
-                "differs by $10^{-4}$ to $1$.")
+                "$10^{-17}$). The partner agrees to $10^{-13}$ or better, the rounding "
+                "of the computer, far below the tolerance $10^{-9}$ (dashed); the "
+                "control differs by $10^{-4}$ to $1$.")
     max_partner = float(np.max(np.abs(eps["A"] - eps["B"])))
-    max_control = float(np.max(np.abs(eps["A"] - eps["C"])))
+    gaps_control = np.abs(eps["A"] - eps["C"])
     report("largest level difference A - B", f"{max_partner:.2e}")
-    report("largest level difference A - C", f"{max_control:.3g}")
+    report("smallest and largest level difference A - C",
+           f"{gaps_control.min():.2e} and {gaps_control.max():.3g}")
+    check(max_partner < 1e-12 and 1e-4 < gaps_control.min() and gaps_control.max() < 1,
+          "levels: A - B below 1e-12, A - C between 1e-4 and 1 (the caption's ranges)")
     '''),
     md(r"""
-    ## 10. The densities and the potentials, point by point
+    ## 11. The densities and the potentials, point by point
 
     T3 says that the particle density $n(y)$ and the potential $v_v(y)$ of B are those
     of A, while the scalar density $S(y)$, the density $Q(y)$ and the effective mass
@@ -718,7 +860,7 @@ CELLS = [
                 "control C has the mass $-m$ but its own, different mean field.")
     '''),
     md(r"""
-    ## 11. The energy-momentum profiles
+    ## 12. The energy-momentum profiles
 
     The energy density and the three pressures are the source terms that the gravity
     equations would need. The next cell draws $\rho$, $p_3$, $p_t$ and $p_8$ for
@@ -755,58 +897,163 @@ CELLS = [
                 "differs.")
     for N in (8, 136):
         B = SELF[(N, "B")]
-        say(f"N = {N}, B: y-conservation, integrated {B['yConservationIntegratedRel']:.1e},"
-            f" pointwise {B['yConservationPointwiseRel']:.1e} (relative)")
-        check(B["yConservationIntegratedRel"] < 1e-8 and B["yConservationPointwiseRel"] < 1e-6,
+        integrated, pointwise = (B["yConservationIntegratedRel"],
+                                 B["yConservationPointwiseRel"])
+        say(f"N = {N}, B: y-conservation, integrated {integrated:.1e}, pointwise "
+            f"{pointwise:.1e} (relative)")
+        check(integrated < 1e-8 and pointwise < 1e-6,
               f"N = {N}: the partner B obeys p8' + 6H p8 = 3H (p3 + p_t)",
               record=f"{SOLVER_REPORT}, checks emt_y_conservation_integrated, pointwise")
     '''),
     md(r"""
-    ## 12. N = 8: where the zero modes live
+    ## 13. N = 8: where the zero modes live, and a level of the control by hand
 
-    For $N = 8$ the particles sit in the eight zero modes of momentum $k = 0$. For A the
-    zero mode is $\chi = (e^{my}, 0)$, largest at the brane. Its T3 image is
-    $\sigma_2\chi = (0, i e^{my})$, again largest at the brane, and with the tip angle
-    $\pi$ it is allowed in B. In the control C (mass $-m$, tip angle $0$) the zero mode
-    is $(e^{-my}, 0)$: it lives at the TIP, where the proper volume is tiny and the
-    proper density huge (factor $e^{6HL}$). The next cell draws $n(y)$ of the three
-    $N = 8$ universes and checks where each density is largest.
+    For $N = 8$ the particles sit in the eight zero modes of momentum $k = 0$. Without
+    interaction ($\lambda = 0$, so $M_{eff} = \pm m$ and $v_v = 0$) the block equation at
+    $k = 0$ and $\varepsilon = 0$ is $\chi_1' = M\chi_1$, $\chi_2' = -M\chi_2$ (the first
+    order form $\chi' = N\chi$ with $N = M\sigma_3 + ij\varepsilon\sigma_1$ of the
+    record). So:
+
+    - A ($M = +m$, even parity $\chi_2(0) = 0$, tip $\chi_2(-L) = 0$): $\chi_2 = 0$ and
+      $\chi = (e^{my}, 0)$, largest at the brane;
+    - B ($M = -m$, odd parity $\chi_1(0) = 0$, tip angle $\pi$: $\chi_1(-L) = 0$):
+      $\chi_1 = 0$ and $\chi = (0, e^{my})$, the T3 image $\sigma_2(e^{my}, 0) =
+      (0, ie^{my})$ up to the factor $i$, again largest at the brane;
+    - C ($M = -m$, even parity, tip $\chi_2(-L) = 0$): $\chi = (e^{-my}, 0)$, largest
+      at the TIP.
+
+    The coordinate density $e^{6Hy}n(y)$ is proportional to $|\chi|^2$, so its value at
+    the brane divided by its value at the tip is $e^{2mL} = e^6$ for A and B and
+    $e^{-2mL} = e^{-6}$ for C. The next cell solves the three $N = 8$ universes without
+    interaction at $a_{4,0} = 1$ (three runs) and checks these two ratios.
     """),
     code(r'''
-    fig, ax = plt.subplots()
+    FREE8 = {kind: universe(kind, 0.0, 1.0, 8, 0.25) for kind in "ABC"}  # lambda = 0
+    L_TIP, M_BARE = 3.0, 1.0  # the tip distance L and the bare mass |m| of the record
+
+
+    def brane_over_tip(state):
+        """Coordinate density e^{6Hy} n(y) at the brane divided by its value at the tip."""
+        n = state["profile"]["n"]
+        return float(n[-1] * weight[-1] / (n[0] * weight[0]))
+
+
+    expected = {"A": math.exp(2 * M_BARE * L_TIP), "B": math.exp(2 * M_BARE * L_TIP),
+                "C": math.exp(-2 * M_BARE * L_TIP)}  # e^{+6}, e^{+6}, e^{-6}
+    ratio_error = 0.0
     for kind in "ABC":
-        prof = SELF[(8, kind)]["profile"]
-        ax.semilogy(y, weight * prof["n"], color=COLOUR[kind], label=NAME[kind],
-                    **STYLE[kind])
-    ax.set_xlabel("hidden coordinate $y$ (tip $-3$, brane $0$)")
-    ax.set_ylabel("coordinate particle density $e^{6Hy}\\,n(y)$")
-    ax.set_title("$N = 8$ (the zero modes), $\\lambda = \\lambda_1$, $a_{4,0} = 1$")
-    ax.legend(fontsize=8, loc="center right")
-    save_figure(fig, "zero_modes_n8",
-                "The coordinate particle density $e^{6Hy}n(y)$ (the density per unit of "
-                "$y$; logarithmic vertical axis) of the $N = 8$ universes A (blue), B "
-                "(orange, dashed) and C (aqua, dotted) at $\\lambda = \\lambda_1$, "
-                "$a_{4,0} = 1$, against the hidden coordinate $y$. A and B hold their "
-                "particles in the zero modes at the brane $y = 0$; with the "
-                "untransformed tip (C) the zero modes move to the tip $y = -3$. This is "
-                "why the control has a completely different energy.")
-    ratio = {kind: float(SELF[(8, kind)]["profile"]["n"][-1] * weight[-1]
-                         / (SELF[(8, kind)]["profile"]["n"][0] * weight[0]))
-             for kind in "ABC"}
-    for kind in "ABC":
-        say(f"{kind}: coordinate density at the brane / at the tip = {ratio[kind]:.3e}")
-    check(ratio["A"] > 1e4 and ratio["B"] > 1e4 and ratio["C"] < 1e-4,
-          "N = 8: A and B live at the brane, the control C at the tip")
+        ratio = brane_over_tip(FREE8[kind])
+        ratio_error = max(ratio_error, abs(ratio / expected[kind] - 1.0))
+        say(f"{kind}: brane / tip = {ratio:.6e}, closed form {expected[kind]:.6e}")
+    check(ratio_error < 1e-8,
+          "free N = 8: the zero modes of A and B live at the brane, those of C at the tip")
     '''),
     md(r"""
-    ## 13. T3 along the deflating history
+    The control C has one more surprise: a level inside the gap $|\varepsilon| < m$.
+    Take the odd parity ($\chi_1(0) = 0$) with the tip condition $\chi_2(-L) = 0$, at
+    $k = 0$ with $M = -m$ and $v_v = 0$. The block equation $\chi' = N\chi$ reads
+
+    $$\chi_1' = -m\chi_1 + ij\varepsilon\chi_2,\qquad \chi_2' = ij\varepsilon\chi_1 + m\chi_2 .$$
+
+    Differentiate the second equation: $\chi_2'' = ij\varepsilon\chi_1' + m\chi_2'$.
+    Insert the first equation: $\chi_2'' = ij\varepsilon(-m\chi_1 + ij\varepsilon\chi_2)
+    + m\chi_2' = -m(ij\varepsilon\chi_1) - \varepsilon^2\chi_2 + m\chi_2'$. The second
+    equation says $ij\varepsilon\chi_1 = \chi_2' - m\chi_2$; insert it:
+    $\chi_2'' = -m\chi_2' + m^2\chi_2 - \varepsilon^2\chi_2 + m\chi_2' =
+    (m^2 - \varepsilon^2)\chi_2$. For $|\varepsilon| < m$ write $q = \sqrt{m^2 -
+    \varepsilon^2}$; the solution with $\chi_2(-L) = 0$ is $\chi_2 = \sinh(q(y + L))$.
+    The brane condition $\chi_1(0) = 0$ is $\chi_2'(0) - m\chi_2(0) = 0$, that is
+    $q\cosh(qL) = m\sinh(qL)$, or
+
+    $$\tanh(qL) = q/m .$$
+
+    The function $\tanh(qL) - q/m$ is $0$ at $q = 0$, positive just above $0$ (its slope
+    there is $L - 1/m = 2$) and negative at $q = m$, so it has a root in $(0, m)$; the
+    level is $\varepsilon_b = \sqrt{m^2 - q^2} = m/\cosh(qL)$ (since $q/m = \tanh(qL)$
+    and $1 - \tanh^2 = 1/\cosh^2$). For A ($M = +m$) the same steps give
+    $q\cosh(qL) = -m\sinh(qL)$, which has no root with $q > 0$: A has no level in the
+    gap in this sector. The next cell finds $q$ by **bisection** (halve an interval
+    that contains the root, keep the half where the function changes sign, 200 times)
+    and checks: the Kohn-Sham gap of the free control C is $\varepsilon_b$; the gaps of
+    A and B are equal to each other and to the gap of the committed state
+    `N8_lam0_a10`.
+    """),
+    code(r'''
+    def bound_state_q(m, L):
+        """The root q in (0, m) of tanh(q L) - q / m, by bisection."""
+        low, high = 0.5 * m, m  # the function is positive at m/2 and negative at m
+        for _ in range(200):
+            middle = 0.5 * (low + high)
+            if math.tanh(middle * L) - middle / m > 0.0:
+                low = middle  # the root lies above the middle
+            else:
+                high = middle  # the root lies below the middle
+        return 0.5 * (low + high)
+
+
+    q_root = bound_state_q(M_BARE, L_TIP)
+    eps_b = M_BARE / math.cosh(q_root * L_TIP)  # the level inside the gap
+    report("q of the control's sub-gap level", f"{q_root:.12f}")
+    report("sub-gap level eps_b = m / cosh(q L)", f"{eps_b:.12f}", "|m|")
+    gap = {}
+    for kind in "ABC":
+        homo, lumo = homo_lumo(FREE8[kind])
+        gap[kind] = lumo - homo
+        say(f"{kind}: HOMO {homo:.3e}, LUMO {lumo:.12f}, Kohn-Sham gap {gap[kind]:.12f}")
+    recorded = float(summary["N8_lam0_a10"]["KS_gap"])
+    check(abs(gap["C"] - eps_b) < 1e-9 and abs(math.sqrt(1 - q_root ** 2) - eps_b)
+          < 1e-12, "the free control's Kohn-Sham gap is the sub-gap level m/cosh(qL)")
+    check(close(gap["A"], recorded) and close(gap["B"], gap["A"]),
+          "the free A and B have the gap of the committed state N8_lam0_a10",
+          record=f"{GROUND}/summary.csv, N8_lam0_a10, column KS_gap")
+    '''),
+    md(r"""
+    The next cell draws the coordinate density $e^{6Hy}n(y)$ of the three $N = 8$
+    universes: left without interaction (the thin black dotted lines are the closed
+    forms $e^{\pm 2my}$, scaled to the brane value), right with the coupling
+    $\lambda_1$ (the states of section 8). With the interaction, A and B keep their
+    shape, while the control's zero modes near the tip, where the proper density is
+    huge, feel a strong mean field and are pushed away from the very end.
+    """),
+    code(r'''
+    fig, (left, right) = plt.subplots(1, 2, figsize=(9.0, 3.8), sharey=True)
+    for kind in "ABC":
+        left.semilogy(y, weight * FREE8[kind]["profile"]["n"], color=COLOUR[kind],
+                      label=NAME[kind], **STYLE[kind])
+        right.semilogy(y, weight * SELF[(8, kind)]["profile"]["n"], color=COLOUR[kind],
+                       label=NAME[kind], **STYLE[kind])
+    top = {kind: float(weight[-1] * FREE8[kind]["profile"]["n"][-1]) for kind in "AC"}
+    left.semilogy(y, top["A"] * np.exp(2 * M_BARE * y), "k:", lw=0.8)  # e^{2 m y}
+    left.semilogy(y, top["C"] * np.exp(-2 * M_BARE * y), "k:", lw=0.8)  # e^{-2 m y}
+    left.set_title("$N = 8$, $\\lambda = 0$, $a_{4,0} = 1$", fontsize=10)
+    right.set_title("$N = 8$, $\\lambda = \\lambda_1$, $a_{4,0} = 1$", fontsize=10)
+    left.set_ylabel("coordinate density $e^{6Hy}\\,n(y)$")
+    for ax in (left, right):
+        ax.set_xlabel("hidden coordinate $y$ (tip $-3$, brane $0$)")
+    right.legend(fontsize=7, loc="lower right")
+    fig.tight_layout()
+    save_figure(fig, "zero_modes_n8",
+                "The coordinate particle density $e^{6Hy}n(y)$ (particles per unit of "
+                "$y$; logarithmic vertical axis) of the $N = 8$ universes A (blue), B "
+                "(orange, dashed) and C (aqua, dotted) at $a_{4,0} = 1$, against the "
+                "hidden coordinate $y$ from the tip $-3$ to the brane $0$. Left: without "
+                "interaction; the thin black dotted lines are the closed forms "
+                "$e^{2my}$ and $e^{-2my}$. A and B hold their particles in zero modes "
+                "at the brane; with the untransformed tip (C) the zero modes sit at the "
+                "tip. Right: with the coupling $\\lambda_1$; A and B are unchanged in "
+                "shape, the control is reshaped by its strong mean field near the tip.")
+    '''),
+    md(r"""
+    ## 14. T3 along the deflating history
 
     T3 holds at every slice of the history, because the slice $a_{4,0}$ enters only
     through $\kappa = e^{-Hy - a_{4,0}}$, which the map does not touch. The next cell
     solves A, B and C at the five slices $a_{4,0} = 0, 0.5, 1, 1.5, 2$ for $N = 136$
     and $N = 688$, each with its coupling $\lambda_1$ (27 new runs; the slice
     $a_{4,0} = 1$ of $N = 136$ was solved above), and checks at every slice: A
-    reproduces the energy of the record, B has the energy of A, C does not.
+    reproduces the energy of the record; B has the levels, profiles and energy of A
+    (relative energy difference below $10^{-13}$); C differs from A by $0.5$ to $10$
+    percent.
     """),
     code(r'''
     SLICES = [0.0, 0.5, 1.0, 1.5, 2.0]
@@ -819,20 +1066,26 @@ CELLS = [
                 else:
                     HIST[(N, kind, a4)] = universe(kind, LAMBDA[N][0], a4, N, 0.45)
     ok_record, ok_partner, ok_control = True, True, True
+    partner_rel, control_pct = [], []  # relative differences A - B, percents A - C
     for N in (136, 688):
         for a4 in SLICES:
             A, B, C = (HIST[(N, kind, a4)] for kind in "ABC")
             record_energy = float(summary[f"N{N}_lamp1_a{round(10 * a4):02d}"]["E_KS"])
             ok_record &= close(A["E_KS"], record_energy)
-            ok_partner &= (close(A["E_KS"], B["E_KS"]) and level_difference(A, B) < TOL
-                           and profile_mismatch(A, B) < TOL)
-            ok_control &= abs(A["E_KS"] - C["E_KS"]) > 0.1
+            partner_rel.append(abs(A["E_KS"] - B["E_KS"]) / abs(A["E_KS"]))
+            control_pct.append(100.0 * abs(A["E_KS"] - C["E_KS"]) / abs(A["E_KS"]))
+            ok_partner &= level_difference(A, B) < TOL and profile_mismatch(A, B) < TOL
             say(f"N = {N:3d}, a4,0 = {a4:3.1f}: E_KS A {A['E_KS']:.10f}, "
                 f"B {B['E_KS']:.10f}, C {C['E_KS']:.6f}")
+    report("largest relative E_KS difference A - B", f"{max(partner_rel):.1e}")
+    report("E_KS of C differs from A by", f"{min(control_pct):.1f} to "
+           f"{max(control_pct):.1f}", "percent")
     check(ok_record, "A reproduces the recorded E_KS at all 10 states of the history",
           record=f"{GROUND}/summary.csv, N136_lamp1_a00 to a20, N688_lamp1_a00 to a20")
-    check(ok_partner, "B has the levels, energy and profiles of A at every slice")
-    check(ok_control, "the control C differs from A at every slice")
+    check(ok_partner and max(partner_rel) < 1e-13,
+          "B has the levels, energy and profiles of A at every slice")
+    check(0.5 < min(control_pct) and max(control_pct) < 10.0,
+          "the control C differs from A by 0.5 to 10 percent at every slice")
     '''),
     md(r"""
     The next cell draws the Kohn-Sham energy along the history. As the extra times
@@ -843,7 +1096,8 @@ CELLS = [
     fig, axes = plt.subplots(1, 2, figsize=(9.0, 3.8))
     MARK = {"A": dict(marker="o", ms=7, lw=2.2), "B": dict(marker="s", ms=4, lw=1.4,
                                                            ls="--"),
-            "C": dict(marker="^", ms=6, lw=1.2, ls=":")}
+            "C": dict(marker="^", ms=6, lw=1.2, ls=":"),
+            "D": dict(marker="D", ms=5, lw=1.4)}
     for ax, N in zip(axes, (136, 688)):
         for kind in "ABC":
             ax.plot(SLICES, [HIST[(N, kind, a4)]["E_KS"] for a4 in SLICES],
@@ -885,12 +1139,12 @@ CELLS = [
                 "partner B (orange) and between A and the control C (aqua) at the five "
                 "slices of the history, for $N = 136$ (circles) and $N = 688$ (squares); "
                 "logarithmic vertical axis, exact zeros drawn at $10^{-17}$. The "
-                "partner agrees to $10^{-15}$ or better at every slice: T3 holds slice "
-                "by slice along the deflating history. The control is off by $2$ to "
+                "partner agrees to better than $10^{-13}$ at every slice: T3 holds slice "
+                "by slice along the deflating history. The control is off by $0.5$ to "
                 "$10$ percent.")
     '''),
     md(r"""
-    ## 14. The coupling must keep its sign
+    ## 15. The coupling must keep its sign
 
     T3 pairs $(m, \lambda)$ with $(-m, +\lambda)$. What about $(-m, -\lambda)$, the
     parameter change of the classical theorem T1? The next cell solves, for $N = 136$ at
@@ -898,7 +1152,8 @@ CELLS = [
     +\lambda_2$ for all four universes A, B, C, D (with the record's margins $0.85$,
     $0.45$, $0.25$). It checks: A reproduces the record at every coupling; B equals A;
     D at $\lambda$ equals A at $-\lambda$ (that is T3 applied to the state with
-    $-\lambda$), so D differs from A whenever $\lambda \ne 0$; C differs from A.
+    $-\lambda$), so D differs from A whenever $\lambda \ne 0$; C differs from A by $1$
+    to $3.5$ at every coupling.
     """),
     code(r'''
     l1, l2 = LAMBDA[136]
@@ -914,6 +1169,7 @@ CELLS = [
     MIRROR = {"lamm2": "lamp2", "lamm1": "lamp1", "lam0": "lam0", "lamp1": "lamm1",
               "lamp2": "lamm2"}  # the tag of -lambda
     ok_record, ok_partner, ok_mirror, ok_wrong = True, True, True, True
+    control_gap = []  # |E_C - E_A| at each coupling
     for tag, lam, margin in COUPLINGS:
         E = {kind: SCAN[(tag, kind)]["E_KS"] for kind in "ABCD"}
         ok_record &= close(E["A"], float(summary[f"N136_{tag}_a10"]["E_KS"]))
@@ -921,6 +1177,7 @@ CELLS = [
             SCAN[(tag, "A")], SCAN[(tag, "B")]) < TOL
         ok_mirror &= close(E["D"], SCAN[(MIRROR[tag], "A")]["E_KS"])
         ok_wrong &= (lam == 0.0) or abs(E["D"] - E["A"]) > 1e-4
+        control_gap.append(abs(E["C"] - E["A"]))
         say(f"lambda = {lam:+.4e}: A {E['A']:.10f}  B {E['B']:.10f}  "
             f"C {E['C']:.6f}  D {E['D']:.10f}")
     check(ok_record, "A reproduces the recorded E_KS for all five couplings",
@@ -930,11 +1187,15 @@ CELLS = [
           "D(lambda) = A(-lambda), so (-m, -lambda) is not the partner for lambda != 0",
           record="Revision/pairing/kohn_sham/reports/python-t3.json, check "
                  "T3.mean_field_map (control)")
+    check(1.0 < min(control_gap) and max(control_gap) < 3.5,
+          "the control C differs from A by 1 to 3.5 at every coupling")
     '''),
     md(r"""
     The next cell draws the energies of the scan. Left: $E_{KS} - E_{KS}(\lambda = 0)$
     of A, B and D against $\lambda/\lambda_1$; D is the mirror image of A. Right: the
-    energies of A and the control C, which lies far below.
+    energies of A and of the control C. C lies above A for the negative couplings and
+    below A for the others: its zero modes near the tip feel the coupling much more
+    strongly than those of A.
     """),
     code(r'''
     x = [lam / l1 for tag, lam, margin in COUPLINGS]
@@ -942,8 +1203,7 @@ CELLS = [
     fig, (left, right) = plt.subplots(1, 2, figsize=(9.0, 3.8))
     for kind in "ABD":
         left.plot(x, [SCAN[(tag, kind)]["E_KS"] - E0 for tag, lam, margin in COUPLINGS],
-                  color=COLOUR[kind], label=NAME[kind],
-                  **(MARK[kind] if kind in MARK else dict(marker="D", ms=5, lw=1.4)))
+                  color=COLOUR[kind], label=NAME[kind], **MARK[kind])
     left.set_xlabel("coupling $\\lambda/\\lambda_1$")
     left.set_ylabel("$E_{KS} - E_{KS}(\\lambda = 0)$ (units of $|m|$)")
     left.axhline(0.0, color="0.3", lw=0.8)
@@ -953,7 +1213,7 @@ CELLS = [
                    color=COLOUR[kind], label=NAME[kind], **MARK[kind])
     right.set_xlabel("coupling $\\lambda/\\lambda_1$")
     right.set_ylabel("$E_{KS}$ (units of $|m|$)")
-    right.legend(fontsize=7, loc="center right")
+    right.legend(fontsize=7, loc="upper right")
     fig.suptitle("$N = 136$, slice $a_{4,0} = 1$", fontsize=10)
     fig.tight_layout()
     save_figure(fig, "coupling_scan",
@@ -963,11 +1223,12 @@ CELLS = [
                 "its T3 partner B with the same coupling (orange, dashed, on top of A) "
                 "and D with the reversed coupling (yellow diamonds), which is the "
                 "mirror image of A. Right: $E_{KS}$ of A and of the control C (aqua), "
-                "about $3$ lower at every coupling. Only $(-m, +\\lambda)$ with the "
-                "transformed tip is the partner of $(m, \\lambda)$.")
+                "which lies $1$ to $3.5$ away from A, above it for negative and below "
+                "it for positive couplings. Only $(-m, +\\lambda)$ with the transformed "
+                "tip is the partner of $(m, \\lambda)$.")
     '''),
     md(r"""
-    ## 15. Thermal states: equal occupations, chemical potential and free energy
+    ## 16. Thermal states: equal occupations, chemical potential and free energy
 
     At a temperature $T > 0$ the occupations are the Fermi (Mermin) occupations
     $f = 1/(1 + e^{(\varepsilon - \mu)/T})$, with the chemical potential $\mu$ fixed by
@@ -975,8 +1236,8 @@ CELLS = [
     entropy and the free energy $F = E - T S_{ent}$. The next cell solves A, B, C for
     $N = 136$, $\lambda_1$, $a_{4,0} = 1$ at the three temperatures of the record
     $T = 0.01, 0.02, 0.05$ (margin $0.4$, as the record's thermal states), checks that A
-    reproduces the record's $\mu$, $E$, entropy and $F$, that B equals A and that C does
-    not.
+    reproduces the record's $\mu$, $E$, entropy and $F$, that B equals A and that the
+    free energy of C lies $2.5$ to $3.5$ below that of A.
     """),
     code(r'''
     THERMO = read_rows("Revision/kohn_sham/results/thermo/thermodynamics.csv")
@@ -997,7 +1258,7 @@ CELLS = [
         ok_partner &= (close(A["mu_or_fermi_level"], B["mu_or_fermi_level"])
                        and close(A["entropy"], B["entropy"]) and close(F["A"], F["B"])
                        and level_difference(A, B) < TOL)
-        ok_control &= abs(F["A"] - F["C"]) > 0.1
+        ok_control &= 2.5 < F["A"] - F["C"] < 3.5
         say(f"T = {T:.2f}: mu A {A['mu_or_fermi_level']:.12f} B "
             f"{B['mu_or_fermi_level']:.12f} C {C['mu_or_fermi_level']:.6f}; "
             f"F A {F['A']:.9f} B {F['B']:.9f} C {F['C']:.5f}")
@@ -1006,7 +1267,7 @@ CELLS = [
                  "N136_lamp1_a10_T10, T20, T50")
     check(ok_partner, "B has the occupations, mu, entropy and F of A at every T",
           record="Revision/pairing/kohn_sham/t3-theory.json, statement S4")
-    check(ok_control, "the control C has a different free energy at every T")
+    check(ok_control, "the control C has a free energy 2.5 to 3.5 below A at every T")
     '''),
     md(r"""
     The next cell draws, for $T = 0.05$, the occupation $f$ of every level of A, B and
@@ -1047,32 +1308,38 @@ CELLS = [
                 "crosses) and C (aqua triangles); the grey curve is the Fermi function "
                 "of A. Every cross of B sits in a ring of A. Right: the free energy "
                 "$F = E - TS_{ent}$ against the temperature $T$ (units of $|m|$); A and "
-                "B coincide, the control C lies about $3$ lower.")
+                "B coincide, the control C lies $2.5$ to $3.5$ lower.")
     '''),
     md(r"""
-    ## 16. The last check
+    ## 17. The last check
 
     The last cell checks that the ten figure files exist in the folder
     Revision/textbook/figures, prints how many times the solver was run, and prints
     the number of checks that passed.
     """),
     code(r'''
-    runs = len({id(state) for state in [*SELF.values(), *HIST.values(), *SCAN.values(),
-                                        *WARM.values()]})
+    runs = len({id(state) for state in [*SELF.values(), *FREE8.values(), *HIST.values(),
+                                        *SCAN.values(), *WARM.values()]})
     report("runs of the Rust solver in this notebook", runs)
     names = ["level_ladder", "level_differences", "density_profiles",
              "mass_and_potential", "emt_profiles", "zero_modes_n8", "history_energy",
              "history_agreement", "coupling_scan", "thermal_states"]
     paths = [output_file(f"{FIGURE_FOLDER}/19a_{k}_{name}.png")
              for k, name in enumerate(names, 1)]
-    check(runs == 59 and all(path.is_file() for path in paths),
+    check(runs == 62 and all(path.is_file() for path in paths),
           "every figure file of this notebook exists")
     all_checks_passed()
     '''),
     md(r"""
-    ## 17. What this notebook showed
+    ## 18. What this notebook showed
 
-    - COMPUTED (59 independent runs of the Rust Kohn-Sham solver): the universe of mass
+    - PROVED in the records and re-checked here exactly: the author's eight gamma
+      matrices are real $16 \times 16$ matrices with entries $-1$, $0$, $+1$ that obey
+      $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}\mathbf{1}$; their product
+      $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$ is
+      $\mathrm{diag}(-1, \dots, -1, +1, \dots, +1)$ and maps every Kohn-Sham block
+      $(j, s_2, s_3)$ onto the block $(-j, s_2, s_3)$ as $s_2\sigma_2$: the map of T3.
+    - COMPUTED (62 independent runs of the Rust Kohn-Sham solver): the universe of mass
       $-m$ with the same coupling $+\lambda$ and the transformed tip angle $\pi$ (B) has
       the same Kohn-Sham levels, level by level with the block type and the brane
       parity exchanged, the same occupations, chemical potential, entropy, energy and
@@ -1086,8 +1353,9 @@ CELLS = [
       (`ks-rust-solver.json`, check `t3_block_map_solver_selftest`) is reproduced, and
       every A run reproduces the committed canonical state.
     - COMPUTED (negative controls): with the untransformed tip (C) the zero modes move
-      to the tip and every energy differs; with the reversed coupling (D) the energy is
-      that of A at $-\lambda$, not at $\lambda$.
+      to the tip, a level appears inside the gap at $\varepsilon_b = m/\cosh(qL)$ with
+      $\tanh(qL) = q/m$ (the closed form derived here), and every energy differs; with
+      the reversed coupling (D) the energy is that of A at $-\lambda$, not at $\lambda$.
     - PROVED elsewhere (records `wolfram-t3.json`, `python-t3.json`): theorem T3
       itself. The runs here confirm it numerically; they are not its proof.
     - ASSUMED: the $Z_2$ brane; the tip is a chosen cutoff and T3 needs the transformed
