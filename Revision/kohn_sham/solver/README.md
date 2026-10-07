@@ -251,15 +251,32 @@ the well-conditioned T dS/dT (dE/dT is kept for the identity check).
    could not show it, because both runs used the same direct count and so shared its rounding error. The root
    was rewritten (`src/mermin.rs`, Method above), the refined run was given
    the second form, and the check `refined_mermin_root_path` was added: max |mu_c - mu_r| 1.254e-12 m
-   (N136_lamm1_a00_T20), max |Omega_c - Omega_r| 2.738e-10 (N688_lamm1_a00_T20). The old canonical mu against
+   (N136_lamm1_a00_T20), max |Omega_c - Omega_r| 2.738e-10 (N688_lamm1_a00_T20); with the rounding bounds added,
+   U_mu <= 1.255e-12 m and U_Omega <= 2.752e-10 (largest B_c + B_r 1.143e-13 m). The old canonical mu against
    the new refined run differs by 8.271e-10 m (Omega by 6.617e-9) in N8_lamm1_a00_T10, so the new measure would
-   have exposed the defect. Changes of the committed numbers (old -> new): mu of N8_lamm1_a00_T10
-   0.2100104489071649 -> 0.2100104497339036, of N8_lam0_a00_T10 0.2098737766593366 -> 0.2098737763871040, of
-   N8_lamp1_a00_T10 0.2097333312113810 -> 0.2097333311417908; Omega of these three states by -6.614e-9,
-   +2.178e-9 and +5.567e-10 (N8_lamm1_a00_T10: -1.679096748762439 -> -1.679096755376349); every other mu change
-   is at most 4.0e-13 m and every other Omega change at most 1.6e-11 absolute (within the SCF tolerance). Ground,
-   excited, adiabatic, spectrum, rescaling and exact-Fock outputs are unchanged (byte-identical except the
-   history label of `adiabatic/history.json`).
+   have exposed the defect; the live negative control of `refined_mermin_root_path` shows the same from the
+   current runs: for N8_lamm1_a00_T10 the former measure (direct count in both runs, -8.267e-10 and -8.271e-10 m
+   from the well-conditioned roots) is 5.8e-16 m, the present refined run against a former canonical root
+   8.271e-10 m (likewise N8_lam0_a00_T10: former measure 7.5e-13 m against an error of 2.722e-10 m;
+   N8_lamp1_a00_T10: 7.5e-13 m against 6.959e-11 m). Changes of the committed numbers (old, commit 70fab64 ->
+   new): mu of N8_lamm1_a00_T10 0.2100104489071649 -> 0.2100104497339036, of N8_lam0_a00_T10
+   0.2098737766593366 -> 0.2098737763871040, of N8_lamp1_a00_T10 0.2097333312113810 -> 0.2097333311417908; Omega
+   (both forms) of these three states by -6.614e-9, +2.178e-9 and +5.567e-10 (N8_lamm1_a00_T10:
+   -1.679096748762439 -> -1.679096755376349); every other mu change is at most 4.0e-13 m and every other Omega
+   change at most 1.6e-11 absolute (within the SCF tolerance). The quantities derived from mu changed with it:
+   the thermal window cut by up to 9.48e-10 m (N8_lam0_a00_T10, 0.7361839880842111 -> 0.7361839890319382; it is
+   placed from the free mu) and f at the cut by up to 1.2e-7 relative; E by at most 9.1e-12 absolute (relative
+   2.7e-8 only in N8_lam0_a00_T10, where E = 2.646e-9: 2.646041051066313e-9 -> 2.646040979032455e-9); S by at
+   most 1.3e-10 absolute (2.0e-9 relative); F by at most 8.5e-12 absolute (relative 5.7e-7 only in
+   N8_lam0_a00_T10, where F = -1.229e-10); C_V = T dS/dT by at most 8.7e-9 relative; the noise-limited
+   difference quotients dE/dT and -dF/dT by up to 5.3e-8 absolute (6.8e-6 relative in N8_lamp1_a00_T10,
+   -dF/dT 2.750519551341623e-7 -> 2.750500821749093e-7); the sea-hole diagnostic by at most 8.3e-8 relative;
+   the final SCF residuals, |M_eff - m|, |v_v| and N_check in the last digits. Ground, excited, adiabatic,
+   spectrum, rescaling and exact-Fock outputs are unchanged (byte-identical except the history label of
+   `adiabatic/history.json`). In the verification pass of 2026-10-07 the rounding bound gained the argument term
+   eps_mach <|eps - mu|> (it was omitted before; it is at most 0.44 of the former bound in the matrix, so every
+   `mu_rounding_bound` grew by a factor 1.0005 to 1.44) and the column `mu_direct_count_minus_mu` was added; mu
+   and every other number of the matrix are unchanged by that pass.
 
 ## Canonical results (from `results/`; units m = H = 1)
 
@@ -309,8 +326,8 @@ the well-conditioned T dS/dT (dE/dT is kept for the identity check).
 
 ## Timings (this machine, 22 threads)
 
-Canonical matrix with the repaired Mermin root (re-run on 2026-10-02 into a scratch directory; all 244 result
-files and the report byte-identical to the committed ones): 78.1 s in total.
+Canonical matrix with the repaired Mermin root, measured on an otherwise idle machine (re-run on 2026-10-02 into a
+scratch directory): 78.1 s in total.
 * free spectra and closed shells 1.2 s
 * calibration 0.8 s
 * ground matrix 35.7 s: 75 states, each with 4 a4 neighbours, Delta-SCF, rescaling partner and exact-Fock
@@ -319,18 +336,23 @@ files and the report byte-identical to the committed ones): 78.1 s in total.
 * thermodynamics 35.4 s: 135 states, each with 4 temperature neighbours
 * T3 self-test 1.5 s
 
-* `tools/mermin_roots_mp.py`: 8.7 s (135 `single` runs 6.9 s, 40-digit roots 1.6 s); its outputs are
-  byte-identical to the committed fixture and report.
-* Repeat of the canonical matrix (wave-1b repair run, 2026-10-01, while another job was running): 75.7 s.
-* Refined-tolerance run (G = 1800, root tolerance 1e-14, SCF tolerance 1e-12, thermal cut 1e-14, Mermin form
-  `LinearDeviation`; same run): 343.3 s (ground matrix 148.8 s, thermodynamics 181.5 s).
+Verification pass of 2026-10-07 (rounding bound with the argument term, column `mu_direct_count_minus_mu`,
+the live negative control), run while other workflows used the same machine, so the times are longer:
+* canonical matrix 166.6 s (ground matrix 89.1 s, thermodynamics 56.3 s); `tools/mermin_roots_mp.py` 24.1 s
+  (135 `single` runs 19.0 s, 40-digit roots 5.1 s), which rewrote the bound strings of the fixture; the canonical
+  matrix again 171.7 s (results byte-identical to the first pass, the report differs only by the fixture's
+  sha256 and ratios);
+* repeat of the canonical matrix 194.1 s: all 244 result files and the report byte-identical;
+* refined-tolerance run (G = 1800, root tolerance 1e-14, SCF tolerance 1e-12, thermal cut 1e-14, Mermin form
+  `LinearDeviation`) 635.3 s (ground matrix 265.1 s, thermodynamics 299.0 s).
 
 The comparison (`Revision/kohn_sham/reports/ks-rust-determinism.json`, 14 checks, all PASS):
 * the repeat is byte-identical in all 244 files, and its check report is byte-identical too;
 * refined vs canonical: E_KS to 1.9e-12 relative; HOMO, LUMO and gaps to 1.3e-12 m; 23724 eigenvalues
   label by label to 2.1e-9 m; Delta-SCF to 5.8e-11 m; profiles to 2.8e-9 of their maxima; Q_max and
   dE/da4 to 9.0e-10; thermodynamics (mu, E, F, both forms of Omega, S) to 2.5e-10; C_V to 5.7e-9;
-* the Mermin root along the two rounding paths (`refined_mermin_root_path`): mu to 1.254e-12 m
-  (N136_lamm1_a00_T20), Omega to 2.738e-10 (N688_lamm1_a00_T20); the largest canonical rounding bound of mu is
-  4.736e-14 m (N688_lamm1_a20_T50);
+* the Mermin root along the two rounding paths (`refined_mermin_root_path`): U_mu = |mu_c - mu_r| + B_c + B_r
+  at most 1.255e-12 m (N136_lamm1_a00_T20), U_Omega = |Omega_c - Omega_r| + N (B_c + B_r) at most 2.752e-10
+  (N688_lamm1_a00_T20); the largest B_c + B_r is 1.143e-13 m (N688_lamm1_a20_T50; canonical bound 4.738e-14 m,
+  refined 6.693e-14 m); the negative control passes in the 3 states where the former error exceeds 2 U_mu;
 * the analytic spectra converge with a measured error ratio of 16.00, the order of RK4.

@@ -911,10 +911,10 @@ CELLS = [
     ## 13. N = 8: where the zero modes live, and a level of the control by hand
 
     For $N = 8$ the particles sit in the eight zero modes of momentum $k = 0$. Without
-    interaction ($\lambda = 0$, so $M_{eff} = \pm m$ and $v_v = 0$) the block equation at
-    $k = 0$ and $\varepsilon = 0$ is $\chi_1' = M\chi_1$, $\chi_2' = -M\chi_2$ (the first
-    order form $\chi' = N\chi$ with $N = M\sigma_3 + ij\varepsilon\sigma_1$ of the
-    record). So:
+    interaction ($\lambda = 0$, so $M_{eff} = M = \pm m$ and $v_v = 0$) the block
+    equation at $k = 0$ is the first-order system $d\chi/dy = N\chi$ with
+    $N = M\sigma_3 + ij\varepsilon\sigma_1$ (record `ks-theory.json`), and at
+    $\varepsilon = 0$ it is $d\chi_1/dy = M\chi_1$, $d\chi_2/dy = -M\chi_2$. So:
 
     - A ($M = +m$, even parity $\chi_2(0) = 0$, tip $\chi_2(-L) = 0$): $\chi_2 = 0$ and
       $\chi = (e^{my}, 0)$, largest at the brane;
@@ -953,19 +953,22 @@ CELLS = [
     md(r"""
     The control C has one more surprise: a level inside the gap $|\varepsilon| < m$.
     Take the odd parity ($\chi_1(0) = 0$) with the tip condition $\chi_2(-L) = 0$, at
-    $k = 0$ with $M = -m$ and $v_v = 0$. The block equation $\chi' = N\chi$ reads
+    $k = 0$ with $M = -m$ and $v_v = 0$. Write $D$ for the derivative $d/dy$. The block
+    equation $D\chi = N\chi$ reads
 
-    $$\chi_1' = -m\chi_1 + ij\varepsilon\chi_2,\qquad \chi_2' = ij\varepsilon\chi_1 + m\chi_2 .$$
+    $$D\chi_1 = -m\chi_1 + ij\varepsilon\chi_2,\qquad
+    D\chi_2 = ij\varepsilon\chi_1 + m\chi_2 .$$
 
-    Differentiate the second equation: $\chi_2'' = ij\varepsilon\chi_1' + m\chi_2'$.
-    Insert the first equation: $\chi_2'' = ij\varepsilon(-m\chi_1 + ij\varepsilon\chi_2)
-    + m\chi_2' = -m(ij\varepsilon\chi_1) - \varepsilon^2\chi_2 + m\chi_2'$. The second
-    equation says $ij\varepsilon\chi_1 = \chi_2' - m\chi_2$; insert it:
-    $\chi_2'' = -m\chi_2' + m^2\chi_2 - \varepsilon^2\chi_2 + m\chi_2' =
-    (m^2 - \varepsilon^2)\chi_2$. For $|\varepsilon| < m$ write $q = \sqrt{m^2 -
-    \varepsilon^2}$; the solution with $\chi_2(-L) = 0$ is $\chi_2 = \sinh(q(y + L))$.
-    The brane condition $\chi_1(0) = 0$ is $\chi_2'(0) - m\chi_2(0) = 0$, that is
-    $q\cosh(qL) = m\sinh(qL)$, or
+    Differentiate the second equation: $D^2\chi_2 = ij\varepsilon D\chi_1 + mD\chi_2$.
+    Insert the first equation: $D^2\chi_2 = ij\varepsilon(-m\chi_1 +
+    ij\varepsilon\chi_2) + mD\chi_2 = -m(ij\varepsilon\chi_1) - \varepsilon^2\chi_2 +
+    mD\chi_2$ (because $i^2j^2 = -1$). The second equation says $ij\varepsilon\chi_1 =
+    D\chi_2 - m\chi_2$; insert it: $D^2\chi_2 = -mD\chi_2 + m^2\chi_2 -
+    \varepsilon^2\chi_2 + mD\chi_2 = (m^2 - \varepsilon^2)\chi_2$. For
+    $|\varepsilon| < m$ write $q = \sqrt{m^2 - \varepsilon^2}$; the solution with
+    $\chi_2(-L) = 0$ is $\chi_2 = \sinh(q(y + L))$, because $D^2\sinh(q(y + L)) =
+    q^2\sinh(q(y + L))$ and $\sinh 0 = 0$. The brane condition $\chi_1(0) = 0$ is
+    $D\chi_2(0) - m\chi_2(0) = 0$, that is $q\cosh(qL) = m\sinh(qL)$, or
 
     $$\tanh(qL) = q/m .$$
 

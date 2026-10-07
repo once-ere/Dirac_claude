@@ -61,8 +61,8 @@ FACTS = {
     "name": "00c_honesty_ledger",
     "title": "The honesty ledger: reading and checking the Revision record",
     "purpose": (
-        "It opens the 27 verifier reports of the Revision record, counts their 939 "
-        "checks and confirms that every one has the verdict PASS, compares the counts "
+        "It finds the 27 verifier reports of the Revision record, counts their checks "
+        "and confirms that every one has the verdict PASS, compares the counts "
         "with the summaries of the reports and with the numbers quoted elsewhere in the "
         "record, assigns every report to its row of the honesty ledger with the labels "
         "PROVED, COMPUTED, ASSUMED, HYPOTHESIS and OPEN, prints what the pairing record "
@@ -134,7 +134,8 @@ CELLS = [
 
     - opens one report of the Revision record and reads its checks one by one;
     - writes a function that counts the checks of a report in each of the three
-      layouts that occur, and applies it to all 27 reports of the record (939 checks);
+      layouts that occur, searches the whole folder Revision for reports, finds 27,
+      and counts the checks of all of them;
     - confirms that every check has the verdict PASS and that the counts agree with
       the summaries that the reports state themselves, with the table of the file
       Revision/README.md and with the counts quoted by the Kohn-Sham cross-check;
