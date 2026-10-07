@@ -446,7 +446,7 @@ The re-check of 2026-10-02 (clone D), with the same method, gave 155.4 to 156.1 
 | F3 | F | Python test (check 6), `PYTHONDONTWRITEBYTECODE=1` | builder into a temporary folder | 0 | `Ran 2 tests in 6.028s`, `OK` | identical (inside the test); no `.pyc`; `git status --ignored` empty afterwards |
 | F4 | F | Git Bash | `build/final/...` | 0 | not timed | identical |
 
-* **Comparison runs (not builds)**, under the job-object monitor in clone E's parent folder: 3 runs of `wolframscript -code 1+1` and 3 runs of a script file that only prints `1+1` (3.9 to 5.0 s). Each had exactly 3 processes and exit code 0 (Part 4.4 and Part 5).
+* **Comparison runs (not builds)**, under the job-object monitor: 3 runs of `wolframscript -code 1+1` in clone E, and 3 runs of a script file that only prints `1+1` (3.9 to 5.0 s) in the folder above clone E. Each had exactly 3 processes and exit code 0 (Part 4.4 and Part 5).
 * **The checks of Part 3.4**, run on 2026-10-07 in clone E:
   * check 2 (sha256) and check 3 (`git status` empty, `git diff --quiet` exit 0) after default runs, in PowerShell 7.6.6 and Git Bash;
   * checks 4 and 5 as written: the expected line and `True` in PowerShell 7.6.6 and in Git Bash; check 5 with a missing file printed `Get::noopen` and `False` (PowerShell 7.6.6);

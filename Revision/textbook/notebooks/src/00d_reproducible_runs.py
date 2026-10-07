@@ -38,14 +38,17 @@ FACTS = {
         "they are printed, and why every file is written with the same line ends. It "
         "reproduces the tolerance, line-end, fingerprint and repeat checks of the "
         "Revision Kohn-Sham record (eight measured differences below their tolerances, "
-        "584 result files of two solvers without CR LF line ends, 582 recorded sha256 "
-        "fingerprints equal to the files of today) and draws five teaching plots."
+        "a negative control that shows how one shared rounding path hid an error, 584 "
+        "result files of two solvers without CR LF line ends, 582 recorded sha256 "
+        "fingerprints equal to the files of today, two repeat runs byte for byte) and "
+        "draws six teaching plots."
     ),
     "records": [
         ["Revision/kohn_sham/reports/ks-rust-determinism.json",
-         "the refined run of the Rust Kohn-Sham solver: its eight comparisons "
-         "`refined_ground_energies` to `refined_heat_capacity` with their tolerances, "
-         "and its checks `refined_mermin_root_path` and `outputs_lf_only`"],
+         "the repeat run and the refined run of the Rust Kohn-Sham solver: its eight "
+         "comparisons `refined_ground_energies` to `refined_heat_capacity` with their "
+         "tolerances, the negative control of its check `refined_mermin_root_path`, and "
+         "its checks `outputs_lf_only` and `repeat_byte_identical`"],
         ["Revision/kohn_sham/reports/ks-crosscheck.json",
          "its key `rust_matrix_wide_uncertainties` (the eight measured differences) and "
          "its checks `reference_outputs_lf_only`, `reference_manifest` and "
@@ -70,12 +73,13 @@ FACTS = {
         "Revision/textbook/figures/00d_1_float_spacing.png",
         "Revision/textbook/figures/00d_2_summation_order.png",
         "Revision/textbook/figures/00d_3_tolerances.png",
-        "Revision/textbook/figures/00d_4_seeded_walks.png",
-        "Revision/textbook/figures/00d_5_set_orders.png",
+        "Revision/textbook/figures/00d_4_shared_rounding.png",
+        "Revision/textbook/figures/00d_5_seeded_walks.png",
+        "Revision/textbook/figures/00d_6_set_orders.png",
     ],
     "final_lines": [
-        "PASS the five figure files of this notebook exist",
-        "ALL 21 CHECKS PASSED (notebook 00d)",
+        "PASS the six figure files of this notebook exist",
+        "ALL 22 CHECKS PASSED (notebook 00d)",
     ],
     "troubleshooting": [
         ["\"AssertionError: check failed\" for a check about the files of the folder "
@@ -112,15 +116,17 @@ CELLS = [
       in their last digits, which is why checks compare numbers with a tolerance;
     - reads the tolerances of the Revision record's Kohn-Sham solver and the
       differences that were measured, and draws them;
+    - reads the record's negative control, which shows how two runs that round the
+      same way hid an error, and draws it;
     - shows how a seed makes random numbers repeat exactly;
     - runs Python twelve times and shows that the order of a set of names changes from
       run to run, while the sorted order does not;
     - shows that line ends change the bytes of a file, counts the result files of the
       Revision record and confirms that none has the line ends of Windows;
     - computes the sha256 fingerprints of 582 result files, compares them with the
-      fingerprints written down in the record, and reads the record's comparison of
-      two runs of its reference solver;
-    - draws five teaching plots and prints a PASS line for every check.
+      fingerprints written down in the record, and reads the record's comparisons of
+      two runs of each solver;
+    - draws six teaching plots and prints a PASS line for every check.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -571,6 +577,8 @@ CELLS = [
     errors = [error for _, error, _, _ in control]
     formers = [former for _, _, former, _ in control]
     presents = [present for _, _, _, present in control]
+    # How many times smaller the former measure is than the error, state by state.
+    hidden_ratios = [error / former for error, former in zip(errors, formers)]
     ax.barh(rows + height, errors, height, color=ORANGE,
             label="error of the old method")
     ax.barh(rows, formers, height, color="#b5b3ad",
@@ -592,9 +600,9 @@ CELLS = [
                 r"rounding (grey), and the difference seen by the present refined run, "
                 r"which rounds along another path (blue); horizontal axis the size of "
                 r"the difference in units of the mass $m$, logarithmic. The grey bars "
-                r"are millions of times shorter than the orange ones: two runs with the "
-                r"same rounding hid errors up to "
-                f"{largest_hidden:.1e} "
+                f"are between {min(hidden_ratios):.0f} and {max(hidden_ratios):.1e} "
+                r"times shorter than the orange ones: two runs with the same rounding "
+                f"hid errors up to {largest_hidden:.1e} "
                 r"$m$, which the blue bars show in full.")
     '''),
     md(r"""
@@ -810,11 +818,13 @@ CELLS = [
     When all agree, the files of today are exactly, byte for byte, the files that the
     solvers wrote.
 
-    The cross-check of the record also ran the reference solver a second time into an
-    empty folder and compared every file of the two runs (its check
-    `reference_repeat_byte_identical`). The third check of the cell confirms that the
-    record found no differing file and that it compared as many files as the folder
-    holds today.
+    The record also ran each solver a second time and compared every file of the two
+    runs: the Rust solver in the check `repeat_byte_identical` of the report
+    ks-rust-determinism.json ("244 files (... bytes) compared"), the reference solver
+    in the check `reference_repeat_byte_identical` of the cross-check report. The last
+    two checks of the cell confirm that the record found no differing file and that it
+    compared as many files (and, for the Rust solver, as many bytes) as the folders
+    hold today.
     """),
     code(r'''
     def file_fingerprint(path):
@@ -863,11 +873,24 @@ CELLS = [
         f"the {len(reference_manifest)} fingerprints of the reference manifest equal "
         "today's files",
         f"{CROSS}, check reference_manifest")
-    repeat = cross_checks["reference_repeat_byte_identical"]  # the second run
+    rust_repeat = determinism_checks["repeat_byte_identical"]  # the Rust second run
+    # The part of its detail that counts, e.g. "244 files (5857791 bytes) compared, ...".
+    found = re.search(r"(\d+) files \((\d+) bytes\) compared, same file set: (\w+), "
+                      r"differing files: (\w+)", rust_repeat["detail"])
+    say(f"the record (Rust): {found.group(0)}")
+    rust_bytes = sum(p.stat().st_size for p in rust_files)  # the bytes of today
+    check_reproduces(
+        rust_repeat["verdict"] == "PASS"
+        and (int(found.group(1)), int(found.group(2))) == (len(rust_files), rust_bytes)
+        and found.group(3) == "True" and found.group(4) == "none",
+        f"a second run of the Rust solver gave the same {len(rust_files)} files "
+        f"({rust_bytes} bytes)",
+        f"{DETERMINISM}, check repeat_byte_identical")
+    repeat = cross_checks["reference_repeat_byte_identical"]  # the reference second run
     # The part of its detail that counts the files, e.g. "340 result files, same ...".
     found = re.search(r"(\d+) result files, same file set: (\w+), differing files: (\w+)",
                       repeat["detail"])
-    say(f"the record: {found.group(0)}")
+    say(f"the record (reference): {found.group(0)}")
     check_reproduces(
         repeat["verdict"] == "PASS" and int(found.group(1)) == len(reference_files)
         and found.group(2) == "True" and found.group(3) == "none",
@@ -878,15 +901,15 @@ CELLS = [
     md(r"""
     ## 13. The last check
 
-    The last cell checks that the five figure files of this notebook exist in the
+    The last cell checks that the six figure files of this notebook exist in the
     folder Revision/textbook/figures and prints the number of checks that passed.
     """),
     code(r'''
     figure_names = ["00d_1_float_spacing.png", "00d_2_summation_order.png",
-                    "00d_3_tolerances.png", "00d_4_seeded_walks.png",
-                    "00d_5_set_orders.png"]
+                    "00d_3_tolerances.png", "00d_4_shared_rounding.png",
+                    "00d_5_seeded_walks.png", "00d_6_set_orders.png"]
     check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in figure_names),
-          "the five figure files of this notebook exist")
+          "the six figure files of this notebook exist")
     all_checks_passed()
     '''),
     md(r"""
@@ -904,16 +927,17 @@ CELLS = [
       tolerance, fixed in advance.
     - The Revision record's Kohn-Sham solver was compared with a refined run of itself:
       all eight measured differences lie below the tolerances that were fixed in
-      advance (the margins are printed in section 8). The record also shows that two
-      runs with the same rounding path can hide an error, which is why the refined run
+      advance (the margins are printed in section 8). The record's negative control
+      shows that two runs with the same rounding path hid errors of the chemical
+      potential up to about $8 \times 10^{-10}\,m$, which is why the refined run now
       rounds along a different path.
     - A fixed seed makes random numbers repeat exactly; the order of a set of names
       changes with the hash seed, while the sorted order does not; LF and CR LF line
       ends make the same text into different bytes.
     - The result files of the record's two Kohn-Sham solvers have only LF line ends,
       and the 582 fingerprints of their two manifests equal the files of today: the
-      stored results are exactly the ones the solvers wrote. A second run of the
-      reference solver gave the same files byte for byte.
+      stored results are exactly the ones the solvers wrote. A second run of each
+      solver gave the same files byte for byte.
     """),
 ]
 

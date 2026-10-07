@@ -10,6 +10,13 @@ file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
         Revision/textbook/notebooks/src/18a_pairing_matrices.py --date YYYY-MM-DD
     python Revision/textbook/tools/nbkit.py check \
         Revision/textbook/notebooks/src/18a_pairing_matrices.py
+
+It rebuilds the author's eight real 16 x 16 gamma matrices from the author's formulas,
+compares them with Revision/algebra/gammas.json, and proves with exact whole-number
+matrix arithmetic the four matrix lemmas of the pairing theorems (the chirality Gamma,
+the signs of all bilinears, the eight reflections and their Pin(4,4) lifts, the Krein
+signs of the 17 maps), reproducing the reflection and Krein tables of
+Revision/pairing/pairing-theory.json and the matrix checks of the two pairing reports.
 """
 
 import sys
@@ -19,9 +26,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
 from nbkit import code, md, run_builder  # noqa: E402
 
 FIGURES = [
+    "eight_gammas",
     "chirality_flips_gammas",
     "parity_of_products",
     "reflection_table",
+    "chiral_projectors",
     "chiral_blocks",
     "krein_signs",
 ]
@@ -31,52 +40,58 @@ FACTS = {
     "name": "18a_pairing_matrices",
     "title": "The matrix facts behind the pairing theorems T1, T2 and Q",
     "purpose": (
-        "It reads the author's gamma matrices from the Revision record, builds C, the "
-        "chirality Gamma, the Krein matrix B and the generators S^ab, and proves with "
-        "exact whole-number matrix arithmetic the four lemmas on which the pairing "
-        "theorems rest: Gamma anticommutes with every gamma and commutes with C and "
-        "with every S^ab; under the map from Psi to Gamma Psi a bilinear with k gamma "
-        "factors gets the sign (-1)^k, so the scalar S is unchanged while all 456 "
-        "kinetic and connection matrices of the Lagrangian change sign; the eight "
-        "reflections P_n = Gamma gamma^n lie in Pin(4,4), act on the gammas as the "
-        "reflections of the eight directions and have the character -1 for the "
-        "space-like and +1 for the time-like directions; and the Krein signs of the "
-        "17 maps. It reproduces the reflection table and the Krein table of the "
-        "Revision pairing record and draws five teaching figures."
+        "It rebuilds the author's eight real 16 by 16 gamma matrices from the author's "
+        "own formulas (the tau matrices), checks that they equal the matrices of the "
+        "Revision record, that every entry is -1, 0 or +1 and that they obey the "
+        "Clifford relations, and builds C, the chirality Gamma, the chiral projectors, "
+        "the Krein matrix B and the generators S^ab. With exact whole-number matrix "
+        "arithmetic it then proves the four lemmas on which the pairing theorems rest: "
+        "Gamma anticommutes with every gamma and commutes with C and with every S^ab; "
+        "under the map from Psi to Gamma Psi a bilinear with k gamma factors gets the "
+        "sign (-1)^k, so the scalar S is unchanged while all 456 kinetic and connection "
+        "matrices of the Lagrangian change sign; the eight reflections P_n = Gamma "
+        "gamma^n lie in Pin(4,4), act on the gammas as the reflections of the eight "
+        "directions and have the character -1 for the space-like and +1 for the "
+        "time-like directions; and the Krein signs of the 17 maps. It reproduces the "
+        "reflection table and the Krein table of the Revision pairing record and the "
+        "matrix checks of its two reports, and draws seven teaching figures."
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's gamma matrices and the matrices C, Gamma and B (read; C, Gamma "
-         "and B are recomputed and compared entry by entry)"],
+         "the author's gamma matrices and the matrices C, Gamma and B (read; the gammas "
+         "are rebuilt from the author's formulas, C, Gamma and B are recomputed, and all "
+         "are compared entry by entry)"],
         ["Revision/pairing/pairing-theory.json",
          "the data tables reflections and Krein_signs_M_B_Mdagger (read and reproduced "
-         "row by row)"],
+         "row by row) and the status line of the record"],
         ["Revision/pairing/reports/python-pairing.json",
-         "checks gammas.Gamma, gammas.Gamma_anticommutes, gammas.C, gammas.B, "
-         "T1.general_field.matrix_identities, T2.general_field.matrix_identities, "
-         "T2.general_field.reflection_table, compare.theory.reflection_table and "
-         "compare.theory.krein_signs (reproduced)"],
+         "checks gammas.clifford, gammas.equal_wolfram_fixture, gammas.C, gammas.B, "
+         "gammas.Gamma, gammas.Gamma_anticommutes, T1.general_field.matrix_identities, "
+         "T2.general_field.matrix_identities, T2.general_field.reflection_table, "
+         "compare.theory.reflection_table, compare.theory.krein_signs, "
+         "Q.image_krein_metric and Q.T2_image_keeps_B (reproduced)"],
         ["Revision/pairing/reports/wolfram-pairing.json",
-         "checks Gamma_properties, C_and_B_basic, T1_kernel_scalar, T1_kernel_kinetic, "
-         "T1_kernel_connection, T1_kernel_field_equation, T2_Pn_in_Pin44, "
-         "T2_Pn_covers_the_reflection, T2_character_of_Pn, T2_Gamma_times_Pn_is_gamma_n, "
+         "checks fixture_Clifford_relation, fixture_definitions, Gamma_properties, "
+         "C_and_B_basic, T1_kernel_scalar, T1_kernel_kinetic, T1_kernel_connection, "
+         "T1_kernel_field_equation, T2_Pn_in_Pin44, T2_Pn_covers_the_reflection, "
+         "T2_character_of_Pn, T2_Gamma_times_Pn_is_gamma_n, "
          "T2_kernels_gamma_n_with_frame_reflection and Q_Krein_metric_of_images "
          "(reproduced)"],
     ],
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 10,
+    "expected_seconds": 15,
     "timeout_seconds": 300,
     "files_written": ["Revision/textbook/figures/18a.captions.json"] + [
         f"Revision/textbook/figures/18a_{k}_{name}.png"
         for k, name in enumerate(FIGURES, 1)],
     "final_lines": [
         "PASS every figure file of this notebook exists",
-        "ALL 22 CHECKS PASSED (notebook 18a)",
+        "ALL 26 CHECKS PASSED (notebook 18a)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for gammas.json or pairing-theory.json",
-         "the notebook reads three files of the repository; it must be opened inside "
+         "the notebook reads four files of the repository; it must be opened inside "
          "the folder Revision/textbook/notebooks of a complete copy of the repository "
          "(a notebook copied alone to another folder cannot find them). Clone the "
          "repository again and open the notebook there."],
@@ -91,8 +106,11 @@ CELLS = [
     equations, the energy-momentum tensor and the current of the fields dirac16complex
     and dirac16complex00 when the field $\Psi$ is replaced by $M\Psi$ for a fixed
     $16 \times 16$ matrix $M$. Every step of their proofs is a statement about such
-    matrices. This notebook proves all of these matrix statements exactly, with
-    whole-number arithmetic (no rounding anywhere), from the author's gamma matrices:
+    matrices. This notebook first shows that the matrices used are exactly the
+    author's: it rebuilds the eight real $16 \times 16$ gamma matrices from the
+    author's own formulas and compares them entry by entry with the Revision record.
+    Then it proves all the matrix statements of the theorems exactly, with
+    whole-number arithmetic (no rounding anywhere):
 
     - **Lemma 1 (the chirality).** $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots
       \gamma^{(x_7)} = \mathrm{diag}(-I_8, I_8)$ is real and symmetric, $\Gamma^2 = 1$,
@@ -113,8 +131,8 @@ CELLS = [
     - **Lemma 4 (Krein signs).** $MBM^\dagger = \pm B$ for the 17 maps
       $M = \Gamma, \gamma^{(n)}, P_n$, with the signs of the Revision record.
 
-    It also shows the block form behind the theorems (the two chiral halves) and draws
-    five teaching figures.
+    It also builds the two chiral projectors and the block form behind the theorems
+    (the two chiral halves) and draws seven teaching figures.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -124,12 +142,17 @@ CELLS = [
       `np.eye(16)` the identity $I_{16}$ (1 on the diagonal, 0 elsewhere).
     - **Transpose, dagger**: $M^T$ exchanges rows and columns; $M^\dagger = (M^T)^*$
       also replaces every $i$ by $-i$. For a real matrix $M^\dagger = M^T$.
+    - **Real matrix**: a matrix whose entries are real numbers (no $i$). The author's
+      gammas are even simpler: every entry is $-1$, $0$ or $+1$.
+    - **Signed permutation matrix**: a matrix with exactly one nonzero entry, $+1$ or
+      $-1$, in every row and in every column. Multiplying a column of 16 numbers by it
+      reorders the numbers and changes some signs.
     - **Symmetric, antisymmetric**: $M^T = M$, respectively $M^T = -M$.
     - **Commute, anticommute**: $MN = NM$, respectively $MN = -NM$.
     - **Gamma matrices** $\gamma^{(x_1)}, \dots, \gamma^{(x_8)}$: the author's real
       $16 \times 16$ matrices with $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)}
-      = 2\eta^{ab}I_{16}$, $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$ in the
-      order $x_1, \dots, x_8$.
+      = 2\eta^{ab}I_{16}$ (the *Clifford relation*), $\eta = \mathrm{diag}(+1, +1, +1,
+      -1, -1, -1, -1, +1)$ in the order $x_1, \dots, x_8$.
     - **Space-like, time-like direction**: $\eta_{nn} = +1$ ($x_1, x_2, x_3$ and the
       hidden direction $x_8$), respectively $\eta_{nn} = -1$ (the time $x_4$ and the
       three EXTRA TIMES $x_5, x_6, x_7$, which deflate exponentially in the author's
@@ -138,7 +161,10 @@ CELLS = [
       product of the four space-like gammas (the author's sigma16). The Dirac adjoint
       is $\bar\Psi = \Psi^\dagger C$.
     - **Chirality** $\Gamma$: the product of all eight gammas in the order
-      $x_8, x_1, \dots, x_7$.
+      $x_8, x_1, \dots, x_7$ (the author's T16A[8]).
+    - **Projector**: a matrix $P$ with $P^2 = P$. The *chiral projectors*
+      $P_- = \frac12(1 - \Gamma)$ and $P_+ = \frac12(1 + \Gamma)$ (the author's P_L and
+      P_R) keep one half of the 16 components and set the other half to zero.
     - **$B$**: $B = -iC\gamma^{(x_4)}$, the Krein matrix; the charge density of the
       field is $\Psi^\dagger B\Psi$ and $B$ is the matrix of the canonical
       anticommutator of the quantised field.
@@ -150,16 +176,16 @@ CELLS = [
       \Phi_B$ with a matrix $X$ of numbers; $X$ is called its *kernel*.
     - **Reflection** $R_n$: the $8 \times 8$ diagonal matrix with $-1$ in place $n$
       and $+1$ elsewhere; it reverses the direction $n$.
-    - **Pin(4,4)**: the group of all products of gammas (more precisely, of unit
-      vectors $\sum_a v_a\gamma^{(a)}$ with $\sum_a\eta_{aa}v_a^2 = \pm1$); each
-      single $\gamma^{(a)}$ is such a unit vector.
+    - **Pin(4,4)**: the group of all products of unit vectors $\sum_a v_a\gamma^{(a)}$
+      with $\sum_a\eta_{aa}v_a^2 = \pm1$ and their inverses; each single
+      $\gamma^{(a)}$ is such a unit vector, so every product of gammas belongs to it.
     - **Character** $\chi$ of a map $M$: the sign in $M^\dagger CM = \chi C$; it tells
       whether the scalar $S = \bar\Psi\Psi$ keeps ($\chi = +1$) or changes ($\chi = -1$)
       its sign under $\Psi \to M\Psi$.
     - **Krein sign** $\sigma$ of a map $M$: the sign in $MBM^\dagger = \sigma B$.
     - **Chiral halves**: the components 1 to 8 of $\Psi$ (where $\Gamma = -1$, written
       $\psi_-$) and 9 to 16 (where $\Gamma = +1$, written $\psi_+$).
-    - **Exact**: the gammas, $C$, $\Gamma$, $2S^{ab}$ and $B/i$ have whole-number
+    - **Exact**: the gammas, $C$, $\Gamma$, $4S^{ab}$ and $B/i$ have whole-number
       entries; numpy multiplies whole numbers without rounding, so every equality
       checked here is an exact identity, a proof for that identity.
     """),
@@ -220,7 +246,7 @@ CELLS = [
     gravitational field, and why this notebook needs only matrices.
     """),
     md(r"""
-    ## 5. The gamma matrices, $C$, $\Gamma$ and $B$
+    ## 5. The author's eight real gamma matrices, $C$, $\Gamma$ and $B$
 
     The next cell imports numpy, defines the helpers that read the Revision records,
     reads the author's gamma matrices from `Revision/algebra/gammas.json` (whole
@@ -254,14 +280,17 @@ CELLS = [
         return "MISSING"
 
 
-    def reproduces(condition, name, *sources):
+    def reproduces(condition, name, *sources, table=None):
         """check(condition, name), which also requires every named check of every
-        source (report_file, [check names]) to have the recorded verdict PASS."""
+        source (report_file, [check names]) to have the recorded verdict PASS; table
+        names a data table of the theory record that the result equals."""
         recorded = all(verdict(report_file, n) == "PASS"
                        for report_file, names in sources for n in names)
-        text = "; ".join(f"{report_file}, check {', '.join(names)}"
-                         for report_file, names in sources)
-        check(condition and recorded, name, record=text)
+        parts = [f"{report_file}, check {', '.join(names)}"
+                 for report_file, names in sources]
+        if table is not None:
+            parts.insert(0, f"{THEORY}, data table {table}")
+        check(condition and recorded, name, record="; ".join(parts))
 
 
     fixture = read_json(GAMMAS)
@@ -276,18 +305,144 @@ CELLS = [
 
 
     say("eta = " + str([eta[a] for a in range(1, 9)]) + " for x1, ..., x8")
-    check(all(same(gamma[a] @ gamma[b] + gamma[b] @ gamma[a],
-                   2 * (eta[a] if a == b else 0) * I16)
-              for a in range(1, 9) for b in range(1, 9)),
-          "the 64 Clifford relations hold exactly")
+    reproduces(all(same(gamma[a] @ gamma[b] + gamma[b] @ gamma[a],
+                        2 * (eta[a] if a == b else 0) * I16)
+                   for a in range(1, 9) for b in range(1, 9)),
+               "the 64 Clifford relations hold exactly",
+               (WL, ["fixture_Clifford_relation"]), (PY, ["gammas.clifford"]))
+    '''),
+    md(r"""
+    **Are these the author's matrices?** The author's notebook defines its gamma
+    matrices T16A[0], ..., T16A[7] by explicit formulas, and the next cell repeats
+    those formulas step by step and compares the result with the record. The steps:
+
+    1. For $h = 1, 2, 3$ two $4 \times 4$ matrices with entries
+       $(s_h)_{pq} = Q_a - Q_b$ and $(t_h)_{pq} = Q_a + Q_b$ ($p, q = 1, \dots, 4$),
+       where $Q_a$ is the sign of the arrangement $(h, p, q, 4)$ (the *permutation
+       sign*: $+1$ or $-1$ according to whether an even or odd number of exchanges
+       sorts it, and 0 when two of the four numbers are equal) and
+       $Q_b = \delta_{p4}\delta_{qh} - \delta_{ph}\delta_{q4}$ with the Kronecker
+       delta ($\delta_{pq} = 1$ for $p = q$, else 0).
+    2. Eight $8 \times 8$ matrices $\tau_0 = I_8$, $\tau_h = \begin{pmatrix} 0 & s_h
+       \\ s_h & 0 \end{pmatrix}$, $\tau_{7-h} = \begin{pmatrix} 0 & t_h \\ -t_h & 0
+       \end{pmatrix}$ ($h = 1, 2, 3$) and $\tau_7 = \tau_1\tau_2\cdots\tau_6$.
+    3. $\bar\tau_A = \sigma\tau_A^T\sigma$ with $\sigma = \begin{pmatrix} 0 & I_4 \\
+       I_4 & 0 \end{pmatrix}$.
+    4. $\mathrm{T16A}[A] = \begin{pmatrix} 0 & \bar\tau_A \\ \tau_A & 0
+       \end{pmatrix}$, $A = 0, \dots, 7$.
+    5. The author's notebook counts its frame from 0 (0 = hidden direction, 1 to 3 =
+       3-space, 4 = time, 5 to 7 = extra times); in the author's coordinates
+       $\gamma^{(x_8)} = $ T16A[0], $\gamma^{(x_n)} = $ T16A[n] for $n = 1, \dots, 7$.
+
+    The cell then checks that the record holds exactly eight matrices, each with 16
+    rows and 16 columns, each REAL with every entry equal to $-1$, $0$ or $+1$, each a
+    signed permutation matrix, with $(\gamma^{(a)})^T = \eta_{aa}\gamma^{(a)}$, and that
+    they equal the rebuilt T16A entry by entry.
+    """),
+    code(r'''
+    def perm_sign(seq):
+        """The permutation sign of a list of numbers: +1 (even number of exchanges
+        sorts it), -1 (odd number), 0 (two entries are equal)."""
+        if len(set(seq)) != len(seq):
+            return 0
+        inversions = sum(1 for i in range(len(seq)) for j in range(i + 1, len(seq))
+                         if seq[i] > seq[j])  # pairs in the wrong order
+        return -1 if inversions % 2 else 1
+
+
+    def kd(p, q):
+        """The Kronecker delta: 1 if p = q, else 0."""
+        return 1 if p == q else 0
+
+
+    I4, Z4 = np.eye(4, dtype=np.int64), np.zeros((4, 4), dtype=np.int64)
+    I8, Z8 = np.eye(8, dtype=np.int64), np.zeros((8, 8), dtype=np.int64)
+    s4, t4 = {}, {}
+    for h in (1, 2, 3):  # step 1: the self-dual and anti-self-dual 4 x 4 blocks
+        Qa = np.array([[perm_sign([h, p, q, 4]) for q in range(1, 5)]
+                       for p in range(1, 5)])
+        Qb = np.array([[kd(p, 4) * kd(q, h) - kd(p, h) * kd(q, 4) for q in range(1, 5)]
+                       for p in range(1, 5)])
+        s4[h], t4[h] = Qa - Qb, Qa + Qb
+    tau = {0: I8}  # step 2: the eight tau matrices
+    for h in (1, 2, 3):
+        tau[h] = np.block([[Z4, s4[h]], [s4[h], Z4]])
+        tau[7 - h] = np.block([[Z4, t4[h]], [-t4[h], Z4]])
+    tau[7] = tau[1] @ tau[2] @ tau[3] @ tau[4] @ tau[5] @ tau[6]
+    sigma4 = np.block([[Z4, I4], [I4, Z4]])  # step 3: tau-bar
+    taubar = {A: sigma4 @ tau[A].T @ sigma4 for A in range(8)}
+    T16A = {A: np.block([[Z8, taubar[A]], [tau[A], Z8]]) for A in range(8)}  # step 4
+    frame_index = {1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 0}  # step 5: x_a -> A
+    rebuilt_equal = all(same(T16A[frame_index[a]], gamma[a]) for a in range(1, 9))
+    raw = fixture["gamma"]  # the numbers exactly as stored in the record
+    eight_real = (len(raw) == 8 and all(len(M) == 16 and all(len(row) == 16 for row in M)
+                                        for M in raw)
+                  and all(type(x) is int and x in (-1, 0, 1)
+                          for M in raw for row in M for x in row))
+    signed_perm = all((np.abs(gamma[a]).sum(axis=0) == 1).all()
+                      and (np.abs(gamma[a]).sum(axis=1) == 1).all() for a in range(1, 9))
+    transpose_rule = all(same(gamma[a].T, eta[a] * gamma[a]) for a in range(1, 9))
+    say(f"8 matrices of 16 x 16 real entries -1, 0, +1: {eight_real}; signed "
+        f"permutation matrices: {signed_perm}; transpose = eta_aa times the matrix: "
+        f"{transpose_rule}; equal to the author's T16A rebuilt from the formulas: "
+        f"{rebuilt_equal}")
+    reproduces(eight_real and signed_perm and transpose_rule and rebuilt_equal,
+               "the record holds the author's eight real 16 x 16 gamma matrices",
+               (PY, ["gammas.equal_wolfram_fixture"]))
+    '''),
+    md(r"""
+    The next cell draws the eight gamma matrices as coloured grids (*heat maps*): red
+    for $+1$, blue for $-1$, light grey for 0. It first defines the colours of all
+    figures of this notebook (a blue, an orange, a green and a grey that stay
+    distinguishable for colour-blind readers, and the blue-grey-red colour scale for
+    matrices) and a helper `draw_matrix` that draws one matrix with thin lines that
+    separate the two chiral halves (rows and columns 1 to 8 and 9 to 16).
+    """),
+    code(r'''
+    from matplotlib.colors import LinearSegmentedColormap  # colour scales
+
+    BLUE, ORANGE, GREEN, GREY = "#2a78d6", "#eb6834", "#1baf7a", "#52514e"
+    DIVERGING = LinearSegmentedColormap.from_list(
+        "blue_grey_red", ["#184f95", "#f0efec", "#e34948"])
+
+
+    def draw_matrix(ax, matrix, title, ticks=True):
+        """Heat map of a real 16 x 16 matrix with entries between -1 and +1."""
+        image = ax.imshow(matrix, cmap=DIVERGING, vmin=-1.0, vmax=1.0)
+        places = [0, 7, 15] if ticks else []  # label rows and columns 1, 8, 16
+        ax.set_xticks(places, [str(t + 1) for t in places])
+        ax.set_yticks(places, [str(t + 1) for t in places])
+        ax.axhline(7.5, color=GREY, linewidth=0.8)  # the border between the halves
+        ax.axvline(7.5, color=GREY, linewidth=0.8)
+        ax.grid(False)  # no grid lines on top of the squares
+        ax.set_title(title, fontsize=10)
+        return image
+
+
+    fig, axes = plt.subplots(2, 4, figsize=(11.0, 6.0))
+    for a, ax in zip([1, 2, 3, 4, 5, 6, 7, 8], axes.flat):
+        kind = "space-like" if eta[a] == 1 else "time-like"
+        image = draw_matrix(ax, gamma[a], f"$\\gamma^{{(x_{a})}}$ ({kind})")
+    fig.colorbar(image, ax=list(axes.flat), shrink=0.7, label="entry")
+    save_figure(fig, "eight_gammas",
+                "The author's eight real 16 by 16 gamma matrices, one heat map each, in "
+                "the order $x_1$ to $x_8$ of the author's coordinates (top row: "
+                "$x_1, x_2, x_3, x_4$; bottom row: $x_5, x_6, x_7, x_8$). Horizontal "
+                "axis: column number, vertical axis: row number; red is $+1$, blue is "
+                "$-1$, light grey is 0; thin lines separate the components 1 to 8 "
+                "from 9 to 16. Every row and every column holds exactly one red or "
+                "blue square (signed permutation matrices), no entry is complex, and "
+                "every matrix has its squares only in the two off-diagonal blocks, so "
+                "each gamma exchanges the two halves of a 16-component field.")
     '''),
     md(r"""
     The next cell builds $C$, $\Gamma$ and $B$ from the gammas and compares them with
     the matrices stored in the same record. $B = -iC\gamma^{(x_4)}$ is $i$ times a real
     whole-number matrix; the cell keeps that real matrix as `B_over_i` (so that
     $B = i\,\cdot$ `B_over_i`) and also forms the complex matrix `B`. It checks the
-    basic facts used by the pairing record: $C$ real symmetric with $C^2 = 1$, $B$
-    Hermitian with $B^2 = 1$, and $C\gamma^{(x_4)} = iB$.
+    basic facts used by the pairing record: $C$ real symmetric with $C^2 = 1$, every
+    $C\gamma^{(a)}$ antisymmetric, $B$ Hermitian with $B^2 = 1$, and
+    $C\gamma^{(x_4)} = iB$.
     """),
     code(r'''
     C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]  # the four space-like gammas
@@ -299,39 +454,14 @@ CELLS = [
     B_file = np.array(fixture["B"]["re"]) + 1j * np.array(fixture["B"]["im"])
     stored = (same(C, np.array(fixture["C"])) and same(Gamma, np.array(fixture["Gamma"]))
               and np.array_equal(B, B_file))
-    check(stored, "C, Gamma and B built here equal the matrices of the gammas record")
-    basic = (same(C.T, C) and same(C @ C, I16) and np.array_equal(B.conj().T, B)
-             and np.array_equal(B @ B, np.eye(16)) and np.array_equal(C @ gamma[4], 1j * B))
+    reproduces(stored, "C, Gamma and B built here equal the matrices of the gammas record",
+               (WL, ["fixture_definitions"]))
+    basic = (same(C.T, C) and same(C @ C, I16)
+             and all(same((C @ gamma[a]).T, -(C @ gamma[a])) for a in range(1, 9))
+             and np.array_equal(B.conj().T, B) and np.array_equal(B @ B, np.eye(16))
+             and np.array_equal(C @ gamma[4], 1j * B))
     reproduces(basic, "C real symmetric, C^2 = 1, B Hermitian, B^2 = 1, C gamma^(x4) = i B",
                (WL, ["C_and_B_basic"]), (PY, ["gammas.C", "gammas.B"]))
-    '''),
-    md(r"""
-    The next cell defines the colours of all figures of this notebook (a blue, an
-    orange, a green and a grey that stay distinguishable for colour-blind readers, and
-    a blue-grey-red colour scale for matrices: blue for $-1$, light grey for 0, red
-    for $+1$) and a helper that draws a matrix as a coloured grid, a *heat map*, with
-    thin lines that separate the two chiral halves (rows and columns 1 to 8 and 9 to
-    16).
-    """),
-    code(r'''
-    from matplotlib.colors import LinearSegmentedColormap  # colour scales
-
-    BLUE, ORANGE, GREEN, GREY = "#2a78d6", "#eb6834", "#1baf7a", "#52514e"
-    DIVERGING = LinearSegmentedColormap.from_list(
-        "blue_grey_red", ["#184f95", "#f0efec", "#e34948"])
-
-
-    def draw_matrix(ax, matrix, title):
-        """Heat map of a real 16 x 16 matrix with entries between -1 and +1."""
-        image = ax.imshow(matrix, cmap=DIVERGING, vmin=-1.0, vmax=1.0)
-        ticks = [0, 3, 7, 11, 15]  # label rows and columns 1, 4, 8, 12, 16
-        ax.set_xticks(ticks, [str(t + 1) for t in ticks])
-        ax.set_yticks(ticks, [str(t + 1) for t in ticks])
-        ax.axhline(7.5, color=GREY, linewidth=0.8)  # the border between the halves
-        ax.axvline(7.5, color=GREY, linewidth=0.8)
-        ax.grid(False)  # no grid lines on top of the squares
-        ax.set_title(title, fontsize=10)
-        return image
     '''),
     md(r"""
     ## 6. Lemma 1: the chirality $\Gamma$
@@ -384,10 +514,9 @@ CELLS = [
     Omega = sum(0.5 * omega[a, b] * four_S[(a, b)] / 4.0
                 for a in range(1, 9) for b in range(1, 9))  # (1/2) omega_ab S^ab
     commutator = np.abs(Gamma @ Omega - Omega @ Gamma).max()
-    report("largest entry of Gamma Omega - Omega Gamma (random connection)",
-           f"{commutator:.1e}")
     check(commutator < 1e-12 and np.abs(Omega).max() > 0.1,
-          "Gamma commutes with a random spin connection Omega")
+          "Gamma commutes with a random spin connection Omega (largest entry of the "
+          "commutator below 1e-12)")
     '''),
     md(r"""
     The next cell draws three heat maps: $\Gamma$ (left), the gamma of the first
@@ -498,7 +627,8 @@ CELLS = [
                (WL, ["T1_kernel_scalar", "T1_kernel_kinetic"]))
     reproduces(len(triples) == 512 and triples_flip and field_kernels and krein_reversed,
                "Lemma 2: 512 connection triples flip; field-equation kernels; GBG = -B",
-               (WL, ["T1_kernel_connection", "T1_kernel_field_equation"]))
+               (WL, ["T1_kernel_connection", "T1_kernel_field_equation"]),
+               (PY, ["Q.image_krein_metric"]))
     '''),
     md(r"""
     The next cell draws the result of the 256 products as a bar chart: for each number
@@ -604,7 +734,8 @@ CELLS = [
         say(f"{row['direction']}: eta {row['eta_nn']:+d}, P_n = {row['product_sign']:+d} "
             f"x (other seven), character {row['character']:+d}, S -> "
             f"{row['S_sign']:+d} S, kinetic {row['kinetic_sign']:+d}: {row['map']}")
-    reproduces(lemma3_ok and [r["product_sign"] for r in rows] == [1, -1, 1, 1, -1, 1, -1, -1],
+    product_signs = [r["product_sign"] for r in rows]
+    reproduces(lemma3_ok and product_signs == [1, -1, 1, 1, -1, 1, -1, -1],
                "Lemma 3: P_n in Pin(4,4), covers R_n, character -eta_nn, Gamma P_n = g^n",
                (WL, ["T2_Pn_in_Pin44", "T2_Pn_covers_the_reflection", "T2_character_of_Pn",
                      "T2_Gamma_times_Pn_is_gamma_n",
@@ -617,7 +748,8 @@ CELLS = [
     of the Revision record `Revision/pairing/pairing-theory.json`, field by field
     (the sign of $\eta_{nn}$, the sign of $P_n$ against the product of the other seven,
     the character, the sign of $S$, the kinetic sign and the resulting map of the mass
-    and the coupling).
+    and the coupling). It also reads the status line of the record, which must say
+    that all checks of its report passed.
     """),
     code(r'''
     theory = read_json(THEORY)
@@ -631,8 +763,10 @@ CELLS = [
         recorded["direction"] == mine["direction"]
         and all(mine[k_mine] == recorded[k_rec] for k_mine, k_rec in keys)
         for mine, recorded in zip(rows, recorded_rows))
-    reproduces(table_equal, "the reflection table equals the record's, row by row",
-               (THEORY, []), (PY, ["compare.theory.reflection_table"]))
+    say("status of the theory record: " + theory["status"])
+    reproduces(table_equal and theory["status"] == "all checks of the report passed",
+               "the reflection table equals the record's, row by row",
+               (PY, ["compare.theory.reflection_table"]), table="reflections")
     '''),
     md(r"""
     The next cell draws the reflection table: eight rows (the directions), five
@@ -673,8 +807,58 @@ CELLS = [
                 "type. The table equals the Revision record row by row.")
     '''),
     md(r"""
-    ## 9. The chiral halves: what $\Gamma$ and $\gamma^{(x_8)}$ do to them
+    ## 9. The chiral projectors and the two halves
 
+    The author's notebook also defines the two *chiral projectors*
+    $P_L = \frac12(1 - \Gamma)$ and $P_R = \frac12(1 + \Gamma)$; we write them
+    $P_- = P_L$ and $P_+ = P_R$. Since $\Gamma = \mathrm{diag}(-I_8, I_8)$,
+    $P_- = \mathrm{diag}(I_8, 0)$ keeps the components 1 to 8 ($\psi_-$) and $P_+ =
+    \mathrm{diag}(0, I_8)$ keeps 9 to 16 ($\psi_+$). The next cell checks, exactly:
+
+    - $P_\pm^2 = P_\pm$ (projectors), $P_- + P_+ = 1$, $P_-P_+ = 0$, each of rank 8;
+    - $\Gamma = P_+ - P_-$: the T1 image is $\Gamma\Psi = P_+\Psi - P_-\Psi$, the field
+      with the relative sign of its two halves reversed;
+    - $\gamma^{(a)}P_- = P_+\gamma^{(a)}$ for all eight gammas: a gamma takes the
+      $\psi_-$ half into the $\psi_+$ half (and back), because it anticommutes with
+      $\Gamma$;
+    - $CP_\pm = P_\pm C$ and $S^{ab}P_\pm = P_\pm S^{ab}$: $C$ and the generators of
+      Spin(4,4) keep each half, which is why the two halves are separate
+      representations of Spin(4,4).
+    """),
+    code(r'''
+    P_minus = (I16 - Gamma) // 2  # whole numbers 0 and 1: the author's P_L
+    P_plus = (I16 + Gamma) // 2  # the author's P_R
+    projectors = (same(P_minus @ P_minus, P_minus) and same(P_plus @ P_plus, P_plus)
+                  and same(P_minus + P_plus, I16) and not (P_minus @ P_plus).any()
+                  and int(np.trace(P_minus)) == 8 and int(np.trace(P_plus)) == 8)
+    gamma_is_difference = same(Gamma, P_plus - P_minus)
+    gammas_swap = all(same(gamma[a] @ P_minus, P_plus @ gamma[a]) for a in range(1, 9))
+    halves_kept = (same(C @ P_minus, P_minus @ C)
+                   and all(same(M @ P_minus, P_minus @ M) for M in four_S.values()))
+    say(f"projectors of rank 8: {projectors}; Gamma = P+ - P-: {gamma_is_difference}; "
+        f"every gamma maps the minus half to the plus half: {gammas_swap}; C and all "
+        f"S^ab keep each half: {halves_kept}")
+    check(projectors and gamma_is_difference and gammas_swap and halves_kept,
+          "the chiral projectors: P-^2 = P-, P+^2 = P+, Gamma = P+ - P-, gammas swap")
+    fig, axes = plt.subplots(1, 4, figsize=(12.0, 3.6))
+    draw_matrix(axes[0], P_minus, "$P_- = \\frac{1}{2}(1 - \\Gamma)$")
+    draw_matrix(axes[1], P_plus, "$P_+ = \\frac{1}{2}(1 + \\Gamma)$")
+    draw_matrix(axes[2], gamma[1] @ P_minus, "$\\gamma^{(x_1)}P_-$")
+    image = draw_matrix(axes[3], P_plus @ gamma[1], "$P_+\\gamma^{(x_1)}$")
+    fig.colorbar(image, ax=list(axes), shrink=0.8, label="entry")
+    save_figure(fig, "chiral_projectors",
+                "Heat maps of the two chiral projectors and of one gamma between them; "
+                "columns horizontal, rows vertical, red $+1$, blue $-1$, grey 0, thin "
+                "lines between the halves. $P_-$ (first picture, the author's P_L) is "
+                "the identity on the components 1 to 8 and zero elsewhere; $P_+$ "
+                "(second, the author's P_R) is the identity on 9 to 16. Their "
+                "difference is $\\Gamma$. The third and fourth pictures are equal: "
+                "$\\gamma^{(x_1)}P_- = P_+\\gamma^{(x_1)}$, so the gamma takes a field "
+                "that lives in the first half into the second half. The T1 image "
+                "$\\Gamma\\Psi = P_+\\Psi - P_-\\Psi$ reverses the relative sign of "
+                "the two halves.")
+    '''),
+    md(r"""
     The next cell checks the block form behind the theorems. Split
     $\Psi = (\psi_-, \psi_+)$ into its first and second eight components. Then
 
@@ -698,7 +882,6 @@ CELLS = [
 
     off_diagonal = all(not blocks(gamma[a])[0].any() and not blocks(gamma[a])[3].any()
                        for a in range(1, 9))  # .any() is False when all entries are 0
-    I8 = np.eye(8, dtype=np.int64)
     g8_swaps = (same(blocks(gamma[8])[1], I8) and same(blocks(gamma[8])[2], I8))
     C_ul, C_ur, C_ll, C_lr = blocks(C)
     C_block_diagonal = not C_ur.any() and not C_ll.any() and same(C_ul, -C_lr)
@@ -746,8 +929,9 @@ CELLS = [
                       for row in theory["data"]["Krein_signs_M_B_Mdagger"]}
     reproduces(krein == recorded_krein and krein["Gamma"] == -1 and krein["gamma^x8"] == 1,
                "Lemma 4: the 17 Krein signs equal the record's; Gamma -1, gamma^(x8) +1",
-               (THEORY, []), (WL, ["Q_Krein_metric_of_images"]),
-               (PY, ["compare.theory.krein_signs"]))
+               (WL, ["Q_Krein_metric_of_images"]),
+               (PY, ["compare.theory.krein_signs", "Q.T2_image_keeps_B"]),
+               table="Krein_signs_M_B_Mdagger")
     '''),
     md(r"""
     The next cell draws the imaginary parts of $B$, of $\Gamma B\Gamma^\dagger$ and of
@@ -778,12 +962,13 @@ CELLS = [
     md(r"""
     ## 11. The last check
 
-    The last cell checks that the five figure files exist in the folder
+    The last cell checks that the seven figure files exist in the folder
     Revision/textbook/figures and prints the number of checks that passed.
     """),
     code(r'''
-    figure_names = ["chirality_flips_gammas", "parity_of_products", "reflection_table",
-                    "chiral_blocks", "krein_signs"]
+    figure_names = ["eight_gammas", "chirality_flips_gammas", "parity_of_products",
+                    "reflection_table", "chiral_projectors", "chiral_blocks",
+                    "krein_signs"]
     paths = [output_file(f"{FIGURE_FOLDER}/18a_{k}_{name}.png")
              for k, name in enumerate(figure_names, 1)]
     check(all(path.is_file() for path in paths),
@@ -793,6 +978,12 @@ CELLS = [
     md(r"""
     ## 12. What this notebook showed
 
+    - PROVED (exact whole-number comparison): the eight matrices used by the Revision
+      record, and by every notebook of this chapter, are the author's own: they are
+      real $16 \times 16$ signed permutation matrices with entries $-1, 0, +1$, they
+      obey the 64 Clifford relations of signature (4,4), and they equal the matrices
+      T16A[0..7] rebuilt here from the author's formulas, in the author's coordinates
+      $x_1, \dots, x_8$.
     - PROVED (exact whole-number identities of the author's gammas, the same as the
       Revision pairing record's): Lemma 1, $\Gamma = \mathrm{diag}(-I_8, I_8)$
       anticommutes with every gamma and commutes with $C$, with every $S^{ab}$ and
@@ -808,6 +999,9 @@ CELLS = [
       $-\eta_{nn}$; a space-like reflection maps $(m, \lambda)$ to $(-m, \lambda)$ with
       $\mathcal{L} \to +\mathcal{L}$ (theorem T2), a time-like one gives a map of the
       T1 type. The table equals the record's row by row.
+    - PROVED: the chiral projectors $P_\mp = \frac12(1 \mp \Gamma)$ split the 16
+      components into two halves of 8; every gamma exchanges the halves, $C$ and the
+      $S^{ab}$ keep them.
     - PROVED: Lemma 4, the Krein signs of the 17 maps, equal to the record's: the T1
       image carries $-B$, the T2 image $+B$.
     - NOT shown here: anything about a particular solution, the author's metric or
