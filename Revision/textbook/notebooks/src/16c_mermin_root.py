@@ -89,13 +89,13 @@ FACTS = {
     ],
     "packages": ["numpy", "mpmath", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 40,
+    "expected_seconds": 60,
     "timeout_seconds": 600,
     "files_written": ["Revision/textbook/figures/16c.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS every figure file of this notebook exists",
-        "ALL 33 CHECKS PASSED (notebook 16c)",
+        "ALL 26 CHECKS PASSED (notebook 16c)",
     ],
     "troubleshooting": [
         ["The cell that computes the 40-digit roots of the 45 states runs for half a "

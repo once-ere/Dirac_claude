@@ -18,10 +18,11 @@ is computed with mpmath at 40 significant digits (bracketed Newton started at th
 50 digits.  The direct sum is harmless at 40 digits: its rounding fixes mu to 1e-40 N/(dN/dmu) <= 1e-33 here.
 
 For each state the tool records |mu_solver - root| against the rounding bound of the solver's well-conditioned
-residual (solver/src/mermin.rs), (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + eps_mach <|eps - mu|> +
-2 eps_mach |mu| (n levels, split S = {eps < root}, <.> the mean weighted with g f (1 - f)), and the conditioning
-bound of the former direct count, (n + 2) eps_mach N/(dN/dmu) + eps_mach <|eps - mu|> + 2 eps_mach |mu|.
-The bounds are evaluated here at the 40-digit root, independently of the solver's own evaluation.
+residual (solver/src/mermin.rs), eps_mach [(n + 2 + L) (P + Hl + |d|)/(dN/dmu) + 3 <|eps - mu|> +
+T (ln g_max + 3) + 2 |mu|] (n levels, split S = {eps < root}, <.> the mean weighted with g f (1 - f), g_max the
+largest degeneracy, L = max(|ln(P + d-)|, |ln(Hl + d+)|)), and the conditioning bound of the former direct count,
+eps_mach [(n + 2) N/(dN/dmu) + 3 <|eps - mu|> + T (ln g_max + 3) + 2 |mu|].  The bounds are evaluated here at the
+40-digit root, independently of the solver's own evaluation.
 
 Outputs (deterministic, LF):
   Revision/kohn_sham/solver/tools/mermin-roots-40digit.json   fixture: the --fixture-count states with the
@@ -155,6 +156,7 @@ def analyse(job):
         P = Hl = mp.mpf(0)
         gs = mp.mpf(0)
         w = wx = mp.mpf(0)
+        gmax = max(mp.mpf(g) for g in deg)
         for e, g in zip(eps, deg):
             x = (mp.mpf(e) - root) / T
             f = 1 / (1 + mp.exp(x))
@@ -166,13 +168,17 @@ def analyse(job):
                 gs += g
             else:
                 P += g / (1 + mp.exp(x))
-        mag = P + Hl + abs(mp.mpf(n) - gs)
+        d = mp.mpf(n) - gs
+        mag = P + Hl + abs(d)
+        # the two sides of the balance, A = P + d- and B = Hl + d+ (equal at the root)
+        big_l = max(abs(mp.log(P + max(-d, 0))), abs(mp.log(Hl + max(d, 0))))
         dev = mp.mpf(mu_run) - root
-        m = len(eps) + 2
-        # rounded arguments x_i = (eps_i - mu)/T: eps_mach times the g f (1 - f)-weighted mean of |eps - mu|
-        args = EPS_MACH * wx / w
-        b_wc = m * EPS_MACH * mag / dn + args + 2 * EPS_MACH * abs(root)
-        b_dc = m * EPS_MACH * mp.mpf(n) / dn + args + 2 * EPS_MACH * abs(root)
+        nl = len(eps)
+        # rounded arguments and log domain: 3 eps_mach <|eps - mu|> (weights g f (1 - f)); ln g and constants:
+        # eps_mach T (ln g_max + 3); adjacent doubles: 2 eps_mach |mu|
+        common = EPS_MACH * (3 * wx / w + T * (mp.log(gmax) + 3) + 2 * abs(root))
+        b_wc = EPS_MACH * (nl + 2 + big_l) * mag / dn + common
+        b_dc = EPS_MACH * (nl + 2) * mp.mpf(n) / dn + common
         rec = {
             "id": sid,
             "N": lv["N"],
@@ -229,8 +235,8 @@ def main():
     target = next((r for r in recs if r["id"] == "N8_lamm1_a00_T10"), None)
     check("solver_mu_within_rounding_bound", all(r["withinBound"] for r in recs),
           f"the solver's mu (form {', '.join(forms)}) minus the {DIGITS}-digit root on its own final levels lies "
-          f"within the rounding bound (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + eps_mach <|eps - mu|> + "
-          f"2 eps_mach |mu| in "
+          f"within the rounding bound eps_mach [(n + 2 + L) (P + Hl + |d|)/(dN/dmu) + 3 <|eps - mu|> + "
+          f"T (ln g_max + 3) + 2 |mu|] in "
           f"{sum(r['withinBound'] for r in recs)} of {len(recs)} states; largest |mu - root| {absdev[0]:.3e} "
           f"({absdev[1]}); largest ratio to the bound {worst[0]:.3f} ({worst[1]})"
           + (f"; N8_lamm1_a00_T10 (the cross-check failure, 8.27e-10 with the former direct count): "
@@ -269,8 +275,8 @@ def main():
         "description": "Exact final Kohn-Sham levels (shortest round-trip decimals of `revision_ks_solver single "
                        "--mermin-levels`, canonical numerics) and the root of sum g/(1 + exp((eps - mu)/T)) = N computed "
                        f"with mpmath at {DIGITS} significant digits (checked at {CHECK_DIGITS}), for the thermal states "
-                       "with the largest conditioning bound (n + 2) eps_mach N/(dN/dmu) + eps_mach <|eps - mu|> + 2 eps_mach |mu| of "
-                       "the former direct count. "
+                       "with the largest conditioning bound eps_mach [(n + 2) N/(dN/dmu) + 3 <|eps - mu|> + T (ln g_max + 3) + "
+                       "2 |mu|] of the former direct count. "
                        "Test input of the Rust unit test mermin::tests::forty_digit_roots and of the solver check "
                        "thermo_mu_vs_40digit_roots. All numbers are strings.",
         "digits": DIGITS,

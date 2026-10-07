@@ -472,7 +472,7 @@ CELLS = [
     ax.legend()
     save_figure(fig, "halving_solutions",
                 "The dimension of the space of $16 \\times 16$ matrices $M$ that obey "
-                "$M(\\gamma^a)^\ast = s\\,\\gamma^a M$ for the first $k$ directions only "
+                "$M(\\gamma^a)^\\ast = s\\,\\gamma^a M$ for the first $k$ directions only "
                 "(computed exactly as $256$ minus the rank of the equations), for "
                 "$s = +1$ (circles) and $s = -1$ (squares); horizontal axis $k$ with "
                 "the direction added, vertical axis the dimension on a logarithmic "
@@ -588,13 +588,13 @@ CELLS = [
     axes[0].set_ylabel("value of the component")
     save_figure(fig, "reality_conditions",
                 "One field satisfying each reality (Majorana) condition, made from the "
-                "same complex column: left $\\Psi = \\Psi^\ast$ (every imaginary part is "
-                "zero), right $\\Psi = \\Gamma\\Psi^\ast$ (components 1 to 8, where "
+                "same complex column: left $\\Psi = \\Psi^\\ast$ (every imaginary part is "
+                "zero), right $\\Psi = \\Gamma\\Psi^\\ast$ (components 1 to 8, where "
                 "$\\Gamma = -1$, are purely imaginary; components 9 to 16, where "
                 "$\\Gamma = +1$, are real); horizontal axis the component number, "
                 "vertical axis the real part (left bar of each pair) and the imaginary "
                 "part (right bar). Both conditions can be imposed, because "
-                "$MM^\ast = 1$ for $M = 1$ and for $M = \\Gamma$.")
+                "$MM^\\ast = 1$ for $M = 1$ and for $M = \\Gamma$.")
     '''),
     md(r"""
     ## 10. The conjugations acting on an exact solution in the author's metric
@@ -743,10 +743,10 @@ CELLS = [
                 "Charge conjugation acting on an exact solution of the field equation "
                 "in the author's metric ($H = 1/6$, $\\alpha = 1$, mass $m = 2$, valid "
                 "for every history $a_4$). Left: the imaginary part of component 10 of "
-                "$\\Psi$, $\\Psi^\ast$ and $\\Gamma\\Psi^\ast$ versus the time $x_4$ at "
+                "$\\Psi$, $\\Psi^\\ast$ and $\\Gamma\\Psi^\\ast$ versus the time $x_4$ at "
                 "$z = \\pi/4$ (pure numbers). Right: the size $|E|$ of the left-hand "
-                "side of the field equation versus $x_4$, logarithmic scale. $\\Psi^\ast$ "
-                "solves the equation with the same mass $+2$ and $\\Gamma\\Psi^\ast$ the "
+                "side of the field equation versus $x_4$, logarithmic scale. $\\Psi^\\ast$ "
+                "solves the equation with the same mass $+2$ and $\\Gamma\\Psi^\\ast$ the "
                 "one with the reversed mass $-2$ ($|E|$ at rounding level, about "
                 "$10^{-16}$), while the exchanged masses fail ($|E|$ of order 1).")
     '''),
@@ -844,7 +844,7 @@ CELLS = [
     ax.grid(False)
     save_figure(fig, "bilinear_signs",
                 "The sign that each of the 256 bilinears $\\bar\\Psi\\gamma^{a_1}"
-                "\\cdots\\gamma^{a_k}\\Psi$ acquires under $\\Psi \\to M\\Psi^\ast$ "
+                "\\cdots\\gamma^{a_k}\\Psi$ acquires under $\\Psi \\to M\\Psi^\\ast$ "
                 "($M = 1$ for $\\mathcal{C}_+$, $M = \\Gamma$ for $\\mathcal{C}_-$), "
                 "for commuting and anticommuting components; horizontal axis the degree "
                 "$k$, rows the four cases, colour and number the sign (red $+1$, blue "

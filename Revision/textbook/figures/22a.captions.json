@@ -1,0 +1,3 @@
+{
+ "22a_1_naive_rates.png": "Left: the naive breakdown rate $1/Q_{max}$ (vertical axis, logarithmic) of the ground states $N = 136$ (blue circles) and $N = 688$ (orange squares) against the slice $a_{4,0}$ (horizontal axis); the lines are the free states, the shaded bands the spread over the five couplings, the dotted line the record's rate $A = 1$. Right: $Q = A\\,Q_{max}$ against the rate $A$ for the free state $N = 688$ at the five slices (both axes logarithmic); $Q$ reaches 1 (dotted) only above $A = 10$. The naive estimate says the record's history is at least ten times too slow to break the instantaneous picture."
+}

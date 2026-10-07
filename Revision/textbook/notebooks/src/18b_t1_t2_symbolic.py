@@ -107,8 +107,9 @@ FACTS = {
          "the folder Revision/textbook/notebooks of a complete copy of the repository. "
          "Clone the repository again and open the notebook there."],
         ["a cell runs for several minutes",
-         "the symbolic checks take about a minute and a half in all on a laptop of "
-         "2024; on a slow computer they may take five minutes. Wait for the PASS lines; "
+         "the symbolic checks take about a minute and a half in all on the computer on "
+         "which the book was built; on a slow computer they may take five minutes. Wait "
+         "for the PASS lines; "
          "the star in the margin of a running cell turns into a number when it ends."],
     ],
 }
@@ -500,7 +501,7 @@ CELLS = [
     axes[1].set_xlabel("time $x_4$ (units $1/H$)")
     axes[1].set_ylabel("coefficient of $\\gamma^{(x_4)}$ in $\\gamma^\\mu\\Omega_\\mu$")
     axes[1].set_ylim(-2.0, 2.0)
-    axes[1].legend()
+    axes[1].legend(loc="center right")
     save_figure(fig, "connection_history",
                 "The spin connection of the author's metric along the canonical "
                 "deflating history $a_4 = AHx_4$ with $A = 1$, $H = 1$, at $z = \\pi/4$. "

@@ -70,7 +70,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 20,
+    "expected_seconds": 50,
     "timeout_seconds": 300,
     "files_written": [
         "Revision/textbook/figures/03d.captions.json",
@@ -111,10 +111,10 @@ CELLS = [
       **momenta** along $x_1, x_2, x_3$ and $x_5, x_6, x_7$ and the squared length of the
       velocity;
     - proves that the velocity of a body moving in 3-space, measured with rulers and
-      clocks at its place, falls like $e^{-a_4}$ (**redshift**: 3-space inflates), while
-      its velocity along an extra time grows like $e^{a_4}$ (**blueshift**: the extra
-      times deflate), and reproduces the **momentum weight** $\kappa = e^{-Hy - a_4}$ of
-      the Revision Kohn-Sham record;
+      clocks at its place, falls like $e^{-a_4}$ at a fixed height in the hidden
+      direction (**redshift**: 3-space inflates), while its velocity along an extra time
+      grows like $e^{a_4}$ (**blueshift**: the extra times deflate), and reproduces the
+      **momentum weight** $\kappa = e^{-Hy - a_4}$ of the Revision Kohn-Sham record;
     - proves that motion in 3-space pushes the body towards the patch end of the hidden
       direction, motion along an extra time towards the tip, and that the velocity
       along the time $x_4$ can only decrease;
@@ -735,9 +735,9 @@ CELLS = [
     axes[1].set_ylabel("time $x_4$ (unit $1/H$)")
     axes[0].set_title("The $x_4$ velocity can only decrease")
     axes[1].set_title("The time $x_4$ along each path")
-    for ax in axes:
+    for ax, place in zip(axes, ("lower left", "upper left")):  # legends off the lines
         ax.set_xlabel("proper time $\\tau$ of the particle (unit $1/H$)")
-        ax.legend(fontsize=8, loc="lower left")
+        ax.legend(fontsize=8, loc=place)
     save_figure(fig, "x4_velocity",
                 "The $x_4$ velocity $u^4 = dx_4/d\\tau$ (left) and the time $x_4$ "
                 "(right) of five freely falling test particles against their own proper "
@@ -837,12 +837,12 @@ CELLS = [
     ax.plot([frame_t[n_turn, 4]], [frame_t[n_turn, 7]], "o", color=VIOLET, ms=8,
             label="turning point, $u^4 = 0$")
     ax.text(2.05, 0.15, "$(u^4)^2 < 0$:\nno particle;\nplane waves grow", fontsize=8)
-    ax.text(0.15, -2.6, "$(u^4)^2 > 0$", fontsize=9)
+    ax.text(0.3, -1.2, "$(u^4)^2 > 0$", fontsize=9)
     ax.set_xlabel("frame velocity $\\hat u^5$ along the extra time $x_5$")
     ax.set_ylabel("frame velocity $\\hat u^8 = dy/d\\tau$")
     ax.set_title("The quadratic form $(u^4)^2 = 1 - (\\hat u^5)^2 + (\\hat u^8)^2$")
     ax.grid(False)
-    ax.legend(fontsize=8, loc="lower right")
+    ax.legend(fontsize=8, loc="lower left")
     save_figure(fig, "quadratic_form",
                 "The squared $x_4$ velocity $(u^4)^2 = 1 - (\\hat u^5)^2 + (\\hat u^8)^2$ "
                 "of a free particle that moves along the extra time $x_5$ and the "
@@ -872,6 +872,8 @@ CELLS = [
     lie on a line of slope 4.
     """),
     code(r'''
+    from matplotlib.ticker import NullFormatter  # an empty label for minor ticks
+
     p1_fast = space_paths[1.0][4]  # p_1 along the fastest 3-space path
     drift = {"$p_1$, 3-space particle": (tau, np.abs(p1_fast / p1_fast[0] - 1)),
              "$g(u,u) + 1$, 3-space particle": (tau, np.abs(space_paths[1.0][3] + 1)),
@@ -902,6 +904,8 @@ CELLS = [
         axes[1].loglog(dts, values, "o-", color=colour, lw=1.6, label=label)
     axes[1].loglog(dts, differences["extra time, start 0.2"][0] * (dts / dts[0]) ** 4,
                    "--", color="black", lw=1.0, label="slope 4")
+    axes[1].set_xticks(dts, [f"{dt:g}" for dt in dts])  # the five steps as labels
+    axes[1].xaxis.set_minor_formatter(NullFormatter())  # no labels between them
     axes[1].set_xlabel("step $\\Delta\\tau$ of RK4")
     axes[1].set_ylabel("difference of end states (step and half step)")
     axes[1].set_title("RK4 is of order 4")

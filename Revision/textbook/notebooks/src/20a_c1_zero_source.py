@@ -624,12 +624,15 @@ CELLS = [
     md(r"""
     ## 9. Along the hidden direction: the T1 partner and the T2 mirror copy
 
-    T1 holds at EVERY point. To see it along a line, the next cell keeps the same
-    values and first derivatives of the configuration at every $z$, except that it
-    sets the derivative along $x_8$ to zero (otherwise the term
-    $\tan z\,\gamma^{(x_8)}\partial_8\Psi$ grows without bound at the brane, where
-    $g_{88} = \cot^2z$ vanishes). The geometry changes with $z$ through
-    $\sin^{1/6}z$ and $\cot z$. It evaluates three objects:
+    T1 holds at EVERY point. To see it along a line, the next cell uses a field that
+    varies along the hidden direction, $\Psi(z) = \Psi_0 + (\pi/2 - z)^2\Psi_1$, with
+    the values $\Psi_0$ and the derivatives along $x_1, \dots, x_7$ of section 8 and a
+    second random spinor $\Psi_1$. Its derivative along $x_8$ is
+    $\partial_8\Psi = 6H\,d\Psi/dz = -12H(\pi/2 - z)\Psi_1$; it vanishes at the brane
+    like $\pi/2 - z$, which keeps the term $\tan z\,\gamma^{(x_8)}\partial_8\Psi$ of
+    the field equation finite there (the factor $\tan z = 1/E_8$ grows without bound
+    at $z = \pi/2$, where $g_{88} = \cot^2z$ vanishes). The geometry changes with $z$
+    through $\sin^{1/6}z$ and $\cot z$. It evaluates three objects:
 
     - the configuration $\Psi$ with $(m, \lambda)$ on the patch, $0 < z < \pi/2$;
     - its T1 partner $\Gamma\Psi$ with $(-m, -\lambda)$ at the same points;

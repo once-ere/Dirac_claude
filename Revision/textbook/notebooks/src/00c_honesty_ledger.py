@@ -714,7 +714,7 @@ CELLS = [
     """),
     code(r'''
     LABEL_COLOURS = {"PROVED": "#2a78d6", "COMPUTED": "#eb6834", "ASSUMED": "#1baf7a"}
-    fig, ax = plt.subplots(figsize=(7.0, 8.4))
+    fig, ax = plt.subplots(figsize=(7.6, 8.0))
     rows = np.arange(len(LEDGER))[::-1]  # the first row of the ledger at the top
     for number, row, (statement, label, note, paths), total in zip(
             range(1, len(LEDGER) + 1), rows, LEDGER, row_totals):

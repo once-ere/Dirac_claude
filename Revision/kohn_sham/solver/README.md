@@ -99,11 +99,14 @@ energies, energy-momentum integrals and identities.
   Newton in a sign bracket, then bisection down to adjacent doubles. The refined run uses `LinearDeviation`, the
   exactly equivalent (P - Hl) - d summed in descending level order and solved by bisection, so the two runs
   reach the root by different rounding paths. Rounding bound of mu (first order in eps_mach = 2^-52, derived in
-  the module documentation of `src/mermin.rs`): (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + eps_mach <|eps - mu|>
-  + 2 eps_mach |mu|, with n the number of levels and <.> the mean weighted with g f (1 - f). The three terms are
-  the summation and evaluation of the terms, the rounding of the arguments x_i = (eps_i - mu)/T, and the two
-  adjacent doubles at the root; the first is about n eps_mach T. For the former direct count the first term has N
-  in place of P + Hl + |d|: that count missed the root by 8.267e-10 m in the activated state N8_lamm1_a00_T10
+  the module documentation of `src/mermin.rs`, one formula with generous constants for both forms):
+  eps_mach [(n + 2 + L) (P + Hl + |d|)/(dN/dmu) + 3 <|eps - mu|> + T (ln g_max + 3) + 2 |mu|], with n the number
+  of levels, <.> the mean weighted with g f (1 - f), g_max the largest degeneracy and L = max(|ln(P + d-)|,
+  |ln(Hl + d+)|). Its pieces: the rounding of the arguments x_i = (eps_i - mu)/T (eps_mach <|eps - mu|>), the log
+  domain of `LogBalance` (2 eps_mach <|eps - mu|> + eps_mach T (ln g_max + 3)), the summation, the logarithms
+  and the shift ((n + 2 + L) eps_mach (P + Hl + |d|)/(dN/dmu), about (n + L) eps_mach T), and the two adjacent
+  doubles at the root (2 eps_mach |mu|). The former direct count has eps_mach [(n + 2) N/(dN/dmu) + ...] with the
+  same remaining terms: it missed the root by 8.267e-10 m in the activated state N8_lamm1_a00_T10
   (dN/dmu = 1.24e-6; found by the cross-check, see History below). `thermodynamics.csv` records dN/dmu, this
   bound (`mu_rounding_bound`) and, as a DIAGNOSTIC for the negative control of the refined comparison, the root of
   the former direct count on the same final levels minus mu (`mu_direct_count_minus_mu`) for every state.
@@ -273,10 +276,12 @@ the well-conditioned T dS/dT (dE/dT is kept for the identity check).
    -dF/dT 2.750519551341623e-7 -> 2.750500821749093e-7); the sea-hole diagnostic by at most 8.3e-8 relative;
    the final SCF residuals, |M_eff - m|, |v_v| and N_check in the last digits. Ground, excited, adiabatic,
    spectrum, rescaling and exact-Fock outputs are unchanged (byte-identical except the history label of
-   `adiabatic/history.json`). In the verification pass of 2026-10-07 the rounding bound gained the argument term
-   eps_mach <|eps - mu|> (it was omitted before; it is at most 0.44 of the former bound in the matrix, so every
-   `mu_rounding_bound` grew by a factor 1.0005 to 1.44) and the column `mu_direct_count_minus_mu` was added; mu
-   and every other number of the matrix are unchanged by that pass.
+   `adiabatic/history.json`). In the verification pass of 2026-10-07 the rounding bound was re-derived to first
+   order for both forms: the former (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + 2 eps_mach |mu| omitted the
+   rounding of the arguments x_i and the log domain of `LogBalance`; the bound is now the formula of Method
+   above, so every `mu_rounding_bound` grew (by the factors given in the final report of that pass), and the
+   column `mu_direct_count_minus_mu` was added; mu and every other number of the matrix are unchanged by that
+   pass.
 
 ## Canonical results (from `results/`; units m = H = 1)
 
