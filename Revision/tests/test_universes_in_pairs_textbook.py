@@ -2,7 +2,9 @@
 """Test of the textbook "Universes in Pairs" (Revision/textbook/, TEXTBOOK_SPEC.md).
 
 Initial version, 2026-10-02 (the infra stage: tools, requirements, pilot notebook 00a and the
-draft chapter 00); the assembly stage completes it when the book is assembled and registered.
+draft chapter 00), extended 2026-10-07 (the README example built in a replica, the command
+aliases, the per-chapter draft checks); the assembly stage completes it when the book is
+assembled and registered.
 
 Run from the repository root:
     python -m unittest Revision/tests/test_universes_in_pairs_textbook.py -v
@@ -24,7 +26,10 @@ What is tested
   * every notebook renders as book Markdown that scripts/build_dissertation_tex.py accepts;
   * the validators reject what they must (references, the character pairs that the PDF fonts
     print as one other character, long lines);
-  * the chapters written so far pass every assembler check (draft mode);
+  * the chapters written so far pass every assembler check (draft mode), together and each
+    alone (as check_chapter.py --allow-unplaced assembles it);
+  * the complete minimal example of tools/README.md builds and checks (nbkit build, byte for
+    byte) in a throw-away replica of the textbook folder, and renders as book Markdown;
   * the fast notebooks (all with REVISION_NOTEBOOKS_FULL=1) rebuild byte for byte (nbkit check);
   * once they exist: the assembled book equals the assembler's output with every check passed,
     and its PDF is registered (edition universes-in-pairs-textbook) with page count and sha256.
@@ -35,6 +40,8 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -212,11 +219,71 @@ class Validators(unittest.TestCase):
         self.assertNotEqual(assemble_textbook.expand_list("Chapter", "3.1")[1], [])
 
 
+class Tools(unittest.TestCase):
+    def test_command_aliases(self) -> None:
+        builder = str(SOURCES / "00a_check_installation.py")
+        for command in ("lint", "--lint"):
+            with self.subTest(command=command):
+                completed = subprocess.run(
+                    [sys.executable, str(TOOLS / "nbkit.py"), command, builder], cwd=ROOT,
+                    capture_output=True, text=True)
+                self.assertEqual(completed.returncode, 0, completed.stdout)
+                self.assertIn("lint_00a=OK", completed.stdout)
+
+    def test_readme_example_builds_in_a_replica(self) -> None:
+        """The builder of tools/README.md section 8, built in a copy of the tools."""
+        readme = (TOOLS / "README.md").read_text(encoding="utf-8")
+        part = readme.split("## 8. A complete minimal example", 1)[1]
+        source = re.search(r"```python\n(.*?)\n```", part, re.S).group(1) + "\n"
+        name = re.search(r"notebooks/src/(\w+)\.py", part).group(1)
+        with tempfile.TemporaryDirectory() as folder:
+            replica = Path(folder) / "replica"
+            tools = replica / "Revision" / "textbook" / "tools"
+            tools.mkdir(parents=True)
+            for path in TOOLS.glob("*.py"):
+                shutil.copyfile(path, tools / path.name)
+            shutil.copyfile(TEXTBOOK / "requirements.txt",
+                            replica / "Revision" / "textbook" / "requirements.txt")
+            builder = replica / "Revision" / "textbook" / "notebooks" / "src" / f"{name}.py"
+            builder.parent.mkdir(parents=True)
+            builder.write_text(source, encoding="utf-8", newline="\n")
+            completed = subprocess.run(
+                [sys.executable, str(builder), "build", "--date", "2026-10-07",
+                 "--scratch", str(Path(folder) / "scratch")], cwd=replica,
+                capture_output=True, text=True)
+            self.assertEqual(completed.returncode, 0,
+                             completed.stdout[-3000:] + completed.stderr[-2000:])
+            identifier = name[:3]
+            self.assertIn(f"check_{identifier}=PASSED", completed.stdout)
+            self.assertIn(f"build_{identifier}=OK", completed.stdout)
+            notebook = builder.parents[1] / f"{name}.ipynb"
+            self.assertTrue(notebook.with_name(f"{name}.PROVENANCE.md").is_file())
+            rendered = subprocess.run(
+                [sys.executable, str(tools / "render_notebook.py"), str(notebook),
+                 "--chapter", "2", "--section", "5"], cwd=replica, capture_output=True,
+                text=True)
+            self.assertEqual(rendered.returncode, 0, rendered.stderr)
+            self.assertIn(f"### 2.5 How to run Notebook {identifier}", rendered.stdout)
+            self.assertIn(f"### 2.6 Notebook {identifier}: complete text", rendered.stdout)
+            self.assertIn("**Out [", rendered.stdout)
+            self.assertIn(f"(Notebook {identifier}, figure 1.)]", rendered.stdout)
+
+
 class Book(unittest.TestCase):
     def test_chapters_so_far_pass_every_check(self) -> None:
         result = assemble_textbook.assemble(None, allow_missing=True)
         self.assertEqual(result.problems, [])
         self.assertTrue(all(result.checks.values()), result.checks)
+
+    def test_each_chapter_alone_passes_as_a_draft(self) -> None:
+        for path in sorted(assemble_textbook.CHAPTERS.glob("[0-9][0-9]-*.md")):
+            number = int(path.name[:2])
+            with self.subTest(chapter=path.name):
+                result = assemble_textbook.assemble([number], allow_missing=True,
+                                                    placeholders=True,
+                                                    allow_unplaced=True)
+                self.assertEqual(result.problems, [])
+                self.assertTrue(all(result.checks.values()), result.checks)
 
     def test_assembled_book_is_current(self) -> None:
         if not assemble_textbook.OUTPUT.is_file():

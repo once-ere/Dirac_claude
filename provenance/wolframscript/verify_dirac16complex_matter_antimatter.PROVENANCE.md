@@ -7,6 +7,15 @@ reads and writes, how a student who has never used Wolfram runs it, what it prin
 changes on the disk, and how it was verified on 2026-10-02. Every instruction needed to run
 the set is in this file.
 
+**Result of the re-verification (2026-10-07, commit
+`a4c5eda1df069a43a55ff8b57148f5de8edd1670`, Windows 11, Wolfram 15.0.1, WolframScript
+1.14.0).** After the verification workflow was interrupted by a session limit, the set was
+run again, twice, from two new fresh clones of the current commit (once from PowerShell,
+once from Git Bash). Both runs printed `check_count=44` and `failed_check_count=0`, exited
+with code 0 and wrote a report and a theory file that are **byte-identical** to the
+committed files and to each other. None of the files the set runs or reads changed between
+the two verified commits. Details: Section 6.6.
+
 **Result of the verification (2026-10-02, commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`,
 Windows 11, Wolfram 15.0.1, WolframScript 1.14.0).** The set **executes correctly**: run
 from fresh clones, twice as its usage says (once started from PowerShell, once from Git
@@ -123,6 +132,21 @@ it as a matrix:
   the real matrix $\Gamma$ (this set's $\gamma^8$) together with $m\to-m$ and
   $\lambda\to-\lambda$. That is the map this set uses in M4: $\Psi\to\gamma^8\Psi$ with
   $(m,\lambda)\to(-m,-\lambda)$.
+- **The matrices are the author's eight real 16 by 16 Dirac matrices.** The set takes its
+  gamma matrices from `artifacts/dirac16complex/arbitrary-field/algebra-fixture.json` (and
+  rebuilds them itself; check `MA_algebra_fixtureMatches`). On 2026-10-07 the fixture was
+  compared entry by entry with the matrices read from the author's notebook
+  `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb`, as
+  committed in `provenance/dirac_matrices/author_notebook_T16.json` and proved in
+  `provenance/dirac matrices.md` (real entries, anticommutation relations, Pin(4,4)): this
+  set's $\gamma^a$ is the author's `T16A[[a+1]]` for $a=0,\dots,7$ (the same index order),
+  its chirality matrix $\gamma^8$ is the author's `T16A[8]`, its $C$ is the author's
+  `sigma16`, its $\eta$ is the author's `eta4488`, and its projectors
+  $P_-=(1-\gamma^8)/2$ and $P_+=(1+\gamma^8)/2$ are the author's $P_L$ and $P_R$ (the
+  JSON stores $2P_L$ and $2P_R$). All five comparisons gave equality. The check
+  `MA_algebra_basicFacts` of this set confirms, in every run, that the eight matrices are
+  real signed permutation matrices that satisfy
+  $\gamma^a\gamma^b+\gamma^b\gamma^a=2\eta^{ab}I_{16}$.
 
 ### 1.3 What the set does not establish
 
@@ -347,7 +371,8 @@ runs, one of them a copy of the printed output, and deletes them at the end (Sec
 ### 3.1 What you need
 
 - A computer with Windows 10 or 11, macOS or Linux, with at least 3 GB of free
-  memory and 1 GB of free disk space (a clone of the repository takes about 520 MB).
+  memory and 1 GB of free disk space (a clone of the repository took about 520 MB on
+  2026-10-02 and 667 MB on 2026-10-07; the repository grows).
 - A **Wolfram Language kernel** with the command-line program **WolframScript**: either
   the free **Wolfram Engine for Developers** or **Mathematica**. The verification of
   Section 6 used Wolfram 15.0.1 with WolframScript 1.14.0.
@@ -452,7 +477,7 @@ git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
 ```
 
-The clone took 15 seconds on the verification machine. The folder `Dirac_claude` is the
+The clone took 15 to 18 seconds on the verification machine. The folder `Dirac_claude` is the
 **repository root**; every command below is typed there.
 
 Optionally confirm that the programs are the verified ones. In PowerShell:

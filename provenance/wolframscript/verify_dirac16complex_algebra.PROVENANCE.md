@@ -4,9 +4,9 @@
 |---|---|
 | Set | `scripts/verify_dirac16complex_algebra.wls` with the package `wolfram/Dirac16ComplexAlgebra.wl` |
 | Verdict | EXECUTES OK: exit code 0, `check_count=21`, `failed_check_count=0` |
-| Reproduction | byte-identical to the committed report (sha256 `d43adeeba580bdd8cec56fac5fa74906b7578c06c8589e52dbe3da1404cd49e7`) in all 8 runs with the reference folder `dirac-main/` present, and in all 15 compared runs of the re-verification after review (Part 6); without it the report differs in exactly 13 lines, all caused by the missing folder (Part 4.3) |
-| Run time | 12.1 to 13.4 s wall clock per run in the five timed runs (the script itself reports `elapsed_seconds=9` or `10`); depending on the other jobs on the same machine, about 11 to 21 s (`elapsed_seconds` 8 to 16) (Part 4.4) |
-| Verified | 2026-10-02, commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`, Windows 11, WolframScript 1.14.0, Wolfram 15.0.1 |
+| Reproduction | byte-identical to the committed report (sha256 `d43adeeba580bdd8cec56fac5fa74906b7578c06c8589e52dbe3da1404cd49e7`) in all 8 runs with the reference folder `dirac-main/` present, in all 15 compared runs of the re-verification after review, and in every run with `dirac-main/` present of the re-verification of 2026-10-07 (Part 6); without it the report differs in exactly 13 lines, all caused by the missing folder (Part 4.3) |
+| Run time | 12.1 to 13.4 s wall clock per run in the five timed runs of 2026-10-02 (the script itself reports `elapsed_seconds=9` or `10`); 16.9 to 19.0 s (`elapsed_seconds` 12 to 14) in the four timed runs of 2026-10-07, when 13 to 18 other Wolfram kernels kept the processor 100 % busy; overall about 11 to 22 s (`elapsed_seconds` 8 to 16) (Part 4.4) |
+| Verified | 2026-10-02, commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`; re-verified 2026-10-07, commit `a4c5eda1df069a43a55ff8b57148f5de8edd1670` (the files of the set are the same in both); Windows 11, WolframScript 1.14.0, Wolfram 15.0.1 |
 
 This file is written for a student who has never used Wolfram software. Parts 1 to 6 explain what the set is, its files, how to run it, what it prints and writes, what else it changes on your computer, and how it was verified.
 
@@ -64,6 +64,23 @@ The full construction is in `Revision/lead_checks/charge_conjugation_and_u1.py`.
 - The earlier textbook `provenance/DIRAC16COMPLEX_TEXTBOOK.md` (with `.tex` and `.pdf`) and its chapter sources `provenance/textbook/chapters/`: chapters 00 (claims table), 02 (Clifford algebras and spinors), 03 (split octonions), 04 (curved space), 05, 08 (quantization), 18 (open problems), 19 (reproducing everything; its step `stage1-03-wolfram-algebra`), 20 (check index).
 - `provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md` (with `.tex` and `.pdf`), which cites `QNT_currentHermiticity` and `ALG_gamma8Map` and records the report's sha256.
 - Programs that read the report or record its sha256: `scripts/check_dirac16complex_algebra.py` (writes `python-algebra-report.json`, field `wolframReportSha256`), `scripts/build_stage1_summary.py` (`stage1-summary.json`), `scripts/verify_dirac16complex00.wls` with `wolfram/Dirac16Complex00.wl` (`artifacts/dirac16complex/pair-creation/`), `wolfram/Dirac16ComplexMatterAntimatter.wl` (`artifacts/dirac16complex/matter-antimatter/`), the Stage-1 gate `scripts/verify_stage1_arbitrary_field.sh` / `.ps1`, `scripts/verify_stage1_public_clone_audit.py` and the tests in `tests/`.
+- The provenance files `provenance/wolframscript/verify_dirac16complex00.PROVENANCE.md` and `provenance/wolframscript/verify_dirac16complex_matter_antimatter.PROVENANCE.md`, which record the report's sha256 as an input of those sets.
+- Programs that load the PACKAGE `wolfram/Dirac16ComplexAlgebra.wl` (not the report): `scripts/build_dirac16complex_mathematica_notebook.wls` and the Mathematica notebook it builds, `notebooks/Dirac16ComplexDarkSector.nb` (described in `provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md`, `provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md` and the provenance files `build_dirac16complex_mathematica_notebook.PROVENANCE.md` and `verify_dirac16complex_mathematica_notebook.PROVENANCE.md` in `provenance/wolframscript/`). `handoff/tools/WOLFRAMSCRIPT_PROVENANCE.md` cites the check `ALG_clifford` of the report as the shipped proof of the Clifford relations.
+
+### 1.5 The eight real 16 by 16 Dirac matrices are the author's
+
+The provenance file `provenance/dirac matrices.md` displays the author's eight real 16 by 16 Dirac matrices `T16A[0]` ... `T16A[7]`, evaluated directly from the author's notebook `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb` and stored in `provenance/dirac_matrices/author_notebook_T16.json` (sha256 `b4bdec86878f11d874e276bd30e3a9ca6ae0d607368dafabd71bde7e8e2de334`). On 2026-10-07 the matrices of this set's package were compared with that file exactly, entry by entry (Wolfram `===` on integer arrays), in clone A of Part 6:
+
+| Package (this set) | Author's notebook (`author_notebook_T16.json`) | Equal |
+|---|---|---|
+| `D16Gammas` = gamma^0 ... gamma^7 | `T16A[0]` ... `T16A[7]` | yes, all eight |
+| `D16C` = C | `sigma16` | yes |
+| `D16Chirality` = gamma^8 | `T16A_8` = `T16A[0]` ... `T16A[7]` | yes |
+| 2 `D16ProjMinus` = I - gamma^8 | `twice_PL` = 2 P_L | yes |
+| 2 `D16ProjPlus` = I + gamma^8 | `twice_PR` = 2 P_R | yes |
+| `D16Eta` | `eta4488` | yes |
+
+All entries of the eight gammas are -1, 0 or +1, so they are real. This set therefore computes with exactly the author's eight real 16 by 16 matrices. In the report: check 1 (`ALG_clifford`) proves the anticommutation relations with eta = diag(+1,+1,+1,+1,-1,-1,-1,-1) and `ALG_clifford.integerEntries` = `true`; the measurement `ALG_spinTransposeProperties.supplementaryLieRelationsHold` = `true` records that the 28 S^{ab} = (1/4)[gamma^a, gamma^b] satisfy the so(4,4) commutation relations (recorded, not part of the pass condition of check 5); check 7 proves that the 256 products are linearly independent; and check 8 proves that C^16 is an irreducible complex module of Pin(4,4). The comparison program was a scratch file, not part of the repository. Its whole content is the `Get` of the package, an `Import` of the JSON file and the six comparisons of the table.
 
 ## 2. Files
 
@@ -108,7 +125,7 @@ How to open the terminal window in which you type the commands:
 
 ### 3.1 What you need
 
-- A computer with Windows 10/11, macOS or Linux, about 1 GB of free memory (the run uses about 0.43 GB) and about 1 GB of free disk space (a clone of the repository took 520 MB on 2026-10-02, and `dirac-main/` 27 MB).
+- A computer with Windows 10/11, macOS or Linux, about 1 GB of free memory (the run uses about 0.43 GB) and about 1 GB of free disk space (a clone of the repository took 520 MB on 2026-10-02 and 667 MB on 2026-10-07, and `dirac-main/` 27 MB).
 - An internet connection for installing the software and downloading the repository (the run itself needs none).
 - Git (to download the repository).
 - Wolfram Engine (free for developers and students) or Mathematica, together with the command-line program `wolframscript`. The set was verified with Wolfram 15.0.1 and WolframScript 1.14.0.
@@ -147,7 +164,7 @@ Check: `git --version` prints a version number.
 
 ### 3.4 Download the repository (and the optional reference folder)
 
-The first `git clone` downloads the newest version of the repository. The `git checkout` line after it moves to the exact version (commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`) that was verified for this file. It is recommended: if the repository changes later, a newer version may print or write something different from Part 4. Git then prints `HEAD is now at c2b33cc Pair-creation proofs test: ...`. That is normal: you are looking at the verified version, which Git calls a "detached HEAD". To go back to the newest version later, type `git switch main`.
+The first `git clone` downloads the newest version of the repository. The `git checkout` line after it moves to the exact version (commit `a4c5eda1df069a43a55ff8b57148f5de8edd1670`, re-verified on 2026-10-07) that was verified for this file. It is recommended: if the repository changes later, a newer version may print or write something different from Part 4. Git then prints `HEAD is now at a4c5eda HANDOFF 0.4g: dirac matrices provenance done; ...`. That is normal: you are looking at the verified version, which Git calls a "detached HEAD". To go back to the newest version later, type `git switch main`.
 
 The second `git clone` downloads the separately published reference project dirac into the folder `dirac-main/` inside the repository. It is optional: without it the run still passes all 21 checks, but the report then differs from the committed one (Part 4.3). The option `--config core.autocrlf=false` matters on Windows: without it Git for Windows converts the line endings of the three reference files to CRLF, their sha256 values change, and the report differs in those three values.
 
@@ -159,7 +176,7 @@ Windows (PowerShell):
 cd $HOME
 git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
-git -c advice.detachedHead=false checkout c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e
+git -c advice.detachedHead=false checkout a4c5eda1df069a43a55ff8b57148f5de8edd1670
 git clone --config core.autocrlf=false https://github.com/once-ere/dirac.git dirac-main
 git -C dirac-main -c advice.detachedHead=false checkout a21f593a464cf85e90e9271f2ace4df67f50d68e
 Get-FileHash -Algorithm SHA256 scripts/verify_dirac16complex_algebra.wls, wolfram/Dirac16ComplexAlgebra.wl, dirac-main/artifacts/exact/cl44-seed.json, dirac-main/artifacts/exact/split-octonion.json, dirac-main/artifacts/exact/triality44.json | ForEach-Object { $_.Hash.ToLower() }
@@ -171,7 +188,7 @@ macOS (Terminal):
 cd ~
 git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
-git -c advice.detachedHead=false checkout c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e
+git -c advice.detachedHead=false checkout a4c5eda1df069a43a55ff8b57148f5de8edd1670
 git clone --config core.autocrlf=false https://github.com/once-ere/dirac.git dirac-main
 git -C dirac-main -c advice.detachedHead=false checkout a21f593a464cf85e90e9271f2ace4df67f50d68e
 shasum -a 256 scripts/verify_dirac16complex_algebra.wls wolfram/Dirac16ComplexAlgebra.wl dirac-main/artifacts/exact/cl44-seed.json dirac-main/artifacts/exact/split-octonion.json dirac-main/artifacts/exact/triality44.json
@@ -183,7 +200,7 @@ Linux (bash):
 cd ~
 git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
-git -c advice.detachedHead=false checkout c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e
+git -c advice.detachedHead=false checkout a4c5eda1df069a43a55ff8b57148f5de8edd1670
 git clone --config core.autocrlf=false https://github.com/once-ere/dirac.git dirac-main
 git -C dirac-main -c advice.detachedHead=false checkout a21f593a464cf85e90e9271f2ace4df67f50d68e
 sha256sum scripts/verify_dirac16complex_algebra.wls wolfram/Dirac16ComplexAlgebra.wl dirac-main/artifacts/exact/cl44-seed.json dirac-main/artifacts/exact/split-octonion.json dirac-main/artifacts/exact/triality44.json
@@ -199,7 +216,7 @@ cbc28db6709ec1fc35ccfcc26353d1952b42bb516f6c50d6a52e2d6d355be710
 a8c31c07809fc884ae0495d91f4105fac0909c954bb185c643306c57699cd395
 ```
 
-If one of the first two differs, you do not have the verified version of the program: repeat the `git -c advice.detachedHead=false checkout c2b33cc...` line. If one of the last three differs, the reference files are not the verified ones (most often CRLF line endings): remove the folder with `Remove-Item -Recurse -Force dirac-main` (PowerShell) or `rm -rf dirac-main` (macOS/Linux), then repeat the two `dirac-main` lines above.
+If one of the first two differs, you do not have the verified version of the program: repeat the `git -c advice.detachedHead=false checkout a4c5eda...` line. If one of the last three differs, the reference files are not the verified ones (most often CRLF line endings): remove the folder with `Remove-Item -Recurse -Force dirac-main` (PowerShell) or `rm -rf dirac-main` (macOS/Linux), then repeat the two `dirac-main` lines above.
 
 You are now in the repository root (the folder `Dirac_claude`, which contains the folders `scripts`, `wolfram` and `artifacts`). Every command below must be typed in this folder. If you close the terminal and come back later, first go there again with `cd $HOME\Dirac_claude` (PowerShell) or `cd ~/Dirac_claude` (macOS/Linux).
 

@@ -130,8 +130,10 @@ Documents that cite its check counts, its results or its files:
   `studies/dirac16complex_kohn_sham/src/exchange.rs` and
   `studies/dirac16complex_kohn_sham/src/shooting.rs`.
 
-(The files under `Revision/` that mention a `pairing-theory.json` refer to the different
-file `Revision/pairing/pairing-theory.json` of the newer set, not to the output of this set.)
+(The files under `Revision/` that mention a `pairing-theory.json`, among them the
+textbook notebooks `Revision/textbook/notebooks/10a_krein_spectra`, `10b_canonical_krein`
+and `src/18a_pairing_matrices.py`, refer to the different file
+`Revision/pairing/pairing-theory.json` of the newer set, not to the output of this set.)
 
 Programs and tests that **read** the output files (so the outputs must stay exactly as
 committed):
@@ -152,9 +154,12 @@ committed):
   `wolfram-matter-antimatter-report.json`, `python-matter-antimatter-report.json`,
   `artifacts/dirac16complex/pair-creation/python-pairing-report.json`,
   `artifacts/dirac16complex/pair-creation/reference/reference-pairs-summary.json`,
-  `provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md` and
-  `provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.tex` (these seven files are exactly the
-  files of the repository that contain either sha256 value); the unit tests
+  `provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md`,
+  `provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.tex` and the provenance file of the
+  matter-antimatter set, `provenance/wolframscript/verify_dirac16complex_matter_antimatter.PROVENANCE.md`
+  (apart from this provenance file, these eight files are exactly the files of the
+  repository that contain either sha256 value; `git grep` at the verified commit of
+  Part 6); the unit tests
   `tests/test_d16c_matter_antimatter_publication.py` and
   `tests/test_d16c_textbook_publication.py` (which pins the count 141) check them.
 
@@ -210,9 +215,11 @@ path you give.
 * A computer with Windows 10 or 11, macOS, or Linux (64-bit).
 * About 1 GB of free memory (RAM; the kernel's measured peak, Part 4.5, is below
   700 MB) and about 1 GB of free disk space (the clone of the repository is about
-  515 MB in total: about 390 MB of files plus about 130 MB of git history in the hidden
-  folder `.git`, which is also about the size of the download; measured at the verified
-  commit: 538,056,938 bytes = 513.1 MiB, of which `.git` is 127.3 MiB).
+  660 MiB in total: about 465 MiB of files plus about 195 MiB of git history in the
+  hidden folder `.git`, which is also about the size of the download; measured on a
+  fresh clone of the verified commit of Part 6: 691,412,010 bytes = 659.4 MiB, of which
+  `.git` is 204,159,619 bytes = 194.7 MiB; the repository grows with every commit, so a
+  later clone is larger).
 * An internet connection for the installation and for downloading the repository. The run
   itself needs no network.
 * About 5 to 10 minutes of time for one run (Part 4.5 gives the measured times).
@@ -315,7 +322,7 @@ The first prints `2`. The second prints the version, for example
    To get exactly the verified version, also type
 
    ```
-   git checkout c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e
+   git checkout a4c5eda1df069a43a55ff8b57148f5de8edd1670
    ```
 
    (git then says it is in a "detached HEAD" state; that is harmless for running the

@@ -28,11 +28,16 @@ Usage, from the repository root:
                                                      # the assembly byte for byte
     python Revision/textbook/tools/assemble_textbook.py --allow-missing --output FILE
                                                      # a draft of the chapters so far
+    python Revision/textbook/tools/assemble_textbook.py --only 0 --allow-unplaced
+        --output FILE                                # a draft of chapter 00 alone
 
 By default every planned chapter 00 ... 23 must exist.  With --allow-missing the
 chapters that exist are assembled, a missing chapter is reported (missing_chapter=NN),
 references into missing chapters are PENDING (reported, not errors), and the output must
-be given with --output (the official file is never replaced by a draft).
+be given with --output (the official file is never replaced by a draft).  With --only
+the named chapters are assembled (a draft as well).  --allow-unplaced (drafts only)
+lists stored notebooks of the included chapters that no marker places, and their
+figures, as unplaced=... lines instead of failing notebookMarkers and figuresIncluded.
 
 Checks (each printed as check_<name>=true|false; any false fails the run):
   chapterFiles             file names NN-short-name.md, NN unique and planned (00..23);
@@ -152,6 +157,7 @@ class Result:
     measurements: dict
     text: str
     origins: list
+    unplaced: list = field(default_factory=list)  # allow_unplaced: what is not placed
 
 
 def display(path: Path) -> str:
@@ -373,12 +379,16 @@ def title_block(abstract: str) -> list[tuple[str, str]]:
 
 
 def assemble(only: list[int] | None = None, allow_missing: bool = False,
-             placeholders: bool = False) -> Result:
+             placeholders: bool = False, allow_unplaced: bool = False) -> Result:
     """Assemble and check.  only: the chapter numbers to include (None: all files);
     placeholders: add an empty section for every chapter before the first one included
-    (so that a single chapter keeps its number in a test build)."""
+    (so that a single chapter keeps its number in a test build); allow_unplaced: a
+    stored notebook of an included chapter that no marker places, and its figures, are
+    listed in Result.unplaced instead of being problems (a draft of a chapter whose
+    writer has not yet placed every notebook built for it)."""
     problems: list[str] = []
     pending: list[str] = []
+    unplaced_items: list[str] = []
     checks: dict[str, bool] = {}
     measurements: dict[str, object] = {}
 
@@ -422,7 +432,10 @@ def assemble(only: list[int] | None = None, allow_missing: bool = False,
     stored_ids = sorted(p.name[:3] for p in NOTEBOOKS.glob("*.ipynb"))
     unplaced = [i for i in stored_ids if i not in placed and (
         only is None or int(i[:2]) in only)]
-    if unplaced and (not allow_missing or only is not None):
+    if unplaced and allow_unplaced:
+        unplaced_items += [f"Notebook {i} is stored but placed in no chapter"
+                           for i in unplaced]
+    elif unplaced and (not allow_missing or only is not None):
         marker_problems += [f"Notebook {i} is stored but placed in no chapter"
                             for i in unplaced]
     problems += marker_problems
@@ -499,8 +512,10 @@ def assemble(only: list[int] | None = None, allow_missing: bool = False,
         if in_code:
             fenced_lines += 1
             # A non-ASCII (math) character is set in a wider font than the typewriter
-            # characters: tested 2026-10-02, 20 Greek letters + 69 ASCII fit, 20 + 49
-            # more do not.  So each one counts twice.
+            # characters: tested 2026-10-07 through scripts/build_provenance_pdf.py, a
+            # fenced line of 20 Greek letters and 69 ASCII characters (89 in all) is
+            # 18.5pt too wide (Overfull \hbox), so a Greek letter is about 1.2
+            # typewriter characters wide.  Counting each one twice is safe.
             width = len(line) + sum(1 for c in line if ord(c) > 127)
             if width > MAX_LINE or "\t" in line:
                 problems.append(f"{origin}: fenced line of width {width} (characters, "
@@ -516,6 +531,11 @@ def assemble(only: list[int] | None = None, allow_missing: bool = False,
     shown = {p.rsplit("/", 1)[-1] for p in figure_paths}
     orphans = sorted(p.name for p in FIGURES.glob("*.png") if p.name not in shown and (
         only is None or int(p.name[:2]) in only))
+    if allow_unplaced:  # the figures of the unplaced notebooks are not placed either
+        unplaced_ids = {item.split()[1] for item in unplaced_items}
+        unplaced_items += [f"figure {name} belongs to an unplaced notebook"
+                           for name in orphans if name[:3] in unplaced_ids]
+        orphans = [name for name in orphans if name[:3] not in unplaced_ids]
     if orphans and (not allow_missing or only is not None):
         problems += [f"figure {name} is in Revision/textbook/figures but not in the book"
                      for name in orphans]
@@ -546,7 +566,8 @@ def assemble(only: list[int] | None = None, allow_missing: bool = False,
         "bytes": len(text.encode("utf-8")),
         "sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(),
     })
-    return Result(checks, problems, pending, missing, measurements, text, lines)
+    return Result(checks, problems, pending, missing, measurements, text, lines,
+                  unplaced_items)
 
 
 def registered_pages() -> str:
@@ -570,14 +591,20 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--only", type=int, nargs="+", metavar="NN",
                         help="assemble only these chapters (implies --allow-missing)")
+    parser.add_argument("--allow-unplaced", action="store_true",
+                        help="draft only: list stored notebooks that no marker places "
+                             "(and their figures) as unplaced= instead of failing")
     arguments = parser.parse_args(argv)
     allow_missing = arguments.allow_missing or arguments.only is not None
+    if arguments.allow_unplaced and not allow_missing:
+        parser.error("--allow-unplaced is for drafts (--allow-missing or --only)")
     if allow_missing and not arguments.check and arguments.output is None:
         parser.error("a draft (--allow-missing or --only) needs --output FILE")
     if arguments.output is not None and arguments.output.resolve() == OUTPUT.resolve() \
             and allow_missing:
         parser.error("a draft must not replace the official book")
-    result = assemble(arguments.only, allow_missing)
+    result = assemble(arguments.only, allow_missing,
+                      allow_unplaced=arguments.allow_unplaced)
     output = (arguments.output or OUTPUT).resolve()
     if arguments.check:
         if not allow_missing:
@@ -595,6 +622,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"missing_chapter={number:02d}")
     for item in result.pending:
         print(f"pending_reference={item}")
+    for item in result.unplaced:
+        print(f"unplaced={item}")
     for problem in result.problems:
         print(f"problem={problem}")
     for name, value in result.measurements.items():

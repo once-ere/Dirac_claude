@@ -528,9 +528,12 @@ def blocks(facts: dict) -> list[tuple]:
     # Step 3 -------------------------------------------------------------------
     out.append(("step", "Step 3. Get the repository and install the packages "
                         "(once per computer)."))
+    # The size of the repository grows with the book (measured 2026-10-07: a clone
+    # downloads about 190 MB and the folder then takes about 680 MB), so the text gives
+    # bounds that stay true instead of numbers that would soon be out of date.
     out.append(("p",
-        f"The commands below download the repository (about 130 MB; the folder then "
-        f"takes about 400 MB of disk space) into the folder "
+        f"The commands below download the repository (a few hundred megabytes; the "
+        f"folder then needs up to about 1 GB of disk space) into the folder "
         f"{REPOSITORY_FOLDER} inside your home folder, create a private Python "
         f"environment in the folder {ENVIRONMENT} inside your home folder (a private "
         "environment is a folder with its own copy of Python and of the packages, so "

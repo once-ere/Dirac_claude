@@ -1,6 +1,6 @@
 # Provenance of the WolframScript set `verify_dirac16complex_kohn_sham` (old Stage 4: the exact Kohn-Sham theory)
 
-This file is written for a student who has never used Wolfram software. It explains one program of this repository: what it computes, which files it reads and writes, how to install everything it needs and run it on Windows, macOS or Linux, what it prints, what it changes on your computer, and how it was tested on 2026-10-02. Everything you need is in this file; you do not have to open any other file to run the program.
+This file is written for a student who has never used Wolfram software. It explains one program of this repository: what it computes, which files it reads and writes, how to install everything it needs and run it on Windows, macOS or Linux, what it prints, what it changes on your computer, and how it was tested on 2026-10-02 and tested again from a fresh download on 2026-10-07. Everything you need is in this file; you do not have to open any other file to run the program.
 
 Contents:
 
@@ -58,6 +58,14 @@ It writes two files (Section 2.3): a **report** with the 125 check results, the 
 
 Several of these programs record the SHA-256 of `kohn-sham-theory.json`; that is why a run must reproduce it byte for byte (it does: Section 6).
 
+The Jupyter notebook `notebooks/dirac16complex_kohn_sham.ipynb` (with its own provenance file `notebooks/dirac16complex_kohn_sham.PROVENANCE.md`, its checker `notebooks/check_dirac16complex_kohn_sham_notebook.py`) and the Mathematica notebook `notebooks/Dirac16ComplexKohnSham.nb` also show results of this set; the specification it was written to is `handoff/specs/STAGE4_SPEC.md`.
+
+### 1.5 The Dirac matrices it uses
+
+The eight 16 x 16 gamma (Dirac) matrices gamma^0, ..., gamma^7 that the package builds (package lines 98 to 114, function `D16KSGammas`) are **real**: every entry is -1, 0 or +1. They are the author's eight real Dirac matrices `T16A[0]`, ..., `T16A[7]` of the notebook `Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb`, which are displayed and proved (real, Cl(4,4) anticommutation relations, Pin(4,4)) in `provenance/dirac matrices.md`. Two of the set's own checks concern them: `KS_fixture_gammasMatchCommittedFixture` (the rebuilt matrices equal, entry by entry, the committed matrices of `algebra-fixture.json`) and `KS_fixture_cliffordAndC` ({gamma^a, gamma^b} = 2 eta^ab times the 16 x 16 identity, eta = diag(+1, +1, +1, +1, -1, -1, -1, -1), and C = gamma^0 gamma^1 gamma^2 gamma^3). On 2026-10-07 an additional check, run outside the repository on the fresh download (Section 6.2), confirmed 11 of 11 statements: the package returns eight 16 x 16 matrices; their entries are in {-1, 0, 1}; each equals its complex conjugate (real); they equal entry by entry the author's `T16A[0..7]` stored in `provenance/dirac_matrices/author_notebook_T16.json` and the `gamma` matrices of `algebra-fixture.json`; they satisfy all 64 anticommutation relations; the author's metric `eta4488` is diag(+1, +1, +1, +1, -1, -1, -1, -1); the author's `sigma16` equals gamma^0 gamma^1 gamma^2 gamma^3 and the author's `T16A[8]` equals gamma^0 ... gamma^7; the 28 scaled commutators [gamma^a, gamma^b]/4 (a < b) are linearly independent (the 28 generators of spin(4,4), the Lie algebra of Pin(4,4)).
+
+The name `dirac16complex` refers to the **field**, not to the matrices: the field Psi has 16 complex components, and the set builds complex matrices from the real gamma matrices, for example B = -i C gamma^4 (purely imaginary; confirmed by the same additional check), the block basis with entries 0, +-1, +-i, and the factors e^{-i eps x4} e^{i k x1} of the ansatz.
+
 ## 2. Its files
 
 All paths are relative to the repository root (the folder `Dirac_claude` that `git clone` creates). "Lines" is the number of line-feed characters (what `wc -l` prints); all files use LF line endings.
@@ -105,7 +113,7 @@ A terminal is a window in which you type commands. Type each command exactly as 
 - **macOS:** open Finder, then Applications, then Utilities, then Terminal.
 - **Linux:** open your distribution's terminal program (for example "Terminal" in Ubuntu).
 
-The macOS and Linux commands below (from Section 3.5 on) are ordinary POSIX shell commands; they were tested in the Bash of Git for Windows on the verification machine (Section 6, runs 11 and 15), not on a Mac or on a Linux computer.
+The macOS and Linux commands below (from Section 3.5 on) are ordinary POSIX shell commands; they were tested in the Bash of Git for Windows on the verification machine (Section 6, runs 11, 15, 20 and 21), not on a Mac or on a Linux computer.
 
 ### 3.3 Install Git
 
@@ -155,7 +163,7 @@ git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
 ```
 
-The first command downloads the repository into a new folder `Dirac_claude` (about 130 MB; 8 to 11 seconds on the test machine; while it works it prints `Cloning into 'Dirac_claude'...` and progress lines). The second command enters that folder. This folder is the **repository root**: every command below must be typed there. (If the folder already exists from an earlier download, `git clone` refuses with `fatal: destination path 'Dirac_claude' already exists and is not an empty directory.`; then type `cd Dirac_claude` and `git pull` to update it, which prints `Already up to date.` when nothing has changed.)
+The first command downloads the repository into a new folder `Dirac_claude` (about 130 MB; 8 to 31 seconds on the test machine; while it works it prints `Cloning into 'Dirac_claude'...` and progress lines). The second command enters that folder. This folder is the **repository root**: every command below must be typed there. (If the folder already exists from an earlier download, `git clone` refuses with `fatal: destination path 'Dirac_claude' already exists and is not an empty directory.`; then type `cd Dirac_claude` and `git pull` to update it, which prints `Already up to date.` when nothing has changed.)
 
 ### 3.7 Run the script
 
@@ -175,7 +183,7 @@ wolframscript -file scripts/verify_dirac16complex_kohn_sham.wls artifacts/dirac1
 echo $?
 ```
 
-The first line runs the script (about 13 seconds on the test machine; the program prints 155 lines, Section 4.1). The second line prints the exit code of the run, which must be `0`. Forward slashes `/` in the paths work on Windows too. Do not type `--` before the report path (see the problem table in Section 3.10).
+The first line runs the script (13 to 22 seconds on the test machine; the program prints 155 lines, Section 4.1). The second line prints the exit code of the run, which must be `0`. Forward slashes `/` in the paths work on Windows too. Do not type `--` before the report path (see the problem table in Section 3.10).
 
 The command `wolframscript -file scripts/verify_dirac16complex_kohn_sham.wls` without the report path does exactly the same, because the path above is the default.
 
@@ -247,7 +255,7 @@ You can also count the passed checks inside the report. Each check is one line o
 
 ### 4.1 What is printed
 
-The program prints exactly 155 lines (on Windows the lines end with CR LF). First come nine progress lines, each beginning with the time of day in the form `[hh:mm:ss]`; then the 125 check lines; then the 16 measurement lines; then five summary lines. Below is the complete output of the test run; the times of day are replaced by `[hh:mm:ss]`, the durations by `N`, and the folder of your repository by `<repository root>` (on Windows the printed paths use backslashes `\`). The durations were 9 to 14 seconds on the test machine.
+The program prints exactly 155 lines (on Windows the lines end with CR LF). First come nine progress lines, each beginning with the time of day in the form `[hh:mm:ss]`; then the 125 check lines; then the 16 measurement lines; then five summary lines. Below is the complete output of the test run; the times of day are replaced by `[hh:mm:ss]`, the durations by `N`, and the folder of your repository by `<repository root>` (on Windows the printed paths use backslashes `\`). The durations were 9 to 16 seconds on the test machine.
 
 ```
 [hh:mm:ss] fixture
@@ -427,7 +435,7 @@ Nothing else is written by the script, apart from the missing folders of the rep
 
 ### 4.4 Run time
 
-On the test machine (24 logical processors, Windows 11, Wolfram 15.0.1) one run took 12.7 to 18.2 seconds from the start of `wolframscript` to its end (measured with a stopwatch around the command), of which 9 to 14 seconds were the computation itself (the `elapsed_seconds` line) and the rest the start of the kernel. Other Wolfram programs were running on the same machine at the same time, which explains the spread. In run 1 of Section 6 the largest parts were KS_reduction (about 3 seconds) and KS_geometry, KS_exchange and KS_emt (about 2 seconds each), as the times of day of the progress lines show. The Wolfram kernel process needed at most 296 MB of memory (peak working set), WolframScript itself 16 to 17 MB.
+On the test machine (24 logical processors, Windows 11, Wolfram 15.0.1) one run took 12.7 to 21.8 seconds from the start of `wolframscript` to its end (measured with a stopwatch around the command), of which 9 to 16 seconds were the computation itself (the `elapsed_seconds` line) and the rest the start of the kernel. Other Wolfram programs were running on the same machine at the same time (on 2026-10-07 about 28 Wolfram processes of other programs), which explains the spread: on 2026-10-02 the runs took 12.7 to 18.2 seconds, on 2026-10-07 18.9 to 21.8 seconds. In run 1 of Section 6 the largest parts were KS_reduction (about 3 seconds) and KS_geometry, KS_exchange and KS_emt (about 2 seconds each); in run 18 (2026-10-07) KS_reduction took about 6 seconds, KS_geometry and KS_exchange about 3 to 4 seconds each and KS_emt about 2 seconds, as the times of day of the progress lines show. The Wolfram kernel process needed at most 296 MB of memory (peak working set: 296 MB in runs 1 and 2, 295.7 and 295.8 MB in runs 18 and 19), WolframScript itself 16 to 17 MB.
 
 ## 5. Side effects
 
@@ -471,6 +479,10 @@ Check: `git status --porcelain --ignored` prints nothing, and in a freshly downl
 
 ## 6. Verification record
 
+The set was verified twice: first on 2026-10-02 (Section 6.1, runs 1 to 17), then again on 2026-10-07 from a new fresh download after the work was interrupted and resumed (Section 6.2, runs 18 to 22). Both verifications gave the same result: the set executes correctly and reproduces both committed outputs byte for byte.
+
+### 6.1 First verification (2026-10-02)
+
 - **Date:** 2026-10-02.
 - **Commits verified:** `45d47343ae480df46e06689ed822b8f9a88a8030` (runs 1 to 9) and `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` (runs 10 to 17), each equal to the remote `main` of https://github.com/once-ere/Dirac_claude.git when its clone was made. Between the two commits the script, the package, the fixture and the two committed outputs did not change (`git diff --stat` between them over these five files is empty).
 - **Fresh clones:** five clones made with `git clone https://github.com/once-ere/Dirac_claude.git` into empty scratch folders: two for runs 1 to 12 (the second one made by following Sections 3.3, 3.5 to 3.9, 5.6 and the wrong-folder row of 3.10 literally in Windows PowerShell 5.1), and three for the re-verification after an independent review of this file (runs 13 to 17; the third made in Git Bash with the extra option `-q`, which only hides the progress lines; the fourth and fifth made by typing Section 3.6 as written, in Windows PowerShell 5.1 and in PowerShell 7.6). No uncommitted file was copied into any clone (the script, the package, the fixture and the two committed outputs are all committed, and their SHA-256 values in every clone are the ones of Section 2).
@@ -501,3 +513,26 @@ Check: `git status --porcelain --ignored` prints nothing, and in a freshly downl
 - **Peak memory:** kernel `wolfram.exe` 296 MB in runs 1 and 2; `wolframscript.exe` 16 to 17 MB.
 - **Fixes made:** none to the set. The set executed correctly as committed; no file of the set was changed. This provenance file itself was corrected on 2026-10-02 after an independent review, and the corrected instructions were re-tested in runs 15 to 17: (1) Sections 2.3, 3.8, 4.3, 5.1, 5.6 and the `FATAL` row of 3.10 now say that the run creates every missing folder of the report path (including `build/` itself in a fresh clone), even when it stops with `FATAL`, and the clean-up deletes the whole `build/` folder when it did not exist before (the earlier clean-up left an empty `build/`); (2) Section 3.4 gained the separate "Get your license" step and a 3.10 row for an activation without a licence; (3) Section 3.4 now gives the installation routes shown on the official page on 2026-10-02 (`winget install WolframEngine`, `brew install --cask wolfram-engine`, the `.deb` package for Debian and Ubuntu) and says that the macOS and Linux installation steps were not tested; (4) Section 3.2 now names exactly which commands were tested; (5) Section 3.8 now describes the two-line output and exit code 1 of `git diff --no-index --stat` for differing files; (6) Section 1.1 now names all three public functions of the package.
 - **Open discrepancies:** none. Three observations: (a) the script header's warning that WolframScript 1.14 drops `--` and everything after it was not reproduced on this machine (runs 5 and 6); the script handles both cases, and the instructions above do not use `--`; (b) WolframScript returns exit code 0 when it cannot open the script file (run 7), so a successful run must be recognised by the line `failed_check_count=0` together with `check_count=125`, not by the exit code alone; (c) the script creates the folder of the report (script line 23) before it loads the package (line 26), so a run that stops with `FATAL` leaves an empty folder behind (runs 14, 16, 17). This was documented (Sections 3.10 and 5.1), not changed: changing the script would change its SHA-256, which both committed outputs record under `sourceSha256`, and therefore the bytes of `kohn-sham-theory.json`, whose SHA-256 other programs of the repository record (Section 1.4).
+
+### 6.2 Second verification (2026-10-07, from a new fresh download)
+
+- **Date:** 2026-10-07.
+- **Commit verified:** `a4c5eda1df069a43a55ff8b57148f5de8edd1670`, equal to the remote `main` of https://github.com/once-ere/Dirac_claude.git when the clone was made. Between `45d47343ae480df46e06689ed822b8f9a88a8030` (Section 6.1) and this commit the script, the package, the fixture and the two committed outputs did not change (`git diff --stat` over these five files is empty), and their SHA-256 values, line counts and byte counts in the clone are exactly those of Sections 2.1 to 2.3.
+- **Fresh clone:** one clone made with `git clone -q https://github.com/once-ere/Dirac_claude.git` into an empty scratch folder outside the working copy (31 s). No uncommitted file was copied into it: every file the set reads or writes is committed. Before the first run `git status --porcelain --ignored` printed nothing and `build/` did not exist.
+- **Environment:** Windows 11 Pro for Workstations 10.0.26300 (version 26H2, build 26300.9457); Intel Core Ultra 9 275HX, 24 logical processors, 191 GB memory; WolframScript 1.14.0; Wolfram `15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)`, Professional licence; PowerShell 7.6.6 and Windows PowerShell 5.1.26100.9444; Git for Windows 2.51.2 with its Bash. About 28 Wolfram processes of other programs were running at the same time.
+
+| Run | Shell and command (from the repository root of the fresh clone) | Exit code | Wall time | `elapsed_seconds` | Checks | Outputs vs committed |
+|---|---|---|---|---|---|---|
+| 18 | PowerShell 7.6.6: the command of Section 3.7, started with `Start-Process` (output to a file) while the peak memory of WolframScript and of its kernel was sampled every 0.2 s | 0 | 21.84 s | 16 | 125 true, 0 false (155 printed lines, no `=false`, no `CHECK FAILED`, empty error stream) | both overwritten (new modification times) and byte-identical (`sha256sum` `9f04bc10...` and `5b150b36...`; `cmp` against `git show HEAD:<file>` identical); `git status --porcelain --ignored` empty |
+| 19 | PowerShell 7.6.6: the same command again in the same clone, measured the same way | 0 | 18.91 s | 15 | 125 true, 0 false | both byte-identical to the committed files and, by `cmp`, to the outputs of run 18 (saved outside the clone after run 18); `git status --porcelain --ignored` empty; printed output identical to run 18 line by line apart from the times of day and the durations |
+| 20 | Git Bash: the macOS and Linux commands of Sections 3.7 (`echo $?`) and 3.9 (`sha256sum`, `grep -c`) | 0 | 21.22 s | 15 | 125 true, 0 false (`grep -c` printed 125 and 0) | both byte-identical; `git status --porcelain` empty; the saved output had 155 lines ending in CR LF |
+| 21 | Git Bash: Section 3.8 (`ls -d build` printed the `No such file or directory` error before; report path `build/kohn-sham-check/wolfram-kohn-sham-report.json`; `rm -rf build`) | 0 | 20.32 s | 15 | 125 true, 0 false | both `git diff --no-index --stat` printed nothing, exit code 0; the run created `build/` and `build/kohn-sham-check/` holding the two files; `git status --porcelain` empty, `--ignored` printed `!! build/`; after `rm -rf build` `ls -d build` printed the error again and `git status --porcelain --ignored` printed nothing |
+| 22 | Windows PowerShell 5.1.26100.9444: Sections 3.7 (`$LASTEXITCODE`) and 3.9 (`git status --porcelain`, `Get-FileHash`, both `Select-String` counts) as written, then the wrong-folder row of 3.10 (the command typed in `scripts/`) | 0; 0 (wrong folder) | 19.82 s | 15 | 125 true, 0 false (155 lines, no `=false`, no `CHECK FAILED`; `Select-String` counts 125 and 0) | both byte-identical (`Get-FileHash` `9F04BC10...` and `5B150B36...`; `git status --porcelain` empty); wrong folder: `Failed to open file at path: scripts/verify_dirac16complex_kohn_sham.wls`, exit code 0, nothing written |
+| 23 | Git Bash: with `--` before the report path `build/dashtest/wolfram-kohn-sham-report.json` | 0 | not timed | 12 | 125 true, 0 false | the report went to the given path (the `--` arrived and the script removed it); both files byte-identical to the committed ones; `build/` deleted afterwards and `git status --porcelain --ignored` empty |
+
+- **Byte identity:** in runs 18 to 23 both outputs had exactly the SHA-256 values of Section 2.3 (`9f04bc10b2e513a790ea6f317473caa8d245a98ee38cbdeb5997f17557fe8978` for the report, `5b150b36e13b903c32b86e8debbaeda48798e0beb0bc6a216e416d2671f4e01a` for the theory file); the outputs of the two runs 18 and 19 of the header command were identical to each other byte by byte (`cmp`).
+- **Files created or overwritten:** runs 18, 19, 20 and 22 overwrote the two committed outputs with identical bytes (only their modification times changed); runs 21 and 23 created `build/` with one sub-folder holding the two outputs, deleted afterwards. No other file of the clone was created or changed (`git status --porcelain --ignored` empty at the end). The script wrote no temporary files of its own; WolframScript's own working folders outside the repository (Section 5.2) were in use by the other Wolfram programs running at the same time, so changes there cannot be attributed to these runs.
+- **Peak memory:** kernel `wolfram.exe` 295.7 MB (run 18) and 295.8 MB (run 19); `wolframscript.exe` 16.5 and 16.6 MB.
+- **The Dirac matrices (Section 1.5):** a separate check script, kept outside the repository, loaded the package of the clone and compared `D16KSGammas[]` with `provenance/dirac_matrices/author_notebook_T16.json` and with `algebra-fixture.json`: 11 of 11 statements true, exit code 0, 5.6 s. It changed no file of the clone.
+- **Fixes made:** none. The set executed correctly as committed; no file of the set was changed. This provenance file was updated on 2026-10-07 only to add this record, Section 1.5, the citing notebooks of Section 1.4 and the longer run times measured under load (Sections 3.6, 3.7, 4.1, 4.4).
+- **Open discrepancies:** none. The observations (a) to (c) of Section 6.1 still hold: (a) was seen again in run 23, (b) in run 22.

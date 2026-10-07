@@ -2,8 +2,9 @@
 
 This file tells a student who has never used Wolfram or Python what this set of scripts is, how to run
 it from nothing, what it prints and writes, what it changes on the computer, and how it was verified on
-2026-10-02. Every number below was measured on the verification machine or read from the files
-themselves; nothing is copied from another document.
+2026-10-02 and verified again, in new fresh clones, on 2026-10-07 (section 6). Every number below was
+measured on the verification machine or read from the files themselves; nothing is copied from another
+document.
 
 ## 1. What this set is and what it computes
 
@@ -24,7 +25,12 @@ optional companion (sections 3.6 and 4.5), because it reads the Wolfram output.
   author names them: x1, x2, x3 are ordinary space; x4 is time; x5, x6, x7 are three extra time-like
   directions whose scale factor shrinks exponentially (they "deflate" while space inflates); x8 is a
   hidden direction. The 16 x 16 gamma matrices that define the field equation are read from the file
-  `Revision/algebra/gammas.json` (made by another set, `Revision/algebra/wolfram/`).
+  `Revision/algebra/gammas.json` (made by another set, `Revision/algebra/wolfram/`). They are the
+  author's eight REAL 16 x 16 Dirac matrices: every entry is 0, +1 or -1 (read from the file on
+  2026-10-07: 8 matrices of 16 x 16 integers, values {-1, 0, 1}); `provenance/dirac matrices.md` proves that
+  they equal the matrices of the author's notebook entry by entry. This set checks their
+  anticommutation relations itself (`clifford_relation`). The field's 16 components are complex numbers,
+  and so are some matrices built from the real gammas: B = -i C gamma^(x4) and the block basis V below.
 * Kohn-Sham theory. A gas of many interacting particles is hard to solve. The Kohn-Sham method (the
   method behind "DFT", density functional theory, in chemistry and solid-state physics) replaces it by
   independent particles that move in an effective field, the mean field, which is itself computed from
@@ -113,6 +119,13 @@ addition compares its own results with `ks-theory.json`.
   (`adiabaticity.history`, `emt.energyChange`).
 * `Revision/textbook/TEXTBOOK_SPEC.md` (chapter 14) lists `Revision/kohn_sham/theory`, `ks-theory.json` and
   the reports as sources.
+* `provenance/dirac matrices.md` (section "Calculations that use these matrices") lists the three program
+  files of this set among the files that read `Revision/algebra/gammas.json`.
+* The textbook that another workflow is writing (in progress on 2026-10-07, not yet verified): the
+  notebooks `Revision/textbook/notebooks/` 00c, 02d, 03a, 13b, 13c, 14a to 14d, 15a to 15e, 16a, 16b and
+  17a (with their `.PROVENANCE.md` files) read or quote `ks-theory.json` or the two reports, and the
+  figure captions `Revision/textbook/figures/16b.captions.json` quote the brane-band slope formula of
+  `ks-theory.json`.
 
 ## 2. Files
 
@@ -127,8 +140,9 @@ their line endings). Line counts are counts of line-feed characters (`wc -l`).
 | `Revision/kohn_sham/theory/KohnShamTheory.wl` (its package, loaded by the script with `Get`) | `554d726af9cff43c680ee9a4a70e7ffa28740a306c91581b6944cc668007f3cf` | 87 | 4575 |
 | `Revision/kohn_sham/theory/check_ks_theory.py` (optional companion, Python/sympy) | `28c24832e73dbfc1fb133cabf477d3b6eb59e257e1042030dbbb3c3672e56b80` | 791 | 47119 |
 
-The script's sha256 is that of the version with the execution fix of 2026-10-02 (section 6). The
-commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` holds the earlier version (sha256
+The script's sha256 is that of the version with the execution fix of 2026-10-02 (section 6); this
+version is committed since commit `3f0a577c234501e0e073df1ec1640554bf93d764` and is the one re-verified on
+2026-10-07. The commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` holds the earlier version (sha256
 `d8df4e07976352d07c41c4b38a28ca09626f20d54a237cfba7ba942893596cab`, 455 lines, 40693 bytes). Both
 versions perform the same 46 checks and write the same bytes; the earlier one does not stop when an
 input file is missing or an output file cannot be written (section 3.7 describes what it does then).
@@ -164,8 +178,9 @@ stops with exit code 1.
 
 * A computer with Windows 10 or 11, macOS, or Linux, and an internet connection for the installation
   and the download (the script itself needs no network).
-* About 600 MB of free disk space for the repository (a fresh clone measured 519 MB, of which 128 MB is
-  the Git history) plus the space the Wolfram installer asks for.
+* About 1 GB of free disk space for the repository (a fresh clone measured 519 MB, of which 128 MB is
+  the Git history, on 2026-10-02, and 659 MB, of which 195 MB is the Git history, on 2026-10-07: the
+  repository grows) plus the space the Wolfram installer asks for.
 * About 0.5 GB of free memory (the Wolfram kernel of this script peaked at 239 MB; the optional Python
   companion at 88 MB).
 * A Wolfram kernel with WolframScript: either the free Wolfram Engine for Developers or a licensed
@@ -265,7 +280,8 @@ git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
 ```
 
-The download took about 13 seconds on the verification machine. You are now in the repository root: the
+The download took about 13 seconds on the verification machine on 2026-10-02 and 15.8 seconds on
+2026-10-07. You are now in the repository root: the
 folder that contains the folder `Revision`. Every command below is run from here. Do not open and save
 the JSON files of section 2 with an editor: an editor may change their line endings, and then they are
 no longer byte-identical to the committed files.
@@ -287,7 +303,7 @@ echo "exit code: $?"
 ```
 
 The second line shows the exit code of the run; type it immediately after the first, because it reports
-the most recent command. The run takes about 40 seconds; the lines appear while it runs. Optional, to
+the most recent command. The run takes about 40 to 55 seconds; the lines appear while it runs. Optional, to
 measure the run time: in PowerShell
 `Measure-Command { wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls | Out-Default }`
 (the output is shown, then `TotalSeconds`), on macOS and Linux
@@ -400,7 +416,7 @@ anyway, so the result is the same in either order.
 * The only output is the line
   `ERROR  input file not found: ...\Revision\kohn_sham\theory\..\..\algebra\gammas.json` (the dots stand
   for the full path of your repository folder; on macOS and Linux the path has forward slashes), and the
-  exit code is `1` (observed: after about 3 seconds): the input file `Revision/algebra/gammas.json` is
+  exit code is `1` (observed: after about 3 to 5 seconds): the input file `Revision/algebra/gammas.json` is
   missing or renamed. Restore it with `git checkout -- Revision/algebra/gammas.json` and run again. If the
   line names `...\Revision\kohn_sham\theory\KohnShamTheory.wl` instead, the package is missing: restore
   it with `git checkout -- Revision/kohn_sham/theory/KohnShamTheory.wl`.
@@ -452,7 +468,8 @@ anyway, so the result is the same in either order.
 The Wolfram script prints exactly 47 lines and nothing else (no warnings, no messages): one line per
 check, in this order, of the form `PASS  <name>  t=<seconds>` (two spaces before and after the name),
 then the final line. The seconds count from the start of the checks and vary from run to run; they can
-show binary rounding such as `t=0.7000000000000001` or `t=26.700000000000003`, which is normal. On
+show binary rounding such as `t=0.7000000000000001` or `t=26.700000000000003`, or a whole number written
+with a trailing point such as `t=32.` (Wolfram's way of printing 32.0), which is normal. On
 Windows each line ends with a carriage return and a line feed; this is also normal.
 
 ```text
@@ -505,9 +522,13 @@ PASS  ks_theory_json_written  t=33.6
 46/46 checks passed; time 33.6 s
 ```
 
-(This is recorded run 1 of the verification, section 6.) The longest single step is the explicit
-angular integral of `gas_angular_average` (23 to 25 s), then the energy-momentum components of
-`emt_orbital_components` (7 to 8 s) and the NDSolve shooting of `brane_band_slope` (about 2 s).
+(This is recorded run 1 of 2026-10-02, section 6.) The two recorded runs of 2026-10-07 printed the same 47
+lines in the same order with larger `t=` values, because the machine was busier that day; their final
+lines were `46/46 checks passed; time 46.300000000000004 s` and `46/46 checks passed; time 45.800000000000004 s`.
+The longest single step is the explicit angular integral of `gas_angular_average` (23 to 25 s on
+2026-10-02, 30.4 and 30.7 s on 2026-10-07), then the energy-momentum components of
+`emt_orbital_components` (7 to 8 s; 10.5 and 8.8 s) and the NDSolve shooting of `brane_band_slope`
+(about 2 s; 2.6 and 2.7 s).
 
 ### 4.2 Exit code
 
@@ -532,15 +553,22 @@ The detail of `brane_band_slope` in the report reads, on the verification machin
 ### 4.4 Run time and memory on the verification machine
 
 Verification machine: 24 cores (Intel Core Ultra 9 275HX), 191 GB memory, Windows 11 Pro for
-Workstations. Other jobs were running Wolfram kernels on the same machine at the same time (5, 8 and 9
-of them at the three moments checked), so a quiet computer may be faster. The script starts no parallel
-kernels.
+Workstations. Other jobs were running Wolfram kernels on the same machine at the same time (on 2026-10-02
+5, 8 and 9 of them at the three moments checked), so a quiet computer may be faster. The script starts no
+parallel kernels.
 
-* Wall-clock time of the whole command: 36.6 to 46.6 s over 14 timed complete runs, of which 9 with the
-  script of commit `c2b33cc` and 5 with the fixed script (37.0 to 39.1 s; 37.2 s and 39.1 s for the two
-  recorded runs of section 6); the script's own final `time` value: 33.1 to 42.9 s over 17 runs (fixed
-  script: 33.6 to 35.2 s over 5 runs).
-* Peak memory (working set): the Wolfram kernel `wolfram.exe` 232 to 239 MB; `wolframscript.exe` 17 MB.
+* 2026-10-02, wall-clock time of the whole command: 36.6 to 46.6 s over 14 timed complete runs, of which 9
+  with the script of commit `c2b33cc` and 5 with the fixed script (37.0 to 39.1 s; 37.2 s and 39.1 s for
+  the two recorded runs of section 6.1); the script's own final `time` value: 33.1 to 42.9 s over 17 runs
+  (fixed script: 33.6 to 35.2 s over 5 runs).
+* 2026-10-02, peak memory (working set): the Wolfram kernel `wolfram.exe` 232 to 239 MB;
+  `wolframscript.exe` 17 MB.
+* Re-verification of 2026-10-07 (same script, same machine; other workflows were running Wolfram kernels
+  at the same time, 14 and 16 `wolfram.exe` processes at two moments checked): wall clock 49.5 s and
+  51.5 s for the two recorded runs (script time 46.3 s and 45.8 s), 55.0 s for the PowerShell commands of
+  section 3.5 typed literally (script time 51.1 s), 52.7 s and 57.1 s for the two failure tests that run
+  all checks (section 6.2); peak memory of the kernel 238 MB and 237 MB, of `wolframscript.exe` 17 MB, of
+  the short licence query `wolfram.exe -wlbanner -licenseinfo` 53 MB and 54 MB.
 
 ### 4.5 The optional Python companion
 
@@ -558,7 +586,9 @@ The first three lines are `[PASS] fixture_input  t=0.0s`, `[PASS] fixture_python
 bytes, sha256 `0f2dd2975db2af5b9e63453c6fe028c64e80aee3be921d4932c252acfb150f6c`), whose `"summary"`
 block (lines 5 to 10) holds `"passed": 57`, `"failed": 0`, `"other": 0`, `"total": 57`. Run time 73.3 to
 90.4 s wall clock over 4 timed runs (the script's own last time stamp 65.3 to 88.4 s over 5 runs; the
-RK4 shooting, printed as `shooting time`, 28.5 to 39.7 s of it); peak memory 88 MB.
+RK4 shooting, printed as `shooting time`, 28.5 to 39.7 s of it); peak memory 88 MB. On 2026-10-07, with
+the machine busier: 111.1 s and 101.6 s wall clock (last time stamp 108.1 s and 97.9 s; `shooting time
+47.1 s` and `39.5 s`), peak memory 89 MB and 88 MB.
 
 ## 5. Side effects
 
@@ -575,7 +605,8 @@ RK4 shooting, printed as `shooting time`, 28.5 to 39.7 s of it); peak memory 88 
   printed nothing after the recorded runs of both scripts and at the end of all runs in both clones of
   the first pass (no new file, no ignored file, no `__pycache__` folder); in the clones of the second
   pass it printed only the line ` M Revision/kohn_sham/theory/verify_ks_theory.wls`, the fixed script
-  that had been copied in (section 6).
+  that had been copied in (section 6). On 2026-10-07, with the fixed script committed, it printed nothing
+  in all three fresh clones after all runs (section 6.2).
 
 ### 5.2 Outside the repository
 
@@ -620,6 +651,12 @@ If you made the Python environment of section 3.6 and no longer need it: Windows
 `Remove-Item -Recurse -Force ..\ks-venv`, macOS and Linux `rm -rf ../ks-venv`.
 
 ## 6. Verification record
+
+The set was verified on 2026-10-02 (section 6.1) and verified again on 2026-10-07 (section 6.2), after the
+verification workflow had been interrupted by a session limit and relaunched: the earlier record was not
+trusted unchecked but repeated in new fresh clones.
+
+### 6.1 Verification of 2026-10-02
 
 * Date: 2026-10-02. The set was verified in two passes on that day: a first pass of the script as
   committed, and a second pass after a review, in which two execution defects of the script were fixed
@@ -758,3 +795,84 @@ If you made the Python environment of section 3.6 and no longer need it: Windows
 * Open discrepancies: none. Observations for students (not reproduction failures): WolframScript returns
   exit code 0 when it cannot open the script file; byte identity of the detail texts was verified only on
   Windows with Wolfram 15.0.1.
+
+### 6.2 Re-verification of 2026-10-07
+
+* Date: 2026-10-07 (the verification workflow of 2026-10-02 had been interrupted by a session limit and was
+  relaunched; the runs, outputs, counts and failure behaviour were checked again against new runs; what
+  was not repeated is listed at the end of this section).
+* Commit verified: `a4c5eda1df069a43a55ff8b57148f5de8edd1670` (the branch `main` of
+  `https://github.com/once-ere/Dirac_claude.git` on that day), cloned fresh into two empty folders, clones A
+  and B. A third fresh clone C, made later that day, received the newer commit
+  `8cbd03a02f7771bce9e199f5d48cd41a979f1f06`, which changed only `HANDOFF.md` and
+  `Revision/workflows/dirac_matrices_audit.js`; the files of this set and its inputs are the same in both
+  commits. No uncommitted file was copied into any clone: the execution fix of section 6.1 is committed
+  (since commit `3f0a577`), and the script, the package, the companion, the two inputs and the three outputs
+  had exactly the sha256 values, line counts and byte counts of section 2 (measured in clone B).
+* Environment: Windows 11 Pro for Workstations 10.0.26300 (`ver`: 10.0.26300.9457), Intel Core Ultra 9
+  275HX (24 cores), 191 GB memory; WolframScript 1.14.0 with Wolfram 15.0.1 for Microsoft Windows (64-bit)
+  (July 2, 2026), Professional licence; Python 3.14.5 (system installation `C:\Python314`) with numpy
+  2.4.6, sympy 1.14.0, mpmath 1.3.0; Git 2.51.2.windows.1; PowerShell 7.6.6 and Git Bash. The recorded runs
+  were started from the clone's repository root with PowerShell's `Start-Process` (standard output and
+  error redirected to files); the process tree was sampled every 0.3 s for its working-set memory.
+* The two recorded runs, both in clone A with `wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls`:
+
+  | Run | Exit code | Printed verdict | Wall clock | Script time | Peak kernel memory |
+  | --- | --- | --- | --- | --- | --- |
+  | 1 | 0 | `46/46 checks passed; time 46.300000000000004 s` | 49.5 s | 46.3 s | 238 MB |
+  | 2 | 0 | `46/46 checks passed; time 45.800000000000004 s` | 51.5 s | 45.8 s | 237 MB |
+
+  Each run printed exactly 47 lines, each ending with a carriage return and a line feed (46 lines `PASS`
+  in the order of section 4.1, no `FAIL`, no `ERROR`, no line containing `::`) and nothing on the error
+  stream; the two printed outputs differ only in the `t=` values and in the time of the final line. Each
+  run also started the short licence query `wolfram.exe -wlbanner -licenseinfo` (53 MB, 54 MB).
+* Byte identity: after run 1 and after run 2, `ks-theory.json`
+  (`1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3`) and `ks-theory-wolfram.json`
+  (`5d803af6b270bc7dd93120907c13c28e855c4ba351ccdc3b411d7f8086112ae6`) were byte-identical to the committed
+  files (`cmp` against `git show HEAD:<file>`) and to each other between the two runs, although both files
+  had been rewritten (their modification times changed with each run). Their content was checked as in
+  section 4.3: line 7 of the report is `  "summary": {"passed": 46, "failed": 0, "total": 46},`, 46 checks,
+  all `PASS`; `ks-theory.json` has 18 top-level keys from `description` to `solverChecklist`,
+  `checksNumeric.braneBandSlope_M1_H1_L3_a0` is `"1.9051482536448664"`, and `adiabaticity.historyStatus`
+  begins with `PRESCRIBED BACKGROUND`; the `brane_band_slope` detail ends exactly as quoted in section 4.3.
+* The PowerShell commands of section 3.5 typed literally in clone C: `Measure-Command` printed
+  `TotalSeconds : 55.0439534` after the 47 lines (final line `46/46 checks passed; time 51.1 s`);
+  `$LASTEXITCODE` printed `0`; `Select-String` found line 7 `  "summary": {"passed": 46, "failed": 0, "total": 46},`;
+  `Get-FileHash` printed `1BF41D79318A24A4BB0BD6C34F0499C399CC8054E8ADD69CA08D758C5D55AFE3` and
+  `5D803AF6B270BC7DD93120907C13C28E855C4BA351CCDC3B411D7F8086112AE6`; `git status --porcelain` printed
+  nothing.
+* The failure tests of section 3.7, repeated in clone A with the committed (fixed) script; after each the
+  moved or changed file was restored:
+  * `Revision/algebra/gammas.json` moved away: the only output was
+    `ERROR  input file not found: ...\Revision\kohn_sham\theory\..\..\algebra\gammas.json`, exit code 1
+    (5.3 s);
+  * `Revision/kohn_sham/theory/KohnShamTheory.wl` moved away: the only output was
+    `ERROR  input file not found: ...\Revision\kohn_sham\theory\KohnShamTheory.wl`, exit code 1 (5.2 s);
+  * run from the folder `Revision` (not the repository root) with the command of section 3.5: the only
+    output was `Failed to open file at path: Revision/kohn_sham/theory/verify_ks_theory.wls`, exit code 0
+    (5.3 s);
+  * report `ks-theory-wolfram.json` read-only: 49 lines (46 lines `PASS`, an empty line,
+    `OpenWrite::noopen: Cannot open ...\Revision\kohn_sham\theory\..\reports\ks-theory-wolfram.json.` and
+    `ERROR  cannot write ...\Revision\kohn_sham\theory\..\reports\ks-theory-wolfram.json`), no
+    `checks passed` line, exit code 1 (57.1 s); the file kept its modification time and the committed
+    sha256;
+  * folder `Revision/kohn_sham/reports` moved away: 47 lines, `46/46 checks passed; time 47.400000000000006 s`,
+    exit code 0 (52.7 s); the script created the folder, which then held only `ks-theory-wolfram.json`
+    (10291 bytes) with the committed sha256.
+* The companion `check_ks_theory.py`, twice in clone B with the system Python
+  (`C:\Python314\python.exe Revision/kohn_sham/theory/check_ks_theory.py` from the repository root): both
+  runs exit code 0, 59 lines (57 lines `[PASS]`, the `shooting time` line, the final line
+  `{"passed": 57, "failed": 0, "other": 0, "total": 57}`), nothing on the error stream; 111.1 s and
+  101.6 s wall clock (`shooting time 47.1 s` and `39.5 s`), peak memory 89 MB and 88 MB.
+  `ks-theory-python.json` (`0f2dd2975db2af5b9e63453c6fe028c64e80aee3be921d4932c252acfb150f6c`) was
+  byte-identical to the committed file after each run and between the two runs.
+* Final state: after all runs `git status --porcelain --untracked-files=all --ignored` printed nothing in
+  clones A, B and C (no file changed, created or left behind in the repository).
+* Check counts: 46 of 46 (Wolfram) and 57 of 57 (companion), equal to the committed reports and to the
+  count table of `Revision/docs/PAIR_CREATION_PROOFS.md` section 9.1.
+* Not repeated on 2026-10-07 (recorded in section 6.1 only): the Git Bash commands of section 3.5, the
+  private-environment commands of section 3.6, the read-only `ks-theory.json` test, the monitoring of
+  temporary files, settings file and network of section 5.2, and the failure tests of the script of
+  commit `c2b33cc`.
+* Fixes: none on 2026-10-07; no file of the set was changed (only this provenance file was updated).
+* Open discrepancies: none.

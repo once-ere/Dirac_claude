@@ -35,7 +35,7 @@ Commands (from the repository root; BUILDER is the builder file):
       below; then writes the provenance file <name>.PROVENANCE.md (TEXTBOOK_SPEC R6) with
       the given date as the date of the verified execution.
   python Revision/textbook/tools/nbkit.py check BUILDER... [--scratch DIR]
-      [--record YYYY-MM-DD]
+      [--record YYYY-MM-DD]          (also written: nbkit.py --check BUILDER...)
       executes the notebook again with every file written into a scratch folder
       (environment variable TEXTBOOK_OUTPUT_ROOT), and compares byte for byte: the
       notebook, every file written, and the provenance file regenerated from its own
@@ -1491,6 +1491,9 @@ def main(argv: list[str] | None = None) -> int:
                         help="check: store a passed check in the provenance record")
     parser.add_argument("--scratch", type=Path, default=DEFAULT_SCRATCH,
                         help=f"scratch folder for check runs (default {DEFAULT_SCRATCH})")
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if argv and argv[0] in ("--lint", "--build", "--check"):
+        argv[0] = argv[0][2:]  # "nbkit.py --check BUILDER" means "nbkit.py check BUILDER"
     arguments = parser.parse_args(argv)
     builders = builders_of(arguments.builders)
     for date in (arguments.date, arguments.record):

@@ -3,15 +3,18 @@
 Set: `Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls` with its package
 `Revision/gkd_lovelock/verification/LovelockGKDCheck.wl`.
 
-At a glance (verified on 2026-10-02 at commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`, Windows 11,
-Wolfram 15.0.1, WolframScript 1.14.0, cargo/rustc 1.91.1):
+At a glance (verified on 2026-10-02 at commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`, and verified
+again on 2026-10-07 at commit `a4c5eda1df069a43a55ff8b57148f5de8edd1670`, where every file of the set and every
+input is unchanged; Windows 11, Wolfram 15.0.1, WolframScript 1.14.0, cargo/rustc 1.91.1):
 
 * EXECUTES OK: exit code 0, `check_count=29`, `failed_check_count=0`, verdict `SUCCESS`, nothing on
   standard error.
 * The one output of the default run, `Revision/gkd_lovelock/results/wolfram-gkd-report.json`, was
-  reproduced BYTE FOR BYTE in three runs from two fresh clones (sha256
+  reproduced BYTE FOR BYTE in every run: three runs from two fresh clones on 2026-10-02 and three more
+  runs from two new fresh clones on 2026-10-07 (sha256
   `de3678170c7d62114f4d8f8e0d8024ec688bb0be3f2f4a870333243851e86bb1`), so `git status` shows no change after a run.
-* Run time: 95.3 s, 100.3 s and 111.9 s (the script's own `time_total`), on a shared 24-core machine.
+* Run time (the script's own `time_total`), on a shared 24-core machine: 95.3 s, 100.3 s and 111.9 s on
+  2026-10-02; 128.2 s, 135.0 s and 117.3 s on 2026-10-07 (the machine was fully loaded by other jobs).
 * No fix was needed; no discrepancy is open.
 
 This file is for a student who has never used Wolfram Language, WolframScript or Rust. Every
@@ -118,6 +121,12 @@ checks that it is the text recorded in `Revision/gkd_lovelock/results/PROVENANCE
   directory in a temporary folder) and requires the same sha256.
 * `Revision/textbook/TEXTBOOK_SPEC.md` (the specification of the textbook "Universes in Pairs"),
   chapter 11 "GKD and the Lovelock tensors": its sources are "Revision/gkd_lovelock (all of it)".
+* The textbook notebooks (work in progress at the time of the re-verification of 2026-10-07; they read
+  the committed report, they do not run this script): `Revision/textbook/notebooks/00c_honesty_ledger.ipynb`
+  (lists `wolfram-gkd-report.json` as "Wolfram 29 of 29" and checks the input digests it records),
+  `01c_generalized_delta.ipynb` (the check `definition_unequal_lengths_stay_unevaluated` and the
+  `gkdComparison` measurements), `01d_gkd_record_selftests.ipynb`, `11a_kronecker_delta_gkd.ipynb` (the
+  `measurements` of the report) and `11b_lovelock_tensors.ipynb` ("`wolfram-gkd-report.json`, 29 checks").
 * Indirectly, the Lovelock tensors that this set verifies (`lovelock-tensors.json`) are used by the
   field equations for a4 (`Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls`,
   `Revision/field_equations_a4/python/check_field_equations_a4.py`) and by the documents
@@ -131,7 +140,8 @@ checks that it is the text recorded in `Revision/gkd_lovelock/results/PROVENANCE
 ## 2. The files
 
 All paths are relative to the repository root. The sha256 digests and sizes are those of commit
-`c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`. Every file is stored byte for byte (the repository's `.gitattributes`
+`c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`, and they were measured again, identical, in fresh clones of commit
+`a4c5eda1df069a43a55ff8b57148f5de8edd1670` on 2026-10-07. Every file is stored byte for byte (the repository's `.gitattributes`
 has `* -text`, so git never converts line endings); both scripts are pure ASCII with LF line endings.
 
 ### 2.1 The scripts of the set
@@ -488,6 +498,30 @@ Peak memory of the Wolfram kernel process (`wolfram.exe`): working set 480.7 / 4
 private (pagefile-backed) memory 700.6 / 700.4 / 700.9 MB. `wolframscript.exe` itself: about 17 MB;
 cargo about 16 MB, rustup about 28 MB, the console host `conhost.exe` about 7 MB.
 
+Re-verification of 2026-10-07 (commit `a4c5eda`, three runs, the documented command; the machine was
+again shared and fully loaded: 15 other Wolfram kernels of other jobs were running, CPU load 100 %, so
+every step is slower than on 2026-10-02):
+
+| step | run 4 | run 5 | run 6 |
+| --- | --- | --- | --- |
+| `definition` | 0.0 | 0.0 | 0.0 |
+| `build_and_run_gkd_exporter` | 4.9 (first build in an empty folder) | 1.0 (up to date) | 3.4 (rebuild: new clone path) |
+| `read_gkd_values` | 2.3 | 3.2 | 2.4 |
+| `compare_gkd_with_kdelta` | 4.9 | 5.6 | 5.3 |
+| `curvature` | 0.7 | 1.8 | 2.0 |
+| `lovelock_k1_unpruned_64_components` | 0.1 | 0.2 | 0.2 |
+| `lovelock_k2_unpruned_64_components` | 40.8 | 42.5 | 39.5 |
+| `lovelock_k3_skip_repeated_64_components` | 71.4 | 77.3 | 61.2 |
+| `compare_with_rust_tensors` | 2.3 | 2.7 | 2.3 |
+| `identities_and_counters` | 0.1 | 0.1 | 0.1 |
+| `time_total` | 128.2 | 135.0 | 117.3 |
+| wall (incl. kernel start) | 133.3 | 139.9 | 121.6 |
+
+Peak memory (Windows' own per-process peak counters, read every 0.25 s): the kernel `wolfram.exe`
+485 / 485 / 486 MB working set and 700 / 700 / 700 MB private memory, the same as on 2026-10-02;
+`wolframscript.exe` 17 MB; `rustc.exe` up to 116 MB working set (156 MB private) during a build. A
+student's computer with 1 GB of free memory is therefore enough for the default run.
+
 ### 4.5 The optional `diagonal` mode
 
 This mode is NOT the committed report; it is an extra, much longer check that the skip rule used for
@@ -558,8 +592,14 @@ What a run of the documented command creates, overwrites or starts:
 * **Network:** none needed. The crate has no dependencies, so cargo downloads nothing; the script
   contains no internet function. Observed during the runs (all TCP and UDP endpoints of every process
   of the run, polled every 0.4 s): only loopback connections `127.0.0.1` <-> `127.0.0.1` inside the
-  kernel process, no other address, no UDP. (Activating the Wolfram Engine, part 3.2, needs the
-  internet once; this script does not.)
+  kernel process, no other address, no UDP. In the re-verification of 2026-10-07 (endpoints polled about
+  once a second) the kernel was also seen holding a LISTENING socket on `0.0.0.0:<port>` (an
+  operating-system-chosen port, for example 55639; remote end `0.0.0.0:0`) together with its own
+  loopback connection to it, `127.0.0.1:<another port>` <-> `127.0.0.1:<port>` (observed in two of the
+  three runs; in the third no endpoint was caught at all); this is the kernel's internal link, which a firewall may
+  report as a program "listening for connections". No connection to any address other than `127.0.0.1`
+  was seen, and no UDP. (Activating the Wolfram Engine, part 3.2, needs the internet once; this script
+  does not.)
 * **To restore the committed state** (from the repository root):
   `git checkout -- Revision/gkd_lovelock/results/wolfram-gkd-report.json`; to remove the export
   directory: `Remove-Item -Recurse -Force "$env:TEMP\revision_gkd_export"` (PowerShell) or

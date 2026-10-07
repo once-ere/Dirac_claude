@@ -29,13 +29,18 @@ instructions install; [support]: their complete dependency closure, 93 packages)
    `check_NNx=PASSED` and `build_NNx=OK`. Several builders may be given at once.
 4. Later, to re-verify without changing anything:
    `python Revision/textbook/tools/nbkit.py check Revision/textbook/notebooks/src/NNx_short_name.py --scratch <dir>`
-   (`check_NNx=PASSED`). With `--record YYYY-MM-DD` a passed check is stored as the new
-   verification date in the provenance file.
+   (`check_NNx=PASSED`; `nbkit.py --check ...` is the same command). With
+   `--record YYYY-MM-DD` a passed check is stored as the new verification date in the
+   provenance file. A change of `run_instructions.py` or of the set-up cell changes the
+   text of EVERY notebook: then every notebook must be rebuilt with `nbkit.py build`.
 5. Write the chapter `Revision/textbook/chapters/NN-short-name.md` with a marker line
    `<!-- NOTEBOOK NNx -->` for each notebook (section 5 below).
 6. `python Revision/textbook/tools/check_chapter.py Revision/textbook/chapters/NN-short-name.md --scratch <dir>`
    until it prints `chapter_check=OK` (no `problem=` and no `latex_warning=` lines); it reports
-   the page count (`measurement_pages=`).
+   the page count (`measurement_pages=`). Every stored notebook of the chapter must be placed.
+   While the chapter is a draft that does not yet place every notebook built for it, add
+   `--allow-unplaced`: the unplaced notebooks and their figures are listed as `unplaced=`
+   lines and the last line reads `chapter_check=OK_DRAFT` (never `OK`).
 
 Scratch folders: always pass `--scratch` with a folder of your own (the default is a folder in
 the system's temporary folder, shared by everyone who omits the option). Notebook builds of
@@ -201,7 +206,12 @@ notebook must be placed. `python Revision/textbook/tools/render_notebook.py --ch
 Revision/textbook/chapters/03-x.md` prints the expanded chapter.
 
 The Markdown of a chapter is the subset of `scripts/build_dissertation_tex.py` (read its
-header). What the tests of 2026-10-02 showed:
+header). What the tests of 2026-10-02 showed (repeated 2026-10-07 with a probe document
+built through `scripts/build_provenance_pdf.py` and read back with `pdftotext`: a code
+span `--version` prints as an en dash and `version`, `<<x>>` as guillemets, `a''b` with
+one closing quote; inside fenced blocks `--`, `<<` and `>>` print verbatim; a fenced
+line of 20 Greek letters and 69 ASCII characters overflows by 18.5pt; a justified
+paragraph with a long code-span path gives an Underfull warning):
 
 - `$...$` and `$$` blocks (a line with only `$$` opens and closes) for math; Greek letters and
   the symbols of its MATH_CHARACTERS table may be typed directly in prose, math and captions;
@@ -230,8 +240,10 @@ header). What the tests of 2026-10-02 showed:
 
 ## 6. Test-building a chapter and assembling the book
 
-`check_chapter.py CHAPTER.md --scratch DIR [--date "October 2026"]` runs every assembler check
-on the chapter (references into chapters not yet written are listed as `pending_reference=`),
+`check_chapter.py CHAPTER.md --scratch DIR [--date "October 2026"] [--allow-unplaced]` runs
+every assembler check on the chapter (references into chapters not yet written are listed as
+`pending_reference=`; with `--allow-unplaced`, notebooks of the chapter that no marker places
+yet are listed as `unplaced=` and the result is at best `chapter_check=OK_DRAFT`),
 builds a test book in `DIR/chapter_NN/` (with one placeholder section per earlier chapter, so
 the numbers are the book's) and runs `scripts/build_provenance_pdf.py` twice with the book's
 options: `--register` into a throw-away copy of `Revision/pdf-specifications.json`, then verify
@@ -260,7 +272,9 @@ python scripts/build_provenance_pdf.py Revision/textbook/UNIVERSES_IN_PAIRS_TEXT
 against the installed packages, the tools (renderings, the converter on a rendered notebook),
 every builder against its stored notebook (static), every provenance file (regenerated from its
 record), every fast notebook by a full `nbkit check` (all of them with
-`REVISION_NOTEBOOKS_FULL=1`), and, once they exist, the assembled book and its registered PDF.
+`REVISION_NOTEBOOKS_FULL=1`), every chapter alone as a draft, the example of section 8 (built
+and checked in a throw-away copy of the tools), and, once they exist, the assembled book and
+its registered PDF.
 
 ## 8. A complete minimal example
 

@@ -24,13 +24,19 @@ verify mode until warning-free").  Steps:
 
 Usage, from the repository root:
     python Revision/textbook/tools/check_chapter.py Revision/textbook/chapters/03-x.md
-        [--scratch DIR] [--date "October 2026"] [--keep]
+        [--scratch DIR] [--date "October 2026"] [--keep] [--allow-unplaced]
     python Revision/textbook/tools/check_chapter.py --book [--scratch DIR] ...
         (the book of all chapters written so far, with the official stem
         UNIVERSES_IN_PAIRS_TEXTBOOK, still in scratch with a throw-away registry)
 
-Prints problem=..., pending_reference=..., latex_warning=..., measurement_<name>=...,
-and a last line chapter_check=OK or FAILED.  Exit code 0 when everything passed.
+By default every stored notebook of the chapter must be placed by a marker (and every
+figure of the chapter shown).  --allow-unplaced is for a DRAFT: notebooks built for the
+chapter but not yet placed, and their figures, are printed as unplaced=... lines and
+the last line reads chapter_check=OK_DRAFT instead of OK.
+
+Prints problem=..., pending_reference=..., unplaced=..., latex_warning=...,
+measurement_<name>=..., and a last line chapter_check=OK, OK_DRAFT or FAILED.  Exit code
+0 when everything passed (OK or OK_DRAFT).
 """
 
 from __future__ import annotations
@@ -93,12 +99,18 @@ def main(argv: list[str] | None = None) -> int:
                         help=f"the date printed under the title (default {DEFAULT_DATE})")
     parser.add_argument("--keep", action="store_true",
                         help="keep an existing scratch folder (default: start afresh)")
+    parser.add_argument("--allow-unplaced", action="store_true",
+                        help="a DRAFT check: stored notebooks of the chapter that no "
+                             "marker places yet (and their figures) are listed as "
+                             "unplaced= lines instead of failing the check; the last "
+                             "line is then chapter_check=OK_DRAFT, never OK")
     arguments = parser.parse_args(argv)
     if arguments.book == (arguments.chapter is not None):
         parser.error("give one chapter file, or --book")
     start = time.perf_counter()
     if arguments.book:
-        result = assemble_textbook.assemble(None, allow_missing=True)
+        result = assemble_textbook.assemble(None, allow_missing=True,
+                                            allow_unplaced=arguments.allow_unplaced)
         stem = "UNIVERSES_IN_PAIRS_TEXTBOOK"
         label = "book"
     else:
@@ -109,11 +121,14 @@ def main(argv: list[str] | None = None) -> int:
         if arguments.chapter.resolve().parent != assemble_textbook.CHAPTERS.resolve():
             parser.error("the chapter must lie in Revision/textbook/chapters/")
         result = assemble_textbook.assemble([number], allow_missing=True,
-                                            placeholders=True)
+                                            placeholders=True,
+                                            allow_unplaced=arguments.allow_unplaced)
         stem = f"UNIVERSES_IN_PAIRS_CHAPTER_{number:02d}"
         label = f"chapter_{number:02d}"
     for item in result.pending:
         print(f"pending_reference={item}")
+    for item in result.unplaced:
+        print(f"unplaced={item}")
     for problem in result.problems:
         print(f"problem={problem}")
     for name, value in result.checks.items():
@@ -173,7 +188,10 @@ def main(argv: list[str] | None = None) -> int:
     print(f"measurement_pdf_sha256={sha}")
     print(f"measurement_logs={logs.as_posix()}")
     print(f"measurement_seconds={time.perf_counter() - start:.1f}")
-    print(f"chapter_check={'FAILED' if failed else 'OK'}")
+    if failed:
+        print("chapter_check=FAILED")
+    else:  # a draft with unplaced notebooks is not a finished chapter
+        print(f"chapter_check={'OK_DRAFT' if result.unplaced else 'OK'}")
     return 1 if failed else 0
 
 
