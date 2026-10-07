@@ -237,8 +237,21 @@ CELLS = [
     Clifford relations, and that there are eight of them, each a 16 x 16 matrix whose
     entries are all real numbers. It then builds the 28 matrices $S^{ab} =
     \frac14[\gamma^a, \gamma^b]$.
+
+    The first lines of the next cell change one setting of Jupyter: printed text is
+    sent to the screen when a cell has finished (or just before a figure is shown),
+    not every 0.2 seconds. This changes no result; it makes the printed text arrive in
+    the same pieces in every run, which the book's checking tool needs.
     """),
     code(r'''
+    import sys  # the Python system module (here: the stream of printed text)
+
+    # Jupyter sends printed text to the screen in pieces, about every 0.2 seconds.  The
+    # book's checking tool reads each PASS line together with its "reproduces" line, so
+    # the pieces must be the same in every run: send the printed text of a cell in one
+    # piece when the cell ends (or just before a figure), at the latest after 600 s.
+    if hasattr(sys.stdout, "flush_interval"):  # true inside Jupyter only
+        sys.stdout.flush_interval = 600.0
     import numpy as np  # arrays of decimal numbers (only for the plots)
     import sympy as sp  # exact algebra and calculus with symbols
 

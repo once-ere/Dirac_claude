@@ -208,8 +208,21 @@ CELLS = [
     through exponential functions, then sympy's `simplify`; it never calls a nonzero
     expression zero) and `record_passed`, which reads a Revision report and tells
     whether a check is recorded as passed.
+
+    The first lines of the next cell change one setting of Jupyter: printed text is
+    sent to the screen when a cell has finished (or just before a figure is shown),
+    not every 0.2 seconds. This changes no result; it makes the printed text arrive in
+    the same pieces in every run, which the book's checking tool needs.
     """),
     code(r'''
+    import sys  # the Python system module (here: the stream of printed text)
+
+    # Jupyter sends printed text to the screen in pieces, about every 0.2 seconds.  The
+    # book's checking tool reads each PASS line together with its "reproduces" line, so
+    # the pieces must be the same in every run: send the printed text of a cell in one
+    # piece when the cell ends (or just before a figure), at the latest after 600 s.
+    if hasattr(sys.stdout, "flush_interval"):  # true inside Jupyter only
+        sys.stdout.flush_interval = 600.0
     import numpy as np  # decimal numbers for the plots
     import sympy as sp  # exact algebra and calculus with symbols
     from sympy.parsing.mathematica import parse_mathematica  # reads Wolfram notation

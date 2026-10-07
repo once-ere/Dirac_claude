@@ -619,12 +619,17 @@ def compare(formulas, checks, ft_path, wrep_path, ctx=None):
                 if gm["B"][A, Bb] != 0:
                     chiB = chiB + (Alg.g(stat, gen(CHI, A)) * Alg.g(stat, gen(PSI, Bb))).scale(gm["B"][A, Bb])
         ok = ok and (J[X4] - chiB).expand().is_zero(zero_author)[0]
-    rec(out, "current", ok, "d_mu(Cos z J^mu) = -i Cos z (Ebar Psi + Psibar E) with the Wolfram sign of Ebar "
-        "(= minus the sympy Ebar) holds exactly; J^x4 = Psi^dagger B Psi; both statistics")
-    rec(out, "Lichnerowicz", "6 (a4'[x4]^2 - 7 H^2)" in F["Lichnerowicz"] and "- (R/4) Psi" in F["Lichnerowicz"]
-        and sp.expand(geo.Rscalar - 6 * (A1**2 - 7 * H**2)) == 0,
-        "(gamma^mu D_mu)^2 = Box - R/4 with R = 6 (a4'^2 - 7 H^2): same statement as the sympy check "
-        "lichnerowicz_identity_on_fields")
+    ok = ok and F["current"] == STATED["current"]
+    rec(out, "current", ok, "(statement verbatim) J^mu = -i Psibar gamma^mu Psi (the sympy current); d_mu(Cos z "
+        "J^mu) = -i Cos z (Ebar Psi + Psibar E) with the Wolfram sign of Ebar (= minus the sympy Ebar) holds exactly; "
+        "J^x4 = Psi^dagger B Psi; both statistics; Q is the integral of Cos z J^x4 over a slice x4 = const "
+        "(conserved for fields that vanish at the boundary of the slice)")
+    ok = F["Lichnerowicz"] == STATED["Lichnerowicz"] and sp.expand(geo.Rscalar - 6 * (A1**2 - 7 * H**2)) == 0
+    ok = ok and {"lichnerowicz_identity_on_fields", "lichnerowicz_contraction"} <= passed
+    rec(out, "Lichnerowicz", ok, "(statement verbatim) (gamma^mu D_mu)^2 Psi = g^mu nu (D_mu D_nu - Gamma^l_mu nu "
+        "D_l) Psi - (R/4) Psi is the identity proved on the jet space by the passing sympy check "
+        "lichnerowicz_identity_on_fields (with gamma^mu gamma^nu F_mu nu = -(R/2) I16, lichnerowicz_contraction); "
+        f"R = 6 (a4'^2 - 7 H^2) recomputed here (sympy: {sp.sstr(geo.Rscalar)})")
     # ---- energy-momentum tensor
     okv, oks, okd, okk, okx, okt = True, True, True, True, True, True
     for stat in ("grassmann", "commuting"):
