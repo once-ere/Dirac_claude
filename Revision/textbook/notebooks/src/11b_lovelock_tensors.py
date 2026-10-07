@@ -349,7 +349,8 @@ CELLS = [
           and all(value < 1e-10 for value in deviations),
           "the program wrote lovelock-report.json equal to the Revision record byte for "
           "byte, apart from its two brute-force deviations, both below 1e-10",
-          record=f"{RESULTS}/lovelock-report.json (the whole file)")
+          record=f"{RESULTS}/lovelock-report.json (the whole file; checks "
+                 "k1_brute_force_numeric and k2_brute_force_numeric)")
     '''),
     md(r"""
     ## 6. How much work the sums are

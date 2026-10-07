@@ -869,9 +869,10 @@ CELLS = [
         else:
             example_spectra[label] = np.linalg.eigvals(matrix.astype(float))
             target = np.sqrt(complex(q))  # sqrt(Q), imaginary for Q < 0
-            squares_ok &= bool(np.allclose(np.sort_complex(example_spectra[label]),
-                                           np.sort_complex(np.array([-target] * 8
-                                                                    + [target] * 8))))
+            # count the eigenvalues within 1e-9 of +sqrt(Q) and of -sqrt(Q)
+            near_plus = int((np.abs(example_spectra[label] - target) < 1e-9).sum())
+            near_minus = int((np.abs(example_spectra[label] + target) < 1e-9).sum())
+            squares_ok &= near_plus == 8 and near_minus == 8
         say(f"v = {label}: Q(v) = {q}, gamma(v)^2 = Q(v) I")
     for _ in range(100):  # random vectors with whole-number components -5 ... 5
         vector = generator.integers(-5, 6, size=8)

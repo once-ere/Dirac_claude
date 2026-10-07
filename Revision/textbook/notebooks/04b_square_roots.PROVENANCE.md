@@ -31,7 +31,7 @@ The notebook has 38 cells (21 markdown cells and 17 code cells) in these section
 - 12. The last check
 - 13. What this notebook showed
 
-It prints 17 PASS lines (one per check), 5 RESULT lines (key numbers) and draws 6 figures.
+It prints 17 PASS lines (one per check), 3 RESULT lines (key numbers) and draws 6 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -277,10 +277,7 @@ The key numbers are printed as RESULT lines:
 ```text
 In [8]  RESULT energies where a Dirac plane wave exists = [-5.0, 5.0]
 In [8]  RESULT independent solutions u at E = 5 = 2
-In [11]  RESULT largest rounding error over 300 random vectors is at most = 1e-14
-In [13]  RESULT eigenvalues of h (m = 2, k = (1, 2, 0, k8 = 4)) with multiplicities = {-5.0: 8,
-In [13]      5.0: 8}
-In [15]  RESULT largest deviation from +-sqrt(25 - k5^2) is at most = 1e-13
+In [13]  RESULT eigenvalue: multiplicity of h for m = 2, k = (1, 2, 0, k8 = 4) = {-5.0: 8, 5.0: 8}
 ```
 
 ### 3.3 The last lines
@@ -299,7 +296,7 @@ The notebook shows 6 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/04b_1_square_roots_2x2.png` (1277 x 587 pixels): Eigenvalues of two $2 \times 2$ square roots, for $q = 1$ and $p$ from $-3$ to $3$ (pure numbers). Left: $p\sigma_x + \sigma_z$ squares to $(p^2 + 1) I_2$, and its eigenvalues are always the two real numbers $\pm\sqrt{p^2 + 1}$. Right: $p\sigma_x + N$ squares to $(p^2 - 1) I_2$; its eigenvalues $\pm\sqrt{p^2 - 1}$ are real for $|p| > 1$ (solid line, the real part of the positive one) and imaginary for $|p| < 1$ (dashed line, the imaginary part): a minus sign in the quadratic form makes the root imaginary when the minus term wins.
 - `Revision/textbook/figures/04b_2_pauli_dirac_tables.png` (1181 x 619 pixels): The Clifford relation of the Pauli matrices (left) and of Dirac's matrices (right): the number $c_{ab}$ in $\{M_a, M_b\} = c_{ab} I$ for every pair, row $a$ and column $b$ (red $+2$, blue $-2$, grey $0$). Off the diagonal every entry is $0$: different matrices anticommute. On the diagonal stand twice the signs of the directions: $+2$ for the three space directions of Pauli, and $+2$ for Dirac's time and $-2$ for his three space directions.
 - `Revision/textbook/figures/04b_3_dirac_mass_shell.png` (1067 x 587 pixels): Where Dirac's equation has plane-wave solutions: the smallest singular value of $E\gamma_D^0 - k\cdot\gamma_D - m I_4$ for mass $m = 3$, momentum $k = (4, 0, 0)$ and energies $E$ from $-8$ to $8$ (units with the speed of light 1; all quantities pure numbers). It is zero only at $E = \pm 5$ (dotted lines), the two solutions of $E^2 = m^2 + k^2 = 25$: the first-order matrix equation contains the relativistic energy relation.
-- `Revision/textbook/figures/04b_4_square_root_8d.png` (1277 x 587 pixels): The author's gammas take the square root of the 4+4 quadratic form, tested with 300 random vectors $p$ (pure numbers). Left: the diagonal entry of the matrix $(\sum_a p_a\gamma^{(x_a)})^2$ against $\eta(p,p) = p_1^2 + p_2^2 + p_3^2 - p_4^2 - p_5^2 - p_6^2 - p_7^2 + p_8^2$; all points lie on the line of slope 1, for positive and negative $\eta(p,p)$. Right: for each vector the largest deviation of an entry of this matrix from $\eta(p,p) I_{16}$, on a logarithmic scale; it is below $10^{-14}$, the size of floating-point rounding (the exact identity is proved with symbols in the notebook).
+- `Revision/textbook/figures/04b_4_square_root_8d.png` (1277 x 587 pixels): The author's gammas take the square root of the 4+4 quadratic form, tested with 300 random vectors $p$ (pure numbers). Left: the diagonal entry of the matrix $(\sum_a p_a\gamma^{(x_a)})^2$ against $\eta(p,p) = p_1^2 + p_2^2 + p_3^2 - p_4^2 - p_5^2 - p_6^2 - p_7^2 + p_8^2$; all points lie on the line of slope 1, for positive and negative $\eta(p,p)$. Right: for each vector the largest deviation of an entry of this matrix from $\eta(p,p) I_{16}$, on a logarithmic scale; it is of the size of floating-point rounding, far below the tolerance $10^{-12}$ of the check (the exact identity is proved with symbols in the notebook).
 - `Revision/textbook/figures/04b_5_mass_shell_4p4.png` (1067 x 587 pixels): Plane waves of the author's first-order equation in flat 4+4 space without extra-time momentum: the smallest singular value of $E I_{16} - h$ for $m = 2$, $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$ and energies $E$ from $-8$ to $8$ (pure numbers). It is the distance from $E$ to the nearest of the eigenvalues $\pm 5$ (dotted lines) and vanishes only there, where $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 = 25$; each of the two energies belongs to eight independent solutions. The curve has the same shape as for Dirac's matrices: the same algebra in more directions.
 - `Revision/textbook/figures/04b_6_extra_time_momentum.png` (1277 x 587 pixels): The 16 energies $E$ of the plane waves of the example ($m = 2$, $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$) when a momentum $k_5$ along the extra time $x_5$ is added, for $k_5$ from 0 to 8 (pure numbers, flat 4+4 space). Left: real parts; right: imaginary parts. The energies obey $E^2 = 25 - k_5^2$: eight equal $+\sqrt{25 - k_5^2}$ and eight $-\sqrt{25 - k_5^2}$; they are real for $k_5 < 5$ and imaginary for $k_5 > 5$ (dotted line at $k_5 = 5$), because the extra times enter the quadratic form with a minus sign.
 
@@ -311,7 +308,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/04b.captions.json` | 3309 | `46333c0fc1707decbceba29fd3d87a5df6cdb0cad0ade1e59ce4e418cccf1c76` |
+| `Revision/textbook/figures/04b.captions.json` | 3343 | `66a0b50d67c7aba5a6082774137dfb16f3c1b3b14a6aa0c7754cb390e9e1c895` |
 | `Revision/textbook/figures/04b_1_square_roots_2x2.png` | 81355 | `7d083ea227b01d162ca0596660215773397a20f69e7b5a8622939ae09866bcf4` |
 | `Revision/textbook/figures/04b_2_pauli_dirac_tables.png` | 35300 | `986c8e16ca4d5e70c0198bb76c61032c734505f4aacc275c397b2f908f94b4df` |
 | `Revision/textbook/figures/04b_3_dirac_mass_shell.png` | 58076 | `c5e7993f4f2f26dcbf8020150c6b3ec9b5df0dffa212b807272520f7bcb4f4bf` |
@@ -340,8 +337,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 16.3 s, peak memory of the kernel process 205 MiB;
-- the check run: 11.5 s, peak memory of the kernel process 205 MiB.
+- the build run: 33.5 s, peak memory of the kernel process 206 MiB;
+- the check run: 13.7 s, peak memory of the kernel process 205 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -353,9 +350,9 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/04b_square_roots.ipynb`: `19c4c9109204c11b0452631db886d6da067c92b045b392be7e128e49c9caaa17`
-- `Revision/textbook/notebooks/src/04b_square_roots.py`: `c3a315604f4b6ac0d6d9ed205890af977730125c1dcd5b0d4e4b7fbdc9c1b409`
-- `Revision/textbook/figures/04b.captions.json`: `46333c0fc1707decbceba29fd3d87a5df6cdb0cad0ade1e59ce4e418cccf1c76`
+- `Revision/textbook/notebooks/04b_square_roots.ipynb`: `a1b6c278fd5857a7704470cd18703fcf81811d4675626cddadcb0fb240ad58fe`
+- `Revision/textbook/notebooks/src/04b_square_roots.py`: `d1970e5f2923f08f457cac7f1bc06750bcd3b243733348c4105a284c8427608e`
+- `Revision/textbook/figures/04b.captions.json`: `66a0b50d67c7aba5a6082774137dfb16f3c1b3b14a6aa0c7754cb390e9e1c895`
 - `Revision/textbook/figures/04b_1_square_roots_2x2.png`: `7d083ea227b01d162ca0596660215773397a20f69e7b5a8622939ae09866bcf4`
 - `Revision/textbook/figures/04b_2_pauli_dirac_tables.png`: `986c8e16ca4d5e70c0198bb76c61032c734505f4aacc275c397b2f908f94b4df`
 - `Revision/textbook/figures/04b_3_dirac_mass_shell.png`: `c5e7993f4f2f26dcbf8020150c6b3ec9b5df0dffa212b807272520f7bcb4f4bf`
@@ -369,4 +366,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":205.0,"seconds":16.3},"check":{"date":"2026-10-07","files":7,"peak_mb":205.0,"result":"passed","seconds":11.5},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":206.0,"seconds":33.5},"check":{"date":"2026-10-07","files":7,"peak_mb":205.0,"result":"passed","seconds":13.7},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

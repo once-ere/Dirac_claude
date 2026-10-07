@@ -800,8 +800,8 @@ and Linux were not inspected):
   digits in `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary\` (that is
   `C:\Users\<you>\AppData\Local\Wolfram\WolframScript\WolframScriptTemporary\`); one of them
   collects the printed lines while the run is in progress. In the verification of
-  2026-10-07 the folder was read every 0.7 seconds while runs 3 to 7 were made (with a
-  reader that does not block the writer): every file that held printed output of this
+  2026-10-07 the folder was read again and again (with a pause of 0.7 seconds) while runs
+  3 to 7 were made, with a reader that does not block the writer: every file that held printed output of this
   set (five files, one for each of those runs, created within 7 seconds of the start of
   its run, up to 884 kB for the failing runs) was deleted when its run ended. Other
   files of the folder could not be attributed with certainty, because about a dozen other
@@ -835,8 +835,8 @@ of the licence). No parallel kernels are launched. All processes end with the ru
 kernel's peak memory is given in Part 4.5.
 
 **Network.** None needed and none used. All network endpoints owned by `wolframscript`
-and by its kernels were listed every 0.5 seconds during run 2 of 2026-10-07 and during
-runs 1 and 2 of 2026-10-02. In run 2 of 2026-10-07 the kernel held one TCP connection
+and by its kernels were listed again and again (with a pause of 0.5 seconds between two
+listings) during run 2 of 2026-10-07 and during runs 1 and 2 of 2026-10-02. In run 2 of 2026-10-07 the kernel held one TCP connection
 between two local ports of `127.0.0.1` (54552 and 54553, a link inside the same computer)
 and a socket bound to the local port 54553 (state `Bound`, no remote end); on 2026-10-02
 the kernel held two such pairs of `127.0.0.1` connections in run 1 and no endpoint at all

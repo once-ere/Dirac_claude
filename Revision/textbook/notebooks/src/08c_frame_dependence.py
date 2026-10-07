@@ -640,8 +640,7 @@ CELLS = [
     independent (rank 28, checked in section 8), so $\Omega'_\mu$ is zero exactly when
     all its coefficients $\omega'_{\mu ab}$ are. Every check also compares with the
     text of the Revision record (for example the formula of
-    $\gamma'^\mu\Omega'_\mu$ and the list of the directions with $\Omega'_\mu 
-eq 0$).
+    $\gamma'^\mu\Omega'_\mu$ and the list of the directions with $\Omega'_\mu \neq 0$).
     """),
     code(r'''
     rapidity = beta * x[3] + b0
