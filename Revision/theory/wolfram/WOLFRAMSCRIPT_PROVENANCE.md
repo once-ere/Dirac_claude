@@ -720,8 +720,9 @@ The second command must then print nothing. To restore the input as well, add
   `https://github.com/once-ere/Dirac_claude.git` at the time). Between them only line 706 of
   `verify_field_theory.wls` changed (the fix of section 6.6, committed in `3f0a577`); the package, the
   scope script, the input and the outputs are identical in both commits. The commits that followed
-  `a4c5eda` up to `565c9b0` (the state of `main` when this file was written) change no file of the set,
-  its input or its outputs. The files of the set were last changed in commits `3f0a577`
+  `a4c5eda` up to `af2c688` (the state of the working repository when this file was written) change no
+  file of the set, its input or its outputs (other workflows changed the sympy side
+  `Revision/theory/python/` in that time, which reads these outputs but is not part of this set). The files of the set were last changed in commits `3f0a577`
   (`verify_field_theory.wls`), `daeb5ba` (`verify_scope.wls`) and `2c61fb0` (the package), the input in
   `9ea68d4`, the outputs in `a9a1b70` (field theory) and `70fab64` (scope).
 * Clones on 2026-10-07: two fresh clones made with `git clone https://github.com/once-ere/Dirac_claude.git`
