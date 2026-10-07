@@ -575,7 +575,8 @@ CELLS = [
     fig.colorbar(filled, ax=ax, label="$e_x^{\\rm exact} / e_x^{\\rm gas}$")
     ax.plot([0.0, 0.0], [1.0, -1.0], "o", color="C3")  # S = 0, Q = +n and -n
     ax.annotate("zero modes ($N = 8$): ratio 0", (0.05, 0.9), fontsize=8, color="C3")
-    ax.annotate("$Q = 0$: ratio 1", (-0.95, 0.04), fontsize=8)
+    ax.annotate("$Q = 0$: ratio 1", (-0.95, 0.04), fontsize=8,
+                color="white")  # white text on the dark band
     ax.set_xlabel("$S/n$")
     ax.set_ylabel("$Q/n$")
     ax.set_aspect("equal")

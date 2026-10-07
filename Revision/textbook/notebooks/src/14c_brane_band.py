@@ -349,7 +349,8 @@ CELLS = [
     ax.plot(k_band[:13], c_theory * k_band[:13], ":", color="black",
             label="first order: $c\\,k$, $c = 1.9051$")
     ax.axhline(odd0[0], color="gray", linewidth=0.8, linestyle="-.")
-    ax.annotate("bulk edge 1.2923", (2.6, odd0[0] - 0.35), fontsize=8, color="gray")
+    ax.annotate("bulk edge 1.2923", (2.6, odd0[0] - 0.55), fontsize=8,
+                color="gray")  # just below the dash-dotted line
     ax.set_xlabel("3-momentum $k$ (units of $H$), slice $a_{4,0} = 0$")
     ax.set_ylabel("level $\\varepsilon$ (units of $m$)")
     ax.set_title("the free levels at nonzero 3-momentum ($m = 1$, $L = 3$)")
