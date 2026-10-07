@@ -25,6 +25,7 @@ import gammas_io  # noqa: E402
 from quantum import make_vev  # noqa: E402
 import compare_wolfram  # noqa: E402
 from emt_vielbein import linear_variation_T  # noqa: E402
+import grassmann_solution  # noqa: E402
 
 REV = gammas_io.REV
 OUT = os.path.join(REV, "theory", "reports", "python-field-theory.json")
@@ -34,6 +35,7 @@ STATS = {"grassmann": "dirac16complex (anticommuting, Grassmann)",
 
 CHECKS = []
 FORMULAS = {}
+EMT_PARTS = {}  # stat -> (T_kin, T_pot, V) of fields.Spinors.emt(), lambda general
 T0 = time.time()
 
 
@@ -465,6 +467,7 @@ def section_emt(gm, geo, stat, sps):
     pre = stat
     sec = f"E. energy-momentum tensor - {name}"
     T, Tk, Tp, K, V = sps.emt()
+    EMT_PARTS[stat] = (Tk, Tp, V)
     g = geo.g
     ok = all(alg_zero((T[mu][nu].scale(g[mu]) - T[nu][mu].scale(g[nu])).expand()) for mu in range(8) for nu in range(8))
     check(f"{pre}_emt_symmetric", ok, f"{name}: T_mu nu = g_mu mu T^mu_nu is symmetric (Belinfante symmetrised "
@@ -841,7 +844,7 @@ def section_quantisation(gm, geo):
 
 
 # ====================================================================================== I. further consequences
-def section_further(gm, geo):
+def section_further(gm, geo, ctx):
     sec = "I. Hamiltonian form, energy exchange, exact solutions"
     G, Cm, B = gm["gamma"], gm["C"], gm["B"]
     # Heisenberg equation from Hd and {Psi, Psi^dagger} = B / sqrt|g|
@@ -981,12 +984,14 @@ def section_further(gm, geo):
     inv = (E2.T * Cm * E2 - Cm).applyfunc(lambda e: sp.simplify(sp.expand(e).subs(kk, sp.sqrt(k2sq))))
     res2 = dirac(E2 * chi, m + lam * S0)
     ok2 = ok_sq2 and ok_c2 and inv == sp.zeros(16, 16) and all(vanish(e, k2sq) for e in res2)
-    check("exact_nonlinear_homogeneous_solution", ok2,
-          "Phi = (cosh(k x4) + sinh(k x4)/k M) chi, M = -(m + lambda S0) gamma^(x4) + 3 H gamma^(x4) gamma^(x8), "
-          "k^2 = 9 H^2 - (m + lambda S0)^2: exp(M^T x4) C exp(M x4) = C so S = chi^dagger C chi = S0 is constant, "
-          "and gamma^mu D_mu Phi = (m + lambda S0) Phi = (m + U'(S)) Phi exactly: an exact homogeneous solution of "
-          "the nonlinear commuting field dirac16complex00 (U = (lambda/2) S^2); its EMT is the homogeneous on-shell "
-          "form rho = m S0 + U, p = S0 U' - U (check *_homogeneous_on_shell_rho_p)", sec)
+    Tk_g, Tp_g, V_g = EMT_PARTS["grassmann"]
+    okg, detg = grassmann_solution.verify(gm, geo, ctx["sps"]["grassmann"], Tk_g, Tp_g, V_g)
+    check("exact_nonlinear_homogeneous_solution", ok2 and okg,
+          "both statistics, U = (lambda/2) S^2, homogeneous. Commuting (dirac16complex00): Phi = (cosh(k x4) + "
+          "sinh(k x4)/k M) chi, M = -(m + lambda S0) gamma^(x4) + 3 H gamma^(x4) gamma^(x8), k^2 = 9 H^2 - (m + lambda "
+          "S0)^2: exp(M^T x4) C exp(M x4) = C so S = chi^dagger C chi = S0 is constant, and gamma^mu D_mu Phi = (m + "
+          f"lambda S0) Phi = (m + U'(S)) Phi exactly [{ok2}]; its EMT is the homogeneous on-shell form rho = m S0 + U, "
+          "p = S0 U' - U (check *_homogeneous_on_shell_rho_p). " + detg, sec)
 
 
 # ====================================================================================== formulas summary
@@ -1056,7 +1061,7 @@ def main():
         section_vielbein_variation(gm, stat)
     section_negative_control(gm, geo)
     section_quantisation(gm, geo)
-    section_further(gm, geo)
+    section_further(gm, geo, ctx)
     formulas_lagrangian_emt()
     try:
         comp = compare_wolfram.compare(FORMULAS, CHECKS, os.path.join(REV, "theory", "field-theory.json"),

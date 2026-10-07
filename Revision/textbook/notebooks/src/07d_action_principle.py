@@ -452,7 +452,7 @@ CELLS = [
         inside = sp.integrate(E_of(path) * xi_open, (t, 0, 1))
         p_xi = sp.diff(path, t) * xi_open  # (dL/dq') xi = q' xi for the oscillator
         boundary = p_xi.subs(t, 1) - p_xi.subs(t, 0)  # [q' xi] from 0 to 1
-        say(f"{name:9s}, xi = t: S1 = {sp.simplify(first)}, integral = "
+        say(f"{name}, xi = t: S1 = {sp.simplify(first)}, integral = "
             f"{sp.simplify(inside)}, boundary term = {boundary}")
         boundary_ok = boundary_ok and sp.simplify(first - inside - boundary) == 0
     check(boundary_ok, "for xi = t (not zero at t = 1): S1 = integral of E xi + "
@@ -562,6 +562,8 @@ CELLS = [
         right.loglog(widths, np.abs(errors[centre]), marker, label=f"$t_0 = {centre}$")
     reference = np.abs(errors[0.5][0]) * (np.array(widths) / widths[0]) ** 2
     right.loglog(widths, reference, "--", color="grey", label="slope 2")
+    right.set_xticks(widths, [str(width) for width in widths])  # plain tick labels
+    right.minorticks_off()  # no unlabelled minor ticks
     right.set_xlabel("half-width $w$ of the bump")
     right.set_ylabel("|average of $E$ minus $E(t_0)$|")
     right.set_title("The error falls like $w^2$")
@@ -842,12 +844,13 @@ CELLS = [
     code(r'''
     turn = np.linspace(0.0, 1.5 * np.pi, 200)  # times up to three quarters of a turn
     fig, (left, right) = plt.subplots(1, 2, figsize=(9.6, 4.2))
-    for sense, label, style in ((1.0, "Example A", "-"), (-1.0, "Example B", "--")):
+    for sense, label, style, colour in ((1.0, "Example A", "-", "tab:blue"),
+                                        (-1.0, "Example B", "--", "tab:orange")):
         x, y = np.cos(turn), sense * np.sin(turn)
-        left.plot(x, y, style, label=label)
-        for i in (40, 100, 160):  # arrows that show the sense of the motion
+        left.plot(x, y, style, color=colour, label=label)
+        for i in (30, 150):  # arrows that show the sense of the motion
             left.annotate("", xy=(x[i + 4], y[i + 4]), xytext=(x[i], y[i]),
-                          arrowprops={"arrowstyle": "->", "lw": 1.5})
+                          arrowprops={"arrowstyle": "->", "lw": 1.5, "color": colour})
     left.plot([1.0], [0.0], "ko")
     left.text(1.05, 0.05, "start")
     left.set_aspect("equal")
@@ -864,8 +867,9 @@ CELLS = [
                label="$|\\psi|^2 = \\frac{1}{2}$")
     right.set_xlabel("time $t$")
     right.set_ylabel("value")
+    right.set_ylim(-0.85, 1.15)  # room for the legend above the curves
     right.set_title("$\\psi(t) = e^{-it}\\psi(0)$")
-    right.legend(fontsize=8)
+    right.legend(fontsize=7, loc="upper center", ncol=3)
     fig.tight_layout()
     save_figure(fig, "first_order_rotation",
                 "First-order Lagrangians, with $\\omega = 1$. Left: the motion in the "
@@ -976,7 +980,8 @@ CELLS = [
                 - (f_[i, j + 1] - 2 * f_[i, j] + f_[i, j - 1]) / h4**2  # time part
                 - mass**2 * f_[i, j])
             largest = max(largest, abs(numeric - expected))
-    say(f"largest difference over the 20 inner points: {largest:.1e}")
+    say("largest difference over the 20 inner points is below 1e-9: "
+        f"{largest < 1e-9}")
     check(largest < 1e-9, "on the grid: dS/dphi_ij = h1 h4 times the grid "
           "Euler-Lagrange expression at every inner point")
     '''),

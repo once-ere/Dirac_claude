@@ -482,9 +482,9 @@ CELLS = [
     two runs then shared the same rounding error, and their difference could not see
     it. The check `refined_mermin_root_path` of the same report says so in its detail.
     The next cell prints the bracket of that detail that starts with "(the former"
-    (`detail.index(text)` is the position at which `text` first occurs in `detail`, and
-    `detail.index(")", start)` the first ")" at or after the position `start`) and
-    checks the verdict. Two computations that make the same rounding error agree with each other
+    (`detail.index(text)` is the position at which `text` first occurs in `detail`,
+    and `detail.index(")", start)` the first ")" at or after the position `start`)
+    and checks the verdict. Two computations that make the same rounding error agree with each other
     and are still both wrong: a comparison is only as good as the independence of the
     two computations.
     """),
