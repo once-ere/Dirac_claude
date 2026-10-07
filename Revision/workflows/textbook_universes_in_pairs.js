@@ -11,7 +11,7 @@ export const meta = {
 }
 
 const ROOT = 'D:/Developer/github/Dirac_claude'
-const SP = 'C:/Users/nsh/AppData/Local/Temp/claude/D--Developer-github-Dirac-claude/db1fcb32-bb14-4b52-b62c-37fb53990650/scratchpad'
+const SP = 'C:/Users/nsh/AppData/Local/Temp/claude/D--Developer-github-Dirac-claude/9e0a6725-1ba0-4d61-be26-82d9c70a6ded/scratchpad'
 const T = 'Revision/textbook'
 
 const COMMON = `
