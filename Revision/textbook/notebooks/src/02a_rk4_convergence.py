@@ -46,10 +46,18 @@ FACTS = {
         "the exact amplification factor of each method with sympy, measures how the "
         "error at a fixed end time shrinks when the step is halved, finds the orders 1, "
         "2 and 4 as slopes on log-log plots, shows where rounding errors stop the "
-        "improvement, predicts the energy drift of the oscillator exactly, and tests "
-        "the Richardson estimate of the error."
+        "improvement, reads the step of the Revision Kohn-Sham solver (900 RK4 steps "
+        "on an interval of length 3) from its record and predicts the error of each "
+        "method at that step from the first missed term of the exponential series, "
+        "predicts the energy drift of the oscillator exactly, and tests the Richardson "
+        "estimate of the error."
     ),
-    "records": [],
+    "records": [
+        ["Revision/kohn_sham/results/parameters.json",
+         "the settings of the Revision Kohn-Sham solver: 900 RK4 steps on the hidden "
+         "interval of length 3, and the linear history with A = H = 1 (read and "
+         "checked)"],
+    ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
     "expected_seconds": 10,
@@ -58,7 +66,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS all 8 figure files of notebook 02a exist",
-        "ALL 25 CHECKS PASSED (notebook 02a)",
+        "ALL 27 CHECKS PASSED (notebook 02a)",
     ],
     "troubleshooting": [],
 }
@@ -83,6 +91,9 @@ CELLS = [
       $1/262144$, finds the *orders* $1$, $2$ and $4$ of the three methods as the
       slopes of straight lines on log-log plots, and shows where rounding errors stop
       the improvement;
+    - reads from the Revision record Revision/kohn_sham/results/parameters.json the
+      step of the Rust program that solves the book's Kohn-Sham equations with RK4,
+      and predicts exactly how large the error of each method is at that step;
     - solves the oscillator $d^2x/dt^2 = -x$, draws its phase portrait, and predicts the
       drift of its energy exactly from the amplification factors;
     - tests Richardson's rule, which estimates the error of a computation without
@@ -162,7 +173,8 @@ CELLS = [
       $y_{n+1} = y_n + (h/6)(k_1 + 2 k_2 + 2 k_3 + k_4)$. It averages four slopes
       with the weights $1 : 2 : 2 : 1$. RK4 is the method with which the Rust
       program of the Revision record solves the Kohn-Sham equations of this book
-      (file Revision/kohn_sham/solver/src/shoot.rs, 900 steps on its interval).
+      (file Revision/kohn_sham/solver/src/shoot.rs); section 12 reads its number of
+      steps from the record.
 
     **Why Euler has order 1.** Taylor's theorem gives $y(t + h) = y(t) + h y'(t) +
     \frac{1}{2} h^2 y''(s)$ for some $s$ between $t$ and $t + h$. Euler keeps the
@@ -285,7 +297,7 @@ CELLS = [
     $R(-ih)$. The energy is $E = (x^2 + v^2)/2 = |w|^2/2$, so one step multiplies
     it by $|R(-ih)|^2 = R(-ih) R(ih)$ (the second factor is the complex conjugate of
     the first, because the coefficients of $R$ are real numbers). The cell computes
-    these three polynomials in $h$ as well; we use them in section 12.
+    these three polynomials in $h$ as well; we use them in section 13.
     """),
     code(r'''
     z = sp.symbols("z")  # z = lambda h
@@ -597,7 +609,68 @@ CELLS = [
           "with 262144 steps rounding has made the error grow again")
     '''),
     md(r"""
-    ## 12. The oscillator: phase portrait and energy
+    ## 12. The step of the Revision Kohn-Sham solver, and the first missed term
+
+    The Rust program of the Revision record that solves the Kohn-Sham equations of
+    this book makes $G$ equal RK4 steps over an interval of length $L$ of the hidden
+    coordinate. The next cell reads $G$ and $L$ from the record
+    Revision/kohn_sham/results/parameters.json, together with the constants $A$ and
+    $H$ of the linear history $a_4 = A H x_4$ that section 8 used, and computes the
+    solver's step $h = L/G$. Here we use only this step, not the solver's equations.
+
+    How large is the error of a method of order $p$ at this step? For problem A we
+    can say it exactly to leading order. One step multiplies $y$ by $R(-h)$ instead
+    of the exact factor $e^{-h} = 1 - h + h^2/2 - h^3/6 + \dots$ Section 7 showed
+    that $R$ keeps the terms of this series up to the power $h^p$, so $R(-h)$
+    differs from $e^{-h}$ first by the missed term with the power $h^{p + 1}$:
+
+    $$R(-h) = e^{-h} - \frac{(-h)^{p+1}}{(p+1)!} + \dots$$
+
+    (the dots stand for terms with higher powers of $h$). Taking out the factor
+    $e^{-h}$ gives $R(-h) = e^{-h}(1 - q)$ with $q = e^{h}(-h)^{p+1}/(p+1)! + \dots
+    \approx (-h)^{p+1}/(p+1)!$, because $e^{h} = 1 + h + \dots$ changes only the
+    higher terms. After $N = 1/h$ steps (up to $t = 1$) the computed value is
+    $y_N = R(-h)^N = e^{-N h}(1 - q)^N = e^{-1}(1 - q)^N$. For a small $q$,
+    $(1 - q)^N \approx 1 - N q$ (the first two terms of the binomial theorem), and
+    $N q = (-1)^{p+1} h^{p}/(p+1)!$ (one factor $h$ cancels against $N = 1/h$). So
+
+    $$y_N - e^{-1} \approx e^{-1}\, \frac{(-1)^{p}\, h^{p}}{(p+1)!} .$$
+
+    Euler ($p = 1$) ends too LOW by $e^{-1} h/2$; the midpoint method ($p = 2$)
+    too HIGH by $e^{-1} h^2/6$; RK4 ($p = 4$) too high by $e^{-1} h^4/120$. The
+    cell solves problem A with the solver's step and compares the measured signed
+    errors with these predictions.
+    """),
+    code(r'''
+    PARAMETERS = "Revision/kohn_sham/results/parameters.json"
+    parameters = json.loads(repository_file(PARAMETERS).read_text(encoding="utf-8"))
+    G_KS = parameters["numerics"]["rk4Steps"]  # the solver's number of RK4 steps
+    L_KS = parameters["physics"]["L_tipCutoff"]  # the length of its interval in y
+    A_KS = parameters["physics"]["historyA"]  # the constant A of a4 = A H x4
+    H_KS = parameters["physics"]["H"]  # the author's constant H
+    h_ks = L_KS / G_KS  # the solver's step
+    report("solver: RK4 steps G, interval length L, step h = L/G",
+           f"{G_KS}, {L_KS}, {h_ks:.10f}")
+    report("linear history a4 = A H x4 of the record: A, H", f"{A_KS}, {H_KS}")
+    check(G_KS == 900 and L_KS == 3.0 and A_KS == 1.0 and H_KS == 1.0,
+          "the solver makes 900 RK4 steps on L = 3 (h = 1/300); the history has A = H = 1",
+          record=f"{PARAMETERS}, keys rk4Steps, L_tipCutoff, historyA and H")
+
+    N_KS = round(1.0 / h_ks)  # 300 steps of h = 1/300 reach t = 1
+    ORDER = {"euler": 1, "midpoint": 2, "rk4": 4}  # the orders measured in section 9
+    agreement = []
+    for name, step in METHODS.items():
+        p = ORDER[name]
+        measured = solve(step, decay, 1.0, 1.0, N_KS)[1][-1] - EXACT_A  # signed error
+        predicted = EXACT_A * (-1) ** p * h_ks ** p / math.factorial(p + 1)
+        agreement.append(measured / predicted)
+        say(f"{LABELS[name]:9} with h = 1/{N_KS}: error {measured:+.4e}, predicted "
+            f"{predicted:+.4e}, ratio {measured / predicted:.5f}")
+    check(all(abs(ratio - 1) < 0.01 for ratio in agreement),
+          "at the solver's step the errors are e^(-1) (-1)^p h^p/(p+1)! within 1 %")
+    '''),
+    md(r"""
+    ## 13. The oscillator: phase portrait and energy
 
     Problem B as a system: the state is the vector $Y = (x, v)$ and the right-hand
     side is $f(t, Y) = (v, -x)$. The exact solution goes round the circle
@@ -692,7 +765,7 @@ CELLS = [
           "after 500 steps: Euler energy off by > 1e8, midpoint by 10-30 %, RK4 < 5e-4")
     '''),
     md(r"""
-    ## 13. Richardson's rule: an error estimate without the exact answer
+    ## 14. Richardson's rule: an error estimate without the exact answer
 
     In real problems the exact answer is unknown. Suppose a method of order $p$ gives
     $Y_h = Y + C h^p$ and $Y_{h/2} = Y + C h^p / 2^p$, where $Y$ is the exact value.
@@ -745,7 +818,7 @@ CELLS = [
           "the extrapolated value is more than 10 times more accurate (N = 8 to 64)")
     '''),
     md(r"""
-    ## 14. The last check
+    ## 15. The last check
 
     The last cell checks that all 8 figure files exist in the folder
     Revision/textbook/figures and prints the number of checks that passed.
@@ -760,7 +833,7 @@ CELLS = [
     all_checks_passed()
     '''),
     md(r"""
-    ## 15. What this notebook showed
+    ## 16. What this notebook showed
 
     - One step of size $h$ multiplies the solution of $y' = \lambda y$ by an
       amplification factor $R(\lambda h)$: $1 + z$ (Euler), $1 + z + z^2/2$
@@ -770,6 +843,12 @@ CELLS = [
       orders $p = 1, 2, 4$; halving the step divides the error by 2, 4 and 16.
     - RK4 reaches an error of about $10^{-16}$ with a few thousand steps; smaller
       steps make the result worse, because rounding errors add up.
+    - The first term of the series of $e^{z}$ that a method misses predicts its
+      error: for $y' = -y$ at $t = 1$ the error is $e^{-1}(-1)^p h^p/(p+1)!$. At the
+      step $h = 1/300$ of the Revision Kohn-Sham solver (900 RK4 steps on an
+      interval of length 3, read from its record) that is about $-6 \times 10^{-4}$
+      for Euler, $7 \times 10^{-7}$ for the midpoint method and
+      $4 \times 10^{-13}$ for RK4.
     - The product of the inflating 3-space factor $e^{x_4}$ and the deflating
       extra-time factor $e^{-x_4}$ is exactly 1; Euler's method destroys this
       compensation (factor $1 - h^2$ per step), RK4 keeps it to $3 \times 10^{-5}$

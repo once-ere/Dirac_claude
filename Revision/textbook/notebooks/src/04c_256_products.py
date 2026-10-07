@@ -36,17 +36,21 @@ FACTS = {
         "algebra Cl(4,4) is the set of all real 16 by 16 matrices, writes any matrix as "
         "a combination of them, shows that the 128 even products fill the two diagonal "
         "8 by 8 blocks, explains why 16 is the smallest possible size, reproduces the "
-        "Revision record of these facts, and draws seven figures."
+        "Revision record of these facts, checks that half of each product of two "
+        "different gammas is the matrix S of the Revision record, and draws eight "
+        "figures."
     ),
     "records": [
         ["Revision/algebra/gammas.json",
-         "the author's eight gamma matrices in the order x1 to x8 (read)"],
+         "the author's eight gamma matrices in the order x1 to x8 (read), and the "
+         "64 matrices S, compared entry by entry"],
         ["Revision/algebra/reports/wolfram-algebra.json",
-         "checks Clifford_basis_spans_full_matrix_algebra and "
-         "even_subalgebra_dimension, reproduced"],
+         "checks Clifford_basis_spans_full_matrix_algebra, "
+         "even_subalgebra_dimension, S_half_product and "
+         "S_real_entries_in_half_integers, reproduced"],
         ["Revision/algebra/reports/python-algebra.json",
-         "checks clifford_products_span_M16, even_products_span_M8_plus_M8 and "
-         "tau7_and_product, reproduced"],
+         "checks clifford_products_span_M16, even_products_span_M8_plus_M8, "
+         "tau7_and_product and S_definition, reproduced"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -61,10 +65,11 @@ FACTS = {
         "Revision/textbook/figures/04c_5_coefficients.png",
         "Revision/textbook/figures/04c_6_even_odd_blocks.png",
         "Revision/textbook/figures/04c_7_how_big.png",
+        "Revision/textbook/figures/04c_8_two_gamma_products.png",
     ],
     "final_lines": [
-        "PASS all seven figure files exist",
-        "ALL 17 CHECKS PASSED (notebook 04c)",
+        "PASS all eight figure files exist",
+        "ALL 19 CHECKS PASSED (notebook 04c)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for `Revision/algebra/gammas.json` or for a file in "
@@ -101,7 +106,9 @@ CELLS = [
     - shows that the 128 even products fill the two diagonal $8 \times 8$ blocks and the
       128 odd ones the two other blocks;
     - compares four examples to show why the matrices must be at least $16 \times 16$;
-    - reproduces the Revision record of these facts and draws seven figures.
+    - shows the 28 products of two different gammas, half of which are the matrices
+      $S^{ab}$ of the Revision record, and compares them entry by entry with the record;
+    - reproduces the Revision record of these facts and draws eight figures.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -754,21 +761,150 @@ CELLS = [
                 "64 = $8^2$, because the product of all seven is the identity.")
     '''),
     md(r"""
-    ## 13. The last check
+    ## 13. The 28 products of two different gammas
 
-    The last cell checks that the seven figure files exist in the folder
+    The products of degree 2, $\gamma^a\gamma^b$ with $a$ before $b$ in the order
+    $x_1, \dots, x_8$, are $\binom{8}{2} = 28$ matrices. Half of each of them is a matrix
+    that the Revision record names $S^{ab}$:
+    $S^{ab} = \tfrac14(\gamma^a\gamma^b - \gamma^b\gamma^a)$. Line by line, for
+    $a \neq b$: $\gamma^b\gamma^a = -\gamma^a\gamma^b$ (two different gammas
+    anticommute), so $\gamma^a\gamma^b - \gamma^b\gamma^a = 2\gamma^a\gamma^b$, and
+    $S^{ab} = \tfrac14 \cdot 2\gamma^a\gamma^b = \tfrac12\gamma^a\gamma^b$. For $a = b$
+    the two terms cancel and $S^{aa} = 0$. The matrices $S^{ab}$ are the generators of
+    the rotations and boosts of the 16-component field (the record checks that they
+    obey the rules of the rotations and boosts of the 4+4 space-time).
+
+    By rule R2 with $k = 2$, $(\gamma^a\gamma^b)^2 = -\eta^{aa}\eta^{bb} I_{16}$. Two
+    directions of the same kind (both space-like or both time-like) have
+    $\eta^{aa}\eta^{bb} = +1$, so their product squares to $-I_{16}$, like the
+    imaginary unit $i$ of the complex numbers: there are
+    $\binom{4}{2} + \binom{4}{2} = 12$ such pairs, the planes of *rotations*. A
+    space-like and a time-like direction have $\eta^{aa}\eta^{bb} = -1$, so their
+    product squares to $+I_{16}$: there are $4 \cdot 4 = 16$ such pairs, the planes of
+    *boosts*.
+
+    The next cell checks, exactly: $\tfrac14(\gamma^a\gamma^b - \gamma^b\gamma^a)$ is
+    $\tfrac12\gamma^a\gamma^b$ for $a \neq b$ and 0 for $a = b$; it compares all
+    $8 \times 8 = 64$ matrices $S^{ab}$ (16384 entries) with the matrices that the
+    Revision record file `Revision/algebra/gammas.json` stores under the key S (their
+    entries are 0 and the fractions $\pm 1/2$, written as texts "1/2" and "-1/2");
+    and it checks the squares and the 12 + 16 count. All arithmetic is exact: the
+    fractions are Python `Fraction` numbers.
+    """),
+    code(r'''
+    from fractions import Fraction  # exact fractions such as 1/2
+
+
+    def exact(entry):
+        """A number of gammas.json: a JSON integer or a text "p/q", as a Fraction."""
+        if isinstance(entry, int):
+            return Fraction(entry)
+        numerator, denominator = entry.split("/")
+        return Fraction(int(numerator), int(denominator))
+
+
+    PAIRS_AB = [(a, b) for a in range(8) for b in range(a + 1, 8)]  # the 28 pairs
+    two = {(a, b): products[INDEX[(a, b)]] for a, b in PAIRS_AB}  # gamma^a gamma^b
+    half_ok, record_ok, values = True, True, set()
+    for a, b in itertools.product(range(8), repeat=2):  # all 64 ordered pairs
+        ab, ba = gamma[a] @ gamma[b], gamma[b] @ gamma[a]
+        commutator = ab - ba  # 4 S^ab, a whole-number matrix
+        if a != b:
+            half_ok &= bool((commutator == 2 * ab).all())  # 4 S^ab = 2 gamma^a gamma^b
+        else:
+            half_ok &= not commutator.any()  # S^aa = 0
+        stored = record["S"][a][b]  # the record's S^ab: 16 rows of exact numbers
+        for i, j in itertools.product(range(16), repeat=2):
+            ours = Fraction(int(commutator[i, j]), 4)  # S^ab entry, exact
+            values.add(ours)
+            record_ok &= exact(stored[i][j]) == ours
+    report("the different entries of the 64 matrices S^ab",
+           [str(v) for v in sorted(values)])
+    check(half_ok and record_ok and sorted(values) == [Fraction(-1, 2), 0,
+                                                       Fraction(1, 2)]
+          and "(1/2) gamma^a gamma^b for a != b" in recorded(PYTHON, "S_definition")
+          and "S^ab = (1/2) gamma^a gamma^b" in recorded(WOLFRAM, "S_half_product")
+          and "{-1/2, 0, 1/2}" in recorded(WOLFRAM, "S_real_entries_in_half_integers"),
+          "S^ab = (1/4)(g^a g^b - g^b g^a) = (1/2) g^a g^b = the record's S, entry by entry")
+    print(f"     reproduces {PYTHON}")
+    print("         check S_definition")
+    print(f"     reproduces {WOLFRAM}")
+    print("         checks S_half_product, S_real_entries_in_half_integers")
+    square_of = {pair: int((m @ m)[0, 0]) for pair, m in two.items()}  # +1 or -1
+    rotations = [pair for pair in PAIRS_AB if square_of[pair] == -1]
+    boosts = [pair for pair in PAIRS_AB if square_of[pair] == 1]
+    report("pairs whose product squares to -I16 (rotations), to +I16 (boosts)",
+           (len(rotations), len(boosts)))
+    check(all((m @ m == square_of[(a, b)] * I16).all()
+              and square_of[(a, b)] == -eta[a] * eta[b]
+              and not m[:8, 8:].any() and not m[8:, :8].any()
+              for (a, b), m in two.items())
+          and len(rotations) == 12 and len(boosts) == 16,
+          "(g^a g^b)^2 = -eta^aa eta^bb I16: 12 rotation and 16 boost planes, all "
+          "block diagonal")
+    '''),
+    md(r"""
+    The next cell draws the 28 products as a triangular table of heat maps: the panel
+    in row $x_a$ and column $x_b$ shows $\gamma^a\gamma^b$ (rows $x_1$ to $x_7$, columns
+    $x_2$ to $x_8$; the panels on and below the diagonal stay empty). A black frame
+    marks a rotation plane (square $-I_{16}$), a green frame a boost plane (square
+    $+I_{16}$).
+    """),
+    code(r'''
+    from matplotlib.patches import Patch  # coloured squares for the key
+
+    FRAME = {-1: "#0b0b0b", 1: "#1baf7a"}  # square -I16: black, square +I16: green
+    fig, axes = plt.subplots(7, 7, figsize=(8.6, 8.9), layout="constrained")
+    for r, c_ in itertools.product(range(7), repeat=2):
+        ax = axes[r, c_]
+        a, b = r, c_ + 1  # row: first factor x_(a+1); column: second factor x_(b+1)
+        if b <= a:
+            ax.axis("off")  # no panel on or below the diagonal
+            continue
+        ax.imshow(two[(a, b)], cmap=three, norm=three_norm)
+        ax.set_xticks([])
+        ax.set_yticks([])
+        for spine in ax.spines.values():  # the frame of the panel
+            spine.set_edgecolor(FRAME[square_of[(a, b)]])
+            spine.set_linewidth(2.0)
+        ax.set_title(f"$x_{a + 1}\\,x_{b + 1}$", fontsize=8)
+    key = [Patch(facecolor="white", edgecolor=FRAME[-1], linewidth=2,
+                 label="square $-I_{16}$: rotation plane (12)"),
+           Patch(facecolor="white", edgecolor=FRAME[1], linewidth=2,
+                 label="square $+I_{16}$: boost plane (16)"),
+           Patch(facecolor="#2a78d6", label="entry $-1$"),
+           Patch(facecolor="#e34948", label="entry $+1$")]
+    fig.legend(handles=key, loc="outside lower center", ncol=2, fontsize=9,
+               frameon=False)
+    save_figure(fig, "two_gamma_products",
+                "The 28 products $\\gamma^a\\gamma^b$ of two different gammas of the "
+                "author, each drawn as a $16 \\times 16$ heat map (blue $-1$, grey $0$, "
+                "red $+1$); the panel titled $x_a x_b$ shows $\\gamma^a\\gamma^b$, with "
+                "$x_a$ before $x_b$ in the order $x_1$ to $x_8$. Every product is block "
+                "diagonal, with its 16 nonzero entries in the two diagonal "
+                "$8 \\times 8$ blocks. Black frames mark the 12 products that square to "
+                "$-I_{16}$ (two directions of the same kind: rotation planes), green "
+                "frames the 16 that square to $+I_{16}$ (one space-like and one "
+                "time-like direction: boost planes). Half of each product is the "
+                "matrix $S^{ab}$ of the Revision record.")
+    '''),
+    md(r"""
+    ## 14. The last check
+
+    The last cell checks that the eight figure files exist in the folder
     `Revision/textbook/figures` and prints the number of checks that passed.
     """),
     code(r'''
     names = ["04c_1_products_by_degree.png", "04c_2_multiplication_table.png",
              "04c_3_squares_by_degree.png", "04c_4_trace_products.png",
-             "04c_5_coefficients.png", "04c_6_even_odd_blocks.png", "04c_7_how_big.png"]
+             "04c_5_coefficients.png", "04c_6_even_odd_blocks.png", "04c_7_how_big.png",
+             "04c_8_two_gamma_products.png"]
     check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in names),
-          "all seven figure files exist")
+          "all eight figure files exist")
     all_checks_passed()
     '''),
     md(r"""
-    ## 14. What this notebook showed
+    ## 15. What this notebook showed
 
     - PROVED (exact integer arithmetic, all pairs checked): the 256 ordered products of
       the author's gammas multiply by rule R1,
@@ -791,6 +927,13 @@ CELLS = [
       ($d^2 \ge 2^8$); the author's field has exactly 16 components. Seven such
       matrices fit into $8 \times 8$ (the author's tau matrices, whose product is
       $I_8$; reproduces check `tau7_and_product`).
+    - PROVED (exact fractions; reproduces `python-algebra.json`, check `S_definition`,
+      and `wolfram-algebra.json`, checks `S_half_product` and
+      `S_real_entries_in_half_integers`, and agrees entry by entry with the matrices S
+      of `Revision/algebra/gammas.json`): $S^{ab} = \tfrac14(\gamma^a\gamma^b -
+      \gamma^b\gamma^a) = \tfrac12\gamma^a\gamma^b$ for $a \neq b$, with entries
+      $0, \pm\tfrac12$. The 28 products of two gammas are block diagonal; 12 square to
+      $-I_{16}$ (rotation planes) and 16 to $+I_{16}$ (boost planes).
     - ASSUMED: nothing beyond the Clifford relation of the author's gammas, which the
       Revision record verified exactly. These are statements of algebra; they make no
       physical claim.

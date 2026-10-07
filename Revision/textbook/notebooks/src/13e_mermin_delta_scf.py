@@ -484,7 +484,8 @@ CELLS = [
                 "Left: the energy $E$, the product $TS$ of temperature and entropy, "
                 "and the free energy $F = E - TS$, which falls with $T$ at the rate "
                 "$-S$. Right: the heat capacity $C_V = dE/dT$, which has a single peak "
-                "(it vanishes at low $T$, where the upper level is frozen out, and at "
+                "(it vanishes at low $T$, where the upper level is almost never "
+                "occupied, and at "
                 "high $T$, where both levels are already equally occupied); the black "
                 "point is the worked value at $T = 1/2$.")
     '''),

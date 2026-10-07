@@ -25,6 +25,24 @@
 //! O(n eps_mach T) plus the spacing of the doubles at mu.  `Root::bound` states
 //! this bound for every solve, `Root::bound_direct` the bound of the direct count.
 //!
+//! The rounding bound (first order in eps_mach = 2^-52 = 2u, u the unit roundoff):
+//!   bound = (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + eps_mach <|eps - mu|>
+//!           + 2 eps_mach |mu|,
+//! n the number of levels and <.> the mean weighted with g f (1 - f), i.e.
+//! <|eps - mu|> = sum g f (1 - f) |eps - mu| / sum g f (1 - f).  The three terms:
+//! (i) the summation (n u relative) and the evaluation of each term (exp,
+//! ln_1p, division: a few u relative) give |delta R| <= (n + 2) eps_mach
+//! (P + Hl + |d|) (the same in the log domain, where Lambda = ln A - ln B and
+//! A = B at the root); (ii) the arguments x_i = (eps_i - mu)/T are rounded by
+//! the subtraction and the division, |delta x_i| <= 2u |x_i| = eps_mach |x_i|,
+//! which moves R by sum g f (1 - f) eps_mach |x_i| and mu by
+//! eps_mach <|eps - mu|>; (iii) the root is returned as one of two adjacent
+//! doubles, |delta mu| <= 2 eps_mach |mu|.  A change of R by delta R moves the
+//! root by delta R/(dN/dmu).  The direct count has the same terms with
+//! P + Hl + |d| replaced by N (its terms are the occupations themselves).  The
+//! bound is checked against 40-digit roots for every thermal state of the
+//! canonical matrix (tools/mermin_roots_mp.py) and in the unit tests below.
+//!
 //! Two exactly equivalent forms with different rounding paths:
 //! * `LogBalance` (canonical numerics): Lambda(mu) = ln(P + d-) - ln(Hl + d+),
 //!   d+- = max(+-d, 0); every sum is a log-sum-exp of ln g - softplus(+-x), so
@@ -74,9 +92,10 @@ pub struct Root {
     /// P + Hl + |d| for the split of the final pass (= {eps < mu} unless three passes did not settle):
     /// the size of the terms of the well-conditioned residual
     pub magnitude: f64,
-    /// rounding bound of the well-conditioned forms: (n + 2) eps_mach magnitude/(dN/dmu) + 2 eps_mach |mu|
+    /// rounding bound of the well-conditioned forms (module documentation):
+    /// (n + 2) eps_mach magnitude/(dN/dmu) + eps_mach <|eps - mu|> + 2 eps_mach |mu|
     pub bound: f64,
-    /// rounding bound of the direct count: (n + 2) eps_mach N/(dN/dmu) + 2 eps_mach |mu|
+    /// rounding bound of the direct count: (n + 2) eps_mach N/(dN/dmu) + eps_mach <|eps - mu|> + 2 eps_mach |mu|
     pub bound_direct: f64,
     /// split passes used (1 if the T = 0 filling already brackets the root)
     pub passes: usize,
@@ -332,25 +351,34 @@ impl<'a> Problem<'a> {
         0.5 * (lo + hi)
     }
 
-    /// dN/dmu, P + Hl + |d| (split k: the first k levels) and the two rounding bounds at mu.
+    /// dN/dmu, P + Hl + |d| (split k: the first k levels) and the two rounding bounds at mu
+    /// (module documentation: summation and evaluation, rounded arguments, adjacent doubles).
     fn bounds(&self, mu: f64, k: usize) -> (f64, f64, f64, f64) {
         let d = self.deficit(k);
-        let (mut dn, mut ps, mut hs) = (0.0, 0.0, 0.0);
+        let (mut w, mut wx, mut ps, mut hs) = (0.0, 0.0, 0.0, 0.0);
         for (pos, &i) in self.order.iter().enumerate() {
             let x = self.x(i, mu);
             let (spx, spm) = softplus_pair(x);
-            dn += self.deg[i] * (-spx - spm).exp();
+            // weight g f (1 - f) of the level in dN/dmu, and the same weight times |eps - mu|
+            let wi = self.deg[i] * (-spx - spm).exp();
+            w += wi;
+            wx += wi * (self.eps[i] - mu).abs();
             if pos < k {
                 hs += self.deg[i] * fermi(-x);
             } else {
                 ps += self.deg[i] * fermi(x);
             }
         }
-        let dn = dn / self.t;
+        let dn = w / self.t;
         let mag = ps + hs + d.abs();
         let m = self.order.len() as f64 + 2.0;
         let ulp = 2.0 * f64::EPSILON * mu.abs();
-        let (b, bd) = if dn > 0.0 { (m * f64::EPSILON * mag / dn + ulp, m * f64::EPSILON * self.n / dn + ulp) } else { (f64::INFINITY, f64::INFINITY) };
+        let (b, bd) = if dn > 0.0 {
+            let args = f64::EPSILON * wx / w;
+            (m * f64::EPSILON * mag / dn + args + ulp, m * f64::EPSILON * self.n / dn + args + ulp)
+        } else {
+            (f64::INFINITY, f64::INFINITY)
+        };
         (dn, mag, b, bd)
     }
 }

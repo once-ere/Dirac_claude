@@ -90,6 +90,15 @@ is not an Association, Count[Values[checks], False] = 0 and the script can exit 
 FIX IT (after the execution-provenance chain for old-primordial has finished, to avoid a concurrent edit): fail with an ERROR line and
 exit 1 unless AssociationQ[result] && AssociationQ[result["checks"]] && Length > 0, and count every non-True check as failed;
 then re-run the set twice in a fresh clone (byte identity of both outputs) and update its provenance file.
+LEAD DECISION PENDING (2026-10-07, from the dirac-matrices audit, coverage lens): Revision/field_equations_a4/wolfram/FieldEquationsA4.wl
+(FEsig1/FEeps/FEGen/FEGammaFrame, lines 119-128) builds its OWN real 16x16 Cl(4,4) basis Cl(1,1)^(x)4 and never reads
+Revision/algebra/gammas.json; check_field_equations_a4.py runs its primary checks on a third basis own_rep().  Both are real 16x16
+Cl(4,4) sets equivalent to the author's T16 (intertwiner dim 1, K^T K = 2 I16) and a4-equations.json holds only representation-
+independent coefficients, but SPEC section 2 requires the author's T16.  FIX (after the execution-provenance chain for rev-a4 has
+finished): make both use the author's matrices from gammas.json as the PRIMARY representation, keep the tensor bases only as labelled
+comparison representations with an explicit equivalence check; re-run both verifiers twice in a fresh clone; a4-equations.json must stay
+byte-identical (any change explained); update Revision/field_equations_a4/wolfram/WOLFRAMSCRIPT_PROVENANCE.md; regenerate
+provenance/dirac matrices.md (its coverage section).
 
 ### 0.4f STATE 2026-10-03 (after the session limit)
 

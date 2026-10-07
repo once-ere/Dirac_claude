@@ -18,9 +18,10 @@ is computed with mpmath at 40 significant digits (bracketed Newton started at th
 50 digits.  The direct sum is harmless at 40 digits: its rounding fixes mu to 1e-40 N/(dN/dmu) <= 1e-33 here.
 
 For each state the tool records |mu_solver - root| against the rounding bound of the solver's well-conditioned
-residual (solver/src/mermin.rs), (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + 2 eps_mach |mu| (split
-S = {eps < root}), and the conditioning bound of the former direct count, (n + 2) eps_mach N/(dN/dmu) +
-2 eps_mach |mu|.
+residual (solver/src/mermin.rs), (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + eps_mach <|eps - mu|> +
+2 eps_mach |mu| (n levels, split S = {eps < root}, <.> the mean weighted with g f (1 - f)), and the conditioning
+bound of the former direct count, (n + 2) eps_mach N/(dN/dmu) + eps_mach <|eps - mu|> + 2 eps_mach |mu|.
+The bounds are evaluated here at the 40-digit root, independently of the solver's own evaluation.
 
 Outputs (deterministic, LF):
   Revision/kohn_sham/solver/tools/mermin-roots-40digit.json   fixture: the --fixture-count states with the
@@ -153,8 +154,13 @@ def analyse(job):
         T = mp.mpf(t)
         P = Hl = mp.mpf(0)
         gs = mp.mpf(0)
+        w = wx = mp.mpf(0)
         for e, g in zip(eps, deg):
             x = (mp.mpf(e) - root) / T
+            f = 1 / (1 + mp.exp(x))
+            wi = g * f * (1 - f)
+            w += wi
+            wx += wi * abs(mp.mpf(e) - root)
             if mp.mpf(e) < root:
                 Hl += g / (1 + mp.exp(-x))
                 gs += g
@@ -163,8 +169,10 @@ def analyse(job):
         mag = P + Hl + abs(mp.mpf(n) - gs)
         dev = mp.mpf(mu_run) - root
         m = len(eps) + 2
-        b_wc = m * EPS_MACH * mag / dn + 2 * EPS_MACH * abs(root)
-        b_dc = m * EPS_MACH * mp.mpf(n) / dn + 2 * EPS_MACH * abs(root)
+        # rounded arguments x_i = (eps_i - mu)/T: eps_mach times the g f (1 - f)-weighted mean of |eps - mu|
+        args = EPS_MACH * wx / w
+        b_wc = m * EPS_MACH * mag / dn + args + 2 * EPS_MACH * abs(root)
+        b_dc = m * EPS_MACH * mp.mpf(n) / dn + args + 2 * EPS_MACH * abs(root)
         rec = {
             "id": sid,
             "N": lv["N"],
@@ -221,7 +229,8 @@ def main():
     target = next((r for r in recs if r["id"] == "N8_lamm1_a00_T10"), None)
     check("solver_mu_within_rounding_bound", all(r["withinBound"] for r in recs),
           f"the solver's mu (form {', '.join(forms)}) minus the {DIGITS}-digit root on its own final levels lies "
-          f"within the rounding bound (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + 2 eps_mach |mu| in "
+          f"within the rounding bound (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + eps_mach <|eps - mu|> + "
+          f"2 eps_mach |mu| in "
           f"{sum(r['withinBound'] for r in recs)} of {len(recs)} states; largest |mu - root| {absdev[0]:.3e} "
           f"({absdev[1]}); largest ratio to the bound {worst[0]:.3f} ({worst[1]})"
           + (f"; N8_lamm1_a00_T10 (the cross-check failure, 8.27e-10 with the former direct count): "
@@ -260,7 +269,8 @@ def main():
         "description": "Exact final Kohn-Sham levels (shortest round-trip decimals of `revision_ks_solver single "
                        "--mermin-levels`, canonical numerics) and the root of sum g/(1 + exp((eps - mu)/T)) = N computed "
                        f"with mpmath at {DIGITS} significant digits (checked at {CHECK_DIGITS}), for the thermal states "
-                       "with the largest conditioning bound (n + 2) eps_mach N/(dN/dmu) of the former direct count. "
+                       "with the largest conditioning bound (n + 2) eps_mach N/(dN/dmu) + eps_mach <|eps - mu|> + 2 eps_mach |mu| of "
+                       "the former direct count. "
                        "Test input of the Rust unit test mermin::tests::forty_digit_roots and of the solver check "
                        "thermo_mu_vs_40digit_roots. All numbers are strings.",
         "digits": DIGITS,

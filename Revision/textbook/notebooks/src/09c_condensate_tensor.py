@@ -43,8 +43,9 @@ FACTS = {
         "off-diagonal entries that the spin connection produces, finds the 42 nonzero "
         "off-diagonal entries of a generic condensate and checks that each is a "
         "multiple of one of 15 three-gamma bilinears, builds the exact condensates "
-        "whose tensor is diagonal and reproduces their numbers w and S from the record "
-        "(S up to one common factor), and tests the conservation of the full tensor along "
+        "whose tensor is diagonal and reproduces their frequencies omega and their S "
+        "from the record (S up to one common factor), and tests the conservation of the "
+        "full tensor along "
         "a curved history with finite differences of shrinking step, with a negative "
         "control that leaves out the gravitational term of the field equation; five "
         "teaching plots."
@@ -101,8 +102,9 @@ CELLS = [
       bilinears vanish, and checks that their tensor is diagonal at 36 points with
       different $a_4$, $a_4'$ and $z$ (the record states it for all of them);
     - shows why $S$ of these condensates is never negative, and reproduces the
-      record's numbers for them: $w = 4, 3, 4$ exactly, and its three values of $S$
-      up to one common factor (the record's columns are not of length 1);
+      record's numbers for them: their frequencies $\omega = 4, 3, 4$ exactly, and
+      its three values of $S$ up to one common factor (the record's columns are not
+      of length 1);
     - tests the conservation $\nabla_\mu T^\mu{}_\nu = 0$ of the full tensor of a
       condensate along a curved (non-linear) history with finite differences whose
       step shrinks, and contrasts it with a configuration that leaves out the
@@ -125,6 +127,10 @@ CELLS = [
       number $\mu$ (the eigenvalue); a joint eigenvector of several matrices is an
       eigenvector of each of them.
     - **Witness**: an explicit example that shows that something exists.
+    - **Frequency** $\omega$ (the Greek letter omega): the number in the factor
+      $e^{-i\omega x_4} = \cos(\omega x_4) - i\sin(\omega x_4)$; a field with this
+      factor repeats itself after the time $2\pi/\omega$. It has nothing to do with
+      the equation of state $w = p/\rho$ of the other examples of this chapter.
     - **Finite difference**: the derivative approximated by
       $\frac{F(x + h) - F(x - h)}{2h}$; its error falls like $h^2$ when the step $h$
       shrinks, until rounding errors take over.
@@ -294,7 +300,8 @@ CELLS = [
     -VS$ and the other diagonal entries $0$, because $\lambda = 0$ makes $L_0 = 0$ on
     shell) and $T^{x_4}{}_{x_8} = T^{x_8}{}_{x_4} = 0$, counts the nonzero
     off-diagonal entries (42), and counts them again with $a_4' = 0$ (12: only the
-    momentum flows $T^{x_4}{}_{x_i}$ and $T^{x_i}{}_{x_4}$ remain).
+    flows $T^{x_4}{}_{x_j}$ and $T^{x_j}{}_{x_4}$ remain, where $x_j$ is one of the
+    six directions $x_1, x_2, x_3, x_5, x_6, x_7$).
     """),
     code(r'''
     V, H = 5.0, 1.0  # effective mass (m = 5, lambda = 0) and the author's constant
@@ -341,7 +348,7 @@ CELLS = [
     momentum_flows = sorted([(3, i) for i in (0, 1, 2, 4, 5, 6)]
                             + [(i, 3) for i in (0, 1, 2, 4, 5, 6)])
     check(sorted(pairs_constant_a4) == momentum_flows,
-          "with a4p = 0 only the 12 momentum flows T^x4_xi and T^xi_x4 remain")
+          "with a4p = 0 only the 12 flows T^x4_xj, T^xj_x4 (j = 1, 2, 3, 5, 6, 7) remain")
     report("S of the random column", f"{S_chi:.6f}")
     report("T^x4_x4 = -V S", f"{T_generic[3, 3]:.6f}")
     '''),
@@ -432,7 +439,8 @@ CELLS = [
                 "part of the spin connection and does not depend on $a_4'$. Right: "
                 "$T^{x_1}{}_{x_5}$ (solid) and $T^{x_1}{}_{x_8}$ (dashed) are "
                 "proportional to $a_4'$; at $a_4' = 0$ they vanish, and only the 12 "
-                "momentum flows remain.")
+                "flows $T^{x_4}{}_{x_j}$ and $T^{x_j}{}_{x_4}$ remain ($x_j$ one of "
+                "$x_1, x_2, x_3, x_5, x_6, x_7$).")
     '''),
     md(r"""
     ## 8. The 15 three-gamma bilinears and the condensates with a diagonal tensor
@@ -449,13 +457,16 @@ CELLS = [
     **The witnesses.** The record builds condensates for which all 15 bilinears
     vanish. The three matrices $P_1 = \gamma^{(1)}\gamma^{(5)}$,
     $P_2 = \gamma^{(2)}\gamma^{(6)}$, $P_3 = \gamma^{(3)}\gamma^{(7)}$ square to 1 and
-    commute with each other and with $A$. Let $w = \sqrt{V^2 - 9H^2}$; then $A$ has
-    the eigenvalue $-iw$ on an 8-dimensional space. In that space take the unit
-    vector $v_1$ with $P_1 = P_2 = P_3 = -1$ and the unit vector $v_2$ with
-    $P_1 = P_2 = P_3 = +1$, put $c = \overline{v_1^\dagger Cv_2}$ (the bar means the
-    complex conjugate number) and $\Phi_0 = v_1 + cv_2$. The condensate is
-    $\Phi = e^{-iwx_4}\Phi_0$. The record gives three such witnesses,
-    $(V, H) = (5, 1)$, $(5, 4/3)$, $(-5, 1)$, with $w = 4$, $3$, $4$.
+    commute with each other and with $A$. Let $\omega = \sqrt{V^2 - 9H^2}$ (a real
+    number when $V^2 > 9H^2$); then $A^2 = (9H^2 - V^2) \cdot 1 = -\omega^2 \cdot 1$,
+    and $A$ has the eigenvalue $-i\omega$ on an 8-dimensional space. In that space
+    take the unit vector $v_1$ with $P_1 = P_2 = P_3 = -1$ and the unit vector $v_2$
+    with $P_1 = P_2 = P_3 = +1$, put $c = \overline{v_1^\dagger Cv_2}$ (the bar means
+    the complex conjugate number) and $\Phi_0 = v_1 + cv_2$. The condensate is
+    $\Phi = e^{-i\omega x_4}\Phi_0$: it oscillates with the frequency $\omega$. The
+    record gives three such witnesses, $(V, H) = (5, 1)$, $(5, 4/3)$, $(-5, 1)$, with
+    $\omega = 4$, $3$, $4$ (the record writes the effective mass $V$ as $M$ and the
+    frequency $\omega$ as w).
     """),
     code(r'''
     def bilinear_directions(nu, mu):
@@ -496,27 +507,28 @@ CELLS = [
     '''),
     md(r"""
     The next cell defines the function `witness(V_w, H_w)`. It finds the
-    8-dimensional space of $A$ for the eigenvalue $-iw$ (as the null space of
-    $A + iw$, from a singular value decomposition), then inside it the joint
+    8-dimensional space of $A$ for the eigenvalue $-i\omega$ (as the null space of
+    $A + i\omega$, from a singular value decomposition), then inside it the joint
     eigenvectors $v_1$, $v_2$ (with the projector
     $\frac18(1 \pm P_1)(1 \pm P_2)(1 \pm P_3)$, which keeps exactly the vectors with
-    $P_1 = P_2 = P_3 = \pm1$), each of length 1, and returns $w$, $A$, $v_1$, $v_2$
-    and $\Phi_0 = v_1 + cv_2$. The cell builds the three witnesses and prints their
-    numbers $w = \sqrt{V^2 - 9H^2}$.
+    $P_1 = P_2 = P_3 = \pm1$), each of length 1, and returns $\omega$, $A$, $v_1$,
+    $v_2$ and $\Phi_0 = v_1 + cv_2$ (in the code the frequency $\omega$ is called
+    `freq`). The cell builds the three witnesses and prints their frequencies
+    $\omega = \sqrt{V^2 - 9H^2}$.
     """),
     code(r'''
     P = [gamma[i] @ gamma[i + 4] for i in range(3)]  # gamma^(x1) gamma^(x5), ...
 
 
     def witness(V_w, H_w):
-        """w, A, the unit vectors v1, v2 and the column Phi0 of the record's diagonal
-        witness for (V_w, H_w)."""
+        """The frequency omega (here freq), A, the unit vectors v1, v2 and the column
+        Phi0 of the record's diagonal witness for (V_w, H_w)."""
         A_w = -g4 @ (V_w * I16 - 3 * H_w * g8)  # d4 Phi = A Phi
-        w = np.sqrt(V_w ** 2 - 9 * H_w ** 2)
-        # The null space of A + i w: the rows of the third SVD factor whose singular
-        # value is zero, complex conjugated and written as columns.
-        _, singular, rows = np.linalg.svd(A_w + 1j * w * I16)
-        space = rows[singular < 1e-9].conj().T  # 16 x 8: the eigenspace for -i w
+        freq = np.sqrt(V_w ** 2 - 9 * H_w ** 2)  # the frequency omega
+        # The null space of A + i omega: the rows of the third SVD factor whose
+        # singular value is zero, complex conjugated and written as columns.
+        _, singular, rows = np.linalg.svd(A_w + 1j * freq * I16)
+        space = rows[singular < 1e-9].conj().T  # 16 x 8: the eigenspace for -i omega
         found = []
         for sign in (-1, 1):
             projector = (I16 + sign * P[0]) @ (I16 + sign * P[1]) @ (I16 + sign * P[2]) / 8
@@ -526,20 +538,20 @@ CELLS = [
             found.append(left_vectors[:, 0])  # a unit vector
         v1, v2 = found
         c = np.conj(bar(v1) @ v2)  # c = conj(v1^dagger C v2)
-        return w, A_w, v1, v2, v1 + c * v2
+        return freq, A_w, v1, v2, v1 + c * v2
 
 
     WITNESSES = [(5.0, 1.0), (5.0, 4 / 3), (-5.0, 1.0)]  # the record's (V, H)
     witnesses = {pair: witness(*pair) for pair in WITNESSES}  # (V, H) -> the five
     for (V_w, H_w), found in witnesses.items():
-        say(f"witness (V, H) = ({V_w:g}, {H_w:.4g}): w = sqrt(V^2 - 9 H^2) = "
-            f"{found[0]:.6f}")
+        say(f"witness (V, H) = ({V_w:g}, {H_w:.4g}): frequency omega = "
+            f"sqrt(V^2 - 9 H^2) = {found[0]:.6f}")
     '''),
     md(r"""
-    The next cell checks each witness: that $A\Phi_0 = -iw\Phi_0$ (so
-    $\Phi = e^{-iwx_4}\Phi_0$ is an exact condensate), that all 15 bilinears vanish,
-    that $S \neq 0$, and that the tensor is diagonal at 36 points: every combination
-    of $a_4 \in \{-1, 0, 0.5\}$, $a_4' \in \{-0.5, 0, 0.25, 1\}$ and
+    The next cell checks each witness: that $A\Phi_0 = -i\omega\Phi_0$ (so
+    $\Phi = e^{-i\omega x_4}\Phi_0$ is an exact condensate), that all 15 bilinears
+    vanish, that $S \neq 0$, and that the tensor is diagonal at 36 points: every
+    combination of $a_4 \in \{-1, 0, 0.5\}$, $a_4' \in \{-0.5, 0, 0.25, 1\}$ and
     $z \in \{0.3, 0.8, 1.3\}$. It prints $S$ of each witness (with $v_1$ and $v_2$ of
     length 1).
     """),
@@ -548,21 +560,21 @@ CELLS = [
             for z in (0.3, 0.8, 1.3)]  # 3 x 4 x 3 = 36 points
     witness_columns = {}  # (V, H) -> Phi0
     unit_S = {}  # (V, H) -> S of Phi0 built from v1 and v2 of length 1
-    for (V_w, H_w), (w, A_w, v1, v2, phi0) in witnesses.items():
+    for (V_w, H_w), (freq, A_w, v1, v2, phi0) in witnesses.items():
         S_w = (bar(phi0) @ phi0).real
         largest_bilinear = max(abs(bilinear(phi0, d)) for d in used)
         worst_off = 0.0  # the largest off-diagonal entry at the 36 points
         for a4, a4p, z in grid:
             T = condensate_tensor(phi0, a4, a4p, z, V_w, H_w)
             worst_off = max(worst_off, np.abs(T - np.diag(np.diag(T))).max())
-        check(np.abs(A_w @ phi0 + 1j * w * phi0).max() < 1e-12 and largest_bilinear < 1e-12
-              and abs(S_w) > 0.1 and worst_off < 1e-12,
-              f"witness (V, H) = ({V_w:g}, {H_w:.4g}): w = {w:g}, the 15 bilinears vanish, "
-              "S != 0, T diagonal at 36 points")
+        check(np.abs(A_w @ phi0 + 1j * freq * phi0).max() < 1e-12
+              and largest_bilinear < 1e-12 and abs(S_w) > 0.1 and worst_off < 1e-12,
+              f"witness (V, H) = ({V_w:g}, {H_w:.4g}): omega = {freq:g}, the 15 "
+              "bilinears vanish, S != 0, T diagonal at 36 points")
         witness_columns[(V_w, H_w)] = phi0
         unit_S[(V_w, H_w)] = S_w
-        report(f"witness ({V_w:g}, {H_w:.4g}): w, and S for unit v1, v2",
-               f"{w:g} and {S_w:.6f}")
+        report(f"witness ({V_w:g}, {H_w:.4g}): omega, and S for unit v1, v2",
+               f"{freq:g} and {S_w:.6f}")
     '''),
     md(r"""
     **Why $S$ of a witness is never negative.** $C$ anticommutes with each $P_k$ (it
@@ -578,51 +590,53 @@ CELLS = [
     + |c|^2 v_2^\dagger Cv_2 = 0 + |s|^2 + |s|^2 + 0 = 2|s|^2 \geq 0$. The next cell
     checks each step numerically for the three witnesses. It also checks an
     observation (COMPUTED for these three witnesses, not proved here): with $v_1$,
-    $v_2$ of length 1, $|s| = |w/V|$, so $S = 2w^2/V^2$; this gives
+    $v_2$ of length 1, $|s| = |\omega/V|$, so $S = 2\omega^2/V^2$; this gives
     $2 \cdot 16/25 = 1.28$ and $2 \cdot 9/25 = 0.72$.
     """),
     code(r'''
     anticommute = all(np.abs(C @ P_k + P_k @ C).max() < 1e-12 for P_k in P)
     symmetric = all(np.array_equal(P_k, P_k.T) for P_k in P)  # real: P^dagger = P^T
     steps_hold, observation = True, True
-    for (V_w, H_w), (w, A_w, v1, v2, phi0) in witnesses.items():
+    for (V_w, H_w), (freq, A_w, v1, v2, phi0) in witnesses.items():
         s = bar(v1) @ v2  # s = v1^dagger C v2
         S_unit = unit_S[(V_w, H_w)]  # S of Phi0 with unit v1, v2 (previous cell)
         steps_hold = (steps_hold and abs(bar(v1) @ v1) < 1e-12
                       and abs(bar(v2) @ v2) < 1e-12
                       and abs(S_unit - 2 * abs(s) ** 2) < 1e-12)
-        observation = observation and abs(S_unit - 2 * w ** 2 / V_w ** 2) < 1e-12
+        observation = observation and abs(S_unit - 2 * freq ** 2 / V_w ** 2) < 1e-12
     check(anticommute and symmetric and steps_hold,
           "C P_k = -P_k C, P_k symmetric, v^dagger C v = 0, so S = 2 |v1^dagger C v2|^2")
-    check(observation, "observed: S = 2 w^2 / V^2 for the three witnesses (unit v1, v2)")
+    check(observation,
+          "observed: S = 2 omega^2 / V^2 for the three witnesses (unit v1, v2)")
     '''),
     md(r"""
     **The numbers of the record.** The Wolfram report of the record lists, in the
-    detail text of its check `condensate_diagonal_witness_exact`, the numbers
-    $w = 4, 3, 4$ and $S = 204800, 115200, 204800$ for the three witnesses. Its
-    verifier builds the witnesses in its own (equivalent) Clifford representation
-    and with exact columns $v_1$, $v_2$ that are not of length 1; since
-    $S = 2|v_1^\dagger Cv_2|^2$ grows with the lengths of $v_1$ and $v_2$, its $S$
-    cannot equal ours, while $w = \sqrt{V^2 - 9H^2}$ must agree exactly. The next
-    cell reads the numbers out of the detail text (with a regular expression, a
-    pattern that finds text), checks $w$, and divides each $S$ of the record by our
-    $S$: the three quotients are one and the same number, so the record's three
-    values are reproduced up to one common factor.
+    detail text of its check `condensate_diagonal_witness_exact`, the frequencies
+    $\omega = 4, 3, 4$ (written w there) and $S = 204800, 115200, 204800$ for the
+    three witnesses. Its verifier builds the witnesses in its own (equivalent)
+    Clifford representation and with exact columns $v_1$, $v_2$ that are not of
+    length 1; since $S = 2|v_1^\dagger Cv_2|^2$ grows with the lengths of $v_1$ and
+    $v_2$, its $S$ cannot equal ours, while $\omega = \sqrt{V^2 - 9H^2}$ must agree
+    exactly. The next cell reads the numbers out of the detail text (with a regular
+    expression, a pattern that finds text), checks $\omega$, and divides each $S$ of
+    the record by our $S$: the three quotients are one and the same number, so the
+    record's three values are reproduced up to one common factor.
     """),
     code(r'''
     import re  # regular expressions: patterns that find pieces of a text
 
     detail = record_entry(A4_WL, "condensate_diagonal_witness_exact")["detail"]
-    w_text = re.search(r"9 H\^2\) = \{([^}]*)\}", detail).group(1)  # "4, 3, 4"
+    # the frequencies, which the record writes "w = sqrt(M^2 - 9 H^2) = {4, 3, 4}"
+    freq_text = re.search(r"9 H\^2\) = \{([^}]*)\}", detail).group(1)  # "4, 3, 4"
     S_text = re.search(r"S = \{([^}]*)\}", detail).group(1)  # the three S values
-    record_w = np.array([float(value) for value in w_text.split(",")])
+    record_freq = np.array([float(value) for value in freq_text.split(",")])
     record_S = np.array([float(value) for value in S_text.split(",")])
-    our_w = np.array([witnesses[pair][0] for pair in WITNESSES])
+    our_freq = np.array([witnesses[pair][0] for pair in WITNESSES])
     our_S = np.array([unit_S[pair] for pair in WITNESSES])
-    check(np.abs(our_w - record_w).max() < 1e-12
+    check(np.abs(our_freq - record_freq).max() < 1e-12
           and recorded(A4_WL, "condensate_diagonal_witness_exact") == "PASS"
           and recorded(A4_PY, "authorT16_condensate_witness") == "PASS",
-          f"w = {w_text} for the three witnesses, as in the record",
+          f"omega = {freq_text} for the three witnesses, as in the record",
           record=f"{A4_WL}, check condensate_diagonal_witness_exact; {A4_PY}, check "
                  "authorT16_condensate_witness")
     quotients = record_S / our_S  # S of the record divided by S of unit v1, v2
@@ -891,17 +905,19 @@ CELLS = [
 
     - A generic exact condensate of dirac16complex00 has the diagonal of a perfect
       fluid ($-VS$ at $x_4$, the same pressure elsewhere, zero for $\lambda = 0$) but
-      42 nonzero off-diagonal entries, all produced by the spin connection: 12
-      momentum flows that come from $H$, and 30 more that are proportional to the
-      deflation rate $a_4'$. Its $x_4$-$x_8$ entries vanish.
+      42 nonzero off-diagonal entries, all produced by the spin connection: the 12
+      flows $T^{x_4}{}_{x_j}$ and $T^{x_j}{}_{x_4}$ ($x_j$ one of the six directions
+      of 3-space and of the extra times), which come from $H$, and 30 more that are
+      proportional to the deflation rate $a_4'$. Its $x_4$-$x_8$ entries vanish.
     - Each off-diagonal entry is a fixed multiple of one of 15 three-gamma bilinears
       (the record's statement, confirmed with three random columns).
     - The record's witnesses, built from joint eigenvectors of
       $\gamma^{(1)}\gamma^{(5)}$, $\gamma^{(2)}\gamma^{(6)}$, $\gamma^{(3)}\gamma^{(7)}$,
       make all 15 bilinears vanish: their tensor is diagonal (the record shows it for
       every $a_4$ and $a_4'$; this notebook checked 36 points). Their
-      $S = 2|v_1^\dagger Cv_2|^2$ is never negative; the record's $w = 4, 3, 4$ are
-      reproduced exactly and its $S = 204800, 115200, 204800$ up to one common
+      $S = 2|v_1^\dagger Cv_2|^2$ is never negative; the record's frequencies
+      $\omega = 4, 3, 4$ are reproduced exactly and its
+      $S = 204800, 115200, 204800$ up to one common
       factor, 160000 (the record's columns are not of length 1). On the deflating
       history only condensates whose 15 bilinears all vanish, such as these, meet
       the condition of the $a_4$ field equations that the off-diagonal entries of
@@ -913,7 +929,8 @@ CELLS = [
       extra times: the term is needed for the conservation of the tensor.
     - Status: the statements are PROVED in the Revision record (exact, Wolfram and
       sympy); this notebook confirms them numerically (COMPUTED). The formula
-      $S = 2w^2/V^2$ for unit $v_1$, $v_2$ is an observation for the three witnesses
+      $S = 2\omega^2/V^2$ for unit $v_1$, $v_2$ is an observation for the three
+      witnesses
       (COMPUTED, not proved). The parameter values are choices of this notebook.
     """),
 ]

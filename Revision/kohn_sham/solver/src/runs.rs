@@ -552,8 +552,8 @@ pub fn thermal_task(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, temp: f64
     }
 }
 
-pub const THERMO_HEADER: [&str; 30] = [
-    "id", "N", "lambda_tag", "lambda", "a4", "T", "mu", "E", "entropy", "F", "Omega_direct", "Omega_F_minus_muN", "C_V", "C_V_from_dEdT", "minus_dFdT", "levels", "shells", "window_cut", "f_at_window_cut", "sea_holes_excluded", "iterations", "residual", "E_T0", "max_abs_Meff_minus_m", "max_abs_v_v", "N_check", "sea_holes_over_N", "particle_only_convention_within_1pc", "dN_dmu", "mu_rounding_bound",
+pub const THERMO_HEADER: [&str; 31] = [
+    "id", "N", "lambda_tag", "lambda", "a4", "T", "mu", "E", "entropy", "F", "Omega_direct", "Omega_F_minus_muN", "C_V", "C_V_from_dEdT", "minus_dFdT", "levels", "shells", "window_cut", "f_at_window_cut", "sea_holes_excluded", "iterations", "residual", "E_T0", "max_abs_Meff_minus_m", "max_abs_v_v", "N_check", "sea_holes_over_N", "particle_only_convention_within_1pc", "dN_dmu", "mu_rounding_bound", "mu_direct_count_minus_mu",
 ];
 
 fn thermal_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, temp: f64, id: &str) -> Result<ThermOut, String> {
@@ -691,6 +691,9 @@ fn thermal_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, temp: f64, i
         (holes / n <= 0.01).to_string(),
         f(own.dn_dmu),
         f(own.bound),
+        // DIAGNOSTIC (negative control of tools/compare_runs.py): the root of the former direct count
+        // sum g f - N on the same final levels minus this run's mu
+        f(rd.mu - st.mu),
     ];
     Ok(ThermOut { row, items, id: id.to_string(), holes_over_n: holes / n, mu: Some(mu_diag) })
 }
@@ -724,7 +727,7 @@ fn thermo_mu_check(touts: &[ThermOut], num: &Numerics, rep: &mut Report) {
         "thermo_mu_well_conditioned_root",
         ok,
         format!(
-            "every thermal state ({} of {}): mu is the root of sum g f = N in the well-conditioned form {} of solver/src/mermin.rs (thermal particles above and holes below a split of the levels, complementary factors f(-x), never 1 - f) on its final levels, bit for bit: {}{}; the two exactly equivalent forms LogBalance and LinearDeviation (different rounding paths; the refined run uses LinearDeviation) agree within the rounding bound (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + 2 eps_mach |mu|: max |difference| {:.3e} ({}), max ratio to the bound {:.3} ({}), largest bound {:.2e}; split passes at most {}. DIAGNOSTIC of the error class removed: the former direct count sum g f - N (bisection) deviates from the LogBalance root by more than 1e-12 m in {} states, each within its conditioning bound (n + 2) eps_mach N/(dN/dmu): {}; largest: {}",
+            "every thermal state ({} of {}): mu is the root of sum g f = N in the well-conditioned form {} of solver/src/mermin.rs (thermal particles above and holes below a split of the levels, complementary factors f(-x), never 1 - f) on its final levels, bit for bit: {}{}; the two exactly equivalent forms LogBalance and LinearDeviation (different rounding paths; the refined run uses LinearDeviation) agree within the larger of their rounding bounds (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + eps_mach <|eps - mu|> + 2 eps_mach |mu| (n levels, <.> the mean weighted with g f (1 - f); summation and evaluation, rounded arguments, adjacent doubles; mermin.rs): max |difference| {:.3e} ({}), max ratio to the bound {:.3} ({}), largest bound {:.2e}; split passes at most {}. DIAGNOSTIC of the error class removed: the former direct count sum g f - N (bisection) deviates from the LogBalance root by more than 1e-12 m in {} states, each within its conditioning bound (n + 2) eps_mach N/(dN/dmu) + eps_mach <|eps - mu|> + 2 eps_mach |mu|: {}; largest: {} (thermodynamics.csv column mu_direct_count_minus_mu: the direct-count root on the same final levels minus mu, for every state)",
             ds.len(),
             touts.len(),
             num.mermin_form.tag(),

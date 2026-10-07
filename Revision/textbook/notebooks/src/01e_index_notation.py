@@ -262,9 +262,9 @@ CELLS = [
       components $x_4, \dots, x_7$ change sign. Raising again,
       $\eta^{ab} v_b$, gives back $v^a$, because $\eta^{ab}\eta_{bc} = \delta^a_c$.
 
-    It also defines the helper `heat_map`, which draws a table as coloured
-    squares (red positive, white zero, blue negative), and draws $\eta_{ab}$,
-    $\delta^a_c$ and the two lists $v^a$ and $v_a$.
+    The cell after it defines the helper `heat_map`, which draws a table as
+    coloured squares (red positive, white zero, blue negative), and draws
+    $\eta_{ab}$, $\delta^a_c$ and the two lists $v^a$ and $v_a$.
     """),
     code(r'''
     algebra = json.loads(repository_file("Revision/algebra/gammas.json")
@@ -296,7 +296,8 @@ CELLS = [
           "lowering flips the signs of the time-like x4 ... x7; raising undoes it")
     '''),
     md(r"""
-    The next cell defines `heat_map` and draws the first figure.
+    The next cell defines `heat_map` and draws the first figure: $\eta_{ab}$,
+    $\delta^a_c$ and the two lists $v^a$ and $v_a$ side by side.
     """),
     code(r'''
     labels = [f"$x_{k}$" for k in range(1, 9)]  # x with the subscripts 1 ... 8

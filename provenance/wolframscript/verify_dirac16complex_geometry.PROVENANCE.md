@@ -2,7 +2,7 @@
 
 Set: `scripts/verify_dirac16complex_geometry.wls` with `wolfram/Dirac16ComplexGeometry.wl` (old Stage 1, "the field in an arbitrary gravitational field").
 
-Verified on 2026-10-02 at commit `45d47343ae480df46e06689ed822b8f9a88a8030` of https://github.com/once-ere/Dirac_claude.git. Result: the set EXECUTES OK (exit code 0, 43 of 43 checks true, `failed_check_count=0`) and reproduces its committed report byte for byte, in two runs from fresh clones. Re-verified the same day at commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` (two more runs from two more fresh clones, after a review of this file). The details are in Part 6.
+Verified on 2026-10-02 at commit `45d47343ae480df46e06689ed822b8f9a88a8030` of https://github.com/once-ere/Dirac_claude.git. Result: the set EXECUTES OK (exit code 0, 43 of 43 checks true, `failed_check_count=0`) and reproduces its committed report byte for byte, in two runs from fresh clones. Re-verified the same day at commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` (two more runs from two more fresh clones, after a review of this file), and again on 2026-10-07 at commits `a4c5eda1df069a43a55ff8b57148f5de8edd1670` and `8cbd03a02f7771bce9e199f5d48cd41a979f1f06` (four more runs from four more fresh clones, after the workflow that wrote this file had been interrupted by a session limit and restarted): every run executed OK with 43 of 43 checks true and reproduced the committed report byte for byte. The details are in Part 6.
 
 This file is written for a student who has never used Wolfram software. Everything you need to run the set is in this file; you do not have to read any other file first.
 
@@ -61,8 +61,9 @@ Besides the 43 checks the report records 295 "measurements": the conventions use
 * `provenance/DIRAC16COMPLEX_TEXTBOOK.md` (and `.tex`, `.pdf`) and its chapters `provenance/textbook/chapters/00-how-to-read.md`, `04-curved-space.md`, `05-classical-field-theory.md`, `08-quantization.md`, `19-reproducing-everything.md`, `20-glossary-and-check-index.md`.
 * `provenance/DIRAC16COMPLEX_MATTER_ANTIMATTER.md` (and `.tex`, `.pdf`), which cites `GEO_divergenceIdentity_G1` and `_G2` and the report's sha256.
 * `provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md` and `provenance/DIRAC16COMPLEX_DARK_SECTOR_NUMERICS.md`, which say that the Mathematica notebook `notebooks/Dirac16ComplexDarkSector.nb` loads the package.
+* The execution-provenance files of the sets that use this set, in the folder `provenance/wolframscript/`: `verify_dirac16complex00.PROVENANCE.md`, `verify_dirac16complex_pairing.PROVENANCE.md` and `verify_dirac16complex_matter_antimatter.PROVENANCE.md` (they record the sha256 of the package and/or of the report), and `build_dirac16complex_mathematica_notebook.PROVENANCE.md`, `build_dirac16complex_ks_mathematica_notebook.PROVENANCE.md`, `verify_dirac16complex_mathematica_notebook.PROVENANCE.md` and `verify_dirac16complex_ks_mathematica_notebook.PROVENANCE.md` (their notebooks load the package). `handoff/tools/WOLFRAMSCRIPT_PROVENANCE.md` (the provenance of the design-phase probes) names this set as the shipped verifier that proves the probes' statements again and lists the checks of the report that do so.
 
-**Programs, tests and data files that depend on this set.** The following list is complete for the verified commits (`45d4734` and `c2b33cc`, Part 6): it was made by searching every file of a fresh clone (except the documents `.md`, `.tex`, `.pdf`, `.txt` and the logs) for the names `Dirac16ComplexGeometry`, `wolfram-geometry-report` and `verify_dirac16complex_geometry` and for the three sha256 values of Part 2. If you change a program file of this set or the report, these programs and tests are affected.
+**Programs, tests and data files that depend on this set.** The following list is complete for the verified commits (`45d4734`, `c2b33cc` and `a4c5eda`, Part 6): it was made by searching every file of a fresh clone (except the documents `.md`, `.tex`, `.pdf`, `.txt` and the logs) for the names `Dirac16ComplexGeometry`, `wolfram-geometry-report` and `verify_dirac16complex_geometry` and for the three sha256 values of Part 2. (The search was repeated with `git grep` at `a4c5eda` on 2026-10-07: compared with `c2b33cc` it found no new program, test or data file, only the new documents named in the list of documents above.) If you change a program file of this set or the report, these programs and tests are affected.
 
 * Programs that *read* the committed report: `scripts/check_dirac16complex_geometry.py` (option `--wolfram-report`; it records the report's sha256 as `GEO_wolframReportSha256`), `scripts/build_stage1_summary.py`, `scripts/verify_stage1_public_clone_audit.py`, the Stage-1 gates `scripts/verify_stage1_arbitrary_field.ps1` and `scripts/verify_stage1_arbitrary_field.sh` (step `stage1-04-wolfram-geometry`), `wolfram/Dirac16Complex00.wl` (it cites 20 of the report's checks and requires the report's `sourceSha256` of the package to equal the package's current sha256) and `wolfram/Dirac16ComplexMatterAntimatter.wl` (it cites ten of the report's checks and records the report's sha256).
 * Programs that compute the *sha256* of the package and/or the report: `scripts/verify_dirac16complex00.wls` (both the package and the report; it writes them into its report), `scripts/verify_dirac16complex_pairing.wls` (the package; it writes it into its report), `scripts/verify_dirac16complex_matter_antimatter.wls` (the package; it writes it into its report) and `scripts/check_dirac16complex_pairing.py` (the package; its check `sourcesCurrent` fails if the package's sha256 differs from the one recorded in the pairing reports).
@@ -135,7 +136,7 @@ git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
 ```
 
-The clone downloads about 130 MB and occupies about 520 MB on disk (measured on 2026-10-02). Every command below is typed in this folder, the *repository root* (the folder that contains `scripts`, `wolfram` and `artifacts`). (Instead of git you may also download the ZIP archive from the GitHub page, button "Code", "Download ZIP", and unpack it; then `git status` and `git checkout` below are not available.)
+The clone downloads about 200 MB and occupies about 670 MB on disk (measured on 2026-10-07: the git data in `.git` were 195 MB, the whole folder 667 MB; the repository grows with every commit). Every command below is typed in this folder, the *repository root* (the folder that contains `scripts`, `wolfram` and `artifacts`). (Instead of git you may also download the ZIP archive from the GitHub page, button "Code", "Download ZIP", and unpack it; then `git status` and `git checkout` below are not available.)
 
 ### 3.3 Run it
 
@@ -167,7 +168,7 @@ echo "exit code: $?"
 tail -n 3 build/geometry-check/stdout.txt
 ```
 
-(The first line creates the folder for the saved screen output `stdout.txt`; without `> build/geometry-check/stdout.txt` the 341 lines are printed on the screen instead. The PowerShell commands of this file were tested with PowerShell 7; Windows PowerShell 5.1, which comes with Windows, has the same commands but was not tested.) The run takes about 5 to 7 minutes on the verification machine (Part 4.3) and prints nothing until the very end, because all lines are printed after the computation. Do not interrupt it.
+(The first line creates the folder for the saved screen output `stdout.txt`; without `> build/geometry-check/stdout.txt` the 341 lines are printed on the screen instead. The PowerShell commands of this file were tested with PowerShell 7; Windows PowerShell 5.1, which comes with Windows, has the same commands but was not tested.) The run takes about 5 to 7.5 minutes on the verification machine (Part 4.3) and prints nothing until the very end, because all lines are printed after the computation. Do not interrupt it.
 
 Then compare the new report with the committed one. Windows PowerShell:
 
@@ -204,7 +205,7 @@ Both sha256 values must be `cec9ee0d577c4e7f0e82efd404d412a503140ccb1547118ab48a
 | The report appears in `artifacts/...` although you gave another path | You typed `--` before the path (Part 3.3). Remove it, and restore the committed file with `git checkout -- artifacts/dirac16complex/arbitrary-field/wolfram-geometry-report.json`. |
 | The new report differs from the committed one, but all 43 checks are true | Most likely another Wolfram version: compare the `producer` lines (Part 4.4). If you edited a program file, its `sourceSha256` entry changes too. |
 | PowerShell says the path to `stdout.txt` could not be found | The folder `build/geometry-check` does not exist yet: run the `New-Item` line first. |
-| It runs much longer than 7 minutes | Slower computers need longer; the computation is exact and uses essentially one processor core, so more cores do not help. Let it finish. If you stop it with Ctrl+C, no report is written and the old one is left unchanged. |
+| It runs much longer than 8 minutes | Slower computers need longer; the computation is exact and uses essentially one processor core, so more cores do not help. Let it finish. If you stop it with Ctrl+C, no report is written and the old one is left unchanged. |
 
 ## 4. Expected output
 
