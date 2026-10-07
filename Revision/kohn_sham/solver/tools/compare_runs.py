@@ -72,6 +72,7 @@ def main():
     ap.add_argument("--repeat", default=None)
     ap.add_argument("--repeat-report", default=None)
     ap.add_argument("--refined", default=None)
+    ap.add_argument("--refined-report", default=None)
     ap.add_argument("--report", required=True)
     a = ap.parse_args()
     checks = []
@@ -220,31 +221,83 @@ def main():
                 wcv, wcid = d, k[0]
         check("refined_thermodynamics", wt <= TOL["thermo"] and set(tc) == set(tr),
               f"{len(tc)} thermal states, same set: {set(tc) == set(tr)}; mu, E, F, Omega (both forms; relative to max(|x|, 1)) and S (relative to max(|S|, 1e-6)): max {wt:.3e} ({wtid}); tolerance {TOL['thermo']:.0e}")
-        # the Mermin root: two rounding paths, so that |canonical - refined| sees the rounding of mu
+        # The Mermin root.  The measure of the root's uncertainty is U_mu = |mu_c - mu_r| + B_c + B_r
+        # (B = mu_rounding_bound of each run, the first-order rounding bound of solver/src/mermin.rs) and
+        # U_Omega = |Omega_c - Omega_r| + N (B_c + B_r) (both forms of Omega; dOmega/dmu = -N at fixed levels).
+        # It is sensitive to the rounding of the root because (1) the two runs reach the root along
+        # different rounding paths (LogBalance, LinearDeviation), so |mu_c - mu_r| does not share it, and
+        # (2) each run's own bound is added.  Negative control: the column mu_direct_count_minus_mu holds,
+        # for every state of each run, the root of the former direct count sum g f - N on the same final
+        # levels minus mu; with it the former measure (direct count in both runs) is evaluated as well.
         fc = pc["numerics"].get("merminRoot")
         fr_ = pr["numerics"].get("merminRoot")
-        wm = wo = wb = 0.0
-        wmid = woid = wbid = ""
+
+        def own_root_pass(path):
+            # the run's check thermo_mu_well_conditioned_root: mu is its own form's root bit for bit, and the
+            # two well-conditioned forms agree within their bounds on that run's final levels
+            if not path:
+                return None
+            try:
+                with open(path, encoding="utf-8") as fh:
+                    rp = json.load(fh)
+            except (OSError, ValueError):
+                return False
+            return [c["verdict"] for c in rp.get("checks", []) if c["name"] == "thermo_mu_well_conditioned_root"] == ["PASS"]
+
+        own_c = own_root_pass(a.canonical_report)
+        own_r = own_root_pass(a.refined_report)
+        um = uo = bsum = 0.0
+        umid = uoid = bid = ""
+        cols_ok = True
+        neg = []
         for k, x in tc.items():
             y = tr.get(k)
             if y is None:
                 continue
-            d = abs(num(x["mu"]) - num(y["mu"]))
-            if d > wm:
-                wm, wmid = d, k[0]
-            d = max(abs(num(x[c]) - num(y[c])) for c in ("Omega_direct", "Omega_F_minus_muN"))
-            if d > wo:
-                wo, woid = d, k[0]
-            b = num(x.get("mu_rounding_bound"))
-            if b > wb:
-                wb, wbid = b, k[0]
-        check("refined_mermin_root_path", fc is not None and fr_ is not None and fc != fr_,
+            mc, mr = num(x["mu"]), num(y["mu"])
+            bc, br = num(x.get("mu_rounding_bound")), num(y.get("mu_rounding_bound"))
+            dcc, dcr = num(x.get("mu_direct_count_minus_mu")), num(y.get("mu_direct_count_minus_mu"))
+            if not all(v == v and abs(v) != float("inf") for v in (bc, br, dcc, dcr)):
+                cols_ok = False
+                continue
+            nn = num(x["N"])
+            u_mu = abs(mc - mr) + bc + br
+            u_om = max(abs(num(x[c]) - num(y[c])) for c in ("Omega_direct", "Omega_F_minus_muN")) + nn * (bc + br)
+            if u_mu > um:
+                um, umid = u_mu, k[0]
+            if u_om > uo:
+                uo, uoid = u_om, k[0]
+            if bc + br > bsum:
+                bsum, bid = bc + br, k[0]
+            if abs(dcc) > 2.0 * u_mu:
+                # the former canonical root (direct count) would be wrong by |dcc| (to within B_c), more than
+                # twice the uncertainty the measure reports for the well-conditioned root
+                u_former = abs((mc + dcc) - (mr + dcr))    # the former measure: both runs with the direct count
+                u_seen = abs((mc + dcc) - mr)              # the present refined run against a former canonical root
+                neg.append((k[0], dcc, dcr, u_former, u_seen, u_mu))
+        neg.sort(key=lambda r: (-abs(r[1]), r[0]))
+        blind = all(r[3] < 0.5 * abs(r[1]) for r in neg)
+        seen = all(r[4] >= 0.5 * abs(r[1]) for r in neg)
+        negligible = bsum <= 1e-3 * TOL["thermo"]
+        ok = (fc is not None and fr_ is not None and fc != fr_ and own_c is True and own_r is True and cols_ok
+              and negligible and bool(neg) and blind and seen)
+        rows_txt = "; ".join(
+            f"{r[0]}: direct-count error {r[1]:.3e} m (refined run {r[2]:.3e}), former measure {r[3]:.3e}, "
+            f"present measure against it {r[4]:.3e}, U_mu {r[5]:.2e}" for r in neg)
+        check("refined_mermin_root_path", ok,
               f"the canonical run solves sum g f = N with the form {fc}, the refined run with {fr_} (exactly equivalent "
-              f"well-conditioned residuals of solver/src/mermin.rs with different rounding paths), so |canonical - refined| "
-              f"of mu and Omega contains the rounding error of the root instead of sharing it (the former direct count, the "
-              f"same in both runs, hid an error of 8.3e-10 m in N8_lamm1_a00_T10); max |mu_c - mu_r| {wm:.3e} m ({wmid}), "
-              f"max |Omega_c - Omega_r| {wo:.3e} ({woid}); largest canonical rounding bound of mu (thermodynamics.csv "
-              f"mu_rounding_bound) {wb:.3e} ({wbid})")
+              f"well-conditioned residuals of solver/src/mermin.rs with different rounding paths); each run's mu is its own "
+              f"form's root bit for bit and the two forms agree within their bounds on that run's levels (check "
+              f"thermo_mu_well_conditioned_root of both reports: canonical {own_c}, refined {own_r}). Measure of the root: "
+              f"U_mu = |mu_c - mu_r| + B_c + B_r (B = mu_rounding_bound of each run), max {um:.3e} m ({umid}); "
+              f"U_Omega = |Omega_c - Omega_r| (both forms) + N (B_c + B_r), max {uo:.3e} ({uoid}); largest B_c + B_r "
+              f"{bsum:.3e} m ({bid}), negligible against the tolerance (<= 1e-3 x {TOL['thermo']:.0e}): {negligible}. "
+              f"NEGATIVE CONTROL (column mu_direct_count_minus_mu of both runs: the former direct-count root on the same "
+              f"final levels minus mu; columns present in every state: {cols_ok}): in {len(neg)} states the former "
+              f"canonical root would be wrong by more than twice U_mu; there the former measure (direct count in both runs) "
+              f"stays below half that error in every state ({blind}: the two runs shared the rounding), while the present "
+              f"refined run differs from a former canonical root by at least half of it in every state ({seen}): "
+              + (rows_txt if rows_txt else "none"))
         check("refined_heat_capacity", wcv <= TOL["derived"], f"C_V = T dS/dT (Richardson): max relative difference (relative to max(|C_V|, 1e-6)) {wcv:.3e} ({wcid}); tolerance {TOL['derived']:.0e}")
 
     nfail = sum(1 for c in checks if c["verdict"] == "FAIL")
