@@ -97,8 +97,8 @@ FACTS = {
          "length 4 and then 200,000 random pairs of each length 5 to 9 with the literal "
          "determinant, and the 200,000 determinants of nine by nine matrices alone take "
          "several minutes, because each one is a sum of 362,880 products. Wait until the "
-         "label to the left of the cell shows a number; the whole notebook takes about "
-         "10 minutes."],
+         "label to the left of the cell shows a number; the whole notebook takes 8 to "
+         "15 minutes, longer when the computer is busy with other work."],
         ["AssertionError: check failed: the program wrote gkd-selftest.json equal to the "
          "Revision record byte for byte",
          "The file that the program wrote differs from the committed record. Run "
@@ -137,8 +137,8 @@ CELLS = [
       program writes exactly the committed Revision record
       `Revision/gkd_lovelock/results/gkd-selftest.json`, byte for byte.
 
-    It draws six figures. The Rust self-test takes 7 to 9 minutes; everything else takes
-    less than a minute.
+    It draws six figures. The Rust self-test takes 7 to 13 minutes; everything else
+    takes about a minute.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -833,10 +833,14 @@ CELLS = [
     FOLDER is `Revision/gkd_lovelock/code/target/textbook_11a`, inside the crate's build
     folder `target`, which cargo has just made and which git ignores; so the run adds no
     file to the repository. **This cell takes several minutes** (on the computer on
-    which the book was built, between 7 and 9 minutes in different runs): the
-    exhaustive test of length 4 and the random tests of lengths 5 to 8 take about a
-    third of the time, and the 200,000 determinants of $9 \times 9$ matrices, each a sum
-    of $9! = 362880$ products, take the rest.
+    which the book was built, between 7 and 13 minutes in different runs, depending on
+    how busy the computer was). Timed part by part on that computer, on a busy day: the
+    exhaustive tests of lengths 1 to 4 took about 10 seconds, the random tests of
+    lengths 5, 6, 7 and 8 about 0.3, 1.6, 11 and 79 seconds, and the 200,000
+    determinants of $9 \times 9$ matrices, each a sum of $9! = 362880$ products, about
+    640 seconds: more than four fifths of the whole. From one length to the next the
+    work of one literal determinant grows by the factor $p$ (from $(p-1)!$ to $p!$
+    products), and the measured times of lengths 7, 8 and 9 grow by about 7, 7 and 8.
 
     `subprocess.run([...], capture_output=True, text=True)` runs the program and
     collects what it prints. The program prints one line per length, such as

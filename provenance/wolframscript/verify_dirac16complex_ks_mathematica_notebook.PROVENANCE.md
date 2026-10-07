@@ -538,7 +538,7 @@ Only Wolfram 15.0.1 on Windows 11 was tested, and it reproduces the committed fi
 
 ## 6. Verification record
 
-The set was verified twice, from fresh clones each time: first on 2026-10-02 (Part 6.1, runs R1 to R5 and E1, E2), and again on 2026-10-07 (Part 6.2, runs V1 to V6), after the verification workflow had been interrupted by a session limit and restarted; the second verification re-checked every statement of this file that it could measure instead of trusting the first one. Both found the same: the set executes correctly, all 94 checks pass, and the 7 outputs are byte-identical to the committed ones.
+The set was verified twice, from fresh clones each time: first on 2026-10-02 (Part 6.1, runs R1 to R5 and E1, E2), and again on 2026-10-07 (Part 6.2, runs V1 to V6), after the verification workflow had been interrupted by a session limit and restarted; the second verification measured again, instead of trusting the first one, the statements of this file that can be measured on the Windows verification machine (it did not repeat the installation steps of Parts 3.3 to 3.5 or the test with a one-check notebook in Part 3.10). Both found the same: the set executes correctly, all 94 checks pass, and the 7 outputs are byte-identical to the committed ones.
 
 ### 6.1 First verification (2026-10-02)
 
@@ -588,7 +588,7 @@ The set was verified twice, from fresh clones each time: first on 2026-10-02 (Pa
 ### 6.2 Re-verification after the restart (2026-10-07)
 
 * **Date:** 2026-10-07.
-* **Commits verified:** clone A at `d278c49e54f1561e693de4ffc415f6c11107f577`, the head of `main` on https://github.com/once-ere/Dirac_claude.git when it was cloned, and clones B and C at `72fc9ffc4a10328080a5778cc8a8c6e689aeaca6`, the head a few minutes later. Between `c2b33cc` (Part 6.1) and these commits no file of the set, none of its 18 inputs and none of its 7 committed outputs changed (checked with `git diff --stat`; the later commits changed other documents, the Revision textbook tools and `wolfram/Dirac16Complex00.wl`, which this set does not read). In clone A all these files had exactly the fingerprints, line counts and sizes of Part 2. The three clones were made in a scratch folder outside the working tree. **No uncommitted file was copied into any clone**: the set needs none.
+* **Commits verified:** clone A at `d278c49e54f1561e693de4ffc415f6c11107f577`, the head of `main` on https://github.com/once-ere/Dirac_claude.git when it was cloned, and clones B and C at `72fc9ffc4a10328080a5778cc8a8c6e689aeaca6`, the head a few minutes later. Between `c2b33cc` (Part 6.1) and these commits no file of the set, none of its 18 inputs and none of its 7 committed outputs changed (checked with `git diff --stat`; the later commits changed other documents, the Revision textbook tools and `wolfram/Dirac16Complex00.wl`, which this set does not read). In clone A all these files had exactly the fingerprints, line counts and sizes of Part 2, and `git log` confirmed the last-change commits named in Part 6.1. The three clones were made in a scratch folder outside the working tree. **No uncommitted file was copied into any clone**: the set needs none.
 * **Environment:**
   * Windows 11 Pro for Workstations 10.0.26300 (build 26300.9457), 24 logical processors, `LongPathsEnabled = 1`;
   * Wolfram 15.0.1 for Microsoft Windows (64-bit) (July 2, 2026), Professional licence; WolframScript 1.14.0;
