@@ -81,7 +81,7 @@ FACTS = {
     "files_written": ["Revision/textbook/figures/09b.captions.json"] + FIGURES,
     "final_lines": [
         "PASS the seven figures of this notebook are saved and captioned",
-        "ALL 32 CHECKS PASSED (notebook 09b)",
+        "ALL 33 CHECKS PASSED (notebook 09b)",
     ],
     "troubleshooting": [
         ["\"KeyError\" with the words \"has no check\"",
@@ -516,25 +516,32 @@ CELLS = [
     special values: $w = 0$ at $x = 0$ (dust-like), $w = -1$ at $x = -1$, where the
     effective mass $V = m + \lambda S$ is zero, $w < -1$ (phantom) for
     $-2 < x < -1$, and $w \to 1$ as $x$ grows. At $x = -2$ the energy density is zero
-    and $w$ is not defined.
+    and $w$ is not defined. For $x < -2$ (with $m > 0$ and $S > 0$) the energy
+    density and the pressure are both negative, and $w > 1$.
     """),
     code(r'''
     x_measured = np.array([-3.5, -3.0, -2.5, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 2.0, 3.0,
                            4.0])  # values of x = lambda S/m (here lambda = x)
-    w_measured = []
+    rho_measured, p_measured = [], []  # rho and p of each of the twelve condensates
     for x_value in x_measured:
         V = m + x_value * 1.0  # lambda = x_value, S0 = 1
         M, k2 = condensate_matrix(V, H)
         phi, dphi = condensate(1.3, chi, M, k2)
         S, U, K4, rho, p, B84 = homogeneous_tensor(phi, dphi, x_value)
-        w_measured.append(p / rho)
-    w_measured = np.array(w_measured)
+        rho_measured.append(rho)
+        p_measured.append(p)
+    rho_measured, p_measured = np.array(rho_measured), np.array(p_measured)
+    w_measured = p_measured / rho_measured  # the equation of state of each condensate
     w_formula = x_measured / (2 + x_measured)
     check(np.abs(w_measured - w_formula).max() < 1e-9,
           "w = p/rho of 12 exact condensates equals x/(2 + x), x = lambda S/m")
     at_minus_one = w_measured[list(x_measured).index(-1.0)]
     check(abs(at_minus_one + 1.0) < 1e-12,
           "w = -1 exactly where the effective mass m + lambda S vanishes (x = -1)")
+    below = x_measured < -2  # the three condensates with x < -2
+    check(np.all(rho_measured[below] < 0) and np.all(p_measured[below] < 0)
+          and np.all(w_measured[below] > 1),
+          "for x < -2: rho < 0, p < 0 and w > 1")
     for x_value, w_value in zip(x_measured, w_measured):
         say(f"x = lambda S/m = {x_value:5.1f}:  w = p/rho = {w_value: .6f}")
     '''),
@@ -565,6 +572,7 @@ CELLS = [
                 "it. $w = 0$ at $x = 0$, $w = -1$ (dashed) at $x = -1$, where the "
                 "effective mass $m + \\lambda S$ vanishes, $w < -1$ (shaded) for "
                 "$-2 < x < -1$, $w$ is undefined at $x = -2$ (dotted) where $\\rho = 0$, "
+                "$w > 1$ for $x < -2$, where $\\rho$ and $p$ are both negative, "
                 "and $w$ approaches $1$ for large $x$. This is the 8-dimensional "
                 "ratio, not the equation of state a 3-space observer would infer.")
     '''),

@@ -19,7 +19,16 @@ sum g f - N fixed mu only to eps_mach N/(dN/dmu), and the canonical and the
 refined run carried the same rounding (their levels differ too little to move
 it), so |canonical - refined| did not see an error of 8.3e-10 m.  With two
 different rounding paths, |canonical - refined| of mu and of Omega = F - mu N
-contains the rounding error of the root.
+contains the rounding error of the root.  The check refined_mermin_root_path
+states the measure of the root, U_mu = |mu_c - mu_r| + B_c + B_r and
+U_Omega = |Omega_c - Omega_r| + N (B_c + B_r) (B = mu_rounding_bound of each
+run), reads the check thermo_mu_well_conditioned_root of both reports
+(--canonical-report, --refined-report), and runs a negative control with the
+column mu_direct_count_minus_mu of both runs (the former direct-count root on
+the same final levels minus mu): wherever that error exceeds 2 U_mu, the former
+measure (direct count in both runs) must stay below half of it (the shared
+rounding that hid the defect) and the present refined run must differ from the
+former canonical root by at least half of it.
 
 Writes a JSON report with every check (name, verdict, detail); exit 1 on failure.
 """

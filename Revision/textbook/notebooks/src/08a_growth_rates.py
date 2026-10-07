@@ -302,8 +302,8 @@ CELLS = [
     E2_sympy_text = sp.sstr(E2)  # "k1**2 + k2**2 + ... + m**2"
     E2_wolfram_text = E2_sympy_text.replace("**", "^")  # "k1^2 + k2^2 + ... + m^2"
     check_record(square_ok,
-                 "h_k^2 = E^2 I16, E^2 = m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2",
-                 "Revision/theory/reports/python-scope.json",
+                 "h_k^2 = E^2 I16, E^2 = m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 "
+                 "- k7^2", "Revision/theory/reports/python-scope.json",
                  "extra_time_growth_rates_unbounded", f"h_k^2 = ({E2_sympy_text}) I16")
     check_record(square_ok, "the same E^2 in the independent Wolfram verifier",
                  "Revision/theory/reports/wolfram-scope.json",

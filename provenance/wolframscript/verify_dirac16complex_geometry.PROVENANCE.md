@@ -253,7 +253,7 @@ Both must print `checks=43 true=43`.
 
 ### 4.3 Run time and memory
 
-Measured on the verification machine (Intel Core Ultra 9 275HX, 24 cores, 191 GB RAM, Windows 11 Pro for Workstations 10.0.26200, Wolfram 15.0.1, WolframScript 1.14.0), with several other Wolfram kernels of other jobs running at the same time:
+Measured on the verification machine (Intel Core Ultra 9 275HX, 24 cores, 191 GB RAM, Windows 11 Pro for Workstations 10.0.26200 for runs 1 to 7 and 10.0.26300 for runs 8 to 11, Wolfram 15.0.1, WolframScript 1.14.0), with several other Wolfram kernels of other jobs running at the same time:
 
 | Run | Report path | Wall time | Exit code | Peak working set of the kernel |
 | --- | --- | --- | --- | --- |
@@ -264,8 +264,12 @@ Measured on the verification machine (Intel Core Ultra 9 275HX, 24 cores, 191 GB
 | 5 | `build/geometry-check/...`, bash block of Part 3.3 | 314 s | 0 | not measured |
 | 6 | `build/geometry-check/...`, PowerShell block of Part 3.3 (re-verification) | 301.4 s | 0 | not measured |
 | 7 | `build/geometry-check/...`, bash block of Part 3.3 (re-verification) | 404.1 s | 0 | not measured |
+| 8 | usage line (committed path), 2026-10-07 | 432.7 s | 0 | 625 MiB |
+| 9 | usage line (committed path), 2026-10-07 | 411.7 s | 0 | 629 MiB |
+| 10 | `build/geometry-check/...`, PowerShell block of Part 3.3, 2026-10-07 | about 424 s | 0 | not measured |
+| 11 | `build/geometry-check/...`, bash block of Part 3.3, 2026-10-07 | about 429 s | 0 | not measured |
 
-Runs 2 and 3 overlapped in time, and so did runs 4 and 5, which made them slower than run 1; runs 6 and 7 did not overlap with each other, but other Wolfram jobs ran on the machine at the same time (a process list taken 39 s after the end of run 7 showed eleven other Wolfram kernels: one started before run 6, seven started during run 7); this is the most likely reason for the 404 s of run 7. Expect about 5 to 7 minutes on a similar machine. (Chapter 19.6 of the textbook, `provenance/textbook/chapters/19-reproducing-everything.md`, gives 409 s for the same step in a Bash run of the Stage-1 gate from a fresh clone made for that edition of the textbook; the committed Stage-1 gate logs of 2026-09-30 under `handoff/reviews/` record no time for this step.) The computation runs in one kernel and uses essentially one core (the kernel's processor time was about 1.04 times the wall time), so the time depends mainly on the speed of one core. The peak memory (working set) of the kernel process was about 0.64 GB; WolframScript itself used about 17 MB.
+Runs 2 and 3 overlapped in time, and so did runs 4 and 5, which made them slower than run 1; runs 6 and 7 did not overlap with each other, but other Wolfram jobs ran on the machine at the same time (a process list taken 39 s after the end of run 7 showed eleven other Wolfram kernels: one started before run 6, seven started during run 7); this is the most likely reason for the 404 s of run 7. Runs 8 to 11 ran while about a dozen kernels of other jobs were running (a process list taken about 80 s after the start of run 8 showed thirteen other Wolfram kernels), and runs 9, 10 and 11 overlapped with each other (runs 10 and 11 started about 50 s after run 9). Expect about 5 to 7.5 minutes on a similar machine. (Chapter 19.6 of the textbook, `provenance/textbook/chapters/19-reproducing-everything.md`, gives 409 s for the same step in a Bash run of the Stage-1 gate from a fresh clone made for that edition of the textbook; the committed Stage-1 gate logs of 2026-09-30 under `handoff/reviews/` record no time for this step.) The computation runs in one kernel and uses essentially one core (the kernel's processor time was about 1.04 times the wall time in run 1; in runs 8 and 9 it was at least 0.94 and 0.99 times the wall time, measured by a sample taken at most about 6 s before the end), so the time depends mainly on the speed of one core. The peak memory (working set) of the kernel process was about 0.63 to 0.67 GB (625 to 638 MiB); WolframScript itself used about 17 MB.
 
 ### 4.4 Comparing with a different Wolfram version
 

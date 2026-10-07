@@ -56,7 +56,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 15,
+    "expected_seconds": 20,
     "timeout_seconds": 600,
     "files_written": [
         "Revision/textbook/figures/12a.captions.json",
@@ -831,7 +831,8 @@ CELLS = [
         for h in range(N):  # write each diagonal value into its cell
             value = values[h, h]
             text = f"{value:.0f}" if abs(value) >= 100 else f"{value:.1f}"
-            ax.text(h, h, text, ha="center", va="center", fontsize=6.5)
+            ink = "white" if abs(value) > 0.6 * scale else "black"  # readable on dark
+            ax.text(h, h, text, ha="center", va="center", fontsize=6.5, color=ink)
         ax.set_xticks(range(N))
         ax.set_xticklabels(NAMES, fontsize=7)
         ax.set_yticks(range(N))

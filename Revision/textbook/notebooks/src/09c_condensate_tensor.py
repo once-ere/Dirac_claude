@@ -918,10 +918,9 @@ CELLS = [
       $S = 2|v_1^\dagger Cv_2|^2$ is never negative; the record's frequencies
       $\omega = 4, 3, 4$ are reproduced exactly and its $S = 204800, 115200, 204800$
       up to one common factor, 160000 (the record's columns are not of length 1).
-      On the deflating
-      history only condensates whose 15 bilinears all vanish, such as these, meet
-      the condition of the $a_4$ field equations that the off-diagonal entries of
-      the source vanish (one condition among several).
+      On the deflating history only condensates whose 15 bilinears all vanish, such
+      as these, meet the condition of the $a_4$ field equations that the
+      off-diagonal entries of the source vanish (one condition among several).
     - The full tensor of a condensate is conserved, $\nabla_\mu T^\mu{}_\nu = 0$,
       along a curved history: the finite-difference divergence falls like $h^2$. A
       configuration that leaves out the gravitational term $3H\gamma^{(8)}$ keeps the

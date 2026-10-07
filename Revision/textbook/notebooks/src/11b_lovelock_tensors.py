@@ -46,7 +46,9 @@ FACTS = {
         "it is up to date) and runs it; the program computes exactly the curvature of "
         "the author's metric and the three Lovelock tensors of Lovelock's equation "
         "(4.38) in eight dimensions with GKD, and the notebook checks that its four "
-        "output files are byte for byte the committed Revision records. Then it "
+        "output files are byte for byte the committed Revision records (the report "
+        "apart from two floating-point rounding errors, which must stay below 1e-10). "
+        "Then it "
         "recomputes the Riemann tensor with sympy and the three Lovelock tensors and "
         "scalars with its own Python GKD sum, compares every component exactly with the "
         "records, reproduces the counters of the Rust sums, repeats the sums of orders "
@@ -75,7 +77,8 @@ FACTS = {
         [f"{RESULTS}/lovelock-components.md",
          "the same components in LaTeX form; reproduced byte for byte"],
         [f"{RESULTS}/lovelock-report.json",
-         "the 19 checks and the counters of the GKD sums; reproduced byte for byte and "
+         "the 19 checks and the counters of the GKD sums; reproduced byte for byte "
+         "apart from the two floating-point deviations of its brute-force checks, and "
          "the counters recomputed"],
         [f"{RESULTS}/python-lovelock-report.json",
          "the independent sympy verification (49 checks); its checks on the Riemann "
@@ -310,16 +313,43 @@ CELLS = [
     (`read_bytes()` reads a file as a sequence of bytes). Equal bytes mean that the
     program, built on this computer, has reproduced every symbol of the Revision's
     results.
+
+    The first three files hold only exact whole numbers and fractions, so they must be
+    equal byte for byte on every computer. The fourth, `lovelock-report.json`, holds
+    two decimal numbers: the largest relative deviation between the exact $P_{(1)}$,
+    $P_{(2)}$ and their literal brute-force sums, evaluated in floating point at one
+    numerical point (on the build computer $1.40 \times 10^{-15}$ and
+    $4.41 \times 10^{-14}$, rounding errors of the decimal arithmetic). The last digits
+    of such rounding errors can depend on the mathematics library of the operating
+    system (the functions $\sin$ and $\cos$). So the cell compares this file byte for
+    byte after replacing these two numbers by the letter X in both texts
+    (`re.sub`), and checks separately that both numbers are below the program's own
+    limit $10^{-10}$. On the computer that built the book the file is equal byte for
+    byte without any replacement.
     """),
     code(r'''
+    DEVIATION = re.compile(r"(max relative deviation from the exact P_\(\d\) = )"
+                           r"([0-9.]+e[-+]?\d+)")  # the two floating-point numbers
     for file_name in ("curvature.json", "lovelock-tensors.json",
-                      "lovelock-components.md", "lovelock-report.json"):
+                      "lovelock-components.md"):
         written = (OUT_FOLDER / file_name).read_bytes()
         stored = repository_file(f"{RESULTS}/{file_name}").read_bytes()
         report(f"size of {file_name}", len(written), "bytes")
         check(written == stored,
               f"the program wrote {file_name} equal to the Revision record byte for byte",
               record=f"{RESULTS}/{file_name} (the whole file)")
+    written = (OUT_FOLDER / "lovelock-report.json").read_text(encoding="utf-8")
+    stored = repository_file(f"{RESULTS}/lovelock-report.json").read_text(
+        encoding="utf-8")
+    deviations = [float(number) for _, number in DEVIATION.findall(written)]
+    masked_written = DEVIATION.sub(r"\1X", written)  # the two numbers replaced by X
+    masked_stored = DEVIATION.sub(r"\1X", stored)
+    report("size of lovelock-report.json", len(written.encode("utf-8")), "bytes")
+    check(masked_written == masked_stored and len(deviations) == 2
+          and all(value < 1e-10 for value in deviations),
+          "the program wrote lovelock-report.json equal to the Revision record byte for "
+          "byte, apart from its two brute-force deviations, both below 1e-10",
+          record=f"{RESULTS}/lovelock-report.json (the whole file)")
     '''),
     md(r"""
     ## 6. How much work the sums are

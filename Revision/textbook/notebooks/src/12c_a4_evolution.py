@@ -53,7 +53,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 10,
+    "expected_seconds": 15,
     "timeout_seconds": 600,
     "files_written": [
         "Revision/textbook/figures/12c.captions.json",
@@ -621,11 +621,11 @@ CELLS = [
     code(r'''
     fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
     x4 = damped[0.25][0]
-    for slope, style in ((2.0, ":"), (1.0, "-.")):  # the two linear members
+    for slope, style, power in ((2.0, ":", "-2x_4"), (1.0, "-.", "-x_4")):
         left.plot(x4, slope * np.ones_like(x4), style, color="black",
-                  label=f"linear member $A = {slope:g}$")
+                  label=f"linear member $A = {slope:g}$")  # the two linear members
         right.semilogy(x4, np.exp(-slope * x4), style, color="black",
-                       label=f"$A = {slope:g}$: $e^{{-{slope:g}x_4}}$")
+                       label=f"$A = {slope:g}$: $e^{{{power}}}$")
     for eta, (x4, y) in damped.items():
         left.plot(x4, y[:, 1], label=f"$\\eta = {eta}$")
         right.semilogy(x4, np.exp(-y[:, 0]), label=f"$\\eta = {eta}$")

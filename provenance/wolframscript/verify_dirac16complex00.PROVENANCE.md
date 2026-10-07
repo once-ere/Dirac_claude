@@ -415,7 +415,7 @@ The script `scripts/verify_dirac16complex00.wls` and the checker `scripts/check_
 
 ### 6.5 Re-verification on 2026-10-07 (after a session interruption)
 
-The verification of 2026-10-02 was interrupted by a session limit before an independent final check, so the whole set was run again from fresh clones; nothing of the earlier record was taken on trust. Every statement below was measured on 2026-10-07.
+The workflow that wrote this file on 2026-10-02 was interrupted by a session limit before its final verify and fix stages had run, so the whole set was run again from fresh clones; nothing of the earlier record was taken on trust. Every statement below was measured on 2026-10-07.
 
 * **Commit.** `a4c5eda1df069a43a55ff8b57148f5de8edd1670` of https://github.com/once-ere/Dirac_claude.git, branch `main` (it contains the fix, committed in `3f0a577` together with this provenance file and the four fix files of Part 6.3). While the runs went on, the commit `8cbd03a` was added on `main`; it changes only `HANDOFF.md` and `Revision/workflows/dirac_matrices_audit.js`, none of the files of Part 2.
 * **Environment.** The machine of Part 6.1, now with Windows 11 Pro for Workstations 10.0.26300; Wolfram 15.0.1 for Microsoft Windows (64-bit) (July 2, 2026), WolframScript 1.14.0, PowerShell 7.6.6, Git Bash (GNU bash 5.2.37, git 2.51.2.windows.1), Python 3.14.5 with sympy 1.14.0, mpmath 1.3.0, numpy 2.4.6 (for the unit tests only). About 14 Wolfram kernels of other jobs ran at the same time (CPU load 100 % during the runs).

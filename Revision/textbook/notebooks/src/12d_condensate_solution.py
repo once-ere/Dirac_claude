@@ -65,7 +65,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 20,
+    "expected_seconds": 25,
     "timeout_seconds": 600,
     "files_written": [
         "Revision/textbook/figures/12d.captions.json",
@@ -443,7 +443,7 @@ CELLS = [
         worst = max(worst, np.max(np.abs(np.abs(eigenvalues.imag) - w_value)),
                     np.max(np.abs(eigenvalues.real)))
         ax.plot([M_value] * 16, np.abs(eigenvalues.imag), "o", color="black",
-                markersize=4)
+                markersize=4, zorder=3)  # zorder 3: drawn on top of the red squares
     ax.plot([], [], "o", color="black", markersize=4,
             label="$|\\mathrm{Im}|$ of the eigenvalues of $\\mathcal{A}$")
     ax.plot([-5, 5], [4, 4], "s", color="tab:red", markersize=7,
@@ -911,8 +911,10 @@ CELLS = [
     for ax, (values, title) in zip(axes, panels):
         ax.imshow(values, cmap="RdBu_r", vmin=-scale, vmax=scale)
         for mu in range(8):
-            ax.text(mu, mu, f"{values[mu, mu]:.0f}", ha="center", va="center",
-                    fontsize=7)
+            value = values[mu, mu]
+            ink = "white" if abs(value) > 0.6 * scale else "black"  # readable on dark
+            ax.text(mu, mu, f"{value:.0f}", ha="center", va="center", fontsize=7,
+                    color=ink)
         ax.set_xticks(range(8))
         ax.set_xticklabels(NAMES, fontsize=7)
         ax.set_yticks(range(8))
@@ -961,10 +963,11 @@ CELLS = [
                   label=f"Re $\\Phi_{{{index + 1}}}(x_4)$")
     left.plot(times, density, color="black", linewidth=2.0,
               label="$S = \\bar\\Phi\\Phi = 12/5$")
+    left.set_ylim(-1.35, 4.0)  # room for the legend above the curves
     left.set_xlabel("time $x_4$ (units $1/H$)")
     left.set_ylabel("value")
     left.set_title("example 1: the condensate oscillates, $S$ stays constant")
-    left.legend(fontsize=8)
+    left.legend(fontsize=8, loc="upper center", ncol=2)
     for name, style in (("example 1", "-"), ("example 2", "--")):
         slope = float(solutions[name]["A"])
         right.semilogy(times, np.exp(slope * times), style, color="tab:orange",
