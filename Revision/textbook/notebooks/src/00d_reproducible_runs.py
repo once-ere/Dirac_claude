@@ -522,6 +522,82 @@ CELLS = [
                 r"margin.")
     '''),
     md(r"""
+    The record also teaches why the refined run had to round along a different path.
+    An earlier version of the solver found $\mu$ with a third method, a *direct count*,
+    and used it in BOTH runs. In three thermal states that method was wrong by up to
+    about $8 \times 10^{-10}\,m$, but both runs made the same rounding error, so the
+    difference between the runs (the *former measure*) was tiny and hid the error. The
+    present refined run finds $\mu$ along another rounding path, and its difference
+    from the old result (the *present measure*) shows the error in full. The check
+    `refined_mermin_root_path` of the same report records this as a *negative control*
+    (a test that must detect a known error) in its detail text, one entry per state.
+
+    The next cell reads these entries with a regular expression: `re.findall` returns,
+    for every place where the pattern matches, the parts in brackets (the name of the
+    state and three numbers). It prints them as a table and checks, as the record
+    states, that in every state the former measure stays below half of the error while
+    the present measure is at least half of it. Two computations that make the same
+    rounding error agree with each other and can still both be wrong: a comparison is
+    only as good as the independence of the two computations.
+    """),
+    code(r'''
+    root_path = determinism_checks["refined_mermin_root_path"]  # the record's check
+    CONTROL = (r"(N\w+): direct-count error (\S+) m \(refined run \S+\), "
+               r"former measure (\S+), present measure against it (\S+),")
+    control = []  # (state, error of the old root, former measure, present measure)
+    for state, error, former, present in re.findall(CONTROL, root_path["detail"]):
+        control.append((state, abs(float(error)), float(former), float(present)))
+    say("state              error of the old   former measure   present measure")
+    for state, error, former, present in control:
+        say(f"{state:17} {error:12.3e} m   {former:14.3e}   {present:15.3e}")
+    largest_hidden = max(error for _, error, _, _ in control)
+    report("largest error that one shared rounding path hid", f"{largest_hidden:.3e}", "m")
+    check_reproduces(
+        root_path["verdict"] == "PASS" and len(control) == 3
+        and all(former < error / 2 <= present for _, error, former, present in control),
+        f"one shared rounding path hid errors up to {largest_hidden:.1e} m; "
+        "two paths show them",
+        f"{DETERMINISM}, check refined_mermin_root_path")
+    '''),
+    md(r"""
+    The next cell draws the three states of the negative control: for each state, the
+    error of the old method, the difference that the former comparison saw, and the
+    difference that the present comparison sees, as bars on a logarithmic axis.
+    """),
+    code(r'''
+    fig, ax = plt.subplots(figsize=(7.0, 4.0))
+    rows = np.arange(len(control))[::-1]  # the first state at the top
+    height = 0.26  # three bars in each row
+    errors = [error for _, error, _, _ in control]
+    formers = [former for _, _, former, _ in control]
+    presents = [present for _, _, _, present in control]
+    ax.barh(rows + height, errors, height, color=ORANGE,
+            label="error of the old method")
+    ax.barh(rows, formers, height, color="#b5b3ad",
+            label="former comparison (one rounding path in both runs)")
+    ax.barh(rows - height, presents, height, color=BLUE,
+            label="present comparison (two rounding paths)")
+    ax.set_xscale("log")
+    ax.set_xlim(1e-17, 1e-8)
+    ax.set_yticks(rows, labels=[state for state, _, _, _ in control])
+    ax.grid(False, axis="y")
+    ax.set_xlabel(r"size of the difference in $\mu$ (units of the mass m)")
+    ax.set_title("A comparison that rounds the same way twice sees nothing")
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.18), ncol=1)
+    save_figure(fig, "shared_rounding",
+                r"The negative control of the Revision record's Kohn-Sham solver for "
+                r"the three thermal states named on the vertical axis: the error of the "
+                r"old method for the chemical potential $\mu$ (orange), the difference "
+                r"between the two runs when both used that method, and so shared its "
+                r"rounding (grey), and the difference seen by the present refined run, "
+                r"which rounds along another path (blue); horizontal axis the size of "
+                r"the difference in units of the mass $m$, logarithmic. The grey bars "
+                r"are millions of times shorter than the orange ones: two runs with the "
+                r"same rounding hid errors up to "
+                f"{largest_hidden:.1e} "
+                r"$m$, which the blue bars show in full.")
+    '''),
+    md(r"""
     ## 9. Random numbers that repeat: seeds
 
     `np.random.default_rng(seed)` makes a random-number generator that starts from the
