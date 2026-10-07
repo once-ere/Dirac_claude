@@ -311,7 +311,10 @@ def parse_dirac_prose(text, adjoint):
     g8 = sp.Symbol("G_8")
     loc = {"Z": Z, "a4x": a4x, "H": H, "G_8": g8}
     loc.update({str(x): x for x in gd})
-    e = sp.expand(_prose_expr(t, loc))
+    try:
+        e = sp.expand(_prose_expr(t, loc))
+    except (SyntaxError, TypeError, ValueError, sp.SympifyError) as exc:
+        return [sp.Integer(0)] * 8, sp.Integer(0), rhs.strip(), problems + [f"not parsed: {type(exc).__name__}"]
     if not e.free_symbols <= set(gd) | {g8, H, x8s, a4x}:
         problems.append(f"unparsed symbols {sorted(map(str, e.free_symbols))}")
     coef = [e.coeff(x) for x in gd]

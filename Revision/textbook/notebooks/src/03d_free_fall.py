@@ -82,7 +82,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all five figure files exist",
-        "ALL 26 CHECKS PASSED (notebook 03d)",
+        "ALL 23 CHECKS PASSED (notebook 03d)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for curvature.json, parameters.json, ks-theory.json or "
@@ -149,8 +149,10 @@ CELLS = [
     - **Squared length of the velocity**: $g(u, u) = \sum_a g_{aa} (u^a)^2$ (the metric
       is diagonal). For a body with mass it equals $-1$ when $\tau$ is its proper time.
     - **Scale factor** $h_a = \sqrt{|g_{aa}|}$ and **frame velocity**
-      $\hat u^a = h_a u^a$: the velocity measured with the rulers and clocks of an
-      observer at rest at the place of the body (proper length per proper time).
+      $\hat u^a = h_a u^a$: the proper length (along an extra time: the proper
+      duration) that the body covers along $x_a$ per unit of its own proper time,
+      measured with the rulers and clocks of an observer at rest at its place; divided
+      by $u^4$ it is the velocity that this observer measures.
     - **Momentum** $p_a = g_{aa} u^a$ (no sum) of a direction $x_a$. **Conserved**: the
       same number at every point of the path.
     - **Redshift, blueshift**: the decrease, increase of a frame velocity (or momentum)
@@ -554,12 +556,11 @@ CELLS = [
     say(f"start: y0 = {Y0}, z0 = {math.asin(math.exp(6 * Y0)):.6f}")
     '''),
     md(r"""
-    ### The particle at rest
-
-    The first particle starts at rest: all frame velocities are $0$ except $u^4 = 1$.
-    Notebook 03b showed that $\Gamma^a{}_{x_4x_4} = 0$ for every $a$, so it must stay at
-    rest, with $x_4 = \tau$: its clock shows the time $x_4$. The next cell integrates
-    its path from $\tau = 0$ to $\tau = 3$ in 3000 steps and checks this.
+    **The particle at rest.** The first particle starts at rest: all frame velocities
+    are $0$ except $u^4 = 1$. Notebook 03b showed that $\Gamma^a{}_{x_4x_4} = 0$ for
+    every $a$, so it must stay at rest, with $x_4 = \tau$: its clock shows the time
+    $x_4$. The next cell integrates its path from $\tau = 0$ to $\tau = 3$ in 3000
+    steps and checks this.
     """),
     code(r'''
     tau, rest = rk4_path(start(Y0, [0.0] * 8), 3.0, 3000)
@@ -570,12 +571,12 @@ CELLS = [
           "the particle at rest stays at rest and x4 equals its proper time")
     '''),
     md(r"""
-    ### Three particles moving in 3-space
-
-    The next three particles start with the frame velocities $\hat u^1 = 0.25$, $0.5$
-    and $1$ along $x_1$ (1 is a large velocity: in these units the frame velocity of
-    light along a space direction is 1, and a massive particle with frame velocity 1 has
-    $u^4 = \sqrt 2$). The next cell integrates each from $\tau = 0$ to $3$ in 3000
+    **Three particles moving in 3-space.** The next three particles start with the
+    frame velocities $\hat u^1 = 0.25$, $0.5$ and $1$ along $x_1$, so
+    $u^4 = \sqrt{1 + (\hat u^1)^2}$. (The velocity that an
+    observer at rest at the particle's place measures is $\hat u^1/u^4$; for
+    $\hat u^1 = 1$ it is $1/\sqrt 2 = 0.71$ times the velocity of light, which is $1$
+    in these units.) The next cell integrates each from $\tau = 0$ to $3$ in 3000
     steps and checks on every computed state: the momentum $p_1 = g_{11} u^1$ stays
     constant (relative change below $10^{-9}$); $g(u, u)$ stays $-1$; the frame velocity
     equals $p_1 \kappa(y, x_4)$ (section 7); $u^4$ decreases at every step (section 8);
@@ -608,9 +609,10 @@ CELLS = [
     ## 11. A particle moving along an extra time: the turning point
 
     The last particle starts with the frame velocity $\hat u^5 = 0.2$ along the extra
-    time $x_5$, so $u^4 = \sqrt{1 - 0.04} = 0.98$. Along the deflating history its frame
-    velocity $-p_5\, e^{a_4 - Hy}$ grows, it is pushed towards the tip, and by
-    section 8 its $x_4$ velocity obeys $(u^4)^2 = 1 - (\hat u^5)^2 + (\hat u^8)^2$. The
+    time $x_5$, so $u^4 = \sqrt{1 - 0.04} = 0.980$ (rounded). Along the deflating
+    history its frame velocity $-p_5\, e^{a_4 - Hy}$ grows, it is pushed towards the
+    tip, and by section 8 its $x_4$ velocity obeys
+    $(u^4)^2 = 1 - (\hat u^5)^2 + (\hat u^8)^2$. The
     next cell integrates its path from $\tau = 0$ to $2.5$ in 2500 steps, checks the
     conservation laws, finds the step at which $u^4$ changes sign (the turning point:
     $x_4$ is largest there and decreases afterwards), and checks that there

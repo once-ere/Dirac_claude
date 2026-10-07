@@ -106,7 +106,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS every figure file of this notebook exists",
-        "ALL 31 CHECKS PASSED (notebook 19a)",
+        "ALL 32 CHECKS PASSED (notebook 19a)",
     ],
     "troubleshooting": [
         ["A cell shows the label with the star for a minute or more",
@@ -807,7 +807,10 @@ CELLS = [
     md(r"""
     The next cell draws the densities for $N = 136$. Left: the proper particle density
     $n(y)$ (logarithmic axis) of A, B and C; A and B lie on top of each other (B is
-    dashed). Right: the scalar density $S(y)$; B is the mirror image of A, $S_B = -S_A$.
+    dashed). Right: the scalar density $S(y)$ of A and B; B is the mirror image of A,
+    $S_B = -S_A$. The scalar density of the control C is not drawn on the right: it is
+    more than ten times larger (the cell prints and checks the factor) and would flatten
+    the two curves that matter.
     """),
     code(r'''
     y = SELF[(136, "A")]["profile"]["y"]  # the 151 points from the tip to the brane
@@ -816,13 +819,16 @@ CELLS = [
     for kind in "ABC":
         prof = SELF[(136, kind)]["profile"]
         left.semilogy(y, prof["n"], color=COLOUR[kind], label=NAME[kind], **STYLE[kind])
-        right.plot(y, prof["S"], color=COLOUR[kind], label=NAME[kind], **STYLE[kind])
+        if kind != "C":
+            right.plot(y, prof["S"], color=COLOUR[kind], label=NAME[kind],
+                       **STYLE[kind])
     left.set_xlabel("hidden coordinate $y$ (tip $-3$, brane $0$)")
     left.set_ylabel("proper particle density $n(y)$")
     left.legend(fontsize=7, loc="upper right")
     right.set_xlabel("hidden coordinate $y$")
     right.set_ylabel("proper scalar density $S(y)$")
     right.axhline(0.0, color="0.3", lw=0.8)
+    right.legend(fontsize=7, loc="lower right")
     fig.suptitle("$N = 136$, $\\lambda = \\lambda_1$, $a_{4,0} = 1$", fontsize=10)
     fig.tight_layout()
     save_figure(fig, "density_profiles",
@@ -830,9 +836,16 @@ CELLS = [
                 "(orange, dashed) and C (aqua, dotted) for $N = 136$, "
                 "$\\lambda = \\lambda_1$, $a_{4,0} = 1$, against the hidden coordinate $y$ "
                 "from the tip $y = -3$ to the brane $y = 0$ (logarithmic vertical axis, "
-                "units $|m|^7$). Right: the proper scalar density $S(y)$. The density of "
-                "B is that of A, and its scalar density is the mirror image "
-                "$S_B = -S_A$, as T3 states; the control C has its own densities.")
+                "units $|m|^7$). Right: the proper scalar density $S(y)$ of A and B. "
+                "The density of B is that of A, and its scalar density is the mirror "
+                "image $S_B = -S_A$, as T3 states. The control C has its own densities; "
+                "its scalar density, more than ten times larger, is not drawn.")
+    size = {kind: float(np.max(np.abs(SELF[(136, kind)]["profile"]["S"])))
+            for kind in "AC"}
+    factor = size["C"] / size["A"]  # how much larger the control's scalar density is
+    report("largest |S| of C divided by largest |S| of A", f"{factor:.1f}")
+    check(factor > 10.0,
+          "the scalar density of the control is more than ten times that of A")
     '''),
     md(r"""
     The next cell draws the effective mass $M_{eff}(y) = \pm m + \frac{15}{16}\lambda S$
@@ -1085,7 +1098,7 @@ CELLS = [
             say(f"N = {N:3d}, a4,0 = {a4:3.1f}: E_KS A {E_A:.10f}, "
                 f"B {E_B:.10f}, C {E_C:.6f}")
     report("largest relative E_KS difference A - B", f"{max(partner_rel):.1e}")
-    report("E_KS of C differs from A by", f"{min(control_pct):.1f} to "
+    report("relative E_KS difference A - C", f"{min(control_pct):.1f} to "
            f"{max(control_pct):.1f}", "percent")
     check(ok_record, "A reproduces the recorded E_KS at all 10 states of the history",
           record=f"{GROUND}/summary.csv, N136_lamp1_a00 to a20, N688_lamp1_a00 to a20")
@@ -1215,7 +1228,9 @@ CELLS = [
     left.set_xlabel("coupling $\\lambda/\\lambda_1$")
     left.set_ylabel("$E_{KS} - E_{KS}(\\lambda = 0)$ (units of $|m|$)")
     left.axhline(0.0, color="0.3", lw=0.8)
-    left.legend(fontsize=7, loc="upper left")
+    low, high = left.get_ylim()
+    left.set_ylim(low, high + 0.6 * (high - low))  # room for the legend at the top
+    left.legend(fontsize=7, loc="upper center")
     for kind in "AC":
         right.plot(x, [SCAN[(tag, kind)]["E_KS"] for tag, lam, margin in COUPLINGS],
                    color=COLOUR[kind], label=NAME[kind], **MARK[kind])

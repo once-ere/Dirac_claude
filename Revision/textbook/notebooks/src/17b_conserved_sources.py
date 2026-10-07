@@ -95,7 +95,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS every figure file of this notebook exists",
-        "ALL 20 CHECKS PASSED (notebook 17b)",
+        "ALL 16 CHECKS PASSED (notebook 17b)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" naming gammas.json, a report or a profile file",
@@ -265,8 +265,8 @@ CELLS = [
         """A check that also requires the named checks of the report to be PASS."""
         found = all((record_entry(report_file, n) or {}).get("verdict", "").upper()
                     == "PASS" for n in record_names)  # some reports write "pass"
-        check(condition and found, name,
-              record=f"{report_file}, check {', '.join(record_names)}")
+        names_text = ", ".join(record_names)  # the check names, separated by commas
+        check(condition and found, name, record=f"{report_file}, check {names_text}")
 
 
     REPORTS = [ALGEBRA, PY_A4, WL_A4, SOURCE_REPORT, KS_PY, KS_RUST]
@@ -474,8 +474,13 @@ CELLS = [
                                 for f in (rho, p3, pt, p8, q48, q84)})
 
 
+    def tidy(expression):
+        """Simplify with sin(2z) = 2 sin z cos z, for printing."""
+        return sp.simplify(expression.subs(sp.sin(2 * zz), 2 * sp.sin(zz) * sp.cos(zz)))
+
+
     for nu, component in enumerate(div_x8):
-        say(f"nabla_mu T^mu_x{nu + 1} = {in_record_notation(component)}")
+        say(f"nabla_mu T^mu_x{nu + 1} = {in_record_notation(tidy(component))}")
     '''),
     md(r"""
     Six of the eight components vanish identically. The two others are the
@@ -545,8 +550,8 @@ CELLS = [
     say("ks-theory.json, emt.conservationY: " + theory["conservationY"])
     reproduces(sp.simplify(div_y[3] - law_x4) == 0 and sp.simplify(div_y[7] - law_y) == 0
                and others_zero
-               and theory["conservationY"].startswith("p8' + 6H p8 = 3H (p3 + p_t)"),
-               "in the y chart: the x4 law and p8' + 6H p8 = 3H (p3 + p_t)",
+               and "6H p8 = 3H (p3 + p_t)" in theory["conservationY"],
+               "in the y chart: the x4 law and dp8/dy + 6H p8 = 3H (p3 + p_t)",
                KS_PY, ["emt_y_conservation_selfconsistent", "emt_x4_component"])
     '''),
     md(r"""
@@ -569,7 +574,7 @@ CELLS = [
     say(f"p3 from the conservation law: {p3_from_law}")
     say(f"V = p3 + p_t - 2 p8 for a conserved source: {V_conserved}")
     check(sp.simplify(V_conserved - sp.diff(P8, yc) / (3 * H)) == 0,
-          "PROVED: for a conserved source V = p3 + p_t - 2 p8 = p8'(y) / (3H)")
+          "PROVED: for a conserved source V = p3 + p_t - 2 p8 = (dp8/dy) / (3H)")
     '''),
     md(r"""
     ## 10. Testing $V = p_8'/(3H)$ on the recorded Kohn-Sham states
@@ -625,10 +630,10 @@ CELLS = [
     worst = max(residual, key=residual.get)  # the state with the largest difference
     report("states with a nonzero tensor", len(nonzero))
     report("grid step h", f"{h:.2f}")
-    report("largest |p8'/(3H) - V| / max|T| over 70 states", f"{residual[worst]:.2e}",
+    report("largest |(dp8/dy)/(3H) - V| / max|T| over 70 states", f"{residual[worst]:.2e}",
            f"({worst})")
     check(len(nonzero) == 70 and residual[worst] < 1e-3,
-          "V = p8'/(3H) on every state to 1e-3 of max|T| (fourth-order differences)")
+          "V = (dp8/dy)/(3H) on every state to 1e-3 of max|T| (fourth-order differences)")
     '''),
     md(r"""
     The next cell draws the identity for the history $N = 136$, $\lambda = 0$. Left:
@@ -697,7 +702,7 @@ CELLS = [
 
 
     def difference_at_points(sid, s):
-        """max over POINTS of |p8'/(3H) - V| / max|T| with the step s h."""
+        """max over POINTS of |(dp8/dy)/(3H) - V| / max|T| with the step s h."""
         prof = profiles[sid]
         derivative = slope(prof["p8"], s) / (3 * H_value)  # index i - 2s is point i
         return max(abs(float(derivative[i - 2 * s] - violation(prof)[i]))
@@ -828,10 +833,8 @@ CELLS = [
     ax.set_xlabel("weighted mean $|\\bar p_8|$ (units of $m^8$)")
     ax.set_ylabel("$|p_8|$ at the brane $y = 0$ (units of $m^8$)")
     ax.legend(fontsize=8, loc="upper left")
-    signs_uniform = all(np.sign(mean_p8[sid]) == np.sign(mean_p8[f"{sid[:sid.index('_')]}"
-                                                                   "_lam0_a10"])
-                        if not sid.startswith("N8_") else mean_p8[sid] < 0
-                        for sid in nonzero)
+    negative = sorted(sid for sid in nonzero if mean_p8[sid] < 0)  # states with p8 < 0
+    n8_states = sorted(sid for sid in nonzero if sid.startswith("N8_"))
     save_figure(fig, "brane_and_mean",
                 "The hidden-direction pressure $p_8$ at the brane against its weighted "
                 "mean over the patch, for the 70 recorded Kohn-Sham states with a "
@@ -841,7 +844,7 @@ CELLS = [
                 "on the dashed diagonal; every state lies below it, with ratios "
                 f"between {min(ratio.values()):.3f} and {max(ratio.values()):.3f}: "
                 "$p_8$ at the brane is much smaller than its mean.")
-    check(signs_uniform and all(ratio[sid] < 1.0 for sid in nonzero),
+    check(negative == n8_states and all(0.0 < ratio[sid] < 1.0 for sid in nonzero),
           "every state lies below the diagonal; p8 < 0 exactly for N = 8")
     '''),
     md(r"""
@@ -869,7 +872,7 @@ CELLS = [
     code(r'''
     ad1, ad2 = sp.symbols("ad1 ad2", real=True)  # a4' and a4''
     alpha = sp.symbols("alpha1:4", real=True)  # the Lovelock couplings
-    kappa, Lam, p3s, pts = sp.symbols("kappa Lam p3 pt", real=True)
+    kappa, p3s, pts = sp.symbols("kappa p3 pt", real=True)  # kappa and the pressures
     LOCALS = {"ad1": ad1, "ad2": ad2, "H": H, "alpha1": alpha[0], "alpha2": alpha[1],
               "alpha3": alpha[2]}
 
@@ -885,9 +888,10 @@ CELLS = [
     rho_dot = -3 * ad1 * (p3s - pts)  # the x4 conservation law
     constraint_dot = sp.diff(E44, ad1) * ad2 + kappa * rho_dot  # chain rule
     evolution = ad2 * F - kappa * (p3s - pts)
-    say(f"Einstein part: d/da4' of E_(1)^x4_x4 = {sp.diff(parse(equations['lovelockTensors']['E1']['x4x4']['input']), ad1)}")
+    say(f"d/d(a4') of the x4 component: {sp.factor(sp.diff(E44, ad1))}")
+    say(f"3 a4' F: {sp.factor(3 * ad1 * F)}")
     reproduces(sp.expand(constraint_dot - 3 * ad1 * evolution) == 0,
-               "PROVED: dC/dx4 = 3 a4' times the evolution equation (all couplings)",
+               "PROVED: dC/dx4 = 3 (da4/dx4) times the evolution equation, any alpha_k",
                WL_A4, ["constraint_propagation_bianchi"])
     linear = sp.expand(constraint_dot.subs({ad2: 0, ad1: sp.Symbol("A") * H}))
     say(f"along the linear member a4 = A H x4: dC/dx4 = {sp.factor(linear)}")
@@ -925,10 +929,9 @@ CELLS = [
     frozen = all(np.all(energies[(8, tag)] == energies[(8, tag)][0])
                  and np.all(drives[(8, tag)] == 0.0) for tag in TAGS)
     for n in (136, 688):
-        E = energies[(n, "lam0")]
+        E, error = energies[(n, "lam0")], simpson_error[(n, "lam0")]
         say(f"N = {n}, lambda = 0: E(0) = {E[0]:.6g}, E(2) = {E[-1]:.6g}, "
-            f"change {E[-1] - E[0]:.6g}, relative Simpson error "
-            f"{simpson_error[(n, 'lam0')]:.1e}")
+            f"change {E[-1] - E[0]:.6g}, relative Simpson error {error:.1e}")
     report("largest relative Simpson error, N = 136 and 688", f"{largest:.1e}")
     reproduces(no_crossing and largest < 1e-3 and frozen,
                "E(2) - E(0) = integral of -3 (int p3 - int p_t) along the history",

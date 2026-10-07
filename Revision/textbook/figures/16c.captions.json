@@ -1,0 +1,3 @@
+{
+ "16c_1_levels_and_occupations.png": "The thermal Kohn-Sham state N8_lamm1_a00_T10 ($N = 8$, $\\lambda = -\\lambda_1$, $a_{4,0} = 0$, $T = 0.01\\,m$) of the reference solver. Left: the Fermi-Dirac occupation against the energy in units of $m$, with the levels as dotted lines and their degeneracies $g$; the two lowest levels hold the eight particles, the next level lies 43 times $T$ higher, and $\\mu$ (dashed) sits in the middle of this gap. Right: the thermal holes of the full levels and the thermal particles of the empty ones on a logarithmic axis; both sums are about $6 \\times 10^{-9}$ and cancel, which is the Mermin condition."
+}

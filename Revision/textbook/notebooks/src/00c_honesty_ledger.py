@@ -348,24 +348,53 @@ CELLS = [
     md(r"""
     ## 7. All 27 reports of the Revision record
 
-    The next cell lists the 27 verifier reports of the Revision record, each with its
-    engine, counts the checks of each with `count_checks`, and prints a table and the
-    totals. Three checks follow:
+    The next cell first searches the whole folder Revision (except the folder
+    Revision/textbook of this book and the build folders `target` of the Rust
+    programs) for reports: JSON files that hold a key `checks`, or, like the GKD
+    self-test, a list `results` whose entries count `mismatches`. It then lists the 27
+    verifier reports of the Revision record, each with its engine, counts the checks
+    of each with `count_checks`, and prints a table and the totals per engine. Three
+    checks follow:
 
-    1. all 939 checks of the 27 reports have the verdict PASS;
-    2. the totals per engine are 377 (Wolfram Language), 455 (Python), 70 (Rust) and
-       37 (the lead's independent checks);
+    1. the search finds exactly the 27 reports of the list: no report of the record is
+       left out of the count (and so out of the ledger below);
+    2. every check of the 27 reports has the verdict PASS;
     3. for every report that states its own totals, our count equals them (the
        self-test of layout C states only its verdict, SUCCESS, which is checked
        instead).
 
-    `path.removeprefix("Revision/")` removes the folder name Revision/ from the front of
-    a path, to keep the table narrow.
+    `folder.rglob("*.json")` lists every JSON file in a folder and in all its
+    sub-folders; `path.as_posix()` writes a path with `/`; `path.removeprefix("Revision/")`
+    removes the folder name Revision/ from the front of a path, to keep the table
+    narrow. Reading every JSON file of the record (a few hundred files) takes about a
+    second.
     """),
     code(r'''
+    def is_report(path):
+        """True if the JSON file path (a Path) is a verifier report."""
+        data = json.loads(path.read_text(encoding="utf-8"))
+        if not isinstance(data, dict):
+            return False
+        results = data.get("results")
+        self_test = (isinstance(results, list) and len(results) > 0
+                     and isinstance(results[0], dict) and "mismatches" in results[0])
+        return "checks" in data or self_test
+
+
+    found_reports = []  # every report found in the folder Revision, as a relative path
+    for path in sorted(repository_file("Revision").rglob("*.json")):
+        relative = path.relative_to(REPO).as_posix()  # e.g. "Revision/algebra/..."
+        if relative.startswith("Revision/textbook/") or "/target/" in relative:
+            continue  # this book's own files, and the Rust build folders
+        if is_report(path):
+            found_reports.append(relative)
+    report("verifier reports found in the folder Revision", len(found_reports))
+
     REPORTS = [  # (report, engine)
         @@REPORTS@@
     ]
+    check(found_reports == sorted(path for path, _ in REPORTS),
+          f"the search finds exactly the {len(REPORTS)} reports of the list")
     counted = {}  # report -> (passed, total)
     header = "report (in the folder Revision)"
     say(f"{header:59} engine   passed of all")
@@ -385,10 +414,8 @@ CELLS = [
                                     if e == engine)
         report(f"checks done with the engine {engine}", engine_totals[engine])
 
-    check(all_passed == all_checks == 939,
-          "all 939 checks of the 27 reports have the verdict PASS")
-    check(engine_totals == {"Wolfram": 377, "Python": 455, "Rust": 70, "lead": 37},
-          "the 939 checks: 377 Wolfram, 455 Python, 70 Rust, 37 lead checks")
+    check(all_passed == all_checks and sum(engine_totals.values()) == all_checks,
+          f"all {all_checks} checks of the {len(REPORTS)} reports have the verdict PASS")
     disagree = []  # reports whose own summary differs from our count
     for path, _ in REPORTS:
         data = read_report(path)
@@ -408,40 +435,45 @@ CELLS = [
         + '"),' for path in REPORTS))),
     md(r"""
     The next cell compares our counts with two other places of the record that quote
-    them. First, the table of the file Revision/README.md prints 16 of the counts as
-    "45/45", "35/35" and so on; the cell checks that each of these texts occurs in the
-    file and equals our count. Second, the Kohn-Sham cross-check quotes, in the detail
-    of its check `inputs_all_pass`, the counts of the three reports it read ("37/37
-    PASS" and so on). The function `re.findall` of the module `re` finds every piece of
-    a text that matches a *pattern*: in the pattern `(\d+)/(\d+) PASS`, `\d+` means
-    one or more digits, and the brackets mark the two numbers to return.
+    them. First, the table of the file Revision/README.md (its lines that start with
+    a vertical bar and a folder name) prints 16 of the counts as "19/19", "49/49" and
+    so on. The cell finds them in the order in which they stand there and compares
+    them with our counts of the reports that the table names in that order. The
+    function `re.findall` of the module `re` finds every piece of a text that matches
+    a *pattern*: in the pattern `(\d+)/(\d+)`, `\d+` means one or more digits, and the
+    brackets mark the two numbers to return. Second, the Kohn-Sham cross-check
+    quotes, in the detail of its check `inputs_all_pass`, the counts of the three
+    reports it read ("37/37 PASS" and so on), found with the pattern
+    `(\d+)/(\d+) PASS`.
     """),
     code(r'''
-    README_COUNTS = {  # the counts "n/n" printed in the table of Revision/README.md
-        "Revision/algebra/reports/wolfram-algebra.json": 45,
-        "Revision/algebra/reports/python-algebra.json": 35,
-        "Revision/theory/reports/wolfram-field-theory.json": 84,
-        "Revision/theory/reports/python-field-theory.json": 70,
-        "Revision/theory/reports/wolfram-scope.json": 15,
-        "Revision/theory/reports/python-scope.json": 14,
-        "Revision/field_equations_a4/reports/wolfram-a4-report.json": 47,
-        "Revision/field_equations_a4/reports/python-a4-report.json": 61,
-        "Revision/field_equations_a4/reports/ks-source-conditions.json": 5,
-        "Revision/gkd_lovelock/results/lovelock-report.json": 19,
-        "Revision/gkd_lovelock/results/wolfram-gkd-report.json": 29,
-        "Revision/gkd_lovelock/results/python-lovelock-report.json": 49,
-        "Revision/pairing/reports/wolfram-pairing.json": 101,
-        "Revision/pairing/reports/python-pairing.json": 66,
-        "Revision/pairing/kohn_sham/reports/wolfram-t3.json": 10,
-        "Revision/pairing/kohn_sham/reports/python-t3.json": 13,
-    }
-    readme_text = repository_file("Revision/README.md").read_text(encoding="utf-8")
-    differ = [path for path, number in README_COUNTS.items()
-              if counted[path] != (number, number)
-              or f"{number}/{number}" not in readme_text]
-    report("reports whose count the README quotes", len(README_COUNTS))
-    check_reproduces(differ == [],
-                     "the 16 counts quoted in the README equal our counts",
+    R = "Revision/"
+    README_ORDER = [  # the reports whose counts the README table quotes, in its order
+        R + "gkd_lovelock/results/lovelock-report.json",  # row gkd_lovelock/
+        R + "gkd_lovelock/results/python-lovelock-report.json",
+        R + "gkd_lovelock/results/wolfram-gkd-report.json",
+        R + "algebra/reports/wolfram-algebra.json",  # row algebra/
+        R + "algebra/reports/python-algebra.json",
+        R + "theory/reports/wolfram-field-theory.json",  # row theory/
+        R + "theory/reports/python-field-theory.json",
+        R + "theory/reports/wolfram-scope.json",
+        R + "theory/reports/python-scope.json",
+        R + "field_equations_a4/reports/wolfram-a4-report.json",  # row field_equations_a4/
+        R + "field_equations_a4/reports/python-a4-report.json",
+        R + "field_equations_a4/reports/ks-source-conditions.json",
+        R + "pairing/reports/wolfram-pairing.json",  # row pairing/
+        R + "pairing/reports/python-pairing.json",
+        R + "pairing/kohn_sham/reports/wolfram-t3.json",
+        R + "pairing/kohn_sham/reports/python-t3.json",
+    ]
+    readme_lines = repository_file("Revision/README.md").read_text(
+        encoding="utf-8").split("\n")
+    table = "\n".join(line for line in readme_lines if line.startswith("| `"))
+    quoted_readme = [(int(p), int(t)) for p, t in re.findall(r"(\d+)/(\d+)", table)]
+    say("the README quotes: " + ", ".join(f"{p}/{t}" for p, t in quoted_readme))
+    report("counts quoted in the README table", len(quoted_readme))
+    check_reproduces(quoted_readme == [counted[path] for path in README_ORDER],
+                     f"the {len(README_ORDER)} counts quoted in the README equal ours",
                      "Revision/README.md, the table of the folders")
 
     CROSS = "Revision/kohn_sham/reports/ks-crosscheck.json"
@@ -452,8 +484,9 @@ CELLS = [
     ours = [counted["Revision/kohn_sham/reports/ks-reference.json"],
             counted["Revision/kohn_sham/reports/ks-rust-solver.json"],
             counted["Revision/kohn_sham/reports/ks-rust-determinism.json"]]
+    numbers = ", ".join(str(total) for _, total in ours)  # e.g. "37, 42, 14"
     check_reproduces([(int(p), int(t)) for p, t in quoted] == ours,
-                     "the cross-check quotes the counts 37, 42 and 14 that we counted",
+                     f"the cross-check quotes the counts {numbers} that we counted",
                      f"{CROSS}, check inputs_all_pass")
     '''),
     md(r"""
@@ -481,9 +514,17 @@ CELLS = [
     ax.set_xlim(0, 112)
     ax.grid(False, axis="y")  # vertical grid lines only
     ax.set_xlabel("number of checks in the report (every one has the verdict PASS)")
-    ax.set_title("The 27 verifier reports of the Revision record: 939 checks")
+    ax.set_title(f"The {len(REPORTS)} verifier reports of the Revision record: "
+                 f"{all_checks} checks")
     ax.legend(handles=[Patch(color=ENGINE_COLOURS[e], label=ENGINE_NAMES[e])
                        for e in ENGINE_COLOURS], loc="lower right", fontsize=8)
+    # The report with the most checks, and its file name without the folders.
+    largest = max((path for path, _ in REPORTS), key=lambda path: counted[path][1])
+    largest_name = largest.rsplit("/", 1)[1]
+    n_wolfram, n_python, n_rust, n_lead = (engine_totals[engine] for engine in
+                                           ("Wolfram", "Python", "Rust", "lead"))
+    totals_text = (f"{n_wolfram} Wolfram Language, {n_python} Python, {n_rust} Rust "
+                   f"and {n_lead} lead checks")
     save_figure(fig, "checks_by_report",
                 r"The number of checks in each of the 27 verifier reports of the "
                 r"Revision record (horizontal axis, a count; one bar per report, "
@@ -491,8 +532,9 @@ CELLS = [
                 r"field equations for $a_4$, GKD and Lovelock, Kohn-Sham, pairing, "
                 r"lead checks). The colour gives the engine: blue Wolfram Language, "
                 r"orange Python, aqua Rust, yellow the lead's independent Python "
-                r"checks. All 939 checks have the verdict PASS; the largest report is "
-                r"the Wolfram pairing report with 101 checks.")
+                f"checks. All {all_checks} checks ({totals_text}) have the verdict "
+                f"PASS; the largest report is {largest_name} with "
+                f"{counted[largest][1]} checks.")
     '''),
     md(r"""
     ## 8. Two independent engines
@@ -552,9 +594,11 @@ CELLS = [
                 r"bar) and of its independent Python verifier (orange, lower bar); "
                 r"horizontal axis a count. The two verifiers share no code; each also "
                 r"checks statements that the other does not, so the numbers differ. "
-                r"Together they hold 377 Wolfram and 365 Python checks, all PASS.")
-    check(sum(wolfram_numbers) == 377 and sum(python_numbers) == 365
-          and all(w > 0 and p > 0 for w, p in zip(wolfram_numbers, python_numbers)),
+                f"Together they hold {sum(wolfram_numbers)} Wolfram and "
+                f"{sum(python_numbers)} Python checks, all PASS.")
+    report("checks of the Wolfram verifiers of the eight subjects", sum(wolfram_numbers))
+    report("checks of the Python verifiers of the eight subjects", sum(python_numbers))
+    check(all(w > 0 and p > 0 for w, p in zip(wolfram_numbers, python_numbers)),
           "each of the eight subjects has a Wolfram and a Python verifier")
     '''),
     md(r"""
@@ -874,9 +918,10 @@ CELLS = [
     md(r"""
     ## 12. What this notebook showed
 
-    - The Revision record holds 27 verifier reports with 939 checks (377 in Wolfram
-      Language, 455 in Python, 70 in Rust, 37 in the lead's independent Python
-      checks), and every one of them has the verdict PASS.
+    - A search of the whole folder Revision finds 27 verifier reports, the 27 of our
+      list. Every one of their checks has the verdict PASS; section 7 prints how many
+      there are, in all and per engine (Wolfram Language, Python, Rust and the lead's
+      independent Python checks).
     - Each report states the same totals that we counted, and the counts quoted in
       the file Revision/README.md and in the Kohn-Sham cross-check are the same as
       well.

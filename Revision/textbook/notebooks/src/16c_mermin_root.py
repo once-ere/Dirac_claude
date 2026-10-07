@@ -20,8 +20,8 @@ mpmath), shows the floating-point staircase of the direct count sum g f - N, rep
 recorded faulty value by bisection on the direct count and the repaired value by the
 well-conditioned residual (Revision/kohn_sham/reference/ks_fd.py), computes the rounding
 bounds of Revision/kohn_sham/solver/src/mermin.rs, and for all 45 thermal states with N = 8
-reproduces the 40-digit roots and bounds of Revision/kohn_sham/reports/ks-rust-mermin-roots.json
-and the rows mu and mu_high_precision of Revision/kohn_sham/reports/ks-crosscheck-table.csv.
+reproduces the 40-digit roots and bounds of
+Revision/kohn_sham/reports/ks-rust-mermin-roots.json and the rows mu and mu_high_precision of Revision/kohn_sham/reports/ks-crosscheck-table.csv.
 """
 
 import sys
@@ -417,8 +417,9 @@ CELLS = [
     The next cell writes Newton's method with mpmath numbers of 40 significant digits,
     starts in the middle of the gap, and stops when a step is below $10^{-32}$. In 40-digit
     arithmetic the rounding of the sum is about $10^{-40} N$, which moves the root by
-    about $10^{-40}\,N/(dN/d\mu) < 10^{-33}$: far below anything a double can hold. The
-    cell computes the root from the Rust levels and from the reference levels and
+    about $10^{-40}\,N/(dN/d\mu) < 10^{-33}$: far below anything a double can hold (two
+    40-digit computations that add in a different order may therefore differ by about
+    $10^{-33}$, so the cell compares 40-digit roots to $10^{-32}$). The cell computes the root from the Rust levels and from the reference levels and
     compares them with three records: the fixture `mermin-roots-40digit.json` of the
     Rust solver (made from exactly the same doubles), the checker's own 40-digit
     function `mu_high_precision` (imported from `crosscheck_ks.py`), and the row
@@ -458,7 +459,8 @@ CELLS = [
     ROOT_F, SLOPE_F, _ = mermin_root_40(S["eps_ref"], S["g_ref"], 8, 0.01, start)
     print("Newton steps from the middle of the gap (Rust levels):")
     for k, guess in enumerate(NEWTON_PATH):
-        print(f"  mu_{k} = {mp.nstr(guess, 34)}   distance {mp.nstr(abs(guess - ROOT_R), 3)}")
+        distance = mp.nstr(abs(guess - ROOT_R), 3)  # from the final root
+        print(f"  mu_{k} = {mp.nstr(guess, 34)}   distance {distance}")
     report("40-digit root on the Rust levels", mp.nstr(ROOT_R, 30))
     report("40-digit root on the reference levels", mp.nstr(ROOT_F, 30))
     report("dN/dmu at the root (Rust levels)", mp.nstr(SLOPE_R, 7))
@@ -466,8 +468,8 @@ CELLS = [
     fixture = next(s for s in read_json(f"{KS}/solver/tools/mermin-roots-40digit.json")
                    ["fixture"] if s["id"] == STATE)
     same_doubles = [float(e) for e, _ in fixture["levels"]] == list(S["eps_rust"])
-    check(same_doubles and abs(ROOT_R - mp.mpf(fixture["root40"])) < mp.mpf(10) ** -35,
-          "the root on the Rust levels equals the fixture root40 to 1e-35",
+    check(same_doubles and abs(ROOT_R - mp.mpf(fixture["root40"])) < mp.mpf(10) ** -32,
+          "the root on the Rust levels equals the fixture root40 to 1e-32",
           record=f"{KS}/solver/tools/mermin-roots-40digit.json, state {STATE}")
 
     sys.path.insert(0, str(repository_file(f"{KS}/checker")))
@@ -494,7 +496,8 @@ CELLS = [
     $10^{-12}$). The faulty value of the first cross-check, $0.2100104489071649$, is
     $8.3\times10^{-10}$ below both: the levels were right, the computation of $\mu$
     from them was wrong. The next section shows why.
-
+    """),
+    md(r"""
     ## 7. Why 16 digits are not enough: the staircase
 
     **How a computer adds.** A double has 53 binary digits. Between 4 and 8 the doubles
@@ -653,8 +656,8 @@ CELLS = [
         f"halvings; minus root {float(MU_WELL - ROOT_R):+.3e}")
     say(f"recorded mu of the first cross-check (Rust): {MU_OLD_RUST!r}; committed "
         f"repaired Rust mu: {S['mu_rust']!r}")
-    report("direct-sum bisection minus the 40-digit root", f"{float(MU_DIRECT - ROOT_R):.4e}",
-           "m")
+    report("direct-sum bisection minus the 40-digit root",
+           f"{float(MU_DIRECT - ROOT_R):.4e}", "m")
     check(abs(MU_DIRECT - MU_OLD_RUST) <= 5e-17,
           "bisection on the direct sum gives the recorded faulty mu (all 16 digits)",
           record=f"{KS}/checker/README.md, History 1 (Rust mu 0.2100104489071649)")
@@ -716,8 +719,8 @@ CELLS = [
                 "method with 40 digits (green) doubles the number of correct digits at "
                 "each step; zero distances are drawn at $10^{-36}$.")
     check(min(float(abs(mp.mpf(m) - ROOT_R)) for m in PATH_DIRECT[-20:]) > 5e-10
-          and float(abs(NEWTON_PATH[-1] - ROOT_R)) < 1e-32,
-          "the direct bisection never gets closer than 5e-10; Newton reaches 1e-32")
+          and float(abs(NEWTON_PATH[-2] - ROOT_R)) < 1e-32 and len(NEWTON_PATH) <= 7,
+          "the direct bisection stalls above 5e-10; Newton reaches 1e-32 in 5 steps")
     '''),
     md(r"""
     ## 9. The rounding bounds: predicting the error
@@ -795,7 +798,8 @@ CELLS = [
     of size $\epsilon_{mach} N$ causes, and far inside $B_{direct} \approx
     1.3\times10^{-8}$. The well-conditioned form shrinks the bound to $1.6\times10^{-16}$,
     a factor of about $10^8$.
-
+    """),
+    md(r"""
     ## 10. All 45 thermal states with eight particles
 
     Is N8_lamm1_a00_T10 special? The next cell repeats everything for the 45 thermal
