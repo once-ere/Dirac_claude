@@ -52,8 +52,10 @@ FACTS = {
          "the deflating history a4 = A H x4 with A = 1 and H = 1, its five slices of a4 "
          "and the tip cut-off L of the Revision Kohn-Sham solver"],
         ["Revision/kohn_sham/ks-theory.json",
-         "the definition of the hidden coordinate y, the patch end and the tip, and the "
-         "status of the history a4 = A H x4 (a prescribed background, not solved for)"],
+         "the definition of the hidden coordinate y, the patch end and the tip, the line "
+         "element in y with the warp factor W = e^(H y) and the volume factor e^(6 H y), "
+         "and the status of the history a4 = A H x4 (a prescribed background, not solved "
+         "for)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -71,7 +73,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all seven figure files exist",
-        "ALL 27 CHECKS PASSED (notebook 03a)",
+        "ALL 29 CHECKS PASSED (notebook 03a)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for curvature.json or parameters.json",
@@ -821,14 +823,14 @@ CELLS = [
     tiny angle $z = \arcsin e^{-18} \approx 1.5 \times 10^{-8}$. The next cell computes
     the fraction with sympy and draws $y$ as a function of $z$ (left; the $z$ axis is
     logarithmic, so that the region near the tip is visible: there
-    $y \approx \ln(z)/(6H)$ is a straight line) and the warp factor $e^{2Hy}$ and the
-    volume density $e^{6Hy}$ as functions of $y$ (right).
+    $y \approx \ln(z)/(6H)$ is a straight line) and the warp factor $W = e^{Hy}$, its
+    square $W^2 = e^{2Hy}$ and the volume density $W^6 = e^{6Hy}$ as functions of $y$
+    (right).
     """),
     code(r'''
-    ys = sp.symbols("y", real=True)
     L_exact = sp.nsimplify(L_tip)  # the number 3.0 of the record as the exact integer 3
-    fraction = sp.integrate(sp.exp(6 * H * ys), (ys, -sp.oo, -L_exact / H)) \
-        / sp.integrate(sp.exp(6 * H * ys), (ys, -sp.oo, 0))
+    fraction = sp.integrate(sp.exp(6 * H * y), (y, -sp.oo, -L_exact / H)) \
+        / sp.integrate(sp.exp(6 * H * y), (y, -sp.oo, 0))  # y: the symbol made above
     fraction = sp.simplify(fraction.subs(H, 1))
     report("fraction of the 7-volume beyond the tip cut-off y = -3", sp.sstr(fraction),
            f"= {float(fraction):.4e}")
@@ -847,10 +849,12 @@ CELLS = [
     axes[0].set_title("The hidden coordinate $y$")
     axes[0].legend(fontsize=8)
     y_axis = np.linspace(-4.0, 0.0, 400)
-    axes[1].plot(y_axis, np.exp(2 * y_axis), color=ORANGE, lw=1.8,
-                 label="warp factor $e^{2Hy} = \\sin^{1/3} z$")
+    axes[1].plot(y_axis, np.exp(y_axis), color=RED, lw=1.8,
+                 label="warp factor $W = e^{Hy} = \\sin^{1/6} z$")
+    axes[1].plot(y_axis, np.exp(2 * y_axis), color=ORANGE, lw=1.8, ls="-.",
+                 label="$W^2 = e^{2Hy} = \\sin^{1/3} z$")
     axes[1].plot(y_axis, np.exp(6 * y_axis), color=AQUA, lw=1.8, ls="--",
-                 label="7-volume density $e^{6Hy} = \\sin z$")
+                 label="7-volume density $W^6 = e^{6Hy} = \\sin z$")
     axes[1].axvspan(-4.0, -L_tip, color="grey", alpha=0.25,
                     label="removed by the tip cut-off")
     axes[1].set_xlabel("$y$ (unit $1/H$)")
@@ -864,9 +868,10 @@ CELLS = [
                 "bound towards the tip $z \\to 0$, along the straight line "
                 "$y \\approx \\ln(z)/6$; the dashed line and the dot mark the tip cut-off "
                 "$y = -3$ of the Revision Kohn-Sham solver, at $z = 1.5 \\times "
-                "10^{-8}$. Right: the "
-                "warp factor $e^{2Hy}$ (solid) and the density $e^{6Hy}$ of the proper "
-                "7-volume (dashed) versus $y$ in units of $1/H$; the grey band beyond "
+                "10^{-8}$. Right: the warp factor $W = e^{Hy}$ (solid), its square "
+                "$W^2 = e^{2Hy}$ (dash-dotted) and the density $W^6 = e^{6Hy}$ of the "
+                "proper 7-volume (dashed) versus $y$ in units of $1/H$; the grey band "
+                "beyond "
                 "the cut-off holds only the fraction $e^{-18} = 1.5 \\times 10^{-8}$ of "
                 "the 7-volume of the patch.")
     check(fraction == sp.exp(-18), "the cut-off removes exactly the fraction e^(-18)")
@@ -906,7 +911,8 @@ CELLS = [
       shrinks like $e^{-3a_4}$, and the 7-volume density $\cos z$ is constant in time;
       the whole patch has the 7-volume $1/(6H)$ per unit transverse coordinate volume.
     - In the hidden coordinate $y = \ln(\sin z)/(6H)$ the metric has the warped form
-      with warp factor $e^{2Hy}$; the tip is at infinite proper distance, and the tip
+      of the Revision record, with the warp factor $W = e^{Hy}$ and the volume factor
+      $W^6 = e^{6Hy}$; the tip is at infinite proper distance, and the tip
       cut-off $y = -3/H$ of the Kohn-Sham solver removes only the fraction $e^{-18}$ of
       the 7-volume.
     - ASSUMED: the history $a_4 = A H x_4$ is a prescribed background (the Revision

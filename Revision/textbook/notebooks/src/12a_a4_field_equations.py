@@ -1096,7 +1096,7 @@ CELLS = [
     ax.set_xlabel("$a_4'/H$")
     ax.set_ylabel("$\\Lambda/H^2$")
     ax.set_title("Einstein gravity: the vacuum equations have no common solution")
-    ax.legend(fontsize=8, loc="lower left")
+    ax.legend(fontsize=8, loc="upper center")  # the empty area above the curves
     save_figure(fig, "no_vacuum_gap",
                 "Einstein gravity without a source: the value of $\\Lambda/H^2$ that the "
                 "time equation (constraint) requires, $-(3(a_4')^2 + 21H^2)$, and the "

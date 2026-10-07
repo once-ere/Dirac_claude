@@ -47,7 +47,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 10,
+    "expected_seconds": 15,
     "timeout_seconds": 300,
     "files_written": [
         "Revision/textbook/figures/05a.captions.json",
@@ -876,9 +876,12 @@ CELLS = [
       $(8, 8)$), and it anticommutes exactly with the gammas of the three extra times.
     - The squaring rule $(-1)^{k(k-1)/2}\prod\eta$ holds for all 255 products of
       different gammas.
-    - Every one of these facts reproduces a check of the Revision reports
-      `Revision/algebra/reports/python-algebra.json` and `wolfram-algebra.json`, whose
-      verdicts the notebook read and confirmed.
+    - Every check printed with a line "reproduces ..." repeats a check of the Revision
+      reports `Revision/algebra/reports/python-algebra.json` and
+      `wolfram-algebra.json`, whose verdicts the notebook read and confirmed. The
+      squaring rule for all 255 products, the quadratic form along the two paths, the
+      commutation signs of $C$ with each gamma and the eigenvalue counts are this
+      notebook's own computations.
     """),
 ]
 

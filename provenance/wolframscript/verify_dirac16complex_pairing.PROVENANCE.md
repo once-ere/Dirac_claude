@@ -393,9 +393,9 @@ after it; the script then uses its default report path, which is the committed f
 | --- | --- | --- |
 | `wolframscript : The term 'wolframscript' is not recognized` (PowerShell) or `wolframscript: command not found` (macOS/Linux) | `wolframscript` is not installed or not on the PATH | re-open the terminal after installing; otherwise use the full path of Section 3.2, for example `& "C:\Program Files\Wolfram Research\WolframScript\wolframscript.exe" -file ...` in PowerShell |
 | a request for a Wolfram ID or password, or a message that the kernel could not be started or that no valid licence was found | the engine is not activated (or the activation expired) | run `wolframscript -activate` (Section 3.2) with an internet connection, then run again |
-| within seconds: `Get::noopen: Cannot open ...\wolfram\Dirac16ComplexPairing.wl.`, then `FATAL: module failed to load: ...`, `check_count=0`, `failed_check_count=1`, exit code 1 (this exact output was produced on purpose during the verification, with the package renamed) | the package `wolfram/Dirac16ComplexPairing.wl` is missing | make sure the clone is complete: `git status` must print `nothing to commit, working tree clean` (`git status --porcelain` prints nothing); a line `deleted: <file>` names a missing file. Restore it with `git checkout -- <file>` or clone again. In this case the script stops before it writes anything, so the two output files are unchanged |
-| at the start `Get::noopen: Cannot open ...\wolfram\Dirac16ComplexGeometry.wl.`, then very long Wolfram error messages (`Part::pkspec1`, `Part::partw`, `Set::shape`, ..., `General::stop`), many lines `CHECK FAILED: <name>`, after the line `done in <n> s` (just before the list of `check_` lines) `FileHash::noopen`, at the end `check_count=141`, `failed_check_count=29`, exit code 1 (measured during the verification with this file renamed: about 2.5 minutes, about 820 kB of printed text) | the geometry package `wolfram/Dirac16ComplexGeometry.wl` is missing (a damaged copy gives other error messages and false checks) | `git status` (it shows `deleted: wolfram/Dirac16ComplexGeometry.wl`), then `git checkout -- wolfram/Dirac16ComplexGeometry.wl`. The run has also overwritten the two output files with a failing report; restore them with `git checkout -- artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json artifacts/dirac16complex/pair-creation/pairing-theory.json` |
-| Wolfram error messages that name `algebra-fixture.json` or `kohn-sham-theory.json` (`Import::nffil: File ... not found during Import.` and, after the line `done in <n> s`, `FileHash::noopen: Cannot open ...`), checks `false`, exit code 1. Measured during the verification: without `algebra-fixture.json` one line `CHECK FAILED: PAIR_algebra_fixtureMatches`, `check_count=141`, `failed_check_count=1`; without `kohn-sham-theory.json` a very long line `INTERNAL ERROR: ...`, `check_count=98` (the run stops checking after the step `T3 block maps`, so fewer than 141 checks are listed) and `failed_check_count=4` | an input file of Section 2.2 is missing or changed | `git status`, then `git checkout -- <file>` to restore it; compare its sha256 with Section 2.2. The run has also overwritten the two output files with a failing report; restore them with `git checkout -- artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json artifacts/dirac16complex/pair-creation/pairing-theory.json` (with the `build/` variant of Section 3.4 the failing report went to `build/old-pairing/` instead, and the committed files are unchanged) |
+| within seconds: `Get::noopen: Cannot open ...\wolfram\Dirac16ComplexPairing.wl.`, then `FATAL: module failed to load: ...`, `check_count=0`, `failed_check_count=1`, exit code 1 (this exact output was produced on purpose during both verifications of Part 6, with the package renamed or moved out of the clone) | the package `wolfram/Dirac16ComplexPairing.wl` is missing | make sure the clone is complete: `git status` must print `nothing to commit, working tree clean` (`git status --porcelain` prints nothing); a line `deleted: <file>` names a missing file. Restore it with `git checkout -- <file>` or clone again. In this case the script stops before it writes anything, so the two output files are unchanged |
+| at the start `Get::noopen: Cannot open ...\wolfram\Dirac16ComplexGeometry.wl.`, then very long Wolfram error messages (`Part::pkspec1`, `Part::partw`, `Set::shape`, ..., `General::stop`), many lines `CHECK FAILED: <name>`, after the line `done in <n> s` (just before the list of `check_` lines) `FileHash::noopen`, at the end `check_count=141`, `failed_check_count=29`, exit code 1 (measured during both verifications of Part 6 with this file moved away: 2.5 to 5 minutes, about 820 kB of printed text) | the geometry package `wolfram/Dirac16ComplexGeometry.wl` is missing (a damaged copy gives other error messages and false checks) | `git status` (it shows `deleted: wolfram/Dirac16ComplexGeometry.wl`), then `git checkout -- wolfram/Dirac16ComplexGeometry.wl`. The run has also overwritten the two output files with a failing report; restore them with `git checkout -- artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json artifacts/dirac16complex/pair-creation/pairing-theory.json` |
+| Wolfram error messages that name `algebra-fixture.json` or `kohn-sham-theory.json` (`Import::nffil: File ... not found during Import.` and, after the line `done in <n> s`, `FileHash::noopen: Cannot open ...`), checks `false`, exit code 1. Measured during both verifications of Part 6: without `algebra-fixture.json` one line `CHECK FAILED: PAIR_algebra_fixtureMatches`, `check_count=141`, `failed_check_count=1`; without `kohn-sham-theory.json` a very long line `INTERNAL ERROR: ...`, `check_count=98` (the run stops checking after the step `T3 block maps`, so fewer than 141 checks are listed) and `failed_check_count=4` | an input file of Section 2.2 is missing or changed | `git status`, then `git checkout -- <file>` to restore it; compare its sha256 with Section 2.2. The run has also overwritten the two output files with a failing report; restore them with `git checkout -- artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json artifacts/dirac16complex/pair-creation/pairing-theory.json` (with the `build/` variant of Section 3.4 the failing report went to `build/old-pairing/` instead, and the committed files are unchanged) |
 | lines `CHECK FAILED: <name>` and `failed_check_count=` larger than 0, exit code 1 | a check is false: either a file was changed or the Wolfram version computes something differently | compare the sha256 of the five files of Sections 2.1-2.2 with the tables; note your `$Version` and the names of the failed checks. The run has also overwritten the two output files with a failing report; restore them with `git checkout -- artifacts/dirac16complex/pair-creation/wolfram-pairing-report.json artifacts/dirac16complex/pair-creation/pairing-theory.json` (not needed with the `build/` variant) |
 | `error: unable to create file ...: Filename too long` during `git clone` (Windows) | the clone folder path is too long | run `git config --global core.longpaths true`, delete the partial clone, clone again into `C:\src` |
 | the run stops with a message about memory, or the computer becomes very slow | not enough free memory | close other programs; Part 4.5 gives the measured peak memory |
@@ -700,38 +700,48 @@ root:
 
 ### 4.5 Run time and memory (measured)
 
-On the verification computer (24 logical processors, Windows 11, Wolfram 15.0.1; while
-the runs of Part 6 were made, about eight other Wolfram kernels of other jobs were
-running on the same computer):
+On the verification computer (Intel Core Ultra 9 275HX, 24 logical processors, Windows 11,
+Wolfram 15.0.1). Other jobs were running on the same computer during every run (about a
+dozen other Wolfram kernels on 2026-10-07, about eight on 2026-10-02), so the times are
+upper values; an otherwise idle computer is faster. Runs 3 to 7 of 2026-10-07 ran at the
+same time as each other.
 
-| Run | Shell | Elapsed (wall clock) | `elapsed_seconds` printed | Kernel peak working set | Kernel peak private memory |
-| --- | --- | ---: | ---: | ---: | ---: |
-| 1 | PowerShell 7 | 295.9 s | 292 | 435.6 MB | 657.5 MB |
-| 2 | Git Bash | 321.9 s | 318 | 437.1 MB | 658.3 MB |
-| 3 (`build/` variant) | PowerShell 7 | 317.4 s | 313 | not measured | not measured |
-| 4 (`build/` variant) | Windows PowerShell 5.1 | 244.5 s | 240 | not measured | not measured |
+Runs of 2026-10-07 (Part 6.2) that ran the complete set with every file present:
 
-Duration of the steps in seconds, as printed by runs 1, 2, 3 and 4:
+| Run | Shell | Report path | Elapsed (wall clock) | `elapsed_seconds` printed | Kernel peak working set | Kernel largest private memory (sampled) | Kernel processor time |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 1 | PowerShell 7.6.6 | committed path | 392.9 s | 388 | 449.7 MiB | 671.2 MiB | not recorded |
+| 2 | PowerShell 7.6.6 | committed path | 360.6 s | 355 | 452.9 MiB | 674.0 MiB | 334.5 s (last sample, under 1 s before the end) |
+| 3 | Windows PowerShell 5.1, output into a file with `>` | `build/old-pairing/` | 468.0 s | 458 | not measured | not measured | not measured |
 
-| Step | Run 1 | Run 2 | Run 3 | Run 4 |
-| --- | ---: | ---: | ---: | ---: |
-| `T1generic` | 57 | 69 | 64 | 52 |
-| `T1jets` | 50 | 56 | 52 | 45 |
-| `T1krein` | 2 | 2 | 2 | 1 |
-| `T2frame` | 143 | 150 | 158 | 116 |
-| `T2z2` | 3 | 2 | 2 | 1 |
-| `T1primordial` | 16 | 13 | 13 | 8 |
-| `T3ks_functional` | 0 | 0 | 0 | 0 |
-| `T3ks_spectra` | 3 | 4 | 3 | 2 |
-| `T3emt` | 1 | 1 | 1 | 1 |
-| `stat` | 3 | 4 | 3 | 2 |
-| `totals` | 14 | 17 | 16 | 11 |
-| total (`done in`) | 292 | 318 | 313 | 240 |
+Duration of the steps in seconds, as printed by runs 1, 2 and 3 of 2026-10-07 and, for
+comparison, by runs 1 to 4 of the first verification of 2026-10-02 (Part 6.3):
 
-The kernel works essentially on one processor core (in run 2 its processor time was 204 s
-after 220 s of elapsed time); the longest steps are `T2 frame reflections`
-(about 2.5 minutes), `T1 generic symbols` and `T1 jets` (about one minute each). Expect
-roughly 5 minutes on a similar computer, and more on a slower one.
+| Step | Run 1 | Run 2 | Run 3 | 10-02 run 1 | 10-02 run 2 | 10-02 run 3 | 10-02 run 4 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `T1generic` | 93 | 74 | 104 | 57 | 69 | 64 | 52 |
+| `T1jets` | 64 | 61 | 67 | 50 | 56 | 52 | 45 |
+| `T1krein` | 2 | 2 | 2 | 2 | 2 | 2 | 1 |
+| `T2frame` | 187 | 177 | 228 | 143 | 150 | 158 | 116 |
+| `T2z2` | 2 | 2 | 3 | 3 | 2 | 2 | 1 |
+| `T1primordial` | 15 | 12 | 19 | 16 | 13 | 13 | 8 |
+| `T3ks_functional` | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `T3ks_spectra` | 4 | 5 | 5 | 3 | 4 | 3 | 2 |
+| `T3emt` | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| `stat` | 4 | 3 | 4 | 3 | 4 | 3 | 2 |
+| `totals` | 16 | 17 | 22 | 14 | 17 | 16 | 11 |
+| total (`done in`) | 388 | 355 | 458 | 292 | 318 | 313 | 240 |
+
+The wall-clock times of the first verification were 295.9 s, 321.9 s, 317.4 s and
+244.5 s, with kernel peak working sets of 435.6 and 437.1 MiB and peak private memory of
+657.5 and 658.3 MiB (runs 1 and 2; not measured in runs 3 and 4).
+
+The kernel works essentially on one processor core (in run 2 its processor time was
+334.5 s after about 360 s of elapsed time); the longest steps are `T2 frame reflections`
+(2 to 4 minutes), `T1 generic symbols` and `T1 jets` (about one to 1.5 minutes each). The
+wall-clock time is a few seconds longer than `elapsed_seconds`, because it includes the
+start of the kernel, the loading of the packages and the writing of the files. Expect
+roughly 4 to 8 minutes on a similar computer, and more on a slower one.
 
 ### 4.6 Other Wolfram versions and other operating systems
 

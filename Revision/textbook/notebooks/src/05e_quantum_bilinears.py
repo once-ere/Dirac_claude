@@ -66,7 +66,7 @@ FACTS = {
     ],
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 20,
+    "expected_seconds": 10,
     "timeout_seconds": 600,
     "files_written": [
         "Revision/textbook/figures/05e.captions.json",

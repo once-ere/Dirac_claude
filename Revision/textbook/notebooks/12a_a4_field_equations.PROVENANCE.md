@@ -170,7 +170,7 @@ cd Revision/textbook/notebooks
 jupyter lab 12a_a4_field_equations.ipynb
 ```
 
-JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 15 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
+JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 20 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
 
 **Step 6. Or run the notebook without a browser (headless).**
 
@@ -441,9 +441,9 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | `Revision/textbook/figures/12a.captions.json` | 3133 | `97f758c58ba71f3715582dc87fb19a4b21ca5e0511d249d4581e0b8732ed6681` |
 | `Revision/textbook/figures/12a_1_riemann_matrix.png` | 66241 | `3f00c38f2cc2ffe29394a0ecccd2dbd64754a15e13bf7739826ca90408b74eab` |
 | `Revision/textbook/figures/12a_2_einstein_components.png` | 77448 | `552e37ff2c9d5760f89d928124f8016e92acc8039f5feffdeb08791c259035b8` |
-| `Revision/textbook/figures/12a_3_lovelock_heat_maps.png` | 57260 | `a1c6f806fc160662d1e743cb5c2c27e26960ffb82a0e9ad421d17f25a61bca7f` |
+| `Revision/textbook/figures/12a_3_lovelock_heat_maps.png` | 57506 | `4e05a5bd0f3d425c029fed9ad38cc8bded4887470e7aceae3def7cef5e0d1f99` |
 | `Revision/textbook/figures/12a_4_evolution_factor.png` | 68695 | `1b2eff1582ac4f933f92d93229cc7ba261feb68f2588d8a93ded48b0f2b9a108` |
-| `Revision/textbook/figures/12a_5_no_vacuum_gap.png` | 60509 | `9e2efee01feab6c9a9a68d5c4003a974dee117c6ceb018d1c0daef65d21e04bd` |
+| `Revision/textbook/figures/12a_5_no_vacuum_gap.png` | 61424 | `241db760068f954452f8f92c63b98a9d347ed3b0673965c845eaae60cf7275c6` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/12a_a4_field_equations.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
 
@@ -464,10 +464,10 @@ The notebook does not use the network while it runs. The installation (git clone
 
 ### 4.5 Run time and memory
 
-Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
+Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 23.0 s, peak memory of the kernel process 201 MiB;
-- the check run: 18.1 s, peak memory of the kernel process 201 MiB.
+- the build run: 14.8 s, peak memory of the kernel process 200 MiB;
+- the check run: 11.6 s, peak memory of the kernel process 201 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -479,14 +479,14 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/12a_a4_field_equations.ipynb`: `a0378358e37177b88ddf21e175fb0bd370c03ab863ce9baf97f68a79702777e7`
-- `Revision/textbook/notebooks/src/12a_a4_field_equations.py`: `485cc8aa534aa6ef364fbe1de7b4f39c0e40bd2853a6c571db40e4ad74aadf09`
+- `Revision/textbook/notebooks/12a_a4_field_equations.ipynb`: `eb997351fa8fe7e0e5135b70b163264697ca538927cdd85967296b00be10eb06`
+- `Revision/textbook/notebooks/src/12a_a4_field_equations.py`: `d1f850b928921abdcbb8931cc336b97045bb8c9b60ac27a73058534e52e2e5b8`
 - `Revision/textbook/figures/12a.captions.json`: `97f758c58ba71f3715582dc87fb19a4b21ca5e0511d249d4581e0b8732ed6681`
 - `Revision/textbook/figures/12a_1_riemann_matrix.png`: `3f00c38f2cc2ffe29394a0ecccd2dbd64754a15e13bf7739826ca90408b74eab`
 - `Revision/textbook/figures/12a_2_einstein_components.png`: `552e37ff2c9d5760f89d928124f8016e92acc8039f5feffdeb08791c259035b8`
-- `Revision/textbook/figures/12a_3_lovelock_heat_maps.png`: `a1c6f806fc160662d1e743cb5c2c27e26960ffb82a0e9ad421d17f25a61bca7f`
+- `Revision/textbook/figures/12a_3_lovelock_heat_maps.png`: `4e05a5bd0f3d425c029fed9ad38cc8bded4887470e7aceae3def7cef5e0d1f99`
 - `Revision/textbook/figures/12a_4_evolution_factor.png`: `1b2eff1582ac4f933f92d93229cc7ba261feb68f2588d8a93ded48b0f2b9a108`
-- `Revision/textbook/figures/12a_5_no_vacuum_gap.png`: `9e2efee01feab6c9a9a68d5c4003a974dee117c6ceb018d1c0daef65d21e04bd`
+- `Revision/textbook/figures/12a_5_no_vacuum_gap.png`: `241db760068f954452f8f92c63b98a9d347ed3b0673965c845eaae60cf7275c6`
 
 ## 7. Verification
 
@@ -494,4 +494,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 6 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":201.0,"seconds":23.0},"check":{"date":"2026-10-07","files":6,"peak_mb":201.0,"result":"passed","seconds":18.1},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":200.0,"seconds":14.8},"check":{"date":"2026-10-07","files":6,"peak_mb":201.0,"result":"passed","seconds":11.6},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

@@ -171,7 +171,7 @@ cd Revision/textbook/notebooks
 jupyter lab 12d_condensate_solution.ipynb
 ```
 
-JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 20 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
+JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 25 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
 
 **Step 6. Or run the notebook without a browser (headless).**
 
@@ -342,7 +342,7 @@ The notebook shows 6 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/12d_2_three_gamma_bilinears.png` (1409 x 621 pixels): The 56 three-gamma bilinears $\bar\Phi\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}\Phi$ of the condensate $\Phi_0(1) = v_1 + c\,v_2$ at $M = -5H$, $H = 1$, one for each set of three directions $a < b < c$ (horizontal axis, labelled by the digits of $x_1$ to $x_8$); vertical axis the exact value (a real number). Red crosses: the 15 bilinears whose vanishing the off-diagonal Einstein equations require (they contain $x_4$ together with $x_8$ or with a 3-space direction and an extra time); all are exactly zero. Blue bars: the other 41, of which only eight are not zero, all built from 3-space directions and extra times.
 - `Revision/textbook/figures/12d_3_allowed_sources.png` (954 x 726 pixels): The plane of the effective mass $M/H$ (horizontal) and $\kappa S$, the gravitational coupling times the density of the condensate (vertical, units $H = 1$). In Einstein gravity a homogeneous condensate is the source of the linear member $a_4 = AHx_4$ only if $\kappa MS = -6(A^2 + 1)H^2$: on the blue hyperbolas, drawn for $A^2 = 0, 1, 4, 5$ (each serves $+A$ and $-A$); in the grey region no real slope exists. Inside the hatched band $|M| < 3H$ a condensate does not oscillate. The red circle (examples 1 and 3, $A = 1$) and the green square (example 2, $A^2 = 5$) are the exact solutions of this notebook; $S$ and $M$ have opposite signs, as the condition requires.
 - `Revision/textbook/figures/12d_4_tensor_equality.png` (1458 x 584 pixels): Example 3 (the deflating member $A = 1$, $\Lambda = -30H^2$, units $H = \kappa = 1$): left, the left-hand side $G^\mu{}_\nu + \Lambda\delta^\mu_\nu$ of the Einstein equations; middle, the right-hand side $\kappa T^\mu{}_\nu$ computed from the condensate $\Phi = e^{-4ix_4}\Phi_0$; right, their difference. Rows $\mu$ and columns $\nu$ run over $x_1$ to $x_8$; the colour is the value (red positive, blue negative, white zero) and the numbers are the diagonal entries: $-6$ (minus the energy density, $x_4$) and $-18$ (the pressure, every other direction). All 64 entries agree exactly; every mixed entry is zero.
-- `Revision/textbook/figures/12d_5_solution_in_time.png` (1403 x 611 pixels): The exact solution of example 1 as a function of the time $x_4$ (units $1/H$). Left: the real parts of the three largest components of the condensate $\Phi(x_4) = e^{-4ix_4}\Phi_0$, which oscillate with the period $2\pi/4 \approx 1.57$, and its density $S = \bar\Phi\Phi = 12/5$ (black), constant at every time. Right, on a logarithmic axis: the scale factor $e^{a_4}$ of 3-space (orange) and $e^{-a_4}$ of the three extra times (blue), for example 1 ($a_4 = Hx_4$, solid) and example 2 ($a_4 = \sqrt5\,Hx_4$, dashed): the extra times deflate exponentially while 3-space inflates, driven by the condensate.
+- `Revision/textbook/figures/12d_5_solution_in_time.png` (1383 x 611 pixels): The exact solution of example 1 as a function of the time $x_4$ (units $1/H$). Left: the real parts of the three largest components of the condensate $\Phi(x_4) = e^{-4ix_4}\Phi_0$, which oscillate with the period $2\pi/4 \approx 1.57$, and its density $S = \bar\Phi\Phi = 12/5$ (black), constant at every time. Right, on a logarithmic axis: the scale factor $e^{a_4}$ of 3-space (orange) and $e^{-a_4}$ of the three extra times (blue), for example 1 ($a_4 = Hx_4$, solid) and example 2 ($a_4 = \sqrt5\,Hx_4$, dashed): the extra times deflate exponentially while 3-space inflates, driven by the condensate.
 - `Revision/textbook/figures/12d_6_family_in_lambda.png` (1367 x 615 pixels): The family of exact solutions with the deflating member $a_4 = Hx_4$ and the condensate of examples 1 and 3 ($M = -5H$, $\kappa S = 12/5$), as functions of the cosmological constant $\Lambda/H^2$ (units $H = \kappa = 1$). Left: the mass $m = -(36 + 2\Lambda)/S$ and the self-coupling $\lambda = (M - m)/S$ the condensate must have. Right: its energy density $\kappa\rho = -24 - \Lambda$ and pressure $\kappa p = 12 + \Lambda$. Black circles: example 1 ($\Lambda = 0$); black squares: example 3 ($\Lambda = -30$). In the green region $\Lambda < -24H^2$ the energy density is positive, and there $p < -\rho$ ($w < -1$), since $\kappa(\rho + p) = -12H^2$ for every $\Lambda$.
 
 ## 4. Side effects
@@ -354,11 +354,11 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | file | bytes | sha256 |
 | --- | --- | --- |
 | `Revision/textbook/figures/12d.captions.json` | 4160 | `38feed69571662cd93e73c2ad89594e067f396848d06889ba2a303341902de31` |
-| `Revision/textbook/figures/12d_1_condensate_frequency.png` | 51787 | `60a20740dbd0d0af87bc16a4bd820db48a7f0c7032d37e82ea164a44ebd6698f` |
+| `Revision/textbook/figures/12d_1_condensate_frequency.png` | 51898 | `f7ff44ccbce25d3558f4773367f4e0999f389cab89cdd4a31f250071382acd07` |
 | `Revision/textbook/figures/12d_2_three_gamma_bilinears.png` | 60341 | `10e80e6de7bc861a849392101f618f1ca70e106c6b7827418584e29e859ecec6` |
 | `Revision/textbook/figures/12d_3_allowed_sources.png` | 99698 | `a0babb2de1fe0a07719674de5095ab7eb58a93fe70444b761c72a0097d1eac92` |
-| `Revision/textbook/figures/12d_4_tensor_equality.png` | 53444 | `477d1ea8bf53ce0114996d4037108d6ff93f466df9a95e00b8a30d364cb5f4ca` |
-| `Revision/textbook/figures/12d_5_solution_in_time.png` | 146400 | `6b2ab8c3a887134cda0f98f13cabb6d78dbae1f1e088099189a55d0b366f4d82` |
+| `Revision/textbook/figures/12d_4_tensor_equality.png` | 54184 | `836eab6f7cc3ef57e403956e06e79430a070337112e615b8ae2e676a26a60470` |
+| `Revision/textbook/figures/12d_5_solution_in_time.png` | 133303 | `32c0200b26892c5cd39273bf01af89921453fc575b2fa888c785a79729e04b2e` |
 | `Revision/textbook/figures/12d_6_family_in_lambda.png` | 96211 | `1450f425257ebff788a3254a497e033c7e6f3d170fc008ce4b8eb77246e85533` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/12d_condensate_solution.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
@@ -380,10 +380,10 @@ The notebook does not use the network while it runs. The installation (git clone
 
 ### 4.5 Run time and memory
 
-Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
+Expected run time: about 25 seconds (FACTS: 25 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 24.6 s, peak memory of the kernel process 206 MiB;
-- the check run: 22.7 s, peak memory of the kernel process 206 MiB.
+- the build run: 17.6 s, peak memory of the kernel process 206 MiB;
+- the check run: 28.2 s, peak memory of the kernel process 206 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -395,14 +395,14 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/12d_condensate_solution.ipynb`: `ebacedc944a14c1bb9ba335b4f881d1ed37b77272f1f32509325d04b15179d02`
-- `Revision/textbook/notebooks/src/12d_condensate_solution.py`: `9f2d31a67680ef9e6c9f54cc763c44b0dcae6ef7a200b866ed106b381a8ae1d9`
+- `Revision/textbook/notebooks/12d_condensate_solution.ipynb`: `1458c02364b38801b2e7874f290f923f90e1ac1fe0d26aa0364c472d992362fb`
+- `Revision/textbook/notebooks/src/12d_condensate_solution.py`: `057e8b9066d65e5afbc986b402e07c76966320305ded8617841fc3c7fd1209c0`
 - `Revision/textbook/figures/12d.captions.json`: `38feed69571662cd93e73c2ad89594e067f396848d06889ba2a303341902de31`
-- `Revision/textbook/figures/12d_1_condensate_frequency.png`: `60a20740dbd0d0af87bc16a4bd820db48a7f0c7032d37e82ea164a44ebd6698f`
+- `Revision/textbook/figures/12d_1_condensate_frequency.png`: `f7ff44ccbce25d3558f4773367f4e0999f389cab89cdd4a31f250071382acd07`
 - `Revision/textbook/figures/12d_2_three_gamma_bilinears.png`: `10e80e6de7bc861a849392101f618f1ca70e106c6b7827418584e29e859ecec6`
 - `Revision/textbook/figures/12d_3_allowed_sources.png`: `a0babb2de1fe0a07719674de5095ab7eb58a93fe70444b761c72a0097d1eac92`
-- `Revision/textbook/figures/12d_4_tensor_equality.png`: `477d1ea8bf53ce0114996d4037108d6ff93f466df9a95e00b8a30d364cb5f4ca`
-- `Revision/textbook/figures/12d_5_solution_in_time.png`: `6b2ab8c3a887134cda0f98f13cabb6d78dbae1f1e088099189a55d0b366f4d82`
+- `Revision/textbook/figures/12d_4_tensor_equality.png`: `836eab6f7cc3ef57e403956e06e79430a070337112e615b8ae2e676a26a60470`
+- `Revision/textbook/figures/12d_5_solution_in_time.png`: `32c0200b26892c5cd39273bf01af89921453fc575b2fa888c785a79729e04b2e`
 - `Revision/textbook/figures/12d_6_family_in_lambda.png`: `1450f425257ebff788a3254a497e033c7e6f3d170fc008ce4b8eb77246e85533`
 
 ## 7. Verification
@@ -411,4 +411,4 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":206.0,"seconds":24.6},"check":{"date":"2026-10-07","files":7,"peak_mb":206.0,"result":"passed","seconds":22.7},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":206.0,"seconds":17.6},"check":{"date":"2026-10-07","files":7,"peak_mb":206.0,"result":"passed","seconds":28.2},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

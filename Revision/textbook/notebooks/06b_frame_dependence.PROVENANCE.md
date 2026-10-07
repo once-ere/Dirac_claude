@@ -231,7 +231,7 @@ python -m ipykernel install --user --name python3
 - A red box with "Matplotlib is building the font cache; this may take a moment." in the first run after the installation: this is a message, not an error; the run continues and the message does not come again.
 - An AssertionError names a check that failed: choose the menu Kernel > Restart Kernel and Run All Cells; if it fails again, install the packages again with the pip commands of Step 3, because a different package version can change the last digits of a result.
 - "FileNotFoundError" for Revision/algebra/gammas.json or for a report: the notebook reads Revision records from the repository; open it inside the folder Revision/textbook/notebooks of a complete copy of the repository Dirac_claude (a single downloaded notebook file is not enough).
-- a cell runs for several minutes: the exact algebra of sympy with hyperbolic functions is slow on old computers; the whole notebook needs about a minute on a 2024 laptop. Wait, or close other programs that use the processor.
+- a cell runs for several minutes: the exact algebra of sympy with hyperbolic functions is slow on old computers; the whole notebook needs about a minute on a 2024 laptop, and up to about two minutes while other programs use the processor. Wait, or close the other programs.
 
 To repeat the verification of the book's maintainers (a second, independent execution whose notebook and files are compared byte for byte with the stored ones; it writes only into a scratch folder), run in the repository folder:
 
@@ -338,7 +338,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | `Revision/textbook/figures/06b_2_boosted_contraction.png` | 71478 | `861f3e50cedd7ce16b301fe7ff4e7089d29d8a2ef7c468aa1631584bdbf63815` |
 | `Revision/textbook/figures/06b_3_boosted_connection_heat_maps.png` | 22813 | `dbeb0f82d5d72dea73a3662f0088bc085fea9b34e3268e32d555fe858e91d4f9` |
 | `Revision/textbook/figures/06b_4_ricci_components.png` | 67841 | `2c3492f4125b9d55b998ac7dab317f1465c6190f141a7bf4119588787032d0dc` |
-| `Revision/textbook/figures/06b_5_spinor_curvature_norms.png` | 59720 | `ff3e9e10b4121299e6f1100e5f06da362f523b183598675458ee8f8738c53e63` |
+| `Revision/textbook/figures/06b_5_spinor_curvature_norms.png` | 60248 | `c78046493339d387bc3f3c428de7c677bc395b66652e14863b03e48cff739590` |
 | `Revision/textbook/figures/06b_6_rescaling.png` | 80275 | `b6255810a391b2e757d8ebaed214776ec73aa922796ee4f758e7d1ac86b2f34f` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/06b_frame_dependence.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
@@ -362,8 +362,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 1 minute (FACTS: 60 s); nbkit stops a cell after 900 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 108.4 s, peak memory of the kernel process 209 MiB;
-- the check run: 116.3 s, peak memory of the kernel process 210 MiB.
+- the build run: 88.0 s, peak memory of the kernel process 209 MiB;
+- the check run: 112.9 s, peak memory of the kernel process 209 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -375,14 +375,14 @@ Expected run time: about 1 minute (FACTS: 60 s); nbkit stops a cell after 900 s.
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/06b_frame_dependence.ipynb`: `8b48922bfa2cd4ccd25a0463f8df0370256b757d739b229169504ebfdee5740e`
-- `Revision/textbook/notebooks/src/06b_frame_dependence.py`: `51f3964b9b90c8a33e382852b2bc16d7f06ac950922174f9f42d6efc09d82965`
+- `Revision/textbook/notebooks/06b_frame_dependence.ipynb`: `58fa30c5fadc2ce1dc8ec300fa698734897d3df92f0d2143154f61080aef9bac`
+- `Revision/textbook/notebooks/src/06b_frame_dependence.py`: `f16e7d3776bff6a9f3b037860a04306f02bd91023fddc6c1820069402cb17360`
 - `Revision/textbook/figures/06b.captions.json`: `6d3390b8db67ac0160cbd794e4145613fae0a09bdc98c19886feafa35bd32ce4`
 - `Revision/textbook/figures/06b_1_boost_hyperbolas.png`: `7e57c2360e8ecdee20b6b2266be4dcc870b87f6ac3a30058153ec38b71794908`
 - `Revision/textbook/figures/06b_2_boosted_contraction.png`: `861f3e50cedd7ce16b301fe7ff4e7089d29d8a2ef7c468aa1631584bdbf63815`
 - `Revision/textbook/figures/06b_3_boosted_connection_heat_maps.png`: `dbeb0f82d5d72dea73a3662f0088bc085fea9b34e3268e32d555fe858e91d4f9`
 - `Revision/textbook/figures/06b_4_ricci_components.png`: `2c3492f4125b9d55b998ac7dab317f1465c6190f141a7bf4119588787032d0dc`
-- `Revision/textbook/figures/06b_5_spinor_curvature_norms.png`: `ff3e9e10b4121299e6f1100e5f06da362f523b183598675458ee8f8738c53e63`
+- `Revision/textbook/figures/06b_5_spinor_curvature_norms.png`: `c78046493339d387bc3f3c428de7c677bc395b66652e14863b03e48cff739590`
 - `Revision/textbook/figures/06b_6_rescaling.png`: `b6255810a391b2e757d8ebaed214776ec73aa922796ee4f758e7d1ac86b2f34f`
 
 ## 7. Verification
@@ -391,4 +391,4 @@ Expected run time: about 1 minute (FACTS: 60 s); nbkit stops a cell after 900 s.
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":209.0,"seconds":108.4},"check":{"date":"2026-10-07","files":7,"peak_mb":210.0,"result":"passed","seconds":116.3},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":209.0,"seconds":88.0},"check":{"date":"2026-10-07","files":7,"peak_mb":209.0,"result":"passed","seconds":112.9},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

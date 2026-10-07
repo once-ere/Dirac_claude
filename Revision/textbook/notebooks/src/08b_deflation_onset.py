@@ -54,8 +54,8 @@ FACTS = {
         ["Revision/theory/reports/python-field-theory.json",
          "checks sqrt_det_g_equals_cos_z and extra_time_modes_grow (reproduced)"],
         ["Revision/theory/reports/python-scope.json",
-         "check extra_time_growth_rates_unbounded (the frozen-coefficient growth rate "
-         "used at every instant)"],
+         "check extra_time_growth_rates_unbounded (its frozen-coefficient formula for "
+         "E^2, reproduced at every instant of the history)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -65,7 +65,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS the figure file 08b_5_rate_and_krein.png exists",
-        "ALL 24 CHECKS PASSED (notebook 08b)",
+        "ALL 25 CHECKS PASSED (notebook 08b)",
     ],
     "troubleshooting": [
         ["FileNotFoundError naming Revision/kohn_sham/results/parameters.json",
@@ -184,13 +184,44 @@ CELLS = [
     md(r"""
     ## 5. The deflating history of the Kohn-Sham record
 
-    The next cell reads the parameters of the Kohn-Sham record, takes from it $H$, $m$,
-    the history constant $A$ and the tip cutoff $L$, prints how the record describes
-    the history and its status, and checks the values $A = H = m = 1$, $L = 3$.
+    The next cell first defines two helpers for the checks that reproduce a Revision
+    record. `record_says(report, name, ...)` opens the report (a JSON file with a list
+    of checks, each with a name, a verdict and a detail text) and is true when the
+    check `name` is there with the verdict pass and its detail text contains every
+    further piece of text given. `check_record(condition, title, report, name, ...)` is
+    the helper `check` for such a result: it passes only if the notebook's own
+    computation (`condition`) is right AND the record says the same. Then the cell
+    reads the parameters of the Kohn-Sham record, takes from it $H$, $m$, the history
+    constant $A$ and the tip cutoff $L$, prints how the record describes the history
+    and its status, and checks the values $A = H = m = 1$, $L = 3$.
     """),
     code(r'''
     import numpy as np  # arrays of numbers, matrices, linear algebra
     import sympy as sp  # exact algebra with symbols
+
+    REPORTS = {}  # report file -> {check name: (verdict, detail)}, each read once
+
+
+    def record_says(report_file, check_name, *pieces):
+        """True when the Revision report records the check check_name with the verdict
+        pass and its detail text contains every given piece of text."""
+        if report_file not in REPORTS:  # read the report the first time it is needed
+            data = json.loads(repository_file(report_file).read_text(encoding="utf-8"))
+            REPORTS[report_file] = {entry["name"]: (entry["verdict"].lower(),
+                                                    entry["detail"])
+                                    for entry in data["checks"]}
+        verdict, detail = REPORTS[report_file][check_name]
+        return verdict == "pass" and all(piece in detail for piece in pieces)
+
+
+    def check_record(condition, title, report_file, check_name, *pieces):
+        """check() for a result that reproduces the Revision check check_name: it passes
+        only if condition is true AND the report records check_name as passed, with
+        every piece of text (values computed here) in its detail."""
+        on_record = record_says(report_file, check_name, *pieces)
+        check(condition and on_record, title,
+              record=f"{report_file}, check {check_name}")
+
 
     parameters = json.loads(repository_file(
         "Revision/kohn_sham/results/parameters.json").read_text(encoding="utf-8"))
@@ -231,10 +262,10 @@ CELLS = [
     space_factor = sp.exp(a4_symbol) * sp.sin(z) ** sp.Rational(1, 6)  # x1, x2, x3
     extra_factor = sp.exp(-a4_symbol) * sp.sin(z) ** sp.Rational(1, 6)  # x5, x6, x7
     volume = space_factor**3 * 1 * extra_factor**3 * sp.cot(z)  # x4 has the factor 1
-    check(sp.simplify(volume - sp.cos(z)) == 0,
-          "sqrt|g| = product of the scale factors = cos z, for every a4",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "sqrt_det_g_equals_cos_z")
+    check_record(sp.simplify(volume - sp.cos(z)) == 0,
+                 "sqrt|g| = product of the scale factors = cos z, for every a4",
+                 "Revision/theory/reports/python-field-theory.json",
+                 "sqrt_det_g_equals_cos_z", "cos(6 H x8)")
 
     times = np.linspace(0.0, 6.0, 601)
     fig, ax = plt.subplots()
@@ -387,16 +418,22 @@ CELLS = [
                 "the deflation of the extra times eventually drives the wave into "
                 "growth; a negative onset time means that the wave grows already at "
                 "$x_4 = 0$.")
-    check(all_finite_and_decreasing,
-          "the onset time is finite for every q5 > 0 on the grid and decreases with q5",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "extra_time_modes_grow")
+    check_record(all_finite_and_decreasing,
+                 "the onset time is finite for every q5 > 0 on the grid and decreases "
+                 "with q5", "Revision/theory/reports/python-field-theory.json",
+                 "extra_time_modes_grow",
+                 "every extra-time mode eventually enters the growing regime")
     '''),
     md(r"""
     ## 9. Following one wave through the onset: the local-frame model
 
-    The next cell reads the gamma matrices, builds the time-dependent mode matrix
-    $h(x_4)$ of the local-frame model with $q_1 = 0$, and chooses the starting column.
+    The next cell reads the gamma matrices and builds the time-dependent mode matrix
+    $h(x_4)$ of the local-frame model. It checks at five instants, for a wave with
+    $q_1 = 0.3$ and $q_5 = 0.1$, that $h(x_4)^2 = E^2(x_4)\,I_{16}$, where $E^2$ is the
+    formula of the Revision record for frozen coefficients, $E^2 = m^2 + k_1^2 + k_2^2 +
+    k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$, taken at the frame momenta of that instant
+    (and checks that the record holds exactly this formula). Then it chooses the
+    starting column for $q_1 = 0$.
     With $q_1 = 0$ the matrix $C = \gamma^{(8)}\gamma^{(1)}\gamma^{(2)}\gamma^{(3)}$
     commutes with $h$ ($\gamma^{(4)}$ and $\gamma^{(5)}$ each anticommute with all four
     factors of $C$), so there are columns that are eigenvectors of $h(0)$ for the
@@ -427,6 +464,26 @@ CELLS = [
         """The mode matrix of the local-frame model at time x4."""
         k1, k5 = frame_momenta(x4, q1, q5, y)
         return -1j * mass * g4 - k1 * g4g1 - k5 * g4g5
+
+
+    # At every instant h(x4)^2 = E^2(x4) I16, where E^2 is the frozen-coefficient E^2 of
+    # the record with k1 = k_(1)(x4), k5 = k_(5)(x4) and all other momenta 0.
+    m_s = sp.Symbol("m", real=True)
+    k_s = {a: sp.Symbol(f"k{a}", real=True) for a in (1, 2, 3, 5, 6, 7, 8)}
+    E2_record = m_s**2 + sum(k_s[a] ** 2 for a in (1, 2, 3, 8)) \
+        - sum(k_s[a] ** 2 for a in (5, 6, 7))
+    squares_ok = True
+    for x4 in (0.0, 1.0, 2.0, 3.0, 4.0):
+        k1_now, k5_now = frame_momenta(x4, 0.3, 0.1, 0.0)  # q1 = 0.3, q5 = 0.1, y = 0
+        values = {symbol: 0 for symbol in k_s.values()}  # every momentum 0 ...
+        values.update({m_s: mass, k_s[1]: k1_now, k_s[5]: k5_now})  # ... but these
+        E2_now = float(E2_record.subs(values))
+        h_now = h_local(x4, 0.3, 0.1, 0.0)
+        squares_ok &= bool(np.allclose(h_now @ h_now, E2_now * np.eye(16), atol=1e-12)
+                           and abs(E2_now - local_E2(x4, 0.3, 0.1, 0.0)) < 1e-12)
+    check_record(squares_ok, "x4 = 0, 1, 2, 3, 4: h(x4)^2 = E^2(x4) I16 (q1 = 0.3, "
+                 "q5 = 0.1)", "Revision/theory/reports/python-scope.json",
+                 "extra_time_growth_rates_unbounded", f"h_k^2 = ({sp.sstr(E2_record)}) I16")
 
 
     def starting_column(q5, sign):

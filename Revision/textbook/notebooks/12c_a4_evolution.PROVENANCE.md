@@ -167,7 +167,7 @@ cd Revision/textbook/notebooks
 jupyter lab 12c_a4_evolution.ipynb
 ```
 
-JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 10 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
+JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 15 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
 
 **Step 6. Or run the notebook without a browser (headless).**
 
@@ -321,7 +321,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | `Revision/textbook/figures/12c_1_linear_member.png` | 88334 | `d058ecb5e429c48b202e61087947bea3d8a7d1eb64094c361761e9aba3fb97e7` |
 | `Revision/textbook/figures/12c_2_stress_pulse.png` | 115393 | `b5e52bc55f10d7c13e9a4b1c932d8d6b4982957d3f8792db9ab9dd622d92b710` |
 | `Revision/textbook/figures/12c_3_required_source.png` | 77144 | `a8aaf30ac6b212be3593a42eeb71b6308053b3438600da76fe940091610a88f2` |
-| `Revision/textbook/figures/12c_4_damped_deflation.png` | 117998 | `5a1784a3a04833e1b4b2eb2c7eda5bc27bf5c96551150f4875a394a7e8d89ca8` |
+| `Revision/textbook/figures/12c_4_damped_deflation.png` | 118037 | `fbf3d10e986541535599eaceb71f8511f1656a7ca136cbdec7c4c3f7c6531f68` |
 | `Revision/textbook/figures/12c_5_rk4_convergence.png` | 56964 | `706b5c954bc0e3f0fdc1fa57931d948879f400a94fca9844dbfbe1d13ae2afb1` |
 | `Revision/textbook/figures/12c_6_gauss_bonnet_breakdown.png` | 82823 | `2bdf6580f539fc71e22f345854f8d06ef8018aa84e7d225ad44b4ab2a4e86c25` |
 
@@ -344,10 +344,10 @@ The notebook does not use the network while it runs. The installation (git clone
 
 ### 4.5 Run time and memory
 
-Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
+Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 19.1 s, peak memory of the kernel process 218 MiB;
-- the check run: 16.7 s, peak memory of the kernel process 218 MiB.
+- the build run: 11.5 s, peak memory of the kernel process 218 MiB;
+- the check run: 9.7 s, peak memory of the kernel process 219 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -359,13 +359,13 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/12c_a4_evolution.ipynb`: `33c3ef10ded63278c4424d00e552b2ad037f2ba071eccfd4beb43a1557916d9d`
-- `Revision/textbook/notebooks/src/12c_a4_evolution.py`: `5e5531fe1eb5743662c8f808d159cf83a81dbe7e604a9e66a8560595c6490015`
+- `Revision/textbook/notebooks/12c_a4_evolution.ipynb`: `de7fa78591cc66371c9f983409de1de8555e5cfbf8ad5695e3721948b54c36f8`
+- `Revision/textbook/notebooks/src/12c_a4_evolution.py`: `85ba6d664d0182ca521f54ee33e808308ee36a516c7008b7cb90a16e1eceef44`
 - `Revision/textbook/figures/12c.captions.json`: `740d8c2fda4eae1abeadc912c5a15c7ba72d4f35000449ec90d596f734afbf4d`
 - `Revision/textbook/figures/12c_1_linear_member.png`: `d058ecb5e429c48b202e61087947bea3d8a7d1eb64094c361761e9aba3fb97e7`
 - `Revision/textbook/figures/12c_2_stress_pulse.png`: `b5e52bc55f10d7c13e9a4b1c932d8d6b4982957d3f8792db9ab9dd622d92b710`
 - `Revision/textbook/figures/12c_3_required_source.png`: `a8aaf30ac6b212be3593a42eeb71b6308053b3438600da76fe940091610a88f2`
-- `Revision/textbook/figures/12c_4_damped_deflation.png`: `5a1784a3a04833e1b4b2eb2c7eda5bc27bf5c96551150f4875a394a7e8d89ca8`
+- `Revision/textbook/figures/12c_4_damped_deflation.png`: `fbf3d10e986541535599eaceb71f8511f1656a7ca136cbdec7c4c3f7c6531f68`
 - `Revision/textbook/figures/12c_5_rk4_convergence.png`: `706b5c954bc0e3f0fdc1fa57931d948879f400a94fca9844dbfbe1d13ae2afb1`
 - `Revision/textbook/figures/12c_6_gauss_bonnet_breakdown.png`: `2bdf6580f539fc71e22f345854f8d06ef8018aa84e7d225ad44b4ab2a4e86c25`
 
@@ -375,4 +375,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":218.0,"seconds":19.1},"check":{"date":"2026-10-07","files":7,"peak_mb":218.0,"result":"passed","seconds":16.7},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":218.0,"seconds":11.5},"check":{"date":"2026-10-07","files":7,"peak_mb":219.0,"result":"passed","seconds":9.7},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

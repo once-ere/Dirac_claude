@@ -143,7 +143,8 @@ CELLS = [
 
     - **Coordinate label**: the name of one of the eight coordinates $x_1, \dots, x_8$ of
       the author's metric ($x_1, x_2, x_3$ ordinary space, $x_4$ the time, $x_5, x_6,
-      x_7$ the three extra times, $x_8$ the hidden direction). Programs number them
+      x_7$ the three extra times, which deflate exponentially, $x_8$ the hidden
+      direction). Programs number them
       $0, 1, \dots, 7$: the number 0 stands for $x_1$, the number 7 for $x_8$.
     - **Index list**: a list of labels such as $(x_2, x_1, x_4)$; its **length** $p$ is
       the number of entries. Two lists of the same length are a **pair**: the

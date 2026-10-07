@@ -54,7 +54,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 20,
+    "expected_seconds": 25,
     "timeout_seconds": 600,
     "files_written": [
         "Revision/textbook/figures/05b.captions.json",
@@ -820,8 +820,11 @@ CELLS = [
       intertwiner); the negative control with two equal halves gives 4 instead of 2.
       The gammas exchange the halves, which is how the two inequivalent halves of
       Spin(4,4) form one irreducible representation of Pin(4,4).
-    - Every one of these numbers equals the number recorded in
-      `Revision/algebra/reports/python-algebra.json` and `wolfram-algebra.json`.
+    - The ranks 256 and 128 and the dimensions 1, 2, 1, 1, 0 and 0 equal the numbers
+      recorded in `Revision/algebra/reports/python-algebra.json` and
+      `wolfram-algebra.json`. The halving sequence 256, 128, ..., 1, the eigenvalue
+      steps of $A^TA$ and the value 4 of the negative control are this notebook's own
+      computations.
     """),
 ]
 

@@ -37,9 +37,10 @@ floating-point numbers anywhere):
 4. Special cases. Pure Einstein gravity (alpha1 = 1, alpha2 = alpha3 = 0): no vacuum solution and
    a violated null energy condition. The linear member a4 = A H x4 + a0: equal pressures, the
    vacuum condition, and the Einstein-Gauss-Bonnet vacuum.
-5. Spinor sources. It builds its own real 16 x 16 representation of the Clifford algebra Cl(4,4),
-   the spin connection of the metric, and a homogeneous spinor condensate; it shows which
-   bilinears must vanish and gives exact solutions (witnesses) for which they do.
+5. Spinor sources. It builds its own real 16 x 16 representation of the Clifford algebra Cl(4,4)
+   (eight real 16 x 16 Dirac matrices, see "The Dirac matrices of this set" below), the spin
+   connection of the metric, and a homogeneous spinor condensate; it shows which bilinears must
+   vanish and gives exact solutions (witnesses) for which they do.
 
 Each of these statements is a named check with the verdict PASS or FAIL. There are 47 checks. The
 script writes two files: `a4-equations.json` (every equation, in Wolfram InputForm and in TeX) and
@@ -67,6 +68,42 @@ need them to run this set):
   `Revision/tests/test_dirac16complex_field_theory_publication.py` (they read both outputs), and the
   publication test `Revision/tests/test_pair_creation_proofs_publication.py` (it reads only
   `wolfram-a4-report.json`).
+* Also citing or reading the outputs (found on 2026-10-07): `Revision/lead_checks/README.md`,
+  `Revision/field_equations_a4/python/check_ks_source_conditions.py` (names checks of the report
+  in its header), `Revision/gkd_lovelock/verification/WOLFRAMSCRIPT_PROVENANCE.md`, and twelve
+  textbook notebooks under `Revision/textbook/notebooks/` (sources in `src/`: `00b`, `00c`, `02c`,
+  `03b`, `09a`, `09c`, `11c`, `12a`, `12b`, `12c`, `12d`, `17a`), which read `a4-equations.json`
+  and/or `wolfram-a4-report.json`. The textbook was still being written on that date (committed
+  as "IN PROGRESS, not yet verified"); it is not part of this verification.
+
+### The Dirac matrices of this set
+
+The set uses eight real 16 x 16 Dirac matrices, but it does NOT read the author's matrices from
+`Revision/algebra/gammas.json`: `FieldEquationsA4.wl` (lines 119-128) builds its own, as Kronecker
+products of the real 2 x 2 matrices s1 = [[0,1],[1,0]], e = [[0,1],[-1,0]] and w = s1 e =
+[[-1,0],[0,1]] (1 = the 2 x 2 unit matrix):
+
+| direction | matrix (`FEGammaFrame`) | square |
+| --- | --- | --- |
+| x1, x2, x3 (3-space) | s1(x)1(x)1(x)1, w(x)s1(x)1(x)1, w(x)w(x)s1(x)1 | +1 |
+| x4 (time) | e(x)1(x)1(x)1 | -1 |
+| x5, x6, x7 (extra times) | w(x)e(x)1(x)1, w(x)w(x)e(x)1, w(x)w(x)w(x)e | -1 |
+| x8 (hidden direction) | w(x)w(x)w(x)s1 | +1 |
+
+The check `clifford_relations_own_rep` proves {g_a, g_b} = 2 eta_ab I16 with
+eta = diag(1, 1, 1, -1, -1, -1, -1, 1) (x1..x8), and `C_properties_own_rep` the properties of
+C = g_x8 g_x1 g_x2 g_x3. These matrices are not equal entry by entry to the author's (0 of 8 are
+equal), but they are the author's matrices in another basis: an exact supplementary check made
+during the verification of 2026-10-07 (the script is printed in section 6, with its output; it
+needs a complete clone because it also reads `Revision/algebra/gammas.json`) constructs an integer
+matrix S with S g_a S^-1 = G_a for all eight a (G_a = the author's matrices of `gammas.json`, same
+eta and same coordinate order), S^T S = 128 I16 (so S/sqrt(128) is orthogonal) and
+S C S^-1 = C_author (the author's sigma16) with S^T C_author S = 128 C. Hence every statement of
+this set about spinors and bilinears holds word for word with the author's matrices (replace Phi by
+S Phi / sqrt(128)). Independently, the Python companion `check_field_equations_a4.py` (not part of
+this Wolfram set) repeats the spinor checks with the author's matrices (`authorT16_*`, all PASS in
+`reports/python-a4-report.json`). The author's eight matrices themselves, their products and the
+projectors are displayed and proved in `provenance/dirac matrices.md`.
 
 ## 2. The files of the set
 
@@ -88,14 +125,22 @@ no network resource. It finds its package and its input relative to its own loca
 `lovelock-tensors.json` is produced by a different set (the Rust program in
 `Revision/gkd_lovelock/code`); it is committed, so you do not need Rust to run this set. The two
 outputs are deterministic: LF line endings, no time stamps, no machine names, fixed key order.
+The script contains no random numbers, no dates, no parallel computation and no network
+functions; it writes only through its two `OpenWrite` calls (script line 34).
+
+The optional supplementary Dirac-matrix check of section 6 (not part of the set, not committed)
+additionally reads `Revision/algebra/gammas.json` (sha256
+`95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01`, the author's eight matrices)
+and writes nothing.
 
 ## 3. How to run it (complete instructions)
 
 ### 3.1 What you need
 
-* A computer with Windows 10 or 11, macOS, or Linux, with about 0.6 GB of free disk space for the
-  repository (the clone downloads about 130 MB and then occupies about 540 MB, its hidden `.git`
-  folder included), several GB of free disk space for Wolfram itself (the Wolfram 15.0.1
+* A computer with Windows 10 or 11, macOS, or Linux, with about 1 GB of free disk space for the
+  repository (on 2026-10-07 the clone downloaded about 200 MB and then occupied about 690 MB, its
+  hidden `.git` folder included; the repository grows over time, on 2026-10-02 it was 540 MB),
+  several GB of free disk space for Wolfram itself (the Wolfram 15.0.1
   installation on the verification machine occupies about 9.3 GB) and about 0.3 GB of free memory
   for the Wolfram kernel.
 * The Wolfram language engine with the command-line program `wolframscript`, either the free
@@ -203,8 +248,8 @@ The third line prints the exit code of the run. To also measure the time, use
 `Measure-Command { wolframscript -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls | Out-Default }`
 in PowerShell, or put `time ` in front of the `wolframscript` command in bash/zsh.
 
-The run prints nothing for about 20 seconds (it is computing) and then prints one line; section 4
-says exactly what to expect.
+The run prints nothing for about 20 to 35 seconds (it is computing) and then prints one line;
+section 4 says exactly what to expect.
 
 ### 3.6 If it fails
 
@@ -216,7 +261,8 @@ says exactly what to expect.
   the kernel could not be launched: activate it once with `wolframscript -activate` (needs
   internet).
 * `Import::nffil: File ...lovelock-tensors.json not found during Import.`, followed by
-  `Part::partd` and `Part::partw` messages, the final line `checks: 47, failed: 6` with six lines
+  `Part::partd`, `Part::partw` and `General::stop` messages (all on standard output), the line
+  `checks: 47, failed: 6` with six lines
   `FAIL P1_direct_equals_gkd_branch_monomials ...` to `FAIL L3_direct_equals_gkd_branch ...`, and
   exit code 1: the input file is missing, usually because only part of the repository was copied.
   Clone the whole repository (3.4). This failed run has overwritten the committed report with a
@@ -225,10 +271,11 @@ says exactly what to expect.
   was produced on purpose during the verification, section 6).
 * `Get::noopen: Cannot open ...FieldEquationsA4.wl.` followed by many `Part::`, `ReplaceAll::`,
   `First::` and `General::stop` messages: the package file is missing. The run then does NOT
-  finish by itself (during the verification it was still running after 10 minutes, and in a
-  repeat after 3 minutes, and was stopped). Stop it by ending the Wolfram kernel process, which is
-  how it was stopped during the verification: on Windows end `wolfram.exe` in the Task Manager
-  (Details tab); on macOS or Linux find the process number with `ps aux | grep -i wolfram` and end
+  finish by itself (during the verifications it was still running after 10 minutes, and in
+  repeats after 3 minutes and after 2 minutes, and was stopped). Stop it by ending the Wolfram
+  kernel process, which is how it was stopped during the verification: on Windows end
+  `wolfram.exe` in the Task Manager (Details tab; if several are listed, end the one using CPU
+  time); on macOS or Linux find the process number with `ps aux | grep -i wolfram` and end
   it with `kill <process number>`. Pressing Ctrl+C in the terminal may also work. After the kernel
   is ended, wolframscript prints the line `The product exited for an unknown reason.` (on the error
   stream) and ends with exit code `-1` (measured on Windows; `$LASTEXITCODE` then shows `-1`). This
@@ -238,15 +285,15 @@ says exactly what to expect.
 * `OpenWrite::noopen: Cannot open ...wolfram-a4-report.json.` (or `...a4-equations.json.`)
   followed by `BinaryWrite::stream` and `Close::stream`: the output folder is missing or the file
   is write-protected or open in a program that locks it. Note that the run may still print
-  `checks: 47, failed: 0` and exit with code 0 although that file was NOT written (observed during
-  the verification with the `reports` folder deleted). Restore the folder with
+  `checks: 47, failed: 0` and exit with code 0 although that file was NOT written (observed in
+  both verifications with the `reports` folder deleted). Restore the folder with
   `git checkout -- Revision/field_equations_a4/reports`, close programs that hold the file, and run
   again.
 * Any line beginning with `FAIL ` and a nonzero exit code although every file is present: a check
   did not pass. Write down the printed name, restore the outputs (section 5) and report it; do not
   edit the script. This did not happen in any verification run.
 * The run takes much longer than a minute: a slow or busy computer (the measured kernel CPU time
-  is about 20 s; see section 4). Wait; the computation needs no input from you.
+  is about 20 to 23 s; see section 4). Wait; the computation needs no input from you.
 * All 47 checks pass but `git status` shows `a4-equations.json` or `wolfram-a4-report.json` (or
   both) as modified: you are probably using a Wolfram version other than 15.0.1, whose TeX or
   InputForm formatting differs. Both files contain expressions formatted by Wolfram:
@@ -317,12 +364,14 @@ The 47 checks, in the order of the report (all PASS):
 | spinor sources (13) | `clifford_relations_own_rep`, `C_properties_own_rep`, `spin_connection_antisymmetric`, `Omega_x4_Omega_x8_vanish`, `gamma_mu_anticommutes_with_Omega_mu_no_sum`, `gravity_term_gamma_mu_Omega_mu`, `condensate_equation_x8_consistent`, `condensate_S_constant`, `condensate_adjoint_equation`, `condensate_kinetic_tensor_diagonal`, `condensate_offdiagonal_are_three_gamma_bilinears`, `condensate_einstein_quadratic_U`, `condensate_diagonal_witness_exact` |
 
 Run time on the verification machine (Intel Core Ultra 9 275HX, 24 cores, 191 GB memory,
-Windows 11 Pro for Workstations): 18.9 s and 19.1 s (wall clock) for the two fresh-clone runs,
-20.4 s to 31.2 s for the repeat runs; the kernel used 20.1 s of CPU time (measured in run 4).
-The machine was shared with other jobs during the verification (15 Wolfram kernels of other jobs
-counted after run 3, up to 22 during run 4, CPU load 100 % during runs 4 and 6), so these times are
-upper values for this machine; a slower laptop may need a minute or two. Peak memory (working
-set): about 227 MB for the Wolfram kernel and 17 MB for `wolframscript`.
+Windows 11 Pro for Workstations): on 2026-10-02, 18.9 s and 19.1 s (wall clock) for the two
+fresh-clone runs and 20.4 s to 31.2 s for the repeat runs, with 20.1 s of kernel CPU time; on
+2026-10-07, 33.6 s and 32.4 s for the two fresh-clone runs and 27.4 s to 33.7 s for the repeat
+runs, with 21.8 s to 23.1 s of kernel CPU time. The machine was shared with other jobs during both
+verifications (8 to 22 Wolfram kernels of other jobs running, CPU load 100 % during the runs of
+2026-10-07), so these times are upper values for this machine; a slower laptop may need a minute
+or two. Peak memory (working set): 226.5 MB to 227.0 MB for the Wolfram kernel and 16.7 MB to
+17 MB for `wolframscript`.
 
 ## 5. Side effects
 
@@ -340,21 +389,27 @@ set): about 227 MB for the Wolfram kernel and 17 MB for `wolframscript`.
   temporary files of its own.
 * Outside the repository, WolframScript itself (not this script) keeps small bookkeeping files in
   its per-user folders. On Windows these were written during the runs:
-  `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary\tmp_*`,
-  `%APPDATA%\Wolfram\WolframScript\WolframScript.conf` and
-  `%APPDATA%\Wolfram\Paclets\Temporary\pacletSiteData_15.lock` (macOS and Linux use the
-  corresponding per-user Wolfram folders). Other Wolfram kernels were running at the same time on
+  `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary\tmp_*` (files of 0 to about
+  1.3 kB) and `%APPDATA%\Wolfram\WolframScript\WolframScript.conf` (both dates); also
+  `%APPDATA%\Wolfram\Paclets\Temporary\pacletSiteData_15.lock` (2026-10-02) and
+  `%APPDATA%\Wolfram\ApplicationData\ProcessLink\Streams\wl-stream-*` (2026-10-07) (macOS and
+  Linux use the corresponding per-user Wolfram folders). Other Wolfram kernels were running at the same time on
   the verification machine, so these writes could not be attributed to this run alone. They are
   harmless and you never need to delete them.
-* Processes: `wolframscript` starts exactly one Wolfram kernel (the process `wolfram.exe` on
-  Windows with Wolfram 15.0.1; on macOS and Linux a process whose name contains `wolfram` or
-  `Wolfram`, for example `WolframKernel`), with no parallel subkernels. The kernel quits
-  at the end of the run (the script ends with `Exit[0]` or `Exit[1]`); no kernel was left running
-  after any verification run.
-* Network: none needed. The script contains no network functions; during a monitored run the only
-  network connections of `wolframscript` and its kernel were local loopback connections
-  (127.0.0.1) between the two programs. The Wolfram licence on the verification machine is
-  node-locked (`$NetworkLicense` is `False`), so no licence server was contacted.
+* Processes: `wolframscript` starts two Wolfram processes one after the other (measured on
+  2026-10-07 by listing the child processes of `wolframscript`): first a short licence query
+  (`wolfram.exe -wlbanner -licenseinfo`, about 0.1 s of CPU time, it ends at once), then the
+  kernel that runs the script (`wolfram.exe ... -linkmode Connect -linkname <name>_shm -mathlink`,
+  connected to `wolframscript` through shared memory; on macOS and Linux the process name contains
+  `wolfram` or `Wolfram`, for example `WolframKernel`). There are no parallel subkernels. The
+  kernel quits at the end of the run (the script ends with `Exit[0]` or `Exit[1]`); no kernel was
+  left running after any verification run.
+* Network: none needed. The script contains no network functions. During a monitored run on
+  2026-10-02 the only network connections of `wolframscript` and its kernel were local loopback
+  connections (127.0.0.1) between the two programs; during a monitored run on 2026-10-07 (9
+  samples of the TCP connections and UDP endpoints of `wolframscript` and both `wolfram.exe`
+  processes) none was seen at all. The Wolfram licence on the verification machine is node-locked
+  (`$NetworkLicense` is `False`), so no licence server was contacted.
 * To restore the committed state after any run:
 
   ```text
@@ -365,6 +420,13 @@ set): about 227 MB for the Wolfram kernel and 17 MB for `wolframscript`.
   The second command must print nothing.
 
 ## 6. Verification record
+
+The set was verified on 2026-10-02 (6.1) and verified again, from new fresh clones, on 2026-10-07
+(6.2), after the workflow that wrote this file had been interrupted by a session limit; 6.3 lists
+the open remarks. Both verifications give the same result: the set executes correctly and
+reproduces both committed outputs byte for byte.
+
+### 6.1 Verification of 2026-10-02
 
 | item | value |
 | --- | --- |

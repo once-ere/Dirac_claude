@@ -12,7 +12,9 @@ by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
         Revision/textbook/notebooks/src/08a_growth_rates.py
 
 It reproduces, with the Revision gammas, the checks extra_time_growth_rates_unbounded
-(Revision/theory/reports/python-scope.json), mode_hamiltonian_B_selfadjoint_dispersion,
+(Revision/theory/reports/python-scope.json and wolfram-scope.json), evolution_form_G
+(Revision/theory/reports/wolfram-field-theory.json),
+mode_hamiltonian_B_selfadjoint_dispersion,
 extra_time_modes_grow and good_sector_spectrum_and_B_sectors
 (Revision/theory/reports/python-field-theory.json) and the Krein statements
 Q.one_particle_Krein_inertia and Q.one_particle_complex_frequency_Krein_neutral
@@ -54,9 +56,14 @@ FACTS = {
          "check clifford_relation (reproduced)"],
         ["Revision/theory/reports/python-scope.json",
          "check extra_time_growth_rates_unbounded (reproduced)"],
+        ["Revision/theory/reports/wolfram-scope.json",
+         "check extra_time_growth_rates_unbounded of the independent Wolfram verifier "
+         "(reproduced)"],
         ["Revision/theory/reports/python-field-theory.json",
          "checks mode_hamiltonian_B_selfadjoint_dispersion, extra_time_modes_grow and "
          "good_sector_spectrum_and_B_sectors (reproduced)"],
+        ["Revision/theory/reports/wolfram-field-theory.json",
+         "check evolution_form_G, the non-characteristic slices (reproduced)"],
         ["Revision/pairing/reports/python-pairing.json",
          "checks Q.one_particle_Krein_inertia and "
          "Q.one_particle_complex_frequency_Krein_neutral (reproduced)"],
@@ -69,7 +76,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS the figure file 08a_6_eigenvalue_paths.png exists",
-        "ALL 28 CHECKS PASSED (notebook 08a)",
+        "ALL 30 CHECKS PASSED (notebook 08a)",
     ],
     "troubleshooting": [
         ["FileNotFoundError naming Revision/algebra/gammas.json",

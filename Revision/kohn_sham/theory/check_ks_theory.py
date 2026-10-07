@@ -9,6 +9,9 @@ Inputs (Revision outputs only):
   Revision/algebra/gammas.json                 the Wolfram fixture (only compared with the above)
   Revision/kohn_sham/ks-theory.json            the Wolfram export for the solver (cross-checked here
                                                against this file's own derivation when it exists)
+  Revision/field_equations_a4/reports/ks-source-conditions.json
+                                               the a4 source conditions of the Kohn-Sham states (read for
+                                               the label of the history a4 = A H x4: PRESCRIBED BACKGROUND)
 Output (deterministic, LF): Revision/kohn_sham/reports/ks-theory-python.json
 
 Coordinates (SPEC section 1): x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially
@@ -36,6 +39,7 @@ REVISION = KS.parent
 PY_GAMMAS = REVISION / "algebra" / "reports" / "python-gammas.json"
 WL_GAMMAS = REVISION / "algebra" / "gammas.json"
 KS_THEORY = KS / "ks-theory.json"
+KS_SOURCE_CONDITIONS = REVISION / "field_equations_a4" / "reports" / "ks-source-conditions.json"
 REPORT = KS / "reports" / "ks-theory-python.json"
 
 CHECKS: list[dict] = []
@@ -769,6 +773,36 @@ if KS_THEORY.exists():
     except Exception:  # noqa: BLE001
         same_c = False
     check("ks_theory_json_slope", same_c, "the exported brane-band slope agrees with this file to 1e-12")
+    # The history a4 = A H x4 of the adiabatic measure is a PRESCRIBED BACKGROUND: the export must say so, and
+    # the reason it gives must be the one recorded by the a4 source-condition check of the Kohn-Sham states.
+    try:
+        hist = kt["adiabaticity"]["history"]
+        status = kt["adiabaticity"]["historyStatus"]
+        label_ok = (hist.startswith("a4 = A H x4") and hist.endswith("PRESCRIBED BACKGROUND (see historyStatus)")
+                    and status.startswith("PRESCRIBED BACKGROUND: the history a4 = A H x4 is prescribed, not solved for.")
+                    and "p3 = p_t = p8 and constant rho" in status
+                    and "Revision/field_equations_a4/reports/ks-source-conditions.json" in status
+                    and "test field on a prescribed background without back-reaction" in status)
+    except Exception:  # noqa: BLE001
+        label_ok = False
+    try:
+        sc = json.loads(KS_SOURCE_CONDITIONS.read_text(encoding="utf-8"))
+        scv = {c["name"]: c["verdict"] for c in sc["checks"]}
+        sc_ok = (scv.get("ks_history_is_a_prescribed_background") == "PASS"
+                 and scv.get("ks_profiles_violate_algebraic_condition") == "PASS"
+                 and scv.get("ks_profiles_depend_on_x8") == "PASS"
+                 and "C3 (linear member a4 = A H x4 + a0): p3 = p_t = p8 and rho constant" in sc["conditions"])
+    except Exception:  # noqa: BLE001
+        sc_ok = False
+    check("ks_theory_json_history_label", label_ok and sc_ok,
+          "ks-theory.json labels the history a4 = A H x4 (A = 1 canonical) of the adiabatic measure as a PRESCRIBED "
+          f"BACKGROUND (adiabaticity.history ends 'PRESCRIBED BACKGROUND (see historyStatus)', adiabaticity.historyStatus "
+          f"states the reason and cites the source-condition report): {label_ok}; the reason is the one recorded in "
+          "Revision/field_equations_a4/reports/ks-source-conditions.json (condition C3: the linear member requires "
+          "p3 = p_t = p8 and constant rho; checks ks_history_is_a_prescribed_background, "
+          f"ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x8 PASS): {sc_ok}. The Kohn-Sham gas is a "
+          "test field on this background without back-reaction; its states are not solutions of the a4 equations "
+          "with the Kohn-Sham source")
 else:
     check("ks_theory_json_basis", "pending", "ks-theory.json not yet written by the Wolfram verifier")
 
