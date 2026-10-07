@@ -105,6 +105,15 @@ provenance/dirac matrices.md (its coverage section).
   ALSO in this change (rev-a4 runner, 2026-10-07): verify_field_equations_a4.wls exits 0 when an output cannot be written and never
   finishes when its package is missing - make both an ERROR line with exit code 1 (keep the committed output bytes identical); README
   says 'about 15 s' (measured 19-34 s on a loaded machine).
+FRESH-CLONE TEST RESULT (2026-10-07, clone of a4c5eda, no setup_solver.sh): python -m unittest discover -s Revision/tests: 82 tests,
+every failure (25 F + 1 E) is in test_universes_in_pairs_textbook (book in progress; the textbook workflow rebuilds it); everything
+else passes.  python -m unittest discover -s tests: 615 tests, 5 failures, all OLD-STAGE and PRE-EXISTING: (1) four
+test_d16c_kohn_sham_notebook.TestCommittedReport tests - the committed artifacts/dirac16complex/kohn-sham/notebook-report.json has
+verdict FAILURE since 2026-09-30 (gauntlet rust_vs_reference_{deltaSCF,eigenvalues,particleHole} failed, python_check_report skipped)
+and reference-summary.json was regenerated after it (33c07a3): old Stage 4 was paused unfinished when the Revision replaced it;
+(2) test_d16c_student_guide_publication path studies/dirac16complex_cosmology/target/release/dirac16complex_cosmology.exe - exists
+only after bash scripts/setup_solver.sh.  The execution-provenance agent nb-kohn-sham must document (1) truthfully; decide with the
+user whether old Stage 4 is to be finished or formally marked superseded by Revision/kohn_sham.
 
 ### 0.4f STATE 2026-10-03 (after the session limit)
 

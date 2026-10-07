@@ -78,7 +78,7 @@ FACTS = {
     ],
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 20,
+    "expected_seconds": 30,
     "timeout_seconds": 300,
     "files_written": ["Revision/textbook/figures/01c.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],

@@ -165,10 +165,11 @@ CELLS = [
     **Why anticommuting numbers.** Electrons and the quanta of the field dirac16complex
     are fermions: two of them never occupy the same state (the Pauli principle). In the
     quantum theory this is expressed by field operators that anticommute. The
-    classical field whose quantisation gives such operators must itself take values
-    that anticommute, so its components are Grassmann numbers. Grassmann numbers are
-    not measured; they are bookkeeping symbols with exact rules, and every statement
-    of this notebook is a statement about those rules.
+    classical field from which such operators are obtained is therefore given values
+    that anticommute: the Revision record defines the components of dirac16complex as
+    Grassmann numbers (Revision/SPEC.md, section 3). Grassmann numbers are not
+    measured; they are bookkeeping symbols with exact rules, and every statement of
+    this notebook is a statement about those rules.
 
     **The two fields of the book.** dirac16complex is a column $\Psi$ of 16 complex
     Grassmann numbers $\Psi_1, \dots, \Psi_{16}$ (one complex generator pair per

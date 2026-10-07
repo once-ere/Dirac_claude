@@ -75,7 +75,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 75,
+    "expected_seconds": 120,
     "timeout_seconds": 900,
     "files_written": ["Revision/textbook/figures/08c.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
@@ -104,6 +104,9 @@ CELLS = [
     - builds the author's metric from the diagonal vielbein, its Christoffel symbols
       (25 independent nonzero ones) and the canonical spin connection (12 independent
       nonzero components), and checks the vielbein postulate for all 512 components;
+    - shows that the connection vanishes only in the formal flat limit $a_4' = 0$,
+      $H = 0$ (the core of non-triviality) and that the term $3H\gamma^{(8)}\Psi$ is
+      not zero for any field $\Psi \neq 0$;
     - shows, direction by direction, which pieces of $\gamma^\mu\Omega_\mu$ cancel (the
       time-direction pieces of the three inflating and the three deflating
       directions) and which survive (the hidden-direction pieces, $3H\gamma^{(8)}$);

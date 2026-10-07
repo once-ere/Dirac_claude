@@ -311,10 +311,10 @@ The notebook shows 8 figures, each below the cell that draws it, and saves each 
 
 - `Revision/textbook/figures/07d_1_action_versus_epsilon.png` (1454 x 569 pixels): Left: the change of the action of the oscillator ($\omega = 1$, from $t = 0$ to $1$, end values 0 and 1) when a path $q$ is replaced by $q + \epsilon\xi_1$, against the size $\epsilon$ of the change, for the true path $\sin t/\sin 1$ (solid) and the wrong paths $t$ (dashed) and $t^2$ (dotted), with the shape $\xi_1 = \sin\pi t$; the thin grey lines are the tangents at $\epsilon = 0$. Only the true path has a horizontal tangent: its first variation is zero. Right: the coefficient $S_2 = (T/4)(\pi^2/T^2 - \omega^2)$ of $\epsilon^2$ against the length $T$ of the interval; it changes sign at $T = \pi/\omega$ (dashed red), where the minimum becomes a saddle.
 - `Revision/textbook/figures/07d_2_paths_and_residuals.png` (1454 x 569 pixels): Left: three paths of the oscillator with the same end values $q(0) = 0$ and $q(1) = 1$ against the time $t$ (pure numbers): the true path $\sin t/\sin 1$ (solid), the line $t$ (dashed) and the parabola $t^2$ (dotted); they look alike. Right: their Euler-Lagrange expressions $E(t) = -\ddot q - q$, the amount by which the law of motion $\ddot q = -q$ fails: zero for the true path at every time, $-t$ for the line, $-2 - t^2$ for the parabola. The first variation of the action is the integral of $E$ times the shape of the change.
-- `Revision/textbook/figures/07d_3_bump_lemma.png` (1450 x 570 pixels): The fundamental lemma made visible, for the parabola path with $E(t) = -2 - t^2$ (black line). Left: the average of $E$ over a bump $\cos^2(\pi(t - t_0)/(2w))$ of half-width $w$ (one bump is shaded green at the bottom), plotted at its centre $t_0$ for $w = 0.2$, $0.1$, $0.05$; the averages approach the curve as the bumps narrow. Right: the distance of the average from $E(t_0)$ against $w$ on logarithmic axes for three centres; the points lie on a line of slope 2 (dashed): the error is proportional to $w^2$. A function whose integral against every bump vanishes must therefore vanish everywhere.
+- `Revision/textbook/figures/07d_3_bump_lemma.png` (1454 x 569 pixels): The fundamental lemma made visible, for the parabola path with $E(t) = -2 - t^2$ (black line). Left: the average of $E$ over a bump $\cos^2(\pi(t - t_0)/(2w))$ of half-width $w$ (one bump is shaded green at the bottom), plotted at its centre $t_0$ for $w = 0.2$, $0.1$, $0.05$; the averages approach the curve as the bumps narrow. Right: the distance of the average from $E(t_0)$ against $w$ on logarithmic axes for three centres; the points lie on a line of slope 2 (dashed): the error is proportional to $w^2$. A function whose integral against every bump vanishes must therefore vanish everywhere.
 - `Revision/textbook/figures/07d_4_action_on_a_grid.png` (1454 x 569 pixels): The action on a grid of times. Left: the path that makes the grid action $S_N$ stationary, for $N = 4$ (circles) and $N = 8$ (squares) steps, and the true path $\sin t/\sin 1$ (black line), against the time $t$ (pure numbers); already four steps follow the true path closely. Right: the largest difference between the grid path and the true path against the step $h = 1/N$, for $N = 4$ to $256$, on logarithmic axes; the points lie on a line of slope 2 (dashed): halving the step divides the error by 4.
 - `Revision/textbook/figures/07d_5_energy_along_paths.png` (931 x 611 pixels): The energy $H = \frac{1}{2}\dot q^2 + \frac{1}{2}\omega^2q^2$ of the oscillator ($\omega = 1$) along the three paths of Figure 2, against the time $t$ (pure numbers). On the true path (solid) it is constant, $1/(2\sin^2 1) \approx 0.706$; on the line (dashed) and the parabola (dotted) it changes, because $dH/dt = -\dot q\,E$ and their Euler-Lagrange expression $E$ is not zero.
-- `Revision/textbook/figures/07d_6_first_order_rotation.png` (1376 x 614 pixels): First-order Lagrangians, with $\omega = 1$. Left: the motion in the plane of the two real variables $(q_0, q_1)$, starting at $(1, 0)$ (dot), for three quarters of a turn: Example A (solid) turns counterclockwise, Example B, its complex form with the opposite sign of the kinetic term, turns clockwise (dashed); the arrows show the sense. Right: the complex variable $\psi = (q_0 + iq_1)/\sqrt{2}$ of Example B against the time $t$: real part $\cos t/\sqrt{2}$, imaginary part $-\sin t/\sqrt{2}$, and the constant $|\psi|^2 = \frac{1}{2}$.
+- `Revision/textbook/figures/07d_6_first_order_rotation.png` (1379 x 614 pixels): First-order Lagrangians, with $\omega = 1$. Left: the motion in the plane of the two real variables $(q_0, q_1)$, starting at $(1, 0)$ (dot), for three quarters of a turn: Example A (solid) turns counterclockwise, Example B, its complex form with the opposite sign of the kinetic term, turns clockwise (dashed); the arrows show the sense. Right: the complex variable $\psi = (q_0 + iq_1)/\sqrt{2}$ of Example B against the time $t$: real part $\cos t/\sqrt{2}$, imaginary part $-\sin t/\sqrt{2}$, and the constant $|\psi|^2 = \frac{1}{2}$.
 - `Revision/textbook/figures/07d_7_space_and_extra_time.png` (1440 x 614 pixels): Two exact solutions of the field equation with mass $m = 1$ and wave number $k = 2$, as colour maps over one wavelength of a coordinate (horizontal) and the time $x_4$ from 0 to 2 (vertical), pure numbers; red positive, blue negative. Left: a wave along the space direction $x_1$, $\cos(2x_1)\cos(\sqrt{5}x_4)$, which oscillates in time between $-1$ and $1$. Right: a wave along the extra time $x_5$, $\cos(2x_5)\cosh(\sqrt{3}x_4)$, which grows; its colour scale reaches $\cosh(2\sqrt{3}) \approx 16$. The only difference in the Lagrangian is the sign of the term of the second coordinate.
 - `Revision/textbook/figures/07d_8_dispersion.png` (1455 x 569 pixels): Left: the square $\omega^2$ of the angular frequency of a plane wave against its wave number $k$ (pure numbers, mass $m = 1$), for a wave along a space direction ($m^2 + k^2$, always positive: oscillation) and along an extra time ($m^2 - k^2$, negative for $k > m$). Right: for $k > m$ the wave grows like $e^{\kappa x_4}$ with the rate $\kappa = \sqrt{k^2 - m^2}$ (red), which approaches $k$ (dotted) and has no upper bound; the Revision record finds the same rate for the 16-component field.
 
@@ -329,10 +329,10 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | `Revision/textbook/figures/07d.captions.json` | 4638 | `5a4e9fb625c79b631784deacbbd1fad75390887e6382432f96b67aaa3bdc13ab` |
 | `Revision/textbook/figures/07d_1_action_versus_epsilon.png` | 91797 | `09e0c97345c4cbaf378b27230b005b16443dbe38eef8cb59a037087cfe6c049c` |
 | `Revision/textbook/figures/07d_2_paths_and_residuals.png` | 86434 | `258980712e5e3875ac2fa61776ff8fd1ef5a917e68724afd05ac0e5921e69129` |
-| `Revision/textbook/figures/07d_3_bump_lemma.png` | 90506 | `37045a7e6b58f5d00a34d633e108299cec832cf0ca41d7066759004793c0b978` |
+| `Revision/textbook/figures/07d_3_bump_lemma.png` | 87360 | `4e2353fd9e5f95f27ace142e97ae30372a448546b91df5353f6a4cec988d409e` |
 | `Revision/textbook/figures/07d_4_action_on_a_grid.png` | 76284 | `37f8dd79e2b2364a2cfe6709de2d1ea90cc315584d22d4854bc3b7f4c6d12c6c` |
 | `Revision/textbook/figures/07d_5_energy_along_paths.png` | 41500 | `f9d95f53b74b2a6207eb9b4f51e937f8f2a1e6a42076a3849fdd7302bf26fb08` |
-| `Revision/textbook/figures/07d_6_first_order_rotation.png` | 86746 | `f1a1d1521b989be8d12744d7e74b8f11f72c11fd9193953ca88a5b81c6058890` |
+| `Revision/textbook/figures/07d_6_first_order_rotation.png` | 84215 | `d7238021706d5707fed994b13f10a8117e5ac28e9525158438565770a6497ad1` |
 | `Revision/textbook/figures/07d_7_space_and_extra_time.png` | 98404 | `25d1395faf02fc4f8127070f6bebc571663b236033cc5876154062c2ce59a36a` |
 | `Revision/textbook/figures/07d_8_dispersion.png` | 81834 | `b1edcac5b34ec0a6ef57b39274efe553125041d542d89576a03ce4ffee571635` |
 
@@ -357,8 +357,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 20.4 s, peak memory of the kernel process 234 MiB;
-- the check run: 15.9 s, peak memory of the kernel process 234 MiB.
+- the build run: 23.6 s, peak memory of the kernel process 220 MiB;
+- the check run: 28.4 s, peak memory of the kernel process 226 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -370,15 +370,15 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/07d_action_principle.ipynb`: `72930cc328adcef10a2d1473f8751145f10099dc4491d0e626628ff70af992ff`
-- `Revision/textbook/notebooks/src/07d_action_principle.py`: `61a14a8bb43a7a4de7ad92b1221fd0bf92b66e3ad6852d745a0e6de462f9ee1f`
+- `Revision/textbook/notebooks/07d_action_principle.ipynb`: `d836d1ebd121bad53a87476abec519ec42f29cc71637814682be71b2fc71b1b3`
+- `Revision/textbook/notebooks/src/07d_action_principle.py`: `a19d081b7335f7cba19b1133cf9b6092df3a6c22eb44aff0f2930a3124f20a43`
 - `Revision/textbook/figures/07d.captions.json`: `5a4e9fb625c79b631784deacbbd1fad75390887e6382432f96b67aaa3bdc13ab`
 - `Revision/textbook/figures/07d_1_action_versus_epsilon.png`: `09e0c97345c4cbaf378b27230b005b16443dbe38eef8cb59a037087cfe6c049c`
 - `Revision/textbook/figures/07d_2_paths_and_residuals.png`: `258980712e5e3875ac2fa61776ff8fd1ef5a917e68724afd05ac0e5921e69129`
-- `Revision/textbook/figures/07d_3_bump_lemma.png`: `37045a7e6b58f5d00a34d633e108299cec832cf0ca41d7066759004793c0b978`
+- `Revision/textbook/figures/07d_3_bump_lemma.png`: `4e2353fd9e5f95f27ace142e97ae30372a448546b91df5353f6a4cec988d409e`
 - `Revision/textbook/figures/07d_4_action_on_a_grid.png`: `37f8dd79e2b2364a2cfe6709de2d1ea90cc315584d22d4854bc3b7f4c6d12c6c`
 - `Revision/textbook/figures/07d_5_energy_along_paths.png`: `f9d95f53b74b2a6207eb9b4f51e937f8f2a1e6a42076a3849fdd7302bf26fb08`
-- `Revision/textbook/figures/07d_6_first_order_rotation.png`: `f1a1d1521b989be8d12744d7e74b8f11f72c11fd9193953ca88a5b81c6058890`
+- `Revision/textbook/figures/07d_6_first_order_rotation.png`: `d7238021706d5707fed994b13f10a8117e5ac28e9525158438565770a6497ad1`
 - `Revision/textbook/figures/07d_7_space_and_extra_time.png`: `25d1395faf02fc4f8127070f6bebc571663b236033cc5876154062c2ce59a36a`
 - `Revision/textbook/figures/07d_8_dispersion.png`: `b1edcac5b34ec0a6ef57b39274efe553125041d542d89576a03ce4ffee571635`
 
@@ -388,4 +388,4 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 9 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":234.0,"seconds":20.4},"check":{"date":"2026-10-07","files":9,"peak_mb":234.0,"result":"passed","seconds":15.9},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":220.0,"seconds":23.6},"check":{"date":"2026-10-07","files":9,"peak_mb":226.0,"result":"passed","seconds":28.4},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

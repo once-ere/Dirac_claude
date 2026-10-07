@@ -198,6 +198,43 @@ CELLS = [
     md(r"""
     ## 5. Reading the metric exactly as the author wrote it
 
+    First a technical step. While a cell runs, Jupyter sends what the cell prints to the
+    notebook in pieces, about one piece every 0.2 seconds, so where one piece ends and
+    the next begins depends on the speed of the computer. The tools that build this
+    book read the PASS line of a check together with the line under it that names the
+    Revision record, and they read the two correctly only when both arrive in the same
+    piece. The next cell therefore defines the function `in_one_piece(helper)`: it
+    returns a new function that does exactly what `helper` does, but lets `helper`
+    print into a text buffer in memory (an `io.StringIO`, with
+    `contextlib.redirect_stdout`) and then writes the whole buffer with one call of
+    `sys.stdout.write`, which arrives as one piece. (The stars in `*arguments` and
+    `**options` pass on all the values the new function is given, whatever they are.)
+    The cell then replaces the helpers `check` and `report` of the set-up cell by such
+    functions. Nothing else changes: the same checks, the same PASS lines, the same
+    numbers.
+    """),
+    code(r'''
+    import contextlib  # redirect_stdout: send printed text into a buffer
+    import io  # StringIO: a text buffer in memory
+    import sys  # sys.stdout: the place where printed text goes
+
+
+    def in_one_piece(helper):
+        """A function that does what helper does, with all the lines that helper prints
+        written in one piece."""
+        def helper_in_one_piece(*arguments, **options):
+            collected = io.StringIO()  # an empty text buffer
+            with contextlib.redirect_stdout(collected):  # print() writes into it
+                helper(*arguments, **options)  # a failing check stops here, as before
+            sys.stdout.write(collected.getvalue())  # all the lines with one write
+        return helper_in_one_piece
+
+
+    check = in_one_piece(check)  # a PASS line and its record line stay together
+    report = in_one_piece(report)  # a long RESULT line and its second line, too
+    say("From now on check and report print each of their results in one piece.")
+    '''),
+    md(r"""
     The Rust program `lovelock_gkd`, which computed the curvature of this metric for
     the Revision record, stored the author's text of the metric in its output file
     `Revision/gkd_lovelock/results/curvature.json` under the name `metricAsGiven`. The

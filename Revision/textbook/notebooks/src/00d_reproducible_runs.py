@@ -484,9 +484,9 @@ CELLS = [
     The next cell prints the bracket of that detail that starts with "(the former"
     (`detail.index(text)` is the position at which `text` first occurs in `detail`,
     and `detail.index(")", start)` the first ")" at or after the position `start`)
-    and checks the verdict. Two computations that make the same rounding error agree with each other
-    and are still both wrong: a comparison is only as good as the independence of the
-    two computations.
+    and checks the verdict. Two computations that make the same rounding error agree
+    with each other and are still both wrong: a comparison is only as good as the
+    independence of the two computations.
     """),
     code(r'''
     detail = determinism_checks["refined_mermin_root_path"]["detail"]

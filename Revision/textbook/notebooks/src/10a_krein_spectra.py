@@ -196,9 +196,10 @@ CELLS = [
     an extra time $k_a = q_ae^{a_4}\sin^{-1/6}z$ GROWS as the extra times deflate
     ($a_4$ increasing). "Frozen coefficients" means only that these factors are
     evaluated at one time $x_4$ and one hidden position, so that the wave equation of
-    that instant has constant coefficients. The extra times are not static: the last
-    notebook of this chapter follows the frame momenta, and everything this notebook
-    computes, along the deflating history.
+    that instant has constant coefficients. The extra times are not static: the
+    notebook "The Krein structure along the deflating history" of this chapter follows
+    the frame momenta, and everything this notebook computes, along the deflating
+    history.
 
     **The Krein form is conserved.** The charge density of the field is
     $\Psi^\dagger B\Psi$ with $B = -iC\gamma^{(x_4)}$, $C = \gamma^{(x_8)}\gamma^{(x_1)}

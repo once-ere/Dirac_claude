@@ -11,8 +11,8 @@ It builds the Rust Kohn-Sham solver of the repository with cargo (a full build o
 
 It reads or reproduces these Revision records:
 
-- `Revision/kohn_sham/results`: the committed canonical matrix (243 result files and the manifest of their sha256 fingerprints) that the new run must reproduce
-- `Revision/kohn_sham/reports/ks-rust-solver.json`: the 42 checks of the solver, all PASS
+- `Revision/kohn_sham/results`: the committed canonical matrix (its result files and the manifest of their sha256 fingerprints) that the new run must reproduce
+- `Revision/kohn_sham/reports/ks-rust-solver.json`: the solver's own checks of the canonical matrix, all PASS
 - `Revision/kohn_sham/reports/ks-rust-determinism.json`: the tolerances fixed in advance for comparing two runs of the solver
 - `Revision/kohn_sham/ks-theory.json`: the formulas the solver implements and the brane-band slope c
 
@@ -37,7 +37,7 @@ The notebook has 36 cells (20 markdown cells and 16 code cells) in these section
 - 17. The last check
 - 18. What this notebook showed
 
-It prints 24 PASS lines (one per check), 19 RESULT lines (key numbers) and draws 8 figures.
+It prints 25 PASS lines (one per check), 21 RESULT lines (key numbers) and draws 8 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -239,7 +239,7 @@ Every check of the notebook prints a line that starts with PASS. At the end of t
 
 ```text
 PASS every figure file of this notebook exists
-ALL 24 CHECKS PASSED (notebook 15a)
+ALL 25 CHECKS PASSED (notebook 15a)
 ```
 
 and the notebook must show 8 figures below the cells that draw them.
@@ -285,8 +285,8 @@ Every check prints a PASS line (a check that fails stops the notebook with an As
 
 ```text
 In [3]  PASS the solver ran the whole canonical matrix and reported SUCCESS
-In [4]  PASS the new report holds 42 checks, all PASS
-In [4]       reproduces Revision/kohn_sham/reports/ks-rust-solver.json, summary 42 of 42 PASS
+In [4]  PASS the new report holds the 42 checks of the record, all PASS
+In [4]       reproduces Revision/kohn_sham/reports/ks-rust-solver.json, summary
 In [4]  PASS the new report has the same checks as the record
 In [5]  PASS the new run wrote the same 243 result files as the record
 In [5]       reproduces Revision/kohn_sham/results/manifest.json
@@ -306,6 +306,7 @@ In [9]  PASS Delta-SCF equals the gap without interaction
 In [9]       reproduces Revision/kohn_sham/reports/ks-rust-solver.json, check
 In [9]      excited_delta_scf_free_equals_gap
 In [9]  PASS every gap shrinks from slice to slice
+In [10]  PASS the largest relaxation belongs to N = 688, +lambda_2, a4,0 = 0 (the caption)
 In [10]  PASS the orbital relaxation is below 0.001 m in every state
 In [11]  PASS E(+lambda2) > E(+lambda1) > E(0) > E(-lambda1) > E(-lambda2), N = 136 and 688
 In [11]  PASS the energy of N = 136 and 688 falls from slice to slice
@@ -315,7 +316,7 @@ In [12]      ground_N_conservation
 In [13]  PASS the profile maxima of |M - m| lie within 0.2 percent below the recorded ones
 In [13]       reproduces Revision/kohn_sham/results/ground/summary.csv, column
 In [13]      max_abs_Meff_minus_m
-In [13]  PASS the largest |v| grows at every slice; both potentials stay below 0.4 m
+In [13]  PASS |v| grows at every slice, |M - m| peaks at a4,0 = 1.5, both stay below 0.4 m
 In [13]       reproduces Revision/kohn_sham/results/ground/summary.csv, columns
 In [13]      max_abs_Meff_minus_m and max_abs_v_v
 In [14]  PASS all 75 ground states converged directly below the tolerance 1e-11
@@ -334,6 +335,7 @@ In [16]  PASS every figure file of this notebook exists
 The key numbers are printed as RESULT lines:
 
 ```text
+In [4]  RESULT checks in the new report / PASS / FAIL = 42 / 42 / 0
 In [4]  RESULT new report byte-identical to the record = True
 In [5]  RESULT result files byte-identical to the record = 243 of 243
 In [6]  RESULT largest difference, ground-state energies = 0.0e+00
@@ -344,7 +346,8 @@ In [6]  RESULT largest difference, adiabaticity Q_max = 0.0e+00
 In [7]  RESULT KS gap of N = 8 at a4,0 = 0, 1, 2 = 0.4307337, 0.1703493, 0.0641594
 In [8]  RESULT number of brane-band levels followed through all five slices = 8
 In [9]  RESULT largest |Delta-SCF - gap| without interaction = 2.0e-11
-In [10]  RESULT largest |Delta-SCF - gap| over the 75 states = 5.496e-04
+In [10]  RESULT largest |Delta-SCF - gap| over the 75 states = 5.496e-04 (N688_lamp2_a00)
+In [11]  RESULT largest |E(lambda) - E(0)| of N = 136 = 0.0318
 In [12]  RESULT particle number from the profiles at a4,0 = 0, 1, 2 = 136.000002, 136.000002,
 In [12]      136.000002
 In [13]  RESULT profile maximum / recorded maximum of |M - m| = 0.99997, 0.99996, 0.99997,
@@ -363,7 +366,7 @@ The last code cell ends with exactly these lines:
 
 ```text
 PASS every figure file of this notebook exists
-ALL 24 CHECKS PASSED (notebook 15a)
+ALL 25 CHECKS PASSED (notebook 15a)
 ```
 
 ### 3.4 Figures
@@ -372,7 +375,7 @@ The notebook shows 8 figures, each below the cell that draws it, and saves each 
 
 - `Revision/textbook/figures/15a_1_levels_history.png` (978 x 703 pixels): Kohn-Sham levels $\varepsilon$ (vertical axis, units of $m$) of the state $N = 136$, $\lambda = 0$ at the five slices $a_{4,0} = 0$ to $2$ (horizontal axis), each level followed by its key; filled dots are occupied, open dots empty. The brane band (blue) comes down as the 3-momenta redshift like $k e^{-a_{4,0}}$, the dashed curve is the small-$k$ law for the first shell, and the levels at $k = 0$ (black) do not move.
 - `Revision/textbook/figures/15a_2_gaps_history.png` (936 x 613 pixels): Kohn-Sham gap $\Delta_{KS}$ (vertical axis, logarithmic, units of $m$) of the states $N = 8$, $136$ and $688$ without interaction at the five slices $a_{4,0}$ (horizontal axis). Dashed lines fall like $e^{-a_{4,0}}$ from the first point of each curve: every gap shrinks along the history, somewhat more slowly than this, because the levels that bound it belong to the brane band, whose momenta redshift like $k e^{-a_{4,0}}$ but whose energy is linear in the momentum only for small momenta.
-- `Revision/textbook/figures/15a_3_delta_scf.png` (1517 x 587 pixels): Orbital relaxation: the Delta-SCF excitation energy minus the Kohn-Sham gap (vertical axis, symmetric logarithmic, units of $m$) for the couplings $\pm\lambda_1$ and $\pm\lambda_2$ at the five slices (horizontal axis), for $N = 8$, $136$ and $688$. It is small everywhere; it is largest, about $5 \times 10^{-4}$, for $N = 688$ at $a_{4,0} = 0$, where the lowest empty level is a bulk level at $k = 0$.
+- `Revision/textbook/figures/15a_3_delta_scf.png` (1517 x 587 pixels): Orbital relaxation: the Delta-SCF excitation energy minus the Kohn-Sham gap (vertical axis, symmetric logarithmic, units of $m$) for the couplings $\pm\lambda_1$ and $\pm\lambda_2$ at the five slices (horizontal axis), for $N = 8$, $136$ and $688$. It is small everywhere; it is largest, $5.5 \times 10^{-4}\,m$, for $N = 688$ with $+\lambda_2$ at $a_{4,0} = 0$, where the lowest empty level is a bulk level at $k = 0$.
 - `Revision/textbook/figures/15a_4_energy_history.png` (1517 x 617 pixels): Left: the Kohn-Sham energy $E_{KS}$ (vertical axis, logarithmic, units of $m$) of $N = 136$ and $N = 688$ without interaction at the five slices; it falls along the history as the brane band redshifts. Right: the energy shift caused by the couplings $\pm\lambda_1$ and $\pm\lambda_2$ for $N = 136$ (vertical axis, units of $m$): repulsion raises and attraction lowers the energy, by at most $0.032\,m$ out of $12$ to $80\,m$.
 - `Revision/textbook/figures/15a_5_densities.png` (1517 x 617 pixels): Left: the proper number density $n(y)$ (vertical axis, logarithmic, particles per unit proper 7-volume) of $N = 136$ without interaction at $a_{4,0} = 0$, $1$, $2$ against the hidden coordinate $y$ (horizontal axis). Right: the particles per unit $y$, $2\,\mathrm{Vol}_7 e^{6Hy} n(y)$, whose area is $N = 136$. The particles sit near the brane $y = 0$ and spread toward the tip along the history; the proper density is largest at the tip, where the proper volume is small.
 - `Revision/textbook/figures/15a_6_potentials.png` (1517 x 617 pixels): The self-consistent mass shift $M(y) - m$ (left) and potential $v(y)$ (right), vertical axes in units of $m$, of $N = 136$ with the repulsive coupling $+\lambda_2$ at the five slices (light blue: $a_{4,0} = 0$, dark blue: $a_{4,0} = 2$) against the hidden coordinate $y$. Both are concentrated in the tip region and become much larger along the history: the largest $|M - m|$ grows from $0.008\,m$ at $a_{4,0} = 0$ to $0.355\,m$ at $a_{4,0} = 1.5$ ($0.310\,m$ at $a_{4,0} = 2$), the largest $|v|$ from $0.015\,m$ to $0.242\,m$; both stay below $0.4\,m$.
@@ -387,7 +390,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/15a.captions.json` | 4173 | `28f217a648667c301f70caf5c3b95cb08bec9c467164cacde09c069ee70b786e` |
+| `Revision/textbook/figures/15a.captions.json` | 4192 | `73b7756477c726ba7a028bab2228aa99a01cc44eaf2ec090259059c491b4f524` |
 | `Revision/textbook/figures/15a_1_levels_history.png` | 186655 | `f79da2f137286d2e862020089860bee9c901357c0bb93d1f2f219998020b67a8` |
 | `Revision/textbook/figures/15a_2_gaps_history.png` | 90342 | `86a856a16761f2027a4427b47cabb50f94309ff435202c28587004c7732113c0` |
 | `Revision/textbook/figures/15a_3_delta_scf.png` | 108820 | `6c0d6f21d31a5c3752f2e059723dcfcab6e9911625bdf6ed02fcd9e956b96980` |
@@ -418,7 +421,7 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 4 minutes (FACTS: 240 s); nbkit stops a cell after 1800 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 187.1 s, peak memory of the kernel process 181 MiB;
+- the build run: 202.5 s, peak memory of the kernel process 181 MiB;
 - the check run: not measured.
 
 ## 5. Environment of the verified execution
@@ -431,9 +434,9 @@ Expected run time: about 4 minutes (FACTS: 240 s); nbkit stops a cell after 1800
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/15a_canonical_matrix.ipynb`: `6f5ce4265a3c172acac434ca339fdba2e7d3bd82a62a85ef84b8eef511706a01`
-- `Revision/textbook/notebooks/src/15a_canonical_matrix.py`: `8290b0c263457ad4a20e3ce6e18ecfbd7366f1262f9668d97577fc0c17dd9280`
-- `Revision/textbook/figures/15a.captions.json`: `28f217a648667c301f70caf5c3b95cb08bec9c467164cacde09c069ee70b786e`
+- `Revision/textbook/notebooks/15a_canonical_matrix.ipynb`: `1d0d2f80ac973b457db9cb777b075935b9c12fde4ae06218e4e044388b143a3d`
+- `Revision/textbook/notebooks/src/15a_canonical_matrix.py`: `6639bceff499fe1847f1d2cf199ed0bad5df76b2ea31f1633b0d01537e508461`
+- `Revision/textbook/figures/15a.captions.json`: `73b7756477c726ba7a028bab2228aa99a01cc44eaf2ec090259059c491b4f524`
 - `Revision/textbook/figures/15a_1_levels_history.png`: `f79da2f137286d2e862020089860bee9c901357c0bb93d1f2f219998020b67a8`
 - `Revision/textbook/figures/15a_2_gaps_history.png`: `86a856a16761f2027a4427b47cabb50f94309ff435202c28587004c7732113c0`
 - `Revision/textbook/figures/15a_3_delta_scf.png`: `6c0d6f21d31a5c3752f2e059723dcfcab6e9911625bdf6ed02fcd9e956b96980`
@@ -449,4 +452,4 @@ Expected run time: about 4 minutes (FACTS: 240 s); nbkit stops a cell after 1800
 - `nbkit check`: not run yet.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":181.0,"seconds":187.1},"check":null,"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":181.0,"seconds":202.5},"check":null,"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
