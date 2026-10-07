@@ -72,7 +72,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS every figure file of this notebook exists",
-        "ALL 24 CHECKS PASSED (notebook 15a)",
+        "ALL 25 CHECKS PASSED (notebook 15a)",
     ],
     "troubleshooting": [
         ["The cell that runs the canonical matrix shows the label with the star for "

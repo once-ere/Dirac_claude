@@ -278,8 +278,7 @@ In [17]       reproduces Revision/algebra/reports/python-algebra.json
 In [17]           check S_definition
 In [17]       reproduces Revision/algebra/reports/wolfram-algebra.json
 In [17]           checks S_half_product, S_real_entries_in_half_integers
-In [17]  PASS (g^a g^b)^2 = -eta^aa eta^bb I16: 12 rotation and 16 boost planes, all block
-In [17]      diagonal
+In [17]  PASS (g^a g^b)^2 = -eta^aa eta^bb I16; 12 rotation, 16 boost planes; block diagonal
 In [19]  PASS all eight figure files exist
 ```
 
@@ -360,8 +359,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 11.2 s, peak memory of the kernel process 226 MiB;
-- the check run: 12.3 s, peak memory of the kernel process 227 MiB.
+- the build run: 17.8 s, peak memory of the kernel process 227 MiB;
+- the check run: 16.8 s, peak memory of the kernel process 226 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -373,8 +372,8 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/04c_256_products.ipynb`: `adc341a5e0f44ba20721f07506cb41a9cf5d675534c139ff753f22e0d4a48233`
-- `Revision/textbook/notebooks/src/04c_256_products.py`: `f585bc0601b158aa7591d99dbd97bbdbeb20b8a35d7ce4b92e08853263cc96e0`
+- `Revision/textbook/notebooks/04c_256_products.ipynb`: `ef4f6513e81a6c607c491792909e30a4572b67667210f1862809d7b8ca9dee8b`
+- `Revision/textbook/notebooks/src/04c_256_products.py`: `cb9f77427485725d5048bcd4850687ce964dd46eff1858c71aa4b4f82b686e06`
 - `Revision/textbook/figures/04c.captions.json`: `7b222d83953653226879a9074f02302fefdc927aee4a78a3d34d5d1eb3f2b0dc`
 - `Revision/textbook/figures/04c_1_products_by_degree.png`: `2b08fbd59bd0f438923296cd8f7025f4a9c4dff2cfb42e51ce6e9195b91992a1`
 - `Revision/textbook/figures/04c_2_multiplication_table.png`: `e692ac2668f11b5174c2cbd148c5da63484ee67818f26b38f0dde0f3d1e030d3`
@@ -391,4 +390,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 9 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":226.0,"seconds":11.2},"check":{"date":"2026-10-07","files":9,"peak_mb":227.0,"result":"passed","seconds":12.3},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":227.0,"seconds":17.8},"check":{"date":"2026-10-07","files":9,"peak_mb":226.0,"result":"passed","seconds":16.8},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

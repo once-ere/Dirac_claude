@@ -476,32 +476,47 @@ CELLS = [
             f"+ ({coefficient_8[mu]}) gamma^(x8)")
     check(nothing_else, "each gamma^mu Omega_mu (no sum) is a combination of gamma^(x4) "
           "and gamma^(x8)")
-    a4_prime = sp.diff(a4, x[3])
-    check([sp.simplify(c4 / a4_prime) for c4 in coefficient_4]
-          == [sp.Rational(1, 2)] * 3 + [0] + [-sp.Rational(1, 2)] * 3 + [0]
-          and [sp.simplify(c8 / H) for c8 in coefficient_8]
-          == [sp.Rational(1, 2)] * 3 + [0] + [sp.Rational(1, 2)] * 3 + [0],
-          "per direction: +a4'/2 and -a4'/2 cancel, six times H/2 add up",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "time_terms_cancel_hidden_term_survives")
+    THEORY = "Revision/theory/reports/python-field-theory.json"  # the sympy record
+    # The record writes A1 for a4'; the partial sums in the record's notation:
+    inflating_sum = sp.simplify(sum(coefficient_4[:3])).subs(a4_prime, A1)  # 3*A1/2
+    deflating_sum = sp.simplify(sum(coefficient_4[4:7])).subs(a4_prime, A1)  # -3*A1/2
+    hidden_sum = sp.simplify(sum(coefficient_8))  # 3*H
+    say(f"sums: inflating {inflating_sum}, deflating {deflating_sum}, hidden {hidden_sum}")
+    check_record([sp.simplify(c4 / a4_prime) for c4 in coefficient_4]
+                 == [sp.Rational(1, 2)] * 3 + [0] + [-sp.Rational(1, 2)] * 3 + [0]
+                 and [sp.simplify(c8 / H) for c8 in coefficient_8]
+                 == [sp.Rational(1, 2)] * 3 + [0] + [sp.Rational(1, 2)] * 3 + [0],
+                 "per direction: +a4'/2 and -a4'/2 cancel, six times H/2 add up",
+                 THEORY, "time_terms_cancel_hidden_term_survives",
+                 f"inflating sum {inflating_sum}, deflating sum {deflating_sum}",
+                 f"the six hidden-direction terms add to {hidden_sum} gamma^(x8)")
     total = sum(per_direction, sp.zeros(16, 16))
-    check(all(is_zero(entry) for entry in total - 3 * H * G[7]),
-          "gamma^mu Omega_mu = 3 H gamma^(x8) in the diagonal frame",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "gamma_mu_Omega_mu_equals_3H_gamma_x8")
+    check_record(all(is_zero(entry) for entry in total - 3 * H * G[7]),
+                 "gamma^mu Omega_mu = 3 H gamma^(x8) in the diagonal frame",
+                 THEORY, "gamma_mu_Omega_mu_equals_3H_gamma_x8",
+                 "gamma^mu Omega_mu = 3 H gamma^(x8) exactly")
+    # gamma^(x8) squares to 1, so it is invertible: 3 H gamma^(x8) Psi = 0 only for
+    # Psi = 0. The gravitational term is not zero for any field Psi that is not zero.
+    check_record(G[7] * G[7] == sp.eye(16),
+                 "(gamma^(x8))^2 = 1: 3 H gamma^(x8) Psi != 0 for every Psi != 0 (H > 0)",
+                 "Revision/theory/reports/wolfram-field-theory.json",
+                 "nontriviality_1_dirac16complex",
+                 "every Psi != 0 (gamma^(x8) is invertible)")
     sqrt_g = sp.cos(z)
     divergence = sum((sp.diff(sqrt_g * diagonal["gamma"][mu], x[mu]) for mu in range(8)),
                      sp.zeros(16, 16)) / (2 * sqrt_g)
-    check(all(is_zero(entry) for entry in divergence - 3 * H * G[7]),
-          "(1/(2 sqrt|g|)) d_mu(sqrt|g| gamma^mu) = 3 H gamma^(x8) (divergence form)",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "divergence_of_sqrtg_gamma")
-    check(all(all(is_zero(entry) for entry in
-                  diagonal["gamma"][mu] * diagonal["Omega"][mu]
-                  + diagonal["Omega"][mu] * diagonal["gamma"][mu]) for mu in range(8)),
-          "{gamma^mu, Omega_mu} = 0 for each mu: Omega drops out of the Lagrangian",
-          record="Revision/theory/reports/python-scope.json, check "
-                 "connection_free_lagrangian_same_equations")
+    check_record(all(is_zero(entry) for entry in divergence - 3 * H * G[7]),
+                 "(1/(2 sqrt|g|)) d_mu(sqrt|g| gamma^mu) = 3 H gamma^(x8) (divergence "
+                 "form)", THEORY, "divergence_of_sqrtg_gamma",
+                 "= 3 H gamma^(x8) = gamma^mu Omega_mu")
+    check_record(all(all(is_zero(entry) for entry in
+                         diagonal["gamma"][mu] * diagonal["Omega"][mu]
+                         + diagonal["Omega"][mu] * diagonal["gamma"][mu])
+                     for mu in range(8)),
+                 "{gamma^mu, Omega_mu} = 0 for each mu: Omega drops out of the Lagrangian",
+                 "Revision/theory/reports/python-scope.json",
+                 "connection_free_lagrangian_same_equations",
+                 "{gamma^mu, Omega_mu} = 0 for each mu separately")
 
     names = [f"$x_{mu + 1}$" for mu in range(8)] + ["sum"]
     values_4 = [float(sp.simplify(c4 / a4_prime)) for c4 in coefficient_4]

@@ -126,7 +126,8 @@ no network resource. It finds its package and its input relative to its own loca
 `Revision/gkd_lovelock/code`); it is committed, so you do not need Rust to run this set. The two
 outputs are deterministic: LF line endings, no time stamps, no machine names, fixed key order.
 The script contains no random numbers, no dates, no parallel computation and no network
-functions; it writes only through its two `OpenWrite` calls (script line 34).
+functions; it writes only through its function `writeJSON` (one `OpenWrite`, script line 34),
+which it calls twice (lines 378 and 383, one call per output).
 
 The optional supplementary Dirac-matrix check of section 6 (not part of the set, not committed)
 additionally reads `Revision/algebra/gammas.json` (sha256

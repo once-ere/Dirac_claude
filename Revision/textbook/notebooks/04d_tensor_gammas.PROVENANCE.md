@@ -247,8 +247,7 @@ Every check prints a PASS line (a check that fails stops the notebook with an As
 In [2]  PASS P^2 = G^2 = I2, N^2 = -I2, PN = -G, PG = -N, NG = -P, any two anticommute
 In [3]  PASS Kronecker product: index formula and mixed-product rule (2 and 4 slots)
 In [4]  PASS the record lists x1..x8 with eta = diag(+1, +1, +1, -1, -1, -1, -1, +1)
-In [7]  PASS hat gammas: {hat g^a, hat g^b} = 2 eta^ab I16 (64 pairs), signed permutations, (hat
-In [7]      g^a)^T = eta_aa hat g^a
+In [7]  PASS hat gammas: Clifford relation (64 pairs), signed permutations, symmetry
 In [7]  PASS the 256 hat products are a basis of all real 16 x 16 matrices
 In [8]  PASS hat Gamma = (sign +1) G (x) G (x) G (x) G = diag((-1)^(b1+b2+b3+b4))
 In [8]  PASS author: Gamma = gamma^(x8) gamma^(x1) ... gamma^(x7) = diag(-I8, I8)
@@ -284,8 +283,7 @@ In [10]  RESULT the different entries of S = [-16, 0, 16]
 In [10]  RESULT c in S^T S = c I16, and its square root = (256, 16)
 In [11]  RESULT positions (i, j) with a nonzero S(E_ij) = 16
 In [13]  RESULT exact ranks of the two systems (2048 equations, 256 unknowns) = (255, 255)
-In [14]  RESULT eigenvalues 0, 4, ..., 32 of K have the multiplicities = [1, 8, 28, 56, 70, 56,
-In [14]      28, 8, 1]
+In [14]  RESULT multiplicities of 0, 4, ..., 32 in K = [1, 8, 28, 56, 70, 56, 28, 8, 1]
 In [16]  RESULT second assignment: entries of S_2 and c_2 = ([-8, 0, 8], 128)
 ```
 
@@ -346,8 +344,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 10.4 s, peak memory of the kernel process 291 MiB;
-- the check run: 12.1 s, peak memory of the kernel process 292 MiB.
+- the build run: 20.6 s, peak memory of the kernel process 291 MiB;
+- the check run: 19.2 s, peak memory of the kernel process 291 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -359,8 +357,8 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/04d_tensor_gammas.ipynb`: `b72996dc6ac7fb0a1ca82cfcd5d4001b79bfb76580b82cad2b74957fea4d65e8`
-- `Revision/textbook/notebooks/src/04d_tensor_gammas.py`: `31f3e43198f44385057acbaa67d9b65d8d2722320bcb6ca03e82c08b1f08f6a5`
+- `Revision/textbook/notebooks/04d_tensor_gammas.ipynb`: `2df3c90ef8802cbe33dc8eae16f33b4b4d8f9c5c77d038c1ed513c7ce2d25fd3`
+- `Revision/textbook/notebooks/src/04d_tensor_gammas.py`: `5a76074d0c01d4c079088f188a1b99895763bcf54db90ea9f0bb8e83032ad8b5`
 - `Revision/textbook/figures/04d.captions.json`: `2034156ea52fae61cc57a0efeae9323889d96e14aee26e9c6f3cc91c33b3dcf8`
 - `Revision/textbook/figures/04d_1_slot_pattern.png`: `1517ed092a5349228d29c8e18743b1f3b8058f1d6c6192b8b77e4faf8a0e15fa`
 - `Revision/textbook/figures/04d_2_tensor_gammas.png`: `0ba79310f07bf8a8cb49e499b47f76bba2ff944ca5845d4bba393cb7448be11d`
@@ -375,4 +373,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":291.0,"seconds":10.4},"check":{"date":"2026-10-07","files":7,"peak_mb":292.0,"result":"passed","seconds":12.1},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":291.0,"seconds":20.6},"check":{"date":"2026-10-07","files":7,"peak_mb":291.0,"result":"passed","seconds":19.2},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

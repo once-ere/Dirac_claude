@@ -515,9 +515,10 @@ CELLS = [
     `Revision/field_equations_a4/a4-equations.json` lists, for each of the 42
     entries, its bilinear and its coefficient as a formula in the Wolfram Language,
     in the names `cc` $= \cot z$, `a4v` $= a_4$, `ad1` $= a_4'$ and `H`, for the
-    symmetrised kinetic tensor $K^{(\nu}{}_{\mu)}$ (the average of
+    symmetrised kinetic tensor $K^{(\nu}{}_{\mu)}$, the average of
     $K^\nu{}_\mu = \frac12(\bar\Phi\gamma^\nu D_\mu\Phi - D_\mu\bar\Phi\gamma^\nu\Phi)$
-    and its mirror image $g^{\nu\nu}g_{\mu\mu}K^\mu{}_\nu$). Off the diagonal the
+    and of $g^{\nu\nu}g_{\mu\mu}K^\mu{}_\nu$ (the same with the two indices
+    exchanged, then moved back to their places with the metric). Off the diagonal the
     tensor is $T^\nu{}_\mu = -K^{(\nu}{}_{\mu)}$, so every entry must equal minus
     the coefficient times the bilinear. The next cell translates each formula into
     sympy (`E^x` becomes `E**x`, `^` becomes `**`), evaluates it at the point
@@ -526,8 +527,10 @@ CELLS = [
     contain $V$ nowhere: they are the same for every effective mass. The cell prints
     one entry of each of the ten groups of equal coefficients.
     """),
-    code(r\'\'\'
+    code(r'''
     import re  # regular expressions: patterns that find pieces of a text
+
+    import sympy as sp  # exact algebra with symbols
 
     A4_RECORD = "Revision/field_equations_a4/a4-equations.json"
     record_entries = json.loads(repository_file(A4_RECORD).read_text(encoding="utf-8"))[
@@ -560,7 +563,7 @@ CELLS = [
                  "offdiagonal_coefficients_representation_independent")
     for nu, mu, coefficient in groups.values():
         say(f"T^{NAMES[nu]}_{NAMES[mu]} = -({coefficient:+.6f}) x its bilinear")
-    \'\'\'),
+    '''),
     md(r"""
     The next cell defines the function `witness(V_w, H_w)`. It finds the
     8-dimensional space of $A$ for the eigenvalue $-i\omega$ (as the null space of
@@ -743,9 +746,7 @@ CELLS = [
     `sp.lambdify`.
     """),
     code(r'''
-    import sympy as sp  # exact algebra with symbols
-
-    x = sp.symbols("x1:9", real=True)
+    x = sp.symbols("x1:9", real=True)  # sympy was imported in section 8
     Hs = sp.symbols("H", positive=True)
     a4_function = sp.Function("a4")(x[3])
     zs = 6 * Hs * x[7]

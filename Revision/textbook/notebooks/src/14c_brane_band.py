@@ -664,7 +664,12 @@ CELLS = [
     md(r"""
     The next cell draws the shifts against $k$ on a logarithmic axis, together with
     the suppression factor. Shifts below about $10^{-15}$ are rounding noise of the
-    floating-point numbers and are drawn at $10^{-16}$.
+    floating-point numbers (their exact values differ from computer to computer); a
+    shift below $10^{-16}$ (or exactly 0) is drawn at $10^{-16}$, so that it fits on
+    the logarithmic axis. The printed list above shows the size of the drop: each
+    step of $0.1$ in $k$ makes the shift 12 to 34 times smaller (the suppression
+    factor itself only about $e^{0.1(e^3 - 1)} = 6.7$ times), until it reaches the
+    rounding level at $k = 0.9$.
     """),
     code(r'''
     fig, ax = plt.subplots(figsize=(7.5, 4.4))
@@ -686,9 +691,10 @@ CELLS = [
                 "$\\theta = 0.5$ (circles) and $\\theta = 1$ (squares), against the "
                 "3-momentum $k$ (units of $H$), for $m = 1$, $L = 3$, logarithmic "
                 "vertical axis in units of $m$; every shift lies below the "
-                "suppression factor $\\exp(-k(e^{HL} - 1)/H)$ (line) and from "
-                "$k = 0.6$ on it is at the rounding level of the computer: the band "
-                "lives at the brane and does not see the cutoff.")
+                "suppression factor $\\exp(-k(e^{HL} - 1)/H)$ (line), falls by a "
+                "factor of 12 to 34 for each step of $0.1$ in $k$, and from "
+                "$k = 0.9$ on it is at the rounding level of the computer (dotted "
+                "line): the band lives at the brane and does not see the cutoff.")
     '''),
     md(r"""
     ## 11. Particles, degeneracies and closed shells

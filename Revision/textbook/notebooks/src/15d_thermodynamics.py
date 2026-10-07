@@ -383,14 +383,23 @@ CELLS = [
     ax.set_ylabel("$\\sum g f - N$")
     ax.set_title("$N = 8$, $a_{4,0} = 0$, $T = 0.01$: the direct count is too coarse")
     ax.legend(fontsize=8)
+    zero_at = [off for off, value in zip(offsets, direct) if value == 0.0]  # direct = 0
+    if zero_at:  # where the double-precision count says "exactly N particles"
+        miss = min(abs(off - float(root8 - mu8)) for off in zero_at)  # nearest such point
+        where = ("is zero only on a short interval that misses the true root by at "
+                 f"least ${miss * 1e10:.0f} \\times 10^{{-10}}\\,m$")
+        report("distance of the zeros of the direct count from the true root",
+               f"at least {miss:.1e} m")
+    else:  # (on another computer the rounding steps may fall differently)
+        where = "is never exactly zero at the sampled points"
     save_figure(fig, "root_conditioning",
                 "The particle-number condition $\\sum g f - N$ (vertical axis, of size "
                 "$10^{-15}$) against $\\mu$ near its root (horizontal axis, in units of "
                 "$10^{-9}\\,m$) for the activated state $N = 8$, $a_{4,0} = 0$, "
                 "$T = 0.01$: computed directly in double precision it moves in steps of "
-                "the rounding unit of $N$ (orange squares) and is zero on a whole "
-                "interval, while the exact count (blue line, 40 digits) crosses zero at "
-                "one point, which the balance of particles and holes finds.")
+                f"the rounding unit of $N$ (orange squares) and {where}, while the exact "
+                "count (blue line, 40 digits) crosses zero at one point, the true root, "
+                "which the balance of particles and holes finds.")
     worst_balance = 0.0
     for (n, a4, t), (mu, eps, deg, _) in states.items():
         root = exact_root(eps, deg, n, t, mu)
@@ -642,7 +651,7 @@ CELLS = [
         for colour, t in zip(PALETTE, TEMPS):
             values = [float(record[state_id(n, a, t)]["sea_holes_over_N"])
                       for a in (0.0, 0.5, 1.0, 1.5, 2.0)]
-            ax.plot([0, 0.5, 1, 1.5, 2], np.maximum(values, 1e-30), marker + "-",
+            ax.plot([0, 0.5, 1, 1.5, 2], np.maximum(values, 1e-60), marker + "-",
                     color=colour, ms=6, lw=1.2,
                     markerfacecolor=colour if n == 8 else "white",
                     label=f"$N = {n}$, $T = {t}$")
@@ -650,7 +659,7 @@ CELLS = [
             label="this notebook, $N = 8$, $T = 0.05$")
     ax.axhline(0.01, color="0.3", ls=":", lw=1.2, label="1 percent")
     ax.set_yscale("log")
-    ax.set_ylim(1e-30, 1e3)
+    ax.set_ylim(1e-60, 1e4)  # the smallest recorded value is about 2e-56
     ax.set_xlabel("slice $a_{4,0}$")
     ax.set_ylabel("sea holes per particle")
     ax.set_title("Diagnostic of the filling convention ($\\lambda = 0$)")
@@ -659,10 +668,11 @@ CELLS = [
                 "The number of thermal holes that the excluded sea brane band would "
                 "carry, per particle (vertical axis, logarithmic), for $N = 8$ (filled) "
                 "and $N = 136$ (open) at $T = 0.01$, $0.02$, $0.05$ against the slice "
-                "(horizontal axis), from the record; crosses: recomputed here. Above the "
-                "dotted 1 percent line, reached late in the history at the higher "
-                "temperatures, the particle-only convention is outside its range of "
-                "validity.")
+                "(horizontal axis), from the record; crosses: recomputed here. The values "
+                "span more than 55 powers of ten: deep in the gap the sea is practically "
+                "full. Above the dotted 1 percent line, reached late in the history at "
+                "the higher temperatures, the particle-only convention is outside its "
+                "range of validity.")
     report("sea holes per particle, N = 8, T = 0.05, a4,0 = 0, 1, 2",
            ", ".join(f"{v:.4g}" for v in mine.values()))
     check(worst_sea < 1e-9, "the sea-hole diagnostic reproduced",

@@ -173,13 +173,16 @@ CELLS = [
     the $y$ component of $\nabla_\mu T^\mu{}_\nu = 0$ is
 
     $$\partial_y T^y{}_y + \Gamma^\mu{}_{\mu y} T^y{}_y
-    - \sum_\lambda \Gamma^\lambda{}_{\lambda y} T^\lambda{}_\lambda = 0 .$$
+    - \sum_\nu \Gamma^\nu{}_{\nu y} T^\nu{}_\nu = 0$$
 
-    Line by line:
+    (the index $\nu$ runs over the eight directions; the letter $\lambda$ is kept for
+    the coupling). Line by line:
     $\Gamma^\mu{}_{\mu y} = \partial_y \ln\sqrt{|g|} = 6H$ (the derivative of $\ln
-    e^{6Hy}$); $\Gamma^\lambda{}_{\lambda y} = H$ for each of the six warped directions
-    $x_1, x_2, x_3, x_5, x_6, x_7$ (half the derivative of $\ln e^{2Hy}$) and $0$ for
-    $x_4$ and $y$; so
+    e^{6Hy}$); $\Gamma^\nu{}_{\nu y} = \tfrac12 g^{\nu\nu}\partial_y g_{\nu\nu} = H$ for
+    each of the six warped directions $x_1, x_2, x_3, x_5, x_6, x_7$ (their $g_{\nu\nu}$
+    contains the factor $e^{2Hy}$, and half the derivative of $\ln e^{2Hy}$ is $H$) and
+    $0$ for $x_4$ and $y$; the six warped terms are $3H p_3$ (3-space) and $3H p_t$
+    (extra times); so
 
     $$p_8' + 6H p_8 - 3H p_3 - 3H p_t = 0, \quad\text{that is}\quad
     (e^{6Hy} p_8)' = 3H\,e^{6Hy}(p_3 + p_t),$$
@@ -187,13 +190,23 @@ CELLS = [
     because $(e^{6Hy}p_8)' = e^{6Hy}(p_8' + 6Hp_8)$ (product and chain rule). Integrated
     from tip to brane: $[e^{6Hy}p_8]_{-L}^{0} = 3H \int_{-L}^{0} e^{6Hy}(p_3 + p_t)\,dy$.
 
-    **Energy change along the history.** The $x_4$ component gives in the same way
-    $\partial_{x_4}\rho = -3 a_4'(p_3 - p_t)$: $\Gamma^\mu{}_{\mu x_4} = 3a_4' - 3a_4' = 0$
-    (the 7-volume is constant), $\Gamma^\lambda{}_{\lambda x_4} = +a_4'$ for the three
-    inflating and $-a_4'$ for the three deflating directions. For the total energy
-    $E = 2\,\mathrm{Vol}_7\int e^{6Hy}\rho\,dy$ of the doubled system this becomes, for
-    states that follow the history adiabatically (the solver checks it with the
-    Hellmann-Feynman theorem),
+    **Energy change along the history.** The $x_4$ component of the same law reads
+    $\partial_{x_4} T^{x_4}{}_{x_4} + \Gamma^\mu{}_{\mu x_4} T^{x_4}{}_{x_4}
+    - \sum_\nu \Gamma^\nu{}_{\nu x_4} T^\nu{}_\nu = 0$. Line by line:
+    $T^{x_4}{}_{x_4} = -\rho$ (the sign convention); $\Gamma^\mu{}_{\mu x_4} =
+    \partial_{x_4}\ln\sqrt{|g|} = 3a_4' - 3a_4' = 0$ (3-space grows like $e^{3a_4}$, the
+    extra times shrink like $e^{-3a_4}$, so the 7-volume is constant);
+    $\Gamma^\nu{}_{\nu x_4} = \tfrac12 g^{\nu\nu}\partial_{x_4} g_{\nu\nu} = +a_4'$ for
+    the three inflating directions ($g_{\nu\nu} \propto e^{2a_4}$) and $-a_4'$ for the
+    three deflating extra times ($g_{\nu\nu} \propto e^{-2a_4}$), $0$ for $x_4$ and $y$.
+    So $-\partial_{x_4}\rho - (3a_4' p_3 - 3a_4' p_t) = 0$, that is
+    $\partial_{x_4}\rho = -3 a_4'(p_3 - p_t)$. Along the history $a_4$ grows with $x_4$,
+    so $\partial_{x_4} = a_4'\,\partial/\partial a_4$ (chain rule) and
+    $\partial\rho/\partial a_4 = -3(p_3 - p_t)$. Multiplying by $2\,\mathrm{Vol}_7
+    e^{6Hy}$ and integrating over $y$ gives, for the total energy
+    $E = 2\,\mathrm{Vol}_7\int e^{6Hy}\rho\,dy$ of the doubled system of states that
+    follow the history adiabatically (the solver checks it with the Hellmann-Feynman
+    theorem),
 
     $$\frac{dE}{da_4} = -3 \cdot 2\,\mathrm{Vol}_7 \int_{-L}^{0} e^{6Hy}(p_3 - p_t)\,dy .$$
 
