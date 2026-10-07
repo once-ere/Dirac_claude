@@ -481,14 +481,18 @@ CELLS = [
     An earlier version solved the equation for $\mu$ in the same way in both runs; the
     two runs then shared the same rounding error, and their difference could not see
     it. The check `refined_mermin_root_path` of the same report says so in its detail.
-    The next cell prints the part of that detail between its brackets and checks the
-    verdict. Two computations that make the same rounding error agree with each other
+    The next cell prints the bracket of that detail that starts with "(the former"
+    (`detail.index(text)` is the position at which `text` first occurs in `detail`, and
+    `detail.index(")", start)` the first ")" at or after the position `start`) and
+    checks the verdict. Two computations that make the same rounding error agree with each other
     and are still both wrong: a comparison is only as good as the independence of the
     two computations.
     """),
     code(r'''
     detail = determinism_checks["refined_mermin_root_path"]["detail"]
-    lesson = detail[detail.index("(the former"):detail.index(")") + 1]  # the bracket
+    start = detail.index("(the former")  # where the bracket starts
+    end = detail.index(")", start) + 1  # just after the first ")" that follows it
+    lesson = detail[start:end]  # the text from "(" to ")"
     say(lesson)
     check_reproduces(
         determinism_checks["refined_mermin_root_path"]["verdict"] == "PASS"

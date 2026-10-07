@@ -884,9 +884,9 @@ commit them; restore the committed files with the command above.
   other. No file of the set was changed; no discrepancy, scientific or of execution, is
   open (the open item of Section 1.1 is one of interpretation, see the end of 6.2).
 * The sha256 values of the five files of Sections 2.1 and 2.2 and of the two outputs are
-  the same at both commits (and at the newer head `8cbd03a` of 2026-10-07, at which no
-  file of the set, no input and no output had changed: `git diff --stat a4c5eda 8cbd03a`
-  lists none of them).
+  the same at both commits (and at the newer heads `8cbd03a` and `ab2842e` of 2026-10-07,
+  at which no file of the set, no input and no output had changed:
+  `git diff --stat a4c5eda ab2842e -- <these seven files>` lists none of them).
 
 ### 6.2 Re-verification of 2026-10-07
 

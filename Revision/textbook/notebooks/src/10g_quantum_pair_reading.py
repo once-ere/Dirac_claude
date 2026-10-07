@@ -682,12 +682,12 @@ CELLS = [
     axes[1].set_title("$J \\to -J$ inside one system")
     save_figure(fig, "one_system",
                 "For 150 random states of the Fock space of one field: left, the "
-                "expectation value of the energy $H_m[\\Psi] = \\Psi^\\dagger h'_m\\Psi$ "
+                "expectation value of the energy $H_m(\\Psi) = \\Psi^\\dagger h'_m\\Psi$ "
                 "of the field (horizontal axis) against the expectation value of the "
-                "energy $H_{-m}[\\Gamma\\Psi]$ that the mass $-m$ theory assigns to the "
+                "energy $H_{-m}(\\Gamma\\Psi)$ that the mass $-m$ theory assigns to the "
                 "chirality image (vertical axis), for $m = 1.3$ and a plane wave with "
                 "momenta along all seven slice directions; right, the same for the "
-                "charges $Q = \\Psi^\\dagger B\\Psi$ and $Q[\\Gamma\\Psi]$. Axes in the "
+                "charges $Q = \\Psi^\\dagger B\\Psi$ and $Q(\\Gamma\\Psi)$. Axes in the "
                 "units of $m$ (left) and pure numbers (right). Every point lies on the "
                 "grey line $y = -x$: the reversal of the energy and of the charge "
                 "under T1 is an identity between operators of ONE quantum system, not "

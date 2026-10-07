@@ -169,10 +169,12 @@ def verify(gm, geo, sps, Tk, Tp, V):
     def mzt(M):
         return all(zt(e) for e in M)
 
+    # T_pot = -delta V with the jet V = m S + (lambda/2) S^2, which equals m S0 + (lambda/2) S0^2 at the solution (S = S0)
+    Sj = sps.S()
     ok_pot = all((Tp[a][b] + (V if a == b else Alg("grassmann"))).expand().is_zero(zero_author)[0]
                  for a in range(8) for b in range(8))
-    ok_pot = ok_pot and (V - S0.scale(0)).t is not None  # V is the jet m S + (lambda/2) S^2 (fields.Spinors)
-    Xs = [[at_solution(Tk[a][b]) for b in range(8)] for a in range(8)]
+    ok_pot = ok_pot and (V - Sj.scale(m) - (Sj * Sj).scale(lam / 2)).expand().is_zero(zero_author)[0]
+    Xs =[[at_solution(Tk[a][b]) for b in range(8)] for a in range(8)]
     # -T^x4_x4 = -T_kin^x4_x4 + V and T^i_i = T_kin^i_i - V, V(solution) = m S0 + (lambda/2) S0^2:
     # -T_kin^x4_x4 = 0 and T_kin^i_i = m S0 + lambda S0^2 = B[m C] + lambda S0 B[C]
     ok_rp = mzt(Xs[X4][X4][0]) and mzt(Xs[X4][X4][1])

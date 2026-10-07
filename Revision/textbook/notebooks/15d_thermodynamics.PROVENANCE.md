@@ -36,7 +36,7 @@ The notebook has 26 cells (15 markdown cells and 11 code cells) in these section
 - 14. The last check
 - 15. What this notebook showed
 
-It prints 15 PASS lines (one per check), 13 RESULT lines (key numbers) and draws 7 figures.
+It prints 15 PASS lines (one per check), 15 RESULT lines (key numbers) and draws 7 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -316,10 +316,11 @@ The key numbers are printed as RESULT lines:
 ```text
 In [2]  RESULT free thermal states computed = 20
 In [2]  RESULT largest |mu(solver now) - mu(record)| = 5.6e-17
-In [3]  RESULT largest |mu - 40-digit root| / recorded rounding bound = 0.15
+In [3]  RESULT largest |mu - 40-digit root| / recorded rounding bound = 0.12
 In [3]  RESULT largest relative difference, E S F Omega = 3.6e-14
 In [3]  RESULT largest relative difference, C_V = 1.6e-05
 In [3]  RESULT largest relative difference, dN/dmu = 2.0e-15
+In [4]  RESULT distance of the zeros of the direct count from the true root = at least 3.0e-10 m
 In [4]  RESULT width of the interval where the double-precision direct count is 0 = 3.0e-10 m
 In [4]  RESULT largest |balance root - 40-digit root| (20 states) = 9.3e-17
 In [5]  RESULT mu of N8_lam0_a00_T10: two-level formula / record = 0.209873777875 /
@@ -327,6 +328,7 @@ In [5]      0.209873776387
 In [6]  RESULT largest relative |-dF/dT - S|, N = 136, a4,0 = 1 = 7.5e-06
 In [8]  RESULT sum g f at the three temperatures = 136.000000000000, 136.000000000000,
 In [8]      136.000000000000
+In [9]  RESULT smallest and largest sea holes per particle drawn = 2.10e-56, 3.08e+01
 In [9]  RESULT sea holes per particle, N = 8, T = 0.05, a4,0 = 0, 1, 2 = 1.464e-05, 0.09746, 30.8
 In [10]  RESULT largest |F(lambda) - F(0)| at a4,0 = 0 = 0.0046
 ```
@@ -344,13 +346,13 @@ ALL 15 CHECKS PASSED (notebook 15d)
 
 The notebook shows 7 figures, each below the cell that draws it, and saves each as a PNG file (150 dots per inch, no metadata):
 
-- `Revision/textbook/figures/15d_1_root_conditioning.png` (925 x 637 pixels): The particle-number condition $\sum g f - N$ (vertical axis, of size $10^{-15}$) against $\mu$ near its root (horizontal axis, in units of $10^{-9}\,m$) for the activated state $N = 8$, $a_{4,0} = 0$, $T = 0.01$: computed directly in double precision it moves in steps of the rounding unit of $N$ (orange squares) and is zero on a whole interval, while the exact count (blue line, 40 digits) crosses zero at one point, which the balance of particles and holes finds.
+- `Revision/textbook/figures/15d_1_root_conditioning.png` (925 x 637 pixels): The particle-number condition $\sum g f - N$ (vertical axis, of size $10^{-15}$) against $\mu$ near its root (horizontal axis, in units of $10^{-9}\,m$) for the activated state $N = 8$, $a_{4,0} = 0$, $T = 0.01$: computed directly in double precision it moves in steps of the rounding unit of $N$ (orange squares) and is zero only on a short interval that misses the true root by at least $3 \times 10^{-10}\,m$, while the exact count (blue line, 40 digits) crosses zero at one point, the true root, which the balance of particles and holes finds.
 - `Revision/textbook/figures/15d_2_chemical_potential.png` (951 x 611 pixels): The chemical potential $\mu$ (vertical axis, units of $m$) of the free state $N = 8$ against the temperature $T$ (horizontal axis, units of $m$) at the slices $a_{4,0} = 0$, $1$, $2$ (lines: this notebook; open circles: the record). At $T \to 0$ the chemical potential sits in the middle of the gap, $\Delta/2$, and falls linearly with the slope $-(\ln 3)/2$ (dashed, the two-level formula); the gap and with it $\mu$ shrink along the history.
 - `Revision/textbook/figures/15d_3_free_energy_entropy.png` (1517 x 617 pixels): Left: the free energy measured from the ground-state energy, $F - E_0$ (vertical axis, units of $m$), of the free state $N = 136$ at the five slices (light to dark blue) against the temperature (horizontal axis, units of $m$). Right: the entropy $S$ (pure number). Circles: the record. Along the history the levels crowd together, so the same temperature excites more particles: the entropy grows and the free energy falls faster.
 - `Revision/textbook/figures/15d_4_heat_capacity.png` (1517 x 617 pixels): The heat capacity $C_V = dE/dT$ (vertical axis, logarithmic, pure number) of the free states $N = 8$ (left, three slices) and $N = 136$ (right, five slices) against the temperature (horizontal axis, units of $m$); circles: the record. The gas $N = 8$ is activated across its gap of $0.43\,m$ at $a_{4,0} = 0$; as the history closes the gaps, the heat capacity rises at ever lower temperatures.
 - `Revision/textbook/figures/15d_5_occupations.png` (943 x 611 pixels): The occupation $f$ of the levels of the free state $N = 136$ at $a_{4,0} = 1$ (vertical axis) against their energy (horizontal axis, units of $m$, near the Fermi level) at the temperatures $T = 0.01$, $0.02$, $0.05$; dotted lines: the chemical potentials. The step from full to empty widens with the temperature, over a few $T$.
-- `Revision/textbook/figures/15d_6_sea_holes.png` (946 x 611 pixels): The number of thermal holes that the excluded sea brane band would carry, per particle (vertical axis, logarithmic), for $N = 8$ (filled) and $N = 136$ (open) at $T = 0.01$, $0.02$, $0.05$ against the slice (horizontal axis), from the record; crosses: recomputed here. Above the dotted 1 percent line, reached late in the history at the higher temperatures, the particle-only convention is outside its range of validity.
-- `Revision/textbook/figures/15d_7_interaction_free_energy.png` (954 x 611 pixels): The change of the free energy caused by the couplings $+\lambda_1$ (solid) and $-\lambda_1$ (dashed), $F(\lambda) - F(0)$ (vertical axis, symmetric logarithmic, units of $m$), for $N = 8$, $136$, $688$ at $a_{4,0} = 0$ against the temperature (horizontal axis), from the record. The effect is small and changes only slowly with $T$ (for $N = 688$ it grows from $0.0033\,m$ at $T = 0.01$ to $0.0045\,m$ at $T = 0.05$); its sign follows the sign of the coupling, the other way round for $N = 8$.
+- `Revision/textbook/figures/15d_6_sea_holes.png` (946 x 611 pixels): The number of thermal holes that the excluded sea brane band would carry, per particle (vertical axis, logarithmic), for $N = 8$ (filled) and $N = 136$ (open) at $T = 0.01$, $0.02$, $0.05$ against the slice (horizontal axis), from the record; crosses: recomputed here. The values span more than 57 powers of ten: at low temperature and early in the history the sea is practically full. Above the dotted 1 percent line, reached late in the history at the higher temperatures, the particle-only convention is outside its range of validity.
+- `Revision/textbook/figures/15d_7_interaction_free_energy.png` (954 x 611 pixels): The change of the free energy caused by the couplings $+\lambda_1$ (solid) and $-\lambda_1$ (dashed), $F(\lambda) - F(0)$ (vertical axis, symmetric logarithmic, units of $m$), for $N = 8$, $136$, $688$ at $a_{4,0} = 0$ against the temperature (horizontal axis), from the record. The effect is small and changes only slowly with $T$ (for $N = 688$ and $+\lambda_1$ it grows from $0.0033\,m$ at $T = 0.01$ to $0.0045\,m$ at $T = 0.05$); its sign follows the sign of the coupling, the other way round for $N = 8$.
 
 ## 4. Side effects
 
@@ -360,13 +362,13 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/15d.captions.json` | 3233 | `938b9ada7e537dcc0148f8e01f68ce9a9befb6bac56d849f9edca80ff0c9a5cb` |
+| `Revision/textbook/figures/15d.captions.json` | 3451 | `c3ff09de051085e8ec126ce622ebd743f9d10d960bb858aa38cb495409b7782f` |
 | `Revision/textbook/figures/15d_1_root_conditioning.png` | 58912 | `c7454c14443c4bb6651f78532c9801637089ad06ee65363556d738d00d30f524` |
 | `Revision/textbook/figures/15d_2_chemical_potential.png` | 65752 | `5ba61100362c6dca27b833c5d360ca8c430d0e0a992e0625013b5e28d468fea4` |
 | `Revision/textbook/figures/15d_3_free_energy_entropy.png` | 132329 | `b4e6582791a98c203cb2b5d96a75be7d6e116f04f73a6c462ab4b26026417a0e` |
 | `Revision/textbook/figures/15d_4_heat_capacity.png` | 102664 | `9ef2669c1c4ff915c1e8bab029aff97f8f7606470cd7c223214ebd009c7a84cc` |
 | `Revision/textbook/figures/15d_5_occupations.png` | 77911 | `2444b4f684db28bfe93f17a6126a9f1408bc2139268dc8f541fe426bc027b3a7` |
-| `Revision/textbook/figures/15d_6_sea_holes.png` | 93639 | `b5339f41a4b388bc1464983d53ea30097eba8c784027e309d32b7c9d08b6c79a` |
+| `Revision/textbook/figures/15d_6_sea_holes.png` | 84880 | `245f70fb62d6290c9a302028c09672752cacc82e9efa71c4f74a61ccc9ea758a` |
 | `Revision/textbook/figures/15d_7_interaction_free_energy.png` | 58203 | `7c91e070bf0eac923ba865e7c6158b2519957274caf74126a2dd06e07ca66d47` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/15d_thermodynamics.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
@@ -390,8 +392,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 900 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 26.3 s, peak memory of the kernel process 175 MiB;
-- the check run: 29.7 s, peak memory of the kernel process 175 MiB.
+- the build run: 30.8 s, peak memory of the kernel process 175 MiB;
+- the check run: 23.1 s, peak memory of the kernel process 175 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -403,15 +405,15 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 900 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/15d_thermodynamics.ipynb`: `9a5e187c311f3abaf07c6cc4e79f479f646ae51e5bb2be81fba229e31937bef7`
-- `Revision/textbook/notebooks/src/15d_thermodynamics.py`: `b0cad9c729efb2ffc62e05f43c903f91c96a1ac6d6ae57e4457cd8fe731d88c2`
-- `Revision/textbook/figures/15d.captions.json`: `938b9ada7e537dcc0148f8e01f68ce9a9befb6bac56d849f9edca80ff0c9a5cb`
+- `Revision/textbook/notebooks/15d_thermodynamics.ipynb`: `17a06b9f617c880c1cac76cec5f5420d61aa2aa771358460f4f86d43edca0db9`
+- `Revision/textbook/notebooks/src/15d_thermodynamics.py`: `6db7b8d6b18ab43c7dff0ba2b930966ac9180e46d2c1ce58bb4adacaef80d1cc`
+- `Revision/textbook/figures/15d.captions.json`: `c3ff09de051085e8ec126ce622ebd743f9d10d960bb858aa38cb495409b7782f`
 - `Revision/textbook/figures/15d_1_root_conditioning.png`: `c7454c14443c4bb6651f78532c9801637089ad06ee65363556d738d00d30f524`
 - `Revision/textbook/figures/15d_2_chemical_potential.png`: `5ba61100362c6dca27b833c5d360ca8c430d0e0a992e0625013b5e28d468fea4`
 - `Revision/textbook/figures/15d_3_free_energy_entropy.png`: `b4e6582791a98c203cb2b5d96a75be7d6e116f04f73a6c462ab4b26026417a0e`
 - `Revision/textbook/figures/15d_4_heat_capacity.png`: `9ef2669c1c4ff915c1e8bab029aff97f8f7606470cd7c223214ebd009c7a84cc`
 - `Revision/textbook/figures/15d_5_occupations.png`: `2444b4f684db28bfe93f17a6126a9f1408bc2139268dc8f541fe426bc027b3a7`
-- `Revision/textbook/figures/15d_6_sea_holes.png`: `b5339f41a4b388bc1464983d53ea30097eba8c784027e309d32b7c9d08b6c79a`
+- `Revision/textbook/figures/15d_6_sea_holes.png`: `245f70fb62d6290c9a302028c09672752cacc82e9efa71c4f74a61ccc9ea758a`
 - `Revision/textbook/figures/15d_7_interaction_free_energy.png`: `7c91e070bf0eac923ba865e7c6158b2519957274caf74126a2dd06e07ca66d47`
 
 ## 7. Verification
@@ -420,4 +422,4 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 900 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 8 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":175.0,"seconds":26.3},"check":{"date":"2026-10-07","files":8,"peak_mb":175.0,"result":"passed","seconds":29.7},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":175.0,"seconds":30.8},"check":{"date":"2026-10-07","files":8,"peak_mb":175.0,"result":"passed","seconds":23.1},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

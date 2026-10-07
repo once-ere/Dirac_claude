@@ -179,7 +179,15 @@ CELLS = [
     md(r"""
     ## 5. The spin connection from the record, verified
 
-    The next cell reads the gammas and the formula record `Omega_components` of
+    The next cell first defines two helpers for the checks that reproduce a Revision
+    record. `record_says(report, name, ...)` opens the report (a JSON file with a list
+    of checks, each with a name, a verdict and a detail text) and is true when the
+    check `name` is there with the verdict pass and its detail text contains every
+    further piece of text given (for example a value that this notebook computes).
+    `check_record(condition, title, report, name, ...)` is the helper `check` for such
+    a result: it passes only if the notebook's own computation (`condition`) is right
+    AND the record says the same. Then the cell reads the gammas and the formula
+    record `Omega_components` of
     `Revision/theory/field-theory.json` (written in the Wolfram language: `g[xi]` is
     $\gamma^{(x_i)}$, `a4'[x4]` is $a_4'$), enters the same formula in sympy, computes
     the Christoffel symbols of the author's metric, and checks that the gammas are
@@ -191,6 +199,32 @@ CELLS = [
     import numpy as np  # numbers and matrices (for the plots)
     import sympy as sp  # exact algebra with symbols
 
+    REPORTS = {}  # report file -> {check name: (verdict, detail)}, each read once
+
+
+    def record_says(report_file, check_name, *pieces):
+        """True when the Revision report records the check check_name with the verdict
+        pass and its detail text contains every given piece of text."""
+        if report_file not in REPORTS:  # read the report the first time it is needed
+            data = json.loads(repository_file(report_file).read_text(encoding="utf-8"))
+            REPORTS[report_file] = {entry["name"]: (entry["verdict"].lower(),
+                                                    entry["detail"])
+                                    for entry in data["checks"]}
+        verdict, detail = REPORTS[report_file][check_name]
+        return verdict == "pass" and all(piece in detail for piece in pieces)
+
+
+    def check_record(condition, title, report_file, check_name, *pieces):
+        """check() for a result that reproduces the Revision check check_name: it passes
+        only if condition is true AND the report records check_name as passed, with
+        every piece of text (values computed here) in its detail."""
+        on_record = record_says(report_file, check_name, *pieces)
+        check(condition and on_record, title,
+              record=f"{report_file}, check {check_name}")
+
+
+    THEORY = "Revision/theory/reports/python-field-theory.json"  # the sympy records
+    SCOPE = "Revision/theory/reports/python-scope.json"
     gammas_record = json.loads(
         repository_file("Revision/algebra/gammas.json").read_text(encoding="utf-8"))
     G = [sp.Matrix(rows) for rows in gammas_record["gamma"]]  # gamma^(x1) ... (x8)
@@ -247,15 +281,14 @@ CELLS = [
             + sum((Gam[nu][mu][lam] * gamma_up[lam] for lam in range(8)), sp.zeros(16, 16))
             + Omega[mu] * gamma_up[nu] - gamma_up[nu] * Omega[mu])
         for mu in range(8) for nu in range(8))
-    check(constant, "the record's Omega_mu makes every gamma^nu covariantly constant "
-          "(64 pairs)",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "covariant_constancy_D_mu_gamma_nu")
+    check_record(constant, "the record's Omega_mu makes every gamma^nu covariantly "
+                 "constant (64 pairs)", THEORY, "covariant_constancy_D_mu_gamma_nu",
+                 "= 0 for all 64 (mu, nu)")
     gamma_Omega = sum((gamma_up[mu] * Omega[mu] for mu in range(8)), sp.zeros(16, 16))
-    check(all(is_zero(v) for v in gamma_Omega - 3 * H * G[7]),
-          "gamma^mu Omega_mu = 3 H gamma^(x8) (diagonal frame)",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "gamma_mu_Omega_mu_equals_3H_gamma_x8")
+    check_record(all(is_zero(v) for v in gamma_Omega - 3 * H * G[7]),
+                 "gamma^mu Omega_mu = 3 H gamma^(x8) (diagonal frame)",
+                 THEORY, "gamma_mu_Omega_mu_equals_3H_gamma_x8",
+                 "gamma^mu Omega_mu = 3 H gamma^(x8) exactly")
     '''),
     md(r"""
     ## 6. The rescaling removes the term
@@ -270,24 +303,27 @@ CELLS = [
     """),
     code(r'''
     w = sp.sin(z) ** sp.Rational(-1, 2)  # the rescaling factor sin(z)^(-1/2)
-    check(is_zero(sp.tan(z) * sp.diff(w, x[7]) + 3 * H * w),
-          "tan z d8 sin(z)^(-1/2) = -3 H sin(z)^(-1/2)")
+    check_record(is_zero(sp.tan(z) * sp.diff(w, x[7]) + 3 * H * w),
+                 "tan z d8 sin(z)^(-1/2) = -3 H sin(z)^(-1/2)", SCOPE,
+                 "rescaling_removes_the_connection_term",
+                 "(tan z (-3 H sin^(-1/2) z) + 3 H sin^(-1/2) z) gamma^(x8) chi = 0")
     chi = sp.Matrix([sp.Function(f"chi{A}")(*x) for A in range(1, 17)])  # arbitrary
     Psi = w * chi
     D_Psi = sum((gamma_up[mu] * (sp.diff(Psi, x[mu]) + Omega[mu] * Psi)
                  for mu in range(8)), sp.zeros(16, 1))  # gamma^mu D_mu Psi
     D_chi = sum((gamma_up[mu] * sp.diff(chi, x[mu]) for mu in range(8)),
                 sp.zeros(16, 1))  # gamma^mu d_mu chi (no connection)
-    check(all(is_zero(v) for v in D_Psi - w * D_chi),
-          "gamma^mu D_mu (w chi) = w gamma^mu d_mu chi for 16 arbitrary functions",
-          record="Revision/theory/reports/python-scope.json, check "
-                 "rescaling_removes_the_connection_term")
+    check_record(all(is_zero(v) for v in D_Psi - w * D_chi),
+                 "gamma^mu D_mu (w chi) = w gamma^mu d_mu chi for 16 arbitrary functions",
+                 SCOPE, "rescaling_removes_the_connection_term",
+                 "the field equation has no spin-connection term: gamma^mu d_mu chi = "
+                 "(m + U'(S)) chi")
     lam, S_chi = sp.symbols("lambda S_chi", real=True)  # S_chi stands for S[chi]
     S_Psi = w**2 * S_chi  # S[w chi] = (w chi)^dagger C (w chi) = w^2 S[chi]
-    check(is_zero(lam * S_Psi - lam * S_chi / sp.sin(z)),
-          "U = (lambda/2) S^2: lambda S[Psi] = lambda S[chi]/sin z (the new coupling)",
-          record="Revision/theory/reports/python-scope.json, check "
-                 "rescaled_equation_quadratic_potential")
+    check_record(is_zero(lam * S_Psi - lam * S_chi / sp.sin(z)),
+                 "U = (lambda/2) S^2: lambda S[Psi] = lambda S[chi]/sin z (the new "
+                 "coupling)", SCOPE, "rescaled_equation_quadratic_potential",
+                 "gamma^mu d_mu chi = (m + lambda S[chi]/sin z) chi")
     y_of_x8 = sp.log(sp.sin(z)) / (6 * H)
     check(is_zero(sp.cos(z) * w**2 - sp.cot(z)) and
           is_zero(sp.diff(y_of_x8, x[7]) - sp.cot(z)),
@@ -370,21 +406,29 @@ CELLS = [
     c = 3 * H * (2 * alpha + 1)
     k = sp.sqrt(c**2 - m**2)  # k^2 = 9 H^2 (2 alpha + 1)^2 - m^2
     M = -m * G[3] + c * G[3] * G[7]
-    check((M * M - (c**2 - m**2) * sp.eye(16)).applyfunc(sp.expand) == sp.zeros(16, 16)
-          and (M.T * C + C * M).applyfunc(sp.expand) == sp.zeros(16, 16),
-          "M^2 = (9 H^2 (2 alpha + 1)^2 - m^2) I16 and M^T C + C M = 0")
+    check_record((M * M - (c**2 - m**2) * sp.eye(16)).applyfunc(sp.expand)
+                 == sp.zeros(16, 16)
+                 and (M.T * C + C * M).applyfunc(sp.expand) == sp.zeros(16, 16),
+                 "M^2 = (9 H^2 (2 alpha + 1)^2 - m^2) I16 and M^T C + C M = 0",
+                 THEORY, "exact_solution_family_x4_x8",
+                 "M = -m gamma^(x4) + 3 H (2 alpha + 1) gamma^(x4) gamma^(x8)",
+                 "k^2 = 9 H^2 (2 alpha + 1)^2 - m^2", "(M^2 = k^2 I16, M^T C + C M = 0")
     chi0 = sp.Matrix(sp.symbols("q1:17"))  # 16 arbitrary constants
     family = sp.sin(z) ** alpha * (sp.cosh(k * x[3]) * chi0
                                    + sp.sinh(k * x[3]) / k * (M * chi0))
     residual = sum((gamma_up[mu] * (sp.diff(family, x[mu]) + Omega[mu] * family)
                     for mu in range(8)), sp.zeros(16, 1)) - m * family
-    check(all(is_zero(v) for v in residual),
-          "Psi = sin(z)^alpha (cosh(k x4) + sinh(k x4)/k M) chi0 solves the field equation",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "exact_solution_family_x4_x8")
+    check_record(all(is_zero(v) for v in residual),
+                 "Psi = sin(z)^alpha (cosh(k x4) + sinh(k x4)/k M) chi0 solves the field "
+                 "equation", THEORY, "exact_solution_family_x4_x8",
+                 "solves gamma^mu D_mu Psi = m Psi exactly for every a4(x4) and every "
+                 "alpha")
     M_half = M.subs(alpha, -sp.Rational(1, 2))
-    check(not M_half.has(H) and sp.expand(k.subs(alpha, -sp.Rational(1, 2)) ** 2) == -m**2,
-          "alpha = -1/2: M = -m gamma^(x4) has no H and k^2 = -m^2 (oscillation)")
+    check_record(not M_half.has(H)
+                 and sp.expand(k.subs(alpha, -sp.Rational(1, 2)) ** 2) == -m**2,
+                 "alpha = -1/2: M = -m gamma^(x4) has no H and k^2 = -m^2 (oscillation)",
+                 SCOPE, "rescaled_equation_quadratic_potential",
+                 "= -m gamma^(x4) and k^2 = -m^2 (no H)")
     '''),
     md(r"""
     ## 8. Which members grow, and which have a finite norm
@@ -500,15 +544,20 @@ CELLS = [
     norm_factor = sp.integrate(sp.cos(6 * H * x[7]), (x[7], 0, sp.pi / (12 * H)))
     report("dimension of the eigenspace of +2 sqrt(2) i at m = H = 1", dimension)
     report("int_0^(pi/(12H)) cos(6 H x8) dx8", norm_factor)
-    check((A - sp.I * M.subs(alpha, 0)).applyfunc(sp.expand) == sp.zeros(16, 16)
-          and A != A.H
-          and A_squared == ((m**2 - 9 * H**2) * sp.eye(16)).applyfunc(sp.expand)
-          and A_one * A_one == -8 * sp.eye(16) and A_one.trace() == 0 and dimension == 8
-          and sp.simplify(norm_factor - 1 / (6 * H)) == 0,
-          "A = -i m g4 + 3 i H g4 g8: not Hermitian, A^2 = (m^2 - 9H^2) I16, "
-          "eigenvalues +-2 sqrt(2) i at m = H = 1, finite norm 1/(6H)",
-          record="Revision/theory/reports/python-scope.json, check "
-                 "good_sector_x8_independent_modes_without_boundary_condition")
+    all_true = ((A - sp.I * M.subs(alpha, 0)).applyfunc(sp.expand) == sp.zeros(16, 16)
+                and A != A.H
+                and A_squared == ((m**2 - 9 * H**2) * sp.eye(16)).applyfunc(sp.expand)
+                and A_one * A_one == -8 * sp.eye(16) and A_one.trace() == 0
+                and dimension == 8 and sp.simplify(norm_factor - 1 / (6 * H)) == 0)
+    # The record states the same matrix, square, eigenvalues and norm in its text:
+    check_record(all_true,
+                 "A = -i m g4 + 3 i H g4 g8: not Hermitian, A^2 = (m^2 - 9H^2) I16, "
+                 "eigenvalues +-2 sqrt(2) i at m = H = 1, finite norm 1/(6H)",
+                 SCOPE, "good_sector_x8_independent_modes_without_boundary_condition",
+                 f"cos(6 H x8) dx8 = {sp.sstr(norm_factor)})",
+                 "A = -i m gamma^(x4) + 3 i H gamma^(x4) gamma^(x8)",
+                 "A^2 = (m^2 - 9 H^2) I16 exactly",
+                 f"the eigenvalues are +-2 sqrt(2) i ({dimension} each)")
     '''),
     md(r"""
     The next cell draws, for $H = 1$, the two eigenvalues $\pm\sqrt{m^2 - 9H^2}$ of $A$
@@ -599,12 +648,14 @@ CELLS = [
     flux = sp.simplify((u0.H * M8 * u0)[0])
     size_u0 = (u0.H * u0)[0]
     report("u0^dagger M8 u0 and u0^dagger u0", f"{flux}, {size_u0}")
-    check(fact_1 and fact_2 and fact_3 and is_zero(left_side - right_side)
-          and flux == 2 * sp.I and size_u0 == 2,
-          "cos z (u^dagger h v - (h u)^dagger v) = d8(sin z u^dagger M8 v); at z = pi/2 "
-          "the flux u0^dagger M8 u0 = 2 i is not zero",
-          record="Revision/theory/reports/python-scope.json, check "
-                 "good_sector_hermiticity_up_to_the_brane_flux")
+    # The record states the same identity and the same flux (sympy writes i as I):
+    check_record(fact_1 and fact_2 and fact_3 and is_zero(left_side - right_side)
+                 and flux == 2 * sp.I and size_u0 == 2,
+                 "cos z (u^dagger h v - (h u)^dagger v) = d8(sin z u^dagger M8 v); at "
+                 "z = pi/2 the flux u0^dagger M8 u0 = 2 i is not zero",
+                 SCOPE, "good_sector_hermiticity_up_to_the_brane_flux",
+                 "cos z [u^dagger (h v) - (h u)^dagger v] = d_x8(sin z u^dagger M8 v)",
+                 f"u^dagger M8 u = {sp.sstr(flux)} (|u|^2 = {sp.sstr(size_u0)})")
     '''),
     md(r"""
     ## 11. A growing mode is fed through the patch end

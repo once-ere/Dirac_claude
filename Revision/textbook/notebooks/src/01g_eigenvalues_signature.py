@@ -777,12 +777,14 @@ CELLS = [
     fig.tight_layout()
     # how many of the 320 drawn eigenvalues are smaller than 0.001 in size
     tiny = sum(int((np.abs(spectrum) < 0.001).sum()) for spectrum in transformed_spectra)
+    tiny_text = "the one eigenvalue" if tiny == 1 else f"the {tiny} eigenvalues"
+    tiny_verb = "sits" if tiny == 1 else "sit"  # singular or plural
     save_figure(fig, "signature",
                 "Left: the eight eigenvalues of $P^T \\eta P$ for 40 random matrices "
                 "$P$ (one column of dots per matrix; red positive, blue negative); "
                 "the values change from matrix to matrix, but every column has four "
                 "positive and four negative eigenvalues (Sylvester's law of inertia); "
-                f"the {tiny} eigenvalues smaller than 0.001 in size sit on the zero "
+                f"{tiny_text} smaller than 0.001 in size {tiny_verb} on the zero "
                 "line, but none is zero. "
                 "Right: the eigenvalues of the author's metric $g$ at $z = 6 H x_8 = "
                 "0.9$ against $a_4$: the three space entries $e^{2a_4} s$ (red, "
