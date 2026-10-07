@@ -6,7 +6,7 @@
   "Revision/algebra/gammas.json",
   "Revision/algebra/reports/python-gammas.json"
  ],
- "independence": "no code shared with Revision/theory/wolfram; the Wolfram outputs are read only by the final comparison section",
+ "independence": "no code shared with Revision/theory/wolfram; the Wolfram outputs (Revision/theory/field-theory.json, Revision/theory/reports/wolfram-field-theory.json and, for the justification of the unpaired sympy checks, Revision/algebra/reports/wolfram-algebra.json) are read only by the final comparison section",
  "summary": {
   "checks": 70,
   "pass": 70,
@@ -431,7 +431,7 @@
    "name": "exact_nonlinear_homogeneous_solution",
    "section": "I. Hamiltonian form, energy exchange, exact solutions",
    "verdict": "pass",
-   "detail": "Phi = (cosh(k x4) + sinh(k x4)/k M) chi, M = -(m + lambda S0) gamma^(x4) + 3 H gamma^(x4) gamma^(x8), k^2 = 9 H^2 - (m + lambda S0)^2: exp(M^T x4) C exp(M x4) = C so S = chi^dagger C chi = S0 is constant, and gamma^mu D_mu Phi = (m + lambda S0) Phi = (m + U'(S)) Phi exactly: an exact homogeneous solution of the nonlinear commuting field dirac16complex00 (U = (lambda/2) S^2); its EMT is the homogeneous on-shell form rho = m S0 + U, p = S0 U' - U (check *_homogeneous_on_shell_rho_p)"
+   "detail": "both statistics, U = (lambda/2) S^2, homogeneous. Commuting (dirac16complex00): Phi = (cosh(k x4) + sinh(k x4)/k M) chi, M = -(m + lambda S0) gamma^(x4) + 3 H gamma^(x4) gamma^(x8), k^2 = 9 H^2 - (m + lambda S0)^2: exp(M^T x4) C exp(M x4) = C so S = chi^dagger C chi = S0 is constant, and gamma^mu D_mu Phi = (m + lambda S0) Phi = (m + U'(S)) Phi exactly [True]; its EMT is the homogeneous on-shell form rho = m S0 + U, p = S0 U' - U (check *_homogeneous_on_shell_rho_p). Grassmann (dirac16complex, explicit algebra with N = 2 generators theta_k and their conjugates, 16 generic complex constants per generator): Psi = sum_k [P(m) + lambda S0 dP/dm] chi_k theta_k, P(m) = cosh(k x4) + sinh(k x4)/k M_m, M_m = -m gamma^(x4) + 3 H gamma^(x4) gamma^(x8), k^2 = 9 H^2 - m^2, S0 = sum_kl thetabar_k theta_l chi_k^dagger C chi_l (the expansion of exp(M_(m + lambda S0) x4) chi, which terminates since S0^2 Psi = 0): M_m^2 = k^2 I16 and M^T C + C M = 0 [True]; S0 real, S0^2 != 0, S0^2 Psi = 0 [True]; S = Psibar Psi = S0 exactly [True]; the 16 jet expressions E_A of the sympy field equation vanish at Psi [True] (control: without the lambda S0 dP/dm term E_1 != 0 [True]); for the sympy energy-momentum tensor (T_pot = -delta V, V = m S + (lambda/2) S^2 [True]): -T^x4_x4 = m S0 + (lambda/2) S0^2 and T^mu_mu = (lambda/2) S0^2 for mu != x4 [True] (control: the lambda S0^2 part of the pressure is nonzero [True]), nabla_mu T^mu_nu = 0 for all 8 nu [True] (kinetic part evaluated as B[X0] + lambda S0 B[X1] with exact 16 x 16 matrices; this contraction equals the direct explicit-algebra evaluation of T_kin^x8_x8 [True]); the values are Grassmann-algebra elements (the classical Grassmann EMT; numbers come from the expectation values of the quantum theory)"
   }
  ],
  "formulas": {
@@ -637,7 +637,7 @@
     {
      "name": "Omega_components",
      "verdict": "agree",
-     "detail": "the stated Omega_xi = (1/2) E^a4 Sin^(1/6) (a4' g[xi].g[x4] + H g[xi].g[x8]), Omega_xt = -(1/2) E^-a4 Sin^(1/6) (a4' g[x4].g[xt] + H g[xt].g[x8]), Omega_x4 = Omega_x8 = 0, rebuilt from the gammas, equal the sympy Omega_mu exactly"
+     "detail": "(statement verbatim) the stated Omega_xi = (1/2) E^a4 Sin^(1/6) (a4' g[xi].g[x4] + H g[xi].g[x8]), Omega_xt = -(1/2) E^-a4 Sin^(1/6) (a4' g[x4].g[xt] + H g[xt].g[x8]), Omega_x4 = Omega_x8 = 0, rebuilt from the gammas, equal the sympy Omega_mu exactly"
     },
     {
      "name": "gammaOmega_per_direction",
@@ -652,12 +652,17 @@
     {
      "name": "Lagrangian",
      "verdict": "agree",
-     "detail": "the stated L = Cos[z][(1/2) sum_a (1/f_a)(Psibar gamma^(a) d_a Psi - d_a Psibar gamma^(a) Psi) - m S - U] (spin connection dropped) equals the sympy L (with Omega_mu) exactly, both statistics, U = (lambda/2) S^2"
+     "detail": "(statement verbatim) the stated L = Cos[z][(1/2) sum_a (1/f_a)(Psibar gamma^(a) d_a Psi - d_a Psibar gamma^(a) Psi) - m S - U] (spin connection dropped) equals the sympy L (with Omega_mu) exactly, both statistics, U = (lambda/2) S^2; the stated f_a equal the sympy vielbein factors"
     },
     {
      "name": "field_equation_components",
      "verdict": "agree",
      "detail": "all 16 component equations (gamma^mu D_mu Psi)_A = V Psi_A parsed from field-theory.json equal the sympy E_A + (m + lambda S) Psi_A term by term"
+    },
+    {
+     "name": "field_equation",
+     "verdict": "agree",
+     "detail": "the prose equation parsed: the coefficient of gamma^(a) d_a Psi equals the sympy 1/f_a for all eight a (exp(-a4x)/sin(6*H*x8)**(1/6), exp(-a4x)/sin(6*H*x8)**(1/6), exp(-a4x)/sin(6*H*x8)**(1/6), 1, exp(a4x)/sin(6*H*x8)**(1/6), exp(a4x)/sin(6*H*x8)**(1/6), exp(a4x)/sin(6*H*x8)**(1/6), tan(6*H*x8)), the term without derivative 3*H gamma^(x8) Psi equals the sympy gamma^mu Omega_mu Psi, and the right-hand side is (m + U'(S)) Psi; the 16 components of this operator are compared in field_equation_components"
     },
     {
      "name": "field_equation_blocks",
@@ -667,52 +672,52 @@
     {
      "name": "adjoint_equation",
      "verdict": "agree",
-     "detail": "sum_mu Omega_mu gamma^mu = -3 H gamma^(x8), so the stated adjoint form (... + 3 H Psibar g[x8] = -(m + U') Psibar) equals the sympy D_mu Psibar gamma^mu = -(m + U') Psibar exactly, both statistics"
+     "detail": "the prose equation parsed: the coefficient of d_a Psibar gamma^(a) equals the sympy 1/f_a for all eight a, the term without derivative 3*H Psibar gamma^(x8) equals -Psibar Omega_mu gamma^mu (sympy: sum_mu Omega_mu gamma^mu = -3 H gamma^(x8)), and the stated equation (... = -(m + U'(S)) Psibar), rebuilt in the jet algebra, equals the sympy D_mu Psibar gamma^mu = -(m + U') Psibar exactly, both statistics"
     },
     {
      "name": "current",
      "verdict": "agree",
-     "detail": "d_mu(Cos z J^mu) = -i Cos z (Ebar Psi + Psibar E) with the Wolfram sign of Ebar (= minus the sympy Ebar) holds exactly; J^x4 = Psi^dagger B Psi; both statistics"
+     "detail": "(statement verbatim) J^mu = -i Psibar gamma^mu Psi (the sympy current); d_mu(Cos z J^mu) = -i Cos z (Ebar Psi + Psibar E) with the Wolfram sign of Ebar (= minus the sympy Ebar) holds exactly; J^x4 = Psi^dagger B Psi; both statistics; Q is the integral of Cos z J^x4 over a slice x4 = const (conserved for fields that vanish at the boundary of the slice)"
     },
     {
      "name": "Lichnerowicz",
      "verdict": "agree",
-     "detail": "(gamma^mu D_mu)^2 = Box - R/4 with R = 6 (a4'^2 - 7 H^2): same statement as the sympy check lichnerowicz_identity_on_fields"
+     "detail": "(statement verbatim) (gamma^mu D_mu)^2 Psi = g^mu nu (D_mu D_nu - Gamma^l_mu nu D_l) Psi - (R/4) Psi is the identity proved on the jet space by the passing sympy check lichnerowicz_identity_on_fields (with gamma^mu gamma^nu F_mu nu = -(R/2) I16, lichnerowicz_contraction); R = 6 (a4'^2 - 7 H^2) recomputed here (sympy: 6*A1**2 - 42*H**2)"
     },
     {
      "name": "T_variation",
      "verdict": "agree",
-     "detail": "the stated closed form T^nu_mu = delta L0 - (1/2)(Psibar gamma^nu D_mu Psi - D_mu Psibar gamma^nu Psi) - (1/4) g_mu rho nabla_l (Psibar {gamma^l, Sigma^(nu rho)} Psi), rebuilt in the sympy algebra, equals the sympy first-order vielbein variation tensor OFF SHELL for all 64 components, both statistics (the sympy side had established equality with the Belinfante tensor on shell)"
+     "detail": "(statement verbatim) the stated closed form T^nu_mu = delta L0 - (1/2)(Psibar gamma^nu D_mu Psi - D_mu Psibar gamma^nu Psi) - (1/4) g_mu rho nabla_l (Psibar {gamma^l, Sigma^(nu rho)} Psi), rebuilt in the sympy algebra, equals the sympy first-order vielbein variation tensor OFF SHELL for all 64 components, both statistics (the sympy side had established equality with the Belinfante tensor on shell)"
     },
     {
      "name": "T_symmetric",
      "verdict": "agree",
-     "detail": "the stated Belinfante T^nu_mu equals the sympy T^nu_mu off shell, 64 components, both statistics"
+     "detail": "(statement verbatim) the stated Belinfante T^nu_mu, rebuilt in the sympy algebra, equals the sympy T^nu_mu off shell, 64 components, both statistics"
     },
     {
      "name": "EMT_kinetic_potential",
      "verdict": "agree",
-     "detail": "T_kin = delta sum K - (1/4)(...), T_pot = -delta (m S + U) equal the sympy split, both statistics"
+     "detail": "(statement verbatim) T_kin = delta sum K - (1/4)(...) and T_pot = -delta (m S + U), rebuilt in the sympy algebra, equal the sympy split, both statistics; hence rho_pot = -T_pot^x4_x4 = m S + U and p_pot = -(m S + U) in every direction"
     },
     {
      "name": "EMT_diagonal",
      "verdict": "agree",
-     "detail": "T^mu_mu (no sum) = L0 - K_mu, K_mu = (1/(2 f_mu))(Psibar gamma^(mu) d_mu Psi - d_mu Psibar gamma^(mu) Psi), sum_mu K_mu = K: equal off shell, both statistics"
+     "detail": "(statement verbatim) T^mu_mu (no sum) = L0 - K_mu with K_mu = (1/(2 f_mu))(Psibar gamma^(mu) d_mu Psi - d_mu Psibar gamma^(mu) Psi) and sum_mu K_mu = K: equal off shell, both statistics; with L0 = sum K - m S - U these are the stated rho = -sum_(mu != x4) K_mu + m S + U and p_mu = sum_(l != mu) K_l - m S - U"
     },
     {
      "name": "EMT_trace",
      "verdict": "agree",
-     "detail": "T^mu_mu = 7 sum K - 8 (m S + U) off shell (sympy algebra) and the same on-shell value -m S + 7 S U' - 8 U"
+     "detail": "(statement verbatim) T^mu_mu = 8 L0 - sum K = 7 sum K - 8 (m S + U) off shell (rebuilt in the sympy algebra, both statistics); on shell the sympy checks grassmann_trace_on_shell and commuting_trace_on_shell (passing) verify -m S + 3 lambda S^2 for U = (lambda/2) S^2 by the prolonged on-shell substitution; recomputed here: 7 (m + U') S - 8 (m S + U) = -m S + 7 S U' - 8 U for a general U, and = -m S + 3 lambda S^2 for U = (lambda/2) S^2. Counterparts of the Wolfram checks EMT_trace_G and EMT_trace_C"
     },
     {
      "name": "EMT_homogeneous_on_shell",
      "verdict": "agree",
-     "detail": "rho = m S + U, p3 = p_t = p8 = S U' - U, w = lambda S/(2 m + lambda S): the same statements as the passing sympy checks grassmann_homogeneous_on_shell_rho_p and commuting_homogeneous_on_shell_rho_p (verified there by on-shell substitution)"
+     "detail": "(statement verbatim) rho = m S + U and p3 = p_t = p8 = S U' - U are the statements of the passing sympy checks grassmann_homogeneous_on_shell_rho_p and commuting_homogeneous_on_shell_rho_p (verified there for U = (lambda/2) S^2 by the prolonged on-shell substitution, with T_kin^x4_x4 = 0 and T_kin^mu_mu = (m + U') S for mu != x4); the specialisations rho = m S + lambda S^2/2, p = lambda S^2/2 and w = lambda S/(2 m + lambda S) are recomputed here"
     },
     {
      "name": "EMT_offdiagonal_x4_x8",
      "verdict": "agree",
-     "detail": "T^x4_x8 = -(1/4)(B48 - Cot[z] B84) and T^x8_x4 = -Tan[z]^2 T^x4_x8 equal the sympy components off shell, both statistics; on homogeneous on-shell states the sympy side finds T^x4_x8 = T^x8_x4 = 0 (passing checks grassmann_T_x4x8_homogeneous, commuting_T_x4x8_homogeneous); the Wolfram side states T^x4_x8 = 0 at its exact solutions (exact_solution_x4_x8_*)"
+     "detail": "(statement verbatim) T^x4_x8 = -(1/4)(B48 - Cot[z] B84) and T^x8_x4 = -Tan[z]^2 T^x4_x8 equal the sympy components off shell, both statistics; on homogeneous on-shell states the sympy side finds T^x4_x8 = T^x8_x4 = 0 (passing checks grassmann_T_x4x8_homogeneous, commuting_T_x4x8_homogeneous); the Wolfram side states T^x4_x8 = 0 at its exact solutions (exact_solution_x4_x8_*)"
     },
     {
      "name": "energy_exchange",
@@ -722,37 +727,32 @@
     {
      "name": "nontriviality",
      "verdict": "agree",
-     "detail": "the stated values gamma^mu Omega_mu = 3 H gamma^(x8) and R^x8_x8 = -6 H^2 are recomputed here (sympy matrices and Ricci tensor); the per-direction and iff statements are those of the passing sympy checks gamma_mu_Omega_mu_equals_3H_gamma_x8, time_terms_cancel_hidden_term_survives, nontriviality_Omega_zero_iff_flat, spinor_curvature_equals_riemann. Scope: the values belong to the diagonal vielbein (frame dependence: Revision/theory/reports/python-scope.json)"
+     "detail": "(statement verbatim) recomputed here from the sympy matrices and Ricci tensor: gamma^(xi) Omega_xi = (a4'/2) gamma^(x4) + (H/2) gamma^(x8) (i = 1, 2, 3), gamma^(xt) Omega_xt = -(a4'/2) gamma^(x4) + (H/2) gamma^(x8) (t = 5, 6, 7), gamma^(x4) Omega_x4 = gamma^(x8) Omega_x8 = 0, the sum 3 H gamma^(x8) (nonzero on every Psi != 0 since (gamma^(x8))^2 = 1), R^x8_x8 = -6 H^2; the iff statement and [D_mu, D_nu] = curvature are the passing sympy checks nontriviality_Omega_zero_iff_flat and spinor_curvature_equals_riemann. Scope: the values belong to the diagonal vielbein (frame dependence: Revision/theory/reports/python-scope.json)"
     },
     {
      "name": "majorana_negative_control",
      "verdict": "agree",
-     "detail": "the statement (total derivative and no field equation for anticommuting real components; Euler-Lagrange expression 2 sqrt g C gamma^mu D_mu Phi for commuting ones) is the content of the passing sympy checks negative_control_majorana_grassmann_total_derivative and negative_control_majorana_commuting_contrast"
+     "detail": "(statement verbatim) the total derivative and the absence of field equations for anticommuting real components, and the Euler-Lagrange expression for commuting ones, are the passing sympy checks negative_control_majorana_grassmann_total_derivative and negative_control_majorana_commuting_contrast; recomputed here: Psi^T C Psi = 0 for 16 real anticommuting components and Phi^T C gamma^(a) Phi = 0 for 16 real commuting components, all a"
     },
     {
      "name": "exact_solutions",
      "verdict": "agree",
-     "detail": "with the sympy gammas: M^2 = (9 H^2 (2 alpha + 1)^2 - m^2) I16 and M^2 = (9 H^2 - (m + lambda S0)^2) I16 for the two stated M, C M + M^T C = 0 for both (S constant), and rho = m S0 + lambda S0^2/2, p = S U' - U = lambda S0^2/2 for U = lambda S^2/2; the solutions themselves are the passing sympy checks exact_solution_family_x4_x8 and exact_nonlinear_homogeneous_solution"
+     "detail": "(statement verbatim) with the sympy gammas: M^2 = (9 H^2 (2 alpha + 1)^2 - m^2) I16 and M^2 = (9 H^2 - (m + lambda S0)^2) I16 for the two stated M, C M + M^T C = 0 for both (S constant), and rho = m S0 + lambda S0^2/2, p = S U' - U = lambda S0^2/2 for U = lambda S^2/2; the solutions themselves - (i), (ii) and the Grassmann solution in an explicit Grassmann algebra with N = 2 - are the passing sympy checks exact_solution_family_x4_x8 and exact_nonlinear_homogeneous_solution"
     },
     {
      "name": "equation_of_state_definitions",
      "verdict": "agree",
-     "detail": "same definitions as SPEC section 4 and the sympy record; (S U' - U)/(m S + U) = lambda S/(2 m + lambda S) for U = lambda S^2/2 recomputed here; homogeneous values from the passing sympy checks *_homogeneous_on_shell_rho_p"
+     "detail": "(statement verbatim) the same definitions as SPEC section 4 and the sympy record (rho = -T^x4_x4, p_mu = T^mu_mu); (S U' - U)/(m S + U) = lambda S/(2 m + lambda S) for U = lambda S^2/2 recomputed here; the homogeneous values from the passing sympy checks *_homogeneous_on_shell_rho_p"
     },
     {
      "name": "hidden_direction_hermiticity",
      "verdict": "agree",
-     "detail": "recomputed here: cos z [p (tan z d8 + 3H) q + ((tan z d8 + 3H) p) q] = d8(sin z p q) identically, and without the 3H term the same combination is d8(sin z p q) - 6 H cos z p q. Scope: this is antisymmetry for the measure cos z dx8 in the field variables Psi, up to the boundary term sin z p q, which does not vanish at z = pi/2 (Revision/theory/reports/python-scope.json)"
+     "detail": "(statement verbatim) recomputed here: cos z [p (tan z d8 + 3H) q + ((tan z d8 + 3H) p) q] = d8(sin z p q) identically, and without the 3H term the same combination is d8(sin z p q) - 6 H cos z p q. Scope: this is antisymmetry for the measure cos z dx8 in the field variables Psi, up to the boundary term sin z p q, which does not vanish at z = pi/2 (Revision/theory/reports/python-scope.json)"
     },
     {
      "name": "quantisation",
      "verdict": "agree",
-     "detail": "each statement of the Wolfram quantisation summary is present and has a passing sympy counterpart: 'pi_A = (i/2) Cos[z] (Psi^dagger B)_A' <-> canonical_momentum; '{Psi_A(x), Psi^dagger_C(y)}_(x4 = y4) = B_AC delta^7(x - y)/Cos[z]' <-> canonical_anticommutator_B; 'signature (8,8)' <-> B_properties; 'no positive inner product' <-> no_positive_inner_product; 'positive representation chi = Psi^dagger B' <-> good_sector_positive_fock_realisation; 'h Hermitian' <-> good_sector_spectrum_and_B_sectors; '<Psi^dagger M Psi> = u^dagger B M u' <-> good_sector_positive_fock_realisation; 'E^2 = m^2 + k_s^2 - k_t^2' <-> mode_hamiltonian_B_selfadjoint_dispersion. Convention note: the sympy side states the rule in two realisations - (i) Psi^dagger the adjoint in a Krein-Fock space: <:Psi^dagger M Psi:> = eps u^dagger M u (= u^dagger B M u for B-eigenvector modes); (ii) the positive Fock space with Psi^dagger = chi B: u^dagger B M u for particles, -v^dagger B M v for antiparticles (the Wolfram form)"
-    },
-    {
-     "name": "field_equation",
-     "verdict": "agree",
-     "detail": "prose form of the 16 compared component equations"
+     "detail": "the record consists of exactly these 11 statements, each with passing sympy counterparts: 'pi_A = (i/2) Cos[z] (Psi^dagger B)_A' <-> canonical_momentum; 'K = Cos[z] C gamma^(x4) = i Cos[z] B' <-> canonical_momentum, B_properties; '{Psi_A(x), Psi^dagger_C(y)}_(x4 = y4) = B_AC delta^7(x - y)/Cos[z]' <-> canonical_anticommutator_B; 'B = -i C gamma^(x4), B^dagger = B, B^2 = 1, signature (8,8)' <-> B_properties; 'no positive inner product with Psi^dagger the adjoint (Krein space, fundamental symmetry B)' <-> no_positive_inner_product; 'positive representation chi = Psi^dagger B, {Psi_A, chi_C} = delta_AC' <-> good_sector_positive_fock_realisation; 'Heisenberg: d4 Psi = -i B (1/Cos[z]) dHd/dPsi^dagger = -gamma^(x4) [(m + U') Psi - sum_(a != 4) gamma^a D_a Psi]' <-> hamiltonian_form_and_heisenberg_equation; 'good sector (no x5, x6, x7 dependence): h Hermitian for Cos[z] d^7x, positive Fock space, normal-ordered H = sum E (b^* b + d^* d) >= 0 per momentum' <-> good_sector_spectrum_and_B_sectors, good_sector_positive_fock_realisation; 'expectation-value rule <Psi^dagger M Psi> = u^dagger B M u (u^dagger u = 1, positive-energy good-sector u)' <-> good_sector_positive_fock_realisation, expectation_value_rule; 'EMT operator T^mu_nu = :T^mu_nu[Psi, Psi^dagger = chi B]: (normal ordered), <T> by the same rule' <-> good_sector_positive_fock_realisation; 'extra-time modes: E^2 = m^2 + k_s^2 - k_t^2 < 0 for k_t^2 > m^2 + k_s^2, growing as exp(|E| x4)' <-> mode_hamiltonian_B_selfadjoint_dispersion, extra_time_modes_grow; C gamma^(x4) = i B recomputed here. Convention note: the sympy side states the rule in two realisations - (i) Psi^dagger the adjoint in a Krein-Fock space: <:Psi^dagger M Psi:> = eps u^dagger M u (= u^dagger B M u for B-eigenvector modes); (ii) the positive Fock space with Psi^dagger = chi B: u^dagger B M u for particles, -v^dagger B M v for antiparticles (the Wolfram form). Scope: 'h Hermitian for Cos[z] d^7x' holds up to the boundary term at z = pi/2 (record hidden_direction_hermiticity; Revision/theory/reports/python-scope.json); the EMT operator is a definition (normal ordering of the classical tensor), the same as the sympy record quantisation.emt_operator"
     }
    ]
   },
@@ -1296,7 +1296,8 @@
      "sympy_check": "exact_nonlinear_homogeneous_solution",
      "sympy_verdict": "pass",
      "wolfram_checks": {
-      "exact_solution_nonlinear_homogeneous_C": "PASS"
+      "exact_solution_nonlinear_homogeneous_C": "PASS",
+      "exact_solution_nonlinear_homogeneous_G": "PASS"
      },
      "agreement": "agree"
     }
@@ -1310,9 +1311,54 @@
     "commuting_controls_not_vacuous",
     "commuting_emt_conservation_negative_control"
    ],
-   "wolfram_checks_without_sympy_counterpart": [
-    "exact_solution_nonlinear_homogeneous_G"
-   ]
+   "wolfram_checks_without_sympy_counterpart": [],
+   "justifications": {
+    "sympy_only": [
+     {
+      "sympy_check": "gammas_json_equals_python_construction",
+      "justification": "a cross-engine comparison by itself: the fixture Revision/algebra/gammas.json (Wolfram construction) equals the independent Python construction Revision/algebra/reports/python-gammas.json; the Wolfram construction is checked in Revision/algebra/reports/wolfram-algebra.json",
+      "wolfram_algebra_checks": {
+       "coordinate_map": "PASS",
+       "fixture_round_trip": "PASS"
+      }
+     },
+     {
+      "sympy_check": "gammas_real",
+      "justification": "a property of the fixture, stated on the Wolfram side in the algebra report",
+      "wolfram_algebra_checks": {
+       "reality": "PASS"
+      }
+     },
+     {
+      "sympy_check": "gamma_symmetry_pattern",
+      "justification": "a property of the fixture, stated on the Wolfram side in the algebra report",
+      "wolfram_algebra_checks": {
+       "symmetry_pattern": "PASS"
+      }
+     },
+     {
+      "sympy_check": "grassmann_controls_not_vacuous",
+      "justification": "a negative control of the sympy checks themselves (the unsymmetrised Lagrangian is not real and differs from L), not a statement of the theory; the Wolfram side has its own controls (zero_test_sanity and the controls inside its checks)",
+      "wolfram_algebra_checks": {}
+     },
+     {
+      "sympy_check": "grassmann_emt_conservation_negative_control",
+      "justification": "a negative control of the sympy conservation test (a wrong potential sign is detected), not a statement of the theory",
+      "wolfram_algebra_checks": {}
+     },
+     {
+      "sympy_check": "commuting_controls_not_vacuous",
+      "justification": "as grassmann_controls_not_vacuous, for the commuting field",
+      "wolfram_algebra_checks": {}
+     },
+     {
+      "sympy_check": "commuting_emt_conservation_negative_control",
+      "justification": "as grassmann_emt_conservation_negative_control, for the commuting field",
+      "wolfram_algebra_checks": {}
+     }
+    ],
+    "wolfram_only": []
+   }
   }
  }
 }

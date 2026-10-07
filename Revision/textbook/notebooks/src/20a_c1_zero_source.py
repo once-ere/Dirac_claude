@@ -96,7 +96,7 @@ FACTS = {
         for k, name in enumerate(FIGURES, 1)],
     "final_lines": [
         "PASS every figure file of this notebook exists",
-        "ALL 45 CHECKS PASSED (notebook 20a)",
+        "ALL 37 CHECKS PASSED (notebook 20a)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" naming a file below the folder Revision",
