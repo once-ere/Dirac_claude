@@ -322,7 +322,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | `Revision/textbook/figures/14d.captions.json` | 2373 | `c75232c75a0714852d8ce35614e6d8c559ee81da5b84240ababd0e3cb3c94ce1` |
 | `Revision/textbook/figures/14d_1_pair_average.png` | 43447 | `2cf282cc1ddd89c5a6751c6f448a4d564212712eb6461bc72d276ab69c15ca5a` |
 | `Revision/textbook/figures/14d_2_energy_densities.png` | 90534 | `cbd5add0c98fa934d8dc8d51113fc633aab3f00440ac4d78d2d1da36d10f9ddc` |
-| `Revision/textbook/figures/14d_3_exact_fock_ratio.png` | 54848 | `7f92ffb0188cb5b30834a59b5043fe0086e4c84b6f13dc457b1986b607175bf0` |
+| `Revision/textbook/figures/14d_3_exact_fock_ratio.png` | 55045 | `0c3f4a0cb8d6d9af744eabf0422e508921868da183b63b4c3ce82c0b75b59ea6` |
 | `Revision/textbook/figures/14d_4_zero_mode_state.png` | 103604 | `1d3a7a3e6271335ecc90615441d5f865b04111e1c1cc4bf2630b3951f3ce43db` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/14d_local_exchange.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
@@ -346,8 +346,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 42.5 s, peak memory of the kernel process 201 MiB;
-- the check run: 32.8 s, peak memory of the kernel process 201 MiB.
+- the build run: 32.8 s, peak memory of the kernel process 202 MiB;
+- the check run: 31.1 s, peak memory of the kernel process 201 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -359,12 +359,12 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/14d_local_exchange.ipynb`: `a11f33ba1e8026186c8b2ec4490cd1e6154c15a571eb8dd1d7c2936ac806aae4`
-- `Revision/textbook/notebooks/src/14d_local_exchange.py`: `29ea1665f75cff021983987bfa1903b454e2dcf06efa796fc7906a303c1b3233`
+- `Revision/textbook/notebooks/14d_local_exchange.ipynb`: `cbfbf1919a8c5beafe210d3b616db6f20a81936650b542e185ab9bed9cd2037b`
+- `Revision/textbook/notebooks/src/14d_local_exchange.py`: `a804d039ac7bfdb9cd94787136f86a8be75c03392620612ac187004e828c9622`
 - `Revision/textbook/figures/14d.captions.json`: `c75232c75a0714852d8ce35614e6d8c559ee81da5b84240ababd0e3cb3c94ce1`
 - `Revision/textbook/figures/14d_1_pair_average.png`: `2cf282cc1ddd89c5a6751c6f448a4d564212712eb6461bc72d276ab69c15ca5a`
 - `Revision/textbook/figures/14d_2_energy_densities.png`: `cbd5add0c98fa934d8dc8d51113fc633aab3f00440ac4d78d2d1da36d10f9ddc`
-- `Revision/textbook/figures/14d_3_exact_fock_ratio.png`: `7f92ffb0188cb5b30834a59b5043fe0086e4c84b6f13dc457b1986b607175bf0`
+- `Revision/textbook/figures/14d_3_exact_fock_ratio.png`: `0c3f4a0cb8d6d9af744eabf0422e508921868da183b63b4c3ce82c0b75b59ea6`
 - `Revision/textbook/figures/14d_4_zero_mode_state.png`: `1d3a7a3e6271335ecc90615441d5f865b04111e1c1cc4bf2630b3951f3ce43db`
 
 ## 7. Verification
@@ -373,4 +373,4 @@ Expected run time: about 30 seconds (FACTS: 30 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 5 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":201.0,"seconds":42.5},"check":{"date":"2026-10-07","files":5,"peak_mb":201.0,"result":"passed","seconds":32.8},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":202.0,"seconds":32.8},"check":{"date":"2026-10-07","files":5,"peak_mb":201.0,"result":"passed","seconds":31.1},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

@@ -99,6 +99,9 @@ finished): make both use the author's matrices from gammas.json as the PRIMARY r
 comparison representations with an explicit equivalence check; re-run both verifiers twice in a fresh clone; a4-equations.json must stay
 byte-identical (any change explained); update Revision/field_equations_a4/wolfram/WOLFRAMSCRIPT_PROVENANCE.md; regenerate
 provenance/dirac matrices.md (its coverage section).
+  PREPARATION RUNNING: `Revision/workflows/a4_author_gammas_prep.js` (run wf_da94d8ca-701) makes and verifies this change in a
+  SCRATCH clone only and writes <SP>/a4prep/a4_author_gammas.patch (implementer, two adversarial reviewers, fixer, fresh-clone
+  verifier).  Apply the verified patch to the repository once the execution-provenance chain of rev-a4 has finished.
 
 ### 0.4f STATE 2026-10-03 (after the session limit)
 

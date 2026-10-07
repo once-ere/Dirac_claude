@@ -214,7 +214,7 @@ path you give.
 
 * A computer with Windows 10 or 11, macOS, or Linux (64-bit).
 * About 1 GB of free memory (RAM; the kernel's measured peak, Part 4.5, is below
-  700 MB) and about 1 GB of free disk space (the clone of the repository is about
+  700 MiB, that is about 0.7 GB) and about 1 GB of free disk space (the clone of the repository is about
   660 MiB in total: about 465 MiB of files plus about 195 MiB of git history in the
   hidden folder `.git`, which is also about the size of the download; measured on a
   fresh clone of the verified commit of Part 6: 691,412,010 bytes = 659.4 MiB, of which
@@ -222,7 +222,8 @@ path you give.
   later clone is larger).
 * An internet connection for the installation and for downloading the repository. The run
   itself needs no network.
-* About 5 to 10 minutes of time for one run (Part 4.5 gives the measured times).
+* About 5 to 10 minutes of time for one run (Part 4.5 gives the measured times: 4 to 8
+  minutes).
 * The Wolfram Language: either the **free Wolfram Engine for Developers** or an installed
   **Mathematica / Wolfram** desktop product. Both contain the command-line program
   `wolframscript`, which is what you use.

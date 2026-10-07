@@ -691,8 +691,10 @@ CELLS = [
     indices lowered, $R_{abcd} = g_{aa} g_{bb} R^{ab}{}_{cd}$ (diagonal metric), the
     pair symmetry $R_{abcd} = R_{cdab}$; (3) the first Bianchi identity
     $R^a{}_{bcd} + R^a{}_{cdb} + R^a{}_{dbc} = 0$ for all $8^4 = 4096$ index lists.
-    It also checks that no component $R^{ab}{}_{cd}$ contains the warp factor
-    $\sin^{1/3} z$ or the exponential $e^{a_4}$: they cancel when one index is raised.
+    It also checks that no component $R^{ab}{}_{cd}$ contains the factor
+    $\sin^{1/3} z$ of the transverse metric entries (the square $W^2$ of the warp factor
+    $W = \sin^{1/6} z$ of Notebook 03a) or the exponential $e^{a_4}$: they cancel when
+    one index is raised.
     """),
     code(r'''
     def get(table, key):
@@ -1105,9 +1107,9 @@ CELLS = [
     $\sum R^a{}_b R^b{}_a$ and $K$ as formulas in $A$, checks that they are **even** in
     $A$ (they do not change when $A$ is replaced by $-A$; so these three scalars cannot
     tell which of the two families of directions deflates, the metric and the
-    components of the curvature tensors can), and draws them for $0 \le A \le 3$ (the
-    extra times deflate for every $A > 0$): $R$ on an ordinary axis (it vanishes at
-    $A = \sqrt 7$), the two squares on a logarithmic axis.
+    components of the curvature tensors can), and draws them for $0.1 \le A \le 3$
+    (every one of these histories deflates the extra times): $R$ on an ordinary axis
+    (it vanishes at $A = \sqrt 7$), the two squares on a logarithmic axis.
     """),
     code(r'''
     A = sp.symbols("A", real=True)  # the slope of the history a4 = A H x4
@@ -1118,7 +1120,7 @@ CELLS = [
     say(f"on the history: R = {R_A},  K = {K_A},  R^a_b R^b_a = {RR_A}")
     check(all(sp.expand(f.subs(A, -A) - f) == 0 for f in (R_A, K_A, RR_A)),
           "the curvature scalars are even in A")
-    A_line = np.linspace(0.0, 3.0, 301)  # slopes 0, 0.01, ..., 3; A_line[100] = 1
+    A_line = np.linspace(0.1, 3.0, 291)  # slopes 0.1, 0.11, ..., 3; A_line[90] = 1
     R_numbers = sp.lambdify(A, R_A.subs(H, 1))(A_line)
     K_numbers = sp.lambdify(A, K_A.subs(H, 1))(A_line)
     RR_numbers = sp.lambdify(A, RR_A.subs(H, 1))(A_line)
@@ -1142,7 +1144,7 @@ CELLS = [
     save_figure(fig, "scalars_versus_a",
                 "The curvature scalars of the author's metric along the deflating "
                 "history $a_4 = AHx_4$ ($a_4^{\\prime} = AH$, "
-                "$a_4^{\\prime\\prime} = 0$) as functions of the slope $A$ from $0$ "
+                "$a_4^{\\prime\\prime} = 0$) as functions of the slope $A$ from $0.1$ "
                 "to $3$, with $H = 1$; horizontal axes $A$ (a pure number), the dotted "
                 "vertical line marks the canonical $A = 1$ of the Revision record. "
                 "Left: the Ricci scalar $R = 6H^2(A^2 - 7)$ in units of $H^2$, "
@@ -1151,7 +1153,7 @@ CELLS = [
                 "$K = 12H^4(7A^4 - 2A^2 + 7)$ (solid), smallest at "
                 "$A^2 = 1/7$, and $\\sum R^a{}_b R^b{}_a = 36H^4(A^4 + 7)$ (dashed), "
                 "both positive for every $A$.")
-    check(abs(R_numbers[100] - (-36.0)) < 1e-9 and abs(K_numbers[100] - 144.0) < 1e-9,
+    check(abs(R_numbers[90] - (-36.0)) < 1e-9 and abs(K_numbers[90] - 144.0) < 1e-9,
           "at A = 1: R = -36 H^2 and K = 144 H^4")
     '''),
     md(r"""
@@ -1201,7 +1203,7 @@ CELLS = [
                 "$12, 12, 12, 24, 12, 12, 12, 12$) and for $A = 2$ (plain bars: "
                 "$3, 3, 3, 33, 3, 3, 3, 3$). Right: the 3-space, extra-time and hidden "
                 "components $3H^2(5 - A^2)$ (solid) and the time component "
-                "$3H^2(7 + A^2)$ (dashed) as functions of the slope $A$ from $0$ to "
+                "$3H^2(7 + A^2)$ (dashed) as functions of the slope $A$ from $0.1$ to "
                 "$3$; the shaded gap $6H^2(A^2 + 1)$ between them never closes.")
     check(bars[1] == [12.0, 12.0, 12.0, 24.0, 12.0, 12.0, 12.0, 12.0]
           and bars[2] == [3.0, 3.0, 3.0, 33.0, 3.0, 3.0, 3.0, 3.0],

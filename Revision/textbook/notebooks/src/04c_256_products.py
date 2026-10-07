@@ -840,8 +840,7 @@ CELLS = [
               and not m[:8, 8:].any() and not m[8:, :8].any()
               for (a, b), m in two.items())
           and len(rotations) == 12 and len(boosts) == 16,
-          "(g^a g^b)^2 = -eta^aa eta^bb I16: 12 rotation and 16 boost planes, all "
-          "block diagonal")
+          "(g^a g^b)^2 = -eta^aa eta^bb I16; 12 rotation, 16 boost planes; block diagonal")
     '''),
     md(r"""
     The next cell draws the 28 products as a triangular table of heat maps: the panel

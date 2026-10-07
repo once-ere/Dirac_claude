@@ -470,8 +470,7 @@ CELLS = [
                          and (np.abs(m).sum() == 16) for m in hat)
     symmetry_ok = all((hat[a].T == eta[a] * hat[a]).all() for a in range(8))
     check(clifford_ok and permutation_ok and symmetry_ok,
-          "hat gammas: {hat g^a, hat g^b} = 2 eta^ab I16 (64 pairs), signed "
-          "permutations, (hat g^a)^T = eta_aa hat g^a")
+          "hat gammas: Clifford relation (64 pairs), signed permutations, symmetry")
 
     SETS = [s for k in range(9) for s in itertools.combinations(range(8), k)]
 
@@ -563,8 +562,8 @@ CELLS = [
     # where each factor of the paired order stands in the author's order
     positions = [AUTHOR_ORDER.index(a) for a in paired_order]
     reorder_sign = permutation_sign(positions)
-    say(f"positions of x1, x6, x2, x5, x3, x4, x8, x7 in the author's order: "
-        f"{positions}; permutation sign {reorder_sign:+d}")
+    say(f"positions of x1, x6, x2, x5, x3, x4, x8, x7 in the author's order: {positions}")
+    say(f"permutation sign of the reordering: {reorder_sign:+d}")
     chirality_hat = product(hat, AUTHOR_ORDER)
     gggg = kron4(G, G, G, G)
     bits = [format(j, "04b") for j in range(16)]  # "0000", "0001", ..., "1111"
@@ -820,7 +819,7 @@ CELLS = [
     rounded = np.round(numeric).astype(int)  # nearest whole numbers
     numeric_ok = np.max(np.abs(numeric - rounded)) < 1e-9 and all(
         int(np.sum(rounded == v)) == m for v, m in zip(values, multiplicities))
-    report("eigenvalues 0, 4, ..., 32 of K have the multiplicities", multiplicities)
+    report("multiplicities of 0, 4, ..., 32 in K", multiplicities)
     check(eigen_ok and multiplicities == [comb(8, j) for j in range(9)] and numeric_ok,
           "K = A^T A has the exact eigenvalues 4 n_B; only Q has the eigenvalue 0")
     '''),

@@ -168,7 +168,7 @@ cd Revision/textbook/notebooks
 jupyter lab 05e_quantum_bilinears.ipynb
 ```
 
-JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 20 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
+JupyterLab opens in your web browser and shows the notebook (if no browser window opens, copy the address that starts with `http://localhost:8888/lab` from the terminal into the address bar of your browser). The name at the top right of the notebook must read Python 3 (ipykernel). Choose the menu Run > Run All Cells. While a cell runs, the label to its left shows `[*]`; when it has finished, the label shows a number. The notebook has finished when the last code cell shows a number; this takes about 10 seconds on a typical laptop. Scroll to the end and compare the last printed lines with the lines in the step "What the notebook writes and what you must see" below. To keep the results, save the notebook (menu File > Save Notebook). To stop JupyterLab, choose the menu File > Shut Down, or press Ctrl+C twice in the terminal.
 
 **Step 6. Or run the notebook without a browser (headless).**
 
@@ -351,10 +351,10 @@ The notebook does not use the network while it runs. The installation (git clone
 
 ### 4.5 Run time and memory
 
-Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
+Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 10.2 s, peak memory of the kernel process 183 MiB;
-- the check run: 8.2 s, peak memory of the kernel process 184 MiB.
+- the build run: 8.5 s, peak memory of the kernel process 183 MiB;
+- the check run: 11.4 s, peak memory of the kernel process 183 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -366,8 +366,8 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/05e_quantum_bilinears.ipynb`: `4b3500bf00e749babbf6609ef0a2f428b6e899f0c9a1cf685f0d59a95745d882`
-- `Revision/textbook/notebooks/src/05e_quantum_bilinears.py`: `fa5d456eaa1bf1a58c9a53fbcf3e417eb3eecf540c897ded46b10164f44ad13b`
+- `Revision/textbook/notebooks/05e_quantum_bilinears.ipynb`: `ac51763fb9bb0bf2a56dcfdd994c912d35662d8923789a0051bfcd703589db5b`
+- `Revision/textbook/notebooks/src/05e_quantum_bilinears.py`: `d9f24d0fcb80d9beb4f4e17f15e99e2a485dcf5e495b84c8208c4958b0bab846`
 - `Revision/textbook/figures/05e.captions.json`: `28b3c7284ef05b29aee2eb56189e6add9ecfc4c1c05240853815cc6cb68cc561`
 - `Revision/textbook/figures/05e_1_two_modes.png`: `3ebd51b481c5adf8e1a8514d7d83d2b3ef31924b58cb6bcd897bc889d49d4e7b`
 - `Revision/textbook/figures/05e_2_anticommutators.png`: `1cf003a5fba8206370f793bf0f9c1a7c0c8ed6ba71ec0f3ebea4cb4aab718a35`
@@ -384,4 +384,4 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-07: a second, independent execution reproduced the notebook and the 9 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":183.0,"seconds":10.2},"check":{"date":"2026-10-07","files":9,"peak_mb":184.0,"result":"passed","seconds":8.2},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":183.0,"seconds":8.5},"check":{"date":"2026-10-07","files":9,"peak_mb":183.0,"result":"passed","seconds":11.4},"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

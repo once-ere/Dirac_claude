@@ -523,11 +523,11 @@ CELLS = [
         forms.append(form)
         diagonal.append(square[0, 0])
         worst.append(np.max(np.abs(square - form * np.eye(16))))
-    # The exact size of the rounding errors depends on the computer; it is printed as
-    # a power of ten that it does not exceed.
-    bound = 10.0 ** np.ceil(np.log10(max(worst)))
-    report("largest rounding error over 300 random vectors is at most", f"{bound:.0e}")
+    # The exact size of the rounding errors depends on the computer (its numerical
+    # library); the right panel of the figure shows them. The check only requires them
+    # to stay below 1e-12, so the printed lines are the same on every computer.
     check(max(worst) < 1e-12, "(p slash)^2 = eta(p, p) I16 for 300 random vectors p")
+    say("every rounding error of the 300 tests is below 1e-12")
 
     fig, (left, right) = plt.subplots(1, 2, figsize=(8.4, 3.8), layout="constrained")
     left.plot(forms, diagonal, "o", markersize=4, color="#2a78d6", alpha=0.7)
@@ -659,7 +659,7 @@ CELLS = [
     eigenvalues = np.linalg.eigvalsh(example)  # real eigenvalues, increasing order
     rounded = [float(x) for x in np.round(eigenvalues, 9)]  # 9 decimals
     multiplicities = {value: rounded.count(value) for value in sorted(set(rounded))}
-    report("eigenvalues of h (m = 2, k = (1, 2, 0, k8 = 4)) with multiplicities",
+    report("eigenvalue: multiplicity of h for m = 2, k = (1, 2, 0, k8 = 4)",
            multiplicities)
     eight_each = np.allclose(eigenvalues[:8], -5.0, atol=1e-12) and \
         np.allclose(eigenvalues[8:], 5.0, atol=1e-12)
@@ -735,8 +735,8 @@ CELLS = [
         counts_ok &= bool(np.sum(to_plus < to_minus) == 8)  # eight near +root
         real_parts.append(np.sort(values.real))
         imaginary_parts.append(np.sort(values.imag))
-    bound = 10.0 ** np.ceil(np.log10(max(deviations)))  # a power of ten, as above
-    report("largest deviation from +-sqrt(25 - k5^2) is at most", f"{bound:.0e}")
+    # As above, the size of the deviations depends on the computer; the check requires
+    # every one of the 160 x 16 eigenvalues to lie within 1e-10 of its exact value.
     check(max(deviations) < 1e-10 and counts_ok and scope_ok,
           "with momentum k5: eight energies +sqrt(25 - k5^2), eight -sqrt(25 - k5^2)")
     print(f"     reproduces {SCOPE}")

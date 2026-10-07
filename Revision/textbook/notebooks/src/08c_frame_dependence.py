@@ -186,15 +186,51 @@ CELLS = [
     md(r"""
     ## 5. The metric from the diagonal frame
 
-    The next cell reads the gamma matrices, defines the symbols, builds the scale
+    The next cell first defines two helpers for the checks that reproduce a Revision
+    record. `record_says(report, name, ...)` opens the report (a JSON file with a list
+    of checks, each with a name, a verdict and a detail text) and is true when the
+    check `name` is there with the verdict pass and its detail text contains every
+    further piece of text given (for example a formula that this notebook computes).
+    `check_record(condition, title, report, names, ...)` is the helper `check` for such
+    a result (`names` is one check name or a list of names): it passes only if the
+    notebook's own computation (`condition`) is right AND the record says the same.
+    Then the cell reads the gamma matrices, defines the symbols, builds the scale
     factors $f_a$ and the metric $g_{aa} = \eta_{aa}f_a^2$, and checks that this is the
-    author's metric entry by entry and that $\sqrt{|g|} = f_1 f_2 \cdots f_8 = \cos z$.
-    The helper `is_zero` asks sympy to simplify an expression twice (the second time
-    with its trigonometric simplifier `fu`) and says whether it is exactly zero.
+    author's metric entry by entry (and that the record prints the same eight entries)
+    and that $\sqrt{|g|} = f_1 f_2 \cdots f_8 = \cos z$. The helper `is_zero` asks sympy
+    to simplify an expression twice (the second time with its trigonometric simplifier
+    `fu`) and says whether it is exactly zero.
     """),
     code(r'''
     import numpy as np  # numbers and matrices (for the plots)
     import sympy as sp  # exact algebra with symbols
+
+    REPORTS = {}  # report file -> {check name: (verdict, detail)}, each read once
+
+
+    def record_says(report_file, check_name, *pieces):
+        """True when the Revision report records the check check_name with the verdict
+        pass and its detail text contains every given piece of text."""
+        if report_file not in REPORTS:  # read the report the first time it is needed
+            data = json.loads(repository_file(report_file).read_text(encoding="utf-8"))
+            REPORTS[report_file] = {entry["name"]: (entry["verdict"].lower(),
+                                                    entry["detail"])
+                                    for entry in data["checks"]}
+        verdict, detail = REPORTS[report_file][check_name]
+        return verdict == "pass" and all(piece in detail for piece in pieces)
+
+
+    def check_record(condition, title, report_file, check_names, *pieces):
+        """check() for a result that reproduces Revision checks (one name or a list of
+        names): it passes only if condition is true AND the report records every one
+        of them as passed, with every piece of text in the detail of the first one."""
+        names = [check_names] if isinstance(check_names, str) else list(check_names)
+        on_record = record_says(report_file, names[0], *pieces) and all(
+            record_says(report_file, name) for name in names[1:])
+        word = "check" if len(names) == 1 else "checks"
+        check(condition and on_record, title,
+              record=f"{report_file}, {word} " + " and ".join(names))
+
 
     gammas_record = json.loads(
         repository_file("Revision/algebra/gammas.json").read_text(encoding="utf-8"))
@@ -225,13 +261,17 @@ CELLS = [
         return simpler == 0 or sp.simplify(sp.fu(simpler)) == 0
 
 
-    check(all(is_zero(g[a] - authors_metric[a]) for a in range(8)),
-          "eta_aa f_a^2 is the author's metric (all 8 diagonal entries)",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "metric_from_vielbein_equals_SPEC")
-    check(is_zero(sp.prod(f) - sp.cos(z)), "sqrt|g| = f1 f2 ... f8 = cos z",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "sqrt_det_g_equals_cos_z")
+    # The record prints each entry as sympy writes it, e.g. "g_x8x8 = cot(6*H*x8)**2".
+    metric_texts = [f"g_x{a + 1}x{a + 1} = {sp.sstr(authors_metric[a])}" for a in range(8)]
+    say(metric_texts[0])
+    say(metric_texts[4])
+    check_record(all(is_zero(g[a] - authors_metric[a]) for a in range(8)),
+                 "eta_aa f_a^2 is the author's metric (all 8 diagonal entries)",
+                 "Revision/theory/reports/python-field-theory.json",
+                 "metric_from_vielbein_equals_SPEC", *metric_texts)
+    check_record(is_zero(sp.prod(f) - sp.cos(z)), "sqrt|g| = f1 f2 ... f8 = cos z",
+                 "Revision/theory/reports/python-field-theory.json",
+                 "sqrt_det_g_equals_cos_z", "cos(6 H x8)")
     '''),
     md(r"""
     ## 6. The Christoffel symbols
@@ -261,9 +301,10 @@ CELLS = [
     report("independent nonzero Christoffel symbols", independent)
     for lam, mu, nu in ((0, 0, 3), (4, 3, 4), (0, 0, 7), (7, 7, 7)):
         say(f"Gamma^x{lam + 1}_x{mu + 1} x{nu + 1} = {Gam[lam][mu][nu]}")
-    check(independent == 25, "25 independent nonzero Christoffel symbols",
-          record="Revision/theory/reports/python-field-theory.json, check "
-                 "christoffel_symmetric_metric_compatible")
+    check_record(independent == 25, "25 independent nonzero Christoffel symbols",
+                 "Revision/theory/reports/python-field-theory.json",
+                 "christoffel_symmetric_metric_compatible",
+                 f"{independent} independent nonzero symbols")
     '''),
     md(r"""
     ## 7. The canonical spin connection of the diagonal frame
@@ -341,19 +382,70 @@ CELLS = [
 
 
     diagonal = frame(sp.Integer(0))
-    check(postulate_failures(diagonal) == 0 and antisymmetric(diagonal),
-          "diagonal frame: vielbein postulate (512 components), omega antisymmetric",
-          record="Revision/theory/reports/python-field-theory.json, checks "
-                 "vielbein_postulate and spin_connection_antisymmetric")
+    check_record(postulate_failures(diagonal) == 0 and antisymmetric(diagonal),
+                 "diagonal frame: vielbein postulate (512 components), omega antisymmetric",
+                 "Revision/theory/reports/python-field-theory.json",
+                 ["vielbein_postulate", "spin_connection_antisymmetric"],
+                 "(512 components)")
     nonzero = [(mu, a, c) for mu in range(8) for a in range(8) for c in range(a + 1, 8)
                if not is_zero(diagonal["omega"][mu, a, c])]
     omega_diagonal = diagonal["omega"]
     for mu, a, c in nonzero:
         say(f"omega_x{mu + 1},(x{a + 1})(x{c + 1}) = "
             f"{sp.simplify(ETA[a] * omega_diagonal[mu, a, c])}")
-    check(len(nonzero) == 12, "12 independent nonzero components omega_mu,ab (a < b)",
-          record="Revision/theory/reports/wolfram-field-theory.json, check "
-                 "omega_components")
+    check_record(len(nonzero) == 12, "12 independent nonzero components omega_mu,ab (a < b)",
+                 "Revision/theory/reports/wolfram-field-theory.json", "omega_components",
+                 f"exactly {len(nonzero)} independent nonzero omega_mu,ab (a < b)")
+    '''),
+    md(r"""
+    ## 8. The connection vanishes only in flat space: non-triviality
+
+    Every one of the 12 components printed above is $a_4'$ times, or $H$ times, one of
+    the four factors $\pm e^{\pm a_4}\sin^{1/6}z$, and these factors are never zero for
+    $0 < z < \pi/2$ (an exponential is never zero, and $\sin z > 0$ there). The 28
+    matrices $S^{ab}$ ($a < b$) are linearly independent: written as rows of
+    $16 \times 16 = 256$ numbers they have rank 28 (rank: the number of independent
+    rows). So $\Omega_\mu = \frac12\sum\omega_{\mu ab}S^{ab}$ is zero exactly when all
+    its coefficients are. The next cell finds, for each of the 12 components, which of
+    the two shapes it has (it writes `A1` for $a_4'$, the name the Revision record
+    uses), counts six of each, computes the rank of the $S^{ab}$, and so checks, line
+    by line:
+
+    1. each component is $a_4'\cdot(\text{factor})$ or $H\cdot(\text{factor})$, six of
+       each, with a factor that is never zero;
+    2. if $a_4' \neq 0$, the six components of the first kind are not zero; if
+       $H \neq 0$, the six of the second kind are not zero;
+    3. so $\Omega_\mu = 0$ for every $\mu$ if and only if $a_4' = 0$ AND $H = 0$, the
+       formal flat limit. $H = 0$ is not a member of the author's family (the metric
+       degenerates there), so for the author's metric the connection never vanishes.
+
+    This is the core of the non-triviality statements [1] and [2] of the Revision
+    record.
+    """),
+    code(r'''
+    a4_prime = sp.diff(a4, x[3])  # a4' = d a4 / d x4
+    A1 = sp.Symbol("A1", real=True)  # a letter that stands for a4'
+    allowed = [sign * sp.exp(power * a4) * sixth for sign in (1, -1) for power in (1, -1)]
+    kinds = []  # for each component: "A1" (a4' times a factor) or "H" (H times a factor)
+    for mu, a, c in nonzero:
+        value = sp.simplify(ETA[a] * omega_diagonal[mu, a, c]).subs(a4_prime, A1)
+        found = [str(coupling) for coupling in (A1, H) for factor in allowed
+                 if is_zero(value - coupling * factor)]  # which shape fits
+        kinds.append(found[0] if len(found) == 1 else "no shape")
+    n_A1, n_H = kinds.count("A1"), kinds.count("H")
+    report("components of the form a4' x factor and H x factor", f"{n_A1}, {n_H}")
+    S_rows = np.array([[float(v) for v in S_AB[a][c]] for a in range(8)
+                       for c in range(a + 1, 8)])  # 28 rows of 256 numbers
+    rank_S = int(np.linalg.matrix_rank(S_rows))
+    report("rank of the 28 matrices S^ab written as rows of 256 numbers", rank_S)
+    # a4' != 0 makes the six "A1" components nonzero, H != 0 the six "H" components;
+    # with independent S^ab, Omega vanishes for every mu only when a4' = 0 and H = 0.
+    check_record(n_A1 == 6 and n_H == 6 and rank_S == 28,
+                 "Omega_mu = 0 for every mu iff a4' = 0 and H = 0 (formal flat limit)",
+                 "Revision/theory/reports/python-field-theory.json",
+                 "nontriviality_Omega_zero_iff_flat",
+                 "the S^ab are linearly independent",
+                 "every Omega_mu vanishes iff a4' = 0 AND H = 0")
     '''),
     md(r"""
     ## 8. What cancels and what survives

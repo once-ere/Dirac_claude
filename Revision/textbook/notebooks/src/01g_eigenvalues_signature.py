@@ -141,7 +141,7 @@ CELLS = [
     - **Length** (norm) of a vector, $|v| = \sqrt{v_1^2 + \dots + v_n^2}$; a **unit
       vector** has length 1.
     - **Perpendicular** (orthogonal) vectors: $u^T w = \sum_i u_i w_i = 0$.
-    - **Symmetric matrix**: $S^T = S$. **Orthogonal matrix**: $Q^T Q = I$; its
+    - **Symmetric matrix**: $S^T = S$. **Orthogonal matrix**: $O^T O = I$; its
       columns are perpendicular unit vectors.
     - **Complex conjugate** $z^*$ and **conjugate transpose**
       $M^\dagger = (M^*)^T$ (conjugate every entry, then exchange rows and
@@ -558,9 +558,9 @@ CELLS = [
     = \lambda\, u^T w$. Subtracting: $(\lambda - \mu)\, u^T w = 0$, so
     $u^T w = 0$.
 
-    Hence (and one can show this also when eigenvalues repeat) $S = Q \Lambda Q^T$,
+    Hence (and one can show this also when eigenvalues repeat) $S = O \Lambda O^T$,
     with the eigenvalues on the diagonal of $\Lambda$ and the eigenvectors as the
-    columns of an orthogonal matrix $Q$. The next cell checks this on 300 random
+    columns of an orthogonal matrix $O$. The next cell checks this on 300 random
     symmetric $8 \times 8$ matrices $S = A + A^T$ and contrasts them with the 300
     non-symmetric matrices $A$, whose eigenvalues are often complex.
     """),
@@ -575,11 +575,11 @@ CELLS = [
         largest_imaginary = max(largest_imaginary, float(np.max(np.abs(found.imag))))
         symmetric_spectra.append(found.real)
         general_spectra.append(np.linalg.eigvals(A))
-        w, Q = np.linalg.eigh(S)  # eigenvalues w and eigenvectors (columns of Q)
+        w, O = np.linalg.eigh(S)  # eigenvalues w and eigenvectors (columns of O)
         decomposition_error = max(
             decomposition_error,
-            float(np.max(np.abs(Q.T @ Q - np.eye(8)))),
-            float(np.max(np.abs(Q @ np.diag(w) @ Q.T - S))))
+            float(np.max(np.abs(O.T @ O - np.eye(8)))),  # O^T O = I
+            float(np.max(np.abs(O @ np.diag(w) @ O.T - S))))  # O Lambda O^T = S
     general_all = np.concatenate(general_spectra)
     complex_share = float(np.mean(np.abs(general_all.imag) > 1e-9))
     say(f"symmetric: largest imaginary part {largest_imaginary:.1e}; "
@@ -587,7 +587,7 @@ CELLS = [
     check(largest_imaginary < 1e-9, "300 random symmetric matrices: every eigenvalue "
           "is real")
     check(decomposition_error < 1e-12,
-          "S = Q Lambda Q^T with Q^T Q = I for all 300 symmetric matrices")
+          "S = O Lambda O^T with O^T O = I for all 300 symmetric matrices")
     check(complex_share > 0.3, "the non-symmetric matrices have many complex "
           "eigenvalues")
     report("share of complex eigenvalues of 300 random 8 x 8 matrices",
@@ -626,9 +626,9 @@ CELLS = [
 
     A symmetric matrix $S$ defines the quadratic form $Q(v) = v^T S v$. For the
     frame metric, $Q(v) = \eta_{ab} v^a v^b$ is the squared length of notebook
-    01e. In the eigenvector coordinates $v = Q_S w$ (the columns of $Q_S$ are the
+    01e. In the eigenvector coordinates $v = O w$ (the columns of $O$ are the
     eigenvectors of $S$) it becomes $Q = \lambda_1 w_1^2 + \dots + \lambda_n
-    w_n^2$, because $Q_S^T S Q_S = \Lambda$. So the **signature** $(p, q)$, the
+    w_n^2$, because $O^T S O = \Lambda$. So the **signature** $(p, q)$, the
     numbers of positive and negative eigenvalues, says in how many perpendicular
     directions $Q$ is positive and in how many negative.
 
@@ -640,7 +640,8 @@ CELLS = [
     $n - p'$ directions where $Q \leq 0$ for $P^T S P$ (mapped by $P$) would be
     more than $n$ directions in $n$-dimensional space, so they would share a
     nonzero vector, on which $Q > 0$ and $Q \leq 0$ at once, which is impossible;
-    exchanging the roles of the two matrices gives the opposite inequality. So the
+    exchanging the roles of the two matrices gives the opposite inequality, and
+    the same argument for $-S$ counts the negative eigenvalues. So the
     signature (4,4) of the author's spacetime is a property of the spacetime, not
     of the coordinates used to describe it.
 
@@ -822,8 +823,8 @@ CELLS = [
           "(lambda^2 - eta_aa)^8", record="Revision/algebra/reports/python-algebra.json, "
           "check clifford_relation (the relations with equal indices)")
     check(numeric_ok and verdicts["symmetry_pattern"] == "pass",
-          "numpy: +1 and -1 (x1, x2, x3, x8: symmetric matrices) or +i and -i (x4 ... x7: "
-          "antisymmetric matrices), 8 times each",
+          "numpy: +1 and -1 (x1, x2, x3, x8: symmetric matrices) or +i and -i "
+          "(x4 ... x7: antisymmetric matrices), 8 times each",
           record="Revision/algebra/reports/python-algebra.json, check symmetry_pattern")
     '''),
     md(r"""
@@ -955,8 +956,9 @@ CELLS = [
     check(B == -sp.I * C * sp.Matrix(algebra["gamma"][3]),
           "the record's B equals -i C gamma^(x4) computed from its C and gamma^(x4)")
     poly_B = sp.factor(B.charpoly(lam).as_expr())
-    say(f"B: real part zero {sp.Matrix(algebra['B']['re']).is_zero_matrix}, "
-        f"trace {B.trace()}, characteristic polynomial {poly_B}")
+    real_part_zero = sp.Matrix(algebra["B"]["re"]).is_zero_matrix  # True or False
+    say(f"B: real part zero {real_part_zero}, trace {B.trace()}, characteristic "
+        f"polynomial {poly_B}")
     check(B.H == B and B * B == sp.eye(16) and B.trace() == 0
           and sp.expand(poly_B - (lam - 1) ** 8 * (lam + 1) ** 8) == 0,
           "B is Hermitian, B^2 = I, tr B = 0, characteristic polynomial "
@@ -1062,7 +1064,9 @@ CELLS = [
     fig, ax = plt.subplots(figsize=(7.5, 4.4))
     steps_axis = np.arange(1, 41)
     for (label, (distances, ratio)), color in zip(runs.items(), ("tab:red", "tab:blue")):
-        ax.semilogy(steps_axis, distances, "o", color=color, ms=4, label=label)
+        # a distance 0 (exact agreement) is drawn at 1e-17, the bottom of the axis
+        ax.semilogy(steps_axis, np.maximum(distances, 1e-17), "o", color=color, ms=4,
+                    label=label)
         ax.semilogy(steps_axis, distances[0] * ratio ** (steps_axis - 1), "-",
                     color=color, lw=1, label=f"factor {ratio:.3f} per step")
     ax.set_ylim(1e-17, 2.0)
