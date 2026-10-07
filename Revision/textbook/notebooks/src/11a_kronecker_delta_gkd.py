@@ -16,10 +16,12 @@ Revision/gkd_lovelock/code (src/gkd.rs: GKD, kdelta_det, compare_exhaustive,
 compare_random; src/main.rs: the command gkd-selftest), Revision/gkd_lovelock/results/
 (PROVENANCE_OF_THE_COMPUTATION.md, gkd-selftest.json, python-lovelock-report.json,
 wolfram-gkd-report.json) and Revision/gkd_lovelock/verification/check_lovelock_gkd.py.
-The run of "lovelock_gkd gkd-selftest --exhaustive-max 4" takes 7 to 9 minutes on the
-build computer (measured 2026-10-02: 555 s alone, about 430 to 500 s inside nbkit runs),
-most of it in the 200,000 literal
-9 x 9 determinants of the p = 9 test.
+The run of "lovelock_gkd gkd-selftest --exhaustive-max 4" takes 7 to 13 minutes on the
+build computer (measured 2026-10-02: 555 s alone, about 430 to 500 s inside nbkit runs;
+2026-10-07, with the computer busy with other jobs, the parts timed separately by a
+scratch program that calls the crate's own compare_exhaustive and compare_random:
+p <= 4 exhaustive 10.5 s, random p = 5, 6, 7, 8, 9: 0.3, 1.6, 11.1, 79.5, 636.8 s,
+total 739.7 s), most of it in the 200,000 literal 9 x 9 determinants of the p = 9 test.
 """
 
 import sys
@@ -52,7 +54,7 @@ FACTS = {
         "builds the Revision Rust program lovelock_gkd with cargo inside the notebook "
         "(about a minute when the program file is missing, about a second when it is "
         "up to date), runs its GKD self-test (16,777,216 pairs of length 4 compared "
-        "exhaustively; this cell alone takes 7 to 9 minutes) and checks that it "
+        "exhaustively; this cell alone takes 7 to 13 minutes) and checks that it"
         "reproduces the committed Revision record byte for byte; it draws six teaching "
         "figures. The Rust program writes its result file gkd-selftest.json into the "
         "folder `Revision/gkd_lovelock/code/target/textbook_11a`, inside the Rust build "
@@ -79,7 +81,7 @@ FACTS = {
         {"manifest": "Revision/gkd_lovelock/code/Cargo.toml",
          "binaries": ["lovelock_gkd"], "build_minutes": 1},
     ],
-    "expected_seconds": 600,
+    "expected_seconds": 780,
     "timeout_seconds": 3600,
     "files_written": ["Revision/textbook/figures/11a.captions.json"] + [
         f"Revision/textbook/figures/11a_{k}_{name}.png"

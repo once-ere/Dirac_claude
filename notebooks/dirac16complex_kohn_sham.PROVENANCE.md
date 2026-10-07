@@ -631,7 +631,7 @@ a2883b47fd5a4febbf19fe479c1b7afaa1ba001621a0455e946e1682c02294ee  scripts/check_
 
 ### 3.1 What you need
 
-- A 64-bit computer with Windows 10 or 11, macOS, or Linux, and about 2 GB of free disk space: the repository takes about 520 MB after the download, the solver engine 84 MB, the built program 18 MB and the private Python environment about 360 MB.
+- A 64-bit computer with Windows 10 or 11, macOS, or Linux, and about 2 GB of free disk space: the repository takes about 670 MB after the download (measured on 2026-10-07; 197 MB of it is Git's history in the hidden folder `.git`), the solver engine 84 MB, the built program 18 MB and the private Python environment about 360 MB.
 - About 1 GB of free memory (the whole run used at most about 360 MB on the test machine).
 - An internet connection for the installation, for the download of the repository and the solver engine, and for the Python packages. The notebook itself does not use the network.
 - Four programs: **Git**, **Python** 3.11 or newer (tested with 3.14.5 on Windows and 3.12.3 on Linux), **Rust** (tested with `cargo` 1.91.1 on Windows and 1.93.1 on Linux) and, on Windows, the **Microsoft C++ build tools** that Rust needs for linking. You do **not** need Wolfram software or Mathematica for this notebook.
@@ -686,7 +686,7 @@ git clone https://github.com/once-ere/Dirac_claude.git
 cd Dirac_claude
 ```
 
-The download is about 130 MB and took 8 seconds on the test machine. The folder `Dirac_claude` is the **repository root**: every command below must be typed there. (If the folder already exists from an earlier download, type `cd Dirac_claude` and then `git pull` to update it.)
+The download is about 200 MB and took 8 to 16 seconds on the test machine. The folder `Dirac_claude` is the **repository root**: every command below must be typed there. (If the folder already exists from an earlier download, type `cd Dirac_claude` and then `git pull` to update it.)
 
 ### 3.7 Download the solver engine
 
@@ -746,7 +746,7 @@ python3 -m venv build/ks-venv
 build/ks-venv/bin/python -m pip install numpy==2.4.6 matplotlib==3.11.0 pillow==12.2.0 contourpy==1.3.3 kiwisolver==1.5.0 fonttools==4.63.0 pyparsing==3.3.2 nbformat==5.10.4 nbclient==0.10.2 nbconvert==7.16.6 ipykernel==7.1.0 ipython==9.7.0 jupyter_client==8.6.3 pyzmq==27.1.0 tornado==6.5.2 traitlets==5.14.3 pygments==2.19.2 jupyterlab==4.4.10
 ```
 
-The installation takes about a minute and ends with a line that begins `Successfully installed`. (A notice that a newer `pip` is available can be ignored.) What the packages are for: `numpy` (arrays and numerics) and `matplotlib` with `pillow`, `contourpy`, `kiwisolver`, `fonttools` and `pyparsing` (the figures); `nbformat`, `nbclient`, `nbconvert`, `ipykernel`, `ipython`, `jupyter_client`, `pyzmq`, `tornado` and `traitlets` (reading and executing notebooks: the "kernel" is the Python process that executes the cells); `pygments` (colours in error messages); `jupyterlab` (the browser interface). The versions are pinned because they matter: with `ipython` 9.17.1 instead of 9.7.0 the error message at the end of the notebook shows one more line of code context, so the executed notebook is no longer byte-identical (Section 6.4, run 2).
+The installation takes one to three minutes on Windows (51 to 149 seconds measured, with the packages already in pip's download cache; a first download takes longer) and ends with a line that begins `Successfully installed`. (A notice that a newer `pip` is available can be ignored.) What the packages are for: `numpy` (arrays and numerics) and `matplotlib` with `pillow`, `contourpy`, `kiwisolver`, `fonttools` and `pyparsing` (the figures); `nbformat`, `nbclient`, `nbconvert`, `ipykernel`, `ipython`, `jupyter_client`, `pyzmq`, `tornado` and `traitlets` (reading and executing notebooks: the "kernel" is the Python process that executes the cells); `pygments` (colours in error messages); `jupyterlab` (the browser interface). The versions are pinned because they matter: with `ipython` 9.17.1 instead of 9.7.0 the error message at the end of the notebook shows one more line of code context, so the executed notebook is no longer byte-identical (Section 6.4, run 2).
 
 Check that the environment has the Jupyter kernel:
 
