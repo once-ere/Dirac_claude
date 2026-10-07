@@ -75,6 +75,10 @@ components of Pin(4,4)); displays the 8 matrices, sigma16, T16A[8], the 28 pair 
 gamma source in the repository equals them.  Test `tests/test_dirac_matrices_provenance.py`; verified from a fresh clone.
 Then both workflows were RELAUNCHED from scratch with SP of this session: textbook run wf_bf3a3e31-ec0, execution provenance
 run wf_f856ecb5-265 (agents inspect and finish the existing partial files).  After them: Revision wave 1b, then wave 2.
+Also RUNNING: `Revision/workflows/dirac_matrices_audit.js` (run wf_5ccefead-ea3): adversarial audit of `provenance/dirac matrices.md`
+(notebook fidelity incl. later redefinitions and stored Out cells; the mathematics incl. the Pin(4,4) argument; COVERAGE of every
+gamma-matrix source in the repository incl. Rust and .nb; fresh-clone reproducibility), two skeptics per finding, one fixer owning
+provenance/dirac_matrices/*, the .md and its test, then a fresh-clone verifier.  If lost: relaunch with the new SP.
 
 ### 0.4f STATE 2026-10-03 (after the session limit)
 
