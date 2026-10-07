@@ -419,8 +419,9 @@ CELLS = [
     arithmetic the rounding of the sum is about $10^{-40} N$, which moves the root by
     about $10^{-40}\,N/(dN/d\mu) < 10^{-33}$: far below anything a double can hold (two
     40-digit computations that add in a different order may therefore differ by about
-    $10^{-33}$, so the cell compares 40-digit roots to $10^{-32}$). The cell computes the root from the Rust levels and from the reference levels and
-    compares them with three records: the fixture `mermin-roots-40digit.json` of the
+    $10^{-33}$, so the cell compares 40-digit roots to $10^{-32}$). The cell computes
+    the root from the Rust levels and from the reference levels and compares them with
+    three records: the fixture `mermin-roots-40digit.json` of the
     Rust solver (made from exactly the same doubles), the checker's own 40-digit
     function `mu_high_precision` (imported from `crosscheck_ks.py`), and the row
     `N8_lamm1_a00_T10 mu_high_precision` of the cross-check table.

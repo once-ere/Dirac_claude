@@ -63,14 +63,15 @@ FACTS = {
         "pair sums zero, a general cubic potential, a random general field) with its "
         "negative controls, and the pairing theorem T2 across the Z2 mirror z to pi "
         "minus z (L to plus L_-m,lambda, S reversed, T and J pulled back, not "
-        "reversed). It reproduces 33 checks of the sympy pairing report and the "
+        f"reversed). It reproduces {len(PY_CHECKS)} checks of the sympy pairing "
+        "report and the "
         "monomial counts and checks of the Wolfram pairing report, and draws five "
         "teaching figures."
     ),
     "records": [
         ["Revision/algebra/gammas.json", "the author's gamma matrices (read)"],
         ["Revision/pairing/reports/python-pairing.json",
-         "the 33 checks " + ", ".join(PY_CHECKS) + " (reproduced; the nonzero spin "
+         f"the {len(PY_CHECKS)} checks " + ", ".join(PY_CHECKS) + " (reproduced; the nonzero spin "
          "connection components are compared with the recorded list word for word)"],
         ["Revision/pairing/reports/wolfram-pairing.json",
          "checks primordial_vielbein, connection_primordial, connection_mirror_patch, "
@@ -215,9 +216,9 @@ CELLS = [
 
     The field equation is $E_{m,\lambda} = 0$. $T_{\mu\nu}$ and $J^\mu$ are written
     exactly as in the sympy pairing report of the Revision record; another overall
-    sign or factor (the energy density of the theory record is $\rho =
-    T_{x_4x_4}$ of this convention up to the sign) changes nothing below, because
-    every statement is of the form $T' = \pm T$, $J' = \pm J$.
+    sign or factor changes nothing below, because every statement is of the form
+    $T' = \pm T$, $J' = \pm J$. (In this convention the energy density of the theory
+    record is $\rho = -T_{x_4x_4}$.)
 
     **Why a polynomial identity in the jet is a proof.** Every quantity above, at a
     point, is a polynomial in the 288 jet values whose coefficients are functions of
@@ -828,14 +829,16 @@ CELLS = [
     code(r'''
     SAMPLE = {z: sp.Rational(7, 10), H: sp.Rational(13, 10), m: sp.Rational(11, 10),
               lam: sp.Rational(3, 5)}  # a sample point for counting only
-    SAMPLE_A4 = {sp.Derivative(a4, x4): sp.Rational(9, 10), a4: sp.Rational(2, 5)}
+    SAMPLE_A4 = {"a4p": sp.Rational(9, 10), "a4": sp.Rational(2, 5)}
 
 
     def count_nonzero(element):
         """The number of monomials whose coefficient is not zero at the sample."""
         n = 0
         for c in element.terms.values():
-            value = complex(sp.N(c.subs(SAMPLE_A4).subs(SAMPLE), 30))
+            c = c.subs(sp.Derivative(a4, x4), SAMPLE_A4["a4p"])  # a4' first,
+            c = c.subs(a4, SAMPLE_A4["a4"]).subs(SAMPLE)  # then a4 and the rest
+            value = complex(sp.N(c, 30))
             n += abs(value) > 1e-20
         return n
 

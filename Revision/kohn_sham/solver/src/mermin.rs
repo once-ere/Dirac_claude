@@ -25,23 +25,37 @@
 //! O(n eps_mach T) plus the spacing of the doubles at mu.  `Root::bound` states
 //! this bound for every solve, `Root::bound_direct` the bound of the direct count.
 //!
-//! The rounding bound (first order in eps_mach = 2^-52 = 2u, u the unit roundoff):
-//!   bound = (n + 2) eps_mach (P + Hl + |d|)/(dN/dmu) + eps_mach <|eps - mu|>
-//!           + 2 eps_mach |mu|,
-//! n the number of levels and <.> the mean weighted with g f (1 - f), i.e.
-//! <|eps - mu|> = sum g f (1 - f) |eps - mu| / sum g f (1 - f).  The three terms:
-//! (i) the summation (n u relative) and the evaluation of each term (exp,
-//! ln_1p, division: a few u relative) give |delta R| <= (n + 2) eps_mach
-//! (P + Hl + |d|) (the same in the log domain, where Lambda = ln A - ln B and
-//! A = B at the root); (ii) the arguments x_i = (eps_i - mu)/T are rounded by
-//! the subtraction and the division, |delta x_i| <= 2u |x_i| = eps_mach |x_i|,
-//! which moves R by sum g f (1 - f) eps_mach |x_i| and mu by
-//! eps_mach <|eps - mu|>; (iii) the root is returned as one of two adjacent
-//! doubles, |delta mu| <= 2 eps_mach |mu|.  A change of R by delta R moves the
-//! root by delta R/(dN/dmu).  The direct count has the same terms with
-//! P + Hl + |d| replaced by N (its terms are the occupations themselves).  The
-//! bound is checked against 40-digit roots for every thermal state of the
-//! canonical matrix (tools/mermin_roots_mp.py) and in the unit tests below.
+//! The rounding bound (first order in eps_mach = 2^-52 = 2u, u the unit
+//! roundoff; one formula, with generous constants, for the two well-conditioned
+//! forms below):
+//!   bound = eps_mach [ (n + 2 + L) (P + Hl + |d|)/(dN/dmu) + 3 <|eps - mu|>
+//!                      + T (ln g_max + 3) + 2 |mu| ],
+//! n the number of levels, g_max the largest degeneracy, <.> the mean weighted
+//! with w = g f (1 - f) (so dN/dmu = sum w / T), L = max(|ln A|, |ln B|) with
+//! A = P + d-, B = Hl + d+ (the two sides of the balance, equal at the root).
+//! A relative error rho_i of term i moves the residual by term_i rho_i <=
+//! 2 w_i rho_i, and a change delta R moves the root by delta R/(dN/dmu).
+//! (i) The arguments x_i = (eps_i - mu)/T are rounded by the subtraction and
+//! the division, |delta x_i| <= 2u |x_i|; that moves R by exactly
+//! w_i delta x_i, i.e. mu by at most eps_mach <|eps - mu|>.
+//! (ii) The log domain of `LogBalance` (softplus x + ln_1p(e^-|x|), ln g minus
+//! softplus, the shift by the largest term, exp) adds per term the relative
+//! error u (2 |x_i| + ln g_i + 3 + |t_i - t_max|): at most 2 eps_mach
+//! <|eps - mu|> + eps_mach T (ln g_max + 3) in mu; the terms far below the
+//! largest, t_i << t_max, carry the weight e^{t_i - t_max}, and
+//! |t| e^{-|t|} <= 1/e, which is counted in (iii).
+//! (iii) The summation (n u relative), the logarithms and the addition of the
+//! shift (u (|ln A| + |ln B|) absolute in Lambda): at the root
+//! A = B = (P + Hl + |d|)/2 and dLambda/dmu = (dN/dmu)/A, so mu moves by at most
+//! eps_mach (n + 2 + L) (P + Hl + |d|)/(dN/dmu); in `LinearDeviation` the
+//! summation alone gives (n + 3) u (P + Hl + |d|).
+//! (iv) The root is returned as one of two adjacent doubles: |delta mu| <=
+//! eps_mach |mu|, counted twice.
+//! The direct count (a linear form whose terms are the occupations) has the
+//! bound eps_mach [ (n + 2) N/(dN/dmu) + 3 <|eps - mu|> + T (ln g_max + 3)
+//! + 2 |mu| ].  The bounds are checked against 40-digit roots for every thermal
+//! state of the canonical matrix (tools/mermin_roots_mp.py evaluates them
+//! independently at the 40-digit root) and in the unit tests below.
 //!
 //! Two exactly equivalent forms with different rounding paths:
 //! * `LogBalance` (canonical numerics): Lambda(mu) = ln(P + d-) - ln(Hl + d+),
@@ -93,9 +107,9 @@ pub struct Root {
     /// the size of the terms of the well-conditioned residual
     pub magnitude: f64,
     /// rounding bound of the well-conditioned forms (module documentation):
-    /// (n + 2) eps_mach magnitude/(dN/dmu) + eps_mach <|eps - mu|> + 2 eps_mach |mu|
+    /// eps_mach [(n + 2 + L) magnitude/(dN/dmu) + 3 <|eps - mu|> + T (ln g_max + 3) + 2 |mu|]
     pub bound: f64,
-    /// rounding bound of the direct count: (n + 2) eps_mach N/(dN/dmu) + eps_mach <|eps - mu|> + 2 eps_mach |mu|
+    /// rounding bound of the direct count: eps_mach [(n + 2) N/(dN/dmu) + 3 <|eps - mu|> + T (ln g_max + 3) + 2 |mu|]
     pub bound_direct: f64,
     /// split passes used (1 if the T = 0 filling already brackets the root)
     pub passes: usize,
@@ -352,30 +366,50 @@ impl<'a> Problem<'a> {
     }
 
     /// dN/dmu, P + Hl + |d| (split k: the first k levels) and the two rounding bounds at mu
-    /// (module documentation: summation and evaluation, rounded arguments, adjacent doubles).
+    /// (module documentation: (i) rounded arguments, (ii) log domain, (iii) summation, logarithms
+    /// and shift, (iv) adjacent doubles).
     fn bounds(&self, mu: f64, k: usize) -> (f64, f64, f64, f64) {
         let d = self.deficit(k);
-        let (mut w, mut wx, mut ps, mut hs) = (0.0, 0.0, 0.0, 0.0);
+        let (mut w, mut wx, mut ps, mut hs, mut gmax) = (0.0, 0.0, 0.0, 0.0, 0.0f64);
+        // logarithms of the terms of A = P + d- and B = Hl + d+ (log domain: no underflow)
+        let (mut la, mut lb) = (Vec::with_capacity(self.order.len() + 1), Vec::with_capacity(self.order.len() + 1));
         for (pos, &i) in self.order.iter().enumerate() {
             let x = self.x(i, mu);
             let (spx, spm) = softplus_pair(x);
+            let lg = self.deg[i].ln();
+            gmax = gmax.max(self.deg[i]);
             // weight g f (1 - f) of the level in dN/dmu, and the same weight times |eps - mu|
             let wi = self.deg[i] * (-spx - spm).exp();
             w += wi;
             wx += wi * (self.eps[i] - mu).abs();
             if pos < k {
                 hs += self.deg[i] * fermi(-x);
+                lb.push(lg - spm);
             } else {
                 ps += self.deg[i] * fermi(x);
+                la.push(lg - spx);
             }
         }
+        if d < 0.0 {
+            la.push((-d).ln());
+        }
+        if d > 0.0 {
+            lb.push(d.ln());
+        }
+        let lse = |v: &[f64]| -> f64 {
+            let m = v.iter().fold(f64::NEG_INFINITY, |a, &t| a.max(t));
+            if !m.is_finite() {
+                return m;
+            }
+            m + v.iter().map(|&t| (t - m).exp()).sum::<f64>().ln()
+        };
+        let big_l = lse(&la).abs().max(lse(&lb).abs());
         let dn = w / self.t;
         let mag = ps + hs + d.abs();
-        let m = self.order.len() as f64 + 2.0;
-        let ulp = 2.0 * f64::EPSILON * mu.abs();
-        let (b, bd) = if dn > 0.0 {
-            let args = f64::EPSILON * wx / w;
-            (m * f64::EPSILON * mag / dn + args + ulp, m * f64::EPSILON * self.n / dn + args + ulp)
+        let nl = self.order.len() as f64;
+        let (b, bd) = if dn > 0.0 && big_l.is_finite() {
+            let common = f64::EPSILON * (3.0 * wx / w + self.t * (gmax.ln() + 3.0) + 2.0 * mu.abs());
+            (f64::EPSILON * (nl + 2.0 + big_l) * mag / dn + common, f64::EPSILON * (nl + 2.0) * self.n / dn + common)
         } else {
             (f64::INFINITY, f64::INFINITY)
         };
