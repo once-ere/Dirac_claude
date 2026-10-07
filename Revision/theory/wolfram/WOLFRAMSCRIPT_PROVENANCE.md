@@ -383,7 +383,7 @@ shown, then `TotalSeconds`; `$LASTEXITCODE` afterwards still gives the exit code
   `wolframscript -code '1+1'`), with exit code 1: this was observed intermittently on 2026-10-02 while 10
   to 20 other Wolfram kernels were running (2 of 11 short `-code` tests; none of the complete `-file` runs
   of this set); on 2026-10-07 it did not occur (0 of 10 short `-code` tests at 100 percent CPU load, none
-  of the 15 `-file` runs). If it appears and the line just BEFORE it is the verdict line
+  of the 17 `-file` runs). If it appears and the line just BEFORE it is the verdict line
   `84/84 checks passed; ...` (or `15/15 checks passed; ...`), all other lines are as in section 4, and
   steps 2 and 3 of section 3.6 succeed, then the outputs are correct and the exit code 1 came from
   WolframScript after the script had ended; otherwise run the script again.
@@ -639,7 +639,7 @@ section 6.4) ran at the same time. On a quiet machine expect much shorter times:
 The wall time includes about 5 to 10 s for starting the Wolfram kernel. In run 2 of `verify_scope.wls`
 of 2026-10-07 the sampler saw two kernel processes under `wolframscript` (peaks 171 MB and 68 MB); in
 all other runs it saw one. The `wolframscript` process itself used 17 MB. Further runs of
-`verify_scope.wls` on 2026-10-07 (section 6.4) took 40.8 to 53.3 s of wall time. Time per section of
+`verify_scope.wls` on 2026-10-07 (section 6.4) took 33.5 to 53.3 s of wall time. Time per section of
 `verify_field_theory.wls` in run 1 of 2026-10-07: 444.5 s for `energy-momentum tensor by vielbein
 variation`, 910.8 s for `Noether identities`, 72.2 s for `EMT components`, 1005.4 s for `exact solutions
 and conservation`, 12.6 s for `canonical quantisation`, and 44.5 s for all other sections together.
@@ -825,9 +825,12 @@ printed `OpenWrite::noopen`, `BinaryWrite::stream` and `Close::stream`, then the
 The POSIX-shell forms of the check commands of section 3.6 were run in Git Bash on the verification
 machine in clone 1 after its runs: `grep '"summary"' ...` printed the two summary lines, `sha256sum ...`
 the hashes of section 2.3 (Git Bash marks each file name with `*`; on Linux the separator is two
-spaces), and `git status --porcelain Revision/theory` printed nothing. On 2026-10-02 the POSIX forms of
-the run commands (`time wolframscript -file ...`, `echo "exit code: $?"`) were also run in Git Bash. They
-were not executed on macOS or Linux themselves. The PowerShell forms were run in PowerShell 7.6.6;
+spaces), and `git status --porcelain Revision/theory` printed nothing. The POSIX forms of the run
+commands were run in Git Bash in the third clone: `time wolframscript -file
+Revision/theory/wolfram/verify_scope.wls` (15/15, `real 0m33.498s`) and `wolframscript -file
+Revision/theory/wolfram/verify_scope.wls` followed by `echo "exit code: $?"` (15/15, `exit code: 0`);
+`git status --porcelain --ignored` printed nothing afterwards. None of the commands was executed on macOS
+or Linux themselves. The PowerShell forms were run in PowerShell 7.6.6;
 `Get-FileHash <three files>` without `| Format-List Hash, Path`, formatted at a width of 120 characters,
 cut every path to 33 characters (`C:\Users\nsh\AppData\Local\Temp\` and an ellipsis character in 7.6.6,
 `C:\Users\nsh\AppData\Local\Tem...` in Windows PowerShell 5.1), while `| Format-List Hash, Path` printed

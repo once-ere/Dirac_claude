@@ -7,18 +7,18 @@ This file is the provenance record of the notebook `Revision/textbook/notebooks/
 
 ## 1. What the notebook computes
 
-It shows with small experiments why the notebooks of the textbook print the same numbers and write the same files every time they run: how the computer rounds decimal numbers, why the order of a sum changes its last digits (so that checks allow a tolerance), how a seed fixes random numbers, why names are sorted before they are printed, and why every file is written with the same line ends. It reproduces the tolerance, line-end, fingerprint and repeat checks of the Revision Kohn-Sham record (eight measured differences below their tolerances, 584 result files of two solvers without CR LF line ends, 582 recorded sha256 fingerprints equal to the files of today) and draws five teaching plots.
+It shows with small experiments why the notebooks of the textbook print the same numbers and write the same files every time they run: how the computer rounds decimal numbers, why the order of a sum changes its last digits (so that checks allow a tolerance), how a seed fixes random numbers, why names are sorted before they are printed, and why every file is written with the same line ends. It reproduces the tolerance, line-end, fingerprint and repeat checks of the Revision Kohn-Sham record (eight measured differences below their tolerances, a negative control that shows how one shared rounding path hid an error, 584 result files of two solvers without CR LF line ends, 582 recorded sha256 fingerprints equal to the files of today, two repeat runs byte for byte) and draws six teaching plots.
 
 It reads or reproduces these Revision records:
 
-- `Revision/kohn_sham/reports/ks-rust-determinism.json`: the refined run of the Rust Kohn-Sham solver: its eight comparisons `refined_ground_energies` to `refined_heat_capacity` with their tolerances, and its checks `refined_mermin_root_path` and `outputs_lf_only`
+- `Revision/kohn_sham/reports/ks-rust-determinism.json`: the repeat run and the refined run of the Rust Kohn-Sham solver: its eight comparisons `refined_ground_energies` to `refined_heat_capacity` with their tolerances, the negative control of its check `refined_mermin_root_path`, and its checks `outputs_lf_only` and `repeat_byte_identical`
 - `Revision/kohn_sham/reports/ks-crosscheck.json`: its key `rust_matrix_wide_uncertainties` (the eight measured differences) and its checks `reference_outputs_lf_only`, `reference_manifest` and `reference_repeat_byte_identical`
 - `Revision/kohn_sham/results`: the result files of the Rust solver: counted, measured, searched for CR LF line ends and fingerprinted
 - `Revision/kohn_sham/results/manifest.json`: the sha256 fingerprints of the other result files of the Rust solver
 - `Revision/kohn_sham/reference/results`: the result files of the independent Python reference solver: counted, measured, searched for CR LF line ends and fingerprinted
 - `Revision/kohn_sham/reference/results/manifest.json`: the sha256 fingerprints of the other result files of the reference solver
 
-The notebook has 36 cells (20 markdown cells and 16 code cells) in these sections:
+The notebook has 38 cells (21 markdown cells and 17 code cells) in these sections:
 
 - 1. What this notebook computes
 - 2. How to run this notebook
@@ -35,7 +35,7 @@ The notebook has 36 cells (20 markdown cells and 16 code cells) in these section
 - 13. The last check
 - 14. What this notebook showed
 
-It prints 21 PASS lines (one per check), 19 RESULT lines (key numbers) and draws 5 figures.
+It prints 22 PASS lines (one per check), 21 RESULT lines (key numbers) and draws 6 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -43,7 +43,7 @@ These are the same instructions that the book prints just before the text of the
 
 **Step 1. What this notebook does and what it needs.**
 
-Notebook 00d (Why every run gives the same bytes: rounding, order, seeds and line ends) is the file `Revision/textbook/notebooks/00d_reproducible_runs.ipynb` of the repository Dirac_claude. It shows with small experiments why the notebooks of the textbook print the same numbers and write the same files every time they run: how the computer rounds decimal numbers, why the order of a sum changes its last digits (so that checks allow a tolerance), how a seed fixes random numbers, why names are sorted before they are printed, and why every file is written with the same line ends. It reproduces the tolerance, line-end, fingerprint and repeat checks of the Revision Kohn-Sham record (eight measured differences below their tolerances, 584 result files of two solvers without CR LF line ends, 582 recorded sha256 fingerprints equal to the files of today) and draws five teaching plots. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
+Notebook 00d (Why every run gives the same bytes: rounding, order, seeds and line ends) is the file `Revision/textbook/notebooks/00d_reproducible_runs.ipynb` of the repository Dirac_claude. It shows with small experiments why the notebooks of the textbook print the same numbers and write the same files every time they run: how the computer rounds decimal numbers, why the order of a sum changes its last digits (so that checks allow a tolerance), how a seed fixes random numbers, why names are sorted before they are printed, and why every file is written with the same line ends. It reproduces the tolerance, line-end, fingerprint and repeat checks of the Revision Kohn-Sham record (eight measured differences below their tolerances, a negative control that shows how one shared rounding path hid an error, 584 result files of two solvers without CR LF line ends, 582 recorded sha256 fingerprints equal to the files of today, two repeat runs byte for byte) and draws six teaching plots. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
 
 **Step 2. Install Git and Python (once per computer).**
 
@@ -191,8 +191,9 @@ The notebook writes (or overwrites) these files:
 - `Revision/textbook/figures/00d_1_float_spacing.png`
 - `Revision/textbook/figures/00d_2_summation_order.png`
 - `Revision/textbook/figures/00d_3_tolerances.png`
-- `Revision/textbook/figures/00d_4_seeded_walks.png`
-- `Revision/textbook/figures/00d_5_set_orders.png`
+- `Revision/textbook/figures/00d_4_shared_rounding.png`
+- `Revision/textbook/figures/00d_5_seeded_walks.png`
+- `Revision/textbook/figures/00d_6_set_orders.png`
 
 It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
@@ -205,11 +206,11 @@ git checkout -- Revision/textbook
 Every check of the notebook prints a line that starts with PASS. At the end of the notebook (the output of its last code cell) you must see exactly these lines:
 
 ```text
-PASS the five figure files of this notebook exist
-ALL 21 CHECKS PASSED (notebook 00d)
+PASS the six figure files of this notebook exist
+ALL 22 CHECKS PASSED (notebook 00d)
 ```
 
-and the notebook must show 5 figures below the cells that draw them.
+and the notebook must show 6 figures below the cells that draw them.
 
 **Step 8. If something goes wrong.**
 
@@ -259,28 +260,31 @@ In [6]  PASS the three sums agree to a relative 1e-13: a tolerance of 1e-12 acce
 In [7]  PASS each of the eight measured differences of the record is below its tolerance
 In [7]       reproduces Revision/kohn_sham/reports/ks-rust-determinism.json, checks
 In [7]      refined_ground_energies to refined_heat_capacity
-In [8]  PASS the record: one rounding path in both runs hid an error of 8.3e-10 m
-In [8]       reproduces Revision/kohn_sham/reports/ks-rust-determinism.json, check
-In [8]      refined_mermin_root_path
-In [10]  PASS two generators with the same seed give the same 400 steps
-In [10]  PASS a generator with another seed gives other steps
-In [11]  PASS the same hash seed gives the same order
-In [11]  PASS different hash seeds give different orders of the same set
-In [11]  PASS sorted, the names come in the same order x1 ... x8 in every run
-In [13]  PASS the same two lines with LF and with CR LF line ends are different bytes
-In [14]  PASS none of the 244 Rust result files has CR LF line ends
-In [14]       reproduces Revision/kohn_sham/reports/ks-rust-determinism.json, check
-In [14]      outputs_lf_only
-In [14]  PASS none of the 340 reference result files has CR LF line ends
-In [14]       reproduces Revision/kohn_sham/reports/ks-crosscheck.json, check
-In [14]      reference_outputs_lf_only
-In [15]  PASS the 243 fingerprints of the Rust manifest equal today's files
-In [15]  PASS the 339 fingerprints of the reference manifest equal today's files
-In [15]       reproduces Revision/kohn_sham/reports/ks-crosscheck.json, check reference_manifest
-In [15]  PASS a second run of the reference solver gave the same 340 files, byte for byte
+In [9]  PASS one shared rounding path hid errors up to 8.3e-10 m; two paths show them
+In [9]       reproduces Revision/kohn_sham/reports/ks-rust-determinism.json, check
+In [9]      refined_mermin_root_path
+In [11]  PASS two generators with the same seed give the same 400 steps
+In [11]  PASS a generator with another seed gives other steps
+In [12]  PASS the same hash seed gives the same order
+In [12]  PASS different hash seeds give different orders of the same set
+In [12]  PASS sorted, the names come in the same order x1 ... x8 in every run
+In [14]  PASS the same two lines with LF and with CR LF line ends are different bytes
+In [15]  PASS none of the 244 Rust result files has CR LF line ends
+In [15]       reproduces Revision/kohn_sham/reports/ks-rust-determinism.json, check
+In [15]      outputs_lf_only
+In [15]  PASS none of the 340 reference result files has CR LF line ends
 In [15]       reproduces Revision/kohn_sham/reports/ks-crosscheck.json, check
-In [15]      reference_repeat_byte_identical
-In [16]  PASS the five figure files of this notebook exist
+In [15]      reference_outputs_lf_only
+In [16]  PASS the 243 fingerprints of the Rust manifest equal today's files
+In [16]  PASS the 339 fingerprints of the reference manifest equal today's files
+In [16]       reproduces Revision/kohn_sham/reports/ks-crosscheck.json, check reference_manifest
+In [16]  PASS a second run of the Rust solver gave the same 244 files (5857791 bytes)
+In [16]       reproduces Revision/kohn_sham/reports/ks-rust-determinism.json, check
+In [16]      repeat_byte_identical
+In [16]  PASS a second run of the reference solver gave the same 340 files, byte for byte
+In [16]       reproduces Revision/kohn_sham/reports/ks-crosscheck.json, check
+In [16]      reference_repeat_byte_identical
+In [17]  PASS the six figure files of this notebook exist
 ```
 
 ### 3.2 Key numbers
@@ -292,21 +296,23 @@ In [2]  RESULT (0.1 + 0.2) - 0.3 = 5.551115123125783e-17
 In [3]  RESULT machine epsilon = 2.220446049250313e-16
 In [5]  RESULT largest forward error in ulps = 196
 In [5]  RESULT largest backward error in ulps = 1
+In [5]  RESULT largest pairwise error in ulps = 3
 In [5]  RESULT pi^2/6 minus the exact sum of 10^6 numbers = 9.999995e-07
 In [6]  RESULT largest relative difference of the three sums of 10^6 numbers = 2.65e-14
-In [7]  RESULT smallest margin (tolerance / measured difference) = 5
-In [11]  RESULT distinct orders among the 12 runs = 12
-In [14]  RESULT Rust result files = 244
-In [14]  RESULT their size = 5857791 bytes
-In [14]  RESULT Rust result files with CR LF line ends = 0
-In [14]  RESULT reference result files = 340
-In [14]  RESULT their size = 24125750 bytes
-In [14]  RESULT reference result files with CR LF line ends = 0
-In [15]  RESULT Rust results: fingerprints compared = 243
-In [15]  RESULT Rust results: files that differ = 0
-In [15]  RESULT reference results: fingerprints compared = 339
-In [15]  RESULT reference results: files that differ = 0
-In [15]  RESULT fingerprints compared in all = 582
+In [7]  RESULT smallest margin (tolerance / measured difference) = 4.7
+In [9]  RESULT largest error that one shared rounding path hid = 8.267e-10 m
+In [12]  RESULT distinct orders among the 12 runs = 12
+In [15]  RESULT Rust result files = 244
+In [15]  RESULT size of the Rust result files = 5857791 bytes
+In [15]  RESULT Rust result files with CR LF line ends = 0
+In [15]  RESULT reference result files = 340
+In [15]  RESULT size of the reference result files = 24125750 bytes
+In [15]  RESULT reference result files with CR LF line ends = 0
+In [16]  RESULT Rust results: fingerprints compared = 243
+In [16]  RESULT Rust results: files that differ = 0
+In [16]  RESULT reference results: fingerprints compared = 339
+In [16]  RESULT reference results: files that differ = 0
+In [16]  RESULT fingerprints compared in all = 582
 ```
 
 ### 3.3 The last lines
@@ -314,19 +320,20 @@ In [15]  RESULT fingerprints compared in all = 582
 The last code cell ends with exactly these lines:
 
 ```text
-PASS the five figure files of this notebook exist
-ALL 21 CHECKS PASSED (notebook 00d)
+PASS the six figure files of this notebook exist
+ALL 22 CHECKS PASSED (notebook 00d)
 ```
 
 ### 3.4 Figures
 
-The notebook shows 5 figures, each below the cell that draws it, and saves each as a PNG file (150 dots per inch, no metadata):
+The notebook shows 6 figures, each below the cell that draws it, and saves each as a PNG file (150 dots per inch, no metadata):
 
 - `Revision/textbook/figures/00d_1_float_spacing.png` (946 x 615 pixels): The gap between a floating-point number $x$ and the next larger stored number (blue staircase) for $x$ from $10^{-3}$ to $10^{6}$, on logarithmic axes (both pure numbers), with the lines $\epsilon x$ (dashed) and $\epsilon x/2$ (dotted), $\epsilon = 2^{-52}$. The gap is constant between two powers of 2 and doubles at each of them, so it always lies between the two lines: every stored number carries about 16 significant digits, whatever its size.
-- `Revision/textbook/figures/00d_2_summation_order.png` (926 x 619 pixels): The rounding error of the sum $1 + 1/4 + 1/9 + \cdots + 1/N^2$ in units of the last place (vertical axis, ulps, the gap between neighbouring stored numbers at the sum) against the number of terms $N$ from 10 to $10^{6}$ (horizontal axis, logarithmic), measured from the exactly rounded sum: forwards with the largest term first (blue circles), backwards with the smallest term first (orange squares), and pairwise as numpy adds (aqua triangles). The forward error grows to about 200 ulps, a relative error of a few times $10^{-14}$; the other two stay within one ulp. Same numbers, different order, different last digits.
-- `Revision/textbook/figures/00d_3_tolerances.png` (1115 x 661 pixels): The eight comparisons between the canonical and the refined run of the Revision record's Kohn-Sham solver (one row each): the largest measured difference (blue dot) and the tolerance fixed before the comparison (black bar), on a logarithmic horizontal axis (relative differences, or level differences in units of the mass $m$). Every dot lies to the left of its bar: the measured differences are between 4.7 and 7692 times smaller than their tolerances. The grey line from a dot to its bar is this margin.
-- `Revision/textbook/figures/00d_4_seeded_walks.png` (931 x 611 pixels): Three random walks of 400 steps of $+1$ or $-1$ (horizontal axis the step number, vertical axis the position, the sum of the steps so far; pure numbers). The thick blue walk and the dashed yellow walk come from two separate generators started with the same seed 12345: they are identical, step for step, so the yellow line lies on the blue one. The orange walk, from the seed 2026, is different. A fixed seed makes random numbers repeat exactly in every run.
-- `Revision/textbook/figures/00d_5_set_orders.png` (1103 x 819 pixels): The order in which twelve separate runs of Python print the same set of the eight names $x_1, \ldots, x_8$ (one row per run, labelled by its hash seed PYTHONHASHSEED from 0 to 11; horizontal axis the place 1 to 8 in the printed order; each square coloured by its name, from dark violet for $x_1$ to yellow for $x_8$). Every run prints another order, so the rows are scrambled differently; the bottom row, the sorted order, is the same in every run.
+- `Revision/textbook/figures/00d_2_summation_order.png` (926 x 619 pixels): The rounding error of the sum $1 + 1/4 + 1/9 + \cdots + 1/N^2$ in units of the last place (vertical axis, ulps, the gap between neighbouring stored numbers at the sum) against the number of terms $N$ from 10 to $10^{6}$ (horizontal axis, logarithmic), measured from the exactly rounded sum: forwards with the largest term first (blue circles), backwards with the smallest term first (orange squares), and pairwise as numpy adds (aqua triangles). The forward error grows to 196 ulps, a relative error of a few times $10^{-14}$; the backward error stays within 1 ulp and the pairwise error within 3 ulps. Same numbers, different order, different last digits.
+- `Revision/textbook/figures/00d_3_tolerances.png` (1115 x 725 pixels): The eight comparisons between the canonical and the refined run of the Revision record's Kohn-Sham solver (one row each): the largest measured difference (blue dot) and the tolerance fixed before the comparison (black bar), on a logarithmic horizontal axis (relative differences, or level differences in units of the mass $m$). Every dot lies to the left of its bar: the measured differences are between 4.7 and 7692 times smaller than their tolerances. The grey line from a dot to its bar is this margin.
+- `Revision/textbook/figures/00d_4_shared_rounding.png` (1094 x 717 pixels): The negative control of the Revision record's Kohn-Sham solver for the three thermal states named on the vertical axis: the error of the old method for the chemical potential $\mu$ (orange), the difference between the two runs when both used that method, and so shared its rounding (grey), and the difference seen by the present refined run, which rounds along another path (blue); horizontal axis the size of the difference in units of the mass $m$, logarithmic. The grey bars are between 93 and 1.4e+06 times shorter than the orange ones: two runs with the same rounding hid errors up to 8.3e-10 $m$, which the blue bars show in full.
+- `Revision/textbook/figures/00d_5_seeded_walks.png` (931 x 611 pixels): Three random walks of 400 steps of $+1$ or $-1$ (horizontal axis the step number, vertical axis the position, the sum of the steps so far; pure numbers). The thick blue walk and the dashed yellow walk come from two separate generators started with the same seed 12345: they are identical, step for step, so the yellow line lies on the blue one. The orange walk, from the seed 2026, is different. A fixed seed makes random numbers repeat exactly in every run.
+- `Revision/textbook/figures/00d_6_set_orders.png` (1103 x 819 pixels): The order in which twelve separate runs of Python print the same set of the eight names $x_1, \ldots, x_8$ (one row per run, labelled by its hash seed PYTHONHASHSEED from 0 to 11; horizontal axis the place 1 to 8 in the printed order; each square coloured by its name, from dark violet for $x_1$ to yellow for $x_8$). Every run prints another order, so the rows are scrambled differently; the bottom row, the sorted order, is the same in every run.
 
 ## 4. Side effects
 
@@ -336,12 +343,13 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/00d.captions.json` | 2644 | `13e022f1ff6ef3938af65cd9b6a3d20018bdec31a116e0c5aabf30966cffb073` |
+| `Revision/textbook/figures/00d.captions.json` | 3350 | `39bd5c742ce9094db4265308e938c35746cdcf15811b4268a55b9376299ed579` |
 | `Revision/textbook/figures/00d_1_float_spacing.png` | 54813 | `fd14f699dff6b2addcd2e70b95b310a424fc09c86cee7cb615e48376b33b1b97` |
 | `Revision/textbook/figures/00d_2_summation_order.png` | 72222 | `1371de1867b3aed72112f5e0e3de7dd80f2d4dc927e52b2d5aba7f7bcaf53e14` |
-| `Revision/textbook/figures/00d_3_tolerances.png` | 55887 | `041e77024e61a562f25f1684d0c4f3ef497a92e69528b7a148fa469eac8b8c62` |
-| `Revision/textbook/figures/00d_4_seeded_walks.png` | 122115 | `0ab7940bb584a08cc9eec2689c242cce947d9a2649839e23e108af55efe8bbb6` |
-| `Revision/textbook/figures/00d_5_set_orders.png` | 126612 | `96a28716d35ecaedab6e681da48cd4e3f87037e39881bf86029c68c8b16751c7` |
+| `Revision/textbook/figures/00d_3_tolerances.png` | 58441 | `4423d1dfcd121adec4a907e0c6965ff05f6c0a11e5800a1a54e9e9f8a2d68394` |
+| `Revision/textbook/figures/00d_4_shared_rounding.png` | 46118 | `4e57779e3c427c8d49c0ebf8fb3c17febc9fdeeac47948b67d48271602ce80db` |
+| `Revision/textbook/figures/00d_5_seeded_walks.png` | 122046 | `21c6d052e84c4daff6882b2e97fbe79a24a85916606feb1de4548b15a5e47ccc` |
+| `Revision/textbook/figures/00d_6_set_orders.png` | 126612 | `96a28716d35ecaedab6e681da48cd4e3f87037e39881bf86029c68c8b16751c7` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/00d_reproducible_runs.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
 
@@ -364,7 +372,7 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 180 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 8.5 s, peak memory of the kernel process 188 MiB;
+- the build run: 14.6 s, peak memory of the kernel process 198 MiB;
 - the check run: not measured.
 
 ## 5. Environment of the verified execution
@@ -377,14 +385,15 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 180 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/00d_reproducible_runs.ipynb`: `d47842a0653f0b7f7dd83064460866af2aeca555a462a28c290eb1dbbc1da5b0`
-- `Revision/textbook/notebooks/src/00d_reproducible_runs.py`: `937f04b8c20b331f1eb75ca84dae777666007bcebe540a648b844f4ce7be9103`
-- `Revision/textbook/figures/00d.captions.json`: `13e022f1ff6ef3938af65cd9b6a3d20018bdec31a116e0c5aabf30966cffb073`
+- `Revision/textbook/notebooks/00d_reproducible_runs.ipynb`: `580650ddd1c637592e13e23cdc0758c140f21fc72fdde5ea54e54edf5cdcbe08`
+- `Revision/textbook/notebooks/src/00d_reproducible_runs.py`: `7200e095de4e4bfd41821cec0e2afeccdc75378592d95b7f78697c33e89d54c3`
+- `Revision/textbook/figures/00d.captions.json`: `39bd5c742ce9094db4265308e938c35746cdcf15811b4268a55b9376299ed579`
 - `Revision/textbook/figures/00d_1_float_spacing.png`: `fd14f699dff6b2addcd2e70b95b310a424fc09c86cee7cb615e48376b33b1b97`
 - `Revision/textbook/figures/00d_2_summation_order.png`: `1371de1867b3aed72112f5e0e3de7dd80f2d4dc927e52b2d5aba7f7bcaf53e14`
-- `Revision/textbook/figures/00d_3_tolerances.png`: `041e77024e61a562f25f1684d0c4f3ef497a92e69528b7a148fa469eac8b8c62`
-- `Revision/textbook/figures/00d_4_seeded_walks.png`: `0ab7940bb584a08cc9eec2689c242cce947d9a2649839e23e108af55efe8bbb6`
-- `Revision/textbook/figures/00d_5_set_orders.png`: `96a28716d35ecaedab6e681da48cd4e3f87037e39881bf86029c68c8b16751c7`
+- `Revision/textbook/figures/00d_3_tolerances.png`: `4423d1dfcd121adec4a907e0c6965ff05f6c0a11e5800a1a54e9e9f8a2d68394`
+- `Revision/textbook/figures/00d_4_shared_rounding.png`: `4e57779e3c427c8d49c0ebf8fb3c17febc9fdeeac47948b67d48271602ce80db`
+- `Revision/textbook/figures/00d_5_seeded_walks.png`: `21c6d052e84c4daff6882b2e97fbe79a24a85916606feb1de4548b15a5e47ccc`
+- `Revision/textbook/figures/00d_6_set_orders.png`: `96a28716d35ecaedab6e681da48cd4e3f87037e39881bf86029c68c8b16751c7`
 
 ## 7. Verification
 
@@ -392,4 +401,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 180 
 - `nbkit check`: not run yet.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":188.0,"seconds":8.5},"check":null,"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":198.0,"seconds":14.6},"check":null,"date":"2026-10-07","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
