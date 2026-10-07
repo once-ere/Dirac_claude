@@ -17,6 +17,7 @@ from the Lovelock components of Revision/field_equations_a4/a4-equations.json (s
 evaluates them on the 75 committed Kohn-Sham ground states of
 Revision/kohn_sham/results/ground, reproduces every number of the five checks of
 Revision/field_equations_a4/reports/ks-source-conditions.json, and draws seven figures.
+Every number in a caption is computed by the notebook itself.
 """
 
 import sys
@@ -62,6 +63,12 @@ FACTS = {
          "the sympy checks of the a4 record that the notebook reproduces"],
         ["Revision/field_equations_a4/reports/wolfram-a4-report.json",
          "the Wolfram checks of the a4 record that the notebook reproduces"],
+        ["Revision/kohn_sham/ks-theory.json",
+         "the Kohn-Sham theory record: the hidden coordinate y and the vanishing mixed "
+         "component of the Kohn-Sham energy-momentum tensor"],
+        ["Revision/kohn_sham/results/parameters.json",
+         "the parameters of the Kohn-Sham computations (H, the tip cutoff, the volume "
+         "factor Vol_7)"],
         ["Revision/kohn_sham/results/ground/profiles",
          "the profiles of the 75 Kohn-Sham ground states along the hidden coordinate"],
         ["Revision/kohn_sham/results/ground/emt-integrals.csv",
@@ -92,7 +99,7 @@ CELLS = [
 
     The author's metric has one free function, $a_4(x_4)$, and the Einstein-Lovelock
     field equations decide which **source** (energy density and pressures of matter)
-    can produce it. The Revision record of these equations shows that the left-hand
+    can produce it. The Revision record of these equations shows that their left-hand
     sides do not depend on the hidden coordinate $x_8$ and obey one algebraic identity.
     So every admissible source must satisfy three conditions:
 
@@ -122,17 +129,18 @@ CELLS = [
     - **Coordinates** (the author's names): $x_1, x_2, x_3$ = ordinary 3-space,
       which inflates (scale factor $e^{a_4}\sin^{1/6}z$); $x_4$ = the time;
       $x_5, x_6, x_7$ = the three **extra times**, which **deflate exponentially**
-      (scale factor $e^{-a_4}\sin^{1/6}z$); $x_8$ = the hidden space direction, with
-      $z = 6Hx_8$ between $0$ and $\pi/2$.
+      (scale factor $e^{-a_4}\sin^{1/6}z$, with $a_4$ increasing); $x_8$ = the hidden
+      space direction, with $z = 6Hx_8$ between $0$ and $\pi/2$.
     - **Hidden coordinate** $y = \ln(\sin z)/(6H)$: another way to number the points
       of the hidden direction. $y = 0$ is the end $z = \pi/2$ (the **brane**), and
       $y \to -\infty$ is the end $z \to 0$ (the **tip**). The computations stop at
-      $y = -L = -3$. Since $y$ grows when $x_8$ grows, "depends on $y$" and "depends
-      on $x_8$" mean the same thing.
+      $y = -L = -3$ (the **tip cutoff**). Since $y$ grows when $x_8$ grows, "depends
+      on $y$" and "depends on $x_8$" mean the same thing.
     - **Energy-momentum tensor** $T^\mu{}_\nu$: an $8 \times 8$ table at each point
       that says how much energy and momentum matter has and how they flow. For our
       sources it is diagonal: $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t,
-      p_8)$ in the order $x_1, \dots, x_8$, plus a possible mixed entry $q_{48}$.
+      p_8)$ in the order $x_1, \dots, x_8$, plus a possible mixed entry $q_{48}$ (row
+      $x_4$, column $x_8$).
     - **Energy density** $\rho$ and **pressures** $p_3$ (each direction of 3-space),
       $p_t$ (each extra time), $p_8$ (the hidden direction).
     - **Source**: the matter whose $T$ stands on the right-hand side of the field
@@ -140,9 +148,9 @@ CELLS = [
       author's metric can hold.
     - **Profile**: a component of $T$ as a function of $y$, stored at the 151 points
       $y = -3, -2.98, \dots, 0$. **Proper density**: per unit of proper 7-volume
-      (the volume that rulers measure). The mixed components $T^\mu{}_\mu$ (one index
-      up, one down) are the same in the coordinates and in the frame of rulers, so the
-      profiles are directly the $\rho$ and $p$ of the field equations.
+      (the volume that rulers measure). The diagonal components $T^\mu{}_\mu$ (one
+      index up, one down) are the same in the coordinates and in the frame of rulers,
+      so the profiles are directly the $\rho$ and $p$ of the field equations.
     - **Kohn-Sham state**: a many-fermion state of dirac16complex computed with the
       Kohn-Sham method (density functional theory) by the Rust solver of the Revision
       record. A state is labelled by its particle number $N$ (8, 136 or 688), its
@@ -156,15 +164,18 @@ CELLS = [
       moves in it but whose own gravity is ignored is a **test field**; ignoring its
       gravity means ignoring its **back-reaction** on the metric.
     - **Integral over the patch**: $2\,\mathrm{Vol}_7\int_{-3}^{0} e^{6Hy}\,X\,dy$, the
-      total amount of $X$ in the computed region ($e^{6Hy}$ is the proper-volume
-      weight, $\mathrm{Vol}_7$ the coordinate volume of the other seven directions,
-      the factor 2 counts the mirror copy of the ASSUMED $Z_2$ brane).
+      total amount of $X$ in the computed region. Here $\mathrm{Vol}_7 = \ell^3 v_t$ is
+      the coordinate volume of the six directions $x_1, x_2, x_3$ (a box of side
+      $\ell$) and $x_5, x_6, x_7$ (coordinate volume $v_t$); times $e^{6Hy}\,dy$ it is
+      the proper 7-volume of a thin slab of the hidden direction. The factor 2 counts
+      the mirror copy of the ASSUMED $Z_2$ brane.
     - **max|T|**: the largest absolute value of $\rho$, $p_3$, $p_t$, $p_8$ of a state
       over all $y$; we divide by it to compare states of very different size.
     - **Status labels**: PROVED (exact), COMPUTED (numerical), ASSUMED (a choice),
       OPEN (not known).
     - Units: $H = 1$, $m = 1$ (the fermion mass): lengths in units of $1/H$, energy
-      densities in units of $m^8$.
+      densities and pressures in units of $m^8$, integrals over the patch (energies)
+      in units of $m$.
     """),
     md(r"""
     ## 4. The physical and mathematical situation
@@ -211,11 +222,10 @@ CELLS = [
     report. `reproduces` is a check that passes only when this notebook's own result
     holds AND the named checks of the report have the verdict PASS; it prints the
     report file and the check names. The cell then reads the record on the Kohn-Sham
-    source conditions and prints its conclusion.
+    source conditions, prints its conclusion and checks that its five checks passed.
     """),
     code(r'''
     import csv  # reads tables stored as CSV files (comma-separated values)
-    import re  # regular expressions: reads N, lambda and the slice from a state name
 
     import numpy as np  # arrays of numbers
     import sympy as sp  # exact algebra with symbols
@@ -253,6 +263,8 @@ CELLS = [
     report("checks of the record ks-source-conditions.json",
            f"{summary['pass']} of {summary['checks']} PASS")
     say("its conclusion: " + source_record["conclusion"])
+    check(summary == {"checks": 5, "pass": 5, "fail": 0},
+          "the record on the Kohn-Sham source conditions has 5 checks, all PASS")
     '''),
     md(r"""
     ## 6. The three conditions, derived from the a4 equations
@@ -317,13 +329,15 @@ CELLS = [
     ## 7. The recorded Kohn-Sham states and the hidden coordinate
 
     The next cell reads the 75 profile files of the record (one per state; columns
-    `y`, `rho`, `p3`, `p_t`, `p8` among others) and the table of integrals. For every
-    state it computes max|T|, the largest absolute value of the four components, and
-    sorts the states into those with a nonzero tensor and those with $T = 0$
-    everywhere (no source at all).
+    `y`, `rho`, `p3`, `p_t`, `p8` among others), the table of integrals, and the
+    parameters of the computations. For every state it computes max|T|, the largest
+    absolute value of the four components, and sorts the states into those with a
+    nonzero tensor and those with $T = 0$ everywhere (no source at all). It also prints
+    what the Kohn-Sham theory record says about the mixed component $q_{48}$ (there
+    written $T^{x_4}{}_y$): it vanishes for every eigen-orbital, so the Kohn-Sham states
+    meet the part $q_{48} = 0$ of C1; the question is the $x_8$ dependence.
     """),
     code(r'''
-    NAME = re.compile(r"N(\d+)_lam(0|p1|p2|m1|m2)_a(\d\d)")  # e.g. N136_lamp2_a20
     COLUMNS = ("rho", "p3", "p_t", "p8")  # the four diagonal components of the source
 
 
@@ -339,33 +353,45 @@ CELLS = [
     with repository_file(f"{GROUND}/emt-integrals.csv").open(
             encoding="utf-8", newline="") as handle:
         integrals = {row["id"]: row for row in csv.DictReader(handle)}
+    physics = read_json("Revision/kohn_sham/results/parameters.json")["physics"]
     scale = {sid: float(max(np.max(np.abs(prof[c])) for c in COLUMNS))
              for sid, prof in profiles.items()}  # max|T| of every state
     zero = [sid for sid in profiles if scale[sid] == 0.0]  # T = 0 everywhere
     nonzero = [sid for sid in profiles if scale[sid] > 0.0]
-    y = profiles["N136_lam0_a10"]["y"]  # the same grid for every state
+    y = profiles["N136_lam0_a10"]["y"]  # the grid of the hidden coordinate
+    same_grid = all(np.array_equal(prof["y"], y) for prof in profiles.values())
     report("states read", len(profiles))
     report("states with a nonzero tensor", len(nonzero))
     report("grid of y", f"{len(y)} points from {y[0]:g} to {y[-1] + 0.0:g}, "
            f"step {y[1] - y[0]:.2f}")
-    check(len(profiles) == 75 and len(nonzero) == 70 and len(zero) == 5
+    report("H, tip cutoff L, Vol_7", f"{physics['H']:g}, {physics['L_tipCutoff']:g}, "
+           f"{physics['Vol7']:.6g}")
+    say("ks-theory.json, emt.offDiagonal: "
+        + read_json("Revision/kohn_sham/ks-theory.json")["emt"]["offDiagonal"])
+    check(len(profiles) == 75 and len(nonzero) == 70 and len(zero) == 5 and same_grid
           and sorted(integrals) == sorted(profiles),
-          "75 states read (70 nonzero, 5 zero); every state has its integrals")
+          "75 states on one grid (70 nonzero, 5 zero); every state has its integrals")
     '''),
     md(r"""
     The next cell draws two pictures. Left: the hidden coordinate
     $y = \ln(\sin z)/(6H)$ against $z = 6Hx_8$ (logarithmic horizontal axis), with the
     computed patch from the tip cutoff $y = -3$ to the brane $y = 0$; the cutoff sits
-    at $z = \arcsin(e^{-18}) \approx 1.5\times10^{-8}$, so the patch covers almost all
-    of the hidden direction. Right: the energy density $\rho(y)$, divided by max|T|, of
-    the state $N = 136$, $\lambda = 0$ at the five slices (logarithmic vertical axis).
+    at $z = \arcsin(e^{-18})$, so the patch covers almost all of the hidden direction.
+    Right: the energy density $\rho(y)$, divided by max|T|, of the state $N = 136$,
+    $\lambda = 0$ at the five slices (logarithmic vertical axis; the cell first checks
+    that $\rho$ is positive at every point, so that a logarithmic axis can show it).
     An admissible source would be a horizontal line (C1).
     """),
     code(r'''
     SLICES = {"a00": 0.0, "a05": 0.5, "a10": 1.0, "a15": 1.5, "a20": 2.0}  # a4,0
     SHADES = ["#86b6ef", "#5598e7", "#2a78d6", "#1c5cab", "#104281"]  # light -> dark
+    history136 = [f"N136_lam0_{tag}" for tag in SLICES]  # N = 136, lambda = 0
+    falls = [float(np.max(profiles[s]["rho"]) / np.min(profiles[s]["rho"]))
+             for s in history136]  # how much rho changes along y, slice by slice
+    check(all(float(np.min(profiles[s]["rho"])) > 0.0 for s in history136),
+          "N = 136, lambda = 0: rho is positive at every point of every slice")
     z = np.logspace(-9, np.log10(np.pi / 2), 400)  # z from 1e-9 to pi/2
-    z_tip = np.arcsin(np.exp(-18.0))  # where y = -3 (6 H y = -18 with H = 1)
+    z_tip = float(np.arcsin(np.exp(-18.0)))  # where y = -3 (6 H y = -18 with H = 1)
     fig, (left, right) = plt.subplots(1, 2, figsize=(9.0, 3.8))
     left.plot(z, np.log(np.sin(z)) / 6.0, color="#2a78d6", lw=2.0)
     left.axvspan(z_tip, np.pi / 2, color="#1baf7a", alpha=0.15,
@@ -376,9 +402,8 @@ CELLS = [
     left.set_ylabel("hidden coordinate $y$ (units of $1/H$)")
     left.set_title("$y = \\ln(\\sin z)/(6H)$, $H = 1$")
     left.legend(loc="lower right", fontsize=8)
-    for shade, (tag, a40) in zip(SHADES, SLICES.items()):
-        prof = profiles[f"N136_lam0_{tag}"]
-        right.plot(y, prof["rho"] / scale[f"N136_lam0_{tag}"], color=shade, lw=1.8,
+    for shade, sid, a40 in zip(SHADES, history136, SLICES.values()):
+        right.plot(y, profiles[sid]["rho"] / scale[sid], color=shade, lw=1.8,
                    label=f"$a_{{4,0}} = {a40:g}$")
     right.axhline(1e-3, color="0.4", ls=":", lw=1.2,
                   label="admissible: constant (example)")
@@ -392,12 +417,13 @@ CELLS = [
                 "Left: the hidden coordinate $y = \\ln(\\sin z)/(6H)$ against $z = 6Hx_8$ "
                 "(logarithmic axis, $H = 1$); the shaded band is the computed patch from "
                 "the tip cutoff $y = -3$ to the brane $y = 0$, which covers $z$ from "
-                "$1.5 \\times 10^{-8}$ to $\\pi/2$. Right: the energy density $\\rho(y)$ "
-                "of the Kohn-Sham state $N = 136$, $\\lambda = 0$ divided by its largest "
-                "component, at the five slices $a_{4,0} = 0$ to $2$ (logarithmic vertical "
-                "axis). The profiles fall by about three orders of magnitude from the tip "
-                "to the brane, while condition C1 of the field equations demands a "
-                "horizontal line such as the dotted one.")
+                f"${z_tip / 1e-8:.1f} \\times 10^{{-8}}$ to $\\pi/2$. Right: the energy "
+                "density $\\rho(y)$ of the Kohn-Sham state $N = 136$, $\\lambda = 0$ "
+                "divided by the largest component of the state, at the five slices "
+                "$a_{4,0} = 0$ to $2$ (logarithmic vertical axis). The largest value of "
+                f"$\\rho$ is {min(falls):.0f} to {max(falls):.3g} times its smallest "
+                "value, depending on the slice, while condition C1 of the field "
+                "equations demands a horizontal line such as the dotted one.")
     '''),
     md(r"""
     ## 8. Condition C1: the source must not depend on $x_8$
@@ -414,10 +440,9 @@ CELLS = [
     spread = {sid: float(np.max(profiles[sid]["rho"]) - np.min(profiles[sid]["rho"]))
               / scale[sid] for sid in nonzero}
     smallest = min(spread, key=spread.get)  # the state that depends least on x8
-    report("smallest spread of rho, divided by max|T|",
-           f"{spread[smallest]:.6g} ({smallest})")
-    report("largest spread of rho, divided by max|T|",
-           f"{max(spread.values()):.6g} ({max(spread, key=spread.get)})")
+    largest = max(spread, key=spread.get)  # the state that depends most on x8
+    report("smallest spread of rho / max|T|", f"{spread[smallest]:.6g} ({smallest})")
+    report("largest spread of rho / max|T|", f"{spread[largest]:.6g} ({largest})")
     detail = record_entry(SOURCE_REPORT, "ks_profiles_depend_on_x8")["detail"]
     text = f">= {spread[smallest]:.6g} (smallest: {smallest})"  # as the record prints it
     reproduces(all(value > TOL for value in spread.values()) and text in detail
@@ -429,7 +454,8 @@ CELLS = [
     md(r"""
     The next cell draws the spread for all 75 states as a coloured table (a **heat
     map**): one row per particle number and coupling, one column per slice. Grey cells
-    are the five states with $T = 0$. The colour scale is logarithmic.
+    are the five states with $T = 0$. The colour scale is logarithmic. The helper
+    `describe` writes a state name as mathematics for the caption.
     """),
     code(r'''
     from matplotlib.colors import LogNorm  # a logarithmic colour scale
@@ -437,6 +463,14 @@ CELLS = [
     TAGS = [("m2", "-\\lambda_2"), ("m1", "-\\lambda_1"), ("0", "0"),
             ("p1", "+\\lambda_1"), ("p2", "+\\lambda_2")]  # the couplings, in order
     ROWS = [(n, tag, label) for n in (8, 136, 688) for tag, label in TAGS]
+
+
+    def describe(sid):
+        """The state name N136_lamm2_a20 written as N = 136, lambda = -lambda_2, ..."""
+        n, lam, slice_tag = sid.split("_")
+        label = dict(TAGS)[lam[3:]]  # lam[3:] is m2, m1, 0, p1 or p2
+        return (f"$N = {n[1:]}$, $\\lambda = {label}$, "
+                f"$a_{{4,0}} = {SLICES[slice_tag]:g}$")
 
 
     def state_table(values):
@@ -458,9 +492,13 @@ CELLS = [
                           aspect="auto")
         for i in range(table.shape[0]):
             for j in range(table.shape[1]):
-                text = "T = 0" if np.isnan(table[i, j]) else format(table[i, j], fmt)
-                ax.text(j, i, text, ha="center", va="center", fontsize=7,
-                        color="black" if np.isnan(table[i, j]) else "white")
+                value = table[i, j]
+                if np.isnan(value):
+                    ax.text(j, i, "T = 0", ha="center", va="center", fontsize=7)
+                    continue
+                light = norm(value) > 0.6  # yellow-green cells: black text reads best
+                ax.text(j, i, format(value, fmt), ha="center", va="center", fontsize=7,
+                        color="black" if light else "white")
         ax.set_xticks(range(len(SLICES)), [f"{a:g}" for a in SLICES.values()])
         ax.set_yticks(range(len(ROWS)),
                       [f"$N = {n}$, $\\lambda = {label}$" for n, _, label in ROWS],
@@ -470,19 +508,22 @@ CELLS = [
         return image
 
 
+    n8_spread = [value for sid, value in spread.items() if sid.startswith("N8_")]
     fig, ax = plt.subplots(figsize=(6.4, 6.0))
     image = draw_table(ax, state_table(spread), LogNorm(0.04, 1.0), ".3f")
     fig.colorbar(image, ax=ax, label="spread of $\\rho$ / max|T| (C1 needs 0)")
     ax.set_title("Condition C1: dependence on the hidden direction")
     save_figure(fig, "c1_map",
-                "The spread $(\\max_y \\rho - \\min_y \\rho)/\\max|T|$ of the energy density "
-                "along the hidden coordinate for all 75 recorded Kohn-Sham ground states: "
-                "rows are the particle numbers $N = 8, 136, 688$ with the five couplings, "
-                "columns the slices $a_{4,0}$ (logarithmic colour scale, pure numbers). "
-                "Condition C1 needs $0$ in every cell; the smallest value is $0.0497$ "
-                "($N = 136$, $-\\lambda_2$, $a_{4,0} = 2$), and the $N = 8$ states, made "
-                "of brane zero modes, vary by almost $100$ per cent. Grey cells: the five "
-                "states with no source at all.")
+                "The spread $(\\max_y \\rho - \\min_y \\rho)/\\max|T|$ of the energy "
+                "density along the hidden coordinate for all 75 recorded Kohn-Sham "
+                "ground states: rows are the particle numbers $N = 8, 136, 688$ with "
+                "the five couplings, columns the slices $a_{4,0}$ (logarithmic colour "
+                "scale, pure numbers). "
+                "Condition C1 needs $0$ in every cell; the smallest value is "
+                f"${spread[smallest]:.4f}$ ({describe(smallest)}), and the $N = 8$ "
+                f"states, made of brane zero modes, have spreads of "
+                f"${min(n8_spread):.3f}$ to ${max(n8_spread):.3f}$, almost the whole "
+                "size of the tensor. Grey cells: the five states with no source at all.")
     '''),
     md(r"""
     ## 9. Condition C2 point by point: $p_3 + p_t = 2p_8$
@@ -511,11 +552,22 @@ CELLS = [
     The next cell draws the violation profiles $V(y)/\max|T|$ of the states with
     $\lambda = 0$ for $N = 136$ (left) and $N = 688$ (right), at the five slices. The
     vertical axis is **symmetric logarithmic**: logarithmic for large positive and
-    negative values, linear between $-10^{-4}$ and $10^{-4}$, so that both signs and
-    six orders of magnitude are visible. The dashed line is the value $0$ that C2
-    demands.
+    negative values, linear between $-10^{-7}$ and $10^{-7}$, so that both signs and
+    seven orders of magnitude are visible. The dashed line is the value $0$ that C2
+    demands. Before drawing, the cell counts how often each plotted profile changes
+    its sign between neighbouring grid points, and how large $|V|$ is at the tip and
+    at the brane; the caption quotes these numbers.
     """),
     code(r'''
+    plotted = [f"N{n}_lam0_{tag}" for n in (136, 688) for tag in SLICES]
+    signs = {sid: np.sign(violation[sid]) for sid in plotted}  # +1, -1 (or 0)
+    changes = {sid: int(np.sum(signs[sid][1:] * signs[sid][:-1] < 0)) for sid in plotted}
+    at_tip = [abs(float(violation[sid][0])) / scale[sid] for sid in plotted]
+    at_brane = [abs(float(violation[sid][-1])) / scale[sid] for sid in plotted]
+    say(f"sign changes of the ten plotted profiles: {sorted(set(changes.values()))}")
+    check(all(count == 1 for count in changes.values())
+          and min(at_brane) > 0.0,
+          "each plotted V(y) changes sign exactly once and is nonzero at the brane")
     fig, axes = plt.subplots(1, 2, figsize=(9.0, 3.8), sharey=True)
     for ax, n in zip(axes, (136, 688)):
         for shade, (tag, a40) in zip(SHADES, SLICES.items()):
@@ -523,7 +575,7 @@ CELLS = [
             ax.plot(y, violation[sid] / scale[sid], color=shade, lw=1.8,
                     label=f"$a_{{4,0}} = {a40:g}$")
         ax.axhline(0.0, color="#e34948", ls="--", lw=1.2, label="C2: $V = 0$")
-        ax.set_yscale("symlog", linthresh=1e-4)
+        ax.set_yscale("symlog", linthresh=1e-7)
         ax.set_xlabel("hidden coordinate $y$")
         ax.set_title(f"$N = {n}$, $\\lambda = 0$")
     axes[0].set_ylabel("$V = p_3 + p_t - 2p_8$, divided by max|T|")
@@ -531,13 +583,15 @@ CELLS = [
     fig.tight_layout()
     save_figure(fig, "violation_profiles",
                 "The violation profiles $V(y) = p_3 + p_t - 2p_8$ of the Kohn-Sham ground "
-                "states with $\\lambda = 0$, divided by the largest component of each state, "
-                "for $N = 136$ (left) and $N = 688$ (right) at the five slices $a_{4,0}$ "
-                "(horizontal axis: the hidden coordinate $y$; vertical axis symmetric "
-                "logarithmic, linear between $-10^{-4}$ and $10^{-4}$). Condition C2 of "
-                "the field equations demands the dashed line $V = 0$; the profiles are "
-                "about $2.4$ times max|T| near the tip, change sign twice and stay "
-                "nonzero up to the brane.")
+                "states with $\\lambda = 0$, divided by the largest component of each "
+                "state, for $N = 136$ (left) and $N = 688$ (right) at the five slices "
+                "$a_{4,0}$ (horizontal axis: the hidden coordinate $y$; vertical axis "
+                "symmetric logarithmic, linear between $-10^{-7}$ and $10^{-7}$). "
+                "Condition C2 of the field equations demands the dashed line $V = 0$; "
+                f"instead $|V|$ is {min(at_tip):.2f} to {max(at_tip):.2f} times max|T| "
+                "at the tip, every profile changes sign exactly once, and at the brane "
+                f"$|V|$/max|T| is still between ${min(at_brane):.1e}$ and "
+                f"${max(at_brane):.1e}$, small but not zero.")
     '''),
     md(r"""
     The next cell draws the size $\max_y|V|/\max|T|$ for all 75 states as a heat map,
@@ -554,9 +608,10 @@ CELLS = [
                 "The size $\\max_y|p_3 + p_t - 2p_8|/\\max|T|$ of the violation of "
                 "condition C2 for all 75 recorded Kohn-Sham ground states (rows: particle "
                 "number and coupling; columns: the slice $a_{4,0}$; linear colour scale, "
-                "pure numbers). C2 needs $0$; every nonzero state violates it by $2.09$ "
-                "to $3.99$ times its largest component. The $N = 8$ states, made of brane "
-                "zero modes, do not change along the history; grey cells: no source.")
+                "pure numbers). C2 needs $0$; every nonzero state violates it by "
+                f"${size[low]:.2f}$ to ${size[high]:.2f}$ times its largest component. "
+                "The $N = 8$ states, made of brane zero modes, have the same value at "
+                "every slice; grey cells: no source.")
     '''),
     md(r"""
     ## 10. A worked example: three points of one state
@@ -606,14 +661,17 @@ CELLS = [
     axes[0].set_ylabel("pressure (units of $m^8$)")
     fig.suptitle("$N = 136$, $\\lambda = 0$, $a_{4,0} = 1$: the two sides of C2")
     fig.tight_layout()
+    tip, middle, brane = rows
+    factors = [2.0 * r["p8"] / (r["p3"] + r["p_t"]) for r in (middle, brane)]
     save_figure(fig, "three_points",
                 "The two sides of condition C2, $p_3 + p_t$ (blue) and $2p_8$ (orange), "
                 "of the Kohn-Sham state $N = 136$, $\\lambda = 0$, $a_{4,0} = 1$ at the "
                 "tip $y = -3$, in the middle $y = -1.5$ and at the brane $y = 0$ "
                 "(vertical axes: proper pressure in units of $m^8$, each panel with its "
                 "own scale). C2 demands equal bars; near the tip the two sides even have "
-                "opposite signs ($158.3$ against $-863.5$), and in the middle and at the "
-                "brane $2p_8$ is two to five times larger.")
+                f"opposite signs (${tip['p3'] + tip['p_t']:.1f}$ against "
+                f"${2.0 * tip['p8']:.1f}$), in the middle $2p_8$ is {factors[0]:.2f} "
+                f"times $p_3 + p_t$ and at the brane {factors[1]:.2f} times.")
     '''),
     md(r"""
     ## 11. Condition C2 after integration over $x_8$
@@ -636,6 +694,7 @@ CELLS = [
              for sid in nonzero if integral(sid, "int_p8") != 0.0}
     closest = min(ratio, key=lambda sid: abs(ratio[sid] - 1.0))
     report("ratio closest to 1", f"{ratio[closest]:.6g} ({closest})")
+    report("range of the ratio", f"{min(ratio.values()):.4f} to {max(ratio.values()):.4f}")
     history_text = ", ".join(f"{sid}: {ratio[sid]:.6g}" for sid in
                              ("N136_lam0_a00", "N136_lam0_a10", "N136_lam0_a20"))
     say("the history N = 136, lambda = 0: " + history_text)
@@ -656,7 +715,7 @@ CELLS = [
     code(r'''
     N_COLOURS = {8: "#1baf7a", 136: "#2a78d6", 688: "#eb6834"}
     STYLES = {"m2": ("v", ":"), "m1": ("<", "-."), "0": ("o", "-"),
-              ">": None, "p1": (">", "--"), "p2": ("^", (0, (1, 3)))}
+              "p1": (">", "--"), "p2": ("^", (0, (1, 3)))}  # marker, line style
     fig, ax = plt.subplots()
     for n, tag, label in ROWS:
         ids = [f"N{n}_lam{tag}_{s}" for s in SLICES]
@@ -678,12 +737,14 @@ CELLS = [
     ax.set_ylim(0.0, 1.1)
     ax.legend(fontsize=7, ncol=2, loc="lower left")
     save_figure(fig, "integrated_ratio",
-                "The ratio $(\\int p_3 + \\int p_t)/(2\\int p_8)$ of the pressures integrated "
-                "over the patch with the proper-volume weight, for every nonzero recorded "
-                "Kohn-Sham state, against the slice $a_{4,0}$ (colours: particle number; "
-                "line styles and markers: coupling; pure numbers). A source averaged over "
-                "$x_8$ would need the value $1$ (red dashed line); the states lie between "
-                "$0.11$ and $0.41$, so even the average violates condition C2.")
+                "The ratio $(\\int p_3 + \\int p_t)/(2\\int p_8)$ of the pressures "
+                "integrated over the patch with the proper-volume weight, for every "
+                "nonzero recorded Kohn-Sham state, against the slice $a_{4,0}$ "
+                "(colours: particle number; line styles and markers: coupling; pure "
+                "numbers). A source averaged over $x_8$ would need the value $1$ (red "
+                "dashed line); the states lie between "
+                f"${min(ratio.values()):.3f}$ and ${max(ratio.values()):.3f}$, so even "
+                "the average violates condition C2.")
     '''),
     md(r"""
     ## 12. Condition C3: the linear member along the history
@@ -720,8 +781,9 @@ CELLS = [
     The next cell draws the four integrated components of the states with
     $\lambda = 0$ at all five slices, for $N = 136$ (left) and $N = 688$ (right). C3
     would need a horizontal $\rho$ line and the three pressure lines on top of each
-    other. Without interaction $p_t = e_{int} = 0$ exactly, so the $p_t$ line lies on
-    the axis.
+    other. Without interaction $p_t = e_{int} = 0$ exactly (the interaction energy
+    density $e_{int}$ is the only extra-time pressure of the good sector), so the $p_t$
+    line lies on the axis.
     """),
     code(r'''
     PARTS = [("int_rho", "$\\int\\rho$", "#2a78d6", "o"),
@@ -739,24 +801,28 @@ CELLS = [
     axes[0].set_ylabel("$2\\,\\mathrm{Vol}_7\\int e^{6Hy} X\\,dy$ (units of $m$)")
     axes[1].legend(fontsize=8)
     fig.tight_layout()
+    drop = [integral(f"N{n}_lam0_a00", "int_rho") / integral(f"N{n}_lam0_a20", "int_rho")
+            for n in (136, 688)]
     save_figure(fig, "history_integrals",
                 "The energy density and the three pressures of the Kohn-Sham states with "
                 "$\\lambda = 0$, integrated over the patch with the proper-volume weight, "
                 "at the five slices of the history $a_4 = Hx_4$ (left $N = 136$, right "
                 "$N = 688$; vertical axis in units of $m$ with $H = 1$). The linear member "
                 "needs a constant $\\rho$ and equal pressures (condition C3); instead "
-                "$\\int\\rho$ falls by a factor of about six, $\\int p_3$ stays above "
-                "$\\int p_t = 0$, and $\\int p_8$ is different again.")
+                f"$\\int\\rho$ falls by a factor of {drop[0]:.2f} ($N = 136$) and "
+                f"{drop[1]:.2f} ($N = 688$) from $a_{{4,0}} = 0$ to $2$, $\\int p_3$ stays "
+                "above $\\int p_t = 0$, and $\\int p_8$ is different again.")
     '''),
     md(r"""
     The states $N = 8$ need a separate remark. They consist of the eight brane zero
-    modes, which have zero 3-momentum $k$; the slice $a_{4,0}$ enters the Kohn-Sham
-    equations only through the redshifted momentum $k e^{-a_{4,0}}$ (the exact
-    rescaling identity of the Kohn-Sham record), so these states are the same at every
-    slice. The next cell confirms that their profiles are identical at all five slices
-    and that they have $p_3 = p_t$; so they satisfy the part "constant $\rho$ and
-    $p_3 = p_t$" of C3. They are nevertheless not admissible: $p_8$ differs from $p_3$,
-    and they fail C1 and C2 (the maps of sections 8 and 9).
+    modes, which have zero 3-momentum $k$. The slice $a_{4,0}$ enters the Kohn-Sham
+    equations only through the redshifted momentum $k e^{-a_{4,0}}$, while the proper
+    box stays the same (the exact rescaling identity of the Kohn-Sham record), so for
+    $k = 0$ nothing changes: these states are the same at every slice. The next cell
+    confirms that their profiles are identical at all five slices and that they have
+    $p_3 = p_t$; so they satisfy the part "constant $\rho$ and $p_3 = p_t$" of C3. They
+    are nevertheless not admissible: $p_8$ differs from $p_3$, and they fail C1 and C2
+    (the maps of sections 8 and 9).
     """),
     code(r'''
     same, p3_equals_pt, p8_differs = True, True, True
@@ -782,8 +848,10 @@ CELLS = [
     equations read $3a_4'^2 + 21H^2 + \Lambda = -\kappa\rho$ and
     $-3a_4'^2 + 15H^2 + \Lambda = \kappa p_8$. With $\rho = p_8 = 0$, subtracting the
     second from the first gives $6a_4'^2 + 6H^2 = 0$, impossible for real $a_4'$ and
-    $H > 0$. The next cell repeats this with sympy, from the record's text of the two
-    equations, and checks the list of zero states against the record.
+    $H > 0$: the left side is a square times 6 plus a positive number. The next cell
+    repeats this with sympy, from the record's text of the two equations (sympy is told
+    that $a_4'$ is real and $H$ positive, and it decides that the difference is
+    positive), and checks the list of zero states against the record.
     """),
     code(r'''
     kappa, rho, p8, Lam = sp.symbols("kappa rho p8 Lam", real=True)
@@ -801,10 +869,8 @@ CELLS = [
     x8_equation = equation(einstein["hidden_x8"]["input"]).subs({p8: 0})
     difference = sp.expand(x4_equation - x8_equation)  # Lambda cancels
     say(f"x4 equation minus x8 equation with rho = p8 = 0: {difference} = 0")
-    solutions = sp.solve(difference, ad1)  # the values of a4' that would solve it
-    say(f"its solutions a4' = {solutions} (not real numbers)")
-    reproduces(all(not s.is_real for s in solutions)
-               and difference == 6 * ad1 ** 2 + 6 * H ** 2,
+    say(f"is the left side positive for real a4' and H > 0? {difference.is_positive}")
+    reproduces(difference == 6 * ad1 ** 2 + 6 * H ** 2 and difference.is_positive is True,
                "Einstein gravity: no source at all (T = 0) has no solution for H > 0",
                WL_A4, ["einstein_no_vacuum_solution"])
     detail = record_entry(SOURCE_REPORT, "ks_zero_source_states_listed")["detail"]
@@ -838,11 +904,11 @@ CELLS = [
       constant energy density (C3).
     - COMPUTED (the 75 recorded Kohn-Sham ground states; every number of the five
       checks of the record `ks-source-conditions.json` reproduced): every nonzero
-      state depends on $x_8$ (spread of $\rho$ at least $0.0497$ of max|T|), violates
-      C2 point by point (by $2.09$ to $3.99$ times max|T|) and after integration over
-      $x_8$ (ratios $0.11$ to $0.41$ instead of $1$), and along the history $\rho$
-      changes and $p_3 \ne p_t$. The $N = 8$ states do not change along the history,
-      but they too fail C1 and C2.
+      state depends on $x_8$ (the spread of $\rho$ is at least $0.0497$ of max|T|),
+      violates C2 point by point (by $2.09$ to $3.99$ times max|T|) and after
+      integration over $x_8$ (ratios between $0.107$ and $0.414$ instead of $1$), and
+      along the history $\rho$ changes and $p_3 \ne p_t$. The $N = 8$ states do not
+      change along the history, but they too fail C1 and C2.
     - PROVED (Einstein gravity): $T = 0$ is not a solution for $H > 0$, so the five
       states without a source are not admissible either.
     - Hence no recorded Kohn-Sham state is an admissible source. The Kohn-Sham history

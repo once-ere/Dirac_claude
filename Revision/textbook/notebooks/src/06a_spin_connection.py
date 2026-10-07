@@ -79,7 +79,7 @@ FACTS = {
     ),
     "final_lines": [
         "PASS all ten figure files exist",
-        "ALL 33 CHECKS PASSED (notebook 06a)",
+        "ALL 34 CHECKS PASSED (notebook 06a)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for Revision/algebra/gammas.json or for a report",
@@ -723,8 +723,9 @@ CELLS = [
        `omega_nonzero` (entries $\{\mu, a, b, \text{value}\}$);
     4. that every nonzero component is $a_4'$ or $H$ times a factor
        $\pm e^{\pm a_4}\sin^{1/6}z$ that never vanishes for $0 < z < \pi/2$: so the
-       part of the spin connection made by the deflation vanishes only if $a_4$ is
-       constant, and the part made by the hidden direction never vanishes for $H > 0$.
+       part of the spin connection made by the time dependence (3-space inflating,
+       the extra times deflating) vanishes only if $a_4$ is constant, and the part
+       made by the hidden direction never vanishes for $H > 0$.
     """),
     code(r'''
     omega = spin_connection(e, Gam, x, ETA)
@@ -755,7 +756,7 @@ CELLS = [
     shape_ok = all(any(sp.simplify(value / (c * phys)) == 1 for c in (a4p, H)
                        for phys in factors) for value in omega_nonzero.values())
     check(shape_ok, "every nonzero omega is a4' or H times +-exp(+-a4) sin^(1/6) z",
-          record=f"{REPORT_PY}, check nontriviality_Omega_zero_iff_flat")
+          record=f"{REPORT_WL}, check Omega_vanishes_iff_a4prime_and_H_vanish")
     '''),
     md(r"""
     The next cell draws two of the eight 8 x 8 arrays $\omega_{\mu ab}$ at the sample
@@ -975,13 +976,27 @@ CELLS = [
     The author's $\gamma^{(x8)}$ has the 8 x 8 identity matrix in its upper-right and
     lower-left blocks and zeros elsewhere: it maps the first eight spinor components
     onto the last eight and back, so $3H\gamma^{(x8)}$ shows the value 3 on two
-    diagonal lines. The cell also checks this block form.
+    diagonal lines. The cell first checks the block form of all eight gammas against
+    the record's list `field_equation_blocks`: each entry $\{xa, \bar t, t\}$ says that
+    $\gamma^{(xa)}$ has the 8 x 8 block $\bar t$ in its upper-right corner, the block
+    $t$ in its lower-left corner and zeros in the two diagonal blocks. The record is
+    written with curly brackets; replacing them by square brackets turns each entry
+    into JSON, which `json.loads` reads.
     """),
     code(r'''
     I8, Z8 = sp.eye(8), sp.zeros(8, 8)  # 8 x 8 identity and zero matrices
-    check(gamma[7] == sp.BlockMatrix([[Z8, I8], [I8, Z8]]).as_explicit(),
-          "gamma^(x8) has the 8 x 8 identity in its two off-diagonal blocks",
+    blocks_ok = True
+    for entry in FORMULAS["field_equation_blocks"]:  # eight texts {"xa", tb, t}
+        name, tb, t = json.loads(entry.replace("{", "[").replace("}", "]"))
+        a = NAMES.index(name)  # the position of the direction xa (0 ... 7)
+        # gamma^(xa) must be the block matrix with the zero blocks on the diagonal
+        blocks_ok = blocks_ok and gamma[a] == sp.BlockMatrix(
+            [[Z8, sp.Matrix(tb)], [sp.Matrix(t), Z8]]).as_explicit()
+    check(blocks_ok and len(FORMULAS["field_equation_blocks"]) == 8,
+          "the eight gammas have the block form of the record",
           record=f"{THEORY_FILE}, formula field_equation_blocks")
+    check(gamma[7] == sp.BlockMatrix([[Z8, I8], [I8, Z8]]).as_explicit(),
+          "gamma^(x8) has the 8 x 8 identity in its two off-diagonal blocks")
     panels = [
         ("sum over $x1, x2, x3$", sum((gup[k] * Omega[k] for k in (0, 1, 2)), Z16)),
         ("sum over $x5, x6, x7$", sum((gup[k] * Omega[k] for k in (4, 5, 6)), Z16)),
@@ -1013,8 +1028,14 @@ CELLS = [
     Two facts explain the result without computing all of $\Omega_\mu$.
 
     **Fact 1.** For each $\mu$ separately, $\gamma^\mu\Omega_\mu + \Omega_\mu\gamma^\mu
-    = 0$ (no sum). Then the covariant constancy $D_\mu\gamma^\mu = 0$, summed over
-    $\mu$, gives
+    = 0$ (no sum). Now sum the covariant constancy $D_\mu\gamma^\nu = 0$ over
+    $\mu = \nu$: $\sum_\mu\partial_\mu\gamma^\mu + \sum_{\mu,\lambda}
+    \Gamma^\mu{}_{\mu\lambda}\gamma^\lambda + \sum_\mu(\Omega_\mu\gamma^\mu -
+    \gamma^\mu\Omega_\mu) = 0$. The standard contraction $\sum_\mu
+    \Gamma^\mu{}_{\mu\lambda} = \partial_\lambda \ln\sqrt{|g|}$ turns the first two sums
+    into $\frac{1}{\sqrt{|g|}}\sum_\mu\partial_\mu(\sqrt{|g|}\,\gamma^\mu)$ (product
+    rule), and Fact 1 turns the last sum into $-2\sum_\mu\gamma^\mu\Omega_\mu$. Solving
+    for the contraction gives
 
     $$\gamma^\mu\Omega_\mu = \frac{1}{2\sqrt{|g|}}\sum_\mu \partial_\mu\big(\sqrt{|g|}\,
     \gamma^\mu\big) .$$
@@ -1315,7 +1336,8 @@ CELLS = [
                     "gamma_covariantly_constant", "gammaOmega_equals_3H_gamma_x8",
                     "gammaOmega_x4_terms_cancel", "gammaOmega_divergence_form",
                     "Dirac_operator_explicit_C", "Dirac_operator_explicit_G",
-                    "nontriviality_1_dirac16complex", "nontriviality_2_dirac16complex00"],
+                    "nontriviality_1_dirac16complex", "nontriviality_2_dirac16complex00",
+                    "Omega_vanishes_iff_a4prime_and_H_vanish", "block_form"],
         REPORT_LEAD: ["vielbein_reproduces_metric", "gamma_Omega_equals_3H_gamma8",
                       "gamma_Omega_divergence_formula",
                       "negative_control_inflating_extra_times"],

@@ -68,7 +68,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all five figure files exist",
-        "ALL 54 CHECKS PASSED (notebook 12a)",
+        "ALL 55 CHECKS PASSED (notebook 12a)",
     ],
     "troubleshooting": [
         ["The cell that computes the Lovelock tensors runs for more than a minute",
@@ -191,9 +191,14 @@ CELLS = [
     writes a report file: a list of checks with a name and a verdict. The next cell
     defines a helper that looks up a check by its name, and the helper `reproduces`:
     a check that passes only when this notebook's own result holds AND the record
-    lists the named check with the verdict PASS.
+    lists the named check with the verdict PASS. `reproduces` collects its two printed
+    lines (PASS and reproduces) in a text buffer and prints them with one call, so
+    that they always stay together in the output.
     """),
     code(r'''
+    import contextlib  # redirect_stdout: send printed lines into a buffer
+    import io  # StringIO: a text buffer in memory
+
     PY = "Revision/field_equations_a4/reports/python-a4-report.json"  # sympy record
     WL = "Revision/field_equations_a4/reports/wolfram-a4-report.json"  # Wolfram record
     LEAD = "Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json"  # lead check
@@ -216,9 +221,14 @@ CELLS = [
 
 
     def reproduces(condition, name, report_file, record_name):
-        """A check that also requires the record check record_name to be PASS."""
+        """A check that also requires the record check record_name to be PASS.  Its
+        printed lines (PASS and reproduces) are collected in a text buffer and printed
+        by one print call, so that they always stay together in the cell's output."""
         found = record_verdict(report_file, record_name) == "PASS"
-        check(condition and found, name, record=f"{report_file}, check {record_name}")
+        lines = io.StringIO()  # a text buffer
+        with contextlib.redirect_stdout(lines):  # print() now writes into the buffer
+            check(condition and found, name, record=f"{report_file}, check {record_name}")
+        print(lines.getvalue(), end="")  # all lines at once
 
 
     for report_file in (PY, WL, LEAD, EMT):
@@ -292,7 +302,10 @@ CELLS = [
     $$\Gamma^a{}_{bc} = \frac{1}{2g_{aa}}\big(\delta_{ac}\,\partial_b g_{aa}
     + \delta_{ab}\,\partial_c g_{aa} - \delta_{bc}\,\partial_a g_{bb}\big)$$
 
-    (no sum over $a$ or $b$). The cell computes all $8^3 = 512$ of them.
+    (no sum over $a$ or $b$). The cell computes all $8^3 = 512$ of them, counts those
+    that are not zero (37: the 25 distinct ones printed by the cell after it, 12 of
+    which appear twice because $\Gamma^a{}_{bc} = \Gamma^a{}_{cb}$ with $b \ne c$) and
+    checks that symmetry.
     """),
     code(r'''
     def d(expr, mu):
@@ -318,6 +331,8 @@ CELLS = [
     nonzero = [(a, b, c) for a, b, c in itertools.product(range(N), repeat=3)
                if Gamma[a][b][c] != 0]
     say(f"{len(nonzero)} of the 512 Christoffel symbols are not zero")
+    check(len(nonzero) == 37,
+          "37 nonzero Christoffel symbols (25 distinct, 12 of them twice)")
     check(all(Gamma[a][b][c] == Gamma[a][c][b] for a, b, c in nonzero),
           "Gamma^a_bc = Gamma^a_cb (symmetric in the two lower indices)")
     '''),
@@ -424,12 +439,14 @@ CELLS = [
     md(r"""
     The next cell prints the 39 components with $a < b$, $m < n$, grouped by their
     value; each member is written `x1x2|x1x2` for $R^{x_1x_2}{}_{x_1x_2}$. Read the
-    groups as follows: a pair of two 3-space directions has curvature
-    $(a_4')^2 - H^2$; a 3-space direction with an extra time has $-(a_4')^2 - H^2$;
-    a pair with the hidden direction has $-H^2$; a 3-space direction with the time
-    has $(a_4')^2 + a_4''$ and an extra time with the time $(a_4')^2 - a_4''$. The two
-    last groups mix the time and the hidden direction; they are proportional to
-    $H a_4'$.
+    groups as follows: a pair of two 3-space directions, and a pair of two extra
+    times, has curvature $(a_4')^2 - H^2$; a 3-space direction with an extra time has
+    $-(a_4')^2 - H^2$; a pair with the hidden direction has $-H^2$; a 3-space
+    direction with the time has $(a_4')^2 + a_4''$ and an extra time with the time
+    $(a_4')^2 - a_4''$. The two remaining groups (12 components, written with `cz`
+    for $\cot z$) connect a pair that contains the time $x_4$ with the pair in which
+    $x_4$ is replaced by $x_8$; they are proportional to $H a_4'$, so they vanish when
+    $a_4$ is constant.
     """),
     code(r'''
     def pair_name(a, b):

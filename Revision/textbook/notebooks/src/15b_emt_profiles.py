@@ -46,7 +46,12 @@ FACTS = {
         "along the hidden direction point by point and integrated, integrates the "
         "profiles to the total energy, and checks the energy-change identity dE/da4 = "
         "minus three times the integrated difference of the 3-space and extra-time "
-        "pressures along the deflating history. The solver writes its output files "
+        "pressures along the deflating history. It also tests, on its own numbers, the "
+        "three conditions that a source of the equations for a4 must meet, and "
+        "reproduces the Revision record that shows that the Kohn-Sham states fail them "
+        "(the history is a prescribed background). Before it runs the solver, the notebook "
+        "builds it with cargo (a full build of about a minute when the program is "
+        "missing, a second when it is up to date). The solver writes its output files "
         "(about 1 MB) into the folder `Revision/kohn_sham/solver/target/textbook_15b`, "
         "which git ignores."
     ),
@@ -77,7 +82,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS every figure file of this notebook exists",
-        "ALL 14 CHECKS PASSED (notebook 15b)",
+        "ALL 18 CHECKS PASSED (notebook 15b)",
     ],
     "troubleshooting": [],
 }
@@ -104,7 +109,9 @@ CELLS = [
       $dE/da_4 = -3 \cdot 2\,\mathrm{Vol}_7 \int e^{6Hy}(p_3 - p_t)\,dy$: the energy of
       the gas changes only through the difference between the 3-space pressure and the
       extra-time pressure;
-    - shows how the interaction adds the same energy density to $p_3$, $p_t$ and $p_8$.
+    - shows how the interaction adds the same energy density to $p_3$, $p_t$ and $p_8$;
+    - tests, on its own numbers, the three conditions that a source of the equations
+      for $a_4$ must meet, and reproduces the Revision record that shows they fail.
 
     It draws seven figures and takes about half a minute.
     """),
@@ -190,8 +197,12 @@ CELLS = [
 
     $$\frac{dE}{da_4} = -3 \cdot 2\,\mathrm{Vol}_7 \int_{-L}^{0} e^{6Hy}(p_3 - p_t)\,dy .$$
 
-    The gas gives energy to the inflation of 3-space (work against $p_3$) and receives
-    energy from the deflation of the extra times (work of $p_t$).
+    Read as work: when 3-space inflates by $da_4$, the gas loses the energy
+    $3\,p_3\,da_4$ per unit proper volume (the work done by its 3-space pressure), and
+    when the three extra times deflate by the same amount it gains $3\,p_t\,da_4$.
+    Here $p_t = e_{int}$ is the interaction energy density alone: it is zero without
+    interaction and can have either sign (positive or negative integrals both occur in
+    the record), so the deflation can return energy to the gas or take more away.
 
     **Status.** The tensor is COMPUTED by the solver; the two identities are exact and
     are checked here numerically. The history $a_4 = A H x_4$ is a PRESCRIBED
@@ -623,6 +634,11 @@ CELLS = [
     $-\tfrac{1}{32}\lambda n^2$ (computed here from the profile columns $S$ and $n$),
     checks that the column $e_{int}$ of the profile is this sum and that $p_t = e_{int}$
     exactly, and checks the conservation law for this state too (where $p_t \ne 0$).
+    Finally it counts, among the 60 interacting ground states of the committed table
+    `ground/emt-integrals.csv`, how many have a positive and how many a negative
+    integrated extra-time pressure $2\,\mathrm{Vol}_7\int e^{6Hy}p_t\,dy$: both signs
+    occur, so the deflation of the extra times can give energy to the gas or take
+    energy from it.
     """),
     code(r'''
     sp = read_profile(RUN_FOLDER / "N136_lamp2_a20.csv")
@@ -660,9 +676,91 @@ CELLS = [
           "the conservation law holds for the interacting state N136_lamp2_a20",
           record="Revision/kohn_sham/reports/ks-rust-solver.json, checks "
                  "emt_y_conservation_pointwise and emt_y_conservation_integrated")
+    int_pt = [float(row["int_p_t"]) for key, row in emt_rows.items()
+              if "_lam0_" not in key]  # the 60 interacting ground states
+    positive = sum(1 for value in int_pt if value > 0.0)
+    negative = sum(1 for value in int_pt if value < 0.0)
+    report("interacting states with integrated p_t > 0 / < 0", f"{positive} / {negative}")
+    check(len(int_pt) == 60 and positive > 0 and negative > 0,
+          "the integrated extra-time pressure takes both signs",
+          record=f"{EMT_TABLE}, column int_p_t")
     '''),
     md(r"""
-    ## 13. The last check
+    ## 13. Why this tensor cannot drive the history
+
+    The field equations for $a_4$ (the Einstein-Lovelock equations of the author's
+    metric) accept a source only under three conditions (Revision record
+    Revision/field_equations_a4/reports/ks-source-conditions.json, key `conditions`):
+
+    - (C1) every component of the source is independent of $x_8$, that is, of $y$;
+    - (C2) $p_3 + p_t = 2 p_8$ at every point;
+    - (C3) for the linear history $a_4 = AHx_4 + a_0$ used here: $p_3 = p_t = p_8$
+      and a constant $\rho$.
+
+    The next cell tests the three conditions on this notebook's own numbers: the
+    profile of $N = 136$, $\lambda = 0$, $a_{4,0} = 1$ for C1 and C2 point by point,
+    and the 17 slices of the history for C2 after the integration over $y$ and for C3.
+    It prints the profile at $y = -3, -1.5, 0$ and checks these values and the
+    integrated ratios $(\int p_3 + \int p_t)/(2\int p_8)$ at $a_{4,0} = 0, 1, 2$
+    against the numbers printed in the record's checks (6 significant digits). All
+    three conditions fail, as the record says: the Kohn-Sham gas is a test field on a
+    PRESCRIBED BACKGROUND, not a source that would produce the deflating history.
+    """),
+    code(r'''
+    import re  # finds the numbers inside the record's text
+
+    SOURCE = "Revision/field_equations_a4/reports/ks-source-conditions.json"
+    source = json.loads(repository_file(SOURCE).read_text(encoding="utf-8"))
+    details = {item["name"]: item["detail"] for item in source["checks"]}
+    t_scale = max(float(np.max(np.abs(prof[c]))) for c in ("rho", "p3", "p_t", "p8"))
+    c1 = (float(np.max(prof["rho"])) - float(np.min(prof["rho"]))) / t_scale  # C1 test
+    c2 = prof["p3"] + prof["p_t"] - 2.0 * prof["p8"]  # zero everywhere if C2 held
+    number = r"(-?[0-9.]+(?:e[-+]?[0-9]+)?)"  # a number as the record prints it
+    examples = re.findall(
+        rf"y = {number}: rho = {number}, p3 = {number}, p_t = {number}, "
+        rf"p8 = {number}, p3 \+ p_t - 2 p8 = {number}",
+        details["ks_profiles_violate_algebraic_condition"])
+    say("    y         rho          p3      p_t          p8  p3 + p_t - 2 p8")
+    worst_example = 0.0
+    for example in examples:
+        y0, values = float(example[0]), [float(v) for v in example[1:]]
+        i = int(np.argmin(np.abs(y - y0)))  # the profile point at this y
+        mine = [float(prof["rho"][i]), float(prof["p3"][i]), float(prof["p_t"][i]),
+                float(prof["p8"][i]), float(c2[i])]
+        say(f"{y[i] + 0.0:5.1f}  {mine[0]:10.6g}  {mine[1]:10.6g}"  # + 0.0 turns -0 into 0
+            f"  {mine[2] + 0.0:7.3g}  {mine[3]:10.6g}  {mine[4]:15.6g}")
+        for a, b in zip(mine, values):  # 6 significant digits: relative 5e-6
+            worst_example = max(worst_example, abs(a - b) / max(abs(b), 1e-300)
+                                if b != 0.0 else abs(a))
+    ratios_c2 = {item["a4"]: (item["p3"] + item["p_t"]) / (2.0 * item["p8"])
+                 for item in history}
+    recorded_c2 = {int(key[-2:]) / 10.0: float(value) for key, value in re.findall(
+        r"(N136_lam0_a[0-9][0-9]): ([0-9.]+)",
+        details["ks_integrals_violate_algebraic_condition"])}
+    worst_c2 = max(abs(ratios_c2[a4] / value - 1.0) for a4, value in recorded_c2.items())
+    report("C1: (max rho - min rho) / max|T| for N136_lam0_a10", f"{c1:.4f}")
+    report("C2 integrated: (int p3 + int p_t)/(2 int p8) at a4,0 = 0, 1, 2",
+           ", ".join(f"{ratios_c2[a]:.6f}" for a in (0.0, 1.0, 2.0)))
+    report("C3: int rho at a4,0 = 0 and 2; int p3 and int p_t at a4,0 = 1",
+           f"{history[0]['rho']:.4f}, {history[-1]['rho']:.4f}; "
+           f"{history[8]['p3']:.4f}, {history[8]['p_t']:.1f}")
+    check(c1 > 0.01 and len(examples) == 3 and worst_example < 5e-6
+          and float(np.min(np.abs(c2[[0, len(c2) // 2, -1]]))) > 0.0,
+          "C1 and C2 fail for N136_lam0_a10; the record's example values reproduced",
+          record=f"{SOURCE}, checks ks_profiles_depend_on_x8 and "
+                 "ks_profiles_violate_algebraic_condition")
+    check(len(recorded_c2) == 3 and worst_c2 < 5e-6
+          and all(abs(r - 1.0) > 0.5 for r in ratios_c2.values()),
+          "C2 fails after integration at all 17 slices; the record's ratios reproduced",
+          record=f"{SOURCE}, check ks_integrals_violate_algebraic_condition")
+    check(history[-1]["rho"] < 0.2 * history[0]["rho"]
+          and all(item["p3"] > 0.25 * item["rho"] and item["p_t"] == 0.0
+                  for item in history),
+          "C3 fails: rho changes along the history and p3 differs from p_t",
+          record=f"{SOURCE}, check ks_history_is_a_prescribed_background")
+    '''),
+    md(r"""
+    ## 14. The last check
 
     The last cell checks that every figure file of this notebook exists and prints the
     number of checks that passed.
@@ -676,7 +774,7 @@ CELLS = [
     all_checks_passed()
     '''),
     md(r"""
-    ## 14. What this notebook showed
+    ## 15. What this notebook showed
 
     - The solver's profiles of the energy density and the three pressures are
       reproduced on this computer, and their integrals give the Kohn-Sham energy
@@ -686,13 +784,16 @@ CELLS = [
       and without interaction (an exact identity, checked numerically).
     - Along the deflating history the energy of the gas changes exactly by the work of
       the pressure difference, $dE/da_4 = -3 \cdot 2\,\mathrm{Vol}_7\int e^{6Hy}(p_3 -
-      p_t)\,dy$: energy flows from the gas into the inflation of 3-space, and the
-      extra-time pressure, which is only the interaction energy density, returns a
-      little of it.
+      p_t)\,dy$: the 3-space pressure takes energy from the gas as 3-space inflates,
+      and the extra-time pressure, which is only the interaction energy density (zero
+      without interaction, of either sign with it), adds or removes a small amount as
+      the extra times deflate.
     - The integrated ratio $\int p_3/\int\rho$ rises toward $1/3$ as the momenta
       redshift; the energy moves toward the tip.
     - The history is PRESCRIBED: these components are not an admissible source of the
-      equations for $a_4$, and no equation of state seen by an observer is claimed here.
+      equations for $a_4$ (they depend on $y$, $p_3 + p_t \ne 2p_8$, and along the
+      history $\rho$ changes and $p_3 \ne p_t$; checked here on the notebook's own
+      numbers), and no equation of state seen by an observer is claimed here.
     """),
 ]
 

@@ -562,8 +562,10 @@ CELLS = [
        $\Gamma^T C\gamma^a \Gamma = -C\gamma^a$ for every $a$.
 
     Fact 4 is the matrix input of the pairing theorem T1 of the Revision record: the
-    map $\Psi \to \Gamma\Psi$ keeps the bilinear $\Psi^\dagger C \Psi$ and reverses the
-    sign of every $\Psi^\dagger C\gamma^a \ldots \Psi$.
+    map $\Psi \to \Gamma\Psi$ keeps the bilinear $\Psi^\dagger C \Psi$ (because
+    $(\Gamma\Psi)^\dagger C(\Gamma\Psi) = \Psi^\dagger\Gamma^T C\Gamma\Psi$, $\Gamma$
+    being real) and reverses the sign of every $\Psi^\dagger C\gamma^a E\Psi$ in which
+    $E$ is a product of an even number of gammas ($\Gamma$ commutes with such an $E$).
     """),
     code(r'''
     Gamma = product(["x8", "x1", "x2", "x3", "x4", "x5", "x6", "x7"])  # all eight

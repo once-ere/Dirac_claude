@@ -29,10 +29,10 @@ FACTS = {
         "form is conserved, only up to a boundary term that vanishes at the tip z = 0 "
         "but not at the patch end z = pi/2, shows that without the spin-connection "
         "term 3 H a remainder survives, shows that the waves independent of x8 (finite "
-        "norm) have the frequencies squared m^2 - 9 H^2 and therefore grow for m below "
-        "3 H, checks an exact growing solution and that its Krein charge changes by "
-        "exactly the flux through z = pi/2, reproduces the recorded numbers, and draws "
-        "five teaching figures."
+        "norm) have the frequencies squared m^2 - 9 H^2 and therefore grow when m^2 "
+        "is below 9 H^2, checks an exact growing solution and that its Krein charge "
+        "changes by exactly the flux through z = pi/2, reproduces the recorded "
+        "numbers, and draws five teaching figures."
     ),
     "records": [
         ["Revision/algebra/gammas.json", "the author's gamma matrices (read)"],
@@ -90,7 +90,7 @@ CELLS = [
       term (without it a remainder $-6H\cos z\,u^\dagger M_8v$ survives);
     - shows that the waves that do not depend on $x_8$ (they have a finite norm) see the
       matrix $A = -im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_8)}$, with $A^2 = (m^2 -
-      9H^2)I_{16}$: for $m < 3H$ their frequencies are imaginary and they grow;
+      9H^2)I_{16}$: for $m^2 < 9H^2$ their frequencies are imaginary and they grow;
     - checks an exact growing solution, and that its Krein charge changes in time by
       exactly the flux through $z = \pi/2$;
     - reproduces the recorded numbers and draws five teaching figures.
@@ -177,7 +177,8 @@ CELLS = [
     the constant matrix $A$. Their norm $\int_0^{\pi/(12H)}\cos(6Hx_8)\,dx_8 = 1/(6H)$ is
     finite (the patch $0 < z < \pi/2$ is $0 < x_8 < \pi/(12H)$), so they are honest
     members of the good sector. The notebook proves $A^2 = (m^2 - 9H^2)I_{16}$: for
-    $m < 3H$ the frequencies are imaginary and these waves grow.
+    $m^2 < 9H^2$, that is $-3H < m < 3H$, the frequencies are imaginary and these waves
+    grow. (The pictures below take $m \geq 0$; the mass enters only through $m^2$.)
     """),
     md(r"""
     ## 5. The matrices of the hidden direction
@@ -412,7 +413,7 @@ CELLS = [
                 "u^\\dagger M_8u$ survives.")
     '''),
     md(r"""
-    ## 8. Waves that do not depend on $x_8$: growth for $m < 3H$
+    ## 8. Waves that do not depend on $x_8$: growth for $m^2 < 9H^2$
 
     For a wave that depends on $x_4$ only, $h$ acts as the constant matrix $A$. The next
     cell checks exactly: the norm integral $\int_0^{\pi/(12H)}\cos(6Hx_8)\,dx_8 =
@@ -639,9 +640,9 @@ CELLS = [
       \chi$ with the volume $dy$, no such term is needed: this role of $3H$ depends on
       the variables, as the Revision record states.)
     - PROVED: the good-sector waves that do not depend on $x_8$ have a finite norm and
-      the frequencies $\pm\sqrt{m^2 - 9H^2}$; for $m < 3H$ they grow (at $m = H = 1$ the
-      eigenvalues are $\pm 2\sqrt2\,i$). The exact solution of the record with
-      $\alpha = 0$ is such a wave.
+      the frequencies $\pm\sqrt{m^2 - 9H^2}$; for $m^2 < 9H^2$ they grow (at
+      $m = H = 1$ the eigenvalues are $\pm 2\sqrt2\,i$). The exact solution of the
+      record with $\alpha = 0$ is such a wave.
     - COMPUTED: for that solution the Krein charge is not conserved; it changes by
       exactly the flux through $z = \pi/2$.
     - CONSEQUENCE (the scope of the quantisation in the Revision record): Hermiticity of

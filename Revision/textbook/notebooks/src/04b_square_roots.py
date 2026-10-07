@@ -33,16 +33,23 @@ FACTS = {
         "signs has a linear square root only when the coefficients are anticommuting "
         "matrices. It checks this exactly for two 2 by 2 examples, the Pauli matrices, "
         "Dirac's 4 by 4 matrices and the author's eight 16 by 16 gammas, derives the "
-        "plane-wave relation of the first-order equation in flat 4+4 dimensions and "
-        "reproduces the Revision record of this relation, and draws six figures."
+        "plane-wave relation of the first-order equation in flat 4+4 dimensions, shows "
+        "that a momentum along an extra time makes the energies imaginary (growing "
+        "waves), reproduces the Revision record of these relations and of their exact "
+        "examples, and draws six figures."
     ),
     "records": [
         ["Revision/algebra/gammas.json",
          "the author's eight gamma matrices in the order x1 to x8 (read)"],
         ["Revision/theory/reports/python-field-theory.json",
-         "checks mode_hamiltonian_B_selfadjoint_dispersion (the formula for h squared) "
-         "and good_sector_spectrum_and_B_sectors (its exact example with energies plus "
-         "and minus 5, eight each), reproduced"],
+         "checks mode_hamiltonian_B_selfadjoint_dispersion (the formula for h squared), "
+         "good_sector_spectrum_and_B_sectors (its exact example with energies plus "
+         "and minus 5, eight each) and extra_time_modes_grow (the exact example with "
+         "mass 1 and extra-time momentum 2, energies plus and minus i times the square "
+         "root of 3), reproduced"],
+        ["Revision/theory/reports/python-scope.json",
+         "check extra_time_growth_rates_unbounded (the growth rate of a wave with "
+         "momentum along an extra time), reproduced"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -59,7 +66,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all six figure files exist",
-        "ALL 16 CHECKS PASSED (notebook 04b)",
+        "ALL 17 CHECKS PASSED (notebook 04b)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for `Revision/algebra/gammas.json` or "
@@ -94,6 +101,9 @@ CELLS = [
       $\sum_a \gamma^{(x_a)} \partial_a \Psi = m\Psi$ says about plane waves in flat
       4+4 dimensions: $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$,
       and reproduces the Revision record of this relation and of its exact example;
+    - shows that a momentum along an extra time enters $E^2$ with a minus sign and
+      makes the energies imaginary (waves that grow in time) when it is large enough,
+      and reproduces the Revision record of this growth;
     - draws six figures.
     """),
     md(r"""
@@ -702,9 +712,19 @@ CELLS = [
     numerically for 160 values of $k_5$ from 0.025 to 7.975 (the point $k_5 = 5$, where
     both energies are 0, is left out), checks that 8 of them are
     $+\sqrt{25 - k_5^2}$ and 8 are $-\sqrt{25 - k_5^2}$ (complex square root) to
-    $10^{-10}$, and draws their real and imaginary parts.
+    $10^{-10}$, and draws their real and imaginary parts. For $k_5 > 5$ the imaginary
+    part $\sqrt{k_5^2 - 25} = \sqrt{k_5^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$ is the
+    *growth rate* of the wave; the Revision record states this formula
+    (`Revision/theory/reports/python-scope.json`, check
+    `extra_time_growth_rates_unbounded`), and the check below reproduces it.
     """),
     code(r'''
+    SCOPE = "Revision/theory/reports/python-scope.json"
+    scope = json.loads(repository_file(SCOPE).read_text(encoding="utf-8"))
+    scope_checks = {entry["name"]: entry for entry in scope["checks"]}
+    scope_ok = scope_checks.get("extra_time_growth_rates_unbounded", {}).get(
+        "verdict", "").upper() == "PASS"  # the record must hold this check as passed
+
     k5_values = np.linspace(0.025, 7.975, 160)  # steps of 0.05, avoiding k5 = 5
     real_parts, imaginary_parts, deviations, counts_ok = [], [], [], True
     for k5 in k5_values:
@@ -717,8 +737,10 @@ CELLS = [
         imaginary_parts.append(np.sort(values.imag))
     bound = 10.0 ** np.ceil(np.log10(max(deviations)))  # a power of ten, as above
     report("largest deviation from +-sqrt(25 - k5^2) is at most", f"{bound:.0e}")
-    check(max(deviations) < 1e-10 and counts_ok,
+    check(max(deviations) < 1e-10 and counts_ok and scope_ok,
           "with momentum k5: eight energies +sqrt(25 - k5^2), eight -sqrt(25 - k5^2)")
+    print(f"     reproduces {SCOPE}")
+    print("         check extra_time_growth_rates_unbounded (growth rate formula)")
 
     real_parts, imaginary_parts = np.array(real_parts), np.array(imaginary_parts)
     fig, (left, right) = plt.subplots(1, 2, figsize=(8.4, 3.8), layout="constrained")
@@ -741,6 +763,49 @@ CELLS = [
                 "$-\\sqrt{25 - k_5^2}$; they are real for $k_5 < 5$ and imaginary for "
                 "$k_5 > 5$ (dotted line at $k_5 = 5$), because the extra times enter "
                 "the quadratic form with a minus sign.")
+    '''),
+    md(r"""
+    **The exact example of the Revision record.** The Revision record also works out
+    the smallest example exactly (`Revision/theory/reports/python-field-theory.json`,
+    check `extra_time_modes_grow`): mass $m = 1$, no momentum except $k_5 = 2$ along
+    the extra time $x_5$. Then $h^2 = (m^2 - k_5^2) I_{16} = (1 - 4) I_{16} = -3 I_{16}$,
+    so every eigenvalue $E$ has $E^2 = -3$: $E = +i\sqrt3$ or $E = -i\sqrt3$. The plane
+    wave carries the factor $e^{-iEx_4}$; for $E = i\sqrt3$ this is
+    $e^{-i \cdot i\sqrt3\, x_4} = e^{\sqrt3\, x_4}$ (because $-i \cdot i = 1$), a wave
+    that grows exponentially in the time $x_4$. The next cell substitutes these numbers
+    into the exact $h$ of section 10, checks $h^2 = -3 I_{16}$, asks sympy for the
+    exact eigenvalues and their multiplicities (`eigenvals` returns a dictionary
+    eigenvalue: multiplicity), and compares them with the eigenvalues that the record
+    prints.
+
+    **Why the deflation matters here.** In the author's metric the extra times
+    deflate. A wave with a fixed *coordinate* momentum $k_{x_5}$ along $x_5$ has the
+    *frame* momentum $e^{a_4}\sin^{-1/6}(z)\, k_{x_5}$: the derivative along the
+    coordinate $x_5$ is divided by the frame factor $e^{-a_4}\sin^{1/6} z$ of the
+    direction $x_5$. As $a_4$ grows this frame momentum grows like $e^{a_4}$, so,
+    in the local plane-wave reading that the same Revision check states, every wave
+    along an extra time eventually reaches the region where $E$ is imaginary. This
+    notebook computes only the flat algebra behind that statement.
+    """),
+    code(r'''
+    example_values = {m: 1, k[0]: 0, k[1]: 0, k[2]: 0, k[4]: 2, k[5]: 0, k[6]: 0,
+                      k[7]: 0}  # mass 1, momentum 2 along x5, nothing else
+    h_example = h.subs(example_values)  # the exact 16 x 16 matrix h for these numbers
+    exact_eigenvalues = h_example.eigenvals()  # {eigenvalue: multiplicity}
+    names = sorted(str(value) for value in exact_eigenvalues)  # as sympy writes them
+    # printed in sorted order, so that every run prints the same line
+    listed = ", ".join(f"{value} ({count} times)" for value, count in
+                       sorted(exact_eigenvalues.items(), key=lambda item: str(item[0])))
+    say(f"h^2 = -3 I16: {h_example * h_example == -3 * sp.eye(16)}; exact eigenvalues: "
+        f"{listed}")
+    detail = theory_checks.get("extra_time_modes_grow", {}).get("detail", "")
+    check(h_example * h_example == -3 * sp.eye(16)
+          and exact_eigenvalues == {sp.sqrt(3) * sp.I: 8, -sp.sqrt(3) * sp.I: 8}
+          and recorded_pass("extra_time_modes_grow")
+          and "m = 1, k5 = 2" in detail and str(names) in detail,
+          "m = 1, k5 = 2: E = +i sqrt(3) and -i sqrt(3), eight each (growing modes)")
+    print(f"     reproduces {THEORY}")
+    print("         check extra_time_modes_grow (its exact example)")
     '''),
     md(r"""
     ## 12. The last check
@@ -779,10 +844,18 @@ CELLS = [
       ($m = 2$, $k = (1, 2, 0, k_8 = 4)$) has the
       energies $+5$ and $-5$, eight each (check `good_sector_spectrum_and_B_sectors`),
       and a momentum along an extra time makes the energies imaginary when
-      $k_5^2 > m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2$.
+      $k_5^2 > m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2$, with the growth rate
+      $\sqrt{k_5^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$
+      (`Revision/theory/reports/python-scope.json`, check
+      `extra_time_growth_rates_unbounded`). PROVED (exact, sympy): the record's example
+      $m = 1$, $k_5 = 2$ has the energies $\pm i\sqrt3$, eight each (check
+      `extra_time_modes_grow`); the wave with $E = i\sqrt3$ grows like
+      $e^{\sqrt3\,x_4}$.
     - ASSUMED: flat 4+4 space (constant metric $\eta$). The author's space-time is
       curved, 3-space inflates and the extra times deflate; these effects are not part
-      of this notebook.
+      of this notebook. The deflation multiplies the frame momentum of a wave along an
+      extra time by $e^{a_4}$, so it pushes such waves towards the growing region; the
+      Revision record states this as a local plane-wave statement.
     """),
 ]
 

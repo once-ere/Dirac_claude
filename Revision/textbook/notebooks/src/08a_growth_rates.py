@@ -130,7 +130,10 @@ CELLS = [
     - **Frozen coefficients**: in a curved space the factors in front of the derivatives
       change from point to point and in time; near one point and for a short time one
       replaces them by their values at that point. The momenta measured with these
-      factors are the *frame momenta* $k_a$.
+      factors are the *frame momenta* $k_a$. This is a device of the analysis near one
+      point (labelled MODEL); it does NOT say that the extra times stop deflating: in
+      the author's metric they always deflate exponentially, and Notebook 08b follows a
+      wave along the deflating history.
     - **Mode matrix** $h_k$: the $16 \times 16$ complex matrix with $E u = h_k u$.
     - **Eigenvalue, eigenvector**: $E$ and $u \neq 0$ with $h_k u = E u$; the
       *eigenspace* of $E$ is the set of all such $u$; its *dimension* is the number of
@@ -170,8 +173,11 @@ CELLS = [
     exactly in the variables $\chi = \sin^{1/2}z\,\Psi$ (Revision check
     `rescaling_removes_the_connection_term`). With frozen coefficients the factors
     $e^{\mp a_4}\sin^{-1/6}z$ and $\tan z$ become constants and are absorbed into the
-    frame momenta $k_a$; in flat 4 + 4 space they are exactly 1. So for a plane wave the
-    equation reads, line by line:
+    frame momenta $k_a$; in flat 4 + 4 space they are exactly 1. (Freezing them is a
+    local MODEL: along the history $a_4(x_4)$ the extra-time factor $e^{a_4}$ keeps
+    growing, so the frame momentum of a given wave along an extra time keeps growing
+    too; Notebook 08b computes that.) So for a plane wave the equation reads, line by
+    line:
 
     1. $\gamma^{(4)}(-iE)u + \sum_{a \neq 4} i k_a \gamma^{(a)} u = m u$, because
        $\partial_4$ gives the factor $-iE$ and $\partial_a$ the factor $i k_a$.
@@ -479,6 +485,8 @@ CELLS = [
             kappa = growth_rate(1.0, K)
             ax.plot(x4_values, np.log(sizes[-1]) + 2 * kappa * (x4_values - 3.0), "--",
                     color="gray", linewidth=0.8)
+    # An empty line that only adds the dashed straight lines to the legend:
+    ax.plot([], [], "--", color="gray", linewidth=0.8, label="slope $2\\kappa$")
     ax.set_xlabel("time $x_4$")
     ax.set_ylabel("$\\ln(u^\\dagger u)$")
     ax.set_title("Size of a wave in time, $m = 1$")

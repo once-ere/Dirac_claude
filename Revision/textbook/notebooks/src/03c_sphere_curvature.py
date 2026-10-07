@@ -464,11 +464,14 @@ CELLS = [
         th, ph = np.meshgrid(np.linspace(0, np.pi, 13), np.linspace(0, 2 * np.pi, 25))
         ax.plot_wireframe(np.sin(th) * np.cos(ph), np.sin(th) * np.sin(ph), np.cos(th),
                           color="grey", lw=0.3)
-        ax.set_box_aspect((1, 1, 1))
+        ax.set_box_aspect((1, 1, 1), zoom=0.9)  # a little smaller: the labels fit
         ax.set_xlim(-1, 1)
         ax.set_ylim(-1, 1)
         ax.set_zlim(-1, 1)
         ax.view_init(elev=25, azim=-60)
+        for set_ticks in (ax.set_xticks, ax.set_yticks, ax.set_zticks):
+            set_ticks([-1.0, 0.0, 1.0])  # three ticks per axis: labels do not overlap
+        ax.tick_params(labelsize=8)
         ax.set_xlabel("$X$")
         ax.set_ylabel("$Y$")
         ax.set_zlabel("$Z$")
@@ -704,8 +707,9 @@ CELLS = [
       the equator is not a geodesic.
     - Geodesics that start parallel approach each other as the geodesic deviation
       equation with the curvature $1/a^2$ predicts, and meet at the pole.
-    - These are the same formulas and the same code that Notebook 03b applies to the
-      author's 8-dimensional metric, where they give the curvature of the primordial
+    - These are the same formulas, applied in the same order (Christoffel symbols,
+      Riemann tensor, Ricci tensor, scalars), that Notebook 03b applies to the author's
+      8-dimensional metric, where they give the curvature of the primordial
       gravitational field.
     """),
 ]

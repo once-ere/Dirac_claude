@@ -57,8 +57,9 @@ FACTS = {
          "the author's definition of the generalized Kronecker delta, recorded "
          "verbatim (read and checked)"],
         ["Revision/gkd_lovelock/results/notebook-input-cells.txt",
-         "the input cells labelled 32 and 87 of the author's notebook: the Levi-Civita "
-         "route and the definition (read)"],
+         "the input cells labelled 29, 32 and 87 of the author's notebook: the "
+         "declaration of its metric with the signature (4,4), the Levi-Civita route and "
+         "the definition (read)"],
         ["Revision/gkd_lovelock/code/src/gkd.rs",
          "the Revision program GKD and its four-case proof (rewritten in Python)"],
         ["Revision/gkd_lovelock/results/wolfram-gkd-report.json",
@@ -83,7 +84,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS all 6 figure files of this notebook exist",
-        "ALL 27 CHECKS PASSED (notebook 01c)",
+        "ALL 28 CHECKS PASSED (notebook 01c)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for a file below Revision/gkd_lovelock or Revision/algebra",
@@ -203,11 +204,12 @@ CELLS = [
     PROVENANCE_OF_THE_COMPUTATION.md records the author's definition verbatim, with
     the Greek letter $\delta$; this notebook is written in plain ASCII, so the letter
     is typed as its code `\u03b4`. The file notebook-input-cells.txt lists the input
-    cells of the author's notebook; the cell finds the definition (In[87]) and the
-    first cell of the author's second route (In[32], a product of two Levi-Civita
-    tensors, section 15 of this notebook) and prints them, with the Greek letter
-    written as `\[Delta]`. `re.search` looks for a pattern in a text; `HoldForm[...]`
-    is how the record wraps every cell.
+    cells of the author's notebook, each under the label stored in the file; the cell
+    finds the definition (In[87]), the first cell of the author's second route
+    (In[32], a product of two Levi-Civita tensors, section 15 of this notebook) and
+    the cell that declares the metric $g$ used by that route (In[29]), and prints
+    them, with the Greek letter written as `\[Delta]`. `re.search` looks for a
+    pattern in a text; `HoldForm[...]` is how the record wraps every cell.
     """),
     code(r'''
     import itertools  # all lists of labels, all permutations
@@ -229,12 +231,13 @@ CELLS = [
                                   "notebook-input-cells.txt").read_text(encoding="utf-8")
     found = {}
     for line in input_cells.splitlines():
-        for label in ("In[87]:=", "In[32]:="):
+        for label in ("In[87]:=", "In[32]:=", "In[29]:="):
             if line.startswith(label):
                 found[label] = re.search(r"HoldForm\[(.*)\]", line).group(1)
-    for label in ("In[87]:=", "In[32]:="):
+    for label in ("In[87]:=", "In[32]:=", "In[29]:="):
         plain_text = found[label].replace(DELTA, "\\[Delta]")  # Mathematica's spelling
         say(f"author's cell {label} {plain_text}")
+    metric_cell = found["In[29]:="]  # kept for section 15 (the declaration of g)
     check("Det[Outer[delta, lower, upper]]" in found["In[87]:="] and
           "epsilong" in found["In[32]:="] and "(8 - 1)!" in found["In[32]:="],
           "the author's notebook defines the delta as a determinant (In[87]) and "
@@ -959,14 +962,18 @@ CELLS = [
     with the metric; raising all $n$ indices of $\varepsilon$ multiplies it by the
     product of the diagonal entries of $\eta^{-1}$, which is $\det \eta = +1$ for the
     four $+1$ and four $-1$ of $\eta$ (in four-dimensional spacetime, with one $-1$,
-    the same step gives a factor $-1$). The author's notebook raises the indices with
-    the metric $g$ itself; the factor is then the sign of $\det g = \cos^2 z$, again
-    $+1$. The next cell reads $\eta$ from the Revision
-    record and checks $\det\eta = +1$; checks the formula for $n = 4$ and every
-    $p = 0$ to 4 over all lists; and repeats the author's In[32] for $n = 8$ and
-    $p = 1$: for all 64 pairs $(a, b)$ it adds the products over all lists
-    $(c_2, \dots, c_8)$ of 7 different labels and divides by $7! = 5040$; the result
-    must be the $8 \times 8$ identity matrix $\delta^b_a$.
+    the same step gives a factor $-1$). The author's notebook uses the Levi-Civita
+    tensor `epsilong` of a metric $g$ that it declares in the cell In[29] with
+    `DefMetric[{4, 4, 0}, ...]`: four positive, four negative and no zero
+    eigenvalues, the signature (4,4). For that tensor the factor is the sign of
+    $\det g$, which is $(+1)^4 (-1)^4 = +1$, the same as for $\eta$ (and for the
+    author's metric of the Revision record, $\det g = \cos^2 z > 0$).
+    The next cell reads $\eta$ from the Revision record and checks
+    $\det\eta = +1$; checks the declaration (4, 4, 0) in the cell In[29]; checks
+    the formula for $n = 4$ and every $p = 0$ to 4 over all lists; and repeats the
+    author's In[32] for $n = 8$ and $p = 1$: for all 64 pairs $(a, b)$ it adds the
+    products over all lists $(c_2, \dots, c_8)$ of 7 different labels and divides by
+    $7! = 5040$; the result must be the $8 \times 8$ identity matrix $\delta^b_a$.
     """),
     code(r'''
     def levi_civita(indices, n):
@@ -979,6 +986,15 @@ CELLS = [
     say(f"diagonal of eta (x1 ... x8) from the record: {eta}; det eta = {math.prod(eta)}")
     check(math.prod(eta) == 1, "det eta = +1: raising all 8 indices of epsilon gives no "
           "extra sign in the signature (4,4)")
+    # (4, 4, 0): 4 positive, 4 negative, 0 zero eigenvalues; sign of det g = (-1)^4
+    signature = re.search(r"DefMetric\[\{(\d), (\d), (\d)\}", metric_cell)
+    positive, negative, zero = (int(part) for part in signature.groups())
+    say(f"the author's metric g: {positive} positive, {negative} negative, {zero} zero "
+        f"eigenvalues; sign of det g = (-1)^{negative} = {(-1) ** negative:+d}")
+    check((positive, negative, zero) == (4, 4, 0) and (-1) ** negative == 1,
+          "the author's notebook declares its metric with the signature (4,4), so the "
+          "product of two Levi-Civita tensors has the sign +1",
+          record="Revision/gkd_lovelock/results/notebook-input-cells.txt, In[29]")
     formula_ok = True
     for p in range(0, 5):  # n = 4, every length p of the lists a and b
         lists = list(itertools.product(range(4), repeat=p))

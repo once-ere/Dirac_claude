@@ -46,16 +46,16 @@ FACTS = {
         "an exact jet algebra (392 monomials for dirac16complex, 408 for "
         "dirac16complex00), proves that it is real, derives the 16 Euler-Lagrange "
         "equations for both statistics, compares them term by term with the Revision "
-        "formula record, verifies an exact family of solutions, and draws six teaching "
-        "plots."
+        "formula record, checks their chiral block form and their evolution form, "
+        "verifies an exact family of solutions, and draws six teaching plots."
     ),
     "records": [
         ["Revision/algebra/gammas.json",
          "the author's real 16 x 16 gamma matrices and C, read as data"],
         ["Revision/theory/field-theory.json",
          "the formula record: vielbein, volume factor, Christoffel symbols, spin "
-         "connection, gamma^mu Omega_mu per direction and the 16 component field "
-         "equations, reproduced exactly"],
+         "connection, gamma^mu Omega_mu per direction, the 16 component field "
+         "equations and their chiral blocks, reproduced exactly"],
         ["Revision/theory/reports/python-field-theory.json",
          "the sympy checks of the geometry, the Lagrangian, its reality, the "
          "Euler-Lagrange equations and the exact solutions, reproduced"],
@@ -73,7 +73,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS all 6 figure files of this notebook exist",
-        "ALL 44 CHECKS PASSED (notebook 07b)",
+        "ALL 47 CHECKS PASSED (notebook 07b)",
     ],
     "troubleshooting": [
         ["\"ValueError: ... is not a passing check of Revision/theory/reports/...\" or "
@@ -115,6 +115,9 @@ CELLS = [
     - writes them out in the author's metric and compares every one of the 16 component
       equations term by term with the Revision formula record
       Revision/theory/field-theory.json;
+    - checks two more forms of the same equations: the chiral block form (each
+      equation relates the two halves of $\Psi$) and the evolution form, which gives
+      the time derivative $\partial_4\Psi$ from the field at one time;
     - verifies an exact family of solutions and shows numerically that it fails when
       the spin-connection term $3H\gamma^{(x_8)}$ is left out.
 
@@ -1209,7 +1212,99 @@ CELLS = [
                 "contain the digit 8.")
     '''),
     md(r"""
-    ## 17. Non-triviality: the gravitational term in the field equation
+    ## 17. The chiral blocks and the evolution form
+
+    Two more ways of writing the same 16 equations; both are stated in the Revision
+    formula record.
+
+    **The chiral blocks.** Split $\Psi$ into its upper half $\psi_-$ (components 1 to
+    8, where the chirality matrix $\Gamma = \mathrm{diag}(-I_8, I_8)$ is $-1$) and its
+    lower half $\psi_+$ (components 9 to 16, where $\Gamma = +1$). Every frame gamma
+    is block off-diagonal,
+
+    $$\gamma^{(a)} = \begin{pmatrix} 0 & \bar\tau_a \\ \tau_a & 0 \end{pmatrix},$$
+
+    with $8\times8$ blocks $\bar\tau_a$ (upper right) and $\tau_a$ (lower left), and
+    $\bar\tau_{x_8} = \tau_{x_8} = I_8$. Multiplying a block matrix by the column
+    $(\psi_-, \psi_+)$ gives $(\bar\tau_a\psi_+, \tau_a\psi_-)$: the upper rows see
+    only the lower half and the lower rows only the upper half. The mass term
+    $V\Psi$, $V = m + \lambda S$, keeps each half in its own rows. So the field
+    equation is the pair
+
+    $$\sum_a\frac{1}{f_a}\bar\tau_a\partial_a\psi_+ + 3H\bar\tau_{x_8}\psi_+ =
+    V\psi_-,\qquad \sum_a\frac{1}{f_a}\tau_a\partial_a\psi_- + 3H\tau_{x_8}\psi_- =
+    V\psi_+ .$$
+
+    The derivatives and the gravitational term of one half are balanced by the mass
+    term of the other half: the mass term and the gravitational term both couple the
+    two chiral halves (the coupling map of Figure 4 shows the same fact).
+
+    **The evolution form.** Write the explicit equation of section 16 with the $x_4$
+    term separately ($f_4 = 1$) and solve it for $\partial_4\Psi$, line by line:
+
+    $$\gamma^{(x_4)}\partial_4\Psi + \sum_{a\neq4}\frac{1}{f_a}\gamma^{(a)}
+    \partial_a\Psi + 3H\gamma^{(x_8)}\Psi = V\Psi$$
+    $$\gamma^{(x_4)}\partial_4\Psi = V\Psi - \sum_{a\neq4}\frac{1}{f_a}\gamma^{(a)}
+    \partial_a\Psi - 3H\gamma^{(x_8)}\Psi$$
+    $$\partial_4\Psi = -\gamma^{(x_4)}\Big[V\Psi - \sum_{a\neq4}\frac{1}{f_a}
+    \gamma^{(a)}\partial_a\Psi - 3H\gamma^{(x_8)}\Psi\Big] .$$
+
+    The second line moves every other term to the right side; the third multiplies
+    from the left by $-\gamma^{(x_4)}$ and uses $-\gamma^{(x_4)}\gamma^{(x_4)} = 1$
+    (because $(\gamma^{(x_4)})^2 = -1$). So the time derivative of every component
+    is fixed by the field and its derivatives along the other seven directions at the
+    same time $x_4$: the slices $x_4 = $ const are **non-characteristic** (the
+    coefficient $\gamma^{(x_4)}$ of $\partial_4$ is invertible; $g^{44} = -1 \neq 0$).
+    Scope, from the Revision scope record: this does NOT make the initial-value
+    problem well posed. For data that depend on the extra times the growth rates of
+    the modes have no upper bound (check extra_time_growth_rates_unbounded of
+    Revision/theory/reports/python-scope.json).
+
+    The next cell reads the blocks from the formula record and compares them with the
+    gammas, checks $\Gamma = \mathrm{diag}(-I_8, I_8)$, and verifies the evolution form
+    exactly for both statistics: with $R$ the right side of the third line,
+    $\gamma^{(x_4)}(\partial_4\Psi - R)$ must equal the field-equation residual
+    $\mathcal{E} = \gamma^\mu D_\mu\Psi - (m + \lambda S)\Psi$ in all 16 components.
+    """),
+    code(r'''
+    blocks = {}  # direction name -> (tau-bar_a, tau_a)
+    for text in record["field_equation_blocks"]:
+        # the Wolfram list {"x1", {{...}}, {{...}}} is the JSON list ["x1", [[...]], [[...]]]
+        name, upper, lower = json.loads(text.replace("{", "[").replace("}", "]"))
+        blocks[name] = (sp.Matrix(upper), sp.Matrix(lower))
+    GAMMA = sp.Matrix(fixture["Gamma"])  # the chirality matrix of Revision/algebra
+    Z8 = sp.zeros(8, 8)
+    blocks_ok = sorted(blocks) == NAMES and GAMMA == sp.diag(*([-1] * 8 + [1] * 8))
+    for a in range(8):
+        upper, lower = blocks[NAMES[a]]
+        blocks_ok = (blocks_ok and G[a][:8, :8] == Z8 and G[a][8:, 8:] == Z8  # zero
+                     and G[a][:8, 8:] == upper and G[a][8:, :8] == lower)  # the blocks
+    blocks_ok = blocks_ok and blocks["x8"][0] == sp.eye(8) and blocks["x8"][1] == sp.eye(8)
+    check(blocks_ok, "Gamma = diag(-I8, I8); every gamma^(a) is block off-diagonal with the "
+          "blocks of the formula record; tau-bar_x8 = tau_x8 = I8",
+          record=reproduces(WLREP, "block_form"))
+
+    for name, odd in STATS.items():
+        data = fields[name]
+        psi = data["psi"]
+        V = Jet(odd, {(): m}) + data["S"].times(lam)  # m + lambda S
+        others = matvec(3 * H * G[X8], psi, odd)  # 3 H gamma^(x8) Psi, then the sum
+        for a in range(8):
+            if a != X4:  # (1/f_a) gamma^(a) d_a Psi for the seven other directions
+                others = [x + y for x, y in zip(others, matvec(
+                    G[a] / f[a], column(odd, PSI, (a,)), odd))]
+        bracket = [V * psi[A] - others[A] for A in range(16)]  # the square bracket
+        right = matvec(-G[X4], bracket, odd)  # R = -gamma^(x4) [ ... ]
+        difference = [x - y for x, y in zip(column(odd, PSI, (X4,)), right)]  # d4 Psi - R
+        left = matvec(G[X4], difference, odd)  # gamma^(x4) (d4 Psi - R)
+        tag = "G" if odd else "C"
+        check(all((left[A] - data["E"][A]).is_zero() for A in range(16)),
+              f"{name}: the evolution form d4 Psi = R is the field equation "
+              "(gamma^(x4) (d4 Psi - R) = E in all 16 components)",
+              record=reproduces(WLREP, f"evolution_form_{tag}"))
+    '''),
+    md(r"""
+    ## 18. Non-triviality: the gravitational term in the field equation
 
     The difference between the field-equation residual computed with the canonical
     spin connection and the one computed with $\Omega_\mu = 0$ is $\gamma^\mu\Omega_\mu
@@ -1238,7 +1333,7 @@ CELLS = [
               record=reproduces(WLREP, f"nontriviality_{number}"))
     '''),
     md(r"""
-    ## 18. An exact family of solutions
+    ## 19. An exact family of solutions
 
     Look for solutions that depend only on the time $x_4$ and the hidden direction
     $x_8$: $\Psi = \sin^\alpha z\,P(x_4)\,\chi_0$ with a constant column $\chi_0$ and a
@@ -1440,7 +1535,7 @@ CELLS = [
                 "The gravitational term is needed for the solution.")
     '''),
     md(r"""
-    ## 19. The last check
+    ## 20. The last check
 
     The last cell checks that the six figure files exist and prints the number of
     checks that passed.
@@ -1454,7 +1549,7 @@ CELLS = [
     all_checks_passed()
     '''),
     md(r"""
-    ## 20. What this notebook showed
+    ## 21. What this notebook showed
 
     - The diagonal frame $f = (e^{a_4}\sin^{1/6}z\ (\times3),\ 1,\ e^{-a_4}\sin^{1/6}z\
       (\times3),\ \cot z)$ gives exactly the author's metric, with $\sqrt{|g|} = \cos z$
@@ -1478,7 +1573,12 @@ CELLS = [
       $e^{-a_4}\sin^{-1/6}z$, $1$, $e^{a_4}\sin^{-1/6}z$, $\tan z$ and the
       gravitational term $3H\gamma^{(x_8)}\Psi$; they agree term by term with the
       Revision formula record. Each equation couples four components across the chiral
-      halves.
+      halves: every gamma is block off-diagonal, and the mass term and the term
+      $3H\gamma^{(x_8)}$ both couple the halves $\psi_-$ and $\psi_+$.
+    - Solved for the time derivative, $\partial_4\Psi = -\gamma^{(x_4)}[V\Psi -
+      \sum_{a\neq4}f_a^{-1}\gamma^{(a)}\partial_a\Psi - 3H\gamma^{(x_8)}\Psi]$: the
+      slices $x_4 = $ const are non-characteristic, which does not by itself make the
+      initial-value problem well posed (the extra-time growth rates are unbounded).
     - The family $\Psi = \sin^\alpha z(\cosh kx_4 + \sinh(kx_4)/k\,M)\chi_0$ solves the
       equations exactly for every $a_4$, with constant $S$; for $\alpha = 0$ and $m^2
       < 9H^2$ it grows exponentially, and it fails the equation from which the

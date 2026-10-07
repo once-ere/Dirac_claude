@@ -160,7 +160,9 @@ CELLS = [
     - RK4: $k_1 = f(t_n, y_n)$, $k_2 = f(t_n + h/2, y_n + (h/2) k_1)$,
       $k_3 = f(t_n + h/2, y_n + (h/2) k_2)$, $k_4 = f(t_n + h, y_n + h k_3)$,
       $y_{n+1} = y_n + (h/6)(k_1 + 2 k_2 + 2 k_3 + k_4)$. It averages four slopes
-      with the weights $1 : 2 : 2 : 1$.
+      with the weights $1 : 2 : 2 : 1$. RK4 is the method with which the Rust
+      program of the Revision record solves the Kohn-Sham equations of this book
+      (file Revision/kohn_sham/solver/src/shoot.rs, 900 steps on its interval).
 
     **Why Euler has order 1.** Taylor's theorem gives $y(t + h) = y(t) + h y'(t) +
     \frac{1}{2} h^2 y''(s)$ for some $s$ between $t$ and $t + h$. Euler keeps the
@@ -536,12 +538,14 @@ CELLS = [
                 "(triangles) and 16 for RK4 (circles), the values $2^p$ for the "
                 "orders $p = 1, 2, 4$ (dashed grey lines). RK4 is drawn only up to "
                 "$N = 512$; beyond, its error is rounding noise.")
-    report("ratio Euler at N = 4096", f"{ratios["euler"][-1]:.5f}")
-    report("ratio midpoint at N = 4096", f"{ratios["midpoint"][-1]:.5f}")
-    report("ratio RK4 at N = 128", f"{ratios["rk4"][5]:.4f}")
-    check(abs(ratios["euler"][-1] - 2) < 0.001
-          and abs(ratios["midpoint"][-1] - 4) < 0.001
-          and abs(ratios["rk4"][5] - 16) < 0.2,
+    ratio_euler = ratios["euler"][-1]  # the last ratio: N = 2048 -> 4096
+    ratio_midpoint = ratios["midpoint"][-1]
+    ratio_rk4 = ratios["rk4"][5]  # N = 64 -> 128, before rounding matters
+    report("ratio Euler at N = 4096", f"{ratio_euler:.5f}")
+    report("ratio midpoint at N = 4096", f"{ratio_midpoint:.5f}")
+    report("ratio RK4 at N = 128", f"{ratio_rk4:.4f}")
+    check(abs(ratio_euler - 2) < 0.001 and abs(ratio_midpoint - 4) < 0.001
+          and abs(ratio_rk4 - 16) < 0.2,
           "halving h divides the errors by 2, 4 and 16")
     '''),
     md(r"""
@@ -647,8 +651,13 @@ CELLS = [
     md(r"""
     The next cell follows the energy much longer, up to $t = 100$ (500 steps of
     $h = 0.2$), and draws the relative energy error $|E_n/E_0 - 1|$ on a logarithmic
-    scale. A straight rising line on this plot means growth like a power of $n$ or
-    exponential growth; the three methods differ by many powers of ten.
+    scale. After $n$ steps the energy is $E_0 q^n$, where $q$ is the factor per step,
+    so the relative error is $|q^n - 1|$. On a logarithmic vertical axis a straight
+    rising line means that the plotted quantity is multiplied by the same factor at
+    every step: that is Euler's $q^n$ once it is much larger than 1. For the midpoint
+    method and RK4, $q$ is so close to 1 that $q^n - 1 \approx n (q - 1)$: the error
+    grows in proportion to $n$, and on the logarithmic axis that is a curve that
+    bends over. The three methods differ by many powers of ten.
     """),
     code(r'''
     long_runs = {name: np.array(solve(step, oscillator, Y0, 100.0, 500)[1])
@@ -670,10 +679,12 @@ CELLS = [
                 "logarithmic vertical axis, against the time $t$ from 0 to 100 "
                 "(arbitrary units), for the step $h = 0.2$ (500 steps). Euler: the "
                 "energy grows by the factor $1.04$ per step and is $3 \\times 10^{8}$ "
-                "times too large at the end. Midpoint: it grows by $1.0004$ per step "
-                "(20 percent after 500 steps). RK4: it shrinks by $8.9 \\times "
-                "10^{-7}$ per step, a relative error below $5 \\times 10^{-4}$ at "
-                "the end.")
+                "times too large at the end. Midpoint: it grows by the factor "
+                "$1.0004$ per step (22 percent after 500 steps). RK4: it shrinks by "
+                "the fraction $8.8 \\times 10^{-7}$ per step, a relative error below "
+                "$5 \\times 10^{-4}$ at the end. The Euler line is straight (the same "
+                "factor at every step); the other two curves bend over, because "
+                "their small errors grow in proportion to the number of steps.")
     report("energy errors at t = 100 (Euler, midpoint, RK4)",
            ", ".join(f"{drift[name][-1]:.3e}" for name in METHODS))
     check(drift["euler"][-1] > 1e8 and 0.1 < drift["midpoint"][-1] < 0.3

@@ -15,7 +15,7 @@ The notebook builds the Revision Kohn-Sham solver (Revision/kohn_sham/solver) wi
 runs its subcommand "all" (the canonical matrix of 75 ground states and 135 thermal states)
 into the folder Revision/kohn_sham/solver/target/textbook_15a (ignored by git), compares
 every result with the committed Revision record Revision/kohn_sham/results and the report
-Revision/kohn_sham/reports/ks-rust-solver.json, and draws seven teaching figures.
+Revision/kohn_sham/reports/ks-rust-solver.json, and draws eight teaching figures.
 """
 
 import sys
@@ -32,6 +32,7 @@ FIGURES = [
     "15a_5_densities",
     "15a_6_potentials",
     "15a_7_scf_convergence",
+    "15a_8_particle_hole",
 ]
 
 FACTS = {
@@ -39,12 +40,15 @@ FACTS = {
     "name": "15a_canonical_matrix",
     "title": "Running the Rust Kohn-Sham solver over the canonical matrix",
     "purpose": (
-        "It builds the Rust Kohn-Sham solver of the repository, runs it over the whole "
+        "It builds the Rust Kohn-Sham solver of the repository with cargo (a full build "
+        "of about a minute when the program is missing, a second when it is up to "
+        "date), runs it over the whole "
         "canonical matrix (75 ground states and 135 thermal states of the Kohn-Sham gas "
         "of dirac16complex along the deflating history), checks that the new results "
         "agree with the committed Revision record within tolerances fixed in advance, "
         "and draws the Kohn-Sham levels, the gaps, the energies, the densities, the "
-        "self-consistent potentials and the convergence of the self-consistent loop. "
+        "self-consistent potentials, the convergence of the self-consistent loop and the "
+        "particle-hole excitations. "
         "The solver writes its raw output (about 6 MB) into the folder "
         "`Revision/kohn_sham/solver/target/textbook_15a`, which git ignores."
     ),
@@ -68,7 +72,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS every figure file of this notebook exists",
-        "ALL 20 CHECKS PASSED (notebook 15a)",
+        "ALL 24 CHECKS PASSED (notebook 15a)",
     ],
     "troubleshooting": [
         ["The cell that runs the canonical matrix shows the label with the star for "
@@ -104,9 +108,10 @@ CELLS = [
       Revision/kohn_sham/results), number by number, with tolerances that were fixed in
       advance;
     - prints the energies and gaps of the ground states along the history;
-    - draws seven figures: the Kohn-Sham levels along the history, the gaps, the
+    - draws eight figures: the Kohn-Sham levels along the history, the gaps, the
       Delta-SCF excitation energies, the total energies, the densities, the
-      self-consistent potentials and the convergence of the self-consistent loop.
+      self-consistent potentials, the convergence of the self-consistent loop and the
+      particle-hole excitations.
 
     The run takes about two to three minutes on a computer with many processor cores
     (longer on a laptop). Everything it writes outside the folder of the figures goes
@@ -669,10 +674,12 @@ CELLS = [
     With interaction the effective mass $M(y) = m + \tfrac{15}{16}\lambda S(y)$ and the
     potential $v(y) = -\tfrac{1}{16}\lambda n(y)$ differ from $m$ and $0$. The next cell
     draws $M - m$ and $v$ for $N = 136$ with the repulsive coupling $+\lambda_2$ at the
-    five slices. Both are largest in the tip region and grow along the history,
-    because the redshifted brane-band orbitals spread toward the tip, where the proper
-    densities are large. This is why the couplings were calibrated over the whole
-    history (so that the first-order potential stays below $0.3\,m$ at every slice).
+    five slices. Both are largest in the tip region and become much larger along the
+    history (the largest $|v|$ grows at every slice; the largest $|M - m|$ grows up to
+    $a_{4,0} = 1.5$ and is a little smaller at $a_{4,0} = 2$), because the redshifted
+    brane-band orbitals spread toward the tip, where the proper densities are large.
+    This is why the couplings were calibrated over the whole history (so that the
+    first-order potential stays below $0.3\,m$ at every slice).
     The check compares, for each slice, the largest $|M - m|$ on the 151 profile points
     with the value `max_abs_Meff_minus_m` that the solver recorded on its fine grid of
     1801 points (every profile point is also a point of the fine grid): the profile
@@ -701,13 +708,25 @@ CELLS = [
                 "(right), vertical axes in units of $m$, of $N = 136$ with the repulsive "
                 "coupling $+\\lambda_2$ at the five slices (light blue: $a_{4,0} = 0$, "
                 "dark blue: $a_{4,0} = 2$) against the hidden coordinate $y$. Both are "
-                "concentrated in the tip region and grow along the history, but stay "
-                "below about $0.4\\,m$.")
+                "concentrated in the tip region and become much larger along the "
+                "history: the largest $|M - m|$ grows from $0.008\\,m$ at "
+                "$a_{4,0} = 0$ to $0.355\\,m$ at $a_{4,0} = 1.5$ ($0.310\\,m$ at "
+                "$a_{4,0} = 2$), the largest $|v|$ from $0.015\\,m$ to $0.242\\,m$; "
+                "both stay below $0.4\\,m$.")
     report("profile maximum / recorded maximum of |M - m|",
            ", ".join(f"{r:.5f}" for r in ratios))
     check(all(0.998 <= r <= 1.0 + 1e-12 for r in ratios),
           "the profile maxima of |M - m| lie within 0.2 percent below the recorded ones",
           record=f"{RECORD_RESULTS}/ground/summary.csv, column max_abs_Meff_minus_m")
+    m_max = [float(ground[state_id(136, "lamp2", a4)]["max_abs_Meff_minus_m"])
+             for a4 in SLICES]  # the solver's largest |M - m| at each slice
+    v_max = [float(ground[state_id(136, "lamp2", a4)]["max_abs_v_v"]) for a4 in SLICES]
+    report("largest |M - m| at the five slices", ", ".join(f"{v:.3f}" for v in m_max))
+    report("largest |v| at the five slices", ", ".join(f"{v:.3f}" for v in v_max))
+    check(all(v_max[i + 1] > v_max[i] for i in range(4)) and max(m_max + v_max) < 0.4,
+          "the largest |v| grows at every slice; both potentials stay below 0.4 m",
+          record=f"{RECORD_RESULTS}/ground/summary.csv, columns max_abs_Meff_minus_m "
+                 "and max_abs_v_v")
     '''),
     md(r"""
     ## 15. How fast the self-consistent loop converges
@@ -756,21 +775,114 @@ CELLS = [
           record=f"{RECORD_REPORT}, check ground_scf_converged")
     '''),
     md(r"""
-    ## 16. The last check
+    ## 16. The excitations of the gas along the history
+
+    For every ground state the solver also lists its lowest **particle-hole
+    excitations** (up to 24, in the files `excited/particle-hole/<state>.csv`): one
+    particle is taken out of an occupied level (the *hole*) and put into an empty level
+    (the *particle*); the excitation energy is $\Delta\varepsilon =
+    \varepsilon_{particle} - \varepsilon_{hole}$, and the *multiplicity* is the number
+    of ways to do it, $g_{hole} \times g_{particle}$. Each excitation is named by its
+    two levels, written `n2:j:parity:label`. The next cell draws the excitations of
+    $N = 136$ without interaction at the five slices and makes three checks over all
+    75 states: (1) the lowest excitation is the Kohn-Sham gap; (2) every excitation
+    listed at all five slices of a series gets cheaper from slice to slice; (3) none of
+    the listed excitations stays inside one *sector* (the same shell $n_2$, block type
+    $j$ and parity). The third point matters for the history: the exact evolution
+    along $a_4 = AHx_4$ keeps the momentum, the block type and the parity of every
+    orbital, so the history alone cannot create any of these excitations. It can only
+    cause jumps inside a sector; the cell prints the energy of the jump with the
+    largest adiabaticity number $Q$ of each state (column `Q_max_delta_eps` of
+    `adiabatic/adiabaticity.csv`), which is much larger.
+    """),
+    code(r'''
+    TAGS = ("lam0", "lamp1", "lamm1", "lamp2", "lamm2")  # the five couplings
+
+
+    def read_pairs(n, tag, a4):
+        """{(hole, particle): (energy, multiplicity, same sector?)} of one state."""
+        path = NEW_RESULTS / "excited/particle-hole" / f"{state_id(n, tag, a4)}.csv"
+        with open(path, newline="", encoding="utf-8") as handle:
+            return {(r["hole_levels"], r["particle_levels"]):
+                    (float(r["delta_eps"]), float(r["multiplicity"]), r["same_sector"])
+                    for r in csv.DictReader(handle)}
+
+
+    lists = {(n, tag, a4): read_pairs(n, tag, a4)
+             for n in (8, 136, 688) for tag in TAGS for a4 in SLICES}  # 75 states
+    fig, ax = plt.subplots()
+    for a4 in SLICES:
+        values = list(lists[(136, "lam0", a4)].values())
+        ax.scatter([a4] * len(values), [v[0] for v in values],
+                   s=[v[1] / 40.0 for v in values],  # marker area ~ multiplicity
+                   color=PALETTE[0], alpha=0.3, edgecolors=PALETTE[0])
+    lowest = [min(v[0] for v in lists[(136, "lam0", a4)].values()) for a4 in SLICES]
+    ax.plot(SLICES, lowest, "o-", color=PALETTE[1], lw=1.8, ms=5,
+            label="lowest excitation (the Kohn-Sham gap)")
+    ax.plot(a_fine, lowest[0] * np.exp(-a_fine), "--", color="0.4", lw=1.0,
+            label="$\\propto e^{-a_{4,0}}$")
+    ax.scatter([], [], s=60, color=PALETTE[0], alpha=0.3, edgecolors=PALETTE[0],
+               label="excitations (area: multiplicity)")
+    ax.set_yscale("log")
+    ax.set_xlabel("slice $a_{4,0}$ of the history")
+    ax.set_ylabel("excitation energy $\\Delta\\varepsilon$ (units of $m$)")
+    ax.set_title("Particle-hole excitations of $N = 136$, $\\lambda = 0$")
+    ax.legend(fontsize=8, loc="lower left")
+    save_figure(fig, "particle_hole",
+                "The lowest particle-hole excitation energies (vertical axis, "
+                "logarithmic, units of $m$) of the free state $N = 136$ at the five "
+                "slices $a_{4,0}$ (horizontal axis); the area of a marker is proportional "
+                "to the multiplicity of the excitation. Orange: the lowest excitation, "
+                "which is the Kohn-Sham gap; dashed: a fall like $e^{-a_{4,0}}$ from the "
+                "first gap. The whole ladder moves down along the history because the "
+                "brane-band levels on both sides of each excitation redshift; none of "
+                "these excitations stays inside one sector, so the history alone cannot "
+                "create them.")
+    lowest_is_gap = all(
+        abs(min(v[0] for v in lists[key].values())
+            - float(ground[state_id(*key)]["KS_gap"])) <= 1e-12 for key in lists)
+    cheaper = True
+    for n in (8, 136, 688):
+        for tag in TAGS:
+            series = [lists[(n, tag, a4)] for a4 in SLICES]
+            common = set(series[0]).intersection(*series[1:])  # listed at every slice
+            cheaper = cheaper and all(series[i + 1][key][0] < series[i][key][0]
+                                      for key in common for i in range(4))
+    count = sum(len(pairs) for pairs in lists.values())
+    inside = sum(1 for pairs in lists.values() for v in pairs.values() if v[2] != "false")
+    jumps = [float(row["Q_max_delta_eps"]) for row in
+             read_table(NEW_RESULTS, "adiabatic/adiabaticity.csv").values()
+             if row["Q_max_delta_eps"] != "null"]  # null: no jump (N = 8)
+    report("particle-hole excitations listed / inside one sector", f"{count} / {inside}")
+    report("lowest excitation of N = 136 at a4,0 = 0 and 2",
+           f"{lowest[0]:.5f}, {lowest[-1]:.5f}")
+    report("energy of the largest-Q jump inside a sector (smallest, largest)",
+           f"{min(jumps):.3f}, {max(jumps):.3f}")
+    check(lowest_is_gap, "in all 75 states the lowest particle-hole energy is the KS gap",
+          record=f"{RECORD_RESULTS}/excited/particle-hole and ground/summary.csv")
+    check(cheaper, "every excitation listed at all five slices gets cheaper along the "
+                   "history")
+    check(count == 1610 and inside == 0,
+          "none of the 1610 listed excitations stays inside one sector",
+          record=f"{RECORD_RESULTS}/excited/particle-hole, column same_sector")
+    '''),
+    md(r"""
+    ## 17. The last check
 
     The last cell checks that every figure file of this notebook exists in the folder
     Revision/textbook/figures and prints the number of checks that passed.
     """),
     code(r'''
     NAMES = ["levels_history", "gaps_history", "delta_scf", "energy_history",
-             "densities", "potentials", "scf_convergence"]  # the figures, in order
+             "densities", "potentials", "scf_convergence",
+             "particle_hole"]  # the figures, in order
     missing = [name for number, name in enumerate(NAMES, start=1)
                if not output_file(f"{FIGURE_FOLDER}/15a_{number}_{name}.png").is_file()]
     check(missing == [], "every figure file of this notebook exists")
     all_checks_passed()
     '''),
     md(r"""
-    ## 17. What this notebook showed
+    ## 18. What this notebook showed
 
     - The Rust solver, built on this computer, reproduces the whole canonical matrix of
       the Revision record: the same files, all 42 of its own checks PASS, and every key
@@ -779,7 +891,9 @@ CELLS = [
       levels at $k = 0$ stay where they are, the gaps close at nearly the rate
       $e^{-a_{4,0}}$, and the energy of the gas falls.
     - Without interaction Delta-SCF equals the gap exactly; with interaction the orbital
-      relaxation stays below $10^{-3}\,m$.
+      relaxation stays below $10^{-3}\,m$. The lowest particle-hole excitation is the
+      gap, every listed excitation gets cheaper along the history, and none of them
+      stays inside one sector, so the history alone cannot create them.
     - The particles sit near the brane, the proper densities and the self-consistent
       potentials are largest at the tip, and the self-consistent loop converges in at
       most 17 iterations.

@@ -398,7 +398,9 @@ CELLS = [
     fig, ax = plt.subplots(figsize=(7.2, 7.0))
     ax.imshow([bit_row(v) for v in outputs], cmap="Greys", vmin=0, vmax=1.3)
     ax.grid(False)
-    ax.set_xlabel("bit (left: $2^{63}$, right: $2^0$)")
+    # column 0 holds the bit worth 2^63, column 63 the bit worth 2^0: label by bit number
+    ax.set_xticks(range(0, 64, 8), [str(63 - k) for k in range(0, 64, 8)])
+    ax.set_xlabel("bit number (63 = the bit worth $2^{63}$, 0 = the bit worth $2^0$)")
     ax.set_ylabel("output number")
     ax.set_title("The bits of the first 64 outputs")
     save_figure(fig, "generator_bits",
@@ -425,7 +427,7 @@ CELLS = [
     ax.set_xticks(range(8), [f"label {k}" for k in range(8)], fontsize=8)
     ax.set_ylabel("number of times")
     ax.set_title("160,000 labels drawn with below(8)")
-    ax.legend(loc="lower right", fontsize=8);
+    ax.legend(loc="upper center", ncol=3, fontsize=8);  # above the bars, not on them
     save_figure(fig, "label_histogram",
                 "How often each label 0 to 7 came out in 160,000 calls of below(8) of "
                 "the generator (blue bars), the expected number 20,000 (black line) "

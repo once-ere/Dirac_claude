@@ -12,13 +12,17 @@ file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
         Revision/textbook/notebooks/src/02d_pruefer_shooting.py
 
 Chapter 02, example d: the shooting method of the Revision Kohn-Sham solver
-(Revision/kohn_sham/solver/src/shoot.rs), taught on its simplest case, the free k = 0
-block a' = M a - eps b, b' = eps a - M b on -L <= y <= 0 with the regular tip b(-L) = 0
-and the ASSUMED Z2 brane conditions b(0) = 0 (even) or a(0) = 0 (odd).  RK4 with
-G = 900 L/3 steps, the Pruefer angle and its winding count, bisection to 1e-13.  It
+(Revision/kohn_sham/solver/src/shoot.rs and spectrum.rs), taught on its simplest case,
+the free k = 0 block a' = M a - eps b, b' = eps a - M b on -L <= y <= 0 with the regular
+tip b(-L) = 0 and the ASSUMED Z2 brane conditions b(0) = 0 (even) or a(0) = 0 (odd).
+RK4 with G = 900 L/3 steps, the Pruefer angle and its winding count, the slope
+dPhi/deps = (integral of r^2)/r(0)^2 (derived with the product rule), and the program's
+root finder (Newton steps with a bisection safety net) re-implemented line by line.  It
 reproduces every row of Revision/kohn_sham/results/spectrum/free-k0-analytic.csv (54
-levels, numeric and analytic) and the numbers of the checks free_k0_analytic_spectra
-and free_zero_mode_exact of Revision/kohn_sham/reports/ks-rust-solver.json.
+levels, numeric and analytic; on the build computer the 54 numeric levels agree in all
+16 printed digits), the numbers of the checks free_k0_analytic_spectra and
+free_zero_mode_exact of Revision/kohn_sham/reports/ks-rust-solver.json (7.23e-10,
+5.05e-08 and 1.35e-12), and measures the fourth-order convergence of the levels.
 """
 
 import sys
@@ -29,11 +33,13 @@ from nbkit import code, md, run_builder  # noqa: E402
 
 FIGURES = [
     "02d_1_pruefer_staircase",
-    "02d_2_angle_along_y",
-    "02d_3_odd_level_equation",
-    "02d_4_orbitals",
-    "02d_5_level_convergence",
-    "02d_6_record_differences",
+    "02d_2_staircase_slope",
+    "02d_3_angle_along_y",
+    "02d_4_odd_level_equation",
+    "02d_5_newton_vs_bisection",
+    "02d_6_orbitals",
+    "02d_7_level_convergence",
+    "02d_8_record_differences",
 ]
 
 FACTS = {
@@ -44,12 +50,14 @@ FACTS = {
         "It solves the simplest Kohn-Sham equations of the book, two first-order "
         "equations for the components a and b of an orbital in the hidden coordinate "
         "(constant mass, no momentum, no interaction), as an eigenvalue problem: it "
-        "derives the exact levels, shoots with RK4 exactly as the Revision Rust solver "
-        "does (900 steps on the interval of length 3, the Pruefer angle and its "
-        "winding count, levels to 1e-13), reproduces all 54 levels of the Revision "
-        "record of the free spectrum, numeric and exact, and the numbers of the "
-        "solver checks of that spectrum and of the zero mode, and measures the "
-        "fourth-order convergence of the levels."
+        "derives the exact levels, introduces the Pruefer angle, proves with the "
+        "product rule that its end value increases with the energy, shoots with RK4 "
+        "exactly as the Revision Rust solver does (900 steps on the interval of length "
+        "3, the winding count of the angle, the Newton root finder with a bisection "
+        "safety net, tolerance 1e-13), reproduces all 54 levels of the Revision record "
+        "of the free spectrum, numeric and exact, and the numbers of the solver checks "
+        "of that spectrum and of the zero mode, and measures the fourth-order "
+        "convergence of the levels."
     ),
     "records": [
         ["Revision/kohn_sham/ks-theory.json",
@@ -59,20 +67,21 @@ FACTS = {
          "the solver settings: 900 RK4 steps, root tolerance 1e-13, m = H = 1, L = 3 "
          "(read and used)"],
         ["Revision/kohn_sham/results/spectrum/free-k0-analytic.csv",
-         "the 54 free k = 0 levels of the Rust solver and their exact values "
-         "(reproduced)"],
+         "the 54 free k = 0 levels of the Rust solver, their exact values and their "
+         "differences (reproduced)"],
         ["Revision/kohn_sham/reports/ks-rust-solver.json",
-         "the checks free_k0_analytic_spectra and free_zero_mode_exact (reproduced)"],
+         "the checks free_k0_analytic_spectra and free_zero_mode_exact (their numbers "
+         "reproduced)"],
     ],
     "packages": ["numpy", "sympy", "mpmath", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 10,
+    "expected_seconds": 15,
     "timeout_seconds": 400,
     "files_written": ["Revision/textbook/figures/02d.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
-        "PASS all 6 figure files of notebook 02d exist",
-        "ALL 15 CHECKS PASSED (notebook 02d)",
+        "PASS all 8 figure files of notebook 02d exist",
+        "ALL 17 CHECKS PASSED (notebook 02d)",
     ],
     "troubleshooting": [],
 }
@@ -94,18 +103,24 @@ CELLS = [
     - derives their exact levels: $\varepsilon = 0$ and $\pm\sqrt{M^2 + (n\pi/L)^2}$
       for the even orbitals, $\pm\sqrt{M^2 + p^2}$ with $\tan(pL) = -p/M$ for the odd
       ones;
-    - introduces the **Pruefer angle** $\theta = \mathrm{atan2}(b, a)$, shows that its
-      end value grows steadily with the energy, so that every level is found exactly
-      once by a whole-number label;
+    - introduces the **Pruefer angle** $\theta = \mathrm{atan2}(b, a)$ and proves,
+      with nothing more than the product rule, that its end value $\Phi$ grows with
+      the energy, at the rate $d\Phi/d\varepsilon = \int r^2\,dy / r(0)^2$; so every
+      level is found exactly once and carries a whole-number label;
     - shoots with RK4 exactly as the Rust program does (900 steps on an interval of
-      length 3) and finds all 54 levels of the record
-      Revision/kohn_sham/results/spectrum/free-k0-analytic.csv by bisection to
-      $10^{-13}$; it reproduces the program's numbers and the exact numbers of every
-      row, and the numbers quoted by the program's checks of this spectrum;
-    - draws the staircase of the Pruefer angle, the winding of the angle along $y$,
-      the orbitals, and the fourth-order convergence of the levels.
+      length 3) and finds every level with the program's own root finder (Newton's
+      method with a bisection safety net, tolerance $10^{-13}$), re-written here line
+      by line;
+    - reproduces all 54 levels of the record
+      Revision/kohn_sham/results/spectrum/free-k0-analytic.csv (on the computer that
+      made the record, in all 16 printed digits), the exact column of the record, and
+      the numbers that the program's checks of this spectrum and of the zero mode
+      quote;
+    - draws the staircase of the Pruefer angle and its slope, the winding of the
+      angle along $y$, Newton against bisection, the orbitals, and the fourth-order
+      convergence of the levels.
 
-    It draws 6 figures and prints a PASS line for every check.
+    It draws 8 figures and prints a PASS line for every check.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -126,13 +141,22 @@ CELLS = [
       (the record labels it ASSUMED).
     - **Pruefer angle** $\theta(y)$: the angle of the point $(a, b)$ seen from the
       origin, $a = r \cos\theta$, $b = r \sin\theta$ with $r > 0$; we count every
-      full turn, so $\theta$ can grow beyond $2\pi$ (*winding*).
+      full turn, so $\theta$ can grow beyond $2\pi$ (*winding*). $r$ is the
+      distance of the point from the origin, $r^2 = a^2 + b^2$.
     - **atan2(b, a)**: the angle of the point $(a, b)$ between $-\pi$ and $\pi$.
+    - **End angle** $\Phi(\varepsilon) = \theta(0)$: the angle reached at the brane
+      when we shoot with the energy $\varepsilon$.
     - **Label** $l$: the whole number that names a level through its target angle,
       $\theta(0) = l\pi$ (even) or $\pi/2 + l\pi$ (odd).
     - **Monotone (increasing)**: a function that grows whenever its argument grows.
     - **RK4 step count** $G$: the number of RK4 steps on $-L \le y \le 0$; the step
       is $h = L/G$.
+    - **Trapezoid rule**: the integral over one step approximated by the step length
+      times the average of the two end values.
+    - **Bracket**: two energies at which $\Phi$ minus the target has opposite signs;
+      the level lies between them.
+    - **Newton's method**: replace a function by its tangent line at the current
+      guess and take the zero of that line as the next guess.
     - **Transcendental equation**: an equation such as $\tan(pL) = -p/M$ that has no
       solution formula and is solved numerically.
     """),
@@ -184,15 +208,26 @@ CELLS = [
 
     $$\theta' = \varepsilon - M \sin 2\theta, \qquad \theta(-L) = 0 .$$
 
-    This is ONE first-order equation. Its right-hand side grows with $\varepsilon$,
-    so two solutions with $\varepsilon_1 < \varepsilon_2$ that start together at
-    $\theta = 0$ can never cross: where they would meet, the one with
-    $\varepsilon_2$ climbs faster. Hence the end value $\Phi(\varepsilon) =
-    \theta(0)$ increases with $\varepsilon$. The brane conditions say $b(0) = 0$, that
-    is $\theta(0) = l\pi$ (even), or $a(0) = 0$, that is $\theta(0) = \pi/2 + l\pi$
-    (odd), for a whole number $l$. Each target is reached for exactly one
-    $\varepsilon$: every level has its own label $l$ and none can be missed. This
-    is how the Rust program finds and names its levels.
+    The brane conditions say $b(0) = 0$, that is $\theta(0) = l\pi$ (even), or
+    $a(0) = 0$, that is $\theta(0) = \pi/2 + l\pi$ (odd), for a whole number $l$.
+
+    **How fast the end angle grows.** First the distance $r$: from $r^2 = a^2 + b^2$,
+    $r r' = a a' + b b' = a(M a - \varepsilon b) + b(\varepsilon a - M b) =
+    M(a^2 - b^2)$, and $(a^2 - b^2)/r^2 = \cos^2\theta - \sin^2\theta = \cos 2\theta$,
+    so $r'/r = M\cos 2\theta$. Now let $u(y) = \partial\theta(y)/\partial\varepsilon$,
+    the change of the angle at $y$ per unit change of the energy. Differentiate
+    $\theta' = \varepsilon - M\sin 2\theta$ with respect to $\varepsilon$ (the order
+    of the two derivatives does not matter): $u' = 1 - 2M\cos(2\theta)\, u =
+    1 - 2 (r'/r)\, u$. Multiply by $r^2$: $r^2 u' + 2 r r' u = r^2$. By the product
+    rule the left side is $(r^2 u)'$. Integrate from $-L$ to $0$; at the tip
+    $u(-L) = 0$, because $\theta(-L) = 0$ for every energy:
+
+    $$\frac{d\Phi}{d\varepsilon} = u(0) = \frac{1}{r(0)^2}\int_{-L}^{0} r^2\,dy > 0 .$$
+
+    So $\Phi(\varepsilon)$ increases strictly, and each target $l\pi$ or
+    $\pi/2 + l\pi$ is reached for exactly one $\varepsilon$: every level has its own
+    label $l$ and none can be missed. This is how the Rust program finds and names
+    its levels, and the formula gives its root finder the slope it needs.
     """),
     md(r"""
     ## 5. The records and the settings
@@ -239,33 +274,43 @@ CELLS = [
     md(r"""
     ## 6. Shooting with RK4 and counting the turns of the angle
 
-    The function `shoot` follows the Rust program line by line: it starts at the tip
+    The function `shoot` follows the Rust program (file
+    Revision/kohn_sham/solver/src/shoot.rs) line by line: it starts at the tip
     with $(a, b) = (1, 0)$, so $\theta = 0$; makes $G$ RK4 steps of the two
     equations; after every step it takes the new angle `atan2(b, a)`, adds the
     change of angle since the last step (brought into the range from $-\pi$ to
     $\pi$, so that a full turn is never lost: one step turns the point by much less
-    than $\pi$) and so counts every turn. It returns $\Phi = \theta(0)$ and, when
-    asked, the whole path. The second function integrates the single angle equation
+    than $\pi$) and so counts every turn. Along the way it adds up
+    $\int r^2\,dy$ with the trapezoid rule. It returns $\Phi = \theta(0)$, the slope
+    $d\Phi/d\varepsilon = \int r^2\,dy / r(0)^2$ of section 4, the largest turn of a
+    single step (the program refuses a shot in which one step turns by 2 or more),
+    and, when asked, the whole path. (The program also shrinks $(a, b)$ when they
+    become astronomically large, above $10^{125}$; that never happens here.)
+
+    The second function integrates the single angle equation
     $\theta' = \varepsilon - M \sin 2\theta$ with RK4 instead; the two different
     computations must agree up to the small RK4 errors.
     """),
     code(r'''
     def shoot(eps, M, L, G, keep=False):
-        """RK4 from y = -L, (a, b) = (1, 0), to y = 0 in G steps.  Returns
-        Phi = theta(0) and, if keep, the arrays y, a, b, theta of the path."""
-        h = L / G
-        a, b = 1.0, 0.0
+        """RK4 from y = -L, (a, b) = (1, 0), to y = 0 in G steps.  Returns Phi =
+        theta(0), the slope dPhi/deps = (integral of r^2) / r(0)^2 and the largest
+        turn of one step; with keep=True also the arrays y, a, b, theta of the path."""
+        h = L / G  # the step
+        a, b = 1.0, 0.0  # the tip: b(-L) = 0, so theta(-L) = 0
         theta, raw = 0.0, 0.0  # the counted angle and the last atan2 value
+        integral, r2_before = 0.0, 1.0  # running integral of r^2; r^2 at the last node
+        largest = 0.0  # the largest turn of one step so far
         path = [(-L, a, b, theta)]
         for i in range(G):
-            p1a, p1b = M * a - eps * b, eps * a - M * b  # the slopes (a', b') at the start
-            a2, b2 = a + h / 2 * p1a, b + h / 2 * p1b
-            p2a, p2b = M * a2 - eps * b2, eps * a2 - M * b2
-            a3, b3 = a + h / 2 * p2a, b + h / 2 * p2b
-            p3a, p3b = M * a3 - eps * b3, eps * a3 - M * b3
-            a4, b4 = a + h * p3a, b + h * p3b
-            p4a, p4b = M * a4 - eps * b4, eps * a4 - M * b4
-            a += h / 6 * (p1a + 2 * p2a + 2 * p3a + p4a)
+            p1a, p1b = M * a - eps * b, eps * a - M * b  # the slopes (a', b') at start
+            a2, b2 = a + h / 2 * p1a, b + h / 2 * p1b  # half a step with them
+            p2a, p2b = M * a2 - eps * b2, eps * a2 - M * b2  # the slopes there
+            a3, b3 = a + h / 2 * p2a, b + h / 2 * p2b  # half a step with these
+            p3a, p3b = M * a3 - eps * b3, eps * a3 - M * b3  # the slopes there
+            a4, b4 = a + h * p3a, b + h * p3b  # a whole step with the third slopes
+            p4a, p4b = M * a4 - eps * b4, eps * a4 - M * b4  # the slopes at the end
+            a += h / 6 * (p1a + 2 * p2a + 2 * p3a + p4a)  # weights 1 : 2 : 2 : 1
             b += h / 6 * (p1b + 2 * p2b + 2 * p3b + p4b)
             new = math.atan2(b, a)  # the angle of (a, b), between -pi and pi
             change = new - raw
@@ -273,13 +318,17 @@ CELLS = [
                 change -= 2 * math.pi
             elif change <= -math.pi:  # crossed the other way
                 change += 2 * math.pi
+            largest = max(largest, abs(change))
             theta += change
             raw = new
+            r2 = a * a + b * b  # r^2 at the new node
+            integral += h / 2 * (r2_before + r2)  # the trapezoid rule for this step
+            r2_before = r2
             if keep:
                 path.append((-L + (i + 1) * h, a, b, theta))
         if keep:
-            return theta, np.array(path).T
-        return theta
+            return theta, integral / r2_before, largest, np.array(path).T
+        return theta, integral / r2_before, largest
 
 
     def angle_equation(eps, M, L, G):
@@ -300,11 +349,12 @@ CELLS = [
 
     M1, L3 = 1.0, 3.0  # the canonical case of the record
     for eps in (-2.0, 0.0, 1.0, 2.5):
-        say(f"eps = {eps:+.1f}: Phi by (a, b) = {shoot(eps, M1, L3, 900):+.12f},  "
+        Phi = shoot(eps, M1, L3, 900)[0]  # element 0 of the result: Phi
+        say(f"eps = {eps:+.1f}: Phi by (a, b) = {Phi:+.12f},  "
             f"by the angle equation = {angle_equation(eps, M1, L3, 900):+.12f}")
-    differences = [abs(shoot(e, M1, L3, 900) - angle_equation(e, M1, L3, 900))
+    differences = [abs(shoot(e, M1, L3, 900)[0] - angle_equation(e, M1, L3, 900))
                    for e in np.linspace(-5.0, 5.0, 21)]
-    check(max(differences) < 1e-8 and shoot(0.0, M1, L3, 900) == 0.0,
+    check(max(differences) < 1e-8 and shoot(0.0, M1, L3, 900)[0] == 0.0,
           "both ways of computing Phi agree within 1e-8; Phi(0) is exactly 0")
     '''),
     md(r"""
@@ -319,7 +369,9 @@ CELLS = [
     """),
     code(r'''
     eps_grid = np.linspace(-6.0, 7.0, 651)
-    Phi_grid = np.array([shoot(e, M1, L3, 900) for e in eps_grid])
+    shots = [shoot(e, M1, L3, 900) for e in eps_grid]  # (Phi, slope, largest turn)
+    Phi_grid = np.array([s[0] for s in shots])
+    slope_grid = np.array([s[1] for s in shots])  # dPhi/deps by the formula
     check(np.all(np.diff(Phi_grid) > 0), "Phi(eps) increases on the whole grid")
 
 
@@ -359,7 +411,71 @@ CELLS = [
                 "$\\Phi = 0$.")
     '''),
     md(r"""
-    ## 8. The angle along the interval
+    ## 8. The slope of the staircase
+
+    Section 4 proved $d\Phi/d\varepsilon = \int_{-L}^{0} r^2\,dy / r(0)^2$, which
+    is never negative. The next cell tests this formula in two ways. First, it
+    compares the formula (computed by `shoot` with the trapezoid rule) with the
+    *central difference* $(\Phi(\varepsilon + \delta) - \Phi(\varepsilon -
+    \delta))/(2\delta)$, $\delta = 10^{-4}$, at seven energies, and with the
+    value $(1 - e^{-2ML})/(2M)$ at $\varepsilon = 0$, where the shot is exactly
+    $a = e^{M(y + L)}$, $b = 0$ and the integral can be done by hand. Second, it
+    draws the formula over the whole grid together with the central differences of
+    the grid of section 7 (spacing 0.02). The slope is about $L = 3$ far from the
+    mass. Near $\varepsilon = 0$ it is about $1/(2M) = 0.5$: there the shot grows
+    like $e^{M(y + L)}$ and is largest at the brane, so $r(0)^2$ is large. Near
+    $|\varepsilon| = 1.34$ it is much larger, about 12.5: there the shot ends with a
+    small $r(0)$ compared with its size inside the interval, so a small change of
+    energy turns the end angle a lot, and the staircase climbs steeply.
+    """),
+    code(r'''
+    DELTA = 1e-4  # the half-width of the central difference
+    tested = [-4.0, -1.34, -0.5, 0.0, 0.7, 1.3, 3.0]  # seven energies
+    relative = []
+    for e in tested:
+        formula = shoot(e, M1, L3, 900)[1]  # element 1 of the result: the slope
+        central = (shoot(e + DELTA, M1, L3, 900)[0]
+                   - shoot(e - DELTA, M1, L3, 900)[0]) / (2 * DELTA)
+        relative.append(abs(central / formula - 1))
+        say(f"eps = {e:+.2f}: formula {formula:9.5f}, central difference {central:9.5f}")
+    report("largest relative difference formula - central difference",
+           f"{max(relative):.1e}")
+    check(max(relative) < 1e-4 and np.all(slope_grid > 0),
+          "dPhi/deps = (integral of r^2)/r(0)^2 > 0 (agrees with central differences)")
+    # At eps = 0 the shot is exactly a = e^(M(y + L)), b = 0, so the integral can be
+    # done by hand: (e^(2ML) - 1)/(2M) divided by r(0)^2 = e^(2ML).
+    at_zero = (1 - math.exp(-2 * M1 * L3)) / (2 * M1)
+    report("slope at eps = 0: formula, exact (1 - e^(-2ML))/(2M)",
+           f"{shoot(0.0, M1, L3, 900)[1]:.6f}, {at_zero:.6f}")
+    check(abs(shoot(0.0, M1, L3, 900)[1] - at_zero) < 1e-4,
+          "at eps = 0 the slope is (1 - e^(-2ML))/(2M), about 1/(2M)")
+
+    grid_difference = (Phi_grid[2:] - Phi_grid[:-2]) / (eps_grid[2:] - eps_grid[:-2])
+    fig, ax = plt.subplots()
+    ax.plot(eps_grid, slope_grid, color=BLACK, lw=1.4,
+            label="formula $\\int r^2 dy / r(0)^2$")
+    ax.plot(eps_grid[1:-1][::6], grid_difference[::6], "o", color=AQUA, ms=4,
+            label="central differences of the staircase")
+    ax.axhline(L3, color=GREY, ls="--", lw=1.0, label="$L = 3$")
+    ax.set_ylim(0.0, 17.5)  # room for the legend above the two peaks
+    ax.set_xlabel("energy $\\varepsilon$ (units $m$)")
+    ax.set_ylabel("$d\\Phi/d\\varepsilon$ (units $1/m$)")
+    ax.set_title("The slope of the staircase is never negative")
+    ax.legend(loc="upper right", fontsize=8)
+    save_figure(fig, "staircase_slope",
+                "The slope $d\\Phi/d\\varepsilon$ of the end angle (vertical axis, "
+                "units $1/m$) against the energy $\\varepsilon$ in units of $m$ "
+                "(horizontal axis), for $M = 1$, $L = 3$, 900 RK4 steps. Black line: "
+                "the formula $\\int r^2 dy / r(0)^2$ proved with the product rule; "
+                "aqua dots: central differences of the staircase of the previous "
+                "figure. The slope is positive everywhere, which is why each level "
+                "is crossed once. It is about $L = 3$ (dashed) far from the mass, "
+                "about $1/(2M) = 0.5$ near $\\varepsilon = 0$, where the shot grows "
+                "towards the brane, and large near $|\\varepsilon| = 1.34$, where the "
+                "shot ends with a small $r(0)$ and the staircase climbs steeply.")
+    '''),
+    md(r"""
+    ## 9. The angle along the interval
 
     For five of the levels the next cell keeps the whole path and draws
     $\theta(y)/\pi$ from the tip $y = -3$ to the brane $y = 0$. Each curve starts
@@ -372,7 +488,7 @@ CELLS = [
     fig, ax = plt.subplots()
     for (parity, label), color in zip(chosen, [BLACK, ORANGE, BLUE, VIOLET, AQUA]):
         eps = level_of[(parity, label)]
-        _, (y_path, a_path, b_path, theta_path) = shoot(eps, M1, L3, 900, keep=True)
+        y_path, a_path, b_path, theta_path = shoot(eps, M1, L3, 900, keep=True)[3]
         ax.plot(y_path, theta_path / math.pi, color=color, lw=1.5,
                 ls="-" if parity == "even" else "--",
                 label=f"{parity} $l = {label}$, $\\varepsilon = {eps:.4f}$")
@@ -392,7 +508,7 @@ CELLS = [
                 "orbitals; every curve starts at 0 and ends on its target (dots).")
     '''),
     md(r"""
-    ## 9. The exact levels, computed again
+    ## 10. The exact levels, computed again
 
     The odd levels need the roots $p$ of $\tan(pL) = -p/M$, which we write as
     $M\sin(pL) + p\cos(pL) = 0$ (no infinities). The $n$-th root ($n = 0, 1, 2,
@@ -462,53 +578,206 @@ CELLS = [
                 "first three give 1.2923, 2.0106 and 2.9119.")
     '''),
     md(r"""
-    ## 10. All 54 levels by shooting, against the Rust program
+    ## 11. Newton's method with a safety net: the program's root finder
 
-    Now the search itself. For each row of the table the cell takes the target of
-    its parity and label and finds the energy with $\Phi(\varepsilon)$ = target by
-    bisection, starting from the bracket $-12 < \varepsilon < 12$ (the cell checks
-    that $\Phi(-12)$ lies below and $\Phi(12)$ above every target) and stopping when
-    the bracket is narrower than the record's tolerance $10^{-13}$. Like the Rust
-    program it first tries $\varepsilon = 0$, which hits the zero mode's target
-    exactly. The number of RK4 steps is the program's: $G = 900 L/3$ (900 for
-    $L = 3$, 600 for $L = 2$, the same step $h = 1/300$). Then it compares with the
-    record's column `eps_numeric`, and recomputes the two numbers that the
-    program's check `free_k0_analytic_spectra` quotes: the largest
-    $|\varepsilon_{\rm numeric} - \varepsilon_{\rm exact}|$ for $|\varepsilon| <
-    4m$ and for $|\varepsilon| \ge 4m$. (The check's text calls the second band
-    "$4m \le |\varepsilon| < 7m$", but the Rust code, file
-    Revision/kohn_sham/solver/src/spectrum.rs, puts every level with
-    $|\varepsilon| \ge 4m$ into it, and the table goes up to $8.75m$; the cell
-    prints both numbers.)
+    To find a level we must solve $F(\varepsilon) = \Phi(\varepsilon) - t = 0$ for
+    its target $t$. **Newton's method** replaces $F$ by its tangent line at the
+    current guess $\varepsilon_c$, $F(\varepsilon) \approx F(\varepsilon_c) +
+    F'(\varepsilon_c)(\varepsilon - \varepsilon_c)$, and takes the zero of that line
+    as the next guess:
+
+    $$\varepsilon_{\rm new} = \varepsilon_c - \frac{F(\varepsilon_c)}
+    {F'(\varepsilon_c)}, \qquad F'(\varepsilon) = \frac{d\Phi}{d\varepsilon} =
+    \frac{1}{r(0)^2}\int_{-L}^{0} r^2\,dy .$$
+
+    Close to the root the number of correct digits roughly doubles at every step.
+    Far from it the tangent can point anywhere, so the Rust program (function
+    `find_level` in Revision/kohn_sham/solver/src/shoot.rs) adds a safety net:
+
+    1. Shoot at the starting guess $\varepsilon = 0$; if $F(0) = 0$ exactly (the zero
+       mode), stop.
+    2. Make a bracket: walk upwards (if $F < 0$) or downwards (if $F > 0$) with a
+       first step of 1.2 times Newton's estimate (at least $10^{-4}$, at most 2),
+       doubling the step until $F$ changes sign.
+    3. Newton steps inside the bracket; whenever Newton's point falls outside the
+       bracket, or the mismatch $|F|$ has not at least halved since the last step,
+       bisect instead. After each shot the bracket shrinks to the side that keeps
+       the sign change.
+    4. Stop when the bracket is narrower than the tolerance $10^{-13}$, or when a
+       Newton step is smaller than it.
+
+    The next cell writes this down in Python, step for step as in the Rust code,
+    and compares it with plain bisection (bracket $-12$ to $12$, halved until it is
+    narrower than $10^{-13}$) on the even level with label 3 of the case $M = 1$,
+    $L = 3$: the figure shows the error of every energy that is shot.
     """),
     code(r'''
-    def find_level(M, L, G, parity, label, tolerance=ROOT_TOLERANCE):
-        """The level of the given parity and label: bisection on Phi - target."""
-        goal = target(parity, label)
-        if shoot(0.0, M, L, G) == goal:  # the zero mode: exactly 0
-            return 0.0
-        low, high = -12.0, 12.0  # Phi(low) < goal <= Phi(high), checked below
+    def find_level(M, L, G, goal, tolerance=ROOT_TOLERANCE, log=None):
+        """The energy with Phi(eps) = goal, found as the Rust program finds it.  If log
+        is a list, every energy that is shot is appended to it."""
+        def mismatch(eps):
+            Phi, slope, largest = shoot(eps, M, L, G)
+            if largest >= 2.0:  # the program refuses such a shot
+                raise ValueError(f"one step turns the angle by {largest:.2f}")
+            if log is not None:
+                log.append(eps)
+            return Phi - goal, slope  # F(eps) and F'(eps)
+
+        e_c = 0.0  # step 1: the starting guess
+        F_c, dF_c = mismatch(e_c)
+        if F_c == 0.0:
+            return e_c
+        if F_c < 0.0:  # step 2, upwards: the level lies above
+            low = e_c
+            step = min(max(1.2 * (-F_c / dF_c), 1e-4), 2.0)
+            while True:
+                e = low + step
+                F, dF = mismatch(e)
+                if F >= 0.0:  # the sign changed: the bracket is (low, e)
+                    high = e
+                    if abs(F) < abs(F_c):  # keep the better of the two guesses
+                        e_c, F_c, dF_c = e, F, dF
+                    break
+                low, e_c, F_c, dF_c = e, e, F, dF  # still below: move on
+                step *= 2.0
+        else:  # step 2, downwards: the level lies below
+            high = e_c
+            step = min(max(1.2 * (F_c / dF_c), 1e-4), 2.0)
+            while True:
+                e = high - step
+                F, dF = mismatch(e)
+                if F <= 0.0:  # the sign changed: the bracket is (e, high)
+                    low = e
+                    if abs(F) < abs(F_c):
+                        e_c, F_c, dF_c = e, F, dF
+                    break
+                high, e_c, F_c, dF_c = e, e, F, dF
+                step *= 2.0
+        if F_c == 0.0:
+            return e_c
+        previous = math.inf  # |F| at the previous step
+        for _ in range(300):  # step 3
+            if high - low <= tolerance:  # step 4: the bracket is narrow enough
+                break
+            e_new = e_c - F_c / dF_c  # Newton's point
+            bisect = not (low < e_new < high) or abs(F_c) > 0.5 * previous
+            if bisect:
+                e_new = 0.5 * (low + high)  # the safety net
+            previous = abs(F_c)
+            F, dF = mismatch(e_new)
+            moved = abs(e_new - e_c)
+            e_c, F_c, dF_c = e_new, F, dF
+            if F == 0.0:
+                break
+            if F < 0.0:  # keep the half of the bracket with the sign change
+                low = e_new
+            else:
+                high = e_new
+            if moved <= tolerance and not bisect:  # step 4: a tiny Newton step
+                break
+        return e_c
+
+
+    def find_level_by_bisection(M, L, G, goal, tolerance=ROOT_TOLERANCE, log=None):
+        """The same level by plain bisection on the bracket (-12, 12)."""
+        low, high = -12.0, 12.0
         while high - low > tolerance:
             middle = 0.5 * (low + high)
-            if shoot(middle, M, L, G) < goal:
+            if log is not None:
+                log.append(middle)
+            if shoot(middle, M, L, G)[0] < goal:
                 low = middle
             else:
                 high = middle
         return 0.5 * (low + high)
 
 
-    CASES = [(1.0, 3.0), (1.0, 2.0), (2.0, 3.0)]
-    brackets_ok = all(shoot(-12.0, M, L, round(900 * L / 3)) < target("odd", -4)
-                      and shoot(12.0, M, L, round(900 * L / 3)) > target("odd", 5)
-                      for M, L in CASES)
-    numeric_ours = [find_level(float(r["m"]), float(r["L"]),
-                               round(G_CANONICAL * float(r["L"]) / 3.0), r["parity"],
-                               int(r["label"])) for r in ROWS]
+    newton_log, bisection_log = [], []
+    by_newton = find_level(M1, L3, 900, target("even", 3), log=newton_log)
+    by_bisection = find_level_by_bisection(M1, L3, 900, target("even", 3),
+                                           log=bisection_log)
+    report("even label 3 by Newton", f"{by_newton:.15f} ({len(newton_log)} shots)")
+    report("even label 3 by bisection",
+           f"{by_bisection:.15f} ({len(bisection_log)} shots)")
+    for k, e in enumerate(newton_log, 1):
+        say(f"Newton shot {k}: eps = {e:.15f}, error {abs(e - by_newton):.1e}")
+    fig, ax = plt.subplots()
+    ax.semilogy(range(1, len(bisection_log) + 1),
+                np.maximum(np.abs(np.array(bisection_log) - by_newton), 1e-17), "s-",
+                color=ORANGE, ms=4, lw=1.2, label="bisection on $(-12, 12)$")
+    ax.semilogy(range(1, len(newton_log) + 1),
+                np.maximum(np.abs(np.array(newton_log) - by_newton), 1e-17), "o-",
+                color=BLUE, ms=5, lw=1.2, label="the program's Newton with safety net")
+    ax.set_ylim(1e-17, 30.0)
+    ax.set_xlabel("number of the shot")
+    ax.set_ylabel("$|\\varepsilon - \\varepsilon_3|$ (units $m$)")
+    ax.set_title("Finding the even level $l = 3$ ($M = 1$, $L = 3$)")
+    ax.legend(loc="upper right", fontsize=8)
+    save_figure(fig, "newton_vs_bisection",
+                "The distance $|\\varepsilon - \\varepsilon_3|$ (units of $m$, "
+                "logarithmic vertical axis) of every energy that is shot from the "
+                "even level with label 3, $\\varepsilon_3 = 3.2969$, of the case "
+                "$M = 1$, $L = 3$, against the number of the shot (horizontal axis). "
+                "Squares: bisection, which halves the bracket $(-12, 12)$ at every "
+                "shot and needs 48 shots to reach the tolerance $10^{-13}$. Circles: "
+                "the Rust program's root finder, which first walks up from 0 to make "
+                "a bracket and then takes Newton steps; once close, each step about "
+                "doubles the number of correct digits, and it stops after 9 shots. "
+                "Distances of exactly zero are drawn at $10^{-17}$.")
+    check(abs(by_newton - level_of[("even", 3)]) < 1e-12
+          and abs(by_bisection - by_newton) < 1e-13
+          and len(newton_log) < 15 < 45 < len(bisection_log),
+          "Newton (fewer than 15 shots) gives the record's level; bisection agrees",
+          record=f"{TABLE}, column eps_numeric")
+    '''),
+    md(r"""
+    ## 12. All 54 levels, against the Rust program
+
+    Now the whole table. For each row the cell takes the target of its parity and
+    label and finds the energy with `find_level`, with the program's number of RK4
+    steps $G = 900 L/3$ (900 for $L = 3$, 600 for $L = 2$: the same step
+    $h = 1/300$). It writes every level as the program writes numbers (16
+    significant digits, exponents like `e0`) and compares the text with the
+    record's column `eps_numeric`. On the computer that made the record all 54 are
+    identical; on another computer the function atan2 of the system's mathematics
+    library may round differently in the last binary place, and a last digit may
+    differ, so the check asks for agreement within $10^{-12}$ (ten times the root
+    tolerance). The record keeps 16 digits, so even an identical level differs from
+    the number read back from the record by up to about $10^{-15}$.
+
+    Then it recomputes the two numbers that the program's check
+    `free_k0_analytic_spectra` quotes: the largest $|\varepsilon_{\rm numeric} -
+    \varepsilon_{\rm exact}|$ for $|\varepsilon| < 4m$ and for $|\varepsilon| \ge
+    4m$. (The check's text calls the second band "$4m \le |\varepsilon| < 7m$", but
+    the Rust code, file Revision/kohn_sham/solver/src/spectrum.rs, puts every level
+    with $|\varepsilon| \ge 4m$ into it, and the table goes up to $8.75m$; the cell
+    prints both numbers.)
+    """),
+    code(r'''
+    def rust_text(x):
+        """x written as the Rust program writes numbers: 16 digits, exponent like e0."""
+        mantissa, exponent = f"{x:.15e}".split("e")  # Python writes e+00, Rust e0
+        return f"{mantissa}e{int(exponent)}"
+
+
+    CASES = [(1.0, 3.0), (1.0, 2.0), (2.0, 3.0)]  # the three cases (M, L) of the table
+    numeric_ours, shots_per_level = [], []
+    for r in ROWS:
+        M, L = float(r["m"]), float(r["L"])
+        G = round(G_CANONICAL * L / 3.0)  # 900 steps for L = 3, 600 for L = 2
+        log = []
+        numeric_ours.append(find_level(M, L, G, target(r["parity"], int(r["label"])),
+                                       log=log))
+        shots_per_level.append(len(log))
     numeric_record = [float(r["eps_numeric"]) for r in ROWS]
+    identical = sum(rust_text(x) == r["eps_numeric"] for x, r in zip(numeric_ours, ROWS))
     worst_numeric = max(abs(a - b) for a, b in zip(numeric_ours, numeric_record))
+    report("levels whose 16 digits equal the column eps_numeric", f"{identical} of 54")
     report("largest |level (here) - eps_numeric (Rust program)|", f"{worst_numeric:.1e}")
-    check(brackets_ok, "Phi(-12) < every target < Phi(12) in the three cases")
-    check(worst_numeric < 1e-11, "all 54 shooting levels equal the column eps_numeric",
+    report("shots per level (fewest, most, all 54 together)",
+           f"{min(shots_per_level)}, {max(shots_per_level)}, {sum(shots_per_level)}")
+    check(worst_numeric < 1e-12 and max(shots_per_level) <= 20,
+          "all 54 shooting levels equal the column eps_numeric (at most 20 shots each)",
           record=f"{TABLE}, column eps_numeric")
     zero_rows = [i for i, r in enumerate(ROWS) if r["parity"] == "even"
                  and int(r["label"]) == 0]
@@ -542,20 +811,44 @@ CELLS = [
           record=f"{SOLVER_REPORT}, check free_k0_analytic_spectra")
     '''),
     md(r"""
-    ## 11. The orbitals
+    ## 13. The orbitals
 
-    The next cell keeps the paths of four levels of the canonical case, normalises
-    each orbital so that $\int_{-L}^{0} (a^2 + b^2)\, dy = 1$ (Simpson's rule on the
-    900 steps), and draws $a(y)$ and $b(y)$. It checks the brane condition of each
-    ($b(0) = 0$ even, $a(0) = 0$ odd) and compares the zero mode with its exact form
-    $a = \sqrt{2M/(1 - e^{-2ML})}\, e^{M y}$, $b = 0$ (the normalised $e^{My}$),
-    which the Rust program's check `free_zero_mode_exact` also tests.
+    The next cell builds the normalised orbitals of four levels of the canonical
+    case as the Rust program builds them (function `profile` in shoot.rs): the
+    values at the $G + 1$ step ends (*nodes*) come from the RK4 shot; the values in
+    the middle of every step from *cubic interpolation*: the cubic polynomial that
+    has the values $f_0, f_1$ and the slopes $f_0', f_1'$ at the two ends of a step
+    of length $h$ takes in the middle the value $(f_0 + f_1)/2 + h(f_0' - f_1')/8$
+    (check it on $f = y^2$ and $f = y^3$ on the step from 0 to $h$); the slopes
+    come from the equations themselves. On this fine grid of $2G + 1$ points the
+    norm $\int_{-L}^{0} (a^2 + b^2)\, dy$ is computed with Simpson's rule (weights
+    $1, 4, 2, 4, \dots, 4, 1$ times one third of the spacing $h/2$), and the orbital
+    is divided by its square root. The cell draws $a(y)$ and $b(y)$, checks the
+    brane condition of each ($b(0) = 0$ even, $a(0) = 0$ odd), and measures how far
+    the computed zero mode is from its exact form
+    $a = \sqrt{2M/(1 - e^{-2ML})}\, e^{M y}$, $b = 0$ (the normalised $e^{My}$): the
+    program's check `free_zero_mode_exact` quotes this distance.
     """),
     code(r'''
-    def simpson(values, h):
-        """Simpson's rule for equally spaced values (an even number of intervals)."""
-        return h / 3 * (values[0] + values[-1] + 4 * values[1:-1:2].sum()
-                        + 2 * values[2:-1:2].sum())
+    def orbital(eps, M, L, G):
+        """The normalised orbital on the fine grid of 2G + 1 points, made as the Rust
+        program makes it.  Returns the arrays y, a, b."""
+        h = L / G
+        nf = 2 * G + 1  # nodes and step midpoints
+        y = -L * ((nf - 1 - np.arange(nf)) / (nf - 1))  # the fine grid, as in the program
+        _, a_nodes, b_nodes, _ = shoot(eps, M, L, G, keep=True)[3]
+        da = M * a_nodes - eps * b_nodes  # the slopes a' at the nodes (the equations)
+        db = eps * a_nodes - M * b_nodes  # the slopes b'
+        a, b = np.zeros(nf), np.zeros(nf)
+        a[0::2], b[0::2] = a_nodes, b_nodes  # the nodes take the even places
+        a[1::2] = 0.5 * (a_nodes[:-1] + a_nodes[1:]) + h / 8.0 * (da[:-1] - da[1:])
+        b[1::2] = 0.5 * (b_nodes[:-1] + b_nodes[1:]) + h / 8.0 * (db[:-1] - db[1:])
+        half = 0.5 * h  # the spacing of the fine grid
+        weights = np.full(nf, 2.0 * half / 3.0)  # Simpson: 2 at the even inner places
+        weights[1::2] = 4.0 * half / 3.0  # 4 at the odd places (the midpoints)
+        weights[0] = weights[-1] = half / 3.0  # 1 at the two ends
+        scale = 1.0 / math.sqrt(np.sum(weights * (a * a + b * b)))
+        return y, a * scale, b * scale
 
 
     fig, axes = plt.subplots(2, 2, figsize=(9.0, 6.4), sharex=True)
@@ -563,19 +856,18 @@ CELLS = [
     for ax, (parity, label) in zip(axes.flat, [("even", 0), ("odd", 0), ("even", 1),
                                               ("odd", 2)]):
         eps = level_of[(parity, label)]
-        _, (y_path, a_path, b_path, _) = shoot(eps, M1, L3, 900, keep=True)
-        norm = math.sqrt(simpson(a_path ** 2 + b_path ** 2, L3 / 900))
-        a_path, b_path = a_path / norm, b_path / norm
-        end = b_path[-1] if parity == "even" else a_path[-1]  # must vanish at y = 0
+        y_fine, a_fine, b_fine = orbital(eps, M1, L3, 900)
+        end = b_fine[-1] if parity == "even" else a_fine[-1]  # must vanish at y = 0
         residuals.append(abs(end))
-        ax.plot(y_path, a_path, color=BLUE, lw=1.5, label="$a(y)$")
-        ax.plot(y_path, b_path, color=ORANGE, lw=1.5, ls="--", label="$b(y)$")
+        ax.plot(y_fine, a_fine, color=BLUE, lw=1.5, label="$a(y)$")
+        ax.plot(y_fine, b_fine, color=ORANGE, lw=1.5, ls="--", label="$b(y)$")
         ax.axhline(0.0, color=BLACK, lw=0.6)
         ax.set_title(f"{parity}, $l = {label}$, $\\varepsilon = {eps:.4f}$", fontsize=10)
         ax.legend(fontsize=8, loc="upper left")
-        if parity == "even" and label == 0:
-            exact_a = math.sqrt(2 * M1 / (1 - math.exp(-2 * M1 * L3))) * np.exp(M1 * y_path)
-            zero_mode_error = max(np.max(np.abs(a_path - exact_a)), np.max(np.abs(b_path)))
+        if parity == "even" and label == 0:  # the zero mode against its exact form
+            exact_a = math.sqrt(2 * M1 / (1 - math.exp(-2 * M1 * L3))) * np.exp(M1 * y_fine)
+            zero_mode_distance = np.max(np.abs(a_fine - exact_a))
+            zero_mode_b = np.max(np.abs(b_fine))
     for ax in axes[1]:
         ax.set_xlabel("hidden coordinate $y$ (units $1/H$)")
     for ax in axes[:, 0]:
@@ -593,19 +885,16 @@ CELLS = [
     report("largest brane residual |b(0)| or |a(0)|", f"{max(residuals):.1e}")
     zero_detail = [c["detail"] for c in solver_report["checks"]
                    if c["name"] == "free_zero_mode_exact"][0]
-    zero_quoted = re.findall(r"e\^\(My\) to ([0-9.]+e-[0-9]+)", zero_detail)[0]
+    zero_quoted = float(re.findall(r"e\^\(My\) to ([0-9.]+e-[0-9]+)", zero_detail)[0])
     report("zero mode: largest distance from the exact normalised form (here, record)",
-           f"{zero_mode_error:.1e}, {zero_quoted}")
-    say("The record's program integrates the norm with Simpson's rule on a grid twice "
-        "as fine (step midpoints added by cubic interpolation); our Simpson's rule on "
-        "the 900 steps alone is slightly less accurate, still far below 1e-10.")
+           f"{zero_mode_distance:.2e}, {zero_quoted:.2e}")
     check(max(residuals) < 1e-10, "every orbital meets its brane condition within 1e-10")
-    check(zero_mode_error < 1e-10,
-          "the zero mode is sqrt(2M/(1 - e^(-2ML))) e^(My), b = 0, within 1e-10",
-          record=f"{SOLVER_REPORT}, check free_zero_mode_exact")
+    check(zero_mode_b == 0.0 and abs(zero_mode_distance / zero_quoted - 1) < 0.01,
+          "the zero mode: b = 0 exactly, distance 1.35e-12 from sqrt(2M/(1 - e^(-2ML))) "
+          "e^(My)", record=f"{SOLVER_REPORT}, check free_zero_mode_exact")
     '''),
     md(r"""
-    ## 12. How the error depends on the step
+    ## 14. How the error depends on the step
 
     The levels inherit the RK4 error. The next cell repeats the search for three
     levels of the canonical case with $G = 25, 50, 100, 200, 400, 800$ steps and
@@ -619,7 +908,7 @@ CELLS = [
     for (parity, label), color, marker in zip(tracked, [BLUE, ORANGE, AQUA],
                                               ["o", "s", "^"]):
         exact = exact_level(M1, L3, parity, label)
-        errors = np.array([abs(find_level(M1, L3, G, parity, label) - exact)
+        errors = np.array([abs(find_level(M1, L3, G, target(parity, label)) - exact)
                            for G in G_LIST])
         h_list = L3 / np.array(G_LIST, dtype=float)
         fit = errors > 1e-11  # leave out points limited by the root tolerance
@@ -712,18 +1001,21 @@ CELLS = [
            ", ".join(f"{q:.3f}" for q in ratio[eps_abs > 7]))
     check(np.all(ratio < 1) and np.all(ratio[eps_abs > 7] > 0.9),
           "every level error lies below the prediction, within 10 % above 7 m")
-    check(np.max(np.abs(record_diff - our_diff)) < 1e-11,
-          "our differences equal the record's column difference within 1e-11",
+    report("largest |difference (here) - difference (record)|",
+           f"{np.max(np.abs(record_diff - our_diff)):.1e}")
+    check(np.max(np.abs(record_diff - our_diff)) < 1e-12,
+          "our differences equal the record's column difference within 1e-12",
           record=f"{TABLE}, column difference")
     '''),
     md(r"""
-    ## 13. The last check
+    ## 15. The last check
 
-    The last cell checks that all 6 figure files exist in the folder
+    The last cell checks that all 8 figure files exist in the folder
     Revision/textbook/figures and prints the number of checks that passed.
     """),
     code(r'''
-    names = ["pruefer_staircase", "angle_along_y", "odd_level_equation", "orbitals",
+    names = ["pruefer_staircase", "staircase_slope", "angle_along_y",
+             "odd_level_equation", "newton_vs_bisection", "orbitals",
              "level_convergence", "record_differences"]
     present = [output_file(f"{FIGURE_FOLDER}/02d_{k}_{name}.png").is_file()
                for k, name in enumerate(names, 1)]
@@ -731,23 +1023,29 @@ CELLS = [
     all_checks_passed()
     '''),
     md(r"""
-    ## 14. What this notebook showed
+    ## 16. What this notebook showed
 
     - The free Kohn-Sham block of the book, $a' = M a - \varepsilon b$,
       $b' = \varepsilon a - M b$ with $b(-L) = 0$ and $b(0) = 0$ or $a(0) = 0$, has
       the exact levels $0$ (the zero mode $a \propto e^{My}$, $b = 0$),
       $\pm\sqrt{M^2 + (n\pi/L)^2}$ (even) and $\pm\sqrt{M^2 + p^2}$ with
       $\tan(pL) = -p/M$ (odd).
-    - The Pruefer angle obeys $\theta' = \varepsilon - M\sin 2\theta$; its end value
-      increases with $\varepsilon$, so each level is the unique crossing of a target
-      $l\pi$ or $\pi/2 + l\pi$: no level can be missed and each has a label.
-    - Shooting with RK4 exactly as the Revision Rust program does (900 steps for
-      $L = 3$, bisection to $10^{-13}$) reproduces all 54 levels of the record
-      Revision/kohn_sham/results/spectrum/free-k0-analytic.csv within
-      $10^{-11}$ (in fact about $10^{-13}$), the exact column, the zero mode exactly,
-      and the numbers $7.23 \times 10^{-10}$ (levels below $4m$) and
-      $5.05 \times 10^{-8}$ (all levels from $4m$ up to $8.75m$; the check's text
-      says "below $7m$") quoted by the program's check free_k0_analytic_spectra.
+    - The Pruefer angle obeys $\theta' = \varepsilon - M\sin 2\theta$, and the
+      product rule gives $d\Phi/d\varepsilon = \int r^2\,dy / r(0)^2 > 0$: the end
+      value increases with $\varepsilon$, so each level is the unique crossing of a
+      target $l\pi$ or $\pi/2 + l\pi$; no level can be missed and each has a label.
+    - The Rust program finds a level with Newton's method (slope from the same
+      formula) and a bisection safety net: 9 shots for the even level $l = 3$,
+      where plain bisection needs 48.
+    - Re-written line by line in Python, the program's shooting (900 RK4 steps for
+      $L = 3$) and root finder reproduce all 54 levels of the record
+      Revision/kohn_sham/results/spectrum/free-k0-analytic.csv (on the computer
+      that made the record, identical in all 16 printed digits), the exact column,
+      the zero mode exactly, the distance $1.35 \times 10^{-12}$ of the computed zero
+      mode from its exact form, and the numbers $7.23 \times 10^{-10}$ (levels below
+      $4m$) and $5.05 \times 10^{-8}$ (all levels from $4m$ up to $8.75m$; the
+      check's text says "below $7m$") quoted by the program's check
+      free_k0_analytic_spectra.
     - The level errors fall like $h^4$; for levels far above the mass the relative
       error is close to $(h\varepsilon)^4/120$, the phase lag of RK4. The canonical
       step $h = 1/300$ gives errors below $10^{-9}$ for $|\varepsilon| < 4m$.

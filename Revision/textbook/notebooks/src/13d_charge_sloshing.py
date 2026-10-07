@@ -37,10 +37,17 @@ FACTS = {
         "tables of plain iteration (charge sloshing between the sites) and of linear "
         "mixing, finds the fixed point and the convergence condition of linear mixing "
         "0 < beta < 2/(1 - G'), compares plain iteration, linear mixing and Anderson "
-        "mixing, maps the long-run behaviour against beta and the threshold against "
+        "mixing (with the settings of the Revision Kohn-Sham solver, read from its "
+        "parameter file), maps the long-run behaviour against beta and the threshold "
+        "against "
         "the repulsion, and draws six teaching plots."
     ),
-    "records": [],
+    "records": [
+        ["Revision/kohn_sham/results/parameters.json",
+         "the Anderson-mixing settings of the Revision Kohn-Sham solver (depth 6, "
+         "mixing parameter 0.4), which the notebook reads and uses for its Anderson "
+         "run"],
+    ],
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [],
     "expected_seconds": 5,
@@ -51,9 +58,15 @@ FACTS = {
     ],
     "final_lines": [
         "PASS the figure file 13d_6_threshold_versus_u.png exists",
-        "ALL 16 CHECKS PASSED (notebook 13d)",
+        "ALL 17 CHECKS PASSED (notebook 13d)",
     ],
-    "troubleshooting": [],
+    "troubleshooting": [
+        ["\"FileNotFoundError\" for `parameters.json`",
+         "the notebook reads the file `Revision/kohn_sham/results/parameters.json` of "
+         "the repository; it must be opened inside the folder "
+         "`Revision/textbook/notebooks` of a complete clone of the repository, not as "
+         "a single downloaded file."],
+    ],
 }
 
 CELLS = [
@@ -127,7 +140,8 @@ CELLS = [
     **Numbers.** $\Delta = 2$, $t = 1$, $U = 4$ (energies in units of $t$), start
     $n_L = 2$ (both electrons on the low site). **Status:** exact mathematics of a model
     loop (COMPUTED here); the model shows the mechanism, not a physical system of the
-    book.
+    book. Its only link to the Revision record is the Anderson-mixing settings, which
+    section 8 reads from the parameter file of the Revision Kohn-Sham solver.
     """),
     md(r"""
     ## 5. The loop and the reduced map
@@ -314,21 +328,31 @@ CELLS = [
     ## 8. Error histories and the convergence factor
 
     The next cell runs the loop for $\beta = 1, 0.8, 0.5, 0.2$ and for the best value
-    $\beta_{best} = 0.372$, and also with Anderson mixing (depth 6, $\beta = 0.4$, the
-    settings of the Revision Kohn-Sham solver; for one variable Anderson mixing
-    estimates the slope of $G$ from the last passes, like the secant method), and
-    records the error $|n_L - n_L^*|$ of every input. It checks the measured ratio of
-    successive errors for $\beta = 1/2$ against the predicted factor
-    $1 - \beta(1 - G') = -0.344$.
+    $\beta_{best} = 0.372$, and also with Anderson mixing with the settings of the
+    Revision Kohn-Sham solver of the dirac16complex field, which it reads from the
+    solver's parameter file (how many earlier passes are remembered, and $\beta$; for
+    one variable Anderson mixing estimates the slope of $G$ from the last passes, like
+    the secant method). It records the error $|n_L - n_L^*|$ of every input and checks
+    the measured ratio of successive errors for $\beta = 1/2$ against the predicted
+    factor $1 - \beta(1 - G') = -0.344$.
     """),
     code(r'''
+    parameters = json.loads(repository_file(
+        "Revision/kohn_sham/results/parameters.json").read_text(encoding="utf-8"))
+    DEPTH = int(parameters["numerics"]["andersonDepth"])  # passes remembered
+    BETA_ANDERSON = float(parameters["numerics"]["andersonBeta"])  # mixing parameter
+    check(DEPTH == 6 and BETA_ANDERSON == 0.4,
+          "the Revision solver mixes with depth 6 and beta 0.4 "
+          "(Revision/kohn_sham/results/parameters.json, numerics)")
+
+
     def errors_linear(beta, passes=60):
         """|n_L - n_L*| of the inputs of linear mixing."""
         history, _ = iterate(beta, passes=passes)
         return np.array([abs(n - 1.0 - x_star) for n, _ in history])
 
 
-    def errors_anderson(beta=0.4, depth=6, passes=60, tolerance=1e-14):
+    def errors_anderson(beta=BETA_ANDERSON, depth=DEPTH, passes=60, tolerance=1e-14):
         """|n_L - n_L*| of the inputs of Anderson mixing (one variable)."""
         n, inputs, residuals, errors = 2.0, [], [], []
         for _ in range(passes):
@@ -373,7 +397,8 @@ CELLS = [
         ax.semilogy(histories[key][:40], style, ms=3, label=label)
     best = np.maximum(histories["best"][:12], 1e-16)  # rounding may give exactly 0
     ax.semilogy(best, "D-", ms=3, label=f"linear, best $\\beta = {beta_best:.3f}$")
-    ax.semilogy(anderson_errors, "k*-", ms=6, label="Anderson, depth 6, $\\beta = 0.4$")
+    ax.semilogy(anderson_errors, "k*-", ms=6,
+                label=f"Anderson, depth {DEPTH}, $\\beta = {BETA_ANDERSON}$")
     ax.set_ylim(1e-15, 10.0)
     ax.set_xlabel("pass number")
     ax.set_ylabel("error $|n_L - n_L^*|$")
@@ -536,7 +561,7 @@ CELLS = [
       $\beta = 1/(1 - G') = 0.372$ is the fastest.
     - Anderson mixing, which estimates the slope from earlier passes, converges in a
       few passes without tuning; the Revision Kohn-Sham solver of the dirac16complex
-      field uses it (depth 6, $\beta = 0.4$).
+      field uses it with depth 6 and $\beta = 0.4$ (read here from its parameter file).
     - The stronger the repulsion, the smaller the step the loop may take; for
       $\Delta = 2$, $t = 1$ plain iteration converges only for $U$ below the printed
       threshold (for example $U = 2$: $\beta_{max} = 1.184$).

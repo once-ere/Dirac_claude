@@ -68,7 +68,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS all 4 figure files of this notebook exist",
-        "ALL 22 CHECKS PASSED (notebook 07c)",
+        "ALL 23 CHECKS PASSED (notebook 07c)",
     ],
     "troubleshooting": [
         ["\"ValueError: ... is not a passing check of Revision/...\"",
@@ -266,11 +266,13 @@ CELLS = [
     ring, the diagonal frame $f = (Es, Es, Es, 1, s/E, s/E, s/E, c/s^6)$, the
     Christoffel symbols of the diagonal metric, the canonical spin connection
     $\omega_{\mu ab}$, the spinor connection $\Omega_\mu = \sum_{a<b}\omega_{\mu ab}
-    S^{ab}$ and the coordinate gammas $\gamma^\mu = \gamma^{(\mu)}/f_\mu$. As a
-    consistency check it confirms $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$, the value of
-    the Revision record. Every entry of $\Omega_\mu$ is real (real gammas, real
-    functions), so the field equation is a REAL equation and real fields are a
-    consistent restriction.
+    S^{ab}$ and the coordinate gammas $\gamma^\mu = \gamma^{(\mu)}/f_\mu$. It then
+    checks two things. First, every entry of every $\Omega_\mu$ and $\gamma^\mu$ is real
+    (real gammas times the real functions $e^{\pm a_4}$, $\sin^{1/6}z$, $\cot z$, $a_4'$
+    and $H$; no imaginary unit $i$ anywhere): the operator $\gamma^\mu D_\mu$ is REAL,
+    so the complex conjugate of a solution is again a solution, and real fields are a
+    consistent restriction. Second, as a consistency check, $\gamma^\mu\Omega_\mu =
+    3H\gamma^{(x_8)}$, the value of the Revision record.
     """),
     code(r'''
     E, s, c = sp.symbols("E s c", positive=True)  # e^a4, sin(z)^(1/6), cos z
@@ -324,10 +326,14 @@ CELLS = [
                     M += sp.expand(ETA[a] * mixed) * SAB[a][b]
         Om.append(M.applyfunc(sp.expand))
     gam = [G[a] / f[a] for a in range(8)]  # the coordinate gammas
+    # real: no imaginary unit, and sympy does not find the entry non-real
+    real_entries = all(not v.has(sp.I) and v.is_real is not False
+                       for M in Om + gam for v in M)
+    check(real_entries, "every entry of every Omega_mu and gamma^mu is real: gamma^mu "
+          "D_mu is a real operator", record=reproduces(LEAD, "spinor_connection_real"))
     total = sum((gam[mu] * Om[mu] for mu in range(8)), Z16)
-    check(all(is_zero(v) for v in (total - 3 * H * G[X8]))
-          and all(v.is_real is not False and not v.has(sp.I) for M in Om for v in M),
-          "Omega_mu is real and gamma^mu Omega_mu = 3 H gamma^(x8)",
+    check(all(is_zero(v) for v in (total - 3 * H * G[X8])),
+          "gamma^mu Omega_mu = 3 H gamma^(x8), the value of the Revision record",
           record=reproduces(PYREP, "gamma_mu_Omega_mu_equals_3H_gamma_x8"))
     '''),
     md(r"""

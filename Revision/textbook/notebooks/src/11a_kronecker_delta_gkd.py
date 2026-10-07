@@ -49,8 +49,10 @@ FACTS = {
         "coordinate labels and for 12,000 random pairs of length 4 to 9, counts how "
         "often the values +1, -1 and 0 occur and derives these counts by a formula, "
         "shows why the delta of nine indices in eight dimensions is always zero, and "
-        "builds and runs the Revision Rust program lovelock_gkd (its GKD self-test, "
-        "with 16,777,216 pairs of length 4 compared exhaustively) and checks that it "
+        "builds the Revision Rust program lovelock_gkd with cargo inside the notebook "
+        "(about a minute when the program file is missing, about a second when it is "
+        "up to date), runs its GKD self-test (16,777,216 pairs of length 4 compared "
+        "exhaustively; this cell alone takes 7 to 9 minutes) and checks that it "
         "reproduces the committed Revision record byte for byte; it draws six teaching "
         "figures. The Rust program writes its result file gkd-selftest.json into the "
         "folder `Revision/gkd_lovelock/code/target/textbook_11a`, inside the Rust build "
@@ -191,8 +193,10 @@ CELLS = [
     products of two and of three curvature tensors. Written out, the tensor of order $k$
     is a sum over $2k$ upper and $2k$ lower coordinate labels plus one free pair, and
     every term is weighted by a generalized Kronecker delta with $p = 2k + 1$ upper and
-    $2k + 1$ lower labels. For $k = 3$ the program `lovelock_gkd` evaluates the delta
-    495,360 times. So the delta must be right and fast.
+    $2k + 1$ lower labels. For the 64 components of the tensor of order $k = 3$ the
+    program `lovelock_gkd` evaluates the delta 495,360 times (record
+    `Revision/gkd_lovelock/results/lovelock-report.json`, counter `gkdCalls`). So the
+    delta must be right and fast.
 
     **The author's definition.** The Revision record
     `Revision/gkd_lovelock/results/PROVENANCE_OF_THE_COMPUTATION.md` quotes it from the
@@ -293,7 +297,8 @@ CELLS = [
 
     Then it evaluates the five examples of the Revision record
     `python-lovelock-report.json` (check `gkd_examples`), whose lists use the labels
-    1, 2, 3, 4 as the author's notebook does (any numbers can serve as labels).
+    1, 2, 3, 4 (any whole numbers can serve as labels: only equality of two labels
+    matters).
     """),
     code(r'''
     import itertools  # loops over all lists of labels, and over all permutations
@@ -809,9 +814,10 @@ CELLS = [
     written by the same command.
 
     The next cell builds the program with cargo, through the helper `rust_program` of the
-    set-up cell, which runs `cargo build --release` for the crate (a few seconds the
-    first time, about a second when the program is up to date) and returns the path of
-    the program file (`lovelock_gkd.exe` on Windows).
+    set-up cell, which runs `cargo build --release` for the crate (about a minute when
+    the program file is missing, about a second when the program is up to date) and
+    returns the path of the program file (`lovelock_gkd.exe` on Windows). The crate has
+    no dependencies, so cargo downloads nothing.
     """),
     code(r'''
     program = rust_program("Revision/gkd_lovelock/code/Cargo.toml", "lovelock_gkd")

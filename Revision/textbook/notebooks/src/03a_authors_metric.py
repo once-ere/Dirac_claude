@@ -52,7 +52,8 @@ FACTS = {
          "the deflating history a4 = A H x4 with A = 1 and H = 1, its five slices of a4 "
          "and the tip cut-off L of the Revision Kohn-Sham solver"],
         ["Revision/kohn_sham/ks-theory.json",
-         "the definition of the hidden coordinate y, the patch end and the tip"],
+         "the definition of the hidden coordinate y, the patch end and the tip, and the "
+         "status of the history a4 = A H x4 (a prescribed background, not solved for)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -70,7 +71,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all seven figure files exist",
-        "ALL 26 CHECKS PASSED (notebook 03a)",
+        "ALL 27 CHECKS PASSED (notebook 03a)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for curvature.json or parameters.json",
@@ -521,7 +522,14 @@ CELLS = [
     (`Revision/kohn_sham/results/parameters.json`): the constant $H$, the slope $A$ of
     the history $a_4 = A H x_4$, the five values of $a_4$ (the **slices**) at which that
     solver computes its states, and the tip cut-off $L$ (used in section 13 of this
-    notebook). The record states the status of the history itself; it is printed too.
+    notebook). It also reads the theory record of that work
+    (`Revision/kohn_sham/ks-theory.json`) and prints the first and the last sentence of
+    its statement about the **status of the history** (key `historyStatus`). The
+    sentence in between, not printed, says why: the field equations of $a_4$ allow the
+    history $a_4 = A H x_4$ only for a source with equal pressures in all directions
+    and a constant energy density, and the Kohn-Sham states computed along it do not
+    have these properties. So the history is assumed, not derived; this notebook uses
+    it only to draw the time dependence of the metric.
     """),
     code(r'''
     PARAMETERS = "Revision/kohn_sham/results/parameters.json"
@@ -530,11 +538,18 @@ CELLS = [
     H_value, A_value = physics["H"], physics["historyA"]
     slices = physics["slicesA4"]  # the values of a4 at which the solver works
     L_tip = physics["L_tipCutoff"]  # the tip cut-off, in units of 1/H
-    history_status = parameters["theoryInputs"]["adiabaticityHistory"]
-    say(f"history: {history_status}")
     say(f"H = {H_value}, A = {A_value}, slices a4 = {slices}, tip cut-off L = {L_tip}")
     check(H_value == 1.0 and A_value == 1.0 and slices == [0.0, 0.5, 1.0, 1.5, 2.0],
           "the history of the record is a4 = x4 (A = 1, H = 1) with slices 0 to 2")
+    KS_THEORY = "Revision/kohn_sham/ks-theory.json"
+    ks_theory = json.loads(repository_file(KS_THEORY).read_text(encoding="utf-8"))
+    status = ks_theory["adiabaticity"]["historyStatus"]  # the record's own statement
+    sentences = status.split(". ")  # the statement, cut into its sentences
+    say("status of the history (record): " + sentences[0] + ".")
+    say(sentences[-1])  # the last sentence already ends with a full stop
+    check(status.startswith("PRESCRIBED BACKGROUND") and "not solved for" in status,
+          "the record states that the history is a prescribed background",
+          record=f"{KS_THEORY}, adiabaticity.historyStatus")
     '''),
     md(r"""
     Along this history $a_4 = A H x_4$, so $a_4 = 0, 0.5, \dots, 2$ at
@@ -741,12 +756,10 @@ CELLS = [
 
     As $z$ runs from $0$ to $\pi/2$, $y$ runs from $-\infty$ (the tip) to $0$ (the patch
     end); in $y$ the volume factor is $\sin z = e^{6Hy}$. The next cell prints the
-    definition stored in the record `Revision/kohn_sham/ks-theory.json` and checks these
-    statements with sympy.
+    definition stored in the record `Revision/kohn_sham/ks-theory.json` (read in
+    section 10) and checks these statements with sympy.
     """),
     code(r'''
-    KS_THEORY = "Revision/kohn_sham/ks-theory.json"
-    ks_theory = json.loads(repository_file(KS_THEORY).read_text(encoding="utf-8"))
     say("record: " + ks_theory["geometry"]["hiddenCoordinate"])
     y_of_x8 = sp.log(sp.sin(6 * H * x8)) / (6 * H)  # y = ln(sin z)/(6H)
     dy_dx8 = sp.diff(y_of_x8, x8)  # the chain rule, done by sympy
@@ -861,8 +874,9 @@ CELLS = [
       with warp factor $e^{2Hy}$; the tip is at infinite proper distance, and the tip
       cut-off $y = -3/H$ of the Kohn-Sham solver removes only the fraction $e^{-18}$ of
       the 7-volume.
-    - ASSUMED: the history $a_4 = A H x_4$ is a prescribed background, used here only to
-      draw the time dependence; the field equations of $a_4$ come later.
+    - ASSUMED: the history $a_4 = A H x_4$ is a prescribed background (the Revision
+      record says so in its own words), used here only to draw the time dependence; the
+      field equations of $a_4$ come later.
     """),
 ]
 

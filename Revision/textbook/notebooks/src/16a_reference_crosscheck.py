@@ -13,14 +13,15 @@ file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
 
 The notebook imports the Revision reference program
 (Revision/kohn_sham/reference/run_reference.py with ks_fd.py) and runs it for five states
-of the canonical matrix (three ground states, two thermal states), checks that the new
-results reproduce the committed reference record, shows the convergence of its three grids
-and the Richardson extrapolation, builds the Revision Rust solver and runs its `single`
-command with the canonical and the refined numerics (raw outputs in the git-ignored folder
+of the canonical matrix (three ground states, two thermal states) and for the fourth-grid
+validation of one state, checks that the new results reproduce the committed reference
+record, shows the convergence of the grids and the Richardson extrapolation, builds the
+Revision Rust solver and runs its `single` command with the canonical and the refined
+numerics (raw outputs in the git-ignored folder
 Revision/kohn_sham/solver/target/textbook_16a), applies the tolerance rule of
-Revision/kohn_sham/checker/crosscheck_ks.py to 5140 comparisons and reproduces the
-corresponding rows and worst cases of Revision/kohn_sham/reports/ks-crosscheck.json and
-ks-crosscheck-table.csv.
+Revision/kohn_sham/checker/crosscheck_ks.py to every comparison of the cross-check classes
+it repeats, and reproduces the corresponding rows and worst cases of
+Revision/kohn_sham/reports/ks-crosscheck.json and ks-crosscheck-table.csv.
 """
 
 import sys
@@ -31,11 +32,12 @@ from nbkit import code, md, run_builder  # noqa: E402
 
 FIGURES = [
     "16a_1_grid_convergence",
-    "16a_2_eigenvalue_ratios",
-    "16a_3_level_agreement",
-    "16a_4_profile_agreement",
-    "16a_5_uncertainty_budget",
-    "16a_6_ratios_by_class",
+    "16a_2_uncertainty_validated",
+    "16a_3_eigenvalue_ratios",
+    "16a_4_level_agreement",
+    "16a_5_profile_agreement",
+    "16a_6_uncertainty_budget",
+    "16a_7_ratios_by_class",
 ]
 
 FACTS = {
@@ -45,20 +47,21 @@ FACTS = {
     "purpose": (
         "It runs the independent Python reference solver of the repository on five "
         "Kohn-Sham states of dirac16complex in the deflating primordial field (three "
-        "ground states and two thermal states, chosen because the full cross-check found "
-        "its largest differences there), checks that the new results reproduce the "
-        "committed reference record, shows how its three grids converge and how "
-        "Richardson extrapolation removes the grid error, builds the Rust solver and runs "
-        "it with its canonical and its refined numerics to measure its uncertainty, "
-        "applies the tolerance rule of the cross-check to 5140 comparisons, and "
-        "reproduces the corresponding rows and worst cases of the committed cross-check "
-        "report. The raw outputs of the Rust program go into the folder "
-        "`Revision/kohn_sham/solver/target/textbook_16a`, which git ignores."
+        "ground states and two thermal states, four of them chosen because the full "
+        "cross-check found its largest differences there) and on a fourth, finer grid "
+        "for one state, checks that every new result reproduces the committed reference "
+        "record, shows how the grids converge and how Richardson extrapolation removes "
+        "the grid error, builds the Rust solver and runs it with its canonical and its "
+        "refined numerics to measure its uncertainty, applies the tolerance rule of the "
+        "cross-check to 5140 comparisons, and reproduces the corresponding rows and "
+        "worst cases of the committed cross-check report. The raw outputs of the Rust "
+        "program go into the folder `Revision/kohn_sham/solver/target/textbook_16a`, "
+        "which git ignores."
     ),
     "records": [
         ["Revision/kohn_sham/reference/run_reference.py",
          "the reference program; the notebook imports it and runs its jobs for five "
-         "states"],
+         "states and its fourth-grid validation"],
         ["Revision/kohn_sham/reference/ks_fd.py",
          "the staggered finite-difference solver that the reference program uses"],
         ["Revision/kohn_sham/reference/results",
@@ -83,20 +86,20 @@ FACTS = {
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [{"manifest": "Revision/kohn_sham/solver/Cargo.toml",
                     "binaries": ["revision_ks_solver"], "build_minutes": 1}],
-    "expected_seconds": 130,
+    "expected_seconds": 240,
     "timeout_seconds": 1800,
     "files_written": ["Revision/textbook/figures/16a.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS every figure file of this notebook exists",
-        "ALL 41 CHECKS PASSED (notebook 16a)",
+        "ALL 51 CHECKS PASSED (notebook 16a)",
     ],
     "troubleshooting": [
         ["The cell that runs the reference solver on the three ground states shows the "
-         "label with the star for a minute or longer",
-         "this is normal. The state N136_lamp2_a20 alone takes about one minute on a fast "
-         "computer and up to five minutes on a laptop, because the reference solves 354 "
-         "levels on three grids, each with its excited state and four neighbouring "
+         "label with the star for two minutes or longer",
+         "this is normal. The state N136_lamp2_a20 alone takes about two minutes on a "
+         "fast computer and up to ten minutes on a laptop, because the reference solves "
+         "354 levels on three grids, each with its excited state and four neighbouring "
          "slices. Wait until the label shows a number."],
         ["A line reports that a re-run is not identical byte for byte, but the PASS line "
          "after it appears",
@@ -108,6 +111,10 @@ FACTS = {
          "that the reference program, the Rust solver or the record was changed. Get the "
          "stored versions back and run the notebook again.",
          ["git checkout -- Revision/kohn_sham"]],
+        ["You want the disk space of the Rust outputs back",
+         "the folder `Revision/kohn_sham/solver/target/textbook_16a` holds only the raw "
+         "output of the last run (about 1 MB, ignored by git); delete it at any time, "
+         "the notebook writes it again."],
     ],
 }
 
@@ -117,7 +124,7 @@ CELLS = [
 
     Two different computer programs solve the same Kohn-Sham equations of the fermion
     field dirac16complex in the author's primordial gravitational field: the **Rust
-    solver** (whose results the earlier chapter used) and an independent **Python
+    solver** (whose results the previous chapter used) and an independent **Python
     reference solver**, which shares no code with it and uses a different numerical
     method. The **cross-check** compares the two, number by number, with a tolerance rule
     that was fixed before any comparison was made. This notebook does that work itself
@@ -126,19 +133,22 @@ CELLS = [
     - it runs the reference program of the repository on three ground states and two
       thermal states and checks that the new results reproduce the committed reference
       record;
-    - it shows how the reference results converge on its three grids and how
-      **Richardson extrapolation** removes the grid error and measures what is left;
+    - it shows how the reference results converge on its three grids, how **Richardson
+      extrapolation** removes the grid error and measures what is left, and it tests that
+      measured uncertainty on a fourth, finer grid;
     - it builds the Rust solver, runs each state twice (with the **canonical** and with
       the **refined** numerics) and measures the Rust uncertainty from the difference;
     - it applies the tolerance rule of the cross-check to 5140 comparisons (energies,
       levels, profiles, energy-momentum integrals, adiabaticity, thermodynamics) and
       reproduces the rows and the worst cases of the committed cross-check report;
-    - it draws six figures: grid convergence, the convergence ratios of the levels, the
-      agreement of the levels, the agreement of a density profile, the uncertainty
-      budget and all ratios of the subset by class.
+    - it draws seven figures: grid convergence, the fourth-grid test of the uncertainty,
+      the convergence ratios of the levels, the agreement of the levels, the agreement
+      of a density profile, the uncertainty budget, and all ratios of the subset by
+      class.
 
-    The five states were chosen because the full cross-check of all 210 states found its
-    largest differences in them. The run takes about two minutes on a fast computer.
+    Four of the five states were chosen because the full cross-check of all 210 states
+    found its largest differences in them; the fifth (N688_lam0_a00) has the largest
+    number of particles. The run takes about four minutes on a fast computer.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -149,12 +159,13 @@ CELLS = [
       large matrix on a grid and finds its eigenvalues.
     - **Grid**: equally spaced points on the interval $-L \le y \le 0$. $G$ is the number
       of cells, $h = L/G$ the width of one cell. The reference uses $G = 300$, $600$ and
-      $1200$.
+      $1200$; one state is also solved on $G = 2400$ (the **fourth grid**).
     - **Grid error**: the difference between a number computed on a grid and the exact
       number. For the reference it shrinks like $h^2$.
     - **Richardson extrapolation**: a combination of the results on several grids in
       which the leading grid errors cancel. $R$ is the extrapolated value, $U$ its
       measured **uncertainty** (how far it may still be from the exact value).
+    - **Validation**: a test of a stated uncertainty against a more accurate number.
     - **Canonical numerics** of the Rust solver: $G = 900$ RK4 steps and its standard
       tolerances. **Refined numerics**: $G = 1800$ steps and ten times smaller
       tolerances. $U_{Rust}$ is the uncertainty of the canonical Rust result measured
@@ -231,8 +242,7 @@ CELLS = [
     for profile points. The **ratio** is the left side divided by the right side.
 
     **The subset.** The committed cross-check compared all 210 states (75 ground, 135
-    thermal) and passed all 29 checks. Its largest ratios occurred in these states,
-    which this notebook recomputes:
+    thermal) and passed all 29 checks. This notebook recomputes five of them:
 
     | state | $N$ | $\lambda$ | $a_{4,0}$ | $T$ | why it is in the subset |
     | --- | --- | --- | --- | --- | --- |
@@ -242,7 +252,8 @@ CELLS = [
     | N8_lamm1_a00_T10 | 8 | $-\lambda_1$ | 0 | 0.01 | where the first cross-check failed |
     | N8_lam0_a15_T50 | 8 | 0 | 1.5 | 0.05 | largest thermal ratios |
 
-    The values of $\lambda_1$ and $\lambda_2$ depend on $N$; the next cell reads them.
+    The values of $\lambda_1$ and $\lambda_2$ depend on $N$; the next cells read them.
+    What the cross-check can and cannot show is said at the end of the notebook.
     """),
     md(r"""
     ## 5. The records and the problem definition of both solvers
@@ -258,7 +269,6 @@ CELLS = [
     """),
     code(r'''
     import csv  # reads tables stored as CSV files (comma-separated values)
-    import math  # functions of single numbers
     import re  # finds patterns in text (used to read numbers out of report sentences)
     import sys  # the list of folders in which Python looks for modules
 
@@ -383,7 +393,7 @@ CELLS = [
     the three jobs the original function is put back. The results are the contents of
     the JSON files the reference program writes (`RR.jsonable` turns the arrays into
     plain numbers, as the program does before it writes a file). This cell takes about
-    a minute on a fast computer.
+    two minutes on a fast computer.
     """),
     code(r'''
     PER_GRID = {}  # (state id, G) -> the levels of the state on grid G (an array)
@@ -413,10 +423,11 @@ CELLS = [
     `compare_records` walks through both structures at the same time: the same names in
     every dictionary, the same length of every list, the same texts and truth values,
     and every number equal within one part in a billion ($10^{-9}$ relative). It counts
-    the numbers it compared. The cell also writes the new result as text exactly as the
-    reference program writes its files and reports whether that text is identical to the
-    committed file **byte for byte** (on the computer that built this book it is; the
-    cross-check's own repeat run found the same for all 340 files).
+    the numbers it compared. The function `check_reproduction` also writes the new
+    result as text exactly as the reference program writes its files and reports
+    whether that text is identical to the committed file **byte for byte** (on the
+    computer that built this book it is; the cross-check's own repeat run found the
+    same for all 340 files).
     """),
     code(r'''
     def compare_records(new, old, problems, where="top"):
@@ -445,27 +456,27 @@ CELLS = [
                    for i, (a, b) in enumerate(zip(new, old)))
 
 
-    def check_reproduction(sid, folder):
-        """Check the new result of state sid against its committed reference file."""
-        relative = f"{KS}/reference/results/{folder}/{sid}.json"
+    def check_reproduction(label, data, relative):
+        """Check the new result data (named label) against its committed file."""
         committed = repository_file(relative).read_text(encoding="utf-8")
         problems = []
-        numbers = compare_records(NEW[sid], json.loads(committed), problems)
-        text = json.dumps(NEW[sid], indent=1, ensure_ascii=True) + "\n"  # as written
-        say(f"{sid}: {numbers} numbers compared; identical byte for byte: "
+        numbers = compare_records(data, json.loads(committed), problems)
+        text = json.dumps(data, indent=1, ensure_ascii=True) + "\n"  # as written
+        say(f"{label}: {numbers} numbers compared; identical byte for byte: "
             f"{text == committed}")
         for line in problems[:5]:  # the first differences, if there are any
             say(f"  difference {line}")
-        check(not problems, f"the re-run of {sid} reproduces {folder}/{sid}.json",
+        check(not problems,
+              f"the re-run of {label} reproduces {relative.split('/results/')[1]}",
               record=f"{KS}/reports/ks-crosscheck.json, check "
                      "reference_repeat_byte_identical")
 
 
     for sid in GROUND_IDS:
-        check_reproduction(sid, "ground")
+        check_reproduction(sid, NEW[sid], f"{KS}/reference/results/ground/{sid}.json")
     '''),
     md(r"""
-    ## 8. How the three grids converge: Richardson extrapolation at work
+    ## 8. Richardson extrapolation at work
 
     Write $x(h)$ for a number computed on a grid with cell width $h$ and $X$ for its exact
     value. For the staggered grid the error has only even powers of $h$:
@@ -484,7 +495,8 @@ CELLS = [
       $R = \frac{64\,x(h/4) - 20\,x(h/2) + x(h)}{45}$.
     - The leftover error of the finest one-step value $r(h/2)$ is about $|R - r(h/2)|$;
       that is the uncertainty $U$ (plus a floor $2\cdot 10^{-12}\max(1,|R|)$ for
-      rounding). It is an honest over-estimate of the error of $R$.
+      rounding). Because $R$ has removed one more error term than $r(h/2)$, $U$ is meant
+      to over-estimate the error of $R$; section 9 tests this on a fourth grid.
     - Because $x(h) - x(h/2) \approx \tfrac34 c h^2$ and
       $x(h/2) - x(h/4) \approx \tfrac{3}{16} c h^2$, their **ratio is 4** when the grids
       are fine enough for the $h^2$ term to dominate (the *asymptotic regime*).
@@ -496,7 +508,7 @@ CELLS = [
     code(r'''
     def richardson(x1, x2, x3):
         """Three-grid Richardson value R and its uncertainty U (x1 on the coarsest grid),
-        in the two-step form of the reference program."""
+        in the two-step form of the reference program; also the two one-step values."""
         r_fine = (4.0 * x3 - x2) / 3.0  # one step on the grids h/2 and h/4
         r_coarse = (4.0 * x2 - x1) / 3.0  # one step on the grids h and h/2
         R = (16.0 * r_fine - r_coarse) / 15.0  # the second step
@@ -521,49 +533,170 @@ CELLS = [
               f"our Richardson lines give the reference value and U of E_KS ({sid})")
     '''),
     md(r"""
-    The next figure shows the same thing as a picture, for the three ground states. Left:
-    the distance $|x(G) - R|$ of $E_{KS}$ on each grid from the extrapolated value,
-    against the cell width $h = 3/G$, on logarithmic axes; a straight line of slope 2
-    means an error proportional to $h^2$. Right: the distance of the one-step values
-    $r$ from $R$, which falls with slope 4.
+    ## 9. A fourth grid tests the uncertainty
+
+    Is $U$ really larger than the error of $R$? The reference program answers this with
+    its job `validation_job`: it solves one state, N136_lamp2_a20 (the strongest coupling
+    with the largest densities at the tip), on four grids $G = 300, 600, 1200, 2400$,
+    forms the three-grid value twice, $R_{123}$ from $(300, 600, 1200)$ and $R_{234}$
+    from $(600, 1200, 2400)$, and compares $|R_{123} - R_{234}|$ with the stated
+    uncertainty $U_{123}$ for 19 classes of quantities (energies, HOMO, LUMO, integrals,
+    tip and brane values, all levels, five profiles). $R_{234}$ is much closer to the
+    exact value than $R_{123}$ (its grids are twice as fine and its leftover error
+    shrinks like $h^6$), so $|R_{123} - R_{234}|$ is practically the error of $R_{123}$.
+
+    The next cell runs that job again (about 40 seconds) and compares its result with the
+    committed file `Revision/kohn_sham/reference/results/validation/N136_lamp2_a20.json`.
+    To draw the four grids we again use a wrapper: the job calls the function
+    `observables` of `ks_fd` once on each grid, and our wrapper keeps $E_{KS}$, the
+    levels and the tip value of $p_8$ of each grid.
     """),
     code(r'''
-    fig, (left, right) = plt.subplots(1, 2, figsize=(9.5, 4.0))
+    FOUR_GRIDS = {}  # G -> (E_KS, levels, p8 at the tip) of N136_lamp2_a20 on grid G
+    original_observables = RR.K.observables  # the function of ks_fd (RR.K is ks_fd)
+
+
+    def observables_recorded(state):
+        """Call ks_fd's own function and keep E_KS, the levels and p8 at the tip."""
+        scalars, profiles = original_observables(state)
+        FOUR_GRIDS[state.grid.G] = (scalars["E_KS"], state.eps.copy(),
+                                    scalars["p8_tip"])
+        return scalars, profiles
+
+
+    RR.K.observables = observables_recorded  # the job now calls our wrapper
+    VALIDATION = RR.jsonable(RR.validation_job(CO, SPECS["N136_lamp2_a20"])["data"])
+    RR.K.observables = original_observables  # put the original function back
+    check_reproduction("the fourth-grid validation", VALIDATION,
+                       f"{KS}/reference/results/validation/N136_lamp2_a20.json")
+    same = all(abs(FOUR_GRIDS[G][0] - grid["scalars"]["E_KS"]) <= 1e-12
+               for G, grid in zip((300, 600, 1200), NEW["N136_lamp2_a20"]["per_grid"]))
+    check(sorted(FOUR_GRIDS) == [300, 600, 1200, 2400] and same,
+          "the validation run repeats the ground job's E_KS on the three common grids")
+    classes = VALIDATION["classes"]
+    for name, c in classes.items():
+        say(f"  {name:20s} {c['elements']:4d} element(s): max |R123 - R234| / U123 = "
+            f"{c['max_ratio_to_U123']:.2e}")
+    worst = max(classes, key=lambda name: classes[name]["max_ratio_to_U123"])
+    detail = next(c["detail"] for c in REPORTS["reference solver"]["checks"]
+                  if c["name"] == "richardson_uncertainty_validated")
+    stated = float(re.search(r"U123 = ([0-9.]+) \((\w+)\)", detail).group(1))
+    say(f"largest ratio {classes[worst]['max_ratio_to_U123']:.3f} ({worst}); "
+        f"the report states {stated}")
+    check(all(c["all_within_U123"] for c in classes.values())
+          and len(classes) == 19 and worst == "p8_tip"
+          and abs(classes[worst]["max_ratio_to_U123"] - stated) <= 5e-4,
+          "on the fourth grid every three-grid value moves by less than its U",
+          record=f"{KS}/reports/ks-reference.json, check richardson_uncertainty_validated")
+    '''),
+    md(r"""
+    The next figure shows convergence as a picture. Left: for the three ground states, the
+    distance $|x(G) - R|$ of $E_{KS}$ on each grid from the extrapolated value, against
+    the cell width $h = 3/G$, on logarithmic axes; a straight line of slope 2 means an
+    error proportional to $h^2$. Right: N136_lamp2_a20 on all four grids, every distance
+    measured from the best value $R_{234}$: the single grids (slope 2), the three
+    one-step values $r$ from neighbouring pairs of grids (slope 4), and the three-grid
+    value $R_{123}$ next to its stated uncertainty $U_{123}$. The dashed guide lines
+    have slopes 2 and 4 and pass through the first point of their series.
+    """),
+    code(r'''
+    fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.3))
     h = np.array([3.0 / 300, 3.0 / 600, 3.0 / 1200])  # the cell widths
     for colour, sid in zip(PALETTE, GROUND_IDS):
         xs, R = CONVERGENCE[sid]
         left.loglog(h, [abs(x - R) for x in xs], "o-", color=colour, lw=1.5, ms=6,
                     label=sid)
-        _, _, r_coarse, r_fine = richardson(*xs)
-        right.loglog(h[:2], [abs(r_coarse - R), abs(r_fine - R)], "s-", color=colour,
-                     lw=1.5, ms=6, label=sid)
-    guide = np.array([h[0], h[2]])
-    left.loglog(guide, 2e-1 * guide ** 2 / guide[0] ** 2 * 1e-4, "k--", lw=1.0,
-                label="slope 2 (error $\\propto h^2$)")
-    right.loglog(guide[:1].tolist() + [h[1]],
-                 [3e-9, 3e-9 / 16], "k--", lw=1.0, label="slope 4 (error $\\propto h^4$)")
+        first = abs(xs[0] - R)  # a guide of slope 2, a factor 3 below the first point
+        left.loglog(h, first / 3.0 * (h / h[0]) ** 2, "--", color=colour, lw=0.9)
     left.set_xlabel("cell width $h = L/G$")
     left.set_ylabel("$|E_{KS}(G) - R|$ (units of $m$)")
-    left.set_title("single grids")
-    right.set_xlabel("cell width $h$ of the coarser grid of the pair")
-    right.set_ylabel("$|r - R|$ (units of $m$)")
-    right.set_title("after one Richardson step")
+    left.set_title("three grids, three states")
     left.legend(fontsize=8)
-    right.legend(fontsize=8)
+
+    grids = [300, 600, 1200, 2400]
+    e4 = [FOUR_GRIDS[G][0] for G in grids]  # E_KS of N136_lamp2_a20 on the four grids
+    h4 = np.array([3.0 / G for G in grids])
+    R123, U123, _, _ = richardson(*e4[:3])
+    R234, _, _, _ = richardson(*e4[1:])
+    single = [abs(x - R234) for x in e4]
+    one_step = [abs((4.0 * e4[i + 1] - e4[i]) / 3.0 - R234) for i in range(3)]
+    right.loglog(h4, single, "o-", color=PALETTE[0], lw=1.5, ms=6,
+                 label="single grid $x(G)$")
+    right.loglog(h4, single[0] / 3.0 * (h4 / h4[0]) ** 2, "--", color=PALETTE[0],
+                 lw=0.9, label="slope 2 (shifted down)")
+    right.loglog(h4[:3], one_step, "s-", color=PALETTE[1], lw=1.5, ms=6,
+                 label="one step $r$ (pair $G$, $2G$)")
+    right.loglog(h4[:3], one_step[0] / 3.0 * (h4[:3] / h4[0]) ** 4, "--",
+                 color=PALETTE[1], lw=0.9, label="slope 4 (shifted down)")
+    right.loglog([h4[0]], [max(abs(R123 - R234), 1e-16)], "D", color=PALETTE[2], ms=8,
+                 label="three grids $R_{123}$")
+    right.loglog([h4[0]], [U123], "_", color="k", ms=16, mew=2,
+                 label="its uncertainty $U_{123}$")
+    right.set_xlabel("cell width $h$ of the coarsest grid used")
+    right.set_ylabel("distance from $R_{234}$ (units of $m$)")
+    right.set_title("N136_lamp2_a20 on four grids")
+    right.legend(fontsize=7, loc="center right")
+    for ax, ticks in ((left, h), (right, h4)):  # tick labels at the grids' h only
+        ax.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
+        ax.set_xticks(ticks)
+        ax.set_xticklabels([f"{t:g}" for t in ticks])
     fig.tight_layout()
     save_figure(fig, "grid_convergence",
-                "Convergence of the reference solver on its three grids for the Kohn-Sham "
-                "energy of the three ground states of the subset. Left: distance of the "
-                "single-grid value from the Richardson value $R$ against the cell width "
-                "$h = 3/G$ for $G = 300, 600, 1200$; the points fall on lines of slope 2, "
-                "an error proportional to $h^2$. Right: distance of the one-step "
-                "Richardson values $r$ from $R$, which fall with slope 4. Both axes are "
-                "logarithmic; energies in units of the mass $m$.")
+                "Convergence of the reference solver for the Kohn-Sham energy $E_{KS}$, "
+                "logarithmic axes, energies in units of the mass $m$. Left: distance of "
+                "the single-grid value from the Richardson value $R$ against the cell "
+                "width $h = 3/G$ for $G = 300, 600, 1200$ for the three ground states; "
+                "the points run parallel to the dashed lines of slope 2 (drawn a factor 3 "
+                "lower), an error proportional to $h^2$. Right: the state N136_lamp2_a20 "
+                "also on $G = 2400$, every "
+                "distance measured from the four-grid best value $R_{234}$: single grids "
+                "fall with slope 2, one Richardson step with slope 4, and the three-grid "
+                "value $R_{123}$ (diamond) lies far below its stated uncertainty "
+                "$U_{123}$ (bar), so $U$ is a safe over-estimate.")
     check(all(abs(CONVERGENCE[s][0][0] - CONVERGENCE[s][1])
-              > abs(CONVERGENCE[s][0][2] - CONVERGENCE[s][1]) for s in GROUND_IDS),
-          "for every ground state the finest grid is closer to R than the coarsest")
+              > abs(CONVERGENCE[s][0][2] - CONVERGENCE[s][1]) for s in GROUND_IDS)
+          and single[0] > single[1] > single[2] > single[3]
+          and one_step[0] > one_step[1] > one_step[2] and abs(R123 - R234) <= U123,
+          "the errors shrink grid by grid and R123 lies within U123 of R234")
     '''),
     md(r"""
+    The next figure draws the result of the validation for all 19 classes: for each
+    class the largest value of $|R_{123} - R_{234}|/U_{123}$ over its elements. A bar
+    that stays left of the line 1 means that the stated uncertainty covers the change.
+    A class whose largest value is exactly zero (the two three-grid values agree in every
+    digit) is drawn at $10^{-8}$.
+    """),
+    code(r'''
+    names = list(classes)  # the 19 classes in the order of the record
+    values = [max(classes[n]["max_ratio_to_U123"], 1e-8) for n in names]
+    fig, ax = plt.subplots(figsize=(7.5, 6.2))
+    colours = [PALETTE[1] if n == worst else PALETTE[0] for n in names]
+    ax.barh(range(len(names)), values, color=colours, height=0.65)
+    ax.set_xscale("log")
+    ax.axvline(1.0, color="k", lw=1.2)
+    ax.set_yticks(range(len(names)))
+    ax.set_yticklabels([f"{n} ({classes[n]['elements']})" for n in names], fontsize=8)
+    ax.invert_yaxis()  # the first class at the top
+    ax.set_xlim(1e-9, 3.0)
+    for i, n in enumerate(names):
+        if classes[n]["max_ratio_to_U123"] == 0.0:  # mark a class that agrees exactly
+            ax.text(1.5e-8, i, "exactly 0", va="center", fontsize=8)
+    ax.set_xlabel("largest $|R_{123} - R_{234}|$ / $U_{123}$ of the class")
+    ax.set_title("Fourth-grid test of the uncertainty (N136_lamp2_a20)")
+    save_figure(fig, "uncertainty_validated",
+                "Validation of the reference uncertainty on a fourth grid for the state "
+                "N136_lamp2_a20: for each of the 19 classes of quantities (the number of "
+                "elements in brackets) the largest change of the three-grid value between "
+                "the grids $(300, 600, 1200)$ and $(600, 1200, 2400)$, divided by the "
+                "stated uncertainty $U_{123}$, on a logarithmic axis; a class that agrees "
+                f"exactly is drawn at $10^{{-8}}$ and marked. All bars end left of the "
+                "line 1; the largest, "
+                f"{classes[worst]['max_ratio_to_U123']:.3f}, is the value of $p_8$ at the "
+                "tip, where the densities are largest.")
+    '''),
+    md(r"""
+    ## 10. Every level converges like $h^2$
+
     The ratio test can be made for every level, not only for $E_{KS}$. The next cell
     computes, for every level of the three ground states, the ratio
     $(x(300) - x(600))/(x(600) - x(1200))$ with the reference program's own function
@@ -602,24 +735,28 @@ CELLS = [
     ax.set_ylabel("$|$ratio $- 4|$")
     ax.set_title("Every level converges like $h^2$")
     ax.legend(fontsize=8)
+    worst_level = max(abs(r - 4.0) for _, _, r in level_points)
     save_figure(fig, "eigenvalue_ratios",
                 "Distance from 4 of the convergence ratio $(x(300) - x(600))/(x(600) - "
                 "x(1200))$ of every level of the three ground states, against the "
                 "level energy in units of $m$ (vertical axis logarithmic). A ratio of 4 "
                 "means an error proportional to $h^2$. Low levels have ratios within a "
-                "few millionths of 4; high levels, whose orbitals oscillate faster, "
-                "deviate more because the $h^4$ term is larger, but even the worst stay "
-                "far below the limit 0.05 that the reference applies to the median.")
+                "few millionths of 4; higher levels, whose orbitals oscillate faster, "
+                "deviate more because the $h^4$ term is larger, but even the worst "
+                f"level, at {worst_level:.4f}, stays below the limit 0.05 that the "
+                "reference applies to the median.")
+    check(worst_level < 0.05, "every single level has a ratio within 0.05 of 4")
     '''),
     md(r"""
-    ## 9. The two thermal states on the reference
+    ## 11. The two thermal states on the reference
 
     The next cell runs the reference program's thermal job for the two thermal states,
     compares the results with the committed files
     `Revision/kohn_sham/reference/results/thermo/<id>.json` in the same way, and prints
     the chemical potential $\mu$, the energy $E$ and the heat capacity $C_V$ with their
     uncertainties. The state N8_lamm1_a00_T10 is the one in which the first cross-check
-    failed (the Rust $\mu$ was wrong in its tenth digit); Notebook 16c tells that story.
+    failed (the Rust $\mu$ was wrong in its tenth digit); Notebook 16c of this chapter
+    tells that story.
     """),
     code(r'''
     for sid in THERMAL_IDS:
@@ -628,10 +765,10 @@ CELLS = [
         say(f"{sid}: {NEW[sid]['levels_in_set']} levels; mu = {th['mu']['value']:.13f} "
             f"(U {th['mu']['U']:.1e}), E = {th['E']['value']:.12f} (U {th['E']['U']:.1e}),"
             f" C_V = {th['C_V']['value']:.9f} (U {th['C_V']['U']:.1e})")
-        check_reproduction(sid, "thermo")
+        check_reproduction(sid, NEW[sid], f"{KS}/reference/results/thermo/{sid}.json")
     '''),
     md(r"""
-    ## 10. The Rust solver: canonical and refined runs
+    ## 12. The Rust solver: canonical and refined runs
 
     The next cell builds the Rust solver with cargo (a second when it is already built)
     and runs its command `single` for each state twice: with the canonical numerics and
@@ -641,7 +778,8 @@ CELLS = [
     above the Fermi level are kept ($0.25 + 2\sigma$ at $T = 0$, $0.2 + 2\sigma$ at
     $T > 0$). Each run writes a JSON file (energies, levels, integrals) and a CSV file
     (the profiles) into the folder `Revision/kohn_sham/solver/target/textbook_16a`,
-    which git ignores; the cell reads them back.
+    which git ignores; the cell reads them back. It prints each command without the two
+    output-file options (their folder differs from computer to computer).
     """),
     code(r'''
     SOLVER = rust_program(f"{KS}/solver/Cargo.toml", "revision_ks_solver")
@@ -650,20 +788,21 @@ CELLS = [
 
 
     def run_single(sid, refined):
-        """Run `revision_ks_solver single` for state sid; return (results, profiles)."""
+        """Run `revision_ks_solver single` for state sid; return (results, profiles,
+        the arguments without the output files)."""
         spec = SPECS[sid]
         margin = (0.2 if "T" in spec else 0.25) + 2.0 * spec["sigma"]
         stem = f"{sid}_{'refined' if refined else 'canonical'}"
         arguments = ["single", "--m", "1", "--lambda", repr(spec["lam"]),
                      "--a4", repr(spec["a4"]), "--N", repr(spec["N"]),
-                     "--margin", repr(margin),
-                     "--out", f"{RUN_FOLDER / stem}.json",
-                     "--profiles", f"{RUN_FOLDER / stem}.csv"]
+                     "--margin", repr(margin)]
         if "T" in spec:
             arguments += ["--T", repr(spec["T"])]
         if refined:
             arguments.append("--refined")
-        done = subprocess.run([str(SOLVER)] + arguments, cwd=str(REPO),
+        files = ["--out", f"{RUN_FOLDER / stem}.json",
+                 "--profiles", f"{RUN_FOLDER / stem}.csv"]
+        done = subprocess.run([str(SOLVER)] + arguments + files, cwd=str(REPO),
                               capture_output=True, text=True)
         if done.returncode != 0 or not done.stdout.strip().endswith("SUCCESS"):
             print(done.stderr[-2000:])
@@ -680,9 +819,7 @@ CELLS = [
         for refined in (False, True):
             results, profiles, arguments = run_single(sid, refined)
             RUST[(sid, "refined" if refined else "canonical")] = (results, profiles)
-        shown = " ".join(arguments[:10] + ["--refined"] if "T" not in SPECS[sid]
-                         else arguments[:10] + arguments[14:])
-        say(f"revision_ks_solver {shown}")
+        say("revision_ks_solver " + " ".join(arguments))  # the refined command
     check(len(RUST) == 10, "ten Rust runs (five states, two numerics) completed")
     '''),
     md(r"""
@@ -763,14 +900,14 @@ CELLS = [
               record=f"{KS}/checker/rust-refinement.json, state {kind} {sid}")
     '''),
     md(r"""
-    ## 11. The tolerance rule in a few lines of Python
+    ## 13. The tolerance rule in a few lines of Python
 
-    The next cell writes the rule as a function. `compare` receives the case name, the
-    Rust value, the reference value, the two uncertainties and (for profile points) the
-    scale; it computes the tolerance and the ratio exactly as the cross-check program
-    does and stores a row in the list `ROWS`. The cell also computes, for every state,
-    the Rust uncertainties $U_{Rust} = \tfrac{16}{15}|canonical - refined|$ of every
-    quantity the `single` command reports, and reads the **matrix-wide** Rust
+    The next cell writes the rule as a function. `compare` receives the class, the case
+    name, the Rust value, the reference value, the two uncertainties and (for profile
+    points) the scale; it computes the tolerance and the ratio exactly as the cross-check
+    program does and stores a row in the list `ROWS`. The cell also computes, for every
+    state, the Rust uncertainties $U_{Rust} = \tfrac{16}{15}|canonical - refined|$ of
+    every quantity the `single` command reports, and reads the **matrix-wide** Rust
     uncertainties that the cross-check uses for quantities that `single` does not report
     (Delta-SCF, $Q_{max}$, $dE/da_4$ by differences, $C_V$); they are the largest
     canonical-minus-refined differences of the whole Rust matrix, recorded in the
@@ -818,7 +955,7 @@ CELLS = [
 
 
     U_RUST = {sid: rust_uncertainties(sid) for sid in SPECS}
-    WIDE = CC_WIDE = REPORTS["cross-check"]["rust_matrix_wide_uncertainties"]
+    WIDE = REPORTS["cross-check"]["rust_matrix_wide_uncertainties"]
     say("matrix-wide Rust differences: " + ", ".join(
         f"{k.replace('refined_', '')} {v:.2e}" for k, v in sorted(WIDE.items())))
 
@@ -836,7 +973,7 @@ CELLS = [
     check(ratio <= 1.0, f"E_KS of {sid} agrees within the tolerance")
     '''),
     md(r"""
-    ## 12. The ground-state comparisons
+    ## 14. The ground-state comparisons
 
     The next cell makes, for the three ground states, the comparisons of the cross-check
     program's ground-state classes (the class names are the names of its checks):
@@ -850,8 +987,8 @@ CELLS = [
       uncertainty;
     - `ground_occupations_and_groups` (not a ratio): the same occupied levels.
 
-    The cell before the comparison already measured the uncertainties. The comparisons
-    of the energy-momentum tensor follow in the cell after this one.
+    The uncertainties were measured in the cells above. The comparisons of the
+    energy-momentum tensor follow in the cell after this one.
     """),
     code(r'''
     def rank_key(n2, j, parity, rank):
@@ -863,7 +1000,7 @@ CELLS = [
     for sid in GROUND_IDS:
         sc, U = NEW[sid]["scalars"], U_RUST[sid]
         for k in ("E_KS", "E_band", "E_int"):
-            if not (sid == "N8_lamm2_a00" and k == "E_KS"):  # made in section 11
+            if not (sid == "N8_lamm2_a00" and k == "E_KS"):  # made in section 13
                 compare("ground_energies", f"{sid} {k}", float(SUMMARY[sid][k]),
                         sc[k]["value"], sc[k]["U"], U[k])
         for k, u in (("HOMO", U["levels"]), ("LUMO", U["levels"]),
@@ -910,6 +1047,10 @@ CELLS = [
       integrals of $p_3$ and $p_t$) and as a difference quotient (matrix-wide);
     - `adiabatic_Q_max`: $Q_{max}$, and when it is not zero also its matrix element and
       its level spacing; the maximising pair of levels must be the same.
+
+    The pair of levels of $Q_{max}$ is printed with the Rust labels and the reference
+    ranks; for the sector of that pair (even parity, $j = +1$) the lowest particle label
+    is 0, so labels and ranks coincide.
     """),
     code(r'''
     U_ADIABATIC = RK4_FACTOR * WIDE["refined_adiabatic_derivatives"]  # relative
@@ -959,17 +1100,13 @@ CELLS = [
                     top["matrix_element"], top["U_matrix_element"], U_ADIABATIC * abs(me))
             compare("adiabatic_Q_max", f"{sid} Q_max delta eps", float(a["Q_max_delta_eps"]),
                     top["delta_eps"], top["U_delta_eps"], 2.0 * U["levels"])
-    ground_rows = [r for r in ROWS if not r[1].endswith(tuple(THERMAL_IDS))]
+    ground_rows = [r for r in ROWS if r[1].split()[0] in GROUND_IDS]
     say(f"{len(ground_rows)} ground-state comparisons so far")
     check(all(r[8] <= 1.0 for r in ground_rows),
           "every ground-state comparison of the subset passes the tolerance rule")
     '''),
     md(r"""
-    The pair of levels of $Q_{max}$ is printed with the Rust labels and the reference
-    ranks; for these sectors (even parity, $j = +1$) the lowest particle label is 0, so
-    labels and ranks coincide.
-
-    ## 13. The thermal comparisons
+    ## 15. The thermal comparisons
 
     The next cell makes the thermal comparisons of the two thermal states, in the
     cross-check classes `thermo_state_functions` ($\mu$, $E$, $S$, $F$, $\Omega$ in both
@@ -979,6 +1116,11 @@ CELLS = [
     $-dF/dT$ are difference quotients of energies over $dT = 0.01\,T$, so each solver's
     noise floor is added: $N \times$ (the Rust root tolerance $10^{-13}$) $/dT$ and
     $N \times 10^{-12}/dT$ for the reference.
+
+    Three classes of the full cross-check are not repeated here: the particle-hole
+    lists, the exact-Fock variant and the rescaling partners (other solver runs that this
+    subset does not make), and for thermal states the sea-hole diagnostic and the
+    40-digit chemical potential (Notebook 16c computes the latter for N8_lamm1_a00_T10).
     """),
     code(r'''
     ROOT_TOLERANCE = RUST_PARAMS["numerics"]["rootTolerance"]  # 1e-13
@@ -1008,13 +1150,13 @@ CELLS = [
           "all 5140 comparisons of the subset pass the tolerance rule")
     '''),
     md(r"""
-    ## 14. Reproducing the committed cross-check report
+    ## 16. Reproducing the committed cross-check report
 
     The cross-check program wrote every comparison of single numbers into the table
     `Revision/kohn_sham/reports/ks-crosscheck-table.csv` (levels and profile points are
     too many; the report keeps only their worst case). The next cell finds every one of
     our comparisons in that table and checks that our tolerance and ratio agree with the
-    stored ones to the three significant digits the table keeps. Then it reads, from the
+    stored ones to the four significant digits the table keeps. Then it reads, from the
     sentences of the cross-check report, the worst ratio of six classes and the case
     where it occurred, and checks that our subset contains exactly that case with that
     ratio: the hardest comparisons of the whole cross-check were made again here.
@@ -1053,10 +1195,10 @@ CELLS = [
               record=f"{KS}/reports/ks-crosscheck.json, check {cls}")
     '''),
     md(r"""
-    ## 15. The agreement in pictures
+    ## 17. The agreement in pictures
 
     The next cell draws the levels of N136_lamp2_a20, the state with the largest level
-    ratio: for each of the 354 compared levels its ratio $|x_{Rust} - x_{ref}|/$tolerance
+    ratio: for each of its compared levels the ratio $|x_{Rust} - x_{ref}|/$tolerance
     against its energy. Every point lies below the line ratio = 1.
     """),
     code(r'''
@@ -1073,7 +1215,7 @@ CELLS = [
     ax.set_ylim(1e-6, 3.0)
     ax.set_xlabel("level energy $\\varepsilon$ (reference value, units of $m$)")
     ax.set_ylabel("$|\\varepsilon_{Rust} - \\varepsilon_{ref}|$ / tolerance")
-    ax.set_title("354 levels of N136_lamp2_a20 compared")
+    ax.set_title(f"{len(rows)} levels of N136_lamp2_a20 compared")
     ax.legend(fontsize=8, loc="lower right")
     save_figure(fig, "level_agreement",
                 "Agreement of the two solvers for every level of the ground state "
@@ -1082,8 +1224,8 @@ CELLS = [
                 "+ U_{Rust}) + 10^{-12}\\max(1, |\\varepsilon|)$, against the level energy "
                 "in units of $m$ (vertical axis logarithmic; ratios below one millionth "
                 "are drawn at $10^{-6}$). Every point lies below the line 1, so every "
-                "level passes; the largest ratio, 0.324, is the largest of all 9616 level "
-                "comparisons of the full cross-check.")
+                f"level passes; the largest ratio, {worst[8]:.3f}, is the largest of all "
+                "9616 level comparisons of the full cross-check.")
     check(len(rows) == 354 and worst[8] < 1.0,
           "all 354 levels of N136_lamp2_a20 agree within the tolerance")
     '''),
@@ -1105,26 +1247,28 @@ CELLS = [
     top.set_ylabel("$\\rho(y)$ (proper energy density, units of $m$)")
     top.set_title("Energy density of N8_lamm2_a00")
     top.legend(fontsize=8)
+    largest = 0.0
     for colour, name in ((PALETTE[0], "rho"), (PALETTE[2], "p8")):
         ratios = [r[8] for r in ROWS if r[0] == "ground_profiles"
                   and r[1].startswith(f"{sid} {name}(")]
+        largest = max(largest, max(ratios))
         bottom.semilogy(y, np.maximum(ratios, 1e-6), "-", color=colour, lw=1.5,
                         label=f"profile {name}")
     bottom.axhline(1.0, color="k", lw=1.2, label="ratio 1: the tolerance")
     bottom.set_ylim(1e-6, 3.0)
     bottom.set_xlabel("hidden coordinate $y$ (tip $y = -3$, brane $y = 0$)")
     bottom.set_ylabel("$|$Rust $-$ reference$|$ / tolerance")
-    bottom.legend(fontsize=8, loc="upper right")
+    bottom.legend(fontsize=8, loc="center right")
     fig.tight_layout()
     save_figure(fig, "profile_agreement",
                 "The profile with the largest ratio of the whole cross-check. Top: the "
-                "proper energy density $\\rho(y)$ of the ground state N8_lamm2_a00 ($N = 8$, "
-                "$\\lambda = -\\lambda_2$, $a_{4,0} = 0$) from the Rust solver (line) and "
-                "the reference solver (circles), in units of $m$, against the hidden "
-                "coordinate $y$. Bottom: the difference divided by the tolerance at each "
-                "of the 151 points for $\\rho$ and $p_8$ (logarithmic). The largest ratio, "
-                "0.495, is at the tip $y = -3$, where the densities are largest and both "
-                "solvers are least accurate.")
+                "proper energy density $\\rho(y)$ of the ground state N8_lamm2_a00 "
+                "($N = 8$, $\\lambda = -\\lambda_2$, $a_{4,0} = 0$) from the Rust solver "
+                "(line) and the reference solver (circles), in units of $m$, against the "
+                "hidden coordinate $y$. Bottom: the difference divided by the tolerance "
+                "at each of the 151 points for $\\rho$ and $p_8$ (logarithmic). The "
+                f"largest ratio, {largest:.3f}, is at the tip $y = -3$, where the "
+                "densities are largest and both solvers are least accurate.")
     '''),
     md(r"""
     The next cell shows where the tolerances come from. For every comparison of single
@@ -1163,8 +1307,8 @@ CELLS = [
                 "and the measured uncertainty $U_{Rust}$ of the Rust solver (vertical), "
                 "both logarithmic and in the units of the quantity. Points above the "
                 "diagonal are dominated by the Rust uncertainty, points below it by the "
-                "reference. Comparisons in which one uncertainty is exactly zero are left "
-                "out.")
+                f"reference; {above} of the {total} points lie above it. Comparisons in "
+                "which one uncertainty is exactly zero are left out.")
     say(f"{above} of {total} drawn comparisons have U_Rust > U_ref")
     check(total > 500, "the uncertainty budget has more than 500 comparisons")
     '''),
@@ -1198,42 +1342,47 @@ CELLS = [
     ax.set_ylabel("$|x_{Rust} - x_{ref}|$ / tolerance")
     ax.set_title("All comparisons of the subset (number of comparisons above each class)")
     fig.tight_layout()
+    top_class = max(worst_by_class, key=worst_by_class.get)
     save_figure(fig, "ratios_by_class",
-                "All 5140 comparisons of the five states of the subset, grouped by the "
-                "class of the cross-check: each dot is one ratio of the difference of the "
-                "two solvers to the tolerance (logarithmic; ratios below $10^{-6}$ drawn at "
-                "$10^{-6}$), the diamond is the largest ratio of the class, the number "
-                "above a class counts its comparisons, and the black line is the "
-                "tolerance. Every dot lies below it; the largest ratio, 0.495, belongs to "
-                "the tip value of the energy density of N8_lamm2_a00.")
+                f"All {len(ROWS)} comparisons of the five states of the subset, grouped "
+                "by the class of the cross-check: each dot is one ratio of the difference "
+                "of the two solvers to the tolerance (logarithmic; ratios below "
+                "$10^{-6}$ drawn at $10^{-6}$), the diamond is the largest ratio of the "
+                "class, the number above a class counts its comparisons, and the black "
+                "line is the tolerance. Every dot lies below it; the largest ratio, "
+                f"{worst_by_class[top_class]:.3f}, belongs to the tip value of the energy "
+                "density of N8_lamm2_a00.")
     for cls in classes:
         say(f"  {cls:24s} largest ratio {worst_by_class[cls]:.4f}")
     check(max(worst_by_class.values()) < 0.5,
           "no comparison of the subset uses even half of its tolerance")
     '''),
     md(r"""
-    ## 16. The last check
+    ## 18. The last check
 
     The next cell confirms that every figure of this notebook was written, and prints
     the number of checks that passed.
     """),
     code(r'''
     figure_files = [f"{FIGURE_FOLDER}/16a_{k}_{name}.png" for k, name in enumerate(
-        ["grid_convergence", "eigenvalue_ratios", "level_agreement",
-         "profile_agreement", "uncertainty_budget", "ratios_by_class"], start=1)]
+        ["grid_convergence", "uncertainty_validated", "eigenvalue_ratios",
+         "level_agreement", "profile_agreement", "uncertainty_budget",
+         "ratios_by_class"], start=1)]
     check(all(output_file(f).is_file() for f in figure_files),
           "every figure file of this notebook exists")
     all_checks_passed()
     '''),
     md(r"""
-    ## 17. What this notebook showed
+    ## 19. What this notebook showed
 
-    - The reference program, run again here on five states, reproduces the committed
-      reference results: every number within one part in a billion (on the computer that
-      built the book, byte for byte).
-    - Its three grids converge like $h^2$: the differences shrink by a factor 4 from grid
-      to grid, for $E_{KS}$ and for every level; two Richardson steps remove the $h^2$ and
-      $h^4$ errors, and $U$ measures what is left.
+    - The reference program, run again here on five states and on the fourth grid,
+      reproduces the committed reference results: every number within one part in a
+      billion (on the computer that built the book, byte for byte).
+    - Its grids converge like $h^2$: the differences shrink by a factor 4 from grid to
+      grid, for $E_{KS}$ and for every level; two Richardson steps remove the $h^2$ and
+      $h^4$ errors, and $U$ measures what is left. On a fourth grid every three-grid
+      value of N136_lamp2_a20 moves by less than its $U$ (at most 0.787 of it, at the
+      tip), so $U$ is a safe estimate of the remaining error.
     - The Rust solver, run again with its canonical numerics, reproduces its committed
       results, and its refined run reproduces the recorded canonical-minus-refined
       differences, from which $U_{Rust} = \tfrac{16}{15}|canonical - refined|$.
@@ -1243,8 +1392,9 @@ CELLS = [
       worst cases of six classes of the full cross-check (largest ratio 0.495) are
       reproduced exactly.
     - What this does NOT show: both solvers implement the same functional, the same
-      ASSUMED $Z_2$ brane, the same tip cutoff and the same filling CONVENTION. An error
-      in those common inputs cannot be detected by comparing the two programs. The
+      ASSUMED $Z_2$ brane, the same tip cutoff and the same filling CONVENTION, and both
+      compute instantaneous (adiabatic) states along a PRESCRIBED BACKGROUND history. An
+      error in those common inputs cannot be detected by comparing the two programs. The
       cross-check tests the numerics, not the physics model.
     """),
 ]

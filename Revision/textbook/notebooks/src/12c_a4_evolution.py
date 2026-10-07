@@ -32,8 +32,9 @@ FACTS = {
         "It integrates the evolution equation of the author's metric, in which the "
         "second derivative of a4 times the factor F equals kappa (p3 - p_t), with the "
         "fourth-order Runge-Kutta method for prescribed anisotropic stresses p3 - p_t "
-        "(zero, a pulse, a stress proportional to the rate of a4, a constant stress in "
-        "Einstein-Gauss-Bonnet gravity), compares every history a4(x4) with its exact "
+        "(zero, a pulse that raises the deflation rate, a stress that relaxes it, a "
+        "constant stress in Einstein-Gauss-Bonnet gravity), with the extra times "
+        "deflating along every history, compares every history a4(x4) with its exact "
         "solution, measures the convergence order, computes the energy density and the "
         "pressures that each history requires, checks numerically that the constraint "
         "and the conservation law hold along the solutions, and draws six teaching "
@@ -65,7 +66,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all six figure files exist",
-        "ALL 21 CHECKS PASSED (notebook 12c)",
+        "ALL 26 CHECKS PASSED (notebook 12c)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" naming a4-equations.json",
@@ -97,9 +98,11 @@ CELLS = [
     - takes $F$ and the other Lovelock components from the Revision record;
     - writes a fourth-order Runge-Kutta solver (RK4) and tests it;
     - integrates the equation for four **prescribed** stresses: zero (the linear
-      member), a short pulse that switches the deflation of the extra times on, a
-      stress that brakes the deflation, and a constant stress in Einstein-Gauss-Bonnet
-      gravity, where the equation breaks down at a finite time;
+      member), a short pulse that raises the deflation rate of the extra times from
+      $a_4' = H$ to $a_4' = 2H$, a stress that relaxes the rate from $2H$ back to $H$,
+      and a constant stress in Einstein-Gauss-Bonnet gravity, where the equation
+      breaks down at a finite time; along every one of these histories the extra
+      times deflate exponentially at all times ($a_4' > 0$);
     - compares each numerical history with its exact solution and measures the
       convergence order of RK4;
     - computes the energy density and the pressures that each history requires, and
@@ -131,6 +134,10 @@ CELLS = [
       the common factor $\sin^{1/6} z$, which does not change with $x_4$).
     - **Constraint**: the time component of the field equations, which fixes the
       energy density $\rho$ from $a_4'$; **conservation**: $\rho' = -3a_4'(p_3 - p_t)$.
+    - **Deflation rate**: the rate $a_4'$. While $a_4' > 0$ the scale factor
+      $e^{-a_4}$ of the extra times shrinks exponentially, at the momentary rate $a_4'$;
+      the author's history is the linear member with the constant rate $a_4' = AH$,
+      $A = 1$ (or $A = 2$).
     - **Breakdown**: a point where $F(a_4') = 0$, so that the evolution equation can no
       longer be solved for $a_4''$.
     - **Units**: $H = 1$ and $\kappa = 1$: the time $x_4$ is measured in units of
@@ -158,20 +165,27 @@ CELLS = [
     Revision record constructs no state of either field that produces it, and it shows
     that the Kohn-Sham states of the repository are not admissible sources (section 13
     of this notebook reads that record). The histories below show what the equations
-    do, not what the universe did.
+    do, not what the universe did. In all of them the three extra times $x_5, x_6,
+    x_7$ deflate exponentially at every time (the rate $a_4'$ stays positive); the
+    only exception is the history with $A = -1$ in section 7, the mirror image that the
+    equations allow, drawn only to show that symmetry.
     """),
     md(r"""
     ## 5. The Revision records and the Lovelock components
 
     The next cell defines the helpers that read the Revision records (as in every
-    notebook of this chapter) and turns three entries of `a4-equations.json` into
-    Python functions of the rate $v = a_4'$ and the couplings, with $H = 1$:
+    notebook of this chapter; `reproduces` prints its PASS and reproduces lines with
+    one call, through a text buffer, so that they stay together) and turns three
+    entries of `a4-equations.json` into Python functions of the rate $v = a_4'$ and
+    the couplings, with $H = 1$:
     `rho_side(v, a1, a2, a3)` $= \sum_k\alpha_kE_{(k)}{}^{x_4}{}_{x_4}$,
     `p8_side(v, a1, a2, a3)` $= \sum_k\alpha_kE_{(k)}{}^{x_8}{}_{x_8}$ and
     `F_of(v, a1, a2, a3)` $= F$. `sp.lambdify` turns a sympy formula into a fast
     numpy function.
     """),
     code(r'''
+    import contextlib  # redirect_stdout: send printed lines into a buffer
+    import io  # StringIO: a text buffer in memory
     import math  # the error function erf, for an exact solution
 
     import matplotlib.ticker  # control of the tick labels of an axis
@@ -198,9 +212,14 @@ CELLS = [
 
 
     def reproduces(condition, name, report_file, record_name):
-        """A check that also requires the record check record_name to be PASS."""
+        """A check that also requires the record check record_name to be PASS.  Its
+        printed lines (PASS and reproduces) are collected in a text buffer and printed
+        by one print call, so that they always stay together in the cell's output."""
         found = record_verdict(report_file, record_name) == "PASS"
-        check(condition and found, name, record=f"{report_file}, check {record_name}")
+        lines = io.StringIO()  # a text buffer
+        with contextlib.redirect_stdout(lines):  # print() now writes into the buffer
+            check(condition and found, name, record=f"{report_file}, check {record_name}")
+        print(lines.getvalue(), end="")  # all lines at once
 
 
     record = read_json(EQUATIONS)
@@ -302,8 +321,11 @@ CELLS = [
     couplings, starts with $\kappa\rho$ from the constraint, and integrates.
 
     With $\Delta = 0$ the equation is $a_4'' = 0$, so $a_4 = a_4'(0)\,x_4$: the linear
-    member $a_4 = AHx_4$ with $A = a_4'(0)/H$. The next cell integrates it for
-    $A = 1, 0, -1$ up to $x_4 = 3$ and compares with the exact straight line.
+    member $a_4 = AHx_4$ with $A = a_4'(0)/H$. The next cell integrates it for the
+    deflating rates $A = 1$ and $A = 2$ and, to show the symmetry $A \to -A$ of the
+    equations, for the mirror image $A = -1$ (inflating extra times; a departure
+    from the author's model, drawn only for the comparison), up to $x_4 = 3$, and
+    compares with the exact straight lines.
     """),
     code(r'''
     def history(stress, rate0, h, steps, couplings=EINSTEIN, Lam=0.0, stop=None):
@@ -322,7 +344,7 @@ CELLS = [
 
 
     linear = {}  # slope A -> (x4, solution)
-    for slope in (1.0, 0.0, -1.0):
+    for slope in (2.0, 1.0, -1.0):  # deflating A = 2, 1 and the mirror image A = -1
         linear[slope] = history(no_stress, slope, 0.01, 300)
         x4, y = linear[slope]
         error = np.max(np.abs(y[:, 0] - slope * x4))  # compare with a4 = A x4
@@ -336,16 +358,18 @@ CELLS = [
     md(r"""
     The next cell draws the three linear histories and, for $A = 1$, the scale factor
     $e^{a_4}$ of 3-space and $e^{-a_4}$ of the extra times on a logarithmic vertical
-    axis (on which an exponential is a straight line). Their cube product
-    $e^{3a_4}e^{-3a_4} = 1$, the volume factor of the seven directions
-    $x_1, x_2, x_3, x_5, x_6, x_7$, stays constant: 3-space gains exactly what the
-    extra times lose.
+    axis (on which an exponential is a straight line). The product of their cubes,
+    $e^{3a_4}e^{-3a_4} = 1$, is the only way $a_4$ enters the volume of the seven
+    directions $x_1, x_2, x_3, x_5, x_6, x_7, x_8$ (the 7-volume; the hidden
+    direction's factor does not depend on $a_4$), and it stays constant: 3-space gains
+    exactly what the extra times lose.
     """),
     code(r'''
     fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
-    for slope, style in ((1.0, "-"), (0.0, ":"), (-1.0, "--")):
+    for slope, style, words in ((2.0, "-", "deflating"), (1.0, "-.", "deflating"),
+                                (-1.0, "--", "mirror image")):
         x4, y = linear[slope]
-        left.plot(x4, y[:, 0], style, label=f"$A = {slope:g}$")
+        left.plot(x4, y[:, 0], style, label=f"$A = {slope:g}$ ({words})")
     left.set_xlabel("time $x_4$ (units $1/H$)")
     left.set_ylabel("$a_4$")
     left.set_title("$\\Delta = 0$: $a_4 = AHx_4$")
@@ -362,8 +386,9 @@ CELLS = [
     save_figure(fig, "linear_member",
                 "Without anisotropic stress ($p_3 = p_t$) the evolution equation gives "
                 "$a_4^{\\prime\\prime} = 0$. Left: the numerical histories $a_4(x_4)$ "
-                "for the starting rates $A = 1$ (solid), $0$ (dotted) and $-1$ "
-                "(dashed), straight lines "
+                "for the deflating rates $A = 2$ (solid) and $A = 1$ (dash-dotted) and "
+                "for the mirror image $A = -1$ (dashed; inflating extra times, which "
+                "the equations allow equally), straight lines "
                 "$a_4 = AHx_4$; horizontal axis the time $x_4$ in units of $1/H$. Right: "
                 "for $A = 1$ the scale factor $e^{a_4}$ of 3-space (inflating) and "
                 "$e^{-a_4}$ of the extra times (deflating exponentially) on a "
@@ -371,25 +396,27 @@ CELLS = [
                 "what 3-space gains, the extra times lose.")
     '''),
     md(r"""
-    ## 8. A pulse of anisotropic stress switches the deflation on
+    ## 8. A pulse of anisotropic stress raises the deflation rate
 
-    Now we start static ($a_4'(0) = 0$) and prescribe a short pulse of stress around
-    the time $x_c = 3$ with width $w = 0.5$:
+    Now we start on the author's history, the deflating linear member with $A = 1$
+    ($a_4(0) = 0$, $a_4'(0) = H$), and prescribe a short pulse of stress around the
+    time $x_c = 3$ with width $w = 0.5$:
 
     $$\kappa\Delta(x_4) = \kappa\Delta_0\,e^{-((x_4 - x_c)/w)^2},\qquad
     \kappa\Delta_0 = \frac{2}{w\sqrt\pi}.$$
 
     In Einstein gravity $a_4'' = \kappa\Delta/2$. Integrating once, with
     $\int e^{-t^2}dt = \tfrac{\sqrt\pi}{2}\operatorname{erf}(t)$ (erf is the *error
-    function*; it rises from $-1$ to $1$):
+    function*; it rises from $-1$ to $1$), and with $H = 1$:
 
-    $$a_4'(x_4) = \frac{\kappa\Delta_0 w\sqrt\pi}{4}\Big(\operatorname{erf}
+    $$a_4'(x_4) = 1 + \frac{\kappa\Delta_0 w\sqrt\pi}{4}\Big(\operatorname{erf}
     \frac{x_4 - x_c}{w} + \operatorname{erf}\frac{x_c}{w}\Big)
-    = \frac12\Big(\operatorname{erf}\frac{x_4 - x_c}{w}
+    = 1 + \frac12\Big(\operatorname{erf}\frac{x_4 - x_c}{w}
     + \operatorname{erf}\frac{x_c}{w}\Big),$$
 
-    which rises from 0 to almost exactly 1: after the pulse the history is the
-    deflating linear member with $A = 1$. Integrating again, with
+    which rises from 1 to almost exactly 2: after the pulse the history is the
+    deflating linear member with $A = 2$; the extra times deflate at every time, only
+    faster after the pulse. Integrating again, with
     $\int\operatorname{erf}(t)\,dt = t\operatorname{erf}(t) + e^{-t^2}/\sqrt\pi$, gives
     $a_4(x_4)$ exactly. The next cell integrates numerically up to $x_4 = 8$ with
     $h = 0.01$ and compares both.
@@ -397,6 +424,7 @@ CELLS = [
     code(r'''
     X_C, WIDTH = 3.0, 0.5  # the centre and the width of the pulse
     PUSH = 2.0 / (WIDTH * math.sqrt(math.pi))  # kappa Delta_0
+    RATE_START = 1.0  # a4'(0)/H: the author's deflating history A = 1
 
 
     def pulse(x, y):
@@ -404,29 +432,32 @@ CELLS = [
 
 
     def exact_pulse(x):
-        """The exact a4 and a4' of the pulse history (Einstein, a4(0) = a4'(0) = 0)."""
+        """The exact a4 and a4' of the pulse history (Einstein, a4(0) = 0,
+        a4'(0) = 1)."""
         scale = PUSH * WIDTH * math.sqrt(math.pi) / 4  # = 1/2
         t, t0 = (x - X_C) / WIDTH, -X_C / WIDTH  # the argument now and at x4 = 0
 
         def antiderivative(s):  # an antiderivative of erf
             return s * math.erf(s) + math.exp(-s * s) / math.sqrt(math.pi)
 
-        rate = scale * (math.erf(t) + math.erf(X_C / WIDTH))
-        a4 = scale * (WIDTH * (antiderivative(t) - antiderivative(t0))
-                      + x * math.erf(X_C / WIDTH))
+        rate = RATE_START + scale * (math.erf(t) + math.erf(X_C / WIDTH))
+        a4 = RATE_START * x + scale * (WIDTH * (antiderivative(t) - antiderivative(t0))
+                                       + x * math.erf(X_C / WIDTH))
         return a4, rate
 
 
-    x4_pulse, y_pulse = history(pulse, 0.0, 0.01, 800)
+    x4_pulse, y_pulse = history(pulse, RATE_START, 0.01, 800)
     exact = np.array([exact_pulse(x) for x in x4_pulse])  # columns: a4, a4'
     error_a4 = np.max(np.abs(y_pulse[:, 0] - exact[:, 0]))
     error_rate = np.max(np.abs(y_pulse[:, 1] - exact[:, 1]))
     say(f"largest error: a4 {error_a4:.0e}, a4' {error_rate:.0e}")
     check(error_a4 < 1e-8 and error_rate < 1e-8,
           "pulse: RK4 (h = 0.01) agrees with the exact solution to 1e-8")
+    check(np.min(y_pulse[:, 1]) >= 1.0 - 1e-12,
+          "the rate a4' never falls below H: the extra times deflate at every time")
     report("rate a4'/H after the pulse (x4 = 8)", f"{y_pulse[-1, 1]:.10f}")
-    check(abs(y_pulse[-1, 1] - 1.0) < 1e-8,
-          "after the pulse a4' = H: the linear member A = 1")
+    check(abs(y_pulse[-1, 1] - 2.0) < 1e-8,
+          "after the pulse a4' = 2 H: the deflating linear member A = 2")
     '''),
     md(r"""
     The next cell draws the pulse history in four panels: the prescribed stress; the
@@ -460,15 +491,17 @@ CELLS = [
         ax.set_xlabel("time $x_4$ (units $1/H$)")
     fig.tight_layout()
     save_figure(fig, "stress_pulse",
-                "Einstein gravity, starting static ($a_4 = a_4' = 0$): a prescribed "
-                "pulse of anisotropic stress $\\kappa(p_3 - p_t)$ centred at $x_4 = 3$ "
-                "(top left, units $H^2$) raises the rate $a_4'$ from 0 to $H$ (top "
-                "right); afterwards $a_4$ grows linearly (bottom left) and the history "
-                "is the deflating linear member with $A = 1$. Bottom right: the scale "
-                "factor $e^{a_4}$ of 3-space starts to inflate and $e^{-a_4}$ of the extra "
-                "times to deflate exponentially once the pulse has passed. Lines: RK4 "
-                "with step $h = 0.01$; dots: the exact solution with the error "
-                "function. Horizontal axes: the time $x_4$ in units of $1/H$.")
+                "Einstein gravity, starting on the deflating linear member $A = 1$ "
+                "($a_4 = 0$, $a_4' = H$): a prescribed pulse of anisotropic stress "
+                "$\\kappa(p_3 - p_t)$ centred at $x_4 = 3$ (top left, units $H^2$) raises "
+                "the rate $a_4'$ from $H$ to $2H$ (top right); $a_4$ grows linearly with "
+                "slope 1 before the pulse and with slope 2 after it (bottom left): the "
+                "history moves from the linear member $A = 1$ to $A = 2$. Bottom right: "
+                "on a logarithmic axis the scale factor $e^{a_4}$ of 3-space inflates and "
+                "$e^{-a_4}$ of the extra times deflates exponentially at every time, "
+                "twice as fast after the pulse. Lines: RK4 with step $h = 0.01$; dots: "
+                "the exact solution with the error function. Horizontal axes: the time "
+                "$x_4$ in units of $1/H$.")
     '''),
     md(r"""
     ## 9. The source the pulse history requires, and the constraint
@@ -484,11 +517,21 @@ CELLS = [
     $\rho' = -3a_4'\Delta$, must agree with the $\kappa\rho$ that the constraint gives
     at every time: this is the numerical form of the record's proof that the
     derivative of the constraint is $3a_4'$ times the evolution equation. The next
-    cell checks the agreement, checks that the source ends on the linear member's
-    values $\kappa\rho = -24$, $\kappa p = 12$ (for $A = 1$), and draws the four source
-    components and the size of the disagreement.
+    cell defines a small helper that writes the measured disagreement as a power of
+    ten for the caption, checks the agreement, checks that the source starts on the
+    values of the linear member $A = 1$ ($\kappa\rho = -(3 + 21) = -24$,
+    $\kappa p = 15 - 3 = 12$) and ends on those of $A = 2$
+    ($\kappa\rho = -(12 + 21) = -33$, $\kappa p = 15 - 12 = 3$), and draws the four
+    source components and the size of the disagreement.
     """),
     code(r'''
+    def as_power_of_ten(value):
+        """A positive number rounded to one digit, written for a caption:
+        2e-11 becomes $2 \\times 10^{-11}$."""
+        mantissa, exponent = f"{value:.0e}".split("e")
+        return f"${mantissa} \\times 10^{{{int(exponent)}}}$"
+
+
     rate = y_pulse[:, 1]
     rho_constraint = -(rho_side(rate, *EINSTEIN) + 0.0)  # kappa rho, Lambda = 0
     p8_values = p8_side(rate, *EINSTEIN) + 0.0  # kappa p8
@@ -499,8 +542,10 @@ CELLS = [
     reproduces(mismatch.max() < 1e-8,
                "the energy density from conservation equals the constraint along x4",
                WL, "constraint_propagation_bianchi")
-    check(abs(rho_constraint[-1] + 24) < 1e-6 and abs(p8_values[-1] - 12) < 1e-6,
-          "after the pulse: kappa rho = -24, kappa p = 12 (the linear member A = 1)")
+    check(abs(rho_constraint[0] + 24) < 1e-6 and abs(p8_values[0] - 12) < 1e-6,
+          "before the pulse: kappa rho = -24, kappa p = 12 (the linear member A = 1)")
+    check(abs(rho_constraint[-1] + 33) < 1e-6 and abs(p8_values[-1] - 3) < 1e-6,
+          "after the pulse: kappa rho = -33, kappa p = 3 (the linear member A = 2)")
     fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
     left.plot(x4_pulse, rho_constraint, label="$\\kappa\\rho$")
     left.plot(x4_pulse, p3_values, label="$\\kappa p_3$")
@@ -520,100 +565,115 @@ CELLS = [
                 "the pressures $\\kappa p_3$ (3-space), $\\kappa p_t$ (extra times, "
                 "dashed) and $\\kappa p_8$ (hidden direction, dotted). During the pulse "
                 "$p_3$ and $p_t$ split by the prescribed stress; before it the source "
-                "is that of the static member ($\\kappa\\rho = -21$, $\\kappa p = 15$), "
-                "after it that of the linear member $A = 1$ ($\\kappa\\rho = -24$, "
-                "$\\kappa p = 12$). Right: on a logarithmic axis, the difference between "
+                "is that of the linear member $A = 1$ ($\\kappa\\rho = -24$, "
+                "$\\kappa p = 12$), after it that of the linear member $A = 2$ "
+                "($\\kappa\\rho = -33$, $\\kappa p = 3$). Right: on a logarithmic axis, "
+                "the difference between "
                 "the energy density integrated from the conservation law and the one "
                 "given by the constraint (an exact zero is drawn at $10^{-16}$). The two "
-                "agree to about $2 \\times 10^{-11}$, the accuracy of the RK4 "
-                "integration with the step $h = 0.01$.")
+                f"agree to about {as_power_of_ten(mismatch.max())}, the accuracy of the "
+                "RK4 integration with the step $h = 0.01$.")
     '''),
     md(r"""
-    ## 10. A stress that brakes the deflation
+    ## 10. A stress that relaxes the deflation rate
 
-    A stress can also depend on the state. We prescribe
-    $\kappa\Delta = -2\eta\,a_4'$ with a constant $\eta > 0$ (a resistance proportional
-    to the rate, like friction). In Einstein gravity $a_4'' = -\eta a_4'$, so
+    A stress can also depend on the state. We start on the faster deflating member
+    $A = 2$ ($a_4'(0) = 2H$) and prescribe
+    $\kappa\Delta = -2\eta\,(a_4' - H)$ with a constant $\eta > 0$: a resistance
+    proportional to the excess of the rate over $H$, like friction. In Einstein
+    gravity $a_4'' = \kappa\Delta/2 = -\eta(a_4' - H)$; the excess $u = a_4' - H$
+    obeys $u' = -\eta u$, so $u = He^{-\eta x_4}$ and, with $H = 1$,
 
-    $$a_4' = Ae^{-\eta x_4},\qquad a_4 = \frac{A}{\eta}\big(1 - e^{-\eta x_4}\big).$$
+    $$a_4' = 1 + e^{-\eta x_4},\qquad
+    a_4 = x_4 + \frac{1}{\eta}\big(1 - e^{-\eta x_4}\big).$$
 
-    The deflation slows down and stops: the extra-time scale factor $e^{-a_4}$ falls
-    only to the final value $e^{-A/\eta}$. The next cell integrates this for $A = 1$
-    and $\eta = 0.25, 0.5, 1$ up to $x_4 = 10$, compares with the exact solution, and
-    checks the conservation law, which here reads $\kappa\rho' = 6\eta(a_4')^2 > 0$.
+    The deflation rate relaxes from $2H$ to $H$: the history moves smoothly from the
+    linear member $A = 2$ to $A = 1$, and the extra-time scale factor $e^{-a_4}$
+    shrinks exponentially at every time, first at the rate $2H$, later at the rate
+    $H$. The next cell integrates this for $\eta = 0.25, 0.5, 1$ up to $x_4 = 10$,
+    compares with the exact solution, and checks the conservation law, which here
+    reads $\kappa\rho' = -3a_4'\kappa\Delta = 6\eta\,a_4'(a_4' - 1) > 0$: the energy
+    density rises from $-33$ (the value of $A = 2$) towards $-24$ (the value of
+    $A = 1$), in units of $H^2/\kappa$.
     """),
     code(r'''
     damped = {}  # eta -> (x4, solution)
     for eta in (0.25, 0.5, 1.0):
         def friction(x, y, eta=eta):
-            return -2.0 * eta * y[1]  # kappa Delta = -2 eta a4'
+            return -2.0 * eta * (y[1] - 1.0)  # kappa Delta = -2 eta (a4' - H)
 
-        x4, y = history(friction, 1.0, 0.01, 1000)
+        x4, y = history(friction, 2.0, 0.01, 1000)  # start on A = 2
         damped[eta] = (x4, y)
-        exact_a4 = (1.0 / eta) * (1.0 - np.exp(-eta * x4))
+        exact_a4 = x4 + (1.0 / eta) * (1.0 - np.exp(-eta * x4))
         error = np.max(np.abs(y[:, 0] - exact_a4))
         mismatch = np.max(np.abs(y[:, 2] + rho_side(y[:, 1], *EINSTEIN)))
         check(error < 1e-9 and mismatch < 1e-8,
-              f"eta = {eta}: a4 = (1 - e^(-eta x4))/eta, conservation holds")
-        report(f"eta = {eta}: final extra-time scale factor e^(-a4(10))",
-               f"{math.exp(-y[-1, 0]):.6f}")
+              f"eta = {eta}: a4 = x4 + (1 - e^(-eta x4))/eta, conservation holds")
+        check(np.min(y[:, 1]) > 1.0,
+              f"eta = {eta}: the rate a4' stays above H (the extra times deflate)")
+        report(f"eta = {eta}: rate a4'/H at x4 = 10", f"{y[-1, 1]:.6f}")
     '''),
     md(r"""
     The next cell draws the rate $a_4'$ and the extra-time scale factor $e^{-a_4}$ for
-    the three values of $\eta$, with the undamped linear member ($\eta = 0$) for
-    comparison.
+    the three values of $\eta$, together with the two linear members $A = 2$ and
+    $A = 1$ (dotted) between which the histories move.
     """),
     code(r'''
     fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
     x4 = damped[0.25][0]
-    left.plot(x4, np.ones_like(x4), ":", color="black", label="$\\eta = 0$")
-    right.semilogy(x4, np.exp(-x4), ":", color="black", label="$\\eta = 0$: $e^{-x_4}$")
+    for slope, style in ((2.0, ":"), (1.0, "-.")):  # the two linear members
+        left.plot(x4, slope * np.ones_like(x4), style, color="black",
+                  label=f"linear member $A = {slope:g}$")
+        right.semilogy(x4, np.exp(-slope * x4), style, color="black",
+                       label=f"$A = {slope:g}$: $e^{{-{slope:g}x_4}}$")
     for eta, (x4, y) in damped.items():
         left.plot(x4, y[:, 1], label=f"$\\eta = {eta}$")
         right.semilogy(x4, np.exp(-y[:, 0]), label=f"$\\eta = {eta}$")
+    left.set_ylim(0.0, 2.3)
     left.set_xlabel("time $x_4$ (units $1/H$)")
     left.set_ylabel("$a_4'/H$")
-    left.set_title("the deflation rate decays")
+    left.set_title("the deflation rate relaxes from $2H$ to $H$")
     left.legend(fontsize=8)
     right.set_xlabel("time $x_4$ (units $1/H$)")
     right.set_ylabel("extra-time scale factor $e^{-a_4}$")
-    right.set_title("the extra times stop deflating")
+    right.set_title("the extra times keep deflating")
     right.legend(fontsize=8)
     save_figure(fig, "damped_deflation",
-                "Einstein gravity with the prescribed braking stress "
-                "$\\kappa(p_3 - p_t) = -2\\eta a_4'$, starting from the deflating rate "
-                "$a_4' = H$: left, the rate $a_4' = He^{-\\eta x_4}$ for $\\eta = 0.25$, "
-                "$0.5$ and $1$ (units $H$), with the undamped case $\\eta = 0$ dotted; "
-                "right, the scale factor $e^{-a_4}$ of the extra times on a logarithmic "
-                "axis. Without braking the extra times deflate forever "
-                "($e^{-x_4}$); with braking they stop at $e^{-1/\\eta}$. Horizontal "
-                "axes: the time $x_4$ in units of $1/H$.")
+                "Einstein gravity with the prescribed relaxing stress "
+                "$\\kappa(p_3 - p_t) = -2\\eta(a_4' - H)$, starting on the deflating "
+                "linear member $A = 2$: left, the rate $a_4' = H(1 + e^{-\\eta x_4})$ for "
+                "$\\eta = 0.25$, $0.5$ and $1$ (units $H$), which relaxes from $2H$ to "
+                "$H$, with the linear members $A = 2$ and $A = 1$ in black; right, the "
+                "scale factor $e^{-a_4}$ of the extra times on a logarithmic axis, which "
+                "falls exponentially at every time: first as fast as for $A = 2$ "
+                "(slope $-2$), later as for $A = 1$ (slope $-1$). The extra times never "
+                "stop deflating. Horizontal axes: the time $x_4$ in units of $1/H$.")
     '''),
     md(r"""
     ## 11. How fast does RK4 converge?
 
-    For the braking history the right-hand side depends on the solution itself, so it
-    is a genuine differential equation and a good test of the method. (For the pulse
-    the stress depends on $x_4$ alone; RK4 then reduces to Simpson's rule for an
+    For the relaxing history the right-hand side depends on the solution itself, so
+    it is a genuine differential equation and a good test of the method. (For the
+    pulse the stress depends on $x_4$ alone; RK4 then reduces to Simpson's rule for an
     integrand that vanishes smoothly at both ends, and such integrals converge much
     faster than $h^4$, which would hide the order.) The next cell integrates the
-    braking history with $\\eta = 1$ up to $x_4 = 8$ with the step sizes
+    relaxing history with $\eta = 1$ up to $x_4 = 8$ with the step sizes
     $h = 0.4, 0.2, 0.1, 0.05, 0.025$ and measures the error of $a_4(8)$ against the
-    exact value $1 - e^{-8}$. If the error behaves like $Ch^4$, halving $h$ divides it
-    by $2^4 = 16$, and the measured order $\log_2(e_h / e_{h/2})$ is close to 4. The
-    table prints each step, its error and the order; the plot shows the errors on
-    logarithmic axes, where $Ch^4$ is a straight line of slope 4.
+    exact value $8 + (1 - e^{-8})$. If the error behaves like $Ch^4$, halving $h$
+    divides it by $2^4 = 16$, and the measured order $\log_2(e_h / e_{h/2})$ is close
+    to 4. The table prints each step, its error and the order; the plot shows the
+    errors on logarithmic axes, where $Ch^4$ is a straight line of slope 4.
     """),
     code(r'''
-    def braking_unit(x, y):
-        return -2.0 * y[1]  # kappa Delta = -2 eta a4' with eta = 1
+    def relaxing_unit(x, y):
+        return -2.0 * (y[1] - 1.0)  # kappa Delta = -2 eta (a4' - H) with eta = 1
 
 
-    exact_end = 1.0 - math.exp(-8.0)  # the exact a4(8) for eta = 1, A = 1
+    exact_end = 8.0 + (1.0 - math.exp(-8.0))  # the exact a4(8) for eta = 1
     steps_list = [20, 40, 80, 160, 320]  # h = 8/steps = 0.4, 0.2, 0.1, 0.05, 0.025
     sizes, errors = [], []
     for steps in steps_list:
-        x4, y = history(braking_unit, 1.0, 8.0 / steps, steps)
+        x4, y = history(relaxing_unit, 2.0, 8.0 / steps, steps)
         sizes.append(8.0 / steps)
         errors.append(abs(y[-1, 0] - exact_end))
     orders = [math.log2(errors[i] / errors[i + 1]) for i in range(len(errors) - 1)]
@@ -631,12 +691,12 @@ CELLS = [
     ax.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())  # no extra labels
     ax.set_xlabel("step size $h$ (units $1/H$)")
     ax.set_ylabel("absolute error")
-    ax.set_title("RK4 on the braking history: fourth-order convergence")
+    ax.set_title("RK4 on the relaxing history: fourth-order convergence")
     ax.legend(fontsize=8)
     save_figure(fig, "rk4_convergence",
-                "The error of the RK4 value of $a_4$ at $x_4 = 8$ for the braking "
-                "history with $\\eta = 1$ (exact value $1 - e^{-8}$), for the step sizes "
-                "$h = 0.4$, $0.2$, $0.1$, $0.05$ and $0.025$ (units $1/H$), on "
+                "The error of the RK4 value of $a_4$ at $x_4 = 8$ for the relaxing "
+                "history with $\\eta = 1$ (exact value $8 + 1 - e^{-8}$), for the step "
+                "sizes $h = 0.4$, $0.2$, $0.1$, $0.05$ and $0.025$ (units $1/H$), on "
                 "logarithmic axes. The points follow the dashed reference line $Ch^4$ "
                 "of slope 4: halving the step divides the error by about 16, the "
                 "fourth-order convergence of the Runge-Kutta method.")
@@ -655,12 +715,13 @@ CELLS = [
     $G$ has its maximum at $a_4'_c$, so the rate reaches $a_4'_c$ at the finite time
     $x_4^{\star} = (G(a_4'_c) - G(a_4'(0)))/(\kappa\Delta)$, with $a_4'' = \kappa\Delta/F$
     growing without bound; beyond it the equation has no solution with a smooth
-    $a_4'$. The next cell integrates with $\kappa\Delta = 0.5$, $a_4'(0) = 0.5$ and
-    $\alpha_2 = 0.005, 0.01$ (step $h = 0.001$), stops when $F < 0.05$, and checks the
-    integrated relation and the breakdown time.
+    $a_4'$. The next cell starts on the author's deflating member ($a_4'(0) = H$),
+    integrates with $\kappa\Delta = 0.5$ and $\alpha_2 = 0.005, 0.01$ (step
+    $h = 0.001$), stops when $F < 0.05$, and checks the integrated relation and the
+    breakdown time.
     """),
     code(r'''
-    STRESS, RATE0 = 0.5, 0.5  # kappa Delta and the starting rate a4'(0)
+    STRESS, RATE0 = 0.5, 1.0  # kappa Delta and the starting rate a4'(0) = H (A = 1)
 
 
     def constant_stress(x, y):
@@ -692,13 +753,13 @@ CELLS = [
     '''),
     md(r"""
     The next cell compares the two Gauss-Bonnet histories with Einstein gravity, where
-    $F = 2$ and the rate simply grows linearly, $a_4' = 0.5 + 0.25x_4$, and draws
+    $F = 2$ and the rate simply grows linearly, $a_4' = 1 + 0.25x_4$, and draws
     $F(a_4'(x_4))$ along each history.
     """),
     code(r'''
     x_einstein, y_einstein = history(constant_stress, RATE0, 0.01, 500)
     check(np.max(np.abs(y_einstein[:, 1] - (RATE0 + STRESS * x_einstein / 2))) < 1e-12,
-          "Einstein: a4' = 0.5 + 0.25 x4 for the constant stress")
+          "Einstein: a4' = 1 + 0.25 x4 for the constant stress")
     fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
     left.plot(x_einstein, y_einstein[:, 1], color="black", label="Einstein")
     right.plot(x_einstein, F_of(y_einstein[:, 1], *EINSTEIN) * np.ones_like(x_einstein),
@@ -718,8 +779,9 @@ CELLS = [
     right.set_title("$F$ along the history")
     right.legend(fontsize=8)
     save_figure(fig, "gauss_bonnet_breakdown",
-                "A constant prescribed stress $\\kappa(p_3 - p_t) = 0.5H^2$ starting from "
-                "$a_4' = 0.5H$. Left: the rate $a_4'$ in Einstein gravity grows "
+                "A constant prescribed stress $\\kappa(p_3 - p_t) = 0.5H^2$ starting on "
+                "the deflating linear member $A = 1$ ($a_4' = H$). Left: the rate $a_4'$ "
+                "in Einstein gravity grows "
                 "linearly (black), while in Einstein-Gauss-Bonnet gravity with "
                 "$\\alpha_2H^2 = 0.005$ and $0.01$ it bends upward and reaches the "
                 "critical rate at the predicted finite time $x_4^{\\star}$ (dashed vertical "
@@ -771,8 +833,9 @@ CELLS = [
     - No stress gives the linear member $a_4 = AHx_4$: 3-space inflates as
       $e^{AHx_4}$ and the extra times deflate as $e^{-AHx_4}$, with a constant
       7-volume (PROVED, and reproduced numerically).
-    - A pulse of stress can switch the deflation on, and a braking stress can stop it;
-      the equations do not prefer either (COMPUTED for ASSUMED stresses).
+    - A pulse of stress can raise the deflation rate from $H$ to $2H$, and a relaxing
+      stress can bring it back to $H$; along both histories the extra times deflate
+      exponentially at every time (COMPUTED for ASSUMED stresses).
     - The energy density that the conservation law gives equals the one that the
       constraint gives along every history, as the record's Bianchi identity requires
       (COMPUTED).

@@ -888,7 +888,8 @@ CELLS = [
           "S^k has binom(16, k) monomials with coefficients +-k! (k = 1 .. 16)")
     check(counts[16] == 0, "S^17 = 0: every function of S is a polynomial of degree <= 16")
 
-    chi_c, psi_c = sp.symbols("x0:16"), sp.symbols("y0:16")  # commuting stand-ins
+    # ordinary (commuting) stand-ins for the 16 chi_A and the 16 psi_A
+    chi_c, psi_c = sp.symbols("chi0:16"), sp.symbols("psi0:16")
     S_commuting = sum(int(C[A, B]) * chi_c[A] * psi_c[B]
                       for A in range(16) for B in range(16) if C[A, B] != 0)
     commuting = [len(sp.Add.make_args(sp.expand(S_commuting ** k))) for k in (1, 2, 3)]

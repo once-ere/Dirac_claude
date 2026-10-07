@@ -298,12 +298,11 @@ CELLS = [
     $S_0 > 0$ and divides by $\sqrt{S_0}$). With $\lambda = 0.5$ the effective mass is
     $V = 1.5 > 3H = 0.75$, so $k^2 = 9H^2 - V^2 < 0$: the condensate oscillates.
     With $\lambda = -0.5$ it is $V = 0.5 < 0.75$, so $k^2 > 0$: the condensate grows.
-    The function `condensate(x4, chi, M, k2)` returns $\Phi(x_4)$ and its derivative
+    The cell also defines the function `condensate(x4, chi, M, k2)`, which returns
+    $\Phi(x_4)$ and its derivative
     $\Phi'(x_4) = k\sinh(kx_4)\chi + \cosh(kx_4)M\chi$; numpy computes $\cosh$ and
     $\sinh$ of the imaginary $k$ correctly when $k$ is stored as a complex number.
-    At 401 times the cell checks the field equation
-    $\gamma^{(4)}\Phi' + 3H\gamma^{(8)}\Phi = (m + \lambda S)\Phi$ and that $S$ stays
-    equal to 1.
+    It prints the value of $S_0$ after the division, which must be 1.
     """),
     code(r'''
     m, H = 1.0, 0.25  # the mass and the author's constant
@@ -326,6 +325,16 @@ CELLS = [
         return phi, dphi
 
 
+    S0_now = (chi.conj() @ C @ chi).real  # 1 up to rounding
+    report("S0 = chi^dagger C chi after the division", f"{S0_now:.6f}")
+    '''),
+    md(r"""
+    The next cell builds the two condensates at 401 times $x_4$ from $0$ to $12$ and
+    checks at every time the field equation
+    $\gamma^{(4)}\Phi' + 3H\gamma^{(8)}\Phi = (m + \lambda S)\Phi$ and that $S$ stays
+    equal to 1. It keeps the values of $\Phi$ and $S$ for the figure that follows.
+    """),
+    code(r'''
     times = np.linspace(0.0, 12.0, 401)  # the times x4 at which the solution is tested
     EXAMPLES = {"oscillating": 0.5, "growing": -0.5}  # name -> lambda
     solutions = {}  # name -> (Phi at every time, S at every time)
@@ -612,17 +621,6 @@ CELLS = [
     this on the oscillating condensate along the deflating history $a_4 = AHx_4$
     ($A = 1$): the solution does not depend on $a_4$, and $\rho$ is the same at all
     401 times.
-
-    Then, as an ILLUSTRATION only, it takes toy fluids with assumed pressures
-    $p_3 = w_3\rho$ and $p_t = w_t\rho$ (constant $w_3$, $w_t$; these are not
-    solutions of the field equations of this book). The identity becomes
-    $d\rho/dx_4 = -3AH(w_3 - w_t)\rho$, whose solution is
-    $\rho = \rho_0 e^{-3AH(w_3 - w_t)x_4}$. The cell solves it numerically with the
-    Runge-Kutta method (RK4, step $0.05$) for five values of $\Delta w = w_3 - w_t$,
-    compares with the exact solution (and checks that halving the step divides the
-    error by about $2^4 = 16$, as it must for a fourth-order method), and checks that
-    reversing the history ($A \to -A$: the extra times inflate, 3-space deflates)
-    reverses the flow.
     """),
     code(r'''
     A = 1.0  # the deflating history a4 = A H x4
@@ -633,8 +631,20 @@ CELLS = [
                              for x4 in times])
     check(np.abs(rho_at_times - rho_at_times[0]).max() < 1e-9,
           "the condensate has p3 = p_t, so its rho is constant along the history")
-
-
+    '''),
+    md(r"""
+    Then, as an ILLUSTRATION only, the next cell takes toy fluids with assumed
+    pressures $p_3 = w_3\rho$ and $p_t = w_t\rho$ (constant $w_3$, $w_t$; these are
+    not solutions of the field equations of this book). The identity becomes
+    $d\rho/dx_4 = -3AH(w_3 - w_t)\rho$, whose solution is
+    $\rho = \rho_0 e^{-3AH(w_3 - w_t)x_4}$. The cell solves it numerically with the
+    Runge-Kutta method (RK4, step $0.05$) for five values of $\Delta w = w_3 - w_t$,
+    compares with the exact solution (and checks that halving the step divides the
+    error by about $2^4 = 16$, as it must for a fourth-order method), and checks that
+    reversing the history ($A \to -A$: the extra times inflate, 3-space deflates)
+    reverses the flow.
+    """),
+    code(r'''
     def rk4(rate, y0, step, count):
         """Solve dy/dx = rate(y) from y(0) = y0 with count Runge-Kutta steps."""
         y, path = y0, [y0]
@@ -674,10 +684,13 @@ CELLS = [
     '''),
     md(r"""
     The next cell draws the energy densities of the toy fluids and of the condensate
-    (left), and for the toy fluid with $(w_3, w_t) = (1/3, 0)$ the two contributions
-    to $d\rho/dx_4$ (right): the work of the inflating 3-space, $-3a_4'p_3$, and the
-    work of the deflating extra times, $+3a_4'p_t$. For the condensate the two would
-    be equal and opposite at every time.
+    (left), and for the toy fluid with $(w_3, w_t) = (1/3, 2/3)$, that is
+    $\Delta w = -1/3$, the two contributions to $d\rho/dx_4$ (right): the term of
+    the inflating 3-space, $-3a_4'p_3$, which takes energy out, and the term of the
+    deflating extra times, $+3a_4'p_t$, which puts energy in. Here the second is
+    twice as large as the first, so $\rho$ grows. For the condensate the two would
+    be equal and opposite at every time. The cell checks that their sum is the
+    slope $d\rho/dx_4$ of the drawn path.
     """),
     code(r'''
     fig, (left, right) = plt.subplots(1, 2, figsize=(9.6, 3.9))
@@ -691,16 +704,17 @@ CELLS = [
     left.set_ylabel("$\\rho(x_4) / \\rho(0)$")
     left.set_title("Energy density along $a_4 = AHx_4$ ($A = 1$)")
     left.legend(fontsize=7)
-    rho_toy = toy[1 / 3]  # w3 = 1/3, w_t = 0
-    work_space = -3 * A * H * (1 / 3) * rho_toy  # -3 a4' p3
-    work_extra = 3 * A * H * 0.0 * rho_toy  # +3 a4' p_t with p_t = 0
+    rho_toy = toy[-1 / 3]  # Delta w = -1/3: w3 = 1/3, w_t = 2/3
+    work_space = -3 * A * H * (1 / 3) * rho_toy  # -3 a4' p3 with p3 = rho/3
+    work_extra = 3 * A * H * (2 / 3) * rho_toy  # +3 a4' p_t with p_t = 2 rho/3
     right.plot(toy_times, work_space, label="3-space: $-3a_4' p_3$")
     right.plot(toy_times, work_extra, "--", label="extra times: $+3a_4' p_t$")
     right.plot(toy_times, np.gradient(rho_toy, toy_times), ":", color="black",
                label="$d\\rho/dx_4$ (finite differences)")
+    right.axhline(0.0, color="black", linewidth=0.8)
     right.set_xlabel("time $x_4$")
     right.set_ylabel("rate of change of $\\rho$")
-    right.set_title("Toy fluid $(w_3, w_t) = (1/3, 0)$")
+    right.set_title("Toy fluid $(w_3, w_t) = (1/3, 2/3)$")
     right.legend(fontsize=7)
     save_figure(fig, "energy_exchange",
                 "Energy exchange along the deflating history $a_4 = AHx_4$, $A = 1$, "
@@ -710,9 +724,13 @@ CELLS = [
                 "$-2/3$ to $2/3$ (an illustration, not solutions of the field "
                 "equations), solved with RK4: $\\rho$ falls when $p_3 > p_t$ and rises "
                 "when $p_3 < p_t$; the exact condensate (dotted) has $p_3 = p_t$ and "
-                "constant $\\rho$. Right: for the toy fluid $(1/3, 0)$ the work term of "
-                "3-space $-3a_4'p_3$, the work term of the extra times $+3a_4'p_t$ "
-                "(zero here) and $d\\rho/dx_4$, which is their sum.")
+                "constant $\\rho$. Right: for the toy fluid $(w_3, w_t) = (1/3, 2/3)$ "
+                "the term of the inflating 3-space $-3a_4'p_3$ (negative: it takes "
+                "energy out), the term of the deflating extra times $+3a_4'p_t$ "
+                "(positive and twice as large: it puts energy in) and $d\\rho/dx_4$ "
+                "(dotted), which is their sum, so $\\rho$ grows; vertical axis in units "
+                "of energy per unit volume per unit time.")
+    # [2:-2] leaves out two points at each end, where np.gradient is less exact.
     check(np.abs(np.gradient(rho_toy, toy_times) - (work_space + work_extra))[2:-2].max()
           < 1e-3, "d rho/dx4 equals the sum of the two work terms on the drawn path")
     '''),
@@ -729,10 +747,10 @@ CELLS = [
     $\alpha^a = -\gamma^{(4)}\gamma^{(a)}$) with eigenvalue 5, and the energy density
     is $\rho = E u^\dagger Bu$. On that eigenspace the form $u^\dagger Bu$ has four
     positive and four negative directions (Krein inertia (4,4)). The next cell
-    builds $h$, finds the eigenspace, checks the field equation, computes $\rho$
-    from the kinetic terms for the eigenvectors with $Bu = -u$ and $Bu = +u$
-    ($\rho = -5$ and $+5$), and computes $\rho$ for 5000 random unit vectors $u$ of
-    the eigenspace.
+    builds $h$, checks that it is Hermitian, that $h^2 = 25$ and that it commutes
+    with $B$, finds its eigenvalues and the eigenspace with eigenvalue 5, and the
+    inertia of the form $u^\dagger Bu$ on that eigenspace (the eigenvalues of the
+    $8 \times 8$ matrix of the form).
     """),
     code(r'''
     m_flat, E_flat = 2.0, 5.0
@@ -753,8 +771,16 @@ CELLS = [
           "E = +-5 (eight each); u^dagger B u has inertia (4,4) on the E = 5 space",
           record=f"{PAIRING}, check Q.one_particle_Krein_inertia_proof (every real "
                  "frequency)")
-
-
+    '''),
+    md(r"""
+    The next cell defines `flat_energy_density(u)`, which computes
+    $\rho = -\sum_{a \neq x_4}K_a + mS$ of the plane wave from its kinetic terms
+    ($\partial_a\Phi = ik_a\Phi$), takes the two eigenvectors of the form with
+    $Bu = -u$ and $Bu = +u$, checks that each plane wave solves the field equation
+    $\sum_a\gamma^{(a)}\partial_a\Phi = m\Phi$ of flat space, and checks the record's
+    values $\rho = -5$ and $\rho = +5$.
+    """),
+    code(r'''
     def flat_energy_density(u):
         """rho = -sum over a != x4 of K_a + m S for the plane wave u e^(i(k.x - E x4))."""
         S = (u.conj() @ C @ u).real
@@ -782,6 +808,14 @@ CELLS = [
           and recorded(SCOPE_WL, "commuting_field_energy_unbounded_below") == "PASS",
           "rho = -5 for B u = -u and rho = +5 for B u = +u (|u| = 1)",
           record=f"{SCOPE_PY} and {SCOPE_WL}, check commuting_field_energy_unbounded_below")
+    '''),
+    md(r"""
+    The next cell draws 5000 random unit vectors $u$ of the eigenspace (random
+    combinations of its eight columns, each divided by its length), computes the
+    energy density of each plane wave from its kinetic terms, and checks that it
+    equals $E\,u^\dagger Bu$ every time and takes both signs.
+    """),
+    code(r'''
     samples = rng.normal(size=(5000, 8)) + 1j * rng.normal(size=(5000, 8))
     samples /= np.linalg.norm(samples, axis=1)[:, None]
     us = samples @ U5.T  # 5000 random unit vectors of the eigenspace
@@ -810,8 +844,10 @@ CELLS = [
                 "and positive frequency $E = 5$, for random unit vectors $u$ of the "
                 "8-dimensional solution space; horizontal axis $\\rho$ in units of "
                 "energy per unit volume, vertical axis the count in each of 50 "
-                "intervals. Every value equals $E\\,u^\\dagger Bu$ and they fill the "
-                "whole interval from $-5$ to $5$: positive frequency does not mean "
+                "intervals. Every value equals $E\\,u^\\dagger Bu$; about half are "
+                "negative. The possible values fill the whole interval from $-5$ "
+                "(reached for $Bu = -u$) to $5$ (for $Bu = u$), but random vectors "
+                "seldom come near the two ends: positive frequency does not mean "
                 "positive energy for this commuting field.")
     '''),
     md(r"""
@@ -856,6 +892,12 @@ CELLS = [
       random condensates with $\lambda = 0$ have $\rho < 0$, and positive-frequency
       plane waves have $\rho$ anywhere between $-E$ and $E$ (record:
       `commuting_field_energy_unbounded_below`).
+    - Status: the exact condensates, their $\rho$ and $p$, the vanishing $x_4$-$x_8$
+      component, the energy-exchange identity and the unbounded energy are PROVED in
+      the Revision record (exact, Wolfram and sympy); this notebook re-computes them
+      numerically (COMPUTED). The toy fluids are an ILLUSTRATION, not solutions. The
+      equation of state of a 3-space observer is OPEN. The parameter values are
+      choices of this notebook.
     """),
 ]
 

@@ -311,8 +311,9 @@ CELLS = [
     The next cell draws the weights $1/f_\mu$. Left: against $a_4$ from $-2$ to $2$
     at $z = \pi/4$; the 3-space weight falls like $e^{-a_4}$ and the extra-time
     weight rises like $e^{a_4}$, so as the extra times deflate their derivatives
-    count more and more. Right: against $z$ at $a_4 = 0.5$; the hidden-direction
-    weight $\tan z$ grows without bound as $z$ approaches $\pi/2$.
+    count more and more (the time weight and the hidden weight are both 1 there, so
+    their two lines coincide). Right: against $z$ at $a_4 = 0.5$; the
+    hidden-direction weight $\tan z$ grows without bound as $z$ approaches $\pi/2$.
     """),
     code(r'''
     from matplotlib.ticker import NullFormatter  # a tick label that prints nothing
@@ -345,7 +346,8 @@ CELLS = [
                 "the 3-space weight $e^{-a_4}\\sin^{-1/6}z$ falls and the extra-time "
                 "weight $e^{a_4}\\sin^{-1/6}z$ rises, so derivatives along the "
                 "deflating extra times count more as $a_4$ grows; the time weight is "
-                "$1$ and the hidden weight $\\tan z = 1$. Right: against $z$ at "
+                "$1$ and the hidden weight is $\\tan z = 1$, so these two lines lie on "
+                "top of each other. Right: against $z$ at "
                 "$a_4 = 0.5$; the hidden weight $\\tan z$ grows without bound near "
                 "$z = \\pi/2$.")
     '''),
@@ -405,16 +407,13 @@ CELLS = [
 
     The tensor at a point needs only the jet there: the 16 complex values of $\Phi$
     and the $8 \times 16$ complex values of its first derivatives
-    $\partial_\mu\Phi$. The next cell draws them at random, with a fixed seed so that
-    every run draws the same numbers. They need not satisfy the field equation: the
-    identities of sections 8 to 10 hold off shell.
-
-    The function `energy_momentum` follows the formula of section 4 literally: it
-    builds $D_\mu\Phi$ and $D_\mu\bar\Phi$, the Lagrangian $L_0$ and the 64 entries
+    $\partial_\mu\Phi$. The next cell defines two functions. `bar` returns the Dirac
+    adjoint $\bar\Phi = \Phi^\dagger C$ as a row of 16 numbers. `energy_momentum`
+    follows the formula of section 4 literally: from the jet it builds
+    $D_\mu\Phi$ and $D_\mu\bar\Phi$, the Lagrangian $L_0$ and the 64 entries
     $T^\nu{}_\mu$ (row $\nu$, column $\mu$), and also the eight kinetic terms
-    $K_\mu$ from their own formula. The cell checks that every entry is real (its
-    imaginary part is rounding noise) and that $T_{\nu\mu} = g_{\nu\nu}T^\nu{}_\mu$ is
-    symmetric.
+    $K_\mu$ from their own formula (without the spin connection), so that the two
+    can be compared later. The cell only defines the functions; it prints nothing.
     """),
     code(r'''
     def bar(vector):
@@ -443,8 +442,15 @@ CELLS = [
         K = np.array([(bar(phi) @ gamma[mu] @ dphi[mu] - bar(dphi[mu]) @ gamma[mu] @ phi)
                       / (2 * f_values[mu]) for mu in range(8)])
         return S, U, L0, K, T
-
-
+    '''),
+    md(r"""
+    The next cell draws the jet at random, with a fixed seed so that every run draws
+    the same numbers. The jet need not satisfy the field equation: the identities of
+    sections 8 to 10 hold off shell. The cell computes the tensor and checks that
+    every entry is real (its imaginary part is rounding noise) and that
+    $T_{\nu\mu} = g_{\nu\nu}T^\nu{}_\mu$ is symmetric.
+    """),
+    code(r'''
     rng = np.random.default_rng(12345)  # a fixed seed: the same numbers in every run
     Phi = rng.normal(size=16) + 1j * rng.normal(size=16)  # the 16 values of Phi
     dPhi = rng.normal(size=(8, 16)) + 1j * rng.normal(size=(8, 16))  # d_mu Phi
@@ -651,14 +657,10 @@ CELLS = [
     the Christoffel symbols are
     $\Gamma^\lambda{}_{\mu\nu} = \frac{1}{2g_{\lambda\lambda}}(\partial_\mu
     g_{\lambda\nu} + \partial_\nu g_{\lambda\mu} - \partial_\lambda g_{\mu\nu})$
-    (no sum over $\lambda$). The next cell computes all of them for a general
-    function $a_4(x_4)$ and keeps the nonzero ones with $\mu \le \nu$ (the symbol is
-    symmetric in $\mu$ and $\nu$). The record lists exactly 25 such symbols
-    (`Revision/theory/field-theory.json`, formula `christoffel_nonzero`, written in
-    the Wolfram Language). The function `from_wolfram` translates that text into
-    sympy's notation by plain text replacements (for example `Sin[` becomes `sin(`
-    and `Derivative[1][a4][x4]` becomes `a4p`), and the cell compares the two lists
-    symbol by symbol.
+    (no sum over $\lambda$). The next cell writes the author's metric with symbols
+    (a general function $a_4(x_4)$, the symbol $H$) and computes all the symbols with
+    $\mu \le \nu$ (the symbol is symmetric in $\mu$ and $\nu$), keeping the nonzero
+    ones in a dictionary. It prints how many it found.
     """),
     code(r'''
     import sympy as sp  # exact algebra and calculus with symbols
@@ -678,6 +680,18 @@ CELLS = [
                                      - sp.diff(g[i, j], x[l])) / (2 * g[l, l]))
                 if value != 0:
                     christoffel[(l, i, j)] = value
+    say(f"{len(christoffel)} nonzero Christoffel symbols with mu <= nu")
+    '''),
+    md(r"""
+    The record lists exactly 25 such symbols (`Revision/theory/field-theory.json`,
+    formula `christoffel_nonzero`, written in the Wolfram Language). The next cell
+    translates that text into sympy's notation with the function `from_wolfram`, by
+    plain text replacements (for example `Sin[` becomes `sin(` and
+    `Derivative[1][a4][x4]` becomes `a4p`); the function `plain` writes our own
+    symbols with the same plain names `a4` and `a4p`. The cell compares the two lists
+    symbol by symbol and prints the 25 symbols.
+    """),
+    code(r'''
     a4s, a4ps = sp.symbols("a4 a4p", real=True)  # plain symbols for a4 and da4/dx4
 
 
@@ -728,12 +742,9 @@ CELLS = [
     T^\lambda{}_\nu - \Gamma^\lambda{}_{\mu\nu}T^\mu{}_\lambda$ (sums over $\mu$ and
     $\lambda$). The next cell takes the diagonal tensor
     $\mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$ whose four entries are
-    arbitrary functions of $x_4$ and $x_8$ and computes the eight components. The
-    record (formula `energy_exchange`, and the lead's independent check) says:
-    $\nabla_\mu T^\mu{}_{x_4} = -\partial_4\rho - 3a_4'(p_3 - p_t)$,
-    $\nabla_\mu T^\mu{}_{x_8} = \partial_8 p_8 + 3H\cot z (2p_8 - p_3 - p_t)$, and
-    the other six components vanish identically. The cell checks all eight
-    components against the translated record formula and against these two lines.
+    arbitrary functions of $x_4$ and $x_8$ and computes the eight components with the
+    Christoffel symbols of the previous section. It prints which components are not
+    identically zero.
     """),
     code(r'''
     rho_f, p3_f, pt_f, p8_f = [sp.Function(n)(x[3], x[7]) for n in ("rho", "p3", "pt",
@@ -754,6 +765,20 @@ CELLS = [
         value -= sum(gamma_symbol(l, mu, nu) * T_diag[mu, l]
                      for mu in range(8) for l in range(8))
         divergence.append(sp.simplify(value))
+    nonzero = [NAMES[nu] for nu in range(8) if divergence[nu] != 0]
+    say("components of the divergence that are not identically zero: nu = "
+        + ", ".join(nonzero))
+    '''),
+    md(r"""
+    The record (formula `energy_exchange`, and the lead's independent check) says:
+    $\nabla_\mu T^\mu{}_{x_4} = -\partial_4\rho - 3a_4'(p_3 - p_t)$,
+    $\nabla_\mu T^\mu{}_{x_8} = \partial_8 p_8 + 3H\cot z (2p_8 - p_3 - p_t)$, and
+    the other six components vanish identically. The next cell writes our eight
+    components with the record's plain names (`rho_4` for $\partial_4\rho$, `p8_8`
+    for $\partial_8 p_8$), translates the record's formula, and checks all eight
+    components against it and against these two lines.
+    """),
+    code(r'''
     rho_4, p8_8, p3s, pts, p8s = sp.symbols("rho_4 p8_8 p3 pt p8", real=True)
 
 
@@ -801,13 +826,17 @@ CELLS = [
     3-space volume is $V_3 = f_1 f_2 f_3 = e^{3a_4}\sin^{1/2}z$, its extra-time
     volume $V_t = f_5 f_6 f_7 = e^{-3a_4}\sin^{1/2}z$, and its 7-volume
     $V_7 = V_3 V_t f_8 = \cos z$ does not change with $x_4$. The first law of
-    thermodynamics, applied to each family of directions, says that the energy
-    $\rho V_7$ in the box changes by minus the pressure times the change of volume:
+    thermodynamics (energy changes by minus pressure times change of volume), applied
+    to each family of directions, would say that the energy $\rho V_7$ in the box
+    changes as
     $\frac{d}{dx_4}(\rho V_7) = -p_3\frac{V_7}{V_3}\frac{dV_3}{dx_4}
     - p_t\frac{V_7}{V_t}\frac{dV_t}{dx_4}$. The next cell checks with sympy that this
-    is exactly the conservation identity. So as 3-space inflates it does work
-    $p_3 dV_3$ and as the extra times deflate they receive work $p_t dV_t$; the
-    energy density stays constant only if $p_3 = p_t$.
+    is exactly the conservation identity. This is a reading of the identity (an
+    interpretation, not an extra result): dividing by the constant $V_7$,
+    $d\rho = -p_3\,dV_3/V_3 - p_t\,dV_t/V_t$. While 3-space inflates ($dV_3 > 0$) a
+    positive $p_3$ takes energy out of the box; while the extra times deflate
+    ($dV_t < 0$) a positive $p_t$ puts energy in. The energy density stays constant
+    only if $p_3 = p_t$.
     """),
     code(r'''
     f_space = sp.exp(a4_function) * sp.sin(zs) ** sp.Rational(1, 6)  # f1 = f2 = f3
@@ -848,10 +877,11 @@ CELLS = [
                 "along the deflating history $a_4 = AHx_4$ with $A = 1$, $H = 0.25$, "
                 "for $x_4$ from $0$ to $8$, each divided by its value at $x_4 = 0$; "
                 "logarithmic vertical axis. The growth of $V_3$ and the shrinking of "
-                "$V_t$ cancel exactly. By the first law the energy density changes as "
-                "$d\\rho/dx_4 = -3a_4'(p_3 - p_t)$: 3-space does work while it "
-                "inflates, the extra times receive work while they deflate, and the "
-                "two balance only when $p_3 = p_t$.")
+                "$V_t$ cancel exactly. Read as a first law, the conservation identity "
+                "$d\\rho/dx_4 = -3a_4'(p_3 - p_t)$ says: while 3-space inflates a "
+                "positive $p_3$ takes energy out of the box, while the extra times "
+                "deflate a positive $p_t$ puts energy in, and the two balance only "
+                "when $p_3 = p_t$.")
     '''),
     md(r"""
     ## 15. The x8 identity: the balance along the hidden direction

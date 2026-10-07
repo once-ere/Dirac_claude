@@ -250,10 +250,11 @@ CELLS = [
     $b(-L) = 0$), makes $G$ RK4 steps to the brane, and follows the Pruefer angle: after
     each step it computes the angle of the new point with `atan2` and adds the change of
     angle (brought into $(-\pi, \pi]$) to $\theta$, so $\theta$ is followed continuously.
-    It also adds up $\int r^2\,dy$ (trapezoid rule) for the derivative
-    $d\Phi/d\varepsilon = \int r^2 dy / r(0)^2$, which Newton's method needs. When
-    asked (`store=True`) it keeps the values at the step ends. The potentials `mass`
-    and `pot` are lists of $M$ and $v$ on the fine grid.
+    It also adds up $\int r^2\,dy$ with the trapezoid rule on the step ends,
+    $\tfrac{h}{2}(r_i^2 + r_{i+1}^2)$ per step, exactly as the solver does, for the
+    derivative $d\Phi/d\varepsilon = \int r^2 dy / r(0)^2$, which Newton's method needs.
+    When asked (`store=True`) it keeps the values at the step ends. The potentials
+    `mass` and `pot` are lists of $M$ and $v$ on the fine grid.
     """),
     code(r'''
     def rhs(m_y, kk, je, a, b):
@@ -288,7 +289,7 @@ CELLS = [
             theta += change
             raw = new
             r2 = a * a + b * b
-            area += 0.25 * h * (r2_prev + r2)  # trapezoid on the half steps of the solver
+            area += 0.5 * h * (r2_prev + r2)  # trapezoid rule over this step
             r2_prev = r2
             if store:
                 nodes.append((a, b))
@@ -302,9 +303,18 @@ CELLS = [
     check(phi_zero == 0.0, "at eps = 0 and k = 0 the Pruefer angle stays exactly 0")
     '''),
     md(r"""
-    The variable `area` uses the factor $h/4$ instead of $h/2$: the solver's trapezoid
-    sums over half steps, $\tfrac{h}{2}\cdot\tfrac{1}{2}(r_i^2 + r_{i+1}^2)$; only the
-    ratio matters for Newton's method, and keeping the solver's form gives its numbers.
+    Why $d\Phi/d\varepsilon = \int r^2 dy / r(0)^2$, line by line. Call
+    $u = \partial\theta/\partial\varepsilon$. (1) Differentiating the angle equation
+    $\theta' = j(\varepsilon - v) - \kappa k\cos 2\theta - M\sin 2\theta$ with respect
+    to $\varepsilon$ gives $u' = j + (2\kappa k\sin 2\theta - 2M\cos 2\theta)\,u$ (chain
+    rule), with $u(-L) = 0$ because $\theta(-L) = 0$ for every $\varepsilon$.
+    (2) The length $r$ obeys $(\ln r)' = (a a' + b b')/r^2 = M\cos 2\theta -
+    \kappa k\sin 2\theta$ (insert the system; the terms with $j(\varepsilon - v)$
+    cancel). (3) So $u' = j - 2(\ln r)'\,u$, and therefore $(r^2 u)' = r^2 u' + 2 r r' u
+    = j r^2$ (product rule). (4) Integrating from the tip to the brane:
+    $r(0)^2 u(0) = j\int r^2 dy$. (5) Since $\Phi = j\theta(0)$ and $j^2 = 1$,
+    $d\Phi/d\varepsilon = j u(0) = \int r^2 dy / r(0)^2 > 0$. This is the strict
+    increase of $\Phi$ in a formula, and the derivative that Newton's method uses.
     """),
     md(r"""
     ## 7. The phase function and the levels it labels
@@ -346,11 +356,13 @@ CELLS = [
 
     The next cell finds the level with label $l$: the root of $\Phi(\varepsilon) - t_l$
     with the target $t_l = l\pi$ (even) or $\pi/2 + l\pi$ (odd). It is the solver's
-    `find_level`: from a guess it walks with growing steps until the sign of
-    $\Phi - t_l$ changes (a bracket), then it takes Newton steps
-    $\varepsilon \to \varepsilon - (\Phi - t_l)/\Phi'$ and falls back to bisection
-    whenever a Newton step would leave the bracket or does not halve the error, until the
-    bracket is shorter than $10^{-13}$.
+    `find_level`, step for step: from a guess it walks with doubling steps (up if
+    $\Phi < t_l$, down otherwise) until the sign of $\Phi - t_l$ changes (a bracket),
+    then it takes Newton steps $\varepsilon \to \varepsilon - (\Phi - t_l)/\Phi'$ and
+    falls back to bisection whenever a Newton step would leave the bracket or the
+    previous step did not halve the error. It stops when the bracket is shorter than
+    $10^{-13}$, or when a Newton step moved the energy by at most $10^{-13}$ (Newton's
+    method approaches the root from one side, so the bracket itself need not shrink).
     """),
     code(r'''
     def target(parity, label):
@@ -368,33 +380,53 @@ CELLS = [
         gc, dc = g(ec)
         if gc == 0.0:
             return ec
-        sign = 1.0 if gc < 0.0 else -1.0  # walk up if Phi is too small, else down
-        far = ec
-        step = min(max(abs(gc / dc) * 1.2, 1e-4), 2.0)
-        while True:  # walk until Phi - t changes sign: then [lo, hi] brackets the root
-            e = far + sign * step
-            ge, de = g(e)
-            if ge * gc <= 0.0:
-                lo, hi = (far, e) if sign > 0 else (e, far)
-                if abs(ge) < abs(gc):
-                    ec, gc, dc = e, ge, de
-                break
-            far, ec, gc, dc = e, e, ge, de
-            step *= 2.0
+        step = min(max(abs(gc / dc) * 1.2, 1e-4), 2.0)  # the first trial step
+        if gc < 0.0:  # Phi is too small: walk up until Phi - t >= 0
+            lo = ec
+            while True:
+                e = lo + step
+                ge, de = g(e)
+                if ge >= 0.0:
+                    hi = e  # now [lo, hi] brackets the root
+                    if abs(ge) < abs(gc):
+                        ec, gc, dc = e, ge, de  # keep the better end for Newton
+                    break
+                lo, ec, gc, dc = e, e, ge, de
+                step *= 2.0  # double the step
+        else:  # Phi is too large: walk down until Phi - t <= 0
+            hi = ec
+            while True:
+                e = hi - step
+                ge, de = g(e)
+                if ge <= 0.0:
+                    lo = e
+                    if abs(ge) < abs(gc):
+                        ec, gc, dc = e, ge, de
+                    break
+                hi, ec, gc, dc = e, e, ge, de
+                step *= 2.0
+        if gc == 0.0:
+            return ec
         previous = math.inf
         for _ in range(300):
-            if hi - lo <= tol or gc == 0.0:
+            if hi - lo <= tol:
                 break
             new = ec - gc / dc  # the Newton step
-            if not lo < new < hi or abs(gc) > 0.5 * previous:
+            bisect = not lo < new < hi or abs(gc) > 0.5 * previous
+            if bisect:
                 new = 0.5 * (lo + hi)  # bisection instead
             previous = abs(gc)
+            moved = abs(new - ec)  # how far this step moved the energy
             ec = new
             gc, dc = g(ec)
+            if gc == 0.0:
+                break
             if gc < 0.0:
                 lo = ec
             else:
                 hi = ec
+            if moved <= tol and not bisect:
+                break  # a Newton step that moves less than tol: converged
         return ec
     '''),
     md(r"""

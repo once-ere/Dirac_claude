@@ -108,7 +108,7 @@ CELLS = [
       every Lovelock tensor obeys in this metric;
     - draws the components and the Lovelock scalars along the exponentially deflating
       history $a_4 = A H x_4$, as functions of $A$; and along an illustrative test
-      history in which the deflation switches on, to show where $a_4''$ enters, with a
+      history in which the deflation speeds up, to show where $a_4''$ enters, with a
       numerical check of the conservation identity along it.
 
     It draws five figures and takes about 15 seconds.
@@ -313,8 +313,9 @@ CELLS = [
        tensors do not select.
     6. Every term of $E_{(k)}$ has the **weight** $2k$, where $H$ and $a_4'$ count 1 and
        $a_4''$ counts 2 (each is one inverse length per count): order $k$ has the
-       dimension $1/\text{length}^{2k}$. This is why the author's notebook divides order
-       $k$ by $H^{2k}$ to compare the orders.
+       dimension $1/\text{length}^{2k}$. So the three orders can be added in one field
+       equation only with constants $\alpha_k$ of different dimensions, for example
+       $\alpha_k = w_k / H^{2k - 2}$ with pure numbers $w_k$.
     """),
     code(r'''
     u = sp.Symbol("u")  # an auxiliary number used to test the weights
@@ -392,8 +393,9 @@ CELLS = [
 
     On the linear history $a_4' = AH$ and $a_4'' = 0$. Then every component is $H^{2k}$
     times a polynomial in $A$, and the plots below show $E_{(k)}{}^h{}_h / H^{2k}$
-    against $A$ from $-3$ to $3$ ($A > 0$: the extra times deflate; $A < 0$: they
-    inflate; $A = 0$: they are static). Because $a_4'' = 0$, the space, extra-time and
+    against $A$ from $-3$ to $3$ ($A > 0$: the extra times deflate exponentially, the
+    author's case; $A < 0$: they would inflate; $A = 0$, where $a_4$ is constant, is the
+    mirror point between the two). Because $a_4'' = 0$, the space, extra-time and
     hidden components coincide (section 6, items 3 and 4), so each panel has two curves:
     the time component $E^{x4}_{x4}$ and the common component of the seven other
     directions. `sp.lambdify` turns a sympy expression into a numpy function that can
@@ -447,6 +449,10 @@ CELLS = [
     computes all its roots numerically (15 digits), and the cell keeps the real positive
     ones (the negative ones are their mirror images). For $k = 1$,
     $L_{(1)} = 2R = 12a_4'^2 - 84H^2$ is zero exactly at $A = \sqrt{7} \approx 2.646$.
+    The scalar of order 3 grows so fast ($A^6$) that its dip near $A = 0$ cannot be
+    seen at the scale of the whole panel, so the cell adds a small magnified panel
+    (`ax.inset_axes`, a panel inside a panel, placed by its left edge, bottom edge,
+    width and height as fractions of the big panel) for $-1 \le A \le 1$.
     """),
     code(r'''
     L = {k: sp.sympify(tensors[f"L{k}"].replace("Derivative[1][a4][x4]", "A1")
@@ -468,15 +474,26 @@ CELLS = [
         ax.set_xlabel("$A = a_4^{\\prime}/H$")
         ax.set_ylabel(f"$L_{{({k})}}$ in units of $H^{{{2 * k}}}$")
         ax.set_title(f"Lovelock scalar of order {k}")
+        if k == 3:  # a magnified view of the middle, where the zeros of L(3) lie
+            zoom = ax.inset_axes([0.30, 0.42, 0.42, 0.42])  # [left, bottom, width, height]
+            near = np.abs(A) <= 1.0  # the values of A between -1 and 1
+            zoom.plot(A[near], values[near], color="tab:green")
+            zoom.axhline(0.0, color="0.5", lw=0.8)
+            for r in zeros[k]:
+                zoom.plot([r, -r], [0.0, 0.0], "o", color="black", markersize=3)
+            zoom.tick_params(labelsize=6)
+            zoom.set_title("magnified: $-1 \\leq A \\leq 1$", fontsize=7)
     fig.tight_layout()
     save_figure(fig, "lovelock_scalars",
                 "The Lovelock scalars $L_{(1)} = 2R = 12 a_4^{\\prime 2} - 84 H^2$, "
                 "$L_{(2)}$ and $L_{(3)}$ of the author's metric along the linear history "
                 "$a_4 = A H x_4$, in units of $H^2$, $H^4$ and $H^6$, against "
-                "$A = a_4^{\\prime}/H$. Each is an even polynomial in $A$ with one "
-                "positive zero, marked by a black dot together with its mirror image: "
-                "$A = 2.646$ (that is $\\sqrt{7}$), $1.221$ and $0.601$. At the static "
-                "point $A = 0$ the three values are $-84$, $3360$ and $-40320$.")
+                "$A = a_4^{\\prime}/H$; the small panel inside the right one magnifies "
+                "the range $-1 \\leq A \\leq 1$. Each scalar is an even polynomial in "
+                "$A$ with one positive zero, marked by a black dot together with its "
+                f"mirror image: $A = {zeros[1][0]:.3f}$ (that is $\\sqrt{{7}}$), "
+                f"${zeros[2][0]:.3f}$ and ${zeros[3][0]:.3f}$. At the mirror point "
+                "$A = 0$ the three values are $-84$, $3360$ and $-40320$.")
     check(all(len(zeros[k]) == 1 for k in (1, 2, 3))
           and abs(zeros[1][0] - float(sp.sqrt(7))) < 1e-12
           and L[1].subs({A1: 0, H: 1}) == -84 and L[2].subs({A1: 0, H: 1}) == 3360
@@ -485,31 +502,34 @@ CELLS = [
           "are -84, 3360, -40320")
     '''),
     md(r"""
-    ## 9. An illustrative test history in which the deflation switches on
+    ## 9. An illustrative test history in which the deflation speeds up
 
-    To see where $a_4''$ enters, the next cells use a test history in which the extra
-    times are static in the far past and then start to deflate:
+    On the linear history $a_4'' = 0$, so it cannot show where $a_4''$ enters. The next
+    cells therefore use a test history in which the extra times deflate exponentially
+    at ALL times, slowly in the far past and three times faster in the far future:
 
-    $$a_4(x_4) = \tfrac12\big(H x_4 + \ln\cosh(H x_4)\big),\qquad
-      a_4' = \tfrac{H}{2}\big(1 + \tanh(H x_4)\big),\qquad
+    $$a_4(x_4) = H x_4 + \tfrac12 \ln\cosh(H x_4),\qquad
+      a_4' = H\big(1 + \tfrac12 \tanh(H x_4)\big),\qquad
       a_4'' = \tfrac{H^2}{2}\,\mathrm{sech}^2(H x_4).$$
 
     (The derivative of $\ln\cosh t$ is $\tanh t$, and that of $\tanh t$ is
-    $\mathrm{sech}^2 t = 1/\cosh^2 t$.) For $x_4 \to -\infty$, $a_4' \to 0$; for
-    $x_4 \to +\infty$, $a_4' \to H$, the linear history with $A = 1$; $a_4''$ is largest,
-    $H^2/2$, at $x_4 = 0$. This history is an ILLUSTRATION chosen only to show how the
-    components depend on $a_4'$ and $a_4''$; it is not a solution of the field
-    equations, and no source is attached to it. The next cell checks the two derivatives
-    with sympy and draws the history.
+    $\mathrm{sech}^2 t = 1/\cosh^2 t$.) Since $-1 < \tanh < 1$, $a_4'$ lies between
+    $H/2$ and $3H/2$ and is always positive: the extra times always deflate. For
+    $x_4 \to -\infty$, $a_4' \to H/2$ (the linear history with $A = 1/2$); for
+    $x_4 \to +\infty$, $a_4' \to 3H/2$ ($A = 3/2$); $a_4''$ is largest, $H^2/2$, at
+    $x_4 = 0$, where the deflation speeds up. This history is an ILLUSTRATION chosen
+    only to show how the components depend on $a_4'$ and $a_4''$; it is not a solution
+    of the field equations, and no source is attached to it. The next cell checks the
+    two derivatives with sympy and draws the history.
     """),
     code(r'''
     t = sp.Symbol("t")  # t = H x4 (the time in units of 1/H); H = 1 below
-    history = (t + sp.log(sp.cosh(t))) / 2
+    history = t + sp.log(sp.cosh(t)) / 2
     first = sp.diff(history, t)  # a4' (with H = 1)
     second = sp.diff(history, t, 2)  # a4''
-    check(sp.simplify(first - (1 + sp.tanh(t)) / 2) == 0
+    check(sp.simplify(first - (1 + sp.tanh(t) / 2)) == 0
           and sp.simplify(second - sp.sech(t) ** 2 / 2) == 0,
-          "the test history has a4' = (1 + tanh)/2 and a4'' = sech^2/2 (H = 1)")
+          "the test history has a4' = 1 + tanh/2 > 0 and a4'' = sech^2/2 (H = 1)")
     times = np.linspace(-6.0, 6.0, 1201)  # H x4 from -6 to 6
     a4_values = sp.lambdify(t, history, "numpy")(times)
     a1_values = sp.lambdify(t, first, "numpy")(times)
@@ -530,12 +550,13 @@ CELLS = [
     axes[1].legend(fontsize=8)
     fig.tight_layout()
     save_figure(fig, "test_history",
-                "The illustrative test history $a_4 = (H x_4 + \\ln\\cosh H x_4)/2$, not "
-                "a solution of any field equation, against the time $H x_4$. Left: the "
-                "scale factor $e^{a_4}$ of ordinary space (solid) grows and the scale "
-                "factor $e^{-a_4}$ of the extra times (dashed) shrinks, both on a "
-                "logarithmic axis; in the far past both are constant, later they change "
-                "exponentially. Right: $a_4^{\\prime}/H$ rises from 0 to 1 and "
+                "The illustrative test history $a_4 = H x_4 + \\frac{1}{2} \\ln\\cosh H "
+                "x_4$, not a solution of any field equation, against the time $H x_4$. "
+                "Left: the scale factor $e^{a_4}$ of ordinary space (solid) grows and the "
+                "scale factor $e^{-a_4}$ of the extra times (dashed) shrinks at all "
+                "times, both on a logarithmic axis, where exponential change is a "
+                "straight line: the slope steepens from $1/2$ to $3/2$ around $x_4 = 0$. "
+                "Right: $a_4^{\\prime}/H$ rises from 1/2 to 3/2 and "
                 "$a_4^{\\prime\\prime}/H^2$ is a bump of height 1/2 at $x_4 = 0$.")
     '''),
     md(r"""
@@ -612,6 +633,9 @@ CELLS = [
         ax.set_title(f"identity (I), order k = {k}")
         ax.legend(fontsize=7)
     fig.tight_layout()
+    largest = max(worst.values())  # the largest relative deviation of the three orders
+    power = int(np.floor(np.log10(largest)))  # its power of ten
+    deviation_text = f"${largest / 10 ** power:.1f} \\times 10^{{{power}}}$"
     save_figure(fig, "conservation_identity",
                 "Identity (I), the conservation identity along the time, checked "
                 "numerically along the illustrative test history for $k = 1, 2, 3$: the "
@@ -619,8 +643,8 @@ CELLS = [
                 "(dotted black) lies on $3 a_4^{\\prime} (E^{x_1}_{\\ x_1} - "
                 "E^{x_5}_{\\ x_5})$ (thick blue), in units of $H^{2k+1}$, against the "
                 "time $H x_4$. Both are zero where $a_4^{\\prime\\prime} = 0$ and peak "
-                "where the deflation switches on; the largest relative deviation is "
-                "about $4.5 \\times 10^{-5}$, the size of the finite-difference error.")
+                "where the deflation speeds up; the largest relative deviation is "
+                f"about {deviation_text}, the size of the finite-difference error.")
     check(all(value < 1e-4 for value in worst.values()),
           "the finite-difference derivative agrees with identity (I) to 1e-4")
     '''),

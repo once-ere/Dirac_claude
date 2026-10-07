@@ -70,7 +70,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS the figure file 10a_6_plus_minus_mass_spectra.png exists",
-        "ALL 27 CHECKS PASSED (notebook 10a)",
+        "ALL 28 CHECKS PASSED (notebook 10a)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for gammas.json or pairing-theory.json",
@@ -186,6 +186,20 @@ CELLS = [
     $$i\frac{du}{dx_4} = h\,u,\qquad h = -im\gamma^{(x_4)} - \gamma^{(x_4)}
     \sum_{a \neq 4} k_a\gamma^{(x_a)} .$$
 
+    **Frame momenta and the deflating extra times.** The numbers $k_a$ are momenta in
+    the local frame. In the author's metric the field equation contains the derivative
+    along $x_a$ divided by the scale factor $f_a$ of that direction (Revision theory
+    record): $f_a = e^{a_4}\sin^{1/6}z$ for $x_1, x_2, x_3$ and $f_a =
+    e^{-a_4}\sin^{1/6}z$ for the extra times $x_5, x_6, x_7$. A wave $e^{iq_ax_a}$
+    with the coordinate momentum $q_a$ therefore has the frame momentum $k_a = q_a/f_a$:
+    along 3-space $k_a = q_ae^{-a_4}\sin^{-1/6}z$ shrinks as 3-space inflates, and along
+    an extra time $k_a = q_ae^{a_4}\sin^{-1/6}z$ GROWS as the extra times deflate
+    ($a_4$ increasing). "Frozen coefficients" means only that these factors are
+    evaluated at one time $x_4$ and one hidden position, so that the wave equation of
+    that instant has constant coefficients. The extra times are not static: the last
+    notebook of this chapter follows the frame momenta, and everything this notebook
+    computes, along the deflating history.
+
     **The Krein form is conserved.** The charge density of the field is
     $\Psi^\dagger B\Psi$ with $B = -iC\gamma^{(x_4)}$, $C = \gamma^{(x_8)}\gamma^{(x_1)}
     \gamma^{(x_2)}\gamma^{(x_3)}$ (the author's sigma16). From $i\,du/dx_4 = hu$ we get
@@ -292,7 +306,13 @@ CELLS = [
     orange and a green that stay distinguishable for colour-blind readers, and a
     blue-grey-red colour scale for matrices: blue for $-1$, light grey for 0, red for
     $+1$) and a small function that draws a matrix as a coloured square grid, a *heat
-    map*. Then it draws $\gamma^{(x_4)}$, $C$ and the imaginary part of $B$ side by side.
+    map*. It checks what the picture will show: $\gamma^{(x_4)}$ is antisymmetric
+    ($M^T = -M$), $C$ is symmetric ($M^T = M$), the imaginary part of $B$ is
+    antisymmetric, and each of the three has exactly one nonzero entry in every row
+    and every column. Why the imaginary part of $B$ must be antisymmetric: write
+    $B = iY$ with a real matrix $Y$; then $B^\dagger = (iY)^{*T} = -iY^T$, and
+    $B^\dagger = B$ means $-iY^T = iY$, that is $Y^T = -Y$. Then it draws
+    $\gamma^{(x_4)}$, $C$ and the imaginary part of $B$ side by side.
     """),
     code(r'''
     from matplotlib.colors import LinearSegmentedColormap  # colour scales
@@ -318,8 +338,17 @@ CELLS = [
         return image
 
 
+    # A purely imaginary B = i Y (Y real) is Hermitian exactly when -i Y^T = i Y,
+    # that is when Y^T = -Y: the imaginary part of B must be antisymmetric.
+    one_per_row = all(np.count_nonzero(M, axis=1).tolist() == [1] * 16
+                      and np.count_nonzero(M, axis=0).tolist() == [1] * 16
+                      for M in (gamma[4], C, B.imag))  # signed permutation matrices
+    check(np.array_equal(gamma[4].T, -gamma[4]) and np.array_equal(C.T, C)
+          and np.array_equal(B.imag.T, -B.imag) and one_per_row,
+          "gamma^(x4) and Im B are antisymmetric, C is symmetric, all signed permutations")
+
     fig, axes = plt.subplots(1, 3, figsize=(11.0, 4.0))
-    draw_matrix(axes[0], gamma[4], "$\\gamma^{(x_4)}$ (real)")
+    draw_matrix(axes[0], gamma[4], "$\\gamma^{(x_4)}$ (real, antisymmetric)")
     draw_matrix(axes[1], C, "$C$ (real, symmetric)")
     image = draw_matrix(axes[2], B.imag, "imaginary part of $B = -iC\\gamma^{(x_4)}$")
     fig.colorbar(image, ax=list(axes), shrink=0.8, label="entry")
@@ -331,8 +360,11 @@ CELLS = [
                 "column number, vertical axis: row number; red is $+1$, blue is $-1$, "
                 "light grey is 0. Each row and each column has exactly one nonzero "
                 "entry: all three are signed permutation matrices, so $B$ is $i$ times "
-                "a real signed permutation. $\\gamma^{(x_4)}$ is antisymmetric, $C$ "
-                "and the imaginary part of $B$ are symmetric about the diagonal.")
+                "a real signed permutation. $C$ is symmetric about the diagonal; "
+                "$\\gamma^{(x_4)}$ and the imaginary part of $B$ are antisymmetric "
+                "(mirror entries have opposite colours), as they must be: a Hermitian "
+                "matrix whose entries are purely imaginary is $i$ times a real "
+                "antisymmetric matrix.")
     '''),
     md(r"""
     ## 6. The mode Hamiltonian and its square

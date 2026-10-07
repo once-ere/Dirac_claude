@@ -71,7 +71,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS the nine figure files of notebook 05c exist",
-        "ALL 19 CHECKS PASSED (notebook 05c)",
+        "ALL 20 CHECKS PASSED (notebook 05c)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" naming a file in the folder `Revision/algebra` or in "
@@ -198,9 +198,12 @@ CELLS = [
 
     $$\Psi(x4) = \cos(m\,x4)\,\Psi_0 - \sin(m\,x4)\,\gamma^{(x4)}\Psi_0$$
 
-    for any constant column $\Psi_0$: the derivative is $-m\sin\Psi_0 -
-    m\cos\gamma^{(x4)}\Psi_0$, and $\gamma^{(x4)}$ times it is $-m\sin\gamma^{(x4)}
-    \Psi_0 + m\cos\Psi_0 = m\Psi$. The notebook uses this solution to show the two
+    for any constant column $\Psi_0$: the derivative is $d\Psi/dx4 = -m\sin(m\,x4)
+    \Psi_0 - m\cos(m\,x4)\gamma^{(x4)}\Psi_0$ (the chain rule: $d\cos(m\,x4)/dx4 =
+    -m\sin(m\,x4)$ and $d\sin(m\,x4)/dx4 = m\cos(m\,x4)$), and $\gamma^{(x4)}$ times it
+    is $-m\sin(m\,x4)\gamma^{(x4)}\Psi_0 - m\cos(m\,x4)\gamma^{(x4)}\gamma^{(x4)}\Psi_0
+    = -m\sin(m\,x4)\gamma^{(x4)}\Psi_0 + m\cos(m\,x4)\Psi_0 = m\Psi$ (using
+    $\gamma^{(x4)}\gamma^{(x4)} = -1$). The notebook uses this solution to show the two
     conjugations at work.
     """),
     md(r"""
@@ -654,7 +657,9 @@ CELLS = [
     (\gamma^{(x4)})^TC + C\gamma^{(x4)})\Psi = 0$, because $(\gamma^{(x4)})^T =
     -\gamma^{(x4)}$ commutes with $C$; $J^{(x4)}$ is the conserved charge density). The
     prediction of the Revision record for commuting components: $\Psi^*$ keeps $S$ and
-    reverses $J$; $\Gamma\Psi^*$ keeps $S$ and keeps $J$.
+    reverses $J$; $\Gamma\Psi^*$ keeps $S$ and keeps $J$. The cell also checks the
+    exact values $S = -2$ and $J^{(x4)} = -6$ of the solution at $x4 = 0$ (where
+    $\Psi = \Psi_0$), which the next figure shows.
     """),
     code(r'''
     bilinears = {}  # field -> (S at every time point, J^(x4) at every time point)
@@ -668,6 +673,14 @@ CELLS = [
     report("S of the solution Psi", f"{S_psi:+.6f}")
     report("J^(x4) of the solution Psi", f"{J_psi:+.6f}")
     constant = all(np.ptp(v) < 1e-12 for pair in bilinears.values() for v in pair)
+    # The values at x4 = 0, where Psi = Psi_0, are quoted in the caption of the next
+    # figure. Psi_0 has whole-number real and imaginary parts and C, B have entries 0,
+    # +-1, +-i, so S = Psi_0^dagger C Psi_0 and J^(x4) = Psi_0^dagger B Psi_0 are
+    # computed exactly (small whole numbers are stored without rounding).
+    S_exact = PSI0.conj() @ C @ PSI0
+    J_exact = PSI0.conj() @ B @ PSI0
+    check(S_exact == -2 and J_exact == -6 and S_psi == -2 and J_psi == -6,
+          "at x4 = 0 exactly: S = -2 and J^(x4) = -6 for the solution Psi")
     check(constant and abs(S_psi) > 1 and abs(J_psi) > 1
           and np.allclose(bilinears["Psi* (calC_+)"][0], S_psi)
           and np.allclose(bilinears["Psi* (calC_+)"][1], -J_psi)
@@ -727,9 +740,16 @@ CELLS = [
     currents $J^a$), for $M = 1$ ($\mathcal{C}_+$) and $M = \Gamma$ ($\mathcal{C}_-$)
     and $\epsilon = \pm1$, and records the sign with $K' = \pm K$. It compares the
     table with the signs that the Revision record measured (stored in its detail text
-    after the word measured). The record adds: in the quantum theory normal ordering
-    supplies one more sign for each anticommuting bilinear, which gives the standard
-    $(S, J) \to (S, -J)$ for $\mathcal{C}_+$.
+    after the word measured).
+
+    For the *quantised* field dirac16complex the components are operators. Exchanging
+    two of them costs the same sign as for anticommuting numbers and leaves a constant
+    behind (their anticommutator); normal ordering removes that constant and nothing
+    else. So after normal ordering the quantised bilinears change with the signs of the
+    anticommuting rows of this table. Notebook 05e computes this on an explicit Fock
+    space. (The detail text of the record's check also contains, in parentheses, the
+    remark that normal ordering supplies one more sign; that remark is not part of the
+    measured table, and the computation of Notebook 05e does not support it.)
     """),
     code(r'''
     K_S = C.astype(complex)  # the matrix of the scalar S
@@ -790,8 +810,7 @@ CELLS = [
                 "is kept, blue $-1$ it is reversed. $\\mathcal{C}_+$ on commuting "
                 "components keeps $S$ and reverses every current; $\\mathcal{C}_-$ on "
                 "commuting components keeps both; for anticommuting components every "
-                "sign is flipped once more by the exchange of two factors (normal "
-                "ordering in the quantum theory flips it back).")
+                "sign is flipped once more by the exchange of two factors.")
     '''),
     md(r"""
     ## 12. The reality (Majorana) conditions
@@ -1040,7 +1059,9 @@ CELLS = [
       $\Gamma\Psi^*$ with the mass reversed (exact sympy computation and numbers).
     - Commuting components: $\mathcal{C}_+$ keeps $S$ and reverses $J$;
       $\mathcal{C}_-$ keeps both. Anticommuting components: one more sign on each
-      (classically), as the Revision record measured.
+      (classically), as the Revision record measured. For the quantised field the
+      normal-ordered bilinears have the signs of the anticommuting components
+      (computed in Notebook 05e).
     - Both reality conditions are consistent ($MM^* = 1$); the real one is kept in
       time, the $\Gamma$ one only for $m = 0$.
     - Real fields: $J = 0$, $\mathcal{C}_+$ is the identity, and the nontrivial real

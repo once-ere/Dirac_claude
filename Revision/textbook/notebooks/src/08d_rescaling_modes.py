@@ -53,6 +53,9 @@ FACTS = {
         ["Revision/theory/field-theory.json",
          "the formula record Omega_components of the spin connection (read and "
          "verified)"],
+        ["Revision/kohn_sham/results/parameters.json",
+         "the constant H = 1 and the tip cutoff L = 3 of the Kohn-Sham record, used for "
+         "one plot (read)"],
         ["Revision/theory/reports/python-field-theory.json",
          "checks covariant_constancy_D_mu_gamma_nu, gamma_mu_Omega_mu_equals_3H_gamma_x8 "
          "and exact_solution_family_x4_x8 (reproduced)"],
@@ -70,7 +73,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS the figure file 08d_5_norm_and_flux.png exists",
-        "ALL 22 CHECKS PASSED (notebook 08d)",
+        "ALL 23 CHECKS PASSED (notebook 08d)",
     ],
     "troubleshooting": [
         ["A cell of section 6 or 7 runs for more than a minute.",
@@ -293,9 +296,25 @@ CELLS = [
     md(r"""
     The next cell draws the rescaling factor $w = \sin^{-1/2}z$, the new coupling factor
     $1/\sin z$ of the potential, and the hidden coordinate $y = \ln(\sin z)/(6H)$, for
-    $H = 1$.
+    $H = 1$. It reads $H$ and the tip cutoff $L$ of the Kohn-Sham record (that record
+    cuts the hidden direction at $y = -L$) and computes where the cutoff lies in $z$:
+    $y = -L$ means $\ln(\sin z) = -6HL$, so $\sin z = e^{-6HL}$ and
+    $z_{\rm cut} = \arcsin(e^{-6HL})$. This number is tiny, so the right panel uses a
+    logarithmic $z$ axis: on it $y$ is almost a straight line, because $\sin z \approx
+    z$ for small $z$ and then $y \approx \ln(z)/(6H)$.
     """),
     code(r'''
+    parameters = json.loads(repository_file(
+        "Revision/kohn_sham/results/parameters.json").read_text(encoding="utf-8"))
+    H_record = parameters["physics"]["H"]  # the author's constant H of the record
+    L_tip = parameters["physics"]["L_tipCutoff"]  # the record cuts the tip at y = -L
+    z_cut = np.arcsin(np.exp(-6 * H_record * L_tip))  # the z at which y = -L
+    report("H and the tip cutoff L of the Kohn-Sham record", f"{H_record}, {L_tip}")
+    report("z at the tip cutoff, arcsin(e^(-6 H L))", f"{z_cut:.6e}")
+    check(H_record == 1.0 and abs(np.log(np.sin(z_cut)) / (6 * H_record) + L_tip) < 1e-12,
+          "the record has H = 1, and y(z_cut) = -L",
+          record="Revision/kohn_sham/results/parameters.json, physics.H, "
+                 "physics.L_tipCutoff")
     zs = np.linspace(0.01, np.pi / 2, 400)
     fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
     left.plot(zs, np.sin(zs) ** -0.5, label="rescaling factor $\\sin^{-1/2}z$")
@@ -305,24 +324,31 @@ CELLS = [
     left.set_ylabel("factor")
     left.set_title("The rescaling $\\Psi = \\sin^{-1/2}z\\,\\chi$")
     left.legend()
-    right.plot(zs, np.log(np.sin(zs)) / 6, color="tab:green")
-    right.axhline(-3.0, color="gray", linestyle=":", linewidth=0.9)
-    right.text(0.35, -2.85, "tip cutoff $y = -3$ of the Kohn-Sham record", fontsize=8)
-    right.set_xlabel("$z = 6Hx_8$")
+    mantissa, exponent = f"{z_cut:.1e}".split("e")  # "1.5e-08" -> "1.5" and "-08"
+    exponent = int(exponent)  # -8, for the caption
+    z_log = np.logspace(-10.0, np.log10(np.pi / 2), 400)  # 10^-10 ... pi/2, log spaced
+    right.semilogx(z_log, np.log(np.sin(z_log)) / (6 * H_record), color="tab:green")
+    right.axhline(-L_tip, color="gray", linestyle=":", linewidth=0.9)
+    right.plot([z_cut], [-L_tip], "o", color="black")  # where y reaches the cutoff
+    right.text(2e-8, -L_tip + 0.15, "tip cutoff $y = -L$ of the Kohn-Sham record",
+               fontsize=8)
+    right.set_xlabel("$z = 6Hx_8$ (logarithmic axis)")
     right.set_ylabel("$y = \\ln(\\sin z)/(6H)$")
     right.set_title("The hidden coordinate $y$, $H = 1$")
     save_figure(fig, "rescaling_factors",
                 "Left, on a logarithmic axis, against $z = 6Hx_8$ from the tip (near 0) "
                 "to the patch end ($\\pi/2$): the rescaling factor $\\sin^{-1/2}z$ "
                 "(solid) of $\\Psi = \\sin^{-1/2}z\\,\\chi$, which removes the term "
-                "$3H\\gamma^{(8)}$ from the field equation, and the factor $1/\\sin z$ "
-                "(dashed) with which the quadratic potential reappears as the coupling "
-                "$\\lambda S_\\chi/\\sin z$ ($S_\\chi$: the bilinear of $\\chi$); both "
-                "equal 1 at the patch end and diverge "
-                "at the tip. Right: the hidden coordinate $y = \\ln(\\sin z)/(6H)$ for "
-                "$H = 1$, in which the norm of $\\Psi$ becomes $\\int\\chi^\\dagger\\chi"
-                "\\,dy$; $y = 0$ at the patch end and $y \\to -\\infty$ at the tip "
-                "(dotted: the cutoff $y = -3$ used by the Kohn-Sham record).")
+                "$3H\\gamma^{(8)}$, and the factor $1/\\sin z$ (dashed) of the new "
+                "coupling $\\lambda S_\\chi/\\sin z$; both equal 1 at the patch end and "
+                "diverge at the tip. Right: the hidden coordinate $y = \\ln(\\sin z)/"
+                "(6H)$ for $H = 1$, in which the norm of $\\Psi$ is $\\int\\chi^\\dagger"
+                "\\chi\\,dy$, against $z$ on a logarithmic axis; $y = 0$ at the patch "
+                "end and $y \\to -\\infty$ at the tip. Dotted: the cutoff "
+                f"$y = -L = {-L_tip:g}$ of the Kohn-Sham record, reached only at "
+                f"$z = \\arcsin(e^{{{-6 * H_record * L_tip:g}}}) \\approx {mantissa} "
+                f"\\times 10^{{{exponent}}}$ (black dot): almost the whole range of $y$ "
+                "lies in a tiny neighbourhood of the tip.")
     '''),
     md(r"""
     ## 7. An exact family of solutions
@@ -496,7 +522,8 @@ CELLS = [
     points = np.concatenate([np.linalg.eigvals(np.array(A_number(mv, 1.0), dtype=complex))
                              for mv in mass_path])
     largest_growth = max(abs(points.imag))
-    report("largest |imaginary part| on the path (at m = 0, 3H)", f"{largest_growth:.9f}")
+    report("largest |imaginary part| on the path (reached at m = 0)",
+           f"{largest_growth:.9f}")
     check(abs(largest_growth - 3.0) < 1e-9, "at m = 0 the growth rate is 3H")
     fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.2))
     dots = left.scatter(points.real, points.imag, c=np.repeat(mass_path, 16),
@@ -508,9 +535,10 @@ CELLS = [
     left.set_xlabel("real part")
     left.set_ylabel("imaginary part")
     left.set_title("Eigenvalues of $A$, $H = 1$")
+    mass_fine = np.linspace(0.0, 5.0, 501)  # a finer grid for the smooth curves
     for a_value, style in ((0.0, "-"), (0.5, "--"), (1.0, ":")):
-        rate = np.sqrt(np.maximum(9 * (2 * a_value + 1) ** 2 - mass_path**2, 0.0))
-        right.plot(mass_path, rate, style, label=f"$\\alpha = {a_value:g}$")
+        rate = np.sqrt(np.maximum(9 * (2 * a_value + 1) ** 2 - mass_fine**2, 0.0))
+        right.plot(mass_fine, rate, style, label=f"$\\alpha = {a_value:g}$")
     right.axvline(3.0, color="gray", linewidth=0.8)
     right.set_xlabel("mass $m$ (units of $H$)")
     right.set_ylabel("growth rate $k$ (units of $H$)")

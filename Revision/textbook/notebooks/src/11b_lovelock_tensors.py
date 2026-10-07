@@ -31,6 +31,7 @@ FIGURES = [
     "curvature_of_planes",
     "riemann_matrix",
     "mixing_terms_cancel",
+    "lovelock_component_tables",
 ]
 
 RESULTS = "Revision/gkd_lovelock/results"
@@ -40,17 +41,22 @@ FACTS = {
     "name": "11b_lovelock_tensors",
     "title": "The three Lovelock tensors of the author's metric, computed with GKD",
     "purpose": (
-        "It builds and runs the Revision Rust program lovelock_gkd, which computes "
-        "exactly the curvature of the author's metric and the three Lovelock tensors of "
-        "Lovelock's equation (4.38) in eight dimensions with GKD, and checks that its "
-        "four output files are byte for byte the committed Revision records; then it "
+        "It builds the Revision Rust program lovelock_gkd with cargo inside the "
+        "notebook (about a minute when the program file is missing, about a second when "
+        "it is up to date) and runs it; the program computes exactly the curvature of "
+        "the author's metric and the three Lovelock tensors of Lovelock's equation "
+        "(4.38) in eight dimensions with GKD, and the notebook checks that its four "
+        "output files are byte for byte the committed Revision records. Then it "
         "recomputes the Riemann tensor with sympy and the three Lovelock tensors and "
         "scalars with its own Python GKD sum, compares every component exactly with the "
-        "records, reproduces the counters of the Rust sums, and checks that the first "
-        "Lovelock tensor is -4 times the Einstein tensor, the second -8 times the "
-        "Gauss-Bonnet tensor, the third scalar 8 times the cubic Lovelock density, that "
-        "the traces obey the trace identity and that the fourth tensor vanishes; it "
-        "draws four teaching figures. The Rust program writes its four output files "
+        "records, reproduces the counters of the Rust sums, repeats the sums of orders "
+        "1 and 2 literally without skipping any term, derives and checks the expansion "
+        "of every Lovelock tensor along the column of its free upper label, and checks "
+        "that the first Lovelock tensor is -4 times the Einstein tensor, the second -8 "
+        "times the Gauss-Bonnet tensor, the third scalar 8 times the cubic Lovelock "
+        "density, that the traces obey the trace identity and that the fourth tensor "
+        "vanishes; it draws five teaching figures, among them the components of the "
+        "three tensors. The Rust program writes its four output files "
         "(curvature.json, lovelock-tensors.json, lovelock-components.md and "
         "lovelock-report.json) into the folder "
         "`Revision/gkd_lovelock/code/target/textbook_11b`, inside the Rust build folder, "
@@ -73,23 +79,23 @@ FACTS = {
          "the counters recomputed"],
         [f"{RESULTS}/python-lovelock-report.json",
          "the independent sympy verification (49 checks); its checks on the Riemann "
-         "tensor, on the Rust components and on the Einstein, Gauss-Bonnet and cubic "
-         "identities are reproduced"],
+         "tensor, on the Rust components, on the literal unpruned sums of orders 1 and "
+         "2 and on the Einstein, Gauss-Bonnet and cubic identities are reproduced"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [
         {"manifest": "Revision/gkd_lovelock/code/Cargo.toml",
          "binaries": ["lovelock_gkd"], "build_minutes": 1},
     ],
-    "expected_seconds": 60,
+    "expected_seconds": 90,
     "timeout_seconds": 900,
     "files_written": ["Revision/textbook/figures/11b.captions.json"] + [
         f"Revision/textbook/figures/11b_{k}_{name}.png"
         for k, name in enumerate(FIGURES, 1)
     ],
     "final_lines": [
-        "PASS all four figure files of the notebook exist",
-        "ALL 29 CHECKS PASSED (notebook 11b)",
+        "PASS all five figure files of the notebook exist",
+        "ALL 33 CHECKS PASSED (notebook 11b)",
     ],
     "troubleshooting": [
         ["AssertionError: check failed: the program wrote curvature.json equal to the "
@@ -126,11 +132,19 @@ CELLS = [
     - recomputes the three Lovelock tensors and the three Lovelock scalars in Python
       with its own GKD sum and its own exact polynomial arithmetic, reproduces the
       counters of the Rust sums, and compares all $3 \times 64$ components exactly;
-    - checks three classical identities: $P_{(1)} = -4\,G$ (Einstein), $P_{(2)} = -8\,H$
-      with the Gauss-Bonnet tensor $H$, and $L_{(3)} = 8 \times$ the cubic Lovelock
-      density; the trace identities; and $P_{(4)} = 0$.
+    - repeats the sums of orders 1 and 2 LITERALLY, calling GKD on every ordered
+      product of curvature entries without skipping anything, and finds the same
+      tensors: the skipping changes nothing;
+    - derives, line by line, the expansion of every Lovelock tensor along the column
+      of its free upper label, and checks it exactly for $k = 1, 2, 3$;
+    - checks three classical identities: $P_{(1)} = -4\,G$ (Einstein),
+      $P_{(2)} = -8\,\mathcal{H}$ with the Gauss-Bonnet tensor $\mathcal{H}$, and
+      $L_{(3)} = 8 \times$ the cubic Lovelock density; the trace identities; and
+      $P_{(4)} = 0$;
+    - draws the components of the three normalised Lovelock tensors at one moment of
+      a deflating history.
 
-    It draws four figures and takes about one minute.
+    It draws five figures and takes about one and a half minutes.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -162,7 +176,13 @@ CELLS = [
       **Polynomial, monomial**: a polynomial is a sum of monomials, each a number times
       powers of symbols such as $H^2 a_4'^2$; a **Laurent polynomial** may also contain
       negative powers, such as $\cot^{-1}$.
-    - **Brute force**: a computation that tries every case without any shortcut.
+    - **Brute force**, **literal sum**: a computation that tries every case without any
+      shortcut. **Skipping** (pruning): leaving out terms that are known to be zero.
+    - **Expansion of a determinant along a column** (Laplace's rule): the determinant
+      equals the sum, over the entries of one column, of the entry times
+      $(-1)^{\text{row} + \text{column}}$ times the determinant of the smaller matrix
+      that is left when the entry's row and column are removed (its **minor**).
+      Exchanging two neighbouring rows of a matrix changes the sign of its determinant.
     - **Revision record**: a file committed under `Revision/` that holds a result.
       **Byte for byte**: two files equal in every byte.
     """),
@@ -844,6 +864,73 @@ CELLS = [
           "only the 8 diagonal components are nonzero, for k = 1, 2, 3")
     '''),
     md(r"""
+    **The skipping changes nothing: the literal sums of orders 1 and 2.** The sums
+    above leave out every combination in which a label repeats, because GKD is 0 there
+    (Notebook 11a). The next cell does NOT rely on this. For $k = 1$ and $k = 2$ it
+    runs through EVERY ordered list of $k$ of the 156 nonzero entries
+    (`itertools.product(range(156), repeat=k)` gives all $156^k$ of them), builds the
+    lower list $(j_1, \dots, j_{2k})$ and the upper list $(h_1, \dots, h_{2k})$ of the
+    delta, and calls GKD for the scalar and for each of the 64 pairs $(h, j)$, with no
+    test before the call: $65 \cdot 156 = 10140$ calls for $k = 1$ and
+    $65 \cdot 156^2 = 1581840$ calls for $k = 2$, the numbers recorded by the Revision's
+    sympy checker for the same literal sums. The weights are collected per set of
+    entries as before, the products are multiplied out, and the results must equal the
+    tensors and scalars of the skipping sums EXACTLY. The cell takes about 15 seconds.
+    """),
+    code(r'''
+    import itertools  # all ordered lists of k entries
+
+
+    def literal_sum(k):
+        """P_(k) and L_(k) from EVERY ordered list of k nonzero entries, GKD called on
+        every index list without any test; also the number of GKD calls."""
+        pairs = [None] + [(h, j) for h in range(8) for j in range(8)]
+        weights, calls = {}, 0
+        for chosen in itertools.product(range(len(ENTRIES)), repeat=k):
+            lower = [x for i in chosen for x in ENTRIES[i][0][:2]]  # j1, ..., j2k
+            upper = [x for i in chosen for x in ENTRIES[i][0][2:]]  # h1, ..., h2k
+            key = tuple(sorted(chosen))  # the set of entries of this product
+            for pair in pairs:
+                if pair is None:  # the scalar: no free pair
+                    sign = gkd(lower, upper)
+                else:  # the tensor: j first in the lower list, h first in the upper
+                    sign = gkd([pair[1]] + lower, [pair[0]] + upper)
+                calls += 1
+                if sign != 0:
+                    bucket = weights.setdefault(pair, {})
+                    bucket[key] = bucket.get(key, 0) + sign
+        result = {}
+        for pair, bucket in weights.items():
+            total = {}
+            for key, weight in bucket.items():
+                product = ONE
+                for i in key:
+                    product = poly_mul(product, ENTRIES[i][1])
+                total = poly_add(total, product, weight)
+            if total:
+                result[pair] = total
+        return result, calls
+
+
+    record_checks = {c["name"]: c for c in json.loads(repository_file(
+        "Revision/gkd_lovelock/results/python-lovelock-report.json").read_text(
+            encoding="utf-8"))["checks"]}
+    for k in (1, 2):
+        literal, calls = literal_sum(k)
+        recorded = record_checks[f"k{k}_unpruned_literal_sum_agrees"]
+        recorded_calls = int(re.search(r"(\d+) kdelta calls", recorded["detail"]).group(1))
+        say(f"k = {k}: {calls} GKD calls (the record: {recorded_calls})")
+        same = (literal.pop(None, {}) == L[k]
+                and all(literal.get(hj, {}) == P[k].get(hj, {})
+                        for hj in set(literal) | set(P[k])))
+        check(same and calls == recorded_calls == 65 * 156 ** k
+              and recorded["verdict"] == "PASS",
+              f"the literal sum of order {k}, without skipping, gives the same P({k}) "
+              f"and L({k})",
+              record="Revision/gkd_lovelock/results/python-lovelock-report.json, check "
+                     f"k{k}_unpruned_literal_sum_agrees")
+    '''),
+    md(r"""
     **Order 4 is zero.** A term of $P_{(4)}$ needs four curvature entries, that is nine
     labels in each list. The next cell looks at the leaves of order 3: every one of them
     already uses seven DIFFERENT labels in its lower list ($j$ and six more), so a
@@ -1015,11 +1102,105 @@ CELLS = [
                  "L3_equals_8_cubic_lovelock_density")
     '''),
     md(r"""
-    **The trace identity.** Summing $P_{(k)}{}^h{}_h$ over $h$ removes the free pair:
-    expanding the determinant along the column of $h$ and setting $j = h$, the first
-    term gives $8 L_{(k)}$ (eight values of $h$) and each of the $2k$ other terms gives
-    $-L_{(k)}$, so $\sum_h P_{(k)}{}^h{}_h = (8 - 2k)\, L_{(k)}$. The next cell checks it
-    for $k = 1, 2, 3$, and prints the three scalars.
+    **The expansion along the column of $h$, for every order (derived line by line).**
+    The delta of $P_{(k)}$ is the determinant of a $(2k + 1) \times (2k + 1)$ matrix
+    whose rows belong to the lower labels $j, j_1, \dots, j_{2k}$ (in this order) and
+    whose columns belong to the upper labels $h, h_1, \dots, h_{2k}$. Expand it along
+    its first column, the column of $h$ (Laplace's rule, section 3).
+
+    1. The first entry of the column is $\delta^h_j$, in row 1 and column 1: its sign
+       is $(-1)^{1+1} = +1$, and its minor is $\delta^{h_1 \dots h_{2k}}_{j_1 \dots
+       j_{2k}}$. Multiplied by the curvature factors and summed, it gives
+       $\delta^h_j\, L_{(k)}$, by the definition of the scalar.
+    2. The entry in row $r + 1$ ($r = 1, \dots, 2k$) is $\delta^h_{j_r}$, with the sign
+       $(-1)^{(r+1)+1} = (-1)^r$. Its minor has the rows $j, j_1, \dots, j_{r-1},
+       j_{r+1}, \dots, j_{2k}$. Moving the row of $j$ down past the $r - 1$ rows
+       $j_1, \dots, j_{r-1}$ is $r - 1$ exchanges of neighbouring rows, so the minor is
+       $(-1)^{r-1}$ times the delta whose lower list is $j_1, \dots, j_{2k}$ with $j$
+       in place $r$. The two signs give $(-1)^r (-1)^{r-1} = -1$.
+    3. The factor $\delta^h_{j_r}$ is 1 only for $j_r = h$, so the sum over $j_r$
+       puts $h$ into the curvature factor that held $j_r$. Term $r$ is therefore
+       $-\delta^{h_1 \dots h_{2k}}_{j_1 \dots j \dots j_{2k}} R \cdots R$, with $j$ in
+       place $r$ of the delta and $h$ in place $r$ of the upper labels of the factors.
+    4. The $2k$ terms are equal. If $r$ is the second place of its factor
+       $R^{j_{r-1} j_r}{}_{h_{r-1} h_r}$, exchange the rows $r - 1$ and $r$ of the
+       delta (sign $-1$) and write $R^{j_{r-1} h}{}_{\dots} = -R^{h j_{r-1}}{}_{\dots}$
+       (sign $-1$): the term is unchanged and $h$ stands first. If the factor is not
+       the first one, exchange it with the first factor: the product of the factors is
+       unchanged, and in the delta two pairs of rows and the two matching pairs of
+       columns change places; each such exchange of two pairs is two exchanges of two
+       rows (or columns), sign $(-1)^2 = +1$ for the rows and $+1$ for the columns.
+       After renaming the summed labels every term is the term $r = 1$.
+    5. Hence, with $Y_{(k)}{}^h{}_j = \sum \delta^{h_1 \dots h_{2k}}_{j\, j_2 \dots
+       j_{2k}}\, R^{h j_2}{}_{h_1 h_2} R^{j_3 j_4}{}_{h_3 h_4} \cdots
+       R^{j_{2k-1} j_{2k}}{}_{h_{2k-1} h_{2k}}$,
+
+    $$P_{(k)}{}^h{}_j = \delta^h_j\, L_{(k)} - 2k\, Y_{(k)}{}^h{}_j .$$
+
+    For $k = 1$: $Y_{(1)}{}^h{}_j = \delta^{h_1 h_2}_{j j_2} R^{h j_2}{}_{h_1 h_2} =
+    R^{h j_2}{}_{j j_2} - R^{h j_2}{}_{j_2 j} = 2 R^h{}_j$, and $P_{(1)} = 2R\,\delta
+    - 4 R^h{}_j = -4G$, the result above. The next cell computes $Y_{(k)}$ for
+    $k = 1, 2, 3$ with GKD (the sum of section 8, with the first entry required to
+    carry the upper label $h$) and checks the expansion for all 64 components exactly.
+    """),
+    code(r'''
+    def expansion_sum(k):
+        """Y_(k)^h_j as {(h, j): polynomial}: like lovelock_sum, but the first entry
+        R^{h j2}_{h1 h2} must have the upper label h, and the delta has the lower list
+        (j, j2, ..., j2k) and the upper list (h1, ..., h2k)."""
+        result = {}
+        for h in range(8):
+            first = [i for i, (key, _) in enumerate(ENTRIES) if key[0] == h]
+            for j in range(8):
+                bucket = {}
+                stack = []
+                for i in first:  # the first factor R^{h j2}_{h1 h2}
+                    a, b, c, d = ENTRIES[i][0]
+                    if b != j:  # j2 = j would repeat j in the lower list: GKD = 0
+                        stack.append(((i,), (1 << j) | (1 << b), (1 << c) | (1 << d)))
+                while stack:
+                    chosen, lower_mask, upper_mask = stack.pop()
+                    if len(chosen) == k:  # a leaf
+                        if lower_mask != upper_mask:
+                            continue  # a lower label is missing above: GKD = 0
+                        lower = [j, ENTRIES[chosen[0]][0][1]] + [
+                            x for i in chosen[1:] for x in ENTRIES[i][0][:2]]
+                        upper = [x for i in chosen for x in ENTRIES[i][0][2:]]
+                        sign = gkd(lower, upper)
+                        if sign != 0:
+                            key = tuple(sorted(chosen))
+                            bucket[key] = bucket.get(key, 0) + sign
+                        continue
+                    free = np.nonzero(((LOWER_MASK & lower_mask) == 0)
+                                      & ((UPPER_MASK & upper_mask) == 0))[0]
+                    for i in free:
+                        stack.append((chosen + (int(i),), lower_mask | int(LOWER_MASK[i]),
+                                      upper_mask | int(UPPER_MASK[i])))
+                total = {}
+                for key, weight in bucket.items():
+                    product = ONE
+                    for i in key:
+                        product = poly_mul(product, ENTRIES[i][1])
+                    total = poly_add(total, product, weight)
+                result[h, j] = total
+        return result
+
+
+    Y = {k: expansion_sum(k) for k in (1, 2, 3)}
+    expansion_holds = all(
+        P[k].get((h, j), {})
+        == poly_add(poly_mul(delta[h, j], L[k]), Y[k][h, j], -2 * k)
+        for k in (1, 2, 3) for h in range(8) for j in range(8))
+    check(expansion_holds and all(Y[1][hj] == poly_add({}, RIC[hj], 2) for hj in RIC),
+          "P(k) = delta L(k) - 2k Y(k) for all 64 components, k = 1, 2, 3; Y(1) = 2 Ric")
+    '''),
+    md(r"""
+    **The trace identity.** Set $j = h$ in the expansion and sum over $h$. The first
+    term gives $\sum_h \delta^h_h\, L_{(k)} = 8\, L_{(k)}$ (eight values of $h$). In
+    $\sum_h Y_{(k)}{}^h{}_h$ the label $h$ is summed like $j_1$ in the definition of
+    the scalar; renaming it $j_1$ gives exactly $L_{(k)}$. So
+    $\sum_h P_{(k)}{}^h{}_h = 8 L_{(k)} - 2k\, L_{(k)} = (8 - 2k)\, L_{(k)}$. The next
+    cell checks it for $k = 1, 2, 3$, and prints the three scalars.
     """),
     code(r'''
     def show(p):
@@ -1036,19 +1217,94 @@ CELLS = [
               record=f"{RESULTS}/lovelock-report.json, check k{k}_trace_identity")
     '''),
     md(r"""
-    The last cell checks that all four figure files exist and prints the number of
+    ## 10. The components of the three tensors at one moment
+
+    The field equations of $a_4$ (chapter 12) use the normalised tensors
+    $E_{(k)} = -P_{(k)}/2^{k+1}$ of section 4. The next cell draws all 64 components
+    of $E_{(1)}$ (Einstein's tensor $G$), $E_{(2)}$ and $E_{(3)}$ as three
+    $8 \times 8$ tables, at the moment $a_4' = 2H$, $a_4'' = H^2$ of a deflating
+    history (the same moment as the right table of the plane curvatures), in units of
+    $H^2$, $H^4$ and $H^6$ (that is, with $H = 1$). Each square shows the number of row
+    $h$ and column $j$; red is positive, blue negative, white zero, and each table has
+    its own colour scale (its largest value is the darkest colour). The tables show what
+    sections 7 and 8 proved: only the diagonal is filled, the $x_4$-$x_8$ squares are
+    zero, the three space entries are equal, the three extra-time entries are equal,
+    and the hidden entry $x_8$ lies halfway between the space and the extra-time entry.
+    """),
+    code(r'''
+    def poly_value(p, h, a1, a2, cot=1):
+        """The exact value (a Fraction) of the polynomial dict p at H = h, a4' = a1,
+        a4'' = a2 and cot z = cot (whole numbers or fractions)."""
+        total = Fraction(0)
+        for (e_h, e_1, e_2, e_c), coefficient in p.items():
+            total += (coefficient * Fraction(h) ** e_h * Fraction(a1) ** e_1
+                      * Fraction(a2) ** e_2 * Fraction(cot) ** e_c)
+        return total
+
+
+    fig, axes = plt.subplots(1, 3, figsize=(13.5, 4.6))
+    tables = {}
+    for ax, k in zip(axes, (1, 2, 3)):
+        scale = Fraction(-1, 2 ** (k + 1))  # E_(k) = -P_(k) / 2^(k+1)
+        # every component at a4' = 2H, a4'' = H^2 with H = 1, exactly, then as a decimal
+        table = np.array([[float(scale * poly_value(P[k].get((h, j), {}), 1, 2, 1))
+                           for j in range(8)] for h in range(8)])
+        tables[k] = table
+        largest = np.abs(table).max()
+        ax.imshow(table, cmap="RdBu_r", vmin=-largest, vmax=largest)
+        for h in range(8):
+            for j in range(8):
+                if h != j:
+                    colour = "0.6"  # grey zeros off the diagonal
+                elif abs(table[h, j]) > 0.6 * largest:
+                    colour = "white"  # white on the darkest squares, to stay readable
+                else:
+                    colour = "black"
+                ax.text(j, h, f"{table[h, j]:g}", ha="center", va="center",
+                        fontsize=6.5 if h == j else 6, color=colour)
+        ax.set_xticks(range(8), NAMES)
+        ax.set_yticks(range(8), NAMES)
+        ax.set_xlabel("lower label $j$")
+        ax.set_ylabel("upper label $h$")
+        ax.set_title(f"$E_{{({k})}}{{}}^h{{}}_j$ in units of $H^{{{2 * k}}}$")
+        ax.grid(False)
+    fig.tight_layout()
+    save_figure(fig, "lovelock_component_tables",
+                "All 64 components $E_{(k)}{}^h{}_j$ of the normalised Lovelock tensors "
+                "$E_{(1)} = G$ (left), $E_{(2)}$ (middle) and $E_{(3)}$ (right) of the "
+                "author's metric at the moment $a_4^{\\prime} = 2H$, "
+                "$a_4^{\\prime\\prime} = H^2$ of a deflating history, in units of $H^2$, "
+                "$H^4$ and $H^6$; row $h$, column $j$; red positive, blue negative, white "
+                "zero, each table on its own colour scale. Only the diagonal is filled, "
+                "so the $x_4$-$x_8$ components vanish; the three space entries are equal, "
+                "the three extra-time entries are equal, and the hidden entry is their "
+                "mean, for example $(4 + 2)/2 = 3$ for Einstein's tensor.")
+    diagonal_ok = all(
+        np.count_nonzero(tables[k] - np.diag(np.diag(tables[k]))) == 0
+        and tables[k][0, 0] == tables[k][1, 1] == tables[k][2, 2]
+        and tables[k][4, 4] == tables[k][5, 5] == tables[k][6, 6]
+        and tables[k][7, 7] == (tables[k][0, 0] + tables[k][4, 4]) / 2
+        for k in (1, 2, 3))
+    say("diagonals (x1 ... x8): " + "; ".join(
+        f"E({k}): " + " ".join(f"{v:g}" for v in np.diag(tables[k])) for k in (1, 2, 3)))
+    check(diagonal_ok and list(np.diag(tables[1])) == [4, 4, 4, 33, 2, 2, 2, 3],
+          "at a4' = 2H, a4'' = H^2: only diagonal entries, space and extra-time entries "
+          "equal, hidden entry their mean; G = diag(4, 4, 4, 33, 2, 2, 2, 3) H^2")
+    '''),
+    md(r"""
+    The last cell checks that all five figure files exist and prints the number of
     checks that passed.
     """),
     code(r'''
     figure_files = [f"11b_{k}_{name}.png" for k, name in enumerate(
         ["work_of_the_sums", "curvature_of_planes", "riemann_matrix",
-         "mixing_terms_cancel"], 1)]
+         "mixing_terms_cancel", "lovelock_component_tables"], 1)]
     check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in figure_files),
-          "all four figure files of the notebook exist")
+          "all five figure files of the notebook exist")
     all_checks_passed()
     '''),
     md(r"""
-    ## 10. What this notebook showed
+    ## 11. What this notebook showed
 
     - The Revision Rust program `lovelock_gkd`, built here, computed the curvature and
       the three Lovelock tensors of the author's metric, passed its 19 checks (including
@@ -1064,11 +1320,19 @@ CELLS = [
       order 3 from about $4.4 \times 10^{12}$ terms to 495,360 GKD calls; a Python
       implementation of the same plan, written independently, reproduces every counter
       of the Rust program and all $3 \times 64$ components and the three scalars exactly.
-    - Only the eight diagonal components of each Lovelock tensor are nonzero. Order 1 is
+      The literal sums of orders 1 and 2, with GKD called on every one of 10,140 and
+      1,581,840 index lists and nothing skipped, give the same tensors: the skipping
+      changes nothing.
+    - Every Lovelock tensor expands along the column of its free upper label as
+      $P_{(k)} = \delta\, L_{(k)} - 2k\, Y_{(k)}$ (derived line by line and checked
+      exactly for $k = 1, 2, 3$); for $k = 1$ this gives Einstein's tensor, and for
+      every $k$ the trace identity $\sum_h P_{(k)}{}^h{}_h = (8 - 2k) L_{(k)}$.
+    - Only the eight diagonal components of each Lovelock tensor are nonzero; at a
+      moment of a deflating history the three space entries are equal, the three
+      extra-time entries are equal and the hidden entry is their mean. Order 1 is
       $-4$ times Einstein's tensor, order 2 is $-8$ times the Gauss-Bonnet tensor, the
-      third scalar is 8 times the cubic Lovelock density, the traces obey
-      $\sum_h P_{(k)}{}^h{}_h = (8 - 2k) L_{(k)}$, and $P_{(4)} = 0$ (PROVED by exact
-      computation).
+      third scalar is 8 times the cubic Lovelock density, and $P_{(4)} = 0$ (PROVED by
+      exact computation).
     """),
 ]
 

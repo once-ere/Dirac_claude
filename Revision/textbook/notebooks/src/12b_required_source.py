@@ -65,7 +65,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all eight figure files exist",
-        "ALL 23 CHECKS PASSED (notebook 12b)",
+        "ALL 24 CHECKS PASSED (notebook 12b)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" naming a4-equations.json",
@@ -152,9 +152,14 @@ CELLS = [
     The next cell defines the helpers that read the Revision records: `read_json`
     reads a JSON file of the repository, `record_verdict` finds a check by its name in
     a report, and `reproduces` is a check that passes only when this notebook's own
-    result holds AND the record lists the named check with the verdict PASS.
+    result holds AND the record lists the named check with the verdict PASS; it
+    collects its two printed lines (PASS and reproduces) in a text buffer and prints
+    them with one call, so that they always stay together in the output.
     """),
     code(r'''
+    import contextlib  # redirect_stdout: send printed lines into a buffer
+    import io  # StringIO: a text buffer in memory
+
     PY = "Revision/field_equations_a4/reports/python-a4-report.json"  # sympy record
     WL = "Revision/field_equations_a4/reports/wolfram-a4-report.json"  # Wolfram record
     LEAD = "Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json"  # lead check
@@ -175,9 +180,14 @@ CELLS = [
 
 
     def reproduces(condition, name, report_file, record_name):
-        """A check that also requires the record check record_name to be PASS."""
+        """A check that also requires the record check record_name to be PASS.  Its
+        printed lines (PASS and reproduces) are collected in a text buffer and printed
+        by one print call, so that they always stay together in the cell's output."""
         found = record_verdict(report_file, record_name) == "PASS"
-        check(condition and found, name, record=f"{report_file}, check {record_name}")
+        lines = io.StringIO()  # a text buffer
+        with contextlib.redirect_stdout(lines):  # print() now writes into the buffer
+            check(condition and found, name, record=f"{report_file}, check {record_name}")
+        print(lines.getvalue(), end="")  # all lines at once
 
 
     record = read_json(EQUATIONS)
@@ -603,7 +613,9 @@ CELLS = [
 
     The next cell checks this equivalence with sympy, then solves for $A^2$ in units
     $H = \kappa = 1$: $S = -(36 + 2\Lambda)/m$ and
-    $A^2 = 5 + \Lambda/3 - \lambda S^2/6$.
+    $A^2 = 5 + \Lambda/3 - \lambda S^2/6$. For the two worked examples it also prints
+    the density $S$ and the effective mass $M = m + \lambda S$ that the condensate
+    must have.
     """),
     code(r'''
     m, lam, S = sp.symbols("m lam S", real=True)  # mass, coupling lambda, density S
@@ -627,6 +639,13 @@ CELLS = [
     report("m = 5, lambda = 0, Lambda = 0: A^2", example_1)
     report("m = -15, lambda = 25/6, Lambda = 0: A^2", example_2)
     check(example_1 == 5 and example_2 == 1, "the two worked examples: A^2 = 5 and A^2 = 1")
+    effective = []  # the effective mass M = m + lambda S of each example
+    for mass, coupling in ((5, 0), (-15, sp.Rational(25, 6))):
+        S_value = S_solution.subs({m: mass, Lam: 0})  # the density the example needs
+        effective.append(mass + coupling * S_value)
+        report(f"m = {mass}, lambda = {coupling}: S and M = m + lambda S",
+               f"{S_value}, {effective[-1]}")
+    check(effective == [5, -5], "the examples need M = 5 (S < 0) and M = -5 (S > 0)")
     '''),
     md(r"""
     The record also lists every off-diagonal kinetic component of the condensate: each
@@ -677,13 +696,15 @@ CELLS = [
                 "$\\pm A$ are allowed.")
     '''),
     md(r"""
-    **What is and is not established here.** The two conditions above are PROVED
-    consequences of the field equations for a condensate source. Whether a particular
-    condensate, with its 15 three-gamma bilinears equal to zero, meets them for given
-    $m$, $\lambda$ and $\Lambda$ is OPEN: the Revision record has exact condensates with
-    all 15 bilinears zero, but it contains no check that combines one of them with
-    these Einstein conditions. With $\Lambda = 0$ the required energy density is
-    $\kappa\rho = -(21 + 3A^2)H^2 < 0$, so such a source would have negative energy.
+    **What is established here, and where it is completed.** The two conditions above
+    are PROVED consequences of the field equations for a condensate source. The
+    Revision record has exact condensates with all 15 bilinears zero, but it contains
+    no check that combines one of them with these Einstein conditions. Notebook 12d of
+    this chapter does that combination: it builds condensates with all 15 bilinears
+    zero and exactly the values $(M, S) = (5, -36/5)$ and $(-5, 12/5)$ of the two worked
+    examples, and checks every field equation exactly (a computation of the textbook,
+    not a Revision record). With $\Lambda = 0$ the required energy density is
+    $\kappa\rho = -(21 + 3A^2)H^2 < 0$: such a source has negative energy.
     """),
     md(r"""
     ## 10. The last check
@@ -718,7 +739,8 @@ CELLS = [
       Einstein-Gauss-Bonnet gravity only when $0 < \alpha_2 H^2 \le 1/40$ (PROVED).
     - A homogeneous dirac16complex00 condensate as the source needs
       $\kappa mS = -(36H^2 + 2\Lambda)$ and $6(A^2 + 1)H^2 = -\kappa S(m + \lambda S)$
-      (PROVED); that a specific condensate meets them is OPEN.
+      (PROVED); the two worked examples need $(M, S) = (5, -36/5)$ and $(-5, 12/5)$,
+      and Notebook 12d builds condensates that meet them exactly.
     """),
 ]
 

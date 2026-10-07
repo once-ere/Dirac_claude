@@ -761,8 +761,9 @@ CELLS = [
     - The classical COMMUTING field dirac16complex00 has positive-frequency waves of
       energy density $+5$ and $-5$ for the same momentum: its classical energy is
       unbounded below already for $U = 0$ in the good sector (reproduced), and its
-      charge is indefinite. That is why the quantum statements of this chapter are made
-      for the fermion field dirac16complex.
+      charge is indefinite. The quantum statements of this chapter concern only the
+      fermion field dirac16complex: the author defines dirac16complex00 as a classical
+      ("semi-classical") field, and the Revision record does not quantise it.
     - SCOPE: the positive Fock space is built for single good-sector momenta with frozen
       coefficients (flat space). A positive-norm Hilbert space for the whole field, the
       extra-time sector with its growing waves, and the interacting theory ($\lambda

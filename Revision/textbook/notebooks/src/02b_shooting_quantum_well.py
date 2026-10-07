@@ -384,7 +384,8 @@ CELLS = [
                 "from 5 and 15, on a logarithmic vertical axis (pure numbers); errors "
                 "of exactly zero are drawn at $10^{-17}$. Bisection follows the "
                 "dotted line of the halving bracket, one binary digit per step, and "
-                "needs about 45 steps for 15 digits; the secant rule reaches the "
+                "after 45 steps it is still about $10^{-13}$ away (the bracket is "
+                "$10/2^{45} = 2.8 \\times 10^{-13}$ wide); the secant rule reaches the "
                 "rounding level in about 9 steps, its error falling faster and faster.")
     check(bis[:6] == [10.0, 7.5, 8.75, 9.375, 9.6875, 9.84375],
           "the bisection midpoints 10, 7.5, 8.75, 9.375, 9.6875, 9.84375")
@@ -426,6 +427,7 @@ CELLS = [
         if lo >= Z0:
             break
         g, parity = (g_even, "even") if j % 2 == 0 else (g_odd, "odd")
+        # the root inside the interval (lo, hi), searched a hair away from its ends
         z = mpmath.findroot(g, (lo + mpmath.mpf("1e-20"), hi - mpmath.mpf("1e-20")),
                             solver="anderson")
         EXACT.append((z ** 2 / (2 * A ** 2) - V0, parity, z))
@@ -546,6 +548,7 @@ CELLS = [
         """The four energies with n RK4 steps: scan, then bisection on the brackets."""
         lo, hi, even = [], [], []
         for values, is_even in ((F_even(E_scan, n), True), (F_odd(E_scan, n), False)):
+            # the places i where the sign of the mismatch differs from that at i + 1
             for i in np.nonzero(np.sign(values[:-1]) != np.sign(values[1:]))[0]:
                 lo.append(E_scan[i])
                 hi.append(E_scan[i + 1])
@@ -601,7 +604,7 @@ CELLS = [
             x = x_start + i * h
             V = -V0 if abs(x + h / 2) < A else 0.0  # the potential of this step
 
-            def f(x_value, Y_value, V=V):
+            def f(x_value, Y_value, V=V):  # V=V freezes this step's potential in f
                 return np.array([Y_value[1], 2.0 * (V - E) * Y_value[0]])
             Y = rk4_step(f, x, Y, h)
             xs.append(x + h)
@@ -647,8 +650,12 @@ CELLS = [
     Simpson's rule inside (an integration rule with error $\propto h^4$) and the
     exact tail integral $\int_{-\infty}^{-a} e^{2\kappa(x + a)} dx = 1/(2\kappa)$.
     It draws each wave function lifted to the height of its energy, inside the
-    drawing of the potential, counts the nodes, and checks that two different
-    states are orthogonal.
+    drawing of the potential, counts the nodes, and checks the normalisation and
+    the orthogonality. For an even and an odd state the product $u_m u_n$ is odd
+    (it changes sign when $x$ is replaced by $-x$), so the contributions of the
+    left and the right half cancel and its integral is exactly zero; for two states
+    of the same parity the cell computes the integral (twice the left half: Simpson
+    inside, the exact tail $u_m(-a) u_n(-a)/(\kappa_m + \kappa_n)$ outside).
     """),
     code(r'''
     def simpson(values, h):
@@ -791,8 +798,9 @@ CELLS = [
       end, and find the zeros of the shooting function.
     - For the string $u'' = -\lambda u$, $u(0) = u(1) = 0$, the RK4 shooting function
       equals $\sin\sqrt{\lambda}/\sqrt{\lambda}$ and its zeros are
-      $\lambda_n = n^2\pi^2$. Bisection gains one binary digit per step (45 steps
-      for 15 digits); the secant rule needs about 9 steps.
+      $\lambda_n = n^2\pi^2$. Bisection gains one binary digit per step (after 45
+      steps the bracket is still $2.8 \times 10^{-13}$ wide); the secant rule
+      reaches the rounding level in about 9 steps.
     - The finite square well of depth 15 and half-width 1 has exactly four bound
       states, alternately even and odd, with $n$ nodes in the state $n$; shooting
       with RK4 and the parity conditions $u'(0) = 0$ or $u(0) = 0$ at the centre

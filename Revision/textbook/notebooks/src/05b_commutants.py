@@ -66,7 +66,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS the five figure files of notebook 05b exist",
-        "ALL 16 CHECKS PASSED (notebook 05b)",
+        "ALL 17 CHECKS PASSED (notebook 05b)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" naming `Revision/algebra/gammas.json`",
@@ -658,11 +658,20 @@ CELLS = [
     returned them, and $P_-$ and $P_+$. The basis matrices may look different from the
     projectors (sympy picks its own basis); the check above showed that both pairs span
     the same space: every matrix that commutes with all $S^{ab}$ is $pP_- + qP_+$, a
-    number $p$ on the first half and a number $q$ on the second.
+    number $p$ on the first half and a number $q$ on the second. Before drawing, the
+    cell checks what the caption of the picture states about the two basis matrices:
+    each is diagonal, has no negative entry and is constant on each half.
     """),
     code(r'''
     from matplotlib.colors import LinearSegmentedColormap
 
+    # What the caption below says about the two basis matrices, checked: each is
+    # diagonal, has no negative entry, and is constant on each half (rows 1-8, 9-16).
+    shapes_ok = all(np.array_equal(b, np.diag(np.diag(b))) and b.min() >= 0
+                    and len(set(np.diag(b)[:8].tolist())) == 1
+                    and len(set(np.diag(b)[8:].tolist())) == 1 for b in basis_spin)
+    check(shapes_ok, "the two basis matrices are diagonal, nonnegative and constant on "
+          "each half")
     SIGNS = LinearSegmentedColormap.from_list("signs", ["#2a78d6", "#f0efec", "#e34948"])
     pictures = [(basis_spin[0], "sympy basis matrix 1"),
                 (basis_spin[1], "sympy basis matrix 2"),

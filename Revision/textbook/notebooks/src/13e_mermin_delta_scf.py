@@ -36,14 +36,20 @@ FACTS = {
         "It checks the Gibbs principle and Klein's inequality on the 16 states of the "
         "two-site model with 2000 random density operators, shows that the Gibbs state "
         "of non-interacting fermions factorises into independent orbitals with "
-        "Fermi-Dirac occupations, finds the chemical potential by bisection, computes "
+        "Fermi-Dirac occupations, finds the chemical potential by bisection (and reads "
+        "the rule by which the Revision Kohn-Sham solver fixes it), computes "
         "the free energy, energy, entropy and heat capacity of a two-level system (the "
         "worked numbers 0.731059, 1.164406, -0.313262, 0.393224) and of a ladder of "
         "levels with checks of dF/dT = -S and of the variance formula for the heat "
         "capacity, and checks Janak's theorem and the Delta-SCF integral formula on a "
         "model energy, with seven teaching plots."
     ),
-    "records": [],
+    "records": [
+        ["Revision/kohn_sham/results/parameters.json",
+         "the rule by which the Revision Kohn-Sham solver fixes the chemical potential "
+         "(conventions, merminRoot: mu from sum g f = N, balancing thermal particles "
+         "and holes), which the notebook reads and checks"],
+    ],
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [],
     "expected_seconds": 5,
@@ -54,9 +60,15 @@ FACTS = {
     ],
     "final_lines": [
         "PASS the figure file 13e_7_janak_delta_scf.png exists",
-        "ALL 23 CHECKS PASSED (notebook 13e)",
+        "ALL 24 CHECKS PASSED (notebook 13e)",
     ],
-    "troubleshooting": [],
+    "troubleshooting": [
+        ["\"FileNotFoundError\" for `parameters.json`",
+         "the notebook reads the file `Revision/kohn_sham/results/parameters.json` of "
+         "the repository; it must be opened inside the folder "
+         "`Revision/textbook/notebooks` of a complete clone of the repository, not as "
+         "a single downloaded file."],
+    ],
 }
 
 CELLS = [
@@ -140,9 +152,10 @@ CELLS = [
 
     **Status.** Exact finite-dimensional statements (PROVED: they follow from the
     definitions; this notebook checks each one to rounding); toy numbers, no Revision
-    record. The Revision Kohn-Sham solver uses the same Mermin occupations with $\mu$
-    fixed by $\sum g f = N$. That a Delta-SCF state approximates a true excited state is
-    an ASSUMPTION of the method; Janak's theorem itself is exact.
+    number is reproduced. The Revision Kohn-Sham solver uses the same Mermin
+    occupations with $\mu$ fixed by $\sum g f = N$; section 8 reads this rule from the
+    solver's parameter file. That a Delta-SCF state approximates a true excited state
+    is an ASSUMPTION of the method; Janak's theorem itself is exact.
     """),
     md(r"""
     ## 5. The Gibbs principle on the two-site model
@@ -327,9 +340,13 @@ CELLS = [
     ## 8. Two levels, one particle: the chemical potential by bisection
 
     Two levels $\epsilon_0 = 0$, $\epsilon_1 = 1$ (one state each), one particle,
-    $T = 1/2$. The next cell finds $\mu$ by bisection on $f_0 + f_1 - 1$, starting from
-    the interval $[-5, 5]$, recording the width of the interval at every step, and
-    computes the worked numbers of the chapter. The entropy of one state of energy
+    $T = 1/2$. The next cell finds $\mu$ by bisection on $f_0 + f_1 - 1$, recording the
+    width of the interval at every step, and computes the worked numbers of the
+    chapter. The bisection starts from an interval that surely contains $\mu$: from the
+    lowest level minus $50T + 5$ to the highest level plus 5, here $[-30, 6]$. At its
+    lower end every occupation is below $e^{-50}$, so the levels hold fewer than $N$
+    particles; at its upper end they hold almost all their states (here nearly 2),
+    more than $N = 1$. The entropy of one state of energy
     $\epsilon$ is $-f\ln f - (1 - f)\ln(1 - f)$; with $x = (\epsilon - \mu)/T$ it equals
     $\ln(1 + e^{-|x|}) + |x|\,f(|x|)$ (insert $f = 1/(e^x + 1)$ and simplify), a form
     without $\ln 0$ that the cell uses.
@@ -372,6 +389,29 @@ CELLS = [
           "mu = 1/2, f_0 = 0.731059, f_1 = 0.268941")
     check(abs(E2 - 0.268941) < 1e-6 and abs(S2 - 1.164406) < 1e-6
           and abs(F2 + 0.313262) < 1e-6, "E = 0.268941, S = 1.164406, F = -0.313262")
+    '''),
+    md(r"""
+    The Revision Kohn-Sham solver of the dirac16complex field fixes its chemical
+    potential by the same condition $\sum g f = N$. The next cell reads how from the
+    solver's parameter file. With many particles the direct difference
+    $\sum g f - N$ loses digits (two large, nearly equal numbers are subtracted), so the
+    solver splits the levels at a dividing point and balances the thermally excited
+    particles above it against the holes below it; a hole is counted with $f(-x)$,
+    which equals $1 - f(x)$ (section 7) but is computed without a subtraction. It
+    finds the root of this balance, written with logarithms (the form it calls
+    LogBalance), by Newton steps safeguarded by bisection.
+    """),
+    code(r'''
+    parameters = json.loads(repository_file(
+        "Revision/kohn_sham/results/parameters.json").read_text(encoding="utf-8"))
+    root_rule = parameters["conventions"]["merminRoot"]  # a sentence of the record
+    root_form = parameters["numerics"]["merminRoot"]  # the name of the canonical form
+    say(f"Revision solver: canonical root form {root_form}")
+    check(root_rule.startswith("mu from sum g f = N")
+          and "holes below a split of the levels" in root_rule
+          and root_form == "LogBalance",
+          "the Revision solver fixes mu by sum g f = N, balancing particles and holes "
+          "(Revision/kohn_sham/results/parameters.json, conventions merminRoot)")
     '''),
     md(r"""
     The next cell computes $dF/dT$ and $dE/dT$ by central differences (with $\mu$ solved

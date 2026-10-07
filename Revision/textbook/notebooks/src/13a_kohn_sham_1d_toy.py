@@ -39,7 +39,9 @@ FACTS = {
         "local exchange of this interaction, no correlation) on a grid, by plain "
         "iteration, by linear mixing and by Anderson mixing with the settings of the "
         "Revision Kohn-Sham solver; it checks the particle number, the two energy "
-        "formulas, the variational principle, the stability of the equal-label solution "
+        "formulas, that the mean-field potential is the functional derivative of the "
+        "interaction energy, the variational principle, the stability of the "
+        "equal-label solution "
         "and the Hellmann-Feynman theorem, compares the result with the Hartree and the "
         "Thomas-Fermi approximations, computes the first excited state by Delta-SCF and "
         "checks Janak's theorem, and draws nine teaching plots."
@@ -60,7 +62,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS the figure file 13a_9_delta_scf.png exists",
-        "ALL 30 CHECKS PASSED (notebook 13a)",
+        "ALL 31 CHECKS PASSED (notebook 13a)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for `parameters.json`",
@@ -155,7 +157,8 @@ CELLS = [
     down, in the trap $v(x) = x^2/2$, with the contact repulsion
     $w(x, x') = g_c\,\delta(x - x')$ of strength $g_c = 2$. The exact ground state would
     be a wave function of eight variables; Kohn-Sham theory replaces it by orbitals of
-    one variable.
+    one variable. (In this notebook the letter $x$ is the position on the line of the
+    toy model; it is not one of the author's spacetime coordinates $x_1, \dots, x_8$.)
 
     **The Kohn-Sham equations of this model.** The orbitals obey
 
@@ -366,6 +369,17 @@ CELLS = [
     dirac16complex field uses this method; the next cell reads its settings (how many
     earlier passes it remembers, its $\beta$ and its tolerance) from the Revision
     parameter file and checks them.
+
+    What the Revision solver mixes is the list of its potentials at every grid point of
+    the hidden direction (the mass shift $M_{eff} - m$, the potential $v_v$, and a third
+    potential used only by one variant), and its residual is, as here, the largest
+    difference between the potentials that come out and those that went in. It solves
+    the same least-squares problem in an equivalent form (with a Lagrange multiplier
+    for the condition that the $c_i$ add up to 1) and adds two safeguards that this
+    small toy does not need: a tiny number ($10^{-12}$ times the largest diagonal
+    entry) on the diagonal of its equations, which keeps them solvable, and a restart
+    of the remembered passes whenever the residual grows to more than ten times the
+    best one so far.
     """),
     code(r'''
     parameters = json.loads(repository_file(
@@ -587,6 +601,34 @@ CELLS = [
     report("total energy E (double counting)", f"{E_double:.6f}")
     check(abs(E_total - E_double) < 1e-9, "the two energy formulas agree")
     check(abs(E_x + 0.5 * E_H) < 1e-12, "E_x = -E_H/2 for two equally occupied labels")
+    '''),
+    md(r"""
+    Section 4 obtained the mean-field potential $w = g_c n/2$ as the **functional
+    derivative** of the interaction energy $E_H + E_x = \tfrac{g_c}{4}\int n^2\,dx$
+    with respect to the density. On the grid this has a concrete meaning that the next
+    cell tests: change the density by a small amount $\epsilon\,\eta(x)$, where $\eta$
+    is any fixed function (here the off-centre bump $\eta(x) = e^{-(x - 1)^2}$); then
+    the interaction energy changes, to first order in $\epsilon$, by
+    $\epsilon\int w\,\eta\,dx$. The cell compares the difference quotient
+    $(E_{Hx}[n + \epsilon\eta] - E_{Hx}[n - \epsilon\eta])/(2\epsilon)$ with
+    $\epsilon = 10^{-4}$ and the integral $\int w\,\eta\,dx$. (Because $E_H + E_x$ is
+    a square of $n$, the difference quotient is exact here up to rounding.)
+    """),
+    code(r'''
+    def interaction_energy(n):
+        """E_H + E_x = (g_c/4) int n^2 dx for two equally occupied labels."""
+        return 0.25 * G_C * integral(n ** 2)
+
+
+    eta = np.exp(-(x - 1.0) ** 2)  # a fixed change of shape, off the centre of the trap
+    epsilon = 1e-4  # the size of the change
+    quotient = (interaction_energy(n_ks + epsilon * eta)
+                - interaction_energy(n_ks - epsilon * eta)) / (2.0 * epsilon)
+    w_ks = 0.5 * G_C * n_ks  # the mean-field potential w = g_c n / 2
+    report("difference quotient of E_H + E_x along eta", f"{quotient:.10f}")
+    report("integral of w eta dx", f"{integral(w_ks * eta):.10f}")
+    check(abs(quotient - integral(w_ks * eta)) < 1e-9,
+          "w = g_c n/2 is the functional derivative of E_H + E_x")
     '''),
     md(r"""
     So far the up and down densities were forced to be equal. Is that solution stable,
@@ -947,7 +989,8 @@ CELLS = [
       with the settings of the Revision solver (depth 6, $\beta = 0.4$, tolerance
       $10^{-11}$) is the fastest without any tuning.
     - The direct energy and the double-counting formula agree; $E_x = -E_H/2$ for two
-      equally occupied labels; the equal-label solution is stable at $g_c = 2$.
+      equally occupied labels; the mean-field potential $g_c n/2$ is the functional
+      derivative of $E_H + E_x$; the equal-label solution is stable at $g_c = 2$.
     - Among a family of trial determinants the self-consistent one has the lowest
       energy, and the energy is flat there (variational principle); the derivative of
       the energy with respect to $g_c$ is $\tfrac14\int n^2\,dx$ (Hellmann-Feynman).

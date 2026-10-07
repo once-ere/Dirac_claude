@@ -60,7 +60,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS the figure file 13c_8_ks_inversion.png exists",
-        "ALL 30 CHECKS PASSED (notebook 13c)",
+        "ALL 33 CHECKS PASSED (notebook 13c)",
     ],
     "troubleshooting": [],
 }
@@ -563,7 +563,8 @@ CELLS = [
                 "$U > 2t$ (dash-dotted; the grey line marks $U = 2t$); energies in "
                 "units of the hopping $t$. Right: the correlation energy, exact minus "
                 "best Hartree-Fock energy, which no single determinant can capture; "
-                "its size grows from zero, is largest at about $U = 3.3t$ (beyond the "
+                "its size grows from zero, is largest at about "
+                f"$U = {fine_U[np.argmin(fine_c)]:.1f}t$ (beyond the "
                 "point $U = 2t$ where restricted and unrestricted Hartree-Fock "
                 "separate) and then falls slowly.")
     '''),
@@ -700,7 +701,17 @@ CELLS = [
     $\Delta - U(n_L - 1)$, with $n_L$ solved self-consistently (by bisection on the
     equation $n_L - 1 = G(n_L - 1)$ with $G(x) = (\Delta - Ux)/\sqrt{(\Delta - Ux)^2 +
     4t^2}$; the left side minus the right side increases with $x$, so the root is
-    unique). Then it draws the exact Kohn-Sham $\Delta_s$ and the mean-field one.
+    unique).
+
+    Then it splits the screening $\Delta_s - \Delta$ of the exact Kohn-Sham potential,
+    AT THE EXACT DENSITY $n_L$, into two parts: the Hartree-exchange part
+    $\Delta_{Hx} = -U(n_L - 1)$ (the mean-field formula evaluated with the exact
+    density) and the rest, the correlation part
+    $\Delta_c = \Delta_s - \Delta - \Delta_{Hx}$. It checks, for $U = 2t$ and $4t$,
+    that $\Delta_c$ has the sign opposite to $\Delta$ for every $\Delta \ne 0$
+    (correlation screens further, in the same direction as Hartree and exchange), and
+    that the self-consistent mean field screens less than the exact Kohn-Sham
+    potential. Finally it draws the curves.
     """),
     code(r'''
     def mean_field_excess(delta, U, t=1.0):
@@ -717,27 +728,46 @@ CELLS = [
 
 
     mf_delta_s = np.array([d - 4.0 * mean_field_excess(d, 4.0) for d in deltas])
-    fig, ax = plt.subplots()
-    ax.plot(deltas, deltas, ":", color="gray", label="$\\Delta_s = \\Delta$ ($U = 0$)")
-    ax.plot(deltas, delta_s[2.0], "--", label="exact Kohn-Sham, $U = 2t$")
-    ax.plot(deltas, delta_s[4.0], color="black", lw=2.0, label="exact Kohn-Sham, "
-            "$U = 4t$")
-    ax.plot(deltas, mf_delta_s, "-.", label="mean field (Hartree + exchange), $U = 4t$")
-    ax.set_xlabel("true site-energy difference $\\Delta$ ($t$)")
-    ax.set_ylabel("Kohn-Sham site-energy difference $\\Delta_s$ ($t$)")
-    ax.set_title("The exact Kohn-Sham potential of two sites")
-    ax.legend(fontsize=8)
-    save_figure(fig, "ks_inversion",
-                "The site-energy difference $\\Delta_s$ that makes non-interacting "
-                "electrons reproduce the exact density of the two-site model, against "
-                "the true difference $\\Delta$ (both in units of $t$): exact "
-                "Kohn-Sham for $U = 2t$ (dashed) and $U = 4t$ (black), the "
-                "non-interacting line $\\Delta_s = \\Delta$ (dotted) and the restricted "
-                "mean-field value for $U = 4t$ (dash-dotted). The interaction screens "
-                "the potential ($|\\Delta_s| < |\\Delta|$); the gap between the black "
-                "and the dash-dotted curve is the correlation part of the exact "
-                "Kohn-Sham potential.")
     nonzero = np.abs(deltas) > 1e-9  # every Delta except 0
+    hx_part = {U: -U * (density_maps[U] - 1.0) for U in (2.0, 4.0)}  # at the exact n_L
+    c_part = {U: delta_s[U] - deltas - hx_part[U] for U in (2.0, 4.0)}  # the rest
+    report("U = 4t, Delta = 2t: Hartree-exchange part", f"{hx_part[4.0][60]:.6f}")
+    report("U = 4t, Delta = 2t: correlation part", f"{c_part[4.0][60]:.6f}")
+    for U in (2.0, 4.0):
+        check(np.all(c_part[U][nonzero] * deltas[nonzero] < 0.0),
+              f"U = {U:.0f}t: the correlation part has the sign opposite to Delta")
+    check(np.all(np.abs(mf_delta_s[nonzero]) > np.abs(delta_s[4.0][nonzero])),
+          "U = 4t: the mean field screens less than the exact Kohn-Sham potential")
+    fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.4))
+    left.plot(deltas, deltas, ":", color="gray", label="$\\Delta_s = \\Delta$ ($U = 0$)")
+    left.plot(deltas, delta_s[2.0], "--", label="exact Kohn-Sham, $U = 2t$")
+    left.plot(deltas, delta_s[4.0], color="black", lw=2.0,
+              label="exact Kohn-Sham, $U = 4t$")
+    left.plot(deltas, mf_delta_s, "-.", label="mean field, $U = 4t$")
+    left.set_xlabel("true site-energy difference $\\Delta$ ($t$)")
+    left.set_ylabel("Kohn-Sham site-energy difference $\\Delta_s$ ($t$)")
+    left.set_title("The exact Kohn-Sham potential")
+    left.legend(fontsize=8)
+    right.plot(deltas, delta_s[4.0] - deltas, color="black", lw=2.0,
+               label="total screening $\\Delta_s - \\Delta$")
+    right.plot(deltas, hx_part[4.0], "--", label="Hartree-exchange $\\Delta_{Hx}$")
+    right.plot(deltas, c_part[4.0], color="tab:red", label="correlation $\\Delta_c$")
+    right.axhline(0.0, color="gray", lw=0.8)
+    right.set_xlabel("true site-energy difference $\\Delta$ ($t$)")
+    right.set_ylabel("parts of $\\Delta_s - \\Delta$ ($t$)")
+    right.set_title("Its parts at the exact density, $U = 4t$")
+    right.legend(fontsize=8)
+    save_figure(fig, "ks_inversion",
+                "Left: the site-energy difference $\\Delta_s$ with which non-interacting "
+                "electrons reproduce the exact density of the two-site model, against "
+                "the true difference $\\Delta$ (both in units of $t$), for $U = 2t$ "
+                "(dashed) and $U = 4t$ (black), with the line $\\Delta_s = \\Delta$ "
+                "(dotted) and the self-consistent mean field for $U = 4t$ "
+                "(dash-dotted). The interaction screens the potential; the mean field, "
+                "which leaves out correlation, screens less. Right: for $U = 4t$, the "
+                "screening $\\Delta_s - \\Delta$ (black) split at the exact density "
+                "into the Hartree-exchange part $-U(n_L - 1)$ (dashed) and the "
+                "correlation part (red); both have the sign opposite to $\\Delta$.")
     check(np.all(np.abs(delta_s[4.0][nonzero]) < np.abs(deltas[nonzero])),
           "the repulsion screens the potential: |Delta_s| < |Delta|")
     '''),
@@ -777,8 +807,10 @@ CELLS = [
       $U = 2t$: $E_0 = -1.236068\,t$, $E_{HF} = -t$, double occupancy 0.276393 versus
       1/2.
     - The density determines the site-energy difference (Hohenberg-Kohn on two sites),
-      and the exact Kohn-Sham potential exists and screens the true one; mean-field
-      theory misses part of the screening (the correlation part).
+      and the exact Kohn-Sham potential exists and screens the true one. At the exact
+      density its screening is the Hartree-exchange part $-U(n_L - 1)$ plus a
+      correlation part of the same sign; the self-consistent mean field, which leaves
+      out correlation, screens less.
     """),
 ]
 

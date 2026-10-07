@@ -15,8 +15,10 @@ Physics source: Revision/SPEC.md section 1 (the metric) and the curvature record
 Rust program lovelock_gkd (Revision/gkd_lovelock/results/curvature.json), its
 independent sympy verification (python-lovelock-report.json), its own checks
 (lovelock-report.json) and the lead's independent checks of the Einstein tensor
-(Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json).  The notebook computes
-everything again with sympy and asserts agreement with every record component.
+(Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json), and the record of the
+field equations of a4 (Revision/field_equations_a4/a4-equations.json, linearMember, and
+its sympy verification reports/python-a4-report.json).  The notebook computes everything
+again with sympy and asserts agreement with every record component.
 """
 
 import sys
@@ -30,6 +32,8 @@ CURV = "Revision/gkd_lovelock/results/curvature.json"
 PYREP = "Revision/gkd_lovelock/results/python-lovelock-report.json"
 RUSTREP = "Revision/gkd_lovelock/results/lovelock-report.json"
 LEAD = "Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json"
+A4EQ = "Revision/field_equations_a4/a4-equations.json"
+A4REP = "Revision/field_equations_a4/reports/python-a4-report.json"
 
 FACTS = {
     "id": "03b",
@@ -47,7 +51,9 @@ FACTS = {
         "symbols by finite differences, and a negative control with inflating extra "
         "times; and it draws the Christoffel symbols, the curvature of every coordinate "
         "plane, the components and the curvature scalars versus z and versus the "
-        "expansion rate, and the Einstein tensor."
+        "expansion rate, and the Einstein tensor; along the deflating history "
+        "a4 = A H x4 it reproduces the source that the Einstein equations require in "
+        "the Revision record of the field equations of a4."
     ),
     "records": [
         [CURV, "every non-zero Christoffel symbol, Riemann component, Ricci and Einstein "
@@ -62,6 +68,12 @@ FACTS = {
                   "point of k1_brute_force_numeric"],
         [LEAD, "the lead checks einstein_x8_independent, einstein_off_diagonal_zero, "
                "einstein_isotropy and no_vacuum_for_H_positive"],
+        [A4EQ, "the record of the field equations of a4: for the linear history "
+               "a4 = A H x4 the energy density and the pressure that the Einstein "
+               "equations require (linearMember: rhoEinstein, pEinstein, "
+               "rhoPlusPEinstein)"],
+        [A4REP, "its sympy verification: the check L1_equals_gkd_branch (the first "
+                "Lovelock scalar, twice the Ricci scalar) and the check json_linear_member"],
     ],
     "packages": ["numpy", "sympy", "mpmath", "matplotlib"],
     "needs_rust": [],
@@ -79,7 +91,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all seven figure files exist",
-        "ALL 34 CHECKS PASSED (notebook 03b)",
+        "ALL 39 CHECKS PASSED (notebook 03b)",
     ],
     "troubleshooting": [
         ["The cells with the Riemann tensor and the negative control run for up to half a "
@@ -114,6 +126,10 @@ CELLS = [
     - computes the **Kretschmann scalar** $K = R^{ab}{}_{cd} R^{cd}{}_{ab}$, shows that it
       does not depend on $z$ although single components do, and that it is never zero
       for $H > 0$;
+    - evaluates everything along the **deflating history** $a_4 = A H x_4$ ($A > 0$) and
+      checks that minus the time component and the space component of the Einstein
+      tensor are exactly the energy density and the pressure that the Revision record
+      of the field equations of $a_4$ lists for this history;
     - repeats the curvature for a **negative control** in which the extra times inflate
       instead of deflating, and shows what then changes;
     - draws 7 figures and prints a PASS line for every check.
@@ -150,6 +166,15 @@ CELLS = [
       equations.
     - **Kretschmann scalar** $K = \sum_{a,b,c,d} R^{ab}{}_{cd} R^{cd}{}_{ab}$: one number
       per point, the same in every coordinate system (an **invariant**).
+    - **Einstein's field equations** $G^\mu{}_\nu + \Lambda\,\delta^\mu{}_\nu =
+      \kappa\, T^\mu{}_\nu$: the Einstein tensor plus a constant $\Lambda$ (the
+      **cosmological constant**) times $\delta^\mu{}_\nu$ equals a positive constant
+      $\kappa$ times the **energy-momentum tensor** $T^\mu{}_\nu$ of the matter. For the
+      sources of this book its diagonal is $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t,
+      p_t, p_t, p_8)$: the **energy density** $\rho$ (energy per unit volume) and the
+      **pressures** $p_3$ of 3-space, $p_t$ of the extra times and $p_8$ of the hidden
+      direction. A later chapter derives these equations; this notebook only reads
+      them in a Revision record.
     - **Bianchi identities**: $R^a{}_{bcd} + R^a{}_{cdb} + R^a{}_{dbc} = 0$ (first) and
       $\nabla_\mu G^\mu{}_\nu = 0$ (contracted): identities that every metric satisfies;
       checking them checks the computation.
@@ -732,14 +757,18 @@ CELLS = [
 
     For two different coordinates $x_a$ and $x_b$ the number $R^{ab}{}_{ab}$ (no sum) is
     the curvature of the coordinate plane spanned by them. The next cell computes all
-    28 of them as formulas, prints one plane of each kind, and checks the seven
+    28 of them as formulas, prints one plane of each kind, and checks the six
     formulas: 3-space with 3-space and extra time with extra time $a_4'^2 - H^2$;
     3-space with an extra time $-(a_4'^2 + H^2)$; 3-space with the time $x_4$
     $a_4'^2 + a_4''$; the time with an extra time $a_4'^2 - a_4''$; a 3-space or
     extra-time direction with the hidden $x_8$ $-H^2$; the time with the hidden $x_8$
     zero. None depends on $z$ or on the value of $a_4$. Then it draws them as
-    $8 \times 8$ heat maps along the history $a_4 = AHx_4$ ($a_4' = AH$, $a_4'' = 0$,
-    $H = 1$) for $A = 0$, $1$ and $2$; the diagonal is left empty.
+    $8 \times 8$ heat maps along the deflating history $a_4 = AHx_4$ ($a_4' = AH$,
+    $a_4'' = 0$, $H = 1$) for the three slopes $A = 0.5$, $1$ (the canonical value of
+    the Revision record) and $2$, all positive, so that in all three the extra times
+    deflate; the diagonal is left empty. The planes inside 3-space and inside the extra
+    times change sign at $A = 1$: $a_4'^2 - H^2 = H^2(A^2 - 1)$ is negative for $A < 1$,
+    zero at $A = 1$ and positive for $A > 1$.
     """),
     code(r'''
     plane = {(a, b): plain(sp.S(get(R_mixed, (a, b, a, b))))  # sp.S: 0 as a sympy 0
@@ -751,33 +780,37 @@ CELLS = [
         say(f"  plane ({NAMES[a]}, {NAMES[b]}): R^ab_ab = {plane[(a, b)]}")
     check(all(sp.expand(plane[key] - formula) == 0 for key, formula in expected.items())
           and all(not v.has(z) and not v.has(a4v) for v in plane.values()),
-          "the plane curvatures have the seven formulas and do not depend on z or a4")
-    fig, axes = plt.subplots(1, 3, figsize=(12.0, 4.4))
-    for ax, slope in zip(axes, (0, 1, 2)):
+          "the plane curvatures have the six formulas and do not depend on z or a4")
+    SLOPES = (0.5, 1.0, 2.0)  # three deflating histories, A > 0
+    fig, axes = plt.subplots(1, 3, figsize=(14.0, 4.8))  # wide: room for -1.25
+    for ax, slope in zip(axes, SLOPES):
         curv = np.full((8, 8), np.nan)  # NaN: an empty square on the diagonal
         for (a, b), value in plane.items():
             curv[a, b] = float(value.subs({a4p: slope, a4pp: 0, H: 1}))
         image = ax.imshow(curv, cmap=DIVERGING, vmin=-5.0, vmax=5.0)
         for a, b in plane:
-            ax.text(b, a, f"{curv[a, b]:g}", ha="center", va="center", fontsize=8)
+            ax.text(b, a, f"{curv[a, b]:g}", ha="center", va="center", fontsize=6.5)
         ax.set_xticks(range(8), LABELS, fontsize=8)
         ax.set_yticks(range(8), LABELS, fontsize=8)
         ax.grid(False)
-        ax.set_title(f"$A = {slope}$")
+        ax.set_title(f"$A = {slope:g}$")
     fig.colorbar(image, ax=axes, shrink=0.85, label="curvature (unit $H^2$)")
     save_figure(fig, "plane_curvatures",
                 "The curvature $R^{ab}{}_{ab}$ (no sum) of the coordinate plane of "
-                "$x_a$ (row) and $x_b$ (column), in units of $H^2$, along the history "
-                "$a_4 = AHx_4$ ($a_4^{\\prime} = AH$, $a_4^{\\prime\\prime} = 0$, "
-                "$H = 1$) for $A = 0$ (left), $A = 1$ (middle, the canonical deflating "
-                "history) and $A = 2$ (right); red positive (curved like a sphere), "
-                "blue negative (curved like a saddle), grey zero, diagonal empty. "
-                "The planes inside 3-space and inside the extra times have "
-                "$a_4^{\\prime 2} - H^2$ ($-1$, $0$, $3$); a 3-space direction with an "
-                "extra time $-(a_4^{\\prime 2} + H^2)$ ($-1$, $-2$, $-5$); the planes "
-                "with the time $x_4$ $a_4^{\\prime 2} \\pm a_4^{\\prime\\prime}$ ($0$, "
+                "$x_a$ (row) and $x_b$ (column), in units of $H^2$, along the deflating "
+                "history $a_4 = AHx_4$ ($a_4^{\\prime} = AH$, "
+                "$a_4^{\\prime\\prime} = 0$, $H = 1$) for $A = 0.5$ (left), $A = 1$ "
+                "(middle, the canonical history of the Revision record) and $A = 2$ "
+                "(right); red positive (curved like a sphere), blue negative (curved "
+                "like a saddle), grey zero, diagonal empty. The planes inside 3-space "
+                "and inside the extra times have $a_4^{\\prime 2} - H^2$ ($-0.75$, $0$, "
+                "$3$: the sign changes at $A = 1$); a 3-space direction with an extra "
+                "time $-(a_4^{\\prime 2} + H^2)$ ($-1.25$, $-2$, $-5$); the planes with "
+                "the time $x_4$ $a_4^{\\prime 2} \\pm a_4^{\\prime\\prime}$ ($0.25$, "
                 "$1$, $4$), except the plane of $x_4$ and $x_8$, which is flat; every "
                 "other plane with the hidden $x_8$ has $-H^2 = -1$ for every $A$.")
+    check([float(plane[(0, 1)].subs({a4p: s, H: 1})) for s in SLOPES] == [-0.75, 0.0, 3.0],
+          "the planes inside 3-space: -0.75, 0 and 3 for A = 0.5, 1 and 2")
     '''),
     md(r"""
     ## 11. Ricci tensor, Ricci scalar, Einstein tensor
@@ -815,6 +848,34 @@ CELLS = [
           "all 64 Ricci, all 64 Einstein components and R equal the record",
           record=f"{CURVATURE_RECORD}, ricciMixed, einsteinMixed, ricciScalar (and "
                  "python-lovelock-report.json, check rust_ricci_einstein_scalar_agree)")
+    '''),
+    md(r"""
+    The Ricci scalar appears in one more Revision record, in a different form. The
+    record of the field equations of $a_4$ builds them from three **Lovelock
+    scalars** $L_{(1)}, L_{(2)}, L_{(3)}$ (the subject of a later chapter), and the
+    first of them is exactly twice the Ricci scalar, $L_{(1)} = 2R$ (this identity is
+    the check `L1_equals_2R` of the record
+    `Revision/gkd_lovelock/results/python-lovelock-report.json`). The sympy
+    verification of the record of the field equations,
+    `Revision/field_equations_a4/reports/python-a4-report.json`, prints $L_{(1)}$ in its
+    check `L1_equals_gkd_branch`, with the name `ad1` for $a_4'$. The next cell reads
+    this text, checks that the record marks the check as passed, turns the text after
+    the equals sign into a sympy expression, and checks $L_{(1)} = 2R$ with our $R$.
+    """),
+    code(r'''
+    A4_REPORT = "Revision/field_equations_a4/reports/python-a4-report.json"
+    a4_report = json.loads(repository_file(A4_REPORT).read_text(encoding="utf-8"))
+    # the report's checks form a list of dictionaries; take the one with this name
+    L1_entry = next(entry for entry in a4_report["checks"]
+                    if entry["name"] == "L1_equals_gkd_branch")
+    L1_detail, L1_verdict = L1_entry["detail"], L1_entry["verdict"]
+    say(f"record: {L1_detail} ({L1_verdict})")
+    L1_text = L1_detail.split("=")[1]  # the text after the equals sign
+    L1_record = parse_expr(L1_text, local_dict={"H": H, "ad1": a4p})
+    check(L1_verdict == "PASS" and sp.expand(L1_record - 2 * plain(R_scalar)) == 0,
+          "the first Lovelock scalar of the record is twice our Ricci scalar",
+          record=f"{A4_REPORT}, check L1_equals_gkd_branch (with "
+                 "python-lovelock-report.json, check L1_equals_2R)")
     '''),
     md(r"""
     Exact agreement was decided by sympy's simplification. A second, independent test
@@ -964,7 +1025,8 @@ CELLS = [
     the constant component $R^{x_1x_8}{}_{x_1x_8} = -H^2$, for $a_4' = 1.5$ (so that the
     product, $2.25$, and $H^2 = 1$ are different numbers). Right: $K$
     computed at 300 values of $z$ by summing all 156 products numerically, for four
-    expansion rates $a_4' = A H$: four flat lines.
+    expansion rates $a_4' = A H$ of deflating histories, $A = 0.5, 1, 1.5, 2$: four
+    flat lines.
     """),
     code(r'''
     # numerical functions of the 156 components with a4pp = 0 (true on the history
@@ -1002,7 +1064,7 @@ CELLS = [
     axes[0].set_ylabel("absolute value (unit $H^2$)")
     axes[0].set_title("Riemann components, $a_4^{\\prime} = 1.5$")
     axes[0].legend(fontsize=8)
-    rates = (0.0, 0.5, 1.0, 1.5)  # four expansion rates a4p, in units of H
+    rates = (0.5, 1.0, 1.5, 2.0)  # four expansion rates a4p = A H (A > 0), unit H
     for rate, colour, style in zip(rates, (VIOLET, AQUA, RED, ORANGE),
                                    ("-", "--", "-.", ":")):
         axes[1].plot(z_line, kretschmann_numbers(z_line, rate), color=colour, ls=style,
@@ -1024,7 +1086,7 @@ CELLS = [
                 "$a_4^{\\prime\\prime} = 0$, $H = 1$; horizontal axis $z = 6Hx_8$ in "
                 "radians, vertical axis on a logarithmic scale in units of $H^2$. "
                 "Right: the Kretschmann scalar $K$ summed numerically from all 156 "
-                "components at 300 values of $z$ for $a_4^{\\prime} = 0, 0.5, 1, 1.5$ "
+                "components at 300 values of $z$ for $a_4^{\\prime} = 0.5, 1, 1.5, 2$ "
                 "(in units of $H$), vertical axis $K$ in units of $H^4$, logarithmic. "
                 "Single components grow without bound at the ends of the patch, but $K$ "
                 f"is the same at every $z$: {K_text}.")
@@ -1037,14 +1099,18 @@ CELLS = [
     ## 13. The curvature along the deflating history
 
     Along the history $a_4 = A H x_4$ we have $a_4' = A H$ and $a_4'' = 0$, so every
-    curvature scalar is a polynomial in $A$. The next cell evaluates the Ricci scalar
-    $R = 6H^2(A^2 - 7)$, the sum $R^a{}_b R^b{}_a$ and $K$ for $A$ from $-3$ to $3$ and
-    draws them: $R$ on an ordinary axis (it vanishes at $A = \pm\sqrt 7$), the two
-    squares on a logarithmic axis. They are even in $A$: the history $-A$ (3-space
-    deflating, extra times inflating) has the same curvature scalars as $+A$.
+    curvature scalar is a polynomial in the slope $A$. The author's extra times deflate
+    when $a_4$ increases, that is for $A > 0$; the Revision record uses $A = 1$. The
+    next cell evaluates the Ricci scalar $R = 6H^2(A^2 - 7)$, the sum
+    $\sum R^a{}_b R^b{}_a$ and $K$ as formulas in $A$, checks that they are **even** in
+    $A$ (they do not change when $A$ is replaced by $-A$; so these three scalars cannot
+    tell which of the two families of directions deflates, the metric and the
+    components of the curvature tensors can), and draws them for $0 \le A \le 3$ (the
+    extra times deflate for every $A > 0$): $R$ on an ordinary axis (it vanishes at
+    $A = \sqrt 7$), the two squares on a logarithmic axis.
     """),
     code(r'''
-    A = sp.symbols("A", real=True)
+    A = sp.symbols("A", real=True)  # the slope of the history a4 = A H x4
     on_history = {a4p: A * H, a4pp: 0}
     R_A = sp.factor(symbolic(R_scalar).subs(on_history))
     K_A = sp.factor(K.subs(on_history))
@@ -1052,15 +1118,14 @@ CELLS = [
     say(f"on the history: R = {R_A},  K = {K_A},  R^a_b R^b_a = {RR_A}")
     check(all(sp.expand(f.subs(A, -A) - f) == 0 for f in (R_A, K_A, RR_A)),
           "the curvature scalars are even in A")
-    A_line = np.linspace(-3.0, 3.0, 601)
+    A_line = np.linspace(0.0, 3.0, 301)  # slopes 0, 0.01, ..., 3; A_line[100] = 1
     R_numbers = sp.lambdify(A, R_A.subs(H, 1))(A_line)
     K_numbers = sp.lambdify(A, K_A.subs(H, 1))(A_line)
     RR_numbers = sp.lambdify(A, RR_A.subs(H, 1))(A_line)
     fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.2))
     axes[0].plot(A_line, R_numbers, color=VIOLET, lw=1.8, label="$R = 6H^2(A^2 - 7)$")
     axes[0].axhline(0.0, color="black", lw=0.8)
-    for value in (-np.sqrt(7), np.sqrt(7)):
-        axes[0].plot([value], [0.0], "o", color=VIOLET, ms=7)
+    axes[0].plot([np.sqrt(7)], [0.0], "o", color=VIOLET, ms=7)  # the zero of R
     axes[0].set_ylabel("Ricci scalar $R$ (unit $H^2$)")
     axes[0].set_title("Ricci scalar")
     axes[1].plot(A_line, K_numbers, color=RED, lw=1.8, label="Kretschmann $K$")
@@ -1070,30 +1135,31 @@ CELLS = [
     axes[1].set_ylabel("value (unit $H^4$)")
     axes[1].set_title("Squares of the curvature")
     for ax in axes:
-        ax.axvline(1.0, color="grey", lw=1.0, ls=":")
-        ax.set_xlabel("slope $A$ of the history $a_4 = A H x_4$")
-        ax.legend(fontsize=8)
+        ax.axvline(1.0, color="grey", lw=1.0, ls=":")  # the canonical slope A = 1
+        ax.set_xlabel("slope $A$ of the deflating history $a_4 = A H x_4$")
+        ax.legend(fontsize=8, loc="upper left")
     axes[0].text(1.05, -40, "$A = 1$", fontsize=9)
     save_figure(fig, "scalars_versus_a",
-                "The curvature scalars of the author's metric along the history "
-                "$a_4 = AHx_4$ ($a_4^{\\prime} = AH$, $a_4^{\\prime\\prime} = 0$) as "
-                "functions of the slope $A$, with $H = 1$; horizontal axes $A$ (a pure "
-                "number), the dotted vertical "
-                "line marks the canonical $A = 1$. Left: the Ricci scalar "
-                "$R = 6H^2(A^2 - 7)$ in units of $H^2$, negative for "
-                "$|A| < \\sqrt 7$ and zero at the two dots. Right, on a logarithmic "
-                "axis in units of $H^4$: the Kretschmann scalar "
-                "$K = 12H^4(7A^4 - 2A^2 + 7)$ (solid) and "
-                "$\\sum R^a{}_b R^b{}_a = 36H^4(A^4 + 7)$ (dashed), both positive for "
-                "every $A$ and even in $A$.")
-    check(abs(R_numbers[400] - (-36.0)) < 1e-9 and abs(K_numbers[400] - 144.0) < 1e-9,
+                "The curvature scalars of the author's metric along the deflating "
+                "history $a_4 = AHx_4$ ($a_4^{\\prime} = AH$, "
+                "$a_4^{\\prime\\prime} = 0$) as functions of the slope $A$ from $0$ "
+                "to $3$, with $H = 1$; horizontal axes $A$ (a pure number), the dotted "
+                "vertical line marks the canonical $A = 1$ of the Revision record. "
+                "Left: the Ricci scalar $R = 6H^2(A^2 - 7)$ in units of $H^2$, "
+                "negative for $A < \\sqrt 7$ and zero at the dot. Right, on a "
+                "logarithmic axis in units of $H^4$: the Kretschmann scalar "
+                "$K = 12H^4(7A^4 - 2A^2 + 7)$ (solid), smallest at "
+                "$A^2 = 1/7$, and $\\sum R^a{}_b R^b{}_a = 36H^4(A^4 + 7)$ (dashed), "
+                "both positive for every $A$.")
+    check(abs(R_numbers[100] - (-36.0)) < 1e-9 and abs(K_numbers[100] - 144.0) < 1e-9,
           "at A = 1: R = -36 H^2 and K = 144 H^4")
     '''),
     md(r"""
-    The next cell draws the Einstein tensor along the history. Left: its eight diagonal
-    components as bars, for the static member $A = 0$ and the canonical $A = 1$. Right:
-    as functions of $A$; with $a_4'' = 0$ the 3-space, extra-time and hidden components
-    coincide, $G^{x_1}{}_{x_1} = G^{x_5}{}_{x_5} = G^{x_8}{}_{x_8} = 3H^2(5 - A^2)$, and
+    The next cell draws the Einstein tensor along the deflating history. Left: its
+    eight diagonal components as bars, for the canonical slope $A = 1$ of the Revision
+    record and for $A = 2$. Right: as functions of $A$; with $a_4'' = 0$ the 3-space,
+    extra-time and hidden components coincide,
+    $G^{x_1}{}_{x_1} = G^{x_5}{}_{x_5} = G^{x_8}{}_{x_8} = 3H^2(5 - A^2)$, and
     $G^{x_4}{}_{x_4} = 3H^2(7 + A^2)$; the gap between them, $6H^2(A^2 + 1)$, is never
     zero.
     """),
@@ -1102,12 +1168,12 @@ CELLS = [
     for k in (0, 3, 4, 7):
         say(f"  on the history: G^{NAMES[k]}_{NAMES[k]} = {G_A[k]}")
     bars = {value: [float(G_A[k].subs({A: value, H: 1})) for k in range(8)]
-            for value in (0, 1)}
+            for value in (1, 2)}
     fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.2))
     positions = np.arange(8)
-    axes[0].bar(positions - 0.2, bars[0], width=0.38, color=BLUE, label="$A = 0$")
-    axes[0].bar(positions + 0.2, bars[1], width=0.38, color=RED, hatch="//",
+    axes[0].bar(positions - 0.2, bars[1], width=0.38, color=RED, hatch="//",
                 label="$A = 1$")
+    axes[0].bar(positions + 0.2, bars[2], width=0.38, color=BLUE, label="$A = 2$")
     axes[0].set_xticks(positions, [f"$G^{{x_{k}}}{{}}_{{x_{k}}}$" for k in range(1, 9)],
                        fontsize=8)
     axes[0].set_ylabel("component (unit $H^2$)")
@@ -1122,23 +1188,76 @@ CELLS = [
     axes[1].fill_between(A_line, space_numbers, time_numbers, color="grey", alpha=0.2,
                          label="gap $6H^2(A^2 + 1) > 0$")
     axes[1].axhline(0.0, color="black", lw=0.8)
-    axes[1].set_xlabel("slope $A$ of the history $a_4 = A H x_4$")
+    axes[1].axvline(1.0, color="grey", lw=1.0, ls=":")  # the canonical slope A = 1
+    axes[1].set_xlabel("slope $A$ of the deflating history $a_4 = A H x_4$")
     axes[1].set_ylabel("component (unit $H^2$)")
     axes[1].set_title("Einstein tensor versus $A$")
-    axes[1].legend(fontsize=8)
+    axes[1].legend(fontsize=8, loc="lower left")
     save_figure(fig, "einstein_tensor",
                 "The Einstein tensor $G^{\\mu}{}_{\\nu}$ of the author's metric along "
-                "the history $a_4 = AHx_4$ with $H = 1$, in units of $H^2$. Left: the "
-                "eight diagonal components (the only non-zero ones) for the static "
-                "member $A = 0$ (plain bars: $15, 15, 15, 21, 15, 15, 15, 15$) and the "
-                "canonical $A = 1$ (hatched bars: $12, 12, 12, 24, 12, 12, 12, 12$). "
-                "Right: the 3-space, extra-time and hidden components "
-                "$3H^2(5 - A^2)$ (solid) and the time component $3H^2(7 + A^2)$ "
-                "(dashed) as functions of the slope $A$; the shaded gap "
-                "$6H^2(A^2 + 1)$ between them never closes.")
-    check(bars[0] == [15.0, 15.0, 15.0, 21.0, 15.0, 15.0, 15.0, 15.0]
-          and bars[1] == [12.0, 12.0, 12.0, 24.0, 12.0, 12.0, 12.0, 12.0],
-          "diagonal of G: 15 (21 for x4) at A = 0 and 12 (24 for x4) at A = 1, unit H^2")
+                "the deflating history $a_4 = AHx_4$ with $H = 1$, in units of $H^2$. "
+                "Left: the eight diagonal components (the only non-zero ones) for the "
+                "canonical slope $A = 1$ of the Revision record (hatched bars: "
+                "$12, 12, 12, 24, 12, 12, 12, 12$) and for $A = 2$ (plain bars: "
+                "$3, 3, 3, 33, 3, 3, 3, 3$). Right: the 3-space, extra-time and hidden "
+                "components $3H^2(5 - A^2)$ (solid) and the time component "
+                "$3H^2(7 + A^2)$ (dashed) as functions of the slope $A$ from $0$ to "
+                "$3$; the shaded gap $6H^2(A^2 + 1)$ between them never closes.")
+    check(bars[1] == [12.0, 12.0, 12.0, 24.0, 12.0, 12.0, 12.0, 12.0]
+          and bars[2] == [3.0, 3.0, 3.0, 33.0, 3.0, 3.0, 3.0, 3.0],
+          "diagonal of G: 12 (24 for x4) at A = 1 and 3 (33 for x4) at A = 2, unit H^2")
+    '''),
+    md(r"""
+    What do these numbers mean for matter? Einstein's field equations (section 3 of
+    this notebook) set $G^\mu{}_\nu + \Lambda\,\delta^\mu{}_\nu = \kappa\, T^\mu{}_\nu$
+    with $T = \mathrm{diag}(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_8)$. Their $x_4$
+    component reads $G^{x_4}{}_{x_4} + \Lambda = -\kappa\rho$, so
+    $\kappa\rho = -G^{x_4}{}_{x_4} - \Lambda$; their $x_1$, $x_5$ and $x_8$ components
+    read $G^{x_1}{}_{x_1} + \Lambda = \kappa p_3$, $G^{x_5}{}_{x_5} + \Lambda = \kappa
+    p_t$ and $G^{x_8}{}_{x_8} + \Lambda = \kappa p_8$. Along the history the three
+    components on the left are equal (previous cell), so all three pressures must be
+    the same number $p$. The Revision record of the field equations of $a_4$
+    (`Revision/field_equations_a4/a4-equations.json`, entry `linearMember`) lists this
+    required source in its texts `rhoEinstein` ($\rho$), `pEinstein` ($p$) and
+    `rhoPlusPEinstein` ($\rho + p$), written with `AA` for $A$ and `Lam` for $\Lambda$.
+    The next cell reads the three texts, turns them into sympy expressions and checks
+    them against our Einstein tensor. The sum $\kappa(\rho + p) = -6(A^2 + 1)H^2$ is
+    negative for every $A$. Ordinary matter (dust, radiation, a gas) has
+    $\rho + p \ge 0$ (the **null energy condition**), so within Einstein's equations
+    the source that this history requires is not ordinary matter; a later chapter
+    discusses this, also for the field equations with the additional Lovelock terms.
+    Here we only check that the record and our curvature agree.
+    """),
+    code(r'''
+    A4_EQUATIONS = "Revision/field_equations_a4/a4-equations.json"
+    a4_equations = json.loads(repository_file(A4_EQUATIONS).read_text(encoding="utf-8"))
+    linear = a4_equations["linearMember"]  # the entry of the linear history
+    kappa = sp.symbols("kappa", positive=True)  # the constant of Einstein's equations
+    Lam = sp.symbols("Lam", real=True)  # the cosmological constant Lambda
+    source_names = {"AA": A, "H": H, "kappa": kappa, "Lam": Lam}
+
+
+    def source(key):
+        """The record's text linear[key] (Mathematica notation) as sympy."""
+        return parse_expr(linear[key]["input"].replace("^", "**"),
+                          local_dict=source_names)
+
+
+    rho_record, p_record = source("rhoEinstein"), source("pEinstein")
+    sum_record = source("rhoPlusPEinstein")  # rho + p
+    say(f"record: kappa rho       = {sp.expand(kappa * rho_record)}")
+    say(f"record: kappa p         = {sp.expand(kappa * p_record)}")
+    say(f"record: kappa (rho + p) = {sp.factor(kappa * sum_record)}")
+    check(sp.expand(kappa * rho_record - (-G_A[3] - Lam)) == 0,
+          "kappa rho of the record equals -G^x4_x4 - Lambda",
+          record=f"{A4_EQUATIONS}, linearMember.rhoEinstein (and "
+                 "python-a4-report.json, check json_linear_member)")
+    check(all(sp.expand(kappa * p_record - (G_A[k] + Lam)) == 0 for k in (0, 4, 7)),
+          "kappa p of the record equals G^x1_x1, G^x5_x5 and G^x8_x8 plus Lambda",
+          record=f"{A4_EQUATIONS}, linearMember.pEinstein")
+    check(sp.expand(kappa * sum_record - (G_A[0] - G_A[3])) == 0,
+          "kappa (rho + p) of the record equals G^x1_x1 - G^x4_x4 = -6 (A^2 + 1) H^2",
+          record=f"{A4_EQUATIONS}, linearMember.rhoPlusPEinstein")
     '''),
     md(r"""
     ## 14. A negative control: what if the extra times inflated?
@@ -1192,7 +1311,8 @@ CELLS = [
       with the Revision record of the Rust program `lovelock_gkd` (PROVED by exact
       algebra, here and in the record); at the five test points of the independent
       Revision verification all 310 recorded components agree with ours to more than 25
-      significant digits.
+      significant digits. Twice our Ricci scalar equals the first Lovelock scalar
+      $L_{(1)}$ of the record of the field equations of $a_4$.
     - The Christoffel symbols were confirmed a second way, by finite differences, with
       an error that falls like $h^2$.
     - The lines along $x_4$ are geodesics: observers at rest fall freely and $x_4$ is
@@ -1204,13 +1324,23 @@ CELLS = [
     - The Kretschmann scalar $K = 12(7H^4 - 2H^2a_4'^2 + 7a_4'^4 + 2a_4''^2)$ does not
       depend on $z$ although single components do, and $K \ge 576H^4/7 > 0$: the metric
       is curved for every $H > 0$.
-    - Along the canonical history ($A = 1$, $H = 1$): $R = -36$, $K = 144$ and
-      $G = \mathrm{diag}(12, 12, 12, 24, 12, 12, 12, 12)$ (units $H^2$ and $H^4$).
+    - Along the deflating history $a_4 = AHx_4$ the curvature scalars are
+      $R = 6H^2(A^2 - 7)$, $K = 12H^4(7A^4 - 2A^2 + 7)$ and
+      $\sum R^a{}_b R^b{}_a = 36H^4(A^4 + 7)$, all even in $A$. For the canonical
+      history of the Revision record ($A = 1$, $H = 1$): $R = -36$, $K = 144$ and
+      $G = \mathrm{diag}(12, 12, 12, 24, 12, 12, 12, 12)$ (units $H^2$ and $H^4$); for
+      $A = 2$: $G = \mathrm{diag}(3, 3, 3, 33, 3, 3, 3, 3)$.
+    - Through Einstein's equations this Einstein tensor is exactly the source that the
+      Revision record of the field equations of $a_4$ lists for the linear history:
+      $\kappa\rho = -3(7 + A^2)H^2 - \Lambda$, $\kappa p = 3(5 - A^2)H^2 + \Lambda$ for
+      all three pressures, and $\kappa(\rho + p) = -6(A^2 + 1)H^2 < 0$.
     - Negative control: if the extra times inflated instead of deflating, the Einstein
       tensor would acquire the off-diagonal components $G^{x_4}{}_{x_8}$ and
       $G^{x_8}{}_{x_4}$: comparing the two metrics, it is the deflation of the extra
       times that makes the Einstein tensor of the author's metric diagonal.
-    - ASSUMED for the plots only: the history $a_4 = AHx_4$ (a prescribed background).
+    - ASSUMED for the plots and the evaluation along the history only: the history
+      $a_4 = AHx_4$ with $A > 0$ (a prescribed background, not solved for); every
+      formula with a general $a_4(x_4)$ is exact.
     """),
 ]
 

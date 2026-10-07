@@ -258,10 +258,11 @@ CELLS = [
     ys = np.linspace(0.0, 2.0 * np.pi, 201)
     XX, YY = np.meshgrid(xs, ys)  # all grid points as two 2-dimensional arrays
     fig, ax = plt.subplots(figsize=(7.0, 5.2))
-    bands = ax.contourf(XX, YY, F(XX, YY), levels=17, cmap="RdBu_r")
+    bands = ax.contourf(XX, YY, F(XX, YY), levels=17, cmap="RdBu_r")  # coloured bands
     ax.contour(XX, YY, F(XX, YY), levels=17, colors=BLACK, linewidths=0.4)
     fig.colorbar(bands, ax=ax, label="$f(x, y) = x^2 \\sin y$")
-    xq, yq = np.meshgrid(np.linspace(-1.8, 1.8, 10), np.linspace(0.3, 6.0, 12))
+    xq, yq = np.meshgrid(np.linspace(-1.8, 1.8, 10), np.linspace(0.3, 6.0, 12))  # coarse
+    # an arrow (df/dx, df/dy) at every coarse grid point; scale=40 shortens all arrows
     ax.quiver(xq, yq, FX(xq, yq), FY(xq, yq), color=BLACK, scale=40, width=0.004)
     ax.set_xlabel("$x$")
     ax.set_ylabel("$y$")

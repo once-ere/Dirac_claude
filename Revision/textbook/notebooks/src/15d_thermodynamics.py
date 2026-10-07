@@ -41,14 +41,16 @@ FACTS = {
     "name": "15d_thermodynamics",
     "title": "Thermodynamics of the Kohn-Sham gas along the deflating history",
     "purpose": (
-        "It runs the Rust Kohn-Sham solver for the free thermal states N = 8 and N = 136 "
+        "It builds the Rust Kohn-Sham solver with cargo (a full build of about a minute "
+        "when the program is missing, a second when it is up to date), runs it for the "
+        "free thermal states N = 8 and N = 136 "
         "of dirac16complex at the slices of the deflating history, recomputes from the "
         "solver's levels the chemical potential (at 40 digits and with the "
         "well-conditioned double-precision balance), the energy, entropy, free energy, "
         "grand potential, heat capacity and the sea-hole diagnostic of the committed "
         "Revision record, and draws the chemical potential, free energy, entropy and "
         "heat capacity as functions of the temperature. The solver writes its output "
-        "files (about 0.7 MB) into the folder "
+        "files (about 0.6 MB) into the folder "
         "`Revision/kohn_sham/solver/target/textbook_15d`, which git ignores."
     ),
     "records": [
@@ -76,7 +78,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS every figure file of this notebook exists",
-        "ALL 14 CHECKS PASSED (notebook 15d)",
+        "ALL 15 CHECKS PASSED (notebook 15d)",
     ],
     "troubleshooting": [],
 }
@@ -671,18 +673,23 @@ CELLS = [
 
     The last figure uses only the record: the change of the free energy caused by the
     couplings $\pm\lambda_1$, $F(\lambda) - F(0)$, for $N = 8$, $136$ and $688$ at the
-    first slice and the three temperatures. The interaction changes $F$ by less than
-    $0.005\,m$; repulsion raises it for $N = 136$ and $688$ and lowers it for $N = 8$
-    (the zero-mode state, whose interaction energy is an exchange energy).
+    first slice and the three temperatures. The two checks: the interaction changes $F$
+    by less than $0.005\,m$; and repulsion ($+\lambda_1$) raises it for $N = 136$ and
+    $688$ but lowers it for $N = 8$, attraction the other way round (the zero-mode state
+    $N = 8$ has no scalar density without interaction, so to first order its
+    interaction energy is the exchange term $-\tfrac{1}{32}\lambda n^2$, negative for
+    $\lambda > 0$).
     """),
     code(r'''
     fig, ax = plt.subplots()
     shifts = []
+    by_series = {}  # (N, tag) -> the three values of F(lambda) - F(0)
     for colour, n in zip(PALETTE, (8, 136, 688)):
         for tag, style in (("lamp1", "-"), ("lamm1", "--")):
             values = [float(record[state_id(n, 0.0, t, tag)]["F"])
                       - float(record[state_id(n, 0.0, t)]["F"]) for t in TEMPS]
             shifts += values
+            by_series[(n, tag)] = values
             sign = "+" if tag == "lamp1" else "-"
             ax.plot(TEMPS, values, style, marker="o", color=colour, ms=6, lw=1.5,
                     label=f"$N = {n}$, ${sign}\\lambda_1$")
@@ -697,11 +704,21 @@ CELLS = [
                 "(solid) and $-\\lambda_1$ (dashed), $F(\\lambda) - F(0)$ (vertical axis, "
                 "symmetric logarithmic, units of $m$), for $N = 8$, $136$, $688$ at "
                 "$a_{4,0} = 0$ against the temperature (horizontal axis), from the "
-                "record. The effect is small and nearly independent of $T$; its sign "
-                "follows the coupling, opposite for $N = 8$.")
+                "record. The effect is small and changes only slowly with $T$ (for "
+                "$N = 688$ it grows from $0.0033\\,m$ at $T = 0.01$ to $0.0045\\,m$ at "
+                "$T = 0.05$); its sign follows the sign of the coupling, the other way "
+                "round for $N = 8$.")
     report("largest |F(lambda) - F(0)| at a4,0 = 0", f"{max(abs(s) for s in shifts):.4f}")
     check(max(abs(s) for s in shifts) < 0.005,
-          "the interaction changes F by less than 0.005 at a4,0 = 0")
+          "the interaction changes F by less than 0.005 at a4,0 = 0",
+          record=f"{THERMO}, column F")
+    raises = all(v > 0.0 for n in (136, 688) for v in by_series[(n, "lamp1")]) and all(
+        v < 0.0 for n in (136, 688) for v in by_series[(n, "lamm1")])
+    lowers8 = all(v < 0.0 for v in by_series[(8, "lamp1")]) and all(
+        v > 0.0 for v in by_series[(8, "lamm1")])
+    check(raises and lowers8,
+          "repulsion raises F for N = 136 and 688 and lowers it for N = 8",
+          record=f"{THERMO}, column F")
     '''),
     md(r"""
     ## 14. The last check

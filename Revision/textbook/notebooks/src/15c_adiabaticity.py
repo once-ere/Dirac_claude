@@ -103,8 +103,9 @@ CELLS = [
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Instantaneous (adiabatic) state**: the ground state of the Hamiltonian frozen at
-      one instant.
+    - **Instantaneous (adiabatic) state**: the ground state of the Hamiltonian
+      $h(a_{4,0})$ of one instant of the history (one slice $a_{4,0}$); the history
+      itself keeps moving, with 3-space inflating and the extra times deflating.
     - **Adiabatic**: a change of the Hamiltonian slow enough that a system in an
       eigenstate stays in the eigenstate that continues it (the adiabatic theorem).
     - **Transition**: a jump of a particle from an occupied level $n$ to an empty level
@@ -183,10 +184,15 @@ CELLS = [
     midpoints, `shoot` (integrate the block equation from the tip, where $b = 0$, to the
     brane, and follow the Pruefer angle $\theta = \mathrm{atan2}(b, a)$; the phase
     $\Phi = j\theta(0)$ increases with $\varepsilon$ and equals $l\pi$ (even parity) or
-    $\pi/2 + l\pi$ (odd parity) at the level with label $l$), `find_level` (Newton's
-    method inside a bracket for $\Phi(\varepsilon) = $ target), and `orbital` (the
-    normalised orbital on the fine grid, with cubic Hermite midpoints). The comments say
-    what each line does.
+    $\pi/2 + l\pi$ (odd parity) at the level with label $l$; `shoot` also returns the
+    derivative $d\Phi/d\varepsilon = \int r^2 dy/r(0)^2$, $r^2 = a^2 + b^2$, with the
+    integral by the trapezoid rule on the step ends, as in the solver), `find_level`
+    (the solver's Newton method inside a bracket for $\Phi(\varepsilon) = $ target: walk
+    with doubling steps until the target is bracketed, then Newton steps, with bisection
+    whenever a Newton step leaves the bracket or the previous step did not halve the
+    error; stop when the bracket or a Newton step is below $10^{-13}$), and `orbital`
+    (the normalised orbital on the fine grid, with cubic Hermite midpoints). The
+    comments say what each line does.
     """),
     code(r'''
     import csv  # reads the tables (CSV files) of the Revision record
@@ -198,11 +204,11 @@ CELLS = [
     POINTS = 2 * STEPS + 1  # step ends and midpoints
     STEP = L / STEPS
     Y = np.array([-L * ((POINTS - 1 - f) / (POINTS - 1)) for f in range(POINTS)])
-    EW = np.exp(-Y)  # e^{-Hy} with H = 1
+    EW_LIST = [math.exp(-y) for y in Y.tolist()]  # e^{-Hy} with H = 1, as the solver
+    EW = np.array(EW_LIST)
     SIMPSON = np.full(POINTS, 2.0 * STEP / 6.0)  # Simpson weights on the fine grid
     SIMPSON[1::2] = 4.0 * STEP / 6.0
     SIMPSON[0] = SIMPSON[-1] = STEP / 6.0
-    EW_LIST = EW.tolist()
     PALETTE = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300",
                "#4a3aa7", "#e34948"]  # the colours of the figures, in a fixed order
 
@@ -234,44 +240,64 @@ CELLS = [
                 change += 2.0 * math.pi
             theta, raw = theta + change, new
             r2 = a * a + b * b
-            area, r2_prev = area + 0.25 * STEP * (r2_prev + r2), r2
+            area, r2_prev = area + 0.5 * STEP * (r2_prev + r2), r2  # trapezoid rule
             if store:
                 nodes.append((a, b))
-        return j * theta, area / r2_prev, nodes
+        return j * theta, area / r2_prev, nodes  # Phi and dPhi/deps = int r^2 / r(0)^2
 
 
     def find_level(k, j, parity, label, a4, guess, tol=1e-13):
-        """The level with this label: Newton's method inside a bracket."""
+        """The level with this label: the solver's Newton method inside a bracket."""
         target = label * math.pi + (0.0 if parity == "even" else 0.5 * math.pi)
         e = guess
         g, d = shoot(e, k, j, a4)[:2]
         g -= target
-        lo, hi = (e, None) if g < 0 else (None, e)
-        step = min(max(abs(g / d) * 1.2, 1e-4), 2.0)
-        while lo is None or hi is None:  # walk outward until the sign changes
-            trial = (hi - step) if lo is None else (lo + step)
-            gt, dt = shoot(trial, k, j, a4)[:2]
-            gt -= target
-            if gt < 0:
-                lo = trial
-            else:
-                hi = trial
-            if abs(gt) < abs(g):
-                e, g, d = trial, gt, dt
-            step *= 2.0
+        if g == 0.0:
+            return e
+        step = min(max(abs(g / d) * 1.2, 1e-4), 2.0)  # the first trial step
+        if g < 0:  # Phi too small: walk up with doubling steps until Phi >= target
+            lo = e
+            while True:
+                trial = lo + step
+                gt, dt = shoot(trial, k, j, a4)[:2]
+                gt -= target
+                if gt >= 0:
+                    hi = trial  # [lo, hi] brackets the level
+                    if abs(gt) < abs(g):
+                        e, g, d = trial, gt, dt  # keep the better end for Newton
+                    break
+                lo, e, g, d = trial, trial, gt, dt
+                step *= 2.0
+        else:  # Phi too large: walk down until Phi <= target
+            hi = e
+            while True:
+                trial = hi - step
+                gt, dt = shoot(trial, k, j, a4)[:2]
+                gt -= target
+                if gt <= 0:
+                    lo = trial
+                    if abs(gt) < abs(g):
+                        e, g, d = trial, gt, dt
+                    break
+                hi, e, g, d = trial, trial, gt, dt
+                step *= 2.0
         previous = math.inf
         while hi - lo > tol and g != 0.0:
             new = e - g / d  # Newton step, or bisection if it leaves the bracket
-            if not lo < new < hi or abs(g) > 0.5 * previous:
+            bisect = not lo < new < hi or abs(g) > 0.5 * previous
+            if bisect:
                 new = 0.5 * (lo + hi)
             previous = abs(g)
+            moved = abs(new - e)
             e = new
             g, d = shoot(e, k, j, a4)[:2]
             g -= target
             if g < 0:
                 lo = e
-            else:
+            elif g > 0:
                 hi = e
+            if moved <= tol and not bisect:
+                break  # a Newton step that moves less than tol: converged
         return e
 
 
