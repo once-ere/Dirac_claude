@@ -167,6 +167,14 @@ DONE AND VERIFIED
   rev-pairing, rev-theory, rev-gkd-notebook-reading, old-nb-build-dark, old-nb-build-ks, old-nb-verify-dark, old-nb-verify-ks,
   old-algebra, old-geometry, old-primordial, old-kohn-sham, old-00, old-pairing, old-matter-antimatter, nb-dark-sector, handoff-probes.
 
+FIXED 2026-10-08 after the handover note (verified):
+* GKD verifier false-success defect fixed and its outputs regenerated (1f7d31b): verify_lovelock_gkd.wls prints
+  'ERROR: cannot write ...' and exits 2; report 29/29 (only the script-sha line changed); test pin and
+  WOLFRAMSCRIPT_PROVENANCE.md updated; test_gkd_lovelock OK incl. slow tests.
+* PAIR_CREATION_PROOFS: KS-theory count 58 and the section-10 run order (dc6904e); PDF re-registered; 23/23 tests.
+* Book PDF registered warning-free (c55c6cd) after the root cause of the 637 overfull boxes (four-digit page numbers
+  in the contents) was fixed by the opt-in builder option --wide-page-numbers (e35bce6).
+
 NOT DONE / IN PROGRESS (partial edits are committed and UNVERIFIED)
 * Execution provenance: rev-gkd-verification - its verifier found a MAJOR false-success defect (verify_lovelock_gkd.wls exits 0 /
   SUCCESS when it cannot write the report) and wrong temp-file text; NOT fixed.  nb-kohn-sham - verified (9 minor), not fixed; the
