@@ -178,6 +178,20 @@ paths (rev-a4 record part 6.5: a missing lovelock-tensors.json gives FAIL checks
 written before the report) - fix, then re-verify the record; (3) notebook 00c asserts the list of 27 Revision reports: update it
 once all wave-2 reports are final, rebuild 00c; (4) run EXECUTION_PROVENANCE_FULL=1 tests/test_execution_provenance.py when no
 agent writes in the tree.
+UPDATE 08:40: phase 1 and phase 2a COMPLETE; everything verified by the lead and committed (chapters 00-15 except 00c's
+report list, 18; KS cross-check 31/31; T3 completion; dark sector x2; ks_source; LOVELOCK_GKD; Revision/notebooks/
+lovelock_gkd).  Running: phase 2b-1 (wf_6cda14c3-c49), phase 2b-2 (wf_4b4a4104-32c), agent lovelock-compare (new folder
+Revision/gkd_lovelock/comparison/: the comparison with the author's own Lovelock outputs that PROVENANCE_OF_THE_COMPUTATION
+announced but never recorded).  PHASE 2C LIST (lead, after the textbook agents finish): (a) tools: run_instructions.py
+troubleshooting (python -m jupyterlab / python -m nbconvert), nbkit provenance text (notebooks 15a/15b/15d write solver output
+into git-ignored target/textbook_* folders), walkthrough_diff false positives (blank line after an omitted docstring; '*'
+inside a code span of a heading); then rebuild all 89 notebooks and remove the local workarounds (00a-00d, 10a-10g);
+(b) lead-check record charge_conjugation_and_u1.py: the normal-ordering remark and the u1 conservation caveat; then 05c,
+05e, chapter 05, and the qualification 'charge constant only with no flux through the brane' in chapters 00 (l.74), 20,
+21, 22, abstract.md and TEXTBOOK_SPEC R3 (chapter 18 and 10 already corrected); (c) 00c report list; chapter 20 l.2868 vs
+chapter 21 Proposition 2; record that R3's 'complete proofs' are met by chapters 18-20 together; (d) chapter 23 incl. the
+glossary words reported by the fixers of 08, 11, 18, 20, 22; (e) a4 verifier failure paths; (f) old Stage 4 fix (after the
+diagnosis); (g) whole-Revision review; book review; assembly; PDF registration; EXECUTION_PROVENANCE_FULL; fresh clones.
 
 ### 0.4m COMPLETION RUN 2026-10-08 (user: "continue and complete the stages that are still open")
 
