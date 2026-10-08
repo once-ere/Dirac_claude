@@ -169,6 +169,9 @@ their journals into Revision/workflows/state_restart/ with merge_state.py (add t
    re-registered with --date "October 2026" (Section 23.7 quotes the verify command); (d) the glossary regeneration kit is in
    <scratchpad>/phase3b/refix-23/ (extract.py, group.py, build.py, splice.py, manual.json): move it into
    Revision/textbook/tools/chapter23/ together with the chapter generator, with repository-relative paths.
+   DONE 14:45 (36f7fce): Revision/textbook/tools/chapter23/run_all.py [--check]; --check reproduces chapter 23 byte for byte.
+8. Added 14:50: the pairing Wolfram + sympy outputs of old Stage 5 were re-run after the E5.1 fix (wolfram 141 checks, 0 failed;
+   python-pairing-report.json byte-identical; sha256 of every output unchanged) - <scratchpad>/vs5/summary.txt.
 
 ### 0.4t RUNNING AT ~14:40 (2026-10-08)
 

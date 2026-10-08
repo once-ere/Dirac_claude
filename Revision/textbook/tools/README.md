@@ -248,7 +248,8 @@ builds a test book in `DIR/chapter_NN/` (with one placeholder section per earlie
 the numbers are the book's) and runs `scripts/build_provenance_pdf.py` twice with the book's
 options: `--register` into a throw-away copy of `Revision/pdf-specifications.json`, then verify
 mode against it. Any LaTeX warning is printed as `latex_warning=` and fails. The repository is
-not changed. `--book` test-builds all chapters written so far the same way.
+not changed. `--book` test-builds all chapters written so far the same way, with
+`--wide-page-numbers` added (see below).
 
 `assemble_textbook.py` (no options) checks everything and writes
 `Revision/textbook/UNIVERSES_IN_PAIRS_TEXTBOOK.md` (all 24 chapters must exist);
@@ -259,12 +260,15 @@ PDF is then built with
 
 ```text
 python scripts/build_provenance_pdf.py Revision/textbook/UNIVERSES_IN_PAIRS_TEXTBOOK.md
-    --developer-layout --number-sections-from-zero
+    --developer-layout --number-sections-from-zero --wide-page-numbers
     --specifications Revision/pdf-specifications.json --date "October 2026" [--register]
 ```
 
 (one command line; `--date` sets the date under the title, otherwise the builder's default
-"September 2026" would be printed).
+"September 2026" would be printed; `--wide-page-numbers` widens the contents' page-number box,
+because the book has over 6000 pages and every contents entry on page 1000 or later would
+otherwise overflow it by 4.93pt.  `check_chapter.py --book` passes it too; a single chapter
+does not need it).
 
 ## 7. Tests
 

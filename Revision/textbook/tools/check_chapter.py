@@ -15,7 +15,8 @@ verify mode until warning-free").  Steps:
     every figure it shows, and a THROW-AWAY copy of the registry
     Revision/pdf-specifications.json (the repository's registry is never changed);
  3. scripts/build_provenance_pdf.py builds the PDF with the book's options
-    (--developer-layout --number-sections-from-zero, --repository-root ROOT,
+    (--developer-layout --number-sections-from-zero, with --book also --wide-page-numbers,
+    --repository-root ROOT,
     --specifications <the copy>) twice: first with --register into the throw-away copy,
     then in VERIFY mode against it.  Each build compiles the .tex twice (into pdf-a and
     pdf-b) and requires both PDFs to be byte-identical; the verify build also requires
@@ -66,11 +67,15 @@ DEFAULT_DATE = "October 2026"
 
 
 def build_pdf(markdown: Path, root: Path, registry: Path, date: str, register: bool,
-              log: Path) -> tuple[int, list[str], dict[str, str]]:
+              log: Path, wide_page_numbers: bool = False) -> tuple[int, list[str], dict[str, str]]:
     """Run scripts/build_provenance_pdf.py; (exit code, warnings, key=value lines)."""
     command = [sys.executable, str(BUILDER), str(markdown), "--developer-layout",
                "--number-sections-from-zero", "--repository-root", str(root),
                "--specifications", str(registry), "--date", date]
+    if wide_page_numbers:
+        # the whole book has over 6000 pages: without it every contents entry on page 1000 or
+        # later is an Overfull hbox of 4.93pt (TEXTBOOK_SPEC section 4; the book's own command)
+        command.append("--wide-page-numbers")
     if register:
         command.append("--register")
     completed = subprocess.run(command, cwd=root, capture_output=True, text=True,
@@ -165,7 +170,8 @@ def main(argv: list[str] | None = None) -> int:
         mode = "register" if register else "verify"
         build_start = time.perf_counter()
         code, warnings, values = build_pdf(markdown, root, registry, arguments.date,
-                                           register, logs / f"build-{mode}.log")
+                                           register, logs / f"build-{mode}.log",
+                                           wide_page_numbers=arguments.book)
         print(f"measurement_{mode}_seconds={time.perf_counter() - build_start:.1f}")
         for warning in warnings:
             print(f"latex_warning={mode}: {warning}")

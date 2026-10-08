@@ -172,8 +172,11 @@ CELLS = [
       number (Boltzmann's constant is 1).
     - **Rate**: a number per unit time; here the time is measured in units of the
       cooling time of the toy universe.
-    - **U(1) charge** $Q$ of the field of this theory: the conserved number of the phase
+    - **U(1) charge** $Q$ of the field of this theory: the number that belongs to the phase
       symmetry $\Psi \to e^{i\alpha}\Psi$, $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$.
+      Its local conservation law is PROVED (chapter 21); the total $Q$ is constant only
+      if no charge flows through the brane $z = \pi/2$, and this no-flux condition is
+      ASSUMED.
     - **Majorana-type term**: a term $\Psi^TM\Psi$ built from $\Psi$ twice (no
       $\Psi^\dagger$); under $\Psi \to e^{i\alpha}\Psi$ it is multiplied by
       $e^{2i\alpha}$, so it carries U(1) charge 2.
