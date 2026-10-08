@@ -3099,7 +3099,7 @@ As In [20] of Notebook 17a, for the six figures. Output: PASS every figure file 
 
 **HYPOTHESIS.** None in this chapter.
 
-**OPEN.** What metric the Kohn-Sham gas would produce with back-reaction; whether any state of dirac16complex is an admissible source of the author's metric; the time-dependent (non-adiabatic) evolution of the gas along the history; the source beyond $a_4 = 2$ and at nonzero temperature.
+**OPEN.** What metric the Kohn-Sham gas would produce with back-reaction; whether any state of dirac16complex is an admissible source of the author's metric; the time-dependent (non-adiabatic) evolution of the gas along the history; the source beyond $a_4 = 2$ and at nonzero temperature; the evolution after a turning point (the record's integration stops there, Section 17.17); the six series with 3-momentum that are not integrated.
 
 ### 17.24 Exercises
 
