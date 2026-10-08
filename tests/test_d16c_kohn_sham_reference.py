@@ -440,6 +440,126 @@ def fake_rust_tree(root, ref_dir, label, perturb=0.0):
                  {"verdict": "SUCCESS", "checks": {"x": True}, "files": [label + "/levels.csv"], "runs": []})
 
 
+class DeltaScfOccupationTests(unittest.TestCase):
+    """STAGE4_SPEC E4.14: the constrained occupations of every grid level come from that level's
+    own ground state (Rust scf.rs delta_scf: every Rust run is one grid)."""
+
+    def test_level_E1_independent_of_the_finest_level(self):
+        """Smearing 0.05 m: grid-dependent fractional occupations (N = 8, L = 3).  The E_1 of a
+        grid level must not depend on how many finer levels the run has; the rule before E4.14
+        (the finest level's occupations frozen on every level) fails this (6.2e-4)."""
+        e1 = {}
+        for levels in (2, 3):
+            p = K.Params(m=1.0, L=3.0, lambda_hat=0.0, T=0.0, N=8.0, N0=12, levels=levels, smearing=0.05,
+                         label="t")
+            run = K.SectorRun(p, mode="auto")
+            fine = run.levels[-1]["spectrum"].states
+            self.assertTrue(any(0.0 < st.f < 1.0 for st in fine if st.branch > 0))   # really smeared
+            d = K.delta_scf(run)
+            self.assertTrue(d["available"])
+            self.assertEqual(d["constrainedOccupations"], K.DSCF_OCCUPATIONS)
+            e1[levels] = d["levelsE1"]
+        for i in range(2):
+            self.assertAlmostEqual(e1[2][i], e1[3][i], delta=1e-10)
+
+    def test_integer_occupations_unchanged(self):
+        """Exact T = 0 occupations: the same constrained occupations on every level, and no new
+        record in run.json (the Stage-4 integer runs stay byte-identical)."""
+        p = K.Params(m=1.0, L=3.0, lambda_hat=0.0, T=0.0, N=8.0, N0=12, levels=2, label="t")
+        d = K.delta_scf(K.SectorRun(p, mode="auto"))
+        self.assertTrue(d["available"])
+        self.assertEqual((d["homoMultiplicity"], d["lumoMultiplicity"]), (8.0, 24.0))
+        self.assertNotIn("constrainedOccupations", d)
+
+    def test_resume_recomputes_a_smeared_run_written_before_the_rule(self):
+        """--resume keeps a smeared excited run only if its Delta-SCF records the per-level rule."""
+        spec = {"label": "t", "m": 1.0, "L": 3.0, "N": 8.0, "T": 0.0, "N0": 12, "levels": 2, "parity": 0,
+                "tip": "g0", "xc": "quadratic", "tasks": ["excited"], "lambda": "lam0", "smearing": 0.05}
+        q = K.params_of(spec, 0.0).to_dict()
+        doc = {"params": dict(q), "converged": True,
+               "excited": {"deltaSCF": {"available": True, "constrainedOccupations": K.DSCF_OCCUPATIONS}}}
+        self.assertTrue(K.run_matches(doc, spec, 0.0))
+        del doc["excited"]["deltaSCF"]["constrainedOccupations"]
+        self.assertFalse(K.run_matches(doc, spec, 0.0))
+        integer = dict(spec, smearing=0.0)
+        doc["params"] = K.params_of(integer, 0.0).to_dict()
+        self.assertTrue(K.run_matches(doc, integer, 0.0))
+
+
+def add_grid_partner(root, label, shifts):
+    """scf/<label>_g601: a copy of scf/<label> whose levels.csv row i carries eps + shifts[i]."""
+    import shutil
+    src = os.path.join(root, "scf", label)
+    dst = src + "_g601"
+    shutil.copytree(src, dst)
+    hdr, rows = C.read_csv(os.path.join(dst, "levels.csv"))
+    arr = np.array(rows, dtype=float)
+    col = hdr.index("eps")
+    for i, d in shifts.items():
+        arr[i, col] += d
+    K.write_csv(os.path.join(dst, "levels.csv"), hdr, arr)
+    with open(os.path.join(root, "scf", "summary.json"), encoding="utf-8") as handle:
+        summary = json.load(handle)
+    summary["files"].append(label + "_g601/levels.csv")
+    K.write_json(os.path.join(root, "scf", "summary.json"), summary)
+
+
+class CheckerLevelUncertaintyTests(unittest.TestCase):
+    """STAGE4_SPEC E4.14: the measured Rust y-grid change |eps(601) - eps(301)| of a level enters
+    that level's eigenvalue tolerance, and only that level's (rust_level_grid_uncertainties)."""
+    LABEL = "m1_L3_N8_lamp1_T0"
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.mkdtemp()
+        cls.ref_dir = os.path.join(cls.tmp, "ref")
+        spec = {"label": cls.LABEL, "m": 1.0, "L": 3.0, "N": 8.0, "T": 0.0, "N0": 12, "levels": 2,
+                "parity": 0, "tip": "g0", "xc": "quadratic", "tasks": [], "lambda": "lamp1"}
+        with contextlib.redirect_stdout(io.StringIO()):
+            K.execute_run(spec, 0.01, cls.ref_dir, lambda msg: None)
+
+    @classmethod
+    def tearDownClass(cls):
+        import shutil
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def check(self, name, perturb, shifts=None):
+        """The level in the middle of levels.csv is perturbed by perturb (fake_rust_tree); shifts
+        ({"mid" | "other": d}) build a _g601 partner, None = no partner."""
+        rust = os.path.join(self.tmp, name)
+        fake_rust_tree(rust, self.ref_dir, self.LABEL, perturb)
+        if shifts is not None:
+            hdr, rows = C.read_csv(os.path.join(rust, "scf", self.LABEL, "levels.csv"))
+            mid = len(rows) // 2
+            add_grid_partner(rust, self.LABEL, {(mid if k == "mid" else mid + 1): v for k, v in shifts.items()})
+        reg = C.Registry()
+        runs = C.rust_runs(rust, C.rust_summaries(rust))
+        C.compare_canonical(reg, self.ref_dir, runs)
+        return reg
+
+    def test_no_partner_fixed_tolerance(self):
+        # 3e-6 on a level near eps = 2.2 m exceeds the fixed tolerance 1e-6 |eps|
+        reg = self.check("nopartner", 3e-6)
+        self.assertFalse(reg.checks["canonical_eigenvalues"], reg.measurements["canonical_eigenvalues_detail"])
+
+    def test_measured_grid_uncertainty_of_the_level(self):
+        # the partner moves the same level back by 3e-6: |eps(601) - eps(301)| = 3e-6 enters its tolerance
+        reg = self.check("same", 3e-6, {"mid": -3e-6})
+        self.assertTrue(reg.checks["canonical_eigenvalues"], reg.measurements["canonical_eigenvalues_detail"])
+        rec = reg.comparisons["canonical_scf_" + self.LABEL]["detail"]["rustLevelGridUncertainty"]
+        self.assertAlmostEqual(rec["max"], 3e-6, delta=1e-12)
+
+    def test_uncertainty_is_per_level(self):
+        # a 3e-6 change of ANOTHER level does not widen the tolerance of the perturbed one
+        reg = self.check("other", 3e-6, {"other": -3e-6})
+        self.assertFalse(reg.checks["canonical_eigenvalues"], reg.measurements["canonical_eigenvalues_detail"])
+
+    def test_negative_control_large_error(self):
+        # an error of 1e-4 with a measured grid change of 2e-6 is still detected
+        reg = self.check("large", 1e-4, {"mid": -2e-6})
+        self.assertFalse(reg.checks["canonical_eigenvalues"], reg.measurements["canonical_eigenvalues_detail"])
+
+
 class CheckerTests(unittest.TestCase):
 
     def test_registry_and_missing_inputs(self):
