@@ -274,6 +274,11 @@ def section_condensate(g):
           "from a4-equations.json (linearMember): kappa (rho + p) = -(a4'^2 + H^2) [6 alpha1 - 48 alpha2 (a4'^2 + 5 H^2) + 432 alpha3 (a4'^4 + 2 a4'^2 H^2 + 5 H^4)] at a4' = A H")
     rhoE, pE = parse(lm["rhoEinstein"]["input"]), parse(lm["pEinstein"]["input"])
     okE = sp.simplify(rhoE + pE + 6 * (1 + AA ** 2) * Hs ** 2 / kap) == 0
+    # the two further statements of the detail: kappa rho = -(3 A^2 + 21) H^2 - Lambda on the linear member (so
+    # kappa rho > 0, i.e. the phantom ratio, needs Lambda < -(21 + 3 A^2) H^2), and w(Lambda = 0) = (A^2 - 5)/(A^2 + 7) > -1
+    okE = okE and sp.expand(kap * rhoE + (3 * AA ** 2 + 21) * Hs ** 2 + syms["Lam"]) == 0
+    wE0 = sp.simplify(sp.simplify(pE / rhoE).subs(syms["Lam"], 0))
+    okE = okE and sp.simplify(wE0 - (AA ** 2 - 5) / (AA ** 2 + 7)) == 0 and sp.simplify(wE0 + 1).is_positive is True
     check("linear_member_einstein_phantom_ratio", okE,
           "Einstein: rho + p = -6 (1 + A^2) H^2/kappa < 0 (kappa > 0); a self-consistent condensate source with rho > 0 therefore has w = p/rho = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1 (phantom in the RATIO sense), constant in x4; with the x4 constraint 3 a4'^2 + 21 H^2 + Lambda = -kappa rho (expansion_inferred_w_einstein) these hypotheses need Lambda < -(21 + 3 A^2) H^2, and for Lambda = 0 the ratio is w = (A^2 - 5)/(A^2 + 7) > -1")
     # expansion-inferred w of the 3-space observer for the backreacted homogeneous Einstein case
