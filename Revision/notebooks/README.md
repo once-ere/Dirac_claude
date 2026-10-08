@@ -23,6 +23,8 @@ checks what it prints and writes against the committed Revision record. Nothing 
 
 ## Commands (from the repository root, with the Python of a private environment, see section 2 of each notebook)
 
+`<name>` is the name of a notebook of the table above without `.ipynb`, for example `lovelock_gkd`.
+
 ```text
 python Revision/notebooks/tools/build_notebooks.py list
 python Revision/notebooks/tools/build_notebooks.py build <name> [--out DIR]

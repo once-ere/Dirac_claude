@@ -217,3 +217,19 @@ No run time and no path of the computer is printed (paths are shown relative to 
 * 2026-10-08, build B: the same command with `--out <scratch>/ksFinalB` - executed in 12.2 s; the
   notebook written is byte-identical to build A (same sha256), and the 23 files of the two output
   folders are byte-identical (table of section 2).
+* 2026-10-08, check: `python Revision/notebooks/tools/build_notebooks.py check kohn_sham_states --out
+  <scratch>/ksCheck1` - a third independent execution (12.4 s): `check kohn_sham_states: PASS - the
+  re-executed notebook is byte-identical to Revision/notebooks/kohn_sham_states.ipynb (512116 bytes)`.
+* 2026-10-08, tests: `python -m unittest Revision/tests/test_revision_notebooks.py -v` - 8 static tests
+  OK, 2 skipped; with `REVISION_NOTEBOOKS_FULL=1` - 10 tests OK in 29.8 s (the installed versions equal
+  the pins; `check` re-executions of `lovelock_gkd` and `kohn_sham_states` in temporary folders are
+  byte-identical to the committed notebooks; run concurrently with the headless run below).
+* 2026-10-08, headless instruction of section 2.5: `python -m nbconvert --to notebook --execute
+  Revision/notebooks/kohn_sham_states.ipynb --output-dir <scratch>` with `REVISION_NB_OUT=<scratch>` -
+  exit status 0, no error output, no stderr output in the executed notebook,
+  `checks of this notebook: 24 passed, 0 failed` (nbconvert's own file is not normalised, so it is not
+  compared byte for byte; nbconvert itself printed pyzmq's harmless Proactor event-loop warning on the
+  console).
+* Not verified here: the run instructions on macOS and Linux (written for them, executed only on
+  Windows 11); byte-identity across different computers or package versions (the PNG figures depend on
+  the matplotlib version).
