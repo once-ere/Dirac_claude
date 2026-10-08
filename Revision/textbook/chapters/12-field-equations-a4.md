@@ -40,7 +40,7 @@ Each word below is defined in plain terms; the later sections make every definit
 - **Divergence** $\nabla_\mu T^\mu{}_\nu$: the curved-space form of "the change of a quantity in time plus its outflow"; zero divergence means **conservation**. The **Bianchi identity** says that the left-hand side of the field equations has zero divergence for every metric.
 - **Vacuum**: no matter, $T^\mu{}_\nu = 0$.
 - **Null vector**: a direction of zero length, such as the frame direction $x_4 + x_8$ (time-like plus space-like). The **null energy condition** along it is $\rho + p_8 \ge 0$; ordinary matter satisfies it. Matter with $\rho > 0$ and $w < -1$ violates it and is called **phantom**.
-- **Linear member**: the history $a_4 = AHx_4 + a_0$ with a constant **slope** $A$. For $A > 0$ the extra times deflate as $e^{-AHx_4}$; the author's history is $A = 1$.
+- **Linear member**: the history $a_4 = AHx_4 + a_0$ with a constant **slope** $A$. For $A > 0$ the extra times deflate as $e^{-AHx_4}$. The author's metric leaves $a_4(x_4)$ free, and the author requires only that the extra times deflate ($A > 0$); the **canonical history** $A = 1$ is the choice of the Revision record (ASSUMED, a prescribed background; Section 12.12).
 - **Prescribed source**: a source chosen by hand to see what the equations do. It is ASSUMED, not derived from a field.
 - **Condensate**: a solution of a field equation that depends on the time $x_4$ only.
 - **Status labels**: PROVED (exact, with the verifier file and check name), COMPUTED (numerical, with its measured accuracy), ASSUMED, HYPOTHESIS, OPEN.
@@ -136,7 +136,7 @@ $$
 - $\Gamma^{x_8}{}_{x_5x_5} = -H\tan z\;g_{55} = H e^{-2a_4}\sin^{4/3}z/\cos z$.
 - $\Gamma^{x_8}{}_{x_8x_8} = \partial_8 g_{88}/(2g_{88}) = -6H/(\sin z\cos z) = -12H/\sin 2z$ (using $\sin 2z = 2\sin z\cos z$).
 
-The same holds with $x_1$ replaced by $x_2$ or $x_3$ and $x_5$ by $x_6$ or $x_7$. **Counting**: for each of the six directions $i \in \{x_1, x_2, x_3, x_5, x_6, x_7\}$ there are $\Gamma^i{}_{ix_4}$, $\Gamma^i{}_{x_4i}$, $\Gamma^i{}_{ix_8}$, $\Gamma^i{}_{x_8i}$, $\Gamma^{x_4}{}_{ii}$ and $\Gamma^{x_8}{}_{ii}$: $6 \times 6 = 36$ symbols, plus $\Gamma^{x_8}{}_{x_8x_8}$: 37 nonzero symbols of the 512, of which 25 are different. Every other symbol is zero; for example $\Gamma^{e}{}_{x_4x_4} = 0$ for every $e$, because $g_{44}$ is constant and no other entry has an index pair $(x_4, x_4)$. This is PROVED by Notebook 12a (In [5] and In [6], checks "37 nonzero Christoffel symbols (25 distinct, 12 of them twice)" and the symmetry check; the record computes the same symbols in `Revision/field_equations_a4/wolfram/FieldEquationsA4.wl`).
+The same holds with $x_1$ replaced by $x_2$ or $x_3$ and $x_5$ by $x_6$ or $x_7$. **Counting**: for each of the six directions $i \in \{x_1, x_2, x_3, x_5, x_6, x_7\}$ there are $\Gamma^i{}_{ix_4}$, $\Gamma^i{}_{x_4i}$, $\Gamma^i{}_{ix_8}$, $\Gamma^i{}_{x_8i}$, $\Gamma^{x_4}{}_{ii}$ and $\Gamma^{x_8}{}_{ii}$: $6 \times 6 = 36$ symbols, plus $\Gamma^{x_8}{}_{x_8x_8}$: 37 nonzero symbols of the 512, of which 25 are different. Every other symbol is zero; for example $\Gamma^{e}{}_{x_4x_4} = 0$ for every $e$, because $g_{44}$ is constant and no other entry has an index pair $(x_4, x_4)$. This is PROVED by Notebook 12a (In [5], checks "37 nonzero Christoffel symbols (25 distinct, 12 of them twice)" and the symmetry check; In [6] prints the 25 distinct symbols; the record computes the same symbols in `Revision/field_equations_a4/wolfram/FieldEquationsA4.wl`).
 
 ### 12.5 The curvature computed by hand
 
@@ -235,7 +235,7 @@ $$
 R^{x_1x_4}{}_{x_1x_8} = R^{x_4x_5}{}_{x_5x_8} = Ha_4'\cot z,\qquad R^{x_1x_8}{}_{x_1x_4} = R^{x_5x_8}{}_{x_4x_5} = -\frac{Ha_4'}{\cot z} .
 $$
 
-Together: 39 nonzero components with $a < b$ and $m < n$, and $4 \times 39 = 156$ of the 4096 components $R^{ab}{}_{mn}$ (each one appears with its four orderings). Three facts follow: no component contains the warp factor $\sin^{1/3}z$ or $e^{a_4}$; every component is a polynomial in $H$, $a_4'$, $a_4''$ and $\cot z$, divided at most by $\cot z$; and the antisymmetries hold. All three are PROVED. The sympy report of the record, `Revision/field_equations_a4/reports/python-a4-report.json`, has the checks `mixed_riemann_free_of_warp_and_a4`, `riemann_entries_laurent` and `riemann_pair_antisymmetry`; the Wolfram report has the same checks; and Notebook 12a reproduces them in In [8].
+Together: 39 nonzero components with $a < b$ and $m < n$, and $4 \times 39 = 156$ of the 4096 components $R^{ab}{}_{mn}$ (each one appears with its four orderings). Three facts follow: no component contains the warp factor $\sin^{1/3}z$ or $e^{a_4}$; every component is a polynomial in $H$, $a_4'$, $a_4''$ and $\cot z$, divided at most by $\cot z$; and the antisymmetries hold. All three are PROVED. The sympy report of the record, `Revision/field_equations_a4/reports/python-a4-report.json`, has the checks `mixed_riemann_free_of_warp_and_a4`, `riemann_entries_laurent` and `riemann_pair_antisymmetry`; the Wolfram report has `mixed_riemann_free_of_warp_and_a4` (whose detail includes the Laurent form in $\cot z$) and `riemann_pair_antisymmetry`; and Notebook 12a reproduces them in In [8].
 
 ### 12.6 The Ricci tensor, the Ricci scalar and the Einstein tensor by hand
 
@@ -450,7 +450,86 @@ Notebook 12a reproduces them in In [22] and In [23]. $F$ vanishes for every $a_4
 
 ### 12.10 The Bianchi identity and the conservation law
 
-**The identity.** Each Lovelock tensor has zero divergence for every metric (PROVED for the author's metric with an arbitrary $a_4$: record checks `E1_divergence_free`, `E2_divergence_free`, `E3_divergence_free` in both reports; Notebook 12a, In [19]). Since $\Lambda\delta^\mu_\nu$ has zero divergence too, the field equations can hold only if the source has zero divergence. For a general source whose parts may depend on $x_4$ and $x_8$ the record computes (PROVED: record `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json`, checks `divergence_x4_component` and `divergence_x8_component`; Notebook 12a, In [25]):
+**The identity.** Each Lovelock tensor has zero divergence for every metric (PROVED for the author's metric with an arbitrary $a_4$: record checks `E1_divergence_free`, `E2_divergence_free`, `E3_divergence_free` in both reports; Notebook 12a, In [19]). Since $\Lambda\delta^\mu_\nu$ has zero divergence too, the field equations can hold only if the source has zero divergence.
+
+**The divergence of the general source.** We compute it for the source of Section 12.8, whose parts $\rho, p_3, p_t, p_8, q_{48}, q_{84}$ may now depend on $x_4$ and $x_8$, from the definition of the covariant divergence (Section 9.9):
+
+$$
+\nabla_\mu T^\mu{}_\nu = \sum_\mu\partial_\mu T^\mu{}_\nu + \sum_{\mu,\lambda}\Gamma^\mu{}_{\mu\lambda}\,T^\lambda{}_\nu - \sum_{\mu,\lambda}\Gamma^\lambda{}_{\mu\nu}\,T^\mu{}_\lambda .
+$$
+
+Two sums of Christoffel symbols are needed first. From the list of Section 12.4:
+
+$$
+\sum_\mu\Gamma^\mu{}_{\mu x_4} = 3a_4' + 3(-a_4') + 0 + 0 = 0
+$$
+
+(the three 3-space directions give $\Gamma^{x_1}{}_{x_1x_4} = a_4'$ each, the three extra times $\Gamma^{x_5}{}_{x_5x_4} = -a_4'$ each, and $\Gamma^{x_4}{}_{x_4x_4} = \Gamma^{x_8}{}_{x_8x_4} = 0$), and
+
+$$
+\sum_\mu\Gamma^\mu{}_{\mu x_8} = 6H\cot z - \frac{6H}{\sin z\cos z} = 6H\,\frac{\cos^2 z - 1}{\sin z\cos z} = -\frac{6H\sin z}{\cos z} = -6H\tan z
+$$
+
+(the six directions $x_1, x_2, x_3, x_5, x_6, x_7$ give $H\cot z$ each, $\Gamma^{x_8}{}_{x_8x_8} = -6H/(\sin z\cos z)$ and $\Gamma^{x_4}{}_{x_4x_8} = 0$; then the common denominator $\sin z\cos z$, with $\cot z = \cos^2 z/(\sin z\cos z)$, and $\cos^2 z - 1 = -\sin^2 z$). This is $\partial_8\ln\cos z = 6H\cdot(-\sin z/\cos z)$, the logarithmic derivative of $\sqrt{|\det g|} = \cos z$ (Section 12.3), as the lemma of Section 9.9 says.
+
+**The component $\nu = x_4$.** The column $T^\lambda{}_{x_4}$ has only the entries $T^{x_4}{}_{x_4} = -\rho$ and $T^{x_8}{}_{x_4} = q_{84}$, and the entries $T^\mu{}_\lambda$ that are not zero are the eight diagonal ones and the two mixed ones $T^{x_4}{}_{x_8} = q_{48}$, $T^{x_8}{}_{x_4} = q_{84}$. So the three sums of the definition become
+
+$$
+\begin{aligned}
+\nabla_\mu T^\mu{}_{x_4} &= \partial_4 T^{x_4}{}_{x_4} + \partial_8 T^{x_8}{}_{x_4} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_4}\Big)T^{x_4}{}_{x_4} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_8}\Big)T^{x_8}{}_{x_4} \
+&\quad - \sum_\mu\Gamma^\mu{}_{\mu x_4}T^\mu{}_\mu - \Gamma^{x_8}{}_{x_4x_4}T^{x_4}{}_{x_8} - \Gamma^{x_4}{}_{x_8x_4}T^{x_8}{}_{x_4}
+\end{aligned}
+$$
+
+(the definition with $\nu = x_4$, keeping only the nonzero entries of $T$; in the next-to-last sum the diagonal entry $T^\mu{}_\mu$ has $\lambda = \mu$)
+
+$$
+= -\partial_4\rho + \partial_8 q_{84} + 0 - 6H\tan z\,q_{84} - \big(3a_4'\,p_3 - 3a_4'\,p_t\big) - 0 - 0
+$$
+
+(the entries inserted; the two sums of symbols above; on the diagonal $\Gamma^{x_1}{}_{x_1x_4} = a_4'$ multiplies $p_3$ three times and $\Gamma^{x_5}{}_{x_5x_4} = -a_4'$ multiplies $p_t$ three times, while $\Gamma^{x_4}{}_{x_4x_4} = \Gamma^{x_8}{}_{x_8x_4} = 0$; and $\Gamma^{x_8}{}_{x_4x_4} = \Gamma^{x_4}{}_{x_8x_4} = 0$ by Section 12.4)
+
+$$
+= -\partial_4\rho - 3a_4'(p_3 - p_t) + \partial_8 q_{84} - 6H\tan z\,q_{84}
+$$
+
+(the terms reordered and $3a_4'$ taken out of the bracket).
+
+**The component $\nu = x_8$.** In the same way, with the column $T^{x_4}{}_{x_8} = q_{48}$, $T^{x_8}{}_{x_8} = p_8$:
+
+$$
+\begin{aligned}
+\nabla_\mu T^\mu{}_{x_8} &= \partial_4 T^{x_4}{}_{x_8} + \partial_8 T^{x_8}{}_{x_8} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_4}\Big)T^{x_4}{}_{x_8} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_8}\Big)T^{x_8}{}_{x_8} \
+&\quad - \sum_\mu\Gamma^\mu{}_{\mu x_8}T^\mu{}_\mu - \Gamma^{x_8}{}_{x_4x_8}T^{x_4}{}_{x_8} - \Gamma^{x_4}{}_{x_8x_8}T^{x_8}{}_{x_4}
+\end{aligned}
+$$
+
+(the definition with $\nu = x_8$, keeping only the nonzero entries of $T$)
+
+$$
+= \partial_4 q_{48} + \partial_8 p_8 + 0 - 6H\tan z\,p_8 - \Big(3H\cot z\,p_3 + 3H\cot z\,p_t - \frac{6H}{\sin z\cos z}\,p_8\Big) - 0 - 0
+$$
+
+(the entries inserted; on the diagonal the six directions give $H\cot z$ times their pressure, $\Gamma^{x_4}{}_{x_4x_8} = 0$, and $\Gamma^{x_8}{}_{x_8x_8} = -6H/(\sin z\cos z)$ multiplies $p_8$; $\Gamma^{x_8}{}_{x_4x_8} = 0$ because $g_{88}$ does not depend on $x_4$, and $\Gamma^{x_4}{}_{x_8x_8} = -\partial_4 g_{88}/(2g_{44}) = 0$ for the same reason)
+
+$$
+= \partial_8 p_8 + \Big(\frac{6H}{\sin z\cos z} - \frac{6H\sin z}{\cos z}\Big)p_8 - 3H\cot z\,(p_3 + p_t) + \partial_4 q_{48}
+$$
+
+(the two terms with $p_8$ collected, $\tan z = \sin z/\cos z$)
+
+$$
+\begin{aligned}
+&= \partial_8 p_8 + 6H\cot z\,p_8 - 3H\cot z\,(p_3 + p_t) + \partial_4 q_{48} \
+&= \partial_8 p_8 + 3H\cot z\,(2p_8 - p_3 - p_t) + \partial_4 q_{48}
+\end{aligned}
+$$
+
+($\frac{6H}{\sin z\cos z} - \frac{6H\sin^2 z}{\sin z\cos z} = 6H\,\frac{1 - \sin^2 z}{\sin z\cos z} = 6H\,\frac{\cos z}{\sin z}$; then $3H\cot z$ taken out).
+
+**The six other components.** For $\nu = x_1$ every term is zero: the column $T^\lambda{}_{x_1}$ has only $T^{x_1}{}_{x_1} = p_3$, which does not depend on $x_1$; $\sum_\mu\Gamma^\mu{}_{\mu x_1} = 0$, because no entry of the metric depends on $x_1$; and every symbol $\Gamma^\lambda{}_{\mu x_1}$ that multiplies a nonzero entry $T^\mu{}_\lambda$ is zero ($\Gamma^{x_1}{}_{x_1x_1} = 0$, and none of the nonzero symbols of Section 12.4 has exactly one index equal to $x_1$). The same holds for $x_2, x_3, x_5, x_6, x_7$.
+
+These are the record's formulas (PROVED: record `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json`, checks `divergence_x4_component`, `divergence_x8_component` and `divergence_other_components_zero`; Notebook 12a, In [25], which reproduces the first two of them and the sympy record's check `conservation_components`):
 
 $$
 \begin{aligned}
@@ -513,11 +592,17 @@ $$
 
 **No vacuum.** A vacuum needs $\rho = p_8 = 0$, so $6\big((a_4')^2 + H^2\big) = 0$, which no real $a_4'$ satisfies when $H > 0$. If one allows complex numbers, the vacuum equations have exactly the two solutions $a_4' = \pm iH$, $\Lambda = -18H^2$ (from $(a_4')^2 = -H^2$ and $\Lambda = 3(a_4')^2 - 15H^2$), which are not real histories (PROVED: Wolfram record, check `einstein_no_vacuum_solution`; lead's record `Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`, check `no_vacuum_for_H_positive`; Notebook 12a, In [26] and figure 5). The author's metric is never empty space: it always needs matter, and that matter is of an unusual kind.
 
-**Every coupling.** For Einstein-Lovelock gravity the same combination factorises: $\kappa(\rho + p_8) = -6\big((a_4')^2 + H^2\big)\,V$, with $V = \alpha_1 - 8\alpha_2\big((a_4')^2 + 5H^2\big) + \alpha_3\big(72(a_4')^4 + 144(a_4')^2H^2 + 360H^4\big)$ (PROVED by Notebook 12a, In [29], from the record's components). The null energy condition can hold only where $V \le 0$, which needs a large enough Gauss-Bonnet coupling; a vacuum needs $V = 0$.
+**Every coupling.** For Einstein-Lovelock gravity the same combination factorises: $\kappa(\rho + p_8) = -6\big((a_4')^2 + H^2\big)\,V$, with $V = \alpha_1 - 8\alpha_2\big((a_4')^2 + 5H^2\big) + \alpha_3\big(72(a_4')^4 + 144(a_4')^2H^2 + 360H^4\big)$ (PROVED by Notebook 12a, In [29], from the record's components). The null energy condition can hold only where $V \le 0$, and a vacuum needs $V = 0$. With the Einstein term at its usual weight, $\alpha_1 = 1$, this needs Lovelock couplings beyond Einstein's. The bracket $8\big((a_4')^2 + 5H^2\big)$ that multiplies $-\alpha_2$ and the bracket $72(a_4')^4 + 144(a_4')^2H^2 + 360H^4$ that multiplies $\alpha_3$ are both positive, so $V \le 0$ needs a positive Gauss-Bonnet coupling $\alpha_2$ or a negative third-order coupling $\alpha_3$, large enough. For example, with $\alpha_3 = 0$:
+
+$$
+V \le 0 \iff 1 \le 8\alpha_2\big((a_4')^2 + 5H^2\big) \iff \alpha_2 \ge \frac{1}{8\big((a_4')^2 + 5H^2\big)}
+$$
+
+(the definition of $V$ with $\alpha_1 = 1$ and $\alpha_3 = 0$; then division by the positive bracket). With $\alpha_2 = 0$, at a moment where $a_4' = 0$: $V = 1 + 360\alpha_3H^4 \le 0$ exactly when $\alpha_3H^4 \le -1/360$; for instance $\alpha_3H^4 = -1/300$ gives $V = 1 - 360/300 = -0.2$.
 
 ### 12.12 The linear member: the extra times deflate by a choice of sign
 
-**The history.** The simplest history is $a_4 = AHx_4 + a_0$ with constants $A$ and $a_0$. Then $a_4' = AH$ and $a_4'' = 0$, the 3-space scale factor grows like $e^{AHx_4}$ and the extra-time scale factor shrinks like $e^{-AHx_4}$: for $A > 0$ the extra times deflate exponentially, at the rate $AH$. The author's history is $A = 1$.
+**The history.** The simplest history is $a_4 = AHx_4 + a_0$ with constants $A$ and $a_0$. Then $a_4' = AH$ and $a_4'' = 0$, the 3-space scale factor grows like $e^{AHx_4}$ and the extra-time scale factor shrinks like $e^{-AHx_4}$: for $A > 0$ the extra times deflate exponentially, at the rate $AH$. The author's metric does not fix the slope: the author requires only that the extra times deflate, $A > 0$. The Revision record takes $A = 1$ as its canonical history (ASSUMED, a prescribed background: the record `Revision/kohn_sham/results/parameters.json` writes "a4 = A H x4 (A = 1 canonical)" and calls it a PRESCRIBED BACKGROUND); this chapter calls $A = 1$ the **canonical history**.
 
 **The source it requires.** Line by line:
 
@@ -544,7 +629,7 @@ $$
 
 **Deflation is a choice of sign.** The slope enters only as $A^2$, $A^4$ and $A^6$. Replacing $A$ by $-A$ changes nothing: the equations accept extra times that deflate ($A > 0$) and extra times that inflate ($A < 0$) on exactly the same footing, and $A = 0$ (a static metric) as well. That the author's extra times deflate is a choice of sign, an initial condition; it is not a consequence of the field equations (PROVED: Notebook 12a, In [28], and Notebook 12b, In [4]; record key `theoremLinear` of `Revision/field_equations_a4/a4-equations.json`). This symmetry relates two histories of the metric of one universe. It is not the pairing of universes of masses $+m$ and $-m$, which is the subject of Chapters 18 to 20, and it says nothing about how a universe could be created.
 
-**The author's history in numbers.** For $A = 1$ and $\Lambda = 0$ (units $H = \kappa = 1$): $\kappa\rho = -24$, $\kappa p = 12$, $w = p/\rho = -1/2$ (Notebook 12b, In [5]). The energy density is negative. A positive energy density needs $-(21 + 3A^2)H^2 - \Lambda > 0$, that is $\Lambda < -(21 + 3A^2)H^2$, and then:
+**The canonical history in numbers.** For $A = 1$ and $\Lambda = 0$ (units $H = \kappa = 1$): $\kappa\rho = -24$, $\kappa p = 12$, $w = p/\rho = -1/2$ (Notebook 12b, In [5]). The energy density is negative. A positive energy density needs $-(21 + 3A^2)H^2 - \Lambda > 0$, that is $\Lambda < -(21 + 3A^2)H^2$, and then:
 
 $$
 \kappa(\rho + p) = -6(1 + A^2)H^2 < 0 \;\Rightarrow\; p < -\rho \;\Rightarrow\; \frac{p}{\rho} < -1
@@ -558,11 +643,11 @@ $$
 A^2 = \frac{1 - 40\alpha_2H^2}{8\alpha_2H^2},
 $$
 
-a real slope only for $0 < \alpha_2H^2 \le 1/40$, and then the $\Lambda$ that makes $\rho = 0$ (Notebook 12b, In [11], figures 5 and 6). At the edge $\alpha_2H^2 = 1/40$ the vacuum is static, $A = 0$, with $\Lambda = -21H^2 + 420H^2/40 = -10.5H^2$. With the third-order coupling the vacuum condition is, for each $A$, a straight line in the plane of $\alpha_2H^2$ and $\alpha_3H^4$ (Notebook 12b, In [12], figure 7). Whether nature has such couplings is not known; the Revision record makes no claim about their values.
+a real slope only for $0 < \alpha_2H^2 \le 1/40$, and then the $\Lambda$ that makes $\rho = 0$ (Notebook 12b, In [10] and In [11], figures 5 and 6). At the edge $\alpha_2H^2 = 1/40$ the vacuum is static, $A = 0$, with $\Lambda = -21H^2 + 420H^2/40 = -10.5H^2$. With the third-order coupling the vacuum condition is, for each $A$, a straight line in the plane of $\alpha_2H^2$ and $\alpha_3H^4$ (Notebook 12b, In [12], figure 7). Whether nature has such couplings is not known; the Revision record makes no claim about their values.
 
 ### 12.13 Example: the field equations derived by computer algebra
 
-The first notebook repeats everything of Sections 12.3 to 12.12 with exact computer algebra, starting from nothing but the metric, and compares every result with the Revision record. It computes the 37 Christoffel symbols, the 156 nonzero Riemann components, the Einstein tensor and the three Lovelock tensors (with its own GKD), checks them against the Rust program of the GKD record in all 64 components and against the classical Gauss-Bonnet formula, writes and reduces the field equations, checks the Bianchi identity and the conservation law, and specialises to Einstein gravity and to the linear member. It runs in about 20 seconds, prints 55 PASS lines and draws five figures. It needs no Rust.
+The first notebook repeats everything of Sections 12.3 to 12.12 with exact computer algebra, starting from nothing but the metric, and compares every result with the Revision record. It computes the 37 Christoffel symbols, the 156 nonzero Riemann components, the Einstein tensor and the three Lovelock tensors (with its own GKD), checks them against the Rust program of the GKD record in all 64 components and against the classical Gauss-Bonnet formula, writes and reduces the field equations, checks the Bianchi identity and the conservation law, and specialises to Einstein gravity and to the linear member. It runs in about 20 seconds, prints 59 PASS lines and draws five figures. It needs no Rust.
 
 <!-- NOTEBOOK 12a -->
 
@@ -752,9 +837,11 @@ for report_file in (PY, WL, LEAD, EMT):
     verdicts = [entry["verdict"] for entry in read_json(report_file)["checks"]]
     passed = verdicts.count("PASS")  # how many checks of the record passed
     say(f"{report_file}: {passed} of {len(verdicts)} checks PASS")
+    check(len(verdicts) > 0 and passed == len(verdicts),
+          f"every check of the record {Path(report_file).name} passed")
 ```
 
-For each of the four reports, a **list comprehension** collects the verdicts of all its checks, `.count("PASS")` counts the PASS verdicts, and `say` prints the count. The output shows 61 of 61, 47 of 47, 15 of 15 and 10 of 10: every check of the four records passed.
+For each of the four reports, a **list comprehension** collects the verdicts of all its checks, `.count("PASS")` counts the PASS verdicts, and `say` prints this count together with the number of checks of the report. `check` then requires that the report has at least one check and that every one of them passed; `Path(report_file).name` is the last part of the path, the file name, which names the report in the PASS line. So Out [2] shows, for each of the four reports by name, how many checks it has and that all of them passed, followed by a PASS line. This text does not repeat the counts: a report may gain checks when its record is extended, and Out [2] always shows the counts of the reports the notebook was run with.
 
 **In [3], the metric.**
 
@@ -1526,7 +1613,7 @@ for a2 in (0.005, 0.01, 0.02):  # the zeros of F for Gauss-Bonnet gravity
 ax.axhline(0.0, color="black", linewidth=0.8)
 ```
 
-For each case $F/2$ is computed on the whole array and drawn. In Einstein gravity $F = 2$ does not depend on $a_4'$, so the function returns the single number 2; multiplying by `np.ones_like(u)` (an array of ones of the same length) turns it into an array of the right length. The second loop marks the two zeros $\pm\sqrt{(1 - 40\alpha_2)/(24\alpha_2)}$ of each Gauss-Bonnet curve (Section 12.9) with black dots; `ax.axhline` draws the horizontal line $F = 0$.
+For each case $F/2$ is computed on the whole array and drawn. In Einstein gravity $F = 2$ does not depend on $a_4'$, but the function still returns an array of 601 values, all equal to 2: the formula that `sp.lambdify` turned into Python contains terms such as `720*ad1**4*alpha3`, and with `alpha3` equal to `0.0` such a term is the array `u**4` times zero. Multiplying by `np.ones_like(u)` (an array of ones of the same length) is therefore only a safeguard: a formula with no $a_4'$ left in it (for example after a simplification) would make the function return the single number 2, and the factor would turn that into an array of the right length as well. The second loop marks the two zeros $\pm\sqrt{(1 - 40\alpha_2)/(24\alpha_2)}$ of each Gauss-Bonnet curve (Section 12.9) with black dots; `ax.axhline` draws the horizontal line $F = 0$.
 
 ```python
 ax.set_xlabel("$a_4'/H$")
@@ -1726,7 +1813,7 @@ check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in figure_na
 all_checks_passed()
 ```
 
-The five figure files must exist, and the last line prints ALL 55 CHECKS PASSED (notebook 12a): 2 checks in In [4], 2 in In [5], 5 in In [8], 4 in In [12], 1 in In [14], 10 in In [16], 4 in In [17], 3 in In [18], 3 in In [19], 1 in In [21], 4 in In [22], 2 in In [23], 3 in In [25], 3 in In [26], 3 in In [28], 4 in In [29] and 1 in In [30].
+The five figure files must exist, and the last line prints ALL 59 CHECKS PASSED (notebook 12a): 4 checks in In [2], 2 in In [4], 2 in In [5], 5 in In [8], 4 in In [12], 1 in In [14], 10 in In [16], 4 in In [17], 3 in In [18], 3 in In [19], 1 in In [21], 4 in In [22], 2 in In [23], 3 in In [25], 3 in In [26], 3 in In [28], 4 in In [29] and 1 in In [30].
 
 ### 12.17 Example: the source that the linear member requires
 
@@ -1858,7 +1945,7 @@ report("Einstein, Lambda = 0, A = 1: w = p/rho", sp.Rational(p_1, rho_1))
 check(rho_1 == -24 and p_1 == 12, "A = 1, Lambda = 0: kappa rho = -24, kappa p = 12")
 ```
 
-The author's history $A = 1$ without cosmological constant, in units $H = 1$: $\kappa\rho = -24$, $\kappa p = 12$, and the exact fraction `sp.Rational(p_1, rho_1)` $= -1/2$.
+The canonical history $A = 1$ without cosmological constant, in units $H = 1$: $\kappa\rho = -24$, $\kappa p = 12$, and the exact fraction `sp.Rational(p_1, rho_1)` $= -1/2$.
 
 **In [6], figure 1: the Einstein source against A.**
 
@@ -2182,7 +2269,7 @@ report("m = -15, lambda = 25/6, Lambda = 0: A^2", example_2)
 check(example_1 == 5 and example_2 == 1, "the two worked examples: A^2 = 5 and A^2 = 1")
 ```
 
-Two worked examples: $m = 5$, $\lambda = 0$ gives $A^2 = 5$; $m = -15$, $\lambda = 25/6$ gives $A^2 = 5 - 216\cdot\tfrac{25}{6}/225 = 5 - 4 = 1$, the author's slope.
+Two worked examples: $m = 5$, $\lambda = 0$ gives $A^2 = 5$; $m = -15$, $\lambda = 25/6$ gives $A^2 = 5 - 216\cdot\tfrac{25}{6}/225 = 5 - 4 = 1$, the slope of the canonical history.
 
 ```python
 effective = []  # the effective mass M = m + lambda S of each example
@@ -2270,7 +2357,7 @@ The first line is the definition of $v$, the second the evolution equation divid
 
 **No stress.** With $\Delta = 0$: $a_4'' = 0$, so $a_4' = A H$ is constant and $a_4 = AHx_4 + a_0$: the linear member.
 
-**A pulse of stress (Einstein gravity).** We start on the author's history ($a_4(0) = 0$, $a_4'(0) = H$; units $H = 1$) and prescribe $\kappa\Delta(x_4) = \kappa\Delta_0\,e^{-((x_4 - x_c)/w)^2}$ with centre $x_c = 3$, width $w = 0.5$ and height $\kappa\Delta_0 = 2/(w\sqrt\pi)$. With $F = 2$:
+**A pulse of stress (Einstein gravity).** We start on the canonical history ($a_4(0) = 0$, $a_4'(0) = H$; units $H = 1$) and prescribe $\kappa\Delta(x_4) = \kappa\Delta_0\,e^{-((x_4 - x_c)/w)^2}$ with centre $x_c = 3$, width $w = 0.5$ and height $\kappa\Delta_0 = 2/(w\sqrt\pi)$. With $F = 2$:
 
 $$
 a_4'(x_4) = 1 + \int_0^{x_4} a_4''(s)\,ds = 1 + \frac{\kappa\Delta_0}{2}\int_0^{x_4} e^{-((s - x_c)/w)^2}\,ds
@@ -2308,7 +2395,7 @@ $$
 a_4' = 1 + e^{-\eta x_4},\qquad a_4 = x_4 + \frac{1 - e^{-\eta x_4}}{\eta}
 $$
 
-(integrate from 0, with $a_4(0) = 0$). The rate relaxes from $2H$ to $H$; the extra times keep deflating, first at the rate $2H$, later at the rate $H$. The conservation law gives $\kappa\rho' = -3a_4'\kappa\Delta = 6\eta\,a_4'(a_4' - 1) > 0$: the energy density rises from $-33$ (the value of $A = 2$) towards $-24$ (the value of $A = 1$).
+(integrate from 0, with $a_4(0) = 0$). The rate relaxes from $2H$ to $H$; the extra times keep deflating, first at the rate $2H$, later at the rate $H$. The conservation law gives $\kappa\rho' = -3a_4'\kappa\Delta = 6\eta\,a_4'(a_4' - 1) > 0$: the energy density rises. With $\Lambda = 0$ (the value Notebook 12c uses) the constraint gives $\kappa\rho = -3(a_4')^2 - 21H^2$, so $\kappa\rho$ rises from $-33H^2$ (at the rate $2H$, the value of the linear member $A = 2$) towards $-24H^2$ (the value of $A = 1$).
 
 **A constant stress in Einstein-Gauss-Bonnet gravity: the equation breaks down.** With $\alpha_1 = 1$, $\alpha_3 = 0$ and $H = 1$, $F(v) = 2 - 80\alpha_2 - 48\alpha_2v^2$. Define $G(v) = (2 - 80\alpha_2)v - 16\alpha_2v^3$; its derivative is $G'(v) = 2 - 80\alpha_2 - 48\alpha_2v^2 = F(v)$. Then, along a solution with a constant stress $\kappa\Delta$,
 
@@ -2332,13 +2419,13 @@ and there $a_4'' = \kappa\Delta/F$ becomes infinite: beyond $x_4^{\star}$ no sol
 
 ### 12.22 Example: four prescribed histories integrated with RK4
 
-The third notebook programs RK4, tests it, and integrates the evolution equation for the four prescribed stresses of Section 12.21. It compares every numerical history with its exact solution, measures the order of convergence of RK4, compares the energy density from the conservation law with the one from the constraint, and finds the Gauss-Bonnet breakdown at the predicted time. Along every history of the author's sign the extra times deflate exponentially at every time. At the end it reads the record's verdict on the Kohn-Sham states: the record `Revision/field_equations_a4/reports/ks-source-conditions.json` (5 of 5 checks PASS) finds that every one of the 70 recorded Kohn-Sham states with a nonzero energy-momentum tensor depends on $x_8$ and violates $p_3 + p_t = 2p_8$, even after integration over $x_8$ (for $N = 136$ particles and $\lambda = 0$ the ratio $(\int p_3 + \int p_t)/(2\int p_8)$ is 0.339767, 0.25969 and 0.239714 at $a_{4,0} = 0, 1, 2$, where the equations require 1; check `ks_integrals_violate_algebraic_condition`). So the Kohn-Sham history $a_4 = AHx_4$ of Chapters 14 and 15 is a PRESCRIBED background, not a solution of these equations with the Kohn-Sham source (Chapter 17). The notebook runs in about 15 seconds, prints 26 PASS lines and draws six figures.
+The third notebook programs RK4, tests it, and integrates the evolution equation for the four prescribed stresses of Section 12.21. It compares every numerical history with its exact solution, measures the order of convergence of RK4, compares the energy density from the conservation law with the one from the constraint, and finds the Gauss-Bonnet breakdown at the predicted time. Along every history with the deflating sign the extra times deflate exponentially at every time. At the end it reads the record's verdict on the Kohn-Sham states and recomputes the record's numbers. The record `Revision/field_equations_a4/reports/ks-source-conditions.json` (every one of its checks PASS; Notebook 12c, In [15]) finds that every recorded Kohn-Sham state with a nonzero energy-momentum tensor depends on $x_8$ and violates $p_3 + p_t = 2p_8$, even after integration over $x_8$ (check `ks_integrals_violate_algebraic_condition`). Notebook 12c, In [16], recomputes the record's numbers from the Kohn-Sham table `Revision/kohn_sham/results/ground/emt-integrals.csv` and asserts that they equal the record: of the 75 recorded states, 70 have a nonzero energy-momentum tensor; for these the ratio $(\int p_3 + \int p_t)/(2\int p_8)$, which equals 1 for every admissible source, is nowhere closer to 1 than 0.414328, and for $N = 136$ particles and $\lambda = 0$ it is 0.339767, 0.25969 and 0.239714 at the slices $a_{4,0} = 0, 1, 2$ (COMPUTED from the record's table, equal to the record). So the Kohn-Sham history $a_4 = AHx_4$ of Chapters 14 and 15 is a PRESCRIBED background, not a solution of these equations with the Kohn-Sham source (Chapter 17). The notebook runs in about 15 seconds, prints 30 PASS lines and draws six figures.
 
 <!-- NOTEBOOK 12c -->
 
 ### 12.25 Line-by-line walk-through of Notebook 12c
 
-The notebook has 16 code cells, In [1] to In [16].
+The notebook has 17 code cells, In [1] to In [17].
 
 **In [1], the set-up cell.** As in Notebook 12a (Section 12.16, In [1]), except that the comments hold the run instructions of Notebook 12c (Section 12.23) and `NOTEBOOK_ID = "12c"`.
 
@@ -2524,7 +2611,7 @@ save_figure(fig, "linear_member", ...)
 ```python
 X_C, WIDTH = 3.0, 0.5  # the centre and the width of the pulse
 PUSH = 2.0 / (WIDTH * math.sqrt(math.pi))  # kappa Delta_0
-RATE_START = 1.0  # a4'(0)/H: the author's deflating history A = 1
+RATE_START = 1.0  # a4'(0)/H: the canonical deflating history A = 1
 
 
 def pulse(x, y):
@@ -2782,7 +2869,7 @@ def constant_stress(x, y):
     return STRESS
 ```
 
-A constant stress $\kappa\Delta = 0.5$, starting on the author's history.
+A constant stress $\kappa\Delta = 0.5$, starting on the canonical history.
 
 ```python
 breakdown = {}  # alpha2 -> (x4, solution, predicted breakdown time)
@@ -2864,15 +2951,93 @@ save_figure(fig, "gauss_bonnet_breakdown", ...)
 ```python
 ks = read_json(KS)
 say("record: " + ks["conclusion"])
-names = [entry["name"] for entry in ks["checks"]]
-check(ks["summary"]["pass"] == ks["summary"]["checks"] == 5
-      and "ks_history_is_a_prescribed_background" in names,
-      "record: no Kohn-Sham state is an admissible source (5 of 5 checks PASS)")
+detail = {entry["name"]: entry["detail"] for entry in ks["checks"]}
+verdicts = [entry["verdict"] for entry in ks["checks"]]
+passed = verdicts.count("PASS")  # how many checks of the record passed
+say(f"{KS}: {passed} of {len(verdicts)} checks PASS")
+check(len(verdicts) > 0 and passed == len(verdicts) == ks["summary"]["checks"]
+      and "ks_history_is_a_prescribed_background" in detail,
+      "record: no Kohn-Sham state is an admissible source (every check PASS)")
 ```
 
-The record's conclusion is printed, and the check requires its summary to show 5 of 5 checks passed and the check that states the prescribed background to be present (`in` tests membership in a list).
+The record is read and its conclusion printed. `detail` is made by a **dictionary comprehension**: a dictionary that maps the name of each check of the record to its detail text, which the next cell reads. The verdicts are counted as in Notebook 12a, In [2], and the count is printed with the name of the report. The check requires that the report has checks, that all of them passed, that the report's own summary counts the same number (a chained comparison `a == b == c` is true when $a = b$ and $b = c$), and that the check stating the prescribed background is present (`in` tests whether a name is a key of the dictionary).
 
-**In [16], the last check.** The same pattern as In [15] of Notebook 12b (Section 12.20): the six figure files must exist, and the last line is ALL 26 CHECKS PASSED (notebook 12c): 1 check in In [3], 1 in In [4], 4 in In [5], 3 in In [7], 3 in In [9], 6 in In [10], 1 in In [12], 4 in In [13], 1 in In [14], 1 in In [15] and 1 in In [16].
+**In [16], the record's numbers recomputed from the Kohn-Sham table.**
+
+```python
+import csv  # reads tables of comma-separated values
+import re  # regular expressions: find a pattern in a text
+
+TABLE = "Revision/kohn_sham/results/ground/emt-integrals.csv"
+with repository_file(TABLE).open(encoding="utf-8", newline="") as handle:
+    table = {row["id"]: row for row in csv.DictReader(handle)}
+INTEGRALS = ("int_rho", "int_p3", "int_p_t", "int_p8")  # 2 Vol_7 int e^(6Hy) T dy
+```
+
+`csv` and `re` come with Python. The `with` block opens the table of the Kohn-Sham record and closes it again at the end of the block. `csv.DictReader` reads the table line by line: its first line holds the names of the columns, and every further line becomes a dictionary from column name to text. `table` maps the name of each state (column `id`) to its row. `INTEGRALS` names the four columns of the integrated energy density and pressures.
+
+```python
+zero = sorted(name for name, row in table.items()
+              if all(float(row[column]) == 0.0 for column in INTEGRALS))
+nonzero = [name for name in table if name not in zero]
+report("Kohn-Sham states in the table", len(table))
+report("states with a nonzero energy-momentum tensor", len(nonzero))
+say("states with a zero energy-momentum tensor: " + ", ".join(zero))
+```
+
+`zero` lists, in alphabetical order, the states whose four integrals are all exactly zero (`float` turns a text such as `0.000000000000000e0` into the number 0; `all` is true when every one of its values is true); `nonzero` holds the other states. Out [16] reports 75 states, 70 of them with a nonzero energy-momentum tensor, and names the five others: the five slices of the state with $N = 8$ particles and $\lambda = 0$.
+
+```python
+counted = re.search(r"(\d+) ground-state profiles .*?\((\d+) with a nonzero",
+                    detail["ks_profiles_depend_on_x8"])
+reproduces(counted is not None
+           and counted.groups() == (str(len(table)), str(len(nonzero))),
+           f"{len(nonzero)} of the {len(table)} states have a nonzero tensor",
+           KS, "ks_profiles_depend_on_x8")
+listed = detail["ks_zero_source_states_listed"].rsplit(": ", 1)[-1].split(", ")
+reproduces(sorted(listed) == zero,
+           "the states with a zero tensor are the ones the record lists",
+           KS, "ks_zero_source_states_listed")
+```
+
+The record writes its two counts into the detail text of its check `ks_profiles_depend_on_x8`, in the words "75 ground-state profiles ... (70 with a nonzero energy-momentum tensor)". `re.search` looks for a **pattern** in that text: `\d+` matches one or more digits, round brackets around a part of the pattern **capture** what that part matches, `.*?` matches any text up to the next part of the pattern, and `\(` matches a round bracket itself. `counted.groups()` returns the two captured numbers as texts, which must equal our two counts. The detail text of the check `ks_zero_source_states_listed` ends, after its last colon, with the list of the states whose tensor is zero: `rsplit(": ", 1)[-1]` takes the text after the last colon and space, and `split(", ")` cuts it at the commas. Both comparisons are made with `reproduces`, so the record's checks must also have the verdict PASS.
+
+```python
+ratio = {}  # r = (int p3 + int p_t)/(2 int p8) of every nonzero state
+for name in nonzero:
+    row = table[name]
+    if float(row["int_p8"]) != 0.0:
+        ratio[name] = ((float(row["int_p3"]) + float(row["int_p_t"]))
+                       / (2 * float(row["int_p8"])))
+closest = min(ratio, key=lambda name: abs(ratio[name] - 1.0))
+report(f"closest to 1: r of {closest}", f"{ratio[closest]:.6g}")
+HISTORY = ["N136_lam0_a00", "N136_lam0_a10", "N136_lam0_a20"]  # N = 136, lambda = 0
+for name in HISTORY:
+    slice_a4 = float(table[name]["a4"])  # the slice a4,0 of this state
+    report(f"N = 136, lambda = 0, a4,0 = {slice_a4:g}: r", f"{ratio[name]:.6g}")
+```
+
+For every nonzero state with $\int p_8 \ne 0$ the ratio $r = (\int p_3 + \int p_t)/(2\int p_8)$ is computed. `min(ratio, key=...)` returns the name whose ratio has the smallest distance $|r - 1|$ from 1 (`lambda name: ...` is a small function written in one line). The format `.6g` prints six significant digits, as the record does, and `:g` prints the slice $a_{4,0}$ (column `a4`) without trailing zeros. Out [16] shows the state closest to 1, N688_lamm2_a00, with $r = 0.414328$, and for the history $N = 136$, $\lambda = 0$ the ratios 0.339767, 0.25969 and 0.239714 at $a_{4,0} = 0, 1, 2$: far from the required 1 at every slice.
+
+```python
+text = detail["ks_integrals_violate_algebraic_condition"]
+tolerance = float(ks["tolerance"].split()[-1])  # "relative 1e-06" gives 1e-06
+best = re.search(r"closest to 1: (\S+) at (\w+)", text)
+reproduces(len(ratio) == len(nonzero) and abs(ratio[closest] - 1.0) > tolerance
+           and best is not None
+           and best.groups() == (f"{ratio[closest]:.6g}", closest),
+           "r differs from 1 for every nonzero state; the closest as recorded",
+           KS, "ks_integrals_violate_algebraic_condition")
+found = [re.search(name + r": (\S+?)[,\s]", text) for name in HISTORY]
+reproduces(all(item is not None and item.group(1) == f"{ratio[name]:.6g}"
+               for item, name in zip(found, HISTORY)),
+           "r of N = 136, lambda = 0 at a4,0 = 0, 1, 2 equals the record",
+           KS, "ks_integrals_violate_algebraic_condition")
+```
+
+The record's tolerance is read from its text "relative 1e-06" (`split()` cuts the text at the spaces, `[-1]` takes the last part). The first check requires a ratio for every nonzero state, that even the closest one differs from 1 by more than the tolerance, and that the record names the same closest state with the same six digits (`\S+` matches characters that are not spaces, `\w+` letters, digits and underscores). The second check finds in the record's text, for each state of the history, the number after its name and a colon (`\S+?` takes as few characters as possible, up to the comma or space that `[,\s]` matches) and requires it to be exactly our number printed with six digits; `zip` walks through the two lists side by side. A change of the Kohn-Sham record, or of its checker, that moved any of these numbers would stop the notebook here.
+
+**In [17], the last check.** The same pattern as In [15] of Notebook 12b (Section 12.20): the six figure files must exist, and the last line is ALL 30 CHECKS PASSED (notebook 12c): 1 check in In [3], 1 in In [4], 4 in In [5], 3 in In [7], 3 in In [9], 6 in In [10], 1 in In [12], 4 in In [13], 1 in In [14], 1 in In [15], 4 in In [16] and 1 in In [17].
 
 ### 12.26 A condensate of dirac16complex00 as an exact source
 
@@ -2928,7 +3093,7 @@ $$
 = (-1)\big(M^2 - 3HM\gamma^{(x_8)} + 3HM\gamma^{(x_8)} - 9H^2(\gamma^{(x_8)})^2\big) = -\big(M^2 - 9H^2\big)
 $$
 
-($(\gamma^{(x_4)})^2 = -1$, $(\gamma^{(x_8)})^2 = +1$; the middle terms cancel). So for $M^2 > 9H^2$, with the frequency $w = \sqrt{M^2 - 9H^2}$, the condensate oscillates: every eigenvalue of $\mathcal{A}$ is $+iw$ or $-iw$, and an eigenvector $\Phi_0$ with $\mathcal{A}\Phi_0 = -iw\Phi_0$ gives the solution $\Phi(x_4) = e^{-iwx_4}\Phi_0$ (its derivative is $-iw\Phi = \mathcal{A}\Phi$). For $M = \pm5H$, $w = 4H$. The hidden-direction term moves the threshold of oscillation from $|M| = 0$ to $|M| = 3H$ (Notebook 12d, In [6] and figure 1).
+($(\gamma^{(x_4)})^2 = -1$, $(\gamma^{(x_8)})^2 = +1$; the middle terms cancel). So for $M^2 > 9H^2$, with the frequency $w = \sqrt{M^2 - 9H^2}$, the condensate oscillates. If $\mathcal{A}v = \mu v$ for a nonzero vector $v$, then $\mu^2v = \mathcal{A}^2v = -w^2v$, so every eigenvalue of $\mathcal{A}$ is $+iw$ or $-iw$. Both occur, each 8 times: $\mathcal{A}$ is real, so its characteristic polynomial $\det(\mu - \mathcal{A})$ has real coefficients, and the non-real root $iw$ comes together with its complex conjugate $-iw$, with the same multiplicity; the 16 roots therefore split as $8 + 8$ (Exercise 10 gives a second proof with the trace; Notebook 12d, In [7], counts eight and eight numerically). Every vector $u$ is a sum of eigenvectors of the two kinds, $u = u_- + u_+$ with $u_- = \tfrac12\big(u + \tfrac{i}{w}\mathcal{A}u\big)$ and $u_+ = \tfrac12\big(u - \tfrac{i}{w}\mathcal{A}u\big)$: indeed $\mathcal{A}u_- = \tfrac12\big(\mathcal{A}u + \tfrac{i}{w}\mathcal{A}^2u\big) = \tfrac12(\mathcal{A}u - iwu) = -iw\,u_-$ (with $\mathcal{A}^2 = -w^2$), and in the same way $\mathcal{A}u_+ = +iw\,u_+$. An eigenvector $\Phi_0$ with $\mathcal{A}\Phi_0 = -iw\Phi_0$ gives the solution $\Phi(x_4) = e^{-iwx_4}\Phi_0$ (its derivative is $-iw\Phi = \mathcal{A}\Phi$). For $M = \pm5H$, $w = 4H$. The hidden-direction term moves the threshold of oscillation from $|M| = 0$ to $|M| = 3H$ (Notebook 12d, In [6] and figure 1).
 
 **The density is constant.** Line by line:
 
@@ -2956,7 +3121,7 @@ $$
 \rho = -T^{x_4}{}_{x_4} = K^{x_4}{}_{x_4} - L = MS - \tfrac\lambda2S^2 = mS + \tfrac\lambda2S^2,\qquad p_3 = p_t = p_8 = L = \tfrac\lambda2S^2 .
 $$
 
-So the condensate supplies exactly what the linear member needs: equal pressures and constant $\rho$ and $p$. But the 42 nonzero off-diagonal components of $K$ are multiples of 15 **three-gamma bilinears** $\bar\Phi\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}\Phi$: the six with $\{a, b, c\} = \{i, x_4, x_8\}$ ($i$ a 3-space direction or an extra time) and the nine with $\{i, j, x_4\}$ ($i$ in 3-space, $j$ an extra time). The off-diagonal field equations $0 = \kappa T^\mu{}_\nu$ need all 15 to vanish (Wolfram record, check `condensate_offdiagonal_are_three_gamma_bilinears`). The record shows that condensates with all 15 zero exist (checks `condensate_diagonal_witness_exact` and `authorT16_condensate_witness`), and proves that a condensate allows only the linear member (key `theoremLinear`).
+So the condensate supplies exactly what the linear member needs: equal pressures and constant $\rho$ and $p$. But the 42 nonzero off-diagonal components of $K$ are multiples of 15 **three-gamma bilinears** $\bar\Phi\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}\Phi$: the six with $\{a, b, c\} = \{i, x_4, x_8\}$ ($i$ a 3-space direction or an extra time) and the nine with $\{i, j, x_4\}$ ($i$ in 3-space, $j$ an extra time). The off-diagonal field equations $0 = \kappa T^\mu{}_\nu$ need all 15 to vanish (Wolfram record, check `condensate_offdiagonal_are_three_gamma_bilinears`). The record shows that condensates with all 15 zero exist (checks `condensate_diagonal_witness_exact` and `authorT16_condensate_witness`), and it proves that such a condensate allows only the linear member (key `theoremLinear` of `Revision/field_equations_a4/a4-equations.json`), under exact hypotheses. *Hypotheses*: $\Phi$ is a homogeneous condensate as above (classical, commuting) that solves its field equation and satisfies the off-diagonal conditions (all 15 bilinears zero); $a_4$ is twice continuously differentiable; the couplings are not all zero, $(\alpha_1, \alpha_2, \alpha_3) \ne (0, 0, 0)$. *Conclusion*: $a_4 = AHx_4 + a_0$ with real constants $A$ and $a_0$. *Proof*: the condensate has $p_3 = p_t$, so the evolution equation gives $a_4''F(a_4') = 0$ at every time. Suppose $a_4'' \ne 0$ at some time. Since $a_4''$ is continuous, $a_4'' \ne 0$ on a whole interval around it, so $F(a_4') = 0$ there: $a_4'$ takes only values among the roots of $F$. $F$ is a polynomial in $a_4'$ that is not identically zero when the couplings are not all zero (record check `evolution_F_not_identically_zero`), so it has finitely many roots. A continuous function on an interval that takes only finitely many values is constant there (between two different values it would have to pass through all the values in between). So $a_4'$ is constant on the interval and $a_4'' = 0$ there, a contradiction. Hence $a_4'' = 0$ at every time, $a_4' = AH$ is constant and $a_4 = AHx_4 + a_0$.
 
 **The two Einstein conditions.** For the linear member the Einstein equations with this source are the time equation and seven equal equations (Section 12.12):
 
@@ -2994,7 +3159,7 @@ $$
 | 2 | $\sqrt5$ | $0$ | $5$ | $-36/5$ | $5$ | $0$ | $(-36, 0)$ |
 | 3 | $1$ | $-30$ | $-5$ | $12/5$ | $10$ | $-25/4$ | $(6, -18)$ |
 
-The equations of state $w = p/\rho$ are $-1/2$, $0$ and $-3$. Example 1 by hand: $S = -6(1 + 1)/(-5) = 12/5$; $m = -36/S = -36\cdot5/12 = -15$; $\lambda = (M - m)/S = (-5 + 15)\cdot5/12 = 25/6$; $\rho = mS + \tfrac\lambda2S^2 = -36 + \tfrac{25}{12}\cdot\tfrac{144}{25} = -36 + 12 = -24$; $p = 12$. Examples 1 and 3 have the author's history $a_4 = Hx_4$: the extra times deflate as $e^{-Hx_4}$. Notebook 12d checks, exactly and for every time and every value of the hidden coordinate, all 16 components of the field equation and all 64 components of the Einstein equations, for $+A$ and for $-A$ (In [15]).
+The equations of state $w = p/\rho$ are $-1/2$, $0$ and $-3$. Example 1 by hand: $S = -6(1 + 1)/(-5) = 12/5$; $m = -36/S = -36\cdot5/12 = -15$; $\lambda = (M - m)/S = (-5 + 15)\cdot5/12 = 25/6$; $\rho = mS + \tfrac\lambda2S^2 = -36 + \tfrac{25}{12}\cdot\tfrac{144}{25} = -36 + 12 = -24$; $p = 12$. Examples 1 and 3 have the canonical history $a_4 = Hx_4$: the extra times deflate as $e^{-Hx_4}$. Notebook 12d checks, exactly and for every time and every value of the hidden coordinate, all 16 components of the field equation and all 64 components of the Einstein equations, for $+A$ and for $-A$ (In [15]).
 
 **Status.** These three solutions are PROVED for the stated numbers by exact computer algebra, under ASSUMED inputs: Einstein gravity, the sign convention $\sigma_T = +1$, the classical commuting field dirac16complex00 (not the quantised dirac16complex), and the chosen values of $\Lambda$, $m$ and $\lambda$. They are a computation of this book, not a Revision record. The equations do not select the sign of $A$: the same condensate solves them with $-A$. With $\Lambda = 0$ the energy density is negative; a positive one (example 3) needs $\Lambda < -(21 + 3A^2)H^2$ and then has $w < -1$. Not shown: whether such a condensate is stable, how it could arise, anything about the quantised field, and anything about the creation of universes.
 
@@ -3226,17 +3391,19 @@ ax.axvspan(-3.0, 3.0, color="grey", alpha=0.2, label="$|M| < 3H$: no oscillation
 
 ```python
 worst = 0.0  # the largest deviation of a numerical eigenvalue from +-i w
+upper = []  # for each mass: how many eigenvalues have a positive imaginary part
 for M_value in (-7.0, -5.0, -4.0, 4.0, 5.0, 7.0):
     matrix = np.array(condensate_matrix(M_value, 1).tolist(), dtype=float)
     eigenvalues = np.linalg.eigvals(matrix)
     w_value = np.sqrt(M_value ** 2 - 9.0)
     worst = max(worst, np.max(np.abs(np.abs(eigenvalues.imag) - w_value)),
                 np.max(np.abs(eigenvalues.real)))
+    upper.append(int(np.sum(eigenvalues.imag > 0)))  # the ones near +i w
     ax.plot([M_value] * 16, np.abs(eigenvalues.imag), "o", color="black",
             markersize=4, zorder=3)  # zorder 3: drawn on top of the red squares
 ```
 
-For six masses the exact matrix is converted to a floating-point array and its 16 eigenvalues are computed numerically with `np.linalg.eigvals`. `worst` records the largest distance of an imaginary part (in absolute value) from $w$ and the largest real part; the absolute imaginary parts are drawn as black dots at the mass (`[M_value] * 16` repeats the mass 16 times; `zorder=3` draws them above the other marks).
+For six masses the exact matrix is converted to a floating-point array and its 16 eigenvalues are computed numerically with `np.linalg.eigvals`. `worst` records the largest distance of an imaginary part (in absolute value) from $w$ and the largest real part. `eigenvalues.imag > 0` is an array of true and false values, one for each eigenvalue; `np.sum` counts the true ones (true counts as 1), and `upper.append` stores this count, the number of eigenvalues near $+iw$, for each mass. The absolute imaginary parts are drawn as black dots at the mass (`[M_value] * 16` repeats the mass 16 times; `zorder=3` draws them above the other marks).
 
 ```python
 ax.plot([], [], "o", color="black", markersize=4,
@@ -3248,11 +3415,13 @@ ax.set_ylabel("frequency $w/H$")
 ax.set_title("The frequency of a homogeneous condensate")
 ax.legend(fontsize=8, loc="upper center")
 say(f"largest deviation of a numerical eigenvalue from +-i w: {worst:.0e}")
-check(worst < 1e-9, "the 16 eigenvalues of A are +-i w (numerically, six masses)")
+say(f"eigenvalues near +i w, for each of the six masses: {upper}")
+check(worst < 1e-9 and upper == [8] * 6,
+      "the 16 eigenvalues of A are +i w and -i w, eight of each (six masses)")
 save_figure(fig, "condensate_frequency", ...)
 ```
 
-An empty plot with a label gives the dots one legend entry; red squares mark $M = \pm5$, $w = 4$; the largest deviation, $10^{-14}$, is printed and checked. **What the figure shows.** All dots lie on the curve $w = \sqrt{M^2 - 9H^2}$ (eight eigenvalues share each dot); inside the grey band there is no oscillation, so the examples use $M = \pm5H$.
+An empty plot with a label gives the dots one legend entry; red squares mark $M = \pm5$, $w = 4$. The largest deviation, $10^{-14}$, and the six counts, all 8, are printed; the check requires a deviation below $10^{-9}$ and the count 8 at every mass (`[8] * 6` is the list of six eights), so eight eigenvalues are near $+iw$ and the other eight near $-iw$. **What the figure shows.** All dots lie on the curve $w = \sqrt{M^2 - 9H^2}$; each dot stands for all 16 eigenvalues of its mass, because the absolute value of the imaginary part does not distinguish $+iw$ from $-iw$. Inside the grey band there is no oscillation, so the examples use $M = \pm5H$.
 
 **In [8], the family of condensates with the 15 bilinears zero.**
 
@@ -3830,13 +3999,13 @@ The green band $\Lambda < -24$ in both panels, the zero lines, and black markers
 | in Einstein gravity a condensate is a source of the linear member only if $\kappa MS = -6(A^2 + 1)H^2$ and $\kappa mS = -(36H^2 + 2\Lambda)$ | sympy and Wolfram reports, `condensate_einstein_quadratic_U`; Notebook 12b, In [13]; Notebook 12d, In [13] |
 | three exact solutions of the coupled equations of Einstein gravity and dirac16complex00, two with the extra times deflating as $e^{-Hx_4}$: all 16 field-equation components and all 64 Einstein components hold, for $+A$ and $-A$ | Notebook 12d, In [15]: a computation of this book, not a Revision record, under the assumptions listed below |
 
-**COMPUTED** (numerical, with measured accuracy; Notebook 12c): RK4 integrations of the evolution equation for prescribed stresses, agreeing with the exact solutions to $9 \times 10^{-11}$ (pulse, step 0.01) and to better than $10^{-9}$, the bound of the check (relaxing stress); measured convergence orders 4.24, 4.12, 4.06, 4.03; the energy density from conservation agrees with the constraint to $2 \times 10^{-11}$; the Gauss-Bonnet breakdown is reached at the predicted times $x_4^{\star} = 2.4682/H$ ($\alpha_2H^2 = 0.005$) and $0.4498/H$ ($\alpha_2H^2 = 0.01$) within 0.01; the eigenvalues of $\mathcal{A}$ agree with $\pm iw$ to $10^{-14}$ (Notebook 12d, In [7]).
+**COMPUTED** (numerical, with measured accuracy; Notebook 12c): RK4 integrations of the evolution equation for prescribed stresses, agreeing with the exact solutions to $9 \times 10^{-11}$ (pulse, step 0.01) and to better than $10^{-9}$, the bound of the check (relaxing stress); measured convergence orders 4.24, 4.12, 4.06, 4.03; the energy density from conservation agrees with the constraint to $2 \times 10^{-11}$; the Gauss-Bonnet breakdown is reached at the predicted times $x_4^{\star} = 2.4682/H$ ($\alpha_2H^2 = 0.005$) and $0.4498/H$ ($\alpha_2H^2 = 0.01$) within 0.01; the eigenvalues of $\mathcal{A}$ agree with $\pm iw$ to $10^{-14}$, eight of each sign (Notebook 12d, In [7]); the ratio $(\int p_3 + \int p_t)/(2\int p_8)$ of the 70 recorded Kohn-Sham states with a nonzero energy-momentum tensor, recomputed from the record's table `Revision/kohn_sham/results/ground/emt-integrals.csv` and equal to the record, is nowhere closer to the required 1 than 0.414328 (Notebook 12c, In [16]).
 
 **ASSUMED**: the stresses of Notebook 12c (test inputs; no field of the theory is known to produce them); Einstein gravity and the sign convention $\sigma_T = +1$ of the energy-momentum tensor in Notebook 12d; the classical commuting field dirac16complex00 (not the quantised dirac16complex) as the source there; the chosen values of $\Lambda$, $m$, $\lambda$ and of the Lovelock couplings; Lovelock's theorem is quoted from the literature, not proved.
 
 **HYPOTHESIS**: none is used in this chapter.
 
-**OPEN**: whether the condensates of Notebook 12d are stable and how they could arise; whether any state of the quantised field dirac16complex is an admissible source (the recorded Kohn-Sham states are not: `Revision/field_equations_a4/reports/ks-source-conditions.json`, 5 of 5 checks); the values of $\alpha_2$, $\alpha_3$, $\Lambda$ and $\kappa$ in nature. Nothing in this chapter concerns the creation of universes, in pairs or otherwise, or the asymmetry between matter and antimatter: the symmetry $A \to -A$ relates two histories of one metric and is not the pairing of universes of masses $+m$ and $-m$, whose exact statement and limits are the subject of Chapters 18 to 21.
+**OPEN**: whether the condensates of Notebook 12d are stable and how they could arise; whether any state of the quantised field dirac16complex is an admissible source (the recorded Kohn-Sham states are not: `Revision/field_equations_a4/reports/ks-source-conditions.json`, every one of its checks PASS, its numbers recomputed in Notebook 12c, In [15] and In [16]); the values of $\alpha_2$, $\alpha_3$, $\Lambda$ and $\kappa$ in nature. Nothing in this chapter concerns the creation of universes, in pairs or otherwise, or the asymmetry between matter and antimatter: the symmetry $A \to -A$ relates two histories of one metric and is not the pairing of universes of masses $+m$ and $-m$, whose exact statement and limits are the subject of Chapters 18 to 21.
 
 ### 12.32 Exercises
 
@@ -3848,15 +4017,15 @@ The green band $\Lambda < -24$ in both panels, the zero lines, and black markers
 
 *Answer.* With $a = m = x_5$, $b = n = x_6$ the derivative terms vanish ($\Gamma^{x_5}{}_{x_6x_6} = \Gamma^{x_5}{}_{x_6x_5} = 0$, because $g_{55}$ does not depend on $x_6$), and so does the last sum. The remaining sum has $e = x_4$ and $e = x_8$: $R^{x_5}{}_{x_6x_5x_6} = \Gamma^{x_5}{}_{x_5x_4}\Gamma^{x_4}{}_{x_6x_6} + \Gamma^{x_5}{}_{x_5x_8}\Gamma^{x_8}{}_{x_6x_6} = (-a_4')(-a_4'g_{66}) + H\cot z\,(-H\tan z\,g_{66}) = \big((a_4')^2 - H^2\big)g_{66}$ (Section 12.4: $\Gamma^{x_4}{}_{x_6x_6} = -a_4'g_{66}$ and $\Gamma^{x_8}{}_{x_6x_6} = -H\tan z\,g_{66}$). Raising with $g^{66} = 1/g_{66}$: $K_{x_5x_6} = (a_4')^2 - H^2$, the same as for two 3-space directions (the table of Section 12.5).
 
-**Exercise 3.** Use the rule $G^h{}_h = -\sum_{\text{pairs not containing } h}K$ to compute all diagonal components of the Einstein tensor for the author's history $a_4 = Hx_4$, and from them the required $\kappa\rho$, $\kappa p$ and $w$ for $\Lambda = 0$.
+**Exercise 3.** Use the rule $G^h{}_h = -\sum_{\text{pairs not containing } h}K$ to compute all diagonal components of the Einstein tensor for the canonical history $a_4 = Hx_4$, and from them the required $\kappa\rho$, $\kappa p$ and $w$ for $\Lambda = 0$.
 
 *Answer.* With $a_4' = H$, $a_4'' = 0$ the pair curvatures are: two 3-space directions or two extra times $0$; 3-space with extra time $-2H^2$; 3-space or extra time with the time $H^2$; with $x_8$ $-H^2$; time with $x_8$ $0$. Pairs without $x_4$: $9\cdot(-2H^2) + 6\cdot(-H^2) = -24H^2$, so $G^{x_4}{}_{x_4} = 24H^2$. Pairs without $x_8$: $9\cdot(-2H^2) + 6\cdot H^2 = -12H^2$, so $G^{x_8}{}_{x_8} = 12H^2$. Pairs without $x_1$: six mixed pairs ($-12H^2$), five time pairs ($+5H^2$), five with $x_8$ ($-5H^2$): $-12H^2$, so $G^{x_1}{}_{x_1} = 12H^2$, and the same for an extra time. Then $\kappa\rho = -G^{x_4}{}_{x_4} = -24H^2$, $\kappa p = 12H^2$, $w = 12/(-24) = -1/2$, as in Notebook 12b, In [5]. Check with the formulas: $3H^2 + 21H^2 = 24H^2$ and $15H^2 - 3H^2 = 12H^2$.
 
-**Exercise 4.** In Einstein gravity, for the author's history ($A = 1$), which cosmological constant makes the required energy density zero? What are then the pressure and $\rho + p$? Is this a vacuum?
+**Exercise 4.** In Einstein gravity, for the canonical history ($A = 1$), which cosmological constant makes the required energy density zero? What are then the pressure and $\rho + p$? Is this a vacuum?
 
 *Answer.* $\kappa\rho = -24H^2 - \Lambda = 0$ gives $\Lambda = -24H^2$. Then $\kappa p = 12H^2 + \Lambda = -12H^2$ and $\kappa(\rho + p) = -12H^2$, as the formula $-6(1 + A^2)H^2$ says. The pressure is not zero, so this is not a vacuum: a source with zero energy density and negative pressure is still needed.
 
-**Exercise 5.** In Einstein-Gauss-Bonnet gravity, find the coupling $\alpha_2H^2$ for which the author's history $A = 1$ is a vacuum, and the cosmological constant it needs. Check that the pressure vanishes too.
+**Exercise 5.** In Einstein-Gauss-Bonnet gravity, find the coupling $\alpha_2H^2$ for which the canonical history $A = 1$ is a vacuum, and the cosmological constant it needs. Check that the pressure vanishes too.
 
 *Answer.* $V = 1 - 8\alpha_2H^2(A^2 + 5) = 1 - 48\alpha_2H^2 = 0$ gives $\alpha_2H^2 = 1/48$ (the point checked in Notebook 12b, In [12]). With $\alpha_1 = 1$, $\alpha_3 = 0$: $\kappa\rho = -(21 + 3)H^2 + \alpha_2H^4(36 + 120 + 420) - \Lambda = -24H^2 + 576H^2/48 - \Lambda = -12H^2 - \Lambda$, which is zero for $\Lambda = -12H^2$. The pressure: $\kappa p = (15 - 3)H^2 + 12\alpha_2H^4(1 + 14 - 15) + \Lambda = 12H^2 + 0 - 12H^2 = 0$. (The formula of Notebook 12b, $\Lambda = 720H^4\alpha_2 - 36H^2 + 3/(16\alpha_2)$, gives $15H^2 - 36H^2 + 9H^2 = -12H^2$ as well.)
 
@@ -3874,8 +4043,8 @@ The green band $\Lambda < -24$ in both panels, the zero lines, and black markers
 
 **Exercise 9.** For the relaxing stress of Section 12.21, by how much does the extra-time scale factor $e^{-a_4}$ end up smaller than on the history $a_4 = x_4$, for $\eta = 0.5$?
 
-*Answer.* $a_4 - x_4 = (1 - e^{-\eta x_4})/\eta \to 1/\eta = 2$ for large $x_4$. So $e^{-a_4} = e^{-x_4}e^{-(a_4 - x_4)} \to e^{-x_4}e^{-2}$: the extra times end up smaller by the factor $e^{-2} \approx 0.135$ than on the author's history, because they deflated faster at first.
+*Answer.* $a_4 - x_4 = (1 - e^{-\eta x_4})/\eta \to 1/\eta = 2$ for large $x_4$. So $e^{-a_4} = e^{-x_4}e^{-(a_4 - x_4)} \to e^{-x_4}e^{-2}$: the extra times end up smaller by the factor $e^{-2} \approx 0.135$ than on the canonical history, because they deflated faster at first.
 
 **Exercise 10.** Show that $\mathcal{A} = -\gamma^{(x_4)}(M - 3H\gamma^{(x_8)})$ has the eigenvalues $\pm i\sqrt{M^2 - 9H^2}$ when $M^2 > 9H^2$ and $\pm\sqrt{9H^2 - M^2}$ when $M^2 < 9H^2$. What is the period of the condensate for $M = -5H$?
 
-*Answer.* If $\mathcal{A}v = \mu v$ for a nonzero $v$, then $\mathcal{A}^2v = \mu^2v$; with $\mathcal{A}^2 = -(M^2 - 9H^2)$ (Section 12.26) this gives $\mu^2 = 9H^2 - M^2$. For $M^2 > 9H^2$ the right-hand side is negative and $\mu = \pm i\sqrt{M^2 - 9H^2}$; for $M^2 < 9H^2$ it is positive and $\mu = \pm\sqrt{9H^2 - M^2}$, real: solutions grow or decay. For $M = -5H$: $w = \sqrt{25 - 9}\,H = 4H$, and $e^{-iwx_4}$ repeats after $x_4 = 2\pi/w = \pi/(2H) \approx 1.57/H$.
+*Answer.* If $\mathcal{A}v = \mu v$ for a nonzero $v$, then $\mathcal{A}^2v = \mu^2v$; with $\mathcal{A}^2 = -(M^2 - 9H^2)$ (Section 12.26) this gives $\mu^2 = 9H^2 - M^2$. For $M^2 > 9H^2$ the right-hand side is negative and $\mu$ is one of $\pm i\sqrt{M^2 - 9H^2}$; for $M^2 < 9H^2$ it is positive and $\mu$ is one of $\pm\sqrt{9H^2 - M^2}$, real: solutions grow or decay. This shows only that no other value occurs; that both signs occur, each 8 times, follows from the **trace** (the sum of the diagonal entries), which equals the sum of the 16 eigenvalues, each counted as often as it occurs. Write $\mathcal{A} = -M\gamma^{(x_4)} + 3H\gamma^{(x_4)}\gamma^{(x_8)}$. Then $\mathrm{tr}\,\gamma^{(x_4)} = \mathrm{tr}\big(\gamma^{(x_8)}\gamma^{(x_8)}\gamma^{(x_4)}\big) = \mathrm{tr}\big(\gamma^{(x_8)}\gamma^{(x_4)}\gamma^{(x_8)}\big) = -\mathrm{tr}\big(\gamma^{(x_8)}\gamma^{(x_8)}\gamma^{(x_4)}\big) = -\mathrm{tr}\,\gamma^{(x_4)}$, so $\mathrm{tr}\,\gamma^{(x_4)} = 0$ (first $(\gamma^{(x_8)})^2 = 1$; then $\mathrm{tr}(XY) = \mathrm{tr}(YX)$ with $X = \gamma^{(x_8)}$, which moves the first factor to the end; then the Clifford relation $\gamma^{(x_4)}\gamma^{(x_8)} = -\gamma^{(x_8)}\gamma^{(x_4)}$; then $(\gamma^{(x_8)})^2 = 1$ again). In the same way $\mathrm{tr}\big(\gamma^{(x_4)}\gamma^{(x_8)}\big) = \mathrm{tr}\big(\gamma^{(x_8)}\gamma^{(x_4)}\big) = -\mathrm{tr}\big(\gamma^{(x_4)}\gamma^{(x_8)}\big) = 0$. So $\mathrm{tr}\,\mathcal{A} = 0$. If $n_+$ eigenvalues equal $+\mu_0$ and $n_-$ equal $-\mu_0$, with $\mu_0 \ne 0$ (here $M^2 \ne 9H^2$), then $n_+ + n_- = 16$ and $\mathrm{tr}\,\mathcal{A} = (n_+ - n_-)\mu_0 = 0$, hence $n_+ = n_- = 8$. For $M^2 > 9H^2$ this also follows from $\mathcal{A}$ being real (Section 12.26). For $M = -5H$: $w = \sqrt{25 - 9}\,H = 4H$, and $e^{-iwx_4}$ repeats after $x_4 = 2\pi/w = \pi/(2H) \approx 1.57/H$.

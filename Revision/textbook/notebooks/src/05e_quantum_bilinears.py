@@ -490,9 +490,15 @@ CELLS = [
 
     The Revision record's exact Fock-space example has the mass $m = 3$ and the
     momentum 4 along $x1$, so $E = \sqrt{3^2 + 4^2} = 5$; it has no extra-time
-    momentum (the *good sector*). Its mode Hamiltonian is $h = -im\gamma^{(x4)} -
-    4\gamma^{(x4)}\gamma^{(x1)}$. Both matrices are Hermitian ($\gamma^{(x4)}$ is real
-    antisymmetric; $\gamma^{(x4)}\gamma^{(x1)}$ is real symmetric), they anticommute,
+    momentum (the *good sector*). It treats the metric near one point as flat
+    (constant gammas, no spin-connection term). Inserting $\Psi = u\,e^{i(k\,x1 -
+    E\,x4)}$ into $\gamma^{(x4)}\partial_{x4}\Psi + \gamma^{(x1)}\partial_{x1}\Psi =
+    m\Psi$ gives $-iE\gamma^{(x4)}u + ik\gamma^{(x1)}u = mu$; multiplying by
+    $-i\gamma^{(x4)}$ (with $\gamma^{(x4)}\gamma^{(x4)} = -1$) gives $Eu = hu$ with
+    the mode Hamiltonian $h = -im\gamma^{(x4)} - k\gamma^{(x4)}\gamma^{(x1)}$, here
+    with $k = 4$. Both matrices $-i\gamma^{(x4)}$ and $\gamma^{(x4)}\gamma^{(x1)}$ are
+    Hermitian ($\gamma^{(x4)}$ is real antisymmetric; $\gamma^{(x4)}\gamma^{(x1)}$ is
+    real symmetric), they anticommute,
     and $(-i\gamma^{(x4)})^2 = (\gamma^{(x4)}\gamma^{(x1)})^2 = 1$, so $hh = (9 + 16)1
     = 25\cdot 1$. The next cell builds $h$ and checks this, and finds orthonormal
     eigenvectors $u_1, \dots, u_8$ ($hu_s = 5u_s$) and $v_1, \dots, v_8$
@@ -995,7 +1001,7 @@ CELLS = [
     `bilinears_under_charge_conjugation` adds in parentheses that in the quantum theory
     normal ordering supplies one more sign for each bilinear, which would give
     $(S, J) \to (S, -J)$ for $\mathcal{C}_+$. That remark is not part of the record's
-    measured table, and this computation does not support it: normal ordering removes
+    measured table, and this computation contradicts it: normal ordering removes
     only the constant $c$, and the operator signs are exactly the measured signs of
     the anticommuting rows.
     """),
@@ -1068,8 +1074,9 @@ CELLS = [
     md(r"""
     ## 14. What the allowed conjugation does to the charges of the quanta
 
-    Only $M = \Gamma$ keeps the canonical rule (section 11). The next cell evaluates the
-    normal-ordered charge density $:\!J^{(x4)}\!:$ and its two conjugates
+    Of the two maps, only $M = \Gamma$ keeps the canonical rule (section 11). The next
+    cell evaluates the normal-ordered charge density $:\!J^{(x4)}\!:$ and its two
+    conjugates
     $:\!J'^{(x4)}\!:$ in the 16 one-quantum states. With $M = \Gamma$ every charge is
     reversed (particles $+1 \to -1$, antiparticles $-1 \to +1$); with $M = 1$ (which
     breaks the rule) the charges are unchanged.
@@ -1107,8 +1114,9 @@ CELLS = [
                 "the charge, a pure number): the field itself (grey circles: $+1$ for "
                 "particles, $-1$ for antiparticles), the conjugate with $M = 1$ (orange "
                 "squares, on the grey circles: unchanged) and the conjugate with $M = "
-                "\\Gamma$ (blue diamonds: every charge reversed). The only conjugation "
-                "that keeps the canonical rule, $\\Psi \\to \\Gamma\\Psi^{\\dagger T}$, "
+                "\\Gamma$ (blue diamonds: every charge reversed). The one of the two "
+                "conjugations that keeps the canonical rule, $\\Psi \\to "
+                "\\Gamma\\Psi^{\\dagger T}$, "
                 "reverses the charge (and, as the Revision record states, the mass).")
     '''),
     md(r"""
@@ -1146,12 +1154,15 @@ CELLS = [
       $(S, J) \to (-S, -J)$. The constant $c$ vanishes except for the charge density
       ($\mp 16$), and normal ordering removes it: after normal ordering the quantised
       field has exactly the anticommuting signs. The record's parenthetical remark
-      that normal ordering supplies one more sign is not supported.
-    - COMPUTED: the only conjugation that keeps the canonical rule,
-      $\Psi \to \Gamma\Psi^{\dagger T}$, reverses the normal-ordered charge of every
+      that normal ordering supplies one more sign is contradicted by this
+      computation.
+    - COMPUTED: of the two conjugations, the one that keeps the canonical rule,
+      $\Psi \to \Gamma\Psi^{\dagger T}$ (among the multiples of 1 and of $\Gamma$ the
+      only one, up to a phase factor), reverses the normal-ordered charge of every
       quantum.
-    - SCOPE: one momentum without extra-time part, at one point of space; the vacuum
-      is the Fock vacuum of that momentum. The sign argument of section 4 uses only the
+    - SCOPE: one momentum without extra-time part, at one point of space, with the
+      metric treated as flat near that point; the vacuum is the Fock vacuum of that
+      momentum. The sign argument of section 4 uses only the
       canonical rule and the subtraction of a number, so it does not depend on these
       choices.
     """),

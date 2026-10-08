@@ -97,6 +97,17 @@ FACTS = {
          "the exact algebra of sympy is slow on old computers; the whole notebook needs "
          "less than a minute on a 2024 laptop, and up to about two minutes while other "
          "programs use the processor. Wait, or close the other programs."],
+        ["\"Jupyter command `jupyter-nbconvert` not found\" or \"Jupyter command "
+         "`jupyter-lab` not found\" after typing `python -m jupyter`",
+         "the program jupyter starts its parts nbconvert and lab as separate programs, "
+         "which it looks for in the folders of the search path PATH, and the folder that "
+         "holds them is not on it. Start the two parts as Python modules instead, with "
+         "the environment active (Step 4) and in the folder Revision/textbook/notebooks "
+         "(Step 5): the first command below opens the notebook in JupyterLab, the second "
+         "runs it headless",
+         ["python -m jupyterlab 06c_mixed_contraction.ipynb",
+          "python -m nbconvert --to notebook --execute --inplace "
+          "06c_mixed_contraction.ipynb"]],
     ],
 }
 
@@ -492,7 +503,13 @@ CELLS = [
     along $\theta$ (left picture of the next figure); the correct spinor connection
     $\Omega_\theta = -\frac12\gamma^0\gamma^1$ records this, and equals
     $-(\partial_\theta U)U^{-1}$ for the spinor boost $U(\theta) = \cosh\frac\theta2 +
-    \sinh\frac\theta2\,\gamma^0\gamma^1$. The notebook's contraction gives
+    \sinh\frac\theta2\,\gamma^0\gamma^1$. A change of frame by a spin transformation
+    $R(\theta)$ changes the spinor connection into $R\,\Omega_\theta R^{-1} -
+    (\partial_\theta R)R^{-1}$; with $R = U$ applied to the connection 0 of the
+    Cartesian frame $(t, y)$ this gives $\Omega_\theta$, so $U$ carries the Cartesian
+    frame into the Milne frame, and with $R = U^{-1}$ it gives $U^{-1}\Omega_\theta U -
+    (\partial_\theta U^{-1})U = 0$: the inverse boost $U^{-1}$ removes the connection
+    (the cell checks both). The notebook's contraction gives
     $\Omega^{nb} = 0$: it deletes the whole connection. The cell also checks the
     divergence form $\gamma^\mu\Omega_\mu = \frac{1}{2\sqrt{|g|}}\sum_\mu
     \partial_\mu(\sqrt{|g|}\gamma^\mu) = \gamma^0/(2\tau)$ (here $\sqrt{|g|} = \tau$),
@@ -540,8 +557,11 @@ CELLS = [
           and milne_Omega_nb == [Z2, Z2],
           "Milne: Omega_theta = -(1/2) g0 g1, but the notebook's contraction gives 0")
     U = sp.cosh(theta / 2) * I2 + sp.sinh(theta / 2) * X2  # the spinor boost
-    check(matrix_is_zero(-U.diff(theta) * U.inv() - milne_Omega[1]),
-          "Milne: Omega_theta = -(dU/dtheta) U^-1, U = cosh(theta/2) + sinh(theta/2) g0 g1")
+    removed = U.inv() * milne_Omega[1] * U - U.inv().diff(theta) * U  # frame change U^-1
+    check(matrix_is_zero(-U.diff(theta) * U.inv() - milne_Omega[1])
+          and matrix_is_zero(removed),
+          "Milne: Omega_theta = -(dU/dtheta) U^-1, U = cosh(theta/2) + sinh(theta/2) g0 g1; "
+          "U^-1 removes it")
     milne_gup = curved_gammas(milne_e, [g0, g1])  # gamma^tau = g0, gamma^theta = g1/tau
     slash_milne = (milne_gup[0] * milne_Omega[0] + milne_gup[1] * milne_Omega[1])
     divergence_milne = ((tau * milne_gup[0]).diff(tau)
@@ -613,9 +633,10 @@ CELLS = [
                 "(blue) and unit space direction (orange). Along $\\theta$ the frame is "
                 "boosted, and the correct spin connection $\\omega_{\\theta 01} = -1$ "
                 "records this rate. Right: the diagonal entries $e^{\\theta/2}$ and "
-                "$e^{-\\theta/2}$ of the spinor boost $U(\\theta)$ that undoes it, with "
-                "$\\cosh(\\theta/2)$ and $\\sinh(\\theta/2)$, versus $\\theta$: real "
-                "and unbounded, unlike a spinor rotation.")
+                "$e^{-\\theta/2}$ of the spinor boost $U(\\theta)$ that carries the "
+                "Cartesian frame into the Milne frame (its inverse $U^{-1}$ removes the "
+                "connection), with $\\cosh(\\theta/2)$ and $\\sinh(\\theta/2)$, versus "
+                "$\\theta$: real and unbounded, unlike a spinor rotation.")
     '''),
     md(r"""
     ## 8. The author's metric: the correct and the notebook's spinor connection
@@ -758,8 +779,9 @@ CELLS = [
           "x5, x6, x7")
     slash = sum((gup[mu] * Omega[mu] for mu in range(8)), Z16)
     slash_nb = sum((gup[mu] * Omega_nb[mu] for mu in range(8)), Z16)
-    total_record = parse_mathematica(FORMULAS["gammaOmega_total"].replace(
-        'gamma["x8"]', "G8")).subs({sp.Symbol("H"): H, sp.Symbol("G8"): 1})
+    total_text = FORMULAS["gammaOmega_total"].replace(chr(34), "")  # 3*H*gamma[x8]
+    total_record = parse_mathematica(total_text.replace("gamma[x8]", "G8")).subs(
+        {sp.Symbol("H"): H, sp.Symbol("G8"): 1})
     check(matrix_is_zero(slash - total_record * gamma[7])
           and record_passed(REPORT_PY, "gamma_mu_Omega_mu_equals_3H_gamma_x8"),
           "correct: gamma^mu Omega_mu = 3 H gamma^(x8)",

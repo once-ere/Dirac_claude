@@ -269,10 +269,10 @@ $$
 
 This section collects what the rest of the chapter needs. Every formula is from the Revision record; the chapters named derive them in full.
 
-**The metric.** The author's metric is diagonal, with the entries (in the order $x_1, \dots, x_8$)
+**The metric.** The author's metric is diagonal. With the abbreviations $s = \sin^{1/3}z$ and $z = 6Hx_8$, its entries in the order $x_1, \dots, x_8$ are
 
 $$
-g = \mathrm{diag}\big(e^{2a_4}s,\ e^{2a_4}s,\ e^{2a_4}s,\ -1,\ -e^{-2a_4}s,\ -e^{-2a_4}s,\ -e^{-2a_4}s,\ \cot^2z\big),\qquad s = \sin^{1/3}z,\quad z = 6Hx_8 .
+g = \mathrm{diag}\big(e^{2a_4}s,\ e^{2a_4}s,\ e^{2a_4}s,\ -1,\ -e^{-2a_4}s,\ -e^{-2a_4}s,\ -e^{-2a_4}s,\ \cot^2z\big) .
 $$
 
 Its **scale factors** $f_a = \sqrt{|g_{aa}|}$ are $f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z$ (ordinary space), $f_4 = 1$ (the time), $f_5 = f_6 = f_7 = e^{-a_4}\sin^{1/6}z$ (the extra times) and $f_8 = \cot z$ (the hidden direction). When $a_4$ grows with the time, ordinary space inflates and the three extra times deflate exponentially. The volume factor is $\sqrt{|\det g|} = f_1f_2\cdots f_8 = e^{3a_4}e^{-3a_4}\sin z\cot z = \cos z$: the inflation of space and the deflation of the extra times cancel, and $a_4$ drops out (Chapter 12; record check `sqrt_abs_det_g_is_cos_z` of `Revision/field_equations_a4/reports/wolfram-a4-report.json`). This one fact will be the reason why the charge is conserved without any time-derivative terms (Section 21.17).
@@ -288,15 +288,29 @@ and the **symmetry pattern** $(\gamma^a)^T = \eta_{aa}\gamma^a$: the four space-
 **The four matrices built from them** (Chapters 4 and 5):
 
 - the **charge matrix** $C = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}$, the product of the four space-like gammas (the author's sigma16);
-- the **chirality** $\Gamma = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\cdots\gamma^{(x7)}$, the product of all eight, which equals $\mathrm{diag}(-1, \dots, -1, +1, \dots, +1)$ (eight of each);
+- the **chirality** $\Gamma = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\cdots\gamma^{(x7)}$, the product of all eight; it is diagonal, with the entries $-1$ in the first eight places and $+1$ in the last eight, written $\Gamma = \mathrm{diag}(-1_8, 1_8)$;
 - the **Krein matrix** $B = -iC\gamma^{(x4)}$;
 - the 28 **generators** $S^{ab} = \tfrac14(\gamma^a\gamma^b - \gamma^b\gamma^a)$ of the rotations and boosts, which for $a \ne b$ equal $\tfrac12\gamma^a\gamma^b$.
 
-**Three rules for moving gammas**, each derived from the Clifford relation:
+**Three rules for moving gammas**, each derived from the Clifford relation.
 
-- (R1) $\Gamma$ anticommutes with every gamma. Moving $\gamma^b$ from the left of $\Gamma$ to its right passes the seven factors $\gamma^a$ with $a \ne b$, each of which costs a sign, and the factor $\gamma^b$ itself, which costs none: the total sign is $(-1)^7 = -1$.
-- (R2) $\Gamma$ commutes with every product of an even number of gammas, in particular with $C$ and with every $S^{ab}$ (each factor costs a sign by (R1), and an even number of signs multiply to $+1$). Also $\Gamma\Gamma = 1$ and $\Gamma^T = \Gamma$, because $\Gamma$ is diagonal with entries $\pm1$.
-- (R3) $C^T = C$, $CC = 1$ and $C\gamma^aC = -(\gamma^a)^T$ for every $a$. Derivation: $C^T = (\gamma^{(x3)})^T(\gamma^{(x2)})^T(\gamma^{(x1)})^T(\gamma^{(x8)})^T = \gamma^{(x3)}\gamma^{(x2)}\gamma^{(x1)}\gamma^{(x8)}$ (the transpose of a product is the product of the transposes in reverse order; space-like gammas are symmetric); reversing the order of four different anticommuting factors takes $3 + 2 + 1 = 6$ exchanges, so $C^T = (-1)^6C = C$. Then $CC = CC^T = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}\gamma^{(x3)}\gamma^{(x2)}\gamma^{(x1)}\gamma^{(x8)} = 1$ (each neighbouring pair $\gamma\gamma$ of a space-like gamma is $+1$, from the inside out). Next, $\gamma^aC = -C\gamma^a$ when $a$ is space-like (passing through $C$ costs three signs for the other three factors and none for $\gamma^a$ itself) and $\gamma^aC = +C\gamma^a$ when $a$ is time-like (four signs). With the symmetry pattern, $(C\gamma^a)^T = (\gamma^a)^TC^T = \eta_{aa}\gamma^aC = -C\gamma^a$ in both cases: every $C\gamma^a$ is **antisymmetric**. Writing this as $(\gamma^a)^TC = -C\gamma^a$ and multiplying from the right by $C$ (with $CC = 1$) gives $(\gamma^a)^T = -C\gamma^aC$.
+**(R1)** $\Gamma$ anticommutes with every gamma. Moving $\gamma^b$ from the left of $\Gamma$ to its right passes the seven factors $\gamma^a$ with $a \ne b$, each of which costs a sign, and the factor $\gamma^b$ itself, which costs none: the total sign is $(-1)^7 = -1$.
+
+**(R2)** $\Gamma$ commutes with every product of an even number of gammas, in particular with $C$ and with every $S^{ab}$ (each factor costs a sign by (R1), and an even number of signs multiply to $+1$). Also $\Gamma\Gamma = 1$ and $\Gamma^T = \Gamma$, because $\Gamma$ is diagonal with entries $\pm1$.
+
+**(R3)** $C^T = C$, $CC = 1$ and $C\gamma^aC = -(\gamma^a)^T$ for every $a$. Derivation, line by line. First
+
+$$
+C^T = (\gamma^{(x3)})^T(\gamma^{(x2)})^T(\gamma^{(x1)})^T(\gamma^{(x8)})^T = \gamma^{(x3)}\gamma^{(x2)}\gamma^{(x1)}\gamma^{(x8)}
+$$
+
+(the transpose of a product is the product of the transposes in reverse order; space-like gammas are symmetric). Reversing the order of four different anticommuting factors takes $3 + 2 + 1 = 6$ exchanges, so $C^T = (-1)^6C = C$. Then
+
+$$
+CC = CC^T = \gamma^{(x8)}\gamma^{(x1)}\gamma^{(x2)}\gamma^{(x3)}\gamma^{(x3)}\gamma^{(x2)}\gamma^{(x1)}\gamma^{(x8)} = 1
+$$
+
+(each neighbouring pair $\gamma\gamma$ of a space-like gamma is $+1$; remove them from the inside out). Next, $\gamma^aC = -C\gamma^a$ when $a$ is space-like (passing through $C$ costs three signs for the other three factors and none for $\gamma^a$ itself) and $\gamma^aC = +C\gamma^a$ when $a$ is time-like (four signs). With the symmetry pattern, $(C\gamma^a)^T = (\gamma^a)^TC^T = \eta_{aa}\gamma^aC = -C\gamma^a$ in both cases: every $C\gamma^a$ is **antisymmetric**. Writing this as $(\gamma^a)^TC = -C\gamma^a$ and multiplying from the right by $C$ (with $CC = 1$) gives $(\gamma^a)^T = -C\gamma^aC$.
 
 The record checks these facts exactly (`Revision/algebra/reports/python-algebra.json` and `Revision/lead_checks/reports/charge-conjugation-and-u1.json`, check `representation_real`; Notebook 21a, In [5]).
 
@@ -476,7 +490,11 @@ Theorem CC is general. Here it is watched at work on an **exact solution of the 
 **The solution.** The Revision record (`Revision/theory/field-theory.json`, formula `exact_solutions`, item (i)) states: for $U = 0$,
 
 $$
-\Psi = \sin^\alpha z\,\Big(\cosh(kx_4)\,1 + \frac{\sinh(kx_4)}{k}M_m\Big)\chi,\qquad M_m = -m\gamma^{(x4)} + b\,\gamma^{(x4)}\gamma^{(x8)},\quad b = 3H(2\alpha + 1),\quad k^2 = b^2 - m^2 ,
+\Psi = \sin^\alpha z\,\Big(\cosh(kx_4)\,1 + \frac{\sinh(kx_4)}{k}M_m\Big)\chi ,
+$$
+
+$$
+M_m = -m\gamma^{(x4)} + b\,\gamma^{(x4)}\gamma^{(x8)},\qquad b = 3H(2\alpha + 1),\qquad k^2 = b^2 - m^2 ,
 $$
 
 with a constant column $\chi$ and any number $\alpha$. It depends only on $x_4$ and $z$. **Why it solves the equation**, line by line:
@@ -1731,7 +1749,11 @@ holds (and only then: two matrices that give the same bilinear for every column 
 So the left side is $6H\cos z\,C\gamma^{(x8)}$. For the right side the record gives the spin connection (formula `Omega_components` of `Revision/theory/field-theory.json`; Chapters 6 and 8 derive it):
 
 $$
-\Omega_{x_i} = \tfrac12f_i\big(a_4'\gamma^{(xi)}\gamma^{(x4)} + H\gamma^{(xi)}\gamma^{(x8)}\big)\ (i = 1, 2, 3),\qquad \Omega_{x_t} = -\tfrac12f_t\big(a_4'\gamma^{(x4)}\gamma^{(xt)} + H\gamma^{(xt)}\gamma^{(x8)}\big)\ (t = 5, 6, 7),
+\Omega_{x_i} = \tfrac12f_i\big(a_4'\gamma^{(xi)}\gamma^{(x4)} + H\gamma^{(xi)}\gamma^{(x8)}\big)\qquad (i = 1, 2, 3),
+$$
+
+$$
+\Omega_{x_t} = -\tfrac12f_t\big(a_4'\gamma^{(x4)}\gamma^{(xt)} + H\gamma^{(xt)}\gamma^{(x8)}\big)\qquad (t = 5, 6, 7),
 $$
 
 and $\Omega_{x_4} = \Omega_{x_8} = 0$, with $f_i = e^{a_4}\sin^{1/6}z$ and $f_t = e^{-a_4}\sin^{1/6}z$. Write $Y_\mu = \gamma^\mu\Omega_\mu$ (no sum). Since $\Omega_\mu^T(\gamma^\mu)^T = Y_\mu^T$ and, by (R3), $Y^TC = -CY$ for any combination $Y$ of single gammas, each direction contributes $\cos z\,(CY_\mu - Y_\mu^TC) = 2\cos z\,CY_\mu$.
@@ -2469,7 +2491,7 @@ save_figure(fig, "charge_density_maps",
             "point, so the pair carries none.")
 ```
 
-Figure 21b.3. **What the figure shows.** Left: bands of red and blue that repeat in time with the oscillation of the solution and vanish at the tip $z = 0$ (the factor $\cos z\sin^2z$ there) and at the brane $z = \pi/2$ (the factor $\cos z$). Middle: the same picture with red and blue exchanged. Right: a uniform pale panel: the pair's density is zero everywhere.
+Figure 21b.3. **What the figure shows.** Left: for this column the density is mostly negative: dark blue bands, separated by faint red ones, repeat in time with the oscillation of the solution (period about 2.37), and every band fades out towards the tip $z = 0$ (the factor $\sin^2z$) and towards the brane $z = \pi/2$ (the factor $\cos z$). Middle: the same picture with red and blue exchanged. Right: a uniform pale panel: the pair's density is zero everywhere.
 
 **In [12]: the charge balance and the stationary solution.**
 
@@ -4266,7 +4288,7 @@ save_figure(fig, "rate_model_histories",
             "$n_{eq}$, and the inverse decays erase almost everything.")
 ```
 
-Figure 21d.4. **What the figure shows.** Top: for $K = 30$ the curve of $n$ hugs the black line; for $K = 0.1$ it stays far above it and falls only slowly. Bottom: all three asymmetries rise steadily to their final values (they never decrease in this model): nearly 1 for $K = 0.1$, $0.41$ for $K = 3$ and only $1/29$ for $K = 30$, because the faster the decays, the more of their product the inverse decays erase while it is being made.
+Figure 21d.4. **What the figure shows.** Top: for $K = 3$ and $K = 30$ the curves of $n$ lie on or just above the black line of equilibrium; for $K = 0.1$ the curve stays far above it and falls only slowly, like $e^{-Kt}$. Bottom: all three asymmetries rise steadily to their final values (they never decrease in this model): nearly 1 for $K = 0.1$, $0.41$ for $K = 3$ and only $1/29$ for $K = 30$, because the faster the decays, the more of their product the inverse decays erase while it is being made.
 
 **In [12]: the efficiency for all rates.**
 

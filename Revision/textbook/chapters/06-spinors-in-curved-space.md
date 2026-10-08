@@ -319,13 +319,27 @@ $$
 
 ($i \cdot i = -1$). The Dirac operator of the flat plane in polar coordinates is therefore $\sigma_1(\partial_r + \frac{1}{2r}) + \frac{\sigma_2}{r}\partial_\varphi$: a term without derivative appears although the plane is flat.
 
-**But the plane is flat, and the connection can be undone.** The **curvature of the spinor connection** is $F_{r\varphi} = \partial_r\Omega_\varphi - \partial_\varphi\Omega_r + \Omega_r\Omega_\varphi - \Omega_\varphi\Omega_r$; here $\Omega_\varphi$ is constant and $\Omega_r = 0$, so every term vanishes: $F_{r\varphi} = 0$. And with the spinor rotation $U(\varphi) = \cos\frac\varphi2 + i\sin\frac\varphi2\,\sigma_3$ (Chapter 5: a rotation by the angle $\varphi$ acts on spinors through the half angle),
+**But the plane is flat, and the connection can be removed.** The **curvature of the spinor connection** is $F_{r\varphi} = \partial_r\Omega_\varphi - \partial_\varphi\Omega_r + \Omega_r\Omega_\varphi - \Omega_\varphi\Omega_r$; here $\Omega_\varphi$ is constant and $\Omega_r = 0$, so every term vanishes: $F_{r\varphi} = 0$. And with the spinor rotation $U(\varphi) = \cos\frac\varphi2 + i\sin\frac\varphi2\,\sigma_3$ (Chapter 5: a rotation by the angle $\varphi$ acts on spinors through the half angle),
 
 $$
 \partial_\varphi U = -\tfrac12\sin\tfrac\varphi2 + \tfrac i2\cos\tfrac\varphi2\,\sigma_3 = \tfrac i2\sigma_3\Big(\cos\tfrac\varphi2 + i\sin\tfrac\varphi2\,\sigma_3\Big) = \tfrac i2\sigma_3\,U
 $$
 
-(differentiate each entry; then factor out $\frac i2\sigma_3$, using $\sigma_3\sigma_3 = 1$ and $i \cdot i = -1$), so $-(\partial_\varphi U)U^{-1} = -\frac i2\sigma_3 = \Omega_\varphi$. In a flat space the spin connection is only the turning of the chosen frame, and a spinor rotation removes it. At $\varphi = 2\pi$ the frame is back where it started, but $U(2\pi) = \cos\pi = -1$: a spinor turns by half the angle, the double cover of Chapter 5. Notebook 06a checks all of this in In [5] and draws it in figure 1. PROVED (exact; the notebook's checks are its own, the plane is not a Revision record).
+(differentiate each entry; then factor out $\frac i2\sigma_3$, using $\sigma_3\sigma_3 = 1$ and $i \cdot i = -1$), so $-(\partial_\varphi U)U^{-1} = -\frac i2\sigma_3 = \Omega_\varphi$.
+
+**Which rotation removes it.** Section 6.15 will derive how the spinor connection changes when the frame is changed and the spinor components change by a spin transformation $R$: $\Omega'_\varphi = R\,\Omega_\varphi R^{-1} - (\partial_\varphi R)R^{-1}$. The Cartesian frame (the unit directions along $x$ and $y$) does not turn, so its connection is 0, and the rule with $R = U$ turns this 0 into $-(\partial_\varphi U)U^{-1} = \Omega_\varphi$: $U$ is the spinor rotation that carries the Cartesian frame into the polar frame. The way back is the inverse rotation $U^{-1} = \cos\frac\varphi2 - i\sin\frac\varphi2\,\sigma_3$ (multiply out: $UU^{-1} = \cos^2\frac\varphi2 + \sin^2\frac\varphi2\,\sigma_3\sigma_3 = 1$, because the two mixed terms cancel). Its derivative is
+
+$$
+\partial_\varphi U^{-1} = -\tfrac12\sin\tfrac\varphi2 - \tfrac i2\cos\tfrac\varphi2\,\sigma_3 = -\tfrac i2\sigma_3\Big(\cos\tfrac\varphi2 - i\sin\tfrac\varphi2\,\sigma_3\Big) = -\tfrac i2\sigma_3\,U^{-1}
+$$
+
+(differentiate each entry; then factor out $-\frac i2\sigma_3$, using $\sigma_3\sigma_3 = 1$ and $i \cdot i = -1$), so $(\partial_\varphi U^{-1})\,U = -\frac i2\sigma_3$. The matrix $\sigma_3$ commutes with $U$ and $U^{-1}$ (both are built from $1$ and $\sigma_3$), so $U^{-1}\Omega_\varphi U = \Omega_\varphi U^{-1}U = \Omega_\varphi$. The rule with $R = U^{-1}$ (whose inverse is $U$) therefore gives
+
+$$
+\Omega'_\varphi = U^{-1}\,\Omega_\varphi\,U - (\partial_\varphi U^{-1})\,U = -\tfrac i2\sigma_3 - \Big(-\tfrac i2\sigma_3\Big) = 0 ,
+$$
+
+and $\Omega'_r = 0$, because $U$ does not depend on $r$. (The rule with $R = U$ would instead give $-\frac i2\sigma_3 - \frac i2\sigma_3 = -i\sigma_3$: the rotation $U$ turns the polar frame further, not back.) In a flat space the spin connection is only the turning of the chosen frame, and the spinor rotation $U^{-1}$ removes it. At $\varphi = 2\pi$ the frame is back where it started, but $U(2\pi) = \cos\pi = -1$: a spinor turns by half the angle, the double cover of Chapter 5. Notebook 06a checks all of this in In [5] and draws it in figure 1. PROVED (exact; the notebook's checks are its own, the plane is not a Revision record).
 
 **Two lessons.** First, a nonzero spin connection, and even a nonzero $\sum_\mu\gamma^\mu\Omega_\mu$, does not mean that space is curved; it may only record how the chosen frame turns. Second, the test of curvature is $F_{\mu\nu}$, not $\Omega_\mu$. Both lessons return in Sections 6.16 and 6.17.
 
@@ -1080,11 +1094,13 @@ F_rphi = (plane_Omega[1].diff(r) - plane_Omega[0].diff(phi)
           + plane_Omega[0] * plane_Omega[1] - plane_Omega[1] * plane_Omega[0])
 U = sp.cos(phi / 2) * sp.eye(2) + sp.I * sp.sin(phi / 2) * sigma3  # spinor rotation
 pure_gauge = -U.diff(phi) * U.inv() - plane_Omega[1]  # must be the zero matrix
-check(F_rphi == sp.zeros(2, 2) and matrix_is_zero(pure_gauge),
-      "polar plane: flat (F_rphi = 0) and Omega_phi = -(dU/dphi) U^-1")
+removed = U.inv() * plane_Omega[1] * U - U.inv().diff(phi) * U  # frame change U^-1
+check(F_rphi == sp.zeros(2, 2) and matrix_is_zero(pure_gauge)
+      and matrix_is_zero(removed),
+      "polar plane: flat (F_rphi = 0), Omega_phi = -(dU/dphi) U^-1, U^-1 removes it")
 ```
 
-`F_rphi` is the curvature $\partial_r\Omega_\varphi - \partial_\varphi\Omega_r + [\Omega_r, \Omega_\varphi]$ (`.diff(r)` differentiates every entry). `U` is the spinor rotation $\cos\frac\varphi2 + i\sin\frac\varphi2\,\sigma_3$, and `pure_gauge` is $-(\partial_\varphi U)U^{-1} - \Omega_\varphi$ (`U.inv()` is the inverse matrix). The fifth check requires both to be zero: the plane is flat, and its spin connection is only the turning of the frame. The cell prints five PASS lines.
+`F_rphi` is the curvature $\partial_r\Omega_\varphi - \partial_\varphi\Omega_r + [\Omega_r, \Omega_\varphi]$ (`.diff(r)` differentiates every entry). `U` is the spinor rotation $\cos\frac\varphi2 + i\sin\frac\varphi2\,\sigma_3$, and `pure_gauge` is $-(\partial_\varphi U)U^{-1} - \Omega_\varphi$ (`U.inv()` is the inverse matrix): it vanishes when $\Omega_\varphi$ is what the rule $R\,\Omega R^{-1} - (\partial_\varphi R)R^{-1}$ of a change of frame makes from the connection 0 of the Cartesian frame with $R = U$. `removed` is that rule applied to $\Omega_\varphi$ with $R = U^{-1}$, whose inverse is $U$: $U^{-1}\Omega_\varphi U - (\partial_\varphi U^{-1})U$, the connection of the frame obtained by turning the polar frame back with $U^{-1}$ (Section 6.5 worked it by hand). The fifth check requires all three to be zero: the plane is flat, its spin connection is only the turning of the frame, and the inverse rotation $U^{-1}$ removes it. The cell prints five PASS lines.
 
 **In [6], figure 1.**
 
@@ -1130,18 +1146,18 @@ ax_right.set_title("A spinor turns by half the angle")
 ax_right.legend(loc="lower center", ncol=2, fontsize=8)
 ```
 
-The right panel draws the entry $U_{11} = \cos\frac\varphi2 + i\sin\frac\varphi2$ of the spinor rotation for 400 values of $\varphi$ from $0$ to $4\pi$: its real part $\cos(\varphi/2)$ as a solid line and its imaginary part $\sin(\varphi/2)$ dashed (the style string of two minus signs). The horizontal axis shows $\varphi/\pi$, so the full turn is at 2 and the double turn at 4. In the labels `\\` is a single backslash for matplotlib's formula typesetting.
+The right panel draws the entry $U_{11} = \cos\frac\varphi2 + i\sin\frac\varphi2$ of the spinor rotation $U$ (the rotation that carries the Cartesian frame into the polar frame; its inverse $U^{-1}$ removes the connection, Section 6.5) for 400 values of $\varphi$ from $0$ to $4\pi$: its real part $\cos(\varphi/2)$ as a solid line and its imaginary part $\sin(\varphi/2)$ dashed (the style string of two minus signs). The horizontal axis shows $\varphi/\pi$, so the full turn is at 2 and the double turn at 4. In the labels `\\` is a single backslash for matplotlib's formula typesetting.
 
 ```python
 save_figure(fig, "polar_frame_and_spin_rotation",
             "Warm-up in the flat plane. Left: the unit radial direction (black) and "
             ...
-            "$4\\pi$ is it $+1$ again.")
+            "rotation is $-1$, and only at $4\\pi$ is it $+1$ again.")
 ```
 
 `save_figure` saves the figure with its caption, shows it and prints one line with the name of the saved file, `06a_1_polar_frame_and_spin_rotation.png` in the folder `Revision/textbook/figures`.
 
-**What Figure 06a.1 shows.** On the left, the black and orange arrows turn together as one goes around the circle: the polar frame at the angle $\varphi$ is the Cartesian frame turned by $\varphi$. That turning is exactly what $\omega_{\varphi01} = -1$ records, although the plane is flat. On the right, the solid curve $\cos(\varphi/2)$ reaches $-1$ at $\varphi = 2\pi$ (the value 2 on the axis), where the dashed curve is 0: after one full turn the spinor rotation is $-1$, and only at $4\pi$ is it $+1$ again. A spinor turns by half the angle of its frame.
+**What Figure 06a.1 shows.** On the left, the black and orange arrows turn together as one goes around the circle: the polar frame at the angle $\varphi$ is the Cartesian frame turned by $\varphi$. That turning is exactly what $\omega_{\varphi01} = -1$ records, although the plane is flat; the spinor rotation $U(\varphi)$ performs the same turning on spinors, and its inverse $U^{-1}$ turns it back and removes the connection. On the right, the solid curve $\cos(\varphi/2)$ reaches $-1$ at $\varphi = 2\pi$ (the value 2 on the axis), where the dashed curve is 0: after one full turn the spinor rotation is $-1$, and only at $4\pi$ is it $+1$ again. A spinor turns by half the angle of its frame.
 
 **In [7], the author's metric and its vielbein** (Section 6.2).
 
@@ -1732,7 +1748,7 @@ report("largest |central difference - 3 H| over the grid",
 check(np.max(np.abs(ratio - 3.0)) < 1e-6, "the numerical derivative gives 3 H")
 ```
 
-The **central difference** $\big(F(x_8 + h) - F(x_8 - h)\big)/(2h)$ approximates the derivative $F'(x_8)$ with an error of about $\frac{h^2}{6}F'''$; divided by $2\cos z$ it should be $3H = 3$. The time term is identically zero (the density $\cos z$ does not depend on $x_4$). The RESULT line prints the largest deviation from 3 over the grid, 1.9e-09, and the check requires it to be below $10^{-6}$. For $F = \sin 6x_8$ the error estimate is $\frac{h^2}{6}\cdot216\cos z/(2\cos z) = 18h^2 = 1.8 \times 10^{-9}$, the printed size.
+The **central difference** $\big(F(x_8 + h) - F(x_8 - h)\big)/(2h)$ approximates the derivative $F'(x_8)$ with an error of about $\frac{h^2}{6}F'''$; divided by $2\cos z$ it should be $3H = 3$. The time term is not computed by a difference: by Fact 2 the time density $\cos z$ does not depend on $x_4$, so its coefficient is exactly zero, and `np.zeros_like(x8_values)` makes an array of 300 zeros (the shape of `x8_values`), which the figure draws as a zero line for comparison. The RESULT line prints the largest deviation from 3 over the grid, 1.9e-09, and the check requires it to be below $10^{-6}$. For $F = \sin 6x_8$ the error estimate is $\frac{h^2}{6}\cdot216\cos z/(2\cos z) = 18h^2 = 1.8 \times 10^{-9}$, the printed size.
 
 ```python
 fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(10.0, 4.2))
@@ -1820,14 +1836,15 @@ For each record equation (`enumerate` numbers them from 0) the text left of `==`
 ```python
 check(same, "all 16 components of the Dirac operator equal the record",
       record=f"{THEORY_FILE}, formula field_equation_components")
-check(gamma[7] * gamma[7] == I16 and record_passed(REPORT_PY,
-                                                    "nontriviality_Omega_zero_iff_flat"),
+both_fields = all(record_passed(REPORT_WL, name) for name in [
+    "nontriviality_1_dirac16complex", "nontriviality_2_dirac16complex00"])
+check(gamma[7] * gamma[7] == I16 and both_fields,
       "(gamma^(x8))^2 = 1: the term 3 H gamma^(x8) Psi vanishes only for Psi = 0",
       record=f"{REPORT_WL}, checks nontriviality_1_dirac16complex and "
              "nontriviality_2_dirac16complex00")
 ```
 
-The check of all sixteen components, and the non-triviality check: $(\gamma^{(x8)})^2 = 1$, so the term $3H\gamma^{(x8)}\Psi$ vanishes only for $\Psi = 0$, together with the record's checks for both fields. The cell prints three PASS lines with their records.
+The first check requires all sixteen components to agree. Then the non-triviality. `both_fields` is `True` when the WolframScript report `wolfram-field-theory.json` (the name `REPORT_WL` of In [3]) records both of its non-triviality checks as passed: `nontriviality_1_dirac16complex` for the Grassmann field and `nontriviality_2_dirac16complex00` for the commuting field (`all(...)` is `True` when every item of the list is). The last check requires, in addition, $(\gamma^{(x8)})^2 = 1$, computed here: if $3H\gamma^{(x8)}\Psi = 0$, multiplying from the left by $\gamma^{(x8)}$ gives $3H\Psi = 0$, so for $H > 0$ the term vanishes only for $\Psi = 0$. Its second printed line names the two record checks it consulted. The cell prints three PASS lines with their records.
 
 **In [21], figure 9.**
 
