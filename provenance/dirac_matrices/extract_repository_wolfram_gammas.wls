@@ -22,9 +22,10 @@
      wolfram/Dirac16Complex00.wl                       (earlier stages; takes its gammas from Geometry)
 
    For the a4 engine the file records the basis FEGammaFrame that the engine's results are built from,
-   the comparison basis FEGammaFrameComparison when the engine defines one (null otherwise), and three
+   the comparison basis FEGammaFrameComparison when the engine defines one (null otherwise), and four
    exact tests that FEC, FESab, FEGammaCoord and FEOmega are built from FEGammaFrame.  Nothing about the
    engine is assumed here: the builder decides from these matrices whether they are the author's.
+   The key "packages_loaded" lists the packages in the order they were loaded.
 
    Rational matrices are written multiplied by 4 (S) or 2 (projectors) so every entry is an integer;
    the complex matrix B is written as its real and imaginary parts.

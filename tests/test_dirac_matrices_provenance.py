@@ -30,7 +30,9 @@ N_TEXT_BLOCKS = 8 + 2 + 28 + 1 + 7
 
 
 def load_builder():
-    """A fresh copy of the builder module (its own check registry); importing it runs nothing."""
+    """A fresh copy of the builder module (its own check registry); importing it runs nothing and writes no
+    bytecode cache into provenance/dirac_matrices/."""
+    sys.dont_write_bytecode = True
     spec = importlib.util.spec_from_file_location("build_dirac_matrices_md_under_test", BUILDER)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
