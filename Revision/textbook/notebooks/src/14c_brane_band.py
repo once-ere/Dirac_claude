@@ -36,8 +36,8 @@ FACTS = {
         "its exact formula, the redshift of the band along the prescribed deflating "
         "history and the exact rescaling identity eps(k, a4) = eps(k e^(-a4), 0), "
         "the mirror symmetries of the two block types, the insensitivity of the band "
-        "to the tip angle at the cutoff L = 3, the particle branch, the lattice "
-        "degeneracies "
+        "to the tip angle at the cutoff L = 3 and the slice 0, the particle branch, "
+        "the lattice degeneracies "
         "4 r3(n2) and the closed shells of the free aufbau with the particle numbers "
         "8, 136 and 688; it reproduces the Revision Rust solver's records of all of "
         "these and draws six teaching figures."
@@ -105,8 +105,8 @@ CELLS = [
       \varepsilon(k\,e^{-a_{4,0}}, 0)$: along the history the band is redshifted
       (figure 3);
     - checks the mirror symmetries of the two block types $j = \pm1$ (figure 4);
-    - shows that, at the cutoff $L = 3$, the band does not feel the tip angle
-      $\theta$ (figure 5);
+    - shows that, at the cutoff $L = 3$ and the slice $a_{4,0} = 0$, the band does
+      not feel the tip angle $\theta$ (figure 5);
     - finds the particle branch, the degeneracies $4r_3(n^2)$ of the torus lattice
       and the closed shells of the free aufbau, with the particle numbers
       $N = 8, 136, 688$ of the Revision runs (figure 6).
@@ -623,7 +623,7 @@ CELLS = [
                 "brane band, the falling one on the right its sea partner.")
     '''),
     md(r"""
-    ## 10. The tip angle does not matter for the band (at the cutoff L = 3)
+    ## 10. The tip angle does not matter for the band (at the cutoff L = 3, slice 0)
 
     For $k \ne 0$ an orbital is suppressed toward the tip like
     $\exp(-k(\kappa(-L) - \kappa(y))/H)$ (the Revision record,
@@ -635,15 +635,24 @@ CELLS = [
     $\exp(-k(e^{HL} - 1)/H)$ (the Rust check `free_tip_angle_insensitivity`); then
     it computes the shifts for ten momenta from 0.1 to 1 for the figure.
 
+    Like the record, this section works at the slice $a_{4,0} = 0$ only (the default
+    `a4=0.0` of `levels`). At a later slice the lattice momentum $k$ acts like
+    $k\,e^{-a_{4,0}}$ at the slice 0 (the rescaling identity of section 8), and
+    there the suppression factor is no longer small: for $k = 0.25$ it is
+    $\exp(-0.25\,e^{-a_{4,0}}(e^{3} - 1))$, about $0.17$ at $a_{4,0} = 1$ and
+    $0.52$ at $a_{4,0} = 2$. Neither this notebook nor the Revision record computes
+    the tip angle at the later slices, so there the insensitivity is not
+    established.
+
     This concerns the tip ANGLE at the fixed cutoff $L = 3$. The position $L$ of the
     cutoff is a different question, which this notebook does not compute: the
     Revision record measures it for $L = 3$ to $6$
     (`Revision/kohn_sham/tip_convergence/`, report `tip-convergence.json`, 7 of 7
     checks PASS). The free results with $k \ne 0$ converge, but the recorded
     $L = 3$ values are low by up to 1.4% in $E_{KS}$ and 12% in the $p_8$ integral at
-    $a_{4,0} = 2$ (the redshifted brane band reaches the tip); the $k = 0$ levels
-    approach $\pm m$ only algebraically; and the interaction energy of the brane
-    zero modes depends strongly on $L$.
+    $a_{4,0} = 2$ (the redshifted brane band reaches the tip); the nonzero (bulk)
+    $k = 0$ levels approach $\pm m$ only algebraically; and the interaction energy
+    of the brane zero modes depends strongly on $L$.
     """),
     code(r'''
     tip_rows = read_csv(f"{SPECTRUM}/tip-angle.csv")
@@ -697,20 +706,22 @@ CELLS = [
     ax.annotate("rounding level", (0.75, 2e-15), fontsize=8, color="gray")
     ax.set_xlabel("3-momentum $k$ (units of $H$)")
     ax.set_ylabel("shift of the band level (units of $m$, logarithmic)")
-    ax.set_title("the band does not feel the tip angle ($L = 3$)")
+    ax.set_title("the band does not feel the tip angle ($L = 3$, slice 0)")
     ax.legend(fontsize=8)
     save_figure(fig, "tip_insensitivity",
                 "The change of the brane-band level when the tip condition "
                 "$(1 - Q(\\theta))\\chi(-L) = 0$ is changed from $\\theta = 0$ to "
                 "$\\theta = 0.5$ (circles) and $\\theta = 1$ (squares), against the "
-                "3-momentum $k$ (units of $H$), for $m = 1$, $L = 3$, logarithmic "
-                "vertical axis in units of $m$; every shift lies below the "
+                "3-momentum $k$ (units of $H$), for $m = 1$, $L = 3$ at the slice "
+                "$a_{4,0} = 0$, logarithmic vertical axis in units of $m$; every "
+                "shift lies below the "
                 "suppression factor $\\exp(-k(e^{HL} - 1)/H)$ (line), falls by a "
                 "factor of 11 to 33 for each step of $0.1$ in $k$, and from "
                 "$k = 0.9$ on it is at the rounding level of the computer (dotted "
-                "line): at the cutoff $L = 3$ the band does not feel the tip angle "
-                "(the dependence on the cutoff $L$ itself is measured in the "
-                "Revision record, Revision/kohn_sham/tip_convergence/).")
+                "line): at the cutoff $L = 3$ and the slice 0 the band does not feel "
+                "the tip angle (at the later slices this is not computed; the "
+                "dependence on the cutoff $L$ itself is measured in the Revision "
+                "record, Revision/kohn_sham/tip_convergence/).")
     '''),
     md(r"""
     ## 11. Particles, degeneracies and closed shells
@@ -931,8 +942,10 @@ CELLS = [
       $a_{4,0} = 0$ to $0.0642\,m$ at $a_{4,0} = 2$.
     - The two block types have mirrored spectra, $\mathrm{spec}\,h_{-1} =
       -\mathrm{spec}\,h_{+1}$, and $\sigma_3$ maps $(j, k)$ to $(-j, -k)$.
-    - At the cutoff $L = 3$ the band lives at the brane: changing the tip angle
-      shifts it by less than $\exp(-k(e^{HL} - 1)/H)$. Moving the cutoff $L$ itself
+    - At the cutoff $L = 3$ and the slice 0 the band lives at the brane: changing
+      the tip angle shifts it by less than $\exp(-k(e^{HL} - 1)/H)$. At the later
+      slices this factor is not small and the tip angle is not computed there (by
+      this notebook or by the record). Moving the cutoff $L$ itself
       is another matter (not computed here): the Revision record
       `Revision/kohn_sham/tip_convergence/` finds the $L = 3$ values low by up to
       1.4% in $E_{KS}$ at $a_{4,0} = 2$, where the redshifted band reaches the tip.

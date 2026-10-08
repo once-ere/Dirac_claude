@@ -143,7 +143,7 @@ KEY_STATEMENTS = (
     "The history $a_4 = AHx_4$ is a PRESCRIBED BACKGROUND",
     "both CHOSEN to solve tangent $= (-0.861, -0.60)$",
     "the M4 tangent and the M5 fit equal the Unite pair by construction",
-    "Without its ghost component M5 does not cross $-1$ on $a \in [1/3, 1]$ (`M5_without_ghost_no_crossing`) nor,",
+    r"Without its ghost component M5 does not cross $-1$ on $a \in [1/3, 1]$ (`M5_without_ghost_no_crossing`) nor,",
     "a crossing close to the line's crossing is expected and is not an independent agreement",
     "NOT FOUND in the computed states",
     "Positive-energy extra-time momentum does NOT supply it",
