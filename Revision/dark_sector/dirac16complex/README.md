@@ -99,7 +99,8 @@ are the adiabatically continued states); y-conservation holds to 2.0e-8; dE/da4 
   eps(k) at small k) [`outputs/independent-free-gas.json`]. The canonical T = 0 states (N <= 688) are filled below
   the bulk edge and do not populate that band; a gas of bulk-band quanta would show the dark-matter-like law.
 * N = 8 with lambda != 0 (only the k = 0 zero modes): E constant, P3 = Pt: w_eff(A) = 0, w_eff(C) = -1, constant
-  (E < 0 for lambda > 0). N = 8 with lambda = 0 has E = 0: no equation of state.
+  (E < 0 for lambda > 0, with the canonical uniform-gas exchange functional). N = 8 with lambda = 0 has E = 0: no
+  equation of state.
 
 ## Mixtures (gas N = 688, lambda = 0, plus a condensate) and the Unite comparison
 
@@ -121,7 +122,7 @@ are the adiabatically continued states); y-conservation holds to 2.0e-8; dE/da4 
   phantom past (w0 + wa = -1.461); the Unite constant w = -0.764 is matched only by the constant 8-dimensional ratio
   of a condensate or by a C-normalised mixture whose CPL slope has the opposite sign;
   (iii) no computed state crosses w = -1 (X >= 0 and E > 0 for all except N = 8: for lambda > 0 E < 0 with X = 0
-  exactly, for lambda = 0 E = 0 and there is no equation of state);
+  exactly (with the canonical uniform-gas exchange functional), for lambda = 0 E = 0 and there is no equation of state);
   (iv) on the prescribed history the observer's expansion itself reads w_exp = -1 exactly.
 
 ## Status and limits (honesty rule)
