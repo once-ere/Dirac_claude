@@ -4347,12 +4347,13 @@ say(f"net charge per pair with equal channels: {eps_theory}; rate model: "
     f"a(infinity) = {a_theory[1]}")
 check(LEAD["u1_noether_matrix_identity"] == "PASS" and eps_theory == 0
       and a_theory[1] == 0.0,
-      "local U(1) law: no process makes a net charge at any point, condition 1 "
-      "fails there (total charge: no flux through the brane ASSUMED)",
+      "local U(1) law: no process makes a net charge at any point of the patch "
+      "0 < z < pi/2, condition 1 fails there (total charge: no flux through the "
+      "brane ASSUMED)",
       record=f"{LEAD_FILE}, check u1_noether_matrix_identity")
 ```
 
-Out [13] prints a net charge 0 and $a(\infty) = 0.0$; the check also demands the record's verdict PASS for the local conservation law $\partial_\mu(\cos z\,J^\mu) = 0$. Its label says what that verdict gives: no process makes a net charge at any point, where "any point" means any point of the patch $0 < z < \pi/2$ (the local law is proved there, not on the brane), so condition 1 fails there; for the total charge of a universe the no-flux condition at the brane is needed in addition, and it is ASSUMED (Section 21.31). The label is one text made of two string pieces that stand next to each other, and `record=` names the record file and check on the PASS line.
+Out [13] prints a net charge 0 and $a(\infty) = 0.0$; the check also demands the record's verdict PASS for the local conservation law $\partial_\mu(\cos z\,J^\mu) = 0$. Its label says what that verdict gives: no process makes a net charge at any point of the patch $0 < z < \pi/2$ (the local law is proved there, off the brane $z = \pi/2$), so condition 1 fails there; for the total charge of a universe the no-flux condition at the brane is needed in addition, and it is ASSUMED (Section 21.31). The label is one text made of three string pieces that stand next to each other, and `record=` names the record file and check on the PASS line.
 
 **In [14]: this theory, condition 2: the Lagrangian at a point.**
 
@@ -4712,8 +4713,9 @@ The pair-level row: proved for classical bilinears, for both fields.
 
 ```python
     ("verdict",
-     "no process makes a net charge at any point of one universe (nor a total "
-     "charge, under the ASSUMED no-flux condition); no baryons in the theory",
+     "no process makes a net charge at any point of the patch 0 < z < pi/2 of one "
+     "universe (nor a total charge, under the ASSUMED no-flux condition at the "
+     "brane); no baryons in the theory",
      status(LEAD["u1_noether_matrix_identity"] == "PASS", "PROBLEM NOT SOLVED"),
      "the checks above")]
 for row in ROWS:

@@ -1953,7 +1953,7 @@ longest = counted[largest][1]
 `max(..., key=...)` returns the path whose value under the key function is largest; `lambda path: counted[path][1]` is a function without a name that gives the number of checks of a report. `longest` is that largest number of checks (101, of the Wolfram pairing report, in the run printed in Section 0.20).
 
 ```python
-fig, ax = plt.subplots(figsize=(6.4, 7.8))
+fig, ax = plt.subplots(figsize=(7.6, 9.4))
 rows = np.arange(len(REPORTS))[::-1]  # the first report at the top
 for row, (path, engine) in zip(rows, REPORTS):
     total = counted[path][1]
@@ -1961,22 +1961,22 @@ for row, (path, engine) in zip(rows, REPORTS):
     ax.text(total + 0.015 * longest, row, str(total), va="center", fontsize=9)
 ```
 
-A tall figure, one row per report. `np.arange(27)` is 0 to 26, and `[::-1]` reverses it (a step of $-1$), so that the first report gets the highest row and stands at the top. `ax.barh` draws a horizontal bar of the given length in the given row, coloured by the engine; `ax.text` writes the number just after the end of the bar, at a distance of 1.5 per cent of the longest bar.
+A tall figure, 7.6 by 9.4 inches, one row per report. `np.arange(39)` is 0 to 38, and `[::-1]` reverses it (a step of $-1$), so that the first report gets the highest row and stands at the top. `ax.barh` draws a horizontal bar of the given length in the given row, coloured by the engine; `ax.text` writes the number just after the end of the bar, at a distance of 1.5 per cent of the longest bar.
 
 ```python
 # The name of each report without its folder and without the ending .json:
 names = [path.rsplit("/", 1)[1].removesuffix(".json") for path, _ in REPORTS]
-ax.set_yticks(rows, labels=names, fontsize=9)
+ax.set_yticks(rows, labels=names, fontsize=8.5)
 ax.set_xlim(0, 1.12 * longest)  # room for the longest bar and its number
 ax.grid(False, axis="y")  # vertical grid lines only
-ax.set_xlabel("number of checks in the report (every one has the verdict PASS)")
+ax.set_xlabel("number of checks in the report (none has the verdict FAIL)")
 ax.set_title(f"The {len(REPORTS)} verifier reports of the Revision record: "
              f"{all_checks} checks")
 ax.legend(handles=[Patch(color=ENGINE_COLOURS[e], label=ENGINE_NAMES[e])
                    for e in ENGINE_COLOURS], loc="lower right", fontsize=8)
 ```
 
-`rsplit("/", 1)[1]` keeps the part after the last `/`, the file name, and `removesuffix` removes the ending. The names label the rows. The horizontal axis runs from 0 to 1.12 times the longest bar, which leaves room for the longest bar and its number; because the limit is computed from the counts, the picture stays complete when a report gains checks. Only vertical grid lines are drawn; the title contains the total; the legend names the four engines.
+`rsplit("/", 1)[1]` keeps the part after the last `/`, the file name, and `removesuffix` removes the ending. The names label the rows, in a font of 8.5 points so that 39 names fit. The horizontal axis runs from 0 to 1.12 times the longest bar, which leaves room for the longest bar and its number; because the limit is computed from the counts, the picture stays complete when a report gains checks. Only vertical grid lines are drawn; the axis label says that no check has the verdict FAIL (a bar counts all checks of its report, the five NOT-AVAILABLE ones of the comparison with the author's notebook included); the title contains the total; the legend names the four engines.
 
 ```python
 largest_name = largest.rsplit("/", 1)[1]  # its file name without the folders
@@ -1990,17 +1990,20 @@ The file name of the largest report, for the caption. The four engine totals are
 
 ```python
 save_figure(fig, "checks_by_report",
-            r"The number of checks in each of the 27 verifier reports of the "
-            r"Revision record (horizontal axis, a count; one bar per report, "
+            f"The number of checks in each of the {len(REPORTS)} verifier reports "
+            r"of the Revision record (horizontal axis, a count; one bar per report, "
             r"named on the vertical axis and grouped by folder: algebra, theory, "
-            r"field equations for $a_4$, GKD and Lovelock, Kohn-Sham, pairing, "
-            r"lead checks). The colour gives the engine: blue Wolfram Language, "
-            r"orange Python, aqua Rust, yellow the lead's independent Python "
-            f"checks. All {all_checks} checks ({totals_text}) have the verdict "
-            f"PASS; the largest report is {largest_name} with {longest} checks.")
+            r"field equations for $a_4$, GKD and Lovelock with the comparison with "
+            r"the author's outputs, Kohn-Sham, dark sector, pairing, lead checks). "
+            r"The colour gives the engine: blue Wolfram Language, orange Python, "
+            r"aqua Rust, yellow the lead's independent Python checks. Of the "
+            f"{all_checks} checks ({totals_text}) {all_passed} have the verdict "
+            f"PASS and {not_available} the verdict NOT-AVAILABLE (comparisons with "
+            r"values that the author's notebook does not store); none FAILS. The "
+            f"largest report is {largest_name} with {longest} checks.")
 ```
 
-The figure `00c_1_checks_by_report.png` with its caption, partly raw strings and partly f-strings (each piece of the joined caption has its own prefix). What Figure 00c.1 shows: one bar per report, grouped by folder from the algebra at the top to the lead's checks at the bottom; the longest bar belongs to the report that the caption names (the Wolfram pairing report, 101 checks), and every colour occurs, so every engine contributes.
+The figure `00c_1_checks_by_report.png` with its caption, partly raw strings and partly f-strings (each piece of the joined caption has its own prefix). The caption takes the number of reports, the totals, the number of passed and of NOT-AVAILABLE checks and the largest report from the computation, so it always states the record as it is. What Figure 00c.1 shows: one bar per report, grouped by folder from the algebra at the top to the lead's checks at the bottom; the longest bar belongs to the report that the caption names (the Wolfram pairing report, 101 checks), and every colour occurs, so every engine contributes.
 
 **In [8], two independent engines.**
 
@@ -2016,7 +2019,7 @@ SUBJECTS = [  # (subject, Wolfram report, Python report)
      "field_equations_a4/reports/python-a4-report.json"),
 ```
 
-The list `SUBJECTS` names the eight subjects that have two independent verifiers, each as a group of three: a short name, the Wolfram report and the Python report (paths without `Revision/`). Its first four entries are the four subjects of the algebra and the field theory: the gammas and the groups, the field theory (Lagrangians, field equations, energy-momentum tensor), the scope of the non-triviality, and the field equations for $a_4$.
+The list `SUBJECTS` names the nine subjects that have two independent verifiers, each as a group of three: a short name, the Wolfram report and the Python report (paths without `Revision/`). Its first four entries are the four subjects of the algebra and the field theory: the gammas and the groups, the field theory (Lagrangians, field equations, energy-momentum tensor), the scope of the non-triviality, and the field equations for $a_4$.
 
 ```python
     ("GKD and the Lovelock tensors", "gkd_lovelock/results/wolfram-gkd-report.json",
@@ -2027,10 +2030,12 @@ The list `SUBJECTS` names the eight subjects that have two independent verifiers
      "pairing/reports/python-pairing.json"),
     ("pairing theorem T3", "pairing/kohn_sham/reports/wolfram-t3.json",
      "pairing/kohn_sham/reports/python-t3.json"),
+    ("the completion of T3", "pairing/kohn_sham/reports/wolfram-t3-completion.json",
+     "pairing/kohn_sham/reports/python-t3-completion.json"),
 ]
 ```
 
-The other four: GKD and the Lovelock tensors (the Rust results checked by Wolfram and by Python), the Kohn-Sham theory, the pairing theorems T1, T2 and Q, and the theorem T3. These are the eight subjects of the remark "Two independent verifiers" of Section 0.18 (rows 1 to 3, 5 to 7, 10 and 11 of the ledger).
+The other five: GKD and the Lovelock tensors (the Rust results checked by Wolfram and by Python), the Kohn-Sham theory, the pairing theorems T1, T2 and Q, the theorem T3, and its completion. These are the nine subjects of the remark "Two independent verifiers" of Section 0.18 (rows 1 to 3, 5, 6, 8 and 11 of the ledger, and two subjects of row 12).
 
 ```python
 say("subject                              Wolfram  Python")
@@ -2044,8 +2049,8 @@ for subject, wolfram, python in SUBJECTS:
 For each subject the totals of its two reports are taken from `counted` and printed: the table of Out [8]. `[-1]` is the entry just appended.
 
 ```python
-widest = max(wolfram_numbers + python_numbers)  # the longest of the 16 bars
-fig, ax = plt.subplots(figsize=(7.0, 5.0))
+widest = max(wolfram_numbers + python_numbers)  # the longest of the 18 bars
+fig, ax = plt.subplots(figsize=(7.0, 5.6))
 rows = np.arange(len(SUBJECTS))[::-1]
 height = 0.38  # two bars in each row
 ax.barh(rows + height / 2, wolfram_numbers, height, color="#2a78d6",
@@ -2057,17 +2062,17 @@ for row, w, p in zip(rows, wolfram_numbers, python_numbers):
     ax.text(p + 0.015 * widest, row - height / 2, str(p), va="center", fontsize=8)
 ```
 
-`wolfram_numbers + python_numbers` joins the two lists of eight numbers into one list of sixteen, and `max` finds the longest bar. Two bars in each row, the Wolfram bar half a bar height above the middle of the row and the Python bar half a bar height below it; the numbers are written after the ends of the bars, at a distance of 1.5 per cent of the longest bar.
+`wolfram_numbers + python_numbers` joins the two lists of nine numbers into one list of eighteen, and `max` finds the longest bar. The figure is 7.0 by 5.6 inches. Two bars in each row, the Wolfram bar half a bar height above the middle of the row and the Python bar half a bar height below it; the numbers are written after the ends of the bars, at a distance of 1.5 per cent of the longest bar.
 
 ```python
 ax.set_yticks(rows, labels=[subject for subject, _, _ in SUBJECTS])
 ax.set_xlim(0, 1.12 * widest)  # room for the longest bar and its number
 ax.grid(False, axis="y")
 ax.set_xlabel("number of checks (every one has the verdict PASS)")
-ax.set_title("Eight subjects, each checked by two independent verifiers")
+ax.set_title("Nine subjects, each checked by two independent verifiers")
 ax.legend(loc="lower right")
 save_figure(fig, "two_verifiers",
-            r"For each of eight subjects of the Revision record (vertical axis), "
+            r"For each of nine subjects of the Revision record (vertical axis), "
             r"the number of checks of its Wolfram Language verifier (blue, upper "
             r"bar) and of its independent Python verifier (orange, lower bar); "
             r"horizontal axis a count. The two verifiers share no code; each also "
@@ -2079,13 +2084,13 @@ save_figure(fig, "two_verifiers",
 Labels, a horizontal axis from 0 to 1.12 times the longest bar (computed from the counts, as in In [7]), title, legend and the figure `00c_2_two_verifiers.png`. What Figure 00c.2 shows: every subject has two bars, so every subject was checked twice, in two languages; the bars differ in length because the two verifiers were written independently and test partly different statements.
 
 ```python
-report("checks of the Wolfram verifiers of the eight subjects", sum(wolfram_numbers))
-report("checks of the Python verifiers of the eight subjects", sum(python_numbers))
+report("checks of the Wolfram verifiers of the nine subjects", sum(wolfram_numbers))
+report("checks of the Python verifiers of the nine subjects", sum(python_numbers))
 check(all(w > 0 and p > 0 for w, p in zip(wolfram_numbers, python_numbers)),
-      "each of the eight subjects has a Wolfram and a Python verifier")
+      "each of the nine subjects has a Wolfram and a Python verifier")
 ```
 
-The two sums are printed, and the check requires a nonzero number of checks in both verifiers of every subject.
+The two sums are printed (385 Wolfram and 375 Python checks in the run printed in Section 0.20), and the check requires a nonzero number of checks in both verifiers of every subject.
 
 **In [9], the honesty ledger.**
 

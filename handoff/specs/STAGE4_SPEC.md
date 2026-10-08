@@ -187,6 +187,8 @@ E4.11 N = 896 at Delta k = 0.125 m (the "same density" partner of N = 112) is an
 E4.12 Cross-check tolerances include the measured Rust grid uncertainty |X(601) - X(301)|
      for runs with a _g601 partner (check_dirac16complex_kohn_sham.py
      rust_grid_uncertainties); the hardest Delta-SCF (N = 1016, -lambda_hat_2) has one.
+     Amended 2026-10-08 by E4.14(a): each member of the pair gets its OWN estimated grid
+     error (the 601-point member |X(601) - X(301)| / (2^p - 1), not the 301-point term).
 E4.13 The reference grids of the smeared run m1_L3_N1016_lamm2_T0 are N0 = 120 (120/240/480),
      with its fallback smearing 1e-3 m given directly (ks_reference_solver.py canonical_runs).
      Measured 2026-09-30: on 60/120/240 its Delta-SCF levels 0.0430172, 0.0434646, 0.0435817

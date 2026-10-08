@@ -262,8 +262,8 @@ In [9]  PASS rate model: Delta(t) and W(t) solve lines 1 to 3
 In [10]  PASS RK4 agrees with the closed form eta(K) to 1e-7 for K = 0.1, 3, 30
 In [10]  PASS controls: eps = 0 gives a = 0 exactly; without erasing a(infinity) = eps
 In [12]  PASS efficiency: near 1 for K = 0.01, exactly 1/(K - 1) at K = 1000, decreasing
-In [13]  PASS local U(1) law: no process makes a net charge at any point, condition 1 fails there
-In [13]      (total charge: no flux through the brane ASSUMED)
+In [13]  PASS local U(1) law: no process makes a net charge at any point of the patch 0 < z <
+In [13]      pi/2, condition 1 fails there (total charge: no flux through the brane ASSUMED)
 In [13]       reproduces Revision/lead_checks/reports/charge-conjugation-and-u1.json, check
 In [13]      u1_noether_matrix_identity
 In [14]  PASS commuting field: L[Psi*] = L[Psi], the same-mass conjugation is exact
@@ -333,7 +333,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | `Revision/textbook/figures/21d_5_washout_efficiency.png` | 54780 | `0edbd6e582704a75b28931212e391c682efef92a6b7d0b11204fe23e150b8463` |
 | `Revision/textbook/figures/21d_6_lagrangian_maps.png` | 36999 | `141c6bd255fd178e8072fbad7bb2beb58ed2ec702938e9864c41ee9df6696d8f` |
 | `Revision/textbook/figures/21d_7_majorana_terms.png` | 67508 | `8e45e08ef472bfb78bc0392b2fe6645261e4575540a4cbf3d24f2d4616f0bbb4` |
-| `Revision/textbook/figures/21d_8_scorecard.png` | 165583 | `bf5d944fd3b36412e6b4d5f9eb0e72204f06391b14801e1cbf60c25fd3d6cb1a` |
+| `Revision/textbook/figures/21d_8_scorecard.png` | 170433 | `9d952b0183c7b9810b9446cbb304340a150301d47b8d9d37a9a7379760c6d08f` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/21d_sakharov_scorecard.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
 
@@ -356,8 +356,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 7.7 s, peak memory of the kernel process 410 MiB;
-- the check run: 6.7 s, peak memory of the kernel process 410 MiB.
+- the build run: 6.3 s, peak memory of the kernel process 409 MiB;
+- the check run: 5.7 s, peak memory of the kernel process 409 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -369,8 +369,8 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/21d_sakharov_scorecard.ipynb`: `3470279a6f3bf327b2f7a18a52875120e7b8ec8862c71291dcd65571944dc480`
-- `Revision/textbook/notebooks/src/21d_sakharov_scorecard.py`: `6b863b6bea5676ce8230b199546c7c7f5aaf3bb8d444be90637c3a73e01802b1`
+- `Revision/textbook/notebooks/21d_sakharov_scorecard.ipynb`: `83b46d22e76c8285da772b93a108e8c278a9ea13505b419ac3822201d5e98a76`
+- `Revision/textbook/notebooks/src/21d_sakharov_scorecard.py`: `f8dd831d5febe763c16889a7e8b5f09eb7d39c5098985a7776c0a45822e8ed50`
 - `Revision/textbook/figures/21d.captions.json`: `44d7c1d07edf4dc3f21797f2430c49a69b8427c498437761a8c39dcad2c3a0ed`
 - `Revision/textbook/figures/21d_1_bookkeeping.png`: `cac413a03ab8f0ad0e5a35cc1a8633df264ca3d1cd00d046a81d1139bc451cef`
 - `Revision/textbook/figures/21d_2_decay_asymmetry.png`: `f2c1aa3f7f015fa2434202adebf99cf94d4250da73b9d918480b212d5cdc1e79`
@@ -379,7 +379,7 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 - `Revision/textbook/figures/21d_5_washout_efficiency.png`: `0edbd6e582704a75b28931212e391c682efef92a6b7d0b11204fe23e150b8463`
 - `Revision/textbook/figures/21d_6_lagrangian_maps.png`: `141c6bd255fd178e8072fbad7bb2beb58ed2ec702938e9864c41ee9df6696d8f`
 - `Revision/textbook/figures/21d_7_majorana_terms.png`: `8e45e08ef472bfb78bc0392b2fe6645261e4575540a4cbf3d24f2d4616f0bbb4`
-- `Revision/textbook/figures/21d_8_scorecard.png`: `bf5d944fd3b36412e6b4d5f9eb0e72204f06391b14801e1cbf60c25fd3d6cb1a`
+- `Revision/textbook/figures/21d_8_scorecard.png`: `9d952b0183c7b9810b9446cbb304340a150301d47b8d9d37a9a7379760c6d08f`
 
 ## 7. Verification
 
@@ -387,4 +387,4 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 9 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":410.0,"seconds":7.7},"check":{"date":"2026-10-08","files":9,"peak_mb":410.0,"result":"passed","seconds":6.7},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":409.0,"seconds":6.3},"check":{"date":"2026-10-08","files":9,"peak_mb":409.0,"result":"passed","seconds":5.7},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
