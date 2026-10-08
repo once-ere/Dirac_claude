@@ -1409,7 +1409,7 @@ fn pair_totals_json(p: &Digest, q: &Digest) -> Json {
         (
             "kreinImagePair",
             Json::object(vec![
-                ("definition", Json::str("plusM - minusM: the gamma^8 image of the +M state with the Krein metric -B (coupling -lambda), whose one-body densities and energies are those of minusM with reversed sign, together with the +M universe")),
+                ("definition", Json::str("plusM - minusM for every one-body density and energy: the identity X + (-X) = 0 between the +M values and the (-m, -lambda) formulas evaluated on the same state (T1krein.consequence (a), STAGE5_SPEC erratum E5.1); not a cancellation between two universes (under its own anticommutator -B the gamma^8 image is the same quantum system as +M, with energy +H_+ and charge +Q_+)")),
                 ("expected", Json::str("E = 0, F = 0, charge 0, <rho> = <p_y> = <p_3> = <p_t> = <n_p> = 0, scalarTotal = 2 S_+, <S_p> = 2 <S_p>_+")),
                 ("totals", sums(-1.0)),
             ]),
