@@ -314,8 +314,11 @@ The command is the same on all three systems (forward slashes work on Windows to
 prints the exit code: `0` means every check passed.
 
 What you see: nothing for a few seconds (the Wolfram kernel starts), then the `time_...` lines one by
-one; the two long pauses are the k = 2 sum (about 35-45 s) and the k = 3 sum (about 50-80 s). After
-about 1.5 to 2.5 minutes the 29 `check_...` lines and the summary appear. Part 4 shows the exact output.
+one; the two long pauses are the k = 2 sum (about 25-75 s) and the k = 3 sum (about 35-100 s). After
+about 1 to 4 minutes (longer on a busy computer: the measured runs of part 4.4 took 68 s on a lightly
+loaded machine and up to 140 s on a fully loaded one) the 29 `check_...` lines and the summary appear.
+A pause of one or two minutes without new output is normal; the run has not hung. Part 4 shows the
+exact output.
 
 Important details:
 
@@ -527,6 +530,29 @@ Peak memory (Windows' own per-process peak counters, read every 0.25 s): the ker
 485 / 485 / 486 MB working set and 700 / 700 / 700 MB private memory, the same as on 2026-10-02;
 `wolframscript.exe` 17 MB; `rustc.exe` up to 116 MB working set (156 MB private) during a build. A
 student's computer with 1 GB of free memory is therefore enough for the default run.
+
+Runs of 2026-10-08 (after the fix of part 6.3; the documented command; the machine was shared, CPU load
+about 71-94 %). Run 7 is the regeneration of the committed report; run 8 is the measured failure path
+of part 6.3 (a report path below an existing file): it computes everything, then prints the `ERROR`
+line and exits with code 2, so it has no `time_total` line.
+
+| step | run 7 | run 8 (failure path) |
+| --- | --- | --- |
+| `definition` | 0.0 | 0.0 |
+| `build_and_run_gkd_exporter` | 0.5 (up to date) | 0.5 (up to date) |
+| `read_gkd_values` | 1.1 | 1.1 |
+| `compare_gkd_with_kdelta` | 2.8 | 2.8 |
+| `curvature` | 0.4 | 0.4 |
+| `lovelock_k1_unpruned_64_components` | 0.1 | 0.1 |
+| `lovelock_k2_unpruned_64_components` | 26.0 | 29.8 |
+| `lovelock_k3_skip_repeated_64_components` | 35.2 | 35.2 |
+| `compare_with_rust_tensors` | 1.3 | 1.3 |
+| `identities_and_counters` | 0.1 | 0.1 |
+| `time_total` | 68.4 | (none: exit code 2 before the summary) |
+
+Over all eight runs the k = 2 step took 26-43 s and the k = 3 step 35-77 s; `time_total` was 68-135 s (seven runs).
+The ranges given in part 3.5 (k = 2 about 25-75 s, k = 3 about 35-100 s, 1 to 4 minutes in all) leave
+room for a slower or busier student computer.
 
 ### 4.5 The optional `diagonal` mode
 
@@ -794,5 +820,6 @@ What a run of the documented command creates, overwrites or starts:
   `time_total` of the regeneration run 68.4 s on a loaded machine.
 * **Failure path, measured:** a report path below an existing FILE (so its folder cannot be created)
   gives the single line `ERROR: cannot write ...` and exit code 2; nothing is written.
-* Also corrected in this file on 2026-10-08: the temporary files of WolframScript (two files, and what an
+* Also corrected in this file on 2026-10-08: the run-time ranges of part 3.5 (they were exceeded on a
+  loaded machine) with the runs 7 and 8 added to part 4.4; the temporary files of WolframScript (two files, and what an
   interrupted run leaves), the disk space of a clone, the expected output on macOS/Linux, the failure table.
