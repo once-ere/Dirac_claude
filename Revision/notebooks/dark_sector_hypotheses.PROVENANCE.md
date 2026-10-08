@@ -233,6 +233,11 @@ No run time and no path of the computer is printed (paths are shown relative to 
 * Before these builds, every comparison was prototyped in scratch scripts against the committed record with
   a separately built solver (123 of 123 dense rows and 123 of 123 equation-of-state rows identical, the three
   eos-summary entries, the mixtures and the exact dirac16complex00 fractions equal).
+* 2026-10-08, tests (after this file was written): `python -m unittest Revision/tests/test_revision_notebooks.py`
+  - 9 static tests OK, 2 skipped (including the new `test_dark_sector_record_counts_printed`); with
+  `REVISION_NOTEBOOKS_FULL=1` - 11 tests OK in 45.4 s (the installed versions equal the pins; `check`
+  re-executions of `dark_sector_hypotheses`, `kohn_sham_states` and `lovelock_gkd` in temporary folders are
+  byte-identical to the committed notebooks).
 * Not verified here: the run instructions on macOS and Linux (written for them, executed only on
   Windows 11); byte-identity across different computers or package versions (the PNG figures depend on
   the matplotlib version).
