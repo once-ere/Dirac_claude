@@ -71,8 +71,10 @@ New session 9e0a6725 (the old session's cache is gone).  User order of 2026-10-0
 `.nb` in a fresh kernel (`provenance/dirac_matrices/extract_from_author_notebook.wls`), proved by
 `provenance/dirac_matrices/build_dirac_matrices_md.py` (35/35 exact checks: real, Cl(4,4) anticommutation, S^AB = [G_A,G_B]/4
 span spin(4,4) ~ so(4,4), exponentials = products of two unit vectors generating Spin_0(4,4); with Gamma_0 and Gamma_4 all four
-components of Pin(4,4)); displays the 8 matrices, sigma16, T16A[8], the 28 pair products, all 256 products, P_L, P_R; every
-gamma source in the repository equals them.  Test `tests/test_dirac_matrices_provenance.py`; verified from a fresh clone.
+components of Pin(4,4)); displays the 8 matrices, sigma16, T16A[8], the 28 pair products, all 256 products, P_L, P_R.
+CORRECTION (audit finding 16, 2026-10-08): it is NOT true that every gamma source equals them - the Revision a4 engine
+(FieldEquationsA4.wl and its Python twin) uses an equivalent Cl(1,1)^(x)4 basis until the a4 patch (0.4k) is applied; the regenerated
+file measures this and answers 'Instruction followed: not completely' until then, 'yes' after the patch.  Test `tests/test_dirac_matrices_provenance.py`; verified from a fresh clone.
 Then both workflows were RELAUNCHED from scratch with SP of this session: textbook run wf_bf3a3e31-ec0, execution provenance
 run wf_f856ecb5-265 (agents inspect and finish the existing partial files).  After them: Revision wave 1b, then wave 2.
 Also RUNNING: `Revision/workflows/dirac_matrices_audit.js` (run wf_5ccefead-ea3): adversarial audit of `provenance/dirac matrices.md`

@@ -42,7 +42,7 @@ Notebook 19b is placed first, because it follows the proof step by step; Noteboo
 
 - **Kohn-Sham state**: an approximate state of $N$ identical quanta built from one-quantum wave functions, the **orbitals**, each of which solves a one-quantum equation in a common **mean field**; the mean field is made from the densities of the occupied orbitals.
 - **Self-consistent**: the orbitals reproduce the mean field that made them. A computer finds such a state by repeating "densities, then mean field, then orbitals, then densities" until nothing changes.
-- **Slice**: one instant of the history $a_4 = AHx_4$; $a_{4,0}$ is the value of $a_4$ there. An **instantaneous** (adiabatic) Kohn-Sham state is the self-consistent state of the problem with $a_4$ frozen at $a_{4,0}$.
+- **Slice**: one instant of the history $a_4 = AHx_4$; $a_{4,0}$ is the value of $a_4$ there. An **instantaneous** (adiabatic) Kohn-Sham state is the self-consistent state of the Kohn-Sham problem written at that one instant, with $a_4 = a_{4,0}$; along the history the extra times keep deflating, and the states are computed slice after slice.
 - **Hidden coordinate** $y$: $y = \ln(\sin z)/(6H)$; the **brane** is $y = 0$ ($z = \pi/2$), the **tip** is the cut $y = -L$ with $L = 3$.
 - **Block**: one of the eight pairs of spinor components into which the 16 components split exactly; labelled $(j, s_2, s_3)$ with three signs. The **block type** is $j = \pm1$. An orbital of a block is a pair of functions $\chi(y) = (\chi_1(y), \chi_2(y))$.
 - **Level** $\varepsilon$: an allowed energy of one orbital; **occupation** $f$ between 0 and 1: how much of a quantum sits in that orbital; **degeneracy** $g$: how many orbitals share one level.

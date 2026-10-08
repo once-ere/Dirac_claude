@@ -6,7 +6,7 @@ The author asked for a proof that "Universes of masses {+mass, -mass} are create
 
 **The question, and the honest answer.** In this book a **universe of mass $m$** means a configuration of one of the two fields, with mass parameter $m$ and coupling $\lambda$, in the author's primordial gravitational field; usually it is a **solution**, a configuration that obeys the field equations. Two universes are **paired** when an explicit invertible rule takes every solution of the theory with mass $m$ to a solution of the theory with mass $-m$, and takes its Lagrangian, its energy-momentum tensor and its current to stated multiples of those of the partner. The author's request asks for more: that such universes are *created* in pairs at the big bang. That statement is a HYPOTHESIS of the author. The field equations of this book are equations for a field on a given gravitational background, together with their canonical quantisation; no equation of the book produces a universe from anything, so the creation of pairs cannot be proved from them, and it is not proved here. What can be proved is that the solutions come in partnered families, and with which signs their energies and charges are partnered. That is the content of this chapter.
 
-**The plan.** Sections 18.2 to 18.4 set the stage: the words, the author's metric, its spin connection, the Lagrangian, the field equation, the energy-momentum tensor and the current. Section 18.5 proves four matrix lemmas; everything later rests on them. Notebook 18a checks them exactly (Sections 18.6 to 18.9). Sections 18.10 to 18.13 state and prove T1; Sections 18.14 to 18.16 state and prove T2. Notebook 18b proves both theorems again, as exact polynomial identities, in the author's metric with an arbitrary deflating history (Sections 18.17 to 18.20). Section 18.21 derives a family of exact solutions, the fields that depend only on the time; Sections 18.22 and 18.23 state and prove Q. Notebook 18c solves the field equations numerically and shows each theorem at work on actual solutions (Sections 18.24 to 18.27). Section 18.28 states what is not established, Section 18.29 collects the status of every result, and Section 18.30 has exercises with complete answers. The Kohn-Sham version of the pairing, theorem T3, is the subject of Chapter 19; the corollary C1 and the question of the title of Chapter 20, "Do universes come in pairs?", are treated there; matter and antimatter are the subject of Chapter 21.
+**The plan.** Sections 18.2 to 18.4 set the stage: the words, the author's metric, its spin connection, the Lagrangian, the field equation, the energy-momentum tensor and the current. Section 18.5 proves four matrix lemmas; everything later rests on them. Notebook 18a checks them exactly (Sections 18.6 to 18.9). Sections 18.10 to 18.13 state and prove T1; Sections 18.14 to 18.16 state and prove T2. Notebook 18b proves both theorems again, as exact polynomial identities, in the author's metric with an arbitrary deflating history (Sections 18.17 to 18.20). Section 18.21 derives a family of exact solutions, the fields that depend only on the time; Sections 18.22 and 18.23 state and prove Q. Notebook 18c solves the field equations numerically and shows each theorem at work on actual solutions (Sections 18.24 to 18.27). Section 18.28 states what is not established, Section 18.29 collects the status of every result, and Sections 18.30 and 18.31 give exercises and their complete worked answers. The Kohn-Sham version of the pairing, theorem T3, is the subject of Chapter 19; the corollary C1 and the question of the title of Chapter 20, "Do universes come in pairs?", are treated there; matter and antimatter are the subject of Chapter 21.
 
 **The three worked examples.** Each is a complete Jupyter notebook, complete in itself; you may run them in any order.
 
@@ -541,7 +541,7 @@ def verdict(report_file, name):
     return "MISSING"
 ```
 
-`read_json` reads a record file as text and turns it into Python objects (`json.loads`). `verdict` reads a report and looks through its list `"checks"`; each entry is a dictionary with the keys `name`, `verdict` and `detail`. It returns the verdict of the check with the given name in capital letters (`.upper()`, because one report writes PASS and the other pass), or `"MISSING"` if the report has no such check.
+`read_json` reads a record file as text and turns it into Python objects (`json.loads`). `verdict` reads a report and looks through its list `"checks"`; each entry is a dictionary with the keys `name`, `verdict` and `detail`. It returns the verdict of the check with the given name in capital letters (`.upper()`; the two pairing reports write PASS, but some other Revision reports write pass in small letters, and the comparison should not depend on that), or `"MISSING"` if the report has no such check.
 
 ```python
 def reproduces(condition, name, *sources, table=None):
@@ -1466,7 +1466,7 @@ In the author's field only the reflection of $x_8$ is realised by an isometry th
 
 ### 18.17 Example: Notebook 18b proves T1 and T2 in the author's metric
 
-Notebook 18b repeats the proofs of Sections 18.11 and 18.15 as exact computer algebra, without taking any step on trust. It builds the author's metric with an UNKNOWN history $a_4(x_4)$ (so every result holds for every deflating history), computes its Christoffel symbols and canonical spin connection with sympy, checks the vielbein postulate and the twelve components of Section 18.3, and recomputes $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ direction by direction. Then it writes the Lagrangian, the field operator, all 36 components of $T_{\mu\nu}$ and the 8 components of $J^\mu$ as polynomials in the 288 values of the first jet, in an algebra that can treat the jet values as commuting numbers (dirac16complex00) or as Grassmann numbers (dirac16complex), and proves T1 and T2 as identities in which every coefficient is zero. It reproduces 35 checks of `python-pairing.json` and the corresponding Wolfram checks, including the numbers of monomials of the Lagrangian recorded by the Wolfram verifier, 408 for commuting and 392 for Grassmann components, and draws five figures. Its last line is ALL 20 CHECKS PASSED (notebook 18b); it runs in about one minute.
+Notebook 18b repeats the proofs of Sections 18.11 and 18.15 as exact computer algebra, without taking any step on trust. It builds the author's metric with an UNKNOWN history $a_4(x_4)$ (so every result holds for every deflating history), computes its Christoffel symbols and canonical spin connection with sympy, checks the vielbein postulate and the twelve components of Section 18.3, and recomputes $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ direction by direction. Then it writes the Lagrangian, the field operator, all 36 components of $T_{\mu\nu}$ and the 8 components of $J^\mu$ as polynomials in the 288 values of the first jet, in an algebra that can treat the jet values as commuting numbers (dirac16complex00) or as Grassmann numbers (dirac16complex), and proves T1 and T2 as identities in which every coefficient is zero. It reproduces 35 checks of `python-pairing.json` and the corresponding Wolfram checks, including the numbers of monomials of the Lagrangian recorded by the Wolfram verifier, 408 for commuting and 392 for Grassmann components, and draws five figures. Its last line is ALL 20 CHECKS PASSED (notebook 18b); it runs in about 2 minutes.
 
 <!-- NOTEBOOK 18b -->
 
@@ -2325,7 +2325,7 @@ save_figure(fig, "emt_signs",
             "a zero total.")
 ```
 
-**What you see in Figure 18b.3:** on the left, large numbers on the diagonal (those components contain the whole Lagrangian through $-g_{\mu\mu}\mathcal{L}/\sqrt{|g|}$) and smaller ones off the diagonal (only kinetic bilinears); on the right, $-1$ in every one of the 64 cells. The T1 partner carries exactly the opposite energy density, momentum densities and pressures.
+**What you see in Figure 18b.3:** on the left, 376 monomials in each diagonal component (those components contain the whole Lagrangian through $-g_{\mu\mu}\mathcal{L}/\sqrt{|g|}$) and 64 or 80 in each off-diagonal one (only kinetic bilinears); on the right, $-1$ in every one of the 64 cells. The T1 partner carries exactly the opposite energy density, momentum densities and pressures.
 
 **In [15], the mirror patch.**
 
@@ -2651,7 +2651,11 @@ $$
 \{\Psi_A(x), \Psi^\dagger_B(y)\} = (N^{-1})_{AB}\,\frac{\delta^7(x - y)}{\sqrt{|g|}} = B_{AB}\,\frac{\delta^7(x - y)}{\sqrt{|g|}} ,
 $$
 
-because $N^{-1} = B^{-1} = B$ ($BB = 1$). PROVED: `python-field-theory.json`, check `canonical_anticommutator_B`; `python-pairing.json`, check `Q.canonical_anticommutator`. Here $\{X, Y\} = XY + YX$ is the anticommutator of two operators and $\delta^7$ the delta function of the seven coordinates other than $x_4$. Because $B$ has eight eigenvalues $+1$ and eight $-1$, the state space carries an indefinite **Krein** form when $\Psi^\dagger$ is read as the ordinary adjoint (Chapter 10).
+because $N^{-1} = B^{-1} = B$ ($BB = 1$). Here $\{X, Y\} = XY + YX$ is the anticommutator of two operators and $\delta^7$ the delta function of the seven coordinates other than $x_4$. Because $B$ has eight eigenvalues $+1$ and eight $-1$, the state space carries an indefinite **Krein** form when $\Psi^\dagger$ is read as the ordinary adjoint (Chapter 10).
+
+| statement | status | where it is verified |
+| --- | --- | --- |
+| the canonical anticommutator is $B\,\delta^7/\sqrt{\lvert g\rvert}$ | PROVED | `python-field-theory.json`, check `canonical_anticommutator_B`; `python-pairing.json`, check `Q.canonical_anticommutator` |
 
 **One-particle waves.** In flat 4+4 space ($H = 0$, $a_4$ constant, all $f_\mu = 1$) and for $\lambda = 0$, a plane wave $\Psi = u\,e^{-iwx_4 + i\sum_{a\neq4}k_ax_a}$ turns the field equation $\sum_a\gamma^{(a)}\partial_a\Psi = m\Psi$ into $-iw\gamma^{(x_4)}u + i\sum_{a\neq4}k_a\gamma^{(a)}u = mu$. Multiply on the left by $-i\gamma^{(x_4)}$ and use $\gamma^{(x_4)}\gamma^{(x_4)} = -1$:
 
@@ -2662,7 +2666,10 @@ $$
 The frequencies $w$ are the eigenvalues of the **one-particle matrix** $h_m(k)$. Its square: write $h = -\gamma^{(x_4)}(im + K)$ with $K = \sum_{a\neq4}k_a\gamma^{(a)}$; moving $\gamma^{(x_4)}$ through $(im + K)$ turns it into $(im - K)$, so
 
 $$
-h^2 = \gamma^{(x_4)}\gamma^{(x_4)}(im - K)(im + K) = -(-m^2 - K^2) = m^2 + K^2 = \Big(m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2\Big)I_{16} .
+\begin{aligned}
+h^2 &= \gamma^{(x_4)}\gamma^{(x_4)}(im - K)(im + K) = -(-m^2 - K^2) = m^2 + K^2 \\
+&= \big(m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2\big)I_{16} .
+\end{aligned}
 $$
 
 $K^2 = \sum_ak_a^2\eta_{aa}$ by the Clifford relation (the mixed products cancel in pairs). So $h^2 = w^2I_{16}$ with $w^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$: real frequencies when $w^2 > 0$; imaginary ones, growing modes, when the extra-time momentum is large enough to make $w^2 < 0$.
@@ -2690,7 +2697,7 @@ $$
 \{\chi_A, \chi_B^\dagger\} = \sum_{C,D}\Gamma_{AC}\{\Psi_C, \Psi_D^\dagger\}\Gamma_{BD} = \sum_{C,D}\Gamma_{AC}B_{CD}\Gamma_{DB}\,\frac{\delta^7}{\sqrt{|g|}} = (\Gamma B\Gamma)_{AB}\,\frac{\delta^7}{\sqrt{|g|}} = -B_{AB}\,\frac{\delta^7}{\sqrt{|g|}} .
 $$
 
-We used $\Gamma_{BD} = \Gamma_{DB}$ ($\Gamma$ symmetric) and Lemma 2, $\Gamma B\Gamma = -B$. For the image's own Lagrangian: written in terms of $\chi$, the Lagrangian of the theory is $\mathcal{L}_{m,\lambda}[\Psi] = \mathcal{L}_{m,\lambda}[\Gamma\chi]$; its velocity term is $\frac{i}{2}\sqrt{|g|}\,\chi^\dagger\Gamma B\Gamma\partial_4\chi = \frac{i}{2}\sqrt{|g|}\,\chi^\dagger(-B)\partial_4\chi$, so its velocity kernel is $N = -B$ and the canonical rule gives the anticommutator $N^{-1} = -B$. The two agree. PROVED: `wolfram-pairing.json`, checks `Q_Krein_metric_of_images`, `Q_symplectic_kernel_commuting`, `Q_symplectic_kernel_grassmann`; `python-pairing.json`, checks `Q.image_krein_metric` and `Q.image_own_quantisation`.
+We used $\Gamma_{BD} = \Gamma_{DB}$ ($\Gamma$ symmetric) and Lemma 2, $\Gamma B\Gamma = -B$. For the image's own Lagrangian: written in terms of $\chi$, the Lagrangian of the theory is $\mathcal{L}_{m,\lambda}[\Psi] = \mathcal{L}_{m,\lambda}[\Gamma\chi]$; its velocity term is $\frac{i}{2}\sqrt{|g|}\,\chi^\dagger\Gamma B\Gamma\partial_4\chi = \frac{i}{2}\sqrt{|g|}\,\chi^\dagger(-B)\partial_4\chi$, so its velocity kernel is $N = -B$ and the canonical rule gives the anticommutator $N^{-1} = -B$. The two agree.
 
 **Q2.** The image's own Lagrangian, evaluated at $\chi = \Gamma\Psi$, is $\mathcal{L}_{m,\lambda}[\Gamma\Gamma\Psi] = \mathcal{L}_{m,\lambda}[\Psi]$: the same function of the same operators. Its energy density (the Legendre transform) and its Noether densities are therefore the same operators as those of $\Psi$. At the one-particle level: the energy of a plane wave is $\Psi^\dagger\mathcal{E}_m(k)\Psi$ with the **energy kernel** $\mathcal{E}_m(k) = Bh_m(k)$, and the evolution is $i\partial_4\Psi = (\text{anticommutator matrix})(\text{energy kernel})\Psi = B\mathcal{E}_m\Psi = h_m\Psi$. The image's own Lagrangian is $-\mathcal{L}_{-m,-\lambda}[\chi]$, so its anticommutator matrix is $-B$ (Q1) and its energy kernel is $-\mathcal{E}_{-m}$; its evolution generator is
 
@@ -2698,9 +2705,9 @@ $$
 (-B)(-\mathcal{E}_{-m}) = B\mathcal{E}_{-m} = h_{-m} = \Gamma h_m\Gamma ,
 $$
 
-which is exactly how $\Gamma\Psi$ must evolve: $i\partial_4(\Gamma\Psi) = \Gamma h_m\Psi = (\Gamma h_m\Gamma)(\Gamma\Psi)$. The sign of the Krein matrix and the sign of the energy kernel compensate: the image is the same quantum system relabelled. PROVED: `wolfram-pairing.json`, checks `Q_generators_of_the_image_commuting` and `Q_generators_of_the_image_grassmann`; `python-pairing.json`, check `Q.image_generators_same_dynamics`.
+which is exactly how $\Gamma\Psi$ must evolve: $i\partial_4(\Gamma\Psi) = \Gamma h_m\Psi = (\Gamma h_m\Gamma)(\Gamma\Psi)$. The sign of the Krein matrix and the sign of the energy kernel compensate: the image is the same quantum system relabelled.
 
-**Q3.** An independent universe $\chi_2$ with the Lagrangian $\mathcal{L}_{-m,-\lambda}[\chi_2]$ has the velocity kernel $+B$ and therefore $\{\chi_2, \chi_2^\dagger\} = +B\,\delta^7/\sqrt{|g|}$, while $\{\Gamma\Psi_1, (\Gamma\Psi_1)^\dagger\} = -B\,\delta^7/\sqrt{|g|}$. Since $B \neq -B$, $\chi_2 = \Gamma\Psi_1$ is impossible. Independence also requires $\{\Psi_1, \chi_2^\dagger\} = 0$, whereas $\{\Gamma\Psi_1, \Psi_1^\dagger\} = \Gamma B\,\delta^7/\sqrt{|g|}$ is a matrix of rank 16, not zero. On the product of the two state spaces the generators of the two systems add; the T1 identity relates operators of universe 1 only and gives no relation $P_2 = -P_1$. At zero momentum the one-particle generator of the two universes together has the eigenvalues $-m$ and $+m$, 16 times each, all nonzero for $m \neq 0$: nothing cancels. PROVED: `wolfram-pairing.json`, check `Q_no_identification_of_independent_universes`; `python-pairing.json`, check `Q.no_cancellation_independent_universes`.
+**Q3.** An independent universe $\chi_2$ with the Lagrangian $\mathcal{L}_{-m,-\lambda}[\chi_2]$ has the velocity kernel $+B$ and therefore $\{\chi_2, \chi_2^\dagger\} = +B\,\delta^7/\sqrt{|g|}$, while $\{\Gamma\Psi_1, (\Gamma\Psi_1)^\dagger\} = -B\,\delta^7/\sqrt{|g|}$. Since $B \neq -B$, $\chi_2 = \Gamma\Psi_1$ is impossible. Independence also requires $\{\Psi_1, \chi_2^\dagger\} = 0$, whereas $\{\Gamma\Psi_1, \Psi_1^\dagger\} = \Gamma B\,\delta^7/\sqrt{|g|}$ is a matrix of rank 16, not zero. On the product of the two state spaces the generators of the two systems add; the T1 identity relates operators of universe 1 only and gives no relation $P_2 = -P_1$. At zero momentum the one-particle generator of the two universes together has the eigenvalues $-m$ and $+m$, 16 times each, all nonzero for $m \neq 0$: nothing cancels.
 
 **Q4.** $\Gamma\gamma^{(x_4)}\Gamma = -\gamma^{(x_4)}$ (one gamma) and $\Gamma\gamma^{(x_4)}\gamma^{(a)}\Gamma = \gamma^{(x_4)}\gamma^{(a)}$ (two gammas), so
 
@@ -2716,7 +2723,7 @@ $$
 P_+^\dagger BP_- = \tfrac14\big(1 + h^\dagger/w\big)B\big(1 - h/w\big) = \tfrac14B\big(1 + h/w\big)\big(1 - h/w\big) = \tfrac14B\big(1 - h^2/w^2\big) = 0 .
 $$
 
-We moved $B$ to the left with $h^\dagger B = Bh$, then multiplied out; $h^2 = w^2$. So the two eigenspaces are $B$-orthogonal, and $B$ is nondegenerate on each (it is invertible on the whole space). (ii) Without extra-time momentum ($k_5 = k_6 = k_7 = 0$) $B$ commutes with $h$, and $\mathrm{tr}\,B = \mathrm{tr}(Bh) = 0$, so $\mathrm{tr}(BP_\pm) = 0$: on each 8-dimensional eigenspace $B$ is an involution with trace 0, which has four eigenvalues $+1$ and four $-1$, Krein inertia (4,4). (iii) The region $w^2 > 0$ is connected and contains the case without extra-time momentum (lowering $k_5, k_6, k_7$ to zero only increases $w^2$), and the projectors change continuously with $k$; a nondegenerate form cannot change its inertia continuously, so (4,4) holds at every real frequency. For an imaginary $w$: if $hu = wu$ and $hv = wv$, then $w\,u^\dagger Bv = u^\dagger Bhv = u^\dagger h^\dagger Bv = \bar w\,u^\dagger Bv$ ($\bar w$ the complex conjugate), so $(w - \bar w)u^\dagger Bv = 0$ and $u^\dagger Bv = 0$: the eigenspace is **Krein-neutral**. For $w = 0$, $h^2 = 0$ with rank 8 and the null space of $h$ equals its range, also $B$-neutral. PROVED: `wolfram-pairing.json`, checks `Q_one_particle_flat_dispersion`, `Q_one_particle_maps`, `Q_one_particle_Krein_signatures`, `Q_one_particle_Krein_inertia_real_frequencies`, `Q_one_particle_complex_and_zero_frequencies_Krein_neutral` and `Q_one_particle_general_field`; `python-pairing.json`, checks `Q.one_particle_maps`, `Q.one_particle_Krein_inertia`, `Q.one_particle_Krein_inertia_proof` and `Q.one_particle_complex_frequency_Krein_neutral`. The recorded samples, all reproduced by Notebook 18c (In [16]):
+We moved $B$ to the left with $h^\dagger B = Bh$, then multiplied out; $h^2 = w^2$. So the two eigenspaces are $B$-orthogonal, and $B$ is nondegenerate on each (it is invertible on the whole space). (ii) Without extra-time momentum ($k_5 = k_6 = k_7 = 0$) $B$ commutes with $h$, and $\mathrm{tr}\,B = \mathrm{tr}(Bh) = 0$, so $\mathrm{tr}(BP_\pm) = 0$: on each 8-dimensional eigenspace $B$ is an involution with trace 0, which has four eigenvalues $+1$ and four $-1$, Krein inertia (4,4). (iii) The region $w^2 > 0$ is connected and contains the case without extra-time momentum (lowering $k_5, k_6, k_7$ to zero only increases $w^2$), and the projectors change continuously with $k$; a nondegenerate form cannot change its inertia continuously, so (4,4) holds at every real frequency. For an imaginary $w$: if $hu = wu$ and $hv = wv$, then $w\,u^\dagger Bv = u^\dagger Bhv = u^\dagger h^\dagger Bv = \bar w\,u^\dagger Bv$ ($\bar w$ the complex conjugate), so $(w - \bar w)u^\dagger Bv = 0$ and $u^\dagger Bv = 0$: the eigenspace is **Krein-neutral**. For $w = 0$, $h^2 = 0$ with rank 8 and the null space of $h$ equals its range, also $B$-neutral. The records are listed in the table at the end of this section. The recorded samples, all reproduced by Notebook 18c (In [16]):
 
 | $m$ | momentum $(k_1, \dots, k_8)$ | $w$ | dimensions of the $+w$ and $-w$ eigenspaces | Krein inertia on $+w$ and on $-w$ |
 | --- | --- | --- | --- | --- |
@@ -2727,28 +2734,1140 @@ We moved $B$ to the left with $h^\dagger B = Bh$, then multiplied out; $h^2 = w^
 
 (Each row stands for the two recorded samples with $+m$ and $-m$; the entry $k_4$ is not used. The last row has an extra-time momentum and still a real frequency: $w^2 = 4 - 1 = 3$.)
 
-**Q5.** Lemma 4 gives $\gamma^{(x_8)}B(\gamma^{(x_8)})^\dagger = +B$, so the anticommutator of $\gamma^{(x_8)}\Psi$ is $+B\,\delta^7/\sqrt{|g|}$, the same as that of an ordinary field. QED. PROVED: `wolfram-pairing.json`, check `Q_Krein_metric_of_images`; `python-pairing.json`, check `Q.T2_image_keeps_B`.
+**Q5.** Lemma 4 gives $\gamma^{(x_8)}B(\gamma^{(x_8)})^\dagger = +B$, so the anticommutator of $\gamma^{(x_8)}\Psi$ is $+B\,\delta^7/\sqrt{|g|}$, the same as that of an ordinary field. QED.
+
+| statement | status | where it is verified |
+| --- | --- | --- |
+| Q1: the T1 image carries $-B$, also by its own Lagrangian | PROVED | `wolfram-pairing.json`, checks `Q_Krein_metric_of_images`, `Q_symplectic_kernel_commuting` and `Q_symplectic_kernel_grassmann`; `python-pairing.json`, checks `Q.image_krein_metric` and `Q.image_own_quantisation` |
+| Q2: the image's own generators are those of $\Psi$ | PROVED | `wolfram-pairing.json`, checks `Q_generators_of_the_image_commuting` and `Q_generators_of_the_image_grassmann`; `python-pairing.json`, check `Q.image_generators_same_dynamics` |
+| Q3: no identification and no cancellation of independent universes | PROVED | `wolfram-pairing.json`, check `Q_no_identification_of_independent_universes`; `python-pairing.json`, check `Q.no_cancellation_independent_universes` |
+| Q4: the maps of $h_m$ and the dispersion $h^2 = w^2$ | PROVED | `wolfram-pairing.json`, checks `Q_one_particle_flat_dispersion`, `Q_one_particle_maps` and `Q_one_particle_general_field`; `python-pairing.json`, check `Q.one_particle_maps` |
+| Q4: Krein inertia (4,4) at every real frequency | PROVED | `wolfram-pairing.json`, checks `Q_one_particle_Krein_signatures` and `Q_one_particle_Krein_inertia_real_frequencies`; `python-pairing.json`, checks `Q.one_particle_Krein_inertia` and `Q.one_particle_Krein_inertia_proof` |
+| Q4: imaginary and zero frequencies are Krein-neutral | PROVED | `wolfram-pairing.json`, check `Q_one_particle_complex_and_zero_frequencies_Krein_neutral`; `python-pairing.json`, check `Q.one_particle_complex_frequency_Krein_neutral` |
+| Q5: the T2 image keeps $+B$ | PROVED | `wolfram-pairing.json`, check `Q_Krein_metric_of_images`; `python-pairing.json`, check `Q.T2_image_keeps_B` |
+| the eight samples of the table above | PROVED (exact arithmetic of the record); COMPUTED again in floating point by Notebook 18c | data table `one_particle_flat` of `pairing-theory.json`; Notebook 18c, In [16] |
 
 **What Q does not say.** Q1 to Q5 are statements about the canonical anticommutator. They neither use nor establish a positive-norm state space for either universe. The theory record constructs, separately, a positive Fock representation in the good sector without extra-time momentum (Chapter 10); it is not used here. And the vanishing total energy-momentum and charge of a T1 pair holds for classical bilinears and as an operator identity within ONE quantum system; it does not hold for two independently quantised universes, whose generators add without cancelling.
 
 ### 18.24 Example: Notebook 18c sees the theorems in numbers
 
-Notebook 18c takes one homogeneous solution of dirac16complex00 in the author's metric (Section 18.21), with values chosen as an ILLUSTRATION: units in which $m = 1$, $H = 0.2$, $\lambda = 0.3$, the hidden angle $z_0 = \pi/4$, and an initial value of 16 complex numbers drawn with the fixed seed 2026. Only the history $a_4 = AHx_4$ with $A = 1$ is read from the Revision record `Revision/kohn_sham/results/parameters.json`. The notebook solves the equation with the classical Runge-Kutta method of fourth order and checks it against the exact formula; solves the T1 partner equation $(-m, -\lambda)$ and the mirror equation $(-m, \lambda)$ INDEPENDENTLY and finds $\Gamma\Psi$ and $\gamma^{(x_8)}\Psi$; computes $S$, all 8 components of $J^\mu$ and all 36 of $T_{\mu\nu}$ along the deflating history; compares the spectra of the evolution matrices; and, for the quantum reading, reproduces the plane-wave samples of the pairing record and follows the Krein norms of single eigenvectors under $\Gamma$ and $\gamma^{(x_8)}$. Its last line is ALL 21 CHECKS PASSED (notebook 18c); it runs in about 15 seconds.
+Notebook 18c takes one homogeneous solution of dirac16complex00 in the author's metric (Section 18.21), with values chosen as an ILLUSTRATION: units in which $m = 1$, $H = 0.2$, $\lambda = 0.3$, the hidden angle $z_0 = \pi/4$, and an initial value of 16 complex numbers drawn with the fixed seed 2026. Only the history $a_4 = AHx_4$ with $A = 1$ is read from the Revision record `Revision/kohn_sham/results/parameters.json`. The notebook solves the equation with the classical Runge-Kutta method of fourth order and checks it against the exact formula; solves the T1 partner equation $(-m, -\lambda)$ and the mirror equation $(-m, \lambda)$ INDEPENDENTLY and finds $\Gamma\Psi$ and $\gamma^{(x_8)}\Psi$; computes $S$, all 8 components of $J^\mu$ and all 36 of $T_{\mu\nu}$ along the deflating history; compares the spectra of the evolution matrices; and, for the quantum reading, reproduces the plane-wave samples of the pairing record and follows the Krein norms of single eigenvectors under $\Gamma$ and $\gamma^{(x_8)}$. Its last line is ALL 21 CHECKS PASSED (notebook 18c); it runs in about 30 seconds.
 
 <!-- NOTEBOOK 18c -->
 
 ### 18.27 Line-by-line walk-through of Notebook 18c
 
-Stub.
+The notebook has 21 code cells. **In [1]** is the set-up cell, word for word the set-up cell of Notebook 18a explained line by line in Section 18.9, except that its comment lines hold the run instructions of Section 18.25 and its line `NOTEBOOK_ID = "18c"` names this notebook, so its figures are saved as `18c_<k>_<name>.png` and their captions in `18c.captions.json`. It prints one line, Set-up of notebook 18c complete: repository folder found, helpers defined.
 
-### 18.28 Stub
+The idea of the notebook in one paragraph. Notebooks 18a and 18b computed with exact numbers: whole numbers, fractions and symbols. This notebook computes with **floating-point numbers**, the ordinary numbers of a computer, which carry about 16 significant decimal digits and are rounded after every operation. So an identity such as $\Phi = \Gamma\Psi$ is checked by requiring the largest difference to be smaller than a **tolerance**, usually $10^{-12}$: far below the size of the quantities compared (about 0.1 to 3) and far above the rounding errors (about $10^{-16}$). The notebook takes one solution of the homogeneous family of Section 18.21, computes it in two independent ways (step by step with the Runge-Kutta method, and from the exact formula), then solves the two partner equations of T1 and T2 on their own, and compares the solutions and all their bilinears along the deflating history.
 
-Stub.
+**In [2], the records and the matrices.**
 
-### 18.29 Stub
+```python
+import numpy as np  # arrays, matrices, eigenvalues
+import sympy as sp  # exact symbolic algebra for the spin connection
 
-Stub.
+GAMMAS = "Revision/algebra/gammas.json"
+PY = "Revision/pairing/reports/python-pairing.json"
+WL = "Revision/pairing/reports/wolfram-pairing.json"
+THEORY = "Revision/pairing/pairing-theory.json"
+TH_PY = "Revision/theory/reports/python-field-theory.json"
+TH_WL = "Revision/theory/reports/wolfram-field-theory.json"
+SCOPE = "Revision/theory/reports/python-scope.json"
+PARAMETERS = "Revision/kohn_sham/results/parameters.json"
+```
 
-### 18.30 Stub
+numpy (`np`) is the package for arrays of floating-point numbers: matrix products, eigenvalues, the singular value decomposition. sympy (`sp`) is used once more, in In [3], to compute the spin connection exactly before it is turned into numbers. The eight constants are the repository paths of the eight Revision records the notebook reads: the gammas; the two reports of the pairing verifiers and the pairing theory record (for the plane-wave samples of the quantum reading); the two field-theory reports and the scope report (for the exact homogeneous solution and the conservation of the charge); and the Kohn-Sham parameter record, which holds the canonical deflating history.
 
-Stub.
+```python
+def read_json(relative):
+    """Read a JSON file of the repository (a Revision record)."""
+    return json.loads(repository_file(relative).read_text(encoding="utf-8"))
+
+
+RECORDS = {f: read_json(f) for f in (PY, WL, TH_PY, TH_WL, SCOPE)}
+
+
+def recorded(report_file, name):
+    """The recorded entry (verdict and detail) of the check name of a report."""
+    for entry in RECORDS[report_file]["checks"]:
+        if entry["name"] == name:
+            return entry
+    return {"verdict": "MISSING", "detail": ""}
+
+
+def reproduces(condition, name, *sources):
+    """check(condition, name), which also requires every named check of every
+    source (report_file, [check names]) to have the recorded verdict PASS."""
+    ok = all(recorded(f, n)["verdict"].upper() == "PASS"
+             for f, names in sources for n in names)
+    text = "; ".join(f"{f}, check {', '.join(names)}" for f, names in sources)
+    check(condition and ok, name, record=text)
+```
+
+The record helpers of Notebook 18b. `read_json` reads a record. `RECORDS` reads the five reports once, with the file name as the key (a dictionary comprehension). `recorded(report_file, name)` returns the entry of a named check, or a placeholder with the verdict MISSING. `reproduces` passes only when the notebook's own result holds AND every named check has the recorded verdict PASS; `.upper()` makes the comparison independent of capitalisation, which matters here, because the field-theory report writes its verdicts as pass in small letters.
+
+```python
+fixture = read_json(GAMMAS)
+gamma = {a: np.array(fixture["gamma"][a - 1], dtype=float) for a in range(1, 9)}
+ETA = {a: int(fixture["eta"][a - 1]) for a in range(1, 9)}
+I16 = np.eye(16)
+C = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3]
+Gamma = gamma[8] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5] @ gamma[6] \
+    @ gamma[7]
+B = -1j * C @ gamma[4]  # the Krein matrix
+check(all(np.array_equal(gamma[a] @ gamma[b] + gamma[b] @ gamma[a],
+                         2.0 * (ETA[a] if a == b else 0) * I16)
+          for a in range(1, 9) for b in range(1, 9))
+      and np.array_equal(Gamma, np.diag([-1.0] * 8 + [1.0] * 8))
+      and np.array_equal(B.conj().T, B),
+      "eight real 16 x 16 gammas (Clifford relations), Gamma = diag(-I8, I8), "
+      "B Hermitian")
+```
+
+The gammas are read as numpy arrays of floating-point numbers (`dtype=float`). Their entries are $-1$, 0 and $+1$, which floating-point numbers store exactly, and sums and products of such whole numbers are again exact; so `np.array_equal`, an exact comparison, is still correct for them. `C`, `Gamma` and `B` are built as in Section 18.5 (a backslash at the end of a line continues the statement on the next line; `1j` is $i$). The check confirms the 64 Clifford relations, $\Gamma = \mathrm{diag}(-I_8, I_8)$ and $B^\dagger = B$ (`.conj().T` is the conjugate transpose). Out [2] shows one PASS line.
+
+**In [3], the spin connection on the patch and on the mirror patch.**
+
+```python
+x4, z, H_sym = sp.symbols("x4 z H", real=True)
+a4 = sp.Function("a4")(x4)
+a4p = sp.Symbol("a4p")
+
+
+def d(expr, b):
+    """The derivative of a coefficient along the coordinate x_b (z = 6 H x8)."""
+    if b == 4:
+        return sp.diff(expr, x4)
+    if b == 8:
+        return 6 * H_sym * sp.diff(expr, z)
+    return sp.Integer(0)
+```
+
+As in Notebook 18b: the symbols $x_4$, $z$ and $H$ (here named `H_sym`, because from In [4] on the name `H` holds the number 0.2), the unknown history $a_4(x_4)$, the plain symbol `a4p` for $a_4'$, and the derivative `d(expr, b)` along the coordinate $x_b$: $d/dx_4$ along $x_4$, $6H\,d/dz$ along $x_8$ (because $z = 6Hx_8$), and zero along the six coordinates on which no coefficient depends.
+
+```python
+def factors(s8):
+    s6 = sp.sin(z) ** sp.Rational(1, 6)
+    f = {a: sp.exp(a4) * s6 for a in (1, 2, 3)}
+    f.update({a: sp.exp(-a4) * s6 for a in (5, 6, 7)})
+    f.update({4: sp.Integer(1), 8: s8 * sp.cot(z)})
+    return f
+```
+
+`factors(s8)` returns the eight vielbein factors of Section 18.3: $e^{a_4}\sin^{1/6}z$ for $x_1, x_2, x_3$; $e^{-a_4}\sin^{1/6}z$ for the deflating extra times $x_5, x_6, x_7$; 1 for $x_4$; and $s_8\cot z$ for $x_8$, with $s_8 = +1$ on the patch and $s_8 = -1$ on the mirror patch, where $\cot z < 0$, so that $f_8 > 0$ on both. `f.update({...})` adds entries to the dictionary.
+
+```python
+def connection(s8):
+    """{(mu, a, b) with a < b: omega_mu ab} for the diagonal vielbein."""
+    f, om = factors(s8), {}
+    for a in range(1, 9):
+        for b in range(1, 9):
+            if a != b:
+                value = sp.simplify(ETA[a] * d(f[a], b) / f[b])
+                if value != 0:  # omega_a,ab (or -omega_a,ba when b < a)
+                    om[(a, a, b) if a < b else (a, b, a)] = (
+                        value if a < b else -value)
+    return dict(sorted(om.items()))
+```
+
+`connection(s8)` uses the short formula derived in Section 18.3, $\omega_{a,ab} = \eta_{aa}\,\partial_bf_a/f_b$ for $a \neq b$, instead of the general Christoffel computation of Notebook 18b. Each nonzero value is stored under the key $(\mu, a, b)$ with $a < b$, the format of the record: when $a < b$ the value is $\omega_{a,ab}$ itself, stored under $(a, a, b)$; when $b < a$ the component with the smaller index first is $\omega_{a,ba} = -\omega_{a,ab}$, stored under $(a, b, a)$. `dict(sorted(...))` orders the keys, so that the list is printed in the order of the record.
+
+```python
+def short(expr):
+    expr = sp.simplify(expr).subs(sp.Derivative(a4, x4), a4p)
+    return expr.subs(a4, sp.Symbol("a4"))
+
+
+patch_om, mirror_om = connection(1), connection(-1)
+listing = "; ".join(f"omega_x{mu} x{a}x{b} = {short(v)}"
+                    for (mu, a, b), v in patch_om.items())
+say("patch: " + listing)
+same = recorded(PY, "geometry.spin_connection_components")["detail"] == (
+    "nonzero components (a < b): " + listing)
+reproduces(len(patch_om) == 12 and same,
+           "the formula gives the 12 recorded spin connection components",
+           (PY, ["geometry.spin_connection_components"]))
+```
+
+`short` writes $a_4'$ as `a4p` and $a_4(x_4)$ as `a4`, as in Notebook 18b. The twelve components of the patch are printed in one line (the output wraps it) and compared, character for character, with the detail text of the sympy check `geometry.spin_connection_components`; the check requires 12 components and the agreement. So two different computations, the general Christoffel formula of Notebook 18b and the short formula of this cell, reproduce the same record.
+
+```python
+flips = all(sp.simplify(mirror_om[k] + patch_om[k]) == 0 if 8 in k[1:]
+            else sp.simplify(mirror_om[k] - patch_om[k]) == 0 for k in patch_om)
+```
+
+`flips` compares the two patches component by component: the six components with an index $x_8$ (`8 in k[1:]` looks at the two frame indices of the key) must change sign, because they contain $1/f_8$, and the six others must be equal.
+
+```python
+divergence = {}
+for s8 in (1, -1):
+    f = factors(s8)
+    sqrtg = sp.simplify(sp.Mul(*f.values()))
+    divergence[s8] = {mu: sp.simplify(d(sqrtg / f[mu], mu) / (2 * sqrtg))
+                      for mu in range(1, 9)}
+say(f"divergence form, patch: coefficient of gamma^(x8) = {divergence[1][8]}, of "
+    f"gamma^(x4) = {divergence[1][4]}; mirror patch: {divergence[-1][8]}, "
+    f"{divergence[-1][4]}")
+reproduces(flips and divergence[1][8] == 3 * H_sym and divergence[-1][8] == -3 * H_sym
+           and all(divergence[s][mu] == 0 for s in (1, -1) for mu in range(1, 8)),
+           "gamma^mu Omega_mu = +3 H gamma^(x8) (patch), -3 H gamma^(x8) (mirror)",
+           (TH_PY, ["gamma_mu_Omega_mu_equals_3H_gamma_x8",
+                    "divergence_of_sqrtg_gamma"]),
+           (TH_WL, ["gammaOmega_equals_3H_gamma_x8", "gammaOmega_divergence_form"]))
+```
+
+The **divergence form** of the theory record, $\gamma^\mu\Omega_\mu = \frac{1}{2\sqrt{|g|}}\sum_\mu\partial_\mu\big(\sqrt{|g|}\,\gamma^{(\mu)}/f_\mu\big)$, computed on both patches: `divergence[s8][mu]` is the coefficient of $\gamma^{(\mu)}$, $\partial_\mu(\sqrt{|g|}/f_\mu)/(2\sqrt{|g|})$. Why this formula holds for a diagonal vielbein, line by line. Only the components $\omega_{\mu,\mu b}$ (and their partners $\omega_{\mu,b\mu} = -\omega_{\mu,\mu b}$) are nonzero (Section 18.3), so
+
+$$
+\gamma^\mu\Omega_\mu = \sum_\mu\frac{\gamma^{(\mu)}}{f_\mu}\sum_{b\neq\mu}\omega_{\mu,\mu b}S^{\mu b} .
+$$
+
+The two equal terms $\omega_{\mu,\mu b}S^{\mu b}$ and $\omega_{\mu,b\mu}S^{b\mu}$ of $\Omega_\mu = \frac12\sum_{a,b}\omega_{\mu ab}S^{ab}$ cancel the factor $\frac12$, as in Section 18.3.
+
+$$
+\gamma^{(\mu)}S^{\mu b} = \tfrac12\gamma^{(\mu)}\gamma^{(\mu)}\gamma^{(b)} = \tfrac12\eta_{\mu\mu}\gamma^{(b)} .
+$$
+
+$S^{\mu b} = \frac12\gamma^{(\mu)}\gamma^{(b)}$ for $b \neq \mu$; then the Clifford relation $\gamma^{(\mu)}\gamma^{(\mu)} = \eta_{\mu\mu}$.
+
+$$
+\gamma^\mu\Omega_\mu = \sum_b\gamma^{(b)}\sum_{\mu\neq b}\frac{\eta_{\mu\mu}}{2f_\mu}\,\eta_{\mu\mu}\frac{\partial_bf_\mu}{f_b} = \sum_b\frac{\gamma^{(b)}}{2f_b}\sum_{\mu\neq b}\frac{\partial_bf_\mu}{f_\mu} .
+$$
+
+We inserted $\omega_{\mu,\mu b} = \eta_{\mu\mu}\partial_bf_\mu/f_b$, exchanged the order of the two sums, and used $\eta_{\mu\mu}^2 = 1$.
+
+$$
+\sum_{\mu\neq b}\frac{\partial_bf_\mu}{f_\mu} = \partial_b\ln\prod_{\mu\neq b}f_\mu = \partial_b\ln\frac{\sqrt{|g|}}{f_b},\qquad \frac{1}{2f_b}\,\partial_b\ln\frac{\sqrt{|g|}}{f_b} = \frac{1}{2\sqrt{|g|}}\,\partial_b\frac{\sqrt{|g|}}{f_b} .
+$$
+
+The first equation is the rule $\partial\ln F = \partial F/F$ applied to each factor (the logarithm of a product is the sum of the logarithms), with $\sqrt{|g|} = \prod_\mu f_\mu$; the second is the same rule read backwards, with $F = \sqrt{|g|}/f_b$ and $\frac{1}{f_b}\cdot\frac{f_b}{\sqrt{|g|}} = \frac{1}{\sqrt{|g|}}$. Together they give the divergence form. On the patch, $\sqrt{|g|}/f_8 = \cos z/\cot z = \sin z$ and $\partial_8\sin z = 6H\cos z$, so the coefficient of $\gamma^{(x_8)}$ is $6H\cos z/(2\cos z) = 3H$; $\sqrt{|g|}/f_4 = \cos z$ does not depend on $x_4$, so the coefficient of $\gamma^{(x_4)}$ is 0. On the mirror patch $\sqrt{|g|} = -\cos z$ and $f_8 = -\cot z$ give the same quotient $\sin z$, but it is divided by $2\sqrt{|g|} = -2\cos z$: the coefficient is $-3H$. The check requires the sign flips, the two coefficients $\pm3H$ and zero for the seven other directions, and names two checks of each field-theory report. Out [3] prints the twelve components, then 3*H, 0, -3*H, 0, and two PASS lines.
+
+**In [4], the numbers of the illustration and the geometry as numbers.**
+
+```python
+A_hist = read_json(PARAMETERS)["physics"]["historyA"]  # A = 1
+m, H, lam = 1.0, 0.2, 0.3  # an illustration (units m = 1)
+Z0 = np.pi / 4  # the patch point; the mirror point is pi - Z0
+rng = np.random.default_rng(2026)
+raw = rng.normal(size=16) + 1j * rng.normal(size=16)
+P_C = 0.5 * (I16 + C)  # the projector on the eigenvalue +1 of C
+psi0 = 2.0 * P_C @ raw + 0.5 * (I16 - P_C) @ raw  # mostly in the +1 part: S > 0
+psi0 = psi0 / np.linalg.norm(psi0)  # length 1
+S0 = float((psi0.conj() @ C @ psi0).real)  # S of the initial value
+report("S of the initial value", f"{S0:.6f}")
+report("m + lambda S", f"{m + lam * S0:.6f}")
+report("3 H", f"{3 * H:.6f}")
+```
+
+`A_hist` is the number $A = 1$ of the canonical history $a_4 = AHx_4$, read from the Kohn-Sham parameter record. The next two lines fix the ILLUSTRATION chosen by this notebook: $m = 1$ (so lengths and times are measured in units of $1/m$), $H = 0.2$, $\lambda = 0.3$ and the patch point $z_0 = \pi/4$. `np.random.default_rng(2026)` is a random-number generator with the fixed seed 2026; `raw` is a column of 16 complex numbers whose real and imaginary parts are drawn from the normal distribution. The initial value is built so that $S > 0$. Since $C$ is real and symmetric with $CC = 1$, the matrices $P_{C\pm} = \frac12(1 \pm C)$ are projectors: $P_{C\pm}^\dagger = P_{C\pm}$, $P_{C\pm}P_{C\pm} = P_{C\pm}$, $P_{C+}P_{C-} = \frac14(1 - CC) = 0$ and $P_{C+} - P_{C-} = C$. Hence
+
+$$
+S = \Psi^\dagger C\Psi = \Psi^\dagger P_{C+}\Psi - \Psi^\dagger P_{C-}\Psi = |P_{C+}\Psi|^2 - |P_{C-}\Psi|^2 ,
+$$
+
+where $|v|^2 = v^\dagger v$ is the squared length; the last step writes $\Psi^\dagger P_{C\pm}\Psi = \Psi^\dagger P_{C\pm}^\dagger P_{C\pm}\Psi = (P_{C\pm}\Psi)^\dagger(P_{C\pm}\Psi)$. Weighting the part of $P_{C+}$ by 2 and the part of $P_{C-}$ by 0.5 makes the first term larger. `np.linalg.norm` is the length of a column, and dividing by it gives a column of length 1. `S0` is $S$ of the initial value (`.real` drops the imaginary part, which is zero up to rounding because $C$ is real and symmetric). Out [4] prints $S = 0.897319$, $m + \lambda S = 1.269196$ and $3H = 0.600000$.
+
+```python
+S_AB = {(a, b): 0.5 * gamma[a] @ gamma[b] for a in range(1, 9) for b in range(1, 9)}
+history = {sp.Derivative(a4, x4): A_hist * H_sym}  # a4' = A H
+
+
+def numeric(table):
+    """Turn the sympy components into functions of (x4, z) for this H and A."""
+    out = {}
+    for key, value in table.items():
+        e = value.subs(history).subs(a4, A_hist * H_sym * x4).subs(H_sym, H)
+        out[key] = sp.lambdify((x4, z), e, "numpy")
+    return out
+
+
+OMEGA = {1: numeric(patch_om), -1: numeric(mirror_om)}
+FACTOR = {s8: {mu: sp.lambdify((x4, z), e.subs(a4, A_hist * H_sym * x4)
+                               .subs(H_sym, H), "numpy")
+               for mu, e in factors(s8).items()} for s8 in (1, -1)}
+```
+
+`S_AB` holds $S^{ab} = \frac12\gamma^{(a)}\gamma^{(b)}$ (correct for $a \neq b$; the entries with $a = b$ are never used). `history` replaces $a_4'$ by $AH$. `numeric(table)` turns each sympy component into a numpy function of $(x_4, z)$: it substitutes $a_4' = AH$, then $a_4 = AHx_4$ and $H = 0.2$, and `sp.lambdify` makes a function that evaluates the resulting expression for numbers. `OMEGA` holds these functions for both patches (keys 1 and $-1$), and `FACTOR` the eight vielbein factors of both patches as functions of $(x_4, z)$.
+
+```python
+def geometry_at(t, zv, s8):
+    """Numbers at the time t and angle zv: f, g, gamma^mu, gamma_mu, Omega_mu."""
+    f = {mu: float(FACTOR[s8][mu](t, zv)) for mu in range(1, 9)}
+    Om = {mu: np.zeros((16, 16)) for mu in range(1, 9)}
+    for (mu, a, b), fn in OMEGA[s8].items():
+        Om[mu] = Om[mu] + float(fn(t, zv)) * S_AB[a, b]
+    return {"f": f, "g": {mu: ETA[mu] * f[mu] ** 2 for mu in f},
+            "sqrtg": abs(np.prod(list(f.values()))),
+            "up": {mu: gamma[mu] / f[mu] for mu in f},
+            "down": {mu: ETA[mu] * f[mu] * gamma[mu] for mu in f}, "Om": Om}
+```
+
+`geometry_at(t, zv, s8)` returns the numbers of the geometry at the time $x_4 = t$ and the angle $z$ = `zv`: the eight factors $f_\mu$ (`float` turns a numpy number into a Python number); the matrices $\Omega_\mu = \sum_{a<b}\omega_{\mu ab}S^{ab}$; the metric components $g_{\mu\mu} = \eta_{\mu\mu}f_\mu^2$; $\sqrt{|g|}$ (`abs` of the product of the factors); the curved gammas $\gamma^\mu = \gamma^{(\mu)}/f_\mu$ (key `"up"`) and $\gamma_\mu = \eta_{\mu\mu}f_\mu\gamma^{(\mu)}$ (key `"down"`).
+
+```python
+for s8, zv in ((1, Z0), (-1, np.pi - Z0)):
+    geo = geometry_at(1.3, zv, s8)
+    total = sum(geo["up"][mu] @ geo["Om"][mu] for mu in range(1, 9))
+    assert np.allclose(total, 3 * s8 * H * gamma[8], atol=1e-12)
+check(abs(m + lam * S0) > 3 * H,
+      "|m + lambda S| > 3 H: the solution and both partners oscillate")
+```
+
+A numerical test of the matrices just built: at the time 1.3 on each patch, $\sum_\mu\gamma^\mu\Omega_\mu$ must equal $3s_8H\gamma^{(x_8)}$ entry by entry to $10^{-12}$ (`np.allclose`; `assert` stops the notebook if not). Then the check $|m + \lambda S| = 1.269 > 3H = 0.6$: by Section 18.21 the solution oscillates. The partners oscillate too, because their generators have the same eigenvalues (In [14]). Out [4] ends with this PASS line.
+
+**In [5], the solution: Runge-Kutta against the exact formula.**
+
+```python
+X_END = 20.0  # integrate from x4 = 0 to 20 (a4 from 0 to A H 20 = 4)
+
+
+def generator(psi, mass, coup, s8):
+    """The matrix M of d psi/dx4 = M psi (s8 = +1 patch, -1 mirror patch)."""
+    S = (psi.conj() @ C @ psi).real
+    return -gamma[4] @ ((mass + coup * S) * I16 - 3 * s8 * H * gamma[8])
+```
+
+`X_END` is the end time 20. Along the history $a_4 = AHx_4$ with $AH = 0.2$, $a_4$ runs from 0 to 4, so between $x_4 = 0$ and 20 the extra times deflate by the factor $e^{-4} \approx 0.018$ and 3-space inflates by $e^4 \approx 54.6$. `generator(psi, mass, coup, s8)` returns the matrix $M = -\gamma^{(x_4)}\big((m + \lambda S)I_{16} - 3s_8H\gamma^{(x_8)}\big)$ of Section 18.21. $S$ is computed from the column `psi` itself, because the equation is nonlinear ($M$ depends on the field through $S$), and $s_8 = -1$ selects the mirror patch, where the connection term is $-3H\gamma^{(x_8)}$.
+
+```python
+def rk4(psi_start, mass, coup, s8, steps):
+    """The RK4 solution at x4 = 0, h, 2h, ..., X_END (steps + 1 rows)."""
+    h = X_END / steps
+    out = np.empty((steps + 1, 16), dtype=complex)
+    psi = psi_start.astype(complex)
+    out[0] = psi
+    for n in range(steps):
+        k1 = generator(psi, mass, coup, s8) @ psi
+        k2 = generator(psi + 0.5 * h * k1, mass, coup, s8) @ (psi + 0.5 * h * k1)
+        k3 = generator(psi + 0.5 * h * k2, mass, coup, s8) @ (psi + 0.5 * h * k2)
+        k4 = generator(psi + h * k3, mass, coup, s8) @ (psi + h * k3)
+        psi = psi + h / 6.0 * (k1 + 2 * k2 + 2 * k3 + k4)
+        out[n + 1] = psi
+    return out
+```
+
+`rk4` is the **classical Runge-Kutta method of fourth order** (Chapter 2). With the step $h$ and $F(\Psi) = M(\Psi)\Psi$, one step from $\Psi_n$ at the time $x_4 = nh$ computes four slopes,
+
+$$
+k_1 = F(\Psi_n),\qquad k_2 = F\big(\Psi_n + \tfrac{h}{2}k_1\big),\qquad k_3 = F\big(\Psi_n + \tfrac{h}{2}k_2\big),\qquad k_4 = F(\Psi_n + hk_3),
+$$
+
+and moves on to $\Psi_{n+1} = \Psi_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4)$. `np.empty` reserves an array of `steps + 1` rows of 16 complex numbers; row $n$ receives $\Psi_n$. `astype(complex)` makes a complex copy of the start column.
+
+```python
+def exact(psi_start, mass, coup, s8, times):
+    """The exact solution cos(w x4) psi(0) + sin(w x4)/w M psi(0)."""
+    M = generator(psi_start, mass, coup, s8)
+    S = (psi_start.conj() @ C @ psi_start).real
+    w = np.sqrt((mass + coup * S) ** 2 - 9 * H ** 2)
+    return (np.cos(w * times)[:, None] * psi_start[None, :]
+            + (np.sin(w * times) / w)[:, None] * (M @ psi_start)[None, :])
+```
+
+`exact` evaluates the formula $\Psi(x_4) = \cos(wx_4)\Psi(0) + \frac{\sin(wx_4)}{w}M\Psi(0)$ with $w = \sqrt{(m + \lambda S)^2 - 9H^2}$ (Section 18.21) at many times at once: `[:, None]` makes a column of the time values and `[None, :]` a row of the components, and their product is the table with one row per time (numpy's **broadcasting**).
+
+```python
+STEPS = 2000
+times = np.linspace(0.0, X_END, STEPS + 1)
+psi = rk4(psi0, m, lam, 1, STEPS)  # the universe of mass m on the patch
+S_t = np.einsum("ti,ij,tj->t", psi.conj(), C, psi).real
+error = np.abs(psi - exact(psi0, m, lam, 1, times)).max()
+M0 = generator(psi0, m, lam, 1)
+square_ok = np.allclose(M0 @ M0, (9 * H ** 2 - (m + lam * S0) ** 2) * I16, atol=1e-13)
+```
+
+The solution with 2000 steps of length 0.01, at the 2001 times `times` (`np.linspace(0, 20, 2001)`). `S_t` is $S$ at every time: `np.einsum("ti,ij,tj->t", ...)` computes, for each time $t$, the sum $\sum_{i,j}\Psi^*_{ti}C_{ij}\Psi_{tj}$ (the letters say which indices are summed and which one is kept). `error` is the largest difference between the Runge-Kutta table and the exact one, over all times and components. `square_ok` checks $M^2 = (9H^2 - (m + \lambda S)^2)I_{16}$ numerically.
+
+```python
+errors = {}
+for n in (250, 500, 1000, 2000, 4000):
+    sol = rk4(psi0, m, lam, 1, n)
+    errors[n] = float(np.abs(sol[-1] - exact(psi0, m, lam, 1, np.array([X_END]))[0])
+                      .max())
+orders = [np.log2(errors[n] / errors[2 * n]) for n in (250, 500, 1000, 2000)]
+say("RK4 error at x4 = 20 for 250, 500, 1000, 2000, 4000 steps: "
+    + ", ".join(f"{errors[n]:.1e}" for n in errors))
+say("measured orders: " + ", ".join(f"{p:.2f}" for p in orders))
+report("largest RK4 error with 2000 steps (all times, all components)",
+       f"{error:.1e}")
+```
+
+The **order** of the method is measured. If the error at the end time behaves like $e(h) = ch^p$, halving the step gives $e(h/2) = ch^p/2^p$, so $e(h)/e(h/2) = 2^p$ and $p = \log_2\big(e(h)/e(h/2)\big)$. The loop solves with 250, 500, 1000, 2000 and 4000 steps and stores the error at $x_4 = 20$; `orders` holds the four values of $p$. Out [5] prints the errors 2.0e-05, 1.2e-06, 6.9e-08, 4.3e-09 and 2.6e-10 (2.0e-05 means $2.0 \times 10^{-5}$), the measured orders 4.10, 4.06, 4.03 and 4.01, and the largest error with 2000 steps over all times and components, 4.3e-09.
+
+```python
+reproduces(np.abs(S_t - S0).max() < 1e-9 and error < 1e-7 and square_ok,
+           "S is constant and RK4 equals the exact homogeneous solution (2000 steps)",
+           (TH_PY, ["exact_nonlinear_homogeneous_solution"]),
+           (TH_WL, ["exact_solution_nonlinear_homogeneous_C"]),
+           (SCOPE, ["good_sector_x8_independent_modes_without_boundary_condition"]))
+check(all(3.8 < p < 4.2 for p in orders), "RK4 is of fourth order here")
+```
+
+The first check requires $S$ to stay constant to $10^{-9}$, the error to be below $10^{-7}$, and the square of $M$; it names the exact homogeneous solution of the two field-theory reports and the scope report's check on these modes. The second requires every measured order between 3.8 and 4.2. COMPUTED: the Runge-Kutta solution agrees with the exact formula of the record to $4.3 \times 10^{-9}$, and the method is of fourth order.
+
+**In [6], Figure 18c.1: the convergence of the method.**
+
+```python
+steps_list = sorted(errors)
+hs = np.array([X_END / n for n in steps_list])
+errs = np.array([errors[n] for n in steps_list])
+fig, ax = plt.subplots(figsize=(7.0, 4.4))
+ax.loglog(hs, errs, "o-", color="#2a78d6", label="RK4 error at $x_4 = 20$")
+ax.loglog(hs, errs[-1] * (hs / hs[-1]) ** 4, "--", color="#52514e",
+          label="slope 4: error $\\propto h^4$")
+ax.set_xlabel("step length $h$ (units $1/m$)")
+ax.set_ylabel("largest error of a component")
+ax.legend()
+```
+
+`hs` holds the five step lengths $20/n$ and `errs` the five errors. `ax.loglog` draws with logarithmic axes on both sides: a power law $e = ch^p$ becomes a straight line of slope $p$, because $\log e = \log c + p\log h$. The dashed comparison line $e_{\rm last}(h/h_{\rm last})^4$ has the slope 4 and passes through the last point.
+
+```python
+save_figure(fig, "rk4_convergence",
+            "Accuracy of the Runge-Kutta solution of the homogeneous field equation "
+            "in the author's metric: the largest difference between a component of "
+            "the computed field and of the exact solution of the Revision theory "
+            "record at the time $x_4 = 20$ (vertical axis, logarithmic), against "
+            "the step length $h$ in units of $1/m$ (horizontal axis, logarithmic), "
+            "for 250 to 4000 steps. The points follow the dashed line of slope 4: "
+            "halving the step divides the error by 16, the fourth order of the "
+            "method. With 2000 steps the error is far below every difference "
+            "studied in this notebook.")
+```
+
+**What you see in Figure 18c.1:** five points on a straight line parallel to the dashed line of slope 4, falling from about $2 \times 10^{-5}$ at $h = 0.08$ to about $3 \times 10^{-10}$ at $h = 0.005$. Why it matters for the theorems: the differences studied below are either zero by a theorem (they must come out below $10^{-12}$) or of order 1 (the negative control). Moreover the map $\Psi \to \Gamma\Psi$ commutes with every step of the method: the slopes of the T1 partner are $\Gamma$ times the slopes of the field, because $F_{-m,-\lambda}(\Gamma\Psi) = \Gamma F_{m,\lambda}(\Psi)$ (the same computation as $\Gamma M\Gamma$ in Section 18.21), and in the same way $F^{\rm mirror}_{-m,\lambda}(\gamma^{(x_8)}\Psi) = \gamma^{(x_8)}F_{m,\lambda}(\Psi)$. So a partner computed with the same steps equals the mapped field up to rounding, whatever the integration error; the comparison with the exact formula shows, in addition, that both are the true solutions to $10^{-9}$.
+
+**In [7], theorem T1 in numbers.**
+
+```python
+phi = rk4(Gamma @ psi0, -m, -lam, 1, STEPS)  # the T1 partner, solved on its own
+t1_gap = np.abs(phi - psi @ Gamma.T).max()  # row by row: Gamma psi(x4)
+wrong = rk4(Gamma @ psi0, -m, lam, 1, STEPS)  # the negative control (-m, +lambda)
+wrong_gap = np.abs(wrong - psi @ Gamma.T).max()
+report("largest difference of the wrong partner (-m, +lambda) from Gamma Psi",
+       f"{wrong_gap:.3f}")
+check(t1_gap < 1e-12, "T1: the (-m, -lambda) solution from Gamma Psi(0) is Gamma "
+      "Psi(x4) at all 2001 times (difference below 1e-12)")
+check(wrong_gap > 0.1, "negative control: the (-m, +lambda) solution from Gamma "
+      "Psi(0) is not Gamma Psi(x4)")
+```
+
+`phi` is the solution of the partner theory $(-m, -\lambda)$ started from $\Gamma\Psi(0)$, computed by the same Runge-Kutta function with no knowledge of `psi`. In `psi @ Gamma.T` each row of the table `psi` is $\Psi(x_4)$ written as a row, and a row times $\Gamma^T$ is $(\Gamma\Psi)^T$; so this table holds $\Gamma\Psi(x_4)$ at all 2001 times, and `t1_gap` is its largest difference from `phi`. `wrong` is the negative control, the theory $(-m, +\lambda)$ from the same start, and `wrong_gap` its largest difference from $\Gamma\Psi$. Out [7] prints RESULT largest difference of the wrong partner (-m, +lambda) from Gamma Psi = 1.641 and two PASS lines: the T1 partner equals $\Gamma\Psi$ to better than $10^{-12}$ at every time, while the wrong partner is off by 1.641, as much as the field itself (the column has length 1). Why it fails: with $S$ unchanged its coefficient is $V = -m + \lambda S = -1 + 0.269196 = -0.730804$ instead of $-1.269196$, so it oscillates with the frequency $\sqrt{0.730804^2 - 0.36} = 0.4172$ instead of $1.1184$.
+
+**In [8], Figure 18c.2: the partner, component by component.**
+
+```python
+fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.0), sharey=True)
+every = slice(0, STEPS + 1, 40)  # a dot every 40 steps
+for ax, A in zip(axes, (0, 8)):
+    ax.plot(times, psi[:, A].real, color="#2a78d6",
+            label=f"$\\Psi_{{{A + 1}}}$, mass $m$, coupling $\\lambda$")
+    ax.plot(times[every], phi[every, A].real, "o", color="#eb6834", markersize=3.5,
+            label=f"$\\Phi_{{{A + 1}}}$, mass $-m$, coupling $-\\lambda$")
+    ax.plot(times, wrong[:, A].real, "--", color="#52514e", linewidth=0.9,
+            label="wrong partner: $-m$, $+\\lambda$")
+    ax.set_xlabel("time $x_4$ (units $1/m$)")
+    ax.set_title(f"component {A + 1}: " + ("$\\Phi = -\\Psi$" if A < 8
+                                            else "$\\Phi = +\\Psi$"), fontsize=10)
+    ax.legend(loc="lower left", fontsize=8)
+axes[0].set_ylabel("real part of the component")
+```
+
+Two panels side by side that share the vertical axis (`sharey=True`). `every` is a **slice** that takes every 40th of the 2001 times, so that the dots do not hide the line. The loop draws component 1 (Python place 0) in the left panel and component 9 (place 8) in the right one: the real part of $\Psi_A$ as a blue line, of the partner $\Phi_A$ as orange dots, and of the wrong partner as a thin dashed line. In the f-strings, `{{{A + 1}}}` prints a brace, the number $A + 1$ and a brace, so that the label reads $\Psi_1$ or $\Psi_9$ in LaTeX. The title of each panel says which relation holds in that half.
+
+```python
+save_figure(fig, "partner_components",
+            "A solution and its T1 partner, computed separately. Lines: the real "
+            "part of component 1 (left) and component 9 (right) of the homogeneous "
+            "solution $\\Psi$ with mass $m = 1$ and coupling $\\lambda = 0.3$, "
+            "against the time $x_4$ in units of $1/m$. Dots: the same components "
+            "of the solution $\\Phi$ of the theory with $-m$ and $-\\lambda$, "
+            "started from $\\Gamma\\Psi(0)$ and integrated on its own. In the first "
+            "half of the components $\\Phi = -\\Psi$, in the second half "
+            "$\\Phi = +\\Psi$: the partner is exactly $\\Gamma\\Psi$ at every time, "
+            "as theorem T1 says. Dashed: the negative control with $-m$ and "
+            "$+\\lambda$, which drifts away because it oscillates with another "
+            "frequency.")
+```
+
+**What you see in Figure 18c.2:** on the left, the dots lie on the mirror image of the blue line in the horizontal axis ($\Phi_1 = -\Psi_1$: they start near $+0.21$ where the line starts near $-0.21$); on the right, the dots lie on the line ($\Phi_9 = +\Psi_9$). The dashed wrong partner starts at the same values as the dots but oscillates with the period $2\pi/0.4172 \approx 15.1$ instead of $2\pi/1.1184 \approx 5.62$ and drifts away. This is $\Gamma = \mathrm{diag}(-I_8, I_8)$ at work on an actual solution.
+
+**In [9], the bilinears of a homogeneous field, and T1 for them.**
+
+```python
+def bilinears(field, mass, coup, t, zv, s8):
+    """S, J^mu (8 numbers) and T_mu nu (8 x 8) of a homogeneous field at (t, zv)."""
+    geo = geometry_at(t, zv, s8)
+    D = {mu: geo["Om"][mu] @ field for mu in range(1, 9)}
+    D[4] = D[4] + generator(field, mass, coup, s8) @ field  # d field / dx4
+    bar = field.conj() @ C  # the adjoint row Psibar = Psi^dagger C
+    Dbar = {mu: D[mu].conj() @ C for mu in range(1, 9)}
+    S = (bar @ field).real
+```
+
+`bilinears(field, mass, coup, t, zv, s8)` computes, for one column `field` at the time `t` and the angle `zv`, every quantity the theorems speak about. `geo` holds the geometry there. The covariant derivatives: a homogeneous field has $\partial_\mu\Psi = 0$ for $\mu \neq 4$, so $D_\mu\Psi = \Omega_\mu\Psi$, and $\partial_4\Psi = M\Psi$ by the field equation, which the line `D[4] = D[4] + ...` adds to $\Omega_4\Psi$ (zero here). `bar` is the row $\bar\Psi = \Psi^\dagger C$ (`field.conj() @ C`: the conjugate column used as a row, times $C$). `Dbar` uses $D_\mu\bar\Psi = (D_\mu\Psi)^\dagger C$, which follows from the reality of $\Omega_\mu$:
+
+$$
+(D_\mu\Psi)^\dagger C = (\partial_\mu\Psi)^\dagger C + \Psi^\dagger\Omega_\mu^TC = \partial_\mu\bar\Psi - \Psi^\dagger C\Omega_\mu = D_\mu\bar\Psi .
+$$
+
+The rule $(XY)^\dagger = Y^\dagger X^\dagger$ with $\Omega_\mu^\dagger = \Omega_\mu^T$ ($\Omega_\mu$ is real); then $\Omega_\mu^TC = -C\Omega_\mu$ (Exercise 18.4 derives it from $C\gamma^{(a)}C^{-1} = -(\gamma^{(a)})^T$); then the definition of $D_\mu\bar\Psi$. `S` is $\bar\Psi\Psi$.
+
+```python
+    L = 0.5 * sum(bar @ geo["up"][mu] @ D[mu] - Dbar[mu] @ geo["up"][mu] @ field
+                  for mu in range(1, 9)) - mass * S - 0.5 * coup * S ** 2
+    T = np.zeros((8, 8), dtype=complex)
+    for mu in range(1, 9):
+        for nu in range(1, 9):
+            T[mu - 1, nu - 1] = 0.25 * (
+                bar @ geo["down"][mu] @ D[nu] + bar @ geo["down"][nu] @ D[mu]
+                - Dbar[mu] @ geo["down"][nu] @ field
+                - Dbar[nu] @ geo["down"][mu] @ field)
+            if mu == nu:
+                T[mu - 1, nu - 1] -= geo["g"][mu] * L
+    J = np.array([-1j * bar @ geo["up"][mu] @ field for mu in range(1, 9)])
+    assert np.abs(T.imag).max() < 1e-12 and np.abs(J.imag).max() < 1e-12
+    return S, J.real, T.real
+```
+
+`L` is $\mathcal{L}/\sqrt{|g|}$ of Section 18.4: half the sum over $\mu$ of $\bar\Psi\gamma^\mu D_\mu\Psi - (D_\mu\bar\Psi)\gamma^\mu\Psi$, minus $mS$, minus $\frac{\lambda}{2}S^2$. `T` is the $8 \times 8$ table of $T_{\mu\nu}$ of the pairing record (Section 18.4), built from the lowered gammas $\gamma_\mu$ (`geo["down"]`), with $-g_{\mu\mu}\mathcal{L}/\sqrt{|g|}$ added on the diagonal; it is stored at the place `[mu - 1, nu - 1]` because Python counts from 0. `J` holds $J^\mu = -i\bar\Psi\gamma^\mu\Psi$, the convention of the theory record, for $\mu = 1, \dots, 8$. For a commuting field all these numbers are real (the Lagrangian is real, Chapter 7); `assert` confirms that their imaginary parts are below $10^{-12}$, and the function returns the real parts.
+
+```python
+SAMPLE = range(0, STEPS + 1, 20)  # 101 sampled times
+sampled = times[list(SAMPLE)]
+data = {"psi": [bilinears(psi[n], m, lam, times[n], Z0, 1) for n in SAMPLE],
+        "phi": [bilinears(phi[n], -m, -lam, times[n], Z0, 1) for n in SAMPLE]}
+scale_T = max(np.abs(T).max() for _, _, T in data["psi"])
+scale_J = max(np.abs(J).max() for _, J, _ in data["psi"])
+t1_T = max(np.abs(Tp + Tq).max() for (_, _, Tp), (_, _, Tq)
+           in zip(data["psi"], data["phi"])) / scale_T
+t1_J = max(np.abs(Jp + Jq).max() for (_, Jp, _), (_, Jq, _)
+           in zip(data["psi"], data["phi"])) / scale_J
+t1_S = max(abs(Sp - Sq) for (Sp, _, _), (Sq, _, _) in zip(data["psi"], data["phi"]))
+reproduces(t1_T < 1e-12 and t1_J < 1e-12 and t1_S < 1e-12,
+           "T1: S kept, J -> -J (8) and T -> -T (36) at all 101 sampled times",
+           (PY, ["T1.metric.commuting.emt", "T1.metric.commuting.current"]))
+```
+
+`SAMPLE` takes every 20th time, $x_4 = 0, 0.2, 0.4, \dots, 20$: 101 times. `data` holds the bilinears of the field with $(m, \lambda)$ and of its T1 partner with $(-m, -\lambda)$ at the same point $z_0$ of the patch. `scale_T` and `scale_J` are the largest absolute entries of $T$ and $J$ of the field over all sampled times; the differences are divided by them, so that the test measures a relative error. `t1_T` is the largest relative entry of $T[\Psi] + T[\Phi]$, `t1_J` that of $J[\Psi] + J[\Phi]$, and `t1_S` the largest difference of the two values of $S$. The check requires all three below $10^{-12}$ and names the sympy checks `T1.metric.commuting.emt` and `T1.metric.commuting.current`. Out [9] shows the PASS line. COMPUTED on an actual solution along the deflating history: the 36 independent components of $T_{\mu\nu}$ (the table is symmetric) and the 8 of $J^\mu$ of the partner are the negatives of those of the field, and $S$ is the same.
+
+**In [10], three facts of the theory record, and the conservation of the charge.**
+
+```python
+rho_ok = p_ok = mixed_ok = flow_ok = True
+for n, (S, J, T) in zip(SAMPLE, data["psi"]):
+    geo = geometry_at(times[n], Z0, 1)
+    rho_ok = rho_ok and abs(-T[3, 3] - (m * S + 0.5 * lam * S ** 2)) < 1e-12
+    p = [-T[mu - 1, mu - 1] / geo["g"][mu] for mu in (1, 2, 3, 5, 6, 7, 8)]
+    p_ok = p_ok and max(abs(x - 0.5 * lam * S ** 2) for x in p) < 1e-12
+    mixed_ok = mixed_ok and abs(T[3, 7]) < 1e-12 * scale_T
+    field = psi[n]
+    dJ4 = 2 * (field.conj() @ B @ generator(field, m, lam, 1) @ field).real
+    Q = (-1j * field.conj() @ C @ gamma[8] @ field).real
+    flow_ok = flow_ok and abs(dJ4 + 6 * H * Q) < 1e-12
+```
+
+The loop runs over the sampled times of the field (`zip` pairs the time indices with the stored bilinears). `T[3, 3]` is $T_{x_4x_4}$ (place 3 is $x_4$), so `-T[3, 3]` is the energy density $\rho$ of the pairing convention, compared with $mS + \frac{\lambda}{2}S^2$. `p` holds the seven pressures $p_\mu = -g^{\mu\mu}T_{\mu\mu} = -T_{\mu\mu}/g_{\mu\mu}$ of $x_1, x_2, x_3$, of the deflating extra times $x_5, x_6, x_7$ and of $x_8$, each compared with $\frac{\lambda}{2}S^2$. `T[3, 7]` is $T_{x_4x_8}$, which must vanish (relative to `scale_T`). Then the conservation law of Section 18.21: `dJ4` is $\partial_4J^{x_4}$, computed from the field equation $\partial_4\Psi = M\Psi$,
+
+$$
+\frac{d}{dx_4}\big(\Psi^\dagger B\Psi\big) = (M\Psi)^\dagger B\Psi + \Psi^\dagger BM\Psi = 2\,\mathrm{Re}\big(\Psi^\dagger BM\Psi\big) .
+$$
+
+The product rule; then $(M\Psi)^\dagger B\Psi = \Psi^\dagger M^\dagger B\Psi$ is the complex conjugate of $\Psi^\dagger B^\dagger M\Psi = \Psi^\dagger BM\Psi$ ($B$ is Hermitian), and a number plus its complex conjugate is twice its real part. `Q` is $-i\bar\Psi\gamma^{(x_8)}\Psi$, and the law of Section 18.21 requires $\partial_4J^{x_4} = -6HQ$.
+
+```python
+reproduces(rho_ok and p_ok and mixed_ok,
+           "rho = m S + (l/2) S^2, all pressures (l/2) S^2, T_x4x8 = 0 (homogeneous)",
+           (TH_PY, ["commuting_homogeneous_on_shell_rho_p",
+                    "commuting_T_x4x8_homogeneous"]))
+reproduces(flow_ok, "the charge is conserved: d4 J^x4 = -6 H Q (flow along x8)",
+           (TH_PY, ["commuting_current_conservation"]))
+```
+
+Two checks. The first names two checks of the field-theory report `python-field-theory.json`, one for the energy density and the pressures and one for $T_{x_4x_8}$ of homogeneous solutions; the second names its check of the conservation of the charge. Out [10] shows both PASS lines. With the numbers of Out [4] the energy density is $\rho = mS + \frac{\lambda}{2}S^2 = 0.897319 + 0.15 \times 0.805181 = 1.0181$ and every pressure is $0.15 \times 0.805181 = 0.1208$; Exercise 18.2 continues this computation.
+
+**In [11], Figure 18c.3: the T1 pair in numbers.**
+
+```python
+def series(name, pick):
+    return np.array([pick(S, J, T) for S, J, T in data[name]])
+
+
+panels = [("charge density $J^{x_4}$", lambda S, J, T: J[3]),
+          ("energy density $\\rho = -T_{x_4x_4}$", lambda S, J, T: -T[3, 3]),
+          ("$T_{x_4x_1}$ (history-dependent)", lambda S, J, T: T[3, 0])]
+fig, axes = plt.subplots(1, 3, figsize=(13.0, 4.0))
+for ax, (title, pick) in zip(axes, panels):
+    a, b = series("psi", pick), series("phi", pick)
+    ax.plot(sampled, a, color="#2a78d6", label="$\\Psi$: $(m, \\lambda)$")
+    ax.plot(sampled, b, color="#eb6834", label="T1 partner: $(-m, -\\lambda)$")
+    ax.plot(sampled, a + b, color="#52514e", linestyle="--", label="sum")
+    ax.set_title(title, fontsize=10)
+    ax.set_xlabel("time $x_4$ (units $1/m$)")
+axes[0].legend(fontsize=8, loc="lower left")
+```
+
+`series(name, pick)` returns the time series of one quantity; `pick` is a small function that chooses it from $(S, J, T)$. `panels` lists three choices, each a title and a one-line function (`lambda S, J, T: ...`): $J^{x_4}$ (`J[3]`), $\rho = -T_{x_4x_4}$ and $T_{x_4x_1}$ (`T[3, 0]`). For each panel the field (blue), its T1 partner (orange) and their sum (dashed) are drawn against the sampled times.
+
+```python
+save_figure(fig, "t1_pair_densities",
+            "The T1 pair in numbers, along the deflating history $a_4 = AHx_4$ "
+            "($A = 1$, $H = 0.2$, $m = 1$, $\\lambda = 0.3$, at $z = \\pi/4$). "
+            "Horizontal axes: the time $x_4$ in units of $1/m$. Left: the charge "
+            "density $J^{x_4}$; middle: the energy density $\\rho$; right: the "
+            "mixed component $T_{x_4x_1}$, which grows with the factor $e^{a_4}$ "
+            "of the inflating direction. Blue: the solution with $(m, \\lambda)$; "
+            "orange: its partner $\\Gamma\\Psi$ with $(-m, -\\lambda)$; dashed: "
+            "their sum. Every orange curve is the mirror image of the blue one in "
+            "the horizontal axis, and the sum is zero at every time: the pair has "
+            "zero total charge and energy-momentum as classical bilinears.")
+```
+
+**What you see in Figure 18c.3:** on the left, the blue charge density oscillates between about $-0.04$ and $-0.40$ and the orange one between $+0.04$ and $+0.40$, seven times between $x_4 = 0$ and 20 (the density is quadratic in the field, so it oscillates with the period $\pi/w = 2.81$, half the period of the field); in the middle, two constant lines at $+1.018$ and $-1.018$; on the right, the blue component rises from about 0.05 to 3 and the orange one falls from $-0.05$ to $-3$. In each panel the dashed sum is zero at every time. Why the right panel grows: $T_{x_4x_1}$ contains $\gamma_{x_1} = f_1\gamma^{(x_1)}$ and the connection $\Omega_{x_1}$, both proportional to $e^{a_4} = e^{0.2x_4}$, which grows by the factor $e^4 \approx 54.6$ between $x_4 = 0$ and 20; this is where the deflating history enters the energy-momentum tensor. COMPUTED: $T + T' = 0$ and $J + J' = 0$ at every sampled time.
+
+**In [12], theorem T2 in numbers: the mirror partner.**
+
+```python
+chi = rk4(gamma[8] @ psi0, -m, lam, -1, STEPS)  # the mirror partner, on its own
+t2_gap = np.abs(chi - psi @ gamma[8].T).max()
+data["chi"] = [bilinears(chi[n], -m, lam, times[n], np.pi - Z0, -1) for n in SAMPLE]
+LAM = np.array([1, 1, 1, 1, 1, 1, 1, -1], dtype=float)
+t2_S = max(abs(Sp + Sx) for (Sp, _, _), (Sx, _, _) in zip(data["psi"], data["chi"]))
+t2_J = max(np.abs(Jx - LAM * Jp).max() for (_, Jp, _), (_, Jx, _)
+           in zip(data["psi"], data["chi"])) / scale_J
+t2_T = max(np.abs(Tx - np.outer(LAM, LAM) * Tp).max() for (_, _, Tp), (_, _, Tx)
+           in zip(data["psi"], data["chi"])) / scale_T
+```
+
+`chi` is the mirror partner: the theory $(-m, \lambda)$ on the mirror patch ($s_8 = -1$), started from $\gamma^{(x_8)}\Psi(0)$ and solved on its own. `t2_gap` compares it with $\gamma^{(x_8)}\Psi(x_4)$ (`psi @ gamma[8].T`, as in In [7]). `data["chi"]` holds its bilinears at the MIRROR point $z = \pi - z_0 = 3\pi/4$, in the geometry of the mirror patch. `LAM` is $\Lambda = R_8 = \mathrm{diag}(1, 1, 1, 1, 1, 1, 1, -1)$. `t2_S` measures $S[X] + S[\Psi]$, which must vanish because $S$ is reversed; `t2_J` measures $J[X] - \Lambda J[\Psi]$ and `t2_T` measures $T[X] - \Lambda_\mu\Lambda_\nu T[\Psi]$ (`np.outer(LAM, LAM)` is the $8 \times 8$ table of the products $\Lambda_\mu\Lambda_\nu$), both relative.
+
+```python
+check(t2_gap < 1e-12, "T2: the (-m, lambda) mirror solution from gamma^(x8) Psi(0) "
+      "is gamma^(x8) Psi(x4) at all 2001 times")
+reproduces(t2_S < 1e-12 and t2_J < 1e-12 and t2_T < 1e-12,
+           "T2: S -> -S, J and T pulled back (charge and energy density equal)",
+           (PY, ["T2.metric.commuting.S_odd", "T2.metric.commuting.emt",
+                 "T2.metric.commuting.current"]))
+```
+
+Two checks: the mirror partner is $\gamma^{(x_8)}\Psi$ at all 2001 times, and $S$ is reversed while $J$ and $T$ are pulled back, with the sympy checks `T2.metric.commuting.S_odd`, `T2.metric.commuting.emt` and `T2.metric.commuting.current`. Out [12] shows both PASS lines. Note what is compared: the field at $z_0 = \pi/4$ on the patch and its partner at $3\pi/4$ on the mirror patch, the two points that the mirror $z \to \pi - z$ exchanges.
+
+**In [13], Figure 18c.4: the T2 pair in numbers.**
+
+```python
+panels = [("scalar $S$", lambda S, J, T: S),
+          ("charge density $J^{x_4}$", lambda S, J, T: J[3]),
+          ("$T_{x_4x_1}$ (history-dependent)", lambda S, J, T: T[3, 0])]
+fig, axes = plt.subplots(1, 3, figsize=(13.0, 4.0))
+for ax, (title, pick) in zip(axes, panels):
+    ax.plot(sampled, series("psi", pick), color="#2a78d6",
+            label="$\\Psi$ on the patch: $(m, \\lambda)$")
+    ax.plot(sampled[::4], series("chi", pick)[::4], "o", color="#1baf7a",
+            markersize=4, label="mirror partner: $(-m, \\lambda)$")
+    ax.set_title(title, fontsize=10)
+    ax.set_xlabel("time $x_4$ (units $1/m$)")
+axes[0].set_ylim(-1.1, 1.1)
+axes[0].legend(fontsize=8, loc="center left")
+```
+
+Three panels, $S$, $J^{x_4}$ and $T_{x_4x_1}$, with the field as a blue line and the mirror partner as green dots at every fourth sampled time (`[::4]` takes every fourth entry). `set_ylim(-1.1, 1.1)` fixes the vertical range of the first panel so that both values of $S$ are visible.
+
+```python
+save_figure(fig, "t2_mirror_densities",
+            "The T2 pair in numbers, same values as in the previous figure. Blue "
+            "line: the solution $\\Psi$ with $(m, \\lambda)$ on the patch at "
+            "$z = \\pi/4$; green dots: its mirror partner $\\gamma^{(x_8)}\\Psi$, "
+            "solved on its own with $(-m, \\lambda)$ on the mirror patch at "
+            "$z = 3\\pi/4$. Horizontal axes: the time $x_4$ in units of $1/m$. "
+            "Left: the scalar $S$, constant and exactly opposite for the partner. "
+            "Middle and right: the charge density $J^{x_4}$ and the component "
+            "$T_{x_4x_1}$, EQUAL for the partner. T2 pairs the mass $m$ with $-m$ "
+            "at the same charge and energy-momentum; nothing cancels.")
+```
+
+**What you see in Figure 18c.4:** on the left two constant lines, $S = 0.897$ for the field and $S = -0.897$ for the partner; in the middle and on the right the green dots lie ON the blue curves: the mirror partner has the same charge density and the same $T_{x_4x_1}$. Compare Figure 18c.3, where the T1 partner was the mirror image in the horizontal axis. T2 pairs $m$ with $-m$ at EQUAL charge and energy-momentum: nothing cancels in a T2 pair.
+
+**In [14], the spectra of the generators.**
+
+```python
+def spectrum(Mx):
+    """The 16 eigenvalues, sorted by imaginary part, then real part (rounded)."""
+    ev = np.linalg.eigvals(Mx)
+    return ev[np.lexsort((np.round(ev.real, 9), np.round(ev.imag, 9)))]
+
+
+M_psi = generator(psi0, m, lam, 1)
+M_t1 = generator(Gamma @ psi0, -m, -lam, 1)
+M_t2 = generator(gamma[8] @ psi0, -m, lam, -1)
+similar = (np.array_equal(Gamma @ M_psi @ Gamma, M_t1)
+           and np.allclose(gamma[8] @ M_psi @ gamma[8], M_t2, atol=1e-15))
+sp_psi, sp_t1, sp_t2 = spectrum(M_psi), spectrum(M_t1), spectrum(M_t2)
+w_exact = np.sqrt((m + lam * S0) ** 2 - 9 * H ** 2)
+report("frequency w of the solution and of both partners", f"{w_exact:.6f}")
+check(similar and np.abs(sp_psi - sp_t1).max() < 1e-12
+      and np.abs(sp_psi - sp_t2).max() < 1e-12
+      and np.allclose(np.sort(np.abs(sp_psi.imag)), w_exact, atol=1e-12),
+      "the generators of the field and of its T1 and T2 partners are similar: "
+      "equal spectra +-i w")
+```
+
+`spectrum(Mx)` returns the 16 eigenvalues of a matrix (`np.linalg.eigvals`) in a fixed order: `np.lexsort` sorts by its last key first, here by the imaginary part and then by the real part, both rounded to 9 decimals so that rounding differences do not change the order. `M_psi`, `M_t1` and `M_t2` are the generators of the field, of the T1 partner and of the mirror partner at the start. `similar` checks $\Gamma M\Gamma = M_{\rm T1}$ with the exact comparison `np.array_equal` ($\Gamma$ only changes the signs of rows and columns, which floating-point arithmetic does exactly) and $\gamma^{(x_8)}M\gamma^{(x_8)} = M_{\rm T2}$ to $10^{-15}$. Similar matrices have the same eigenvalues (Section 18.23), and the check compares the three sorted spectra. It also requires the absolute imaginary parts to equal $w$: since $M^2 = -w^2I_{16}$, every eigenvalue $\mu$ of $M$ obeys $\mu^2 = -w^2$, so $\mu = \pm iw$. Out [14] prints the frequency $w = 1.118417$ of the solution and of both partners, and the PASS line.
+
+```python
+masses = np.linspace(-2.0, 2.0, 161)
+family = {}
+for label, sign_m, sign_l in (("field", 1, 1), ("T1 partner", -1, -1)):
+    rows = []
+    for mv in masses:
+        V = sign_m * mv + sign_l * lam * S0
+        Mx = -V * gamma[4] + 3 * H * gamma[4] @ gamma[8]
+        rows.append(spectrum(Mx))
+    family[label] = np.array(rows)
+check(np.abs(family["field"] - family["T1 partner"]).max() < 1e-9,
+      "for every mass from -2 to 2 the field and its T1 partner have equal spectra")
+```
+
+The same comparison for a whole family: 161 masses from $-2$ to 2 (`np.linspace(-2.0, 2.0, 161)`), at the fixed $\lambda$ and $S_0$. For the field the generator has $V = m + \lambda S_0$; for the T1 partner the mass $-m$ and the coupling $-\lambda$ give $V = -m - \lambda S_0$. The generator $-V\gamma^{(x_4)} + 3H\gamma^{(x_4)}\gamma^{(x_8)}$ is built directly and its sorted spectrum stored, one row per mass. The check requires the two tables to agree to $10^{-9}$ at every mass; Out [14] ends with its PASS line.
+
+**In [15], Figure 18c.5: the spectrum against the mass.**
+
+```python
+fig, ax = plt.subplots(figsize=(8.0, 4.4))
+for label, colour, style in (("field", "#2a78d6", "-"),
+                             ("T1 partner", "#eb6834", "o")):
+    rows = family[label]
+    kw = {"markersize": 3} if style == "o" else {}
+    ax.plot(masses, rows.imag.max(axis=1), style, color=colour,
+            label=f"frequency $w$, {label}", **kw)
+    ax.plot(masses, rows.real.max(axis=1), style, color=colour, alpha=0.45,
+            label=f"growth rate, {label}", **kw)
+ax.axvline(m, color="#52514e", linestyle=":", label="the solution of this notebook")
+ax.set_xlabel("mass $m$ of the field (the partner has $-m$, $-\\lambda$)")
+ax.set_ylabel("eigenvalue part (units $m = 1$)")
+ax.legend(fontsize=8, loc="upper center")
+```
+
+For the field (lines, style `"-"`) and the partner (dots, style `"o"`; `**kw` passes the marker size only for the dots): the largest imaginary part of the 16 eigenvalues at each mass (`rows.imag.max(axis=1)`, the oscillation frequency $w$) in full colour, and the largest real part (the growth rate) in a lighter shade (`alpha=0.45`). A dotted vertical line marks the mass $m = 1$ of the solution of the notebook.
+
+```python
+save_figure(fig, "family_spectrum",
+            "The spectrum of the evolution generator of the homogeneous solutions, "
+            "against the mass $m$ (horizontal axis) at the fixed coupling "
+            "$\\lambda = 0.3$ and scalar $S$ of this notebook, $H = 0.2$. Dark "
+            "curves: the oscillation frequency $w$, the largest imaginary part of "
+            "the eigenvalues; light curves: the growth rate, the largest real part. "
+            "Lines: the field with $(m, \\lambda)$; dots: its T1 partner with "
+            "$(-m, -\\lambda)$. They coincide everywhere. Inside the window "
+            "$|m + \\lambda S| < 3H$ the frequency is zero and the solutions grow; "
+            "outside it they oscillate. The dotted line marks the solution "
+            "plotted above.")
+```
+
+**What you see in Figure 18c.5:** the dots lie on the lines everywhere. Outside a window of masses the growth rate is zero and the frequency $w = \sqrt{(m + \lambda S_0)^2 - 9H^2}$ rises from 0 at the edges of the window towards the straight lines $|m + \lambda S_0|$; at the dotted line, $m = 1$, it is $1.118$. Inside the window $|m + \lambda S_0| < 3H$, that is $-0.869 < m < 0.331$, the frequency is zero and the growth rate is an arc with the top $3H = 0.6$ at $m = -\lambda S_0 = -0.269$. Why an arc: inside the window the eigenvalues are $\pm\kappa$ with $\kappa^2 = 9H^2 - (m + \lambda S_0)^2$, so $\kappa^2 + (m + \lambda S_0)^2 = (3H)^2$, the equation of a circle of radius $3H$ (drawn with different scales on the two axes). The field and its T1 partner have the same spectrum for every mass: T1 never turns an oscillating universe into a growing one.
+
+**In [16], plane waves in flat space: the quantum reading Q.**
+
+```python
+def h_matrix(mass, k):
+    """h_m(k) = -i m gamma^(x4) - gamma^(x4) sum_(a != 4) k_a gamma^(a)."""
+    out = -1j * mass * gamma[4]
+    for a in (1, 2, 3, 5, 6, 7, 8):
+        out = out - k[a - 1] * gamma[4] @ gamma[a]
+    return out
+
+
+def w_squared(mass, k):
+    return mass ** 2 + sum(k[a - 1] ** 2 for a in (1, 2, 3, 8)) - sum(
+        k[a - 1] ** 2 for a in (5, 6, 7))
+
+
+def eigenspace(Mx, value, tol=1e-9):
+    """Orthonormal columns spanning the null space of Mx - value I."""
+    _, sv, vh = np.linalg.svd(Mx - value * I16)
+    return vh[sv < tol].conj().T
+
+
+def inertia(V):
+    """(positive, negative) eigenvalue counts of V^dagger B V."""
+    ev = np.linalg.eigvalsh(V.conj().T @ B @ V)
+    return int((ev > 1e-9).sum()), int((ev < -1e-9).sum())
+```
+
+Four helpers. The first, `h_matrix(mass, k)`, builds the one-particle matrix of Section 18.22,
+
+$$
+h_m(k) = -im\gamma^{(x_4)} - \gamma^{(x_4)}\sum_{a\neq4}k_a\gamma^{(a)} ,
+$$
+
+where `k[a - 1]` is $k_a$ (the entry $k_4$ is never used). `w_squared` returns $m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$. `eigenspace(Mx, value)` returns orthonormal columns that span the eigenspace of the eigenvalue `value`, that is the null space of $M_x - wI_{16}$. It uses the **singular value decomposition** `np.linalg.svd`, which writes a matrix as $A = U\Sigma V^\dagger$ with $U$ and $V$ unitary (orthonormal columns) and $\Sigma$ diagonal with the singular values $\sigma_j \geq 0$; since $Av_j = \sigma_ju_j$ for the columns $u_j$ of $U$ and $v_j$ of $V$, the columns $v_j$ with $\sigma_j = 0$ (in floating point: below $10^{-9}$) span the null space. numpy returns $V^\dagger$ (`vh`), so the selected rows are conjugated and transposed into columns. `inertia(V)` counts the positive and the negative eigenvalues of the $8 \times 8$ Hermitian matrix $V^\dagger BV$, the Krein form restricted to the eigenspace (`np.linalg.eigvalsh` computes the eigenvalues of a Hermitian matrix).
+
+```python
+R8 = np.array([1, 1, 1, 1, 1, 1, 1, -1], dtype=float)
+rand = np.random.default_rng(7)
+square_ok = maps_ok = True
+for _ in range(50):
+    k, mv = rand.normal(size=8), rand.normal()
+    h = h_matrix(mv, k)
+    square_ok = square_ok and np.allclose(h @ h, w_squared(mv, k) * I16, atol=1e-12)
+    maps_ok = (maps_ok and np.allclose(Gamma @ h @ Gamma, h_matrix(-mv, k))
+               and np.allclose(gamma[8] @ h @ gamma[8], h_matrix(-mv, R8 * k)))
+```
+
+`R8` reverses $k_8$. With the fixed seed 7, fifty random masses and momenta are drawn; for each, `square_ok` checks $h^2 = w^2I_{16}$ and `maps_ok` checks $\Gamma h_m(k)\Gamma = h_{-m}(k)$ and $\gamma^{(x_8)}h_m(k)\gamma^{(x_8)} = h_{-m}(R_8k)$ (`R8 * k` multiplies entry by entry).
+
+```python
+samples = read_json(THEORY)["data"]["one_particle_flat"]["samples"]
+rows_ok = True
+for row in samples:
+    k = np.array(row["k"], dtype=float)
+    w = float(sp.sympify(row["w"].replace("Sqrt[", "sqrt(").replace("]", ")")))
+    h = h_matrix(row["m"], k)
+    Vp, Vn = eigenspace(h, w), eigenspace(h, -w)
+    mine = (np.isclose(np.sqrt(w_squared(row["m"], k)), w), Vp.shape[1],
+            Vn.shape[1], inertia(Vp), inertia(Vn))
+    rows_ok = rows_ok and mine == (True, row["dim_plus_w"], row["dim_minus_w"],
+                                   tuple(row["B_inertia_plus_w"]),
+                                   tuple(row["B_inertia_minus_w"]))
+    (pp, pn), (qp, qn) = inertia(Vp), inertia(Vn)
+    say(f"m = {row['m']:+d}, k = {row['k']}: w = {w:.6f}, dimensions "
+        f"{Vp.shape[1]} and {Vn.shape[1]}, Krein inertia ({pp},{pn}) and "
+        f"({qp},{qn})")
+```
+
+`samples` is the data table `one_particle_flat` of `pairing-theory.json`: eight rows, each with $m$, $k$, the frequency $w$ as text (for example `Sqrt[2]`, the Wolfram way of writing $\sqrt2$), the dimensions of the two eigenspaces and their Krein inertias. The text of $w$ is translated into sympy's `sqrt(2)`, read by `sp.sympify` and turned into a number by `float`. For each row the cell computes the eigenspaces of $+w$ and $-w$, their dimensions (`shape[1]`, the number of columns) and their inertias; `mine` collects them in the order of the record, and `rows_ok` requires equality with the record. One line per sample is printed.
+
+```python
+reproduces(square_ok and maps_ok,
+           "h_m^2 = w^2 I16; Gamma h_m Gamma = h_-m; gamma^(x8) h_m gamma^(x8) = "
+           "h_-m(R8 k)", (WL, ["Q_one_particle_flat_dispersion", "Q_one_particle_maps"]),
+           (PY, ["Q.one_particle_maps"]))
+reproduces(rows_ok and len(samples) == 8,
+           "the eight recorded samples: w, dimensions 8 and 8, Krein inertia (4,4)",
+           (WL, ["Q_one_particle_Krein_signatures"]),
+           (PY, ["compare.theory.one_particle", "Q.one_particle_Krein_inertia_proof"]))
+```
+
+Two checks with their records. Out [16] prints the eight samples, each with the dimensions 8 and 8 and the Krein inertias (4,4) and (4,4), and two PASS lines. COMPUTED in floating point, they agree with the exact samples of the record.
+
+**In [17], imaginary and zero frequencies.**
+
+```python
+neutral_ok = True
+for k in ([0, 0, 0, 0, 2, 0, 0, 0], [1, 0, 0, 0, 2, 0, 0, 0],
+          [0, 0, 0, 0, 1, 0, 0, 0]):
+    k = np.array(k, dtype=float)
+    h, w2 = h_matrix(1.0, k), w_squared(1.0, k)
+    if w2 == 0:
+        spaces = [eigenspace(h, 0.0)]
+        neutral_ok = neutral_ok and np.allclose(h @ h, 0.0)
+    else:
+        w = 1j * np.sqrt(-w2)
+        spaces = [eigenspace(h, w), eigenspace(h, -w)]
+    dims = [V.shape[1] for V in spaces]
+    largest = max(np.abs(V.conj().T @ B @ V).max() for V in spaces)
+    neutral_ok = neutral_ok and all(dim == 8 for dim in dims) and largest < 1e-9
+    say(f"k = {k.astype(int).tolist()}: w^2 = {w2:+.0f}, eigenspace dimensions "
+        f"{dims}, Krein form zero on them: {largest < 1e-9}")
+```
+
+Three momenta with an extra-time component $k_5$ at $m = 1$: $w^2 = 1 - 4 = -3$, $w^2 = 1 + 1 - 4 = -2$ and $w^2 = 1 - 1 = 0$. For $w^2 < 0$ the frequencies are $\pm i\sqrt{-w^2}$ (`1j * np.sqrt(-w2)`) and both eigenspaces are computed; for $w^2 = 0$ the eigenspace of 0 is computed and $h^2 = 0$ is checked. `largest` is the largest absolute entry of $V^\dagger BV$ over the eigenspaces; **Krein-neutral** means that it vanishes. The check requires the dimension 8 everywhere and `largest` below $10^{-9}$.
+
+```python
+reproduces(neutral_ok, "imaginary and zero frequencies: eigenspaces of dimension 8 "
+           "are Krein-neutral",
+           (PY, ["Q.one_particle_complex_frequency_Krein_neutral"]),
+           (WL, ["Q_one_particle_complex_and_zero_frequencies_Krein_neutral"]))
+```
+
+Out [17] prints the three cases (eigenspace dimensions [8, 8], [8, 8] and [8]; Krein form zero on them: True) and the PASS line, with the checks `Q.one_particle_complex_frequency_Krein_neutral` and `Q_one_particle_complex_and_zero_frequencies_Krein_neutral`. These are the growing extra-time waves: they carry no Krein norm at all (Section 18.23).
+
+**In [18], Figure 18c.6: the mapped spectra of plane waves.**
+
+```python
+ks = np.linspace(0.0, 3.0, 121)
+curves = {}
+for label, mass in (("plus", 1.0), ("minus", -1.0)):
+    for axis in (1, 5):
+        rows = []
+        for kv in ks:
+            k = np.zeros(8)
+            k[axis - 1] = kv
+            rows.append(spectrum(h_matrix(mass, k)))
+        curves[label, axis] = np.array(rows)
+away = np.abs(ks - 1.0) > 0.05
+equal = max(np.abs(curves["plus", axis][away] - curves["minus", axis][away]).max()
+            for axis in (1, 5))
+check(equal < 1e-6, "the plane-wave spectra of the masses +1 and -1 are equal")
+```
+
+121 momenta from 0 to 3. For the masses $+1$ and $-1$, and for a momentum along $x_1$ (`axis = 1`) or along $x_5$ (`axis = 5`), the 16 sorted eigenvalues of $h_m(k)$ are stored. `away` excludes the momenta within 0.05 of $k = 1$: there the extra-time wave has $w = 0$ and $h^2 = 0$, and the eigenvalues of such a matrix are very sensitive to rounding (a change of its entries by $10^{-16}$ can move them by about $10^{-8}$, the square root). The check requires the two spectra to agree to $10^{-6}$ at all other momenta.
+
+```python
+fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.2))
+for ax, axis, name in ((axes[0], 1, "3-space momentum $k_1$"),
+                       (axes[1], 5, "extra-time momentum $k_5$")):
+    ax.plot(ks, np.sqrt(np.clip(1.0 + (ks ** 2 if axis == 1 else -ks ** 2), 0, None)),
+            color="#2a78d6", label="real part, mass $+1$")
+    ax.plot(ks, np.sqrt(np.clip(-1.0 + (ks ** 2 if axis == 5 else -ks ** 2), 0,
+                                None)), color="#eb6834",
+            label="imaginary part, mass $+1$")
+    dots = curves["minus", axis]
+    ax.plot(ks[::5], np.abs(dots.real).max(axis=1)[::5], "o", color="#2a78d6",
+            markersize=3.5, alpha=0.6, label="mass $-1$ (dots)")
+    ax.plot(ks[::5], np.abs(dots.imag).max(axis=1)[::5], "o", color="#eb6834",
+            markersize=3.5, alpha=0.6)
+    ax.set_xlabel(name + " (units $m$)")
+    ax.set_ylim(-0.1, 3.3)
+axes[0].set_ylabel("frequency $|w|$: real and imaginary parts")
+axes[0].legend(fontsize=8, loc="upper left")
+```
+
+Two panels. The lines are the exact formulas for the mass $+1$: the real part $\sqrt{1 + k_1^2}$ (left) or $\sqrt{1 - k_5^2}$ (right, where it exists) and the imaginary part, zero on the left and $\sqrt{k_5^2 - 1}$ on the right for $k_5 > 1$; `np.clip(x, 0, None)` replaces negative numbers by 0 before the square root. The dots are the largest absolute real part and the largest absolute imaginary part of the computed eigenvalues for the mass $-1$, at every fifth momentum.
+
+```python
+save_figure(fig, "flat_dispersion",
+            "Mapped spectra of plane waves in flat 4+4 space: the frequencies, the "
+            "eigenvalues of the one-particle matrix $h_m(k)$, for the mass $+1$ "
+            "(lines) and $-1$ (dots), against a 3-space momentum $k_1$ (left) and "
+            "an extra-time momentum $k_5$ (right), in units of the mass. Blue: "
+            "the real part $\\sqrt{1 + k_1^2}$ or $\\sqrt{1 - k_5^2}$; orange: the "
+            "imaginary part, which appears when the extra-time momentum exceeds the "
+            "mass (a growing mode). Each value is 8-fold, with both signs. The "
+            "dots lie on the lines: the universes of mass $+m$ and $-m$ have the "
+            "same one-particle spectrum, because $\\Gamma h_m\\Gamma = h_{-m}$.")
+```
+
+**What you see in Figure 18c.6:** on the left the frequency rises from 1 along $\sqrt{1 + k_1^2}$ and the imaginary part stays zero; on the right the real part falls from 1 to 0 at $k_5 = 1$ and from there the imaginary part rises along $\sqrt{k_5^2 - 1}$, a growing wave whose growth rate increases without limit as $k_5$ grows. The dots of the mass $-1$ lie on the lines of the mass $+1$ everywhere: the universes of masses $+m$ and $-m$ have the same one-particle spectrum (Q4), because $\Gamma h_m\Gamma = h_{-m}$.
+
+**In [19], the Krein norms of single modes.**
+
+```python
+row = samples[0]
+k = np.array(row["k"], dtype=float)
+w = 5.0
+h = h_matrix(row["m"], k)
+columns, freqs = [], []
+for value in (w, -w):
+    V = eigenspace(h, value)
+    ev, U = np.linalg.eigh(V.conj().T @ B @ V)  # diagonalise the Krein form
+    for j in np.argsort(-ev):  # positive norms first
+        u = V @ U[:, j] / np.sqrt(abs(ev[j]))  # Krein norm +1 or -1
+        columns.append(u)
+        freqs.append(value)
+```
+
+The first recorded sample, $m = 2$, $k = (1, 2, 0, 0, 0, 0, 0, 4)$, with $w = \sqrt{4 + 1 + 4 + 16} = 5$. For each of the two eigenspaces ($+5$ and $-5$), `V` holds 8 orthonormal columns. The Krein form on the eigenspace is the $8 \times 8$ Hermitian matrix $V^\dagger BV$; `np.linalg.eigh` returns its eigenvalues `ev` and an orthonormal set of eigenvectors, the columns of `U`. The loop takes them in the order of decreasing eigenvalue (`np.argsort(-ev)`) and forms $u = VU_j/\sqrt{|\epsilon_j|}$, where $U_j$ is column $j$ of `U` and $\epsilon_j$ its eigenvalue. Its Krein norm is
+
+$$
+u^\dagger Bu = \frac{U_j^\dagger(V^\dagger BV)U_j}{|\epsilon_j|} = \frac{\epsilon_j\,U_j^\dagger U_j}{|\epsilon_j|} = \pm1 .
+$$
+
+The first step inserts $u$; the second uses $(V^\dagger BV)U_j = \epsilon_jU_j$; the last uses $U_j^\dagger U_j = 1$. So the 16 columns have the Krein norms $+1$ or $-1$, and `freqs` records the frequency of each.
+
+```python
+norms = np.array([(u.conj() @ B @ u).real for u in columns])
+norms_G = np.array([((Gamma @ u).conj() @ B @ (Gamma @ u)).real for u in columns])
+norms_8 = np.array([((gamma[8] @ u).conj() @ B @ (gamma[8] @ u)).real
+                    for u in columns])
+eig_G = all(np.allclose(h_matrix(-row["m"], k) @ (Gamma @ u), f * (Gamma @ u))
+            for u, f in zip(columns, freqs))
+eig_8 = all(np.allclose(h_matrix(-row["m"], R8 * k) @ (gamma[8] @ u),
+                        f * (gamma[8] @ u)) for u, f in zip(columns, freqs))
+say("Krein norms of the 16 columns: " + " ".join(f"{x:+.0f}" for x in norms))
+reproduces(eig_G and eig_8 and np.allclose(norms_G, -norms)
+           and np.allclose(norms_8, norms) and int((norms > 0).sum()) == 8,
+           "Gamma u: eigenvector of h_-m, Krein norm reversed; gamma^(x8) u: kept",
+           (WL, ["Q_Krein_metric_of_images"]),
+           (PY, ["Q.image_krein_metric", "Q.T2_image_keeps_B"]))
+```
+
+`norms`, `norms_G` and `norms_8` are the Krein norms of $u$, of $\Gamma u$ and of $\gamma^{(x_8)}u$. `eig_G` checks that $\Gamma u$ is an eigenvector of $h_{-m}(k)$ with the same frequency, and `eig_8` that $\gamma^{(x_8)}u$ is one of $h_{-m}(R_8k)$ (the maps of Q4). The check requires these, $(\Gamma u)^\dagger B(\Gamma u) = -u^\dagger Bu$, $(\gamma^{(x_8)}u)^\dagger B(\gamma^{(x_8)}u) = u^\dagger Bu$, and eight positive norms among the sixteen. Why the norms behave so: $(Mu)^\dagger B(Mu) = u^\dagger M^\dagger BMu$, and for the real symmetric matrices $M = \Gamma$ and $M = \gamma^{(x_8)}$ Lemma 4 gives $M^\dagger BM = MBM^\dagger = \sigma_MB$ with $\sigma_\Gamma = -1$ and $\sigma_{\gamma^{(x_8)}} = +1$ (Exercise 18.6). Out [19] prints the norms $+1, +1, +1, +1, -1, -1, -1, -1$ twice, once for each eigenspace, and the PASS line.
+
+**In [20], Figure 18c.7: the Krein norms as bars.**
+
+```python
+fig, ax = plt.subplots(figsize=(10.0, 4.2))
+idx = np.arange(16)
+ax.bar(idx - 0.27, norms, width=0.27, color="#2a78d6", label="$u^\\dagger Bu$")
+ax.bar(idx, norms_G, width=0.27, color="#eb6834",
+       label="$(\\Gamma u)^\\dagger B(\\Gamma u)$: T1 image")
+ax.bar(idx + 0.27, norms_8, width=0.27, color="#1baf7a",
+       label="$(\\gamma^{(x_8)}u)^\\dagger B(\\gamma^{(x_8)}u)$: T2 image")
+ax.axvline(7.5, color="#52514e", linewidth=0.8)
+ax.text(3.5, 1.35, "frequency $+5$", ha="center", fontsize=9)
+ax.text(11.5, 1.35, "frequency $-5$", ha="center", fontsize=9)
+ax.set_xticks(idx, [str(j + 1) for j in idx])
+ax.set_xlabel("column number $j$ (eight per eigenspace)")
+ax.set_ylabel("Krein norm")
+ax.set_ylim(-1.6, 1.6)
+ax.legend(fontsize=8, loc="lower left", ncol=3)
+```
+
+Three bars per column: the norm of $u$ (blue, shifted left by 0.27), of $\Gamma u$ (orange, in the middle) and of $\gamma^{(x_8)}u$ (green, shifted right). A thin vertical line separates the two eigenspaces and two labels name their frequencies; `set_xticks` labels the columns 1 to 16.
+
+```python
+save_figure(fig, "krein_norms",
+            "Krein norms of plane-wave eigenvectors and of their images, for the "
+            "recorded sample $m = 2$, $k = (1, 2, 0, 0, 0, 0, 0, 4)$, frequency "
+            "$w = \\pm5$. Horizontal axis: the 16 eigenvector columns $u$, eight "
+            "for $+5$ and eight for $-5$; vertical axis: the Krein norm. Blue: "
+            "$u^\\dagger Bu$, four $+1$ and four $-1$ in each eigenspace (Krein "
+            "inertia (4,4)). Orange: the chirality image $\\Gamma u$, an "
+            "eigenvector of the mass $-m$ with every norm reversed. Green: the "
+            "mirror image $\\gamma^{(x_8)}u$, an eigenvector of the mass $-m$ with "
+            "every norm kept. This is the quantum reading Q at the level of single "
+            "modes.")
+```
+
+**What you see in Figure 18c.7:** in each eigenspace four blue bars at $+1$ and four at $-1$ (the Krein inertia (4,4)); every orange bar points the other way; every green bar equals its blue bar. The chirality image (T1) of a mode with a positive Krein norm is a mode of the mass $-m$ with a negative norm; the mirror image (T2) keeps the norm. This is Q1 and Q5 at the level of single modes.
+
+**In [21], the last check.**
+
+```python
+figure_names = ["rk4_convergence", "partner_components", "t1_pair_densities",
+                "t2_mirror_densities", "family_spectrum", "flat_dispersion",
+                "krein_norms"]
+paths = [output_file(f"{FIGURE_FOLDER}/18c_{k}_{name}.png")
+         for k, name in enumerate(figure_names, 1)]
+check(all(path.is_file() for path in paths),
+      "every figure file of this notebook exists")
+all_checks_passed()
+```
+
+The seven figure files must exist; the last line is ALL 21 CHECKS PASSED (notebook 18c).
+
+**What Notebook 18c established.** The following results are COMPUTED for one homogeneous solution of the commuting field dirac16complex00, with the illustrative values ($m = 1$, $H = 0.2$, $\lambda = 0.3$, $z_0 = \pi/4$, seed 2026) along the canonical deflating history $a_4 = AHx_4$ ($A = 1$, from the Revision record): the Runge-Kutta solution equals the exact solution of the theory record to $4.3 \times 10^{-9}$ (fourth order measured); the T1 partner, solved on its own, is $\Gamma\Psi$, with opposite charge density, current and energy-momentum tensor at every time, while the wrong partner $(-m, +\lambda)$ is not; the T2 partner on the mirror patch is $\gamma^{(x_8)}\Psi$, with $S$ reversed and EQUAL charge and energy densities; the generators of the field and of both partners have equal spectra; and for plane waves the eight recorded samples of Q are reproduced, the growing waves are Krein-neutral, $\Gamma$ reverses every Krein norm and $\gamma^{(x_8)}$ keeps it. ASSUMED: the mirror patch glued at the degenerate brane, and a fixed gravitational field. NOT shown: any process that creates a universe or a pair. The partners are solutions of OTHER parameter sets, computed from the first one; nothing in these equations makes them appear.
+
+### 18.28 What the pairing theorems do not establish
+
+T1, T2 and Q are exact. Their content is precisely this: explicit invertible maps between the solutions of two theories with different parameters, with stated signs for the Lagrangian, the energy-momentum tensor, the current and the canonical anticommutator. Both Revision verifiers wrote, independently of each other, a list of what these theorems do NOT establish, and a comparison check confirms that the two lists cover the same topics (`python-pairing.json`, check `compare.theory.not_established`; the lists are the entries `not_established` of `pairing-theory.json` and of `python-pairing.json`). Merged, with the reason for each item:
+
+1. **No creation process.** The theorems map solutions to solutions and quantities to quantities. Nothing in these equations produces a universe, a pair of universes, or a change of the number of universes; no transition from "no universe" to "two universes", no initial state, no vacuum decay and no tunnelling process is derived.
+2. **No rate, probability or amplitude.** No transition amplitude, probability, cross-section, rate or Bogoliubov coefficient for creating universes of masses $+m$ and $-m$ is computed or implied; no wave function of the universe and no path integral is part of the theorems.
+3. **No dynamical necessity.** No equation and no conservation law forces the partner to exist. A single universe of mass $+m$ is an equally valid solution without its partner. T1 and T2 are correspondences between the solutions of two parameter sets, not a mechanism.
+4. **T1 is not a symmetry of one theory, and for $\lambda \neq 0$ it is not a pure $+m$ / $-m$ pairing.** It changes the parameters to $(-m, -\lambda)$ and the sign of the action. The pairing $(m, \lambda) \to (-m, \lambda)$ at fixed coupling is T2, at EQUAL, not opposite, energy-momentum.
+5. **The zero total of a T1 pair has a limited meaning.** $T + T' = 0$, $J + J' = 0$ and $Q + Q' = 0$ hold for classical bilinears (a configuration and its image) and as an operator identity within ONE quantum system (Q2). They do not hold for two independently quantised universes, whose generators add without cancelling (Q3).
+6. **Test field only.** The gravitational field is fixed and the same for both members. The back-reaction through the field equations for $a_4$ is not part of the theorems. The only statement about it is the corollary C1 of Chapter 20: a T1 pair taken as the complete classical source of the author's metric is a zero source, and the Einstein equations then have no solution for $H > 0$. That is a statement about sources in one common geometry, not a derivation that the geometry, or the pair, is created.
+7. **The Z2 brane is assumed.** The mirror across $z = \pi/2$ uses the ASSUMED Z2 construction; the metric is degenerate there ($g_{88} = 0$ and $\sqrt{|g|} = 0$), and no junction condition, brane tension or matching of the field across the brane is derived.
+8. **Quantum positivity is not established.** Every real-frequency eigenspace of the one-particle matrix has the Krein inertia (4,4), and the growing waves are Krein-neutral (Q4); a positive-norm Fock space for either universe is not established by these theorems.
+9. **dirac16complex00 is a classical field**: no quantum statement is made for it.
+10. **The Kohn-Sham level is separate.** Theorem T3 is proved in Chapter 19 with its own hypotheses (the ASSUMED Z2 brane, instantaneous mean-field Kohn-Sham states); nothing in this chapter establishes it.
+
+**The author's hypothesis.** The statement that the big bang CREATES universes in pairs of masses $+m$ and $-m$ is the author's HYPOTHESIS. This chapter proves that the solutions come in partnered families (T1 and T2) and how a quantised partner must be read (Q); it does not prove, and the equations of this book cannot prove, that any universe is created, in pairs or otherwise. Chapter 20 takes up the question "Do universes come in pairs?" and states the hypothesis as a hypothesis.
+
+**Matter and antimatter.** Where this chapter touches matter and antimatter, the exact statements are these. The charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ of a slice $x_4 = \mathrm{const}$ is exactly conserved on shell, an exact U(1) symmetry (`charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`; Notebook 18c checks the local conservation law along its solution, In [10]); so no net charge can be generated inside one universe. A T1 partner carries the opposite charge, so a T1 pair has total charge zero as classical bilinears (T1d); this is a universe and anti-universe statement about solutions. Such ideas form a class in the published literature; one example is L. Boyle, K. Finn and N. Turok, "CPT-Symmetric Universe", Phys. Rev. Lett. 121, 251301 (2018); it is cited only as an example of the class, and nothing in this chapter is taken from it. On real fields T1 is the mass-reversing charge conjugation by the matrix $\Gamma$ (Section 18.13). The theory as built does NOT solve the matter-antimatter problem. In 1967 Sakharov showed that an excess of matter can grow from an equal start only if three conditions hold: a process that changes the baryon number, a violation of the symmetries C and CP, and a departure from thermal equilibrium (Chapter 21). The theory as built has no baryons, no process that changes the baryon number (its charge is exactly conserved), no violation of CP built in or computed, and no computation of a departure from thermal equilibrium. To solve the problem it would need all of these, and a computed excess of matter that agrees with the measured one. Every scenario in which our universe is one member of such a pair, or in which the pairing explains the excess of matter, is a HYPOTHESIS. Chapter 21 treats matter and antimatter from zero.
+
+### 18.29 What we proved, what we computed, what we assumed
+
+**Proved.** Exactly, for both fields unless something else is said, each with the Revision record that verifies it and the notebook of this chapter that reproduces it:
+
+| statement | where it is verified | notebook |
+| --- | --- | --- |
+| the gammas of the record are the author's eight real $16 \times 16$ signed permutation matrices, rebuilt from his formulas | `python-pairing.json`, check `gammas.equal_wolfram_fixture` | 18a |
+| $\sqrt{\lvert g\rvert} = \cos z$; the 12 components of the canonical spin connection; $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ for every history $a_4$ (the deflation terms cancel), $-3H\gamma^{(x_8)}$ on the mirror patch | `wolfram-pairing.json`, check `primordial_vielbein`; `python-pairing.json`, check `geometry.spin_connection_components`; `python-field-theory.json`, checks `gamma_mu_Omega_mu_equals_3H_gamma_x8` and `divergence_of_sqrtg_gamma` | 18b, 18c |
+| Lemma 1: $\Gamma$ real, symmetric, $\Gamma\Gamma = 1$, anticommuting with every gamma, commuting with $C$ and every $S^{ab}$ | `wolfram-pairing.json`, check `Gamma_properties`; `python-pairing.json`, checks `gammas.Gamma` and `gammas.Gamma_anticommutes` | 18a |
+| Lemma 2: $\bar\Psi X\Psi \to (-1)^k\bar\Psi X\Psi$ under $\Psi \to \Gamma\Psi$; $\Gamma B\Gamma = -B$ | `wolfram-pairing.json`, checks `T1_kernel_scalar`, `T1_kernel_kinetic`, `T1_kernel_connection` and `T1_kernel_field_equation`; `python-pairing.json`, checks `T1.general_field.matrix_identities` and `Q.image_krein_metric` | 18a |
+| Lemma 3: the eight reflections $P_n$ in Pin(4,4), their characters $-\eta_{nn}$, the reflection table | `wolfram-pairing.json`, checks `T2_Pn_in_Pin44`, `T2_Pn_covers_the_reflection`, `T2_character_of_Pn` and `T2_Gamma_times_Pn_is_gamma_n`; `python-pairing.json`, checks `T2.general_field.reflection_table` and `compare.theory.reflection_table` | 18a |
+| Lemma 4: the 17 Krein signs | `wolfram-pairing.json`, check `Q_Krein_metric_of_images`; `python-pairing.json`, check `compare.theory.krein_signs` | 18a |
+| T1 (T1a to T1d), in every gravitational field taken as a fixed background, both statistics | `wolfram-pairing.json`, the 51 checks of T1; `python-pairing.json`, the 23 checks whose names begin with `T1.`, and `compare.theory.theorem_T1` | 18b, 18c |
+| T2 (T2a to T2d); the author's-field version under the ASSUMED Z2 construction | `wolfram-pairing.json`, the 28 checks of T2; `python-pairing.json`, the 16 checks of T2 and `compare.theory.theorem_T2` | 18b, 18c |
+| Q1 to Q5, for the canonically quantised dirac16complex | `wolfram-pairing.json`, the 12 checks whose names begin with `Q_`; `python-pairing.json`, the 10 checks whose names begin with `Q.`, and `compare.theory.theorem_Q` | 18a, 18c |
+| the homogeneous solutions: $S$ constant, $M^2 = (9H^2 - (m + \lambda S)^2)I_{16}$, the exact formula; $\rho = mS + \frac{\lambda}{2}S^2$, every pressure $\frac{\lambda}{2}S^2$, $T_{x_4x_8} = 0$; the conservation of the charge | `python-field-theory.json`, checks `exact_nonlinear_homogeneous_solution`, `commuting_homogeneous_on_shell_rho_p`, `commuting_T_x4x8_homogeneous` and `commuting_current_conservation`; `wolfram-field-theory.json`, check `exact_solution_nonlinear_homogeneous_C` | 18c |
+| the two charge-conjugation matrices $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$; on real fields T1 is the mass-reversing conjugation by $\Gamma$; the exact U(1) conservation of the charge | `charge-conjugation-and-u1.json`, checks `intertwiners_same_mass`, `intertwiners_reversed_mass`, `charge_conjugation_matrix_plus`, `charge_conjugation_matrix_minus`, `real_fields_charge_conjugation` and `u1_noether_matrix_identity` | none (Chapters 5 and 21) |
+
+**Computed.** Numerical results of the notebooks, with their accuracy:
+
+- Notebook 18a: every result is exact whole-number arithmetic, except the illustration of In [7], where $\Gamma$ commutes with a random connection to below $10^{-12}$.
+- Notebook 18b: every result is exact (sympy). The monomial counts, evaluated at one sample point, are 408 (commuting) and 392 (Grassmann) for the Lagrangian, equal to the counts recorded by the Wolfram verifier, and 376 (diagonal) or 64 and 80 (off-diagonal) for the components of $T_{\mu\nu}$; they describe the size of the polynomials and prove nothing.
+- Notebook 18c (illustrative values $m = 1$, $H = 0.2$, $\lambda = 0.3$, $z_0 = \pi/4$, seed 2026; history $A = 1$ from the record): $S = 0.897319$, $m + \lambda S = 1.269196$, $w = 1.118417$; Runge-Kutta errors at $x_4 = 20$ for 250 to 4000 steps from $2.0 \times 10^{-5}$ to $2.6 \times 10^{-10}$, measured orders 4.10, 4.06, 4.03 and 4.01, largest error with 2000 steps $4.3 \times 10^{-9}$ against the exact formula of the record; the T1 partner equals $\Gamma\Psi$ and the T2 partner equals $\gamma^{(x_8)}\Psi$ to below $10^{-12}$ at all 2001 times, while the wrong partner $(-m, +\lambda)$ is off by 1.641; $S$, $J^\mu$ and $T_{\mu\nu}$ of the partners as predicted, to a relative $10^{-12}$ at 101 sampled times; the eight plane-wave samples of the record reproduced (dimensions 8 and 8, Krein inertia (4,4)); the plane-wave spectra of the masses $\pm1$ equal to $10^{-6}$ at 121 momenta (away from $k_5 = 1$); the Krein norms $\pm1$ of the 16 modes of the first sample reversed by $\Gamma$ and kept by $\gamma^{(x_8)}$.
+
+**Assumed.**
+
+- The gravitational field is a fixed background (a test field) in every theorem of this chapter: it is not varied, and both members of a pair live in the same field.
+- The Z2 mirror construction: gluing the mirror patch to the patch at the degenerate brane $z = \pi/2$; it enters T2 in the author's field, the mirror universe of Q5 and the mirror partner of Notebook 18c (`pairing-theory.json`, theorem T2, its hypothesis on the primordial field).
+- For Q: the canonical quantisation of dirac16complex with $x_4$ as the time and with anticommutators (part of its definition as a fermion field); flat 4+4 space, or frozen coefficients at one point, for the one-particle statements.
+- The history $a_4 = AHx_4$ with $A = 1$ used in the figures is the PRESCRIBED BACKGROUND of the Revision Kohn-Sham record (`parameters.json`; `ks-source-conditions.json`, check `ks_history_is_a_prescribed_background`). The theorems themselves hold for every history.
+- The value $3H\gamma^{(x_8)}$ of $\gamma^\mu\Omega_\mu$ belongs to the diagonal vielbein (`python-scope.json`; Chapter 8); none of the theorems depends on it.
+- The illustrative values of Notebook 18c.
+
+**Hypothesis.**
+
+- That the big bang creates universes in pairs of masses $+m$ and $-m$: the author's HYPOTHESIS, not derived from any equation of this book.
+- That our universe has an anti-universe partner, or that the pairing explains the observed excess of matter over antimatter.
+
+**Open.**
+
+- Any creation process, rate or amplitude for universes, which these equations do not contain.
+- The gravitational back-reaction of a pair: the pair as part of the source of the field equations for $a_4$ (C1 treats only the case in which a T1 pair is the complete source).
+- A junction condition at the brane $z = \pi/2$ that would replace the assumed Z2 construction.
+- A positive Hilbert space for the whole quantised field (all momenta, the curved metric), and the fate of the growing extra-time waves.
+
+### 18.30 Exercises
+
+**Exercise 18.1.** The factors of $\Gamma$ are $\gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}\gamma^{(x_4)}\gamma^{(x_5)}\gamma^{(x_6)}\gamma^{(x_7)}$, in this order. Use Rule P (Section 18.5) to write $P_n = \Gamma\gamma^{(n)}$ as a sign times the product of the seven other gammas in the order of $\Gamma$, for $n = x_1$, $x_4$, $x_5$ and $x_8$. Find the general rule for the sign and check it against all eight signs $+1, -1, +1, +1, -1, +1, -1, -1$ of the record.
+
+**Exercise 18.2.** Notebook 18c has $S = 0.897319$, $m = 1$ and $\lambda = 0.3$ (Out [4]). For homogeneous solutions the record gives $\rho = mS + \frac{\lambda}{2}S^2$ and $p = \frac{\lambda}{2}S^2$ in every direction. (a) Compute $\rho$, $p$ and the equation of state $w = p/\rho$ of the solution, and compare $w$ with the formula $w = \lambda S/(2m + \lambda S)$ of the record. (b) The same for the T1 partner ($-m$, $-\lambda$, the same $S$). (c) The same for the T2 partner ($-m$, $\lambda$, the scalar $-S$). (d) Add the energy densities of each pair.
+
+**Exercise 18.3.** (a) With $m + \lambda S = 1.269196$ and $3H = 0.6$, compute the frequency $w$ of the solution of Notebook 18c, the period of the field and the period of its charge density $J^{x_4}$, and the number of oscillations of $J^{x_4}$ between $x_4 = 0$ and 20 (Figure 18c.3). (b) Compute the coefficient $V$, the frequency and the period of the wrong partner $(-m, +\lambda)$ started from $\Gamma\Psi(0)$ (Figure 18c.2). (c) For which masses $m$ (at the same $\lambda$ and $S$) do the homogeneous solutions grow instead of oscillating, and what is the largest growth rate (Figure 18c.5)?
+
+**Exercise 18.4.** (a) From $C\gamma^{(a)}C^{-1} = -(\gamma^{(a)})^T$ show that $(S^{ab})^TC = -CS^{ab}$ for $a \neq b$. (b) Conclude that $\Omega_\mu^TC = -C\Omega_\mu$ for every real connection, and that $D_\mu\bar\Psi = (D_\mu\Psi)^\dagger C$, the formula used by Notebook 18c in In [9].
+
+**Exercise 18.5.** Show that $Bh_m(k) = h_m(k)^\dagger B$ for real $m$ and real momenta $k$, with $h_m(k) = -im\gamma^{(x_4)} - \gamma^{(x_4)}K$, $K = \sum_{a\neq4}k_a\gamma^{(a)}$ and $B = -iC\gamma^{(x_4)}$. Use only the reality of the gammas, $(\gamma^{(a)})^T = \eta_{aa}\gamma^{(a)}$, the Clifford relation and $C\gamma^{(a)}C^{-1} = -(\gamma^{(a)})^T$.
+
+**Exercise 18.6.** Let $h_m(k)u = wu$ with a real $w$ and the Krein norm $u^\dagger Bu = 1$. (a) Show that $\Gamma u$ is an eigenvector of $h_{-m}(k)$ with the same $w$ and the Krein norm $-1$. (b) Show that $\gamma^{(x_8)}u$ is an eigenvector of $h_{-m}(R_8k)$ with the same $w$ and the Krein norm $+1$. (c) Which bars of Figure 18c.7 show (a) and (b)?
+
+**Exercise 18.7.** Write $\mathcal{L}_{m,\lambda}[\Psi] = \sqrt{|g|}\,[K - mS - \frac{\lambda}{2}S^2]$. (a) Compute $\mathcal{L}_{m,\lambda}[\Gamma\Psi] + \mathcal{L}_{m,\lambda}[\Psi]$, $\mathcal{L}_{m,\lambda}[\Gamma\Psi] + \mathcal{L}_{-m,\lambda}[\Psi]$ and $\mathcal{L}_{m,\lambda}[\Gamma\Psi] + \mathcal{L}_{-m,-\lambda}[\Psi]$. (b) Which terms survive in each, and which bars of Figure 18b.2 show it? (c) For which $\lambda$ is T1 a pure $+m$ / $-m$ pairing?
+
+**Exercise 18.8.** (a) Compute $\sin^{1/6}z$, $f_8$ and $\sqrt{|g|}$ at $z = \pi/4$ on the patch and at $z = 3\pi/4$ on the mirror patch, and check that the metric takes the same values at the two points. (b) Use the divergence form of Section 18.27 to compute the coefficient of $\gamma^{(x_8)}$ in $\gamma^\mu\Omega_\mu$ on the mirror patch, with $H = 0.2$. (c) Pull the hidden leg $e^8 = f_8\,dx_8$ of the mirror patch back by $\phi$: $x_8 \to \pi/(6H) - x_8$, and say which frame reflection results.
+
+**Exercise 18.9.** A student writes: "Theorem T1 proves that the big bang creates every universe of mass $m$ together with a universe of mass $-m$: the two have opposite energies, so the pair costs no energy, and nothing forbids it." Name every step of this sentence that the equations of this book do not establish, and say what they do establish instead.
+
+### 18.31 Answers to the exercises
+
+**Answer 18.1.** Write $\gamma^{(a)}$ as $\gamma_a$ for short. For $n = x_1$: $\Gamma\gamma_1 = \gamma_8\gamma_1\gamma_2\gamma_3\gamma_4\gamma_5\gamma_6\gamma_7\gamma_1$. Move the last $\gamma_1$ to the left past $\gamma_7, \gamma_6, \gamma_5, \gamma_4, \gamma_3, \gamma_2$: six different gammas, each exchange costs $-1$ (Rule P), so the sign is $(-1)^6 = +1$, and $\Gamma\gamma_1 = \gamma_8\gamma_1\gamma_1\gamma_2\gamma_3\gamma_4\gamma_5\gamma_6\gamma_7$. Then $\gamma_1\gamma_1 = \eta_{11} = +1$ (Clifford relation): $P_{x_1} = +\gamma_8\gamma_2\gamma_3\gamma_4\gamma_5\gamma_6\gamma_7$, sign $+1$. For $n = x_4$: three exchanges (past $\gamma_7, \gamma_6, \gamma_5$), $(-1)^3 = -1$, then $\gamma_4\gamma_4 = \eta_{44} = -1$: the sign is $(-1)(-1) = +1$. For $n = x_5$: two exchanges, $(+1)$, then $\eta_{55} = -1$: the sign is $-1$. For $n = x_8$: seven exchanges (past $\gamma_7, \dots, \gamma_1$), $(-1)^7 = -1$, then $\eta_{88} = +1$: the sign is $-1$, $P_{x_8} = -\gamma_1\gamma_2\cdots\gamma_7$. General rule: the sign is $(-1)^{N_n}\eta_{nn}$, where $N_n$ is the number of factors that stand to the right of $\gamma^{(n)}$ in $\Gamma$. With $N = 6, 5, 4, 3, 2, 1, 0, 7$ for $x_1, \dots, x_8$ and $\eta = (+1, +1, +1, -1, -1, -1, -1, +1)$: $x_1$: $+1$; $x_2$: $(-1)^5 = -1$; $x_3$: $+1$; $x_4$: $(-1)^3(-1) = +1$; $x_5$: $(+1)(-1) = -1$; $x_6$: $(-1)(-1) = +1$; $x_7$: $(+1)(-1) = -1$; $x_8$: $-1$. These are the eight signs of the record (data table `reflections` of `pairing-theory.json`; Notebook 18a, Out [12]).
+
+**Answer 18.2.** $S^2 = 0.897319^2 = 0.805181$. (a) $p = \frac{0.3}{2} \times 0.805181 = 0.120777$; $\rho = 1 \times 0.897319 + 0.120777 = 1.018096$; $w = 0.120777/1.018096 = 0.11863$. The record's formula: $\lambda S/(2m + \lambda S) = 0.269196/2.269196 = 0.11863$, the same, as it must be: dividing $p$ and $\rho$ by $S/2$ gives $w = \lambda S/(2m + \lambda S)$. (b) With $-m$ and $-\lambda$ and the same $S$: $\rho' = -mS - \frac{\lambda}{2}S^2 = -1.018096$ and $p' = -\frac{\lambda}{2}S^2 = -0.120777$ (for $U = -\frac{\lambda}{2}S^2$, $p' = SU' - U = -\lambda S^2 + \frac{\lambda}{2}S^2$); $w' = p'/\rho' = 0.11863$, the same equation of state, as T1 says (Section 18.13). (c) With $-m$, $\lambda$ and the scalar $-S$: $\rho'' = (-m)(-S) + \frac{\lambda}{2}(-S)^2 = 1.018096$ and $p'' = \frac{\lambda}{2}S^2 = 0.120777$: equal to those of the solution. (d) $\rho + \rho' = 0$: the T1 pair has zero total energy density as classical bilinears. $\rho + \rho'' = 2.036192$: nothing cancels in a T2 pair.
+
+**Answer 18.3.** (a) $w^2 = 1.269196^2 - 0.6^2 = 1.610858 - 0.36 = 1.250858$, so $w = 1.11842$ (Out [14] prints 1.118417, computed with the unrounded $S$). The field oscillates with the period $2\pi/w = 5.618$. $J^{x_4} = \Psi^\dagger B\Psi$ is quadratic in $\Psi = \cos(wx_4)\Psi(0) + \frac{\sin(wx_4)}{w}M\Psi(0)$, so it contains $\cos^2$, $\sin^2$ and $\sin\cos$, which are combinations of 1, $\cos(2wx_4)$ and $\sin(2wx_4)$: its period is $\pi/w = 2.809$, and $20/2.809 = 7.1$, so seven full oscillations, as in Figure 18c.3. (b) $S[\Gamma\Psi] = S$, so $V = -m + \lambda S = -1 + 0.269196 = -0.730804$; $w^2 = 0.534075 - 0.36 = 0.174075$, $w = 0.41722$, period $2\pi/0.41722 = 15.06$: in Figure 18c.2 the dashed curve completes about $20/15.06 = 1.3$ oscillations. (c) The solutions grow when $(m + \lambda S)^2 < 9H^2$, that is $-0.6 < m + 0.269196 < 0.6$, or $-0.869196 < m < 0.330804$. There $M^2 = (9H^2 - V^2)I_{16}$ is positive, the eigenvalues are $\pm\kappa$ with $\kappa = \sqrt{9H^2 - V^2}$, and the largest growth rate is $3H = 0.6$, at $V = 0$, that is $m = -0.269196$: the top of the arc in Figure 18c.5.
+
+**Answer 18.4.** (a) The given relation, solved for the transpose: $(\gamma^{(a)})^T = -C\gamma^{(a)}C^{-1}$. For $a \neq b$, $S^{ab} = \frac12\gamma^{(a)}\gamma^{(b)}$ and
+
+$$
+\begin{aligned}
+(S^{ab})^T &= \tfrac12(\gamma^{(b)})^T(\gamma^{(a)})^T = \tfrac12\big(-C\gamma^{(b)}C^{-1}\big)\big(-C\gamma^{(a)}C^{-1}\big) \\
+&= \tfrac12C\gamma^{(b)}\gamma^{(a)}C^{-1} = -\tfrac12C\gamma^{(a)}\gamma^{(b)}C^{-1} = -CS^{ab}C^{-1} .
+\end{aligned}
+$$
+
+The transpose of a product reverses the order; the two minus signs multiply to $+1$; $C^{-1}C = 1$; two different gammas anticommute. Multiplying on the right by $C$ gives $(S^{ab})^TC = -CS^{ab}$. (b) $\Omega_\mu = \frac12\sum_{a,b}\omega_{\mu ab}S^{ab}$ with real numbers $\omega_{\mu ab}$; transposing is linear, so $\Omega_\mu^TC = \frac12\sum\omega_{\mu ab}(S^{ab})^TC = -C\Omega_\mu$. Then, with $C$ constant and $\Omega_\mu^\dagger = \Omega_\mu^T$ (real),
+
+$$
+(D_\mu\Psi)^\dagger C = (\partial_\mu\Psi)^\dagger C + \Psi^\dagger\Omega_\mu^TC = \partial_\mu(\Psi^\dagger C) - \Psi^\dagger C\Omega_\mu = \partial_\mu\bar\Psi - \bar\Psi\Omega_\mu = D_\mu\bar\Psi .
+$$
+
+**Answer 18.5.** Step 1, the adjoint of $h$. The gammas are real, so $(\gamma^{(a)})^\dagger = (\gamma^{(a)})^T = \eta_{aa}\gamma^{(a)}$; in particular $(\gamma^{(x_4)})^\dagger = -\gamma^{(x_4)}$. Write $\tilde K = K^\dagger = \sum_{a\neq4}k_a\eta_{aa}\gamma^{(a)}$ ($k_a$ real). With $(XY)^\dagger = Y^\dagger X^\dagger$ and $(-i)^* = i$:
+
+$$
+h^\dagger = im(\gamma^{(x_4)})^\dagger - K^\dagger(\gamma^{(x_4)})^\dagger = -im\gamma^{(x_4)} + \tilde K\gamma^{(x_4)} .
+$$
+
+Step 2, two facts about $C$. From $C\gamma^{(a)}C^{-1} = -(\gamma^{(a)})^T = -\eta_{aa}\gamma^{(a)}$: for $a = 4$ ($\eta_{44} = -1$), $C$ commutes with $\gamma^{(x_4)}$; and summing with the coefficients $k_a$, $CKC^{-1} = -\tilde K$, that is $CK = -\tilde KC$. Step 3, the two products, using $\gamma^{(x_4)}\gamma^{(x_4)} = -1$:
+
+$$
+Bh = -iC\gamma^{(x_4)}\big(-im\gamma^{(x_4)} - \gamma^{(x_4)}K\big) = (-i)(-i)m\,C\gamma^{(x_4)}\gamma^{(x_4)} + iC\gamma^{(x_4)}\gamma^{(x_4)}K = mC - iCK ,
+$$
+
+$$
+h^\dagger B = \big(-im\gamma^{(x_4)} + \tilde K\gamma^{(x_4)}\big)(-iC\gamma^{(x_4)}) = -m\,\gamma^{(x_4)}C\gamma^{(x_4)} - i\tilde K\gamma^{(x_4)}C\gamma^{(x_4)} = mC + i\tilde KC .
+$$
+
+In the second line $\gamma^{(x_4)}C\gamma^{(x_4)} = C\gamma^{(x_4)}\gamma^{(x_4)} = -C$ (Step 2). By Step 2, $-iCK = i\tilde KC$, so $Bh = h^\dagger B$. (The result $Bh = mC - iCK$ is the energy kernel $\mathcal{E}_m(k)$ of Section 18.23, which the sympy record writes as $m\,C - i\,k_aC\gamma^{(a)}$.)
+
+**Answer 18.6.** (a) By Q4, $\Gamma h_m(k)\Gamma = h_{-m}(k)$, and $\Gamma\Gamma = 1$, so $h_{-m}(k)\Gamma u = \Gamma h_m(k)\Gamma\Gamma u = \Gamma h_m(k)u = w\,\Gamma u$. The Krein norm: $(\Gamma u)^\dagger B(\Gamma u) = u^\dagger\Gamma^\dagger B\Gamma u = u^\dagger\Gamma B\Gamma u = -u^\dagger Bu = -1$, because $\Gamma$ is real and symmetric ($\Gamma^\dagger = \Gamma$) and $\Gamma B\Gamma = -B$ (Lemma 2). (b) By Q4, $\gamma^{(x_8)}h_m(k)\gamma^{(x_8)} = h_{-m}(R_8k)$, and $\gamma^{(x_8)}\gamma^{(x_8)} = \eta_{88} = 1$, so $h_{-m}(R_8k)\gamma^{(x_8)}u = \gamma^{(x_8)}h_m(k)u = w\,\gamma^{(x_8)}u$. $\gamma^{(x_8)}$ is real and symmetric (space-like), so $(\gamma^{(x_8)}u)^\dagger B(\gamma^{(x_8)}u) = u^\dagger\gamma^{(x_8)}B\gamma^{(x_8)}u = u^\dagger Bu = 1$ by Lemma 4 ($\sigma_{\gamma^{(x_8)}} = +1$). (c) In Figure 18c.7 every orange bar ($\Gamma u$) is the blue bar ($u$) turned upside down, which is (a), and every green bar ($\gamma^{(x_8)}u$) equals the blue bar, which is (b).
+
+**Answer 18.7.** (a) By T1, $\mathcal{L}_{m,\lambda}[\Gamma\Psi] = \sqrt{|g|}\,[-K - mS - \frac{\lambda}{2}S^2]$ ($K$ reversed, $S$ kept). Adding $\mathcal{L}_{m,\lambda}[\Psi] = \sqrt{|g|}\,[K - mS - \frac{\lambda}{2}S^2]$ gives $-\sqrt{|g|}\,(2mS + \lambda S^2)$. Adding $\mathcal{L}_{-m,\lambda}[\Psi] = \sqrt{|g|}\,[K + mS - \frac{\lambda}{2}S^2]$ gives $-\sqrt{|g|}\,\lambda S^2$. Adding $\mathcal{L}_{-m,-\lambda}[\Psi] = \sqrt{|g|}\,[K + mS + \frac{\lambda}{2}S^2]$ gives 0. (b) In the first sum the kinetic terms cancel and the mass term and the $S^2$ term survive: the fourth pair of bars of Figure 18b.2. In the second only the $S^2$ term survives: the fifth pair, the shortest nonzero bars. The third sum is the zero bar of T1. (c) For $\lambda = 0$ the second sum vanishes, and T1 pairs $(m, 0)$ with $(-m, 0)$: a pure $+m$ / $-m$ pairing of free fields.
+
+**Answer 18.8.** (a) $\sin(\pi/4) = \sin(3\pi/4) = 1/\sqrt2 = 0.707107$, so $\sin^{1/6}z = 2^{-1/12} = 0.943874$ at both points, and the components $e^{\pm2a_4}\sin^{1/3}z$ are equal. On the patch $f_8 = \cot(\pi/4) = 1$; on the mirror patch $f_8 = -\cot(3\pi/4) = -(-1) = 1$; so $g_{88} = f_8^2 = 1$ at both. $\sqrt{|g|} = \cos(\pi/4) = 0.707107$ on the patch and $-\cos(3\pi/4) = 0.707107$ on the mirror patch. The metric takes the same values: the mirror is an isometry. (b) On the mirror patch $\sqrt{|g|}/f_8 = (-\cos z)/(-\cot z) = \sin z$, whose derivative along $x_8$ is $6H\cos z$; divided by $2\sqrt{|g|} = -2\cos z$ this gives $-3H = -0.6$. (c) At the image point the hidden leg is $-\cot(\pi - z)\,d\big(\frac{\pi}{6H} - x_8\big) = \cot z\,(-dx_8) = -\cot z\,dx_8 = -e^8$, because $\cot(\pi - z) = -\cot z$ and $d(\mathrm{const} - x_8) = -dx_8$. The other seven legs are unchanged, so the pulled-back frame is the original frame with the direction $x_8$ reflected, $R_8e$ (Section 18.16).
+
+**Answer 18.9.** Step by step. "Theorem T1 proves that the big bang creates": no. T1 maps the solutions of the theory $(m, \lambda)$ onto those of $(-m, -\lambda)$; no equation of this book describes the creation of a universe, in pairs or otherwise, and no process, rate, probability or amplitude follows (Section 18.28, items 1 and 2). "every universe of mass $m$ together with a universe of mass $-m$": no. A universe of mass $m$ is an equally valid solution without any partner (item 3), and the T1 partner has the coupling $-\lambda$, so for $\lambda \neq 0$ it is not merely a universe of mass $-m$ (item 4). "the two have opposite energies": true for the classical bilinears of a configuration and its image, and as an operator identity within one quantum system (T1c, Q2); false for two independently quantised universes, whose energies add without cancelling (Q3; item 5). "so the pair costs no energy": the theorems contain no energy balance of a creation process; the only statement about the pair as a source of gravity is the corollary C1 of Chapter 20, which says that a T1 pair taken as the complete source of the author's metric is a zero source, for which the Einstein equations have no solution with $H > 0$ (item 6). "and nothing forbids it": not established either way; the equations neither forbid nor produce it. What the equations do establish: the exact maps T1 and T2 between solution sets, with their signs, and the quantum reading Q. That the big bang creates universes in pairs remains the author's HYPOTHESIS.
