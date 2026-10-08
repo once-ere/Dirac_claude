@@ -18,17 +18,29 @@
 #
 # Needs: python (numpy, sympy, mpmath, matplotlib, nbformat, nbclient, ipykernel), git, cargo,
 # wolframscript (activated by the user; the gate never activates it), pdflatex (PATH or MiKTeX).
-# Every step runs with its log in build/logs/revision/<step>-bash.log (build/ is git-ignored); the gate
-# writes its work files only under build/revision/ (each step's work folder is emptied before the step).
+# Every step runs with its log in build/logs/revision/<step>-bash.log (build/ is git-ignored).  The gate's
+# own files (step table, audit program, selection lists) and the step work folders are under build/revision/
+# (each step's work folder is emptied before the step).  Some verifiers also write outside it, by their own
+# defaults: build/lovelock_nb_inputs.txt (gkd-notebook-extract), build/revision_notebooks/<name>-XXXXXXXX/
+# (notebooks-check; kept, that tool never deletes), build/<DOCUMENT>/ (the pdf-* steps) and, in the system
+# temporary directory, the shared exporter folder revision_gkd_export (gkd-wolfram rewrites its Cargo.toml
+# to point at the repository that runs it), the Rust build folders revision-nb-<notebook>-<hash> of the
+# three notebooks (notebooks-check) and the work folders ks-history-* (dark16-ks-history); cargo writes
+# into the git-ignored target/ folders of the two crates, Revision/gkd_lovelock/code/target and
+# Revision/kohn_sham/solver/target (gkd-rust-build, ks-rust-build, ks-rust-test).  Run only one gate at
+# a time on a computer.
 # Some verifiers rewrite their committed outputs in place (that is how they are documented); the step
 # committed-unchanged then requires `git diff --quiet HEAD` on those output paths and no new untracked
 # file there, and lists every path that differs (marking the paths that already differed before the run).
-# Before any step the gate stops (revision_failed_step=precheck) when an output path of a selected step
-# already differs from HEAD: it verifies the committed record and never overwrites uncommitted work.
+# Before any step the gate stops (revision_failed_step=precheck, exit code 3) when an output path of a
+# selected step already differs from HEAD: it verifies the committed record and never overwrites
+# uncommitted work.
 # The step reports-pass reads EVERY report of the step table (also of the steps not run now) and requires
 # every check to pass.  The gate stops at the first failing step and prints revision_failed_step,
 # revision_failed_log and revision_verification=FAILED.  A Wolfram step whose log shows a licence or
-# kernel-limit message is retried after 30 s, at most 3 attempts.  The last line is
+# kernel-limit message is retried after 30 s, at most 3 attempts.  A Wolfram step whose log shows
+# 'Failed to open file' fails even when wolframscript exits with 0 (it does so on Windows when the
+# path of its script has 260 or more characters; clone into a short folder).  The last line is
 #   revision_verification=OK      (every selected step passed)
 #   revision_verification=FAILED
 # (a --dry-run ends with revision_verification=NOT-RUN).
@@ -52,6 +64,7 @@
 #   theory-sympy                         240 s
 #   theory-sympy-scope                     5 s
 #   theory-compare                         2 s
+#   theory-fock-quartic                   10 s
 #   pairing-wolfram                      280 s
 #   pairing-sympy                        240 s
 #   a4-wolfram                            70 s
@@ -72,6 +85,7 @@
 #   ks-reference                         750 s  long
 #   ks-rust-refinement                    90 s
 #   ks-crosscheck                        780 s  long
+#   ks-tip-convergence                   600 s  long
 #   t3-wolfram                            15 s
 #   t3-sympy                              10 s
 #   t3-completion-wolfram                 20 s
@@ -220,6 +234,7 @@ theory-wolfram-scope|60|0|-|Revision/theory/reports/wolfram-scope.json|Revision/
 theory-sympy|240|0|-|Revision/theory/reports/python-field-theory.json|Revision/theory/reports/python-field-theory.json|{python} Revision/theory/python/check_field_theory.py
 theory-sympy-scope|5|0|-|Revision/theory/reports/python-scope.json|Revision/theory/reports/python-scope.json|{python} Revision/theory/python/check_scope.py
 theory-compare|2|0|-|-|-|{audit} json-equals Revision/theory/reports/python-field-theory.json comparison_with_wolfram.status agree
+theory-fock-quartic|10|0|-|Revision/theory/fock_quartic/reports/fock-quartic.json|Revision/theory/fock_quartic/reports/fock-quartic.json|{python} Revision/theory/fock_quartic/check_fock_quartic.py
 pairing-wolfram|280|0|-|Revision/pairing/pairing-theory.json,Revision/pairing/reports/wolfram-pairing.json|Revision/pairing/reports/wolfram-pairing.json|{wolframscript} -file Revision/pairing/wolfram/verify_pairing.wls
 pairing-sympy|240|0|-|Revision/pairing/reports/python-pairing.json|Revision/pairing/reports/python-pairing.json|{python} Revision/pairing/python/check_pairing.py
 a4-wolfram|70|0|-|Revision/field_equations_a4/a4-equations.json,Revision/field_equations_a4/reports/wolfram-a4-report.json|Revision/field_equations_a4/reports/wolfram-a4-report.json|{wolframscript} -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls
@@ -240,6 +255,7 @@ ks-rust-determinism|30|1|-|Revision/kohn_sham/reports/ks-rust-determinism.json|R
 ks-reference|750|1|-|Revision/kohn_sham/reference/results,Revision/kohn_sham/reports/ks-reference.json|Revision/kohn_sham/reports/ks-reference.json|{python} Revision/kohn_sham/reference/run_reference.py
 ks-rust-refinement|90|0|build/revision/ks-refinement|Revision/kohn_sham/checker/rust-refinement.json|-|{python} Revision/kohn_sham/checker/measure_rust_refinement.py --work build/revision/ks-refinement
 ks-crosscheck|780|1|build/revision/ks-crosscheck|Revision/kohn_sham/reports/ks-crosscheck.json,Revision/kohn_sham/reports/ks-crosscheck-table.csv|Revision/kohn_sham/reports/ks-crosscheck.json|{python} Revision/kohn_sham/checker/crosscheck_ks.py --work build/revision/ks-crosscheck
+ks-tip-convergence|600|1|build/revision/ks-tip-convergence|Revision/kohn_sham/tip_convergence/tip-convergence.json,Revision/kohn_sham/tip_convergence/tip-convergence-table.csv,Revision/kohn_sham/tip_convergence/tip-convergence-extrapolation.csv,Revision/kohn_sham/tip_convergence/fig-differences-EKS.png,Revision/kohn_sham/tip_convergence/fig-k0-spectrum.png,Revision/kohn_sham/tip_convergence/fig-recalibrated-interaction.png,Revision/kohn_sham/tip_convergence/fig-zero-modes-fixed-lambda.png|Revision/kohn_sham/tip_convergence/tip-convergence.json|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 8
 t3-wolfram|15|0|-|Revision/pairing/kohn_sham/t3-theory.json,Revision/pairing/kohn_sham/reports/wolfram-t3.json|Revision/pairing/kohn_sham/reports/wolfram-t3.json|{wolframscript} -file Revision/pairing/kohn_sham/wolfram/verify_t3.wls
 t3-sympy|10|0|-|Revision/pairing/kohn_sham/reports/python-t3.json|Revision/pairing/kohn_sham/reports/python-t3.json|{python} Revision/pairing/kohn_sham/python/check_t3.py
 t3-completion-wolfram|20|0|-|Revision/pairing/kohn_sham/t3-completion.json,Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json|Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json|{wolframscript} -file Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls
@@ -718,6 +734,12 @@ run_step() {
         code=0
         run_logged "$log_path" "${argv[@]}" || code=$?
         printf 'revision_step_seconds=%s %d (expected %s)\n' "$name" "$(($(date +%s) - started))" "$expected"
+        if ((code == 0)) && [[ "${words[0]}" == '{wolframscript}' ]] && grep -Fq 'Failed to open file' "$log_path"; then
+            # wolframscript exits with 0 when it cannot open its script (a path of 260 or more characters on
+            # Windows): nothing ran, and the committed outputs would pass committed-unchanged untouched.
+            printf 'revision_wolfram_open_failure=%s wolframscript could not open its script file\n' "$name"
+            code=1
+        fi
         if ((code == 0)); then
             printf 'revision_step_ok=%s\n' "$name"
             return 0

@@ -18,16 +18,27 @@ Static checks (always, a few seconds):
     directly are listed below with the step script that imports them;
   * --dry-run of the bash twin (and of the PowerShell twin when pwsh is available) runs nothing and prints
     the same plan; an unknown step name is rejected with exit code 2.
-With REVISION_GATE_FULL=1 the gate itself runs with --fast (about an hour on the development machine;
-REVISION_GATE_TWIN=pwsh runs the PowerShell twin instead of the bash twin) and must end with
-revision_verification=OK.  The gate removes REVISION_GATE_FULL before its own unit-test step, so it never
-runs itself recursively.
+Failure paths (each twin copied into a temporary folder, a few seconds; nothing of this repository is run
+or written):
+  * a failing step ends the gate with revision_failed_step, revision_failed_log, revision_gate_seconds and
+    the last line revision_verification=FAILED, with the step's exit code;
+  * a selected step whose output path already differs from HEAD (in a temporary git repository) stops the
+    gate at the precheck with exit code 3 and the reason that names this cause;
+  * a Wolfram step whose wolframscript prints 'Failed to open file' and exits with 0 (a fake wolframscript
+    first on PATH) fails the gate with revision_wolfram_open_failure and is not retried.
+Line endings: every file tracked under Revision/ is stored with LF only (Revision/SPEC.md section 0;
+git ls-files --eol shows no i/crlf or i/mixed).
+With REVISION_GATE_FULL=1 the gate itself runs with --fast (measured on the development machine on
+2026-10-08: about 20 min; REVISION_GATE_TWIN=pwsh runs the PowerShell twin instead of the bash twin)
+and must end with revision_verification=OK.  The gate removes REVISION_GATE_FULL before its own unit-test
+step, so it never runs itself recursively.
 """
 import os
 import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import unittest
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
@@ -112,6 +123,19 @@ class StaticGateTests(unittest.TestCase):
     def test_lf_only(self):
         for text in (self.bash, self.pwsh):
             self.assertNotIn("\r", text)
+
+    def test_revision_files_are_stored_with_lf(self):
+        # Revision/SPEC.md section 0 requires LF line endings for every file under Revision/.  The root
+        # .gitattributes ('* -text') stores every file byte for byte, so a CRLF written on Windows would be
+        # committed as CRLF; this test names such a file.
+        git = shutil.which("git")
+        if not git or not os.path.exists(os.path.join(ROOT, ".git")):
+            self.skipTest("git or the repository's .git not found")
+        result = subprocess.run([git, "ls-files", "--eol", "--", "Revision"], cwd=ROOT, capture_output=True,
+                                text=True, encoding="utf-8", check=True)
+        bad = [line.split("\t", 1)[-1] for line in result.stdout.splitlines()
+               if line.split()[0] in ("i/crlf", "i/mixed")]
+        self.assertEqual(bad, [])
 
     def test_twins_share_table_and_audit(self):
         self.assertEqual(self.bash_table, self.pwsh_table)
@@ -257,7 +281,121 @@ class DryRunTests(unittest.TestCase):
                 self.assertEqual(lines_ps, expected)
 
 
-@unittest.skipUnless(FULL, "set REVISION_GATE_FULL=1 to run the gate with --fast (about an hour)")
+def twin_commands():
+    """(label, command prefix, twin file name) of every twin that can run here."""
+    found = []
+    bash = shutil.which("bash")
+    if bash:
+        found.append(("bash", [bash, "Revision/verify_revision.sh"], "verify_revision.sh"))
+    pwsh = shutil.which("pwsh")
+    if pwsh:
+        found.append(("pwsh", [pwsh, "-NoProfile", "-File", "Revision/verify_revision.ps1"], "verify_revision.ps1"))
+    return found
+
+
+def run_twin_in(root, command, extra_environment=None):
+    environment = {key: value for key, value in os.environ.items()
+                   if key != "REVISION_GATE_FULL" and not key.startswith("GIT_")}
+    environment["PYTHONUTF8"] = "1"
+    environment.update(extra_environment or {})
+    result = subprocess.run(command, cwd=root, capture_output=True, text=True, encoding="utf-8",
+                            errors="replace", env=environment, timeout=600)
+    return result.returncode, result.stdout.splitlines()
+
+
+def write_text(path, text):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8", newline="\n") as handle:
+        handle.write(text)
+
+
+class FailurePathTests(unittest.TestCase):
+    """Each twin runs in a temporary copy that holds only the files the selected step reads."""
+
+    def test_failing_step_ends_with_failed(self):
+        twins = twin_commands()
+        if not twins:
+            self.skipTest("neither bash nor pwsh found")
+        for label, command, twin in twins:
+            with self.subTest(twin=label), tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as root:
+                shutil.copy(os.path.join(ROOT, "Revision", twin), self._revision(root, twin))
+                # theory-compare requires comparison_with_wolfram.status == "agree"; this copy says otherwise,
+                # and the step has no output path, so the precheck needs no git repository.
+                write_text(os.path.join(root, "Revision", "theory", "reports", "python-field-theory.json"),
+                           '{"comparison_with_wolfram": {"status": "disagree"}}\n')
+                code, lines = run_twin_in(root, command + ["--steps", "theory-compare"])
+                text = "\n".join(lines)
+                self.assertEqual(code, 1, text)
+                self.assertIn("revision_failed_step=theory-compare", lines, text)
+                self.assertIn("revision_failed_log=build/logs/revision/theory-compare-%s.log" % label, lines, text)
+                self.assertTrue(any(line.startswith("revision_step_seconds=theory-compare ") for line in lines), text)
+                self.assertTrue(any(line.startswith("revision_gate_seconds=") for line in lines), text)
+                self.assertEqual(lines[-1], "revision_verification=FAILED", text)
+
+    def test_precheck_names_a_preexisting_change(self):
+        git = shutil.which("git")
+        twins = twin_commands()
+        if not git or not twins:
+            self.skipTest("git, or both bash and pwsh, not found")
+        output = "Revision/lead_checks/reports/charge-conjugation-and-u1.json"
+        for label, command, twin in twins:
+            with self.subTest(twin=label), tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as root:
+                shutil.copy(os.path.join(ROOT, "Revision", twin), self._revision(root, twin))
+                write_text(os.path.join(root, ".gitignore"), "build/\n")
+                write_text(os.path.join(root, output), '{"checks": []}\n')
+                identity = ["-c", "user.name=revision-gate-test", "-c", "user.email=revision-gate-test@example.invalid",
+                            "-c", "core.autocrlf=false", "-c", "commit.gpgsign=false"]
+                for arguments in (["init", "-q"], ["add", "-A"], ["commit", "-q", "-m", "committed record"]):
+                    subprocess.run([git] + identity + arguments, cwd=root, check=True, capture_output=True)
+                write_text(os.path.join(root, output), '{"checks": [] }\n')
+                code, lines = run_twin_in(root, command + ["--steps", "lead-charge-conjugation"])
+                text = "\n".join(lines)
+                self.assertEqual(code, 3, text)
+                self.assertIn("revision_preexisting_change=" + output, lines, text)
+                self.assertIn("revision_failed_step=precheck", lines, text)
+                self.assertIn("revision_failure_reason=an output path of a selected step already differs from HEAD "
+                              "(see the revision_preexisting_change lines)", lines, text)
+                self.assertFalse(any(line.startswith("revision_step=") for line in lines), text)
+                self.assertEqual(lines[-1], "revision_verification=FAILED", text)
+
+    def test_wolfram_open_failure_fails(self):
+        twins = twin_commands()
+        if not twins:
+            self.skipTest("neither bash nor pwsh found")
+        names = ("wolframscript", "wolframscript.exe", "wolframscript.cmd", "wolframscript.bat")
+        for label, command, twin in twins:
+            with self.subTest(twin=label), tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as root:
+                shutil.copy(os.path.join(ROOT, "Revision", twin), self._revision(root, twin))
+                # A fake wolframscript (a shell script for bash and for Linux/macOS, a .cmd for PowerShell on
+                # Windows) behaves like the real one when the path of its script has 260 or more characters
+                # on Windows: it prints 'Failed to open file at path: ...' and exits with 0.  The real
+                # wolframscript is taken off PATH.  gkd-notebook-extract has no output path, so the precheck
+                # needs no git repository.
+                fake = os.path.join(root, "fakebin")
+                write_text(os.path.join(fake, "wolframscript"),
+                           '#!/bin/sh\necho "Failed to open file at path: $2"\nexit 0\n')
+                os.chmod(os.path.join(fake, "wolframscript"), 0o755)
+                write_text(os.path.join(fake, "wolframscript.cmd"),
+                           "@echo Failed to open file at path: %2\n@exit /b 0\n")
+                path = os.pathsep.join([fake] + [
+                    entry for entry in os.environ.get("PATH", "").split(os.pathsep)
+                    if entry and not any(os.path.isfile(os.path.join(entry, name)) for name in names)])
+                code, lines = run_twin_in(root, command + ["--steps", "gkd-notebook-extract"], {"PATH": path})
+                text = "\n".join(lines)
+                self.assertEqual(code, 1, text)
+                self.assertIn("revision_wolfram_open_failure=gkd-notebook-extract wolframscript could not open its "
+                              "script file", lines, text)
+                self.assertIn("revision_failed_step=gkd-notebook-extract", lines, text)
+                self.assertFalse(any(line.startswith("revision_retry=") for line in lines), text)
+                self.assertEqual(lines[-1], "revision_verification=FAILED", text)
+
+    @staticmethod
+    def _revision(root, twin):
+        os.makedirs(os.path.join(root, "Revision"), exist_ok=True)
+        return os.path.join(root, "Revision", twin)
+
+
+@unittest.skipUnless(FULL, "set REVISION_GATE_FULL=1 to run the gate with --fast (about 20 min)")
 class FullGateTest(unittest.TestCase):
     def test_gate_fast(self):
         if os.environ.get("REVISION_GATE_TWIN") == "pwsh":
