@@ -161,6 +161,21 @@
   "exactZeroTemperatureOccupations": true,
   "smearingAttempts": [],
   "solverVersion": 2,
+  "continuation": {
+    "steps": 4,
+    "mixFactor": 0.25,
+    "directConvergedBy": "collapse",
+    "fractions": [
+      {
+        "fraction": 0.25,
+        "converged": false,
+        "convergedBy": "collapse",
+        "occupationSmearing": 0.0,
+        "energy": -4978.394892377293
+      }
+    ],
+    "used": false
+  },
   "spectrumCsv": {
     "band": null,
     "rows": 2190,

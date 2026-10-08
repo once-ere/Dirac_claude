@@ -286,6 +286,8 @@ OUTPUTS = os.path.join(GATE, "outputs.txt")
 REPORTS = os.path.join(GATE, "reports.txt")
 PREEXISTING = os.path.join(GATE, "preexisting.txt")
 LONG_SECONDS = 300
+# Exit code of `precheck` when an output path of a selected step already differs from HEAD.
+PRECHECK_PREEXISTING = 3
 
 
 def fail(message):
@@ -414,11 +416,12 @@ def precheck(arguments):
         print("revision_preexisting_change=" + path)
     print("revision_output_paths=%d preexisting_changes=%d" % (len(paths), len(before)))
     # The gate verifies the COMMITTED record and never overwrites uncommitted work: a selected step whose
-    # output paths already differ from HEAD stops the gate before anything runs.
+    # output paths already differ from HEAD stops the gate before anything runs.  Exit code 3 marks this
+    # stop; a git error ends this program through SystemExit with exit code 1, so the twins can name the cause.
     if before:
         print("revision_precheck=the output paths above already differ from HEAD; commit or set them aside, "
               "or leave their steps out with --steps")
-        return 1
+        return PRECHECK_PREEXISTING
     return 0
 
 
@@ -709,10 +712,11 @@ run_step() {
         fi
         printf 'revision_step=%s expected_seconds=%s\n' "$name" "$expected"
         started="$(date +%s)"
-        set +e
-        run_logged "$log_path" "${argv[@]}"
-        code=$?
-        set -e
+        # A function called on the left of || runs with errexit ignored, and its non-zero return does not
+        # end the gate here (run_logged turns errexit back on before it returns, so `set +e; run_logged ...;
+        # code=$?` would end the gate without the failure lines and without the Wolfram retry).
+        code=0
+        run_logged "$log_path" "${argv[@]}" || code=$?
         printf 'revision_step_seconds=%s %d (expected %s)\n' "$name" "$(($(date +%s) - started))" "$expected"
         if ((code == 0)); then
             printf 'revision_step_ok=%s\n' "$name"
@@ -732,6 +736,9 @@ set +e
 "$python_command" "$audit_script" precheck
 precheck_code=$?
 set -e
+if ((precheck_code == 3)); then
+    stop_gate precheck "" "an output path of a selected step already differs from HEAD (see the revision_preexisting_change lines)" 3
+fi
 ((precheck_code == 0)) || stop_gate precheck "" "git status of the output paths could not be read" "$precheck_code"
 
 local -a selected_lines

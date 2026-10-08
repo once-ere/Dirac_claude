@@ -268,6 +268,8 @@ OUTPUTS = os.path.join(GATE, "outputs.txt")
 REPORTS = os.path.join(GATE, "reports.txt")
 PREEXISTING = os.path.join(GATE, "preexisting.txt")
 LONG_SECONDS = 300
+# Exit code of `precheck` when an output path of a selected step already differs from HEAD.
+PRECHECK_PREEXISTING = 3
 
 
 def fail(message):
@@ -396,11 +398,12 @@ def precheck(arguments):
         print("revision_preexisting_change=" + path)
     print("revision_output_paths=%d preexisting_changes=%d" % (len(paths), len(before)))
     # The gate verifies the COMMITTED record and never overwrites uncommitted work: a selected step whose
-    # output paths already differ from HEAD stops the gate before anything runs.
+    # output paths already differ from HEAD stops the gate before anything runs.  Exit code 3 marks this
+    # stop; a git error ends this program through SystemExit with exit code 1, so the twins can name the cause.
     if before:
         print("revision_precheck=the output paths above already differ from HEAD; commit or set them aside, "
               "or leave their steps out with --steps")
-        return 1
+        return PRECHECK_PREEXISTING
     return 0
 
 
@@ -706,7 +709,11 @@ function Invoke-GateStep {
 }
 
 & $pythonCommand $auditScript precheck
-if ($LASTEXITCODE -ne 0) { Stop-Gate -Step "precheck" -Reason "git status of the output paths could not be read" -Code $LASTEXITCODE }
+$precheckCode = $LASTEXITCODE
+if ($precheckCode -eq 3) {
+    Stop-Gate -Step "precheck" -Reason "an output path of a selected step already differs from HEAD (see the revision_preexisting_change lines)" -Code 3
+}
+if ($precheckCode -ne 0) { Stop-Gate -Step "precheck" -Reason "git status of the output paths could not be read" -Code $precheckCode }
 
 foreach ($line in $selected) {
     if (-not $line) { continue }
