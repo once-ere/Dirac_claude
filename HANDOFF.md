@@ -179,7 +179,8 @@ FIXED 2026-10-08 after the handover note (verified):
   notebooks pass nbkit check; book re-assembled.
 FOLLOW-UP (textbook quality, not covered by any test): the walk-throughs quote notebook code by hand, and several
   builders were changed by interrupted chapter fixers after their chapters were written.  CONFIRMED drift: chapter 03 quotes
-  an older version of Notebook 03b's In [3] (no PYTHON_REPORT/RUST_REPORT lines) and further cells.  The scratch audit tool
+  an older version of Notebook 03b's In [3] (no PYTHON_REPORT/RUST_REPORT lines) and further cells - FIXED in 6df74c8 (every
+  quoted block of the 03b walk-through now matches; record_check explained).  The scratch audit tool
   Revision/textbook/tools/audit/walkthrough_diff.py (+ walkthrough_all.py) compares quoted blocks with the notebook cells;
   it knows three deliberate conventions (captions shortened with '...)', docstrings omitted, the generated set-up cell) but
   its section detection is NOT reliable (it can pick up a mention of a walk-through as the section start), so its counts
