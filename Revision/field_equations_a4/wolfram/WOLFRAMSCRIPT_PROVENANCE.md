@@ -307,7 +307,10 @@ and then prints one line; section 4 says exactly what to expect.
 * A single line beginning with `ERROR  ` (ERROR and two spaces), followed by nothing else, and exit
   code `1`. The run stopped on purpose and wrote no file, except in the last of these cases. In
   every line `<root>` stands for the full path of your repository folder; the lines are shown as
-  printed on Windows (on macOS and Linux the separators are `/`; expected, not verified there):
+  printed on Windows by the script of section 2, which normalises its folders (section 6.6; the
+  versions before it printed `<root>\Revision\field_equations_a4\wolfram\..\` in the two
+  `cannot write` lines, tests E and G of section 6.3); on macOS and Linux the separators are `/`
+  (expected, not verified there):
   * `ERROR  <root>\Revision\algebra\gammas.json: input file not found`: the author's matrices are
     missing (usually only part of the repository was copied). Clone the whole repository (3.4), or
     restore the file with `git checkout -- Revision/algebra/gammas.json`.
@@ -529,12 +532,12 @@ showed that the matrices of that version were the author's matrices in another b
 intertwiner S with S^T S = 128 I16). The independent verifier of that day measured wall times of
 35.8 s to 64.0 s on the loaded machine (findings in 6.4).
 
-### 6.3 Verification of 2026-10-08 (the current version)
+### 6.3 Verification of 2026-10-08 (the version of commit `e377368`)
 
 | item | value |
 | --- | --- |
 | date | 2026-10-08 |
-| commit verified | `477fa9bb12780395ce41db73cfdab294693c52c3` (the remote `main` at the time; it contains the patch `e377368`, and the six files of section 2 have the sha256 given there) |
+| commit verified | `477fa9bb12780395ce41db73cfdab294693c52c3` (the remote `main` at the time; it contains the patch `e377368`, and the six files of section 2 had the sha256 that section 2 gave at that time; at that commit the script had sha256 `d9db27d371eefbd6afc0f358fe9b150a21b82c8a58e5ce2741d71f652f9d1ce9` (40749 bytes) and `a4-equations.json` `98d3245d30e5c25f7bbdfcd186d5723aec2059a1feeaef4cc3c3249684de03b4` (40843 bytes); section 2 now gives the versions of sections 6.6 and 6.7, the package, the two inputs and output 2 are unchanged) |
 | clones | two fresh `git clone https://github.com/once-ere/Dirac_claude.git` in a scratch folder: clone 1 for the measurements and the failure tests, clone 2 (in a folder whose path contains a space) for following this file literally; no uncommitted file was copied in (none is needed by this set) |
 | clone size | clone 1: 955,990,168 bytes (`du -sb`), `.git` 340,131,897 bytes, pack 323.89 MiB (`git count-objects -vH`) |
 | operating system | Windows 11 Pro for Workstations 10.0.26300, Intel Core Ultra 9 275HX (24 cores), 191 GB memory |
@@ -571,8 +574,8 @@ times of both outputs did not change):
 | B2 | `gammas.json` cut after 1000 bytes | 1 | 6.6 s | `ERROR  <root>\Revision\algebra\gammas.json: not a JSON object (Import[..., "RawJSON"] failed)` | outputs untouched |
 | C | `FieldEquationsA4.wl` deleted | 1 | 3.6 s | `ERROR  <root>\Revision\field_equations_a4\wolfram\FieldEquationsA4.wl: package not found` (223 bytes) | outputs untouched |
 | D | `lovelock-tensors.json` deleted | 1 | 54.4 s | `Import::nffil`, `Part::partd` (3), `Part::partw` (3), `General::stop` (2), `checks: 52, failed: 6` and the six `FAIL` lines of the comparisons with the Rust results (2372 bytes) | report overwritten (`52 6 FAIL`), `a4-equations.json` byte-identical |
-| E | folder `Revision/field_equations_a4/reports` deleted | 1 | 44.4 s | `ERROR  cannot write <root>\Revision\field_equations_a4\wolfram\..\reports\wolfram-a4-report.json` (231 bytes) | `a4-equations.json` rewritten, byte-identical |
-| G | `a4-equations.json` made read-only | 1 | 48.6 s | `ERROR  cannot write <root>\Revision\field_equations_a4\wolfram\..\a4-equations.json` (218 bytes) | outputs untouched (the report was not written either) |
+| E | folder `Revision/field_equations_a4/reports` deleted | 1 | 44.4 s | `ERROR  cannot write <root>\Revision\field_equations_a4\wolfram\..\reports\wolfram-a4-report.json` (231 bytes; observed with the version before section 6.6, the current script prints the normalised path, section 3.6) | `a4-equations.json` rewritten, byte-identical |
+| G | `a4-equations.json` made read-only | 1 | 48.6 s | `ERROR  cannot write <root>\Revision\field_equations_a4\wolfram\..\a4-equations.json` (218 bytes; observed with the version before section 6.6, the current script prints the normalised path, section 3.6) | outputs untouched (the report was not written either) |
 | F1 | the kernel ended after 16.2 s (`Stop-Process` on the `wolfram.exe ... -mathlink` child) | -1 | 16.4 s | nothing; error stream: the 42 bytes `The product exited for an unknown reason.` plus LF | outputs untouched; both temporary files (`tmp_PBUgRdv4Zi`, `tmp_L4ysA0ZC8v`, 0 bytes) removed; no other Wolfram process was running |
 | F2 | `wolframscript` ended after 15.3 s (`Stop-Process -Force`) | -1 | 15.5 s | nothing; error stream empty | outputs untouched; the kernel had ended 0.5 s later; both temporary files (`tmp_LqAexjlVjd`, `tmp_ej8pDdD6nX`, 0 bytes) left in `WolframScriptTemporary` (deleted by the verifier afterwards); no other Wolfram process was running |
 
@@ -690,12 +693,12 @@ folder whose path contains a space; commit `477fa9b`):
   folders and the file named in 3.4.
 * The PowerShell commands of 3.5 (run 3) printed `checks: 52, failed: 0` and then `0`. The checks
   of section 4 then printed the six lines shown there, `52 0 PASS` (the `python` one-liner),
-  nothing for `git status --porcelain`, and, with `Get-FileHash`, the two sha256 of section 2 in
+  nothing for `git status --porcelain`, and, with `Get-FileHash`, the two output sha256 that section 2 then gave in
   capital letters. The `Measure-Command` form (run 4) printed the line and the time, and
   `$LASTEXITCODE` then printed `0`.
 * The macOS/Linux commands of 3.5, typed in Git Bash with `time` in front (run 5), printed the
   line, the time and `0`; `head -n 6` printed the six lines of section 4; `sha256sum` printed the
-  two sha256 of section 2; `cmp` against `git show HEAD:<path>` found both outputs identical. The
+  two output sha256 that section 2 then gave; `cmp` against `git show HEAD:<path>` found both outputs identical. The
   `python3` form of section 4 could not be tested (on this Windows machine `python3` is only a
   Microsoft Store alias); the `python` form was tested in run 3.
 * The restore commands of section 5 left `git status --porcelain` empty, and
@@ -704,13 +707,13 @@ folder whose path contains a space; commit `477fa9b`):
   repository, was byte-identical to the script run in clone 1 (sha256 above). Run from the root of
   clone 2 it exited with code 0 after 8.3 s, printed nothing on the error stream and wrote nothing,
   and its output (with CR LF turned into LF) was byte-identical to the output printed above.
-* All six rows of the table of section 2 (bytes, lines, sha256, LF line endings only), the second
+* All six rows of the table of section 2 as it then was (bytes, lines, sha256, LF line endings only), the second
   line and the top-level keys of `a4-equations.json`, the value of `generalSource.evolution_F.input`
   quoted in section 4, the script and package line numbers cited in sections 1 and 2, and the
   completeness and order of the table of the 52 checks in section 4 were confirmed in clone 2 by a
   short Python script.
 
-Fixes made on 2026-10-08: none to the set (the sha256 of section 2 are those of the committed
+Fixes made on 2026-10-08: none to the set (the sha256 of section 2 were then those of the committed
 files). This provenance file was rewritten for the patched set (sections 1 to 6).
 
 ### 6.4 Findings of the independent verifier of 2026-10-07 and what was done
@@ -748,7 +751,7 @@ for byte. Remarks that do not affect a run from a complete clone:
   section 3.6); and the sentence of `provenance/dirac matrices.md` about this set (that file was
   regenerated with the patch and now states that `FEGammaFrame` equals the author's matrices).
 
-### 6.6 Folders normalised and the `dirac16complex` statement updated (2026-10-08, working tree)
+### 6.6 Folders normalised and the `dirac16complex` statement updated (2026-10-08; first committed in the automatic snapshot `6779cd3`)
 
 * Why (folders): a review of the reproducibility of the Revision gate (2026-10-08; it fixed the same pattern
   in `Revision/gkd_lovelock/comparison/extract_author_curvature_outputs.wls`) found that lines 21 and 22 built
@@ -783,7 +786,8 @@ for byte. Remarks that do not affect a run from a complete clone:
      (`git diff --quiet` on both succeeded).
   2. With the new statement: the same command, `checks: 52, failed: 0`, exit code 0, wall time 40 s.
      `wolfram-a4-report.json` was byte-identical to the committed one; `a4-equations.json` differed from it
-     only in line 776 (`fields.dirac16complex.statement`) and now has the sha256 and size of section 2.
+     only in line 776 (`fields.dirac16complex.statement`) and then had sha256
+     `b2f470d04a1d660430e5008e7aed1e8af91d5287fd2546a0cbeb82f983573d96`, 41834 bytes (changed again in section 6.7).
   3. The same command again: `checks: 52, failed: 0`, exit code 0, wall time 37 s; `a4-equations.json`
      byte-identical to run 2.
   4. `python Revision/field_equations_a4/python/check_field_equations_a4.py`, twice: `checks: 63, pass 63,
@@ -792,6 +796,7 @@ for byte. Remarks that do not affect a run from a complete clone:
      in line 39.
 * Downstream: `Revision/field_equations_a4/ks_source/reports/ks-source-a4.json` records the sha256 of
   `a4-equations.json` among its inputs; `ks_source_a4.py` was re-run twice (23 of 23 PASS, byte-identical
-  runs) and now records `b2f470d04a1d660430e5008e7aed1e8af91d5287fd2546a0cbeb82f983573d96`.
+  runs) and then recorded `b2f470d04a1d660430e5008e7aed1e8af91d5287fd2546a0cbeb82f983573d96` (section 6.7 gives the
+  value recorded now).
 * Fixes made: the normalisation and the text above. Open discrepancies: none in the results. Not done: a run
   of the changed script in a fresh clone, and a run from a long clone folder.

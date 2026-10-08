@@ -916,7 +916,8 @@ section 3.5 typed literally" in sections 6.1 and 6.2 means that plain form.
   `Revision/workflows/dirac_matrices_audit.js`; the files of this set and its inputs are the same in both
   commits. No uncommitted file was copied into any clone: the execution fix of section 6.1 is committed
   (since commit `3f0a577`), and the script, the package, the companion, the two inputs and the three outputs
-  had exactly the sha256 values, line counts and byte counts of section 2 (measured in clone B).
+  had exactly the sha256 values, line counts and byte counts that section 2 gave at that time (measured in
+  clone B; for the script that is the version before section 6.5, sha256 `4ce71aaa...d50d`, see section 2.1).
 * Environment: Windows 11 Pro for Workstations 10.0.26300 (`ver`: 10.0.26300.9457), Intel Core Ultra 9
   275HX (24 cores), 191 GB memory; WolframScript 1.14.0 with Wolfram 15.0.1 for Microsoft Windows (64-bit)
   (July 2, 2026), Professional licence; Python 3.14.5 (system installation `C:\Python314`) with numpy
@@ -998,7 +999,8 @@ section 3.5 typed literally" in sections 6.1 and 6.2 means that plain form.
   from `772f774` only in `Revision/kohn_sham/solver/README.md`), each cloned fresh from
   `https://github.com/once-ere/Dirac_claude.git` into an empty folder. No uncommitted file was copied into
   any clone. The script, the package, the companion, the inputs and the outputs had exactly the sha256
-  values, line counts and byte counts of section 2 (measured in clone F1).
+  values, line counts and byte counts that section 2 gave at that time (measured in clone F1; for the script
+  that is the version before section 6.5, sha256 `4ce71aaa...d50d`, see section 2.1).
 * Environment: Windows 11 Pro for Workstations 10.0.26300, Intel Core Ultra 9 275HX (24 cores), 191 GB
   memory; WolframScript 1.14.0 with Wolfram 15.0.1 for Microsoft Windows (64-bit) (July 2, 2026),
   Professional licence; Python 3.14.5 (system installation `C:\Python314`); a private environment made
@@ -1123,7 +1125,7 @@ section 3.5 typed literally" in sections 6.1 and 6.2 means that plain form.
 * No file of this set changed; the committed reports are the ones verified in section 6.3.
 * Open discrepancies: none.
 
-### 6.5 Folders normalised (2026-10-08, working tree)
+### 6.5 Folders normalised (2026-10-08; first committed in the automatic snapshot `6779cd3`)
 
 * Why: a review of the reproducibility of the Revision gate (2026-10-08; it fixed the same pattern in
   `Revision/gkd_lovelock/comparison/extract_author_curvature_outputs.wls`) found that the script built its

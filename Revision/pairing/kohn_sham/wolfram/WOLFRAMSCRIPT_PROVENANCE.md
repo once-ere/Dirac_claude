@@ -605,7 +605,10 @@ Sections 6.1 to 6.4 are the record of the EARLIER version of `verify_t3.wls` (sh
 lines, 6448 bytes); they are kept unchanged as history. Where they say "section 2" they mean those values
 (the theorem record `t3-theory.json` and the two inputs are unchanged since). Where they discuss the `v_v`
 term of check 6 (line 79), they describe the defect fixed in section 6.5. The completion script did not
-exist then. Section 6.5 is the verification of the whole set as it is now.
+exist then. Section 6.5 is the verification of the whole set in the version before the normalisation of
+section 6.6 (`verify_t3.wls` sha256 `0cde8c8f36914fbdcc991e11ae44bf26a17f7177d9c9757e58a37cd29ab787c8`,
+`verify_t3_completion.wls` sha256 `35605f5c29bb7e44a7ec10dd6f4e34f3aa5bec37c12d3bc9cd2fc1537fb2d227`; inputs and
+outputs as in section 2); section 6.6 records the current version of the two scripts.
 
 ### 6.1 First verification
 
@@ -925,7 +928,8 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
   `verify_t3_completion.wls` and then finished: v_v is now the function `vvf[m, lambda, n, S] = c_v lambda n`
   of the coefficient read from `ks-theory.json` (the same function enters the energy-momentum profiles of
   check 7), and the coefficient fields are compared with the stated formulas `Meff` and `vv` as the
-  completion does. Result: the script of section 2.1 (sha256 `0cde8c8f...87c8`, 250 lines, 27280 bytes).
+  completion does. Result: the script verified in this section (sha256 `0cde8c8f...87c8`, 250 lines, 27280
+  bytes; section 2.1 now gives the version of section 6.6).
 - The first negative tests of the earlier, interrupted attempt (07:29) were INVALID and are not used: they
   edited `ks-theory.json` with `sed` on `"15/16"`, but the file writes `"15\/16"`, so nothing was changed
   (the edit counter printed `0`) and the 10/10 of those runs proves nothing. They were redone (next item).
@@ -1016,7 +1020,8 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
   - After these clone runs, automatic work-in-progress snapshot commits of the repository (`e27e154`,
     `40cf474`, the remote `main` at the end of this verification) committed the fixed `verify_t3.wls`, its
     report and a draft of this file without these clone results. At `40cf474` (`git show`, not a new clone)
-    both scripts, both inputs, the four outputs and the two sympy reports have exactly the sha256 of section 2,
+    both scripts, both inputs, the four outputs and the two sympy reports had exactly the sha256 that section 2
+    gave at that time (for the two scripts, see section 6.6),
     so in a fresh clone of `40cf474` the runs are expected to leave `git status --porcelain` empty (not tested
     in a clone of `40cf474`).
   - Not repeated on 2026-10-08: the private-environment steps of section 3.8 (`pip install` downloads files;
@@ -1034,7 +1039,7 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
   `wolfram-t3-completion.json`), see section 1.4. Not verified: macOS, Linux with Wolfram, Wolfram versions
   other than 15.0.1.
 
-### 6.6 Folders normalised in both scripts (2026-10-08, working tree)
+### 6.6 Folders normalised in both scripts (2026-10-08; first committed in the automatic snapshot `6779cd3`)
 
 - Why: a review of the reproducibility of the Revision gate (2026-10-08; it fixed the same pattern in
   `Revision/gkd_lovelock/comparison/extract_author_curvature_outputs.wls`) found that the script built its

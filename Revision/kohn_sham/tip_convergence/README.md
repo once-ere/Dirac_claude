@@ -24,9 +24,12 @@ three extra times, which DEFLATE EXPONENTIALLY (scale factor $e^{-a_4}\sin^{1/6}
   $\mp 9.868\times10^{-4}$ ($L = 3$) to $\mp 3.0046\times10^{-3}$ (converged, ratio $e^{-3}$ per $\Delta L = 0.5$,
   i.e. rate $6H$); the recorded value is one third of the large-$L$ value. The self-consistent iteration of the
   solver FAILS at larger $L$ for 13 of the 19 interacting states studied (from $L = 5$ for $N = 8$, from
-  $L = 3.5$ or $4.5$ for $N = 688$, $a_{4,0} = 0$), so for those the limit is not established here.
+  $L = 3.5$ or $4.5$ for $N = 688$, $a_{4,0} = 0$). For 6 of these 13 the converged $L$ values still give a
+  geometric tail (the $N = 8$ states and N136_lamp1_a10); for the other 7 the limit of $E_{KS}$ is not established
+  here (6 NOT CONVERGED, 1 with fewer than three converged $L$ values; `tip-convergence-extrapolation.csv`).
 * **The recorded calibration rule has no non-trivial limit:** applied at each $L$ it gives $\lambda_1(L)$ falling like
-  $e^{-4L}$ (N = 8: 0.01946 at $L = 3$, $1.2\times10^{-7}$ at $L = 6$), so the interaction switches off as
+  $e^{-4L}$ for $N = 8$ (0.01946 at $L = 3$, $1.2\times10^{-7}$ at $L = 6$; $N = 136$ and $688$ in section 4.4),
+  so the interaction switches off as
   $L \to \infty$.
 
 ## 1. How the solver gets L (and how L is varied without changing it)
@@ -172,8 +175,8 @@ zero-mode density at the tip):
 | L | 3 | 3.5 | 4 | 4.5 | 5 | 5.5 | 6 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | N = 8 | 0.01946 | 0.002638 | 0.0003572 | 4.835e-5 | 6.544e-6 | 8.857e-7 | 1.199e-7 |
-| N = 136 | 0.0009298 | 0.0001253 | 2.967e-5 | 1.492e-5 | 6.456e-6 | 8.856e-7 | 1.199e-7 |
-| N = 688 | 0.0001846 | 2.223e-5 | 1.512e-6 | 3.851e-8 | 2.515e-9 | 1.607e-10 | 1.008e-11 |
+| N = 136 | 0.0009298 | 0.0001251 | 2.965e-5 | 1.491e-5 | 6.456e-6 | 8.856e-7 | 1.199e-7 |
+| N = 688 | 0.0001846 | 2.223e-5 | 1.511e-6 | 3.845e-8 | 2.512e-9 | 1.605e-10 | 1.007e-11 |
 
 All 18 recalibrated states converge at every $L$ (no SCF failure). For 16 of them $E_{KS}(\lambda_1(L)) -
 E_{KS}(0)$ falls with $\lambda_1(L)$ (figure 4), so their large-$L$ values are the free values of section 4.2: the
