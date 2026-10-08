@@ -147,6 +147,21 @@ and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_rest
 wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
 their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
 
+### 0.4v STATE 2026-10-08 ~15:10 (phase 3c-rev fixers done or finishing; follow-up round planned)
+
+Committed: chapter-23 kit (36f7fce), 21d words list + check_chapter --book --wide-page-numbers (b0bae4b), Revision/workflows LF
+(the fixer's extra Revision/workflows/.gitattributes was dropped: fix-verifier option a).  Uncommitted fixer edits in the tree:
+Revision/docs (4 docs rebuilt + registered), gkd_lovelock/comparison (extractor root + no $Version; LOVELOCK_GKD.md 8.2 sha256
+quote still old -> test_lovelock_gkd_publication fails until fixed), verify_revision twins + test_revision_gate + README (gate
+failure path, precheck exit 3), Revision/notebooks (lovelock_gkd cargo target).  The docs fixer saw only 8 of 15 findings (task
+text cut at 60000 chars): the 5 unhandled ones are in <scratchpad>/phase3c2/docs_missed_findings.json; every fixer/verifier open
+item is in <scratchpad>/phase3c2/phase3c_rev_open_items.json.  Follow-up round (phase 3c-rev2): generator texts (dark_sector,
+theory incl. the 45-min verify_field_theory.wls re-run detached, field_equations_a4 ks_source), ExpandFileName roots of 8 .wls,
+docs (missed findings, LOVELOCK_GKD 8.2, FT abstract, PCP 100/407, fock_quartic in FT 12/15 + README theory row), README
+versions/short-folder note.  Lead: gate steps fock_quartic + tip_convergence, wolframscript 'Failed to open file' = failure, an LF
+test for Revision/, README step counts.  Detached: Stage-4 R1, Stage-5 reference + Rust, whole-book test build
+(<scratchpad>/bookcheck1/, check_chapter --book).
+
 ### 0.4u PENDING LEAD INTEGRATIONS (2026-10-08 ~14:50) - do them in this order, each verified, committed, pushed
 
 1. After phase 3c-rev's fixers: gate steps for Revision/theory/fock_quartic/check_fock_quartic.py (line proposed by its agent:
