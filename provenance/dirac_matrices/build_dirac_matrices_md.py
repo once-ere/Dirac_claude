@@ -1126,19 +1126,25 @@ def main():
                       "P_notebookCompare_reconstructedGamma5NotClifford")
         flags = {k: pr["checks"].get(k) for k in flag_names}
         form = pr["measurements"]["reconstructedGammaX5_form"]
+        literal = pr["measurements"]["cell1058LiteralThisKernel_curvedGammaStatus"]
+        literal_expected = ("{correct, correct, correct, correct, correct, uniform e^{-a4} (wrong), uniform e^{-a4} (wrong), "
+                            "uniform e^{-a4} (wrong)}")
         absG = {j: [[abs(x) for x in r] for r in G[j]] for j in (5, 6)}
         sq_T, sq_abs, mix = mul(G[5], G[5]), mul(absG[5], absG[5]), anti(G[5], absG[5])
         Y1 = add(anti(G[5], absG[6]), anti(absG[5], G[6]))
         Y2 = anti(absG[5], absG[6])
         witness = [(i, j) for i in range(N) for j in range(N) if Y1[i][j] != 0 and abs(Y1[i][j]) >= abs(Y2[i][j])]
         useT16_ok = (all(v is True for v in flags.values()) and "cosh(a4) gamma^j - sinh(a4) |gamma^j|" in form
+                     and literal == literal_expected
                      and eq(sq_T, scal(-1, I)) and eq(sq_abs, I) and is_zero(mix) and is_zero(anti(G[5], G[6]))
                      and len(witness) > 0)
         check("author_useT16_extra_times", useT16_ok,
-              f"cited from the earlier-stage primordial verifier ({PRIM_REPORT}; not re-derived here): "
+              f"cited from the earlier-stage primordial verifier ({PRIM_REPORT}, written by wolfram/Dirac16ComplexPrimordial.wl; "
+              "not re-derived here; it calls the author's input cell 822 'cell 1058'): "
               + ", ".join(f"{k} = {v}" for k, v in flags.items())
-              + f"; its reconstruction of the author's useT16 (input cell 822) for the extra times is '{form}'. Evaluated "
-              "here exactly with the author's T16A (s = sin(6 H x0), the notebook's hidden coordinate): T16A[5]^2 = -I16, "
+              + f"; the useT16 that reproduces the author's stored field equations is, for the extra times, '{form}'; the "
+              f"literal cell evaluated in Wolfram 15.0.1 gives, for the directions x0..x7, {literal}. Evaluated here exactly "
+              "with the author's T16A (s = sin(6 H x0), x0 = the notebook's hidden coordinate): T16A[5]^2 = -I16, "
               "|T16A[5]|^2 = I16 and {T16A[5], |T16A[5]|} = 0, so (gamma'^{x5})^2 = s^(-1/3) (sinh^2 a4 - cosh^2 a4) I16 = "
               "-s^(-1/3) I16, whereas the curved Clifford relation needs g^{x5 x5} I16 = -s^(-1/3) e^(2 a4) I16; and "
               "{gamma'^{x5}, gamma'^{x6}} = s^(-1/3) sinh a4 (-cosh a4 Y1 + sinh a4 Y2) (since {T5, T6} = 0) with "
@@ -1150,7 +1156,7 @@ def main():
     # ---- 9. every gamma source of the repository, loaded or constructed now and compared
     Sx = lambda a, b: S[(COORD_TO_A[a], COORD_TO_A[b])]  # noqa: E731  (coordinate order x1..x8)
     eta_x = [eta[COORD_TO_A[k]] for k in IDX]
-    sources = []   # (check name, source, kind, read by, compared, coordinate map, result)
+    sources = []   # dicts: name, source, kind, readers, compared, cmap, result, cls ("equal", "reads", "equivalent")
     status = {}    # measured facts used in the text
 
     def grouped(names):
@@ -1162,42 +1168,46 @@ def main():
         return "; ".join((f"{h}: " if h else "") + ", ".join(v) for h, v in groups.items())
 
     def compare(name, source, kind, readers, items, cmap):
+        """Every item is a comparison of a matrix (or a set of matrices) of the source with the author's: entry by entry."""
         fails = [k for k, ok_ in items if not ok_]
         shown = grouped([k for k, _ in items])
-        sources.append((name, source, kind, readers, shown, cmap, "equal entry by entry" if not fails else f"DIFFER: {fails}"))
+        sources.append(dict(name=name, source=source, kind=kind, readers=readers, compared=shown, cmap=cmap, cls="equal",
+                            result="equal entry by entry" if not fails else f"DIFFER: {fails}"))
         return check(name, not fails,
-                     f"{source} ({kind}): {shown}: equal to the author's matrices entry by "
+                     f"{source} ({kind}): {shown}: each equal to the author's matrices entry by "
                      f"entry ({cmap})" + ("" if not fails else f"; DIFFER: {fails}"))
 
-    def relation(Y, C_Y=None):
+    def record(name, source, kind, readers, compared, cmap, ok, text, cls):
+        sources.append(dict(name=name, source=source, kind=kind, readers=readers, compared=compared, cmap=cmap, cls=cls,
+                            result=text))
+        return check(name, ok, f"{source} ({kind}): {compared}: {text} ({cmap})")
+
+    def relation(Y, label, C_Y=None):
         """How eight matrices Y_A (notebook frame order) relate to the author's Gamma_A.  Returns (ok, equal, text):
         equal entry by entry, or an exact invertible intertwiner K (Y_A K = K Gamma_A, K^T K = c I16, c > 0) and, if
         C_Y is given, C_Y = K sigma16 K^T / c."""
         same = [A for A in IDX if eq(Y[A], G[A])]
         if len(same) == 8:
             ok = C_Y is None or eq(C_Y, sigma16)
-            return ok, True, "equal entry by entry" + ("" if C_Y is None else "; its C equals sigma16")
+            return ok, True, "equal entry by entry" + ("" if C_Y is None else "; its C equals sigma16"), 1
         diff = [sum(1 for r, s in zip(Y[A], G[A]) for x, y in zip(r, s) if x != y) for A in IDX]
         K = find_intertwiner(Y, prods)
         if K is None:
-            return False, False, f"NOT equal (Y_A = Gamma_A only for A in {same}) and no intertwiner was found"
+            return False, False, f"NOT equal (only for A in {same}) and no intertwiner was found", None
         inter = all(eq(mul(Y[A], K), mul(K, G[A])) for A in IDX)
         KtK = mul(tr(K), K)
         c = KtK[0][0]
-        ortho = eq(KtK, scal(c, I)) and c > 0
-        ok = inter and ortho
+        ok = inter and eq(KtK, scal(c, I)) and c > 0
         cy = ""
         if C_Y is not None:
             ok = ok and eq(scal(c, C_Y), mulall(K, sigma16, tr(K)))
             cy = f"; its C = K sigma16 K^T / {c}"
-        return ok, False, (f"NOT equal entry by entry (Y_A = Gamma_A only for A in {same}; differing entries per matrix "
-                           f"A = 0..7: {diff}); EQUIVALENT: an exact K with Y_A K = K Gamma_A for all eight A, K^T K = {c} I16 "
-                           f"(K / sqrt({c}) is orthogonal; K has {nnz(K)} nonzero entries), unique up to a factor (Lemma C)"
-                           f"{cy}; so every bilinear is the same as with the author's matrices (Lemma D)")
-
-    def record_relation(name, source, kind, readers, compared, cmap, ok, text):
-        sources.append((name, source, kind, readers, compared, cmap, text))
-        return check(name, ok, f"{source} ({kind}): {compared}: {text} ({cmap})")
+        which = "for no A" if not same else f"only for A in {same}"
+        return ok, False, (f"NOT equal entry by entry ({label}_A = Gamma_A {which}; differing entries per matrix "
+                           f"A = 0..7: {diff}); EQUIVALENT: an exact K with {label}_A K = K Gamma_A for all eight A, "
+                           f"K^T K = {c} I16 (K / sqrt({c}) is orthogonal; K has {nnz(K)} nonzero entries), unique up to "
+                           f"a factor (Lemma C){cy}; so every bilinear has the same coefficients as with the author's "
+                           "matrices (Lemma D)"), c
 
     gj_path = ROOT / "Revision/algebra/gammas.json"
     gj_sha = hashlib.sha256(gj_path.read_bytes()).hexdigest()
@@ -1214,12 +1224,13 @@ def main():
                  ("Gamma", eq(int_matrix(fx["Gamma"]), T8)),
                  ("B", eq(int_matrix(fx["B"]["re"]), zeros()) and eq(int_matrix(fx["B"]["im"]), negM5)),
                  ("S", all(eq(frac_matrix(fx["S"][a][b]), Sx(a, b)) for a in IDX for b in IDX))],
-                f"x_k -> Gamma_A with A = 1..7, 0 for k = 1..8; S[a][b] = S^(A(a) A(b)); sha256 {gj_sha[:16]}")
+                f"x_k -> Gamma_A with A = 1..7, 0 for k = 1..8; S[a][b] = S^(A(a) A(b)); B = -i sigma16 Gamma_4; "
+                f"sha256 {gj_sha[:16]}")
     with group("report_Revision_algebra_python_gammas_json"):
         pg = json.loads((ROOT / "Revision/algebra/reports/python-gammas.json").read_text(encoding="utf-8"))
         compare("report_Revision_algebra_python_gammas_json", "Revision/algebra/reports/python-gammas.json",
                 "Revision report of the Python construction, JSON",
-                "Revision/kohn_sham/theory/check_ks_theory.py (preferred input), e.g. textbook notebook 04a",
+                "Revision/kohn_sham/theory/check_ks_theory.py (its preferred input), e.g. textbook notebook 04a",
                 [("coordinates", pg["coordinates"] == [f"x{k}" for k in range(1, 9)]),
                  ("map_coordinate_to_T16_index", pg["map_coordinate_to_T16_index"] == {f"x{k + 1}": COORD_TO_A[k] for k in IDX}),
                  ("eta", pg["eta"] == eta_x),
@@ -1272,81 +1283,81 @@ def main():
                  ("SAB", all(eq(frac_matrix(cp.SAB[a][b]), Sx(a, b)) for a in IDX for b in IDX))],
                 "author_T16() in the notebook frame; GAM, ETA, SAB in the order x1..x8 with x_k -> Gamma_A as above")
 
-    # the a4 field-equation engine (Wolfram) and its Python twin: measured, never assumed
-    status["fe_equal"] = None
+    # the a4 field-equation engine (Wolfram) and its Python checker: measured here, never assumed
+    status["fe_equal"] = status["fe_cmp"] = status["py_own"] = status["py_author"] = None
     with group("Revision_a4_engine_wolfram"):
         fe = wl[FE_KEY]
         FEx = [int_matrix(m) for m in fe["gamma"]]
         FEA = [FEx[A_TO_COORD[A]] for A in IDX]
         derived = {k: fe[k] for k in ("C_is_gamma_x8_x1_x2_x3", "Sab_from_gamma", "GammaCoord_from_gamma", "Omega_from_Sab")}
-        ok, equal, text = relation(FEA, int_matrix(fe["C"]))
-        status["fe_equal"] = equal
-        status["fe_text"] = text
-        record_relation("Revision_a4_engine_wolfram", f"{FE_KEY}: FEGammaFrame, FEC",
-                        "Revision Wolfram construction of the a4 field-equation engine, loaded by "
-                        "extract_repository_wolfram_gammas.wls",
-                        "Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls (writes "
-                        "Revision/field_equations_a4/a4-equations.json and wolfram-a4-report.json)",
-                        "FEGammaFrame (the basis the engine's results are built from: "
-                        + ", ".join(f"{k} = {v}" for k, v in derived.items()) + ")",
-                        "FEGammaFrame in the order x1..x8, x_k -> Gamma_A as above",
-                        ok and all(v is True for v in derived.values()), text)
-        status["fe_cmp"] = None
+        ok, equal, text, c = relation(FEA, "FEGammaFrame", int_matrix(fe["C"]))
+        status["fe_equal"], status["fe_c"] = equal, c
+        record("Revision_a4_engine_wolfram", f"{FE_KEY}: FEGammaFrame, FEC",
+               "Revision Wolfram construction of the a4 field-equation engine, loaded by extract_repository_wolfram_gammas.wls",
+               "Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls (writes Revision/field_equations_a4/"
+               "a4-equations.json and wolfram-a4-report.json)",
+               "FEGammaFrame, the basis the engine's results are built from (measured by the extraction: "
+               + ", ".join(f"{k} = {v}" for k, v in derived.items()) + ")",
+               "FEGammaFrame in the order x1..x8, x_k -> Gamma_A as above",
+               ok and all(v is True for v in derived.values()), text, "equal" if equal else "equivalent")
         if fe.get("comparison_gamma") is not None:
             FCA = [int_matrix(fe["comparison_gamma"][A_TO_COORD[A]]) for A in IDX]
-            ok, equal, text = relation(FCA, int_matrix(fe["comparison_C"]) if fe.get("comparison_C") is not None else None)
-            status["fe_cmp"] = text
-            record_relation("Revision_a4_engine_wolfram_comparison_basis", f"{FE_KEY}: FEGammaFrameComparison",
-                            "the engine's labelled comparison basis", "the engine's own equivalence check",
-                            "FEGammaFrameComparison", "order x1..x8, x_k -> Gamma_A as above", ok, text)
-    status["py_own"] = status["py_author"] = None
+            ok, equal, text, c = relation(FCA, "FEGammaFrameComparison",
+                                       int_matrix(fe["comparison_C"]) if fe.get("comparison_C") is not None else None)
+            status["fe_cmp"] = (equal, c)
+            record("Revision_a4_engine_wolfram_comparison_basis", f"{FE_KEY}: FEGammaFrameComparison",
+                   "the a4 engine's labelled comparison basis", "the engine's own equivalence check",
+                   "FEGammaFrameComparison", "order x1..x8, x_k -> Gamma_A as above", ok, text,
+                   "equal" if equal else "equivalent")
     with group("Revision_a4_engine_python"):
         funcs = [f for f in ("own_rep", "author_rep") if f in defined_functions(FE_PY)]
+        if not funcs:
+            raise ValueError(f"{FE_PY} defines neither own_rep nor author_rep")
         ns, executed = extract_definitions(FE_PY, funcs)
-        status["py_executed"] = executed
+        ran = "only these top-level definitions of the file were executed: " + ", ".join(executed)
         if "own_rep" in funcs:
             own = [int_matrix(m) for m in ns["own_rep"]()]
-            ok, equal, text = relation([own[A_TO_COORD[A]] for A in IDX])
-            status["py_own"] = text
-            record_relation("Revision_a4_python_own_rep", f"{FE_PY}: own_rep()",
-                            "Revision Python construction of the a4 checker (a tensor-product basis built there)",
-                            "the a4 checker's spinor lemmas (checks named ownrep_*)",
-                            "own_rep() (executed alone: " + ", ".join(executed) + ")",
-                            "returned in the order x1..x8, x_k -> Gamma_A as above", ok, text)
+            ok, equal, text, c = relation([own[A_TO_COORD[A]] for A in IDX], "own_rep")
+            status["py_own"] = (equal, c)
+            record("Revision_a4_python_own_rep", f"{FE_PY}: own_rep()",
+                   "Revision Python construction in the a4 checker (a tensor-product basis built there)",
+                   "the a4 checker's spinor lemmas (checks named ownrep_*)", f"own_rep() ({ran})",
+                   "returned in the order x1..x8, x_k -> Gamma_A as above", ok, text, "equal" if equal else "equivalent")
         if "author_rep" in funcs:
             arep = ns["author_rep"]()
             if arep is None:
                 check("Revision_a4_python_author_rep", False, f"{FE_PY}: author_rep() returned None (gammas.json not found)")
             else:
                 au = [int_matrix(m) for m in arep]
-                ok, equal, text = relation([au[A_TO_COORD[A]] for A in IDX])
-                status["py_author"] = text
-                record_relation("Revision_a4_python_author_rep", f"{FE_PY}: author_rep()",
-                                "Revision Python reader of gammas.json in the a4 checker",
-                                "the a4 checker's spinor lemmas in the author's T16 (checks named authorT16_*)",
-                                "author_rep()", "returned in the order x1..x8, x_k -> Gamma_A as above",
-                                ok and equal, text)
-        if not funcs:
-            check("Revision_a4_python_representations", False, f"{FE_PY} defines neither own_rep nor author_rep")
+                ok, equal, text, c = relation([au[A_TO_COORD[A]] for A in IDX], "author_rep")
+                status["py_author"] = (equal, c)
+                record("Revision_a4_python_author_rep", f"{FE_PY}: author_rep()",
+                       "Revision Python reader of gammas.json in the a4 checker",
+                       "the a4 checker's spinor lemmas in the author's T16 (checks named authorT16_*)",
+                       f"author_rep() ({ran})", "returned in the order x1..x8, x_k -> Gamma_A as above",
+                       ok and equal, text, "equal" if equal else "equivalent")
     with group("Revision_rust_solver_reads_gammas_json"):
         rs = (ROOT / "Revision/kohn_sham/solver/src/theory.rs").read_text(encoding="utf-8")
         rrep = json.loads((ROOT / "Revision/kohn_sham/reports/ks-rust-solver.json").read_text(encoding="utf-8"))
         rchk = next((c for c in rrep.get("checks", []) if c.get("name") == "gamma_fixture_numeric"), None)
         eta_lit = re.search(r"\[\s*1\.0,\s*1\.0,\s*1\.0,\s*-1\.0,\s*-1\.0,\s*-1\.0,\s*-1\.0,\s*1\.0\s*\]", rs)
-        compare("Revision_rust_solver_reads_gammas_json",
-                "Revision/kohn_sham/solver/src/theory.rs and its committed report Revision/kohn_sham/reports/ks-rust-solver.json",
-                "Revision Rust solver (reads the fixture; no matrix of its own)", "the Revision Kohn-Sham solver",
-                [("reads Revision/algebra/gammas.json", '"Revision/algebra/gammas.json"' in rs),
-                 ('reads its fields "gamma", "C", "B"', all(f'get("{k}")' in rs for k in ("gamma", "C", "B"))),
-                 ("eta = [1, 1, 1, -1, -1, -1, -1, 1] in the order x1..x8 (= the fixture's eta)",
+        items = [("theory.rs reads Revision/algebra/gammas.json", '"Revision/algebra/gammas.json"' in rs),
+                 ('it takes the fields "gamma", "C", "B" of that file', all(f'get("{k}")' in rs for k in ("gamma", "C", "B"))),
+                 ("its eta literal [1, 1, 1, -1, -1, -1, -1, 1] is the fixture's eta in the order x1..x8",
                   eta_lit is not None and fx["eta"] == [1, 1, 1, -1, -1, -1, -1, 1]),
-                 (f"report: gamma_fixture_numeric = PASS for sha256 {gj_sha[:16]} (the gammas.json compared above)",
-                  rchk is not None and rchk.get("verdict") == "PASS" and f"sha256 {gj_sha[:16]}" in rchk.get("detail", ""))],
-                "the solver indexes gamma in the order x1..x8 of the fixture")
+                 (f"its committed report records gamma_fixture_numeric = PASS for sha256 {gj_sha[:16]}, the gammas.json "
+                  "compared above", rchk is not None and rchk.get("verdict") == "PASS"
+                  and f"sha256 {gj_sha[:16]}" in rchk.get("detail", ""))]
+        fails = [k for k, v in items if not v]
+        record("Revision_rust_solver_reads_gammas_json",
+               "Revision/kohn_sham/solver/src/theory.rs, Revision/kohn_sham/reports/ks-rust-solver.json",
+               "Revision Rust solver: reads the fixture, holds no matrix of its own", "the Revision Kohn-Sham solver",
+               "; ".join(k for k, _ in items), "gamma in the order x1..x8 of the fixture", not fails,
+               "reads the compared gammas.json (equal to the author's matrices)" if not fails else f"FAILED: {fails}", "reads")
     with group("old_stage_fixture_algebra_fixture_json"):
         af = json.loads((ROOT / "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json").read_text(encoding="utf-8"))
         compare("old_stage_fixture_algebra_fixture_json", "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json",
-                "earlier-stage fixture, JSON (fields gamma, C, chirality, S, B, eta, sigma8, tau, taubar)",
+                "earlier-stage fixture, JSON (the physics fields)",
                 "e.g. wolfram/Dirac16Complex00.wl, scripts/check_dirac16complex*.py, scripts/generate_dirac16complex_constants.py "
                 "(Rust constants), notebooks/*.py",
                 [("eta", eq(af["eta"], eta8)), ("sigma8", eq(af["sigma8"], sigma8)),
@@ -1357,32 +1368,13 @@ def main():
                  ("S", len(af["S"]) == 28 and all(eq(frac_matrix(e["matrix"]), S[(e["a"], e["b"])]) and e["a"] < e["b"] for e in af["S"])),
                  ("B", eq(af["B"]["real"], zeros()) and eq(af["B"]["imag"], negM5))],
                 "notebook frame A = 0..7, no map")
-    with group("old_stage_fixture_other_pictures"):
-        gc, go = af["gammaClifford"], af["gammaOctonion"]
-        Kc, Ko = af["K_clifford"], af["K_octonion"]
-        same_c = [A for A in IDX if eq(gc[A], G[A])]
-        same_o = [A for A in IDX if eq(go[A], G[A])]
-        KcK, KoK = mul(tr(Kc), Kc), mul(tr(Ko), Ko)
-        cc, co = KcK[0][0], KoK[0][0]
-        other_ok = (all(eq(mul(gc[A], Kc), mul(Kc, G[A])) for A in IDX) and eq(KcK, scal(cc, I)) and cc > 0
-                    and all(eq(mul(G[A], Ko), mul(Ko, go[A])) for A in IDX) and eq(KoK, scal(co, I)) and co > 0)
-        text = (f"NOT equal entry by entry (gammaClifford_A = Gamma_A only for A in {same_c}, gammaOctonion_A = Gamma_A only "
-                f"for A in {same_o}); EQUIVALENT through the stored intertwiners: gammaClifford_A K_clifford = K_clifford "
-                f"Gamma_A with K_clifford^T K_clifford = {cc} I16, and Gamma_A K_octonion = K_octonion gammaOctonion_A with "
-                f"K_octonion^T K_octonion = {co} I16, for all eight A. COMPARISON-ONLY bases (used to compute and teach the "
-                "intertwiners, not for physics)")
-        record_relation("old_stage_fixture_other_pictures", "algebra-fixture.json: gammaClifford, gammaOctonion",
-                        "earlier-stage fixture, two OTHER bases of Cl(4,4)",
-                        "scripts/check_dirac16complex_algebra.py and its tests (equivalence checks)",
-                        "gammaClifford (dirac-main tensor products), gammaOctonion (split octonions), K_clifford, K_octonion",
-                        "notebook frame A = 0..7, no map", other_ok, text)
     with group("old_stage_construction"):
         d16 = load_module("scripts/d16c_exact.py", "d16c_exact")
         old = d16.notebook_gammas()
         old_tau = d16.notebook_tau()
         compare("old_stage_construction", "scripts/d16c_exact.py: notebook_gammas(), notebook_tau(), notebook_taubar(), "
-                "charge_matrix(), chirality(), spin_generator(); tensor_gammas(), octonion_gammas()",
-                "earlier-stage Python construction (also the producer of algebra-fixture.json)",
+                "charge_matrix(), chirality(), spin_generator()",
+                "earlier-stage Python construction (the producer of algebra-fixture.json)",
                 "e.g. scripts/build_dirac16complex_fixture.py, scripts/check_dirac16complex_algebra.py, "
                 "scripts/check_dirac16complex00.py, tests/test_d16c_algebra.py",
                 [("gamma", all(eq(int_matrix(old[A]), G[A]) for A in IDX)),
@@ -1390,12 +1382,8 @@ def main():
                  ("taubar", all(eq(int_matrix(m), taubar[A]) for A, m in enumerate(d16.notebook_taubar(old_tau)))),
                  ("C", eq(int_matrix(d16.charge_matrix(old)), sigma16)),
                  ("chirality", eq(int_matrix(d16.chirality(old)), T8)),
-                 ("S", all(eq(frac_matrix(d16.spin_generator(old, a, b)), S[(a, b)]) for a, b in pairs)),
-                 ("tensor_gammas() = the fixture's gammaClifford (comparison-only)",
-                  all(eq(int_matrix(m), gc[A]) for A, m in enumerate(d16.tensor_gammas()))),
-                 ("octonion_gammas() = the fixture's gammaOctonion (comparison-only)",
-                  all(eq(int_matrix(m), go[A]) for A, m in enumerate(d16.octonion_gammas())))],
-                "notebook frame A = 0..7, no map; the two comparison-only bases are compared with the fixture's copies")
+                 ("S", all(eq(frac_matrix(d16.spin_generator(old, a, b)), S[(a, b)]) for a, b in pairs))],
+                "notebook frame A = 0..7, no map")
     with group("old_stage_python_constructions"):
         prim = load_module("scripts/check_dirac16complex_primordial.py", "check_dirac16complex_primordial").notebook_gammas()
         ma = load_module("scripts/check_dirac16complex_matter_antimatter.py", "check_dirac16complex_matter_antimatter").contract_gammas()
@@ -1467,16 +1455,37 @@ def main():
                 wl_items.append((f"{name}: B", eq(d["B_re"], zeros()) and eq(d["B_im"], negM5)))
             if "twice_Pminus" in d:
                 wl_items.append((f"{name}: P_-, P_+", eq(d["twice_Pminus"], nbd["twice_PL"]) and eq(d["twice_Pplus"], nbd["twice_PR"])))
-        cb = wl["wolfram/Dirac16ComplexAlgebra.wl (comparison-only bases)"]
-        wl_items.append(("Dirac16ComplexAlgebra.wl: D16CliffordPictureGammas, D16KClifford, D16OctonionGammas, D16KOctonion "
-                         "(comparison-only) = the fixture's gammaClifford, K_clifford, gammaOctonion, K_octonion",
-                         all(eq(cb["clifford_gamma"][A], gc[A]) and eq(cb["octonion_gamma"][A], go[A]) for A in IDX)
-                         and eq(cb["K_clifford"], Kc) and eq(cb["K_octonion"], Ko)))
         compare("old_stage_wolfram_packages", "wolfram/Dirac16Complex{Algebra, Geometry, Primordial, KohnSham, Pairing, "
                 "MatterAntimatter, 00}.wl", "earlier-stage Wolfram constructions (each builds its own copy; Dirac16Complex00 "
                 "takes its gammas from Geometry), loaded by extract_repository_wolfram_gammas.wls",
-                "e.g. the earlier-stage scripts/verify_dirac16complex*.wls", wl_items,
-                "notebook frame A = 0..7, no map; the comparison-only bases are compared with the fixture's copies")
+                "e.g. the earlier-stage scripts/verify_dirac16complex*.wls", wl_items, "notebook frame A = 0..7, no map")
+    with group("old_stage_comparison_only_bases"):
+        gc, go = af["gammaClifford"], af["gammaOctonion"]
+        Kc, Ko = af["K_clifford"], af["K_octonion"]
+        same_c = [A for A in IDX if eq(gc[A], G[A])]
+        same_o = [A for A in IDX if eq(go[A], G[A])]
+        KcK, KoK = mul(tr(Kc), Kc), mul(tr(Ko), Ko)
+        cc, co = KcK[0][0], KoK[0][0]
+        cb = wl["wolfram/Dirac16ComplexAlgebra.wl (comparison-only bases)"]
+        copies_ok = (all(eq(int_matrix(m), gc[A]) for A, m in enumerate(d16.tensor_gammas()))
+                     and all(eq(int_matrix(m), go[A]) for A, m in enumerate(d16.octonion_gammas()))
+                     and all(eq(cb["clifford_gamma"][A], gc[A]) and eq(cb["octonion_gamma"][A], go[A]) for A in IDX)
+                     and eq(cb["K_clifford"], Kc) and eq(cb["K_octonion"], Ko))
+        other_ok = (copies_ok and all(eq(mul(gc[A], Kc), mul(Kc, G[A])) for A in IDX) and eq(KcK, scal(cc, I)) and cc > 0
+                    and all(eq(mul(G[A], Ko), mul(Ko, go[A])) for A in IDX) and eq(KoK, scal(co, I)) and co > 0)
+        text = (f"NOT equal entry by entry (gammaClifford_A = Gamma_A only for A in {same_c}, gammaOctonion_A = Gamma_A only "
+                f"for A in {same_o}); EQUIVALENT through the stored intertwiners: gammaClifford_A K_clifford = K_clifford "
+                f"Gamma_A with K_clifford^T K_clifford = {cc} I16, and Gamma_A K_octonion = K_octonion gammaOctonion_A with "
+                f"K_octonion^T K_octonion = {co} I16, for all eight A; the Python and Wolfram copies equal the fixture's "
+                "entry by entry. COMPARISON-ONLY bases: used to compute and teach the intertwiners, not for physics")
+        record("old_stage_comparison_only_bases",
+               "algebra-fixture.json: gammaClifford, gammaOctonion, K_clifford, K_octonion; scripts/d16c_exact.py: "
+               "tensor_gammas(), octonion_gammas(); wolfram/Dirac16ComplexAlgebra.wl: D16CliffordPictureGammas, D16KClifford, "
+               "D16OctonionGammas, D16KOctonion",
+               "earlier-stage, two OTHER bases of Cl(4,4) (dirac-main tensor products, split octonions), named as "
+               "comparison-only", "scripts/check_dirac16complex_algebra.py and its tests (equivalence checks)",
+               "the two bases and their intertwiners, and the Python and Wolfram copies against the fixture's",
+               "notebook frame A = 0..7, no map", other_ok, text, "equivalent")
 
     failed = [c for c in CHECKS if not c[1]]
     if failed:
@@ -1485,7 +1494,7 @@ def main():
 
     # ------------------------------------------------------------------- write the Markdown
     n_checks = len(CHECKS)
-    n_equal = sum(1 for s in sources if s[6] == "equal entry by entry")
+    by_cls = Counter(src["cls"] for src in sources)
     wl_version = nbd["wolfram_version"]
     packages = wl.get("packages_loaded", [k for k in wl if k.endswith(".wl")])
     L = []
@@ -1493,34 +1502,41 @@ def main():
     w("# Dirac matrices: the eight real 16 x 16 Dirac matrices of the author's notebook")
     w("")
     w(f"Provenance file.  Generated by `provenance/dirac_matrices/build_dirac_matrices_md.py` from the author's "
-      f"notebook `{NOTEBOOK}` (read only, never modified).  Do not edit by hand: re-run the three commands below.")
+      f"notebook `{NOTEBOOK}` (read only, never modified).  Do not edit by hand: re-run the first three commands below.")
     w("")
     w("## Answer in one paragraph")
     w("")
-    fe_equal = status["fe_equal"]
-    if fe_equal:
+    if status["fe_equal"]:
         verdict = ("**Instruction followed: yes.** Every calculation examined here uses eight real-valued 16 x 16 Dirac "
                    "matrices that satisfy the Clifford relations of Cl(4,4), and every one of them uses the author's own "
                    "matrices Gamma_A = T16A[A] (A = 0..7), equal entry by entry, including the a4 field-equation engine "
-                   f"`{FE_KEY}` (FEGammaFrame equals the author's matrices). ")
-        if status.get("fe_cmp"):
-            verdict += ("The engine keeps its earlier tensor-product basis only as a labelled comparison basis "
-                        "FEGammaFrameComparison (equivalent, not equal; see the table below). ")
+                   f"`{FE_KEY}`, whose basis FEGammaFrame equals the author's matrices (measured when this file was "
+                   "generated). ")
+        if status["fe_cmp"] is not None:
+            verdict += ("The engine also holds a labelled comparison basis FEGammaFrameComparison"
+                        + (" (equal to the author's matrices). " if status["fe_cmp"][0] else
+                           f" (not equal to the author's matrices, equivalent to them: K^T K = {status['fe_cmp'][1]} I16). "))
     else:
         verdict = ("**Instruction followed: not completely.** Every calculation examined here uses eight real-valued "
-                   "16 x 16 matrices that satisfy the Clifford relations of Cl(4,4), and every one of them except one uses "
-                   "the author's own matrices Gamma_A = T16A[A] (A = 0..7), equal entry by entry. The exception is the a4 "
-                   f"field-equation engine `{FE_KEY}`: it builds its results from its own basis FEGammaFrame "
-                   "(Cl(1,1)^(x)4, Kronecker products of 2 x 2 blocks), which is NOT the author's T16 but is equivalent to "
-                   "it: there is an exact K with FEGammaFrame_A K = K Gamma_A, K^T K = c I16 with c > 0, unique up to a "
-                   "factor (Lemma C), so every bilinear the engine computes has the same coefficients as with the "
-                   "author's matrices (Lemma D). This departs from Revision/SPEC.md section 2, which requires the "
-                   "author's T16 in Revision code: in this one calculation the instruction was not followed, although no "
-                   "result changes. ")
-    if status.get("py_own"):
-        verdict += ("The a4 Python checker `" + FE_PY + "` runs its spinor lemmas in its own tensor-product basis own_rep() "
-                    "(not equal to the author's matrices, equivalent to them: K^T K = c I16)"
-                    + (" and in the author's T16 read from gammas.json" if status.get("py_author") else "") + ". ")
+                   "16 x 16 matrices that satisfy the Clifford relations of Cl(4,4), and every one of them uses the "
+                   "author's own matrices Gamma_A = T16A[A] (A = 0..7), equal entry by entry, except one: the a4 "
+                   f"field-equation engine `{FE_KEY}` (Revision/SPEC.md section 5). It builds its results from its own "
+                   "basis FEGammaFrame, built in the engine itself, which is NOT the author's T16 (measured when this file "
+                   "was generated) but is equivalent to it: there is an exact K with FEGammaFrame_A K = K Gamma_A and "
+                   f"K^T K = {status['fe_c']} I16, unique up to a factor (Lemma C), so every bilinear, Lagrangian and field "
+                   "equation the engine computes has the same coefficients as with the author's matrices (Lemma D). This "
+                   "departs from Revision/SPEC.md section 2, which requires the author's T16 in Revision code: in this one "
+                   "calculation that instruction was not followed, although no result changes. ")
+    if status["py_own"] is not None or status["py_author"] is not None:
+        parts = []
+        if status["py_own"] is not None:
+            parts.append("its own tensor-product basis own_rep() ("
+                         + ("equal to the author's matrices" if status["py_own"][0] else
+                            f"not equal to the author's matrices, equivalent to them: K^T K = {status['py_own'][1]} I16") + ")")
+        if status["py_author"] is not None:
+            parts.append("the author's T16 read from gammas.json by author_rep() (equal)")
+        verdict += (f"The a4 Python checker `{FE_PY}` runs its spinor lemmas in " + " and in ".join(parts)
+                    + ("; by Lemma D both give the same coefficients. " if len(parts) == 2 else ". "))
     w(verdict
       + "The matrices themselves come from the author's input cells, evaluated directly from the `.nb` file in the "
       "author's order (nothing re-typed; the author's Notation-package symbols are emulated, see Source), and they "
@@ -1540,11 +1556,12 @@ def main():
       "La[], Lj[] and the field equations eLa through sigma16, SAB and the curved matrices T16alpha = e_A^alpha T16A "
       "(traced below); P_L and P_R enter only the author's checks; the author's derived coordinate matrices for the extra "
       "times (useT16, input cell 822) are not a Clifford set (cited from the earlier-stage primordial verifier and "
-      "re-evaluated here), which does not affect the eight matrices. "
-      f"The {len(sources)} gamma sources of the repository listed below were loaded or constructed at build time and "
-      f"compared: {n_equal} are equal to the author's matrices entry by entry (coordinate map x8 -> Gamma_0, x1..x3 -> "
-      "Gamma_1..3, x4 -> Gamma_4, x5..x7 -> Gamma_5..7), and each of the others is a different basis with an exact "
-      "invertible intertwiner, named in the table. The textbook notebooks under Revision/textbook/ (owned by another "
+      "re-evaluated here); this concerns those derived matrices, not the eight matrices, and the Revision calculations "
+      f"do not use them. The {len(sources)} gamma sources of the repository in the table below were loaded or "
+      f"constructed when this file was generated and compared: {by_cls['equal']} are equal to the author's matrices "
+      "entry by entry (coordinate map x8 -> Gamma_0, x1..x3 -> Gamma_1..3, x4 -> Gamma_4, x5..x7 -> Gamma_5..7), "
+      f"{by_cls['reads']} reads the compared fixture, and {by_cls['equivalent']} are different bases with an exact "
+      "invertible intertwiner (named in the table). The textbook notebooks under Revision/textbook/ (owned by another "
       "workflow and still being written) are not compared here. The matrices are real; the fields are not required to "
       "be: the author's Psi16 has commuting function components, and Revision/SPEC.md uses the same matrices for a "
       f"complex Grassmann field Psi and a complex commuting field Phi. All {n_checks} exact checks pass.")
@@ -1871,8 +1888,9 @@ def main():
     w("")
     w("| check | source | kind | read by (examples) | compared | coordinate map | result |")
     w("|---|---|---|---|---|---|---|")
-    for name, source, kind, readers, shown, cmap, result in sources:
-        w(f"| `{name}` | `{source}` | {kind} | {readers} | {shown.replace('|', '/')} | {cmap} | {result} |".replace("\n", " "))
+    for src in sources:
+        w(f"| `{src['name']}` | `{src['source']}` | {src['kind']} | {src['readers']} | "
+          f"{src['compared'].replace('|', '/')} | {src['cmap']} | {src['result']} |".replace("\n", " "))
     w("")
     w("## Calculations that use these matrices")
     w("")

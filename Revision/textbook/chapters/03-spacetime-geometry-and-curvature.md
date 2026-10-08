@@ -10,7 +10,7 @@ The author's metric is the following diagonal $8 \times 8$ matrix, in the order 
 
 $$
 \begin{aligned}
-g = \mathrm{diag}\bigl(&e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ -1,\
+g = \mathrm{diag}\bigl(&e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\ -1,\\
 &-e^{-2a_4}\sin^{1/3}z,\ -e^{-2a_4}\sin^{1/3}z,\ -e^{-2a_4}\sin^{1/3}z,\ \cot^2 z\bigr),\qquad z = 6Hx_8 .
 \end{aligned}
 $$
@@ -2340,7 +2340,7 @@ $$
 R^j{}_{j'jj'} = \Gamma^j{}_{j4}\Gamma^4{}_{j'j'} + \Gamma^j{}_{j8}\Gamma^8{}_{j'j'} = (-a_4')\cdot a_4'h_{j'}^2 + H\cot z\cdot H\tan z\,h_{j'}^2 = (H^2 - a_4'^2)\,h_{j'}^2
 $$
 
-(the same reasoning as in (1)), so $K(j, j') = g^{j'j'}(H^2 - a_4'^2)h_{j'}^2 = a_4'^2 - H^2$ (with $g^{j'j'} = -1/h_{j'}^2$).
+($\Gamma^j{}_{j'j'} = \Gamma^j{}_{j'j} = 0$ because $j' \ne j$, so both derivative terms vanish; in $\sum_e\Gamma^j{}_{je}\Gamma^e{}_{j'j'}$ only $e = x_4$ and $e = x_8$ survive; every $\Gamma^j{}_{j'e}$ is zero; $\cot z\tan z = 1$), so $K(j, j') = g^{j'j'}(H^2 - a_4'^2)h_{j'}^2 = a_4'^2 - H^2$ (with $g^{j'j'} = -1/h_{j'}^2$).
 
 (3) A 3-space direction $i$ and an extra time $j$ (9 planes):
 
@@ -2348,7 +2348,7 @@ $$
 R^i{}_{jij} = \Gamma^i{}_{i4}\Gamma^4{}_{jj} + \Gamma^i{}_{i8}\Gamma^8{}_{jj} = a_4'\cdot a_4'h_j^2 + H\cot z\cdot H\tan z\,h_j^2 = (a_4'^2 + H^2)\,h_j^2 ,
 $$
 
-so $K(i, j) = g^{jj}(a_4'^2 + H^2)h_j^2 = -(a_4'^2 + H^2)$.
+($\Gamma^i{}_{jj} = \Gamma^i{}_{ji} = 0$, so both derivative terms vanish; in $\sum_e\Gamma^i{}_{ie}\Gamma^e{}_{jj}$ only $e = x_4$ and $e = x_8$ survive; every $\Gamma^i{}_{je}$ is zero; $\cot z\tan z = 1$), so $K(i, j) = g^{jj}(a_4'^2 + H^2)h_j^2 = -(a_4'^2 + H^2)$ (with $g^{jj} = -1/h_j^2$).
 
 (4) A 3-space direction $i$ and the time $x_4$ (3 planes):
 
@@ -2364,7 +2364,7 @@ $$
 R^j{}_{4j4} = -\partial_4\Gamma^j{}_{4j} - (\Gamma^j{}_{4j})^2 = -\partial_4(-a_4') - (-a_4')^2 = a_4'' - a_4'^2
 $$
 
-(the same steps as in (4)), so $K(j, 4) = -(a_4'' - a_4'^2) = a_4'^2 - a_4''$.
+(the formula with $a = j$, $b = x_4$: $\partial_j\Gamma^j{}_{44} = 0$; every $\Gamma^e{}_{44}$ is zero; in the last sum only $e = j$ survives; $\partial_4(-a_4') = -a_4''$), so $K(j, 4) = g^{44}(a_4'' - a_4'^2) = a_4'^2 - a_4''$ (with $g^{44} = -1$).
 
 (6) A transverse direction $k$ and the hidden direction $x_8$ (6 planes):
 
@@ -2426,7 +2426,7 @@ $$
 R^{4i}{}_{8i} = +Ha_4'\cot z, \qquad R^{4j}{}_{8j} = -Ha_4'\cot z
 $$
 
-(with $g^{ii} = +1/h_i^2$ and $g^{jj} = -1/h_j^2$). In the same way
+(with $g^{ii} = +1/h_i^2$ and $g^{jj} = -1/h_j^2$). Next, the components with the upper index $x_8$:
 
 $$
 R^8{}_{k4k} = \partial_4\Gamma^8{}_{kk} - \partial_k\Gamma^8{}_{k4} + \sum_e\Gamma^8{}_{4e}\Gamma^e{}_{kk} - \sum_e\Gamma^8{}_{ke}\Gamma^e{}_{k4} = \partial_4\Gamma^8{}_{kk} - \Gamma^8{}_{kk}\Gamma^k{}_{k4}
@@ -2474,7 +2474,7 @@ $$
 
 $$
 \begin{aligned}
-R^4{}_8 &= \sum_i R^{4i}{}_{8i} + \sum_j R^{4j}{}_{8j} = 3Ha_4'\cot z - 3Ha_4'\cot z = 0,\
+R^4{}_8 &= \sum_i R^{4i}{}_{8i} + \sum_j R^{4j}{}_{8j} = 3Ha_4'\cot z - 3Ha_4'\cot z = 0,\\
 R^8{}_4 &= \sum_i R^{8i}{}_{4i} + \sum_j R^{8j}{}_{4j} = -3Ha_4'\tan z + 3Ha_4'\tan z = 0
 \end{aligned}
 $$
@@ -2905,7 +2905,7 @@ check(point_text in rust_report["checks"]["k1_brute_force_numeric"]["detail"],
 H_n, a0, a1, a2, x8_n = 0.23, 0.17, 0.61, -0.37, 0.41  # the test point
 ```
 
-The report of the Rust program is read. Its check `k1_brute_force_numeric` names its test point in a text that writes $H = 0.23$, $a_4 = 0.17$, $a_4' = 0.61$, $a_4'' = -0.37$ and $x_8 = 0.41$, with one apostrophe for each prime (the line `point_text` builds exactly this text). `chr(39)` is the character number 39, the apostrophe; the notebook builds it this way instead of typing it, because a typed straight apostrophe would be printed as a curly one in the book. The check confirms that the record contains exactly this text. The five numbers are then named.
+The report of the Rust program is read. Its check `k1_brute_force_numeric` names its test point in a text that writes $H = 0.23$, $a_4 = 0.17$, $a_4' = 0.61$, $a_4'' = -0.37$ and $x_8 = 0.41$, with one apostrophe for each prime (the line `point_text` builds exactly this text). `chr(39)` is the character number 39, the apostrophe, and the f-string puts it after `a4` once for $a_4'$ and twice for $a_4''$ (the comment at the end of the line says so; the book prints a straight apostrophe in code as a curly one, and the character number makes plain which character is meant). The check confirms that the record contains exactly this text. The five numbers are then named.
 
 ```python
 def metric_numbers(x):
@@ -3719,7 +3719,7 @@ $$
 
 $$
 \begin{aligned}
-\frac{du^4}{d\tau} &= -a_4'\sum_i h_i^2(u^i)^2 - a_4'\sum_j h_j^2(u^j)^2,\
+\frac{du^4}{d\tau} &= -a_4'\sum_i h_i^2(u^i)^2 - a_4'\sum_j h_j^2(u^j)^2,\\
 \frac{du^8}{d\tau} &= H\tan z\sum_i h_i^2(u^i)^2 - H\tan z\sum_j h_j^2(u^j)^2 + 6H(\tan z + \cot z)(u^8)^2
 \end{aligned}
 $$
@@ -4560,7 +4560,7 @@ $$
 
 **Exercise 3.** Compute $\Gamma^{x_4}{}_{x_5x_5}$ and $\Gamma^{x_8}{}_{x_5x_5}$ of the author's metric directly from the Christoffel formula, without the four cases.
 
-*Answer.* The formula of Section 3.15 with $a = x_4$, $b = c = x_5$ keeps only $d = x_4$ (the metric is diagonal): $\Gamma^4{}_{55} = \tfrac12 g^{44}(\partial_5 g_{45} + \partial_5 g_{45} - \partial_4 g_{55}) = \tfrac12(-1)(0 + 0 - \partial_4 g_{55}) = \tfrac12\partial_4\bigl(-e^{-2a_4}\sin^{1/3}z\bigr) = \tfrac12\cdot 2a_4'\,e^{-2a_4}\sin^{1/3}z = a_4'\,e^{-2a_4}\sin^{1/3}z$ ($g_{45} = 0$; $g^{44} = -1$; the chain rule, $\partial_4 e^{-2a_4} = -2a_4'e^{-2a_4}$). In the same way with $d = x_8$: $\Gamma^8{}_{55} = -\tfrac12 g^{88}\partial_8 g_{55} = -\tfrac12\tan^2 z\cdot\bigl(-e^{-2a_4}\bigr)\cdot\tfrac13\sin^{-2/3}z\cos z\cdot 6H = H\tan^2 z\,e^{-2a_4}\sin^{-2/3}z\cos z$ ($g^{88} = 1/\cot^2 z = \tan^2 z$; the power rule and the chain rule for $\sin^{1/3}(6Hx_8)$). Since $\tan^2 z\cos z\sin^{-2/3}z = \tan z\cdot\frac{\sin z}{\cos z}\cos z\sin^{-2/3}z = \tan z\sin^{1/3}z$, this is $H\tan z\,e^{-2a_4}\sin^{1/3}z$. Both agree with the table of Section 3.23.
+*Answer.* The formula of Section 3.15 with $a = x_4$, $b = c = x_5$ keeps only $d = x_4$ (the metric is diagonal): $\Gamma^4{}_{55} = \tfrac12 g^{44}(\partial_5 g_{45} + \partial_5 g_{45} - \partial_4 g_{55}) = \tfrac12(-1)(0 + 0 - \partial_4 g_{55}) = \tfrac12\partial_4\bigl(-e^{-2a_4}\sin^{1/3}z\bigr) = \tfrac12\cdot 2a_4'\,e^{-2a_4}\sin^{1/3}z = a_4'\,e^{-2a_4}\sin^{1/3}z$ ($g_{45} = 0$; $g^{44} = -1$; the chain rule, $\partial_4 e^{-2a_4} = -2a_4'e^{-2a_4}$). For $\Gamma^8{}_{55}$ the formula with $a = x_8$, $b = c = x_5$ keeps only $d = x_8$, and the two terms with $g_{85} = 0$ vanish: $\Gamma^8{}_{55} = -\tfrac12 g^{88}\partial_8 g_{55} = -\tfrac12\tan^2 z\cdot\bigl(-e^{-2a_4}\bigr)\cdot\tfrac13\sin^{-2/3}z\cos z\cdot 6H = H\tan^2 z\,e^{-2a_4}\sin^{-2/3}z\cos z$ ($g^{88} = 1/\cot^2 z = \tan^2 z$; the power rule and the chain rule for $\sin^{1/3}(6Hx_8)$). Since $\tan^2 z\cos z\sin^{-2/3}z = \tan z\cdot\frac{\sin z}{\cos z}\cos z\sin^{-2/3}z = \tan z\sin^{1/3}z$, this is $H\tan z\,e^{-2a_4}\sin^{1/3}z$. Both agree with the table of Section 3.23.
 
 **Exercise 4.** (a) By what angle does a vector turn when it is carried once around the equator of a sphere? (b) Show that for a small circle around the pole, $\theta_0 \ll 1$, the turning angle is about $\pi\theta_0^2$, and explain this number.
 

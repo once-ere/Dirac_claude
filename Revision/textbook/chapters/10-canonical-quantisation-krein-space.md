@@ -100,15 +100,16 @@ So the Krein norm $u^\dagger Bu$ is a real number for every column (because $B$ 
 
 **B as a table.** $B$ is $i$ times a real signed permutation matrix: every row has exactly one nonzero entry, $+i$ or $-i$. The following table, computed from the record `Revision/algebra/gammas.json`, gives for every row $r$ the column $c$ of its nonzero entry and its value; so $(Bu)_r = B_{rc}\,u_c$.
 
-| row $r$ | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| column $c$ | 10 | 9 | 12 | 11 | 14 | 13 | 16 | 15 |
-| entry $B_{rc}$ | $+i$ | $-i$ | $-i$ | $+i$ | $-i$ | $+i$ | $+i$ | $-i$ |
-
-| row $r$ | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| column $c$ | 2 | 1 | 4 | 3 | 6 | 5 | 8 | 7 |
-| entry $B_{rc}$ | $+i$ | $-i$ | $-i$ | $+i$ | $-i$ | $+i$ | $+i$ | $-i$ |
+| row $r$ | column $c$ | entry $B_{rc}$ | row $r$ | column $c$ | entry $B_{rc}$ |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 10 | $+i$ | 9 | 2 | $+i$ |
+| 2 | 9 | $-i$ | 10 | 1 | $-i$ |
+| 3 | 12 | $-i$ | 11 | 4 | $-i$ |
+| 4 | 11 | $+i$ | 12 | 3 | $+i$ |
+| 5 | 14 | $-i$ | 13 | 6 | $-i$ |
+| 6 | 13 | $+i$ | 14 | 5 | $+i$ |
+| 7 | 16 | $+i$ | 15 | 8 | $+i$ |
+| 8 | 15 | $-i$ | 16 | 7 | $-i$ |
 
 **Which gammas commute with B.** $B$ is $-i$ times the product of the five gammas of $x_8, x_1, x_2, x_3, x_4$. A gamma among these five passes four different gammas and itself when it is moved through the product, sign $(-1)^4 = +1$: it commutes with $B$. A gamma of $x_5, x_6, x_7$ passes five different gammas, sign $(-1)^5 = -1$: it anticommutes with $B$. Hence $B$ commutes with $\gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)}, \gamma^{(x_4)}, \gamma^{(x_8)}$ and anticommutes with $\gamma^{(x_5)}, \gamma^{(x_6)}, \gamma^{(x_7)}$, and by the same counting $\Gamma B\Gamma = -B$.
 
@@ -185,13 +186,21 @@ The space-like momenta enter with $+$, the extra-time momenta with $-$ (because 
 **Hermitian and anti-Hermitian parts.** A matrix is **Hermitian** if $M^\dagger = M$ and **anti-Hermitian** if $M^\dagger = -M$. Using $(\gamma^{(x_a)})^T = \eta_{aa}\gamma^{(x_a)}$ (Chapter 5):
 
 $$
-(-i\gamma^{(x_4)})^\dagger = i(\gamma^{(x_4)})^T = -i\gamma^{(x_4)},\qquad (\gamma^{(x_4)}\gamma^{(x_a)})^\dagger = (\gamma^{(x_a)})^T(\gamma^{(x_4)})^T = -\eta_{aa}\gamma^{(x_a)}\gamma^{(x_4)} = \eta_{aa}\gamma^{(x_4)}\gamma^{(x_a)} .
+(-i\gamma^{(x_4)})^\dagger = i(\gamma^{(x_4)})^T = -i\gamma^{(x_4)},
+$$
+
+$$
+(\gamma^{(x_4)}\gamma^{(x_a)})^\dagger = (\gamma^{(x_a)})^T(\gamma^{(x_4)})^T = -\eta_{aa}\gamma^{(x_a)}\gamma^{(x_4)} = \eta_{aa}\gamma^{(x_4)}\gamma^{(x_a)} .
 $$
 
 So $-i\gamma^{(x_4)}$ and $\gamma^{(x_4)}\gamma^{(x_a)}$ for the space-like $a = 1, 2, 3, 8$ are Hermitian, while $\gamma^{(x_4)}\gamma^{(x_a)}$ for the extra times $a = 5, 6, 7$ is anti-Hermitian. Write $h = h_H + h_A$ with
 
 $$
-h_H = -im\gamma^{(x_4)} - \gamma^{(x_4)}\big(k_1\gamma^{(x_1)} + k_2\gamma^{(x_2)} + k_3\gamma^{(x_3)} + k_8\gamma^{(x_8)}\big),\qquad h_A = -\gamma^{(x_4)}\big(k_5\gamma^{(x_5)} + k_6\gamma^{(x_6)} + k_7\gamma^{(x_7)}\big).
+h_H = -im\gamma^{(x_4)} - \gamma^{(x_4)}\big(k_1\gamma^{(x_1)} + k_2\gamma^{(x_2)} + k_3\gamma^{(x_3)} + k_8\gamma^{(x_8)}\big),
+$$
+
+$$
+h_A = -\gamma^{(x_4)}\big(k_5\gamma^{(x_5)} + k_6\gamma^{(x_6)} + k_7\gamma^{(x_7)}\big).
 $$
 
 $h_H$ is Hermitian and $h_A$ anti-Hermitian. By Section 10.2, $\gamma^{(x_4)}$ and the four space-like gammas commute with $B$, so $h_H$ commutes with $B$; the gammas of $x_5, x_6, x_7$ anticommute with $B$ while $\gamma^{(x_4)}$ commutes, so $h_A$ anticommutes with $B$. Two consequences:
@@ -240,7 +249,12 @@ Then $P_\pm P_\pm = \frac14(I_{16} \pm 2h/w + h^2/w^2) = \frac14(2I_{16} \pm 2h/
 
 **Krein inertia.** Choose a basis $v_1, \dots, v_d$ of a subspace and form the **Gram matrix** $G_{ij} = v_i^\dagger Bv_j$. It is Hermitian; its numbers of positive, negative and zero eigenvalues do not depend on the basis chosen (a fact of linear algebra called Sylvester's law of inertia), and they form the **Krein inertia** $(p, n, z)$ of the subspace. It says how many independent waves of the subspace carry positive, negative and zero Krein norm. A subspace on which $u^\dagger Bv = 0$ for all its members has inertia $(0, 0, d)$ and is called **Krein-neutral**.
 
-**Theorem 10.1 (Krein inertia of one-particle waves).** In flat 4+4 space (or with frozen coefficients), for every real frequency, $w^2 > 0$, with or without extra-time momentum, each of the two eigenspaces of $h$ has dimension 8 and Krein inertia (4,4). For every imaginary frequency both eigenspaces are Krein-neutral, and for $w = 0$ the range of $h$ is Krein-neutral. (PROVED: `wolfram-pairing.json`, checks `Q_one_particle_Krein_inertia_real_frequencies` and `Q_one_particle_complex_and_zero_frequencies_Krein_neutral`; `python-pairing.json`, checks `Q.one_particle_Krein_inertia_proof` and `Q.one_particle_complex_frequency_Krein_neutral`.)
+**Theorem 10.1 (Krein inertia of one-particle waves).** In flat 4+4 space (or with frozen coefficients), for every real frequency, $w^2 > 0$, with or without extra-time momentum, each of the two eigenspaces of $h$ has dimension 8 and Krein inertia (4,4). For every imaginary frequency both eigenspaces are Krein-neutral, and for $w = 0$ the range of $h$ is Krein-neutral.
+
+| statement | status | where it is verified |
+| --- | --- | --- |
+| Theorem 10.1, real frequencies: inertia (4,4) | PROVED | `wolfram-pairing.json`, check `Q_one_particle_Krein_inertia_real_frequencies`; `python-pairing.json`, check `Q.one_particle_Krein_inertia_proof` |
+| Theorem 10.1, imaginary and zero frequencies: Krein-neutral | PROVED | `wolfram-pairing.json`, check `Q_one_particle_complex_and_zero_frequencies_Krein_neutral`; `python-pairing.json`, check `Q.one_particle_complex_frequency_Krein_neutral` |
 
 *Proof, step (i): the two eigenspaces are Krein-orthogonal.* Let $w > 0$ be real, so $P_+^\dagger = \frac12(I_{16} + h^\dagger/w)$. Then
 
@@ -271,7 +285,11 @@ The pairing theorem T1 of the Revision record (proved in Chapter 18) relates the
 **The chirality map.** $\Gamma$ anticommutes with every gamma and $\Gamma\Gamma = I_{16}$, so
 
 $$
-\Gamma\gamma^{(x_4)}\Gamma = -\gamma^{(x_4)}\Gamma\Gamma = -\gamma^{(x_4)},\qquad \Gamma\gamma^{(x_4)}\gamma^{(x_a)}\Gamma = (\Gamma\gamma^{(x_4)}\Gamma)(\Gamma\gamma^{(x_a)}\Gamma) = (-\gamma^{(x_4)})(-\gamma^{(x_a)}) = \gamma^{(x_4)}\gamma^{(x_a)} ,
+\Gamma\gamma^{(x_4)}\Gamma = -\gamma^{(x_4)}\Gamma\Gamma = -\gamma^{(x_4)},
+$$
+
+$$
+\Gamma\gamma^{(x_4)}\gamma^{(x_a)}\Gamma = (\Gamma\gamma^{(x_4)}\Gamma)(\Gamma\gamma^{(x_a)}\Gamma) = (-\gamma^{(x_4)})(-\gamma^{(x_a)}) = \gamma^{(x_4)}\gamma^{(x_a)} ,
 $$
 
 where the second identity inserts $\Gamma\Gamma = I_{16}$ between the two gammas. Insert into $h_m(k)$:
@@ -1233,10 +1251,16 @@ $$
 In the quantum theory suppose that the operators obey $\{\Psi_A, \Psi^\dagger_C\} = A_{AC}$ with an unknown matrix $A$, and $\{\Psi_A, \Psi_C\} = 0$. The energy operator is $H = \Psi^\dagger h'\Psi = \sum_{A,C}\Psi^\dagger_Ah'_{AC}\Psi_C$. For one component $\Psi_c$:
 
 $$
-[H, \Psi_c] = \sum_{A,C}h'_{AC}\,[\Psi^\dagger_A\Psi_C, \Psi_c] = \sum_{A,C}h'_{AC}\big(\Psi^\dagger_A\{\Psi_C, \Psi_c\} - \{\Psi^\dagger_A, \Psi_c\}\Psi_C\big) = -\sum_{A,C}A_{cA}h'_{AC}\Psi_C = -(Ah'\Psi)_c .
+[H, \Psi_c] = \sum_{A,C}h'_{AC}\,[\Psi^\dagger_A\Psi_C, \Psi_c] = \sum_{A,C}h'_{AC}\big(\Psi^\dagger_A\{\Psi_C, \Psi_c\} - \{\Psi^\dagger_A, \Psi_c\}\Psi_C\big) .
 $$
 
-The first step takes the numbers $h'_{AC}$ out of the commutator; the second is the identity $[XY, Z] = X\{Y, Z\} - \{X, Z\}Y$ of Section 10.11 with $X = \Psi^\dagger_A$, $Y = \Psi_C$, $Z = \Psi_c$; the third uses $\{\Psi_C, \Psi_c\} = 0$ and $\{\Psi^\dagger_A, \Psi_c\} = \{\Psi_c, \Psi^\dagger_A\} = A_{cA}$; the fourth is the definition of a matrix product. The Heisenberg equation then reads
+The first step takes the numbers $h'_{AC}$ out of the commutator; the second is the identity $[XY, Z] = X\{Y, Z\} - \{X, Z\}Y$ of Section 10.11 with $X = \Psi^\dagger_A$, $Y = \Psi_C$, $Z = \Psi_c$. Now $\{\Psi_C, \Psi_c\} = 0$ and $\{\Psi^\dagger_A, \Psi_c\} = \{\Psi_c, \Psi^\dagger_A\} = A_{cA}$, so
+
+$$
+[H, \Psi_c] = -\sum_{A,C}A_{cA}h'_{AC}\Psi_C = -(Ah'\Psi)_c ,
+$$
+
+by the definition of a matrix product. The Heisenberg equation then reads
 
 $$
 \partial_4\Psi = i[H, \Psi] = -iAh'\Psi .
@@ -1361,9 +1385,13 @@ $$
 
 For the chirality, $\Gamma$ is real and symmetric and $\Gamma B\Gamma = -B$ (Section 10.2), so $\Gamma B\Gamma^\dagger = -B$. For the reflection $P_a = \Gamma\gamma^{(x_a)}$ the two signs multiply: $\sigma = -s_a$. The table:
 
-| map $M$ | $\Gamma$ | $\gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)}, \gamma^{(x_4)}, \gamma^{(x_8)}$ | $\gamma^{(x_5)}, \gamma^{(x_6)}, \gamma^{(x_7)}$ | $P_1, P_2, P_3, P_4, P_8$ | $P_5, P_6, P_7$ |
-| --- | --- | --- | --- | --- | --- |
-| sign $\sigma$ in $MBM^\dagger = \sigma B$ | $-1$ | $+1$ | $-1$ | $-1$ | $+1$ |
+| map $M$ | sign $\sigma$ in $MBM^\dagger = \sigma B$ |
+| --- | --- |
+| $\Gamma$ | $-1$ |
+| $\gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)}, \gamma^{(x_4)}, \gamma^{(x_8)}$ | $+1$ |
+| $\gamma^{(x_5)}, \gamma^{(x_6)}, \gamma^{(x_7)}$ | $-1$ |
+| $P_1, P_2, P_3, P_4, P_8$ | $-1$ |
+| $P_5, P_6, P_7$ | $+1$ |
 
 The chirality image $\Gamma\Psi$ of the pairing theorem T1 therefore carries the Krein metric $-B$ (statement Q1 of the quantum reading of the pairing record, Section 10.44), while the mirror image $\gamma^{(x_8)}\Psi$ of theorem T2 keeps $+B$ (statement Q5).
 
@@ -2093,7 +2121,11 @@ $$
 $\chi$ (a row of 16 operators) is the Hilbert adjoint of $\Psi$, and $\Psi^\dagger = \chi B$ is the positive realisation of Section 10.14. Line by line:
 
 $$
-\{\Psi_A, \chi_C\} = \sum_s(u_s)_A(u_s)_C^*\{b_s, b_s^*\} + \sum_s(v_s)_A(v_s)_C^*\{d_s^*, d_s\} = \sum_s(u_s)_A(u_s)_C^* + \sum_s(v_s)_A(v_s)_C^* = (WW^\dagger)_{AC} = \delta_{AC} .
+\{\Psi_A, \chi_C\} = \sum_s(u_s)_A(u_s)_C^*\{b_s, b_s^*\} + \sum_s(v_s)_A(v_s)_C^*\{d_s^*, d_s\}
+$$
+
+$$
+= \sum_s(u_s)_A(u_s)_C^* + \sum_s(v_s)_A(v_s)_C^* = (WW^\dagger)_{AC} = \delta_{AC} .
 $$
 
 The first step keeps only the anticommutators of an operator with its own adjoint (all others vanish); the second uses $\{b_s, b_s^*\} = \{d_s^*, d_s\} = 1$; the third recognises the product $WW^\dagger$; the fourth is completeness. Then, exactly as in Section 10.14, $\{\Psi_A, \Psi^\dagger_C\} = \sum_D\{\Psi_A, \chi_D\}B_{DC} = B_{AC}$: the canonical rule holds.
@@ -2788,7 +2820,13 @@ $$
 Multiply from the left by $\gamma^{(x_4)}$, use $\gamma^{(x_4)}\gamma^{(x_4)} = -I_{16}$, solve for $\partial_4\Psi$ (as in Section 10.3) and multiply by $i$:
 
 $$
-i\,\partial_4\Psi = h\Psi,\qquad h = A + D\,\partial_8,\qquad A = -im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_8)},\qquad D = \tan z\,M_8,\qquad M_8 = i\gamma^{(x_4)}\gamma^{(x_8)} .
+i\,\partial_4\Psi = h\Psi,\qquad h = A + D\,\partial_8,
+$$
+
+with the matrices
+
+$$
+A = -im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_8)},\qquad D = \tan z\,M_8,\qquad M_8 = i\gamma^{(x_4)}\gamma^{(x_8)} .
 $$
 
 **Four matrix facts.** With $(\gamma^{(x_4)})^T = -\gamma^{(x_4)}$, $(\gamma^{(x_8)})^T = \gamma^{(x_8)}$ and $\gamma^{(x_8)}\gamma^{(x_4)} = -\gamma^{(x_4)}\gamma^{(x_8)}$:
@@ -2853,7 +2891,17 @@ $$
 (-im\gamma^{(x_4)})^2 = -m^2\gamma^{(x_4)}\gamma^{(x_4)} = m^2I_{16},\qquad (3iH\gamma^{(x_4)}\gamma^{(x_8)})^2 = -9H^2(\gamma^{(x_4)}\gamma^{(x_8)})^2 = -9H^2I_{16},
 $$
 
-and the mixed terms cancel, $(-im\gamma^{(x_4)})(3iH\gamma^{(x_4)}\gamma^{(x_8)}) + (3iH\gamma^{(x_4)}\gamma^{(x_8)})(-im\gamma^{(x_4)}) = 3mH\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_8)} + \gamma^{(x_4)}\gamma^{(x_8)}\gamma^{(x_4)}\big) = 3mH\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_8)} - \gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_8)}\big) = 0$, by exchanging $\gamma^{(x_8)}\gamma^{(x_4)}$ in the second product. Hence
+and the mixed terms cancel:
+
+$$
+(-im\gamma^{(x_4)})(3iH\gamma^{(x_4)}\gamma^{(x_8)}) + (3iH\gamma^{(x_4)}\gamma^{(x_8)})(-im\gamma^{(x_4)}) = 3mH\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_8)} + \gamma^{(x_4)}\gamma^{(x_8)}\gamma^{(x_4)}\big)
+$$
+
+$$
+= 3mH\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_8)} - \gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_8)}\big) = 0 ,
+$$
+
+by multiplying out ($(-i)(3i) = 3$) and by exchanging $\gamma^{(x_8)}\gamma^{(x_4)}$ in the second product. Hence
 
 $$
 AA = (m^2 - 9H^2)\,I_{16} .
@@ -3018,7 +3066,7 @@ krein_defect = (sp.cos(z) * ((u.H * B_exact * hv)[0] - (hu.H * B_exact * v)[0])
                 - sp.diff(sp.sin(z) * (u.H * B_exact * M8 * v)[0], x8))
 ```
 
-The same defect for the operator without the spin-connection term, which must equal $-6H\cos z\,u^\dagger M_8v$ (so `defect_without` plus $6H\cos z\,u^\dagger M_8v$ must vanish), and the Krein version, with $u^\dagger B$ in place of $u^\dagger$.
+The variable `defect_without` is the same defect for the operator without the spin-connection term. By Section 10.27 it must equal $-6H\cos z\,u^\dagger M_8v$, so `remainder_ok` tests that it plus $6H\cos z\,u^\dagger M_8v$ vanishes. The variable `krein_defect` is the Krein version, with $u^\dagger B$ in place of $u^\dagger$.
 
 ```python
 check_record(is_zero(defect),
@@ -3862,7 +3910,13 @@ the patch end $z = \pi/2$ is $y = 0$, and $y < 0$ lies towards the tip.
 **The wave equation of one instant, line by line.** Take a wave $\Psi = u(x_4)\,e^{i(q_1x_1 + q_5x_5)}$ with the **coordinate momenta** $q_1$ (along 3-space) and $q_5$ (along an extra time). In the field equation of Section 10.27 the derivative $\partial_1$ becomes $iq_1$ and $\partial_5$ becomes $iq_5$, each divided by its scale factor:
 
 $$
-ik_1\gamma^{(x_1)}u + \gamma^{(x_4)}\frac{du}{dx_4} + ik_5\gamma^{(x_5)}u = mu,\qquad k_1 = \frac{q_1}{e^{a_4}\sin^{1/6}z} = q_1e^{-AHx_4 - Hy},\qquad k_5 = \frac{q_5}{e^{-a_4}\sin^{1/6}z} = q_5e^{AHx_4 - Hy} .
+ik_1\gamma^{(x_1)}u + \gamma^{(x_4)}\frac{du}{dx_4} + ik_5\gamma^{(x_5)}u = mu,
+$$
+
+with the frame momenta
+
+$$
+k_1 = \frac{q_1}{e^{a_4}\sin^{1/6}z} = q_1e^{-AHx_4 - Hy},\qquad k_5 = \frac{q_5}{e^{-a_4}\sin^{1/6}z} = q_5e^{AHx_4 - Hy} .
 $$
 
 The **frame momentum** $k_1$ SHRINKS as 3-space inflates; $k_5$ GROWS as the extra times deflate. The steps of Section 10.3 (multiply by $\gamma^{(x_4)}$, solve for $du/dx_4$, multiply by $i$) give
@@ -3902,7 +3956,11 @@ the **onset time**, by taking the logarithm of $X^\ast = e^{2AHx_4^\ast}$. Befor
 **How far from Hermitian, line by line.** By Section 10.4, $-i\gamma^{(x_4)}$ and $\gamma^{(x_4)}\gamma^{(x_1)}$ are Hermitian and commute with $B$, while $\gamma^{(x_4)}\gamma^{(x_5)}$ is anti-Hermitian and anticommutes with $B$. So $h = h_H + h_A$ with the anti-Hermitian part
 
 $$
-h_A = -k_5\,\gamma^{(x_4)}\gamma^{(x_5)},\qquad h_A^\dagger h_A = -h_Ah_A = -k_5^2(\gamma^{(x_4)}\gamma^{(x_5)})^2 = -k_5^2\big(-\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_5)}\gamma^{(x_5)}\big) = k_5^2I_{16} .
+h_A = -k_5\,\gamma^{(x_4)}\gamma^{(x_5)},
+$$
+
+$$
+h_A^\dagger h_A = -h_Ah_A = -k_5^2(\gamma^{(x_4)}\gamma^{(x_5)})^2 = -k_5^2\big(-\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_5)}\gamma^{(x_5)}\big) = k_5^2I_{16} .
 $$
 
 The steps: $h_A^\dagger = -h_A$; the square of the product; exchanging the middle factors costs a sign; $\gamma^{(x_4)}\gamma^{(x_4)} = \gamma^{(x_5)}\gamma^{(x_5)} = -I_{16}$. The **size** of a matrix (the largest factor by which it stretches the length of a column) is therefore exactly $k_5$ for $h_A$: $\lVert h_Au\rVert^2 = u^\dagger h_A^\dagger h_Au = k_5^2\,u^\dagger u$. In the same way $Bh - hB = Bh_A - h_AB = 2Bh_A$ ($h_H$ commutes with $B$, $h_A$ anticommutes) has the size $2k_5$, because $B$ keeps lengths ($B^\dagger B = BB = I_{16}$). Both sizes grow like $e^{a_4}$: the deflation drives every wave with extra-time momentum ever further from a Hermitian evolution that keeps the two eigenspaces of $B$ apart. Both vanish at every time in the good sector, $q_5 = 0$.
@@ -4557,10 +4615,16 @@ $$
 **The Lagrangian identity, line by line.** In flat space with $U = 0$, $\mathcal{L}_m[\Psi] = \frac12\sum_a(\Psi^\dagger C\gamma^{(x_a)}\partial_a\Psi - \partial_a\Psi^\dagger C\gamma^{(x_a)}\Psi) - m\Psi^\dagger C\Psi$. Insert $\Psi = \Gamma\chi$ and $\Psi^\dagger = \chi^\dagger\Gamma$ ($\Gamma$ is real and symmetric):
 
 $$
-\mathcal{L}_m[\Gamma\chi] = \tfrac12\sum_a\big(\chi^\dagger\Gamma C\gamma^{(x_a)}\Gamma\,\partial_a\chi - \partial_a\chi^\dagger\,\Gamma C\gamma^{(x_a)}\Gamma\chi\big) - m\,\chi^\dagger\Gamma C\Gamma\chi = -\tfrac12\sum_a\big(\chi^\dagger C\gamma^{(x_a)}\partial_a\chi - \partial_a\chi^\dagger C\gamma^{(x_a)}\chi\big) - m\,\chi^\dagger C\chi .
+\mathcal{L}_m[\Gamma\chi] = \tfrac12\sum_a\big(\chi^\dagger\Gamma C\gamma^{(x_a)}\Gamma\,\partial_a\chi - \partial_a\chi^\dagger\,\Gamma C\gamma^{(x_a)}\Gamma\chi\big) - m\,\chi^\dagger\Gamma C\Gamma\chi .
 $$
 
-The second step uses the two sign rules. Take the sign $-1$ out of both terms; the mass term becomes $+m\chi^\dagger C\chi = -(-m)\chi^\dagger C\chi$, so the bracket is the Lagrangian with the mass $-m$:
+The two sign rules turn this into
+
+$$
+\mathcal{L}_m[\Gamma\chi] = -\tfrac12\sum_a\big(\chi^\dagger C\gamma^{(x_a)}\partial_a\chi - \partial_a\chi^\dagger C\gamma^{(x_a)}\chi\big) - m\,\chi^\dagger C\chi .
+$$
+
+ Take the sign $-1$ out of both terms; the mass term becomes $+m\chi^\dagger C\chi = -(-m)\chi^\dagger C\chi$, so the bracket is the Lagrangian with the mass $-m$:
 
 $$
 \mathcal{L}_m[\Gamma\chi] = -\mathcal{L}_{-m}[\chi] .
@@ -5207,7 +5271,7 @@ check_record(block_eigenvalues == {m: 16, -m: 16},
                     "Q.no_cancellation_independent_universes")
 ```
 
-At zero momentum (every momentum letter replaced by 0) the exact block generator $\mathrm{diag}(Bh'_m, Bh'_{-m})$ is built with `sp.diag` from its two $16 \times 16$ blocks, and `eigenvals()` returns its exact eigenvalues with their multiplicities. The printed line shows $+m$ 16 times and $-m$ 16 times, 2 different values, as Section 10.44 derived; the check reproduces the record check `Q.no_cancellation_independent_universes`.
+At zero momentum (every momentum letter replaced by 0) the exact block generator $\mathrm{diag}(Bh'_m, Bh'_{-m})$ is assembled from its two $16 \times 16$ blocks by the function `sp.diag`. The method `eigenvals` returns its exact eigenvalues, each with its multiplicity. The printed line shows $+m$ 16 times and $-m$ 16 times, 2 different values, as Section 10.44 derived; the check reproduces the record check `Q.no_cancellation_independent_universes`.
 
 ```python
 def block_numbers(mass, k1):

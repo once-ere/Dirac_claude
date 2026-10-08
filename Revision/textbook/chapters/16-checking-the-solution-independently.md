@@ -2759,3 +2759,1108 @@ all_checks_passed()
 ```
 
 As In [23] of Notebook 16a, for the seven figures; it prints ALL 31 CHECKS PASSED (notebook 16b): five checks in In [2], three each in In [4], In [7], In [11] and In [14], two each in In [5] and In [9], seven in In [16], and one each in In [6], In [13] and In [17].
+
+### 16.20 How the cross-check caught a rounding error: the chemical potential
+
+**What happened.** The first cross-check of the record compared a representative subset of the canonical matrix (18 of the 75 ground states and 8 of the 135 thermal states). It failed one check, thermo_state_functions, in one state, N8_lamm1_a00_T10: the Rust solver gave the chemical potential $\mu = 0.2100104489071649$ and the reference $0.2100104497343054$, a difference of $8.27\times10^{-10}$ against a tolerance of $7.97\times10^{-12}$, a ratio of about 104 (`Revision/kohn_sham/checker/README.md`, History 1). The tolerance was not widened. Instead the cause was found: the levels of both solvers were right, and the Rust solver's computation of $\mu$ from them was wrong in the tenth decimal, because of the way ordinary computer numbers round. This section explains every step of that diagnosis; Notebook 16c repeats it with numbers it computes itself.
+
+**The Mermin condition and its slope, line by line.** At a temperature $T > 0$ the occupation of a level $\varepsilon_i$ is the Fermi-Dirac number $f(x_i)$ with $x_i = (\varepsilon_i - \mu)/T$ and $f(x) = 1/(1 + e^x)$, and each level holds $g_i$ states (its **degeneracy**; in this model $g = 4r_3(n_2)$, Chapter 15). The chemical potential is the root of the **Mermin condition**
+
+$$
+N(\mu) = \sum_i g_i\,f\Big(\frac{\varepsilon_i - \mu}{T}\Big) = N .
+$$
+
+How fast does $N(\mu)$ change with $\mu$?
+
+$$
+f'(x) = -\frac{e^x}{(1 + e^x)^2}.
+$$
+
+Rule: $f = (1 + e^x)^{-1}$ and the chain rule: the derivative of $u^{-1}$ is $-u^{-2}u'$, with $u' = e^x$.
+
+$$
+\frac{e^x}{(1 + e^x)^2} = \frac{1}{1 + e^x}\cdot\frac{e^x}{1 + e^x} = f(x)\,\big(1 - f(x)\big).
+$$
+
+Rule: split the fraction, and $1 - f = \tfrac{1 + e^x - 1}{1 + e^x} = \tfrac{e^x}{1 + e^x}$.
+
+$$
+\frac{dN}{d\mu} = \sum_i g_i\,f'(x_i)\,\frac{dx_i}{d\mu} = \frac{1}{T}\sum_i g_i\,f(x_i)\,\big(1 - f(x_i)\big).
+$$
+
+Rule: the chain rule with $dx_i/d\mu = -1/T$, and $f' = -f(1 - f)$. Every term is positive, so $N(\mu)$ increases with $\mu$ and has at most one root. As $\mu$ goes to $-\infty$ every $f$ tends to 0, and as $\mu$ goes to $+\infty$ every $f$ tends to 1, so if the levels hold more than $N$ states the root exists (intermediate value theorem). We write $N' = dN/d\mu$.
+
+**The activated regime, line by line.** In N8_lamm1_a00_T10 the eight quanta exactly fill the two lowest levels, $\varepsilon_0 = 0.000245562708$ (two levels of 4 states each, $g_0 = 8$ together); the next level is $\varepsilon_1 = 0.430761462627$ with $g_1 = 24$ states (Notebook 16c, Out [2]). The **gap** between them, $0.4305$, is 43 times the temperature $T = 0.01$. When a gap is many times $T$ the state is in the **activated regime**: only very few quanta are thermally lifted across it. Write $H$ for the **thermal holes**, the missing quanta below $\mu$, and $P$ for the **thermal particles** above it:
+
+$$
+H = g_0\,\big(1 - f(x_0)\big) = \frac{g_0}{1 + e^{(\mu - \varepsilon_0)/T}} \approx g_0\,e^{-(\mu - \varepsilon_0)/T}, \qquad P = g_1\,f(x_1) \approx g_1\,e^{-(\varepsilon_1 - \mu)/T}.
+$$
+
+Rule: $1 - f(x) = 1/(1 + e^{-x})$, and $1/(1 + e^{s}) \approx e^{-s}$ when $s$ is large (here $s \approx 21$, so the error is a relative $e^{-21} \approx 10^{-9}$). Since $g_0 = N$, the Mermin condition $g_0(1 - H/g_0) + P = N$ says simply $P = H$: as many quanta above the gap as are missing below it. Taking logarithms of $g_0\,e^{-(\mu - \varepsilon_0)/T} = g_1\,e^{-(\varepsilon_1 - \mu)/T}$:
+
+$$
+\ln g_0 - \frac{\mu - \varepsilon_0}{T} = \ln g_1 - \frac{\varepsilon_1 - \mu}{T} \quad\Longrightarrow\quad \mu = \frac{\varepsilon_0 + \varepsilon_1}{2} - \frac{T}{2}\,\ln\frac{g_1}{g_0}.
+$$
+
+Rule: $\ln(ge^{-s}) = \ln g - s$; collect the terms with $\mu$ ($2\mu/T$ on one side) and solve. With the numbers, $(\varepsilon_0 + \varepsilon_1)/2 = 0.215503513$ and $\tfrac T2\ln3 = 0.005493061$, so $\mu \approx 0.210010451$: $\mu$ sits near the middle of the gap, shifted a little towards the lower level because the upper level has three times more states. (This simple estimate is within $1.5\times10^{-9}$ of the exact root; Exercise 7 finds the small correction.) Then
+
+$$
+N' = \frac{1}{T}\sum_i g_i f_i(1 - f_i) \approx \frac{H + P}{T} = \frac{2H}{T} = \frac{2\cdot6.21\times10^{-9}}{0.01} = 1.24\times10^{-6}.
+$$
+
+Rule: for a full level $f(1 - f) \approx 1 - f$, for an empty level $f(1 - f) \approx f$; then $P = H$, and $H = 6.21\times10^{-9}$ (Notebook 16c, Out [3]). So $N(\mu)$ is extremely flat: moving $\mu$ by $10^{-9}$ changes $N(\mu)$ by only $1.2\times10^{-15}$. Conversely, an error $\delta$ in a computed value of $N(\mu) - N$ moves the computed root by $\delta/N'$, about $8\times10^{5}$ times $\delta$ (the root of the tangent line moves by the error divided by the slope). The problem is **ill-conditioned**: its answer reacts strongly to small errors of its input.
+
+**Numbers in a computer.** A **double**, the ordinary number of a computer, is stored as a sign, 53 binary digits and an exponent (the IEEE 754 standard). Between two neighbouring powers of two, $2^k \le x < 2^{k+1}$, the doubles are equally spaced, $2^{k-52}$ apart. Between 1 and 2 the spacing is $2^{-52} = 2.2\times10^{-16}$, the **machine epsilon** $\epsilon_{mach}$; between 4 and 8 it is $2^{-50} = 8.9\times10^{-16}$; between 8 and 16 it is $2^{-49} = 1.8\times10^{-15}$. The result of every operation is **rounded** to the nearest double. A sum whose exact value is close to 8 can therefore come out only as a multiple of $2^{-50}$ (just below 8) or of $2^{-49}$ (just above 8).
+
+**The staircase, line by line.** Near its root the exact sum is $S(\mu) = 8 + N'\,(\mu - \mu_{root})$. Added up directly in doubles, the computed residual $D(\mu) = S(\mu) - 8$ is exactly zero whenever the computed sum is the double 8 itself, and that happens whenever $S$ lies within half a spacing of 8:
+
+$$
+8 - 2^{-51} \le S(\mu) \le 8 + 2^{-50}.
+$$
+
+Rule: rounding to the nearest double; half the spacing below 8 is $\tfrac12 2^{-50} = 2^{-51}$, half the spacing above is $\tfrac12 2^{-49} = 2^{-50}$.
+
+$$
+\Delta\mu = \frac{2^{-51} + 2^{-50}}{N'} = \frac{3\cdot2^{-51}}{N'} = \frac{1.33\times10^{-15}}{1.242\times10^{-6}} = 1.07\times10^{-9}.
+$$
+
+Rule: an interval of length $3\cdot2^{-51}$ in $S$ is an interval of length $3\cdot2^{-51}/N'$ in $\mu$, because $S$ changes by $N'$ per unit of $\mu$. So in the computer the direct residual is a **staircase**: constant over intervals of about $10^{-9}$ in $\mu$, jumping by one spacing between them, and exactly zero over a whole interval about $10^{-9}$ wide. Notebook 16c measures this interval as $1.05\times10^{-9}$ wide, from $8.25\times10^{-10}$ below the root to $2.30\times10^{-10}$ above it; its position is shifted from the ideal one by the rounding of the individual terms of the sum (Figure 16c.2).
+
+**Why bisection then stops at the wrong place.** Bisection on the residual asks at each midpoint only one question: is $D(mid) < 0$? If yes, the root is above $mid$; if not, at or below it. On the zero interval the answer is always "not below zero", so every midpoint inside it becomes the new upper end, and the search converges to the **left end** of the zero interval, about $8.3\times10^{-10}$ below the true root. That is the faulty value of the first cross-check: Notebook 16c reproduces $0.2100104489071649$ in all sixteen digits by bisection on the direct sum (In [7]). The record's Rust solver now writes for every thermal state the root that the former direct count would give on the same final levels, minus the present $\mu$, in the column mu_direct_count_minus_mu of `Revision/kohn_sham/results/thermo/thermodynamics.csv`; for N8_lamm1_a00_T10 it is $-8.267\times10^{-10}$.
+
+**Deciding which value is right: 40 digits and Newton's method.** To decide, the checker recomputed $\mu$ from each solver's own final levels with 40 significant digits, using the package mpmath, which computes with as many digits as one asks for (slowly, in software). With 40 digits the rounding of the sum is about $10^{-40}N$, which moves the root by about $10^{-40}N/N' < 10^{-33}$: far below anything a double can hold. The root is found by **Newton's method**. Line by line: let $\mu_k$ be a guess.
+
+$$
+N(\mu) \approx N(\mu_k) + N'(\mu_k)\,(\mu - \mu_k).
+$$
+
+Rule: near $\mu_k$ a smooth function is close to its tangent line (Taylor's theorem to first order).
+
+$$
+N(\mu_k) + N'(\mu_k)\,(\mu_{k+1} - \mu_k) = N \quad\Longrightarrow\quad \mu_{k+1} = \mu_k - \frac{N(\mu_k) - N}{N'(\mu_k)}.
+$$
+
+Rule: the next guess is where the tangent line reaches the value $N$; subtract $N(\mu_k)$ and divide by $N'(\mu_k)$.
+
+**Why Newton's method doubles the digits, line by line.** Let $e_k = \mu_k - \mu^*$ be the error of the guess, $\mu^*$ the root, and write $N'$, $N''$ for the derivatives at $\mu^*$.
+
+$$
+N(\mu_k) - N = N'e_k + \tfrac12N''e_k^2 + \dots, \qquad N'(\mu_k) = N' + N''e_k + \dots
+$$
+
+Rule: Taylor's theorem around $\mu^*$, with $N(\mu^*) = N$.
+
+$$
+e_{k+1} = e_k - \frac{N'e_k + \tfrac12N''e_k^2}{N' + N''e_k} = e_k - e_k\Big(1 + \tfrac12\tfrac{N''}{N'}e_k\Big)\Big(1 - \tfrac{N''}{N'}e_k\Big) + \dots = \frac{N''}{2N'}\,e_k^2 + \dots
+$$
+
+Rule: subtract $\mu^*$ from Newton's formula; take $N'e_k$ out of the numerator and $N'$ out of the denominator; $1/(1 + s) = 1 - s + \dots$; multiply out, keeping terms up to $e_k^2$. The new error is proportional to the square of the old one (**quadratic convergence**): once the error is small, the number of correct digits roughly doubles at every step. Notebook 16c (Out [4]) starts in the middle of the gap and shows the distances $5.5\times10^{-3}$, $4.9\times10^{-4}$, $4.0\times10^{-7}$, $2.1\times10^{-16}$ and $1.5\times10^{-34}$.
+
+**The diagnosis.** The 40-digit root on the Rust levels is $0.21001044973390364544$ and on the reference levels $0.21001044973430543050$; they differ by $4.0\times10^{-13}$, which is how much the two solvers' levels differ (each is uncertain by about $10^{-12}$). The faulty Rust value was $8.3\times10^{-10}$ below both. So the levels were right and the root-finding was wrong (the cross-check's check thermo_mu_high_precision now compares these roots in all 270 level sets, worst ratio $0.050$: `Revision/kohn_sham/reports/ks-crosscheck.json`). The reference had had the same defect: in its first complete run its $\mu$ missed its own 40-digit root by $1.15\times10^{-9}$ in the same state (`Revision/kohn_sham/reference/README.md`, History); it was repaired in the same way.
+
+**Why the measured uncertainty did not warn.** Before the repair the canonical and the refined Rust runs computed $\mu$ with the same direct count, so both made almost the same rounding error, and their difference, from which $U_{Rust}$ is measured (Section 16.6), did not contain it. An uncertainty measured by repeating a computation measures only the errors that the repetition changes. After the repair the refined run computes the root with a second, exactly equivalent form whose rounding takes a different path, so that their difference now contains the rounding error of the root (`Revision/kohn_sham/reports/ks-rust-determinism.json`, check refined_mermin_root_path). This is the deeper lesson of the episode, and the reason why a truly independent program is worth the effort.
+
+**The repair: a well-conditioned form, line by line.** The trouble is that the direct sum adds numbers of size 1 (the full occupations) to get a total near 8 and then subtracts 8, so its rounding errors are of size $\epsilon_{mach}\cdot8$, while the interesting part, $P - H$, is about $10^{-9}$ in size. The repair rewrites the residual exactly so that the large numbers are added only as whole numbers. Split the levels into those below $\mu$ ($x_i < 0$) and those above ($x_i \ge 0$).
+
+$$
+f(x) + f(-x) = \frac{1}{1 + e^x} + \frac{1}{1 + e^{-x}} = \frac{1}{1 + e^x} + \frac{e^x}{e^x + 1} = 1 .
+$$
+
+Rule: multiply the numerator and the denominator of the second fraction by $e^x$; then the two fractions have the same denominator.
+
+$$
+\sum_i g_i f(x_i) - N = \sum_{\text{below}} g_i\big(1 - f(-x_i)\big) + \sum_{\text{above}} g_i f(x_i) - N .
+$$
+
+Rule: below $\mu$ write each occupation as $f(x_i) = 1 - f(-x_i)$.
+
+$$
+W(\mu) = \Big(\sum_{\text{below}} g_i - N\Big) - \sum_{\text{below}} g_i\,f(-x_i) + \sum_{\text{above}} g_i\,f(x_i) = -d - H + P .
+$$
+
+Rule: collect the terms; $d = N - \sum_{\text{below}}g_i$ is a whole number, $H$ the thermal holes and $P$ the thermal particles. The value of $W$ is exactly that of the direct residual; only the rounding differs. The bracket $d$ is a sum of whole numbers, which doubles add without any error. $H$ and $P$ are sums of small positive numbers, each computed with a relative error of about $\epsilon_{mach}$, so near the root $W$ is known to about $\epsilon_{mach}(P + H)$, here a few times $10^{-24}$, instead of $\epsilon_{mach}\cdot8$. The reference solver's module uses exactly this form (`mermin_residual` in `Revision/kohn_sham/reference/ks_fd.py`); the Rust solver uses its logarithm, $\ln(P + d_-) - \ln(H + d_+)$ with $d_\pm = \max(\pm d, 0)$, which is nearly a straight line in $\mu$ (the form LogBalance of `Revision/kohn_sham/solver/src/mermin.rs`), and its refined run uses the linear form (LinearDeviation).
+
+**The rounding bounds, line by line.** How large can the error of a computed root be?
+
+$$
+N'\,(\mu_c - \mu^*) + \delta R = 0 \quad\Longrightarrow\quad |\mu_c - \mu^*| = \frac{|\delta R|}{N'} .
+$$
+
+Rule: near the root the computed residual is the tangent line plus its rounding error $\delta R$, and the computed root $\mu_c$ is where it vanishes. A sum of $n$ terms in doubles has a rounding error of at most about $n\,\epsilon_{mach}$ times the size of the terms. For the direct sum the terms add up to $N$, so $|\delta R| \lesssim n\,\epsilon_{mach}N$; for the well-conditioned form they add up to $P + H + |d|$. The Rust solver's documentation states the complete first-order bounds with generous constants (`Revision/kohn_sham/solver/src/mermin.rs`, its header; $n$ the number of levels, $g_{max}$ the largest degeneracy, $\langle|\varepsilon - \mu|\rangle$ the mean distance of the levels from $\mu$ weighted with $gf(1 - f)$, and $L_A = \max(|\ln(P + d_-)|, |\ln(H + d_+)|)$):
+
+$$
+B_{direct} = \epsilon_{mach}\Big[(n + 2)\,\frac{N}{N'} + 3\,\langle|\varepsilon - \mu|\rangle + T(\ln g_{max} + 3) + 2|\mu|\Big],
+$$
+
+$$
+B_{well} = \epsilon_{mach}\Big[(n + 2 + L_A)\,\frac{P + H + |d|}{N'} + 3\,\langle|\varepsilon - \mu|\rangle + T(\ln g_{max} + 3) + 2|\mu|\Big].
+$$
+
+The extra terms count the rounding of the arguments $x_i$, of the logarithms and of the returned double. For N8_lamm1_a00_T10 ($n = 7$ Rust levels, $N' = 1.242072\times10^{-6}$) the first term of $B_{direct}$ is $9\cdot2.22\times10^{-16}\cdot8/1.242\times10^{-6} = 1.29\times10^{-8}$, and the record states $B_{direct} = 1.287\times10^{-8}$ and $B_{well} = 3.154\times10^{-16}$ (`Revision/kohn_sham/reports/ks-rust-mermin-roots.json`, state N8_lamm1_a00_T10). The faulty error, $8.27\times10^{-10}$, lies well inside $B_{direct}$: it is about $0.58$ of the shift $\epsilon_{mach}N/N' = 1.43\times10^{-9}$ that a single rounding of the size $\epsilon_{mach}N$ causes. The repaired Rust value differs from the 40-digit root by $2.5\times10^{-17}$ (same report, muRun_minus_root), inside $B_{well}$; over all 135 thermal states the repaired $\mu$ lies within its bound (same report, check solver_mu_within_rounding_bound), and in the cross-check the largest distance of a Rust $\mu$ from the 40-digit root on its own levels is $6.7\times10^{-16}$ (`Revision/kohn_sham/reports/ks-crosscheck.json`, check thermo_mu_rounding_diagnostic).
+
+**Where the danger lies.** The bound $B_{direct}$ is large only where $N'$ is tiny, that is, where a gap is many times $T$. Among the 45 thermal states with $N = 8$ this happens only at the first slice and the lowest temperature, where the bound reaches $10^{-8}$; along the history 3-space inflates while the extra times deflate, the 3-momenta are redshifted by $e^{-a_{4,0}}$, the levels above the gap move down, the gap closes, $N'$ grows, and the bound falls to about $10^{-15}$ (Figure 16c.5). The three states with the largest direct-sum errors are the three couplings at $a_{4,0} = 0$ and $T = 0.01$: $-8.27\times10^{-10}$, $+2.72\times10^{-10}$ and $+6.96\times10^{-11}$ (Notebook 16c, Out [11]; the same numbers are in `Revision/kohn_sham/reports/ks-rust-solver.json`, check thermo_mu_well_conditioned_root).
+
+**Status.** PROVED: the slope formula, the uniqueness of the root, the exact rewriting $W = -d - H + P$, Newton's formula and its quadratic convergence; the rounding bounds are first-order estimates derived in the Rust documentation and confirmed against 40-digit roots for every thermal state (check solver_mu_within_rounding_bound). COMPUTED: every number of this section, from the records named with it and reproduced by Notebook 16c.
+
+### 16.21 Example: the Mermin root (Notebook 16c)
+
+Notebook 16c reconstructs the diagnosis and the repair from the records. For N8_lamm1_a00_T10 it reads the final levels of both solvers, computes $\mu$ with 40 digits by Newton's method, evaluates the direct residual in doubles near the root and shows the staircase, reproduces the faulty value of the first cross-check by bisection on the direct sum and the correct value by bisection on the well-conditioned form, and evaluates the rounding bounds. Then it repeats the 40-digit comparison of the cross-check for all 45 thermal states with eight quanta, for the levels of both solvers, and reproduces the recorded roots, bounds, tolerances and ratios. It needs no Rust, runs in about half a minute, draws six figures and ends with the line ALL 26 CHECKS PASSED (notebook 16c).
+
+<!-- NOTEBOOK 16c -->
+
+### 16.24 Line-by-line walk-through of Notebook 16c
+
+The notebook has 15 code cells, In [1] to In [15]; the numbers they print are in Section 16.23.
+
+**In [1], the set-up cell.** As in Notebook 16b, it is the set-up cell of Notebook 16a (Section 16.12) without the Rust helper; its comment lines repeat the run instructions of Section 16.22, and its name line is
+
+```python
+NOTEBOOK_ID = "16c"  # this notebook: chapter 16, example c
+```
+
+**In [2], the levels of N8_lamm1_a00_T10 and the history.**
+
+```python
+import csv  # reads tables stored as CSV files (comma-separated values)
+import math  # functions of single numbers (isqrt, log10, ...)
+import re  # finds patterns in text (used to read numbers out of sentences)
+import sys  # the list of folders in which Python looks for modules
+from functools import lru_cache  # remembers the results of a function
+
+import mpmath as mp  # numbers with as many digits as we ask for
+import numpy as np  # arrays of numbers
+
+KS = "Revision/kohn_sham"  # the folder of the Kohn-Sham record (repository path)
+STATE = "N8_lamm1_a00_T10"  # the state in which the first cross-check failed
+EPS_MACH = 2.0 ** -52  # machine epsilon: neighbouring doubles near 1 differ by this
+PALETTE = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300",
+           "#4a3aa7", "#e34948"]  # the colours of the figures, in a fixed order
+```
+
+Besides the modules of Notebook 16a, `math` gives functions of single numbers (here `isqrt`, the whole-number square root, `log`, `log10` and `ulp`), and `lru_cache` from the module `functools` makes a function remember its results. `mpmath`, called `mp`, computes with as many digits as one asks for. `STATE` is the state of the failed comparison, and `EPS_MACH` is the machine epsilon $2^{-52}$ (`**` is the power).
+
+```python
+def read_json(relative):
+    """Read a JSON file of the repository (a Revision record)."""
+    return json.loads(repository_file(relative).read_text(encoding="utf-8"))
+
+def read_csv(relative):
+    """Read a CSV file of the repository: a list of rows, each row a dictionary from
+    the column names to the texts in that row."""
+    with open(repository_file(relative), newline="", encoding="utf-8") as handle:
+        return list(csv.DictReader(handle))
+```
+
+The two reading functions of Notebook 16a (Section 16.12, In [2]).
+
+```python
+@lru_cache(maxsize=None)
+def r3(n2):
+    """The number of whole-number points (a, b, c) with a^2 + b^2 + c^2 = n2."""
+    R = math.isqrt(n2) + 1  # no coordinate can be larger than this
+    return sum(1 for a in range(-R, R + 1) for b in range(-R, R + 1)
+               for c in range(-R, R + 1) if a * a + b * b + c * c == n2)
+```
+
+`r3(n2)` counts the points $(a, b, c)$ with whole-number coordinates and $a^2 + b^2 + c^2 = n_2$, the number $r_3(n_2)$ of Chapter 15. No coordinate can be larger than $\sqrt{n_2}$, so the three nested ranges from $-R$ to $R$ with $R = \lfloor\sqrt{n_2}\rfloor + 1$ cover all candidates, and `sum(1 for ... if ...)` counts those that satisfy the equation. The line `@lru_cache(maxsize=None)` above the function is a **decorator**: it wraps the function so that a result, once computed for some $n_2$, is remembered and returned at once the next time.
+
+```python
+RUST_MU = {r["id"]: float(r["mu"])
+           for r in read_csv(f"{KS}/results/thermo/thermodynamics.csv")}
+REFINEMENT = {s["id"]: s for s in read_json(f"{KS}/checker/rust-refinement.json")
+              ["states"] if s["kind"] == "thermo"}
+```
+
+`RUST_MU` files the committed Rust chemical potentials of all thermal states under their ids (from the column mu of `thermodynamics.csv`). `REFINEMENT` files the thermal entries of the cross-check's measurement file `rust-refinement.json`; each holds, among other things, the final levels and degeneracies of the canonical Rust run, from which the checker computed its 40-digit roots.
+
+```python
+def state_data(sid):
+    """Everything this notebook needs about one thermal state, from the records."""
+    rust = REFINEMENT[sid]  # the Rust run with the canonical numerics
+    ref = read_json(f"{KS}/reference/results/thermo/{sid}.json")
+    T, N = rust["canonical_T_N"]
+    return {"id": sid, "T": T, "N": N,
+            "eps_rust": np.array([e for e, g in rust["canonical_levels_eps_deg"]]),
+            "g_rust": np.array([g for e, g in rust["canonical_levels_eps_deg"]]),
+            "eps_ref": np.array(ref["levels"]["eps"]),
+            "g_ref": np.array([4.0 * r3(k[0]) for k in ref["levels"]["keys"]]),
+            "keys_ref": ref["levels"]["keys"],
+            "U_levels_ref": max(ref["levels"]["U"]),  # largest level uncertainty
+            "mu_rust": RUST_MU[sid], "mu_ref": ref["thermo"]["mu"]["value"],
+            "U_mu_ref": ref["thermo"]["mu"]["U"]}
+```
+
+`state_data(sid)` collects everything the notebook needs about one thermal state: $T$ and $N$; the Rust levels and degeneracies (two list comprehensions over the pairs (energy, degeneracy)); the reference levels from its result file, with the degeneracies computed as $4r_3(n_2)$ from each level's shell (`k[0]` is the first entry of the level's key); the keys; the largest level uncertainty of the reference; and the committed $\mu$ of both solvers with the reference's uncertainty of $\mu$.
+
+```python
+S = state_data(STATE)
+print(" i  key (n2:j:parity:rank)   g   eps reference        eps Rust")
+for i, key in enumerate(S["keys_ref"]):
+    rust = f"{S['eps_rust'][i]:.15f}" if i < len(S["eps_rust"]) else "(not kept)"
+    print(f"{i:2d}  {key[0]}:{key[1]:+d}:{key[2]}:{key[3]}"
+          f"{'':12s}{S['g_ref'][i]:3.0f}   {S['eps_ref'][i]:.15f}   {rust}")
+common = len(S["eps_rust"])  # the Rust label set keeps one level fewer
+say(f"T = {S['T']}, N = {S['N']}; committed mu: Rust {S['mu_rust']!r}, reference "
+    f"{S['mu_ref']!r}")
+check(np.array_equal(S["g_rust"], S["g_ref"][:common])
+      and np.max(np.abs(S["eps_rust"] - S["eps_ref"][:common])) < 1e-11,
+      "both solvers have the same levels (to 1e-11) and degeneracies")
+check(np.sum(S["g_rust"][S["eps_rust"] < 0.2]) == S["N"],
+      "the eight particles exactly fill the two levels below the gap")
+```
+
+`S` holds the data of N8_lamm1_a00_T10. The table of Out [2] prints each reference level with its key, degeneracy and energy, and the Rust level next to it (the braces with an empty text and the format `12s` print twelve blanks; `{key[1]:+d}` prints the block type with its sign); the reference keeps one level more than the Rust solver (`"(not kept)"`). The first check requires the same degeneracies and levels that agree to $10^{-11}$; they agree to about $10^{-12}$. The second requires that the levels below $0.2$ hold exactly the eight quanta: the two levels at $0.000245562708$ with 4 states each.
+
+```python
+checker_history = repository_file(f"{KS}/checker/README.md").read_text(
+    encoding="utf-8")
+found = re.search(r"Rust.s mu was ([0-9.]+) and the reference.s\s+([0-9.]+) "
+                  r"\(\|diff\| ([0-9.e-]+) against a tolerance of ([0-9.e-]+)\)",
+                  checker_history)
+MU_OLD_RUST, MU_OLD_REF, DIFF_OLD, TOL_OLD = (float(x) for x in found.groups())
+reference_history = repository_file(f"{KS}/reference/README.md").read_text(
+    encoding="utf-8")
+REF_OLD_MISS = float(re.search(r"this mu differed by ([0-9.e-]+) from the 40-digit",
+                               reference_history).group(1))
+say(f"history: Rust mu {MU_OLD_RUST!r}, reference mu {MU_OLD_REF!r}, |diff| "
+    f"{DIFF_OLD:.3g}, tolerance {TOL_OLD:.3g}; reference first run missed its root "
+    f"by {REF_OLD_MISS:.3g}")
+check(abs(MU_OLD_RUST - MU_OLD_REF) - DIFF_OLD < 5e-13 and DIFF_OLD > TOL_OLD,
+      "the recorded difference exceeds the recorded tolerance",
+      record=f"{KS}/checker/README.md, History 1")
+```
+
+The numbers of the history are read from the two README files with regular expressions, so that the notebook uses the recorded values, not copies typed by hand. In the first pattern a point `.` matches any single character (here the apostrophe of the words "Rust's" and "reference's"), `\s+` one or more blanks or line breaks (the README breaks this sentence across two lines), `\(` and `\|` a literal bracket and vertical bar, and each `(...)` captures a number; `found.groups()` returns the four captured texts, which the **generator** `(float(x) for x in ...)` turns into four numbers given four names at once. The second pattern reads how far the reference's first complete run missed its own root. Out [2] prints the history: Rust $\mu = 0.2100104489071649$, reference $\mu = 0.2100104497343054$, difference $8.27\times10^{-10}$, tolerance $7.97\times10^{-12}$; the reference's first run missed its root by $1.15\times10^{-9}$. The check confirms that the recorded difference is the difference of the two recorded values (to $5\times10^{-13}$, the rounding of the printed digits) and exceeds the tolerance.
+
+**In [3], the state as a picture (Figure 16c.1).**
+
+```python
+sys.dont_write_bytecode = True  # do not write a __pycache__ folder into the record
+sys.path.insert(0, str(repository_file(f"{KS}/reference")))  # Python looks here too
+import ks_fd as K  # noqa: E402  the reference solver's module (Revision code)
+```
+
+The reference module `ks_fd` is imported as `K`, as in Notebook 16b.
+
+```python
+eps, g, T, N = S["eps_ref"], S["g_ref"], S["T"], S["N"]
+mu = S["mu_ref"]
+x = (eps - mu) / T
+below = eps < mu
+holes = g * K.fermi(-x)  # g (1 - f): f(-x) = 1 - f(x), computed without subtracting
+particles = g * K.fermi(x)  # g f
+```
+
+With the reference levels and committed $\mu$, `x` holds the arguments $(\varepsilon_i - \mu)/T$ and `below` marks the levels below $\mu$. `K.fermi` is the reference's Fermi function; it computes $e^{-|x|}$ first and returns $e^{-|x|}/(1 + e^{-|x|})$ for $x > 0$ and $1/(1 + e^{-|x|})$ otherwise, so it never computes the exponential of a large positive number, which would overflow. `holes` are $g(1 - f) = g\,f(-x)$, computed directly as $f(-x)$ and never as a subtraction $1 - f$ (which would lose all digits for a full level), and `particles` are $g\,f$.
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.5, 4.2))
+energies = np.linspace(-0.05, 1.0, 2001)
+left.plot(energies, K.fermi((energies - mu) / T), color=PALETTE[0], lw=1.8,
+          label="occupation $f((\\varepsilon - \\mu)/T)$")
+for e in np.unique(eps):  # one dotted line per energy, labelled with its states
+    left.axvline(e, color="k", lw=0.8, ls=":")
+    states = g[eps == e]
+    label = (f"g = {states[0]:.0f}" if len(states) == 1
+             else f"{len(states)} levels, g = {states[0]:.0f} each")
+    left.text(e + 0.008, 0.08, label, rotation=90, fontsize=8)
+left.axvline(mu, color=PALETTE[1], lw=1.4, ls="--", label=f"$\\mu = {mu:.6f}$")
+left.annotate("", (eps[2], 1.12), (eps[1], 1.12), arrowprops={"arrowstyle": "<->"})
+left.text(0.5 * (eps[1] + eps[2]), 1.15, "gap $= 43\\,T$", ha="center")
+left.set_ylim(-0.05, 1.25)
+left.set_xlabel("energy $\\varepsilon$ (units of $m$)")
+left.set_ylabel("occupation $f$")
+left.set_title("N8_lamm1_a00_T10: levels and occupation")
+left.legend(fontsize=8, loc="center right", framealpha=1.0)
+```
+
+The left panel draws the occupation $f((\varepsilon - \mu)/T)$ on 2001 energies from $-0.05$ to $1$, a dotted vertical line at each distinct level (`np.unique`), labelled with its degeneracy, turned by 90 degrees (two levels share the lowest energy, so their label says "2 levels, g = 4 each"), $\mu$ as a dashed orange line, and a double arrow over the gap between the levels number 1 and 2 with the text "gap $= 43\,T$".
+
+```python
+right.semilogy(eps[below], holes[below], "v", color=PALETTE[1], ms=9,
+               label=f"holes $g(1-f)$, sum {np.sum(holes[below]):.3e}")
+right.semilogy(eps[~below], particles[~below], "^", color=PALETTE[0], ms=9,
+               label=f"particles $g f$, sum {np.sum(particles[~below]):.3e}")
+right.axvline(mu, color=PALETTE[1], lw=1.4, ls="--")
+right.set_xlabel("energy $\\varepsilon$ (units of $m$)")
+right.set_ylabel("thermal holes and particles")
+right.set_title("the balance that fixes $\\mu$")
+right.legend(fontsize=8, loc="upper right")
+fig.tight_layout()
+```
+
+The right panel draws the holes of the levels below $\mu$ (triangles pointing down) and the particles of the levels above it (triangles up) on a logarithmic axis, with their sums in the legend.
+
+```python
+save_figure(fig, "levels_and_occupations",
+            "The thermal Kohn-Sham state N8_lamm1_a00_T10 ($N = 8$, $\\lambda = "
+            "-\\lambda_1$, $a_{4,0} = 0$, $T = 0.01\\,m$) of the reference solver. "
+            "Left: the Fermi-Dirac occupation against the energy in units of $m$, "
+            "with the levels as dotted lines and their degeneracies $g$; the two "
+            "lowest levels hold the eight particles, the next level lies 43 times "
+            "$T$ higher, and $\\mu$ (dashed) sits in the middle of this gap. Right: "
+            "the thermal holes of the full levels and the thermal particles of the "
+            "empty ones on a logarithmic axis; both sums are about $6 \\times "
+            "10^{-9}$ and cancel, which is the Mermin condition.")
+```
+
+`save_figure` saves Figure 16c.1. What the student should see: on the left, the occupation is a step from 1 to 0 about $T = 0.01$ wide, centred at $\mu = 0.210010$, in the middle of a gap 43 times wider; the two lowest levels lie at the top of the step, all others at the bottom. On the right, the holes of the lowest levels and the particles of the level at $0.43$ are both about $6\times10^{-9}$; the particles of the higher levels fall off steeply ($10^{-15}$, $10^{-20}$, ...), because each level's particles shrink by $e^{-\Delta\varepsilon/T}$.
+
+```python
+balance = np.sum(holes[below]) - np.sum(particles[~below])
+say(f"holes {np.sum(holes[below]):.6e}, particles {np.sum(particles[~below]):.6e}, "
+    f"difference {balance:.2e}")
+check(abs(balance) < 1e-15 and np.sum(g[below]) == N,
+      "at the committed mu the thermal holes and particles balance (to 1e-15)")
+```
+
+`balance` is the holes minus the particles; Out [3] prints both, $6.210359\times10^{-9}$, and their difference, $-6.6\times10^{-24}$. The check requires a balance below $10^{-15}$ and the levels below $\mu$ to hold exactly $N$ states: the Mermin condition in the form $P = H$ of Section 16.20.
+
+**In [4], the root with 40 digits: Newton's method.**
+
+```python
+mp.mp.dps = 40  # every mpmath number now carries 40 significant digits
+```
+
+`mp.mp.dps = 40` sets the working precision of mpmath to 40 decimal places (significant digits) for every following computation.
+
+```python
+def mermin_root_40(eps, g, N, T, start):
+    """Newton's method for the root mu of sum g f((eps - mu)/T) = N with 40 digits.
+    Returns (the root, dN/dmu there, the list of all guesses)."""
+    E = [mp.mpf(float(e)) for e in eps]  # the levels, exactly the given doubles
+    G = [mp.mpf(float(x)) for x in g]
+    T40, N40, mu = mp.mpf(float(T)), mp.mpf(float(N)), mp.mpf(float(start))
+    guesses = [mu]
+    for _ in range(60):
+        total, slope = mp.mpf(0), mp.mpf(0)
+        for e, gi in zip(E, G):
+            x = (e - mu) / T40
+            if x > 2000:  # f < e^(-2000): invisible even with 40 digits
+                continue
+            f = 1 / (1 + mp.exp(x))
+            total += gi * f  # N(mu)
+            slope += gi * f * (1 - f) / T40  # dN/dmu
+        step = (total - N40) / slope  # where the tangent line reaches N
+        mu -= step
+        guesses.append(mu)
+        if abs(step) < mp.mpf(10) ** -32:  # the first 32 digits are settled
+            break
+    return mu, slope, guesses
+```
+
+`mermin_root_40` is Newton's method of Section 16.20 in 40-digit numbers. `mp.mpf(float(e))` turns each level into an mpmath number exactly equal to the given double (no digit is invented or lost). The loop makes at most 60 steps. In each it adds up $N(\mu)$ (`total`) and $N'(\mu) = \sum g f(1 - f)/T$ (`slope`) over the levels, skipping levels with $x > 2000$, whose occupation $e^{-2000}$ is invisible even with 40 digits. `step` is $(N(\mu) - N)/N'(\mu)$, and the new guess is $\mu$ minus the step; every guess is kept. The loop stops when a step is below $10^{-32}$ (`mp.mpf(10) ** -32`): then the first 32 digits are settled. The function returns the root, the slope there and all guesses.
+
+```python
+start = 0.5 * (S["eps_rust"][1] + S["eps_rust"][2])  # the middle of the gap
+ROOT_R, SLOPE_R, NEWTON_PATH = mermin_root_40(S["eps_rust"], S["g_rust"], 8, 0.01,
+                                              start)
+ROOT_F, SLOPE_F, _ = mermin_root_40(S["eps_ref"], S["g_ref"], 8, 0.01, start)
+print("Newton steps from the middle of the gap (Rust levels):")
+for k, guess in enumerate(NEWTON_PATH):
+    distance = mp.nstr(abs(guess - ROOT_R), 3)  # from the final root
+    print(f"  mu_{k} = {mp.nstr(guess, 34)}   distance {distance}")
+report("40-digit root on the Rust levels", mp.nstr(ROOT_R, 30))
+report("40-digit root on the reference levels", mp.nstr(ROOT_F, 30))
+report("dN/dmu at the root (Rust levels)", mp.nstr(SLOPE_R, 7))
+```
+
+Newton's method starts in the middle of the gap, at $(\varepsilon_1 + \varepsilon_2)/2$ of the Rust levels (positions 1 and 2 of the list), and is run on the Rust and on the reference levels. The loop prints every guess with 34 digits and its distance from the final root (`mp.nstr(x, n)` writes $x$ with $n$ significant digits): the distances $5.49\times10^{-3}$, $4.93\times10^{-4}$, $3.99\times10^{-7}$, $2.12\times10^{-16}$, $1.48\times10^{-34}$ and 0 show the doubling of the correct digits (Out [4]). The three RESULT lines give the two roots with 30 digits and $N' = 1.242072\times10^{-6}$.
+
+```python
+fixture = next(s for s in read_json(f"{KS}/solver/tools/mermin-roots-40digit.json")
+               ["fixture"] if s["id"] == STATE)
+same_doubles = [float(e) for e, _ in fixture["levels"]] == list(S["eps_rust"])
+check(same_doubles and abs(ROOT_R - mp.mpf(fixture["root40"])) < mp.mpf(10) ** -32,
+      "the root on the Rust levels equals the fixture root40 to 1e-32",
+      record=f"{KS}/solver/tools/mermin-roots-40digit.json, state {STATE}")
+```
+
+`fixture` is the entry of this state in the Rust solver's 40-digit fixture `mermin-roots-40digit.json`, made from the exact doubles of its final levels. `same_doubles` confirms that the fixture's levels are exactly our Rust levels, and the check requires our root to equal the fixture's `root40` to $10^{-32}$.
+
+```python
+sys.path.insert(0, str(repository_file(f"{KS}/checker")))
+import crosscheck_ks as CC  # noqa: E402  the cross-check program (Revision code)
+
+checker_root, _ = CC.mu_high_precision(list(S["eps_rust"]), list(S["g_rust"]), 8.0,
+                                       0.01, S["mu_rust"])
+row = {r["case"]: r for r in read_csv(f"{KS}/reports/ks-crosscheck-table.csv")}[
+    f"{STATE} mu_high_precision"]
+say(f"table row: Rust {row['rust']}, reference {row['reference']}, |diff| "
+    f"{row['abs_diff']}; ours: |diff| {mp.nstr(abs(ROOT_R - ROOT_F), 4)}")
+check(checker_root == float(ROOT_R) and abs(float(ROOT_R) - float(row["rust"])) < 1e-16
+      and abs(float(ROOT_F) - float(row["reference"])) < 1e-16,
+      "our 40-digit roots equal the checker's function and its table row",
+      record=f"{KS}/reports/ks-crosscheck.json, check thermo_mu_high_precision")
+```
+
+The cross-check program `crosscheck_ks.py` is imported as `CC` (its folder is added to the search list first), and its own 40-digit function `mu_high_precision` computes the root on the Rust levels, starting from the committed $\mu$. `row` is the row `N8_lamm1_a00_T10 mu_high_precision` of the cross-check table (a dictionary comprehension over all rows, then indexed by the case name). The printed line compares the table's two roots and their difference, $4.018\times10^{-13}$, with ours. The check requires our root, converted to a double, to equal the checker's exactly and both roots to equal the table's to $10^{-16}$.
+
+```python
+check(abs(abs(ROOT_R - ROOT_F) - mp.mpf(row["abs_diff"])) < 1e-16
+      and abs(ROOT_R - ROOT_F) < 1e-12,
+      "the two roots differ by only 4e-13: the levels agree, the old Rust mu did not")
+```
+
+The last check: our two roots differ by the table's $4.018\times10^{-13}$ and by less than $10^{-12}$. The levels of the two solvers agree; the old Rust $\mu$, $8.3\times10^{-10}$ below both roots, did not.
+
+**In [5], why 16 digits are not enough: the staircase.**
+
+```python
+eps_r, g_r = S["eps_rust"], S["g_rust"]
+
+def direct_residual(mu, eps, g, N, T):
+    """sum g f - N, added up directly in doubles (the method of the first runs)."""
+    return float(np.sum(g * K.fermi((eps - mu) / T))) - N
+
+def exact_residual(mu40, eps, g, N, T):
+    """sum g f - N with 40 digits (mu40 an mpmath number)."""
+    return sum(mp.mpf(float(gi)) / (1 + mp.exp((mp.mpf(float(e)) - mu40) / T))
+               for e, gi in zip(eps, g)) - N
+```
+
+`direct_residual` is the residual $\sum g f - N$ added up directly in doubles, the method of the first runs (`np.sum` of the products, `float` to make it an ordinary number). `exact_residual` is the same sum in 40-digit numbers, for a 40-digit $\mu$.
+
+```python
+shifts = np.linspace(-3e-9, 3e-9, 1201)  # distances from the root, units of m
+mu_star = float(ROOT_R)  # the double nearest to the 40-digit root
+D = np.array([direct_residual(mu_star + d, eps_r, g_r, 8.0, 0.01) for d in shifts])
+W = np.array([K.mermin_residual(eps_r, g_r, 8.0, 0.01, mu_star + d) for d in shifts])
+X = np.array([float(exact_residual(mp.mpf(mu_star) + mp.mpf(float(d)), eps_r, g_r,
+                                   8, mp.mpf("0.01"))) for d in shifts])
+steps = np.unique(D)  # the different values the direct residual takes
+zero = shifts[D == 0.0]  # where the computed direct residual is exactly zero
+```
+
+`shifts` holds 1201 distances from the root between $-3\times10^{-9}$ and $3\times10^{-9}$, $5\times10^{-12}$ apart. `mu_star` is the double nearest to the 40-digit root. At each shifted $\mu$ the cell evaluates the direct residual `D`, the well-conditioned residual `W` of Section 16.20 with the reference's function `K.mermin_residual`, and the exact residual `X` with 40 digits (the shift is added in 40-digit numbers, and the temperature is given as the exact text `"0.01"`). `steps` holds the different values that `D` takes (`np.unique` sorts them and removes repetitions), and `zero` the shifts at which `D` is exactly zero.
+
+```python
+say(f"the direct residual takes {len(steps)} different values in this window: "
+    + ", ".join(f"{v / 2.0 ** -50:+.0f}" for v in steps) + " times 2^-50")
+say(f"it is exactly zero for mu - root from {zero.min():.3e} to {zero.max():.3e}, "
+    f"an interval {zero.max() - zero.min():.2e} wide")
+say(f"largest |W - exact| = {np.max(np.abs(W - X)):.1e}, largest |D - exact| = "
+    f"{np.max(np.abs(D - X)):.1e}")
+check(np.all(np.mod(D / 2.0 ** -50, 1.0) == 0.0) and len(steps) <= 12,
+      "the direct residual is a staircase: whole multiples of 2^-50 only")
+check(3e-10 < zero.max() - zero.min() < 3e-9,
+      "the direct residual vanishes on an interval about 1e-9 wide")
+check(np.max(np.abs(W - X)) < 1e-20,
+      "the well-conditioned residual follows the exact one to 1e-20")
+```
+
+Out [5]: the direct residual takes only six values in this window, $-4$, $-3$, $-2$, $0$, $+2$ and $+4$ times $2^{-50}$: below 8 it moves in steps of $2^{-50}$ and above 8 in steps of $2^{-49} = 2\cdot2^{-50}$, the spacings of Section 16.20. It is exactly zero from $8.250\times10^{-10}$ below the root to $2.300\times10^{-10}$ above it, an interval $1.05\times10^{-9}$ wide (the estimate of Section 16.20 is $1.07\times10^{-9}$). The well-conditioned residual differs from the exact one by at most $3.9\times10^{-23}$, the direct one by up to $1.5\times10^{-15}$. The three checks require: every value of `D` a whole multiple of $2^{-50}$ (`np.mod(x, 1.0)` is the fractional part) and at most 12 different values; a zero interval between $3\times10^{-10}$ and $3\times10^{-9}$ wide; and `W` within $10^{-20}$ of the exact residual.
+
+**In [6], the staircase as a picture (Figure 16c.2).**
+
+```python
+fig, ax = plt.subplots(figsize=(8.5, 5.0))
+scale_mu, scale_r = 1e-9, 1e-15  # plot units: 1e-9 m and 1e-15 particles
+ax.axvspan(zero.min() / scale_mu, zero.max() / scale_mu, color="0.85",
+           label="direct residual exactly 0")
+ax.step(shifts / scale_mu, D / scale_r, where="mid", color=PALETTE[1], lw=1.8,
+        label="direct residual $D$ in doubles")
+ax.plot(shifts / scale_mu, W / scale_r, color=PALETTE[0], lw=2.5, alpha=0.8,
+        label="well-conditioned residual $W$ in doubles")
+ax.plot(shifts / scale_mu, X / scale_r, "k--", lw=1.0, label="exact (40 digits)")
+ax.axvline((MU_OLD_RUST - mu_star) / scale_mu, color=PALETTE[7], lw=1.5,
+           label="mu of the first cross-check (Rust)")
+ax.axhline(0.0, color="k", lw=0.6)
+ax.set_xlabel("$\\mu$ minus the 40-digit root (units of $10^{-9}\\,m$)")
+ax.set_ylabel("$N(\\mu) - N$ (units of $10^{-15}$)")
+ax.set_title("N8_lamm1_a00_T10: the computed residual near the root")
+ax.legend(fontsize=8, loc="upper left")
+```
+
+The plot units are $10^{-9}$ for $\mu$ and $10^{-15}$ for the residual. `axvspan` shades the zero interval in light grey (the colour `"0.85"` is a grey level). `ax.step(..., where="mid")` draws the direct residual as a staircase whose steps change half-way between the sample points; the well-conditioned residual is a thick blue line and the exact one a thin dashed black line. A red vertical line marks the faulty $\mu$ of the first cross-check, measured from the root.
+
+```python
+save_figure(fig, "residual_staircase",
+            "The residual $N(\\mu) - N$ of the Mermin condition of the state "
+            "N8_lamm1_a00_T10 (Rust levels) within $3 \\times 10^{-9}\\,m$ of the "
+            "40-digit root, horizontal axis in units of $10^{-9}\\,m$, vertical axis "
+            "in units of $10^{-15}$ particles. Added up directly in ordinary computer "
+            "numbers (orange) the sum near 8 can only change in steps of $2^{-50}$ "
+            "or $2^{-49}$, so the residual is a staircase that is exactly zero on an "
+            "interval about $10^{-9}$ wide (grey); the faulty $\\mu$ of the first "
+            "cross-check (red) is the left end of that interval. The "
+            "well-conditioned form (blue) follows the exact line (dashed) and "
+            "crosses zero at the root.")
+```
+
+`save_figure` saves Figure 16c.2. What the student should see: the exact residual is a straight line through zero at the root, with slope $N' = 1.24\times10^{-6}$ (in these units $1.24$ per unit); the blue well-conditioned residual lies on it everywhere; the orange direct residual is a staircase with steps of $2^{-50} = 0.89$ and $2^{-49} = 1.78$ units, exactly zero on the grey interval; and the red line, the faulty $\mu$, is the left end of that interval, where bisection on the direct sum must stop.
+
+**In [7], bisection on the two forms: the faulty value and the repair.**
+
+```python
+def bisection(residual, lo, hi):
+    """Bisection for the root of an increasing function with residual(lo) < 0 and
+    residual(hi) >= 0, down to neighbouring doubles; returns (root, all midpoints)."""
+    midpoints = []
+    while True:
+        mid = 0.5 * (lo + hi)
+        if mid <= lo or mid >= hi:  # lo and hi are neighbouring doubles: done
+            break
+        midpoints.append(mid)
+        if residual(mid) < 0.0:
+            lo = mid  # the root lies above mid
+        else:
+            hi = mid  # the root lies at or below mid
+    return 0.5 * (lo + hi), midpoints
+```
+
+`bisection(residual, lo, hi)` is the bisection of Section 16.20 for an increasing function given as an argument (in Python a function can be passed like any other value). The `while True:` loop runs until `break`: if the midpoint is not strictly between `lo` and `hi`, the two are neighbouring doubles and nothing is left to halve. Otherwise the midpoint is recorded, and the half is kept in which the root lies: above the midpoint if the residual is negative there, at or below it otherwise.
+
+```python
+def bracket(eps, T):
+    """The starting interval of the reference: every level, 60 T and 1 m around."""
+    return float(eps.min()) - 60.0 * T - 1.0, float(eps.max()) + 60.0 * T + 1.0
+```
+
+`bracket` gives the starting interval that the reference uses: from the lowest level minus $60T$ minus 1 to the highest level plus $60T$ plus 1, which surely contains the root.
+
+```python
+MU_DIRECT, PATH_DIRECT = bisection(
+    lambda mu: direct_residual(mu, eps_r, g_r, 8.0, 0.01), *bracket(eps_r, 0.01))
+MU_WELL, PATH_WELL = bisection(
+    lambda mu: K.mermin_residual(eps_r, g_r, 8.0, 0.01, mu), *bracket(eps_r, 0.01))
+_, mu_ks_fd = K.mermin(eps_r, g_r, 8.0, 0.01)  # the reference's own function
+say(f"bisection, direct sum:      mu = {MU_DIRECT!r} after {len(PATH_DIRECT)} "
+    f"halvings; minus root {float(MU_DIRECT - ROOT_R):+.3e}")
+say(f"bisection, well-conditioned: mu = {MU_WELL!r} after {len(PATH_WELL)} "
+    f"halvings; minus root {float(MU_WELL - ROOT_R):+.3e}")
+say(f"recorded mu of the first cross-check (Rust): {MU_OLD_RUST!r}; committed "
+    f"repaired Rust mu: {S['mu_rust']!r}")
+report("direct-sum bisection minus the 40-digit root",
+       f"{float(MU_DIRECT - ROOT_R):.4e}", "m")
+```
+
+The two bisections on the Rust levels: on the direct residual and on the well-conditioned one (each residual is given as a lambda of $\mu$ alone). `K.mermin` is the reference's own root finder, which bisects the well-conditioned form. Out [7]: the direct sum gives $\mu = 0.21001044890716491$, $8.267\times10^{-10}$ below the root, and the well-conditioned form $0.21001044973390365$, $2.6\times10^{-18}$ from it; both after 57 halvings. That number is no accident: the starting interval reaches from $-1.600$ to $2.482$, so it is $4.08$ wide; the doubles near $0.21$ are $2^{-55} = 2.8\times10^{-17}$ apart; and $4.08/2^{57} = 2.8\times10^{-17}$, so after 57 halvings `lo` and `hi` are neighbouring doubles. The RESULT line repeats the error of the direct sum.
+
+```python
+check(abs(MU_DIRECT - MU_OLD_RUST) <= 5e-17,
+      "bisection on the direct sum gives the recorded faulty mu (all 16 digits)",
+      record=f"{KS}/checker/README.md, History 1 (Rust mu 0.2100104489071649)")
+check(MU_WELL == mu_ks_fd and abs(MU_WELL - ROOT_R) < 1e-16,
+      "bisection on the well-conditioned form (ks_fd.mermin) finds the root to 1e-16")
+check(abs(S["mu_rust"] - MU_WELL) < 1e-16,
+      "the committed repaired Rust mu equals the well-conditioned root",
+      record=f"{KS}/results/thermo/thermodynamics.csv, state {STATE}")
+```
+
+The three checks: the direct-sum bisection reproduces the recorded faulty $\mu = 0.2100104489071649$ of the first cross-check to $5\times10^{-17}$, that is, in all sixteen digits that the record prints; the well-conditioned bisection gives exactly the result of the reference's own function and lies within $10^{-16}$ of the root; and the committed, repaired Rust $\mu$ equals the well-conditioned root to $10^{-16}$.
+
+```python
+mu_direct_ref, _ = bisection(
+    lambda mu: direct_residual(mu, S["eps_ref"], S["g_ref"], 8.0, 0.01),
+    *bracket(S["eps_ref"], 0.01))
+say(f"the direct sum on the reference levels misses their root by "
+    f"{float(mu_direct_ref - ROOT_F):+.3e}")
+```
+
+The direct sum on the reference levels misses their own root by almost the same amount, $8.271\times10^{-10}$: the two level sets agree to about $10^{-12}$, so their staircases have zero intervals at almost the same place, and bisection stops at the left end again.
+
+**In [8], three searches compared (Figure 16c.3).**
+
+```python
+fig, ax = plt.subplots(figsize=(8.5, 5.0))
+floor = 1e-36  # distances that are exactly zero are drawn here
+for colour, path, label, size in (
+        (PALETTE[0], PATH_WELL, "bisection, well-conditioned form", 6),
+        (PALETTE[1], PATH_DIRECT, "bisection, direct sum", 3)):  # drawn on top
+    distance = [max(float(abs(mp.mpf(m) - ROOT_R)), floor) for m in path]
+    ax.semilogy(range(1, len(path) + 1), distance, "o-", color=colour, ms=size,
+                lw=1.2, label=f"{label} ({len(path)} steps)")
+newton = [max(float(abs(m - ROOT_R)), floor) for m in NEWTON_PATH]
+ax.semilogy(range(len(newton)), newton, "s-", color=PALETTE[2], ms=6, lw=1.5,
+            label="Newton with 40 digits")
+```
+
+For the two bisections the distance of every midpoint from the 40-digit root is drawn against the step number on a logarithmic axis (distances that are exactly zero are raised to $10^{-36}$); the direct-sum path is drawn second, with smaller markers, so that it lies on top. The Newton guesses are drawn as green squares.
+
+```python
+ax.axhline(abs(MU_OLD_RUST - float(ROOT_R)), color=PALETTE[7], lw=1.0, ls="--",
+           label="error of the first cross-check")
+ax.axhline(math.ulp(mu_star), color="k", lw=0.8, ls=":",
+           label="spacing of the doubles near $\\mu$")
+ax.set_ylim(floor / 3.0, 10.0)
+ax.set_xlabel("step")
+ax.set_ylabel("distance from the 40-digit root (units of $m$)")
+ax.set_title("Three searches for $\\mu$ in N8_lamm1_a00_T10")
+ax.legend(fontsize=8, loc="upper right")
+```
+
+Two horizontal lines mark the error of the first cross-check (red, dashed) and the spacing of the doubles near $\mu$ (`math.ulp(x)` is the distance from $x$ to the next double; dotted).
+
+```python
+save_figure(fig, "convergence_paths",
+            "The distance of each guess for $\\mu$ from the 40-digit root, units "
+            "of $m$, logarithmic, against the step number, for the state "
+            "N8_lamm1_a00_T10 with the Rust levels. Bisection halves the distance at "
+            "every step; on the direct sum (orange) it stalls at $8.3 \\times "
+            "10^{-10}$, the error of the first cross-check (red dashed), because "
+            "the computed sum is zero on a whole interval; on the well-conditioned "
+            "form (blue) it reaches the spacing of the doubles (dotted). Newton's "
+            "method with 40 digits (green) doubles the number of correct digits at "
+            "each step; zero distances are drawn at $10^{-36}$.")
+check(min(float(abs(mp.mpf(m) - ROOT_R)) for m in PATH_DIRECT[-20:]) > 5e-10
+      and float(abs(NEWTON_PATH[-2] - ROOT_R)) < 1e-32 and len(NEWTON_PATH) <= 7,
+      "the direct bisection stalls above 5e-10; Newton reaches 1e-32 in 5 steps")
+```
+
+`save_figure` saves Figure 16c.3. What the student should see: the two bisection paths coincide for about 30 steps, halving the distance at every step on average (a straight line on this axis); then the direct-sum path stops falling and stays at $8.3\times10^{-10}$ (it now only explores the zero interval of the staircase), while the well-conditioned path continues down to the spacing of the doubles; Newton's method with 40 digits reaches $10^{-34}$ in four steps. The check requires the last 20 direct-sum midpoints to stay more than $5\times10^{-10}$ from the root, Newton's next-to-last guess to be within $10^{-32}$, and at most 7 Newton guesses.
+
+**In [9], the rounding bounds.**
+
+```python
+def rounding_bounds(eps, g, N, T, mu):
+    """dN/dmu, the bound of the direct sum and the bound of the well-conditioned form
+    at mu (the formulas of solver/src/mermin.rs), and P, H, d."""
+    x = (eps - mu) / T
+    f_plus, f_minus = K.fermi(x), K.fermi(-x)  # f(x) and 1 - f(x) = f(-x)
+    weight = g * f_plus * f_minus  # g f (1 - f): how strongly a level reacts to mu
+    slope = float(np.sum(weight)) / T  # dN/dmu
+    mean_distance = float(np.sum(weight * np.abs(eps - mu)) / np.sum(weight))
+    below = x < 0.0
+    particles = float(np.sum(g[~below] * f_plus[~below]))  # P
+    holes = float(np.sum(g[below] * f_minus[below]))  # H
+    d = N - float(np.sum(g[below]))  # a whole number
+    n = len(eps)
+    big_l = max(abs(math.log(particles + max(-d, 0.0))),  # |ln A|
+                abs(math.log(holes + max(d, 0.0))))  # |ln B|
+    common = EPS_MACH * (3.0 * mean_distance + T * (math.log(float(np.max(g))) + 3.0)
+                         + 2.0 * abs(mu))
+    direct = EPS_MACH * (n + 2) * N / slope + common
+    well = EPS_MACH * (n + 2 + big_l) * (particles + holes + abs(d)) / slope + common
+    return {"slope": slope, "direct": direct, "well": well, "P": particles,
+            "H": holes, "d": d, "n": n, "L": big_l}
+```
+
+`rounding_bounds` evaluates the two bounds of Section 16.20 at a given $\mu$. `f_plus` and `f_minus` are $f(x)$ and $f(-x) = 1 - f(x)$; `weight` is $g\,f(1 - f)$, how strongly each level reacts to $\mu$; `slope` is $N' = \sum g f(1 - f)/T$; `mean_distance` is $\langle|\varepsilon - \mu|\rangle$, the mean distance of the levels from $\mu$ weighted with `weight`. `particles` is $P$ (the levels above $\mu$; `~below` reverses the mask), `holes` is $H$, and `d` the whole number $N - \sum_{\text{below}}g$. `big_l` is $L_A = \max(|\ln A|, |\ln B|)$ with $A = P + \max(-d, 0)$ and $B = H + \max(d, 0)$, the two sides of the balance. `common` holds the three small terms that both bounds share, and `direct` and `well` are $B_{direct}$ and $B_{well}$.
+
+```python
+MERMIN_REPORT = read_json(f"{KS}/reports/ks-rust-mermin-roots.json")
+RECORD = {s["id"]: s for s in MERMIN_REPORT["states"]}
+b = rounding_bounds(eps_r, g_r, 8.0, 0.01, mu_star)
+rec = RECORD[STATE]
+say(f"n = {b['n']} levels; P = {b['P']:.6e}, H = {b['H']:.6e}, d = {b['d']:.0f}, "
+    f"L = {b['L']:.3f}; dN/dmu = {b['slope']:.6e} (record {rec['dN_dmu']})")
+say(f"B_direct = {b['direct']:.4e} (record {rec['boundDirectCount']}); B_well = "
+    f"{b['well']:.4e} (record {rec['boundWellConditioned']})")
+```
+
+`MERMIN_REPORT` is the Rust solver's 40-digit report `ks-rust-mermin-roots.json`, and `RECORD` files its states by id. The bounds are evaluated at the double nearest to the root, and Out [9] prints them next to the record: $n = 7$ levels, $P = H = 6.210359\times10^{-9}$, $d = 0$, $L_A = 18.897$ (which is $|\ln(6.21\times10^{-9})|$), $N' = 1.242072\times10^{-6}$ (record the same), $B_{direct} = 1.2871\times10^{-8}$ (record $1.287\times10^{-8}$) and $B_{well} = 3.1539\times10^{-16}$ (record $3.154\times10^{-16}$).
+
+```python
+one_step = EPS_MACH * 8.0 / b["slope"]  # one rounding of size eps_mach N, as mu
+say(f"one rounding of size eps_mach N moves the root by {one_step:.3e}; the error "
+    f"of the first cross-check is {DIFF_OLD / one_step:.2f} of that")
+```
+
+`one_step` is the shift $\epsilon_{mach}N/N' = 1.430\times10^{-9}$ that a single rounding of the size $\epsilon_{mach}N$ causes; the error of the first cross-check is $0.58$ of it (Out [9]).
+
+```python
+check(abs(b["slope"] / float(rec["dN_dmu"]) - 1) < 1e-5
+      and abs(b["direct"] / float(rec["boundDirectCount"]) - 1) < 1e-3
+      and abs(b["well"] / float(rec["boundWellConditioned"]) - 1) < 1e-3,
+      "dN/dmu and both rounding bounds reproduce the Rust 40-digit report",
+      record=f"{KS}/reports/ks-rust-mermin-roots.json, state {STATE}")
+check(abs(MU_OLD_RUST - float(ROOT_R)) <= b["direct"]
+      and abs(S["mu_rust"] - float(ROOT_R)) <= b["well"] + 1e-16,
+      "the old error lies within B_direct, the repaired mu within B_well")
+```
+
+The first check reproduces the record: $N'$ to a relative $10^{-5}$ and both bounds to $10^{-3}$ (the report prints four digits). The second confirms that the old error lies within $B_{direct}$ and the repaired $\mu$ within $B_{well}$.
+
+**In [10], all 45 thermal states with eight quanta.**
+
+```python
+TABLE = {r["case"]: r for r in read_csv(f"{KS}/reports/ks-crosscheck-table.csv")}
+
+def tolerance(x_ref, u_ref, u_rust):
+    """The tolerance rule of the cross-check for single numbers."""
+    return 3.0 * (u_ref + u_rust) + 1e-12 * max(1.0, abs(x_ref))
+```
+
+`TABLE` files the rows of the cross-check table by case, and `tolerance` is the rule of Section 16.7 for single numbers.
+
+```python
+ROWS = []  # one dictionary per state
+for sid in sorted(s for s in REFINEMENT if s.startswith("N8_")):
+    s = state_data(sid)
+    N, T = s["N"], s["T"]
+    root_r, _, _ = mermin_root_40(s["eps_rust"], s["g_rust"], N, T, s["mu_rust"])
+    root_f, _, _ = mermin_root_40(s["eps_ref"], s["g_ref"], N, T, s["mu_ref"])
+    r = {"id": sid, "N": N, "T": T, "root_r": root_r, "root_f": root_f,
+         "b_r": rounding_bounds(s["eps_rust"], s["g_rust"], N, T, float(root_r)),
+         "b_f": rounding_bounds(s["eps_ref"], s["g_ref"], N, T, float(root_f))}
+```
+
+The loop goes through the 45 thermal states whose id begins with N8 (`startswith`), sorted. For each it collects the data, computes the 40-digit roots on the Rust and on the reference levels (Newton's method, started from each solver's committed $\mu$), and evaluates both bounds at both roots.
+
+```python
+    for side in ("r", "f"):  # the two bisections on each solver's levels
+        e, gg = (s["eps_rust"], s["g_rust"]) if side == "r" else (s["eps_ref"],
+                                                                    s["g_ref"])
+        root = float(r["root_" + side])
+        r["direct_" + side] = bisection(
+            lambda mu: direct_residual(mu, e, gg, N, T), *bracket(e, T))[0] - root
+        r["well_" + side] = bisection(
+            lambda mu: K.mermin_residual(e, gg, N, T, mu), *bracket(e, T))[0] - root
+```
+
+For each solver's levels (`side` is `"r"` for Rust and `"f"` for the reference) it runs bisection on the direct sum and on the well-conditioned form and stores each result minus the root (`[0]` takes the root from the returned pair). The lambdas are used immediately inside the loop, so each sees the current levels `e` and degeneracies `gg`.
+
+```python
+    r["committed_r"] = float(mp.mpf(s["mu_rust"]) - root_r)
+    r["committed_f"] = float(mp.mpf(s["mu_ref"]) - root_f)
+    r["U_mu_ref"] = s["U_mu_ref"]
+    u_lev_rust = 16.0 / 15.0 * REFINEMENT[sid]["levels"]["max_abs_diff"]
+    u_mu_rust = 16.0 / 15.0 * REFINEMENT[sid]["scalars"]["mu"]["abs_diff"]
+    tol_hp = tolerance(float(root_f), s["U_levels_ref"], u_lev_rust)
+    tol_mu = tolerance(s["mu_ref"], s["U_mu_ref"], u_mu_rust)
+    r["ratio_hp"] = float(abs(root_r - root_f)) / tol_hp
+    r["ratio_mu"] = abs(s["mu_rust"] - s["mu_ref"]) / tol_mu
+    r["tol_hp"], r["tol_mu"] = tol_hp, tol_mu
+    r["n_r"], r["n_f"] = len(s["eps_rust"]), len(s["eps_ref"])
+    ROWS.append(r)
+```
+
+`committed_r` and `committed_f` are the committed $\mu$ of each solver minus its 40-digit root. The cell then rebuilds two comparisons of the cross-check: the 40-digit roots, with $U_{ref}$ the reference's largest level uncertainty and $U_{Rust}$ $\tfrac{16}{15}$ times the largest canonical-minus-refined level difference (because $\mu$ is a weighted mean of the levels, its uncertainty is bounded by theirs: `Revision/kohn_sham/checker/crosscheck_ks.py`, comment before the 40-digit check), and the committed values of $\mu$, with the reference's $U$ of $\mu$ and $\tfrac{16}{15}|\mu_c - \mu_r|$; it keeps both tolerances and ratios and the numbers of levels.
+
+```python
+print("the nine states with the largest direct-sum bound (Rust levels):")
+print("state                 n   dN/dmu     B_direct   direct error  B_well")
+for r in sorted(ROWS, key=lambda r: -r["b_r"]["direct"])[:9]:
+    print(f"{r['id']:20s} {r['n_r']:3d}  {r['b_r']['slope']:.3e}  "
+          f"{r['b_r']['direct']:.3e}  {r['direct_r']:+.3e}    {r['b_r']['well']:.3e}")
+```
+
+The table of Out [10] lists the nine states with the largest $B_{direct}$ (Rust levels), sorted by it (`key=lambda r: -...` sorts from the largest down): their number of levels, $N'$, $B_{direct}$, the error of the direct sum and $B_{well}$. The three states at $a_{4,0} = 0$, $T = 0.01$ have $N' \approx 1.2\times10^{-6}$ and bounds near $10^{-8}$; the next ones, at $a_{4,0} = 0.5$ or $T = 0.02$, have $N'$ thousands of times larger and bounds below $10^{-11}$.
+
+**In [11], the checks against the records.**
+
+```python
+worst = {"root": 0.0, "slope": 0.0, "bounds": 0.0, "hp": 0.0, "tol": 0.0,
+         "ratio": 0.0}
+for r in ROWS:
+    rec = RECORD[r["id"]]
+    worst["root"] = max(worst["root"], float(abs(r["root_r"] - mp.mpf(rec["root40"]))))
+    worst["slope"] = max(worst["slope"],
+                         abs(r["b_r"]["slope"] / float(rec["dN_dmu"]) - 1))
+    worst["bounds"] = max(worst["bounds"],
+                          abs(r["b_r"]["direct"] / float(rec["boundDirectCount"]) - 1),
+                          abs(r["b_r"]["well"] / float(rec["boundWellConditioned"])
+                              - 1))
+    hp, mu_row = TABLE[f"{r['id']} mu_high_precision"], TABLE[f"{r['id']} mu"]
+    worst["hp"] = max(worst["hp"], abs(float(r["root_r"]) - float(hp["rust"])),
+                      abs(float(r["root_f"]) - float(hp["reference"])))
+    worst["tol"] = max(worst["tol"], abs(r["tol_hp"] / float(hp["tolerance"]) - 1),
+                       abs(r["tol_mu"] / float(mu_row["tolerance"]) - 1))
+    worst["ratio"] = max(worst["ratio"], abs(r["ratio_hp"] - float(hp["ratio"])),
+                         abs(r["ratio_mu"] - float(mu_row["ratio"])))
+```
+
+`worst` collects six largest differences: of our Rust roots from the report's `root40`; of $N'$ and of the two bounds from the report (relative); of both 40-digit roots from the table's rows `mu_high_precision`; of our tolerances from the table's (relative); and of our ratios from the table's, for both rows of each state (`mu_high_precision` and `mu`).
+
+```python
+say("largest differences from the records: " + ", ".join(
+    f"{k} {v:.1e}" for k, v in worst.items()))
+check(worst["root"] < 1e-16,
+      "the 45 roots on the Rust levels reproduce root40 (to the 16-digit levels)",
+      record=f"{KS}/reports/ks-rust-mermin-roots.json, states (root40)")
+check(worst["slope"] < 1e-5 and worst["bounds"] < 1e-3,
+      "dN/dmu and both bounds of all 45 states reproduce the Rust report",
+      record=f"{KS}/reports/ks-rust-mermin-roots.json, states (bounds)")
+check(worst["hp"] < 2e-16 and worst["tol"] < 1e-3 and worst["ratio"] <= 1e-4,
+      "both 40-digit roots, tolerances and ratios reproduce 90 table rows",
+      record=f"{KS}/reports/ks-crosscheck-table.csv, rows mu, mu_high_precision")
+check(all(r["ratio_hp"] <= 1.0 and r["ratio_mu"] <= 1.0 for r in ROWS),
+      "after the repair every mu comparison of the 45 states passes",
+      record=f"{KS}/reports/ks-crosscheck.json, check thermo_state_functions")
+```
+
+Out [11] prints them: roots $2.8\times10^{-17}$, slope $4.5\times10^{-7}$, bounds $4.2\times10^{-4}$, table roots $5.6\times10^{-17}$, tolerances $3.9\times10^{-4}$, ratios $5.0\times10^{-5}$. The roots agree only to about $10^{-17}$, not $10^{-35}$, because the level files keep sixteen significant digits; the bounds and tolerances agree to the four digits the records print. The four checks reproduce the report (roots, then $N'$ and bounds), the 90 table rows, and the cross-check's verdict that after the repair every comparison of $\mu$ in these 45 states passes.
+
+```python
+diag_r = [abs(r["committed_r"]) / (r["n_r"] * EPS_MACH * r["N"] / r["b_r"]["slope"])
+          for r in ROWS]
+diag_f = [abs(r["committed_f"]) / (r["n_f"] * EPS_MACH * r["N"] / r["b_f"]["slope"]
+                                   + 3.0 * r["U_mu_ref"]) for r in ROWS]
+say(f"committed mu minus root, as a fraction of the diagnostic bound: Rust at most "
+    f"{max(diag_r):.1e}, reference at most {max(diag_f):.1e}")
+check(max(diag_r) <= 1.0 and max(diag_f) <= 1.0,
+      "both solvers' committed mu lie within the rounding diagnostic",
+      record=f"{KS}/reports/ks-crosscheck.json, check thermo_mu_rounding_diagnostic")
+```
+
+The diagnostic of the cross-check (thermo_mu_rounding_diagnostic): each committed $\mu$ minus the root on its own levels, divided by the conditioning bound $n\,\epsilon_{mach}N/N'$ (for the reference plus $3U$, because its $\mu$ combines three grids). Out [11]: at most $1.3\times10^{-2}$ for Rust and $1.4\times10^{-5}$ for the reference; the check requires at most 1.
+
+```python
+check(all(abs(r["direct_" + s]) <= r["b_" + s]["direct"]
+          and abs(r["well_" + s]) <= r["b_" + s]["well"] for r in ROWS
+          for s in ("r", "f")),
+      "in all 90 level sets each bisection lies within its own bound")
+big = sorted(ROWS, key=lambda r: -abs(r["direct_r"]))[:3]
+say("largest direct-sum errors: " + ", ".join(
+    f"{r['id']} {r['direct_r']:+.2e}" for r in big))
+check({r["id"] for r in big} == {"N8_lam0_a00_T10", "N8_lamm1_a00_T10",
+                                 "N8_lamp1_a00_T10"},
+      "the direct sum fails worst in the three states with the largest gap/T")
+```
+
+The next check confirms that in all 90 level sets (45 states, two solvers) each bisection lies within its own bound: the direct sum within $B_{direct}$ and the well-conditioned form within $B_{well}$. `big` holds the three states with the largest direct-sum errors on the Rust levels, printed in Out [11] ($-8.27\times10^{-10}$, $+2.72\times10^{-10}$, $+6.96\times10^{-11}$), and the last check requires them to be the three states at $a_{4,0} = 0$ and $T = 0.01$, where the gap is largest compared with $T$ (a set `{...}` of ids is compared, so the order does not matter).
+
+**In [12], error against conditioning (Figure 16c.4).**
+
+```python
+scale = np.array([EPS_MACH * r["N"] / r["b_r"]["slope"] for r in ROWS])
+scale_f = np.array([EPS_MACH * r["N"] / r["b_f"]["slope"] for r in ROWS])
+fig, ax = plt.subplots(figsize=(8.0, 6.0))
+low = 1e-19  # exact zeros are drawn here
+series = [(scale, "direct_r", "o", PALETTE[1], "direct sum, Rust levels"),
+          (scale_f, "direct_f", "s", PALETTE[7], "direct sum, reference levels"),
+          (scale, "well_r", "o", PALETTE[0], "well-conditioned, Rust levels"),
+          (scale_f, "well_f", "s", PALETTE[6], "well-conditioned, reference levels"),
+          (scale, "committed_r", "^", PALETTE[2], "committed Rust mu")]
+for xs, key, marker, colour, label in series:
+    ys = np.maximum([abs(r[key]) for r in ROWS], low)
+    ax.loglog(xs, ys, marker, color=colour, ms=5, alpha=0.8, label=label)
+```
+
+`scale` and `scale_f` hold the conditioning scale $\epsilon_{mach}N/N'$ of each state for the Rust and the reference levels. `series` lists five sets of points with their key, marker, colour and label; the loop draws each error (raised to $10^{-19}$ if exactly zero) against the conditioning scale on logarithmic axes.
+
+```python
+line = np.array([1e-16, 1e-8])
+ax.loglog(line, line, "k-", lw=1.0, label="error = $\\epsilon_{mach} N / N'$")
+i_old = [r["id"] for r in ROWS].index(STATE)
+ax.loglog([scale[i_old]], [DIFF_OLD], "*", color="k", ms=14,
+          label="first cross-check (recorded)")
+ax.set_xlabel("$\\epsilon_{mach} N / (dN/d\\mu)$ (units of $m$)")
+ax.set_ylabel("$|\\mu$ computed $-$ 40-digit root$|$ (units of $m$)")
+ax.set_title("45 thermal states with $N = 8$: error against conditioning")
+ax.legend(fontsize=7, loc="upper left")
+```
+
+The black line is "error equals conditioning scale", a line of slope 1, and the star is the recorded error of the first cross-check at the scale of its state (`.index(STATE)` finds the state's position).
+
+```python
+save_figure(fig, "errors_versus_bound",
+            "Errors of the computed chemical potential, in units of $m$, against "
+            "the conditioning scale $\\epsilon_{mach} N/(dN/d\\mu)$ for the 45 "
+            "thermal states with $N = 8$, both axes logarithmic. Bisection on the "
+            "direct sum (orange: Rust levels, red: reference levels) has errors "
+            "that grow with the conditioning scale and approach the line of slope 1 "
+            "in the worst states; the star is the recorded error of the first "
+            "cross-check. The well-conditioned form (blue, purple) and the "
+            "committed repaired Rust values (green) stay near $10^{-17}$ for every "
+            "state; exact zeros are drawn at $10^{-19}$.")
+```
+
+`save_figure` saves Figure 16c.4. What the student should see: the errors of the direct sum (orange and red) grow with the conditioning scale and come within a factor of about 2 of the line of slope 1 in the worst states, where the star of the first cross-check sits; the well-conditioned form (blue, purple) and the committed repaired Rust values (green) stay near $10^{-17}$ whatever the conditioning, many of them exactly zero (the bottom row).
+
+**In [13], where the direct sum is dangerous (Figure 16c.5).**
+
+```python
+tags = [("lam0", "$\\lambda = 0$"), ("lamp1", "$\\lambda = +\\lambda_1$"),
+        ("lamm1", "$\\lambda = -\\lambda_1$")]
+slices, temps = ["a00", "a05", "a10", "a15", "a20"], ["T10", "T20", "T50"]
+by_id = {r["id"]: r for r in ROWS}
+fig, axes = plt.subplots(1, 3, figsize=(11.0, 4.6))
+for ax, (tag, title) in zip(axes, tags):
+    grid = np.array([[math.log10(by_id[f"N8_{tag}_{a}_{t}"]["b_r"]["direct"])
+                      for t in temps] for a in slices])
+    image = ax.imshow(grid, cmap="viridis", vmin=-15.0, vmax=-7.5, aspect="auto")
+    ax.grid(False)  # no grid lines across the coloured squares
+```
+
+`tags` pairs the three coupling tags with their titles, `slices` and `temps` list the id parts of the five slices and three temperatures, and `by_id` files the 45 rows by id. For each coupling, `grid` is a $5\times3$ table of $\log_{10}B_{direct}$, slices down, temperatures across, built by a nested list comprehension; `imshow` paints it with the colour scale `viridis` between $-15$ and $-7.5$, and `ax.grid(False)` removes the grid lines over the squares.
+
+```python
+    for i in range(5):
+        for j in range(3):
+            ax.text(j, i, f"{grid[i, j]:.1f}", ha="center", va="center",
+                    color="w" if grid[i, j] < -11.5 else "k", fontsize=9)
+    ax.set_xticks(range(3))
+    ax.set_xticklabels(["0.01", "0.02", "0.05"])
+    ax.set_yticks(range(5))
+    ax.set_yticklabels(["0", "0.5", "1", "1.5", "2"])
+    ax.set_xlabel("temperature $T$ (units of $m$)")
+    ax.set_title(title)
+axes[0].set_ylabel("slice $a_{4,0}$")
+fig.colorbar(image, ax=axes, shrink=0.9, label="$\\log_{10} B_{direct}$ (units of $m$)")
+```
+
+Each square gets its number with one decimal, written in white on the dark squares and in black on the light ones; the ticks are labelled with the temperatures and the slices, and one colour scale serves the three maps.
+
+```python
+save_figure(fig, "conditioning_map",
+            "The rounding bound $B_{direct}$ of the direct sum, as $\\log_{10}$ of "
+            "its value in units of $m$, for the 45 thermal states with $N = 8$ (Rust "
+            "levels): one map per coupling, the slice $a_{4,0}$ of the deflating "
+            "history downwards, the temperature across. The direct sum is dangerous "
+            "only at low temperature early in the history, where the gap is 43 "
+            "times $T$ and the bound reaches $10^{-8}$; later the redshift of the "
+            "3-momenta closes the gap and the bound falls to about $10^{-15}$.")
+check(max(by_id[f"N8_{t}_a00_T10"]["b_r"]["direct"] for t, _ in tags)
+      == max(r["b_r"]["direct"] for r in ROWS)
+      and all(by_id[f"N8_{t}_a00_T10"]["b_r"]["direct"]
+              > 100.0 * by_id[f"N8_{t}_a10_T10"]["b_r"]["direct"] for t, _ in tags),
+      "the bound is largest at a4,0 = 0, T = 0.01 and falls along the history")
+```
+
+`save_figure` saves Figure 16c.5. What the student should see: in each of the three maps only the top left square ($a_{4,0} = 0$, $T = 0.01$) is bright, at about $-8$, and its neighbours ($a_{4,0} = 0.5$ or $T = 0.02$) are near $-11$ to $-12$; everywhere else the bound lies between about $10^{-15}$ and $10^{-13}$. Along the deflating history the gap closes, because the redshift of the 3-momenta brings the levels of the brane band down towards the filled levels. The check requires the largest bound of all 45 to be one of the three states at $a_{4,0} = 0$, $T = 0.01$, and each of them to be more than 100 times its value at $a_{4,0} = 1$.
+
+**In [14], what the tolerance rule did (Figure 16c.6).**
+
+```python
+order = sorted(range(len(ROWS)), key=lambda i: -ROWS[i]["b_r"]["direct"])
+ratio_old = DIFF_OLD / TOL_OLD  # the ratio of the first, failed comparison
+fig, ax = plt.subplots(figsize=(9.5, 4.8))
+positions = np.arange(len(order))
+ax.semilogy(positions, [ROWS[i]["ratio_mu"] for i in order], "o", color=PALETTE[0],
+            ms=5, label="$\\mu$ (committed values), after the repair")
+ax.semilogy(positions, [ROWS[i]["ratio_hp"] for i in order], "s", color=PALETTE[2],
+            ms=5, mfc="none", label="$\\mu$ with 40 digits on each solver's levels")
+k_old = order.index([r["id"] for r in ROWS].index(STATE))
+ax.semilogy([k_old], [ratio_old], "*", color=PALETTE[7], ms=16,
+            label=f"first cross-check, before the repair: {ratio_old:.0f}")
+ax.axhline(1.0, color="k", lw=1.2, label="ratio 1: the tolerance")
+```
+
+`order` sorts the 45 states by $B_{direct}$, largest first, and `ratio_old` is the ratio of the failed first comparison, $8.27\times10^{-10}/7.97\times10^{-12} = 103.8$. The ratios of the committed $\mu$ (circles) and of the 40-digit roots (open squares, `mfc="none"`) are drawn for each state in that order, the old ratio as a red star at the position of N8_lamm1_a00_T10, and the line ratio 1.
+
+```python
+ax.set_xticks(positions[::4])
+ax.set_xticklabels([ROWS[i]["id"].replace("N8_", "") for i in order][::4],
+                   rotation=40, ha="right", fontsize=7)
+ax.set_xlabel("state (sorted by the bound of the direct sum, largest first)")
+ax.set_ylabel("$|\\mu_{Rust} - \\mu_{ref}|$ / tolerance")
+ax.set_ylim(1e-4, 1e3)
+ax.legend(fontsize=8, loc="upper right")
+fig.tight_layout()
+```
+
+Every fourth state is named on the horizontal axis (without the common prefix N8_), and the vertical axis runs from $10^{-4}$ to $10^{3}$.
+
+```python
+save_figure(fig, "crosscheck_ratios",
+            "The cross-check of the chemical potential for the 45 thermal states with "
+            "$N = 8$: the difference of the two solvers divided by the tolerance "
+            "fixed in advance, logarithmic, the states sorted by the rounding bound "
+            "of the direct sum. Circles: the committed values after the repair; "
+            "squares: the 40-digit roots on each solver's levels; all lie far below "
+            "the line 1. The star is the first comparison in N8_lamm1_a00_T10, "
+            f"before the repair, with the ratio {ratio_old:.0f}: the rule caught a "
+            "rounding error of the Rust solver, and the repair, not a wider "
+            "tolerance, removed it.")
+```
+
+`save_figure` saves Figure 16c.6. What the student should see: the star of the first comparison, at about 104, lies two orders of magnitude above the line 1; after the repair, the same rule gives ratios between about $5\times10^{-4}$ and $0.08$ for every state. The rule caught the error, and the repair, not a wider tolerance, removed it.
+
+```python
+report_detail = next(c["detail"] for c in read_json(
+    f"{KS}/reports/ks-crosscheck.json")["checks"]
+    if c["name"] == "thermo_mu_high_precision")
+worst_all = float(re.search(r"worst \|diff\|/tolerance ([0-9.]+)",
+                            report_detail).group(1))
+say(f"first comparison: ratio {ratio_old:.1f}. After the repair, over these 45 "
+    f"states: mu at most {max(r['ratio_mu'] for r in ROWS):.4f}, 40-digit roots at "
+    f"most {max(r['ratio_hp'] for r in ROWS):.4f} (the report, over all 135 states: "
+    f"40-digit roots at most {worst_all})")
+check(ratio_old > 1.0 and max(r["ratio_hp"] for r in ROWS) <= worst_all + 5e-4
+      and max(r["ratio_mu"] for r in ROWS) < 0.1,
+      "the first comparison failed the rule; after the repair all ratios are small",
+      record=f"{KS}/reports/ks-crosscheck.json, check thermo_mu_high_precision")
+```
+
+The worst ratio of the 40-digit comparison over all 135 thermal states is read from the detail of the cross-check's check thermo_mu_high_precision ($0.05$). Out [14] prints the old ratio, $103.8$, and the largest ratios over the 45 states after the repair: $0.0825$ for the committed $\mu$ and $0.0270$ for the 40-digit roots. The check requires the old ratio above 1, our 40-digit ratios no larger than the report's worst, and every ratio of the committed $\mu$ below $0.1$.
+
+**In [15], the last check.**
+
+```python
+figure_files = [f"{FIGURE_FOLDER}/16c_{k}_{name}.png" for k, name in enumerate(
+    ["levels_and_occupations", "residual_staircase", "convergence_paths",
+     "errors_versus_bound", "conditioning_map", "crosscheck_ratios"], start=1)]
+check(all(output_file(f).is_file() for f in figure_files),
+      "every figure file of this notebook exists")
+all_checks_passed()
+```
+
+As In [23] of Notebook 16a, for the six figures; it prints ALL 26 CHECKS PASSED (notebook 16c): seven checks in In [11], three each in In [2], In [4], In [5] and In [7], two in In [9], and one each in In [3], In [8], In [13], In [14] and In [15].
+
+### 16.25 What the cross-check does not test
+
+The cross-check is a test of the **numerics**: of the discretisation, the rounding and the programming of the Rust solver, against a second program that differs in all three. Everything that both programs take from the same source is outside its reach, and the record says so (`Revision/kohn_sham/reference/README.md`, the section on what the reference does not establish). Precisely:
+
+- **The functional.** Both solvers read the same theory file `Revision/kohn_sham/ks-theory.json`: the contact interaction with Hartree and the exact local exchange of the uniform gas, and no correlation (Chapters 13 and 14). If that functional were a poor approximation for the field, both programs would agree on the wrong answer.
+- **The boundary conditions.** Both use the ASSUMED Z2 mirror brane at $y = 0$ and the CHOSEN regular tip at the cutoff $y = -L$ with $L = 3$.
+- **The filling convention.** Both fill only the positive branch and the brane zero modes and never populate the sea, not even thermally (a CONVENTION whose justification is OPEN). The sea-hole diagnostic, which both programs compute and which agree with each other (worst ratio $0.048$), shows where this convention leaves its range of validity: in 15 of the 135 thermal states the excluded sea would carry more than 1% of $N$, at most $30.98N$ (`Revision/kohn_sham/reports/ks-crosscheck.json`, check thermo_sea_hole_diagnostic). Agreement of the two programs on this diagnostic says nothing about whether the convention is right.
+- **The history and the adiabatic states.** Both compute instantaneous (adiabatic) Kohn-Sham states along the PRESCRIBED BACKGROUND history $a_4 = AHx_4$ with $A = 1$. The history is not solved for: the Kohn-Sham states violate the conditions that the $a_4$ field equations put on their source (`Revision/field_equations_a4/reports/ks-source-conditions.json`, Chapter 17), and the time-dependent (non-adiabatic) problem is OPEN.
+- **The good sector.** Both assume that the quanta do not depend on the extra times $x_5, x_6, x_7$ (ASSUMED, Chapter 14).
+
+A test of these inputs would need something other than a second program for the same equations: an exact functional for the quantised field, a justification or a replacement of the filling convention, a solution of the coupled problem for $a_4$ and the gas, a time-dependent calculation. These are OPEN problems (Chapter 22). Nothing in this chapter concerns pairs of universes, their creation, or matter and antimatter.
+
+### 16.26 What we proved, what we computed, what we assumed
+
+**PROVED** (derived line by line in this chapter; where the Revision record holds the statement, its report and check are named):
+
+- The convergence ratio $(x(h) - x(h/2))/(x(h/2) - x(h/4)) = 4(1 + \tfrac{15}{16}\tfrac dc h^2 + \dots)$ for an error with even powers of $h$ (Section 16.4).
+- Richardson extrapolation: $r(h) = (4x(h/2) - x(h))/3 = X - \tfrac14dh^4 + \dots$, $R = (64x(h/4) - 20x(h/2) + x(h))/45 = X + O(h^6)$, and $R - r(h/2) = \tfrac{1}{64}dh^4 + O(h^6)$, so that the stated $U$ over-estimates the error of $R$ when $h$ is small (Section 16.5).
+- The Rust uncertainty $U_{Rust} = \tfrac{16}{15}|x_c - x_r|$ for a fourth-order method whose step is halved, and in general the factor $2^p/(2^p - 1)$ for order $p$ (Section 16.6, Exercise 3).
+- The tolerance rule as a consequence of the triangle inequality, and the propagated uncertainties $U_F = U_E + TU_S$, $U_\Omega = U_F + NU_\mu$, $3(U_{I_3} + U_{I_t})$ for $dE/da_4$, and the factor 2 for $\Delta E_x$ (Section 16.7).
+- The exact free levels at zero momentum: $0$ and $\pm\sqrt{M^2 + (n\pi/L)^2}$ for even parity, $\pm\sqrt{M^2 + p_l^2}$ with $\tan(p_lL) = -p_l/M$ (one root in each interval) for odd parity, and the zero mode $A\,e^{My}$ with $A = \sqrt{2M/(1 - e^{-2ML})}$ (Section 16.13; `Revision/kohn_sham/reports/ks-theory-python.json`, check bc_exact_k0_spectra).
+- The staggered discretisation: second-order centred differences and averages with even-power errors, the symmetric tridiagonal matrix, the rotated frame for odd parity with $m_2 = M\cos2\phi - K\sin2\phi$, $k_2 = M\sin2\phi + K\cos2\phi$ and the extra term $\phi'$ (Section 16.14).
+- The pivot recursion $q_r = d_r - x - o_{r-1}^2/q_{r-1}$ and, with Sylvester's law, the Sturm count; Gershgorin's bound; the number of bisection steps (Section 16.15).
+- The exact discrete zero mode $u_p = q^pu_0$, $q = (1 + Mh/2)/(1 - Mh/2)$, $\ln q = Mh + (Mh)^3/12 + \dots$; the Hellmann-Feynman theorem for symmetric matrices; the brane-band slope $c = e^{-a_{4,0}}\tfrac{2M}{1 - e^{-2ML}}\tfrac{1 - e^{-(2M - H)L}}{2M - H}$ (Section 16.15; same report, check brane_band_slope).
+- The slope $dN/d\mu = \tfrac1T\sum gf(1 - f) > 0$ and the uniqueness of the chemical potential; the two-level estimate $\mu \approx \tfrac{\varepsilon_0 + \varepsilon_1}{2} - \tfrac T2\ln\tfrac{g_1}{g_0}$; Newton's method and its quadratic convergence; the width $3\cdot2^{-51}/N'$ of the zero interval of the direct sum near $N = 8$; the exact rewriting $W = -d - H + P$ of the Mermin residual (Section 16.20).
+
+Quoted, not proved here: Sylvester's law of inertia and the spectral theorem for symmetric matrices (Sections 16.14 and 16.15). The first-order rounding bounds $B_{direct}$ and $B_{well}$ are derived in the Rust solver's documentation (`Revision/kohn_sham/solver/src/mermin.rs`); this chapter derives their main terms.
+
+**COMPUTED** (numbers from the records named, each reproduced by a notebook of the chapter):
+
+- The reference solver's self-checks: 37 checks, all PASS (`Revision/kohn_sham/reports/ks-reference.json`); among them the exact free levels reproduced to $2.8\times10^{-14}$, convergence ratios between $3.99977$ and $4.00019$, the brane-band slope to $2.6\times10^{-15}$, and the fourth-grid validation with the largest ratio $0.787$ (Notebooks 16a and 16b).
+- The full cross-check: 29 checks, all PASS, 128313 comparisons, no ratio above $0.495$ (`Revision/kohn_sham/reports/ks-crosscheck.json`, `Revision/kohn_sham/reports/ks-crosscheck-table.csv`). Notebook 16a reproduces, for five states, the reference results byte for byte, the Rust canonical results exactly, the canonical-minus-refined differences of `Revision/kohn_sham/checker/rust-refinement.json`, 97 table rows, and the worst cases of six classes; all 5140 of its comparisons pass, the largest with the ratio $0.4952$.
+- The chemical potential: the faulty value $0.2100104489071649$ of the first cross-check reproduced in all sixteen digits by bisection on the direct sum; the 40-digit roots $0.21001044973390\dots$ (Rust levels) and $0.21001044973430\dots$ (reference levels), $4.0\times10^{-13}$ apart; the bounds $B_{direct} = 1.287\times10^{-8}$ and $B_{well} = 3.154\times10^{-16}$ of N8_lamm1_a00_T10 and of all 45 thermal states with $N = 8$ (`Revision/kohn_sham/reports/ks-rust-mermin-roots.json`; Notebook 16c).
+
+**ASSUMED:**
+
+- that the grid errors have the assumed forms (even powers of $h$ for the reference, fourth order for the Rust solver), tested by the ratio test on every level and by a fourth grid for one state, not proved for the self-consistent problem;
+- that the measured uncertainties bound the errors (the factor 3 of the tolerance rule allows for estimates that are somewhat too small); Section 16.20 shows one way this can fail: a repeated computation that shares a rounding error does not measure it;
+- the inputs shared by both programs, listed in Section 16.25: the functional, the Z2 mirror brane, the good sector; CHOSEN: the regular tip and $L = 3$; CONVENTION, justification OPEN: the filling of the levels; PRESCRIBED BACKGROUND: the history $a_4 = AHx_4$.
+
+**HYPOTHESIS:** none is used in this chapter. **OPEN:** the time-dependent (non-adiabatic) problem, the justification of the filling convention, and any test of the shared inputs (Section 16.25).
+
+### 16.27 Exercises
+
+**Exercise 1 (Richardson by hand).** Notebook 16a prints the Kohn-Sham energy of N8_lamm2_a00 on the three grids: $E_{KS}(300) = 0.002862539189$, $E_{KS}(600) = 0.002862623929$, $E_{KS}(1200) = 0.002862645113$. Compute the convergence ratio, the one-step values $r(h)$ and $r(h/2)$, the three-grid value $R$ and its uncertainty $U$. Compare $R$ with the notebook's $0.0028626521737$ and explain the difference.
+
+*Answer.* The differences are $x(h) - x(h/2) = -8.4740\times10^{-8}$ and $x(h/2) - x(h/4) = -2.1184\times10^{-8}$, and their ratio is $4.0002$: second order. Then $r(h) = (4\cdot0.002862623929 - 0.002862539189)/3 = (0.011450495716 - 0.002862539189)/3 = 0.008587956527/3 = 0.0028626521757$, and $r(h/2) = (4\cdot0.002862645113 - 0.002862623929)/3 = (0.011450580452 - 0.002862623929)/3 = 0.008587956523/3 = 0.0028626521743$. So $R = (16\,r(h/2) - r(h))/15 = r(h/2) + (r(h/2) - r(h))/15 = 0.0028626521743 - 0.0000000000001 = 0.0028626521742$, and $U = |R - r(h/2)| + 2\cdot10^{-12} = 0.9\times10^{-13} + 2\times10^{-12} = 2.1\times10^{-12}$, as in the notebook. Our $R$ differs from the notebook's $0.0028626521737$ by about $5\times10^{-13}$, because the printed grid values are rounded to $10^{-12}$: the weights of $R$ are $\tfrac{64}{45}$, $-\tfrac{20}{45}$ and $\tfrac{1}{45}$, so rounding errors of up to $0.5\times10^{-12}$ in the inputs can move $R$ by up to $\tfrac{64 + 20 + 1}{45}\cdot0.5\times10^{-12} = 0.94\times10^{-12}$. The notebook computes with the unrounded values. (Useful identity: $R = r(h/2) + (r(h/2) - r(h))/15$, which follows from $16r(h/2) - r(h) = 15r(h/2) + (r(h/2) - r(h))$.)
+
+**Exercise 2 (the worst comparison).** The worst comparison of the whole cross-check is the energy density at the tip of N8_lamm2_a00: Rust gives $-10.1822650611886$, the reference $-10.182265056614$, and the tolerance is $9.238\times10^{-9}$ (`Revision/kohn_sham/reports/ks-crosscheck.json`, check emt_brane_tip_values). Compute the difference and the ratio, and the sum $U_{ref} + U_{Rust}$ of the two uncertainties.
+
+*Answer.* $|x_{Rust} - x_{ref}| = 10.1822650611886 - 10.182265056614 = 4.5746\times10^{-9}$. The ratio is $4.5746\times10^{-9}/9.238\times10^{-9} = 0.495$, the largest ratio of the record. The tolerance is $3(U_{ref} + U_{Rust}) + 10^{-12}\max(1, 10.18)$, so $U_{ref} + U_{Rust} = (9.238\times10^{-9} - 1.018\times10^{-11})/3 = 3.076\times10^{-9}$. The difference is about $1.5$ times this sum. Since the difference of two numbers can exceed the sum of their errors only if at least one error exceeds its uncertainty (Section 16.7), at least one of the two estimates is too small at the tip, by a factor of up to about $1.5$. The factor 3 of the rule absorbs this, which is why it is there. Only the comparisons at and near the tip (the classes emt_brane_tip_values and ground_profiles, both with the largest ratio $0.495$) have ratios above $\tfrac13$, where the factor 3 is needed at all.
+
+**Exercise 3 (the factor for a method of order $p$).** A method has the error $x(h) = X + c\,h^p + \dots$. It is run with the step $h$ (result $x_c$) and with $h/2$ (result $x_r$). Show that the error of $x_c$ is $\tfrac{2^p}{2^p - 1}(x_c - x_r)$, and evaluate the factor for $p = 2$ and $p = 4$. Use it to compute $U_{Rust}$ for $E_{KS}$ of N688_lam0_a00, where Notebook 16a measures $|x_c - x_r| = 7.529\times10^{-10}$.
+
+*Answer.* $x_c = X + e$ with $e = ch^p$, and $x_r = X + c(h/2)^p = X + e/2^p$. Subtracting, $x_c - x_r = e(1 - 2^{-p}) = e\,\tfrac{2^p - 1}{2^p}$, so $e = \tfrac{2^p}{2^p - 1}(x_c - x_r)$. For $p = 2$ the factor is $\tfrac43$, for $p = 4$ it is $\tfrac{16}{15}$, the factor of Section 16.6. For N688_lam0_a00: $U_{Rust} = \tfrac{16}{15}\cdot7.529\times10^{-10} = 8.031\times10^{-10}$. (The same algebra gives Richardson's first step: $X = x_r - (x_c - x_r)/(2^p - 1)$, which for $p = 2$ is $(4x_r - x_c)/3$.)
+
+**Exercise 4 (a Sturm count by hand).** Take the even-parity matrix of Section 16.14 for $G = 2$ cells ($h = 1.5$, $M = 1$, $j = +1$): the unknowns are $u_0, w_1, u_1$, and $T = \begin{pmatrix} 0 & a & 0 \\ a & 0 & b \\ 0 & b & 0 \end{pmatrix}$ with $a = \tfrac1h + \tfrac M2$, $b = -\tfrac1h + \tfrac M2$. (i) Compute $a$, $b$ and the three eigenvalues. (ii) Compute the pivots at $x = 0.5$ and the Sturm count $c(0.5)$. (iii) Construct the discrete zero mode. (iv) Compare the positive eigenvalue with the exact level $1.447972$.
+
+*Answer.* (i) $a = \tfrac23 + \tfrac12 = \tfrac76$ and $b = -\tfrac23 + \tfrac12 = -\tfrac16$. The determinant of $T - \varepsilon\mathbb{1}$, expanded along the first row, is $-\varepsilon(\varepsilon^2 - b^2) - a(-a\varepsilon) = -\varepsilon(\varepsilon^2 - a^2 - b^2)$, so the eigenvalues are $0$ and $\pm\sqrt{a^2 + b^2} = \pm\sqrt{\tfrac{49}{36} + \tfrac{1}{36}} = \pm\sqrt{\tfrac{50}{36}} = \pm1.178511$. (ii) $q_1 = 0 - 0.5 = -0.5$; $q_2 = 0 - 0.5 - a^2/q_1 = -0.5 + 1.361111/0.5 = -0.5 + 2.722222 = 2.222222$; $q_3 = 0 - 0.5 - b^2/q_2 = -0.5 - 0.027778/2.222222 = -0.5 - 0.0125 = -0.5125$. Two pivots are negative, so $c(0.5) = 2$: indeed two eigenvalues, $-1.178511$ and $0$, lie below $0.5$. (iii) $q = (1 + Mh/2)/(1 - Mh/2) = 1.75/0.25 = 7$, so $u_1 = 7u_0$ and $w_1 = 0$. Check the row of $w_1$: $a\,u_0 + b\,u_1 = \tfrac76u_0 - \tfrac16\cdot7u_0 = 0$. Normalised with $\sum u^2h = 1$: $u_0^2(1 + 49)\cdot1.5 = 1$, so $u_0 = 0.11547$, $u_1 = 0.80829$. (iv) The coarse grid gives $1.178511$ instead of $1.447972$, an error of $0.27$: with only two cells the $h^2$ error is large, and Notebook 16b shows how it shrinks by a factor 4 per halving of $h$.
+
+**Exercise 5 (how many halvings).** For the even-parity matrix with $G = 300$ cells ($M = 1$, $L = 3$, $k = 0$), find Gershgorin's starting interval and the number of bisection steps needed to locate the zero mode to $10^{-14}$.
+
+*Answer.* $h = 3/300 = 0.01$, so the neighbour entries are $\tfrac1h + \tfrac12 = 100.5$ and $-\tfrac1h + \tfrac12 = -99.5$. Every inner row has the radius $100.5 + 99.5 = 200$ and the diagonal is zero, so the interval is $[\min(d - \rho) - 1, \max(d + \rho) + 1] = [-201, 201]$, of width $W = 402$. After $n$ halvings the width is $402/2^n$, and $402/2^n \le 10^{-14}$ needs $2^n \ge 4.02\times10^{16}$, that is $n \ge \log_2(4.02\times10^{16}) = 55.2$: 56 halvings. (For $G = 150$ the same reasoning gives 55, the number of Notebook 16b; doubling $G$ doubles $W$ and costs one more halving.)
+
+**Exercise 6 (the accuracy of the discrete zero mode).** For $G = 150$ ($h = 0.02$, $M = 1$), compute $\ln q$ to nine decimals with the series of Section 16.15 and compare with $Mh$. By how much does the discrete exponential grow faster than $e^{My}$ across the whole interval $L = 3$, and is this consistent with the distance $6.93\times10^{-5}$ that Notebook 16b measures?
+
+*Answer.* $\ln q = Mh + (Mh)^3/12 + \dots = 0.02 + 0.000008/12 = 0.02 + 0.000000667 = 0.020000667$ (the next term, $(Mh)^5/80 = 4\times10^{-11}$, does not change these digits). So the discrete exponential grows like $e^{1.0000333\,y}$ instead of $e^{y}$: over the 150 cells the exponents differ by $150\cdot6.67\times10^{-7} = 1.0\times10^{-4}$, a relative difference of $10^{-4}$ between the two ends. After both are normalised to $\int a^2dy = 1$, the difference is shared between the two ends, about $\pm0.5\times10^{-4}$ in relative size, and with values of $a$ up to $1.42$ at the brane this is about $7\times10^{-5}$: consistent with the measured $6.93\times10^{-5}$. The error is of order $h^2$, as the relative rate error $(Mh)^2/12$ shows.
+
+**Exercise 7 (the chemical potential of N8_lamm1_a00_T10 by hand).** With the levels $\varepsilon_0 = 0.000245562708$ ($g_0 = 8$), $\varepsilon_1 = 0.430761462627$ ($g_1 = 24$), $\varepsilon_2 = 0.587973061749$ ($g_2 = 48$) and $T = 0.01$: (i) evaluate the two-level estimate of Section 16.20; (ii) show that the thermal particles of the level $\varepsilon_2$ lower $\mu$ by about $\tfrac T2P_2/P_1$ and evaluate the correction; (iii) compare with the 40-digit root $0.2100104497339$.
+
+*Answer.* (i) $\mu_0 = \tfrac{0.000245562708 + 0.430761462627}{2} - 0.005\ln3 = 0.215503512668 - 0.005493061443 = 0.210010451225$. (ii) The Mermin condition $H = P_1 + P_2$ reads $g_0e^{-(\mu - \varepsilon_0)/T} = g_1e^{-(\varepsilon_1 - \mu)/T}(1 + P_2/P_1)$. Taking logarithms as in Section 16.20 gives $\mu = \mu_0 - \tfrac T2\ln(1 + P_2/P_1) \approx \mu_0 - \tfrac T2\,\tfrac{P_2}{P_1}$, because $\ln(1 + s) \approx s$ for small $s$. With $\mu \approx 0.2100104$: $P_2 = 48\,e^{-(0.587973 - 0.210010)/0.01} = 48\,e^{-37.796} = 48\cdot3.85\times10^{-17} = 1.85\times10^{-15}$ and $P_1 = H = 6.21\times10^{-9}$, so $P_2/P_1 = 2.97\times10^{-7}$ and the correction is $0.005\cdot2.97\times10^{-7} = 1.49\times10^{-9}$. (iii) $\mu \approx 0.210010451225 - 0.000000001488 = 0.210010449737$, within about $3\times10^{-12}$ of the 40-digit root $0.2100104497339$ (the remaining difference comes from the approximations $1/(1 + e^s) \approx e^{-s}$ and $\ln(1 + s) \approx s$, and from rounding the levels to twelve decimals). The direct sum in doubles can hardly see the level $\varepsilon_2$: its particles, $1.8\times10^{-15}$, are one or two spacings of the doubles near 8, so the direct sum blurs an effect that moves $\mu$ by $1.5\times10^{-9}$, the size of the error of the first cross-check.
+
+**Exercise 8 (another activated state).** For the state N8_lam0_a00_T10 the record gives $n = 5$ levels and $dN/d\mu = 1.229\times10^{-6}$ (`Revision/kohn_sham/reports/ks-rust-mermin-roots.json`). Estimate the width of the interval of $\mu$ on which the direct residual is exactly zero, and the main term of $B_{direct}$. Compare with the error of the direct sum for this state printed by Notebook 16c ($+2.72\times10^{-10}$).
+
+*Answer.* The width is $3\cdot2^{-51}/N' = 1.332\times10^{-15}/1.229\times10^{-6} = 1.08\times10^{-9}$, as for N8_lamm1_a00_T10, because $N'$ is almost the same. The main term of the bound is $(n + 2)\,\epsilon_{mach}N/N' = 7\cdot2.220\times10^{-16}\cdot8/1.229\times10^{-6} = 1.012\times10^{-8}$, the record's $1.012\times10^{-8}$ (the other terms are about $10^{-16}$). The actual error, $2.72\times10^{-10}$, lies inside the zero interval's width and far inside the bound. Its sign is positive here: where the zero interval lies relative to the root depends on how the individual terms of the sum are rounded, so bisection can stop above or below the root. A bound tells how large an error can be; it does not tell its sign.

@@ -40,6 +40,8 @@ $$
 
 in the order $x1, \dots, x8$; $\eta_{aa}$ is its entry for the direction $a$, and $\eta^{aa} = \eta_{aa}$ because every entry is $\pm 1$. The constant gamma matrix of a direction carries the direction in parentheses, $\gamma^{(x4)}$; a gamma without parentheses, $\gamma^{x4}$ or $\gamma^\mu$, is a **curved gamma** (Section 6.2). Sums are written with $\sum$ as in Chapter 3. The one exception is the contraction $\gamma^\mu\Omega_\mu$: it always means $\sum_\mu\gamma^\mu\Omega_\mu$, and a single term is marked "(no sum)". Finally $s = \sin^{1/6}z$.
 
+**The record files.** The Revision record files are named by their short names. The formula file `field-theory.json` lies in the folder `Revision/theory`. The reports `python-field-theory.json` and `wolfram-field-theory.json` (written by a sympy program and by a WolframScript program that share no code) and the two scope reports `python-scope.json` and `wolfram-scope.json` lie in the folder `Revision/theory/reports`. The **lead report** is the file `emt-divergence-and-spin-connection.json` in the folder `Revision/lead_checks/reports`, written by an independent program of the lead of the Revision work.
+
 ### 6.2 A frame at every point: the vielbein
 
 **Why a spinor needs a frame.** The gamma matrices obey the Clifford relation $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}1$ with the constant matrix $\eta$ (Chapter 4). In a curved space the metric $g_{\mu\nu}(x)$ changes from point to point and is not $\eta$. The way out is to describe every point by its own eight reference directions, perpendicular to each other and of unit length (unit duration for a time-like direction). Measured in such a frame the metric looks exactly like $\eta$, so the constant gammas of Chapter 4 can be used unchanged. The spinor components are always measured with respect to such a frame.
@@ -64,7 +66,7 @@ $$
 \eta_{11}f_1^2 = (+1)\big(e^{a_4}\sin^{1/6}z\big)^2 = e^{2a_4}\sin^{1/3}z
 $$
 
-(a power of a product is the product of the powers, and $(\sin^{1/6}z)^2 = \sin^{1/3}z$), which is the author's $g_{11}$; for $\mu = \nu = x5$, $\eta_{55}f_5^2 = (-1)e^{-2a_4}\sin^{1/3}z$, the author's $g_{55}$; for $x8$, $(+1)\cot^2 z = g_{88}$. The inverse vielbein is diagonal too, $e_a{}^\mu = \delta_a^\mu/f_a$. PROVED; record `Revision/theory/field-theory.json`, formulas `metric` and `vielbein_diagonal`, and `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json`, check `vielbein_reproduces_metric`; Notebook 06a, In [7].
+(a power of a product is the product of the powers, and $(\sin^{1/6}z)^2 = \sin^{1/3}z$), which is the author's $g_{11}$; for $\mu = \nu = x5$, $\eta_{55}f_5^2 = (-1)e^{-2a_4}\sin^{1/3}z$, the author's $g_{55}$; for $x8$, $(+1)\cot^2 z = g_{88}$. The inverse vielbein is diagonal too, $e_a{}^\mu = \delta_a^\mu/f_a$. PROVED; `field-theory.json`, formulas `metric` and `vielbein_diagonal`; the lead report, check `vielbein_reproduces_metric`; Notebook 06a, In [7].
 
 **The volume factor.** The determinant of a diagonal matrix is the product of its diagonal entries, so $\det g = \prod_\mu \eta_{\mu\mu}f_\mu^2 = (+1)^4(-1)^4\prod_\mu f_\mu^2$, and $\sqrt{\lvert\det g\rvert} = f_1 f_2\cdots f_8$. Line by line:
 
@@ -84,7 +86,7 @@ $$
 \sqrt{\lvert\det g\rvert} = \sin z \cdot \cot z = \sin z\cdot\frac{\cos z}{\sin z} = \cos z
 $$
 
-(multiply by $f_8 = \cot z$ and cancel $\sin z$). The volume factor $\cos z$ does not depend on the time $x_4$: what 3-space gains, the extra times lose. PROVED; `Revision/theory/reports/python-field-theory.json`, check `sqrt_det_g_equals_cos_z`; `Revision/theory/reports/wolfram-field-theory.json`, check `sqrt_det_g_is_cos_z`; Notebook 06a, In [7]. This one fact will explain, in Section 6.9, why the function $a_4$ drops out of $\gamma^\mu\Omega_\mu$.
+(multiply by $f_8 = \cot z$ and cancel $\sin z$). The volume factor $\cos z$ does not depend on the time $x_4$: what 3-space gains, the extra times lose. PROVED; `python-field-theory.json`, check `sqrt_det_g_equals_cos_z`; `wolfram-field-theory.json`, check `sqrt_det_g_is_cos_z`; Notebook 06a, In [7]. This one fact will explain, in Section 6.9, why the function $a_4$ drops out of $\gamma^\mu\Omega_\mu$.
 
 **Curved gammas.** With the constant frame gammas $\gamma^a$ define, for every coordinate $\mu$,
 
@@ -125,8 +127,6 @@ $$
 | $e^a{}_\mu = f_a\delta^a_\mu$ reproduces the author's metric | PROVED | `field-theory.json`, formulas `metric` and `vielbein_diagonal`; `python-field-theory.json`, check `metric_from_vielbein_equals_SPEC`; lead report, check `vielbein_reproduces_metric` |
 | $\sqrt{\lvert\det g\rvert} = \cos z$, independent of $x_4$ | PROVED | `python-field-theory.json`, check `sqrt_det_g_equals_cos_z`; `wolfram-field-theory.json`, check `sqrt_det_g_is_cos_z` |
 | curved Clifford relation; another frame $\Lambda e$ gives the same metric | PROVED (above) | Notebook 06b checks the second for a boost, In [7] |
-
-Here and below, `field-theory.json` is `Revision/theory/field-theory.json`, the two field-theory reports lie in `Revision/theory/reports`, and the lead report is `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json`.
 
 ### 6.3 The Christoffel symbols of the author's metric
 
@@ -195,7 +195,11 @@ $$
 and with $\lambda = x8$, case (a): $\Gamma^{x8}{}_{x8\,x8} = -6H/(\sin z\cos z) = -12H/\sin 2z$ (the double-angle formula $\sin 2z = 2\sin z\cos z$). From (c) with $\lambda = x4$ ($\eta_{44} = -1$, $f_4 = 1$):
 
 $$
-\Gamma^{x4}{}_{x_i\,x_i} = -(-1)(+1)f_i\,\partial_4 f_i = f_i^2\,a_4' = e^{2a_4}\sin^{1/3}z\;a_4', \qquad \Gamma^{x4}{}_{x_t\,x_t} = -(-1)(-1)f_t\,\partial_4 f_t = f_t^2\,a_4' = e^{-2a_4}\sin^{1/3}z\;a_4'
+\Gamma^{x4}{}_{x_i\,x_i} = -(-1)(+1)f_i\,\partial_4 f_i = f_i^2\,a_4' = e^{2a_4}\sin^{1/3}z\;a_4',
+$$
+
+$$
+\Gamma^{x4}{}_{x_t\,x_t} = -(-1)(-1)f_t\,\partial_4 f_t = f_t^2\,a_4' = e^{-2a_4}\sin^{1/3}z\;a_4'
 $$
 
 (for the extra times $\partial_4 f_t = -a_4'f_t$, and the three minus signs make a plus). From (c) with $\lambda = x8$ ($\eta_{88} = +1$, $f_8 = \cot z$):
@@ -357,7 +361,7 @@ $$
 \omega_{x_t\,x_t\,x4} = (-1)\frac{-a_4'f_t}{1} = a_4'\,e^{-a_4}s, \qquad \omega_{x_t\,x_t\,x8} = (-1)\frac{H\cot z\,f_t}{\cot z} = -H\,e^{-a_4}s .
 $$
 
-The record lists the components with the smaller index first, $a < b$; for the extra times this is $\omega_{x_t\,x4\,x_t} = -\omega_{x_t\,x_t\,x4} = -a_4'\,e^{-a_4}s$. For $\mu = x4$ the candidates would need $\partial_bf_4 = 0$, and for $\mu = x8$ they would need $\partial_4f_8 = 0$; so $\omega_{x4\,ab} = \omega_{x8\,ab} = 0$. Altogether there are $3 \cdot 2 + 3 \cdot 2 = 12$ independent nonzero components:
+The record lists the components with the smaller index first, $a < b$; for the extra times this is $\omega_{x_t\,x4\,x_t} = -\omega_{x_t\,x_t\,x4} = -a_4'\,e^{-a_4}s$. For $\mu = x4$ every candidate contains $\partial_bf_4 = 0$ (because $f_4 = 1$), and for $\mu = x8$ the only candidate, $b = x4$, contains $\partial_4f_8 = 0$ (because $\cot z$ does not depend on the time); so $\omega_{x4\,ab} = \omega_{x8\,ab} = 0$. Altogether there are $3 \cdot 2 + 3 \cdot 2 = 12$ independent nonzero components:
 
 | $\mu$ | pair $(a, b)$ | $\omega_{\mu ab}$ | kind of pair |
 | --- | --- | --- | --- |
@@ -582,7 +586,10 @@ $$
 that is, with the factors written out,
 
 $$
-e^{-a_4}s^{-1}\big(\gamma^{(x1)}\partial_1 + \gamma^{(x2)}\partial_2 + \gamma^{(x3)}\partial_3\big)\Psi + \gamma^{(x4)}\partial_4\Psi + e^{a_4}s^{-1}\big(\gamma^{(x5)}\partial_5 + \gamma^{(x6)}\partial_6 + \gamma^{(x7)}\partial_7\big)\Psi + \tan z\,\gamma^{(x8)}\partial_8\Psi + 3H\gamma^{(x8)}\Psi .
+\begin{aligned}
+&e^{-a_4}s^{-1}\big(\gamma^{(x1)}\partial_1 + \gamma^{(x2)}\partial_2 + \gamma^{(x3)}\partial_3\big)\Psi + \gamma^{(x4)}\partial_4\Psi \\
+&\quad + e^{a_4}s^{-1}\big(\gamma^{(x5)}\partial_5 + \gamma^{(x6)}\partial_6 + \gamma^{(x7)}\partial_7\big)\Psi + \tan z\,\gamma^{(x8)}\partial_8\Psi + 3H\gamma^{(x8)}\Psi .
+\end{aligned}
 $$
 
 This is the left side of the field equation of both fields; the right side is $(m + U'(S))\Psi$ with $S = \bar\Psi\Psi$ (Chapter 7). The Revision record writes out all sixteen component equations (formula `field_equation_components`), and Notebook 06a compares each of them with its own computation (In [20]). **Where the deflation enters.** It does not enter $\gamma^\mu\Omega_\mu$, but it enters every derivative term through the factors $1/f_a$: as 3-space inflates the 3-space derivatives are weighted less and less ($e^{-a_4}/s$), and as the extra times deflate the extra-time derivatives are weighted more and more ($e^{a_4}/s$). Figure 06a.9 draws these factors.
@@ -1132,7 +1139,7 @@ save_figure(fig, "polar_frame_and_spin_rotation",
             "$4\\pi$ is it $+1$ again.")
 ```
 
-`save_figure` saves the figure with its caption, shows it and prints Figure 06a.1 saved as Revision/textbook/figures/06a_1_polar_frame_and_spin_rotation.png.
+`save_figure` saves the figure with its caption, shows it and prints one line with the name of the saved file, `06a_1_polar_frame_and_spin_rotation.png` in the folder `Revision/textbook/figures`.
 
 **What Figure 06a.1 shows.** On the left, the black and orange arrows turn together as one goes around the circle: the polar frame at the angle $\varphi$ is the Cartesian frame turned by $\varphi$. That turning is exactly what $\omega_{\varphi01} = -1$ records, although the plane is flat. On the right, the solid curve $\cos(\varphi/2)$ reaches $-1$ at $\varphi = 2\pi$ (the value 2 on the axis), where the dashed curve is 0: after one full turn the spinor rotation is $-1$, and only at $4\pi$ is it $+1$ again. A spinor turns by half the angle of its frame.
 
@@ -1235,7 +1242,7 @@ save_figure(fig, "vielbein_factors",
             "z$, which does not depend on the time.")
 ```
 
-The figure is saved with its caption; the cell prints the line Figure 06a.2 saved as Revision/textbook/figures/06a_2_vielbein_factors.png.
+The figure is saved with its caption; the cell prints the name of the saved file, `06a_2_vielbein_factors.png`.
 
 **What Figure 06a.2 shows.** On the left, the 3-space factor rises and the extra-time factor falls along straight lines of opposite slope (on a logarithmic axis an exponential is a straight line): 3-space inflates while the extra times deflate exponentially, at the same rate. Their product is the flat gray line $s^2$, and the time factor is 1. On the right, as functions of the hidden angle: $s$ rises slowly to 1, the hidden factor $\cot z$ falls from very large values near the tip $z = 0$ to 0 at the patch end $z = \pi/2$, and the volume factor $\cos z$ falls from 1 to 0. The volume factor does not depend on the time at all; Section 6.9 showed why this matters.
 
@@ -1320,7 +1327,7 @@ save_figure(fig, "christoffel_pattern",
             "grids are symmetric because $\\Gamma^l{}_{mn} = \\Gamma^l{}_{nm}$.")
 ```
 
-The figure is saved; the cell prints Figure 06a.3 saved as Revision/textbook/figures/06a_3_christoffel_pattern.png.
+The figure is saved; the cell prints the name of the saved file, `06a_3_christoffel_pattern.png`.
 
 **What Figure 06a.3 shows.** Every coloured square lies in row 4 or 8, in column 4 or 8, or in a panel $l = 4$ or $l = 8$: every nonzero symbol carries an index $x4$ or $x8$, because the metric depends only on the time and on the hidden coordinate. Each grid is mirror-symmetric about its diagonal, because $\Gamma^l{}_{mn} = \Gamma^l{}_{nm}$. In the panels $l = x1, x2, x3$ the two squares with the index 4 are red ($a_4' > 0$: 3-space grows), and in the panels $l = x5, x6, x7$ they are blue ($-a_4'$: the extra times shrink). The panel $l = x4$ has red squares on the diagonal for all six warped directions, and the panel $l = x8$ has blue squares for 3-space, red squares for the extra times and one blue square at $(8, 8)$, as the signs derived in Section 6.3 say.
 
@@ -1423,7 +1430,7 @@ save_figure(fig, "omega_heat_maps",
             "3-space direction $x1$.")
 ```
 
-The figure is saved; the cell prints Figure 06a.4 saved as Revision/textbook/figures/06a_4_omega_heat_maps.png.
+The figure is saved; the cell prints the name of the saved file, `06a_4_omega_heat_maps.png`.
 
 **What Figure 06a.4 shows.** For $\mu = x1$ the only nonzero squares are $(x1, x4) = 0.78$ and $(x1, x8) = 1.56$ with their mirror images $-0.78$ and $-1.56$: the antisymmetry. These numbers are $a_4'e^{a_4}s$ and $He^{a_4}s$ at the sample point, where $e^{a_4}s = e^{1/2}\sin^{1/6}(\pi/4) = 1.556$. For $\mu = x5$ the nonzero squares are $(x4, x5) = -0.29$ and $(x5, x8) = -0.57$ with their mirror images: $-a_4'e^{-a_4}s$ and $-He^{-a_4}s$, with $e^{-a_4}s = 0.572$. The extra time has the opposite signs of the 3-space direction and smaller values, because its factor $e^{-a_4}$ is smaller than $e^{a_4}$ when $a_4 > 0$.
 
@@ -2050,7 +2057,10 @@ $$
 **Theorem (local spin covariance).** The canonical spinor connection of the frame $e' = \Lambda e$ is exactly this matrix. Proof, line by line. By the uniqueness of Section 6.7 it suffices to show that $X_\mu = R\Omega_\mu R^{-1} - (\partial_\mu R)R^{-1}$ has the defining property with the new connection $\omega'_\mu$, and trace 0. First part of $X_\mu$:
 
 $$
-[R\Omega_\mu R^{-1}, \gamma^a] = R\,[\Omega_\mu, R^{-1}\gamma^aR]\,R^{-1} = \sum_c\Lambda^a{}_c\,R[\Omega_\mu, \gamma^c]R^{-1} = -\sum_{c,b}\Lambda^a{}_c\,\omega_\mu{}^c{}_b\,R\gamma^bR^{-1} = -\sum_d\big(\Lambda\omega_\mu\Lambda^{-1}\big)^a{}_d\gamma^d
+\begin{aligned}
+[R\Omega_\mu R^{-1}, \gamma^a] &= R\,[\Omega_\mu, R^{-1}\gamma^aR]\,R^{-1} = \sum_c\Lambda^a{}_c\,R[\Omega_\mu, \gamma^c]R^{-1} \\
+&= -\sum_{c,b}\Lambda^a{}_c\,\omega_\mu{}^c{}_b\,R\gamma^bR^{-1} = -\sum_d\big(\Lambda\omega_\mu\Lambda^{-1}\big)^a{}_d\gamma^d
+\end{aligned}
 $$
 
 (multiply out both sides of the first equality; the covering relation; the defining property of $\Omega_\mu$; the inverted covering relation and the rule of matrix multiplication). Second part: differentiate the covering relation $R^{-1}\gamma^aR = \sum_c\Lambda^a{}_c\gamma^c$ with the product rule, using $\partial_\mu(R^{-1}) = -R^{-1}(\partial_\mu R)R^{-1}$ (differentiate $R^{-1}R = 1$):
@@ -2105,10 +2115,16 @@ $$
 and keep the other six frame directions. Here $\cosh b = (e^b + e^{-b})/2$ and $\sinh b = (e^b - e^{-b})/2$ (Chapter 5), with $\cosh^2b - \sinh^2b = 1$. The matrix $\Lambda(b)$ is the identity except in the rows and columns of $x4$ and $x8$, where it is $\begin{pmatrix}\cosh b & \sinh b\\ \sinh b & \cosh b\end{pmatrix}$. In these two rows and columns $\eta$ is $\mathrm{diag}(-1, +1)$, and
 
 $$
-\Lambda^T\eta\Lambda = \begin{pmatrix}\cosh b & \sinh b\\ \sinh b & \cosh b\end{pmatrix}\begin{pmatrix}-\cosh b & -\sinh b\\ \sinh b & \cosh b\end{pmatrix} = \begin{pmatrix}-\cosh^2b + \sinh^2b & -\cosh b\sinh b + \sinh b\cosh b\\ -\sinh b\cosh b + \cosh b\sinh b & -\sinh^2b + \cosh^2b\end{pmatrix} = \begin{pmatrix}-1 & 0\\ 0 & 1\end{pmatrix}
+\Lambda^T\eta\Lambda = \begin{pmatrix}\cosh b & \sinh b\\ \sinh b & \cosh b\end{pmatrix}\begin{pmatrix}-\cosh b & -\sinh b\\ \sinh b & \cosh b\end{pmatrix}
 $$
 
-($\eta\Lambda$ first: $\eta$ changes the sign of the first row of $\Lambda$; then multiply row by column; then $\cosh^2 - \sinh^2 = 1$). So $\Lambda(b)$ keeps $\eta$ for every $b$, and $e' = \Lambda(b)e$ is a vielbein of the author's metric. A rotation moves a direction along a circle; a boost moves it along a **hyperbola**, keeping $t^2 - y^2$ (figure 06b.1). Now let the rapidity grow with the time,
+($\Lambda$ is symmetric, so $\Lambda^T = \Lambda$; and $\eta\Lambda$ is $\Lambda$ with the sign of its first row changed)
+
+$$
+= \begin{pmatrix}-\cosh^2b + \sinh^2b & -\cosh b\sinh b + \sinh b\cosh b\\ -\sinh b\cosh b + \cosh b\sinh b & -\sinh^2b + \cosh^2b\end{pmatrix} = \begin{pmatrix}-1 & 0\\ 0 & 1\end{pmatrix}
+$$
+
+(multiply row by column; then $\cosh^2 - \sinh^2 = 1$). So $\Lambda(b)$ keeps $\eta$ for every $b$, and $e' = \Lambda(b)e$ is a vielbein of the author's metric. A rotation moves a direction along a circle; a boost moves it along a **hyperbola**, keeping $t^2 - y^2$ (figure 06b.1). Now let the rapidity grow with the time,
 
 $$
 b = \beta x_4 + b_0 ,
@@ -2131,7 +2147,10 @@ $$
 (move $\gamma^{(x4)}$ to the left through $X$ at the cost of a sign), so
 
 $$
-R^{-1}\gamma^{(x4)}R = \gamma^{(x4)}R^2 = \gamma^{(x4)}\big(c^2 + s^2 - 2cs\,X\big) = \cosh b\,\gamma^{(x4)} - \sinh b\,\gamma^{(x4)}X = \cosh b\,\gamma^{(x4)} + \sinh b\,\gamma^{(x8)}
+\begin{aligned}
+R^{-1}\gamma^{(x4)}R &= \gamma^{(x4)}R^2 = \gamma^{(x4)}\big(c^2 + s^2 - 2cs\,X\big) \\
+&= \cosh b\,\gamma^{(x4)} - \sinh b\,\gamma^{(x4)}X = \cosh b\,\gamma^{(x4)} + \sinh b\,\gamma^{(x8)}
+\end{aligned}
 $$
 
 (multiply out $(c - sX)^2$ with $X^2 = 1$; the half-angle formulas $c^2 + s^2 = \cosh b$ and $2cs = \sinh b$ of Chapter 5; and $\gamma^{(x4)}X = \gamma^{(x4)}\gamma^{(x4)}\gamma^{(x8)} = -\gamma^{(x8)}$). In the same way $R^{-1}\gamma^{(x8)}R = \gamma^{(x8)}(\cosh b - \sinh b\,X) = \sinh b\,\gamma^{(x4)} + \cosh b\,\gamma^{(x8)}$, using $\gamma^{(x8)}X = \gamma^{(x8)}\gamma^{(x4)}\gamma^{(x8)} = -\gamma^{(x4)}$. These are the two rows of $\Lambda(b)$: **$R$ covers the boost.**
@@ -2139,7 +2158,11 @@ $$
 **The contraction in the boosted frame.** By Section 6.15, $\sum_\mu\gamma'^\mu\Omega'_\mu = R(3H\gamma^{(x8)})R^{-1} - \sum_\mu\gamma'^\mu(\partial_\mu R)R^{-1}$. The first term, line by line:
 
 $$
-R\gamma^{(x8)} = (c - sX)\gamma^{(x8)} = \gamma^{(x8)}(c + sX) = \gamma^{(x8)}R^{-1}, \qquad R\gamma^{(x8)}R^{-1} = \gamma^{(x8)}(c + sX)^2 = \gamma^{(x8)}(\cosh b + \sinh b\,X) = \cosh b\,\gamma^{(x8)} - \sinh b\,\gamma^{(x4)}
+R\gamma^{(x8)} = (c - sX)\gamma^{(x8)} = \gamma^{(x8)}(c + sX) = \gamma^{(x8)}R^{-1},
+$$
+
+$$
+R\gamma^{(x8)}R^{-1} = \gamma^{(x8)}(c + sX)^2 = \gamma^{(x8)}(\cosh b + \sinh b\,X) = \cosh b\,\gamma^{(x8)} - \sinh b\,\gamma^{(x4)}
 $$
 
 (the same steps as before). Call $v = \cosh b\,\gamma^{(x8)} - \sinh b\,\gamma^{(x4)}$; the first term is $3H\,v$. The second term: $R$ depends on $x_4$ only, through $b$, with $db/dx_4 = \beta$, so only $\mu = x4$ contributes:
@@ -3267,10 +3290,16 @@ $$
 (add and subtract $[\Omega_\mu, \gamma^\nu]$; then $D_\mu\gamma^\nu = 0$, Section 6.7). By the vector rule, $[S^{ab}, \gamma^c]$ is nonzero only when $c$ is $a$ or $b$. For $\mu = x1$ the difference is $\Omega^{nb}_{x1} - \Omega_{x1} = -f_1a_4'S^{x1x4}$, the deleted boost part, and
 
 $$
-[\Omega^{nb}_{x1} - \Omega_{x1}, \gamma^{x1}] = -a_4'[S^{x1x4}, \gamma^{(x1)}] = -a_4'\big(\eta^{x4\,x1}\gamma^{(x1)} - \eta^{x1x1}\gamma^{(x4)}\big) = a_4'\gamma^{(x4)}, \qquad [\Omega^{nb}_{x1} - \Omega_{x1}, \gamma^{x4}] = f_1a_4'\gamma^{(x1)}
+[\Omega^{nb}_{x1} - \Omega_{x1}, \gamma^{x1}] = -a_4'[S^{x1x4}, \gamma^{(x1)}] = -a_4'\big(\eta^{x4\,x1}\gamma^{(x1)} - \eta^{x1x1}\gamma^{(x4)}\big) = a_4'\gamma^{(x4)}
 $$
 
-(the vector rule $[S^{ab}, \gamma^c] = \eta^{bc}\gamma^a - \eta^{ac}\gamma^b$; the second in the same way with $\eta^{x4x4} = -1$). So for each 3-space direction two pairs $(\mu, \nu)$ are violated. For $\mu = x5$ the difference is $2f_5a_4'S^{x4x5} + f_5HS^{x5x8}$ (the time-time part counted twice, because its sign was reversed, and the deleted boost part), and the same rule gives $[\ldots, \gamma^{x5}] = -2a_4'\gamma^{(x4)} + H\gamma^{(x8)}$, $[\ldots, \gamma^{x4}] = 2f_5a_4'\gamma^{(x5)}$ and $[\ldots, \gamma^{x8}] = \tan z\,f_5H\gamma^{(x5)}$: three violated pairs for each extra time. Altogether $3 \cdot 2 + 3 \cdot 3 = 15$ of the 64 pairs. Each violated matrix is a multiple of one gamma (16 nonzero entries), except $-2a_4'\gamma^{(x4)} + H\gamma^{(x8)}$, which has 32 because $\gamma^{(x4)}$ and $\gamma^{(x8)}$ have their nonzero entries in different places (the tables of Chapter 5); so there are $6 \cdot 16 + 3(16 + 32 + 16) = 288$ nonzero entries. Notebook 06c finds exactly these numbers (In [13]; COMPUTED exactly by the notebook, not a Revision record).
+(the factor $f_1$ of the difference cancels against the $1/f_1$ of $\gamma^{x1}$; then the vector rule $[S^{ab}, \gamma^c] = \eta^{bc}\gamma^a - \eta^{ac}\gamma^b$ with $\eta^{x4x1} = 0$ and $\eta^{x1x1} = 1$), and in the same way, with $\eta^{x4x4} = -1$,
+
+$$
+[\Omega^{nb}_{x1} - \Omega_{x1}, \gamma^{x4}] = -f_1a_4'\big(\eta^{x4x4}\gamma^{(x1)} - \eta^{x1x4}\gamma^{(x4)}\big) = f_1a_4'\gamma^{(x1)} .
+$$
+
+So for each 3-space direction two pairs $(\mu, \nu)$ are violated. For $\mu = x5$ the difference is $2f_5a_4'S^{x4x5} + f_5HS^{x5x8}$ (the time-time part counted twice, because its sign was reversed, and the deleted boost part), and the same rule gives $[\ldots, \gamma^{x5}] = -2a_4'\gamma^{(x4)} + H\gamma^{(x8)}$, $[\ldots, \gamma^{x4}] = 2f_5a_4'\gamma^{(x5)}$ and $[\ldots, \gamma^{x8}] = \tan z\,f_5H\gamma^{(x5)}$: three violated pairs for each extra time. Altogether $3 \cdot 2 + 3 \cdot 3 = 15$ of the 64 pairs. Each violated matrix is a multiple of one gamma (16 nonzero entries), except $-2a_4'\gamma^{(x4)} + H\gamma^{(x8)}$, which has 32 because $\gamma^{(x4)}$ and $\gamma^{(x8)}$ have their nonzero entries in different places (the tables of Chapter 5); so there are $6 \cdot 16 + 3(16 + 32 + 16) = 288$ nonzero entries. Notebook 06c finds exactly these numbers (In [13]; COMPUTED exactly by the notebook, not a Revision record).
 
 | statement | status | where it is verified |
 | --- | --- | --- |
@@ -4307,7 +4336,7 @@ $$
 - The negative control: with inflating extra times the contraction is $3a_4'\gamma^{(x4)} + 3H\gamma^{(x8)}$; the cancellation is caused by the deflation (Section 6.10; Notebook 06a, In [22]; lead report, check `negative_control_inflating_extra_times`).
 - Local spin covariance $\Omega'_\mu = R\Omega_\mu R^{-1} - (\partial_\mu R)R^{-1}$, $\gamma'^\mu = R\gamma^\mu R^{-1}$, $F' = RFR^{-1}$ (Sections 6.15 and 6.17; Notebook 06b, In [12] and In [15]).
 - In the frame boosted with $b = \beta x_4 + b_0$, $\gamma'^\mu\Omega'_\mu = \frac{6H - \beta}{2}(\cosh b\,\gamma^{(x8)} - \sinh b\,\gamma^{(x4)})$, zero for $\beta = 6H$ while $\Omega'_\mu \neq 0$ for $x1, \dots, x7$ (Section 6.16; Notebook 06b, In [8] and In [10]; both scope reports, checks `boosted_frame_gammaOmega_formula`, `boosted_frame_gammaOmega_vanishes`).
-- The Ricci components, $R = 6(a_4'^2 - 7H^2)$, and $R^{x8}{}_{x8} = -6H^2$ (by hand): the metric is never flat; the contraction is blind to the deflation while $R^{x4}{}_{x4} = 6a_4'^2$; $F_{\mu\nu} = \frac12R_{ab\mu\nu}S^{ab}$ in all 28 planes; $F'_{x1x8} \neq 0$ in the boosted frame (Section 6.17; Notebook 06b, In [13] and In [15]; checks `ricci_mixed_components`, `never_flat_for_H_positive`, `gammaOmega_blind_to_the_deflation`, `spinor_curvature_equals_riemann`, `boosted_frame_curvature_nonzero`).
+- The Ricci components, $R = 6(a_4'^2 - 7H^2)$, and $R^{x8}{}_{x8} = -6H^2$ (by hand): the metric is never flat; the contraction is blind to the deflation while $R^{x4}{}_{x4} = 6a_4'^2$; $F_{\mu\nu} = \frac12R_{ab\mu\nu}S^{ab}$ in all 28 planes; $F'_{x1x8} \neq 0$ in the boosted frame (Section 6.17, whose table names the field-theory and scope checks of the record that prove the same; Notebook 06b, In [13] and In [15]).
 - The rescaling $\Psi = \sin^{-1/2}(z)\chi$ removes the term; with $U = \frac\lambda2S^2$ it becomes $\lambda S[\chi]/\sin z$ (Section 6.18; Notebook 06b, In [17]; checks `rescaling_removes_the_connection_term`, `rescaled_equation_quadratic_potential`).
 - The mixed contraction equals $\Omega^{ss} - \Omega^{tt}$: it keeps 6, reverses 6 and deletes 16 of the 28 parts; it agrees with the correct one in the polar plane and deletes the whole connection in the Milne wedge (Section 6.23; Notebook 06c, In [4], In [6], In [8]).
 - Only $c = 3H$ makes the hidden-direction operator antisymmetric for the weight $\cos z$, up to the boundary term $[\sin z\,p\,q]$ (Section 6.24; Notebook 06c, In [15]; formula `hidden_direction_hermiticity`; check `good_sector_hermiticity_curved`).
@@ -4343,7 +4372,19 @@ $$
 
 **Exercise 5 (rescaling with a general power).** Let $\Psi = \sin^\alpha(z)\,\chi$ with a constant $\alpha$ in the diagonal vielbein. Show that $\sum_\mu\gamma^\mu D_\mu\Psi = \sin^\alpha z\,\big(\sum_\mu\gamma^\mu\partial_\mu\chi + 3H(2\alpha + 1)\gamma^{(x8)}\chi\big)$. Which $\alpha$ removes the term, and which leaves it unchanged?
 
-*Answer.* By the product rule, $\sum_\mu\gamma^\mu D_\mu(\sin^\alpha z\,\chi) = \sin^\alpha z\sum_\mu\gamma^\mu\partial_\mu\chi + \big(\gamma^{x8}\partial_8\sin^\alpha z + 3H\sin^\alpha z\,\gamma^{(x8)}\big)\chi$. With $\gamma^{x8} = \tan z\,\gamma^{(x8)}$ and $\partial_8\sin^\alpha z = \alpha\sin^{\alpha-1}z\cos z\cdot6H$ (the power rule and the chain rule): $\tan z\,\partial_8\sin^\alpha z = \frac{\sin z}{\cos z}\,6H\alpha\sin^{\alpha-1}z\cos z = 6H\alpha\sin^\alpha z$. The bracket is $(6H\alpha + 3H)\sin^\alpha z\,\gamma^{(x8)} = 3H(2\alpha + 1)\sin^\alpha z\,\gamma^{(x8)}$, which gives the formula. $\alpha = -\frac12$ removes the term (Section 6.18), and $\alpha = 0$ leaves it unchanged. This is the factor $3H(2\alpha + 1)$ that the record's exact solution family contains (`field-theory.json`, formula `exact_solutions`).
+*Answer.* By the product rule, and because only $x_8$ appears in $\sin^\alpha z$,
+
+$$
+\sum_\mu\gamma^\mu D_\mu(\sin^\alpha z\,\chi) = \sin^\alpha z\sum_\mu\gamma^\mu\partial_\mu\chi + \big(\gamma^{x8}\partial_8\sin^\alpha z + 3H\sin^\alpha z\,\gamma^{(x8)}\big)\chi .
+$$
+
+With $\gamma^{x8} = \tan z\,\gamma^{(x8)}$ and $\partial_8\sin^\alpha z = 6H\alpha\sin^{\alpha-1}z\cos z$ (the power rule and the chain rule),
+
+$$
+\tan z\,\partial_8\sin^\alpha z = \frac{\sin z}{\cos z}\,6H\alpha\sin^{\alpha-1}z\cos z = 6H\alpha\sin^\alpha z .
+$$
+
+The bracket is $(6H\alpha + 3H)\sin^\alpha z\,\gamma^{(x8)} = 3H(2\alpha + 1)\sin^\alpha z\,\gamma^{(x8)}$, which gives the formula. $\alpha = -\frac12$ removes the term (Section 6.18), and $\alpha = 0$ leaves it unchanged. This is the factor $3H(2\alpha + 1)$ that the record's exact solution family contains (`field-theory.json`, formula `exact_solutions`).
 
 **Exercise 6 (mixed components).** Using $\omega_\mu{}^b{}_a = -\eta_{aa}\eta_{bb}\,\omega_\mu{}^a{}_b$ (Section 6.4), show that the mixed components of a time-time pair are antisymmetric and those of a boost pair symmetric. Then compute $\Omega^{nb}_{x2}$ and $\Omega^{nb}_{x7}$ for the author's metric.
 

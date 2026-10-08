@@ -1432,3 +1432,2831 @@ all_checks_passed()
 ```
 
 The five figure files must exist where the notebook wrote them; the last line prints ALL 28 CHECKS PASSED (notebook 14a). The 28 checks are: 1 in In [2], 2 in In [3], 2 in In [4], 2 in In [7], 2 in In [8], 2 in In [10], 2 in In [11], 2 in In [12], 2 in In [13], 2 in In [14], 5 in In [16], 1 in In [17], 2 in In [18] and 1 in In [20].
+
+### 14.12 The block equation in real form and the boundary conditions
+
+**The real form.** In every block the stationary equation is $\chi' = N\chi$ with $N = M\sigma_3 - \kappa k\,\sigma_2 + ij(\varepsilon - v)\sigma_1$ (Section 14.5). Write the two components of $\chi$ as $\chi = (a, ib)$ with two real functions $a(y)$ and $b(y)$, and write $K = \kappa k$ and $\varepsilon' = \varepsilon - v$ for short. Line by line:
+
+$$
+\sigma_3\chi = (a,\ -ib), \qquad \sigma_2\chi = (b,\ ia), \qquad \sigma_1\chi = (ib,\ a) .
+$$
+
+Rule: multiply each Pauli matrix of Section 14.1 with the column $(a, ib)$; for example the first entry of $\sigma_2\chi$ is $(-i)(ib) = -i^2b = b$.
+
+$$
+N\chi = \Big(Ma - Kb - j\varepsilon' b,\ \ i\big[(j\varepsilon' - K)a - Mb\big]\Big) .
+$$
+
+Rule: $N\chi = M\sigma_3\chi - K\sigma_2\chi + ij\varepsilon'\sigma_1\chi$, entry by entry; in the first entry $ij\varepsilon'(ib) = i^2j\varepsilon' b = -j\varepsilon' b$; the second entry is $-iMb - iKa + ij\varepsilon' a$, which is $i$ times the bracket.
+
+$$
+a' = Ma - (K + j\varepsilon')\,b, \qquad b' = (j\varepsilon' - K)\,a - Mb .
+$$
+
+Rule: $\chi' = (a', ib')$; compare the first entries, and the second entries divided by $i$. Every coefficient is a real number, so a solution that starts with real values $a$, $b$ stays real: the computer needs only real numbers. Status: PROVED; the record states this form as blockEquation.realForm in `Revision/kohn_sham/ks-theory.json`, and Notebook 14b checks it with sympy (In [2]).
+
+**The densities of one orbital.** From the three products above and $\chi^\dagger = (a, -ib)$ (the conjugate transpose of the column, with $a$, $b$ real):
+
+$$
+\chi^\dagger\chi = a^2 + b^2, \qquad \chi^\dagger\sigma_2\chi = 2ab, \qquad \chi^\dagger\sigma_3\chi = a^2 - b^2, \qquad \chi^\dagger\sigma_1\chi = 0 .
+$$
+
+Rule: multiply the row $(a, -ib)$ with each column; for example $\chi^\dagger\sigma_2\chi = a\cdot b + (-ib)(ia) = ab + ab$, and $\chi^\dagger\sigma_1\chi = a(ib) + (-ib)a = 0$. These four numbers become the number density, the scalar density, the density $Q$ and the current along $y$ of the orbital (Sections 14.26 and 14.27). Status: PROVED (the multiplication above); the record states the same four formulas as blockEquation.realFormDensities in `Revision/kohn_sham/ks-theory.json`.
+
+**The current along $y$ is the same at every point.** The number $\chi^\dagger\sigma_1\chi$ is the flow along the hidden direction of the conserved charge of the field (the **current** along $y$). For every solution, complex or real:
+
+$$
+\frac{d}{dy}\big(\chi^\dagger\sigma_1\chi\big) = \chi'^\dagger\sigma_1\chi + \chi^\dagger\sigma_1\chi' = \chi^\dagger\big(N^\dagger\sigma_1 + \sigma_1N\big)\chi .
+$$
+
+Rule: the product rule; then $\chi' = N\chi$ and $\chi'^\dagger = (N\chi)^\dagger = \chi^\dagger N^\dagger$.
+
+$$
+N^\dagger = M\sigma_3 - K\sigma_2 - ij\varepsilon'\sigma_1 .
+$$
+
+Rule: the Pauli matrices are Hermitian, $M$, $K$, $\varepsilon'$ are real, and the complex conjugate of $i$ is $-i$.
+
+$$
+N^\dagger\sigma_1 + \sigma_1N = M(\sigma_3\sigma_1 + \sigma_1\sigma_3) - K(\sigma_2\sigma_1 + \sigma_1\sigma_2) - ij\varepsilon'\sigma_1\sigma_1 + ij\varepsilon'\sigma_1\sigma_1 = 0 .
+$$
+
+Rule: two different Pauli matrices anticommute, so the first two brackets are zero, and the last two terms cancel. So the current has the same value at every $y$. The density $\chi^\dagger\chi$ is not constant: its derivative is $\chi^\dagger(N^\dagger + N)\chi$ with $N^\dagger + N = 2M\sigma_3 - 2K\sigma_2 \ne 0$. Status: PROVED; check bc_current_conserved_along_y of `Revision/kohn_sham/reports/ks-theory-python.json` and of the Wolfram report.
+
+**Why the two ends must stop the current.** Section 14.4 called $h$ Hermitian "when the boundary terms vanish". Here is the boundary term. For two columns $\varphi$ and $\chi$ of functions of $y$:
+
+$$
+\varphi^\dagger h_j\chi - (h_j\varphi)^\dagger\chi = -ij\varphi^\dagger\sigma_1\chi' - ij\varphi'^\dagger\sigma_1\chi = \frac{d}{dy}\big[-ij\,\varphi^\dagger\sigma_1\chi\big] .
+$$
+
+Rule, for the first equality: the part of $h_j$ without derivative, $j(M\sigma_2 + K\sigma_3) + v$, is a Hermitian matrix, so it gives $\varphi^\dagger X\chi - (X\varphi)^\dagger\chi = \varphi^\dagger X\chi - \varphi^\dagger X^\dagger\chi = 0$; the derivative part gives $\varphi^\dagger(-ij\sigma_1\chi') - (-ij\sigma_1\varphi')^\dagger\chi$, and $(-ij\sigma_1\varphi')^\dagger = +ij\varphi'^\dagger\sigma_1$. Rule, for the second: the product rule backwards. Integrating from $-L$ to $0$:
+
+$$
+\int_{-L}^{0}\varphi^\dagger h_j\chi\,dy - \int_{-L}^{0}(h_j\varphi)^\dagger\chi\,dy = -ij\big[\varphi^\dagger\sigma_1\chi\big]_{y=-L}^{y=0} .
+$$
+
+Rule: the integral of a derivative is the difference of its end values. So $h_j$ is self-adjoint (the two integrals are equal, the levels are real and orbitals of different levels are orthogonal, Section 14.4) exactly when the boundary conditions make $\varphi^\dagger\sigma_1\chi$ vanish at both ends: the conditions must **kill the current**. Status: PROVED; check bc_self_adjoint_boundary_term (both reports).
+
+**The brane at $y = 0$ (ASSUMED).** The author's coordinate patch ends at $y = 0$, where $z = \pi/2$. Something must be said about what lies beyond it. The Revision theory ASSUMES a **Z2 mirror** (also called an **orbifold**): the patch $y \le 0$ is glued at $y = 0$ to a mirror copy of itself, with the warp $e^{-H|y|}$ on both sides, and a field on the doubled interval obeys $\Psi(-y) = \pm\gamma^{(x_8)}\Psi(y)$. At $y = 0$ this relation says $\Psi(0) = \pm\gamma^{(x_8)}\Psi(0)$, that is $(1 \mp \gamma^{(x_8)})\chi(0) = 0$. In every block $\gamma^{(x_8)}$ is $\sigma_3$ (Section 14.5), and $1 - \sigma_3 = \mathrm{diag}(0, 2)$, $1 + \sigma_3 = \mathrm{diag}(2, 0)$. Hence two kinds of orbitals, called the two **parities**:
+
+- EVEN parity (upper sign): $\chi_2(0) = 0$; in real form $b(0) = 0$.
+- ODD parity (lower sign): $\chi_1(0) = 0$; in real form $a(0) = 0$.
+
+Both kill the current, because $\chi^\dagger\sigma_1\chi = \chi_1^*\chi_2 + \chi_2^*\chi_1$ (the star is the complex conjugate) is zero when $\chi_1$ or $\chi_2$ is zero. Status: the mirror is ASSUMED; the two conditions follow from it (PROVED; check bc_brane_parity_conditions, both reports).
+
+**What the mirror does to the mass.** Let $\chi$ solve $\chi'(y) = N(y)\chi(y)$ and put $\tilde\chi(y) = \sigma_3\chi(-y)$. Line by line:
+
+$$
+\tilde\chi'(y) = -\sigma_3\chi'(-y) = -\sigma_3N(-y)\chi(-y) = -\sigma_3N(-y)\sigma_3\,\tilde\chi(y) .
+$$
+
+Rule: the chain rule (the derivative of $\chi(-y)$ is $-\chi'(-y)$), then the equation at the point $-y$, then $\chi(-y) = \sigma_3\tilde\chi(y)$ because $\sigma_3\sigma_3 = 1$.
+
+$$
+-\sigma_3N\sigma_3 = -M\sigma_3 - K\sigma_2 + ij\varepsilon'\sigma_1 .
+$$
+
+Rule: $\sigma_3\sigma_3\sigma_3 = \sigma_3$, $\sigma_3\sigma_2\sigma_3 = -\sigma_2$, $\sigma_3\sigma_1\sigma_3 = -\sigma_1$. This is the matrix $N$ with $M$ replaced by $-M$. So $\tilde\chi$ solves the block equation with the mass $-M(-y)$, the potential $v(-y)$ and the weight $\kappa(-y)$ (the weight of the mirror copy). The doubled problem is therefore mirror-symmetric only if the mass is **odd** across the brane. The densities say the same: under the map the number density and $Q$ (built from $\chi^\dagger\chi$ and $\chi^\dagger\sigma_3\chi$) are even, while the scalar density $S$ (built from $\chi^\dagger\sigma_2\chi$) and the current change sign, because $\sigma_3$ commutes with $1$ and $\sigma_3$ and anticommutes with $\sigma_2$ and $\sigma_1$. Since $M_{\rm eff} = m + \tfrac{15}{16}\lambda S$ (Section 14.27) and $S$ is odd, the mirror copy carries $(-m, +\lambda)$. Status: PROVED; checks bc_mirror_map_PA and bc_mirror_parities_of_densities (both reports).
+
+**What this does and does not say (honesty).** The pair $(+m, -m)$ of the patch and its mirror copy is the mirror pair of the pairing theorem T3, which Chapter 19 proves. It is an exact map between solutions of the equations with an ASSUMED boundary construction. It does not say that a mirror copy, a second universe or a pair of universes is created by any process: no creation process, rate or amplitude follows from these equations (Chapters 18 to 20 give the complete statements and the list of what is not proved).
+
+**The tip (ASSUMED: a chosen cutoff condition).** The hidden coordinate runs to minus infinity at the tip, which a computer cannot reach. The Revision solver stops at $y = -L$ ($L = 3$) and imposes there one member of the family
+
+$$
+\big(1 - Q(\theta)\big)\chi(-L) = 0, \qquad Q(\theta) = \cos\theta\,\sigma_3 + \sin\theta\,\sigma_2 .
+$$
+
+Line by line, why every member kills the current. First, $Q^\dagger = Q$ (rule: $\sigma_3$, $\sigma_2$ are Hermitian, $\cos\theta$ and $\sin\theta$ are real). Second, $Q^2 = \cos^2\theta + \sin^2\theta + \cos\theta\sin\theta(\sigma_3\sigma_2 + \sigma_2\sigma_3) = 1$ (rule: multiply out; each $\sigma^2 = 1$ and the bracket is zero). Third, $Q\sigma_1 = -\sigma_1Q$ (rule: $\sigma_1$ anticommutes with $\sigma_3$ and with $\sigma_2$). Now if $Q\chi = \chi$ at the end point, then
+
+$$
+\chi^\dagger\sigma_1\chi = \chi^\dagger\sigma_1Q\chi = -\chi^\dagger Q\sigma_1\chi = -(Q\chi)^\dagger\sigma_1\chi = -\chi^\dagger\sigma_1\chi ,
+$$
+
+so $\chi^\dagger\sigma_1\chi = 0$ there. Rule: replace $\chi$ by $Q\chi$, move $Q$ to the left with the third fact, use $Q^\dagger = Q$, then $Q\chi = \chi$ again. The canonical choice is $\theta = 0$: $(1 - \sigma_3)\chi(-L) = 0$, that is $\chi_2(-L) = 0$, $b(-L) = 0$, the **regular tip**. In real form a member $\theta$ is satisfied by the starting point $(a, b) = (\cos\tfrac\theta2, \sin\tfrac\theta2)$ at $y = -L$ (Exercise 14.3), which is where the shooting of Section 14.14 starts. Status: the algebra is PROVED (check bc_tip_family, both reports); the choice of the condition is ASSUMED.
+
+**Zero current everywhere.** An **orbital** is a solution that satisfies the brane condition and the tip condition. Its current is zero at the two ends and the same at every $y$, so it is zero everywhere. (For a real solution $(a, b)$ it is zero anyway, by the densities above.)
+
+**Why the tip hardly matters when the 3-momentum is not zero.** Toward the tip the weight $\kappa = e^{-Hy - a_{4,0}}$ grows without bound, and for large $\kappa$ the matrix $N$ is dominated by its momentum term, $N \approx -\kappa k\,\sigma_2$. Line by line:
+
+- $\sigma_2$ has the eigenvalues $s = +1$ and $s = -1$ (it squares to 1 and its trace is 0), with eigenvectors $u_+$ and $u_-$.
+- On $u_s$ the equation $\chi' \approx -\kappa k\sigma_2\chi$ reads $\chi' \approx -s\kappa k\,\chi$.
+- Its solution is $\chi \propto \exp(sk\kappa/H)\,u_s$. Rule: the derivative of $e^{-Hy}$ is $-He^{-Hy}$, so the derivative of $\kappa/H$ is $-\kappa$, and the chain rule gives the derivative of $\exp(sk\kappa/H)$ as $(sk)(-\kappa)\exp(sk\kappa/H)$.
+- For $k > 0$ the branch $s = +1$ grows enormously toward the tip and the branch $s = -1$ decays toward the tip (for $k < 0$ the two exchange their roles). The decaying branch, $\sigma_2\chi = -\chi$ for $k > 0$, is the **regular** one.
+- An orbital is therefore suppressed at the cutoff, compared with its size at a point $y$, by about the factor $\exp(-|k|(\kappa(-L) - \kappa(y))/H)$. Rule: the ratio of $\exp(-|k|\kappa/H)$ at the two points.
+
+Whatever condition is imposed at $y = -L$ acts on a part of the orbital that is already this small, so for $k \ne 0$ the levels change by about this factor at most. At the slice $a_{4,0} = 0$, between the brane and the cutoff, $\kappa(-L) - \kappa(0) = e^{HL} - 1 = e^3 - 1 \approx 19.09$, and for the smallest lattice momentum $k = 0.25$ the factor is $8.47\times10^{-3}$ (the column suppression_factor of `Revision/kohn_sham/results/spectrum/tip-angle.csv`). At $k = 0$ there is no suppression and the tip condition matters: there the choice $\theta = 0$ selects the brane zero mode of Section 14.13. Status: PROVED; check bc_tip_asymptotics (both reports); Section 14.20 measures the effect.
+
+### 14.13 The exact free levels at zero 3-momentum
+
+Take $k = 0$, $v = 0$ and a constant mass $M > 0$. The real form becomes $a' = Ma - j\varepsilon b$, $b' = j\varepsilon a - Mb$. These two equations can be solved by hand, completely. The solutions are the first test of any numerical method for the model.
+
+**Step 1: one equation of second order.** Suppose $\varepsilon \ne 0$. Line by line:
+
+$$
+a = \frac{b' + Mb}{j\varepsilon} .
+$$
+
+Rule: solve the second equation for $a$ (add $Mb$ and divide by $j\varepsilon \ne 0$).
+
+$$
+a' = \frac{b'' + Mb'}{j\varepsilon} .
+$$
+
+Rule: differentiate; $M$, $j$, $\varepsilon$ are constants.
+
+$$
+b'' + Mb' = M(b' + Mb) - j^2\varepsilon^2b .
+$$
+
+Rule: insert the two lines into the first equation $a' = Ma - j\varepsilon b$ and multiply by $j\varepsilon$.
+
+$$
+b'' = (M^2 - \varepsilon^2)\,b .
+$$
+
+Rule: $j^2 = 1$, and $Mb'$ cancels on both sides.
+
+The general solution of this equation depends on the sign of $M^2 - \varepsilon^2$ (check each by differentiating twice): if $\varepsilon^2 > M^2$, write $M^2 - \varepsilon^2 = -p^2$ with $p > 0$, and $b = A\sin(py) + B\cos(py)$; if $\varepsilon^2 < M^2$, write $M^2 - \varepsilon^2 = q^2$ with $q > 0$, and $b = Ae^{qy} + Be^{-qy}$; if $\varepsilon^2 = M^2$, then $b = A + By$. Here $A$ and $B$ are constants.
+
+**Step 2: even parity, $b(0) = 0$ and $b(-L) = 0$.**
+
+- $\varepsilon^2 > M^2$: $b(0) = B = 0$, so $b = A\sin(py)$; then $b(-L) = -A\sin(pL) = 0$ with $A \ne 0$ requires $pL = n\pi$, $n = 1, 2, 3, \dots$ Hence the levels $\varepsilon = \pm\sqrt{M^2 + (n\pi/L)^2}$.
+- $\varepsilon^2 < M^2$, $\varepsilon \ne 0$: $b(0) = A + B = 0$ gives $b = A(e^{qy} - e^{-qy})$, and $b(-L) = A(e^{-qL} - e^{qL}) = 0$ forces $A = 0$ (because $e^{qL} > e^{-qL}$); then $b = 0$ and $a = (b' + Mb)/(j\varepsilon) = 0$: no orbital.
+- $\varepsilon^2 = M^2$: $b(0) = A = 0$ and $b(-L) = -BL = 0$, so $b = 0$ and again no orbital.
+- $\varepsilon = 0$ (Step 1 does not apply): the equations separate, $a' = Ma$ and $b' = -Mb$, so $a = Ae^{My}$, $b = Be^{-My}$. The brane condition $b(0) = B = 0$ makes $b = 0$ everywhere, which also satisfies $b(-L) = 0$. So $\chi = (Ae^{My}, 0)$ is an orbital with $\varepsilon = 0$, for every $L$: the **brane zero mode**, largest at the brane.
+
+The constant of the zero mode follows from the normalisation $\int_{-L}^0 a^2\,dy = 1$:
+
+$$
+\int_{-L}^{0}A^2e^{2My}\,dy = A^2\,\frac{1 - e^{-2ML}}{2M} = 1, \qquad A = \sqrt{\frac{2M}{1 - e^{-2ML}}} .
+$$
+
+Rule: the integral of $e^{2My}$ is $e^{2My}/(2M)$; evaluate at $0$ and $-L$ and subtract; solve for $A > 0$.
+
+**Step 3: odd parity, $a(0) = 0$ and $b(-L) = 0$.**
+
+- $\varepsilon^2 > M^2$: the solution with $b(-L) = 0$ is $b = A\sin(p(y + L))$ (the general solution written around the point $-L$, where the cosine term must vanish). By Step 1, $a(0) = 0$ means $b'(0) + Mb(0) = 0$, that is $A[p\cos(pL) + M\sin(pL)] = 0$. So the levels are $\varepsilon = \pm\sqrt{M^2 + p^2}$ where $p > 0$ solves
+
+$$
+f(p) = M\sin(pL) + p\cos(pL) = 0, \qquad \text{equivalently} \qquad \tan(pL) = -\frac{p}{M} .
+$$
+
+Rule: divide by $M\cos(pL)$, which is not zero (if $\cos(pL) = 0$ then $f = \pm M \ne 0$).
+- $\varepsilon^2 < M^2$, $\varepsilon \ne 0$: $b = A(e^{q(y+L)} - e^{-q(y+L)})$, and $b'(0) + Mb(0) = A[q(e^{qL} + e^{-qL}) + M(e^{qL} - e^{-qL})] = 0$ forces $A = 0$ (the bracket is positive): no orbital.
+- $\varepsilon^2 = M^2$: $b = B(y + L)$ and $b'(0) + Mb(0) = B(1 + ML) = 0$ forces $B = 0$: no orbital.
+- $\varepsilon = 0$: $a = Ae^{My}$ with $a(0) = A = 0$, and $b = Be^{-My}$ with $b(-L) = Be^{ML} = 0$, so $B = 0$: there is no zero mode of odd parity.
+
+**Step 4: the odd roots.** Count the roots of $f(p) = M\sin(pL) + p\cos(pL)$ for $p > 0$. At $p = (n + \tfrac12)\pi/L$ the sine is $(-1)^n$ and the cosine 0, so $f = M(-1)^n$; at $p = (n + 1)\pi/L$ the sine is 0 and the cosine $(-1)^{n+1}$, so $f = p(-1)^{n+1}$. The two values have opposite signs, so $f$ has a root in between (rule: a continuous function that changes sign on an interval is zero somewhere in it). It has exactly one there: on this interval $\tan(pL)$ rises from minus infinity to 0 while $-p/M$ falls, so the two curves meet once; and on the intervals from $n\pi/L$ to $(n + \tfrac12)\pi/L$ there is no root, because there $\tan(pL) > 0 > -p/M$. So the roots are $p_0 < p_1 < p_2 < \dots$, one in each interval $((n + \tfrac12)\pi/L,\ (n + 1)\pi/L)$.
+
+**Summary (PROVED).** At $k = 0$, $v = 0$, constant $M > 0$ and the canonical tip:
+
+| parity | levels | orbital |
+| --- | --- | --- |
+| even | $0$ (the brane zero mode) | $(\sqrt{2M/(1 - e^{-2ML})}\,e^{My},\ 0)$ |
+| even | $\pm\sqrt{M^2 + (n\pi/L)^2}$, $n = 1, 2, \dots$ | $b = \sin(n\pi y/L)$, $a = (b' + Mb)/(j\varepsilon)$ |
+| odd | $\pm\sqrt{M^2 + p_n^2}$, $\tan(p_nL) = -p_n/M$ | $b = \sin(p_n(y + L))$, $a = (b' + Mb)/(j\varepsilon)$ |
+
+Apart from the zero mode, every level has $|\varepsilon| > M$: the free spectrum has a gap from $-M$ to $M$ that contains only the zero modes. Every level of one block type is held by its four blocks $(s_2, s_3)$, so it is 4-fold per type and 8-fold in all (for $v = 0$ the levels of the type $j = -1$ are the negatives of those of $j = +1$, Section 14.5, and the set of levels above is symmetric). Status: PROVED; check bc_exact_k0_spectra (both reports).
+
+**The numbers for $M = 1$, $L = 3$** (Notebook 14b, Out [4]): the first odd roots are $p_0 = 0.818548$, $p_1 = 1.744313$, $p_2 = 2.734844$; the lowest odd level is $\sqrt{1 + p_0^2} = 1.292292828069\,m$ and the lowest positive even level is $\sqrt{1 + (\pi/3)^2} = 1.447971930402\,m$. The Rust solver's record `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv` lists 54 such exact levels (labels $-3$ to $5$, both parities, $(m, L) = (1, 3), (1, 2), (2, 3)$) next to its numerical ones (check free_k0_analytic_spectra of `Revision/kohn_sham/reports/ks-rust-solver.json`); Notebook 14b reproduces both columns.
+
+**The labels.** The Revision solver names the levels by integer **labels**: even parity, label 0 is the zero mode, label $n > 0$ the $n$-th positive level and $-n$ its negative; odd parity, label $l \ge 0$ is the level $+\sqrt{M^2 + p_l^2}$ and label $l \le -1$ the level $-\sqrt{M^2 + p_{-l-1}^2}$. Section 14.14 shows that these labels are not arbitrary names: they count half-turns.
+
+### 14.14 Shooting with a Pruefer angle: every level has a label
+
+**Shooting.** For nonzero $k$, or a mass and a potential that depend on $y$, the block equation cannot be solved by hand, and the computer finds the levels by **shooting** (Chapter 2): start at one end with the condition there, integrate to the other end, and adjust the energy until the condition there holds too. Here the start is the tip, with $(a, b) = (\cos\tfrac\theta2, \sin\tfrac\theta2)$ at $y = -L$, which is $(1, 0)$ for the canonical $\theta = 0$; the real form is integrated from $y = -L$ to $y = 0$ for a trial energy $\varepsilon$; and $\varepsilon$ is a level of even parity if $b(0) = 0$, of odd parity if $a(0) = 0$.
+
+**The Pruefer angle.** Write the point $(a, b)$ of the plane in polar form, $a = r\cos\theta$, $b = r\sin\theta$, with the length $r = \sqrt{a^2 + b^2} > 0$ and the angle $\theta$ (the **Pruefer angle**, after the mathematician Pruefer). On a computer the angle of a point is the function $\mathrm{atan2}(b, a)$, which returns a value between $-\pi$ and $\pi$; following it **continuously** means adding or subtracting $2\pi$ whenever that value jumps, so that $\theta(y)$ has no jumps and can count whole turns. Line by line:
+
+$$
+a' = r'\cos\theta - r\theta'\sin\theta, \qquad b' = r'\sin\theta + r\theta'\cos\theta .
+$$
+
+Rule: the product rule and the chain rule.
+
+$$
+ab' - ba' = r^2\theta'(\cos^2\theta + \sin^2\theta) = r^2\theta' .
+$$
+
+Rule: multiply out; the terms with $r'$ cancel; $\cos^2\theta + \sin^2\theta = 1$.
+
+$$
+ab' - ba' = j\varepsilon'(a^2 + b^2) - K(a^2 - b^2) - 2Mab .
+$$
+
+Rule: insert the real form, $a[(j\varepsilon' - K)a - Mb] - b[Ma - (K + j\varepsilon')b]$, and collect the terms.
+
+$$
+\theta' = j\varepsilon' - K\cos2\theta - M\sin2\theta .
+$$
+
+Rule: divide the last two lines by $r^2$, with $a^2 - b^2 = r^2(\cos^2\theta - \sin^2\theta) = r^2\cos2\theta$ and $2ab = 2r^2\sin\theta\cos\theta = r^2\sin2\theta$ (the double-angle formulas). The equation for $\theta$ does not contain $r$, so the angle can be followed by itself. Status: PROVED; Notebook 14b checks the last line with sympy (In [6]).
+
+**The angle at the brane grows with the energy.** Let $a_\varepsilon = \partial a/\partial\varepsilon$ and $b_\varepsilon = \partial b/\partial\varepsilon$ be the rates at which the solution changes when the trial energy changes (the tip values do not depend on $\varepsilon$), and put $w = ab_\varepsilon - ba_\varepsilon$. By the same rule as for $\theta'$, with $\varepsilon$ in place of $y$, $\partial\theta/\partial\varepsilon = w/r^2$. Line by line:
+
+$$
+w' = a'b_\varepsilon + ab_\varepsilon' - b'a_\varepsilon - ba_\varepsilon' .
+$$
+
+Rule: the product rule.
+
+$$
+a_\varepsilon' = Ma_\varepsilon - (K + j\varepsilon')b_\varepsilon - jb, \qquad b_\varepsilon' = (j\varepsilon' - K)a_\varepsilon - Mb_\varepsilon + ja .
+$$
+
+Rule: differentiate the real form with respect to $\varepsilon$; the product rule applied to $j\varepsilon' b$ and $j\varepsilon' a$ gives the extra terms $-jb$ and $+ja$, since $\partial\varepsilon'/\partial\varepsilon = 1$.
+
+$$
+w' = j(a^2 + b^2) = jr^2 .
+$$
+
+Rule: insert the real form and the last line into the first line; every term that contains $M$, $K$ or $\varepsilon'$ appears twice with opposite signs and cancels, and what is left is $a(ja) - b(-jb)$.
+
+$$
+\frac{\partial\theta(0)}{\partial\varepsilon} = \frac{w(0)}{r(0)^2} = \frac{j}{r(0)^2}\int_{-L}^{0}r^2\,dy .
+$$
+
+Rule: $w(-L) = 0$, because the starting point does not depend on $\varepsilon$ ($a_\varepsilon = b_\varepsilon = 0$ at $y = -L$); integrate $w' = jr^2$ from $-L$ to $0$. So the **shooting function** $\Phi(\varepsilon) = j\,\theta(0)$ has the derivative $\int r^2dy/r(0)^2 > 0$: it grows strictly with the energy. Status: PROVED (this derivation); Notebook 14b confirms it numerically for $k = 0$ and $k = 0.75$ (In [7]).
+
+**Every level has an integer label.** $b(0) = 0$ means that $\theta(0)$ is a whole multiple of $\pi$; $a(0) = 0$ means that $\theta(0)$ is $\pi/2$ plus a whole multiple of $\pi$. With $\Phi = j\theta(0)$:
+
+$$
+\text{even level:}\ \ \Phi(\varepsilon) = l\pi, \qquad \text{odd level:}\ \ \Phi(\varepsilon) = \frac\pi2 + l\pi, \qquad l = \dots, -1, 0, 1, \dots
+$$
+
+The integer $l$ is the **label** of the level. Because $\Phi$ grows strictly and has no jumps, it passes every target value exactly once: there is exactly one level for every label and parity, no level can be missed and none can be counted twice. At $k = 0$ these are exactly the labels of Section 14.13 (Figure 14b.6 shows the angles). A level is found by **bisection** on $\Phi(\varepsilon) - $ target (Chapter 2): the solver keeps an interval with the target between $\Phi(\text{lo})$ and $\Phi(\text{hi})$ and halves it 72 times, starting from $[-20, 20]$. After 72 halvings the interval has the length $40/2^{72} \approx 8.5\times10^{-21}$, far below the spacing of floating-point numbers near 1 (about $2.2\times10^{-16}$): the result is the level of the integrated equation to the last digit the computer can hold, and the error that remains is the error of the integration.
+
+**The integration (RK4).** The real form is integrated with the classical fourth-order Runge-Kutta method of Chapter 2, with $G$ steps of size $h = L/G$ (the Revision solver uses $G = 900$ for $L = 3$, so $h = 1/300$). RK4 needs the coefficient $K = \kappa k$ at the nodes and at the midpoints of the steps, that is on a fine grid of $2G + 1$ points. Its error is proportional to $h^4$: halving the step divides the error of a level by $2^4 = 16$. The Revision record measured exactly this: doubling the step number ($G = 1800$ for $L = 3$, $1200$ for $L = 2$) divided the errors of the 39 levels whose error is above $10^{-11}$ by the median factor 16.00, and the largest errors were $5.050\times10^{-8}$ with the canonical and $3.157\times10^{-9}$ with the refined step (check refined_free_spectra_convergence_order of `Revision/kohn_sham/reports/ks-rust-determinism.json`). Status: COMPUTED; Notebook 14b repeats the measurement (In [10]).
+
+### 14.15 Example: Notebook 14b, the free spectra exact and numerical
+
+Notebook 14b does Sections 14.12 to 14.14 with the computer. With sympy it checks the real form, the mirror map and the parities of the densities, the brane conditions, the boundary term, the tip family, the constant current, the exact solutions of Section 14.13 and the equation of the Pruefer angle, each against the verdict of the Revision record. With numpy it writes the shooting method of the Revision Rust solver in about forty lines (RK4 on the fine grid, the Pruefer angle followed step by step, bisection on the labels), finds the 54 levels of the record and compares them with the exact levels and with the Rust numbers, repeats the fourth-order measurement, and compares the numerical orbitals with the exact ones. It draws six figures. It needs no Rust. It runs in about 40 seconds (two cells integrate the equation for hundreds of energies at once, 72 times over, and take 10 to 20 seconds each), and its last line is ALL 20 CHECKS PASSED (notebook 14b).
+
+<!-- NOTEBOOK 14b -->
+
+### 14.18 Line-by-line walk-through of Notebook 14b
+
+The notebook has 15 code cells, In [1] to In [15]. As in Section 14.11, a line or a small group of lines is quoted and then explained; docstrings and the long caption texts are left out of the quotations (the captions are printed under the figures in Section 14.17).
+
+**In [1], the set-up cell.** Its code is, line for line, the code of In [1] of Notebook 14a, which Section 14.11 explains, with one exception: the line
+
+```python
+NOTEBOOK_ID = "14b"  # this notebook: chapter 14, example b
+```
+
+gives this notebook its name, so that its figure files start with 14b and its captions go into the file `Revision/textbook/figures/14b.captions.json`. Its comment lines are the run instructions of Section 14.16. Out [1] is the line Set-up of notebook 14b complete.
+
+**In [2], the real form.**
+
+```python
+import math  # exp, cos, sin of single numbers
+
+import numpy as np  # floating-point arrays
+import sympy as sp  # exact algebra with symbols
+```
+
+`math` is the module of Python for single numbers (square roots, $\pi$, sine, cosine ...); numpy computes with whole arrays of floating-point numbers at once; sympy computes exactly with symbols.
+
+```python
+PY_REPORT = "Revision/kohn_sham/reports/ks-theory-python.json"
+WL_REPORT = "Revision/kohn_sham/reports/ks-theory-wolfram.json"
+RUST_REPORT = "Revision/kohn_sham/reports/ks-rust-solver.json"
+```
+
+The names of three Revision reports: the sympy and the WolframScript checks of the theory, and the report of the Rust solver.
+
+```python
+def record_check(name, reports=(PY_REPORT, WL_REPORT)):
+    verdicts = []
+    for report in reports:
+        data = json.loads(repository_file(report).read_text(encoding="utf-8"))
+        found = [c["verdict"] for c in data["checks"] if c["name"] == name]
+        verdicts.append(found[0] if found else "absent")
+    return verdicts[0] == "PASS" and all(v in ("PASS", "absent") for v in verdicts)
+```
+
+The same idea as `record_check` of Notebook 14a, with one improvement: the reports to read are a parameter with a **default value** (`reports=(PY_REPORT, WL_REPORT)` is used when the call gives no second argument). A call can name other reports, for example `record_check("free_zero_mode_exact", (RUST_REPORT,))`; the comma after `RUST_REPORT` makes a **tuple** with one element. The function collects the verdict of the check `name` in every report (or the word absent) and returns true when the first report says PASS and every report says PASS or absent.
+
+```python
+s1 = sp.Matrix([[0, 1], [1, 0]])  # the Pauli matrices
+s2 = sp.Matrix([[0, -sp.I], [sp.I, 0]])
+s3 = sp.Matrix([[1, 0], [0, -1]])
+I2 = sp.eye(2)
+a, b, M, K, e, v = sp.symbols("a b M K epsilon v", real=True)
+ok_all = True
+```
+
+The three Pauli matrices (in this notebook `s2` is $\sigma_2$), the $2 \times 2$ unit matrix, six real symbols ($a$, $b$, the mass $M$, $K = \kappa k$, $e$ for $\varepsilon$ and $v$) and a flag.
+
+```python
+for j in (1, -1):
+    N = M * s3 - K * s2 + sp.I * j * (e - v) * s1  # the matrix of chi' = N chi
+    derivative = sp.expand(N * sp.Matrix([a, sp.I * b]))  # N times (a, i b)
+    a_prime = M * a - (K + j * (e - v)) * b  # the real form
+    b_prime = (j * (e - v) - K) * a - M * b
+    ok = (sp.expand(derivative[0] - a_prime) == 0
+          and sp.expand(derivative[1] - sp.I * b_prime) == 0)
+    ok_all &= ok
+    say(f"j = {j:+d}: d chi/dy = N chi with chi = (a, i b) gives the real form: "
+        f"{ok}")
+```
+
+For both block types: the matrix $N$; the product $N\chi$ for $\chi = (a, ib)$, multiplied out by `sp.expand`; the right sides of the real form of Section 14.12; and the test that the first entry of $N\chi$ is $a'$ and the second is $i b'$. The format `{j:+d}` prints the whole number $j$ with its sign ($+1$ or $-1$); two strings written next to each other are joined into one. Out [2] shows True twice.
+
+```python
+theory = json.loads(repository_file("Revision/kohn_sham/ks-theory.json")
+                    .read_text(encoding="utf-8"))
+say("record: " + theory["blockEquation"]["realForm"])
+check(ok_all, "the real form da/dy = M a - (K + j(eps - v)) b, "
+      "db/dy = (j(eps - v) - K) a - M b")
+```
+
+The Revision theory record is read and its entry blockEquation.realForm is printed, so that the reader can compare it with the derived form (Out [2], third line); then the first PASS line.
+
+**In [3], the boundary conditions.**
+
+```python
+y = sp.symbols("y", real=True)
+H, a0, k = sp.symbols("H a0 k", real=True)
+Mf = sp.Function("M", real=True)(y)  # a mass that depends on y
+vf = sp.Function("v", real=True)(y)  # a potential that depends on y
+kap = sp.exp(-H * y - a0)  # the momentum weight kappa(y)
+```
+
+Symbols for $y$, $H$, the slice $a_{4,0}$ (`a0`) and $k$, and two unknown real functions $M(y)$ and $v(y)$: everything below then holds for every mass profile and every potential, as in the self-consistent problem, not only for constants. `kap` is $\kappa(y)$.
+
+```python
+def N_of(j, M_, v_, kap_):
+    return M_ * s3 - kap_ * k * s2 + sp.I * j * (e - v_) * s1
+```
+
+The matrix $N$ as a function of the block type, the mass, the potential and the weight.
+
+```python
+ok_mirror = True
+for j in (1, -1):  # chi~(y) = s3 chi(-y) solves chi~' = -s3 N(-y) s3 chi~
+    mirrored = -s3 * N_of(j, Mf.subs(y, -y), vf.subs(y, -y), kap.subs(y, -y)) * s3
+    target = N_of(j, -Mf.subs(y, -y), vf.subs(y, -y), kap.subs(y, -y))
+    ok_mirror &= sp.simplify(mirrored - target).is_zero_matrix
+check(ok_mirror and record_check("bc_mirror_map_PA"),
+      "the mirror map chi(y) -> sigma3 chi(-y) turns M(y) into -M(-y)",
+      record=f"{PY_REPORT}, check bc_mirror_map_PA")
+```
+
+`subs(y, -y)` replaces $y$ by $-y$, so `Mf.subs(y, -y)` is $M(-y)$. `mirrored` is $-\sigma_3N(-y)\sigma_3$, the matrix of the equation that $\tilde\chi(y) = \sigma_3\chi(-y)$ solves (Section 14.12), and `target` is $N$ with the mass $-M(-y)$, the potential $v(-y)$ and the weight $\kappa(-y)$; they must be equal for both block types.
+
+```python
+even = {name: (s3 * X * s3 - X).is_zero_matrix
+        for name, X in {"n": I2, "S": s2, "Q": s3, "current": s1}.items()}
+say(f"even under the mirror map: {even}")
+check(even == {"n": True, "S": False, "Q": True, "current": False}
+      and record_check("bc_mirror_parities_of_densities"),
+      "n and Q are even, S and the current odd: the mirror copy carries -m",
+      record=f"{PY_REPORT}, check bc_mirror_parities_of_densities")
+```
+
+A **dictionary comprehension** (braces with `key: value for ...`): for each density and its $2 \times 2$ matrix (the number density with $1$, $S$ with $\sigma_2$, $Q$ with $\sigma_3$, the current with $\sigma_1$; `.items()` gives the pairs of a dictionary) the value is true when $\sigma_3X\sigma_3 = X$. That is the condition for the density to be even: the mirrored orbital has at $y$ the density $\chi(-y)^\dagger\sigma_3X\sigma_3\chi(-y)$, which equals the density of the original orbital at $-y$ exactly when $\sigma_3X\sigma_3 = X$. Out [3] prints the dictionary.
+
+```python
+c1f, c2f = sp.Function("chi1")(y), sp.Function("chi2")(y)
+current = sp.expand((sp.Matrix([c1f, c2f]).H * s1 * sp.Matrix([c1f, c2f]))[0])
+check(current.subs(c2f, 0) == 0 and current.subs(c1f, 0) == 0
+      and record_check("bc_brane_parity_conditions"),
+      "both brane parities (chi2(0) = 0 or chi1(0) = 0) kill the current",
+      record=f"{PY_REPORT}, check bc_brane_parity_conditions")
+```
+
+Two unknown complex functions $\chi_1$, $\chi_2$; the current $\chi^\dagger\sigma_1\chi$ (a $1 \times 1$ matrix, whose single entry is `[0]`); putting $\chi_2 = 0$ (even parity) or $\chi_1 = 0$ (odd parity) makes it zero.
+
+```python
+phi = sp.Matrix([sp.Function("phi1")(y), sp.Function("phi2")(y)])
+chi = sp.Matrix([c1f, c2f])
+ok_adjoint = True
+for j in (1, -1):
+    def h_on(w, j=j):  # h_j applied to the column w
+        return j * (-sp.I * s1 * sp.diff(w, y) + Mf * s2 * w + kap * k * s3 * w) \
+            + vf * w
+    difference = (phi.H * h_on(chi))[0] - (h_on(phi).H * chi)[0]
+    boundary = sp.diff(-sp.I * j * (phi.H * s1 * chi)[0], y)
+    ok_adjoint &= sp.simplify(sp.expand(difference - boundary)) == 0
+check(ok_adjoint and record_check("bc_self_adjoint_boundary_term"),
+      "phi^dag h chi - (h phi)^dag chi = d/dy[-i j phi^dag sigma1 chi]",
+      record=f"{PY_REPORT}, check bc_self_adjoint_boundary_term")
+```
+
+Two columns of unknown functions $\varphi$ and $\chi$. Inside the loop, `h_on(w)` applies $h_j = j[-i\sigma_1\,d/dy + M\sigma_2 + \kappa k\sigma_3] + v$ to a column; the argument `j=j` stores the current value of `j` in the function (a function defined in a loop otherwise reads the loop variable only when it is called). `difference` is $\varphi^\dagger h_j\chi - (h_j\varphi)^\dagger\chi$, `boundary` is $\frac{d}{dy}[-ij\varphi^\dagger\sigma_1\chi]$; they must be equal (Section 14.12).
+
+```python
+th = sp.symbols("theta", real=True)
+Q = sp.cos(th) * s3 + sp.sin(th) * s2  # the tip family
+check(sp.simplify(Q * Q - I2).is_zero_matrix and Q.H == Q
+      and sp.simplify(Q * s1 + s1 * Q).is_zero_matrix and record_check("bc_tip_family"),
+      "the tip family Q(theta): Q^dag = Q, Q^2 = 1, Q sigma1 = -sigma1 Q",
+      record=f"{PY_REPORT}, check bc_tip_family")
+```
+
+The three facts of the tip family: $Q^2 = 1$, $Q^\dagger = Q$, $Q\sigma_1 + \sigma_1Q = 0$.
+
+```python
+kp = sp.symbols("kappa", positive=True)
+ok_current = True
+for j in (1, -1):
+    Nn = M * s3 - kp * k * s2 + sp.I * j * (e - v) * s1
+    ok_current &= sp.simplify(Nn.H * s1 + s1 * Nn).is_zero_matrix
+    density_changes = not sp.simplify(Nn.H + Nn).is_zero_matrix
+check(ok_current and density_changes and record_check("bc_current_conserved_along_y"),
+      "the current is constant along y on every solution, the density is not",
+      record=f"{PY_REPORT}, check bc_current_conserved_along_y")
+```
+
+For both types: $N^\dagger\sigma_1 + \sigma_1N = 0$ (the current is constant) and $N^\dagger + N \ne 0$ (the density is not). The variable `density_changes` is set anew in each pass; the check uses the value of the last pass, $j = -1$, which is the same as for $j = +1$. Out [3] shows six PASS lines.
+
+**In [4], the exact solutions and the record.**
+
+```python
+Lc = sp.symbols("L", positive=True)
+n_int = sp.symbols("n", integer=True, positive=True)
+ok_exact = sp.simplify(sp.diff(sp.exp(M * y), y) - M * sp.exp(M * y)) == 0  # step 5
+```
+
+The symbol $L$ (named `Lc` because the plain name `L` is used for numbers below) and a positive whole number $n$. The first test is the zero mode: the derivative of $e^{My}$ is $Me^{My}$, so $a = e^{My}$ solves $a' = Ma$ (step 5 of the notebook's section 7 is Step 2 of Section 14.13, case $\varepsilon = 0$).
+
+```python
+for j in (1, -1):  # step 4: b = sin(n pi y/L), a = (b' + M b)/(j eps)
+    p_n = n_int * sp.pi / Lc
+    eps_n = sp.sqrt(M ** 2 + p_n ** 2)
+    b_n = sp.sin(p_n * y)
+    a_n = (sp.diff(b_n, y) + M * b_n) / (j * eps_n)
+    ok_exact &= sp.simplify(sp.diff(a_n, y) - (M * a_n - j * eps_n * b_n)) == 0
+    ok_exact &= b_n.subs(y, 0) == 0 and sp.simplify(b_n.subs(y, -Lc)) == 0
+```
+
+The even levels of Step 2: $b = \sin(n\pi y/L)$, $a = (b' + Mb)/(j\varepsilon_n)$. The second equation of the real form, $b' = j\varepsilon a - Mb$, holds by the construction of $a$; the loop checks the first one, $a' = Ma - j\varepsilon b$, and the two conditions $b(0) = 0$ and $b(-L) = \sin(-n\pi) = 0$ (sympy knows that the sine of a whole multiple of $\pi$ is zero, because $n$ was declared a whole number).
+
+```python
+p = sp.symbols("p", positive=True)  # step 6 (j = +1)
+b_odd = sp.sin(p * (y + Lc))
+eps_odd = sp.sqrt(M ** 2 + p ** 2)
+a_odd = (sp.diff(b_odd, y) + M * b_odd) / eps_odd
+ok_exact &= sp.simplify(sp.diff(a_odd, y) - (M * a_odd - eps_odd * b_odd)) == 0
+ok_exact &= sp.simplify(a_odd.subs(y, 0) * eps_odd
+                        - (p * sp.cos(p * Lc) + M * sp.sin(p * Lc))) == 0
+check(ok_exact and record_check("bc_exact_k0_spectra"),
+      "the zero mode, the even levels and the odd condition tan(pL) = -p/M",
+      record=f"{PY_REPORT}, check bc_exact_k0_spectra")
+```
+
+The odd levels of Step 3 for $j = +1$: $b = \sin(p(y + L))$ vanishes at $y = -L$; $a$ is built as before; the first equation is checked; and $\varepsilon\,a(0) = p\cos(pL) + M\sin(pL)$, so $a(0) = 0$ is exactly the condition $f(p) = 0$.
+
+```python
+def odd_roots(m, L, count):
+    roots = []
+    for n in range(count):
+        lo, hi = (n + 0.5) * math.pi / L, (n + 1.0) * math.pi / L
+        f = lambda q: m * math.sin(q * L) + q * math.cos(q * L)
+        f_lo = f(lo)
+        for _ in range(200):
+            mid = 0.5 * (lo + hi)
+            if mid <= lo or mid >= hi:  # the interval cannot shrink any more
+                break
+            if (f(mid) > 0.0) == (f_lo > 0.0):
+                lo = mid
+            else:
+                hi = mid
+        roots.append(0.5 * (lo + hi))
+    return roots
+```
+
+The first `count` roots of $f(p) = m\sin(pL) + p\cos(pL)$ by **bisection**, one in each interval of Step 4. `f` is the function as a `lambda`; `f_lo` its value at the left end. The inner loop runs at most 200 times (the name `_` is used for a loop counter whose value is not needed); it stops earlier when the midpoint is no longer strictly inside the interval, which happens when the two ends are neighbouring floating-point numbers. If $f$ has the same sign at the midpoint as at the left end, the root lies in the right half and `lo` moves to the midpoint; otherwise `hi` does. (The sign at the left end never changes, because `lo` only moves to points of the same sign.)
+
+```python
+def exact_level(m, L, parity, label):
+    if parity == "even":
+        if label == 0:
+            return 0.0
+        return math.copysign(math.sqrt(m * m + (label * math.pi / L) ** 2), label)
+    roots = odd_roots(m, L, 6)
+    if label >= 0:
+        return math.sqrt(m * m + roots[label] ** 2)
+    return -math.sqrt(m * m + roots[-label - 1] ** 2)
+```
+
+The exact level of a given parity and label, in the label convention of Section 14.13. `math.copysign(x, label)` is the size of $x$ with the sign of the label.
+
+```python
+CASES = [(1.0, 3.0), (1.0, 2.0), (2.0, 3.0)]  # (m, L)
+LABELS = list(range(-3, 6))  # the labels -3 ... 5
+record_rows = repository_file(
+    "Revision/kohn_sham/results/spectrum/free-k0-analytic.csv"
+).read_text(encoding="utf-8").splitlines()
+header = record_rows[0].split(",")
+record = [dict(zip(header, row.split(","))) for row in record_rows[1:]]
+```
+
+The three cases $(m, L)$ and the nine labels: with two parities, $3 \times 9 \times 2 = 54$ levels. The record of the Rust solver is a CSV file with the columns m, L, parity, label, eps_numeric, eps_analytic and difference; each row becomes a dictionary from column name to text, as in In [18] of Notebook 14a.
+
+```python
+exact = {}  # (m, L, parity, label) -> exact level
+for m_, L_ in CASES:
+    for label in LABELS:
+        for parity in ("even", "odd"):
+            exact[(m_, L_, parity, label)] = exact_level(m_, L_, parity, label)
+worst = max(abs(exact[(float(r["m"]), float(r["L"]), r["parity"], int(r["label"]))]
+                - float(r["eps_analytic"])) for r in record)
+```
+
+A dictionary whose keys are tuples $(m, L, \text{parity}, \text{label})$ holds the 54 exact levels. `worst` is the largest difference between them and the column eps_analytic of the record (each text is turned into a number with `float` or `int`).
+
+```python
+say(f"(m, L) = (1, 3): odd roots p = "
+    + ", ".join(f"{q:.6f}" for q in odd_roots(1.0, 3.0, 3)) + ", ...")
+lowest_odd = exact[(1.0, 3.0, "odd", 0)]  # the lowest odd level, m = 1, L = 3
+lowest_even = exact[(1.0, 3.0, "even", 1)]  # the lowest positive even level
+report("lowest odd level for m = 1, L = 3", f"{lowest_odd:.12f}", "m")
+report("lowest positive even level for m = 1, L = 3", f"{lowest_even:.12f}", "m")
+check(len(record) == 54 and worst < 1e-12,
+      "the 54 exact levels equal the column eps_analytic of the record",
+      record="Revision/kohn_sham/results/spectrum/free-k0-analytic.csv, eps_analytic")
+```
+
+`", ".join(...)` joins the three roots, each written with 6 decimals, into one text separated by commas. Then the two RESULT lines, $1.292292828069\,m$ and $1.447971930402\,m$, and the check that the record has 54 rows that agree with the exact levels to better than $10^{-12}$. Out [4] shows two PASS lines.
+
+**In [5], figure 1.**
+
+```python
+p_values = np.linspace(0.0, 7.0, 1401)
+f_values = 1.0 * np.sin(3.0 * p_values) + p_values * np.cos(3.0 * p_values)
+roots_13 = odd_roots(1.0, 3.0, 6)
+fig, ax = plt.subplots(figsize=(8.0, 4.0))
+for n in range(6):  # the intervals in which the roots lie
+    ax.axvspan((n + 0.5) * math.pi / 3.0, (n + 1.0) * math.pi / 3.0, color="C0",
+               alpha=0.08)
+```
+
+1401 values of $p$ from 0 to 7, the function $f(p)$ for $M = 1$, $L = 3$, and its first six roots. `axvspan(x1, x2, ...)` shades the vertical strip between $x_1$ and $x_2$; `alpha=0.08` makes it almost transparent. The six strips are the intervals $((n + \tfrac12)\pi/3, (n + 1)\pi/3)$.
+
+```python
+ax.plot(p_values, f_values, color="C0", label="$f(p) = M\\sin(pL) + p\\cos(pL)$")
+ax.plot(roots_13, [0.0] * 6, "o", color="C3", label="roots $p_0, p_1, \\dots$")
+ax.axhline(0.0, color="black", linewidth=0.8)
+ax.set_xlabel("$p$ (wave number along $y$, units of $H$)")
+ax.set_ylabel("$f(p)$")
+ax.set_title("the odd-parity condition $\\tan(pL) = -p/M$ for $M = 1$, $L = 3$")
+ax.legend(fontsize=8, loc="lower left")
+save_figure(fig, "odd_condition",
+            "The odd-parity level condition for $M = 1$ and $L = 3$: the function "
+            ...)
+```
+
+The curve, the six roots as red dots on the axis (`[0.0] * 6` is a list of six zeros; the format string `"o"` draws dots without a line), the horizontal axis line, labels, title, legend and saving. **What figure 14b.1 shows.** The function $f(p)$ oscillates with a growing amplitude (the term $p\cos(pL)$ grows with $p$). It starts at $f(0) = 0$, which is not a level ($p = 0$ gives $b = 0$), and crosses zero once in every shaded strip and nowhere else, at $p_0 = 0.8185$, $p_1 = 1.744$, $p_2 = 2.735$, ... as Step 4 of Section 14.13 proved; each crossing is a pair of odd levels $\pm\sqrt{1 + p_n^2}$.
+
+**In [6], the Pruefer angle and the shooting tools.**
+
+```python
+r_s, t_s = sp.symbols("r t", positive=True)  # polar coordinates of (a, b)
+a_p = r_s * sp.cos(t_s)
+b_p = r_s * sp.sin(t_s)
+j_s = sp.symbols("j")
+num = a_p * ((j_s * e - K) * a_p - M * b_p) - b_p * (M * a_p - (K + j_s * e) * b_p)
+pruefer = j_s * e - K * sp.cos(2 * t_s) - M * sp.sin(2 * t_s)
+check(sp.simplify(num / r_s ** 2 - pruefer) == 0,
+      "d theta/dy = j(eps - v) - K cos 2theta - M sin 2theta")
+```
+
+The point $(a, b) = (r\cos\theta, r\sin\theta)$ with symbols $r$ and $\theta$ (`t_s`), a symbol $j$, the expression $ab' - ba'$ with the real form inserted (`num`, written with $v = 0$, so that $e$ stands for $\varepsilon - v$), and the claimed $\theta'$. The check: $(ab' - ba')/r^2$ equals it (Section 14.14).
+
+```python
+def shoot(eps, k=0.0, j=1.0, M=1.0, L=3.0, G=900, H=1.0, a4=0.0, tip=0.0,
+          keep=False):
+    eps, k, j = np.broadcast_arrays(np.asarray(eps, dtype=float),
+                                    np.asarray(k, dtype=float),
+                                    np.asarray(j, dtype=float))
+```
+
+`shoot` integrates the real form from the tip to the brane for many energies at once and returns $\Phi = j\theta(0)$. Its parameters have default values (the canonical $M = 1$, $L = 3$, $G = 900$, $H = 1$, slice 0, tip angle 0), so a call can name only what differs. `np.asarray` turns a single number or a list into a numpy array; `np.broadcast_arrays` brings the arrays to a common shape (a single number is repeated), so that `eps`, `k` and `j` may each be one number or an array of the same length.
+
+```python
+    nf = 2 * G + 1  # the fine grid: nodes and step midpoints
+    y_fine = -L * ((nf - 1 - np.arange(nf)) / (nf - 1))
+    e_minus_Hy = np.exp(-H * y_fine)  # e^(-Hy) on the fine grid
+    kk = k * np.exp(-a4)  # k e^(-a4,0): kappa k = kk e^(-Hy)
+    h = L / G
+```
+
+The fine grid of $2G + 1$ points from $y = -L$ to $y = 0$ (`np.arange(nf)` is $0, 1, \dots, 2G$, so the first point is $-L$ and the last $0$); $e^{-Hy}$ on it; the redshifted momentum $ke^{-a_{4,0}}$, so that $K = \kappa k$ is `kk` times $e^{-Hy}$; and the step $h = L/G$.
+
+```python
+    a_ = np.full(eps.shape, math.cos(0.5 * tip))  # the tip condition
+    b_ = np.full(eps.shape, math.sin(0.5 * tip))
+    theta = np.full(eps.shape, 0.5 * tip)
+    raw = np.arctan2(b_, a_)
+    je = j * eps
+    path = [(theta, a_, b_)]
+```
+
+The starting point $(a, b) = (\cos\tfrac\theta2, \sin\tfrac\theta2)$ for every energy (`np.full(shape, value)` is an array filled with one value), the starting angle $\theta(-L) = \theta_{\rm tip}/2$, `raw`, the angle as `np.arctan2` returns it (between $-\pi$ and $\pi$), the products $j\varepsilon$, and a list that will keep the path when it is asked for.
+
+```python
+    for i in range(G):
+        K0, K1, K2 = (kk * e_minus_Hy[2 * i], kk * e_minus_Hy[2 * i + 1],
+                      kk * e_minus_Hy[2 * i + 2])  # K at y, y + h/2, y + h
+        p1a, p1b = M * a_ - (K0 + je) * b_, (je - K0) * a_ - M * b_
+        a2, b2 = a_ + 0.5 * h * p1a, b_ + 0.5 * h * p1b
+        p2a, p2b = M * a2 - (K1 + je) * b2, (je - K1) * a2 - M * b2
+        a3, b3 = a_ + 0.5 * h * p2a, b_ + 0.5 * h * p2b
+        p3a, p3b = M * a3 - (K1 + je) * b3, (je - K1) * a3 - M * b3
+        a4_, b4_ = a_ + h * p3a, b_ + h * p3b
+        p4a, p4b = M * a4_ - (K2 + je) * b4_, (je - K2) * a4_ - M * b4_
+        a_ = a_ + h / 6.0 * (p1a + 2.0 * p2a + 2.0 * p3a + p4a)
+        b_ = b_ + h / 6.0 * (p1b + 2.0 * p2b + 2.0 * p3b + p4b)
+```
+
+One RK4 step per pass, for all energies at once. Step $i$ goes from the node $2i$ of the fine grid to the node $2i + 2$; `K0`, `K1`, `K2` are $K$ at its start, its midpoint and its end. The four slopes of RK4 (Chapter 2): `p1` at the start, `p2` at the midpoint with half a step along `p1`, `p3` at the midpoint with half a step along `p2`, `p4` at the end with a whole step along `p3`; each slope is the right side of the real form, $(Ma - (K + j\varepsilon)b,\ (j\varepsilon - K)a - Mb)$, with $v = 0$. The new point adds $h/6$ times the weighted sum with the weights $1, 2, 2, 1$. (The name `a4_` with a final underscore is the trial point of the fourth slope; `a4` without it is the slice.)
+
+```python
+        new = np.arctan2(b_, a_)
+        step = new - raw  # the change of the angle, brought into (-pi, pi]
+        step = np.where(step > np.pi, step - 2 * np.pi,
+                        np.where(step <= -np.pi, step + 2 * np.pi, step))
+        theta = theta + step
+        raw = new
+        if keep:
+            path.append((theta, a_, b_))
+```
+
+Following the angle continuously: the change of the raw angle over one step is brought into the interval from $-\pi$ to $\pi$ (`np.where(condition, x, y)` takes `x` where the condition holds and `y` elsewhere; a jump of almost $2\pi$ of the raw angle is the passage through $\pm\pi$, not a real turn) and added to `theta`. The step is so small that the true change of the angle over one step is much less than $\pi$. With `keep=True` the angle and the point after every step are stored.
+
+```python
+    if keep:
+        return j * theta, [np.array(q) for q in zip(*path)]
+    return j * theta
+```
+
+The result is $\Phi = j\theta(0)$. With `keep=True` also the paths: `zip(*path)` regroups the list of triples $(\theta, a, b)$ into three sequences, each turned into an array with one row per node ($G + 1$ rows) and one column per energy.
+
+```python
+def target(parity, label):
+    offset = np.where(np.asarray(parity) == "even", 0.0, 0.5 * np.pi)
+    return offset + np.asarray(label, dtype=float) * np.pi
+```
+
+The value of $\Phi$ at a level: $l\pi$ for even parity and $\pi/2 + l\pi$ for odd parity, for arrays of parities and labels.
+
+```python
+def levels(k, j, parity, label, iterations=72, **options):
+    k, j, parity, label = np.broadcast_arrays(
+        np.asarray(k, dtype=float), np.asarray(j, dtype=float),
+        np.asarray(parity), np.asarray(label))
+    goal = target(parity, label)
+    lo, hi = np.full(k.shape, -20.0), np.full(k.shape, 20.0)
+    for _ in range(iterations):
+        mid = 0.5 * (lo + hi)
+        g = shoot(mid, k, j, **options) - goal
+        lo = np.where(g <= 0.0, mid, lo)  # g = 0: an exact level
+        hi = np.where(g >= 0.0, mid, hi)
+    return 0.5 * (lo + hi)
+```
+
+The levels with given momenta, block types, parities and labels, all at once, by 72 bisections of $[-20, 20]$ (Section 14.14). `**options` collects any further named arguments (for example `M=2.0` or `G=1800`) and hands them on to `shoot`. In each pass $\Phi$ is computed at the midpoints; where it is at or below the target, the level lies above the midpoint and `lo` moves there; where it is at or above, `hi` moves there. If $\Phi$ equals the target exactly, both ends move to the midpoint and the level is found exactly; this is what happens for the zero mode (In [8]).
+
+```python
+say("defined: shoot(eps, k, j, M, L, G, ...) and levels(k, j, parity, label, ...)")
+```
+
+Out [6]: the PASS line of the angle equation and this line.
+
+**In [7], the shooting function and figure 2.**
+
+```python
+trial = np.linspace(-4.0, 4.0, 801)  # 801 trial energies
+phi_curve = shoot(trial, 0.0, 1.0)  # Phi for k = 0, j = +1 (both parities)
+grows = bool(np.all(np.diff(phi_curve) > 0.0))
+grows_k = all(bool(np.all(np.diff(shoot(np.linspace(-4.0, 3.96, 200), 0.75, jj)) > 0))
+              for jj in (1.0, -1.0))
+check(grows and grows_k,
+      "Phi(eps) grows strictly with eps (k = 0 and k = 0.75, both block types)")
+```
+
+$\Phi(\varepsilon)$ at 801 energies from $-4$ to $4$ in one call. `np.diff` gives the differences of neighbouring values; `np.all(... > 0.0)` is true when every difference is positive, that is when $\Phi$ grows strictly; `bool` turns numpy's answer into a plain true or false. The same test for $k = 0.75$, 200 energies and both block types. One PASS line: the monotonicity proved in Section 14.14, seen numerically.
+
+```python
+fig, ax = plt.subplots(figsize=(8.0, 4.6))
+ax.plot(trial, phi_curve / np.pi, color="C0", label="$\\Phi(\\varepsilon)/\\pi$")
+for label in range(-3, 4):  # the targets in units of pi
+    ax.axhline(label, color="C1", linewidth=0.7)
+    ax.axhline(label + 0.5, color="C2", linewidth=0.7, linestyle="--")
+```
+
+The curve $\Phi/\pi$ and the targets: solid lines at the whole numbers (even), dashed lines at the half numbers (odd).
+
+```python
+even_levels = [exact[(1.0, 3.0, "even", l)] for l in range(-2, 3)]
+odd_levels = [exact[(1.0, 3.0, "odd", l)] for l in range(-2, 2)]
+ax.plot(even_levels, range(-2, 3), "o", color="C1",
+        label="even levels: $\\Phi = l\\pi$")
+ax.plot(odd_levels, [l + 0.5 for l in range(-2, 2)], "s", color="C2",
+        label="odd levels: $\\Phi = \\pi/2 + l\\pi$")
+```
+
+The exact levels of the labels $-2$ to $2$ (even) and $-2$ to $1$ (odd), drawn as circles and squares at the heights of their targets.
+
+```python
+ax.set_xlabel("trial energy $\\varepsilon$ (units of $m$)")
+ax.set_ylabel("$\\Phi(\\varepsilon) / \\pi$")
+ax.set_title("the shooting function for $k = 0$, $j = +1$, $m = 1$, $L = 3$")
+ax.legend(fontsize=8, loc="upper left")
+save_figure(fig, "shooting_function",
+            "The shooting function $\\Phi(\\varepsilon) = j\\,\\theta(0)$ (the "
+            ...)
+```
+
+**What figure 14b.2 shows.** The curve rises from about $-3.6$ to $+3.6$ (in units of $\pi$) as the trial energy goes from $-4$ to $4$, never falling. Every circle and square sits exactly on the curve where it crosses its target line: the crossings are the levels, one per label. Between $-1$ and $1$ the curve is almost flat and crosses only the line $0$, at $\varepsilon = 0$: the gap $(-M, M)$ contains only the zero mode. Where the levels are dense, the curve is steep.
+
+**In [8], all 54 levels.**
+
+```python
+numeric = {}  # (m, L, parity, label) -> numerical level at the canonical step
+for m_, L_ in CASES:
+    pars = np.array([p_ for l_ in LABELS for p_ in ("even", "odd")])
+    labs = np.array([l_ for l_ in LABELS for p_ in ("even", "odd")])
+    found = levels(0.0, 1.0, pars, labs, M=m_, L=L_, G=round(900 * L_ / 3))
+    for p_, l_, x in zip(pars, labs, found):
+        numeric[(m_, L_, str(p_), int(l_))] = float(x)
+```
+
+For each case, the 18 parities and labels as two arrays (the double list comprehension runs over the labels and, for each, over the two parities), and the 18 levels found in one call with $k = 0$, $j = +1$, the mass $m$, the cutoff $L$ and $G = 900L/3$ steps ($900$ for $L = 3$, $600$ for $L = 2$: always the step $h = 1/300$ of the Rust solver). `round` gives the nearest whole number. The levels go into the dictionary `numeric`.
+
+```python
+say("m = 1, L = 3:  label  even (numerical)   even (exact)    "
+    "odd (numerical)    odd (exact)")
+for l_ in LABELS:
+    row = [numeric[(1.0, 3.0, "even", l_)], exact[(1.0, 3.0, "even", l_)],
+           numeric[(1.0, 3.0, "odd", l_)], exact[(1.0, 3.0, "odd", l_)]]
+    say(f"               {l_:+d}   " + "  ".join(f"{x:15.10f}" for x in row))
+```
+
+A table of the case $m = 1$, $L = 3$: for each label the numerical and exact levels of both parities, each printed in 15 places with 10 decimals (`{x:15.10f}`).
+
+```python
+rust_diff = max(abs(numeric[(float(r["m"]), float(r["L"]), r["parity"],
+                             int(r["label"]))] - float(r["eps_numeric"]))
+                for r in record)
+check(rust_diff < 1e-11,
+      "the 54 numerical levels equal those of the Rust solver",
+      record="Revision/kohn_sham/results/spectrum/free-k0-analytic.csv, eps_numeric")
+```
+
+The largest difference between the notebook's numerical levels and the Rust solver's (column eps_numeric). The two programs do the same arithmetic, so they can differ only by rounding errors; the check requires agreement to $10^{-11}$, and it passes.
+
+```python
+errors = {key: abs(numeric[key] - exact[key]) for key in numeric}
+low = max(err for key, err in errors.items() if abs(exact[key]) < 4.0)
+high = max(err for key, err in errors.items() if abs(exact[key]) >= 4.0)
+check(low < 5e-9 and high < 3.2e-7 and record_check(
+    "free_k0_analytic_spectra", (RUST_REPORT,)),
+      "error below 5e-9 for |eps| < 4 m and below 3.2e-7 above",
+      record=f"{RUST_REPORT}, check free_k0_analytic_spectra")
+check(all(numeric[(m_, L_, "even", 0)] == 0.0 for m_, L_ in CASES),
+      "the brane zero mode comes out as exactly eps = 0")
+```
+
+The errors against the exact levels, the largest below and above $|\varepsilon| = 4m$, and the tolerances of the Rust check free_k0_analytic_spectra (whose verdict is read from the Rust report). The last check: the zero mode is exactly 0 in all three cases. Why exactly: the first midpoint of the bisection is $\varepsilon = 0$; there, with $k = 0$ and the start $b = 0$, every RK4 slope of $b$ is exactly zero, so $b$ stays exactly 0, the angle stays exactly 0, $\Phi - $ target is exactly 0, and both ends of the interval jump to 0. Out [8] shows the table and three PASS lines. In the table the numerical and exact levels agree in all 10 printed decimals for the labels $-2$ to $2$; the higher ones differ in the 9th or 10th decimal (for example $5.3306254627$ against $5.3306254587$ for the even label 5): the error grows with the level, because the orbital oscillates faster.
+
+**In [9], figure 3.**
+
+```python
+fig, ax = plt.subplots(figsize=(8.0, 5.0))
+for position, (m_, L_) in enumerate(CASES):
+    x0 = 3.0 * position  # the horizontal place of this ladder
+    for l_ in LABELS:
+        for shift, parity, color, marker in ((0.0, "even", "C0", "o"),
+                                             (1.2, "odd", "C1", "s")):
+            level = exact[(m_, L_, parity, l_)]
+            ax.plot([x0 + shift - 0.4, x0 + shift + 0.4], [level, level],
+                    color=color, linewidth=1.5)
+            ax.plot([x0 + shift], [numeric[(m_, L_, parity, l_)]], marker,
+                    color=color, markersize=4)
+    ax.fill_between([x0 - 0.5, x0 + 1.7], -m_, m_, color="gray", alpha=0.12)
+```
+
+For each case a **level ladder** at the horizontal place $x_0 = 0, 3, 6$: every exact level is a short horizontal line (from $x_0 + \text{shift} - 0.4$ to $x_0 + \text{shift} + 0.4$), even parity at the left and odd parity $1.2$ further right, and the numerical level is a marker in its middle. `fill_between(x, y1, y2)` shades the band from $-m$ to $m$ across the ladder.
+
+```python
+ax.set_xlim(-0.6, 8.4)
+ax.set_ylim(-7.0, 9.5)
+ax.set_xticks([0.6, 3.6, 6.6])
+ax.set_xticklabels(["$m = 1$, $L = 3$", "$m = 1$, $L = 2$", "$m = 2$, $L = 3$"])
+ax.plot([], [], "o-", color="C0", label="even parity (line exact, dot numerical)")
+ax.plot([], [], "s-", color="C1", label="odd parity (line exact, square numerical)")
+ax.set_ylabel("level $\\varepsilon$ (units of $H = 1$)")
+ax.set_title("the free $k = 0$ spectra, labels $-3$ to $5$")
+ax.legend(fontsize=8, loc="lower right")
+save_figure(fig, "spectrum_ladder",
+            "The free $k = 0$ spectra for the three cases $(m, L) = (1, 3)$, "
+            ...)
+```
+
+The ranges of the axes, the names of the three ladders under them, and two empty plots (`ax.plot([], [], ...)` draws nothing) whose only purpose is to put the two styles into the legend. **What figure 14b.3 shows.** Three ladders. In each, the shaded band from $-m$ to $m$ contains only the even zero mode at 0. For $m = 2$ the band is twice as wide and the lowest levels move out with it; for $L = 2$ the levels are farther apart than for $L = 3$, because the wave numbers $n\pi/L$ are larger. The even and odd levels alternate. On this scale every marker sits exactly on its line.
+
+**In [10], fourth-order convergence.**
+
+```python
+refined = {}
+for m_, L_ in CASES:
+    pars = np.array([p_ for l_ in LABELS for p_ in ("even", "odd")])
+    labs = np.array([l_ for l_ in LABELS for p_ in ("even", "odd")])
+    found = levels(0.0, 1.0, pars, labs, M=m_, L=L_, G=round(1800 * L_ / 3))
+    for p_, l_, x in zip(pars, labs, found):
+        refined[(m_, L_, str(p_), int(l_))] = float(x)
+refined_errors = {key: abs(refined[key] - exact[key]) for key in refined}
+```
+
+The same 54 levels with twice as many steps ($G = 1800$ for $L = 3$, $1200$ for $L = 2$, the refined run of the Revision solver) and their errors.
+
+```python
+ratios = sorted(errors[key] / refined_errors[key] for key in errors
+                if errors[key] > 1e-11 and refined_errors[key] > 0.0)
+median = ratios[len(ratios) // 2]
+```
+
+For every level whose canonical error is above $10^{-11}$ (smaller errors are dominated by rounding), the ratio of the canonical to the refined error, sorted. The **median** is the middle value of the sorted list: `len(ratios) // 2` is the position of the middle (`//` divides and drops the remainder; with 39 ratios it is the 20th value, position 19 counting from 0).
+
+```python
+report("number of levels with a canonical error above 1e-11", len(ratios))
+report("median error ratio canonical / refined", f"{median:.2f}")
+report("largest error, canonical step", f"{max(errors.values()):.3e}", "m")
+report("largest error, refined step", f"{max(refined_errors.values()):.3e}", "m")
+check(len(ratios) == 39 and f"{median:.2f}" == "16.00"
+      and f"{max(errors.values()):.3e}" == "5.050e-08"
+      and f"{max(refined_errors.values()):.3e}" == "3.157e-09"
+      and record_check("refined_free_spectra_convergence_order",
+                       ("Revision/kohn_sham/reports/ks-rust-determinism.json",)),
+      "39 levels, median error ratio 16.00, largest errors 5.050e-08 and 3.157e-09",
+      record="Revision/kohn_sham/reports/ks-rust-determinism.json, check "
+             "refined_free_spectra_convergence_order")
+```
+
+Four RESULT lines and the check that they equal the numbers of the Revision record as printed there: 39 levels, the median ratio 16.00 (RK4's $2^4 = 16$), and the largest errors $5.050\times10^{-8}$ and $3.157\times10^{-9}$. The comparison is made on the printed texts (`f"{x:.3e}"` writes a number with 3 decimals and an exponent), exactly as the record states them.
+
+**In [11], figure 4.**
+
+```python
+chosen = [("even", 1), ("even", 3), ("odd", 0), ("odd", 3)]
+steps = [150, 300, 600, 900, 1800]
+curves = {key: [] for key in chosen}
+for G_ in steps:
+    found = levels(0.0, 1.0, np.array([p_ for p_, l_ in chosen]),
+                   np.array([l_ for p_, l_ in chosen]), M=1.0, L=3.0, G=G_)
+    for key, x in zip(chosen, found):
+        curves[key].append(abs(float(x) - exact[(1.0, 3.0) + key]))
+```
+
+Four levels and five step numbers; for each step number the four levels in one call, and their errors appended to four lists. `(1.0, 3.0) + key` joins two tuples into the key $(1, 3, \text{parity}, \text{label})$.
+
+```python
+h_values = np.array([3.0 / G_ for G_ in steps])
+fig, ax = plt.subplots(figsize=(7.0, 4.6))
+for (parity, label), errs in curves.items():
+    ax.loglog(h_values, errs, "o-", label=f"{parity}, label {label}")
+ax.loglog(h_values, 3e-2 * h_values ** 4, ":", color="black",
+          label="slope 4: error $\\propto h^4$")
+```
+
+The steps $h = 3/G$; `loglog` draws with logarithmic axes in both directions, on which a power law $h^4$ is a straight line of slope 4; the dotted guide line is $0.03\,h^4$.
+
+```python
+ax.set_xticks(h_values)  # one tick at each step used
+ax.set_xticklabels([f"{x:.4f}" for x in h_values], fontsize=8)
+ax.xaxis.set_minor_locator(matplotlib.ticker.NullLocator())  # no extra ticks
+ax.set_xlabel("RK4 step $h = L/G$ (units of $1/H$)")
+ax.set_ylabel("$|\\varepsilon_{\\rm RK4} - \\varepsilon_{\\rm exact}|$ (units of $m$)")
+ax.set_title("fourth-order convergence of the shooting method ($m = 1$, $L = 3$)")
+ax.legend(fontsize=8)
+```
+
+One tick mark at each step used, labelled with 4 decimals; `NullLocator` removes the small extra ticks that a logarithmic axis draws by default.
+
+```python
+fourth = all(12.0 < errs[i] / errs[i + 1] < 20.0 for errs in curves.values()
+             for i in range(2))  # halving h from 0.02 to 0.005: ratios near 16
+check(fourth, "halving the step divides each error by about 16 (between 12 and 20)")
+save_figure(fig, "rk4_convergence",
+            "The error of four numerical levels ($m = 1$, $L = 3$; even labels 1 "
+            ...)
+```
+
+For the first three step numbers (150, 300, 600: $h = 0.02$, $0.01$, $0.005$) each halving must divide each of the four errors by a factor between 12 and 20. **What figure 14b.4 shows.** Four straight lines parallel to the dotted line of slope 4, from errors near $10^{-6}$ at $h = 0.02$ down to $10^{-13}$ or $10^{-14}$ at $h = 0.0017$: the method is of fourth order over the whole range. The lines of the higher levels (labels 3) lie about three powers of ten above those of the lowest levels.
+
+**In [12], the orbitals.**
+
+```python
+def orbital(eps, k=0.0, j=1.0, M=1.0, L=3.0, G=900, H=1.0, a4=0.0, tip=0.0):
+    _, (theta_n, a_n, b_n) = shoot(eps, k, j, M=M, L=L, G=G, H=H, a4=a4, tip=tip,
+                                   keep=True)
+    nf, h = 2 * G + 1, L / G
+    y_fine = -L * ((nf - 1 - np.arange(nf)) / (nf - 1))
+    K_fine = k * np.exp(-a4) * np.exp(-H * y_fine)
+```
+
+The orbital of one level. `shoot(..., keep=True)` returns the angle and the paths; `_` receives $\Phi$, which is not needed, and the paths are unpacked into three arrays (one value per node, since a single energy is given). Then the fine grid and $K = \kappa k$ on it.
+
+```python
+    a_f, b_f = np.zeros(nf), np.zeros(nf)
+    a_f[0::2], b_f[0::2] = a_n, b_n  # the node values
+    da = M * a_f - (K_fine + j * eps) * b_f  # the derivatives at the nodes
+    db = (j * eps - K_fine) * a_f - M * b_f
+```
+
+Two arrays for the fine grid; `a_f[0::2]` is every second entry starting at 0, the nodes, which receive the node values. `da` and `db` are the derivatives $a'$, $b'$ from the real form; only their values at the nodes are used below.
+
+```python
+    for f in range(1, nf, 2):  # cubic Hermite value at each midpoint
+        a_f[f] = 0.5 * (a_f[f - 1] + a_f[f + 1]) + h / 8.0 * (da[f - 1] - da[f + 1])
+        b_f[f] = 0.5 * (b_f[f - 1] + b_f[f + 1]) + h / 8.0 * (db[f - 1] - db[f + 1])
+```
+
+The midpoints (odd positions 1, 3, 5, ...) get their values by **cubic Hermite interpolation**: the cubic polynomial that has the values $f_0$, $f_1$ and the derivatives $f_0'$, $f_1'$ at the two neighbouring nodes, a step $h$ apart, has at the midpoint the value $\tfrac12(f_0 + f_1) + \tfrac h8(f_0' - f_1')$ (Exercise 14.4). Its error is of order $h^4$, like that of RK4.
+
+```python
+    weights = np.full(nf, 2.0)  # Simpson: 1, 4, 2, 4, ..., 4, 1 times (h/2)/3
+    weights[1::2] = 4.0
+    weights[0] = weights[-1] = 1.0
+    weights *= 0.5 * h / 3.0
+    norm = math.sqrt(float(np.sum(weights * (a_f ** 2 + b_f ** 2))))
+    return y_fine, a_f / norm, b_f / norm, weights
+```
+
+**Simpson's rule** (Chapter 2) on the fine grid, whose spacing is $h/2$: the weights $1, 4, 2, 4, \dots, 4, 1$ times $(h/2)/3$ (`weights[1::2]` are the odd positions, `weights[-1]` the last entry). The integral $\int(a^2 + b^2)dy$ is the weighted sum, and dividing $a$, $b$ by its square root normalises the orbital. The function returns the grid, the normalised components and the weights.
+
+```python
+y_f, a_zero, b_zero, simpson = orbital(numeric[(1.0, 3.0, "even", 0)])
+a_exact = math.sqrt(2.0 / (1.0 - math.exp(-6.0))) * np.exp(y_f)
+deviation = float(np.max(np.abs(a_zero - a_exact)))
+check(numeric[(1.0, 3.0, "even", 0)] == 0.0 and np.all(b_zero == 0.0)
+      and deviation < 1e-9 and record_check("free_zero_mode_exact", (RUST_REPORT,)),
+      "zero mode: eps = 0 and b = 0 exactly, a = sqrt(2M/(1 - e^(-2ML))) e^(My)",
+      record=f"{RUST_REPORT}, check free_zero_mode_exact")
+```
+
+The zero mode of $m = 1$, $L = 3$ against the exact $a = \sqrt{2/(1 - e^{-6})}\,e^{y}$ (Section 14.13 with $M = 1$, $L = 3$): its level is exactly 0, its $b$ is exactly 0 at every point, and $a$ agrees to $10^{-9}$, as in the Rust check free_zero_mode_exact.
+
+```python
+def exact_orbital(parity, label, m_=1.0, L_=3.0):
+    level = exact[(m_, L_, parity, label)]
+    p_ = math.sqrt(level ** 2 - m_ ** 2)
+    if parity == "even":
+        b_e = np.sin(p_ * y_f)
+        a_e = (p_ * np.cos(p_ * y_f) + m_ * b_e) / level
+    else:
+        b_e = np.sin(p_ * (y_f + L_))
+        a_e = (p_ * np.cos(p_ * (y_f + L_)) + m_ * b_e) / level
+    sign = 1.0 if a_e[0] > 0 else -1.0  # the sign with a(-L) > 0
+    norm = math.sqrt(float(np.sum(simpson * (a_e ** 2 + b_e ** 2))))
+    return sign * a_e / norm, sign * b_e / norm
+```
+
+The exact orbitals of Section 14.13 for $j = +1$: $p = \sqrt{\varepsilon^2 - m^2}$, $b$ the sine, $a = (b' + mb)/\varepsilon$ written out ($b' = p\cos$). An orbital is fixed only up to a constant factor; the numerical one starts with $a(-L) = 1 > 0$, so the exact one is given the sign that makes $a(-L) > 0$ (`a_e[0]` is its value at $y = -L$) and is normalised with the same Simpson weights.
+
+```python
+shown = {}
+worst_orbital = 0.0
+for parity, label in (("even", 1), ("odd", 0)):
+    _, a_num, b_num, _ = orbital(numeric[(1.0, 3.0, parity, label)])
+    a_ex, b_ex = exact_orbital(parity, label)
+    worst_orbital = max(worst_orbital, float(np.max(np.abs(a_num - a_ex))),
+                        float(np.max(np.abs(b_num - b_ex))))
+    shown[(parity, label)] = (a_num, b_num, a_ex, b_ex)
+check(worst_orbital < 1e-8,
+      "the even label 1 and odd label 0 orbitals equal the exact ones to 1e-8")
+```
+
+The numerical and exact orbitals of the even level 1 and the odd level 0, their largest difference over all points (below $10^{-8}$), and a dictionary `shown` that keeps them for the figure. Out [12] shows two PASS lines.
+
+**In [13], figure 5.**
+
+```python
+fig, axes = plt.subplots(1, 3, figsize=(11.0, 3.8), sharey=True)
+panels = [("zero mode, $\\varepsilon = 0$", a_zero, b_zero, a_exact,
+           np.zeros_like(a_exact)),
+          (f"even label 1, $\\varepsilon = {lowest_even:.4f}$",) + shown[("even", 1)],
+          (f"odd label 0, $\\varepsilon = {lowest_odd:.4f}$",) + shown[("odd", 0)]]
+```
+
+Three panels side by side that share the vertical axis (`sharey=True`), and for each a tuple of the title, the numerical $a$, $b$ and the exact $a$, $b$; `(title,) + shown[...]` puts the title in front of the stored four arrays, and `np.zeros_like` is an array of zeros of the same shape (the exact $b$ of the zero mode).
+
+```python
+for ax, (title, a_num, b_num, a_ex, b_ex) in zip(axes, panels):
+    ax.plot(y_f, a_num, color="C0", label="$a$ (numerical)")
+    ax.plot(y_f, b_num, "--", color="C1", label="$b$ (numerical)")
+    ax.plot(y_f[::60], a_ex[::60], ".", color="black", label="exact")
+    ax.plot(y_f[::60], b_ex[::60], ".", color="black")
+    ax.set_title(title, fontsize=9)
+    ax.set_xlabel("$y$ (units of $1/H$)")
+axes[0].set_ylabel("orbital component (normalised)")
+axes[0].legend(fontsize=8, loc="upper left")
+save_figure(fig, "orbitals",
+            "The normalised orbitals $\\chi = (a, ib)$ of three free $k = 0$ "
+            ...)
+```
+
+In each panel the numerical $a$ (solid) and $b$ (dashed) and every 60th point of the exact ones as black dots (`[::60]` takes every 60th entry). **What figure 14b.5 shows.** Left: the zero mode, $a$ rising like $e^{y}$ from $0.07$ at the tip to $1.42$ at the brane, $b = 0$: the orbital lives at the brane. Middle: the even level 1, $b$ a half sine wave that vanishes at both ends, $a$ falling from $+0.42$ to $-0.42$. Right: the odd level 0, $b$ vanishing at the tip, $a$ vanishing at the brane. All black dots lie on the curves.
+
+**In [14], figure 6.**
+
+```python
+picks = [("even", l_) for l_ in range(4)] + [("odd", l_) for l_ in range(3)]
+energies = np.array([numeric[(1.0, 3.0, p_, l_)] for p_, l_ in picks])
+_, (theta_path, _, _) = shoot(energies, 0.0, 1.0, keep=True)
+y_nodes = np.linspace(-3.0, 0.0, 901)
+end_values = theta_path[-1] / np.pi
+goals = np.array([l_ + (0.0 if p_ == "even" else 0.5) for p_, l_ in picks])
+check(np.max(np.abs(end_values - goals)) < 1e-9,
+      "the Pruefer angle ends on its target l pi or (l + 1/2) pi for every level")
+```
+
+Seven levels (even labels 0 to 3, odd labels 0 to 2), one call of `shoot` that keeps the angle paths (an array with 901 rows, the nodes, and seven columns), the 901 node positions, the end angles in units of $\pi$ (`theta_path[-1]` is the last row) and the targets $l$ or $l + \tfrac12$. The check: every path ends on its target to $10^{-9}$.
+
+```python
+fig, ax = plt.subplots(figsize=(8.0, 4.6))
+for column, (p_, l_) in enumerate(picks):
+    style = "-" if p_ == "even" else "--"
+    ax.plot(y_nodes, theta_path[:, column] / np.pi, style,
+            label=f"{p_}, label {l_}")
+ax.set_xlabel("$y$ (units of $1/H$; tip at $-3$, brane at $0$)")
+ax.set_ylabel("Pruefer angle $\\theta(y)/\\pi$")
+ax.set_title("the Pruefer angle counts the half-turns ($m = 1$, $L = 3$, $k = 0$)")
+ax.legend(fontsize=8, ncol=2, loc="upper left")
+save_figure(fig, "pruefer_angle",
+            "The Pruefer angle $\\theta(y) = \\mathrm{atan2}(b, a)$ in units of "
+            ...)
+```
+
+`theta_path[:, column]` is one column, the path of one level; even levels are drawn solid, odd ones dashed. **What figure 14b.6 shows.** All curves start at 0 at the tip ($b(-3) = 0$) and climb to their targets at the brane: the even labels 0, 1, 2, 3 end at 0, 1, 2, 3 and the odd labels 0, 1, 2 at 0.5, 1.5, 2.5. The zero mode stays at 0 all the way. A higher level turns faster: the label counts the half-turns of the point $(a, b)$ between the tip and the brane.
+
+**In [15], the last check.**
+
+```python
+figure_names = ["14b_1_odd_condition.png", "14b_2_shooting_function.png",
+                "14b_3_spectrum_ladder.png", "14b_4_rk4_convergence.png",
+                "14b_5_orbitals.png", "14b_6_pruefer_angle.png"]
+check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in figure_names),
+      "all six figure files of this notebook exist")
+all_checks_passed()
+```
+
+The six figure files must exist where the notebook wrote them; the last line prints ALL 20 CHECKS PASSED (notebook 14b). The 20 checks are: 1 in In [2], 6 in In [3], 2 in In [4], 1 in In [6], 1 in In [7], 3 in In [8], 1 in In [10], 1 in In [11], 2 in In [12], 1 in In [14] and 1 in In [15].
+
+### 14.19 The brane band and its exact slope
+
+**What happens when the 3-momentum is switched on.** At $k = 0$ the free spectrum has eight zero modes, four in the blocks of type $j = +1$ and four in those of type $j = -1$ (Section 14.13). For $k \ne 0$ the momentum term $j\kappa k\,\sigma_3$ of $h_j$ moves them. In the blocks $j = +1$ the even level of label 0 rises with $k$: this is the **brane band**, because its orbital stays at the brane. In the blocks $j = -1$ the even level of label 0 falls by exactly the same amount, because $h_{-1} = -h_{+1}$ for $v = 0$ (Section 14.5): its levels are the negatives of those of $j = +1$, with the label $l$ of even parity going to $-l$. How fast does the band rise? Its slope at $k = 0$ can be computed exactly.
+
+**The Hellmann-Feynman rule.** Let $h(k)$ be a self-adjoint operator that depends on a number $k$, with boundary conditions that do not depend on $k$, and let $h(k)\chi = \varepsilon(k)\chi$ with $\int\chi^\dagger\chi\,dy = 1$. Line by line:
+
+$$
+\varepsilon = \int\chi^\dagger h\chi\,dy .
+$$
+
+Rule: multiply $h\chi = \varepsilon\chi$ from the left by $\chi^\dagger$, integrate, and use the normalisation.
+
+$$
+\frac{d\varepsilon}{dk} = \int\frac{\partial\chi^\dagger}{\partial k}h\chi\,dy + \int\chi^\dagger h\frac{\partial\chi}{\partial k}\,dy + \int\chi^\dagger\frac{\partial h}{\partial k}\chi\,dy .
+$$
+
+Rule: the product rule for the three factors.
+
+$$
+\int\frac{\partial\chi^\dagger}{\partial k}h\chi\,dy + \int\chi^\dagger h\frac{\partial\chi}{\partial k}\,dy = \varepsilon\int\Big(\frac{\partial\chi^\dagger}{\partial k}\chi + \chi^\dagger\frac{\partial\chi}{\partial k}\Big)dy = \varepsilon\frac{d}{dk}\int\chi^\dagger\chi\,dy = 0 .
+$$
+
+Rule: in the first integral $h\chi = \varepsilon\chi$; in the second $h$ is self-adjoint, so $\int\chi^\dagger h\,\partial_k\chi\,dy = \int(h\chi)^\dagger\partial_k\chi\,dy = \varepsilon\int\chi^\dagger\partial_k\chi\,dy$ (the derivative $\partial_k\chi$ obeys the same boundary conditions, because they do not depend on $k$); then the product rule backwards, and the normalisation integral is the constant 1. Hence
+
+$$
+\frac{d\varepsilon}{dk} = \int\chi^\dagger\frac{\partial h}{\partial k}\chi\,dy .
+$$
+
+In words: the rate of change of a level is the expectation value of the rate of change of the operator.
+
+**The slope of the band.** Line by line:
+
+$$
+\frac{\partial h_j}{\partial k} = j\kappa(y)\,\sigma_3 .
+$$
+
+Rule: in $h_j = j[-i\sigma_1\,d/dy + M\sigma_2 + \kappa k\sigma_3] + v$ only the last term contains $k$.
+
+$$
+\frac{d\varepsilon}{dk}\Big|_{k=0} = j\int_{-L}^{0}\kappa(y)\,\chi^\dagger\sigma_3\chi\,dy = j\int_{-L}^{0}e^{-Hy - a_{4,0}}\,a(y)^2\,dy .
+$$
+
+Rule: the Hellmann-Feynman rule at $k = 0$, where the orbital is the zero mode $\chi = (a, 0)$ and $\chi^\dagger\sigma_3\chi = a^2 - b^2 = a^2$ (Section 14.12).
+
+$$
+c = \frac{\int_{-L}^{0}e^{-Hy - a_{4,0}}e^{2My}\,dy}{\int_{-L}^{0}e^{2My}\,dy} .
+$$
+
+Rule: $a^2 = A^2e^{2My}$ with $A^2 = 1/\int_{-L}^0e^{2My}dy$ (the normalisation); we call $c$ the slope of the band of type $j = +1$, so that $d\varepsilon/dk = jc$.
+
+$$
+\int_{-L}^{0}e^{-Hy}e^{2My}\,dy = \frac{1 - e^{-(2M - H)L}}{2M - H}, \qquad \int_{-L}^{0}e^{2My}\,dy = \frac{1 - e^{-2ML}}{2M} .
+$$
+
+Rule: $e^{-Hy}e^{2My} = e^{(2M - H)y}$; the integral of $e^{sy}$ is $e^{sy}/s$, evaluated at $0$ and $-L$ (here $2M \ne H$).
+
+$$
+c = e^{-a_{4,0}}\,\frac{2M}{2M - H}\,\frac{1 - e^{-(2M - H)L}}{1 - e^{-2ML}} .
+$$
+
+Rule: divide the two integrals and take the constant factor $e^{-a_{4,0}}$ out of the first. For $M = H = 1$:
+
+$$
+c = e^{-a_{4,0}}\,\frac{2(1 - e^{-L})}{1 - e^{-2L}} = \frac{2e^{-a_{4,0}}}{1 + e^{-L}} .
+$$
+
+Rule: $1 - e^{-2L} = (1 - e^{-L})(1 + e^{-L})$ (the difference of two squares). For $L = 3$ and $a_{4,0} = 0$: $c = 2/(1 + e^{-3}) = 1.9051482536$. Status: PROVED; check brane_band_slope of `Revision/kohn_sham/reports/ks-theory-python.json` and of the Wolfram report, and the value braneBandSlope_M1_H1_L3_a0 = 1.9051482536448664 under checksNumeric in `Revision/kohn_sham/ks-theory.json`.
+
+**What the formula says.** Three things. (1) The band starts linearly, $\varepsilon \approx ck$, like the energy of a massless particle, although the mass $m$ is not zero: the mass term only keeps the orbital at the brane. The slope is the average of the momentum weight $\kappa$ over the zero-mode orbital (the integral above), and it is larger than the value $e^{-a_{4,0}}$ of $\kappa$ at the brane because the orbital reaches somewhat toward the tip, where $\kappa$ is larger. (2) For a long hidden interval, $L \to \infty$, the slope tends to $2M/(2M - H)$, which is 2 for $M = H = 1$; for $L = 2$, $3$, $4$ it is $1.761594$, $1.905148$, $1.964028$ (Notebook 14c, Out [5]). (3) Along the deflating history the slope shrinks like $e^{-a_{4,0}}$: at the five slices $a_{4,0} = 0, 0.5, 1, 1.5, 2$ the exact values are $1.905148253645$, $1.155530827134$, $0.700864874900$, $0.425096034942$, $0.257833778515$ (Notebook 14c, Out [5]).
+
+**The band is an odd function of $k$.** The relation $\sigma_3h_j(k)\sigma_3 = h_{-j}(-k)$ of Section 14.5 says that the level of $(j, k)$ equals the level of $(-j, -k)$ with the same label; and $h_{-1} = -h_{+1}$ says that the level of $(-1, k)$ with even label 0 is minus the level of $(+1, k)$ with even label 0. Together: $\varepsilon_{\rm band}(-k) = \varepsilon_{-1}(k) = -\varepsilon_{\rm band}(k)$. So $\varepsilon_{\rm band}(k)/k = c + dk^2 + \dots$ contains only even powers of $k$. The Revision solver used this to measure the slope numerically: with $R(k) = \varepsilon(k)/k$ at $k_1 = 10^{-4}$ and $k_2 = 2\times10^{-4}$,
+
+$$
+\frac{4R(k_1) - R(k_2)}{3} = \frac{4(c + dk_1^2) - (c + 4dk_1^2)}{3} = c .
+$$
+
+Rule: $k_2 = 2k_1$, so $k_2^2 = 4k_1^2$, and the terms with $d$ cancel (**Richardson extrapolation**, Chapter 2; what remains is of order $k^4$). The Rust solver found the exact $c\,e^{-a_{4,0}}$ at all five slices to $1.87\times10^{-12}$ (relative; check free_brane_band_slope of `Revision/kohn_sham/reports/ks-rust-solver.json`; the values are in `Revision/kohn_sham/results/spectrum/brane-band-slope.csv`). Status: COMPUTED; Notebook 14c reproduces the five values.
+
+**The band at larger momenta.** The record `Revision/kohn_sham/results/spectrum/brane-band.csv` follows the band and three other levels from $k = 0$ to $k = 4$ at the slice 0. At the first lattice shell, $k = \Delta k = 0.25$, the band is at $0.4307336786\,m$ (Notebook 14c, Out [3]), a little below the straight line $ck = 0.476$: the band bends downward. At $k = 4$ it is at $4.992\,m$. The lowest level that is not on the brane band at $k = 0$ is the odd level of label 0 at $1.2922928281\,m$ (Section 14.13), called the **bulk edge**; all other levels start at or above it (Figure 14c.1). Status: COMPUTED.
+
+### 14.20 The band along the deflating history, and the tip
+
+**The redshift.** By the exact rescaling identity (Section 14.7) every level at the slice $a_{4,0}$ equals the level at the slice 0 with the redshifted momentum: $\varepsilon(k, a_{4,0}) = \varepsilon(ke^{-a_{4,0}}, 0)$. So the whole band shrinks toward zero along the history: at a later slice the same lattice momentum $k$ sits lower on the band. The Rust solver checked the identity for the three momenta $k = 0.25, 1, 2.5$, the five slices and three sectors, and found the two sides equal to the last bit, with the difference 0 (check free_rescaling_relation_and_band_monotone of the Rust report; the same check found the band strictly increasing in $k$ on $[0, 4]$). Status: PROVED (the identity), COMPUTED (the check).
+
+**The gap of the eight zero modes along the history.** In the free state $N = 8$ the eight zero modes are filled and the lowest empty particle level is the brane band at the first lattice shell, $k = 0.25$. This level is the **gap** of the state. At the five slices it is
+
+| slice $a_{4,0}$ | 0 | 0.5 | 1 | 1.5 | 2 |
+| --- | --- | --- | --- | --- | --- |
+| gap of the free $N = 8$ state (units of $m$) | 0.4307336786 | 0.2726448766 | 0.1703492513 | 0.1050152416 | 0.0641594107 |
+
+(Notebook 14c, Out [7]; the rows $N = 8$ of `Revision/kohn_sham/results/spectrum/closed-shells.csv`). The gap shrinks almost like $e^{-a_{4,0}}$ (for small momenta the band is nearly $c\,ke^{-a_{4,0}}$): as 3-space inflates, the lattice momenta are redshifted and the empty levels come down toward the filled zero modes. Status: COMPUTED. (Chapter 15 asks whether the gas can follow this change: the adiabaticity of the history.)
+
+**The tip does not matter for the band.** Section 14.12 showed that an orbital with $k \ne 0$ is suppressed at the cutoff by about $\exp(-|k|(\kappa(-L) - \kappa(y))/H)$, so the band level should hardly change if the tip condition is changed. The Rust solver computed the band with the tip angles $\theta = 0, 0.5, 1$ (record `Revision/kohn_sham/results/spectrum/tip-angle.csv`): at $k = 0.25$ the level moves by $-8.58\times10^{-6}$ and $-2.74\times10^{-5}$, while the suppression factor is $8.47\times10^{-3}$; at $k = 0.5$ by $-2.49\times10^{-9}$ and $-8.58\times10^{-9}$ against $7.17\times10^{-5}$; at $k = 1$ only by rounding errors (below $10^{-15}$) against $5.14\times10^{-9}$ (check free_tip_angle_insensitivity of the Rust report: every shift lies below the suppression factor). Notebook 14c computes the shifts for ten momenta from 0.1 to 1 (Out [11]): each step of 0.1 in $k$ makes them 11 to 33 times smaller, faster than the suppression factor itself (which falls by $e^{0.1(e^3 - 1)} \approx 6.7$ per step), until they reach the rounding level of the computer at $k = 0.9$. Status: COMPUTED. So the ASSUMED tip condition is harmless for every level with $k \ne 0$; at $k = 0$, where it selects the zero mode, it is a real assumption of the model.
+
+### 14.21 Particles, degeneracies and closed shells
+
+**Lattice shells.** On the 3-torus the allowed momenta are $\mathbf k = \Delta k\,(n_1, n_2, n_3)$ with whole numbers $n_i$ (Section 14.3). All vectors with the same $n^2 = n_1^2 + n_2^2 + n_3^2$ have the same length $|\mathbf k| = \Delta k\sqrt{n^2}$ and form a **shell**; their number is written $r_3(n^2)$. For example $r_3(0) = 1$ (only $(0, 0, 0)$), $r_3(1) = 6$ (the six vectors $(\pm1, 0, 0)$, $(0, \pm1, 0)$, $(0, 0, \pm1)$) and $r_3(2) = 12$ (two entries $\pm1$ and one 0: three places for the 0 times four sign choices). The first values are $r_3 = 1, 6, 12, 8, 6, 24, 24, 12, 30$ for $n^2 = 0, 1, 2, 3, 4, 5, 6, 8, 9$; no vector has $n^2 = 7$, because the squares below 8 are 0, 1 and 4, and no three of them add up to 7.
+
+**Degeneracy.** The levels depend on $|\mathbf k|$ only (Section 14.6), and the four blocks $(s_2, s_3)$ of one type have the same Hamiltonian (Section 14.5). So every level of the block type $j$ on the shell $n^2$ holds $4r_3(n^2)$ states: four blocks times $r_3(n^2)$ directions. Status: PROVED (the argument above; the record states it as blockEquation.degeneracy in `Revision/kohn_sham/ks-theory.json`).
+
+**Particles and the sea (ASSUMED convention; its justification is OPEN).** The free spectrum has positive and negative levels. In the quantised theory (Chapter 10) the field is normal ordered: the negative levels form the filled **sea**, which is not counted, and the quanta that are counted, the **particles**, occupy the positive levels. The Revision theory adopts the following rule: in each sector (shell, block type, parity) the particle levels are those whose level in the free problem ($\lambda = 0$) is positive, together with the zero modes at $k = 0$, each followed continuously when the interaction is switched on; the sea contributes nothing to the particle number and the densities. The zero modes need a decision: at $k = 0$ and $v = 0$ the spectrum of $h_{+1}$ is minus that of $h_{-1}$, so a level at exactly zero is its own mirror image and the sign does not decide whether it is a particle or a sea level. Counting it as a particle level is a stated CONVENTION of the record (ks-theory.json, thermodynamics.fillingConvention), and its justification is OPEN. (The words particle and sea are used here in this technical sense only; nothing in this chapter is a statement about matter and antimatter, which Chapter 21 treats.)
+
+Because $\Phi$ grows with $\varepsilon$ (Section 14.14), the particle levels of a sector are exactly the labels $l \ge l_{\min}$, where $l_{\min}$ is the first label whose target lies above $\Phi(0)$, the value of the shooting function at $\varepsilon = 0$ (and at $k = 0$, even parity, the zero mode has $\Phi(0) = 0$ exactly on the target of label 0). The Rust solver verified this for every shell $n^2 \le 30$ and every sector, and found that the level closest to zero, apart from the zero modes, is $0.4307\,m$: the brane band at the first shell (check free_particle_branch_labels of the Rust report). Status: COMPUTED.
+
+**Closed shells.** The **aufbau** (German for building up) fills the particle states from the lowest level upward. A particle number $N$ is a **closed shell** when the filling ends exactly at the end of a group of degenerate levels (levels equal within $10^{-9}$), so that the state is unique. At the slice 0 the first closed shells are built like this (record `Revision/kohn_sham/results/spectrum/closed-shells.csv`, reproduced by Notebook 14c, Out [14]):
+
+| $N$ | the last group filled | states added | its level (units of $m$) |
+| --- | --- | --- | --- |
+| 8 | the zero modes, both block types | $4 + 4 = 8$ | 0 |
+| 32 | the brane band on the shell $n^2 = 1$ | $4 \times 6 = 24$ | 0.4307336786 |
+| 80 | the brane band on the shell $n^2 = 2$ | $4 \times 12 = 48$ | 0.5879568528 |
+| 112 | the brane band on the shell $n^2 = 3$ | $4 \times 8 = 32$ | 0.7040995646 |
+| 136 | the brane band on the shell $n^2 = 4$ | $4 \times 6 = 24$ | 0.7996457668 |
+| 232 | the brane band on the shell $n^2 = 5$ | $4 \times 24 = 96$ | 0.8823195405 |
+
+Only the brane band of the blocks $j = +1$ appears on the shells $n^2 \ge 1$ in this table: the band of the blocks $j = -1$ is negative (sea), and every other level lies higher. The list of closed shells at the slice 0 continues $328, 376, 496, 592, 688, 696, 728, \dots$ up to the energy $1.6\,m$ (22 closed shells in all). The shell $N = 696$ is the first that fills a level off the brane band: the odd level of label 0 at $k = 0$, at the bulk edge $1.2922928281\,m$.
+
+**The particle numbers of the Revision runs.** The Revision solver chose its three particle numbers by a rule fixed in advance (record `Revision/kohn_sham/results/parameters.json`, particleNumbers): $N = 8$, the zero modes; $N_{\rm large}$, the largest closed shell whose last filled level lies below the bulk edge, which is 688; and $N_{\rm mid}$, the closed shell nearest to $N_{\rm large}/4 = 172$, which is 136 (the neighbours 136 and 232 are 36 and 60 away). Status: COMPUTED; Notebook 14c repeats the rule and finds 8, 136, 688.
+
+**At a later slice.** At the slice $a_{4,0} = 0.5$ the redshifted band holds many more states below the same energy: 55 closed shells below $1.6\,m$ instead of 22 (Notebook 14c, Out [14]; Figure 14c.6).
+
+### 14.22 Example: Notebook 14c, the brane band
+
+Notebook 14c does Sections 14.19 to 14.21 with the computer, with the shooting method of Notebook 14b (now also for nonzero 3-momenta and any slice). It computes the brane band and three other levels for $k$ from 0 to 4 and compares 324 levels with the Rust record; it derives the slope formula with sympy, checks the integral of Section 14.19 on the numerical zero mode, measures the slope by Richardson extrapolation at the five slices and for two other cutoffs; it checks the rescaling identity for 45 levels and the gap of the state $N = 8$ at the five slices; it checks the two block-type symmetries; it measures the effect of the tip condition; and it builds the lattice shells, the particle labels, the closed shells at the slices 0 and 0.5 and the particle numbers of the Revision runs, all against the Rust records. It draws six figures and needs no Rust. It runs in about 90 seconds (the cells of its sections 8 and 11 integrate the equation for hundreds of energies at once, 72 times over, and take 10 to 20 seconds each), and its last line is ALL 15 CHECKS PASSED (notebook 14c).
+
+<!-- NOTEBOOK 14c -->
+
+### 14.25 Line-by-line walk-through of Notebook 14c
+
+The notebook has 16 code cells, In [1] to In [16]. Docstrings and the long caption texts are again left out of the quotations; the captions are printed under the figures in Section 14.24.
+
+**In [1], the set-up cell.** The code of In [1] of Notebook 14a (Section 14.11), line for line, except
+
+```python
+NOTEBOOK_ID = "14c"  # this notebook: chapter 14, example c
+```
+
+which names this notebook. Its comment lines are the run instructions of Section 14.23.
+
+**In [2], the tools.**
+
+```python
+import math  # exp, cos, sin of single numbers
+
+import numpy as np  # floating-point arrays
+import sympy as sp  # exact algebra with symbols
+
+RUST_REPORT = "Revision/kohn_sham/reports/ks-rust-solver.json"
+SPECTRUM = "Revision/kohn_sham/results/spectrum"  # the folder of the records
+```
+
+The three modules of In [2] of Notebook 14b, the name of the Rust solver's report, and the folder of its spectrum records.
+
+```python
+def record_check(name, report=RUST_REPORT):
+    data = json.loads(repository_file(report).read_text(encoding="utf-8"))
+    return [c["verdict"] for c in data["checks"] if c["name"] == name] == ["PASS"]
+```
+
+A simpler `record_check`: true when the report (by default the Rust report) holds exactly one check of this name and its verdict is PASS (the list of all verdicts of that name must be the one-element list `["PASS"]`).
+
+```python
+def read_csv(relative):
+    lines = repository_file(relative).read_text(encoding="utf-8").splitlines()
+    header = lines[0].split(",")
+    return [dict(zip(header, line.split(","))) for line in lines[1:]]
+```
+
+A small CSV reader: the rows of a record as a list of dictionaries from column name to text, as in Notebooks 14a and 14b.
+
+```python
+def shoot(eps, k=0.0, j=1.0, a4=0.0, M=1.0, L=3.0, G=900, H=1.0, tip=0.0,
+          keep=False):
+    eps, k, j, a4 = np.broadcast_arrays(*(np.asarray(x, dtype=float)
+                                          for x in (eps, k, j, a4)))
+    nf = 2 * G + 1  # nodes and step midpoints
+    y_fine = -L * ((nf - 1 - np.arange(nf)) / (nf - 1))
+    e_minus_Hy = np.exp(-H * y_fine)
+    kk = k * np.exp(-a4)  # kappa k = kk e^(-Hy)
+    h = L / G
+    a_ = np.full(eps.shape, math.cos(0.5 * tip))
+    b_ = np.full(eps.shape, math.sin(0.5 * tip))
+    theta = np.full(eps.shape, 0.5 * tip)
+    raw = np.arctan2(b_, a_)
+    je = j * eps
+    path = [(theta, a_, b_)]
+    for i in range(G):
+        K0, K1, K2 = (kk * e_minus_Hy[2 * i], kk * e_minus_Hy[2 * i + 1],
+                      kk * e_minus_Hy[2 * i + 2])
+        p1a, p1b = M * a_ - (K0 + je) * b_, (je - K0) * a_ - M * b_
+        a2, b2 = a_ + 0.5 * h * p1a, b_ + 0.5 * h * p1b
+        p2a, p2b = M * a2 - (K1 + je) * b2, (je - K1) * a2 - M * b2
+        a3, b3 = a_ + 0.5 * h * p2a, b_ + 0.5 * h * p2b
+        p3a, p3b = M * a3 - (K1 + je) * b3, (je - K1) * a3 - M * b3
+        a4_, b4_ = a_ + h * p3a, b_ + h * p3b
+        p4a, p4b = M * a4_ - (K2 + je) * b4_, (je - K2) * a4_ - M * b4_
+        a_ = a_ + h / 6.0 * (p1a + 2.0 * p2a + 2.0 * p3a + p4a)
+        b_ = b_ + h / 6.0 * (p1b + 2.0 * p2b + 2.0 * p3b + p4b)
+        new = np.arctan2(b_, a_)
+        step = new - raw  # brought into (-pi, pi]
+        step = np.where(step > np.pi, step - 2 * np.pi,
+                        np.where(step <= -np.pi, step + 2 * np.pi, step))
+        theta = theta + step
+        raw = new
+        if keep:
+            path.append((theta, a_, b_))
+    if keep:
+        return j * theta, [np.array(q) for q in zip(*path)]
+    return j * theta
+```
+
+The function `shoot` of Notebook 14b (Section 14.18 explains every line), with one change: the slice `a4` is now the fourth argument and may also be an array, so that levels at different slices are computed in one call. The first two lines therefore bring four inputs to a common shape; `*(...)` hands the four arrays made by the generator over as four separate arguments.
+
+```python
+def target(parity, label):
+    offset = np.where(np.asarray(parity) == "even", 0.0, 0.5 * np.pi)
+    return offset + np.asarray(label, dtype=float) * np.pi
+
+
+def levels(k, j, parity, label, a4=0.0, iterations=72, **options):
+    k, j, parity, label, a4 = np.broadcast_arrays(
+        np.asarray(k, dtype=float), np.asarray(j, dtype=float), np.asarray(parity),
+        np.asarray(label), np.asarray(a4, dtype=float))
+    goal = target(parity, label)
+    lo, hi = np.full(k.shape, -20.0), np.full(k.shape, 20.0)
+    for _ in range(iterations):
+        mid = 0.5 * (lo + hi)
+        g = shoot(mid, k, j, a4, **options) - goal
+        lo = np.where(g <= 0.0, mid, lo)
+        hi = np.where(g >= 0.0, mid, hi)
+    return 0.5 * (lo + hi)
+```
+
+`target` and `levels` as in Notebook 14b, with the slice `a4` as an extra input that may differ from level to level.
+
+```python
+def orbital(eps, k=0.0, j=1.0, a4=0.0, M=1.0, L=3.0, G=900, H=1.0):
+    _, (_, a_n, b_n) = shoot(eps, k, j, a4, M=M, L=L, G=G, H=H, keep=True)
+    nf, h = 2 * G + 1, L / G
+    y_fine = -L * ((nf - 1 - np.arange(nf)) / (nf - 1))
+    K_fine = k * math.exp(-a4) * np.exp(-H * y_fine)
+    a_f, b_f = np.zeros(nf), np.zeros(nf)
+    a_f[0::2], b_f[0::2] = a_n, b_n
+    da = M * a_f - (K_fine + j * eps) * b_f
+    db = (j * eps - K_fine) * a_f - M * b_f
+    for f in range(1, nf, 2):  # cubic Hermite values at the midpoints
+        a_f[f] = 0.5 * (a_f[f - 1] + a_f[f + 1]) + h / 8.0 * (da[f - 1] - da[f + 1])
+        b_f[f] = 0.5 * (b_f[f - 1] + b_f[f + 1]) + h / 8.0 * (db[f - 1] - db[f + 1])
+    weights = np.full(nf, 2.0)  # Simpson weights 1, 4, 2, ..., 4, 1 times (h/2)/3
+    weights[1::2] = 4.0
+    weights[0] = weights[-1] = 1.0
+    weights *= 0.5 * h / 3.0
+    norm = math.sqrt(float(np.sum(weights * (a_f ** 2 + b_f ** 2))))
+    return y_fine, a_f / norm, b_f / norm, weights
+```
+
+The normalised orbital of one level, exactly as `orbital` of Notebook 14b (In [12] there): the node values from `shoot`, cubic Hermite values at the midpoints, Simpson's weights and the normalisation. Here the slice is a single number, so `math.exp` suffices.
+
+```python
+SLICES = [0.0, 0.5, 1.0, 1.5, 2.0]  # the slices of the Revision solver
+say("defined: shoot, levels, orbital, read_csv, record_check")
+```
+
+The five slices of the history and the only output of the cell.
+
+**In [3], the band and three other levels.**
+
+```python
+k_list, kk = [], 0.0
+while kk <= 4.0 + 1e-12:  # 0, 0.05, 0.10, ... as the Rust program makes them
+    k_list.append(kk)
+    kk += 0.05
+k_band = np.array(k_list)
+```
+
+The momenta $0, 0.05, 0.10, \dots, 4$, made by adding 0.05 again and again, as the Rust program does. A `while` loop repeats as long as its condition holds. The decimal number 0.05 is not exactly representable in binary floating point, so the sums differ in the last digits from $0.05\,n$; making them the same way as the Rust program makes the last digits agree with the record (and the small $10^{-12}$ in the condition makes sure that the last value, about 4, is included).
+
+```python
+sectors = [(1.0, "even", 0), (1.0, "even", 1), (1.0, "odd", 0), (-1.0, "even", 1),
+           (-1.0, "even", 0)]  # (j, parity, label); the last one for the figure
+K_all = np.concatenate([k_band] * len(sectors))
+J_all = np.concatenate([[j_] * len(k_band) for j_, _, _ in sectors])
+P_all = np.concatenate([[p_] * len(k_band) for _, p_, _ in sectors])
+L_all = np.concatenate([[l_] * len(k_band) for _, _, l_ in sectors])
+found = levels(K_all, J_all, P_all, L_all).reshape(len(sectors), len(k_band))
+band, bulk_even, odd0, minus_even1, minus_band = found
+```
+
+Five sectors (block type, parity, label): the brane band, the even label 1 and the odd label 0 of $j = +1$, the even label 1 of $j = -1$ (the four levels of the record), and the even label 0 of $j = -1$ for the figure. `np.concatenate` joins lists end to end, so the four arrays hold all $5 \times 81 = 405$ combinations; one call of `levels` finds all of them, and `reshape` arranges the result as 5 rows of 81. The last line unpacks the five rows into five names.
+
+```python
+rows = read_csv(f"{SPECTRUM}/brane-band.csv")
+record = np.array([[float(r[c]) for r in rows] for c in
+                   ("eps_band_a0", "eps_band_bulk_even_l1", "eps_odd_l0",
+                    "eps_jm1_even_l1")])
+k_record = np.array([float(r["k"]) for r in rows])
+say(f"k = 0.25: brane band {band[5]:.10f}, odd level {odd0[5]:.10f} (units of m)")
+```
+
+The record's four columns as an array of 4 rows of 81 numbers, its momenta, and a printed sample: position 5 of the list is $k = 0.25$.
+
+```python
+check(len(rows) == 81 and np.max(np.abs(k_record - k_band)) < 1e-15
+      and np.max(np.abs(found[:4] - record)) < 1e-11,
+      "the 324 levels equal the record brane-band.csv",
+      record=f"{SPECTRUM}/brane-band.csv")
+check(bool(np.all(np.diff(band) > 0.0)) and np.max(np.abs(minus_band + band)) < 1e-12,
+      "the band rises strictly with k; the j = -1 band is its mirror image -eps")
+```
+
+The first check: 81 rows, the same momenta, and the first four rows of levels (`found[:4]`, $4 \times 81 = 324$ levels) equal to the record to $10^{-11}$. The second: the band rises strictly, and the band of $j = -1$ is exactly its negative (Section 14.19). Out [3] prints the band at $k = 0.25$, $0.4307336786$, and the odd level $1.9195133815$, and two PASS lines.
+
+**In [4], figure 1.**
+
+```python
+c_theory = 2.0 / (1.0 + math.exp(-3.0))  # the slope for M = H = 1, L = 3, a4,0 = 0
+fig, ax = plt.subplots(figsize=(9.5, 4.8))
+ax.plot(k_band, band, color="C0", linewidth=2, label="brane band ($j = +1$, even, 0)")
+ax.plot(k_band, bulk_even, color="C1", label="$j = +1$, even, label 1")
+ax.plot(k_band, odd0, color="C2", label="$j = +1$, odd, label 0")
+ax.plot(k_band, minus_even1, color="C4", label="$j = -1$, even, label 1")
+ax.plot(k_band, minus_band, "--", color="C0",
+        label="$j = -1$, even, label 0 (sea)")
+```
+
+The slope $c = 2/(1 + e^{-3})$ of Section 14.19 and the five level curves; the band is drawn thick.
+
+```python
+ax.plot(k_band[:13], c_theory * k_band[:13], ":", color="black",
+        label="first order: $c\\,k$, $c = 1.9051$")
+ax.axhline(odd0[0], color="gray", linewidth=0.8, linestyle="-.")
+ax.annotate("bulk edge 1.2923", (2.6, odd0[0] - 0.55), fontsize=8,
+            color="gray")  # just below the dash-dotted line
+```
+
+The straight line $ck$ for the first 13 momenta ($k \le 0.6$), and a dash-dotted horizontal line at the bulk edge, the odd level at $k = 0$ (`odd0[0]`), with its name written just below it.
+
+```python
+ax.set_xlabel("3-momentum $k$ (units of $H$), slice $a_{4,0} = 0$")
+ax.set_ylabel("level $\\varepsilon$ (units of $m$)")
+ax.set_title("the free levels at nonzero 3-momentum ($m = 1$, $L = 3$)")
+ax.legend(fontsize=7, loc="center left", bbox_to_anchor=(1.01, 0.5))
+save_figure(fig, "band_structure",
+            "The free Kohn-Sham levels against the 3-momentum $k$ (units of "
+            ...)
+```
+
+Labels, title, and a legend placed outside the panel on the right (`bbox_to_anchor=(1.01, 0.5)` anchors its left centre just beyond the right edge). **What figure 14c.1 shows.** The brane band starts at 0, follows the dotted line $ck$ for small $k$, bends below it and then rises almost straight to about $5\,m$ at $k = 4$. Its mirror image, the dashed band of $j = -1$, falls to about $-5\,m$: it belongs to the sea. The three other levels start at or above the bulk edge $1.2923\,m$ (the even level 1 of $j = -1$ dips slightly below its start before rising) and rise roughly parallel to the band. Nothing else enters the region between the band and the bulk edge.
+
+**In [5], the slope.**
+
+```python
+Ms, Hs, Ls = sp.symbols("M H L", positive=True)
+ys, a4s = sp.symbols("y a", real=True)
+ratio = (sp.integrate(sp.exp(-Hs * ys - a4s) * sp.exp(2 * Ms * ys), (ys, -Ls, 0))
+         / sp.integrate(sp.exp(2 * Ms * ys), (ys, -Ls, 0)))  # step 3
+formula = (sp.exp(-a4s) * 2 * Ms / (2 * Ms - Hs) * (1 - sp.exp(-(2 * Ms - Hs) * Ls))
+           / (1 - sp.exp(-2 * Ms * Ls)))  # step 4
+```
+
+Symbols, the ratio of the two integrals of Section 14.19 computed by `sp.integrate(expression, (variable, lower, upper))`, and the closed formula.
+
+```python
+same = sp.simplify((ratio - formula).subs({Ms: 1, Hs: 1, Ls: 3})) == 0 and \
+    sp.simplify((ratio - formula).subs({Ms: 2, Hs: 1, Ls: 3})) == 0
+c_exact = float(formula.subs({Ms: 1, Hs: 1, Ls: 3, a4s: 0}))
+```
+
+The ratio and the formula agree exactly for $(M, H, L) = (1, 1, 3)$ and $(2, 1, 3)$, for every slice (the symbol $a$ stays free); `subs` with a dictionary replaces several symbols at once. `c_exact` is the number $c$ for $M = H = 1$, $L = 3$, slice 0.
+
+```python
+theory = json.loads(repository_file("Revision/kohn_sham/ks-theory.json")
+                    .read_text(encoding="utf-8"))
+c_record = float(theory["checksNumeric"]["braneBandSlope_M1_H1_L3_a0"])
+report("slope c for M = H = 1, L = 3, a4,0 = 0", f"{c_exact:.13f}", "m/H")
+check(same and abs(c_exact - c_record) < 1e-15 and abs(c_exact - c_theory) < 1e-15
+      and record_check("brane_band_slope",
+                       "Revision/kohn_sham/reports/ks-theory-python.json"),
+      "c = e^(-a4,0) (2M/(2M - H)) (1 - e^(-(2M-H)L))/(1 - e^(-2ML)) = 1.9051482536",
+      record="Revision/kohn_sham/ks-theory.json, checksNumeric "
+             "braneBandSlope_M1_H1_L3_a0")
+```
+
+The value of the record, the RESULT line $1.9051482536449$, and the check: the formula, the record's number, the short form $2/(1 + e^{-3})$ of In [4] and the verdict of the sympy report all agree.
+
+```python
+y_f, a_zero, b_zero, simpson = orbital(0.0)  # the zero mode at k = 0
+c_integral = float(np.sum(simpson * np.exp(-y_f) * a_zero ** 2))  # step 3
+check(abs(c_integral - c_exact) < 1e-9,
+      "the integral of kappa a^2 over the numerical zero mode gives c")
+```
+
+The numerical zero mode, and the Hellmann-Feynman integral $\int\kappa\,a^2dy$ (with $\kappa = e^{-y}$ at the slice 0) by Simpson's rule: it equals $c$ to $10^{-9}$.
+
+```python
+tiny = np.array([1e-4, 2e-4] * 5)  # two small momenta at each slice
+slice_of = np.repeat(SLICES, 2)
+small = levels(tiny, 1.0, "even", 0, a4=slice_of).reshape(5, 2)
+c_numeric = (4.0 * small[:, 0] / 1e-4 - small[:, 1] / 2e-4) / 3.0
+```
+
+The two small momenta $10^{-4}$ and $2\times10^{-4}$, five times; `np.repeat(SLICES, 2)` repeats every slice twice (0, 0, 0.5, 0.5, ...), so that each slice gets both momenta. The ten band levels in one call, arranged as 5 rows of 2, and the Richardson combination $(4R(k_1) - R(k_2))/3$ of Section 14.19 for each slice.
+
+```python
+rows = read_csv(f"{SPECTRUM}/brane-band-slope.csv")
+c_rows = np.array([float(r["c_numeric"]) for r in rows])
+for a_, c_ in zip(SLICES, c_numeric):
+    say(f"slice a4,0 = {a_}: c numerical {c_:.12f}, "
+        f"c e^(-a4,0) exact {c_exact * math.exp(-a_):.12f}")
+```
+
+The Rust solver's numerical slopes, and a printed comparison of the notebook's numerical slopes with the exact $c\,e^{-a_{4,0}}$ at each slice (Out [5]).
+
+```python
+check(np.max(np.abs(c_numeric / c_rows - 1.0)) < 1e-11
+      and np.max(np.abs(c_numeric / (c_exact * np.exp(-np.array(SLICES))) - 1.0))
+      < 1e-9 and record_check("free_brane_band_slope"),
+      "the numerical slope equals c e^(-a4,0) at all five slices",
+      record=f"{SPECTRUM}/brane-band-slope.csv and {RUST_REPORT}, check "
+             "free_brane_band_slope")
+```
+
+The notebook's slopes equal the Rust slopes to $10^{-11}$ and the exact ones to $10^{-9}$ (relative), and the Rust check passed.
+
+```python
+c_by_L = {}
+for L_ in (2.0, 4.0):  # the slope for two other cutoffs
+    pair = levels(np.array([1e-4, 2e-4]), 1.0, "even", 0, L=L_, G=round(300 * L_))
+    c_by_L[L_] = (4.0 * pair[0] / 1e-4 - pair[1] / 2e-4) / 3.0
+c_by_L[3.0] = float(c_numeric[0])
+exact_by_L = {L_: 2.0 / (1.0 + math.exp(-L_)) for L_ in (2.0, 3.0, 4.0)}
+```
+
+The slope for the cutoffs $L = 2$ and $L = 4$ by the same Richardson combination (with $G = 300L$ steps, the same step $h = 1/300$), the slope for $L = 3$ from the slice 0 above, and the exact $2/(1 + e^{-L})$ for the three cutoffs, as a dictionary comprehension.
+
+```python
+say("c for L = 2, 3, 4: " + ", ".join(f"{c_by_L[L_]:.6f}" for L_ in (2.0, 3.0, 4.0))
+    + " (exact " + ", ".join(f"{exact_by_L[L_]:.6f}" for L_ in (2.0, 3.0, 4.0)) + ")")
+check(all(abs(c_by_L[L_] - exact_by_L[L_]) < 1e-9 for L_ in (2.0, 4.0)),
+      "the slope formula holds for L = 2 and L = 4 too")
+```
+
+A printed line with the three numerical and the three exact slopes, $1.761594$, $1.905148$, $1.964028$ (they agree in all six decimals), and the check for the two new cutoffs. Out [5] shows four PASS lines.
+
+**In [6], figure 2.**
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
+a_grid = np.linspace(0.0, 2.0, 201)
+left.semilogy(a_grid, c_exact * np.exp(-a_grid), color="C0",
+              label="exact $c\\,e^{-a_{4,0}}$")
+left.semilogy(SLICES, c_numeric, "o", color="C3", label="numerical (Richardson)")
+left.set_xlabel("slice $a_{4,0}$")
+left.set_ylabel("slope $c$ (units of $m/H$, logarithmic)")
+left.set_title("the slope along the history")
+left.legend(fontsize=8)
+```
+
+Left panel: the exact slope $c\,e^{-a_{4,0}}$ for 201 slices from 0 to 2 on a logarithmic axis, and the five numerical values as red dots.
+
+```python
+L_grid = np.linspace(0.5, 6.0, 221)
+right.plot(L_grid, 2.0 / (1.0 + np.exp(-L_grid)), color="C0",
+           label="exact $2/(1 + e^{-L})$")
+right.plot(list(c_by_L), list(c_by_L.values()), "o", color="C3", label="numerical")
+right.axhline(2.0, color="gray", linestyle=":", label="limit $2M/(2M - H) = 2$")
+right.set_xlabel("cutoff $L$ (units of $1/H$)")
+right.set_ylabel("slope $c$ at $a_{4,0} = 0$")
+right.set_title("the slope against the cutoff ($M = H = 1$)")
+right.legend(fontsize=8)
+save_figure(fig, "band_slope",
+            "The slope $c = d\\varepsilon/dk$ of the brane band at $k = 0$ "
+            ...)
+```
+
+Right panel: the exact slope $2/(1 + e^{-L})$ for cutoffs from 0.5 to 6, the three numerical values (`list(c_by_L)` is the list of the keys of the dictionary, the cutoffs, and `c_by_L.values()` the slopes), and the limit 2 as a dotted line. **What figure 14c.2 shows.** Left: the five dots lie on a straight line on the logarithmic axis, falling from $1.905$ to $0.258$: the slope decreases exactly like $e^{-a_{4,0}}$, the redshift. Right: the slope grows with the cutoff and approaches 2 from below; the three dots lie on the curve.
+
+**In [7], the rescaling identity and the gap of $N = 8$.**
+
+```python
+test_k = [0.25, 1.0, 2.5]
+test_sectors = [(1.0, "even", 0), (1.0, "odd", 0), (-1.0, "even", 1)]
+combos = [(a_, k_, s_) for a_ in SLICES for k_ in test_k for s_ in test_sectors]
+```
+
+Three momenta and three sectors (the band, the odd label 0, the even label 1 of $j = -1$), and all $5 \times 3 \times 3 = 45$ combinations with the slices.
+
+```python
+at_slice = levels(np.array([k_ for a_, k_, s_ in combos]),
+                  np.array([s_[0] for a_, k_, s_ in combos]),
+                  np.array([s_[1] for a_, k_, s_ in combos]),
+                  np.array([s_[2] for a_, k_, s_ in combos]),
+                  a4=np.array([a_ for a_, k_, s_ in combos]))
+at_zero = levels(np.array([k_ * math.exp(-a_) for a_, k_, s_ in combos]),
+                 np.array([s_[0] for a_, k_, s_ in combos]),
+                 np.array([s_[1] for a_, k_, s_ in combos]),
+                 np.array([s_[2] for a_, k_, s_ in combos]))
+```
+
+The 45 levels twice: at their slices with the momentum $k$, and at the slice 0 with the momentum $ke^{-a_{4,0}}$ (`a4` is then the default 0).
+
+```python
+check(np.max(np.abs(at_slice - at_zero)) < 1e-12
+      and record_check("free_rescaling_relation_and_band_monotone"),
+      "eps(k, a4,0) = eps(k e^(-a4,0), 0) for 45 levels at the five slices",
+      record=f"{RUST_REPORT}, check free_rescaling_relation_and_band_monotone")
+```
+
+They agree to $10^{-12}$: the rescaling identity of Section 14.7 for the levels.
+
+```python
+k_fig = np.linspace(0.0, 4.0, 41)
+band_slices = levels(np.tile(k_fig, 5), 1.0, "even", 0,
+                     a4=np.repeat(SLICES, len(k_fig))).reshape(5, len(k_fig))
+gaps = levels(np.full(5, 0.25), 1.0, "even", 0, a4=np.array(SLICES))
+```
+
+For the figure, the band at 41 momenta at each of the five slices: `np.tile(k_fig, 5)` repeats the whole list five times, `np.repeat` repeats each slice 41 times, so the pairs match. Then the gaps: the band at $k = 0.25$ at the five slices.
+
+```python
+shells_record = read_csv(f"{SPECTRUM}/closed-shells.csv")
+gap_record = [float(r["gap"]) for r in shells_record if r["N_closed"] == "8"]
+for a_, g_ in zip(SLICES, gaps):
+    say(f"slice a4,0 = {a_}: gap of the free N = 8 state {g_:.10f} m")
+check(len(gap_record) == 5 and np.max(np.abs(gaps - np.array(gap_record))) < 1e-11,
+      "the N = 8 gaps at the five slices equal the record",
+      record=f"{SPECTRUM}/closed-shells.csv, rows N_closed = 8")
+```
+
+The column gap of the five rows with $N = 8$ of the closed-shell record, the five printed gaps (the table of Section 14.20) and the check. Out [7] shows two PASS lines.
+
+**In [8], figure 3.**
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0), sharey=True)
+for index, a_ in enumerate(SLICES):
+    left.plot(k_fig, band_slices[index], label=f"$a_{{4,0}} = {a_}$")
+    right.plot(k_fig * math.exp(-a_), band_slices[index], "o", markersize=3,
+               label=f"$a_{{4,0}} = {a_}$")
+right.plot(k_fig, band_slices[0], color="black", linewidth=0.8,
+           label="slice 0 band")
+```
+
+Left: the band against $k$ at each slice. Right: the same levels against the redshifted momentum $ke^{-a_{4,0}}$ as dots, and the band of the slice 0 as a thin black line.
+
+```python
+left.set_xlabel("3-momentum $k$ (units of $H$)")
+left.set_ylabel("brane band $\\varepsilon$ (units of $m$)")
+left.set_title("the band at five slices")
+left.legend(fontsize=8)
+right.set_xlabel("redshifted momentum $k\\,e^{-a_{4,0}}$ (units of $H$)")
+right.set_title("all slices on one curve")
+right.legend(fontsize=7)
+save_figure(fig, "band_redshift",
+            "The brane band along the prescribed deflating history. Left: the "
+            ...)
+```
+
+**What figure 14c.3 shows.** Left: five curves from the origin, the later slices lower: at $k = 4$ the band is near $5\,m$ at the slice 0 and below $1\,m$ at the slice 2. Right: all dots fall on the black curve; a later slice covers only a shorter piece of it (up to $4e^{-a_{4,0}}$). This is the rescaling identity: nothing but the momentum scale changes along the history.
+
+**In [9], the block-type symmetries.**
+
+```python
+sym_k = [0.25 * math.sqrt(n2) for n2 in (0, 1, 2, 5, 9)]
+sym_l = list(range(-3, 4))
+grid = [(k_, l_) for k_ in sym_k for l_ in sym_l]
+K_s = np.array([k_ for k_, l_ in grid])
+L_s = np.array([l_ for k_, l_ in grid])
+```
+
+The momenta of five shells ($k = 0.25\sqrt{n^2}$ for $n^2 = 0, 1, 2, 5, 9$), the labels $-3$ to $3$, and their 35 combinations as two arrays.
+
+```python
+plus_even = levels(K_s, 1.0, "even", L_s)
+minus_even = levels(K_s, -1.0, "even", -L_s)
+plus_odd = levels(K_s, 1.0, "odd", L_s)
+minus_odd = levels(K_s, -1.0, "odd", -L_s - 1)
+flipped_even = levels(-K_s, -1.0, "even", L_s)
+flipped_odd = levels(-K_s, -1.0, "odd", L_s)
+```
+
+Six sets of levels: both parities of $j = +1$; those of $j = -1$ with the mirrored labels ($l \to -l$ for even parity and $l \to -l - 1$ for odd parity, the label map of Section 14.13, because the target $\pi/2 + l\pi$ goes to $-(\pi/2 + l\pi) = \pi/2 + (-l - 1)\pi$); and those of $j = -1$ at the reversed momentum $-k$ with the same labels.
+
+```python
+mirror = max(np.max(np.abs(plus_even + minus_even)),
+             np.max(np.abs(plus_odd + minus_odd)))
+flip = max(np.max(np.abs(flipped_even - plus_even)),
+           np.max(np.abs(flipped_odd - plus_odd)))
+check(mirror < 1e-12 and flip < 1e-12 and record_check("free_block_type_symmetries"),
+      "spec h_(-1) = -spec h_(+1) and eps_(-1)(-k) = eps_(+1)(k), label by label",
+      record=f"{RUST_REPORT}, check free_block_type_symmetries")
+```
+
+The two relations of Section 14.5: the levels of $j = -1$ are minus those of $j = +1$ (`mirror`), and the level of $(-1, -k)$ equals that of $(+1, k)$ (`flip`); both to $10^{-12}$, label by label.
+
+```python
+k_mirror = np.linspace(0.0, 2.0, 41)
+fig_labels = list(range(-2, 3))
+plus_curves = levels(np.tile(k_mirror, 5), 1.0, "even",
+                     np.repeat(fig_labels, len(k_mirror))).reshape(5, -1)
+minus_curves = levels(np.tile(k_mirror, 5), -1.0, "even",
+                      np.repeat(fig_labels, len(k_mirror))).reshape(5, -1)
+say("even levels at k = 2, labels -2 ... 2:")
+say("  j = +1: " + ", ".join(f"{x:.4f}" for x in plus_curves[:, -1]))
+say("  j = -1: " + ", ".join(f"{x:.4f}" for x in minus_curves[:, -1]))
+```
+
+For the figure, the even levels of labels $-2$ to $2$ for 41 momenta from 0 to 2, for both types (`reshape(5, -1)`: five rows, the length of each row worked out by numpy). The printout of the last column, $k = 2$: for $j = +1$ the levels $-6.3742$, $-4.4814$, $2.6976$, $5.4109$, $7.1695$ and for $j = -1$ the same numbers with the opposite signs, in the opposite order (Out [9]).
+
+**In [10], figure 4.**
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.2), sharey=True)
+for row, label in enumerate(fig_labels):
+    left.plot(k_mirror, plus_curves[row], label=f"label {label}")
+    right.plot(k_mirror, minus_curves[row], label=f"label {label}")
+for ax, title in ((left, "block type $j = +1$"), (right, "block type $j = -1$")):
+    ax.axhline(0.0, color="black", linewidth=0.6)
+    ax.set_xlabel("3-momentum $k$ (units of $H$)")
+    ax.set_title(title + ", even parity")
+    ax.legend(fontsize=7, loc="upper left")
+left.set_ylabel("level $\\varepsilon$ (units of $m$)")
+save_figure(fig, "block_type_mirror",
+            "The even-parity levels with labels $-2$ to $2$ against the "
+            ...)
+```
+
+Five curves in each panel, the zero line, labels and titles (a loop over the two panels sets what they share). **What figure 14c.4 shows.** Left ($j = +1$): the label 0 curve starts at 0 and rises (the brane band); labels 1 and 2 start at $1.448$ and $2.321$ and rise; labels $-1$ and $-2$ are their mirror images below zero. Right ($j = -1$): the same picture turned upside down: the label 0 curve falls from 0 (the sea partner of the band).
+
+**In [11], the tip condition.**
+
+```python
+tip_rows = read_csv(f"{SPECTRUM}/tip-angle.csv")
+tip_k = np.array([0.25, 0.5, 1.0])
+tip_levels = {th: levels(tip_k, 1.0, "even", 0, tip=th) for th in (0.0, 0.5, 1.0)}
+suppression = np.exp(-tip_k * (math.exp(3.0) - 1.0))  # H = 1, L = 3
+worst_tip, below = 0.0, True
+```
+
+The record of the Rust solver (9 rows), the three momenta of the record, the band at these momenta for the three tip angles (a dictionary from the angle to an array of three levels; `tip=th` is handed on to `shoot` through `**options`), the suppression factor $\exp(-k(e^{3} - 1))$ at the brane for $H = 1$, $L = 3$, and two variables for the results.
+
+```python
+for r in tip_rows:
+    i_k = list(tip_k).index(float(r["k"]))
+    mine = tip_levels[float(r["theta_tip"])][i_k]
+    worst_tip = max(worst_tip, abs(mine - float(r["eps"])))
+    shift = mine - tip_levels[0.0][i_k]
+    below &= abs(shift) <= max(suppression[i_k], 1e-12)
+check(len(tip_rows) == 9 and worst_tip < 1e-11 and below
+      and record_check("free_tip_angle_insensitivity"),
+      "the band levels equal tip-angle.csv; the shifts are below the suppression",
+      record=f"{SPECTRUM}/tip-angle.csv and {RUST_REPORT}, check "
+             "free_tip_angle_insensitivity")
+```
+
+For every row: the position of its momentum in the list (`index` finds it), the notebook's level for its angle and momentum, the largest difference from the recorded level, and the shift from the angle 0, which must not exceed the suppression factor (or $10^{-12}$, the size of rounding, whichever is larger).
+
+```python
+k_tip = np.linspace(0.1, 1.0, 10)
+shifts = {th: np.abs(levels(k_tip, 1.0, "even", 0, tip=th)
+                     - levels(k_tip, 1.0, "even", 0, tip=0.0)) for th in (0.5, 1.0)}
+def shown(x):
+    return f"{x:.1e}" if x >= 1e-14 else "below 1e-14 (rounding)"
+
+
+for k_, s5, s10 in zip(k_tip, shifts[0.5], shifts[1.0]):
+    say(f"k = {k_:.1f}: shift for theta = 0.5: {shown(s5)}, for theta = 1: "
+        f"{shown(s10)}")
+```
+
+The shifts for ten momenta $0.1, 0.2, \dots, 1$ and the angles 0.5 and 1. The small function `shown` writes a shift with one decimal and an exponent, or, below $10^{-14}$, the words "below 1e-14 (rounding)": such tiny numbers are rounding errors and differ from computer to computer, and the printed output of a notebook must be the same everywhere. Out [11] prints the ten lines of Section 14.20: $4.6\times10^{-4}$ and $1.2\times10^{-3}$ at $k = 0.1$, down to $7.7\times10^{-14}$ and $2.7\times10^{-13}$ at $k = 0.8$, and rounding from $k = 0.9$ on.
+
+**In [12], figure 5.**
+
+```python
+fig, ax = plt.subplots(figsize=(7.5, 4.4))
+k_line = np.linspace(0.1, 1.0, 91)
+ax.semilogy(k_line, np.exp(-k_line * (math.exp(3.0) - 1.0)), color="black",
+            label="suppression $\\exp(-k(e^{HL} - 1)/H)$")
+for th, marker in ((0.5, "o"), (1.0, "s")):
+    ax.semilogy(k_tip, np.maximum(shifts[th], 1e-16), marker, markersize=5,
+                label=f"$|\\varepsilon(\\theta = {th}) - \\varepsilon(\\theta = 0)|$")
+```
+
+The suppression factor as a line on a logarithmic axis, and the shifts as circles and squares; `np.maximum(x, 1e-16)` replaces any shift below $10^{-16}$ (or exactly 0, whose logarithm does not exist) by $10^{-16}$, so that it can be drawn.
+
+```python
+ax.axhline(1e-15, color="gray", linestyle=":", linewidth=0.8)
+ax.annotate("rounding level", (0.75, 2e-15), fontsize=8, color="gray")
+ax.set_xlabel("3-momentum $k$ (units of $H$)")
+ax.set_ylabel("shift of the band level (units of $m$, logarithmic)")
+ax.set_title("the band does not feel the tip condition ($L = 3$)")
+ax.legend(fontsize=8)
+save_figure(fig, "tip_insensitivity",
+            "The change of the brane-band level when the tip condition "
+            ...)
+```
+
+A dotted line at $10^{-15}$, the rounding level, with its name. **What figure 14c.5 shows.** Both rows of markers fall steeply, by a factor 11 to 33 per step of 0.1, much faster than the black suppression line, and stay below it by two to six powers of ten; the squares ($\theta = 1$) lie a little above the circles ($\theta = 0.5$). At $k = 0.9$ and $1$ the markers sit at the rounding level, where their exact positions are noise.
+
+**In [13], shells and particle labels.**
+
+```python
+def shells(n2_max):
+    r = math.isqrt(n2_max) + 1
+    count = [0] * (n2_max + 1)
+    for x in range(-r, r + 1):
+        for y_ in range(-r, r + 1):
+            for z_ in range(-r, r + 1):
+                s = x * x + y_ * y_ + z_ * z_
+                if s <= n2_max:
+                    count[s] += 1
+    return [(n2, c) for n2, c in enumerate(count) if c > 0]
+```
+
+The shells up to $n^2_{\max}$ by counting: `math.isqrt` is the whole-number square root (rounded down), so every integer vector with $n^2 \le n^2_{\max}$ has entries between $-r$ and $r$; the three loops visit all of them and count each $n^2$. The result is the list of pairs $(n^2, r_3(n^2))$ with $r_3 > 0$.
+
+```python
+check(shells(9) == [(0, 1), (1, 6), (2, 12), (3, 8), (4, 6), (5, 24), (6, 24),
+                    (8, 12), (9, 30)],
+      "r3(n2) = 1, 6, 12, 8, 6, 24, 24, 12, 30 for n2 = 0, 1, 2, 3, 4, 5, 6, 8, 9")
+SECTORS = [(1, "even"), (1, "odd"), (-1, "even"), (-1, "odd")]
+SIGN = {1: "+1", -1: "-1"}
+```
+
+The first values of $r_3$ (Section 14.21; no shell 7), the four sectors of a shell, and the texts $+1$, $-1$ used in the names of the levels.
+
+```python
+def lowest_particle_labels(pairs, a4):
+    k_ = np.array([0.25 * math.sqrt(n2) for n2, _, _, _ in pairs])
+    j_ = np.array([float(j) for _, _, j, _ in pairs])
+    par = np.array([p for _, _, _, p in pairs])
+    phi0 = shoot(0.0, k_, j_, a4)
+    offset = np.where(par == "even", 0.0, 0.5 * np.pi)
+    l_min = np.floor((phi0 - offset) / np.pi).astype(int) + 1
+    nearest = np.round((phi0 - offset) / np.pi).astype(int)
+    zero_mode = (k_ == 0.0) & (np.abs(phi0 - offset - nearest * np.pi) < 1e-12)
+    return np.where(zero_mode, nearest, l_min), phi0, offset, k_, j_, par
+```
+
+For a list of sectors $(n^2, r_3, j, \text{parity})$: their momenta, types and parities as arrays, and $\Phi(0)$, the shooting function at $\varepsilon = 0$. Since $\Phi$ grows with $\varepsilon$, a label is a particle label when its target lies above $\Phi(0)$; the first such label is $\lfloor(\Phi(0) - \text{offset})/\pi\rfloor + 1$ (`np.floor` rounds down; `astype(int)` makes whole numbers). The exception is a zero mode: at $k = 0$, when $\Phi(0)$ lies exactly on a target (to $10^{-12}$; `&` is "and" for arrays), that label itself is the first particle label (the convention of Section 14.21). The function returns these labels and the arrays it made.
+
+```python
+pairs30 = [(n2, r3, j, p) for n2, r3 in shells(30) for j, p in SECTORS]
+l_min, phi0, offset, k30, j30, p30 = lowest_particle_labels(pairs30, 0.0)
+e_first = levels(k30, j30, p30, l_min)
+e_below = levels(k30, j30, p30, l_min - 1)
+zero_k = k30 == 0.0
+```
+
+All sectors of the shells up to $n^2 = 30$; their first particle labels at the slice 0; the levels of these labels and of the labels just below; and a marker for the sectors with $k = 0$.
+
+```python
+branch_ok = (np.all(e_below < 0.0)
+             and np.all(e_first[zero_k & (p30 == "even")] == 0.0)
+             and np.all(e_first[~(zero_k & (p30 == "even"))] > 0.0))
+closest = float(min(np.min(e_first[~(zero_k & (p30 == "even"))]),
+                    np.min(-e_below)))
+report("level closest to zero away from the zero modes (n2 <= 30)",
+       f"{closest:.4f}", "m")
+check(branch_ok and f"{closest:.4f}" == "0.4307"
+      and record_check("free_particle_branch_labels"),
+      "particles are the labels l >= l_min in every sector (n2 <= 30)",
+      record=f"{RUST_REPORT}, check free_particle_branch_labels")
+```
+
+The particle rule holds when every level just below the first particle label is negative, the first particle level is exactly 0 in the even sectors at $k = 0$ (the zero modes) and positive in all other sectors (`~` is "not" for arrays; an array indexed by a true-false array keeps the entries marked true). `closest` is the level nearest to zero apart from the zero modes, from above or from below: $0.4307\,m$, as in the Rust check. Out [13] shows two PASS lines.
+
+**In [14], the closed shells.**
+
+```python
+def closed_shells(a4, n2_max, e_max=1.6):
+    pairs = [(n2, r3, j, p) for n2, r3 in shells(n2_max) for j, p in SECTORS]
+    l_next, _, _, k_, j_, par = lowest_particle_labels(pairs, a4)
+    found_levels = []  # (energy, degeneracy, name, n2)
+    active = np.arange(len(pairs))
+```
+
+The free aufbau at one slice, up to the energy $1.6\,m$. For every sector the next label to compute starts at its first particle label; `active` lists the sectors that are still open (all, at the start).
+
+```python
+    while len(active) > 0:  # one more label in every sector that is still open
+        e_ = levels(k_[active], j_[active], par[active], l_next[active], a4=a4)
+        keep = e_ <= e_max
+        for index, energy in zip(active[keep], e_[keep]):
+            n2, r3, j, p = pairs[index]
+            found_levels.append((float(energy), 4.0 * r3,
+                                 f"{n2}:{SIGN[j]}:{p}:{l_next[index]}", n2))
+        active = active[keep]
+        l_next[active] += 1
+```
+
+In each pass the next level of every open sector is computed at once; the levels at or below $1.6\,m$ are stored with their degeneracy $4r_3(n^2)$ and a name such as `1:+1:even:0` (shell, block type, parity, label); a sector whose next level lies above $1.6\,m$ is closed, because its higher labels lie higher still; the open sectors move on to the next label.
+
+```python
+    with_levels = {n2 for _, _, _, n2 in found_levels}
+    stop = next(n2 for n2, _ in shells(n2_max) if n2 > 0 and n2 not in with_levels)
+    found_levels = [lev for lev in found_levels if lev[3] < stop]
+    found_levels.sort(key=lambda lev: (lev[0], lev[2]))
+```
+
+The set of shells that have a level below $1.6\,m$, the first shell $n^2 > 0$ without one (the band rises with $|\mathbf k|$, so no later shell can contribute; this is the rule of the Rust solver), only the levels of the shells before it, sorted by energy and, for equal energies, by name.
+
+```python
+    table, total, i = [], 0.0, 0
+    while i < len(found_levels):  # group the degenerate levels
+        e0, group, names = found_levels[i][0], 0.0, []
+        while i < len(found_levels) and found_levels[i][0] - e0 <= 1e-9:
+            group += found_levels[i][1]
+            names.append(found_levels[i][2])
+            i += 1
+        total += group
+        following = found_levels[i][0] if i < len(found_levels) else float("nan")
+        table.append((int(total), e0, following, ";".join(names)))
+    return table, stop
+```
+
+Walking through the sorted levels, the levels within $10^{-9}$ of the first level of a group are collected into one degenerate group; after each group the running total $N$ is a closed shell, stored with the energy of the group, the energy of the next level (or `nan`, "not a number", at the end) and the names of the group joined by semicolons.
+
+```python
+agree = True
+tables = {}
+for a_, n2_max in ((0.0, 40), (0.5, 80)):
+    table, stop = closed_shells(a_, n2_max)
+    tables[a_] = table
+    mine_rows = [r for r in shells_record if float(r["a4"]) == a_]
+    same = len(table) == len(mine_rows) and all(
+        int(r["N_closed"]) == t[0] and r["levels_of_the_last_group"] == t[3]
+        and abs(float(r["eps_last_filled"]) - t[1]) < 1e-11
+        for r, t in zip(mine_rows, table))
+    agree &= same and stop < n2_max
+    say(f"slice {a_}: {len(table)} closed shells up to 1.6 m, the first shell "
+        f"without a level below 1.6 m is n2 = {stop}; equal to the record: {same}")
+check(agree, "the closed shells of the slices 0 and 0.5 equal the record row by row",
+      record=f"{SPECTRUM}/closed-shells.csv, rows a4 = 0 and 0.5")
+say("slice 0: N = " + ", ".join(str(t[0]) for t in tables[0.0]))
+```
+
+The closed shells at the slices 0 (shells up to $n^2 = 40$) and 0.5 (up to 80; the redshifted band needs more shells), compared row by row with the record: the same numbers $N$, the same names of the last group, the same energies to $10^{-11}$; and the stopping shell must lie inside the range searched. Out [14] prints 22 closed shells at the slice 0 (stopping shell $n^2 = 20$) and 55 at the slice 0.5 (stopping shell 53), and the list of $N$ at the slice 0.
+
+```python
+bulk_edge = float(min(levels(0.0, 1.0, "odd", 0), levels(0.0, 1.0, "even", 1)))
+below_edge = [t for t in tables[0.0] if t[1] < bulk_edge and t[2] - t[1] > 1e-6]
+N_large = below_edge[-1][0]
+N_mid = min((t[0] for t in below_edge if t[0] >= 8),
+            key=lambda n: abs(n - N_large / 4))
+```
+
+The bulk edge, the smaller of the odd level 0 and the even level 1 at $k = 0$; the closed shells whose last level lies below it (and are separated from the next level by more than $10^{-6}$); $N_{\rm large}$, the last of them; and $N_{\rm mid}$, the one nearest to $N_{\rm large}/4$ (`min` with `key=` picks the element with the smallest value of the key function).
+
+```python
+parameters = json.loads(repository_file("Revision/kohn_sham/results/parameters.json")
+                        .read_text(encoding="utf-8"))
+numbers = parameters["particleNumbers"]
+report("bulk edge", f"{bulk_edge:.12f}", "m")
+report("particle numbers N", f"8, {N_mid}, {N_large}")
+check(abs(bulk_edge - numbers["bulkEdge"]) < 1e-12 and N_large == 688
+      and N_mid == 136 and numbers["values"] == [8.0, 136.0, 688.0],
+      "the bulk edge 1.2922928281 and the particle numbers 8, 136, 688",
+      record="Revision/kohn_sham/results/parameters.json, particleNumbers")
+```
+
+The record of the Revision runs, the two RESULT lines (the bulk edge $1.292292828069\,m$ and the numbers 8, 136, 688) and the check against the record. Out [14] shows two PASS lines.
+
+**In [15], figure 6.**
+
+```python
+fig, ax = plt.subplots(figsize=(8.0, 4.6))
+for a_, style in ((0.0, "-"), (0.5, "--")):
+    energies = [t[1] for t in tables[a_]]
+    counts = [t[0] for t in tables[a_]]
+    ax.step(energies, counts, style, where="post",
+            label=f"slice $a_{{4,0}} = {a_}$")
+```
+
+For each slice a **staircase**: `step(x, y, where="post")` draws a horizontal line from each point to the next value of $x$, then a vertical jump; here $x$ is the energy of the last filled group and $y$ the closed-shell number $N$.
+
+```python
+ax.axvline(bulk_edge, color="gray", linestyle="-.", linewidth=0.8)
+ax.annotate("bulk edge", (bulk_edge + 0.015, 15), fontsize=8, color="gray")
+last_filled = {t[0]: t[1] for t in tables[0.0]}  # N -> its last filled level
+for n_ in (8, N_mid, N_large):
+    t_ = last_filled[n_]
+    ax.plot([t_], [n_], "o", color="C3")
+    ax.annotate(f"N = {n_}", (t_ + 0.02, n_ * 0.75), fontsize=8, color="C3")
+```
+
+A vertical line at the bulk edge, and the three particle numbers of the Revision runs as red dots at their last filled levels, with their names.
+
+```python
+ax.set_yscale("log")
+ax.set_xlabel("energy of the last filled level (units of $m$)")
+ax.set_ylabel("closed-shell particle number $N$ (logarithmic)")
+ax.set_title("the free aufbau: closed shells up to $1.6\\,m$")
+ax.legend(fontsize=8, loc="upper left")
+save_figure(fig, "closed_shells",
+            "The closed shells of the free aufbau: the particle number $N$ "
+            ...)
+```
+
+A logarithmic vertical axis, labels and title. **What figure 14c.6 shows.** At the slice 0 (solid) the staircase stays at $N = 8$ up to $0.43\,m$ (the gap), then climbs in steps, one per lattice shell of the band, to $688$ just below the bulk edge and to $1552$ at $1.584\,m$, the last group below $1.6\,m$. At the slice 0.5 (dashed) the first step comes already at $0.27\,m$ and the staircase lies far higher: the redshifted band puts many more states below the same energy.
+
+**In [16], the last check.**
+
+```python
+figure_names = ["14c_1_band_structure.png", "14c_2_band_slope.png",
+                "14c_3_band_redshift.png", "14c_4_block_type_mirror.png",
+                "14c_5_tip_insensitivity.png", "14c_6_closed_shells.png"]
+check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in figure_names),
+      "all six figure files of this notebook exist")
+all_checks_passed()
+```
+
+The six figure files must exist; the last line prints ALL 15 CHECKS PASSED (notebook 14c). The 15 checks are: 2 in In [3], 4 in In [5], 2 in In [7], 1 in In [9], 1 in In [11], 2 in In [13], 2 in In [14] and 1 in In [16].
+
+### 14.26 The exact local exchange of the contact interaction
+
+**What is needed.** The quanta of dirac16complex interact through the contact term $U = \tfrac\lambda2S^2$ of the Lagrangian, with the scalar density $S = \bar\Psi\Psi = \Psi^\dagger C\Psi$, normal ordered in the quantised theory; $\lambda > 0$ is a repulsion, and $\lambda$ has the dimension $\text{mass}^{-6}$ because the field has the dimension $7/2$ in eight dimensions (`Revision/kohn_sham/ks-theory.json`, units). The Kohn-Sham model needs the energy of this interaction in a Kohn-Sham state, a Slater determinant of orbitals or a thermal mixture of them (Chapter 13), as a function of the densities. This section derives it exactly. The result is surprising and very useful: the exchange energy, which for most interactions depends on the orbitals in a complicated way, is here an ordinary function of two densities at the same point.
+
+**The expectation-value rule (Chapter 10).** For one quantum in the mode $u$ (a column of 16 numbers), the expectation value of a density $\Psi^\dagger X\Psi$ is $u^\dagger BXu$, with the matrix $B$ of the indefinite (Krein) inner product. For many independent quanta in the modes $u$ with the occupations $f$ (1 for filled, 0 for empty, or a number between at a temperature),
+
+$$
+\langle\Psi^\dagger X\Psi\rangle = \mathrm{Tr}(X\rho), \qquad \rho = \sum_{\rm occupied} f\,uu^\dagger B .
+$$
+
+Rule: $\mathrm{Tr}(Xuu^\dagger B) = \mathrm{Tr}(u^\dagger BXu) = u^\dagger BXu$, because a trace does not change when the first factors are moved to the end, and $u^\dagger BXu$ is a single number. The $16 \times 16$ matrix $\rho$ is the **one-body matrix** of the state. The number density and the scalar density are
+
+$$
+n = \langle\Psi^\dagger B\Psi\rangle = \mathrm{Tr}(B\rho), \qquad S = \langle\bar\Psi\Psi\rangle = \langle\Psi^\dagger C\Psi\rangle = \mathrm{Tr}(C\rho) .
+$$
+
+Status: the rule is the expectation-value rule of the canonical quantisation (Chapter 10), stated in the record as exchange.expectationRule of `Revision/kohn_sham/ks-theory.json`; the two density formulas are the check gas_densities of both theory reports.
+
+**The plane waves of the good sector.** In flat space ($H = 0$, so $W = 1$ and $\kappa = 1$ at the slice 0) a plane wave $e^{-i\varepsilon x_4 + i\mathbf p\cdot\mathbf x}u$ with the momentum $\mathbf p = (p_1, p_2, p_3, p_8)$ along the four space-like directions $x_1, x_2, x_3, x_8$ (the good sector has no momentum along the extra times) solves $h_{\mathbf p}u = \varepsilon u$ with
+
+$$
+h_{\mathbf p} = M(-i\gamma^{(x_4)}) - \sum_a p_a\,\gamma^{(x_4)}\gamma^{(a)} \qquad (a = x_1, x_2, x_3, x_8) .
+$$
+
+Rule: the Hamiltonian $h$ of Section 14.4 with $v = 0$; its derivative term $i\gamma^{(x_4)}\gamma^{(x_8)}\partial_y$ acting on $e^{ip_8y}$ gives $i\gamma^{(x_4)}\gamma^{(x_8)}(ip_8) = -p_8\gamma^{(x_4)}\gamma^{(x_8)}$. Its square, line by line:
+
+$$
+\big(-i\gamma^{(x_4)}\big)^2 = -\big(\gamma^{(x_4)}\big)^2 = 1, \qquad \big(\gamma^{(x_4)}\gamma^{(a)}\big)^2 = -\big(\gamma^{(x_4)}\big)^2\big(\gamma^{(a)}\big)^2 = 1 .
+$$
+
+Rule: $(\gamma^{(x_4)})^2 = \eta_{44} = -1$ and $(\gamma^{(a)})^2 = +1$ for a space-like direction; in the second, moving the second $\gamma^{(x_4)}$ to the left past $\gamma^{(a)}$ costs one sign.
+
+$$
+\big(-i\gamma^{(x_4)}\big)\big(\gamma^{(x_4)}\gamma^{(a)}\big) + \big(\gamma^{(x_4)}\gamma^{(a)}\big)\big(-i\gamma^{(x_4)}\big) = -i\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(a)} - \gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(a)}\big) = 0 ,
+$$
+
+and in the same way the products of $\gamma^{(x_4)}\gamma^{(a)}$ and $\gamma^{(x_4)}\gamma^{(b)}$ for $a \ne b$ cancel in pairs. Rule: anticommutation of different gammas. Hence
+
+$$
+h_{\mathbf p}^2 = \big(M^2 + p_1^2 + p_2^2 + p_3^2 + p_8^2\big)\,1 = E^2\,1, \qquad E = \sqrt{M^2 + p^2} .
+$$
+
+Rule: multiply out the square of the sum; the squares of the five terms give $M^2$ and the $p_a^2$, and the mixed products cancel in pairs. Since $h_{\mathbf p}$ is Hermitian (Section 14.4), its eigenvalues are real numbers whose squares are $E^2$: they are $+E$ and $-E$. Its trace is zero (it is a sum of products of one or two different gammas, Chapter 5), so the two eigenvalues occur equally often: $+E$ eight times and $-E$ eight times. Every momentum carries eight positive-energy modes. The matrix
+
+$$
+G_{\mathbf p} = \tfrac12\big(1 + h_{\mathbf p}/E\big)
+$$
+
+is the **projector** on them: $G_{\mathbf p}^2 = \tfrac14(1 + 2h_{\mathbf p}/E + h_{\mathbf p}^2/E^2) = \tfrac14(2 + 2h_{\mathbf p}/E) = G_{\mathbf p}$, and $\mathrm{Tr}\,G_{\mathbf p} = \tfrac12(16 + 0) = 8$. Status: PROVED; check gas_mode_projector (both reports).
+
+**Why every symmetric occupation has $\rho = (nB + SC)/16$.** The sum of $uu^\dagger$ over the eight positive-energy modes (orthonormal, because $h_{\mathbf p}$ is Hermitian) is the projector $G_{\mathbf p}$, so these eight modes, all filled, contribute $G_{\mathbf p}B$ to $\rho$. Line by line:
+
+$$
+G_{\mathbf p}B = \tfrac12B + \frac{M}{2E}\big(-i\gamma^{(x_4)}\big)B - \frac{1}{2E}\sum_a p_a\gamma^{(x_4)}\gamma^{(a)}B .
+$$
+
+Rule: insert $h_{\mathbf p}$ into $G_{\mathbf p}$ and multiply by $B$.
+
+$$
+\big(-i\gamma^{(x_4)}\big)B = \big(-i\gamma^{(x_4)}\big)\big(-iC\gamma^{(x_4)}\big) = -\gamma^{(x_4)}C\gamma^{(x_4)} = -C\gamma^{(x_4)}\gamma^{(x_4)} = C .
+$$
+
+Rule: $B = -iC\gamma^{(x_4)}$; $(-i)^2 = -1$; $\gamma^{(x_4)}$ commutes with $C$ (it passes the four factors of $C$, none of which is $\gamma^{(x_4)}$: four signs); $(\gamma^{(x_4)})^2 = -1$.
+
+$$
+G_{\mathbf p}B = \tfrac12\Big(B + \frac ME\,C\Big) - \frac{1}{2E}\sum_a p_a\gamma^{(x_4)}\gamma^{(a)}B .
+$$
+
+The last term changes its sign when $\mathbf p$ is replaced by $-\mathbf p$. If the state occupies $\mathbf p$ and $-\mathbf p$ equally, which is true for every closed shell and for every thermal state, these terms cancel in pairs, and each pair leaves $B + (M/E)C$. Filled negative-energy modes give in the same way $\tfrac12(1 - h_{\mathbf p}/E)B$, whose symmetric part is $\tfrac12(B - (M/E)C)$. So the one-body matrix of any such state is a combination of $B$ and $C$ only, $\rho = \alpha B + \beta C$. The two numbers follow from the densities:
+
+$$
+n = \mathrm{Tr}(B\rho) = \alpha\,\mathrm{Tr}(B^2) + \beta\,\mathrm{Tr}(BC) = 16\alpha, \qquad S = \mathrm{Tr}(C\rho) = \alpha\,\mathrm{Tr}(CB) + \beta\,\mathrm{Tr}(C^2) = 16\beta .
+$$
+
+Rule: $B^2 = C^2 = 1$, whose trace is 16, and $\mathrm{Tr}(BC) = \mathrm{Tr}(-i\gamma^{(x_4)}) = 0$ (Chapter 5: $BC = -i\gamma^{(x_4)}$). Hence
+
+$$
+\rho = \frac{nB + SC}{16} ,
+$$
+
+for every occupation that is symmetric under $\mathbf p \to -\mathbf p$, at every temperature. Status: PROVED; checks gas_angular_average (both reports), gas_negative_energy_modes (sympy report) and gas_densities (both).
+
+**Wick's rule for the contact term.** Write $S = \Psi^\dagger C\Psi = \sum_{A,B}\Psi_A^\dagger C_{AB}\Psi_B$, with the components $A, B = 0, \dots, 15$. For a quasi-free state (a determinant or a thermal state of independent quanta), Wick's theorem (Section 13.4) gives the expectation of a normal-ordered product of two creation and two annihilation operators as the sum over the ways of pairing each $\Psi^\dagger$ with a $\Psi$, with a minus sign for the crossed pairing because the field anticommutes. With $f_{AB} = \langle\Psi_A^\dagger\Psi_B\rangle$:
+
+$$
+\langle{:}S^2{:}\rangle = \sum_{A,B,C',D}C_{AB}C_{C'D}\big(f_{AB}f_{C'D} - f_{AD}f_{C'B}\big) .
+$$
+
+(The index $C'$ carries a prime so that it is not confused with the matrix $C$.) The first product is the **direct** (Hartree) term, the second the **exchange** (Fock) term. Now the matrix form, line by line:
+
+$$
+f_{AB} = \rho_{BA} .
+$$
+
+Rule: $\langle\Psi^\dagger X\Psi\rangle = \sum_{A,B}X_{AB}f_{AB}$ and $\mathrm{Tr}(X\rho) = \sum_{A,B}X_{AB}\rho_{BA}$ must agree for every matrix $X$.
+
+$$
+\sum C_{AB}C_{C'D}f_{AB}f_{C'D} = \Big(\sum_{A,B}C_{AB}\rho_{BA}\Big)\Big(\sum_{C',D}C_{C'D}\rho_{DC'}\Big) = \big(\mathrm{Tr}\,C\rho\big)^2 .
+$$
+
+Rule: the sum of a product of two factors with separate indices is the product of the two sums.
+
+$$
+\sum C_{AB}C_{C'D}f_{AD}f_{C'B} = \sum C_{AB}\rho_{BC'}C_{C'D}\rho_{DA} = \mathrm{Tr}(C\rho C\rho) .
+$$
+
+Rule: $f_{AD} = \rho_{DA}$ and $f_{C'B} = \rho_{BC'}$; reorder the four numbers so that neighbouring indices agree, $A \to B \to C' \to D \to A$: a chain of matrix products that closes on itself is a trace. Hence
+
+$$
+\langle{:}S^2{:}\rangle = \big(\mathrm{Tr}\,C\rho\big)^2 - \mathrm{Tr}(C\rho C\rho) .
+$$
+
+Status: PROVED (Section 13.4 and the lines above); the record verified it term by term on an explicit two-mode state (check hf_wick_contraction of the sympy report), and Notebook 14d repeats that on two states (In [6]).
+
+**The exact local exchange.** Insert $\rho = (nB + SC)/16$. Line by line:
+
+$$
+C\rho = \frac{nCB + S\,1}{16} .
+$$
+
+Rule: $C^2 = 1$.
+
+$$
+C\rho C\rho = \frac{n^2\,CBCB + nS\,CB + nS\,CB + S^2\,1}{256} = \frac{n^2 + 2nS\,CB + S^2}{256} .
+$$
+
+Rule: multiply out the four products; $CBCB = (CBC)B = BB = 1$ by $CBC = B$ (Chapter 5) and $B^2 = 1$.
+
+$$
+\mathrm{Tr}(C\rho C\rho) = \frac{16n^2 + 0 + 16S^2}{256} = \frac{n^2 + S^2}{16} .
+$$
+
+Rule: $\mathrm{Tr}\,1 = 16$ and $\mathrm{Tr}(CB) = 0$. The interaction energy per unit (proper) volume, $\tfrac\lambda2\langle{:}S^2{:}\rangle$, is therefore $e_H + e_x$ with
+
+$$
+e_H = \frac\lambda2S^2, \qquad e_x = -\frac\lambda2\mathrm{Tr}(C\rho C\rho) = -\frac{\lambda}{32}\big(n^2 + S^2\big) .
+$$
+
+The **Hartree** term $e_H$ and the **exchange** term $e_x$ are both functions of the two densities at one point: the exchange of the contact interaction is exactly **local**, at every temperature, for every symmetric occupation. For one filled 8-fold level at rest the scalar and number densities are equal, $n = S$ (Exercise 14.8), and $e_x/e_H = -\tfrac{1}{32}\cdot2S^2\big/\tfrac12S^2 = -\tfrac18$: the exchange removes one eighth of the Hartree energy, the rule $E_x = -E_H/g$ of Section 13.5 with the $g = 8$ modes per momentum. Status: PROVED; checks exchange_uniform_gas (both reports) and filled_shell_ratio (sympy report); the coefficients $-1/32$, $-1/32$ are recorded under exchange.uniformGas in ks-theory.json.
+
+### 14.27 The Kohn-Sham potentials, the exact Fock exchange of the model's states, and the eight zero modes
+
+**The potentials.** The interaction energy density is
+
+$$
+e_{\rm int}(n, S) = e_H + e_x = \frac{15}{32}\lambda S^2 - \frac{1}{32}\lambda n^2 .
+$$
+
+Rule: $\tfrac12 - \tfrac1{32} = \tfrac{15}{32}$. As in Chapter 13 (Section 13.9), the Kohn-Sham potential that belongs to a density is the derivative of the interaction energy density with respect to that density (for a local energy the functional derivative is an ordinary derivative). The density $S$ multiplies the mass term of the Lagrangian, so its potential shifts the mass; the number density gives a potential that is added to $h$ as $v_v$ times the unit matrix:
+
+$$
+M_{\rm eff} = m + \frac{\partial e_{\rm int}}{\partial S} = m + \frac{15}{16}\lambda S, \qquad v_v = \frac{\partial e_{\rm int}}{\partial n} = -\frac{1}{16}\lambda n .
+$$
+
+Rule: the derivative of $S^2$ is $2S$, and $2\cdot\tfrac{15}{32} = \tfrac{15}{16}$, $2\cdot\tfrac1{32} = \tfrac1{16}$. In the covariant equation $v_v$ appears as $-iv_v\gamma^{(x_4)}$ (Section 14.3). These are the $M_{\rm eff}$ and $v_v$ that Sections 14.3 to 14.25 used as given functions. Status: PROVED; check ks_potentials (both reports); the coefficients $15/16$ and $-1/16$ are recorded in ks-theory.json (exchange.kohnShamPotentials) and are the numbers $0.9375$ and $-0.0625$ that the Rust solver reads (`Revision/kohn_sham/results/parameters.json`, theoryInputs).
+
+**The Lagrangian on shell.** $e_{\rm int}$ is **homogeneous of degree 2**: doubling both densities multiplies it by 4. Line by line:
+
+$$
+S\frac{\partial e_{\rm int}}{\partial S} + n\frac{\partial e_{\rm int}}{\partial n} = \frac{15}{16}\lambda S^2 - \frac{1}{16}\lambda n^2 = 2e_{\rm int} .
+$$
+
+Rule: insert the two derivatives and compare with twice $e_{\rm int}$.
+
+$$
+\frac{\langle L\rangle}{\sqrt{|g|}} = M_{\rm eff}S + v_vn - mS - e_{\rm int} = mS + 2e_{\rm int} - mS - e_{\rm int} = e_{\rm int} .
+$$
+
+Rule: the Lagrangian of Chapter 7 is a kinetic part minus $mS$ minus the interaction, whose expectation value is $e_{\rm int}$. On shell (for orbitals that solve the Kohn-Sham equation $\gamma^\mu D_\mu\Psi = (M_{\rm eff} - iv_v\gamma^{(x_4)})\Psi$) the kinetic part is $\bar\Psi\gamma^\mu D_\mu\Psi = M_{\rm eff}\bar\Psi\Psi + v_v\Psi^\dagger(-iC\gamma^{(x_4)})\Psi = M_{\rm eff}S + v_vn$, because $\bar\Psi = \Psi^\dagger C$ and $B = -iC\gamma^{(x_4)}$ (the symmetrised form of the kinetic term has the same value on shell); then the line above gives $M_{\rm eff}S + v_vn = mS + 2e_{\rm int}$. This value of the Lagrangian enters the energy-momentum tensor (Chapter 15). Status: PROVED; check ks_onshell_lagrangian (both reports).
+
+**What the functional leaves out.** The Kohn-Sham functional of the Revision theory is Hartree plus this uniform-gas exchange, with no correlation energy. Its states, however, are not uniform along $y$. The record computes the EXACT Fock exchange of such a state (exchange.exactFockSlab in ks-theory.json): take one level, closed over a shell ($\mathbf k$ and $-\mathbf k$ equally filled), with the $2 \times 2$ block density $D = \tfrac12(d_0 + d_1\sigma_1 + d_2\sigma_2 + d_3\sigma_3)$ in each of the four blocks of type $j = +1$ and $\sigma_3D\sigma_3$ in each of the four of type $-1$ (their degenerate partners, Section 14.5), and average it over the directions of the shell. The average over directions is the same as the projection onto the matrices that commute with the rotations of 3-space, a space of dimension 64. The result, with $Q = \langle\Psi^\dagger B\gamma^{(x_8)}\Psi\rangle$ and the $y$-current $Y$:
+
+$$
+n = 8d_0, \qquad S = 8d_2, \qquad Q = 8d_3, \qquad Y = 8d_1, \qquad e_x^{\rm exact} = -\frac{\lambda}{32}\big(n^2 + S^2 - Q^2 - Y^2\big) .
+$$
+
+For orbitals $Y = 0$ (Section 14.12), so the uniform-gas exchange $-\tfrac{\lambda}{32}(n^2 + S^2)$ omits the term $+\tfrac{\lambda}{32}Q^2$. The record labels this a DIAGNOSTIC: the canonical functional stays the uniform-gas one, and the Rust solver reports the omitted part and also solves an exact-Fock variant of the model, which adds the potential $w_Q\sigma_3$ with $w_Q = +\tfrac{\lambda}{16}Q$ to $h$ and $+\tfrac{\lambda}{32}Q^2$ to $e_{\rm int}$. Status: PROVED; check exchange_slab_exact_fock (both reports, by two different methods: the sympy report projects onto the 64-dimensional space of matrices that commute with the rotations, the Wolfram report averages over the 48 spinor matrices of the 24 rotations of a cube, each rotation appearing with both signs).
+
+**The size of $Q$.** For one orbital $\chi = (a, ib)$ the three densities are proportional to $a^2 + b^2$ ($n$), $2ab$ ($S$, up to the sign $j$) and $a^2 - b^2$ ($Q$) (Section 14.12). Line by line:
+
+$$
+(2ab)^2 + (a^2 - b^2)^2 = 4a^2b^2 + a^4 - 2a^2b^2 + b^4 = (a^2 + b^2)^2 .
+$$
+
+Rule: the binomial formulas. So for one orbital $S^2 + Q^2 = n^2$, and for a mixture of orbitals $S^2 + Q^2 \le n^2$ (Exercise 14.9): the possible states fill the disk $(S/n)^2 + (Q/n)^2 \le 1$. The uniform-gas and the exact exchange agree on the line $Q = 0$ and differ most at the top and bottom of the disk, $S = 0$, $Q = \pm n$ (Figure 14d.3).
+
+**The state of the eight zero modes ($N = 8$).** The simplest Kohn-Sham state of the model fills the eight brane zero modes at $k = 0$ (both block types, even parity). Each orbital is $\chi = (a, 0)$ with $a = \sqrt{2M/(1 - e^{-2ML})}\,e^{My}$ (Section 14.13). The densities, line by line (the record's densities section in ks-theory.json):
+
+- One orbital: $n_o = P(a^2 + b^2) = Pa^2$, $s_o = P\,j\,2ab = 0$, $q_o = P(a^2 - b^2) = Pa^2$, with $P = e^{-6Hy}/(\ell^3v_t)$, the factor that makes the densities proper (Section 14.7).
+- The state: $n = \sum w\,g\,f\,n_o$, with the degeneracy $g = 4$ per block type, the occupation $f = 1$, and the weight $w = \tfrac12$ of the ASSUMED Z2 doubled system: the orbitals are normalised on the patch, $\int_{-L}^0\chi^\dagger\chi\,dy = 1$, but the system consists of the patch and its mirror copy, so the patch holds half of each orbital, and the particle number $N = \sum g f$ counts the doubled system. So $n = \tfrac12(4 + 4)Pa^2 = 4Pa^2$, $S = 0$ and $Q = n$.
+- The proper density $n = 4e^{-6Hy}a^2/(\ell^3v_t) \propto e^{(2M - 6H)y}$ is largest at the cutoff $y = -L$ (for $M = H = 1$: $e^{-4y}$), although the orbital itself sits at the brane: the proper 7-volume $e^{6Hy}$ is tiny near the tip. With $H = m = 1$, $L = 3$, $\ell = 2\pi/0.25$ and $v_t = 1$ its largest value is $n_{\max} = 82.2208638894$ (Notebook 14d, Out [12]; the column n_max of the row N8_lam0_a00 of `Revision/kohn_sham/results/ground/summary.csv`).
+- To first order in $\lambda$ the potentials are $M_{\rm eff} - m = \tfrac{15}{16}\lambda S = 0$ and $v_v = -\tfrac{\lambda}{16}n$. The Revision solver calibrates its couplings by the largest first-order potential per unit $\lambda$, $n_{\max}/16 = 5.138803993$; $\lambda_1$ and $\lambda_2$ are $0.1$ and $0.3$ divided by it, rounded to 4 significant digits: $\lambda_1 = 0.01946$, $\lambda_2 = 0.05838$, so that the first-order potential stays below $0.1\,m$ and $0.3\,m$ (`Revision/kohn_sham/results/parameters.json`, couplingCalibration; the states $N = 136$ and $688$ have their own, smaller couplings, fixed the same way along the whole history).
+- The exact Fock exchange of this state vanishes: with $S = 0$ and $Q = n$, $e_x^{\rm exact} = -\tfrac{\lambda}{32}(n^2 - Q^2) = 0$. In the exact-Fock variant the potential on $(a, 0)$ is $v_v + w_Q = \tfrac{\lambda}{16}(Q - n) = 0$ (because $\sigma_3$ acts as $+1$ on $(a, 0)$), so the zero modes stay exact solutions with $\varepsilon = 0$ and the energy of the state is exactly zero. The record's twenty self-consistent exact-Fock states with $N = 8$ (four couplings, five slices) have energies zero to rounding, below $10^{-12}$ (`Revision/kohn_sham/results/exx/exact-fock-variant.csv`).
+
+Status: the formulas PROVED; the numbers COMPUTED (they reproduce the records named); the weight $w = \tfrac12$ rests on the ASSUMED Z2 mirror.
+
+### 14.28 Example: Notebook 14d, the exact local exchange
+
+Notebook 14d does Sections 14.26 and 14.27 with exact algebra on the author's gamma matrices: the plane waves of the good sector and their projector, the cancellation that makes $\rho = (nB + SC)/16$, Wick's rule term by term on two explicit states, the exact local exchange and the ratio $-1/8$, the Kohn-Sham potentials and the on-shell Lagrangian (compared with the coefficients that the Rust solver read), and the exact Fock exchange of the closed-shell states by projection onto the 64-dimensional space of matrices that commute with the rotations. With numpy it computes the densities of the eight zero modes, reproduces the largest proper density, the calibration of the couplings and the zero exact-Fock energies of the record. It draws four figures, needs no Rust, runs in about 30 seconds, and its last line is ALL 16 CHECKS PASSED (notebook 14d).
+
+<!-- NOTEBOOK 14d -->
+
+### 14.31 Line-by-line walk-through of Notebook 14d
+
+The notebook has 14 code cells, In [1] to In [14]. Docstrings and the long caption texts are left out of the quotations; the captions are printed under the figures in Section 14.30.
+
+**In [1], the set-up cell.** The code of In [1] of Notebook 14a (Section 14.11), line for line, except
+
+```python
+NOTEBOOK_ID = "14d"  # this notebook: chapter 14, example d
+```
+
+which names this notebook. Its comment lines are the run instructions of Section 14.29.
+
+**In [2], the gamma matrices, $B$ and $C$.**
+
+```python
+import math  # exp, sqrt, log10 of single numbers
+
+import numpy as np  # floating-point arrays
+import sympy as sp  # exact algebra with symbols
+
+PY_REPORT = "Revision/kohn_sham/reports/ks-theory-python.json"
+WL_REPORT = "Revision/kohn_sham/reports/ks-theory-wolfram.json"
+```
+
+The three modules and the two theory reports.
+
+```python
+def record_check(name):
+    verdicts = []
+    for report_file in (PY_REPORT, WL_REPORT):
+        data = json.loads(repository_file(report_file).read_text(encoding="utf-8"))
+        found = [c["verdict"] for c in data["checks"] if c["name"] == name]
+        verdicts.append(found[0] if found else "absent")
+    return verdicts[0] == "PASS" and verdicts[1] in ("PASS", "absent")
+```
+
+The `record_check` of Notebook 14a: true when the sympy report says PASS and the Wolfram report says PASS or has no check of that name. (The loop variable is called `report_file`, so that it does not hide the helper `report` of the set-up cell.)
+
+```python
+fixture = json.loads(repository_file("Revision/algebra/gammas.json")
+                     .read_text(encoding="utf-8"))
+g = [sp.Matrix(m) for m in fixture["gamma"]]
+g1, g2, g3, g4, g5, g6, g7, g8 = g
+I16, Z16 = sp.eye(16), sp.zeros(16)
+C = g8 * g1 * g2 * g3
+B = -sp.I * C * g4
+```
+
+The author's gammas from the Revision record, exactly as in In [2] and In [3] of Notebook 14a, and the matrices $C$ and $B$.
+
+```python
+facts_ok = (B * B == I16 and C * C == I16 and (B * B).trace() == 16
+            and (C * C).trace() == 16 and (B * C).trace() == 0 and C * B * C == B
+            and (-sp.I * g4) * B == C)
+check(facts_ok, "B^2 = C^2 = 1, Tr B^2 = Tr C^2 = 16, Tr BC = 0, CBC = B, (-i g4) B = C")
+```
+
+Every matrix fact used in Section 14.26, checked exactly: $B^2 = C^2 = 1$, their traces 16, $\mathrm{Tr}(BC) = 0$, $CBC = B$ and $(-i\gamma^{(x_4)})B = C$. Out [2] is one PASS line.
+
+**In [3], the plane waves and their projector.**
+
+```python
+M = sp.symbols("M", positive=True)  # the mass
+p1, p2, p3, p8 = sp.symbols("p1 p2 p3 p8", real=True)  # the momentum
+E = sp.symbols("E", positive=True)  # stands for sqrt(M^2 + p^2)
+h_p = M * (-sp.I * g4) - (p1 * g4 * g1 + p2 * g4 * g2 + p3 * g4 * g3 + p8 * g4 * g8)
+E_squared = M ** 2 + p1 ** 2 + p2 ** 2 + p3 ** 2 + p8 ** 2
+square_ok = (h_p * h_p - E_squared * I16).applyfunc(sp.expand).is_zero_matrix
+```
+
+The mass, the four momentum components, a positive symbol $E$, the matrix $h_{\mathbf p}$ of Section 14.26, and the test $h_{\mathbf p}^2 = (M^2 + p^2)\,1$ entry by entry (`applyfunc(sp.expand)` multiplies out every entry).
+
+```python
+G_p = (I16 + h_p / E) / 2  # the projector on the positive energy
+projector_ok = ((G_p * G_p - G_p).subs(E, sp.sqrt(E_squared))
+                .applyfunc(sp.simplify).is_zero_matrix
+                and G_p.H == G_p and sp.simplify(G_p.trace()) == 8)
+check(square_ok and projector_ok and record_check("gas_mode_projector"),
+      "h_p^2 = (M^2 + p^2) 1 and G_p = (1 + h_p/E)/2 is a projector of rank 8",
+      record=f"{PY_REPORT}, check gas_mode_projector")
+```
+
+$G_{\mathbf p}$; the test $G_{\mathbf p}^2 = G_{\mathbf p}$ after replacing $E$ by $\sqrt{M^2 + p^2}$; $G_{\mathbf p}$ Hermitian; its trace 8 (for a projector the trace is the rank, Section 14.5). One PASS line.
+
+**In [4], the symmetric one-body matrix.**
+
+```python
+p_flip = {p1: -p1, p2: -p2, p3: -p3, p8: -p8}
+pair_average = ((G_p * B + (G_p * B).subs(p_flip)) / 2).applyfunc(sp.simplify)
+pair_ok = (pair_average - (B + M / E * C) / 2).applyfunc(sp.simplify).is_zero_matrix
+```
+
+A dictionary that replaces $\mathbf p$ by $-\mathbf p$; the average of $G_{\mathbf p}B$ and $G_{-\mathbf p}B$; and the test that it is $\tfrac12(B + (M/E)C)$ (Section 14.26).
+
+```python
+th, ph = sp.symbols("vartheta varphi", real=True)  # angles on the sphere
+components = [sp.sin(th) * sp.cos(ph), sp.sin(th) * sp.sin(ph), sp.cos(th)]
+sphere = [sp.integrate(sp.integrate(c * sp.sin(th), (ph, 0, 2 * sp.pi)), (th, 0, sp.pi))
+          / (4 * sp.pi) for c in components]  # the averages of the components
+say(f"sphere averages of the three direction components: {sphere}")
+check(pair_ok and sphere == [0, 0, 0] and record_check("gas_angular_average"),
+      "the average over p and -p (or over all directions) is (B + (M/E) C)/2",
+      record=f"{PY_REPORT}, check gas_angular_average")
+```
+
+The same for an average over all directions of $\mathbf p$: a direction on the sphere is $(\sin\vartheta\cos\varphi, \sin\vartheta\sin\varphi, \cos\vartheta)$ with the two angles $\vartheta$ and $\varphi$; the average of a function over the sphere is its integral with the area element $\sin\vartheta\,d\varphi\,d\vartheta$ divided by the area $4\pi$. All three components average to 0 (printed in Out [4]), so the part of $G_{\mathbf p}B$ linear in $\mathbf p$ averages away too.
+
+```python
+h_0 = M * (-sp.I * g4)  # the p-independent part of h_p
+negative_ok = (((I16 - h_0 / E) / 2) * B - (B - M / E * C) / 2).is_zero_matrix
+check(negative_ok and record_check("gas_negative_energy_modes"),
+      "negative-energy modes give (B - (M/E) C)/2: only B and C ever appear",
+      record=f"{PY_REPORT}, check gas_negative_energy_modes")
+```
+
+The negative-energy modes: the part of $\tfrac12(1 - h_{\mathbf p}/E)B$ that survives the average (the part of $h_{\mathbf p}$ without $\mathbf p$, `h_0`) is $\tfrac12(B - (M/E)C)$.
+
+```python
+n, S, lam = sp.symbols("n S lambda", real=True)
+rho = (n * B + S * C) / 16  # the one-body matrix of a symmetric occupation
+check(sp.expand((B * rho).trace()) == n and sp.expand((C * rho).trace()) == S
+      and record_check("gas_densities"),
+      "rho = (nB + SC)/16 has Tr(B rho) = n and Tr(C rho) = S",
+      record=f"{PY_REPORT}, check gas_densities")
+```
+
+Symbols for the two densities and the coupling, the matrix $\rho = (nB + SC)/16$, and the check that it gives back $n$ and $S$. Out [4] shows three PASS lines.
+
+**In [5], figure 1.**
+
+```python
+values = {M: 1, E: sp.sqrt(2), p1: 1, p2: 0, p3: 0, p8: 0}
+one_mode = np.abs(np.array((G_p * B).subs(values).evalf(), dtype=complex))
+averaged = np.abs(np.array(pair_average.subs(values).evalf(), dtype=complex))
+odd_part = np.abs(np.array((G_p * B - pair_average).subs(values).evalf(),
+                           dtype=complex))
+```
+
+The example $M = 1$, $\mathbf p = (1, 0, 0, 0)$, $E = \sqrt2$, and the absolute values of the entries of three matrices: $G_{\mathbf p}B$, its average with $-\mathbf p$, and their difference, the part linear in $\mathbf p$.
+
+```python
+fig, axes = plt.subplots(1, 3, figsize=(11.5, 3.9))
+fig.subplots_adjust(wspace=0.45)
+titles = ["$|G_{\\mathbf{p}}B|$: one momentum",
+          "$|(G_{\\mathbf{p}} + G_{-\\mathbf{p}})B/2|$",
+          "$|$part linear in $\\mathbf{p}|$"]
+for ax, data, title in zip(axes, (one_mode, averaged, odd_part), titles):
+    image = ax.imshow(data, cmap="Blues", vmin=0.0, vmax=0.6,
+                      interpolation="nearest")
+    ax.set_title(title, fontsize=9)
+    ax.set_xticks([0, 5, 10, 15])
+    ax.set_yticks([0, 5, 10, 15])
+    ax.set_xlabel("column")
+    ax.set_ylabel("row")
+    ax.grid(False)
+    fig.colorbar(image, ax=ax, shrink=0.75)
+save_figure(fig, "pair_average",
+            "Absolute values of the entries (rows and columns 0 to 15, darker is "
+            ...)
+```
+
+Three heat maps as in In [15] of Notebook 14a, with one common colour scale from 0 to 0.6 (`vmax=0.6`), so that the three panels can be compared. **What figure 14d.1 shows.** Left: the matrix of one momentum has entries in many places. Middle: after the average with $-\mathbf p$ only the entries of $\tfrac12B$ (size $\tfrac12$, dark) and of $\tfrac{M}{2E}C = \tfrac{1}{2\sqrt2}C$ (size about $0.35$, lighter) remain. Right: the part linear in $\mathbf p$, $-\tfrac{1}{2E}p_1\gamma^{(x_4)}\gamma^{(x_1)}B$, with entries of size $\tfrac{1}{2\sqrt2} \approx 0.35$ in other places; it is exactly what the average with $-\mathbf p$ removes.
+
+**In [6], Wick's rule term by term.**
+
+```python
+half, i_half = sp.Rational(1, 2), sp.I / 2
+u1 = sp.Matrix([half, i_half, 0, 0, 0, 0, 0, 0, half, 0, 0, 0, 0, 0, -i_half, 0])
+u2 = sp.Matrix([0, 0, half, 0, -half, 0, 0, 0, 0, 0, i_half, 0, 0, 0, 0, i_half])
+v1 = sp.Matrix([1, 2, 0, -1, sp.I, 0, 3, 1, 0, 1, -2, sp.I, 0, 1, 1, 0]) / 4
+v2 = sp.Matrix([0, 1, sp.I, 2, 1, -1, 0, 0, 1, 0, sp.I, 1, 2, 0, -1, 1]) / 4
+nonzero = [(A_, B_) for A_ in range(16) for B_ in range(16) if C[A_, B_] != 0]
+wick_ok = True
+```
+
+Two pairs of mode vectors: $u_1, u_2$, the two-mode state of the Revision check, and $v_1, v_2$, a second state with less symmetry. `nonzero` lists the 16 positions $(A, B)$ where $C$ has a nonzero entry; only these contribute to the sum.
+
+```python
+for name, modes in (("u1, u2 (record)", (u1, u2)), ("v1, v2", (v1, v2))):
+    rho_2 = (modes[0] * modes[0].H + modes[1] * modes[1].H) * B  # one-body matrix
+    f = rho_2.T  # f_AB = rho_BA
+    brute = sp.simplify(sum(
+        C[A_, B_] * C[C_, D_] * (f[A_, B_] * f[C_, D_] - f[A_, D_] * f[C_, B_])
+        for A_, B_ in nonzero for C_, D_ in nonzero))
+    direct = sp.simplify((C * rho_2).trace() ** 2)
+    exchange = sp.simplify((C * rho_2 * C * rho_2).trace())
+    say(f"state {name}: (Tr C rho)^2 = {direct}, Tr(C rho C rho) = {exchange}, "
+        f"term-by-term sum = {brute}")
+    wick_ok &= sp.simplify(brute - (direct - exchange)) == 0
+```
+
+For each state: the one-body matrix $\rho = (u_1u_1^\dagger + u_2u_2^\dagger)B$, the expectations $f_{AB} = \rho_{BA}$ (the transpose), the sum of Wick's rule over the $16 \times 16 = 256$ pairs of nonzero entries of $C$ (`brute`), and the two traces. Out [6] prints, for the record's state, $(\mathrm{Tr}\,C\rho)^2 = 1/4$, $\mathrm{Tr}(C\rho C\rho) = 1/4$ and the sum 0, and for the second state $25/64$, $9/32$ and $7/64$: in both cases the sum equals the difference of the traces ($25/64 - 18/64 = 7/64$).
+
+```python
+check(len(nonzero) == 16 and wick_ok and record_check("hf_wick_contraction"),
+      "<:S^2:> = (Tr C rho)^2 - Tr(C rho C rho), checked term by term",
+      record=f"{PY_REPORT}, check hf_wick_contraction")
+```
+
+One PASS line.
+
+**In [7], the exchange and the ratio $-1/8$.**
+
+```python
+e_x = sp.factor(-lam / 2 * (C * rho * C * rho).trace())  # the exchange energy density
+say(f"e_x = -(lambda/2) Tr(C rho C rho) = {e_x}")
+check(sp.simplify(e_x + lam / 32 * (n ** 2 + S ** 2)) == 0
+      and record_check("exchange_uniform_gas"),
+      "the exact local exchange e_x = -(lambda/32)(n^2 + S^2)",
+      record=f"{PY_REPORT}, check exchange_uniform_gas")
+```
+
+$e_x = -\tfrac\lambda2\mathrm{Tr}(C\rho C\rho)$ with $\rho = (nB + SC)/16$, written by `sp.factor` as a product (Out [7]: `-lambda*(S**2 + n**2)/32`), and the check.
+
+```python
+e_H = lam / 2 * S ** 2  # the Hartree energy density
+ratio = sp.simplify((e_x / e_H).subs({n: 8, S: 8}))
+say(f"one filled level at rest (n = S = 8): e_x/e_H = {ratio}")
+check(ratio == sp.Rational(-1, 8) and record_check("filled_shell_ratio"),
+      "a filled 8-fold level at rest has e_x/e_H = -1/8",
+      record=f"{PY_REPORT}, check filled_shell_ratio")
+```
+
+The Hartree term and the ratio for one filled level at rest, $n = S = 8$ (Exercise 14.8): $-1/8$. Out [7] shows two PASS lines.
+
+**In [8], the Kohn-Sham potentials.**
+
+```python
+m = sp.symbols("m", real=True)
+e_int = sp.expand(e_H + e_x)
+M_eff = m + sp.diff(e_int, S)  # the effective mass
+v_v = sp.diff(e_int, n)  # the vector potential
+say(f"e_int = {e_int}")
+say(f"M_eff = {M_eff},  v_v = {v_v}")
+```
+
+The bare mass $m$, $e_{\rm int} = e_H + e_x$, and the two potentials as derivatives (Section 14.27). Out [8] prints $e_{\rm int} = \tfrac{15}{32}\lambda S^2 - \tfrac{1}{32}\lambda n^2$ and the potentials in sympy's notation.
+
+```python
+check(sp.simplify(M_eff - m - sp.Rational(15, 16) * lam * S) == 0
+      and sp.simplify(v_v + lam * n / 16) == 0 and record_check("ks_potentials"),
+      "M_eff = m + (15/16) lambda S and v_v = -lambda n/16",
+      record=f"{PY_REPORT}, check ks_potentials")
+on_shell = sp.simplify(M_eff * S + v_v * n - m * S - e_int - e_int)
+check(on_shell == 0 and record_check("ks_onshell_lagrangian"),
+      "on shell <L>/sqrt|g| = M_eff S + v_v n - m S - e_int = e_int",
+      record=f"{PY_REPORT}, check ks_onshell_lagrangian")
+```
+
+The two potentials, and the on-shell Lagrangian: $M_{\rm eff}S + v_vn - mS - e_{\rm int}$ minus $e_{\rm int}$ must be zero.
+
+```python
+theory = json.loads(repository_file("Revision/kohn_sham/ks-theory.json")
+                    .read_text(encoding="utf-8"))
+potentials = theory["exchange"]["kohnShamPotentials"]
+gas = theory["exchange"]["uniformGas"]
+inputs = json.loads(repository_file("Revision/kohn_sham/results/parameters.json")
+                    .read_text(encoding="utf-8"))["theoryInputs"]
+```
+
+The parts of the theory record that hold the coefficients, and the coefficients that the Rust solver read (its parameters record).
+
+```python
+same = (sp.Rational(potentials["Meff_coefficient_of_lambda_S"]) == sp.Rational(15, 16)
+        and sp.Rational(potentials["vv_coefficient_of_lambda_n"]) == sp.Rational(-1, 16)
+        and sp.Rational(gas["coefficient_n2"]) == sp.Rational(-1, 32)
+        and sp.Rational(gas["coefficient_S2"]) == sp.Rational(-1, 32)
+        and inputs["MeffCoefficientOfLambdaS"] == 0.9375
+        and inputs["vvCoefficientOfLambdaN"] == -0.0625
+        and inputs["exchangeCoefficientN2"] == -0.03125
+        and inputs["exchangeCoefficientS2"] == -0.03125)
+check(same and record_check("ks_theory_json_exchange"),
+      "the coefficients 15/16, -1/16, -1/32, -1/32 equal the records",
+      record="Revision/kohn_sham/ks-theory.json and results/parameters.json")
+```
+
+The theory record stores the coefficients as texts such as "15/16", which `sp.Rational` turns into exact fractions; the solver's record stores them as decimal numbers, $0.9375 = 15/16$, $-0.0625 = -1/16$ and $-0.03125 = -1/32$ (all four are exact in binary floating point). Out [8] shows three PASS lines.
+
+**In [9], figure 2.**
+
+```python
+s_over_n = np.linspace(-1.0, 1.0, 401)
+hartree = 0.5 * s_over_n ** 2
+exchange_curve = -(1.0 + s_over_n ** 2) / 32.0
+fig, ax = plt.subplots(figsize=(7.5, 4.4))
+ax.plot(s_over_n, hartree, label="Hartree $e_H/(\\lambda n^2) = (S/n)^2/2$")
+ax.plot(s_over_n, exchange_curve, "--",
+        label="exchange $e_x/(\\lambda n^2) = -(1 + (S/n)^2)/32$")
+ax.plot(s_over_n, hartree + exchange_curve, ":", color="black",
+        label="$e_{\\rm int} = e_H + e_x$")
+```
+
+The ratio $S/n$ from $-1$ to $1$ and the three energy densities divided by $\lambda n^2$: Hartree $\tfrac12(S/n)^2$, exchange $-\tfrac1{32}(1 + (S/n)^2)$ and their sum.
+
+```python
+ax.plot([1.0], [-1.0 / 16.0], "o", color="C3")
+ax.annotate("$S = n$: $e_x = -e_H/8$", xy=(1.0, -1.0 / 16.0), xytext=(-0.05, 0.3),
+            fontsize=8, color="C3", arrowprops={"arrowstyle": "->", "color": "C3"})
+ax.axhline(0.0, color="gray", linewidth=0.6)
+ax.set_xlabel("ratio of the scalar to the number density $S/n$")
+ax.set_ylabel("energy density per $\\lambda n^2$")
+ax.set_title("the Hartree-Fock energy of the contact interaction")
+ax.legend(fontsize=8, loc="upper center")
+save_figure(fig, "energy_densities",
+            "The interaction energy densities of the contact term per unit "
+            ...)
+```
+
+A red dot at $S/n = 1$ on the exchange curve, $-\tfrac1{16}$, with an arrow from its label (`annotate` with `xy` the point, `xytext` the place of the text and `arrowprops` the style of the arrow), the zero line, labels and saving. **What figure 14d.2 shows.** The Hartree parabola is zero at $S = 0$ and $\tfrac12$ at $S = \pm n$. The exchange curve is small and negative everywhere, between $-\tfrac1{32}$ and $-\tfrac1{16}$. Their sum is slightly negative near $S = 0$, where only the exchange is left, and positive for larger $|S|$. At $S = n$ the exchange $-\tfrac1{16}$ is one eighth of the Hartree term $\tfrac12$.
+
+**In [10], the exact Fock exchange of the closed-shell states.**
+
+```python
+as_number = {"0": 0, "1": 1, "-1": -1, "I": sp.I, "-I": -sp.I}
+U = sp.Matrix([[as_number[e] for e in row] for row in
+               theory["blockBasis"]["unnormalisedColumns2Sqrt2V"]])
+V = U / (2 * sp.sqrt(2))  # the block basis of the record
+labels = [(j, s2, s3) for j in (1, -1) for s2 in (1, -1) for s3 in (1, -1)]
+s1 = sp.Matrix([[0, 1], [1, 0]])
+s2m = sp.Matrix([[0, -sp.I], [sp.I, 0]])
+s3 = sp.Matrix([[1, 0], [0, -1]])
+```
+
+The block basis $V$ of the record (as in In [13] of Notebook 14a), the eight block labels in the record's order, and the Pauli matrices (`s2m` is $\sigma_2$).
+
+```python
+d0, d1, d2, d3 = sp.symbols("d0 d1 d2 d3", real=True)
+D = (d0 * sp.eye(2) + d1 * s1 + d2 * s2m + d3 * s3) / 2  # the block density
+G_slab = Z16
+for b, (j, _, _) in enumerate(labels):
+    Vb = V[:, 2 * b:2 * b + 2]
+    G_slab = G_slab + Vb * (D if j == 1 else s3 * D * s3) * Vb.H
+```
+
+A general $2 \times 2$ Hermitian block density $D$ with four real numbers $d_0, \dots, d_3$ (every Hermitian $2 \times 2$ matrix is a combination of $1$ and the three Pauli matrices), and the $16 \times 16$ matrix of one level that has $D$ in the four blocks of type $+1$ and $\sigma_3D\sigma_3$ in the four of type $-1$: each block's $2 \times 2$ matrix is carried back to 16 components with its two basis columns, $V_bDV_b^\dagger$.
+
+```python
+unknowns = sp.Matrix(16, 16, sp.symbols("x0:256"))  # a general 16 x 16 matrix
+equations = []
+for rotation in (g1 * g2, g1 * g3, g2 * g3):  # commute with the 3-space rotations
+    equations += list(rotation * unknowns - unknowns * rotation)
+solution = sp.Matrix(16, 16, list(list(sp.linsolve(equations, list(unknowns)))[0]))
+```
+
+The matrices that commute with the three generators $\gamma^{(x_1)}\gamma^{(x_2)}$, $\gamma^{(x_1)}\gamma^{(x_3)}$, $\gamma^{(x_2)}\gamma^{(x_3)}$ of the rotations of 3-space: a general matrix of 256 unknowns, the $3 \times 256$ linear equations "commutator = 0", and their general solution by `sp.linsolve`, which returns the set of solutions; `list(...)[0]` takes its single element, a list of 256 expressions in the unknowns that remain free.
+
+```python
+free = sorted(solution.free_symbols, key=lambda s_: int(str(s_)[1:]))
+basis = [solution.subs({x: (1 if x == y else 0) for x in free}) for y in free]
+gram = sp.Matrix(len(basis), len(basis),
+                 lambda i, k: (basis[i].H * basis[k]).trace())
+coefficients = gram.LUsolve(sp.Matrix([(b_.H * G_slab).trace() for b_ in basis]))
+G_avg = sp.simplify(sum((c_ * b_ for c_, b_ in zip(coefficients, basis)), Z16))
+```
+
+The free unknowns, sorted by their numbers (`str(s_)[1:]` is the name without its first letter); a basis of the solution space, one matrix for each free unknown set to 1 and the others to 0 (64 of them); the **Gram matrix** of the inner products $\mathrm{Tr}(X^\dagger Y)$ of the basis matrices; and the orthogonal projection of $G_{\rm slab}$ onto the space, found by solving the linear equations with the Gram matrix (`LUsolve`). The projection is the average over all directions of the shell.
+
+```python
+rho_slab = G_avg * B
+n_s, S_s = sp.simplify((B * rho_slab).trace()), sp.simplify((C * rho_slab).trace())
+Q_s = sp.simplify((B * g8 * rho_slab).trace())
+e_x_slab = sp.expand(-lam / 2 * (C * rho_slab * C * rho_slab).trace())
+say(f"commutant dimension {len(basis)}; n = {n_s}, S = {S_s}, Q = {Q_s}")
+say(f"V unitary: {sp.simplify(V.H * V) == I16}")
+```
+
+The averaged one-body matrix, its three densities $n$, $S$ and $Q = \langle\Psi^\dagger B\gamma^{(x_8)}\Psi\rangle$, and its exchange energy. Out [10] prints the dimension 64, $n = 8d_0$, $S = 8d_2$, $Q = 8d_3$, and that $V$ is unitary.
+
+```python
+check(len(basis) == 64 and n_s == 8 * d0 and S_s == 8 * d2 and Q_s == 8 * d3
+      and sp.simplify(e_x_slab + lam / 32 * (n_s ** 2 + S_s ** 2 - Q_s ** 2
+                                             - (8 * d1) ** 2)) == 0
+      and record_check("exchange_slab_exact_fock"),
+      "exact Fock exchange of the slab: -(lambda/32)(n^2 + S^2 - Q^2 - Y^2)",
+      record=f"{PY_REPORT}, check exchange_slab_exact_fock")
+```
+
+The check of Section 14.27 with $Y = 8d_1$. This cell does the heaviest algebra of the notebook. One PASS line.
+
+**In [11], figure 3.**
+
+```python
+grid = np.linspace(-1.0, 1.0, 401)
+S_grid, Q_grid = np.meshgrid(grid, grid)  # S/n horizontally, Q/n vertically
+inside = S_grid ** 2 + Q_grid ** 2 <= 1.0
+ratio_grid = np.where(inside, (1.0 + S_grid ** 2 - Q_grid ** 2) / (1.0 + S_grid ** 2),
+                      np.nan)
+```
+
+A square grid of $401 \times 401$ points in the plane of $S/n$ and $Q/n$ (`np.meshgrid` makes the two coordinate arrays of the grid), the points inside the unit disk, and there the ratio of the exact to the uniform-gas exchange, $(n^2 + S^2 - Q^2)/(n^2 + S^2)$ with $Y = 0$; outside the disk the value `np.nan` ("not a number"), which is not drawn.
+
+```python
+fig, ax = plt.subplots(figsize=(6.4, 5.2))
+filled = ax.contourf(S_grid, Q_grid, ratio_grid, levels=np.linspace(0.0, 1.0, 11),
+                     cmap="Blues")
+ax.contour(S_grid, Q_grid, ratio_grid, levels=[0.5], colors="gray", linewidths=0.8)
+fig.colorbar(filled, ax=ax, label="$e_x^{\\rm exact} / e_x^{\\rm gas}$")
+```
+
+`contourf` fills the regions between the levels $0, 0.1, \dots, 1$ of the ratio with colours, `contour` draws the line where the ratio is $\tfrac12$, and the colour bar explains the colours.
+
+```python
+ax.plot([0.0, 0.0], [1.0, -1.0], "o", color="C3")  # S = 0, Q = +n and -n
+ax.annotate("zero modes ($N = 8$): ratio 0", (0.05, 0.9), fontsize=8, color="C3")
+ax.annotate("$Q = 0$: ratio 1", (-0.95, 0.04), fontsize=8,
+            color="white")  # white text on the dark band
+ax.set_xlabel("$S/n$")
+ax.set_ylabel("$Q/n$")
+ax.set_aspect("equal")
+ax.grid(False)
+ax.set_title("exact Fock exchange / uniform-gas exchange")
+save_figure(fig, "exact_fock_ratio",
+            "The ratio of the exact Fock exchange of a closed-shell slab state, "
+            ...)
+```
+
+Two red dots at $S = 0$, $Q = \pm n$, two labels, equal scales on both axes (`set_aspect("equal")`, so that the disk is round), and saving. **What figure 14d.3 shows.** A dark band (ratio near 1) across the middle of the disk, around the line $Q = 0$, where the uniform-gas formula is exact; toward the top and the bottom the colour fades and the ratio falls to 0 at the two red dots; the gray line marks the ratio $\tfrac12$. The state of the eight zero modes sits at the top dot: for it the uniform-gas formula gives a nonzero exchange, while the exact exchange is zero.
+
+**In [12], the state of the eight zero modes.**
+
+```python
+H_val, m_val, L_val = 1.0, 1.0, 3.0
+ell = 2.0 * math.pi / 0.25  # the coordinate size of the 3-torus
+vol7 = ell ** 3 * 1.0  # the coordinate 7-volume ell^3 v_t
+y = np.linspace(-L_val, 0.0, 1801)  # the hidden coordinate
+a_sq = 2.0 * m_val / (1.0 - math.exp(-2.0 * m_val * L_val)) * np.exp(2.0 * m_val * y)
+P = np.exp(-6.0 * H_val * y) / vol7  # proper-density factor
+n_y = 4.0 * P * a_sq  # line 2
+n_max = float(np.max(n_y))
+```
+
+The canonical numbers $H = m = 1$, $L = 3$, $\ell = 2\pi/0.25$, $v_t = 1$; 1801 points of $y$; $a^2$ of the normalised zero mode; the factor $P$; the proper density $n = 4Pa^2$ of Section 14.27; and its largest value.
+
+```python
+summary = repository_file("Revision/kohn_sham/results/ground/summary.csv") \
+    .read_text(encoding="utf-8").splitlines()
+header = summary[0].split(",")
+free8 = dict(zip(header, [r for r in summary if r.startswith("N8_lam0_a00,")][0]
+                 .split(",")))
+report("largest proper density of the free N = 8 state", f"{n_max:.10f}",
+       "per unit proper 7-volume")
+check(abs(n_max / float(free8["n_max"]) - 1.0) < 1e-9 and float(y[np.argmax(n_y)])
+      == -3.0,
+      "n_max = 4 P a^2 at the tip y = -3 equals the record",
+      record="Revision/kohn_sham/results/ground/summary.csv, N8_lam0_a00, n_max")
+```
+
+The summary record of the Rust ground states, its row for $N = 8$, $\lambda = 0$, slice 0 (`startswith` finds the row whose text starts with its name), the RESULT line $82.2208638894$, and the check: the notebook's value equals the record's to $10^{-9}$ (relative), and the maximum lies at $y = -3$ (`np.argmax` gives the position of the largest entry).
+
+```python
+def round_significant(x, digits):
+    exponent = math.floor(math.log10(abs(x))) - (digits - 1)
+    scale = 10.0 ** (-exponent)
+    return math.copysign(math.floor(abs(x) * scale + 0.5), x) / scale
+```
+
+Rounding to a number of significant digits, halves away from zero: for $x = 0.019460\ldots$ and 4 digits, $\log_{10}|x| = -1.71$, rounded down to $-2$, so the exponent is $-5$; the number is multiplied by $10^5$ to $1946.0\ldots$, rounded to the whole number 1946 (adding $\tfrac12$ and rounding down), and divided back: $0.01946$.
+
+```python
+strength = n_max / 16.0  # line 4: the largest first-order potential per lambda
+lambda_1 = round_significant(0.1 / strength, 4)
+lambda_2 = round_significant(0.3 / strength, 4)
+parameters = json.loads(repository_file("Revision/kohn_sham/results/parameters.json")
+                        .read_text(encoding="utf-8"))
+calibration = [c for c in parameters["couplingCalibration"]["values"]
+               if c["N"] == 8.0][0]
+```
+
+The strength $n_{\max}/16$ (with $S = 0$ only the term $|n|/16$ counts), the two couplings by the record's rule, and the record's calibration entry for $N = 8$.
+
+```python
+report("strength per lambda", f"{strength:.9f}")
+report("lambda_1, lambda_2", f"{lambda_1}, {lambda_2}")
+report("first-order potentials", f"{lambda_1 * strength:.10f}, "
+       f"{lambda_2 * strength:.10f}", "m")
+check(abs(strength / calibration["strengthPerLambda"] - 1.0) < 1e-9
+      and lambda_1 == calibration["lambda1"] and lambda_2 == calibration["lambda2"]
+      and abs(lambda_1 * strength - calibration["firstOrderPotential1"]) < 1e-9
+      and len(set(calibration["strengthPerLambdaAtSlices"])) == 1,
+      "strength 5.1388, lambda_1 = 0.01946, lambda_2 = 0.05838 (the same at all "
+      "slices)", record="Revision/kohn_sham/results/parameters.json, "
+      "couplingCalibration N = 8")
+```
+
+Three RESULT lines ($5.138803993$; $0.01946$, $0.05838$; the first-order potentials $0.1000011257$ and $0.3000033771\,m$, just above $0.1$ and $0.3$ because of the rounding of $\lambda$) and the check against the record; the last condition says that the record found the same strength at all five slices (a set keeps each value once, so its size is 1). That is the rescaling identity again: the zero modes do not depend on the slice.
+
+```python
+exx = repository_file("Revision/kohn_sham/results/exx/exact-fock-variant.csv") \
+    .read_text(encoding="utf-8").splitlines()
+exx_header = exx[0].split(",")
+rows8 = [dict(zip(exx_header, r.split(","))) for r in exx[1:] if r.startswith("N8_")]
+largest = max(abs(float(r["E_exact_fock_scf"])) for r in rows8)
+check(len(rows8) == 20 and largest < 1e-12,
+      "the self-consistent exact-Fock energy of all 20 N = 8 states is 0",
+      record="Revision/kohn_sham/results/exx/exact-fock-variant.csv, "
+             "E_exact_fock_scf")
+```
+
+The record of the exact-Fock variant, its 20 rows with $N = 8$, and the check that their self-consistent energies are all below $10^{-12}$ in size: zero up to rounding, as Section 14.27 predicts. Out [12] shows three PASS lines.
+
+**In [13], figure 4.**
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.5, 4.0))
+fig.subplots_adjust(wspace=0.32)  # room for the label of the right panel
+left.semilogy(y, n_y, label="proper density $n(y) = 4Pa^2$")
+left.semilogy(y, np.exp(6.0 * y) * n_y, "--",
+              label="coordinate density $e^{6Hy} n(y)$")
+left.set_xlabel("$y$ (units of $1/H$; tip at $-3$, brane at $0$)")
+left.set_ylabel("density (logarithmic)")
+left.set_title("the eight zero modes ($N = 8$, $\\lambda = 0$)")
+left.legend(fontsize=8)
+```
+
+Left panel, logarithmic: the proper density and the coordinate density $e^{6Hy}n$ (the number of particles per unit $y$ and per unit coordinate volume of the other directions).
+
+```python
+right.plot(y, -lambda_1 * n_y / 16.0, label=f"$v_v$, $\\lambda_1 = {lambda_1}$")
+right.plot(y, -lambda_2 * n_y / 16.0, label=f"$v_v$, $\\lambda_2 = {lambda_2}$")
+right.plot(y, np.zeros_like(y), ":", color="black",
+           label="exact Fock: $v_v + w_Q = 0$")
+right.set_xlabel("$y$ (units of $1/H$)")
+right.set_ylabel("first-order potential (units of $m$)")
+right.set_title("the Kohn-Sham potential of the zero modes")
+right.legend(fontsize=8, loc="lower right")
+save_figure(fig, "zero_mode_state",
+            "The state of the eight brane zero modes ($N = 8$, $m = H = 1$, "
+            ...)
+```
+
+Right panel: the first-order potential $v_v = -\lambda n/16$ for the two couplings and the zero exact-Fock potential. **What figure 14d.4 shows.** Left: two straight lines on the logarithmic axis. The coordinate density (dashed) rises like $e^{2y}$ toward the brane, from about $10^{-6}$ to $5\times10^{-4}$: the particles sit at the brane. The proper density (solid) falls like $e^{-4y}$ from $82$ at the tip to $5\times10^{-4}$ at the brane, where the two meet ($e^{6Hy} = 1$ there): per unit proper volume the gas is densest at the tip, because the proper 7-volume is tiny there. Right: the potential is zero over most of the interval and dips to $-0.1$ and $-0.3\,m$ only near the tip; the exact-Fock potential is zero everywhere.
+
+**In [14], the last check.**
+
+```python
+figure_names = ["14d_1_pair_average.png", "14d_2_energy_densities.png",
+                "14d_3_exact_fock_ratio.png", "14d_4_zero_mode_state.png"]
+check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in figure_names),
+      "all four figure files of this notebook exist")
+all_checks_passed()
+```
+
+The four figure files must exist; the last line prints ALL 16 CHECKS PASSED (notebook 14d). The 16 checks are: 1 in In [2], 1 in In [3], 3 in In [4], 1 in In [6], 2 in In [7], 3 in In [8], 1 in In [10], 3 in In [12] and 1 in In [14].
+
+### 14.32 What we proved, what we computed, what we assumed
+
+**PROVED** (exact; the derivation is in this chapter, and the Revision record checks it in `Revision/kohn_sham/reports/ks-theory-python.json`, with the checks marked "both" also in `Revision/kohn_sham/reports/ks-theory-wolfram.json`):
+
+| statement | section | record checks | notebook |
+| --- | --- | --- | --- |
+| the hidden coordinate, the warped form, the volume factor $e^{6Hy}$ without $a_4$ | 14.2 | geometry_hidden_coordinate and geometry_sqrt_det (both), geometry_warped_form | 14a |
+| $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_8)}$ along every history; the pieces of the inflating and the deflating directions cancel | 14.4 | spin_connection_compatibility, spin_connection_slash_3H, spin_connection_time_terms_cancel (both), spin_connection_time_term_value | 14a |
+| the factor $W^{-3}$ removes the spin connection; the Hamiltonian is Hermitian | 14.4 | ansatz_removes_spin_connection, ansatz_without_W3_term_survives, hamiltonian_16_hermitian (both) | 14a |
+| eight blocks of two components, two block types, the block forms and the block Hamiltonian | 14.5 | blocks_commuting_set, blocks_basis_unitary, blocks_forms, block_hamiltonian, block_ode_equivalent, block_type_relation (both), blocks_projectors, blocks_not_everything_block_diagonal | 14a |
+| the chirality matrix $\Gamma$ pairs the block types and reverses the mass | 14.6 | blocks_relation_to_Gamma, block_Gamma_map (both) | 14a |
+| the levels depend only on the length of the 3-momentum | 14.6 | rotation_invariance (both) | 14a |
+| the exact rescaling identity between the slices | 14.7 | rescaling_identity (both) | 14a, 14c |
+| the real form, the boundary term, the mirror map and the parities, the tip family, the constant current, the suppression at the tip | 14.12 | bc_mirror_map_PA, bc_mirror_parities_of_densities, bc_brane_parity_conditions, bc_self_adjoint_boundary_term, bc_tip_family, bc_current_conserved_along_y, bc_tip_asymptotics (all both) | 14b |
+| the exact free levels at zero 3-momentum, the zero mode and the gap | 14.13 | bc_exact_k0_spectra (both) | 14b |
+| the equation of the Pruefer angle; the shooting function grows with the energy; one level per label | 14.14 | derived in Section 14.14 | 14b |
+| the slope of the brane band; the band is odd in $k$ | 14.19 | brane_band_slope (both) | 14c |
+| $h_{\mathbf p}^2 = E^2$; $\rho = (nB + SC)/16$; Wick's rule; the exact local exchange; the ratio $-1/8$ | 14.26 | gas_mode_projector, gas_angular_average, gas_densities, exchange_uniform_gas (both), gas_negative_energy_modes, hf_wick_contraction, filled_shell_ratio | 14d |
+| the Kohn-Sham potentials; the Lagrangian on shell | 14.27 | ks_potentials, ks_onshell_lagrangian (both) | 14d |
+| the exact Fock exchange of the closed-shell states and the term $+\tfrac{\lambda}{32}Q^2$ that the functional omits | 14.27 | exchange_slab_exact_fock (both) | 14d |
+
+**COMPUTED** (numerical, with the record that holds the numbers and their measured accuracy):
+
+| result | record | accuracy | notebook |
+| --- | --- | --- | --- |
+| the 54 free levels at $k = 0$ by RK4 shooting | `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`; check free_k0_analytic_spectra of `Revision/kohn_sham/reports/ks-rust-solver.json` | within $5\times10^{-9}$ below $4m$, $3.2\times10^{-7}$ above | 14b |
+| fourth-order convergence | check refined_free_spectra_convergence_order of `Revision/kohn_sham/reports/ks-rust-determinism.json` | median error ratio 16.00 over 39 levels | 14b |
+| the brane band and three other levels for $k$ from 0 to 4 | `Revision/kohn_sham/results/spectrum/brane-band.csv` | reproduced to $10^{-11}$ | 14c |
+| the numerical slope $c\,e^{-a_{4,0}}$ at five slices | `brane-band-slope.csv` in the same folder; check free_brane_band_slope | $1.87\times10^{-12}$ relative | 14c |
+| the rescaling identity solved as two separate problems | `Revision/kohn_sham/results/rescaling/rescaling.csv`; checks rescaling_identity_between_slices and rescaling_identity_energy_profiles | levels to $1.5\times10^{-13}$, energies and profiles to $3.3\times10^{-13}$ | 14a (the partner parameters) |
+| the gap of the free $N = 8$ state, $0.4307$ to $0.0642\,m$ along the history | `closed-shells.csv` (spectrum folder) | reproduced to $10^{-11}$ | 14c |
+| the band does not feel the tip for $k \ne 0$ | `tip-angle.csv` (spectrum folder); check free_tip_angle_insensitivity | shifts below the suppression factor | 14c |
+| the particle labels, the closed shells, the bulk edge and $N = 8, 136, 688$ | check free_particle_branch_labels; `closed-shells.csv`; `Revision/kohn_sham/results/parameters.json` | exact agreement of the shells; energies to $10^{-11}$ | 14c |
+| the state $N = 8$: $n_{\max} = 82.2208638894$, $\lambda_1 = 0.01946$, $\lambda_2 = 0.05838$, exact-Fock energy 0 | `Revision/kohn_sham/results/ground/summary.csv`; `parameters.json`; `Revision/kohn_sham/results/exx/exact-fock-variant.csv` | $10^{-9}$ relative; energies below $10^{-12}$ | 14d |
+
+**ASSUMED** (starting points that this chapter does not derive):
+
+- The good sector: the orbitals do not depend on the extra times $x_5, x_6, x_7$ (Section 14.3; Chapters 8 and 10 give the reasons).
+- The Z2 mirror brane at $y = 0$, with its two parities; with it the weight $w = \tfrac12$ of the densities and the mirror copy with the mass $-m$ (Section 14.12).
+- The regular tip condition at the cutoff $y = -L$, $L = 3$: a choice of the numerical model, harmless for every level with $k \ne 0$ (Section 14.20) but decisive for the zero modes at $k = 0$.
+- The deflating history $a_4 = AHx_4$ with $A = 1$ is a **prescribed background**: the Kohn-Sham states are computed on it but are not its source in the field equations of $a_4$ (`Revision/field_equations_a4/reports/ks-source-conditions.json`; Chapter 17). The Kohn-Sham gas is a test field.
+- The stationary-slice (adiabatic) ansatz: at each slice the instantaneous Kohn-Sham states are computed (Section 14.3); whether the gas can follow the history is measured in Chapter 15.
+- The convention that counts the zero modes at $k = 0$ as particle levels (Section 14.21).
+- The functional: Hartree plus the uniform-gas exchange, without correlation (an approximation; the exact Fock exchange differs by $+\tfrac{\lambda}{32}Q^2$ and is reported as a diagnostic, Section 14.27).
+- The canonical numbers $H = m = 1$, $L = 3$, $\Delta k = 0.25$, $v_t = 1$ and the five slices.
+
+**HYPOTHESIS:** none in this chapter.
+
+**OPEN:** the justification of the zero-mode convention; the time-dependent (non-adiabatic) evolution of the gas along the history; the action of the gas back on $a_4$ (the history is not a solution of the coupled equations); the correlation energy of the contact interaction in this geometry.
+
+**Honesty about pairs and charges (rule of Chapter 0).** Two places of this chapter touch the pairing of universes. The chirality matrix $\Gamma$ maps every solution with the mass $M$ onto a solution with the mass $-M$ (Section 14.6), and the ASSUMED mirror brane pairs the patch, with $+m$, with a mirror copy carrying $-m$ (Section 14.12). Both are exact maps between sets of solutions; Chapters 18 and 19 prove the theorems T1 and T3 built on them. Neither says that a universe, or a pair of universes, is created: no creation process, rate or amplitude follows from these equations (Chapter 20 gives the complete list of what is and is not proved). The words particle and sea in Section 14.21 describe the filling of the levels of the normal-ordered quantum field; this chapter makes no statement about matter and antimatter, which Chapter 21 treats, and it does not claim that the theory explains why our universe contains more matter than antimatter.
+
+### 14.33 Exercises
+
+**Exercise 14.1.** (a) Show that in the coordinate $y$ the volume factor is $\sqrt{|g|} = e^{6Hy}$, and compute it at $y = -3$ for $H = 1$. (b) Compute the momentum weight $\kappa$ at the cutoff $y = -3$ and at the brane $y = 0$, for the slices $a_{4,0} = 0$ and $2$ ($H = 1$). (c) A density per unit $y$ and per unit coordinate volume is turned into a proper density by dividing it by $\sqrt{|g|}$. Explain with (a) why the proper density of the zero modes is largest at the cutoff, although the orbitals sit at the brane.
+
+**Answer 14.1.** (a) The scale factors are $e^{a_4}W$ (three times), $1$, $e^{-a_4}W$ (three times) and $1$, with $W = e^{Hy}$ (Section 14.2). The square root of the absolute value of the determinant of a diagonal metric is the product of the scale factors: $(e^{a_4}W)^3(e^{-a_4}W)^3 = e^{3a_4 - 3a_4}W^6 = e^{6Hy}$. At $y = -3$: $e^{-18} \approx 1.52\times10^{-8}$. (b) $\kappa = e^{-Hy - a_{4,0}}$. At $y = -3$: $e^{3 - a_{4,0}}$, which is $e^3 \approx 20.09$ at the slice 0 and $e^{1} \approx 2.718$ at the slice 2. At $y = 0$: $e^{-a_{4,0}}$, which is $1$ and $e^{-2} \approx 0.135$. (c) The zero-mode orbital gives the coordinate density $\propto a^2 \propto e^{2My}$, largest at the brane. Dividing by $e^{6Hy}$ gives $e^{(2M - 6H)y}$, which for $M = H = 1$ is $e^{-4y}$: it grows toward the tip. The proper 7-volume near the tip is so small (the factor $e^{-18}$ at the cutoff) that the few particles there are packed densely (Figure 14d.4).
+
+**Exercise 14.2.** Using the two rules of Section 14.5, show that $A_0A_1A_4 = -J$, and deduce from it the block form $A_4 \to j\sigma_1$. Then derive the block form of $\gamma^{(x_4)} = A_0A_4$.
+
+**Answer 14.2.** $A_0A_1A_4 = \gamma^{(x_8)}\gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_8)}\gamma^{(x_4)}$. The first two factors give $(\gamma^{(x_8)})^2 = \eta_{88} = 1$, so the product is $\gamma^{(x_1)}\gamma^{(x_8)}\gamma^{(x_4)}$. Exchanging the first two factors (they anticommute) gives $-\gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_4)} = -J$. In a block of type $j$, $J$ is the number $j$, so $A_0A_1A_4 = -j$ there. With $A_0 \to \sigma_3$ and $A_1 \to -i\sigma_2$: $\sigma_3(-i\sigma_2) = -i\sigma_3\sigma_2 = -i(-i\sigma_1) = -\sigma_1$, so $-\sigma_1A_4 = -j$, and multiplying by $-\sigma_1$ from the left ($\sigma_1^2 = 1$): $A_4 = j\sigma_1$. Finally $\gamma^{(x_4)} = \gamma^{(x_8)}\gamma^{(x_8)}\gamma^{(x_4)} = A_0A_4 \to \sigma_3(j\sigma_1) = j\sigma_3\sigma_1 = ij\sigma_2$, as in Section 14.5.
+
+**Exercise 14.3.** (a) Show that the column $\chi = (\cos\tfrac\theta2,\ i\sin\tfrac\theta2)$, that is $(a, b) = (\cos\tfrac\theta2, \sin\tfrac\theta2)$ in real form, satisfies $Q(\theta)\chi = \chi$ for $Q(\theta) = \cos\theta\,\sigma_3 + \sin\theta\,\sigma_2$. (b) Show that the tip condition with $\theta = \pi$ is $a(-L) = 0$, and that the matrix $\sigma_2$ of Section 14.6 turns the canonical tip condition $b(-L) = 0$ into it.
+
+**Answer 14.3.** (a) For $\chi = (a, ib)$ the products of Section 14.12 give $\sigma_3\chi = (a, -ib)$ and $\sigma_2\chi = (b, ia)$, so $Q\chi = \big(a\cos\theta + b\sin\theta,\ i(a\sin\theta - b\cos\theta)\big)$. With $a = \cos\tfrac\theta2$, $b = \sin\tfrac\theta2$ the first entry is $\cos\theta\cos\tfrac\theta2 + \sin\theta\sin\tfrac\theta2 = \cos(\theta - \tfrac\theta2) = \cos\tfrac\theta2 = a$, and the bracket of the second is $\sin\theta\cos\tfrac\theta2 - \cos\theta\sin\tfrac\theta2 = \sin(\theta - \tfrac\theta2) = \sin\tfrac\theta2 = b$ (the subtraction formulas of cosine and sine). So $Q\chi = \chi$. (b) For $\theta = \pi$, $Q = -\sigma_3$ and $(1 - Q)\chi = (1 + \sigma_3)\chi = (2\chi_1, 0) = 0$ means $\chi_1(-L) = 0$, that is $a(-L) = 0$. The map $\chi \to \sigma_2\chi$ sends $(a, ib)$ to $(b, ia)$, so the new components are $\tilde a = b$ and $\tilde b = a$: the condition $b(-L) = 0$ of the old orbital becomes $\tilde a(-L) = 0$, the condition with $\theta = \pi$. (The Rust solver's self-test of the Kohn-Sham-level map, check t3_block_map_solver_selftest of the Rust report, uses exactly this transformed tip.)
+
+**Exercise 14.4.** Let $p$ be the cubic polynomial with the values $f_0$, $f_1$ and the derivatives $d_0$, $d_1$ at the two ends of an interval of length $h$. Show that its value at the midpoint is $\tfrac12(f_0 + f_1) + \tfrac h8(d_0 - d_1)$, the formula used by `orbital` in Notebooks 14b and 14c.
+
+**Answer 14.4.** Measure the position from the midpoint, $s$, so that the ends are $s = \mp h/2$, and write $p(s) = A + Bs + Cs^2 + Ds^3$; the value at the midpoint is $A$. Then $p(\mp h/2) = A \mp Bh/2 + Ch^2/4 \mp Dh^3/8$ and $p'(\mp h/2) = B \mp Ch + 3Dh^2/4$. Adding the two values: $f_0 + f_1 = 2A + Ch^2/2$ (the odd terms cancel). Subtracting the two derivatives: $d_0 - d_1 = -2Ch$, so $C = (d_1 - d_0)/(2h)$. Hence $A = \tfrac12(f_0 + f_1) - Ch^2/4 = \tfrac12(f_0 + f_1) - \tfrac{h}{8}(d_1 - d_0) = \tfrac12(f_0 + f_1) + \tfrac h8(d_0 - d_1)$.
+
+**Exercise 14.5.** For $M = 1$ and $L = 2$ (the second case of Notebook 14b): (a) compute the lowest positive even level; (b) show that the lowest odd root $p_0$ lies between $\pi/4$ and $\pi/2$ and that no root lies between 0 and $\pi/4$; (c) the record gives the lowest odd level $1.519802561206\,m$; compute $p_0$ from it and check (b).
+
+**Answer 14.5.** (a) $\varepsilon = \sqrt{M^2 + (\pi/L)^2} = \sqrt{1 + (\pi/2)^2} = \sqrt{1 + 2.4674} = \sqrt{3.4674} = 1.862096\,m$; the record `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv` lists $1.862095889118587$ (column eps_analytic, $m = 1$, $L = 2$, even, label 1). (b) With $f(p) = \sin(2p) + p\cos(2p)$: $f(\pi/4) = \sin(\pi/2) + \tfrac\pi4\cos(\pi/2) = 1 > 0$ and $f(\pi/2) = \sin\pi + \tfrac\pi2\cos\pi = -\pi/2 < 0$, so a root lies between them (Step 4 of Section 14.13); for $0 < p < \pi/4$ both $\sin(2p)$ and $\cos(2p)$ are positive, so $f(p) > 0$ and there is no root. (c) $p_0 = \sqrt{\varepsilon^2 - M^2} = \sqrt{1.519803^2 - 1} = \sqrt{2.309801 - 1} = \sqrt{1.309801} = 1.14447$, and indeed $\pi/4 = 0.785 < 1.144 < 1.571 = \pi/2$.
+
+**Exercise 14.6.** (a) Show that for $M = H = 1$ the slope of the brane band is $c = 2e^{-a_{4,0}}/(1 + e^{-L})$. (b) Evaluate it at the slice 0 for $L = 2$ and $L = 4$ and compare with Notebook 14c, Out [5]. (c) Evaluate it for $L = 3$ at the slice 1. (d) What is the limit for $L \to \infty$, and why is it not 1, the value of $\kappa$ at the brane at the slice 0?
+
+**Answer 14.6.** (a) Section 14.19 with $M = H = 1$: $c = e^{-a_{4,0}}\cdot\tfrac{2}{1}\cdot(1 - e^{-L})/(1 - e^{-2L})$, and $1 - e^{-2L} = (1 - e^{-L})(1 + e^{-L})$, so the factor $1 - e^{-L}$ cancels. (b) $L = 2$: $2/(1 + e^{-2}) = 2/1.135335 = 1.761594$; $L = 4$: $2/(1 + e^{-4}) = 2/1.018316 = 1.964028$; both equal the printed numerical and exact values. (c) $2e^{-1}/(1 + e^{-3}) = 1.905148 \times 0.367879 = 0.700865$, the value of Out [5] for the slice 1 ($0.700864874900$). (d) For $L \to \infty$, $e^{-L} \to 0$ and $c \to 2$. The slope is the average of $\kappa = e^{-y}$ over the zero mode, whose weight $2e^{2y}$ extends toward the tip; the average of $e^{-y}$ with the weight $2e^{2y}$ over $(-\infty, 0]$ is $\int 2e^{y}dy = 2$, larger than the value 1 at the brane.
+
+**Exercise 14.7.** Estimate the gap of the free $N = 8$ state at the slices 0 and 1 from the first-order band, $\varepsilon \approx c\,e^{-a_{4,0}}k$ with $k = 0.25$, and compare with the computed gaps of Section 14.20. Why is the estimate too large, and why is it better at the later slice?
+
+**Answer 14.7.** Slice 0: $1.905148 \times 0.25 = 0.4763\,m$ against the computed $0.4307\,m$, too large by $0.0456\,m$ (about 11 per cent). Slice 1: $0.700865 \times 0.25 = 0.1752\,m$ against $0.1703\,m$, too large by $0.0049\,m$ (about 3 per cent). The band bends below its tangent line $ck$ (Figure 14c.1), so the straight line overestimates it. By the rescaling identity the gap at the slice 1 is the band at the slice 0 at the smaller momentum $0.25e^{-1} = 0.092$, where the band is still close to its tangent: along the history the redshift moves the lattice momenta into the region where the first-order formula is accurate.
+
+**Exercise 14.8.** For a single momentum at rest, $\mathbf p = 0$, show that the projector on the eight positive-energy modes is $G_0 = \tfrac12(1 - i\gamma^{(x_4)})$, that these eight modes, filled, give $\rho = \tfrac12(B + C)$, and deduce $n = S = 8$ and $e_x/e_H = -1/8$.
+
+**Answer 14.8.** At $\mathbf p = 0$, $h_0 = M(-i\gamma^{(x_4)})$ and $E = M$, so $G_0 = \tfrac12(1 + h_0/M) = \tfrac12(1 - i\gamma^{(x_4)})$. The filled modes give $\rho = G_0B = \tfrac12(B + (-i\gamma^{(x_4)})B) = \tfrac12(B + C)$, by $(-i\gamma^{(x_4)})B = C$ (Section 14.26). Then $n = \mathrm{Tr}(B\rho) = \tfrac12(\mathrm{Tr}\,B^2 + \mathrm{Tr}\,BC) = \tfrac12(16 + 0) = 8$ and $S = \mathrm{Tr}(C\rho) = \tfrac12(\mathrm{Tr}\,CB + \mathrm{Tr}\,C^2) = 8$. With $n = S = 8$: $e_x = -\tfrac{\lambda}{32}(64 + 64) = -4\lambda$ and $e_H = \tfrac\lambda2\cdot64 = 32\lambda$, so $e_x/e_H = -4/32 = -1/8$, the check filled_shell_ratio and Out [7] of Notebook 14d.
+
+**Exercise 14.9.** Show that for any state built from orbitals with occupations $f \ge 0$ the densities at a point satisfy $S^2 + Q^2 \le n^2$, so that the possible states fill the disk of Figure 14d.3. When does the equality hold?
+
+**Answer 14.9.** For one orbital $\chi = (a, ib)$ at the point $y$ the three contributions are $n_o = P(a^2 + b^2)$, $s_o = Pj\,2ab$ and $q_o = P(a^2 - b^2)$ with $P > 0$ (Section 14.27), and $(2ab)^2 + (a^2 - b^2)^2 = (a^2 + b^2)^2$ (Section 14.27), so the vector $(s_o, q_o)$ in the plane has the length $n_o$ ($j^2 = 1$). The state has $n = \sum c_on_o$, $(S, Q) = \sum c_o(s_o, q_o)$ with the non-negative weights $c_o = wgf$. The length of a sum of vectors is at most the sum of their lengths (the triangle inequality), so $\sqrt{S^2 + Q^2} \le \sum c_on_o = n$. The equality holds when all the vectors $(s_o, q_o)$ with $c_o > 0$ point in the same direction, for example when only one kind of orbital is filled, as for the eight zero modes, where every vector is $(0, n_o)$ and the state sits at $S = 0$, $Q = n$.
+
+**Exercise 14.10.** For the eight zero modes with $M = H = 1$, $L = 3$, $\ell = 8\pi$ and $v_t = 1$: (a) compute the largest proper density $n_{\max} = n(-3)$ from $n = 4Pa^2$; (b) compute the couplings $\lambda_1$ and $\lambda_2$ by the calibration rule of Section 14.27; (c) explain why the exact-Fock energy of this state is zero for every $\lambda$, while the uniform-gas exchange is not.
+
+**Answer 14.10.** (a) $a^2 = \tfrac{2}{1 - e^{-6}}e^{2y}$ and $P = e^{-6y}/(8\pi)^3$, so $n(-3) = 4\cdot\tfrac{2}{1 - e^{-6}}\cdot e^{-6}\cdot e^{18}/(8\pi)^3 = \tfrac{8e^{12}}{(1 - e^{-6})(8\pi)^3}$. With $e^{12} = 162754.79$, $1 - e^{-6} = 0.997521$ and $(8\pi)^3 = 15875.21$: $n_{\max} = 1302038.3/(0.997521 \times 15875.21) = 82.2209$, the RESULT of Notebook 14d ($82.2208638894$) and the record. (b) The strength is $n_{\max}/16 = 5.13880$ ($S = 0$, so only $|n|/16$ counts); $0.1/5.13880 = 0.019460$ and $0.3/5.13880 = 0.058380$, rounded to four significant digits $\lambda_1 = 0.01946$, $\lambda_2 = 0.05838$. (c) The state has $S = 0$ and $Q = n$ at every point. The exact Fock exchange $-\tfrac{\lambda}{32}(n^2 + S^2 - Q^2)$ is therefore zero, and the exact-Fock potential acting on the orbitals $(a, 0)$ is $v_v + w_Q = \tfrac{\lambda}{16}(Q - n) = 0$: the orbitals are unchanged, their levels stay 0, and the energy $\sum\varepsilon$ minus the double-counting term (zero, because $e_{\rm int}^{\rm exact} = \tfrac{15}{32}\lambda S^2 - \tfrac{1}{32}\lambda(n^2 - Q^2) = 0$) is 0. The uniform-gas exchange $-\tfrac{\lambda}{32}(n^2 + S^2) = -\tfrac{\lambda}{32}n^2$ is not zero: it misses the $+\tfrac{\lambda}{32}Q^2 = +\tfrac{\lambda}{32}n^2$ that cancels it.
