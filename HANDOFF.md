@@ -177,10 +177,11 @@ NOT DONE / IN PROGRESS (partial edits are committed and UNVERIFIED)
   only together with the downstream list of section 0.4k (three Revision publications + PDFs + test pins, Revision/README.md table,
   the rev-a4 provenance file, dirac matrices.md regeneration, textbook chapters 00/09/12/17 and notebooks 00c/09c/12a/17b).  A
   prepared workflow for the Revision part: Revision/workflows/restart/a4_apply_sync.js (too large as one run - split it).
-* Textbook "Universes in Pairs": every chapter's notebooks are built (00-22); chapter texts written for 00-20 and 22 (chapter 21 text
-  NOT written); adversarial reviews done for 00-10 and 12-16 with findings (several major: overclaims in 08, 10, 14; physics wording
-  in 03, 05, 09, 13; numbers not asserted in 12; figure caption in 16); only chapter 04's fixer finished.  Assembly, the book PDF,
-  registration, the six-lens book review and the book fix were NOT done.  Revision/tests/test_universes_in_pairs_textbook.py fails.
+* Textbook "Universes in Pairs": ASSEMBLED 2026-10-08 (Revision/textbook/UNIVERSES_IN_PAIRS_TEXTBOOK.md, assemble_textbook.py 13/13
+  checks, chapters 00-23, 89 notebooks, 556 figures; chapter 23 is a marked PLACEHOLDER; .tex generated; PDF build: see the commit log).
+  Every chapter's notebooks are built (00-22); chapter texts exist for 00-22 (chapter 21's text WAS written, 4891 lines, by the
+  interrupted writer - not yet reviewed); adversarial reviews done for 00-10 and 12-16 with findings (several major: overclaims in 08, 10, 14; physics wording
+  in 03, 05, 09, 13; numbers not asserted in 12; figure caption in 16); only chapter 04's fixer finished.  The six-lens book review and the book fix were NOT done.  Revision/tests/test_universes_in_pairs_textbook.py fails.
 * Revision wave 1b: the Mermin-root repair is done and verified (solver 42/42, determinism 14/14, KS theory 58/58, cross-check 29/29).
   NOT done: theory-reconcile (partial edits may be in Revision/theory), the full KS cross-check, the reproduction gate, review, fix.
   Wave 2 NOT started.  Known failing test: test_pair_creation_proofs_publication (document quotes 57 KS-theory checks; the record has 58).
