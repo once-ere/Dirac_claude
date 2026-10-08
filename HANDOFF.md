@@ -147,6 +147,23 @@ and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_rest
 wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
 their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
 
+### 0.4y VERIFICATION STATE 2026-10-08 ~15:40 (the Stop hook's WIP snapshots 6779cd3/0f569dd hold most agent edits)
+
+- Phase 3c-rev2 (wf_35f24f29-e41): fix2:theory (generator 'conserved charge' texts, ExpandFileName roots; scope re-runs
+  byte-identical; the 45-min verify_field_theory.wls + check_field_theory.py run detached since 15:14, check it with
+  <scratchpad>/phase3c2/fix2-theory/verify_after_run.py - base af0fc19 because the WIP snapshots moved HEAD; it also checks
+  the run log per WOLFRAMSCRIPT_PROVENANCE 3.6; then record 6.7 + index row 2: 'field theory one run equal to the expected
+  report'); fix2:roots-a4 (6 roots, ks_source texts, a4 key; all outputs byte-identical; verifier running); fix2:docs-a and
+  fix2:docs-b (verified; residual items went to rev4).
+- Phase 3c-rev3 (wf_12f85853-978): dark_sector generator texts + the three Revision notebooks (cell 32, cargo-target, private
+  POSIX build folder) - running; then EXECUTION_PROVENANCE_INDEX rows 25-27 by the lead.
+- Phase 3c-rev4 docs (wf_96a1a6d8-65b): FT line 454, PCP 9.1 scope reports, KS tip study (patch <scratchpad>/gate2/
+  patch_ks_doc.py), DS/00 phantom condition Lambda < -(21 + 3A^2)H^2 and the canonical-functional qualifier - running.
+- Old Stage 5: E5.3 guard committed (095c17d); guarded reference run detached since ~15:40 (<scratchpad>/s5guard/,
+  marker s5_reference_guarded.done.txt; it exits 1 if a non-control run is stopped by a guard - the m = 3 lamp2 runs are).
+- Textbook check pass 1 (<scratchpad>/vc_sweep1): only 00c (new reports) and 23a (rebuilt last) fail so far.
+- Root test suite running (<scratchpad>/vc_tests1/root.log).
+
 ### 0.4x PREPARED WORKFLOWS (2026-10-08 ~15:35)
 
 - handoff/workflows/wf_stage5_docs_review_v2.js: old Stage 5 documents A and B, the Stage-5 gate, 4 review lenses, 2 skeptics
