@@ -268,7 +268,7 @@ python -m ipykernel install --user --name python3
 - An AssertionError names a check that failed: choose the menu Kernel > Restart Kernel and Run All Cells; if it fails again, install the packages again with the pip commands of Step 3, because a different package version can change the last digits of a result.
 - "cargo is not recognized" or "command not found: cargo" or "cargo was not found": open a new terminal after installing Rust, do Step 4 again, and start JupyterLab from this terminal.
 - "linker link.exe not found" (Windows) or "linker cc not found" (Linux): install the C++ Build Tools (Windows) or build-essential (Linux) as described in Step 5 and build again.
-- The cell that runs the reference solver on the three ground states shows the label with the star for two minutes or longer: this is normal. The state N136_lamp2_a20 alone takes about two minutes on a fast computer and up to five minutes on a laptop, because the reference solves 354 levels on three grids, each with its excited state and four neighbouring slices. Wait until the label shows a number.
+- The cell that runs the reference solver on the three ground states shows the label with the star for a minute or longer: this is normal. The state N136_lamp2_a20 alone takes up to two minutes on a fast computer and up to five minutes on a laptop, because the reference solves 354 levels on three grids, each with its excited state and four neighbouring slices. Wait until the label shows a number.
 - A line reports that a re-run is not identical byte for byte, but the PASS line after it appears: this is harmless. Another computer may round the last digit of a few numbers differently; the check allows differences of one part in a billion, far below every uncertainty of the record.
 - An AssertionError names one of the comparisons with the record: the notebook prints the numbers just above the error. A large difference means that the reference program, the Rust solver or the record was changed. Get the stored versions back and run the notebook again.
 
@@ -277,6 +277,7 @@ git checkout -- Revision/kohn_sham
 ```
 
 - On Windows the cell that builds the Rust solver stops with the cargo message failed to remove file and Access is denied: the program revision_ks_solver is still running in another window or terminal, and Windows does not let cargo replace a running program. Wait until that run has finished (or close it), then run the cell again.
+- The run was stopped (by an error, or with Kernel > Interrupt) while the cell that runs the Rust solver was busy: the raw outputs of the Rust runs may then be left behind in a folder whose name starts with textbook_16a_, inside the folder for temporary files of your operating system (in Python, tempfile.gettempdir() names it). The notebook deletes that folder only when the cell finishes. Delete the leftover folder by hand; every run makes a new one.
 
 To repeat the verification of the book's maintainers (a second, independent execution whose notebook and files are compared byte for byte with the stored ones; it writes only into a scratch folder), run in the repository folder:
 
@@ -483,8 +484,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 minutes (FACTS: 600 s); nbkit stops a cell after 1800 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 367.4 s, peak memory of the kernel process 332 MiB;
-- the check run: 356.6 s, peak memory of the kernel process 332 MiB.
+- the build run: 105.1 s, peak memory of the kernel process 336 MiB;
+- the check run: 101.7 s, peak memory of the kernel process 337 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -496,8 +497,8 @@ Expected run time: about 10 minutes (FACTS: 600 s); nbkit stops a cell after 180
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/16a_reference_crosscheck.ipynb`: `609eb1e9d2ccc406cc224f6cdeae63cfdbfcdc20aef6335b73f54b3ec9617d35`
-- `Revision/textbook/notebooks/src/16a_reference_crosscheck.py`: `da742f80615e4886a98e4f9a886df5fa81a8dcfc5b07ebd2729b29482c0d54c1`
+- `Revision/textbook/notebooks/16a_reference_crosscheck.ipynb`: `f8684930f4d50944efa5967c226a17a6abe02c259ae10f1ddd125642bcfd3aba`
+- `Revision/textbook/notebooks/src/16a_reference_crosscheck.py`: `a3eef01d2ed441b895fb7c53c7876f732bd2ee76fcdd1d1e12aaee3907282719`
 - `Revision/textbook/figures/16a.captions.json`: `868032cea35e506efea79b7e10a0430ad4f595270a762ba6f4c015b1ad25e812`
 - `Revision/textbook/figures/16a_1_grid_convergence.png`: `168419139ae333a01f77071a66cadcc9fa2182931b65da1eef00f371ed0be2df`
 - `Revision/textbook/figures/16a_2_uncertainty_validated.png`: `58cc065d1c612625b336781088ce6e2f88b2614739f7956f2d616afe405bf1e0`
@@ -513,4 +514,4 @@ Expected run time: about 10 minutes (FACTS: 600 s); nbkit stops a cell after 180
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 8 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":332.0,"seconds":367.4},"check":{"date":"2026-10-08","files":8,"peak_mb":332.0,"result":"passed","seconds":356.6},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":336.0,"seconds":105.1},"check":{"date":"2026-10-08","files":8,"peak_mb":337.0,"result":"passed","seconds":101.7},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

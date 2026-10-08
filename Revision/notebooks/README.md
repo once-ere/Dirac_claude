@@ -8,6 +8,7 @@ checks what it prints and writes against the committed Revision record. Nothing 
 | notebook | what it computes | provenance |
 | --- | --- | --- |
 | [`lovelock_gkd.ipynb`](lovelock_gkd.ipynb) | the Lovelock tensors of order k = 1, 2, 3 of the author's metric with the generalized Kronecker delta: builds and runs `Revision/gkd_lovelock/code`, reproduces its four result files byte for byte, re-checks the GKD and three identities exactly in Python, quotes the check counts of the five committed records, three figures | [`lovelock_gkd.PROVENANCE.md`](lovelock_gkd.PROVENANCE.md) |
+| [`kohn_sham_states.ipynb`](kohn_sham_states.ipynb) | the Kohn-Sham states of dirac16complex in the deflating field: builds `Revision/kohn_sham/solver` and solves nine canonical states (N = 8, 136, 688 at a4,0 = 0, 1, 2) and one thermal state with `single`; levels, energies, EMT integrals and profiles equal to the committed record, 84 rows of the cross-check against the independent reference reproduced, the check counts of the seven committed Kohn-Sham reports, four figures | [`kohn_sham_states.PROVENANCE.md`](kohn_sham_states.PROVENANCE.md) |
 
 ## Layout
 
@@ -24,9 +25,9 @@ checks what it prints and writes against the committed Revision record. Nothing 
 
 ```text
 python Revision/notebooks/tools/build_notebooks.py list
-python Revision/notebooks/tools/build_notebooks.py build lovelock_gkd [--out DIR]
-python Revision/notebooks/tools/build_notebooks.py check lovelock_gkd [--out DIR]
-python Revision/notebooks/tools/build_notebooks.py audit lovelock_gkd
+python Revision/notebooks/tools/build_notebooks.py build <name> [--out DIR]
+python Revision/notebooks/tools/build_notebooks.py check <name> [--out DIR]
+python Revision/notebooks/tools/build_notebooks.py audit <name>
 python -m unittest Revision/tests/test_revision_notebooks.py -v
 ```
 

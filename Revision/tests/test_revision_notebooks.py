@@ -19,7 +19,9 @@ What is tested
       - Revision/notebooks/README.md lists the notebook; requirements.txt pins exactly the
         packages named in the notebook's run instructions;
       - lovelock_gkd: the executed notebook printed the check counts of the committed Revision
-        reports exactly as their JSON files give them, and no FAIL line.
+        reports exactly as their JSON files give them, and no FAIL line;
+      - kohn_sham_states: the same for the seven Kohn-Sham reports, the ten states equal to the
+        committed record and the 84 reproduced rows of the cross-check table.
   * FULL (only when REVISION_NOTEBOOKS_FULL=1; about a minute per notebook; needs cargo and the
     pinned packages): the installed package versions equal the pins, and
     `build_notebooks.py check <name>` re-executes every notebook in a fresh temporary folder
@@ -45,6 +47,7 @@ REPO = Path(__file__).resolve().parents[2]
 NB_DIR = REPO / "Revision" / "notebooks"
 TOOL_PATH = NB_DIR / "tools" / "build_notebooks.py"
 RECORD = REPO / "Revision" / "gkd_lovelock" / "results"
+KS_REPORTS = REPO / "Revision" / "kohn_sham" / "reports"
 FULL = os.environ.get("REVISION_NOTEBOOKS_FULL") == "1"
 
 
@@ -79,6 +82,7 @@ def all_output_text(nb: dict) -> str:
 class StaticTests(unittest.TestCase):
     def test_builders_exist(self):
         self.assertIn("lovelock_gkd", NAMES)
+        self.assertIn("kohn_sham_states", NAMES)
         for name in NAMES:
             module = TOOL.load_builder(name)
             self.assertEqual(module.NAME, name)
@@ -150,6 +154,23 @@ class StaticTests(unittest.TestCase):
         identical = re.findall(r"^PASS - ([\w.\-]+)_byte_identical", out, re.MULTILINE)
         self.assertEqual(sorted(identical), ["curvature.json", "lovelock-components.md",
                                              "lovelock-report.json", "lovelock-tensors.json"])
+        self.assertRegex(out, r"checks of this notebook: \d+ passed, 0 failed")
+
+    def test_kohn_sham_record_counts_printed(self):
+        out = all_output_text(notebook("kohn_sham_states"))
+        self.assertNotIn("FAIL", out)
+        expected = {"ks-theory-wolfram.json": 46, "ks-theory-python.json": 58, "ks-rust-solver.json": 42,
+                    "ks-rust-determinism.json": 14, "ks-rust-mermin-roots.json": 5, "ks-reference.json": 37,
+                    "ks-crosscheck.json": 31}
+        for name, n in expected.items():
+            rep = json.loads((KS_REPORTS / name).read_text(encoding="utf-8"))
+            self.assertEqual(len(rep["checks"]), n, name)
+            self.assertEqual(sum(c["verdict"] == "PASS" for c in rep["checks"]), n, name)
+            self.assertIn(f"{name}: {n}/{n} checks pass, 0 fail, {n} listed checks with verdict PASS", out)
+        states = re.findall(r"^PASS - (N\d+_\w+?)_equals_record", out, re.MULTILINE)
+        self.assertEqual(len(states), 10, states)
+        self.assertIn("N136_lamp1_a10_T20", states)
+        self.assertIn("PASS - crosscheck_rows_reproduced: 84 rows", out)
         self.assertRegex(out, r"checks of this notebook: \d+ passed, 0 failed")
 
 

@@ -1,18 +1,26 @@
-# Provenance of the wolframscript set `Revision/pairing/kohn_sham/wolfram/` (the verifier of theorem T3)
+# Provenance of the wolframscript set `Revision/pairing/kohn_sham/wolfram/` (theorem T3 and its completion)
 
-This file is written for a student who has never used Wolfram or a terminal before. It says what the script
-does, which files it reads and writes, how to install everything and run it on Windows, macOS or Linux, what
-you should see, what the run changes on your computer, and how and when it was verified. Everything you need
-is in this file.
+This file is written for a student who has never used Wolfram or a terminal before. It says what the two
+scripts of the set do, which files they read and write, how to install everything and run them on Windows,
+macOS or Linux, what you should see, what a run changes on your computer, and how and when it was verified.
+Everything you need is in this file.
 
 ## 1. What this set is and what it computes
 
 ### 1.1 The set in one sentence
 
-The set is one WolframScript file, `Revision/pairing/kohn_sham/wolfram/verify_t3.wls`. It proves theorem T3
-("the Kohn-Sham level of the pairing of universes of masses +m and -m") by exact symbolic algebra and writes
-two JSON files: the theorem record `Revision/pairing/kohn_sham/t3-theory.json` and the check report
-`Revision/pairing/kohn_sham/reports/wolfram-t3.json`.
+The set is two WolframScript files in `Revision/pairing/kohn_sham/wolfram/`:
+
+1. `verify_t3.wls` proves theorem T3 ("the Kohn-Sham level of the pairing of universes of masses +m and -m")
+   by exact symbolic algebra (10 checks) and writes the theorem record `Revision/pairing/kohn_sham/t3-theory.json`
+   and the check report `Revision/pairing/kohn_sham/reports/wolfram-t3.json`.
+2. `verify_t3_completion.wls` adds three exact checks that complete T3 (statement S6 and the filling convention
+   of the image) and writes the completion record `Revision/pairing/kohn_sham/t3-completion.json` and the check
+   report `Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json`.
+
+Neither script reads an output of the other (both read only `Revision/kohn_sham/ks-theory.json` and
+`Revision/algebra/gammas.json`), so they may run in either order; this file runs `verify_t3.wls` first. The
+two independent sympy checkers of section 3.8 are not part of the set but read its outputs.
 
 ### 1.2 The physics, in plain words
 
@@ -31,6 +39,8 @@ two JSON files: the theorem record `Revision/pairing/kohn_sham/t3-theory.json` a
   Hamiltonian is h_j = j[-i sigma1 d/dy + M_eff(y) sigma2 + kappa(y) k sigma3] + v_v(y), with the Pauli
   matrices sigma1, sigma2, sigma3, the effective mass M_eff = m + (15/16) lambda S, the potential
   v_v = -lambda n/16, the bare mass m, the coupling lambda, the scalar density S and the particle density n.
+  (Both scripts READ the coefficients 15/16 and -1/16 and the interaction energy
+  e_int = (15/32) lambda S^2 - (1/32) lambda n^2 from `ks-theory.json`.)
 - Theorem T3 says: take ANY self-consistent Kohn-Sham state of a universe with mass m, coupling lambda and
   tip angle theta. Replace every orbital chi of block j by sigma2 chi in block -j (in the 16-component
   language this is the chirality matrix Gamma), exchange the two brane parities and change the tip angle to
@@ -38,8 +48,12 @@ two JSON files: the theorem record `Revision/pairing/kohn_sham/t3-theory.json` a
   coupling +lambda and tip angle pi - theta. All energy levels, occupations, the chemical potential, the
   particle number, the entropy, the Kohn-Sham energy, the grand potential, the free energy and the
   energy-momentum profiles are EQUAL; the densities S(y) and Q(y) change sign.
+- The completion adds: (S6) with the expectation-value rule of the canonical quantisation (the Krein metric
+  B), every component of the 16-component energy-momentum tensor and of the current is equal for the pair;
+  and the filling convention (which levels count as particles) of the +M member is carried onto the -M
+  member in its own boundary conditions.
 
-### 1.3 How the script proves it
+### 1.3 How `verify_t3.wls` proves T3
 
 The script does not solve any equation numerically. Each check builds an expression from arbitrary symbolic
 functions (for example M(y), kappa(y), v(y), c1(y), c2(y)) and symbolic numbers, asks Wolfram to simplify it,
@@ -54,88 +68,128 @@ to detect a false statement. The other five checks (2, 4, 5, 9 and 10) have no c
 | 3 | `T3_tip_condition_map` | the tip condition with angle theta becomes the tip condition with angle pi - theta (theta = 0 goes to theta = pi) | the image of (1, 0) violates the untransformed condition theta = 0 |
 | 4 | `T3_brane_parities_exchanged` | the two brane parities (chi2(0) = 0 and chi1(0) = 0) are exchanged; the boundary current and the norm are unchanged | none |
 | 5 | `T3_orbital_densities` | per orbital: n and t are unchanged, s and q change sign, c is unchanged (for arbitrary complex chi, both j) | none |
-| 6 | `T3_mean_field_map` | M_eff(-m, +lambda, -S) = -M_eff(m, lambda, S); the interaction energy e_int is unchanged when S -> -S. Note on v_v: v_v = -lambda n/16 depends only on lambda and n, so it is unchanged because n is unchanged, which check 5 establishes; the script's v_v term (`vvf[lam, n] === vvf[lam, n]`, line 79 of the script) compares an expression with itself, so it is a consistency restatement, not an independent test | the same with (-m, -lambda) is NOT a symmetry |
-| 7 | `T3_energies_and_emt_profiles_equal` | for two general occupied orbitals of opposite block type: energy density, pressures p3, p_t, p8, the Kohn-Sham energy integrand, entropy terms and the exact-Fock diagnostic are equal; S and Q change sign | with (-m, -lambda) the energy integrand differs |
+| 6 | `T3_mean_field_map` | the coefficients c_M, c_v of M_eff = m + c_M lambda S and v_v = c_v lambda n are READ from `ks-theory.json` (`exchange.kohnShamPotentials`), and c_S, c_n of e_int = c_S lambda S^2 + c_n lambda n^2 are parsed from its stated formula. Consistency: they are the values 15/16, -1/16, 15/32, -1/32 of hypothesis H2; the coefficient fields agree with the stated formulas `Meff` and `vv`; M_eff - m = d e_int/dS and v_v = d e_int/dn. Map: M_eff(-m, +lambda, -S) = -M_eff(m, lambda, S); with v_v written as a function v_v(m, lambda, n, S) of the four arguments of the self-consistency loop, its value at the image arguments (-m, +lambda, n, -S) equals its value at (m, lambda, n, S); e_int is unchanged when S -> -S | with (-m, -lambda): M_eff is not mapped to -M_eff (difference 2 c_M lambda S) and v_v(-m, -lambda, n, -S) differs from v_v(m, lambda, n, S) (difference -2 c_v lambda n) |
+| 7 | `T3_energies_and_emt_profiles_equal` | for two general occupied orbitals of opposite block type: energy density, pressures p3, p_t, p8, the Kohn-Sham energy integrand, entropy terms and the exact-Fock diagnostic are equal; S and Q change sign (the same function v_v(m, lambda, n, S) of check 6 enters p8) | with (-m, -lambda) the energy integrand differs |
 | 8 | `T3_exact_k0_spectra` | for k = 0, v = 0 and constant M the exact characteristic functions of the original and the image problem agree, so the spectra are equal level by level; the zero mode maps to the zero mode | the untransformed tip gives a different spectrum |
 | 9 | `T3_Gamma_is_the_block_map` | with the block basis V read from `ks-theory.json` and the matrices read from `gammas.json`: V is unitary, Gamma = diag(-1 (8 times), +1 (8 times)), Gamma maps block (j, s2, s3) to block (-j, s2, s3) times s2 sigma2, and in every block gamma^(x8) = sigma3 and gamma^(x8) gamma^(x4) = j sigma1 | none |
 | 10 | `T3_z2_mirror_copy_carries_minus_m_plus_lambda` | inside the ASSUMED Z2 mirror (orbifold) construction, the mirror copy of a self-consistent state carries (-m, +lambda) | none |
+
+### 1.4 What `verify_t3_completion.wls` computes
+
+| # | check name | what is proved (in words) |
+| --- | --- | --- |
+| 1 | `T3C_mean_field_coefficients_from_ks_theory` | the coefficients 15/16 (M_eff) and -1/16 (v_v) read from `ks-theory.json`, its formulas `Meff`, `vv` and `e_int` as stated text; M_eff - m = d e_int/dS, v_v = d e_int/dn; M_eff(-m, +lambda, -S) = -M_eff(m, lambda, S), e_int even in S, v_v free of S; control: with (-m, -lambda) M_eff is not mapped to -M_eff |
+| 2 | `T3C_filling_convention_mapped` | the map commutes with the continuation in lambda of the filling convention (hypothesis H5) for any S(y), both j; the k = 0 brane zero mode (E^(M y), 0) goes to the zero mode (0, I E^(M y)) of the image problem in its own boundary conditions (odd parity, tip theta = pi); control: it violates the untransformed tip theta = 0 |
+| 3 | `T3C_krein_rule_16_component` | with gamma^(x1..x8), B, C and Gamma read from `gammas.json` and the expectation rule rho = sum f u u^dagger B (`ks-theory.json` `exchange.expectationRule`): Gamma^2 = 1, Gamma B Gamma = -B, Gamma C Gamma = C, Gamma gamma^a Gamma = -gamma^a, Gamma S^ab Gamma = S^ab; rho' = -Gamma rho Gamma; n even, S and Q odd, all 8 + 512 kinetic bilinears even: every component of the energy-momentum tensor and of the current is equal for the pair (S6) |
+
+The completion record `t3-completion.json` (and the detail text of its check 1) describes `verify_t3.wls` as
+it was when the completion was written (2026-10-08, before the fix of section 1.5): "writes the coefficients
+into the script" and "its v_v clause compares an expression with itself". That is the historical state that
+the completion closed (gap 1); since the fix of section 1.5, `verify_t3.wls` reads the coefficients itself.
+Unlike `verify_t3.wls`, the completion script has no `ERROR` exit: a missing input gives Wolfram messages and
+`FAIL` lines (section 3.7).
+
+### 1.5 The fix of 2026-10-08 in `verify_t3.wls`
+
+The T3 completion found two defects in check 6 of `verify_t3.wls` (version sha256
+`ea6c436f667c465727967c8b9664e2425227be0d71a55ca36a36e13a3da497d8`, 207 lines): it typed the Kohn-Sham
+coefficients into the script (`meff`, `vvf`, `eint` at its line 77) instead of reading them from
+`ks-theory.json`, and its clause `vvf[lam, n] === vvf[lam, n]` (line 79) compared an expression with itself,
+so it was always true. Both were fixed (section 6.5): the coefficients are read from
+`ks-theory.json` `exchange.kohnShamPotentials` exactly as `verify_t3_completion.wls` reads them (with the
+consistency checks of the table in section 1.3), and the v_v clause is now the statement of the table. The
+ten check names, the theorem record `t3-theory.json` (byte for byte) and the counts (10 of 10) are
+unchanged; only the detail text of check 6 in `wolfram-t3.json` changed. Negative tests (section 6.5) show
+that check 6 now FAILS when a coefficient in `ks-theory.json` is broken, while the old script passed 10/10
+with the same broken input. The script also stops with an `ERROR` line (section 4.2) when an input is missing
+or unreadable, instead of running on with Wolfram messages.
 
 What T3 does NOT establish (the theorem record says this explicitly): no creation process, rate or amplitude
 (it maps solutions to solutions; it does not make a pair of universes); only instantaneous (adiabatic)
 mean-field states (the time-dependent problem is open); the Z2 brane is an ASSUMPTION and the tip angle must
 be transformed; no correlation beyond Hartree plus exchange; no statement about two independently quantised
 universes; no back-reaction on the geometry. The pairing proved here is (m, lambda) -> (-m, +lambda) at
-equal energies, not (m, lambda) -> (-m, -lambda).
+equal energies, not (m, lambda) -> (-m, -lambda). The completion adds no creation process either; its
+numerical demonstrations (computed elsewhere) use a PRESCRIBED BACKGROUND history a4 = A H x4 without
+back-reaction.
 
-### 1.4 Which documents cite its results
+### 1.6 Which files cite the set
 
-- `Revision/docs/PAIR_CREATION_PROOFS.md` and `Revision/docs/PAIR_CREATION_PROOFS.tex`: section 8 (theorem T3:
-  hypotheses, statement, proof with the table of the 10 Wolfram check names), section 9.1 (the table row of
-  `wolfram-t3.json`: 10 checks, 10 PASS, 0 FAIL) and the run commands.
-- `Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md` and `Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.tex`: the
-  record table ("Wolfram: 10 of 10 checks pass") and the run commands.
-- `Revision/README.md`: the overview table ("T3 Wolfram 10/10").
-- `Revision/pairing/kohn_sham/README.md`: the description of the two T3 verifiers.
-- `Revision/pairing/pairing-theory.json` and `Revision/pairing/wolfram/verify_pairing.wls`: a pointer saying
-  that T3 is proved here, not there.
-- `Revision/pairing/kohn_sham/python/check_t3.py` (the independent sympy checker): it reads
-  `t3-theory.json` as data and compares its theorem and its "not established" list with its own derivation
-  (checks `compare.t3_theory.theorem` and `compare.t3_theory.not_established`); its report is
-  `Revision/pairing/kohn_sham/reports/python-t3.json`.
-- `Revision/tests/test_pair_creation_proofs_publication.py` (test `test_t3_record_and_its_checks`): it reads
-  `t3-theory.json` (the status `all checks of the report passed`, the statement, the ASSUMED hypothesis, and
-  that its list of check names equals the check names of `wolfram-t3.json`), and it reads `wolfram-t3.json`
-  and `python-t3.json` (all checks pass and every check name is cited in `PAIR_CREATION_PROOFS.md`).
-- `Revision/tests/test_dirac16complex_field_theory_publication.py`: it reads `wolfram-t3.json` (and
-  `python-t3.json`), NOT `t3-theory.json`, and checks that `DIRAC16COMPLEX_FIELD_THEORY.md` quotes the counts
-  as `Wolfram: 10 of 10 checks pass`.
-- `provenance/dirac matrices.md`: lists `verify_t3.wls` among the files that read the author's gamma matrices
-  from `Revision/algebra/gammas.json`; `Revision/algebra/wolfram/WOLFRAMSCRIPT_PROVENANCE.md` and
-  `Revision/kohn_sham/theory/WOLFRAMSCRIPT_PROVENANCE.md` name it as a consumer of their outputs.
-- The textbook (`Revision/textbook/`, still being written by another workflow and not yet verified at the time
-  of sections 6.3 and 6.4): `chapters/00-how-to-use-this-book.md` cites `wolfram-t3.json` (10 of 10) for
-  theorem T3; the notebook source `notebooks/src/00c_honesty_ledger.py` counts the checks of `wolfram-t3.json`
-  (10); its built notebook `notebooks/00c_honesty_ledger.ipynb` reads the same report and shows the count in
-  its saved output (a table line naming `pairing/kohn_sham/reports/wolfram-t3.json`, `Wolfram` and
-  `10 of  10`); its provenance file `notebooks/00c_honesty_ledger.PROVENANCE.md` lists `wolfram-t3.json` as a
-  verifier report whose checks the notebook counts; and `notebooks/src/19a_t3_rust_pairs.py` lists
-  `t3-theory.json` and `wolfram-t3.json` as records it reads.
-- Left out on purpose: the workflow scripts `Revision/workflows/revision_wave_2.js` and
-  `Revision/workflows/wave1_review_and_fix.json` also mention the set, but they are automation scripts that
-  produced or reviewed it, not documents that cite its results.
+`git grep -l -E 'verify_t3|t3-theory|wolfram-t3|t3-completion'` at commit `fe2d80c` lists, besides the set's
+own files: the documents `Revision/docs/PAIR_CREATION_PROOFS.md` and `.tex` (theorem T3, its check tables and
+counts, the completion), `Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md` and `.tex` (record table "Wolfram: 10
+of 10 checks pass"), `Revision/docs/KOHN_SHAM_DEFLATING_FIELD.md` and `.tex`; `Revision/README.md` does not
+match the pattern but quotes `T3 Wolfram 10/10`; `Revision/pairing/kohn_sham/README.md`;
+`Revision/pairing/pairing-theory.json` and `Revision/pairing/wolfram/verify_pairing.wls` (a pointer saying
+that T3 is proved here); the sympy checkers `Revision/pairing/kohn_sham/python/check_t3.py` (reads
+`t3-theory.json`) and `check_t3_completion.py` (reads `wolfram-t3.json`, `t3-theory.json`, `t3-completion.json`
+and `wolfram-t3-completion.json`) with their reports `python-t3.json` and `python-t3-completion.json`; the
+numerical demonstrations `Revision/pairing/kohn_sham/numerics/t3_rust_demo.py`, `t3_reference_demo.py` and
+the report `t3-rust-demo.json`; the publication tests `Revision/tests/test_pair_creation_proofs_publication.py`
+(reads `t3-theory.json`, `wolfram-t3.json` and `python-t3.json`), `test_dirac16complex_field_theory_publication.py`
+(reads `wolfram-t3.json` and `python-t3.json`) and `test_kohn_sham_deflating_field_publication.py`; the
+provenance files `Revision/algebra/wolfram/WOLFRAMSCRIPT_PROVENANCE.md` and
+`Revision/kohn_sham/theory/WOLFRAMSCRIPT_PROVENANCE.md` (name the set as a consumer of their outputs); the index `provenance/EXECUTION_PROVENANCE_INDEX.md` (row 5) and its test
+`tests/test_execution_provenance.py`; the textbook (`Revision/textbook/`: chapters 00, 13, 19, 20 and 22,
+`UNIVERSES_IN_PAIRS_TEXTBOOK.md` and `.tex`, and the notebooks 00c, 13b, 19a and 19b with their sources and
+provenance files); `HANDOFF.md`. Left out on purpose: the workflow scripts and records under
+`Revision/workflows/`, which produced or reviewed the set and do not cite its results. None of these files
+quotes the sha256 or the detail text of `wolfram-t3.json` (`git grep` for its old sha256 `904fd1dc` finds only
+workflow records and this file, and for the phrase `v_v unchanged, e_int unchanged` of its old detail text
+nothing).
 
 ## 2. Files
 
-### 2.1 The script
+### 2.1 The scripts
 
 | file | sha256 | lines | bytes |
 | --- | --- | --- | --- |
-| `Revision/pairing/kohn_sham/wolfram/verify_t3.wls` | `ea6c436f667c465727967c8b9664e2425227be0d71a55ca36a36e13a3da497d8` | 207 | 23070 |
+| `Revision/pairing/kohn_sham/wolfram/verify_t3.wls` | `0cde8c8f36914fbdcc991e11ae44bf26a17f7177d9c9757e58a37cd29ab787c8` | 250 | 27280 |
+| `Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls` | `35605f5c29bb7e44a7ec10dd6f4e34f3aa5bec37c12d3bc9cd2fc1537fb2d227` | 140 | 17486 |
 
-There is no package file: the script loads no Wolfram package (`Get`/`Needs` are not used) and takes no
-command-line arguments. It finds its input and output files relative to its own location (`$InputFileName`),
-so it does not depend on the folder you run it from.
+There is no package file: neither script loads a Wolfram package (`Get`/`Needs` are not used) and neither
+takes command-line arguments. Each finds its input and output files relative to its own location
+(`$InputFileName`), so it does not depend on the folder you run it from - but `wolframscript` must find the
+script itself, so the commands of section 3.5 are typed in the repository root.
 
 ### 2.2 Inputs (read only, never modified)
 
 | file | sha256 | lines | bytes | what is read | produced by |
 | --- | --- | --- | --- | --- | --- |
-| `Revision/kohn_sham/ks-theory.json` | `1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3` | 477 | 17278 | `blockBasis.unnormalisedColumns2Sqrt2V` (the 16 x 16 block basis V times 2 sqrt 2) and `blockBasis.labels` (the (j, s2, s3) label of each block) | `Revision/kohn_sham/theory/verify_ks_theory.wls` |
-| `Revision/algebra/gammas.json` | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` | 1405 | 76968 | `gamma` (the eight 16 x 16 matrices gamma^(x1) ... gamma^(x8)) and `Gamma` (the chirality) | `Revision/algebra/wolfram/verify_algebra.wls` |
+| `Revision/kohn_sham/ks-theory.json` | `1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3` | 477 | 17278 | both scripts: `exchange.kohnShamPotentials` (`Meff_coefficient_of_lambda_S` = `15/16`, `vv_coefficient_of_lambda_n` = `-1/16`, the formulas `Meff`, `vv`, `e_int`); `verify_t3.wls` also `blockBasis.unnormalisedColumns2Sqrt2V` and `blockBasis.labels`; the completion also `exchange.expectationRule` | `Revision/kohn_sham/theory/verify_ks_theory.wls` |
+| `Revision/algebra/gammas.json` | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` | 1405 | 76968 | `gamma` (gamma^(x1) ... gamma^(x8)) and `Gamma` (the chirality); the completion also `B` and `C` | `Revision/algebra/wolfram/verify_algebra.wls` |
 
-Only check 9 (`T3_Gamma_is_the_block_map`) uses these inputs; checks 1 to 8 and 10 use only formulas written
-in the script.
+In `verify_t3.wls` checks 6, 7 and 10 use the Kohn-Sham coefficients read from `ks-theory.json` and check 9
+uses the block basis and the matrices; checks 1 to 5 and 8 use only formulas written in the script. Note: the
+file `ks-theory.json` writes every `/` as `\/` (for example `"15\/16"`); a JSON reader turns this back into
+`15/16`.
 
 ### 2.3 Outputs (written on every run, LF line endings, deterministic)
 
-| file | sha256 of the committed (and regenerated) file | lines | bytes | content |
-| --- | --- | --- | --- | --- |
-| `Revision/pairing/kohn_sham/t3-theory.json` | `f1ae1e8ab2248bde43526fc2e1624f0a74aacbe4a0b7f3f3a8954a3048dbcdd7` | 55 | 7053 | the theorem record: document, producer, report, inputs, status, coordinates, hypotheses H1-H6, statement S1-S5, proof, relation to T1/T2, the 10 check names, the numerical confirmation, what is not established |
-| `Revision/pairing/kohn_sham/reports/wolfram-t3.json` | `904fd1dcb77a6772f7ef21dcabe10d194d8086f509e17df54830bd7f7fb999ab` | 19 | 6448 | the report: `"summary": {"passed": 10, "failed": 0, "total": 10}` and, for each of the 10 checks, its name, verdict (`PASS` or `FAIL`) and a detailed explanation |
+| file | written by | sha256 | lines | bytes | content |
+| --- | --- | --- | --- | --- | --- |
+| `Revision/pairing/kohn_sham/t3-theory.json` | `verify_t3.wls` | `f1ae1e8ab2248bde43526fc2e1624f0a74aacbe4a0b7f3f3a8954a3048dbcdd7` | 55 | 7053 | the theorem record: hypotheses H1-H6, statement S1-S5, proof, the 10 check names, what is not established; line 9 `  "status": "all checks of the report passed",` |
+| `Revision/pairing/kohn_sham/reports/wolfram-t3.json` | `verify_t3.wls` | `b0903ca4ffd2520b5dfaa68e5cd9e67b2a6e393722f49139077f275287a8f7c6` | 19 | 7193 | the report; line 6 `  "summary": {"passed": 10, "failed": 0, "total": 10},`; name, verdict and detail of each check |
+| `Revision/pairing/kohn_sham/t3-completion.json` | `verify_t3_completion.wls` | `2999ced97a67713cb4be6ebb05531d45fabb9bdc2712c39ebd6fe32227156373` | 38 | 7222 | the completion record: S6, the filling convention for the pair, the PRESCRIBED BACKGROUND, the adversarial verification, the 3 check names, what is not established; line 6 `  "status": "all checks of the report passed",` |
+| `Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json` | `verify_t3_completion.wls` | `91bd5b86273d617d5a2722947ec033426b4a4c0cd7603a18544013fc81b07b7f` | 12 | 3309 | the report; line 6 `  "summary": {"passed": 3, "failed": 0, "total": 3},` |
 
-Both files contain only fixed text and the integer check counts (no dates, times, machine names or
+The four files contain only fixed text and integer check counts (no dates, times, machine names or
 floating-point numbers), so a passing run reproduces them byte for byte. If a check fails, the counts, the
-verdict of that check and the `status` line of the theorem record change.
+verdict of that check and the `status` line of the record change. `wolfram-t3.json` had the sha256
+`904fd1dcb77a6772f7ef21dcabe10d194d8086f509e17df54830bd7f7fb999ab` (6448 bytes) before the fix of section 1.5.
+
+### 2.4 Downstream files (not part of the set; section 3.8)
+
+| file | sha256 | lines | bytes |
+| --- | --- | --- | --- |
+| `Revision/pairing/kohn_sham/python/check_t3.py` | `7458fcb9b3b563e79554333a1acb5d3c9b80f4c6b66b3d7ecaa93d7c52723bca` | 324 | 20491 |
+| `Revision/pairing/kohn_sham/python/check_t3_completion.py` | `3318070471cf03f178e07958bb5d0192d89b93981220956545f11677da7d163e` | 223 | 14131 |
+| `Revision/pairing/kohn_sham/reports/python-t3.json` (written by `check_t3.py`) | `4924b8ebd2d294c53eab12977012880446759d6ff53526620b3764dd9d875481` | 85 | 7634 |
+| `Revision/pairing/kohn_sham/reports/python-t3-completion.json` (written by `check_t3_completion.py`) | `c80011b6ea374832572e8a39a918064f00a4c27a5f8c19cedea1b187c73487c3` | 49 | 4839 |
+
+`check_t3.py` also reads `Revision/kohn_sham/reports/ks-rust-solver.json`; `check_t3_completion.py` also reads
+`Revision/pairing/kohn_sham/reports/t3-rust-demo.json` and `t3-reference-demo.json` (committed results of the
+numerical demonstrations, produced by `Revision/pairing/kohn_sham/numerics/`, not by this set).
 
 ## 3. How to run it (complete instructions)
 
@@ -145,15 +199,15 @@ verdict of that check and the `status` line of the theorem record change.
   Wolfram program (the Wolfram 15.0.1 installation folder of the verification machine holds 54355 files with
   together about 9.3 GB = 8.7 GiB), plus room for the downloaded installer file itself (the download page
   shows its size; you can delete it after the installation), and an internet connection for the installation
-  (the run itself needs no network).
+  (the runs themselves need no network).
 - Wolfram: either the free Wolfram Engine for Developers or a Mathematica / Wolfram desktop licence. Both
-  contain the command-line program `wolframscript`, which is what runs the script.
+  contain the command-line program `wolframscript`, which is what runs the scripts.
 - Git, to download the repository.
 
-The script uses only long-established Wolfram Language functions (associations, `Import` with the JSON
-format `"RawJSON"`, `Simplify`, `ComplexExpand`, binary file writing). It was verified with Wolfram 15.0.1
-and WolframScript 1.14.0 only (section 6); with another version the 10 checks are expected to pass and to
-give the same two files, but that was not tested.
+The scripts use only long-established Wolfram Language functions (associations, `Import` with the JSON
+format `"RawJSON"`, `ToExpression`, `StringCases`, `Simplify`, `ComplexExpand`, binary file writing). They
+were verified with Wolfram 15.0.1 and WolframScript 1.14.0 only (section 6); with another version the checks
+are expected to pass and to give the same four files, but that was not tested.
 
 ### 3.2 Install Wolfram
 
@@ -163,8 +217,8 @@ Option A, the free Wolfram Engine for Developers:
    may be asked to sign in with a Wolfram ID; if you have none, create one there (free; you type your own
    e-mail address and password - nobody else should do this for you).
 2. Get the free licence: on the same page click "Get your license", sign in with your Wolfram ID and accept
-   the terms of use (free); the page says that the free licence is obtained this way. The activation in
-   section 3.3 needs this licence, so do this step before section 3.3.
+   the terms of use yourself (free); the page says that the free licence is obtained this way. The activation
+   in section 3.3 needs this licence, so do this step before section 3.3.
 3. Install the downloaded program:
    - Windows: run the downloaded `.exe` installer and accept the defaults. It installs WolframScript and
      puts it on the PATH (the default folder is `C:\Program Files\Wolfram Research\WolframScript\`).
@@ -196,7 +250,7 @@ wolframscript -code 1+1
 The first prints a line such as `WolframScript 1.14.0 for Microsoft Windows (64-bit)` (your version and
 system may differ). The second must print `2`. With the free Wolfram Engine the first `wolframscript -code`
 asks you to activate: type your Wolfram ID (e-mail) and password yourself when asked. If it does not ask but
-prints a licensing error, run `wolframscript -activate` and then repeat `wolframscript -code 1+1`.
+prints a licensing error, run `wolframscript -activate` yourself and then repeat `wolframscript -code 1+1`.
 
 ### 3.4 Install Git and download the repository
 
@@ -219,12 +273,14 @@ The second command moves you into the repository root, the folder that contains 
 commands below are typed in this folder. (The repository stores every file byte for byte; no line-ending
 conversion happens, even on Windows.)
 
-### 3.5 Run the script
+### 3.5 Run the two scripts
 
 Windows PowerShell (from the repository root):
 
 ```text
 wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3.wls
+$LASTEXITCODE
+wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls
 $LASTEXITCODE
 ```
 
@@ -233,43 +289,46 @@ macOS or Linux Terminal (from the repository root):
 ```text
 wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3.wls
 echo $?
+wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls
+echo $?
 ```
 
-If you use the older Windows "Command Prompt" (cmd.exe) instead of PowerShell, the first line is the same
-and the second line is `echo %ERRORLEVEL%`.
+If you use the older Windows "Command Prompt" (cmd.exe) instead of PowerShell, the `wolframscript` lines are
+the same and the other two lines are `echo %ERRORLEVEL%`.
 
-The first line runs the script (it takes about 2 to 8 seconds, typically 3 to 5, more on a busy machine;
-usually most of it is starting Wolfram). On a heavily loaded machine (10 to 26 Wolfram processes of other
-jobs running, 2026-10-07) a run took up to about 14 seconds; only the time changes, the printed result and
-the two output files stay the same (sections 4.1 and 4.4). The second line
-prints the exit code of the run: `0` means every check passed, `1` means at least one check failed. The run
-needs no input from you and opens no window.
+Each `wolframscript` line runs one script; each takes about 3 to 5 seconds on a quiet machine (most of it is
+starting Wolfram) and up to about 14 seconds on a heavily loaded one (section 4.4); only the time changes,
+the printed result and the output files stay the same. The line after it prints the exit code of the run:
+`0` means every check passed, `1` means at least one check failed or the run stopped with an `ERROR` line
+(section 4.2). The runs need no input from you and open no window.
 
 ### 3.6 Check the result
 
-1. Read the check counts in the report.
+1. Read the check counts in the two reports.
    - Windows PowerShell:
 
      ```text
      (Get-Content Revision/pairing/kohn_sham/reports/wolfram-t3.json -Raw | ConvertFrom-Json).summary
+     (Get-Content Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json -Raw | ConvertFrom-Json).summary
      ```
 
-     prints a small table with `passed failed total` and below it `10 0 10`.
+     print a small table with the columns `passed failed total` and the values `10 0 10` and `3 0 3`.
    - macOS or Linux:
 
      ```text
-     grep '"summary"' Revision/pairing/kohn_sham/reports/wolfram-t3.json
+     grep '"summary"' Revision/pairing/kohn_sham/reports/wolfram-t3.json Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json
      ```
 
-     prints `  "summary": {"passed": 10, "failed": 0, "total": 10},`.
+     prints `Revision/pairing/kohn_sham/reports/wolfram-t3.json:  "summary": {"passed": 10, "failed": 0, "total": 10},`
+     and `Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json:  "summary": {"passed": 3, "failed": 0, "total": 3},`.
    - Windows Command Prompt (cmd.exe; the PowerShell, `grep`, `sha256sum` and `shasum` commands of this
      section do not exist there):
 
      ```text
-     findstr /c:"summary" Revision\pairing\kohn_sham\reports\wolfram-t3.json
+     findstr /c:"summary" Revision\pairing\kohn_sham\reports\wolfram-t3.json Revision\pairing\kohn_sham\reports\wolfram-t3-completion.json
      ```
 
-     prints `  "summary": {"passed": 10, "failed": 0, "total": 10},`.
+     prints the same two lines with backslashes in the file names.
 2. Confirm that the regenerated files are byte-identical to the committed ones (the same two commands in
    PowerShell, Command Prompt, macOS and Linux):
 
@@ -278,26 +337,30 @@ needs no input from you and opens no window.
    git diff --exit-code --stat
    ```
 
-   Both commands print nothing when the two output files are unchanged (the files are rewritten, but with the
-   same bytes, so Git sees no change). The only exception: in a copy of the repository into which a newer,
-   not yet committed version of this provenance file was copied by hand, `git status --porcelain` prints a
-   single line naming it (`?? Revision/pairing/kohn_sham/wolfram/WOLFRAMSCRIPT_PROVENANCE.md` if the file is
-   new, ` M Revision/pairing/kohn_sham/wolfram/WOLFRAMSCRIPT_PROVENANCE.md` if it replaces a committed
-   version), and in the second case `git diff --exit-code --stat` also prints a line naming that file (its
-   path may be shortened, for example `.../kohn_sham/wolfram/WOLFRAMSCRIPT_PROVENANCE.md | 57 +++++-----`)
-   and then `1 file changed, ...` (and its exit code is `1`). This is fine as long as
-   neither command names `t3-theory.json` or `wolfram-t3.json`.
+   Both commands print nothing when the four output files are unchanged (the files are rewritten, but with the
+   same bytes, so Git sees no change). The only exception: in a copy of the repository into which newer, not
+   yet committed versions of files of this set (this provenance file, a script) were copied by hand,
+   `git status --porcelain` prints one line for each such file (`?? <file>` if it is new, ` M <file>` if it
+   replaces a committed version), `git diff --exit-code --stat` also names those files (paths may be
+   shortened, for example `.../kohn_sham/wolfram/WOLFRAMSCRIPT_PROVENANCE.md | 57 +++++-----`) and then
+   `<n> files changed, ...` (exit code `1`), and an output that a newer script writes differently appears as
+   well. Compare such an output with the sha256 of section 2.3 (step 3) instead.
 3. Optionally compare the sha256 checksums with section 2.3: Windows PowerShell
-   `Get-FileHash -Algorithm SHA256 Revision/pairing/kohn_sham/t3-theory.json, Revision/pairing/kohn_sham/reports/wolfram-t3.json`
-   (it prints the hash in capital letters); Linux
-   `sha256sum Revision/pairing/kohn_sham/t3-theory.json Revision/pairing/kohn_sham/reports/wolfram-t3.json`;
-   macOS
-   `shasum -a 256 Revision/pairing/kohn_sham/t3-theory.json Revision/pairing/kohn_sham/reports/wolfram-t3.json`;
-   Windows Command Prompt (cmd.exe), one file per command:
+
+   ```text
+   Get-FileHash -Algorithm SHA256 Revision/pairing/kohn_sham/t3-theory.json, Revision/pairing/kohn_sham/reports/wolfram-t3.json, Revision/pairing/kohn_sham/t3-completion.json, Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json
+   ```
+
+   (it prints the hashes in capital letters); Linux
+   `sha256sum Revision/pairing/kohn_sham/t3-theory.json Revision/pairing/kohn_sham/reports/wolfram-t3.json Revision/pairing/kohn_sham/t3-completion.json Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json`;
+   macOS the same with `shasum -a 256` instead of `sha256sum`; Windows Command Prompt (cmd.exe), one file per
+   command:
 
    ```text
    certutil -hashfile Revision\pairing\kohn_sham\t3-theory.json SHA256
    certutil -hashfile Revision\pairing\kohn_sham\reports\wolfram-t3.json SHA256
+   certutil -hashfile Revision\pairing\kohn_sham\t3-completion.json SHA256
+   certutil -hashfile Revision\pairing\kohn_sham\reports\wolfram-t3-completion.json SHA256
    ```
 
    Each prints `SHA256 hash of <file>:`, then the hash in small letters (for example
@@ -310,21 +373,25 @@ needs no input from you and opens no window.
 | --- | --- | --- |
 | `wolframscript : The term 'wolframscript' is not recognized as the name of a cmdlet, ...` (Windows PowerShell 5.1, the one that opens by default) or `wolframscript: The term 'wolframscript' is not recognized as a name of a cmdlet, ...` (PowerShell 7); `'wolframscript' is not recognized as an internal or external command, operable program or batch file.` (Command Prompt); `zsh: command not found: wolframscript` (macOS Terminal, whose shell is zsh); `bash: wolframscript: command not found` (Linux with bash; some distributions print a longer "command not found" hint instead) | WolframScript is not installed or not on the PATH | install it (section 3.2, step 4), then close the terminal and open a new one |
 | the same messages for `git` instead of `wolframscript` (for example `git : The term 'git' is not recognized ...`, `zsh: command not found: git`) | Git is not installed, or (Windows) the terminal window was already open when Git was installed | install Git (section 3.4, step 1), close the terminal, open a new one and check with `git --version` |
-| a request to activate, or a message about a missing or invalid licence | WolframScript is not activated | run `wolframscript -activate`, sign in with your own Wolfram ID, then repeat section 3.3 |
-| a message that no licence or no kernel is available | another Wolfram program uses the kernel(s) your licence allows | close other Wolfram programs and notebooks and run again (this script starts one kernel) |
-| `Failed to open file at path: Revision/pairing/kohn_sham/wolfram/verify_t3.wls` | you are not in the repository root | `cd` into the folder `Dirac_claude` (the one that contains `Revision`) and run again. Note: in this case `wolframscript` still returns exit code `0` although nothing was run, so always look for the line `10/10 checks passed` |
-| `Import::nffil: File ...ks-theory.json not found during Import.` (or `...gammas.json...`), followed by many `Part::...` messages, `FAIL  T3_Gamma_is_the_block_map`, `9/10 checks passed`, exit code `1` | an input file is missing or was moved | restore it with `git checkout -- Revision/kohn_sham/ks-theory.json Revision/algebra/gammas.json`, restore the outputs (section 5.4) and run again |
-| any other `FAIL  ...` line, fewer than `10/10`, exit code `1` | an input or the script differs from the committed version, or a different Wolfram version simplifies an expression differently | run `git status` to see which files changed; restore changed files with `git checkout -- <file>`; if the failure remains with the committed files, do not edit anything: record the Wolfram version and report the failing check name. To print the version: PowerShell, macOS and Linux: `wolframscript -code '$Version'` (with the single quotes); Command Prompt: `wolframscript -code $Version` (no quotes; with single quotes Command Prompt prints `ToExpression::sntx: Invalid syntax ...` and `$Failed`). It prints a line such as `15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)` |
-| `git status --porcelain` lists `t3-theory.json` or `wolfram-t3.json` after a run that printed `10/10` | the script file was changed (for example opened and saved in the Wolfram desktop application) | compare its sha256 with section 2.1; restore it with `git checkout -- Revision/pairing/kohn_sham/wolfram/verify_t3.wls` and run again |
+| a request to activate, or a message about a missing or invalid licence | WolframScript is not activated | run `wolframscript -activate` yourself, sign in with your own Wolfram ID, then repeat section 3.3 |
+| a message that no licence or no kernel is available | another Wolfram program uses the kernel(s) your licence allows | close other Wolfram programs and notebooks and run again (each script starts one kernel) |
+| `Failed to open file at path: Revision/pairing/kohn_sham/wolfram/verify_t3.wls` (or `.../verify_t3_completion.wls`) | you are not in the repository root | `cd` into the folder `Dirac_claude` (the one that contains `Revision`) and run again. Note: in this case `wolframscript` still returns exit code `0` although nothing was run, so always look for the line `10/10 checks passed` (or `3/3 checks passed`) |
+| `verify_t3.wls` prints only `ERROR  input file not found: <path>` or `ERROR  input file is not a JSON object: <path>`, exit code `1` | `Revision/kohn_sham/ks-theory.json` or `Revision/algebra/gammas.json` is missing, moved or damaged; nothing was written | restore it with `git checkout -- Revision/kohn_sham/ks-theory.json Revision/algebra/gammas.json` and run again |
+| `verify_t3.wls` prints only `ERROR  cannot read the Kohn-Sham potentials (exchange.kohnShamPotentials: ...) as exact numbers from <path>`, exit code `1` | the coefficients or the formula `e_int` in `ks-theory.json` were changed into something that is not an exact number or not of the form `(p/q) lambda S^2 - (p/q) lambda n^2`; nothing was written | restore `ks-theory.json` as in the previous row |
+| `verify_t3.wls` prints the check lines and then `ERROR  cannot write <path>`, exit code `1` | an output file cannot be written (read-only, locked by another program, or a folder of that name is in its place); `t3-theory.json` is written before the report, so it may already have been rewritten | make the file writable or remove what blocks it, restore the outputs (section 5.4) and run again |
+| `verify_t3_completion.wls` prints `Import::nffil: File ...ks-theory.json not found during Import.` (or `...gammas.json...`) and further messages (`ToExpression::notstrbox`, `Part::partw`, ...), `FAIL` lines, `1/3 checks passed` (`ks-theory.json` missing) or `2/3 checks passed` (`gammas.json` missing), exit code `1` | an input file is missing or was moved; the completion has no `ERROR` exit and writes its two outputs with the failing counts | restore the input as above, restore the outputs (section 5.4) and run again |
+| any other `FAIL  ...` line, fewer than `10/10` (or `3/3`), exit code `1` | an input or a script differs from the committed version, or a different Wolfram version simplifies an expression differently | run `git status` to see which files changed; restore changed files with `git checkout -- <file>`; if the failure remains with the committed files, do not edit anything: record the Wolfram version and report the failing check name. To print the version: PowerShell, macOS and Linux: `wolframscript -code '$Version'` (with the single quotes); Command Prompt: `wolframscript -code $Version` (no quotes; with single quotes Command Prompt prints `ToExpression::sntx: Invalid syntax ...` and `$Failed`). It prints a line such as `15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)` |
+| `git status --porcelain` lists an output after a run that printed `10/10` (or `3/3`) | a script file was changed (for example opened and saved in the Wolfram desktop application) | compare its sha256 with section 2.1; restore it with `git checkout -- <script>` and run again |
 
-Do not run the script from inside a Wolfram notebook: its last line is `Exit[...]`, which would close the
+Do not run the scripts from inside a Wolfram notebook: their last line is `Exit[...]`, which would close the
 notebook's kernel. Use the terminal as described above.
 
-### 3.8 Optional next step: the independent sympy checker
+### 3.8 Optional next step: the independent sympy checkers
 
-This is not part of this set, but it consumes its theorem record. It needs Python 3 and the Python package
-sympy. It was verified with Python 3.14.5 and sympy 1.14.0 (with mpmath 1.3.0) on Windows and with Python
-3.14.6 (Homebrew) and sympy 1.14.0 on Ubuntu 24.04 (under WSL on the verification machine).
+They are not part of this set, but they read its outputs. They need Python 3 and the Python package sympy.
+Run them AFTER the two Wolfram scripts, in this order (`check_t3_completion.py` reads `python-t3.json`, which
+`check_t3.py` writes). They were verified with Python 3.14.5 and sympy 1.14.0 (with mpmath 1.3.0) on Windows;
+`check_t3.py` also with Python 3.14.6 (Homebrew) and sympy 1.14.0 on Ubuntu 24.04 (under WSL, 2026-10-02).
 
 1. Get Python (skip this if `python --version` on Windows or `python3 --version` on macOS/Linux already
    prints `Python 3.` followed by a version number; a message that Python or the command was not found means
@@ -338,15 +405,16 @@ sympy. It was verified with Python 3.14.5 and sympy 1.14.0 (with mpmath 1.3.0) o
      `sudo apt install python3 python3-venv`). Without `python3-venv` the next step fails with
      `The virtual environment was not created successfully because ensurepip is not available.`
 2. Create a private Python environment (a folder `.venv` in the repository root), install sympy into it and
-   run the checker, from the repository root, AFTER the Wolfram script. Do not install sympy into the
-   system's Python with a plain `pip install`: on current Linux distributions and with Homebrew Python this
-   is refused with `error: externally-managed-environment`.
+   run the checkers, from the repository root. Do not install sympy into the system's Python with a plain
+   `pip install`: on current Linux distributions and with Homebrew Python this is refused with
+   `error: externally-managed-environment`.
    - Windows PowerShell or Command Prompt:
 
      ```text
      python -m venv .venv
      .venv\Scripts\python -m pip install sympy==1.14.0
      .venv\Scripts\python Revision/pairing/kohn_sham/python/check_t3.py
+     .venv\Scripts\python Revision/pairing/kohn_sham/python/check_t3_completion.py
      ```
 
    - macOS or Linux:
@@ -355,34 +423,37 @@ sympy. It was verified with Python 3.14.5 and sympy 1.14.0 (with mpmath 1.3.0) o
      python3 -m venv .venv
      .venv/bin/python -m pip install sympy==1.14.0
      .venv/bin/python Revision/pairing/kohn_sham/python/check_t3.py
+     .venv/bin/python Revision/pairing/kohn_sham/python/check_t3_completion.py
      ```
 
    These commands call the Python of the private environment directly, so you do not need to "activate"
    it. (If you prefer to activate it: macOS/Linux `. .venv/bin/activate`, Windows PowerShell
    `.venv\Scripts\Activate.ps1`; on a new Windows computer PowerShell may refuse the latter with a message
    that running scripts is disabled; then simply use the commands above. After activating, `python` alone
-   means the environment's Python.)
+   means the environment's Python.) If Python with sympy is already installed on your computer, you may run
+   the two checkers with it instead (`python` on Windows, `python3` on macOS/Linux).
 
-The `pip install` line downloads sympy (6.3 MB) and mpmath (536 kB) from the internet (it took 22 to 28 s
-on the verification machine) and prints `Successfully installed mpmath-1.3.0 sympy-1.14.0`; a note
-`[notice] A new release of pip is available ...` may also appear and can be ignored. The checker prints 13 lines such as
-`[   0.1s] PASS T3.block_hamiltonian_map`, and its last line is
+The `pip install` line downloads sympy (6.3 MB) and mpmath (536 kB) from the internet (22 to 28 s on the
+verification machine) and prints `Successfully installed mpmath-1.3.0 sympy-1.14.0`; a note
+`[notice] A new release of pip is available ...` may also appear and can be ignored.
+`check_t3.py` prints 13 lines such as `[   0.1s] PASS T3.block_hamiltonian_map` and as its last line
 `pass 13 fail 0; <time>s; wrote <full path of the repository>\Revision\pairing\kohn_sham\reports\python-t3.json`
-on Windows (with backslashes) or `... wrote <full path of the repository>/Revision/pairing/kohn_sham/reports/python-t3.json`
-on macOS/Linux (with forward slashes). It exits with `0` and rewrites
-`Revision/pairing/kohn_sham/reports/python-t3.json` byte-identically (sha256
-`4924b8ebd2d294c53eab12977012880446759d6ff53526620b3764dd9d875481`). A repeated run takes about 1.3 to 1.6
-seconds on a quiet machine (3.3 to 3.4 s were measured while about 14 other Wolfram processes of other jobs
-were running, section 6.3); the first run after installing can take longer (4.3 s measured with no
-precompiled Python files, 8.2 s for one cold first run). The folder `.venv` stays in the repository root;
-Python 3.13 and newer put a file `.gitignore` inside it, so `git status` does not show it (with an older
-Python, `git status` shows `?? .venv/`). You may delete the folder `.venv` when you no longer need it.
+(Windows, backslashes; macOS/Linux with forward slashes), exits with `0` and rewrites `python-t3.json`
+byte-identically. `check_t3_completion.py` prints 7 `PASS` lines (`T3C.mean_field_coefficients_from_ks_theory`,
+`T3C.filling_convention_mapped`, `T3C.krein_rule_16_component`, `T3C.t3_reports_pass`,
+`T3C.rust_demo_numerical_demonstration`, `T3C.reference_demo_numerical_demonstration`, `compare.t3_completion`)
+and `pass 7 fail 0; <time>s; wrote <...>python-t3-completion.json`, exits with `0` and rewrites
+`python-t3-completion.json` byte-identically (sha256 of both in section 2.4). Each checker takes about 1 to
+2 seconds (longer on a busy machine or on the first run after installing). The folder `.venv` stays in the
+repository root; Python 3.13 and newer put a file `.gitignore` inside it, so `git status` does not show it
+(with an older Python, `git status` shows `?? .venv/`). You may delete the folder `.venv` when you no longer
+need it.
 
 ## 4. Expected output
 
 ### 4.1 Printed on the screen
 
-Exactly these 11 lines (nothing is printed as an error):
+`verify_t3.wls` prints exactly these 11 lines (nothing is printed as an error):
 
 ```text
 PASS  T3_block_hamiltonian_map
@@ -395,149 +466,146 @@ PASS  T3_energies_and_emt_profiles_equal
 PASS  T3_exact_k0_spectra
 PASS  T3_Gamma_is_the_block_map
 PASS  T3_z2_mirror_copy_carries_minus_m_plus_lambda
-10/10 checks passed; time 0.5 s
+10/10 checks passed; time 0.4 s
 ```
 
-The final verdict line is `10/10 checks passed; time <t> s`. Only `<t>` changes from run to run: it is the
-computing time inside Wolfram, without the start of Wolfram; on the verification machine it was 0.4 to 2
-seconds (the larger values when the machine was busy with other work), and on a heavily loaded machine
-(10 to 26 Wolfram processes of other jobs running, 2026-10-07) up to 7.2 seconds (printed, for example,
-`time 3.2 s`, `time 3.7 s` and `time 7.2 s`). Only this number changes: the ten `PASS` lines, the
-`10/10 checks passed` and the two output files stay exactly the same. It is rounded to 0.1 s, but Wolfram
-prints the rounded number in its own way: the verification runs printed, for example, `time 0.5 s`,
-`time 1. s`, `time 2. s`, `time 0.7000000000000001 s` and `time 1.2000000000000002 s`. This is harmless:
-the time is printed only on the screen and never enters a file. The lines appear one after the other while
-the checks run.
+Only the time `<t>` in the last line `10/10 checks passed; time <t> s` changes from run to run: it is the
+computing time inside Wolfram, without the start of Wolfram (0.4 to 0.5 s on a quiet machine on 2026-10-08;
+up to 7.2 s on a heavily loaded machine, section 4.4). Wolfram prints the rounded number in its own way, for
+example `time 0.5 s`, `time 1. s`, `time 0.30000000000000004 s` or `time 1.2000000000000002 s`. This is
+harmless: the time is printed only on the screen and never enters a file.
 
-### 4.2 Exit code
+`verify_t3_completion.wls` prints exactly these 4 lines (no time):
 
-`0` when all 10 checks pass; `1` when at least one fails (verified: a run with a missing input exited with
-`1`). Caution: a wrong file path also gives `0` (section 3.7).
+```text
+PASS  T3C_mean_field_coefficients_from_ks_theory
+PASS  T3C_filling_convention_mapped
+PASS  T3C_krein_rule_16_component
+3/3 checks passed
+```
+
+The lines appear one after the other while the checks run.
+
+### 4.2 Exit codes and the ERROR exits
+
+Both scripts exit with `0` when all their checks pass and with `1` when at least one fails. In addition
+`verify_t3.wls` stops with exit code `1` and a single line starting with `ERROR  ` in these cases (verified
+in section 6.5):
+
+- `ERROR  input file not found: <path>` - `ks-theory.json` or `gammas.json` is missing; nothing is written;
+- `ERROR  input file is not a JSON object: <path>` - an input is not valid JSON; nothing is written;
+- `ERROR  cannot read the Kohn-Sham potentials (exchange.kohnShamPotentials: Meff_coefficient_of_lambda_S, vv_coefficient_of_lambda_n, e_int) as exact numbers from <path>`
+  - nothing is written;
+- `ERROR  cannot write <path>` - after the check lines, when an output cannot be written (`t3-theory.json`
+  is written first, so it may already be rewritten when the report cannot be).
+
+`verify_t3_completion.wls` has no `ERROR` exit (section 3.7). Caution for both: a wrong script path gives
+exit code `0` (section 3.7).
 
 ### 4.3 Files written
 
-- `Revision/pairing/kohn_sham/t3-theory.json`: 55 lines, 7053 bytes, sha256
-  `f1ae1e8ab2248bde43526fc2e1624f0a74aacbe4a0b7f3f3a8954a3048dbcdd7`; its line 9 reads
-  `  "status": "all checks of the report passed",` (after a failure: `SOME CHECKS FAILED - see the report`).
-- `Revision/pairing/kohn_sham/reports/wolfram-t3.json`: 19 lines, 6448 bytes, sha256
-  `904fd1dcb77a6772f7ef21dcabe10d194d8086f509e17df54830bd7f7fb999ab`; its summary line (line 6) reads
-  `  "summary": {"passed": 10, "failed": 0, "total": 10},` and each of its 10 check lines contains
-  `"verdict": "PASS"`.
+The four files of section 2.3, with the sha256, lines and bytes given there. After a failing check the
+`status` line of the record reads `"status": "SOME CHECKS FAILED - see the report",` and the summary line of
+the report shows the failure count.
 
-### 4.4 Run time and memory on the verification machine
+### 4.4 Run time and memory
 
-Windows 11, 24 logical cores: about 2 to 8 seconds wall-clock time per run, typically 3 to 5 seconds, of
-which 0.4 to 2 s is computation and the rest is starting and stopping Wolfram. While the machine was busy
-with many other Wolfram jobs a run took about 4 to 9 seconds, and on a heavily loaded machine up to about 14
-seconds, with up to 7.2 s of computation. All measurements (seconds):
+On the verification machine (Windows 11, 24 logical cores), 2026-10-08, quiet (0 to 2 Wolfram processes of
+other jobs): `verify_t3.wls` 2.97 to 3.92 s wall-clock time per run (printed time 0.4 to 0.5 s; the
+negative-test runs of section 6.5, which stop earlier or fail a check, 2.4 to 4.7 s);
+`verify_t3_completion.wls` 3.01 to 3.44 s; `check_t3.py` 1.11 to 1.15 s; `check_t3_completion.py` 0.72 to
+0.74 s. The exact list is in section 6.5. Earlier measurements of `verify_t3.wls` (sections 6.1 to 6.4, the
+version before the fix, which does the same computation): about 2 to 8 seconds, typically 3 to 5, and on a
+heavily loaded machine (10 to 26 Wolfram processes of other jobs) up to about 14 seconds with printed times up
+to 7.2 s.
 
-- first verification (runs 1 to 8 of section 6.1): 4.56, 4.65, 4.13, 3.57, 3.23, 4.15, 4.64, 4.80;
-- review of this file, unmonitored runs: 2.09, 2.07, 2.26, 4.04, 3.92, 6.08; runs under process, file or
-  socket monitoring: 2.31, 5.81, 8.18;
-- re-verification after the review (section 6.2), unmonitored runs: 5.18 (run A), 3.80 (run B, Command
-  Prompt), 3.09 (run C), 3.46, 3.36, 4.59 (PowerShell), 4.72, 3.21 (Git Bash); runs under monitoring:
-  5.85, 3.31, 4.73, 3.73, 6.40, 4.63, 3.68, 3.80, 3.46, 3.62, 3.34.
-  During these runs the machine was also running up to about ten other Wolfram kernels of other jobs.
-- re-verification after the restart (section 6.3, 2026-10-07, the machine busy with 7 to 14 Wolfram
-  processes of other jobs): 3.71, 6.45 (clone 1, runs 1 and 2), 7.44, 5.90, 6.18, 6.55 (clone 2, runs 3 to 6),
-  5.99 (socket-monitored run).
-- independent review of section 6.3 (2026-10-07, a heavily loaded machine with 10 to 20 Wolfram processes of
-  other jobs; the printed time, written here to 0.1 s, in brackets): 13.89 (3.2), 6.83 (1.4), 13.34 (7.2),
-  8.42 (1.5), 11.08 (3.7), 4.96 (0.9), 5.49 (1.4), 7.26 (1.6), 7.59 (1.4), 5.75 (1.1), 5.27 (1.1), 4.66 (0.7,
-  Windows PowerShell 5.1); a Command Prompt run printed `time 5.5 s`. Every one of these runs printed
-  `10/10 checks passed` and exited with `0`.
-- re-verification after that review (section 6.4, 2026-10-07, 20 to 26 Wolfram processes of other jobs, all
-  24 cores at 100 % load): monitored runs 6.55, 7.02, 7.21, 6.08, 5.96, 5.90; unmonitored PowerShell runs
-  5.25, 5.16, 6.65, 8.74, 7.46, 6.60, 6.19; Git Bash run 8.28 (printed times 0.8 to 2 s).
-
-So on a heavily loaded machine a run can take up to about 14 seconds and print a time of up to about 7
-seconds; only the time changes, while the 11 printed lines (apart from the time) and the two output files
-stay identical.
-
-Peak memory (working set): about 148 to 157 MB for the Wolfram kernel (measured 148.1 to 149.1 MB on
-2026-10-02 and 156.2 to 156.7 MB on 2026-10-07), about 68 MB for the short-lived licence query (68.3 to
-68.4 MB in the six runs of section 6.4, read from the process right after it ended, which gives its exact
-peak; the independent review found 66.7 to 68.3 MB by sampling it while it ran) and about 17 MB for
-`wolframscript` (16.6 to 16.8 MB). The value 9.8 MB that section 6.3 first gave for the licence query was a
-single sample taken early in that process's life by slow polling, not its peak.
+Peak memory (working set), 2026-10-08, both scripts alike: the Wolfram kernel 167.0 to 167.1 MB, the
+short-lived licence query 74.5 to 74.6 MB, `wolframscript` 19.0 to 19.1 MB (section 6.5; read through the
+open process handle after each process ended, which gives the exact peak). Earlier values for
+`verify_t3.wls`: kernel 148 to 157 MB, licence query about 68 MB, `wolframscript` about 17 MB (sections 6.1
+to 6.4).
 
 ## 5. Side effects
 
 ### 5.1 Files created or overwritten in the repository
 
-- OVERWRITTEN on every run (both are committed files): `Revision/pairing/kohn_sham/t3-theory.json` and
-  `Revision/pairing/kohn_sham/reports/wolfram-t3.json`. A passing run writes the same bytes, so only their
-  modification times change and `git status` stays clean.
-- CREATED only if missing: the folder `Revision/pairing/kohn_sham/reports/` (the script creates it before
-  writing the report).
+- OVERWRITTEN on every run (all four are committed files): `verify_t3.wls` rewrites
+  `Revision/pairing/kohn_sham/t3-theory.json` and `Revision/pairing/kohn_sham/reports/wolfram-t3.json`;
+  `verify_t3_completion.wls` rewrites `Revision/pairing/kohn_sham/t3-completion.json` and
+  `Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json`. A passing run writes the same bytes, so
+  only their modification times change and `git status` stays clean.
+- CREATED only if missing: the folder `Revision/pairing/kohn_sham/reports/` (each script creates it before
+  writing its report).
 - Nothing else in the repository is created, changed or deleted (verified with `git status --porcelain --ignored`
-  and with a full listing of every file of the clone before and after a run).
+  and with the sha256 of every file of a clone before and after the runs, section 6.5).
 
 ### 5.2 Outside the repository
 
-- Processes: `wolframscript` starts one Wolfram kernel (on Windows the process `wolfram.exe` of Wolfram 15,
-  started as `wolfram.exe -runfirst ... -linkmode Connect -linkname <name>_shm -mathlink`; older versions call
-  the kernel `WolframKernel`). Before the kernel it starts a second, short-lived `wolfram.exe` that queries
-  the licence (`wolfram.exe -wlbanner -licenseinfo`, peak working set about 68 MB); it lives only a fraction
-  of a second (0.18 to 0.53 s measured on 2026-10-07, section 6.4; the kernel was started 0.15 to 0.9 s after
-  it). On the verification machine this licence query was seen in every run in which process creation was
-  recorded by events (5 of 5 runs, section 6.2); runs observed only by polling every 30 ms usually missed it
-  because it is so short-lived. The kernel ends when the script ends; no process is left running (verified for
-  runs 1 to 4 of section 6.1 and every monitored run of sections 6.2 to 6.4). If you interrupt a run by
-  killing `wolframscript` (tested with `Stop-Process -Force` 1, 1.5 and 3 s after the start), the kernel also
-  ends; no kernel was left running.
+- Processes: `wolframscript` first starts a short-lived `wolfram.exe` that queries the licence
+  (`wolfram.exe -wlbanner -licenseinfo`; it lived 0.105 to 0.134 s in the quiet runs of 2026-10-08, up to
+  0.477 s in another run, peak working set about 75 MB) and then the Wolfram kernel (on Windows the process
+  `wolfram.exe` of Wolfram 15, started as `wolfram.exe -runfirst ... -linkmode Connect -linkname <name>_shm -mathlink`;
+  older versions call the kernel `WolframKernel`), 0.17 to 0.22 s after its own start in the four monitored
+  complete runs of section 6.5 (0.55 s in one of the kill tests). Each
+  script starts one kernel. When `wolframscript` is started without a console window (as by the monitor of
+  section 6.5), Windows also attaches a console host `conhost.exe` (8.2 MB) to it. The kernel ends when the
+  script ends; no process is left running (verified in every monitored run of sections 6.1 to 6.5).
+- Interrupted run: if you stop a run by killing `wolframscript` (tested with `Process.Kill` 1.0 and 2.3 s
+  after the start, both scripts, section 6.5; and in sections 6.2 and 6.3 for the earlier version), the
+  kernel ends as well and no Wolfram process is left running; no output file is written or changed (the
+  scripts write their outputs only at the very end), and the empty temporary file described next stays
+  behind.
 - Temporary files: on every run `wolframscript` creates two temporary files in the folder
   `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary` (on the verification machine
   `C:\Users\<you>\AppData\Local\Wolfram\WolframScript\WolframScriptTemporary`), each named `tmp_` followed
-  by 10 random letters and digits (for example `tmp_NnpCUtx4xQ`): an empty one right when it starts, and one
-  that receives the printed output while the checks run (a few hundred bytes at the end: 354 to 369 bytes
-  observed, depending on how the time is printed). It deletes both when the run ends normally. If a run is
-  interrupted (tested by killing the `wolframscript` process), such files can remain (seen: the empty
-  file, and an output file of 166 bytes holding the first six `PASS` lines, after killing `wolframscript`
-  3 s after the start); they are harmless and may be deleted by hand. The same folder may also hold
-  leftover `tmp_*` files of other, earlier `wolframscript` calls. The corresponding folder on macOS and
-  Linux was not verified. Nothing new was found in the system temporary folder (`%TEMP%`,
-  `C:\Users\<you>\AppData\Local\Temp`) that belongs to this run (its contents were listed before and after
-  runs 1 and 2 of section 6.1 and the four monitored runs of section 6.2; the only new entries there, files
-  such as `tmpb9gl5qav.json`, appeared in only 2 of the 4 runs, are named like the temporary files of Python
-  programs, were deleted again shortly afterwards, and came from other programs that were running at the
-  same time).
-- Wolfram's own housekeeping, not caused by the script itself: on the verification machine every
+  by 10 random letters and digits (for example `tmp_NnpCUtx4xQ`): an empty one right when it starts (20 to
+  45 ms after the start), and one that receives the printed output while the checks run (2.09 to 2.51 s after
+  the start; at the end 354 bytes for `verify_t3.wls` when the time is printed as `0.4` or `0.5`, other
+  lengths for other printed times, and 141 bytes for the completion). It deletes both when the run ends
+  normally. If a run is interrupted, the empty file remains (seen after every kill test of 2026-10-08), and a
+  partly filled output file can remain too (seen on 2026-10-02: a 166-byte file with the first six `PASS`
+  lines after a kill 3 s after the start); they are harmless and may be deleted by hand. The same folder may
+  also hold leftover `tmp_*` files of other, earlier `wolframscript` calls. The corresponding folder on macOS
+  and Linux was not verified. Nothing of these runs was found in the system temporary folder (`%TEMP%`;
+  sections 6.1 and 6.2).
+- Wolfram's own housekeeping, not caused by the scripts themselves (sections 6.1 to 6.3): every
   `wolframscript` call rewrote its settings file `%APPDATA%\Wolfram\WolframScript\WolframScript.conf` with the
   same 238 bytes, and the kernel start touched the folder `%APPDATA%\Wolfram\Paclets\Temporary` (only its
   time stamp changed). On macOS and Linux the corresponding Wolfram user folder is used.
-- Network: the script contains no network command. During runs 1 to 4 of section 6.1 (sockets polled every
-  0.1 s) the kernel's recorded connections were all loopback (127.0.0.1 to 127.0.0.1). The two
-  socket-monitored runs of the review and the four of section 6.2 (polled every 0.1 s and 30 ms) recorded
-  the complete picture: the kernel held one or two loopback connections 127.0.0.1 <-> 127.0.0.1 (its
-  internal link) and, with the same port as one end of such a connection, a TCP socket in state `Bound` on
-  0.0.0.0 (all addresses; not listening, no remote end); for example
-  `127.0.0.1:52970 -> 127.0.0.1:52971 Established`, `127.0.0.1:52971 -> 127.0.0.1:52970 Established` and
-  `0.0.0.0:52971 -> 0.0.0.0:0 Bound`. It had no UDP endpoints. No connection to another computer was seen.
-  The short-lived licence query process could not be polled for sockets (it ends too quickly).
-  (Activating WolframScript, section 3.3, does use the internet; that is a one-time step, not part of the run.)
+- Network: neither script contains a network command. In the socket-monitored runs of `verify_t3.wls`
+  (sections 6.1 to 6.3) the kernel held only loopback connections 127.0.0.1 <-> 127.0.0.1 (its internal link)
+  and, with the same port, a TCP socket in state `Bound` on 0.0.0.0 (not listening, no remote end), for
+  example `127.0.0.1:52970 -> 127.0.0.1:52971 Established`, `127.0.0.1:52971 -> 127.0.0.1:52970 Established`
+  and `0.0.0.0:52971 -> 0.0.0.0:0 Bound`; no UDP endpoint and no connection to another computer.
+  The completion script was not socket-monitored. (Activating WolframScript, section 3.3, does use the
+  internet; that is a one-time step, not part of a run.)
 
 ### 5.3 Effects on other parts of the repository
 
-The sympy checker `Revision/pairing/kohn_sham/python/check_t3.py` reads `t3-theory.json`; the publication test
-`Revision/tests/test_pair_creation_proofs_publication.py` reads both outputs, and
-`Revision/tests/test_dirac16complex_field_theory_publication.py` reads `wolfram-t3.json`. A passing run
-changes nothing for them. A failing run leaves a
-theorem record with the status `SOME CHECKS FAILED - see the report` and a report with fewer passes; restore
-both (section 5.4) before running the checker or the tests.
+The readers of section 1.6 read the committed outputs; a passing run changes nothing for them. A failing run
+leaves a record with the status `SOME CHECKS FAILED - see the report` and a report with fewer passes; restore
+them (section 5.4) before running the sympy checkers or the publication tests.
 
 ### 5.4 How to restore the committed state
 
 From the repository root:
 
 ```text
-git checkout -- Revision/pairing/kohn_sham/t3-theory.json Revision/pairing/kohn_sham/reports/wolfram-t3.json
+git checkout -- Revision/pairing/kohn_sham/t3-theory.json Revision/pairing/kohn_sham/reports/wolfram-t3.json Revision/pairing/kohn_sham/t3-completion.json Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json
 ```
 
 If you deleted the folder `Revision/pairing/kohn_sham/reports/`, restore the whole folder with
 `git checkout -- Revision/pairing/kohn_sham/reports`.
 
 ## 6. Verification record
+
+Sections 6.1 to 6.4 are the record of the EARLIER version of `verify_t3.wls` (sha256
+`ea6c436f667c465727967c8b9664e2425227be0d71a55ca36a36e13a3da497d8`, 207 lines, 23070 bytes; its report
+`wolfram-t3.json` then had sha256 `904fd1dcb77a6772f7ef21dcabe10d194d8086f509e17df54830bd7f7fb999ab`, 19
+lines, 6448 bytes); they are kept unchanged as history. Where they say "section 2" they mean those values
+(the theorem record `t3-theory.json` and the two inputs are unchanged since). Where they discuss the `v_v`
+term of check 6 (line 79), they describe the defect fixed in section 6.5. The completion script did not
+exist then. Section 6.5 is the verification of the whole set as it is now.
 
 ### 6.1 First verification
 
@@ -843,3 +911,78 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
 - Open discrepancies: none. The scientific results are unchanged: 10 of 10 checks pass and both outputs are
   byte-identical to the committed files in all 14 runs of this section. Not verified: macOS, Linux with
   Wolfram, and Wolfram versions other than 15.0.1.
+
+### 6.5 The fix of `verify_t3.wls` and the verification of the whole set (2026-10-08)
+
+- Date: 2026-10-08. Environment: Windows 11 Pro for Workstations 10.0.26300, 24 logical cores; WolframScript
+  1.14.0; Wolfram 15.0.1 for Microsoft Windows (64-bit); PowerShell 7.6.6; Git 2.51.2.windows.1; Python 3.14.5
+  with sympy 1.14.0 and mpmath 1.3.0 (the machine's installation). The machine was quiet: 0 to 2 Wolfram
+  processes of other jobs during the measured runs.
+- The fix (section 1.5). The defect was found by the T3 completion (`t3-completion.json`, gap 1). A first
+  edit (committed unverified in the work-in-progress commit `42abf71`, script sha256
+  `ab196c6dcbda9190e0d9a6a5657943324728e3a72b819153f1e995ef9979eb25`) read the coefficients and replaced the
+  tautology by a v_v function derived from e_int; it was re-checked line by line against `ks-theory.json` and
+  `verify_t3_completion.wls` and then finished: v_v is now the function `vvf[m, lambda, n, S] = c_v lambda n`
+  of the coefficient read from `ks-theory.json` (the same function enters the energy-momentum profiles of
+  check 7), and the coefficient fields are compared with the stated formulas `Meff` and `vv` as the
+  completion does. Result: the script of section 2.1 (sha256 `0cde8c8f...87c8`, 250 lines, 27280 bytes).
+- The first negative tests of the earlier, interrupted attempt (07:29) were INVALID and are not used: they
+  edited `ks-theory.json` with `sed` on `"15/16"`, but the file writes `"15\/16"`, so nothing was changed
+  (the edit counter printed `0`) and the 10/10 of those runs proves nothing. They were redone (next item).
+- Negative tests (scratch trees holding only the script and its two inputs; every input edit made with a
+  JSON reader and writer and checked by re-reading the file; a diagnostic line printing the five parts
+  {H2 values, formula text, consistency, map, control} of check 6 was added to the scratch copy only):
+
+  | test | change | result |
+  | --- | --- | --- |
+  | 1 | `Meff_coefficient_of_lambda_S` = `7/8` | `FAIL  T3_mean_field_map` (parts False, False, False, True, True), `9/10 checks passed`, exit 1 |
+  | 2 | `vv_coefficient_of_lambda_n` = `1/16` | `FAIL  T3_mean_field_map` (False, False, False, True, True), `9/10`, exit 1 |
+  | 2b | `vv_coefficient_of_lambda_n` = `0` | `FAIL  T3_mean_field_map` (False, False, False, True, False: the control fails), `9/10`, exit 1 |
+  | 2c | a different but self-consistent functional: v_v coefficient `-1/8`, `vv` = `-lambda n(y)/8`, `e_int` with `(1/16) lambda n^2` | `FAIL  T3_mean_field_map` (False, True, True, True, True: only the comparison with hypothesis H2 fails), `9/10`, exit 1 |
+  | 3 | the OLD script (sha256 `ea6c436f...97d8`) with the input of test 2 | `10/10 checks passed`, exit 0: the defect |
+  | 4 | script mutation `vvf[...] := cVv ll nn + ll ss/16` (an S-odd term) | `FAIL  T3_mean_field_map` (True, True, False, False, True) and `FAIL  T3_energies_and_emt_profiles_equal`, `8/10`, exit 1 |
+  | 4b | script mutation `vvf[...] := cVv ll nn + mm/16` (an m-odd term) | the same two FAILs, `8/10`, exit 1 |
+  | 4c | script mutation: the map clause evaluated at (-m, -lambda) instead of (-m, +lambda) | `FAIL  T3_mean_field_map` (True, True, True, False, True), `9/10`, exit 1 |
+  | 5 | `ks-theory.json` deleted | `ERROR  input file not found: <path>`, exit 1, nothing written |
+  | 6 | `gammas.json` deleted | `ERROR  input file not found: <path>`, exit 1, nothing written |
+  | 7 | `Meff_coefficient_of_lambda_S` = `fifteen/16` | `ERROR  cannot read the Kohn-Sham potentials ...`, exit 1, nothing written |
+  | 7b | `e_int` with `+ (1/32) lambda n^2` | the same `ERROR`, exit 1, nothing written |
+  | 7c | `ks-theory.json` cut after 1000 bytes | `ERROR  input file is not a JSON object: <path>`, exit 1, nothing written |
+  | 8 | a folder named `wolfram-t3.json` in `reports/` | the 10 check lines, then `ERROR  cannot write <path>`, exit 1; `t3-theory.json` was written |
+  | 9 | run from the folder `Revision` | `Failed to open file at path: Revision/pairing/kohn_sham/wolfram/verify_t3.wls` on standard error, exit 0, nothing written |
+  | 10 | completion, `ks-theory.json` deleted | `Import::nffil`, `ToExpression::notstrbox`, ..., 2 FAIL lines, `1/3 checks passed`, exit 1, both outputs written |
+  | 11 | completion, `gammas.json` deleted | `Import::nffil`, `Part::partw`, ..., `FAIL  T3C_krein_rule_16_component`, `2/3 checks passed`, exit 1, both outputs written |
+  | 12 | completion, `Meff_coefficient_of_lambda_S` = `7/8` | `FAIL  T3C_mean_field_coefficients_from_ks_theory`, `2/3`, exit 1 |
+  | 13 | completion, unchanged inputs | `3/3 checks passed`, exit 0, both outputs byte-identical to the committed ones |
+
+  So every part of check 6 can fail, check 6 fails for a broken coefficient for the right reason, and the
+  old script did not detect it.
+- Runs in the working repository (outputs compared with `git show HEAD:<file>` and between runs):
+  `verify_t3.wls` twice (3.57 s and 3.92 s wall, `time 0.4 s` both, exit 0, standard error empty):
+  `t3-theory.json` byte-identical to the committed file; `wolfram-t3.json` identical in both runs, sha256
+  `b0903ca4...f7c6` (only the detail of check 6 differs from the committed versions). Then twice each:
+  `verify_t3_completion.wls` (3.44 s, 3.35 s; `3/3 checks passed`, exit 0, standard error empty),
+  `check_t3.py` (1.11 s, 1.15 s; `pass 13 fail 0`, exit 0), `check_t3_completion.py` (0.72 s, 0.74 s;
+  `pass 7 fail 0`, exit 0): `t3-completion.json`, `wolfram-t3-completion.json`, `python-t3.json` and
+  `python-t3-completion.json` byte-identical to the committed files after every run (sha256 of section 2).
+  The sympy checker `check_t3.py` reads `t3-theory.json` (unchanged) and `check_t3_completion.py` reads only the
+  summary and the check names of `wolfram-t3.json` (unchanged), so the fix changes neither report.
+- Monitored runs (a small C# program started `wolframscript`, found its child processes by parent process id
+  every 17 to 22 ms, read their working set while they ran and once more through the open process handle
+  after they had ended, which gives the exact peak, and listed the folder `WolframScriptTemporary`): two runs
+  of each script in the working repository. `verify_t3.wls`: 3.42 s and 2.97 s, `time 0.5 s` and
+  `time 0.4 s`, exit 0, standard output 354 bytes, standard error 0 bytes; `verify_t3_completion.wls`: 3.21 s
+  and 3.01 s, exit 0, standard output 141 bytes. Children in every run: `conhost.exe` (8.2 MB; the monitor
+  starts `wolframscript` without a console window), the licence query `wolfram.exe` (lived 0.105 to 0.134 s,
+  peak 74.5 to 74.6 MB), the kernel `wolfram.exe` (started 0.17 to 0.22 s after `wolframscript`, lived 2.75 to
+  3.23 s, peak 167.0 to 167.1 MB); `wolframscript` peaked at 19.0 to 19.1 MB. No child was alive 0.3 s after
+  the end. Temporary files: in the three runs with no other Wolfram process running, exactly two new `tmp_*`
+  files (an empty one 20 to 26 ms after the start and the output file, 354 or 141 bytes) and both were
+  deleted at the end; in the first run (2 Wolfram processes of other jobs running) a third, empty `tmp_*`
+  file appeared at 1.57 s and stayed - it could not be attributed to this run.
+- Kill tests (scratch trees; the C# program killed `wolframscript` after 1.0 s and 2.3 s for `verify_t3.wls`
+  and after 2.3 s for the completion): exit code -1; the kernel was not alive 2 s later; no output file was
+  written; the empty `tmp_*` file of each run remained (three files of 0 bytes, deleted by hand afterwards).
+- Fixes made: `verify_t3.wls` (check 6, the `ERROR` exits of section 4.2, the header comment); its report
+  `wolfram-t3.json` (detail of check 6); this file (extended to the whole set). No other file of the set was
+  changed; `t3-theory.json`, `verify_t3_completion.wls` and its outputs are unchanged.

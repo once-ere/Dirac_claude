@@ -315,10 +315,11 @@ CELLS = [
     check(counts == {"reference solver": (37, 37), "Rust solver": (42, 42),
                      "cross-check": (31, 31)},
           "the three committed reports pass every check (37, 42 and 31)")
-    CROSS = {c["name"]: c["detail"] for c in REPORTS["cross-check"]["checks"]}
+    CROSS = {c["name"]: c for c in REPORTS["cross-check"]["checks"]}  # name -> check
     for name in ["thermo_levels", "thermo_mu_rust_stated_bound"]:  # the two newest
-        size = re.search(r"(\d+) comparisons", CROSS[name]).group(1)  # a number in text
-        say(f"cross-check {name}: {size} comparisons, PASS")
+        detail = CROSS[name]["detail"]  # the report's sentence about this check
+        size = re.search(r"(\d+) comparisons", detail).group(1)  # a number in the text
+        say(f"cross-check {name}: {size} comparisons, verdict {CROSS[name]['verdict']}")
 
     RUST_PARAMS = read_json(f"{KS}/results/parameters.json")  # the Rust solver's
     REF_PARAMS = read_json(f"{KS}/reference/results/parameters.json")  # the reference's

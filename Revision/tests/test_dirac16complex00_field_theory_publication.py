@@ -67,6 +67,8 @@ REPORTS = {
     "pairing/reports/python-pairing.json": "checks",
     "theory/reports/wolfram-scope.json": "checks",
     "theory/reports/python-scope.json": "checks",
+    "dark_sector/dirac16complex00/reports/python-derive-eos.json": "checks",
+    "dark_sector/dirac16complex00/reports/python-independent-numerics.json": "checks",
 }
 PASSING = {"PASS", "pass"}
 
@@ -462,6 +464,13 @@ class TestKeyStatements(unittest.TestCase):
         "This does not make the Cauchy problem well posed",
         "which is a choice of sign and is not selected by the equations",
         "are interpretations",
+        "That record establishes neither Hypothesis nor Hypothesis00",
+        "because its two free parameters were CHOSEN to solve the two tangent conditions",
+        "a crossing of $w = -1$ occurs only with a component of negative classical energy",
+        r"the tuned value $\lambda S/m = -382/441$",
+        "`Revision/docs/DARK_SECTOR_HYPOTHESES`",
+        "`Revision/docs/LOVELOCK_GKD`",
+        "`Revision/docs/KOHN_SHAM_DEFLATING_FIELD`",
     )
 
     def test_statements_present(self):
@@ -476,6 +485,16 @@ class TestKeyStatements(unittest.TestCase):
         for number in ("51200", "28800", "{4, 3, 4}", "(5, 4/3)"):
             self.assertIn(number, a4_report)
             self.assertIn(number.strip("{}").replace(", ", ", "), markdown_text())
+        derive = (REVISION / "dark_sector/dirac16complex00/reports/python-derive-eos.json").read_text(
+            encoding="utf-8"
+        )
+        for in_report, in_document in (
+            ("lambda S/m = -382/441", r"$\lambda S/m = -382/441$"),
+            ("= (-0.861, -0.600) = the Unite CPL values", "$(w_0, w_a) = (-0.861, -0.60)$"),
+            ("= w_eff(N1) - 1", "differ by exactly $-1$"),
+        ):
+            self.assertIn(in_report, derive)
+            self.assertIn(in_document, markdown_text())
 
 
 @unittest.skipUnless(os.environ.get("REVISION_PDF_REBUILD") == "1", "set REVISION_PDF_REBUILD=1 to rebuild the PDF in verify mode")

@@ -63,9 +63,10 @@ FACTS = {
         "the partners have the same levels, occupations, energies and energy-momentum "
         "profiles and the opposite scalar density, that the controls differ, that the "
         "+M runs reproduce the committed canonical states, that the solver's own T3 "
-        "self-test is reproduced number by number, and that the free zero modes and the "
-        "sub-gap level of the control agree with their closed forms, and it draws ten "
-        "overlay figures. The solver writes its raw output (about 2 MB) into the folder "
+        "self-test is reproduced number by number, that the runs equal the record's own "
+        "numerical demonstration of T3 in the 19 states that both solve, and that the "
+        "free zero modes and the sub-gap level of the control agree with their closed "
+        "forms, and it draws ten overlay figures. The solver writes its raw output (about 2 MB) into the folder "
         "`Revision/kohn_sham/solver/target/textbook_19a`, which git ignores."
     ),
     "records": [
@@ -96,6 +97,15 @@ FACTS = {
         ["Revision/pairing/kohn_sham/reports/python-t3.json",
          "the 13 independent sympy checks of T3, all PASS; its check "
          "T3.Gamma_is_the_block_map is reproduced"],
+        ["Revision/pairing/kohn_sham/reports/t3-rust-demo.json",
+         "the record's numerical demonstration of T3 with the same solver (210 states, "
+         "7 checks, all PASS); its checks t3_equal_ground_states, "
+         "t3_equal_thermal_states, negative_control_untransformed_tip and "
+         "negative_control_lambda_sign are reproduced in the 19 states solved here"],
+        ["Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv",
+         "the table of that demonstration (one row per state: E_KS, mu, entropy and "
+         "the EMT integrals of the plus and image members, E_KS of the control); "
+         "A, B, C and D of this notebook equal its rows"],
     ],
     "packages": ["numpy", "matplotlib"],
     "needs_rust": [{"manifest": "Revision/kohn_sham/solver/Cargo.toml",
@@ -106,7 +116,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS every figure file of this notebook exists",
-        "ALL 32 CHECKS PASSED (notebook 19a)",
+        "ALL 37 CHECKS PASSED (notebook 19a)",
     ],
     "troubleshooting": [
         ["A cell shows the label with the star for a minute or more",
@@ -1335,7 +1345,124 @@ CELLS = [
                 "B coincide, the control C lies $2.5$ to $3.5$ lower.")
     '''),
     md(r"""
-    ## 17. The last check
+    ## 17. The same runs in the record's demonstration of T3
+
+    The Revision record has its own numerical demonstration of T3
+    (`Revision/pairing/kohn_sham/reports/t3-rust-demo.json`, 7 checks). With the same
+    solver it solved the members "plus" (our A), "image" (our B) and "control" (our C)
+    for all 210 states of the canonical matrix, and it stored their numbers in the table
+    `Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv`, one row per state.
+    The runs of this notebook cover 19 of these states: 7 ground states at the slice
+    $a_{4,0} = 1$ (sections 8, 13 and 15), the other 9 states of the history (section
+    14) and 3 thermal states (section 16). The next cell reads the report and the table
+    and prints the record's own largest deviations. Then it checks, state by state: A
+    equals the record's plus member ($E_{KS}$); B equals its image member ($E_{KS}$,
+    $\mu$, the entropy and the four EMT integrals); C equals its control ($E_{KS}$); and
+    D at the coupling $\lambda$ equals the record's image member at $-\lambda$. Last, it
+    measures in each of the three groups the largest deviation between A and B: the
+    levels, $E_{KS}$, $\mu$, the entropy, the EMT integrals and the ten profile columns
+    (even ones equal, odd ones opposite), each relative as in the cells above.
+
+    What this agreement tests. The solver follows the angle $\phi$ of the real form,
+    $(a, b) = r(\cos\phi, \sin\phi)$. The map of T3, $(a, b, j, M) \to (b, a, -j, -M)$,
+    turns $\phi$ into $\pi/2 - \phi$, and the equation of the angle of B is the equation
+    of A with $\phi$ replaced by $\pi/2 - \phi$. So the solver does the same arithmetic
+    for A and B, and their agreement to the last digits is guaranteed by construction:
+    it tests the transformed boundary conditions, the labels, the filling, the
+    self-consistency loop and the Mermin root, not the discretisation. The record's
+    second demonstration (`t3-reference-demo.json`), with the independent
+    finite-difference reference solver, gives the test that does not depend on the
+    discretisation.
+    """),
+    code(r'''
+    DEMO = "Revision/pairing/kohn_sham/reports/t3-rust-demo.json"
+    DEMO_TABLE = "Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv"
+    demo = json.loads(repository_file(DEMO).read_text(encoding="utf-8"))
+    verdict = {c["name"]: c["verdict"] for c in demo["checks"]}
+    detail = {c["name"]: c["detail"] for c in demo["checks"]}
+    passed = sum(v == "PASS" for v in verdict.values())
+    say(f"record: {demo['states']} states, {passed} of {len(verdict)} checks pass")
+    for name in ("t3_equal_ground_states", "t3_equal_thermal_states"):
+        worst = re.search(r"worst deviation (\S+),", detail[name]).group(1)
+        say(f"record, {name}: worst deviation {worst}")
+    DEMO_ROWS = read_rows(DEMO_TABLE)
+    PAIRS, GROUP = {}, {}  # state id -> [A, B, C]; state id -> group of runs
+
+
+    def add(state_id, group, states):
+        """Store the states A, B, C of one state of the record, once."""
+        if state_id not in PAIRS:
+            PAIRS[state_id], GROUP[state_id] = states, group
+
+
+    for N in (8, 136):
+        add(f"N{N}_lamp1_a10", "ground", [SELF[(N, kind)] for kind in "ABC"])
+    add("N8_lam0_a10", "ground", [FREE8[kind] for kind in "ABC"])
+    for tag, lam, margin in COUPLINGS:
+        add(f"N136_{tag}_a10", "ground", [SCAN[(tag, kind)] for kind in "ABC"])
+    for N in (136, 688):
+        for a4 in SLICES:
+            add(f"N{N}_lamp1_a{round(10 * a4):02d}", "history",
+                [HIST[(N, kind, a4)] for kind in "ABC"])
+    for T in TEMPS:
+        add(f"N136_lamp1_a10_T{round(1000 * T)}", "thermal",
+            [WARM[(T, kind)] for kind in "ABC"])
+
+
+    def relative(a, b):
+        """|a - b| relative to max(|a|, 1), the measure of close()."""
+        return abs(a - b) / max(abs(a), 1.0)
+
+
+    worst_A, worst_B, worst_C = 0.0, 0.0, 0.0
+    for state_id, (A, B, C) in PAIRS.items():
+        row = DEMO_ROWS[state_id]  # the record's row of this state
+        worst_A = max(worst_A, relative(A["E_KS"], float(row["E_KS_plus"])))
+        image = [(B["E_KS"], row["E_KS_image"]), (B["mu_or_fermi_level"],
+                 row["mu_image"]), (B["entropy"], row["entropy_image"])]
+        image += [(B["emtIntegrals_2Vol7_int_e6Hy"][c], row[f"int_{c}_image"])
+                  for c in ("rho", "p3", "p_t", "p8")]
+        worst_B = max([worst_B] + [relative(x, float(r)) for x, r in image])
+        control = float(row["E_KS_control_untransformed_tip"])
+        worst_C = max(worst_C, relative(C["E_KS"], control))
+    worst_D = max(relative(SCAN[(tag, "D")]["E_KS"],
+                           float(DEMO_ROWS[f"N136_{MIRROR[tag]}_a10"]["E_KS_image"]))
+                  for tag, lam, margin in COUPLINGS)
+    say(f"{len(PAIRS)} states of the record solved here; largest relative differences "
+        f"from the record: A {worst_A:.1e}, B {worst_B:.1e}, C {worst_C:.1e}, "
+        f"D {worst_D:.1e}")
+
+
+    def t3_deviation(A, B):
+        """Largest deviation of B from A under T3 (levels, E_KS, mu, entropy, EMT
+        integrals, profiles with the odd columns reversed)."""
+        return max(level_difference(A, B), relative(A["E_KS"], B["E_KS"]),
+                   relative(A["mu_or_fermi_level"], B["mu_or_fermi_level"]),
+                   relative(A["entropy"], B["entropy"]), integral_difference(A, B),
+                   profile_mismatch(A, B))
+
+
+    largest = {}
+    for group in ("ground", "history", "thermal"):
+        ids = [state_id for state_id in PAIRS if GROUP[state_id] == group]
+        largest[group] = max(t3_deviation(*PAIRS[state_id][:2]) for state_id in ids)
+        say(f"{group}: {len(ids)} pairs A, B; largest T3 deviation "
+            f"{largest[group]:.1e}")
+    check(passed == len(verdict) == 7 and demo["states"] == 210,
+          "the record's T3 demonstration passes 7 of 7 checks in 210 states",
+          record=DEMO)
+    check(len(PAIRS) == 19 and worst_A < TOL and worst_B < TOL,
+          "A and B equal the record's plus and image members in 19 states",
+          record=f"{DEMO}, checks t3_equal_ground_states, t3_equal_thermal_states")
+    check(worst_C < TOL, "C equals the record's control with the untransformed tip",
+          record=f"{DEMO}, check negative_control_untransformed_tip")
+    check(worst_D < TOL, "D at lambda equals the record's image member at -lambda",
+          record=f"{DEMO}, check negative_control_lambda_sign")
+    check(max(largest.values()) < TOL,
+          "B equals A under T3 in all 19 pairs (ground, history, thermal)")
+    '''),
+    md(r"""
+    ## 18. The last check
 
     The last cell checks that the ten figure files exist in the folder
     Revision/textbook/figures, prints how many times the solver was run, and prints
@@ -1355,7 +1482,7 @@ CELLS = [
     all_checks_passed()
     '''),
     md(r"""
-    ## 18. What this notebook showed
+    ## 19. What this notebook showed
 
     - PROVED in the records and re-checked here exactly: the author's eight gamma
       matrices are real $16 \times 16$ matrices with entries $-1$, $0$, $+1$ that obey
@@ -1363,16 +1490,28 @@ CELLS = [
       $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$ is
       $\mathrm{diag}(-1, \dots, -1, +1, \dots, +1)$ and maps every Kohn-Sham block
       $(j, s_2, s_3)$ onto the block $(-j, s_2, s_3)$ as $s_2\sigma_2$: the map of T3.
-    - COMPUTED (62 independent runs of the Rust Kohn-Sham solver): the universe of mass
+    - COMPUTED (62 runs of the Rust Kohn-Sham solver, which compare A and B in 19
+      states: 7 ground states at $a_{4,0} = 1$, 9 more states of the history and 3
+      thermal states; the other runs are the controls C and D): the universe of mass
       $-m$ with the same coupling $+\lambda$ and the transformed tip angle $\pi$ (B) has
       the same Kohn-Sham levels, level by level with the block type and the brane
       parity exchanged, the same occupations, chemical potential, entropy, energy and
       free energy, and the same particle density, potential and energy-momentum
       profiles $\rho$, $p_3$, $p_t$, $p_8$ as the universe of mass $+m$ (A), while its
-      scalar density, density $Q$ and effective mass are exactly opposite; the
-      differences are about $10^{-13}$ or smaller, the rounding of the computer.
-      This holds for 8, 136 and 688 particles, at every slice of the deflating history,
-      for every coupling and at every temperature computed.
+      scalar density, density $Q$ and effective mass are exactly opposite. The largest
+      deviations (section 17) are about $10^{-13}$ for the ground states and the
+      history and below $10^{-12}$ for the thermal states: the rounding of the
+      computer. This holds for 8, 136 and 688 particles, at every slice of the
+      deflating history, for every coupling and at every temperature computed.
+    - What this agreement tests: the solver's shooting is covariant under the map (the
+      angle equation of B is that of A with $\phi \to \pi/2 - \phi$), so the agreement
+      to rounding is guaranteed by construction; it tests the solver's handling of the
+      transformed boundary conditions, the labels, the filling, the self-consistency
+      and the Mermin root. The test that does not depend on the discretisation is the
+      record's reference demonstration (`t3-reference-demo.json`).
+    - COMPUTED: the runs equal the record's own demonstration (`t3-rust-demo.json`,
+      table `t3-rust-states.csv`) in the 19 states that both solve: A its plus
+      member, B its image member, C its control, D its image at $-\lambda$.
     - COMPUTED: the solver's own T3 self-test of the record
       (`ks-rust-solver.json`, check `t3_block_map_solver_selftest`) is reproduced, and
       every A run reproduces the committed canonical state.
@@ -1380,8 +1519,9 @@ CELLS = [
       to the tip, a level appears inside the gap at $\varepsilon_b = m/\cosh(qL)$ with
       $\tanh(qL) = q/m$ (the closed form derived here), and every energy differs; with
       the reversed coupling (D) the energy is that of A at $-\lambda$, not at $\lambda$.
-    - PROVED elsewhere (records `wolfram-t3.json`, `python-t3.json`): theorem T3
-      itself. The runs here confirm it numerically; they are not its proof.
+    - PROVED elsewhere (records `wolfram-t3.json`, `python-t3.json`, and the
+      completion `t3-completion.json`): theorem T3 itself. The runs here demonstrate it
+      numerically on the states solved; they are not its proof.
     - ASSUMED: the $Z_2$ brane; the tip is a chosen cutoff and T3 needs the transformed
       tip angle; the history is a PRESCRIBED BACKGROUND; mean field without correlation.
     - NOT shown: that a universe is created, in pairs or otherwise. T3 maps solutions

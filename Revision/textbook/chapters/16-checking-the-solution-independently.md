@@ -321,7 +321,7 @@ Notebook 16a repeats the cross-check for a **subset** of five states: three grou
 
 The notebook has 23 code cells, In [1] to In [23]. This section explains every line of every one of them, in order. In the notebook each code cell is preceded by a text cell that says what the cell does; the numbers that the cells print are in Section 16.11 under the labels Out [k].
 
-**In [1], the set-up cell.** It is the same in every notebook of the book except for the notebook's name and, in notebooks that run a Rust program, two more imports and the function `rust_program`; the walk-throughs of Notebooks 16b and 16c refer back to this paragraph. Its first 293 lines repeat the complete run instructions of Section 16.10 as **comment lines**: every line that starts with `#` is skipped by Python and is there only so that the notebook file carries its own instructions. Two lines of `=` signs around the title THE SET-UP mark where the code begins.
+**In [1], the set-up cell.** It is the same in every notebook of the book except for the notebook's name and, in notebooks that run a Rust program, two more imports and the function `rust_program`; the walk-throughs of Notebooks 16b and 16c refer back to this paragraph. Its first 299 lines repeat the complete run instructions of Section 16.10 as **comment lines**: every line that starts with `#` is skipped by Python and is there only so that the notebook file carries its own instructions. Two lines of `=` signs around the title THE SET-UP mark where the code begins.
 
 ```python
 import json  # reads and writes JSON files (text files that hold names and numbers)
@@ -529,13 +529,14 @@ for label, rep in REPORTS.items():
 check(counts == {"reference solver": (37, 37), "Rust solver": (42, 42),
                  "cross-check": (31, 31)},
       "the three committed reports pass every check (37, 42 and 31)")
-CROSS = {c["name"]: c["detail"] for c in REPORTS["cross-check"]["checks"]}
+CROSS = {c["name"]: c for c in REPORTS["cross-check"]["checks"]}  # name -> check
 for name in ["thermo_levels", "thermo_mu_rust_stated_bound"]:  # the two newest
-    size = re.search(r"(\d+) comparisons", CROSS[name]).group(1)  # a number in text
-    say(f"cross-check {name}: {size} comparisons, PASS")
+    detail = CROSS[name]["detail"]  # the report's sentence about this check
+    size = re.search(r"(\d+) comparisons", detail).group(1)  # a number in the text
+    say(f"cross-check {name}: {size} comparisons, verdict {CROSS[name]['verdict']}")
 ```
 
-`REPORTS` is a dictionary of the three committed reports: the reference solver's self-checks, the Rust solver's self-checks, and the cross-check. The loop goes through its pairs (`.items()`); each report has an entry `summary` with the numbers of checks and of PASS verdicts, which the loop stores in `counts` as a **tuple** (an unchangeable pair in round brackets) and prints. The check requires exactly 37 of 37, 42 of 42 and 31 of 31; Out [2] shows the three lines and the PASS line. `CROSS` is a dictionary from the name of each check of the cross-check to its `detail`, the sentence in which the report describes what was compared and what was found (the `{... for c in ...}` form builds a dictionary in one line, as a list comprehension builds a list). The loop takes the two checks that were added to the cross-check on 2026-10-08 (Section 16.8). In each detail, `re.search` looks for the pattern `(\d+) comparisons`: `\d` stands for any digit, `+` for one or more of them, and the round brackets mark the part to keep, which `.group(1)` returns (the `r` before the quotes keeps the backslash as it is). The two printed lines give 34378 and 270 comparisons; both checks passed, since the check above found 31 PASS verdicts among 31 checks.
+`REPORTS` is a dictionary of the three committed reports: the reference solver's self-checks, the Rust solver's self-checks, and the cross-check. The loop goes through its pairs (`.items()`); each report has an entry `summary` with the numbers of checks and of PASS verdicts, which the loop stores in `counts` as a **tuple** (an unchangeable pair in round brackets) and prints. The check requires exactly 37 of 37, 42 of 42 and 31 of 31; Out [2] shows the three lines and the PASS line. `CROSS` is a dictionary from the name of each check of the cross-check to the check itself, which is again a dictionary with three entries: `name`, `verdict` (PASS or FAIL) and `detail`, the sentence in which the report describes what was compared and what was found (the `{... for c in ...}` form builds a dictionary in one line, as a list comprehension builds a list). The loop takes the two checks that were added to the cross-check on 2026-10-08 (Section 16.8). For each, `detail` is its sentence, and `re.search` looks in it for the pattern `(\d+) comparisons`: `\d` stands for any digit, `+` for one or more of them, and the round brackets mark the part to keep, which `.group(1)` returns (the `r` before the quotes keeps the backslash as it is). The two printed lines give 34378 and 270 comparisons and the verdict that the report records for each check, PASS; this agrees with the check above, which found 31 PASS verdicts among 31 checks. These two lines are printed information, not checks of the notebook: they do not count among its 51 checks.
 
 ```python
 RUST_PARAMS = read_json(f"{KS}/results/parameters.json")  # the Rust solver's
