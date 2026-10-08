@@ -175,6 +175,8 @@ FIXED 2026-10-08 after the handover note (verified):
 * Book PDF registered warning-free (c55c6cd) after the root cause of the 637 overfull boxes (four-digit page numbers
   in the contents) was fixed by the opt-in builder option --wide-page-numbers (e35bce6).
 
+* Final book PDF (after the chapter 03 and 13 fixes) rebuilt warning-free and re-registered; GKD/pair-creation/field-theory
+  and lead-check tests pass from a fresh clone.
 * Textbook notebooks 13a/03b fixed and rebuilt, chapter 13's walk-through aligned with Notebook 13a (5041c5b); all 89
   notebooks pass nbkit check; book re-assembled.
 FOLLOW-UP (textbook quality, not covered by any test): the walk-throughs quote notebook code by hand, and several
@@ -198,7 +200,7 @@ NOT DONE / IN PROGRESS (partial edits are committed and UNVERIFIED)
   prepared workflow for the Revision part: Revision/workflows/restart/a4_apply_sync.js (too large as one run - split it).
 * Textbook "Universes in Pairs": ASSEMBLED 2026-10-08 (Revision/textbook/UNIVERSES_IN_PAIRS_TEXTBOOK.md, assemble_textbook.py 13/13
   checks, chapters 00-23, 89 notebooks, 556 figures; chapter 23 is a marked PLACEHOLDER).  PDF: Revision/textbook/UNIVERSES_IN_PAIRS_
-  TEXTBOOK.pdf, 6069 pages, REGISTERED as edition universes-in-pairs-textbook (sha256 3aecdfe6f79f...), warning-free, two
+  TEXTBOOK.pdf, 6082 pages, REGISTERED as edition universes-in-pairs-textbook (sha256 adb599cf511b...), warning-free, two
   independent builds byte-identical.  The 637 Overfull-hbox warnings of the first build were all table-of-contents entries on
   pages >= 1000 (four-digit page numbers in LaTeX's 1.55em box); fixed by the opt-in builder option --wide-page-numbers
   (e35bce6), which changes no other document.  Build command: TEXTBOOK_SPEC section 4.
