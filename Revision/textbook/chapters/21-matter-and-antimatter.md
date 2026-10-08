@@ -1,6 +1,6 @@
 ## 21. Matter and antimatter from zero: what this theory explains and what it does not
 
-The world we see is made of matter, and almost no antimatter. Why that is so is one of the open questions of physics. This chapter explains the question from zero, with the observations, the three conditions that Andrei Sakharov found for any answer, and small worked models of each condition. Then it asks, condition by condition, what the theory of this book says. On the way it derives, line by line, the facts of the theory that matter for the question: that charge conjugation in this theory is made by a **matrix** (there are exactly two such matrices), that the charge of the field is **exactly conserved** in the author's metric while the three extra times deflate, how the **quantised** field can be conjugated, and what a pair of solutions of masses $+m$ and $-m$ carries. The chapter ends with a scorecard and with a precise list of what the theory as built does not do.
+The world we see is made of matter, and almost no antimatter. Why that is so is one of the open questions of physics. This chapter explains the question from zero, with the observations, the three conditions that Andrei Sakharov found for any answer, and small worked models of each condition. Then it asks, condition by condition, what the theory of this book says. On the way it derives, line by line, the facts of the theory that matter for the question: that charge conjugation in this theory is made by a **matrix** (there are exactly two such matrices), that the charge of the field obeys an **exact local conservation law** in the author's metric while the three extra times deflate (its total is constant only if no charge flows through the edge $z = \pi/2$ of the hidden direction, a condition that is assumed, not derived), how the **quantised** field can be conjugated, and what a pair of solutions of masses $+m$ and $-m$ carries. The chapter ends with a scorecard and with a precise list of what the theory as built does not do.
 
 ### 21.1 What this chapter does, and the answer first
 
@@ -9,7 +9,7 @@ The request that this book answers ends with the words "this theory solves matte
 **The answer.** The theory as built does **not** solve the matter-antimatter problem. The reasons, each of which this chapter proves or documents:
 
 - The theory contains no baryons (no protons, neutrons or quarks), so it cannot say anything about the baryon number of the observed universe.
-- The only number of the theory that could play the role of "matter minus antimatter" is the **U(1) charge** $Q$ of its field. It is **exactly conserved**: in the author's metric, for every history $a_4(x_4)$, in particular the one in which ordinary space inflates and the three extra times $x_5, x_6, x_7$ deflate exponentially, no solution can change its charge unless charge flows through the boundary (PROVED, Sections 21.16 to 21.18). So no process described by these equations can make a net charge inside one universe: Sakharov's first condition fails.
+- The only number of the theory that could play the role of "matter minus antimatter" is the **U(1) charge** $Q$ of its field. It obeys an **exact local conservation law**: in the author's metric, for every history $a_4(x_4)$, in particular the one in which ordinary space inflates and the three extra times $x_5, x_6, x_7$ deflate exponentially, the charge of a region changes only by what flows through its boundary (PROVED, Sections 21.16 and 21.17). So no process described by these equations makes a net charge at any point inside one universe: Sakharov's first condition fails there. The total charge of a universe is constant only if no charge flows through the brane $z = \pi/2$, the edge of the hidden direction; this **no-flux condition** is ASSUMED, not derived (OPEN), and Section 21.18 shows an exact solution whose charge changes by exactly what flows out through the brane.
 - For the commuting field dirac16complex00 the same-mass charge conjugation is an exact symmetry that reverses the charge (PROVED, Sections 21.10 and 21.31), so Sakharov's second condition fails for it as well (PROVED, Section 21.31). For the quantised field dirac16complex no violation of C or CP in reaction rates is built into the theory or computed (NOT COMPUTED). No departure from thermal equilibrium is computed (NOT COMPUTED); the Kohn-Sham history of this book is a prescribed background (Section 21.31).
 
 **What the theory does provide, exactly.**
@@ -275,7 +275,7 @@ $$
 g = \mathrm{diag}\big(e^{2a_4}s,\ e^{2a_4}s,\ e^{2a_4}s,\ -1,\ -e^{-2a_4}s,\ -e^{-2a_4}s,\ -e^{-2a_4}s,\ \cot^2z\big) .
 $$
 
-Its **scale factors** $f_a = \sqrt{|g_{aa}|}$ are $f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z$ (ordinary space), $f_4 = 1$ (the time), $f_5 = f_6 = f_7 = e^{-a_4}\sin^{1/6}z$ (the extra times) and $f_8 = \cot z$ (the hidden direction). When $a_4$ grows with the time, ordinary space inflates and the three extra times deflate exponentially. The volume factor is $\sqrt{|\det g|} = f_1f_2\cdots f_8 = e^{3a_4}e^{-3a_4}\sin z\cot z = \cos z$: the inflation of space and the deflation of the extra times cancel, and $a_4$ drops out (Chapter 12; record check `sqrt_abs_det_g_is_cos_z` of `Revision/field_equations_a4/reports/wolfram-a4-report.json`). This one fact will be the reason why the charge is conserved without any time-derivative terms (Section 21.17).
+Its **scale factors** $f_a = \sqrt{|g_{aa}|}$ are $f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z$ (ordinary space), $f_4 = 1$ (the time), $f_5 = f_6 = f_7 = e^{-a_4}\sin^{1/6}z$ (the extra times) and $f_8 = \cot z$ (the hidden direction). When $a_4$ grows with the time, ordinary space inflates and the three extra times deflate exponentially. The volume factor is $\sqrt{|\det g|} = f_1f_2\cdots f_8 = e^{3a_4}e^{-3a_4}\sin z\cot z = \cos z$: the inflation of space and the deflation of the extra times cancel, and $a_4$ drops out (Chapter 12; record check `sqrt_abs_det_g_is_cos_z` of `Revision/field_equations_a4/reports/wolfram-a4-report.json`). This one fact will be the reason why the local conservation law of the charge has no time-derivative terms (Section 21.17).
 
 **The gammas.** The Revision record `Revision/algebra/gammas.json` holds the author's eight real $16 \times 16$ gamma matrices $\gamma^{(x1)}, \dots, \gamma^{(x8)}$, rebuilt in Revision code from the author's formulas. Every entry is $-1$, $0$ or $+1$, and each row and column holds one nonzero entry (a **signed permutation matrix**). They obey the **Clifford relation**
 
@@ -340,7 +340,7 @@ $$
 J^\mu = -i\bar\Psi\gamma^\mu\Psi,\qquad J^{(x4)} = \Psi^\dagger B\Psi,\qquad Q = \int\cos z\,\Psi^\dagger B\Psi\,dx_1\,dx_2\,dx_3\,dx_5\,dx_6\,dx_7\,dx_8 .
 $$
 
-(The time component: $J^{x4} = -i\Psi^\dagger C\gamma^{(x4)}\Psi = \Psi^\dagger B\Psi$, because $f_4 = 1$.) Section 21.17 proves that $Q$ does not change in time.
+(The time component: $J^{x4} = -i\Psi^\dagger C\gamma^{(x4)}\Psi = \Psi^\dagger B\Psi$, because $f_4 = 1$.) Section 21.17 proves the local conservation law behind $Q$: $Q$ does not change in time when no charge flows through the boundary of the slice, and Section 21.18 shows that at the brane $z = \pi/2$ this is a real condition.
 
 ### 21.8 Charge conjugation is a matrix: the condition on the matrix
 
@@ -1674,7 +1674,7 @@ all_checks_passed()
 
 ### 21.16 The phase symmetry and Noether's current
 
-Sakharov's first condition asks whether some process can change the number that counts matter minus antimatter. The theory of this book has no baryons; the only number of this kind it has is the U(1) charge $Q$ of Section 21.7. This section finds the current that belongs to the phase symmetry, and Section 21.17 proves that its charge cannot change.
+Sakharov's first condition asks whether some process can change the number that counts matter minus antimatter. The theory of this book has no baryons; the only number of this kind it has is the U(1) charge $Q$ of Section 21.7. This section finds the current that belongs to the phase symmetry, and Section 21.17 proves its exact local conservation law: the charge can change only by a flow through the boundary.
 
 **The symmetry.** Under $\Psi \to e^{i\alpha}\Psi$ with a constant $\alpha$, $\Psi^\dagger \to e^{-i\alpha}\Psi^\dagger$ (the conjugate of $e^{i\alpha}$ is $e^{-i\alpha}$), so every bilinear $\Psi^\dagger X\Psi$ is multiplied by $e^{-i\alpha}e^{i\alpha} = 1$, and $\mathcal{L}$, built from bilinears, does not change.
 
@@ -1714,7 +1714,7 @@ $$
 
 (the last step is integration by parts in each coordinate; the boundary term vanishes because $\alpha$ does). This holds for every such $\alpha$, which is only possible if $\partial_\mu(\cos z\,J^\mu) = 0$ everywhere: **the current is conserved on every solution.** Notebook 21b checks the formula $\mathcal{L}' - \mathcal{L} = -\cos z\,\alpha_\mu J^\mu$ with numbers at one point of the author's metric, with the full spin connection, $m = 0.7$, $\lambda = 0.3$ and random field values: it finds $\mathcal{L} = -16.780795$, the same value after a constant phase, and $\mathcal{L}' - \mathcal{L} = +2.348835 = -\cos z\,\alpha_\mu J^\mu$ for a local phase (In [9]).
 
-### 21.17 Exact charge conservation in the author's metric
+### 21.17 Exact local charge conservation in the author's metric
 
 Noether's argument rests on the principle of stationary action. The Revision record also proves the conservation law directly, as an exact identity, and this section derives it line by line. Write the current as $J^\mu = \Psi^\dagger K^\mu\Psi$ with $K^\mu = -iC\gamma^\mu$ and the field equation as $E = \gamma^\mu D_\mu\Psi - V\Psi = 0$, with real $V = m + U'(S)$; the components are commuting here (the matrix identity found at the end contains no field, and the record checks the conservation law for both kinds of components: checks `commuting_current_conservation` and `grassmann_current_conservation` of `Revision/theory/reports/python-field-theory.json`).
 
@@ -1738,7 +1738,7 @@ $$
 
 holds (and only then: two matrices that give the same bilinear for every column are equal when, as here, $i$ times each is Hermitian).
 
-*Line 6 (conservation).* On a solution $E = 0$, so $\partial_\mu(\cos z\,J^\mu) = 0$. Integrate over a region of the seven coordinates other than $x_4$ and over a time interval: by the fundamental theorem of calculus the charge $Q(x_4) = \int\cos z\,J^{(x4)}d^7x$ changes only by the **flux** of $\cos z\,J^\mu$ through the boundary of the region. With no flux, $Q$ is constant.
+*Line 6 (conservation).* On a solution $E = 0$, so $\partial_\mu(\cos z\,J^\mu) = 0$. Integrate over a region of the seven coordinates other than $x_4$ and over a time interval: by the fundamental theorem of calculus the charge $Q(x_4) = \int\cos z\,J^{(x4)}d^7x$ changes only by the **flux** of $\cos z\,J^\mu$ through the boundary of the region. With no flux, $Q$ is constant. Whether the flux through the brane $z = \pi/2$ vanishes is not decided by the field equation: the record derives no boundary condition there, Section 21.18 shows an exact solution through whose brane charge flows, and Section 18.21 shows the same for the homogeneous solutions (there the charge of a patch of coordinate volume $V_6$ changes at the rate $-V_6q_8$, with the frame current $q_8$ running from $-0.3454$ to $0.3454$ on the solution of Notebook 18c). The **no-flux condition** at the brane is therefore ASSUMED wherever it is used, and whether a junction condition at the brane implies it is OPEN.
 
 **The matrix identity in the author's metric, by hand.** The left side is a sum over the eight directions of $\partial_\mu(\cos z/f_\mu)\,C\gamma^{(\mu)}$ (the curved gamma is $\gamma^{(\mu)}/f_\mu$).
 
@@ -1841,7 +1841,7 @@ $\Gamma\Psi$ solves the field equations with $(m, \lambda)$ if and only if $\Psi
 **What it does not say** (rule R3 of this book; the record's own list is in section 11.2 of `Revision/docs/PAIR_CREATION_PROOFS.md`):
 
 - It does not create anything. T1 is a map between the solutions of two parameter sets. No equation of this theory produces a universe, or a pair of universes, from anything; no creation process, rate, probability or amplitude follows from these equations (Chapter 20).
-- No equation forces the partner to exist: a single universe with the charge $Q \ne 0$ is an equally valid solution. Since $Q$ is conserved (Section 21.17), its value is fixed by the initial data and is not explained.
+- No equation forces the partner to exist: a single universe with the charge $Q \ne 0$ is an equally valid solution. If no charge flows through the brane (the ASSUMED no-flux condition, Sections 21.17 and 21.18), $Q$ is constant, so its value is fixed by the initial data and is not explained.
 - For $\lambda \ne 0$ the partner has the coupling $-\lambda$ as well; T1 is not a pairing of $+m$ with $-m$ at a fixed coupling.
 - At the quantum level, the chirality image $\Gamma\Psi$ of the quantised field carries the Krein metric $-B$: it is the same quantum system, relabelled, and the identity $Q + Q' = 0$ is of the form $X + (-X) = 0$ within that one system. An independently quantised universe of mass $-m$ carries $+B$, cannot be identified with $\Gamma\Psi$, and its charge does not cancel ours (record checks `Q_Krein_metric_of_images` and `Q_no_identification_of_independent_universes` of the Wolfram pairing report; Chapter 10).
 - A T1 pair taken as the complete classical source of the author's metric is a zero source, and Einstein's equations then have no solution for $H > 0$ (corollary C1 of the record; check `einstein_no_vacuum_solution` of `Revision/field_equations_a4/reports/wolfram-a4-report.json`). So a T1 pair alone cannot even be the source of the author's universe.
@@ -3746,7 +3746,7 @@ The six figure files exist, and the last line prints ALL 17 CHECKS PASSED (noteb
 
 Sections 21.3 to 21.6 taught the three conditions on toy models; Sections 21.7 to 21.30 derived the facts of the theory. This section puts them together, condition by condition. Each status is set by a check of the Revision record; Notebook 21d reads every one of these verdicts before it draws the scorecard (Section 21.37).
 
-**Condition 1: a process must change the number.** The theory has no baryons; its only number of this kind is the U(1) charge $Q$. Section 21.17 proved that $\partial_\mu(\cos z\,J^\mu) = 0$ on every solution, in the author's metric with an arbitrary history $a_4(x_4)$, the deflating one included (lead check `u1_noether_matrix_identity`). So the charge of a region changes only by the flux through its boundary; a flux through the brane moves charge, it does not create it, and with no flux the charge of one universe is constant. In the language of the decay model of Section 21.5: every process of the theory has channels of the **same** charge, $\mathcal{B}_1 = \mathcal{B}_2$, so the net charge made by $N$ pairs, $N(r - \bar r)(\mathcal{B}_1 - \mathcal{B}_2)$, is zero; the rate model of Section 21.6 then starts with $\epsilon = 0$ and ends with $a = 0$, however slow the decays and however far from equilibrium (Notebook 21d, In [13]). **Condition 1 FAILS (PROVED).** For the quantised field this holds at the level of the canonical field equations; no regularised quantum field theory in signature (4,4) is constructed in the record, and no anomaly (a quantum breaking of a classical conservation law) is computed: OPEN.
+**Condition 1: a process must change the number.** The theory has no baryons; its only number of this kind is the U(1) charge $Q$. Section 21.17 proved that $\partial_\mu(\cos z\,J^\mu) = 0$ on every solution, in the author's metric with an arbitrary history $a_4(x_4)$, the deflating one included (lead check `u1_noether_matrix_identity`). So the charge of a region changes only by the flux through its boundary: no process creates or destroys charge at any point. A flux through the brane $z = \pi/2$ does change the charge of the patch (Section 21.18; on the homogeneous solutions of Section 18.21 at the rate $-V_6q_8$), and the record does not describe where that charge goes: with the Z2 mirror glued on, the mirror patch changes its charge at the same rate and with the same sign (Section 18.21), so gluing does not stop the change. Only with no flux (the no-flux condition, ASSUMED, not derived) is the charge of one universe constant. In the language of the decay model of Section 21.5: every process of the theory has channels of the **same** charge, $\mathcal{B}_1 = \mathcal{B}_2$, so the net charge made by $N$ pairs, $N(r - \bar r)(\mathcal{B}_1 - \mathcal{B}_2)$, is zero; the rate model of Section 21.6 then starts with $\epsilon = 0$ and ends with $a = 0$, however slow the decays and however far from equilibrium (Notebook 21d, In [13]). **Condition 1 FAILS for every process inside the patch (PROVED: the local law); for the total charge of a universe it fails under the no-flux condition at the brane, which is ASSUMED (whether a junction condition at the brane implies it is OPEN).** For the quantised field this holds at the level of the canonical field equations; no regularised quantum field theory in signature (4,4) is constructed in the record, and no anomaly (a quantum breaking of a classical conservation law) is computed: OPEN.
 
 **Condition 2: C and CP must be violated.** For the commuting field dirac16complex00 the same-mass charge conjugation $\Psi \to \Psi^c = \Psi^\ast$ is an exact symmetry. Proof, line by line:
 
@@ -3758,11 +3758,11 @@ The map keeps the Lagrangian, hence maps solutions to solutions of the same theo
 
 **Condition 3: a departure from thermal equilibrium.** The Revision record contains no computation of reaction rates or of a departure from equilibrium. Its Kohn-Sham states (Chapters 14 and 15) are instantaneous states along the history $a_4 = AHx_4$, and that history is a **prescribed background**: the Kohn-Sham states violate the source conditions of the $a_4$ equations, so the history is not a dynamical consequence of the field (record check `ks_history_is_a_prescribed_background` of `Revision/field_equations_a4/reports/ks-source-conditions.json`; Chapter 17). **NOT COMPUTED.**
 
-**The conclusion.** Since condition 1 fails exactly, conditions 2 and 3 cannot help: whatever the rates and however far from equilibrium, no process of the theory as built makes a net charge inside one universe.
+**The conclusion.** Since condition 1 fails exactly inside the patch, conditions 2 and 3 cannot help there: whatever the rates and however far from equilibrium, no process of the theory as built makes a net charge at any point inside one universe, and under the ASSUMED no-flux condition the total charge of the universe cannot change either. The flow through the brane is the one open door: the record neither excludes it nor describes it as a process (OPEN).
 
 | Sakharov condition | this theory | status | record check |
 | --- | --- | --- | --- |
-| 1. a process changes the number | $Q$ exactly conserved for every $a_4$ | FAILS (PROVED) | `u1_noether_matrix_identity` |
+| 1. a process changes the number | the local law $\partial_\mu(\cos z\,J^\mu) = 0$ holds for every $a_4$; the total $Q$ is constant only under the no-flux condition at the brane | inside the patch: FAILS (PROVED); total charge: FAILS under the no-flux condition (ASSUMED; OPEN) | `u1_noether_matrix_identity` |
 | 2. C and CP violated | the commuting field: $\mathcal{C}_+$ is exact and reverses the charge, so a C-symmetric start keeps zero charge; the quantised field has only the mass-reversing conjugation; no rates computed | dirac16complex00: FAILS (PROVED: $\mathcal{C}_+$ exact, Proposition 2); dirac16complex: NOT COMPUTED (no rates; only the mass-reversing conjugation) | `representation_real`, `spinor_connection_real`, `bilinears_under_charge_conjugation`, `quantum_charge_conjugation_unitary_type` |
 | 3. out of equilibrium | no rate computed; the Kohn-Sham history is a prescribed background | NOT COMPUTED | `ks_history_is_a_prescribed_background` |
 
@@ -4347,11 +4347,12 @@ say(f"net charge per pair with equal channels: {eps_theory}; rate model: "
     f"a(infinity) = {a_theory[1]}")
 check(LEAD["u1_noether_matrix_identity"] == "PASS" and eps_theory == 0
       and a_theory[1] == 0.0,
-      "U(1) charge exactly conserved: no net charge in one universe, condition 1 "
-      "fails", record=f"{LEAD_FILE}, check u1_noether_matrix_identity")
+      "local U(1) law: no process makes a net charge at any point, condition 1 "
+      "fails there (total charge: no flux through the brane ASSUMED)",
+      record=f"{LEAD_FILE}, check u1_noether_matrix_identity")
 ```
 
-Out [13] prints a net charge 0 and $a(\infty) = 0.0$; the check also demands the record's verdict that the charge is exactly conserved.
+Out [13] prints a net charge 0 and $a(\infty) = 0.0$; the check also demands the record's verdict PASS for the local conservation law $\partial_\mu(\cos z\,J^\mu) = 0$. Its label says exactly what that verdict gives: no process makes a net charge at any point, so condition 1 fails there; for the total charge of a universe the no-flux condition at the brane is needed in addition, and it is ASSUMED (Section 21.31). The label is one text made of two string pieces that stand next to each other, and `record=` names the record file and check on the PASS line.
 
 **In [14]: this theory, condition 2: the Lagrangian at a point.**
 
@@ -4663,13 +4664,15 @@ A status is written only if the record check behind it passed; otherwise the row
 ```python
 ROWS = [
     ("1. a process changes the number",
-     "U(1) charge Q exactly conserved for every history a4 (no flux through the "
-     "boundary)",
-     status(LEAD["u1_noether_matrix_identity"] == "PASS", "FAILS (PROVED)"),
+     "local U(1) law d_mu(cos z J^mu) = 0 for every history a4: no process inside "
+     "the patch changes Q; the total Q is constant only if no charge flows "
+     "through the brane z = pi/2 (ASSUMED, not derived)",
+     status(LEAD["u1_noether_matrix_identity"] == "PASS",
+            "inside the patch: FAILS (PROVED); total: no flux ASSUMED"),
      "u1_noether_matrix_identity"),
 ```
 
-Each row has four entries: the condition, what this theory has, the status, and the record check. Row 1: condition 1 fails, proved by the U(1) identity.
+Each row has four entries: the condition, what this theory has, the status, and the record check. Row 1 has two parts (Section 21.31): condition 1 fails for every process inside the patch, proved by the U(1) identity (the local law, written in plain letters: `d_mu(cos z J^mu) = 0` is $\partial_\mu(\cos z\,J^\mu) = 0$); for the total charge of a universe the no-flux condition at the brane is needed, and the status says that it is ASSUMED. The status text is written only if the lead check `u1_noether_matrix_identity` has the verdict PASS.
 
 ```python
     ("2. C and CP violated",
@@ -4709,29 +4712,30 @@ The pair-level row: proved for classical bilinears, for both fields.
 
 ```python
     ("verdict",
-     "no net charge can be made inside one universe; no baryons in the theory",
+     "no process makes a net charge at any point of one universe (nor a total "
+     "charge, under the ASSUMED no-flux condition); no baryons in the theory",
      status(LEAD["u1_noether_matrix_identity"] == "PASS", "PROBLEM NOT SOLVED"),
      "the checks above")]
 for row in ROWS:
     say(f"{row[0]:34} | {row[2]}")
 ```
 
-The verdict row, and a loop that prints the condition (padded to 34 characters) and the status of each row: Out [18].
+The verdict row (its second entry is again one text made of two string pieces), and a loop that prints the condition (padded to 34 characters) and the status of each row: Out [18].
 
 ```python
-check([row[2] for row in ROWS] == ["FAILS (PROVED)",
-                                   "commuting: FAILS (PROVED); quantised: NOT COMPUTED",
-                                   "NOT COMPUTED", "PROVED (classical bilinears)",
-                                   "PROBLEM NOT SOLVED"],
+check([row[2] for row in ROWS] == [
+          "inside the patch: FAILS (PROVED); total: no flux ASSUMED",
+          "commuting: FAILS (PROVED); quantised: NOT COMPUTED",
+          "NOT COMPUTED", "PROVED (classical bilinears)", "PROBLEM NOT SOLVED"],
       "scorecard: every status is backed by a PASS verdict of the Revision record")
 ```
 
-The five statuses must be exactly these, which is possible only if every record check behind them passed.
+The five statuses must be exactly these, which is possible only if every record check behind them passed. The list of the five expected texts opens with `[` at the end of the first line and is written one or more texts per line.
 
 **In [19]: the scorecard as a figure.**
 
 ```python
-COLOURS = {"FAILS (PROVED)": "#f4c7c3",
+COLOURS = {"inside the patch: FAILS (PROVED); total: no flux ASSUMED": "#f4c7c3",
            "commuting: FAILS (PROVED); quantised: NOT COMPUTED": "#f2e2b8",
            "NOT COMPUTED": "#e3e3e3", "PROVED (classical bilinears)": "#cfe8c4",
            "PROBLEM NOT SOLVED": "#f4c7c3"}
@@ -4741,7 +4745,7 @@ ax.set_ylim(0, len(ROWS) + 1)
 ax.axis("off")
 ```
 
-A pale background colour for each status (red for failure, yellow for the two statuses of condition 2, fails for the commuting field and not computed for the quantised one, grey for not computed, green for proved). The figure is used as a drawing area with coordinates from 0 to 13 across and 0 to 6 up; `ax.axis("off")` hides the axes.
+A pale background colour for each status (red for the failure of condition 1, whose status names its two parts, and for the verdict, yellow for the two statuses of condition 2, fails for the commuting field and not computed for the quantised one, grey for not computed, green for proved). The figure is used as a drawing area with coordinates from 0 to 13 across and 0 to 6 up; `ax.axis("off")` hides the axes.
 
 ```python
 columns = [(0.1, 2.4, "Sakharov condition"), (2.6, 4.3, "this theory"),
@@ -4773,15 +4777,18 @@ save_figure(fig, "scorecard",
             "conditions, with the status of each row and the Revision record "
             "check it rests on (each status is set by the notebook only when the "
             "record holds that check with the verdict PASS). Condition 1 fails "
-            "exactly (the U(1) charge is conserved for every history $a_4$), so "
-            "conditions 2 and 3 cannot help; condition 2 also fails for the "
+            "for every process inside the patch (the local U(1) law holds for "
+            "every history $a_4$), so there conditions 2 and 3 cannot help; the "
+            "total charge of a universe is constant only under the no-flux "
+            "condition at the brane $z = \\pi/2$, which is ASSUMED; condition 2 "
+            "also fails for the "
             "commuting field (its same-mass conjugation is exact) and is not "
             "computed for the quantised field; the pair-level statement of theorem "
             "T1 is exact but creates nothing. The theory does not solve the "
             "matter-antimatter problem.")
 ```
 
-Figure 21d.8. **What the figure shows.** A table of five coloured rows: red for condition 1 (fails) and for the verdict (problem not solved), yellow for condition 2 (fails for the commuting field, not computed for the quantised field), grey for condition 3 (not computed), green for the pair level (proved for classical bilinears), each with the record checks it rests on.
+Figure 21d.8. **What the figure shows.** A table of five coloured rows: red for condition 1 (fails inside the patch; for the total charge the no-flux condition is ASSUMED) and for the verdict (problem not solved), yellow for condition 2 (fails for the commuting field, not computed for the quantised field), grey for condition 3 (not computed), green for the pair level (proved for classical bilinears), each with the record checks it rests on.
 
 **In [20]: the figure files.**
 
@@ -4797,7 +4804,7 @@ The eight figure files exist, and the last line prints ALL 19 CHECKS PASSED (not
 
 ### 21.37 The scorecard, pairs of universes as a hypothesis, and what would be needed
 
-**The scorecard.** Figure 21d.8 and the table of Section 21.31 put the three conditions side by side. Condition 1 fails exactly; condition 2 fails exactly for the commuting field and is not computed for the quantised field; condition 3 is not computed; and conditions 2 and 3 could not help while condition 1 fails; the pair-level statement is exact but creates nothing. **The theory as built does not solve the matter-antimatter problem.** It contains no baryons, it cannot change its charge inside one universe, and it predicts no value of the baryon-to-photon ratio $\eta_B$.
+**The scorecard.** Figure 21d.8 and the table of Section 21.31 put the three conditions side by side. Condition 1 fails exactly for every process inside the patch, and for the total charge of a universe under the ASSUMED no-flux condition at the brane; condition 2 fails exactly for the commuting field and is not computed for the quantised field; condition 3 is not computed; and conditions 2 and 3 could not help while condition 1 fails; the pair-level statement is exact but creates nothing. **The theory as built does not solve the matter-antimatter problem.** It contains no baryons, no process of it changes the charge at any point inside one universe (the total charge could change only by a flow through the brane, which the record neither excludes nor describes), and it predicts no value of the baryon-to-photon ratio $\eta_B$.
 
 **Pairs of universes, stated as a hypothesis.** Theorem T1 suggests a picture of the kind described at the end of Section 21.19: our universe carries some charge, and a partner universe of mass $-m$ carries the opposite charge, so that the pair as a whole is symmetric. The picture rests on three statements, each of which is a **HYPOTHESIS**: nothing in the Revision record derives it.
 
@@ -4805,11 +4812,11 @@ The eight figure files exist, and the last line prints ALL 19 CHECKS PASSED (not
 - **H2 (HYPOTHESIS).** The configuration has a nonzero charge, $Q \ne 0$. Given H1, the partner has $-Q$ by theorem T1; the content of H2 is $Q \ne 0$, and nothing computes its value or its sign.
 - **H3 (HYPOTHESIS, not derivable within the theory).** The U(1) charge of the field is the baryon number (or the difference of baryon and lepton numbers). The theory contains no quarks, baryons or leptons, so this cannot be derived from it.
 
-*What would follow, and only for classical fields.* If H1, H2 and H3 held, the two charges would add to zero at every time (theorem T1), each would be separately constant (Section 21.17), and the baryon excess of one member would be balanced by the opposite excess of the other.
+*What would follow, and only for classical fields.* If H1, H2 and H3 held, the two charges would add to zero at every time (theorem T1), each would be separately constant under the ASSUMED no-flux condition at the brane (Sections 21.17 and 21.18), and the baryon excess of one member would be balanced by the opposite excess of the other.
 
 *What the picture does not do.*
 
-- It does not produce an asymmetry. Each charge is constant, so a nonzero charge today is the same as a nonzero charge at the start: the asymmetry is an initial condition, put in by H2.
+- It does not produce an asymmetry. Under the no-flux condition each charge is constant, so a nonzero charge today is the same as a nonzero charge at the start: the asymmetry is an initial condition, put in by H2. Without that condition a charge could change only by a flow through the brane, which the record does not describe; no asymmetry is computed either way.
 - It does not predict $\eta_B$: neither the size nor the sign of the charge is computed, nor the photons to which $\eta_B$ refers.
 - It does not meet Sakharov's conditions; it replaces them by an assumed correlated configuration.
 - At the quantum level there is no cancellation between two independently quantised universes: the chirality image is the same quantum system with the Krein metric $-B$, and an independent universe of mass $-m$ carries $+B$ and its own charge (Section 21.19).
@@ -4840,7 +4847,7 @@ A published example of the class of universe/anti-universe ideas is the CPT-symm
 | real fields: $J = 0$, $\mathcal{C}_+$ the identity, $\Gamma$ the only nontrivial real map, with the mass reversed | PROVED | the same report, `real_fields_charge_conjugation`; Notebook 21a, In [18] |
 | on the record's exact solution (any $a_4$): $\Psi^\ast$ solves with $+m$, $\Gamma\Psi^\ast$ with $-m$ | PROVED | `Revision/theory/reports/python-field-theory.json`, `exact_solution_family_x4_x8`; Notebook 21a, In [11] to In [13] |
 | the Noether current $J^\mu = -i\bar\Psi\gamma^\mu\Psi$ | PROVED (Section 21.16); COMPUTED at a point | record formula `current`; Notebook 21b, In [9] |
-| exact U(1) conservation in the author's metric for every $a_4$; the $a_4'$ terms cancel because $\sqrt{\lvert g\rvert} = \cos z$ | PROVED | lead check `u1_noether_matrix_identity`; Notebook 21b, In [5], In [6] |
+| exact local U(1) conservation law $\partial_\mu(\cos z\,J^\mu) = 0$ in the author's metric for every $a_4$; the $a_4'$ terms cancel because $\sqrt{\lvert g\rvert} = \cos z$ | PROVED | lead check `u1_noether_matrix_identity`; Notebook 21b, In [5], In [6] |
 | charge balance through the brane; a stationary solution with the constant charge $-1424/1875 - 13\sqrt7/1500 = -0.782397$ | PROVED (sympy) | Notebook 21b, In [10] to In [13] |
 | the charge density is indefinite; a rest state of positive frequency with density $-7/25$ | PROVED | Notebook 21b, In [16] |
 | theorem T1: the partner $\Gamma\Psi$ has $(-m, -\lambda)$ and the opposite current; a pair has total charge 0 as classical bilinears | PROVED | `Revision/pairing/reports/wolfram-pairing.json`, `T1_current_primordial_commuting`, `T1_current_primordial_grassmann`, `T1_Lagrangian_primordial_commuting`; Notebook 21b, In [11], In [17]; Notebook 21d, In [14] |
@@ -4850,7 +4857,8 @@ A published example of the class of universe/anti-universe ideas is the CPT-symm
 | one-particle spectra of $\pm m$ identical; inertia (4,4) at real, Krein-neutral at imaginary frequencies | PROVED | Wolfram pairing report, `Q_one_particle_maps`, `Q_one_particle_Krein_signatures`, `Q_one_particle_complex_and_zero_frequencies_Krein_neutral`; Notebook 21c, In [9] to In [12] |
 | the same-mass conjugation is an exact symmetry of the commuting field | PROVED (Section 21.31); COMPUTED at a point | `Revision/theory/reports/wolfram-field-theory.json`, `L_real_C`; Notebook 21d, In [14] |
 | invariant Majorana-type matrices: exactly $C$ and $C\Gamma$; none for anticommuting components | PROVED | `Revision/algebra/reports/python-algebra.json`, `spin_commutant_dimension_2`; Notebook 21d, In [16] |
-| Sakharov condition 1 | FAILS (PROVED) | lead check `u1_noether_matrix_identity`; Notebook 21d, In [13] |
+| the total charge of a universe is constant (no flux through the brane $z = \pi/2$) | ASSUMED (not derived; it fails on the exact solutions of Sections 18.21 and 21.18; OPEN) | Notebook 21b, In [12]; Notebook 18c |
+| Sakharov condition 1 | FAILS inside the patch (PROVED); for the total charge FAILS under the ASSUMED no-flux condition | lead check `u1_noether_matrix_identity`; Notebook 21d, In [13] |
 | Sakharov condition 2 (C and CP violation) | dirac16complex00: FAILS (PROVED: $\mathcal{C}_+$ exact, Proposition 2); dirac16complex: NOT COMPUTED (no rates; only the mass-reversing conjugation) | lead checks `representation_real`, `spinor_connection_real`, `bilinears_under_charge_conjugation`, `quantum_charge_conjugation_unitary_type`; Notebook 21d, In [14], In [18] |
 | Sakharov condition 3 (departure from equilibrium) | NOT COMPUTED | `Revision/field_equations_a4/reports/ks-source-conditions.json`, `ks_history_is_a_prescribed_background` |
 | our universe is one member of a pair; the U(1) charge is the baryon number | HYPOTHESIS | Section 21.37 |
@@ -4858,7 +4866,7 @@ A published example of the class of universe/anti-universe ideas is the CPT-symm
 | a regularised quantum theory in signature (4,4); anomalies of the U(1) symmetry | OPEN | not constructed in the record |
 | the record's parenthetical remark that normal ordering gives the same-mass candidate the standard signs | OPEN (not supported by the operator computation of Section 21.26) | lead check `bilinears_under_charge_conjugation`, its detail text; Notebook 21c, In [8] |
 
-**In one sentence.** In this theory charge conjugation is a matrix, the charge is exactly conserved while the extra times deflate, a solution and its chirality partner carry opposite charges, and nothing in the theory as built can make more matter than antimatter.
+**In one sentence.** In this theory charge conjugation is a matrix, the charge obeys an exact local conservation law while the extra times deflate (its total is constant only under the ASSUMED no-flux condition at the brane), a solution and its chirality partner carry opposite charges, and nothing in the theory as built can make more matter than antimatter.
 
 ### 21.39 Exercises
 

@@ -52,9 +52,9 @@ This notebook
 1. builds the Revision Rust solver with `cargo build --release` and lets it recite its
    configuration (the theory coefficients it reads, the gamma matrices, the 2 x 2 block reduction,
    the parameters of a run);
-2. solves ten canonical states with the solver's command `single`: N = 8, 136 and 688 particles at
-   the slices $a_4 = 0, 1, 2$ of the deflating history (one series with the calibrated coupling
-   $+\lambda_1$), and one thermal state;
+2. solves ten states with the solver's command `single`: nine canonical zero-temperature states
+   (N = 8, 136 and 688 particles at the slices $a_4 = 0, 1, 2$ of the deflating history; the N = 136
+   series with the calibrated coupling $+\lambda_1$) and one thermal state;
 3. compares every level, energy, energy-momentum integral and profile with the committed record
    (bit for bit and byte for byte);
 4. shows the levels, the Kohn-Sham gap, the energies and the pressures along the history in
@@ -836,7 +836,9 @@ the hidden coordinate $y$ (brane at $y = 0$, tip at $y = -3$), read from the pro
 has just written. Left: the particle density $n$ and the energy density $\rho$ (logarithmic scale):
 they grow toward the tip, where the proper 7-volume element $e^{6Hy}$ is small. Right: the
 pressures $p_3$, $p_t$, $p_8$ divided by $\rho$; the extra-time pressure $p_t = e_\mathrm{int}$ is small
-because it comes only from the interaction.
+because it comes only from the interaction. Pointwise the ratios are not bounded by $1/3$ (near the
+tip $p_3/\rho$ exceeds 1 and $p_8/\rho$ is negative); only the integrated ratio $P_3/E$ of section 8.2
+lies below $1/3$.
 """)
 
 code(r'''
@@ -943,7 +945,8 @@ md(r"""
 - The Revision Kohn-Sham solver builds without warnings, checks its inputs (the functional's
   coefficients 15/16 and -1/16, the author's gamma matrices, the exact $2 \times 2$ block reduction)
   and runs with the parameters of the committed record.
-- Ten canonical states solved anew (N = 8, 136, 688 at $a_{4,0} = 0, 1, 2$, and one thermal state)
+- Ten states solved anew (nine canonical states, N = 8, 136, 688 at $a_{4,0} = 0, 1, 2$, and one
+  thermal state)
   reproduce the committed record exactly: energies, iterations, residuals, HOMO, LUMO, gap, every
   level and every EMT integral as equal floating-point numbers, and the profile files byte for byte;
   the thermal state's $\mu$, $E$ and entropy equal the committed thermodynamics.

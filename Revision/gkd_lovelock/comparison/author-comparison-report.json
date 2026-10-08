@@ -1,0 +1,881 @@
+{
+  "program": "Revision/gkd_lovelock/comparison/compare_with_author.py",
+  "sympyVersion": "1.14.0",
+  "inputs": [
+    {
+      "path": "Revision/gkd_lovelock/comparison/author-curvature-outputs.json",
+      "sha256": "7433675c15aab19ea322c22377cfa8d71c2171f175aa143ee64e35ae8834ed1c"
+    },
+    {
+      "path": "Revision/gkd_lovelock/results/curvature.json",
+      "sha256": "d5beb73a32244ea938ca61eac3573f72061c0e329b78f7506dd983881638763e"
+    },
+    {
+      "path": "Revision/gkd_lovelock/results/lovelock-tensors.json",
+      "sha256": "9278a0bf0da9ac7b2b22be5bb39e44073e821efb741514f42a43fa9cbc978567"
+    },
+    {
+      "path": "Revision/SPEC.md",
+      "sha256": "9ae0f1a81117fd6d984b66f2f04b5db59f5fc4f9698f52aceaf90c9a6f1cfdea"
+    },
+    {
+      "path": "Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb",
+      "sha256": "5ee5cb2a95146136ee65636a4aef174f303b6c41da130d2c57e4684f9c8ff69f"
+    }
+  ],
+  "authorConventions": {
+    "rt": "In[214]: Gamma^i_{jk} = (1/2) g^{is}(d_k g_{sj} + d_j g_{sk} - d_s g_{jk}); R^mu_{nu alpha beta} = d_alpha Gamma^mu_{nu beta} - d_beta Gamma^mu_{nu alpha} + Gamma^mu_{s alpha} Gamma^s_{nu beta} - Gamma^mu_{s beta} Gamma^s_{nu alpha} (the notebook calls it RicciGamma); Ric_{mu nu} = R^alpha_{mu alpha nu} (called RieGamma); RS = Tr[ginv . Ric]; G = Ric - (1/2) g RS (indices down)",
+    "storedOutputsUsed": [
+      "Out[235]",
+      "Out[245]",
+      "Out[535]",
+      "Out[536]"
+    ]
+  },
+  "mapping": {
+    "coordinates": "author array position 1 (x0, hidden) -> Revision x8; author positions 2..8 (x1..x7) -> Revision x1..x7 (same names); tensor components are permuted accordingly",
+    "function": "a4_Revision(x4) := a4_author(H*x4); therefore a4_author^(n)(H*x4) = H^(-n) a4_Revision^(n)(x4) (chain rule; n = 0, 1, 2); only the argument H*x4 occurs in the author's outputs (checked)",
+    "constant": "H is the same constant on both sides",
+    "status": "a definition fixed before the comparison and checked on the metric first; nothing is fitted"
+  },
+  "normalisations": [
+    "Ricci scalar: both are scalars; no factor (the author's RS = Tr[ginv . Ric] with Ric_{mu nu} = R^a_{mu a nu}; the Revision's R in the MTW convention).",
+    "Einstein tensor: the author's EinsteinG = Ric - (1/2) g RS has both indices DOWN (rt[] of In[214]); the Revision's einsteinMixed is G^mu_nu. The author's tensor is converted with the author's own (mapped) inverse metric: G^mu_nu = sum_s g^{mu s} G_{s nu}. No other factor.",
+    "Lovelock k = 1: the Revision's normalisationNote states E_(k) = -P_(k)/2^(k+1), E_(1) = G, hence P_(1)^h_j = -4 G^h_j; compared with -4 times the author's G^mu_nu.",
+    "Lovelock scalar k = 1: L_(1) = delta^{j1 j2}_{h1 h2} R^{h1 h2}_{j1 j2} = 2 R (identity of the generalized Kronecker delta); compared with 2 times the author's RS."
+  ],
+  "checks": [
+    {
+      "name": "author-json-matches-notebook",
+      "verdict": "PASS",
+      "detail": {
+        "notebookSha256Recomputed": "5ee5cb2a95146136ee65636a4aef174f303b6c41da130d2c57e4684f9c8ff69f",
+        "notebookSha256InJson": "5ee5cb2a95146136ee65636a4aef174f303b6c41da130d2c57e4684f9c8ff69f"
+      }
+    },
+    {
+      "name": "author-metric-outputs-agree",
+      "verdict": "PASS",
+      "detail": {
+        "compared": "Out[235] (gtry = MatrixMetric44) and Out[245] (MatrixMetric44): identical InputForm strings",
+        "identical": true
+      }
+    },
+    {
+      "name": "revision-metric-spec-vs-curvature-json",
+      "verdict": "PASS",
+      "detail": {
+        "compared": "Revision/SPEC.md section 1 matrix vs curvature.json metricDiagonal (off-diagonal 0), 64 components",
+        "mismatches": []
+      }
+    },
+    {
+      "name": "metric-mapping-author-Out235-vs-revision",
+      "verdict": "PASS",
+      "detail": {
+        "compared": "all 64 components of the author's Out[235] (mapped) vs the Revision metric",
+        "diagonal": {
+          "x1,x1": {
+            "authorMapped": "exp(2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+            "revision": "exp(2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+            "exactlyEqual": true
+          },
+          "x2,x2": {
+            "authorMapped": "exp(2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+            "revision": "exp(2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+            "exactlyEqual": true
+          },
+          "x3,x3": {
+            "authorMapped": "exp(2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+            "revision": "exp(2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+            "exactlyEqual": true
+          },
+          "x4,x4": {
+            "authorMapped": "-1",
+            "revision": "-1",
+            "exactlyEqual": true
+          },
+          "x5,x5": {
+            "authorMapped": "-exp(-2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+            "revision": "-exp(-2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+            "exactlyEqual": true
+          },
+          "x6,x6": {
+            "authorMapped": "-exp(-2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+            "revision": "-exp(-2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+            "exactlyEqual": true
+          },
+          "x7,x7": {
+            "authorMapped": "-exp(-2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+            "revision": "-exp(-2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+            "exactlyEqual": true
+          },
+          "x8,x8": {
+            "authorMapped": "cot(6*H*x8)**2",
+            "revision": "cot(6*H*x8)**2",
+            "exactlyEqual": true
+          }
+        },
+        "offDiagonal": "all 56 off-diagonal components are 0 on both sides",
+        "mismatches": []
+      }
+    },
+    {
+      "name": "ricci-scalar-author-Out535-vs-curvature-json",
+      "verdict": "PASS",
+      "detail": {
+        "author": "HoldForm[6*H^2*(-7 + Derivative[1][a4][H*x4]^2)]",
+        "authorMapped": "-42*H**2 + 6*a4_rev_d1(x4)**2",
+        "revision": "(6)*Derivative[1][a4][x4]^2 - (42)*H^2",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x1,x1",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "-H**2*(-15 + 3*a4_rev_d1(x4)**2/H**2 - a4_rev_d2(x4)/H**2)*exp(2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+        "authorMixed": "15*H**2 - 3*a4_rev_d1(x4)**2 + a4_rev_d2(x4)",
+        "revision": "Derivative[2][a4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x1,x2",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x1,x3",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x1,x4",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x1,x5",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x1,x6",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x1,x7",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x1,x8",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x2,x1",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x2,x2",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "-H**2*(-15 + 3*a4_rev_d1(x4)**2/H**2 - a4_rev_d2(x4)/H**2)*exp(2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+        "authorMixed": "15*H**2 - 3*a4_rev_d1(x4)**2 + a4_rev_d2(x4)",
+        "revision": "Derivative[2][a4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x2,x3",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x2,x4",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x2,x5",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x2,x6",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x2,x7",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x2,x8",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x3,x1",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x3,x2",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x3,x3",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "-H**2*(-15 + 3*a4_rev_d1(x4)**2/H**2 - a4_rev_d2(x4)/H**2)*exp(2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+        "authorMixed": "15*H**2 - 3*a4_rev_d1(x4)**2 + a4_rev_d2(x4)",
+        "revision": "Derivative[2][a4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x3,x4",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x3,x5",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x3,x6",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x3,x7",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x3,x8",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x4,x1",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x4,x2",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x4,x3",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x4,x4",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "-3*H**2*(7 + a4_rev_d1(x4)**2/H**2)",
+        "authorMixed": "21*H**2 + 3*a4_rev_d1(x4)**2",
+        "revision": "(3)*Derivative[1][a4][x4]^2 + (21)*H^2",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x4,x5",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x4,x6",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x4,x7",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x4,x8",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x5,x1",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x5,x2",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x5,x3",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x5,x4",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x5,x5",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "H**2*(-15 + 3*a4_rev_d1(x4)**2/H**2 + a4_rev_d2(x4)/H**2)*exp(-2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+        "authorMixed": "15*H**2 - 3*a4_rev_d1(x4)**2 - a4_rev_d2(x4)",
+        "revision": "-Derivative[2][a4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x5,x6",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x5,x7",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x5,x8",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x6,x1",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x6,x2",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x6,x3",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x6,x4",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x6,x5",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x6,x6",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "H**2*(-15 + 3*a4_rev_d1(x4)**2/H**2 + a4_rev_d2(x4)/H**2)*exp(-2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+        "authorMixed": "15*H**2 - 3*a4_rev_d1(x4)**2 - a4_rev_d2(x4)",
+        "revision": "-Derivative[2][a4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x6,x7",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x6,x8",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x7,x1",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x7,x2",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x7,x3",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x7,x4",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x7,x5",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x7,x6",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x7,x7",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "H**2*(-15 + 3*a4_rev_d1(x4)**2/H**2 + a4_rev_d2(x4)/H**2)*exp(-2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3)",
+        "authorMixed": "15*H**2 - 3*a4_rev_d1(x4)**2 - a4_rev_d2(x4)",
+        "revision": "-Derivative[2][a4][x4] - (3)*Derivative[1][a4][x4]^2 + (15)*H^2",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x7,x8",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x8,x1",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x8,x2",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x8,x3",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x8,x4",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x8,x5",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x8,x6",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x8,x7",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "0",
+        "authorMixed": "0",
+        "revision": "0",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "einstein-mixed-x8,x8",
+      "verdict": "PASS",
+      "detail": {
+        "authorLowerMapped": "-3*H**2*(-5 + a4_rev_d1(x4)**2/H**2)*cot(6*H*x8)**2",
+        "authorMixed": "15*H**2 - 3*a4_rev_d1(x4)**2",
+        "revision": "-(3)*Derivative[1][a4][x4]^2 + (15)*H^2",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "lovelock-P1-vs-minus4-author-EinsteinG",
+      "verdict": "PASS",
+      "detail": {
+        "compared": "lovelock-tensors.json P1_mixed_up_h_down_j (64 components) vs -4 x the author's G^mu_nu (Out[536], mapped, index raised)",
+        "mismatches": []
+      }
+    },
+    {
+      "name": "lovelock-L1-vs-2-author-RS",
+      "verdict": "PASS",
+      "detail": {
+        "revision": "(12)*Derivative[1][a4][x4]^2 - (84)*H^2",
+        "twiceAuthorMapped": "-84*H**2 + 12*a4_rev_d1(x4)**2",
+        "method": "expand"
+      }
+    },
+    {
+      "name": "control-mapping-without-chain-rule-is-detected",
+      "verdict": "PASS",
+      "detail": {
+        "variant": "a4_author^(n)(H x4) -> a4^(n)(x4) WITHOUT the factor H^(-n), applied to the author's RS",
+        "differenceIsZero": false,
+        "result": "nonzero: 6*(H**2 - 1)*a4_rev_d1(x4)**2"
+      }
+    },
+    {
+      "name": "control-einstein-without-index-raising-is-detected",
+      "verdict": "PASS",
+      "detail": {
+        "variant": "the author's G_{x1 x1} (indices down) compared directly with the Revision's G^x1_x1",
+        "differenceIsZero": false,
+        "result": "nonzero: 15*H**2*exp(2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3) - 15*H**2 - 3*a4_rev_d1(x4)**2*exp(2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3) + 3*a4_rev_d1(x4)**2 + a4_rev_d2(x4)*exp(2*a4_rev_d0(x4))*sin(6*H*x8)**(1/3) - a4_rev_d2(x4)"
+      }
+    },
+    {
+      "name": "lovelock-k2-P2-and-L2",
+      "verdict": "NOT-AVAILABLE",
+      "detail": {
+        "reason": "no stored output of the k = 2 Lovelock tensor or scalar was found in either notebook",
+        "keywordScan": {
+          "Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb": {
+            "cellsContainingLovelock": 20,
+            "outputCellsContainingLovelock": 4,
+            "outputCellsContainingLovelockThatAreOnlyStrings": 4
+          },
+          "Generalized _Kronecker_Delta_4+4.nb": {
+            "cellsContainingLovelock": 3,
+            "outputCellsContainingLovelock": 0,
+            "outputCellsContainingLovelockThatAreOnlyStrings": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "lovelock-k3-P3-and-L3",
+      "verdict": "NOT-AVAILABLE",
+      "detail": {
+        "reason": "no stored output of the k = 3 Lovelock tensor or scalar was found in either notebook",
+        "keywordScan": {
+          "Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb": {
+            "cellsContainingLovelock": 20,
+            "outputCellsContainingLovelock": 4,
+            "outputCellsContainingLovelockThatAreOnlyStrings": 4
+          },
+          "Generalized _Kronecker_Delta_4+4.nb": {
+            "cellsContainingLovelock": 3,
+            "outputCellsContainingLovelock": 0,
+            "outputCellsContainingLovelockThatAreOnlyStrings": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "christoffel-components",
+      "verdict": "NOT-AVAILABLE",
+      "detail": {
+        "reason": "rt[gtry] computes it, but In[238] suppresses its output (ends with ';'); no stored output of its values was taken from the notebook",
+        "In[238]": "HoldForm[result = {ginv, \\[CapitalGamma], Ricci\\[CapitalGamma], Rie\\[CapitalGamma], RS, EinsteinG} = rt[gtry]; ]",
+        "In238EndsWithSemicolon": true
+      }
+    },
+    {
+      "name": "riemann-components",
+      "verdict": "NOT-AVAILABLE",
+      "detail": {
+        "reason": "rt[gtry] computes it, but In[238] suppresses its output (ends with ';'); no stored output of its values was taken from the notebook",
+        "In[238]": "HoldForm[result = {ginv, \\[CapitalGamma], Ricci\\[CapitalGamma], Rie\\[CapitalGamma], RS, EinsteinG} = rt[gtry]; ]",
+        "In238EndsWithSemicolon": true
+      }
+    },
+    {
+      "name": "ricci-tensor-components",
+      "verdict": "NOT-AVAILABLE",
+      "detail": {
+        "reason": "rt[gtry] computes it, but In[238] suppresses its output (ends with ';'); no stored output of its values was taken from the notebook",
+        "In[238]": "HoldForm[result = {ginv, \\[CapitalGamma], Ricci\\[CapitalGamma], Rie\\[CapitalGamma], RS, EinsteinG} = rt[gtry]; ]",
+        "In238EndsWithSemicolon": true
+      }
+    }
+  ],
+  "summary": {
+    "PASS": 73,
+    "FAIL": 0,
+    "NOT-AVAILABLE": 5,
+    "total": 78
+  },
+  "stopped": null
+}

@@ -454,6 +454,19 @@ def main():
     add("lovelock-L1-vs-2-author-RS", "PASS" if ok else "FAIL",
         {"revision": love["L1"], "twiceAuthorMapped": sp.sstr(sp.expand(2 * a_rs)), "method": how})
 
+    # controls: a WRONG mapping or a missing normalisation must be detected (the comparison is not vacuous)
+    no_chain = map_parsed_a4(parse(outs["Out[535]="]["inputForm"]).subs(sym("x0"), sym("x8")), H * x4, sp.Integer(1))
+    ok, how = exact_zero(no_chain - r_rs)
+    add("control-mapping-without-chain-rule-is-detected", "PASS" if not ok else "FAIL",
+        {"variant": "a4_author^(n)(H x4) -> a4^(n)(x4) WITHOUT the factor H^(-n), applied to the author's RS",
+         "differenceIsZero": ok, "result": how})
+    key = "x1,x1"
+    r = map_revision(parse(curv["einsteinMixed"][key]["mathematica"]))
+    ok, how = exact_zero(a_G[("x1", "x1")] - r)
+    add("control-einstein-without-index-raising-is-detected", "PASS" if not ok else "FAIL",
+        {"variant": "the author's G_{x1 x1} (indices down) compared directly with the Revision's G^x1_x1",
+         "differenceIsZero": ok, "result": how})
+
     # 7. what has no stored author output
     scan = {s["file"]: s for s in author["keywordScan"]}
     evidence = {
@@ -472,10 +485,10 @@ def main():
 def finish(checks, ins, args, stopped):
     in238 = ins["In[238]:="]["inputForm"]
     for obj in ("christoffel", "riemann", "ricci-tensor"):
-        add("%s-components" % obj, "NOT-AVAILABLE",
+        checks.append({"name": "%s-components" % obj, "verdict": "NOT-AVAILABLE", "detail":
             {"reason": "rt[gtry] computes it, but In[238] suppresses its output (ends with ';'); no stored output "
                        "of its values was taken from the notebook",
-             "In[238]": in238, "In238EndsWithSemicolon": in238.rstrip("]").rstrip().endswith(";")})
+             "In[238]": in238, "In238EndsWithSemicolon": in238.rstrip("]").rstrip().endswith(";")}})
 
     counts = {v: sum(1 for c in checks if c["verdict"] == v) for v in ("PASS", "FAIL", "NOT-AVAILABLE")}
     report = {
