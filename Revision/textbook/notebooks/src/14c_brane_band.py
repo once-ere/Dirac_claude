@@ -943,8 +943,9 @@ CELLS = [
     - The two block types have mirrored spectra, $\mathrm{spec}\,h_{-1} =
       -\mathrm{spec}\,h_{+1}$, and $\sigma_3$ maps $(j, k)$ to $(-j, -k)$.
     - At the cutoff $L = 3$ and the slice 0 the band lives at the brane: changing
-      the tip angle shifts it by less than $\exp(-k(e^{HL} - 1)/H)$. At the later
-      slices this factor is not small and the tip angle is not computed there (by
+      the tip angle shifts it by less than $\exp(-k(e^{HL} - 1)/H)$. At a later
+      slice the factor is $\exp(-k\,e^{-a_{4,0}}(e^{HL} - 1)/H)$, which is not small
+      for the lowest lattice momenta, and the tip angle is not computed there (by
       this notebook or by the record). Moving the cutoff $L$ itself
       is another matter (not computed here): the Revision record
       `Revision/kohn_sham/tip_convergence/` finds the $L = 3$ values low by up to
