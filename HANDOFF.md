@@ -147,6 +147,26 @@ and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_rest
 wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
 their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
 
+### 0.4p RUN ORDER AFTER THE PAUSE (2026-10-08 ~10:20; user: "continue")
+
+Running: phase 3a (wf_ad05323f-033, `Revision/workflows/completion/completion_phase_3a.js`, 11 chains).  Done meanwhile by the
+lead (committed, pushed): the lead-check record correction (0eb99c0; normal ordering adds no sign; only the local U(1) law is
+proved; 12/12, byte-identical re-runs); tools_patch.py fix 3 (be3eaa5: nbkit's PASS-line scanner read raw stdout chunks, so
+the regenerated provenance depended on how the kernel split stdout - found in a fresh clone, 04b); the removal script for the
+22 duplicated jupyter workarounds (fe2d80c); phase 3b and 3c scripts (8875805).
+ORDER (each step: lead re-check -> commit -> push):
+1. As each phase-3a chain ends: lead re-check (Revision: re-run with byte comparison; textbook: nbkit check of every changed
+   notebook + check_chapter), commit, push; add index rows (Revision notebooks 25-26, the comparison .wls); TEXTBOOK_SPEC R3
+   wording from tb-charge.
+2. When NO textbook agent runs any more: `python Revision/workflows/completion/tools_patch.py`;
+   `python Revision/workflows/completion/remove_local_jupyter_workarounds.py <the 22 builders that contain python -m jupyterlab>`;
+   add FACTS work_folders to 15a, 15b, 15d (and 16a if it writes into a target folder); then rebuild EVERY notebook
+   (nbkit build --date 2026-10-08, then nbkit check) in the background, 4-6 at a time; all 89 (+22b, 23a later) must pass.
+3. Launch phase 3b (`completion_phase_3b.js`): chapter 23 + glossary + index (23a), 00c, chapter 05, LOVELOCK_GKD sync.
+4. Launch phase 3c (`completion_phase_3c.js`): the two whole reviews with skeptics, fixers, fix-verifiers.
+5. Re-assemble the book, build and register its PDF (TEXTBOOK_SPEC section 4, --wide-page-numbers), run every test suite,
+   the gate (full), EXECUTION_PROVENANCE_FULL=1, the old Stage-4 gate; verify from two fresh clones; push; notify the user.
+
 ### 0.4o PAUSE 2026-10-08 ~10:10 (user: "pause NOW before session limit; push all ...; prepare to restart") - RESTART HERE
 
 State: no workflow, agent or solver/Wolfram/Python process is running (checked).  Everything verified is committed and
