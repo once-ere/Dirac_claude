@@ -148,9 +148,11 @@ their line endings). Line counts are counts of line-feed characters (`wc -l`).
 | `Revision/kohn_sham/theory/KohnShamTheory.wl` (its package, loaded by the script with `Get`) | `554d726af9cff43c680ee9a4a70e7ffa28740a306c91581b6944cc668007f3cf` | 87 | 4575 |
 | `Revision/kohn_sham/theory/check_ks_theory.py` (optional companion, Python/sympy) | `e395b794e33c24700a4fcc81e0e7279a5317dc82163811043e4aaa08c8af1458` | 825 | 49831 |
 
-The script's sha256 is that of the version with the execution fix of 2026-10-02 (section 6); this
-version is committed since commit `3f0a577c234501e0e073df1ec1640554bf93d764` and is the one re-verified on
-2026-10-07. The commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` holds the earlier version (sha256
+The version with the execution fix of 2026-10-02 (section 6) has been committed since commit
+`3f0a577c234501e0e073df1ec1640554bf93d764` (sha256
+`4ce71aaa2c8efd78c8e1508ab72a3223383e21900805c4a34e55a3d5f7deb50d`) and is the one verified in sections 6.1
+(second pass) to 6.3; the table gives its successor of section 6.5, which differs from it only in lines 21
+and 22. The commit `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` holds the earlier version (sha256
 `d8df4e07976352d07c41c4b38a28ca09626f20d54a237cfba7ba942893596cab`, 455 lines, 40693 bytes). Both
 versions perform the same 46 checks and write the same bytes; the earlier one does not stop when an
 input file is missing or an output file cannot be written (section 3.7 describes what it does then).

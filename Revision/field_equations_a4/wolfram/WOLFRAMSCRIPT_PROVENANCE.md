@@ -150,10 +150,11 @@ creates). Every file is UTF-8 text with LF line endings, stored byte for byte by
 | output 1 (written, committed) | `Revision/field_equations_a4/a4-equations.json` | 41869 | 788 | `9965d8c0a8d7d77c5a239d5c7d0576326ffd6143b09e68d4ffd8e467a456afd1` |
 | output 2 (written, committed) | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 14190 | 269 | `27faceeebdcdb8dc97afbebe89e24e322e8308fb5679df19c88dc1c77af72e6b` |
 
-Last commits that changed them: the script, the package and output 2: `e377368` (2026-10-08);
-`gammas.json`: `9ea68d4` (2026-10-01); `lovelock-tensors.json`: `ad02ebb` (2026-10-01); output 1: `70fab64`
-(2026-10-01; the patch left it byte for byte unchanged). On 2026-10-08, after `e377368`, the script and
-output 1 were changed in the working tree (section 6.6): the folders are normalised with `ExpandFileName`,
+Last commits that changed them: the package and output 2: `e377368` (2026-10-08); the script: `16d538f`
+and output 1: `7daacf6` (automatic snapshots of 2026-10-08, section 6.7; the changes of section 6.6 were first
+committed in `6779cd3`; before them the script was last changed by `e377368` and output 1 by `70fab64`, which
+the patch left byte for byte unchanged); `gammas.json`: `9ea68d4` (2026-10-01); `lovelock-tensors.json`:
+`ad02ebb` (2026-10-01). On 2026-10-08, after `e377368`, the script and output 1 were changed (section 6.6): the folders are normalised with `ExpandFileName`,
 and the text `fields.dirac16complex.statement` of output 1 now reports what `Revision/theory/fock_quartic`
 decided; later that day the opening of the text `fields.dirac16complex.kohnSham` was corrected (section
 6.7). The table gives the version of section 6.7; the versions verified in sections 6.3 to 6.5 were the
@@ -805,7 +806,7 @@ for byte. Remarks that do not affect a run from a complete clone:
 * Fixes made: the normalisation and the text above. Open discrepancies: none in the results. Not done: a run
   of the changed script in a fresh clone, and a run from a long clone folder.
 
-### 6.7 The opening of the `kohnSham` text corrected (2026-10-08, working tree)
+### 6.7 The opening of the `kohnSham` text corrected (2026-10-08; first committed in the automatic snapshots `16d538f` (script), `7daacf6` (`a4-equations.json`) and `7d1ee5a` (`ks-source-a4.json`))
 
 * Why: the independent verifier of section 6.6 (2026-10-08) noted that the text
   `fields.dirac16complex.kohnSham` of output 1 began with "to be filled by Revision/kohn_sham", although the

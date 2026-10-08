@@ -506,3 +506,15 @@ F1 and F2 ran at the same time, F3 during them; G1 and G2 ran at the same time a
 * The spool files of interrupted runs listed above remain on the verification machine; they can be deleted when no WolframScript run is going on (Part 5).
 * The textbook item of Part 6.4 remains.
 * No open discrepancy in the mathematics: every check was true in every run of this record that had the complete set of files.
+
+### 6.7 The Python report after a fix of the Python checker (2026-10-08; not a file of this set)
+
+The independent Python checker `scripts/check_dirac16complex00.py` failed its own end-to-end test
+(`tests/test_d16c_stage5_dirac16complex00.py`, `EndToEndTests.test_SLOW_command_line_quick_mode`) after the repository
+moved to the drive D: its function `relative` called `os.path.relpath`, which raises `ValueError` for a path on another
+drive (the test writes into the system temporary folder on C:). The function now falls back to the path itself, exactly
+as `scripts/check_dirac16complex_pairing.py` does; committed reports name only repository paths, so they are unaffected.
+The report `artifacts/dirac16complex/pair-creation/python-dirac16complex00-report.json` was regenerated twice (once into
+a scratch file, once in place; byte-identical): it differs from the previous one (`27269f05...`) only in line 2187, the
+`sourceSha256` entry of the checker itself, and has 2198 lines, 61256 bytes and sha256
+`a0254a0d7c7d6a7ffec2021ab1dad197a0fe3d5b0ceaeb65c125c12fb3c7d168`. The two output files of this set are unchanged.
