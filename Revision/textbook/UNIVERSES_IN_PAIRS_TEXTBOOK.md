@@ -48860,7 +48860,7 @@ Notebook 03b does Sections 3.23 to 3.26 by computer algebra, for a general funct
 
 **Step 1. What this notebook does and what it needs.**
 
-Notebook 03b (The curvature of the author's metric: Christoffel, Riemann, Ricci, Einstein, Kretschmann) is the file `Revision/textbook/notebooks/03b_curvature.ipynb` of the repository Dirac_claude. It computes with sympy, from the metric exactly as the author typed it and with a general function a4(x4), all 512 Christoffel symbols, the Riemann tensor, the Ricci tensor, the Ricci scalar, the Einstein tensor and the Kretschmann scalar; it compares every component with the Revision record of the Rust program lovelock_gkd (exactly, and numerically at the five test points of the independent Revision verification), checks the symmetries of the Riemann tensor, the first and the contracted Bianchi identities, the Christoffel symbols by finite differences, and a negative control with inflating extra times; and it draws the Christoffel symbols, the curvature of every coordinate plane, the components and the curvature scalars versus z and versus the expansion rate, and the Einstein tensor; along the deflating history a4 = A H x4 it reproduces the source that the Einstein equations require in the Revision record of the field equations of a4. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy, sympy, mpmath and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
+Notebook 03b (The curvature of the author's metric: Christoffel, Riemann, Ricci, Einstein, Kretschmann) is the file `Revision/textbook/notebooks/03b_curvature.ipynb` of the repository Dirac_claude. It computes with sympy, from the metric exactly as the author typed it and with a general function a4(x4), all 512 Christoffel symbols, the Riemann tensor, the Ricci tensor, the Ricci scalar, the Einstein tensor and the Kretschmann scalar; it compares every component with the Revision record of the Rust program lovelock_gkd (exactly, and numerically at the five test points of the independent Revision verification), checks the symmetries of the Riemann tensor, the first and the contracted Bianchi identities, the Christoffel symbols by finite differences, and a negative control with inflating extra times; and it draws the Christoffel symbols, the curvature of every coordinate plane, the components and the curvature scalars versus z and versus the expansion rate, and the Einstein tensor; along the deflating history a4 = A H x4 it reproduces the source that the Einstein equations require in the Revision record of the field equations of a4. It shows that for the planes that contain the time x4 the plane curvature is the relative acceleration of neighbouring observers at rest. Every check of a Revision report that a PASS line names is opened and asserted to exist and to have passed. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy, sympy, mpmath and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
 
 **Step 2. Install Git and Python (once per computer).**
 
@@ -49025,7 +49025,7 @@ Every check of the notebook prints a line that starts with PASS. At the end of t
 
 ```text
 PASS all seven figure files exist
-ALL 39 CHECKS PASSED (notebook 03b)
+ALL 40 CHECKS PASSED (notebook 03b)
 ```
 
 and the notebook must show 7 figures below the cells that draw them.
@@ -49072,9 +49072,12 @@ It
 - computes the **Riemann tensor** $R^a{}_{bcd}$ and its form $R^{ab}{}_{cd}$ with two
   upper indices, finds its 156 non-zero components, checks its symmetries and the
   first Bianchi identity, and compares all 156 with the record;
+- computes the curvature $\sigma(a, b)$ of each of the 28 coordinate planes and
+  shows that for the planes with the time $x_4$ it is the relative acceleration of
+  two neighbouring observers at rest;
 - computes the **Ricci tensor**, the **Ricci scalar** and the **Einstein tensor**,
-  compares them with the record and the lead's checks, and checks the contracted
-  Bianchi identity $\nabla_\mu G^\mu{}_\nu = 0$;
+  compares them with the record and the lead checks, and checks the contracted
+  Bianchi identity $\sum_\mu \nabla_\mu G^\mu{}_\nu = 0$;
 - computes the **Kretschmann scalar** $K = R^{ab}{}_{cd} R^{cd}{}_{ab}$, shows that it
   does not depend on $z$ although single components do, and that it is never zero
   for $H > 0$;
@@ -49084,6 +49087,8 @@ It
   of the field equations of $a_4$ lists for this history;
 - repeats the curvature for a **negative control** in which the extra times inflate
   instead of deflating, and shows what then changes;
+- opens every Revision report whose check a PASS line names, and stops unless that
+  check is listed there as passed;
 - draws 7 figures and prints a PASS line for every check.
 ```
 
@@ -49107,13 +49112,16 @@ negative control with inflating extra times; and it draws the Christoffel symbol
 curvature of every coordinate plane, the components and the curvature scalars versus z
 and versus the expansion rate, and the Einstein tensor; along the deflating history a4 =
 A H x4 it reproduces the source that the Einstein equations require in the Revision
-record of the field equations of a4. It needs a computer with Windows 11, macOS or Linux,
-an internet connection for the installation, the program Git, and Python 3.12 or newer
-(the notebooks were built with Python 3.14.5) with these packages at exactly these
-versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10,
-nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook
-itself imports numpy, sympy, mpmath and matplotlib; the other packages run Jupyter, the
-program that shows and runs notebooks. It does not need Rust.
+record of the field equations of a4. It shows that for the planes that contain the time
+x4 the plane curvature is the relative acceleration of neighbouring observers at rest.
+Every check of a Revision report that a PASS line names is opened and asserted to exist
+and to have passed. It needs a computer with Windows 11, macOS or Linux, an internet
+connection for the installation, the program Git, and Python 3.12 or newer (the notebooks
+were built with Python 3.14.5) with these packages at exactly these versions: numpy
+2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4,
+nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy,
+sympy, mpmath and matplotlib; the other packages run Jupyter, the program that shows and
+runs notebooks. It does not need Rust.
 
 **Step 2. Install Git and Python (once per computer).**
 
@@ -49298,7 +49306,7 @@ Every check of the notebook prints a line that starts with PASS. At the end of t
 notebook (the output of its last code cell) you must see exactly these lines:
 
     PASS all seven figure files exist
-    ALL 39 CHECKS PASSED (notebook 03b)
+    ALL 40 CHECKS PASSED (notebook 03b)
 
 and the notebook must show 7 figures below the cells that draw them.
 
@@ -49365,9 +49373,12 @@ RESULT line) and `all_checks_passed` (prints the last line).
 # Christoffel symbols, the curvature of every coordinate plane, the components and the
 # curvature scalars versus z and versus the expansion rate, and the Einstein tensor;
 # along the deflating history a4 = A H x4 it reproduces the source that the Einstein
-# equations require in the Revision record of the field equations of a4. It needs a
-# computer with Windows 11, macOS or Linux, an internet connection for the installation,
-# the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5)
+# equations require in the Revision record of the field equations of a4. It shows that
+# for the planes that contain the time x4 the plane curvature is the relative
+# acceleration of neighbouring observers at rest. Every check of a Revision report that a
+# PASS line names is opened and asserted to exist and to have passed. It needs a computer
+# with Windows 11, macOS or Linux, an internet connection for the installation, the
+# program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5)
 # with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0,
 # matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0
 # and nbconvert 7.16.6. The notebook itself imports numpy, sympy, mpmath and matplotlib;
@@ -49545,7 +49556,7 @@ RESULT line) and `all_checks_passed` (prints the last line).
 # notebook (the output of its last code cell) you must see exactly these lines:
 #
 #     PASS all seven figure files exist
-#     ALL 39 CHECKS PASSED (notebook 03b)
+#     ALL 40 CHECKS PASSED (notebook 03b)
 #
 # and the notebook must show 7 figures below the cells that draw them.
 #
@@ -49737,9 +49748,18 @@ Set-up of notebook 03b complete: repository folder found, helpers defined.
   is carried around a small closed loop. It is zero everywhere exactly when the space
   is flat.
 - $R^{ab}{}_{cd} = \sum_e g^{be} R^a{}_{ecd}$: the same tensor with the second index
-  raised. For the coordinate plane of $x_a$ and $x_b$, $R^{ab}{}_{ab}$ (no sum) is the
-  **curvature of that plane** (the sectional curvature): positive like a sphere,
-  negative like a saddle.
+  raised. For the coordinate plane of $x_a$ and $x_b$, $\sigma(a, b) =
+  R^{ab}{}_{ab}$ (no sum) is the **curvature of that plane** (the sectional
+  curvature). Only for a plane of two space-like directions does its sign describe
+  a shape: positive curved like a sphere, negative like a saddle. For a plane with
+  a time-like direction the sign is read from free fall: two neighbouring
+  free-fall paths that move along the time-like direction $x_b$, a small proper
+  distance $\xi$ apart along $x_a$, accelerate apart as $d^2\xi/d\tau^2 =
+  +\sigma(a, b)\,\xi$, while on a sphere $d^2\xi/ds^2 = -\sigma\,\xi$: the same sign
+  of $\sigma$ has the opposite effect.
+- **Lead checks**: short independent Python programs of the Revision record (folder
+  `Revision/lead_checks`), written from scratch by the coordinator of the Revision
+  work (the "lead") without importing any other Revision code.
 - **Ricci tensor** $R^a{}_b = \sum_c R^{ac}{}_{bc}$, **Ricci scalar**
   $R = \sum_a R^a{}_a$, **Einstein tensor** $G^a{}_b = R^a{}_b - \tfrac12
   \delta^a{}_b R$: the averages of the curvature that enter Einstein's field
@@ -49756,8 +49776,12 @@ Set-up of notebook 03b complete: repository folder found, helpers defined.
   direction. A later chapter derives these equations; this notebook only reads
   them in a Revision record.
 - **Bianchi identities**: $R^a{}_{bcd} + R^a{}_{cdb} + R^a{}_{dbc} = 0$ (first) and
-  $\nabla_\mu G^\mu{}_\nu = 0$ (contracted): identities that every metric satisfies;
-  checking them checks the computation.
+  $\sum_\mu \nabla_\mu G^\mu{}_\nu = 0$ (contracted): identities that every metric
+  satisfies; checking them checks the computation.
+- **Lovelock scalars and tensors**: curvature quantities built from products of one,
+  two or three Riemann tensors with the generalized Kronecker delta; the first
+  Lovelock scalar is $L_{(1)} = 2R$ and the first Lovelock tensor is
+  $P_{(1)} = -4G$. A later chapter treats them in full.
 - **Finite difference**: the numerical derivative $f'(x) \approx (f(x+h) -
   f(x-h))/(2h)$; its error shrinks like $h^2$.
 - `a4p`, `a4pp`, `a4v`: the names the notebook prints for $a_4'$, $a_4''$ and the
@@ -49786,9 +49810,9 @@ first derivatives of the Christoffel symbols and their products (so the second
 derivatives of the metric, and $a_4''$ appears); the Ricci tensor, the Ricci scalar
 and the Einstein tensor are sums of Riemann components. The Revision record
 computed all of this with an exact Rust program (`lovelock_gkd`); an independent
-sympy program checked every component, and the lead's own sympy code recomputed the
-Einstein tensor. This notebook does it once more, in small steps, and compares every
-single component.
+sympy program checked every component, and the lead checks recomputed the Einstein
+tensor with their own sympy code. This notebook does it once more, in small steps,
+and compares every single component.
 
 Nothing here involves the matter fields yet: these are exact properties of the given
 metric. The field equations, which connect the Einstein tensor to the energy and the
@@ -49857,7 +49881,13 @@ The next cell imports the packages, reads the record, and makes the symbols: the
 eight coordinates, $H > 0$, the unknown function $a_4(x_4)$, and the printing names
 `a4p`, `a4pp`, `a4v` and `z`. The function `plain` rewrites an expression with these
 printing names; the function `symbolic` does the same but keeps $x_8$ (the record
-writes its components with $x_8$).
+writes its components with $x_8$). It also names the two reports of the Revision
+curvature computation and defines the function `record_check(report_file,
+check_name, detail_part)`, the same as in Notebook 03a: it opens a Revision report,
+finds the check with that name, and stops the notebook with an error unless the
+check is there and passed (and, if `detail_part` is given, its detail contains that
+text). Every PASS line below that names a check of a Revision report calls it
+first, so that a renamed, missing or failing check in the record is caught.
 ```
 
 **In [3]:**
@@ -49873,6 +49903,27 @@ from sympy.parsing.sympy_parser import (implicit_multiplication, parse_expr,
 
 CURVATURE_RECORD = "Revision/gkd_lovelock/results/curvature.json"
 record = json.loads(repository_file(CURVATURE_RECORD).read_text(encoding="utf-8"))
+PYTHON_REPORT = "Revision/gkd_lovelock/results/python-lovelock-report.json"  # sympy
+RUST_REPORT = "Revision/gkd_lovelock/results/lovelock-report.json"  # the Rust checks
+
+
+def record_check(report_file, check_name, detail_part=""):
+    """Return True when the Revision report report_file lists the check check_name
+    as passed (and its detail contains detail_part); otherwise stop the notebook."""
+    checks = json.loads(repository_file(report_file).read_text(encoding="utf-8"))
+    checks = checks["checks"]  # a dictionary or a list, depending on the report
+    if isinstance(checks, dict):  # {name: {"passed": true, "detail": ...}}
+        entry = checks.get(check_name, {})
+        passed = entry.get("passed") is True
+    else:  # [{"name": ..., "verdict": "PASS", "detail": ...}, ...]
+        entry = next((e for e in checks if e.get("name") == check_name), {})
+        passed = entry.get("verdict") == "PASS"
+    if not passed or detail_part not in entry.get("detail", ""):
+        raise AssertionError(f"record check failed: {report_file} does not list "
+                             f"{check_name} as passed")
+    return True
+
+
 x1, x2, x3, x4, x5, x6, x7, x8 = sp.symbols("x1:9", real=True)
 X = [x1, x2, x3, x4, x5, x6, x7, x8]  # the coordinates, counted 0 to 7 in Python
 NAMES = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"]
@@ -50093,6 +50144,7 @@ record_gamma = {(NAMES.index(e["a"]), NAMES.index(e["b"]), NAMES.index(e["c"])):
                 for e in record["christoffelNonzero_b_le_c"]}
 check(sorted(record_gamma) == upper_half and len(upper_half) == 25,
       "the same 25 non-zero Christoffel symbols as the record")
+record_check(PYTHON_REPORT, "rust_christoffels_agree")  # stops if not passed
 check(all(same(Gamma[a][b][c], value) for (a, b, c), value in record_gamma.items()),
       "every Christoffel symbol equals the record exactly",
       record=f"{CURVATURE_RECORD}, christoffelNonzero_b_le_c (and "
@@ -50290,12 +50342,10 @@ for eight step sizes $h$ from $10^{-1}$ to $10^{-8}$.
 **In [10]:**
 
 ```python
-RUST_REPORT = "Revision/gkd_lovelock/results/lovelock-report.json"
-rust_report = json.loads(repository_file(RUST_REPORT).read_text(encoding="utf-8"))
 prime = chr(39)  # the apostrophe (character number 39): the record writes a4 prime so
 point_text = (f"H = 0.23, a4 = 0.17, a4{prime} = 0.61, a4{prime}{prime} = -0.37, "
               "x8 = 0.41")  # the test point as the record writes it
-check(point_text in rust_report["checks"]["k1_brute_force_numeric"]["detail"],
+check(record_check(RUST_REPORT, "k1_brute_force_numeric", point_text),
       "the test point is the one of the brute-force check of the Rust program")
 H_n, a0, a1, a2, x8_n = 0.23, 0.17, 0.61, -0.37, 0.41  # the test point
 
@@ -50504,6 +50554,7 @@ R_down = riemann(Gamma, X)  # R^a_bcd
 R_mixed = raise_second(R_down, g)  # R^ab_cd
 report("non-zero components R^a_bcd", len(R_down))
 report("non-zero components R^ab_cd", len(R_mixed))
+record_check(RUST_REPORT, "riemann_antisymmetry", "156 nonzero entries")
 check(len(R_mixed) == 156, "R^ab_cd has 156 non-zero components, as in the record",
       record="Revision/gkd_lovelock/results/lovelock-report.json, check "
              "riemann_antisymmetry (156 nonzero entries)")
@@ -50547,6 +50598,7 @@ lowered = {(a, b, c, d): g[a, a] * g[b, b] * v
            for (a, b, c, d), v in R_mixed.items()}
 pair_symmetric = all(vanishes(v - get(lowered, (c, d, a, b)))
                      for (a, b, c, d), v in lowered.items())
+record_check(PYTHON_REPORT, "riemann_antisymmetry_and_pair_symmetry")
 check(antisymmetric and pair_symmetric,
       "R^ab_cd is antisymmetric in a, b and in c, d; R_abcd = R_cdab",
       record="Revision/gkd_lovelock/results/python-lovelock-report.json, check "
@@ -50554,6 +50606,7 @@ check(antisymmetric and pair_symmetric,
 bianchi = [vanishes(get(R_down, (a, b, c, d)) + get(R_down, (a, c, d, b))
                     + get(R_down, (a, d, b, c)))
            for a, b, c, d in itertools.product(range(8), repeat=4)]
+record_check(RUST_REPORT, "riemann_first_bianchi")
 check(all(bianchi) and len(bianchi) == 4096,
       "the first Bianchi identity holds for all 4096 index lists",
       record="Revision/gkd_lovelock/results/lovelock-report.json, check "
@@ -50561,6 +50614,8 @@ check(all(bianchi) and len(bianchi) == 4096,
 warp_free = all(not symbolic(v).has(a4v) and not any(
     isinstance(p, sp.Pow) and p.base == sp.sin(6 * H * x8) and not p.exp.is_integer
     for p in sp.preorder_traversal(symbolic(v))) for v in R_mixed.values())
+record_check(RUST_REPORT, "mixed_riemann_free_of_sin_third")
+record_check(PYTHON_REPORT, "mixed_riemann_free_of_warp_and_exponential")
 check(warp_free, "no R^ab_cd contains sin(z)^(1/3) or e^(a4): the warp cancels",
       record="Revision/gkd_lovelock/results/lovelock-report.json, check "
              "mixed_riemann_free_of_sin_third, and python-lovelock-report.json, "
@@ -50601,6 +50656,7 @@ for entry in record["riemannMixedNonzero"]:
     record_riemann[key] = from_mathematica(entry["value"])
 check(sorted(record_riemann) == sorted(R_mixed),
       "the same 156 non-zero components R^ab_cd as the record")
+record_check(PYTHON_REPORT, "rust_riemann_agrees")
 check(all(same(R_mixed[k], v) for k, v in record_riemann.items()),
       "every component R^ab_cd equals the record exactly",
       record=f"{CURVATURE_RECORD}, riemannMixedNonzero (and "
@@ -50644,20 +50700,38 @@ RESULT different values among the 156 components = 14
 ```text
 ## 10. The curvature of every coordinate plane
 
-For two different coordinates $x_a$ and $x_b$ the number $R^{ab}{}_{ab}$ (no sum) is
-the curvature of the coordinate plane spanned by them. The next cell computes all
-28 of them as formulas, prints one plane of each kind, and checks the six
-formulas: 3-space with 3-space and extra time with extra time $a_4'^2 - H^2$;
-3-space with an extra time $-(a_4'^2 + H^2)$; 3-space with the time $x_4$
-$a_4'^2 + a_4''$; the time with an extra time $a_4'^2 - a_4''$; a 3-space or
+For two different coordinates $x_a$ and $x_b$ the number $\sigma(a, b) =
+R^{ab}{}_{ab}$ (no sum) is the curvature of the coordinate plane spanned by them.
+The next cell computes all 28 of them as formulas, prints one plane of each kind,
+and checks the six formulas: 3-space with 3-space and extra time with extra time
+$a_4'^2 - H^2$; 3-space with an extra time $-(a_4'^2 + H^2)$; 3-space with the time
+$x_4$ $a_4'^2 + a_4''$; the time with an extra time $a_4'^2 - a_4''$; a 3-space or
 extra-time direction with the hidden $x_8$ $-H^2$; the time with the hidden $x_8$
-zero. None depends on $z$ or on the value of $a_4$. Then it draws them as
-$8 \times 8$ heat maps along the deflating history $a_4 = AHx_4$ ($a_4' = AH$,
-$a_4'' = 0$, $H = 1$) for the three slopes $A = 0.5$, $1$ (the canonical value of
-the Revision record) and $2$, all positive, so that in all three the extra times
-deflate; the diagonal is left empty. The planes inside 3-space and inside the extra
-times change sign at $A = 1$: $a_4'^2 - H^2 = H^2(A^2 - 1)$ is negative for $A < 1$,
-zero at $A = 1$ and positive for $A > 1$.
+zero. None depends on $z$ or on the value of $a_4$.
+
+What does the sign mean? Only 6 of the 28 planes are spanned by two space-like
+directions (two of $x_1, x_2, x_3$, or one of them with $x_8$); only for these does
+a positive value mean curved like a sphere and a negative one like a saddle. The
+other 22 planes contain a time-like direction, and there the sign is read from
+free fall. The clearest case: two observers at rest (they fall freely, section 8),
+a small coordinate distance $\Delta x_a$ apart along a transverse direction $x_a$,
+are a proper distance $\xi = h_a\,\Delta x_a$ apart, where $h_a$ is the scale factor;
+the proper time of both is $\tau = x_4$. The cell computes $(d^2\xi/d\tau^2)/\xi =
+(\partial_4^2 h_a)/h_a$ for $x_a = x_1$ (with $h_1 = e^{a_4}\sin^{1/6}z$) and
+$x_a = x_5$ (with $h_5 = e^{-a_4}\sin^{1/6}z$) and checks that it is exactly
+$\sigma(a, x_4)$: $d^2\xi/d\tau^2 = +\sigma(a, x_4)\,\xi$. Along the history
+$a_4 = AHx_4$ both are $A^2H^2 > 0$: a positive curvature, and yet the 3-space
+distance grows like $e^{AH\tau}$ (the extra-time distance shrinks like
+$e^{-AH\tau}$, also with a positive second derivative); on a sphere a positive
+curvature pulls neighbouring paths together, $d^2\xi/ds^2 = -\sigma\,\xi$.
+
+Then the cell draws the 28 plane curvatures as $8 \times 8$ heat maps along the
+deflating history $a_4 = AHx_4$ ($a_4' = AH$, $a_4'' = 0$, $H = 1$) for the three
+slopes $A = 0.5$, $1$ (the canonical value of the Revision record) and $2$, all
+positive, so that in all three the extra times deflate; the diagonal is left empty.
+The planes inside 3-space and inside the extra times change sign at $A = 1$:
+$a_4'^2 - H^2 = H^2(A^2 - 1)$ is negative for $A < 1$, zero at $A = 1$ and positive
+for $A > 1$.
 ```
 
 **In [16]:**
@@ -50673,6 +50747,17 @@ for (a, b), formula in expected.items():
 check(all(sp.expand(plane[key] - formula) == 0 for key, formula in expected.items())
       and all(not v.has(z) and not v.has(a4v) for v in plane.values()),
       "the plane curvatures have the six formulas and do not depend on z or a4")
+sixth = sp.sin(6 * H * x8) ** sp.Rational(1, 6)  # sin(z)^(1/6)
+apart = {0: sp.exp(a4) * sixth, 4: sp.exp(-a4) * sixth}  # the scale factors h1, h5
+growth = {}  # (d^2 xi/d tau^2)/xi for observers at rest apart along x1 or x5
+for a, h_a in apart.items():  # xi = h_a times a fixed coordinate distance, tau = x4
+    growth[a] = sp.expand(plain(sp.simplify(sp.diff(h_a, x4, 2) / h_a)))
+    say(f"  at rest, apart along {NAMES[a]}: (d^2 xi/d tau^2)/xi = {growth[a]}")
+check(sp.simplify(apart[0] ** 2 - g[0, 0]) == 0
+      and sp.simplify(apart[4] ** 2 + g[4, 4]) == 0
+      and all(sp.expand(growth[a] - plane[(a, 3)]) == 0 for a in apart),
+      "observers at rest: d^2 xi/d tau^2 = +R^ab_ab xi in the planes (x1, x4) and "
+      "(x5, x4)")
 SLOPES = (0.5, 1.0, 2.0)  # three deflating histories, A > 0
 fig, axes = plt.subplots(1, 3, figsize=(14.0, 4.8))  # wide: room for -1.25
 for ax, slope in zip(axes, SLOPES):
@@ -50717,6 +50802,9 @@ check([float(plane[(0, 1)].subs({a4p: s, H: 1})) for s in SLOPES] == [-0.75, 0.0
   plane (x5, x8): R^ab_ab = -H**2
   plane (x4, x8): R^ab_ab = 0
 PASS the plane curvatures have the six formulas and do not depend on z or a4
+  at rest, apart along x1: (d^2 xi/d tau^2)/xi = a4p**2 + a4pp
+  at rest, apart along x5: (d^2 xi/d tau^2)/xi = a4p**2 - a4pp
+PASS observers at rest: d^2 xi/d tau^2 = +R^ab_ab xi in the planes (x1, x4) and (x5, x4)
 ```
 
 ![The curvature $R^{ab}{}_{ab}$ (no sum) of the coordinate plane of $x_a$ (row) and $x_b$ (column), in units of $H^2$, along the deflating history $a_4 = AHx_4$ ($a_4^{\prime} = AH$, $a_4^{\prime\prime} = 0$, $H = 1$) for $A = 0.5$ (left), $A = 1$ (middle, the canonical history of the Revision record) and $A = 2$ (right); red positive (curved like a sphere), blue negative (curved like a saddle), grey zero, diagonal empty. The planes inside 3-space and inside the extra times have $a_4^{\prime 2} - H^2$ ($-0.75$, $0$, $3$: the sign changes at $A = 1$); a 3-space direction with an extra time $-(a_4^{\prime 2} + H^2)$ ($-1.25$, $-2$, $-5$); the planes with the time $x_4$ $a_4^{\prime 2} \pm a_4^{\prime\prime}$ ($0.25$, $1$, $4$), except the plane of $x_4$ and $x_8$, which is flat; every other plane with the hidden $x_8$ has $-H^2 = -1$ for every $A$. (Notebook 03b, figure 4.)](Revision/textbook/figures/03b_4_plane_curvatures.png)
@@ -51436,7 +51524,7 @@ all_checks_passed()
 
 ```text
 PASS all seven figure files exist
-ALL 39 CHECKS PASSED (notebook 03b)
+ALL 40 CHECKS PASSED (notebook 03b)
 ```
 
 **Text cell:**
@@ -182419,7 +182507,7 @@ $$
 
 The first line is the computation of Section 13.10 with $v_s = v + g_c n/2$; the second writes $E_H + E_x = \tfrac{g_c}{4}\int n^2$ and subtracts the first line. This **double-counting formula** gives the same energy as the direct sum of the four parts, which the notebook checks.
 
-**Stability of the equal-label solution.** So far the up and down densities were forced to be equal. Would the fermions lower their energy by separating the labels, as on two sites at strong repulsion (Section 13.7)? Let each label have its own potential: a fermion with label up feels $v + g_c n - g_c n_\uparrow = v + g_c n_\downarrow$, and one with label down $v + g_c n_\uparrow$, and the energy is $E = T_s + \int v\,n + g_c\int n_\uparrow n_\downarrow$ (Section 13.5). Started from a strongly separated guess, the loop for the two potentials together must return to equal densities if the equal-label solution is stable.
+**Stability of the equal-label solution.** So far the up and down densities were forced to be equal. Would the fermions lower their energy by separating the labels, as on two sites at strong repulsion (Section 13.7)? Let each label have its own potential: a fermion with label up feels $v + g_c n - g_c n_\uparrow = v + g_c n_\downarrow$, and one with label down $v + g_c n_\uparrow$, and the energy is $E = T_s + \int v\,n + g_c\int n_\uparrow n_\downarrow$ (Section 13.5). Started from a strongly separated guess, the loop for the two potentials together may return to equal densities; but that alone does not show stability, because the loop can also converge to a **saddle**: a self-consistent solution from which some change of the densities LOWERS the energy. Only the energy decides: the equal-label solution is a minimum when every small label-separating change raises the energy. Notebook 13a shows both cases: on two sites with $U = 4t$ the loop started from a small separation converges to the equal labels although separating them lowers the energy (a saddle), and in the trap every label-separating trial family raises the energy, quadratically for small separations (a minimum along these families).
 
 **The variational principle at work.** The Kohn-Sham equations make the energy stationary in the orbitals, and for the ground state the stationary point is a minimum. A one-parameter test: for each number $c$, take the four lowest orbitals of the trial potential $v + c\,n_{scf}$ ($n_{scf}$ the self-consistent density) and evaluate the same energy formula with them. At $c = g_c/2 = 1$ these are the self-consistent orbitals; the energy must be smallest there, and near the minimum the curve is flat (a small error in the orbitals makes only a second-order error in the energy).
 
@@ -182450,7 +182538,7 @@ $$
 
 **The first excited state.** The Kohn-Sham gap is $\epsilon_4 - \epsilon_3$ of the ground state. The Delta-SCF energy moves one up fermion from orbital 3 (HOMO) to orbital 4 (LUMO) and solves the loop again (Section 13.27). By Janak's theorem it equals the integral of $\epsilon_4(\tau) - \epsilon_3(\tau)$ over the moved fraction $\tau$ from 0 to 1, which the notebook computes with Simpson's rule on nine values of $\tau$.
 
-**What the notebook finds (COMPUTED, Notebook 13a).** The grid (200 points in $-6 < x < 6$) reproduces the levels $n + \tfrac12$ of the trap to $0.013$ (In [3]; an error of order $h^2$, Section 13.2). Plain iteration needs 40 passes, linear mixing with $\beta = 0.7$ needs 23 and with $\beta = 0.3$ needs 73 (In [6]), Anderson mixing with the Revision settings 19 (In [8]); all reach the same potential to $10^{-9}$ (Figure 13a.2), and plain iteration overshoots: the first density is too narrow, the second too wide (In [10], Figure 13a.3). The Kohn-Sham levels are $2.119598$, $3.006214$, $3.877952$, $4.723945$ (occupied) and $5.496606$ (LUMO) (In [11]). The energy is $E = 21.851498$ by both formulas, made of $T_s = 6.726297$, $\int v\,n = 9.521279$, $E_H = 11.207843$ and $E_x = -5.603922 = -E_H/2$ (In [14]). The equal-label solution is stable (In [16]). In the trial family the lowest energy is at $c = 1.00$ (In [17], Figure 13a.6). The root-mean-square widths of the cloud are $1.413346$ (no interaction), $1.542829$ (Kohn-Sham) and $1.659857$ (Hartree only): the repulsion spreads the cloud, and the self-interaction of Hartree spreads it too much (In [19], Figure 13a.7). $dE/dg_c = 2.801961$ both as a difference quotient and as $\tfrac14\int n^2$ (In [21]). The Kohn-Sham gap is $0.772662$, the Delta-SCF energy $0.714594$ (equal to the Janak integral), and the transition-state estimate $0.712784$ (In [23]): here the orbital relaxation lowers the excitation energy.
+**What the notebook finds (COMPUTED, Notebook 13a).** The grid (200 points in $-6 < x < 6$) reproduces the levels $n + \tfrac12$ of the trap to $0.013$ (In [3]; an error of order $h^2$, Section 13.2). Plain iteration needs 40 passes, linear mixing with $\beta = 0.7$ needs 23 and with $\beta = 0.3$ needs 73 (In [6]), Anderson mixing with the Revision settings 19 (In [8]); all reach the same potential to $10^{-9}$ (Figure 13a.2), and plain iteration overshoots: the first density is too narrow, the second too wide (In [10], Figure 13a.3). The Kohn-Sham levels are $2.119598$, $3.006214$, $3.877952$, $4.723945$ (occupied) and $5.496606$ (LUMO) (In [11]). The energy is $E = 21.851498$ by both formulas, made of $T_s = 6.726297$, $\int v\,n = 9.521279$, $E_H = 11.207843$ and $E_x = -5.603922 = -E_H/2$ (In [14]). From a strongly separated start the two-label loop returns to equal labels (In [16]); the energy test shows that along three label-separating families the equal-label solution is a minimum, while on two sites with $U = 4t$ the loop converges to a saddle (In [17], In [18], Figure 13a.6). In the trial family the lowest energy is at $c = 1.00$ (In [19], Figure 13a.7). The root-mean-square widths of the cloud are $1.413346$ (no interaction), $1.542829$ (Kohn-Sham) and $1.659857$ (Hartree only): the repulsion spreads the cloud, and the self-interaction of Hartree spreads it too much (In [21], Figure 13a.8). $dE/dg_c = 2.801961$ both as a difference quotient and as $\tfrac14\int n^2$ (In [23]). The Kohn-Sham gap is $0.772662$, the Delta-SCF energy $0.714594$ (equal to the Janak integral), and the transition-state estimate $0.712784$ (In [25]): here the orbital relaxation lowers the excitation energy.
 
 ### 13.33 Example: the one-dimensional Kohn-Sham toy
 
@@ -182610,10 +182698,11 @@ The notebook writes (or overwrites) these files:
 - `Revision/textbook/figures/13a_3_first_iterations.png`
 - `Revision/textbook/figures/13a_4_ks_potentials.png`
 - `Revision/textbook/figures/13a_5_density_orbitals.png`
-- `Revision/textbook/figures/13a_6_variational_scan.png`
-- `Revision/textbook/figures/13a_7_approximations.png`
-- `Revision/textbook/figures/13a_8_coupling_scan.png`
-- `Revision/textbook/figures/13a_9_delta_scf.png`
+- `Revision/textbook/figures/13a_6_label_separation.png`
+- `Revision/textbook/figures/13a_7_variational_scan.png`
+- `Revision/textbook/figures/13a_8_approximations.png`
+- `Revision/textbook/figures/13a_9_coupling_scan.png`
+- `Revision/textbook/figures/13a_10_delta_scf.png`
 
 It changes no other file of the repository; running it headless or saving it in JupyterLab also rewrites the notebook file itself. It does not use the internet while it runs. The files it writes are the same files that are stored in the repository (on another computer a figure may differ in a few bytes, which is harmless). To get the stored versions back, run this command in the repository folder (it also undoes every change you made yourself in the folder Revision/textbook):
 
@@ -182626,11 +182715,11 @@ git checkout -- Revision/textbook
 Every check of the notebook prints a line that starts with PASS. At the end of the notebook (the output of its last code cell) you must see exactly these lines:
 
 ```text
-PASS the figure file 13a_9_delta_scf.png exists
-ALL 31 CHECKS PASSED (notebook 13a)
+PASS the figure file 13a_10_delta_scf.png exists
+ALL 36 CHECKS PASSED (notebook 13a)
 ```
 
-and the notebook must show 9 figures below the cells that draw them.
+and the notebook must show 10 figures below the cells that draw them.
 
 **Step 8. If something goes wrong.**
 
@@ -182876,10 +182965,11 @@ The notebook writes (or overwrites) these files:
 - `Revision/textbook/figures/13a_3_first_iterations.png`
 - `Revision/textbook/figures/13a_4_ks_potentials.png`
 - `Revision/textbook/figures/13a_5_density_orbitals.png`
-- `Revision/textbook/figures/13a_6_variational_scan.png`
-- `Revision/textbook/figures/13a_7_approximations.png`
-- `Revision/textbook/figures/13a_8_coupling_scan.png`
-- `Revision/textbook/figures/13a_9_delta_scf.png`
+- `Revision/textbook/figures/13a_6_label_separation.png`
+- `Revision/textbook/figures/13a_7_variational_scan.png`
+- `Revision/textbook/figures/13a_8_approximations.png`
+- `Revision/textbook/figures/13a_9_coupling_scan.png`
+- `Revision/textbook/figures/13a_10_delta_scf.png`
 
 It changes no other file of the repository; running it headless or saving it in
 JupyterLab also rewrites the notebook file itself. It does not use the internet while it
@@ -182895,10 +182985,10 @@ Windows, macOS and Linux:
 Every check of the notebook prints a line that starts with PASS. At the end of the
 notebook (the output of its last code cell) you must see exactly these lines:
 
-    PASS the figure file 13a_9_delta_scf.png exists
-    ALL 31 CHECKS PASSED (notebook 13a)
+    PASS the figure file 13a_10_delta_scf.png exists
+    ALL 36 CHECKS PASSED (notebook 13a)
 
-and the notebook must show 9 figures below the cells that draw them.
+and the notebook must show 10 figures below the cells that draw them.
 
 **Step 8. If something goes wrong.**
 
@@ -183125,10 +183215,11 @@ RESULT line) and `all_checks_passed` (prints the last line).
 # - Revision/textbook/figures/13a_3_first_iterations.png
 # - Revision/textbook/figures/13a_4_ks_potentials.png
 # - Revision/textbook/figures/13a_5_density_orbitals.png
-# - Revision/textbook/figures/13a_6_variational_scan.png
-# - Revision/textbook/figures/13a_7_approximations.png
-# - Revision/textbook/figures/13a_8_coupling_scan.png
-# - Revision/textbook/figures/13a_9_delta_scf.png
+# - Revision/textbook/figures/13a_6_label_separation.png
+# - Revision/textbook/figures/13a_7_variational_scan.png
+# - Revision/textbook/figures/13a_8_approximations.png
+# - Revision/textbook/figures/13a_9_coupling_scan.png
+# - Revision/textbook/figures/13a_10_delta_scf.png
 #
 # It changes no other file of the repository; running it headless or saving it in
 # JupyterLab also rewrites the notebook file itself. It does not use the internet while
@@ -183143,10 +183234,10 @@ RESULT line) and `all_checks_passed` (prints the last line).
 # Every check of the notebook prints a line that starts with PASS. At the end of the
 # notebook (the output of its last code cell) you must see exactly these lines:
 #
-#     PASS the figure file 13a_9_delta_scf.png exists
-#     ALL 31 CHECKS PASSED (notebook 13a)
+#     PASS the figure file 13a_10_delta_scf.png exists
+#     ALL 36 CHECKS PASSED (notebook 13a)
 #
-# and the notebook must show 9 figures below the cells that draw them.
+# and the notebook must show 10 figures below the cells that draw them.
 #
 # STEP 8. IF SOMETHING GOES WRONG.
 #
@@ -184066,14 +184157,15 @@ PASS w = g_c n/2 is the functional derivative of E_H + E_x
 
 ```text
 So far the up and down densities were forced to be equal. Is that solution stable,
-or would the fermions lower their energy by separating the labels (as the two-site
-model of the chapter does at strong repulsion)? The next cell lets the two labels
-have their own potentials: a fermion with label up feels the Hartree potential of
-everybody minus the exchange with its own label,
+or would the fermions lower their energy by separating the labels? The next cell
+lets the two labels have their own potentials: a fermion with label up feels the
+Hartree potential of everybody minus the exchange with its own label,
 $v_{up} = v + g_c n - g_c n_{up} = v + g_c n_{down}$, and the same with up and down
 exchanged. It starts from a strongly separated guess (up pushed to the left, down to
 the right) and runs Anderson mixing on both potentials together. At $g_c = 2$ the
-loop must return to equal densities and to the same energy.
+loop returns to equal densities and to the same energy. This return does NOT yet
+show that the equal-label solution is stable: the two cells after it show why, and
+make the test that does.
 ```
 
 **In [16]:**
@@ -184110,7 +184202,7 @@ n_up, n_down = label_densities(w_pair, FILLED, FILLED)[:2]
 say(f"two-label run: {len(pair_residuals)} passes; largest |n_up - n_down| = "
     f"{np.max(np.abs(n_up - n_down)):.1e}")
 check(np.max(np.abs(n_up - n_down)) < 1e-8,
-      "from a separated start the labels return to equal densities (stable)")
+      "from a separated start the two-label loop returns to equal densities")
 check(abs(labels_energy(w_pair, FILLED, FILLED) - E_total) < 1e-9,
       "the two-label run has the same energy as the equal-label solution")
 ```
@@ -184119,8 +184211,195 @@ check(abs(labels_energy(w_pair, FILLED, FILLED) - E_total) < 1e-9,
 
 ```text
 two-label run: 36 passes; largest |n_up - n_down| = 4.9e-12
-PASS from a separated start the labels return to equal densities (stable)
+PASS from a separated start the two-label loop returns to equal densities
 PASS the two-label run has the same energy as the equal-label solution
+```
+
+**Text cell:**
+
+```text
+Why the return of the loop proves nothing about stability: the loop stops wherever
+the potentials that come out equal those that went in, that is at EVERY
+self-consistent solution. A self-consistent solution makes the energy stationary
+(no change to first order); a minimum is stationary, but so is a saddle, where
+some changes raise the energy and others lower it. Anderson mixing only looks for
+a point where the residual vanishes, and it can land on a saddle. The next cell
+shows this on the smallest example: two sites L and R joined by the hopping
+$t = 1$, one fermion with label up and one with label down, and the repulsion
+$U = 4$ when both sit on the same site. Each label has its own potential
+$(w_L, w_R)$ on the two sites; its orbital $(c_L, c_R)$ is the eigenvector of the
+lower level of the $2 \times 2$ matrix with $w_L, w_R$ on the diagonal and $-t$
+beside it; the energy of the determinant is the hopping energy $-2t\,c_L c_R$ of
+each orbital plus $U(n_{L,up}\,n_{L,down} + n_{R,up}\,n_{R,down})$; and one pass of
+the loop gives label up the potential $U n_{down}$ and label down $U n_{up}$,
+exactly as in the trap. Equal labels, $n = (1/2, 1/2)$ for each label, are
+self-consistent, with the energy $-2t + U/2 = 0$; but for $U > 2t$ the lowest
+determinant puts the two labels on different sites, with the energy
+$-2t^2/U = -0.5$. The cell runs the SAME function `anderson` from a slightly
+separated start (push 0.5) and from a more strongly separated one (push 1), and
+computes the energy along the family of separated potentials
+$U/2 \pm \epsilon\,(-1, 1)$.
+```
+
+**In [17]:**
+
+```python
+T_HOP, U_SITE = 1.0, 4.0  # the hopping t and the on-site repulsion U of two sites
+left_right = np.array([-1.0, 1.0])  # lowers the potential on L and raises it on R
+
+
+def site_orbital(w2):
+    """(c_L, c_R): the orbital of the lower level of [[w_L, -t], [-t, w_R]]."""
+    return np.linalg.eigh(np.array([[w2[0], -T_HOP], [-T_HOP, w2[1]]]))[1][:, 0]
+
+
+def sites_map(q):
+    """One pass on two sites, q = (w_up on L, R, w_down on L, R)."""
+    n_up, n_down = site_orbital(q[:2]) ** 2, site_orbital(q[2:]) ** 2
+    return np.concatenate([U_SITE * n_down, U_SITE * n_up])
+
+
+def sites_energy(q):
+    """-2t (c_L c_R of up + c_L c_R of down) + U sum_sites n_up n_down."""
+    c_up, c_down = site_orbital(q[:2]), site_orbital(q[2:])
+    return (-2.0 * T_HOP * (c_up[0] * c_up[1] + c_down[0] * c_down[1])
+            + U_SITE * np.sum(c_up ** 2 * c_down ** 2))
+
+
+def sites_start(size):
+    """The potentials U/2 + size (-1, 1) for label up and U/2 - size (-1, 1)."""
+    return np.concatenate([0.5 * U_SITE + size * left_right,
+                           0.5 * U_SITE - size * left_right])
+
+
+site_ends = {}
+for site_push in (0.5, 1.0):
+    q_end, site_residuals = anderson(sites_map, sites_start(site_push))
+    site_ends[site_push] = q_end
+    n_up_sites = site_orbital(q_end[:2]) ** 2
+    energy = np.round(sites_energy(q_end), 9) + 0.0  # + 0.0 turns -0.0 into 0.0
+    say(f"two sites, push {site_push}: {len(site_residuals)} passes, n_up = "
+        f"({n_up_sites[0]:.6f}, {n_up_sites[1]:.6f}), energy {energy:.6f}")
+site_sizes = np.linspace(0.0, 2.5, 51)  # epsilon = 0, 0.05, ..., 2.5
+site_family = np.array([sites_energy(sites_start(size)) for size in site_sizes])
+saddle_up = site_orbital(site_ends[0.5][:2]) ** 2
+check(np.max(np.abs(saddle_up - 0.5)) < 1e-9
+      and abs(sites_energy(site_ends[0.5]) - (-2.0 * T_HOP + 0.5 * U_SITE)) < 1e-9,
+      "two sites, U = 4t, push 0.5: the loop converges to equal labels, E = -2t + U/2")
+check(abs(sites_energy(site_ends[1.0]) + 2.0 * T_HOP ** 2 / U_SITE) < 1e-9,
+      "two sites, push 1: the loop converges to separated labels, E = -2t^2/U")
+check(site_family[1] < site_family[0] - 1e-3,
+      "two sites: separating the labels lowers the energy, so the equal-label "
+      "solution there is a saddle")
+```
+
+**Out [17]:**
+
+```text
+two sites, push 0.5: 16 passes, n_up = (0.500000, 0.500000), energy 0.000000
+two sites, push 1.0: 18 passes, n_up = (0.933013, 0.066987), energy -0.500000
+PASS two sites, U = 4t, push 0.5: the loop converges to equal labels, E = -2t + U/2
+PASS two sites, push 1: the loop converges to separated labels, E = -2t^2/U
+PASS two sites: separating the labels lowers the energy, so the equal-label solution
+    there is a saddle
+```
+
+**Text cell:**
+
+```text
+So a converged loop can sit on a saddle, and only the ENERGY tells a minimum from
+a saddle: at a minimum every small change raises it, at a saddle some change
+lowers it. The next cell makes this energy test in the trap. It builds
+label-separating trial potentials $w_{up} = w_{scf} + \epsilon\,s(x)$ and
+$w_{down} = w_{scf} - \epsilon\,s(x)$ for three shapes $s$: $\tanh x$ (up to the
+left, down to the right), $x\,e^{-x^2/4}$ (the same, but only near the centre) and
+$e^{-x^2/2}$ (up pushed outwards, down inwards), and the five sizes
+$\epsilon = 0.01, 0.05, 0.2, 0.5, 1$. For each it takes the four lowest orbitals of
+each label in its trial potential and evaluates the energy of this determinant with
+`labels_energy`, which needs no self-consistency (for a contact interaction this
+formula is the exact energy of the determinant). Every value must lie above the
+Kohn-Sham energy; and for small $\epsilon$ the rise must be of second order, so
+that five times the size gives about 25 times the rise. The cell then draws the
+energies of the trap and of the two sites against $\epsilon$.
+```
+
+**In [18]:**
+
+```python
+shapes = {"tanh x": np.tanh(x), "x exp(-x^2/4)": x * np.exp(-x ** 2 / 4.0),
+          "exp(-x^2/2)": np.exp(-x ** 2 / 2.0)}
+
+
+def separation_rise(shape, size):
+    """E of the determinant made from w_scf +- size * shape, minus E_KS."""
+    trial = np.concatenate([w_scf + size * shape, w_scf - size * shape])
+    return labels_energy(trial, FILLED, FILLED) - E_total
+
+
+sizes = [0.01, 0.05, 0.2, 0.5, 1.0]
+rises = {name: [separation_rise(shape, size) for size in sizes]
+         for name, shape in shapes.items()}
+for name, values in rises.items():
+    say(f"{name:14} E - E_KS: " + " ".join(f"{value:.2e}" for value in values))
+check(all(value > 0.0 for values in rises.values() for value in values),
+      "every label-separating trial determinant in the trap has a higher energy "
+      "than the Kohn-Sham state")
+check(all(24.0 < values[1] / values[0] < 26.0 for values in rises.values()),
+      "for small separations the energy rises as epsilon^2: in the trap the "
+      "equal-label solution is a minimum along these families, not a saddle")
+fine_sizes = np.linspace(0.0, 1.0, 41)  # epsilon = 0, 0.025, ..., 1
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
+for (name, shape), style in zip(shapes.items(), ("-", "--", "-.")):
+    left.plot(fine_sizes, [separation_rise(shape, size) for size in fine_sizes],
+              style, label=f"shape {name}")
+left.set_xlabel("size $\\epsilon$ of the separation")
+left.set_ylabel("$E - E_{KS}$ ($\\hbar\\omega$)")
+left.set_title("Trap, $g_c = 2$: the energy rises (minimum)")
+left.legend(fontsize=8)
+right.plot(site_sizes, site_family, color="black", label="energy of the family")
+right.plot([0.0], [site_family[0]], "o", ms=8,
+           label="loop from push 0.5 (saddle)")
+size_end = 0.5 * (site_ends[1.0][1] - site_ends[1.0][0])  # (w_R - w_L)/2 of up
+right.plot([size_end], [sites_energy(site_ends[1.0])], "s", ms=8,
+           label="loop from push 1 (minimum)")
+right.set_xlabel("size $\\epsilon$ of the separation")
+right.set_ylabel("$E$ (units of $t$)")
+right.set_title("Two sites, $U = 4t$: the energy falls (saddle)")
+right.legend(fontsize=8)
+save_figure(fig, "label_separation",
+            "The energy test of stability. Left: the trap with eight fermions; "
+            "the energy of the determinant made from the label-separating trial "
+            "potentials $w_{scf} \\pm \\epsilon\\,s(x)$, minus the Kohn-Sham "
+            "energy, for three shapes $s$, against the size $\\epsilon$ (pure "
+            "number); vertical axis in units of $\\hbar\\omega$. Every curve starts "
+            "flat at 0 and rises: along these families the equal-label solution "
+            "is a minimum. Right: two sites with $U = 4t$; the energy of the "
+            "determinant made from the potentials $U/2 \\pm \\epsilon\\,(-1, 1)$, "
+            "in units of $t$, against $\\epsilon$. It falls from the equal-label "
+            "solution (circle, energy 0, where the loop from push 0.5 converged: "
+            "a saddle) to the separated minimum $-2t^2/U = -0.5t$ (square, where "
+            "the loop from push 1 converged). The converged loop could not tell "
+            "the two cases apart; the energy does.")
+```
+
+**Out [18]:**
+
+```text
+tanh x         E - E_KS: 3.50e-05 8.81e-04 1.53e-02 1.24e-01 5.93e-01
+x exp(-x^2/4)  E - E_KS: 2.14e-05 5.35e-04 8.67e-03 5.73e-02 2.54e-01
+exp(-x^2/2)    E - E_KS: 8.58e-06 2.15e-04 3.43e-03 2.15e-02 8.71e-02
+PASS every label-separating trial determinant in the trap has a higher energy than the
+    Kohn-Sham state
+PASS for small separations the energy rises as epsilon^2: in the trap the equal-label
+    solution is a minimum along these families, not a saddle
+```
+
+![The energy test of stability. Left: the trap with eight fermions; the energy of the determinant made from the label-separating trial potentials $w_{scf} \pm \epsilon\,s(x)$, minus the Kohn-Sham energy, for three shapes $s$, against the size $\epsilon$ (pure number); vertical axis in units of $\hbar\omega$. Every curve starts flat at 0 and rises: along these families the equal-label solution is a minimum. Right: two sites with $U = 4t$; the energy of the determinant made from the potentials $U/2 \pm \epsilon\,(-1, 1)$, in units of $t$, against $\epsilon$. It falls from the equal-label solution (circle, energy 0, where the loop from push 0.5 converged: a saddle) to the separated minimum $-2t^2/U = -0.5t$ (square, where the loop from push 1 converged). The converged loop could not tell the two cases apart; the energy does. (Notebook 13a, figure 6.)](Revision/textbook/figures/13a_6_label_separation.png)
+
+**Out [18]:**
+
+```text
+Figure 13a.6 saved as Revision/textbook/figures/13a_6_label_separation.png
 ```
 
 **Text cell:**
@@ -184139,7 +184418,7 @@ $c = g_c/2 = 1$ the orbitals are exactly the self-consistent ones. The energy mu
 smallest there, and larger for every other $c$.
 ```
 
-**In [17]:**
+**In [19]:**
 
 ```python
 def energy_of_orbitals(phi):
@@ -184160,7 +184439,7 @@ check(np.all(family_energies >= E_total - 1e-10),
       "no member of the family has a lower energy than the Kohn-Sham state")
 ```
 
-**Out [17]:**
+**Out [19]:**
 
 ```text
 RESULT c of the lowest energy in the family = 1.00
@@ -184176,7 +184455,7 @@ curve is flat (a parabola): a small error in the orbitals makes only a much smal
 (second-order) error in the energy, a general property of variational methods.
 ```
 
-**In [18]:**
+**In [20]:**
 
 ```python
 fig, ax = plt.subplots()
@@ -184197,12 +184476,12 @@ save_figure(fig, "variational_scan",
             "the variational principle.")
 ```
 
-![The energy $E(c)$ of the determinant built from the four lowest orbitals of the trial potential $v + c\,n_{scf}$, minus the Kohn-Sham energy, for $c$ from 0 to 2; horizontal axis $c$ (the same units as $g_c$), vertical axis the energy difference in units of $\hbar\omega$. The curve is never negative and touches zero at the self-consistent value $c = g_c/2 = 1$ (dashed line), where it is flat: the variational principle. (Notebook 13a, figure 6.)](Revision/textbook/figures/13a_6_variational_scan.png)
+![The energy $E(c)$ of the determinant built from the four lowest orbitals of the trial potential $v + c\,n_{scf}$, minus the Kohn-Sham energy, for $c$ from 0 to 2; horizontal axis $c$ (the same units as $g_c$), vertical axis the energy difference in units of $\hbar\omega$. The curve is never negative and touches zero at the self-consistent value $c = g_c/2 = 1$ (dashed line), where it is flat: the variational principle. (Notebook 13a, figure 7.)](Revision/textbook/figures/13a_7_variational_scan.png)
 
-**Out [18]:**
+**Out [20]:**
 
 ```text
-Figure 13a.6 saved as Revision/textbook/figures/13a_6_variational_scan.png
+Figure 13a.7 saved as Revision/textbook/figures/13a_7_variational_scan.png
 ```
 
 **Text cell:**
@@ -184224,7 +184503,7 @@ quadratic equation for $n$ at each point; $\mu$ is found by bisection so that th
 density holds 8 particles.
 ```
 
-**In [19]:**
+**In [21]:**
 
 ```python
 def hartree_map(w):
@@ -184264,7 +184543,7 @@ check(widths[0] < widths[1] < widths[2],
       "repulsion widens the cloud, and self-interaction (Hartree) widens it more")
 ```
 
-**Out [19]:**
+**Out [21]:**
 
 ```text
 RESULT Thomas-Fermi chemical potential mu = 5.110729
@@ -184280,7 +184559,7 @@ PASS repulsion widens the cloud, and self-interaction (Hartree) widens it more
 The next cell draws the four densities together.
 ```
 
-**In [20]:**
+**In [22]:**
 
 ```python
 fig, ax = plt.subplots()
@@ -184304,12 +184583,12 @@ save_figure(fig, "approximations",
             "misses its four shell bumps.")
 ```
 
-![Four densities of the eight fermions in the trap: without interaction (dotted), the Hartree approximation that keeps the self-interaction (dashed), Kohn-Sham with Hartree and exact exchange (thick black) and Thomas-Fermi with the uniform-gas kinetic energy (dash-dotted); horizontal axis the position $x$, vertical axis particles per unit length. The repulsion spreads the cloud; Hartree overdoes it; Thomas-Fermi follows the Kohn-Sham density on average but misses its four shell bumps. (Notebook 13a, figure 7.)](Revision/textbook/figures/13a_7_approximations.png)
+![Four densities of the eight fermions in the trap: without interaction (dotted), the Hartree approximation that keeps the self-interaction (dashed), Kohn-Sham with Hartree and exact exchange (thick black) and Thomas-Fermi with the uniform-gas kinetic energy (dash-dotted); horizontal axis the position $x$, vertical axis particles per unit length. The repulsion spreads the cloud; Hartree overdoes it; Thomas-Fermi follows the Kohn-Sham density on average but misses its four shell bumps. (Notebook 13a, figure 8.)](Revision/textbook/figures/13a_8_approximations.png)
 
-**Out [20]:**
+**Out [22]:**
 
 ```text
-Figure 13a.7 saved as Revision/textbook/figures/13a_7_approximations.png
+Figure 13a.8 saved as Revision/textbook/figures/13a_8_approximations.png
 ```
 
 **Text cell:**
@@ -184326,7 +184605,7 @@ quotient $(E(g_c + \delta) - E(g_c - \delta))/(2\delta)$ at $g_c = 2$,
 $\delta = 10^{-3}$.
 ```
 
-**In [21]:**
+**In [23]:**
 
 ```python
 def solve_at(strength, start):
@@ -184363,7 +184642,7 @@ check(abs(slope - 0.25 * integral(n_ks ** 2)) < 1e-6,
       "Hellmann-Feynman: dE/dg_c = (1/4) int n^2 dx")
 ```
 
-**Out [21]:**
+**Out [23]:**
 
 ```text
 E at g_c = 0: 15.990192; at g_c = 2: 21.851498
@@ -184381,7 +184660,7 @@ $E_H + E_x$ rises; the cloud spreads, which lowers the kinetic energy (wider orb
 curve less) and raises the trap energy (the particles sit higher on the parabola).
 ```
 
-**In [22]:**
+**In [24]:**
 
 ```python
 fig, ax = plt.subplots()
@@ -184408,12 +184687,12 @@ check(abs(scan[0].sum() - 16.0) < 0.05 and abs(scan[0, 0] - scan[0, 1]) < 0.05,
       "at g_c = 0: E = 16 and T_s equals the trap energy (virial theorem)")
 ```
 
-![The parts of the Kohn-Sham energy of the eight fermions as the strength $g_c$ of the contact repulsion grows from 0 to 2: kinetic energy $T_s$, trap energy, interaction energy $E_H + E_x$ and the total (black); horizontal axis $g_c$, vertical axis the energy in units of $\hbar\omega$. At $g_c = 0$ the total is $2(1/2 + 3/2 + 5/2 + 7/2) = 16$ (15.99 on the grid, whose levels lie slightly below $n + 1/2$) and kinetic and trap energy are equal (virial theorem); the repulsion spreads the cloud, so the trap energy rises and the kinetic energy falls. (Notebook 13a, figure 8.)](Revision/textbook/figures/13a_8_coupling_scan.png)
+![The parts of the Kohn-Sham energy of the eight fermions as the strength $g_c$ of the contact repulsion grows from 0 to 2: kinetic energy $T_s$, trap energy, interaction energy $E_H + E_x$ and the total (black); horizontal axis $g_c$, vertical axis the energy in units of $\hbar\omega$. At $g_c = 0$ the total is $2(1/2 + 3/2 + 5/2 + 7/2) = 16$ (15.99 on the grid, whose levels lie slightly below $n + 1/2$) and kinetic and trap energy are equal (virial theorem); the repulsion spreads the cloud, so the trap energy rises and the kinetic energy falls. (Notebook 13a, figure 9.)](Revision/textbook/figures/13a_9_coupling_scan.png)
 
-**Out [22]:**
+**Out [24]:**
 
 ```text
-Figure 13a.8 saved as Revision/textbook/figures/13a_8_coupling_scan.png
+Figure 13a.9 saved as Revision/textbook/figures/13a_9_coupling_scan.png
 PASS at g_c = 0: E = 16 and T_s equals the trap energy (virial theorem)
 ```
 
@@ -184438,7 +184717,7 @@ and integrates the level difference with Simpson's rule (exact for cubic
 polynomials, very accurate for smooth curves).
 ```
 
-**In [23]:**
+**In [25]:**
 
 ```python
 taus = np.linspace(0.0, 1.0, 9)
@@ -184467,7 +184746,7 @@ check(abs(simpson - delta_scf) < 1e-6,
 check(delta_scf < gaps[0], "orbital relaxation lowers the excitation energy here")
 ```
 
-**Out [23]:**
+**Out [25]:**
 
 ```text
 RESULT Kohn-Sham gap (LUMO - HOMO) = 0.772662
@@ -184487,7 +184766,7 @@ The next cell draws the level difference against $\tau$ (its area is the Delta-S
 energy) and compares the ground-state density with the density of the excited state.
 ```
 
-**In [24]:**
+**In [26]:**
 
 ```python
 fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
@@ -184520,12 +184799,12 @@ save_figure(fig, "delta_scf",
             "reaches the outer flanks.")
 ```
 
-![Left: the level difference $\epsilon_4(\tau) - \epsilon_3(\tau)$ of label up when a fraction $\tau$ of one fermion is moved from orbital 3 to orbital 4 (horizontal axis $\tau$, vertical axis energy in units of $\hbar\omega$); its value at $\tau = 0$ is the Kohn-Sham gap, at $\tau = 1/2$ the transition-state estimate, and the shaded area is the Delta-SCF excitation energy (dashed line), by Janak's theorem. Right: the ground-state density and the density of the excited state (horizontal axis $x$); the moved fermion sits in orbital 4, which has four zeros, so the shell bumps change and a little more density reaches the outer flanks. (Notebook 13a, figure 9.)](Revision/textbook/figures/13a_9_delta_scf.png)
+![Left: the level difference $\epsilon_4(\tau) - \epsilon_3(\tau)$ of label up when a fraction $\tau$ of one fermion is moved from orbital 3 to orbital 4 (horizontal axis $\tau$, vertical axis energy in units of $\hbar\omega$); its value at $\tau = 0$ is the Kohn-Sham gap, at $\tau = 1/2$ the transition-state estimate, and the shaded area is the Delta-SCF excitation energy (dashed line), by Janak's theorem. Right: the ground-state density and the density of the excited state (horizontal axis $x$); the moved fermion sits in orbital 4, which has four zeros, so the shell bumps change and a little more density reaches the outer flanks. (Notebook 13a, figure 10.)](Revision/textbook/figures/13a_10_delta_scf.png)
 
-**Out [24]:**
+**Out [26]:**
 
 ```text
-Figure 13a.9 saved as Revision/textbook/figures/13a_9_delta_scf.png
+Figure 13a.10 saved as Revision/textbook/figures/13a_10_delta_scf.png
 ```
 
 **Text cell:**
@@ -184533,30 +184812,31 @@ Figure 13a.9 saved as Revision/textbook/figures/13a_9_delta_scf.png
 ```text
 ## 15. The last check
 
-The last cell checks that all nine figure files exist in the folder
+The last cell checks that all ten figure files exist in the folder
 Revision/textbook/figures and prints the number of checks that passed.
 ```
 
-**In [25]:**
+**In [27]:**
 
 ```python
 figure_names = ["trap_orbitals", "scf_convergence", "first_iterations",
-                "ks_potentials", "density_orbitals", "variational_scan",
-                "approximations", "coupling_scan", "delta_scf"]
+                "ks_potentials", "density_orbitals", "label_separation",
+                "variational_scan", "approximations", "coupling_scan",
+                "delta_scf"]
 missing = [name for k, name in enumerate(figure_names, 1)
            if not output_file(f"{FIGURE_FOLDER}/13a_{k}_{name}.png").is_file()]
-check(missing == [], "all nine figure files exist")
-check(output_file(f"{FIGURE_FOLDER}/13a_9_delta_scf.png").is_file(),
-      "the figure file 13a_9_delta_scf.png exists")
+check(missing == [], "all ten figure files exist")
+check(output_file(f"{FIGURE_FOLDER}/13a_10_delta_scf.png").is_file(),
+      "the figure file 13a_10_delta_scf.png exists")
 all_checks_passed()
 ```
 
-**Out [25]:**
+**Out [27]:**
 
 ```text
-PASS all nine figure files exist
-PASS the figure file 13a_9_delta_scf.png exists
-ALL 31 CHECKS PASSED (notebook 13a)
+PASS all ten figure files exist
+PASS the figure file 13a_10_delta_scf.png exists
+ALL 36 CHECKS PASSED (notebook 13a)
 ```
 
 **Text cell:**
@@ -185053,14 +185333,187 @@ Each label has its four lowest orbitals occupied once. The start is strongly sep
 say(f"two-label run: {len(pair_residuals)} passes; largest |n_up - n_down| = "
     f"{np.max(np.abs(n_up - n_down)):.1e}")
 check(np.max(np.abs(n_up - n_down)) < 1e-8,
-      "from a separated start the labels return to equal densities (stable)")
+      "from a separated start the two-label loop returns to equal densities")
 check(abs(labels_energy(w_pair, FILLED, FILLED) - E_total) < 1e-9,
       "the two-label run has the same energy as the equal-label solution")
 ```
 
-The run needs 36 passes, and the largest difference between the label densities is $4.9\cdot10^{-12}$; the checks require it to be below $10^{-8}$ and the energy to equal the equal-label energy $21.851498$ to $10^{-9}$: from a strongly separated start the loop returns to equal labels, so the equal-label solution is stable at $g_c = 2$. (Stability here means that this loop returns to it from this start; it is a numerical test, not a proof for every start.)
+The run needs 36 passes, and the largest difference between the label densities is $4.9\cdot10^{-12}$; the checks require it to be below $10^{-8}$ and the energy to equal the equal-label energy $21.851498$ to $10^{-9}$: from a strongly separated start the loop returns to equal labels. This does NOT yet show that the equal-label solution is stable: a converged loop can sit on a saddle. The next two cells show such a case and then make the test that decides, the energy test.
 
-**In [17], the variational principle.**
+**In [17], a loop that converges to a saddle: two sites.**
+
+```python
+T_HOP, U_SITE = 1.0, 4.0  # the hopping t and the on-site repulsion U of two sites
+left_right = np.array([-1.0, 1.0])  # lowers the potential on L and raises it on R
+```
+
+The two-site model of Section 13.7 with the hopping $t = 1$ and the repulsion $U = 4$ (so $U = 4t$, stronger than $2t$). `left_right` is the pattern $(-1, +1)$: added to a pair of site potentials $(w_L, w_R)$ it lowers $w_L$ and raises $w_R$.
+
+```python
+def site_orbital(w2):
+    """(c_L, c_R): the orbital of the lower level of [[w_L, -t], [-t, w_R]]."""
+    return np.linalg.eigh(np.array([[w2[0], -T_HOP], [-T_HOP, w2[1]]]))[1][:, 0]
+```
+
+For one label with the site potentials `w2` $= (w_L, w_R)$, the one-particle matrix is $\begin{pmatrix} w_L & -t \\ -t & w_R \end{pmatrix}$. `np.linalg.eigh` returns its eigenvalues in increasing order and the eigenvectors as columns; `[1][:, 0]` takes the eigenvector of the LOWER level, the occupied orbital $(c_L, c_R)$ with $c_L^2 + c_R^2 = 1$.
+
+```python
+def sites_map(q):
+    """One pass on two sites, q = (w_up on L, R, w_down on L, R)."""
+    n_up, n_down = site_orbital(q[:2]) ** 2, site_orbital(q[2:]) ** 2
+    return np.concatenate([U_SITE * n_down, U_SITE * n_up])
+```
+
+One pass of the two-label loop on two sites, exactly as in the trap: the four numbers `q` are the potentials of label up on L and R and of label down on L and R; the occupations of the sites are the squares of the orbital components, and the new potential of label up is $U n_\downarrow$ (it feels only the other label), that of label down $U n_\uparrow$.
+
+```python
+def sites_energy(q):
+    """-2t (c_L c_R of up + c_L c_R of down) + U sum_sites n_up n_down."""
+    c_up, c_down = site_orbital(q[:2]), site_orbital(q[2:])
+    return (-2.0 * T_HOP * (c_up[0] * c_up[1] + c_down[0] * c_down[1])
+            + U_SITE * np.sum(c_up ** 2 * c_down ** 2))
+```
+
+The energy of the determinant built from the two orbitals: each orbital contributes the hopping energy $-2t\,c_L c_R$, and the repulsion is $U$ times the product of the up and down occupations on each site, summed over the two sites.
+
+```python
+def sites_start(size):
+    """The potentials U/2 + size (-1, 1) for label up and U/2 - size (-1, 1)."""
+    return np.concatenate([0.5 * U_SITE + size * left_right,
+                           0.5 * U_SITE - size * left_right])
+```
+
+A family of label-separating potentials: at `size` $= 0$ both labels have $U/2$ on both sites (the equal-label solution); a positive `size` makes site L cheaper for label up and site R cheaper for label down.
+
+```python
+site_ends = {}
+for site_push in (0.5, 1.0):
+    q_end, site_residuals = anderson(sites_map, sites_start(site_push))
+    site_ends[site_push] = q_end
+    n_up_sites = site_orbital(q_end[:2]) ** 2
+    energy = np.round(sites_energy(q_end), 9) + 0.0  # + 0.0 turns -0.0 into 0.0
+    say(f"two sites, push {site_push}: {len(site_residuals)} passes, n_up = "
+        f"({n_up_sites[0]:.6f}, {n_up_sites[1]:.6f}), energy {energy:.6f}")
+```
+
+The SAME Anderson loop as in the trap (`anderson`, In [8]) runs twice, from a small separation (push 0.5) and from a larger one (push 1). For each end it stores the potentials, prints the number of passes, the occupations of label up on L and R and the energy; `np.round(..., 9)` removes rounding noise and `+ 0.0` turns a printed $-0.000000$ into $0.000000$. The output: from push 0.5 the loop needs 16 passes and ends at $n_\uparrow = (0.5, 0.5)$ with the energy $0$, the equal-label solution; from push 1 it needs 18 passes and ends at $n_\uparrow = (0.933013, 0.066987)$ with the energy $-0.5$, the separated solution.
+
+```python
+site_sizes = np.linspace(0.0, 2.5, 51)  # epsilon = 0, 0.05, ..., 2.5
+site_family = np.array([sites_energy(sites_start(size)) for size in site_sizes])
+saddle_up = site_orbital(site_ends[0.5][:2]) ** 2
+```
+
+The energy along the whole family $\epsilon = 0, 0.05, \dots, 2.5$ (for the figure and the last check), and the occupations of label up at the end of the push-0.5 run.
+
+```python
+check(np.max(np.abs(saddle_up - 0.5)) < 1e-9
+      and abs(sites_energy(site_ends[0.5]) - (-2.0 * T_HOP + 0.5 * U_SITE)) < 1e-9,
+      "two sites, U = 4t, push 0.5: the loop converges to equal labels, E = -2t + U/2")
+check(abs(sites_energy(site_ends[1.0]) + 2.0 * T_HOP ** 2 / U_SITE) < 1e-9,
+      "two sites, push 1: the loop converges to separated labels, E = -2t^2/U")
+check(site_family[1] < site_family[0] - 1e-3,
+      "two sites: separating the labels lowers the energy, so the equal-label "
+      "solution there is a saddle")
+```
+
+Three checks. The first: from push 0.5 the loop converges to equal occupations $1/2$ with the equal-label energy $-2t + U/2 = 0$. The second: from push 1 it converges to the separated energy $-2t^2/U = -0.5$ (Section 13.7). The third: already the first step of the family, $\epsilon = 0.05$, has a lower energy than $\epsilon = 0$; so the equal-label solution, although self-consistent and reached by the loop, is a saddle. A converged loop alone cannot tell a minimum from a saddle.
+
+**In [18], the energy test in the trap, and Figure 13a.6.**
+
+```python
+shapes = {"tanh x": np.tanh(x), "x exp(-x^2/4)": x * np.exp(-x ** 2 / 4.0),
+          "exp(-x^2/2)": np.exp(-x ** 2 / 2.0)}
+```
+
+Three shapes $s(x)$ of a label-separating change: $\tanh x$ pushes label up to the left and label down to the right across the whole trap; $x\,e^{-x^2/4}$ does the same but only near the centre; $e^{-x^2/2}$ pushes label up outwards and label down inwards.
+
+```python
+def separation_rise(shape, size):
+    """E of the determinant made from w_scf +- size * shape, minus E_KS."""
+    trial = np.concatenate([w_scf + size * shape, w_scf - size * shape])
+    return labels_energy(trial, FILLED, FILLED) - E_total
+```
+
+The trial potentials are $w_\uparrow = w_{scf} + \epsilon\,s(x)$ and $w_\downarrow = w_{scf} - \epsilon\,s(x)$. `labels_energy` (In [16]) takes the four lowest orbitals of each label in its trial potential and evaluates the energy $E = T_s + \int v\,n + g_c\int n_\uparrow n_\downarrow$ of that determinant; for the contact interaction this formula is the exact energy of the determinant, so no self-consistency is needed. The function returns the energy above the Kohn-Sham energy `E_total`.
+
+```python
+sizes = [0.01, 0.05, 0.2, 0.5, 1.0]
+rises = {name: [separation_rise(shape, size) for size in sizes]
+         for name, shape in shapes.items()}
+for name, values in rises.items():
+    say(f"{name:14} E - E_KS: " + " ".join(f"{value:.2e}" for value in values))
+```
+
+The rise for the five sizes $\epsilon = 0.01, 0.05, 0.2, 0.5, 1$ and each shape, printed in powers of ten (`.2e`). The output: for $\tanh x$ the rises are $3.50\cdot10^{-5}$, $8.81\cdot10^{-4}$, $1.53\cdot10^{-2}$, $0.124$ and $0.593$; for $x\,e^{-x^2/4}$ they are $2.14\cdot10^{-5}$ to $0.254$; for $e^{-x^2/2}$, $8.58\cdot10^{-6}$ to $8.71\cdot10^{-2}$. All are positive.
+
+```python
+check(all(value > 0.0 for values in rises.values() for value in values),
+      "every label-separating trial determinant in the trap has a higher energy "
+      "than the Kohn-Sham state")
+check(all(24.0 < values[1] / values[0] < 26.0 for values in rises.values()),
+      "for small separations the energy rises as epsilon^2: in the trap the "
+      "equal-label solution is a minimum along these families, not a saddle")
+```
+
+Two checks. The first: every one of the fifteen trial determinants lies above the Kohn-Sham energy. The second: going from $\epsilon = 0.01$ to $0.05$ (five times larger) multiplies the rise by between 24 and 26, close to $5^2 = 25$; for $\tanh x$, $8.81\cdot10^{-4} / 3.50\cdot10^{-5} \approx 25.2$. So for small separations the rise is of second order, $E - E_{KS} \approx a\,\epsilon^2$ with $a > 0$: the energy is flat (stationary) at the Kohn-Sham solution and curves upwards. Along these three families the equal-label solution is a minimum, not a saddle. (Three families are a test, not a proof for every possible change; this is a COMPUTED result for this trap at $g_c = 2$.)
+
+```python
+fine_sizes = np.linspace(0.0, 1.0, 41)  # epsilon = 0, 0.025, ..., 1
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
+for (name, shape), style in zip(shapes.items(), ("-", "--", "-.")):
+    left.plot(fine_sizes, [separation_rise(shape, size) for size in fine_sizes],
+              style, label=f"shape {name}")
+```
+
+Figure 13a.6 has two panels side by side (`plt.subplots(1, 2, ...)`). On the left, the rise for each shape on a finer grid of 41 sizes, each shape with its own line style (solid, dashed, dash-dotted).
+
+```python
+left.set_xlabel("size $\\epsilon$ of the separation")
+left.set_ylabel("$E - E_{KS}$ ($\\hbar\\omega$)")
+left.set_title("Trap, $g_c = 2$: the energy rises (minimum)")
+left.legend(fontsize=8)
+```
+
+Axis labels (the size is a pure number; the energy is in units of $\hbar\omega$), the title and the legend of the left panel.
+
+```python
+right.plot(site_sizes, site_family, color="black", label="energy of the family")
+right.plot([0.0], [site_family[0]], "o", ms=8,
+           label="loop from push 0.5 (saddle)")
+size_end = 0.5 * (site_ends[1.0][1] - site_ends[1.0][0])  # (w_R - w_L)/2 of up
+right.plot([size_end], [sites_energy(site_ends[1.0])], "s", ms=8,
+           label="loop from push 1 (minimum)")
+```
+
+On the right, the two-site family of In [17] as a black line, a circle at $\epsilon = 0$ where the push-0.5 loop ended, and a square where the push-1 loop ended. The square's horizontal position is $(w_R - w_L)/2$ of label up at the end, the size of the separation that the loop found.
+
+```python
+right.set_xlabel("size $\\epsilon$ of the separation")
+right.set_ylabel("$E$ (units of $t$)")
+right.set_title("Two sites, $U = 4t$: the energy falls (saddle)")
+right.legend(fontsize=8)
+save_figure(fig, "label_separation",
+            "The energy test of stability. Left: the trap with eight fermions; "
+            "the energy of the determinant made from the label-separating trial "
+            "potentials $w_{scf} \\pm \\epsilon\\,s(x)$, minus the Kohn-Sham "
+            "energy, for three shapes $s$, against the size $\\epsilon$ (pure "
+            "number); vertical axis in units of $\\hbar\\omega$. Every curve starts "
+            "flat at 0 and rises: along these families the equal-label solution "
+            "is a minimum. Right: two sites with $U = 4t$; the energy of the "
+            "determinant made from the potentials $U/2 \\pm \\epsilon\\,(-1, 1)$, "
+            "in units of $t$, against $\\epsilon$. It falls from the equal-label "
+            "solution (circle, energy 0, where the loop from push 0.5 converged: "
+            "a saddle) to the separated minimum $-2t^2/U = -0.5t$ (square, where "
+            "the loop from push 1 converged). The converged loop could not tell "
+            "the two cases apart; the energy does.")
+```
+
+Labels, title and legend of the right panel, and `save_figure`, which writes `13a_6_label_separation.png` with this caption, which the book prints below the figure.
+
+**What Figure 13a.6 shows.** On the left, all three curves start flat at 0 and rise: for $\tanh x$ to about $0.59$ at $\epsilon = 1$, for the other two shapes less, because they move fewer fermions. A flat start means that the Kohn-Sham solution is stationary; the upward curve means a minimum along these families. On the right, the two-site energy starts at 0 (the circle, where the loop from push 0.5 converged) and FALLS to the separated minimum $-0.5t$ (the square, where the loop from push 1 converged): the circle is a saddle. Both loops converged; only the energy shows which end is stable.
+
+**In [19], the variational principle.**
 
 ```python
 def energy_of_orbitals(phi):
@@ -185088,7 +185541,7 @@ check(np.all(family_energies >= E_total - 1e-10),
 
 `c_best` prints as $1.00$, and the checks require it to equal $g_c/2$ (to $10^{-9}$; the grid of $c$ contains the value 1 exactly) and every member of the family to have an energy at least $E_{KS}$ (to $10^{-10}$).
 
-**In [18], the family as a picture.**
+**In [20], the family as a picture.**
 
 ```python
 fig, ax = plt.subplots()
@@ -185102,11 +185555,11 @@ ax.legend()
 save_figure(fig, "variational_scan",
 ```
 
-The energy above the Kohn-Sham energy against $c$, as dots joined by a line; a grey dashed vertical line at $c = g_c/2$; labels, title, legend and `save_figure` for Figure 13a.6.
+The energy above the Kohn-Sham energy against $c$, as dots joined by a line; a grey dashed vertical line at $c = g_c/2$; labels, title, legend and `save_figure` for Figure 13a.7.
 
-**What Figure 13a.6 shows.** A curve shaped like a parabola that touches zero at $c = 1$ and is flat there: moving $c$ by $0.05$ away from 1 raises the energy by only about $0.001$, while the ends lie much higher, $0.29$ at $c = 0$ (the orbitals of the bare trap) and $0.72$ at $c = 2$ (the orbitals of the Hartree-like potential $v + g_c n$). A first-order error in the orbitals gives only a second-order error in the energy.
+**What Figure 13a.7 shows.** A curve shaped like a parabola that touches zero at $c = 1$ and is flat there: moving $c$ by $0.05$ away from 1 raises the energy by only about $0.001$, while the ends lie much higher, $0.29$ at $c = 0$ (the orbitals of the bare trap) and $0.72$ at $c = 2$ (the orbitals of the Hartree-like potential $v + g_c n$). A first-order error in the orbitals gives only a second-order error in the energy.
 
-**In [19], Hartree only and Thomas-Fermi.**
+**In [21], Hartree only and Thomas-Fermi.**
 
 ```python
 def hartree_map(w):
@@ -185164,7 +185617,7 @@ check(widths[0] < widths[1] < widths[2],
 
 The **root-mean-square width** $\sqrt{\int x^2 n\,dx/N}$ measures how far the cloud spreads; `.format(*widths)` puts the three numbers into the three braces of the string. The widths $1.413346$, $1.542829$, $1.659857$ must increase in this order (last check).
 
-**In [20], four pictures of the same fermions.**
+**In [22], four pictures of the same fermions.**
 
 ```python
 fig, ax = plt.subplots()
@@ -185180,11 +185633,11 @@ ax.legend(fontsize=8)
 save_figure(fig, "approximations",
 ```
 
-The four densities, without interaction (dotted), Hartree only (dashed), Kohn-Sham (thick black) and Thomas-Fermi (dash-dotted); range, labels, title, legend and `save_figure` for Figure 13a.7.
+The four densities, without interaction (dotted), Hartree only (dashed), Kohn-Sham (thick black) and Thomas-Fermi (dash-dotted); range, labels, title, legend and `save_figure` for Figure 13a.8.
 
-**What Figure 13a.7 shows.** Without interaction the cloud is the narrowest and the highest (peaks of about $1.89$); Kohn-Sham is lower and wider; Hartree only is lower and wider still, because each fermion also pushes against its own density. All three have the bumps of the four occupied orbitals. The Thomas-Fermi density is a smooth dome without bumps, close to the Kohn-Sham density on average, and it ends abruptly at $|x| = \sqrt{2\mu} = 3.20$, where the trap reaches $\mu$ (the orbital densities instead die away gradually beyond that point).
+**What Figure 13a.8 shows.** Without interaction the cloud is the narrowest and the highest (peaks of about $1.89$); Kohn-Sham is lower and wider; Hartree only is lower and wider still, because each fermion also pushes against its own density. All three have the bumps of the four occupied orbitals. The Thomas-Fermi density is a smooth dome without bumps, close to the Kohn-Sham density on average, and it ends abruptly at $|x| = \sqrt{2\mu} = 3.20$, where the trap reaches $\mu$ (the orbital densities instead die away gradually beyond that point).
 
-**In [21], switching the interaction on.**
+**In [23], switching the interaction on.**
 
 ```python
 def solve_at(strength, start):
@@ -185236,7 +185689,7 @@ check(abs(slope - 0.25 * integral(n_ks ** 2)) < 1e-6,
 
 Both the quotient and $\tfrac14\int n^2\,dx$ print as $2.801961$, and the check requires agreement to $10^{-6}$ (the quotient has an error of order $\delta^2 = 10^{-6}$ times the third derivative, plus the effect of the loop's tolerance).
 
-**In [22], the energies of the scan.**
+**In [24], the energies of the scan.**
 
 ```python
 fig, ax = plt.subplots()
@@ -185252,7 +185705,7 @@ ax.legend(fontsize=8)
 save_figure(fig, "coupling_scan",
 ```
 
-The three columns of the table `scan` against the nine strengths, with different markers, and their sum along each row (`scan.sum(axis=1)`) as the black total; labels, title, legend and `save_figure` for Figure 13a.8. After the caption, the check
+The three columns of the table `scan` against the nine strengths, with different markers, and their sum along each row (`scan.sum(axis=1)`) as the black total; labels, title, legend and `save_figure` for Figure 13a.9. After the caption, the check
 
 ```python
 check(abs(scan[0].sum() - 16.0) < 0.05 and abs(scan[0, 0] - scan[0, 1]) < 0.05,
@@ -185261,9 +185714,9 @@ check(abs(scan[0].sum() - 16.0) < 0.05 and abs(scan[0, 0] - scan[0, 1]) < 0.05,
 
 requires, at $g_c = 0$ (row 0 of the scan), the total 16 and equal kinetic and trap energies (the virial theorem of Section 13.32), both to $0.05$, the accuracy of the grid.
 
-**What Figure 13a.8 shows.** At $g_c = 0$ the kinetic and the trap energy are both 8 and the total is 16 (the grid gives $15.99$). As the repulsion is switched on, the interaction energy grows almost linearly to $5.60$; the cloud spreads, so the trap energy rises (to $9.52$) and the kinetic energy falls (to $6.73$): wider orbitals curve less. The total rises to $21.85$ along a curve that bends slightly downwards: by the Hellmann-Feynman theorem its slope is $\tfrac14\int n^2\,dx$, which is $3.07$ at $g_c = 0$ (with the density without interaction) and $2.80$ at $g_c = 2$, because the spreading cloud has a smaller $\int n^2\,dx$.
+**What Figure 13a.9 shows.** At $g_c = 0$ the kinetic and the trap energy are both 8 and the total is 16 (the grid gives $15.99$). As the repulsion is switched on, the interaction energy grows almost linearly to $5.60$; the cloud spreads, so the trap energy rises (to $9.52$) and the kinetic energy falls (to $6.73$): wider orbitals curve less. The total rises to $21.85$ along a curve that bends slightly downwards: by the Hellmann-Feynman theorem its slope is $\tfrac14\int n^2\,dx$, which is $3.07$ at $g_c = 0$ (with the density without interaction) and $2.80$ at $g_c = 2$, because the spreading cloud has a smaller $\int n^2\,dx$.
 
-**In [23], the first excited state.**
+**In [25], the first excited state.**
 
 ```python
 taus = np.linspace(0.0, 1.0, 9)
@@ -185304,7 +185757,7 @@ check(delta_scf < gaps[0], "orbital relaxation lowers the excitation energy here
 
 The `report` lines print the gap $0.772662$, the Delta-SCF energy $0.714594$, the Janak integral $0.714594$ and the transition state $0.712784$ (entry 4 is $\tau = \tfrac12$). The four checks: $\tau = 0$ is the ground state; the level difference at $\tau = 0$ is the Kohn-Sham gap of In [11] ($5.496606 - 4.723945$); the Janak integral equals the Delta-SCF energy to $10^{-6}$; and the Delta-SCF energy is below the gap here.
 
-**In [24], the excited state as a picture.**
+**In [26], the excited state as a picture.**
 
 ```python
 fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
@@ -185337,25 +185790,26 @@ fig.suptitle("The first excited state by Delta-SCF ($g_c = 2$)")
 save_figure(fig, "delta_scf",
 ```
 
-On the right the ground-state density (black) and the density of the Delta-SCF excited state (dashed); range, labels, legend, a common title, and `save_figure` for Figure 13a.9.
+On the right the ground-state density (black) and the density of the Delta-SCF excited state (dashed); range, labels, legend, a common title, and `save_figure` for Figure 13a.10.
 
-**What Figure 13a.9 shows.** On the left the level difference falls almost linearly from the gap $0.7727$ at $\tau = 0$ to about $0.66$ at $\tau = 1$: as the up fermion moves into orbital 4, the levels rearrange so that the two orbitals come closer. The shaded area, $0.7146$, is the Delta-SCF energy (dashed line); it is smaller than the gap, and the midpoint value $0.7128$ (triangle) is close to it, because the curve is nearly straight. On the right the excited density differs from the ground-state density mainly in the middle: the ground state has two peaks beside a dip at $x = 0$, the excited state a peak at $x = 0$ and shoulders beside it (orbital 4 has its largest value at the centre, orbital 3 a zero there), and slightly more density in the outer flanks.
+**What Figure 13a.10 shows.** On the left the level difference falls almost linearly from the gap $0.7727$ at $\tau = 0$ to about $0.66$ at $\tau = 1$: as the up fermion moves into orbital 4, the levels rearrange so that the two orbitals come closer. The shaded area, $0.7146$, is the Delta-SCF energy (dashed line); it is smaller than the gap, and the midpoint value $0.7128$ (triangle) is close to it, because the curve is nearly straight. On the right the excited density differs from the ground-state density mainly in the middle: the ground state has two peaks beside a dip at $x = 0$, the excited state a peak at $x = 0$ and shoulders beside it (orbital 4 has its largest value at the centre, orbital 3 a zero there), and slightly more density in the outer flanks.
 
-**In [25], the last check.**
+**In [27], the last check.**
 
 ```python
 figure_names = ["trap_orbitals", "scf_convergence", "first_iterations",
-                "ks_potentials", "density_orbitals", "variational_scan",
-                "approximations", "coupling_scan", "delta_scf"]
+                "ks_potentials", "density_orbitals", "label_separation",
+                "variational_scan", "approximations", "coupling_scan",
+                "delta_scf"]
 missing = [name for k, name in enumerate(figure_names, 1)
            if not output_file(f"{FIGURE_FOLDER}/13a_{k}_{name}.png").is_file()]
-check(missing == [], "all nine figure files exist")
-check(output_file(f"{FIGURE_FOLDER}/13a_9_delta_scf.png").is_file(),
-      "the figure file 13a_9_delta_scf.png exists")
+check(missing == [], "all ten figure files exist")
+check(output_file(f"{FIGURE_FOLDER}/13a_10_delta_scf.png").is_file(),
+      "the figure file 13a_10_delta_scf.png exists")
 all_checks_passed()
 ```
 
-The same lines as In [19] of Notebook 13c (Section 13.14), with the nine figure names of this notebook. The last line prints ALL 31 CHECKS PASSED (notebook 13a): one check each in In [2], In [5], In [6], In [7], In [10], In [12], In [15] and In [22], two each in In [3], In [8], In [11], In [14], In [16], In [17], In [21] and In [25], three in In [19] and four in In [23].
+The same lines as In [19] of Notebook 13c (Section 13.14), with the ten figure names of this notebook. The last line prints ALL 36 CHECKS PASSED (notebook 13a): one check each in In [2], In [5], In [6], In [7], In [10], In [12], In [15] and In [24], two each in In [3], In [8], In [11], In [14], In [16], In [18], In [19], In [23] and In [27], three each in In [17] and In [21], and four in In [25].
 
 ### 13.37 From the toy models to dirac16complex
 

@@ -25,8 +25,8 @@ from nbkit import code, md, run_builder  # noqa: E402
 
 FIGURES = [
     "trap_orbitals", "scf_convergence", "first_iterations", "ks_potentials",
-    "density_orbitals", "variational_scan", "approximations", "coupling_scan",
-    "delta_scf",
+    "density_orbitals", "label_separation", "variational_scan", "approximations",
+    "coupling_scan", "delta_scf",
 ]
 
 FACTS = {
@@ -61,8 +61,8 @@ FACTS = {
         for k, name in enumerate(FIGURES, 1)
     ],
     "final_lines": [
-        "PASS the figure file 13a_9_delta_scf.png exists",
-        "ALL 31 CHECKS PASSED (notebook 13a)",
+        "PASS the figure file 13a_10_delta_scf.png exists",
+        "ALL 36 CHECKS PASSED (notebook 13a)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for `parameters.json`",
@@ -1108,18 +1108,19 @@ CELLS = [
     md(r"""
     ## 15. The last check
 
-    The last cell checks that all nine figure files exist in the folder
+    The last cell checks that all ten figure files exist in the folder
     Revision/textbook/figures and prints the number of checks that passed.
     """),
     code(r'''
     figure_names = ["trap_orbitals", "scf_convergence", "first_iterations",
-                    "ks_potentials", "density_orbitals", "variational_scan",
-                    "approximations", "coupling_scan", "delta_scf"]
+                    "ks_potentials", "density_orbitals", "label_separation",
+                    "variational_scan", "approximations", "coupling_scan",
+                    "delta_scf"]
     missing = [name for k, name in enumerate(figure_names, 1)
                if not output_file(f"{FIGURE_FOLDER}/13a_{k}_{name}.png").is_file()]
-    check(missing == [], "all nine figure files exist")
-    check(output_file(f"{FIGURE_FOLDER}/13a_9_delta_scf.png").is_file(),
-          "the figure file 13a_9_delta_scf.png exists")
+    check(missing == [], "all ten figure files exist")
+    check(output_file(f"{FIGURE_FOLDER}/13a_10_delta_scf.png").is_file(),
+          "the figure file 13a_10_delta_scf.png exists")
     all_checks_passed()
     '''),
     md(r"""

@@ -228,8 +228,8 @@ CELLS = [
     and the Einstein tensor are sums of Riemann components. The Revision record
     computed all of this with an exact Rust program (`lovelock_gkd`); an independent
     sympy program checked every component, and the lead checks recomputed the Einstein
-    tensor with their own sympy code. This notebook does it once more, in small steps, and compares every
-    single component.
+    tensor with their own sympy code. This notebook does it once more, in small steps,
+    and compares every single component.
 
     Nothing here involves the matter fields yet: these are exact properties of the given
     metric. The field equations, which connect the Einstein tensor to the energy and the

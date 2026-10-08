@@ -3415,7 +3415,7 @@ $$
 
 The first line is the computation of Section 13.10 with $v_s = v + g_c n/2$; the second writes $E_H + E_x = \tfrac{g_c}{4}\int n^2$ and subtracts the first line. This **double-counting formula** gives the same energy as the direct sum of the four parts, which the notebook checks.
 
-**Stability of the equal-label solution.** So far the up and down densities were forced to be equal. Would the fermions lower their energy by separating the labels, as on two sites at strong repulsion (Section 13.7)? Let each label have its own potential: a fermion with label up feels $v + g_c n - g_c n_\uparrow = v + g_c n_\downarrow$, and one with label down $v + g_c n_\uparrow$, and the energy is $E = T_s + \int v\,n + g_c\int n_\uparrow n_\downarrow$ (Section 13.5). Started from a strongly separated guess, the loop for the two potentials together must return to equal densities if the equal-label solution is stable.
+**Stability of the equal-label solution.** So far the up and down densities were forced to be equal. Would the fermions lower their energy by separating the labels, as on two sites at strong repulsion (Section 13.7)? Let each label have its own potential: a fermion with label up feels $v + g_c n - g_c n_\uparrow = v + g_c n_\downarrow$, and one with label down $v + g_c n_\uparrow$, and the energy is $E = T_s + \int v\,n + g_c\int n_\uparrow n_\downarrow$ (Section 13.5). Started from a strongly separated guess, the loop for the two potentials together may return to equal densities; but that alone does not show stability, because the loop can also converge to a **saddle**: a self-consistent solution from which some change of the densities LOWERS the energy. Only the energy decides: the equal-label solution is a minimum when every small label-separating change raises the energy. Notebook 13a shows both cases: on two sites with $U = 4t$ the loop started from a small separation converges to the equal labels although separating them lowers the energy (a saddle), and in the trap every label-separating trial family raises the energy, quadratically for small separations (a minimum along these families).
 
 **The variational principle at work.** The Kohn-Sham equations make the energy stationary in the orbitals, and for the ground state the stationary point is a minimum. A one-parameter test: for each number $c$, take the four lowest orbitals of the trial potential $v + c\,n_{scf}$ ($n_{scf}$ the self-consistent density) and evaluate the same energy formula with them. At $c = g_c/2 = 1$ these are the self-consistent orbitals; the energy must be smallest there, and near the minimum the curve is flat (a small error in the orbitals makes only a second-order error in the energy).
 
@@ -3446,7 +3446,7 @@ $$
 
 **The first excited state.** The Kohn-Sham gap is $\epsilon_4 - \epsilon_3$ of the ground state. The Delta-SCF energy moves one up fermion from orbital 3 (HOMO) to orbital 4 (LUMO) and solves the loop again (Section 13.27). By Janak's theorem it equals the integral of $\epsilon_4(\tau) - \epsilon_3(\tau)$ over the moved fraction $\tau$ from 0 to 1, which the notebook computes with Simpson's rule on nine values of $\tau$.
 
-**What the notebook finds (COMPUTED, Notebook 13a).** The grid (200 points in $-6 < x < 6$) reproduces the levels $n + \tfrac12$ of the trap to $0.013$ (In [3]; an error of order $h^2$, Section 13.2). Plain iteration needs 40 passes, linear mixing with $\beta = 0.7$ needs 23 and with $\beta = 0.3$ needs 73 (In [6]), Anderson mixing with the Revision settings 19 (In [8]); all reach the same potential to $10^{-9}$ (Figure 13a.2), and plain iteration overshoots: the first density is too narrow, the second too wide (In [10], Figure 13a.3). The Kohn-Sham levels are $2.119598$, $3.006214$, $3.877952$, $4.723945$ (occupied) and $5.496606$ (LUMO) (In [11]). The energy is $E = 21.851498$ by both formulas, made of $T_s = 6.726297$, $\int v\,n = 9.521279$, $E_H = 11.207843$ and $E_x = -5.603922 = -E_H/2$ (In [14]). The equal-label solution is stable (In [16]). In the trial family the lowest energy is at $c = 1.00$ (In [17], Figure 13a.6). The root-mean-square widths of the cloud are $1.413346$ (no interaction), $1.542829$ (Kohn-Sham) and $1.659857$ (Hartree only): the repulsion spreads the cloud, and the self-interaction of Hartree spreads it too much (In [19], Figure 13a.7). $dE/dg_c = 2.801961$ both as a difference quotient and as $\tfrac14\int n^2$ (In [21]). The Kohn-Sham gap is $0.772662$, the Delta-SCF energy $0.714594$ (equal to the Janak integral), and the transition-state estimate $0.712784$ (In [23]): here the orbital relaxation lowers the excitation energy.
+**What the notebook finds (COMPUTED, Notebook 13a).** The grid (200 points in $-6 < x < 6$) reproduces the levels $n + \tfrac12$ of the trap to $0.013$ (In [3]; an error of order $h^2$, Section 13.2). Plain iteration needs 40 passes, linear mixing with $\beta = 0.7$ needs 23 and with $\beta = 0.3$ needs 73 (In [6]), Anderson mixing with the Revision settings 19 (In [8]); all reach the same potential to $10^{-9}$ (Figure 13a.2), and plain iteration overshoots: the first density is too narrow, the second too wide (In [10], Figure 13a.3). The Kohn-Sham levels are $2.119598$, $3.006214$, $3.877952$, $4.723945$ (occupied) and $5.496606$ (LUMO) (In [11]). The energy is $E = 21.851498$ by both formulas, made of $T_s = 6.726297$, $\int v\,n = 9.521279$, $E_H = 11.207843$ and $E_x = -5.603922 = -E_H/2$ (In [14]). From a strongly separated start the two-label loop returns to equal labels (In [16]); the energy test shows that along three label-separating families the equal-label solution is a minimum, while on two sites with $U = 4t$ the loop converges to a saddle (In [17], In [18], Figure 13a.6). In the trial family the lowest energy is at $c = 1.00$ (In [19], Figure 13a.7). The root-mean-square widths of the cloud are $1.413346$ (no interaction), $1.542829$ (Kohn-Sham) and $1.659857$ (Hartree only): the repulsion spreads the cloud, and the self-interaction of Hartree spreads it too much (In [21], Figure 13a.8). $dE/dg_c = 2.801961$ both as a difference quotient and as $\tfrac14\int n^2$ (In [23]). The Kohn-Sham gap is $0.772662$, the Delta-SCF energy $0.714594$ (equal to the Janak integral), and the transition-state estimate $0.712784$ (In [25]): here the orbital relaxation lowers the excitation energy.
 
 ### 13.33 Example: the one-dimensional Kohn-Sham toy
 
@@ -3920,14 +3920,187 @@ Each label has its four lowest orbitals occupied once. The start is strongly sep
 say(f"two-label run: {len(pair_residuals)} passes; largest |n_up - n_down| = "
     f"{np.max(np.abs(n_up - n_down)):.1e}")
 check(np.max(np.abs(n_up - n_down)) < 1e-8,
-      "from a separated start the labels return to equal densities (stable)")
+      "from a separated start the two-label loop returns to equal densities")
 check(abs(labels_energy(w_pair, FILLED, FILLED) - E_total) < 1e-9,
       "the two-label run has the same energy as the equal-label solution")
 ```
 
-The run needs 36 passes, and the largest difference between the label densities is $4.9\cdot10^{-12}$; the checks require it to be below $10^{-8}$ and the energy to equal the equal-label energy $21.851498$ to $10^{-9}$: from a strongly separated start the loop returns to equal labels, so the equal-label solution is stable at $g_c = 2$. (Stability here means that this loop returns to it from this start; it is a numerical test, not a proof for every start.)
+The run needs 36 passes, and the largest difference between the label densities is $4.9\cdot10^{-12}$; the checks require it to be below $10^{-8}$ and the energy to equal the equal-label energy $21.851498$ to $10^{-9}$: from a strongly separated start the loop returns to equal labels. This does NOT yet show that the equal-label solution is stable: a converged loop can sit on a saddle. The next two cells show such a case and then make the test that decides, the energy test.
 
-**In [17], the variational principle.**
+**In [17], a loop that converges to a saddle: two sites.**
+
+```python
+T_HOP, U_SITE = 1.0, 4.0  # the hopping t and the on-site repulsion U of two sites
+left_right = np.array([-1.0, 1.0])  # lowers the potential on L and raises it on R
+```
+
+The two-site model of Section 13.7 with the hopping $t = 1$ and the repulsion $U = 4$ (so $U = 4t$, stronger than $2t$). `left_right` is the pattern $(-1, +1)$: added to a pair of site potentials $(w_L, w_R)$ it lowers $w_L$ and raises $w_R$.
+
+```python
+def site_orbital(w2):
+    """(c_L, c_R): the orbital of the lower level of [[w_L, -t], [-t, w_R]]."""
+    return np.linalg.eigh(np.array([[w2[0], -T_HOP], [-T_HOP, w2[1]]]))[1][:, 0]
+```
+
+For one label with the site potentials `w2` $= (w_L, w_R)$, the one-particle matrix is $\begin{pmatrix} w_L & -t \\ -t & w_R \end{pmatrix}$. `np.linalg.eigh` returns its eigenvalues in increasing order and the eigenvectors as columns; `[1][:, 0]` takes the eigenvector of the LOWER level, the occupied orbital $(c_L, c_R)$ with $c_L^2 + c_R^2 = 1$.
+
+```python
+def sites_map(q):
+    """One pass on two sites, q = (w_up on L, R, w_down on L, R)."""
+    n_up, n_down = site_orbital(q[:2]) ** 2, site_orbital(q[2:]) ** 2
+    return np.concatenate([U_SITE * n_down, U_SITE * n_up])
+```
+
+One pass of the two-label loop on two sites, exactly as in the trap: the four numbers `q` are the potentials of label up on L and R and of label down on L and R; the occupations of the sites are the squares of the orbital components, and the new potential of label up is $U n_\downarrow$ (it feels only the other label), that of label down $U n_\uparrow$.
+
+```python
+def sites_energy(q):
+    """-2t (c_L c_R of up + c_L c_R of down) + U sum_sites n_up n_down."""
+    c_up, c_down = site_orbital(q[:2]), site_orbital(q[2:])
+    return (-2.0 * T_HOP * (c_up[0] * c_up[1] + c_down[0] * c_down[1])
+            + U_SITE * np.sum(c_up ** 2 * c_down ** 2))
+```
+
+The energy of the determinant built from the two orbitals: each orbital contributes the hopping energy $-2t\,c_L c_R$, and the repulsion is $U$ times the product of the up and down occupations on each site, summed over the two sites.
+
+```python
+def sites_start(size):
+    """The potentials U/2 + size (-1, 1) for label up and U/2 - size (-1, 1)."""
+    return np.concatenate([0.5 * U_SITE + size * left_right,
+                           0.5 * U_SITE - size * left_right])
+```
+
+A family of label-separating potentials: at `size` $= 0$ both labels have $U/2$ on both sites (the equal-label solution); a positive `size` makes site L cheaper for label up and site R cheaper for label down.
+
+```python
+site_ends = {}
+for site_push in (0.5, 1.0):
+    q_end, site_residuals = anderson(sites_map, sites_start(site_push))
+    site_ends[site_push] = q_end
+    n_up_sites = site_orbital(q_end[:2]) ** 2
+    energy = np.round(sites_energy(q_end), 9) + 0.0  # + 0.0 turns -0.0 into 0.0
+    say(f"two sites, push {site_push}: {len(site_residuals)} passes, n_up = "
+        f"({n_up_sites[0]:.6f}, {n_up_sites[1]:.6f}), energy {energy:.6f}")
+```
+
+The SAME Anderson loop as in the trap (`anderson`, In [8]) runs twice, from a small separation (push 0.5) and from a larger one (push 1). For each end it stores the potentials, prints the number of passes, the occupations of label up on L and R and the energy; `np.round(..., 9)` removes rounding noise and `+ 0.0` turns a printed $-0.000000$ into $0.000000$. The output: from push 0.5 the loop needs 16 passes and ends at $n_\uparrow = (0.5, 0.5)$ with the energy $0$, the equal-label solution; from push 1 it needs 18 passes and ends at $n_\uparrow = (0.933013, 0.066987)$ with the energy $-0.5$, the separated solution.
+
+```python
+site_sizes = np.linspace(0.0, 2.5, 51)  # epsilon = 0, 0.05, ..., 2.5
+site_family = np.array([sites_energy(sites_start(size)) for size in site_sizes])
+saddle_up = site_orbital(site_ends[0.5][:2]) ** 2
+```
+
+The energy along the whole family $\epsilon = 0, 0.05, \dots, 2.5$ (for the figure and the last check), and the occupations of label up at the end of the push-0.5 run.
+
+```python
+check(np.max(np.abs(saddle_up - 0.5)) < 1e-9
+      and abs(sites_energy(site_ends[0.5]) - (-2.0 * T_HOP + 0.5 * U_SITE)) < 1e-9,
+      "two sites, U = 4t, push 0.5: the loop converges to equal labels, E = -2t + U/2")
+check(abs(sites_energy(site_ends[1.0]) + 2.0 * T_HOP ** 2 / U_SITE) < 1e-9,
+      "two sites, push 1: the loop converges to separated labels, E = -2t^2/U")
+check(site_family[1] < site_family[0] - 1e-3,
+      "two sites: separating the labels lowers the energy, so the equal-label "
+      "solution there is a saddle")
+```
+
+Three checks. The first: from push 0.5 the loop converges to equal occupations $1/2$ with the equal-label energy $-2t + U/2 = 0$. The second: from push 1 it converges to the separated energy $-2t^2/U = -0.5$ (Section 13.7). The third: already the first step of the family, $\epsilon = 0.05$, has a lower energy than $\epsilon = 0$; so the equal-label solution, although self-consistent and reached by the loop, is a saddle. A converged loop alone cannot tell a minimum from a saddle.
+
+**In [18], the energy test in the trap, and Figure 13a.6.**
+
+```python
+shapes = {"tanh x": np.tanh(x), "x exp(-x^2/4)": x * np.exp(-x ** 2 / 4.0),
+          "exp(-x^2/2)": np.exp(-x ** 2 / 2.0)}
+```
+
+Three shapes $s(x)$ of a label-separating change: $\tanh x$ pushes label up to the left and label down to the right across the whole trap; $x\,e^{-x^2/4}$ does the same but only near the centre; $e^{-x^2/2}$ pushes label up outwards and label down inwards.
+
+```python
+def separation_rise(shape, size):
+    """E of the determinant made from w_scf +- size * shape, minus E_KS."""
+    trial = np.concatenate([w_scf + size * shape, w_scf - size * shape])
+    return labels_energy(trial, FILLED, FILLED) - E_total
+```
+
+The trial potentials are $w_\uparrow = w_{scf} + \epsilon\,s(x)$ and $w_\downarrow = w_{scf} - \epsilon\,s(x)$. `labels_energy` (In [16]) takes the four lowest orbitals of each label in its trial potential and evaluates the energy $E = T_s + \int v\,n + g_c\int n_\uparrow n_\downarrow$ of that determinant; for the contact interaction this formula is the exact energy of the determinant, so no self-consistency is needed. The function returns the energy above the Kohn-Sham energy `E_total`.
+
+```python
+sizes = [0.01, 0.05, 0.2, 0.5, 1.0]
+rises = {name: [separation_rise(shape, size) for size in sizes]
+         for name, shape in shapes.items()}
+for name, values in rises.items():
+    say(f"{name:14} E - E_KS: " + " ".join(f"{value:.2e}" for value in values))
+```
+
+The rise for the five sizes $\epsilon = 0.01, 0.05, 0.2, 0.5, 1$ and each shape, printed in powers of ten (`.2e`). The output: for $\tanh x$ the rises are $3.50\cdot10^{-5}$, $8.81\cdot10^{-4}$, $1.53\cdot10^{-2}$, $0.124$ and $0.593$; for $x\,e^{-x^2/4}$ they are $2.14\cdot10^{-5}$ to $0.254$; for $e^{-x^2/2}$, $8.58\cdot10^{-6}$ to $8.71\cdot10^{-2}$. All are positive.
+
+```python
+check(all(value > 0.0 for values in rises.values() for value in values),
+      "every label-separating trial determinant in the trap has a higher energy "
+      "than the Kohn-Sham state")
+check(all(24.0 < values[1] / values[0] < 26.0 for values in rises.values()),
+      "for small separations the energy rises as epsilon^2: in the trap the "
+      "equal-label solution is a minimum along these families, not a saddle")
+```
+
+Two checks. The first: every one of the fifteen trial determinants lies above the Kohn-Sham energy. The second: going from $\epsilon = 0.01$ to $0.05$ (five times larger) multiplies the rise by between 24 and 26, close to $5^2 = 25$; for $\tanh x$, $8.81\cdot10^{-4} / 3.50\cdot10^{-5} \approx 25.2$. So for small separations the rise is of second order, $E - E_{KS} \approx a\,\epsilon^2$ with $a > 0$: the energy is flat (stationary) at the Kohn-Sham solution and curves upwards. Along these three families the equal-label solution is a minimum, not a saddle. (Three families are a test, not a proof for every possible change; this is a COMPUTED result for this trap at $g_c = 2$.)
+
+```python
+fine_sizes = np.linspace(0.0, 1.0, 41)  # epsilon = 0, 0.025, ..., 1
+fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
+for (name, shape), style in zip(shapes.items(), ("-", "--", "-.")):
+    left.plot(fine_sizes, [separation_rise(shape, size) for size in fine_sizes],
+              style, label=f"shape {name}")
+```
+
+Figure 13a.6 has two panels side by side (`plt.subplots(1, 2, ...)`). On the left, the rise for each shape on a finer grid of 41 sizes, each shape with its own line style (solid, dashed, dash-dotted).
+
+```python
+left.set_xlabel("size $\\epsilon$ of the separation")
+left.set_ylabel("$E - E_{KS}$ ($\\hbar\\omega$)")
+left.set_title("Trap, $g_c = 2$: the energy rises (minimum)")
+left.legend(fontsize=8)
+```
+
+Axis labels (the size is a pure number; the energy is in units of $\hbar\omega$), the title and the legend of the left panel.
+
+```python
+right.plot(site_sizes, site_family, color="black", label="energy of the family")
+right.plot([0.0], [site_family[0]], "o", ms=8,
+           label="loop from push 0.5 (saddle)")
+size_end = 0.5 * (site_ends[1.0][1] - site_ends[1.0][0])  # (w_R - w_L)/2 of up
+right.plot([size_end], [sites_energy(site_ends[1.0])], "s", ms=8,
+           label="loop from push 1 (minimum)")
+```
+
+On the right, the two-site family of In [17] as a black line, a circle at $\epsilon = 0$ where the push-0.5 loop ended, and a square where the push-1 loop ended. The square's horizontal position is $(w_R - w_L)/2$ of label up at the end, the size of the separation that the loop found.
+
+```python
+right.set_xlabel("size $\\epsilon$ of the separation")
+right.set_ylabel("$E$ (units of $t$)")
+right.set_title("Two sites, $U = 4t$: the energy falls (saddle)")
+right.legend(fontsize=8)
+save_figure(fig, "label_separation",
+            "The energy test of stability. Left: the trap with eight fermions; "
+            "the energy of the determinant made from the label-separating trial "
+            "potentials $w_{scf} \\pm \\epsilon\\,s(x)$, minus the Kohn-Sham "
+            "energy, for three shapes $s$, against the size $\\epsilon$ (pure "
+            "number); vertical axis in units of $\\hbar\\omega$. Every curve starts "
+            "flat at 0 and rises: along these families the equal-label solution "
+            "is a minimum. Right: two sites with $U = 4t$; the energy of the "
+            "determinant made from the potentials $U/2 \\pm \\epsilon\\,(-1, 1)$, "
+            "in units of $t$, against $\\epsilon$. It falls from the equal-label "
+            "solution (circle, energy 0, where the loop from push 0.5 converged: "
+            "a saddle) to the separated minimum $-2t^2/U = -0.5t$ (square, where "
+            "the loop from push 1 converged). The converged loop could not tell "
+            "the two cases apart; the energy does.")
+```
+
+Labels, title and legend of the right panel, and `save_figure`, which writes `13a_6_label_separation.png` with this caption, which the book prints below the figure.
+
+**What Figure 13a.6 shows.** On the left, all three curves start flat at 0 and rise: for $\tanh x$ to about $0.59$ at $\epsilon = 1$, for the other two shapes less, because they move fewer fermions. A flat start means that the Kohn-Sham solution is stationary; the upward curve means a minimum along these families. On the right, the two-site energy starts at 0 (the circle, where the loop from push 0.5 converged) and FALLS to the separated minimum $-0.5t$ (the square, where the loop from push 1 converged): the circle is a saddle. Both loops converged; only the energy shows which end is stable.
+
+**In [19], the variational principle.**
 
 ```python
 def energy_of_orbitals(phi):
@@ -3955,7 +4128,7 @@ check(np.all(family_energies >= E_total - 1e-10),
 
 `c_best` prints as $1.00$, and the checks require it to equal $g_c/2$ (to $10^{-9}$; the grid of $c$ contains the value 1 exactly) and every member of the family to have an energy at least $E_{KS}$ (to $10^{-10}$).
 
-**In [18], the family as a picture.**
+**In [20], the family as a picture.**
 
 ```python
 fig, ax = plt.subplots()
@@ -3969,11 +4142,11 @@ ax.legend()
 save_figure(fig, "variational_scan",
 ```
 
-The energy above the Kohn-Sham energy against $c$, as dots joined by a line; a grey dashed vertical line at $c = g_c/2$; labels, title, legend and `save_figure` for Figure 13a.6.
+The energy above the Kohn-Sham energy against $c$, as dots joined by a line; a grey dashed vertical line at $c = g_c/2$; labels, title, legend and `save_figure` for Figure 13a.7.
 
-**What Figure 13a.6 shows.** A curve shaped like a parabola that touches zero at $c = 1$ and is flat there: moving $c$ by $0.05$ away from 1 raises the energy by only about $0.001$, while the ends lie much higher, $0.29$ at $c = 0$ (the orbitals of the bare trap) and $0.72$ at $c = 2$ (the orbitals of the Hartree-like potential $v + g_c n$). A first-order error in the orbitals gives only a second-order error in the energy.
+**What Figure 13a.7 shows.** A curve shaped like a parabola that touches zero at $c = 1$ and is flat there: moving $c$ by $0.05$ away from 1 raises the energy by only about $0.001$, while the ends lie much higher, $0.29$ at $c = 0$ (the orbitals of the bare trap) and $0.72$ at $c = 2$ (the orbitals of the Hartree-like potential $v + g_c n$). A first-order error in the orbitals gives only a second-order error in the energy.
 
-**In [19], Hartree only and Thomas-Fermi.**
+**In [21], Hartree only and Thomas-Fermi.**
 
 ```python
 def hartree_map(w):
@@ -4031,7 +4204,7 @@ check(widths[0] < widths[1] < widths[2],
 
 The **root-mean-square width** $\sqrt{\int x^2 n\,dx/N}$ measures how far the cloud spreads; `.format(*widths)` puts the three numbers into the three braces of the string. The widths $1.413346$, $1.542829$, $1.659857$ must increase in this order (last check).
 
-**In [20], four pictures of the same fermions.**
+**In [22], four pictures of the same fermions.**
 
 ```python
 fig, ax = plt.subplots()
@@ -4047,11 +4220,11 @@ ax.legend(fontsize=8)
 save_figure(fig, "approximations",
 ```
 
-The four densities, without interaction (dotted), Hartree only (dashed), Kohn-Sham (thick black) and Thomas-Fermi (dash-dotted); range, labels, title, legend and `save_figure` for Figure 13a.7.
+The four densities, without interaction (dotted), Hartree only (dashed), Kohn-Sham (thick black) and Thomas-Fermi (dash-dotted); range, labels, title, legend and `save_figure` for Figure 13a.8.
 
-**What Figure 13a.7 shows.** Without interaction the cloud is the narrowest and the highest (peaks of about $1.89$); Kohn-Sham is lower and wider; Hartree only is lower and wider still, because each fermion also pushes against its own density. All three have the bumps of the four occupied orbitals. The Thomas-Fermi density is a smooth dome without bumps, close to the Kohn-Sham density on average, and it ends abruptly at $|x| = \sqrt{2\mu} = 3.20$, where the trap reaches $\mu$ (the orbital densities instead die away gradually beyond that point).
+**What Figure 13a.8 shows.** Without interaction the cloud is the narrowest and the highest (peaks of about $1.89$); Kohn-Sham is lower and wider; Hartree only is lower and wider still, because each fermion also pushes against its own density. All three have the bumps of the four occupied orbitals. The Thomas-Fermi density is a smooth dome without bumps, close to the Kohn-Sham density on average, and it ends abruptly at $|x| = \sqrt{2\mu} = 3.20$, where the trap reaches $\mu$ (the orbital densities instead die away gradually beyond that point).
 
-**In [21], switching the interaction on.**
+**In [23], switching the interaction on.**
 
 ```python
 def solve_at(strength, start):
@@ -4103,7 +4276,7 @@ check(abs(slope - 0.25 * integral(n_ks ** 2)) < 1e-6,
 
 Both the quotient and $\tfrac14\int n^2\,dx$ print as $2.801961$, and the check requires agreement to $10^{-6}$ (the quotient has an error of order $\delta^2 = 10^{-6}$ times the third derivative, plus the effect of the loop's tolerance).
 
-**In [22], the energies of the scan.**
+**In [24], the energies of the scan.**
 
 ```python
 fig, ax = plt.subplots()
@@ -4119,7 +4292,7 @@ ax.legend(fontsize=8)
 save_figure(fig, "coupling_scan",
 ```
 
-The three columns of the table `scan` against the nine strengths, with different markers, and their sum along each row (`scan.sum(axis=1)`) as the black total; labels, title, legend and `save_figure` for Figure 13a.8. After the caption, the check
+The three columns of the table `scan` against the nine strengths, with different markers, and their sum along each row (`scan.sum(axis=1)`) as the black total; labels, title, legend and `save_figure` for Figure 13a.9. After the caption, the check
 
 ```python
 check(abs(scan[0].sum() - 16.0) < 0.05 and abs(scan[0, 0] - scan[0, 1]) < 0.05,
@@ -4128,9 +4301,9 @@ check(abs(scan[0].sum() - 16.0) < 0.05 and abs(scan[0, 0] - scan[0, 1]) < 0.05,
 
 requires, at $g_c = 0$ (row 0 of the scan), the total 16 and equal kinetic and trap energies (the virial theorem of Section 13.32), both to $0.05$, the accuracy of the grid.
 
-**What Figure 13a.8 shows.** At $g_c = 0$ the kinetic and the trap energy are both 8 and the total is 16 (the grid gives $15.99$). As the repulsion is switched on, the interaction energy grows almost linearly to $5.60$; the cloud spreads, so the trap energy rises (to $9.52$) and the kinetic energy falls (to $6.73$): wider orbitals curve less. The total rises to $21.85$ along a curve that bends slightly downwards: by the Hellmann-Feynman theorem its slope is $\tfrac14\int n^2\,dx$, which is $3.07$ at $g_c = 0$ (with the density without interaction) and $2.80$ at $g_c = 2$, because the spreading cloud has a smaller $\int n^2\,dx$.
+**What Figure 13a.9 shows.** At $g_c = 0$ the kinetic and the trap energy are both 8 and the total is 16 (the grid gives $15.99$). As the repulsion is switched on, the interaction energy grows almost linearly to $5.60$; the cloud spreads, so the trap energy rises (to $9.52$) and the kinetic energy falls (to $6.73$): wider orbitals curve less. The total rises to $21.85$ along a curve that bends slightly downwards: by the Hellmann-Feynman theorem its slope is $\tfrac14\int n^2\,dx$, which is $3.07$ at $g_c = 0$ (with the density without interaction) and $2.80$ at $g_c = 2$, because the spreading cloud has a smaller $\int n^2\,dx$.
 
-**In [23], the first excited state.**
+**In [25], the first excited state.**
 
 ```python
 taus = np.linspace(0.0, 1.0, 9)
@@ -4171,7 +4344,7 @@ check(delta_scf < gaps[0], "orbital relaxation lowers the excitation energy here
 
 The `report` lines print the gap $0.772662$, the Delta-SCF energy $0.714594$, the Janak integral $0.714594$ and the transition state $0.712784$ (entry 4 is $\tau = \tfrac12$). The four checks: $\tau = 0$ is the ground state; the level difference at $\tau = 0$ is the Kohn-Sham gap of In [11] ($5.496606 - 4.723945$); the Janak integral equals the Delta-SCF energy to $10^{-6}$; and the Delta-SCF energy is below the gap here.
 
-**In [24], the excited state as a picture.**
+**In [26], the excited state as a picture.**
 
 ```python
 fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0))
@@ -4204,25 +4377,26 @@ fig.suptitle("The first excited state by Delta-SCF ($g_c = 2$)")
 save_figure(fig, "delta_scf",
 ```
 
-On the right the ground-state density (black) and the density of the Delta-SCF excited state (dashed); range, labels, legend, a common title, and `save_figure` for Figure 13a.9.
+On the right the ground-state density (black) and the density of the Delta-SCF excited state (dashed); range, labels, legend, a common title, and `save_figure` for Figure 13a.10.
 
-**What Figure 13a.9 shows.** On the left the level difference falls almost linearly from the gap $0.7727$ at $\tau = 0$ to about $0.66$ at $\tau = 1$: as the up fermion moves into orbital 4, the levels rearrange so that the two orbitals come closer. The shaded area, $0.7146$, is the Delta-SCF energy (dashed line); it is smaller than the gap, and the midpoint value $0.7128$ (triangle) is close to it, because the curve is nearly straight. On the right the excited density differs from the ground-state density mainly in the middle: the ground state has two peaks beside a dip at $x = 0$, the excited state a peak at $x = 0$ and shoulders beside it (orbital 4 has its largest value at the centre, orbital 3 a zero there), and slightly more density in the outer flanks.
+**What Figure 13a.10 shows.** On the left the level difference falls almost linearly from the gap $0.7727$ at $\tau = 0$ to about $0.66$ at $\tau = 1$: as the up fermion moves into orbital 4, the levels rearrange so that the two orbitals come closer. The shaded area, $0.7146$, is the Delta-SCF energy (dashed line); it is smaller than the gap, and the midpoint value $0.7128$ (triangle) is close to it, because the curve is nearly straight. On the right the excited density differs from the ground-state density mainly in the middle: the ground state has two peaks beside a dip at $x = 0$, the excited state a peak at $x = 0$ and shoulders beside it (orbital 4 has its largest value at the centre, orbital 3 a zero there), and slightly more density in the outer flanks.
 
-**In [25], the last check.**
+**In [27], the last check.**
 
 ```python
 figure_names = ["trap_orbitals", "scf_convergence", "first_iterations",
-                "ks_potentials", "density_orbitals", "variational_scan",
-                "approximations", "coupling_scan", "delta_scf"]
+                "ks_potentials", "density_orbitals", "label_separation",
+                "variational_scan", "approximations", "coupling_scan",
+                "delta_scf"]
 missing = [name for k, name in enumerate(figure_names, 1)
            if not output_file(f"{FIGURE_FOLDER}/13a_{k}_{name}.png").is_file()]
-check(missing == [], "all nine figure files exist")
-check(output_file(f"{FIGURE_FOLDER}/13a_9_delta_scf.png").is_file(),
-      "the figure file 13a_9_delta_scf.png exists")
+check(missing == [], "all ten figure files exist")
+check(output_file(f"{FIGURE_FOLDER}/13a_10_delta_scf.png").is_file(),
+      "the figure file 13a_10_delta_scf.png exists")
 all_checks_passed()
 ```
 
-The same lines as In [19] of Notebook 13c (Section 13.14), with the nine figure names of this notebook. The last line prints ALL 31 CHECKS PASSED (notebook 13a): one check each in In [2], In [5], In [6], In [7], In [10], In [12], In [15] and In [22], two each in In [3], In [8], In [11], In [14], In [16], In [17], In [21] and In [25], three in In [19] and four in In [23].
+The same lines as In [19] of Notebook 13c (Section 13.14), with the ten figure names of this notebook. The last line prints ALL 36 CHECKS PASSED (notebook 13a): one check each in In [2], In [5], In [6], In [7], In [10], In [12], In [15] and In [24], two each in In [3], In [8], In [11], In [14], In [16], In [18], In [19], In [23] and In [27], three each in In [17] and In [21], and four in In [25].
 
 ### 13.37 From the toy models to dirac16complex
 
