@@ -278,7 +278,7 @@ $env:BOOK_RERUN_ALL = "1"      (Windows PowerShell)
 export BOOK_RERUN_ALL=1          (macOS zsh, Linux bash)
 ```
 
-- With BOOK_RERUN_ALL set to 1, the notebooks that run a Rust program fail: install Rust from https://rustup.rs, open a new terminal, activate the environment and run the notebook again; the first build of each Rust program takes a few minutes.
+- With BOOK_RERUN_ALL set to 1, the notebooks that run a Rust program fail: install Rust from https://rustup.rs, open a new terminal, activate the environment and run the notebook again; the first build of each Rust program takes a few minutes. On the development machine the re-run of all other notebooks took 406 seconds of wall time, 8 notebooks at a time.
 
 To repeat the verification of the book's maintainers (a second, independent execution whose notebook and files are compared byte for byte with the stored ones; it writes only into a scratch folder), run in the repository folder:
 
@@ -314,8 +314,8 @@ The key numbers are printed as RESULT lines:
 In [6]  RESULT notebooks (without 23a) = 90
 In [6]  RESULT checks in these notebooks = 2236
 In [6]  RESULT figures of these notebooks = 563
-In [6]  RESULT recorded check time, one after the other = 1445.5 s
-In [7]  RESULT share of the three slowest notebooks = 39.7 %
+In [6]  RESULT recorded check time, one after the other = 1446.0 s
+In [7]  RESULT share of the three slowest notebooks = 39.6 %
 In [9]  RESULT gate steps = 63
 In [9]  RESULT long steps (skipped by --fast) = 8
 In [9]  RESULT expected wall time of the full gate = 10532 s = 2.93 h
@@ -354,13 +354,13 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | file | bytes | sha256 |
 | --- | --- | --- |
 | `Revision/textbook/figures/23a.captions.json` | 1598 | `9df544c29df2b8f8416d75a48ec5dc9740800f900d30ff82ccff0407e8bc269c` |
-| `Revision/textbook/figures/23a_1_check_time_per_notebook.png` | 50511 | `f13dc8eee64fd7347c44cd663e968639612a8d28f8cfa2b0003b772da35a3173` |
-| `Revision/textbook/figures/23a_2_cumulative_check_time.png` | 31382 | `73de22b26da7049be5cebbbf93ffce166b5255c5abf27554cdfc99469b458022` |
+| `Revision/textbook/figures/23a_1_check_time_per_notebook.png` | 50534 | `40db3f265bd61624d48659e9a2953714b227965907dbe74b216cd5ed81444501` |
+| `Revision/textbook/figures/23a_2_cumulative_check_time.png` | 31599 | `0015fb64795983239ba8d97ec8aa64eed45704dddccc474355d72d4293bbabea` |
 | `Revision/textbook/figures/23a_3_checks_per_chapter.png` | 23545 | `4a9a082df46392b0497c6a7d769d0d323de6cfde038f0f3b1046c92bc172f0eb` |
 | `Revision/textbook/figures/23a_4_figures_per_chapter.png` | 19560 | `2c9f81b4bdd2b8e8ec8ff2cefe0c418e95e199bcb799b5fd67b26caa078c97c6` |
-| `Revision/textbook/figures/23a_5_check_time_per_chapter.png` | 27376 | `35401ac4c00c5c8b0be0c826c9eac5d0d6b6f290fea2882dcc180d51b7e925ba` |
+| `Revision/textbook/figures/23a_5_check_time_per_chapter.png` | 27376 | `e0b9434a79be4f7305831d6611e45a12eb60370b558baca039969e9e07ae5a7b` |
 | `Revision/textbook/figures/23a_6_gate_step_times.png` | 124943 | `9a4846f180c060037902ca8b73bffd2df27b0468578ab017e6b7fb764de287aa` |
-| `Revision/textbook/data/23a_notebooks.csv` | 14457 | `943064f14939fb884c72d54ff039e9a8ab211f019009d455027d662702b3a85b` |
+| `Revision/textbook/data/23a_notebooks.csv` | 14457 | `3aa2d80371968efcdaff5966eff069778283b604ea801eee70feb3afa2b181d7` |
 | `Revision/textbook/data/23a_check_index.csv` | 107745 | `6b42c530fccddf196c7e257079c9b9bb9a7c918595926295f7409ec8a3268112` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/23a_reproduce_everything.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
@@ -384,8 +384,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 6.6 s, peak memory of the kernel process 178 MiB;
-- the check run: 5.2 s, peak memory of the kernel process 178 MiB.
+- the build run: 6.4 s, peak memory of the kernel process 178 MiB;
+- the check run: 6.5 s, peak memory of the kernel process 177 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -397,16 +397,16 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/23a_reproduce_everything.ipynb`: `6f234e40f21af081553ba1f1e060ed2b28abf2539ed3e72bdb04eefc070cd7e4`
-- `Revision/textbook/notebooks/src/23a_reproduce_everything.py`: `5d1acfd395fe8ab511934566208a288b6f0398c4f21eb4252f4a8ff284520a8c`
+- `Revision/textbook/notebooks/23a_reproduce_everything.ipynb`: `4fb501dbfd2e264905e3ca5cc518ac4a2730284340524ea01f2f1daf84e0617f`
+- `Revision/textbook/notebooks/src/23a_reproduce_everything.py`: `d4bc1bc39b991128486e64275a3c922ff41c5b37ec9c894d205e113833d5ee60`
 - `Revision/textbook/figures/23a.captions.json`: `9df544c29df2b8f8416d75a48ec5dc9740800f900d30ff82ccff0407e8bc269c`
-- `Revision/textbook/figures/23a_1_check_time_per_notebook.png`: `f13dc8eee64fd7347c44cd663e968639612a8d28f8cfa2b0003b772da35a3173`
-- `Revision/textbook/figures/23a_2_cumulative_check_time.png`: `73de22b26da7049be5cebbbf93ffce166b5255c5abf27554cdfc99469b458022`
+- `Revision/textbook/figures/23a_1_check_time_per_notebook.png`: `40db3f265bd61624d48659e9a2953714b227965907dbe74b216cd5ed81444501`
+- `Revision/textbook/figures/23a_2_cumulative_check_time.png`: `0015fb64795983239ba8d97ec8aa64eed45704dddccc474355d72d4293bbabea`
 - `Revision/textbook/figures/23a_3_checks_per_chapter.png`: `4a9a082df46392b0497c6a7d769d0d323de6cfde038f0f3b1046c92bc172f0eb`
 - `Revision/textbook/figures/23a_4_figures_per_chapter.png`: `2c9f81b4bdd2b8e8ec8ff2cefe0c418e95e199bcb799b5fd67b26caa078c97c6`
-- `Revision/textbook/figures/23a_5_check_time_per_chapter.png`: `35401ac4c00c5c8b0be0c826c9eac5d0d6b6f290fea2882dcc180d51b7e925ba`
+- `Revision/textbook/figures/23a_5_check_time_per_chapter.png`: `e0b9434a79be4f7305831d6611e45a12eb60370b558baca039969e9e07ae5a7b`
 - `Revision/textbook/figures/23a_6_gate_step_times.png`: `9a4846f180c060037902ca8b73bffd2df27b0468578ab017e6b7fb764de287aa`
-- `Revision/textbook/data/23a_notebooks.csv`: `943064f14939fb884c72d54ff039e9a8ab211f019009d455027d662702b3a85b`
+- `Revision/textbook/data/23a_notebooks.csv`: `3aa2d80371968efcdaff5966eff069778283b604ea801eee70feb3afa2b181d7`
 - `Revision/textbook/data/23a_check_index.csv`: `6b42c530fccddf196c7e257079c9b9bb9a7c918595926295f7409ec8a3268112`
 
 ## 7. Verification
@@ -415,4 +415,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 9 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":178.0,"seconds":6.6},"check":{"date":"2026-10-08","files":9,"peak_mb":178.0,"result":"passed","seconds":5.2},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":178.0,"seconds":6.4},"check":{"date":"2026-10-08","files":9,"peak_mb":177.0,"result":"passed","seconds":6.5},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

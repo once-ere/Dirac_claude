@@ -126,7 +126,8 @@ FACTS = {
         ["With BOOK_RERUN_ALL set to 1, the notebooks that run a Rust program fail",
          "install Rust from https://rustup.rs, open a new terminal, activate the "
          "environment and run the notebook again; the first build of each Rust program "
-         "takes a few minutes."],
+         "takes a few minutes. On the development machine the re-run of all other "
+         "notebooks took 406 seconds of wall time, 8 notebooks at a time."],
     ],
 }
 
@@ -627,7 +628,10 @@ CELLS = [
     passed and their fresh and recorded seconds, every notebook that failed, the wall
     time of the whole re-run, and writes the fresh results to `fresh_results.csv` in the
     scratch folder; it stops with an error if any notebook failed. The figures above
-    keep showing the RECORDED times.
+    keep showing the RECORDED times. On the development machine (24 threads, so 8 at a
+    time) this re-run of the 90 notebooks took 406 s of wall time on 2026-10-08, and
+    all 90 passed; each notebook took longer than its recorded time, because 8 ran at
+    once and shared the processor.
     """),
     code(r'''
     RERUN = os.environ.get("BOOK_RERUN_ALL") == "1"  # the switch of this section
@@ -683,8 +687,8 @@ CELLS = [
             writer.writerows([item[key] for key in ("id", "chapter", "result",
                                                     "seconds", "recorded")]
                              for item in FRESH)
-        say(f"Re-run of {len(FRESH)} notebooks with {workers} at a time: wall time "
-            f"{wall:.0f} s; fresh results in {scratch / "fresh_results.csv"}")
+        say(f"Re-run of {len(FRESH)} notebooks, {workers} at a time: {wall:.0f} s.")
+        print(f"Fresh results: {scratch / "fresh_results.csv"}")
         assert not failed, f"nbkit check failed for {failed}"
         say(f"RERUN all {len(FRESH)} other notebooks passed their nbkit check.")
     '''),

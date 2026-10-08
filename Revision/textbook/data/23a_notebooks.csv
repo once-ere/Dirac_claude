@@ -1,7 +1,7 @@
 id,chapter,title,checks,figures,date,result,seconds,section,builder
 00a,0,Checking the installation,9,2,2026-10-08,passed,3.6,0.11,Revision/textbook/notebooks/src/00a_check_installation.py
 00b,0,The eight directions and the author's metric: a first look,14,4,2026-10-08,passed,4.1,0.15,Revision/textbook/notebooks/src/00b_eight_directions.py
-00c,0,The honesty ledger: reading and checking the Revision record,18,4,2026-10-08,passed,3.4,0.19,Revision/textbook/notebooks/src/00c_honesty_ledger.py
+00c,0,The honesty ledger: reading and checking the Revision record,18,4,2026-10-08,passed,3.9,0.19,Revision/textbook/notebooks/src/00c_honesty_ledger.py
 00d,0,"Why every run gives the same bytes: rounding, order, seeds and line ends",22,6,2026-10-08,passed,4.0,0.23,Revision/textbook/notebooks/src/00d_reproducible_runs.py
 01a,1,"Matrices, permutations and determinants",30,6,2026-10-08,passed,4.9,1.23,Revision/textbook/notebooks/src/01a_matrices_determinants.py
 01b,1,"Complex numbers, rotations and boosts",34,6,2026-10-08,passed,4.5,1.15,Revision/textbook/notebooks/src/01b_complex_rotations.py

@@ -1482,15 +1482,60 @@ def check_rust_summary(reg, summary, runs, errors):
     reg.measure("rustPairsErrors", errors)
 
 
-def rust_grid_uncertainty(view, partners):
-    """|X(finer grid) - X(301)| of a Rust run with a finer-grid partner (Stage-4 rule E4.12)."""
-    out = {}
-    for other in partners.get(view.key, []):
-        for name in ("E", "mu", "ksGap", "deltaSCF", "lowestParticleHole"):
-            a, b = view.scalar(name), other.scalar(name)
-            if is_num(a) and is_num(b):
-                out[name] = max(out.get(name, 0.0), abs(a - b))
+GRID_QUANTITIES = ("E", "mu", "ksGap", "deltaSCF", "lowestParticleHole")
+DESIGN_ORDER_REASON = ("the order could not be measured (fewer than three grids of equal ratio, or a vanishing "
+                       "difference): the smallest order of the Rust scheme is used, p = %g (natural cubic splines of "
+                       "the potentials are O(h^2) within O(h) of the two ends; Simpson rules O(h^4); "
+                       "check_dirac16complex_kohn_sham.RUST_GRID_DESIGN_ORDER)" % C4.RUST_GRID_DESIGN_ORDER)
+
+
+def rust_grid_family(key, rust_runs, partners):
+    """The Rust y-grid refinement family of a key: [(grid points, view)] ascending, the 301-point run (if any)
+    and its finer-grid partners of the same key; one run per grid (the first one found)."""
+    members = {}
+    base = rust_runs.get(key)
+    if base is not None:
+        members[base.grid_points] = base
+    for other in partners.get(key, []):
+        members.setdefault(other.grid_points, other)
+    return sorted(members.items(), key=lambda t: t[0])
+
+
+def rust_grid_uncertainty(view, family):
+    """The OWN estimated y-grid error of the Rust run `view`, a member of `family` (rust_grid_family), for each of
+    E, mu, ksGap, deltaSCF, lowestParticleHole present on all grids (Stage-4 rules E4.12 and E4.14,
+    check_dirac16complex_kohn_sham.member_grid_errors): the coarsest member gets |X_1 - X_0| (the measured change
+    to the next grid), a finer member k only its own Richardson term |X_k - X_(k-1)| / (r^p - 1),
+    r = (n_k - 1)/(n_(k-1) - 1) (= 2 for 301 -> 601), with p measured per quantity from three consecutive grids of
+    equal ratio, otherwise the scheme's smallest order (DESIGN_ORDER_REASON).  It is added to the tolerance of
+    that member only.  Returns {} when the run has no partner grid."""
+    if len(family) < 2:
+        return {}
+    index = next((k for k, (_, v) in enumerate(family) if v is view), None)
+    if index is None:
+        return {}
+    out = {"values": {}, "orders": {}, "orderSource": {}, "gridPoints": family[index][0],
+           "family": [n for n, _ in family]}
+    for name in GRID_QUANTITIES:
+        vals = [v.scalar(name) for _, v in family]
+        if not all(is_num(x) for x in vals):
+            continue
+        u, p, how = C4.member_grid_errors([(n, x) for (n, _), x in zip(family, vals)])[index]
+        out["values"][name] = u
+        out["orders"][name] = p
+        out["orderSource"][name] = how
+    if "design" in out["orderSource"].values():
+        out["designOrder"] = C4.RUST_GRID_DESIGN_ORDER
+        out["designOrderReason"] = DESIGN_ORDER_REASON
     return out
+
+
+def rust_comparison_label(view):
+    """The label of a Rust run in the comparison records: a finer-grid member gets the suffix _g<n> unless its
+    label already carries it."""
+    if view.grid_points == 301 or view.label.endswith("_g%d" % view.grid_points):
+        return view.label
+    return "%s_g%d" % (view.label, view.grid_points)
 
 
 def reference_pot_scale(F):
@@ -1644,23 +1689,28 @@ def compare_rust_reference(worst, where, R, F, gu, record):
 def check_rust_vs_reference(reg, rust_runs, ref_runs, partners):
     worst = Worst()
     compared, missing_ref = [], []
-    for key in sorted(rust_runs, key=str):
-        R = rust_runs[key]
-        F = ref_runs.get(key)
+    # every Rust run is compared: the 301-point runs and their finer-grid partners (each member of a y-grid
+    # refinement family with its OWN grid-error term, rust_grid_uncertainty)
+    views = [rust_runs[key] for key in sorted(rust_runs, key=str)]
+    views += sorted((v for vs in partners.values() for v in vs), key=lambda v: (str(v.key), v.grid_points, v.dir))
+    for R in views:
+        label = rust_comparison_label(R)
+        F = ref_runs.get(R.key)
         if F is None:
-            missing_ref.append(R.label)
+            missing_ref.append(label)
             continue
         if not (R.converged() and F.converged()):
-            reg.comparison("rust_vs_reference_%s" % R.label.replace("/", "_"), "not run",
+            reg.comparison("rust_vs_reference_%s" % label.replace("/", "_"), "not run",
                            "not converged: rust %s, reference %s" % (R.converged_by(), F.converged_by()))
             continue
-        record = {"rust": R.label, "reference": F.label}
-        gu = rust_grid_uncertainty(R, partners)
-        if gu:
-            record["rustGridUncertainty"] = gu
-        compare_rust_reference(worst, R.label, R, F, gu, record)
-        reg.comparison("rust_vs_reference_%s" % R.label.replace("/", "_"), "ran", record)
-        compared.append(R.label)
+        record = {"rust": label, "reference": F.label}
+        gu_record = rust_grid_uncertainty(R, rust_grid_family(R.key, rust_runs, partners))
+        gu = gu_record.get("values", {})
+        if gu_record:
+            record["rustGridUncertainty"] = gu_record
+        compare_rust_reference(worst, label, R, F, gu, record)
+        reg.comparison("rust_vs_reference_%s" % label.replace("/", "_"), "ran", record)
+        compared.append(label)
     reg.measure("rustVsReferenceCompared", len(compared))
     reg.measure("rustRunsWithoutReference", missing_ref)
     reg.measure("referenceRunsWithoutRust", sorted(F.label for k, F in ref_runs.items() if k not in rust_runs))
@@ -1672,7 +1722,9 @@ def check_rust_vs_reference(reg, rust_runs, ref_runs, partners):
         "eigenvalues": "eigenvalues per (q, parity, block type): |d eps| <= %g max(1, |eps|/|m|) |m| + (dl + trel) "
                        "max|V|" % TOL["eps"],
         "eigenvalueMatching": "every level in the common window matched, same branch, same T = 0 occupation",
-        "E0": "E_0 (lambda_hat-corrected): |dE| <= %g max(|E|, N |m|) (+ Rust grid uncertainty)" % TOL["energy"],
+        "E0": "E_0 (lambda_hat-corrected): |dE| <= %g max(|E|, N |m|) (+ the run's own Rust y-grid error when it has "
+              "a partner grid: coarsest member |X_1 - X_0|, finer member |X_k - X_(k-1)| / (r^p - 1); the same term "
+              "for mu, KS gap, Delta-SCF and the lowest particle-hole excitation)" % TOL["energy"],
         "muAndGap": "mu and KS gap", "deltaSCF": "Delta-SCF", "particleHole": "lowest particle-hole excitation",
         "thermodynamics": "E, F, S, mu at T > 0 after the correction for the Rust level set (f_cut window)",
         "profilesInterior": "profiles on the interior common nodes", "profilesEnds": "profiles on the end nodes",

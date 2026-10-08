@@ -4,7 +4,7 @@
 
 Every result of this book comes from a file that a program wrote, and every one of those programs can be run again. This chapter gives every command that reproduces the book and the Revision record behind it, in the order in which they depend on each other, for Windows 11 (PowerShell), macOS (zsh) and Linux (bash). For each command it says what the command runs, what it prints when it works, how long it took on the development machine (Windows 11, 24 processor threads), and what to do when it fails. Every time quoted here is a MEASURED time read from a provenance file, from the step table of the Revision gate, or from a run made for this chapter on 2026-10-08, and it is labelled as measured or expected; on another computer the times differ, the results do not.
 
-The chapter's example, Notebook 23a, is the bookkeeping of the whole book. By default it READS the recorded checks of the other 90 notebooks from their provenance files; it does NOT re-run them. It prints a table of every notebook, draws the run times, reads the step table of the Revision gate, and builds the index of every check of every report of the Revision record together with the chapters that cite it. With the environment variable `BOOK_RERUN_ALL` set to `1` it also re-runs every other notebook (Section 23.5 explains what that costs). The chapter ends with the two indexes of the book (Sections 23.13 and 23.14) and with the glossary.
+The chapter's example, Notebook 23a, is the bookkeeping of the whole book. By default it READS the recorded checks of the other 90 notebooks from their provenance files; it does NOT re-run them. It prints a table of every notebook, draws the run times, reads the step table of the Revision gate, and builds the index of every check of every report of the Revision record together with the chapters that cite it. With the environment variable `BOOK_RERUN_ALL` set to `1` it also re-runs every other notebook (Section 23.9 gives its measured time and the commands). The chapter ends with the two indexes of the book (Sections 23.13 and 23.14) and with the glossary.
 
 ### 23.2 The words of this chapter
 
@@ -191,13 +191,13 @@ check_00a=PASSED
 
 (the seconds and megabytes differ from run to run), and at the end `nbkit_seconds=...` and `nbkit=OK`. A check changes no file of the repository.
 
-**How long it takes.** The recorded check times of the notebooks of each chapter, added up, are printed by Notebook 23a in Out [6] of Section 23.11 and drawn in Figure 23a.5. On the development machine chapter 11 is the slowest, 385.1 s, almost all of it Notebook 11a (348.5 s, which runs the Rust GKD program on large cases); chapters 14, 15 and 16 take 135.1 s, 147.3 s and 152.1 s; every other chapter takes between 13.2 s (chapter 9) and 86.5 s (chapter 8). All 90 notebooks of chapters 0 to 22 take 1445.5 s, about 24 minutes, one after the other (Out [6]); Notebook 23a adds about 5 s. The notebooks that run a Rust program (11a, 11b, 15a, 16a, 19a and others) build it with cargo the first time, which takes a few minutes more.
+**How long it takes.** The recorded check times of the notebooks of each chapter, added up, are printed by Notebook 23a in Out [6] of Section 23.11 and drawn in Figure 23a.5. On the development machine chapter 11 is the slowest, 385.1 s, almost all of it Notebook 11a (348.5 s, which runs the Rust GKD program on large cases); chapters 14, 15 and 16 take 135.1 s, 147.3 s and 152.1 s; every other chapter takes between 13.2 s (chapter 9) and 86.5 s (chapter 8). All 90 notebooks of chapters 0 to 22 take 1446.0 s, about 24 minutes, one after the other (Out [6]); Notebook 23a adds about 5 s. The seven notebooks that run a Rust program (11a, 11b, 15a, 15b, 15d, 16a and 19a) build it with cargo the first time, which takes a few minutes more.
 
 **When it fails.** A failed check prints `check_NNx=FAILED` and, before it, lines that start with `problem=`. The most likely causes:
 
-- `problem=NNx: the notebook differs from ...`: the new execution printed something else than the stored one. The new notebook is in the scratch folder, in the subfolder named after the notebook; compare it with the stored one (the line after the problem shows the first difference). A different package version is the usual cause: install exactly the pinned versions (Section 23.3).
+- A problem line saying that the notebook differs from the stored one: the new execution printed something else than the stored one. The new notebook is in the scratch folder, in the subfolder named after the notebook; compare it with the stored one (the line after the problem shows the first difference). A different package version is the usual cause: install exactly the pinned versions (Section 23.3).
 - `cargo was not found`: install Rust (Section 23.3) and open a new terminal.
-- `problem=... differs from the provenance regenerated from its own record`: someone edited the provenance file by hand or rebuilt the notebook without its provenance; rebuild the notebook with `nbkit.py build` and the date of the verified execution.
+- A problem line saying that the provenance file differs from the provenance regenerated from its own record: someone edited the provenance file by hand or rebuilt the notebook without its provenance; rebuild the notebook with `nbkit.py build` and the date of the verified execution.
 
 ### 23.7 Stages 4 and 5: assembling the book and building its PDF
 
@@ -261,7 +261,27 @@ It prints `chapter_check=OK` when the chapter builds without any problem and war
 
 ### 23.9 Example: the bookkeeping of the whole book (Notebook 23a)
 
-Notebook 23a collects in one place what the other notebooks and the Revision record have recorded. By default it re-runs nothing: every table and figure it shows is read from files. It reads the provenance file of every other notebook and prints a table of all 90 with their checks, figures, last recorded check and section of the book; it adds them up per chapter and draws five figures of the counts and times; it reads the step table of the gate and draws its expected times; and it builds the index of the 1208 checks of the 39 reports of the Revision record, with the chapters that cite each, and writes it to a data file. With `BOOK_RERUN_ALL=1` its thirteenth part, "Re-running every notebook", re-runs the nbkit check of every other notebook, at most 8 at a time and the slowest first, into a scratch folder in the system's temporary folder, and prints the fresh results per chapter. The time of that mode is given in Section 23.12, under In [15].
+Notebook 23a collects in one place what the other notebooks and the Revision record have recorded. By default it re-runs nothing: every table and figure it shows is read from files. It reads the provenance file of every other notebook and prints a table of all 90 with their checks, figures, last recorded check and section of the book; it adds them up per chapter and draws five figures of the counts and times; it reads the step table of the gate and draws its expected times; and it builds the index of the 1208 checks of the 39 reports of the Revision record, with the chapters that cite each, and writes it to a data file. With `BOOK_RERUN_ALL=1` its thirteenth part, "Re-running every notebook", re-runs the nbkit check of every other notebook, at most 8 at a time and the slowest first, into a scratch folder in the system's temporary folder, and prints the fresh results per chapter. On the development machine (24 threads, so 8 notebooks at a time) that re-run took 406 s of wall time on 2026-10-08 (the whole notebook, run headless, 414 s), and all 90 notebooks passed. To run it, set the variable in the terminal and run the notebook headless, writing the executed copy into the folder `book-rerun` of your home folder (so that the stored notebook is not overwritten); afterwards remove the variable again:
+
+Windows (PowerShell):
+
+```text
+$nb = "Revision/textbook/notebooks/23a_reproduce_everything.ipynb"
+$options = "--to", "notebook", "--execute", "--ExecutePreprocessor.timeout=3600"
+$env:BOOK_RERUN_ALL = "1"
+python -m nbconvert $options --output-dir "$HOME\book-rerun" $nb
+Remove-Item Env:BOOK_RERUN_ALL
+```
+
+macOS (zsh) and Linux (bash):
+
+```text
+nb=Revision/textbook/notebooks/23a_reproduce_everything.ipynb
+BOOK_RERUN_ALL=1 python -m nbconvert --to notebook --execute \
+    --ExecutePreprocessor.timeout=3600 --output-dir ~/book-rerun $nb
+```
+
+(In zsh and bash, a variable written before a command on the same line holds only for that command.) It prints `[NbConvertApp] Writing ... bytes to ...`; the fresh table is in the executed copy, which you open in JupyterLab, and in the file `fresh_results.csv` whose path the notebook prints. To use JupyterLab directly instead, set the variable in the terminal first and then start JupyterLab from that same terminal.
 
 <!-- NOTEBOOK 23a -->
 
@@ -461,7 +481,7 @@ check(sorted(PER_CHAPTER) == list(range(23)),
       "every chapter 0 to 22 has at least one notebook")
 ```
 
-`ALL_SECONDS` is the sum of all recorded check times. The four RESULT lines of Out [6]: 90 notebooks, 2236 checks, 563 figures and 1445.5 s, the time of all checks one after the other. The check demands that the chapter numbers are exactly 0 to 22 (`list(range(23))` is the list 0, 1, ..., 22).
+`ALL_SECONDS` is the sum of all recorded check times. The four RESULT lines of Out [6]: 90 notebooks, 2236 checks, 563 figures and 1446.0 s, the time of all checks one after the other. The check demands that the chapter numbers are exactly 0 to 22 (`list(range(23))` is the list 0, 1, ..., 22).
 
 **In [7], two figures of the run times.**
 
@@ -508,7 +528,7 @@ save_figure(fig, "cumulative_check_time",
 report("share of the three slowest notebooks", f"{shares[3]:.1f}", "%")
 ```
 
-The figure is saved as Figure 23a.2, and the RESULT line of Out [7] gives `shares[3]`: the three slowest notebooks take 39.7 % of the whole time.
+The figure is saved as Figure 23a.2, and the RESULT line of Out [7] gives `shares[3]`: the three slowest notebooks take 39.6 % of the whole time.
 
 **In [8], checks, figures and time per chapter.**
 
@@ -831,13 +851,13 @@ One line per chapter: the number of notebooks, how many passed, and their fresh 
         writer.writerows([item[key] for key in ("id", "chapter", "result",
                                                 "seconds", "recorded")]
                          for item in FRESH)
-    say(f"Re-run of {len(FRESH)} notebooks with {workers} at a time: wall time "
-        f"{wall:.0f} s; fresh results in {scratch / "fresh_results.csv"}")
+    say(f"Re-run of {len(FRESH)} notebooks, {workers} at a time: {wall:.0f} s.")
+    print(f"Fresh results: {scratch / "fresh_results.csv"}")
     assert not failed, f"nbkit check failed for {failed}"
     say(f"RERUN all {len(FRESH)} other notebooks passed their nbkit check.")
 ```
 
-`failed` lists the ids of the notebooks that did not pass; each is named on a line. The fresh results are written to `fresh_results.csv` in the scratch folder (never into the repository). The cell prints the number of notebooks, the number run at a time and the wall time, then stops with an error message (`assert`) if any notebook failed; otherwise it prints that all passed. The figures of the notebook keep showing the RECORDED times.
+`failed` lists the ids of the notebooks that did not pass; each is named on a line. The fresh results are written to `fresh_results.csv` in the scratch folder (never into the repository). The cell prints the number of notebooks, the number run at a time and the wall time, and on a line of its own (with `print`, so that the path is never broken) where the CSV file is; then it stops with an error message (`assert`) if any notebook failed; otherwise it prints that all passed. The figures of the notebook keep showing the RECORDED times. On the development machine this cell, run once with `BOOK_RERUN_ALL=1` on 2026-10-08, printed all 90 notebooks as passed and a wall time of 406 s.
 
 **In [16], the last check.**
 
@@ -876,7 +896,7 @@ The index of the notebooks is the table of Out [4] and Out [5] in Section 23.11,
 ### 23.15 What we proved, what we computed, what we assumed
 
 - PROVED: nothing new about physics; this chapter is bookkeeping. Notebook 23a checks facts about files: every builder has a provenance file, every notebook is placed exactly once in its own chapter, every recorded nbkit check passed, every report named by the gate is in the index, and every one of the 1208 checks of the 39 reports is PASS or NOT-AVAILABLE (the 5 NOT-AVAILABLE checks are outputs that the author's notebook does not store).
-- COMPUTED (counted from files on 2026-10-08): 90 notebooks in chapters 0 to 22 with 2236 checks and 563 figures; their recorded checks take 1445.5 s one after the other, and the three slowest take 39.7 % of it; the gate has 63 steps, 8 of them long, with expected wall times of 10532 s in full and 3252 s with the fast option; 711 checks of the record are cited by at least one chapter. 
+- COMPUTED (counted from files on 2026-10-08): 90 notebooks in chapters 0 to 22 with 2236 checks and 563 figures; their recorded checks take 1446.0 s one after the other, and the three slowest take 39.6 % of it; the gate has 63 steps, 8 of them long, with expected wall times of 10532 s in full and 3252 s with the fast option; 711 checks of the record are cited by at least one chapter. MEASURED once with `BOOK_RERUN_ALL=1` on 2026-10-08: all 90 other notebooks passed a fresh nbkit check, 8 at a time, in 406 s of wall time; the fresh time of each chapter was between 0.89 and 1.50 times its recorded time (chapter 8: 129.9 s against 86.5 s), because 8 notebooks shared the processor.
 - MEASURED elsewhere and quoted: the recorded check times (provenance files), the gate's expected times (its step table, from the folder READMEs and provenance files), the fast option's measured 20 minutes (Revision README), the assembler's 4 seconds and the 287 s of the whole-book test build (runs made for this chapter on 2026-10-08).
 - ASSUMED: that the files read are the committed ones. The notebook reads whatever is in the working folder; after any other notebook is rebuilt or any chapter changes a citation, Notebook 23a must be rebuilt, or its nbkit check fails because its outputs changed.
 - What "cited" means is a DEFINITION of this chapter (one paragraph, or one cell's output, names both the report's file name and the check), not a reading of the author's intention; a chapter may discuss a check in other words without being counted.
@@ -896,7 +916,7 @@ bash Revision/verify_revision.sh --dry-run --fast
 
 **Exercise 2.** Using Out [6], how long does the nbkit check of all notebooks of chapters 14, 15 and 16 take, one after the other, and what fraction of the whole book's check time is that?
 
-*Answer.* The three chapter totals are 135.1 s, 147.3 s and 152.1 s; their sum is $135.1 + 147.3 + 152.1 = 434.5$ s. The whole book takes 1445.5 s, so the fraction is $434.5 / 1445.5 = 0.3006$, about 30 %: three chapters of the Kohn-Sham part take almost a third of the time, because their notebooks run the Rust solver and the reference solver.
+*Answer.* The three chapter totals are 135.1 s, 147.3 s and 152.1 s; their sum is $135.1 + 147.3 + 152.1 = 434.5$ s. The whole book takes 1446.0 s, so the fraction is $434.5 / 1446.0 = 0.3005$, about 30 %: three chapters of the Kohn-Sham part take almost a third of the time, because their notebooks run the Rust solver and the reference solver.
 
 **Exercise 3.** Why does Notebook 23a leave itself out of its table, and why does it leave chapter 23 out of the citation search? What would go wrong otherwise?
 
@@ -908,7 +928,7 @@ bash Revision/verify_revision.sh --dry-run --fast
 
 **Exercise 5.** You run Notebook 23a with `BOOK_RERUN_ALL=1` on a computer with 4 processor threads. How many notebooks run at the same time, and can the re-run take less time than the slowest notebook, 11a, alone?
 
-*Answer.* `workers = max(1, min(8, 4 // 2)) = max(1, min(8, 2)) = 2`: two at a time (`//` divides and drops the remainder). No: every notebook runs on one worker from start to end, so the re-run lasts at least as long as the slowest notebook, 348.5 s on the development machine. That is why the slowest are started first: with two workers, 11a runs on one while the other works through the rest, and the total is close to the larger of 348.5 s and half of the total time, $1445.5 / 2 \approx 723$ s, plus the time the two workers slow each other down.
+*Answer.* `workers = max(1, min(8, 4 // 2)) = max(1, min(8, 2)) = 2`: two at a time (`//` divides and drops the remainder). No: every notebook runs on one worker from start to end, so the re-run lasts at least as long as the slowest notebook, 348.5 s on the development machine. That is why the slowest are started first: with two workers, 11a runs on one while the other works through the rest, and the total is close to the larger of 348.5 s and half of the total time, $1446.0 / 2 \approx 723$ s, plus the time the two workers slow each other down.
 
 **Exercise 6.** The gate prints `revision_failed_step=precheck`. What happened, what must you NOT do, and what are two correct ways forward?
 

@@ -35,8 +35,10 @@ What is re-derived (families; every check is computed, none is asserted):
                the pair sums, and the vielbein sign flip e -> -e.
   T1primordial the Stage-2 primordial field (notebook chart, arbitrary a4(t)).
   T1krein      an exact Krein-Fock model (4 rest modes, the filled sea): the canonical
-               anticommutator -B of the image field, H -> -H, Q -> -Q as operators, and
-               the independently quantised -m theory.
+               anticommutator -B of the image field, H -> -H, Q -> -Q as operators, the
+               image field's own generators -H[Psi_-; -m] = +H, -Q[Psi_-] = +Q (the same
+               quantum system, not a second universe), and the independently quantised
+               -m theory.
   T2frame      Pin(4,4) reflections u (8 basis vectors, general rational unit vectors),
                twisted and untwisted frame lifts, exact G1 jets.
   T2z2         the Z2 static primordial field: Psi'(y) = gamma^0 Psi(-y) maps m(y) to
@@ -1428,10 +1430,37 @@ def check_t1krein(pa, red):
     S_minus = kf.bilinear_from_fields(pa.C, left=psik_m, right=psi_m)
     no_h = mat_sub(H_minus, mat_scale(mat_eye(kf.dim), kf.expect(H_minus, sea)))
     no_hp = mat_sub(H_plus, mat_scale(mat_eye(kf.dim), kf.expect(H_plus, sea)))
+
+    def spin_apply(M, ops):
+        """(M Psi)_a = sum_b M_ab Psi_b for a 16 x 16 spinor matrix M and a list of 16 Fock operators."""
+        out = []
+        for a in range(16):
+            acc = mat_zero(kf.dim)
+            for b in range(16):
+                if not M[a][b].is_zero():
+                    acc = mat_add(acc, mat_scale(ops[b], M[a][b]))
+            out.append(acc)
+        return out
+    # the image field's own generators: with its anticommutator -B, [Psi_-, H[Psi_-; -m]] = -h(-m) Psi_- and
+    # [Psi_-, Q[Psi_-]] = -Psi_-, while the state evolves by i d_4 Psi_- = [Psi_-, H_+] = h(-m) Psi_- (and
+    # [Psi, H_+] = h(m) Psi, [Psi, Q_+] = +Psi): its x4-generator is -H[Psi_-; -m] = +H_+, its U(1) generator
+    # -Q[Psi_-] = +Q_+
+    h_psi = spin_apply(hp, kf.psi)
+    hm_psi_m = spin_apply(hm, psi_m)
+    gen_ok = any(not mat_is_zero(x) for x in psi_m)
+    for a in range(16):
+        gen_ok = (gen_ok and mat_eq(mat_commutator(kf.psi[a], H_plus), h_psi[a])
+                  and mat_eq(mat_commutator(kf.psi[a], Q_plus), kf.psi[a])
+                  and mat_eq(mat_commutator(psi_m[a], H_plus), hm_psi_m[a])
+                  and mat_eq(mat_commutator(psi_m[a], H_minus), mat_neg(hm_psi_m[a]))
+                  and mat_eq(mat_commutator(psi_m[a], Q_minus), mat_neg(psi_m[a])))
     rec.check("imageOperatorIdentities", mat_eq(H_minus, mat_neg(H_plus)) and mat_eq(Q_minus, mat_neg(Q_plus))
-              and mat_eq(S_minus, S_plus) and mat_eq(no_h, mat_neg(no_hp)) and not mat_is_zero(H_plus),
+              and mat_eq(S_minus, S_plus) and mat_eq(no_h, mat_neg(no_hp)) and not mat_is_zero(H_plus) and gen_ok,
               "H[Psi_-; -m] = Psi_-^K B h(-m) Psi_- = -H[Psi; m], Q_- = -Q, S_- = S as Fock operators; normal ordering "
-              "commutes with the map (:H_-: = -:H_+:)")
+              "commutes with the map (:H_-: = -:H_+:); the image field's own generators: [Psi_-, H[Psi_-; -m]] = "
+              "-h(-m) Psi_-, [Psi_-, Q[Psi_-]] = -Psi_- while i d_4 Psi_- = [Psi_-, H_+] = h(-m) Psi_-, so its "
+              "x4-generator is -H[Psi_-; -m] = +H_+ and its U(1) generator -Q[Psi_-] = +Q_+ (the same quantum system "
+              "as Psi in other variables)")
     img = {}
     img_ok = True
     for label, st in excitations.items():
@@ -1449,8 +1478,12 @@ def check_t1krein(pa, red):
         img[label] = {"E": [e_p.to_pair(), e_m.to_pair()], "Q": [q_p.to_pair(), q_m.to_pair()],
                       "S": [s_p.to_pair(), s_m.to_pair()]}
     rec.check("imageExpectationValues", img_ok,
-              {"(+ universe, image)": img, "statement": "every quantum of the image has energy -|eps| and the opposite "
-                                                        "charge; particle values u_-^dagger (-B) M u_-, u_- = gamma^8 u"})
+              {"(+ universe, image)": img, "statement": "the L_{-m,-lam} formulas H[Psi_-; -m] and Q[Psi_-] give "
+                                                        "every quantum of the image the energy -|eps| and the opposite "
+                                                        "charge; particle values u_-^dagger (-B) M u_-, u_- = gamma^8 u. "
+                                                        "These are minus the image field's own x4-generator and charge "
+                                                        "(imageOperatorIdentities), not the energy and charge of a "
+                                                        "second universe"})
     # independent quantisation of the -m theory with its own +B structure
     wvec = [mat_apply(pa.g8, v) for v in vecs]
     wbeta = [-bt for bt in betas]
@@ -2172,8 +2205,9 @@ def check_t3ks(pa, quick=False):
         img_eq &= all(km.reduce_j(lhs[r] - rhs[r]) == 0 for r in range(2))
     rec.check("imageRuleEnergyOdd", km.reduce_j(eimg + e) == 0 and img_eq and km.reduce_j(nI + n) == 0
               and km.reduce_j(SI - S) == 0,
-              "Krein image (metric -B, -lam): n -> -n, S -> S, E -> -E, and the image orbitals sigma2 chi solve the KS "
-              "equations of (-m, -lam) with the image densities")
+              "Krein image (metric -B, -lam): n -> -n, S -> S, E -> -E (the (-m, -lam) formulas evaluated on the "
+              "image, T1krein), and the image orbitals sigma2 chi solve the KS equations of (-m, -lam) with the image "
+              "densities")
     epsl, mu, T, ff = sp.symbols("epsilon mu T f", real=True)
     fd = 1 / (sp.exp((epsl - mu) / T) + 1)
     fd_img = 1 / (sp.exp((-epsl + mu) / (-T)) + 1)
@@ -2388,7 +2422,8 @@ def check_t3emt(pa, red, quick=False):
                                                   "statement": "gamma^8 X_{mu nu}(-m, -M_eff) gamma^8 = -X_{mu nu}(m, M_eff)"})
     rec.check("standardRulePlusT", std_ok,
               "(gamma^8 chi)^dagger B X(-m, -M_eff) (gamma^8 chi) = chi^dagger B X(m, M_eff) chi: T -> +T (gamma^8 B gamma^8 = -B)")
-    rec.check("imageRuleMinusT", img_ok, "with the Krein metric -B of the image: T -> -T")
+    rec.check("imageRuleMinusT", img_ok, "with the Krein metric -B of the image: T -> -T (the (-m, -lam) formula; "
+                                         "relative to the image's own canonical structure its source is +T, T1krein)")
     # Stage-4 cross-check on the blocks (expectation rule: chi^dagger B X chi)
     expected = {
         (4, 4): {"n": EPS - VV, "s": -(MM - MSY), "t": 0, "c": 0},
@@ -2999,7 +3034,9 @@ def check_totals(pa, quick=False):
               and zero(s_pair - 2 * d_plus["s"]) and not zero(d_plus["s"]),
               {"totals": "Krein image (metric -B, -lam): n_pair = 0 (charge 0), rho_pair = p_pair = 0 pointwise, "
                          "S_pair = 2 S_+", "note": "the image values are the negatives of the standard-rule values of the "
-                                                   "mapped orbital"})
+                                                   "mapped orbital: the totals are the identity X + (-X) = 0 for one "
+                                                   "state in two sets of variables (T1krein), not a cancellation "
+                                                   "between two universes"})
     return rec
 
 
