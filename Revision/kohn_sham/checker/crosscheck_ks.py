@@ -2,8 +2,9 @@
 """Cross-check of the Rust Kohn-Sham solver (Revision/kohn_sham/solver, results in Revision/kohn_sham/results)
 against the independent Python reference (Revision/kohn_sham/reference, staggered finite differences with
 Richardson extrapolation) on the FULL canonical matrix (SPEC section 7): every ground state (75), every thermal
-state (135), the exact-Fock variant SCF energies and gaps (60), the rescaling partners (60), the particle-hole
-lists (75), the sea-hole diagnostic (135) and the crossing demonstration (5 slices).
+state (135, with every level label by label), the exact-Fock variant SCF energies and gaps (60), the rescaling
+partners (60), the particle-hole lists (75), the sea-hole diagnostic (135) and the crossing demonstration (5 slices);
+and the stated rounding bound of the repaired Rust Mermin root against 40-digit roots on the Rust levels.
 
 TOLERANCE RULE (fixed in this file before any comparison; never adjusted to a result):
     |x_Rust - x_ref| <= 3 (U_ref + U_Rust) + 1e-12 * scale
@@ -175,7 +176,13 @@ def shell_table(count):
 
 
 def mu_high_precision(eps, deg, N, T, mu0):
-    """Root of sum g f(eps; mu, T) = N in 40-digit arithmetic (Newton from mu0); returns (mu, dN/dmu)."""
+    """Root of sum g f(eps; mu, T) = N in 40-digit arithmetic (Newton from mu0); returns (mu, dN/dmu) as floats."""
+    mu, ds = mu_root_mp(eps, deg, N, T, mu0)
+    return float(mu), float(ds)
+
+
+def mu_root_mp(eps, deg, N, T, mu0):
+    """The same root, returned as 40-digit mpmath numbers (mu, dN/dmu)."""
     mp.mp.dps = 40
     E = [mp.mpf(e) for e in eps]
     Gd = [mp.mpf(g) for g in deg]
@@ -196,10 +203,14 @@ def mu_high_precision(eps, deg, N, T, mu0):
             break
     else:
         raise RuntimeError("mu_high_precision: no convergence")
-    return float(mu), float(ds)
+    return mu, ds
 
 
 def _mu_task(a):
+    if a[0][0] == "X":
+        # exact Rust levels and exact Rust mu: return mu_Rust - root to 40 digits (no rounding of the root to a double)
+        root, ds = mu_root_mp(*a[1:])
+        return a[0], (float(mp.mpf(a[5]) - root), float(ds))
     return a[0], mu_high_precision(*a[1:])
 
 
@@ -725,6 +736,59 @@ def main():
     for name, ch in T.items():
         emit_check(name, ch)
 
+    # ---------------------------------------------------------------- thermal levels, label by label (all 135 thermal states)
+    # The Rust matrix writes no thermal levels file; the levels compared are those of the canonical `single` run of each thermal state
+    # (checker/rust-refinement.json), which reproduces the committed mu, E and S of the matrix (rust_refinement_applies_to_matrix).
+    # The Rust set of every sector starts at its label_min (solver/src/scf.rs solve_levels: label = ell_min + i, i = 0, 1, ...), so
+    # rank = label - (lowest label of that sector in the set); this is checked against label_min of the Rust ground levels files at the
+    # same slice wherever the sector occurs there, and the reference ranks of every sector must start at 0.
+    TL = Check("every level of each thermal state that both label sets hold, label by label (Rust: the canonical `single` run, which "
+               "reproduces the committed mu, E and S; rank = label - lowest label of the sector in the Rust set, checked against label_min "
+               "of the Rust ground levels files at the same slice); U_Rust = (16/15) x the largest |canonical - refined| over all levels of "
+               "the state; coverage: every level with f >= 1e-12 in one solver's set is in the other's")
+    F_COVER = 1e-12
+    tl_levels, tl_lmin_checked = 0, 0
+    for sid in tids:
+        d = ref_t[sid]
+        if d is None:
+            continue
+        m = rf[("thermo", sid)]
+        kf = m.get("canonical_level_keys_f")
+        if kf is None or len(kf) != len(m["canonical_levels_eps_deg"]):
+            TL.flag(f"{sid} Rust level keys", False, "checker/rust-refinement.json has no keys for the canonical thermal levels (re-run measure_rust_refinement.py)")
+            continue
+        a4 = float(th[sid]["a4"])
+        parsed = []
+        smin = {}
+        for (key, f_), (eps, _) in zip(kf, m["canonical_levels_eps_deg"]):
+            n2, j, par, lab = key.split(":")
+            sec = (int(n2), 1 if j in ("+1", "1") else -1, par)
+            parsed.append((sec, int(lab), eps, f_))
+            smin[sec] = min(smin.get(sec, int(lab)), int(lab))
+        lm_slice = lmin_by_slice.get(a4, {})
+        bad_lmin = [f"{s}: lowest label {v}, label_min {lm_slice[s]}" for s, v in sorted(smin.items()) if s in lm_slice and lm_slice[s] != v]
+        tl_lmin_checked += sum(1 for s in smin if s in lm_slice)
+        TL.flag(f"{sid} Rust label_min", not bad_lmin, f"the lowest Rust label of a sector differs from label_min of the ground levels files: {bad_lmin[:4]}")
+        rl = {f"{s[0]}:{'+1' if s[1] > 0 else '-1'}:{s[2]}:{lab - smin[s]}": (eps, f_) for s, lab, eps, f_ in parsed}
+        fl = {f"{k[0]}:{'+1' if k[1] > 0 else '-1'}:{k[2]}:{k[3]}": (e, u, f_) for k, e, u, f_ in
+              zip(d["levels"]["keys"], d["levels"]["eps"], d["levels"]["U"], d["levels"]["f"])}
+        fmin = {}
+        for k in d["levels"]["keys"]:
+            fmin[(k[0], k[1], k[2])] = min(fmin.get((k[0], k[1], k[2]), k[3]), k[3])
+        bad_rank = sorted(s for s, v in fmin.items() if v != 0)
+        TL.flag(f"{sid} reference ranks", not bad_rank, f"reference sectors whose ranks do not start at 0: {bad_rank[:4]}")
+        miss_f = sorted(k for k, v in rl.items() if v[1] >= F_COVER and k not in fl)
+        miss_r = sorted(k for k, v in fl.items() if v[2] >= F_COVER and k not in rl)
+        TL.flag(f"{sid} coverage", not miss_f and not miss_r,
+                f"levels with f >= {F_COVER:g} missing in the reference set: {miss_f[:4]}, missing in the Rust set: {miss_r[:4]}")
+        u_lev = RK4_FACTOR * m["levels"]["max_abs_diff"]
+        for k in sorted(set(rl) & set(fl)):
+            TL.cmp(f"{sid} level {k}", rl[k][0], fl[k][0], fl[k][1], u_lev)
+            tl_levels += 1
+    TL.extra.append(f"{tl_levels} levels compared in {len(tids)} thermal states; Rust sectors checked against label_min of the ground levels "
+                    f"files: {tl_lmin_checked}")
+    emit_check("thermo_levels", TL)
+
     # ---------------------------------------------------------------- mu recomputed in high precision from each solver's levels
     # mu is the root of sum g f(eps; mu, T) = N.  In floating point the direct count is known to ~eps_mach N, which fixes mu only to
     # ~eps_mach N / (dN/dmu); deep in the activated regime dN/dmu ~ e^{-gap/2T}/T is tiny.  Here mu is recomputed with 40 digits from
@@ -744,6 +808,9 @@ def main():
         lr = rf[("thermo", sid)]["canonical_levels_eps_deg"]
         mtasks.append((("R", sid), [x[0] for x in lr], [x[1] for x in lr], d["N"], d["T"], float(th[sid]["mu"])))
         mtasks.append((("F", sid), d["levels"]["eps"], [4.0 * r3(k[0]) for k in d["levels"]["keys"]], d["N"], d["T"], d["thermo"]["mu"]["value"]))
+        mx = rf[("thermo", sid)].get("canonical_mermin_exact")
+        if mx is not None:
+            mtasks.append((("X", sid), [x[0] for x in mx["levels_eps_deg"]], [x[1] for x in mx["levels_eps_deg"]], d["N"], d["T"], mx["mu"]))
     mtasks.sort(key=lambda t: -len(t[1]))
     with mpc.get_context("spawn").Pool(args.jobs) as pool:
         mres = dict(pool.imap_unordered(_mu_task, mtasks))
@@ -780,6 +847,40 @@ def main():
     diag.extra.append("largest |reference mu - 40-digit root on its levels|: " + ", ".join(f"{s} {fe(v['ref_mu_minus_hp'])} (bound {fe(v['ref_bound'])})" for s, v in topf))
     emit_check("thermo_mu_high_precision", hp)
     emit_check("thermo_mu_rounding_diagnostic", diag)
+    # The repaired Rust Mermin root states a first-order rounding bound for its mu (thermodynamics.csv mu_rounding_bound,
+    # solver/src/mermin.rs). It is tested here on the EXACT doubles of the canonical `single` run (`--mermin-levels`: shortest
+    # round-trip levels and mu; the main outputs carry 16 significant digits, whose rounding, up to ~6e-16 m, is of the size of the
+    # bound itself): |mu_Rust - root| with the root of sum g f = N on those levels computed by this checker in 40 digits and the
+    # difference taken in 40 digits.  The exact values must round to the committed 16-digit mu and levels.
+    sb = Check("the Rust solver's stated first-order rounding bound of mu (thermodynamics.csv mu_rounding_bound, solver/src/mermin.rs), "
+               "tested on the exact doubles of the canonical `single` run (`--mermin-levels`, shortest round-trip; they round to the "
+               "committed 16-digit mu and levels): |mu_Rust - root| <= mu_rounding_bound, the root of sum g f = N on those levels and the "
+               "difference in 40-digit arithmetic, in every thermal state")
+    sb_worst, sb_rows = (-1.0, ""), {}
+    for sid in tids:
+        mx = rf[("thermo", sid)].get("canonical_mermin_exact")
+        if mx is None or ("X", sid) not in mres:
+            sb.flag(f"{sid}", False, "no exact Rust levels in checker/rust-refinement.json (re-run measure_rust_refinement.py) or reference missing")
+            continue
+        sb.flag(f"{sid} exact values round to the committed ones", mx["mu_rounds_to_16_digit_value"] and mx["levels_round_to_16_digit_values"]
+                and float(f"{mx['mu']:.15e}") == float(th[sid]["mu"]), "the exact mu or levels do not round to the committed 16-digit values")
+        dev, _ = mres[("X", sid)]
+        bnd = num(th[sid].get("mu_rounding_bound"))
+        ok = math.isfinite(bnd) and bnd > 0 and abs(dev) <= bnd
+        sb.flag(f"{sid} bound", ok, f"|mu_Rust - root| = {fe(abs(dev))} > stated bound {fe(bnd)}")
+        sb_rows[sid] = (dev, bnd)
+        if math.isfinite(bnd) and bnd > 0 and abs(dev) / bnd > sb_worst[0]:
+            sb_worst = (abs(dev) / bnd, f"{sid}: |mu_Rust - root| {fe(abs(dev))}, bound {fe(bnd)}")
+    if sb_rows:
+        big_d = max(sb_rows, key=lambda s: abs(sb_rows[s][0]))
+        big_b = max(sb_rows, key=lambda s: sb_rows[s][1])
+        forms = sorted({rf[("thermo", s)]["canonical_mermin_exact"]["root_form"] for s in sb_rows})
+        sb.extra.append(f"root form of the canonical runs: {', '.join(forms)}; largest |mu_Rust - root| / bound {sb_worst[0]:.3f} ({sb_worst[1]}); "
+                        f"largest |mu_Rust - root| {fe(abs(sb_rows[big_d][0]))} ({big_d}); largest stated bound {fe(sb_rows[big_b][1])} ({big_b})")
+        if "N8_lamm1_a00_T10" in sb_rows:
+            v = sb_rows["N8_lamm1_a00_T10"]
+            sb.extra.append(f"N8_lamm1_a00_T10 (the state of the former 8.3e-10 m error): |mu_Rust - root| {fe(abs(v[0]))}, bound {fe(v[1])}")
+    emit_check("thermo_mu_rust_stated_bound", sb)
     # data-driven diagnosis of failing mu / Omega comparisons
     for c in checks:
         if c["name"] == "thermo_state_functions" and c["verdict"] == "FAIL":
@@ -828,7 +929,7 @@ def main():
         "rust_matrix_wide_uncertainties": G,
         "matrix": {"ground": len(gids), "thermal": len(tids), "exact_fock_variant": len(exx), "rescaling_partners": sum(1 for _ in read_csv(rust / "rescaling" / "rescaling.csv")),
                    "particle_hole_lists": len(gids), "crossing_demo_slices": len(demo_rows)},
-        "comparisons": sum(1 for _ in table) + C["ground_eigenvalues"].n + C["ground_profiles"].n,
+        "comparisons": sum(1 for _ in table) + C["ground_eigenvalues"].n + C["ground_profiles"].n + TL.n,
         "summary": {"checks": len(checks), "pass": npass, "fail": len(checks) - npass},
         "checks": checks,
     }

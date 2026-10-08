@@ -8,7 +8,8 @@ run with the Rust `single` command twice, with the canonical numerics (RK4 G = 9
 tolerance 1e-11) and with the refined numerics (G = 1800, 1e-14, 1e-12, thermal cut / 100), with the label-set
 margin of the canonical matrix (0.25 + 2 sigma at T = 0, 0.2 + 2 sigma at T > 0).  The difference
 |canonical - refined| measures the canonical error of every quantity that `single` reports (energies, EMT
-integrals, all levels, the 151-point profiles incl. the brane and tip values, mu and the entropy; for the
+integrals, all levels, the 151-point profiles incl. the brane and tip values, mu and the entropy, and for the thermal
+states the canonical levels with their keys and occupations, which the cross-check compares label by label; for the
 exact-Fock variant its E_KS and, from its levels, its HOMO/LUMO gap; for the crossing demonstration the aufbau
 energy and, from the levels, the energy of the adiabatically continued a4,0 = 0 occupation).  The canonical
 `single` run is also compared with the committed canonical matrix, which it must reproduce, so that the measured
@@ -73,11 +74,17 @@ def run_single(spec, refined, work: Path):
         cmd.append("--exx")
     if refined:
         cmd.append("--refined")
+    # canonical thermal runs also write their exact final levels and mu (shortest round-trip decimals; the main output has 16
+    # significant digits): the checker tests the solver's stated rounding bound of mu on them
+    mlv = work / f"{stem}.mermin.json" if spec["kind"] == "thermo" and not refined else None
+    if mlv is not None:
+        cmd += ["--mermin-levels", str(mlv)]
     t0 = time.time()
     r = subprocess.run(cmd, cwd=str(REPO), capture_output=True, text=True)
     ok = r.returncode == 0 and r.stdout.strip().endswith("SUCCESS")
     return {"cmd": " ".join(["revision_ks_solver"] + cmd[1:]).replace(str(work), "<work>"), "ok": ok,
             "json": json.loads(out.read_text(encoding="utf-8")) if ok else None,
+            "mermin": json.loads(mlv.read_text(encoding="utf-8")) if ok and mlv is not None else None,
             "profiles": read_csv(prof) if ok else None, "stderr": r.stderr[-2000:] if not ok else "", "seconds": time.time() - t0}
 
 
@@ -145,7 +152,19 @@ def compare(spec, c, r, rust_rows, occ0=None):
         rec["levels"]["labels_canonical_refined"] = [len(lc), len(lr)]
         # the final canonical levels (eps, degeneracy): the checker recomputes mu from them in high precision
         rec["canonical_levels_eps_deg"] = [[l[4], l[5]] for l in lcl]
+        # their keys (Rust labels, n2:j:parity:label) and occupations, in the same order: the checker compares the thermal levels
+        # label by label with the reference (the Rust matrix writes no thermal levels file)
+        rec["canonical_level_keys_f"] = [[key_of(l), l[6]] for l in lcl]
         rec["canonical_T_N"] = [cj["parameters"]["T"], cj["parameters"]["N"]]
+        # the exact doubles (shortest round-trip) of the final levels and of mu, from `single --mermin-levels` of the same run; they
+        # must round to the 16-digit values of the main output
+        mj = c["mermin"]
+        ex = [[float(e), float(g)] for e, g in mj["levels_eps_deg"]]
+        rec["canonical_mermin_exact"] = {
+            "root_form": mj["merminRoot"], "mu": float(mj["mu"]), "levels_eps_deg": ex,
+            "mu_rounds_to_16_digit_value": float(f"{float(mj['mu']):.15e}") == cj["mu_or_fermi_level"],
+            "levels_round_to_16_digit_values": len(ex) == len(lcl) and all(float(f"{e:.15e}") == l[4] and g == l[5] for (e, g), l in zip(ex, lcl)),
+        }
     if spec["kind"] == "exx":
         hc, uc = homo_lumo(lcl)
         hr, ur = homo_lumo(lrl)

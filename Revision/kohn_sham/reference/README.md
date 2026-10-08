@@ -176,8 +176,9 @@ check `reference_repeat_byte_identical`), which also compares the reference with
 ## Timings (this machine, 24 cores, `--jobs 22`)
 
 The canonical run takes 578.3 s of wall time for 333 jobs (12076 CPU-seconds in the jobs). The cross-checker's
-repeat run is byte-identical in all 340 files and in the report (see `../checker/README.md`). Per kind (CPU time
-of the jobs, under full load):
+repeat run is byte-identical in all 340 files and in the report (see `../checker/README.md`). On 2026-10-08 the
+cross-checker repeated the run twice more, while other workflows shared the machine: 692.9 s and 748.0 s, again
+byte-identical. Per kind (CPU time of the jobs, under full load, 2026-10-01):
 
 * The parameter derivation (serial, before the pool) takes 17.0 s.
 * 135 thermal states: 8863 s in all, from 3.3 s (N8_lam0_a00_T10) to 559.3 s (N688_lamp1_a20_T50: 2000 levels
