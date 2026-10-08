@@ -16,7 +16,7 @@ checks in each of the three layouts that occur, compares the counts with the rep
 summaries, with the table of Revision/README.md, with the counts quoted by the
 Kohn-Sham cross-check and with the dark-sector summary file, assigns every report to one
 row of the honesty ledger (the statuses of TEXTBOOK_SPEC rule R3), prints the list of
-what the pairing record itself says is NOT established, and compares the 24 sha256
+what the pairing record itself says is NOT established, and compares 24 of the sha256
 fingerprints that the reports record for their input files with the files of today.
 """
 
@@ -193,8 +193,8 @@ CELLS = [
       counts quoted by the Kohn-Sham cross-check and with the dark-sector summary;
     - assigns every report to its row of the ledger, and prints the list of what the
       pairing record itself says is NOT established;
-    - computes sha256 fingerprints and compares the 24 fingerprints that the reports
-      recorded for their input files with the files of today;
+    - computes sha256 fingerprints and compares 24 of the fingerprints that the
+      reports recorded for their input files with the files of today;
     - draws four teaching plots and prints a PASS line for every check.
 
     It does not run the verifier programs again (they need Wolfram Mathematica or Rust
@@ -465,9 +465,11 @@ CELLS = [
     One report has checks whose verdict is neither PASS nor FAIL: the comparison of
     the Revision's curvature with the outputs that the author stored in his own
     Mathematica notebook, Revision/gkd_lovelock/comparison/author-comparison-report.json.
-    For five quantities the author's notebook holds no stored value (they are
-    computed there but not printed), so there is nothing to compare; their verdict is
-    NOT-AVAILABLE. Three checks follow:
+    For five quantities the author's notebook holds no stored value (three of them,
+    the Christoffel symbols, the Riemann tensor and the Ricci tensor, are computed
+    there with their printing switched off; for the second and third Lovelock tensors
+    no stored output was found there), so there is nothing to compare; their verdict
+    is NOT-AVAILABLE. Three checks follow:
 
     1. the search finds exactly the 39 reports of the list: no report of the record is
        left out of the count (and so out of the ledger below);
@@ -779,7 +781,16 @@ CELLS = [
     or OPEN have no report: nothing in the record establishes them, and their notes
     say why. Two rows of PROVED theorems name an assumption in their statement: the
     pairing theorems T2 and T3 hold with the Z2 mirror (a choice of boundary
-    condition) ASSUMED. The row of the Kohn-Sham history of $a_4$ is labelled ASSUMED
+    condition) ASSUMED. Four rows (8, 9, 12 and 13) rest, in addition, on the
+    Kohn-Sham approximation, which is ASSUMED: a set of simplifications, stated in the
+    record and explained from zero later in the book. The equations are solved at one
+    fixed instant at a time; the action of the field on itself is replaced by an
+    average potential computed from the field's own density, in a stated approximate
+    form; and a condition at the far end of the hidden direction is chosen. Rows 8 and
+    12 are exact statements about this approximation, and rows 9 and 13 are numbers
+    computed in it. Row 2 says "dirac16complex quantised" because only that field is
+    quantised; the field dirac16complex00 stays a classical field. The row of the
+    Kohn-Sham history of $a_4$ is labelled ASSUMED
     although it has 28 checks: those checks show that the computed Kohn-Sham states
     cannot be the source of that history in the field equations, so the history has
     to be assumed (a *prescribed background*). Row 7, the comparison of the Revision's
@@ -827,7 +838,7 @@ CELLS = [
         ("the gammas, C, Gamma, B; Pin(4,4) and Spin(4,4)", "PROVED", "",
          [R + "algebra/reports/wolfram-algebra.json",
           R + "algebra/reports/python-algebra.json"]),
-        ("Lagrangians, field equations, EMT, quantisation", "PROVED", "",
+        ("Lagrangians, equations, EMT; dirac16complex quantised", "PROVED", "",
          [R + "theory/reports/wolfram-field-theory.json",
           R + "theory/reports/python-field-theory.json"]),
         ("the exact scope of the non-triviality", "PROVED", "",
@@ -1062,15 +1073,17 @@ CELLS = [
     '''),
     md(r"""
     The reports of the Revision record write down the fingerprints of the files they
-    read. The report of the Wolfram check of GKD and the Lovelock tensors records 15
-    (its keys `inputSha256` and `sourceSha256`: the result files, the Rust sources and
-    its own Wolfram sources), the Python check of the Lovelock tensors 2 (key
-    `inputsSha256`), and five Kohn-Sham reports write 7 more into the details of their
-    checks, in the form `(sha256 95d8cbdd...)`, either in full (64 characters) or only
-    the first 16 characters. The next cell collects all 24, computes the fingerprints of
-    today's files, compares them (a shortened fingerprint with the beginning of
-    today's), and prints a table. When all agree, every one of these reports was
-    written from exactly the files that are in the repository today.
+    read. This notebook compares 24 of them. The report of the Wolfram check of GKD and
+    the Lovelock tensors records 15 (its keys `inputSha256` and `sourceSha256`: the
+    result files, the Rust sources and its own Wolfram sources), the Python check of
+    the Lovelock tensors 2 (key `inputsSha256`), and five Kohn-Sham reports write 7
+    more into the details of their checks, in the form `(sha256 95d8cbdd...)`, either
+    in full (64 characters) or only the first 16 characters. Other reports record
+    further fingerprints (for example in a key `inputs`, a list of files each with its
+    fingerprint); this notebook does not compare those. The next cell collects these
+    24, computes the fingerprints of today's files, compares them (a shortened
+    fingerprint with the beginning of today's), and prints a table. When all agree,
+    these reports read exactly today's versions of these files.
     """),
     code(r'''
     def file_fingerprint(path):
@@ -1163,8 +1176,8 @@ CELLS = [
       establish, the first being any creation process.
     - Each of the 115 one-character changes of a sentence changed more than half of
       the 64 characters of its sha256 fingerprint, 60.03 on average, as for a random
-      string; and the 24 fingerprints that the reports recorded for their input files
-      equal those of today's files.
+      string; and 24 fingerprints that the reports recorded for their input files,
+      all that this notebook compares, equal those of today's files.
     """),
 ]
 

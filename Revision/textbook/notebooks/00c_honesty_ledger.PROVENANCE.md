@@ -378,7 +378,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | `Revision/textbook/figures/00c.captions.json` | 2705 | `b32c742d773d9a6a3ed8637dff3601b063a172078a6e55c70b55bc042f068b55` |
 | `Revision/textbook/figures/00c_1_checks_by_report.png` | 150243 | `d20e3d6466d8bbd551bcc08f108cc3a4151d12b0359b460ab1098202395304a1` |
 | `Revision/textbook/figures/00c_2_two_verifiers.png` | 70230 | `612d0c153841b9726ad49d976bb8f053259b851dd90ca8024193cb55e472ccdf` |
-| `Revision/textbook/figures/00c_3_ledger.png` | 215142 | `ec4606348c28a1f8759f2840f76ba1a312f1dceb8ef2f1bb70094fd4fe7174fa` |
+| `Revision/textbook/figures/00c_3_ledger.png` | 217106 | `293a98922b6bb26a0d9fbd014b1fb73f72a4b22213f5781a66170ee90d54abe4` |
 | `Revision/textbook/figures/00c_4_fingerprints.png` | 48872 | `7baa35a0d8de0ec7bae6aac8259d8bcd35e1101eafc78adaa867c031dc58c564` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/00c_honesty_ledger.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
@@ -402,8 +402,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 3.7 s, peak memory of the kernel process 147 MiB;
-- the check run: 3.4 s, peak memory of the kernel process 147 MiB.
+- the build run: 4.0 s, peak memory of the kernel process 147 MiB;
+- the check run: 3.9 s, peak memory of the kernel process 147 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -415,12 +415,12 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/00c_honesty_ledger.ipynb`: `c0ac105e0c538c3e83c1716e7562a80c9031c80d85a997c402924721aff7b41b`
-- `Revision/textbook/notebooks/src/00c_honesty_ledger.py`: `f6d7d9a7327f23e6a2b753e8eb8e2af549d5dfbb5217a672646d513606883b74`
+- `Revision/textbook/notebooks/00c_honesty_ledger.ipynb`: `1b8450c6f365083f27cd02937762f9fabe52c7c5d2eb1acb45d848d8d1688c7e`
+- `Revision/textbook/notebooks/src/00c_honesty_ledger.py`: `a62839b497f38f5acabfcc420c7563a8e07a0d8472837648db9f625dec78b083`
 - `Revision/textbook/figures/00c.captions.json`: `b32c742d773d9a6a3ed8637dff3601b063a172078a6e55c70b55bc042f068b55`
 - `Revision/textbook/figures/00c_1_checks_by_report.png`: `d20e3d6466d8bbd551bcc08f108cc3a4151d12b0359b460ab1098202395304a1`
 - `Revision/textbook/figures/00c_2_two_verifiers.png`: `612d0c153841b9726ad49d976bb8f053259b851dd90ca8024193cb55e472ccdf`
-- `Revision/textbook/figures/00c_3_ledger.png`: `ec4606348c28a1f8759f2840f76ba1a312f1dceb8ef2f1bb70094fd4fe7174fa`
+- `Revision/textbook/figures/00c_3_ledger.png`: `293a98922b6bb26a0d9fbd014b1fb73f72a4b22213f5781a66170ee90d54abe4`
 - `Revision/textbook/figures/00c_4_fingerprints.png`: `7baa35a0d8de0ec7bae6aac8259d8bcd35e1101eafc78adaa867c031dc58c564`
 
 ## 7. Verification
@@ -429,4 +429,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 120 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 5 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":147.0,"seconds":3.7},"check":{"date":"2026-10-08","files":5,"peak_mb":147.0,"result":"passed","seconds":3.4},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":147.0,"seconds":4.0},"check":{"date":"2026-10-08","files":5,"peak_mb":147.0,"result":"passed","seconds":3.9},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
