@@ -13,14 +13,15 @@ file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
         Revision/textbook/notebooks/src/21d_sakharov_scorecard.py --scratch DIR
 
 TEXTBOOK_SPEC rule R3: the book teaches the matter-antimatter question from zero
-(Sakharov's three conditions), proves the exact U(1) charge conservation of this theory,
+(Sakharov's three conditions), proves the exact local U(1) conservation law of this theory
+(the total charge is constant only under the ASSUMED no-flux condition at the brane),
 and states precisely that the theory as built does NOT solve the matter-antimatter
 problem and what would be needed.  This notebook gives the worked examples of that part
 of chapter 21: the bookkeeping of conserved numbers, a decay model that needs conditions
 1 and 2, the equilibrium occupations and a rate model that needs condition 3 (all toy
 computations of the notebook itself, no measured number is used), and then applies the
-three conditions to this theory with the verdicts of the Revision record: the exact U(1)
-conservation, the conjugations, the invariant Majorana-type mass matrices (what a
+three conditions to this theory with the verdicts of the Revision record: the exact local
+U(1) conservation law, the conjugations, the invariant Majorana-type mass matrices (what a
 charge-violating term would look like) and the scorecard.
 """
 
@@ -56,7 +57,8 @@ FACTS = {
         "two-equation rate model of decays out of equilibrium whose final asymmetry is "
         "found in closed form and by Runge-Kutta integration. No measured number is "
         "used. It then applies the three conditions to this theory with the verdicts of "
-        "the Revision record: the exact conservation of the U(1) charge, the same-mass "
+        "the Revision record: the exact local conservation law of the U(1) charge, the "
+        "same-mass "
         "conjugation of the commuting field as an exact symmetry of the Lagrangian of "
         "the record at a point of the author's metric, the mass-reversing conjugation of "
         "the quantised field, the two invariant Majorana-type mass matrices C and "
@@ -129,7 +131,9 @@ CELLS = [
        which an asymmetry survives only when the decays happen **out of equilibrium**
        (condition 3);
     4. applies the three conditions to the theory of this book, using the verdicts of
-       the Revision record: the U(1) charge is exactly conserved (condition 1 fails),
+       the Revision record: the U(1) charge obeys an exact local conservation law
+       (condition 1 fails inside the patch; the total charge is constant only under
+       the ASSUMED no-flux condition at the brane $z = \pi/2$),
        the same-mass conjugation is an exact symmetry of the commuting field, the
        quantised field has only the mass-reversing conjugation, and no departure from
        equilibrium has been computed;
@@ -194,10 +198,13 @@ CELLS = [
 
     **The theory of this book** has no quarks and no baryons. The only number of this
     kind it has is the U(1) charge $Q$ of its field; the Revision record proves that
-    $Q$ is exactly conserved in the author's metric, for every history $a_4(x_4)$, in
-    particular the one in which the three extra times $x5, x6, x7$ deflate
-    exponentially. The notebook first teaches the three conditions on toy models and
-    then asks, condition by condition, what this theory does.
+    $Q$ obeys an exact local conservation law in the author's metric, for every
+    history $a_4(x_4)$, in particular the one in which the three extra times
+    $x5, x6, x7$ deflate exponentially: charge can only flow from one place to
+    another. The total $Q$ of a universe is constant only if no charge flows through
+    the brane $z = \pi/2$; this no-flux condition is ASSUMED, not derived. The
+    notebook first teaches the three conditions on toy models and then asks,
+    condition by condition, what this theory does.
 
     **Honesty.** The toy models (a decay model and a rate model) are illustrations
     with ASSUMED equations; they are not part of this theory. Every statement about
@@ -643,13 +650,18 @@ CELLS = [
                 "equilibrium (large $K$), the less survives: condition 3.")
     '''),
     md(r"""
-    ## 10. This theory, condition 1: the U(1) charge cannot change
+    ## 10. This theory, condition 1: no process changes the U(1) charge locally
 
-    The Revision record proves (check u1_noether_matrix_identity) that the U(1) charge
-    $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ is exactly conserved on every solution,
-    in the author's metric with an arbitrary history $a_4(x_4)$, as long as no charge
-    flows through the boundary. In the language of section 7: every process of this
-    theory has channels of the **same** charge, $B_1 = B_2$, so the factor
+    The Revision record proves (check u1_noether_matrix_identity) the exact local
+    conservation law $\partial_\mu(\cos z\,J^\mu) = 0$ on every solution, in the
+    author's metric with an arbitrary history $a_4(x_4)$: charge can only flow from
+    one place to another, and the U(1) charge
+    $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ of a universe changes only by what
+    flows through its boundary. At the brane $z = \pi/2$ the record does not exclude
+    such a flow (notebook 21b follows an exact solution whose charge changes by the
+    flux through the brane); the no-flux condition that would make $Q$ constant is
+    ASSUMED, not derived. In the language of section 7: every process of this
+    theory, at any point, has channels of the **same** charge, $B_1 = B_2$, so the factor
     $(B_1 - B_2)$ is zero, and the rate model then starts with $\epsilon = 0$ and ends
     with $a = 0$, whatever the rates and however far from equilibrium. The next cell
     checks that the record holds this verdict and evaluates the decay formula and the
@@ -663,8 +675,9 @@ CELLS = [
         f"a(infinity) = {a_theory[1]}")
     check(LEAD["u1_noether_matrix_identity"] == "PASS" and eps_theory == 0
           and a_theory[1] == 0.0,
-          "U(1) charge exactly conserved: no net charge in one universe, condition 1 "
-          "fails", record=f"{LEAD_FILE}, check u1_noether_matrix_identity")
+          "local U(1) law: no process makes a net charge at any point, condition 1 "
+          "fails there (total charge: no flux through the brane ASSUMED)",
+          record=f"{LEAD_FILE}, check u1_noether_matrix_identity")
     '''),
     md(r"""
     ## 11. This theory, condition 2: the conjugations
@@ -926,7 +939,10 @@ CELLS = [
 
     The next cell builds the scorecard of this theory from the verdicts of the
     Revision record (each status is set only if the record holds the named check
-    with the verdict PASS) and draws it as a table. Condition 2 has two statuses: it
+    with the verdict PASS) and draws it as a table. Condition 1 has two parts: it
+    fails for every process inside the patch (the local law, PROVED), and for the
+    total charge of a universe only under the no-flux condition at the brane
+    (ASSUMED). Condition 2 has two statuses: it
     fails for the commuting field (its same-mass conjugation is exact, section 11;
     the record checks that the gammas, $C$ and $\Omega_\mu$ are real and that the
     conjugation reverses the current), and it is not computed for the quantised field
@@ -943,9 +959,11 @@ CELLS = [
 
     ROWS = [
         ("1. a process changes the number",
-         "U(1) charge Q exactly conserved for every history a4 (no flux through the "
-         "boundary)",
-         status(LEAD["u1_noether_matrix_identity"] == "PASS", "FAILS (PROVED)"),
+         "local U(1) law d_mu(cos z J^mu) = 0 for every history a4: no process inside "
+         "the patch changes Q; the total Q is constant only if no charge flows "
+         "through the brane z = pi/2 (ASSUMED, not derived)",
+         status(LEAD["u1_noether_matrix_identity"] == "PASS",
+                "inside the patch: FAILS (PROVED); total: no flux ASSUMED"),
          "u1_noether_matrix_identity"),
         ("2. C and CP violated",
          "commuting field: the same-mass conjugation is an exact symmetry that "
@@ -969,22 +987,23 @@ CELLS = [
                 "PROVED (classical bilinears)"),
          "T1_current_primordial_commuting, T1_current_primordial_grassmann"),
         ("verdict",
-         "no net charge can be made inside one universe; no baryons in the theory",
+         "no process makes a net charge at any point of one universe (nor a total "
+         "charge, under the ASSUMED no-flux condition); no baryons in the theory",
          status(LEAD["u1_noether_matrix_identity"] == "PASS", "PROBLEM NOT SOLVED"),
          "the checks above")]
     for row in ROWS:
         say(f"{row[0]:34} | {row[2]}")
-    check([row[2] for row in ROWS] == ["FAILS (PROVED)",
-                                       "commuting: FAILS (PROVED); quantised: NOT COMPUTED",
-                                       "NOT COMPUTED", "PROVED (classical bilinears)",
-                                       "PROBLEM NOT SOLVED"],
+    check([row[2] for row in ROWS] == [
+              "inside the patch: FAILS (PROVED); total: no flux ASSUMED",
+              "commuting: FAILS (PROVED); quantised: NOT COMPUTED",
+              "NOT COMPUTED", "PROVED (classical bilinears)", "PROBLEM NOT SOLVED"],
           "scorecard: every status is backed by a PASS verdict of the Revision record")
     '''),
     md(r"""
     The next cell draws the scorecard.
     """),
     code(r'''
-    COLOURS = {"FAILS (PROVED)": "#f4c7c3",
+    COLOURS = {"inside the patch: FAILS (PROVED); total: no flux ASSUMED": "#f4c7c3",
                "commuting: FAILS (PROVED); quantised: NOT COMPUTED": "#f2e2b8",
                "NOT COMPUTED": "#e3e3e3", "PROVED (classical bilinears)": "#cfe8c4",
                "PROBLEM NOT SOLVED": "#f4c7c3"}
@@ -1011,8 +1030,11 @@ CELLS = [
                 "conditions, with the status of each row and the Revision record "
                 "check it rests on (each status is set by the notebook only when the "
                 "record holds that check with the verdict PASS). Condition 1 fails "
-                "exactly (the U(1) charge is conserved for every history $a_4$), so "
-                "conditions 2 and 3 cannot help; condition 2 also fails for the "
+                "for every process inside the patch (the local U(1) law holds for "
+                "every history $a_4$), so there conditions 2 and 3 cannot help; the "
+                "total charge of a universe is constant only under the no-flux "
+                "condition at the brane $z = \\pi/2$, which is ASSUMED; condition 2 "
+                "also fails for the "
                 "commuting field (its same-mass conjugation is exact) and is not "
                 "computed for the quantised field; the pair-level statement of theorem "
                 "T1 is exact but creates nothing. The theory does not solve the "
@@ -1047,11 +1069,14 @@ CELLS = [
     - PROVED (closed form, checked by RK4 to $10^{-7}$) for the ASSUMED rate model:
       the surviving fraction of the asymmetry is $\eta(K)$, near 1 for slow decays and
       $1/(K - 1)$ for fast ones: condition 3.
-    - This theory (Revision record): the U(1) charge is exactly conserved
-      (u1_noether_matrix_identity), so no process of the theory can make a net charge
-      inside one universe, whatever the rates and however far from equilibrium:
-      condition 1 FAILS. The same-mass conjugation is an exact symmetry of the
-      commuting field (COMPUTED here at a point of the author's metric) that reverses
+    - This theory (Revision record): the U(1) charge obeys an exact local
+      conservation law (u1_noether_matrix_identity), so no process of the theory can
+      make a net charge at any point inside one universe, whatever the rates and
+      however far from equilibrium: condition 1 FAILS there (PROVED). The total
+      charge of a universe is constant only under the no-flux condition at the brane
+      $z = \pi/2$, which is ASSUMED, not derived (OPEN). The same-mass conjugation
+      is an exact symmetry of the commuting field (COMPUTED here at a point of the
+      author's metric) that reverses
       the charge, so condition 2 FAILS for the commuting field (PROVED); the quantised
       field has only the mass-reversing conjugation (quantum_charge_conjugation_
       unitary_type), and C and CP violation in its rates is NOT COMPUTED; no departure

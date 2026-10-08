@@ -105,7 +105,9 @@ CELLS = [
     kind it has is the **U(1) charge** $Q$ of the field: the Lagrangian does not
     change when the field is
     multiplied by a constant phase $e^{i\alpha}$, and by Noether's theorem the charge
-    of this symmetry cannot change. This notebook checks that statement exactly in
+    of this symmetry obeys a **local** conservation law: no process creates or
+    destroys it at any point, and the charge of a region changes only by what flows
+    through its boundary. This notebook checks that law exactly in
     the author's primordial metric, for **every** history $a_4(x_4)$, in particular
     the one in which ordinary space inflates and the three extra times deflate
     exponentially. It
@@ -1059,11 +1061,14 @@ CELLS = [
     - PROVED (theorem T1, reproduced): the chirality partner $\Gamma\Psi$ solves the
       equation with the mass reversed and carries exactly the opposite current, so
       the total charge of a pair is zero as classical bilinears.
-    - Consequence for Sakharov's first condition: with the flux through the boundary
-      zero, no process of this theory changes the U(1) charge of a universe; the
-      charge is fixed by the initial data. The theory as built therefore cannot
-      generate a net charge inside one universe. This is a statement about the
-      classical field equations; it is not a creation mechanism for anything.
+    - Consequence for Sakharov's first condition: no process of this theory creates
+      or destroys U(1) charge at any point (the local law). The charge of a universe
+      changes only by what flows through its boundary, and the first solution of
+      this notebook shows that charge does flow through the brane $z = \pi/2$. Only
+      under a no-flux condition at the brane, which is ASSUMED and not derived
+      (OPEN), is the charge of a universe constant and fixed by the initial data.
+      This is a statement about the classical field equations; it is not a creation
+      mechanism for anything.
     """),
 ]
 

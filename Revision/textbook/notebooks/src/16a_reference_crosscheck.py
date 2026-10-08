@@ -96,8 +96,8 @@ FACTS = {
     ],
     "troubleshooting": [
         ["The cell that runs the reference solver on the three ground states shows the "
-         "label with the star for two minutes or longer",
-         "this is normal. The state N136_lamp2_a20 alone takes about two minutes on a "
+         "label with the star for a minute or longer",
+         "this is normal. The state N136_lamp2_a20 alone takes up to two minutes on a "
          "fast computer and up to five minutes on a laptop, because the reference solves "
          "354 levels on three grids, each with its excited state and four neighbouring "
          "slices. Wait until the label shows a number."],
@@ -116,6 +116,13 @@ FACTS = {
          "the program revision_ks_solver is still running in another window or "
          "terminal, and Windows does not let cargo replace a running program. Wait "
          "until that run has finished (or close it), then run the cell again."],
+        ["The run was stopped (by an error, or with Kernel > Interrupt) while the cell "
+         "that runs the Rust solver was busy",
+         "the raw outputs of the Rust runs may then be left behind in a folder whose "
+         "name starts with textbook_16a_, inside the folder for temporary files of your "
+         "operating system (in Python, tempfile.gettempdir() names it). The notebook "
+         "deletes that folder only when the cell finishes. Delete the leftover folder "
+         "by hand; every run makes a new one."],
     ],
 }
 
@@ -149,8 +156,8 @@ CELLS = [
 
     Four of the five states were chosen because the full cross-check of all 210 states
     found its largest differences in them; the fifth (N688_lam0_a00) has the largest
-    number of particles. The run takes three to five minutes on a fast computer and
-    about ten minutes on a typical laptop.
+    number of particles. The run takes two to six minutes on a fast computer (more
+    when other programs keep it busy) and about ten minutes on a typical laptop.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -402,8 +409,8 @@ CELLS = [
     one, keeps a copy of the levels it returns, and passes its result on unchanged. After
     the three jobs the original function is put back. The results are the contents of
     the JSON files the reference program writes (`RR.jsonable` turns the arrays into
-    plain numbers, as the program does before it writes a file). This cell takes about
-    two minutes on a fast computer.
+    plain numbers, as the program does before it writes a file). This cell takes one
+    to three minutes on a fast computer.
     """),
     code(r'''
     PER_GRID = {}  # (state id, G) -> the levels of the state on grid G (an array)

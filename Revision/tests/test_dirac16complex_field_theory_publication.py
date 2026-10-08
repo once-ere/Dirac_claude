@@ -87,6 +87,14 @@ REPORTS = {
     "t3-wolfram": REVISION / "pairing" / "kohn_sham" / "reports" / "wolfram-t3.json",
     "t3-python": REVISION / "pairing" / "kohn_sham" / "reports" / "python-t3.json",
     "ks-source": REVISION / "field_equations_a4" / "reports" / "ks-source-conditions.json",
+    "ks-source-a4": REVISION / "field_equations_a4" / "ks_source" / "reports" / "ks-source-a4.json",
+    "t3c-wolfram": REVISION / "pairing" / "kohn_sham" / "reports" / "wolfram-t3-completion.json",
+    "t3c-python": REVISION / "pairing" / "kohn_sham" / "reports" / "python-t3-completion.json",
+    "ks-crosscheck": REVISION / "kohn_sham" / "reports" / "ks-crosscheck.json",
+    "ds-derivation": REVISION / "dark_sector" / "dirac16complex" / "reports" / "derivation-checks.json",
+    "ds-ks-history": REVISION / "dark_sector" / "dirac16complex" / "reports" / "ks-history-run.json",
+    "ds-eos": REVISION / "dark_sector" / "dirac16complex" / "reports" / "eos-checks.json",
+    "ds-independent": REVISION / "dark_sector" / "dirac16complex" / "reports" / "independent-checks.json",
 }
 
 TITLE = "dirac16complex in the author's primordial gravitational field"
@@ -152,6 +160,9 @@ ESSENTIAL_CHECKS = [
     "T3_energies_and_emt_profiles_equal",
     "algebraic_identity_x1_plus_x5_minus_2x8", "constraint_propagation_bianchi",
     "einstein_null_energy_x8", "linear_member_equal_pressures", "Q_Krein_metric_of_images",
+    "A1_lovelock_identity_x1_plus_x5_equals_2x8", "B2_x8_conservation_on_every_profile",
+    "C1_averaged_algebraic_condition_fails", "D4_constant_source_gives_linear_member",
+    "T3C_krein_rule_16_component", "T3C.krein_rule_16_component",
 ]
 
 REQUIRED_PHRASES = [
@@ -179,6 +190,21 @@ REQUIRED_PHRASES = [
     "not well posed in Hadamard's sense",
     "prescribed test-field background without back-reaction",
     "is a choice of sign",
+    "the Kohn-Sham source does not start or select exponential deflation of the extra times",
+    "That record establishes neither Hypothesis nor Hypothesis00.",
+    "nothing computed comes near the Unite pair $(w_0, w_a) = (-0.861, -0.60)$",
+    "`Revision/docs/KOHN_SHAM_DEFLATING_FIELD`",
+    "`Revision/docs/LOVELOCK_GKD`",
+    "`Revision/docs/DARK_SECTOR_HYPOTHESES`",
+]
+
+# Numbers quoted from the second-wave reports: (report key, text in the report, text in the document).
+QUOTED_NUMBERS = [
+    ("ks-source-a4", "[0.414086 (N688_lamm2_a00), 0.806379] over the 70 nonzero states",
+     "between 0.414086 and 0.806379 over the 70 nonzero states"),
+    ("ks-source-a4", "a4'(2)/a4'(0) = 1.95362 (sigma0 = 10), 1.1321 (sigma0 = 1), 0.847549 (sigma0 = -1)",
+     "$a_4'(2)/a_4'(0) = 1.95362$, 1.1321 and 0.847549"),
+    ("ds-eos", "w_eff(C) in [-0.707107, -0.671895]", "between -0.707107 and -0.671895"),
 ]
 
 PLACEHOLDERS = ["TODO", "TBD", "FIXME", "lorem ipsum", "PLACEHOLDER", "XXX"]
@@ -491,8 +517,15 @@ def report_count(key: str) -> tuple[int, int]:
         return counts["pass"], counts["pass"] + counts["fail"] + counts["pending"]
     if key in ("scope-wolfram", "t3-wolfram"):
         return data["summary"]["passed"], data["summary"]["total"]
-    if key in ("scope-python", "ks-source"):
+    if key in ("scope-python", "ks-source", "ks-source-a4", "ks-crosscheck"):
         return data["summary"]["pass"], data["summary"]["checks"]
+    if key == "t3c-wolfram":
+        return data["summary"]["passed"], data["summary"]["total"]
+    if key == "t3c-python":
+        counts = data["counts"]
+        return counts["pass"], counts["pass"] + counts["fail"] + counts["pending"]
+    if key.startswith("ds-"):
+        return data["summary"]["pass"], data["summary"]["total"]
     raise KeyError(key)
 
 
@@ -510,6 +543,14 @@ QUOTED_COUNTS = {
     "t3-wolfram": "Wolfram: {p} of {t} checks pass",
     "t3-python": "sympy: {p} of {t} checks pass",
     "ks-source": "Python: {p} of {t} checks pass",
+    "ks-source-a4": "Python: {p} of {t} checks pass",
+    "t3c-wolfram": "Wolfram: {p} of {t} checks pass",
+    "t3c-python": "sympy: {p} of {t} checks pass",
+    "ks-crosscheck": "`Revision/kohn_sham/reports/ks-crosscheck.json`: {p} of {t} checks pass",
+    "ds-derivation": "derivation: {p} of {t} checks pass",
+    "ds-ks-history": "Kohn-Sham history: {p} of {t} checks pass",
+    "ds-eos": "equation of state: {p} of {t} checks pass",
+    "ds-independent": "independent: {p} of {t} checks pass",
 }
 
 
@@ -617,6 +658,13 @@ class CitedChecksTest(unittest.TestCase):
             with self.subTest(report=key):
                 self.assertEqual(passed, total, f"{key}: not every check passes")
                 self.assertIn(pattern.format(p=passed, t=total), text)
+
+    def test_quoted_numbers_of_the_second_wave(self):
+        text = markdown_text()
+        for key, in_report, in_document in QUOTED_NUMBERS:
+            with self.subTest(report=key, number=in_report):
+                self.assertIn(in_report, REPORTS[key].read_text(encoding="utf-8"))
+                self.assertIn(in_document, text)
 
     def test_comparison_record_statement_matches_the_theory_reports(self):
         text = markdown_text()

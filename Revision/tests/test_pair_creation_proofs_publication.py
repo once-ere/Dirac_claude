@@ -24,7 +24,8 @@ What is tested
     check of the two pairing reports is listed (complete verification records);
   * the report-count table equals the counts recomputed from the reports;
   * the quoted data (reflection table, Krein signs, one-particle samples, the a4 vacuum polynomial,
-    the Kohn-Sham self-test numbers and further numbers) agree with the Revision reports;
+    the Kohn-Sham self-test numbers, the numbers of the T3 completion and its two numerical
+    demonstrations, and further numbers) agree with the Revision reports;
   * OPTIONAL (only when REVISION_PDF_REBUILD=1; needs pdflatex, about 10 s): the PDF is rebuilt in
     verify mode and must match the registry.
 
@@ -64,8 +65,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "a66f0902185ed2c662282fcc824c148a65de14ca42a7da1d6844e2add06dea32"
-TEX_SHA256 = "9112e9083881c98654172ae8034a1e3d672253a75eb70f08dd122653f51286b7"
+MARKDOWN_SHA256 = "d06730aa19e86c68de0aa3ba7820006af52213064808aaa1d7b7c4f3d76eb445"
+TEX_SHA256 = "f93b355d032c56aa69662bdbda48ab52bfcab07bac647db812454fba16d1e011"
 
 PAIRING_THEORY = REVISION / "pairing" / "pairing-theory.json"
 WOLFRAM_PAIRING = REVISION / "pairing" / "reports" / "wolfram-pairing.json"
@@ -73,6 +74,12 @@ PYTHON_PAIRING = REVISION / "pairing" / "reports" / "python-pairing.json"
 T3_THEORY = REVISION / "pairing" / "kohn_sham" / "t3-theory.json"
 WOLFRAM_T3 = REVISION / "pairing" / "kohn_sham" / "reports" / "wolfram-t3.json"
 PYTHON_T3 = REVISION / "pairing" / "kohn_sham" / "reports" / "python-t3.json"
+T3_COMPLETION = REVISION / "pairing" / "kohn_sham" / "t3-completion.json"
+WOLFRAM_T3C = REVISION / "pairing" / "kohn_sham" / "reports" / "wolfram-t3-completion.json"
+PYTHON_T3C = REVISION / "pairing" / "kohn_sham" / "reports" / "python-t3-completion.json"
+T3_RUST_DEMO = REVISION / "pairing" / "kohn_sham" / "reports" / "t3-rust-demo.json"
+T3_REFERENCE_DEMO = REVISION / "pairing" / "kohn_sham" / "reports" / "t3-reference-demo.json"
+KS_SOURCE_A4 = REVISION / "field_equations_a4" / "ks_source" / "reports" / "ks-source-a4.json"
 KS_SOLVER = REVISION / "kohn_sham" / "reports" / "ks-rust-solver.json"
 A4_WOLFRAM = REVISION / "field_equations_a4" / "reports" / "wolfram-a4-report.json"
 A4_PYTHON = REVISION / "field_equations_a4" / "reports" / "python-a4-report.json"
@@ -83,12 +90,17 @@ COUNTED_REPORTS = (
     "Revision/pairing/reports/python-pairing.json",
     "Revision/pairing/kohn_sham/reports/wolfram-t3.json",
     "Revision/pairing/kohn_sham/reports/python-t3.json",
+    "Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json",
+    "Revision/pairing/kohn_sham/reports/t3-rust-demo.json",
+    "Revision/pairing/kohn_sham/reports/t3-reference-demo.json",
+    "Revision/pairing/kohn_sham/reports/python-t3-completion.json",
     "Revision/algebra/reports/wolfram-algebra.json",
     "Revision/algebra/reports/python-algebra.json",
     "Revision/theory/reports/wolfram-field-theory.json",
     "Revision/theory/reports/python-field-theory.json",
     "Revision/field_equations_a4/reports/wolfram-a4-report.json",
     "Revision/field_equations_a4/reports/python-a4-report.json",
+    "Revision/field_equations_a4/ks_source/reports/ks-source-a4.json",
     "Revision/kohn_sham/reports/ks-theory-wolfram.json",
     "Revision/kohn_sham/reports/ks-theory-python.json",
     "Revision/kohn_sham/reports/ks-rust-solver.json",
@@ -98,6 +110,7 @@ CITABLE_REPORT_GLOBS = (
     "algebra/reports/*.json",
     "theory/reports/*.json",
     "field_equations_a4/reports/*.json",
+    "field_equations_a4/ks_source/reports/*.json",
     "pairing/reports/*.json",
     "pairing/kohn_sham/reports/*.json",
     "kohn_sham/reports/*.json",
@@ -148,6 +161,15 @@ KEY_STATEMENTS = (
     "2. No rate, probability or amplitude:",
     "3. No dynamical necessity:",
     "10. The Kohn-Sham level T3 holds for the instantaneous (adiabatic) mean-field Kohn-Sham states only",
+    "### 8.5 Completion of T3 (2026-10-08)",
+    "T3 and its statements S1 to S5 are unchanged.",
+    r"the Kohn-Sham partner carries $+\lambda$",
+    "the demonstrations of section 8.5 are numerical, not proofs",
+    "the filling convention remains a CONVENTION whose justification is open",
+    "that record establishes neither Hypothesis nor Hypothesis00",
+    "`Revision/docs/KOHN_SHAM_DEFLATING_FIELD`",
+    "`Revision/docs/DARK_SECTOR_HYPOTHESES`",
+    "`Revision/docs/LOVELOCK_GKD`",
 )
 FORBIDDEN = (
     r"creation (?:of (?:pairs|universes) )?(?:is|has been|was|are) (?:proved|proven|established|derived)",
@@ -474,6 +496,50 @@ class QuotedData(unittest.TestCase):
             self.assertIn(number, detail, number)
             self.assertIn(number, self.text, number)
         self.assertIn("labelled in its report as NOT a proof of T3", self.text)
+
+    def test_t3_completion_record_and_demonstrations(self):
+        completion = load_json(T3_COMPLETION)
+        self.assertEqual(completion["status"], "all checks of the report passed")
+        self.assertTrue(any("CONVENTION" in item for item in completion["not_established"]))
+        self.assertTrue(any("independently quantised" in item for item in completion["not_established"]))
+        cited = set(cited_check_names(self.text))
+        for path in (WOLFRAM_T3C, PYTHON_T3C):
+            total, passed, failed = count_report(path)
+            self.assertEqual((passed, failed), (total, 0), path.name)
+            for check in load_json(path)["checks"]:
+                self.assertIn(check["name"], cited, f"{check['name']} of {path.name}")
+        rust = {check["name"]: check["detail"] for check in load_json(T3_RUST_DEMO)["checks"]}
+        reference = {check["name"]: check["detail"] for check in load_json(T3_REFERENCE_DEMO)["checks"]}
+        quoted = (
+            (rust, "plus_and_image_runs_converged", "210 states (75 ground, 135 thermal)", "210 states: all 75 ground and 135 Mermin states"),
+            (rust, "plus_reproduces_canonical_matrix", "2.538e-10", "2.538e-10"),
+            (rust, "t3_equal_ground_states", "worst deviation 2.179e-13, tolerance 1e-09", "2.179e-13 (ground)"),
+            (rust, "t3_equal_thermal_states", "worst deviation 3.877e-12, tolerance 1e-09", "3.877e-12 (thermal), tolerance 1e-9"),
+            (rust, "negative_control_untransformed_tip", "at least 4.750e+00", "at least 4.750e+00 of its maximum"),
+            (rust, "negative_control_untransformed_tip", "in the 196 states", "196 states with a converged control"),
+            (rust, "negative_control_untransformed_tip", "in 14 states", r"in 14 states, all with $\lambda < 0$"),
+            (rust, "negative_control_lambda_sign", "all 150 states", r"in all 150 states with $\lambda \neq 0$"),
+            (rust, "negative_control_lambda_sign", "smallest deviation 1.210e-02", "at least 1.210e-02"),
+            (reference, "all_members_converged", "18 states", "18 states, finite differences"),
+            (reference, "t3_equal_ground_states", "worst 2.043e-14", "2.043e-14 in the ground states"),
+            (reference, "t3_equal_ground_states", "up to 2.23e-04", "differ by up to 2.23e-04"),
+            (reference, "negative_control_untransformed_tip", "at least 5.296e+00", "at least 5.296e+00 of its maximum"),
+            (reference, "reference_image_equals_rust_image", "agree to 1.255e-11", "agree to 1.255e-11"),
+        )
+        for details, name, in_report, in_document in quoted:
+            self.assertIn(in_report, details[name], name)
+            self.assertIn(in_document, self.text, in_document)
+        # the 14 states without a converged control all have lambda < 0 (tag lamm)
+        detail = rust["negative_control_untransformed_tip"]
+        states = re.search(r"in 14 states \(([^)]*)\)", detail).group(1).split(", ")
+        self.assertEqual(len(states), 14)
+        self.assertTrue(all("_lamm" in state for state in states), states)
+
+    def test_ks_source_numbers(self):
+        report = load_json(KS_SOURCE_A4)
+        self.assertEqual(report["summary"], {"checks": 23, "pass": 23, "fail": 0})
+        self.assertIn("23 of 23 checks", self.text)
+        self.assertIn("EXACT: no recorded Kohn-Sham state is an admissible source", report["conclusions"][0])
 
     def test_further_quoted_numbers(self):
         wolfram = {check["name"]: check["detail"] for check in load_json(WOLFRAM_PAIRING)["checks"]}

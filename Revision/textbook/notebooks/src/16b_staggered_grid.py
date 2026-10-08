@@ -718,10 +718,10 @@ CELLS = [
                 "only the two neighbouring diagonals are filled, alternating "
                 "$1/h + M/2 = 3.17$ and $-1/h + M/2 = -2.17$. Right, odd parity in the "
                 "rotated frame: the diagonal carries $\\phi' \\pm M\\sin 2\\phi$ and the "
-                "off-diagonal entries are $\\pm 1/h + \\tfrac12 M\\cos 2\\phi$; "
-                "$M\\cos 2\\phi$ goes from $+M$ at the tip to $-M$ at the brane, so "
-                "the red entries fall from 3.17 to 2.17 and the blue ones from -2.17 "
-                "to -3.17, without a change of sign.")
+                "off-diagonal entries are $\\pm 1/h + \\tfrac12 M\\cos 2\\phi$, with "
+                "$\\phi$ at the half node of the pair; $M\\cos 2\\phi$ goes from $+M$ at "
+                "the tip to $-M$ at the brane, so the red entries fall from 3.16 to "
+                "2.25 and the blue ones from -2.25 to -3.16, without a change of sign.")
     '''),
     md(r"""
     ## 11. Five grids: second order, and Richardson removes the error

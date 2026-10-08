@@ -55,8 +55,8 @@ FACTS = {
          "the list not_established of what the pairing theorems do not establish "
          "(read; three of its items are checked)"],
         ["Revision/lead_checks/reports/charge-conjugation-and-u1.json",
-         "check u1_noether_matrix_identity, the conservation of the U(1) charge of one "
-         "universe (its verdict is read)"],
+         "check u1_noether_matrix_identity, the local conservation law of the U(1) "
+         "charge of one universe (its verdict is read)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -427,11 +427,15 @@ CELLS = [
     For universes of masses $+m$ and $-m$ the theory of this book supplies:
 
     - **Q1, conserved quantities.** Light: energy, momentum and charge. Universes:
-      the U(1) charge of each universe is conserved (PROVED in the record); so are its
-      momenta along the six directions on which the metric does not depend ($x_1$,
-      $x_2$, $x_3$, $x_5$, $x_6$, $x_7$), separately for each universe (derived from
-      the record's on-shell law $\nabla_\mu T^\mu{}_\nu = 0$ and the symmetry of $T$;
-      ASSUMED: the boundary terms vanish); the energy of a universe is NOT a conserved
+      the U(1) charge of each universe obeys an exact local conservation law (PROVED
+      in the record); its total is constant only if no charge flows through the brane
+      $z = \pi/2$ (the no-flux condition, ASSUMED: the record does not derive it, and
+      on the homogeneous solutions of chapter 18 charge does flow through the brane).
+      The momenta along the six directions on which the metric does not depend ($x_1$,
+      $x_2$, $x_3$, $x_5$, $x_6$, $x_7$) obey local laws too, separately for each
+      universe (derived from the record's on-shell law
+      $\nabla_\mu T^\mu{}_\nu = 0$ and the symmetry of $T$; ASSUMED: the boundary
+      terms vanish); the energy of a universe is NOT a conserved
       quantity, because the deflating metric depends on the time $x_4$ (for a
       homogeneous source the record's identity is $d\rho/dx_4 = -3a_4'(p_3 - p_t)$).
     - **Q1, interaction.** Light couples to electrons. No term of any Lagrangian of
@@ -443,12 +447,15 @@ CELLS = [
 
     One consequence can be drawn in two lines from the record's conservation law
     (status: derived here; ASSUMED: the boundary terms vanish, e.g. periodic
-    coordinates). Each universe obeys its own field equation and nothing couples the
-    two, so the charge $Q_+$ of the first universe is conserved on its own. If both
+    coordinates and no flux through the brane $z = \pi/2$, a condition that the
+    record does not derive). Each universe obeys its own field equation and nothing
+    couples the two, so under these conditions the charge $Q_+$ of the first
+    universe is conserved on its own. If both
     fields were zero at some time, $Q_+$ would be zero at every time. A T1 pair whose
     members carry the charges $Q$ and $-Q$ with $Q \neq 0$ can therefore not evolve
     out of zero fields in the theory as built: the zero TOTAL charge of a T1 pair does
-    not make its appearance allowed, because the separate charges are conserved too.
+    not make its appearance allowed, because the separate charges are conserved too
+    (under the no-flux condition).
 
     The next cell reads the record's own list of what the pairing theorems do not
     establish and checks that it names the missing answers to Q2 and Q3.
@@ -469,7 +476,7 @@ CELLS = [
         .read_text(encoding="utf-8"))
     verdicts = {entry["name"]: entry["verdict"] for entry in u1["checks"]}
     check(verdicts.get("u1_noether_matrix_identity") == "PASS",
-          "the record proves the U(1) charge conservation of one universe",
+          "the record proves the local U(1) conservation law of one universe",
           record="Revision/lead_checks/reports/charge-conjugation-and-u1.json, check "
                  "u1_noether_matrix_identity")
     '''),
@@ -501,10 +508,11 @@ CELLS = [
     - These are answers to Q1 only (allowed or forbidden). That the process happens,
       and how often, needs a dynamical theory (quantum electrodynamics, quoted, not
       computed).
-    - For universes the record has conservation laws but no interaction between
-      universes, no creation process, no rate and no amplitude: Q2 and Q3 are not
-      answered, and with separately conserved charges a T1 pair with nonzero charges
-      cannot evolve out of zero fields in the theory as built.
+    - For universes the record has local conservation laws but no interaction
+      between universes, no creation process, no rate and no amplitude: Q2 and Q3 are
+      not answered, and with separately conserved charges (ASSUMED: no flux through
+      the brane) a T1 pair with nonzero charges cannot evolve out of zero fields in
+      the theory as built.
     """),
 ]
 

@@ -7,7 +7,7 @@ This file is the provenance record of the notebook `Revision/textbook/notebooks/
 
 ## 1. What the notebook computes
 
-It teaches the three conditions that a process making more matter than antimatter must meet (Sakharov 1967) with exact toy computations of its own: the bookkeeping of baryon number, lepton number and electric charge in four processes; a decay model whose net baryon number is the product of the baryon-number violation and the particle-antiparticle difference of the decay probabilities (derived with sympy); the Fermi-Dirac occupations of particles and antiparticles, which agree when the chemical potential vanishes; and a two-equation rate model of decays out of equilibrium whose final asymmetry is found in closed form and by Runge-Kutta integration. No measured number is used. It then applies the three conditions to this theory with the verdicts of the Revision record: the exact conservation of the U(1) charge, the same-mass conjugation of the commuting field as an exact symmetry of the Lagrangian of the record at a point of the author's metric, the mass-reversing conjugation of the quantised field, the two invariant Majorana-type mass matrices C and C Gamma (charge 2, absent for anticommuting components), and draws the scorecard: the theory as built does not solve the matter-antimatter problem. Eight teaching plots.
+It teaches the three conditions that a process making more matter than antimatter must meet (Sakharov 1967) with exact toy computations of its own: the bookkeeping of baryon number, lepton number and electric charge in four processes; a decay model whose net baryon number is the product of the baryon-number violation and the particle-antiparticle difference of the decay probabilities (derived with sympy); the Fermi-Dirac occupations of particles and antiparticles, which agree when the chemical potential vanishes; and a two-equation rate model of decays out of equilibrium whose final asymmetry is found in closed form and by Runge-Kutta integration. No measured number is used. It then applies the three conditions to this theory with the verdicts of the Revision record: the exact local conservation law of the U(1) charge, the same-mass conjugation of the commuting field as an exact symmetry of the Lagrangian of the record at a point of the author's metric, the mass-reversing conjugation of the quantised field, the two invariant Majorana-type mass matrices C and C Gamma (charge 2, absent for anticommuting components), and draws the scorecard: the theory as built does not solve the matter-antimatter problem. Eight teaching plots.
 
 It reads or reproduces these Revision records:
 
@@ -29,7 +29,7 @@ The notebook has 44 cells (24 markdown cells and 20 code cells) in these section
 - 7. Conditions 1 and 2: a decay model
 - 8. Condition 3: equilibrium
 - 9. Condition 3: decays out of equilibrium (a rate model)
-- 10. This theory, condition 1: the U(1) charge cannot change
+- 10. This theory, condition 1: no process changes the U(1) charge locally
 - 11. This theory, condition 2: the conjugations
 - 12. What a charge-violating term would look like
 - 13. The scorecard
@@ -44,7 +44,7 @@ These are the same instructions that the book prints just before the text of the
 
 **Step 1. What this notebook does and what it needs.**
 
-Notebook 21d (Sakharov's three conditions and the scorecard of this theory) is the file `Revision/textbook/notebooks/21d_sakharov_scorecard.ipynb` of the repository Dirac_claude. It teaches the three conditions that a process making more matter than antimatter must meet (Sakharov 1967) with exact toy computations of its own: the bookkeeping of baryon number, lepton number and electric charge in four processes; a decay model whose net baryon number is the product of the baryon-number violation and the particle-antiparticle difference of the decay probabilities (derived with sympy); the Fermi-Dirac occupations of particles and antiparticles, which agree when the chemical potential vanishes; and a two-equation rate model of decays out of equilibrium whose final asymmetry is found in closed form and by Runge-Kutta integration. No measured number is used. It then applies the three conditions to this theory with the verdicts of the Revision record: the exact conservation of the U(1) charge, the same-mass conjugation of the commuting field as an exact symmetry of the Lagrangian of the record at a point of the author's metric, the mass-reversing conjugation of the quantised field, the two invariant Majorana-type mass matrices C and C Gamma (charge 2, absent for anticommuting components), and draws the scorecard: the theory as built does not solve the matter-antimatter problem. Eight teaching plots. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy, sympy, mpmath and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
+Notebook 21d (Sakharov's three conditions and the scorecard of this theory) is the file `Revision/textbook/notebooks/21d_sakharov_scorecard.ipynb` of the repository Dirac_claude. It teaches the three conditions that a process making more matter than antimatter must meet (Sakharov 1967) with exact toy computations of its own: the bookkeeping of baryon number, lepton number and electric charge in four processes; a decay model whose net baryon number is the product of the baryon-number violation and the particle-antiparticle difference of the decay probabilities (derived with sympy); the Fermi-Dirac occupations of particles and antiparticles, which agree when the chemical potential vanishes; and a two-equation rate model of decays out of equilibrium whose final asymmetry is found in closed form and by Runge-Kutta integration. No measured number is used. It then applies the three conditions to this theory with the verdicts of the Revision record: the exact local conservation law of the U(1) charge, the same-mass conjugation of the commuting field as an exact symmetry of the Lagrangian of the record at a point of the author's metric, the mass-reversing conjugation of the quantised field, the two invariant Majorana-type mass matrices C and C Gamma (charge 2, absent for anticommuting components), and draws the scorecard: the theory as built does not solve the matter-antimatter problem. Eight teaching plots. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy, sympy, mpmath and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
 
 **Step 2. Install Git and Python (once per computer).**
 
@@ -256,7 +256,8 @@ In [9]  PASS rate model: Delta(t) and W(t) solve lines 1 to 3
 In [10]  PASS RK4 agrees with the closed form eta(K) to 1e-7 for K = 0.1, 3, 30
 In [10]  PASS controls: eps = 0 gives a = 0 exactly; without erasing a(infinity) = eps
 In [12]  PASS efficiency: near 1 for K = 0.01, exactly 1/(K - 1) at K = 1000, decreasing
-In [13]  PASS U(1) charge exactly conserved: no net charge in one universe, condition 1 fails
+In [13]  PASS local U(1) law: no process makes a net charge at any point, condition 1 fails there
+In [13]      (total charge: no flux through the brane ASSUMED)
 In [13]       reproduces Revision/lead_checks/reports/charge-conjugation-and-u1.json, check
 In [13]      u1_noether_matrix_identity
 In [14]  PASS commuting field: L[Psi*] = L[Psi], the same-mass conjugation is exact
@@ -308,7 +309,7 @@ The notebook shows 8 figures, each below the cell that draws it, and saves each 
 - `Revision/textbook/figures/21d_5_washout_efficiency.png` (994 x 638 pixels): The efficiency $\eta(K) = a(\infty)/\epsilon$ of the rate model: the fraction of the asymmetry made by the decays that survives, versus the decay rate $K$, both on logarithmic scales (pure numbers). Solid: the closed form with the incomplete gamma function; dots: the RK4 integrations; dotted: the limit $1/(K - 1)$. Slow decays (out of equilibrium) keep almost all of it; the closer the decays are to equilibrium (large $K$), the less survives: condition 3.
 - `Revision/textbook/figures/21d_6_lagrangian_maps.png` (1126 x 595 pixels): The Lagrangian density of the Revision record for the commuting field at one point of the author's metric ($H = 1/6$, $z = 0.7$, $a_4 = 0.4$, $a_4' = 0.25$, $m = 0.7$, $\lambda = 0.3$, a fixed field value and fixed first derivatives): for $\Psi$ and its same-mass conjugate $\Psi^\ast$ (blue, equal), for the images $\Gamma\Psi$ and $\Gamma\Psi^\ast$ (red) and for minus the Lagrangian of the reversed mass and coupling (grey); vertical axis the value (pure numbers). The red bars equal the grey one: $\Gamma$ maps the theory with $(m, \lambda)$ to the theory with $(-m, -\lambda)$.
 - `Revision/textbook/figures/21d_7_majorana_terms.png` (1611 x 615 pixels): Left and middle: heat maps of the only two matrices $M$ for which a Majorana-type term $\Psi^T M\Psi$ is invariant under the rotations and boosts of Spin(4,4), $C$ and $C\Gamma$ (horizontal axis the column, vertical axis the row, red $+1$, blue $-1$); both are symmetric, so the term vanishes for anticommuting components. Right: the change of the phase of $\Psi^T C\Psi$ (solid) and of $\Psi^\dagger C\Psi$ (dashed) for a commuting field under $\Psi \to e^{i\alpha}\Psi$, versus $\alpha$ (radians): the Majorana-type term turns twice as fast, it carries U(1) charge 2 and would break the charge conservation.
-- `Revision/textbook/figures/21d_8_scorecard.png` (1541 x 777 pixels): The scorecard of the theory as built against Sakharov's three conditions, with the status of each row and the Revision record check it rests on (each status is set by the notebook only when the record holds that check with the verdict PASS). Condition 1 fails exactly (the U(1) charge is conserved for every history $a_4$), so conditions 2 and 3 cannot help; condition 2 also fails for the commuting field (its same-mass conjugation is exact) and is not computed for the quantised field; the pair-level statement of theorem T1 is exact but creates nothing. The theory does not solve the matter-antimatter problem.
+- `Revision/textbook/figures/21d_8_scorecard.png` (1541 x 777 pixels): The scorecard of the theory as built against Sakharov's three conditions, with the status of each row and the Revision record check it rests on (each status is set by the notebook only when the record holds that check with the verdict PASS). Condition 1 fails for every process inside the patch (the local U(1) law holds for every history $a_4$), so there conditions 2 and 3 cannot help; the total charge of a universe is constant only under the no-flux condition at the brane $z = \pi/2$, which is ASSUMED; condition 2 also fails for the commuting field (its same-mass conjugation is exact) and is not computed for the quantised field; the pair-level statement of theorem T1 is exact but creates nothing. The theory does not solve the matter-antimatter problem.
 
 ## 4. Side effects
 
@@ -318,7 +319,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/21d.captions.json` | 4648 | `3ca874faaa040bf0134388f69b52f85242f78b016278751a50f92ff00933e16b` |
+| `Revision/textbook/figures/21d.captions.json` | 4798 | `44d7c1d07edf4dc3f21797f2430c49a69b8427c498437761a8c39dcad2c3a0ed` |
 | `Revision/textbook/figures/21d_1_bookkeeping.png` | 51123 | `cac413a03ab8f0ad0e5a35cc1a8633df264ca3d1cd00d046a81d1139bc451cef` |
 | `Revision/textbook/figures/21d_2_decay_asymmetry.png` | 107049 | `f2c1aa3f7f015fa2434202adebf99cf94d4250da73b9d918480b212d5cdc1e79` |
 | `Revision/textbook/figures/21d_3_equilibrium_occupations.png` | 71891 | `8dae73afa52e137837131f4809f8f60c6facc0ab7acc96a599dd426d315bef5e` |
@@ -326,7 +327,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | `Revision/textbook/figures/21d_5_washout_efficiency.png` | 54780 | `0edbd6e582704a75b28931212e391c682efef92a6b7d0b11204fe23e150b8463` |
 | `Revision/textbook/figures/21d_6_lagrangian_maps.png` | 36999 | `141c6bd255fd178e8072fbad7bb2beb58ed2ec702938e9864c41ee9df6696d8f` |
 | `Revision/textbook/figures/21d_7_majorana_terms.png` | 67508 | `8e45e08ef472bfb78bc0392b2fe6645261e4575540a4cbf3d24f2d4616f0bbb4` |
-| `Revision/textbook/figures/21d_8_scorecard.png` | 141604 | `eb6453e2935fd2b6ae82b4bca968c95b4ecd67c5818c755cf1865ab9e8bd464f` |
+| `Revision/textbook/figures/21d_8_scorecard.png` | 165583 | `bf5d944fd3b36412e6b4d5f9eb0e72204f06391b14801e1cbf60c25fd3d6cb1a` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/21d_sakharov_scorecard.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
 
@@ -349,8 +350,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 89.8 s, peak memory of the kernel process 409 MiB;
-- the check run: 46.9 s, peak memory of the kernel process 407 MiB.
+- the build run: 5.9 s, peak memory of the kernel process 410 MiB;
+- the check run: 5.5 s, peak memory of the kernel process 410 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -362,9 +363,9 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/21d_sakharov_scorecard.ipynb`: `c47668e63d961214142f271b2226d29bb7243fed27288e8cc0fd2a3f634948ec`
-- `Revision/textbook/notebooks/src/21d_sakharov_scorecard.py`: `e35b931c71562ef1d827cec46897831a1ca2b42734ee6768abeae2bc5135001e`
-- `Revision/textbook/figures/21d.captions.json`: `3ca874faaa040bf0134388f69b52f85242f78b016278751a50f92ff00933e16b`
+- `Revision/textbook/notebooks/21d_sakharov_scorecard.ipynb`: `8a927739a5a3d6e26d584143d2769823772a59489fcb136e5e8c8f3a358d46f6`
+- `Revision/textbook/notebooks/src/21d_sakharov_scorecard.py`: `6b863b6bea5676ce8230b199546c7c7f5aaf3bb8d444be90637c3a73e01802b1`
+- `Revision/textbook/figures/21d.captions.json`: `44d7c1d07edf4dc3f21797f2430c49a69b8427c498437761a8c39dcad2c3a0ed`
 - `Revision/textbook/figures/21d_1_bookkeeping.png`: `cac413a03ab8f0ad0e5a35cc1a8633df264ca3d1cd00d046a81d1139bc451cef`
 - `Revision/textbook/figures/21d_2_decay_asymmetry.png`: `f2c1aa3f7f015fa2434202adebf99cf94d4250da73b9d918480b212d5cdc1e79`
 - `Revision/textbook/figures/21d_3_equilibrium_occupations.png`: `8dae73afa52e137837131f4809f8f60c6facc0ab7acc96a599dd426d315bef5e`
@@ -372,7 +373,7 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 - `Revision/textbook/figures/21d_5_washout_efficiency.png`: `0edbd6e582704a75b28931212e391c682efef92a6b7d0b11204fe23e150b8463`
 - `Revision/textbook/figures/21d_6_lagrangian_maps.png`: `141c6bd255fd178e8072fbad7bb2beb58ed2ec702938e9864c41ee9df6696d8f`
 - `Revision/textbook/figures/21d_7_majorana_terms.png`: `8e45e08ef472bfb78bc0392b2fe6645261e4575540a4cbf3d24f2d4616f0bbb4`
-- `Revision/textbook/figures/21d_8_scorecard.png`: `eb6453e2935fd2b6ae82b4bca968c95b4ecd67c5818c755cf1865ab9e8bd464f`
+- `Revision/textbook/figures/21d_8_scorecard.png`: `bf5d944fd3b36412e6b4d5f9eb0e72204f06391b14801e1cbf60c25fd3d6cb1a`
 
 ## 7. Verification
 
@@ -380,4 +381,4 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 600 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 9 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":409.0,"seconds":89.8},"check":{"date":"2026-10-08","files":9,"peak_mb":407.0,"result":"passed","seconds":46.9},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":410.0,"seconds":5.9},"check":{"date":"2026-10-08","files":9,"peak_mb":410.0,"result":"passed","seconds":5.5},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

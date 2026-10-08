@@ -12,7 +12,7 @@ It computes, from the relativistic relation between energy, momentum and mass an
 It reads or reproduces these Revision records:
 
 - `Revision/pairing/pairing-theory.json`: the list not_established of what the pairing theorems do not establish (read; three of its items are checked)
-- `Revision/lead_checks/reports/charge-conjugation-and-u1.json`: check u1_noether_matrix_identity, the conservation of the U(1) charge of one universe (its verdict is read)
+- `Revision/lead_checks/reports/charge-conjugation-and-u1.json`: check u1_noether_matrix_identity, the local conservation law of the U(1) charge of one universe (its verdict is read)
 
 The notebook has 24 cells (14 markdown cells and 10 code cells) in these sections:
 
@@ -244,7 +244,7 @@ In [7]  PASS the curves cross at E_gamma = 2.5 m
 In [8]  PASS two photons: mu^2 = 2 E_a E_b (1 - cos theta)
 In [8]  PASS head on mu^2 = 4 E_a E_b; same direction mu^2 = 0 (never allowed)
 In [9]  PASS the record states: no creation process, no rate or amplitude, no necessity
-In [9]  PASS the record proves the U(1) charge conservation of one universe
+In [9]  PASS the record proves the local U(1) conservation law of one universe
 In [9]       reproduces Revision/lead_checks/reports/charge-conjugation-and-u1.json, check
 In [9]      u1_noether_matrix_identity
 In [10]  PASS every figure file of this notebook exists
@@ -316,8 +316,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 12.9 s, peak memory of the kernel process 201 MiB;
-- the check run: 28.1 s, peak memory of the kernel process 201 MiB.
+- the build run: 3.8 s, peak memory of the kernel process 203 MiB;
+- the check run: 3.3 s, peak memory of the kernel process 202 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -329,8 +329,8 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/20c_allowed_not_happens.ipynb`: `7f93b1f028e4343d53ede18be1114998fd792753a075ddd10ba2c0d71c8e1d08`
-- `Revision/textbook/notebooks/src/20c_allowed_not_happens.py`: `a56b5ad83c4af51b4aa7674b606d33066854ba4420f8b374625d341acd13be74`
+- `Revision/textbook/notebooks/20c_allowed_not_happens.ipynb`: `439b09c65882905f9c943217665b823cefb8ec827b9578590264996d8eb437e8`
+- `Revision/textbook/notebooks/src/20c_allowed_not_happens.py`: `40a8a4dc518b6f9dc594b4f6c78010e7044877052d230fccefceed0d12cd82a6`
 - `Revision/textbook/figures/20c.captions.json`: `51630feeb2fad28572bd9d4dc1ee5abca6218dca00cdf784448089becb42948e`
 - `Revision/textbook/figures/20c_1_invariant_mass_inequality.png`: `ae8720affbd0c409ff1e9c5a5a787363129e672ac41a96c1c3696bc9501cd764`
 - `Revision/textbook/figures/20c_2_nucleus_threshold.png`: `dcd2c3c1211a4217709a5547987922e827b290601419f3e98075081f99a77db9`
@@ -343,4 +343,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 5 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":201.0,"seconds":12.9},"check":{"date":"2026-10-08","files":5,"peak_mb":201.0,"result":"passed","seconds":28.1},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":203.0,"seconds":3.8},"check":{"date":"2026-10-08","files":5,"peak_mb":202.0,"result":"passed","seconds":3.3},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

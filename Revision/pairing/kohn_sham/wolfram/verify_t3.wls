@@ -104,20 +104,23 @@ addCheck["T3_orbital_densities",
   Simplify[dI - {1, -1, 1, -1, 1} dO] === {0, 0, 0, 0, 0} && Simplify[dI2 - {1, -1, 1, -1, 1} dO2] === {0, 0, 0, 0, 0},
   "per orbital (ks-theory.json densities.perOrbital): n_o = chi^dagger chi, s_o = chi^dagger j sigma2 chi, t_o = chi^dagger j sigma3 chi (current along k-hat), q_o = chi^dagger sigma3 chi, c_o = chi^dagger j sigma1 chi; under (chi, j) -> (sigma2 chi, -j) at the same k: n_o -> n_o, s_o -> -s_o, t_o -> t_o, q_o -> -q_o, c_o -> c_o (exact for arbitrary complex chi, both j); hence n(y) and t(y) are even, S(y) and Q(y) odd under the map"];
 
-(* the potentials read from ks-theory.json (top of the script); v_v also as a function of (m, lambda, n, S): d e_int/dn *)
-meff[mm_, ll_, ss_] := mm + cMeff ll ss; vvf[ll_, nn_] := cVv ll nn; eint[ll_, nn_, ss_] := cES ll ss^2 + cEn ll nn^2;
-vvAll[mm_, ll_, nn_, ss_] := Module[{nE, sE}, D[eint[ll, nE, sE], nE] /. {nE -> nn, sE -> ss}];
+(* the potentials read from ks-theory.json (top of the script).  v_v is written as a function of all four arguments
+   (m, lambda, n, S) of the self-consistency loop, so that the map clause compares its values at DIFFERENT arguments:
+   the image arguments (-m, +lambda, n, -S) against (m, lambda, n, S), and the control (-m, -lambda, n, -S) *)
+meff[mm_, ll_, ss_] := mm + cMeff ll ss; vvf[mm_, ll_, nn_, ss_] := cVv ll nn; eint[ll_, nn_, ss_] := cES ll ss^2 + cEn ll nn^2;
 mfH2 = {cMeff, cVv, cES, cEn} === {15/16, -1/16, 15/32, -1/32};
-mfConsistent = Simplify[D[eint[lam, n, S], S] - (meff[m, lam, S] - m)] === 0 && Simplify[D[eint[lam, n, S], n] - vvf[lam, n]] === 0 &&
-  Simplify[vvAll[m, lam, n, S] - vvf[lam, n]] === 0;
-mfMap = Simplify[meff[-m, lam, -S] + meff[m, lam, S]] === 0 && Simplify[vvAll[-m, lam, n, -S] - vvAll[m, lam, n, S]] === 0 &&
+mfText = StringQ[Lookup[pots, "Meff", None]] && StringContainsQ[pots["Meff"], "M_eff(y) = m + (" <> ToString[cMeff, InputForm] <> ") lambda S(y)"] &&
+  StringQ[Lookup[pots, "vv", None]] && cVv =!= 0 &&
+  StringContainsQ[pots["vv"], "v_v(y) = " <> If[cVv < 0, "-", ""] <> "lambda n(y)/" <> ToString[1/Abs[cVv], InputForm]];
+mfConsistent = Simplify[D[eint[lam, n, S], S] - (meff[m, lam, S] - m)] === 0 && Simplify[D[eint[lam, n, S], n] - vvf[m, lam, n, S]] === 0;
+mfMap = Simplify[meff[-m, lam, -S] + meff[m, lam, S]] === 0 && Simplify[vvf[-m, lam, n, -S] - vvf[m, lam, n, S]] === 0 &&
   Simplify[eint[lam, n, -S] - eint[lam, n, S]] === 0;
-mfControl = Simplify[meff[-m, -lam, -S] + meff[m, lam, S]] =!= 0 && Simplify[vvAll[-m, -lam, n, -S] - vvAll[m, lam, n, S]] =!= 0;
+mfControl = Simplify[meff[-m, -lam, -S] + meff[m, lam, S]] =!= 0 && Simplify[vvf[-m, -lam, n, -S] - vvf[m, lam, n, S]] =!= 0;
 addCheck["T3_mean_field_map",
-  mfH2 && mfConsistent && mfMap && mfControl,
+  mfH2 && mfText && mfConsistent && mfMap && mfControl,
   "Kohn-Sham potentials READ from ks-theory.json exchange.kohnShamPotentials (Hartree plus the exact uniform-gas exchange): M_eff = m + c_M lambda S, v_v = c_v lambda n, e_int = c_S lambda S^2 + c_n lambda n^2 with c_M = " <>
   ToString[cMeff, InputForm] <> " (Meff_coefficient_of_lambda_S), c_v = " <> ToString[cVv, InputForm] <> " (vv_coefficient_of_lambda_n), c_S = " <>
-  ToString[cES, InputForm] <> " and c_n = " <> ToString[cEn, InputForm] <> " (parsed from the stated formula e_int). Consistency: these are the values of hypothesis H2 (15/16, -1/16, 15/32, -1/32), M_eff - m = d e_int/dS and v_v = d e_int/dn. Map (S -> -S, n -> n), with v_v written as the function v_v(m, lambda, n, S) = d e_int/dn: M_eff[-m, +lambda, -S] = -M_eff[m, lambda, S], v_v(-m, +lambda, n, -S) = v_v(m, lambda, n, S), e_int[lambda, n, -S] = e_int[lambda, n, S]. So the self-consistency loop commutes with the map exactly when the image carries (-m, +lambda) - with (-m, -lambda) M_eff is not mapped to -M_eff and v_v(-m, -lambda, n, -S) differs from v_v(m, lambda, n, S) (control)"];
+  ToString[cES, InputForm] <> " and c_n = " <> ToString[cEn, InputForm] <> " (parsed from the stated formula e_int). Consistency: these are the values of hypothesis H2 (15/16, -1/16, 15/32, -1/32); the two coefficients agree with the stated formulas Meff and vv of the same record; M_eff - m = d e_int/dS and v_v = d e_int/dn. Map (S -> -S, n -> n), with v_v written as a function v_v(m, lambda, n, S) of the four arguments of the self-consistency loop: M_eff[-m, +lambda, -S] = -M_eff[m, lambda, S], v_v(-m, +lambda, n, -S) = v_v(m, lambda, n, S) (its value at the image arguments equals its value at the original ones), e_int[lambda, n, -S] = e_int[lambda, n, S]. So the self-consistency loop commutes with the map exactly when the image carries (-m, +lambda). Control with (-m, -lambda): M_eff[-m, -lambda, -S] differs from -M_eff[m, lambda, S] (by 2 c_M lambda S) and v_v(-m, -lambda, n, -S) differs from v_v(m, lambda, n, S) (by -2 c_v lambda n)"];
 
 (* energies and EMT profiles: two orbitals of opposite block type with general data, then the map *)
 orbit[o_] := <|"j" -> If[o == 1, 1, -1], "chi" -> {ar[o] + I br[o], cr[o] + I dr[o]}, "eps" -> ep[o], "f" -> fo[o], "g" -> go[o], "k" -> kk[o]|>;
@@ -125,7 +128,7 @@ orbs = orbit /@ {1, 2};
 imgOrb[ob_] := <|"j" -> -ob["j"], "chi" -> s2 . ob["chi"], "eps" -> ob["eps"], "f" -> ob["f"], "g" -> ob["g"], "k" -> ob["k"]|>;
 dsum[obs_, idx_] := Sum[w2 ob["g"] ob["f"] dens[ob["j"], ob["chi"]][[idx]], {ob, obs}];
 profiles[obs_, mm_, ll_] := Module[{nn = dsum[obs, 1], ss = dsum[obs, 2], me, ve, ei},
-  me = meff[mm, ll, ss]; ve = vvf[ll, nn]; ei = eint[ll, nn, ss];
+  me = meff[mm, ll, ss]; ve = vvf[mm, ll, nn, ss]; ei = eint[ll, nn, ss];
   {Sum[w2 ob["g"] ob["f"] ob["eps"] dens[ob["j"], ob["chi"]][[1]], {ob, obs}] - ei,
    Sum[w2 ob["g"] ob["f"] (kap Abs[ob["k"]]/3) dens[ob["j"], ob["chi"]][[3]], {ob, obs}] + ei,
    ei,
