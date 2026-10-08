@@ -1287,7 +1287,7 @@ Proof, step by step.
 - Step 2: every even product is block diagonal (the block rule of Section 5.5), and the 128 even products are linearly independent (exact rank 128). The block-diagonal matrices $\mathrm{diag}(X, Y)$ form a space of dimension $64 + 64 = 128$. So the even products span exactly all block-diagonal matrices.
 - Step 3: Lemma 4 of Section 5.11 gives all four claims.
 
-**The same with the 28 generators.** The Revision record and Notebook 05b also compute the commutant of the 28 generators $S^{ab}$: dimension 2, spanned by $P_-$ and $P_+$; on each half the commutant of the 28 blocks has dimension 1; and the equations for an intertwiner between the halves have only the solution 0. A matrix commutes with every exponential $\exp(\theta S^{ab})$ (Section 5.18) exactly when it commutes with every $S^{ab}$ (take the derivative at $\theta = 0$ in one direction; in the other, a matrix that commutes with $S$ commutes with every power of $S$ and hence with the power series of the exponential). So these numbers show that the conclusions of Theorem S hold already for the part of Spin(4,4) made of products of exponentials, which Section 5.1 calls $\mathrm{Spin}_0(4,4)$.
+**The same with the 28 generators.** The Revision record and Notebook 05b also compute the commutant of the 28 generators $S^{ab}$: dimension 2, spanned by $P_-$ and $P_+$; on each half the commutant of the 28 blocks has dimension 1; and the equations for an intertwiner between the halves have only the solution 0. A matrix commutes with every exponential $\exp(\theta S^{ab})$ (Section 5.18) exactly when it commutes with every $S^{ab}$ (take the derivative at $\theta = 0$ in one direction; in the other, a matrix that commutes with $S$ commutes with every power of $S$ and hence with the power series of the exponential). So these numbers show that the conclusions of Theorem S hold already for the part of Spin(4,4) made of products of exponentials, which Section 5.23 calls $\mathrm{Spin}_0(4,4)$.
 
 **Why Pin(4,4) sees one block of 16.** Every gamma is an odd element of Pin(4,4), and every gamma exchanges the two halves (Section 5.5). So neither half is invariant under Pin(4,4): the two inequivalent halves of Spin(4,4) are joined by the reflections into one irreducible representation of Pin(4,4).
 
@@ -1966,7 +1966,7 @@ $$
 g^TCg = (-1)^k\,N(g)\,C .
 $$
 
-Proof: from (C5), $(\gamma^a)^T = -C\gamma^aC$, so $(\gamma^a)^TC = -C\gamma^a$ and, by linearity, $\gamma(u)^TC = -C\gamma(u)$. Hence $\gamma(u)^TC\gamma(u) = -C\gamma(u)\gamma(u) = -\eta(u, u)\,C$. In $g^TCg = \gamma(u_k)^T\cdots\gamma(u_1)^T\,C\,\gamma(u_1)\cdots\gamma(u_k)$ apply this to the innermost pair, then to the next, and so on: each factor contributes $-\eta(u_j, u_j)$. Consequence: a product of exponentials has $g^TCg = +C$, but $g = \gamma^{(x1)}\gamma^{(x4)}$, an element of Spin(4,4) with $k = 2$ and $N = (+1)(-1) = -1$, has $g^TCg = -C$. **So Spin(4,4) contains elements that are not products of exponentials.** Section 5.1 finds all of them.
+Proof: from (C5), $(\gamma^a)^T = -C\gamma^aC$, so $(\gamma^a)^TC = -C\gamma^a$ and, by linearity, $\gamma(u)^TC = -C\gamma(u)$. Hence $\gamma(u)^TC\gamma(u) = -C\gamma(u)\gamma(u) = -\eta(u, u)\,C$. In $g^TCg = \gamma(u_k)^T\cdots\gamma(u_1)^T\,C\,\gamma(u_1)\cdots\gamma(u_k)$ apply this to the innermost pair, then to the next, and so on: each factor contributes $-\eta(u_j, u_j)$. Consequence: a product of exponentials has $g^TCg = +C$, but $g = \gamma^{(x1)}\gamma^{(x4)}$, an element of Spin(4,4) with $k = 2$ and $N = (+1)(-1) = -1$, has $g^TCg = -C$. **So Spin(4,4) contains elements that are not products of exponentials.** Section 5.23 finds all of them.
 
 **Determinant 1.** Every gamma has determinant $+1$ as a $16 \times 16$ matrix (Section 5.3, Rule 6), and so has every product of gammas, every $\gamma(u)$ of a unit vector (its square is $\pm1$ and its trace 0) and every element of Pin(4,4). So the words determinant 1 in the author's statement about Spin(4,4) refer to the vector matrix $\Lambda$ in O(4,4), never to the spinor matrix itself.
 
@@ -2584,3 +2584,972 @@ all_checks_passed()
 ```
 
 The six figure files must exist, and the last line reads ALL 20 CHECKS PASSED (notebook 05d): one in In [2], three in In [3], one in In [4], In [5] and In [6] each, two in In [7], one each in In [8], In [9] and In [10], two in In [11], one in In [13], three in In [14], one in In [15] and one in In [17]. Six of them (In [2], the three of In [3], In [4] and the first of In [11]) reproduce recorded checks; the other fourteen are the notebook's own computations.
+
+### 5.23 What do the scaled commutators generate?
+
+The 28 scaled commutators $S^{ab} = \tfrac14[\gamma^a, \gamma^b]$ are called the generators. It is tempting to say that they generate Pin(4,4). This section answers exactly what they generate, and the answer is: **not all of Pin(4,4), and not even all of Spin(4,4)**. The products of their exponentials form the piece of Pin(4,4) that is joined to $1$, written $\mathrm{Spin}_0(4,4)$; Pin(4,4) consists of four such pieces; and the exponentials together with the two gammas $\gamma^{(x8)}$ and $\gamma^{(x4)}$ generate all of Pin(4,4). The proof has ten steps, (A) to (J); Notebook 05f checks each of them on the matrices.
+
+**(A) The matrices by which the generators move the directions.** The vector rule of Section 5.12 can be written $[S^{ab}, \gamma^c] = \sum_d M^{ab}_{dc}\gamma^d$ with the $8 \times 8$ matrix
+
+$$
+M^{ab}_{dc} = \eta^{bc}\delta_{da} - \eta^{ac}\delta_{db} ,
+$$
+
+where $\delta_{da}$ is 1 for $d = a$ and 0 otherwise (insert it: the sum over $d$ picks $\eta^{bc}\gamma^a - \eta^{ac}\gamma^b$). For $a \neq b$ exactly two entries are nonzero: in row $a$, column $b$ the entry $\eta^{bb} = \eta_{bb}$ (take $c = b$, $d = a$), and in row $b$, column $a$ the entry $-\eta_{aa}$ (take $c = a$, $d = b$).
+
+**(B) A basis of so(4,4).** The Lie algebra **so(4,4)** is the set of real $8 \times 8$ matrices $X$ with $X^T\eta + \eta X = 0$ (the infinitesimal form of $\Lambda^T\eta\Lambda = \eta$). Since $(\eta X)^T = X^T\eta$, the condition says that $\eta X$ is antisymmetric. An antisymmetric $8 \times 8$ matrix is fixed by its $8 \cdot 7/2 = 28$ entries above the diagonal, so so(4,4) has dimension 28. For $M^{ab}$ the matrix $\eta M^{ab}$ has the entry $\eta_{aa}\eta_{bb}$ in row $a$, column $b$ and $-\eta_{bb}\eta_{aa}$ in row $b$, column $a$: it is antisymmetric, so every $M^{ab}$ lies in so(4,4). The 28 matrices $M^{ab}$ with $a$ before $b$ have their nonzero entries in 28 different pairs of places, so they are independent: they are a **basis** of so(4,4).
+
+**(C) Commutators go to commutators.** Multiplying out shows the **Jacobi identity** $[[X, Y], Z] = [X, [Y, Z]] - [Y, [X, Z]]$ for any three matrices (both sides are $XYZ - YXZ - ZXY + ZYX$). Let $[S_1, \gamma^c] = \sum_d (M_1)_{dc}\gamma^d$ and $[S_2, \gamma^c] = \sum_d (M_2)_{dc}\gamma^d$. Then
+
+$$
+[S_1, [S_2, \gamma^c]] = \sum_d (M_2)_{dc}[S_1, \gamma^d] = \sum_{d,e} (M_1)_{ed}(M_2)_{dc}\gamma^e = \sum_e (M_1M_2)_{ec}\gamma^e ,
+$$
+
+and the Jacobi identity gives $[[S_1, S_2], \gamma^c] = \sum_e ([M_1, M_2])_{ec}\gamma^e$: **the matrix of a commutator is the commutator of the matrices.** Together with (B) and the so(4,4) rules of Section 5.18, the 28 independent $S^{ab}$ and the 28 matrices $M^{ab}$ have the same commutation table: the $S^{ab}$ span an exact copy of so(4,4). (The $S^{ab}$ are independent because they are one half times 28 different products of two gammas, which are independent by Section 5.13.)
+
+**(D) Every exponential is a product of two unit vectors.** For a rotation ($\eta_{aa}\eta_{bb} = +1$), $\exp(\theta S^{ab}) = \cos\tfrac\theta2\,1 + \sin\tfrac\theta2\,\gamma^a\gamma^b$ (Section 5.18). Because $\gamma^a\gamma^a = \eta_{aa}1$ and $\eta_{aa}^2 = 1$,
+
+$$
+\gamma^a\big(\eta_{aa}\cos\tfrac\theta2\,\gamma^a + \sin\tfrac\theta2\,\gamma^b\big) = \cos\tfrac\theta2\,1 + \sin\tfrac\theta2\,\gamma^a\gamma^b .
+$$
+
+So $\exp(\theta S^{ab}) = \gamma^a\gamma(u)$ with $u = \eta_{aa}\cos\tfrac\theta2\,e_a + \sin\tfrac\theta2\,e_b$, and $\eta(u, u) = \eta_{aa}\cos^2\tfrac\theta2 + \eta_{bb}\sin^2\tfrac\theta2 = \eta_{aa}$ (since $\eta_{bb} = \eta_{aa}$ for a rotation). For a boost the same steps with $\cosh$ and $\sinh$ give $u = \eta_{aa}\cosh\tfrac\theta2\,e_a + \sinh\tfrac\theta2\,e_b$ and $\eta(u, u) = \eta_{aa}(\cosh^2\tfrac\theta2 - \sinh^2\tfrac\theta2) = \eta_{aa}$, since $\eta_{bb} = -\eta_{aa}$. Both $\gamma^a$ and $\gamma(u)$ are unit vectors: **every exponential lies in Spin(4,4)**, and so does every product of exponentials.
+
+**(E) How an exponential moves the directions.** Put $R(\theta) = \exp(\theta S)$ for one generator $S = S^{ab}$, and $F_c(\theta) = R\gamma^cR^{-1}$. Differentiating the power series term by term gives $dR/d\theta = SR = RS$, and $d(R^{-1})/d\theta = -SR^{-1}$ (since $R^{-1} = \exp(-\theta S)$). By the product rule of differentiation,
+
+$$
+\frac{dF_c}{d\theta} = SR\gamma^cR^{-1} - R\gamma^cSR^{-1} = R\,[S, \gamma^c]\,R^{-1} = \sum_d M_{dc}F_d .
+$$
+
+Writing $F_c = \sum_e\Lambda_{ec}(\theta)\gamma^e$, this says $d\Lambda/d\theta = \Lambda M$ with $\Lambda(0) = 1$, whose solution is the matrix exponential $\Lambda(\theta) = \exp(\theta M)$ (it solves the equation, because $d\exp(\theta M)/d\theta = \exp(\theta M)M$, and a linear equation of this kind has only one solution with a given starting value, a fact of the theory of differential equations quoted here). From the two entries of $M = M^{ab}$: $Me_a = -\eta_{aa}e_b$ and $Me_b = \eta_{bb}e_a$, so $MMe_a = -\eta_{aa}\eta_{bb}e_a$. Summing the power series as in Section 5.18:
+
+$$
+\Lambda e_a = \cos\theta\,e_a - \eta_{aa}\sin\theta\,e_b \ \ \text{(rotation)}, \qquad \Lambda e_a = \cosh\theta\,e_a - \eta_{aa}\sinh\theta\,e_b \ \ \text{(boost)} .
+$$
+
+**(F) The forbidden band.** Order the directions as $x1, x2, x3, x8$ (space-like) and then $x4, x5, x6, x7$ (time-like), and cut a vector matrix into four $4 \times 4$ blocks,
+
+$$
+\Lambda = \begin{pmatrix} A & B' \\ C' & D \end{pmatrix} .
+$$
+
+$A$ is the **space block** and $D$ the **time block** (the primes distinguish the other two blocks from the matrices $B$ and $C$). In this order $\eta = \mathrm{diag}(1_4, -1_4)$, and multiplying out the blocks of $\Lambda^T\eta\Lambda = \eta$ gives, in the top-left and bottom-right places,
+
+$$
+A^TA - C'^TC' = 1_4, \qquad D^TD - B'^TB' = 1_4 .
+$$
+
+For every column $w$ of four numbers the first equation gives $|Aw|^2 = w^TA^TAw = |w|^2 + |C'w|^2 \geq |w|^2$, where $|w|^2 = w^Tw$ is the squared length. So every eigenvalue of the symmetric matrix $A^TA$ is at least 1 (take $w$ an eigenvector of length 1), and $(\det A)^2 = \det(A^TA)$, the product of these eigenvalues, is at least 1. **So $\det A$ is never between $-1$ and $1$**; the same holds for $\det D$. This holds for every matrix of O(4,4).
+
+**(G) Products of exponentials stay above the band.** Let $h = \exp(\theta_1S_1)\cdots\exp(\theta_nS_n)$ be a product of exponentials, and $h(t) = \exp(t\theta_1S_1)\cdots\exp(t\theta_nS_n)$ for $0 \le t \le 1$: a path from $h(0) = 1$ to $h(1) = h$. The entries of $\Lambda(h(t))$ are sums of products of $\cos$, $\sin$, $\cosh$ and $\sinh$ of multiples of $t$, so $\det A(t)$ is a continuous function of $t$. It starts at $\det 1_4 = 1$ and never enters the band $(-1, 1)$; by the intermediate value theorem (a continuous function that takes a value below $-1$ and one above $1$ also takes every value between) it can never become negative. So $\det A \geq 1$ along the whole path, and in the same way $\det D \geq 1$. **Every product of exponentials has the sign pattern $(+, +)$**, where the **sign pattern** of $g$ is the pair (sign of $\det A$, sign of $\det D$).
+
+**(H) Four pieces.** $\Lambda(\gamma^{(x8)}) = R_{e_{x8}}$ reverses only the direction $x8$: its space block has determinant $-1$ and its time block $+1$, pattern $(-, +)$. $\Lambda(\gamma^{(x4)})$ reverses only $x4$: pattern $(+, -)$. $\Lambda(\gamma^{(x8)}\gamma^{(x4)})$ reverses both: $(-, -)$. For a product of exponentials $h$ and $w$ one of these, $\Lambda(hw) = \Lambda(h)\Lambda(w)$ (Section 5.12), and $\Lambda(w)$ is a diagonal matrix of signs: multiplying by it from the right only changes the signs of some columns of $\Lambda(h)$, so the space block of $hw$ is $A$ times a diagonal matrix of signs and $hw$ has the pattern of $w$. Four different patterns: the four sets
+
+$$
+\mathrm{Spin}_0, \quad \mathrm{Spin}_0\,\gamma^{(x8)}, \quad \mathrm{Spin}_0\,\gamma^{(x4)}, \quad \mathrm{Spin}_0\,\gamma^{(x8)}\gamma^{(x4)}
+$$
+
+have no element in common, where $\mathrm{Spin}_0 = \mathrm{Spin}_0(4,4)$ is the group of all products of exponentials and $\mathrm{Spin}_0\,w$ the set of the products $hw$. In particular **$\gamma^{(x8)}\gamma^{(x4)}$ lies in Spin(4,4) but is not a product of exponentials**, in agreement with its spinor norm (Section 5.18).
+
+**(I) Every unit vector is a turned $\gamma^{(x8)}$ or $\gamma^{(x4)}$.** Let $v$ be a space-like unit vector, with space part $\sigma$ (its components along $x1, x2, x3, x8$) and time part $\tau$ (along $x4, \dots, x7$), so that $|\sigma|^2 - |\tau|^2 = 1$. Three stages carry $e_{x8}$ to $v$:
+
+- a boost in the plane $(x8, x4)$ carries $e_{x8}$ to $|\sigma|\,e_{x8} + |\tau|\,e_{x4}$ (by (E), choose $\sinh\theta = -|\tau|$; then $\cosh\theta = \sqrt{1 + |\tau|^2} = |\sigma|$);
+- three rotations in the planes $(x4, x5)$, $(x4, x6)$, $(x4, x7)$ turn $e_{x4}$ into $\tau/|\tau|$ and do not touch $x8$, giving $|\sigma|\,e_{x8} + \tau$;
+- three rotations in the planes $(x8, x1)$, $(x8, x2)$, $(x8, x3)$ turn $e_{x8}$ into $\sigma/|\sigma|$ and do not touch the time part, giving $\sigma + \tau = v$.
+
+Each rotation stage turns the axis vector step by step: the first rotation puts the right component on the first other direction and keeps the rest of the length on the axis, the second does the same for the next direction, and the last leaves exactly the axis component of the target. The angles follow from (E). With $h$ the product of these at most seven exponentials, $\Lambda(h)e_{x8} = v$, and since $h$ is even,
+
+$$
+h\gamma^{(x8)}h^{-1} = \sum_d\Lambda(h)_{d,x8}\,\gamma^d = \gamma(\Lambda(h)e_{x8}) = \gamma(v) .
+$$
+
+A time-like unit vector is treated in the same way, starting from $e_{x4}$ with a boost in the plane $(x4, x8)$.
+
+**(J) Moving the gammas to the right.** Moving $\gamma^e$ through $\gamma^a\gamma^b$ costs $(-1)^2 = +1$ when $e$ is neither $a$ nor $b$, and $-1$ when $e$ is one of them (Rule 1). So $\gamma^eS^{ab}(\gamma^e)^{-1} = s\,S^{ab}$ with that sign $s$, and, term by term in the power series,
+
+$$
+\gamma^e\exp(\theta S^{ab}) = \exp(s\theta S^{ab})\,\gamma^e .
+$$
+
+Now take any element $g = \gamma(v_1)\cdots\gamma(v_k)$ of Pin(4,4). Write each factor as in (I), $\gamma(v_j) = h_j\gamma^{e_j}h_j^{-1}$ with $e_j = x8$ or $x4$. Move every gamma to the right end with the rule just proved: what remains on the left is a product of exponentials, and on the right a product of gammas $\gamma^{(x8)}$ and $\gamma^{(x4)}$. With $\gamma^{(x8)}\gamma^{(x8)} = 1$, $\gamma^{(x4)}\gamma^{(x4)} = -1$ and $\gamma^{(x4)}\gamma^{(x8)} = -\gamma^{(x8)}\gamma^{(x4)}$, that product is $\pm$ one of $1$, $\gamma^{(x8)}$, $\gamma^{(x4)}$, $\gamma^{(x8)}\gamma^{(x4)}$, and a sign $-1$ is itself the product of exponentials $\exp(2\pi S^{(x1)(x2)}) = -1$ (Section 5.18).
+
+**The answer.** By (D) the exponentials lie in Pin(4,4), and $\gamma^{(x8)}$ and $\gamma^{(x4)}$ do by definition; by (I) and (J) every element of Pin(4,4) is a product of exponentials times one of the four words; by (G) and (H) the four pieces are different. So
+
+$$
+\mathrm{Pin}(4,4) = \mathrm{Spin}_0 \cup \mathrm{Spin}_0\,\gamma^{(x8)} \cup \mathrm{Spin}_0\,\gamma^{(x4)} \cup \mathrm{Spin}_0\,\gamma^{(x8)}\gamma^{(x4)} ,
+$$
+
+four pieces with no element in common, and Spin(4,4), the even elements, is the union of the first and the last piece. **The exponentials of the scaled commutators generate exactly $\mathrm{Spin}_0(4,4)$; together with $\gamma^{(x8)}$ and $\gamma^{(x4)}$ they generate all of Pin(4,4).** It is not correct to say that the scaled commutators alone generate Pin(4,4). Nothing in the representation statements of Section 5.13 changes: irreducibility under Pin(4,4) and the two inequivalent halves already hold for the smaller groups (Section 5.13).
+
+**What the group elements span.** For a rotation, $\exp(\pi S^{ab}) = \gamma^a\gamma^b$ ($\cos\tfrac\pi2 = 0$, $\sin\tfrac\pi2 = 1$); for a boost, $(\exp(\theta S^{ab}) - \exp(-\theta S^{ab}))/(2\sinh\tfrac\theta2) = \gamma^a\gamma^b$. So the span of $\mathrm{Spin}_0(4,4)$ contains every product of two different gammas, and, because the span of a group contains the products of its members, every even product of different gammas: all 128 of them. Every element is even, so the span is exactly these 128 dimensions, the block-diagonal matrices. Adding one gamma adds the odd products: the span of Pin(4,4) is all 256 dimensions.
+
+| statement | status | where it is verified |
+| --- | --- | --- |
+| the 28 $S^{ab}$ are independent (rank 28) and span a copy of so(4,4) | PROVED; rank COMPUTED exactly | `python-algebra.json`, checks `S_definition`, `S_vector_action` and `S_lorentz_algebra`; Notebook 05f (rank 28, dimension of so(4,4) 28, the 784 commutators of the $M^{ab}$) |
+| (D) and (E): $\exp(\theta S^{ab}) = \gamma^a\gamma(u)$; $\Lambda = \exp(\theta M^{ab})$ | PROVED above; COMPUTED (to $10^{-10}$ and $10^{-12}$) | Notebook 05f, its own computation |
+| (F) to (H): the forbidden band, the sign pattern $(+, +)$ of $\mathrm{Spin}_0(4,4)$, the four pieces | PROVED above; COMPUTED on 200 and 240 random elements and along ten paths | Notebook 05f, its own computation |
+| (I) and (J): every element of Pin(4,4) is in one of the four pieces | PROVED above; COMPUTED on 40 unit vectors and 12 elements | Notebook 05f, its own computation |
+| the spans: 128 for $\mathrm{Spin}_0(4,4)$, 256 for Pin(4,4) | PROVED above; COMPUTED (singular values) | `python-algebra.json`, checks `even_products_span_M8_plus_M8` and `clifford_products_span_M16`; Notebook 05f |
+
+### 5.24 Example: Notebook 05f computes what the scaled commutators generate
+
+Notebook 05f checks steps (A) to (J) one by one: the rank 28 of the generators, the 28 matrices $M^{ab}$ and their commutators, the dimension 28 of so(4,4), the factorisation of every exponential into two unit vectors, the formula $\Lambda = \exp(\theta M)$, the block equations and the band on 200 random products of exponentials, the four sign patterns on 240 random elements, ten paths from $1$ that never cross the band, the construction of (I) on 40 random unit vectors, the rule of (J), the decomposition of 12 random elements of Pin(4,4) into exponentials times one of four words, and the spans 128 and 256. All random numbers come from a generator with a fixed seed, so every run makes the same choices. It draws six figures and ends with ALL 24 CHECKS PASSED (notebook 05f).
+
+<!-- NOTEBOOK 05f -->
+
+### 5.27 Line-by-line walk-through of Notebook 05f
+
+The notebook has 19 code cells. In [1] is the set-up cell of Section 5.10 with `NOTEBOOK_ID = "05f"`; its comments repeat the instructions of Section 5.25.
+
+**In [2], the gammas and the recorded checks.**
+
+```python
+import contextlib  # lets a block of code print into a text buffer
+import io  # the text buffer io.StringIO
+import sys  # sys.stdout: the channel through which the notebook prints
+
+import numpy as np  # arrays of numbers, matrices and linear algebra
+
+fixture = json.loads(repository_file("Revision/algebra/gammas.json")
+                     .read_text(encoding="utf-8"))
+COORDS = fixture["coordinates"]  # "x1", ..., "x8"
+ETA = dict(zip(COORDS, fixture["eta"]))  # +1 space-like, -1 time-like
+ETA_MATRIX = np.diag([float(ETA[x]) for x in COORDS])  # the 8 x 8 metric eta
+gamma = {x: np.array(m, dtype=np.int64) for x, m in zip(COORDS, fixture["gamma"])}
+I16 = np.eye(16, dtype=np.int64)  # the 16 x 16 identity matrix 1
+SPACE = ["x1", "x2", "x3", "x8"]  # the four space-like directions
+TIME = ["x4", "x5", "x6", "x7"]  # the four time-like directions
+```
+
+The gammas are read as in Notebook 05d; `ETA_MATRIX` is the $8 \times 8$ metric. New are the lists `SPACE` and `TIME` of the space-like and time-like directions, in the order used for the blocks of step (F).
+
+```python
+REPORT_FILES = {"python": "Revision/algebra/reports/python-algebra.json",
+                "wolfram": "Revision/algebra/reports/wolfram-algebra.json"}
+VERDICTS = {}  # (report key, check name) -> (verdict in lower case, detail text)
+for key, path in REPORT_FILES.items():
+    report_data = json.loads(repository_file(path).read_text(encoding="utf-8"))
+    for entry in report_data["checks"]:
+        VERDICTS[(key, entry["name"])] = (entry["verdict"].lower(), entry["detail"])
+
+
+def recorded(key, name):
+    return VERDICTS[(key, name)][0] == "pass"
+
+
+def record_of(key, name):
+    return f"{REPORT_FILES[key]}, check {name}"
+
+
+def check_reproduces(condition, name, record):
+    collected = io.StringIO()
+    with contextlib.redirect_stdout(collected):  # print into the buffer
+        check(condition, name, record=record)  # stops here if the check fails
+    sys.stdout.write(collected.getvalue())  # the PASS and reproduces lines together
+
+
+def eta(a, b):
+    return ETA[a] if a == b else 0
+
+
+check_reproduces(all(np.array_equal(gamma[a] @ gamma[b] + gamma[b] @ gamma[a],
+                                    2 * eta(a, b) * I16) for a in COORDS for b in COORDS)
+                 and recorded("python", "clifford_relation"),
+                 "{gamma^a, gamma^b} = 2 eta^ab 1 for all 64 pairs",
+                 record=record_of("python", "clifford_relation"))
+```
+
+The reports, the helpers and the Clifford check are those of Notebook 05d, In [2] (Section 5.22).
+
+**In [3], the 28 generators are independent.**
+
+```python
+import sympy as sp  # exact algebra
+from sympy.polys.matrices import DomainMatrix  # exact matrices over QQ
+
+S = {(a, b): (gamma[a] @ gamma[b] - gamma[b] @ gamma[a]) / 4.0
+     for a in COORDS for b in COORDS}  # all 64 ordered pairs; S^aa = 0
+pairs = [(a, b) for i, a in enumerate(COORDS) for b in COORDS[i + 1:]]  # 28 planes
+
+
+def exact_rank(rows):
+    whole = [[int(round(x)) for x in row] for row in rows]  # entries 0, +1, -1
+    return DomainMatrix.from_list(whole, sp.QQ).rank()
+```
+
+`S` and `pairs` are those of Notebook 05d. `exact_rank` takes a list of rows whose entries are whole numbers stored as floating-point numbers, turns each entry into a Python whole number (`int(round(x))`), and computes the rank exactly over the rational numbers, as in Notebook 05b.
+
+```python
+rank_S = exact_rank([(gamma[a] @ gamma[b]).reshape(256) for a, b in pairs])
+entries = sorted({float(v) for p in pairs for v in S[p].flat})
+say(f"{len(pairs)} generators; their entries are {entries}; exact rank {rank_S}")
+check_reproduces(rank_S == 28 and entries == [-0.5, 0.0, 0.5]
+                 and all(np.array_equal(S[(a, b)], gamma[a] @ gamma[b] / 2.0)
+                         for a, b in pairs)
+                 and recorded("python", "S_definition"),
+                 "the 28 S^ab = (1/2) gamma^a gamma^b are linearly independent "
+                 "(exact rank 28)",
+                 record=record_of("python", "S_definition"))
+```
+
+The 28 whole-number matrices $2S^{ab} = \gamma^a\gamma^b$, each written as a row of 256 numbers, have the exact rank 28 (printed together with the entries $-0.5$, $0$, $0.5$ of the $S^{ab}$): no generator is a combination of the others.
+
+**In [4], the matrices $M^{ab}$: a copy of so(4,4).**
+
+```python
+def generator_matrix(a, b):
+    result = np.zeros((8, 8))
+    for j, c in enumerate(COORDS):
+        for i, d in enumerate(COORDS):
+            result[i, j] = eta(b, c) * (d == a) - eta(a, c) * (d == b)
+    return result
+
+
+M = {(a, b): generator_matrix(a, b) for a in COORDS for b in COORDS}  # all 64
+```
+
+`generator_matrix(a, b)` fills the $8 \times 8$ matrix of step (A), $M^{ab}_{dc} = \eta^{bc}\delta_{da} - \eta^{ac}\delta_{db}$, entry by entry: `(d == a)` is true or false, which Python counts as 1 or 0, so it plays the role of $\delta_{da}$. `M` holds the matrices for all 64 ordered pairs.
+
+```python
+vector_ok = all(
+    np.array_equal(S[p] @ gamma[c] - gamma[c] @ S[p],
+                   sum(M[p][i, j] * gamma[d] for i, d in enumerate(COORDS)))
+    for p in pairs for j, c in enumerate(COORDS))
+check_reproduces(vector_ok and recorded("python", "S_vector_action")
+                 and recorded("wolfram", "S_gamma_commutator"),
+                 "[S^ab, gamma^c] = sum_d M^ab_dc gamma^d with M_dc = eta^bc delta_da "
+                 "- eta^ac delta_db",
+                 record=record_of("python", "S_vector_action"))
+```
+
+For the 28 planes and the 8 directions $c$ the commutator $[S^{ab}, \gamma^c]$ is compared with $\sum_dM^{ab}_{dc}\gamma^d$: the vector rule in the form of step (A).
+
+```python
+in_so44 = all(not (M[p].T @ ETA_MATRIX + ETA_MATRIX @ M[p]).any() for p in pairs)
+rank_M = exact_rank([M[p].reshape(64) for p in pairs])
+equations = []  # the 64 equations (X^T eta + eta X)_rc = 0 for the entries of X
+for r in range(8):
+    for c in range(8):
+        row = np.zeros(64)
+        row[r * 8 + c] += ETA_MATRIX[r, r]  # (eta X)_rc = eta_rr X_rc
+        row[c * 8 + r] += ETA_MATRIX[c, c]  # (X^T eta)_rc = X_cr eta_cc
+        equations.append(row)
+dimension_so44 = 64 - exact_rank(equations)
+say(f"rank of the 28 matrices M^ab: {rank_M}; dimension of so(4,4): "
+    f"{dimension_so44}")
+check(in_so44 and rank_M == 28 and dimension_so44 == 28,
+      "every M^ab lies in so(4,4), the 28 M^ab are independent and so(4,4) has "
+      "dimension 28: the M^ab are a basis of so(4,4)")
+```
+
+Step (B) in three parts. `in_so44`: every $M^{ab}$ obeys $(M^{ab})^T\eta + \eta M^{ab} = 0$. `rank_M`: the 28 matrices, each written as a row of 64 numbers, have rank 28. `equations`: the condition $X^T\eta + \eta X = 0$ for an unknown $8 \times 8$ matrix $X$ is written as 64 linear equations for its 64 entries, listed row by row (the entry $X_{rc}$ is unknown number $8r + c$). The entry $(r, c)$ of $\eta X$ is $\eta_{rr}X_{rc}$ and that of $X^T\eta$ is $X_{cr}\eta_{cc}$, so equation $(r, c)$ has the coefficient $\eta_{rr}$ at the place of $X_{rc}$ and $\eta_{cc}$ at the place of $X_{cr}$ (`+=` adds, so that on the diagonal, where the two places coincide, both contributions count). The dimension of so(4,4) is 64 minus the rank of these equations. The printed line shows 28 and 28.
+
+```python
+def table_failures(X):
+    failures = 0
+    for a, b in pairs:
+        for c, d in pairs:
+            right = (eta(b, c) * X[(a, d)] - eta(a, c) * X[(b, d)]
+                     - eta(b, d) * X[(a, c)] + eta(a, d) * X[(b, c)])
+            if not np.array_equal(X[(a, b)] @ X[(c, d)] - X[(c, d)] @ X[(a, b)],
+                                  right):
+                failures += 1
+    return failures
+
+
+failures_S, failures_M = table_failures(S), table_failures(M)
+say(f"pairs that break the table: S^ab {failures_S}, M^ab {failures_M} (of 784)")
+check_reproduces(failures_S == 0 and failures_M == 0
+                 and recorded("python", "S_lorentz_algebra")
+                 and recorded("wolfram", "S_Lorentz_algebra"),
+                 "the S^ab and the M^ab have the same commutators: the S^ab span an "
+                 "exact copy of so(4,4)",
+                 record=record_of("python", "S_lorentz_algebra"))
+```
+
+`table_failures` counts the pairs of planes for which a family of 64 matrices breaks the so(4,4) commutation table. It is applied to the $S^{ab}$ (a recorded fact) and to the $M^{ab}$ (step (C)): 0 failures of 784 for both.
+
+**In [5], the shape of the $M^{ab}$.**
+
+```python
+from matplotlib.colors import LinearSegmentedColormap
+
+SIGNS = LinearSegmentedColormap.from_list("signs", ["#2a78d6", "#f0efec", "#e34948"])
+shape_ok = all(
+    np.count_nonzero(M[(a, b)]) == 2
+    and np.array_equal(M[(a, b)].T, -ETA[a] * ETA[b] * M[(a, b)]) for a, b in pairs)
+check(shape_ok, "each M^ab has two nonzero entries; antisymmetric for the 12 "
+      "rotations, symmetric for the 16 boosts")
+```
+
+Step (A) predicts two nonzero entries ($\eta_{bb}$ and $-\eta_{aa}$ in mirrored places). They have opposite signs, so the matrix is antisymmetric, when $\eta_{aa}\eta_{bb} = +1$ (a rotation), and equal signs, so it is symmetric, for a boost: in one formula $(M^{ab})^T = -\eta_{aa}\eta_{bb}M^{ab}$. `np.count_nonzero` counts the nonzero entries.
+
+```python
+fig, axes = plt.subplots(4, 7, figsize=(14.0, 8.8))
+numbers = [x[1] for x in COORDS]  # the tick labels 1, ..., 8
+for ax, (a, b) in zip(axes.flat, pairs):
+    ax.imshow(M[(a, b)], cmap=SIGNS, vmin=-1, vmax=1)
+    kind = "rotation" if ETA[a] * ETA[b] == 1 else "boost"
+    ax.set_title(f"$M^{{{a}\\,{b}}}$, {kind}", fontsize=9)
+    ax.set_xticks(range(8), numbers, fontsize=6)
+    ax.set_yticks(range(8), numbers, fontsize=6)
+    ax.grid(False)
+fig.suptitle("The 28 matrices $M^{ab}$: how $S^{ab}$ moves the directions "
+             "$x1$ to $x8$ (rows and columns numbered 1 to 8)")
+save_figure(fig, "generator_matrices", ...)
+```
+
+A grid of 4 rows and 7 columns of small pictures, one per plane (`axes.flat` runs through the 28 picture areas). `x[1]` is the second character of a name such as `x5`, so the tick labels are the numbers 1 to 8. In the f-string of the title, three braces `{{{a}` give one literal brace followed by the value of `a`, and `\\,` a small space. `fig.suptitle` is a title over the whole figure. In `05f_1_generator_matrices.png` every small picture has exactly two coloured squares, mirrored about the diagonal: of opposite colours for the 12 rotations, of the same colour for the 16 boosts.
+
+**In [6], the exponential and its two factors.**
+
+```python
+def exponential(a, b, theta):
+    J = (gamma[a] @ gamma[b]).astype(float)  # J = 2 S^ab, J J = -eta_aa eta_bb
+    if ETA[a] * ETA[b] == 1:  # J J = -1: a rotation
+        return np.cos(theta / 2) * np.eye(16) + np.sin(theta / 2) * J
+    return np.cosh(theta / 2) * np.eye(16) + np.sinh(theta / 2) * J  # a boost
+
+
+def series_exponential(X, terms=60):
+    result = np.eye(X.shape[0])
+    term = np.eye(X.shape[0])
+    for k in range(1, terms):
+        term = term @ X / k  # X^k / k! from X^(k-1) / (k-1)!
+        result = result + term
+    return result
+```
+
+`exponential` is the closed formula and `series_exponential` the power series, here summed to 60 terms; both work as `spin_transformation` and `exp_series` of Notebook 05d (Section 5.22, In [6]). `series_exponential` also serves for the $8 \times 8$ matrix exponential $\exp(\theta M)$ in In [8].
+
+```python
+def gamma_of(v):
+    return sum(v[i] * gamma[x].astype(float) for i, x in enumerate(COORDS))
+
+
+def metric_product(u, v):
+    return float(u @ ETA_MATRIX @ v)
+
+
+def second_factor(a, b, theta):
+    i, j = COORDS.index(a), COORDS.index(b)
+    if ETA[a] * ETA[b] == 1:  # a rotation
+        return ETA[a] * np.cos(theta / 2) * E8[i] + np.sin(theta / 2) * E8[j]
+    return ETA[a] * np.cosh(theta / 2) * E8[i] + np.sinh(theta / 2) * E8[j]
+
+
+E8 = np.eye(8)  # E8[i] is the basic unit vector of the direction COORDS[i]
+```
+
+`gamma_of` and `metric_product` are $\gamma(v)$ and $\eta(u, v)$ as in Notebook 05d. `second_factor(a, b, theta)` is the unit vector $u$ of step (D): $\eta_{aa}\cos\tfrac\theta2\,e_a + \sin\tfrac\theta2\,e_b$ for a rotation and the same with $\cosh$ and $\sinh$ for a boost. `E8[i]` is the basic unit vector of the direction number `i`; the function uses `E8`, which is defined in the line after it, before the function is first called, so this is allowed.
+
+```python
+series_gap = max(np.max(np.abs(series_exponential(0.9 * S[p]) - exponential(*p, 0.9)))
+                 for p in pairs)
+check(series_gap < 1e-10, "the closed formula equals the power series of "
+      "exp(theta S^ab) for all 28 planes (difference below 1e-10)")
+factor_ok = True
+for a, b in pairs:
+    for theta in [-2.5, -0.4, 0.9, 2.2, 5.1]:
+        u = second_factor(a, b, theta)
+        factor_ok &= (np.allclose(gamma[a] @ gamma_of(u), exponential(a, b, theta),
+                                  rtol=0.0, atol=1e-10)
+                      and abs(metric_product(u, u) - ETA[a]) < 1e-10)
+check(factor_ok, "exp(theta S^ab) = gamma^a gamma(u) with eta(u, u) = eta_aa: a "
+      "product of two unit vectors (28 planes, 5 values each)")
+```
+
+The first check compares the closed formula with the series for all 28 planes at $\theta = 0.9$. The second checks step (D) for all 28 planes at five values of $\theta$: $\exp(\theta S^{ab}) = \gamma^a\gamma(u)$ and $\eta(u, u) = \eta_{aa}$. (`rtol=0.0, atol=1e-10` makes `np.allclose` accept only differences below $10^{-10}$, without a relative tolerance.)
+
+**In [7], the picture of the second factor.**
+
+```python
+cases = [("x1", "x2", np.linspace(0.0, 4 * np.pi, 241)),
+         ("x1", "x4", np.linspace(-3.0, 3.0, 241)),
+         ("x4", "x8", np.linspace(-3.0, 3.0, 241))]
+fig, axes = plt.subplots(1, 3, figsize=(13.0, 4.6))
+norm_ok = True  # eta(u, u) = eta_aa along all three curves
+for ax, (a, b, thetas) in zip(axes, cases):
+    points = np.array([second_factor(a, b, th) for th in thetas])
+    i, j = COORDS.index(a), COORDS.index(b)
+    norms = [metric_product(p, p) for p in points]
+    norm_ok &= max(abs(n - ETA[a]) for n in norms) < 1e-10
+    ax.plot(points[:, i], points[:, j], color="#2a78d6", linewidth=2)
+    marks = points[::40]  # every 40th value of theta
+    ax.plot(marks[:, i], marks[:, j], "o", color="#eb6834", markersize=6)
+    kind = "rotation" if ETA[a] * ETA[b] == 1 else "boost"
+    ax.set_title(f"{kind} in $({a}, {b})$: $\\eta(u, u) = {norms[0]:+.0f}$")
+    ax.set_xlabel(f"$u_{{{a}}}$")
+    ax.set_ylabel(f"$u_{{{b}}}$")
+    ax.set_aspect("equal")
+    ax.set_xlim(-4.2, 4.2)
+    ax.set_ylim(-4.2, 4.2)
+check(norm_ok, "along the three curves eta(u, u) stays equal to eta_aa")
+save_figure(fig, "two_unit_vectors", ...)
+```
+
+For three planes (a rotation over $\theta$ from 0 to $4\pi$ and two boosts over $-3$ to 3) the cell computes the second factor $u$ at 241 values and plots its two nonzero components against each other, with an orange dot every 40th value. The check confirms $\eta(u, u) = \eta_{aa}$ along all three curves, and each title prints this value ($+1$ for the planes starting with $x1$, $-1$ for the plane $(x4, x8)$). In `05f_2_two_unit_vectors.png` the rotation's $u$ runs once around the unit circle, and the boosts' $u$ run along branches of hyperbolas.
+
+**In [8], the vector matrix of an exponential.**
+
+```python
+def vector_matrix(g, odd=False):
+    g_inverse = np.linalg.inv(g)
+    sign = -1.0 if odd else 1.0
+    result = np.zeros((8, 8))
+    for j, c in enumerate(COORDS):
+        moved = sign * (g @ gamma[c] @ g_inverse)  # alpha(g) gamma^c g^-1
+        for i, d in enumerate(COORDS):
+            result[i, j] = ETA[d] * np.trace(gamma[d] @ moved) / 16.0
+    return result
+```
+
+`vector_matrix(g, odd)` is the vector matrix of Section 5.12 with the twisted action: for an odd element (`odd=True`) the moved gamma gets the sign $-1$. Otherwise it is the trace formula of Notebook 05d.
+
+```python
+exp_ok = True
+for p in pairs:
+    Lam = vector_matrix(exponential(*p, 0.9))
+    exp_ok &= (np.allclose(Lam, series_exponential(0.9 * M[p]), rtol=0.0, atol=1e-12)
+               and np.allclose(Lam.T @ ETA_MATRIX @ Lam, ETA_MATRIX, atol=1e-12)
+               and abs(np.linalg.det(Lam) - 1.0) < 1e-12)
+check(exp_ok, "the vector matrix of exp(theta S^ab) is exp(theta M^ab); it keeps "
+      "the metric and has determinant 1 (28 planes)")
+```
+
+Step (E) for all 28 planes at $\theta = 0.9$: the vector matrix of the spinor exponential equals the $8 \times 8$ exponential $\exp(0.9\,M^{ab})$, keeps the metric and has determinant 1.
+
+```python
+def turned_axis(a, b, theta):
+    i, j = COORDS.index(a), COORDS.index(b)
+    if ETA[a] * ETA[b] == 1:  # a rotation
+        return np.cos(theta) * E8[i] - ETA[a] * np.sin(theta) * E8[j]
+    return np.cosh(theta) * E8[i] - ETA[a] * np.sinh(theta) * E8[j]  # a boost
+
+
+turn_ok = all(
+    np.allclose(vector_matrix(exponential(a, b, th))[:, COORDS.index(a)],
+                turned_axis(a, b, th), rtol=0.0, atol=1e-12)
+    for a, b in [("x8", "x1"), ("x4", "x5"), ("x8", "x4"), ("x4", "x8")]
+    for th in [-1.3, 0.4, 2.0])
+check(turn_ok, "Lambda e_a = cos(theta) e_a - eta_aa sin(theta) e_b for a rotation "
+      "and cosh(theta) e_a - eta_aa sinh(theta) e_b for a boost")
+```
+
+`turned_axis` is the formula of step (E) for $\Lambda e_a$. The check compares it with column $a$ of the computed vector matrix for the four planes used by the construction of step (I) ($(x8, x1)$, $(x4, x5)$, $(x8, x4)$, $(x4, x8)$; note that the order of $a$ and $b$ matters) at three values each.
+
+**In [9], the block equations on random products.**
+
+```python
+SPACE_INDEX = [COORDS.index(x) for x in SPACE]  # the positions of x1, x2, x3, x8
+TIME_INDEX = [COORDS.index(x) for x in TIME]  # the positions of x4, x5, x6, x7
+
+
+def blocks(Lam):
+    return (Lam[np.ix_(SPACE_INDEX, SPACE_INDEX)], Lam[np.ix_(SPACE_INDEX, TIME_INDEX)],
+            Lam[np.ix_(TIME_INDEX, SPACE_INDEX)], Lam[np.ix_(TIME_INDEX, TIME_INDEX)])
+```
+
+`SPACE_INDEX` is the list of positions $[0, 1, 2, 7]$ of $x1, x2, x3, x8$ and `TIME_INDEX` the list $[3, 4, 5, 6]$. `np.ix_(rows, columns)` picks the entries in the listed rows and columns, so `blocks` returns the four $4 \times 4$ blocks $A$, $B'$, $C'$, $D$ of step (F).
+
+```python
+rng = np.random.default_rng(12345)  # random numbers with a fixed seed
+
+
+def random_factors(count):
+    factors = []
+    for _ in range(count):
+        a, b = pairs[int(rng.integers(28))]  # a random plane
+        if ETA[a] * ETA[b] == 1:  # a rotation: an angle from 0 to 2 pi
+            theta = rng.uniform(0.0, 2 * np.pi)
+        else:  # a boost: a rapidity from -1 to 1
+            theta = rng.uniform(-1.0, 1.0)
+        factors.append((a, b, float(theta)))
+    return factors
+```
+
+The random-number generator starts from the fixed seed 12345; every later cell draws from the same generator in the same order, so every run makes the same choices. `random_factors(count)` draws `count` factors $(a, b, \theta)$: a plane chosen at random from the 28 (`rng.integers(28)` is a whole number from 0 to 27), with a uniformly random angle in $[0, 2\pi)$ for a rotation or a rapidity in $[-1, 1)$ for a boost (`rng.uniform(low, high)`). The loop variable `_` is a name for a value that is not used.
+
+```python
+def compose(factors, t=1.0):
+    g = np.eye(16)
+    for a, b, theta in factors:
+        g = exponential(a, b, t * theta) @ g
+    return g
+```
+
+`compose(factors, t)` multiplies the exponentials $\exp(t\theta_jS_j)$ in the order of the list, each new one on the left: the result is $\exp(t\theta_nS_n)\cdots\exp(t\theta_1S_1)$, in which the first factor of the list acts first on a column. With $t$ running from 0 to 1 it is the path $h(t)$ of step (G).
+
+```python
+block_ok, smallest = True, np.inf
+for _ in range(200):
+    A, B_, C_, D = blocks(vector_matrix(compose(random_factors(6))))
+    block_ok &= (np.allclose(A.T @ A - C_.T @ C_, np.eye(4), atol=1e-9)
+                 and np.allclose(D.T @ D - B_.T @ B_, np.eye(4), atol=1e-9))
+    smallest = min(smallest, np.linalg.det(A), np.linalg.det(D))
+report("smallest det A or det D of 200 products of six exponentials",
+       f"{smallest:.3f}")
+check(block_ok and smallest > 1.0 - 1e-9,
+      "200 products of exponentials: A^T A - C^T C = 1, D^T D - B^T B = 1, and "
+      "det A >= 1, det D >= 1")
+```
+
+For 200 random products of six exponentials the cell checks the two block equations of step (F) (the blocks are named `B_` and `C_` so as not to overwrite other names) and keeps the smallest of all determinants of $A$ and $D$, starting from `np.inf` (infinity). The RESULT line prints it, $1.019$, and the check requires it to be at least 1: every product has the sign pattern $(+, +)$, step (G).
+
+**In [10], the four words and the four pieces.**
+
+```python
+WORDS = {"1": (I16, False), "gamma^(x8)": (gamma["x8"], True),
+         "gamma^(x4)": (gamma["x4"], True),
+         "gamma^(x8) gamma^(x4)": (gamma["x8"] @ gamma["x4"], False)}
+
+
+def pattern(Lam):
+    A, _, _, D = blocks(Lam)
+    return (int(np.sign(np.linalg.det(A))), int(np.sign(np.linalg.det(D))))
+```
+
+`WORDS` stores the four words $1$, $\gamma^{(x8)}$, $\gamma^{(x4)}$, $\gamma^{(x8)}\gamma^{(x4)}$, each with the flag that says whether it is odd. `pattern` returns the sign pattern of a vector matrix: the signs (`np.sign`) of $\det A$ and $\det D$; the two middle blocks are not needed and are given the throw-away name `_`.
+
+```python
+flip8 = np.diag([1.0, 1, 1, 1, 1, 1, 1, -1])  # reverses x8 only
+flip4 = np.diag([1.0, 1, 1, -1, 1, 1, 1, 1])  # reverses x4 only
+expected = {"1": np.eye(8), "gamma^(x8)": flip8, "gamma^(x4)": flip4,
+            "gamma^(x8) gamma^(x4)": flip8 @ flip4}
+words_ok = all(np.allclose(vector_matrix(w.astype(float), odd), expected[name])
+               for name, (w, odd) in WORDS.items())
+for name, (w, odd) in WORDS.items():
+    say(f"{name:22} sign pattern (sign det A, sign det D) = "
+        f"{pattern(vector_matrix(w.astype(float), odd))}")
+check(words_ok, "the vector matrices of 1, gamma^(x8), gamma^(x4), gamma^(x8) "
+      "gamma^(x4) are the identity and the reversals of x8, x4 and both")
+```
+
+The predicted vector matrices of step (H) are diagonal matrices of signs. The check compares them with the computed ones (the twisted action for the two odd words), and the four printed lines show the patterns $(1, 1)$, $(-1, 1)$, $(1, -1)$, $(-1, -1)$.
+
+```python
+points = {}  # word -> list of (det A, det D)
+pieces_ok = True
+for name, (w, odd) in WORDS.items():
+    points[name] = []
+    Lam_w = vector_matrix(w.astype(float), odd)
+    for _ in range(60):
+        h = compose(random_factors(6))
+        Lam = vector_matrix(h @ w, odd)
+        pieces_ok &= (np.allclose(Lam, vector_matrix(h) @ Lam_w, atol=1e-9)
+                      and pattern(Lam) == pattern(Lam_w))
+        A, _, _, D = blocks(Lam)
+        points[name].append((np.linalg.det(A), np.linalg.det(D)))
+check(pieces_ok, "for 4 x 60 elements h w: Lambda(h w) = Lambda(h) Lambda(w), and h w "
+      "has the sign pattern of w")
+```
+
+For each word $w$ and 60 random products $h$ the cell checks $\Lambda(hw) = \Lambda(h)\Lambda(w)$ and that $hw$ has the pattern of $w$, and stores the pair $(\det A, \det D)$ for the picture.
+
+```python
+# An observation that the picture below shows and that the proof does not need:
+# for every one of the 240 elements the two determinants have the same size.
+equal_size = all(abs(abs(dA) - abs(dD)) < 1e-9 * max(abs(dA), 1.0)
+                 for name in WORDS for dA, dD in points[name])
+check(equal_size, "observed for all 240 elements: |det A| = |det D|")
+```
+
+An observation, checked but not used by the proof: for all 240 elements $|\det A| = |\det D|$, to a relative accuracy of $10^{-9}$. It is COMPUTED for these 240 elements only; the book neither proves nor uses it.
+
+**In [11], the picture of the four pieces.**
+
+```python
+colors = {"1": "#2a78d6", "gamma^(x8)": "#eb6834", "gamma^(x4)": "#1baf7a",
+          "gamma^(x8) gamma^(x4)": "#4a3aa7"}
+labels = {"1": r"$h$ (products of exponentials)",
+          "gamma^(x8)": r"$h\gamma^{(x8)}$",
+          "gamma^(x4)": r"$h\gamma^{(x4)}$",
+          "gamma^(x8) gamma^(x4)": r"$h\gamma^{(x8)}\gamma^{(x4)}$"}
+fig, ax = plt.subplots(figsize=(7.4, 6.6))
+ax.axvspan(-1.0, 1.0, color="#d8d6d2", alpha=0.6, linewidth=0)
+ax.axhspan(-1.0, 1.0, color="#d8d6d2", alpha=0.6, linewidth=0)
+for name in WORDS:
+    values = np.array(points[name])
+    ax.plot(values[:, 0], values[:, 1], "o", color=colors[name], markersize=5,
+            label=labels[name])
+ax.set_xscale("symlog", linthresh=1.0)
+ax.set_yscale("symlog", linthresh=1.0)
+ax.set_xlim(-60, 60)
+ax.set_ylim(-60, 60)
+ax.text(0.0, 0.0, "forbidden band:\n$|\\det| < 1$", ha="center", va="center",
+        fontsize=8)
+ax.set_xlabel("$\\det A$ (space block)")
+ax.set_ylabel("$\\det D$ (time block)")
+ax.set_title("The four pieces of Pin(4,4)")
+ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12), ncol=2)
+save_figure(fig, "four_pieces", ...)
+```
+
+`axvspan` and `axhspan` shade the vertical and the horizontal band between $-1$ and $1$ in grey. The 240 points are drawn in four colours, one per word. `set_xscale("symlog", linthresh=1.0)` makes an axis **symmetric logarithmic**: linear between $-1$ and $1$ and logarithmic outside, so that values from 1 to 60 and the band are visible together. In `05f_3_four_pieces.png` each colour fills one of the four corners outside the band, and the products of exponentials (blue) never leave the corner where both determinants are at least 1.
+
+**In [12], paths from 1.**
+
+```python
+path_t = np.linspace(0.0, 1.0, 101)  # t = 0, 0.01, ..., 1
+curves_h, curves_g8 = [], []  # det A(t) along h(t) and along gamma^(x8) h(t)
+g8 = gamma["x8"].astype(float)
+for _ in range(10):
+    factors = random_factors(6)
+    along_h, along_g8 = [], []
+    for t in path_t:
+        h = compose(factors, t)
+        along_h.append(np.linalg.det(blocks(vector_matrix(h))[0]))
+        along_g8.append(np.linalg.det(blocks(vector_matrix(g8 @ h, odd=True))[0]))
+    curves_h.append(along_h)
+    curves_g8.append(along_g8)
+curves_h, curves_g8 = np.array(curves_h), np.array(curves_g8)
+check(np.all(curves_h > 1.0 - 1e-9) and np.all(curves_g8 < -1.0 + 1e-9)
+      and np.allclose(curves_h[:, 0], 1.0) and np.allclose(curves_g8[:, 0], -1.0),
+      "along ten paths t -> h(t) det A stays >= 1, and along gamma^(x8) h(t) it "
+      "stays <= -1")
+```
+
+For ten random products of six exponentials the cell follows the path $h(t)$ of step (G) at 101 values of $t$ and records $\det A(t)$ (`blocks(...)[0]` is the space block), and the same for the odd elements $\gamma^{(x8)}h(t)$. The check: the first family starts at 1 and stays at or above 1, the second starts at $-1$ and stays at or below $-1$.
+
+```python
+fig, ax = plt.subplots(figsize=(8.0, 4.6))
+ax.axhspan(-1.0, 1.0, color="#d8d6d2", alpha=0.6, linewidth=0)
+for k in range(10):
+    ax.plot(path_t, curves_h[k], color="#2a78d6", linewidth=1.5,
+            label=r"$h(t)$" if k == 0 else None)
+    ax.plot(path_t, curves_g8[k], color="#eb6834", linewidth=1.5, linestyle="--",
+            label=r"$\gamma^{(x8)}h(t)$" if k == 0 else None)
+ax.set_yscale("symlog", linthresh=1.0)
+ax.set_ylim(-60, 60)
+ax.text(0.5, 0.0, "forbidden band $|\\det A| < 1$", ha="center", va="center")
+ax.set_xlabel("path parameter $t$ (from 1 at $t = 0$ to $h$ at $t = 1$)")
+ax.set_ylabel("$\\det A$ (space block)")
+ax.set_title("Ten paths of products of exponentials, and the same times "
+             "$\\gamma^{(x8)}$")
+ax.legend(loc="upper left")
+save_figure(fig, "paths_and_band", ...)
+```
+
+The twenty curves are drawn over the grey band (only the first curve of each family gets a legend label; `None` means no label). In `05f_4_paths_and_band.png` the blue curves start at 1 and stay above the band, the orange ones start at $-1$ and stay below it: no curve crosses the band, which is why $\gamma^{(x8)}$ cannot be reached from 1 by exponentials.
+
+**In [13], every unit vector is a turned basic one.**
+
+```python
+def turn_factor(a, b, along_a, along_b):
+    if ETA[a] * ETA[b] == 1:  # a rotation
+        return (a, b, float(np.arctan2(-ETA[a] * along_b, along_a)))
+    return (a, b, float(np.arcsinh(-ETA[a] * along_b)))  # a boost
+```
+
+`turn_factor` returns the factor $(a, b, \theta)$ whose vector matrix carries $e_a$ to the direction of $\text{along}_a\,e_a + \text{along}_b\,e_b$. For a rotation, step (E) gives $\Lambda e_a = \cos\theta\,e_a - \eta_{aa}\sin\theta\,e_b$; `np.arctan2(y, x)` is the angle $\theta$ of the point $(x, y)$ in the plane, so that $\cos\theta$ and $\sin\theta$ are $x$ and $y$ divided by the distance $\sqrt{x^2 + y^2}$. With $x = \text{along}_a$ and $y = -\eta_{aa}\text{along}_b$, the vector $\Lambda e_a$ points along $\text{along}_a\,e_a + \text{along}_b\,e_b$. For a boost, $\Lambda e_a = \cosh\theta\,e_a - \eta_{aa}\sinh\theta\,e_b$; with $\sinh\theta = -\eta_{aa}\text{along}_b$ (`np.arcsinh` is the inverse of sinh) and $\text{along}_a^2 - \text{along}_b^2 = 1$, $\cosh\theta = \sqrt{1 + \text{along}_b^2} = \text{along}_a$.
+
+```python
+def block_rotation(axis, others, n):
+    factors = []
+    for k, b in enumerate(others):
+        if k < len(others) - 1:  # keep the length of the rest on the axis
+            rest = np.sqrt(n[axis] ** 2 + sum(n[o] ** 2 for o in others[k + 1:]))
+        else:  # the last rotation leaves exactly n_axis on the axis
+            rest = n[axis]
+        factors.append(turn_factor(axis, b, rest, n[b]))
+    return factors
+```
+
+`block_rotation` returns three rotations in the planes (axis, first other), (axis, second other), (axis, third other) that carry $e_{\text{axis}}$ to the unit vector $n$ of its block (`n` is a dictionary from direction names to components). The first rotation puts the component $n_b$ on the first other direction and leaves on the axis the length of everything that is still to come, $\sqrt{n_{\text{axis}}^2 + n_{b_2}^2 + n_{b_3}^2}$; each later rotation acts only on what is left on the axis; the last one leaves exactly $n_{\text{axis}}$, which may be negative.
+
+```python
+def carry(v):
+    part = {x: float(v[COORDS.index(x)]) for x in COORDS}
+    sigma = np.sqrt(sum(part[x] ** 2 for x in SPACE))  # length of the space part
+    tau = np.sqrt(sum(part[x] ** 2 for x in TIME))  # length of the time part
+    space_turn = block_rotation("x8", ["x1", "x2", "x3"],
+                                {x: part[x] / sigma for x in SPACE}) if sigma else []
+    time_turn = block_rotation("x4", ["x5", "x6", "x7"],
+                               {x: part[x] / tau for x in TIME}) if tau else []
+    if metric_product(v, v) > 0:  # space-like: from e_x8
+        return [turn_factor("x8", "x4", sigma, tau)] + time_turn + space_turn, "x8"
+    return [turn_factor("x4", "x8", tau, sigma)] + space_turn + time_turn, "x4"
+```
+
+`carry(v)` is the construction of step (I). `part` holds the eight components by name; `sigma` and `tau` are the lengths $|\sigma|$ and $|\tau|$ of the space part and the time part. `space_turn` turns $e_{x8}$ into $\sigma/|\sigma|$ and `time_turn` turns $e_{x4}$ into $\tau/|\tau|$ (an empty list when that part is zero; `if sigma else []` uses that the number 0 counts as false). For a space-like $v$ the factors are the boost in $(x8, x4)$, then the time rotations, then the space rotations, and the starting direction is $x8$; for a time-like $v$ the boost in $(x4, x8)$, then the space rotations, then the time rotations, starting from $x4$. The function returns the list of factors (the first acts first) together with the starting direction.
+
+```python
+def random_unit_vector():
+    while True:
+        w = rng.normal(size=8)  # eight numbers from the normal distribution
+        q = metric_product(w, w)
+        if abs(q) >= 0.5:
+            return w / np.sqrt(abs(q))
+```
+
+A random unit vector: eight numbers are drawn from the normal distribution (the bell curve centred at 0), and the vector is kept only when $|\eta(w, w)| \geq 0.5$ (so that it is not nearly null); `while True` repeats until that happens. Dividing by $\sqrt{|\eta(w, w)|}$ makes $\eta = +1$ or $-1$.
+
+```python
+starts = {"x8": 0, "x4": 0}  # how many space-like and time-like vectors
+carry_ok, most_factors = True, 0
+for _ in range(40):
+    v = random_unit_vector()
+    factors, e = carry(v)
+    starts[e] += 1
+    most_factors = max(most_factors, len(factors))
+    h = compose(factors)
+    carry_ok &= (np.allclose(vector_matrix(h)[:, COORDS.index(e)], v, atol=1e-12)
+                 and np.allclose(h @ gamma[e] @ np.linalg.inv(h), gamma_of(v),
+                                 atol=1e-12))
+say(f"space-like vectors: {starts['x8']}; time-like vectors: {starts['x4']}; "
+    f"at most {most_factors} exponentials per vector")
+check(carry_ok and starts["x8"] > 0 and starts["x4"] > 0 and most_factors <= 7,
+      "for 40 random unit vectors v: gamma(v) = h gamma^(e) h^-1 with h a product "
+      "of at most 7 exponentials and e = x8 or x4")
+```
+
+For 40 random unit vectors the cell builds $h$, checks that column $e$ of its vector matrix is $v$ and that $h\gamma^eh^{-1} = \gamma(v)$ as $16 \times 16$ matrices, and counts the space-like and time-like vectors and the largest number of factors. The printed line shows 20 and 20 and at most 7.
+
+**In [14], the construction at work.**
+
+```python
+examples = [random_unit_vector() for _ in range(6)]
+space_example = next(v for v in examples if metric_product(v, v) > 0)
+time_example = next(v for v in examples if metric_product(v, v) < 0)
+line_colors = ["#2a78d6", "#eb6834", "#1baf7a", "#4a3aa7", "#e34948", "#eda100",
+               "#52514e", "#9e9c98"]
+fig, axes = plt.subplots(1, 2, figsize=(12.0, 4.6), sharey=True)
+steps_ok = True
+```
+
+Six more random unit vectors are drawn; `next(...)` takes the first space-like and the first time-like one among them. Eight colours, one per direction, and two pictures that share the vertical axis (`sharey=True`).
+
+```python
+for ax, v in zip(axes, [space_example, time_example]):
+    factors, e = carry(v)
+    moving = [E8[COORDS.index(e)]]  # the vector after 0, 1, ..., 7 steps
+    for a, b, theta in factors:
+        moving.append(vector_matrix(exponential(a, b, theta)) @ moving[-1])
+    moving = np.array(moving)
+    steps_ok &= np.allclose([metric_product(m, m) for m in moving], ETA[e])
+    steps_ok &= np.allclose(moving[-1], v, atol=1e-12)
+    if e == "x8":
+        for a, b, theta in factors:
+            say(f"    factor exp(theta S^({a} {b})), theta = {theta:+.4f}")
+```
+
+For each example the moving vector starts at $e_{x8}$ or $e_{x4}$, and each factor's vector matrix is applied to the latest vector (`moving[-1]` is the last element of the list). The cell checks that the metric product stays $\eta_{ee}$ at every step and that the last vector is $v$, and for the space-like example it prints the seven factors with their angles to four decimals.
+
+```python
+    for i, x in enumerate(COORDS):
+        ax.plot(range(len(moving)), moving[:, i], "o-", color=line_colors[i],
+                linewidth=1.5, markersize=4, label=x)
+        ax.plot([len(moving) - 0.6], [v[i]], "D", color=line_colors[i],
+                markersize=6)
+    kind = "space-like" if e == "x8" else "time-like"
+    ax.set_title(f"a {kind} unit vector, built from $e_{{{e}}}$")
+    ax.set_xticks(range(len(moving)))
+    ax.set_xlabel("number of exponentials applied")
+axes[0].set_ylabel("component of the moving vector")
+axes[1].legend(loc="upper center", bbox_to_anchor=(-0.05, -0.15), ncol=8)
+check(steps_ok, "in both examples the moving vector keeps eta(w, w) and ends at v")
+save_figure(fig, "carrying_vectors", ...)
+```
+
+Still inside the loop, each of the eight components is drawn against the number of steps, and the target component of $v$ as a diamond (`"D"`) just right of the last step. In `05f_5_carrying_vectors.png` the first step shares the length between $x8$ and $x4$ (a boost), the next three steps fill one block and the last three the other, and every curve ends at its diamond.
+
+**In [15], moving a gamma through an exponential.**
+
+```python
+def conjugation_sign(e, a, b):
+    return -1 if e in (a, b) else 1
+
+
+conjugation_ok = all(
+    np.allclose(gamma[e] @ exponential(a, b, 0.8) @ np.linalg.inv(gamma[e]),
+                exponential(a, b, conjugation_sign(e, a, b) * 0.8), atol=1e-12)
+    for e in ("x8", "x4") for a, b in pairs)
+check(conjugation_ok, "gamma^e exp(theta S^ab) (gamma^e)^-1 = exp(s theta S^ab), "
+      "s = -1 if e is a or b, +1 otherwise")
+```
+
+`conjugation_sign` is the sign $s$ of step (J). The check confirms $\gamma^e\exp(\theta S^{ab})(\gamma^e)^{-1} = \exp(s\theta S^{ab})$ for $e = x8$ and $x4$, all 28 planes and $\theta = 0.8$.
+
+**In [16], twelve random elements of Pin(4,4).**
+
+```python
+FOUR = {"1": I16, "gamma^(x8)": gamma["x8"], "gamma^(x4)": gamma["x4"],
+        "gamma^(x8) gamma^(x4)": gamma["x8"] @ gamma["x4"]}
+
+
+def evaluate(word):
+    g = np.eye(16)
+    for item in word:
+        if item[0] == "exp":
+            g = g @ exponential(*item[1:])
+        else:
+            g = g @ gamma[item[1]]
+    return g
+```
+
+A **word** is a list of items in the order of the matrix product: an exponential `("exp", a, b, theta)` or a gamma `("gamma", e)`. `evaluate` multiplies the items from left to right (`item[1:]` is the item without its first entry, unpacked into the arguments of `exponential`). `FOUR` holds the four words as matrices.
+
+```python
+def word_of(v):
+    factors, e = carry(v)
+    h_word = [("exp", a, b, th) for a, b, th in reversed(factors)]  # E_n ... E_1
+    h_inverse = [("exp", a, b, -th) for a, b, th in factors]  # E_1^-1 ... E_n^-1
+    return h_word + [("gamma", e)] + h_inverse
+```
+
+`word_of(v)` writes $\gamma(v) = h\gamma^eh^{-1}$ as a word. Since the first factor acts first, $h = E_n\cdots E_1$, which is the list of factors reversed; $h^{-1} = E_1^{-1}\cdots E_n^{-1}$, each with the opposite angle.
+
+```python
+def move_gammas_right(word):
+    exponentials, waiting = [], []  # waiting: the gammas moved to the right so far
+    for item in word:
+        if item[0] == "gamma":
+            waiting.append(item[1])
+        else:  # this exponential is moved to the left of all waiting gammas
+            _, a, b, theta = item
+            s = 1
+            for e in waiting:
+                s *= conjugation_sign(e, a, b)
+            exponentials.append(("exp", a, b, s * theta))
+    return exponentials, waiting
+```
+
+`move_gammas_right` reads the word from left to right. A gamma is put on the list `waiting`. An exponential that comes after waiting gammas is moved to their left; by step (J) each gamma it passes multiplies its angle by the sign $s$ of that gamma. The result is the list of exponentials followed by the list of gammas, which as a word equals the original word.
+
+```python
+def reduce_gammas(waiting):
+    product = I16
+    for e in waiting:
+        product = product @ gamma[e]
+    for name, w in FOUR.items():
+        if np.array_equal(product, w):
+            return 1, name
+        if np.array_equal(product, -w):
+            return -1, name
+    raise ValueError("the product of the gammas is not one of the four words")
+```
+
+`reduce_gammas` multiplies the waiting gammas and finds which of the four words it equals, with which sign; if it were none of them (impossible by step (J)), the notebook would stop with an error.
+
+```python
+decomposition_ok = True
+for number in range(12):
+    k = 1 + number % 6  # the number of unit vectors
+    vectors = [random_unit_vector() for _ in range(k)]
+    g = np.eye(16)
+    word = []
+    for v in vectors:
+        g = g @ gamma_of(v)
+        word += word_of(v)
+    size = np.max(np.abs(g))  # for relative differences
+    exponentials, waiting = move_gammas_right(word)
+    sign, name = reduce_gammas(waiting)
+    if sign == -1:  # -1 = exp(2 pi S^(x1 x2))
+        exponentials.append(("exp", "x1", "x2", 2 * np.pi))
+    rebuilt = evaluate(exponentials) @ FOUR[name]
+```
+
+Twelve elements are made from $k = 1, \dots, 6$ random unit vectors (twice each; `number % 6` is the remainder of the number divided by 6). For each, the product $g$ and its word are built, the gammas are moved to the right and reduced, a sign $-1$ is replaced by the exponential $\exp(2\pi S^{(x1)(x2)}) = -1$, and the decomposition is multiplied out again as `rebuilt`.
+
+```python
+    same_pattern = (pattern(vector_matrix(g, odd=k % 2 == 1))
+                    == pattern(vector_matrix(FOUR[name].astype(float), WORDS[name][1])))
+    decomposition_ok &= (np.max(np.abs(evaluate(word) - g)) < 1e-9 * size
+                         and np.max(np.abs(rebuilt - g)) < 1e-9 * size
+                         and same_pattern and WORDS[name][1] == (k % 2 == 1))
+    plural = "s" if k > 1 else " "  # "1 unit vector", "2 unit vectors"
+    say(f"element {number + 1:2d}: {k} unit vector{plural} = {len(exponentials):2d} "
+        f"exponentials times {name}")
+check(decomposition_ok, "12 random elements of Pin(4,4): each is a product of "
+      "exponentials times one of 1, gamma^(x8), gamma^(x4), gamma^(x8) gamma^(x4), "
+      "with the matching sign pattern")
+```
+
+The checks for each element: the word equals $g$, the decomposition equals $g$ (both to a relative accuracy of $10^{-9}$, measured against the largest entry `size` of $g$, because the entries of $g$ can be large), $g$ has the sign pattern of its word, and the word is odd exactly when $k$ is odd. The twelve printed lines show, for example, that one unit vector becomes 14 exponentials times $\gamma^{(x8)}$ (seven for $h$ and seven for $h^{-1}$), and that the elements made of four or six vectors can end with any of the even words.
+
+**In [17], the spans.**
+
+```python
+formula_ok = all(
+    np.allclose(exponential(a, b, np.pi), gamma[a] @ gamma[b], atol=1e-12)
+    if ETA[a] * ETA[b] == 1 else
+    np.allclose((exponential(a, b, 0.8) - exponential(a, b, -0.8))
+                / (2 * np.sinh(0.4)), gamma[a] @ gamma[b], atol=1e-12)
+    for a, b in pairs)
+check(formula_ok, "exp(pi S^ab) = gamma^a gamma^b for the rotations and "
+      "(exp(theta S^ab) - exp(-theta S^ab)) / (2 sinh(theta/2)) = gamma^a gamma^b "
+      "for the boosts")
+```
+
+The two formulas of the last paragraph of Section 5.23 are checked for all 28 planes (for the boosts with $\theta = 0.8$, so that $2\sinh\tfrac\theta2 = 2\sinh 0.4$).
+
+```python
+spin0_elements = [compose(random_factors(6)) for _ in range(170)]
+four_words = list(FOUR.values())
+pin_elements = [compose(random_factors(6)) @ four_words[k % 4] for k in range(300)]
+
+
+def rank_curve(elements):
+    ranks = []
+    for n in range(1, len(elements) + 1):
+        rows = np.array([g.reshape(256) for g in elements[:n]])
+        singular = np.linalg.svd(rows, compute_uv=False)
+        ranks.append(int(np.sum(singular > 1e-9 * singular[0])))
+    return ranks
+```
+
+170 random products of six exponentials, and 300 random elements of all four pieces (`k % 4` runs through the four words). `rank_curve` computes, for $n = 1, 2, \dots$, the rank of the first $n$ elements written as rows. It uses the **singular values** of the array of rows (`np.linalg.svd(..., compute_uv=False)`): the square roots of the eigenvalues of $A^TA$ for the array $A$, sorted from the largest. By the argument of Section 5.13 the number of nonzero ones is the rank; here a singular value counts as nonzero when it is above $10^{-9}$ times the largest.
+
+```python
+ranks_spin0, ranks_pin = rank_curve(spin0_elements), rank_curve(pin_elements)
+block_diagonal = all(not g[:8, 8:].any() and not g[8:, :8].any()
+                     for g in spin0_elements)
+report("rank of 170 products of exponentials", ranks_spin0[-1])
+report("rank of 300 elements of Pin(4,4)", ranks_pin[-1])
+check_reproduces(ranks_spin0 == [min(n, 128) for n in range(1, 171)]
+                 and block_diagonal
+                 and recorded("python", "even_products_span_M8_plus_M8"),
+                 "the products of exponentials are block diagonal and span 128 "
+                 "dimensions, as the 128 even Clifford products",
+                 record=record_of("python", "even_products_span_M8_plus_M8"))
+check_reproduces(ranks_pin == [min(n, 256) for n in range(1, 301)]
+                 and recorded("python", "clifford_products_span_M16"),
+                 "the elements of Pin(4,4) span all 256 dimensions of the 16 x 16 "
+                 "matrices",
+                 record=record_of("python", "clifford_products_span_M16"))
+```
+
+The two RESULT lines print the final ranks, 128 and 256. The checks require that each new element raised the rank by one until it stopped at 128 (for the products of exponentials, which are also all block diagonal) and at 256 (for Pin(4,4)): the numbers that the record found for the even and for all products of different gammas.
+
+**In [18], the picture of the spans.**
+
+```python
+fig, ax = plt.subplots(figsize=(8.0, 4.6))
+ax.plot(range(1, 171), ranks_spin0, color="#2a78d6", linewidth=2.5,
+        label=r"products of exponentials ($\mathrm{Spin}_0(4,4)$)")
+ax.plot(range(1, 301), ranks_pin, color="#eb6834", linewidth=2, linestyle="--",
+        label="elements of Pin(4,4) (all four pieces)")
+ax.axhline(128, color="#2a78d6", linewidth=0.8, linestyle=":")
+ax.axhline(256, color="#eb6834", linewidth=0.8, linestyle=":")
+ax.set_xlabel("number $n$ of random group elements")
+ax.set_ylabel("rank of the first $n$ elements")
+ax.set_yticks([0, 64, 128, 192, 256])
+ax.set_title("The span of the group elements")
+ax.legend(loc="lower right")
+save_figure(fig, "span_ranks", ...)
+```
+
+The two rank curves and dotted lines at 128 and 256. In `05f_6_span_ranks.png` both curves rise along the diagonal and then stop flat, the solid one at 128 and the dashed one at 256.
+
+**In [19], the last check.**
+
+```python
+FIGURES = ["05f_1_generator_matrices.png", "05f_2_two_unit_vectors.png",
+           "05f_3_four_pieces.png", "05f_4_paths_and_band.png",
+           "05f_5_carrying_vectors.png", "05f_6_span_ranks.png"]
+check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in FIGURES),
+      "the six figure files of notebook 05f exist")
+all_checks_passed()
+```
+
+The last line reads ALL 24 CHECKS PASSED (notebook 05f): one each in In [2] and In [3], three in In [4], one in In [5], two in In [6], one in In [7], two in In [8], one in In [9], three in In [10], one each in In [12] to In [16], three in In [17] and one in In [19]. Six of them reproduce recorded checks (In [2], In [3], the first and the third of In [4], and the last two of In [17]); the other eighteen are the notebook's own computations.
