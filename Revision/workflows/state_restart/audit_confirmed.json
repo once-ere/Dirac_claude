@@ -1,0 +1,462 @@
+[
+ {
+  "lens": "notebook-fidelity",
+  "severity": "major",
+  "file": "D:/Developer/github/Dirac_claude/provenance/dirac_matrices/build_dirac_matrices_md.py",
+  "location": "lines 501-506 (the `consumers` scan) and lines 664-671 (the 'Calculations that use these matrices' section); the effect shows in D:/Developer/github/Dirac_claude/provenance/dirac matrices.md line 1203 and in D:/Developer/github/Dirac_claude/tests/test_dirac_matrices_provenance.py",
+  "problem": "This is outside the notebook-fidelity lens, but it is concrete and it breaks the guarantee the file makes. At the current HEAD (8471151), `--check` and the repository test both fail. The generated Markdown lists every file under Revision/, tests/ and scripts/ whose text contains 'gammas.json'. Those directories are owned by concurrently running workflows. The textbook workflow committed two new readers in 3d22bc5 (src/01g_eigenvalues_signature.py and src/05f_pin_generation.py). The committed file therefore no longer matches its own generator. The file says `--check` and the test confirm it 'is up to date', and that claim is now false. It will break again whenever another textbook notebook that reads gammas.json lands.",
+  "evidence": "`python provenance/dirac_matrices/build_dirac_matrices_md.py --check` printed '35 of 35 checks pass' and then 'OUT OF DATE: provenance/dirac matrices.md differs from the regenerated text'. `python -m unittest discover -s tests -p test_dirac_matrices_provenance.py` failed with 'FAILED (failures=1)' and 'AssertionError: 1 != 0'. I regenerated the file into the scratch folder (with module.OUT patched) and diffed it against the committed one. The only differences are line 1203 ('(60)' becomes '(62)') and two added list lines, '- `Revision/textbook/notebooks/src/01g_eigenvalues_signature.py`' and '- `Revision/textbook/notebooks/src/05f_pin_generation.py`'. `git log -1 -- <each file>` gives 3d22bc5 'WIP snapshot (automatic at stop)', which is newer than the md commit fdba6bb.",
+  "fix": "Do not let the checked output depend on a live directory listing that another workflow owns. Option 1: remove the dynamic list from the generated .md and print it only in the script's stdout, or keep it in a separate unchecked file. Option 2: make `--check` compare the document with the consumer section excluded, and keep the exact checks of the fixture (checks 33-35). After that, regenerate the file once.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. I reproduced it independently, in the live tree and in clean scratch clones at several commits. The generator writes into the checked document a live list of every Revision/, tests/ and scripts/ file that mentions 'gammas.json'. Those directories are owned by other workflows. So once a textbook notebook that reads gammas.json lands, --check and the repository test fail, even though all 35 mathematical checks still pass. The file's own claim that `--check` and the test confirm it \"is up to date\" is then false. Since the finding was written, HEAD has moved on and "
+   },
+   {
+    "refuted": false,
+    "reason": "The finding holds. I reproduced it on the live repository and on a clean scratch clone at three commits. `provenance/dirac matrices.md` was up to date when it was committed (fdba6bb). At 8471151 it no longer matches its own generator, and at today's HEAD (972cad1) the mismatch is larger. The only cause is the live `consumers` scan in build_dirac_matrices_md.py, lines 501-506. That scan goes through Revision/, tests/ and scripts/, and other workflows are adding files there. Because of this, the file's claim at line 18 is false: it says `--check` and the test \"confirm that this file is up to dat"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "notebook-fidelity",
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/provenance/dirac_matrices/extract_from_author_notebook.wls",
+  "location": "the `plan` list, entries {286, ...} and {285, ...} (comment '(* ... in evaluation order *)'); the matching rows 286 and 285 of the 'Source' table in provenance/dirac matrices.md",
+  "problem": "The extractor evaluates input cell 286 (T16A) before input cell 285 (sigma16). The author did the opposite. Cell 285 has CellLabel In[370] and cell 286 has In[371]. The author's stored output of cell 285 shows that T16^A was still undefined when sigma16 was assigned. In the author's kernel, sigma16 is therefore a lazily evaluated symbolic product, not a frozen matrix. The final values are the same, which I verified. But the deviation from the author's order is not documented, and the extractor's comment 'in evaluation order' reads as if it were the author's order. The Markdown table lists 286 before 285 without a CellLabel and without comment.",
+  "evidence": "The CellLabel catalog (wolframscript Import of the .nb) gives input 285 = 'In[370]:=' with text 'MatrixForm[sigma16 = T16^A[0].T16^A[1].T16^A[2].T16^A[3]]', input 286 = 'In[371]:=' with text 'Table[T16^A[A1] = ArrayFlatten[{{0, taubar[A1]}, {tau[A1], 0}}], {A1, 0, 7}];', and input 287 = 'In[372]:='. The stored output of 285, 'Out[370]//MatrixForm=', parses to InputForm '(T16^A)[0] . (T16^A)[1] . (T16^A)[2] . (T16^A)[3]', which is unevaluated. I re-evaluated the cells in the author's order (285 before 286, with T16^A as an atomic symbol). OwnValues[sigma16] is then 'HoldPattern[sigma16] :> T16_Superscript_A[0] . ... [3]' (symbolic), and the evaluated sigma16 === JSON sigma16 gives True. The author's later display Out[373] (input 288) equals the JSON sigma16 entry by entry, and so does Out[375] (input 298, second pass).",
+  "fix": "Evaluate in the author's CellLabel order: 41, 42, 109, 114, 223, 226, 227, 257, 267, 285, 286, 287, 323, 324. This gives identical JSON, as verified. Alternatively, state the reorder and its reason explicitly. In both cases, add the author's In[n] labels to the 'Source' table, e.g. '285 / In[370]' and '286 / In[371]', and note that Out[370] is the unevaluated product.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I re-ran every part of the finding with my own code, and each fact holds. The extractor runs input cell 286 (T16A) before cell 285 (sigma16). In the author's notebook the order is the reverse, both by position in the file and by CellLabel (In[370] for 285, In[371] for 286). The author's stored Out[370] is the unevaluated symbolic product, which shows T16^A was still undefined when sigma16 was assigned. Nothing documents the reorder. The extractor comment says '(* ... in evaluation order *)'. The header says it evaluates 'exactly the author's own input cells'. The generated 'Source' table lists"
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding; every piece of its evidence holds against the current files and the author's notebook. The extractor's `plan` evaluates input cell 286 before cell 285. In the author's notebook the labels are 285 = In[370], 286 = In[371] and 287 = In[372]. The author's stored Out[370] for cell 285 is the unevaluated product T16^A[0].T16^A[1].T16^A[2].T16^A[3]. That proves the author assigned sigma16 before T16^A existed, so in the author's kernel sigma16 is a lazily evaluated symbolic product. The repository records this reorder nowhere. The extractor's comment says only \"in eva"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "notebook-fidelity",
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/provenance/dirac_matrices/extract_from_author_notebook.wls",
+  "location": "header comment ('The only change is the box SuperscriptBox[\"T16\",\"A\"] -> the symbol T16A (in the front end the notebook writes T16^A; as plain kernel input that would parse as Power, which is Protected)') and line `cells = ... /. SuperscriptBox[\"T16\", \"A\"] -> \"T16A\"`",
+  "problem": "The stated justification leaves out how the author's notebook actually treats these names. The author loads the Notation package and Symbolizes T16^A, OverBar[tau] and T16^alpha. In the author's session, T16^A is therefore the atomic symbol T16\\[UnderBracket]Superscript\\[UnderBracket]A, and taubar is an atomic symbol. The extractor does not reproduce the Symbolize for taubar. The box OverscriptBox[\"tau\",\"_\"] is parsed as the compound OverBar[tau], and `OverBar[tau][A] = ...` is stored as SubValues of System`OverBar. So the T16A substitution is not 'the only change': the taubar evaluation environment also differs from the author's. Both differences are value-neutral, which I verified, but neither is documented. The Markdown file does not mention the Notation package at all.",
+  "evidence": "Input cell 51 (In[55]) is 'Needs[\"Notation`\"]'. Input 54 (In[58]) is 'Symbolize[NotationTemplateTag[OverBar[tau]]]'. Input 55 (In[59]) has raw boxes 'BoxData[RowBox[{Symbolize, [, TemplateBox[{SuperscriptBox[T16, A]}, NotationTemplateTag], ]}]]'. Input 56 (In[60]) Symbolizes T16^alpha. Input 477 (In[583]) has raw boxes 'BoxData[T16\\[UnderBracket]Superscript\\[UnderBracket]A]', the symbol name created by Symbolize, and its Out[583] displays as T16^A. In a plain kernel, `OverBar[t][0]=5; SubValues[OverBar]` returns '{HoldPattern[OverBar[t][0]] :> 5}'. Needs[\"Notation`\"] cannot run in wolframscript ('unicodeCharacters::missing', 'FrontEndObject::notavail'). So I emulated Symbolize by mapping SuperscriptBox[\"T16\",\"A\"] -> T16\\[UnderBracket]Superscript\\[UnderBracket]A and OverscriptBox[\"tau\",\"_\"] -> an atomic symbol. The results were: 'T16A[0..7] === JSON: True', 'T16A[8] === JSON: True', 'sigma16 === JSON: True', '2 P_L === JSON: True  2 P_R === JSON: True', and 'taubar[A] == sigma.Transpose[tau[A]].sigma for A=1..7: True'.",
+  "fix": "Rewrite the header (and add a sentence to the Markdown file). State that the author Symbolized T16^A (input 55, In[59]), taubar (input 54, In[58]) and T16^alpha (input 56, In[60]) with the Notation package (input 51, In[55]), which needs a front end. Then state that T16A is a stand-in for the author's atomic symbol T16\\[UnderBracket]Superscript\\[UnderBracket]A, and that taubar is evaluated as OverBar[tau][A]. Optionally, also substitute OverscriptBox[\"\\[Tau]\",\"_\"] with an atomic symbol so that the taubar environment mirrors the author's.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I re-ran every factual claim in the finding independently, and each one holds. The author loads Notation` and Symbolizes T16^A, taubar and T16^alpha before the matrix cells run. The extractor does not reproduce either Symbolize. It stands in T16A for the atomic symbol T16\\[UnderBracket]Superscript\\[UnderBracket]A. It leaves the taubar box to parse as the compound OverBar[tau], so `OverBar[tau][A] = ...` lands in SubValues of System`OverBar, not on an atomic symbol. Neither the .wls header nor 'provenance/dirac matrices.md' mentions Notation, Symbolize or this taubar difference. My emulation of"
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every piece of cited evidence matches the current files and the author's notebook. The notebook's own outputs give a further confirmation the finding did not cite: in the author's session, taubar was an atomic symbol, but the extractor evaluates it as OverBar[tau]. The header's explanation is therefore incomplete and misattributes the cause. T16^A becomes atomic because of Notation`Symbolize, not because of the front end. Without Symbolize, the front end would also parse T16^A[A1] = ... as Power and fail. The generated Markdown never mentions the Notation packag"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "notebook-fidelity",
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/provenance/dirac matrices.md",
+  "location": "section 'Calculations that use these matrices' (generated by build_dirac_matrices_md.py lines 662-671) and 'Answer in one paragraph'",
+  "problem": "The user's order asks to verify that the Dirac matrices are used 'in these calculations'. The provenance file links the eight matrices only to repository files that contain the text 'gammas.json'. It never shows how the matrices enter the author's own Lagrangian and field equations. In the notebook, Lg[], La[] and Lj[] never use T16A directly. They use the curved matrices (T16^alpha)[alpha] = Sum_A e_A^alpha T16A[A], together with sigma16 and SAB = (1/4)[T16A, T16A]. P_L, P_R and T16A[8] appear only in check cells. This chain is not recorded, so the file does not show that the author's calculations use these eight matrices.",
+  "evidence": "Every input-cell assignment to the target symbols, by index (CellLabel): eta4488 41 (In[45]); sigma 42 (In[46]); ID4, ID8 109 (In[117]); ID16 114 (In[132]); Qa, Qb, SelfDual, AntiSelfDual 223 (In[294]); s4by4 226 (In[300]); t4by4 227 (In[301]); tau 257 (In[338]); taubar 267 (In[351]); sigma16 285 (In[370]); T16A[0..7] 286 (In[371]); T16A[8] 287 (In[372]); P_L 323 (In[404]); P_R 324 (In[405]); SAB 326 (In[407]); sAB 333 (In[414]); (T16^alpha)[alpha1-1] = Sum[(e_A^alpha /. sge_A^alpha)[[alpha1,A1]] T16A[A1-1]] 361 (In[442]); (T16^alpha)[8] 362 (In[443]). The Lagrangian cells are input 828 (In[1034]), 'Lg[] := ... Transpose[Psi16].sigma16.Sum[FullSimplify[(T16^alpha)[alpha1 - 1] /. sg, ...].(D[Psi16, X[[alpha1]]] + (Q1/2) Sum[omegamat[[alpha1,a,b]] SAB[[a,b]].Psi16, ...]) ...'; input 830 (In[1037]) La[] with useT16 from input 822 (In[1024]); input 836 (In[1044]) Lj[]; and the field equations 'eLa = eL[La, useDSQRT]' at input 841 (In[1051]). P_L and P_R are referenced after cell 324 only in check cell 325 (In[406]).",
+  "fix": "Add a short generated paragraph or table that traces this chain with cell indices and In[] labels: T16A (286) -> SAB (326), sigma16 (285) and T16^alpha = e_A^alpha T16A (361, 362) -> Lg[] (828), La[] (830), Lj[] (836) -> eLa field equations (841). State that P_L and P_R enter only the author's projector check (325).",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. I re-ran the check independently on the read-only author notebook and every factual claim held. Lg[], La[] and Lj[] never use T16A directly. They use the curved matrices T16alpha[alpha] = Sum_A e_A^alpha T16A[A] (cells 361 and 362, or useT16 from cell 822), together with sigma16 (285) and SAB (326). The field equations are eLa = eL[La, useDSQRT] (841). P_L and P_R appear only in their definition cells 323 and 324 and in the check cell 325.\n\nThe provenance file does not trace this chain anywhere. Its 'Calculations that use these matrices' section is a plain list "
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every piece of its evidence matches the author notebook, and the gap it describes is real in both the current generated file and its generator. The '.md' ties the eight matrices to calculations only through a text search for 'gammas.json' in repository files (build_dirac_matrices_md.py lines 662-671, which match the cited lines). It never shows how the author's own Lagrangians and field equations use T16A. In the notebook that route is indirect: through the curved matrices T16^alpha = e_A^alpha T16A, through SAB, and through sigma16. The user's order explicitly "
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "mathematics",
+  "severity": "major",
+  "file": "D:/Developer/github/Dirac_claude/provenance/dirac matrices.md (generated by provenance/dirac_matrices/build_dirac_matrices_md.py)",
+  "location": "md line 7 (Answer: 'The commutators alone cannot reach the other three'), line 75 (check 29: 'so the scaled commutators alone generate only the identity component Spin_0(4,4)'), line 87 (argument 3), line 304 (heading '### The 28 pairwise products Gamma_A Gamma_B = 2 S^AB (A < B): the scaled commutators'), line 369 ('Gamma_0 Gamma_4 = 2 S^04 (boost ...)'), line 69 (row 23: 'invariant under the group generated by the S^AB'); builder lines 455-457, 528-531, 597-598, 626, 344-346",
+  "problem": "The file uses 'scaled commutators' for two different things. It contradicts itself on the exact question the user asked (do the scaled commutators generate Pin(4,4)?). The Answer and argument call S^AB = (1/4)[Gamma_A, Gamma_B] the scaled commutators, which are Lie-algebra elements reaching the group only through exp(theta S^AB). The products section calls the matrices Gamma_A Gamma_B = 2 S^AB 'the scaled commutators', and these are group elements. Under that second meaning, the file's statements 'the scaled commutators alone generate only the identity component Spin_0(4,4)' and 'cannot reach the other three' are false. Check 29 itself proves Gamma_0 Gamma_4 = 2 S^04 lies in the (+1,-1,-1) component, not in Spin_0(4,4). All 16 boost products Gamma_A Gamma_B lie outside Spin_0(4,4), and the 28 products generate a group meeting two of the four components of Pin(4,4). Row 23 has the same ambiguity: the sigma16 form is not invariant under Gamma_0 Gamma_4, which flips its sign.",
+  "evidence": "My own script (scratchpad/audit_mathematics/audit3.py; plain adjoint, which equals the twisted one for even elements) printed: '(a) patterns of the 12 rotation products G_A G_B: {(1, 1, 1)}'; '(a) patterns of the 16 boost products G_A G_B   : {(1, -1, -1)}'; '(a) tr(G0 G4)/16 = 0 ; tr(exp(th S^04))/16 = cosh(th/2) >= 1' (so no exp(theta S^04) equals Gamma_0 Gamma_4); '(a) exp(pi S^01) == G0 G1 : True'; '(a) order of the group generated by the 28 matrices G_A G_B: 256  component patterns: {(1, 1, 1): 128, (1, -1, -1): 128}'; '(c) (G0G4)^T sigma16 (G0G4) == -sigma16: True'. The md's own check 29 reads 'Gamma_0 Gamma_4: det 1, sign det(space block) -1, sign det(time block) -1'. Line 304 of the md lists Gamma_0 Gamma_4 under the heading '...: the scaled commutators'.",
+  "fix": "In the builder: (1) Rename the line-626 heading to 'The 28 pairwise products Gamma_A Gamma_B = 2 S^AB' without calling them 'the scaled commutators', and use 'scaled commutators' only for S^AB. (2) Add an exact check that computes the twisted-adjoint pattern of every Gamma_A Gamma_B (12 rotations give (1,1,1) and equal exp(pi S^AB); 16 boosts give (1,-1,-1)) and the order-256 group they generate (128 + 128). (3) Restate the Answer, check 29 and argument 3 precisely. The one-parameter groups exp(theta S^AB) generate exactly Spin_0(4,4). Together with the matrices 2 S^AB = Gamma_A Gamma_B themselves (one boost such as Gamma_0 Gamma_4 is enough), they generate Spin(4,4), which has two components. No even element reaches the two odd components, so one Dirac matrix is still needed: Pin(4,4) = <exp(theta S^AB), Gamma_A Gamma_B, Gamma_0> = <exp(theta S^AB), Gamma_0, Gamma_4>. (4) In row 23, say 'invariant under the group generated by the exp(theta S^AB) (Spin_0(4,4))', and add that the boost component maps sigma16 to -sigma16.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every textual and mathematical claim in it reproduces independently. The generated md uses 'scaled commutators' for the Lie-algebra elements S^AB = (1/4)[Gamma_A, Gamma_B] in the Answer (line 7), in check 29 (line 75) and in arguments 2 and 3 (lines 86-87). Its products heading (line 304, builder line 626) instead names the group elements Gamma_A Gamma_B = 2 S^AB 'the scaled commutators'. Under that second meaning, the file's statements 'the scaled commutators alone generate only the identity component Spin_0(4,4)' and 'cannot reach the other three' are false. G"
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every piece of cited evidence matches the current files, which are up to date (`build_dirac_matrices_md.py --check` prints '35 of 35 checks pass' and 'provenance/dirac matrices.md is up to date'). I recomputed the mathematics independently from author_notebook_T16.json and it agrees with the finding.\n\nThe file's main meaning is fine and matches the author's notebook: S^AB are Lie-algebra elements, the group is reached through exp, and the exp(theta S^AB) generate Spin_0(4,4). In the notebook, SAB sits inside S = exp((1/2) omega_AB SAB), and `commutator` is a pla"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "mathematics",
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/provenance/dirac matrices.md (builder provenance/dirac_matrices/build_dirac_matrices_md.py)",
+  "location": "md line 7 ('the check `pin44_four_components` proves this exactly'), line 74 (check 28 double_cover), line 75 (check 29), lines 86-87 (argument 2-3); builder lines 422-424, 450-457, 585-598",
+  "problem": "The Pin(4,4) argument rests on facts it never states or proves. (a) The (det, space-block, time-block) sign test identifies components only if both block determinants are nonzero everywhere on O(4,4). That holds (A^T A = I + C^T C and D^T D = I + B^T B), but the file never says so. (b) Check 28 shows only that -I16 lies in the kernel. 'Double cover', 'Pin(4,4) has four components' and the implicit dim Pin(4,4) = 28 (needed for 'the exponentials generate Spin_0(4,4)') all need the kernel of Pin(4,4) -> O(4,4) to be exactly {+-I16}. (c) That O(4,4) has exactly four components, and that SO_0(4,4) is transitive on the connected quadrics, are cited, not proved. (d) The Answer says check 29 'proves exactly' that the commutators cannot reach the other components. The check only computes the invariants of four representative elements; the claim about all products of exp(theta S^AB) is a continuity argument, not a computation. All these facts are true (see evidence); the gap is in the write-up.",
+  "evidence": "My audit2b.py on 4000 random O(4,4) elements, built as exp of a random so(4,4) element times random reflections, asserted A^T A = I + C^T C and D^T D = I + B^T B every time. It printed 'min |det space block| over 4000 random O(4,4): 3.88... (>=1 expected since A^T A >= I)' and 'patterns: {(-1, 1, -1): 971, (1, -1, -1): 981, (-1, -1, 1): 1050, (1, 1, 1): 998}  pattern multiplicative/as expected: True'. Transitivity: 'max |g G_e g^-1 - Gamma(v)| over 40 random unit vectors (20 each sign), g in Spin_0: 2.3e-14'. Kernel = {+-I}: an even x acting trivially commutes with all 256 products, so x = lambda I16, and det(Gamma_A) = +-1 forces lambda = +-1. An odd x would anticommute with every Gamma_A, so x T16A[8]^-1 would be scalar, which is impossible by parity. None of this appears in the md.",
+  "fix": "Add short lemmas to the argument text in the builder. (i) For Lambda = [[A,B],[C,D]] in O(4,4), A^T A = I + C^T C and D^T D = I + B^T B, so det A and det D never vanish and their signs are continuous homomorphisms that label the four components. (ii) The kernel of the twisted adjoint on Pin(4,4) is {+-I16} (from the 256-product basis and det = +-1), so Pin(4,4) -> O(4,4) is a double cover and dim Pin(4,4) = 28. (iii) The quadrics eta(v,v) = +-1 are diffeomorphic to S^3 x R^4, hence connected, and an SO_0 orbit is open and closed, which gives transitivity. Optionally add an exact check that the explicit boost-and-rotation construction maps e_0 and e_4 to a sample unit vector. Reword the Answer so it says what is checked (invariants of the four representatives) and what is argued (continuity).",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Its math is correct and every gap it names is really in the generated file. Line 7 says check 29 `pin44_four_components` \"proves this exactly\", but the builder (lines 437-457) only computes the twisted-adjoint (det, space-block, time-block) signs of four fixed elements: I16, Gamma_0, Gamma_4 and Gamma_0 Gamma_4. The sentence \"every product of exponentials exp(theta S^AB) acts with pattern (+1,+1,+1)\" is plain prose in the check text and nothing computes it. It is a continuity argument, so the Answer overclaims, which the honesty convention forbids. Three other f"
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every citation matches the current files. The builder's read-only `--check` run reports \"35 of 35 checks pass\", says the md is up to date, and shows no diff against HEAD. The md asserts facts it never states or proves, and it says \"proves this exactly\" for something that is argued rather than computed:\n(a) The md never says the block determinants are nonzero on O(4,4). The (det, space, time) sign labels need this to be valid component invariants, and the continuity step needs it too.\n(b) Check 28 shows only that -I16 is in the kernel. Yet argument 2 says \"a doub"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "mathematics",
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/provenance/dirac_matrices/build_dirac_matrices_md.py",
+  "location": "lines 247-249 (check 'irreducible'); md line 57 (check 11)",
+  "problem": "Check 11 'irreducible' is not a separate computation. It reuses the boolean `gram_ok` from check 10, so the headline '35 exact checks' counts one result twice. Its stated reasoning, 'a matrix commuting with all eight Gamma_A ... is a multiple of I16 (Schur): the 16-dimensional representation is irreducible', also runs Schur's lemma backwards. 'Commutant = scalars implies irreducible' is false in general. The conclusion is still true here, but for a different reason: the real span of the products is all of M16(R), which acts irreducibly on R^16.",
+  "evidence": "Builder line 247: `check(\"irreducible\", gram_ok, ...)`, the same variable as line 243 `check(\"256_products_orthonormal\", len(subsets) == 256 and gram_ok, ...)`. Counterexample I ran with sympy: the upper-triangular 2x2 algebra {E11, E12, E22} has commutant 'Matrix([[d, 0], [0, d]])' (scalars), yet span(e1) is invariant ('E12*e1 = [0, 0] -> reducible').",
+  "fix": "Either merge check 11 into check 10 (and report 34 independent checks), or make it a genuine computation: solve X Gamma_A = Gamma_A X for all A and confirm the solution space is 1-dimensional. Replace '(Schur)' with the direct argument: the Gamma_A generate all of M16(R), and M16(R) has no proper nonzero invariant subspace of R^16.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. I re-checked both of its claims independently, and both hold. (1) Check 11 'irreducible' runs no computation of its own. Its pass condition is the bare variable `gram_ok`, which check 10 already computed and used. So the headline \"35 of 35 checks pass\" counts one computed result twice. (2) As written, the stated reasoning cites Schur's lemma for the wrong direction. Schur's lemma says: irreducible implies the commutant is a division algebra. The text infers irreducibility from \"commutant = scalars\", and that inference is false in general; the upper-triangular co"
+   },
+   {
+    "refuted": false,
+    "reason": "The finding holds; I could not refute it. In the current builder, check 11 `irreducible` passes the same boolean `gram_ok` that check 10 already used, so it does no computation of its own. The headline \"All 35 exact checks pass\" (taken from len(CHECKS)) counts that one result twice. The md does label check 11 as a \"consequence\", which softens the complaint but does not remove the double count from the \"35 exact checks\" claim, which the test also pins (\"35 of 35 checks pass\").\n\nThe stated reasoning is also faulty as written. \"Commutes with all of M16(R), hence is a multiple of I16\" follows from"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "mathematics",
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/provenance/dirac matrices.md (builder provenance/dirac_matrices/build_dirac_matrices_md.py)",
+  "location": "md line 7 ('The *field* Psi16 has complex (Grassmann) components'), line 69 (row 23), line 88 (argument 4); builder lines 344-346, 533, 599-600",
+  "problem": "The invariance claim is vacuous for the field the same paragraph says the calculations use. The md proves (S^AB)^T sigma16 + sigma16 S^AB = 0 and concludes that 'the author's bilinear Psi^T sigma16 Psi is invariant'. The naming is faithful to the notebook, which writes Transpose[Psi16].sigma16.Psi16. But sigma16 is symmetric, so for anticommuting Psi16 that bilinear is identically zero. The bilinear the Revision calculations use is Psibar Psi = Psi^dagger C Psi (SPEC section 2, line 51). Its invariance follows from the same check because S^AB is real, but the md never says so.",
+  "evidence": "My audit3.py, with an explicit Grassmann algebra on 16 generators, printed '(b) sigma16 symmetric: True' and '(b) Psi^T sigma16 Psi for Grassmann Psi (nonzero terms): 0 identically'. Revision/SPEC.md line 51: 'Dirac adjoint Psibar = Psi^dagger C'. The notebook (read-only grep) has 'RowBox[{\"Transpose\", \"[\", \"\\[CapitalPsi]16\", \"]\"}], \".\", \"\\[Sigma]16\"'.",
+  "fix": "In rows 23 and 4, state that because S^AB is real, (S^AB)^T sigma16 + sigma16 S^AB = 0 makes both Psi^T sigma16 Psi and Psi^dagger sigma16 Psi (= Psibar Psi of SPEC) invariant under Spin_0(4,4). Add that Psi^T sigma16 Psi vanishes identically for Grassmann Psi16 and is nontrivial only for the commuting field Phi of dirac16complex00.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. I re-derived it with my own code. sigma16 is real and symmetric (it equals Gamma_0 Gamma_1 Gamma_2 Gamma_3 and has eigenvalue signature (8,8)). So Psi^T sigma16 Psi vanishes identically when Psi16 has anticommuting components, and the md says on line 7 that they do: 'The *field* Psi16 has complex (Grassmann) components'. Row 23 and argument 4 of the md conclude only that 'the author's bilinear Psi^T sigma16 Psi is invariant'. Neither the md nor the builder (lines 344-346 and 599-600, which match the cited locations) mentions Psi^dagger, Psibar or C anywhere. Yet"
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every piece of cited evidence checks out against the current files. The builder's --check mode reports '35 of 35 checks pass' and 'provenance/dirac matrices.md is up to date', so the cited text is the current generator output. Line 7 of the md calls Psi16 a field with 'complex (Grassmann) components, as Revision/SPEC.md requires'. Row 23 (line 69) and argument 4 (line 88) then conclude that 'the author's bilinear Psi^T sigma16 Psi is invariant'. The md shows that sigma16 is symmetric (check 15), and for anticommuting components a symmetric bilinear Psi^T sigma16"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "mathematics",
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/provenance/dirac matrices.md (builder provenance/dirac_matrices/build_dirac_matrices_md.py)",
+  "location": "md section '## Projection matrices' (lines 1157-1199) and check 33 (line 79); builder lines 476-486 and 648-660",
+  "problem": "The user asked for the 'relevant projection matrices'. The md displays only P_L and P_R. It never shows or mentions other projectors and products the Revision calculations use: the Krein metric B = -i C gamma^(x4), which is -i Gamma_0 Gamma_1 Gamma_2 Gamma_3 Gamma_4 in the notebook frame and is complex; its projectors (I +- B)/2; and the C = sigma16 projectors (I +- sigma16)/2. Check 33 also compares only the gamma, C and Gamma fields of Revision/algebra/gammas.json. The B and S fields of that file are read by the calculations but not checked.",
+  "evidence": "Usage: Revision/textbook/notebooks/src/10a_krein_spectra.py:910 'P_B = (np.eye(16) + B) / 2'; 10c_good_sector_fock.py:633-634 '(np.eye(16) + B) / 2', '(np.eye(16) - B) / 2'; 10e_invariant_forms.py:471 '((I16 + B) / 2)'; 08b_deflation_onset.py:404 'projectors ... (1 \\pm C)/2'; B read from the fixture by Revision/kohn_sham/solver/src/theory.rs:284, Revision/pairing/python/check_pairing.py:143, Revision/pairing/wolfram/RevisionPairing.wl:99-100. My computation: 'B == -i G0G1G2G3G4: True  B real: False'; '(I+B)/2 P^2=P: True Hermitian: True rank: 8 real: False commutes with P_L: False'; '(I+sigma16)/2 P^2=P: True Hermitian: True rank: 8 real: True commutes with P_L: True'. Searching the md: \"'-i C' in md: False\", \"'(I + B)' in md: False\", \"'sigma16)/2' in md: False\", \"'Krein' in md: False\". I checked the unchecked fixture fields myself: 'B == -i C gamma^(x4): True', 'B Hermitian: True  B^2 = I: True', 'B eigenvalues: {-1: 8, 1: 8}', 'S == (1/4)[g^a, g^b] all: True'.",
+  "fix": "Add to the generated file: B = -i sigma16 Gamma_4 (identified as -i times the product G0.1.2.3.4), with exact checks that it is Hermitian, squares to I16 and has signature (8,8), and a note that it is complex and so is not one of the real Dirac matrices. Add the projectors (I16 +- B)/2 (complex, rank 8, not commuting with P_L or P_R, because B is odd) and (I16 +- sigma16)/2 (real, rank 8, commuting with P_L and P_R), with their idempotence and trace checks. Extend check 33 to the fixture's B and S fields.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I re-ran every factual claim in the finding with my own sympy code and searched the files myself. Every claim held up, so the finding stands as a real minor completeness gap. The md's projection section shows only P_L and P_R. It never names or shows the Krein metric B, which the binding Revision/SPEC.md line 53 defines as B = -i C gamma^(x4). It also never shows the projectors (I +- B)/2 or (I +- sigma16)/2, and the Revision calculations use all of these. Check 33 compares only the coordinates, gamma, C and Gamma fields of gammas.json. The B and S fields are not compared. The consumers check "
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every factual claim in it holds against the current files. The generated md shows only P_L and P_R as projection matrices. It never mentions B = -i C gamma^(x4), the projectors (I +- B)/2 or the projectors (I +- sigma16)/2, and the Revision/textbook calculations use all of these. Check 33 compares only the gamma, C and Gamma fields of Revision/algebra/gammas.json, even though the calculations read its B and S fields too. All of the finding's numeric claims reproduce exactly in sympy. The md is current (the builder's --check mode reports 35/35 checks passing and "
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "mathematics",
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/provenance/dirac_matrices/build_dirac_matrices_md.py",
+  "location": "lines 501-506 (consumer scan) and md line 1203 ('Files that read `gammas.json` (60)'); md line 7 ('Every matrix file used by the repository's calculations equals these matrices entry by entry')",
+  "problem": "The list of files that read gammas.json is presented as complete, but the scan covers only .py/.wl/.wls files. It misses the Rust Kohn-Sham solver files that read the fixture. Separately, the Answer's claim that 'every matrix file used by the repository's calculations equals these matrices' is proved for only three sources (gammas.json, check_algebra.construct, d16c_exact.notebook_gammas). Several other independent gamma constructions are not compared. I checked them all and they agree, so the claim is true, but the md does not prove it.",
+  "evidence": "`git ls-files | grep -v -E \"\\.(md|json|tex|pdf|ipynb|txt|py|wl|wls)$\" | xargs grep -l gammas.json` gives Revision/kohn_sham/solver/src/runs.rs and Revision/kohn_sham/solver/src/theory.rs (theory.rs:218 'root.join(\"Revision/algebra/gammas.json\")'), plus three workflow .js files. Neither .rs file is in the md list. My comparisons, all True: Revision/algebra/reports/python-gammas.json /gamma; scripts/check_dirac16complex_matter_antimatter.py:contract_gammas; scripts/check_dirac16complex_primordial.py:notebook_gammas; scripts/d16c_geometry_sympy.py:notebook_gamma_sympy; scripts/generate_dirac16complex_constants.py:contract_gammas; scripts/check_dirac16complex_kohn_sham_theory.py:build_contract_gammas ('imag all zero: True', 'equal to author T16A: True'); studies/dirac16complex_cosmology/src/generated.rs GAMMA ('Rust GAMMA entries: 2048  equal to author T16A[0..7]: True').",
+  "fix": "Add .rs (and any other source suffixes) to the consumer scan. Either narrow the Answer's wording to the three sources actually checked, or add checks comparing python-gammas.json, the scripts/check_dirac16complex_* constructions, generate_dirac16complex_constants.contract_gammas and the GAMMA constant of studies/dirac16complex_cosmology/src/generated.rs to the author's matrices.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I re-checked both parts of the finding with my own code and both hold. (1) The list of 60 \"Files that read `gammas.json`\" in the md looks complete, but the builder's scan (build_dirac_matrices_md.py lines 501-506) looks only at .py/.wl/.wls files under Revision/, tests/ and scripts/. Revision/kohn_sham/solver/src/theory.rs really does read the fixture (line 218 builds the path `root.join(\"Revision/algebra/gammas.json\")` and line 220 reads it with std::fs::read), and it is not in the list. runs.rs only names gammas.json in a doc comment, and the three .js files are workflow scripts, so theory.r"
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Both parts hold against the current files. (1) The consumer scan in build_dirac_matrices_md.py, around lines 500-505, only looks at files with the suffixes .py, .wl and .wls under Revision, tests and scripts. So the list in the md, \"Files that read `gammas.json` (60)\" at line 1203, leaves out Revision/kohn_sham/solver/src/theory.rs, which really reads and uses the fixture. (2) The md says at line 7 that \"Every matrix file used by the repository's calculations equals these matrices entry by entry\", and at line 1203 it speaks of \"Both independent constructions in "
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "coverage",
+  "severity": "major",
+  "file": "Revision/field_equations_a4/wolfram/FieldEquationsA4.wl",
+  "location": "lines 119-128 (FEsig1/FEeps/FEGen/FEGammaFrame); used by Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls lines 196-266. Also check_field_equations_a4.py own_rep() lines 403-424. Contradicted claims: provenance/dirac matrices.md line 7 and line 1203 (generator build_dirac_matrices_md.py lines 532 and 664).",
+  "problem": "This is a Revision calculation that does NOT use the author's matrices. It is the Wolfram engine for SPEC section 5, the a4 field equations, and it writes Revision/field_equations_a4/a4-equations.json and wolfram-a4-report.json. About 19 files read those outputs, including textbook 12a-12d and 17a, Revision/lead_checks and check_ks_source_conditions.py. The engine builds its own real 16x16 Cl(4,4) representation as Cl(1,1)^(x)4 and never reads gammas.json. Its Python twin, check_field_equations_a4.py, runs its primary 'ownrep' checks on a third tensor-product representation, own_rep(). That file appears in the md's list as a gammas.json consumer only because it also re-runs the lemmas with the author's T16. The md therefore makes two false statements: 'Every Revision calculation and every textbook notebook reads its gamma matrices from Revision/algebra/gammas.json', and the Answer paragraph's 'the calculations use eight real-valued 16 x 16 Dirac matrices, and they are the author's own'. The engine also departs from SPEC section 2, which requires the author's T16. No check among the 35 sees this file.",
+  "evidence": "wolframscript Get[FieldEquationsA4.wl]; Export[FEGammaFrame] gives dims {8,16,16}. Python comparison against provenance/dirac_matrices/author_notebook_T16.json in x1..x8 order (x8 maps to T16A[0]):\n  entries [-1, 0, 1], Clifford failures with eta=(1,1,1,-1,-1,-1,-1,1): []\n  FEGammaFrame vs author: equal per index [False]*8; equal up to sign [False]*8\n  entries differing per matrix: [32, 32, 32, 32, 32, 32, 32, 32]\n  C(FE) == sigma16(author)? False\ncheck_field_equations_a4.py own_rep vs author: equal per index [False]*8.\nMitigating facts, also measured: the intertwiner FE_a K = K A_a has dimension 1 and K^T K = 2 I16, so the representation is equivalent through an orthogonal map. The Python report has 'PASS offdiagonal_coefficients_representation_independent'. a4-equations.json stores only bilinear forms and coefficients, with no spinor components, so no representation-dependent data reaches consumers. Textbook 12d re-derives its witness from gammas.json.",
+  "fix": "Choose one. (a) Per SPEC section 2, make FieldEquationsA4.wl load Revision/algebra/gammas.json, keeping Cl(1,1)^(x)4 only as a labelled second representation, as the Python twin does. (b) Keep the code as is and make the generator honest about it: add a check that rebuilds FEGammaFrame and own_rep, records that they are NOT the author's matrices, and proves equivalence (intertwiner dimension 1, K^T K = c I) plus the PASS of offdiagonal_coefficients_representation_independent. Then replace the sentences at md lines 7 and 1203 with an accurate statement that names this calculation.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I re-derived the finding on my own and could not refute it. The SPEC section 5 engine builds its own Cl(1,1)^(x)4 representation and never reads the author's T16 or gammas.json. None of its eight matrices equals the author's at the same index, even up to sign. That makes two statements in provenance/dirac matrices.md false. Line 1203 says \"Every Revision calculation and every textbook notebook reads its gamma matrices from Revision/algebra/gammas.json\". Line 7 says the calculations use \"the author's own\" matrices. The engine also departs from SPEC section 2, which requires the author's T16. No"
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every cited fact checks out against the current files. The Wolfram engine for SPEC section 5 (Revision/field_equations_a4/wolfram/FieldEquationsA4.wl) builds its own real 16x16 Cl(4,4) representation as Cl(1,1)^(x)4 and never reads Revision/algebra/gammas.json. I measured that representation and it is not the author's T16. The same holds for own_rep() in the Python twin. This contradicts two statements in provenance/dirac matrices.md. Line 1203 (generator line 664) says \"Every Revision calculation and every textbook notebook reads its gamma matrices from Revisio"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "coverage",
+  "severity": "major",
+  "file": "provenance/dirac_matrices/build_dirac_matrices_md.py",
+  "location": "lines 476-506 (checks 33-35 and the consumer scan) and lines 532, 662-671 (Answer paragraph and 'Calculations that use these matrices')",
+  "problem": "The coverage of 'these calculations' is too narrow for what the file claims. The consumer scan looks only for the literal string 'gammas.json', only in .py/.wl/.wls files, and only under Revision/, tests/ and scripts/. Many calculations load or hard-code gamma matrices from other sources, and none of the 35 checks reads them. (1) The whole earlier-stage stack behind the published provenance/DIRAC16COMPLEX_*.md documents: 49 tracked code files read artifacts/dirac16complex/arbitrary-field/algebra-fixture.json, including about 30 scripts/*.py and *.wls, wolfram/*.wl, notebooks/*.py, *.ipynb and *.nb, and studies/*/tools. (2) Hard-coded Rust constants GAMMA, CHARGE and CHIRALITY in studies/dirac16complex_cosmology/src/generated.rs and studies/dirac16complex_kohn_sham/src/generated.rs. (3) Independent constructions in six old Wolfram packages: Dirac16ComplexAlgebra D16Gammas, Geometry D16GeoGammas, Primordial gamL, KohnSham D16KSGammas, Pairing gamL and MatterAntimatter gamL; Dirac16Complex00 reuses D16GeoGammas. (4) Four old Python constructions. (5) The Revision Rust KS solver Revision/kohn_sham/solver/src/theory.rs, which reads gammas.json but is .rs, so the scan skips it. Only scripts/d16c_exact.py notebook_gammas() is checked, as check 35. The Answer sentence 'Every matrix file used by the repository's calculations equals these matrices entry by entry' is therefore not proved by the file. The scan includes scripts/ yet finds zero scripts, because those files use algebra-fixture.json.",
+  "evidence": "git grep -l 'algebra-fixture\\.json' -- '*.py' '*.wl' '*.wls' '*.rs' '*.ipynb' | grep -v '^handoff/' | wc -l  -> 49. None of them is in the md list (60 entries, identical to the tracked files containing 'gammas.json').\nMy comparisons all came out EQUAL, so this is a missing-proof problem, not wrong matrices:\n  algebra-fixture.json: gamma == T16A True, C == sigma16 True, chirality == T16A[8] True, B = -i C g4 True, S^ab: 0 mismatches.\n  generated.rs (both crates): GAMMA equal per index [True]*8, CHARGE == sigma16 True, CHIRALITY == T16A[8] True, FIXTURE_SHA256 8b4f1546... == sha256 of the working-tree fixture.\n  wolframscript evaluation: Algebra.D16Gammas, Geometry.D16GeoGammas, Primordial.gamL, KohnSham.D16KSGammas, Pairing.gamL, MatterAntimatter.gamL and D00.gam all 'equal to T16A[a] for a=0..7: True'.\n  Python: check_dirac16complex_matter_antimatter.contract_gammas, check_dirac16complex_primordial.notebook_gammas, generate_dirac16complex_constants.contract_gammas and check_dirac16complex_kohn_sham_theory.build_contract_gammas all equal.\n  theory.rs line 218 reads Revision/algebra/gammas.json.",
+  "fix": "Add exact checks for: artifacts/dirac16complex/arbitrary-field/algebra-fixture.json (gamma, C, chirality, in notebook index order with eta4488); the GAMMA, CHARGE and CHIRALITY arrays parsed from both studies/*/src/generated.rs; and the old wolfram/*.wl constructions (export them with wolframscript in the extraction step, or record them). Base the consumer listing on git ls-files across the whole repository and all of .py/.wl/.wls/.rs/.ipynb/.nb. Search for every gamma source: gammas.json, python-gammas.json, algebra-fixture.json, and own constructions. Rewrite the Answer and 'Calculations' sentences to state exactly which sources are proved equal.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. I checked it independently and every claim held up. The builder compares exactly four gamma sources: the author's T16A, Revision/algebra/gammas.json, check_algebra.construct() and scripts/d16c_exact.notebook_gammas(). Its consumer scan only searches .py/.wl/.wls files under Revision/, tests/ and scripts/ for the literal string 'gammas.json'. So it never sees artifacts/dirac16complex/arbitrary-field/algebra-fixture.json, which many earlier-stage scripts, Wolfram packages, tests, notebooks and two Rust crates read. It never sees the hard-coded GAMMA/CHARGE/CHIRALI"
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every piece of cited evidence checks out against the current files. The coverage gap is also wider than the finding says. Besides the old-stage sources it lists, one current Revision calculation, Revision/field_equations_a4/wolfram/FieldEquationsA4.wl, does not read gammas.json at all. It builds its own Kronecker-product representation, and none of its eight matrices equals the author's entry by entry. So the generated sentence \"Every Revision calculation and every textbook notebook reads its gamma matrices from Revision/algebra/gammas.json\" is false, not just u"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "coverage",
+  "severity": "minor",
+  "file": "artifacts/dirac16complex/arbitrary-field/algebra-fixture.json",
+  "location": "keys gammaClifford, gammaOctonion (and their constructors: wolfram/Dirac16ComplexAlgebra.wl D16CliffordPictureGammas line 225 and D16OctonionGammas line 270; scripts/d16c_exact.py tensor_gammas() line 673; Revision/textbook/notebooks/src/04d_tensor_gammas.py)",
+  "problem": "The repository's matrix files also hold other real 16x16 Cl(4,4) bases. These are the dirac-main tensor-product picture and the split-octonion picture, and in each only gamma^0 coincides with the author's. They are used only to compute and teach intertwiners, not for physics. Read literally, the md's 'Every matrix file used by the repository's calculations equals these matrices entry by entry' is false for these fields, and the md never mentions them.",
+  "evidence": "old_fix.py:\n  gammaClifford: Clifford(eta4488) failures 0; equal to T16A: [True, False, False, False, False, False, False, False]; gammaHat^a K == K gamma^a True, K^T K = 4 I\n  gammaOctonion: Clifford failures 0; equal to T16A: [True, False*7]; gamma^a K == K Gamma^a True, K^T K = 2 I\nwolframscript: Algebra.D16CliffordPictureGammas and D16OctonionGammas give 'equal to T16A ... False [True, False, ...]'. d16c_exact.tensor_gammas() gives [True, False*7].",
+  "fix": "In the md, name these alternative bases as comparison-only representations. State that they are equivalent to T16A through the stored intertwiners K_clifford and K_octonion, and that no physics calculation uses them. Narrow the 'every matrix file' sentence to the gamma fields that are actually checked.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I re-derived the finding with my own Python and Wolfram code and it holds; it is a real problem, though minor. The md's one-paragraph answer says \"Every matrix file used by the repository's calculations equals these matrices entry by entry.\" But artifacts/dirac16complex/arbitrary-field/algebra-fixture.json is a matrix file that the earlier-stage physics scripts read, and besides its `gamma` key it stores gammaClifford and gammaOctonion. Both are valid real Cl(4,4) bases, but in each only gamma^0 equals T16A[0]. The md never mentions these bases, the intertwiners or algebra-fixture.json. The bu"
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every piece of cited evidence reproduces against the current files. The repository holds two other real 16x16 Cl(4,4) bases, the dirac-main tensor-product picture and the split-octonion picture, and in each only gamma^0 equals the author's T16A[0]. Both sit in artifacts/dirac16complex/arbitrary-field/algebra-fixture.json, a matrix file that many stage scripts read. The md never mentions that file, these keys or the intertwiners. Its summary sentence \"Every matrix file used by the repository's calculations equals these matrices entry by entry\" is therefore litera"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "coverage",
+  "severity": "minor",
+  "file": "provenance/dirac_matrices/build_dirac_matrices_md.py",
+  "location": "check 34 'Revision_construction' (line 494) and lines 664-667",
+  "problem": "Revision/algebra/reports/python-gammas.json is the preferred input of Revision/kohn_sham/theory/check_ks_theory.py: line 63 reads 'src = PY_GAMMAS if PY_GAMMAS.exists() else WL_GAMMAS'. check_field_theory.py and gammas_io.py also read it. The file on disk is never compared. Check 34 compares only a fresh construct() call, so a stale python-gammas.json would go unnoticed. The md also says these files 'read gammas.json'. Separately, 'Both independent constructions in the code give the same matrices' undercounts. Further independent constructions exist: RevisionAlgebra.wl (which writes gammas.json), Revision/pairing/python/check_pairing.py author_T16(), and the old-stage ones listed above. None is checked.",
+  "evidence": "rev_json.py on python-gammas.json: gamma == author (x1..x8) True, C == sigma16 True, Gamma == T16A[8] True, B True, S 28/28 ok, so the file is equal but unchecked. wolframscript Get[RevisionAlgebra.wl]: RAT16[0..7] == T16A True. check_pairing.author_T16() == T16A True.",
+  "fix": "Add a check that compares Revision/algebra/reports/python-gammas.json entry by entry, and say in the md that check_ks_theory.py reads it. Replace 'Both independent constructions' with the full list of constructions, each with a check.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. I checked each part again with my own code.\n\n1. `check_ks_theory.py` uses `python-gammas.json` first. Line 36 sets `PY_GAMMAS` to that file, and line 63 reads `src = PY_GAMMAS if PY_GAMMAS.exists() else WL_GAMMAS`. The file exists on disk and is tracked in git.\n   - The generated md says (line 1203): \"Every Revision calculation and every textbook notebook reads its gamma matrices from `Revision/algebra/gammas.json`.\" That is false for `check_ks_theory.py`.\n   - That file still appears in the md's consumer list. This only happens because the substring \"gammas.jso"
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every piece of its evidence matches the current files. (1) build_dirac_matrices_md.py has check 34 'Revision_construction' at line 494. It compares only a fresh check_algebra.construct() call. It never opens Revision/algebra/reports/python-gammas.json. That file is tracked in git and is written by check_algebra.py line 664. (2) Revision/kohn_sham/theory/check_ks_theory.py line 63 reads 'src = PY_GAMMAS if PY_GAMMAS.exists() else WL_GAMMAS', so its calculation uses python-gammas.json first. The generated md (line 1203) still says 'Every Revision calculation and e"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "coverage",
+  "severity": "minor",
+  "file": "provenance/dirac matrices.md",
+  "location": "'Answer in one paragraph' and 'Calculations that use these matrices' (no mention anywhere in the file)",
+  "problem": "The file does not disclose a defect the repository has already measured in the author's own downstream calculation. The author notebook's Lagrangian cells (822 useT16, used in 830 La and 836 Lj) use coordinate gammas reconstructed through a wrong substitution rule (cell 1058). For x5..x7 those gammas are not a Clifford set. So 'these calculations' in the author's notebook do not all use valid Dirac matrices. The repository's own calculations avoid this by building gamma^mu = gamma^a / f_a from T16 (Revision/theory/python/geometry.py curved_gammas). That reassurance belongs in a file that answers 'are using ... in these calculations'.",
+  "evidence": "artifacts/dirac16complex/primordial-field/wolfram-primordial-report.json contains: checks P_notebookCompare_reconstructedGamma5NotClifford True; reconstructedGammaX5Squared '(gamma'^{x5})^2 = -s^{-1/3} times 1 ... Clifford requires g^{55} = -s^{-1/3} e^{2a4}'; anticommutesWithGammaX6 false; anticommutesWithGammaX0 false. Independent check with T16A and the recorded form gamma'^{xj} = cosh(a4) T_j - sinh(a4)|T_j| at a4 = 0.3: max|{G'5,G'6}| = 0.822 and max|{G'5,T0}| = 0.609, both nonzero. grep for 'Clifford' in dirac matrices.md finds no such mention.",
+  "fix": "Add a short paragraph that the flat T16A are the matrices used, and that the notebook's derived coordinate gammas for x5..x7 (cell 822) fail the Clifford relation, as already recorded by the primordial verifier. Say that the repository instead builds curved gammas as e_a^mu gamma^a from gammas.json. Cite the measurement.",
+  "votes": [
+   {
+    "refuted": true,
+    "reason": "The finding's facts are mostly right, but the omission is not a real defect of `provenance/dirac matrices.md`, and two of its claims are inaccurate.\n\n**Why it is out of scope.** The user asked whether \"you ... are using eight, real-valued, 16 by 16, dirac matrices in these calculations\". That is about the repository's own calculations, not about whether the author's later Lagrangian is correct. The file answers that question for the repository: every Revision and textbook file reads `gammas.json`, and that file equals the author's T16A entry by entry. Nothing in the file is made false or misle"
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every piece of cited evidence checks out against the current files and the author notebook. The gap is real but minor. \"provenance/dirac matrices.md\" (unchanged since commit fdba6bb) answers \"Yes: the calculations use eight real-valued 16 x 16 Dirac matrices\", and its title presents them as the matrices of the author's notebook. It never mentions the notebook's coordinate (curved) gammas: neither the correct T16^alpha of input cell 361 nor the useT16 of input cell 822. useT16 is the set the author's Lagrangians La (cell 830) and Lj (cell 836) actually use. For x"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "reproducibility",
+  "severity": "major",
+  "file": "provenance/dirac matrices.md (generated by provenance/dirac_matrices/build_dirac_matrices_md.py)",
+  "location": "md line 7 'Every matrix file used by the repository's calculations equals these matrices entry by entry' and md line 1203 'Every Revision calculation and every textbook notebook reads its gamma matrices from Revision/algebra/gammas.json' (generator lines 532 and 664). HANDOFF.md 0.4g repeats it: 'every gamma source in the repository equals them'.",
+  "problem": "The text claims more than was checked, and the claim is false. Revision/field_equations_a4/wolfram/FieldEquationsA4.wl (the a4 field-equation calculation) does not read gammas.json. It builds its own real 16x16 Cl(4,4) representation from Kronecker products, and all eight of its matrices differ from the author's. Revision/field_equations_a4/python/check_field_equations_a4.py also uses its own 'real representation built here' alongside the author's T16. Checks 33-35 only cover gammas.json, check_algebra.construct() and d16c_exact.notebook_gammas(). The user asked whether the calculations use the author's matrices, so this sentence is the answer itself.",
+  "evidence": "FieldEquationsA4.wl lines 119-125: '(* ---------- a real 16 x 16 representation of Cl(4,4), built here ---------- *)' with FEGen[k_, blk_] := FEKron[...] and FEGammaFrame = {plus[[1]],...}. `grep -rlE \"KroneckerProduct|...\" Revision | xargs grep -L gammas.json` lists FieldEquationsA4.wl and verify_field_equations_a4.wls. I ran wolframscript on the FE definitions and compared them with author_notebook_T16.json (x_k -> T16A index {1,2,3,4,5,6,7,0}). Output: 'FieldEquationsA4.wl gamma^(x_k) == author gamma^(x_k), k=1..8: {False, False, False, False, False, False, False, False}'. Row 1 of FE gamma^(x8) is {0,-1,0,...}; row 1 of the author's gamma^(x8) is {0,...,0,1 (col 9),...}. The docstring of check_field_equations_a4.py line 18-19 says: 'the spinor lemmas in two Clifford representations: a real representation built here (different from the Wolfram one) and, when Revision/algebra/gammas.json exists, the author's T16.'",
+  "fix": "In the generator, say only what is checked: gammas.json and the two constructions equal the author's matrices. Name the known exceptions and say whether their results are representation-independent (verify_field_equations_a4.wls line 202 claims they are). Better: add a check that searches Revision/ for independent Clifford constructions (KroneckerProduct/kron of 2x2 blocks), or switch FieldEquationsA4.wl to read gammas.json as Revision/SPEC.md section 2 requires ('the author's real 16 x 16 matrices T16 ... RE-CONSTRUCTED in Revision code'). Then regenerate the .md and correct HANDOFF 0.4g.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I re-derived the finding with my own code and it holds. Two sentences make the false blanket claim. The first is md line 7 (generator line 532): \"Every matrix file used by the repository's calculations equals these matrices entry by entry\". The second is md line 1203 (generator line 664): \"Every Revision calculation and every textbook notebook reads its gamma matrices from Revision/algebra/gammas.json\". HANDOFF.md line 75 repeats it: \"every gamma source in the repository equals them\".\n\nThe claim is false for Revision/field_equations_a4/wolfram/FieldEquationsA4.wl. That file builds its own real"
+   },
+   {
+    "refuted": false,
+    "reason": "The finding holds against the current files. The generated md (line 7: \"Every matrix file used by the repository's calculations equals these matrices entry by entry\"; line 1203: \"Every Revision calculation and every textbook notebook reads its gamma matrices from `Revision/algebra/gammas.json`\") and the generator that writes it (build_dirac_matrices_md.py lines 532 and 664) claim more than was checked. The claim is false for the a4 field-equation calculation. Revision/field_equations_a4/wolfram/FieldEquationsA4.wl builds its own real 16x16 Cl(4,4) basis from Kronecker products of 2x2 blocks an"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "reproducibility",
+  "severity": "major",
+  "file": "provenance/dirac_matrices/build_dirac_matrices_md.py",
+  "location": "lines 501-506 (consumers = rglob scan of Revision/, tests/, scripts/ for the string 'gammas.json') and 662-671 (the list is written into the .md); md lines 1201-1265",
+  "problem": "The .md includes the result of a scan of the whole working tree. --check and the test compare the full text, so they fail ('OUT OF DATE') whenever any .py/.wl/.wls file under Revision/, tests/ or scripts/ starts or stops mentioning 'gammas.json'. The matrices do not need to change for this to happen. Gitignored scratch files count too, because the scan does not use git ls-files. Revision/textbook/notebooks/src is being edited right now by the relaunched textbook workflow (HANDOFF 0.4g), and that workflow may not edit this .md. So the committed provenance file will stop reproducing from the commits that workflow makes.",
+  "evidence": "In the fresh clone: `printf 'G = load(\"Revision/algebra/gammas.json\")\\n' > Revision/textbook/notebooks/src/99z_new_chapter.py; python provenance/dirac_matrices/build_dirac_matrices_md.py --check` gave '35 of 35 checks pass' / 'OUT OF DATE: provenance/dirac matrices.md differs from the regenerated text' / exit=1. `python -m unittest discover -s tests -p test_dirac_matrices_provenance.py` gave 'FAILED (failures=1)'. Today the list (60 files) still matches both the clone and the live tree (my consumers.py: 'in tree but not in md: []').",
+  "fix": "Take the consumer list out of the byte-compared provenance text. Either drop it, or write it to a separate non-checked file. Or have --check compare everything except that section. Or build the list from `git ls-files` at a pinned commit. Keep the exact-equality checks (33-35) as the binding evidence.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "The finding is correct, and the failure has already happened in the committed history. The builder at provenance/dirac_matrices/build_dirac_matrices_md.py lines 501-506 does an unfiltered rglob over Revision/, tests/ and scripts/ for any .py/.wl/.wls file containing 'gammas.json'. Lines 662-671 write that list, with its count, into the .md. --check (lines 673-679) then byte-compares the whole text. So the test passes or fails depending on unrelated textbook source files, even when the matrices are unchanged. I reproduced this in fresh scratch clones. The committed .md stopped reproducing at co"
+   },
+   {
+    "refuted": false,
+    "reason": "The finding holds, and the breakage it predicts has already happened. The builder gets its consumer list from an rglob over the working tree (lines 501-506) and writes that list into the .md (lines 662-671). `--check` and the test compare the whole text byte for byte (lines 674-680, and test line 22-24). The textbook workflow has since committed five new src files that mention gammas.json. So `--check` now fails on both the live tree and a fresh clone of current HEAD (972cad1), while all 35 mathematical checks still pass. The diff contains only the consumer list. A gitignored file triggers the"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "reproducibility",
+  "severity": "major",
+  "file": "provenance/dirac matrices.md (generator lines 538-553)",
+  "location": "md lines 9-18, 'How to reproduce (complete, self-contained)'",
+  "problem": "The section says it is complete and self-contained, but following it literally fails on stock Linux and macOS, and the install steps are missing. (a) The command `python` does not exist on Ubuntu 24.04 or stock macOS, where only `python3` exists. (b) There is no sympy install command. On Debian/Ubuntu and Homebrew Python, `pip install sympy` is refused (PEP 668), so a venv or `apt install python3-sympy` is needed. (c) There are no wolframscript install or activation steps. The Wolfram Engine must be activated once with `wolframscript -activate`, and on macOS Mathematica's wolframscript is inside the app bundle, not on the PATH. (d) The test command is not given; it appears only in the test's docstring. The repo's own provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md covers (b) and (c), but the .md neither repeats them nor links to it.",
+  "evidence": "`wsl -d Ubuntu-24.04 -e sh -c 'command -v python ...'` gave 'PRETTY_NAME=\"Ubuntu 24.04.4 LTS\"', 'python: NOT FOUND', 'python3: /usr/bin/python3', 'ModuleNotFoundError: No module named sympy', 'wolframscript NOT FOUND'. /usr/lib/python3.12/EXTERNALLY-MANAGED exists ('[externally-managed] Error=To install Python packages system-wide, try apt install python3-xyz'). `grep -n -iE 'pip install|python3|activate|STUDENT_GUIDE|unittest' \"provenance/dirac matrices.md\"` returns nothing. DIRAC16COMPLEX_STUDENT_GUIDE.md line 137: 'The Wolfram Engine ... must be activated once with a Wolfram ID: run `wolframscript -activate`'.",
+  "fix": "In the generator's reproduce section, add per-OS lines. Use `python` on Windows and `python3` on macOS/Linux. Install sympy with `python -m pip install sympy`, or create a venv first (`python3 -m venv .venv && . .venv/bin/activate && pip install sympy`). Install the Wolfram Engine plus WolframScript and run `wolframscript -activate` once. Give the macOS path /Applications/Mathematica.app/Contents/MacOS/wolframscript. Add the test command `python -m unittest discover -s tests -p \"test_dirac_matrices_provenance.py\" -v` and link to provenance/DIRAC16COMPLEX_STUDENT_GUIDE.md.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I could not refute it. I re-ran the check myself and every factual claim holds. The section is titled \"How to reproduce (complete, self-contained)\". On a stock Ubuntu 24.04 it fails when followed literally: both commands exit 127. Replacing `python` with `python3` fails on the missing sympy. The obvious repair, `pip install sympy`, is refused by PEP 668. The .md has no install steps, no wolframscript activation step, no test command and no link to DIRAC16COMPLEX_STUDENT_GUIDE.md, although that guide documents all of these. Three caveats. (1) Severity \"major\" is arguable. The section does name "
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every part of it checks out against the current files and a real Ubuntu 24.04 machine. The section is titled 'How to reproduce (complete, self-contained)', but it only names its requirements. It has no install or activation steps, no Linux/macOS interpreter name and no test command, so on stock Ubuntu 24.04 the literal commands fail. The cited generator lines are correct. One quibble: 'major' may be a high severity, because the requirements are named and the commands work as written on Windows, where the repo is developed. That does not make the finding wrong. T"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "reproducibility",
+  "severity": "minor",
+  "file": "provenance/dirac_matrices/extract_from_author_notebook.wls",
+  "location": "lines 62-72 (Export[out, ..., \"JSON\", \"Compact\" -> 1]); committed provenance/dirac_matrices/author_notebook_T16.json",
+  "problem": "The committed JSON has CRLF line endings. These come from Windows text-mode file writing, not from the exporter itself. On macOS or Linux the .wls will write LF, so the JSON will not reproduce byte for byte there, and git will show it as modified: with '* -text' in .gitattributes there is no normalisation. The docstring promises 'Output (deterministic)'. The .md content is not affected, because json.loads ignores whitespace.",
+  "evidence": "`od -c author_notebook_T16.json` begins '{ \\r \\n \\t \" s o u r c e'. A Python byte count gives 9 CRLF and 9 LF in total. `git ls-files --eol` shows 'i/crlf w/crlf attr/-text provenance/dirac_matrices/author_notebook_T16.json'. In wolframscript 15.0.1 on Windows, ToCharacterCode[ExportString[<|...|>,\"JSON\",\"Compact\"->1]] = {123, 10, 9, ...}, an LF only, while Export[\"t_export.json\", same] on disk is '{ \\r \\n \\t \" a \"'. The translation happens in the Windows file layer. On Windows the regenerated JSON was byte-identical twice (sha256 b4bdec86...e334).",
+  "fix": "Write the bytes explicitly so every OS gives the same file. For example: s = ExportString[assoc, \"JSON\", \"Compact\" -> 1]; str = OpenWrite[out, BinaryFormat -> True]; BinaryWrite[str, ToCharacterCode[s, \"UTF-8\"]]; Close[str]. Then commit the LF version. Also record $Version in the JSON.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every factual claim reproduced with my own code. The committed JSON has CRLF line endings. Only Windows text-mode file writing adds the CR: Export opens the file with OpenWrite[file, BinaryFormat -> False], and DOSTextFormat :> True means \"the normal text format for the type of computer\". The serialized JSON string itself contains only LF. The repository pins bytes ('* -text', so git does no normalisation), and another provenance file pins the CRLF sha256. So a regeneration on Linux or macOS would change the bytes and the hash, and git would show the file as mod"
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every piece of cited evidence checks out against the current files. The committed author_notebook_T16.json has CRLF line endings. They come from the Windows text-mode file layer that Export uses, not from the JSON writer. Under `* -text` git does no normalisation, so a run of the .wls on macOS or Linux (LF text mode) would give different bytes. git would then show the file as modified, and the sha256 recorded for it in another provenance file would no longer match. The .md is unaffected, as the finding says. Severity 'minor' is right. The suggested fix works: it"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "reproducibility",
+  "severity": "minor",
+  "file": "provenance/dirac_matrices/build_dirac_matrices_md.py",
+  "location": "lines 674-679 (--check: OUT.read_text(encoding=\"utf-8\") != text)",
+  "problem": "--check and the test are not byte-exact. read_text() converts CRLF to LF when reading, so a .md whose line endings were changed still reports 'is up to date' while git shows the file modified. This weakens the 'regenerated .md equals the committed one' guarantee that the test is meant to give.",
+  "evidence": "In the clone, after converting every LF to CRLF in 'provenance/dirac matrices.md' ('CRLF count 1265'): `python provenance/dirac_matrices/build_dirac_matrices_md.py --check` gave '35 of 35 checks pass' / 'provenance/dirac matrices.md is up to date' / exit=0, while `git status --porcelain` gave ' M \"provenance/dirac matrices.md\"'. I restored the file afterwards.",
+  "fix": "Compare bytes: current = OUT.read_bytes() if OUT.exists() else None; if current != text.encode(\"utf-8\"): ... OUT OF DATE.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "The finding holds. It is a real but minor problem. Line 675 reads the file with `OUT.read_text(encoding=\"utf-8\")`. That call uses universal-newline mode, which turns CRLF (and a lone CR) into LF before the comparison. So `--check`, and the unittest that runs it, cannot see a change of line endings. The repo's .gitattributes says `* -text` (\"Store every file byte-for-byte: hashes of provenance files are pinned\"). Under that rule git does count such a file as modified, so the guarantee that the regenerated .md equals the committed one is weaker than intended. The proposed byte comparison closes "
+   },
+   {
+    "refuted": false,
+    "reason": "I reproduced the finding. In build_dirac_matrices_md.py, --check reads the file with OUT.read_text(encoding=\"utf-8\") (line 675). Universal-newline decoding turns CRLF into LF, so a .md whose line endings were changed still reports \"is up to date\" with exit 0, and the unittest still passes. Meanwhile git shows the file modified and its blob hash changes. This matters because the repo's .gitattributes sets \"* -text\" with the comment \"Store every file byte-for-byte: hashes of provenance files are pinned\". With that setting git would commit CRLF bytes unchanged, and the check would not notice. The"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "reproducibility",
+  "severity": "minor",
+  "file": "provenance/dirac_matrices/build_dirac_matrices_md.py",
+  "location": "lines 427-446 (twisted_lambda returns None; line 443 dL = det(L) then crashes)",
+  "problem": "When the matrices are wrong, the builder crashes with an uncaught TypeError at the pin44_four_components step. The last 7 checks never run (pin44_four_components, the three projector checks, the fixture check, Revision_construction, old_stage_construction), and the summary line 'N of 35 checks FAILED; dirac matrices.md not written' is never printed. The .md says --check 'runs every check'. The documented exit code 1 with no write still holds, but the output is a traceback rather than the stated FAIL report.",
+  "evidence": "I flipped the sign of one entry of T16A[1] in a scratch copy of the JSON and ran `python provenance/dirac_matrices/build_dirac_matrices_md.py`. It printed 16 'FAIL ...' lines, the last being 'FAIL exp_is_product_of_two_unit_vectors', then 'Traceback ... build_dirac_matrices_md.py, line 443, in main ... line 153, in det ... TypeError: Data type not understood; expecting list of lists or lists of values.' and exit=1. Changing an entry to 2, or zeroing a row of Gamma_4, gave the same traceback. The .md was unchanged and the JSON was restored afterwards.",
+  "fix": "In the comps loop, if L is None: comps.append((label, False, 0, 0, 0)); continue. Then the check records FAIL and every later check still runs and is reported.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I reproduced the finding on my own and it holds. If the matrices are corrupted, build_dirac_matrices_md.py crashes at the pin44_four_components step. twisted_lambda returns None at line 438, and line 443 (dL = det(L)) then raises an uncaught sympy TypeError. As a result, the last 7 checks never run and the summary line \"N of 35 checks FAILED; dirac matrices.md not written\" is never printed. The generated .md (line 553 of the builder) says --check \"runs every check\", and line 552 promises a FAIL report. Exit code 1 and no write still happen, so the severity is minor, but the stated behaviour is"
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. I reproduced it exactly in a scratch clone. When the matrices are wrong, twisted_lambda() returns None, and line 443 `dL = det(L)` then calls sympy.Matrix(None) and raises an uncaught TypeError. Because of that, the last 7 checks never run and the \"N of 35 checks FAILED; dirac matrices.md not written\" line is never printed. The exit code is still 1 and nothing is written, as the finding says, so \"minor\" is the right severity. But the .md says `--check` \"runs every check\", and that is false in this failure mode. The proposed fix works: once applied, all 35 checks"
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "reproducibility",
+  "severity": "minor",
+  "file": "provenance/dirac matrices.md (generator lines 549-551)",
+  "location": "md line 18: 'Run time: about 1 minute (Wolfram) and about 10 seconds (Python). Side effects: the two commands write only ...author_notebook_T16.json and ...dirac matrices.md'",
+  "problem": "The stated run times and side effects do not match what I measured. Wolfram took about 6 s, not 1 minute. Python took 16-22 s, not 10 s. The Python step also writes two bytecode caches inside the repository, because it imports check_algebra.py and d16c_exact.py with spec.loader.exec_module. They are gitignored, so `git status` stays clean.",
+  "evidence": "`time wolframscript -file ...` took 6.13 s and 5.66 s. `time python .../build_dirac_matrices_md.py` took 16.4 s and 21.9 s. --check took 15.6 s. The machine has 24 threads. With the session's PYTHONDONTWRITEBYTECODE=1 removed (`env -u PYTHONDONTWRITEBYTECODE python ...`), `git status --porcelain --ignored` showed '!! Revision/algebra/python/__pycache__/' and '!! scripts/__pycache__/'. `find -newer` listed Revision/algebra/python/__pycache__/check_algebra.cpython-314.pyc and scripts/__pycache__/d16c_exact.cpython-314.pyc.",
+  "fix": "State the measured times with the machine, for example 'about 10 s (Wolfram, incl. kernel start) and 15-25 s (Python)'. Set sys.dont_write_bytecode = True at the top of the builder before load(), or list the __pycache__ files as side effects.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "My own runs confirm the finding, so I could not refute it. I worked in a fresh scratch clone of HEAD 972cad1, where every audited file is byte-identical to the working tree. (1) The md sentence 'the two commands write only author_notebook_T16.json and dirac matrices.md' is false under default Python settings. With PYTHONDONTWRITEBYTECODE unset, the builder writes two bytecode caches inside the repository. They come from the exec_module imports at generator lines 488-491. The caches are gitignored, so they do no harm, but the 'write only' claim is still inaccurate. (2) 'About 1 minute (Wolfram)"
+   },
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Every part of it reproduces. The run times stated on md line 18 (generator lines 549-551) are wrong. Wolfram takes about 7 s, not about 1 minute. Python takes 16-19 s, not about 10 s. The claim that the two commands \"write only\" the .json and the .md is also false in a normal shell: the Python step writes two __pycache__ .pyc files inside the repository. They are gitignored, so the impact is small, and severity \"minor\" fits. But the file states something that does not match measurement, and the binding rule is to record measured truth."
+   }
+  ],
+  "confirmed": true
+ },
+ {
+  "lens": "reproducibility",
+  "severity": "minor",
+  "file": "provenance/dirac matrices.md (generator) and author_notebook_T16.json",
+  "location": "md lines 9-18; JSON keys ['source','cells','eta4488','T16A','T16A_8','sigma16','twice_PL','twice_PR']",
+  "problem": "The tool versions that produced the committed files are not recorded anywhere: Wolfram 15.0.1, Python 3.14.5, sympy 1.14.0. The .wls depends on how the kernel parses the notebook's boxes (ToExpression of StandardForm boxes, FullSimplify in cell 267), so a student with a different Wolfram version cannot tell whether a difference comes from the version. 'Python 3.10+' is stated but untested; only the 3.10 grammar check passes.",
+  "evidence": "`grep -n -iE 'version|15\\.0|3\\.14|sympy 1' \"provenance/dirac matrices.md\"` returns nothing. The JSON keys contain no version. This environment: `$Version` = '15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)', `python --version` = 'Python 3.14.5', sympy 1.14.0.",
+  "fix": "Have the .wls write $Version into the JSON. Have the builder print the versions (sys.version, sympy.__version__, the JSON's Wolfram version) in the reproduce section. Since that changes the bytes on other versions, put it outside the --check comparison, or record only the 'tested with' versions in the generator.",
+  "votes": [
+   {
+    "refuted": false,
+    "reason": "I could not refute the finding. Its core claim is true. The tool versions used to make the committed files are not recorded anywhere: not in the .md, the JSON, the .wls or the builder. The rest of the repository does record them, for example \"Verified ... with Wolfram 15.0.1 and WolframScript 1.14.0\" in provenance/wolframscript/*.PROVENANCE.md, plus the version tables in DIRAC16COMPLEX_STUDENT_GUIDE.md and DIRAC16COMPLEX_TEXTBOOK.md. So this file does not follow the repo's own practice. Calling it minor is right. Part of the finding's reasoning is weaker than it claims. On the Python side, I r"
+   },
+   {
+    "refuted": false,
+    "reason": "The finding holds. The committed files and the working-tree files under audit do not record which tool versions produced them. The `.wls` really does depend on the kernel parsing the notebook's boxes, and \"Python 3.10+\" cannot be tested on this machine. The repository's other provenance sets do record their Wolfram version, so leaving it out here is a real reproducibility gap. Minor severity is right: the checks are exact and integer-valued, so a student on another version would see a failing check or a `--check` difference, but could not tell whether the version caused it."
+   }
+  ],
+  "confirmed": true
+ }
+]
