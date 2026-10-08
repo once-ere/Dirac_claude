@@ -1,0 +1,130 @@
+[
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/00-how-to-use-this-book.md",
+  "location": "Section 0.2 (lines 27-49), Section 0.18 (lines 1370-1388), Exercise 7 (line 3097)",
+  "problem": "The deep-dive rule (b) says every technical word is defined at first use. Section 0.2 says that only four words are new and are defined later, but it uses many more without any definition or chapter pointer. Section 0.18 and Exercise 7 also use probability words that are outside school algebra and calculus.",
+  "evidence": "Line 27 claims the only new words are \"mass, self-coupling, energy-momentum tensor, charge\". The same section then uses, without a gloss: \"an element of the group Pin(4,4)\" and \"Z2 mirror\" (l.32); \"indefinite (Krein) metric $-B$\" and \"quantised\" (l.33); \"self-consistent Kohn-Sham universe\" (l.34); \"Einstein's equations\" (l.35); \"the symmetries called C and CP\", \"thermal equilibrium\", \"exact U(1) symmetry\" and \"classical fields\" (l.45); and \"$\\mathcal{C}_+ = C$\" with the matrix C never introduced (l.47). Section 0.18 uses \"probability\", \"expected number\" and \"independent\" (l.1370-1388, l.3097) without defining them.",
+  "fix": "Extend the parenthetical in line 27 to every forward-referenced word. Give each a one-line plain gloss and the chapter that defines it, for example: \"Krein metric: an inner product that can be negative, Chapter 10\". Define probability, the expected number and independence in two sentences before the fingerprint derivation in Section 0.18."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/00-how-to-use-this-book.md",
+  "location": "Section 0.22, 'How 0.1 is stored' (line 2144)",
+  "problem": "A derivation step is skipped. The line \"so it must be written as $m \\cdot 2^{-4-52}$\" uses the exponent rule, which is stated only later in the 'Machine epsilon' paragraph (line 2208).",
+  "evidence": "Line 2144: \"The number 0.1 lies between $2^{-4}$ and $2^{-3}$; so it must be written as $m \\cdot 2^{-4-52} = m \\cdot 2^{-56}$\". The reason is first given at line 2208: \"every stored number x between $2^k$ and $2^{k+1}$ has the power $2^{k-52}$\".",
+  "fix": "Insert the one-sentence rule before line 2144: with $2^{52} \\le m < 2^{53}$ and $2^k \\le x < 2^{k+1}$, the power must be $2^{k-52}$. Then cite it at line 2170 for 0.3."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/00-how-to-use-this-book.md",
+  "location": "Section 0.25, walk-through of In [10] (line 2691)",
+  "problem": "The prose misstates a computed number. It says the grey bars are \"hundreds to more than a million times shorter\", but the smallest ratio is 93.",
+  "evidence": "The ratios from Out [9] are 8.267e-10/5.829e-16 = 1.42e6, 2.722e-10/7.528e-13 = 362 and 6.959e-11/7.518e-13 = 92.6. The stored caption of 00d_4 itself says \"between 93 and 1.4 million times shorter\".",
+  "fix": "Write \"about a hundred to more than a million times shorter\", or quote the caption's numbers (93 and 1.4 million)."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/notebooks/src/00d_reproducible_runs.py",
+  "location": "Markdown cell of section '7. The order of a sum changes the last digits' (printed in Section 0.24)",
+  "problem": "The notebook text overstates the ratio between the method error and the rounding error. It also disagrees with the chapter.",
+  "evidence": "The notebook says the method error \"is about $10^{8}$ times larger than the rounding differences\". The measured values are a method error of 9.999995e-7 and a largest rounding difference of 196 ulps \u00d7 2.22e-16 = 4.36e-14, a ratio of 2.3e7. Chapter Section 0.22 (line 2260) correctly says \"more than $10^{7}$ times larger\".",
+  "fix": "Change the builder text to \"more than $10^{7}$ times larger than the largest rounding difference\" and rebuild 00d with nbkit build."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/00-how-to-use-this-book.md",
+  "location": "Section 0.3 label table (line 61) vs ledger row 16 (line 1348); also 00c builder, markdown section 3",
+  "problem": "The labels are used inconsistently. Ledger row 16 is labelled OPEN although the book answers it: as built, the theory does not explain the excess. That contradicts the book's own definition of OPEN. Notebook 00c also defines PROVED and OPEN differently from Section 0.3.",
+  "evidence": "Section 0.3: \"OPEN | a question that neither the Revision record nor this book answers\". Row 16: \"the theory explains the excess of matter over antimatter | OPEN: the theory as built does not explain it\". 00c section 3 says \"PROVED (exact, with a complete proof and a named computer-algebra check)\" and \"OPEN (a question nobody has answered)\". But row 6 (GKD) is verified by exact Rust checks, and the PROVED facts of Chapter 0 itself have no computer check.",
+  "fix": "Rephrase row 16 as the open question (e.g. \"what produces the observed excess of matter over antimatter\"), with the note \"the theory as built does not produce it\". Alternatively, state explicitly that OPEN also covers 'not achieved by the theory as built'. Align the 00c word list with the definitions in Section 0.3 and rebuild 00c."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/00-how-to-use-this-book.md",
+  "location": "Section 0.2 (line 43) vs ledger row 14 (line 1346)",
+  "problem": "Under R3 the wording needs to be precise. \"exists\" is used in two senses that a student will read as a contradiction.",
+  "evidence": "Line 43: \"They are exact maps between solution sets: if one solution exists, its partner exists too.\" Ledger row 14: \"the T1 maps exist; that a partner exists is not shown\".",
+  "fix": "Line 43: \"if a configuration is a solution, its image is also a solution of the equations with the mapped parameters\"."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/00-how-to-use-this-book.md",
+  "location": "Section 0.2 'Charge conjugation is a matrix' (line 47) and Section 0.21 walk-through of In [3] (line 1473)",
+  "problem": "The text says Notebook 00c prints the details of the R5 checks it names. Only one of the three named checks is printed.",
+  "evidence": "Line 47 names `charge_conjugation_matrix_plus`, `charge_conjugation_matrix_minus` and `real_fields_charge_conjugation`, then says \"Notebook 00c opens this report and prints three of its details\". Out [3] of 00c prints `representation_real`, `charge_conjugation_matrix_minus` and `u1_noether_matrix_identity`. Section 0.21 then calls these \"the statements of Section 0.2 about charge conjugation\". The $\\mathcal{C}_+ = C$ statement and the real-field statement (J = 0, $\\Gamma$ with the mass reversed) are not printed.",
+  "fix": "Either name the three checks that are actually printed, or let 00c print the details of `charge_conjugation_matrix_plus` and `real_fields_charge_conjugation` as well. The second option is the core R5 statement. Then rebuild 00c."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/00-how-to-use-this-book.md",
+  "location": "Section 0.4 (line 73) and Section 0.9 (line 228)",
+  "problem": "Two statements tell the student where to find things, and both are inaccurate.",
+  "evidence": "Line 73: \"activate the Python environment of the book and go into the repository folder (Section 0.8 shows how)\". Section 0.8 gives no activation commands; they are in Section 0.11, Step 4. Line 228 says the check command \"prints `check_00a=PASSED` at the end\". Running `python Revision/textbook/notebooks/src/00a_check_installation.py check --scratch ...` here printed `check_00a=PASSED`, then `nbkit_seconds=5.0` and `nbkit=OK` as its last lines.",
+  "fix": "Point to Section 0.11, Step 4. Write \"prints the line `check_00a=PASSED` (followed by `nbkit=OK`)\"."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/00-how-to-use-this-book.md",
+  "location": "Section 0.14 'Space-like and time-like' (line 654)",
+  "problem": "A historical statement is not precise. The spacetime interval with a minus sign in front of the time step was formulated by Poincar\u00e9 (1905/06) and Minkowski (1908), not found by Einstein in 1905.",
+  "evidence": "Line 654: \"In 1905 Einstein found that a step in space and time must be measured with a minus sign in front of the time step\".",
+  "fix": "For example: \"Einstein's special relativity (1905), written in this form by Minkowski (1908), measures a step in space and time with a minus sign in front of the time step\"."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/00-how-to-use-this-book.md",
+  "location": "Section 0.22 (line 2262), Section 0.26 (line 3057); 00d builder record string in In [7]",
+  "problem": "The cited range of checks does not match the claim of eight comparisons. In the report's order, the range from `refined_ground_energies` to `refined_heat_capacity` holds nine checks, including the negative control `refined_mermin_root_path`.",
+  "evidence": "Report order in ks-rust-determinism.json: refined_ground_energies, refined_ground_homo_lumo_gap, refined_eigenvalues, refined_delta_scf, refined_profiles, refined_adiabatic_derivatives, refined_thermodynamics, refined_mermin_root_path, refined_heat_capacity. The text says: \"The eight measured largest differences ... (checks `refined_ground_energies` to `refined_heat_capacity`)\".",
+  "fix": "Either list the eight check names or say \"the eight refined_* comparison checks (all except refined_mermin_root_path)\". Change the record string in the 00d builder to match and rebuild."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/notebooks/src/00c_honesty_ledger.py",
+  "location": "In [12]: caption of 00c_4_fingerprints and the check name; chapter Section 0.18 (lines 1364-1368)",
+  "problem": "A general claim about sha256 is drawn from 115 samples. The check's name also does not match its condition.",
+  "evidence": "Caption: \"no small change of a file can leave its fingerprint nearly the same\". Check name: \"every one-character change alters more than half of the fingerprint\", but the condition is `counts.min() >= 32` (half, not more than half). In Section 0.18, property 2 (\"a change of a single byte changes the fingerprint completely\") carries no label, although it is only measured.",
+  "fix": "Caption: \"none of the 115 one-character changes left the fingerprint nearly the same\". Use `> 32` or rename the check \"at least half\". In Section 0.18, mark property 2 as measured evidence (COMPUTED) that is relied on, like property 3 (ASSUMED). Rebuild 00c."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/tools/run_instructions.py",
+  "location": "line 727, troubleshooting tip printed in Step 8 of every run-instruction section (e.g. Sections 0.11, 0.15, 0.19, 0.23)",
+  "problem": "The suggested workaround \"(or type `python -m jupyter` instead of `jupyter`)\" does not work. The `jupyter` dispatcher looks for `jupyter-lab` and `jupyter-nbconvert` on PATH. When `jupyter` is not on PATH, that lookup fails too.",
+  "evidence": "Tried here with Python 3.14.5, where the Scripts folder is not on PATH. `python -m jupyter nbconvert --to notebook --execute 00a_check_installation.ipynb` printed \"Jupyter command `jupyter-nbconvert` not found.\" `python -m jupyter lab --version` printed \"Jupyter command `jupyter-lab` not found.\" `python -m nbconvert --to notebook --execute 00a_check_installation.ipynb --output-dir <scratch>` (with TEXTBOOK_OUTPUT_ROOT=<scratch>) worked: 7.3 s, PASS, and the 3 written files were byte-identical to the repository's.",
+  "fix": "This is an open item for the infra agent, who owns the tool. Replace the tip with `python -m jupyterlab <notebook>` and `python -m nbconvert --to notebook --execute --inplace <notebook>`. Every notebook must then be rebuilt."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/tools/run_instructions.py",
+  "location": "Step 2, Linux fallback for a too-old Python (Section 0.11 lines 325-333 of the expanded chapter)",
+  "problem": "The Linux instructions cover \"Debian or Ubuntu\", but the fallback for an old Python only works on Ubuntu. Debian 12 ships Python 3.11, below the 3.12 minimum, so a Debian student has no working path.",
+  "evidence": "The fallback is `sudo add-apt-repository ppa:deadsnakes/ppa`. Launchpad PPAs are Ubuntu-only. `add-apt-repository` itself also needs the package software-properties-common, which minimal installs lack.",
+  "fix": "This is an open item for the infra agent. Add a Debian route (e.g. Debian 13, or a python.org/pyenv build) and the line `sudo apt install software-properties-common` before add-apt-repository."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/notebooks/src/00c_honesty_ledger.py",
+  "location": "In [5] (is_report scan), In [7], In [8] and In [10] (fixed axis limits)",
+  "problem": "Notebook 00c is fragile while other workflows are running. The report search reads every *.json under Revision except textbook/ and target/. That includes the orchestrator state files in Revision/workflows/, which are rewritten during runs. The bar charts also use fixed x-limits.",
+  "evidence": "The scan includes Revision/workflows/state_restart/state_textbook.json and 10 other workflow JSON files. A half-written file makes `json.loads` raise and 00c fails. A workflow JSON with a top-level `checks` key would be counted as a report and fail the 27-report check. Fixed limits: `ax.set_xlim(0, 112)` for figures 00c.1 and 00c.2 (largest report today: 101) and `ax.set_xlim(0, 232)` for figure 00c.3 (row 10 today: 167 plus its label). These clip silently if reports grow, for example under the a4 T16 switch.",
+  "fix": "Skip `Revision/workflows/` like `Revision/textbook/`. Compute the x-limits from the data (e.g. 1.12 \u00d7 the maximum). Rebuild 00c."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/00-how-to-use-this-book.md",
+  "location": "Section 0.21 (line 1596), Section 0.26 (line 3056); 00c In [6] README check",
+  "problem": "The prose hard-codes totals that will change when the a4 reports gain checks under the T16 switch. Notebook 00c also asserts that the Revision/README.md table equals the live counts. So the a4 switch breaks 00c unless the README table is updated in the same change. The writer reported only the rebuild, not this coupling.",
+  "evidence": "Line 1596: \"940 checks in all: 377 done with the Wolfram Language, 456 with Python, 70 with Rust and 37 by the lead's checks\". Line 3056: \"940 checks when this chapter was written\". 00c check: `quoted_readme == [counted[path] for path in README_ORDER]`. The README quotes \"Wolfram 47/47, sympy 61/61\" for field_equations_a4/.",
+  "fix": "Refer to \"the RESULT lines of Out [5]\" instead of fixed totals, or keep the numbers with the record date and the report names. Tell the a4 workflow that README.md's field_equations_a4 row must change together with the reports. After the switch, rebuild 00c and re-check the prose."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/00-how-to-use-this-book.md",
+  "location": "Section 0.21 walk-through of Notebook 00c, In [5], In [6], In [8], In [9]",
+  "problem": "The deep-dive rule (c) requires the walk-through to quote each code line or small group of lines. 95 code lines of 00c are never quoted; they are only summarised.",
+  "evidence": "A script compared every non-blank code line of the 4 notebooks with the chapter text. 00a, 00b and 00d have 0 unquoted lines. 00c has 95: the 27 entries of `REPORTS` (In [5]), 14 of the 16 `README_ORDER` entries (In [6]), 7 of the 8 `SUBJECTS` (In [8]) and ledger rows 2 to 12 of `LEDGER` (In [9]). Examples are `(\"Revision/kohn_sham/reports/ks-rust-mermin-roots.json\",` and `[R + \"lead_checks/reports/einstein-gauss-bonnet-a4.json\"]),`.",
+  "fix": "Quote these data rows in small groups (e.g. one block per Revision folder, one block per ledger row group), each with one sentence on why the report is in that row or that engine."
+ }
+]

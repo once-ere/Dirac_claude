@@ -1,0 +1,58 @@
+[
+ {
+  "severity": "major",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/13-many-body-and-dft.md",
+  "location": "Section 13.32 'Stability of the equal-label solution' (line 3418) and 'What the notebook finds' (line 3449: 'The equal-label solution is stable (In [16])'); walk-through of Notebook 13a In [16] (lines 3909-3928); builder Revision/textbook/notebooks/src/13a_kohn_sham_1d_toy.py In [16], check 'from a separated start the labels return to equal densities (stable)'",
+  "problem": "The chapter asks whether the fermions would lower their energy by separating the labels. It answers by noting that Anderson mixing, started from a separated guess, returns to equal labels. That inference is invalid. Anderson mixing finds roots of w_out - w = 0, and it converges to saddle points of the energy as readily as to minima. So 'the loop returns' does not show energetic stability. The chapter's own two-site model is a counterexample. The conclusion happens to be true at g_c = 2, but the notebook does not show it. The walk-through caveat ('a numerical test, not a proof for every start') still presents the test as a stability test.",
+  "evidence": "I ran Anderson mixing with the Revision settings (depth 6, beta 0.4, tolerance 1e-11, the same algorithm as 13a's anderson) on the two-site unrestricted model at U = 4t, Delta = 0. Started from separated potentials (push 0.5), it converged in 15 passes to n_up = n_down = (0.5, 0.5) with E = 0. Section 13.7 and Figure 13c.6 show that this point is a SADDLE; the minimum is -0.5t, which the same loop finds with a push of 1.0 or more. A direct energy probe in the 13a namespace (labels_energy with w_scf +- eps*tanh(x)) gives E - E_KS = +3.5e-5 (eps = 0.01), +8.8e-4 (0.05), +0.0153 (0.2) and +0.124 (0.5). So stability is true, but only an energy test shows it.",
+  "fix": "In 13a In [16], add an energy test: evaluate labels_energy for label-separating trial potentials w_scf +- eps*shape (for example tanh x and x exp(-x^2/4), with several eps) and check that E(eps) > E(0). Rename the convergence check (for example 'the two-label loop returns to equal densities'). In Section 13.32 and the walk-through, state that loop convergence alone cannot tell a minimum from a saddle (the two-site case above), and that stability is shown by the energy test. Rebuild 13a with nbkit build, then update the quoted numbers."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/13-many-body-and-dft.md",
+  "location": "Section 13.16 (line 1377: wolfram-algebra.json checks reality and Clifford_relation PASS; lines 1424-1432: ks-theory-wolfram.json PASS, exchange_slab_exact_fock PASS, +lambda Q^2/32, column deltaE_x_exact_fock_diag); Section 13.37 (line 4235: T = 0.01, 0.02, 0.05; line 4243 fillingConvention; line 4246: every check of python-t3.json and wolfram-t3.json PASS); Section 13.38 (line 4285: ks-source-conditions.json checks ks_history_is_a_prescribed_background, ks_profiles_violate_algebraic_condition, ks_profiles_depend_on_x8 'each with the verdict PASS')",
+  "problem": "These record facts are quoted only in prose. No notebook of the chapter reads or asserts them, so drift in the Revision records would not be caught. The task requires that quoted record values be asserted in the notebooks for exactly this reason. The risk is concrete: ks-source-conditions.json belongs to Revision/field_equations_a4, whose reports are gaining checks during the T16 switch, and other wave-1b/2 workflows may still change the Revision records. Notebook 13b asserts only three ks-theory-python verdicts. Notebook 13c reproduces the hf_wick_contraction identity but does not read the report.",
+  "evidence": "Today the records agree with the text: python-t3.json 13/13 PASS, wolfram-t3.json 10/10 PASS; the ks-source-conditions.json checks are all PASS (5 checks); parameters.json physics.temperatures = [0.01, 0.02, 0.05]; ks-theory-wolfram.json exchange_uniform_gas, ks_potentials and exchange_slab_exact_fock are PASS. But a grep of the five builders finds no read of ks-source-conditions.json, python-t3.json, wolfram-t3.json, ks-theory-wolfram.json, wolfram-algebra.json, exact-fock-variant.csv or physics.temperatures.",
+  "fix": "Add one short cell (for example in 13b or 13e) that reads these records and asserts each quoted name, verdict and value with check(..., record=...): the three ks-source-conditions checks, all T3 verdicts, the two wolfram exchange checks plus exchange_slab_exact_fock, the exactFockSlab 'DIAGNOSTIC' status and its +lambda Q^2/32 term, physics.temperatures, the presence of the CSV column, and the algebra checks reality and Clifford_relation. Rebuild with nbkit."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/13-many-body-and-dft.md",
+  "location": "Section 13.38, COMPUTED paragraph (lines 4266-4272): 'the uncertainty of each number is the tolerance of the check that confirms it'",
+  "problem": "Rule R3 asks for COMPUTED numbers with their measured uncertainty. The stated rule misreports it. Several numbers have no confirming check: U = 3.335t, the 13a widths 1.413346/1.542829/1.659857, and the 13a gap and transition state. For the 13a trap numbers the quoted tolerance ('two formulas agree to 1e-9') measures internal consistency, not accuracy. The model of Section 13.32 is the continuum trap, and the notebook itself measures its 200-point-grid error at about 1e-2.",
+  "evidence": "13a In [3]: the grid levels are off by up to 0.0126 (7.487394 against 7.5). 13a In [21]: 'E at g_c = 0: 15.990192', against the exact 16 (error 0.0098). Yet Section 13.38 lists 'E = 21.851498 (two formulas agree to 10^-9)' and the gap 0.772662 to six decimals. 13c In [12]: 3.335 is the argmin on a grid of step 1e-4, with no check.",
+  "fix": "State the real uncertainties. The 13a numbers are exact for the 200-point grid model and differ from the continuum model by about 1e-2 (measured in In [3] and In [21]). U = 3.335t is located to the grid step 1e-4. The widths and the gap are grid values with the same discretisation error."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/13-many-body-and-dft.md",
+  "location": "Section 13.3 'N particles' (line 120); Section 13.6 'The Hartree-Fock equations' (line 258); Section 13.26 'Mermin's theorem' (line 2727); Section 13.38 PROVED list (lines 4253, 4256, 4262)",
+  "problem": "Three steps break the deep-dive rule 1(a) ('no similarly, no skipped algebra'), although Section 13.38 lists them as PROVED. (a) For N particles, the normalisation of a Slater determinant and the density formula n = sum |phi_a|^2 are asserted 'by the same rules of determinants'; only N = 2 is worked out. (b) The Hartree-Fock equations are stated after 'set the derivative ... with respect to phi_a^*(r) to zero' without the differentiation written out. That derivative is also a functional derivative, which the chapter defines only later, in Section 13.9: a definition-before-use violation. (c) Mermin's theorem: 'the proof of the Hohenberg-Kohn theorem then goes through word for word'. The Gibbs-state version of the first step (rho0 != rho0' when v - v' is not constant) and the inequality chain with Tr[rho0'(V - V')] = int (v - v') n' are not written.",
+  "evidence": "Line 120: 'The same three properties hold, by the same rules of determinants'. Line 258: 'set the derivative of ... with respect to phi_a^*(r) to zero ... The result is'. Line 2727: 'goes through word for word'. Line 4262: 'Mermin's theorem by the same argument' is listed under PROVED.",
+  "fix": "Write the three derivations line by line: the N-particle norm and density via the Leibniz expansion and orthonormality; the variation of each term of the Hartree-Fock functional (or move the functional-derivative definition before Section 13.6); and Mermin's two strict inequalities with the Gibbs-state argument. Alternatively, downgrade the statements in Section 13.38."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/notebooks/src/13b_contact_exchange_gas.py",
+  "location": "Markdown cell '## 4. The physical and mathematical situation', paragraph **Status.** (printed in the book in Section 13.19)",
+  "problem": "The notebook's status labels contradict the chapter. (1) It says the Revision exchange numbers were 'COMPUTED there with sympy'. The chapter (Section 13.16 table, Section 13.38) labels them PROVED, which is correct: they come from an exact sympy check, exchange_uniform_gas in ks-theory-python.json. (2) It says 'Everything in sections 5 to 11 is exact mathematics ... (PROVED ...)'. Those sections include Dirac's integral 9/4 and the Gaussian-range ratios, which are numerical Simpson integrations. The chapter itself says 'The integral is 9/4: COMPUTED by Notebook 13b (In [10]) to 10^-7'.",
+  "evidence": "13b markdown cell 4: 'The last part reproduces numbers of the Revision record (COMPUTED there with sympy, recomputed here exactly).' Chapter line 1333: 'The integral is $9/4$: COMPUTED by Notebook 13b'. Chapter line 1424: 'PROVED in the Revision record by two independent programs'.",
+  "fix": "In the builder, change the text to 'PROVED there (exact sympy checks exchange_uniform_gas, ks_potentials, filled_shell_ratio)'. Label the 9/4 integral and the finite-range ratios COMPUTED, with their tolerances (1e-7 and 1e-5). Rebuild 13b with nbkit build."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/13-many-body-and-dft.md",
+  "location": "Section 13.14, walk-through of Notebook 13c In [2] (line 583)",
+  "problem": "The walk-through explains suppress_small=True wrongly. It says np.array2string prints 'showing -0 as 0'. suppress_small does not turn a negative zero into 0. It prints numbers very close to zero as zeros, in fixed rather than power-of-ten notation. The deep-dive rule requires each code line to be explained exactly.",
+  "evidence": "python: np.array2string(np.array([-0.0, 0.5, -1e-20]), precision=6, floatmode='fixed', suppress_small=True) returns '[-0.000000  0.500000 -0.000000]'. Also, no entry of Phi is a negative zero (np.signbit(Phi) is True only at the two -0.5 entries).",
+  "fix": "Replace 'showing $-0$ as $0$' with 'and prints numbers that are very close to zero as zeros instead of in powers-of-ten notation (suppress_small=True)'."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/13-many-body-and-dft.md",
+  "location": "Section 13.14, 'What Figure 13c.3 shows' (line 859)",
+  "problem": "A quoted number does not match the figure. The text says all 16 entries of |rho_det| lie 'between about 0.05 and 0.85'. The smallest entry is 0.078.",
+  "evidence": "In a re-execution of 13c in scratch: np.abs(rho_det).min() = 0.07776, max = 0.85490. The darkest squares of 13c_3_density_matrices.png sit at about 0.08 on the colour bar.",
+  "fix": "Write 'between about 0.08 and 0.85'."
+ }
+]

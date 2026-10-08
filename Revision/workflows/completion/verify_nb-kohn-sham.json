@@ -1,0 +1,74 @@
+[
+ {
+  "severity": "minor",
+  "file": "notebooks/dirac16complex_kohn_sham.PROVENANCE.md",
+  "location": "Section 3.10 Route E; Section 6.3 paragraph after the table (route E record); Section 5.2 first bullet",
+  "problem": "The Route E command in the file was not the command that was tested. The file tells the student to run `python -m jupyterlab notebooks/dirac16complex_kohn_sham.ipynb`. Given a notebook path, Jupyter serves from `notebooks/` (not the repository root) and opens `/lab/tree/dirac16complex_kohn_sham.ipynb`. The record of runs 5 and 8 used `python -m jupyterlab --no-browser ...` with no notebook path and the URL `/lab/tree/notebooks/dirac16complex_kohn_sham.ipynb`. Section 5.2 also leaves out the runtime file `jpserver-file-to-run-<pid>-open.html`, which the documented command writes.",
+  "evidence": "I ran the documented command plus `--no-browser --ServerApp.ip=127.0.0.1 --ServerApp.port=8897 --IdentityProvider.token=` from the repository root. The server log said `Serving notebooks from local directory: ...\\Dirac_claude\\notebooks`. The URL used in the record, /lab/tree/notebooks/dirac16complex_kohn_sham.ipynb, gave `404 ... No such file or directory: notebooks/dirac16complex_kohn_sham.ipynb`. The runtime folder held jpserver-36000.json, jpserver-36000-open.html and jpserver-file-to-run-36000-open.html, the last with href http://127.0.0.1:8897/lab/tree/dirac16complex_kohn_sham.ipynb. At that URL the notebook ran as the file says. Run, Run All Cells gave execution counts 1-18, the 63-line gauntlet block was identical, the run took about 55 s, autosave came at 04:41:29 (about 2 min after opening), `.ipynb_checkpoints/` was created, and File > Shut Down removed all runtime files.",
+  "fix": "In Section 6.3, record that route E was re-tested with the documented command (or re-test it that way). In Section 3.10, say that with this command the JupyterLab file browser shows the `notebooks` folder and the notebook opens at /lab/tree/dirac16complex_kohn_sham.ipynb. Add `jpserver-file-to-run-<id>-open.html` to the runtime files listed in Section 5.2."
+ },
+ {
+  "severity": "minor",
+  "file": "notebooks/dirac16complex_kohn_sham.PROVENANCE.md",
+  "location": "Section 3.11 step 5 (PowerShell command `Get-FileHash ... | Format-Table -AutoSize Hash, Path`)",
+  "problem": "In a normal PowerShell window (120 columns), Format-Table cuts off the Path column before the file name. Each row needs about 156 characters even from C:\\work, so the student cannot tell which hash belongs to which figure.",
+  "evidence": "`Get-FileHash -Algorithm SHA256 artifacts/dirac16complex/kohn-sham/figures/*.png | Format-Table -AutoSize Hash, Path | Out-String -Width 120` printed rows like `5C5F...F6B C:\\Users\\nsh\\AppData\\Local\\Temp\\claude\\D--Developer-gi...`. With the recommended C:\\work clone, a row is 65 + 64 + name = up to 156 characters, which is more than 120.",
+  "fix": "Use a command that prints the file name, in lower case to match Section 2.4. For example: `Get-FileHash -Algorithm SHA256 artifacts/dirac16complex/kohn-sham/figures/*.png | ForEach-Object { \"$($_.Hash.ToLower())  $(Split-Path -Leaf $_.Path)\" }`. Use the same pattern in step 6."
+ },
+ {
+  "severity": "minor",
+  "file": "notebooks/dirac16complex_kohn_sham.PROVENANCE.md",
+  "location": "Section 5.1 table row `notebooks/__pycache__/`, `scripts/__pycache__/` (routes \"B, C, D\"); Section 2.3 and Section 5.2 statement that the only repository files opened for writing are the 14 figures",
+  "problem": "The file says which routes create the __pycache__ folders, and gets it wrong. `scripts/__pycache__/` is created by every execution of the notebook, including the recommended route A and route E, because cell 17 imports scripts/check_dirac16complex_kohn_sham.py and that imports ks_reference_solver.py. `notebooks/__pycache__/` is created only by route D (the auditor loads the builder with importlib) and by the unit tests, not by B or C. In a first execution the process also writes the two .pyc files, so 'only the 14 figures were opened for writing' holds only when the cache already exists.",
+  "evidence": "After the unit tests alone, `git status --porcelain --ignored` listed `!! notebooks/__pycache__/` but no scripts/__pycache__. scripts/__pycache__/check_dirac16complex_kohn_sham.cpython-314.pyc has mtime 04:28:45, inside the strict route A run (04:26:46-04:28:53), before routes B, C and D. notebooks/__pycache__ holds build_...cpython-314.pyc and check_...cpython-314.pyc (from the unit tests and importlib). Builder line 2582: `sys.path.insert(0, str(REPO / \"scripts\"))` then `import check_dirac16complex_kohn_sham as CK`.",
+  "fix": "Split the row. `scripts/__pycache__/` comes from every execution route (A, B, C, E). `notebooks/__pycache__/` comes from route D and the unit tests. In Sections 2.3 and 5.2, add that the first execution also writes the bytecode cache in scripts/__pycache__/ (unless PYTHONDONTWRITEBYTECODE is set)."
+ },
+ {
+  "severity": "minor",
+  "file": "notebooks/dirac16complex_kohn_sham.PROVENANCE.md",
+  "location": "Section 2.3 first sentence (\"reads exactly 459 files of the repository\")",
+  "problem": "The count of files read is not exact. The 459 committed inputs are confirmed, but the notebook also reads back its own 29 outputs (the 14 figures it has just written and the 15 fresh spectrum files) and the bytecode cache. The file does not mention these extra reads.",
+  "evidence": "I ran notebooks/run_notebook.py under a sys.addaudithook 'open' recorder in the fresh clone (56 s). It read 492 repository files outside build/ks-venv. That is all 459 listed inputs (none missing; their list SHA-256 is c2e956ee..., 215282859 bytes), plus the 14 artifacts/dirac16complex/kohn-sham/figures/*.png, the 15 build/notebook-kohn-sham/spectrum/* files, scripts/__pycache__/check_dirac16complex_kohn_sham.cpython-314.pyc and ks_reference_solver.cpython-314.pyc, and the runner and the notebook. Outside the repository and the Python installation it read only C:\\Users\\nsh\\.matplotlib\\fontlist-v3.11.0.json.",
+  "fix": "Say \"reads 459 committed input files (listed in Section 2.5); in addition it re-reads the 14 figures and the 15 fresh spectrum files it has just written, and Python's bytecode cache\"."
+ },
+ {
+  "severity": "minor",
+  "file": "notebooks/dirac16complex_kohn_sham.PROVENANCE.md",
+  "location": "Section 6.4 table row 'executed notebook written by the builder's --execute (route C)', column 'Compared with the committed file' (\"in 38 lines\")",
+  "problem": "The route-C copy and the committed notebook differ in 19 lines, not 38 as the file says. 38 is the number of '<' plus '>' lines in diff output, which counts each changed line twice.",
+  "evidence": "Both files have 3759 lines. `diff notebooks/dirac16complex_kohn_sham.ipynb build/nbclient/dirac16complex_kohn_sham.ipynb` gives 17 hunks with 19 '<' lines and 19 '>' lines. Compared line by line by position, 21 lines differ, because one hunk shifts lines. The content of the differences matches the explanation in Section 6.4 (cross-check report present, fresh-runs path, deltaSCF and particleHole now agree, eigenvalues still DIFFER, new rust_vs_reference.png hash, gauntlet 58/2/0).",
+  "fix": "Write \"differs ... in 19 lines (19 lines replaced; `diff` prints 38 changed lines)\" or similar."
+ },
+ {
+  "severity": "minor",
+  "file": "notebooks/dirac16complex_kohn_sham.PROVENANCE.md",
+  "location": "Section 6.2 (normalisation of the nbconvert copies) and the normalised SHA-256 8836527c... quoted in Sections 6.2/6.4",
+  "problem": "A reader cannot reproduce the normalised hash from the description. The hash depends on serialisation details the file leaves out (indent=1, ensure_ascii=False, UTF-8). The file only says the JSON is written again with sorted keys.",
+  "evidence": "With json.dumps(nb, sort_keys=True, ensure_ascii=False, indent=1) encoded as UTF-8, after removing metadata.execution and joining consecutive stream outputs, both of my route-A copies (python -m nbconvert and jupyter.exe nbconvert) gave 8836527c2018ffa1b48ea583719ae5a52c2d4458a78fb8fb4a4c319032de70de, which confirms the claim. With json.dumps(nb, sort_keys=True) (ensure_ascii=True, no indent) the same copy gives 55e8496f49cdb05740c7010a6b49a0c3de89aa3871b63e3096200210f6b139db.",
+  "fix": "State the exact serialisation: `json.dumps(nb, sort_keys=True, ensure_ascii=False, indent=1)`, SHA-256 of its UTF-8 bytes, after removing `metadata.execution` from every cell and joining consecutive stream outputs of the same name. Better still, give the few lines of Python."
+ },
+ {
+  "severity": "minor",
+  "file": "notebooks/dirac16complex_kohn_sham.PROVENANCE.md",
+  "location": "Section 3 (macOS commands throughout), Section 6.1 environment",
+  "problem": "The macOS commands were never run, and the file does not say so. Section 6.1 lists only Windows and Linux, but Section 3 presents the macOS commands and results as equivalent. On Apple Silicon the committed `.cargo/config.toml` flag `-C target-feature=+fma` names a feature that aarch64 does not have, so neither the build behaviour nor the byte identity of the `spectrum` re-run is established on macOS.",
+  "evidence": "Section 6.1 and Section 6.3 (runs 1-13) cover only Windows 11 and Ubuntu 24.04/WSL2. The only macOS statement is 'probably on macOS' in Section 3.11 step 4. `rustc --print target-features --target aarch64-apple-darwin` lists `neon` and `fp-armv8` but no `fma`. .cargo/config.toml sets `rustflags = [\"-C\", \"target-feature=+fma\"]` for every target.",
+  "fix": "Add a sentence (in Section 3.1 or 6.1) that the macOS commands were not executed and that on Apple Silicon the expected outputs (the fresh_spectrum_byte_identical check, the figures, the route-C hash) are unverified. Mention that rustc may warn about the `+fma` flag there."
+ },
+ {
+  "severity": "minor",
+  "file": "notebooks/dirac16complex_kohn_sham.PROVENANCE.md",
+  "location": "Section 6.4 paragraph 'Why the executed notebook, the report and rust_vs_reference.png differ' (\"made on 2026-09-30 at commit 4215a8f (the last commit that changed them)\")",
+  "problem": "Commit 4215a8f is the last commit that changed the notebook and the report, but not the figure. The committed `rust_vs_reference.png` was last changed in an earlier commit, faf108d.",
+  "evidence": "`git log -1 -- notebooks/dirac16complex_kohn_sham.ipynb` gives 4215a8f 2026-09-30 08:44:01. `git log -1 -- artifacts/dirac16complex/kohn-sham/notebook-report.json` gives 4215a8f. `git log -1 -- artifacts/dirac16complex/kohn-sham/figures/rust_vs_reference.png` gives faf108d 2026-09-30 08:35:01.",
+  "fix": "Write e.g. \"the committed notebook and report were last changed in commit 4215a8f, the figure rust_vs_reference.png in faf108d (both 2026-09-30)\". The reproduction itself is unaffected."
+ },
+ {
+  "severity": "minor",
+  "file": "notebooks/dirac16complex_kohn_sham.PROVENANCE.md",
+  "location": "Section 4.1 Route B ('then its own two last lines' / 'After that the runner prints')",
+  "problem": "After the gauntlet summary line, route B prints a blank line before the runner's two lines. The file does not show it, although the stated total of 343 lines includes it.",
+  "evidence": "logs/routeB.out ends `gauntlet: 60 checks, 58 passed, 2 failed, 0 skipped` / `` / `FAIL notebooks\\dirac16complex_kohn_sham.ipynb (cell 18): AssertionError('gauntlet failed: rust_vs_reference_eigenvalues, python_check_report')` / `0 ok, 1 failed`. The full output was 343 lines and is identical, apart from CR line endings, to the runner's run-10 log nks/nks1-logs/routeB.log.",
+  "fix": "Show the blank line in the block after 'After that the runner prints', or say 'an empty line and then'."
+ }
+]

@@ -1,0 +1,66 @@
+[
+ {
+  "severity": "major",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/02-mathematics-from-zero-ii.md",
+  "location": "Section 2.24, 'Why the error grows with the level' (lines 3286 and 3292). The same claim is in the notebook 02d builder Revision/textbook/notebooks/src/02d_pruefer_shooting.py, the markdown before In[12], about line 946 ('the computed level comes out too high by').",
+  "problem": "The text says 'the energy must be higher by delta eps' and that 'The computed levels come out slightly too HIGH', and labels this PROVED to leading order. That is only true for positive levels. The derivation assumes eps > 0 (theta' ~ eps > 0, and the RK4 angle per step is smaller than omega). For a negative level the angle runs backwards and the lag makes Phi too high, so the computed level comes out too LOW, that is, larger in size. The formula delta eps ~ eps^5 h^4/120 itself has the right sign for both cases, because eps^5 < 0. Only the wording and the 'higher' step are wrong.",
+  "evidence": "In Revision/kohn_sham/results/spectrum/free-k0-analytic.csv (the record Notebook 02d reproduces), all 33 positive levels have difference > 0, but all 18 negative levels have difference < 0. Example row: m=1, L=3, even, label -3: eps_numeric -3.296908309775607, eps_analytic -3.296908309475615, difference -3.0e-10. The figure 02d.8 and the check use |difference|, so the sign error goes unnoticed.",
+  "fix": "Say that the computed levels come out too large in size (too high for eps > 0, too low for eps < 0), delta eps ~ eps^5 h^4/120 with the sign of eps. Replace 'the energy must be higher by' with 'the energy must move away from zero by'. Make the same correction in the 02d builder markdown, then rebuild 02d with nbkit."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/notebooks/src/02a_rk4_convergence.py",
+  "location": "Line 859, the markdown cell '## 16. What this notebook showed' of Notebook 02a",
+  "problem": "The Richardson estimate has the wrong sign: '$(Y_{h/2} - Y_h)/(2^p - 1)$ estimates the error'. The error (computed minus exact) of the finer run is (Y_h - Y_{h/2})/(2^p - 1). That is what the notebook's own section 14 (builder line 775), the code (`estimated = (coarse - fine) / 15.0`) and the chapter (Section 2.6 line 375; Section 2.29 line 4174) say.",
+  "evidence": "Builder line 775: '$$Y_{h/2} - Y = ... = \\frac{Y_h - Y_{h/2}}{2^p - 1}$$'. Line 859: 'Richardson's rule $(Y_{h/2} - Y_h)/(2^p - 1)$ estimates the error'. Output of In[14]: estimated +5.210e-08, actual +4.928e-08 for N = 8 -> 16, so the estimate is (coarse - fine)/15 > 0.",
+  "fix": "Change line 859 to $(Y_h - Y_{h/2})/(2^p - 1)$ and rebuild 02a with nbkit build. The chapter needs no change."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/02-mathematics-from-zero-ii.md",
+  "location": "Section 2.11, walk-through of In [10], line 1115 ('What Figure 02a.5 shows'); also Section 2.6, line 358",
+  "problem": "The text says that for smaller steps the RK4 error 'grows again along the rounding line'. The figure contradicts this. The measured errors stay 3 to 4 orders of magnitude below the dotted line N eps e^-1 and never follow it. Section 2.6 presents N eps as how the total rounding error grows, without saying that it is only an upper scale. The 02c discussion does add that caveat ('rounding errors are not always of their largest size').",
+  "evidence": "Figure Revision/textbook/figures/02a_5_rounding_floor.png, inspected: at N = 262144 the measured error is 5.773e-15 (RESULT line of In[10]). The dotted line there is eps e^-1 N = 2.2e-16 x 0.368 x 262144 = 2.1e-11, about 3600 times higher. The measured points on the left lie between 1e-15 and 1e-14, far below the line.",
+  "fix": "Write: 'for smaller steps it grows again, though far more slowly and far below the pessimistic bound N eps e^-1 (rounding errors partly cancel)'. Add the same caveat to the rounding paragraph of Section 2.6."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/02-mathematics-from-zero-ii.md",
+  "location": "Section 2.28, walk-through of 02d In [5], line 3566",
+  "problem": "The walk-through misdescribes the line `grid_difference = (Phi_grid[2:] - Phi_grid[:-2]) / (eps_grid[2:] - eps_grid[:-2])` as 'the value two places ahead minus the value two places back, divided by the energy distance 0.04'. Entry i is Phi[i+2] - Phi[i], centred on point i+1: one place ahead minus one place back. Two places each way would span 0.08, not 0.04.",
+  "evidence": "The quoted code at line 3557, and eps_grid = np.linspace(-6.0, 7.0, 651) with spacing 0.02. The text's own '0.04' and 'belonging to the inner energies eps_grid[1:-1]' are only consistent with one place each way.",
+  "fix": "Replace with 'the value one place ahead minus the value one place back, divided by the energy distance 0.04 between them'."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/tools/run_instructions.py",
+  "location": "Line 727, the troubleshooting entry 'jupyter is not recognized ... (or type `python -m jupyter` instead of `jupyter`)'. It appears in the run instructions of 02a-02d: book sections 2.9/2.15/2.21/2.26, notebook cell 2, the set-up comments and every PROVENANCE.md Step 8.",
+  "problem": "The suggested fallback does not work. `python -m jupyter nbconvert ...` still needs the executable `jupyter-nbconvert` on PATH, so it fails in exactly the situation the entry addresses. If the environment is not active, `python` is a different interpreter without Jupyter. The fallback that works is `python -m nbconvert --to notebook --execute --inplace <file>` (and `python -m jupyterlab <file>`). The tool is owned by infra, so this is reported for the infra owner.",
+  "evidence": "Tried on this machine, where Jupyter is installed in the user site and its Scripts folder is not on PATH. `python -m jupyter nbconvert --to notebook --execute --inplace 02a_rk4_convergence.ipynb` gave 'Jupyter command `jupyter-nbconvert` not found.', exit 1, for all four notebooks. `python -m nbconvert --to notebook --execute --inplace 02c_partial_derivatives.ipynb` worked: rc=0, 10 s.",
+  "fix": "In run_instructions.py, change the parenthesis to: '(or, with the environment active, type `python -m nbconvert` instead of `jupyter nbconvert`, and `python -m jupyterlab` instead of `jupyter lab`)'. Then rebuild the notebooks whose text changes, as the tools README requires."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/notebooks/src/02a_rk4_convergence.py",
+  "location": "In [12] (phase portrait), figure Revision/textbook/figures/02a_6_phase_portrait.png. Caption, and chapter line 1215 ('What Figure 02a.6 shows')",
+  "problem": "The figure does not show what its caption and the walk-through tell the student to look at. The caption says 'The exact solution runs clockwise round the black unit circle', but the black circle (lw 1.0, drawn first) is completely covered by the RK4 path (lw 0.9, drawn on top). The midpoint path ('drifts slowly outwards') cannot be told apart from RK4: after 50 steps its radius is only sqrt(1.0004^50) = 1.010.",
+  "evidence": "In a crop of the upper-left arc of the PNG (rows 120-330, columns 330-560), the number of near-black pixels (max RGB < 0.15) is 0. The zoomed crop shows only blue circles over green triangles on one line.",
+  "fix": "Draw the exact circle on top (zorder) as a thin dashed black line, or plot RK4 with markers only. Run the oscillator longer, or add an inset or a second panel with |x^2 + v^2 - 1| so that the midpoint drift is visible. Or change the caption and the walk-through to describe what is actually visible. Then rebuild 02a."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/02-mathematics-from-zero-ii.md",
+  "location": "Section 2.29, line 4170 ('every one is also confirmed by a check of a notebook')",
+  "problem": "This is an overclaim. Some PROVED items have no notebook check. (i) 'the orthogonality of states of different parity': the overlap() function of 02b In[10] returns 0.0 by construction for different parity, so the orthonormality check does not test it. (ii) 'the gradient ... points uphill': 02c checks only perpendicularity. (iii) 'the absence of any other level with |eps| <= M': no check states it directly.",
+  "evidence": "02b code quoted at chapter lines 2171-2177: `same = (EVEN[m] == EVEN[n])` and `return 2.0 * half if same else 0.0`. 02c In[4] check: 'the gradient is perpendicular to the level curve' (only abs(gx*t0 + gy*t1) < 1e-15 and abs(change) < 1e-7).",
+  "fix": "Either weaken the sentence ('most are also confirmed by a notebook check; the different-parity orthogonality is used, not tested'), or add checks. For example: compute the different-parity overlaps numerically over the whole line, check that f increases along the gradient, and check that no Phi target other than 0 is crossed for |eps| <= M."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/02-mathematics-from-zero-ii.md",
+  "location": "Lines 460, 2312, 2358 and 3111; and the 02b builder, section 4 markdown (the ceiling bracket)",
+  "problem": "Deep-dive gaps (TEXTBOOK_SPEC section 1a/1b). (1) Line 460 derives R(h)R(-h) = c^2 - s^2 = 1 + h^6/72 + h^8/576 with 'the same algebra as for c^2 + s^2 above' and never writes c^2 = 1 + h^2 + h^4/3 + h^6/24 + h^8/576 or s^2 = h^2 + h^4/3 + h^6/36. (2) Line 2312 uses f_x, f_y and |grad f| without defining them; the chapter only introduces the notation \\partial_x f. (3) Line 2358 states h_best = (beta/alpha)^{1/4} for the mixed formula without defining alpha for that formula or writing E'(h) = 2 alpha h - 2 beta/h^3 = 0. (4) Line 3111 gives one odd root per interval ((n+1/2)pi/L, (n+1)pi/L) but never says why there is none in (n pi/L, (n+1/2)pi/L), where tan(pL) > 0 > -p/M, or why the crossing is unique (tan rising, -p/M falling). (5) Notebook 02b section 4 uses the ceiling bracket in 'ceil(3.49) = 4 states' without defining it.",
+  "evidence": "Quoted text, line 460: '(the same algebra as for $c^2 + s^2$ above, now with $+h^2/2$ in $c$ and $+h^3/6$ in $s$ ...)'. Line 2312: '(-f_y f_x + f_x f_y)/|\\nabla f| = 0'. Line 2358: 'for the mixed formula $E = \\alpha h^2 + \\beta/h^2$ gives $h_{\\rm best} = (\\beta/\\alpha)^{1/4} \\approx 10^{-4}$'. 02b notebook markdown: '$\\lceil z_0/(\\pi/2) \\rceil = \\lceil 3.49 \\rceil = 4$ states'.",
+  "fix": "Write out c^2 and s^2 for the product case. Define f_x := \\partial f/\\partial x and |grad f| = sqrt(f_x^2 + f_y^2) before using them. Write E'(h) for the mixed formula and say what alpha is there. Add the one-line sign and monotonicity argument for the odd roots. In 02b replace the ceiling bracket with words ('the number of intervals of length pi/2 that begin below z0') and rebuild 02b."
+ }
+]

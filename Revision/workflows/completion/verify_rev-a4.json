@@ -1,0 +1,34 @@
+[
+ {
+  "severity": "major",
+  "file": "Revision/field_equations_a4/wolfram/WOLFRAMSCRIPT_PROVENANCE.md",
+  "location": "Section 1, subsection 'The Dirac matrices of this set' (lines 79-106), and section 6.3 remark (c) (lines 707-715)",
+  "problem": "The file says openly that the set builds its own eight real 16 x 16 matrices and does not read the author's matrices. It never says that this goes against Revision/SPEC.md section 2, which is binding for every file under Revision/. SPEC section 2 requires the author's real 16 x 16 matrices T16, rebuilt in Revision code from the author's formulas. The file presents the choice only as harmless ('none of the set's results depend on that choice'). The relayed user request asks exactly whether the instructions about these matrices were followed, and says to explain any failure. This deviation is therefore not stated or explained. Remark (c) points only at the sentence in 'provenance/dirac matrices.md'.",
+  "evidence": "In the fresh clone (af2c688), Revision/SPEC.md line 1 reads 'binding for every file under `Revision/`'. SPEC section 2, lines 45-48, reads: 'Gamma matrices: the author's real 16 x 16 matrices T16 of the notebook (built from the tau matrices), RE-CONSTRUCTED in Revision code from the author's formulas'. FieldEquationsA4.wl lines 119-128 instead build FEGammaFrame from Kronecker products of s1, e and w. The only SPEC reference in the provenance file is to section 5 (line 16); grep finds no mention of SPEC section 2. The set's own report admits the departure: the C_properties_own_rep detail says '(the properties SPEC section 2 requires; ... so it holds in the author's T16 as well)'. I reran the supplementary check: 10 of 10 pass and its output is byte-identical to the printed output, so the two sets of matrices are equivalent. The equivalence is proven, but the deviation from the instruction is not stated.",
+  "fix": "Add one sentence to section 1 ('The Dirac matrices of this set') and to remark 6.3(c). It should say that Revision/SPEC.md section 2 requires the author's T16, rebuilt from the author's formulas (as stored in Revision/algebra/gammas.json). It should say that this set departs from that instruction because it uses its own Kronecker-product matrices. It should also say how the departure is covered: the exact intertwiner check (10 of 10 pass) and the Python companion's authorT16_* checks (10 of 10 PASS in reports/python-a4-report.json). Optionally, record it as an open discrepancy against the SPEC, not just a remark."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/field_equations_a4/wolfram/WOLFRAMSCRIPT_PROVENANCE.md",
+  "location": "Section 3.5 (line 252: 'prints nothing for about 20 to 35 seconds'), section 4 (lines 372-373: 'so these times are upper values for this machine'), section 6.2 (line 591: supplementary check 'about 5 s')",
+  "problem": "The file calls the 2026-10-07 wall times (27.4 to 33.7 s) 'upper values for this machine'. That is not true. Under similar load on the same machine (CPU load 100 %, 12 to 14 other Wolfram kernels), every one of my runs took longer than 35 s. The supplementary check took 9.3 s run alone, not about 5 s. Kernel CPU time matched the stated range, so only the wall-time claims are wrong.",
+  "evidence": "Measured on 2026-10-07 in fresh clones af2c688 and d4431b2, on Windows 11 10.0.26300 with 24 cores and Wolfram 15.0.1 / WolframScript 1.14.0. Run 1 (literal PowerShell commands): 35.8 s. Run 2 (Start-Process with monitoring): 52.1 s wall, 22.7 s kernel CPU. Run 3 (Git Bash with 'time'): 37.6 s. Run 4 (the documented Measure-Command): 47.0 s. Run 6 (network sampling): 39.8 s. Run 5, from the wolfram folder while the cross-check ran at the same time: 64.0 s. dirac_crosscheck.wls: 9.3 s alone, 19.9 s alongside another run. Every run printed 'checks: 47, failed: 0' and exited with code 0.",
+  "fix": "Drop 'so these times are upper values for this machine'. Say instead that wall time depends strongly on machine load: 27 to 52 s were measured on the loaded verification machine, against about 22 to 23 s of kernel CPU time. In 3.5, change 'about 20 to 35 seconds' to 'about 20 seconds to a minute'. In 6.2, give the supplementary check as about 5 to 10 s."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/field_equations_a4/wolfram/WOLFRAMSCRIPT_PROVENANCE.md",
+  "location": "Section 4, lines 374-375 ('Peak memory (working set): 226.5 MB to 227.0 MB for the Wolfram kernel')",
+  "problem": "The peak kernel memory range in section 4 does not match the file's own record. Section 6.1 records a lower value, and my measurement is lower as well.",
+  "evidence": "Section 6.1's run table, run 2 (fresh clone 2, commit c2b33cc), records '226.2 MB'. My monitored run 2 measured 226.3 MB for the kernel and 16.7 MB for wolframscript. Both are below the stated 226.5 MB lower bound.",
+  "fix": "Change the range to '226.2 MB to 227.0 MB' (or 'about 226 to 227 MB')."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/field_equations_a4/wolfram/WOLFRAMSCRIPT_PROVENANCE.md",
+  "location": "Section 3.6, missing-package item (lines 279-280: 'on macOS or Linux find the process number with `ps aux | grep -i wolfram` and end it with `kill <process number>`')",
+  "problem": "On macOS and Linux, 'ps aux | grep -i wolfram' lists both the wolframscript process and the kernel (WolframKernel or wolfram), plus the grep command itself. The Windows text says which process to end ('the one using CPU time'). The macOS/Linux text does not, so a beginner may end wolframscript and leave the endless kernel running.",
+  "evidence": "Section 5 itself says wolframscript starts a licence-query process and then the kernel (process name containing 'wolfram' or 'Wolfram', e.g. WolframKernel). I confirmed the two child processes on Windows: 'wolfram.exe -wlbanner -licenseinfo' (0.12 s of CPU time) and the kernel ('wolfram.exe -runfirst ... -mathlink', 22.7 s of CPU time). In the missing-package test, ending only the kernel after 75 s (48.4 s of kernel CPU time) made wolframscript exit 0.25 s later with exit code -1 and the 42-byte message on the error stream, as the file documents.",
+  "fix": "Add: 'end the WolframKernel (or wolfram) process with the high %CPU value, not wolframscript; if a kernel is still running after wolframscript has ended, end it too'."
+ }
+]

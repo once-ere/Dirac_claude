@@ -1,0 +1,82 @@
+[
+ {
+  "severity": "major",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/08-non-triviality-and-well-posedness.md",
+  "location": "Section 8.1, fifth bullet (line 15); Section 8.18, last paragraph (line 1524); Section 8.37 table row 'h_k^2 = E^2 I16; ... the Cauchy problem is not well posed' (line 3434); Section 8.38, PROVED list (line 3454)",
+  "problem": "The chapter labels as PROVED, without any qualifier, that the initial-value problem of the field equation in the author's curved metric is not well posed for data that depend on the extra times. The derivation in Sections 8.17 to 8.19 only holds in flat 4+4 space or with frozen coefficients. The chapter itself labels frozen coefficients 'MODEL, ASSUMED' (Section 8.17, line 1460; Section 8.38, line 3462: 'not exact solutions of the field equation in the author's metric'). So one of the chapter's two headline results carries a stronger status than its proof supports. This breaks the R3 rule that every statement carries its correct status. By contrast, the parallel deflation bullet is correctly qualified ('PROVED with frozen coefficients').",
+  "evidence": "Detail of the cited record check, Revision/theory/reports/python-scope.json, check extra_time_growth_rates_unbounded: 'flat 4+4 space (or frozen coefficients), plane waves ... the first-order system is not well posed in Hadamard's sense'. Notebook 08a's own closing cell (section 16) says: 'Scope: these are statements with frozen coefficients (or in flat 4 + 4 space).' Chapter line 15 reads: 'its initial-value problem is NOT well posed for data that depend on the extra times ... (PROVED; Sections 8.16 to 8.19)'. The 8.18 conclusion and the 8.37 table row are likewise unqualified.",
+  "fix": "Qualify every occurrence: 'PROVED in flat 4+4 space and, for the author's metric, with frozen coefficients (MODEL)'. Alternatively, quote a standard theorem as ASSUMED (the Lax-Mizohata theorem: a Cauchy problem whose principal symbol has non-real characteristic roots is ill posed) to carry the statement over to the variable-coefficient equation, and label it accordingly. Make the 8.37 row and the 8.38 PROVED list match."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/08-non-triviality-and-well-posedness.md",
+  "location": "Section 8.1, fourth bullet (line 14); Section 8.10, 'The frame-independent content of non-triviality' (line 379)",
+  "problem": "Both places say that the frame factors e^{\u2213a4} sin^{-1/6}z and tan z ('none of which is identically 1') multiply EVERY derivative term of the field equation. This is false for the x4 derivative, whose factor is 1/f_4 = 1.",
+  "evidence": "Section 8.2, line 77: '1/f_4 = 1'. The written-out equation (lines 72-73) has the bare term gamma^(4) d_4 Psi.",
+  "fix": "Say 'multiply every derivative term except the one along the time x4' (or 'every derivative along x1..x3, x5..x8')."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/08-non-triviality-and-well-posedness.md",
+  "location": "Sections 8.12 (line 397), 8.20 (line 1545), 8.26 (line 2204), 8.33 (line 2861), 8.38 (line 3460)",
+  "problem": "The quoted check-run times match neither the R6 provenance records nor a fresh run, so they cannot be traced to any record. The chapter quotes 105 s (08c), 8.5 s (08a), 10.8 s (08b) and 66 s (08d).",
+  "evidence": "The nbkit-record lines of the PROVENANCE.md files give check seconds 114.6 (08c), 12.6 (08a), 13.9 (08b) and 74.5 (08d). My fresh nbkit check runs today took 67.6 s, 14.6 s, 10.7 s and 39.8 s.",
+  "fix": "Quote the times recorded in the provenance files (or round them, e.g. 'about 2 minutes'), and say that they were measured on the build computer."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/notebooks/src/08b_deflation_onset.py",
+  "location": "Words cell (line 117: 'where the Kohn-Sham record puts its brane'); captions of Figures 08b.1 and 08b.3 (lines 288 and 415: 'the brane end'); printed in the book in Section 8.28",
+  "problem": "The technical word 'brane' is used without a definition. The chapter itself never defines it: Section 8.31 only says 'a Z2 brane ... Chapter 14 explains it', which is a forward reference to a later chapter. The chapter otherwise calls y = 0 'the patch end'. This breaks deep-dive rule (b).",
+  "evidence": "grep finds 'brane' in the 08b builder at lines 117, 288 and 415, and in the chapter only in 8.31, 8.37/8.38 and a check name.",
+  "fix": "Use 'patch end' in the 08b captions and words cell, or define 'brane' in plain words at its first use (a boundary surface at z = pi/2 that the Kohn-Sham record ASSUMES). Then rebuild 08b."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/08-non-triviality-and-well-posedness.md",
+  "location": "Section 8.29, 'What Figure 08b.4 shows' (line 2671); caption of Figure 08b.4 in Revision/textbook/notebooks/src/08b_deflation_onset.py (around line 640)",
+  "problem": "The text says that before the onset 'the wave oscillates and keeps its size' (caption: 'its size stays near 1'). With extra-time momentum the mode matrix is not Hermitian, so the Hilbert norm is not conserved (Section 8.19 says so). In fact the size grows by about 50 percent before the onset.",
+  "evidence": "I re-ran the model of In [7]/In [8] (same h(x4), same starting columns, RK4). u^dagger u at the onset is 1.515 for q5 = 0.05 and 1.544 for q5 = 0.1, rising monotonically from 1. In the figure, ln(u^dagger u) reaches about 0.4 at the dotted onset lines.",
+  "fix": "Write 'the wave oscillates and its size grows only slightly (by about 50 percent up to the onset)'. Fix the caption the same way and rebuild 08b."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/08-non-triviality-and-well-posedness.md",
+  "location": "Section 8.8, end of the Euler-Lagrange derivation (line 301)",
+  "problem": "The text says '(The record proves the same for the Grassmann field with left derivatives.)' but names no record file or check. R3 requires every PROVED statement to name its verifier file and check.",
+  "evidence": "The check exists: Revision/theory/reports/python-field-theory.json, grassmann_euler_lagrange_psibar_variation (verdict pass, 'left derivatives').",
+  "fix": "Append '(python-field-theory.json, check grassmann_euler_lagrange_psibar_variation)'."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/08-non-triviality-and-well-posedness.md",
+  "location": "Section 8.9, Step 2 (line 321)",
+  "problem": "The step that shows J = gamma^(4) gamma^(8) anticommutes with gamma^(4) and gamma^(8) is justified by the garbled phrase 'it contains each of them once and the other once'. Under the deep-dive rule this step is effectively skipped.",
+  "evidence": "Line 321: 'J anticommutes with gamma^(4) and with gamma^(8) (it contains each of them once and the other once)'.",
+  "fix": "Spell it out: moving gamma^(4) through J = gamma^(4) gamma^(8) passes gamma^(4) itself (no sign) and gamma^(8) (one sign), so gamma^(4) J = -J gamma^(4); likewise for gamma^(8)."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/08-non-triviality-and-well-posedness.md",
+  "location": "Section 8.23, 'What Figure 08a.4 shows' (line 1982)",
+  "problem": "The text says the s = 8 curve is 'back above 0 near K = 25'. The curve actually crosses zero at K of about 26.2.",
+  "evidence": "Solving sqrt(K^2-1) = 4 ln(1+K^2): the left side is smaller at K = 26.1 (26.081 < 26.101) and larger at K = 26.2 (26.181 > 26.131). The red curve in 08a_4_hadamard_ratio.png crosses zero just right of the K = 25 gridline.",
+  "fix": "Write 'back above 0 near K = 26'."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/notebooks/src/08c_frame_dependence.py",
+  "location": "FACTS troubleshooting (line 87); same in 08d_rescaling_modes.py; rendered in Sections 8.13 and 8.34 and in the PROVENANCE files",
+  "problem": "The troubleshooting symptom strings end with a full stop, and the shared renderer appends a colon. The book therefore prints 'runs for more than a minute.: these cells ...'.",
+  "evidence": "Rendered chapter (render_notebook.py --chapter-file), Section 8.13: '- A cell of sections 7, 11 or 12 runs for more than a minute.: these cells simplify ...'. Section 8.34: '- A cell of section 6 or 7 runs for more than a minute.: sympy simplifies ...'.",
+  "fix": "Remove the trailing full stop from the symptom strings in the two builders and rebuild 08c and 08d (no tool change needed)."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/tools/run_instructions.py",
+  "location": "Generated troubleshooting item 'jupyter is not recognized ... (or type `python -m jupyter` instead of `jupyter`)', printed in Sections 8.13, 8.21, 8.27 and 8.34 (shared tool owned by infra; reported, not edited)",
+  "problem": "The suggested fallback does not work reliably. `python -m jupyter nbconvert` only dispatches to a `jupyter-nbconvert` executable on PATH, so it fails exactly when the Scripts folder is not on PATH. It also fails when the environment is not active, because then `python` is the system Python.",
+  "evidence": "On this machine (Windows, Git Bash, packages installed in the per-user site with its Scripts folder not on PATH), `python -m jupyter nbconvert --to notebook --execute 08b_deflation_onset.ipynb` failed with 'Jupyter command `jupyter-nbconvert` not found.'. `python -m nbconvert --version` (7.16.6) and `python -m jupyterlab --version` (4.4.10) work. With the Scripts folder on PATH, the documented headless command ran 08b in 8 s, printed 'ALL 25 CHECKS PASSED (notebook 08b)' and wrote figures byte-identical to the repository.",
+  "fix": "Infra: change the fallback to `python -m nbconvert ...` and `python -m jupyterlab ...`, and say that the environment must be active first."
+ }
+]

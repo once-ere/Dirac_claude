@@ -1,0 +1,98 @@
+[
+ {
+  "severity": "major",
+  "file": "Revision/textbook/chapters/12-field-equations-a4.md",
+  "location": "Section 12.22, line 2335 (also repeated in 12.31 OPEN, line 3839)",
+  "problem": "The prose quotes numbers from the Kohn-Sham source record that no notebook cell computes, prints or asserts: '70 recorded Kohn-Sham states', 'N = 136', and the ratios 0.339767, 0.25969 and 0.239714 at a4,0 = 0, 1, 2. TEXTBOOK_SPEC 1(d) requires every number in the text to be traced to the cell that computes it. The restart note also requires record numbers to be asserted in the notebooks so that drift is caught, and the Kohn-Sham records are being changed by wave 1b.",
+  "evidence": "grep for 0.339767, 0.25969, 0.239714, N136 and ks_integrals in Revision/textbook/notebooks/src/12*.py finds nothing. Notebook 12c In [15] only checks `ks[\"summary\"][\"pass\"] == ks[\"summary\"][\"checks\"] == 5` and that `ks_history_is_a_prescribed_background` is present. The numbers are correct today: ks-source-conditions.json, check ks_integrals_violate_algebraic_condition, gives 0.339767, 0.25969, 0.239714; emt-integrals.csv gives N136_lam0_a00 int_p3 = 23.81325 and int_p8 = 35.04349, ratio 0.33977; the report states '75 ground-state profiles ... (70 with a nonzero energy-momentum tensor)'. Today they are only correct by coincidence.",
+  "fix": "In 12c In [15], read Revision/kohn_sham/results/ground/emt-integrals.csv. Compute (int_p3 + int_p_t)/(2 int_p8) for N136_lam0_a00, a10 and a20, and count the profiles with a nonzero tensor. Report the values and assert them with reproduces(..., 'Revision/field_equations_a4/reports/ks-source-conditions.json', 'ks_integrals_violate_algebraic_condition'). Then cite 'Notebook 12c, In [15]' in Section 12.22 and update the walk-through and the PASS count. The other option is to remove the numbers from the prose."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/12-field-equations-a4.md",
+  "location": "Section 12.16, In [2] walk-through, line 757",
+  "problem": "The prose hard-codes the check counts of the a4 reports: 'The output shows 61 of 61, 47 of 47, 15 of 15 and 10 of 10'. It does not name the report each count belongs to. The pending a4 author-T16 patch changes these counts. Notebook 12a only prints the counts and asserts nothing.",
+  "evidence": "HANDOFF.md 0.4k: 'Wolfram 47 -> 52 checks, Python 61 -> 63 ... (4) Textbook: chapter 12 line ~757 (63 and 52)'. The current reports have python-a4-report.json 61/61, wolfram-a4-report.json 47/47, einstein-gauss-bonnet-a4.json 15/15 and emt-divergence-and-spin-connection.json 10/10. The restart note says never to hard-code these counts in prose without naming the report.",
+  "fix": "Write the sentence without fixed numbers ('the output shows, for each of the four reports, that every check passed'), or name the report with each count. Optionally add check(passed == len(verdicts), ...) per report in 12a In [2], so that a failing record check is caught as well as a change in the count."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/12-field-equations-a4.md",
+  "location": "lines 43, 520, 547, 1861, 2185, 2273, 2785, 2997, 3851, 3855; also builder 12c glossary ('the author's history is ... A = 1 (or A = 2)') and 12d section 12",
+  "problem": "The chapter repeatedly calls A = 1 'the author's history' or 'the author's slope'. The author's metric leaves a4(x4) free. The Revision records treat A = 1 as the canonical, PRESCRIBED (ASSUMED) choice, and the theorem says the field equations select neither the slope nor its sign. Chapter 12 also disagrees with itself (the 12c notebook says 'A = 1 (or A = 2)') and with Chapter 3, which calls it 'the canonical A = 1' and 'the history of the record (A = 1, H = 1; ASSUMED, a prescribed background)'.",
+  "evidence": "Revision/kohn_sham/results/parameters.json: 'a4 = A H x4 (A = 1 canonical) ... PRESCRIBED BACKGROUND'. ks-source-conditions.json, check ks_history_is_a_prescribed_background. a4-equations.json fields/dirac16complex00/theoremLinear: 'the extra times deflate for A > 0, which is a choice of sign (an initial condition)'. Chapter 03, lines 2409, 2580 and 3811, uses 'canonical'.",
+  "fix": "Replace 'the author's history (A = 1)' with 'the canonical history A = 1 of the Revision record (ASSUMED; the author's metric fixes only that the extra times deflate, A > 0)'. Make the 12c glossary consistent with this."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/12-field-equations-a4.md",
+  "location": "Section 12.16, In [24] walk-through, line 1529",
+  "problem": "The walk-through explains a code line wrongly. It says that in Einstein gravity 'the function returns the single number 2; multiplying by np.ones_like(u) ... turns it into an array'. The lambdified F returns an array of 601 values, because terms such as 720*ad1**4*alpha3 with alpha3 = 0.0 still contain the array u.",
+  "evidence": "I lambdified the record's F with H = 1 and called it as f(u, 1, 0.0, 0.0) with u = np.linspace(-3, 3, 601). It returned <class 'numpy.ndarray'> of shape (601,). The generated source is 'return 720*ad1**4*alpha3 - 48*ad1**2*alpha2 + ... + 2*alpha1 - 80*alpha2 + 720*alpha3'.",
+  "fix": "Say that the result is already an array here, and that `* np.ones_like(u)` is a safeguard: an F with no a4' at all, for example after simplification, would return a single number. Alternatively remove the factor and explain the shorter code."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/12-field-equations-a4.md",
+  "location": "Section 12.11, line 516",
+  "problem": "The text says the null energy condition can hold only where V <= 0, 'which needs a large enough Gauss-Bonnet coupling'. This is not true for every coupling. A negative third-order coupling makes V <= 0 with alpha2 = 0.",
+  "evidence": "V = alpha1 - 8 alpha2((a4')^2 + 5H^2) + alpha3(72(a4')^4 + 144(a4')^2H^2 + 360H^4). With alpha1 = 1, alpha2 = 0 and alpha3 H^4 = -1/300, at a4' = 0: V = 1 - 360/300 = -0.2 < 0.",
+  "fix": "Write 'which needs Lovelock couplings beyond Einstein's, for example a large enough positive Gauss-Bonnet coupling (alpha1 = 1, alpha3 = 0: alpha2 >= 1/(8((a4')^2 + 5H^2)))'."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/12-field-equations-a4.md",
+  "location": "Section 12.5, line 238",
+  "problem": "The text says that the Wolfram report 'has the same checks' as the sympy checks mixed_riemann_free_of_warp_and_a4, riemann_entries_laurent and riemann_pair_antisymmetry. The Wolfram report has no check named riemann_entries_laurent.",
+  "evidence": "wolfram-a4-report.json lists metric_is_SPEC_section_1, sqrt_abs_det_g_is_cos_z, mixed_riemann_free_of_warp_and_a4, riemann_pair_antisymmetry and others, but no riemann_entries_laurent. The Laurent statement appears only inside the detail text of its mixed_riemann_free_of_warp_and_a4 check. riemann_entries_laurent exists only in python-a4-report.json.",
+  "fix": "Write: 'the Wolfram report has mixed_riemann_free_of_warp_and_a4 (whose detail includes the Laurent form) and riemann_pair_antisymmetry'."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/12-field-equations-a4.md",
+  "location": "Section 12.10, lines 453-462",
+  "problem": "The deep-dive rule 1(a) is broken here. The covariant divergence of the general source (both components) is quoted from the record and checked in Notebook 12a In [25], but it is not derived line by line in the text. The constraint propagation that follows is derived. The derivation needs only the Christoffel symbols of Section 12.4.",
+  "evidence": "The text only says 'the record computes (PROVED: ...)'. I re-derived both components. Gamma^mu_{mu 8} = d8 ln cos z = -6H tan z, Gamma^mu_{mu 4} = 0, -sum_i Gamma^i_{i4} T^i_i = -3a4'(p3 - pt), Gamma^i_{i8} = H cot z. The p8 coefficient is -6H tan z + 6H/(sin z cos z) = 6H cot z, which gives the record's formulas. So the result is correct, but the step is skipped.",
+  "fix": "Add the 6 to 8 lines of the derivation of nabla_mu T^mu_x4 and nabla_mu T^mu_x8 from the definition, each line with the rule that produced it, before quoting the record check."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/12-field-equations-a4.md",
+  "location": "Exercise 10 answer, line 3881; Section 12.26, line 2931",
+  "problem": "Exercise 10 asks the reader to show that the matrix A HAS the eigenvalues \u00b1i sqrt(M^2 - 9H^2), or \u00b1sqrt(9H^2 - M^2). The answer only shows that every eigenvalue must be one of these values. It does not show that both signs occur. Section 12.26 likewise assumes, without argument, that an eigenvector with eigenvalue -iw exists.",
+  "evidence": "The answer reads: 'If A v = mu v ... this gives mu^2 = 9H^2 - M^2. For M^2 > 9H^2 ... mu = \u00b1i sqrt(M^2 - 9H^2)'. Nothing is said about existence or multiplicity. Notebook 12d In [7] shows numerically that each value occurs 8 times.",
+  "fix": "Add one sentence. A is real, so non-real eigenvalues come in complex-conjugate pairs. trace A = -M trace(gamma4) + 3H trace(gamma4 gamma8) = 0, and A^2 is a multiple of 1, so A is diagonalisable with both signs occurring, 8 times each."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/12-field-equations-a4.md",
+  "location": "Section 12.26, line 2959",
+  "problem": "The text says the record 'proves that a condensate allows only the linear member (key theoremLinear)' but drops the theorem's hypotheses. The honesty rule asks for every theorem with its exact hypotheses.",
+  "evidence": "a4-equations.json fields/dirac16complex00/theoremLinear: 'Hypotheses: Phi a homogeneous on-shell condensate as above (classical, commuting), satisfying the off-diagonal conditions, a4 in C^2, (alpha1, alpha2, alpha3) != (0,0,0). Then ... a4 = A H x4 + a0'.",
+  "fix": "State the hypotheses: off-diagonal conditions satisfied, a4 twice continuously differentiable, couplings not all zero. Then give the one-line argument (p3 = p_t gives a4'' F = 0; F has finitely many roots; a4' is continuous, so a4'' = 0)."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/notebooks/src/12a_a4_field_equations.py",
+  "location": "FACTS troubleshooting entry 1 (printed in the run instructions, Step 8; 12a PROVENANCE.md line 232)",
+  "problem": "The notebook-specific troubleshooting contradicts itself. The symptom is 'The cell that computes the Lovelock tensors runs for more than a minute', and the fix says 'on a slow computer this takes up to a minute'.",
+  "evidence": "From the builder: ['The cell that computes the Lovelock tensors runs for more than a minute', 'it adds about five thousand products ... on a slow computer this takes up to a minute. Wait until the PASS lines appear below the cell.']. The whole notebook ran in 8.8 s (nbkit check) and 10 s (headless) here.",
+  "fix": "Make the symptom and the fix agree, for example 'runs for a minute or more: ... on a slow computer this can take a few minutes; wait'. Then rebuild 12a with nbkit build."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/12-field-equations-a4.md",
+  "location": "line 139; line 561; line 2311",
+  "problem": "Three references are imprecise. (1) Line 139 cites 'Notebook 12a (In [5] and In [6], checks ...)', but both checks are in In [5]; In [6] only prints. (2) Line 561 cites 'Notebook 12b, In [11], figures 5 and 6', but figure 5 is drawn in In [10]. (3) Line 2311 says the energy density rises 'from -33 (the value of A = 2) towards -24 (the value of A = 1)'. These values hold only for Lambda = 0, and Section 12.21 never states Lambda = 0.",
+  "evidence": "12a_a4_field_equations.PROVENANCE.md section 3.1 lists both checks under In [5]. Notebook 12b output: 'Out [10]: ... Figure 12b.5 saved as ...12b_5_null_energy_map.png'. 12c history() uses the default Lam=0.0. Section 12.12 gives kappa rho = -(21 + 3A^2)H^2 - Lambda.",
+  "fix": "Cite 'In [5]'; cite 'In [10] and In [11]'; add '(Lambda = 0)' to the relaxing-stress sentence of Section 12.21."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/tools/run_instructions.py",
+  "location": "common troubleshooting line 'jupyter is not recognized ... (or type `python -m jupyter` instead of `jupyter`)' (12a PROVENANCE.md line 228 and every chapter-12 run-instruction section)",
+  "problem": "The suggested fallback `python -m jupyter` does not help. The jupyter launcher looks up its subcommands (jupyter-nbconvert, jupyter-lab) on PATH, so it fails exactly when the scripts folder is not on PATH. This tool is owned by the infra agent; I report it here only because chapter 12's run-instruction paragraphs contain the line.",
+  "evidence": "On this machine the packages are installed in the user site and the user Scripts folder is not on PATH. Run in the notebook folder: `python -m jupyter nbconvert --version` gives 'Jupyter command `jupyter-nbconvert` not found.'. In the same shell, `python -m nbconvert --to notebook --execute --inplace 12b_required_source.ipynb` gives '[NbConvertApp] Writing 852529 bytes ...', and `python -m jupyterlab --version` gives 4.4.10.",
+  "fix": "Infra: recommend `python -m jupyterlab <file>` and `python -m nbconvert --to notebook --execute --inplace <file>` as the fallbacks. Also note that this works only with the environment's python, that is after Step 4."
+ }
+]

@@ -1,0 +1,58 @@
+[
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/notebooks/src/06c_mixed_contraction.py",
+  "location": "builder line 762 (Notebook 06c, In [10]); quoted in the chapter at Revision/textbook/chapters/06-spinors-in-curved-space.md line 3963",
+  "problem": "A code cell uses a single-quoted Python string, 'gamma[\"x8\"]'. The shared PDF builder prints straight single quotes in fenced blocks as curly quotes. A student who types the line from the book therefore gets a SyntaxError. The tools README asks for double-quoted strings in code cells.",
+  "evidence": "pdftotext of the chapter's test PDF (scratch/review06/chapter_check/.../UNIVERSES_IN_PAIRS_CHAPTER_06.pdf), line 11275 of the text, reads: \u2019gamma[\"x8\"]\u2019, \"G8\")).subs({sp.Symbol(\"H\"): H, sp.Symbol(\"G8\"): 1}). The tools README section 5 says: write strings in code cells with double quotes. This is the only executable single-quoted string in the 60 code cells; the other apostrophes are inside comments or double-quoted strings.",
+  "fix": "Write the replacement with double quotes, e.g. FORMULAS[\"gammaOmega_total\"].replace(chr(34), \"\").replace(\"gamma[x8]\", \"G8\") (the chr(34) device that 06a In [20] already uses). Then rebuild 06c with nbkit build and update the quoted line and its explanation in Section 6.28."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/06-spinors-in-curved-space.md",
+  "location": "Section 6.14, walk-through of Notebook 06a In [20], line 1830 (code at lines 1823-1827; builder 06a_spin_connection.py line 1200)",
+  "problem": "The walk-through explains the third check of In [20] wrongly. The code requires record_passed(REPORT_PY, \"nontriviality_Omega_zero_iff_flat\"), a check of the sympy report, but prints that the result reproduces the WolframScript checks nontriviality_1_dirac16complex and nontriviality_2_dirac16complex00. The text says the check holds 'together with the record's checks for both fields'. So the line that consults the sympy check is not explained, and the WolframScript checks named in the printed record line are not consulted in this cell (only in In [24]). This breaks deep-dive rule (c).",
+  "evidence": "Code: check(gamma[7] * gamma[7] == I16 and record_passed(REPORT_PY, \"nontriviality_Omega_zero_iff_flat\"), ..., record=f\"{REPORT_WL}, checks nontriviality_1_dirac16complex and nontriviality_2_dirac16complex00\"). Walk-through: '... the non-triviality check: (gamma^(x8))^2 = 1, so the term 3H gamma^(x8) Psi vanishes only for Psi = 0, together with the record's checks for both fields.'",
+  "fix": "Either make the code consult the two WolframScript checks that it names (record_passed(REPORT_WL, ...) for both), or keep the code and explain the line record_passed(REPORT_PY, \"nontriviality_Omega_zero_iff_flat\") correctly. Say that the WolframScript checks are verified in In [24]."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/notebooks/src/06a_spin_connection.py",
+  "location": "markdown before In [19] (builder line about 1095), printed in Section 6.13; figure 06a.8",
+  "problem": "The notebook's text says the central-difference cell also does the same for the time direction. The cell computes no central difference for the time direction. It sets the time term to a hard-coded zero array, and figure 06a.8 plots that array as the dashed line.",
+  "evidence": "Markdown: 'It also does the same for the time direction, where the product cos z does not depend on x_4 at all.' Code In [19]: time_term = np.zeros_like(x8_values)  # d/dx4 cos z = 0: the time contributes 0. The chapter's own walk-through (line 1735) correctly says only that 'The time term is identically zero'.",
+  "fix": "Change the markdown to say that the time-direction coefficient is zero exactly and is drawn as a zero line. Alternatively, really compute a central difference in x4 of the density cos z with a4 = x4 (it gives 0). Rebuild 06a."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/notebooks/src/06a_spin_connection.py",
+  "location": "markdown before In [6] (builder lines 512-513), printed in Section 6.13",
+  "problem": "The notebook's text does not match figure 06a.1. It says the right panel shows 'the two nonzero entries of the spinor rotation U(phi)'. The code, the caption, the y-axis label and the chapter walk-through all show the real part and the imaginary part of the single entry U_11.",
+  "evidence": "Markdown: 'On the right, the two nonzero entries of the spinor rotation U(phi) that undoes this turning'. Code: ax_right.plot(turn/np.pi, np.cos(turn/2), label=\"cos(phi/2), real part\") and np.sin(turn/2) labelled 'imaginary part'. y-label: 'entry U_11 of the spinor rotation'.",
+  "fix": "Reword it as 'the real and imaginary parts of the entry U_11 = cos(phi/2) + i sin(phi/2)' and rebuild 06a."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/notebooks/src/06a_spin_connection.py",
+  "location": "caption of figure 06a.1 (builder line 555) and the markdown at line 513; caption of figure 06c.2 in 06c_mixed_contraction.py line 616; the same wording in the chapter around lines 322-328 and 3256",
+  "problem": "The text says the spinor rotation U(phi), and in the Milne wedge the spinor boost U(theta), 'undoes' the turning. The chapter's own transformation law (Section 6.15) contradicts this. From Omega_phi = -(d_phi U)U^-1, U is the transformation that produces the polar connection from the Cartesian frame, and U^-1 is the one that removes it. A student who applies Section 6.15 with R = U does not get zero.",
+  "evidence": "With R = U = cos(phi/2) + i sin(phi/2) sigma3, (d_phi U)U^-1 = (i/2) sigma3. Section 6.15 gives Omega'_phi = U Omega_phi U^-1 - (d_phi U)U^-1 = -(i/2)sigma3 - (i/2)sigma3 = -i sigma3, not 0. With R = U^-1, d(U^-1) U = -(i/2) sigma3 and Omega'_phi = 0. The Milne case U(theta) = cosh(theta/2) + sinh(theta/2) g0 g1 has the same structure.",
+  "fix": "Say that Omega_phi = -(d_phi U)U^-1 is a pure frame turning and that the spin transformation U^-1 (not U) removes it. Alternatively, describe U as the spinor rotation that carries the Cartesian frame into the polar one. Update both captions and the notebook text, then rebuild 06a and 06c."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/chapters/06-spinors-in-curved-space.md",
+  "location": "Section 6.17, paragraph 'All Ricci components', line 2253",
+  "problem": "Only R^x8_x8 is derived. The other seven Ricci components are introduced with 'The same computation for every component gives the record's values'. This is the kind of skip that deep-dive rule (a) forbids. R^x4_x4 = 6a4'^2 carries a key claim of the chapter (the contraction is blind to the deflation, the metric is not). Chapter 3, Section 3.25, does derive all eight components, but the chapter never points there.",
+  "evidence": "Chapter 06 line 2253: '**All Ricci components.** The same computation for every component gives the record's values'. Chapter 03 line 2439: '### 3.25 Ricci, Einstein and Kretschmann of the author's metric', which derives R^4_4 = 6a4'^2 at line 2450.",
+  "fix": "Cite Section 3.25 for the eight components. Better, add the three-line derivation of the component the chapter relies on: Gamma^rho_rho4 sums to 0 and Gamma^rho_44 = 0, so R_44 = -sum_rho (Gamma^rho_4rho)^2 = -6a4'^2 and R^x4_x4 = g^44 R_44 = 6a4'^2."
+ },
+ {
+  "severity": "minor",
+  "file": "D:/Developer/github/Dirac_claude/Revision/textbook/tools/run_instructions.py",
+  "location": "shared troubleshooting item 'jupyter is not recognized' (printed in Sections 6.12, 6.20 and 6.26 and in every notebook's section 2 and set-up comments); owned by the infra agent, so not edited here",
+  "problem": "The suggested fallback, 'type python -m jupyter instead of jupyter', fails exactly when the jupyter executables are not on PATH. jupyter_core dispatches 'python -m jupyter nbconvert' and 'python -m jupyter lab' to the jupyter-nbconvert and jupyter-lab executables found on PATH. In the case the text names (environment not active), 'python' is also the system Python, which has no jupyter at all.",
+  "evidence": "On this machine (Python 3.14.5; packages installed in the user site, whose Scripts folder is not on PATH): 'python -m jupyter nbconvert --version' prints 'Jupyter command `jupyter-nbconvert` not found.' and 'python -m jupyter lab --version' prints 'Jupyter command `jupyter-lab` not found.'. 'python -m nbconvert --version' prints 7.16.6 and 'python -m jupyterlab --version' prints 4.4.10.",
+  "fix": "Infra: suggest 'python -m jupyterlab <notebook>' and 'python -m nbconvert --to notebook --execute --inplace <notebook>' as the fallbacks, after Step 4 has activated the environment. Then rebuild all notebooks, because the instruction text changes."
+ }
+]

@@ -1,0 +1,66 @@
+[
+ {
+  "severity": "major",
+  "file": "Revision/textbook/chapters/09-energy-momentum-tensor.md",
+  "location": "Section 9.4 line 188 (\"the record's definition is T^nu_mu = e^b_mu (1/sqrt|g|) delta S_act/delta e^b_nu\") and Section 9.6 line 242 (\"the Revision record carries it out exactly for all 64 entries ... Its result, the symmetric (Belinfante) energy-momentum tensor ... is (record formula T_symmetric)\")",
+  "problem": "The chapter treats the vielbein-variation tensor and the symmetric Belinfante tensor as the same object off shell. The record says they are different. The vielbein variation gives T_variation, which carries an extra antisymmetric spin-density term. Only its symmetric part equals T_symmetric off shell. The two tensors agree in all 64 entries only on shell; off shell only the 8 diagonal entries agree. A student who follows 9.4 and 9.6 will conclude that the vielbein-variation tensor of an off-shell configuration (such as the random jet of Notebook 09a) is symmetric and equal to T_symmetric. That is false.",
+  "evidence": "Revision/theory/field-theory.json formula T_variation: \"T^nu_mu = delta^nu_mu L0 - (1/2)(Psibar gamma^nu D_mu Psi - ...) - (1/4) g_mu,rho nabla_l (Psibar {gamma^l, Sigma^(nu rho)} Psi)\". Formula T_symmetric is described as \"symmetric part of the variation tensor = the variation tensor on shell\". Check commuting_emt_equals_general_vielbein_variation_on_shell (python-field-theory.json): \"equals the Belinfante T^mu_nu on shell for 64/64 components (off shell 8/64: the diagonal ones; the off-diagonal differences, including the antisymmetric part of T_var, are proportional to the field equations)\". Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md section 8 makes the same distinction. The chapter's own 9.31 summary words it correctly (\"its equality with the vielbein-variation tensor on shell\"), but 9.4 and 9.6 do not.",
+  "fix": "In 9.4 say that delta S = (1/2) int sqrt|g| T^{mu nu} delta g_{mu nu} fixes only the symmetric part. In 9.6 say: the vielbein variation gives T_variation = delta L0 - (1/2)(...) - (1/4) g nabla(spin density) (check T_vielbein_variation_closed_form_C). Its symmetric part is T_symmetric for all 36 pairs, off shell (check T_symmetric_part_Belinfante_C). The two agree in 64/64 entries on shell, but off shell only on the diagonal. Then state that the book and Notebook 09a use T_symmetric as 'the' tensor, which is why the off-shell random jet gives a symmetric T_numu."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/09-energy-momentum-tensor.md",
+  "location": "Section 9.9, line 373 (\"Four of them, computed line by line\")",
+  "problem": "The text announces four Christoffel symbols, but six are then derived. Probably a leftover from when the writer added the two extra derivations.",
+  "evidence": "Lines 375-380 contain six bullets: Gamma^x1_x1x4, Gamma^x4_x1x1, Gamma^x8_x1x1, Gamma^x8_x8x8, Gamma^x4_x5x5 and Gamma^x8_x5x5. Line 382 says \"The three remaining kinds\", which is consistent with six of nine kinds, not four.",
+  "fix": "Replace \"Four of them\" with \"Six of them\"."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/09-energy-momentum-tensor.md",
+  "location": "Section 9.26 line 2292 and Section 9.31 line 3035 (theoremLinear)",
+  "problem": "The theorem that a condensate source allows only the linear history is quoted without its hypotheses. The honesty rule requires every theorem with its exact hypotheses, and R3 requires every statement with its status. The text also omits that the equations do not select the sign of A.",
+  "evidence": "Revision/field_equations_a4/a4-equations.json, fields.dirac16complex00.theoremLinear: \"Hypotheses: Phi a homogeneous on-shell condensate ..., satisfying the off-diagonal conditions, a4 in C^2, (alpha1, alpha2, alpha3) != (0,0,0). Then p3 = p_t, so a4'' F(a4') = 0; F is a nonzero polynomial ... A < 0 (inflating extra times) is allowed on the same footing and A = 0 is the static case\". The chapter says only \"allows only the linear history a4 = AHx4 + a0, because p3 = pt removes the source of a4''\".",
+  "fix": "State the hypotheses: on-shell homogeneous commuting condensate, off-diagonal conditions met, a4 twice continuously differentiable, Lovelock couplings not all zero. State the argument a4'' F(a4') = 0 with F a nonzero polynomial. Add that A > 0 (deflation) is a choice of sign and is not selected by the equations."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/09-energy-momentum-tensor.md",
+  "location": "Section 9.11 line 510; Section 9.26 line 2292",
+  "problem": "Two statements about the a4 field equations carry no status label and no Revision record: \"The field equations of gravity force the same condition, p3 + pt = 2p8, for every source of the author's metric\" and \"The field equations of a4 ... require ... that every off-diagonal entry of the source vanishes\". Rule R3 requires PROVED with the record file named.",
+  "evidence": "Both statements are true in the record. In a4-equations.json, generalSource.space_x1_eq_x2_eq_x3 plus extraTime_x5_eq_x6_eq_x7 has left-hand side equal to 2 x hidden_x8 (the a4'' terms cancel), so kappa (p3 + pt) = 2 kappa p8. offDiagonal_other reads \"0 = kappa T^mu_nu for every other mu != nu\". Neither line of the chapter cites them.",
+  "fix": "Add \"(PROVED; Revision/field_equations_a4/a4-equations.json, generalSource: hidden_x8 versus space_x1_eq_x2_eq_x3 + extraTime_x5_eq_x6_eq_x7, for kappa != 0)\" and \"(generalSource.offDiagonal_other, offDiagonalConditions)\"."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/notebooks/src/09c_condensate_tensor.py",
+  "location": "markdown cell before In [13] (builder line ~676), printed in the book as part of 'Notebook 09c: complete text'",
+  "problem": "The notebook says: \"Its verifier builds the witnesses in its own (equivalent) Clifford representation\". That is true today, but the restart note says the a4 engine is being switched to the author's T16 from gammas.json. After the switch the sentence is false, and no assert catches it. The writer removed a stale-prone a4-verifier claim from the chapter prose, but this copy in the notebook text, which the book prints, remains. The In [13] check also depends on the verifier's normalisation of its exact v1, v2: it requires S = 204800, 115200, 204800 to be one common multiple of ours. After the switch the check may fail, or the factor 160000 quoted at chapter lines 2797 and 3037 may change.",
+  "evidence": "Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls lines 194-199: \"the spinor bilinears in a Clifford representation built here (Cl(1,1) tensor-graded four times; real 16 x 16)\". RESTART NOTE: \"The a4 engine (Revision/field_equations_a4) is being switched to the author's T16 from gammas.json ... the a4 reports gain checks\". grep finds 'Clifford representation' at src/09c_condensate_tensor.py:676.",
+  "fix": "Reword it without reference to the representation, for example \"The record's verifier builds the witnesses with exact columns v1, v2 that are not of length 1\". Rebuild 09c. Re-run nbkit check on 09c after the a4 switch lands, and update the factor 160000 in the prose if it changes."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/09-energy-momentum-tensor.md",
+  "location": "Section 9.17 In [3] walk-through line 777; Section 9.30 In [9] walk-through line 2661",
+  "problem": "Several arithmetic chains multiply rounded four-digit factors and then write the six-digit result with '='. A student who redoes the multiplication gets a different last digit.",
+  "evidence": "Line 777: \"1.6487 \u00b7 0.9439 = 1.556186\", but 1.6487 x 0.9439 = 1.556208. \"e^{-0.5}\u00b70.9439 = 0.572489\", but 0.606531 x 0.9439 = 0.572505. Line 2661: \"(7/4\u00b71.6487\u00b70.9439 = 2.7233)\", but the product is 2.72336, which rounds to 2.7234. The notebook values themselves (1.556186, 0.572489, 2.723325) are correct; the exact sin^(1/6)(pi/4) is 0.9438743.",
+  "fix": "Use six-digit factors (1.648721 \u00b7 0.943874 = 1.556186; 0.606531 \u00b7 0.943874 = 0.572489; 1.75 \u00b7 1.556186 = 2.723325), or write '\u2248'."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/09-energy-momentum-tensor.md",
+  "location": "Section 9.21 line 1568 (\"spin-statistics problem\"); Section 9.26 line 2284 (\"The **witness**\")",
+  "problem": "Two technical terms are used without a plain-words definition at first use (deep-dive rule (b)). \"Spin-statistics\" first appears anywhere in the book here: chapters 00-08 do not contain it, and Chapter 10 comes later. \"Witness\" is set in bold but not explained in the prose. Only Notebook 09c's word list explains it, and that is printed after Section 9.26.",
+  "evidence": "grep -l 'spin-statistics' Revision/textbook/chapters/*.md returns only chapters 09 and 10. Line 2284: \"The **witness** Phi = e^{-i omega x4} Phi0 is an exact condensate ...\" has no definition. The notebook md cell 3 has \"Witness: an explicit example that shows that something exists.\"",
+  "fix": "Add one sentence for each. Spin-statistics: the rule that particles of half-integer spin must be described by anticommuting fields, here seen as the energy of a commuting spinor field having no lower bound. Witness: an explicit example that proves that something exists."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/09-energy-momentum-tensor.md",
+  "location": "Section 9.26 line 2284 (construction of the diagonal witnesses)",
+  "problem": "Two steps are asserted without derivation, against deep-dive rule (a): that M has the eigenvalue -i omega on an 8-dimensional space, and that this space contains exactly one unit column v1 with P1 = P2 = P3 = -1 and one v2 with +1. Every other step of this paragraph is derived. The notebook only tests the uniqueness numerically: it raises ValueError if the joint eigenvector is not unique.",
+  "evidence": "Text: \"then M^2 = -omega^2 and M has the eigenvalue -i omega on an 8-dimensional space. In that space take the unit column v1 with P1 = P2 = P3 = -1 ...\". There is no argument for the dimension 8 or for the existence and uniqueness of v1 and v2. 09c In [10] code: `if np.sum(values > 1e-9) != 1: raise ValueError(\"the joint eigenvector is not unique\")`.",
+  "fix": "Add the short argument. M is real with M^2 = -omega^2, so its eigenvalues are +-i omega, and the two eigenspaces are complex conjugates of each other, hence each has dimension 8. P1, P2, P3 commute with M and with each other and square to 1, so they split the 8-dimensional space into joint sectors. Then show that each sector has dimension 1 (for example by a trace argument), or cite the record (a4-equations.json offDiagonalWitness, check condensate_diagonal_witness_exact) for the existence and say the uniqueness is checked numerically."
+ }
+]

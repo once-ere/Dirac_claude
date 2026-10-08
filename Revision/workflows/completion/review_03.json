@@ -1,0 +1,74 @@
+[
+ {
+  "severity": "major",
+  "file": "Revision/textbook/chapters/03-spacetime-geometry-and-curvature.md",
+  "location": "Section 3.17 line 1554; Section 3.24 line 2409; builder Revision/textbook/notebooks/src/03b_curvature.py lines 161-162 (notebook 03b section 3) and lines 843-844 (caption of Figure 03b.4)",
+  "problem": "The chapter reads the sign of a plane curvature K(a,b) = R^ab_ab as a shape: positive means curved like a sphere and negative means like a saddle. It applies this to all 28 coordinate planes. In the 4+4 metric, 22 of these planes contain a time-like direction, and there the reading is wrong or reversed. Line 2409 calls the 3-space/extra-time planes 'always saddle-like', and the caption of Figure 03b.4 colours the (x_i, x4) planes red as 'curved like a sphere'.",
+  "evidence": "Take the plane (x1, x4). Its curvature is K = a4'^2 + a4'' = A^2 H^2 > 0, drawn red ('like a sphere') in Fig. 03b.4. Observers at rest are geodesics (Sec. 3.23). Their deviation along x1 is D^2 xi^1/dtau^2 = -R^1_414 xi^1 = (a4'' + a4'^2) xi^1, and R^1_414 = -a4'' - a4'^2 by the chapter's own case (4). The proper separation e^{AHx4} sin^{1/6}z dx1 therefore grows like e^{A H tau}, so d^2 xi/dtau^2 = +K xi. On the sphere of Sec. 3.18 it is d^2 xi/ds^2 = -K xi: positive curvature focuses there but defocuses here. Further cases: 2-D de Sitter space (K = +1) is a one-sheeted, saddle-shaped hyperboloid. For a plane of two time-like directions (x5, x6), the curvature flips sign relative to the Riemannian metric -g.",
+  "fix": "Restrict the sphere/saddle picture to planes spanned by two space-like directions, (x_i, x_i') and (x_i, x8). For planes with one time-like direction, state the geodesic-deviation meaning (d^2xi/dtau^2 = +K xi; for example K(x1,x4) = A^2H^2 is the exponential separation of comoving observers). Note that the sign is reversed for a plane of two time-like directions. Delete 'always saddle-like' at line 2409. Fix the words list and the Fig. 03b.4 caption in the 03b builder and rebuild 03b with nbkit build."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/notebooks/src/03b_curvature.py",
+  "location": "In [20] (lines 984-998), In [13]/[14]/[21] (lines 750-764 etc.); also 03a_authors_metric.py In [7] (line 376), In [11] (line 534), In [19] (line 826)",
+  "problem": "Several PASS lines say 'reproduces <record>, check <name>', but the notebook never opens that record or asserts that the named check exists and passed. Drift in these records (renamed checks, failing checks, the a4/lead reports gaining checks) would not be caught, although the restart note requires it.",
+  "evidence": "In 03b the variable LEAD = Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json is only used in record= strings for 4 checks (einstein_off_diagonal_zero, einstein_x8_independent, einstein_isotropy, no_vacuum_for_H_positive); no repository_file(LEAD) call exists. rust_report (lovelock-report.json) is loaded, but only k1_brute_force_numeric is asserted; riemann_antisymmetry ('156 nonzero entries'), riemann_first_bianchi, mixed_riemann_free_of_sin_third and k1_* are cited without assertion. python-lovelock-report.json is read only for randomPoints; its cited checks are not asserted. In 03a, emt-divergence-and-spin-connection.json (vielbein_reproduces_metric, ks_coordinate_jacobian) and python-lovelock-report.json (sqrt_abs_det_g) are never opened. I checked by hand that every cited check currently exists with PASS (or passed=true).",
+  "fix": "In each cell that cites a report, load the report and assert that the named check exists with verdict PASS (or passed true). For riemann_antisymmetry, also assert that '156 nonzero entries' is in its detail. Then rebuild 03a and 03b."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/notebooks/src/03a_authors_metric.py",
+  "location": "FACTS troubleshooting (lines 78-85); rendered in chapter Section 3.11 Step 8, notebook section 2, set-up comments and 03a.PROVENANCE.md",
+  "problem": "The notebook-specific troubleshooting says that 03a reads two Revision records. It actually reads three, so a student missing the third file gets no help.",
+  "evidence": "Troubleshooting text: 'FileNotFoundError for curvature.json or parameters.json: the notebook reads these two Revision records'. The builder also calls repository_file(KS_THEORY) = Revision/kohn_sham/ks-theory.json (builder line 588; In [13] and In [19]).",
+  "fix": "Change the text to 'curvature.json, parameters.json or ks-theory.json: the notebook reads these three Revision records' and rebuild 03a."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/03-spacetime-geometry-and-curvature.md",
+  "location": "Section 3.26, line 2558 (last sentence of the first paragraph)",
+  "problem": "Overclaim. The chapter says the contracted Bianchi identity 'is the reason why the left side must be the Einstein tensor'. In 8 dimensions the Lovelock tensors are also divergence-free, and the Revision field equations use them. The same paragraph mentions 'higher-order Lovelock companions'.",
+  "evidence": "Revision/gkd_lovelock/results/lovelock-report.json has checks k2_divergence_free and k3_divergence_free ('nabla_h P_(k)^h_j = 0 exactly'). a4-equations.json conventions.fieldEquations = 'sum_{k=1}^{3} alpha_k E_(k)^mu_nu + Lam delta^mu_nu = kappa T^mu_nu'.",
+  "fix": "Say that the left side must be divergence-free, that the Einstein tensor is the simplest such tensor, and that in 8 dimensions the Lovelock tensors (Chapters 11-12) are further ones."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/03-spacetime-geometry-and-curvature.md",
+  "location": "Section 3.6, line 198 ('The volume of a slice of constant time')",
+  "problem": "The stated reason for preferring the x4 = const slice is that the 8-dimensional volume 'mixes lengths and durations'. That reason does not single the slice out: the slice contains the three time-like extra times x5, x6, x7 (signature (4,3)), so its 7-volume also mixes 4 lengths and 3 durations.",
+  "evidence": "Line 198: 'The eight-dimensional \"volume\" mixes lengths and durations. The meaningful volume is that of a slice x4 = const ... x1, x2, x3, x5, x6, x7, x8'. Section 3.4 itself says x5, x6, x7 are time-like.",
+  "fix": "Justify the slice as the space at one instant of the chosen evolution time x4, and say explicitly that its 7-volume still contains the three extra-time durations."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/03-spacetime-geometry-and-curvature.md",
+  "location": "lines 1576, 2498-2522 (K vs K(a,b)); 1632, 2555-2580, 3749 (kappa); 2524-2548 (implicit sums)",
+  "problem": "Several notations clash or break the chapter's own rules, which confuses a beginner. (1) K is both the Kretschmann scalar and the plane curvature K(a,b) in the same formula. (2) kappa means three different things: the Gaussian curvature in the deviation equation, Einstein's constant and the momentum weight kappa(y,x4). (3) The divergence is written nabla_mu G^mu_nu with an implicit sum, although line 37 promises that 'every sum is written with the sign Sigma'.",
+  "evidence": "Line 1576: 'so the Kretschmann scalar is $K = 4K(1, 2)^2$'. Line 1632: 'd^2xi/ds^2 = -kappa xi with the Gaussian curvature kappa'. Line 2555: 'G + Lambda delta = kappa T'. Line 3749: 'momentum weight kappa(y, x4)'. Lines 2524/2548: '$\\nabla_\\mu G^\\mu{}_\\nu = 0$', '$\\nabla_\\mu T^\\mu{}_4 = ...$' with no Sigma.",
+  "fix": "Use distinct symbols (for example sigma(a,b) for the plane curvature, K only for Kretschmann, kappa_E or similar for Einstein's constant and another letter for the Gaussian curvature), and write Sigma_mu in the divergence formulas."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/03-spacetime-geometry-and-curvature.md",
+  "location": "lines 238, 1101, 2490, 2586 ('the lead's check'); 2558, 2582, 3264, 3384 (Lovelock, L_(1), P_(1)); 7, 274, 280 (Kohn-Sham)",
+  "problem": "Several technical words are used without a plain-word definition at first use, contrary to spec section 1(b): 'the lead' (the reader is never told what the lead is), 'Lovelock companions', 'Lovelock scalar L_(1)', 'P_(1) = -4G', and 'Kohn-Sham'. They are only forward-referenced to later chapters.",
+  "evidence": "Line 238: 'the lead's independent check `vielbein_reproduces_metric`'. Line 3264: '$L_{(1)}$ is the first Lovelock scalar of Chapter 11.' Line 3384: 'its tensor $P_{(1)} = -4G$ (Chapter 11)'. Line 7: 'the Kohn-Sham model of Chapters 14 to 17' with no definition in Chapter 3.",
+  "fix": "Add one plain sentence for each term at its first use, for example: 'the lead checks are short independent Python verifications kept in Revision/lead_checks'; 'L_(1) is the first of three curvature scalars built with the generalized Kronecker delta; L_(1) = 2R'; 'Kohn-Sham: an approximation that replaces many interacting particles by independent ones in an effective potential'."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/03-spacetime-geometry-and-curvature.md",
+  "location": "Section 3.15, line 1323",
+  "problem": "Skipped step. The rule for the covariant derivative of a tensor with several indices is asserted with 'apply the same argument', which the deep-dive rule forbids. The proof of the Riemann formula (line 1521) and the divergence formula (line 2527) depend on it.",
+  "evidence": "Line 1323: 'A tensor with several indices gets one term +Gamma for every upper index and one term -Gamma for every lower index (apply the same argument to products of vectors and covectors).'",
+  "fix": "Derive the rule line by line for T^a_b = V^a W_b, using the product rule with the two formulas already proved; then state that every tensor is a sum of such products."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/03-spacetime-geometry-and-curvature.md",
+  "location": "Section 3.30, In [4], line 2655",
+  "problem": "Small inaccuracy in the walk-through: it says the translation makes 'two replacements per line', but the third quoted line has three.",
+  "evidence": "Quoted code line: `text = text.replace(\"{\", \"[\").replace(\"}\", \"]\").replace(\"^\", \"**\")` (three replace calls). Line 2655: 'with two replacements per line'.",
+  "fix": "Write 'two or three replacements per line' (or list the seven replacements)."
+ }
+]

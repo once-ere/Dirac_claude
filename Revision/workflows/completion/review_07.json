@@ -1,0 +1,34 @@
+[
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/07-two-fields-and-lagrangians.md",
+  "location": "Section 7.2, line 122 (derivation of S_2 = (T/4)(pi^2/T^2 - omega^2))",
+  "problem": "The reason given for one line of the derivation is wrong. On the interval from 0 to T, cos^2(pi t/T) runs through one FULL period, not half a period, because cos^2(pi t/T) has period T. The equal integrals of cos^2 and sin^2 are also stated without a reason. The result T/2 is correct, but the deep-dive rule (each line justified by a correct rule) is broken here.",
+  "evidence": "Line 122: \"(over the interval from 0 to $T$, which is half a period of $\\cos^2(\\pi t/T)$, the functions $\\cos^2$ and $\\sin^2$ each integrate to $T/2$, because they add up to 1 and have the same integral)\". At t = 0, T/2, T the values of cos^2(pi t/T) are 1, 0, 1, so [0, T] is one full period. cos^2(pi t/T) = (1 + cos(2 pi t/T))/2, and cos(2 pi t/T) has period T.",
+  "fix": "Replace the parenthesis with: cos^2(pi t/T) = 1/2 (1 + cos(2 pi t/T)), and the cosine integrates to 0 over 0..T, which is one full period of cos(2 pi t/T). So the integral of cos^2 is T/2, and the integral of sin^2 = 1 - cos^2 is T - T/2 = T/2."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/07-two-fields-and-lagrangians.md",
+  "location": "Section 7.34, first PROVED bullet (line 4671)",
+  "problem": "The summary states the bump-average error formula for any quadratic E. Section 7.3 derived it only for the parabola path's E(t) = -2 - t^2, using E'' = -2. For a general quadratic the error is (1/2) E'' (1/3 - 2/pi^2) w^2.",
+  "evidence": "Line 4671: \"the error of a bump average of a quadratic $E$ is $-(\\tfrac13 - \\tfrac{2}{\\pi^2})w^2$\". Section 7.3 (lines 185-203) derives \"average of E - E(t_0) = (1/2)E''(average of s^2) = -(average of s^2)\" using E'' = -2.",
+  "fix": "Write \"... of the parabola path's E (E'' = -2) is -(1/3 - 2/pi^2) w^2 (for any quadratic E: (1/2) E'' (1/3 - 2/pi^2) w^2)\"."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/notebooks/src/07d_action_principle.py",
+  "location": "In [10], save_figure caption of energy_along_paths (builder line 734); also Revision/textbook/figures/07d.captions.json",
+  "problem": "The caption of Figure 07d.5 refers to \"Figure 2\", which is the notebook's own numbering. The book prints this caption as a LaTeX figure caption, and LaTeX numbers figures through the whole document. In the assembled book, chapters 0-6 contain many figures, so \"Figure 2\" will point to a figure in an early chapter, not to 07d.2. It is the only caption in the book that cites a figure number.",
+  "evidence": "pdftotext of my chapter test build shows: \"Figure 5: The energy H = ... of the oscillator (omega = 1) along the three paths of Figure 2, ... (Notebook 07d, figure 5.)\". The numbers agree only because the test book puts placeholder sections without figures before chapter 7: the first chapter-7 figure prints as \"Figure 1:\", so numbering is global, not per chapter. grep over all figures/*.captions.json finds this as the only caption containing \"Figure <n>\".",
+  "fix": "Change the caption to \"... along the three paths of Figure 07d.2 ...\" (or \"of the second figure of this notebook\"). Then rebuild 07d with nbkit build (the caption is in the builder) and re-run nbkit check."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/tools/run_instructions.py",
+  "location": "troubleshooting text at line 727 (owned by the infra agent; it appears in every How-to-run section of chapter 07, e.g. Section 7.7 Step 8, in each notebook's markdown cell 2 and in each PROVENANCE.md)",
+  "problem": "The fallback \"(or type `python -m jupyter` instead of `jupyter`)\" does not work in the situation it is meant for. When the folder holding the jupyter-*.exe scripts is not on PATH, `python -m jupyter` cannot find its subcommands. The module forms `python -m jupyterlab` and `python -m nbconvert` do work. The chapter writer cannot fix this, because the tool belongs to the infra agent.",
+  "evidence": "On this machine the packages are user-installed and their Scripts folder is not on PATH. `python -m jupyter lab --version` printed \"Jupyter command `jupyter-lab` not found.\" `python -m jupyter nbconvert --version` printed \"Jupyter command `jupyter-nbconvert` not found.\" `python -m jupyterlab --version` printed 4.4.10 and `python -m nbconvert --version` printed 7.16.6.",
+  "fix": "Infra open item: change the fallback in run_instructions.py to `python -m jupyterlab <notebook>` and `python -m nbconvert --to notebook --execute --inplace <notebook>`, put them in fenced blocks because of the double dashes, and rebuild every notebook. Do not edit this locally in the chapter."
+ }
+]

@@ -1,0 +1,66 @@
+[
+ {
+  "severity": "major",
+  "file": "Revision/textbook/notebooks/src/01c_generalized_delta.py",
+  "location": "builder lines 70 and 562 (the record= argument of the In [8] check 'literal determinant = fast rule for all 266304 pairs'); chapter Revision/textbook/chapters/01-mathematics-from-zero-i.md lines 5377-5380 and 6738; 01c_generalized_delta.PROVENANCE.md lines 18 and 282",
+  "problem": "The notebook says its check 'literal determinant = fast rule' reproduces python-lovelock-report.json, check gkd_literal_equals_cofactor_expansion. That record check tests something else. It compares two determinant programs (sympy Det against a cofactor expansion); it never compares a determinant with the fast GKD rule. Chapter line 5380 repeats the error: 'The record's sympy verifier made the same exhaustive comparison with another determinant program'. So do the 'What we computed' list (line 6738) and the provenance file (lines 18 and 282). This breaks the rule that every number and check is traced to the record check it actually reproduces (TEXTBOOK_SPEC section 1(d) and R3).",
+  "evidence": "The record's full detail text reads: 'kdelta (sympy Det of Outer[delta, lower, upper]) equals an independent cofactor-expansion determinant for all 266304 pairs of index lists of length 1, 2, 3 over 8 values and 7500 random pairs of length 4..8; mismatches: 0'. GKD and the fast rule are not mentioned. The record checks that do compare the author's kdelta with GKD exhaustively are wolfram-gkd-report.json gkd_equals_kdelta_exhaustive_length_1/2/3. In [8] already cites those per length.",
+  "fix": "In the builder, remove gkd_literal_equals_cofactor_expansion from the record= string of the 266304-pair check. Cite wolfram-gkd-report.json gkd_equals_kdelta_exhaustive_length_1 to 3 instead, or no record. Do the same in the FACTS record description (line 70). Change chapter line 5380 to say that the record's sympy verifier ran a different exhaustive comparison on the same 266,304 pairs: the literal determinant against an independent cofactor-expansion determinant. Remove the citation from line 6738. Rebuild 01c with nbkit build so the notebook and the provenance file are regenerated, then re-run check_chapter."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/01-mathematics-from-zero-i.md",
+  "location": "Section 1.12, 'Conjugation and real numbers (PROVED)', line 1238",
+  "problem": "The paragraph is labelled PROVED but ends with a claim that does not follow from the facts above it and is false in general: 'Every operation of the course that does change such a field must therefore be built from a matrix acting on its sixteen components'. That complex conjugation is the identity on a real field says nothing about other operations. Coordinate reflections (used with T2), translations and derivatives all change a real field without being a matrix on its components. The R5 point is narrower: a conjugation that is to change a real field must act through a matrix (Gamma or C).",
+  "evidence": "Line 1238: 'On a real field, complex conjugation does nothing at all. Every operation of the course that does change such a field must therefore be built from a matrix acting on its sixteen components; Chapter 5 derives the charge-conjugation matrices ...'",
+  "fix": "Narrow the sentence, for example: 'So a conjugation that is to change a real field cannot be plain complex conjugation: it must act through a matrix on the sixteen components. Chapter 5 derives these charge-conjugation matrices (C and Gamma C).'"
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/tools/run_instructions.py",
+  "location": "troubleshooting text, line 727 ('or type `python -m jupyter` instead of `jupyter`'), repeated in every notebook's run instructions (book paragraph, notebook cell 2, set-up comments, PROVENANCE step 8)",
+  "problem": "The fallback offered for 'jupyter is not recognized' does not work when the jupyter executables are not on PATH. `python -m jupyter` only dispatches to the separate executables jupyter-lab and jupyter-nbconvert, so it fails in exactly that case. The tool is owned by infra, so this is an open item for the infra agent, not a chapter edit.",
+  "evidence": "On this machine (Python 3.14.5, packages in the user site, Scripts folder without jupyter executables): `python -m jupyter nbconvert --to notebook --execute --inplace 01a_matrices_determinants.ipynb` printed 'Jupyter command `jupyter-nbconvert` not found.' for all 7 notebooks, and `python -m jupyter lab --version` printed 'Jupyter command `jupyter-lab` not found.' `python -m nbconvert ...` (all 7 notebooks then ran, rc=0) and `python -m jupyterlab --version` (4.4.10) work.",
+  "fix": "Infra: change the fallback to `python -m jupyterlab <notebook>` for Step 5 and `python -m nbconvert --to notebook --execute --inplace <notebook>` for Step 6. Then rebuild every notebook with nbkit build, because the instruction text is part of each notebook."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/01-mathematics-from-zero-i.md",
+  "location": "Section 1.55, ASSUMED list, line 6745",
+  "problem": "A wrong cross-reference: '(Chapter 2 derives Taylor's theorem)'. Chapter 2 assumes Taylor's theorem and derives only the exponential series from it. Line 1052 of this chapter states this correctly.",
+  "evidence": "Revision/textbook/chapters/02-mathematics-from-zero-ii.md line 114: '**Taylor's theorem** (ASSUMED: a standard theorem of one-variable calculus, quoted without proof)'.",
+  "fix": "Write '(Chapter 2 derives the exponential series from Taylor's theorem, which it also assumes)'."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/01-mathematics-from-zero-i.md",
+  "location": "Section 1.55, COMPUTED list, Notebook 01g item, line 6736",
+  "problem": "The list says 'Sylvester's law for 2000 random coordinate changes, eigenvalue sizes 1.2e-8 to 37.1 (In [10]; reproduces python-algebra.json, check coordinate_map)'. The record check coordinate_map states eta and its coordinate map. It says nothing about Sylvester's law or about P^T eta P. Only the signature (4,4) of eta in the same cell reproduces it.",
+  "evidence": "The detail of coordinate_map: 'gamma^(x1..x3) = T16[1..3], ... eta = diag(+1,+1,+1,-1,-1,-1,-1,+1) in x1..x8 is eta4488 with its index 0 moved last: True'. In the notebook, the record= argument is attached only to the eta-signature check of In [10], not to the Sylvester check.",
+  "fix": "Attach the citation to 'the signature (4,4) of eta (In [10]; reproduces ... coordinate_map)' and list the Sylvester result without a record citation."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/01-mathematics-from-zero-i.md",
+  "location": "lines 984, 3915, 4930/4942/4970; caption of Figure 01f.6 (builder 01f In [13])",
+  "problem": "Deep-dive rule 1(b) (define every technical word at first use) is broken in four places. 'tensor' ('Lovelock tensors', 'Levi-Civita tensor', 'tensor calculus') is never defined in the chapter. 'anticommuting' is used at line 984 ('complex anticommuting quantities') but explained only at line 2909. 'Krein' (line 3915) is left unexplained. The Figure 01f.6 caption uses 'the warp factor sin^{1/6} z', and 'warp factor' is defined nowhere in the chapter.",
+  "evidence": "grep finds no definition of 'tensor' anywhere in the chapter. The first use of 'anticommut' is line 984; the first explanation (theta_a theta_b = -theta_b theta_a) is line 2909. The caption text in 01f.captions.json: '(the warp factor $\\sin^{1/6} z$ is left out)'.",
+  "fix": "Add a one-clause plain-words definition at each first use: a tensor as a table of numbers with indices that changes in a fixed way under a change of coordinates, with details deferred to Chapter 3. Define anticommuting as ab = -ba at line 984. Add a half-sentence for Krein (a state space with an indefinite inner product, Chapter 10). In the caption, write 'the factor sin^{1/6} z, which depends on the hidden coordinate'."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/01-mathematics-from-zero-i.md",
+  "location": "walk-throughs of 01a In [13] (line 2598) and 01c In [12] (line 5587)",
+  "problem": "Some caption lines hidden behind '...)' contain code that the walk-through never quotes or explains: f-string expressions such as `{mantissa} \\times 10^{{{int(exponent)}}}` and `{elimination_steps[-1]:.0f}`. Neither the triple braces (literal braces around a substituted value) nor `int(exponent)` (which turns the text '+13' into 13) is explained. This breaks rule 1(c) (every code line explained).",
+  "evidence": "These unquoted caption lines contain code expressions: 01a In [13]: 'f\"10^{{{int(exponent)}}}$ terms against about \"' and 'f\"{elimination_steps[-1]:.0f} steps of elimination.\")'. 01c In [12]: 'f\"$p = 1$ to about ${mantissa} \\\\times 10^{{{int(exponent)}}}$ at \"'. The walk-throughs say only that the later caption lines 'insert them as 2.1 \u00d7 10^13'.",
+  "fix": "Quote these caption lines (those that contain f-string expressions) in the walk-through. Explain that `{{` and `}}` give literal braces for LaTeX, that the inner `{int(exponent)}` inserts the exponent, and that int('+13') = 13."
+ },
+ {
+  "severity": "minor",
+  "file": "Revision/textbook/chapters/01-mathematics-from-zero-i.md",
+  "location": "Exercise 11 answer, line 6799",
+  "problem": "The final result 42 delta^a_b is right, but the case analysis is mis-stated. It says that for a \u2260 b every term is 0 by 'case (c): a is missing from the lower list or appears twice in an extended list'. Case (c) is about a LOWER label missing from the upper list, and a is never repeated. With upper list (a, c, d) and lower list (b, c, d): b missing above gives case (c); c or d equal to a repeats an upper label, case (b); c or d equal to b repeats a lower label, case (a).",
+  "evidence": "Line 6799: 'for $a \\neq b$ every term is 0 (case (c): $a$ is missing from the lower list or appears twice in an extended list)'. The four cases are defined in Section 1.42, lines 4876-4879.",
+  "fix": "Rewrite: 'for a \u2260 b every term is 0: if c or d equals a, the upper list repeats a (case (b)); if c or d equals b, the lower list repeats b (case (a)); otherwise the lower label b is not among the upper labels (case (c)).'"
+ }
+]
