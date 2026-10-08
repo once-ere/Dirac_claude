@@ -470,8 +470,10 @@ anyway, so the result is the same in either order.
   `Revision` (`cd $HOME\Dirac_claude` in PowerShell, `cd ~/Dirac_claude` on macOS and Linux) and run
   again.
 * The only output is the line
-  `ERROR  input file not found: ...\Revision\kohn_sham\theory\..\..\algebra\gammas.json` (the dots stand
-  for the full path of your repository folder; on macOS and Linux the path has forward slashes), and the
+  `ERROR  input file not found: ...\Revision\algebra\gammas.json` (the dots stand
+  for the full path of your repository folder; on macOS and Linux the path has forward slashes; observed
+  2026-10-08 with the version of section 6.5, which normalises the folders; the version before it printed
+  `...\Revision\kohn_sham\theory\..\..\algebra\gammas.json`, as in the run logs of sections 6.1 to 6.3), and the
   exit code is `1` (observed: after about 3 to 6 seconds): the input file `Revision/algebra/gammas.json` is
   missing or renamed. Restore it with `git checkout -- Revision/algebra/gammas.json` and run again. If the
   line names `...\Revision\kohn_sham\theory\KohnShamTheory.wl` instead, the package is missing: restore

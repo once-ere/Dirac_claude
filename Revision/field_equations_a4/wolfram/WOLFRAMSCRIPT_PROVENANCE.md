@@ -319,10 +319,10 @@ and then prints one line; section 4 says exactly what to expect.
   * `ERROR  <root>\Revision\field_equations_a4\wolfram\FieldEquationsA4.wl: package not found`
     (or `...: Get failed`): the package is missing. Restore it with
     `git checkout -- Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` or clone again.
-  * `ERROR  cannot write <root>\Revision\field_equations_a4\wolfram\..\a4-equations.json`: the
+  * `ERROR  cannot write <root>\Revision\field_equations_a4\a4-equations.json`: the
     first output could not be opened for writing (write-protected, or open in a program that locks
     it); nothing was written. Make the file writable, close such programs and run again.
-  * `ERROR  cannot write <root>\Revision\field_equations_a4\wolfram\..\reports\wolfram-a4-report.json`:
+  * `ERROR  cannot write <root>\Revision\field_equations_a4\reports\wolfram-a4-report.json`:
     the folder `reports` is missing, or the report is write-protected or locked. In this case the
     run HAS already rewritten `a4-equations.json` (with the same bytes as before if everything else
     is in order) and then stopped without a `checks:` line. The folder `reports` also holds the
