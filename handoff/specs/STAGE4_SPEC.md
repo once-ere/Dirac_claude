@@ -225,7 +225,7 @@ E4.14 (2026-10-08) Two causes of the last cross-check failure, fixed in the code
      1201-point excited run measured p per level from 1.88 to 5.2 (median 3.6) for the 142 levels
      whose |601 - 301| exceeds 1e-9 m; |eps(1201) - eps(601)| < |eps(601) - eps(301)| / 3 for all
      142.  The check canonical_eigenvalues went from ratio 2.08 (63 checks, 1 failed) to 0.716
-     (63 checks, 0 failed; checker 3fb1bb5f...): ratio 0.716 for the 301-point members
+     (63 checks, 0 failed; checker a1b5d29a...): ratio 0.716 for the 301-point members
      excited/ and scf/m1_L3_N1016_lamm2_T0 (deviation 2.195e-6, tolerance 3.066e-6), 0.106 for
      excited/m1_L3_N1016_lamm2_T0_g601 (own U <= 6.71e-7; 0.060 with the old rule), 0.0205 for
      scf/m1_L3_N112_lamp1_T0, its _g601 member and its excited, thermo and emt runs;

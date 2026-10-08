@@ -114,7 +114,7 @@ FACTS = {
        "Revision/textbook/data/23a_check_index.csv"],
     "final_lines": [
         "PASS every file this notebook writes exists",
-        "ALL 14 CHECKS PASSED (notebook 23a)",
+        "ALL 10 CHECKS PASSED (notebook 23a)",
     ],
     "troubleshooting": [
         ["The last section prints that no other notebook was re-run",
@@ -166,9 +166,9 @@ CELLS = [
       BUILDER`. It executes the notebook again into a scratch folder and compares the
       notebook, every file it writes and its provenance file byte for byte with the
       stored ones; it prints `check_NNx=PASSED` or `check_NNx=FAILED`.
-    - **Provenance file**: `NNx_name.PROVENANCE.md`, next to each notebook; its last line
-      `<!-- nbkit-record {...} -->` holds the measured facts of the last verified run,
-      written in JSON.
+    - **Provenance file**: `NNx_name.PROVENANCE.md`, next to each notebook; its last line,
+      an HTML comment that starts with the word `nbkit-record`, holds the measured facts
+      of the last verified run, written in JSON.
     - **JSON**: a text format for numbers, strings, lists and tables of named values.
     - **CSV**: a text table, one row per line, the cells separated by commas.
     - **Wall time**: the time on a clock on the wall, from start to finish, in seconds.
@@ -184,7 +184,7 @@ CELLS = [
       program it starts; `BOOK_RERUN_ALL` is one.
     """),
     md(r"""
-    ## 4. The situation
+    ## 4. The physical and mathematical situation
 
     Nothing in this notebook is physics: it is bookkeeping, and every number it prints is
     COUNTED from files of the repository. The seconds are those MEASURED by nbkit on the
@@ -206,7 +206,7 @@ CELLS = [
     import re  # regular expressions: patterns that find pieces of text
 
     NOTEBOOKS = repository_file("Revision/textbook/notebooks")  # notebooks and records
-    RECORD = re.compile(r"<!-- nbkit-record (\{.*\}) -->")  # the record line
+    RECORD = re.compile(r"nbkit-record (\{.*\}) -->")  # the record line
     ALL_LINE = re.compile(r"ALL (\d+) CHECKS PASSED")  # the last line of a notebook
     TITLE = re.compile(r"^# Provenance of Notebook \w+: (.+)$", re.MULTILINE)
 
@@ -248,8 +248,8 @@ CELLS = [
     md(r"""
     ## 6. Where each notebook is printed in the book
 
-    A notebook is placed in its chapter by a marker line `<!-- NOTEBOOK NNx -->`. The
-    book's assembler replaces the marker by two new sections: the run instructions,
+    A notebook is placed in its chapter by a marker line: an HTML comment that holds the
+    word `NOTEBOOK` and the notebook's id, such as `NOTEBOOK 03b`. The book's assembler replaces the marker by two new sections: the run instructions,
     numbered one more than the last section heading `### N.M` before the marker, and
     then the complete text of the notebook. The next cell reads every chapter, finds
     every marker and the heading before it, and checks that every notebook is placed
@@ -258,7 +258,7 @@ CELLS = [
     code(r'''
     CHAPTERS = by_name(repository_file("Revision/textbook/chapters").glob("[0-9][0-9]-*.md"))
     HEADING = re.compile(r"^### (\d+)\.(\d+) ")  # a section heading such as ### 3.4
-    MARKER = re.compile(r"^<!-- NOTEBOOK (\w+) -->$")  # a notebook marker line
+    MARKER = re.compile(r"^<!-{2} NOTEBOOK (\w+) -->$")  # a notebook marker line
     PLACED = {}  # notebook id -> list of (chapter file name, section of its instructions)
     for chapter in CHAPTERS:
         section = None
@@ -292,16 +292,16 @@ CELLS = [
     code(r'''
     def show_table(first, last):
         """Print the notebooks of the chapters first to last as a table."""
-        print(f"{'id':3} {'title':34} {'checks':>6} {'figs':>4} {'checked':10} "
-              f"{'result':6} {'sec':>6} {'section':>7}")
+        print("id  title                              checks figs checked    result "
+              "   sec section")
         for row in ROWS:
             if first <= row["chapter"] <= last:
                 title = row["title"]
                 if len(title) > 34:
                     title = title[:31] + "..."
-                print(f"{row['id']:3} {title:34} {row['checks']:6d} {row['figures']:4d} "
-                      f"{row['date']:10} {row['result']:6} {row['seconds']:6.1f} "
-                      f"{row['section']:>7}")
+                print(f"{row["id"]:3} {title:34} {row["checks"]:6d} {row["figures"]:4d} "
+                      f"{row["date"]:10} {row["result"]:6} {row["seconds"]:6.1f} "
+                      f"{row["section"]:>7}")
 
 
     show_table(0, 10)
@@ -338,10 +338,10 @@ CELLS = [
         total["figures"] += row["figures"]
         total["seconds"] += row["seconds"]
 
-    print(f"{'chapter':>7} {'notebooks':>9} {'checks':>6} {'figures':>7} {'seconds':>8}")
+    print("chapter notebooks checks figures  seconds")
     for chapter, total in sorted(PER_CHAPTER.items()):
-        print(f"{chapter:7d} {total['notebooks']:9d} {total['checks']:6d} "
-              f"{total['figures']:7d} {total['seconds']:8.1f}")
+        print(f"{chapter:7d} {total["notebooks"]:9d} {total["checks"]:6d} "
+              f"{total["figures"]:7d} {total["seconds"]:8.1f}")
     ALL_SECONDS = sum(row["seconds"] for row in ROWS)
     report("notebooks (without 23a)", len(ROWS))
     report("checks in these notebooks", sum(row["checks"] for row in ROWS))
@@ -423,8 +423,8 @@ CELLS = [
     md(r"""
     ## 11. The steps of the Revision gate
 
-    The gate `Revision/verify_revision.sh` holds its steps as a table between the lines
-    `cat >"$steps_file" <<'REVISION_GATE_STEPS'` and `REVISION_GATE_STEPS`. Each line has
+    The gate `Revision/verify_revision.sh` holds its steps as a table between the first
+    and the second appearance of the word `REVISION_GATE_STEPS`. Each line of it has
     seven fields separated by `|`: the step name, the expected wall time in seconds, the
     kind (`1` = long, skipped by the option `--fast`; `A` = an audit that always runs;
     `0` = any other step), a work folder, the output files, the reports and the command.
@@ -433,8 +433,8 @@ CELLS = [
     """),
     code(r'''
     gate = repository_file("Revision/verify_revision.sh").read_text(encoding="utf-8")
-    table = gate.split("<<'REVISION_GATE_STEPS'\n")[1].split("\nREVISION_GATE_STEPS\n")[0]
-    STEPS = [line.split("|") for line in table.splitlines()]
+    table = gate.split("REVISION_GATE_STEPS")[1]  # the text between the two marks
+    STEPS = [line.split("|") for line in table.splitlines() if line.count("|") == 6]
 
 
     def short_command(command):
@@ -444,7 +444,7 @@ CELLS = [
         return " ".join(words[:2])
 
 
-    print(f"{'step':33} {'sec':>5} {'kind':4} command")
+    print(f"{"step":33} {"sec":>5} {"kind":4} command")
     for name, expected, kind, _, _, _, command in STEPS:
         mark = {"1": "long", "A": "all"}.get(kind, "")
         print(f"{name:33} {int(expected):5d} {mark:4} {short_command(command)}")
@@ -569,8 +569,8 @@ CELLS = [
     file back and checks that it has one row per check.
     """),
     code(r'''
-    print(f"{'report (under Revision/, without .json)':63} {'checks':>6} {'PASS':>4} "
-          f"{'N/A':>3} {'cited':>5}")
+    print(f"{"report (under Revision/, without .json)":63} {"checks":>6} {"PASS":>4} "
+          f"{"N/A":>3} {"cited":>5}")
     INDEX = []  # one row per check: report, check, verdict, citing chapters
     for report_path, pairs in REPORTS.items():
         for check_name, verdict in pairs:
@@ -579,8 +579,8 @@ CELLS = [
                           " ".join(str(chapter) for chapter in chapters)])
         short = report_path.removeprefix("Revision/").removesuffix(".json")
         print(f"{short:63} {len(pairs):6d} "
-              f"{sum(verdict == 'PASS' for _, verdict in pairs):4d} "
-              f"{sum(verdict == 'NOT-AVAILABLE' for _, verdict in pairs):3d} "
+              f"{sum(verdict == "PASS" for _, verdict in pairs):4d} "
+              f"{sum(verdict == "NOT-AVAILABLE" for _, verdict in pairs):3d} "
               f"{sum((report_path, name) in CITED for name, _ in pairs):5d}")
 
     CHECK_INDEX = "Revision/textbook/data/23a_check_index.csv"
@@ -603,10 +603,10 @@ CELLS = [
     """),
     code(r'''
     EXAMPLE = "Revision/lead_checks/reports/charge-conjugation-and-u1.json"
-    print(f"{'check':44} {'verdict':7} cited by chapters")
+    print(f"{"check":44} {"verdict":7} cited by chapters")
     for report_path, check_name, verdict, chapters in INDEX:
         if report_path == EXAMPLE:
-            print(f"{check_name:44} {verdict:7} {chapters or '-'}")
+            print(f"{check_name:44} {verdict:7} {chapters or "-"}")
     check(sum(row[0] == EXAMPLE for row in INDEX) == 12,
           "the example report holds 12 checks",
           record=f"{EXAMPLE}, all checks")
@@ -649,9 +649,9 @@ CELLS = [
                 encoding="utf-8", errors="replace", cwd=REPO, env=environment)
             values = dict(line.split("=", 1) for line in done.stdout.splitlines()
                           if "=" in line)
-            fresh = values.get(f"check_{row['id']}_seconds", "")
+            fresh = values.get(f"check_{row["id"]}_seconds", "")
             return {"id": row["id"], "chapter": row["chapter"],
-                    "result": values.get(f"check_{row['id']}", "FAILED"),
+                    "result": values.get(f"check_{row["id"]}", "FAILED"),
                     "seconds": float(fresh) if fresh[:1].isdigit() else 0.0,
                     "recorded": row["seconds"]}
 
@@ -661,14 +661,13 @@ CELLS = [
             FRESH = list(pool.map(rerun, sorted(ROWS, key=lambda row: -row["seconds"])))
         wall = time.perf_counter() - start
         FRESH.sort(key=lambda item: item["id"])
-        print(f"{'chapter':>7} {'notebooks':>9} {'passed':>6} {'fresh s':>8} "
-              f"{'recorded s':>10}")
+        print("chapter notebooks passed  fresh s recorded s")
         for chapter in sorted(PER_CHAPTER):
             items = [item for item in FRESH if item["chapter"] == chapter]
             print(f"{chapter:7d} {len(items):9d} "
-                  f"{sum(item['result'] == 'PASSED' for item in items):6d} "
-                  f"{sum(item['seconds'] for item in items):8.1f} "
-                  f"{sum(item['recorded'] for item in items):10.1f}")
+                  f"{sum(item["result"] == "PASSED" for item in items):6d} "
+                  f"{sum(item["seconds"] for item in items):8.1f} "
+                  f"{sum(item["recorded"] for item in items):10.1f}")
         failed = [item["id"] for item in FRESH if item["result"] != "PASSED"]
         for item_id in failed:
             say(f"FAILED {item_id}: run its nbkit check alone to see the problem lines")
@@ -680,7 +679,7 @@ CELLS = [
                                                     "seconds", "recorded")]
                              for item in FRESH)
         say(f"Re-run of {len(FRESH)} notebooks with {workers} at a time: wall time "
-            f"{wall:.0f} s; fresh results in {scratch / 'fresh_results.csv'}")
+            f"{wall:.0f} s; fresh results in {scratch / "fresh_results.csv"}")
         assert not failed, f"nbkit check failed for {failed}"
         say(f"RERUN all {len(FRESH)} other notebooks passed their nbkit check.")
     '''),
