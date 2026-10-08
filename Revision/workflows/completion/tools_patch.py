@@ -9,6 +9,12 @@
    `target` folder where a notebook keeps the raw output of its program runs), printed in the run
    instructions and in section 4.1 of the provenance file, so that "exactly these files and no other file"
    stays true (finding of the chapter-15 fixer: 15a, 15b, 15d write into Revision/kohn_sham/solver/target/).
+3. nbkit.py: the scanner that collects the PASS/RESULT lines (and their indented continuation lines, e.g. "reproduces
+   <record> / check <name>") for the provenance file reset its state at the start of every stdout OUTPUT CHUNK.  How the
+   kernel splits stdout into chunks depends on timing, so a continuation line that landed in the next chunk was dropped:
+   the stored notebook (normalised: chunks merged) compared equal while the regenerated provenance differed from run to
+   run (found 2026-10-08 in a fresh clone: 04b, In [12]).  The scanner now reads the normalised outputs, i.e. exactly what
+   the stored notebook holds.  Every provenance file must then be regenerated (the bulk rebuild does it).
 """
 import re
 
@@ -83,4 +89,11 @@ edit(NK, [
      '            "build folder `target`, which git ignores; section 4.2).")\n'
      '        add("")\n'
      '    add("Running the notebook headless with `--inplace`, or saving it in JupyterLab, "\n'),
+])
+
+edit(NK, [
+    ('        for output in cell.get("outputs", []):\n            kind = output["output_type"]\n',
+     '        # The normalised outputs (consecutive stream chunks merged) are what the stored notebook holds; scanning\n'
+     '        # the raw chunks made the collected PASS continuation lines depend on how the kernel split stdout.\n'
+     '        for output in normalise_outputs(cell.get("outputs", [])):\n            kind = output["output_type"]\n'),
 ])
