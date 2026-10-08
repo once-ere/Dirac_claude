@@ -2,10 +2,10 @@
 
 The dark-sector hypotheses of dirac16complex and dirac16complex00 against the Unite values.
 
-* Notebook: `Revision/notebooks/dark_sector_hypotheses.ipynb` (47 cells: 26 markdown, 21 code; 455344 bytes;
-  sha256 `fadca750e38b16dcfa3f7687e52f8e0882639d09f49267c2429df722c86e8429`).
+* Notebook: `Revision/notebooks/dark_sector_hypotheses.ipynb` (47 cells: 26 markdown, 21 code; 457652 bytes;
+  sha256 `30d2e843921159fa285901db19796585d0434204b8b7bbb03eb6ec9b15574f25`).
 * Builder: `Revision/notebooks/src/dark_sector_hypotheses.py`
-  (sha256 `1d89e3c5e8b9e50308f44e7e42a06ee0f54bd21eb517b455d89f5b6941e8f4bd`).
+  (sha256 `12d5cad95338f4ffc9cbdcc49decb88f7a3a240ed2d18ddef599f2e9c667fd95`).
 * Build tool: `Revision/notebooks/tools/build_notebooks.py`
   (sha256 `99f18fc03902e0920d21e30cfe3d44df6d298583a8abb935b486f383acf345a0`).
 * Pins: `Revision/notebooks/requirements.txt`
@@ -200,11 +200,12 @@ No run time and no path of the computer is printed (paths are shown relative to 
 
 ## 5. Measured run time (Windows 11, 2026-10-08)
 
-* Whole notebook, executed by `build_notebooks.py`: 32.7 s (build A), 42.6 s (build B) and 44.0 s (`check`)
-  of execution while other work ran on the computer (the first builds of this notebook took 15.4 s to
-  15.9 s), including the fresh `cargo build --release` of the solver into `<cargo-target>`
-  and the 123 solver runs (8 parallel processes; measured separately with the same arguments: 9.3 s of wall
-  time for the 123 runs, the longest single run 2.4 s).
+* Whole notebook, executed by `build_notebooks.py` (current version): 23.0 s (build A), 24.3 s (build B) and
+  25.8 s (`check`) of execution while other work ran on the computer (earlier versions: 24.4 s to 47.8 s
+  under load, section 7; the first builds of this notebook took 15.4 s to 15.9 s), including the fresh
+  `cargo build --release` of the solver into `<cargo-target>` and the 123 solver runs (8 parallel
+  processes; measured separately with the same arguments: 9.3 s of wall time for the 123 runs, the
+  longest single run 2.4 s).
 * Not part of the notebook: the committed dense history (615 states, `run_ks_history.py`) took about 2 min,
   the independent free-gas implementation about 2.5 min (`Revision/dark_sector/dirac16complex/README.md`).
 
@@ -258,8 +259,29 @@ No run time and no path of the computer is printed (paths are shown relative to 
   builders). The notebook itself was not executed on Linux.
 * Current version, all runs with the system's temporary folder set (TMP, TEMP, TMPDIR) to a scratch
   folder:
-@CURRENT@
-@STALE@
+* 2026-10-08, build A: `python Revision/notebooks/tools/build_notebooks.py build dark_sector_hypotheses --out
+  <scratch>/buildA` - executed in 23.0 s, wrote 457652 bytes, audit PASS, sha256
+  `30d2e843921159fa285901db19796585d0434204b8b7bbb03eb6ec9b15574f25`.
+* 2026-10-08, build B: the same command with `--out <scratch>/buildB` - executed in 24.3 s; the notebook
+  written is byte-identical to build A (same sha256), and the 129 files of the two output folders are
+  byte-identical and equal to the table of section 2.
+* 2026-10-08, check: `python Revision/notebooks/tools/build_notebooks.py check dark_sector_hypotheses --out
+  <scratch>/check1` - a third independent execution (25.8 s): `check dark_sector_hypotheses: PASS - the
+  re-executed notebook is byte-identical to Revision/notebooks/dark_sector_hypotheses.ipynb (457652 bytes)`;
+  its 129 files equal the table of section 2.
+* 2026-10-08, two intermediate versions of this change were each built twice and checked the same way
+  (byte-identical; 457610 bytes in 38.8 s, 40.3 s, 32.6 s and 457641 bytes in 24.6 s, 26.5 s, 24.4 s of
+  execution; the same 129 files); they differ from the current notebook only in the heading of section
+  12.1 and, the first of them, in the run-time sentence of section 2.4.
+* 2026-10-08, reused output folder with an old-layout build folder: `python -m nbconvert --to notebook
+  --execute Revision/notebooks/dark_sector_hypotheses.ipynb --output-dir <scratch>` with
+  `REVISION_NB_OUT=<scratch>/out`, where `<scratch>/out/cargo-target/release/deps/old.rlib` and
+  `<scratch>/out/cargo-target/release/old.d` existed beforehand (the reviewer's reproduction), run with the
+  second intermediate notebook (sha256 `6f419044a7d84137cfc6bf4fe4cfe5ff89cd80e99a0dfd49db127ddb01614f9f`,
+  identical code cells; it differs only in the heading of section 12.1) - exit status 0, no error or
+  stderr output in the executed notebook, `checks of this notebook: 40 passed, 0 failed`, and the final
+  list holds only the summary line of the 123 solver files and the six files of section 2, no
+  `cargo-target` path (38.1 s wall time including nbconvert start).
 * Previous version (notebook sha256 `fadca750e38b16dcfa3f7687e52f8e0882639d09f49267c2429df722c86e8429`,
   455344 bytes), recorded below:
 * 2026-10-08, the reason for the previous version: on Windows the MSVC linker `link.exe` cannot open

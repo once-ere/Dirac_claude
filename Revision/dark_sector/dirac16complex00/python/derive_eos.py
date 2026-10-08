@@ -275,7 +275,7 @@ def section_condensate(g):
     rhoE, pE = parse(lm["rhoEinstein"]["input"]), parse(lm["pEinstein"]["input"])
     okE = sp.simplify(rhoE + pE + 6 * (1 + AA ** 2) * Hs ** 2 / kap) == 0
     check("linear_member_einstein_phantom_ratio", okE,
-          "Einstein: rho + p = -6 (1 + A^2) H^2/kappa < 0 (kappa > 0); a self-consistent condensate source with rho > 0 therefore has w = p/rho = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1 (phantom in the RATIO sense), constant in x4")
+          "Einstein: rho + p = -6 (1 + A^2) H^2/kappa < 0 (kappa > 0); a self-consistent condensate source with rho > 0 therefore has w = p/rho = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1 (phantom in the RATIO sense), constant in x4; with the x4 constraint 3 a4'^2 + 21 H^2 + Lambda = -kappa rho (expansion_inferred_w_einstein) these hypotheses need Lambda < -(21 + 3 A^2) H^2, and for Lambda = 0 the ratio is w = (A^2 - 5)/(A^2 + 7) > -1")
     # expansion-inferred w of the 3-space observer for the backreacted homogeneous Einstein case
     x4 = sp.Symbol("x4", real=True)
     a4 = sp.Function("a4")(x4)
@@ -296,7 +296,7 @@ def section_condensate(g):
         "CPL": "wa = 0 in all three definitions (no time dependence)",
         "unite_constant_w_by_ratio": "lambda S/m = -382/441 (rho > 0: m S > 0, lambda < 0)",
         "linear_member_rho_plus_p": "kappa (rho + p) = -(a4'^2 + H^2) [6 alpha1 - 48 alpha2 (a4'^2 + 5 H^2) + 432 alpha3 (a4'^4 + 2 a4'^2 H^2 + 5 H^4)], a4' = A H",
-        "einstein": "rho + p = -6 (1 + A^2) H^2/kappa: kappa rho > 0 (e.g. kappa > 0 and rho > 0) gives w = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1 (constant), kappa rho < 0 gives w > -1 (the sign of kappa is not fixed by this record); with alpha2, alpha3 the bracket can change sign",
+        "einstein": "rho + p = -6 (1 + A^2) H^2/kappa: kappa rho > 0 (e.g. kappa > 0 and rho > 0) gives w = -1 - 6 (1 + A^2) H^2/(kappa rho) < -1 (constant), kappa rho < 0 gives w > -1; on the linear member the x4 constraint 3 a4'^2 + 21 H^2 + Lambda = -kappa rho gives kappa rho = -(3 A^2 + 21) H^2 - Lambda, so the ratio is phantom exactly when Lambda < -(21 + 3 A^2) H^2 (Lambda = 0: w = (A^2 - 5)/(A^2 + 7) > -1); with alpha2, alpha3 the bracket can change sign",
         "expansion_inferred_w": "Einstein, backreacted homogeneous source: w_tot = -1 - kappa (p3 - p_t)/(3 a4'^2); for the condensate p3 = p_t: a4 linear, w_tot = -1 exactly (constant 3-space Hubble rate A H)",
     }
 

@@ -81,7 +81,9 @@ observer. It agrees with p3/rho only when no energy is exchanged with the extra 
   kappa (rho + p) = -(a4'^2 + H^2) [6 alpha1 - 48 alpha2 (a4'^2 + 5 H^2) + 432 alpha3 (a4'^4 + 2 a4'^2 H^2 + 5 H^4)].
   - In Einstein gravity, rho + p = -6 (1 + A^2) H^2/kappa, so the ratio is the constant
     w = -1 - 6 (1 + A^2) H^2/(kappa rho). It is phantom (w < -1) exactly when kappa rho > 0 (e.g. kappa > 0
-    and rho > 0) and w > -1 for kappa rho < 0; the sign of kappa is not fixed by this record.
+    and rho > 0) and w > -1 for kappa rho < 0. On the linear member the x4 constraint
+    3 a4'^2 + 21 H^2 + Lambda = -kappa rho gives kappa rho = -(3 A^2 + 21) H^2 - Lambda, so the ratio is
+    phantom exactly when Lambda < -(21 + 3 A^2) H^2; for Lambda = 0 it is w = (A^2 - 5)/(A^2 + 7) > -1.
   - In Einstein gravity the observer's Hubble rate from the expansion gives
     w_tot = -1 - kappa (p3 - p_t)/(3 a4'^2). This is exactly -1 for the linear member, whose Hubble rate is
     constant.

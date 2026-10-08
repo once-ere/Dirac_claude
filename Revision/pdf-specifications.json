@@ -2,7 +2,7 @@
   "dark-sector-hypotheses": {
     "path": "Revision/docs/DARK_SECTOR_HYPOTHESES.pdf",
     "pages": 24,
-    "sha256": "8201a0b808fc7d47244b655f99f914ce8e0eee0d2f86bd04fa21fd0a7e5e53a8"
+    "sha256": "a2f0a10264730b436f92f283a2d19dfe7264f2f7aa834323760f7e87a8572bb3"
   },
   "dirac16complex-field-theory": {
     "path": "Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.pdf",
@@ -12,7 +12,7 @@
   "dirac16complex00-field-theory": {
     "path": "Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.pdf",
     "pages": 37,
-    "sha256": "3d285c601a7ce6d0a125d8c994e2797c8b01d4072ff90d58d5b872b1e9dc43d9"
+    "sha256": "919b801043fbc1c40f2a12ecc108a61715ad555bb749cba0813a1f36505667f4"
   },
   "kohn-sham-deflating-field": {
     "path": "Revision/docs/KOHN_SHAM_DEFLATING_FIELD.pdf",

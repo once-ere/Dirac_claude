@@ -38,6 +38,7 @@ After an intended edit of the document: rebuild in verify mode until warning-fre
 
 from __future__ import annotations
 
+import csv
 import fnmatch
 import hashlib
 import json
@@ -68,8 +69,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "f6c264a5e3c77eecefd19654e3dd0b0899b39d6aa49a904055fcc176131a51f3"
-TEX_SHA256 = "4e685e127e77ea4617412e8dd007c78024fe6522b07ec56ee8f283dada5da079"
+MARKDOWN_SHA256 = "d6c9a6cdf291e339c783cafebc84c42be4b81b725d26720801b621e7b2f0d7f5"
+TEX_SHA256 = "54ccea447ae024a5be0a936105e00f88fe6fbb39ea8e922061129f4905af22bf"
 
 DARK = REVISION / "dark_sector"
 D16 = DARK / "dirac16complex"
@@ -85,6 +86,8 @@ INDEPENDENT_NUMERICS = D00 / "reports" / "python-independent-numerics.json"
 EOS_THEORY = D00 / "eos-theory.json"
 NUMERICS = D00 / "results" / "independent-numerics.json"
 KS_SOURCE = REVISION / "field_equations_a4" / "reports" / "ks-source-conditions.json"
+A4_EQUATIONS = REVISION / "field_equations_a4" / "a4-equations.json"
+EXACT_FOCK = REVISION / "kohn_sham" / "results" / "exx" / "exact-fock-variant.csv"
 
 # The six dark-sector reports, every check of which the document lists (section 11.2).
 DARK_REPORTS = (DERIVATION, KS_HISTORY, EOS_CHECKS, INDEPENDENT, DERIVE_EOS, INDEPENDENT_NUMERICS)
@@ -152,9 +155,14 @@ KEY_STATEMENTS = (
     "the gas fraction 0.6807148417136 is CHOSEN so that the constant-$w$ proxy",
     "This value of $\\lambda S/m$ is CHOSEN to give -0.764: one parameter tuned to one number.",
     "2. Any Unite value as an output of the field equations: every match is by construction",
-    "Negative $E$ is not specific to a negative-norm (Krein) sector",
+    "Negative $E$ is not specific to a negative-norm (Krein) sector in the canonical Kohn-Sham record",
+    "This negative $E$ is therefore a property of the approximate functional; good-sector states with "
+    "$E < 0$ are not established beyond it.",
     "which is phantom ($w < -1$) exactly when $\\kappa\\rho > 0$",
     "a constant ratio $w < -1$ for $\\kappa\\rho > 0$",
+    "$\\kappa\\rho = -(3A^2 + 21)H^2 - \\Lambda$",
+    "which is phantom exactly when $\\Lambda < -(21 + 3A^2)H^2$",
+    "for $\\Lambda = 0$ the ratio is $w = (A^2 - 5)/(A^2 + 7) > -1$, not phantom",
     "in the positive realisation of the good sector (with the ASSUMED brane condition",
     "crosses $-1$ on $[1/3, 1]$?",
 )
@@ -174,6 +182,10 @@ FORBIDDEN = (
     r"otherwise\s+\$E\s*<\s*0\$,\s+the\s+negative-norm",
     # the Einstein linear-member ratio is phantom only for kappa * rho > 0
     r"\$w\s*<\s*-1\$\s+for\s+\$\\rho\s*>\s*0\$",
+    # negative E of the N = 8 states is a property of the canonical uniform-gas functional (exact Fock: |E| <= 2.04e-13)
+    r"not\s+specific\s+to\s+a\s+negative-norm\s+\(Krein\)\s+sector\s*:",
+    # kappa > 0 and rho > 0 on the linear member need Lambda < -(21 + 3 A^2) H^2; it is no bare example
+    r"e\.g\.\s+for\s+\$\\kappa\s*>\s*0\$\s+and\s+\$\\rho\s*>\s*0\$",
 )
 FILE_SUFFIXES = (".json", ".py", ".wls", ".wl", ".md", ".tex", ".pdf", ".rs", ".csv", ".toml")
 
@@ -415,6 +427,8 @@ class Content(unittest.TestCase):
             r"as freezing (M2) or thawing (M3, M4) evolution with $w \geq -1$ at every $a$",
             "otherwise $E < 0$, the negative-norm (Krein) sector",
             r"the linear member, a constant ratio $w < -1$ for $\rho > 0$",
+            "Negative $E$ is not specific to a negative-norm (Krein) sector: in the good sector",
+            r"phantom exactly when $\kappa\rho > 0$, e.g. for $\kappa > 0$ and $\rho > 0$",
         )
         self.assertEqual(len(tampered), len(FORBIDDEN))
         for pattern, sentence in zip(FORBIDDEN, tampered):
@@ -645,6 +659,45 @@ class QuotedNumbers(unittest.TestCase):
         for value in ("drift at most 1.8378632e-12", "at most 1.1657342e-15", "at most 4.8268616e-07",
                       "to within 0.00083082726"):
             self.assertQuoted(value)
+
+    def test_linear_member_phantom_sign_from_the_record(self):
+        """kappa rho on the Einstein linear member is fixed by the x4 constraint (sections 6.1, 9.2, 13.1)."""
+        record = load_json(A4_EQUATIONS)
+        linear = record["linearMember"]
+        self.assertEqual(linear["rhoEinstein"]["input"], "(-21*H^2)/kappa - (3*AA^2*H^2)/kappa - Lam/kappa")
+        self.assertEqual(linear["pEinstein"]["input"], "(15*H^2)/kappa - (3*AA^2*H^2)/kappa + Lam/kappa")
+        self.assertEqual(linear["rhoPlusPEinstein"]["input"], "(-6*(1 + AA^2)*H^2)/kappa")
+        self.assertIn("kappa rho > 0 needs Lambda < -(3 a4'^2 + 21 H^2)", record["einstein"]["allowedA4"])
+        # exact arithmetic in units H = 1 (kappa cancels in the ratio): w = p/rho
+        for a2 in (Fraction(0), Fraction(1, 3), Fraction(1), Fraction(5), Fraction(40)):
+            for lam in (Fraction(0), Fraction(-10), -21 - 3 * a2 - Fraction(1, 7), Fraction(-100)):
+                kappa_rho = -21 - 3 * a2 - lam
+                kappa_p = 15 - 3 * a2 + lam
+                w = kappa_p / kappa_rho
+                self.assertEqual(w, -1 + 6 * (1 + a2) / ((3 * a2 + 21) + lam))
+                self.assertEqual(w < -1, lam < -(21 + 3 * a2))
+                if lam == 0:
+                    self.assertEqual(w, (a2 - 5) / (a2 + 7))
+                    self.assertGreater(w, -1)
+        self.assertQuoted("`linearMember/rhoEinstein` and `einstein/allowedA4`")
+
+    def test_exact_fock_variant_of_the_n8_states(self):
+        """The negative E of the N = 8, lambda > 0 states is a property of the uniform-gas functional (section 4.7)."""
+        with open(EXACT_FOCK, encoding="utf-8", newline="") as handle:
+            rows = [row for row in csv.DictReader(handle) if row["N"] == "8"]
+        self.assertEqual(len(rows), 20)
+        largest = max(abs(float(row["E_exact_fock_scf"])) for row in rows)
+        self.assertLessEqual(largest, 2.04e-13)
+        self.assertEqual(f"{largest:.2e}", "2.04e-13")
+        for row in rows:
+            if float(row["lambda"]) > 0:
+                canonical = float(row["E_uniform_gas"])
+                first_order = float(row["E_uniform_gas_plus_deltaE_x"])
+                self.assertLess(canonical, 0)
+                self.assertLess(first_order, 0)
+                self.assertLess(abs(first_order), abs(canonical))
+        self.assertQuoted("the same $N = 8$ states have $\\lvert E\\rvert \\leq 2.04 \\times 10^{-13}$")
+        self.assertQuoted("still leaves $E < 0$, of smaller magnitude")
 
     def test_ks_source_conditions(self):
         data = load_json(KS_SOURCE)

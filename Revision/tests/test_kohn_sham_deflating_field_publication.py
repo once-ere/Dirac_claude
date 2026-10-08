@@ -97,6 +97,7 @@ COUNTED_REPORTS = (
     "Revision/field_equations_a4/reports/python-a4-report.json",
     "Revision/pairing/kohn_sham/reports/wolfram-t3.json",
     "Revision/pairing/kohn_sham/reports/python-t3.json",
+    "Revision/kohn_sham/tip_convergence/tip-convergence.json",
 )
 # Reports whose every check the document lists.
 COMPLETELY_LISTED = (
@@ -109,6 +110,7 @@ CITABLE_REPORT_GLOBS = (
     "field_equations_a4/reports/*.json",
     "field_equations_a4/ks_source/reports/*.json",
     "pairing/kohn_sham/reports/*.json",
+    "kohn_sham/tip_convergence/*.json",
 )
 # "(X of Y PASS)" statements of the text: report path -> the phrase that names it.
 PASS_STATEMENTS = (
@@ -122,6 +124,7 @@ PASS_STATEMENTS = (
     ("Revision/pairing/kohn_sham/reports/python-t3-completion.json", "`Revision/pairing/kohn_sham/reports/python-t3-completion.json` ({p} of {t} PASS)"),
     ("Revision/dark_sector/dirac16complex/reports/ks-history-run.json", "`Revision/dark_sector/dirac16complex/reports/ks-history-run.json`: {p} of {t} PASS"),
     ("Revision/kohn_sham/reports/ks-crosscheck.json", "31 of 31 checks PASS over"),
+    ("Revision/kohn_sham/tip_convergence/tip-convergence.json", "`Revision/kohn_sham/tip_convergence/tip-convergence.json`, {p} of {t} checks PASS"),
 )
 
 TITLE = "Kohn-Sham model of dirac16complex in the author's primordial field with the deflating extra times"
@@ -640,6 +643,8 @@ class QuotedNumbers(unittest.TestCase):
              ("43 to 70 s (Wolfram) and 7 to 28 s (sympy)",)),
             (DOCS / "PAIR_CREATION_PROOFS.md", ("the T3 verifiers 10 of 10 (about 3 s) and 13 of 13 (about 1 s)",),
              ("the T3 verifiers about 3 s and 1 s",)),
+            (KS / "tip_convergence" / "README.md", ("two complete runs took 541 s and 553 s",),
+             ("the tip-cutoff study 541 s and 553 s in two complete runs with 8 workers",)),
         )
         for path, in_source, in_document in sources:
             text = path.read_text(encoding="utf-8")

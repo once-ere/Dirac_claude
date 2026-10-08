@@ -468,6 +468,9 @@ class TestKeyStatements(unittest.TestCase):
         "because its two free parameters were CHOSEN to solve the two tangent conditions",
         "a crossing of $w = -1$ occurs only with a component of negative classical energy",
         r"the tuned value $\lambda S/m = -382/441$",
+        r"on the linear member $\kappa\rho = -(3A^2 + 21)H^2 - \Lambda$",
+        r"is phantom exactly when $\Lambda < -(21 + 3A^2)H^2$, and for $\Lambda = 0$ it is "
+        r"$w = (A^2 - 5)/(A^2 + 7) > -1$",
         "`Revision/docs/DARK_SECTOR_HYPOTHESES`",
         "`Revision/docs/LOVELOCK_GKD`",
         "`Revision/docs/KOHN_SHAM_DEFLATING_FIELD`",
