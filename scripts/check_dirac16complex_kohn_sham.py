@@ -140,6 +140,9 @@ TOL = {
     "lambdaHat": 2e-7,                  # |lh_rust/lh_ref - 1|: both sides take the maximum over the Rust grid nodes
                                         # (reference: occupied free levels on 300/600/1200 intervals); measured 5e-11..5e-8
     "eps": 1e-6,                        # |d eps| <= eps max(1, |eps|/m) m + dl max|V|
+                                        # (+ for every level of a run with a Rust _g601 partner, and of the scf
+                                        # run whose levels.csv is byte-identical to that partner's base run: the
+                                        # measured |eps(601) - eps(301)| of that level, rust_level_grid_uncertainties)
     "energy": 1e-6,                     # E_0, F: |dE| <= energy max(|E|, N m) (+ dl |E_int| after correction)
     "scalar": 1e-6,                     # mu, gap, Delta-SCF: |d| <= scalar max(m, |value|) + dl max|V|
                                         # (+ for E_0, mu, gap, Delta-SCF, lowest particle-hole of a run with a Rust
@@ -941,9 +944,11 @@ def load_reference_run(ref_dir, label):
     return run
 
 
-def compare_levels(worst, where, item, ref, dl, record):
+def compare_levels(worst, where, item, ref, dl, record, level_uncertainty=None):
     """Eigenvalues per (q, parity, block type) in the common window, with the
-    particle/sea branch and (T = 0) the occupation of every matched level."""
+    particle/sea branch and (T = 0) the occupation of every matched level;
+    level_uncertainty: {rust_level_key: measured Rust y-grid uncertainty} of
+    a run with a grid-refinement partner (rust_level_grid_uncertainties)."""
     lpath = os.path.join(item["dir"], "levels.csv")
     if not os.path.exists(lpath):
         record["eigenvalues"] = {"compared": 0, "note": "levels.csv absent"}
@@ -976,7 +981,8 @@ def compare_levels(worst, where, item, ref, dl, record):
             continue
         compared += 1
         cand = mine.get((int(rec["n2"]), int(rec["parity"]), int(rec["s"])), [])
-        tol = TOL["eps"] * max(1.0, abs(eps) / m) * m + (dl + trel) * vmax
+        tol = (TOL["eps"] * max(1.0, abs(eps) / m) * m + (dl + trel) * vmax
+               + (level_uncertainty or {}).get(rust_level_key(rec), 0.0))
         if not cand:
             unmatched += 1
             continue
@@ -1326,6 +1332,48 @@ def rust_grid_uncertainties(runs):
     return out
 
 
+def rust_level_key(rec):
+    """Identity of a Rust level on every y grid: (n2, parity, s, index, branch)."""
+    return (int(rec["n2"]), int(rec["parity"]), int(rec["s"]), int(rec["index"]), int(rec["branch"]))
+
+
+def rust_level_grid_uncertainties(runs):
+    """{(sub, label): {"levels": {level key: |eps(finer grid) - eps(301 points)|}, "source": ...}} from the
+    levels.csv files of the Rust grid-refinement pairs (see rust_grid_uncertainties): the measured y-grid
+    uncertainty of every level.  It is added level by level to the eigenvalue tolerance of both members of
+    the pair and of every run of another subcommand with the same label whose levels.csv is byte-identical to
+    the base run's (the scf run of an excited pair: the same converged ground state, runs.rs)."""
+    by_key = {(it["sub"], it["label"]): it for it in runs}
+    out = {}
+    for it in runs:
+        found = re.search(r"_g(\d+)$", it["label"])
+        if not found:
+            continue
+        base = by_key.get((it["sub"], it["label"][:found.start()]))
+        if base is None:
+            continue
+        paths = [os.path.join(x["dir"], "levels.csv") for x in (it, base)]
+        if not all(os.path.exists(p) for p in paths):
+            continue
+        (fh, fl), (ch, cl) = read_csv(paths[0]), read_csv(paths[1])
+        fine = {rust_level_key(dict(zip(fh, row))): float(row[fh.index("eps")]) for row in fl}
+        levels = {}
+        for row in cl:
+            key = rust_level_key(dict(zip(ch, row)))
+            if key in fine:
+                levels[key] = abs(fine[key] - float(row[ch.index("eps")]))
+        entry = {"levels": levels, "source": "%s/%s" % (it["sub"], it["label"])}
+        out[(it["sub"], base["label"])] = entry
+        base_sha = sha256_file(paths[1])
+        for other in runs:
+            if other["label"] == base["label"] and other["sub"] != base["sub"]:
+                opath = os.path.join(other["dir"], "levels.csv")
+                if os.path.exists(opath) and sha256_file(opath) == base_sha:
+                    out[(other["sub"], other["label"])] = dict(entry, sameGroundStateAs="%s/%s" % (
+                        base["sub"], base["label"]))
+    return out
+
+
 def compare_canonical(reg: Registry, ref_dir, runs):
     """Every Rust run with a reference run of the same label (see
     reference_label_for), quantity by quantity; one aggregated check per
@@ -1334,6 +1382,7 @@ def compare_canonical(reg: Registry, ref_dir, runs):
     compared = []
     missing = []
     grid_uncertainty = rust_grid_uncertainties(runs)
+    level_uncertainty = rust_level_grid_uncertainties(runs)
     for item in runs:
         if item["sub"] == "spectrum":
             continue
@@ -1365,7 +1414,13 @@ def compare_canonical(reg: Registry, ref_dir, runs):
         N = ref["params"]["N"]
         vmax = ref["_potScale"]
         T = ref["params"]["T"]
-        compare_levels(worst, where, item, ref, dl, record)
+        lu = level_uncertainty.get((item["sub"], label))
+        if lu:
+            record["rustLevelGridUncertainty"] = {"source": lu["source"], "levels": len(lu["levels"]),
+                                                  "max": max(lu["levels"].values(), default=0.0)}
+            if lu.get("sameGroundStateAs"):
+                record["rustLevelGridUncertainty"]["sameGroundStateAs"] = lu["sameGroundStateAs"]
+        compare_levels(worst, where, item, ref, dl, record, (lu or {}).get("levels"))
         if T == 0.0:
             e_r = rust_energy(item)
             e_f = ref["extrapolated"]["total"]
@@ -1429,7 +1484,8 @@ def compare_canonical(reg: Registry, ref_dir, runs):
         return
     descriptions = {
         "lambdaHat": "couplings derived independently on both sides",
-        "eigenvalues": "eigenvalues per (q, parity, block type): |d eps| <= %g max(1, |eps|/m) m + dl max|V|" % TOL["eps"],
+        "eigenvalues": ("eigenvalues per (q, parity, block type): |d eps| <= %g max(1, |eps|/m) m + dl max|V| "
+                        "(+ |eps(601) - eps(301)| of the level for a run with a Rust grid partner)" % TOL["eps"]),
         "eigenvalueMatching": "every level in the common window matched, same branch, same T = 0 occupation",
         "E0": "E_0 (lambda_hat-corrected): |dE| <= %g max(|E|, N m)" % TOL["energy"],
         "muAndGap": "mu, eps_HOMO-based KS gap: |d| <= %g max(m, |x|) + dl max|V|" % TOL["scalar"],

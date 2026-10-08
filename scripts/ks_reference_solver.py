@@ -2197,7 +2197,13 @@ class SectorRun:
             if log:
                 log("  level %d (N = %d)%s" % (lvl, N, "" if params.smearing == 0.0 else
                                                ", occupation smearing %g" % params.smearing))
-            res = scf(params, grid, mode=mode, constrained=constrained, initial=init, log=log)
+            # Delta-SCF passes one occupation dict per grid level (delta_scf)
+            occ = constrained
+            if isinstance(constrained, list):
+                if lvl >= len(constrained):
+                    raise RuntimeError("constrained occupations of grid level %d missing" % lvl)
+                occ = constrained[lvl]
+            res = scf(params, grid, mode=mode, constrained=occ, initial=init, log=log)
             self.grids.append(grid)
             self.levels.append(res)
             prev = (grid, res)
@@ -2412,39 +2418,72 @@ def particle_hole_list(run: SectorRun, count=12):
 def delta_scf(run: SectorRun, log=None):
     """Constrained-occupation SCF with one particle moved from the HOMO
     group to the LUMO group (symmetric fractional occupation within each
-    degenerate group); returns E_1 - E_0 (extrapolated) and details."""
+    degenerate group); returns E_1 - E_0 (extrapolated) and details.
+    The constrained occupations of every grid level are built from that
+    level's own converged ground state, as in the Rust crate (scf.rs
+    delta_scf; every Rust run is one grid): for a run converged with
+    occupation smearing the fractional occupations depend on the grid, and
+    the finest level's values frozen on all levels would leave an
+    O(h_finest^2) bias in E_1 that the Richardson extrapolation does not
+    remove (m1_L3_N1016_lamm2_T0: 4.4e-7 m)."""
     p = run.params
     fine = run.levels[-1]
     homo, lumo = fine["homo"], fine["lumo"]
     if homo is None or lumo is None or homo.key() == lumo.key():
         return {"available": False, "reason": "no HOMO/LUMO pair (open shell or empty window)"}
-    states = fine["spectrum"].states
-    def group(ref):
-        return [st for st in states if st.branch > 0
-                and abs(st.eps - ref.eps) <= DEGENERACY_TOL * max(abs(ref.eps), 1.0)]
-    gh = group(homo)
-    gl = group(lumo)
-    occ = {st.key(): st.f for st in states if st.branch > 0 and st.f > 0}
-    mh = sum(st.mult for st in gh)
-    ml = sum(st.mult for st in gl)
-    for st in gh:
-        occ[st.key()] = st.f - 1.0 / mh
-    for st in gl:
-        occ[st.key()] = occ.get(st.key(), 0.0) + 1.0 / ml
+    def groups(lv):
+        states = lv["spectrum"].states
+        def group(ref):
+            return [st for st in states if st.branch > 0
+                    and abs(st.eps - ref.eps) <= DEGENERACY_TOL * max(abs(ref.eps), 1.0)]
+        h, l = lv["homo"], lv["lumo"]
+        return (group(h) if h is not None else []), (group(l) if l is not None else [])
+    gh_fine, gl_fine = groups(fine)
+    keys_fine = ({st.key() for st in gh_fine}, {st.key() for st in gl_fine})
+    occ_levels = []
+    for lvl, lv in enumerate(run.levels):
+        gh, gl = groups(lv)
+        keys = ({st.key() for st in gh}, {st.key() for st in gl})
+        if keys != keys_fine:
+            raise RuntimeError("delta_scf: the HOMO/LUMO groups of grid level %d differ from the finest level's"
+                               % lvl)
+        occ = {st.key(): st.f for st in lv["spectrum"].states if st.branch > 0 and st.f > 0}
+        mh = sum(st.mult for st in gh)
+        ml = sum(st.mult for st in gl)
+        for st in gh:
+            occ[st.key()] = st.f - 1.0 / mh
+        for st in gl:
+            occ[st.key()] = occ.get(st.key(), 0.0) + 1.0 / ml
+        occ_levels.append(occ)
     q = Params(**{**p.to_dict_kwargs(), "label": p.label + "-dscf"})
     if log:
         log("  Delta-SCF: HOMO %s -> LUMO %s" % (key_str(homo.key()), key_str(lumo.key())))
-    excited = SectorRun(q, mode="constrained", constrained=occ, log=log,
+    excited = SectorRun(q, mode="constrained", constrained=occ_levels, log=log,
                         initial=None)
     e1 = excited.scalars["total"]
     e0 = run.scalars["total"]
-    return {"available": True, "homo": key_str(homo.key()), "lumo": key_str(lumo.key()),
-            "homoMultiplicity": mh, "lumoMultiplicity": ml,
-            "E0": float(e0), "E1": float(e1), "deltaSCF": float(e1 - e0),
-            "ksGap": run.gap, "nTotalExcited": excited.scalars["nTotal"],
-            "converged": excited.converged,
-            "levelsE1": [lv["energies"]["total"] for lv in excited.levels],
-            "orderEstimateE1": excited.orders["total"]}
+    out = {"available": True, "homo": key_str(homo.key()), "lumo": key_str(lumo.key()),
+           "homoMultiplicity": mh, "lumoMultiplicity": ml,
+           "E0": float(e0), "E1": float(e1), "deltaSCF": float(e1 - e0),
+           "ksGap": run.gap, "nTotalExcited": excited.scalars["nTotal"],
+           "converged": excited.converged,
+           "levelsE1": [lv["energies"]["total"] for lv in excited.levels],
+           "orderEstimateE1": excited.orders["total"]}
+    if dscf_occupations_depend_on_grid(p):
+        # STAGE4_SPEC E4.14: recorded only where the per-level rule changes a number (Fermi-Dirac
+        # weights); an integer-occupation run.json stays byte-identical to the one written before
+        out["constrainedOccupations"] = DSCF_OCCUPATIONS
+    return out
+
+
+DSCF_OCCUPATIONS = "per grid level (each level's own ground state)"
+
+
+def dscf_occupations_depend_on_grid(params):
+    """Fermi-Dirac occupations (T > 0 or the T = 0 smearing) depend on the grid level; integer
+    (aufbau) occupations, including the symmetric fraction of an open shell, do not, and there the
+    per-level and the finest-level occupation dicts coincide (bit-identical results)."""
+    return params.T > 0.0 or params.smearing > 0.0
 
 
 CV_FINITE_DIFFERENCE_LIMIT = 0.3   # T/m up to which C_V is also the self-consistent central difference
@@ -3075,6 +3114,12 @@ def run_matches(doc, spec, lambda_hat):
         tasks = spec.get("tasks", [])
         if "excited" in tasks and spec.get("T", 0.0) <= 0 and "excited" not in doc:
             return False
+        # STAGE4_SPEC E4.14: a Delta-SCF of a smeared run written before the per-level occupation rule
+        # (no constrainedOccupations record) is stale and is recomputed
+        if "excited" in tasks and spec.get("T", 0.0) <= 0 and float(p.get("occupationSmearing") or 0.0) > 0.0:
+            dscf = doc["excited"].get("deltaSCF") or {}
+            if dscf.get("available") and dscf.get("constrainedOccupations") != DSCF_OCCUPATIONS:
+                return False
         if "thermo" in tasks and spec.get("T", 0.0) > 0 and "thermo" not in doc:
             return False
         collapsed = (doc.get("levels") or [{}])[-1].get("convergedBy") == "collapse"
