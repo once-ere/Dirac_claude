@@ -269,6 +269,10 @@ No run time and no path of the computer is printed (paths are shown relative to 
   <scratch>/check1` - a third independent execution (25.8 s): `check dark_sector_hypotheses: PASS - the
   re-executed notebook is byte-identical to Revision/notebooks/dark_sector_hypotheses.ipynb (457652 bytes)`;
   its 129 files equal the table of section 2.
+* 2026-10-08, after the last re-run of `derive_eos.py` (new sha256 of `eos-theory.json` and
+  `python-derive-eos.json` in section 2; text fields only): `check dark_sector_hypotheses --out
+  <scratch>/check2` - PASS, byte-identical (457652 bytes, 31.2 s); its 129 files are byte-identical to
+  those of `check1`.
 * 2026-10-08, two intermediate versions of this change were each built twice and checked the same way
   (byte-identical; 457610 bytes in 38.8 s, 40.3 s, 32.6 s and 457641 bytes in 24.6 s, 26.5 s, 24.4 s of
   execution; the same 129 files); they differ from the current notebook only in the heading of section
