@@ -367,15 +367,18 @@ REPO = find_repository_root()
 # checking tool sets it, so that a check run writes into a scratch folder instead.
 OUTPUT_ROOT = Path(os.environ.get("TEXTBOOK_OUTPUT_ROOT", str(REPO)))
 
+
 def repository_file(relative):
     """The path of the repository file relative, for READING (a Revision record)."""
     return REPO / relative
+
 
 def output_file(relative):
     """The path at which to WRITE the repository file relative (its folder is made)."""
     path = OUTPUT_ROOT / relative
     path.parent.mkdir(parents=True, exist_ok=True)
     return path
+
 
 def say(text):
     """Print text in lines of at most 89 characters (the width of a page of the book)."""
@@ -428,6 +431,7 @@ def save_figure(fig, name, caption):
 ```python
 PASSED = []  # the names of the checks that passed, in order
 
+
 def check(condition, name, record=None):
     """A check.  If condition is False, stop with an AssertionError that names the
     check (an if statement is used instead of assert, because python -O would skip an
@@ -440,9 +444,11 @@ def check(condition, name, record=None):
     if record is not None:
         say(f"     reproduces {record}")
 
+
 def report(label, value, unit=""):
     """Print a key number as a line "RESULT <label> = <value> <unit>"."""
     say(f"RESULT {label} = {value}" + (f" {unit}" if unit else ""))
+
 
 def all_checks_passed():
     """Print the last line of the notebook: how many checks passed."""

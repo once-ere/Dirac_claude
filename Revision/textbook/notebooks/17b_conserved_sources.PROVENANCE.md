@@ -46,7 +46,7 @@ The notebook has 52 cells (28 markdown cells and 24 code cells) in these section
 - 14. The last check
 - 15. What this notebook showed
 
-It prints 20 PASS lines (one per check), 29 RESULT lines (key numbers) and draws 6 figures.
+It prints 20 PASS lines (one per check), 33 RESULT lines (key numbers) and draws 6 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -333,9 +333,13 @@ In [14]  RESULT largest value of the column ycons_integrated_rel = 1.422e-11 (N8
 In [14]  RESULT the state named by the record and its column value = N8_lamp2_a00, 1.422e-11
 In [15]  RESULT largest relative difference of the two forms of R = 1.4e-11
 In [15]  RESULT R closest to 1 = 0.414328 (N688_lamm2_a00)
+In [15]  RESULT largest relative difference, Simpson's integral of p8 and int_p8 = 4.7e-09
 In [15]  RESULT share of R from the tip term, N = 8 = 0.31 to 0.33
+In [15]  RESULT share of the mean of p8 from -1 <= y <= 0, N = 8 = 0.439 to 0.441
 In [15]  RESULT share of R from the tip term, N = 136 = 4.1e-05 to 0.039
+In [15]  RESULT share of the mean of p8 from -1 <= y <= 0, N = 136 = 0.812 to 0.932
 In [15]  RESULT share of R from the tip term, N = 688 = 5.3e-06 to 0.025
+In [15]  RESULT share of the mean of p8 from -1 <= y <= 0, N = 688 = 0.816 to 0.969
 In [18]  RESULT largest relative Simpson error, N = 136 and 688 = 2.2e-04
 In [20]  RESULT ratio of the two sides at the tip, 10 series = -0.327 to -0.106
 In [20]  RESULT largest relative difference of the two patch integrals = 1.3e-03
@@ -400,8 +404,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 5.6 s, peak memory of the kernel process 207 MiB;
-- the check run: 5.2 s, peak memory of the kernel process 208 MiB.
+- the build run: 6.3 s, peak memory of the kernel process 209 MiB;
+- the check run: 5.7 s, peak memory of the kernel process 209 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -413,8 +417,8 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/17b_conserved_sources.ipynb`: `bf397953d1d7cddb86417bbc619f15c4dc0507628c70fa9650c0178bc658807e`
-- `Revision/textbook/notebooks/src/17b_conserved_sources.py`: `2f250656303c436de7286533aa0c3f0c7230f742db8dbe70b89f86f9b4da7d2c`
+- `Revision/textbook/notebooks/17b_conserved_sources.ipynb`: `bcfbeb270b072bd6cba7c7ee0a21e7abea61801268f9246a8b478a0cea178701`
+- `Revision/textbook/notebooks/src/17b_conserved_sources.py`: `2d9158cf7aea56ac2a7e470f3a7754761d132cbbc66509d502bccf74461e9c62`
 - `Revision/textbook/figures/17b.captions.json`: `6f156985a9260782418b6155e8cb71460c25cc5a6a8e2871e16e43f6b0109916`
 - `Revision/textbook/figures/17b_1_eight_gammas.png`: `1984bed072d16d4ef790998ce76e1e5f90303bb4d19ea99c4a2cdebddfd083ea`
 - `Revision/textbook/figures/17b_2_slope_identity.png`: `a3c454ba82a7d84a0d9983f5eac2bcee361fac0688d74f4e87b9459d39f2d11f`
@@ -429,4 +433,4 @@ Expected run time: about 20 seconds (FACTS: 20 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-08: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":207.0,"seconds":5.6},"check":{"date":"2026-10-08","files":7,"peak_mb":208.0,"result":"passed","seconds":5.2},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":209.0,"seconds":6.3},"check":{"date":"2026-10-08","files":7,"peak_mb":209.0,"result":"passed","seconds":5.7},"date":"2026-10-08","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

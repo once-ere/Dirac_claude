@@ -890,7 +890,8 @@ CELLS = [
     so that $b_8 \approx p_8(0)$? The weight $e^{-6HL} = e^{-18}$ is tiny, but near the
     tip $|p_8|$ is enormous. The next cell computes $R$ both ways for every nonzero
     state, checks the record's closest value, and measures the share of $R$ that the
-    tip term supplies.
+    tip term supplies. It also measures, from the profiles, which part of the weighted
+    mean of $p_8$ comes from the last unit before the brane, $-1 \le y \le 0$.
     """),
     code(r'''
     mean_p8 = {sid: number(sid, "int_p8") / (2 * VOL7 * (1 - tip_weight) / (6 * H_value))
@@ -902,14 +903,35 @@ CELLS = [
     from_brane = {sid: boundary[sid] / mean_p8[sid] for sid in nonzero}  # R = b8/mean
     brane_only = {sid: number(sid, "p8_brane") / mean_p8[sid] for sid in nonzero}
     tip_share = {sid: 1.0 - brane_only[sid] / from_brane[sid] for sid in nonzero}
+    step = float(y[1] - y[0])  # the grid step of y, 0.02
+
+
+    def simpson_rule(values):
+        """Simpson's rule with the step of y (for an odd number of points)."""
+        return step / 3 * (values[0] + values[-1] + 4 * values[1:-1:2].sum()
+                           + 2 * values[2:-1:2].sum())
+
+
+    last_unit = y >= -1.0 - 1e-9  # the last unit before the brane: 51 points
+    near_share, table_gap = {}, {}
+    for sid in nonzero:
+        weighted = np.exp(6 * H_value * y) * profiles[sid]["p8"]  # e^{6Hy} p8
+        whole = simpson_rule(weighted)  # the integral over the whole patch
+        near_share[sid] = simpson_rule(weighted[last_unit]) / whole
+        table_gap[sid] = abs(2 * VOL7 * whole / number(sid, "int_p8") - 1.0)
     agreement = max(abs(from_brane[sid] / ratio[sid] - 1.0) for sid in nonzero)
     closest = min(ratio, key=lambda sid: abs(ratio[sid] - 1.0))
     report("largest relative difference of the two forms of R", f"{agreement:.1e}")
     report("R closest to 1", f"{ratio[closest]:.6g} ({closest})")
+    report("largest relative difference, Simpson's integral of p8 and int_p8",
+           f"{max(table_gap.values()):.1e}")
     for n in (8, 136, 688):
         shares = [tip_share[sid] for sid in nonzero if sid.startswith(f"N{n}_")]
         report(f"share of R from the tip term, N = {n}",
                f"{min(shares):.2g} to {max(shares):.2g}")
+        nears = [near_share[sid] for sid in nonzero if sid.startswith(f"N{n}_")]
+        report(f"share of the mean of p8 from -1 <= y <= 0, N = {n}",
+               f"{min(nears):.3f} to {max(nears):.3f}")
     detail = record_entry(SOURCE_REPORT, "ks_integrals_violate_algebraic_condition")[
         "detail"]
     reproduces(agreement < 1e-9

@@ -12,7 +12,7 @@ Chapter 18 proved exact pairing theorems for the fields themselves: multiplied b
 - The Kohn-Sham problem of one orbital: the slice, the hidden coordinate, the eight blocks, the block Hamiltonian, the boundary conditions (Section 19.3); and of the whole gas: the densities, the mean field, the occupations, the energies and the energy-momentum profiles (Section 19.4).
 - Why the chirality $\Gamma$ acts on the blocks as the Pauli matrix $\sigma_2$, and what it does to the Krein sign (Section 19.5).
 - The proof of T3 in four steps: the orbitals (Section 19.6), the boundary conditions (Section 19.7), the densities and the mean field, with the reason why the coupling must keep its sign (Section 19.8), and self-consistency with the equality of every energy and every energy-momentum profile (Section 19.9).
-- The theorem with its hypotheses and its verification records (Section 19.10); why T3 is not T1, and the mirror copy inside the Z2 orbifold (Section 19.11).
+- The theorem with its hypotheses and its verification records, and its completion of 2026-10-08: the gaps that an adversarial verification found and closed, statement S6 (the 16-component expectation rule: every component of the energy-momentum tensor and of the current is unchanged), and the two numerical demonstrations of the record (Section 19.10); why T3 is not T1, and the mirror copy inside the Z2 orbifold (Section 19.11).
 - The exact levels at zero 3-momentum, and the three things that go wrong when the tip is not transformed: the zero modes move to the tip, a level appears inside the mass gap, and the brane band gets a seven times steeper slope (Section 19.12).
 - Notebook 19b, the proof by hand (Sections 19.13 to 19.16).
 - The four universes A, B, C, D of the Rust runs and Notebook 19a (Sections 19.17 to 19.21).
@@ -23,14 +23,14 @@ Chapter 18 proved exact pairing theorems for the fields themselves: multiplied b
 | notebook | what it computes | Rust | PASS lines | figures |
 | --- | --- | --- | --- | --- |
 | 19b | the gammas and the block map; every step of the proof of T3 in exact sympy algebra; the exact zero-momentum spectra of A, B and the control C; shooting; the brane-band slopes | no | 19 | 6 |
-| 19a | the gammas and the block map; 62 runs of the Rust Kohn-Sham solver for A, B, C, D with 8, 136 and 688 quanta, along the history, for five couplings and three temperatures | yes | 32 | 10 |
+| 19a | the gammas and the block map; 62 runs of the Rust Kohn-Sham solver for A, B, C, D with 8, 136 and 688 quanta, along the history, for five couplings and three temperatures; comparison with the record's numerical demonstration of T3 | yes | 37 | 10 |
 
 Notebook 19b is placed first, because it follows the proof step by step; Notebook 19a then shows the theorem in the full self-consistent computation. Each notebook is complete in itself; you may run them in either order.
 
 **The status of every statement.** Every statement of this chapter carries one of the labels of Chapter 0.
 
-- PROVED: theorem T3 itself, with every step derived line by line in Sections 19.5 to 19.12. In the Revision record T3 is proved twice and independently: by WolframScript (`Revision/pairing/kohn_sham/reports/wolfram-t3.json`, 10 of 10 checks PASS) and by sympy (`Revision/pairing/kohn_sham/reports/python-t3.json`, 13 of 13 checks PASS); the theorem record with its hypotheses, statement, proof and limits is `Revision/pairing/kohn_sham/t3-theory.json`. The facts about the blocks come from the Kohn-Sham theory reports `Revision/kohn_sham/reports/ks-theory-python.json` (in its present state 58 of 58 checks PASS) and `Revision/kohn_sham/reports/ks-theory-wolfram.json` (46 of 46).
-- COMPUTED: every number of the Rust solver and of the notebooks, with its measured difference. The solver's own T3 self-test is the check t3_block_map_solver_selftest of `Revision/kohn_sham/reports/ks-rust-solver.json` (in its present state 42 of 42 checks PASS); it is a numerical confirmation, not part of the proof.
+- PROVED: theorem T3 itself, with every step derived line by line in Sections 19.5 to 19.12. In the Revision record T3 is proved by WolframScript (`Revision/pairing/kohn_sham/reports/wolfram-t3.json`, 10 of 10 checks PASS) and by sympy (`Revision/pairing/kohn_sham/reports/python-t3.json`, 13 of 13 checks PASS); the theorem record with its hypotheses, statement, proof and limits is `Revision/pairing/kohn_sham/t3-theory.json`. An adversarial verification (2026-10-08) found no error in the statement or the proof, but three gaps in its verification, which the **completion** record `Revision/pairing/kohn_sham/t3-completion.json` closes (`Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json`, 3 of 3 checks PASS; `Revision/pairing/kohn_sham/reports/python-t3-completion.json`, 7 of 7): the Kohn-Sham coefficients read from the record in both engines (Section 19.8), the filling convention carried onto the partner (Section 19.9), and statement S6, the 16-component expectation rule (Section 19.10). The facts about the blocks come from the Kohn-Sham theory reports `Revision/kohn_sham/reports/ks-theory-python.json` (in its present state 58 of 58 checks PASS) and `Revision/kohn_sham/reports/ks-theory-wolfram.json` (46 of 46).
+- COMPUTED: every number of the Rust solver and of the notebooks, with its measured difference. The record's two numerical demonstrations of T3 (Section 19.10): `Revision/pairing/kohn_sham/reports/t3-rust-demo.json` (the Rust solver on all 210 states of the canonical matrix, 7 of 7 checks PASS) and `Revision/pairing/kohn_sham/reports/t3-reference-demo.json` (the independent reference solver on 18 states, 7 of 7). The solver's own T3 self-test is the check t3_block_map_solver_selftest of `Revision/kohn_sham/reports/ks-rust-solver.json` (in its present state 42 of 42 checks PASS). All of them are demonstrations, not part of the proof, and the Rust agreement is at the rounding level by construction (Section 19.17).
 - ASSUMED: the good sector (no dependence on the extra times); the Z2 mirror construction at the brane $y = 0$; the cut of the hidden direction at the tip $y = -L$ with $L = 3$ and the chosen tip condition (T3 needs its transformed form); the mean field of Hartree plus the exact exchange of the uniform gas, without correlation. CONVENTION: which levels count as particles (the filling convention, Section 19.4); its justification is OPEN.
 - PRESCRIBED BACKGROUND: the history $a_4 = AHx_4$ with $A = 1$; the Kohn-Sham states are not an admissible source of the $a_4$ field equations (`Revision/field_equations_a4/reports/ks-source-conditions.json`, checks ks_profiles_violate_algebraic_condition and ks_history_is_a_prescribed_background).
 - OPEN: the time-dependent (non-adiabatic) Kohn-Sham problem; the justification of the filling convention.
@@ -454,6 +454,8 @@ $$
 
 both off whenever $\lambda S \ne 0$ or $\lambda n \ne 0$. Status: PROVED; checks T3_mean_field_map and T3.mean_field_map (with the control $(-m, -\lambda)$). The sympy check also verifies that the potentials are the derivatives of $e_{\rm int}$. Notebook 19b, figure 3, draws these three mass lines; Notebook 19a, figure 9, shows the energies of $(-m, -\lambda)$.
 
+**A gap in the verification of this step, and how it was closed.** The adversarial verification of 2026-10-08 (`Revision/pairing/kohn_sham/t3-completion.json`, entry adversarial_verification, Gap 1) found two weaknesses in the Wolfram verifier of T3 as it then stood: it wrote the four coefficients $\frac{15}{16}$, $-\frac{1}{16}$, $\frac{15}{32}$, $-\frac{1}{32}$ into its script instead of reading them from `Revision/kohn_sham/ks-theory.json`, and its clause about $v_v$ compared an expression with itself (`vvf[lam, n] === vvf[lam, n]`), which is true for every $v_v$ whatever. So, for $v_v$, the statement "two independent verifiers" did not hold at that time: only the sympy check, which reads the coefficients from the record, verified the potential. The algebra above was never in doubt; what was missing was an independent machine check of it. The completion closes the gap with the checks T3C_mean_field_coefficients_from_ks_theory (`Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json`) and T3C.mean_field_coefficients_from_ks_theory (`Revision/pairing/kohn_sham/reports/python-t3-completion.json`): both engines read the potentials from `ks-theory.json`, check that $M_{\rm eff} - m = \partial e_{\rm int}/\partial S$ and $v_v = \partial e_{\rm int}/\partial n$ (the two derivatives of Section 19.4), and repeat the map $M_{\rm eff}[-m, +\lambda, -S] = -M_{\rm eff}[m, \lambda, S]$, $e_{\rm int}$ even in $S$, $v_v$ free of $S$, with the control $(-m, -\lambda)$, which fails. Status of Step 3 with the completion: PROVED by two independent verifiers.
+
 ### 19.9 Step 4 of the proof: self-consistency, energies and energy-momentum
 
 Let A be a self-consistent Kohn-Sham state of the problem with $(m, \lambda, \theta)$ at a slice $a_{4,0}$, with $N$ quanta at the temperature $T$: its orbitals $\chi$ with the levels $\varepsilon$ and the occupations $f$ give the densities $n$, $S$, these give $M_{\rm eff}$, $v_v$, and the eigen-orbitals of this mean field with both parities and the tip angle $\theta$ are again the orbitals $\chi$. Define the state B: the orbitals $\sigma_2\chi$ in the partner blocks, with the same occupations. We show that B is a self-consistent state of the problem with $(-m, +\lambda, \pi - \theta)$, at the same slice, with the same $N$ and $T$.
@@ -461,7 +463,7 @@ Let A be a self-consistent Kohn-Sham state of the problem with $(m, \lambda, \th
 - (i) The densities of B are $(n, -S)$ (Step 3).
 - (ii) The partner problem builds from them the mean field $(-M_{\rm eff}, v_v)$ (Step 3).
 - (iii) In this mean field, with the tip angle $\pi - \theta$ and both parities, the eigen-orbitals of the partner problem are exactly the orbitals $\sigma_2\chi$, with the same levels and degeneracies (Steps 1 and 2).
-- (iv) The occupations. A Mermin occupation depends only on $\varepsilon$, $\mu$ and $T$. The particle number $N(\mu) = \sum gf(\varepsilon; \mu, T)$ is the same function of $\mu$ for both problems, because the levels and degeneracies are the same, so the same $\mu$ solves $N(\mu) = N$. Which levels are particle levels is decided by following the problem without interaction; at $\lambda = 0$ the two free problems ($M = m$ and $M = -m$, $v = 0$) are themselves mapped onto each other by Steps 1 and 2, so every image level carries the label of its original. In particular the zero mode $(e^{my}, 0)$ of A goes to $\sigma_2(e^{my}, 0) = (0, ie^{my})$, a zero mode of B. And because the coupling is the same, the continuous path from $\lambda = 0$ to $\lambda$ along which the labels are followed is the same path for both problems. Hence the partner problem gives every orbital $\sigma_2\chi$ the occupation $f$.
+- (iv) The occupations. A Mermin occupation depends only on $\varepsilon$, $\mu$ and $T$. The particle number $N(\mu) = \sum gf(\varepsilon; \mu, T)$ is the same function of $\mu$ for both problems, because the levels and degeneracies are the same, so the same $\mu$ solves $N(\mu) = N$. Which levels are particle levels is decided by following the problem without interaction; at $\lambda = 0$ the two free problems ($M = m$ and $M = -m$, $v = 0$) are themselves mapped onto each other by Steps 1 and 2, so every image level carries the label of its original. In particular the zero mode $(e^{my}, 0)$ of A goes to $\sigma_2(e^{my}, 0) = (0, ie^{my})$, a zero mode of B. And because the coupling is the same, the continuous path from $\lambda = 0$ to $\lambda$ along which the labels are followed is the same path for both problems. Hence the partner problem gives every orbital $\sigma_2\chi$ the occupation $f$. This item was the second gap of the adversarial verification (`t3-completion.json`, Gap 2): the record's proof used the filling convention (hypothesis H5, defined for the member with $m > 0$ and $\theta = 0$) for the image with the remark that both block types and both parities belong to each problem, without showing that the image's set of particle levels is the image of the original's set. The argument of this item is what the completion checks: for every coupling $\lambda'$ on the path from $0$ to $\lambda$ and any $S(y)$, $\sigma_2h_j(m + \frac{15}{16}\lambda'S)\sigma_2 = h_{-j}\big(-(m + \frac{15}{16}\lambda'S)\big)$ for both $j$ (Step 1 with the mass $m + \frac{15}{16}\lambda'S$), so the map keeps the levels with $\varepsilon > 0$ at $\lambda = 0$ and commutes with the continuation in $\lambda$; the brane zero mode $(e^{My}, 0)$ goes to $(0, ie^{My})$, the brane zero mode of the image in its own boundary conditions (odd parity, tip angle $\pi$); with the untransformed tip the image mode violates the tip condition (the control). Checks T3C_filling_convention_mapped and T3C.filling_convention_mapped (statement "H5 for the pair" of `t3-completion.json`). Status: PROVED; the filling convention itself remains a CONVENTION whose justification is OPEN.
 - (v) So the densities that the partner problem computes from its own orbitals and occupations are $(n, -S)$, the densities we started from in (ii): B is a fixed point of the partner's loop, a **self-consistent state**.
 
 Applying the map twice gives back A, because $\sigma_2^2 = \mathbf 1$ and $(-(-m), \lambda, \pi - (\pi - \theta)) = (m, \lambda, \theta)$: the map is an **involution**, and every self-consistent state of the partner problem is the image of a self-consistent state of the original. The self-consistent states of the two problems are in one-to-one correspondence.
@@ -479,7 +481,7 @@ Applying the map twice gives back A, because $\sigma_2^2 = \mathbf 1$ and $(-(-m
 - $p_t = e_{\rm int}$: unchanged.
 - $p_8 = \sum wgf[(\varepsilon - v_v)n_o - M_{\rm eff}s_o - \kappa|k|t_o] + e_{\rm int}$: the only term with odd factors is $M_{\rm eff}s_o$, and it becomes $(-M_{\rm eff})(-s_o) = M_{\rm eff}s_o$, a product of two odd factors; $p_8(y)$ is unchanged.
 
-So the four profiles are equal at every point $y$, while $S(y)$, $Q(y)$ and $M_{\rm eff}(y)$ change sign and $n(y)$, $t(y)$, $v_v(y)$, $e_{\rm int}(y)$ do not. The Kohn-Sham gap (the lowest empty level minus the highest occupied level) is a difference of two levels and is the same as well. Status: PROVED; checks `T3_energies_and_emt_profiles_equal` of `wolfram-t3.json` and `T3.energies_and_emt_profiles_equal` of `python-t3.json`; the sympy check takes three general occupied orbitals of both block types with arbitrary complex $\chi$, levels, occupations, degeneracies and momenta, and also verifies the control: with $(-m, -\lambda)$ the energy density differs.
+So the four profiles are equal at every point $y$, while $S(y)$, $Q(y)$ and $M_{\rm eff}(y)$ change sign and $n(y)$, $t(y)$, $v_v(y)$, $e_{\rm int}(y)$ do not. The Kohn-Sham gap (the lowest empty level minus the highest occupied level) is a difference of two levels and is the same as well. Status: PROVED; checks `T3_energies_and_emt_profiles_equal` of `wolfram-t3.json` and `T3.energies_and_emt_profiles_equal` of `python-t3.json`; the sympy check takes three general occupied orbitals of both block types with arbitrary complex $\chi$, levels, occupations, degeneracies and momenta, and also verifies the control: with $(-m, -\lambda)$ the energy density differs. These are the four diagonal components of the energy-momentum tensor of the $2 \times 2$ reduction; that every other component and the current are equal too is statement S6 of the completion (Section 19.10; the third gap of the adversarial verification).
 
 ### 19.10 Theorem T3: the statement, its hypotheses and its records
 
@@ -500,7 +502,7 @@ So the four profiles are equal at every point $y$, while $S(y)$, $Q(y)$ and $M_{
 - S4: equal levels with their degeneracies, occupations, chemical potential, particle number, entropy, Kohn-Sham energy $E_{KS}$, grand potential $\Omega$ and free energy $F$, and equal profiles $\rho(y)$, $p_3(y)$, $p_t(y)$, $p_8(y)$; $S(y)$ and $Q(y)$ change sign;
 - S5: inside the ASSUMED Z2 orbifold the mirror copy of a self-consistent state carries $(-m, +\lambda)$ (Section 19.11).
 
-**The records.** Each step of the proof is a named check of two independent verifiers that share no code. Every check below has the verdict PASS.
+**The records.** Each step of the proof is a named check of two independent verifiers that share no code (with one exception at the time of the adversarial verification, the $v_v$ clause of Step 3, Section 19.8, closed by the completion below). Every check below has the verdict PASS.
 
 | step | what it shows | `wolfram-t3.json` | `python-t3.json` |
 | --- | --- | --- | --- |
@@ -514,7 +516,62 @@ So the four profiles are equal at every point $y$, while $S(y)$, $Q(y)$ and $M_{
 
 So `wolfram-t3.json` has 10 checks and `python-t3.json` 13 (the ten counterparts, the two comparisons and the numerical confirmation). The record `Revision/docs/PAIR_CREATION_PROOFS.md` (its section 8) collects the same proof.
 
-**The numerical confirmation.** The Rust solver's report `Revision/kohn_sham/reports/ks-rust-solver.json` holds the check t3_block_map_solver_selftest: the problems $(m, \lambda, \theta = 0)$ and $(-m, \lambda, \theta = \pi)$, solved independently at the slice $a_{4,0} = 1$, gave the same sorted levels, occupations, Kohn-Sham energies and integrated energy-momentum components and the opposite $S$, with the worst difference $9.95\times10^{-14}$ against the tolerance $10^{-9}$ fixed in advance. For $N = 8$ and $\lambda = 0.01946$: $E_{KS} = -9.868426190876\times10^{-4}$ against $-9.868426190868\times10^{-4}$ (80 levels), while the control with the untransformed tip gave $-2.0145243719$. For $N = 136$ and $\lambda = 0.0009298$: $E_{KS} = 32.39294915318$ in both runs (160 levels), control $29.283751318$. Status: COMPUTED; the report itself labels it "NOT a proof of T3". Notebook 19a reproduces these numbers.
+**The numerical confirmation.** The Rust solver's report `Revision/kohn_sham/reports/ks-rust-solver.json` holds the check t3_block_map_solver_selftest: the problems $(m, \lambda, \theta = 0)$ and $(-m, \lambda, \theta = \pi)$, solved independently at the slice $a_{4,0} = 1$, gave the same sorted levels, occupations, Kohn-Sham energies and integrated energy-momentum components and the opposite $S$, with the worst difference $9.95\times10^{-14}$ against the tolerance $10^{-9}$ fixed in advance. For $N = 8$ and $\lambda = 0.01946$: $E_{KS} = -9.868426190876\times10^{-4}$ against $-9.868426190868\times10^{-4}$ (80 levels), while the control with the untransformed tip gave $-2.0145243719$. For $N = 136$ and $\lambda = 0.0009298$: $E_{KS} = 32.39294915318$ in both runs (160 levels), control $29.283751318$. Status: COMPUTED; the report itself labels it "NOT a proof of T3". Notebook 19a reproduces these numbers. This self-test of two states was the only numerical confirmation recorded with T3 (the fourth gap of the adversarial verification); the completion replaces it by the two demonstrations below.
+
+**The completion of 2026-10-08.** An adversarial verification re-ran both T3 verifiers (they reproduce `t3-theory.json` and the two T3 reports byte for byte) and re-derived every step of the proof by hand. It found no error in the statement or the proof of T3, and five gaps, listed in `Revision/pairing/kohn_sham/t3-completion.json`, entry adversarial_verification. The completion is a separate record; T3, its hypotheses H1 to H6 and its statements S1 to S5 are unchanged. Its exact checks are those of `Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json` (3 of 3 PASS) and `Revision/pairing/kohn_sham/reports/python-t3-completion.json` (7 of 7 PASS):
+
+| gap | what was missing | Wolfram check | sympy check |
+| --- | --- | --- | --- |
+| 1 | the coefficients of the mean field were typed into the Wolfram script, and its $v_v$ clause compared an expression with itself (Section 19.8) | `T3C_mean_field_coefficients_from_ks_theory` | `T3C.mean_field_coefficients_from_ks_theory` |
+| 2 | the filling convention was used for the partner without showing that its particle levels are the images of the original's (Section 19.9, item (iv)) | `T3C_filling_convention_mapped` | `T3C.filling_convention_mapped` |
+| 3 | only the four diagonal energy-momentum components of the $2 \times 2$ reduction were proved equal (statement S6 below) | `T3C_krein_rule_16_component` | `T3C.krein_rule_16_component` |
+| 4 | the numerical confirmation was the two-state self-test (the demonstrations below) | none | `T3C.rust_demo_numerical_demonstration`, `T3C.reference_demo_numerical_demonstration` |
+| 5 | `t3-theory.json` does not name the history of the numerical states a PRESCRIBED BACKGROUND; the completion record does | none | none |
+| all | the T3 reports pass; the sympy side confirms the completion record | none | `T3C.t3_reports_pass`, `compare.t3_completion` |
+
+**Statement S6: the 16-component expectation rule.** Steps 3 and 4 work with the $2 \times 2$ blocks and the four diagonal components $\rho$, $p_3$, $p_t$, $p_8$. S6 says: with the expectation rule $\rho = \sum f\,uu^\dagger B$ of Section 19.4 (here $\rho$ is the $16 \times 16$ matrix of the rule, not the energy density), the image state, whose orbitals are $u' = \Gamma u$, has $\rho' = -\Gamma\rho\Gamma$, so $n$ is unchanged, $S$ and $Q$ change sign, and every component of the energy-momentum tensor and of the current $J^a = \langle\bar\Psi\gamma^{(x_a)}\Psi\rangle$ is unchanged. The derivation, line by line. First, because $B^2 = 1$, multiplying $\rho = \sum f\,uu^\dagger B$ from the right by $B$ gives
+
+$$
+\sum f\,uu^\dagger = \rho B .
+$$
+
+Rule: $BB = 1$. Then, for the image orbitals,
+
+$$
+\rho' = \sum f\,(\Gamma u)(\Gamma u)^\dagger B = \sum f\,\Gamma uu^\dagger\Gamma^\dagger B = \Gamma\Big(\sum f\,uu^\dagger\Big)\Gamma B = \Gamma\rho B\Gamma B .
+$$
+
+Rule: $(\Gamma u)^\dagger = u^\dagger\Gamma^\dagger$; $\Gamma^\dagger = \Gamma$ (real and diagonal, Section 19.5); the constant matrix $\Gamma$ comes out of the sum; the line before. Now $\Gamma B = -B\Gamma$ (Section 19.5), so
+
+$$
+B\Gamma B = -\Gamma BB = -\Gamma, \qquad \rho' = \Gamma\rho(B\Gamma B) = -\Gamma\rho\Gamma .
+$$
+
+Rule: replace $B\Gamma$ by $-\Gamma B$, then $BB = 1$. The expectation value of any $16 \times 16$ matrix $X$ in the image state is then
+
+$$
+\langle X\rangle' = \mathrm{Tr}(X\rho') = -\mathrm{Tr}(X\Gamma\rho\Gamma) = -\mathrm{Tr}(\Gamma X\Gamma\rho) .
+$$
+
+Rule: the trace does not change when the factors are moved around in a circle; here the last factor $\Gamma$ is moved to the front. Section 19.5 showed $\Gamma X\Gamma = +X$ when $X$ is a number times a product of an even number of gammas, and $\Gamma X\Gamma = -X$ for an odd number. Hence **an even product changes sign**, $\langle X\rangle' = -\langle X\rangle$, and **an odd product is unchanged**, $\langle X\rangle' = +\langle X\rangle$. Line by line for the quantities of the theory:
+
+| quantity | matrix $X$ | gammas in $X$ | in the image state |
+| --- | --- | --- | --- |
+| charge density $n$ | $B = -iC\gamma^{(x_4)}$ | 5, odd | unchanged |
+| scalar density $S$ | $C$ | 4, even | sign reversed |
+| density $Q$ | $B\gamma^{(x_8)}$ | 6, even | sign reversed |
+| current $J^a$ | $C\gamma^{(x_a)}$ | 5, odd | unchanged |
+| kinetic bilinears $\bar\Psi\gamma^{(x_a)}\partial\Psi$ | $C\gamma^{(x_a)}$ | 5, odd | unchanged |
+| spin-connection bilinears $\bar\Psi\gamma^{(x_a)}S^{bc}\Psi$ | $C\gamma^{(x_a)}S^{bc}$ | 7, odd | unchanged |
+
+Rule for the table: $C$ has four gammas, so $B = -iC\gamma^{(x_4)}$ has five, $B\gamma^{(x_8)}$ six and $C\gamma^{(x_a)}$ five, and $S^{bc} = \frac14(\gamma^{(x_b)}\gamma^{(x_c)} - \gamma^{(x_c)}\gamma^{(x_b)})$ adds two; a constant factor such as $-i$ or $\frac14$ does not matter, and $\Gamma$ is constant, so it passes through the derivative $\partial$. The energy-momentum tensor is built from the kinetic and spin-connection bilinears (unchanged), from the mass term $mS$ and from $U = \frac{\lambda}{2}S^2$: with $m \to -m$ and $S \to -S$ the product $mS$ is unchanged, and with the same $\lambda$ so is $U$. So every component of the 16-component energy-momentum tensor and every component of the current are the same in the two members, while $S$ and $Q$ change sign. The record verifies each ingredient with the author's matrices of `Revision/algebra/gammas.json`: $\Gamma^2 = 1$, $\Gamma B\Gamma = -B$, $\Gamma C\Gamma = C$, $\Gamma\gamma^{(x_a)}\Gamma = -\gamma^{(x_a)}$ for all eight $a$, $\Gamma S^{ab}\Gamma = S^{ab}$ for all 64 pairs, $(\Gamma u)(\Gamma u)^\dagger B = -\Gamma(uu^\dagger B)\Gamma$ for a general 16-component $u$, and the 8 + 512 kinetic bilinears. Status: PROVED; checks T3C_krein_rule_16_component and T3C.krein_rule_16_component. S6 is an equality of expectation values in Kohn-Sham (quasi-free) states with the fixed Krein matrix $B$, not a statement about two independently quantised universes.
+
+**The two numerical demonstrations** (status COMPUTED; demonstrations, not part of the proof). Each solves, at the slices $a_{4,0} = 0, 0.5, 1, 1.5, 2$ of the PRESCRIBED BACKGROUND history, three members of every state: **plus**, the universe $(m, \lambda)$ with the tip angle $0$ (the A of Section 19.17); **image**, the universe $(-m, +\lambda)$ with the tip angle $\pi$ (B); and **control**, $(-m, +\lambda)$ with the untransformed tip angle $0$ (C).
+
+- The Rust solver (`Revision/pairing/kohn_sham/reports/t3-rust-demo.json`, 7 of 7 checks PASS; table `Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv`) on all 210 states of the canonical matrix: 75 ground states ($N = 8, 136, 688$; $\lambda = 0, \pm\lambda_1, \pm\lambda_2$; five slices) and 135 Mermin states ($\lambda = 0, \pm\lambda_1$ at $T = 0.01, 0.02, 0.05$), 630 runs in all. The plus members reproduce the committed canonical matrix to $2.538\times10^{-10}$. Image equals plus to $2.179\times10^{-13}$ in the ground states and $3.877\times10^{-12}$ in the thermal states (tolerance $10^{-9}$): the levels label by label with the sector map $(n_2, j, \text{parity}) \to (n_2, -j, \text{other parity})$, the occupations, $E_{KS}$, $\mu$, the entropy, $\Omega$, $F$, the gap, the energy-momentum integrals, the even profiles point by point, and $S$, $Q$, $M_{\rm eff}$ with the opposite sign. The control differs from plus: its density profile $n(y)$ differs by at least $4.750$ times the maximum of $n$ (state N8_lamm1_a15) in the 196 states where the solver found a control state; in the other 14 states, all with $\lambda < 0$, the self-consistency loop of the control diverges, which the record reports as such and not as a proof that no such state exists. A second control, the T1 parameters $(-m, -\lambda)$ with the tip angle $\pi$, differs from plus by at least $1.21\times10^{-2}$ in all 150 states with $\lambda \ne 0$: the Kohn-Sham partner carries $+\lambda$. The agreement of image and plus is at the rounding level **by construction**, because the solver's shooting is covariant under the map (Section 19.17 shows why); it tests the solver's handling of the transformed boundary conditions, the labels, the filling convention, the self-consistency loop and the Mermin root, not the discretisation.
+- The independent reference solver (`Revision/pairing/kohn_sham/reports/t3-reference-demo.json`, 7 of 7 checks PASS; Chapter 16): finite differences on grids of 300, 600 and 1200 points, combined by Richardson extrapolation (the combination of the three grids in which the leading discretisation error cancels), on 18 states (13 ground, 5 Mermin). Its frame for the image is not the discrete image of the plus frame, so on a single grid the levels of the two members differ by up to $2.23\times10^{-4}$; after the extrapolation image equals plus to $2.043\times10^{-14}$ (ground) and $3.038\times10^{-14}$ (thermal). This is the test that does not depend on the discretisation: a statement about the continuum problem. The exact zero-momentum image spectra are reproduced to $2.80\times10^{-14}$; the control's density differs by at least $5.296$ times the maximum (3 states without a converged control, all with $\lambda < 0$); and the $-M$ universe of the reference solver equals the $-M$ universe of the Rust solver to $1.255\times10^{-11}$.
+
+**What the completion adds to the list of what is not established** (`t3-completion.json`, entry not_established): the demonstrations show the equalities only on the states solved, to their stated tolerances, and control states for which a solver found no self-consistent solution are reported as such, not as a proof that none exists; S6 is not a statement about two independently quantised universes; the filling convention is a CONVENTION whose justification is OPEN. Section 19.22 collects the whole list.
 
 ### 19.11 Why T3 is not T1, and the mirror copy in the Z2 orbifold
 
@@ -1667,7 +1724,21 @@ The list holds the paths of the six figure files; the check requires that all ex
 
 ### 19.17 Watching T3 in the Rust solver: four universes
 
-**The solver knows nothing about T3.** The Revision Rust Kohn-Sham solver (Chapter 15; `Revision/kohn_sham/solver`) solves one instantaneous Kohn-Sham problem at a time: given the bare mass $m$, the coupling $\lambda$, the slice $a_{4,0}$, the particle number $N$, the tip angle $\theta$ and, for a thermal state, the temperature $T$, it finds every level of every sector by shooting with a counting angle, fills the levels, builds the mean field, mixes old and new densities (Anderson mixing) and repeats until the state reproduces itself; its canonical numerics are 900 Runge-Kutta steps, root tolerance $10^{-13}$ and self-consistency tolerance $10^{-11}$ (`Revision/kohn_sham/results/parameters.json`, entry numerics). It contains no code that maps one universe onto another. So when two universes, each solved on its own, come out with the same numbers to the last digits, this is a numerical test of T3 that the solver could fail.
+**What the solver does.** The Revision Rust Kohn-Sham solver (Chapter 15; `Revision/kohn_sham/solver`) solves one instantaneous Kohn-Sham problem at a time with its subcommand `single`: given the bare mass $m$, the coupling $\lambda$, the slice $a_{4,0}$, the particle number $N$, the tip angle $\theta$ and, for a thermal state, the temperature $T$, it finds every level of every sector by shooting with a counting angle, fills the levels, builds the mean field, mixes old and new densities (Anderson mixing) and repeats until the state reproduces itself; its canonical numerics are 900 Runge-Kutta steps, root tolerance $10^{-13}$ and self-consistency tolerance $10^{-11}$ (`Revision/kohn_sham/results/parameters.json`, entry numerics). A `single` run contains no map from one universe to another: each universe is solved on its own. (The solver does contain T3 code elsewhere: its self-test t3_block_map_solver_selftest, in `Revision/kohn_sham/solver/src/runs.rs`, solves two members and compares them; the runs of this chapter do not use it.)
+
+**What the agreement of two universes tests.** The counting angle is the angle $\phi$ of the real form of Section 19.3, $a = r\cos\phi$, $b = r\sin\phi$, so that $\tan\phi = b/a$ (`Revision/kohn_sham/solver/src/shoot.rs`, its header). Write $K = \kappa k$ and $E = \varepsilon - v$. Its equation follows from the real form, line by line:
+
+$$
+\frac{d\phi}{dy} = \frac{a\,b' - b\,a'}{a^2 + b^2} = \frac{(jE - K)a^2 - Mab - Mab + (K + jE)b^2}{r^2} = jE - K\cos2\phi - M\sin2\phi .
+$$
+
+Rule: the derivative of $\arctan(b/a)$ is $(ab' - ba')/(a^2 + b^2)$; insert $a' = Ma - (K + jE)b$ and $b' = (jE - K)a - Mb$; then $a^2 + b^2 = r^2$, $(a^2 - b^2)/r^2 = \cos^2\phi - \sin^2\phi = \cos2\phi$ and $2ab/r^2 = 2\sin\phi\cos\phi = \sin2\phi$. The map of T3 in the real form, $(a, b, j, M) \to (b, a, -j, -M)$, exchanges $a$ and $b$, so the angle of the image is $\psi = \pi/2 - \phi$. Its derivative is $\psi' = -\phi' = -jE + K\cos2\phi + M\sin2\phi$. The equation of the partner problem, with $-j$ and $-M$, gives for $\psi$, line by line:
+
+$$
+(-j)E - K\cos2\psi - (-M)\sin2\psi = -jE - K\cos(\pi - 2\phi) + M\sin(\pi - 2\phi) = -jE + K\cos2\phi + M\sin2\phi .
+$$
+
+Rule: $\cos(\pi - x) = -\cos x$ and $\sin(\pi - x) = \sin x$. The two right sides are equal: the angle of B obeys the equation of A with $\phi$ replaced by $\pi/2 - \phi$. The tip condition of the solver starts the angle at $\theta/2$, that is at $0$ for A and at $\pi/2 = \pi/2 - 0$ for B. So every Runge-Kutta step for B is the step for A, mirrored: the solver does the same arithmetic for both, and their agreement to the last digits is guaranteed **by construction**. The record says this explicitly (`Revision/pairing/kohn_sham/t3-completion.json`, entry numerical_demonstration; the README of `Revision/pairing/kohn_sham`): the shooting method is covariant under the map. What the agreement does test is the solver's handling of both members: the transformed boundary conditions, the labels of the levels, the filling convention, the self-consistency loop and the Mermin root. It does not test the discretisation. The test that does not depend on the discretisation is the record's demonstration with the independent reference solver of Chapter 16 (Section 19.10): its frames for the two members are not images of each other, so on one grid their levels differ by up to $2.23\times10^{-4}$, and only after Richardson extrapolation do they agree, to $2.043\times10^{-14}$ (ground) and $3.038\times10^{-14}$ (thermal). The controls, on the other hand, are real tests: nothing in the solver forces C, or D at the same coupling $\lambda$, to agree with A, and they do not (D agrees with A at the opposite coupling $-\lambda$, which is again the covariance of the shooting).
 
 **The four universes.** Notebook 19a solves, always with $|m| = 1$:
 
@@ -1682,21 +1753,21 @@ By T3, B must agree with A in every level, occupation, energy and energy-momentu
 
 **What is compared, and the tolerance.** The solver writes for every state a record with the list of levels (each with its momentum shell $n_2$, block type $j$, brane parity, label, level $\varepsilon$, degeneracy $g$ and occupation $f$), the energy $E_{KS}$, the chemical potential or Fermi level, the entropy, the four integrals $2\,\mathrm{Vol}_7\int e^{6Hy}X\,dy$ of $X = \rho, p_3, p_t, p_8$ and of $n$, the measured residuals of the conservation law along $y$, and a table of the profiles $n, S, Q, M_{\rm eff}, v_v, e_{\rm int}, \rho, p_3, p_t, p_8$ at the 151 points $y = -3, -2.98, \dots, 0$. The notebook compares A and B in exactly the way the solver's self-test of the record does: the sorted lists of $(\varepsilon, g, f)$, the energies, the integrals and the scalar densities, with the tolerance $10^{-9}$ that the record fixed before its comparison. It adds the orbital-by-orbital pairing of statement S1 and a point-by-point comparison of every profile column. Differences of a few times $10^{-14}$ are the rounding of a computer that carries about sixteen significant digits.
 
-**The margin.** The solver keeps, above the highest occupied level, empty levels up to a **margin**; the record uses $0.25 + 2\sigma$ with $\sigma = 0$, $0.1$ and $0.3$ for $\lambda = 0$, $\pm\lambda_1$, $\pm\lambda_2$, that is the margins $0.25$, $0.45$, $0.85$, and $0.4$ for its thermal states. The notebook uses the same margins, so that its runs are the record's runs.
+**The margin.** The solver keeps, above the highest occupied level, empty levels up to a **margin**; the record uses $0.25 + 2\sigma$ with $\sigma = 0$, $0.1$ and $0.3$ for $\lambda = 0$, $\pm\lambda_1$, $\pm\lambda_2$, that is the margins $0.25$, $0.45$, $0.85$, for its ground states, and $0.2 + 2\sigma$ for its thermal states, that is $0.4$ for the coupling $\lambda_1$ used here (`Revision/kohn_sham/solver/src/runs.rs`, functions margin_for and the thermal run). The notebook uses the same margins, so that its runs are the record's runs.
 
-**What the runs reproduce.** Every run of A is a state of the committed canonical matrix (`Revision/kohn_sham/results/ground/summary.csv`, `emt-integrals.csv`, the profile files, and `Revision/kohn_sham/results/thermo/thermodynamics.csv` for the thermal states), and the notebook checks that it reproduces the recorded numbers. Its runs of A, B and C for $N = 8$ and $136$ at $\lambda_1$, $a_{4,0} = 1$ repeat the solver's T3 self-test of `Revision/kohn_sham/reports/ks-rust-solver.json` (Section 19.10) number by number.
+**What the runs reproduce.** Every run of A is a state of the committed canonical matrix (`Revision/kohn_sham/results/ground/summary.csv`, `emt-integrals.csv`, the profile files, and `Revision/kohn_sham/results/thermo/thermodynamics.csv` for the thermal states), and the notebook checks that it reproduces the recorded numbers. Its runs of A, B and C for $N = 8$ and $136$ at $\lambda_1$, $a_{4,0} = 1$ repeat the solver's T3 self-test of `Revision/kohn_sham/reports/ks-rust-solver.json` (Section 19.10) number by number. And 19 of its states are states of the record's own demonstration `Revision/pairing/kohn_sham/reports/t3-rust-demo.json` (Section 19.10): there A, B and C equal the plus, image and control members of the table `Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv`, and D at the coupling $\lambda$ equals its image member at $-\lambda$ (notebook section 17).
 
 ### 19.18 Example: the universes of mass $+M$ and $-M$ in the Rust solver (Notebook 19a)
 
-Notebook 19a checks the eight gammas and the block map of $\Gamma$ again, builds the Rust solver with cargo, and runs it 62 times: A, B and C for $N = 8$ and $136$ at the slice $a_{4,0} = 1$ (the self-test of the record); A, B and C without interaction for $N = 8$ (the zero modes and the level in the gap); A, B and C at the five slices of the deflating history for $N = 136$ and $688$; A, B, C and D for five couplings; and A, B and C at three temperatures. It needs Rust (cargo 1.91.1 or newer), takes about two minutes (78.2 s in the recorded build on the computer that built this book), writes the solver's raw output (about 2 MB) into a folder that git ignores, draws ten figures and ends with the line ALL 32 CHECKS PASSED (notebook 19a).
+Notebook 19a checks the eight gammas and the block map of $\Gamma$ again, builds the Rust solver with cargo, and runs it 62 times: A, B and C for $N = 8$ and $136$ at the slice $a_{4,0} = 1$ (the self-test of the record); A, B and C without interaction for $N = 8$ (the zero modes and the level in the gap); A, B and C at the five slices of the deflating history for $N = 136$ and $688$; A, B, C and D for five couplings; and A, B and C at three temperatures. Then it compares the 19 states it shares with the record's demonstration of T3. It needs Rust (cargo 1.91.1 or newer), takes about two minutes (33.6 s in the recorded build on the computer that built this book), writes the solver's raw output (about 2 MB) into a folder that git ignores, draws ten figures and ends with the line ALL 37 CHECKS PASSED (notebook 19a).
 
 <!-- NOTEBOOK 19a -->
 
 ### 19.21 Line-by-line walk-through of Notebook 19a
 
-The notebook has 27 code cells, In [1] to In [27]; the numbers they print are in Section 19.20 under the labels Out [k].
+The notebook has 28 code cells, In [1] to In [28]; the numbers they print are in Section 19.20 under the labels Out [k].
 
-**In [1], the set-up cell.** Its first 296 lines are the complete run instructions of Section 19.19 as comment lines, followed by a line of dashes. The code after the title THE SET-UP is the set-up code of Notebook 19b, explained line by line in Section 19.16, with three differences: the name is `NOTEBOOK_ID = "19a"`, and, because this notebook runs a Rust program, the imports contain two more lines and the cell defines one more function.
+**In [1], the set-up cell.** Its first 298 lines are the complete run instructions of Section 19.19 as comment lines, followed by a line of dashes. The code after the title THE SET-UP is the set-up code of Notebook 19b, explained line by line in Section 19.16, with three differences: the name is `NOTEBOOK_ID = "19a"`, and, because this notebook runs a Rust program, the imports contain two more lines and the cell defines one more function.
 
 ```python
 import shutil  # finds the program cargo
@@ -2855,7 +2926,132 @@ save_figure(fig, "thermal_states",
 
 `save_figure` saves Figure 19a.10. What the student should see: on the left the rings of A on the grey Fermi curve, falling from 1 to 0 around $\mu = 0.295$, each with an orange cross inside it, and the control's triangles on its own, shifted curve; on the right the free energy falling with the temperature, A and B on top of each other (32.24, 31.59, 27.09) and the control about 3 lower.
 
-**In [27], the last check.**
+**In [27], the same runs in the record's demonstration of T3.** The record's numerical demonstration (Section 19.10) solved the members plus, image and control for all 210 states; this cell checks that the runs of this notebook are the record's runs where the two overlap.
+
+```python
+DEMO = "Revision/pairing/kohn_sham/reports/t3-rust-demo.json"
+DEMO_TABLE = "Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv"
+demo = json.loads(repository_file(DEMO).read_text(encoding="utf-8"))
+verdict = {c["name"]: c["verdict"] for c in demo["checks"]}
+detail = {c["name"]: c["detail"] for c in demo["checks"]}
+passed = sum(v == "PASS" for v in verdict.values())
+say(f"record: {demo['states']} states, {passed} of {len(verdict)} checks pass")
+```
+
+The two names are the report of the demonstration and its table. `json.loads` reads the report into a dictionary; its list `checks` holds one dictionary per check, with the keys `name`, `verdict` and `detail`. The two dictionary comprehensions make the look-ups "name to verdict" and "name to detail text". `passed` counts the verdicts equal to PASS (a comparison is `True` or `False`, and `sum` counts each `True` as 1). The line prints the number of states of the record (its key `states`) and the count: "record: 210 states, 7 of 7 checks pass" (Out [27]).
+
+```python
+for name in ("t3_equal_ground_states", "t3_equal_thermal_states"):
+    worst = re.search(r"worst deviation (\S+),", detail[name]).group(1)
+    say(f"record, {name}: worst deviation {worst}")
+DEMO_ROWS = read_rows(DEMO_TABLE)
+PAIRS, GROUP = {}, {}  # state id -> [A, B, C]; state id -> group of runs
+```
+
+The detail text of each of the two equality checks contains the words "worst deviation" followed by a number and a comma; the regular expression finds them, and `group(1)` is the part matched by `(\S+)`, the number (`\S+` means one or more characters that are not spaces). Out [27] prints the record's own worst deviations, $2.179\times10^{-13}$ for the 75 ground states and $3.877\times10^{-12}$ for the 135 thermal states. `read_rows` (In [9]) reads the table into a dictionary from the state id, such as N136_lamp1_a10, to its row. `PAIRS` will hold, for every state of the record that this notebook solved, the three states A, B and C of this notebook, and `GROUP` the group of runs the state belongs to.
+
+```python
+def add(state_id, group, states):
+    """Store the states A, B, C of one state of the record, once."""
+    if state_id not in PAIRS:
+        PAIRS[state_id], GROUP[state_id] = states, group
+```
+
+`add` stores a state only the first time its id appears. This matters because some runs were reused: the state N136_lamp1_a10 is in `SELF`, in `HIST` (the slice $a_{4,0} = 1$) and in `SCAN` (the coupling $+\lambda_1$), and must be counted once.
+
+```python
+for N in (8, 136):
+    add(f"N{N}_lamp1_a10", "ground", [SELF[(N, kind)] for kind in "ABC"])
+add("N8_lam0_a10", "ground", [FREE8[kind] for kind in "ABC"])
+for tag, lam, margin in COUPLINGS:
+    add(f"N136_{tag}_a10", "ground", [SCAN[(tag, kind)] for kind in "ABC"])
+for N in (136, 688):
+    for a4 in SLICES:
+        add(f"N{N}_lamp1_a{round(10 * a4):02d}", "history",
+            [HIST[(N, kind, a4)] for kind in "ABC"])
+for T in TEMPS:
+    add(f"N136_lamp1_a10_T{round(1000 * T)}", "thermal",
+        [WARM[(T, kind)] for kind in "ABC"])
+```
+
+The ids are built in the naming scheme of the record (Section 19.1): `round(10 * a4):02d` writes ten times the slice with two digits (0.5 becomes 05), and `round(1000 * T)` writes the temperature in thousandths (0.05 becomes 50). The group "ground" receives the states at the slice $a_{4,0} = 1$ of In [7] (two), In [17] (one, without interaction) and In [23] (four more couplings; $+\lambda_1$ is already stored): 7 states. The group "history" receives the states of In [20] not yet stored: four slices for $N = 136$ and five for $N = 688$, 9 states. The group "thermal" receives the 3 states of In [25]. Together 19 states.
+
+```python
+def relative(a, b):
+    """|a - b| relative to max(|a|, 1), the measure of close()."""
+    return abs(a - b) / max(abs(a), 1.0)
+```
+
+`relative` measures a difference in the same way as `close` of In [8]: relative to the size of the first number, but never relative to a number smaller than 1.
+
+```python
+worst_A, worst_B, worst_C = 0.0, 0.0, 0.0
+for state_id, (A, B, C) in PAIRS.items():
+    row = DEMO_ROWS[state_id]  # the record's row of this state
+    worst_A = max(worst_A, relative(A["E_KS"], float(row["E_KS_plus"])))
+    image = [(B["E_KS"], row["E_KS_image"]), (B["mu_or_fermi_level"],
+             row["mu_image"]), (B["entropy"], row["entropy_image"])]
+    image += [(B["emtIntegrals_2Vol7_int_e6Hy"][c], row[f"int_{c}_image"])
+              for c in ("rho", "p3", "p_t", "p8")]
+    worst_B = max([worst_B] + [relative(x, float(r)) for x, r in image])
+    control = float(row["E_KS_control_untransformed_tip"])
+    worst_C = max(worst_C, relative(C["E_KS"], control))
+```
+
+For every one of the 19 states the loop takes the record's row and compares: the energy of A with the record's plus member (column `E_KS_plus`); seven numbers of B with the record's image member (the energy, the chemical potential or Fermi level, the entropy, which is 0 in a ground state, and the four energy-momentum integrals, columns `int_rho_image` and so on); and the energy of C with the record's control (column `E_KS_control_untransformed_tip`). The table stores numbers as text, so `float` converts them. `max([worst_B] + [...])` takes the largest of the old worst value and the seven new differences.
+
+```python
+worst_D = max(relative(SCAN[(tag, "D")]["E_KS"],
+                       float(DEMO_ROWS[f"N136_{MIRROR[tag]}_a10"]["E_KS_image"]))
+              for tag, lam, margin in COUPLINGS)
+say(f"{len(PAIRS)} states of the record solved here; largest relative differences "
+    f"from the record: A {worst_A:.1e}, B {worst_B:.1e}, C {worst_C:.1e}, "
+    f"D {worst_D:.1e}")
+```
+
+D at the coupling $\lambda$ is the universe $(-m, -\lambda)$ with the tip angle $\pi$, which is the image member of the record's state at the coupling $-\lambda$; `MIRROR` (In [23]) gives the tag of $-\lambda$. Out [27] prints the four largest differences: A $4.0\times10^{-14}$, B $2.8\times10^{-13}$, C $7.0\times10^{-14}$, D $0$. The record's runs and these runs were made by the same program on the same computer, so most numbers agree to every digit and the others to the rounding of the last digits.
+
+```python
+def t3_deviation(A, B):
+    """Largest deviation of B from A under T3 (levels, E_KS, mu, entropy, EMT
+    integrals, profiles with the odd columns reversed)."""
+    return max(level_difference(A, B), relative(A["E_KS"], B["E_KS"]),
+               relative(A["mu_or_fermi_level"], B["mu_or_fermi_level"]),
+               relative(A["entropy"], B["entropy"]), integral_difference(A, B),
+               profile_mismatch(A, B))
+```
+
+`t3_deviation` combines every comparison of A and B of this notebook into one number: the sorted levels with degeneracies and occupations (`level_difference`, In [7]), the energy, the chemical potential, the entropy, the four energy-momentum integrals (`integral_difference`, In [7]) and the ten profile columns with $S$, $Q$, $M_{\rm eff}$ reversed (`profile_mismatch`, In [13]).
+
+```python
+largest = {}
+for group in ("ground", "history", "thermal"):
+    ids = [state_id for state_id in PAIRS if GROUP[state_id] == group]
+    largest[group] = max(t3_deviation(*PAIRS[state_id][:2]) for state_id in ids)
+    say(f"{group}: {len(ids)} pairs A, B; largest T3 deviation "
+        f"{largest[group]:.1e}")
+```
+
+For each group, `ids` lists its states; `PAIRS[state_id][:2]` is the list `[A, B]` of a state, and the star `*` hands its two entries to `t3_deviation` as its two arguments. Out [27]: ground 7 pairs, largest deviation $9.9\times10^{-14}$; history 9 pairs, $1.0\times10^{-13}$; thermal 3 pairs, $8.1\times10^{-13}$ (the entropy of N136_lamp1_a10_T10, a number near 42 computed as a sum over hundreds of levels). These are the rounding of the computer, and, as Section 19.17 showed, at the rounding level by construction, because the shooting is covariant under the map.
+
+```python
+check(passed == len(verdict) == 7 and demo["states"] == 210,
+      "the record's T3 demonstration passes 7 of 7 checks in 210 states",
+      record=DEMO)
+check(len(PAIRS) == 19 and worst_A < TOL and worst_B < TOL,
+      "A and B equal the record's plus and image members in 19 states",
+      record=f"{DEMO}, checks t3_equal_ground_states, t3_equal_thermal_states")
+check(worst_C < TOL, "C equals the record's control with the untransformed tip",
+      record=f"{DEMO}, check negative_control_untransformed_tip")
+check(worst_D < TOL, "D at lambda equals the record's image member at -lambda",
+      record=f"{DEMO}, check negative_control_lambda_sign")
+check(max(largest.values()) < TOL,
+      "B equals A under T3 in all 19 pairs (ground, history, thermal)")
+```
+
+Five checks, each with the tolerance $10^{-9}$ of the record: the record's demonstration passes completely; A and B are the record's plus and image members in all 19 states; C is the record's control; D is the record's image at the opposite coupling; and B equals A under T3 in every pair of this notebook. The PASS lines name the report and the check of the record that each comparison reproduces (Out [27]).
+
+**In [28], the last check.**
 
 ```python
 runs = len({id(state) for state in [*SELF.values(), *FREE8.values(), *HIST.values(),
@@ -2871,11 +3067,13 @@ check(runs == 62 and all(path.is_file() for path in paths),
 all_checks_passed()
 ```
 
-`id(state)` is a number that identifies one object in the computer's memory; a state that was reused (stored under two keys) has one `id`, so the set of the ids of all stored states counts every run once: $6 + 3 + 27 + 17 + 9 = 62$. The check requires 62 runs and all ten figure files (`enumerate(names, 1)` counts from 1), and the last line is ALL 32 CHECKS PASSED (notebook 19a) (Out [27]).
+`id(state)` is a number that identifies one object in the computer's memory; a state that was reused (stored under two keys) has one `id`, so the set of the ids of all stored states counts every run once: $6 + 3 + 27 + 17 + 9 = 62$. The check requires 62 runs and all ten figure files (`enumerate(names, 1)` counts from 1), and the last line is ALL 37 CHECKS PASSED (notebook 19a) (Out [28]). Of the 62 runs, 19 states compare A with its partner B (In [27]); the other runs are the controls C and D.
 
 ### 19.22 What T3 says about pairs of universes, and what it does not
 
-**What is proved.** For the fermion field dirac16complex in the author's primordial universe, in the Kohn-Sham model of the Revision record: to every self-consistent instantaneous Kohn-Sham state of the universe of mass $+M$ (bare mass $m$, coupling $\lambda$, tip angle $\theta$) the chirality $\Gamma$, acting on the blocks as $\sigma_2$, assigns a self-consistent Kohn-Sham state of the universe of mass $-M$ with the same coupling and the tip angle $\pi - \theta$, at the same slice of the deflating history, with the same levels, occupations, chemical potential, entropy, Kohn-Sham energy, grand potential, free energy and energy-momentum profiles, and the opposite scalar density; and conversely. Inside the ASSUMED Z2 orbifold, the mirror copy of every state carries $(-m, +\lambda)$. Status: PROVED (Sections 19.5 to 19.11; `wolfram-t3.json` 10 of 10, `python-t3.json` 13 of 13). The Rust solver confirms it numerically to about $10^{-13}$ in 62 independent runs (Notebook 19a; COMPUTED).
+**What is proved.** For the fermion field dirac16complex in the author's primordial universe, in the Kohn-Sham model of the Revision record: to every self-consistent instantaneous Kohn-Sham state of the universe of mass $+M$ (bare mass $m$, coupling $\lambda$, tip angle $\theta$) the chirality $\Gamma$, acting on the blocks as $\sigma_2$, assigns a self-consistent Kohn-Sham state of the universe of mass $-M$ with the same coupling and the tip angle $\pi - \theta$, at the same slice of the deflating history, with the same levels, occupations, chemical potential, entropy, Kohn-Sham energy, grand potential, free energy and energy-momentum profiles, and the opposite scalar density; and conversely. Inside the ASSUMED Z2 orbifold, the mirror copy of every state carries $(-m, +\lambda)$. With the completion of the record (statement S6, Section 19.10), at the level of the 16-component expectation rule, every component of the energy-momentum tensor and of the current $J^a$ is the same in the two members, while $S$ and $Q$ change sign; and the filling convention of the $+M$ member, carried by the map, is the filling convention of the $-M$ member. Status: PROVED (Sections 19.5 to 19.11; `wolfram-t3.json` 10 of 10, `python-t3.json` 13 of 13; the completion `t3-completion.json` with `wolfram-t3-completion.json` 3 of 3 and `python-t3-completion.json` 7 of 7).
+
+**What is demonstrated numerically** (COMPUTED; demonstrations, not proofs). The record's Rust demonstration (`t3-rust-demo.json`) finds the $-M$ partner equal to the $+M$ state in all 75 ground and 135 Mermin states of the canonical matrix, to $2.179\times10^{-13}$ (ground) and $3.877\times10^{-12}$ (thermal); this agreement is at the rounding level by construction, because the solver's shooting is covariant under the map (Section 19.17), so it tests the solver's handling of the two members, not the discretisation. The record's reference demonstration (`t3-reference-demo.json`) is the discretisation-independent test: on one grid the two members differ by up to $2.23\times10^{-4}$, after Richardson extrapolation by $2.043\times10^{-14}$ (ground) and $3.038\times10^{-14}$ (thermal), in 18 states; and the $-M$ universes of the two solvers agree to $1.255\times10^{-11}$. Notebook 19a compares A and B in 19 states (7 ground states at $a_{4,0} = 1$, 9 more states of the history, 3 thermal states; 62 runs with the controls), with the largest deviations $9.9\times10^{-14}$, $1.0\times10^{-13}$ and $8.1\times10^{-13}$ (Out [27]), and finds every run equal to the record's demonstration. The controls do differ: the untransformed tip changes the density profile by at least $4.750$ times its maximum, and the T1 parameters $(-m, -\lambda)$ differ by at least $1.21\times10^{-2}$.
 
 **What is not established** (the list of the theorem record `t3-theory.json`, entry not_established, in words):
 
@@ -2885,13 +3083,14 @@ all_checks_passed()
 - **Mean field only.** Hartree plus the exchange of the uniform gas, no correlation, quasi-free states, and the filling convention whose justification is OPEN.
 - **Not two independently quantised universes.** The pairing is between two Kohn-Sham problems, $(m, \lambda)$ and $(-m, +\lambda)$; it is not the T1 pairing $(m, \lambda) \to (-m, -\lambda)$, and it says nothing about two separately quantised universes (that question is the quantum reading Q of Chapter 18).
 - **No back-reaction.** The Kohn-Sham energy-momentum tensor is not an admissible source of the $a_4$ field equations: it depends on $x_8$, and $p_3 + p_t \ne 2p_8$ (`Revision/field_equations_a4/reports/ks-source-conditions.json`, checks ks_profiles_depend_on_x8 and ks_profiles_violate_algebraic_condition). So T3 says nothing about how the geometry of either universe would respond.
+- **Numbers only where they were computed** (`t3-completion.json`, entry not_established). The numerical demonstrations show the equalities only on the states they solved, to their stated tolerances. Control states for which a solver found no self-consistent solution (14 states in the Rust demonstration, 3 in the reference demonstration, all with $\lambda < 0$) are reported as such, not as a proof that no such state exists.
 
-**Matter and antimatter.** T3 does not touch the matter-antimatter question. The partner has the same charge density $n(y)$ and the same particle number $N$, not the opposite ones, and the same, not the opposite, energy: a T3 pair has twice the charge and twice the energy of one member; nothing cancels. (The pair-level statement with zero total charge belongs to T1 and the classical bilinears, Chapter 18.) Nothing in the Kohn-Sham model contains baryons, a violation of baryon number, a violation of CP, or a departure from equilibrium, the ingredients that an explanation of the observed excess of matter over antimatter would need. Chapter 21 teaches the observations and these conditions from zero and states what the theory of this book does and does not say about them; Chapter 20 collects what the pairing theorems T1, T2, Q and T3 together prove about pairs of universes and what they do not.
+**Matter and antimatter.** T3 does not touch the matter-antimatter question. The partner has the same charge density $n(y)$ and the same particle number $N$, not the opposite ones, and by S6 every component of its current $J^a$ is the same, not the opposite; it also has the same, not the opposite, energy: a T3 pair has twice the charge and twice the energy of one member; nothing cancels. (The pair-level statement with zero total charge belongs to T1 and the classical bilinears, Chapter 18.) Nothing in the Kohn-Sham model contains baryons, a violation of baryon number, a violation of CP, or a departure from equilibrium, the ingredients that an explanation of the observed excess of matter over antimatter would need. Chapter 21 teaches the observations and these conditions from zero and states what the theory of this book does and does not say about them; Chapter 20 collects what the pairing theorems T1, T2, Q and T3 together prove about pairs of universes and what they do not.
 
 ### 19.23 What we proved, what we computed, what we assumed
 
-- PROVED, line by line in this chapter and in the records `Revision/pairing/kohn_sham/reports/wolfram-t3.json` (10 of 10 checks) and `Revision/pairing/kohn_sham/reports/python-t3.json` (13 of 13), theorem record `Revision/pairing/kohn_sham/t3-theory.json`: the chirality $\Gamma$ maps every block $(j, s_2, s_3)$ onto $(-j, s_2, s_3)$ and acts there as $s_2\sigma_2$ (Section 19.5; also blocks_relation_to_Gamma of `ks-theory-python.json`); $\sigma_2h_j(M, v)\sigma_2 = h_{-j}(-M, v)$ and $\sigma_2N_j(M)\sigma_2 = N_{-j}(-M)$ (Section 19.6); the tip angle goes to $\pi - \theta$, the brane parities are exchanged, norm and current are kept (Section 19.7); $n$, $t$ are even and $S$, $Q$ odd, and the mean field closes exactly for $(-m, +\lambda)$, not for $(-m, -\lambda)$ (Section 19.8); every self-consistent state has its partner with equal levels, occupations, energies and energy-momentum profiles (Section 19.9): theorem T3 (Section 19.10). Also PROVED: $\Gamma B\Gamma = -B$, the reason why T3 differs from T1 (Sections 19.5 and 19.11; check Q.image_krein_metric of `Revision/pairing/reports/python-pairing.json`); the mirror copy inside the assumed orbifold carries $(-m, +\lambda)$ (Section 19.11); the exact zero-momentum spectra, the zero modes, the control's level in the gap $\varepsilon_b = M/\cosh(qL)$ with $\tanh(qL) = q/M$, and the slopes $c$ and $c_{\rm ctrl}$ (Section 19.12; checks T3_exact_k0_spectra, bc_exact_k0_spectra, brane_band_slope).
-- COMPUTED: Notebook 19b (19 checks) reproduces the proof checks with sympy, the analytic levels of `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv` to $8.9\times10^{-16}$, the same levels by shooting to $5.9\times10^{-12}$, and the slope $c = 1.9051482536$ of the record; $c_{\rm ctrl} = 13.4219751976$. Notebook 19a (32 checks, 62 runs of the Rust solver) reproduces the solver's T3 self-test of `Revision/kohn_sham/reports/ks-rust-solver.json` (check t3_block_map_solver_selftest) and the committed canonical states, and finds the partner B equal to A to $9.9\times10^{-14}$ in the levels and $4.0\times10^{-14}$ relative in the energy along the whole history; the control C off by $0.8$ to $9.6$ percent along the history and by $1.15$ to $3.43$ across the couplings; the wrong partner D equal to A at the opposite coupling; the control's Kohn-Sham gap equal to $\varepsilon_b = 0.100851121375$ to twelve digits.
+- PROVED, line by line in this chapter and in the records `Revision/pairing/kohn_sham/reports/wolfram-t3.json` (10 of 10 checks) and `Revision/pairing/kohn_sham/reports/python-t3.json` (13 of 13), theorem record `Revision/pairing/kohn_sham/t3-theory.json`: the chirality $\Gamma$ maps every block $(j, s_2, s_3)$ onto $(-j, s_2, s_3)$ and acts there as $s_2\sigma_2$ (Section 19.5; also blocks_relation_to_Gamma of `ks-theory-python.json`); $\sigma_2h_j(M, v)\sigma_2 = h_{-j}(-M, v)$ and $\sigma_2N_j(M)\sigma_2 = N_{-j}(-M)$ (Section 19.6); the tip angle goes to $\pi - \theta$, the brane parities are exchanged, norm and current are kept (Section 19.7); $n$, $t$ are even and $S$, $Q$ odd, and the mean field closes exactly for $(-m, +\lambda)$, not for $(-m, -\lambda)$ (Section 19.8); every self-consistent state has its partner with equal levels, occupations, energies and energy-momentum profiles (Section 19.9): theorem T3 (Section 19.10). Also PROVED, by the completion `Revision/pairing/kohn_sham/t3-completion.json` (`reports/wolfram-t3-completion.json` 3 of 3, `reports/python-t3-completion.json` 7 of 7): the mean-field coefficients read from `ks-theory.json` in both engines, with $M_{\rm eff} - m = \partial e_{\rm int}/\partial S$ and $v_v = \partial e_{\rm int}/\partial n$ (Section 19.8); the filling convention carried onto the partner (Section 19.9); statement S6, $\rho' = -\Gamma\rho\Gamma$, so that every component of the energy-momentum tensor and of the current is unchanged and $S$, $Q$ change sign (Section 19.10). Also PROVED: $\Gamma B\Gamma = -B$, the reason why T3 differs from T1 (Sections 19.5 and 19.11; check Q.image_krein_metric of `Revision/pairing/reports/python-pairing.json`); the mirror copy inside the assumed orbifold carries $(-m, +\lambda)$ (Section 19.11); the exact zero-momentum spectra, the zero modes, the control's level in the gap $\varepsilon_b = M/\cosh(qL)$ with $\tanh(qL) = q/M$, and the slopes $c$ and $c_{\rm ctrl}$ (Section 19.12; checks T3_exact_k0_spectra, bc_exact_k0_spectra, brane_band_slope).
+- COMPUTED: Notebook 19b (19 checks) reproduces the proof checks with sympy, the analytic levels of `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv` to $8.9\times10^{-16}$, the same levels by shooting to $5.9\times10^{-12}$, and the slope $c = 1.9051482536$ of the record; $c_{\rm ctrl} = 13.4219751976$. The record's demonstrations (Section 19.10): Rust, `Revision/pairing/kohn_sham/reports/t3-rust-demo.json` (210 states, 7 of 7), image equal to plus to $2.179\times10^{-13}$ (ground) and $3.877\times10^{-12}$ (thermal), at the rounding level by construction (the covariance of the shooting, Section 19.17); reference, `Revision/pairing/kohn_sham/reports/t3-reference-demo.json` (18 states, 7 of 7), equal to $2.043\times10^{-14}$ and $3.038\times10^{-14}$ after Richardson extrapolation against $2.23\times10^{-4}$ on a single grid, the discretisation-independent test; controls off by at least $4.750$ (untransformed tip) and $1.21\times10^{-2}$ (T1 parameters). Notebook 19a (37 checks, 62 runs of the Rust solver, 19 states with A and B) reproduces the solver's T3 self-test of `Revision/kohn_sham/reports/ks-rust-solver.json` (check t3_block_map_solver_selftest), the committed canonical states and, in its 19 states, the record's demonstration `t3-rust-demo.json`; it finds the partner B equal to A to $9.9\times10^{-14}$ (ground states), $1.0\times10^{-13}$ (history) and $8.1\times10^{-13}$ (thermal states) and $4.0\times10^{-14}$ relative in the energy along the whole history; the control C off by $0.8$ to $9.6$ percent along the history and by $1.15$ to $3.43$ across the couplings; the wrong partner D equal to A at the opposite coupling; the control's Kohn-Sham gap equal to $\varepsilon_b = 0.100851121375$ to twelve digits.
 - ASSUMED: the good sector; the Z2 mirror at the brane; the cut at $L = 3$ with a chosen tip condition (T3 needs the transformed one); the mean field of Hartree plus uniform-gas exchange without correlation. CONVENTION: the filling of the particle levels.
 - PRESCRIBED BACKGROUND: the history $a_4 = AHx_4$, $A = 1$; the Kohn-Sham states are not an admissible source of the $a_4$ equations.
 - OPEN: the time-dependent Kohn-Sham problem; the justification of the filling convention.

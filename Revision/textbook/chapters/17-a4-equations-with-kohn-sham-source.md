@@ -272,7 +272,7 @@ $$
 **What was computed.** The Revision Rust solver (Chapter 15) computed, at each slice $a_{4,0}$ of the history $a_4 = Hx_4$, the self-consistent Kohn-Sham ground state of $N$ quanta of dirac16complex in the author's metric with $a_4$ held at its slice value $a_{4,0}$ (the stationary-slice, adiabatic ansatz of Chapter 14; between the slices the extra times keep deflating). It used the good sector (no dependence on the extra times), the Z2 mirror at the brane and the tip cutoff at $y = -3$, all ASSUMED (Chapter 14). The recorded states are all combinations of
 
 - three particle numbers: $N = 8$ (the eight brane zero modes, the levels of zero 3-momentum and zero energy) and the closed shells $N = 136$ and $N = 688$ (record `Revision/kohn_sham/results/parameters.json`, key `particleNumbers`);
-- five couplings: $\lambda = 0$, $\pm\lambda_1$ and $\pm\lambda_2$, chosen for each $N$ so that the largest first-order mean-field potential along the whole history is about $0.1\,m$ and $0.3\,m$ (the same file, key `couplingCalibration`; $\lambda$ is rounded to four digits, so the recorded values lie very slightly above: for $N = 8$, $\lambda_1 = 0.01946$ and $\lambda_2 = 0.05838$ give $0.1000011\,m$ and $0.3000034\,m$);
+- five couplings: $\lambda = 0$, $\pm\lambda_1$ and $\pm\lambda_2$, chosen for each $N$ so that the largest first-order mean-field potential along the whole history is about $0.1\,m$ and $0.3\,m$ (the same file, key `couplingCalibration`; $\lambda$ is rounded to four significant digits, so the recorded potentials lie very slightly off these values, in either direction: for $N = 8$, $\lambda_1 = 0.01946$ and $\lambda_2 = 0.05838$ give $0.1000011\,m$ and $0.3000034\,m$ (above), for $N = 136$, $\lambda_1 = 0.0009298$ and $\lambda_2 = 0.002789$ give $0.0999984\,m$ and $0.2999522\,m$ (below), and for $N = 688$, $\lambda_1 = 0.0001846$ and $\lambda_2 = 0.0005538$ give $0.1000001\,m$ and $0.3000004\,m$, again above);
 - five slices: $a_{4,0} = 0, 0.5, 1, 1.5, 2$.
 
 That makes $3 \times 5 \times 5 = 75$ states.
@@ -1615,7 +1615,10 @@ $$
 b_8 = \frac{p_8(0) - e^{-6HL}\,p_8(-L)}{1 - e^{-6HL}}, \qquad R = \frac{b_8}{\bar p_8} \quad\text{exactly.}
 $$
 
-The averaged C2 asks that the boundary value of the hidden pressure equal its weighted mean. That is true for a flat $p_8$ and false for the Kohn-Sham states: the weight $e^{6Hy}$ puts almost all of the mean in the last stretch before the brane (at $y = -1$ the weight is already $e^{-6} \approx 0.0025$), and there the Kohn-Sham $p_8$ falls toward the brane, so its boundary value lies below its mean.
+The averaged C2 asks that the boundary value of the hidden pressure equal its weighted mean. That is true for a flat $p_8$ and false for the Kohn-Sham states, for two different reasons.
+
+- For the states with 3-momentum ($N = 136$ and $N = 688$) the weight $e^{6Hy}$ puts most of the mean in the last stretch before the brane (at $y = -1$ the weight is already $e^{-6} \approx 0.0025$): Notebook 17b, In [15], finds that the last unit, $-1 \le y \le 0$, supplies between 0.812 and 0.932 of the integral of $e^{6Hy}p_8$ for $N = 136$ and between 0.816 and 0.969 for $N = 688$. There their $p_8$ falls toward the brane, so its boundary value lies below its mean.
+- For the $N = 8$ brane zero modes the size of $p_8$ falls almost like $e^{-6Hy}$ over most of the patch (the shape of the term $c\,e^{-6Hy}$ in Exercise 6), so the product $e^{6Hy}p_8$ is nearly flat there and the mean comes from the whole patch: the last unit supplies only 0.439 to 0.441 of the integral (In [15]). A nearly flat $e^{6Hy}p_8$ makes the mean much larger than the brane value. To see the size, suppose $e^{6Hy}p_8$ were exactly a constant $c$; then $p_8(0) = c$, while $\bar p_8 = cL/[(1 - e^{-6HL})/(6H)] \approx 6HL\,c = 18\,c$ (rule: the integral of the constant $c$ from $-L$ to $0$ is $cL$; then divide by the volume factor of Section 17.7, use $1 - e^{-6HL} \approx 1$, and $H = 1$, $L = 3$). The brane value alone would then give the ratio $1/18 \approx 0.056$; the recorded states give $0.074$ (next paragraph). For these states the tip term is not small either: at the tip $e^{6Hy}p_8$ is not tiny compared with its brane value (it has the opposite sign there), so the term $-e^{-6HL}p_8(-L)$ supplies about a third of $b_8$ (next paragraph). This is the difference from the states with 3-momentum, whose $e^{6Hy}p_8$ is concentrated near the brane.
 
 **Is the tip term small?** The factor $e^{-6HL} = e^{-18} \approx 1.5 \times 10^{-8}$ is tiny, but near the tip $|p_8|$ is enormous, so the answer depends on the state. Notebook 17b, In [15], measures the share $1 - p_8(0)/b_8$ of $R$ that the tip term supplies: from $4.1 \times 10^{-5}$ to $0.039$ for $N = 136$, from $5.3 \times 10^{-6}$ to $0.025$ for $N = 688$, but $0.31$ to $0.33$ for the 20 nonzero $N = 8$ states. So $R \approx p_8(\text{brane})/\bar p_8$ is a fair description of the states with 3-momentum and a poor one for the brane zero modes: for them the brane value alone would give ratios from $0.074$ (the caption of figure 17b.4), and the tip term raises them to the values $R = 0.107$ to $0.110$ of figure 17a.6. The exact formula reproduces every ratio of Notebook 17a to a relative difference of $1.4 \times 10^{-11}$ (Notebook 17b, In [15]); Exercise 5 computes one by hand.
 
@@ -2516,14 +2519,49 @@ tip_share = {sid: 1.0 - brane_only[sid] / from_brane[sid] for sid in nonzero}
 Six dictionaries: the weighted mean $\bar p_8$ of Section 17.7; the ratio $R$ as Notebook 17a computed it; the boundary value $b_8 = [p_8(0) - e^{-6HL}p_8(-L)]/(1 - e^{-6HL})$ of Section 17.15; $R$ computed the other way, $b_8/\bar p_8$; the ratio that the brane value alone would give, $p_8(0)/\bar p_8$; and the share of $R$ that the tip term supplies, $1 - p_8(0)/b_8$ (the quotient of the last two ratios, subtracted from 1).
 
 ```python
+step = float(y[1] - y[0])  # the grid step of y, 0.02
+
+
+def simpson_rule(values):
+    """Simpson's rule with the step of y (for an odd number of points)."""
+    return step / 3 * (values[0] + values[-1] + 4 * values[1:-1:2].sum()
+                       + 2 * values[2:-1:2].sum())
+```
+
+`step` is the distance between neighbouring points of the grid `y`, $0.02$ (`float` turns the numpy number into an ordinary Python number). `simpson_rule` integrates a list of values given at the points of such a grid with **Simpson's rule**. On one pair of steps of width $h$ the rule is $\int_a^{a+2h}f\,dy \approx \tfrac{h}{3}[f(a) + 4f(a + h) + f(a + 2h)]$: the exact integral of the parabola through the three points (its error falls like $h^4$). For a grid with an even number of steps, that is an odd number of points $f_0, f_1, \dots, f_{2n}$, the pairs are added: every inner point with an odd index is the middle of a pair and gets the weight 4, and every inner point with an even index is the end of one pair and the start of the next and gets the weight $1 + 1 = 2$:
+
+$$
+\int f\,dy \approx \frac{h}{3}\big[f_0 + 4f_1 + 2f_2 + 4f_3 + \dots + 2f_{2n-2} + 4f_{2n-1} + f_{2n}\big] .
+$$
+
+In the code, `values[0]` and `values[-1]` are the first and the last value (the index $-1$ counts from the end); `values[1:-1:2]` takes every second value from index 1 up to, but not including, the last one (the odd indices); `values[2:-1:2]` does the same from index 2 (the even inner indices); `.sum()` adds the values taken.
+
+```python
+last_unit = y >= -1.0 - 1e-9  # the last unit before the brane: 51 points
+near_share, table_gap = {}, {}
+for sid in nonzero:
+    weighted = np.exp(6 * H_value * y) * profiles[sid]["p8"]  # e^{6Hy} p8
+    whole = simpson_rule(weighted)  # the integral over the whole patch
+    near_share[sid] = simpson_rule(weighted[last_unit]) / whole
+    table_gap[sid] = abs(2 * VOL7 * whole / number(sid, "int_p8") - 1.0)
+```
+
+`y >= -1.0 - 1e-9` compares every point of the grid with $-1$ and gives an array of `True` and `False` values, `True` for the 51 points $y = -1, -0.98, \dots, 0$ (the tiny $10^{-9}$ makes sure that the point $y = -1$ counts even if the file stores it with a rounding error in the last digit). These 51 points have 50 steps, an even number, as Simpson's rule needs; the whole grid has 151 points and 150 steps. Two empty dictionaries are made, and the loop fills them for every nonzero state. `weighted` holds the 151 values of $e^{6Hy}p_8$; `whole` is its integral from $y = -3$ to $0$. `weighted[last_unit]` keeps only the values at the points where `last_unit` is `True`, so `near_share` is the integral over $-1 \le y \le 0$ divided by the integral over the whole patch. Because the weighted mean $\bar p_8$ is this integral divided by a fixed number (Section 17.7), `near_share` is also the share of $\bar p_8$ that comes from the last unit before the brane. `table_gap` is a control: the table's `int_p8` is $2\,\mathrm{Vol}_7\int e^{6Hy}p_8\,dy$ (Section 17.7), so `2 * VOL7 * whole` should equal it, and the relative difference is stored.
+
+```python
 agreement = max(abs(from_brane[sid] / ratio[sid] - 1.0) for sid in nonzero)
 closest = min(ratio, key=lambda sid: abs(ratio[sid] - 1.0))
 report("largest relative difference of the two forms of R", f"{agreement:.1e}")
 report("R closest to 1", f"{ratio[closest]:.6g} ({closest})")
+report("largest relative difference, Simpson's integral of p8 and int_p8",
+       f"{max(table_gap.values()):.1e}")
 for n in (8, 136, 688):
     shares = [tip_share[sid] for sid in nonzero if sid.startswith(f"N{n}_")]
     report(f"share of R from the tip term, N = {n}",
            f"{min(shares):.2g} to {max(shares):.2g}")
+    nears = [near_share[sid] for sid in nonzero if sid.startswith(f"N{n}_")]
+    report(f"share of the mean of p8 from -1 <= y <= 0, N = {n}",
+           f"{min(nears):.3f} to {max(nears):.3f}")
 detail = record_entry(SOURCE_REPORT, "ks_integrals_violate_algebraic_condition")[
     "detail"]
 reproduces(agreement < 1e-9
@@ -2532,7 +2570,7 @@ reproduces(agreement < 1e-9
            SOURCE_REPORT, ["ks_integrals_violate_algebraic_condition"])
 ```
 
-`agreement` is the largest relative difference of the two forms of $R$ over all nonzero states. The loop collects, for each particle number, the tip shares of its states (`startswith` tests the beginning of the name) and prints the smallest and the largest with two significant digits (`.2g`). Output: $1.4 \times 10^{-11}$; the ratio closest to 1 is again 0.414328 (`N688_lamm2_a00`), the record's number; the tip shares, $0.31$ to $0.33$ for $N = 8$, $4.1 \times 10^{-5}$ to $0.039$ for $N = 136$ and $5.3 \times 10^{-6}$ to $0.025$ for $N = 688$; and the PASS line. (COMPUTED. So the tip term matters little for the states with 3-momentum but supplies about a third of $R$ for the brane zero modes $N = 8$, Section 17.15.)
+`agreement` is the largest relative difference of the two forms of $R$ over all nonzero states. The third `report` prints the largest value of `table_gap`. The loop collects, for each particle number, the tip shares of its states (`startswith` tests the beginning of the name) and prints the smallest and the largest with two significant digits (`.2g`); then it does the same for the shares of the mean from the last unit, with three decimals (`.3f`). Output: $1.4 \times 10^{-11}$; the ratio closest to 1 is again 0.414328 (`N688_lamm2_a00`), the record's number; $4.7 \times 10^{-9}$, so the notebook's integral of the profile and the solver's table describe the same number; then, for each particle number, two lines: the tip shares, $0.31$ to $0.33$ for $N = 8$, $4.1 \times 10^{-5}$ to $0.039$ for $N = 136$ and $5.3 \times 10^{-6}$ to $0.025$ for $N = 688$, and the shares of the mean from $-1 \le y \le 0$, $0.439$ to $0.441$ for $N = 8$, $0.812$ to $0.932$ for $N = 136$ and $0.816$ to $0.969$ for $N = 688$; and the PASS line. (COMPUTED. So for the states with 3-momentum most of the mean of $p_8$ comes from the last unit before the brane and the tip term matters little; for the brane zero modes $N = 8$ less than half of the mean comes from there, and the tip term supplies about a third of $R$, Section 17.15.)
 
 **In [16], the boundary value against the mean (figure 4).**
 
@@ -3046,7 +3084,7 @@ As In [20] of Notebook 17a, for the six figures. Output: PASS every figure file 
 | the source rests on the author's real gammas | Clifford deviation exactly 0; sha256 prefix 95d8cbdd0682fd30 | `python-algebra.json`: `reality_signed_permutations`, `clifford_relation`; `ks-rust-solver.json`: `gamma_fixture_numeric` | 17b, In [3], In [4] |
 | $V = p_8'/(3H)$ on the stored grid | at most $1.05 \times 10^{-4}$ of $\max\lvert T\rvert$; fitted order 4.02 to 4.08 | (the book's own test) | 17b, In [11], In [13] |
 | the integrated conservation law | relative difference at most $1.421 \times 10^{-11}$ | `ks-rust-solver.json`: `emt_y_conservation_integrated` | 17b, In [14] |
-| $R$ equals the boundary value $b_8$ of $p_8$ over its mean | agreement to $1.4 \times 10^{-11}$; tip share $0.31$ to $0.33$ for $N = 8$, at most $0.039$ otherwise | `ks_integrals_violate_algebraic_condition` | 17b, In [15] |
+| $R$ equals the boundary value $b_8$ of $p_8$ over its mean | agreement to $1.4 \times 10^{-11}$; tip share $0.31$ to $0.33$ for $N = 8$, at most $0.039$ otherwise; share of $\bar p_8$ from $-1 \le y \le 0$: $0.439$ to $0.441$ for $N = 8$, at least $0.812$ otherwise | `ks_integrals_violate_algebraic_condition` | 17b, In [15] |
 | the energy-change law of the patch along the history | Simpson's rule to at most $2.2 \times 10^{-4}$ | `ks-rust-solver.json`: `emt_energy_change_dE_da4` | 17b, In [18] |
 | the time law fails point by point | tip ratio of the two sides $-0.327$ to $-0.106$; patch integrals agree to $1.3 \times 10^{-3}$ | `ks-theory-python.json`: `emt_x4_component` | 17b, In [20] |
 | the averaged C2 fails | defect $0.414086$ to $0.806379$ | `ks-source-a4.json`: `C1_averaged_algebraic_condition_fails` | 17b, In [21] |
@@ -3103,4 +3141,4 @@ As In [20] of Notebook 17a, for the six figures. Output: PASS every figure file 
 
 **Exercise 10 (the size of the patch).** (a) Compute $e^{-18}$ from $e^{-6} \approx 0.0024788$, and the angle $z$ of the tip cutoff. (b) What fraction of the proper volume of the patch lies in $-1 \le y \le 0$?
 
-*Answer.* (a) $e^{-18} = (e^{-6})^3 \approx 0.0024788^3 = 1.523 \times 10^{-8}$ (rule: $e^{3u} = (e^u)^3$). The tip cutoff has $\sin z = e^{6Hy} = e^{-18}$; for so small a number $\arcsin u \approx u$, so $z \approx 1.5 \times 10^{-8}$, the value in the caption of figure 17a.1. (b) The proper volume between $y = a$ and $y = 0$ is proportional to $\int_a^0 e^{6y}dy = (1 - e^{6a})/6$. For $a = -1$: $(1 - e^{-6})/6$; for the whole patch, $a = -3$: $(1 - e^{-18})/6$. The fraction is $(1 - 0.0024788)/(1 - 1.5 \times 10^{-8}) = 0.9975$: more than 99.7 per cent of the volume lies within one unit of the brane. That is why the weighted mean $\bar p_8$ is decided near the brane, and why the tip, where the profiles are largest, matters so little in the integrals.
+*Answer.* (a) $e^{-18} = (e^{-6})^3 \approx 0.0024788^3 = 1.523 \times 10^{-8}$ (rule: $e^{3u} = (e^u)^3$). The tip cutoff has $\sin z = e^{6Hy} = e^{-18}$; for so small a number $\arcsin u \approx u$, so $z \approx 1.5 \times 10^{-8}$, the value in the caption of figure 17a.1. (b) The proper volume between $y = a$ and $y = 0$ is proportional to $\int_a^0 e^{6y}dy = (1 - e^{6a})/6$. For $a = -1$: $(1 - e^{-6})/6$; for the whole patch, $a = -3$: $(1 - e^{-18})/6$. The fraction is $(1 - 0.0024788)/(1 - 1.5 \times 10^{-8}) = 0.9975$: more than 99.7 per cent of the volume lies within one unit of the brane. The integral of a density, however, also depends on how large the density is where the volume is. For the states with 3-momentum ($N = 136$ and $N = 688$) the volume wins: Notebook 17b, In [15], finds that the last unit supplies between 0.812 and 0.969 of the integral of $e^{6Hy}p_8$, so their weighted mean $\bar p_8$ is decided near the brane. For the $N = 8$ brane zero modes it does not: their $p_8$ grows toward the tip almost like $e^{-6Hy}$, so $e^{6Hy}p_8$ is nearly flat, the last unit supplies only 0.439 to 0.441 of the integral, and the whole patch, the tip included, matters (Section 17.15).

@@ -22,17 +22,17 @@ Every earlier chapter of this book marked the questions it could not answer with
 | 2. Beyond the instantaneous Kohn-Sham states: the time-dependent problem | 22.5 to 22.13 | OPEN; a first estimate for the free field is COMPUTED in Notebook 22a | Chapters 14 and 15 |
 | 3. The back-reaction of the gas on $a_4$ | 22.14 | OPEN; no recorded Kohn-Sham state is an admissible source | Chapters 12 and 17 |
 | 4. The Z2 brane and its junction conditions | 22.15 | the Z2 mirror is ASSUMED; its junction conditions are OPEN | Chapters 14, 18 and 19 |
-| 5. The dark-sector hypotheses | 22.16 | HYPOTHESIS, being investigated; no result is claimed | Chapters 9 and 12 |
-| 6. Matter and antimatter | 22.17 | not solved by the theory as built; every scenario is a HYPOTHESIS | Chapter 21 |
-| 7. Smaller open items | 22.18 | OPEN, CHOSEN or CONVENTION, as listed there | several chapters |
+| 5. The dark-sector hypotheses | 22.16 to 22.24 | HYPOTHESIS, INVESTIGATED by the record and established in neither form; the observer's density ASSUMED; the remaining questions OPEN; Notebook 22b reproduces the record's numbers | Chapters 9, 12 and 15 |
+| 6. Matter and antimatter | 22.25 | not solved by the theory as built; every scenario is a HYPOTHESIS | Chapter 21 |
+| 7. Smaller open items | 22.26 | OPEN, CHOSEN or CONVENTION, as listed there | several chapters |
 
-The problems are linked. The time-dependent problem (Problem 2) needs the history of $a_4$, which the back-reaction (Problem 3) would determine; both T2 and T3 of Chapters 18 and 19 rest on the Z2 brane (Problem 4); any statement about the dark sector (Problem 5) needs an equation of state that is a consequence of the coupled equations, that is, Problem 3 again; and a creation process (Problem 1) would need a dynamical geometry, which none of the equations of the record provides. A student is well advised to start with a problem whose first step is a finite calculation: Problem 2, whose first step this chapter carries out, or the first steps of Problems 3 and 4.
+The problems are linked. The time-dependent problem (Problem 2) needs the history of $a_4$, which the back-reaction (Problem 3) would determine; both T2 and T3 of Chapters 18 and 19 rest on the Z2 brane (Problem 4); the dark-sector results of the record (Problem 5) are read on the prescribed history and rest on an ASSUMED observer density, and an equation of state that is a consequence of the coupled equations needs Problem 3 again; and a creation process (Problem 1) would need a dynamical geometry, which none of the equations of the record provides. A student is well advised to start with a problem whose first step is a finite calculation: Problem 2, whose first step this chapter carries out, or the first steps of Problems 3 and 4.
 
-**The notebook of this chapter.** Notebook 22a is the worked example of Problem 2. It reads the adiabaticity measure $Q$ of the 75 recorded ground states, shows that $Q$ grows exactly in proportion to the deflation rate, reproduces the record's $Q$ with the solver's shooting method written again in Python, collapses every slice and every momentum shell onto one curve with the exact rescaling identity, measures the jumps into the negative-energy branch, and solves the exact time evolution of one sector of the free field for deflation rates from $0.25$ to $251$. It draws eight figures, needs no Rust, and ends with the line ALL 20 CHECKS PASSED (notebook 22a).
+**The notebooks of this chapter.** Notebook 22a is the worked example of Problem 2. It reads the adiabaticity measure $Q$ of the 75 recorded ground states, shows that $Q$ grows exactly in proportion to the deflation rate, reproduces the record's $Q$ with the solver's shooting method written again in Python, collapses every slice and every momentum shell onto one curve with the exact rescaling identity, measures the jumps into the negative-energy branch, and solves the exact time evolution of one sector of the free field for deflation rates from $0.25$ to $251$. It draws eight figures, needs no Rust, and ends with the line ALL 20 CHECKS PASSED (notebook 22a). Notebook 22b is the worked example of Problem 5: it reads the committed outputs of the Revision dark-sector record, reproduces its key numbers (the observer identities on the computed history, the radiation-like Kohn-Sham gas, the dark-matter-like bulk band, the condensate, the mixtures and the models of dirac16complex00 against the observed values), each asserted against its record file and check, draws five figures, needs no Rust, and ends with the line ALL 27 CHECKS PASSED (notebook 22b).
 
 **The status of every statement.** Every statement carries one of the five labels of Chapter 0: PROVED (exact, with the record file and check where the Revision record verifies it), COMPUTED (a number of a numerical computation, with its measured uncertainty and the file or notebook cell that holds it), ASSUMED (a starting point that is not derived), HYPOTHESIS (an idea that is stated and examined but not established) and OPEN (a question nobody has answered). Three special cases of ASSUMED, used as in Chapters 14 to 17, appear here as well: PRESCRIBED BACKGROUND (the history $a_4 = AHx_4$, given and not solved for), CHOSEN (a numerical or boundary choice, such as the tip of the hidden direction) and CONVENTION (a rule fixed by agreement, such as which levels count as particles). A few derivations of this chapter are the book's own and are not checked by a Revision verifier; each of them is written out line by line and says so.
 
-**What this chapter does not do.** It does not solve any of the problems it lists. In particular, and in the words of the honesty rule: that the big bang creates universes in pairs is NOT proved, and no creation process, rate, amplitude or big-bang dynamics follows from the equations of the record (Section 22.4); the theory as built does NOT solve the matter-antimatter problem (Section 22.17); and no result about the dark sector is claimed (Section 22.16).
+**What this chapter does not do.** It does not solve any of the problems it lists. In particular, and in the words of the honesty rule: that the big bang creates universes in pairs is NOT proved, and no creation process, rate, amplitude or big-bang dynamics follows from the equations of the record (Section 22.4); the theory as built does NOT solve the matter-antimatter problem (Section 22.25); and the record's investigation of the dark-sector hypotheses establishes neither of them (Sections 22.16 to 22.24).
 
 **Notation and units.** The author's coordinates are $x_1, \dots, x_8$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which deflate exponentially with the scale factor $e^{-a_4}\sin^{1/6}z$; $x_8$ is the hidden space direction, with $z = 6Hx_8$ between $0$ and $\pi/2$. The signature is (4,4): $\eta = \mathrm{diag}(+1,+1,+1,-1,-1,-1,-1,+1)$ in the order $x_1, \dots, x_8$. The hidden coordinate of the Kohn-Sham chapters is $y = \ln(\sin z)/(6H)$; it runs from the **tip** $y = -L$ (with $L = 3$) to the **brane** $y = 0$. A **slice** is one instant of the history, and $a_{4,0}$ is the value of $a_4$ there; the record's history is $a_4 = AHx_4$ with $A = 1$. In all numbers $H = 1$ and $m = 1$, so energies and momenta are in units of $m$, lengths and times in units of $1/H$. A state of the record is named like N688_lamm2_a00: $N = 688$ quanta, the coupling $-\lambda_2$ (the tags lam0, lamp1, lamm1, lamp2, lamm2 stand for $\lambda = 0, +\lambda_1, -\lambda_1, +\lambda_2, -\lambda_2$), the slice $a_{4,0} = 0.0$ (the two digits are ten times the slice).
 
@@ -835,7 +835,7 @@ def orbitals(eps, q):
     return a / norm[:, None], b / norm[:, None]
 ```
 
-The orbitals are needed on the whole fine grid. The step ends are copied into the even columns. The midpoints are filled by **cubic Hermite interpolation**: the cubic polynomial with the values $f_0$, $f_1$ and the slopes $f_0'$, $f_1'$ at the two ends of a step of length $h$ has, in the middle, the value $(f_0 + f_1)/2 + h(f_0' - f_1')/8$ (Exercise 3 of Section 22.20 derives it); `a_e[:, :-1]` are the left ends of all steps and `a_e[:, 1:]` the right ends. This is what the Rust solver does. Finally each orbital is **normalised**: its norm $\sqrt{\int(a^2 + b^2)\,dy}$ is computed with Simpson's rule (`axis=1` sums along each row), and both components are divided by it, so that $\int(a^2 + b^2)\,dy = 1$.
+The orbitals are needed on the whole fine grid. The step ends are copied into the even columns. The midpoints are filled by **cubic Hermite interpolation**: the cubic polynomial with the values $f_0$, $f_1$ and the slopes $f_0'$, $f_1'$ at the two ends of a step of length $h$ has, in the middle, the value $(f_0 + f_1)/2 + h(f_0' - f_1')/8$ (Exercise 3 of Section 22.28 derives it); `a_e[:, :-1]` are the left ends of all steps and `a_e[:, 1:]` the right ends. This is what the Rust solver does. Finally each orbital is **normalised**: its norm $\sqrt{\int(a^2 + b^2)\,dy}$ is computed with Simpson's rule (`axis=1` sums along each row), and both components are divided by it, so that $\int(a^2 + b^2)\,dy = 1$.
 
 ```python
 def couplings(q, a, b):
@@ -1806,7 +1806,7 @@ The right-hand side is negative for every real history when $H > 0$. So in Einst
 
 **Why it is hard.** The metric of the record fixes the dependence on $x_8$ completely ($\sin^{1/3}z$ and $\cot^2z$), and leaves only one free function, $a_4(x_4)$. A gas bound to the brane, whose density falls off towards the tip, cannot be the source of such a metric: its energy-momentum depends on $y$. A coupled solution therefore needs a more general metric, whose factors depend on $y$ and on $x_4$; the field equations then become partial differential equations in two variables, and the Kohn-Sham reduction of Chapter 14, which used the exact warp $e^{Hy}$, must be redone for the new metric at every step. In addition, the brane enters (Problem 4), the couplings $\alpha_2$, $\alpha_3$, $\Lambda$ and $\kappa$ are unknown, and in Einstein gravity the source must violate the null energy condition along $x_8$, as just shown.
 
-**A first step.** (a) Redo the derivation above, and its Einstein-Gauss-Bonnet version from the general null combination of the record (`Revision/field_equations_a4/a4-equations.json`, key `generalSource.nullCombinations`). (b) Check the energy-exchange identity on the record's numbers (Exercise 7 of Section 22.20). (c) Write down a more general metric that keeps the symmetries of the author's metric (3-space isotropic, the three extra times isotropic) but lets the factors depend on $y$ and $x_4$, for example $ds^2 = e^{2\mathcal{A}(y, x_4)}(dx_1^2 + dx_2^2 + dx_3^2) - e^{2\mathcal{B}(y, x_4)}(dx_5^2 + dx_6^2 + dx_7^2) - e^{2\mathcal{C}(y, x_4)}dx_4^2 + dy^2$, which contains the author's metric as $\mathcal{A} = Hy + a_4$, $\mathcal{B} = Hy - a_4$, $\mathcal{C} = 0$ (this ansatz is a suggestion of this book, a HYPOTHESIS about a useful next step, not a result). Compute its Einstein tensor with two independent programs, as the record does for the author's metric, and find which conditions it puts on a source. (d) Only then ask whether a Kohn-Sham gas can satisfy them, starting with the free gas.
+**A first step.** (a) Redo the derivation above, and its Einstein-Gauss-Bonnet version from the general null combination of the record (`Revision/field_equations_a4/a4-equations.json`, key `generalSource.nullCombinations`). (b) Check the energy-exchange identity on the record's numbers (Exercise 7 of Section 22.28). (c) Write down a more general metric that keeps the symmetries of the author's metric (3-space isotropic, the three extra times isotropic) but lets the factors depend on $y$ and $x_4$, for example $ds^2 = e^{2\mathcal{A}(y, x_4)}(dx_1^2 + dx_2^2 + dx_3^2) - e^{2\mathcal{B}(y, x_4)}(dx_5^2 + dx_6^2 + dx_7^2) - e^{2\mathcal{C}(y, x_4)}dx_4^2 + dy^2$, which contains the author's metric as $\mathcal{A} = Hy + a_4$, $\mathcal{B} = Hy - a_4$, $\mathcal{C} = 0$ (this ansatz is a suggestion of this book, a HYPOTHESIS about a useful next step, not a result). Compute its Einstein tensor with two independent programs, as the record does for the author's metric, and find which conditions it puts on a source. (d) Only then ask whether a Kohn-Sham gas can satisfy them, starting with the free gas.
 
 **Where to start.** `Revision/field_equations_a4/README.md` and its verifiers; `Revision/field_equations_a4/python/check_ks_source_conditions.py` and its report; the lead's independent curvature code `Revision/lead_checks/einstein_gauss_bonnet_a4.py`; the profiles `Revision/kohn_sham/results/ground/profiles` and the integrals `Revision/kohn_sham/results/ground/emt-integrals.csv`; the GKD and Lovelock programs of Chapter 11 in `Revision/gkd_lovelock`.
 
@@ -1874,9 +1874,20 @@ The integral of $W''$ over an interval around the brane does not shrink to zero 
 
 ### 22.16 Problem 5: the dark-sector hypotheses
 
-**The question.** The author's request contains two hypotheses, quoted from `Revision/README.md`: "Hypothesis: dirac16complex provides a possible physical mechanism for a time-varying dark energy equation of state and/or a possible physical mechanism for a time-varying dark matter equation of state, both of which you will investigate." and "Hypothesis00: dirac16complex00 provides [the same], both of which you will investigate." (the brackets are those of the README, which abridges the repeated sentence). The open problem is to investigate them: compute the equation of state that an observer in 3-space would see as the extra times deflate and 3-space inflates, its change in time, and compare it with the observations. An answer is such a computation with its uncertainties, and an honest statement of what each field can and cannot produce.
+**The question.** The author's request contains two hypotheses, quoted from `Revision/README.md`: "Hypothesis: dirac16complex provides a possible physical mechanism for a time-varying dark energy equation of state and/or a possible physical mechanism for a time-varying dark matter equation of state, both of which you will investigate." and "Hypothesis00: dirac16complex00 provides [the same], both of which you will investigate." (the brackets are those of the README, which abridges the repeated sentence). The problem is to investigate them: compute the equation of state that an observer in 3-space would see as the extra times deflate and 3-space inflates, its change in time, and compare it with the observations. An answer is such a computation with its uncertainties, and an honest statement of what each field can and cannot produce.
 
-**What is known.** Status: HYPOTHESIS, being investigated. The investigation is planned in the Revision record (`Revision/SPEC.md`, section 8; the planned folder `Revision/dark_sector` is listed as "to do (wave 2)" in the table of `Revision/README.md`), and no result of it exists in the record. This book claims no result about the dark sector. The observational numbers to which the plan refers come from a private document of the author, and the book quotes them only as `Revision/README.md` states them: the parametrisation $w(a) = w_0 + w_a(1 - a)$ (CPL), the constant-$w$ fit $w = -0.764$, and $(w_0, w_a) = (-0.861, -0.60)$; in this convention thawing means $w_a < 0$. In that document $H$ is the Hubble rate and $a$ the scale factor of the observed universe; they are not the $H$ and $a_4$ of the author's metric.
+**What is known now.** Status: both hypotheses have been INVESTIGATED by the Revision record, and neither is established. The investigation lives in two folders, `Revision/dark_sector/dirac16complex` (four scripts whose reports hold 30, 5, 13 and 9 checks, all PASS) and `Revision/dark_sector/dirac16complex00` (two independent implementations with 49 and 28 checks, all PASS), and it is written up in the registered document `Revision/docs/DARK_SECTOR_HYPOTHESES.md`. Sections 22.17 to 22.19 teach what the record finds, Notebook 22b (Section 22.20) reproduces its key numbers from the committed outputs, and Section 22.24 lists what remains open. The short answer, every item with the assumption it rests on:
+
+1. The energy density $\rho_4$ that a 3-space observer assigns to 3-space is not fixed by the field equations; it is an ASSUMPTION, and the record states three definitions, called A, B and C (Section 22.17). Every verdict moves by exactly $-1$ between A and B on one side and C on the other.
+2. dirac16complex, dark matter: a time-varying equation of state that falls from $1/3$ toward 0 (dark-matter-like) is present in the theory for quanta of the massive bulk band, but NOT in the computed Kohn-Sham ground states, whose gas is radiation-like under A and B (Section 22.18).
+3. dirac16complex, dark energy: only under C, with $w_{\rm eff}$ between $-0.707107$ and $-0.671895$ and a slope of thawing sign far smaller than the observed one; nothing computed comes near the observed pair $(w_0, w_a) = (-0.861, -0.60)$, and no computed state crosses $w = -1$.
+4. dirac16complex00, dark matter: a gas of positive-energy modes without extra-time momentum has the dark-matter-like law from $1/3$ to 0 under B (Section 22.19).
+5. dirac16complex00, dark energy: only under C; the observed numbers are reproduced only by models whose parameters were CHOSEN to reproduce them, and a crossing of $w = -1$ only with a ghost-like component of negative energy.
+6. On the prescribed history $a_4 = AHx_4$ the observer's expansion itself reads $w = -1$ exactly, with no time variation (Section 22.17).
+
+In the words of the record: it "establishes neither Hypothesis nor Hypothesis00". Both remain HYPOTHESES.
+
+**The observed numbers.** They come from a private document of the author, and the book quotes them only as `Revision/README.md` states them: the parametrisation $w(a) = w_0 + w_a(1 - a)$ (CPL, after Chevallier, Polarski and Linder), the constant-$w$ fit $w = -0.764$, and $(w_0, w_a) = (-0.861, -0.60)$; in this convention thawing means $w_a < 0$. The record calls them the **Unite values**. In that document $H$ is the Hubble rate and $a$ the scale factor of the observed universe; they are not the $H$ and $a_4$ of the author's metric.
 
 **What the CPL numbers say, line by line.**
 
@@ -1892,7 +1903,13 @@ $$
 
 Rule: in the far past $a \to 0$, so $1 - a \to 1$.
 
-So the fitted $w$ falls below $-1$ in the past. What that requires:
+$$
+w_0 + w_a(1 - a) = -1 \quad\Longleftrightarrow\quad 1 - a = \frac{-1 - w_0}{w_a} = \frac{-0.139}{-0.60} = 0.231667 \quad\Longleftrightarrow\quad a = 0.768333 = \frac{461}{600} .
+$$
+
+Rule: subtract $w_0$ from both sides and divide by $w_a$; then subtract from 1 ($0.231667 = 139/600$). The record checks this crossing exactly (`Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json`, check `unite_crossing_point`).
+
+So the fitted $w$ falls below $-1$ for $a < 461/600$. What that requires:
 
 $$
 w < -1, \ \rho > 0 \quad\Longleftrightarrow\quad p < -\rho \quad\Longleftrightarrow\quad \rho + p < 0 .
@@ -1900,23 +1917,1045 @@ $$
 
 Rule: multiply $w = p/\rho < -1$ by the positive number $\rho$ (the direction of an inequality is kept), then add $\rho$ to both sides.
 
-A fluid of positive energy density with $w < -1$ (called **phantom**) violates the null energy condition. Whether anything in this theory can appear to a 3-space observer as such a fluid is part of the question; nothing is claimed.
+A fluid of positive energy density with $w < -1$ (called **phantom**) violates the null energy condition. Section 22.19 shows what in this theory can produce such a reading, and at what price.
 
-**What bears on the question (not dark-sector results).** PROVED: the 7-volume of the author's metric does not change with $a_4$ ($\sqrt{|g|} = \cos z$, Chapter 12), and for a source free of $x_8$ the conservation law reads $\rho' = -3a_4'(p_3 - p_t)$: energy is exchanged between 3-space and the extra times through the difference of their pressures. The record states the law under the key `generalSource.conservation_reduced` of `Revision/field_equations_a4/a4-equations.json`, and the lead's report `emt-divergence-and-spin-connection.json` in the folder `Revision/lead_checks/reports` verifies it independently with the check `divergence_x4_component`. In the good sector the Kohn-Sham gas has no kinetic pressure along the extra times: $p_t = e_{int}$ (key `emt.p_t` of the Kohn-Sham theory record). And the history along which the Kohn-Sham states are computed is a PRESCRIBED BACKGROUND; in the words of the record (`history.json`, key `status`), "quantities derived along this history (energies, pressures, equations of state) are not consequences of the coupled field equations". Any equation of state read from these states inherits this limitation.
+### 22.17 The observer's density and the equation of state, line by line
 
-**Why it is hard.** The observations are made in four dimensions, the theory lives in eight. One must define what the observer measures: which scale factor plays the role of the observed $a$, which energy density and pressure the observer sees (integrated over the hidden direction and the extra times, or not), and how the time $x_4$ relates to the time of the observations. Each choice must be justified, not fitted. The equations of state must be consequences of the coupled equations, which brings back Problem 3. And a phantom value $w < -1$ needs a source that violates the null energy condition, which an ordinary gas of positive energy does not do.
+**Why an assumption is needed.** The observations are made in four dimensions, three of space and one of time; the theory lives in eight. An observer who sees only $x_1, x_2, x_3$ and the time $x_4$ must turn the energy of a state, which is spread over all seven other directions, into an energy per unit volume of 3-space. Over the hidden direction $x_8$ the record averages with the weight $\sqrt{|g|} = \cos z$, which does not depend on $x_4$ (check `observer_hidden_average_commutes` of `python-derive-eos.json`). Over the three extra times there is no unique choice, because they are time-like: an observer does not move through them as through a space direction. The record therefore states three definitions and decides between none of them.
 
-**A first step.** (a) Write down precise definitions of the observer's density, pressure and scale factor; the record's plan (`Revision/SPEC.md`, sections 8 and 11) proposes some and labels its own analysis as "to be CHECKED by the dark-sector work, not results". (b) Compute the equation of state for the simplest sources with these definitions: the homogeneous condensates of Chapters 9 and 12, whose $w = p/\rho$ is constant, and the Kohn-Sham gas along the prescribed history, with that caveat stated. (c) Fit the CPL form, compare with the values above, and report honestly what each field can and cannot produce.
+**The proper 7-volume does not change, line by line.** The proper length of a step $dx$ along a direction is $\sqrt{|g_{xx}|}\,dx$; the proper volume of a small box is the product of the proper lengths of its sides.
 
-**Where to start.** `Revision/README.md` and `Revision/SPEC.md` (sections 8 and 11); the energy-momentum tensors of the theory record, `Revision/theory/field-theory.json`; the Kohn-Sham integrals `Revision/kohn_sham/results/ground/emt-integrals.csv` and the thermal results in `Revision/kohn_sham/results/thermo`; the equations for $a_4$ in `Revision/field_equations_a4/a4-equations.json`.
+$$
+\big(e^{a_4}\sin^{1/6}z\big)^3 = e^{3a_4}\sin^{1/2}z .
+$$
 
-### 22.17 Problem 6: matter and antimatter
+Rule: the three directions $x_1, x_2, x_3$ each have the factor $e^{a_4}\sin^{1/6}z$; a product of three equal factors is the third power, and $3 \cdot \frac16 = \frac12$. This is the proper 3-volume per unit coordinate volume: it inflates like $e^{3a_4}$.
+
+$$
+\big(e^{-a_4}\sin^{1/6}z\big)^3 = e^{-3a_4}\sin^{1/2}z .
+$$
+
+Rule: the same for the three extra times, whose factor is $e^{-a_4}\sin^{1/6}z$. The proper extra-time volume deflates like $e^{-3a_4}$.
+
+$$
+e^{3a_4}\sin^{1/2}z \cdot e^{-3a_4}\sin^{1/2}z \cdot \cot z = \sin z\cot z = \cos z .
+$$
+
+Rule: multiply by the factor $\sqrt{g_{88}} = \cot z$ of the hidden direction; $e^{3a_4}e^{-3a_4} = e^0 = 1$, $\sin^{1/2}z\sin^{1/2}z = \sin z$, and $\sin z \cdot \cos z/\sin z = \cos z$. The proper 7-volume element of a slice $x_4 = $ const is $\cos z$: the inflation of 3-space is compensated exactly by the deflation of the extra times (`Revision/dark_sector/dirac16complex/reports/derivation-checks.json`, checks `proper_3_and_extra_time_volume_scalings` and `proper_7_volume_element_independent_of_a4`).
+
+**The energy balance, line by line.** Let $E$ be the energy of a state, the proper 7-volume integral of the energy density $\rho$, and $P_3$, $P_t$, $P_8$ the integrals of the pressures of 3-space, of the extra times and of the hidden direction. The record re-derives the conservation law $\nabla_\mu T^\mu{}_\nu = 0$ from the author's metric for a diagonal energy-momentum tensor that depends on $x_4$ and $x_8$; its $x_4$ component reads (checks `conservation_x4_identity` and `conservation_x4_author_metric`)
+
+$$
+\frac{\partial\rho}{\partial x_4} = -3a_4'\,(p_3 - p_t) .
+$$
+
+$$
+\frac{dE}{dx_4} = \int\cos z\,\frac{\partial\rho}{\partial x_4} = -3a_4'\int\cos z\,(p_3 - p_t) = -3a_4'\,(P_3 - P_t) .
+$$
+
+Rule: integrate over a slice with the weight $\cos z$; because the weight does not depend on $x_4$, the derivative can be taken outside the integral; $a_4'$ does not depend on the position and comes out of the integral.
+
+$$
+\frac{dE}{da_4} = \frac{dE/dx_4}{da_4/dx_4} = -3\,(P_3 - P_t) = -3X, \qquad X = P_3 - P_t .
+$$
+
+Rule: the chain rule, $dE/dx_4 = (dE/da_4)(da_4/dx_4)$, divided by $a_4' = da_4/dx_4$ (check `integrated_identity_dE_da4`). So the energy of a state changes as 3-space inflates exactly by the difference of the two pressures: positive pressure in 3-space takes energy away, as for a gas in an expanding box, and negative pressure along the extra times does the same.
+
+**The three definitions.** In each, $\rho_4$ is the energy per unit proper 3-volume, and the definitions differ only in how the extra times are counted:
+
+- **(A)** the extra times are compact, with a fixed coordinate period (closed time-like directions): $\rho_4 = E/(\text{proper 3-volume}) \propto E\,e^{-3a_4}$;
+- **(B)** the extra times are not compact, and $\rho_4$ is taken per unit extra-time COORDINATE volume: again $\rho_4 \propto E\,e^{-3a_4}$;
+- **(C)** $\rho_4$ is taken per unit PROPER 7-volume (equivalently per unit proper extra-time volume): $\rho_4 \propto E$.
+
+All three are written as $\rho_4 \propto E\,e^{-3(1-s)a_4}$, with $s = 0$ for A and B and $s = 1$ for C. Status: ASSUMPTION. Which of them, if any, describes a physical observer is OPEN (Section 22.24). The record for dirac16complex00 calls the same two scalings N1 (the scaling of A and B) and N2 (that of C).
+
+**The equation of state read from a dilution.** For a 4-dimensional observer a fluid with a constant equation of state $w$ thins out as $\rho \propto a^{-3(1+w)}$ (radiation, $w = 1/3$, as $a^{-4}$; dust, $w = 0$, as $a^{-3}$; a cosmological constant, $w = -1$, not at all). Turned around, this defines the equation of state that the observer infers from any dilution:
+
+$$
+\ln\rho = -3(1 + w)\ln a + \text{const} \quad\Longrightarrow\quad \frac{d\ln\rho}{d\ln a} = -3(1 + w) \quad\Longrightarrow\quad w = -1 - \frac13\,\frac{d\ln\rho}{d\ln a} .
+$$
+
+Rule: take the logarithm of $\rho = c\,a^{-3(1+w)}$ (the logarithm of a product is the sum of the logarithms, and $\ln a^n = n\ln a$), differentiate with respect to $\ln a$, then divide by $-3$ and subtract 1. Applied to $\rho_4$ it defines $w_{\rm eff} = -1 - \frac13\,d\ln\rho_4/d\ln a$.
+
+**The observer identities, line by line.** The observer's scale factor is $a = e^{a_4 - a_{4,\rm today}}$ (normalised to $a = 1$ at a chosen today, a free parameter).
+
+$$
+\ln a = a_4 - a_{4,\rm today} \quad\Longrightarrow\quad d\ln a = da_4 .
+$$
+
+Rule: the logarithm undoes the exponential; $a_{4,\rm today}$ is a constant.
+
+$$
+\ln\rho_4 = \text{const} + \ln E - 3(1 - s)a_4 .
+$$
+
+Rule: the logarithm of $c\,E\,e^{-3(1-s)a_4}$.
+
+$$
+\frac{d\ln\rho_4}{d\ln a} = \frac{1}{E}\frac{dE}{da_4} - 3(1 - s) = -\frac{3X}{E} - 3 + 3s .
+$$
+
+Rule: differentiate with respect to $a_4$ (which is $\ln a$ up to a constant); $d\ln E/da_4 = (dE/da_4)/E$, and the energy balance $dE/da_4 = -3X$.
+
+$$
+w_{\rm eff} = -1 - \frac13\Big(-\frac{3X}{E} - 3 + 3s\Big) = -1 + \frac{X}{E} + 1 - s = \frac{X}{E} - s .
+$$
+
+Rule: insert into the definition of $w_{\rm eff}$ and multiply out.
+
+$$
+w_{\rm eff}(A) = w_{\rm eff}(B) = \frac{X}{E}, \qquad w_{\rm eff}(C) = \frac{X}{E} - 1 .
+$$
+
+Rule: $s = 0$ for A and B, $s = 1$ for C. These are exact (checks `w_eff_A_equals_X_over_E`, `w_eff_B_equals_w_eff_A`, `w_eff_C_equals_X_over_E_minus_1` and `w_eff_general_normaliser` of `derivation-checks.json`; for dirac16complex00, `observer_N1_weff_identity` and `observer_N2_weff_identity` of `python-derive-eos.json`). Notebook 22b tests them on the computed Kohn-Sham history (In [3]).
+
+**How every verdict depends on the assumption.** The same state reads differently under each definition (the rows are records of `Revision/docs/DARK_SECTOR_HYPOTHESES.md`, section 3.2, derived in Sections 22.18 and 22.19):
+
+| state | $w_{\rm eff}$ under A, B | $w_{\rm eff}$ under C | ratio $p_3/\rho$ |
+| --- | --- | --- | --- |
+| homogeneous condensate | 0, dust-like | $-1$, cosmological-constant-like | $\lambda S/(2m + \lambda S)$, constant |
+| massless quanta | $1/3$, radiation | $-2/3$ | $1/3$ |
+| massive quanta, flat limit | $1/3 \to 0$ | $-2/3 \to -1$ | as under A, B |
+| Kohn-Sham gas, $N = 688$, $\lambda = 0$ | 0.2929 to 0.3183 | $-0.7071$ to $-0.6817$ | 0.2929 to 0.3183 |
+
+The ratio $p_3/\rho$, the 8-dimensional equation of state, does not depend on the normalisation at all. INTERPRETATION (labelled, as in the record): supernova distances measure the dilution-inferred $w_{\rm eff}$ of a 4-dimensional observer, which agrees with the ratio only when no energy is exchanged with the extra times.
+
+**The expansion seen by the observer.** An observer who reads the scale factor $a = e^{a_4}$ and the time $t = x_4$ and uses the 4-dimensional Friedmann equations infers $w_{\rm exp} = -1 - \frac23\,a_4''/(a_4')^2$ (check `expansion_inferred_w`). On the history $a_4 = AHx_4$ of the Kohn-Sham record, $a_4' = AH$ is constant and $a_4'' = 0$, so $w_{\rm exp} = -1$ exactly: the expansion itself has no time-varying equation of state. This is also the only history that a condensate allows as a source (Section 22.14: the linear member needs $p_3 = p_t$).
+
+**When is a reading phantom?**
+
+$$
+w_{\rm eff}(C) < -1 \quad\Longleftrightarrow\quad \frac{X}{E} - 1 < -1 \quad\Longleftrightarrow\quad \frac{X}{E} < 0 .
+$$
+
+Rule: add 1 to both sides. With $E > 0$ this needs $X < 0$, that is $P_t > P_3$: a pressure along the extra times larger than the pressure of 3-space; otherwise it needs $E < 0$, a state of negative energy. Under A and B the same condition gives $w_{\rm eff} < 0$ (check `phantom_condition`). For a single plane-wave mode of real frequency the record proves $X \ge 0$ (check `flat_mode_X_nonnegative`): its 3-space pressure is $\ge 0$ and its extra-time pressure $\le 0$, so both make $X$ larger, not smaller.
+
+### 22.18 dirac16complex: the Kohn-Sham gas, the bulk band, the condensate and the mixtures
+
+**The Kohn-Sham history.** The record runs the Revision Rust Kohn-Sham solver of Chapter 15 at the 41 slices $a_{4,0} = 0, 0.05, \dots, 2$ for $N = 8$, 136 and 688 quanta and the five couplings $\lambda = 0, \pm\lambda_1, \pm\lambda_2$: 615 runs, with $H = m = 1$, $L = 3$, the tip angle $\theta = 0$ and temperature $T = 0$ (`Revision/dark_sector/dirac16complex/reports/ks-history-run.json`, 5 checks). It reproduces the 75 committed states of Chapter 15 with relative deviation 0 (check `committed_slices_reproduced`), and the occupied levels are the same at all 41 slices of every series (check `occupied_labels_fixed_along_history`), so the instantaneous ground states are the adiabatically continued states. The history is a PRESCRIBED BACKGROUND: the gas is a test field without back-reaction (Section 22.14). The record's script `compute_eos.py` evaluates $w_{\rm eff}$ for the three definitions, the tangents, the fits, the condensate and the mixtures (13 checks), and an independent second computation, `independent_free_gas.py` (Chebyshev collocation, no solver output used except for the final comparison), reproduces the solver's energies over 82 states to $1.897 \times 10^{-12}$ and $w_{\rm eff} = X/E$ to $1.492 \times 10^{-12}$ (9 checks).
+
+**The gas is radiation-like.** The occupied levels lie on the brane band, which is massless at zero 3-momentum (the brane zero mode, slope $c\,e^{-a_4}$ with $c = 1.9051482536$ at small $k$; check `brane_band_slope`). So the gas redshifts like radiation: $d\ln E/da_4$ goes from $-0.8787$ at $a_4 = 0$ to $-0.9549$ at $a_4 = 2$ for $N = 688$, $\lambda = 0$, toward the radiation value $-1$. Over all series with $N = 136$ and 688, $X/E$ lies between 0.292893 and 0.328105 and rises monotonically toward $1/3$ (checks `gas_radiation_like_band` and `gas_X_over_E_rises_toward_one_third` of `eos-checks.json`; Notebook 22b, In [3] and Figure 22b.1). For $N = 688$, $\lambda = 0$: $w_{\rm eff}(A) = w_{\rm eff}(B)$ goes from 0.2929 to 0.3183 and $w_{\rm eff}(C)$ from $-0.7071$ to $-0.6817$. The pressure of the hidden direction gives $P_8/E$ from 0.3535 to 0.6482: a pressure, but not one that the 3-space observer sees as pressure.
+
+**The CPL tangents of the gas.** With $a = e^{a_4 - a_{4,\rm today}}$, $da = a\,da_4$, so at $a = 1$ the slope $dw/da$ equals $dw/da_4$ and the tangent is $w_0 = w_{\rm eff}$ at $a_{4,\rm today}$, $w_a = -dw_{\rm eff}/da_4$ there. For $N = 688$, $\lambda = 0$ (`Revision/dark_sector/dirac16complex/outputs/eos-summary.json`; Notebook 22b, Out [4]):
+
+| $a_{4,\rm today}$ | 0.5 | 1 | 1.5 | 2 |
+| --- | --- | --- | --- | --- |
+| $w_0$ under C | $-0.7037$ | $-0.6982$ | $-0.6907$ | $-0.6817$ |
+| $w_a$ (every definition) | $-0.00905$ | $-0.01292$ | $-0.01701$ | $-0.01775$ |
+
+($w_0$ under A and B is the value under C plus 1; $w_a$ is the same in every definition, because the definitions differ by the constant $s$.) Over all series with $N = 136$ and 688 the tangent $w_a$ lies between $-0.020523$ and $-0.008894$, the least-squares fits give $w_a$ between $-0.030371$ and $-0.018132$, and $w_{\rm eff}(C)$ lies between $-0.707107$ and $-0.671895$ (check `gas_cpl_thawing_sign_small`). The sign is that of thawing; the size is about twenty times smaller than the observed 0.60. For $N = 8$ with $\lambda \ne 0$ only the brane zero modes are occupied: $E$ is constant and $P_3 = P_t$, so $w_{\rm eff}(A) = 0$ and $w_{\rm eff}(C) = -1$, constant, with $E < 0$ for $\lambda > 0$ (check `n8_interacting_zero_modes_constant`); for $N = 8$ with $\lambda = 0$, $E = 0$ and there is no equation of state.
+
+**The dark-matter-like law, line by line.** In the flat limit (no warp) a quantum of mass $M$ and fixed coordinate momentum $k$ has the physical momentum $k/a$ and the energy $\omega = \sqrt{M^2 + k^2/a^2}$, with $a = e^{a_4}$. With the number of quanta fixed, $E \propto \omega$, and the energy balance gives $X/E = -\frac13\,d\ln E/da_4$.
+
+$$
+\ln\omega = \tfrac12\ln\big(M^2 + k^2e^{-2a_4}\big) .
+$$
+
+Rule: $\ln\sqrt{x} = \frac12\ln x$, and $1/a^2 = e^{-2a_4}$.
+
+$$
+\frac{d\ln\omega}{da_4} = \frac12\cdot\frac{-2k^2e^{-2a_4}}{M^2 + k^2e^{-2a_4}} = -\frac{k^2}{M^2a^2 + k^2} .
+$$
+
+Rule: the chain rule, $d\ln f/da_4 = f'/f$, with $d(e^{-2a_4})/da_4 = -2e^{-2a_4}$; then multiply numerator and denominator by $a^2 = e^{2a_4}$.
+
+$$
+w_{\rm eff}(A) = \frac{X}{E} = \frac{k^2}{3\,(M^2a^2 + k^2)} .
+$$
+
+Rule: multiply by $-\frac13$. For $a \to 0$ the momentum term dominates and $w_{\rm eff} \to 1/3$ (radiation); for $a \to \infty$ the mass dominates and $w_{\rm eff} \to 0$ (dust): a time-varying, dark-matter-like equation of state (check `massive_mode_w_eff_law`; for $M = 0$ it is $1/3$ at every time, check `massless_mode_w_eff`). In the author's metric the record finds this law for the massive **bulk band** (odd brane parity; its edge at zero momentum is $\varepsilon(0) = 1.292292828069$): the lowest odd-parity level of the shell $n_2 = 1$ has $w_{\rm eff}(A)$ falling monotonically from 0.239626 at $a_4 = -3$ to $2.268 \times 10^{-3}$ at $a_4 = 4$, while the brane-band level of the same shell stays between 0.291594 and 0.333275, tending to $1/3$ (`Revision/dark_sector/dirac16complex/reports/independent-checks.json`, checks `bulk_band_dark_matter_law` and `brane_band_radiation_law`; Notebook 22b, In [5] and Figure 22b.2). At late times the bulk level falls like $1/a$ rather than like $1/a^2$: the ratio $w(4)/w(3.75) = 0.765177$ is close to $e^{-0.25} = 0.778801$, which the record reads as a term of $\varepsilon(k)$ linear in small $k$. The computed ground states ($N \le 688$, $T = 0$) are filled below the bulk edge and do not populate the bulk band. COMPUTED; that such quanta are present in the universe is not established.
+
+**The condensate, line by line.** A homogeneous condensate is an exact solution of both fields, with $S = \bar\Psi\Psi$ constant (Chapter 9), and
+
+$$
+\rho = mS + \tfrac{\lambda}{2}S^2, \qquad p_3 = p_t = p_8 = \tfrac{\lambda}{2}S^2
+$$
+
+(checks `condensate_rho_p` and `condensate_satisfies_both_identities` of `derivation-checks.json`).
+
+$$
+X = P_3 - P_t = 0 \quad\Longrightarrow\quad w_{\rm eff}(A) = w_{\rm eff}(B) = 0, \qquad w_{\rm eff}(C) = -1 .
+$$
+
+Rule: equal pressures give $X = 0$; insert into the observer identities. The condensate is dust-like under A and B and cosmological-constant-like under C, constant in time in both (check `condensate_w_eff`).
+
+$$
+\frac{p}{\rho} = \frac{\frac{\lambda}{2}S^2}{mS + \frac{\lambda}{2}S^2} = \frac{\lambda S/m}{2 + \lambda S/m} = \frac{u}{2 + u}, \qquad u = \frac{\lambda S}{m} .
+$$
+
+Rule: divide numerator and denominator by $mS/2$. The ratio is constant (check `condensate_ratio_w`).
+
+$$
+\frac{u}{2 + u} = -0.764 \ \Longrightarrow\ u = -0.764\,(2 + u) \ \Longrightarrow\ 1.764\,u = -1.528 ,
+$$
+
+$$
+u = -\frac{1.528}{1.764} = -\frac{382}{441} = -0.866213151927 .
+$$
+
+Rule: multiply by $2 + u$, bring $-0.764u$ to the left, divide by 1.764; $1528/1764$ reduces by 4 to $382/441$. Then $\rho/(mS) = 1 + u/2 = 250/441 = 0.566893424036$, so $\rho > 0$ exactly when $mS > 0$ (check `condensate_ratio_equal_unite_constant_w`; Notebook 22b, In [6]). This value of $u$ is CHOSEN to give $-0.764$: one parameter tuned to one number, and it is the 8-dimensional ratio, not the observer's $w_{\rm eff}$, which is 0 or $-1$.
+
+$$
+\frac{u}{2 + u} < -1 \quad\Longleftrightarrow\quad -2 < u < -1 .
+$$
+
+Rule: if $2 + u > 0$, multiply by it: $u < -2 - u$, so $u < -1$, and with $u > -2$ the window $-2 < u < -1$; if $2 + u < 0$, multiplying reverses the inequality: $u > -2 - u$, so $u > -1$, which contradicts $u < -2$. The ratio is phantom exactly in this window (`python-derive-eos.json`, check `condensate_phantom_interval`; Figure 22b.3), and the CHOSEN $u = -0.866$ lies outside it.
+
+**Mixtures with a condensate, line by line.** Take a radiation-like gas, $X_g = E_g/3$, so that $dE_g/da_4 = -E_g$ and $E_g \propto e^{-a_4} \propto 1/a$, and add a condensate with $X_c = 0$ and $E_c$ constant. Let $r = E_g/E_c = r_0/a$, with $r_0$ its value today.
+
+$$
+w_{\rm eff}(A) = \frac{X_g + X_c}{E_g + E_c} = \frac{E_g/3}{E_g + E_c} = \frac13\,\frac{r}{1 + r} .
+$$
+
+Rule: the observer identity for the whole mixture; divide numerator and denominator by $E_c$.
+
+$$
+\frac{dw}{da} = \frac13\,\frac{1}{(1 + r)^2}\,\frac{dr}{da} = -\frac13\,\frac{r_0}{a^2(1 + r)^2} \quad\Longrightarrow\quad w_0 = \frac{r_0}{3(1 + r_0)}, \qquad w_a = \frac{r_0}{3(1 + r_0)^2} > 0 .
+$$
+
+Rule: the quotient rule gives $d(r/(1+r))/dr = 1/(1+r)^2$, and $dr/da = -r_0/a^2$; at $a = 1$, $r = r_0$, and $w_a = -dw/da$. The mixture is **freezing**: as the gas redshifts, $w$ moves toward the condensate's value (check `mixture_radiation_condensate_cpl`). The same holds under C, with $w_0$ lowered by 1.
+
+$$
+\frac{r_0}{3(1 + r_0)} - 1 = -0.861 \ \Longrightarrow\ r_0 = 0.417\,(1 + r_0) \ \Longrightarrow\ r_0 = \frac{417}{583} = 0.715266 ,
+$$
+
+$$
+w_a = \frac{r_0}{3(1 + r_0)^2} = \frac{0.139}{1 + r_0} = 0.081037 .
+$$
+
+Rule: add 1 and multiply by 3 ($3 \cdot 0.139 = 0.417$); collect $r_0$; for $w_a$ use $r_0/(3(1 + r_0)) = 0.139$, and $0.139 \cdot 583/1000 = 0.081037$. So $r_0$ is CHOSEN for $w_0 = -0.861$, and the slope then has the wrong sign: $+0.081037$, not $-0.60$ (check `mixture_C_matching_w0_unite`). With the computed gas $N = 688$, $\lambda = 0$ and today at $a_{4,\rm today} = 2$, under C (`eos-checks.json`; Notebook 22b, In [7] and Figure 22b.4):
+
+- the gas share 0.436703 is CHOSEN so that $w_{\rm eff}(C) = -0.861$ today; then $w_a = 0.067014 > 0$, freezing (check `mixture_C_w0_unite_has_positive_wa`);
+- the gas share 0.6807148417136 is CHOSEN so that the constant-$w$ proxy over $1/3 \le a \le 1$ equals $-0.764$; the CPL fit of that mixture is $(w_0, w_a) = (-0.7841, 0.0603)$, opposite in the sign of $w_a$ to the observed fit (check `mixture_C_constant_w_unite_reachable_only_with_freezing_cpl`);
+- in the ratio definition, with a condensate of any constant ratio between $-3$ and 1, any gas share and $a_{4,\rm today} \in \{0.5, 1, 1.5, 2\}$, no mixture comes closer to the observed pair than 0.600001 (check `ratio_mixture_scan_cannot_reach_unite_wa`).
+
+**Phantom and the crossing of $-1$.** No computed state of dirac16complex crosses $w = -1$: every computed state has $X \ge 0$ and $E > 0$, except the $N = 8$, $\lambda > 0$ states, which have $E < 0$ and $X = 0$ exactly. Modes of dirac16complex with extra-time momentum lie outside the good sector and are OPEN.
+
+### 22.19 dirac16complex00: modes of both energy signs, the populations and the models M1 to M5
+
+**Modes and their energies.** dirac16complex00 is a classical field of 16 commuting complex components. A plane wave $\Phi = u\,e^{i(kx_1 + qx_5 - \omega x_4)}$ with 3-momentum $k$ and extra-time momentum $q$ (physical momenta in a frozen local frame) obeys $\omega u = hu$ with $h^2 = (m^2 + k^2 - q^2)\,I_{16}$, so
+
+$$
+\omega^2 = m^2 + k^2 - q^2
+$$
+
+(check `mode_dispersion_h_squared`): the extra times are time-like, and $q$ enters with the opposite sign to $k$. The conserved charge is the Krein form $Q = \Phi^\dagger B\Phi$ of Chapter 10 (check `mode_generator_B_selfadjoint`). For the three test cases $(m, k, q) = (3, 4, 0)$, $(5, 0, 3)$ and $(4, 4, 4)$, with $\omega = \pm5, \pm4, \pm4$, every real-frequency eigenspace has dimension 8 and a Krein form of signature (4,4), and on it $\rho = \omega Q$ exactly (checks `mode_krein_inertia_*` and `mode_emt_*`; the second implementation finds $\rho = +1.25$ and $-1.25$ at $\omega = 1.25$ for $Q = +1$ and $-1$, check `B_krein_signed_energy`). So at every real frequency there are modes of BOTH energy signs: the classical energy of this field is unbounded below. A component of negative classical energy is called **ghost-like**; it is not an established physical state.
+
+**Growing modes.** For $q^2 > m^2 + k^2$ the frequency is imaginary and the mode grows (Chapter 8). In the deflating field the physical extra-time momentum is $qa$, which grows with $a$, so every mode with $q \ne 0$ reaches a **turning point** $a_{\rm turn}$, where $\omega = 0$, and grows after it: the deflation drives the growth. The field-equation implementation B measures, past the turning point $a_{\rm turn} = 1.8433886$, the growth rate 0.54337468 against the adiabatic estimate 0.55114035 (check `B_growth_rate`).
+
+**The adiabatic gas, line by line.** In the deflating local model (the warp frozen at one hidden position: an APPROXIMATION) a mode has $\omega^2 = m^2 + k^2/a^2 - q^2a^2$, its Krein charge is an adiabatic invariant, and its energy density is $\rho_i = \omega_iQ_i \propto \omega_i$. Under B the observer identity gives $w_{\rm eff}(B) = -\frac13\,d\ln\rho_i/d\ln a = -\frac13\,d\ln\omega_i/d\ln a$.
+
+$$
+\ln\omega = \tfrac12\ln\big(m^2 + k^2a^{-2} - q^2a^2\big), \qquad \frac{d\ln\omega}{d\ln a} = \frac{-k^2a^{-2} - q^2a^2}{\omega^2} .
+$$
+
+Rule: as in Section 22.18, with $d(a^{-2})/d\ln a = -2a^{-2}$ and $d(a^2)/d\ln a = 2a^2$; the factor $\frac12$ cancels the factors 2.
+
+$$
+\varepsilon_i = w_{\rm eff}(B)_i = \frac{k^2/a^2 + q^2a^2}{3\,\omega_i^2} \ \ge\ 0 .
+$$
+
+Rule: multiply by $-\frac13$; both terms of the numerator are $\ge 0$, and $\omega^2 > 0$ for a real frequency. The extra-time momentum RAISES $\varepsilon$: its pressure is negative, which increases $X$ (checks `wkb_mode_gas_conservation`, `wkb_epsilon_sign_free`). For a mixture of components (check `mixture_weighted_average`):
+
+$$
+w_{\rm eff}(B) = \frac{\sum_i\varepsilon_i\rho_i}{\sum_i\rho_i}, \qquad w_{\rm eff}(C) = \frac{\sum_i\varepsilon_i\rho_i}{\sum_i\rho_i} - 1 .
+$$
+
+**No crossing without a ghost.** If every $\rho_i \ge 0$, the first fraction is an average of numbers $\varepsilon_i \ge 0$ with weights $\rho_i \ge 0$, so it is $\ge 0$: $w_{\rm eff}(B) \ge 0$ and $w_{\rm eff}(C) \ge -1$ at every $a$. A crossing of $-1$ needs the numerator to change sign, that is a component with $\rho_i < 0$: negative classical energy, a ghost-like component. PROVED within the adiabatic model (`Revision/dark_sector/dirac16complex00/eos-theory.json`, key `wkb.theorem`). The only phantom value without negative energy is the constant ratio of a condensate with $-2 < u < -1$ (Section 22.18), which is not the observer's $w_{\rm eff}$.
+
+**The models.** Each model is normalised to total energy density 1 at $a = 1$ and read under C unless stated. The parameters marked CHOSEN were fixed so that the model reproduces an observed number; that number is then an input, NOT an output (`eos-theory.json`, key `models`):
+
+| model | content | CHOSEN parameters |
+| --- | --- | --- |
+| M1 | condensate, an exact solution | $u = \lambda S/m$; the ratio is $-0.764$ at $u = -382/441$ (CHOSEN) |
+| M2 | positive-energy gas with $q = 0$ | $k^2/(k^2 + m^2) = 417/1000$ at $a = 1$, CHOSEN for $w_0 = -0.861$ |
+| M3 | one positive-energy extra-time mode, $k = 0$ | $s = q^2/m^2 = 417/1417$, CHOSEN for $w_0 = -0.861$ |
+| M4 | condensate plus a positive extra-time mode | $s = 264037/403037$ and the mode share $\Omega_q = 57963/264037$, both CHOSEN so that the tangent is $(-0.861, -0.60)$ |
+| M5 | as M4 plus a GHOST-LIKE part: massless modes of negative energy $-G/a$ | $G = 3/10$ (a stated choice); $s$ and $\Omega_q$ CHOSEN so that the fit over $1/2 \le a \le 1$ is $(-0.861, -0.60)$ |
+
+M2 line by line, with $r = k^2/m^2$ and $q = 0$: $\varepsilon = (r/a^2)/(3(1 + r/a^2)) = r/(3(r + a^2))$; at $a = 1$ this is $\frac13\,r/(1 + r) = \frac13\,k^2/(k^2 + m^2)$, and setting it to $0.139$ (so that $w_{\rm eff}(C) = -0.861$) gives $k^2/(k^2 + m^2) = 0.417$. Its derivative is $dw/da = -\frac23\,ra/(r + a^2)^2$, so $w_a = \frac23\,r/(1 + r)^2 = \frac23 \cdot 0.417 \cdot 0.583 = 0.162074$ (using $r/(1 + r) = 0.417$ and $1/(1 + r) = 0.583$): freezing (check `M2_tangent_exact`). Under B the same model has $w_{\rm eff} = \frac13\,k^2/(k^2 + m^2a^2)$, from $1/3$ to 0: the dark-matter-like law of dirac16complex00. M3 with $k = 0$: $w_{\rm eff}(C) = -1 + \frac13\,sa^2/(1 - sa^2) \ge -1$; at $a = 1$, $s/(1 - s) = 0.417$ gives $s = 417/1417$, and $w_a = -\frac23\,s/(1 - s)^2 = -0.393926$: thawing; the turning point is at $a_{\rm turn} = 1/\sqrt{s} = 1.8434$ (check `M3_tangent_exact`).
+
+The resulting CPL numbers under C (tangent; least-squares fit over $1/2 \le a \le 1$; the constant-$w$ proxy, the mean of $w(a)$ over that range; records `M2_tangent_exact` to `M5_without_ghost_no_crossing` of `python-derive-eos.json`; Notebook 22b, In [8] and Figure 22b.5):
+
+| model | tangent $w_0$ | tangent $w_a$ | fit $w_0$ | fit $w_a$ | proxy | crosses $-1$? |
+| --- | --- | --- | --- | --- | --- | --- |
+| M1 | $-1$ | 0 | $-1$ | 0 | $-1$ | no |
+| M2 | $-0.861$ | $+0.162074$ | $-0.8655$ | 0.2173 | $-0.8112$ | no |
+| M3 | $-0.861$ | $-0.393926$ | $-0.8734$ | $-0.2196$ | $-0.9283$ | no |
+| M4 | $-0.861$ | $-0.600$ | $-0.8832$ | $-0.2203$ | $-0.9383$ | no |
+| M5 | $-0.8396$ | $-1.0399$ | $-0.861$ | $-0.600$ | $-1.011$ | at $a = 0.7791$ |
+
+- M4: $s = 0.6551$, $\Omega_q = 0.2195$. Its $w$ never crosses $-1$: the smallest $w_{\rm eff}(C)$ over $a = 1/300, \dots, 1$ is $-0.999999214228$ (check `M4_never_phantom`). The phantom past $w_0 + w_a = -1.461$ belongs to the straight CPL line, not to the model. Its extra-time mode reaches its turning point at $a_{\rm turn} = 1.2355$ and then grows without bound. Under B or in the ratio, M4 is not dark energy ($w \ge 0$).
+- M5: $s = 0.5678$, $\Omega_q = 0.5947$, condensate share $0.7053$; its $w$ crosses $-1$ at $a = 0.7791$ (the observed line at 0.7683), and without its ghost-like part it does not cross at all (checks `M5_crosses_minus_1`, `M5_without_ghost_no_crossing`). INTERPRETATION, as in the record: because $s$ and $\Omega_q$ were chosen so that the fit equals the observed line, a crossing close to the line's crossing is expected and is not an independent agreement.
+- Implementation B rebuilds M2 to M5 from solutions of the full 16-component field equation with the author's gammas and agrees with A to within 0.00083082726 in every tangent, fit and proxy; it finds the M5 crossing at $a = 0.77905405$ (check `B_vs_A_M5_crossing` of `python-independent-numerics.json`).
+
+**The constant-$w$ proxy is not the supernova fit.** Applied to the observed CPL line itself, the mean of $w(a)$ is $-1.011$ over $1/2 \le a \le 1$ and $-1.061$ over $1/3 \le a \le 1$ (check `unite_line_fit_proxy`), not $-0.764$: the supernova constant-$w$ fit weights the data, which no part of the record computes.
+
+**The comparison with the observed values.** Every match is labelled with the number of parameters CHOSEN for it:
+
+| observed value | dirac16complex | dirac16complex00 | by construction? |
+| --- | --- | --- | --- |
+| constant $w = -0.764$ | condensate ratio at $u = -382/441$; mixture under C with gas share 0.6807 (proxy; slope $+0.0603$) | condensate ratio at $u = -382/441$, $\lambda < 0$ | yes: one parameter for one number |
+| $w_0 = -0.861$ | mixture under C with gas share 0.436703: $w_a = 0.067014$, freezing | M2 ($w_a = +0.162074$), M3 ($w_a = -0.393926$) | yes: one parameter for one number |
+| $(w_0, w_a) = (-0.861, -0.60)$ | not reached: gas $\lvert w_a\rvert \le 0.030371$; ratio mixtures never closer than 0.600001 | M4 tangent exactly; M5 fit exactly | yes: two parameters for two numbers |
+| crossing of $-1$ at $a = 0.7683$ | no crossing in any computed state | only M5, with a ghost-like part: $a = 0.7791$ | the fit by construction; the ghost share a stated choice |
+
+A model with as many tuned parameters as matched numbers reproduces them by construction and is NOT a prediction. Nothing in the record selects the populations of M2 to M5, the mixture shares or the condensate's $u$. What is NOT tuned are the signs and the ranges: for positive-energy content $w_{\rm eff}(C) \ge -1$; every computed state of dirac16complex has $X \ge 0$; the computed gas has the thawing sign with $\lvert w_a\rvert \le 0.030371$; gas-condensate mixtures are freezing; M4, tuned to the observed tangent, never crosses $-1$.
+
+### 22.20 Example: the dark-sector numbers, reproduced from the record (Notebook 22b)
+
+Notebook 22b reads the committed outputs of the dark-sector record: the table `Revision/dark_sector/dirac16complex/outputs/eos-history.csv` (energy, pressures and $dw_{\rm eff}/da_4$ of the 14 Kohn-Sham series with nonzero energy, 41 slices each), the summary `eos-summary.json` and the independent free-gas output `independent-free-gas.json` in the same folder, and the model record `Revision/dark_sector/dirac16complex00/eos-theory.json` with the field-equation results `results/independent-numerics.json` of the same folder; and it checks that every check of the five dark-sector reports is PASS. It then tests the energy balance and the observer identities of Section 22.17 on the computed history, reproduces the band and the tangents of the gas, the bulk and brane bands, the condensate ratio and its phantom window, the mixture laws, and the models M2 to M5 with their crossings, each number asserted against its record file and check, and draws five figures. It needs only numpy and matplotlib, takes a few seconds (the recorded build and check runs of 2026-10-08 took 3.0 and 2.9 seconds) and ends with the line ALL 27 CHECKS PASSED (notebook 22b).
+
+<!-- NOTEBOOK 22b -->
+
+### 22.23 Line-by-line walk-through of Notebook 22b
+
+The notebook has 9 code cells, In [1] to In [9]. This section explains every line of In [2] to In [9], in order; the printed output of each cell is in Section 22.22 under the label Out [k], and the five figures are shown there with their captions. For each figure this section adds what the student should see and why.
+
+**In [1], the set-up cell.** It is the set-up cell of every notebook of this book, with the name `"22b"`; Section 22.12 explains each of its lines for Notebook 22a, and only the name differs. Its comment lines repeat the run instructions of Section 22.21. Its code finds the repository folder (`REPO`), decides where files are written (`OUTPUT_ROOT`), and defines the helpers the later cells use: `repository_file(relative)` gives the path of a repository file for reading; `output_file(relative)` the path at which to write one; `say(text)` prints in lines of at most 89 characters; `save_figure(fig, name, caption)` saves a figure as `Revision/textbook/figures/22b_<k>_<name>.png`, records its caption, shows it and prints where it was saved, numbering the figures in the dictionary `FIGURE_NUMBERS`; `check(condition, name, record)` stops the notebook if the condition is false and otherwise prints PASS with the name, and a second line naming the Revision record when `record` is given; `report(label, value)` prints a line RESULT label = value; `all_checks_passed()` prints the last line. The folder name `FIGURE_FOLDER` is `"Revision/textbook/figures"`, and `NOTEBOOK_ID` is `"22b"`. It prints one line.
+
+**In [2], the records.**
+
+```python
+import csv  # reads the CSV tables of the Revision record
+from fractions import Fraction  # exact fractions such as -382/441
+
+import numpy as np  # arrays of numbers and their arithmetic
+```
+
+Three modules: `csv` reads tables stored as CSV files (comma-separated values: one line per row, the entries separated by commas); `Fraction` computes with exact fractions such as $-382/441$, without any rounding; `numpy`, called `np`, holds **arrays** (tables of numbers) and computes with whole arrays at once.
+
+```python
+D16 = "Revision/dark_sector/dirac16complex"  # the record of dirac16complex
+D00 = "Revision/dark_sector/dirac16complex00"  # the record of dirac16complex00
+PALETTE = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300",
+           "#4a3aa7", "#e34948"]  # the colours of the figures, in a fixed order
+```
+
+Two names for the two folders of the dark-sector record, used in every path below, and eight colours written as hexadecimal codes (blue, orange, green, yellow, pink, dark green, violet, red), which the figures use in this order.
+
+```python
+def read_json(relative):
+    """Read a JSON record of the repository into a Python dictionary."""
+    return json.loads(repository_file(relative).read_text(encoding="utf-8"))
+```
+
+`read_json` reads a JSON file of the repository: `repository_file` gives its full path, `.read_text` reads it as text, and `json.loads` turns the text into a Python **dictionary** (pairs of a key and a value).
+
+```python
+REPORTS = {"derive": f"{D16}/reports/derivation-checks.json",
+           "eos": f"{D16}/reports/eos-checks.json",
+           "independent": f"{D16}/reports/independent-checks.json",
+           "derive00": f"{D00}/reports/python-derive-eos.json",
+           "numerics00": f"{D00}/reports/python-independent-numerics.json"}
+EXPECTED = {"derive": 30, "eos": 13, "independent": 9, "derive00": 49,
+            "numerics00": 28}  # the number of checks each report holds
+```
+
+The five check reports of the dark-sector record, each under a short key, and the number of checks each one holds according to the record's own document (`Revision/docs/DARK_SECTOR_HYPOTHESES.md`, section 11.1). A string that starts with `f` is an **f-string**: each name in braces is replaced by its value, so `f"{D16}/reports/eos-checks.json"` is the full repository path.
+
+```python
+for key, relative in REPORTS.items():
+    entries = read_json(relative)["checks"]
+    passed = [entry for entry in entries if entry["verdict"] == "PASS"]
+    say(f"{relative}: {len(passed)} of {len(entries)} checks PASS")
+    check(len(passed) == len(entries) == EXPECTED[key],
+          f"all {EXPECTED[key]} checks of the report {key} are PASS",
+          record=f"{relative}, all checks")
+```
+
+The loop takes the reports one after the other. `entries` is the list of checks of one report, each a dictionary with the keys `name`, `verdict` and `detail`; the **list comprehension** in square brackets keeps those whose verdict is PASS. The cell prints the count, and the check requires that every check passed and that the count is the expected one (the chained comparison `a == b == c` is true when all three are equal). These are the lines of Out [2] that name the five reports.
+
+```python
+with open(repository_file(f"{D16}/outputs/eos-history.csv"), newline="",
+          encoding="utf-8") as handle:
+    rows = list(csv.DictReader(handle))
+COLUMNS = ["N", "a4", "E", "P3", "Pt", "dw_eff_da4"]
+SERIES = {}  # series name -> {column name: numpy array over the slices}
+for name in sorted({row["series"] for row in rows}):
+    mine = [row for row in rows if row["series"] == name]
+    SERIES[name] = {column: np.array([float(row[column]) for row in mine])
+                    for column in COLUMNS}
+```
+
+`with open(...) as handle:` opens the table of the Kohn-Sham history and closes it when the indented line has run; `csv.DictReader` reads it row by row, each row a dictionary from the column names of the first line to the texts of that row, and `list` collects all rows. `COLUMNS` names the six columns the notebook uses: the number of quanta $N$, the slice $a_4$, the energy $E$, the integrated pressures $P_3$ and $P_t$, and the record's derivative $dw_{\rm eff}/da_4$. The braces with `for` inside, `{row["series"] for row in rows}`, make a **set** of the series names (each name once), which `sorted` puts in alphabetical order so that every run treats them in the same order. For each series, `mine` keeps its rows, and the inner dictionary comprehension makes, for each column, a numpy array of the numbers of that column (`float` turns a text into a number).
+
+```python
+GAS = [name for name in SERIES if SERIES[name]["N"][0] in (136, 688)]
+summary = read_json(f"{D16}/outputs/eos-summary.json")
+free_gas = read_json(f"{D16}/outputs/independent-free-gas.json")
+theory00 = read_json(f"{D00}/eos-theory.json")
+numerics00 = read_json(f"{D00}/results/independent-numerics.json")
+```
+
+`GAS` lists the ten series of the gas proper, those with $N = 136$ or 688 (the four series with $N = 8$ hold only brane zero modes). The other four lines read the summary of the equation of state of dirac16complex, the independent free-gas computation, the model record of dirac16complex00 (implementation A) and the results of its field-equation implementation B.
+
+```python
+say(f"{len(rows)} rows read: {len(SERIES)} series, {len(GAS)} of them with "
+    "N = 136 or 688")
+check(all(len(SERIES[name]["a4"]) == 41 for name in SERIES)
+      and all(np.all(np.diff(SERIES[name]["a4"]) > 0) for name in SERIES),
+      "every series has 41 slices in increasing order of a4")
+```
+
+The cell prints the counts (574 rows, 14 series, 10 gas series) and checks that every series has 41 slices and that $a_4$ increases along each (`np.diff` gives the differences of neighbouring entries; `np.all(... > 0)` is true when all are positive). The finite differences of the next cells rely on this order.
+
+**In [3], the observer's equation of state on the gas.**
+
+```python
+def x_over_e(name):
+    """X/E = (P3 - Pt)/E of one series at its 41 slices."""
+    return (SERIES[name]["P3"] - SERIES[name]["Pt"]) / SERIES[name]["E"]
+```
+
+`x_over_e` returns the array of $X/E = (P_3 - P_t)/E$ of one series; numpy subtracts and divides the arrays entry by entry.
+
+```python
+gas = SERIES["N688_lam0"]  # the gas of N = 688 quanta with lambda = 0
+a4, E = gas["a4"], gas["E"]
+X = gas["P3"] - gas["Pt"]
+h = a4[1] - a4[0]  # the step 0.05 between two slices
+```
+
+The series N688_lam0 is the main example. `a4` and `E` are its slices and energies, `X` its $X = P_3 - P_t$, and `h` the distance between two neighbouring slices, $0.05$.
+
+```python
+def derivative(f):
+    """df/da4 at the slices 2 to 38: fourth-order central differences."""
+    return (f[:-4] - 8 * f[1:-3] + 8 * f[3:-1] - f[4:]) / (12 * h)
+```
+
+`derivative` computes $df/da_4$ from the values of $f$ at the slices by the **fourth-order central difference** $f'(x) \approx [f(x - 2h) - 8f(x - h) + 8f(x + h) - f(x + 2h)]/(12h)$, whose error shrinks like $h^4$ (Chapter 2 treats the order of a numerical method). The four **slices** of the array do the shifting: `f[:-4]` holds the entries 0 to 36, that is $f(x - 2h)$ for the slices 2 to 38; `f[1:-3]` the entries 1 to 37, $f(x - h)$; `f[3:-1]` the entries 3 to 39, $f(x + h)$; and `f[4:]` the entries 4 to 40, $f(x + 2h)$. So the result holds the derivative at the interior slices 2 to 38; the two slices at each end have no two neighbours on both sides.
+
+```python
+worst = 0.0  # the largest relative violation of dE/da4 = -3X
+for name in GAS:
+    E_n = SERIES[name]["E"]
+    X_n = SERIES[name]["P3"] - SERIES[name]["Pt"]
+    violation = np.max(np.abs(derivative(E_n) + 3 * X_n[2:-2])) / np.max(np.abs(E_n))
+    worst = max(worst, violation)
+report("largest |dE/da4 + 3X|/max|E| over the 10 gas series", f"{worst:.3e}")
+check(f"{worst:.3e}" == "1.235e-07", "the energy balance dE/da4 = -3X on the data",
+      record=f"{D16}/reports/eos-checks.json, "
+             "check conservation_dE_da4_equals_minus_3X")
+```
+
+The energy balance of Section 22.17, $dE/da_4 = -3X$, tested on the data. For each gas series the loop differentiates the solver's energies $E$ and compares with $-3X$ from the solver's pressure integrals, at the interior slices (`X_n[2:-2]` drops the two end entries on each side, to match). The violation is measured relative to the largest energy of the series, and `worst` keeps the largest violation over the ten series. Printed with three digits it is $1.235 \times 10^{-7}$, the number of the record's check (Out [3]): the two sides agree to about seven digits, the accuracy of the solver and of the finite differences. The format `:.3e` writes a number in scientific notation with three digits after the point.
+
+```python
+rho4_AB = E * np.exp(-3 * a4)  # definitions A and B: rho4 ~ E e^(-3 a4)
+rho4_C = E  # definition C: rho4 ~ E
+w_AB = -1 - derivative(np.log(rho4_AB)) / 3  # -1 - (1/3) d ln rho4/d ln a
+w_C = -1 - derivative(np.log(rho4_C)) / 3
+```
+
+The observer's density under the definitions A and B ($E\,e^{-3a_4}$, up to a constant factor, which does not change a logarithmic derivative) and under C ($E$). The next two lines compute $w_{\rm eff} = -1 - \frac13\,d\ln\rho_4/d\ln a$ directly from its definition, with $d\ln a = da_4$: `np.log` takes the natural logarithm of every entry, and `derivative` differentiates it.
+
+```python
+error_AB = np.max(np.abs(w_AB - (X / E)[2:-2]))
+error_C = np.max(np.abs(w_C - (X / E - 1)[2:-2]))
+report("largest |w_eff(A, B) - X/E| from the dilution", f"{error_AB:.1e}")
+report("largest |w_eff(C) - (X/E - 1)| from the dilution", f"{error_C:.1e}")
+check(max(error_AB, error_C) < 1e-7,
+      "w_eff(A) = w_eff(B) = X/E and w_eff(C) = X/E - 1 on the data",
+      record=f"{D16}/reports/derivation-checks.json, checks "
+             "w_eff_A_equals_X_over_E and w_eff_C_equals_X_over_E_minus_1")
+```
+
+The dilution-inferred values are compared with the identities $X/E$ and $X/E - 1$ of Section 22.17. Both differences are at most $1.7 \times 10^{-8}$ (Out [3]): on the computed history the identities hold to the accuracy of the differences. The record proves them exactly with sympy; this is the numerical test.
+
+```python
+ratios = np.concatenate([x_over_e(name) for name in GAS])
+report("X/E of N688_lam0 at a4 = 0 and a4 = 2", f"{X[0] / E[0]:.4f}, "
+       f"{X[-1] / E[-1]:.4f}")
+report("X/E over all gas series, smallest and largest",
+       f"{ratios.min():.6f}, {ratios.max():.6f}")
+report("w_eff(C) over all gas series, smallest and largest",
+       f"{ratios.min() - 1:.6f}, {ratios.max() - 1:.6f}")
+```
+
+`np.concatenate` joins the ten arrays of $X/E$ into one array of 410 numbers. The cell prints $X/E$ of N688_lam0 at the first and the last slice (0.2929 and 0.3183; `X[-1]` is the last entry), the smallest and largest $X/E$ of all gas series (0.292893 and 0.328105), and the same moved down by 1, the range under C ($-0.707107$ to $-0.671895$).
+
+```python
+check(f"{ratios.min():.6f}" == "0.292893" and f"{ratios.max():.6f}" == "0.328105",
+      "the gas is radiation-like: X/E in [0.292893, 0.328105]",
+      record=f"{D16}/reports/eos-checks.json, check gas_radiation_like_band")
+check(all(np.all(np.diff(x_over_e(name)) > 0) for name in GAS),
+      "X/E rises with a4 in every gas series (toward 1/3, not toward 0)",
+      record=f"{D16}/reports/eos-checks.json, "
+             "check gas_X_over_E_rises_toward_one_third")
+```
+
+The two checks compare the band with the six digits of the record's check, and require that $X/E$ increases from each slice to the next in every gas series: the gas approaches radiation, it does not fall toward dust.
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(9.0, 3.8))
+for colour, name in zip(PALETTE, ["N136_lam0", "N688_lam0", "N688_lamp2"]):
+    left.plot(SERIES[name]["a4"], x_over_e(name), color=colour, label=name)
+    right.plot(SERIES[name]["a4"], x_over_e(name) - 1, color=colour, label=name)
+```
+
+`plt.subplots(1, 2, ...)` makes a figure with two panels side by side, 9.0 by 3.8 inches, and names them `left` and `right`. `zip` pairs the first three colours with three series; each series is drawn in the left panel as $X/E$ (definitions A and B) and in the right panel as $X/E - 1$ (definition C), with its name as the label of the legend.
+
+```python
+left.axhline(1 / 3, color="black", linestyle="--", linewidth=0.8,
+             label="radiation, 1/3")
+right.axhline(-2 / 3, color="black", linestyle="--", linewidth=0.8,
+              label="1/3 - 1")
+left.set_title("definitions A and B: $w_{eff} = X/E$")
+right.set_title("definition C: $w_{eff} = X/E - 1$")
+```
+
+`axhline` draws a horizontal line across a panel: the radiation value $1/3$ on the left (dashed: the line style written as two minus signs) and the same value moved down by 1, $-2/3$, on the right. The titles name the definitions; text between dollar signs is set as mathematics.
+
+```python
+for ax in (left, right):
+    ax.set_xlabel("$a_4$ along the prescribed history")
+    ax.legend(fontsize=8)
+left.set_ylabel("$w_{eff}$")
+save_figure(fig, "gas_three_definitions",
+            "The equation of state $w_{eff}$ that a 3-space observer infers from "
+...)
+```
+
+Both panels get the label of the horizontal axis and a legend; the left one the label of the vertical axis. `save_figure` saves the figure as Figure 22b.1 with its caption (shortened here; the full caption is printed under the figure in Section 22.22). **What to see:** the two panels have the same shape, moved by exactly 1. On the left, every curve rises toward the dashed radiation line, the larger gas ($N = 688$) a little lower than the smaller one, and the interaction ($\lambda_2$, green) changes almost nothing. On the right, the same curves lie between $-0.71$ and $-0.67$: far above $-1$, and rising, which is the thawing sign. The physics of the gas is the same in both panels; only the ASSUMED definition of the observer's density differs.
+
+**In [4], the CPL tangents of the gas.**
+
+```python
+TODAY = [0.5, 1.0, 1.5, 2.0]  # the four choices of a4,today of the record
+index = [int(round(t / h)) for t in TODAY]  # their positions in the slice list
+recorded = {entry["series"]: entry for entry in summary["series"]}
+say("a4,today   w0 under C   wa (every definition)")
+differences = []
+```
+
+The four values of $a_{4,\rm today}$ that the record uses, and their positions in the list of slices: $0.5/0.05 = 10$, then 20, 30 and 40 (`round` removes the tiny error of the division, and `int` makes a whole number). `recorded` maps each series name to its entry of the summary. The cell prints a header line and starts an empty list `differences`.
+
+```python
+for t, i, entry in zip(TODAY, index, recorded["N688_lam0"]["cplTangent"]):
+    w0 = X[i] / E[i] - 1  # w_eff(C) today
+    wa = -gas["dw_eff_da4"][i]  # w_a = -dw/da at a = 1, and da = da4 there
+    say(f"{t:8.1f}   {w0:10.4f}   {wa:12.5f}")
+    differences += [abs(w0 - entry["w_eff_C"]["w0"]), abs(wa - entry["w_eff_C"]["wa"])]
+check(max(differences) < 1e-12, "the CPL tangents of N688_lam0",
+      record=f"{D16}/outputs/eos-summary.json, key cplTangent of N688_lam0")
+```
+
+For each choice of today, the tangent of Section 22.18: $w_0$ is $w_{\rm eff}(C) = X/E - 1$ at that slice, and $w_a = -dw_{\rm eff}/da_4$ there, read from the record's column `dw_eff_da4` (the derivative of $X/E$; under C the constant $-1$ does not change it). The format `8.1f` writes a number in 8 places with one digit after the point. The two numbers are compared with the summary's tangent of the same series; `+=` appends both differences to the list. The table of Out [4] is the table of Section 22.18.
+
+```python
+tangents = [-SERIES[name]["dw_eff_da4"][i] for name in GAS for i in index]
+report("tangent wa of every gas series, smallest and largest",
+       f"{min(tangents):.6f}, {max(tangents):.6f}")
+check(f"{min(tangents):.6f}" == "-0.020523" and f"{max(tangents):.6f}" == "-0.008894"
+      and f"{ratios.min() - 1:.6f}" == "-0.707107"
+      and f"{ratios.max() - 1:.6f}" == "-0.671895",
+      "every gas tangent wa is negative (thawing sign) and far below 0.60",
+      record=f"{D16}/reports/eos-checks.json, check gas_cpl_thawing_sign_small")
+```
+
+The tangent $w_a$ of every gas series at every choice of today (40 numbers; the comprehension with two `for` runs over both). The smallest is $-0.020523$ and the largest $-0.008894$: all negative, the thawing sign, and at most about one thirtieth of the observed $0.60$. The check compares them, and the range of $w_{\rm eff}(C)$ from In [3], with the six digits of the record's check.
+
+**In [5], the bulk band and the brane band.**
+
+```python
+bulk = free_gas["bulkBand_n2_1"]  # the lowest massive (odd-parity) level, shell 1
+brane = free_gas["braneBand_n2_1"]  # the brane-band level of the same shell
+a4_band = np.array([point["a4"] for point in bulk])
+w_bulk = np.array([point["w_eff_A_B"] for point in bulk])
+w_brane = np.array([point["w_eff_A_B"] for point in brane])
+```
+
+The independent free-gas output holds two lists of points, one for the lowest level of the massive bulk band of the shell $n_2 = 1$ and one for the brane-band level of the same shell, each point a dictionary with the slice `a4` and the value `w_eff_A_B` of $w_{\rm eff}$ under A and B. The three arrays collect the slices ($-3$ to 4 in steps of $0.25$) and the two curves.
+
+```python
+report("w_eff(A) of the bulk level at a4 = -3 and a4 = 4",
+       f"{w_bulk[0]:.6f}, {w_bulk[-1]:.3e}")
+report("ratio w(4)/w(3.75) of the bulk level", f"{w_bulk[-1] / w_bulk[-2]:.6f}")
+report("w_eff(A) of the brane level, smallest and largest",
+       f"{w_brane.min():.6f}, {w_brane.max():.6f}")
+```
+
+The first and last value of the bulk level (0.239626 and $2.268 \times 10^{-3}$), the ratio of its last two values (0.765177, which Section 22.18 compares with $e^{-0.25}$), and the range of the brane level (0.291594 to 0.333275).
+
+```python
+check(a4_band[0] == -3 and a4_band[-1] == 4 and np.all(np.diff(w_bulk) < 0)
+      and f"{w_bulk[0]:.6f}" == "0.239626" and f"{w_bulk[-1]:.3e}" == "2.268e-03",
+      "the bulk level falls from 0.239626 to 2.268e-03 (dark-matter-like)",
+      record=f"{D16}/reports/independent-checks.json, check bulk_band_dark_matter_law")
+check(f"{w_brane.min():.6f}" == "0.291594" and f"{w_brane.max():.6f}" == "0.333275",
+      "the brane level stays between 0.291594 and 0.333275 (radiation-like)",
+      record=f"{D16}/reports/independent-checks.json, check brane_band_radiation_law")
+```
+
+The first check requires the range of slices, that the bulk level falls at every step (all differences negative), and its two end values as the record's check states them; the second the range of the brane level.
+
+```python
+fig, ax = plt.subplots(figsize=(7.0, 4.2))
+ax.plot(a4_band, w_bulk, "o-", color=PALETTE[1], markersize=3,
+        label="bulk band (massive), one level")
+ax.plot(a4_band, w_brane, "s-", color=PALETTE[0], markersize=3,
+        label="brane band (massless at k = 0), one level")
+ax.plot(a4, X / E, color=PALETTE[2], linewidth=2.5, label="the gas N688_lam0")
+```
+
+One panel. The bulk level is drawn in orange with small circles (`"o-"`: points joined by lines), the brane level in blue with small squares, and the gas N688_lam0 of In [3] as a thick green line over its range $0 \le a_4 \le 2$.
+
+```python
+ax.axhline(1 / 3, color="black", linestyle="--", linewidth=0.8)
+ax.axhline(0.0, color="black", linestyle=":", linewidth=0.8)
+ax.set_xlabel("$a_4$")
+ax.set_ylabel("$w_{eff}$ under definitions A and B")
+ax.legend(fontsize=8)
+save_figure(fig, "bulk_and_brane_bands",
+            "Which quanta of dirac16complex behave like dark matter. Horizontal "
+...)
+```
+
+The radiation value $1/3$ (dashed) and the dust value 0 (dotted), the axis labels, the legend, and Figure 22b.2. **What to see:** only the orange curve goes from near radiation toward dust, the dark-matter-like behaviour of the flat-limit law of Section 22.18. The blue curve dips slightly and then climbs to $1/3$, and the green gas, which consists of brane-band quanta, follows the blue behaviour. The time-varying dark-matter-like equation of state exists in the theory, but in a band that the computed states leave empty.
+
+**In [6], the condensate.**
+
+```python
+u = Fraction(-382, 441)  # lambda S/m, CHOSEN so that the ratio is -0.764
+ratio = u / (2 + u)  # p/rho = (lambda S^2/2)/(m S + lambda S^2/2) = u/(2 + u)
+density = 1 + u / 2  # rho/(m S)
+report("the ratio u/(2 + u) at u = -382/441", f"{ratio} = {float(ratio)}")
+report("rho/(m S) = 1 + u/2", f"{density} = {float(density):.12f}")
+```
+
+`Fraction(-382, 441)` is the exact fraction $-382/441$; arithmetic with it stays exact. The ratio $u/(2 + u)$ of Section 22.18 comes out as the fraction $-191/250 = -0.764$, and $\rho/(mS) = 1 + u/2 = 250/441 = 0.566893424036$ (Out [6]; `float` turns a fraction into a decimal number).
+
+```python
+check(ratio == Fraction(-764, 1000)
+      and abs(float(u) - summary["condensate"]["u_for_ratio_minus_0p764"]) < 1e-12,
+      "the condensate ratio is -0.764 at u = -382/441 (one CHOSEN parameter)",
+      record=f"{D16}/reports/derivation-checks.json, "
+             "check condensate_ratio_equal_unite_constant_w")
+```
+
+The ratio must equal $-764/1000$ exactly (`Fraction` reduces it to $-191/250$ and compares exactly), and $u$ must agree with the value the summary records.
+
+```python
+grid = np.linspace(-3.0, 1.0, 4001)
+grid = grid[np.abs(grid + 2) > 1e-9]  # leave out the pole u = -2
+below = grid / (2 + grid) < -1  # where the ratio is phantom
+check(np.array_equal(below, (grid > -2) & (grid < -1)),
+      "the ratio is below -1 exactly for -2 < u < -1",
+      record=f"{D00}/reports/python-derive-eos.json, "
+             "check condensate_phantom_interval")
+```
+
+A test of the phantom window derived in Section 22.18 on 4001 values of $u$ from $-3$ to 1 (step 0.001). The second line removes the value $u = -2$, where the ratio has a zero denominator: the condition in square brackets is an array of true and false, and indexing with it keeps the entries where it is true. `below` marks where the ratio is below $-1$; `(grid > -2) & (grid < -1)` marks the window (the operator between the two conditions means "and", applied entry by entry); `np.array_equal` requires that the two markings agree at every point.
+
+```python
+fig, ax = plt.subplots(figsize=(7.0, 4.2))
+for part in (grid[grid < -2], grid[grid > -2]):
+    ax.plot(part, part / (2 + part), color=PALETTE[0])
+ax.axvspan(-2, -1, color=PALETTE[7], alpha=0.12, label="phantom ratio, -2 < u < -1")
+```
+
+The ratio is drawn in two pieces, left and right of the pole, so that no line jumps across it. `axvspan` shades the vertical band $-2 < u < -1$ in pale red (`alpha=0.12` makes it nearly transparent).
+
+```python
+ax.axhline(0.0, color="black", linestyle="--", linewidth=0.8,
+           label="$w_{eff}$, definitions A and B")
+ax.axhline(-1.0, color="black", linestyle=":", linewidth=0.8,
+           label="$w_{eff}$, definition C")
+ax.plot([float(u)], [float(ratio)], "o", color=PALETTE[1],
+        label="CHOSEN: u = -382/441 gives -0.764")
+ax.set_ylim(-4.0, 4.0)
+```
+
+The two values that the observer infers for any condensate, 0 (A, B; dashed) and $-1$ (C; dotted), and the CHOSEN point in orange; `set_ylim` shows the vertical range $-4$ to 4, so that the steep branches near the pole are cut off.
+
+```python
+ax.set_xlabel("$u = \\lambda S/m$")
+ax.set_ylabel("ratio $p/\\rho$")
+ax.legend(fontsize=8, loc="lower right")
+save_figure(fig, "condensate_ratio",
+            "The constant ratio $p/\\rho = u/(2 + u)$ of a homogeneous condensate "
+...)
+```
+
+The axis labels (the doubled backslash `\\` puts one backslash into the text, which the mathematics needs before `lambda` and `rho`), the legend in the lower right corner, and Figure 22b.3. **What to see:** the ratio can take any value, and the value $-0.764$ is one point on the curve, reached by choosing $u$; it says nothing about the observer, whose two readings are the horizontal lines, the same for every $u$. Left of the pole the ratio is above 1, right of it the curve climbs from far below through the phantom band to $-1$ at $u = -1$, to 0 at $u = 0$ and on toward 1.
+
+**In [7], the mixtures.**
+
+```python
+r0 = Fraction(417, 583)  # gas/condensate energy today, CHOSEN for w0(C) = -0.861
+w0_exact = r0 / (3 * (r0 + 1)) - 1  # w_eff(C) today
+wa_exact = r0 / (3 * (r0 + 1) ** 2)  # w_a of the exact law: positive (freezing)
+report("exact law: w0 under C and wa", f"{w0_exact}, {float(wa_exact):.6f}")
+check(w0_exact == Fraction(-861, 1000) and f"{float(wa_exact):.6f}" == "0.081037",
+      "radiation plus condensate with w0(C) = -0.861 has wa = 0.081037 > 0",
+      record=f"{D16}/reports/derivation-checks.json, "
+             "check mixture_C_matching_w0_unite")
+```
+
+The exact law of Section 22.18 for a radiation-like gas plus a condensate, with exact fractions: at the CHOSEN $r_0 = 417/583$, $w_0$ under C is exactly $-861/1000$ and $w_a = 0.081037$, positive (`**` is the power).
+
+```python
+def mixture_w_C(share):
+    """w_eff(C) of the gas N688_lam0 plus a condensate along the history; the gas
+    has the energy share "share" today (a4 = 2)."""
+    condensate = E[-1] * (1 - share) / share  # constant condensate energy
+    return X / (E + condensate) - 1
+```
+
+`mixture_w_C` mixes the computed gas with a condensate and returns $w_{\rm eff}(C)$ at all 41 slices. Today is the last slice, $a_4 = 2$. If the gas has the share `share` of the energy today, the condensate energy is $E_c = E(2)(1 - \text{share})/\text{share}$ (from $E(2)/(E(2) + E_c) = \text{share}$), constant in time. The condensate adds energy but no $X$, so the mixture has $w_{\rm eff}(C) = X/(E + E_c) - 1$.
+
+```python
+share = 0.139 / (X[-1] / E[-1])  # CHOSEN: gives w_eff(C) = -0.861 today
+w_mix = mixture_w_C(share)
+```
+
+Today $w_{\rm eff}(C) = \text{share} \cdot X/E - 1$, so $w_{\rm eff}(C) = -0.861$ needs $\text{share} = 0.139/(X/E)$ at $a_4 = 2$: $0.139/0.3183 = 0.436703$. This share is CHOSEN; `w_mix` is the mixture's history.
+
+```python
+# w_a = -dw/da4 at a4 = 2, one-sided fourth-order differences (as the record)
+wa_mix = -(3 * w_mix[-5] - 16 * w_mix[-4] + 36 * w_mix[-3] - 48 * w_mix[-2]
+           + 25 * w_mix[-1]) / (12 * h)
+recorded_mix = summary["mixture_C_w0_minus_0p861"]
+```
+
+At the last slice there are no neighbours on the right, so the derivative uses the **one-sided fourth-order difference** $f'(x) \approx [3f(x - 4h) - 16f(x - 3h) + 36f(x - 2h) - 48f(x - h) + 25f(x)]/(12h)$, the same stencil as the record; `w_mix[-5]` is the fifth entry from the end. The minus sign makes it $w_a$. `recorded_mix` is the record's entry for this mixture.
+
+```python
+report("gas share today for w_eff(C) = -0.861 (CHOSEN)", f"{share:.6f}")
+report("w0 and wa of that mixture under C", f"{w_mix[-1]:.3f}, {wa_mix:.6f}")
+check(abs(share - recorded_mix["gas_fraction_today"]) < 1e-12
+      and abs(wa_mix - recorded_mix["wa"]) < 1e-10 and wa_mix > 0,
+      "the computed gas mixture with w0(C) = -0.861 is freezing, wa = 0.067014",
+      record=f"{D16}/reports/eos-checks.json, check mixture_C_w0_unite_has_positive_wa")
+```
+
+The share 0.436703 and $(w_0, w_a) = (-0.861, 0.067014)$ are printed and compared with the record: $w_a$ is positive, freezing, the opposite sign to the observed $-0.60$.
+
+```python
+a_obs = np.exp(a4 - 2.0)  # the observer scale factor, a = 1 today (a4 = 2)
+fig, ax = plt.subplots(figsize=(7.0, 4.2))
+for colour, part in zip(PALETTE, [0.25, share, 0.75, 1.0]):
+    ax.plot(a_obs, mixture_w_C(part), color=colour,
+            label=f"gas share today {part:.3f}")
+ax.plot(a_obs, -0.861 - 0.60 * (1 - a_obs), "k--", label="Unite CPL line")
+ax.axhline(-1.0, color="black", linestyle=":", linewidth=0.8)
+```
+
+The observer's scale factor $a = e^{a_4 - 2}$ runs from $e^{-2} = 0.135$ to 1 over the history. Four mixtures are drawn against it, with the gas shares 0.25, the CHOSEN 0.437, 0.75 and 1 (pure gas), together with the observed CPL line (the style `"k"` followed by two minus signs: black and dashed) and the value $-1$ (dotted).
+
+```python
+ax.set_xlabel("observer scale factor $a = e^{a_4 - 2}$")
+ax.set_ylabel("$w_{eff}$ under definition C")
+ax.legend(fontsize=8)
+save_figure(fig, "mixtures_against_unite",
+            "Mixtures of the computed Kohn-Sham gas N688_lam0 with a condensate, "
+...)
+```
+
+Labels, legend and Figure 22b.4. **What to see:** every curve that contains condensate slopes DOWN toward $-1$ as $a$ grows, because the gas redshifts and the condensate's $-1$ takes over; the observed line slopes UP. The orange curve meets the observed line at $a = 1$ (that is how its share was chosen) and leaves it at once in the opposite direction. No choice of the share turns one slope into the other.
+
+**In [8], the models of dirac16complex00.**
+
+```python
+def model(a, components):
+    """The total energy density and the sum of eps_i rho_i of a WKB model at a
+    (a number or an array).  Each component is (kind, weight at a = 1, s)."""
+    a = np.asarray(a, dtype=float)
+    rho_total, eps_rho = np.zeros_like(a), np.zeros_like(a)
+    for kind, weight, s in components:
+```
+
+`model` evaluates the adiabatic gas of Section 22.19 at the scale factor `a`, which may be one number or an array (`np.asarray` makes an array of it either way). A model is a list of components, each a **tuple** `(kind, weight, s)`: what it is, its energy density at $a = 1$, and its parameter. `rho_total` will hold $\sum_i\rho_i$ and `eps_rho` the sum $\sum_i\varepsilon_i\rho_i$; `np.zeros_like(a)` makes arrays of zeros of the shape of `a`.
+
+```python
+        if kind == "condensate":  # rho constant, eps = 0
+            rho, eps = weight + 0 * a, 0 * a
+        elif kind == "kmode":  # q = 0 and s = k^2/(k^2 + m^2) at a = 1
+            r = s / (1 - s)  # k^2/m^2
+            rho = weight * np.sqrt((r / a**2 + 1) / (r + 1))  # omega(a)/omega(1)
+            eps = (r / a**2) / (3 * (r / a**2 + 1))
+```
+
+A condensate (with $\lambda = 0$) has constant energy density and $\varepsilon = 0$; adding `0 * a` gives the numbers the shape of `a`. A gas of modes with $q = 0$ (`"kmode"`) is described by $s = k^2/(k^2 + m^2)$ at $a = 1$; $r = s/(1 - s)$ is then $k^2/m^2$. Its energy density is $\rho_i \propto \omega = m\sqrt{1 + r/a^2}$, scaled to the weight at $a = 1$, and $\varepsilon = (k^2/a^2)/(3\omega^2) = (r/a^2)/(3(r/a^2 + 1))$, the formula of Section 22.19 with $q = 0$ and $m = 1$.
+
+```python
+        elif kind == "qmode":  # k = 0 and s = q^2/m^2 at a = 1
+            rho = weight * np.sqrt((1 - s * a**2) / (1 - s))
+            eps = s * a**2 / (3 * (1 - s * a**2))
+        else:  # "ghost": massless modes of NEGATIVE classical energy
+            rho, eps = -weight / a, 1 / 3 + 0 * a
+```
+
+An extra-time mode with $k = 0$ (`"qmode"`), $s = q^2/m^2$ at $a = 1$: $\omega = m\sqrt{1 - sa^2}$, so $\rho_i$ is the weight times $\sqrt{(1 - sa^2)/(1 - s)}$, and $\varepsilon = sa^2/(3(1 - sa^2))$. The ghost-like component: massless modes ($\varepsilon = 1/3$) of NEGATIVE energy density $-G/a$, with $G$ the weight.
+
+```python
+        rho_total = rho_total + rho
+        eps_rho = eps_rho + eps * rho
+    return rho_total, eps_rho
+```
+
+Each component adds its $\rho_i$ and its $\varepsilon_i\rho_i$ to the two sums, which the function returns.
+
+```python
+def w_model(a, components):
+    """w_eff under definition C: sum eps_i rho_i / sum rho_i - 1."""
+    rho_total, eps_rho = model(a, components)
+    return eps_rho / rho_total - 1
+```
+
+`w_model` is the mixture formula of Section 22.19 under C.
+
+```python
+def tangent(components, d=1e-3):
+    """CPL tangent w0 = w(1), wa = -dw/da at a = 1 (fourth-order differences)."""
+    f = [float(w_model(1 + k * d, components)) for k in (-2, -1, 1, 2)]
+    slope = (f[0] - 8 * f[1] + 8 * f[2] - f[3]) / (12 * d)  # dw/da at a = 1
+    return float(w_model(1.0, components)), -slope
+```
+
+`tangent` returns $w_0 = w(1)$ and $w_a = -dw/da$ at $a = 1$; the slope is the fourth-order central difference of In [3], with the step $d = 10^{-3}$ in $a$.
+
+```python
+M5_RECORD = theory00["models"]["M5_with_ghost_component"]
+G = float(Fraction(M5_RECORD["parameters"]["G"]))  # ghost share 3/10, a choice
+s5 = float(M5_RECORD["parameters"]["s"])  # CHOSEN with q5 to fit the Unite line
+q5 = float(M5_RECORD["parameters"]["Omega_q"])
+c5 = float(M5_RECORD["parameters"]["Omega_c"])
+```
+
+The parameters of M5 are read from the record: the ghost share $G = 3/10$ (stored as the text `"3/10"`, which `Fraction` reads), and $s$, the mode share $\Omega_q$ and the condensate share $\Omega_c$, which the record found by solving the two fit conditions (stored with 12 digits).
+
+```python
+MODELS = {"M2": [("kmode", 1.0, 417 / 1000)],  # s CHOSEN: w0 = -0.861
+          "M3": [("qmode", 1.0, 417 / 1417)],  # s CHOSEN: w0 = -0.861
+          "M4": [("condensate", 1 - 57963 / 264037, 0.0),  # both CHOSEN:
+                 ("qmode", 57963 / 264037, 264037 / 403037)],  # tangent = Unite
+          "M5": [("condensate", c5, 0.0), ("qmode", q5, s5), ("ghost", G, 0.0)]}
+```
+
+The four models of the table of Section 22.19, each as a list of components with its CHOSEN parameters. The weights of M4 and M5 add up to 1 at $a = 1$: $(1 - \Omega_q) + \Omega_q = 1$, and $\Omega_c + \Omega_q - G = 0.705325 + 0.594675 - 0.3 = 1$.
+
+```python
+EXPECTED_WA = {"M2": 81037 / 500000, "M3": -196963 / 500000, "M4": -0.6}
+RECORD_CHECK = {"M2": "M2_tangent_exact", "M3": "M3_tangent_exact",
+                "M4": "M4_tangent_equals_unite"}
+for name in ("M2", "M3", "M4"):
+    w0, wa = tangent(MODELS[name])
+    report(f"{name} tangent (w0, wa) under C", f"({w0:.6f}, {wa:.6f})")
+    check(abs(w0 + 0.861) < 1e-12 and abs(wa - EXPECTED_WA[name]) < 1e-8,
+          f"the tangent of {name}",
+          record=f"{D00}/reports/python-derive-eos.json, check {RECORD_CHECK[name]}")
+```
+
+The exact tangent slopes of the record ($81037/500000 = 0.162074$, $-196963/500000 = -0.393926$ and $-0.6$) and the names of the record's checks. For each model the cell computes the tangent and checks $w_0 = -0.861$ to $10^{-12}$ and $w_a$ to $10^{-8}$, the accuracy of the finite difference. Out [8] prints $(-0.861, 0.162074)$, $(-0.861, -0.393926)$ and $(-0.861, -0.600000)$.
+
+```python
+a_fit = np.linspace(0.5, 1.0, 101)  # 101 points of a in [1/2, 1], as the record
+wa_fit, w0_fit = np.polyfit(1 - a_fit, w_model(a_fit, MODELS["M5"]), 1)
+report("M5 least-squares fit over a in [1/2, 1]", f"({w0_fit:.6f}, {wa_fit:.6f})")
+check(abs(w0_fit + 0.861) < 1e-9 and abs(wa_fit + 0.6) < 1e-9,
+      "the M5 fit equals the Unite pair (by construction)",
+      record=f"{D00}/reports/python-derive-eos.json, check M5_fit_equals_unite")
+```
+
+The least-squares fit of M5, as in the record: 101 equally spaced values of $a$ from $1/2$ to 1, and `np.polyfit(x, y, 1)` finds the straight line $y = c_1x + c_0$ closest to the points (the sum of the squared vertical distances is smallest) and returns $[c_1, c_0]$. With $x = 1 - a$ the line is $w_0 + w_a(1 - a)$, so $c_1 = w_a$ and $c_0 = w_0$. The fit is the observed pair to $10^{-9}$: by construction, since $s$ and $\Omega_q$ were chosen for exactly this.
+
+```python
+def crossings(components):
+    """The values of a in [1/3, 1] where w = -1 (400 intervals, then bisection)."""
+    points = np.linspace(1 / 3, 1, 401)
+    values = w_model(points, components) + 1
+    found = []
+```
+
+`crossings` finds where $w = -1$ between $a = 1/3$ and 1: it divides the range into 400 intervals (401 points) and evaluates $w + 1$, which changes sign at a crossing.
+
+```python
+    for low, high, v_low, v_high in zip(points, points[1:], values, values[1:]):
+        if v_low * v_high < 0:
+            for _ in range(60):  # halve the interval 60 times
+                middle = (low + high) / 2
+                v_middle = float(w_model(middle, components) + 1)
+                if v_low * v_middle <= 0:
+                    high = middle
+                else:
+                    low, v_low = middle, v_middle
+            found.append((low + high) / 2)
+    return found
+```
+
+`zip(points, points[1:], ...)` runs over neighbouring pairs of points with their values. Where the product of the two values is negative, the sign changes inside the interval, and **bisection** narrows it: the middle is evaluated, and the half in which the sign still changes is kept (if the left value and the middle value have opposite signs or the middle is zero, the crossing is in the left half, so `high` moves to the middle; otherwise in the right half). After 60 halvings the interval is $2^{-60}$ times its original width $1/600$, far below the precision of the numbers, and its middle is recorded. The underscore `_` is the name of a loop variable that is not used.
+
+```python
+cross_M5 = crossings(MODELS["M5"])
+no_ghost = [("condensate", 1 - q5, 0.0), ("qmode", q5, s5)]  # M5 without ghost
+lowest_M4 = float(np.min(w_model(np.arange(1, 301) / 300, MODELS["M4"])))
+crossing_A = float(M5_RECORD["N2"]["crossings_of_minus_1_in_[1/3,1]"][0])
+crossing_B = numerics00["models"]["M5_with_ghost_component"]["crossing_N2"]
+M4_RECORD = theory00["models"]["M4_condensate_plus_extra_time_mode"]
+```
+
+The crossings of M5; the same model with its ghost-like part removed (the condensate share becomes $1 - \Omega_q$, so that the total is 1 again); the smallest $w$ of M4 at $a = 1/300, 2/300, \dots, 1$ (`np.arange(1, 301)` gives the whole numbers 1 to 300); the record's crossing from implementation A (stored as a text in a list) and from the field-equation implementation B; and the record's entry for M4.
+
+```python
+report("M5 crosses w = -1 at a", f"{cross_M5[0]:.11f}")
+report("the same crossing from the field equation (implementation B)",
+       f"{crossing_B}")
+report("lowest w_eff(C) of M4 for a = 1/300 to 1", f"{lowest_M4:.12f}")
+```
+
+Out [8] prints the crossing $a = 0.77909966367$, implementation B's $0.77905405$, and the lowest $w$ of M4, $-0.999999214228$: above $-1$.
+
+```python
+check(len(cross_M5) == 1 and abs(cross_M5[0] - crossing_A) < 1e-10,
+      "M5 crosses -1 once, at a = 0.7791",
+      record=f"{D00}/reports/python-derive-eos.json, check M5_crosses_minus_1")
+check(crossings(no_ghost) == [] and crossings(MODELS["M4"]) == []
+      and abs(lowest_M4 - float(M4_RECORD["min_w_N2_on_(0,1]"])) < 1e-11,
+      "no crossing without the ghost: M5 without it, and M4 (w >= -1)",
+      record=f"{D00}/reports/python-derive-eos.json, checks "
+             "M5_without_ghost_no_crossing and M4_never_phantom")
+check(abs(crossing_B - cross_M5[0]) < 1e-4,
+      "implementation B finds the M5 crossing within 1e-4",
+      record=f"{D00}/reports/python-independent-numerics.json, "
+             "check B_vs_A_M5_crossing")
+```
+
+Three checks: M5 crosses $-1$ exactly once, where the record says; neither M5 without its ghost-like part nor M4 crosses at all (an empty list `[]`), and the lowest value of M4 is the record's; and the field-equation implementation B agrees on the crossing within $10^{-4}$ (the difference is $4.6 \times 10^{-5}$, the accuracy of B's numerical solution).
+
+```python
+a_plot = np.linspace(1 / 3, 1.0, 300)
+fig, (left, right) = plt.subplots(1, 2, figsize=(9.0, 3.8))
+LABELS = {"M2": "M2, gas (1 CHOSEN)", "M3": "M3, extra-time mode (1 CHOSEN)",
+          "M4": "M4 (2 CHOSEN)", "M5": "M5 (2 CHOSEN, ghost-like part)"}
+for colour, name in zip(PALETTE, MODELS):
+    left.plot(a_plot, w_model(a_plot, MODELS[name]), color=colour,
+              label=LABELS[name])
+```
+
+300 values of $a$ from $1/3$ to 1 and a figure with two panels. The labels state for each model how many parameters were CHOSEN. The loop draws $w_{\rm eff}(C)$ of the four models in the left panel (looping over a dictionary gives its keys, here in the order M2, M3, M4, M5).
+
+```python
+left.plot(a_plot, -0.861 - 0.60 * (1 - a_plot), "k--", label="Unite CPL line")
+left.axhline(-1.0, color="black", linestyle=":", linewidth=0.8)
+left.set_xlabel("observer scale factor $a$")
+left.set_ylabel("$w_{eff}$ under definition C")
+left.legend(fontsize=7)
+```
+
+The observed CPL line (dashed), the value $-1$ (dotted), the labels and the legend of the left panel.
+
+```python
+PARTS = [("condensate", MODELS["M5"][0]), ("extra-time mode", MODELS["M5"][1]),
+         ("ghost-like part", MODELS["M5"][2])]
+for colour, (label, component) in zip(PALETTE[4:], PARTS):
+    right.plot(a_plot, model(a_plot, [component])[0], color=colour, label=label)
+right.plot(a_plot, model(a_plot, MODELS["M5"])[0], "k-", label="total")
+right.axhline(0.0, color="black", linewidth=0.6)
+```
+
+The right panel shows the **populations** of M5: the energy density of each of its three parts, computed by calling `model` with a list that holds only that part (`[0]` takes the first of the two returned sums, the energy density), in the colours from the fifth on (`PALETTE[4:]`), and their total in black, with the zero line.
+
+```python
+right.set_xlabel("observer scale factor $a$")
+right.set_ylabel("energy density, M5")
+right.legend(fontsize=7)
+fig.subplots_adjust(wspace=0.3)  # room between the two panels
+save_figure(fig, "models_against_unite",
+            "The models of dirac16complex00 under definition C against the "
+...)
+```
+
+Labels and legend of the right panel; `subplots_adjust(wspace=0.3)` widens the gap between the panels so that the labels do not overlap; Figure 22b.5. **What to see:** on the left, all four curves pass through $w = -0.861$ at $a = 1$ (by the choice of their parameters). M2 slopes the wrong way (freezing). M3 and M4 slope the right way but flatten above the dotted line $-1$: with positive energies they can never go below it. M4 even has the right slope at $a = 1$, by construction. Only M5 follows the dashed line through $-1$, and it does so only because its ghost-like part, the violet curve on the right, carries a negative energy that grows like $1/a$ toward the past. Nothing in the field equations selects any of these populations.
+
+**In [9], the comparison with the observed values.**
+
+```python
+unite = theory00["models"]["unite"]
+w0_u, wa_u = Fraction(unite["w0"]), Fraction(unite["wa"])
+crossing_u = 1 + (1 + w0_u) / wa_u  # w0 + wa (1 - a) = -1 solved for a
+```
+
+The record stores the observed values as exact fractions in text form (`"-861/1000"`, `"-3/5"`), which `Fraction` reads. The crossing of the CPL line with $-1$ is solved as in Section 22.16: $a = 1 + (1 + w_0)/w_a$.
+
+```python
+TABLE = [("w = -0.764", "condensate ratio, u = -382/441", "1 for 1"),
+         ("w0 = -0.861", "M2; M3; gas plus condensate", "1 for 1"),
+         ("(w0, wa) = (-0.861, -0.60)", "M4 tangent; M5 fit", "2 for 2"),
+         ("crossing of -1, a = 0.7683", "only M5", "ghost-like part")]
+say("Unite value | reproduced by | CHOSEN parameters")
+for row in TABLE:
+    say(" | ".join(row))
+report("the Unite CPL line crosses w = -1 at a", f"{crossing_u}")
+```
+
+A short form of the comparison table of Section 22.19: each observed value, what reproduces it, and how many parameters were CHOSEN for it. `" | ".join(row)` writes the three texts of a row with a vertical bar between them. The crossing is printed as the fraction $461/600$.
+
+```python
+check(w0_u == Fraction(-861, 1000) and wa_u == Fraction(-3, 5)
+      and crossing_u == Fraction(unite["crossing_of_minus_1"]["a"])
+      and crossing_u == Fraction(461, 600),
+      "the Unite values and their crossing a = 461/600",
+      record=f"{D00}/reports/python-derive-eos.json, check unite_crossing_point")
+files = [f"{FIGURE_FOLDER}/{NOTEBOOK_ID}_{number}_{name}.png"
+         for name, number in FIGURE_NUMBERS.items()]
+check(len(files) == 5 and all(output_file(path).is_file() for path in files),
+      "every figure file of this notebook exists")
+all_checks_passed()
+```
+
+The observed values are the ones `Revision/README.md` quotes, and their crossing is exactly the record's $461/600$. `files` rebuilds the names of the saved figures from the dictionary `FIGURE_NUMBERS` of the set-up cell, and the last check requires five of them, all present. The last line prints ALL 27 CHECKS PASSED (notebook 22b).
+
+### 22.24 What Notebook 22b found, and what remains open for the dark sector
+
+**The results.** Every number below is printed by the notebook in the cell named, and every one reproduces the Revision record named in the same cell.
+
+| result | value | status | where |
+| --- | --- | --- | --- |
+| energy balance $dE/da_4 = -3X$ on the history | relative violation $1.235 \times 10^{-7}$ | PROVED exactly in the record; COMPUTED here | Out [3] |
+| $w_{\rm eff}(A, B) = X/E$, $w_{\rm eff}(C) = X/E - 1$ from the dilution | to $1.7 \times 10^{-8}$ | PROVED in the record; COMPUTED here | Out [3] |
+| $X/E$ of the gas, all series | 0.292893 to 0.328105, rising | COMPUTED (record) | Out [3] |
+| $w_{\rm eff}(C)$ of the gas | $-0.707107$ to $-0.671895$ | COMPUTED; rests on the ASSUMED definition C | Out [3] |
+| tangent $w_a$ of the gas | $-0.020523$ to $-0.008894$ | COMPUTED (record) | Out [4] |
+| bulk-band level, $w_{\rm eff}(A)$ | 0.239626 to $2.268 \times 10^{-3}$ | COMPUTED (record) | Out [5] |
+| condensate ratio at $u = -382/441$ | $-0.764$ exactly | PROVED; $u$ CHOSEN | Out [6] |
+| gas plus condensate, $w_0(C) = -0.861$ | share 0.436703, $w_a = 0.067014$ | COMPUTED; share CHOSEN | Out [7] |
+| M2, M3, M4 tangents | $w_a = 0.162074$, $-0.393926$, $-0.600$ | PROVED (record); parameters CHOSEN | Out [8] |
+| M5 fit over $1/2 \le a \le 1$ | $(-0.861, -0.600)$ | by construction | Out [8] |
+| M5 crossing of $-1$ | $a = 0.77909966367$ (B: 0.77905405) | COMPUTED; needs the ghost-like part | Out [8] |
+
+**What the results mean.** The equations of state that the record finds follow from two things: which quanta are present, and which definition of $\rho_4$ the observer uses. Neither is fixed by the field equations of the record. Under A and B the theory contains radiation-like content (the computed gas) and dark-matter-like content (the bulk band of dirac16complex, the good-sector gas of dirac16complex00), but the computed states of dirac16complex are only of the first kind. Under C the same content looks like dark energy, with $w$ between $-1$ and about $-2/3$. The observed values are reached only by tuning as many parameters as numbers, and the crossing of $-1$ only with a component of negative energy. Neither hypothesis is established, and neither is refuted: what the record rules out, under its stated assumptions, is that the computed states of dirac16complex give the observed pair, and that any positive-energy content of dirac16complex00 crosses $-1$.
+
+**Why it is hard.** The observer's $\rho_4$ needs a physical argument, not a choice: how a 4-dimensional observer measures energy when three time-like directions shrink. The populations need a dynamical origin: which quanta the early universe made, which is the time-dependent problem (Problem 2) and, beyond it, the creation question (Problem 1). The equation of state must come from the coupled equations, which brings back the back-reaction (Problem 3): no computed Kohn-Sham state is an admissible source of the author's metric. And the ghost-like and growing modes of dirac16complex00 make its classical energy unbounded below and its initial-value problem ill-posed (Chapter 8).
+
+**What remains OPEN** (the record's own list, `Revision/docs/DARK_SECTOR_HYPOTHESES.md`, section 10):
+
+1. a self-consistent history $a_4(x_4)$ with an admissible source (no recorded Kohn-Sham state is one; the condensate is an exact source only on the linear member);
+2. populated bulk-band or thermal states along the history; only $T = 0$ ground states and $0 \le a_4 \le 2$ are computed;
+3. modes of dirac16complex with extra-time momentum (outside the good sector), and the non-adiabatic Kohn-Sham problem;
+4. for dirac16complex00: sources that depend on $x_8$, the frozen warp of the adiabatic model, the growing modes, a quantum treatment;
+5. which normalisation of $\rho_4$, if any, describes a physical 3-space observer, and the value of $a_{4,\rm today}$;
+6. what would select the populations of M2 to M5, the mixture shares or the condensate's $u$;
+7. a supernova likelihood (distances, covariances): no fit to data is part of the record.
+
+**A first step.** (a) Redo the derivations of Sections 22.17 to 22.19 by hand, then change one assumption at a time in Notebook 22b: take today at $a_{4,\rm today} = 1$ instead of 2 in In [7], or remove the ghost-like part of M5 in In [8] and watch its crossing of $-1$ disappear (Exercise 14 shows why). (b) Write down a physical model of the observer: for example a 4-dimensional brane-world observer whose energy is the integral over the extra times with a weight derived from the metric, and find which $s$ of Section 22.17 it gives. (c) Populate the bulk band thermally along the history (fixed entropy) with the Kohn-Sham solver of Chapter 15 and compute $X/E$; this is the record's open item 2.
+
+**Where to start.** These files of the repository:
+
+- the folder `Revision/dark_sector/dirac16complex` with its README, its four scripts in the subfolders `derive`, `compute` and `independent`, and its outputs and reports;
+- the folder `Revision/dark_sector/dirac16complex00` with its README, its two implementations in the subfolder `python`, the model record `eos-theory.json`, and its results and reports;
+- the document `Revision/docs/DARK_SECTOR_HYPOTHESES.md`, which states every result with its record;
+- the builder of Notebook 22b, `Revision/textbook/notebooks/src/22b_dark_sector.py`.
+
+### 22.25 Problem 6: matter and antimatter
 
 **The question.** The universe we observe contains matter and almost no antimatter (Chapter 21 teaches the observations and the measured baryon-to-photon ratio from zero). The author asked that this theory solve the matter-antimatter mysteries. The open problem is whether an extension of the theory could produce the observed excess of matter from a start without excess, and with the measured size.
 
 **What is known.**
 
-- PROVED: the U(1) charge of each field, $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$, is exactly conserved on every solution in the author's metric (`Revision/lead_checks/reports/charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`). Hence no net charge can be generated inside one universe.
+- PROVED: the LOCAL conservation law $\partial_\mu(\cos z\,J^\mu) = 0$ of the U(1) current holds on every solution in the author's metric, for every history $a_4(x_4)$ (`Revision/lead_checks/reports/charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`). It says that charge is neither made nor destroyed at any point: the charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ of a slice changes only by the flux of $\cos z\,J^\mu$ through the boundary of the slice. NOT proved: that the total charge of one universe is constant. That needs no flux through the brane $z = \pi/2$, a boundary condition that the record does not impose: wherever it is used it is ASSUMED, and whether it holds is OPEN, part of the junction conditions of Problem 4 (Sections 10.2, 18.21 and 21.18 show exact solutions whose charge changes by exactly this flux). Hence no net charge can be generated at any point inside one universe, and the total charge of one universe is constant if no charge flows through the brane.
 - PROVED: the charge conjugations are matrices: $\mathcal{C}_+ = C$ (same mass) and $\mathcal{C}_- = \Gamma C$ (mass reversed) (checks `charge_conjugation_matrix_plus` and `charge_conjugation_matrix_minus` of the same report); for a real commuting field the current vanishes identically and $\mathcal{C}_+$ acts as the identity, so the nontrivial real map between matter and antimatter is the matrix $\Gamma$ with the mass reversed, which is T1 (check `real_fields_charge_conjugation`); for the quantised Grassmann field the conjugation that keeps the canonical anticommutator is $\Psi \to \Gamma\Psi^{\dagger T}$, which reverses the mass (check `quantum_charge_conjugation_unitary_type`). Chapters 5 and 21 derive all of this.
 - PROVED: a T1 partner carries the opposite charge, so a T1 pair $\{+m, -m\}$ has total charge zero as classical bilinears (T1d, Chapter 18); for two universes that are quantised independently of each other there is no such cancellation (Q). The idea that our universe has a partner of opposite charge, an anti-universe, belongs to a class of ideas of which one published example is L. Boyle, K. Finn and N. Turok, Phys. Rev. Lett. 121, 251301 (2018). That our universe has such a partner is a HYPOTHESIS.
 - The theory as built does NOT solve the matter-antimatter problem: it has no baryons, no process that violates baryon number, no violation of CP, and no computation of a departure from thermal equilibrium.
@@ -1929,7 +2968,7 @@ A fluid of positive energy density with $w < -1$ (called **phantom**) violates t
 
 **Where to start.** `Revision/lead_checks/charge_conjugation_and_u1.py` and its report; Chapters 5 and 21 and their notebooks; the pairing record `Revision/pairing/pairing-theory.json`.
 
-### 22.18 Smaller open items
+### 22.26 Smaller open items
 
 The table lists further open items that earlier chapters met, with their status and the record that states them.
 
@@ -1943,8 +2982,9 @@ The table lists further open items that earlier chapters met, with their status 
 | the tip at $y = -3$ with the tip angle $\theta = 0$ | CHOSEN | `Revision/kohn_sham/ks-theory.json`, key `boundaryConditions.tip` |
 | the meaning of jumps into the negative branch | OPEN | Notebook 22a, In [8]; Section 22.13 |
 | relaxation of the gas through Fermi-level crossings | OPEN | `Revision/kohn_sham/results/adiabatic/crossing-demo.csv`; Section 22.13 |
+| a constant total U(1) charge: no flux of the current through the brane $z = \pi/2$ | ASSUMED where used; OPEN | `Revision/lead_checks/reports/charge-conjugation-and-u1.json` (the local law only); Sections 10.2, 18.21, 21.18 and 22.25 |
 
-### 22.19 What we proved, what we computed, what we assumed
+### 22.27 What we proved, what we computed, what we assumed
 
 **PROVED** (exact; each derivation is written out line by line in this chapter; the record checks are named where the Revision record verifies the statement):
 
@@ -1961,18 +3001,29 @@ The table lists further open items that earlier chapters met, with their status 
 | the sudden limit $P_{sudden} = 1 - \vert \langle\varphi_0(s_2)\vert \varphi_0(s_1)\rangle\vert ^2$, the rate of the smooth passage, the first-order formula for $P^{(1)}$ | derivations of this book, Section 22.8; tested numerically in Notebook 22a, In [12] and In [14] |
 | in Einstein gravity every source has $\kappa(\rho + p_8) = -6((a_4')^2 + H^2)$ | both a4 reports, `einstein_null_energy_x8`; lead's report, `einstein_null_energy`; Section 22.14 |
 | the line element in the coordinate $y$ is regular at $y = 0$; the mirror warp $e^{-H\vert y\vert }$ has a kink, and $\int_{-\epsilon}^{\epsilon}W''\,dy \to -2H$ | derived in Section 22.15 from the record's statements (`ks-theory-python.json`, `geometry_warped_form`) |
-| $w(1) = w_0$, $w(0) = w_0 + w_a$; $w < -1$ with $\rho > 0$ if and only if $\rho + p < 0$ | algebra, Section 22.16 |
-| exact U(1) conservation, the charge-conjugation matrices, T1, T2, Q, T3 | Chapters 5 and 18 to 21; `charge-conjugation-and-u1.json`, pairing and T3 reports |
+| $w(1) = w_0$, $w(0) = w_0 + w_a$; the CPL line crosses $-1$ at $a = 461/600$; $w < -1$ with $\rho > 0$ if and only if $\rho + p < 0$ | algebra, Section 22.16; `python-derive-eos.json`, `unite_crossing_point` |
+| the proper 7-volume element is $\cos z$, independent of $a_4$; $dE/da_4 = -3X$ | `derivation-checks.json`, `proper_7_volume_element_independent_of_a4`, `integrated_identity_dE_da4`; Section 22.17 |
+| $w_{\rm eff}(A) = w_{\rm eff}(B) = X/E$ and $w_{\rm eff}(C) = X/E - 1$ (in general $X/E - s$), for each stated definition of $\rho_4$ | `derivation-checks.json`, `w_eff_A_equals_X_over_E`, `w_eff_B_equals_w_eff_A`, `w_eff_C_equals_X_over_E_minus_1`, `w_eff_general_normaliser`; Section 22.17 |
+| on the linear member $w_{\rm exp} = -1$; $w_{\rm eff}(C) < -1$ if and only if $X/E < 0$ | `derivation-checks.json`, `expansion_inferred_w`, `phantom_condition`; Section 22.17 |
+| the flat-limit law $w_{\rm eff} = k^2/(3(M^2a^2 + k^2))$ of a massive quantum | `derivation-checks.json`, `massive_mode_w_eff_law`; Section 22.18 |
+| the condensate: $X = 0$, $w_{\rm eff} = 0$ (A, B) and $-1$ (C); ratio $u/(2 + u)$, equal to $-0.764$ at $u = -382/441$, phantom exactly for $-2 < u < -1$ | `derivation-checks.json`, `condensate_w_eff`, `condensate_ratio_equal_unite_constant_w`; `python-derive-eos.json`, `condensate_phantom_interval`; Section 22.18 |
+| radiation plus condensate: $w_a = r_0/(3(1 + r_0)^2) > 0$ (freezing) | `derivation-checks.json`, `mixture_radiation_condensate_cpl`, `mixture_C_matching_w0_unite`; Section 22.18 |
+| dirac16complex00: modes of both energy signs at every real frequency; in the adiabatic model $\varepsilon_i \ge 0$, and with positive energies $w_{\rm eff}(C) \ge -1$; the tangents of M2, M3, M4 | `python-derive-eos.json`, `mode_krein_inertia_*`, `wkb_epsilon_sign_free`, `M2_tangent_exact`, `M3_tangent_exact`, `M4_tangent_equals_unite`; Section 22.19 |
+| the LOCAL U(1) law $\partial_\mu(\cos z\,J^\mu) = 0$ (a constant total charge needs no flux through the brane: ASSUMED where used, OPEN), the charge-conjugation matrices, T1, T2, Q, T3 | Chapters 5, 10 and 18 to 21; `charge-conjugation-and-u1.json`, pairing and T3 reports; Section 22.25 |
 
-**COMPUTED** (numerical, with measured accuracy): from the Revision record, $Q_{max} \le 0.0935$ for the 75 ground states at $A = 1$, the adiabatically continued state of $N = 696$ above the instantaneous ground state by up to $8.623$, the violations of the source conditions (ratios $2.09$ to $3.99$, closest integrated ratio $0.414$), and the agreement of $dE/da_4$ from finite differences and from the energy-momentum integral (for N688_lam0_a00, $-597.9157012757526$ against $-597.9157012806555$). In Notebook 22a (free field, the Fermi-shell sector of $N = 688$): the record's levels and $Q$ reproduced to $10^{-13}$; $G^* = 0.09979$ at $q^* = 2.128$; the strongest jump across the gap $0.0489$ per unit rate; $P = 0.0138$ at the peak rate 1; $A_{1/2} = 1.508$; the sudden limit $0.0749$ (span 0 to 2) and $0.1051$ (0 to 6); the breakdown estimates $10.701$, $10.021$, $2.929$ and $1.508$; with the errors of Section 22.13.
+**COMPUTED** (numerical, with measured accuracy): from the Revision record, $Q_{max} \le 0.0935$ for the 75 ground states at $A = 1$, the adiabatically continued state of $N = 696$ above the instantaneous ground state by up to $8.623$, the violations of the source conditions (ratios $2.09$ to $3.99$, closest integrated ratio $0.414$), and the agreement of $dE/da_4$ from finite differences and from the energy-momentum integral (for N688_lam0_a00, $-597.9157012757526$ against $-597.9157012806555$). In Notebook 22a (free field, the Fermi-shell sector of $N = 688$): the record's levels and $Q$ reproduced to $10^{-13}$; $G^* = 0.09979$ at $q^* = 2.128$; the strongest jump across the gap $0.0489$ per unit rate; $P = 0.0138$ at the peak rate 1; $A_{1/2} = 1.508$; the sudden limit $0.0749$ (span 0 to 2) and $0.1051$ (0 to 6); the breakdown estimates $10.701$, $10.021$, $2.929$ and $1.508$; with the errors of Section 22.13. From the dark-sector record (reproduced in Notebook 22b): the Kohn-Sham gas along the prescribed history, $X/E$ from 0.292893 to 0.328105 rising toward $1/3$, $w_{
+m eff}(C)$ from $-0.707107$ to $-0.671895$, tangent $w_a$ from $-0.020523$ to $-0.008894$, the energy balance on the data to $1.235 	imes 10^{-7}$; the bulk-band level from 0.239626 to $2.268 	imes 10^{-3}$; the computed mixture with $w_a = 0.067014$; the M5 fit, its crossing at $a = 0.7791$ and the field-equation implementation B (crossing $0.77905405$, agreement with A within 0.00083082726).
 
-**ASSUMED**: the Z2 brane and the parities it gives; the good sector; the tip (CHOSEN); which levels count as particles (CONVENTION); the history $a_4 = AHx_4$ (PRESCRIBED BACKGROUND); in Notebook 22a the free field ($\lambda = 0$) and one sector; the expansion in instantaneous orbitals, truncated to 20 levels with its convergence measured; the first-order approximations of Sections 22.7 and 22.8, whose range of validity the notebook measures.
+**ASSUMED**: the Z2 brane and the parities it gives; the good sector; the tip (CHOSEN); which levels count as particles (CONVENTION); the history $a_4 = AHx_4$ (PRESCRIBED BACKGROUND); in Notebook 22a the free field ($\lambda = 0$) and one sector; the observer's density $
+ho_4$ (definitions A, B, C) and the value of $a_{4,
+m today}$; the adiabatic (WKB) model of dirac16complex00, an APPROXIMATION measured by implementation B; every parameter labelled CHOSEN in Sections 22.18 and 22.19 (several of them chosen to reproduce the observed values, so that those matches are NOT predictions); the no-flux condition at the brane wherever a constant total U(1) charge is used; the expansion in instantaneous orbitals, truncated to 20 levels with its convergence measured; the first-order approximations of Sections 22.7 and 22.8, whose range of validity the notebook measures.
 
-**HYPOTHESIS**: the author's dark-sector hypotheses; that our universe has a partner of opposite charge; every scenario of creation or of matter-antimatter asymmetry; the generalised metric of Section 22.14 and the reduced quantum model of Section 22.4 as useful next steps.
+**HYPOTHESIS**: the author's dark-sector hypotheses (investigated by the record, established in neither form; the ghost-like component of M5 is not an established physical state); that our universe has a partner of opposite charge; every scenario of creation or of matter-antimatter asymmetry; the generalised metric of Section 22.14 and the reduced quantum model of Section 22.4 as useful next steps.
 
-**OPEN**: whether any universe is created, in pairs or otherwise (no creation process, rate, amplitude or big-bang dynamics follows from the equations); the time-dependent Kohn-Sham problem with interaction; the reading of jumps into the negative branch; relaxation through Fermi-level crossings; the back-reaction of the gas on $a_4$; the junction conditions of the brane; the equation of state seen by a 3-space observer; an asymmetry between matter and antimatter in an extended theory; the extra-time modes beyond the good sector.
+**OPEN**: whether any universe is created, in pairs or otherwise (no creation process, rate, amplitude or big-bang dynamics follows from the equations); the time-dependent Kohn-Sham problem with interaction; the reading of jumps into the negative branch; relaxation through Fermi-level crossings; the back-reaction of the gas on $a_4$; the junction conditions of the brane; which definition of $
+ho_4$ describes a physical 3-space observer; populated bulk-band or thermal states; what selects the populations of the dark-sector models; a fit to supernova data; whether the total U(1) charge of one universe is constant (no flux through the brane); an asymmetry between matter and antimatter in an extended theory; the extra-time modes beyond the good sector.
 
-### 22.20 Exercises
+### 22.28 Exercises
 
 **Exercise 1.** The record's largest $Q$ of the free state N136_lam0_a00 is $0.0851488$ at $A = 1$ (Out [5]). (a) What is its naive breakdown rate? (b) What is $Q$ at $A = 5$, and the first-order dressing probability $Q^2$ there? (c) Can the first-order estimate be trusted at $A = 5$?
 
@@ -2013,3 +3064,19 @@ The table lists further open items that earlier chapters met, with their status 
 **Exercise 10.** From Out [17] check the first-order estimate $2.929$ of the breakdown rate, and compute how much larger the naive estimate is than the exact $A_{1/2}$ and than the first-order estimate.
 
 *Answer.* The first-order estimate is the rate at which $(AQ_0)^2 = P_{sudden}$ with $Q_0 = 0.0934506$ and $P_{sudden} = 0.074906$: $A = \sqrt{0.074906}/0.0934506 = 0.273690/0.0934506 = 2.929$. The naive estimate $10.701$ is $10.701/1.508 = 7.10$ times the exact $A_{1/2}$ and $10.701/2.929 = 3.65$ times the first-order estimate. Comparing the dressing probability with the largest probability that can leave the level at all is what brings the estimate within a factor of two of the exact evolution.
+
+**Exercise 11.** (a) The gas N688_lam0 has $X/E = 0.3183$ at $a_4 = 2$ (Out [3]). Give its $w_{\rm eff}$ under the definitions A, B and C, and under the general normalisation of Section 22.17 with $s = 1/2$. (b) Show from $dE/da_4 = -3X$ that a state with $X = E/3$ at every time has $E \propto e^{-a_4}$, and that under A its density thins out like $a^{-4}$. (c) What does a condensate give under C, and why?
+
+*Answer.* (a) Under A and B, $w_{\rm eff} = X/E = 0.3183$; under C, $0.3183 - 1 = -0.6817$; with $s = 1/2$, $0.3183 - 0.5 = -0.1817$. The same state gives three different readings: only the ASSUMED normalisation changed. (b) With $X = E/3$ the balance reads $dE/da_4 = -E$; the function whose derivative is minus itself is $E = E_0e^{-a_4}$ (check: $d(E_0e^{-a_4})/da_4 = -E_0e^{-a_4}$). Under A, $\rho_4 \propto E\,e^{-3a_4} = E_0e^{-4a_4}$, and since $a = e^{a_4 - a_{4,\rm today}}$, $e^{-4a_4} \propto a^{-4}$: radiation, $w = 1/3$. (c) A condensate has $X = 0$, so $dE/da_4 = 0$ and $E$ is constant; under C, $\rho_4 \propto E$ is constant, and $w_{\rm eff} = -1 - \frac13 \cdot 0 = -1$: it reads like a cosmological constant (under A and B, $\rho_4 \propto e^{-3a_4} \propto a^{-3}$, like dust).
+
+**Exercise 12.** For a massive quantum in the flat limit with $M = 1$ and $k = 1$, compute $w_{\rm eff}(A) = k^2/(3(M^2a^2 + k^2))$ at $a = 0.1$, 1 and 10, the same values under C, and the CPL tangent at $a = 1$ under C. Is it thawing or freezing?
+
+*Answer.* $w_{\rm eff}(A) = 1/(3(a^2 + 1))$: at $a = 0.1$, $1/(3 \cdot 1.01) = 0.330033$; at $a = 1$, $1/6 = 0.166667$; at $a = 10$, $1/(3 \cdot 101) = 0.003300$. It falls from radiation toward dust: the dark-matter-like law. Under C: $-0.669967$, $-0.833333$, $-0.996700$. The derivative is $dw/da = -2a/(3(a^2 + 1)^2)$, at $a = 1$ equal to $-2/12 = -1/6$, so $w_0 = -0.833333$ under C and $w_a = -dw/da = +0.166667$ in every definition: freezing (it moves toward $-1$ as $a$ grows). This is why the bulk band, even if it were populated, would not give the observed thawing slope under C.
+
+**Exercise 13.** The record mixes the computed gas ($X/E = 0.3182941676741$ at $a_4 = 2$) with a condensate so that $w_{\rm eff}(C) = -0.861$ today. (a) Compute the gas share of the energy today. (b) For an exactly radiation-like gas ($X/E = 1/3$) the same condition gives $r_0 = 417/583$; what is the gas share then? (c) Why does the computed gas need the larger share?
+
+*Answer.* (a) The condensate adds energy but no $X$, so $w_{\rm eff}(C) = \text{share} \cdot X/E - 1$; setting this to $-0.861$ gives $\text{share} = 0.139/0.3182941676741 = 0.436703$ (Out [7]). (b) With $X/E = 1/3$: $\text{share} = 3 \cdot 0.139 = 0.417$, and indeed $r_0/(1 + r_0) = (417/583)/(1000/583) = 417/1000$. (c) The computed gas has $X/E = 0.3183$, a little below $1/3$, so it contributes less $X$ per unit energy, and a larger share of it is needed to reach the same $0.139$. In both cases the share is CHOSEN, and the slope comes out positive ($0.067014$ and $0.081037$): freezing, not the observed $-0.60$.
+
+**Exercise 14.** Two components of an adiabatic gas of dirac16complex00 have the energy densities $\rho_1 = 0.7$, $\rho_2 = 0.3$ and the values $\varepsilon_1 = 0$ (a condensate), $\varepsilon_2 = 0.5$ (an extra-time mode). (a) Compute $w_{\rm eff}(C) = \sum_i\varepsilon_i\rho_i/\sum_i\rho_i - 1$. (b) Replace them by $\rho_1 = 1.3$, $\varepsilon_1 = 0$ and a ghost-like component $\rho_2 = -0.3$, $\varepsilon_2 = 1/3$ (the total is again 1); compute $w_{\rm eff}(C)$. (c) Explain with these numbers why a crossing of $-1$ needs a component of negative energy.
+
+*Answer.* (a) $(0 \cdot 0.7 + 0.5 \cdot 0.3)/(0.7 + 0.3) - 1 = 0.15 - 1 = -0.85$. (b) $(0 \cdot 1.3 + \frac13 \cdot (-0.3))/(1.3 - 0.3) - 1 = -0.1 - 1 = -1.1$: below $-1$, phantom. (c) With positive weights $\rho_i$ the fraction is an average of the numbers $\varepsilon_i \ge 0$, so it lies between their smallest and largest value and cannot be negative: $w_{\rm eff}(C) \ge -1$. A negative weight breaks this rule: the "average" $-0.1$ lies outside the range of the $\varepsilon_i$ (0 to $1/3$). This is the theorem of Section 22.19, and it is why M5 crosses $-1$ only because of its ghost-like part, and why the record's M5 without that part does not cross at all (Out [8]). The size of the ghost share is a choice: the record notes that $G = 0.28$ would need $s = 0.726$ and $G = 0.24$ would need $s = 0.921$ (an exploration of the record, not a check), so nothing fixes it.
