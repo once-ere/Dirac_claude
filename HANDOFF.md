@@ -147,6 +147,20 @@ and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_rest
 wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
 their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
 
+### 0.4z STATE 2026-10-08 ~16:10 (Revision record nearly final)
+
+Done and verified since 0.4y (most edits are in the Stop hook's WIP snapshots; their content is described here): phases
+3c-rev2/3/4/5 complete (fixers + adversarial verifiers); the theory Wolfram re-run checked (13/13 checks of
+verify_after_run.py: report = expected, outputs = af0fc19, 70/70 agree, 103 printed lines as in 4.2) and recorded
+(WOLFRAMSCRIPT_PROVENANCE 6.7, index row 2: one run); the tip-study README corrected (7 of 19 not established; 4.4 table =
+JSON); README rows; the lead's batch after the last verifiers (DS/00/KS/PCP texts, KS number test with negative control,
+dark-sector generator texts + byte-identical re-runs + notebook digests, provenance notes, index rows 25-27,
+check_dirac16complex00.py cross-drive relative() fix + report regenerated, record 6.7) - one adversarial verifier
+(<scratchpad>/verify6/) is checking that batch.  Textbook check pass 2 running (<scratchpad>/vc_sweep2).  Next: the book
+workflow v2 with <scratchpad>/sweep/args.json (+ failing notebooks of pass 2); old Stage 4 after R1 (chain
+<scratchpad>/vc_stage4chain/chain_R2_R4.py); old Stage 5 after the reference + Rust runs (pairs checker, then
+handoff/workflows/wf_stage5_docs_review_v2.js); 23a last; book PDF; full gate; fresh clones.
+
 ### 0.4y VERIFICATION STATE 2026-10-08 ~15:40 (the Stop hook's WIP snapshots 6779cd3/0f569dd hold most agent edits)
 
 - Phase 3c-rev2 (wf_35f24f29-e41): fix2:theory (generator 'conserved charge' texts, ExpandFileName roots; scope re-runs
