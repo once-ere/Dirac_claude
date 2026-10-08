@@ -147,6 +147,27 @@ and fast-forwarded): textbook_restart wf_a71f212d-1cf, execution_provenance_rest
 wf_7dd6d253-9cf, revision_wave_1b_restart_then_2 wf_2b4c1c8c-a30, a4_author_gammas_prep wf_e7ec46e7-1bf.  If these are lost: merge
 their journals into Revision/workflows/state_restart/ with merge_state.py (add these run ids) and regenerate the restart scripts.
 
+### 0.4n COMPLETION RUN, STATE 2026-10-08 07:00 (phase 1 running, phase 2a launched)
+
+Done and pushed since 0.4m (each verified): gkd provenance run-time ranges (81ab063); ks-theory provenance 57/58
+discrepancy resolved by dc6904e (fd94926); `dirac matrices.md` lists its files with sha256 (c30e170, 67/67, test 7/7);
+primordial provenance 6.4 status (61d5133; the ORIGINAL textbook provenance/DIRAC16COMPLEX_TEXTBOOK.* stays unmodified by
+the user's order of 2026-10-02, so its 2026-09-30 sample gate output keeps the old digest - this is intended).
+Written, NOT yet committed (commit when green): `provenance/EXECUTION_PROVENANCE_INDEX.md` (23 sets + textbook notebooks)
+and `tests/test_execution_provenance.py` (fails only for rev-a4 and verify_t3.wls until phase 1 updates their records).
+Phase 2a workflow (wf_45e4b2cb-7b4; script `Revision/workflows/completion/completion_phase_2a.js`, reviews of 14-17 in the
+same folder): LOVELOCK_GKD document + publication test; textbook fix 14, 15; review->fix 18, 20, 21, 22.
+Phase 2b (after phase 1; lead): verify + commit every phase-1 result; provenance records for every changed or new .wls
+(verify_t3.wls, new dark-sector/ks_source sets); the documents KOHN_SHAM_DEFLATING_FIELD and DARK_SECTOR_HYPOTHESES and the
+wave-1 document updates; Revision/notebooks/ (SPEC section 10); the gate Revision/verify_revision.{ps1,sh} + test; textbook
+16, 17, 19 (reviews exist for 16, 17 in workflows/completion/review_1[67].json; 19 needs a review); chapter 23; the
+shared tool fix (run_instructions.py troubleshooting: `python -m jupyter` fails where jupyter is not on PATH - use
+`python -m jupyterlab` / `python -m nbconvert`; then rebuild all 89 notebooks); the lead-check record
+`Revision/lead_checks/charge_conjugation_and_u1.py` detail text of `bilinears_under_charge_conjugation` (its parenthetical
+"normal ordering supplies one more sign" is contradicted by the proof of textbook section 5.34 and Notebook 05e; correct the
+record, then chapter 05/05c/05e/21 and 00c); the whole-Revision review; the book review; re-assembly, PDF registration;
+fresh-clone verification; push; notify the user.
+
 ### 0.4m COMPLETION RUN 2026-10-08 (user: "continue and complete the stages that are still open")
 
 Done directly (verified): the a4 author-T16 patch applied with its Revision-side sync (e377368; dirac matrices.md answers

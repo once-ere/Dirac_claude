@@ -1,0 +1,107 @@
+{
+ "findings": [
+  {
+   "severity": "major",
+   "file": "Revision/textbook/notebooks/src/16a_reference_crosscheck.py (caption of Figure 16a.3) and Revision/textbook/chapters/16-checking-the-solution-independently.md",
+   "location": "builder lines 745-752 (caption of eigenvalue_ratios), repeated in the chapter at lines 949-957; walk-through of In [10], chapter line 961",
+   "problem": "The teaching caption of Figure 16a.3 and the walk-through describe the opposite of what the figure shows. The caption says \"Low levels have ratios within a few millionths of 4; higher levels, whose orbitals oscillate faster, deviate more because the h^4 term is larger\". The walk-through blames \"higher levels of N136_lamp2_a20\" for the large deviations.",
+   "evidence": "Out [10]: N8_lamm2_a00 smallest 3.999954 and largest 4.000506. In the figure the largest of these, |ratio-4| = 5.1e-4, is the lowest level at eps = 0. The green N136 points near eps = 0 sit at about 7e-4, and the low levels generally lie between 4e-5 and 8e-5. No low level is within a few millionths of 4. The worst level (4.033570, so 0.0336) and the cluster at 3e-3 to 4e-3 are N136_lamp2_a20 levels at eps of about 1.2 to 2.1. The highest N136 levels (2.85 to 3.3) lie at 2.5e-4 down to about 1e-6, and they are the ONLY points within a few millionths of 4. The N688 levels up to eps = 5.5 stay at 2e-5 to 2e-4. So there is no trend of larger deviation at higher energy. I checked that the x positions are right: ground_job in run_reference.py builds the levels in the same key order as the per-grid arrays.",
+   "fix": "Rewrite the caption in the builder and rebuild 16a. Suggested text: most levels lie between 1e-5 and 1e-3 from 4; the largest deviations (up to 0.034) belong to a group of N136_lamp2_a20 levels between eps = 1.2 and 2.1; the levels at eps = 0 deviate by about 5e-4 to 7e-4; every level stays below 0.05. Fix the walk-through paragraph of In [10] in the same way, and drop the 'higher levels oscillate faster' explanation, which this figure does not support."
+  },
+  {
+   "severity": "major",
+   "file": "Revision/textbook/chapters/16-checking-the-solution-independently.md",
+   "location": "Section 16.27, answer to Exercise 6 (line 3857)",
+   "problem": "The worked answer explains the measured distance 6.93e-5 between the discrete zero mode and A e^{My} as coming entirely from the faster growth rate (ln q = Mh + (Mh)^3/12): 'about +-0.5e-4 in relative size ... about 7e-5: consistent with the measured 6.93e-5'. The rate error is actually the smaller part. The larger part comes from normalising with the midpoint sum, sum u^2 h, instead of the integral of a^2 dy.",
+   "evidence": "Recomputed for G = 150, M = 1, L = 3 (scratch script, numpy). Measured max |u_p - A e^{My}| = 6.928e-5. With the exact rate M and midpoint-sum normalisation (normalisation effect only) it is 4.673e-5. With rate ln(q)/h and exact continuum normalisation (rate effect only) it is 2.255e-5. The two parts add up to the measured 6.93e-5. The midpoint rule's relative error for the integral of e^{2My} is about (Mh)^2/6 = 6.7e-5, which gives 3.3e-5 in amplitude, or 4.7e-5 at the brane value 1.42. The answer's estimate of +-0.5e-4 relative from the rate alone is about twice the true rate effect (about 1.6e-5 relative at the brane), so its agreement with 6.93e-5 is a coincidence.",
+   "fix": "Rewrite the answer with both O(h^2) sources: (i) the rate error (Mh)^2/12, which moves the brane value by about 2.3e-5; (ii) the discrete normalisation, where sum u^2 h underestimates the integral by the relative amount (Mh)^2/6 = 6.7e-5, which raises the normalised values by about 3.3e-5 relative, or 4.7e-5 at the brane. Together they give 7.0e-5, consistent with 6.93e-5. Alternatively, change the question so that it asks only about the rate effect and compares with 2.3e-5."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/16-checking-the-solution-independently.md",
+   "location": "Section 16.8, lines 276-298 (and 16.26 line 3822)",
+   "problem": "The text says the report holds '128313 comparisons in all' and that the table gives each class's number of comparisons. The 19 counts in the table add up to 132239, not 128313, and the difference is not explained. A student who adds up the column finds a contradiction.",
+   "evidence": "Sum of the 19 class counts in ks-crosscheck.json details: 300+225+225+9616+150+4842+375+600+113250+75+150+225+240+180+31+810+405+270+270 = 132239. The checker computes 'comparisons' as the table rows (5447 in ks-crosscheck-table.csv) + ground_eigenvalues (9616) + ground_profiles (113250) = 128313 (crosscheck_ks.py line 831). The class counts also include flag-type comparisons (Check.flag, for example the 300 occupation and group matches) that are not table rows.",
+   "fix": "Add one sentence: 128313 counts the 5447 table rows plus the 9616 level and 113250 profile comparisons; the class counts in the table also include 3926 yes/no matches (occupations, groups, particle-hole assignments), so the column adds up to 132239."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/16-checking-the-solution-independently.md",
+   "location": "Section 16.27, answer to Exercise 2 (line 3841)",
+   "problem": "A logically false sentence: 'Since the difference of two numbers can exceed the sum of their errors only if at least one error exceeds its uncertainty'. The difference of the two programs can never exceed the sum of their errors (triangle inequality, Section 16.7). What can be exceeded is the sum of their UNCERTAINTIES.",
+   "evidence": "Section 16.7 derives |x_Rust - x_ref| <= |x_Rust - X| + |x_ref - X| for every case; the answer's own numbers compare the difference 4.5746e-9 with U_ref + U_Rust = 3.076e-9, which is a sum of uncertainties, not of errors.",
+   "fix": "Replace it with: 'Since the difference can exceed the sum of the two UNCERTAINTIES only if at least one error exceeds its uncertainty (Section 16.7), ...'."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/16-checking-the-solution-independently.md",
+   "location": "Section 16.13, 'Odd parity, line by line' and 'Ranks' (lines 1696-1712); used again in 16.19 line 2558",
+   "problem": "Skipped step (deep-dive rule). The odd-parity derivation reuses b = sin(p(y+L)), which silently assumes eps^2 > M^2. It never shows that odd parity has no zero mode and no level with eps^2 <= M^2. The even case does this explicitly. Yet the rank convention (odd rank 0 = +sqrt(M^2 + p_0^2) = 1.2923, the 'bulk edge') and the statement in 16.19 that 'the odd parity has no zero mode' depend on it. Notebook 16b's section 5 has the same gap.",
+   "evidence": "Line 1696: 'The derivation of b'' = -(eps^2 - M^2)b did not use any brane condition, so again b = sin(p(y + L))'. Only the even paragraph (line 1680) treats eps^2 <= M^2. Line 2558 states '(the odd parity has no zero mode: its rank 0 is the bulk edge 1.2923)' without proof.",
+   "fix": "Add three lines to the odd case. eps = 0: a = A e^{My} and b = 0 (tip), so a(0) = A = 0 and there is only the trivial solution. 0 < eps^2 < M^2: b = sinh(q(y+L)), so a(0) = j(q cosh(qL) + M sinh(qL))/eps, which is not 0. eps^2 = M^2: b = y + L, so a(0) = j(1 + ML)/eps, which is not 0. Hence every odd level has |eps| > M."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/16-checking-the-solution-independently.md",
+   "location": "Walk-through of Notebook 16c, In [5] (line 3251)",
+   "problem": "The text says the direct residual takes the values -4, -3, -2, 0, +2, +4 times 2^-50 and that 'below 8 it moves in steps of 2^-50'. The printed values skip -1: the step from -2 to 0 is 2 x 2^-50. This contradicts the claim and the ideal zero-interval model of Section 16.20, under which the value just below the zero interval would be -1 x 2^-50.",
+   "evidence": "Out [5] of 16c: 'the direct residual takes 6 different values in this window: -4, -3, -2, +0, +2, +4 times 2^-50'. Figure 16c.2 shows the jump from -1.78e-15 straight to 0.",
+   "fix": "State the observation correctly: below 8 the computed sum moves by one spacing, except that the value 8 - 2^-50 never occurs here (the rounding of the individual terms decides which doubles the sum can reach). This also explains why the zero interval is shifted (Section 16.20 already says it is shifted)."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/notebooks/src/16b_staggered_grid.py (caption of Figure 16b.5 and markdown cell before In [12])",
+   "location": "builder line 807 (caption, chapter line 2530) and line 773 ('already on the coarsest triple')",
+   "problem": "The caption and the notebook's text cell say that the three-grid (two-step) values are 'already at the rounding floor near 1e-14' ('already on the coarsest triple'). For the level of rank 5 the two-step error on the coarsest triple is about 5e-13, 50 times above the floor. The chapter's walk-through (line 2535) correctly says 'for the level of rank 5 from the second triple on', so the caption, the notebook text and the walk-through disagree.",
+   "evidence": "Figure 16b.5: the green dotted triangles (even rank 5) are at about 5e-13 at h = 0.02, and only then near or below 1e-14.",
+   "fix": "Caption and notebook cell: 'the three-grid values reach the rounding floor near 1e-14 on the coarsest triple for the two lower levels and from the second triple on for rank 5'. Then rebuild 16b."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/notebooks/src/16b_staggered_grid.py (caption of Figure 16b.4) and chapter walk-through",
+   "location": "builder line 709 (chapter line 2424); walk-through line 2427",
+   "problem": "The caption says the odd-parity 'off-diagonal entries carry M cos 2phi, which changes sign along y'. The walk-through adds '(from +M at the tip to -M at the brane), so the colours of the pairs change'. The entries are j(+-1/h + (1/2) M cos 2phi): only half of M cos 2phi enters, and the entries themselves never change sign. A student who reads the heat map is told something the picture does not show.",
+   "evidence": "G = 8, h = 0.375: the u-then-w entries go from 1/h + M/2 = 3.17 at the tip to 1/h - M/2 = 2.17 at the brane, and the w-then-u entries from -2.17 to -3.17. Figure 16b.4 right shows the red/blue alternation kept everywhere: red lightens and blue darkens towards the brane.",
+   "fix": "Say: the off-diagonal entries are j(+-1/h + (1/2) m_2) with m_2 = M cos 2phi, which goes from +M to -M along y, so the red entries fall from 3.17 to 2.17 and the blue ones from -2.17 to -3.17 (no sign change). Then rebuild 16b."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/notebooks/16a_reference_crosscheck.PROVENANCE.md (generated from the builder Revision/textbook/notebooks/src/16a_reference_crosscheck.py)",
+   "location": "section 4.1 (line 462) and 4.2; builder In [12] RUN_FOLDER = REPO / ...",
+   "problem": "R6 side effects are incomplete and partly contradicted. Section 4.1 says the notebook writes 'exactly these files and no other file of the repository' (the 8 figure and caption files). Section 4.2 lists only the cargo build output. But In [12] writes 20 raw output files of the Rust runs below the REPOSITORY folder, even during an 'nbkit check' run, because RUN_FOLDER uses REPO rather than OUTPUT_ROOT. The files go to Revision/kohn_sham/solver/target/textbook_16a (*_canonical/refined.json and .csv).",
+   "evidence": "After my nbkit check run, ls Revision/kohn_sham/solver/target/textbook_16a lists 20 files, 776 KB in total. The Side-effects section never mentions them; only the instructions' troubleshooting and the purpose text mention the folder.",
+   "fix": "Preferred: write the raw outputs to a tempfile.TemporaryDirectory() that is removed at the end of the cell, so the notebook has no side effect inside the repository. Or list the folder and its 20 files in the side effects (nbkit generates section 4; if FACTS cannot express it, report this to the infra owner as an open item) and stop claiming 'no other file'."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/16-checking-the-solution-independently.md",
+   "location": "Section 16.20 (line 2794 'Write H for the thermal holes'); 16.26 adjacent bullets lines 3814-3815; Section 16.15 line 1818 (L D L^T)",
+   "problem": "Notation clash for a student with only school algebra. H is the author's constant (H = 1, kappa = e^{-Hy - a4,0}, 2M - H in the slope formula, a4 = AHx4), and in 16.20 it is also the number of thermal holes. In the PROVED list two consecutive bullets use H in both senses: 'c = e^{-a4,0} 2M/(1-e^{-2ML}) (1-e^{-(2M-H)L})/(2M-H)' and then 'W = -d - H + P'. Likewise L is the tip cutoff L = 3 and also the triangular factor in T - x1 = L D L^T (16.15), which is used in the same paragraphs as h = L/G.",
+   "evidence": "Line 3814 uses H as the metric constant; line 3815 uses H as the thermal holes; line 1818 defines 'L having ones on its diagonal' while L = 3 is used on the same page.",
+   "fix": "Rename the thermal holes (for example H_th or 'Hl' as in mermin.rs) and the triangular factor (for example 'Lo' or a script letter) in the chapter, the notebook 16c text and the walk-through."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/16-checking-the-solution-independently.md and Revision/textbook/notebooks/src/16a_reference_crosscheck.py",
+   "location": "Section 16.9 (line 306: 'about four minutes on a fast computer'); run instructions of 16a (Step 6: 'about 5 minutes on a typical laptop'; Step 9: one cell 'up to ten minutes on a laptop')",
+   "problem": "The run-time statements for Notebook 16a contradict each other. The whole notebook is said to take about 5 minutes on a typical laptop, while the troubleshooting says the single In [4] cell alone can take up to ten minutes on a laptop. 'About four minutes on a fast computer' does not match the measurements either.",
+   "evidence": "My nbkit check of 16a on this 24-core machine took 160 s (the provenance record has 251.2 s build and 270.2 s check). FACTS expected_seconds = 270 produces 'about 5 minutes'. Troubleshooting entry: 'The state N136_lamp2_a20 alone takes about two minutes on a fast computer and up to ten minutes on a laptop'.",
+   "fix": "Make the statements consistent, for example: 'about 3 to 5 minutes on a fast computer, up to 15 minutes on a laptop' (raise expected_seconds accordingly), and use the same figure in Section 16.9."
+  }
+ ],
+ "verified_ok": [
+  "(a) nbkit check run from fresh scratch folders under restart/textbook/review16: 16a check_16a=PASSED in 160 s (9 files compared, peak 332 MB), 16b check_16b=PASSED in 20 s (9 files, 215 MB), 16c check_16c=PASSED in 18 s (8 files, 196 MB); 198 s in total. Every notebook, figure, captions file and PROVENANCE.md in the repository has the same sha256 before and after the checks, and every sha256 in the three provenance files matches the committed files.",
+  "SYNC with wave 1b: in thermodynamics.csv only the column mu_rounding_bound changed (135 rows); mu, E and S are unchanged, so ks-crosscheck.json (2026-10-01) still applies. The chapter's bounds B_direct = 1.287e-8 and B_well = 3.154e-16, its bound formulas (identical to the header of solver/src/mermin.rs), the -8.267e-10 of the column mu_direct_count_minus_mu, and ks-theory-python.json (58 checks) all match the CURRENT records. No a4 check counts are quoted.",
+  "check_chapter.py on chapter 16: chapter_check=OK with no problem= or latex_warning= lines; 27 sections, 3 notebooks, 20 figures, 250 pages; the register and verify builds give the same PDF sha256 2e0ad858... (byte-identical).",
+  "Section numbering and markers: 16.9 marker -> 16.10/16.11 -> 16.12 walk-through; 16.16 -> 16.17/16.18 -> 16.19; 16.21 -> 16.22/16.23 -> 16.24.",
+  "(c) Every non-comment code line of all 55 code cells is quoted in a walk-through (automatic comparison: 0 missing lines for 16a; for 16b and 16c only the set-up cell, which Section 16.12 explains in full). The per-cell check counts given in the walk-throughs (51, 31, 26) match the outputs cell by cell. 'Its first 296 lines' of comments in 16a In [1] is correct.",
+  "(b) Derivations re-derived line by line and correct: the ratio test 4(1 + 15/16 (d/c) h^2); Richardson r(h), r(h/2), R = (64x(h/4) - 20x(h/2) + x(h))/45 and R - r(h/2) = d h^4/64; the factor 16/15 and 2^p/(2^p - 1); the tolerance rule from the triangle inequality and the propagated U_F, U_Omega, 3(U_I3 + U_It) and the factor 2 for Delta E_x; the even free levels and the zero mode A = sqrt(2M/(1 - e^{-2ML})) = 1.415970; the odd condition tan(pL) = -p/M with one root per interval; Taylor expansions, centred difference and centred average; the staggered rows and the symmetric tridiagonal T (entries 1.8333 and -0.8333 for G = 4); the rotation R^-1 sigma2 R and R^-1 sigma3 R, m2, k2 and phi'; the LDL^T pivots and the Sturm count; Gershgorin [-101, 101] and 55 halvings; the discrete zero mode q and ln q = Mh + (Mh)^3/12; Hellmann-Feynman and c(0) = 1.905148 with factor e^{-0.5} per slice; dN/dmu = sum g f(1-f)/T; the two-level estimate mu ~ 0.210010451; N' = 2H/T = 1.242e-6; the zero interval 3 2^-51/N' = 1.07e-9; Newton e_{k+1} = (N''/2N') e_k^2; W = -d - H + P; LogBalance balance P + d- = H + d+; first term of B_direct 1.287e-8; 0.58 of eps N/N'; 57 halvings (4.08/2^57 = 2.8e-17 = 2^-55).",
+  "Every number in the prose checked against Revision records: ks-reference.json (37/37; worst-state ratio 7.387e-5; 0.787 at p8_tip over 19 classes; zero mode 1.3e-39 and 4.00e-15; slope 2.56e-15; analytic 2.842e-14; ratios 3.99977 to 4.00019; couplings 0.01946/0.05838 etc.; bulk edge 1.292292828069); ks-crosscheck.json (29/29, 128313; all 19 class counts and worst ratios in the table; matrix-wide U 2.135e-9 and 5.689e-9; inputs 37/42/14; 340 files; sea holes 15 of 135, 30.98 N; 6.661e-16); parameters.json numerics; refined G = 1800, 1e-14, 1e-12 (measure_rust_refinement.py, model.rs); ks-rust-mermin-roots.json (N8_lamm1_a00_T10 and N8_lam0_a00_T10 entries); ks-rust-solver.json thermo_mu_well_conditioned_root (-8.267e-10, 2.722e-10, 6.959e-11); ks-rust-determinism.json refined_mermin_root_path; checker/README.md History 1; reference/README.md (12.44899948125322, U 4.6e-11; 1.15e-9); validation E_KS |R123 - R234| = 3.55e-14.",
+  "Every number the walk-throughs attribute to Out [k] matches the stored outputs of 16a, 16b and 16c: 22/137/354 levels; 3597/4513/5815 numbers; 4.00020/4.00007/4.00006; 64 vs 22 levels; Q_max values; 5122 + 18 = 5140; 97 rows and largest ratio difference 5.0e-5; 547 of 602; 0.4952; Newton distances; 6.210359e-9; -8.267e-10; 1.05e-9 interval; 103.8, 0.0825, 0.0270; and others.",
+  "Figures checked by eye against their captions and walk-throughs: 16a.1, 16a.2, 16a.4, 16a.5, 16a.6, 16a.7, 16b.2, 16b.3 (text), 16b.6 (17 ratios per triple counted), 16b.7, 16c.1 to 16c.6 agree (exceptions are listed in the findings).",
+  "(f) Exercises 1, 3, 4, 5, 7 and 8 recomputed: every worked number is correct (for example r(h) = 0.0028626521757, R = 0.0028626521742, U = 2.1e-12; eigenvalues +-1.178511 and pivots -0.5, 2.222222, -0.5125; 56 halvings; mu = 0.210010449737; width 1.08e-9 and main term 1.012e-8). Exercise 2's numbers (4.5746e-9, ratio 0.495, U sum 3.076e-9) are correct apart from the one wording error listed.",
+  "(d) The run-instruction sections 16.10, 16.17 and 16.22 (rendered with render_notebook.py) are complete and self-contained for Windows PowerShell, macOS zsh and Linux bash. They give the pinned versions, git clone, venv, Rust via rustup and the exact cargo command, JupyterLab Run All, the headless nbconvert, the files written, the final lines and troubleshooting, and refer to nothing outside the paragraph. Commands tried here: py -3 --version (3.14.5), cargo --version (1.91.1), the cargo build --release --manifest-path ... command (up to date, succeeds), and the headless 'nbconvert --to notebook --execute' on 16b with output to scratch. That run ends with ALL 31 CHECKS PASSED in 18 s and prints the documented Proactor RuntimeWarning and the '[NbConvertApp] Writing' line. PowerShell 5.1 and 7.6 both pass the '--' of 'git checkout -- Revision/textbook' to the native program unchanged.",
+  "(e) R2: the author's coordinates x1..x8 with x5, x6, x7 as extra times that deflate exponentially (e^{-a4} sin^{1/6} z), x4 the time, x8 hidden, a4 = AHx4 labelled PRESCRIBED BACKGROUND with ks-source-conditions.json; no old numbering, no static or frozen model, and no reference to artifacts/, provenance/, studies/ or wolfram/. R3: the chapter and its notebooks say explicitly that nothing here concerns pairs of universes, creation or matter and antimatter. R5: charge conjugation and complex conjugation are not mentioned anywhere (grep). Status labels (PROVED, COMPUTED, ASSUMED, CHOSEN, CONVENTION, OPEN, HYPOTHESIS none) are present in 16.1 and 16.26.",
+  "(e2) R6: all three PROVENANCE.md files exist, with instructions identical to the book's, expected output, side effects, environment, fingerprints and verification. nbkit check regenerated them identically (the exception is the 16a side-effect gap listed in the findings)."
+ ]
+}

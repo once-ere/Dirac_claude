@@ -1,0 +1,87 @@
+{
+ "findings": [
+  {
+   "severity": "major",
+   "file": "Revision/textbook/chapters/17-a4-equations-with-kohn-sham-source.md",
+   "location": "Sec. 17.12 l.1387-1389 ('The Kohn-Sham states are conserved ... The states are conserved and still fail'); Sec. 17.16 l.1697 ('CONSERVED but NOT ADMISSIBLE'); Sec. 17.17 title; Sec. 17.21 l.2656; also builders src/17a_source_conditions.py l.942 and src/17b_conserved_sources.py l.121 and l.1084 (notebook text printed in the book)",
+   "problem": "The chapter's central thesis says the Kohn-Sham source is conserved, and justifies this with the Noether argument for 'a field that obeys its own field equation in a given metric'. That overclaims. The instantaneous (adiabatic) Kohn-Sham states satisfy the y law at every point. In the time direction they satisfy the energy law only after integration over the patch. Because they carry no energy flux T^{x4}_y (record emt.offDiagonal), the pointwise x4 law d4 rho = -3 a4'(p3 - p_t) fails, and badly. The Noether argument does not apply, because the states solve the instantaneous problem, not the time-dependent field equation. The record itself says only the integrated form holds. ks-theory-python.json, check emt_x4_component: '(+ the y-flux divergence, zero for the instantaneous states): the energy of the 7-volume changes as dE/dx4 = ...'. 17.12 also says the solver checks 'both on its own fine grid of points', but emt_energy_change_dE_da4 is a finite difference in a4 (delta = 0.002), not a check on the grid.",
+   "evidence": "Recomputed from Revision/kohn_sham/results/ground/profiles/N136_lam0_a*.csv. At the tip y = -3, rho grows along the history: 0.6168, 9.4859, 43.0702, 82.6150, 87.8286 at a4,0 = 0 to 2. At the same point p3 > 0 (158.27 at a4,0 = 1), so -3(p3 - p_t) = -474.8. The fourth-order difference of rho in a4 at a4,0 = 1 is +82.97 at y = -3, against -474.8: the opposite sign. At y = -1.5 the ratio is 0.30, at the brane 1.76. The integrals with weight e^{6y} do agree (-9.476e-4 against -9.487e-4). So the integrated law holds and the pointwise law does not.",
+   "fix": "Replace 'conserved' with the precise statement wherever it appears (17.12, the 17.16 table and its last line, the 17.17 title, 17.21, the notebook texts): 'conserved along the hidden direction at every point (y law), and in the time direction only for the total energy of the patch (dE/dx4 law)'. Delete the Noether sentence for these states, or say it applies only to an exact time-dependent solution. Optionally state, with a notebook check that names its numbers, that the pointwise x4 law fails. A genuinely time-dependent state would need an energy flux q84 = T^y_x4 != 0, which C1 also forbids, so this is a further reason the history is only a prescribed background. The C2 and C3 arguments do not change: C2 uses only the y law, and the C3 failure uses only the integrated law."
+  },
+  {
+   "severity": "major",
+   "file": "Revision/textbook/chapters/17-a4-equations-with-kohn-sham-source.md",
+   "location": "Sec. 17.15 l.1605-1611 ('the tip terms are small ... R \u2248 p8(brane)/p\u03048'); 'What figure 17a.6 shows' l.1186 ('R is the value of p8 at the brane divided by its mean'); 'What figure 17b.4 shows' l.2478; caption of figure 17b.4 and check In [16] (src/17b_conserved_sources.py l.870, l.885, l.908)",
+   "problem": "For the 20 nonzero N = 8 states the tip term of the exact formula is not small: it is about one third of R. So 'R \u2248 p8(brane)/mean', and 'R is the brane value over the mean', are false for these states. The 17b.4 caption ('every state lies below it, with ratios between 0.107 and 0.414') and the walk-through ('the brane value of p8 is between about a tenth and four tenths of its mean, the ratios 0.107 to 0.414') give R-values for the plotted quantity, which is |p8(brane)|/|mean|. For N = 8 that ratio is 0.074. The check named 'every state lies below the diagonal' tests 0 < R < 1, not the plotted ratio. The caption also says the ringed N = 8, lambda > 0 states have 'p8 negative', but their p8 at the tip is +10.18. Only the mean and the brane value are negative.",
+   "evidence": "From emt-integrals.csv with Vol7 = 15875.2137 and e^{-18}. N8_lamm1_a00: p8_brane/p\u03048 = 0.07374, tip term -e^{-18} p8_tip/p\u03048 = 0.03622, R = 0.10996. N8_lamm2_a00: 0.07419 + 0.03299 = R 0.10719. Over all 70 states the brane/mean ratio runs from 0.0737 (N8_lamm1_a00) to 0.4143, while R runs from 0.1072 to 0.4143. The figure (17b_4_brane_and_mean.png) shows the N = 8 points at mean about 1.7e-6 and brane about 1.25e-7, a ratio of 0.074. N8_lamp2_a00 has p8_tip = +1.018e1.",
+   "fix": "In 17.15, say that the tip term is negligible for N = 136 and 688 but supplies about a third of R for the N = 8 states. Write the 17a.6 sentence with the exact formula. In the 17b.4 caption and description, quote the range of the plotted ratio p8(brane)/p\u03048 (0.074 to 0.414), or plot (p8(0) - e^{-6HL}p8(-L))/(1 - e^{-6HL}) against p\u03048. Make the In [16] check test the plotted quantity, and say 'whose mean and brane value of p8 are negative'. Rebuild 17b."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/17-a4-equations-with-kohn-sham-source.md",
+   "location": "Exercise 8, answer (l.2745)",
+   "problem": "The answer says that the order-4 predictions 'agree with the printed values to within the rounding of the first one'. That is false for the step 0.10: the gap there comes from the higher-order error term (fitted order 4.04), not from rounding.",
+   "evidence": "Recomputed for N136_lam0_a10: the unrounded first difference is 4.627e-7. Times 625 this gives 2.892e-4, while the measured value is 3.048e-4 (printed 3.0e-4), 5% higher. Any first value that rounds to 4.6e-7 (4.55 to 4.65e-7) gives 2.84 to 2.91e-4, which cannot round to 3.0e-4. The 0.04 and 0.06 steps also lie 0.7 to 1.7% above the prediction.",
+   "fix": "Say that the predictions agree to within a few per cent. Explain that the remaining excess, growing with the step, is the next term of the error (order delta^6 relative to delta^4), which is why the fitted order is 4.04 rather than 4.00."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/17-a4-equations-with-kohn-sham-source.md",
+   "location": "Walk-through of 17b, In [14] (l.2382), and notebook 17b section 11 markdown",
+   "problem": "The column ycons_integrated_rel is called 'the same relative difference computed by the solver from its unrounded numbers'. It is not the same quantity. The solver divides by its own scale, max(|integral|, |jump|, |e^{6Hy}p8 at the tip|, size of the cancelling terms), and works on its unrounded internal values. The notebook divides by |right side| and uses the table's 16-digit values. The two numbers (1.421e-11 against 1.422e-11) are close, but not identical by definition.",
+   "evidence": "Revision/kohn_sham/solver/src/analysis.rs l.104-106: sc2 = integ.abs().max(jump.abs()).max((e6[0]*p8[0]).abs()).max(termscale); yint = |jump - integ|/sc2. The notebook computes abs(left_side - right_side)/abs(right_side).",
+   "fix": "Write 'the solver's own relative difference of the same two sides (divided by the largest of the terms involved)'."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/17-a4-equations-with-kohn-sham-source.md",
+   "location": "Sec. 17.7 l.268 ('with a4 frozen at a4,0')",
+   "problem": "The word 'frozen' for the stationary-slice (adiabatic) ansatz is easily confused with the forbidden old 'frozen' extra-time models (TEXTBOOK_SPEC R2; Revision/SPEC.md s.1: extra times 'never treated as static or frozen'). The user has explicitly corrected this wording before.",
+   "evidence": "l.268: '... in the author's metric with $a_4$ frozen at $a_{4,0}$'. ks-theory.json calls it the 'stationary-slice ansatz' (adiabaticity.instantaneousProblem).",
+   "fix": "Write 'with $a_4$ held at its slice value $a_{4,0}$ (the stationary-slice, adiabatic ansatz of Chapter 14; between slices the extra times keep deflating)'."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/17-a4-equations-with-kohn-sham-source.md",
+   "location": "Sec. 17.7 l.270-271; Sec. 17.16 l.1641; walk-through In [13] l.2319",
+   "problem": "The deep-dive rule is not met: several technical words are used in the prose without a definition in the chapter or its word list (17.2). They are 'closed shells', 'first-order mean-field potential', 'fixed occupations' and 'least squares'. The 17.2 Kohn-Sham bullet covers orbital, Fermi level, self-consistent, good sector and Z2 mirror, but not these.",
+   "evidence": "l.270 'the closed shells $N = 136$ and $N = 688$'; l.271 'the first-order mean-field potential stays below ...'; l.1641 'with ... fixed occupations'; l.2319 'fits a straight line ... by least squares'.",
+   "fix": "Add one plain-words definition of each to 17.2, or at its first use."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/17-a4-equations-with-kohn-sham-source.md",
+   "location": "Sec. 17.7 l.271",
+   "problem": "The text says the couplings keep the first-order mean-field potential 'below 0.1 m and 0.3 m'. The recorded values slightly exceed these bounds, because lambda is rounded to 4 digits. The wording copies the record's rule text, not its numbers.",
+   "evidence": "Revision/kohn_sham/results/parameters.json couplingCalibration: N = 8 firstOrderPotential1 = 0.1000011, firstOrderPotential2 = 0.3000034; N = 688: 0.1000001 and 0.3000004.",
+   "fix": "Write 'at about 0.1 m and 0.3 m (lambda rounded to four digits; for N = 8, 0.1000011 m and 0.3000034 m)'."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/notebooks/src/17a_source_conditions.py",
+   "location": "markdown cells 1 (l.~100), 3 (l.142) and 11 of Notebook 17a",
+   "problem": "Notebook 17a states C1 and the source with only one mixed entry, q48. The chapter (17.3, 17.4) and Notebook 17b use both q48 and q84. Both must vanish (record generalSource.x8_dependence: 'q48 = q84 = 0'), so the notebook printed in Section 17.10 is incomplete and inconsistent with the surrounding text.",
+   "evidence": "17a cell 0: 'C1: no component of the source depends on x8 (and the mixed component q48 is zero)'. Cell 3: 'plus a possible mixed entry q48 (row x4, column x8)'. a4-equations.json x8_dependence: 'q48 = q84 = 0'.",
+   "fix": "Write 'q48 and q84 are zero' and 'possible mixed entries q48 and q84', then rebuild 17a."
+  }
+ ],
+ "verified_ok": [
+  "(a) nbkit check run from a clean scratch folder (restart/textbook/review17/a and /b): check_17a=PASSED (9 files compared, 9.7 s, peak 213 MB; whole nbkit run 11.4 s) and check_17b=PASSED (7 files, 10.5 s, peak 202 MB; 12.3 s). The only warnings named files that other agents changed during the run (chapters 22 and 18); they are harmless.",
+  "Headless run as the instructions describe (nbconvert --execute, kernel started in Revision/textbook/notebooks, TEXTBOOK_OUTPUT_ROOT pointing to scratch): 17a took 14.8 s and 17b 12.3 s of wall time. All 14 figure and caption files were byte-identical to the committed ones. The book's estimates (about 15 s and about 20 s) are consistent with this. The pyzmq 'Proactor event loop' RuntimeWarning that appeared is the one Step 8 already covers.",
+  "check_chapter.py on chapter 17 (scratch): chapter_check=OK, 23 sections, 2 notebooks, 12 figures, 159 pages, register and verify PDFs identical (sha256 dd242f65...), 25.5 s.",
+  "Every printed number of both stored notebooks matches the numbers quoted in the chapter's prose, tables, captions and walk-throughs.",
+  "ks-source-conditions.json: 5/5 PASS. The chapter's numbers match the record's detail texts: 0.0497329, 2.09192/3.99006, the three example lines, 0.414328, 0.339767/0.25969/0.239714, the six history integral lines and the five zero states.",
+  "a4-equations.json: the Lovelock components E1, E2, E3 (x1x1, x4x4, x5x5, x8x8, x4x8) as regrouped in 17.3; F (evolution_F); rhoEinstein/pEinstein (-24H^2 - Lambda and 12H^2 + Lambda at A = 1); conventions.lovelock E_(k) = -P_(k)/2^(k+1); generalSource conservation_x4/x8; x8_dependence; fields.dirac16complex.{kohnSham, offDiagonal, homogeneousSingleMode, evolution}; fields.emtConvention.",
+  "Independent sympy computation of the Einstein tensor of the author's metric: G^x1_x1 = 15H^2 - 3a'^2 + a'', G^x4_x4 = 21H^2 + 3a'^2, G^x5_x5 = 15H^2 - 3a'^2 - a'', G^x8_x8 = 15H^2 - 3a'^2, R_48 = 0. These agree with the record and with 17.3.",
+  "Every report check name cited exists and is PASS: wolfram-a4-report (47/47), python-a4-report (61/61), ks-theory-python (58/58, as the restart note states), ks-rust-solver (42/42), python-algebra (35/35, lowercase 'pass', which the notebook handles). The details of emt_y_conservation_pointwise (1.951e-8), emt_y_conservation_integrated (1.422e-11, N8_lamp2_a00, tolerance 1e-7), emt_energy_change_dE_da4 (delta 0.002, 1.505e-10) and gamma_fixture_numeric (sha256 95d8cbdd0682fd30) match the chapter.",
+  "parameters.json: H = 1, L = 3, ell = 8 pi, dk = 0.25, v_t = 1, Vol7 = 15875.2137, rk4Steps = 900 (node grid step 1/300), lambda1/lambda2 for N = 8 = 0.01946/0.05838, particle numbers 8/136/688.",
+  "Re-derived by hand: dy/dx8 = cot z; the volume element e^{6Hy}; the lemma Gamma^mu_{mu nu} = d_nu ln f_mu; the divergence of a diagonal tensor; the x4 and y laws, including the q84 term -6H tan z q84 and the x8 form; V = p8'/(3H); the integrated law; the R formula with the factor 1/(3H) over 2/(6H) = 1; de44/da' = 6a'Q = 3a'F; dC/dx4 = 3a'E; C2, C3 and the no-vacuum result 6a'^2 + 6H^2 = 0.",
+  "Figure descriptions recomputed from the profiles: rho at the tip is about 0.093 to 0.104 of max|T|; the max/min of rho runs from 319 to 1.11e5; V at the tip is 2.364 to 2.368 of max|T| with a single sign change near y = -1.75 to -2.23; p8 crosses zero between -2.59 and -2.37 and peaks at -2.06 to -2.24; the C1 map rows lie between 0.05 and 0.42, the C2 map between 2.09 and 2.50, with N = 8 at 0.995 and 3.990; integrated ratios for N = 8 lie flat at 0.1072 and 0.1100; Simpson errors run from 1.90e-4 to 2.24e-4; the trapezoid error is 1.5e-2.",
+  "Exercises 1 to 7, 9 and 10: the answers are arithmetically and algebraically correct (Exercise 5: R = 0.33977, mean 0.0066223, both sides 71.440; Exercise 7: Simpson -67.8511, relative error 2.1e-4, trapezoid -68.8713, 1.5e-2; Exercise 10: e^{-18} = 1.523e-8, 99.75 per cent of the volume).",
+  "The walk-throughs quote every code line of 17a In [1]-[20] and 17b In [2]-[20]; 17b In [1] is covered by reference to the identical 17a set-up cell. Every figure has a teaching caption that states axes, units and what to see. The PASS counts (16 + 16) and the counts of checks that reproduce a record (10 + 10) are correct.",
+  "Run-instruction sections 17.9 and 17.18 are generated, complete and self-contained for Windows, macOS and Linux, with no reference to other places. git clone URL = origin; pinned package versions equal the installed ones (jupyter --version confirms jupyterlab 4.4.10, nbclient 0.10.2, nbconvert 7.16.6, ipykernel 7.1.0). .gitattributes '* -text' keeps gammas.json LF, so the sha256 check is robust on Windows clones.",
+  "R6: both PROVENANCE.md files exist with every required part (purpose and records, the full instructions, expected PASS/RESULT/final lines, figures with captions and sizes, side effects including files written with sha256, the notebook rewrite with --inplace, .ipynb_checkpoints, caches, network and run time and memory, environment, fingerprints, verification). The notebook sha256 values in the provenance files equal the current files, and nbkit check reports the regenerated provenance identical.",
+  "R2: author's coordinates x1..x8 throughout, extra times stated to deflate exponentially, no old-stage source cited (no artifacts/, provenance/ or studies/ paths). R3: no claim about creation, pairs of universes or matter-antimatter; the \u00b1lambda zero-mode symmetry is explicitly said not to be the pairing theorems. R5: not applicable (no charge-conjugation statements; forbiddenPhrases check passed).",
+  "Cross-references checked: Section 9.9 (divergence and Noether table), Section 9.10 (first-law reading), Section 12.26 (dirac16complex00 condensate as an exact source) exist with the cited content. Writer's open item confirmed: 17b prints the a4 report check counts in RESULT lines (61/47 now), so the notebook must be rebuilt when the a4 author-T16 patch adds checks; the prose hard-codes no check counts."
+ ]
+}

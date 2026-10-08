@@ -1,0 +1,117 @@
+{
+ "findings": [
+  {
+   "severity": "major",
+   "file": "Revision/textbook/chapters/14-kohn-sham-model.md",
+   "location": "Section 14.3, paragraph 'The good sector (ASSUMED)', line 124",
+   "problem": "The reason given for the good sector claims more than the Revision record. The sentence 'only without extra-time dependence does the quantised field have a space of states with a positive norm' says two things that are not established: (i) that a positive-norm state space exists for the good-sector field, and (ii) that none exists outside it. The record constructs a positive Fock space only for single good-sector momenta with frozen coefficients, and calls everything beyond that OPEN or not constructed. This breaks the R3 status rule: an OPEN item is presented as an established reason, and the chapter attributes the claim to Chapters 8 and 10, which do not make it.",
+   "evidence": "Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md line 566: 'positive Fock realisations checked for single good-sector momenta with frozen coefficients. A positive-norm Hilbert space for the full field, a stable vacuum ..., and the interacting operator theory are not constructed'. Line 567: in the curved good sector without a boundary condition, growing modes (complex frequencies) remain. Chapter 10, line 2167 (status table): 'scope: single good-sector momenta, frozen coefficients | OPEN beyond it | a positive Hilbert space for the whole field, the extra-time sector and lambda != 0 are not constructed'. Chapter 10 Theorem 10.1 (line 252): Krein inertia (4,4) at every real frequency 'with or without extra-time momentum'.",
+   "fix": "Replace the clause with something like: 'modes with enough momentum along the extra times grow without bound (Hadamard ill-posedness), and a positive Fock space has been built only for single good-sector momenta with frozen coefficients (Chapter 10; a positive-norm space for the whole field is OPEN)'. Keep the next sentence, 'This restriction is an assumption ... not a result'."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/14-kohn-sham-model.md",
+   "location": "Section 14.27, bullet 'To first order in lambda ...', line 3622",
+   "problem": "The text says the calibration makes the first-order potential 'stay below 0.1 m and 0.3 m'. The chapter's own notebook prints values slightly above these bounds, because lambda is rounded up to 4 significant digits. A student who compares the text with the output finds a contradiction. (The wording was copied from the rule text in parameters.json, whose own numbers also contradict it.)",
+   "evidence": "Notebook 14d Out [12]: 'RESULT first-order potentials = 0.1000011257, 0.3000033771 m'. Revision/kohn_sham/results/parameters.json, couplingCalibration, N = 8: firstOrderPotential1 = 0.1000011257059323 and firstOrderPotential2 = 0.3000033771177969. For N = 688 the values are also above the bounds (0.1000001381830647, 0.3000004145491942).",
+   "fix": "Write 'so that the first-order potential is 0.1 m and 0.3 m to four significant digits (0.1000011 m and 0.3000034 m after rounding lambda, Notebook 14d Out [12])'."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/14-kohn-sham-model.md",
+   "location": "Section 14.14 (line 1694); Section 14.15 (line 1700); Section 14.1 (line 29); walk-through 14.18, In [8] (line 2216)",
+   "problem": "The root finder of the notebooks is attributed to the Revision Rust solver. Line 1694 says the solver 'keeps an interval ... and halves it 72 times, starting from [-20, 20]'. Sections 14.1 and 14.15 say the numpy code is 'the shooting method of the Revision Rust solver' including 'bisection on the labels'. Line 2216 says 'The two programs do the same arithmetic'. The Rust solver actually uses a different method: it expands a bracket from a guess and then iterates a safeguarded Newton step (using dPhi/deps) with bisection fallback, down to a tolerance. Only the RK4 integration and the Pruefer angle are the same.",
+   "evidence": "Revision/kohn_sham/solver/src/shoot.rs: find_level(ctx, sec, t, guess, lower, tol), lines 201-308. Bracket expansion uses 'step *= 2.0'; the iteration uses 'let mut en = ec - gc / dc; let bisect = !(en > lo && en < hi) || gc.abs() > 0.5 * prev_abs;' and stops at 'hi - lo <= tol'. There is no fixed 72-step bisection of [-20, 20]; that loop is only in the notebooks ('iterations=72', 'np.full(k.shape, -20.0)').",
+   "fix": "State that the notebooks use plain bisection (72 halvings of [-20, 20]) on the same Phi, while the Rust solver uses a safeguarded Newton-bisection to a tolerance. Both find the root of the same discretised Phi, which is why they agree to 1e-11. Change 'do the same arithmetic' to 'integrate the same RK4 discretisation'."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/14-kohn-sham-model.md",
+   "location": "Walk-through 14.18, In [8], line 2230",
+   "problem": "This factual claim about Out [8] is false: 'the numerical and exact levels agree in all 10 printed decimals for the labels -2 to 2'. For odd parity, the labels -2, +1 and +2 differ in the 10th decimal.",
+   "evidence": "Notebook 14b Out [8]: label -2, odd: -2.0106285601 vs -2.0106285600. Label +1, odd: 2.0106285601 vs 2.0106285600. Label +2, odd: 2.9119358755 vs 2.9119358754.",
+   "fix": "Write 'agree in all 10 printed decimals for the even labels -2 to 2 and the odd labels -1 and 0; the others differ in the 9th or 10th decimal ...'."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/14-kohn-sham-model.md",
+   "location": "Section 14.32, COMPUTED table, first row (line 4202); walk-through 14.18, In [8] (line 2230)",
+   "problem": "The table gives tolerances as the 'accuracy', but R3 asks for the measured uncertainty. The upper bound 3.2e-7 is also not the Rust check's tolerance (that is 3e-7), even though line 2230 calls the notebook's bounds 'the tolerances of the Rust check free_k0_analytic_spectra'.",
+   "evidence": "Revision/kohn_sham/reports/ks-rust-solver.json, check free_k0_analytic_spectra: 'max |difference| 7.23e-10 for |eps| < 4 m (tolerance 5e-9 ...), 5.05e-8 for 4 m <= |eps| < 7 m (tolerance 3e-7)'. Notebook 14b builder line 744 and chapter line 2222 use 'high < 3.2e-7'.",
+   "fix": "In the 14.32 table, quote the measured errors (7.23e-10 below 4m and 5.05e-8 above, per the record; the notebook reproduces them below its bounds 5e-9 and 3.2e-7). In the walk-through, either use the record's 3e-7 or call 3.2e-7 the notebook's own bound."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/notebooks/src/14b_free_spectra.py",
+   "location": "cell In [10], builder lines 740-745 (chapter lines 2296-2303)",
+   "problem": "Record drift would go unnoticed. The check that 'reproduces' ks-rust-determinism.json compares the notebook's own results with hard-coded strings ('16.00', '5.050e-08', '3.157e-09', 39) instead of the numbers in the record. It reads only the record's PASS verdict. If the refined Rust run is redone and its numbers change, the notebook still passes and still prints 'reproduces ...'. The restart instructions require notebooks to assert record numbers so that drift is caught.",
+   "evidence": "check(len(ratios) == 39 and f\"{median:.2f}\" == \"16.00\" and f\"{max(errors.values()):.3e}\" == \"5.050e-08\" and f\"{max(refined_errors.values()):.3e}\" == \"3.157e-09\" and record_check(\"refined_free_spectra_convergence_order\", (...ks-rust-determinism.json,)), ...). The record detail holds these numbers as text: 'max error canonical 5.050e-08, refined 3.157e-09; median error ratio 16.00 over 39 levels'.",
+   "fix": "Parse the four numbers from the detail string of refined_free_spectra_convergence_order (for example with a regular expression) and compare the notebook's formatted values with them. Then rebuild 14b with nbkit."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/14-kohn-sham-model.md",
+   "location": "Section 14.14, paragraph 'Every level has an integer label' (line 1694); Section 14.1 status list (line 33) vs Section 14.32 table (line 4192)",
+   "problem": "Deep-dive gap. 'Because Phi grows strictly and has no jumps, it passes every target value exactly once' proves only 'at most once'. Existence needs Phi -> +-infinity as eps -> +-infinity, and that step is missing. It follows in one line: integrating theta' = j eps' - K cos 2theta - M sin 2theta gives Phi = eps'L + O(int(|K| + |M|) dy). Separately, Section 14.1 says every PROVED statement, including 'the counting property of the shooting angle', is verified in the Revision record by sympy, but the 14.32 table lists it as only 'derived in Section 14.14', with no record check.",
+   "evidence": "Line 1694: 'Because $\\Phi$ grows strictly and has no jumps, it passes every target value exactly once: there is exactly one level for every label and parity'. Line 33: '... the counting property of the shooting angle in Section 14.14 ... Each is verified in the Revision record by sympy in ks-theory-python.json'. Line 4192: '| derived in Section 14.14 |'.",
+   "fix": "Add the unboundedness line: Phi(eps) - eps'L is bounded by int(|K| + |M|) dy, so Phi takes every real value. In 14.1, except the Pruefer counting property from the record-verified list, or say it is proved in the text and checked numerically by Notebook 14b."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/14-kohn-sham-model.md",
+   "location": "Section 14.26, 'Why every symmetric occupation has rho = (nB + SC)/16' (lines 3467-3511)",
+   "problem": "Two problems. First, the conclusion drops a hypothesis. The derivation fills all eight positive-energy modes of a momentum equally ('these eight modes, all filled, contribute G_p B'), but the result is stated 'for every occupation that is symmetric under p -> -p'. A p/-p-symmetric occupation of only some of the eight degenerate modes does not, in general, give a combination of B and C. The record keeps the hypothesis ('the 8-fold good-sector gas'). Second, the mixed products of different gammas are dismissed with 'in the same way ... cancel in pairs', the 'similarly' that the deep-dive rule forbids.",
+   "evidence": "Line 3511: '$\\rho = (nB + SC)/16$, for every occupation that is symmetric under $\\mathbf p \\to -\\mathbf p$, at every temperature'. ks-theory.json exchange.uniformGas.result: 'any p -> -p symmetric occupation of the 8-fold good-sector gas (any temperature)'. Line 3467: 'and in the same way the products of $\\gamma^{(x_4)}\\gamma^{(a)}$ and $\\gamma^{(x_4)}\\gamma^{(b)}$ for $a \\ne b$ cancel in pairs'.",
+   "fix": "State the hypothesis: the eight degenerate modes of each momentum carry the same occupation, as in closed shells and Mermin states, and p and -p are equally occupied. Write out the line (g4 ga)(g4 gb) + (g4 gb)(g4 ga) = ga gb + gb ga = 0 for a != b."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/14-kohn-sham-model.md",
+   "location": "Section 14.12, 'Why the tip hardly matters ...', status line (line 1554)",
+   "problem": "The status label covers more than the derivation proves. The derivation proves the asymptotic branches exp(+-k kappa/H) on the sigma2 eigenvectors. The conclusion, 'for k != 0 the levels change by about this factor at most', is an order-of-magnitude estimate (the derivation uses '\u2248' and 'about'), yet the whole paragraph is labelled 'Status: PROVED'. The level-shift bound is supported numerically (Rust check free_tip_angle_insensitivity, Notebook 14c), not proved.",
+   "evidence": "Line 1554: 'Whatever condition is imposed at y = -L acts on a part of the orbital that is already this small, so for k != 0 the levels change by about this factor at most. ... Status: PROVED; check bc_tip_asymptotics (both reports)'.",
+   "fix": "Split the status: the asymptotic branches and the suppression factor of the orbital are PROVED (bc_tip_asymptotics); the bound on the level shift is an estimate, COMPUTED in Section 14.20 (tip-angle.csv, free_tip_angle_insensitivity)."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/chapters/14-kohn-sham-model.md",
+   "location": "Section 14.27, 'What the functional leaves out' (line 3601)",
+   "problem": "Deep-dive gap. The text asserts without reason that 'The average over directions is the same as the projection onto the matrices that commute with the rotations of 3-space'. A closed lattice shell is a finite cubic set of directions, not all of SO(3). The equality holds because End(16) carries only spin 0 and spin 1, so the cubic average equals the full rotation average, which in turn is the projection onto the commutant. That reason is in the record but missing from the chapter, so the step is unsupported for the student.",
+   "evidence": "ks-theory-python.json, exchange_slab_exact_fock detail: '(= the projection onto the 64-dim commutant of the 3-space rotations; End(16) carries only spin 0 and 1)'. ks-theory-wolfram.json: 'averaged over the 48-element spinor octahedral group (End(16) carries spin 0 and 1 only, so this equals the full SO(3) average)'.",
+   "fix": "Add the two missing sentences: averaging over a group projects onto the matrices invariant under it, and for matrices that carry only spin 0 and spin 1 the cubic (octahedral) average already equals the full rotation average (record, both reports)."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/notebooks/src/14c_brane_band.py",
+   "location": "FACTS troubleshooting, builder line 82; chapter Section 14.22, line 2639",
+   "problem": "The text names the wrong slow cells. Both the troubleshooting entry and Section 14.22 say 'the cells of its sections 8 and 11 ... take 10 to 20 seconds each'. Measured per-cell times show the slowest cell is in section 9 (the mirror symmetries), and section 10 (the tip) is as slow as section 11; the section 8 cell is the fastest of the four.",
+   "evidence": "Per-cell timing in this review (nbclient record_timing, scratch copy): In [7] (section 8) 6.2 s; In [9] (section 9) 12.7 s; In [11] (section 10) 9.9 s; In [14] (section 11) 10.0 s. Section map from 14c_brane_band.PROVENANCE.md, section 1.",
+   "fix": "Write 'the cells of sections 8 to 11' (or 'of sections 9, 10 and 11') in the FACTS troubleshooting entry and in Section 14.22. Then rebuild 14c with nbkit so that the instructions and the PROVENANCE.md are regenerated."
+  },
+  {
+   "severity": "minor",
+   "file": "Revision/textbook/notebooks/src/14d_local_exchange.py",
+   "location": "cell In [8], builder line 453",
+   "problem": "The record path in the PASS line is truncated. The 'reproduces' line prints 'results/parameters.json', which is not a repository path. The rule for PASS lines is to name the record file.",
+   "evidence": "Notebook 14d Out [8]: '     reproduces Revision/kohn_sham/ks-theory.json and results/parameters.json'. Builder line 453: record=\"Revision/kohn_sham/ks-theory.json and results/parameters.json\".",
+   "fix": "Print the full path 'Revision/kohn_sham/results/parameters.json, theoryInputs', then rebuild 14d with nbkit."
+  }
+ ],
+ "verified_ok": [
+  "(a) Clean-state nbkit check (python Revision/textbook/tools/nbkit.py check, each in an empty scratch folder under scratchpad/restart/textbook/review14/): 14a PASSED (kernel 34.9 s, wall 38 s, peak 198 MB); 14b PASSED (49.9 s / 52 s, 202 MB); 14c PASSED (131.1 s / 134 s under concurrent machine load, 200 MB); 14d PASSED (23.9 s / 26 s, 202 MB). All are byte-identical to the stored notebooks, figures, captions and PROVENANCE.md, so they reproduce the CURRENT records (ks-theory-python.json 58/58, ks-theory-wolfram.json 46/46, ks-rust-solver.json 42/42, ks-rust-determinism.json 14/14, the results/ CSVs). The only warnings were about other processes' files changing during the run. 14a passed on the first try; the stream-chunk flakiness the writer reported did not occur.",
+  "Exact headless command from Step 6 of the run instructions (jupyter nbconvert --to notebook --execute --inplace <file>), run in Windows PowerShell on a scratch mirror of the repository: 14d 21.4 s, 14a 18.4 s, 14b 29.6 s, 14c 66 s. All exited 0 and ended with '[NbConvertApp] Writing'; the only extra output was the zmq Proactor RuntimeWarning, which the troubleshooting list mentions. Printed text (streams joined) and all 21 PNGs plus 4 caption files were byte-identical to the stored ones. On this machine jupyter is not on PATH because the packages are installed per user; that is a property of this machine, not a defect of the venv-based instructions.",
+  "pip dry-run (--python-version 3.12 --only-binary) resolves all nine pins of the instructions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0, nbconvert 7.16.6.",
+  "check_chapter.py on chapter 14 in scratch gives chapter_check=OK: 33 sections, 4 notebooks, 21 figures, 266 pages, no latex_warning. The register and verify PDFs are byte-identical (sha256 3bb096b614b7ccd1...). Build time 53 s. This confirms the writer's claim.",
+  "Run-instruction paragraphs and in-notebook instructions (cell 2 and the comments of the set-up cell) are complete and self-contained for Windows PowerShell, macOS zsh and Linux bash (Git, Python, venv, pinned pip installs, JupyterLab and headless runs, files written, final lines, troubleshooting). They do not refer to any other place, and none needs Rust. The set-up cells of 14b-14d are identical to 14a's except NOTEBOOK_ID.",
+  "R6: all four PROVENANCE.md files exist. Each has: what the notebook computes and the records it uses, the full instructions, expected output (PASS lines, RESULT lines, final lines, figures with captions), side effects (files with sha256, the notebook itself, .ipynb_checkpoints, caches, network, run time and memory), environment, fingerprints, and the verification date. nbkit check confirms each matches a fresh execution.",
+  "Re-derived by hand: the hidden coordinate y = ln(sin z)/(6H), the warped form, sqrt|g| = e^{6Hy} (cos z in the x8 chart), and kappa. Christoffel symbols and spin connection Steps 1-5: sum gamma^mu Omega_mu = 3H gamma^(x8), with the +-(3/2)a4' gamma^(x4) pieces of the 3 inflating and 3 deflating directions cancelling. W^-3 removes the spin connection. The Hamiltonian form and its Hermiticity, using (gamma^a)^T = eta_aa gamma^a, which was verified numerically on gammas.json.",
+  "Re-derived: Rules 1 and 2; the labels J, K1, K2 (J^2 = 1, K^2 = -1); the projectors, their rank and trace; all block forms (A4 -> j sigma1, C -> s2 sigma2, B -> j s2, gamma4 -> i j sigma2, gamma4 gamma1 -> -j sigma3, BC -> j sigma2); h_j = j[-i sigma1 d/dy + M sigma2 + kappa k sigma3] + v; N = M sigma3 - kappa k sigma2 + i j(eps - v) sigma1; the two type relations; sigma2 h_j(M) sigma2 = h_-j(-M); the rotation formula; the rescaling identity and the partner numbers 0.151632664928 and 0.223130160148.",
+  "Re-derived: the real form a', b'; the four orbital densities; current conservation and the boundary term; the brane parities; the mirror map with -M(-y), S odd, so the copy carries (-m, +lambda); the tip family Q(theta) and the start point (cos theta/2, sin theta/2); the tip asymptotics and the suppression factors 8.47e-3, 7.17e-5, 5.14e-9 (tip-angle.csv); all cases of the exact k = 0 spectra and the root-location argument for tan(pL) = -p/M; p0 = 0.818548, 1.292292828069 m, 1.447971930402 m; the Pruefer equation and w' = j r^2.",
+  "Re-derived: the Hellmann-Feynman slope c = e^{-a}(2M/(2M-H))(1 - e^{-(2M-H)L})/(1 - e^{-2ML}) = 2e^{-a}/(1 + e^{-L}). Values: 1.905148 (L = 3), 1.761594 (L = 2), 1.964028 (L = 4) and the five slice values. Also the Richardson formula; the oddness of the band; r3 values; degeneracies 4 r3; the closed-shell sequence 8, 32, 80, 112, 136, 232, 328, 376, 496, 592, 688, 696, 728 and the levels against closed-shells.csv; N_mid = 136 and N_large = 688 against parameters.json; the N = 8 gaps; 22 and 55 closed shells.",
+  "Re-derived: h_p^2 = E^2 and the projector G_p (trace 8); (-i g4)B = C; Wick's rule in matrix form; Tr(C rho C rho) = (n^2 + S^2)/16; e_x = -(lambda/32)(n^2 + S^2); the ratio -1/8; e_int; M_eff = m + (15/16)lambda S; v_v = -lambda n/16; the on-shell Lagrangian equal to e_int; S^2 + Q^2 <= n^2; and the N = 8 state (n_max = 82.2208638894, strength 5.138803993, lambda1 = 0.01946, lambda2 = 0.05838, exact-Fock energies of the 20 N = 8 states below 2.1e-13). All match ks-theory.json, ground/summary.csv, parameters.json and exx/exact-fock-variant.csv.",
+  "Every check name cited in the chapter exists in the named report with verdict PASS. The 'both reports' attributions in Sections 14.2, 14.4, 14.12 and the 14.32 table match the Wolfram report's check list. Rust check details match the quoted numbers (1.478e-13, 3.318e-13, 1.87e-12, 0.4307, 7.23e-10). The ks-source-conditions.json check names in Section 14.3 exist (5/5 PASS). Every cited Revision path exists, and no old-stage source (artifacts/, provenance/, studies/, wolfram/) is cited.",
+  "R2: only the author's x1..x8 are used, with x5, x6, x7 the exponentially deflating extra times and x8 hidden. The history a4 = AHx4 is labelled a PRESCRIBED BACKGROUND, citing ks-source-conditions.json. No static or frozen extra-time model appears. R3: the Gamma map, the mirror copy and T1/T3 are presented as exact maps between solution sets, with explicit statements that nothing about creation follows; 'particle/sea' is disclaimed as having no bearing on matter-antimatter. R5: charge conjugation is presented as the matrices C+ = C and C- = Gamma C; real-field complex conjugation is explicitly not called charge conjugation.",
+  "Deep-dive coverage: a script found that every non-comment, non-docstring code line of all four notebooks is quoted in its walk-through. The only exceptions are the elided caption strings and the shared set-up cell, which is explained in 14.11 and referenced from the other three walk-throughs. PASS-line counts per cell (28, 20, 15, 16) match the outputs. All 21 figures have teaching captions (what is plotted, axes, units, what to see), and the 'What figure ... shows' numbers were spot-checked (e.g. 14a.4 off-diagonal sizes 1.2 and 0.2, 14b.1 roots, 14c.6 1552 at 1.584 m, 14d.1 entry sizes 0.5 and 0.354 with no B/C overlap, 14d.4 densities).",
+  "(f) All 10 exercise answers were recomputed and are correct (14.1-14.10, including the Hermite midpoint formula, p0 = 1.14447 for L = 2, the slopes, the gap estimates of 11 and 3 per cent, n = S = 8 with ratio -1/8, the triangle-inequality disk, and n_max = 82.2209)."
+ ]
+}
