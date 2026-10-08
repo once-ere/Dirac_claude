@@ -511,7 +511,9 @@ CELLS = [
         elif "checks" in read_report(relative):
             not_reports.append(relative)
     report("verifier reports found in the folder Revision", len(found_reports))
-    say("a key checks, but no checks in it: " + ", ".join(not_reports))
+    say("JSON files with a key checks that holds no checks:")
+    for relative in not_reports:
+        say("    " + relative)
 
     REPORTS = [  # (report, engine)
         @@REPORTS@@

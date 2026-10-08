@@ -54,6 +54,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -77,8 +78,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "e1b3f49ac8222975cc98e591380b753990e3b5a3e6a6f24a73cc2b726620a324"
-TEX_SHA256 = "4318263e956bf5a326a7881e67f605ae5f67f59c9961a30080c761c1fa07b2bf"
+MARKDOWN_SHA256 = "3e056849126277ff3b07677e5a88d230d0b1109e6bdbc36ac9192f09932612d5"
+TEX_SHA256 = "0b9fc2074a676beb42792fc9f3876eea0f52d7bd3e272a6c723ce538e71eb070"
 
 GKD = REVISION / "gkd_lovelock"
 RESULTS = GKD / "results"
@@ -239,8 +240,10 @@ def code_spans(text: str) -> list[str]:
 
 
 def cited_identifiers(text: str) -> list[str]:
+    """Identifier-like code spans; sha256 values are excluded (each is checked by the test that quotes it)."""
     return [span for span in code_spans(text)
-            if not span.endswith(FILE_SUFFIXES) and re.fullmatch(r"[A-Za-z][A-Za-z0-9_.*]*", span)]
+            if not span.endswith(FILE_SUFFIXES) and re.fullmatch(r"[A-Za-z][A-Za-z0-9_.*]*", span)
+            and not re.fullmatch(r"[0-9a-f]{64}", span)]
 
 
 def rust_references(text: str) -> list[tuple[str, str]]:
@@ -728,6 +731,233 @@ class QuotedData(unittest.TestCase):
                       self.text)
         self.assertIn("several minutes", GKD_TEST.read_text(encoding="utf-8"))
         self.assertIn("several minutes (`Revision/tests/test_gkd_lovelock.py`", self.text)
+
+
+def from_compare(text: str) -> sp.Expr:
+    """An expression of the comparison report (sympy text; a4_rev_d<n>(x4) = a4^(n))."""
+    for n, symbol in ((1, "A1"), (2, "A2")):
+        text = text.replace(f"a4_rev_d{n}(x4)", symbol)
+    return sp.sympify(text, locals={"A1": A1, "A2": A2, "H": H})
+
+
+def squash(text: str) -> str:
+    return re.sub(r"\s+", " ", text)
+
+
+class AuthorComparison(unittest.TestCase):
+    """Section 8.2: every quoted number and verdict is read from Revision/gkd_lovelock/comparison/."""
+
+    def setUp(self):
+        self.text = markdown_text()
+        self.report = load_json(COMPARISON_REPORT)
+        self.author = load_json(AUTHOR_OUTPUTS)
+        self.checks = {check["name"]: check for check in self.report["checks"]}
+        self.readme = COMPARISON_README.read_text(encoding="utf-8")
+        start = self.text.index("\n### 8.2 ")
+        self.section = self.text[start:self.text.index("\n### 8.3 ", start)]
+
+    def counts(self) -> dict[str, int]:
+        verdicts = [check["verdict"] for check in self.report["checks"]]
+        counts = {verdict: verdicts.count(verdict) for verdict in ("PASS", "FAIL", "NOT-AVAILABLE")}
+        self.assertEqual(sum(counts.values()), len(verdicts))
+        self.assertEqual(self.report["summary"], dict(counts, total=len(verdicts)))
+        return dict(counts, total=len(verdicts))
+
+    def test_counts_are_quoted_from_the_report(self):
+        c = self.counts()
+        self.assertEqual(c["FAIL"], 0)
+        self.assertIsNone(self.report["stopped"])
+        self.assertIn(f"{c['total']} checks: {c['PASS']} PASS, {c['FAIL']} FAIL, {c['NOT-AVAILABLE']} NOT-AVAILABLE",
+                      self.text.split("\n## 1. ")[0])
+        self.assertIn(f"`author-comparison-report.json` has {c['total']} checks: {c['PASS']} PASS, {c['FAIL']} FAIL, "
+                      f"{c['NOT-AVAILABLE']} NOT-AVAILABLE", squash(self.section))
+        row = (f"| `Revision/gkd_lovelock/comparison/author-comparison-report.json` | {c['total']} | {c['PASS']} | "
+               f"{c['FAIL']} | {c['NOT-AVAILABLE']} |")
+        self.assertIn(row, self.text)
+        self.assertIn(f"of the {c['total']} checks {c['PASS']} pass, none fails and {c['NOT-AVAILABLE']} are "
+                      "NOT-AVAILABLE", self.text)
+        self.assertIn(f"`checks: {c['total']}; PASS {c['PASS']}, FAIL {c['FAIL']}, NOT-AVAILABLE {c['NOT-AVAILABLE']}`",
+                      self.text)
+        einstein = [name for name in self.checks if name.startswith("einstein-mixed-")]
+        self.assertEqual(len(einstein), 64)
+        self.assertIn(f"all {len(einstein)} components of the author's Einstein tensor", self.text)
+        self.assertIn(f"all {len(einstein)} components of the Einstein tensor `Out[536]`", self.text)
+        self.assertIn('"checks: %d; PASS %d, FAIL %d, NOT-AVAILABLE %d"', COMPARE_PROGRAM.read_text(encoding="utf-8"))
+
+    def test_result_table_lists_every_check_with_its_verdict(self):
+        header = "| check | what is compared | verdict |"
+        self.assertIn(header, self.section)
+        rows = []
+        for line in self.section[self.section.index(header):].split("\n")[2:]:
+            if not line.startswith("| `"):
+                break
+            cells = [cell.strip() for cell in line.strip("|").split("|")]
+            rows.append((re.fullmatch(r"`([^`]+)`", cells[0]).group(1), cells[1], cells[-1]))
+        listed = set()
+        for name, what, verdict in rows:
+            if name == "einstein-mixed-<h>,<j>":
+                group = [check for key, check in self.checks.items() if key.startswith("einstein-mixed-")]
+                self.assertTrue(all(check["verdict"] == verdict for check in group))
+                self.assertIn(f"({len(group)} checks)", what)
+                listed.update(check["name"] for check in group)
+            else:
+                self.assertIn(name, self.checks, name)
+                self.assertEqual(self.checks[name]["verdict"], verdict, name)
+                listed.add(name)
+        self.assertEqual(listed, set(self.checks))
+        self.assertEqual(len(rows), len(self.checks) - 64 + 1)
+
+    def test_mapping_and_normalisations(self):
+        mapping = self.report["mapping"]
+        self.assertIn("author array position 1 (x0, hidden) -> Revision x8", mapping["coordinates"])
+        self.assertIn("The author's `x0` becomes $x_8$ of this record and the author's `xk` becomes $x_k$ for "
+                      "$k = 1, \\dots, 7$", self.section)
+        self.assertIn("a4_Revision(x4) := a4_author(H*x4)", mapping["function"])
+        self.assertIn("a4_author^(n)(H*x4) = H^(-n) a4_Revision^(n)(x4) (chain rule; n = 0, 1, 2)", mapping["function"])
+        self.assertIn("$a_4(x_4) := a_4^{\\mathrm{author}}(Hx_4)$", self.section)
+        self.assertIn("$(a_4^{\\mathrm{author}})^{(n)}(Hx_4) = H^{-n}a_4^{(n)}(x_4)$ for $n = 0, 1, 2$", self.section)
+        self.assertIn("only the argument H*x4 occurs in the author's outputs (checked)", mapping["function"])
+        self.assertIn("the program checks that no other argument of `a4` occurs in the author's outputs", self.section)
+        self.assertEqual(mapping["constant"], "H is the same constant on both sides")
+        self.assertIn("$H$ is the same constant on both sides", self.section)
+        self.assertIn("nothing is fitted", mapping["status"])
+        notes = " ".join(self.report["normalisations"])
+        for phrase in ("no factor", "with the author's own (mapped) inverse metric", "P_(1)^h_j = -4 G^h_j",
+                       "= 2 R"):
+            self.assertIn(phrase, notes)
+        self.assertIn("The Ricci scalar is compared with no factor.", self.section)
+        self.assertIn("with the author's own (mapped) inverse metric", self.section)
+        self.assertIn("$P_{(1)} = -4G$ and $L_{(1)} = 2R$", self.section)
+        conventions = self.report["authorConventions"]
+        self.assertIn("G = Ric - (1/2) g RS (indices down)", conventions["rt"])
+        self.assertIn("R^mu_{nu alpha beta} = d_alpha Gamma^mu_{nu beta} - d_beta Gamma^mu_{nu alpha} + "
+                      "Gamma^mu_{s alpha} Gamma^s_{nu beta} - Gamma^mu_{s beta} Gamma^s_{nu alpha}", conventions["rt"])
+        for label in conventions["storedOutputsUsed"]:
+            self.assertIn(f"`{label}`", self.section)
+
+    def test_examples_and_controls(self):
+        scalar = self.checks["ricci-scalar-author-Out535-vs-curvature-json"]["detail"]
+        self.assertTrue(scalar["author"].startswith("HoldForm[") and scalar["author"].endswith("]"))
+        self.assertIn(f"`{scalar['author'][len('HoldForm['):-1]}`", self.section)
+        self.assertEqual(sp.expand(from_compare(scalar["authorMapped"]) - (6*A1**2 - 42*H**2)), 0)
+        self.assertIn("which the mapping turns into $6(a_4')^2 - 42H^2$, the value $R$ of section 6.1", self.section)
+        g44 = self.checks["einstein-mixed-x4,x4"]
+        self.assertEqual(g44["verdict"], "PASS")
+        self.assertEqual(sp.simplify(from_compare(g44["detail"]["authorLowerMapped"]) - (-3*H**2*(7 + A1**2/H**2))), 0)
+        self.assertEqual(sp.expand(from_compare(g44["detail"]["authorMixed"]) - (3*A1**2 + 21*H**2)), 0)
+        self.assertEqual(sp.expand(from_compare(g44["detail"]["authorMixed"])
+                                   + from_compare(g44["detail"]["authorLowerMapped"])), 0)  # g^{x4 x4} = -1
+        self.assertIn("$G_{x_4x_4}$ becomes $-3H^2\\big(7 + (a_4')^2/H^2\\big)$, and raised with $g^{x_4x_4} = -1$ it is "
+                      "$3(a_4')^2 + 21H^2 = G^{x_4}{}_{x_4}$", squash(self.section))
+        chain = self.checks["control-mapping-without-chain-rule-is-detected"]
+        self.assertEqual(chain["verdict"], "PASS")
+        self.assertIs(chain["detail"]["differenceIsZero"], False)
+        self.assertTrue(chain["detail"]["result"].startswith("nonzero: "))
+        difference = from_compare(chain["detail"]["result"][len("nonzero: "):])
+        self.assertEqual(sp.expand(difference - 6*(H**2 - 1)*A1**2), 0)
+        self.assertIn("the difference of the Ricci scalars is $6(H^2 - 1)(a_4')^2$", self.section)
+        raising = self.checks["control-einstein-without-index-raising-is-detected"]
+        self.assertEqual(raising["verdict"], "PASS")
+        self.assertIs(raising["detail"]["differenceIsZero"], False)
+        self.assertTrue(raising["detail"]["result"].startswith("nonzero: "))
+        self.assertIn("G_{x1 x1}", raising["detail"]["variant"])
+        self.assertIn("the difference of the $x_1x_1$ components is nonzero", self.section)
+
+    def test_notebook_cells_and_inference(self):
+        sha = self.author["notebookSha256"]
+        inputs = {entry["path"]: entry["sha256"] for entry in self.report["inputs"]}
+        self.assertEqual(inputs[AUTHOR_NOTEBOOK.name], sha)
+        self.assertEqual(self.author["notebook"], AUTHOR_NOTEBOOK.name)
+        self.assertIn(f"`{AUTHOR_NOTEBOOK.name}` in the repository root (sha256 `{sha}`)", self.section)
+        scan = {entry["file"]: entry for entry in self.author["keywordScan"]}
+        main = scan[AUTHOR_NOTEBOOK.name]
+        self.assertEqual(main["sha256"], sha)
+        self.assertIn(f"Of its {main['cells']} cells ({main['styleCounts']['Input']} Input, "
+                      f"{main['styleCounts']['Output']} Output)", self.section)
+        labels = {entry["label"] for entry in self.author["inputCells"] + self.author["outputCells"]}
+        for label in ("In[79]:=", "In[82]:=", "In[214]:=", "In[238]:=",
+                      "Out[235]=", "Out[245]=", "Out[535]=", "Out[536]="):
+            self.assertIn(label, labels)
+            self.assertIn(f"`{label.rstrip(':=')}`", self.section)
+        outputs = {entry["label"]: entry for entry in self.author["outputCells"]}
+        self.assertTrue(all(entry["parsed"] is True for entry in outputs.values()))
+        self.assertEqual(outputs["Out[536]="]["dimensions"], [8, 8])
+        self.assertEqual(outputs["Out[235]="]["dimensions"], [8, 8])
+        assigning = [entry["label"] for entry in self.author["inputCellsMentioningRSorEinsteinG"]
+                     if "EinsteinG" in entry["assigns"]]
+        self.assertEqual(assigning, ["In[238]:="])
+        self.assertIn("only `In[238]` assigns the global symbols `RS` and `EinsteinG`", squash(self.readme))
+        self.assertIn("only `In[238]` assigns the global symbols `RS` and `EinsteinG`", self.section)
+        for name in ("christoffel-components", "riemann-components", "ricci-tensor-components"):
+            self.assertEqual(self.checks[name]["verdict"], "NOT-AVAILABLE")
+            self.assertIs(self.checks[name]["detail"]["In238EndsWithSemicolon"], True)
+        self.assertIn("but `In[238]` ends with a semicolon, so no value of them is stored there", self.section)
+
+    def test_keyword_scan(self):
+        for k in (2, 3):
+            check = self.checks[f"lovelock-k{k}-P{k}-and-L{k}"]
+            self.assertEqual(check["verdict"], "NOT-AVAILABLE")
+        evidence = self.checks["lovelock-k2-P2-and-L2"]["detail"]["keywordScan"]
+        main = evidence[AUTHOR_NOTEBOOK.name]
+        gkd = evidence["Generalized _Kronecker_Delta_4+4.nb"]
+        self.assertEqual(main["outputCellsContainingLovelock"], main["outputCellsContainingLovelockThatAreOnlyStrings"])
+        self.assertIn(f"In the main notebook {main['cellsContainingLovelock']} cells contain the word; the "
+                      f"{main['outputCellsContainingLovelock']} Output cells among them hold only strings", self.section)
+        self.assertEqual(gkd["outputCellsContainingLovelock"], 0)
+        self.assertIn(f"In the Kronecker-delta notebook {gkd['cellsContainingLovelock']} cells contain the word, none of "
+                      "them an Output cell", self.section)
+        scan = {entry["file"]: entry for entry in self.author["keywordScan"]}
+        self.assertEqual(scan[AUTHOR_NOTEBOOK.name]["cellsWithTokenP2P3P4kdelta"], [])
+        self.assertIn("none of its cells contains one of the tokens", self.section)
+        token_styles = {cell["style"] for cell in scan["Generalized _Kronecker_Delta_4+4.nb"]["cellsWithTokenP2P3P4kdelta"]}
+        self.assertEqual(token_styles, {"Input", "Text"})
+        self.assertIn("the cells with the token `kδ` are Input and Text cells", self.section)
+        self.assertIn('{"P2", "P3", "P4", "LovelockP", "kd", "k\\[Delta]"}', EXTRACTOR.read_text(encoding="utf-8"))
+        self.assertIn("`P2`, `P3`, `P4`, `LovelockP`, `kd` and `kδ`", self.section)
+
+    def test_record_files_gate_and_run_times(self):
+        sha = sha256_file(COMPARISON_REPORT)
+        self.assertIn(f"| `author-comparison-report.json` | `{sha}` |", self.readme)
+        self.assertIn(f"the report has the sha256 `{sha}`", self.section)
+        for path in (COMPARISON_README, EXTRACTOR, AUTHOR_OUTPUTS, COMPARE_PROGRAM, COMPARISON_REPORT):
+            self.assertIn(f"`{path.name}`", self.section, path.name)
+        self.assertIn("It does not change any file of `results/`, `code/`, `verification/` or `notebook_reading/`.",
+                      self.readme)
+        provenance = squash(PROVENANCE.read_text(encoding="utf-8"))
+        self.assertIn("The comparison with the author's own answers is done afterwards, in a separate, later commit",
+                      provenance)
+        self.assertIn("announces that the comparison with the author's own answers is done afterwards, in a separate, "
+                      "later commit", self.section)
+        for gate in GATES:
+            source = gate.read_text(encoding="utf-8")
+            self.assertIn("\ngkd-author-extract|", source, gate.name)
+            self.assertIn("\ngkd-author-compare|", source, gate.name)
+            self.assertIn("Revision/gkd_lovelock/comparison/compare_with_author.py", source, gate.name)
+        self.assertIn("as the steps `gkd-author-extract` and `gkd-author-compare`", self.text)
+        readme = squash(self.readme)
+        self.assertIn("Run time 4.4 to 6.0 s (seven runs,", readme)
+        self.assertIn("Run time 0.7 to 0.9 s.", readme)
+        self.assertIn("the extractor 4.4 to 6.0 s (seven runs), the comparison 0.7 to 0.9 s", self.text)
+        extractor = EXTRACTOR.read_text(encoding="utf-8")
+        for printed in ("cells: ", "inputs parsed: ", "outputs parsed: "):
+            self.assertIn(printed, extractor)
+        self.assertEqual(len(self.author["inputCells"]), 8)
+        self.assertEqual(len(self.author["outputCells"]), 4)
+        main = {entry["file"]: entry for entry in self.author["keywordScan"]}[AUTHOR_NOTEBOOK.name]
+        self.assertIn(f"`cells: {main['cells']}`, `inputs parsed: 8/8` and `outputs parsed: 4/4`", self.text)
+
+    @unittest.skipUnless(AUTHOR_NOTEBOOK.exists(), "the author's notebook is not in the repository root")
+    def test_comparison_reproduces_the_committed_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "author-comparison-report.json"
+            completed = subprocess.run([sys.executable, str(COMPARE_PROGRAM), "--output", str(output)], cwd=ROOT,
+                                       stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False, timeout=600)
+            text = completed.stdout.decode("utf-8", "replace")
+            self.assertEqual(completed.returncode, 0, text[-3000:])
+            self.assertEqual(output.read_bytes(), COMPARISON_REPORT.read_bytes())
+        c = self.counts()
+        self.assertIn(f"checks: {c['total']}; PASS {c['PASS']}, FAIL {c['FAIL']}, NOT-AVAILABLE {c['NOT-AVAILABLE']}",
+                      text)
 
 
 if __name__ == "__main__":

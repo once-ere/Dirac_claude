@@ -21,7 +21,11 @@ What is tested
       - lovelock_gkd: the executed notebook printed the check counts of the committed Revision
         reports exactly as their JSON files give them, and no FAIL line;
       - kohn_sham_states: the same for the seven Kohn-Sham reports, the ten states equal to the
-        committed record and the 84 reproduced rows of the cross-check table.
+        committed record and the 84 reproduced rows of the cross-check table;
+      - dark_sector_hypotheses: the same for the six dark-sector reports, the 123 rows of the dense
+        history and of the equation-of-state history reproduced character for character, the three
+        series entries of eos-summary.json, the mixtures, and the exact (Fraction) dirac16complex00
+        tangents and M5 crossing.
   * FULL (only when REVISION_NOTEBOOKS_FULL=1; about a minute per notebook; needs cargo and the
     pinned packages): the installed package versions equal the pins, and
     `build_notebooks.py check <name>` re-executes every notebook in a fresh temporary folder
@@ -48,6 +52,7 @@ NB_DIR = REPO / "Revision" / "notebooks"
 TOOL_PATH = NB_DIR / "tools" / "build_notebooks.py"
 RECORD = REPO / "Revision" / "gkd_lovelock" / "results"
 KS_REPORTS = REPO / "Revision" / "kohn_sham" / "reports"
+DARK = REPO / "Revision" / "dark_sector"
 FULL = os.environ.get("REVISION_NOTEBOOKS_FULL") == "1"
 
 
@@ -83,6 +88,7 @@ class StaticTests(unittest.TestCase):
     def test_builders_exist(self):
         self.assertIn("lovelock_gkd", NAMES)
         self.assertIn("kohn_sham_states", NAMES)
+        self.assertIn("dark_sector_hypotheses", NAMES)
         for name in NAMES:
             module = TOOL.load_builder(name)
             self.assertEqual(module.NAME, name)
@@ -171,6 +177,33 @@ class StaticTests(unittest.TestCase):
         self.assertEqual(len(states), 10, states)
         self.assertIn("N136_lamp1_a10_T20", states)
         self.assertIn("PASS - crosscheck_rows_reproduced: 84 rows", out)
+        self.assertRegex(out, r"checks of this notebook: \d+ passed, 0 failed")
+
+    def test_dark_sector_record_counts_printed(self):
+        out = all_output_text(notebook("dark_sector_hypotheses"))
+        self.assertNotIn("FAIL", out)
+        expected = {("dirac16complex", "derivation-checks.json"): 30, ("dirac16complex", "ks-history-run.json"): 5,
+                    ("dirac16complex", "eos-checks.json"): 13, ("dirac16complex", "independent-checks.json"): 9,
+                    ("dirac16complex00", "python-derive-eos.json"): 49,
+                    ("dirac16complex00", "python-independent-numerics.json"): 28}
+        for (folder, name), n in expected.items():
+            rep = json.loads((DARK / folder / "reports" / name).read_text(encoding="utf-8"))
+            self.assertEqual(len(rep["checks"]), n, name)
+            self.assertEqual(sum(c["verdict"] == "PASS" for c in rep["checks"]), n, name)
+            self.assertIn(f"{name}: {n}/{n} checks pass, 0 fail, {n} listed checks with verdict PASS", out)
+        self.assertIn("PASS - all_runs_succeeded: 123 runs", out)
+        self.assertIn("PASS - dense_rows_bit_identical: 123 of 123 rows", out)
+        self.assertIn("PASS - eos_rows_identical: 123 of 123 rows", out)
+        for sid in ("N688_lam0", "N136_lam0", "N8_lamp1"):
+            self.assertIn(f"PASS - {sid}_summary_equals_record:", out)
+        for name in ("mixtures_equal_record", "mixture_C_w0_unite_has_positive_wa",
+                     "mixture_C_constant_w_unite_only_with_freezing_cpl", "ratio_mixture_scan_cannot_reach_unite_wa",
+                     "condensate_ratio_exact", "M2_tangent_exact", "M3_tangent_exact",
+                     "M4_parameters_and_tangent_exact", "M5_crossing_exact_bracket", "positive_components_never_cross"):
+            self.assertIn(f"PASS - {name}:", out)
+        self.assertIn("u = -382/441 gives the ratio -191/250 = -0.764 exactly", out)
+        self.assertIn("M4: s = 264037/403037 and Omega_q = 57963/264037", out)
+        self.assertIn("the tangent is (-861/1000, -3/5) = the Unite pair EXACTLY", out)
         self.assertRegex(out, r"checks of this notebook: \d+ passed, 0 failed")
 
 

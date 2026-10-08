@@ -250,9 +250,9 @@ def run_instructions(duration: str, where: str) -> str:
 
 
 md(run_instructions(
-    "The whole notebook takes about half a minute on a computer with several cores (the first build of "
-    "the solver takes about half a minute more); the 123 solver runs are spread over up to eight "
-    "parallel processes and take from a few hundredths of a second to about two seconds each.",
+    "The whole notebook takes well under a minute (about 15 s on the computer on which it was built, "
+    "including the build of the solver); the 123 solver runs are spread over up to eight parallel "
+    "processes and take from a few hundredths of a second to about two seconds each.",
     "The Rust solver is compiled into `<output>/cargo-target`, the 123 result files of the solver go to "
     "`<output>/ks_runs`, the two reproduced tables to `<output>/ks-history-dense-subset.csv` and "
     "`<output>/eos-history-subset.csv`, the figures to `<output>/figures`. The committed records "
@@ -667,8 +667,9 @@ md(r"""
 
 The next cell lists, for the three series at the slices $a_4 = 0, 0.5, 1, 1.5, 2$, the integrated energy
 $E$ and the three integrated pressures. The gas N = 688 and N = 136 loses energy as $a_4$ grows (its
-3-momenta redshift); for N = 8 with $\lambda = +\lambda_1$ only the $k = 0$ brane zero modes are filled, $E$
-is negative (repulsive interaction energy of the zero modes), constant, and $P_3 = P_t$.
+3-momenta redshift); for N = 8 with $\lambda = +\lambda_1$ only the $k = 0$ brane zero modes are filled
+(their levels are $\varepsilon = 0$): $E$ is small, negative (the record: $E < 0$ for $\lambda > 0$) and constant,
+and $P_3 = P_t$.
 """)
 
 code(r'''
@@ -815,7 +816,8 @@ $d\ln E/da_4$ at five slices, and checks the physical statements of `reports/eos
 series: the gas (N = 688 and 136) has $X/E$ between 0.29 and 1/3 and RISING toward 1/3 (radiation-like:
 the occupied levels lie on the brane band, which is massless at $k = 0$); it does not fall toward 0
 (dust). N = 8 with $\lambda = +\lambda_1$ has constant $E$ and $P_3 = P_t$: $w_\mathrm{eff}(A) = 0$ and
-$w_\mathrm{eff}(C) = -1$, constant.
+$w_\mathrm{eff}(C) = -1$, constant (the table prints $X/E$ of these states as $-0.000000$: a rounding-level
+number, $|X/E| \le 10^{-12}$, as the check below requires).
 """)
 
 code(r'''
@@ -955,8 +957,7 @@ check("condensate_ratio_exact", ratio == Fraction(-764, 1000) and Fraction(FORMU
       "outputs/eos-summary.json (check condensate_ratio_value of reports/eos-checks.json)")
 grid = [Fraction(k, 64) for k in range(-256, 129) if k != -128]
 phantom = [v for v in grid if v / (2 + v) < -1]
-check("condensate_phantom_window", phantom and min(phantom) > -2 and max(phantom) < -1
-      and all(-2 < v < -1 for v in grid) == False and len(phantom) == sum(1 for v in grid if -2 < v < -1),
+check("condensate_phantom_window", len(phantom) > 0 and phantom == [v for v in grid if -2 < v < -1],
       f"on the {len(grid)} exact fractions u = k/64 in [-4, 2] (u = -2 excluded): u/(2 + u) < -1 exactly for the "
       f"{len(phantom)} values with -2 < u < -1 and for no other (an 8-dimensional phantom ratio is possible but constant)")
 check("condensate_effective_values", FORMULAS["condensate"]["w_eff_A"] == "0" and FORMULAS["condensate"]["w_eff_C"] == "-1"
@@ -1302,10 +1303,14 @@ check("M5_crossing_exact_bracket", P(lo * lo) < 0 < P(hi * hi) and R_lower > 0 a
       f"with the recorded G = {G5}, s = {m5['parameters']['s']}, Omega_q = {m5['parameters']['Omega_q']} as exact fractions: "
       f"P(a^2) < 0 at a = {float(lo):.11f} (w < -1, phantom) and > 0 at a = {float(hi):.11f} (w > -1), R > {float(R_lower):.4f} > 0; "
       "one crossing at the recorded a = 0.77909966367 (check M5_crosses_minus_1)")
-no_ghost_positive = all(Oq5 * s5 * b > 0 for b in (Fraction(k, 1000) ** 2 for k in range(1, 1001)) if 1 - s5 * b > 0)
-check("M5_without_ghost_no_crossing", G5 > 0 and no_ghost_positive and min(MODELS["M4_condensate_plus_extra_time_mode"]["N2"]["w_at"].values(), key=float) != "-1",
-      "with G = 0 every term of E is >= 0 (E = Omega_q s a^2/(3 sqrt(...)) > 0 at a = k/1000, k = 1..1000, exact): no crossing; "
-      "the crossing of M5 is due to its ghost-like component of negative classical energy (check M5_without_ghost_no_crossing)")
+positive = {"M2": (Fraction(1), Fraction(0)), "M3": (Fraction(1), Fraction(417, 1417)),
+            "M4": (Oq4, s4), "M5 without its ghost-like part": (Oq5, s5)}
+ok_pos = 0 < 1 - Oq4 and 0 < 1 - Oq5 and all(w > 0 and 0 <= s < 1 for w, s in positive.values())
+check("positive_components_never_cross", ok_pos and G5 > 0,
+      "M2, M3, M4 and M5 without its ghost-like part: every weight > 0 and s = q^2/m^2 < 1, so on 0 < a <= 1 every "
+      "rho_i > 0 and eps_i >= 0, hence w_eff(N2) >= -1: no crossing (theorem of eos-theory.json, section wkb; checks "
+      "M4_never_phantom, M5_without_ghost_no_crossing). The crossing of M5 is due to its ghost-like component of "
+      "NEGATIVE classical energy")
 unite_cross = 1 + (1 + W0U) / WAU
 check("unite_line_crossing", unite_cross == Fraction(461, 600) == Fraction(MODELS["unite"]["crossing_of_minus_1"]["a"])
       and W0U + WAU == Fraction(MODELS["unite"]["deep_past_w0_plus_wa"]),
@@ -1429,10 +1434,9 @@ md(r"""
 $w_\mathrm{eff}(C)$ of the gas (N = 688, $\lambda = 0$) mixed with a condensate, against the observer's scale
 factor $a = e^{a_4 - 2}$ (today $a_4 = 2$, CHOSEN), for several CHOSEN gas fractions today, and the mixture
 whose $w_\mathrm{eff}(C)$ equals $-0.861$ today (section 11.1). The black line is the Unite CPL line
-$w = -0.861 - 0.60(1 - a)$, which falls below $-1$ for $a < 461/600$. Every mixture curve FALLS toward
-the condensate's $-1$ as $a$ decreases... no: as the gas redshifts (larger $a$) the mixture moves toward
-$-1$, so going back in time ($a$ smaller) $w$ rises: the slope has the opposite sign to the Unite line
-(freezing, $w_a > 0$).
+$w = -0.861 - 0.60(1 - a)$, which falls below $-1$ for $a < 461/600$. As $a$ grows the gas fades, and
+every mixture moves DOWN toward the condensate's $-1$ (freezing, $w_a > 0$), while the Unite line moves
+UP (thawing, $w_a < 0$): the two slopes have opposite signs.
 """)
 
 code(r'''
@@ -1450,7 +1454,7 @@ ax.axhline(UNITE["w_const"], color="C4", lw=1, ls="-.", label="Unite constant w 
 ax.set_xlabel(r"observer scale factor $a = e^{a_4 - 2}$ (today $a$ = 1)")
 ax.set_ylabel(r"$w_\mathrm{eff}(C)$ of gas + condensate")
 ax.set_title("mixtures move toward the condensate's -1 as the gas fades: freezing, not thawing")
-ax.legend(fontsize=7.5, loc="lower left")
+ax.legend(fontsize=7.5, loc="lower right")
 ax.grid(True, alpha=0.3)
 fig.tight_layout()
 save_and_show(fig, "figure2_mixtures.png")
@@ -1492,7 +1496,7 @@ ax2.axhline(1 / 3, color="k", lw=0.8, ls=":")
 ax2.axhline(0, color="k", lw=0.8, ls=":")
 ax2.set_xlabel("observer scale factor $a$")
 ax2.set_ylabel(r"$w_\mathrm{eff}(N1)$")
-ax2.set_title("the same populations under N1")
+ax2.set_title("the same populations under N1 (colours as on the left)")
 ax2.grid(True, alpha=0.3)
 fig.tight_layout()
 save_and_show(fig, "figure3_dirac16complex00_populations.png")
@@ -1522,10 +1526,12 @@ ax.scatter([-1.0], [0.0], color="k", marker="s", s=40, label="condensate, C")
 for name, (w0, wa) in TAN00.items():
     ax.scatter([float(w0)], [float(wa)], color="C2", marker="o", s=48)
     ax.annotate(name.split("_")[0] + " tangent", (float(w0), float(wa)), (5, 4), textcoords="offset points", fontsize=8, color="C2")
+FIT_LABEL_OFFSET = {"M2": (6, 2), "M3": (6, -12), "M4": (-46, -12), "M5": (6, -12)}
 for name in FLOAT_MODELS:
     fit = MODELS[name]["N2"]["fit_a_1/2_to_1"]
+    short = name.split("_")[0]
     ax.scatter([float(fit["w0"])], [float(fit["wa"])], color="C2", marker="^", s=48)
-    ax.annotate(name.split("_")[0] + " fit", (float(fit["w0"]), float(fit["wa"])), (5, -10), textcoords="offset points",
+    ax.annotate(short + " fit", (float(fit["w0"]), float(fit["wa"])), FIT_LABEL_OFFSET[short], textcoords="offset points",
                 fontsize=8, color="C2")
 ax.scatter([UNITE["w0"]], [UNITE["wa"]], color="C3", marker="*", s=260, zorder=5, label="Unite (-0.861, -0.60)")
 ww = np.linspace(-1.1, -0.6, 10)
@@ -1571,8 +1577,8 @@ md(r"""
   the CPL tangents, fits, ranges and conservation deviations of the three series equal `eos-summary.json`;
   $dE/da_4 = -3(P_3 - P_t)$ holds to about $10^{-7}$.
 - The Kohn-Sham gas is radiation-like: $w_\mathrm{eff}(A) = w_\mathrm{eff}(B) = X/E$ rises from 0.293 toward
-  1/3; under the normalisation C the same states read $w_\mathrm{eff}(C) \approx -0.71 \dots -0.68$ with a
-  small thawing-sign slope ($|w_a| \le 0.03$), far from the Unite pair $(-0.861, -0.60)$. The interacting
+  1/3; under the normalisation C the same states read $w_\mathrm{eff}(C)$ between $-0.708$ and $-0.673$
+  with a small thawing-sign slope ($|w_a| \le 0.03$), far from the Unite pair $(-0.861, -0.60)$. The interacting
   zero modes are constant ($w_\mathrm{eff}(A) = 0$, $w_\mathrm{eff}(C) = -1$).
 - The condensate ratio equals $-0.764$ exactly at the CHOSEN $\lambda S/m = -382/441$ (by construction),
   and the closed formulas of the record (flat massive mode, radiation + condensate with

@@ -63,9 +63,45 @@ PDF = PROVENANCE / "DIRAC16COMPLEX_TEXTBOOK.pdf"
 CHAPTERS = PROVENANCE / "textbook" / "chapters"
 EDITION = "dirac16complex-textbook"
 ARTIFACTS = REPOSITORY_ROOT / "artifacts" / "dirac16complex"
-KOHN_SHAM_CHECK_REPORT = ARTIFACTS / "kohn-sham" / "python-check-report.json"
+KOHN_SHAM_CHECK_REPORT_PATH = "artifacts/dirac16complex/kohn-sham/python-check-report.json"
+KOHN_SHAM_CHECK_REPORT = REPOSITORY_ROOT / KOHN_SHAM_CHECK_REPORT_PATH
 PAIR_CREATION = ARTIFACTS / "pair-creation"
 STAGE1_DOCUMENT = PROVENANCE / "DIRAC16COMPLEX_ARBITRARY_FIELD.md"
+STAGE2_WOLFRAM_REPORT = ARTIFACTS / "primordial-field" / "wolfram-primordial-report.json"
+# The errata of this preserved first edition (it is never edited, rebuilt or re-registered,
+# by the user's order of 2026-10-02; its successor is Revision/textbook/).
+ERRATA = PROVENANCE / "ERRATA_FIRST_EDITION_TEXTBOOK.md"
+SUCCESSOR_DIRECTORY = "Revision/textbook/"
+SUCCESSOR_TITLE = "Universes in Pairs"
+# The parts of the errata that must exist, in this order, with their headings' beginnings.
+ERRATA_PARTS = (
+    ("a", "The extra times x5, x6, x7"),
+    ("b", "U(1) charge"),
+    ("c", "Charge conjugation is a matrix; normal ordering"),
+    ("d", "The sample output digest of the Stage-2 gate"),
+    ("e", "The status of the Stage-4 cross-check"),
+)
+# Facts each part must state.
+ERRATA_PART_FACTS = {
+    "a": ("deflate exponentially", "$e^{-a_4}\\sin^{1/6}z$", "never static or frozen",
+          "static member"),
+    "b": ("$\\partial_\\mu(\\cos z\\,J^\\mu)=0$", "no-flux condition", "ASSUMPTION",
+          "$z=\\pi/2$", "u1_noether_matrix_identity", "successor 21.18"),
+    "c": ("charge-conjugation-and-u1.json", "normal ordering", "MATRIX", "successor 5.34",
+          "REAL commuting field"),
+    "d": ("a0164273df62f2e1", "verify_dirac16complex_primordial.PROVENANCE.md"),
+    "e": ("E4.14", "handoff/specs/STAGE4_SPEC.md", "notebooks/dirac16complex_kohn_sham.PROVENANCE.md",
+          "`canonical_eigenvalues`"),
+}
+# The book's Stage-4 sentence of Section 16.1, quoted; its numbers are those of the
+# cross-check report as committed at the book's last build.
+STAGE4_SENTENCE_FORMAT = ("its final cross-check against the independent reference solver has "
+                          "%d checks of which %d failed (`%s`, the check `%s`)")
+STAGE4_BOOK_SENTENCE = STAGE4_SENTENCE_FORMAT % (63, 1, KOHN_SHAM_CHECK_REPORT_PATH,
+                                                 "canonical_eigenvalues")
+# The exact form in which the errata states the counts of the CURRENT committed report.
+CURRENT_COUNTS_FORMAT = "python-check-report.json: %d checks, %d failed"
+CURRENT_COUNTS = re.compile(r"python-check-report\.json: (\d+) checks, (\d+) failed")
 
 MARKDOWN_SHA256 = "2b0073d1d4ce453d36112949f0b884f5e8a66ab331943f9584a5a05e0ba13610"
 TEX_SHA256 = "6ac598cc6071e00888c8b5b9125fcd6c0c884ac5ebe770d3264474b11e7c98bd"
@@ -270,6 +306,99 @@ def sha256_file(path: Path) -> str:
 def load_json(path: Path):
     with open(path, encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def git_output(*arguments: str) -> str:
+    completed = subprocess.run(["git", *arguments], cwd=REPOSITORY_ROOT, capture_output=True,
+                               check=True, timeout=120)
+    return completed.stdout.decode("utf-8")
+
+
+@functools.lru_cache(maxsize=None)
+def book_build_commit() -> str:
+    """The commit that last changed the committed book (its last build)."""
+    return git_output("log", "-1", "--format=%H", "--",
+                      "provenance/DIRAC16COMPLEX_TEXTBOOK.md").strip()
+
+
+@functools.lru_cache(maxsize=None)
+def frozen_kohn_sham_report() -> dict:
+    """The Stage-4 cross-check report as committed at the book's last build."""
+    return json.loads(git_output("show", "%s:%s" % (book_build_commit(),
+                                                    KOHN_SHAM_CHECK_REPORT_PATH)))
+
+
+def report_counts(report: dict) -> tuple[int, int]:
+    return report["checkCount"], report["failedCheckCount"]
+
+
+def report_problems(report: dict, name: str) -> list[str]:
+    """Internal consistency of a cross-check report: its counts are those of its checks."""
+    false = sorted(key for key, value in report["checks"].items() if value is not True)
+    problems = []
+    if report["checkCount"] != len(report["checks"]):
+        problems.append("%s: checkCount %d, but %d checks" % (name, report["checkCount"],
+                                                              len(report["checks"])))
+    if report["failedCheckCount"] != len(false) or sorted(report["failed"]) != false:
+        problems.append("%s: failedCheckCount %d and failed %r, but checks not true %r"
+                        % (name, report["failedCheckCount"], report["failed"], false))
+    return problems
+
+
+def stage4_status_problems(section_16_1: str, frozen: dict, current: dict,
+                           errata_text: str) -> list[str]:
+    """What is wrong with the Stage-4 status of the preserved book and its errata.
+
+    The book's sentence must be present unchanged and agree with the report committed at
+    the book's last build (frozen).  The errata states the counts of the current committed
+    report in the exact form CURRENT_COUNTS_FORMAT: whenever the current report differs from
+    the frozen one it must state them, and every count it states in that form must be the
+    current one (when the two reports agree, stating nothing is allowed)."""
+    problems = report_problems(frozen, "frozen report") + report_problems(current,
+                                                                          "current report")
+    if STAGE4_BOOK_SENTENCE not in section_16_1:
+        problems.append("the book's Stage-4 sentence is not in Section 16.1 unchanged")
+    if len(frozen["failed"]) == 1:
+        expected = STAGE4_SENTENCE_FORMAT % (frozen["checkCount"], frozen["failedCheckCount"],
+                                             KOHN_SHAM_CHECK_REPORT_PATH, frozen["failed"][0])
+        if expected != STAGE4_BOOK_SENTENCE:
+            problems.append("the book's sentence disagrees with the report of its last build: "
+                            "%r" % expected)
+    else:
+        problems.append("the report of the book's last build has the failed checks %r, the "
+                        "book names one" % (frozen["failed"],))
+    current_counts = report_counts(current)
+    stated = {(int(checks), int(failed)) for checks, failed in CURRENT_COUNTS.findall(errata_text)}
+    for counts in sorted(stated - {current_counts}):
+        problems.append("the errata states %r, but the current report has %r"
+                        % (CURRENT_COUNTS_FORMAT % counts, CURRENT_COUNTS_FORMAT % current_counts))
+    if current_counts != report_counts(frozen) and current_counts not in stated:
+        problems.append("the current report (%s) differs from the one of the book's last build "
+                        "(%s), and the errata does not state %r"
+                        % (current_counts, report_counts(frozen),
+                           CURRENT_COUNTS_FORMAT % current_counts))
+    return problems
+
+
+def errata_entries(text: str) -> list[dict[str, object]]:
+    """The entries '### <id>. ...' of the errata with their cited book lines, chapter files and
+    quotations (between curly quotes) of the Where and Old bullets."""
+    entries = []
+    for block in re.split(r"(?m)^### ", text)[1:]:
+        where = re.search(r"(?m)^- \*\*Where:\*\* (.*)$", block)
+        old = re.search(r"(?m)^- \*\*Old:\*\* (.*)$", block)
+        entries.append({
+            "id": block.split(" ", 1)[0].rstrip("."),
+            "where": where.group(1) if where else None,
+            "lines": [int(number) for chunk in re.findall(r"book lines? ([\d, ]+)",
+                                                          where.group(1) if where else "")
+                      for number in re.findall(r"\d+", chunk)],
+            "files": re.findall(r"`(\d\d-[^`]+\.md)`", where.group(1) if where else ""),
+            "quotes": re.findall(r"“(.*?)”", old.group(1) if old else ""),
+            "correction": "\n- **Correction:** " in block,
+            "source": "\n- **Source:** " in block,
+        })
+    return entries
 
 
 @functools.lru_cache(maxsize=None)
@@ -633,14 +762,55 @@ class HonestyStatementTests(TextbookTestCase):
                 self.assertIn(statement, build_textbook.ABSTRACT)
 
     def test_stage4_cross_check_status_agrees_with_the_report(self):
-        report = load_json(KOHN_SHAM_CHECK_REPORT)
-        self.assertEqual((report["checkCount"], report["failedCheckCount"]), (63, 1))
-        self.assertEqual(report["failed"], ["canonical_eigenvalues"])
-        self.assertEqual(sum(1 for value in report["checks"].values() if value is False), 1)
-        self.assertIn("its final cross-check against the independent reference solver has 63 "
-                      "checks of which 1 failed (`artifacts/dirac16complex/kohn-sham/"
-                      "python-check-report.json`, the check `canonical_eigenvalues`)",
-                      self.section["16.1"])
+        # The preserved book quotes the report as committed at its last build (63 checks,
+        # 1 failed); the errata states the counts of the current report whenever they differ
+        # (stage4_status_problems).
+        self.assertEqual(book_build_commit(), "4ede502042bbbb38b0ba8ab49c2ec8fb8870e7b9")
+        frozen = frozen_kohn_sham_report()
+        self.assertEqual(report_counts(frozen), (63, 1))
+        self.assertEqual(frozen["failed"], ["canonical_eigenvalues"])
+        self.assertIn(STAGE4_BOOK_SENTENCE, self.section["16.1"])
+        problems = stage4_status_problems(self.section["16.1"], frozen,
+                                          load_json(KOHN_SHAM_CHECK_REPORT),
+                                          ERRATA.read_text(encoding="utf-8"))
+        self.assertEqual(problems, [])
+
+    def test_stage4_status_check_fails_when_the_report_changes_and_the_errata_does_not(self):
+        # Negative case on temporary copies: a current report with other counts than the
+        # report of the book's last build is accepted only when the errata states them.
+        frozen = frozen_kohn_sham_report()
+        errata_text = ERRATA.read_text(encoding="utf-8")
+        with tempfile.TemporaryDirectory() as directory:
+            report_copy = Path(directory) / "python-check-report.json"
+            changed = json.loads(KOHN_SHAM_CHECK_REPORT.read_text(encoding="utf-8"))
+            changed["checks"] = {name: True for name in changed["checks"]}
+            changed["failedCheckCount"], changed["failed"] = 0, []
+            report_copy.write_text(json.dumps(changed), encoding="utf-8")
+            current = load_json(report_copy)
+            errata_copy = Path(directory) / "errata.md"
+            errata_copy.write_text(errata_text, encoding="utf-8")
+            problems = stage4_status_problems(self.section["16.1"], frozen, current,
+                                              errata_copy.read_text(encoding="utf-8"))
+            self.assertTrue(any("does not state 'python-check-report.json: 63 checks, 0 failed'"
+                                in problem for problem in problems), problems)
+            updated = errata_text.replace(CURRENT_COUNTS_FORMAT % report_counts(frozen),
+                                          CURRENT_COUNTS_FORMAT % (63, 0))
+            self.assertNotEqual(updated, errata_text)
+            errata_copy.write_text(updated, encoding="utf-8")
+            self.assertEqual(stage4_status_problems(self.section["16.1"], frozen, current,
+                                                    errata_copy.read_text(encoding="utf-8")),
+                             [])
+        # A stale count in the exact form, a changed book sentence and an inconsistent
+        # report are reported as well.
+        current = load_json(KOHN_SHAM_CHECK_REPORT)
+        stale = errata_text + "\n" + CURRENT_COUNTS_FORMAT % (64, 2) + "\n"
+        self.assertTrue(stage4_status_problems(self.section["16.1"], frozen, current, stale))
+        changed_section = self.section["16.1"].replace("63 checks of which 1 failed",
+                                                       "63 checks of which 0 failed")
+        self.assertTrue(stage4_status_problems(changed_section, frozen, current, errata_text))
+        inconsistent = dict(current, failedCheckCount=0)
+        self.assertTrue(stage4_status_problems(self.section["16.1"], frozen, inconsistent,
+                                               errata_text))
 
     def test_stage5_report_counts_agree_with_the_reports(self):
         block = self.section["16.1"]

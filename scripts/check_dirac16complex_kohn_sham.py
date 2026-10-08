@@ -140,13 +140,15 @@ TOL = {
     "lambdaHat": 2e-7,                  # |lh_rust/lh_ref - 1|: both sides take the maximum over the Rust grid nodes
                                         # (reference: occupied free levels on 300/600/1200 intervals); measured 5e-11..5e-8
     "eps": 1e-6,                        # |d eps| <= eps max(1, |eps|/m) m + dl max|V|
-                                        # (+ for every level of a run with a Rust _g601 partner, and of the scf
-                                        # run whose levels.csv is byte-identical to that partner's base run: the
-                                        # measured |eps(601) - eps(301)| of that level, rust_level_grid_uncertainties)
+                                        # (+ for every level of a member of a Rust grid-refinement family, and of
+                                        # a run whose levels.csv is byte-identical to a member's: that member's
+                                        # OWN estimated grid error of the level, member_grid_errors:
+                                        # 301 points |eps(601) - eps(301)|, 601 points that / (2^p - 1))
     "energy": 1e-6,                     # E_0, F: |dE| <= energy max(|E|, N m) (+ dl |E_int| after correction)
     "scalar": 1e-6,                     # mu, gap, Delta-SCF: |d| <= scalar max(m, |value|) + dl max|V|
-                                        # (+ for E_0, mu, gap, Delta-SCF, lowest particle-hole of a run with a Rust
-                                        # _g601 partner: the measured |X(601) - X(301)|, rust_grid_uncertainties)
+                                        # (+ for E_0, mu, gap, Delta-SCF, lowest particle-hole of a member of a
+                                        # Rust grid-refinement family: the member's own estimated grid error,
+                                        # the same rule, rust_grid_uncertainties)
     "profileInterior": 2e-5,            # max |d profile| / max|profile| on interior common nodes (+ dl max|V|/m)
     "profileEnd": 2e-3,                 # the two end nodes: O(h^3) after the (h, h^2) elimination
     "emtAverage": 2e-5,                 # |d <X>| / max(|<rho>|, |<p_y>|, |<p_3>|)
@@ -159,6 +161,21 @@ TOL = {
     "refinedEnergy": 1e-7,
     "refinedEps": 1e-7,
 }
+
+# Rust y grid of a run without a _g<n> label suffix (runs.rs: 301 points unless stated).
+RUST_BASE_GRID_POINTS = 301
+# Convergence order p of the Rust y-grid error, used for the finer member of a refinement family when it
+# cannot be measured (only two grids, or a vanishing difference).  The only grid-dependent input of the
+# Rust shooting is the pair of potentials M_eff, v_x, natural cubic splines of the node values (spline.rs):
+# O(h^4) in the interior but O(h^2) within O(h) of the two ends (S'' = 0 imposed there); the y integrals
+# are Simpson rules (O(h^4), shooting.rs simpson).  The smallest order of these, 2, is the conservative
+# choice: the smaller p, the larger the estimate |X(601) - X(301)| / (2^p - 1) of the finer member's own
+# error (here 1/3 of the measured change).  Measured on 2026-10-08 (excited m1_L3_N1016_lamm2_T0 at 301,
+# 601 and 1201 points, the 142 levels whose 301 -> 601 change exceeds 1e-9 m): p from 1.88 to 5.2, median
+# 3.6; the four levels below 2 (p 1.88-1.89: deep k = 0 levels at eps = -4.18 m and -3.75 m) have a
+# Richardson estimate at most 11% above |X(601) - X(301)| / 3 (8.8e-8 m against 7.9e-8 m), and for all 142
+# the measured |eps(1201) - eps(601)| stays below |eps(601) - eps(301)| / 3 (largest ratio 0.81).
+RUST_GRID_DESIGN_ORDER = 2.0
 
 
 # ---------------------------------------------------------------------------
@@ -194,6 +211,27 @@ def rel(a, b):
 
 def is_num(x):
     return isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(float(x))
+
+
+def repo_path(path):
+    """A path as the report records it: relative to the repository (forward slashes) for a path inside it,
+    otherwise '<outside the repository>/<file name>'.  The report never names a folder of the computer, so
+    a re-run from another folder writes the same bytes."""
+    full = os.path.abspath(path)
+    try:
+        inside = os.path.commonpath([os.path.normcase(full), os.path.normcase(REPO)]) == os.path.normcase(REPO)
+    except ValueError:      # another drive (Windows)
+        inside = False
+    if inside:
+        return os.path.relpath(full, REPO).replace(os.sep, "/")
+    return "<outside the repository>/" + os.path.basename(full)
+
+
+def error_text(error):
+    """An exception as the report records it: an OSError names its file with repo_path."""
+    if isinstance(error, OSError) and error.filename:
+        return "%s: %s" % (error.strerror or error.__class__.__name__, repo_path(error.filename))
+    return str(error)
 
 
 def integrate_uniform(y, values):
@@ -343,10 +381,10 @@ def check_reference_self_tests(reg: Registry, tests):
 def check_reference(reg: Registry, ref_dir, args):
     summary_path = os.path.join(ref_dir, "reference-summary.json")
     if not os.path.exists(summary_path):
-        reg.check("reference_present", False, "missing %s" % summary_path)
+        reg.check("reference_present", False, "missing %s" % repo_path(summary_path))
         return None
     summary = load_json(summary_path)
-    reg.check("reference_present", True, summary_path)
+    reg.check("reference_present", True, repo_path(summary_path))
     reg.check("reference_complete", bool(summary.get("complete")), "complete flag of reference-summary.json")
     reg.check("reference_fixture_hash", summary.get("fixtureSha256") == sha256_file(KS.DEFAULT_FIXTURE),
               "fixture sha256 recorded in the reference summary equals the committed fixture")
@@ -382,7 +420,7 @@ def check_reference(reg: Registry, ref_dir, args):
             hdr, spec = read_csv(os.path.join(d, "spectrum.csv"))
             phdr, prof = read_csv(os.path.join(d, "profiles.csv"))
         except (OSError, ValueError) as error:
-            unreadable.append("%s (%s)" % (r["label"], error))
+            unreadable.append("%s (%s)" % (r["label"], error_text(error)))
             continue
         p = run["params"]
         N = p["N"]
@@ -620,7 +658,7 @@ def rust_summaries(rust_dir):
             try:
                 out[sub] = load_json(path)
             except (OSError, ValueError) as error:
-                out[sub] = {"unreadable": str(error), "verdict": "UNREADABLE", "runs": [], "files": []}
+                out[sub] = {"unreadable": error_text(error), "verdict": "UNREADABLE", "runs": [], "files": []}
     return out
 
 
@@ -947,8 +985,8 @@ def load_reference_run(ref_dir, label):
 def compare_levels(worst, where, item, ref, dl, record, level_uncertainty=None):
     """Eigenvalues per (q, parity, block type) in the common window, with the
     particle/sea branch and (T = 0) the occupation of every matched level;
-    level_uncertainty: {rust_level_key: measured Rust y-grid uncertainty} of
-    a run with a grid-refinement partner (rust_level_grid_uncertainties)."""
+    level_uncertainty: {rust_level_key: the run's own estimated Rust y-grid
+    error} of a member of a grid-refinement family (rust_level_grid_uncertainties)."""
     lpath = os.path.join(item["dir"], "levels.csv")
     if not os.path.exists(lpath):
         record["eigenvalues"] = {"compared": 0, "note": "levels.csv absent"}
@@ -1308,14 +1346,12 @@ def rust_quantity(item, name):
     return value if is_num(value) else None
 
 
-def rust_grid_uncertainties(runs):
-    """{(sub, base label): {quantity: |X(finer grid) - X(301 points)|}} from
-    the Rust grid-refinement pairs (a run with the label suffix _g601 and the
-    run of its base label in the same subcommand): the measured y-grid
-    uncertainty of the Rust value.  It is added to the comparison tolerance
-    of both members of the pair and recorded with the comparison."""
+def rust_grid_families(runs):
+    """The Rust grid-refinement families: {(sub, base label): [(grid points, run), ...] ascending}: the run of
+    a base label (RUST_BASE_GRID_POINTS) and every run of the same subcommand whose label is the base label
+    with the suffix _g<n> (n grid points)."""
     by_key = {(it["sub"], it["label"]): it for it in runs}
-    out = {}
+    families = {}
     for it in runs:
         found = re.search(r"_g(\d+)$", it["label"])
         if not found:
@@ -1323,12 +1359,71 @@ def rust_grid_uncertainties(runs):
         base = by_key.get((it["sub"], it["label"][:found.start()]))
         if base is None:
             continue
-        unc = {}
+        families.setdefault((it["sub"], base["label"]), {RUST_BASE_GRID_POINTS: base})[int(found.group(1))] = it
+    return {key: sorted(members.items(), key=lambda t: t[0]) for key, members in sorted(families.items())}
+
+
+def member_grid_errors(values):
+    """The OWN estimated y-grid error of every member of a refinement family, for one quantity.
+    values: [(grid points n_k, X_k)] ascending, at least two.  Returns [(U_k, p_k, how_k)]:
+      coarsest member  U_0 = |X_1 - X_0|, the measured change to the next grid (p None, how "coarsest");
+      member k >= 1    U_k = |X_k - X_(k-1)| / (r^p - 1), r = (n_k - 1)/(n_(k-1) - 1): the Richardson
+                       estimate of the error of the finer of two grids, with the order p MEASURED from three
+                       consecutive grids of equal ratio (k-1, k, k+1, else k-2, k-1, k),
+                       p = ln(|X_k - X_(k-1)| / |X_(k+1) - X_k|) / ln r (how "measured"), or
+                       RUST_GRID_DESIGN_ORDER when there is no such triple or one of its differences
+                       vanishes (how "design"); never larger than U_(k-1)."""
+    n = [float(v[0]) for v in values]
+    x = [float(v[1]) for v in values]
+    ratio = [(n[k] - 1.0) / (n[k - 1] - 1.0) for k in range(1, len(n))]     # ratio[j]: grid j -> j + 1
+    diff = [abs(x[k] - x[k - 1]) for k in range(1, len(x))]                  # diff[j]: grid j -> j + 1
+
+    def measured(j):
+        """Order from the steps j -> j + 1 and j + 1 -> j + 2 (None if not measurable)."""
+        if j < 0 or j + 1 >= len(diff) or abs(ratio[j] - ratio[j + 1]) > 1e-12 * ratio[j]:
+            return None
+        if diff[j] <= 0.0 or diff[j + 1] <= 0.0:
+            return None
+        p = math.log(diff[j] / diff[j + 1]) / math.log(ratio[j])
+        return p if math.isfinite(p) else None
+
+    out = [(diff[0], None, "coarsest")]
+    for k in range(1, len(x)):
+        p, how = measured(k - 1), "measured"
+        if p is None:
+            p = measured(k - 2)
+        if p is None:
+            p, how = RUST_GRID_DESIGN_ORDER, "design"
+        gain = ratio[k - 1] ** p - 1.0
+        u = diff[k - 1] / gain if gain > 0.0 else out[k - 1][0]
+        out.append((min(u, out[k - 1][0]), p, how))
+    return out
+
+
+def family_name(sub, base_label, members):
+    return "%s/%s at %s grid points" % (sub, base_label, ", ".join(str(n) for n, _ in members))
+
+
+def rust_grid_uncertainties(runs):
+    """{(sub, label): {"values": {quantity: U}, "orders": {quantity: p}, "gridPoints": n, "family": ...}} for
+    every member of a Rust grid-refinement family (rust_grid_families) and each of E0, mu, ksGap, deltaScf,
+    lowestParticleHole present on all its grids: the member's OWN estimated y-grid error of the Rust value
+    (member_grid_errors; p None for the coarsest member).  It is added to the comparison tolerance of that
+    member only and recorded with its comparison."""
+    out = {}
+    for (sub, base_label), members in rust_grid_families(runs).items():
+        entries = [{"values": {}, "orders": {}, "gridPoints": n, "family": family_name(sub, base_label, members)}
+                   for n, _ in members]
         for name in ("E0", "mu", "ksGap", "deltaScf", "lowestParticleHole"):
-            fine, coarse = rust_quantity(it, name), rust_quantity(base, name)
-            if is_num(fine) and is_num(coarse):
-                unc[name] = abs(fine - coarse)
-        out[(it["sub"], base["label"])] = unc
+            vals = [rust_quantity(it, name) for _, it in members]
+            if not all(is_num(v) for v in vals):
+                continue
+            errors = member_grid_errors([(n, v) for (n, _), v in zip(members, vals)])
+            for entry, (u, p, _) in zip(entries, errors):
+                entry["values"][name] = u
+                entry["orders"][name] = p
+        for (_, it), entry in zip(members, entries):
+            out[(sub, it["label"])] = entry
     return out
 
 
@@ -1338,39 +1433,48 @@ def rust_level_key(rec):
 
 
 def rust_level_grid_uncertainties(runs):
-    """{(sub, label): {"levels": {level key: |eps(finer grid) - eps(301 points)|}, "source": ...}} from the
-    levels.csv files of the Rust grid-refinement pairs (see rust_grid_uncertainties): the measured y-grid
-    uncertainty of every level.  It is added level by level to the eigenvalue tolerance of both members of
-    the pair and of every run of another subcommand with the same label whose levels.csv is byte-identical to
-    the base run's (the scf run of an excited pair: the same converged ground state, runs.rs)."""
-    by_key = {(it["sub"], it["label"]): it for it in runs}
+    """{(sub, label): {"levels": {level key: U}, "orders": {...}, "gridPoints": n, "family": ...}} for every
+    member of a Rust grid-refinement family whose runs all have levels.csv: the member's OWN estimated
+    y-grid error of every level present on all grids (member_grid_errors, level by level; "orders" counts
+    the levels by how their order was obtained, with the range of the measured ones).  It is added level by
+    level to the eigenvalue tolerance of that member only, and of every run of another subcommand with the
+    same label whose levels.csv is byte-identical to that member's (the scf run of an excited family: the
+    same converged ground state, runs.rs)."""
     out = {}
-    for it in runs:
-        found = re.search(r"_g(\d+)$", it["label"])
-        if not found:
-            continue
-        base = by_key.get((it["sub"], it["label"][:found.start()]))
-        if base is None:
-            continue
-        paths = [os.path.join(x["dir"], "levels.csv") for x in (it, base)]
+    for (sub, base_label), members in rust_grid_families(runs).items():
+        paths = [os.path.join(it["dir"], "levels.csv") for _, it in members]
         if not all(os.path.exists(p) for p in paths):
             continue
-        (fh, fl), (ch, cl) = read_csv(paths[0]), read_csv(paths[1])
-        fine = {rust_level_key(dict(zip(fh, row))): float(row[fh.index("eps")]) for row in fl}
-        levels = {}
-        for row in cl:
-            key = rust_level_key(dict(zip(ch, row)))
-            if key in fine:
-                levels[key] = abs(fine[key] - float(row[ch.index("eps")]))
-        entry = {"levels": levels, "source": "%s/%s" % (it["sub"], it["label"])}
-        out[(it["sub"], base["label"])] = entry
-        base_sha = sha256_file(paths[1])
-        for other in runs:
-            if other["label"] == base["label"] and other["sub"] != base["sub"]:
-                opath = os.path.join(other["dir"], "levels.csv")
-                if os.path.exists(opath) and sha256_file(opath) == base_sha:
-                    out[(other["sub"], other["label"])] = dict(entry, sameGroundStateAs="%s/%s" % (
-                        base["sub"], base["label"]))
+        tables = []
+        for path in paths:
+            hdr, rows = read_csv(path)
+            col = hdr.index("eps")
+            tables.append({rust_level_key(dict(zip(hdr, row))): float(row[col]) for row in rows})
+        entries = [{"levels": {}, "orders": {"coarsest": 0, "measured": 0, "design": 0}, "gridPoints": n,
+                    "family": family_name(sub, base_label, members)} for n, _ in members]
+        measured = [[] for _ in members]
+        for key in tables[0]:
+            if not all(key in t for t in tables[1:]):
+                continue
+            errors = member_grid_errors([(n, t[key]) for (n, _), t in zip(members, tables)])
+            for k, (entry, (u, p, how)) in enumerate(zip(entries, errors)):
+                entry["levels"][key] = u
+                entry["orders"][how] += 1
+                if how == "measured":
+                    measured[k].append(p)
+        for (_, it), entry, ps, path in zip(members, entries, measured, paths):
+            if ps:
+                entry["orders"]["measuredRange"] = [min(ps), max(ps)]
+            if entry["gridPoints"] != RUST_BASE_GRID_POINTS and entry["orders"]["design"]:
+                entry["orders"]["designOrder"] = RUST_GRID_DESIGN_ORDER
+            out[(sub, it["label"])] = entry
+            sha = sha256_file(path)
+            for other in runs:
+                if other["label"] == it["label"] and other["sub"] != sub:
+                    opath = os.path.join(other["dir"], "levels.csv")
+                    if os.path.exists(opath) and sha256_file(opath) == sha:
+                        out[(other["sub"], other["label"])] = dict(entry, sameGroundStateAs="%s/%s" % (
+                            sub, it["label"]))
     return out
 
 
@@ -1395,9 +1499,12 @@ def compare_canonical(reg: Registry, ref_dir, runs):
         compared.append(where)
         p = item["params"] or {}
         record = {"referenceLabel": label}
-        gu = grid_uncertainty.get((item["sub"], label), {})
-        if gu:
-            record["rustGridUncertainty"] = gu
+        # the run's OWN estimated Rust grid error (a member of a grid-refinement family, keyed by its own
+        # label: the 601-point member gets its own, smaller term, not its 301-point partner's)
+        gu_entry = grid_uncertainty.get((item["sub"], item["label"]))
+        gu = (gu_entry or {}).get("values", {})
+        if gu_entry:
+            record["rustGridUncertainty"] = gu_entry
         lr, lf = p.get("lambdaHat"), ref["params"].get("lambda_hat")
         dl = abs(dl_signed(item, ref))
         ratio_l = 1.0 + dl_signed(item, ref)
@@ -1414,9 +1521,10 @@ def compare_canonical(reg: Registry, ref_dir, runs):
         N = ref["params"]["N"]
         vmax = ref["_potScale"]
         T = ref["params"]["T"]
-        lu = level_uncertainty.get((item["sub"], label))
+        lu = level_uncertainty.get((item["sub"], item["label"]))
         if lu:
-            record["rustLevelGridUncertainty"] = {"source": lu["source"], "levels": len(lu["levels"]),
+            record["rustLevelGridUncertainty"] = {"family": lu["family"], "gridPoints": lu["gridPoints"],
+                                                  "levels": len(lu["levels"]), "orders": lu["orders"],
                                                   "max": max(lu["levels"].values(), default=0.0)}
             if lu.get("sameGroundStateAs"):
                 record["rustLevelGridUncertainty"]["sameGroundStateAs"] = lu["sameGroundStateAs"]
@@ -1485,7 +1593,8 @@ def compare_canonical(reg: Registry, ref_dir, runs):
     descriptions = {
         "lambdaHat": "couplings derived independently on both sides",
         "eigenvalues": ("eigenvalues per (q, parity, block type): |d eps| <= %g max(1, |eps|/m) m + dl max|V| "
-                        "(+ |eps(601) - eps(301)| of the level for a run with a Rust grid partner)" % TOL["eps"]),
+                        "(+ for a member of a Rust grid-refinement family its own estimated grid error of the level: "
+                        "|eps(601) - eps(301)| at 301 points, that / (2^p - 1) at 601 points)" % TOL["eps"]),
         "eigenvalueMatching": "every level in the common window matched, same branch, same T = 0 occupation",
         "E0": "E_0 (lambda_hat-corrected): |dE| <= %g max(|E|, N m)" % TOL["energy"],
         "muAndGap": "mu, eps_HOMO-based KS gap: |d| <= %g max(m, |x|) + dl max|V|" % TOL["scalar"],
@@ -1662,7 +1771,7 @@ def check_refined(reg: Registry, rust_dir, refined_dir, runs):
 
 def check_theory(reg: Registry, theory_path):
     if not os.path.exists(theory_path):
-        reg.comparison("theory_json", "not run", "missing %s" % theory_path)
+        reg.comparison("theory_json", "not run", "missing %s" % repo_path(theory_path))
         return None
     th = load_json(theory_path)
     forms = th.get("reduction", {}).get("blockDiagonalisation", {}).get("blockFormulas", {})
@@ -1738,7 +1847,7 @@ def main(argv=None):
         check_repeat(reg, args.rust, args.repeat, summaries)
         check_refined(reg, args.rust, args.refined, runs)
     else:
-        reg.comparison("rust_outputs", "not run", "no Rust summaries under %s" % args.rust)
+        reg.comparison("rust_outputs", "not run", "no Rust summaries under %s" % repo_path(args.rust))
 
     failed = [n for n, ok in reg.checks.items() if not ok]
     for name, ok in reg.checks.items():
