@@ -137,6 +137,22 @@ package versions; if the winget source agreements were not yet accepted on this 
 permission.  Reported to the user.  Every workflow script in Revision/workflows/ now carries a rule forbidding the acceptance of any
 agreement/licence/EULA (effective for future launches; the prompts of already-running runs cannot be changed).
 
+### 0.4h STATE 2026-10-07 20:15 (after the second session limit)
+
+The session hit its usage limit at about 19:50 (reset 20:00 PDT); every running workflow lost its unfinished agents.  Resuming with
+resumeFromRunId re-ran FINISHED agents too (the cached prefix breaks as soon as concurrent calls come back in another order), so the
+lead STOPPED the resumed textbook, execution-provenance and audit runs and launched CONTINUATIONS that take the finished results
+from the journals (saved in `Revision/workflows/state_2026-10-07/state_<run>.json`, copied to <SP>) and run only unfinished stages:
+* `Revision/workflows/textbook_universes_in_pairs_cont.js` - run wf_1964f603-07f (notebooks of ch. 11 and 21; writers of every chapter
+  except 02 and 12; reviewers and fixers of all; assembly; book review; book fix).
+* `Revision/workflows/execution_provenance_cont.js` - run wf_5cf02970-bb6 (fixers of 13 verified sets, run of nb-kohn-sham, verifiers
+  of handoff-probes, old-nb-verify-ks, rev-gkd-verification, rev-theory; rev-a4's fix is HELD until the a4 patch is applied; index).
+* `Revision/workflows/dirac_matrices_audit_fix.js` - run wf_ff12b9f0-bb0 (fixer for the 23 skeptic-confirmed findings in
+  state_2026-10-07/audit_confirmed.json, then a fresh-clone verifier).
+Still running from before (resumed, they re-ran only failed agents): the wave 1b -> wave 2 chain wf_987b1061-79b and the a4 prep
+wf_da94d8ca-701.  Lesson: for pipelined workflows never rely on resumeFromRunId after a session limit; write a continuation from the
+journal.  The primordial false-success fix is DONE (b980c80, verified from a fresh clone).
+
 ### 0.4f STATE 2026-10-03 (after the session limit)
 
 The session hit its usage limit on 2026-10-02 (resets 09:50 America/Los_Angeles); both workflows lost the
