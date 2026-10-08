@@ -60,7 +60,8 @@
    Output: the JSON report and the lines
      check_<name>=true|false, check_count=N, failed_check_count=K, report=<path>
    Exit status 1 if a check failed or the number of checks is not the expected one, 2 on a
-   load, build or IO error.
+   load, build or IO error (a report or exporter file that cannot be written prints
+   "ERROR: cannot write <path> (...)"; nothing else follows it).
 
    Usage (from the repository root; the report path is a plain positional argument):
      wolframscript -file Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls Revision/gkd_lovelock/results/wolfram-gkd-report.json
@@ -127,11 +128,17 @@ jsonBytes[expr_] := Module[{s = ExportString[expr, "RawJSON"]},
   If[! StringEndsQ[s, "\n"], s = s <> "\n"];
   ToCharacterCode[s]
 ];
-writeBytes[path_String, codes_List] := Module[{stream},
-  If[! DirectoryQ[DirectoryName[path]], CreateDirectory[DirectoryName[path], CreateIntermediateDirectories -> True]];
-  stream = OpenWrite[path, BinaryFormat -> True];
-  BinaryWrite[stream, codes, "Byte"];
+(* A file that cannot be written (its folder cannot be created, the path is a folder, no permission, disk full)
+   prints one ERROR line and exits 2: the script never reports success without its report. *)
+writeBytes[path_String, codes_List] := Module[{folder = DirectoryName[path], stream, written},
+  If[! DirectoryQ[folder] && Quiet[CreateDirectory[folder, CreateIntermediateDirectories -> True]] === $Failed,
+    Print["ERROR: cannot write ", path, " (cannot create the folder ", folder, ")"]; Exit[2]];
+  stream = Quiet[OpenWrite[path, BinaryFormat -> True]];
+  If[Head[stream] =!= OutputStream, Print["ERROR: cannot write ", path, " (cannot open it for writing)"]; Exit[2]];
+  written = Quiet[BinaryWrite[stream, codes, "Byte"]];
   Close[stream];
+  If[written === $Failed || ! FileExistsQ[path] || FileByteCount[path] =!= Length[codes],
+    Print["ERROR: cannot write ", path, " (the file does not have the expected ", Length[codes], " bytes)"]; Exit[2]];
 ];
 writeUTF8[path_String, text_String] := writeBytes[path, ToCharacterCode[text, "UTF-8"]];
 writeIfChanged[path_String, text_String] := If[! FileExistsQ[path] || readUTF8[path] =!= text, writeUTF8[path, text]];

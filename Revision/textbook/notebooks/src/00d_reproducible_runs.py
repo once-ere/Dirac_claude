@@ -15,7 +15,9 @@ It explains, with small experiments, why the notebooks of the book are reproduci
 for byte (floating-point rounding, the order of a sum, tolerances, seeds, the order of a
 set, line ends, fingerprints), and it reproduces the repeat and tolerance checks of the
 Revision Kohn-Sham record: Revision/kohn_sham/reports/ks-rust-determinism.json (checks
-repeat_byte_identical, outputs_lf_only, refined_* and refined_mermin_root_path),
+repeat_byte_identical, outputs_lf_only, the eight comparison checks of the refined run
+listed in SHORT_NAMES of the cell In [7], and the negative control
+refined_mermin_root_path),
 Revision/kohn_sham/reports/ks-crosscheck.json (key rust_matrix_wide_uncertainties, checks
 reference_outputs_lf_only and reference_manifest) and the two result manifests.
 """
@@ -46,9 +48,12 @@ FACTS = {
     "records": [
         ["Revision/kohn_sham/reports/ks-rust-determinism.json",
          "the repeat run and the refined run of the Rust Kohn-Sham solver: its eight "
-         "comparisons `refined_ground_energies` to `refined_heat_capacity` with their "
-         "tolerances, the negative control of its check `refined_mermin_root_path`, and "
-         "its checks `outputs_lf_only` and `repeat_byte_identical`"],
+         "comparison checks `refined_ground_energies`, `refined_ground_homo_lumo_gap`, "
+         "`refined_eigenvalues`, `refined_delta_scf`, `refined_profiles`, "
+         "`refined_adiabatic_derivatives`, `refined_thermodynamics` and "
+         "`refined_heat_capacity` with their tolerances, the negative control of its "
+         "check `refined_mermin_root_path`, and its checks `outputs_lf_only` and "
+         "`repeat_byte_identical`"],
         ["Revision/kohn_sham/reports/ks-crosscheck.json",
          "its key `rust_matrix_wide_uncertainties` (the eight measured differences) and "
          "its checks `reference_outputs_lf_only`, `reference_manifest` and "
@@ -342,8 +347,8 @@ CELLS = [
     sums for $N = 10^{6}$ with all their digits, and prints how far the sum of $10^{6}$
     numbers lies below the limit of the infinite sum, $\pi^2/6$. That last difference,
     about $1/N = 10^{-6}$, is not a rounding error: it is the error of the *method*
-    (stopping after $N$ numbers), and it is about $10^{8}$ times larger than the
-    rounding differences.
+    (stopping after $N$ numbers), and it is more than $10^{7}$ times larger than the
+    largest rounding difference.
     """),
     code(r'''
     import math  # math.fsum: the exactly rounded sum; math.pi
@@ -489,7 +494,7 @@ CELLS = [
         sorted(measured) == sorted(SHORT_NAMES) and all(quoted.values())
         and all(verdicts[n] == "PASS" and measured[n] < tolerances[n] for n in SHORT_NAMES),
         "each of the eight measured differences of the record is below its tolerance",
-        f"{DETERMINISM}, checks refined_ground_energies to refined_heat_capacity")
+        f"{DETERMINISM}, checks " + ", ".join(SHORT_NAMES))
     '''),
     md(r"""
     The next cell draws the table: for each of the eight quantities a dot at the

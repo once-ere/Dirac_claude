@@ -9,7 +9,7 @@ Gravity has to be told where the energy is. In Einstein's theory, and in the Ein
 **What it does.** In eight dimensions there is one energy density and seven pressures, one for each direction other than the time $x_4$. They come in three families: the pressure $p_3$ of the three directions of ordinary space, the pressure $p_t$ of the three extra times, and the pressure $p_8$ of the hidden direction. The chapter
 
 - defines the energy-momentum tensor by the response of the action to a change of the metric, and derives from this definition, line by line, its diagonal entries $T^\mu{}_\mu = L_0 - K_\mu$ (Section 9.5);
-- states the complete tensor and proves that it is real and symmetric (Section 9.6);
+- states the tensor that a variation of the vielbein gives and its symmetric part, the complete tensor used in this book, says when the two agree, and proves that the complete tensor is real and that its lowered form is symmetric (Section 9.6);
 - splits the energy density and the pressures into kinetic and potential parts and defines the equations of state (Section 9.7);
 - derives the trace identity and the values that the field equation imposes (Section 9.8);
 - derives the covariant divergence of a diagonal tensor in the author's metric and from it the two conservation identities (Sections 9.9 to 9.11);
@@ -257,9 +257,9 @@ $$
 
 where $\gamma_\mu = g_{\mu\mu}\gamma^\mu$ and $D^\nu = g^{\nu\nu}D_\nu$ with $g^{\nu\nu} = 1/g_{\nu\nu}$.
 
-**When the two tensors agree.** On the diagonal they always agree: the diagonal of an antisymmetric table is zero, so $T_{\rm var}{}^\mu{}_\mu = T^\mu{}_\mu$ for every configuration (the 8 entries of Section 9.5). Off the diagonal they differ by the antisymmetric part of $T_{\rm var}$, and the record proves that this difference is proportional to the field equation: on every solution of the field equation the variation tensor is symmetric and equals $T^\nu{}_\mu$ in all 64 entries, while for a configuration that is not a solution only the 8 diagonal entries agree (PROVED; `Revision/theory/reports/python-field-theory.json`, check `commuting_emt_equals_general_vielbein_variation_on_shell`, which compares all 64 entries of a general first-order vielbein variation around the author's metric). The reason is the invariance of the action under a rotation of the frame at fixed metric (local Lorentz invariance, in the record's words).
+**When the two tensors agree.** On the diagonal they always agree: the diagonal of an antisymmetric table is zero, so $T_{\rm var}{}^\mu{}_\mu = T^\mu{}_\mu$ for every configuration (the 8 entries of Section 9.5). Off the diagonal they differ by the antisymmetric part of $T_{\rm var}$, and the record proves that this difference is proportional to the field equation: on every solution of the field equation the variation tensor is symmetric and equals $T^\nu{}_\mu$ in all 64 entries, while for a configuration that is not a solution, in general, only the 8 diagonal entries agree (PROVED; `Revision/theory/reports/python-field-theory.json`, check `commuting_emt_equals_general_vielbein_variation_on_shell`, which compares all 64 entries of a general first-order vielbein variation around the author's metric). The reason is the invariance of the action under a rotation of the frame at fixed metric (local Lorentz invariance, in the record's words).
 
-**Which tensor the book uses.** This book, like the record's formulas for the energy density and the pressures, uses the symmetric tensor $T^\nu{}_\mu$ above as "the" energy-momentum tensor: on a solution it is the variation tensor, and for a configuration that is not a solution it is the symmetric part of the variation tensor. Notebook 09a evaluates it for random values of $\Phi$ and its derivatives, which do not solve the field equation; that is why its table $T_{\nu\mu}$ comes out symmetric, while the variation tensor of the same values would not be. Notebooks 09b and 09c evaluate it on exact solutions, where the two tensors are the same. We check two consequences of the formula here.
+**Which tensor the book uses.** This book, like the record's formulas for the energy density and the pressures, uses the symmetric tensor $T^\nu{}_\mu$ above as "the" energy-momentum tensor: on a solution it is the variation tensor, and for a configuration that is not a solution it is the symmetric part of the variation tensor. Notebook 09a evaluates it for random values of $\Phi$ and its derivatives, which do not solve the field equation; that is why its table $T_{\nu\mu}$ comes out symmetric, while the variation tensor of values that do not solve the field equation is in general not symmetric. Notebooks 09b and 09c evaluate it on exact solutions, where the two tensors are the same. We check two consequences of the formula here.
 
 **Its diagonal agrees with Section 9.5.** Set $\nu = \mu$. Then $\gamma_\mu D^\mu = g_{\mu\mu}\gamma^\mu g^{\mu\mu}D_\mu = \gamma^\mu D_\mu$, so the last two terms in the bracket equal the first two, and
 
@@ -950,7 +950,7 @@ report("S = Phibar Phi", f"{S:.6f}")
 report("L0", f"{L0:.6f}")
 ```
 
-`.imag` is the imaginary part. The first check confirms the reality of Section 9.6: the largest imaginary part is rounding noise, below $10^{-12}$. Then only the real parts are kept. `g_diag[:, None] * T` multiplies row $\nu$ of the table by $g_{\nu\nu}$ (`[:, None]` turns the eight numbers into a column, which numpy repeats across the eight columns of `T`), giving $T_{\nu\mu}$; the second check compares it with its transpose, the symmetry of Section 9.6 (the 56 entries off the diagonal form 28 pairs). The cell prints $S = -6.527875$ (negative: $S$ has no fixed sign) and $L_0 = 13.616346$.
+`.imag` is the imaginary part. The first check confirms the reality of Section 9.6: the largest imaginary part is rounding noise, below $10^{-12}$. Then only the real parts are kept. `g_diag[:, None] * T` multiplies row $\nu$ of the table by $g_{\nu\nu}$ (`[:, None]` turns the eight numbers into a column, which numpy repeats across the eight columns of `T`), giving $T_{\nu\mu}$; the second check compares it with its transpose, the symmetry of Section 9.6 (the 56 entries off the diagonal form 28 pairs). The random values do not solve the field equation, and the table is symmetric because the notebook computes the symmetric (Belinfante) tensor; the tensor of the vielbein variation is in general not symmetric for values that do not solve the field equation (Section 9.6). The cell prints $S = -6.527875$ (negative: $S$ has no fixed sign) and $L_0 = 13.616346$.
 
 **In [8], the heat map of the tensor (Figure 09a.2).**
 
@@ -2328,7 +2328,7 @@ hence $v_1^\dagger Cv_1 = 0$ (a number equal to minus itself is zero), and likew
 
 ### 9.27 Example: the full tensor of a condensate
 
-The third worked example computes all 64 entries of the tensor of exact condensates. It shows the tensor of a generic condensate (effective mass $V = 5$, $H = 1$, at the point $a_4 = 0.5$, $a_4' = 0.25$, $z = \pi/4$) as a heat map and counts its nonzero off-diagonal entries (42, and 12 when $a_4' = 0$); shows how three entries depend on $a_4'$; checks that each of the 42 entries is a fixed multiple of one of 15 bilinears and that the multiple is exactly minus the record's coefficient; builds the record's three witnesses, checks that their tensor is diagonal at 36 points and that their $S = 2|v_1^\dagger Cv_2|^2$, and reproduces the record's frequencies and values of $S$; and tests the conservation of the full tensor with finite differences along a curved history, with the negative control. In this notebook the matrix of the condensate equation is called $A = -\gamma^{(4)}(V - 3H\gamma^{(8)})$; it is the matrix $M$ of Section 9.18 (multiply out: $-V\gamma^{(4)} + 3H\gamma^{(4)}\gamma^{(8)}$), and it has nothing to do with the constant $A$ of the history $a_4 = AHx_4$. The angular frequency of the witnesses is called $\omega$ (in the code `freq`), to keep it apart from the equation of state $w$. The notebook draws five figures.
+The third worked example computes all 64 entries of the tensor of exact condensates. It shows the tensor of a generic condensate (effective mass $V = 5$, $H = 1$, at the point $a_4 = 0.5$, $a_4' = 0.25$, $z = \pi/4$) as a heat map and counts its nonzero off-diagonal entries (42, and 12 when $a_4' = 0$); shows how three entries depend on $a_4'$; checks that each of the 42 entries is a fixed multiple of one of 15 bilinears and that the multiple is exactly minus the record's coefficient; builds the record's three witnesses, checks the dimensions 8 and 1 of their construction, checks that their tensor is diagonal at 36 points and that their $S = 2|v_1^\dagger Cv_2|^2$, and reproduces the record's frequencies and values of $S$; and tests the conservation of the full tensor with finite differences along a curved history, with the negative control. In this notebook the matrix of the condensate equation is called $A = -\gamma^{(4)}(V - 3H\gamma^{(8)})$; it is the matrix $M$ of Section 9.18 (multiply out: $-V\gamma^{(4)} + 3H\gamma^{(4)}\gamma^{(8)}$), and it has nothing to do with the constant $A$ of the history $a_4 = AHx_4$. The angular frequency of the witnesses is called $\omega$ (in the code `freq`), to keep it apart from the equation of state $w$. The notebook draws five figures.
 
 <!-- NOTEBOOK 09c -->
 
@@ -2696,10 +2696,12 @@ The check confirms 42 entries in the record, ten distinct coefficient formulas, 
 **In [10], the record's witnesses.**
 
 ```python
+import itertools  # all combinations and all sign choices of a list
+
 P = [gamma[i] @ gamma[i + 4] for i in range(3)]  # gamma^(x1) gamma^(x5), ...
 ```
 
-The list of the three matrices $P_1 = \gamma^{(1)}\gamma^{(5)}$, $P_2 = \gamma^{(2)}\gamma^{(6)}$, $P_3 = \gamma^{(3)}\gamma^{(7)}$ of Section 9.26.
+The module `itertools` of Python's standard library provides the two tools used at the end of the cell: all combinations of a list and all choices of signs. `P` is the list of the three matrices $P_1 = \gamma^{(1)}\gamma^{(5)}$, $P_2 = \gamma^{(2)}\gamma^{(6)}$, $P_3 = \gamma^{(3)}\gamma^{(7)}$ of Section 9.26.
 
 ```python
 def witness(V_w, H_w):
@@ -2739,6 +2741,39 @@ for (V_w, H_w), found in witnesses.items():
 ```
 
 The record's three pairs $(V, H)$; `witness(*pair)` hands the two numbers over as two arguments. The cell prints the frequencies 4, 3 and 4 ($H = 4/3$ is printed as `1.333` by the format `.4g`, four significant digits).
+
+```python
+def product_of(indices):
+    """The product gamma^(a) gamma^(b) ... of the frame gammas with these indices."""
+    result = I16
+    for index in indices:
+        result = result @ gamma[index]
+    return result
+
+
+subsets = [chosen for size in range(1, 9)
+           for chosen in itertools.combinations(range(8), size)]  # 255 index sets
+traceless = all(abs(np.trace(product_of(chosen))) < 1e-12 for chosen in subsets)
+```
+
+The rest of the cell checks Steps 1 and 3 of the construction in Section 9.26 with numbers. `product_of` multiplies the frame gammas whose indices it is given, from left to right, starting from the unit matrix. `itertools.combinations(range(8), size)` lists every choice of `size` different indices out of $0, \dots, 7$, each in increasing order; for `size` from 1 to 8 these are $8 + 28 + 56 + 70 + 56 + 28 + 8 + 1 = 255 = 2^8 - 1$ choices. `np.trace` adds the diagonal entries of a matrix, and `traceless` is true when every one of the 255 products has trace 0 up to rounding, the lemma of Step 3.
+
+```python
+dimensions_hold = True
+for (V_w, H_w), (freq, A_w, v1, v2, phi0) in witnesses.items():
+    # the dimension of the space of -i omega: 16 minus the rank of A + i omega
+    dimension = 16 - np.linalg.matrix_rank(A_w + 1j * freq * I16, tol=1e-9)
+    for signs in itertools.product((-1, 1), repeat=3):  # the eight sectors
+        keeper = (I16 + 1j / freq * A_w) / 2  # keeps the space of -i omega
+        for sign, P_k in zip(signs, P):
+            keeper = keeper @ (I16 + sign * P_k) / 2  # keeps P_k = sign
+        dimensions_hold = dimensions_hold and abs(np.trace(keeper) - 1) < 1e-12
+    dimensions_hold = dimensions_hold and dimension == 8
+check(len(subsets) == 255 and traceless and dimensions_hold,
+      "255 gamma products have trace 0; space of -i omega: dim 8; each sector: dim 1")
+```
+
+For each witness, the **rank** of a matrix (`np.linalg.matrix_rank`, the number of its independent columns, counted here with the tolerance $10^{-9}$ for rounding) gives the dimension of the space of the eigenvalue $-i\omega$: the columns $v$ with $(A + i\omega)v = 0$ form a space of dimension $16$ minus the rank of $A + i\omega$ (Step 1 says 8). `itertools.product((-1, 1), repeat=3)` lists the eight choices of three signs $(\varepsilon_1, \varepsilon_2, \varepsilon_3)$; for each, `keeper` is the matrix $\Pi = \frac12(1 + \frac{i}{\omega}A)\cdot\frac12(1 + \varepsilon_1P_1)\cdot\frac12(1 + \varepsilon_2P_2)\cdot\frac12(1 + \varepsilon_3P_3)$ of Step 2, built factor by factor (`1j / freq * A_w` is $\frac{i}{\omega}A$), and its trace must be 1 (Step 3). The check confirms the 255 traces, the dimension 8 and the 24 sector traces (eight sectors for each of the three witnesses), and prints `PASS 255 gamma products have trace 0; space of -i omega: dim 8; each sector: dim 1`.
 
 **In [11], the witnesses are condensates with a diagonal tensor.**
 
@@ -3052,7 +3087,7 @@ check(sorted(captions) == expected_files and all(
 all_checks_passed()
 ```
 
-The five figures exist and are captioned, and the last line is `ALL 24 CHECKS PASSED (notebook 09c)`: three checks in In [5], two in In [7], one each in In [8] and In [9], three in In [11], two in In [12], two in In [13], one each in In [14] and In [15], six in In [17], and one each in In [19] and In [20].
+The five figures exist and are captioned, and the last line is `ALL 25 CHECKS PASSED (notebook 09c)`: three checks in In [5], two in In [7], one each in In [8], In [9] and In [10], three in In [11], two in In [12], two in In [13], one each in In [14] and In [15], six in In [17], and one each in In [19] and In [20].
 
 ### 9.31 What we proved, what we computed, what we assumed
 
@@ -3065,7 +3100,7 @@ The five figures exist and are captioned, and the last line is `ALL 24 CHECKS PA
 - The connection term $K^{x_4}{}_{x_1} = \frac12e^{a_4}\sin^{1/6}z\,H\,\bar\Phi\gamma^{(4)}\gamma^{(1)}\gamma^{(8)}\Phi$ of a homogeneous configuration (Section 9.12) and the entries $T^{x_1}{}_{x_5} = \frac12e^{-2a_4}a_4'\,\bar\Phi\gamma^{(1)}\gamma^{(4)}\gamma^{(5)}\Phi$ and $T^{x_4}{}_{x_1} = \frac74e^{a_4}\sin^{1/6}z\,H\,\bar\Phi\gamma^{(1)}\gamma^{(4)}\gamma^{(8)}\Phi$ of a condensate (Section 9.26), equal to the record's coefficients.
 - The exact condensates, the constancy of $S$, $M^2 = 9H^2 - V^2$; their $\rho = mS + U$, $p = SU' - U$ in all seven directions, $T^{x_4}{}_{x_8} = 0$, and $w = x/(2 + x)$ with its special values (Sections 9.18 to 9.20); $\rho = E\,u^\dagger Bu$ for plane waves of flat space (Section 9.21); in the construction of the witnesses, the dimension 8 of the space of the eigenvalue $-i\omega$ and the dimension 1 of each of its eight sectors, and $S = 2|v_1^\dagger Cv_2|^2 \ge 0$ (Section 9.26); the argument of the theorem of the linear history from the record's evolution equation (Section 9.26).
 
-**PROVED in the Revision record and used here without its proof:** the vielbein-variation tensor with its spin-density term; the complete (Belinfante) tensor as its symmetric part for every configuration, and the equality of the two tensors on shell in all 64 entries (off shell only the 8 diagonal entries agree); the drop-out of the spin connection from the Lagrangian of every diagonal vielbein; the conservation $\nabla_\mu T^\mu{}_\nu = 0$ of every solution (Noether identity); the same formulas for the Grassmann field dirac16complex; the 42 off-diagonal entries of a condensate as multiples of 15 bilinears with the listed coefficients, the diagonal witnesses with $\omega = 4, 3, 4$; the Krein inertia (4,4) of the plane waves; the vanishing of every off-diagonal entry of the source and the condition $p_3 + p_t = 2p_8$, both imposed by the field equations of gravity; and the theorem that a condensate source that meets the off-diagonal conditions allows only the linear history $a_4 = AHx_4 + a_0$ (under its four hypotheses, Section 9.26), with either sign of $A$.
+**PROVED in the Revision record and used here without its proof:** the vielbein-variation tensor with its spin-density term; the complete (Belinfante) tensor as its symmetric part for every configuration, and the equality of the two tensors on shell in all 64 entries (off shell, in general, only the 8 diagonal entries agree); the drop-out of the spin connection from the Lagrangian of every diagonal vielbein; the conservation $\nabla_\mu T^\mu{}_\nu = 0$ of every solution (Noether identity); the same formulas for the Grassmann field dirac16complex; the 42 off-diagonal entries of a condensate as multiples of 15 bilinears with the listed coefficients, the diagonal witnesses with $\omega = 4, 3, 4$; the Krein inertia (4,4) of the plane waves; the vanishing of every off-diagonal entry of the source and the condition $p_3 + p_t = 2p_8$, both imposed by the field equations of gravity; and the theorem that a condensate source that meets the off-diagonal conditions allows only the linear history $a_4 = AHx_4 + a_0$ (under its four hypotheses, Section 9.26), with either sign of $A$.
 
 **COMPUTED by the notebooks** (every number reproduces the record where they overlap): Notebook 09a, 27 checks, confirms the tensor identities at one point to $10^{-11}$ or better, re-derives the 25 Christoffel symbols and the two identities exactly, and checks the $x_8$ profiles on a grid to a relative residual of $2.3 \cdot 10^{-5}$; Notebook 09b, 33 checks, confirms the condensates at 401 times to $10^{-9}$, measures $w$ on twelve exact solutions (agreement with $x/(2 + x)$ to $10^{-9}$), solves the toy fluids with RK4 (relative error $1.33 \cdot 10^{-8}$, error ratio 16.17 for a halved step) and reproduces $\rho = \pm 5$; Notebook 09c, 25 checks, confirms the 42 entries against the record's coefficients to $10^{-12}$, the dimensions 8 and 1 of the construction of the witnesses, the diagonal tensor of the witnesses at 36 points, the record's frequencies exactly and its values of $S$ up to one common factor (160000 for the Wolfram report of 2026-10-01), and the conservation of the full tensor along a curved history (an error falling like $h^2$, down to $4.5 \cdot 10^{-9}$), with a negative control. The observation $S = 2\omega^2/V^2$ for the three witnesses is COMPUTED, not proved.
 

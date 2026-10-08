@@ -1412,7 +1412,7 @@ The next three sections hold Notebook 04b.
 
 ### 4.12 Line-by-line walk-through of Notebook 04b
 
-The notebook has 17 code cells, In [1] to In [17]. As in Section 4.8, every line is quoted except the long caption texts handed to `save_figure`, which are shortened to `...`; each caption is printed in full under its figure in Section 4.11.
+The notebook has 18 code cells, In [1] to In [18]. As in Section 4.8, every line is quoted except the long caption texts handed to `save_figure`, which are shortened to `...`; each caption is printed in full under its figure in Section 4.11.
 
 **In [1], the set-up cell.** It is the set-up cell of Notebook 04a, explained line by line in Section 4.8, with one difference: the line `NOTEBOOK_ID = "04b"` names this notebook, so its figures are numbered 04b.1, 04b.2, ..., and its comment lines hold the run instructions of Section 4.10. It prints one line, Set-up of notebook 04b complete: repository folder found, helpers defined.
 
@@ -1775,12 +1775,15 @@ theory = json.loads(repository_file(THEORY).read_text(encoding="utf-8"))
 theory_checks = {entry["name"]: entry for entry in theory["checks"]}
 
 
-def recorded_pass(name):
-    """True when the theory report holds the check name with the verdict pass."""
-    return theory_checks.get(name, {}).get("verdict", "").upper() == "PASS"
+def recorded_detail(name):
+    """The text (detail) of the named check of the theory report when its verdict
+    is pass; otherwise an empty text, which contains none of the quoted words."""
+    entry = theory_checks.get(name, {})
+    passed = entry.get("verdict", "").upper() == "PASS"
+    return entry.get("detail", "") if passed else ""
 ```
 
-The theory report of the Revision record is read, and its checks are kept in a dictionary by name. `recorded_pass(name)` is true when the report holds the named check with the verdict pass; the chained `.get(..., {})` and `.get("verdict", "")` return an empty dictionary or an empty text instead of an error when something is missing.
+The theory report of the Revision record is read, and its checks are kept in a dictionary by name. Every check of the report has a name, a verdict and a **detail**, a text that says in words what was checked and found. `recorded_detail(name)` returns this text when the report holds the named check with the verdict pass, and otherwise the empty text `""`. The chained `.get(..., {})` and `.get("verdict", "")` return an empty dictionary or an empty text instead of an error when something is missing, `.upper()` writes the verdict in capital letters (the report writes `pass`), and `x if passed else ""` chooses between two values. The empty text contains no words at all, so every test "these words occur in the detail" fails when the check is missing or did not pass. The cells below use this function to compare the notebook's results with what the record **says**, not only with its verdict: if the record ever states a different formula or a different example, the check fails.
 
 ```python
 m, k = sp.symbols("m", real=True), sp.symbols("k1:9", real=True)  # k[0] is k1
@@ -1796,16 +1799,19 @@ dispersion = m**2 + k[0]**2 + k[1]**2 + k[2]**2 + k[7]**2 \
 A real symbol $m$ and the eight momentum symbols $k_1, \dots, k_8$ (`k[0]` is $k_1$; $k_4$ is not used, because the time carries the energy). `h` is built exactly as in line 5 of Section 4.9: $-im\gamma^{(x_4)}$ minus $k_a\gamma^{(x_4)}\gamma^{(x_a)}$ for every $a$ other than the time (`-=` subtracts from a variable). `dispersion` is $m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$.
 
 ```python
+# h and h^2 in the words of the record, quoted exactly as the record writes them
+H_WORDS = "h = -i m gamma^(4) - sum_{a != x4} k_a gamma^(4) gamma^(a)"
+H2_WORDS = "h^2 = (m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2) I16"
+detail = recorded_detail("mode_hamiltonian_B_selfadjoint_dispersion")
 check((h * h).expand() == dispersion * sp.eye(16)
-      and recorded_pass("mode_hamiltonian_B_selfadjoint_dispersion"),
-      "h^2 = (m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2) I16")
+      and H_WORDS in detail and H2_WORDS in detail, H2_WORDS)
 print(f"     reproduces {THEORY}")
 print("         check mode_hamiltonian_B_selfadjoint_dispersion (formula for h^2)")
 ```
 
-The check confirms $h^2$ exactly, for all values of the symbols, and that the Revision report holds the check `mode_hamiltonian_B_selfadjoint_dispersion` as passed; the two printed lines name the record.
+`H_WORDS` and `H2_WORDS` are the record's own words for $h$ (the record writes `gamma^(4)` for $\gamma^{(x_4)}$) and for $h^2$. `text in detail` is true when the text occurs, character for character, inside `detail`. The check confirms $h^2$ exactly, for all values of the symbols, and requires that the record states the same $h$ and the same formula; the name of the check is the formula itself. The two printed lines name the record.
 
-**In [13], the good-sector example.**
+**In [13], the good-sector example on all sixteen components.**
 
 ```python
 gamma_complex = [g.astype(complex) for g in gamma]
@@ -1832,19 +1838,29 @@ report("eigenvalue: multiplicity of h for m = 2, k = (1, 2, 0, k8 = 4)",
        multiplicities)
 ```
 
-The record's example $m = 2$, $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$. `example.conj().T` is the conjugate transpose, and `np.array_equal` compares exactly: $h$ is Hermitian. `np.linalg.eigvalsh` computes the eigenvalues of a Hermitian matrix (real numbers, in increasing order). They are rounded to nine decimals and counted: the RESULT line reads `{-5.0: 8, 5.0: 8}`.
+The record's example $m = 2$, $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$. `example.conj().T` is the conjugate transpose, and `np.array_equal` compares exactly: $h$ is Hermitian. `np.linalg.eigvalsh` computes the eigenvalues of a Hermitian matrix (real numbers, in increasing order, each listed as often as its multiplicity). They are rounded to nine decimals and counted: the RESULT line reads `{-5.0: 8, 5.0: 8}`.
+
+```python
+solutions = [int(np.sum(np.linalg.svd(e * np.eye(16) - example, compute_uv=False)
+                        < 1e-9)) for e in (5.0, -5.0)]  # singular values near 0
+report("independent solutions u at E = +5 and at E = -5", solutions)
+```
+
+As for Dirac's matrices in In [8], the number of singular values of $EI_{16} - h$ below $10^{-9}$ is the number of independent solutions $u$ of $hu = Eu$. The **list comprehension** `[... for e in (5.0, -5.0)]` computes this number once for $E = 5$ and once for $E = -5$ and collects the two results in a list; `int(...)` makes each a plain whole number. The RESULT line reads `[8, 8]`: eight independent solutions at each energy.
 
 ```python
 eight_each = np.allclose(eigenvalues[:8], -5.0, atol=1e-12) and \
     np.allclose(eigenvalues[8:], 5.0, atol=1e-12)
-check(hermitian and eight_each
-      and recorded_pass("good_sector_spectrum_and_B_sectors"),
+good = recorded_detail("good_sector_spectrum_and_B_sectors")
+check(hermitian and eight_each and solutions == [8, 8]
+      and "h is Hermitian on the full 16-dim space" in good
+      and f"({multiplicities.get(5.0)} each)" in good,
       "good sector: h is Hermitian with energies +5 and -5, eight each")
 print(f"     reproduces {THEORY}")
-print("         check good_sector_spectrum_and_B_sectors (its exact example)")
+print("         check good_sector_spectrum_and_B_sectors (full space: 8 each)")
 ```
 
-`np.allclose(x, value, atol=1e-12)` is true when every entry of `x` lies within $10^{-12}$ of `value`: the first eight eigenvalues are $-5$ and the last eight $+5$. The check reproduces the record's exact example.
+`np.allclose(x, value, atol=1e-12)` is true when every entry of `x` lies within $10^{-12}$ of `value`: the first eight eigenvalues are $-5$ and the last eight $+5$. `good` is the text of the record's check `good_sector_spectrum_and_B_sectors`. `multiplicities.get(5.0)` is the multiplicity 8 that the notebook found for the eigenvalue $+5$, so the f-string makes the text `(8 each)` from the notebook's own count. The check requires $h$ to be Hermitian, eight eigenvalues $-5$ and eight $+5$, eight independent solutions at each energy, and the record's words for this statement about all sixteen components; the printed lines name the record and say which of its statements is reproduced.
 
 ```python
 energies_4p4 = np.linspace(-8.0, 8.0, 801)
@@ -1870,19 +1886,100 @@ ax.set_title("plane waves in flat 4+4 space, $m = 2$, $k = (1, 2, 0;\\ k_8 = 4)$
 save_figure(fig, "mass_shell_4p4", ...)
 ```
 
-The same kind of figure as figure 3, now for the author's gammas. **What figure 5 shows and why:** a zigzag of straight lines, the distance from $E$ to the nearer of $\pm 5$, touching zero only at the dotted lines $E = \pm 5$, where $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 = 25$; each of the two energies belongs to eight independent solutions. It has the shape of the Dirac curve: the same algebra in more directions.
+The same kind of figure as figure 3, now for the author's gammas. **What figure 5 shows and why:** a zigzag of straight lines, the distance from $E$ to the nearer of $\pm 5$, touching zero only at the dotted lines $E = \pm 5$, where $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 = 25$; each of the two energies belongs to eight independent solutions (In [13] counted them). It has the shape of the Dirac curve: the same algebra in more directions.
 
-**In [15], a momentum along an extra time, and figure 6.**
+**In [15], the sector $B = +1$ and the record's exact example.**
+
+```python
+C_exact = sympy_gamma[7] * sympy_gamma[0] * sympy_gamma[1] * sympy_gamma[2]
+B_exact = -sp.I * C_exact * g4  # B = -i C gamma^(x4)
+B_stored = sp.Matrix(record["B"]["re"]) + sp.I * sp.Matrix(record["B"]["im"])
+```
+
+$C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ from the exact gammas (`sympy_gamma[7]` is $\gamma^{(x_8)}$, `sympy_gamma[0]` is $\gamma^{(x_1)}$), and $B = -iC\gamma^{(x_4)}$, exactly. `record` is the content of the record file `Revision/algebra/gammas.json`, read in In [10]; it stores $B$ as two tables of whole numbers, its real part `"re"` and its imaginary part `"im"`, and `B_stored` puts them together as the real part plus $i$ times the imaginary part.
+
+```python
+h_good = h.subs({k[4]: 0, k[5]: 0, k[6]: 0})  # no momentum along an extra time
+P_exact = (sp.eye(16) + B_exact) / 2  # keeps the B = +1 part of a column
+mixes = all(B_exact * g4 * sympy_gamma[a] == -g4 * sympy_gamma[a] * B_exact
+            for a in (4, 5, 6))  # anticommutes with gamma^(x4) gamma^(x5, x6, x7)
+```
+
+`h_good` is the exact $h$ of In [12] with $k_5 = k_6 = k_7 = 0$ (the entries 4, 5 and 6 of the list `k`, counted from 0); the symbols $m, k_1, k_2, k_3, k_8$ stay free, so everything checked with `h_good` holds for all their values. `P_exact` is $P = \tfrac12(I_{16} + B)$: for a column with $Bu = u$ it gives $Pu = u$, for one with $Bu = -u$ it gives $Pu = 0$. `mixes` is true when $B\gamma^{(x_4)}\gamma^{(x_a)} = -\gamma^{(x_4)}\gamma^{(x_a)}B$ for $a = x_5, x_6, x_7$ (`sympy_gamma[4]` to `sympy_gamma[6]`); `all(...)` is true when the test holds for every value of `a` in the list.
+
+```python
+check(B_exact == B_stored and B_exact.H == B_exact
+      and B_exact * B_exact == sp.eye(16) and B_exact.trace() == 0
+      and (B_exact * h_good - h_good * B_exact).expand() == sp.zeros(16, 16)
+      and mixes and (h_good * P_exact).trace().expand() == 0
+      and "[B, h] = 0" in good
+      and "B anticommutes with gamma^(4) gamma^(x5,x6,x7)" in good,
+      "B is Hermitian, B^2 = I16, B h = h B without extra-time momentum")
+print(f"     reproduces {THEORY}")
+print("         check good_sector_spectrum_and_B_sectors (B and h commute)")
+```
+
+The exact part of Section 4.9: the rebuilt $B$ equals the stored one; `.H` is sympy's conjugate transpose, so `B_exact.H == B_exact` says $B^\dagger = B$; $B^2 = I_{16}$ and $\mathrm{tr}\, B = 0$ (`.trace()` is the trace); $Bh - hB$, multiplied out, is the zero matrix `sp.zeros(16, 16)` for all values of the symbols; $B$ anticommutes with $\gamma^{(x_4)}\gamma^{(x_a)}$ for the three extra times; $\mathrm{tr}(hP) = 0$, again for all values; and the record states the commutation and the anticommutation in these words.
+
+```python
+B_numeric = np.array(B_exact.tolist(), dtype=complex)
+b_values, b_vectors = np.linalg.eigh(B_numeric)  # B is Hermitian: eigh applies
+V = b_vectors[:, b_values > 0]  # the 8 orthonormal columns u with B u = u
+h_plus = V.conj().T @ example @ V  # h inside the sector B = +1, 8 x 8
+```
+
+A numpy copy of $B$ (`tolist()` turns the sympy matrix into a list of rows). `np.linalg.eigh` returns, for a Hermitian matrix, its eigenvalues in increasing order and a matrix whose columns are orthonormal eigenvectors, one for each eigenvalue in the same order. `b_vectors[:, b_values > 0]` keeps all rows (`:`) of the columns whose eigenvalue is positive, that is $+1$: the $16 \times 8$ matrix $V$ of Section 4.9. `h_plus` is $h_+ = V^\dagger h V$ for the example $h$ of In [13].
+
+```python
+plus_values = np.linalg.eigvalsh(h_plus)  # its eigenvalues, increasing order
+plus_rounded = [float(x) for x in np.round(plus_values, 9)]  # 9 decimals
+plus_counts = {value: plus_rounded.count(value)
+               for value in sorted(set(plus_rounded))}
+report("eigenvalue: multiplicity of h in the sector B = +1", plus_counts)
+```
+
+The eight eigenvalues of $h_+$, rounded and counted as in In [13]: the RESULT line reads `{-5.0: 4, 5.0: 4}`.
+
+```python
+sector_words = (f"m = 2, k = (1,2,0,k8=4) on B = +1: +5 (x{plus_counts.get(5.0)}),"
+                f" -5 (x{plus_counts.get(-5.0)})")  # as the record writes them
+check(V.shape == (16, 8)
+      and np.allclose(V @ V.conj().T, (np.eye(16) + B_numeric) / 2, atol=1e-12)
+      and np.allclose(example @ V, V @ h_plus, atol=1e-12)
+      and np.allclose(h_plus @ h_plus, 25.0 * np.eye(8), atol=1e-12)
+      and np.allclose(plus_values, [-5.0] * 4 + [5.0] * 4, atol=1e-12)
+      and sector_words in good,
+      "sector B = +1: h has the energies +5 and -5, four times each")
+print(f"     reproduces {THEORY}")
+print("         check good_sector_spectrum_and_B_sectors (its exact example)")
+```
+
+`sector_words` writes the record's sentence for its exact example with the counts that the notebook found (two texts written next to each other inside round brackets are joined into one). The check requires: $V$ has 16 rows and 8 columns (`V.shape`); $VV^\dagger = P$; $hV = Vh_+$, so $h$ maps the sector into itself; $h_+^2 = 25 I_8$; the eight eigenvalues are four times $-5$ and four times $+5$ (`[-5.0] * 4 + [5.0] * 4` is the list of four $-5$ followed by four $+5$), all within $10^{-12}$; and the record's text contains `m = 2, k = (1,2,0,k8=4) on B = +1: +5 (x4), -5 (x4)`. This reproduces the record's exact example as the record states it.
+
+**In [16], a momentum along an extra time, and figure 6.**
 
 ```python
 SCOPE = "Revision/theory/reports/python-scope.json"
 scope = json.loads(repository_file(SCOPE).read_text(encoding="utf-8"))
 scope_checks = {entry["name"]: entry for entry in scope["checks"]}
-scope_ok = scope_checks.get("extra_time_growth_rates_unbounded", {}).get(
-    "verdict", "").upper() == "PASS"  # the record must hold this check as passed
+scope_entry = scope_checks.get("extra_time_growth_rates_unbounded", {})
+scope_passed = scope_entry.get("verdict", "").upper() == "PASS"
+scope_detail = scope_entry.get("detail", "") if scope_passed else ""
 ```
 
-The scope report of the Revision record is read, and `scope_ok` is true when it holds the check `extra_time_growth_rates_unbounded` as passed.
+The scope report of the Revision record is read. `scope_detail` is the text of its check `extra_time_growth_rates_unbounded` when that check passed, and otherwise the empty text: the same rule as `recorded_detail` in In [12], for the other report.
+
+```python
+K = sp.symbols("K", positive=True)  # a momentum K along the extra time x5
+rate = sp.sqrt(-dispersion.subs({k[4]: K, k[5]: 0, k[6]: 0}))  # Im E if E^2 < 0
+say(f"h^2 = ({dispersion}) I16")
+say(f"growth rate for k5 = K: Im E = {rate}")
+scope_ok = (f"h_k^2 = ({dispersion}) I16" in scope_detail
+            and f"Im E = {rate}" in scope_detail
+            and "no upper bound" in scope_detail)  # the record's words
+```
+
+A positive symbol $K$ for the momentum along $x_5$. With $k_5 = K$ and $k_6 = k_7 = 0$, `dispersion` is $E^2$; when $E^2 < 0$, $E = \pm i\sqrt{-E^2}$, so the imaginary part of the growing energy, the growth rate, is $\sqrt{-E^2}$: `rate`. sympy writes the two expressions in its own order, and the two printed lines show them: `h^2 = (k1**2 + k2**2 + k3**2 - k5**2 - k6**2 - k7**2 + k8**2 + m**2) I16` and `growth rate for k5 = K: Im E = sqrt(K**2 - k1**2 - k2**2 - k3**2 - k8**2 - m**2)`, where `**` is a power. `scope_ok` is true when the record's text contains both expressions exactly as sympy writes them, and the words `no upper bound`.
 
 ```python
 k5_values = np.linspace(0.025, 7.975, 160)  # steps of 0.05, avoiding k5 = 5
@@ -1908,7 +2005,7 @@ print(f"     reproduces {SCOPE}")
 print("         check extra_time_growth_rates_unbounded (growth rate formula)")
 ```
 
-The check requires all $160 \times 16$ eigenvalues within $10^{-10}$ of $\pm\sqrt{25 - k_5^2}$, eight of each, and the Revision check as passed.
+The check requires all $160 \times 16$ eigenvalues within $10^{-10}$ of $\pm\sqrt{25 - k_5^2}$, eight of each, and the record's words (`scope_ok`).
 
 ```python
 real_parts, imaginary_parts = np.array(real_parts), np.array(imaginary_parts)
@@ -1933,7 +2030,7 @@ save_figure(fig, "extra_time_momentum", ...)
 
 Both panels get a dotted line at $k_5 = 5$ and axis labels, then titles, and the figure is saved. **What figure 6 shows and why:** on the left the real parts follow the upper and the lower half of a circle of radius 5, $\pm\sqrt{25 - k_5^2}$, reach zero at $k_5 = 5$ and stay zero beyond; on the right the imaginary parts are zero up to $k_5 = 5$ and then open up as $\pm\sqrt{k_5^2 - 25}$, growing without bound. Because the extra times enter the quadratic form with a minus sign, a large enough momentum along an extra time turns oscillating waves into growing and shrinking ones.
 
-**In [16], the exact example with growing modes.**
+**In [17], the exact example with growing modes.**
 
 ```python
 example_values = {m: 1, k[0]: 0, k[1]: 0, k[2]: 0, k[4]: 2, k[5]: 0, k[6]: 0,
@@ -1942,7 +2039,7 @@ h_example = h.subs(example_values)  # the exact 16 x 16 matrix h for these numbe
 exact_eigenvalues = h_example.eigenvals()  # {eigenvalue: multiplicity}
 ```
 
-`h.subs(...)` substitutes the numbers of the record's example ($m = 1$, $k_5 = 2$, all other momenta 0) into the exact matrix $h$ of In [12]. `eigenvals()` returns the exact eigenvalues as a dictionary eigenvalue: multiplicity.
+`h.subs(...)` substitutes the numbers of the record's example ($m = 1$, $k_5 = 2$, all other momenta 0) into the exact matrix $h$ of In [12]. `eigenvals()` returns the exact eigenvalues as a dictionary eigenvalue: multiplicity, the multiplicity being the number of times the eigenvalue occurs as a root of the characteristic polynomial.
 
 ```python
 names = sorted(str(value) for value in exact_eigenvalues)  # as sympy writes them
@@ -1956,19 +2053,18 @@ say(f"h^2 = -3 I16: {h_example * h_example == -3 * sp.eye(16)}; exact eigenvalue
 `names` lists the eigenvalues as sympy writes them, sorted. `listed` writes each eigenvalue with its multiplicity; `sorted(..., key=lambda item: str(item[0]))` sorts the pairs by the text of the eigenvalue (a `lambda` is a one-line function without a name), so that every run prints the same order. The printed line: $h^2 = -3I_{16}$ is True, and the eigenvalues are `-sqrt(3)*I` and `sqrt(3)*I`, eight times each.
 
 ```python
-detail = theory_checks.get("extra_time_modes_grow", {}).get("detail", "")
+detail = recorded_detail("extra_time_modes_grow")
 check(h_example * h_example == -3 * sp.eye(16)
       and exact_eigenvalues == {sp.sqrt(3) * sp.I: 8, -sp.sqrt(3) * sp.I: 8}
-      and recorded_pass("extra_time_modes_grow")
       and "m = 1, k5 = 2" in detail and str(names) in detail,
       "m = 1, k5 = 2: E = +i sqrt(3) and -i sqrt(3), eight each (growing modes)")
 print(f"     reproduces {THEORY}")
 print("         check extra_time_modes_grow (its exact example)")
 ```
 
-`detail` is the text of the Revision check `extra_time_modes_grow`. The check requires $h^2 = -3I_{16}$, the eigenvalues $\pm i\sqrt3$ with multiplicity 8 each, the Revision check as passed, and the record's text to contain the example and the same list of eigenvalues word for word.
+`detail` is the text of the Revision check `extra_time_modes_grow` (the empty text if the check did not pass, by the rule of In [12]). The check requires $h^2 = -3I_{16}$, the eigenvalues $\pm i\sqrt3$ with multiplicity 8 each, and the record's text to contain the example and the same list of eigenvalues word for word.
 
-**In [17], the last check.**
+**In [18], the last check.**
 
 ```python
 names = ["04b_1_square_roots_2x2.png", "04b_2_pauli_dirac_tables.png",
@@ -1979,7 +2075,7 @@ check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in names),
 all_checks_passed()
 ```
 
-The six figure files must exist; the last line reads ALL 17 CHECKS PASSED (notebook 04b): one check in each of In [2], In [4], In [6], In [10], In [11], In [12], In [15], In [16] and In [17], and two in each of In [3], In [5], In [8] and In [13].
+The six figure files must exist; the last line reads ALL 19 CHECKS PASSED (notebook 04b): one check in each of In [2], In [4], In [6], In [10], In [11], In [12], In [16], In [17] and In [18], and two in each of In [3], In [5], In [8], In [13] and In [15].
 
 ### 4.13 The 256 products: Cl(4,4) is all real 16 by 16 matrices
 
@@ -3476,18 +3572,18 @@ The six figure files must exist; the last line reads ALL 18 CHECKS PASSED (noteb
 
 - The square of a linear expression $\sum_a p_a\gamma^a$ is the quadratic form $\sum_a\eta^{aa}p_a^2$ exactly when the coefficients satisfy the Clifford relation; no ordinary numbers do (Section 4.3; Notebook 04b).
 - The author's formulas give six $4 \times 4$ blocks equal to the six matrices his notebook displays; they are the right (s4) and minus the left (t4) multiplications by the quaternion units, which gives all their rules; the $8 \times 8$ matrices satisfy $\tau_1\tau_2\tau_3 = \tau_4\tau_5\tau_6\tau_7 = \sigma$, $\tau_7 = \mathrm{diag}(-I_4, I_4)$, $\bar\tau_A = -\tau_A$ and the key rule; the sixteen-by-sixteen matrices T16 satisfy the Clifford relation, and T16[8] $= \mathrm{diag}(-I_8, I_8)$; renamed with the coordinate map ($\gamma^{(x_8)} = $ T16[0], $\gamma^{(x_k)} = $ T16[$k$]) they satisfy $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}I_{16}$ with $\eta = \mathrm{diag}(+1, +1, +1, -1, -1, -1, -1, +1)$; they are real signed permutation matrices, symmetric for $x_1, x_2, x_3, x_8$ and antisymmetric for the time $x_4$ and the deflating extra times $x_5, x_6, x_7$ (Section 4.5; Notebook 04a).
-- The author's gammas take the square root of the 4+4 quadratic form; plane waves of the flat equation $\sum_a\gamma^{(x_a)}\partial_a\Psi = m\Psi$ obey $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$; without extra-time momentum $h$ is Hermitian, and the record's example has the energies $\pm 5$, eight times each; with a momentum along an extra time the energies become imaginary once $k_5^2 > m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2$, with the growth rate $\sqrt{k_5^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$, which has no upper bound; the record's example $m = 1$, $k_5 = 2$ has $E = \pm i\sqrt3$, eight times each (Section 4.9; Notebook 04b).
+- The author's gammas take the square root of the 4+4 quadratic form; plane waves of the flat equation $\sum_a\gamma^{(x_a)}\partial_a\Psi = m\Psi$ obey $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2 - k_6^2 - k_7^2$; without extra-time momentum $h$ is Hermitian and commutes with the record's matrix $B = -iC\gamma^{(x_4)}$, while a momentum along an extra time mixes the sectors $B = +1$ and $B = -1$; the record's example has the energies $\pm 5$, eight times each on all sixteen components and four times each in the sector $B = +1$; with a momentum along an extra time the energies become imaginary once $k_5^2 > m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2$, with the growth rate $\sqrt{k_5^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$, which has no upper bound; the record's example $m = 1$, $k_5 = 2$ has $E = \pm i\sqrt3$, eight times each (Section 4.9; Notebook 04b).
 - The 256 products of the gammas multiply by rule R1, square to $\pm I_{16}$ by rule R2, have trace 0 except $I_{16}$, are perpendicular in the trace sense and independent: Cl(4,4) is the set of all real $16 \times 16$ matrices; 136 products are symmetric and 120 antisymmetric; the 128 even ones span the block diagonal matrices and the 128 odd ones the block off-diagonal matrices; eight gamma matrices need at least sixteen components; $S^{ab} = \tfrac14[\gamma^a, \gamma^b] = \tfrac12\gamma^a\gamma^b$, with 12 rotation planes and 16 boost planes (Section 4.13; Notebook 04c).
 - A second set of real gammas, built from $P$, $N$ and $G$ with Kronecker products, satisfies the same Clifford relation; the author's gammas are this set with the sixteen components renumbered and some signs flipped, $\gamma^{(x_a)} = Q\hat\gamma^{(x_a)}Q^T$ with a signed permutation $Q$; this change of basis is unique up to a factor; and only the multiples of $I_{16}$ commute with all eight of the author's gammas (Section 4.17; Notebook 04d).
 
-The Revision record confirms these statements independently. The table names the record file and its checks for each of them; the notebook named in the list above reproduces every one of these checks and prints it.
+The Revision record confirms these statements independently. The table names the record file and its checks for each of them; the notebook named in the list above reproduces every one of these checks and prints it. For the four theory checks of Section 4.9, Notebook 04b also requires that the record's text states the same formulas and examples word for word, so a later change of the record would make the notebook fail instead of going unnoticed.
 
 | statement | Revision record file | its checks |
 | --- | --- | --- |
 | the construction of T16 and its rules (Section 4.5) | `Revision/algebra/reports/wolfram-algebra.json` and `Revision/algebra/reports/python-algebra.json` | the 30 checks of the table at the end of Section 4.5 |
 | the stored gammas are the rebuilt ones (Section 4.5) | `Revision/algebra/gammas.json` and `Revision/algebra/reports/python-gammas.json` | all $2 \times 2048$ entries compared, none differs |
 | $h^2$ and the mass shell (Section 4.9) | `Revision/theory/reports/python-field-theory.json` | `mode_hamiltonian_B_selfadjoint_dispersion` |
-| the good-sector example, $\pm 5$ eight times each | `Revision/theory/reports/python-field-theory.json` | `good_sector_spectrum_and_B_sectors` |
+| the good-sector example: $\pm 5$ eight times each on all sixteen components, $Bh = hB$, and $\pm 5$ four times each in the sector $B = +1$ (Section 4.9) | `Revision/theory/reports/python-field-theory.json` | `good_sector_spectrum_and_B_sectors` |
 | the growing modes of the example $m = 1$, $k_5 = 2$ | `Revision/theory/reports/python-field-theory.json` | `extra_time_modes_grow` |
 | the growth rate and its missing upper bound | `Revision/theory/reports/python-scope.json` | `extra_time_growth_rates_unbounded` |
 | Cl(4,4) is all real $16 \times 16$ matrices (Section 4.13) | `Revision/algebra/reports/wolfram-algebra.json` | `Clifford_basis_spans_full_matrix_algebra` |
@@ -3500,9 +3596,9 @@ The Revision record confirms these statements independently. The table names the
 | only multiples of $I_{16}$ commute with all gammas (Section 4.17) | `Revision/algebra/reports/wolfram-algebra.json` | `Pin44_irreducible_commutant_dim_1` |
 | the same | `Revision/algebra/reports/python-algebra.json` | `pin_commutant_dimension_1` |
 
-**COMPUTED** (floating-point numbers, with the measured accuracy): the eigenvalues of the $2 \times 2$ roots agree with $\pm\sqrt{p^2 \pm 1}$ to $10^{-12}$; $(\sum_a p_a\gamma^{(x_a)})^2 = \eta(p, p)I_{16}$ for 300 random vectors, every deviation below $10^{-12}$ (the bound that the notebook asserts; the sizes themselves, plotted in figure 4 of Notebook 04b, depend on the computer's numerical library); the sixteen energies of the good-sector example lie within $10^{-12}$ of $\pm 5$, and the smallest singular value of $EI_{16} - h$ equals the distance to $\pm 5$ within $10^{-9}$; the $160 \times 16$ energies with a momentum $k_5$ lie within $10^{-10}$ of $\pm\sqrt{25 - k_5^2}$; the floating-point eigenvalues of the penalty matrix $K$ lie within $10^{-9}$ of $0, 4, \dots, 32$ (Notebooks 04b and 04d). Each of these confirms an exact statement proved above.
+**COMPUTED** (floating-point numbers, with the measured accuracy): the eigenvalues of the $2 \times 2$ roots agree with $\pm\sqrt{p^2 \pm 1}$ to $10^{-12}$; $(\sum_a p_a\gamma^{(x_a)})^2 = \eta(p, p)I_{16}$ for 300 random vectors, every deviation below $10^{-12}$ (the bound that the notebook asserts; the sizes themselves, plotted in figure 4 of Notebook 04b, depend on the computer's numerical library); the sixteen energies of the good-sector example lie within $10^{-12}$ of $\pm 5$, with eight independent solutions at each energy, the eight energies in the sector $B = +1$ lie within $10^{-12}$ of $\pm 5$, four of each, and the smallest singular value of $EI_{16} - h$ equals the distance to $\pm 5$ within $10^{-9}$; the $160 \times 16$ energies with a momentum $k_5$ lie within $10^{-10}$ of $\pm\sqrt{25 - k_5^2}$; the floating-point eigenvalues of the penalty matrix $K$ lie within $10^{-9}$ of $0, 4, \dots, 32$ (Notebooks 04b and 04d). Each of these confirms an exact statement proved above.
 
-**ASSUMED**: the author's metric, the roles of his coordinates and his formulas for T16 (the input of the theory; Section 4.4 and Section 4.5); in Section 4.9, flat 4+4 space without self-interaction, a model of the algebra only, since the author's extra times deflate at every moment; and two facts of linear algebra quoted without proof (in a space of dimension $m$ any $m$ independent elements form a basis; the trace of a Hermitian matrix is the sum of its eigenvalues).
+**ASSUMED**: the author's metric, the roles of his coordinates and his formulas for T16 (the input of the theory; Section 4.4 and Section 4.5); in Section 4.9, flat 4+4 space without self-interaction, a model of the algebra only, since the author's extra times deflate at every moment; and two facts of linear algebra quoted without proof: in a space of dimension $m$ any $m$ independent elements form a basis (Section 4.13), and the number of singular values of a square matrix $M$ that are 0 is the number of independent solutions $u$ of $Mu = 0$ (used for the counts of Notebook 04b). The fact that the trace of every square matrix is the sum of its eigenvalues, counted with their multiplicities, is not assumed here: Section 1.34 proves it from the fundamental theorem of algebra, which Chapter 1 assumes.
 
 **HYPOTHESIS and OPEN**: this chapter states none. What the growing waves along the extra times mean for the curved, deflating space-time is the subject of Chapter 8. Nothing in this chapter concerns the creation of universes or matter and antimatter; the matrices it builds are used in Part V, where the honest scope of those questions is stated.
 

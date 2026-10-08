@@ -463,11 +463,17 @@ CELLS = [
     polar coordinates is $\sigma_1(\partial_r + \frac{1}{2r}) + \frac{\sigma_2}{r}
     \partial_\varphi$. The plane is flat, so the curvature of the spinor connection,
     $F_{r\varphi} = \partial_r\Omega_\varphi - \partial_\varphi\Omega_r +
-    [\Omega_r, \Omega_\varphi]$, must vanish; the cell checks that too, and that
-    $\Omega_\varphi = -(\partial_\varphi U)U^{-1}$ for the spinor rotation
-    $U(\varphi) = \cos\frac{\varphi}{2} + i\sin\frac{\varphi}{2}\,\sigma_3$: in a flat
-    space the spin connection is only the turning of the chosen frame and can be
-    undone.
+    [\Omega_r, \Omega_\varphi]$, must vanish; the cell checks that too. A change of
+    frame by a spin transformation $R(\varphi)$ changes the spinor connection into
+    $R\,\Omega_\varphi R^{-1} - (\partial_\varphi R)R^{-1}$. The Cartesian frame has
+    no connection, and the cell checks that $\Omega_\varphi = -(\partial_\varphi
+    U)U^{-1}$ for the spinor rotation $U(\varphi) = \cos\frac{\varphi}{2} +
+    i\sin\frac{\varphi}{2}\,\sigma_3$: this is the rule with $R = U$ applied to the
+    connection 0 of the Cartesian frame, so $U$ carries the Cartesian frame into the
+    polar frame. Finally it checks that the inverse rotation $U^{-1}$ removes the
+    connection: the rule with $R = U^{-1}$ gives $U^{-1}\Omega_\varphi U -
+    (\partial_\varphi U^{-1})U = 0$. In a flat space the spin connection is only the
+    turning of the chosen frame.
     """),
     code(r'''
     r, phi = sp.symbols("r phi", positive=True)  # polar coordinates, r > 0
@@ -501,16 +507,20 @@ CELLS = [
               + plane_Omega[0] * plane_Omega[1] - plane_Omega[1] * plane_Omega[0])
     U = sp.cos(phi / 2) * sp.eye(2) + sp.I * sp.sin(phi / 2) * sigma3  # spinor rotation
     pure_gauge = -U.diff(phi) * U.inv() - plane_Omega[1]  # must be the zero matrix
-    check(F_rphi == sp.zeros(2, 2) and matrix_is_zero(pure_gauge),
-          "polar plane: flat (F_rphi = 0) and Omega_phi = -(dU/dphi) U^-1")
+    removed = U.inv() * plane_Omega[1] * U - U.inv().diff(phi) * U  # frame change U^-1
+    check(F_rphi == sp.zeros(2, 2) and matrix_is_zero(pure_gauge)
+          and matrix_is_zero(removed),
+          "polar plane: flat (F_rphi = 0), Omega_phi = -(dU/dphi) U^-1, U^-1 removes it")
     '''),
     md(r"""
     The next cell draws two pictures of the warm-up. On the left, the unit radial
     direction (black arrows) and the unit angular direction (orange arrows) at twelve
     angles on two circles: the frame turns as one goes around, by exactly the angle
     $\varphi$, which is why $\omega_{\varphi 01} = -1$ (one radian of frame rotation per
-    radian of $\varphi$; the sign records the sense of rotation). On the right, the two
-    nonzero entries of the spinor rotation $U(\varphi)$ that undoes this turning, for
+    radian of $\varphi$; the sign records the sense of rotation). On the right, the
+    real part and the imaginary part of the entry $U_{11} = \cos\frac\varphi2 +
+    i\sin\frac\varphi2$ of the spinor rotation $U(\varphi)$ that carries the Cartesian
+    frame into the polar frame (its inverse $U^{-1}$ removes the connection), for
     $\varphi$ from $0$ to $4\pi$: after one full turn ($\varphi = 2\pi$) $U = -1$, and
     only after two full turns is $U = +1$ again. A spinor turns by half the angle of the
     frame; this is the "double cover" of rotations by spinor transformations.
@@ -552,10 +562,11 @@ CELLS = [
                 "$y$ (pure numbers); the frame turns by the angle $\\varphi$ as one goes "
                 "around, and the spin connection $\\omega_{\\varphi 01} = -1$ records "
                 "this rate. Right: the entry $U_{11} = \\cos(\\varphi/2) + "
-                "i\\sin(\\varphi/2)$ of the spinor rotation that undoes the turning, real "
-                "part (solid) and imaginary part (dashed), for $\\varphi$ from $0$ to "
-                "$4\\pi$; at $\\varphi = 2\\pi$ the spinor rotation is $-1$, and only at "
-                "$4\\pi$ is it $+1$ again.")
+                "i\\sin(\\varphi/2)$ of the spinor rotation $U$ that carries the "
+                "Cartesian frame into the polar frame (its inverse $U^{-1}$ removes the "
+                "connection), real part (solid) and imaginary part (dashed), for "
+                "$\\varphi$ from $0$ to $4\\pi$; at $\\varphi = 2\\pi$ the spinor "
+                "rotation is $-1$, and only at $4\\pi$ is it $+1$ again.")
     '''),
     md(r"""
     ## 8. The author's metric and its diagonal vielbein
@@ -1092,11 +1103,12 @@ CELLS = [
     a calculator: it computes the derivative of $\sin z$ with respect to $x_8$ by a
     **central difference**, $\big(F(x_8 + h) - F(x_8 - h)\big)/(2h)$ with the small
     step $h = 10^{-5}$, divides by $2\cos z$, and plots the result over the whole
-    range of $z$ (with $H = 1$). It also does the same for the time direction, where
-    the product $\cos z$ does not depend on $x_4$ at all. The difference from the exact
-    value 3 is of the size $18h^2 \approx 2 \cdot 10^{-9}$ (the error of a central
-    difference is $h^2/6$ times the third derivative), far below the check limit
-    $10^{-6}$.
+    range of $z$ (with $H = 1$). For the time direction there is nothing to compute:
+    the product $\cos z$ does not depend on $x_4$ at all (Fact 2), so its coefficient
+    is exactly $0$, and the cell draws it as a zero line for comparison. The difference
+    from the exact value 3 is of the size $18h^2 \approx 2 \cdot 10^{-9}$ (the error of
+    a central difference is $h^2/6$ times the third derivative), far below the check
+    limit $10^{-6}$.
     """),
     code(r'''
     H_value = 1.0
@@ -1162,7 +1174,9 @@ CELLS = [
     $V\Psi_A$, $V = m + U'(S)$, is not needed here). Finally it checks the
     non-triviality statement of the record: $(\gamma^{(x8)})^2 = 1$, so
     $3H\gamma^{(x8)}\Psi = 0$ only if $\Psi = 0$; the term is present for every
-    $H > 0$ and every field.
+    $H > 0$ and every field. With it the cell requires that the WolframScript report
+    `wolfram-field-theory.json` records this statement as passed for both fields
+    (checks `nontriviality_1_dirac16complex` and `nontriviality_2_dirac16complex00`).
     """),
     code(r'''
     import re  # text patterns, to rename the record's symbols
@@ -1196,8 +1210,9 @@ CELLS = [
         same = same and is_zero(mine - record_left)
     check(same, "all 16 components of the Dirac operator equal the record",
           record=f"{THEORY_FILE}, formula field_equation_components")
-    check(gamma[7] * gamma[7] == I16 and record_passed(REPORT_PY,
-                                                        "nontriviality_Omega_zero_iff_flat"),
+    both_fields = all(record_passed(REPORT_WL, name) for name in [
+        "nontriviality_1_dirac16complex", "nontriviality_2_dirac16complex00"])
+    check(gamma[7] * gamma[7] == I16 and both_fields,
           "(gamma^(x8))^2 = 1: the term 3 H gamma^(x8) Psi vanishes only for Psi = 0",
           record=f"{REPORT_WL}, checks nontriviality_1_dirac16complex and "
                  "nontriviality_2_dirac16complex00")

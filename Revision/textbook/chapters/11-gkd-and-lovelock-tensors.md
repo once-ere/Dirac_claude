@@ -2676,16 +2676,21 @@ The helper of Notebook 11a, In [16]: for one report, a dictionary from the name 
 QUOTED = {  # report -> the checks that this notebook quotes from it
     "python-lovelock-report.json": [
         "rust_riemann_agrees", "rust_k1_mixed_components_agree",
-        ...
+        "rust_k2_mixed_components_agree", "rust_k3_mixed_components_agree",
+        "rust_L1_agrees", "rust_L2_agrees", "rust_L3_agrees",
+        "k1_unpruned_literal_sum_agrees", "k2_unpruned_literal_sum_agrees",
+        "k1_equals_minus_4_einstein", "L1_equals_2R",
+        "k2_equals_minus_8_gauss_bonnet", "L2_equals_4_gauss_bonnet",
+        "L3_equals_8_cubic_lovelock_density", "normalisation_P1_derived_minus_4",
         "normalisation_P2_derived_minus_8", "normalisation_L3_cubic_derived"],
     "lovelock-report.json": [
         "riemann_antisymmetry", "mixed_riemann_free_of_sin_third",
-        ...
+        "k1_trace_identity", "k2_trace_identity", "k3_trace_identity",
         "k4_tensor_vanishes", "k1_brute_force_numeric", "k2_brute_force_numeric"],
 }
 ```
 
-(Shortened here; the full lists are in Section 11.18.) The 17 checks quoted from the sympy report and the 8 quoted from the Rust report.
+The 17 checks that the notebook's text quotes from the sympy report and the 8 that it quotes from the Rust report.
 
 ```python
 for report_name, names in QUOTED.items():

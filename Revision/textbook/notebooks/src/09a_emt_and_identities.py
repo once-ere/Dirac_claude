@@ -187,10 +187,11 @@ CELLS = [
     tensor is the symmetric part of the tensor that a variation of the vielbein
     gives (record formula `T_variation`, which has an extra spin-density term); the
     two are equal on every solution of the field equation, and for other
-    configurations they agree only on the diagonal. This notebook, like the book,
-    uses the symmetric tensor `T_symmetric`; so the lowered table $T_{\nu\mu}$
-    computed below for random values, which do not solve the field equation, is
-    symmetric by construction.
+    configurations they agree in general only on the diagonal (record check
+    `commuting_emt_equals_general_vielbein_variation_on_shell`). This notebook uses
+    the symmetric tensor `T_symmetric`; so the lowered table $T_{\nu\mu}$ computed
+    below for random values, which do not solve the field equation, is symmetric by
+    construction.
 
     **The diagonal entries.** With the kinetic term of direction $\mu$,
     $K_\mu = \frac{1}{2f_\mu}(\bar\Phi\gamma^{(\mu)}\partial_\mu\Phi

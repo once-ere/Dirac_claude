@@ -94,7 +94,9 @@ CELLS = [
     $$\Psi^c = \mathcal{C}\, \bar\Psi^T = \mathcal{C} C \Psi^* ,$$
 
     where $\bar\Psi = \Psi^\dagger C$ is the Dirac adjoint and $C$ the charge matrix
-    (the author's sigma16). This notebook finds every such matrix exactly. It
+    (the author's sigma16). As in the Revision record, a charge-conjugation matrix is
+    defined by a condition that $M = \mathcal{C}C$ must obey together with every gamma
+    (section 4 derives it); this notebook finds every such matrix exactly. It
 
     1. solves the linear equations $M(\gamma^a)^* = s\,\gamma^a M$ ($a = x1, \dots,
        x8$) for all $16 \times 16$ matrices $M = \mathcal{C}C$: for $s = +1$ (same
@@ -130,12 +132,15 @@ CELLS = [
       $(\gamma^\mu D_\mu - V)\Psi = 0$ with $V = m + U'(S)$ a real function, $m$ the
       mass, $D_\mu = \partial_\mu + \Omega_\mu$ the covariant derivative with the
       spin connection $\Omega_\mu$.
-    - **Charge-conjugation matrix** $\mathcal{C}$: a constant matrix such that
-      $\Psi^c = \mathcal{C}\bar\Psi^T$ solves a field equation of the same form
-      whenever $\Psi$ does, with the same $V$ (**same mass**) or with $-V$ (**mass
-      reversed**).
-    - **Intertwiner condition** $M(\gamma^a)^* = s\,\gamma^a M$: the linear equations
-      for $M = \mathcal{C}C$ derived in section 4.
+    - **Intertwiner condition** $M(\gamma^a)^* = s\,\gamma^a M$ for $a = x1, \dots,
+      x8$, with one sign $s$ ($+1$ or $-1$) for all eight directions: the linear
+      equations for $M = \mathcal{C}C$ derived in section 4.
+    - **Charge-conjugation matrix** $\mathcal{C}$: a constant matrix for which
+      $M = \mathcal{C}C$ obeys the intertwiner condition (the definition of the
+      Revision record); **same mass** for $s = +1$, **mass reversed** for $s = -1$.
+      Section 4 shows that then $\Psi^c = \mathcal{C}\bar\Psi^T$ solves the field
+      equation with $V$ (same mass) or with $-V$ (mass reversed) whenever $\Psi$
+      solves it.
     - **Bilinear**: an expression $\Psi^\dagger K \Psi = \sum_{r,c}\Psi_r^* K_{rc}
       \Psi_c$ with a fixed matrix $K$. The **scalar** $S = \bar\Psi\Psi = \Psi^\dagger C
       \Psi$ and the **current** $J^a = -i\bar\Psi\gamma^a\Psi = \Psi^\dagger(-iC
@@ -191,6 +196,17 @@ CELLS = [
     then $\Gamma M$ commutes with all of them ($\Gamma$ anticommutes with every gamma),
     so $\Gamma M = c\,1$ and $M = c\,\Gamma$. The notebook solves the equations exactly
     and finds exactly these two one-dimensional families.
+
+    **Why the condition is the definition.** Steps 1 to 4 show that the condition is
+    enough for $M\Psi^*$ to be a solution; the converse is not true in general. For
+    $V = 0$ (mass 0, no self-interaction) the chiral projector $P_- = \frac12(1 -
+    \Gamma)$ is even, so it commutes with $\Omega_\mu$ and $\partial_\mu$, and
+    $\gamma^a P_- = P_+\gamma^a$ with $P_+ = \frac12(1 + \Gamma)$; hence
+    $\gamma^\mu D_\mu(P_-\Psi^*) = P_+\gamma^\mu D_\mu\Psi^* = P_+ V\Psi^* = 0$ for
+    every solution. So $P_-$ maps every solution to a solution, but it is neither a
+    multiple of 1 nor of $\Gamma$ and obeys neither condition. With the condition as
+    the definition (as in the Revision record) there are exactly two
+    charge-conjugation matrices, up to a factor.
 
     **A field along the time.** In flat space, a field that depends only on $x4$
     obeys $\gamma^{(x4)}\, d\Psi/dx4 = m\Psi$. Since $\gamma^{(x4)}\gamma^{(x4)} = -1$,
@@ -655,7 +671,8 @@ CELLS = [
     $J^{(x4)} = \Psi^\dagger B\Psi$ of the three fields at all 801 time points. Both
     are constant along $x4$ (the derivative of $S$ is $-m\Psi^\dagger(
     (\gamma^{(x4)})^TC + C\gamma^{(x4)})\Psi = 0$, because $(\gamma^{(x4)})^T =
-    -\gamma^{(x4)}$ commutes with $C$; $J^{(x4)}$ is the conserved charge density). The
+    -\gamma^{(x4)}$ commutes with $C$; the same computation with $B$ in place of $C$
+    gives 0 for $J^{(x4)}$, because $\gamma^{(x4)}$ also commutes with $B$). The
     prediction of the Revision record for commuting components: $\Psi^*$ keeps $S$ and
     reverses $J$; $\Gamma\Psi^*$ keeps $S$ and keeps $J$. The cell also checks the
     exact values $S = -2$ and $J^{(x4)} = -6$ of the solution at $x4 = 0$ (where
@@ -749,7 +766,7 @@ CELLS = [
     anticommuting rows of this table. Notebook 05e computes this on an explicit Fock
     space. (The detail text of the record's check also contains, in parentheses, the
     remark that normal ordering supplies one more sign; that remark is not part of the
-    measured table, and the computation of Notebook 05e does not support it.)
+    measured table, and the computation of Notebook 05e contradicts it.)
     """),
     code(r'''
     K_S = C.astype(complex)  # the matrix of the scalar S
@@ -998,6 +1015,9 @@ CELLS = [
     $\Psi_r$ is $B_{rc}$, which is the entry $(c, r)$ of $B^T$). The rule is preserved
     exactly when $MB^TM^\dagger = B$. The next cell checks the recorded result: it holds
     for $M = \Gamma$ and fails for $M = 1$, where it gives $-B$ (because $B^T = -B$).
+    A factor $\lambda$ in front of $M$ multiplies $MB^TM^\dagger$ by $|\lambda|^2$, so
+    among the multiples of 1 and of $\Gamma$ only $\Gamma$, up to a phase factor
+    $e^{i\alpha}$, keeps the rule.
     """),
     code(r'''
     q_plus = I16 @ B.T @ I16.conj().T  # M = 1
@@ -1050,7 +1070,10 @@ CELLS = [
       = \mathcal{C}C\Psi^*$.
     - Solving $M(\gamma^a)^* = s\,\gamma^a M$ exactly: for $s = +1$ (same mass) only
       the multiples of 1, for $s = -1$ (mass reversed) only the multiples of $\Gamma$.
-      Hence exactly two charge-conjugation matrices: $\mathcal{C}_+ = C$ with
+      Hence, with this intertwiner condition as the definition (as in the Revision
+      record), exactly two charge-conjugation matrices up to a factor; each maps every
+      solution to a solution (the converse is not claimed: for $V = 0$ the projector
+      $P_-$ also does). They are $\mathcal{C}_+ = C$ with
       $\mathcal{C}_+^{-1}\gamma^a\mathcal{C}_+ = -(\gamma^a)^T$, $\Psi^c = \Psi^*$; and
       $\mathcal{C}_- = \Gamma C$ with $\mathcal{C}_-^{-1}\gamma^a\mathcal{C}_- =
       +(\gamma^a)^T$, $\Psi^c = \Gamma\Psi^*$. Solving the transposition equations
@@ -1067,8 +1090,9 @@ CELLS = [
     - Real fields: $J = 0$, $\mathcal{C}_+$ is the identity, and the nontrivial real
       map is the matrix $\Gamma$ with $(m, \lambda) \to (-m, -\lambda)$ (theorem T1).
     - Quantised field: $\Psi \to \Gamma\Psi^{\dagger T}$ preserves $\{\Psi,
-      \Psi^\dagger\} = B\delta$, $\Psi \to \Psi^{\dagger T}$ does not; the conjugation
-      of the quantised field reverses the mass.
+      \Psi^\dagger\} = B\delta$, $\Psi \to \Psi^{\dagger T}$ does not; among the
+      multiples of the two matrices only $\Gamma$, up to a phase factor, keeps the
+      rule, and this conjugation of the quantised field reverses the mass.
     - Ten checks reproduce the Revision record
       `Revision/lead_checks/reports/charge-conjugation-and-u1.json`.
     """),

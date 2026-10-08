@@ -3264,7 +3264,13 @@ $$
 \tan(pL) = -\frac{p}{M} .
 $$
 
-This transcendental equation has one root $p_n$ on each interval $(n + \frac12)\pi/L < p < (n + 1)\pi/L$, $n = 0, 1, 2, \dots$ (there $\tan(pL)$ runs through all negative values once), and each root gives the two odd levels $\pm\sqrt{M^2 + p_n^2}$.
+This transcendental equation has exactly one root $p_n$ on each interval $(n + \frac12)\pi/L < p < (n + 1)\pi/L$, $n = 0, 1, 2, \dots$, and no other positive root. The reasons, in three steps:
+
+- On the intervals $n\pi/L < p < (n + \frac12)\pi/L$ the angle $pL$ lies between $n\pi$ and $n\pi + \pi/2$, where the tangent is positive, while $-p/M$ is negative: no root.
+- At the points $pL = n\pi$ the tangent is 0, not the negative number $-p/M$. At the points $pL = (n + \frac12)\pi$ the cosine vanishes, so the tangent is not defined, and the equation in the form $M\sin(pL) + p\cos(pL) = 0$ (multiplied by $\cos(pL)$ and by $M$) would demand $M\sin(pL) = \pm M = 0$: no root at these points either.
+- On $(n + \frac12)\pi/L < p < (n + 1)\pi/L$ consider $D(p) = \tan(pL) + p/M$, which vanishes exactly at the roots. It is continuous there and strictly increasing, because $\tan(pL)$ rises (its derivative $L/\cos^2(pL)$ is positive, by the chain rule) and $p/M$ rises ($M > 0$); in words, the tangent rises while the line $-p/M$ falls. Just to the right of the left end $\tan(pL)$ is a large negative number, so $D < 0$; at the right end $\tan(pL) = 0$ and $D = (n + 1)\pi/(LM) > 0$. By the intermediate value theorem $D$ vanishes somewhere in between, and since it is strictly increasing it vanishes only once.
+
+Each root gives the two odd levels $\pm\sqrt{M^2 + p_n^2}$.
 
 *Case $\varepsilon = 0$.* The equations separate: $a' = Ma$ and $b' = -Mb$. With $b(-L) = 0$ the solution of $b' = -Mb$ is $b = 0$ everywhere (the uniqueness theorem of Section 2.2), and $a = e^{M(y + L)}$, a multiple of $e^{My}$. This is an even orbital ($b(0) = 0$) with the energy exactly 0, the **zero mode**; an odd one would need $a(0) = 0$, which $e^{M(y+L)}$ never is.
 
@@ -3415,7 +3421,7 @@ $$
 
 (insert $s = h/2$; then insert $ch^2$ and $eh^3$ and collect: the values give $f_0 + (f_1 - f_0)(\frac34 - \frac14) = \frac{f_0 + f_1}{2}$, the slopes give $h f_0'(\frac12 - \frac12 + \frac18) + h f_1'(-\frac14 + \frac18) = \frac{h}{8}(f_0' - f_1')$). Its error is of order $h^4$, the order of RK4 (ASSUMED: quoted). With the values at the nodes and the midpoints the program integrates with Simpson's rule (Section 2.13) on the fine grid of $2G + 1$ points, with spacing $h/2$.
 
-**Why the error grows with the level.** Far above the mass the point $(a, b)$ turns at the rate $\theta' \approx \varepsilon$, like the oscillator of Section 2.7 with the frequency $\varepsilon$: one RK4 step multiplies the turning point by $R(i\omega)$ with $\omega = \varepsilon h$. Its angle $\phi$ is a little smaller than $\omega$. With $c = 1 - \frac{\omega^2}{2} + \frac{\omega^4}{24}$ and $s = \omega - \frac{\omega^3}{6}$ (the real and imaginary parts of $R(i\omega)$, Section 2.7),
+**Why the error grows with the level.** Far from the mass (far above $+M$ or far below $-M$) the point $(a, b)$ turns at the rate $\theta' \approx \varepsilon$, like the oscillator of Section 2.7 with the frequency $\varepsilon$: forwards for $\varepsilon > 0$, backwards for $\varepsilon < 0$. One RK4 step multiplies the turning point by $R(i\omega)$ with $\omega = \varepsilon h$. Its angle $\phi$ is a little smaller than $\omega$ in size: a little smaller than $\omega$ for $\omega > 0$, a little larger (closer to 0) for $\omega < 0$. With $c = 1 - \frac{\omega^2}{2} + \frac{\omega^4}{24}$ and $s = \omega - \frac{\omega^3}{6}$ (the real and imaginary parts of $R(i\omega)$, Section 2.7),
 
 $$
 \tan\phi = \frac{s}{c}, \qquad \tan\omega = \frac{\omega - \frac{\omega^3}{6} + \frac{\omega^5}{120} - \dots}{1 - \frac{\omega^2}{2} + \frac{\omega^4}{24} - \frac{\omega^6}{720} + \dots}
@@ -3433,23 +3439,23 @@ $$
 \phi - \omega = -\frac{\omega^5}{120} + \dots
 $$
 
-(by the **mean value theorem** of calculus, $g(\phi) - g(\omega) = (\phi - \omega)\, g'(\xi)$ for some $\xi$ between $\omega$ and $\phi$; applied to $g = \tan$, whose derivative is $1 + \tan^2$, it gives $\tan\phi - \tan\omega = (\phi - \omega)(1 + \tan^2\xi)$, and $1 + \tan^2\xi = 1 + \dots$ for small angles). So every step lags behind by $\omega^5/120 = \varepsilon^5 h^5/120$; after $G = L/h$ steps the end angle lags by
+(by the **mean value theorem** of calculus, $g(\phi) - g(\omega) = (\phi - \omega)\, g'(\xi)$ for some $\xi$ between $\omega$ and $\phi$; applied to $g = \tan$, whose derivative is $1 + \tan^2$, it gives $\tan\phi - \tan\omega = (\phi - \omega)(1 + \tan^2\xi)$, and $1 + \tan^2\xi = 1 + \dots$ for small angles). Every series used here holds for negative $\omega$ as well, so this result holds for both signs of the energy. So every step turns the point by $\omega^5/120 = \varepsilon^5 h^5/120$ too little in the direction in which it turns: for $\varepsilon > 0$ the point turns forwards and its angle comes out too small; for $\varepsilon < 0$ it turns backwards ($\omega < 0$, $\omega^5 < 0$) and its angle comes out too large, that is, again too close to 0. After $G = L/h$ steps the computed end angle differs from the exact one by
 
 $$
-\frac{L}{h}\cdot\frac{\varepsilon^5 h^5}{120} = \frac{L\, \varepsilon^5 h^4}{120}
+\Phi_{\rm computed}(\varepsilon) - \Phi_{\rm exact}(\varepsilon) = -\frac{L}{h}\cdot\frac{\varepsilon^5 h^5}{120} = -\frac{L\, \varepsilon^5 h^4}{120}
 $$
 
-(the number of steps times the lag per step). Since $\Phi$ grows by about $L$ per unit of energy, the energy must be higher by $\delta\varepsilon$ with $L\,\delta\varepsilon = L\varepsilon^5h^4/120$ to make up for the lag:
+(the number of steps times the change per step). The computed level is the energy $\varepsilon + \delta\varepsilon$ at which the computed end angle reaches the target, and the target is $\Phi_{\rm exact}(\varepsilon)$, the end angle of the exact level $\varepsilon$. Since $\Phi$ grows by about $L$ per unit of energy (for either sign of $\varepsilon$), $\Phi_{\rm computed}(\varepsilon + \delta\varepsilon) \approx \Phi_{\rm exact}(\varepsilon) + L\,\delta\varepsilon - L\varepsilon^5 h^4/120$, and setting this equal to the target gives
 
 $$
-\delta\varepsilon \approx \frac{\varepsilon^5 h^4}{120}, \qquad \frac{\delta\varepsilon}{\varepsilon} \approx \frac{(h\varepsilon)^4}{120}
+L\,\delta\varepsilon - \frac{L\, \varepsilon^5 h^4}{120} = 0, \qquad \delta\varepsilon \approx \frac{\varepsilon^5 h^4}{120}, \qquad \frac{\delta\varepsilon}{\varepsilon} \approx \frac{(h\varepsilon)^4}{120}
 $$
 
-(divide by $L$, then by $\varepsilon$). The computed levels come out slightly too HIGH, with an error of order $h^4$ that grows like the fifth power of the level (PROVED to leading order for levels far above the mass; near the mass the point does not turn uniformly and the error is smaller; Notebook 02d, In [12], compares this prediction with all 51 nonzero levels of the record).
+(subtract $\Phi_{\rm exact}(\varepsilon)$ from both sides; divide by $L$; then by $\varepsilon$). Because $\varepsilon^5$ has the sign of $\varepsilon$, so has $\delta\varepsilon$: the energy must move away from zero to make up for the error of the angle. The computed levels come out slightly too large in size, too high for $\varepsilon > 0$ and too low for $\varepsilon < 0$, with an error of order $h^4$ that grows like the fifth power of the level (PROVED to leading order for levels far from the mass; near the mass the point does not turn uniformly and the error is smaller). Notebook 02d, In [12], compares this prediction with all 51 nonzero levels of the record and confirms the sign: all 33 positive levels of the record come out too high and all 18 negative ones too low (COMPUTED).
 
 ### 2.25 Example: the shooting method of the Revision Kohn-Sham solver, rewritten
 
-Notebook 02d reads the theory, the parameters and the table of the free spectrum from the Revision record; rewrites the program's RK4 shot with the counted Prüfer angle and checks it against the angle equation; draws the staircase $\Phi(\varepsilon)$ and its slope and checks the slope formula; draws the angle along $y$; recomputes the 54 exact levels; rewrites the program's Newton root finder with its safety net and compares it with plain bisection; reproduces all 54 numerical levels of the record and the numbers quoted by two checks of the program; builds the normalised orbitals as the program does; and measures the order 4 of the levels and the phase-lag law. It ends with ALL 17 CHECKS PASSED (notebook 02d).
+Notebook 02d reads the theory, the parameters and the table of the free spectrum from the Revision record; rewrites the program's RK4 shot with the counted Prüfer angle and checks it against the angle equation; draws the staircase $\Phi(\varepsilon)$, checks that no level except the zero mode lies in the mass gap $|\varepsilon| \le M$, draws the slope of the staircase and checks the slope formula; draws the angle along $y$; recomputes the 54 exact levels; rewrites the program's Newton root finder with its safety net and compares it with plain bisection; reproduces all 54 numerical levels of the record and the numbers quoted by two checks of the program; builds the normalised orbitals as the program does; and measures the order 4 of the levels, the phase-lag law and the sign of the level errors. It ends with ALL 19 CHECKS PASSED (notebook 02d).
 
 <!-- NOTEBOOK 02d -->
 
@@ -3627,6 +3633,19 @@ check(np.all(np.diff(Phi_grid) > 0), "Phi(eps) increases on the whole grid")
 651 energies from $-6$ to 7 (spacing 0.02) are shot; `Phi_grid` holds the end angles and `slope_grid` the slopes by the formula. `np.diff` gives the differences of neighbouring entries; the check requires all of them to be positive: $\Phi$ increases, as proved in Section 2.24.
 
 ```python
+gap_ends = []  # Phi at eps = -M and eps = +M for the three cases of the table
+for M, L in sorted({(float(r["m"]), float(r["L"])) for r in ROWS}):
+    G = round(G_CANONICAL * L / 3.0)  # the record's step h = 1/300
+    gap_ends += [shoot(-M, M, L, G)[0], shoot(M, M, L, G)[0]]
+report("largest |Phi(-M)|, |Phi(+M)| in units of pi (three cases)",
+       f"{max(abs(p) for p in gap_ends) / math.pi:.4f}")
+check(max(abs(p) for p in gap_ends) < math.pi / 2,
+      "for |eps| <= M the staircase crosses no target but 0: only the zero mode")
+```
+
+These lines test the statement of Section 2.24 that between $-M$ and $M$ the only level is the zero mode. The curly brackets `{...}` make a **set**, a collection in which each element appears once: the pairs $(M, L)$ of all 54 rows give the three cases $(1, 2)$, $(1, 3)$ and $(2, 3)$, and `sorted` puts them in a fixed order. For each case `G` is the record's number of steps for that $L$ (900 for $L = 3$, 600 for $L = 2$), and the end angle is computed at the edges of the mass gap, $\varepsilon = -M$ and $\varepsilon = +M$ (`+=` appends both to the list). Since $\Phi$ increases with $\varepsilon$, every $\Phi(\varepsilon)$ with $|\varepsilon| \le M$ lies between $\Phi(-M)$ and $\Phi(+M)$. The RESULT line prints the largest of the six sizes, $0.2256\pi$ (COMPUTED, for $M = 2$); the check requires all six to be below $\pi/2$. Then for $|\varepsilon| \le M$ the end angle stays strictly between $-\pi/2$ and $\pi/2$, and the only target in that range is $0$ (the even target with $l = 0$): no level except the zero mode lies in the gap, in all three cases.
+
+```python
 def target(parity, label):
     """The target value of Phi for a level of the given parity and label."""
     return label * math.pi if parity == "even" else math.pi / 2 + label * math.pi
@@ -3719,7 +3738,7 @@ ax.plot(eps_grid[1:-1][::6], grid_difference[::6], "o", color=AQUA, ms=4,
 ax.axhline(L3, color=GREY, ls="--", lw=1.0, label="$L = 3$")
 ```
 
-`grid_difference` is the central difference of the staircase on the grid itself (the value two places ahead minus the value two places back, divided by the energy distance 0.04), belonging to the inner energies `eps_grid[1:-1]`; every sixth one is drawn (`[::6]`) as an aqua dot over the black formula curve, with a dashed line at $L = 3$.
+`grid_difference` is the central difference of the staircase on the grid itself (the value one place ahead minus the value one place back, divided by the energy distance 0.04 between them: entry $i$ of `grid_difference` is $(\Phi_{i+2} - \Phi_i)/(\varepsilon_{i+2} - \varepsilon_i)$, centred on the grid point $i + 1$), belonging to the inner energies `eps_grid[1:-1]`; every sixth one is drawn (`[::6]`) as an aqua dot over the black formula curve, with a dashed line at $L = 3$.
 
 ```python
 ax.set_ylim(0.0, 17.5)  # room for the legend above the two peaks
@@ -4247,7 +4266,7 @@ check(sp.simplify(lag + w ** 5 / 120) == 0,
       "one RK4 step turns by omega - omega^5/120: the phase lags")
 ```
 
-`R_rk4` is $R(i\omega)$ written out (Section 2.7). `sp.im` and `sp.re` take its imaginary and real parts, and the arctangent of their quotient is its angle (for small $\omega$ the real part is positive, so no turn is lost). `sp.series(..., w, 0, 7)` expands the angle minus $\omega$ up to $\omega^6$; the printout is `-omega**5/120`, and the check confirms the phase lag $\omega^5/120$ derived in Section 2.24.
+`R_rk4` is $R(i\omega)$ written out (Section 2.7). `sp.im` and `sp.re` take its imaginary and real parts, and the arctangent of their quotient is its angle (for small $\omega$ the real part is positive, so no turn is lost). `sp.series(..., w, 0, 7)` expands the angle minus $\omega$ up to $\omega^6$; the printout is `-omega**5/120`, and the check confirms the phase lag $\omega^5/120$ derived in Section 2.24. The symbol is declared positive (`positive=True`), which keeps sympy's expansion simple; for a negative angle the same result follows, because $R(-i|\omega|)$ is the complex conjugate of $R(i|\omega|)$, so its angle is minus that of $R(i|\omega|)$, and $-(|\omega| - |\omega|^5/120) = \omega - \omega^5/120$ for $\omega = -|\omega|$.
 
 ```python
 nonzero = [i for i, a in enumerate(analytic_record) if a != 0.0]
@@ -4258,7 +4277,7 @@ our_diff = np.array([abs(differences_ours[i]) for i in nonzero])
 masses = np.array([float(ROWS[i]["m"]) for i in nonzero])
 ```
 
-The 51 rows with a nonzero level (all except the three zero modes): their sizes $|\varepsilon|$, the quantity $h|\varepsilon|$ with $h = 1/300$ (the same step for all three cases), the record's column `difference` (numerical minus exact level), our own differences from In [9], and the masses.
+The 51 rows with a nonzero level (all except the three zero modes): their sizes $|\varepsilon|$, the quantity $h|\varepsilon|$ with $h = 1/300$ (the same step for all three cases), the size (`abs`) of the record's column `difference` (numerical minus exact level), the sizes of our own differences from In [9], and the masses. The sizes are needed for the logarithmic axes; the signs are tested at the end of the cell.
 
 ```python
 fig, ax = plt.subplots()
@@ -4285,7 +4304,7 @@ save_figure(fig, "record_differences",
             ...)
 ```
 
-Labels and the saved figure `02d_8_record_differences.png`. **What Figure 02d.8 shows:** the crosses sit on the record's dots (our shooting reproduces the program's errors); all points lie below the dashed prediction, and the levels far above the mass approach it, while those near the mass (where the point does not turn uniformly) lie further below.
+Labels and the saved figure `02d_8_record_differences.png`. **What Figure 02d.8 shows:** the crosses sit on the record's dots (our shooting reproduces the program's errors); all points lie below the dashed prediction, and the levels far from the mass approach it, while those near the mass (where the point does not turn uniformly) lie further below.
 
 ```python
 ratio = (record_diff / eps_abs) / (x_values ** 4 / 120)
@@ -4307,6 +4326,19 @@ check(np.max(np.abs(record_diff - our_diff)) < 1e-12,
 
 Our differences equal the record's column `difference` to $1.8 \times 10^{-15}$ (COMPUTED: reproduces `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`, column `difference`).
 
+```python
+signed = np.array([float(ROWS[i]["difference"]) for i in nonzero])  # with sign
+levels = np.array([analytic_record[i] for i in nonzero])
+report("computed too high (levels > 0), too low (levels < 0)",
+       f"{np.sum((levels > 0) & (signed > 0))} of {np.sum(levels > 0)}, "
+       f"{np.sum((levels < 0) & (signed < 0))} of {np.sum(levels < 0)}")
+check(np.all(np.sign(signed) == np.sign(levels)),
+      "every computed level lies farther from 0 than the exact one (sign of eps^5)",
+      record=f"{TABLE}, columns difference and eps_analytic")
+```
+
+The last lines test the sign of the error, which Section 2.24 predicts: $\delta\varepsilon \approx \varepsilon^5 h^4/120$ has the sign of $\varepsilon$. `signed` holds the record's column `difference` with its sign, and `levels` the exact levels. `(levels > 0) & (signed > 0)` is `True` for a positive level computed too high (`&` means "and" for arrays), and `np.sum` counts the `True` entries. The RESULT line prints 33 of 33 and 18 of 18 (COMPUTED): every positive level comes out too high and every negative level too low. `np.sign` is $+1$, $-1$ or 0 for a positive, negative or zero number, and the check requires the sign of each difference to equal the sign of its level; that is, every computed level lies farther from 0 than the exact one (reproduces `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`, columns `difference` and `eps_analytic`).
+
 **In [13], the last check.**
 
 ```python
@@ -4319,7 +4351,7 @@ check(all(present), f"all {len(names)} figure files of notebook 02d exist")
 all_checks_passed()
 ```
 
-As in Notebook 02a: the eight figure files must exist, and the last line is ALL 17 CHECKS PASSED (notebook 02d). The 17 checks are: 1 in In [2], 1 in In [3], 1 in In [4], 2 in In [5], 1 in In [7], 1 in In [8], 3 in In [9], 2 in In [10], 1 in In [11], 3 in In [12] and 1 in In [13].
+As in Notebook 02a: the eight figure files must exist, and the last line is ALL 19 CHECKS PASSED (notebook 02d). The 19 checks are: 1 in In [2], 1 in In [3], 2 in In [4], 2 in In [5], 1 in In [7], 1 in In [8], 3 in In [9], 2 in In [10], 1 in In [11], 4 in In [12] and 1 in In [13].
 
 ### 2.29 What we proved, what we computed, what we assumed
 

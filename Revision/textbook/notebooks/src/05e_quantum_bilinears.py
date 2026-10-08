@@ -23,7 +23,7 @@ quantum_charge_conjugation_unitary_type), and the conjugated bilinears.  Result:
 conjugated bilinear equals the bilinear times the sign of the ANTICOMMUTING row of the
 record's measured table (check bilinears_under_charge_conjugation) plus a constant, and
 normal ordering removes exactly that constant.  The parenthetical remark in the detail
-text of that record check ("normal ordering supplies one more sign") is not supported by
+text of that record check ("normal ordering supplies one more sign") is contradicted by
 this computation; the notebook says so.
 """
 
@@ -117,7 +117,7 @@ CELLS = [
        charges $\pm 1$ of the 16 quanta, and the expectation-value rule;
     5. applies the two conjugations $\Psi \to M\Psi^{\dagger T}$ with $M = 1$ (the
        type of $\mathcal{C}_+$) and $M = \Gamma$ (the type of $\mathcal{C}_-$) to the
-       operators: only $M = \Gamma$ keeps the canonical rule;
+       operators: of the two, only $M = \Gamma$ keeps the canonical rule;
     6. computes every conjugated bilinear as an operator: it is the original bilinear
        times a sign, plus a constant; the sign is the one of the classical
        *anticommuting* components; **normal ordering** removes the constant and
@@ -152,6 +152,21 @@ CELLS = [
     - **Field operators**: $\Psi_A = \sum_s \big((u_s)_A b_s + (v_s)_A d_s^*\big)$ for
       $A = 1, \dots, 16$, with $\chi_A$ its Hilbert adjoint and the **canonical
       conjugate** $\Psi^\dagger_A = \sum_C \chi_C B_{CA}$.
+    - **Momentum**: a field of one momentum $k$ along $x1$ has the form
+      $\psi\,e^{ik\,x1}$, a column $\psi$ times the number $e^{ik\,x1} = \cos(k\,x1) +
+      i\sin(k\,x1)$; $k$ is a real number. The **good sector**: momenta without a part
+      along the extra times $x5$, $x6$, $x7$ (the field does not depend on them).
+    - **Energy**: a column that depends on the time as $e^{-iE\,x4}$ ($E$ real) has
+      the energy $E$.
+    - **Mode Hamiltonian** $h$: the $16 \times 16$ matrix with $E\,u = h\,u$ for the
+      field $u\,e^{i(k\,x1 - E\,x4)}$ of one momentum; its eigenvalues are the energies
+      of the fields of that momentum (section 8 derives it). The **energy density** is
+      the energy per unit volume.
+    - **Orthonormal** columns: each has length 1 ($u^\dagger u = 1$) and every two are
+      perpendicular ($u^\dagger w = 0$).
+    - **Delta function** $\delta^7(x - y)$: an idealised object that is zero whenever
+      the point $x$ differs from $y$ and whose integral over the seven coordinates
+      other than the time is 1.
     - **Krein space**: a space with an *indefinite* inner product (some vectors have a
       negative norm).
     - **Bilinear operator**: $\Psi^\dagger K\Psi = \sum_{A,C}\Psi^\dagger_A K_{AC}

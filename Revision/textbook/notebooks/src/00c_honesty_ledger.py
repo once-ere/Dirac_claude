@@ -126,7 +126,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS the four figure files of this notebook exist",
-        "ALL 14 CHECKS PASSED (notebook 00c)",
+        "ALL 15 CHECKS PASSED (notebook 00c)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" or \"KeyError\" naming a file below the folder Revision",
@@ -191,17 +191,22 @@ CELLS = [
     - **Dictionary, list** (Python): a *list* `[a, b, c]` is an ordered collection; a
       *dictionary* `{"name": value, ...}` stores values under names (*keys*). A JSON
       file is read into dictionaries and lists.
-    - **The five labels**: **PROVED** (exact, with a complete proof and a named
-      computer-algebra check), **COMPUTED** (a number from a numerical computation, with
-      its uncertainty), **ASSUMED** (a starting point that is not derived),
-      **HYPOTHESIS** (an idea stated and examined but not established), **OPEN** (a
-      question nobody has answered).
+    - **The five labels**: **PROVED** (exact; the book gives the complete proof and,
+      where the Revision record contains an exact computer check of the statement,
+      names the report file and the check), **COMPUTED** (a number from a numerical
+      computation, with its measured uncertainty and the file that holds it),
+      **ASSUMED** (a starting point that the book does not derive: a convention, a
+      physical input or an approximation), **HYPOTHESIS** (an idea that is stated and
+      examined but not established), **OPEN** (a question that neither the Revision
+      record nor the book answers).
     - **Ledger**: the table of the statements, their labels and the reports that
       verify them.
     - **Fingerprint (sha256)**: a number of 64 hexadecimal characters computed from the
-      bytes of a file. The same file always gives the same fingerprint; a file that
-      differs in a single byte gives a completely different one. **Hexadecimal**: the
-      digits 0 to 9 and the letters a to f, sixteen symbols in all.
+      bytes of a file by a fixed recipe. The same file always gives the same
+      fingerprint. A file that differs in a single byte has, in every case anyone has
+      tried, a completely different one; this is not proved, and section 10 measures
+      it for 115 changes. **Hexadecimal**: the digits 0 to 9 and the letters a to f,
+      sixteen symbols in all.
     """),
     md(r"""
     ## 4. The physical and mathematical situation
@@ -288,27 +293,46 @@ CELLS = [
     '''),
     md(r"""
     Every check also has a detail text that says exactly what was verified. The next
-    cell prints the details of three checks of the same report. They say, in the
+    cell prints the details of five checks of the same report. They say, in the
     report's own words, that the author's gamma matrices are real, so that plain
     complex conjugation changes nothing at all in a real field (the charge conjugation
     of the theory is a MATRIX, not plain complex conjugation); that the
-    charge-conjugation matrix which reverses the mass is $\Gamma C$; and that the
-    charge $Q$ is exactly conserved. (These statements are derived from zero later in
-    the book.) The detail of the third check is long; the cell prints only its last
-    part, the part after the last semicolon, which states the result. `next(...)`
-    returns the first entry that the expression in its brackets produces: here the
-    detail of the check with the wanted name.
+    charge-conjugation matrix which keeps the mass is $\mathcal{C}_+ = C$ and the one
+    which reverses the mass is $\mathcal{C}_- = \Gamma C$; that for a real commuting
+    field the charge current is zero and $\mathcal{C}_+$ acts as the identity, while
+    the real matrix $\Gamma$ with the mass reversed maps solutions to solutions; and
+    that the charge $Q$ is exactly conserved. (These statements are derived from zero
+    later in the book.) The detail of the last check is long; the cell prints only its
+    last part, the part after the last semicolon, which states the result. The check
+    of the cell confirms that the details contain these statements word for word.
     """),
     code(r'''
-    for wanted in ("representation_real", "charge_conjugation_matrix_minus",
+    details = {entry["name"]: entry["detail"] for entry in cc["checks"]}  # name -> detail
+    for wanted in ("representation_real", "charge_conjugation_matrix_plus",
+                   "charge_conjugation_matrix_minus", "real_fields_charge_conjugation",
                    "u1_noether_matrix_identity"):
-        detail = next(entry["detail"] for entry in cc["checks"]
-                      if entry["name"] == wanted)  # the first (and only) such check
+        detail = details[wanted]
         if wanted == "u1_noether_matrix_identity":
             # This detail is long; its last part, after the last "; ", is the result.
             detail = detail.rsplit("; ", 1)[-1]
         say(f"{wanted}:")
         say("    " + detail)
+
+    R5_WORDS = [  # (check, words that its detail must contain)
+        ("representation_real", "plain complex conjugation is the identity"),
+        ("charge_conjugation_matrix_plus", "calC_+ = C (= sigma16)"),
+        ("charge_conjugation_matrix_plus", "Psi^c = calC_+ Psibar^T = Psi*"),
+        ("charge_conjugation_matrix_minus", "calC_- = Gamma C"),
+        ("charge_conjugation_matrix_minus", "Psi^c = calC_- Psibar^T = Gamma Psi*"),
+        ("real_fields_charge_conjugation", "J^a = -i Psi^T C gamma^a Psi = 0"),
+        ("real_fields_charge_conjugation", "calC_+ acts as the identity"),
+        ("real_fields_charge_conjugation", "the matrix Gamma with the mass reversed"),
+    ]
+    check_reproduces(all(words in details[name] for name, words in R5_WORDS),
+                     "the report states calC_+ = C, calC_- = Gamma C and J = 0 for a "
+                     "real field",
+                     f"{CC_REPORT}, checks charge_conjugation_matrix_plus, "
+                     "charge_conjugation_matrix_minus and real_fields_charge_conjugation")
     '''),
     md(r"""
     ## 6. Three layouts of a report, one counting function
@@ -644,8 +668,9 @@ CELLS = [
     The theory as built has no baryons (the particles of ordinary matter such as the
     proton), no process that changes their number and no violation of the CP symmetry
     (the exchange of particles and antiparticles combined with a mirror reflection; it
-    must be violated for matter to win over antimatter), so it does not explain why
-    there is more matter than antimatter (row 16, OPEN).
+    must be violated for matter to win over antimatter), so it does not produce the
+    excess of matter over antimatter that we observe. What does produce it is a
+    question that neither the record nor the book answers (row 16, OPEN).
 
     The cell prints the ledger and the notes of the rows without a report, checks that
     every report is used exactly once, that every row with a report has only passed
@@ -699,8 +724,8 @@ CELLS = [
          "the T1 maps exist; that a partner exists is not shown", []),
         ("the big bang creates universes in pairs", "OPEN",
          "not proved: no creation process, rate or amplitude", []),
-        ("the theory explains matter over antimatter", "OPEN",
-         "the theory as built does not explain it", []),
+        ("what produces the excess of matter over antimatter", "OPEN",
+         "the theory as built does not produce it", []),
     ]
     say("row label       passed of all  statement")
     row_totals = []
@@ -766,9 +791,9 @@ CELLS = [
                 r"$a_4$ must be assumed. The last four rows have no bar, because no "
                 r"check of the record establishes them: two hypotheses (a time-varying "
                 r"dark sector, and a partner universe of opposite charge) and two open "
-                r"questions (that the big bang creates universes in pairs, which is not "
-                r"proved, and the excess of matter over antimatter, which the theory as "
-                r"built does not explain).")
+                r"questions (whether the big bang creates universes in pairs, which is "
+                r"not proved, and what produces the excess of matter over antimatter, "
+                r"which the theory as built does not produce).")
     '''),
     md(r"""
     The pairing record states in its own words what the pairing theorems do NOT
@@ -851,12 +876,14 @@ CELLS = [
                 r"character was replaced by the next one and the number of the 64 "
                 r"hexadecimal characters of the fingerprint that changed was counted; "
                 r"horizontal axis that number (0 to 64), vertical axis how many of the "
-                r"115 altered sentences gave it. Every change altered between 54 and 64 "
-                r"of the 64 characters, on average 60.03, as for a random string "
-                r"(dotted line at 60): no small change of a file can leave its "
-                r"fingerprint nearly the same.")
-    check(counts.min() >= 32 and abs(counts.mean() - 60.0) < 1.0,
-          "every one-character change alters more than half of the fingerprint")
+                r"115 altered sentences gave it. Every change altered between "
+                f"{counts.min()} and {counts.max()} of the 64 characters, on average "
+                f"{counts.mean():.2f}, as for a random string (dotted line at 60): none "
+                f"of the {len(counts)} one-character changes left the fingerprint "
+                r"nearly the same.")
+    check(counts.min() > 32 and abs(counts.mean() - 60.0) < 1.0,
+          f"all {len(counts)} one-character changes alter more than half of the "
+          "fingerprint")
     '''),
     md(r"""
     The reports of the Revision record write down the fingerprints of the files they
@@ -950,13 +977,14 @@ CELLS = [
     - Every report belongs to exactly one row of the honesty ledger. Twelve rows have
       reports (ten PROVED, one COMPUTED, one ASSUMED). Two rows are HYPOTHESIS (a
       time-varying dark sector; a partner universe of opposite charge) and two are
-      OPEN: that the big bang creates universes in pairs is not proved, and the
-      theory as built does not explain the excess of matter over antimatter. The
-      pairing record itself lists twelve things it does not establish, the first
-      being any creation process.
-    - A sha256 fingerprint changes completely when one character changes, and the 24
-      fingerprints that the reports recorded for their input files equal those of
-      today's files.
+      OPEN: whether the big bang creates universes in pairs (not proved), and what
+      produces the excess of matter over antimatter (the theory as built does not
+      produce it). The pairing record itself lists twelve things it does not
+      establish, the first being any creation process.
+    - Each of the 115 one-character changes of a sentence changed more than half of
+      the 64 characters of its sha256 fingerprint, 60.03 on average, as for a random
+      string; and the 24 fingerprints that the reports recorded for their input files
+      equal those of today's files.
     """),
 ]
 
