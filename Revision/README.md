@@ -110,7 +110,7 @@ State on 2026-10-01 (after the review of wave 1; every count is that of the repo
 | `gkd_lovelock/` | GKD (pure-Rust generalized Kronecker delta) and the three Lovelock tensors of this metric | computed (commit 3e81eeb), 19/19 Rust checks; verified in `verification/`: sympy 49/49, Wolfram 29/29 |
 | `algebra/` | the author's gammas, C, Gamma, B, Pin(4,4) and Spin(4,4) facts | Wolfram 45/45, sympy 35/35 |
 | `theory/` | Lagrangians, field equations, non-triviality, EMT, quantisation (Wolfram + sympy); scope checks (frame dependence, boundary terms, growth, sign of the energy) | Wolfram 84/84, sympy 70/70 (comparison with Wolfram: agree); scope Wolfram 15/15, sympy 14/14 |
-| `field_equations_a4/` | the Einstein-Lovelock equations for a4[x4] with each field as source; the Kohn-Sham states as a source | Wolfram 47/47, sympy 61/61; Kohn-Sham source conditions 5/5 (the recorded Kohn-Sham states are not admissible sources) |
+| `field_equations_a4/` | the Einstein-Lovelock equations for a4[x4] with each field as source; the Kohn-Sham states as a source | Wolfram 52/52, sympy 63/63; Kohn-Sham source conditions 5/5 (the recorded Kohn-Sham states are not admissible sources) |
 | `kohn_sham/` | Kohn-Sham fermion gas in the deflating field (instantaneous states) | computed (theory, Rust solver, reference, cross-check); its document is planned |
 | `dark_sector/` | the two hypotheses against the Unite values | to do (wave 2) |
 | `pairing/` | the pairing theorems T1, T2, Q for both fields; `pairing/kohn_sham/`: T3 | Wolfram 101/101, sympy 66/66; T3 Wolfram 10/10, sympy 13/13 |

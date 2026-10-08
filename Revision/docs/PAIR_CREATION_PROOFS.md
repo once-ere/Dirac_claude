@@ -486,8 +486,8 @@ Every check has a name, a verdict and a detail. Counts at the time of writing (t
 | `Revision/algebra/reports/python-algebra.json` | 35 | 35 | 0 |
 | `Revision/theory/reports/wolfram-field-theory.json` | 84 | 84 | 0 |
 | `Revision/theory/reports/python-field-theory.json` | 70 | 70 | 0 |
-| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 47 | 47 | 0 |
-| `Revision/field_equations_a4/reports/python-a4-report.json` | 61 | 61 | 0 |
+| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 52 | 52 | 0 |
+| `Revision/field_equations_a4/reports/python-a4-report.json` | 63 | 63 | 0 |
 | `Revision/kohn_sham/reports/ks-theory-wolfram.json` | 46 | 46 | 0 |
 | `Revision/kohn_sham/reports/ks-theory-python.json` | 58 | 58 | 0 |
 | `Revision/kohn_sham/reports/ks-rust-solver.json` | 42 | 42 | 0 |

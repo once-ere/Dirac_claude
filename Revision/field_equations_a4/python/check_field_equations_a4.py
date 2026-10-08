@@ -2,10 +2,13 @@
 """Revision field equations for a4[x4]: independent sympy derivation and cross-check.
 
 Revision/SPEC.md section 5.  Revision code only; nothing is imported from the old stages and nothing
-from the Wolfram side is used as an input except the two files that are being CHECKED:
+from the Wolfram side is used as an input except the two files that are being CHECKED and the fixture:
 
   Revision/gkd_lovelock/results/lovelock-tensors.json   (the GKD branch's exact monomial lists)
   Revision/field_equations_a4/a4-equations.json         (written by the Wolfram verifier)
+  Revision/algebra/gammas.json                          (the author's T16, order x1..x8: REQUIRED; read
+                                                         strictly; a missing or malformed file stops the
+                                                         run at once with a line "ERROR  ..." and exit code 1)
 
 Everything else is computed here from the metric of SPEC section 1, by a different implementation:
   * the metric is written in the symbols Ee = e^{a4}, Sh = sin^{1/6} z, Cc = cot z (z = 6 H x8) with
@@ -15,23 +18,30 @@ Everything else is computed here from the metric of SPEC section 1, by a differe
   * GKD as the sign of a permutation (not as a determinant);
   * the Lovelock tensors P_(1), P_(2), P_(3) as polynomials (sympy Poly);
   * the field equations, their reduction, the Bianchi identity, conservation, the linear member;
-  * the spinor lemmas in two Clifford representations: a real representation built here
-    (different from the Wolfram one) and, when Revision/algebra/gammas.json exists, the author's T16.
+  * the spinor lemmas in the author's T16 from Revision/algebra/gammas.json (the PRIMARY representation,
+    SPEC section 2: its off-diagonal coefficients are the ones compared with a4-equations.json) and, ONLY
+    for comparison, in a real tensor-product representation built here (own_rep, different from the
+    Wolfram comparison representation), with an exact equivalence check (intertwiner space of dimension
+    1, K^T K = c I16) and the representation independence of the off-diagonal coefficients.
 
 Outputs (deterministic, LF):
   Revision/field_equations_a4/reports/python-a4-report.json   every check with name, verdict, detail
   Revision/field_equations_a4/reports/a4-equations-summary.md  the key equations, from this file's own results
 
 Usage (from anywhere): python Revision/field_equations_a4/python/check_field_equations_a4.py
-Exit code 0 iff every check passes (a check that cannot run is "pending", never "pass").
+Exit code 0 iff every check passes (a check that cannot run is "pending", never "pass"); exit code 1 with a
+line "ERROR  ..." (and no output written) if Revision/algebra/gammas.json is missing or malformed.
 """
 
 from __future__ import annotations
 
+import hashlib
 import itertools
 import json
+import re
 import sys
 import time
+from fractions import Fraction
 from pathlib import Path
 
 import mpmath
@@ -52,6 +62,92 @@ CHECKS: list[dict] = []
 def check(name: str, ok, detail: str, pending: bool = False) -> None:
     verdict = "pending" if pending else ("PASS" if ok is True else "FAIL")
     CHECKS.append({"name": name, "verdict": verdict, "detail": detail})
+
+
+# ----------------------------------------------------------------------------------------------
+# the author's T16: Revision/algebra/gammas.json, read strictly (before any computation)
+# ----------------------------------------------------------------------------------------------
+# The fixture's documented encoding (its "encoding" field): every matrix is a list of rows; an exact rational is
+# a JSON integer when it is an integer and otherwise a JSON string "p/q" in lowest terms with q > 0 (so a string
+# has q > 1); a complex matrix is {"re": ..., "im": ...};
+# indices 0..7 of gamma, eta and S stand for x1..x8.  Anything else (a float, a boolean, another string, a wrong
+# shape, a missing key, a file that is not a JSON object, a missing file) is an ERROR: one line, exit code 1.
+class FixtureError(Exception):
+    pass
+
+
+def _fixture_rat(x, where: str) -> Fraction:
+    if isinstance(x, bool) or not isinstance(x, (int, str)):
+        raise FixtureError(f"{where} = {x!r} is not an exact rational in the fixture encoding "
+                           "(a JSON integer, or a string \"p/q\" in lowest terms with q > 1)")
+    if isinstance(x, int):
+        return Fraction(x)
+    m = re.fullmatch(r"(-?[0-9]+)/([0-9]+)", x)
+    f = Fraction(int(m.group(1)), int(m.group(2))) if m and int(m.group(2)) != 0 else None
+    # lowest terms, q > 1: the value written back in the same encoding is the same string
+    if f is None or f.denominator == 1 or f"{f.numerator}/{f.denominator}" != x:
+        raise FixtureError(f"{where} = {x!r} is not an exact rational in the fixture encoding "
+                           "(a JSON integer, or a string \"p/q\" in lowest terms with q > 1)")
+    return f
+
+
+def _fixture_vector(v, n: int, where: str) -> list:
+    if not (isinstance(v, list) and len(v) == n):
+        raise FixtureError(f"{where} is not a list of {n} entries")
+    return [_fixture_rat(x, f"{where}[{i}]") for i, x in enumerate(v)]
+
+
+def _fixture_matrix(m, where: str) -> sp.Matrix:
+    if not (isinstance(m, list) and len(m) == 16 and all(isinstance(r, list) and len(r) == 16 for r in m)):
+        raise FixtureError(f"{where} is not a list of 16 rows of 16 entries")
+    return sp.Matrix([[sp.Rational(_fixture_rat(x, f"{where}[{i}][{j}]")) for j, x in enumerate(r)] for i, r in enumerate(m)])
+
+
+def _fixture_matrix_list(v, n: int, where: str) -> list:
+    if not (isinstance(v, list) and len(v) == n):
+        raise FixtureError(f"{where} is not a list of {n} matrices")
+    return [_fixture_matrix(m, f"{where}[{a}]") for a, m in enumerate(v)]
+
+
+def load_fixture(path: Path) -> dict:
+    if not path.is_file():
+        raise FixtureError("input file not found")
+    raw = path.read_bytes()
+    try:
+        fx = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise FixtureError(f"not valid JSON: {exc}") from None
+    if not isinstance(fx, dict):
+        raise FixtureError("not a JSON object")
+    missing = [k for k in ("coordinates", "notebookFrameIndex", "eta", "gamma", "C", "Gamma", "B", "S") if k not in fx]
+    if missing:
+        raise FixtureError(f"missing keys {', '.join(missing)}")
+    if not (isinstance(fx["coordinates"], list) and len(fx["coordinates"]) == 8 and all(isinstance(c, str) for c in fx["coordinates"])):
+        raise FixtureError("coordinates is not a list of 8 strings")
+    nfi = fx["notebookFrameIndex"]
+    if not (isinstance(nfi, list) and len(nfi) == 8 and all(isinstance(i, int) and not isinstance(i, bool) for i in nfi)):
+        raise FixtureError("notebookFrameIndex is not a list of 8 integers")
+    if not (isinstance(fx["B"], dict) and set(fx["B"]) == {"re", "im"}):
+        raise FixtureError("B is not an object {\"re\": ..., \"im\": ...}")
+    if not (isinstance(fx["S"], list) and len(fx["S"]) == 8):
+        raise FixtureError("S is not a list of 8 lists of matrices")
+    return {
+        "sha256": hashlib.sha256(raw).hexdigest(),
+        "coordinates": fx["coordinates"], "notebookFrameIndex": nfi,
+        "eta": _fixture_vector(fx["eta"], 8, "eta"),
+        "gamma": _fixture_matrix_list(fx["gamma"], 8, "gamma"),
+        "C": _fixture_matrix(fx["C"], "C"),
+        "Gamma": _fixture_matrix(fx["Gamma"], "Gamma"),
+        "B": _fixture_matrix(fx["B"]["re"], "B.re") + sp.I * _fixture_matrix(fx["B"]["im"], "B.im"),
+        "S": [_fixture_matrix_list(fx["S"][a], 8, f"S[{a}]") for a in range(8)],
+    }
+
+
+try:
+    FIXTURE = load_fixture(GAMMAS_JSON)
+except FixtureError as exc:
+    print(f"ERROR  {GAMMAS_JSON}: {exc}", flush=True)
+    sys.exit(1)
 
 
 # ----------------------------------------------------------------------------------------------
@@ -398,7 +494,7 @@ else:
     check("json_comparison", False, "a4-equations.json missing (run the Wolfram verifier first)", pending=True)
 
 # ----------------------------------------------------------------------------------------------
-# spinor lemmas in two representations
+# spinor lemmas: the author's T16 (primary) and, for comparison only, a representation built here
 # ----------------------------------------------------------------------------------------------
 s1 = sp.Matrix([[0, 1], [1, 0]])
 s3 = sp.Matrix([[1, 0], [0, -1]])
@@ -414,7 +510,8 @@ def kron(*ms):
 
 
 def own_rep():
-    # space-like e1..e4 (square +1), time-like f1..f4 (square -1); a construction different from the Wolfram one
+    # COMPARISON representation only (not used for any result): space-like e1..e4 (square +1), time-like
+    # f1..f4 (square -1); a tensor-product construction different from the Wolfram comparison representation
     e1, e2 = kron(s1, I2, I2, I2), kron(s3, I2, I2, I2)
     f1, f2 = kron(ep, s1, I2, I2), kron(ep, s3, I2, I2)
     e3, e4 = kron(ep, ep, s1, I2), kron(ep, ep, s3, I2)
@@ -423,23 +520,54 @@ def own_rep():
 
 
 def author_rep():
-    if not GAMMAS_JSON.exists():
-        return None
-    gj = json.loads(GAMMAS_JSON.read_text(encoding="utf-8"))
-    return [sp.Matrix([[sp.Rational(x) for x in row] for row in m]) for m in gj["gamma"]]
+    # the PRIMARY representation: the author's T16 of Revision/algebra/gammas.json (read strictly at start-up),
+    # gamma^(x1..x7) = T16[1..7], gamma^(x8) = T16[0] (SPEC section 2)
+    return FIXTURE["gamma"]
+
+
+def intertwiners(src, dst):
+    """Basis of {K : K src[a] = dst[a] K for all a}, exact (DomainMatrix nullspace over QQ).
+
+    Row-major vec(K), unknown K[p, q] at index 16 p + q:  (K A)[i, j] = sum_k K[i, k] A[k, j],
+    (B K)[i, j] = sum_k B[i, k] K[k, j]."""
+    from sympy.polys.domains import QQ
+    from sympy.polys.matrices import DomainMatrix
+    n = 16
+    rows = {}  # sparse: {row: {column: value}}
+    r = 0
+    for A, B in zip(src, dst):
+        for i in range(n):
+            for j in range(n):
+                row = {}
+                for k in range(n):
+                    if A[k, j] != 0:
+                        row[i * n + k] = row.get(i * n + k, 0) + sp.Rational(A[k, j])
+                    if B[i, k] != 0:
+                        row[k * n + j] = row.get(k * n + j, 0) - sp.Rational(B[i, k])
+                row = {c: QQ(int(v.p), int(v.q)) for c, v in row.items() if v != 0}
+                if row:
+                    rows[r] = row
+                r += 1
+    ns = DomainMatrix(rows, (r, n * n), QQ).nullspace().to_Matrix()
+    return [sp.Matrix(n, n, list(ns.row(b))) for b in range(ns.rows)]
 
 
 Z16 = sp.zeros(16, 16)
 MM = sp.Symbol("MM", real=True)
 
 
-def spinor_checks(label: str, gF):
+def spinor_checks(label: str, gF, prefix: str = ""):
+    """The spinor lemmas in the representation gF; prefix labels every detail (the comparison representation)."""
+
+    def lcheck(name, ok, detail):
+        check(name, ok, prefix + detail)
+
     I16 = sp.eye(16)
     cl = all(gF[a] * gF[b] + gF[b] * gF[a] == 2 * eta[a] * (1 if a == b else 0) * I16 for a in range(8) for b in range(8))
-    check(f"{label}_clifford", cl, "{gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,-1,-1,-1,-1,1)")
+    lcheck(f"{label}_clifford", cl, "{gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,-1,-1,-1,-1,1)")
     C = gF[7] * gF[0] * gF[1] * gF[2]
     cprops = C == C.T and C * C == I16 and all((C * g).T == -(C * g) for g in gF) and all(x.is_real for x in C)
-    check(f"{label}_C_properties", cprops, "C = gamma^x8 gamma^x1 gamma^x2 gamma^x3 real symmetric, C^2 = 1, C gamma^a antisymmetric")
+    lcheck(f"{label}_C_properties", cprops, "C = gamma^x8 gamma^x1 gamma^x2 gamma^x3 real symmetric, C^2 = 1, C gamma^a antisymmetric")
     Sab = [[(gF[a] * gF[b] - gF[b] * gF[a]) / 4 for b in range(8)] for a in range(8)]
     # omega_mu^a_b = e^a_a (delta_ab d_mu e_b^b + Gamma^a_{mu b} e_b^b)  (diagonal vielbein; e_b^b = 1/e^b_b)
     Om = []
@@ -454,16 +582,16 @@ def spinor_checks(label: str, gF):
                     M += sp.Rational(1, 2) * w * Sab[a][b]
         Om.append(M.applyfunc(norm))
     gC = [(gF[m] / vielb[m]).applyfunc(norm) for m in range(8)]
-    check(f"{label}_Omega_x4_x8_zero", Om[3] == Z16 and Om[7] == Z16, "Omega_x4 = Omega_x8 = 0")
-    check(f"{label}_anticommutator_no_sum",
-          all((gC[m] * Om[m] + Om[m] * gC[m]).applyfunc(norm) == Z16 for m in range(8)),
-          "{gamma^mu, Omega_mu} = 0 for each mu (no sum)")
+    lcheck(f"{label}_Omega_x4_x8_zero", Om[3] == Z16 and Om[7] == Z16, "Omega_x4 = Omega_x8 = 0")
+    lcheck(f"{label}_anticommutator_no_sum",
+           all((gC[m] * Om[m] + Om[m] * gC[m]).applyfunc(norm) == Z16 for m in range(8)),
+           "{gamma^mu, Omega_mu} = 0 for each mu (no sum)")
     Gd = sum((gC[m] * Om[m] for m in range(8)), Z16).applyfunc(norm)
-    check(f"{label}_gravity_term", Gd == 3 * H * gF[7], "gamma^mu Omega_mu = 3 H gamma^x8")
+    lcheck(f"{label}_gravity_term", Gd == 3 * H * gF[7], "gamma^mu Omega_mu = 3 H gamma^x8")
     A = (-gC[3] * (MM * I16 - Gd)).applyfunc(sp.expand)
-    check(f"{label}_condensate_S_constant", (C * A + A.T * C).applyfunc(sp.expand) == Z16, "C A + A^T C = 0: S constant along x4")
+    lcheck(f"{label}_condensate_S_constant", (C * A + A.T * C).applyfunc(sp.expand) == Z16, "C A + A^T C = 0: S constant along x4")
     adj = (A.T * C * gC[3] - C * sum((Om[m] * gC[m] for m in range(8)), Z16) + MM * C).applyfunc(norm)
-    check(f"{label}_condensate_adjoint", adj == Z16, "(D_mu Phibar) gamma^mu = -M Phibar for the condensate")
+    lcheck(f"{label}_condensate_adjoint", adj == Z16, "(D_mu Phibar) gamma^mu = -M Phibar for the condensate")
 
     def dphi(nu):
         return (A if nu == 3 else Z16) + Om[nu]
@@ -475,7 +603,7 @@ def spinor_checks(label: str, gF):
     Ns = [[((Nm[m][n] + (gdiag[n] / gdiag[m]) * Nm[n][m]) / 2).applyfunc(norm) for n in range(8)] for m in range(8)]
     diag_ok = Ns[3][7] == Z16 and Ns[7][3] == Z16 and all(Ns[m][m] == Z16 for m in (0, 1, 2, 4, 5, 6, 7)) and \
         (Ns[3][3] - MM * C).applyfunc(sp.expand) == Z16
-    check(f"{label}_condensate_kinetic_diagonal", diag_ok, "K^x4_x4 = M S, K^mu_mu = 0 otherwise, K^x4_x8 = K^x8_x4 = 0")
+    lcheck(f"{label}_condensate_kinetic_diagonal", diag_ok, "K^x4_x4 = M S, K^mu_mu = 0 otherwise, K^x4_x8 = K^x8_x4 = 0")
     # off-diagonal: each nonzero N^mu_nu is X C gamma^a gamma^b gamma^c with the expected triple
     expected = {}
     for m in range(8):
@@ -500,8 +628,8 @@ def spinor_checks(label: str, gF):
                 break
         ok = ok and found
     exp_trip = {tuple(sorted((i, 3, 7))) for i in (0, 1, 2, 4, 5, 6)} | {tuple(sorted((i, j, 3))) for i in (0, 1, 2) for j in (4, 5, 6)}
-    check(f"{label}_condensate_offdiagonal_three_gamma", ok and triples_found == exp_trip,
-          f"every nonzero off-diagonal kinetic component ({len(expected)} ordered pairs) is a multiple of one of the 15 bilinears Phibar gamma^a gamma^b gamma^c Phi, {{a,b,c}} = {{i,x4,x8}} or {{i,j,x4}}")
+    lcheck(f"{label}_condensate_offdiagonal_three_gamma", ok and triples_found == exp_trip,
+           f"every nonzero off-diagonal kinetic component ({len(expected)} ordered pairs) is a multiple of one of the 15 bilinears Phibar gamma^a gamma^b gamma^c Phi, {{a,b,c}} = {{i,x4,x8}} or {{i,j,x4}}")
     # exact witness at (M, H) = (5, 1)
     Av = A.subs({MM: 5, H: 1})
     w = 4
@@ -522,20 +650,44 @@ def spinor_checks(label: str, gF):
         for t in exp_trip:
             B = C * gF[t[0]] * gF[t[1]] * gF[t[2]]
             wit_ok = wit_ok and sp.expand((ph.H * B * ph)[0]) == 0
-    check(f"{label}_condensate_witness", wit_ok,
-          "exact witness at (M, H) = (5, 1): Phi = e^{-4 i x4} Phi0, Phi0 = v1 + conj(v1^dagger C v2) v2 from the sectors gamma^x1 gamma^x5 = gamma^x2 gamma^x6 = gamma^x3 gamma^x7 = -1, +1; all 15 three-gamma bilinears vanish, S != 0 real")
+    lcheck(f"{label}_condensate_witness", wit_ok,
+           "exact witness at (M, H) = (5, 1): Phi = e^{-4 i x4} Phi0, Phi0 = v1 + conj(v1^dagger C v2) v2 from the sectors gamma^x1 gamma^x5 = gamma^x2 gamma^x6 = gamma^x3 gamma^x7 = -1, +1; all 15 three-gamma bilinears vanish, S != 0 real")
     return coeffs_found
 
 
-coeffs_own = spinor_checks("ownrep", own_rep())
+orep = own_rep()
+coeffs_own = spinor_checks("ownrep", orep, prefix="comparison representation (own_rep, built here; not used for any result): ")
 arep = author_rep()
-if arep is not None:
-    coeffs_author = spinor_checks("authorT16", arep)
-else:
-    coeffs_author = None
-    check("authorT16_spinor_checks", False, "Revision/algebra/gammas.json not present", pending=True)
+fixture_C = arep[7] * arep[0] * arep[1] * arep[2]
+fixture_Gamma = arep[7] * arep[0] * arep[1] * arep[2] * arep[3] * arep[4] * arep[5] * arep[6]
+fixture_S_ok = all(FIXTURE["S"][a][b] == (arep[a] * arep[b] - arep[b] * arep[a]) / 4 for a in range(8) for b in range(8))
+check("authorT16_fixture_read",
+      FIXTURE["coordinates"] == COORDS and FIXTURE["notebookFrameIndex"] == [1, 2, 3, 4, 5, 6, 7, 0]
+      and FIXTURE["eta"] == eta and FIXTURE["C"] == fixture_C and len(arep) == 8
+      and fixture_S_ok and FIXTURE["Gamma"] == fixture_Gamma and FIXTURE["B"] == -sp.I * fixture_C * arep[3],
+      f"Revision/algebra/gammas.json (sha256 {FIXTURE['sha256']}) read with strict parsing (every entry a JSON integer or a "
+      "string \"p/q\" in lowest terms; a missing or malformed file stops the run with an ERROR line and exit code 1): "
+      "coordinates x1..x8, notebook frame index [1, 2, 3, 4, 5, 6, 7, 0] (gamma^(x1..x7) = T16[1..7], gamma^(x8) = T16[0]), "
+      "eta = diag(1,1,1,-1,-1,-1,-1,1), the fixture's C equals gamma^x8 gamma^x1 gamma^x2 gamma^x3 (the notebook's sigma16), "
+      "its S, Gamma and B equal (1/4)[gamma^a, gamma^b], gamma^x8 gamma^x1 ... gamma^x7 and -i C gamma^x4; "
+      "the author's T16 is the primary representation (its coefficients are compared with a4-equations.json)")
+coeffs_author = spinor_checks("authorT16", arep)
 
-# compare the off-diagonal coefficients with a4-equations.json (numerically, 40 digits, at three points)
+# exact equivalence of the comparison representation with the author's T16
+kb = intertwiners(orep, arep)  # K gamma_own^a = gamma_T16^a K
+Kmat = kb[0] if len(kb) == 1 else Z16
+kc = (Kmat.T * Kmat)[0, 0]
+C_own = orep[7] * orep[0] * orep[1] * orep[2]
+equiv_ok = (len(kb) == 1 and kc > 0 and Kmat.T * Kmat == kc * sp.eye(16)
+            and all(Kmat * orep[a] == arep[a] * Kmat for a in range(8)) and Kmat * C_own == fixture_C * Kmat)
+check("representations_equivalent_authorT16_ownrep", equiv_ok,
+      f"exact (sympy DomainMatrix nullspace over QQ): the intertwiners K with K gamma_own^a = gamma_T16^a K for a = x1..x8 "
+      f"(gamma_own the comparison representation) form a space of dimension {len(kb)}, and K^T K = {kc} I16 "
+      f"(K is sqrt({kc}) times an orthogonal matrix) with K C_own = C_T16 K: the comparison representation is equivalent "
+      "to the author's T16, so every trace of a product of gammas is the same in both")
+
+# compare the off-diagonal coefficients of the author's T16 (primary) with a4-equations.json
+# (numerically, 40 digits, at three points)
 if aj is not None:
     offj = aj["fields"]["dirac16complex00"]["offDiagonalKinetic"]
     a4v = sp.Symbol("a4v")
@@ -545,15 +697,15 @@ if aj is not None:
            (sp.Rational(-1, 3), sp.Rational(1, 2), sp.Rational(7, 4), sp.Rational(5, 2)),
            (sp.Rational(2, 1), sp.Rational(9, 5), sp.Rational(1, 6), sp.Rational(1, 3))]
     mpmath.mp.dps = 40
-    ok = len(offj) == len(coeffs_own)
+    ok = len(offj) == len(coeffs_author)
     for entry in offj:
         comp = entry["component"].split(" ")[0]  # K^x1_x4
         mu = int(comp[3]) - 1
         nu = int(comp.split("_")[1][1]) - 1
-        if (mu, nu) not in coeffs_own or len(entry["terms"]) != 1:
+        if (mu, nu) not in coeffs_author or len(entry["terms"]) != 1:
             ok = False
             continue
-        t, X = coeffs_own[(mu, nu)]
+        t, X = coeffs_author[(mu, nu)]
         names = entry["terms"][0]["bilinear"].replace("Phibar ", "").replace(" Phi", "").split(" ")
         tj = tuple(int(nm[-1]) - 1 for nm in names)
         if tj != t:
@@ -566,12 +718,11 @@ if aj is not None:
             if abs(vj - vm) > sp.Float("1e-30") * (1 + abs(vm)):
                 ok = False
     check("json_offdiagonal_coefficients", ok,
-          "every off-diagonal kinetic coefficient of a4-equations.json equals this file's (own representation; same triple, value at three exact points to 40 digits)")
-    if coeffs_author is not None:
-        same = set(coeffs_author) == set(coeffs_own) and all(
-            coeffs_author[k][0] == coeffs_own[k][0] and sp.simplify(coeffs_author[k][1] - coeffs_own[k][1]) == 0 for k in coeffs_own)
-        check("offdiagonal_coefficients_representation_independent", same,
-              "the author's T16 and the representation built here give the same triples and the same coefficients")
+          "every off-diagonal kinetic coefficient of a4-equations.json equals this file's (the author's T16, the primary representation; same triple, value at three exact points to 40 digits)")
+same = set(coeffs_author) == set(coeffs_own) and all(
+    coeffs_author[k][0] == coeffs_own[k][0] and sp.simplify(coeffs_author[k][1] - coeffs_own[k][1]) == 0 for k in coeffs_own)
+check("offdiagonal_coefficients_representation_independent", same,
+      "the author's T16 (primary) and the comparison representation built here give the same triples and the same coefficients")
 
 t_total = time.time() - t_start
 
@@ -585,7 +736,7 @@ report = {
     "producer": "Revision/field_equations_a4/python/check_field_equations_a4.py (sympy, exact)",
     "spec": "Revision/SPEC.md section 5",
     "inputsChecked": ["Revision/gkd_lovelock/results/lovelock-tensors.json", "Revision/field_equations_a4/a4-equations.json",
-                      "Revision/algebra/gammas.json (author's T16, when present)"],
+                      "Revision/algebra/gammas.json (author's T16: the primary representation, required)"],
     "checkCount": len(CHECKS), "passCount": npass, "failCount": nfail, "pendingCount": npend,
     "verdict": "PASS" if nfail == 0 and npend == 0 else ("FAIL" if nfail else "PENDING"),
     "checks": CHECKS,

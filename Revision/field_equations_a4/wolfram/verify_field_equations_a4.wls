@@ -7,6 +7,11 @@
    Writes, deterministically (LF line endings, no time stamps):
      Revision/field_equations_a4/a4-equations.json                 the equations (exact, InputForm + TeX)
      Revision/field_equations_a4/reports/wolfram-a4-report.json    every check with name, verdict, detail
+   Input: Revision/algebra/gammas.json (the author's T16, order x1..x8), the primary representation of every
+   spinor statement; FieldEquationsA4.wl reads it strictly on loading.  A missing or malformed gammas.json stops
+   the run at once with a line "ERROR  ..." and exit code 1 (no output is written).  So does a missing or
+   unreadable FieldEquationsA4.wl, and an output file that cannot be opened for writing gives a line
+   "ERROR  cannot write ..." and exit code 1.
    Usage (from the repository root):
      wolframscript -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls
    All checks are exact symbolic identities (no floating point).  Exit code 0 iff every check passes.
@@ -15,7 +20,9 @@
 $here = DirectoryName[$InputFileName];
 $fieldDir = FileNameJoin[{$here, ".."}];
 $revDir = FileNameJoin[{$fieldDir, ".."}];
-Get[FileNameJoin[{$here, "FieldEquationsA4.wl"}]];
+$package = FileNameJoin[{$here, "FieldEquationsA4.wl"}];
+If[!FileExistsQ[$package], Print["ERROR  ", $package, ": package not found"]; Exit[1]];
+If[Get[$package] === $Failed, Print["ERROR  ", $package, ": Get failed"]; Exit[1]];
 
 checks = {};
 addCheck[name_String, ok_, detail_String] :=
@@ -31,8 +38,11 @@ toJSON[l_List, ind_] := If[l === {}, "[]",
 toJSON[a_Association, ind_] := If[Length[a] == 0, "{}",
    "{\n" <> StringRiffle[KeyValueMap[(StringRepeat[" ", ind + 2] <> toJSON[#1, 0] <> ": " <> toJSON[#2, ind + 2]) &, a], ",\n"] <>
     "\n" <> StringRepeat[" ", ind] <> "}"];
-writeJSON[path_, data_] := Module[{s = OpenWrite[path, BinaryFormat -> True]},
-   BinaryWrite[s, ToCharacterCode[toJSON[data, 0] <> "\n", "UTF-8"]]; Close[s]];
+writeJSON[path_, data_] := Module[{s = Quiet[OpenWrite[path, BinaryFormat -> True]]},
+   If[Head[s] =!= OutputStream, Print["ERROR  cannot write ", path]; Exit[1]];
+   If[BinaryWrite[s, ToCharacterCode[toJSON[data, 0] <> "\n", "UTF-8"]] === $Failed,
+    Close[s]; Print["ERROR  cannot write ", path]; Exit[1]];
+   Close[s]];
 
 (* expressions as strings: InputForm (parsable by sympy once the caret is replaced) and TeX *)
 fnRules = {Derivative[1, 0][f_][x4, x8] :> Symbol["d4" <> SymbolName[f]],
@@ -191,15 +201,62 @@ addCheck["einstein_gauss_bonnet_vacuum_linear",
    " (real A iff 0 < alpha2 H^2 <= 1/40), with Lambda = -sum_k alpha_k E^x4_x4"];
 
 (* ======================================================================
-   5. Field-specific sources: the spinor bilinears in a Clifford representation built here
+   5. Field-specific sources: the spinor bilinears in the author's T16 (the PRIMARY representation, SPEC
+      section 2: Revision/algebra/gammas.json, read strictly by FieldEquationsA4.wl).  The representation
+      Cl(1,1)^(x)4 built in FieldEquationsA4.wl is used ONLY for comparison: its Clifford relations and C, its
+      exact equivalence with T16, and the representation independence of the off-diagonal coefficients.
    ====================================================================== *)
-gF = FEGammaFrame; gC = Map[FENormal, FEGammaCoord, {3}]; Om = Map[FENormal, FEOmega, {3}];
-addCheck["clifford_relations_own_rep",
+fx = FEFixture; gR = FEGammaFrameComparison; CR = FECComparison;
+(* the kinetic matrices of the homogeneous condensate in a representation g with charge matrix Cm:
+   Phi = Phi(x4) on shell, d4 Phi = A Phi with A = -gamma^x4 (M - gamma^mu Omega_mu); N^mu_nu with
+   K^mu_nu = Phi^dagger N^mu_nu Phi, K^mu_nu = (1/2)(Phibar gamma^mu D_nu Phi - (D_nu Phibar) gamma^mu Phi) *)
+gd = FEMetricDiag;
+condensateKinetic[g_List, Cm_] := Module[{gc, om, gdir, am, dP, dPb, nm, ns},
+   gc = Map[FENormal, FEGammaCoordOf[g], {3}]; om = Map[FENormal, FEOmegaOf[g], {3}];
+   gdir = Map[FENormal, Sum[gc[[mu]] . om[[mu]], {mu, 8}], {2}];
+   am = -gc[[4]] . (MM IdentityMatrix[16] - gdir);     (* d4 Phi = A Phi, since (gamma^x4)^-1 = -gamma^x4 *)
+   dP[nu_] := If[nu == 4, am, zero16] + om[[nu]];
+   dPb[nu_] := If[nu == 4, Transpose[am] . Cm, zero16] - Cm . om[[nu]];
+   nm = Table[Map[FENormal, (1/2) (Cm . gc[[mu]] . dP[nu] - dPb[nu] . gc[[mu]]), {2}], {mu, 8}, {nu, 8}];
+   ns = Table[Map[FENormal, (1/2) (nm[[mu, nu]] + (gd[[nu]]/gd[[mu]]) nm[[nu, mu]]), {2}], {mu, 8}, {nu, 8}];
+   <|"gC" -> gc, "Om" -> om, "Gdirac" -> gdir, "Amat" -> am, "Nmat" -> nm, "NmatSym" -> ns|>];
+(* the decomposition of the nonzero off-diagonal N^mu_nu in the Clifford basis C gamma^I of a representation *)
+subsets = Subsets[Range[8]];
+basisMatIn[g_List, Cm_, s_List] := Cm . If[s === {}, IdentityMatrix[16], Dot @@ (g[[#]] & /@ s)];
+offDiagonalDecomposition[g_List, Cm_, ns_] := Module[{binv, dec, pairs},
+   binv = Association[(# -> Inverse[basisMatIn[g, Cm, #]]) & /@ subsets];
+   dec[N_] := Select[Association[(# -> Together[Tr[binv[#] . N]/16]) & /@ subsets], # =!= 0 &];
+   pairs = Select[Flatten[Table[{mu, nu}, {mu, 8}, {nu, 8}], 1], #[[1]] != #[[2]] && ns[[#[[1]], #[[2]]]] =!= zero16 &];
+   Association[(# -> dec[ns[[#[[1]], #[[2]]]]]) & /@ pairs]];
+
+prim = condensateKinetic[FEGammaFrame, FEC];
+gF = FEGammaFrame; gC = prim["gC"]; Om = prim["Om"];
+addCheck["fixture_author_T16_read",
+  fx["coordinates"] === {"x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"} && fx["notebookFrameIndex"] === {1, 2, 3, 4, 5, 6, 7, 0} &&
+   fx["eta"] === Diagonal[FEEta] && Length[gF] == 8 && And @@ (MatrixQ[#, IntegerQ[#] || Head[#] === Rational &] && Dimensions[#] == {16, 16} & /@ gF) &&
+   fx["S"] === FESab && fx["Gamma"] === Dot @@ gF[[{8, 1, 2, 3, 4, 5, 6, 7}]] && fx["B"] === -I fx["C"] . gF[[4]],
+  "Revision/algebra/gammas.json (sha256 " <> fx["sha256"] <> ") read with strict parsing (every entry a JSON integer or a string \"p/q\" in lowest terms; a missing or malformed file stops the run with an ERROR line and exit code 1): coordinates x1..x8, notebook frame index {1, 2, 3, 4, 5, 6, 7, 0} (gamma^(x1..x7) = T16[1..7], gamma^(x8) = T16[0]), eta = diag(1,1,1,-1,-1,-1,-1,1), 8 real exact 16 x 16 matrices; the fixture's S, Gamma and B equal (1/4)[gamma^a, gamma^b], gamma^x8 gamma^x1 ... gamma^x7 and -i C gamma^x4 of these gammas: the primary representation of every spinor statement below"];
+addCheck["clifford_relations_author_T16",
   And @@ Flatten[Table[gF[[a]] . gF[[b]] + gF[[b]] . gF[[a]] == 2 FEEta[[a, b]] IdentityMatrix[16], {a, 8}, {b, 8}]],
-  "the representation built here (Cl(1,1) tensor-graded four times; real 16 x 16) satisfies {gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,-1,-1,-1,-1,1)"];
+  "the author's T16 (primary representation, Revision/algebra/gammas.json) satisfies {gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,-1,-1,-1,-1,1)"];
+addCheck["C_properties_author_T16",
+  FEC === fx["C"] && FEC === Transpose[FEC] && FEC . FEC === IdentityMatrix[16] && And @@ Table[Transpose[FEC . gF[[a]]] === -FEC . gF[[a]], {a, 8}],
+  "C = gamma^x8 gamma^x1 gamma^x2 gamma^x3 of the author's T16 equals the fixture's C (the notebook's sigma16 in the order x1..x8) and is real symmetric, C^2 = 1, C gamma^a antisymmetric (SPEC section 2); every bilinear below uses this C"];
+addCheck["clifford_relations_own_rep",
+  And @@ Flatten[Table[gR[[a]] . gR[[b]] + gR[[b]] . gR[[a]] == 2 FEEta[[a, b]] IdentityMatrix[16], {a, 8}, {b, 8}]],
+  "comparison representation only (not used for any result): the representation built in FieldEquationsA4.wl (Cl(1,1) tensor-graded four times; real 16 x 16) satisfies {gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,-1,-1,-1,-1,1)"];
 addCheck["C_properties_own_rep",
-  FEC === Transpose[FEC] && FEC . FEC === IdentityMatrix[16] && And @@ Table[Transpose[FEC . gF[[a]]] === -FEC . gF[[a]], {a, 8}],
-  "C = gamma^x8 gamma^x1 gamma^x2 gamma^x3 is real symmetric, C^2 = 1, C gamma^a antisymmetric (the properties SPEC section 2 requires; every bilinear identity below uses only these, so it holds in the author's T16 as well)"];
+  CR === Transpose[CR] && CR . CR === IdentityMatrix[16] && And @@ Table[Transpose[CR . gR[[a]]] === -CR . gR[[a]], {a, 8}],
+  "comparison representation only: C = gamma^x8 gamma^x1 gamma^x2 gamma^x3 is real symmetric, C^2 = 1, C gamma^a antisymmetric (the properties SPEC section 2 requires)"];
+kBasis = FEIntertwinerBasis[gR, gF];   (* K . gamma_R^a == gamma_T16^a . K *)
+kMat = If[Length[kBasis] == 1, First[kBasis], zero16];
+kc = (Transpose[kMat] . kMat)[[1, 1]];
+addCheck["representations_equivalent_author_T16_own_rep",
+  Length[kBasis] == 1 && kc > 0 && Transpose[kMat] . kMat === kc IdentityMatrix[16] &&
+   And @@ Table[kMat . gR[[a]] === gF[[a]] . kMat, {a, 8}] && kMat . CR === FEC . kMat,
+  "exact (NullSpace over the rationals): the intertwiners K with K gamma_R^a = gamma_T16^a K for a = x1..x8 (gamma_R the comparison representation) form a space of dimension " <>
+   ToString[Length[kBasis]] <> ", and K^T K = " <> ToString[kc, InputForm] <> " I16 (K is " <> ToString[Sqrt[kc], InputForm] <>
+   " times an orthogonal matrix) with K C_R = C_T16 K: the two representations are equivalent, so every trace of a product of gammas (in particular every coefficient in the Clifford basis C gamma^I) is the same in both"];
 spinAnti = And @@ Flatten[Table[FENormal[FESpinConnLow[[mu, a, b]] + FESpinConnLow[[mu, b, a]]] === 0, {mu, 8}, {a, 8}, {b, 8}]];
 addCheck["spin_connection_antisymmetric", spinAnti, "omega_mu ab = -omega_mu ba for the canonical spin connection of this metric (vielbein postulate)"];
 addCheck["Omega_x4_Omega_x8_vanish",
@@ -209,14 +266,14 @@ anticommOm = Table[Map[FENormal, gC[[mu]] . Om[[mu]] + Om[[mu]] . gC[[mu]], {2}]
 addCheck["gamma_mu_anticommutes_with_Omega_mu_no_sum",
   And @@ (# === zero16 & /@ anticommOm),
   "{gamma^mu, Omega_mu} = 0 for each mu separately (no sum): the spin connection drops out of every diagonal kinetic component K^mu_mu = (1/2)(Psibar gamma^mu d_mu Psi - d_mu Psibar gamma^mu Psi)"];
-Gdirac = Map[FENormal, Sum[gC[[mu]] . Om[[mu]], {mu, 8}], {2}];
+Gdirac = prim["Gdirac"];   (* Map[FENormal, Sum[gC[[mu]] . Om[[mu]], {mu, 8}], {2}] *)
 addCheck["gravity_term_gamma_mu_Omega_mu",
   Gdirac === 3 H gF[[8]],
   "gamma^mu Omega_mu = 3 H gamma^x8 exactly (the x4 terms of the 3 inflating and 3 deflating directions cancel; the hidden-direction term survives; independent of a4 and x8)"];
 
 (* the homogeneous condensate: Phi(x4) independent of x1..x3, x5..x8, on shell gamma^mu D_mu Phi = M Phi, M = m + U'(S) real *)
 g4 = gC[[4]];
-Amat = -g4 . (MM IdentityMatrix[16] - Gdirac);     (* d4 Phi = Amat Phi, since (gamma^x4)^-1 = -gamma^x4 *)
+Amat = prim["Amat"];     (* -g4 . (MM I16 - Gdirac): d4 Phi = Amat Phi, since (gamma^x4)^-1 = -gamma^x4 *)
 addCheck["condensate_equation_x8_consistent",
   FreeQ[Amat, x8] && FreeQ[Amat, cc] && Expand[g4 . Amat + Gdirac - MM IdentityMatrix[16]] === zero16,
   "for Phi = Phi(x4) the equation is d4 Phi = A Phi with A = -gamma^x4 (M - 3 H gamma^x8), free of x8: an x8-independent solution exists"];
@@ -226,26 +283,19 @@ addCheck["condensate_S_constant",
 addCheck["condensate_adjoint_equation",
   Expand[Transpose[Amat] . FEC . g4 - FEC . Sum[Om[[mu]] . gC[[mu]], {mu, 8}] + MM FEC] === zero16,
   "(D_mu Phibar) gamma^mu = -M Phibar holds for the condensate (the adjoint of the field equation)"];
-(* kinetic matrices N^mu_nu with K^mu_nu = Phi^dagger N^mu_nu Phi, K^mu_nu = (1/2)(Phibar gamma^mu D_nu Phi - (D_nu Phibar) gamma^mu Phi) *)
-dPhi[nu_] := If[nu == 4, Amat, zero16] + Om[[nu]];
-dPhibar[nu_] := If[nu == 4, Transpose[Amat] . FEC, zero16] - FEC . Om[[nu]];
-Nmat = Table[Map[FENormal, (1/2) (FEC . gC[[mu]] . dPhi[nu] - dPhibar[nu] . gC[[mu]]), {2}], {mu, 8}, {nu, 8}];
-gd = FEMetricDiag;
-NmatSym = Table[Map[FENormal, (1/2) (Nmat[[mu, nu]] + (gd[[nu]]/gd[[mu]]) Nmat[[nu, mu]]), {2}], {mu, 8}, {nu, 8}];
+(* kinetic matrices N^mu_nu with K^mu_nu = Phi^dagger N^mu_nu Phi, K^mu_nu = (1/2)(Phibar gamma^mu D_nu Phi - (D_nu Phibar) gamma^mu Phi),
+   and their symmetrisation (computed by condensateKinetic above) *)
+Nmat = prim["Nmat"];
+NmatSym = prim["NmatSym"];
 addCheck["condensate_kinetic_tensor_diagonal",
   NmatSym[[4, 8]] === zero16 && NmatSym[[8, 4]] === zero16 && And @@ Table[NmatSym[[mu, mu]] === zero16, {mu, {1, 2, 3, 5, 6, 7, 8}}] &&
    Expand[NmatSym[[4, 4]] - MM FEC] === zero16,
   "for the condensate the symmetrised kinetic tensor has K^x4_x4 = M S, K^mu_mu = 0 for mu = x1..x3, x5..x8, and K^x4_x8 = K^x8_x4 = 0, exactly, for every Phi"];
 
-(* the remaining off-diagonal components: decomposition in the Clifford basis C gamma^I *)
-subsets = Subsets[Range[8]];
-basisMat[I_List] := FEC . If[I === {}, IdentityMatrix[16], Dot @@ (gF[[#]] & /@ I)];
-basisInv = Association[(# -> Inverse[basisMat[#]]) & /@ subsets];
-decompose[N_] := Module[{co},
-   co = Association[(# -> Together[Tr[basisInv[#] . N]/16]) & /@ subsets];
-   Select[co, # =!= 0 &]];
-offPairs = Select[Flatten[Table[{mu, nu}, {mu, 8}, {nu, 8}], 1], #[[1]] != #[[2]] && NmatSym[[#[[1]], #[[2]]]] =!= zero16 &];
-offDecomp = Association[(# -> decompose[NmatSym[[#[[1]], #[[2]]]]]) & /@ offPairs];
+(* the remaining off-diagonal components: decomposition in the Clifford basis C gamma^I (offDiagonalDecomposition above) *)
+basisMat[s_List] := basisMatIn[gF, FEC, s];
+offDecomp = offDiagonalDecomposition[gF, FEC, NmatSym];
+offPairs = Keys[offDecomp];
 recon = And @@ Table[Expand[Total[KeyValueMap[#2 basisMat[#1] &, offDecomp[pq]]] - NmatSym[[pq[[1]], pq[[2]]]]] === zero16, {pq, offPairs}];
 triples = Union[Flatten[Keys /@ Values[offDecomp], 1]];
 addCheck["condensate_offdiagonal_are_three_gamma_bilinears",
@@ -253,6 +303,15 @@ addCheck["condensate_offdiagonal_are_three_gamma_bilinears",
    Sort[triples] === Sort[Join[Table[Sort[{i, 4, 8}], {i, {1, 2, 3, 5, 6, 7}}], Flatten[Table[Sort[{i, j, 4}], {i, 3}, {j, 5, 7}], 1]]],
   "the nonzero off-diagonal kinetic components of the condensate are exactly multiples of the 15 bilinears B_abc = Phibar gamma^a gamma^b gamma^c Phi with {a,b,c} = {i, x4, x8} (i = x1..x3, x5..x7; coefficients proportional to H or a4') and {i, j, x4} (i = x1..x3, j = x5..x7; coefficients proportional to a4'); " <>
    ToString[Length[offPairs]] <> " ordered pairs (mu, nu) are nonzero"];
+(* the same pipeline in the comparison representation: the coefficients written to a4-equations.json do not depend on it *)
+cmpR = condensateKinetic[gR, CR];
+offDecompR = offDiagonalDecomposition[gR, CR, cmpR["NmatSym"]];
+addCheck["offdiagonal_coefficients_representation_independent",
+  cmpR["Gdirac"] === 3 H gR[[8]] && Keys[offDecompR] === offPairs &&
+   And @@ Table[Keys[offDecompR[pq]] === Keys[offDecomp[pq]] &&
+      And @@ (FENormal[#] === 0 & /@ (Values[offDecompR[pq]] - Values[offDecomp[pq]])), {pq, offPairs}],
+  "the comparison representation (Cl(1,1)^(x)4, built in FieldEquationsA4.wl), run through the same condensate pipeline, gives gamma^mu Omega_mu = 3 H gamma^x8, the same " <>
+   ToString[Length[offPairs]] <> " nonzero ordered pairs (mu, nu), the same three-gamma bilinears and exactly the same coefficients as the author's T16 (primary): the off-diagonal coefficients in a4-equations.json are representation independent"];
 
 (* exact witnesses: Phi = Exp[-I w x4] Phi0, Phi0 = v1 + c v2 in the A-eigenspace with all 15 bilinears zero and S != 0 *)
 witness[mval_, hval_] := Module[{w, Am, ex, v1, v2, sv, ph, ok, sval, conds, cv},

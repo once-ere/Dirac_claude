@@ -4,10 +4,10 @@
   "inputsChecked": [
     "Revision/gkd_lovelock/results/lovelock-tensors.json",
     "Revision/field_equations_a4/a4-equations.json",
-    "Revision/algebra/gammas.json (author's T16, when present)"
+    "Revision/algebra/gammas.json (author's T16: the primary representation, required)"
   ],
-  "checkCount": 61,
-  "passCount": 61,
+  "checkCount": 63,
+  "passCount": 63,
   "failCount": 0,
   "pendingCount": 0,
   "verdict": "PASS",
@@ -210,52 +210,57 @@
     {
       "name": "ownrep_clifford",
       "verdict": "PASS",
-      "detail": "{gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,-1,-1,-1,-1,1)"
+      "detail": "comparison representation (own_rep, built here; not used for any result): {gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,-1,-1,-1,-1,1)"
     },
     {
       "name": "ownrep_C_properties",
       "verdict": "PASS",
-      "detail": "C = gamma^x8 gamma^x1 gamma^x2 gamma^x3 real symmetric, C^2 = 1, C gamma^a antisymmetric"
+      "detail": "comparison representation (own_rep, built here; not used for any result): C = gamma^x8 gamma^x1 gamma^x2 gamma^x3 real symmetric, C^2 = 1, C gamma^a antisymmetric"
     },
     {
       "name": "ownrep_Omega_x4_x8_zero",
       "verdict": "PASS",
-      "detail": "Omega_x4 = Omega_x8 = 0"
+      "detail": "comparison representation (own_rep, built here; not used for any result): Omega_x4 = Omega_x8 = 0"
     },
     {
       "name": "ownrep_anticommutator_no_sum",
       "verdict": "PASS",
-      "detail": "{gamma^mu, Omega_mu} = 0 for each mu (no sum)"
+      "detail": "comparison representation (own_rep, built here; not used for any result): {gamma^mu, Omega_mu} = 0 for each mu (no sum)"
     },
     {
       "name": "ownrep_gravity_term",
       "verdict": "PASS",
-      "detail": "gamma^mu Omega_mu = 3 H gamma^x8"
+      "detail": "comparison representation (own_rep, built here; not used for any result): gamma^mu Omega_mu = 3 H gamma^x8"
     },
     {
       "name": "ownrep_condensate_S_constant",
       "verdict": "PASS",
-      "detail": "C A + A^T C = 0: S constant along x4"
+      "detail": "comparison representation (own_rep, built here; not used for any result): C A + A^T C = 0: S constant along x4"
     },
     {
       "name": "ownrep_condensate_adjoint",
       "verdict": "PASS",
-      "detail": "(D_mu Phibar) gamma^mu = -M Phibar for the condensate"
+      "detail": "comparison representation (own_rep, built here; not used for any result): (D_mu Phibar) gamma^mu = -M Phibar for the condensate"
     },
     {
       "name": "ownrep_condensate_kinetic_diagonal",
       "verdict": "PASS",
-      "detail": "K^x4_x4 = M S, K^mu_mu = 0 otherwise, K^x4_x8 = K^x8_x4 = 0"
+      "detail": "comparison representation (own_rep, built here; not used for any result): K^x4_x4 = M S, K^mu_mu = 0 otherwise, K^x4_x8 = K^x8_x4 = 0"
     },
     {
       "name": "ownrep_condensate_offdiagonal_three_gamma",
       "verdict": "PASS",
-      "detail": "every nonzero off-diagonal kinetic component (42 ordered pairs) is a multiple of one of the 15 bilinears Phibar gamma^a gamma^b gamma^c Phi, {a,b,c} = {i,x4,x8} or {i,j,x4}"
+      "detail": "comparison representation (own_rep, built here; not used for any result): every nonzero off-diagonal kinetic component (42 ordered pairs) is a multiple of one of the 15 bilinears Phibar gamma^a gamma^b gamma^c Phi, {a,b,c} = {i,x4,x8} or {i,j,x4}"
     },
     {
       "name": "ownrep_condensate_witness",
       "verdict": "PASS",
-      "detail": "exact witness at (M, H) = (5, 1): Phi = e^{-4 i x4} Phi0, Phi0 = v1 + conj(v1^dagger C v2) v2 from the sectors gamma^x1 gamma^x5 = gamma^x2 gamma^x6 = gamma^x3 gamma^x7 = -1, +1; all 15 three-gamma bilinears vanish, S != 0 real"
+      "detail": "comparison representation (own_rep, built here; not used for any result): exact witness at (M, H) = (5, 1): Phi = e^{-4 i x4} Phi0, Phi0 = v1 + conj(v1^dagger C v2) v2 from the sectors gamma^x1 gamma^x5 = gamma^x2 gamma^x6 = gamma^x3 gamma^x7 = -1, +1; all 15 three-gamma bilinears vanish, S != 0 real"
+    },
+    {
+      "name": "authorT16_fixture_read",
+      "verdict": "PASS",
+      "detail": "Revision/algebra/gammas.json (sha256 95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01) read with strict parsing (every entry a JSON integer or a string \"p/q\" in lowest terms; a missing or malformed file stops the run with an ERROR line and exit code 1): coordinates x1..x8, notebook frame index [1, 2, 3, 4, 5, 6, 7, 0] (gamma^(x1..x7) = T16[1..7], gamma^(x8) = T16[0]), eta = diag(1,1,1,-1,-1,-1,-1,1), the fixture's C equals gamma^x8 gamma^x1 gamma^x2 gamma^x3 (the notebook's sigma16), its S, Gamma and B equal (1/4)[gamma^a, gamma^b], gamma^x8 gamma^x1 ... gamma^x7 and -i C gamma^x4; the author's T16 is the primary representation (its coefficients are compared with a4-equations.json)"
     },
     {
       "name": "authorT16_clifford",
@@ -308,14 +313,19 @@
       "detail": "exact witness at (M, H) = (5, 1): Phi = e^{-4 i x4} Phi0, Phi0 = v1 + conj(v1^dagger C v2) v2 from the sectors gamma^x1 gamma^x5 = gamma^x2 gamma^x6 = gamma^x3 gamma^x7 = -1, +1; all 15 three-gamma bilinears vanish, S != 0 real"
     },
     {
+      "name": "representations_equivalent_authorT16_ownrep",
+      "verdict": "PASS",
+      "detail": "exact (sympy DomainMatrix nullspace over QQ): the intertwiners K with K gamma_own^a = gamma_T16^a K for a = x1..x8 (gamma_own the comparison representation) form a space of dimension 1, and K^T K = 8 I16 (K is sqrt(8) times an orthogonal matrix) with K C_own = C_T16 K: the comparison representation is equivalent to the author's T16, so every trace of a product of gammas is the same in both"
+    },
+    {
       "name": "json_offdiagonal_coefficients",
       "verdict": "PASS",
-      "detail": "every off-diagonal kinetic coefficient of a4-equations.json equals this file's (own representation; same triple, value at three exact points to 40 digits)"
+      "detail": "every off-diagonal kinetic coefficient of a4-equations.json equals this file's (the author's T16, the primary representation; same triple, value at three exact points to 40 digits)"
     },
     {
       "name": "offdiagonal_coefficients_representation_independent",
       "verdict": "PASS",
-      "detail": "the author's T16 and the representation built here give the same triples and the same coefficients"
+      "detail": "the author's T16 (primary) and the comparison representation built here give the same triples and the same coefficients"
     }
   ]
 }

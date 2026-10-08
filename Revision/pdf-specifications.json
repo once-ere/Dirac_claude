@@ -2,17 +2,17 @@
   "dirac16complex-field-theory": {
     "path": "Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.pdf",
     "pages": 29,
-    "sha256": "51d4df21c21a01ceef465ec18437a2297a96b7f13754f414fcc0130163cb6ada"
+    "sha256": "d8499a08710cc64bec68c1e6e473fc9b65acee031290bb72c2a20c686a7d5dbf"
   },
   "dirac16complex00-field-theory": {
     "path": "Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.pdf",
     "pages": 36,
-    "sha256": "30a877c230363075de326f2bf1b0609cef49f19a8b15ddbd2d88e3bf7a2f3539"
+    "sha256": "dfc4bc52c5119c835b1fee1680de4eda1188e2a711924016465c0622a6645384"
   },
   "pair-creation-proofs": {
     "path": "Revision/docs/PAIR_CREATION_PROOFS.pdf",
     "pages": 29,
-    "sha256": "332058e48d2c6f11b3d737863a6e24ce042d8a79ad16feb8f41faa21d102b45e"
+    "sha256": "4dd5fcb2022885b9cf03428502102413f9447aa2b56d07a911fbc738ef02da1f"
   },
   "universes-in-pairs-textbook": {
     "path": "Revision/textbook/UNIVERSES_IN_PAIRS_TEXTBOOK.pdf",

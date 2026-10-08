@@ -751,7 +751,7 @@ The 42 components fall into ten groups; within each group the coefficient is the
 
 The off-diagonal field equations $0 = \kappa T^\mu{}_\nu$ therefore require $B_{i\,x_4 x_8} = 0$ for the six $i$ (coefficients proportional to $H$ and to $a_4'$) and, when $a_4' \ne 0$, $B_{i j x_4} = 0$ for the nine pairs $i, j$.
 
-**Exact witnesses** that these conditions can be met with $S \ne 0$: $\Phi = e^{-i\omega x_4}\Phi_0$ with $\omega = \sqrt{M^2 - 9H^2}$ ($M^2 > 9H^2$), and $\Phi_0 = v_1 + c\,v_2$ built from the two eigenvectors of $A_\Phi$ in the sectors $\gamma^{(x_1)}\gamma^{(x_5)} = \gamma^{(x_2)}\gamma^{(x_6)} = \gamma^{(x_3)}\gamma^{(x_7)} = -1$ and $+1$, $c = \overline{v_1^\dagger C v_2}$. At $(M, H) = (5, 1)$, $(5, 4/3)$ and $(-5, 1)$ (exact Gaussian-rational arithmetic) the frequencies are $\omega = 4, 3, 4$, all 15 three-gamma bilinears and every off-diagonal kinetic component vanish for every $a_4$ and $a_4'$, and $S = 204800$, $115200$, $204800$ respectively.
+**Exact witnesses** that these conditions can be met with $S \ne 0$: $\Phi = e^{-i\omega x_4}\Phi_0$ with $\omega = \sqrt{M^2 - 9H^2}$ ($M^2 > 9H^2$), and $\Phi_0 = v_1 + c\,v_2$ built from the two eigenvectors of $A_\Phi$ in the sectors $\gamma^{(x_1)}\gamma^{(x_5)} = \gamma^{(x_2)}\gamma^{(x_6)} = \gamma^{(x_3)}\gamma^{(x_7)} = -1$ and $+1$, $c = \overline{v_1^\dagger C v_2}$. At $(M, H) = (5, 1)$, $(5, 4/3)$ and $(-5, 1)$ (exact Gaussian-rational arithmetic) the frequencies are $\omega = 4, 3, 4$, all 15 three-gamma bilinears and every off-diagonal kinetic component vanish for every $a_4$ and $a_4'$, and $S = 51200$, $28800$, $51200$ respectively. These values are computed in the author's matrices T16; $S$ scales with the arbitrary normalisation of the exact null vectors $v_1, v_2$ (in the comparison basis of the record, Cl(1,1)$^{\otimes 4}$, the same witnesses give $204800$, $115200$, $204800$), whereas $\omega$, $S \ne 0$ and the vanishing of the bilinears do not depend on that normalisation.
 
 **Theorem (the condensate allows only the linear member).** Hypotheses: $\Phi$ a homogeneous on-shell condensate as above (classical, commuting) satisfying the off-diagonal conditions; $a_4 \in C^2$; $(\alpha_1, \alpha_2, \alpha_3) \ne (0, 0, 0)$. Then $p_3 = p_t$, so $a_4''F(a_4') = 0$; $F$ is a nonzero polynomial in $a_4'$ with finitely many roots and $a_4'$ is continuous, so $a_4'' = 0$ on every interval:
 
@@ -783,7 +783,7 @@ so $A^2 = -\kappa S(m + \lambda S)/(6H^2) - 1$, and a real $A$ needs $\kappa S(m
 
 | statement | Wolfram checks ($a_4$ record) | sympy checks ($a_4$ record) |
 | --- | --- | --- |
-| the Clifford facts used, in a second representation | `C_properties_own_rep`, `gamma_mu_anticommutes_with_Omega_mu_no_sum` | `ownrep_clifford`, `ownrep_C_properties`, `ownrep_anticommutator_no_sum`, `authorT16_clifford`, `authorT16_C_properties`, `authorT16_anticommutator_no_sum` |
+| the Clifford facts used, in the author's T16 (with the Cl(1,1)$^{\otimes 4}$ basis as an exactly equivalent comparison) | `clifford_relations_author_T16`, `C_properties_author_T16`, `gamma_mu_anticommutes_with_Omega_mu_no_sum`, `representations_equivalent_author_T16_own_rep` | `ownrep_clifford`, `ownrep_C_properties`, `ownrep_anticommutator_no_sum`, `authorT16_clifford`, `authorT16_C_properties`, `authorT16_anticommutator_no_sum` |
 | condensate equation free of $x_8$; $S$ constant; adjoint | `condensate_equation_x8_consistent`, `condensate_S_constant`, `condensate_adjoint_equation` | `ownrep_condensate_S_constant`, `ownrep_condensate_adjoint`, `authorT16_condensate_S_constant`, `authorT16_condensate_adjoint` |
 | diagonal kinetic tensor of the condensate | `condensate_kinetic_tensor_diagonal` | `ownrep_condensate_kinetic_diagonal`, `authorT16_condensate_kinetic_diagonal` |
 | off-diagonal components: the 15 three-gamma bilinears, coefficients | `condensate_offdiagonal_are_three_gamma_bilinears` | `ownrep_condensate_offdiagonal_three_gamma`, `authorT16_condensate_offdiagonal_three_gamma`, `json_offdiagonal_coefficients`, `offdiagonal_coefficients_representation_independent` |
@@ -820,7 +820,7 @@ There is no quantum reading for dirac16complex00: it is not quantised. These the
 
 ## 14. Check index
 
-Every check below has the verdict PASS in the named report (the publication test re-reads the reports and confirms each name and verdict). Counts at the time of writing: wolfram-algebra 45 checks, python-algebra 35, wolfram-field-theory 84, python-field-theory 70, wolfram-a4-report 47, python-a4-report 61, wolfram-pairing 101, python-pairing 66, wolfram-scope 15, python-scope 14; all pass.
+Every check below has the verdict PASS in the named report (the publication test re-reads the reports and confirms each name and verdict). Counts at the time of writing: wolfram-algebra 45 checks, python-algebra 35, wolfram-field-theory 84, python-field-theory 70, wolfram-a4-report 52, python-a4-report 63, wolfram-pairing 101, python-pairing 66, wolfram-scope 15, python-scope 14; all pass.
 
 | report | checks cited in this document |
 | --- | --- |

@@ -41,4 +41,4 @@ $E_{(k)} = -P_{(k)}/2^{k+1}$, $T = \mathrm{diag}(p_3,p_3,p_3,-\rho,p_t,p_t,p_t,p
 
 ## Run
 
-* checks: 61 (61 pass, 0 fail, 0 pending)
+* checks: 63 (63 pass, 0 fail, 0 pending)

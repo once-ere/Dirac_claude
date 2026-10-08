@@ -1,7 +1,7 @@
 {
   "producer": "Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls",
   "spec": "Revision/SPEC.md section 5",
-  "checkCount": 47,
+  "checkCount": 52,
   "failedCount": 0,
   "verdict": "PASS",
   "checks": [
@@ -176,14 +176,34 @@
       "detail": "Einstein-Gauss-Bonnet (alpha1 = 1, alpha3 = 0): V = 1 - 8 alpha2 H^2 (A^2 + 5), so V = 0 gives A^2 = (1 - 40 alpha2 H^2)/(8 alpha2 H^2) (real A iff 0 < alpha2 H^2 <= 1/40), with Lambda = -sum_k alpha_k E^x4_x4"
     },
     {
+      "name": "fixture_author_T16_read",
+      "verdict": "PASS",
+      "detail": "Revision/algebra/gammas.json (sha256 95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01) read with strict parsing (every entry a JSON integer or a string \"p/q\" in lowest terms; a missing or malformed file stops the run with an ERROR line and exit code 1): coordinates x1..x8, notebook frame index {1, 2, 3, 4, 5, 6, 7, 0} (gamma^(x1..x7) = T16[1..7], gamma^(x8) = T16[0]), eta = diag(1,1,1,-1,-1,-1,-1,1), 8 real exact 16 x 16 matrices; the fixture's S, Gamma and B equal (1/4)[gamma^a, gamma^b], gamma^x8 gamma^x1 ... gamma^x7 and -i C gamma^x4 of these gammas: the primary representation of every spinor statement below"
+    },
+    {
+      "name": "clifford_relations_author_T16",
+      "verdict": "PASS",
+      "detail": "the author's T16 (primary representation, Revision/algebra/gammas.json) satisfies {gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,-1,-1,-1,-1,1)"
+    },
+    {
+      "name": "C_properties_author_T16",
+      "verdict": "PASS",
+      "detail": "C = gamma^x8 gamma^x1 gamma^x2 gamma^x3 of the author's T16 equals the fixture's C (the notebook's sigma16 in the order x1..x8) and is real symmetric, C^2 = 1, C gamma^a antisymmetric (SPEC section 2); every bilinear below uses this C"
+    },
+    {
       "name": "clifford_relations_own_rep",
       "verdict": "PASS",
-      "detail": "the representation built here (Cl(1,1) tensor-graded four times; real 16 x 16) satisfies {gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,-1,-1,-1,-1,1)"
+      "detail": "comparison representation only (not used for any result): the representation built in FieldEquationsA4.wl (Cl(1,1) tensor-graded four times; real 16 x 16) satisfies {gamma^a, gamma^b} = 2 eta^ab, eta = diag(1,1,1,-1,-1,-1,-1,1)"
     },
     {
       "name": "C_properties_own_rep",
       "verdict": "PASS",
-      "detail": "C = gamma^x8 gamma^x1 gamma^x2 gamma^x3 is real symmetric, C^2 = 1, C gamma^a antisymmetric (the properties SPEC section 2 requires; every bilinear identity below uses only these, so it holds in the author's T16 as well)"
+      "detail": "comparison representation only: C = gamma^x8 gamma^x1 gamma^x2 gamma^x3 is real symmetric, C^2 = 1, C gamma^a antisymmetric (the properties SPEC section 2 requires)"
+    },
+    {
+      "name": "representations_equivalent_author_T16_own_rep",
+      "verdict": "PASS",
+      "detail": "exact (NullSpace over the rationals): the intertwiners K with K gamma_R^a = gamma_T16^a K for a = x1..x8 (gamma_R the comparison representation) form a space of dimension 1, and K^T K = 2 I16 (K is Sqrt[2] times an orthogonal matrix) with K C_R = C_T16 K: the two representations are equivalent, so every trace of a product of gammas (in particular every coefficient in the Clifford basis C gamma^I) is the same in both"
     },
     {
       "name": "spin_connection_antisymmetric",
@@ -231,6 +251,11 @@
       "detail": "the nonzero off-diagonal kinetic components of the condensate are exactly multiples of the 15 bilinears B_abc = Phibar gamma^a gamma^b gamma^c Phi with {a,b,c} = {i, x4, x8} (i = x1..x3, x5..x7; coefficients proportional to H or a4') and {i, j, x4} (i = x1..x3, j = x5..x7; coefficients proportional to a4'); 42 ordered pairs (mu, nu) are nonzero"
     },
     {
+      "name": "offdiagonal_coefficients_representation_independent",
+      "verdict": "PASS",
+      "detail": "the comparison representation (Cl(1,1)^(x)4, built in FieldEquationsA4.wl), run through the same condensate pipeline, gives gamma^mu Omega_mu = 3 H gamma^x8, the same 42 nonzero ordered pairs (mu, nu), the same three-gamma bilinears and exactly the same coefficients as the author's T16 (primary): the off-diagonal coefficients in a4-equations.json are representation independent"
+    },
+    {
       "name": "condensate_einstein_quadratic_U",
       "verdict": "PASS",
       "detail": "Einstein, a4 = A H x4 + a0, U = (lambda/2) S^2 (rho = sigmaT (m S + lambda S^2/2), p = sigmaT lambda S^2/2): the x4 and x8 equations are equivalent to kappa sigmaT m S = -(36 H^2 + 2 Lambda) and 6 (A^2 + 1) H^2 = -kappa sigmaT S (m + lambda S)"
@@ -238,7 +263,7 @@
     {
       "name": "condensate_diagonal_witness_exact",
       "verdict": "PASS",
-      "detail": "exact Gaussian-rational witnesses (M, H) = (5, 1), (5, 4/3), (-5, 1): Phi = e^{-i w x4} Phi0 with w = sqrt(M^2 - 9 H^2) = {4, 3, 4}, Phi0 = v1 + c v2 (v1, v2 the A-eigenvectors with gamma^x1 gamma^x5 = gamma^x2 gamma^x6 = gamma^x3 gamma^x7 = -1 and +1, c = conj(v1^dagger C v2)), solves the condensate equation; all 15 three-gamma bilinears and every off-diagonal kinetic component vanish for every a4, a4'; S = {204800, 115200, 204800} != 0"
+      "detail": "exact Gaussian-rational witnesses (M, H) = (5, 1), (5, 4/3), (-5, 1): Phi = e^{-i w x4} Phi0 with w = sqrt(M^2 - 9 H^2) = {4, 3, 4}, Phi0 = v1 + c v2 (v1, v2 the A-eigenvectors with gamma^x1 gamma^x5 = gamma^x2 gamma^x6 = gamma^x3 gamma^x7 = -1 and +1, c = conj(v1^dagger C v2)), solves the condensate equation; all 15 three-gamma bilinears and every off-diagonal kinetic component vanish for every a4, a4'; S = {51200, 28800, 51200} != 0"
     }
   ]
 }

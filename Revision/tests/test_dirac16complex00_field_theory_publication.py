@@ -473,7 +473,7 @@ class TestKeyStatements(unittest.TestCase):
         a4_report = (REVISION / "field_equations_a4/reports/wolfram-a4-report.json").read_text(
             encoding="utf-8"
         )
-        for number in ("204800", "115200", "{4, 3, 4}", "(5, 4/3)"):
+        for number in ("51200", "28800", "{4, 3, 4}", "(5, 4/3)"):
             self.assertIn(number, a4_report)
             self.assertIn(number.strip("{}").replace(", ", ", "), markdown_text())
 
