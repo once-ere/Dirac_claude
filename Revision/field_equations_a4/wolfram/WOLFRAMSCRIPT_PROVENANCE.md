@@ -1,9 +1,11 @@
 # WolframScript provenance: the a4 field-equation verifier
 
 Set: `Revision/field_equations_a4/wolfram/` (the script `verify_field_equations_a4.wls` and its
-package `FieldEquationsA4.wl`). This file tells you what the set computes, which files it reads and
-writes, exactly how to run it, what you should see, what it changes on your computer, and how it
-was verified. Everything you need to run it is in section 3 of this file.
+package `FieldEquationsA4.wl`), in the version of commit `e377368` (2026-10-08), which computes
+every spinor statement with the author's real 16 x 16 Dirac matrices T16. This file tells you what
+the set computes, which files it reads and writes, exactly how to run it, what you should see,
+what it changes on your computer, and how it was verified. Everything you need to run it is in
+section 3 of this file.
 
 ## 1. What the set is and what it computes
 
@@ -11,9 +13,10 @@ In plain words: the author's theory lives in an 8-dimensional spacetime with coo
 x1, x2, x3 (ordinary 3-space), x4 (time), x5, x6, x7 (three extra time directions) and x8 (a
 hidden direction, written through z = 6 H x8 with 0 < z < pi/2). Distances in 3-space carry the
 scale factor e^{a4(x4)} and distances along the extra times the scale factor e^{-a4(x4)} (both
-times sin^{1/6} z), so when 3-space expands the extra times shrink; the single unknown function
-is a4(x4). The set answers: which equations must a4(x4) obey, and what matter can drive it? The
-task is defined in `Revision/SPEC.md`, section 5.
+times sin^{1/6} z), so when 3-space expands the extra times shrink exponentially (they deflate);
+the single unknown function is a4(x4). The set answers: which equations must a4(x4) obey, and what
+matter can drive it? The task is defined in `Revision/SPEC.md`, section 5; the Dirac matrices are
+those of SPEC section 2.
 
 Step by step, the script (with its package) does the following, using exact algebra only (no
 floating-point numbers anywhere):
@@ -37,30 +40,32 @@ floating-point numbers anywhere):
 4. Special cases. Pure Einstein gravity (alpha1 = 1, alpha2 = alpha3 = 0): no vacuum solution and
    a violated null energy condition. The linear member a4 = A H x4 + a0: equal pressures, the
    vacuum condition, and the Einstein-Gauss-Bonnet vacuum.
-5. Spinor sources. It builds its own real 16 x 16 representation of the Clifford algebra Cl(4,4)
-   (eight real 16 x 16 Dirac matrices, see "The Dirac matrices of this set" below), the spin
-   connection of the metric, and a homogeneous spinor condensate; it shows which bilinears must
-   vanish and gives exact solutions (witnesses) for which they do.
+5. Spinor sources. It reads the author's eight real 16 x 16 Dirac matrices T16 from
+   `Revision/algebra/gammas.json` (see "The Dirac matrices of this set" below) and uses them for
+   every spinor statement: the spin connection of the metric and a homogeneous spinor condensate;
+   it shows which bilinears must vanish and gives exact solutions (witnesses) for which they do.
+   It also builds a second real 16 x 16 representation of the Clifford algebra Cl(4,4), used only
+   for comparison: it proves exactly that the two representations are equivalent and that the
+   off-diagonal coefficients it writes do not depend on the representation.
 
-Each of these statements is a named check with the verdict PASS or FAIL. There are 47 checks. The
+Each of these statements is a named check with the verdict PASS or FAIL. There are 52 checks. The
 script writes two files: `a4-equations.json` (every equation, in Wolfram InputForm and in TeX) and
 `reports/wolfram-a4-report.json` (every check with name, verdict and a one-line explanation).
 
-Documents and programs that cite or read these results (for your information only; you do not
-need them to run this set):
+Documents and programs that cite or read these results (found on 2026-10-08, for your information
+only; you do not need them to run this set):
 
-* `Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md` (and its `.tex` and `.pdf`): lists 36 checks
-  of `wolfram-a4-report.json` by name in its record table, quotes the count "wolfram-a4-report 47",
-  and generates its a4 equations and its table of off-diagonal kinetic coefficients from
-  `a4-equations.json`.
-* `Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md` (and `.tex`, `.pdf`): "Wolfram: 47 of 47 checks
-  pass"; names 26 of the checks in its derivation of the a4 equations; renders its a4 equations
-  from `a4-equations.json`.
+* `Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md` (and its `.tex` and `.pdf`): quotes the count
+  "wolfram-a4-report 52"; 41 of the 52 check names appear in it; it generates its a4 equations and
+  its table of off-diagonal kinetic coefficients from `a4-equations.json`.
+* `Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md` (and `.tex`, `.pdf`): "Wolfram: 52 of 52 checks
+  pass"; 26 of the check names appear in its derivation of the a4 equations; it renders its a4
+  equations from `a4-equations.json`.
 * `Revision/docs/PAIR_CREATION_PROOFS.md` (and `.tex`, `.pdf`): the record-table row for
-  `wolfram-a4-report.json` (47 checks, 47 pass, 0 fail) and the checks
+  `wolfram-a4-report.json` (52 checks, 52 pass, 0 fail) and the checks
   `einstein_no_vacuum_solution`, `linear_member_vacuum_factor` and
   `einstein_gauss_bonnet_vacuum_linear` (the vacuum statements used in a proof).
-* `Revision/README.md` ("Wolfram 47/47") and `Revision/field_equations_a4/README.md`.
+* `Revision/README.md` ("Wolfram 52/52") and `Revision/field_equations_a4/README.md`.
 * Programs that read the outputs: `Revision/field_equations_a4/python/check_field_equations_a4.py`
   (an independent sympy re-derivation; it reads `a4-equations.json`, so the Wolfram set runs
   first), `Revision/lead_checks/einstein_gauss_bonnet_a4.py` (reads `a4-equations.json`), the
@@ -68,42 +73,67 @@ need them to run this set):
   `Revision/tests/test_dirac16complex_field_theory_publication.py` (they read both outputs), and the
   publication test `Revision/tests/test_pair_creation_proofs_publication.py` (it reads only
   `wolfram-a4-report.json`).
-* Also citing or reading the outputs (found on 2026-10-07): `Revision/lead_checks/README.md`,
-  `Revision/field_equations_a4/python/check_ks_source_conditions.py` (names checks of the report
-  in its header), `Revision/gkd_lovelock/verification/WOLFRAMSCRIPT_PROVENANCE.md`, and twelve
-  textbook notebooks under `Revision/textbook/notebooks/` (sources in `src/`: `00b`, `00c`, `02c`,
-  `03b`, `09a`, `09c`, `11c`, `12a`, `12b`, `12c`, `12d`, `17a`), which read `a4-equations.json`
-  and/or `wolfram-a4-report.json`. The textbook was still being written on that date (committed
-  as "IN PROGRESS, not yet verified"); it is not part of this verification.
+* Also citing the set or its outputs: `Revision/lead_checks/README.md`,
+  `Revision/field_equations_a4/python/check_ks_source_conditions.py` (names checks of the report in
+  its header), `Revision/gkd_lovelock/verification/WOLFRAMSCRIPT_PROVENANCE.md`,
+  `provenance/dirac matrices.md` (its script `provenance/dirac_matrices/extract_repository_wolfram_gammas.wls`
+  loads `FieldEquationsA4.wl` to compare its matrices with the author's), `HANDOFF.md`, records
+  under `Revision/workflows/`, and the textbook under `Revision/textbook/` (chapters and fifteen
+  notebooks, sources in `notebooks/src/`: `00b`, `00c`, `02c`, `03b`, `09a`, `09c`, `11c`, `12a`,
+  `12b`, `12c`, `12d`, `17a`, `17b`, `20a`, `20b`, which read `a4-equations.json` and/or
+  `wolfram-a4-report.json`). The textbook is written and verified by another workflow; it is not
+  part of this verification.
 
 ### The Dirac matrices of this set
 
-The set uses eight real 16 x 16 Dirac matrices, but it does NOT read the author's matrices from
-`Revision/algebra/gammas.json`: `FieldEquationsA4.wl` (lines 119-128) builds its own, as Kronecker
-products of the real 2 x 2 matrices s1 = [[0,1],[1,0]], e = [[0,1],[-1,0]] and w = s1 e =
-[[-1,0],[0,1]] (1 = the 2 x 2 unit matrix):
+`Revision/SPEC.md` section 2 (binding for every file under `Revision/`) requires the author's real
+16 x 16 matrices T16 of the notebook, re-constructed in Revision code from the author's formulas,
+with gamma^(x8) = T16[0], gamma^(x1..x3) = T16[1..3], gamma^(x4) = T16[4],
+gamma^(x5..x7) = T16[5..7]. They are re-constructed by `Revision/algebra/wolfram/RevisionAlgebra.wl`
+(from the tau matrices of the notebook) and stored, in the order x1..x8, in
+`Revision/algebra/gammas.json` by `Revision/algebra/wolfram/verify_algebra.wls`.
 
-| direction | matrix (`FEGammaFrame`) | square |
+This set follows that instruction: `FieldEquationsA4.wl` (lines 126-185) reads `gammas.json` when
+it is loaded, with strict parsing (every matrix entry must be a JSON integer or a string "p/q" in
+lowest terms; anything else, or a missing file or key, stops the run with a line `ERROR  ...` and
+exit code 1, section 3.6; there is no fallback to other matrices). The primary matrices are
+`FEGammaFrame` = the fixture's eight gammas (gamma^(x1..x7) = T16[1..7], gamma^(x8) = T16[0]) and
+`FEC` = gamma^x8 gamma^x1 gamma^x2 gamma^x3 (the notebook's sigma16). The checks
+`fixture_author_T16_read`, `clifford_relations_author_T16` ({gamma^a, gamma^b} = 2 eta^ab with
+eta = diag(1, 1, 1, -1, -1, -1, -1, 1) in the order x1..x8) and `C_properties_author_T16` (C equals
+the fixture's C, is real symmetric, C^2 = 1, C gamma^a antisymmetric) record this; every spinor
+check after them uses these matrices.
+
+The package also builds, in lines 187-194, a comparison representation `FEGammaFrameComparison`
+(with `FECComparison`), from Kronecker products of the real 2 x 2 matrices s1 = [[0,1],[1,0]],
+e = [[0,1],[-1,0]] and w = s1 e = [[-1,0],[0,1]] (1 = the 2 x 2 unit matrix):
+
+| direction | matrix (`FEGammaFrameComparison`) | square |
 | --- | --- | --- |
 | x1, x2, x3 (3-space) | s1(x)1(x)1(x)1, w(x)s1(x)1(x)1, w(x)w(x)s1(x)1 | +1 |
 | x4 (time) | e(x)1(x)1(x)1 | -1 |
 | x5, x6, x7 (extra times) | w(x)e(x)1(x)1, w(x)w(x)e(x)1, w(x)w(x)w(x)e | -1 |
 | x8 (hidden direction) | w(x)w(x)w(x)s1 | +1 |
 
-The check `clifford_relations_own_rep` proves {g_a, g_b} = 2 eta_ab I16 with
-eta = diag(1, 1, 1, -1, -1, -1, -1, 1) (x1..x8), and `C_properties_own_rep` the properties of
-C = g_x8 g_x1 g_x2 g_x3. These matrices are not equal entry by entry to the author's (0 of 8 are
-equal), but they are the author's matrices in another basis: an exact supplementary check made
-during the verification of 2026-10-07 (the script is printed in section 6, with its output; it
-needs a complete clone because it also reads `Revision/algebra/gammas.json`) constructs an integer
-matrix S with S g_a S^-1 = G_a for all eight a (G_a = the author's matrices of `gammas.json`, same
-eta and same coordinate order), S^T S = 128 I16 (so S/sqrt(128) is orthogonal) and
-S C S^-1 = C_author (the author's sigma16) with S^T C_author S = 128 C. Hence every statement of
-this set about spinors and bilinears holds word for word with the author's matrices (replace Phi by
-S Phi / sqrt(128)). Independently, the Python companion `check_field_equations_a4.py` (not part of
-this Wolfram set) repeats the spinor checks with the author's matrices (`authorT16_*`, all PASS in
-`reports/python-a4-report.json`). The author's eight matrices themselves, their products and the
-projectors are displayed and proved in `provenance/dirac matrices.md`.
+It is used for no result. Its checks are `clifford_relations_own_rep`, `C_properties_own_rep`,
+`representations_equivalent_author_T16_own_rep` (exactly, by `NullSpace` over the rationals: the
+matrices K with K g_a = G_a K for all eight a, g_a the comparison matrices and G_a the author's,
+form a space of dimension 1, K^T K = 2 I16 and K C_R = C_T16 K) and
+`offdiagonal_coefficients_representation_independent` (the whole condensate pipeline run in the
+comparison representation gives the same 42 nonzero off-diagonal kinetic components with exactly
+the same coefficients). The condensate-witness values S = 51200, 28800, 51200 of the check
+`condensate_diagonal_witness_exact` are those of T16; they scale with the normalisation of the null
+vectors and differ in another basis (explained in `Revision/field_equations_a4/README.md`).
+
+History: before commit `e377368` the set used the Kronecker-product matrices above as its only
+matrices (named `FEGammaFrame` then) and did not read `gammas.json`. That departed from SPEC
+section 2, and the earlier version of this file did not say so (finding of the independent
+verifier of 2026-10-07, section 6.4). It was covered at the time by an exact intertwiner check and
+by the Python companion's `authorT16_*` checks; the patch of commit `e377368` removed the
+departure. The optional supplementary check of section 6.3 confirms, for the current files, that
+`FEGammaFrame` and `FEC` are the matrices of `gammas.json` entry by entry (8 of 8) and that the
+comparison representation is equivalent to them by a second, independent construction of the
+intertwiner.
 
 ## 2. The files of the set
 
@@ -113,37 +143,42 @@ creates). Every file is UTF-8 text with LF line endings, stored byte for byte by
 
 | role | path | bytes | lines | sha256 |
 | --- | --- | --- | --- | --- |
-| script (the file you run) | `Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` | 34686 | 386 | `9cd8d9a1733102e1d57bdc6e3740972810793d3702a0b5e2b66ac7b3837d2965` |
-| package (loaded by the script with `Get`) | `Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` | 8555 | 141 | `4ac40fef2a06d2f7587fdd4b0406d8399192ffb963312bceaea119ddd723c8f8` |
-| input (read with `Import[..., "RawJSON"]`) | `Revision/gkd_lovelock/results/lovelock-tensors.json` | 55056 | 405 | `9278a0bf0da9ac7b2b22be5bb39e44073e821efb741514f42a43fa9cbc978567` |
+| script (the file you run) | `Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` | 40749 | 445 | `d9db27d371eefbd6afc0f358fe9b150a21b82c8a58e5ce2741d71f652f9d1ce9` |
+| package (loaded by the script with `Get`, script line 25) | `Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` | 14903 | 220 | `f0292638c8d6dab9b7a05c744ba00a2ebe329e96ef927478cb73c7599e749c11` |
+| input 1 (read by the package with `Import[..., "RawJSON"]`, package line 159) | `Revision/algebra/gammas.json` | 76968 | 1405 | `95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01` |
+| input 2 (read by the script with `Import[..., "RawJSON"]`, script line 89) | `Revision/gkd_lovelock/results/lovelock-tensors.json` | 55056 | 405 | `9278a0bf0da9ac7b2b22be5bb39e44073e821efb741514f42a43fa9cbc978567` |
 | output 1 (written, committed) | `Revision/field_equations_a4/a4-equations.json` | 40843 | 788 | `98d3245d30e5c25f7bbdfcd186d5723aec2059a1feeaef4cc3c3249684de03b4` |
-| output 2 (written, committed) | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 11814 | 244 | `2c070eda41303a6434a9860ce4bddd74510b2494e345332a8f82ddabee13857c` |
+| output 2 (written, committed) | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 14190 | 269 | `27faceeebdcdb8dc97afbebe89e24e322e8308fb5679df19c88dc1c77af72e6b` |
 
-The script reads nothing else: no other file, no environment variable, no command-line argument,
-no network resource. It finds its package and its input relative to its own location
-(`$InputFileName`), so it does not depend on the folder you start it from. The input
-`lovelock-tensors.json` is produced by a different set (the Rust program in
-`Revision/gkd_lovelock/code`); it is committed, so you do not need Rust to run this set. The two
-outputs are deterministic: LF line endings, no time stamps, no machine names, fixed key order.
-The script contains no random numbers, no dates, no parallel computation and no network
-functions; it writes only through its function `writeJSON` (one `OpenWrite`, script line 34),
-which it calls twice (lines 378 and 383, one call per output).
+Last commits that changed them: the script, the package and output 2: `e377368` (2026-10-08);
+`gammas.json`: `9ea68d4` (2026-10-01); `lovelock-tensors.json`: `ad02ebb` (2026-10-01); output 1: `70fab64`
+(2026-10-01; the patch left it byte for byte unchanged).
 
-The optional supplementary Dirac-matrix check of section 6 (not part of the set, not committed)
-additionally reads `Revision/algebra/gammas.json` (sha256
-`95d8cbdd0682fd30988b4a21fabc2c6b286a1a35c2f9c02c9d91f56bf5b1fd01`, the author's eight matrices)
-and writes nothing.
+The set reads nothing else: no other file, no environment variable, no command-line argument, no
+network resource. The script finds its package and its second input relative to its own location
+(`$InputFileName`), and the package finds `gammas.json` relative to its own location, so the set
+does not depend on the folder you start it from. The package also computes the sha256 of
+`gammas.json` (`FileHash`, package line 169) and writes it into the detail of the check
+`fixture_author_T16_read`. Both inputs are produced by other sets (`gammas.json` by
+`Revision/algebra/wolfram/verify_algebra.wls`, `lovelock-tensors.json` by the Rust program in
+`Revision/gkd_lovelock/code`); they are committed, so you need neither to run this set. The two
+outputs are deterministic: LF line endings, no time stamps, no machine names, fixed key order. The
+script and the package contain no random numbers, no dates, no parallel computation and no network
+functions; the script writes only through its function `writeJSON` (one `OpenWrite`, script line
+41), which it calls twice (line 437 for `a4-equations.json`, then line 442 for the report).
+
+The optional supplementary Dirac-matrix check of section 6.3 (not part of the set, not committed)
+reads the same package and `gammas.json` and writes nothing.
 
 ## 3. How to run it (complete instructions)
 
 ### 3.1 What you need
 
-* A computer with Windows 10 or 11, macOS, or Linux, with about 1 GB of free disk space for the
-  repository (on 2026-10-07 the clone downloaded about 200 MB and then occupied about 690 MB, its
-  hidden `.git` folder included; the repository grows over time, on 2026-10-02 it was 540 MB),
-  several GB of free disk space for Wolfram itself (the Wolfram 15.0.1
-  installation on the verification machine occupies about 9.3 GB) and about 0.3 GB of free memory
-  for the Wolfram kernel.
+* A computer with Windows 10 or 11, macOS, or Linux, with about 2 GB of free disk space for the
+  repository (on 2026-10-08 the clone downloaded about 340 MB and then occupied about 956 MB, its
+  hidden `.git` folder of 340 MB included; the repository grows over time), several GB of free
+  disk space for Wolfram itself (the Wolfram 15.0.1 installation on the verification machine
+  occupies about 9.3 GB) and about 0.3 GB of free memory for the Wolfram kernel.
 * The Wolfram language engine with the command-line program `wolframscript`, either the free
   Wolfram Engine for Developers (option A) or a licensed Mathematica / Wolfram desktop product
   (option B). The verification used Wolfram 15.0.1 with WolframScript 1.14.0.
@@ -157,7 +192,8 @@ Option A, the free Wolfram Engine for Developers:
 
 1. Open https://www.wolfram.com/engine/ in a web browser and choose the download for your
    operating system. You need a free Wolfram ID (an account at https://account.wolfram.com created
-   with your own e-mail address). Read the licence terms on that page before you accept them.
+   with your own e-mail address). Read the licence terms on that page; accepting them is your own
+   decision.
 2. Install it.
    * Windows: run the downloaded installer (`.exe`) and accept the default choices. It installs
      WolframScript into `C:\Program Files\Wolfram Research\WolframScript\` and adds it to the
@@ -181,9 +217,9 @@ for the product named Wolfram (version 14.1 and later, which includes the verifi
 or `/Applications/Mathematica.app/Contents/MacOS/wolframscript` for older Mathematica versions
 (the command `ls /Applications/*.app/Contents/MacOS/wolframscript` in Terminal shows which one you
 have); on Linux the installer links it as `/usr/local/bin/wolframscript`. If the plain command
-`wolframscript` is not found, use that full
-path in place of `wolframscript` in every command below (in PowerShell put `& ` in front of a
-quoted full path, for example `& "C:\Program Files\Wolfram Research\WolframScript\wolframscript.exe" -version`).
+`wolframscript` is not found, use that full path in place of `wolframscript` in every command
+below (in PowerShell put `& ` in front of a quoted full path, for example
+`& "C:\Program Files\Wolfram Research\WolframScript\wolframscript.exe" -version`).
 
 Do not run the script from inside a Mathematica notebook with `Get[...]`: its last line is
 `Exit[...]`, which quits the notebook's kernel. Always use `wolframscript` in a terminal.
@@ -247,12 +283,14 @@ Replace `C:\path\to\Dirac_claude` or `~/path/to/Dirac_claude` with the folder th
 created. Forward slashes `/` in the script path work on all three systems (also in PowerShell).
 The third line prints the exit code of the run. To also measure the time, use
 `Measure-Command { wolframscript -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls | Out-Default }`
-in PowerShell, or put `time ` in front of the `wolframscript` command in bash/zsh.
+in PowerShell (it prints the time, then `$LASTEXITCODE` gives the exit code), or put `time ` in
+front of the `wolframscript` command in bash/zsh.
 
-The run prints nothing for about 20 to 35 seconds (it is computing) and then prints one line;
-section 4 says exactly what to expect.
+The run prints nothing for about half a minute to one and a half minutes, or longer on a slow or
+busy computer (it is computing; the time depends strongly on how busy the computer is, section 4),
+and then prints one line; section 4 says exactly what to expect.
 
-### 3.6 If it fails
+### 3.6 If it fails, or if you want to stop a run
 
 * `wolframscript : The term 'wolframscript' is not recognized ...` (PowerShell) or
   `wolframscript: command not found` (macOS/Linux): Wolfram is not installed, or the terminal was
@@ -261,45 +299,65 @@ section 4 says exactly what to expect.
 * A request for a Wolfram ID and password, or a message that the engine is not activated or that
   the kernel could not be launched: activate it once with `wolframscript -activate` (needs
   internet).
+* A single line beginning with `ERROR  ` (ERROR and two spaces), followed by nothing else, and exit
+  code `1`. The run stopped on purpose and wrote no file, except in the last of these cases. In
+  every line `<root>` stands for the full path of your repository folder; the lines are shown as
+  printed on Windows (on macOS and Linux the separators are `/`; expected, not verified there):
+  * `ERROR  <root>\Revision\algebra\gammas.json: input file not found`: the author's matrices are
+    missing (usually only part of the repository was copied). Clone the whole repository (3.4), or
+    restore the file with `git checkout -- Revision/algebra/gammas.json`.
+  * `ERROR  <root>\Revision\algebra\gammas.json: not a JSON object (Import[..., "RawJSON"] failed)`,
+    `...: missing keys ...`, `...: <name> is not a list of ...`, or
+    `...: gamma[0][0][0] = 0.5 is not an exact rational in the fixture encoding (a JSON integer, or a string "p/q" in lowest terms with q > 1)`
+    (the place and the value vary): `gammas.json` was changed or damaged. Restore it with
+    `git checkout -- Revision/algebra/gammas.json`.
+  * `ERROR  <root>\Revision\field_equations_a4\wolfram\FieldEquationsA4.wl: package not found`
+    (or `...: Get failed`): the package is missing. Restore it with
+    `git checkout -- Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` or clone again.
+  * `ERROR  cannot write <root>\Revision\field_equations_a4\wolfram\..\a4-equations.json`: the
+    first output could not be opened for writing (write-protected, or open in a program that locks
+    it); nothing was written. Make the file writable, close such programs and run again.
+  * `ERROR  cannot write <root>\Revision\field_equations_a4\wolfram\..\reports\wolfram-a4-report.json`:
+    the folder `reports` is missing, or the report is write-protected or locked. In this case the
+    run HAS already rewritten `a4-equations.json` (with the same bytes as before if everything else
+    is in order) and then stopped without a `checks:` line. The folder `reports` also holds the
+    Python outputs of this directory; restore it with
+    `git checkout -- Revision/field_equations_a4/reports` and run again.
 * `Import::nffil: File ...lovelock-tensors.json not found during Import.`, followed by
   `Part::partd`, `Part::partw` and `General::stop` messages (all on standard output), the line
-  `checks: 47, failed: 6` with six lines
+  `checks: 52, failed: 6` with six lines
   `FAIL P1_direct_equals_gkd_branch_monomials ...` to `FAIL L3_direct_equals_gkd_branch ...`, and
-  exit code 1: the input file is missing, usually because only part of the repository was copied.
-  Clone the whole repository (3.4). This failed run has overwritten the committed report with a
-  FAIL report; restore it with
-  `git checkout -- Revision/field_equations_a4/reports/wolfram-a4-report.json` (this exact failure
-  was produced on purpose during the verification, section 6).
-* `Get::noopen: Cannot open ...FieldEquationsA4.wl.` followed by many `Part::`, `ReplaceAll::`,
-  `First::` and `General::stop` messages: the package file is missing. The run then does NOT
-  finish by itself (during the verifications it was still running after 10 minutes, and in
-  repeats after 3 minutes and after 2 minutes, and was stopped). Stop it by ending the Wolfram
-  kernel process, which is how it was stopped during the verification: on Windows end
-  `wolfram.exe` in the Task Manager (Details tab; if several are listed, end the one using CPU
-  time); on macOS or Linux find the process number with `ps aux | grep -i wolfram` and end
-  it with `kill <process number>`. Pressing Ctrl+C in the terminal may also work. After the kernel
-  is ended, wolframscript prints the line `The product exited for an unknown reason.` (on the error
-  stream) and ends with exit code `-1` (measured on Windows; `$LASTEXITCODE` then shows `-1`). This
-  message only reports that you ended the kernel; it is not a new fault, and the two output files
-  are not changed. Then restore the package with
-  `git checkout -- Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` or clone again.
-* `OpenWrite::noopen: Cannot open ...wolfram-a4-report.json.` (or `...a4-equations.json.`)
-  followed by `BinaryWrite::stream` and `Close::stream`: the output folder is missing or the file
-  is write-protected or open in a program that locks it. Note that the run may still print
-  `checks: 47, failed: 0` and exit with code 0 although that file was NOT written (observed in
-  both verifications with the `reports` folder deleted). Restore the folder with
-  `git checkout -- Revision/field_equations_a4/reports`, close programs that hold the file, and run
-  again.
+  exit code 1: the second input is missing (this input is not read strictly; the six comparisons
+  with the Rust results fail instead). Clone the whole repository (3.4). This failed run has
+  overwritten the committed report with a FAIL report (`a4-equations.json` keeps its bytes);
+  restore with
+  `git checkout -- Revision/field_equations_a4/reports/wolfram-a4-report.json Revision/gkd_lovelock/results/lovelock-tensors.json`.
 * Any line beginning with `FAIL ` and a nonzero exit code although every file is present: a check
   did not pass. Write down the printed name, restore the outputs (section 5) and report it; do not
   edit the script. This did not happen in any verification run.
-* The run takes much longer than a minute: a slow or busy computer (the measured kernel CPU time
-  is about 20 to 23 s; see section 4). Wait; the computation needs no input from you.
-* All 47 checks pass but `git status` shows `a4-equations.json` or `wolfram-a4-report.json` (or
+* The run takes much longer than one and a half minutes: a slow or busy computer (the measured
+  kernel CPU time of the runs that computed everything was 35 s to 46 s on 2026-10-08; see
+  section 4). Wait; the computation needs no input from you.
+* To stop a run that you do not want to wait for, end the Wolfram KERNEL, not `wolframscript`:
+  * Windows: in the Task Manager (Details tab) end the `wolfram.exe` process that uses CPU time
+    (each run has one; a second `wolfram.exe` of the run, a licence query, ends within a second
+    after the start). `wolframscript` then prints `The product exited for an unknown reason.` on
+    the error stream and ends with exit code `-1` (`$LASTEXITCODE` shows `-1`). This message only
+    reports that you ended the kernel. Neither output is changed (both are written only at the
+    very end of a run), and WolframScript removes its two temporary files (section 5).
+  * macOS or Linux: `ps aux | grep -i wolfram` lists `wolframscript`, the kernel (`WolframKernel`
+    or `wolfram`) and the `grep` command itself. End the `WolframKernel` (or `wolfram`) process
+    with the high `%CPU` value, not `wolframscript`, with `kill <process number>`; if a kernel is
+    still running after `wolframscript` has ended, end it too. (Measured on Windows only.)
+  * If you end `wolframscript` itself instead (for example with End task in the Task Manager), the
+    kernel ended together with it in the test of section 6.3 (no kernel was left running), the
+    outputs are unchanged, but WolframScript's two temporary files stay behind (section 5). Pressing
+    Ctrl+C in the terminal was not tested; afterwards check as above that no kernel is left running.
+* All 52 checks pass but `git status` shows `a4-equations.json` or `wolfram-a4-report.json` (or
   both) as modified: you are probably using a Wolfram version other than 15.0.1, whose TeX or
   InputForm formatting differs. Both files contain expressions formatted by Wolfram:
   `a4-equations.json` in InputForm and TeX, and the explanations in `wolfram-a4-report.json` in
-  InputForm (for example `"detail": "L_(1) = 12*ad1^2 - 84*H^2"`). The mathematics (the 47 checks)
+  InputForm (for example `"detail": "L_(1) = 12*ad1^2 - 84*H^2"`). The mathematics (the 52 checks)
   is what matters; only Wolfram 15.0.1 was verified to reproduce the committed bytes. Restore both
   committed files with
   `git checkout -- Revision/field_equations_a4/a4-equations.json Revision/field_equations_a4/reports/wolfram-a4-report.json`.
@@ -309,15 +367,15 @@ section 4 says exactly what to expect.
 Printed on the screen (standard output), exactly one line:
 
 ```text
-checks: 47, failed: 0
+checks: 52, failed: 0
 ```
 
-Nothing is printed on the error stream, no `FAIL` line appears, and the exit code is `0`
+Nothing is printed on the error stream, no `FAIL` or `ERROR` line appears, and the exit code is `0`
 (`$LASTEXITCODE` in PowerShell, `echo $?` in bash/zsh). If a check failed, the line would read
-`checks: 47, failed: <n>`, each failed check would be listed on a line
+`checks: 52, failed: <n>`, each failed check would be listed on a line
 `FAIL <name>: <explanation>`, and the exit code would be `1`.
 
-Files written (both are overwritten on every run):
+Files written (both are overwritten on every run that reaches its end):
 
 1. `Revision/field_equations_a4/a4-equations.json` (40843 bytes, 788 lines). Its top-level keys
    are `title`, `producer`, `conventions`, `lovelockTensors`, `generalSource`, `einstein`,
@@ -326,21 +384,21 @@ Files written (both are overwritten on every run):
    For example `generalSource.evolution_F.input` is
    `2*alpha1 - 48*ad1^2*alpha2 + 720*ad1^4*alpha3 - 80*alpha2*H^2 + 864*ad1^2*alpha3*H^2 + 720*alpha3*H^4`
    (ad1 = a4').
-2. `Revision/field_equations_a4/reports/wolfram-a4-report.json` (11814 bytes, 244 lines). Its first
+2. `Revision/field_equations_a4/reports/wolfram-a4-report.json` (14190 bytes, 269 lines). Its first
    six lines are:
 
    ```text
    {
      "producer": "Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls",
      "spec": "Revision/SPEC.md section 5",
-     "checkCount": 47,
+     "checkCount": 52,
      "failedCount": 0,
      "verdict": "PASS",
    ```
 
    Show them with `Get-Content Revision/field_equations_a4/reports/wolfram-a4-report.json -TotalCount 6`
    (PowerShell) or `head -n 6 Revision/field_equations_a4/reports/wolfram-a4-report.json`
-   (macOS/Linux). If Python is installed, this prints `47 0 PASS`:
+   (macOS/Linux). If Python is installed, this prints `52 0 PASS`:
    `python -c "import json; r=json.load(open('Revision/field_equations_a4/reports/wolfram-a4-report.json')); print(r['checkCount'], r['failedCount'], r['verdict'])"`
    (use `python3` on macOS/Linux).
 
@@ -353,7 +411,7 @@ How to check that you reproduced the committed results exactly:
   `shasum -a 256 <file>` (macOS) or `sha256sum <file>` (Linux), and compare with the sha256 of
   the two output rows in section 2.
 
-The 47 checks, in the order of the report (all PASS):
+The 52 checks, in the order of the report (all PASS):
 
 | section | checks |
 | --- | --- |
@@ -362,17 +420,19 @@ The 47 checks, in the order of the report (all PASS):
 | field equations, general source (7) | `independent_components`, `evolution_factorises_a4pp_times_F`, `evolution_F_not_identically_zero`, `algebraic_identity_x1_plus_x5_minus_2x8`, `x8_component_contains_no_a4pp`, `constraint_propagation_bianchi`, `conservation_components` |
 | Einstein case (3) | `einstein_components`, `einstein_null_energy_x8`, `einstein_no_vacuum_solution` |
 | linear member (3) | `linear_member_equal_pressures`, `linear_member_vacuum_factor`, `einstein_gauss_bonnet_vacuum_linear` |
-| spinor sources (13) | `clifford_relations_own_rep`, `C_properties_own_rep`, `spin_connection_antisymmetric`, `Omega_x4_Omega_x8_vanish`, `gamma_mu_anticommutes_with_Omega_mu_no_sum`, `gravity_term_gamma_mu_Omega_mu`, `condensate_equation_x8_consistent`, `condensate_S_constant`, `condensate_adjoint_equation`, `condensate_kinetic_tensor_diagonal`, `condensate_offdiagonal_are_three_gamma_bilinears`, `condensate_einstein_quadratic_U`, `condensate_diagonal_witness_exact` |
+| spinor sources (18) | the author's T16: `fixture_author_T16_read`, `clifford_relations_author_T16`, `C_properties_author_T16`; comparison representation: `clifford_relations_own_rep`, `C_properties_own_rep`, `representations_equivalent_author_T16_own_rep`; in T16: `spin_connection_antisymmetric`, `Omega_x4_Omega_x8_vanish`, `gamma_mu_anticommutes_with_Omega_mu_no_sum`, `gravity_term_gamma_mu_Omega_mu`, `condensate_equation_x8_consistent`, `condensate_S_constant`, `condensate_adjoint_equation`, `condensate_kinetic_tensor_diagonal`, `condensate_offdiagonal_are_three_gamma_bilinears`, `offdiagonal_coefficients_representation_independent`, `condensate_einstein_quadratic_U`, `condensate_diagonal_witness_exact` |
 
-Run time on the verification machine (Intel Core Ultra 9 275HX, 24 cores, 191 GB memory,
-Windows 11 Pro for Workstations): on 2026-10-02, 18.9 s and 19.1 s (wall clock) for the two
-fresh-clone runs and 20.4 s to 31.2 s for the repeat runs, with 20.1 s of kernel CPU time; on
-2026-10-07, 33.6 s and 32.4 s for the two fresh-clone runs and 27.4 s to 33.7 s for the repeat
-runs, with 21.8 s to 23.1 s of kernel CPU time. The machine was shared with other jobs during both
-verifications (8 to 22 Wolfram kernels of other jobs running, CPU load 100 % during the runs of
-2026-10-07), so these times are upper values for this machine; a slower laptop may need a minute
-or two. Peak memory (working set): 226.5 MB to 227.0 MB for the Wolfram kernel and 16.7 MB to
-17 MB for `wolframscript`.
+Run time and memory, measured on 2026-10-08 on the verification machine (Intel Core Ultra 9
+275HX, 24 cores, 191 GB memory, Windows 11 Pro for Workstations), section 6.3: wall clock 36.3 s
+to 85.8 s for the five successful runs; kernel CPU time 34.8 s and 43.7 s in the two monitored
+successful runs (43.1 s to 46.0 s in the failure tests D, E and G, which also compute everything).
+The wall time depends strongly on the load of the machine (it was shared with other jobs; CPU load
+between 8 % and 100 % during the runs). A slower or busier computer may need a few minutes. Peak
+memory (working set): 272.3 MB to 272.8 MB for the Wolfram kernel and 16.7 MB to 16.8 MB for
+`wolframscript` (monitored runs and failure tests that computed everything). (The
+version before the patch needed about 20 to 23 s of kernel CPU time and 226 to 227 MB; the patched
+set also builds the intertwiner and runs the condensate pipeline a second time in the comparison
+representation.)
 
 ## 5. Side effects
 
@@ -381,36 +441,49 @@ or two. Peak memory (working set): 226.5 MB to 227.0 MB for the Wolfram kernel a
   `Revision/field_equations_a4/reports/wolfram-a4-report.json`. On a successful run with Wolfram
   15.0.1 the new bytes are identical to the committed ones, so only the files' modification times
   change and `git status --porcelain` stays empty.
-* A failed run overwrites the committed report with a report whose verdict is `FAIL` (and, if the
-  equations came out differently, also `a4-equations.json`); `git status --porcelain` then shows
-  ` M Revision/field_equations_a4/reports/wolfram-a4-report.json`.
+* A failed run (a `FAIL` line) overwrites the committed report with a report whose verdict is
+  `FAIL` (and, if the equations came out differently, also `a4-equations.json`);
+  `git status --porcelain` then shows ` M Revision/field_equations_a4/reports/wolfram-a4-report.json`.
+* A run that stops with an `ERROR  ` line writes no file, except when the report cannot be written:
+  then `a4-equations.json` has been written just before (section 3.6). A run whose kernel or
+  `wolframscript` is ended before the end writes no file.
 * No other file in the repository is created, changed or deleted (checked with
-  `git status --porcelain --ignored -uall`, which listed nothing after each checked successful
-  run, and with a search for files written during a run). The script creates no folders and no
-  temporary files of its own.
-* Outside the repository, WolframScript itself (not this script) keeps small bookkeeping files in
-  its per-user folders. On Windows these were written during the runs:
-  `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary\tmp_*` (files of 0 to about
-  1.3 kB) and `%APPDATA%\Wolfram\WolframScript\WolframScript.conf` (both dates); also
-  `%APPDATA%\Wolfram\Paclets\Temporary\pacletSiteData_15.lock` (2026-10-02) and
-  `%APPDATA%\Wolfram\ApplicationData\ProcessLink\Streams\wl-stream-*` (2026-10-07) (macOS and
-  Linux use the corresponding per-user Wolfram folders). Other Wolfram kernels were running at the same time on
-  the verification machine, so these writes could not be attributed to this run alone. They are
-  harmless and you never need to delete them.
+  `git status --porcelain --ignored -uall`, which listed nothing after each checked run). The
+  script creates no folders and no temporary files of its own.
+* Outside the repository, WolframScript itself (not this script) uses its per-user folders. On
+  Windows, measured on 2026-10-08:
+  * Every run creates two files `tmp_<10 random letters and digits>` in
+    `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary`: one stays empty (0 bytes), the
+    other collects what the run prints (in run 2 of section 6.3 it held exactly the 23 bytes
+    `checks: 52, failed: 0` plus CR LF; in the failure test with `lovelock-tensors.json` missing,
+    the 2372 bytes printed by that run). `wolframscript` deletes both when it ends by itself, also
+    after an `ERROR  ` line, a `FAIL` line, or when you end the kernel (section 3.6).
+  * If `wolframscript` itself is ended before it finishes (End task in the Task Manager, or a
+    killed process), the two files stay behind (both 0 bytes in the test of section 6.3, because
+    the run had not printed anything yet). They are harmless and are never read again by this set;
+    you may delete `tmp_*` files there when no `wolframscript` is running. Several such left-over
+    pairs of other jobs were present on the verification machine.
+  * `%APPDATA%\Wolfram\WolframScript\WolframScript.conf` (238 bytes) is rewritten at the start of
+    a run (its modification time was the start time of test G of section 6.3), and the folder
+    `%APPDATA%\Wolfram\Paclets\Temporary` was modified at the same moment; earlier verifications
+    also saw `%APPDATA%\Wolfram\ApplicationData\ProcessLink\Streams\wl-stream-*` written. Other
+    Wolfram jobs ran on the same machine, so the last two could not be attributed to this run
+    alone.
+  * macOS and Linux use the corresponding per-user Wolfram folders (not verified there).
 * Processes: `wolframscript` starts two Wolfram processes one after the other (measured on
-  2026-10-07 by listing the child processes of `wolframscript`): first a short licence query
-  (`wolfram.exe -wlbanner -licenseinfo`, about 0.1 s of CPU time, it ends at once), then the
-  kernel that runs the script (`wolfram.exe ... -linkmode Connect -linkname <name>_shm -mathlink`,
-  connected to `wolframscript` through shared memory; on macOS and Linux the process name contains
-  `wolfram` or `Wolfram`, for example `WolframKernel`). There are no parallel subkernels. The
-  kernel quits at the end of the run (the script ends with `Exit[0]` or `Exit[1]`); no kernel was
-  left running after any verification run.
-* Network: none needed. The script contains no network functions. During a monitored run on
-  2026-10-02 the only network connections of `wolframscript` and its kernel were local loopback
-  connections (127.0.0.1) between the two programs; during a monitored run on 2026-10-07 (9
-  samples of the TCP connections and UDP endpoints of `wolframscript` and both `wolfram.exe`
-  processes) none was seen at all. The Wolfram licence on the verification machine is node-locked
-  (`$NetworkLicense` is `False`), so no licence server was contacted.
+  2026-10-08 by listing the child processes of `wolframscript` every 0.2 s): first a short licence
+  query (`wolfram.exe -wlbanner -licenseinfo`, 0.05 s to 0.12 s of CPU time, it ends at once),
+  then the kernel that runs the script (`wolfram.exe -runfirst ... -linkmode Connect -linkname
+  <name>_shm -mathlink`, connected to `wolframscript` through shared memory; on macOS and Linux the
+  process name contains `wolfram` or `Wolfram`, for example `WolframKernel`). There are no parallel
+  subkernels. The kernel quits at the end of the run (the script ends with `Exit[0]` or `Exit[1]`);
+  no kernel was left running after any verification run, also not after `wolframscript` was ended.
+* Network: none needed. The script and the package contain no network functions. During test G of
+  section 6.3 (54 samples of the TCP connections and UDP endpoints of `wolframscript` and its two
+  child processes) none was seen at all; earlier verifications (2026-10-02, 2026-10-07) saw only
+  local loopback connections (127.0.0.1) between `wolframscript` and its kernel, or none. The
+  Wolfram licence on the verification machine is node-locked (`$NetworkLicense` is `False`), so no
+  licence server was contacted.
 * To restore the committed state after any run:
 
   ```text
@@ -422,294 +495,249 @@ or two. Peak memory (working set): 226.5 MB to 227.0 MB for the Wolfram kernel a
 
 ## 6. Verification record
 
-The set was verified on 2026-10-02 (6.1) and verified again, from new fresh clones, on 2026-10-07
-(6.2), after the workflow that wrote this file had been interrupted by a session limit; 6.3 lists
-the open remarks. Both verifications give the same result: the set executes correctly and
-reproduces both committed outputs byte for byte.
+The set was verified on 2026-10-02 (6.1) and on 2026-10-07 (6.2) in the version BEFORE the patch
+of commit `e377368`, and on 2026-10-08 (6.3) in the current version. 6.4 lists the findings of the
+independent verifier of 2026-10-07 and what was done with each; 6.5 the open remarks.
 
-### 6.1 Verification of 2026-10-02
+### 6.1 Verification of 2026-10-02 (version before the patch)
 
-| item | value |
-| --- | --- |
-| date | 2026-10-02 |
-| commits verified | run 1: `45d47343ae480df46e06689ed822b8f9a88a8030`; run 2: `c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e` (the remote had advanced in between; the five files of section 2 are identical in both commits, `git diff 45d4734 c2b33cc` lists no change in them) |
-| last commits that changed the files | `verify_field_equations_a4.wls` and `a4-equations.json`: `70fab64fca07c3e27d71355f308c09aeed560a9e`; `FieldEquationsA4.wl` and `wolfram-a4-report.json`: `2c61fb04bd4f607675b2d8122d60df933ecc8fa2`; `lovelock-tensors.json`: `ad02ebb5b3d944cb396ea6974679c528250818d7` (all 2026-10-01) |
-| clones | two fresh `git clone https://github.com/once-ere/Dirac_claude.git` in a scratch folder, and a third one (commit `c2b33cc`) for the review corrections listed at the end of this section; no uncommitted file was copied in (none is needed by this set) |
-| operating system | Windows 11 Pro for Workstations 10.0.26200, Intel Core Ultra 9 275HX (24 cores), 191 GB memory |
-| Wolfram | Wolfram 15.0.1 for Microsoft Windows (64-bit) (July 2, 2026), Professional licence, `$ProcessorCount` 24, `$MaxLicenseProcesses` Infinity; WolframScript 1.14.0; kernel `C:/Program Files/Wolfram Research/Wolfram/15.0.1/wolfram.exe` |
-| shells | PowerShell 7.6.6 and Git Bash (git 2.51.2.windows.1) |
-| command | `wolframscript -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` from the repository root |
+Commits `45d4734` and `c2b33cc`, two fresh clones, Windows 11 Pro for Workstations 10.0.26200,
+Wolfram 15.0.1, WolframScript 1.14.0. That version had 47 checks (it computed the spinor
+statements with its own Kronecker-product matrices only) and its files had other sha256 (script
+`9cd8d9a1...2965`, 34686 bytes; package `4ac40fef...c8f8`, 8555 bytes; report `2c070eda...857c`,
+11814 bytes; `a4-equations.json` as now). Eight runs, each with exit code 0 and
+`checks: 47, failed: 0`; in the seven runs whose outputs were compared, both outputs were
+byte-identical to the committed files; wall times 18.9 s to 31.2 s, 20.1 s of kernel CPU time (one
+measurement), kernel peak memory 226.2 MB to 227.0 MB. Failure tests: with `lovelock-tensors.json` missing,
+`checks: 47, failed: 6` and exit code 1; with the `reports` folder missing, exit code 0 although
+the report was not written; with the package missing, the run did not finish (stopped after 10
+minutes by ending the kernel). The last two behaviours were changed by the patch (section 3.6).
 
-Runs (all with the command above unless stated):
+### 6.2 Re-verification of 2026-10-07 (version before the patch)
 
-| run | where | exit code | printed line | wall time | peak memory (kernel) | outputs vs committed |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1 | fresh clone 1 (commit 45d4734) | 0 | `checks: 47, failed: 0` | 18.9 s | 227.0 MB | both byte-identical |
-| 2 | fresh clone 2 (commit c2b33cc) | 0 | `checks: 47, failed: 0` | 19.1 s | 226.2 MB | both byte-identical; also identical to run 1 |
-| 1b | clone 1 again (over run 1's outputs) | 0 | `checks: 47, failed: 0` | 23.6 s | 227.0 MB | not compared on its own (run 1c overwrote its outputs before the comparison) |
-| 1c | clone 1, started from the folder `Revision/field_equations_a4/wolfram` with `wolframscript -file verify_field_equations_a4.wls` | 0 | `checks: 47, failed: 0` | 20.4 s | not measured | both byte-identical |
-| 3 | clone 2 again, network endpoints monitored | 0 | `checks: 47, failed: 0` | not measured | not measured | both byte-identical; loopback connections only |
-| 4 | clone 1 again, CPU time measured | 0 | `checks: 47, failed: 0` | 27.8 s (kernel CPU 20.1 s; machine load 100 %, up to 22 kernels of other jobs) | not measured | both byte-identical |
-| 5 | a minimal copy containing only the script, the package, the input and an empty `reports` folder (no outputs), in a folder whose path contains spaces | 0 | `checks: 47, failed: 0` | not measured | not measured | both written anew and byte-identical |
-| 6 | fresh clone 3 (commit c2b33cc), after the repeated missing-package test below and the restore of the package, during the review of this file | 0 | `checks: 47, failed: 0` | 31.2 s (CPU load 100 %, 16 Wolfram kernels running) | not measured | both byte-identical; `git status --porcelain --ignored -uall` empty |
+Commits `a4c5eda` and `cb6e78f`, three fresh clones, Windows 11 10.0.26300, the same files as in
+6.1. Six runs: exit code 0, `checks: 47, failed: 0`, both outputs byte-identical, wall times 27.4 s
+to 33.7 s, 21.8 s to 23.1 s of kernel CPU time, kernel peak memory 226.5 MB to 227.0 MB; the three
+failure tests of 6.1 repeated with the same behaviour. A supplementary exact check (10 of 10 PASS)
+showed that the matrices of that version were the author's matrices in another basis (an integer
+intertwiner S with S^T S = 128 I16). The independent verifier of that day measured wall times of
+35.8 s to 64.0 s on the loaded machine (findings in 6.4).
 
-Byte identity, per output, over runs 1, 2, 1c, 3, 4, 5 and 6 (compared with `cmp` and `sha256sum`,
-or with `git status`, which compares content because the files are stored byte for byte):
-
-| output | sha256 in every run | identical to committed | identical between runs |
-| --- | --- | --- | --- |
-| `Revision/field_equations_a4/a4-equations.json` | `98d3245d30e5c25f7bbdfcd186d5723aec2059a1feeaef4cc3c3249684de03b4` | yes | yes |
-| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `2c070eda41303a6434a9860ce4bddd74510b2494e345332a8f82ddabee13857c` | yes | yes |
-
-The captured standard output of runs 1, 1b, 2, 3 and 4 was the 21 characters
-`checks: 47, failed: 0` followed by the Windows console line ending CR LF (23 bytes in all); the
-captured error stream of runs 1, 1b, 2 and 3 was empty (0 bytes). `git status --porcelain
---ignored -uall` in the clones was empty after runs 1, 2, 1c, 3 and 4. Check counts: 47 checks,
-47 PASS, 0 FAIL.
-
-Deliberate failure tests (in scratch copies, then restored), recorded so that section 3.6 states
-measured behaviour:
-
-* `lovelock-tensors.json` removed: `Import::nffil` message, `checks: 47, failed: 6` (the six
-  comparisons with the Rust results: `P1/P2/P3_direct_equals_gkd_branch_monomials`,
-  `L1/L2/L3_direct_equals_gkd_branch`), exit code 1, report overwritten with `"verdict": "FAIL"`;
-  `a4-equations.json` was still byte-identical (it does not depend on that input). Restored with
-  `git checkout`.
-* `reports` folder removed: `OpenWrite::noopen`, `BinaryWrite::stream`, `Close::stream`; the
-  report was not written, but the run printed `checks: 47, failed: 0` and exited with code 0.
-* `FieldEquationsA4.wl` removed: `Get::noopen` and cascading messages; the run had not finished
-  after 10 minutes (546 s of kernel CPU time) and was stopped by ending the kernel process.
-  Repeated in a third fresh clone (commit `c2b33cc`) with the documented command: on standard
-  output `Get::noopen` (1), `Part::partd` (3), `Part::partw` (3), `ReplaceAll::reps` (3),
-  `Part::pkspec1` (1), `First::nofirst` (3) and `General::stop` (4) messages (1740 bytes); the run
-  was still going after 188 s (128.7 s of kernel CPU time). Ending only this run's kernel
-  (`wolfram.exe`, the child process of this run's `wolframscript`) made `wolframscript` exit within
-  0.1 s with exit code -1 and the 42 bytes `The product exited for an unknown reason.` plus LF on
-  the error stream. Both outputs were unchanged (sha256 as in section 2); `git checkout --
-  Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` restored the package (sha256
-  `4ac40fef...c8f8`) and `git status --porcelain` was then empty.
-
-Fixes made: none. The set executes correctly and reproduces both committed outputs byte for byte;
-no file of the set was changed.
-
-Corrections to this provenance file after an independent review (2026-10-02), each re-checked in
-fresh clone 3 (commit `c2b33cc`); none changes a result:
-
-* Section 3.4: the repository root was described as containing `dirac-main`; that folder is
-  ignored by `.gitignore` (line 282, `/dirac-main/`) and is not in a clone (`git ls-tree
-  --name-only HEAD` lists `.cargo`, `.gitattributes`, `.gitignore`, the two author notebooks,
-  `HANDOFF.md`, `HANDOFF.md.txt`, `LICENSE`, `NOTICE`, `README.md`, `Revision`, `artifacts`,
-  `handoff`, `notebooks`, `provenance`, `requirements-stage3.txt`, `scripts`, `studies`, `tests`,
-  `wolfram`). The text now names `Revision`, `scripts`, `wolfram`, `notebooks` and `README.md`.
-* Section 3.1: disk space. Measured in the fresh clone: pack 126.99 MiB (`git count-objects -vH`),
-  whole clone 538,056,938 bytes (`du -sb .`; 543,998,976 bytes allocated on disk), `.git`
-  133,534,691 bytes, working tree without `.git` 404,522,247 bytes; the Wolfram 15.0.1
-  installation folder 9,334,034,004 bytes. The text said 0.5 GB and 390 MB and gave no figure for
-  Wolfram.
-* Section 3.6, last item: `wolfram-a4-report.json` also holds InputForm-formatted expressions
-  (its `detail` texts are built with `inp[...]`, script lines 94, 132, 186, 283-284), so it is now
-  named and restored together with `a4-equations.json`; the two-file `git checkout` command was
-  tested (both files altered, restored, `git status --porcelain` empty, sha256 as in section 2).
-* Section 1, last item: `test_pair_creation_proofs_publication.py` reads only
-  `wolfram-a4-report.json` (its line 77); the other two publication tests read both outputs.
-* Section 3.6, missing-package item: the message and exit code after the kernel is ended (the
-  repeated failure test above).
-* Section 3.2, option B: the macOS path now gives `/Applications/Wolfram.app/...` (product named
-  Wolfram) and `/Applications/Mathematica.app/...` (older Mathematica) and a command to find it.
-  Evidence for `Wolfram.app`: the Wolfram 15.0.1 installation's own files use it, for example
-  `SystemFiles/Components/KernelObjects/Kernel/Evaluators/SshKernels.wl` (default macOS kernel
-  command `/Applications/Wolfram.app/Contents/MacOS/wolfram`) and
-  `SystemFiles/Links/WSTPServer/wstpserver.conf-sample`
-  (`/Applications/Wolfram.app/Contents/MacOS/WolframKernel`). Not verified on a Mac.
-
-### 6.2 Re-verification of 2026-10-07
+### 6.3 Verification of 2026-10-08 (the current version)
 
 | item | value |
 | --- | --- |
-| date | 2026-10-07 |
-| commits verified | clones 1 and 2: `a4c5eda1df069a43a55ff8b57148f5de8edd1670`; clone 3: `cb6e78fcd8fdd3f6b360cdd6ad9d8f51e6453bbd` (the remote had advanced in between; `git diff a4c5eda cb6e78f` changes no file of section 2, nor `Revision/algebra/gammas.json`). The five files of section 2 are unchanged since the verification of 6.1 (same sha256, same last commits) |
-| clones | three fresh `git clone https://github.com/once-ere/Dirac_claude.git` in a scratch folder; no uncommitted file was copied in (none is needed by this set) |
+| date | 2026-10-08 |
+| commit verified | `477fa9bb12780395ce41db73cfdab294693c52c3` (the remote `main` at the time; it contains the patch `e377368`, and the six files of section 2 have the sha256 given there) |
+| clones | two fresh `git clone https://github.com/once-ere/Dirac_claude.git` in a scratch folder: clone 1 for the measurements and the failure tests, clone 2 (in a folder whose path contains a space) for following this file literally; no uncommitted file was copied in (none is needed by this set) |
+| clone size | clone 1: 955,990,168 bytes (`du -sb`), `.git` 340,131,897 bytes, pack 323.89 MiB (`git count-objects -vH`) |
 | operating system | Windows 11 Pro for Workstations 10.0.26300, Intel Core Ultra 9 275HX (24 cores), 191 GB memory |
-| Wolfram | Wolfram 15.0.1 for Microsoft Windows (64-bit) (July 2, 2026), Professional licence, `$ProcessorCount` 24, `$MaxLicenseProcesses` Infinity, `$NetworkLicense` False; WolframScript 1.14.0; kernel `C:/Program Files/Wolfram Research/Wolfram/15.0.1/wolfram.exe` |
-| shells | PowerShell 7.6.6 (runs started with `Start-Process wolframscript -ArgumentList '-file', ...` from the clone root, standard output and error redirected to files, the child processes sampled every 0.2 s for memory and CPU time) and Git Bash (git 2.51.2.windows.1) for the comparisons |
-| command | `wolframscript -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` from the repository root |
+| Wolfram | Wolfram 15.0.1 for Microsoft Windows (64-bit) (July 2, 2026), WolframScript 1.14.0, kernel `C:/Program Files/Wolfram Research/Wolfram/15.0.1/wolfram.exe` |
+| shells | PowerShell 7.6.6 and Git Bash (git 2.51.2.windows.1) |
+| monitoring | in clone 1 every run was started with `Start-Process wolframscript -ArgumentList '-file', ...` (standard output and error redirected to files), and the child processes (working set, CPU time), the folder `WolframScriptTemporary`, the CPU load and the other Wolfram processes of the machine were sampled every 0.2 s |
 
-Runs (machine load: CPU 99-100 % from other jobs, 8 to 17 other Wolfram kernels running):
+Runs that must succeed:
 
-| run | where | exit code | printed line | wall time | kernel CPU | peak memory (kernel / wolframscript) | outputs vs committed |
+| run | where, how | exit code | printed line | wall time | kernel CPU | peak memory (kernel / wolframscript) | outputs vs committed |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | fresh clone 1 (`a4c5eda`) | 0 | `checks: 47, failed: 0` | 33.6 s | not measured | not measured / 16.7 MB | both byte-identical |
-| 2 | fresh clone 2 (`a4c5eda`) | 0 | `checks: 47, failed: 0` | 32.4 s | 21.8 s | 226.8 MB / 16.7 MB | both byte-identical; also identical to run 1 |
-| 3 | clone 1 again (over run 1's outputs) | 0 | `checks: 47, failed: 0` | 33.2 s | 23.1 s | 226.6 MB / 16.7 MB | both byte-identical |
-| 4 | clone 2, started from the folder `Revision/field_equations_a4/wolfram` with `wolframscript -file verify_field_equations_a4.wls` | 0 | `checks: 47, failed: 0` | 27.4 s | 22.5 s | 227.0 MB / 16.8 MB | both byte-identical |
-| 5 | fresh clone 3 (`cb6e78f`), after the three failure tests below and the restores | 0 | `checks: 47, failed: 0` | 32.4 s | 21.8 s | 226.5 MB / 16.7 MB | both byte-identical |
-| 6 | clone 2 again, network endpoints monitored | 0 | `checks: 47, failed: 0` | 33.7 s | not measured | not measured | both byte-identical; no TCP connection or UDP endpoint seen |
+| 1 | clone 1, from the root, monitored | 0 | `checks: 52, failed: 0` | 36.3 s (CPU load 8-40 %) | 34.8 s | 272.3 MB / 16.7 MB | both byte-identical |
+| 2 | clone 1, from the folder `Revision/field_equations_a4/wolfram` with `wolframscript -file verify_field_equations_a4.wls`, monitored | 0 | `checks: 52, failed: 0` | 72.8 s (CPU load 85-100 %, from other jobs) | 43.7 s | 272.5 MB / 16.8 MB | both byte-identical |
+| 3 | clone 2, the PowerShell commands of 3.5, literally | 0 | `checks: 52, failed: 0` | 85.8 s (CPU load 100 %, from other jobs) | not measured | not measured | both byte-identical |
+| 4 | clone 2, the `Measure-Command` form of 3.5 | 0 | `checks: 52, failed: 0` | 72.8 s (as printed by `Measure-Command`) | not measured | not measured | both byte-identical |
+| 5 | clone 2, the macOS/Linux commands of 3.5 in Git Bash, with `time` | 0 | `checks: 52, failed: 0` | 64.8 s (`real 1m4.762s`) | not measured | not measured | both byte-identical |
 
-In run 1 the sampler picked up the short licence-query process first (section 5, processes) and
-lost the kernel, so its kernel memory and CPU time were not measured; the sampler was corrected
-before run 2 (it then follows every child process of `wolframscript`).
+In runs 1 and 2 the standard output was the 23 bytes `checks: 52, failed: 0` plus CR LF and the
+error stream was empty. The modification times show that both files were rewritten (checked after
+runs 1, 2 and 3). `git status --porcelain` was empty after every run, and
+`git status --porcelain --ignored -uall` after runs 1, 2 and 4 and after the restore that followed
+run 5 (`cmp` had found both outputs of run 5 identical before). In run 2 no other Wolfram process
+was running, so its two temporary files are certainly its own: `tmp_McbZ83OPNO` (0 bytes) and
+`tmp_c4VUZkRVMo` (the 23 printed bytes); both were gone when `wolframscript` had ended.
 
-Byte identity, per output, over runs 1 to 6 (compared with `cmp` against the committed bytes taken
-with `git show HEAD:<path>`, with `sha256sum`, and with `git status --porcelain --ignored -uall`,
-which was empty after every run; the modification times show that every run rewrote both files):
+Failure tests in clone 1 (each restored afterwards with `git checkout -- <path>`;
+`git status --porcelain --ignored -uall` then empty; "outputs untouched" means the modification
+times of both outputs did not change):
 
-| output | sha256 in every run | identical to committed | identical between runs |
-| --- | --- | --- | --- |
-| `Revision/field_equations_a4/a4-equations.json` | `98d3245d30e5c25f7bbdfcd186d5723aec2059a1feeaef4cc3c3249684de03b4` | yes | yes |
-| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `2c070eda41303a6434a9860ce4bddd74510b2494e345332a8f82ddabee13857c` | yes | yes |
+| test | change | exit code | wall time | printed (standard output; the error stream was empty unless stated) | files |
+| --- | --- | --- | --- | --- | --- |
+| A | `Revision/algebra/gammas.json` deleted | 1 | 6.4 s | `ERROR  <root>\Revision\algebra\gammas.json: input file not found` (199 bytes) | outputs untouched |
+| B1 | one entry of `gammas.json` set to the float 0.5 | 1 | 7.5 s | `ERROR  <root>\Revision\algebra\gammas.json: gamma[0][0][0] = 0.5 is not an exact rational in the fixture encoding (a JSON integer, or a string "p/q" in lowest terms with q > 1)` | outputs untouched |
+| B2 | `gammas.json` cut after 1000 bytes | 1 | 6.6 s | `ERROR  <root>\Revision\algebra\gammas.json: not a JSON object (Import[..., "RawJSON"] failed)` | outputs untouched |
+| C | `FieldEquationsA4.wl` deleted | 1 | 3.6 s | `ERROR  <root>\Revision\field_equations_a4\wolfram\FieldEquationsA4.wl: package not found` (223 bytes) | outputs untouched |
+| D | `lovelock-tensors.json` deleted | 1 | 54.4 s | `Import::nffil`, `Part::partd` (3), `Part::partw` (3), `General::stop` (2), `checks: 52, failed: 6` and the six `FAIL` lines of the comparisons with the Rust results (2372 bytes) | report overwritten (`52 6 FAIL`), `a4-equations.json` byte-identical |
+| E | folder `Revision/field_equations_a4/reports` deleted | 1 | 44.4 s | `ERROR  cannot write <root>\Revision\field_equations_a4\wolfram\..\reports\wolfram-a4-report.json` (231 bytes) | `a4-equations.json` rewritten, byte-identical |
+| G | `a4-equations.json` made read-only | 1 | 48.6 s | `ERROR  cannot write <root>\Revision\field_equations_a4\wolfram\..\a4-equations.json` (218 bytes) | outputs untouched (the report was not written either) |
+| F1 | the kernel ended after 16.2 s (`Stop-Process` on the `wolfram.exe ... -mathlink` child) | -1 | 16.4 s | nothing; error stream: the 42 bytes `The product exited for an unknown reason.` plus LF | outputs untouched; both temporary files (`tmp_PBUgRdv4Zi`, `tmp_L4ysA0ZC8v`, 0 bytes) removed; no other Wolfram process was running |
+| F2 | `wolframscript` ended after 15.3 s (`Stop-Process -Force`) | -1 | 15.5 s | nothing; error stream empty | outputs untouched; the kernel had ended 0.5 s later; both temporary files (`tmp_LqAexjlVjd`, `tmp_ej8pDdD6nX`, 0 bytes) left in `WolframScriptTemporary` (deleted by the verifier afterwards); no other Wolfram process was running |
 
-The captured standard output of every run was the 23 bytes `checks: 47, failed: 0` plus CR LF; the
-error stream was empty (0 bytes). Check counts: 47 checks, 47 PASS, 0 FAIL, in every run. The
-kernel of each of runs 2 to 5 had ended when `wolframscript` returned (checked by its process
-number).
+In tests A, B1, B2 and C the line was printed within seconds, before any computation. In test D
+the printed text (2372 bytes) was also found, while the run lasted, in one of WolframScript's two
+temporary files. In test G no TCP connection or UDP endpoint of `wolframscript` or its children
+was seen (54 samples).
 
-Failure tests repeated in fresh clone 3 (each restored afterwards, `git status --porcelain
---ignored -uall` then empty), all with the behaviour stated in section 3.6:
-
-* `lovelock-tensors.json` removed: `Import::nffil`, `Part::partd`, `Part::partw`, `General::stop`
-  on standard output (2375 bytes in all), `checks: 47, failed: 6` and the six `FAIL` lines of the
-  comparisons with the Rust results, exit code 1, 34.8 s; the report was overwritten with
-  `"failedCount": 6` and `"verdict": "FAIL"` (` M` in `git status`), `a4-equations.json` stayed
-  byte-identical. Restored with
-  `git checkout -- Revision/field_equations_a4/reports/wolfram-a4-report.json Revision/gkd_lovelock/results/lovelock-tensors.json`.
-* `reports` folder removed: `OpenWrite::noopen`, `BinaryWrite::stream`, `Close::stream` (461 bytes
-  on standard output), then `checks: 47, failed: 0` and exit code 0 although the report was not
-  written. Restored with `git checkout -- Revision/field_equations_a4/reports`.
-* `FieldEquationsA4.wl` removed: `Get::noopen` (1), `Part::partd` (3), `Part::partw` (3),
-  `ReplaceAll::reps` (3), `Part::pkspec1` (1), `First::nofirst` (3), `General::stop` (4) on standard
-  output (1736 bytes); still running after 120.9 s (98.5 s of kernel CPU time); ending this run's
-  kernel made `wolframscript` exit 0.13 s later with exit code -1 and the 42 bytes
-  `The product exited for an unknown reason.` plus LF on the error stream; both outputs unchanged.
-  Restored with `git checkout -- Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` (sha256
-  `4ac40fef...c8f8` again).
-
-Supplementary Dirac-matrix check (not part of the set; it answers whether this set computes with
-eight real 16 x 16 Dirac matrices, see "The Dirac matrices of this set" in section 1). The script
-below (50 lines, 4288 bytes, sha256
-`f123a5d93d3ff93fd1a3ecc7564e18f2b81ef4d625331afd08a9aad5efacd7ab`, LF) was run from the root of
-fresh clones 1 and 2 with `wolframscript -file <path>/dirac_crosscheck.wls`: exit code 0, about 5 s
-(5.3 s measured), nothing written (`git status --porcelain --ignored -uall` empty). To run it
-yourself, save the text between the fences as `dirac_crosscheck.wls` outside the repository (for
-example in your home folder) and run the command above from the repository root.
+Supplementary Dirac-matrix check (not part of the set). The script below (51 lines, 4680 bytes,
+sha256 `c6fc3a6bf6c7b806116269ec142f374642e6f8d309ff102c1fad9f957e56f781`, LF) uses the package's
+`FEGammaFrame` and `FEC` (the primary matrices) and `FEGammaFrameComparison` and `FECComparison`
+(the comparison representation), reads `gammas.json` with a plain `Import` (independently of the
+package's strict reader), and builds the intertwiner as a group average over the 256 ordered
+products of the gammas (the set itself uses `NullSpace`). It was run from the root of clone 1 with
+`wolframscript -file <path>/dirac_crosscheck.wls`: exit code 0, 12.8 s, nothing written
+(`git status --porcelain --ignored -uall` empty). To run it yourself, save the text between the
+fences as `dirac_crosscheck.wls` outside the repository (for example in your home folder) and run
+that command from the repository root.
 
 ```text
 #!/usr/bin/env wolframscript
-(* dirac_crosscheck.wls - optional supplementary check printed in section 6.2 of
+(* dirac_crosscheck.wls - optional supplementary check printed in section 6.3 of
    Revision/field_equations_a4/wolfram/WOLFRAMSCRIPT_PROVENANCE.md; not part of the set.
    Usage: save this file outside the repository, then, from the repository root:
      wolframscript -file <path to>/dirac_crosscheck.wls
-   Compares the real 16 x 16 representation built in FieldEquationsA4.wl (FEGammaFrame, FEC) with the
-   author's eight real 16 x 16 Dirac matrices as stored in Revision/algebra/gammas.json, exactly.
-   Writes nothing; exit code 0 iff every check passes. *)
+   (1) The set's primary matrices FEGammaFrame and FEC (FieldEquationsA4.wl) are, entry by entry, the author's
+   eight real 16 x 16 matrices T16 and C as stored in Revision/algebra/gammas.json (read here with a plain Import,
+   independently of the package's strict reader). (2) The comparison representation FEGammaFrameComparison,
+   FECComparison is equivalent to them, by an intertwiner built here as a group average (a second route; the set
+   itself uses NullSpace). Exact integers only. Writes nothing; exit code 0 iff every check passes. *)
 root = Directory[];
 Get[FileNameJoin[{root, "Revision", "field_equations_a4", "wolfram", "FieldEquationsA4.wl"}]];
 js = Import[FileNameJoin[{root, "Revision", "algebra", "gammas.json"}], "RawJSON"];
 gA = js["gamma"]; CA = js["C"]; etaA = js["eta"];
-gF = FEGammaFrame; id = IdentityMatrix[16];
+gT = FEGammaFrame; gR = FEGammaFrameComparison; CR = FECComparison; id = IdentityMatrix[16];
 res = {};
 chk[name_, ok_, det_] := (AppendTo[res, {name, TrueQ[ok]}]; Print[If[TrueQ[ok], "PASS ", "FAIL "], name, ": ", det]);
 
-chk["own_rep_eight_real_16x16", Length[gF] == 8 && And @@ (Dimensions[#] == {16, 16} & /@ gF) &&
-   Union[Flatten[gF]] === {-1, 0, 1}, "8 matrices, each 16 x 16, entries in {-1, 0, 1} (integers, hence real)"];
-chk["own_rep_clifford", And @@ Flatten[Table[gF[[a]] . gF[[b]] + gF[[b]] . gF[[a]] == 2 FEEta[[a, b]] id, {a, 8}, {b, 8}]],
-   "{g_a, g_b} = 2 eta_ab I16, eta = " <> ToString[Diagonal[FEEta]]];
-chk["same_signature_and_order", Diagonal[FEEta] === etaA, "eta of FieldEquationsA4.wl = eta of gammas.json = " <> ToString[etaA] <> " (x1..x8)"];
-chk["author_rep_eight_real_16x16", Length[gA] == 8 && Union[Flatten[gA]] === {-1, 0, 1} &&
+chk["author_T16_from_json", Length[gA] == 8 && Union[Flatten[gA]] === {-1, 0, 1} && Dimensions[CA] == {16, 16} &&
    And @@ Flatten[Table[gA[[a]] . gA[[b]] + gA[[b]] . gA[[a]] == 2 etaA[[a]] KroneckerDelta[a, b] id, {a, 8}, {b, 8}]],
-   "gammas.json: 8 real 16 x 16 matrices with {G_a, G_b} = 2 eta_ab I16"];
-nEqual = Count[Table[gF[[a]] === gA[[a]], {a, 8}], True];
-Print["INFO matrices equal entry by entry (own vs author): ", nEqual, " of 8"];
-chk["transpose_pattern_both", And @@ Table[Transpose[gF[[a]]] === etaA[[a]] gF[[a]] && Transpose[gA[[a]]] === etaA[[a]] gA[[a]], {a, 8}],
+   "gammas.json (plain Import): 8 integer 16 x 16 matrices, entries in {-1, 0, 1}, {G_a, G_b} = 2 eta_ab I16, eta = " <> ToString[etaA]];
+chk["primary_is_author_T16", Count[Table[gT[[a]] === gA[[a]], {a, 8}], True] == 8 && FEC === CA,
+   "FEGammaFrame[[a]] = gammas.json gamma[a-1] for all 8 a (" <> ToString[Count[Table[gT[[a]] === gA[[a]], {a, 8}], True]] <> " of 8 equal entry by entry) and FEC = gammas.json C"];
+chk["same_signature_and_order", Diagonal[FEEta] === etaA, "eta of FieldEquationsA4.wl = eta of gammas.json = " <> ToString[etaA] <> " (x1..x8)"];
+chk["comparison_rep_clifford", Length[gR] == 8 && Union[Flatten[gR]] === {-1, 0, 1} &&
+   And @@ Flatten[Table[gR[[a]] . gR[[b]] + gR[[b]] . gR[[a]] == 2 FEEta[[a, b]] id, {a, 8}, {b, 8}]],
+   "FEGammaFrameComparison: 8 integer 16 x 16 matrices with {g_a, g_b} = 2 eta_ab I16"];
+Print["INFO comparison matrices equal to the author's entry by entry: ", Count[Table[gR[[a]] === gA[[a]], {a, 8}], True], " of 8"];
+chk["transpose_pattern_both", And @@ Table[Transpose[gR[[a]]] === etaA[[a]] gR[[a]] && Transpose[gA[[a]]] === etaA[[a]] gA[[a]], {a, 8}],
    "g_a^T = eta_aa g_a for both sets (so every matrix is orthogonal)"];
 
-(* intertwiner S = sum_I G_I X g_I^T over the 256 ordered products (g_I orthogonal, so g_I^-1 = g_I^T) *)
+(* intertwiner S = sum_s G_s X g_s^T over the 256 ordered products (g_s orthogonal, so g_s^-1 = g_s^T) *)
 subsets = Subsets[Range[8]];
-prod[m_, I_] := If[I === {}, id, Dot @@ (m[[#]] & /@ I)];
-mk[X_] := Sum[prod[gA, I] . X . Transpose[prod[gF, I]], {I, subsets}];
-S = Null; Do[With[{X = SparseArray[{{i, j} -> 1}, {16, 16}] // Normal}, Module[{t = mk[X]}, If[t =!= ConstantArray[0, {16, 16}], S = t; Print["INFO seed X = E_", i, ",", j]; Break[]]]], {i, 16}, {j, 16}];
+prod[m_, s_] := If[s === {}, id, Dot @@ (m[[#]] & /@ s)];
+mk[X_] := Sum[prod[gA, s] . X . Transpose[prod[gR, s]], {s, subsets}];
+S = Null; Do[With[{X = Normal[SparseArray[{{i, j} -> 1}, {16, 16}]]}, Module[{t = mk[X]}, If[t =!= ConstantArray[0, {16, 16}], S = t; Print["INFO seed X = E_", i, ",", j]; Break[]]]], {i, 16}, {j, 16}];
 Print["INFO S entries: ", Union[Flatten[S]]];
 chk["intertwiner_invertible", S =!= Null && Det[S] =!= 0, "det S = " <> ToString[Det[S]]];
-chk["intertwiner_maps_all_eight", And @@ Table[S . gF[[a]] === gA[[a]] . S, {a, 8}], "S g_a = G_a S for a = x1..x8, i.e. G_a = S g_a S^-1"];
+chk["intertwiner_maps_all_eight", And @@ Table[S . gR[[a]] === gA[[a]] . S, {a, 8}], "S g_a = G_a S for a = x1..x8, i.e. G_a = S g_a S^-1"];
 lam = (Transpose[S] . S)[[1, 1]];
 chk["intertwiner_orthogonal_up_to_scale", Transpose[S] . S === lam id, "S^T S = " <> ToString[lam] <> " I16 (so S/Sqrt[" <> ToString[lam] <> "] is orthogonal)"];
-chk["C_maps_to_author_C", S . FEC . Inverse[S] === CA && Transpose[S] . CA . S === lam FEC,
-   "S C S^-1 = C_author (gammas.json C = sigma16) and S^T C_author S = lam C: the bilinear form Phibar Psi = Phi^T C Psi is carried to the author's"];
+chk["C_maps_to_author_C", S . CR . Inverse[S] === CA && Transpose[S] . CA . S === lam CR,
+   "S C_R S^-1 = C_author (gammas.json C = sigma16) and S^T C_author S = lam C_R: the bilinear form Phibar Psi = Phi^T C Psi is carried to the author's"];
 signedPermQ[m_] := And @@ (Count[#, 0] == 15 &) /@ m && And @@ (Count[#, 0] == 15 &) /@ Transpose[m];
-chk["own_rep_signed_permutations", And @@ (signedPermQ /@ gF), "each g_a has exactly one nonzero entry (+1 or -1) in every row and every column"];
+chk["signed_permutations_both", And @@ (signedPermQ /@ Join[gR, gA]), "each g_a and each G_a has exactly one nonzero entry (+1 or -1) in every row and every column"];
 compact[m_] := "[" <> StringRiffle[Table[With[{j = First[FirstPosition[m[[i]], x_ /; x != 0]]}, If[m[[i, j]] > 0, "+", "-"] <> ToString[j]], {i, 16}], ", "] <> "]";
 coord = {"x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"};
-Do[Print["ROW g_", coord[[a]], " = ", compact[gF[[a]]]], {a, 8}];
-Print["ROW C = g_x8 g_x1 g_x2 g_x3 = ", compact[FEC]];
-Print["ROW S/8 rows (column:sign): ", StringRiffle[Table[StringRiffle[(ToString[#] <> ":" <> If[S[[i, #]] > 0, "+", "-"]) & /@ Flatten[Position[S[[i]], x_ /; x != 0]], " "], {i, 16}], " | "]];
+Do[Print["ROW T16 gamma^", coord[[a]], " = ", compact[gT[[a]]]], {a, 8}];
+Print["ROW T16 C = ", compact[FEC]];
 Print["checks: ", Length[res], ", failed: ", Count[res, {_, False}]];
 Exit[If[Count[res, {_, False}] == 0, 0, 1]];
 ```
 
-Its output (identical in both clones; sha256 of the output with LF line endings
-`c6e62f5d7d5a2ca2b9a2d8ead76ee28bf2a4b2fdc75a5e7ed5d498984412265b`):
+Its output (23 lines; sha256 of the output with LF line endings
+`c34f75414d29b5f6b1e49919a1c5d90dd38e3f32fb44b247abdfe3297a17b13f`, 2106 bytes):
 
 ```text
-PASS own_rep_eight_real_16x16: 8 matrices, each 16 x 16, entries in {-1, 0, 1} (integers, hence real)
-PASS own_rep_clifford: {g_a, g_b} = 2 eta_ab I16, eta = {1, 1, 1, -1, -1, -1, -1, 1}
+PASS author_T16_from_json: gammas.json (plain Import): 8 integer 16 x 16 matrices, entries in {-1, 0, 1}, {G_a, G_b} = 2 eta_ab I16, eta = {1, 1, 1, -1, -1, -1, -1, 1}
+PASS primary_is_author_T16: FEGammaFrame[[a]] = gammas.json gamma[a-1] for all 8 a (8 of 8 equal entry by entry) and FEC = gammas.json C
 PASS same_signature_and_order: eta of FieldEquationsA4.wl = eta of gammas.json = {1, 1, 1, -1, -1, -1, -1, 1} (x1..x8)
-PASS author_rep_eight_real_16x16: gammas.json: 8 real 16 x 16 matrices with {G_a, G_b} = 2 eta_ab I16
-INFO matrices equal entry by entry (own vs author): 0 of 8
+PASS comparison_rep_clifford: FEGammaFrameComparison: 8 integer 16 x 16 matrices with {g_a, g_b} = 2 eta_ab I16
+INFO comparison matrices equal to the author's entry by entry: 0 of 8
 PASS transpose_pattern_both: g_a^T = eta_aa g_a for both sets (so every matrix is orthogonal)
 INFO seed X = E_1,1
 INFO S entries: {-8, 0, 8}
 PASS intertwiner_invertible: det S = 72057594037927936
 PASS intertwiner_maps_all_eight: S g_a = G_a S for a = x1..x8, i.e. G_a = S g_a S^-1
 PASS intertwiner_orthogonal_up_to_scale: S^T S = 128 I16 (so S/Sqrt[128] is orthogonal)
-PASS C_maps_to_author_C: S C S^-1 = C_author (gammas.json C = sigma16) and S^T C_author S = lam C: the bilinear form Phibar Psi = Phi^T C Psi is carried to the author's
-PASS own_rep_signed_permutations: each g_a has exactly one nonzero entry (+1 or -1) in every row and every column
-ROW g_x1 = [+9, +10, +11, +12, +13, +14, +15, +16, +1, +2, +3, +4, +5, +6, +7, +8]
-ROW g_x2 = [-5, -6, -7, -8, -1, -2, -3, -4, +13, +14, +15, +16, +9, +10, +11, +12]
-ROW g_x3 = [+3, +4, +1, +2, -7, -8, -5, -6, -11, -12, -9, -10, +15, +16, +13, +14]
-ROW g_x4 = [+9, +10, +11, +12, +13, +14, +15, +16, -1, -2, -3, -4, -5, -6, -7, -8]
-ROW g_x5 = [-5, -6, -7, -8, +1, +2, +3, +4, +13, +14, +15, +16, -9, -10, -11, -12]
-ROW g_x6 = [+3, +4, -1, -2, -7, -8, +5, +6, -11, -12, +9, +10, +15, +16, -13, -14]
-ROW g_x7 = [-2, +1, +4, -3, +6, -5, -8, +7, +10, -9, -12, +11, -14, +13, +16, -15]
-ROW g_x8 = [-2, -1, +4, +3, +6, +5, -8, -7, +10, +9, -12, -11, -14, -13, +16, +15]
-ROW C = g_x8 g_x1 g_x2 g_x3 = [-16, -15, +14, +13, -12, -11, +10, +9, +8, +7, -6, -5, +4, +3, -2, -1]
-ROW S/8 rows (column:sign): 1:+ 11:- | 7:+ 13:+ | 1:- 11:- | 7:+ 13:- | 6:- 16:+ | 4:- 10:- | 6:- 16:- | 4:+ 10:- | 2:- 12:+ | 8:- 14:- | 2:+ 12:+ | 8:- 14:+ | 5:- 15:+ | 3:- 9:- | 5:- 15:- | 3:+ 9:-
+PASS C_maps_to_author_C: S C_R S^-1 = C_author (gammas.json C = sigma16) and S^T C_author S = lam C_R: the bilinear form Phibar Psi = Phi^T C Psi is carried to the author's
+PASS signed_permutations_both: each g_a and each G_a has exactly one nonzero entry (+1 or -1) in every row and every column
+ROW T16 gamma^x1 = [-16, -15, +14, +13, -12, -11, +10, +9, +8, +7, -6, -5, +4, +3, -2, -1]
+ROW T16 gamma^x2 = [+15, -16, -13, +14, +11, -12, -9, +10, -7, +8, +5, -6, -3, +4, +1, -2]
+ROW T16 gamma^x3 = [-14, +13, -16, +15, -10, +9, -12, +11, +6, -5, +8, -7, +2, -1, +4, -3]
+ROW T16 gamma^x4 = [-14, +13, +16, -15, +10, -9, -12, +11, +6, -5, -8, +7, -2, +1, +4, -3]
+ROW T16 gamma^x5 = [+15, +16, -13, -14, -11, -12, +9, +10, -7, -8, +5, +6, +3, +4, -1, -2]
+ROW T16 gamma^x6 = [+16, -15, +14, -13, -12, +11, -10, +9, -8, +7, -6, +5, +4, -3, +2, -1]
+ROW T16 gamma^x7 = [+9, +10, +11, +12, -13, -14, -15, -16, -1, -2, -3, -4, +5, +6, +7, +8]
+ROW T16 gamma^x8 = [+9, +10, +11, +12, +13, +14, +15, +16, +1, +2, +3, +4, +5, +6, +7, +8]
+ROW T16 C = [-5, -6, -7, -8, -1, -2, -3, -4, +13, +14, +15, +16, +9, +10, +11, +12]
 checks: 10, failed: 0
 ```
 
-How to read the `ROW` lines: every matrix of this set has exactly one nonzero entry in each row,
-so it is written as the list of its 16 rows, each entry giving the column of that row's nonzero
-entry and its sign (for example `g_x1`: row 1 has +1 in column 9, ..., row 16 has +1 in column 8).
-The last line lists, for each of the 16 rows of S/8, its two nonzero entries (column:sign).
+How to read the `ROW` lines: every one of the author's matrices has exactly one nonzero entry in
+each row (check `signed_permutations_both`), so it is written as the list of its 16 rows, each
+entry giving the column of that row's nonzero entry and its sign (for example `gamma^x8`: row 1
+has +1 in column 9, ..., row 16 has +1 in column 8). The intertwiner of this group average has
+S^T S = 128 I16, the one of the set (`NullSpace`) K^T K = 2 I16: an intertwiner is unique up to a
+factor (the space has dimension 1), so the two differ only by that factor.
 
-Fixes made on 2026-10-07: none. No file of the set was changed (the sha256 of section 2 are those
-of the committed files). Corrections to this provenance file on 2026-10-07 (none changes a result):
-section 1 (the readers found on 2026-10-07; the subsection on the Dirac matrices of this set),
-section 2 (the remark on random numbers, dates, parallel and network functions; the input of the
-supplementary check), section 3.1 (clone size measured in fresh clone 3: pack 194.28 MiB,
-whole clone 691,452,948 bytes, `.git` 204,183,417 bytes), sections 3.5 and 3.6 (run times and the
-repeated failure tests), section 4 (run times and memory of 6.2), section 5 (the licence-query
-process started by `wolframscript` before the kernel, which the earlier text missed when it said
-"exactly one Wolfram kernel"; the files written in the Wolfram user folders; the network
-observation of 2026-10-07) and this section.
+Following this file literally (clone 2: a fresh `git clone` made exactly as in 3.4, inside a
+folder whose path contains a space; commit `477fa9b`):
 
-### 6.3 Open discrepancies and remarks
+* The two commands of 3.3 printed `WolframScript 1.14.0 for Microsoft Windows (64-bit)` and
+  `15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)`. The repository root contained the
+  folders and the file named in 3.4.
+* The PowerShell commands of 3.5 (run 3) printed `checks: 52, failed: 0` and then `0`. The checks
+  of section 4 then printed the six lines shown there, `52 0 PASS` (the `python` one-liner),
+  nothing for `git status --porcelain`, and, with `Get-FileHash`, the two sha256 of section 2 in
+  capital letters. The `Measure-Command` form (run 4) printed the line and the time, and
+  `$LASTEXITCODE` then printed `0`.
+* The macOS/Linux commands of 3.5, typed in Git Bash with `time` in front (run 5), printed the
+  line, the time and `0`; `head -n 6` printed the six lines of section 4; `sha256sum` printed the
+  two sha256 of section 2; `cmp` against `git show HEAD:<path>` found both outputs identical. The
+  `python3` form of section 4 could not be tested (on this Windows machine `python3` is only a
+  Microsoft Store alias); the `python` form was tested in run 3.
+* The restore commands of section 5 left `git status --porcelain` empty, and
+  `git status --porcelain --ignored -uall` listed nothing.
+* The supplementary script, cut out of this file between its fences and saved outside the
+  repository, was byte-identical to the script run in clone 1 (sha256 above). Run from the root of
+  clone 2 it exited with code 0 after 8.3 s, printed nothing on the error stream and wrote nothing,
+  and its output (with CR LF turned into LF) was byte-identical to the output printed above.
+* All six rows of the table of section 2 (bytes, lines, sha256, LF line endings only), the second
+  line and the top-level keys of `a4-equations.json`, the value of `generalSource.evolution_F.input`
+  quoted in section 4, the script and package line numbers cited in sections 1 and 2, and the
+  completeness and order of the table of the 52 checks in section 4 were confirmed in clone 2 by a
+  short Python script.
 
-Open discrepancies in the results: none. The 47 checks pass and both outputs are reproduced byte
-for byte on both dates. Remarks that do not affect a run from a complete clone:
+Fixes made on 2026-10-08: none to the set (the sha256 of section 2 are those of the committed
+files). This provenance file was rewritten for the patched set (sections 1 to 6).
 
-* (a) `Revision/field_equations_a4/README.md` states "about 15 s" for the Wolfram run; the
-  measured wall times on the loaded verification machine were 18.9 s to 31.2 s (2026-10-02) and
-  27.4 s to 33.7 s (2026-10-07), with 20.1 s to 23.1 s of kernel CPU time.
-* (b) The script does not stop with an error message and a nonzero exit code when an output file
-  cannot be written (it exits with code 0) or when its package is missing (it does not finish);
-  see the failure tests of 6.1 and 6.2. Neither can happen in a complete clone, because the
-  package and the `reports` folder are committed; the script was left unchanged so that the
-  verified files are exactly the committed ones.
-* (c) Dirac matrices: this set computes with its own eight real 16 x 16 matrices (built in
-  `FieldEquationsA4.wl`), not with the author's matrices read from `Revision/algebra/gammas.json`.
-  The supplementary check of 6.2 proves exactly that they are the author's matrices in an
-  orthogonally changed basis, so no result of this set depends on the choice. The sentence of
-  `provenance/dirac matrices.md` (section "Calculations that use these matrices") that "Every
-  Revision calculation and every textbook notebook reads its gamma matrices from
-  `Revision/algebra/gammas.json`" is therefore not literally true for this set; its list of the
-  60 files that read `gammas.json` correctly does not include this set. That file was not changed
-  by this verification.
+### 6.4 Findings of the independent verifier of 2026-10-07 and what was done
+
+* Major: the file did not state that the set departed from `Revision/SPEC.md` section 2 (it used
+  its own matrices instead of the author's T16). The departure itself was removed by the patch of
+  commit `e377368` (the set now reads T16 from `gammas.json`); section 1 ("The Dirac matrices of
+  this set") now states the instruction, how the set follows it, and this history.
+* Minor: the wall times of 2026-10-07 were called "upper values for this machine", which they were
+  not (the verifier measured 35.8 s to 64.0 s under similar load). Sections 3.5, 3.6 and 4 now say
+  that the wall time depends strongly on the load and give the measured ranges of 2026-10-08; the
+  supplementary check is given with its measured time.
+* Minor: the peak-memory range of section 4 did not include the 226.2 MB of the file's own record.
+  Section 4 now gives the full measured range of 2026-10-08 (272.3 MB to 272.8 MB) and the range of
+  the earlier version (226 to 227 MB).
+* Minor: the macOS/Linux instruction for ending a run did not say which process to end. Section
+  3.6 now says: end the `WolframKernel` (or `wolfram`) process with the high `%CPU` value, not
+  `wolframscript`, and end a kernel that is still running after `wolframscript` has ended.
+
+### 6.5 Open discrepancies and remarks
+
+Open discrepancies in the results: none. The 52 checks pass and both outputs are reproduced byte
+for byte. Remarks that do not affect a run from a complete clone:
+
+* (a) The second input, `lovelock-tensors.json`, is not read strictly: when it is missing the run
+  does not stop with an `ERROR  ` line but reports six FAIL checks, exits with code 1 and
+  overwrites the committed report (test D). The nonzero exit code is correct; only the form differs
+  from that of `gammas.json`.
+* (b) When the report cannot be written, `a4-equations.json` has already been rewritten (test E).
+  With an otherwise complete clone the rewritten bytes are the committed ones.
+* (c) The earlier remarks of this file are settled: the run time of
+  `Revision/field_equations_a4/README.md` (it now gives 43-70 s for the Wolfram run, measured on
+  2026-10-07 "depending on the load"; 6.3 measured 36.3 s to 85.8 s, of the same order); the
+  missing error exits (the patch added them,
+  section 3.6); and the sentence of `provenance/dirac matrices.md` about this set (that file was
+  regenerated with the patch and now states that `FEGammaFrame` equals the author's matrices).
