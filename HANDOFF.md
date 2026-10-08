@@ -121,6 +121,17 @@ and reference-summary.json was regenerated after it (33c07a3): old Stage 4 was p
 (2) test_d16c_student_guide_publication path studies/dirac16complex_cosmology/target/release/dirac16complex_cosmology.exe - exists
 only after bash scripts/setup_solver.sh.  The execution-provenance agent nb-kohn-sham must document (1) truthfully; decide with the
 user whether old Stage 4 is to be finished or formally marked superseded by Revision/kohn_sham.
+CROSS-WORKFLOW SYNC OBLIGATIONS (2026-10-07; must be done before any stage is declared complete):
+  (1) wave 1b's Mermin repair (ks-mermin-fix: solver 42/42, determinism 14/14, Mermin roots 5/5, KS theory python 58/58, wolfram 46/46,
+      cross-check 29/29) added a 58th KS-theory check: Revision/docs/PAIR_CREATION_PROOFS.md line 492 and .tex line 702 still say 57 ->
+      update to 58, rebuild + re-register the PDF (Revision/pdf-specifications.json), re-pin MARKDOWN_SHA256/TEX_SHA256 in
+      Revision/tests/test_pair_creation_proofs_publication.py; also list check_ks_source_conditions.py before check_ks_theory.py in its
+      section 10 (new run-order dependency).  Owner: wave 1b's fix phase; verify it is done.
+  (2) The thermal Kohn-Sham outputs changed (mu moved by up to 8.3e-10 in three N8 T10 states; new last column of thermodynamics.csv;
+      larger mu_rounding_bound): textbook notebooks 15a, 15d, 16a, 19a read them -> after wave 1b/2 have finished, rebuild every textbook
+      notebook whose Revision inputs changed and re-run nbkit --check; rebuild the book.
+  (3) Revision/kohn_sham/theory/check_ks_theory.py changed: re-check that Revision/kohn_sham/theory/WOLFRAMSCRIPT_PROVENANCE.md records no
+      stale hash of it; likewise every provenance file must be re-checked against the final state of the files it hashes (the index step).
 INCIDENT (2026-10-07): the execution-provenance runner of old-nb-build-ks ran `winget show --accept-source-agreements` to read
 package versions; if the winget source agreements were not yet accepted on this machine, that accepted them without the user's
 permission.  Reported to the user.  Every workflow script in Revision/workflows/ now carries a rule forbidding the acceptance of any
