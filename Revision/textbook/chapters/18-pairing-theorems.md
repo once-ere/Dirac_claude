@@ -3077,7 +3077,7 @@ M0 = generator(psi0, m, lam, 1)
 square_ok = np.allclose(M0 @ M0, (9 * H ** 2 - (m + lam * S0) ** 2) * I16, atol=1e-13)
 ```
 
-The solution with 2000 steps of length 0.01, at the 2001 times `times` (`np.linspace(0, 20, 2001)`). `S_t` is $S$ at every time: `np.einsum("ti,ij,tj->t", ...)` computes, for each time $t$, the sum $\sum_{i,j}\Psi^*_{ti}C_{ij}\Psi_{tj}$ (the letters say which indices are summed and which one is kept). `error` is the largest difference between the Runge-Kutta table and the exact one, over all times and components. `square_ok` checks $M^2 = (9H^2 - (m + \lambda S)^2)I_{16}$ numerically.
+The solution with 2000 steps of length 0.01, at the 2001 times `times`, evenly spaced from 0 to 20 (`np.linspace`). `S_t` is $S$ at every time: `np.einsum("ti,ij,tj->t", ...)` computes, for each time $t$, the sum $\sum_{i,j}\Psi^*_{ti}C_{ij}\Psi_{tj}$ (the letters say which indices are summed and which one is kept). `error` is the largest difference between the Runge-Kutta table and the exact one, over all times and components. `square_ok` checks $M^2 = (9H^2 - (m + \lambda S)^2)I_{16}$ numerically.
 
 ```python
 errors = {}
@@ -3601,7 +3601,7 @@ equal = max(np.abs(curves["plus", axis][away] - curves["minus", axis][away]).max
 check(equal < 1e-6, "the plane-wave spectra of the masses +1 and -1 are equal")
 ```
 
-121 momenta from 0 to 3. For the masses $+1$ and $-1$, and for a momentum along $x_1$ (`axis = 1`) or along $x_5$ (`axis = 5`), the 16 sorted eigenvalues of $h_m(k)$ are stored. `away` excludes the momenta within 0.05 of $k = 1$: there the extra-time wave has $w = 0$ and $h^2 = 0$, and the eigenvalues of such a matrix are very sensitive to rounding (a change of its entries by $10^{-16}$ can move them by about $10^{-8}$, the square root). The check requires the two spectra to agree to $10^{-6}$ at all other momenta.
+The cell uses 121 momenta from 0 to 3. For the masses $+1$ and $-1$, and for a momentum along $x_1$ (`axis = 1`) or along $x_5$ (`axis = 5`), the 16 sorted eigenvalues of $h_m(k)$ are stored. `away` excludes the momenta within 0.05 of $k = 1$: there the extra-time wave has $w = 0$ and $h^2 = 0$, and the eigenvalues of such a matrix are very sensitive to rounding (a change of its entries by $10^{-16}$ can move them by about $10^{-8}$, the square root). The check requires the two spectra to agree to $10^{-6}$ at all other momenta.
 
 ```python
 fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.2))

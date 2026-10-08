@@ -67,7 +67,8 @@ with $a_4 = a_4(x_4)$ and $a_4' = da_4/dx_4$; its signature is (4,4) and $\sqrt{
 - **Map between solution sets**: a rule that takes EVERY solution of one theory to a solution of another theory (here: multiply the field by a fixed matrix, possibly together with a change of the coordinate $x_8$).
 - **Partner**: the image of a solution under such a map. **T1 partner**: $\Gamma\Psi$ with $(-m, -\lambda)$ at the same point. **T2 mirror copy**: $\gamma^{(x_8)}\Psi$ placed at the mirror point $\pi - z$, with $(-m, \lambda)$.
 - **Pair**: a solution together with one partner. A **T1 pair** has opposite energy-momentum tensors; a **T2 pair** has equal ones.
-- **Chirality** $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8, I_8)$; **charge matrix** $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$; **Krein matrix** $B = -iC\gamma^{(x_4)}$.
+- **Chirality**: the product of all eight gammas in the record's order, $\Gamma = \gamma^{(x_8)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$, which equals the diagonal matrix $\mathrm{diag}(-I_8, I_8)$ (eight entries $-1$, then eight entries $+1$).
+- **Charge matrix** $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, which defines the adjoint $\bar\Psi = \Psi^\dagger C$; **Krein matrix** $B = -iC\gamma^{(x_4)}$.
 - **Energy-momentum tensor** $T_{\mu\nu}$: the source of gravity, 64 numbers at every point. **Energy density** $\rho = -T^{x_4}{}_{x_4}$; **pressure** along a direction $\mu$: $p_\mu = T^\mu{}_\mu$ (no sum); $p_3$ for 3-space, $p_t$ for the extra times, $p_8$ for the hidden direction.
 - **Current** $J^\mu = -i\bar\Psi\gamma^\mu\Psi$; **charge density** $J^{x_4} = \Psi^\dagger B\Psi$; **charge** $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$, the integral over the seven directions other than $x_4$.
 - **Patch, mirror patch, brane**: $0 < z < \pi/2$ is the **patch**; the map $z \to \pi - z$ takes it to the **mirror patch** $\pi/2 < z < \pi$; the surface $z = \pi/2$ between them is the **brane**. Gluing the two patches at the brane is the **Z2 construction**; it is ASSUMED.
@@ -234,7 +235,20 @@ by step 4 and step 1; integrating its $x_4$ component gives $Q[\Gamma\Psi] = -Q[
 
 **Step 9: the pair and the statistics (T1d).** Adding (T1c) to the quantities of $\Psi$ gives $T + T' = 0$, $J + J' = 0$ and $Q + Q' = 0$. $\Gamma$ multiplies each component by $+1$ or $-1$ and never reorders two Grassmann numbers, so steps 1 to 8 hold word for word for anticommuting components. Nothing in the proof used the form of the vielbein or of the connection, so it holds in every gravitational field. QED.
 
-**Records.** `wolfram-pairing.json`: `Gamma_properties`, `T1_Lagrangian_primordial_commuting`, `T1_energy_momentum_primordial_commuting`, `T1_current_primordial_commuting` and the same for Grassmann fields and for two more test fields (51 T1 checks in all); `python-pairing.json`: `T1.metric.commuting.S_invariant`, `T1.metric.commuting.euler_lagrange_map`, `T1.metric.commuting.pair_total_emt_zero`, `T1.metric.commuting.current`, `T1.metric.grassmann.pair_total_emt_zero` and 18 more. Notebook 20a reproduces T1 at a point of the deflating history (In [7]) and along the hidden direction (In [9]). The complete proof, with the four matrix lemmas behind steps 1 to 4 checked exactly, is in Chapter 18.
+**Records.** The Wolfram pairing report has 51 checks of T1, in the author's field, in a general diagonal field and in a general field at one point, for both statistics. The sympy pairing report has 23 more, written independently. Examples, one per line:
+
+| statement | report | check |
+| --- | --- | --- |
+| steps 1 and 2 | `wolfram-pairing.json` | `Gamma_properties` |
+| (T1a), commuting field | `wolfram-pairing.json` | `T1_Lagrangian_primordial_commuting` |
+| (T1c), the tensor | `wolfram-pairing.json` | `T1_energy_momentum_primordial_commuting` |
+| (T1c), the current | `wolfram-pairing.json` | `T1_current_primordial_commuting` |
+| step 5, the scalar | `python-pairing.json` | `T1.metric.commuting.S_invariant` |
+| (T1b) | `python-pairing.json` | `T1.metric.commuting.euler_lagrange_map` |
+| (T1d), commuting field | `python-pairing.json` | `T1.metric.commuting.pair_total_emt_zero` |
+| (T1d), Grassmann field | `python-pairing.json` | `T1.metric.grassmann.pair_total_emt_zero` |
+
+Notebook 20a reproduces T1 at a point of the deflating history (In [7]) and along the hidden direction (In [9]). The complete proof, with the four matrix lemmas behind steps 1 to 4 checked exactly, is in Chapter 18.
 
 **What T1 is and what it is not.** It is not a symmetry of ONE theory: it changes the parameters and the sign of the action, and for $\lambda \neq 0$ it pairs $(m, \lambda)$ with $(-m, -\lambda)$, not $+m$ with $-m$ at the same coupling (for $\lambda = 0$ it pairs $+m$ with $-m$ exactly). Both the mass and the coupling must change sign: the negative controls $\mathcal{L}_{m,\lambda}[\Gamma\Psi] + \mathcal{L}_{-m,\lambda}[\Psi] \neq 0$ and $\mathcal{L}_{m,\lambda}[\Gamma\Psi] + \mathcal{L}_{m,\lambda}[\Psi] \neq 0$ are recorded (`python-pairing.json`, check `T1.metric.commuting.negative_controls`). The partner has $\rho' = -\rho$ and $p_\mu' = -p_\mu$, so every equation-of-state ratio $w = p/\rho$ is the same for both members.
 
@@ -272,7 +286,20 @@ $$
 \mathcal{L}_{m,\lambda}[\Psi'; e'] = \sqrt{|g|}\,\big[K - m(-S) - \tfrac{\lambda}{2}(-S)^2\big] = \sqrt{|g|}\,\big[K - (-m)S - \tfrac{\lambda}{2}S^2\big] = \mathcal{L}_{-m,\lambda}[\Psi; e] ,
 $$
 
-where the middle step uses $(-S)^2 = S^2$: the mass changes sign, the coupling does not, and the Lagrangian keeps its sign. In the author's field the mirror $z \to \pi - z$ leaves every metric component unchanged ($\sin(\pi - z) = \sin z$ and $\cot^2(\pi - z) = \cot^2 z$), and its pulled-back positive vielbein is $R_8e$; this turns the frame statement into the mirror statement. Records: `wolfram-pairing.json`, `T2_mirror_is_isometry` and `T2_mirror_energy_momentum_and_current_commuting` (two of its 28 T2 checks) and `connection_mirror_patch`; `python-pairing.json`, `geometry.mirror_isometry`, `T2.metric.commuting.emt`, `T2.metric.commuting.current`, `T2.metric.commuting.S_odd`, `T2.metric.commuting.euler_lagrange_map` (16 T2 checks). Notebooks 20a (In [9] and In [11]) and 20b (In [9]) reproduce them. Status: PROVED; the Z2 construction across the brane is ASSUMED, the metric is degenerate at the brane, and no junction condition there is derived.
+where the middle step uses $(-S)^2 = S^2$: the mass changes sign, the coupling does not, and the Lagrangian keeps its sign. In the author's field the mirror $z \to \pi - z$ leaves every metric component unchanged ($\sin(\pi - z) = \sin z$ and $\cot^2(\pi - z) = \cot^2 z$), and its pulled-back positive vielbein is $R_8e$; this turns the frame statement into the mirror statement. Status: PROVED; the Z2 construction across the brane is ASSUMED, the metric is degenerate at the brane, and no junction condition there is derived. Records: the Wolfram pairing report has 28 checks of T2 and the sympy pairing report 16; among them:
+
+| statement | report | check |
+| --- | --- | --- |
+| the mirror is an isometry | `wolfram-pairing.json` | `T2_mirror_is_isometry` |
+| the same, independently | `python-pairing.json` | `geometry.mirror_isometry` |
+| the connection of the mirror patch | `wolfram-pairing.json` | `connection_mirror_patch` |
+| equal tensor and current at the mirror point | `wolfram-pairing.json` | `T2_mirror_energy_momentum_and_current_commuting` |
+| the pulled-back tensor | `python-pairing.json` | `T2.metric.commuting.emt` |
+| the current | `python-pairing.json` | `T2.metric.commuting.current` |
+| $S' = -S$ | `python-pairing.json` | `T2.metric.commuting.S_odd` |
+| the field equations | `python-pairing.json` | `T2.metric.commuting.euler_lagrange_map` |
+
+Notebooks 20a (In [9] and In [11]) and 20b (In [9]) reproduce them.
 
 **The quantum reading Q (dirac16complex only).** The quantised field obeys the canonical anticommutator $\{\Psi_A(x), \Psi_B^\dagger(y)\} = B_{AB}\,\delta^7(x - y)/\sqrt{|g|}$ on a slice $x_4 = \text{const}$ (Chapter 10). For the T1 image,
 
@@ -349,7 +376,7 @@ $$
 A^2 = \frac{1}{8\alpha_2H^2} - 5 = \frac{1 - 40\alpha_2H^2}{8\alpha_2H^2} .
 $$
 
-The last step writes 5 as $40\alpha_2H^2/(8\alpha_2H^2)$. The right side is not negative exactly when $0 < \alpha_2H^2 \le 1/40$; at $1/40$ the vacuum is static ($A = 0$). For the author's history $A = 1$: $8\alpha_2H^2 \cdot 6 = 1$, so
+The last step writes 5 as $40\alpha_2H^2/(8\alpha_2H^2)$. The right side is not negative exactly when $0 < \alpha_2H^2 \le 1/40$; at $1/40$ the vacuum has $A = 0$, so $a_4$ is constant and neither 3-space nor the extra times change; the author's deflating history needs $A > 0$. For the author's history $A = 1$: $8\alpha_2H^2 \cdot 6 = 1$, so
 
 $$
 \alpha_2H^2 = \tfrac{1}{48} .
@@ -1345,7 +1372,7 @@ axes[1].plot([1 / 48], [-12.0], "o", color="tab:red", markersize=8,
 axes[1].set_ylabel("$\\Lambda/H^2$ of that vacuum")
 ```
 
-400 couplings $\alpha_2H^2$ from 0.004 to the limit $1/40$. `A_curve` is the vacuum slope $\sqrt{(1 - 40\alpha_2H^2)/(8\alpha_2H^2)}$ (`np.sqrt` is the square root), drawn on the left; the cosmological constant of each vacuum, from In [16], is drawn on the right. The red dots mark the author's history.
+The 400 values of the coupling $\alpha_2H^2$ run from 0.004 to the limit $1/40$. For each of them the array `A_curve` holds the slope of the vacuum, $\sqrt{(1 - 40\alpha_2H^2)/(8\alpha_2H^2)}$, computed with the square root `np.sqrt`; it is drawn in the left panel. The right panel shows the cosmological constant of each vacuum, the expression `Lam_curve` of In [16] turned into a numpy function. The red dots mark the author's history.
 
 ```python
 for ax in axes:
@@ -1540,7 +1567,10 @@ The universe supplies $\kappa(\rho + p_8) = 12 - 24 = -12$, which meets the requ
 **Step 8: the T1 pair.** With the universe and its partner as the only source, the source is $T + T' = 0$ (T1d), and the Einstein residual is $G^\mu{}_\nu + \Lambda\delta^\mu_\nu$. At $a_4' = H$ and $\Lambda = -36H^2$ it is
 
 $$
-\mathrm{diag}(12, 12, 12, 24, 12, 12, 12, 12)H^2 - 36H^2 = \mathrm{diag}(-24, -24, -24, -12, -24, -24, -24, -24)H^2 \neq 0 ,
+\begin{aligned}
+G^\mu{}_\nu + \Lambda\delta^\mu_\nu &= \mathrm{diag}(12, 12, 12, 24, 12, 12, 12, 12)H^2 - 36H^2\,\delta^\mu_\nu \\
+&= \mathrm{diag}(-24, -24, -24, -12, -24, -24, -24, -24)H^2 \neq 0 ,
+\end{aligned}
 $$
 
 where the first matrix is $G$ (step 3 with $A = 1$: $15 - 3 = 12$ and $3 + 21 = 24$). This is corollary C1 on the example: the pair does not solve the equations that the universe alone solves.
@@ -1567,15 +1597,15 @@ which is exactly the condensate equation on the mirror patch for the field $\gam
 
 **The bookkeeping.** In units $H = \kappa = 1$:
 
-| object | parameters $(m, \lambda)$ | $\rho$ | $p$ | $J^{x_4}$ | $S$ | source of the author's metric alone? |
-| --- | --- | --- | --- | --- | --- | --- |
-| universe $\Phi$ (patch) | $(15, -25/3)$ | $12$ | $-24$ | $-3$ | $12/5$ | yes, with $a_4 = \pm Hx_4$, $\Lambda = -36H^2$ |
-| T1 partner $\Gamma\Phi$ (patch) | $(-15, 25/3)$ | $-12$ | $24$ | $3$ | $12/5$ | no, for no $a_4$ and no $\Lambda$ |
-| T1 pair | both | $0$ | $0$ | $0$ | $24/5$ | no (corollary C1) |
-| T2 copy $\gamma^{(x_8)}\Phi$ (mirror patch) | $(-15, -25/3)$ | $12$ | $-24$ | $-3$ | $-12/5$ | yes, on the mirror patch |
-| T2 pair (both patches) | both | $24$ | $-48$ | $-6$ | $0$ | each half on its own patch |
+| object | $m$ | $\lambda$ | $\rho$ | $p$ | $J^{x_4}$ | $S$ | alone a source? |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| universe | $15$ | $-25/3$ | $12$ | $-24$ | $-3$ | $12/5$ | yes |
+| T1 partner | $-15$ | $25/3$ | $-12$ | $24$ | $3$ | $12/5$ | no |
+| T1 pair | both | both | $0$ | $0$ | $0$ | $24/5$ | no (C1) |
+| T2 copy | $-15$ | $-25/3$ | $12$ | $-24$ | $-3$ | $-12/5$ | yes (mirror) |
+| T2 pair | both | both | $24$ | $-48$ | $-6$ | $0$ | each half |
 
-The row of the T1 pair adds the two members at the same point; the row of the T2 pair adds the two members each at its own point (so its $\rho$ is a total of two halves, not a density at one point).
+The objects are the universe $\Phi$, its T1 partner $\Gamma\Phi$ and its T2 copy $\gamma^{(x_8)}\Phi$. The last column says whether the object alone is a source of the author's metric in Einstein gravity: the universe with $a_4 = \pm Hx_4$ and $\Lambda = -36H^2$ on the patch; its T1 partner for no $a_4$ and no $\Lambda$; the T2 copy on the mirror patch. The universe and its T1 partner live on the patch, the T2 copy on the mirror patch. The row of the T1 pair adds the two members at the same point; the row of the T2 pair adds the two members each at its own point (so its $\rho$ is a total of two halves, not a density at one point).
 
 **What the example shows, and what it does not.** It shows: (1) a universe of this theory can be a complete solution of the coupled equations with no partner at all; (2) its T1 partner exists as a solution of a DIFFERENT field equation (mass $-15$, coupling $25/3$), with the same frequency and the opposite energy and charge, and it cannot be the source of the author's metric in Einstein gravity; (3) the T1 pair has zero energy and charge and therefore cannot be that source either (C1); (4) the T2 copy is an ordinary solution with the same energy and charge on the mirror patch. It does NOT show that the partner or the copy is created, or must exist; it derives no process, rate or amplitude; it says nothing about the quantised field dirac16complex; and it does not address the stability of the condensate (OPEN).
 
@@ -2722,15 +2752,25 @@ Section 20.17 answered question Q1 (allowed?) for light from conservation laws a
 **(a) The charge of one universe is conserved.** The Lagrangian of Section 20.5 does not change when the field is multiplied by a constant phase, $\Psi \to e^{i\alpha}\Psi$ with a real number $\alpha$: then $\Psi^\dagger \to e^{-i\alpha}\Psi^\dagger$, so $\bar\Psi \to e^{-i\alpha}\bar\Psi$; every term of $\mathcal{L}$ contains as many factors $\bar\Psi$ as factors $\Psi$ (one of each in $K$ and in $mS$, two of each in $\frac{\lambda}{2}S^2$; the constant phase comes out of every derivative), so the phases cancel in pairs. Such a symmetry is called a **U(1) symmetry**, and by Noether's theorem it has a conserved current, here $J^\mu = -i\bar\Psi\gamma^\mu\Psi$ (Chapter 21 derives it). The record proves the conservation law directly, for both statistics and in the author's metric: the divergence $\partial_\mu(\sqrt{|g|}\,J^\mu)$ equals, for every configuration, $\sqrt{|g|}$ times a sum of two bilinears, each of which contains the left side $E$ of the field equation or the left side $\bar E$ of its adjoint; so on shell ($E = 0$, $\bar E = 0$)
 
 $$
-\partial_\mu\big(\cos z\,J^\mu\big) = 0
+\partial_\mu\big(\cos z\,J^\mu\big) = 0 .
 $$
 
-(`wolfram-field-theory.json`, checks `current_conservation_identity_G` and `current_conservation_identity_C`; `python-field-theory.json`, checks `grassmann_current_conservation` and `commuting_current_conservation`; and the lead's independent reduction to a $16 \times 16$ matrix identity, `charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`). From it the charge $Q = \int\cos z\,J^{x_4}\,d^7x$ is constant in time, line by line:
+The records of this law:
+
+| field | report | check |
+| --- | --- | --- |
+| dirac16complex (Grassmann) | `wolfram-field-theory.json` | `current_conservation_identity_G` |
+| dirac16complex00 (commuting) | `wolfram-field-theory.json` | `current_conservation_identity_C` |
+| dirac16complex (Grassmann) | `python-field-theory.json` | `grassmann_current_conservation` |
+| dirac16complex00 (commuting) | `python-field-theory.json` | `commuting_current_conservation` |
+| both, reduced to a $16 \times 16$ matrix identity | `charge-conjugation-and-u1.json` | `u1_noether_matrix_identity` |
+
+From it the charge $Q = \int\cos z\,J^{x_4}\,d^7x$ is constant in time, line by line:
 
 1. Write the sum over $\mu$ as the $x_4$ term plus the seven others: $\partial_4(\cos z\,J^{x_4}) = -\sum_{i \neq 4}\partial_i(\cos z\,J^{x_i})$.
 2. Integrate both sides over the seven coordinates other than $x_4$, on a slice $x_4 = \text{const}$; on the left the derivative with respect to $x_4$ may be taken out of the integral over the other coordinates: $\frac{dQ}{dx_4} = -\sum_{i \neq 4}\int\partial_i(\cos z\,J^{x_i})\,d^7x$.
 3. Each term on the right is, by the fundamental theorem of calculus in the variable $x_i$, the difference of the values of $\cos z\,J^{x_i}$ at the two ends of the range of $x_i$, integrated over the six remaining coordinates.
-4. ASSUMED: these **boundary terms** vanish, for example because the coordinates $x_1, x_2, x_3, x_5, x_6, x_7$ are periodic (their two ends are the same place) and no current flows through the two ends of the hidden direction. Then $dQ/dx_4 = 0$.
+4. ASSUMED: these **boundary terms** vanish. This is so, for example, when each of the coordinates $x_1, x_2, x_3, x_5, x_6, x_7$ is periodic, so that its two ends are the same place, and when no current flows through the two ends of the hidden direction. Then $dQ/dx_4 = 0$.
 
 Status: the local law is PROVED (records above); the conservation of the integrated charge holds under the ASSUMED boundary conditions of line 4. So no net charge can be generated inside one universe.
 

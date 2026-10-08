@@ -66,9 +66,19 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS all 8 figure files of notebook 02a exist",
-        "ALL 27 CHECKS PASSED (notebook 02a)",
+        "ALL 29 CHECKS PASSED (notebook 02a)",
     ],
-    "troubleshooting": [],
+    "troubleshooting": [
+        ["\"Jupyter command `jupyter-nbconvert` not found\" after typing `python -m "
+         "jupyter nbconvert` (the folder that holds the Jupyter programs is not on the "
+         "search path of the computer)",
+         "start the two programs as Python modules instead. With the environment "
+         "active, in the folder Revision/textbook/notebooks, type the first line "
+         "below to run the notebook headless, or the second line to open it in "
+         "JupyterLab",
+         ["python -m nbconvert --execute --inplace 02a_rk4_convergence.ipynb",
+          "python -m jupyterlab 02a_rk4_convergence.ipynb"]],
+    ],
 }
 
 CELLS = [
@@ -565,11 +575,14 @@ CELLS = [
 
     A smaller step is not always better. Every arithmetic operation rounds its result
     to about 16 significant digits, and with $N$ steps about $N$ such rounding errors
-    add up. The truncation error of RK4 falls like $h^4$, but the rounding error
-    grows with the number of steps $N = 1/h$. The next cell runs RK4 for problem A
+    add up. If they all had their largest size and the same sign, their total would
+    be about $N \epsilon$ times the size of the solution: a pessimistic bound. In
+    practice they have both signs and partly cancel, so the total stays far below
+    this bound, but it still grows with the number of steps $N = 1/h$, while the
+    truncation error of RK4 falls like $h^4$. The next cell runs RK4 for problem A
     with up to $2^{18} = 262144$ steps (this takes about a second) and draws both
     effects: the error falls along the slope-4 line until it reaches about
-    $10^{-16}$, then rises again.
+    $10^{-16}$, then rises again, slowly and far below the bound.
     """),
     code(r'''
     N_LONG = [2 ** k for k in range(1, 19)]  # 2 ... 262144 steps
@@ -585,7 +598,7 @@ CELLS = [
     ax.loglog(h_long, errors["rk4"][3] * (h_long / h_array[3]) ** 4, "--",
               color=COLORS["guide"], lw=0.9, label="truncation $C h^4$")
     ax.loglog(h_long, EPS * EXACT_A / h_long, ":", color=COLORS["exact"], lw=1.0,
-              label="rounding scale $N \\epsilon\\, e^{-1}$")
+              label="rounding bound $N \\epsilon\\, e^{-1}$")
     ax.set_ylim(1e-18, 1e-2)
     ax.set_xlabel("step size $h = 1/N$ (time units)")
     ax.set_ylabel("error $|y_N - e^{-1}|$")
@@ -595,18 +608,26 @@ CELLS = [
                 "The error of RK4 for problem A at $t = 1$ against the step size $h$ "
                 "from $1/2$ to $1/262144$, on logarithmic axes (time in arbitrary "
                 "units, the error a pure number). Circles: measured. Dashed grey: the "
-                "truncation error $C h^4$. Dotted black: the size $N \\epsilon\\, "
-                "e^{-1}$ that $N$ rounding errors of relative size $\\epsilon = "
-                "2^{-52}$ can reach. Coming from the right, the error falls with "
-                "slope 4 down to about $10^{-16}$; smaller steps only add rounding "
-                "errors and the error grows again.")
+                "truncation error $C h^4$. Dotted black: the pessimistic bound "
+                "$N \\epsilon\\, e^{-1}$, reached only if all $N$ rounding errors of "
+                "relative size $\\epsilon = 2^{-52}$ had their largest size and the "
+                "same sign. Coming from the right, the error falls with slope 4 down "
+                "to about $10^{-16}$; for smaller steps it grows again, but slowly "
+                "and hundreds to thousands of times below the dotted bound, because "
+                "the rounding errors partly cancel.")
     report("smallest RK4 error", f"{rk4_long[best]:.3e} at N = {N_LONG[best]}")
     report("RK4 error at N = 262144", f"{rk4_long[-1]:.3e}")
+    bound = EPS * EXACT_A * np.array(N_LONG, dtype=float)  # the dotted line
+    below = bound[best + 1:] / rk4_long[best + 1:]  # past the minimum: bound / error
+    report("bound N eps e^-1 / measured error past the minimum (smallest, largest)",
+           f"{below.min():.0f}, {below.max():.0f}")
     check(rk4_long[best] < 1e-15 and 256 <= N_LONG[best] <= 16384,
           "the smallest RK4 error is below 1e-15, reached at N between 256 and 16384")
     check(rk4_long[-1] > 10 * max(rk4_long[best], EPS * EXACT_A)
           and rk4_long[-1] < 1e-11,
           "with 262144 steps rounding has made the error grow again")
+    check(np.all(below > 100),
+          "past the minimum the error stays over 100 times below the bound N eps e^-1")
     '''),
     md(r"""
     ## 12. The step of the Revision Kohn-Sham solver, and the first missed term
@@ -680,6 +701,17 @@ CELLS = [
     $E = (x^2 + v^2)/2$: each step multiplies it by $1 + h^2 = 1.04$ (Euler: the
     point spirals outwards), by $1 + h^4/4 = 1.0004$ (midpoint) and by
     $1 - h^6/72 + h^8/576 = 0.99999911$ (RK4).
+
+    The radius $\sqrt{x^2 + v^2} = \sqrt{2E}$ of the midpoint method grows only to
+    $\sqrt{1.0004^{50}} = 1.010$ in 50 steps, too little to be seen on the whole
+    circle. The right panel therefore zooms in on the last steps, where crosses mark
+    the exact solution at the same times. There a second error shows: each step
+    turns the point by a slightly wrong angle. With $w = x + i v$, one step
+    multiplies $w$ by $R(-ih)$, whose angle is $-\arg R(ih)$ (the angle of a complex
+    number is called its *argument*, $\arg$), while the exact factor $e^{-ih}$ turns
+    by $-h$. So after 50 steps the computed point runs ahead of the exact one,
+    clockwise, by the angle $50\,(\arg R(ih) - h)$; a negative value means that it
+    lags behind. The cell checks this prediction for the three methods.
     """),
     code(r'''
     def oscillator(t, Y):
@@ -692,27 +724,41 @@ CELLS = [
     portraits = {name: np.array(solve(step, oscillator, Y0, 10.0, 50)[1])
                  for name, step in METHODS.items()}
     angle = np.linspace(0.0, 2 * np.pi, 400)
-    fig, ax = plt.subplots(figsize=(5.6, 5.6))
-    ax.plot(np.cos(angle), -np.sin(angle), color=COLORS["exact"], lw=1.0,
-            label="exact circle $x^2 + v^2 = 1$")
-    for name in METHODS:
-        x_n, v_n = portraits[name][:, 0], portraits[name][:, 1]
-        ax.plot(x_n, v_n, color=COLORS[name], marker=MARKERS[name], ms=3, lw=0.9,
-                label=f"{LABELS[name]}, $h = 0.2$, 50 steps")
-    ax.plot([1.0], [0.0], "o", color=COLORS["exact"], ms=6)  # the starting point
-    ax.set_aspect("equal")
-    ax.set_xlabel("position $x$")
-    ax.set_ylabel("velocity $v$")
-    ax.set_title("Phase portrait of $d^2x/dt^2 = -x$ up to $t = 10$")
-    ax.legend(loc="lower left", fontsize=8)
+    t_n = H_OSC * np.arange(51)  # the times 0, 0.2, ..., 10 of the 51 points
+    fig, (whole, zoom) = plt.subplots(1, 2, figsize=(10.0, 5.2))
+    for name in METHODS:  # left panel: the whole portrait of each method
+        whole.plot(portraits[name][:, 0], portraits[name][:, 1], color=COLORS[name],
+                   marker=MARKERS[name], ms=3, lw=0.9,
+                   label=f"{LABELS[name]}, $h = 0.2$, 50 steps")
+    for name in ("midpoint", "rk4"):  # right panel: Euler is far outside this window
+        zoom.plot(portraits[name][:, 0], portraits[name][:, 1], color=COLORS[name],
+                  marker=MARKERS[name], ms=7, lw=0.9, label=LABELS[name])
+    for ax in (whole, zoom):  # the exact circle, dashed, drawn on top (zorder 5)
+        ax.plot(np.cos(angle), -np.sin(angle), "--", color=COLORS["exact"], lw=0.9,
+                zorder=5, label="exact circle $x^2 + v^2 = 1$")
+        ax.set_aspect("equal")
+        ax.set_xlabel("position $x$")
+        ax.set_ylabel("velocity $v$")
+    whole.plot([1.0], [0.0], "o", color=COLORS["exact"], ms=6, zorder=6)  # the start
+    zoom.plot(np.cos(t_n), -np.sin(t_n), "x", color=COLORS["exact"], ms=8, zorder=6,
+              label="exact solution at $t = 0.2\\, n$")
+    zoom.set_xlim(-1.06, -0.66)  # a window round the last two steps, t = 9.8 and 10
+    zoom.set_ylim(0.26, 0.66)
+    whole.set_title("Phase portrait of $d^2x/dt^2 = -x$ up to $t = 10$")
+    zoom.set_title("Zoom on the last two steps")
+    whole.legend(loc="lower left", fontsize=8)
+    zoom.legend(loc="lower right", fontsize=8)
     save_figure(fig, "phase_portrait",
                 "Phase portrait of the oscillator $d^2x/dt^2 = -x$ started at $x = 1$, "
                 "$v = 0$ (black dot): the velocity $v$ against the position $x$ "
                 "(arbitrary units), computed with the step $h = 0.2$ up to $t = 10$. "
-                "The exact solution runs clockwise round the black unit circle. Euler "
-                "(squares) spirals outwards, because every step multiplies the energy "
-                "by $1 + h^2$; the midpoint method (triangles) drifts slowly outwards; "
-                "RK4 (circles) stays on the circle.")
+                "The exact solution runs clockwise round the dashed unit circle. "
+                "Left: Euler (squares) spirals outwards, because every step "
+                "multiplies the energy by $1 + h^2$; the midpoint method (triangles) "
+                "and RK4 (circles) stay close to the circle. Right: a zoom on the "
+                "last two steps; the crosses are the exact solution at the same "
+                "times. RK4 sits on them; the midpoint method has run ahead along "
+                "the circle and lies slightly outside it (radius 1.010).")
     for name in METHODS:
         energy = 0.5 * (portraits[name][:, 0] ** 2 + portraits[name][:, 1] ** 2)
         factor = float(ENERGY_FACTOR[name].subs(hs, sp.Rational(1, 5)))  # at h = 0.2
@@ -720,6 +766,18 @@ CELLS = [
         report(f"energy after 50 steps, {LABELS[name]}", f"{energy[-1]:.10f}")
         check(np.max(np.abs(energy / predicted - 1)) < 1e-13,
               f"{LABELS[name]}: E_n = E_0 times the exact factor to the power n")
+    angle_agrees = []
+    for name in METHODS:
+        x_end, v_end = portraits[name][-1]  # the point at t = 10
+        # the clockwise angle from the exact point e^(-10 i) to the computed one
+        ahead = -np.angle(complex(x_end, v_end) * np.exp(10j))
+        R_ih = complex(R[name].subs(z, sp.I * sp.Rational(1, 5)))  # R(ih), h = 0.2
+        predicted_ahead = 50 * (np.angle(R_ih) - 0.2)  # 50 (arg R(ih) - h)
+        report(f"t = 10, {LABELS[name]}: radius, angle ahead of the exact point",
+               f"{math.hypot(x_end, v_end):.4f}, {ahead:+.3e} rad")
+        angle_agrees.append(abs(ahead - predicted_ahead) < 1e-12)
+    check(all(angle_agrees),
+          "at t = 10 each point is ahead of the exact one by 50 (arg R(ih) - h)")
     '''),
     md(r"""
     The next cell follows the energy much longer, up to $t = 100$ (500 steps of
@@ -842,7 +900,8 @@ CELLS = [
     - Measured on a log-log plot, the error at a fixed end time is $C h^p$ with the
       orders $p = 1, 2, 4$; halving the step divides the error by 2, 4 and 16.
     - RK4 reaches an error of about $10^{-16}$ with a few thousand steps; smaller
-      steps make the result worse, because rounding errors add up.
+      steps make the result worse, because rounding errors add up, though they
+      partly cancel and stay far below the pessimistic bound $N \epsilon$.
     - The first term of the series of $e^{z}$ that a method misses predicts its
       error: for $y' = -y$ at $t = 1$ the error is $e^{-1}(-1)^p h^p/(p+1)!$. At the
       step $h = 1/300$ of the Revision Kohn-Sham solver (900 RK4 steps on an
@@ -855,9 +914,11 @@ CELLS = [
       even with the coarse step $h = 0.25$ (factor $1 + h^6/72 + h^8/576$).
     - For the oscillator the energy factors per step are exactly $1 + h^2$,
       $1 + h^4/4$ and $1 - h^6/72 + h^8/576$; the computed energies follow these
-      predictions to 13 digits.
-    - Richardson's rule $(Y_{h/2} - Y_h)/(2^p - 1)$ estimates the error without the
-      exact answer, and $(16 Y_{h/2} - Y_h)/15$ is a better value than either run.
+      predictions to 13 digits. The angle of $R(ih)$ predicts how far each method
+      runs ahead of the exact solution (midpoint) or lags behind it (Euler, RK4).
+    - Richardson's rule $(Y_h - Y_{h/2})/(2^p - 1)$ estimates the error of the finer
+      run $Y_{h/2}$ without the exact answer, and $(16 Y_{h/2} - Y_h)/15$ is a better
+      value than either run.
     """),
 ]
 

@@ -123,6 +123,15 @@ CELLS = [
       $\eta$ a diagonal matrix of signs $\pm 1$ (the *metric* of the directions).
     - **Eigenvalue and eigenvector**: a number $\lambda$ and a nonzero column $u$ with
       $M u = \lambda u$.
+    - **Multiplicity, trace**: an $n \times n$ matrix $M$ has $n$ eigenvalues, the $n$
+      roots of the polynomial $\det(M - \lambda I)$ (its *characteristic polynomial*);
+      a root that occurs several times is counted with its *multiplicity*. The *trace*
+      $\mathrm{tr}\, M$, the sum of the diagonal entries, equals the sum of these $n$
+      eigenvalues, for every square matrix.
+    - **Orthonormal columns**: columns of length 1 with $u^\dagger v = 0$ for any two
+      different ones.
+    - **Sector** of a Hermitian matrix $B$ with $B^2 = I$: the columns $u$ with
+      $Bu = u$ (the sector $B = +1$), or those with $Bu = -u$ (the sector $B = -1$).
     - **Smallest singular value** of a square matrix $M$: the smallest length of $Mu$
       over all columns $u$ of length 1. It is 0 exactly when some nonzero $u$ has
       $Mu = 0$. numpy computes it with `np.linalg.svd`.
@@ -597,8 +606,10 @@ CELLS = [
 
     The next cell checks the formula for $h^2$ exactly with symbols. The Revision record
     verified the same formula (`Revision/theory/reports/python-field-theory.json`, check
-    `mode_hamiltonian_B_selfadjoint_dispersion`); that check also verifies a statement
-    about a matrix $B$ that is not needed here.
+    `mode_hamiltonian_B_selfadjoint_dispersion`; that check also verifies a statement
+    about a matrix $B$ that this notebook does not need). The cell reads the record and
+    requires that its text contains the same $h$ and the same formula for $h^2$, word
+    for word: if the record ever says something else, the check fails.
     """),
     code(r'''
     THEORY = "Revision/theory/reports/python-field-theory.json"
@@ -606,9 +617,12 @@ CELLS = [
     theory_checks = {entry["name"]: entry for entry in theory["checks"]}
 
 
-    def recorded_pass(name):
-        """True when the theory report holds the check name with the verdict pass."""
-        return theory_checks.get(name, {}).get("verdict", "").upper() == "PASS"
+    def recorded_detail(name):
+        """The text (detail) of the named check of the theory report when its verdict
+        is pass; otherwise an empty text, which contains none of the quoted words."""
+        entry = theory_checks.get(name, {})
+        passed = entry.get("verdict", "").upper() == "PASS"
+        return entry.get("detail", "") if passed else ""
 
 
     m, k = sp.symbols("m", real=True), sp.symbols("k1:9", real=True)  # k[0] is k1
@@ -619,14 +633,17 @@ CELLS = [
             h -= k[a] * g4 * sympy_gamma[a]
     dispersion = m**2 + k[0]**2 + k[1]**2 + k[2]**2 + k[7]**2 \
         - k[4]**2 - k[5]**2 - k[6]**2
+    # h and h^2 in the words of the record, quoted exactly as the record writes them
+    H_WORDS = "h = -i m gamma^(4) - sum_{a != x4} k_a gamma^(4) gamma^(a)"
+    H2_WORDS = "h^2 = (m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2) I16"
+    detail = recorded_detail("mode_hamiltonian_B_selfadjoint_dispersion")
     check((h * h).expand() == dispersion * sp.eye(16)
-          and recorded_pass("mode_hamiltonian_B_selfadjoint_dispersion"),
-          "h^2 = (m^2 + k1^2 + k2^2 + k3^2 + k8^2 - k5^2 - k6^2 - k7^2) I16")
+          and H_WORDS in detail and H2_WORDS in detail, H2_WORDS)
     print(f"     reproduces {THEORY}")
     print("         check mode_hamiltonian_B_selfadjoint_dispersion (formula for h^2)")
     '''),
     md(r"""
-    **The exact example of the Revision record.** Without momentum along the extra
+    **The example of the Revision record.** Without momentum along the extra
     times ($k_5 = k_6 = k_7 = 0$; the Revision record calls this the *good sector*)
     $h$ is Hermitian and its eigenvalues are real. The reason: the author's gammas are
     real with $(g_a)^T = \eta^{aa} g_a$ (symmetric for space-like, antisymmetric for
@@ -634,11 +651,17 @@ CELLS = [
     $\alpha_a$ is real with $\alpha_a^T = -g_a^T g_4^T = \eta^{aa} g_a g_4
     = -\eta^{aa} g_4 g_a = \eta^{aa}\alpha_a$: Hermitian for the space-like
     $a = x_1, x_2, x_3, x_8$ (and anti-Hermitian for the extra times, which is why
-    they are left out here). For $m = 2$ and $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$:
-    $E^2 = 4 + 1 + 4 + 0 + 16 = 25$, $E = \pm 5$. Because $h$ has trace 0 (every gamma
-    product in it has trace 0) and $h^2 = 25 I_{16}$, the eigenvalue $+5$ occurs 8 times
-    and $-5$ occurs 8 times. The next cell computes the eigenvalues numerically, checks
-    them, and reproduces the record's statement. It also computes, for 801 energies from
+    they are left out here). The record uses the example $m = 2$ and
+    $(k_1, k_2, k_3, k_8) = (1, 2, 0, 4)$: $E^2 = 4 + 1 + 4 + 0 + 16 = 25$,
+    $E = \pm 5$. The 16 eigenvalues add up to the trace of $h$ (true for every square
+    matrix), which is 0 (every gamma product in $h$ has trace 0); with $n_+$ eigenvalues
+    $+5$ and $n_-$ eigenvalues $-5$, $n_+ + n_- = 16$ and $5n_+ - 5n_- = 0$, so $+5$
+    and $-5$ occur 8 times each. The record states exactly this for the full
+    16-dimensional space: $h$ is Hermitian there, with the energies
+    $\pm\sqrt{m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2}$, "8 each". The next cell computes
+    the eigenvalues numerically, counts the independent solutions $u$ at $E = +5$ and
+    at $E = -5$ (the number of singular values of $EI_{16} - h$ below $10^{-9}$), checks
+    them, and requires the record's words. It also computes, for 801 energies from
     $-8$ to $8$, the smallest singular value of $EI_{16} - h$; for a Hermitian $h$ it is
     the distance from $E$ to the nearest eigenvalue.
     """),
@@ -662,13 +685,18 @@ CELLS = [
     multiplicities = {value: rounded.count(value) for value in sorted(set(rounded))}
     report("eigenvalue: multiplicity of h for m = 2, k = (1, 2, 0, k8 = 4)",
            multiplicities)
+    solutions = [int(np.sum(np.linalg.svd(e * np.eye(16) - example, compute_uv=False)
+                            < 1e-9)) for e in (5.0, -5.0)]  # singular values near 0
+    report("independent solutions u at E = +5 and at E = -5", solutions)
     eight_each = np.allclose(eigenvalues[:8], -5.0, atol=1e-12) and \
         np.allclose(eigenvalues[8:], 5.0, atol=1e-12)
-    check(hermitian and eight_each
-          and recorded_pass("good_sector_spectrum_and_B_sectors"),
+    good = recorded_detail("good_sector_spectrum_and_B_sectors")
+    check(hermitian and eight_each and solutions == [8, 8]
+          and "h is Hermitian on the full 16-dim space" in good
+          and f"({multiplicities.get(5.0)} each)" in good,
           "good sector: h is Hermitian with energies +5 and -5, eight each")
     print(f"     reproduces {THEORY}")
-    print("         check good_sector_spectrum_and_B_sectors (its exact example)")
+    print("         check good_sector_spectrum_and_B_sectors (full space: 8 each)")
 
     energies_4p4 = np.linspace(-8.0, 8.0, 801)
     svals_4p4 = np.array([smallest_singular_value(e * np.eye(16) - example)
@@ -700,6 +728,73 @@ CELLS = [
                 "same algebra in more directions.")
     '''),
     md(r"""
+    **The record's exact example lives in the sector $B = +1$.** The Revision record
+    states the spectrum of its example not on all 16 components but in a sector of the
+    matrix $B = -iC\gamma^{(x_4)}$, where
+    $C = \gamma^{(x_8)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ is the product of
+    the four space-like gammas; the record file `Revision/algebra/gammas.json` stores
+    $B$. $B$ is Hermitian with $B^2 = I_{16}$ and trace 0, so its eigenvalues are $+1$
+    and $-1$, 8 times each. Without extra-time momentum $B$ commutes with $h$:
+    $Bh = hB$. Then $h$ maps every column $u$ of the sector $B = +1$ into the same
+    sector, because $B(hu) = h(Bu) = hu$; inside the sector $h$ acts as an $8 \times 8$
+    matrix. A momentum along an extra time spoils this: $B$ anticommutes with
+    $\gamma^{(x_4)}\gamma^{(x_a)}$ for $a = x_5, x_6, x_7$, so such a momentum mixes the
+    two sectors.
+
+    The next cell first checks exactly (sympy, for all values of $m, k_1, k_2, k_3,
+    k_8$): $B$ built from the gammas equals the stored $B$; $B^\dagger = B$,
+    $B^2 = I_{16}$, $\mathrm{tr}\, B = 0$; $Bh = hB$ without extra-time momentum; $B$
+    anticommutes with $\gamma^{(x_4)}\gamma^{(x_a)}$ for the three extra times; and
+    $\mathrm{tr}(hP) = 0$ for $P = (I_{16} + B)/2$, the matrix that keeps the $B = +1$
+    part of a column. Then, with numbers, it takes the 8 orthonormal eigenvectors of
+    $B$ with eigenvalue $+1$ (from `np.linalg.eigh`) as the columns of a
+    $16 \times 8$ matrix $V$; then $VV^\dagger = P$, $hV = Vh_+$ with the $8 \times 8$
+    matrix $h_+ = V^\dagger h V$, and $h_+^2 = 25 I_8$. The 8 eigenvalues of $h_+$ add
+    up to $\mathrm{tr}\, h_+ = \mathrm{tr}(hVV^\dagger) = \mathrm{tr}(hP) = 0$ (the
+    trace does not change when the last factor $V^\dagger$ is moved to the front), so
+    $+5$ and $-5$ occur four times each, as the record states. The cell computes them
+    and requires the record's words for this example.
+    """),
+    code(r'''
+    C_exact = sympy_gamma[7] * sympy_gamma[0] * sympy_gamma[1] * sympy_gamma[2]
+    B_exact = -sp.I * C_exact * g4  # B = -i C gamma^(x4)
+    B_stored = sp.Matrix(record["B"]["re"]) + sp.I * sp.Matrix(record["B"]["im"])
+    h_good = h.subs({k[4]: 0, k[5]: 0, k[6]: 0})  # no momentum along an extra time
+    P_exact = (sp.eye(16) + B_exact) / 2  # keeps the B = +1 part of a column
+    mixes = all(B_exact * g4 * sympy_gamma[a] == -g4 * sympy_gamma[a] * B_exact
+                for a in (4, 5, 6))  # anticommutes with gamma^(x4) gamma^(x5, x6, x7)
+    check(B_exact == B_stored and B_exact.H == B_exact
+          and B_exact * B_exact == sp.eye(16) and B_exact.trace() == 0
+          and (B_exact * h_good - h_good * B_exact).expand() == sp.zeros(16, 16)
+          and mixes and (h_good * P_exact).trace().expand() == 0
+          and "[B, h] = 0" in good
+          and "B anticommutes with gamma^(4) gamma^(x5,x6,x7)" in good,
+          "B is Hermitian, B^2 = I16, B h = h B without extra-time momentum")
+    print(f"     reproduces {THEORY}")
+    print("         check good_sector_spectrum_and_B_sectors (B and h commute)")
+
+    B_numeric = np.array(B_exact.tolist(), dtype=complex)
+    b_values, b_vectors = np.linalg.eigh(B_numeric)  # B is Hermitian: eigh applies
+    V = b_vectors[:, b_values > 0]  # the 8 orthonormal columns u with B u = u
+    h_plus = V.conj().T @ example @ V  # h inside the sector B = +1, 8 x 8
+    plus_values = np.linalg.eigvalsh(h_plus)  # its eigenvalues, increasing order
+    plus_rounded = [float(x) for x in np.round(plus_values, 9)]  # 9 decimals
+    plus_counts = {value: plus_rounded.count(value)
+                   for value in sorted(set(plus_rounded))}
+    report("eigenvalue: multiplicity of h in the sector B = +1", plus_counts)
+    sector_words = (f"m = 2, k = (1,2,0,k8=4) on B = +1: +5 (x{plus_counts.get(5.0)}),"
+                    f" -5 (x{plus_counts.get(-5.0)})")  # as the record writes them
+    check(V.shape == (16, 8)
+          and np.allclose(V @ V.conj().T, (np.eye(16) + B_numeric) / 2, atol=1e-12)
+          and np.allclose(example @ V, V @ h_plus, atol=1e-12)
+          and np.allclose(h_plus @ h_plus, 25.0 * np.eye(8), atol=1e-12)
+          and np.allclose(plus_values, [-5.0] * 4 + [5.0] * 4, atol=1e-12)
+          and sector_words in good,
+          "sector B = +1: h has the energies +5 and -5, four times each")
+    print(f"     reproduces {THEORY}")
+    print("         check good_sector_spectrum_and_B_sectors (its exact example)")
+    '''),
+    md(r"""
     ## 11. Momentum along an extra time
 
     The extra times enter $E^2$ with a minus sign: $E^2 = 25 - k_5^2$ for the example
@@ -717,14 +812,24 @@ CELLS = [
     part $\sqrt{k_5^2 - 25} = \sqrt{k_5^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$ is the
     *growth rate* of the wave; the Revision record states this formula
     (`Revision/theory/reports/python-scope.json`, check
-    `extra_time_growth_rates_unbounded`), and the check below reproduces it.
+    `extra_time_growth_rates_unbounded`). The cell first lets sympy write the formula
+    for $h^2$ of section 10 and, from it, the growth rate for a momentum $K$ along
+    $x_5$, and requires that the record's text contains both expressions exactly as
+    sympy writes them, and the words "no upper bound".
     """),
     code(r'''
     SCOPE = "Revision/theory/reports/python-scope.json"
     scope = json.loads(repository_file(SCOPE).read_text(encoding="utf-8"))
     scope_checks = {entry["name"]: entry for entry in scope["checks"]}
-    scope_ok = scope_checks.get("extra_time_growth_rates_unbounded", {}).get(
-        "verdict", "").upper() == "PASS"  # the record must hold this check as passed
+    scope_entry = scope_checks.get("extra_time_growth_rates_unbounded", {})
+    scope_passed = scope_entry.get("verdict", "").upper() == "PASS"
+    scope_detail = scope_entry.get("detail", "") if scope_passed else ""
+    K = sp.symbols("K", positive=True)  # a momentum K along the extra time x5
+    rate = sp.sqrt(-dispersion.subs({k[4]: K, k[5]: 0, k[6]: 0}))  # Im E if E^2 < 0
+    say(f"h^2 = ({dispersion}) I16; growth rate for k5 = K: Im E = {rate}")
+    scope_ok = (f"h_k^2 = ({dispersion}) I16" in scope_detail
+                and f"Im E = {rate}" in scope_detail
+                and "no upper bound" in scope_detail)  # the record's words
 
     k5_values = np.linspace(0.025, 7.975, 160)  # steps of 0.05, avoiding k5 = 5
     real_parts, imaginary_parts, deviations, counts_ok = [], [], [], True
@@ -799,10 +904,9 @@ CELLS = [
                        sorted(exact_eigenvalues.items(), key=lambda item: str(item[0])))
     say(f"h^2 = -3 I16: {h_example * h_example == -3 * sp.eye(16)}; exact eigenvalues: "
         f"{listed}")
-    detail = theory_checks.get("extra_time_modes_grow", {}).get("detail", "")
+    detail = recorded_detail("extra_time_modes_grow")
     check(h_example * h_example == -3 * sp.eye(16)
           and exact_eigenvalues == {sp.sqrt(3) * sp.I: 8, -sp.sqrt(3) * sp.I: 8}
-          and recorded_pass("extra_time_modes_grow")
           and "m = 1, k5 = 2" in detail and str(names) in detail,
           "m = 1, k5 = 2: E = +i sqrt(3) and -i sqrt(3), eight each (growing modes)")
     print(f"     reproduces {THEORY}")
@@ -840,11 +944,17 @@ CELLS = [
       4+4 space obey $Eu = hu$ with $h^2 = (m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2 - k_5^2
       - k_6^2 - k_7^2) I_{16}$; this reproduces the Revision record
       (`Revision/theory/reports/python-field-theory.json`, check
-      `mode_hamiltonian_B_selfadjoint_dispersion`). COMPUTED (floating point; every
-      deviation from the exact values is below $10^{-9}$): its exact example
-      ($m = 2$, $k = (1, 2, 0, k_8 = 4)$) has the
-      energies $+5$ and $-5$, eight each (check `good_sector_spectrum_and_B_sectors`),
-      and a momentum along an extra time makes the energies imaginary when
+      `mode_hamiltonian_B_selfadjoint_dispersion`).
+    - PROVED (exact, sympy): the record's matrix $B = -iC\gamma^{(x_4)}$ is Hermitian
+      with $B^2 = I_{16}$ and commutes with $h$ when there is no extra-time momentum;
+      a momentum along an extra time mixes the sectors $B = +1$ and $B = -1$ (check
+      `good_sector_spectrum_and_B_sectors`).
+    - COMPUTED (floating point; every deviation from the exact values is below
+      $10^{-9}$): the record's example ($m = 2$, $k = (1, 2, 0, k_8 = 4)$) has the
+      energies $+5$ and $-5$, eight each, with eight independent solutions each, on
+      all 16 components, and four each in the sector $B = +1$ (both statements of
+      check `good_sector_spectrum_and_B_sectors`); a momentum along an extra time
+      makes the energies imaginary when
       $k_5^2 > m^2 + k_1^2 + k_2^2 + k_3^2 + k_8^2$, with the growth rate
       $\sqrt{k_5^2 - m^2 - k_1^2 - k_2^2 - k_3^2 - k_8^2}$
       (`Revision/theory/reports/python-scope.json`, check

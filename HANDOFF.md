@@ -168,6 +168,13 @@ APPLY it only together with ALL downstream updates, in one sync workflow, after 
      times 43-70 s, plus its verifier findings under verify:rev-a4 in state_execution_provenance.json).
  (6) Regenerate provenance/dirac matrices.md with its builder (the a4 engine then uses the author's T16).
  Open, out of scope of the patch: check_field_equations_a4.py ends with a traceback (not an ERROR line) when a report cannot be written.
+ ADDED by the patch reviewers (2026-10-08): Revision/README.md line ~113 (a4 report counts; textbook notebook 00c asserts this table);
+ DIRAC16COMPLEX00 doc rows ~786, 854, 860-861 must cite the author-T16 checks as primary evidence; a sentence that S depends on the
+ null-vector normalisation; the rev-a4 provenance file's supplementary script must use FEGammaFrameComparison.  TEXTBOOK PART (run only
+ after the textbook fixers of chapters 00, 09, 12, 17 are done): rebuild notebooks 00c (+figures), 09c, 12a, 17b and every notebook reading
+ the a4 reports; chapter 00 lines ~1596 and ~3056 (947 / 382 / 458 totals); chapter 09 line ~2786 (record uses T16; factor 40000);
+ chapter 12 line ~757 (63, 52); 09c prose 'own (equivalent) representation' -> the author's T16.
+ SYNC WORKFLOW (Revision part): Revision/workflows/restart/a4_apply_sync.js (set SP); launch after the a4 prep and the dirac audit verifier finish.
 
 ### 0.4i RESTART KIT - PAUSED 2026-10-07 20:30 BEFORE A SESSION LIMIT
 
